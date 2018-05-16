@@ -1,0 +1,40 @@
+{
+	"project": "mudedit.cpp",
+	"target": "mudedit.cpp",
+	"sources": [
+		"edit/Action.cpp",
+		"edit/ActionStack.cpp",
+		"edit/Brush.cpp",
+		"edit/EditContext.cpp",
+		"edit/Tool.cpp",
+		"edit/Viewport.cpp",
+		"edit/Generated/Module.cpp",
+		"edit/Generated/Types.cpp",
+		"edit/Tools/CopyTool.cpp",
+		"edit/Tools/RotateTool.cpp",
+		"edit/Tools/ScaleTool.cpp",
+		"edit/Tools/TranslateTool.cpp",
+		"edit/Tools/ViewTool.cpp",
+		"edit/Tools/WorkPlaneTool.cpp"
+	],
+	"include_paths": [
+        ""
+	],
+    "includes_map": {
+		"edit/": "mudedit.h",
+		"obj/": "mudobj.h",
+		"math/": "mudmath.h",
+		"geom/": "mudgeom.h",
+		"lang/": "mudlang.h",
+		"ui/": "mudui.h",
+		"uio/": "muduio.h",
+		"gfx/": "mudgfx.h"
+    },
+	"clean_strings": [
+		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",
+		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
+		"//  This notice and the license may not be removed or altered from any source distribution.",
+		"/* mud */"
+	]
+}
+

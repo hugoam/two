@@ -1,0 +1,184 @@
+{
+"colours" :
+{
+    "White" : [1, 1, 1, 1],
+    "Black" : [0, 0, 0, 1],
+    "Transparent" : [0, 0, 0, 0],
+    "ClearGreyText" : [0.627, 0.627, 0.627, 1],
+    "Grey600" : [0.600, 0.600, 0.600, 1],
+    "Grey312" : [0.312, 0.312, 0.312, 1],
+    "Grey248" : [0.248, 0.248, 0.248, 1],
+    "Grey204" : [0.204, 0.204, 0.204, 1],
+    "Grey176" : [0.176, 0.176, 0.176, 1],
+    "Grey145" : [0.145, 0.145, 0.145, 1],
+    "Grey117" : [0.117, 0.117, 0.117, 1],
+    "Grey86" : [0.086, 0.086, 0.086, 1],
+    "Grey69" : [0.069, 0.069, 0.069, 1],
+    "Grey52" : [0.052, 0.052, 0.052, 1],
+    "ActiveBlue" : [0.145, 0.5, 1, 1]
+},
+"styles" :
+[
+    {   
+        "selector" : "Label, Title, Tooltip, TextEdit, TypeLabel, TypeZone, SliderDisplay, RadioChoiceItem",
+        "text_colour" : "White",
+        "skin_padding" : [4]
+    },
+    {   
+        "selector" : "Title",
+        "skin_padding" : [8]
+    },
+    {   
+        "selector" : "Item, DropdownToggle, ExpandboxToggle, TreeNodeToggle, TreeNodeNoToggle",
+        "skin_padding" : [4]
+    },
+    {   
+        "selector" : "Button, WrapButton, MultiButton, Toggle, ToolButton, TabHeader, DockToggle, RadioChoice, DropdownChoice, SliderKnob, ScrollerKnob, DragHandle, DropdownInput, DropdownInputCompact, TypedownInput, Menu, TypeIn, Input<string>",
+        "copy_skin" : "Label",
+        "background_colour" : "Grey204",
+        "skin_padding" : [4],
+        "hovered" : {
+            "background_colour" : "Grey312"
+        },
+        "active, selected, pressed, focused, active|hovered, pressed|hovered, active|pressed" : {
+            "background_colour" : "ActiveBlue"
+        }
+    },
+    {
+        "selector" : "CloseButton, Checkbox, ExpandboxHeader, TreeNodeHeader",
+        "copy_skin" : "Button"
+    },
+    {
+        "selector" : "TreeNodeHeader",
+        "background_colour" : "Grey86"
+    },
+    {   
+        "selector" : "RadioChoiceItem",
+        "align" : ["CENTER", "CENTER"]
+    },
+    {   
+        "selector" : "SliderKnob, ScrollerKnob",
+        "copy_skin" : "Button",
+        "background_colour" : "Grey176"
+    },
+    {   
+        "selector" : "SliderKnob",
+        "background_colour" : "Grey312",
+        "size" : [8, 22]
+    },
+    {   
+        "selector" : "ScrollUp, ScrollDown",
+        "image" : "null",
+        "size" : [10, 0]
+    },
+    {   
+        "selector" : "ScrollLeft, ScrollRight",
+        "image" : "null",
+        "size" : [0, 10]
+    },
+    {   
+        "selector" : "ExpandboxToggle, TreeNodeToggle",
+        "image" : "toggle_closed",
+        "active" : {
+            "image" : "toggle_open"
+        },
+        "disabled" : {
+            "image" : "empty_15"
+        }
+    },
+    {   
+        "selector" : "DropdownToggle",
+        "image" : "drop_down"
+    },
+    {   
+        "selector" : "TabHeader",
+        "skin_padding" : [6]
+    },
+    {   
+        "selector" : "Checkbox",
+        "size" : [15, 15],
+        "skin_padding" : [1],
+        "active" : {
+            "image" : "check_15"
+        }
+    },
+    {
+        "selector" : "Slider, Fillbar, TypeIn, Input<string>",
+        "background_colour" : "Grey176",
+        "hovered" : {
+            "background_colour" : "Grey204"
+        }
+    },
+    {   
+        "selector" : "Filler",
+        "background_colour" : "Grey248"
+    },
+    {   
+        "selector" : "List, Tree, TabberHead, TableHead, Dockbar, Header, Menubar",
+        "background_colour" : "Grey117"
+    },
+    {
+        "selector" : "Window, WindowFooter, DockWindow, Dockbox, Tab, TextEdit, Node, Section, Popup, Modal, ColourPopup",
+        "background_colour" : "Grey52",
+        "border_colour" : "Grey204",
+        "border_width" : [1]
+    },
+    {
+        "selector" : "Window, Dockbox, Node",
+        "shadow" : [2, 2, 7, 2],
+        "selected" : {
+            "shadow" : [0, 0, 0, 1, [0, 1, 0, 1]]
+        }
+    },
+    {   
+        "selector" : "WindowHeader, WindowHeaderMovable, NodeHeader",
+        "background_colour" : "Grey204"
+    },
+    {   
+        "selector" : "WindowSizer, WindowSizerLeft, WindowSizerRight",
+        "image" : "handle_x",
+        "skin_padding" : [2]
+    },
+    {   
+        "selector" : "WindowSizerRight",
+        "skin_align" : ["RIGHT", "RIGHT"]
+    },
+    {   
+        "selector" : "Toolbar, Tooldock",
+        "background_colour" : "Grey145"
+    },
+    {   
+        "selector" : "NodePlugs",
+        "padding" : [-5, 0, -5, 0]
+    },
+    {
+        "selector" : "Canvas",
+        "background_colour" : "Black"
+    },
+    {   
+        "selector" : "Tooltip, DropdownList, MenuList, SubMenuList",
+        "background_colour" : [0.098, 0.098, 0.098, 0.802],
+        "text_colour" : "ClearGreyText"
+    },
+    {
+        "selector" : "DropdownChoice",
+        "background_colour" : "Transparent"
+    },
+    {   
+        "selector" : "ToolButton, ExpandboxBody",
+        "padding" : [4]
+    },
+    {   
+        "selector" : "ExpandboxBody, WindowBody",
+        "spacing" : [4]
+    },
+    {
+        "selector" : "Dockspace, Toolbar, Header, Popup",
+        "padding" : [6]
+    },
+    {
+        "selector" : "Dockbar, Toolbar, Menubar, Header",
+        "spacing" : [6]
+    }
+]
+}

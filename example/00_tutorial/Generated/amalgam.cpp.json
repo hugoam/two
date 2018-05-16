@@ -1,0 +1,29 @@
+{
+	"project": "ex_00_tutorial.cpp",
+	"target": "ex_00_tutorial.cpp",
+	"sources": [
+		"00_tutorial/00_tutorial.cpp",
+		"00_tutorial/Generated/Module.cpp",
+		"00_tutorial/Generated/Types.cpp"
+	],
+	"include_paths": [
+        ""
+	],
+    "includes_map": {
+		"ex_00_tutorial/": "ex_00_tutorial.h",
+		"obj/": "mudobj.h",
+		"math/": "mudmath.h",
+		"ui/": "mudui.h",
+		"uio/": "muduio.h",
+		"gfx/": "mudgfx.h",
+		"edit/": "mudedit.h",
+		"gen/": "mudgen.h"
+    },
+	"clean_strings": [
+		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",
+		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
+		"//  This notice and the license may not be removed or altered from any source distribution.",
+		"/* mud */"
+	]
+}
+

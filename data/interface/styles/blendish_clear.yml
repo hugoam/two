@@ -1,0 +1,50 @@
+{
+"includes":
+[
+    "blendish.yml"
+],
+"colours" :
+{
+    "Grey600" : [0.600, 0.600, 0.600, 1],
+    "Grey447" : [0.447, 0.447, 0.447, 1],
+    "Grey367" : [0.367, 0.367, 0.367, 1],
+    "Grey275" : [0.275, 0.275, 0.275, 1],
+    "Grey146" : [0.146, 0.146, 0.146, 1]
+},
+"styles" :
+[
+    {
+        "selector" : "Label, Title, SliderDisplay",
+        "text_colour" : "Black",
+        "skin_padding" : [4]
+    },
+    {
+        "selector" : "Tab",
+        "background_colour" : "Grey367",
+        "border_colour" : "Grey275"
+    },
+    {
+        "selector" : "Window, DockWindow, Expandbox, Tree, Header",
+        "background_colour" : "Grey447"
+    },
+    {
+        "selector" : "WindowHeader",
+        "text_colour" : "White"
+    },
+    {
+        "selector" : "WindowFooter",
+        "background_colour" : "Grey600"
+    },
+    {
+        "selector" : "CloseButton"
+    },
+    {
+        "selector" : "Expandbox",
+        "linear_gradient" : [5, 0]
+    },
+    {
+        "selector" : "Canvas",
+        "background_colour" : "Black"
+    }
+]
+}

@@ -1,0 +1,33 @@
+{
+	"project": "mudgen.cpp",
+	"target": "mudgen.cpp",
+	"sources": [
+		"gen/Fract/Circle.cpp",
+		"gen/Fract/Fract.cpp",
+		"gen/Generated/Module.cpp",
+		"gen/Generated/Types.cpp",
+		"gen/Noise/Noise.cpp",
+		"gen/Wfc/overlapping.cpp",
+		"gen/Wfc/Tileblock.cpp",
+		"gen/Wfc/tiled.cpp",
+		"gen/Wfc/wfc.cpp"
+	],
+	"include_paths": [
+        ""
+	],
+    "includes_map": {
+		"gen/": "mudgen.h",
+		"obj/": "mudobj.h",
+		"math/": "mudmath.h",
+		"geom/": "mudgeom.h",
+		"ui/": "mudui.h",
+		"gfx/": "mudgfx.h"
+    },
+	"clean_strings": [
+		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",
+		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
+		"//  This notice and the license may not be removed or altered from any source distribution.",
+		"/* mud */"
+	]
+}
+

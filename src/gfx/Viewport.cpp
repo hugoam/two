@@ -1,0 +1,91 @@
+//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net
+//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
+//  This notice and the license may not be removed or altered from any source distribution.
+
+
+#include <gfx/Viewport.h>
+
+#include <geom/Intersect.h>
+
+#include <gfx/Camera.h>
+#include <gfx/Item.h>
+#include <gfx/Renderer.h>
+
+#include <bgfx/bgfx.h>
+#include <bx/math.h>
+
+namespace mud
+{
+	static uint16_t viewportIndex = 1;
+
+	Viewport::Viewport(Camera& camera, Scene& scene, uvec4 rect, bool scissor)
+		: m_camera(&camera)
+		, m_scene(&scene)
+		, m_index(viewportIndex++)
+		, m_rect(rect)
+		, m_scissor(scissor)
+	{}
+
+	void Viewport::render_pass(cstring name, const Pass& render_pass)
+	{
+#if _DEBUG
+		bgfx::setViewName(render_pass.m_index, name);
+#endif
+
+		bgfx::setViewRect(render_pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(rect_w(m_rect)), uint16_t(rect_h(m_rect)));
+		bgfx::setViewTransform(render_pass.m_index, value_ptr(m_camera->m_transform), value_ptr(m_camera->m_projection));
+		bgfx::setViewFrameBuffer(render_pass.m_index, render_pass.m_fbo);
+
+		if(m_scissor)
+			bgfx::setViewScissor(render_pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(rect_w(m_rect)), uint16_t(rect_h(m_rect)));
+
+		bgfx::touch(render_pass.m_index);
+	}
+
+	void Viewport::render(Render& render)
+	{
+		if(m_get_size)
+			m_rect = m_get_size();
+
+		m_camera->m_aspect = float(rect_w(m_rect)) / float(rect_h(m_rect));
+		m_camera->update();
+
+		if(m_render)
+			m_render(render);
+	}
+
+	/*void hmdUpdate()
+	{
+		// Set view and projection matrix for view 0.
+		const bgfx::HMD* hmd = bgfx::getHMD();
+		if(NULL != hmd && 0 != (hmd->flags & BGFX_HMD_RENDERING))
+		{
+			float view[16];
+			bx::mtxQuatTranslationHMD(view, hmd->eye[0].rotation, eye);
+			bgfx::setViewTransform(0, view, hmd->eye[0].projection, BGFX_VIEW_STEREO, hmd->eye[1].projection);
+
+			// Set view 0 default viewport.
+			//
+			// Use HMD's width/height since HMD's internal frame buffer size
+			// might be much larger than window size.
+			bgfx::setViewRect(0, 0, 0, hmd->width, hmd->height);
+		}
+		else
+		
+	}*/
+
+	Ray Viewport::ray(const vec2& pos)
+	{
+		// coord in NDC
+		float xNDC = (pos.x / float(rect_w(m_rect))) * 2.0f - 1.0f;
+		float yNDC = ((float(rect_h(m_rect)) - pos.y) / float(rect_h(m_rect))) * 2.0f - 1.0f;
+
+		return m_camera->ray({ xNDC, yNDC });
+	}
+
+	vec3 Viewport::raycast(const Plane& plane, const vec2& pos)
+	{
+		Ray ray = this->ray(pos);
+		return plane_segment_intersection(plane, { ray.m_start, ray.m_end });
+	}
+}

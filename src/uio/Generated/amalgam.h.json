@@ -1,0 +1,37 @@
+{
+	"project": "muduio.h",
+	"target": "muduio.h",
+	"sources": [
+		"uio/Dropper.h",
+		"uio/Unode.h",
+		"uio/Edit/Canvas.h",
+		"uio/Edit/Indexer.h",
+		"uio/Edit/Injector.h",
+		"uio/Edit/Inspector.h",
+		"uio/Edit/Method.h",
+		"uio/Edit/Reflection.h",
+		"uio/Edit/Script.h",
+		"uio/Edit/Section.h",
+		"uio/Edit/Structure.h",
+		"uio/Edit/UiEdit.h",
+		"uio/Edit/Value.h"
+	],
+	"include_paths": [
+		""
+	],
+	"includes_map": {
+		"obj/": "mudobj.h",
+		"lang/": "mudlang.h",
+		"ui/": "mudui.h"
+	},
+	"ignore": [
+		"Generated"
+	],
+	"clean_strings": [
+		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",
+		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
+		"//  This notice and the license may not be removed or altered from any source distribution.",
+		"/* mud */"
+	]
+}
+

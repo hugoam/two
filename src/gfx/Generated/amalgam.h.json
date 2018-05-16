@@ -1,0 +1,78 @@
+{
+	"project": "mudgfx.h",
+	"target": "mudgfx.h",
+	"sources": [
+		"gfx/Animated.h",
+		"gfx/Animation.h",
+		"gfx/Camera.h",
+		"gfx/Draw.h",
+		"gfx/Filter.h",
+		"gfx/Frustum.h",
+		"gfx/Generator.h",
+		"gfx/Gfx.h",
+		"gfx/GfxSystem.h",
+		"gfx/Graph.h",
+		"gfx/Item.h",
+		"gfx/Light.h",
+		"gfx/ManualRender.h",
+		"gfx/Material.h",
+		"gfx/Mesh.h",
+		"gfx/Node3.h",
+		"gfx/Particles.h",
+		"gfx/Picker.h",
+		"gfx/Pipeline.h",
+		"gfx/Prefab.h",
+		"gfx/Program.h",
+		"gfx/Renderer.h",
+		"gfx/RenderTarget.h",
+		"gfx/Scene.h",
+		"gfx/Shader.h",
+		"gfx/Shot.h",
+		"gfx/Skeleton.h",
+		"gfx/Texture.h",
+		"gfx/Uniform.h",
+		"gfx/Viewport.h",
+		"gfx/Blocks/Depth.h",
+		"gfx/Blocks/Light.h",
+		"gfx/Blocks/Particles.h",
+		"gfx/Blocks/Radiance.h",
+		"gfx/Blocks/Reflection.h",
+		"gfx/Blocks/ReflectionAtlas.h",
+		"gfx/Blocks/Shadow.h",
+		"gfx/Blocks/ShadowAtlas.h",
+		"gfx/Blocks/ShadowCSM.h",
+		"gfx/Blocks/Sky.h",
+		"gfx/Filters/Blur.h",
+		"gfx/Filters/DofBlur.h",
+		"gfx/Filters/EffectBlock.h",
+		"gfx/Filters/Glow.h",
+		"gfx/Filters/Tonemap.h",
+		"gfx/Import/ImporterGltf.h",
+		"gfx/Import/ImporterObj.h",
+		"gfx/Ui/GfxEdit.h",
+		"gfx/Ui/ParticleEdit.h",
+		"gfx/Ui/PrefabEdit.h",
+		"gfx/Widget/SpaceSheet.h",
+		"gfx/Widget/SpaceViewer.h",
+		"gfx/Widget/Viewer.h"
+	],
+	"include_paths": [
+		""
+	],
+	"includes_map": {
+		"obj/": "mudobj.h",
+		"math/": "mudmath.h",
+		"geom/": "mudgeom.h",
+		"ui/": "mudui.h"
+	},
+	"ignore": [
+		"Generated"
+	],
+	"clean_strings": [
+		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",
+		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
+		"//  This notice and the license may not be removed or altered from any source distribution.",
+		"/* mud */"
+	]
+}
+

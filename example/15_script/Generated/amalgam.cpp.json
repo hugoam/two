@@ -1,0 +1,29 @@
+{
+	"project": "ex_15_script.cpp",
+	"target": "ex_15_script.cpp",
+	"sources": [
+		"15_script/15_script.cpp",
+		"15_script/Generated/Module.cpp",
+		"15_script/Generated/Types.cpp"
+	],
+	"include_paths": [
+        ""
+	],
+    "includes_map": {
+		"ex_15_script/": "ex_15_script.h",
+		"obj/": "mudobj.h",
+		"math/": "mudmath.h",
+		"ui/": "mudui.h",
+		"uio/": "muduio.h",
+		"gfx/": "mudgfx.h",
+		"edit/": "mudedit.h",
+		"gen/": "mudgen.h"
+    },
+	"clean_strings": [
+		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",
+		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
+		"//  This notice and the license may not be removed or altered from any source distribution.",
+		"/* mud */"
+	]
+}
+

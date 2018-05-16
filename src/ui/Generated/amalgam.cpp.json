@@ -1,0 +1,57 @@
+{
+	"project": "mudui.cpp",
+	"target": "mudui.cpp",
+	"sources": [
+		"ui/Button.cpp",
+		"ui/ButtonStyles.cpp",
+		"ui/Container.cpp",
+		"ui/ContainerStyles.cpp",
+		"ui/Cursor.cpp",
+		"ui/Dock.cpp",
+		"ui/ImageAtlas.cpp",
+		"ui/Input.cpp",
+		"ui/Node.cpp",
+		"ui/Scrollbar.cpp",
+		"ui/ScrollSheet.cpp",
+		"ui/Sheet.cpp",
+		"ui/Slider.cpp",
+		"ui/UiWindow.cpp",
+		"ui/Widget.cpp",
+		"ui/Window.cpp",
+		"ui/WindowStyles.cpp",
+		"ui/Controller/Controller.cpp",
+		"ui/Edit/Console.cpp",
+		"ui/Edit/Directory.cpp",
+		"ui/Edit/Lang.cpp",
+		"ui/Edit/TypeIn.cpp",
+		"ui/Frame/Caption.cpp",
+		"ui/Frame/Frame.cpp",
+		"ui/Frame/Layer.cpp",
+		"ui/Frame/Solver.cpp",
+		"ui/Generated/Module.cpp",
+		"ui/Generated/Types.cpp",
+		"ui/Render/Renderer.cpp",
+		"ui/Structs/Dock.cpp",
+		"ui/Structs/RootSheet.cpp",
+		"ui/Structs/Widget.cpp",
+		"ui/Style/Style.cpp",
+		"ui/Style/StyleParser.cpp",
+		"ui/Style/Styler.cpp"
+	],
+	"include_paths": [
+        ""
+	],
+    "includes_map": {
+		"ui/": "mudui.h",
+		"obj/": "mudobj.h",
+		"math/": "mudmath.h",
+		"ctx/": "mudctx.h"
+    },
+	"clean_strings": [
+		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",
+		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
+		"//  This notice and the license may not be removed or altered from any source distribution.",
+		"/* mud */"
+	]
+}
+

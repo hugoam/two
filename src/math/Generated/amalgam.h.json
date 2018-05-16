@@ -1,0 +1,39 @@
+{
+	"project": "mudmath.h",
+	"target": "mudmath.h",
+	"sources": [
+		"math/Axes.h",
+		"math/Axis.h",
+		"math/Clamp.h",
+		"math/Colour.h",
+		"math/Grid.h",
+		"math/Image.h",
+		"math/Interp.h",
+		"math/Math.h",
+		"math/Random.h",
+		"math/Stat.h",
+		"math/Stream.h",
+		"math/Structs.h",
+		"math/Vec.h",
+		"math/VecJson.h",
+		"math/VecMath.h",
+		"math/VecOps.h",
+		"math/Vector3.h"
+	],
+	"include_paths": [
+		""
+	],
+	"includes_map": {
+		"obj/": "mudobj.h"
+	},
+	"ignore": [
+		"Generated"
+	],
+	"clean_strings": [
+		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",
+		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
+		"//  This notice and the license may not be removed or altered from any source distribution.",
+		"/* mud */"
+	]
+}
+

@@ -1,0 +1,32 @@
+{
+	"project": "mudsnd.h",
+	"target": "mudsnd.h",
+	"sources": [
+		"snd/Generator.h",
+		"snd/OggFileBuffer.h",
+		"snd/SharedBuffer.h",
+		"snd/Sound.h",
+		"snd/SoundFileBuffer.h",
+		"snd/SoundImplementer.h",
+		"snd/SoundListener.h",
+		"snd/SoundManager.h",
+		"snd/StaticSound.h",
+		"snd/StreamSound.h"
+	],
+	"include_paths": [
+		""
+	],
+	"includes_map": {
+		"obj/": "mudobj.h"
+	},
+	"ignore": [
+		"Generated"
+	],
+	"clean_strings": [
+		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",
+		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
+		"//  This notice and the license may not be removed or altered from any source distribution.",
+		"/* mud */"
+	]
+}
+

@@ -1,0 +1,26 @@
+{
+	"project": "mudctx.cpp",
+	"target": "mudctx.cpp",
+	"sources": [
+		"ctx/Context.cpp",
+		"ctx/InputDevice.cpp",
+		"ctx/InputDispatcher.cpp",
+		"ctx/Generated/Module.cpp",
+		"ctx/Generated/Types.cpp"
+	],
+	"include_paths": [
+        ""
+	],
+    "includes_map": {
+		"ctx/": "mudctx.h",
+		"obj/": "mudobj.h",
+		"math/": "mudmath.h"
+    },
+	"clean_strings": [
+		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",
+		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
+		"//  This notice and the license may not be removed or altered from any source distribution.",
+		"/* mud */"
+	]
+}
+

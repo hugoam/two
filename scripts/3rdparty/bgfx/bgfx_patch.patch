@@ -1,0 +1,130 @@
+diff --git a/tools/shaderc/shaderc.cpp b/tools/shaderc/shaderc.cpp
+index 9d348f3..9ed586c 100644
+--- a/tools/shaderc/shaderc.cpp
++++ b/tools/shaderc/shaderc.cpp
+@@ -140,16 +140,6 @@ namespace bgfx
+ 		NULL
+ 	};
+ 
+-	const char* s_uniformTypeName[] =
+-	{
+-		"int",  "int",
+-		NULL,   NULL,
+-		"vec4", "float4",
+-		"mat3", "float3x3",
+-		"mat4", "float4x4",
+-	};
+-	BX_STATIC_ASSERT(BX_COUNTOF(s_uniformTypeName) == UniformType::Count*2);
+-
+ 	const char* interpolationDx11(const char* _glsl)
+ 	{
+ 		if (0 == bx::strCmp(_glsl, "smooth") )
+@@ -164,31 +154,6 @@ namespace bgfx
+ 		return _glsl; // centroid, noperspective
+ 	}
+ 
+-	const char* getUniformTypeName(UniformType::Enum _enum)
+-	{
+-		uint32_t idx = _enum & ~(BGFX_UNIFORM_FRAGMENTBIT|BGFX_UNIFORM_SAMPLERBIT);
+-		if (idx < UniformType::Count)
+-		{
+-			return s_uniformTypeName[idx];
+-		}
+-
+-		return "Unknown uniform type?!";
+-	}
+-
+-	UniformType::Enum nameToUniformTypeEnum(const char* _name)
+-	{
+-		for (uint32_t ii = 0; ii < UniformType::Count*2; ++ii)
+-		{
+-			if (NULL != s_uniformTypeName[ii]
+-			&&  0 == bx::strCmp(_name, s_uniformTypeName[ii]) )
+-			{
+-				return UniformType::Enum(ii/2);
+-			}
+-		}
+-
+-		return UniformType::Count;
+-	}
+-
+ 	int32_t writef(bx::WriterI* _writer, const char* _format, ...)
+ 	{
+ 		va_list argList;
+@@ -790,9 +755,29 @@ namespace bgfx
+ 			  "For additional information, see https://github.com/bkaradzic/bgfx\n"
+ 			);
+ 	}
+-
+-	int compileShader(int _argc, const char* _argv[])
+-	{
++	
++ 	char     _shaderErrorBuffer[UINT16_MAX];
++ 	uint16_t _shaderErrorBufferPos = 0;
++ 
++ 	void compilerError(const char *_format, ...)
++ 	{
++ 		va_list args;
++ 		va_start(args, _format);
++ 		_shaderErrorBufferPos += vsprintf(&_shaderErrorBuffer[_shaderErrorBufferPos], _format, args);
++ 		va_end(args);
++ 	}
++ 
++ 	void getShaderError(char* _outputText, uint16_t& _outputSize)
++ 	{
++ 		strcpy(_outputText, _shaderErrorBuffer);
++ 		_outputSize = _shaderErrorBufferPos;
++ 	}
++ 
++ 	int compileShader(int _argc, const char* _argv[])
++ 	{
++ 		_shaderErrorBuffer[0] = '\0';
++ 		_shaderErrorBufferPos = 0;
++ 
+ 		bx::CommandLine cmdLine(_argc, _argv);
+ 
+ 		if (cmdLine.hasArg('v', "version") )
+diff --git a/tools/shaderc/shaderc.h b/tools/shaderc/shaderc.h
+index f10fc97..1efd486 100644
+--- a/tools/shaderc/shaderc.h
++++ b/tools/shaderc/shaderc.h
+@@ -133,6 +133,12 @@ namespace bgfx
+ 	bool compileHLSLShader(bx::CommandLine& _cmdLine, uint32_t _version, const std::string& _code, bx::WriterI* _writer);
+ 	bool compilePSSLShader(bx::CommandLine& _cmdLine, uint32_t _version, const std::string& _code, bx::WriterI* _writer);
+ 	bool compileSPIRVShader(bx::CommandLine& _cmdLine, uint32_t _version, const std::string& _code, bx::WriterI* _writer);
++	
++ 	int compileShader(int _argc, const char* _argv[]);
++ 	void compilerError(const char *_format, ...);
++ 
++ 	void getShaderError(char* _outputText, uint16_t& _outputSize);
++#define fprintf(target, format, ...) compilerError(format, ##__VA_ARGS__)
+ 
+ } // namespace bgfx
+ 
+diff --git a/tools/shaderc/shaderc_spirv.cpp b/tools/shaderc/shaderc_spirv.cpp
+index 79581a9..fb269c2 100644
+--- a/tools/shaderc/shaderc_spirv.cpp
++++ b/tools/shaderc/shaderc_spirv.cpp
+@@ -15,7 +15,7 @@ BX_PRAGMA_DIAGNOSTIC_IGNORED_CLANG_GCC("-Wshadow") // warning: declaration of 'u
+ #include <SPIRV/GlslangToSpv.h>
+ BX_PRAGMA_DIAGNOSTIC_POP()
+ 
+-namespace bgfx
++namespace bgfx { namespace spirv
+ {
+ 	static bx::DefaultAllocator s_allocator;
+ 	bx::AllocatorI* g_allocator = &s_allocator;
+@@ -38,9 +38,12 @@ namespace bgfx
+ 			BX_FREE(g_allocator, _ptr);
+ 		}
+ 	}
++
++} // namespace spirv
++
+ } // namespace bgfx
+ 
+-#define TINYSTL_ALLOCATOR bgfx::TinyStlAllocator
++#define TINYSTL_ALLOCATOR bgfx::spirv::TinyStlAllocator
+ #include <tinystl/allocator.h>
+ #include <tinystl/string.h>
+ #include <tinystl/unordered_map.h>

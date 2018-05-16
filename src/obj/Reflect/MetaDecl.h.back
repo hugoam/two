@@ -1,0 +1,117 @@
+//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net
+//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
+//  This notice and the license may not be removed or altered from any source distribution.
+
+#pragma once
+
+#include <obj/Generated/Forward.h>
+#include <obj/Reflect/Meta.h>
+#include <obj/Reflect/Enum.h>
+#include <obj/Reflect/Sequence.h>
+#include <obj/Reflect/Convert.h>
+#include <obj/Iterable/Sequence.h>
+#include <obj/Memory/Pool.h>
+
+namespace mud
+{
+	template <class T>
+	void init_store(Meta& meta) {}
+		
+	template <class T>
+	void init_vector(Meta& meta) { meta.m_iterable = [](Ref value) -> unique_ptr<Iterable> { return make_unique<VectorIterable<T>>(val<std::vector<T>>(value)); };
+								   meta.m_sequence = [](Ref value) -> unique_ptr<Sequence> { return make_unique<VectorSequence<T>>(val<std::vector<T>>(value)); }; }
+		
+	template <class T>
+	void init_string(Meta& meta) { meta.m_convert->m_to_string = [](const Var& ref, string& str) { to_string<T>(val<T>(ref), str); };
+								   meta.m_convert->m_from_string = [](const string& str, Ref ref) { from_string<T>(str, val<T>(ref)); }; }
+
+	template <>
+	void init_string<void>(Meta& meta);
+
+	template <>
+	void init_string<cstring>(Meta& meta);
+
+	template <class T>
+	void init_pool(Meta& meta) { meta.m_make_pool = [] { return make_unique<TPool<T>>(); }; }
+
+	template <class T>
+	inline typename std::enable_if<std::is_default_constructible<T>::value, void>::type
+		init_default_value(Meta& meta) { meta.m_empty_var = [] { return var(T()); }; meta.m_empty_ref = [] { return Ref(type<T>()); }; }
+
+	template <class T>
+	inline typename std::enable_if<!std::is_default_constructible<T>::value, void>::type
+		init_default_value(Meta& meta) { meta.m_empty_var = [] { return Ref(type<T>()); }; meta.m_empty_ref = [] { return Ref(type<T>()); }; }
+
+	template <class T>
+	void meta_type(Meta& meta, Reflection<T>& reflection)
+	{
+		meta.m_namespace = reflection.m_namespace;
+		meta.m_name = reflection.m_name;
+		meta.m_size = reflection.m_size;
+		meta.m_type_class = reflection.m_type_class;
+		meta.m_type = reflection.m_type;
+		meta.setup_type();
+	}
+
+	template <class T>
+	void meta_basetype(Meta& meta, Reflection<T>& reflection)
+	{
+		meta_type(meta, reflection);
+		init_default_value<T>(meta);
+		init_string<T>(meta);
+	}
+
+	template <class T, class U>
+	void meta_sequence(Meta& meta, Reflection<T>& reflection)
+	{
+		meta_type(meta, reflection);
+		init_default_value<T>(meta);
+		init_vector<U>(meta);
+		meta.m_content = reflection.m_content;
+	}
+
+	template <class T>
+	void meta_class(Meta& meta, Reflection<T>& reflection)
+	{
+		meta_type(meta, reflection);
+		init_default_value<T>(meta);
+		meta.m_root = reflection.m_root;
+
+		meta.m_bases = reflection.m_bases;
+		meta.m_bases_offsets = reflection.m_bases_offsets;
+		meta.m_prototypes = reflection.m_prototypes;
+
+		meta.m_nested = reflection.m_nested;
+
+		// Reflection
+		meta.m_constructors = reflection.m_constructors;
+		meta.m_copy_constructors = reflection.m_copy_constructors;
+		meta.m_members = reflection.m_members;
+		meta.m_methods = reflection.m_methods;
+
+		meta.m_static_members = reflection.m_static_members;
+		meta.m_static_functions = reflection.m_static_functions;
+
+		// Implementation
+		meta.m_make_pool = reflection.m_make_pool;
+
+		meta.setup_class();
+	}
+
+	template <class T>
+	void meta_enum(Meta& meta, Reflection<T>& reflection)
+	{
+		meta_type(meta, reflection);
+		init_default_value<T>(meta);
+		init_string<T>(meta);
+		meta.m_enum = make_unique<Enum>(meta);
+
+		meta.m_enum->m_scoped = reflection.m_scoped_enum;
+		meta.m_enum->m_names = reflection.m_enum_names;
+		meta.m_enum->m_indices = reflection.m_enum_indices;
+		meta.m_enum->m_values = reflection.m_enum_values;
+
+		meta.m_enum->setup();
+	}
+
+}

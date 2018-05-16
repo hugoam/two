@@ -1,0 +1,44 @@
+[submodule "3rdparty/bx"]
+	path = 3rdparty/bx
+	url = https://github.com/bkaradzic/bx
+	branch = master
+[submodule "3rdparty/glm"]
+	path = 3rdparty/glm
+	url = https://github.com/g-truc/glm
+[submodule "3rdparty/stb"]
+	path = 3rdparty/stb
+	url = https://github.com/nothings/stb
+[submodule "3rdparty/nanovg"]
+	path = 3rdparty/nanovg
+	url = https://github.com/memononen/nanovg
+[submodule "3rdparty/nanovgvg-layers"]
+	path = 3rdparty/nanovg-layers
+	url = https://github.com/hugoam/nanovg
+[submodule "3rdparty/bimg"]
+	path = 3rdparty/bimg
+	url = https://github.com/bkaradzic/bimg
+[submodule "3rdparty/bgfx"]
+	path = 3rdparty/bgfx
+	url = https://github.com/hugoam/bgfx
+	branch = master
+[submodule "3rdparty/lua"]
+	path = 3rdparty/lua
+	url = https://github.com/lua/lua
+[submodule "3rdparty/nanovg-layers"]
+	path = 3rdparty/nanovg-layers
+	url = https://github.com/hugoam/nanovg
+[submodule "3rdparty/GENie"]
+	path = 3rdparty/GENie
+	url = https://github.com/hugoam/GENie
+[submodule "3rdparty/vg-renderer"]
+	path = 3rdparty/vg-renderer
+	url = https://github.com/jdryg/vg-renderer
+[submodule "3rdparty/FastNoise"]
+	path = 3rdparty/FastNoise
+	url = https://github.com/Auburns/FastNoise
+[submodule "3rdparty/pycgen"]
+	path = 3rdparty/pycgen
+	url = https://github.com/Celtoys/pycgen
+[submodule "3rdparty/amalgamate"]
+	path = 3rdparty/amalgamate
+	url = https://github.com/edlund/amalgamate

@@ -1,0 +1,38 @@
+{
+	"project": "mudobj.cpp",
+	"target": "mudobj.cpp",
+	"sources": [
+		"obj/Any.cpp",
+		"obj/Complex.cpp",
+		"obj/Proto.cpp",
+		"obj/Type.cpp",
+		"obj/Generated/Module.cpp",
+		"obj/Generated/Types.cpp",
+		"obj/Graph/Node.cpp",
+		"obj/Memory/ObjectPool.cpp",
+		"obj/Memory/Pool.cpp",
+		"obj/Reflect/Injector.cpp",
+		"obj/Reflect/Member.cpp",
+		"obj/Reflect/Meta.cpp",
+		"obj/Reflect/Method.cpp",
+		"obj/Serial/Serial.cpp",
+		"obj/String/String.cpp",
+		"obj/System/System.cpp",
+		"obj/Util/Global.cpp",
+		"obj/Util/Timer.cpp",
+		"obj/Util/Updatable.cpp"
+	],
+	"include_paths": [
+        ""
+	],
+    "includes_map": {
+		"obj/": "mudobj.h"
+    },
+	"clean_strings": [
+		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",
+		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
+		"//  This notice and the license may not be removed or altered from any source distribution.",
+		"/* mud */"
+	]
+}
+
