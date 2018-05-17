@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-# reflection
+# [reflection](docs/reflection.md)
 everything starts with your code : the domain specific problem you want to solve, the application business logic.  
 in mud we start here, and not in intricate hierarchies of classes and components to inherit. as such mud is more alike to a programming language/idiom than a framework.
 
@@ -79,97 +79,52 @@ namespace app
 ```
 
 that code is gonna reside in a module, which you need to precompile to a reflection file, using mud reflection generator.  
-from this point, you are allowed to manipulate the reflected classes, objects and functions in a completely generic and type-erased way.
+from this point, you are allowed to manipulate the reflected classes, objects and functions in a completely generic and type-erased way:
 
-the only step you need to do beforehand, is to initialize your module. mud won't do it for you, because of c++ static initialization order hell : modules could be initialized before the modules they depend on.
 ```c++
-module::instance();
-```
+// call a generic function
+Var result = function(foo)({ var(5) });
 
-## operations
-these are the different operations you can do on the generic reflection primitives :
-
-call a function
-```c++
-Function& func = function(foo);
-Var result = func({ var(5) });
-```
-
-store an object in a generic variable
-```c++
 MyObject object = { 12, 'cocorico' };
-Var a = &object; // a holds generic reference to object
-Var b = var(object); // b holds a copy of object
-```
+// create generic values and references
+Var a = &object;        // a holds generic reference to object
+Var b = var(object);    // b holds a copy of object
 
-or create it generically
-```c++
-Type& type = cls<MyObject>();
-Var object = create(type, { var(12), var(string("cocorico")) });
-```
+// construct an object generically
+Var c = construct(type<MyObject>(), { var(12), var(string("cocorico")) });
 
-call a method
-```c++
-Method& meth = method(&MyObject::method);
-Var result = meth(object, {});
-```
+// call a generic object method
+Var result = method(&MyObject::method)(object, {});
 
-get a member value
-```c++
-Member& mem = member(&MyObject::m_var);
-Var var = mem.get(object);
-```
+// get and set a generic object member
+Var member = member(&MyObject::m_var).get(object);
+member(&MyObject::m_field).set(object, var("cocorico!"));
 
-set a member value
-```c++
-Member& mem = member(&MyObject::m_field);
-mem.set(object, var("cocorico!"));
-```
+// iterate a generic collection
+Var collection = member(&MyObject::m_floats).get(object);
+iterate(var, [](const Var& element) { printf("%f\n", element.val<float>(); });
 
-iterate a collection
-```c++
-Member& mem = member(&MyObject::m_floats);
-Var var = mem.get(object);
-iterate(var, [](const Var& element) { printf("%f\n", element.val<float>(); }); 
-```
-
-store multiple objects in a type-erased vector
-```c++
+// create a generic collection
 std::vector<Var> objects = { var(5), var(34.13f), var(string("cocorico")), var(MyObject(15, "mud rocks")) };
 iterate(var, [](const Var& element) { printf("%s, ", to_string(element); }); // prints 5, 34.13f, cocorico, 
 ```
 
-## meta features
+# [generic features]()
 these were the low level generic operations that are defined to access the reflected types.  
 mud builds on top of these, to provide you, for any of the reflected types and primitives :
-- ui for creating, editing, saving, inspecting an object structure
-- serialization facilities
-- seamless integration with scripting languages (lua, visual scripting)
+- [ui components](docs/inspector.md) for creating, editing, saving, inspecting an object structure
+- [serialization](docs/serialization.md) facilities
+- [scripting](docs/scripting.md) languages seamless integration with languages (lua, visual scripting)
 
 draw an inspector ui panel to edit properties of this object
-```c++
+```cpp
 AppObject object(12, 'cocorico');
-inspector(parent, &object);
-```
+// draw an inspector ui panel to edit this object
+ui::inspector(parent, &object);
 
-serialize any object to its json representation
-```c++
-std::string json = pack(object);
-```
-
-the resulting json will look like this
-```json
-{
-    "var" : 5, 
-    "field" : "cocorico",
-    "floats" : [5.0, 32.3, 7.12]
-}
-```
-
-deserialize any object from json
-```c++
-Type& type = cls<MyObject>();
-Var object = unpack(type, json);
+// serialize and deserialize any object to and from its json representation
+std::string json = slz::pack(object);
+Var object = slz::unpack(type<MyObject>(), json);
 ```
 
 in a lua script you can use any of the reflected functions, types, methods, fields
@@ -177,17 +132,6 @@ in a lua script you can use any of the reflected functions, types, methods, fiel
 local object = MyObject(5, 'hello world!')
 print(object:method())
 bar(object) -- you can even pass c++ objects to a function
-```
-
-run a lua script stored in a string
-```c++
-Script script = { lua_code };
-script();
-```
-
-create a visual script in which all the reflected primitives can be used
-```c++
-VisualScript script = {};
 ```
 
 add nodes to the visual script from c++
@@ -201,21 +145,11 @@ this was a rough overview of all the meta features mud provides on top of your a
 now to use these features you need an actual running application.  
 the first step to bootstrap an application is to actually create a window with a user interface.
 
-# ui
+# [ui](docs/ui.md)
 mud ui uses a novel paradigm that sits halfway between **immediate** (like dear imgui) and **retained** ui (like Qt) : its API looks and feels exactly like an immediate ui library, except not much is *actually* done immediately. as such, we prefer to refer to it as a **declarative** ui.  
 the final tree of widgets will look exactly like the tree of the declarations that is traversed on any given frame. however, events are processed, and rendering is done in a separate step.
 
-the first step is creating a window
-```c++
-UiWindow ui_window = { "My App", 1600, 900 };
-```
-
-then on each iteration, you need to call the `begin()` function on the root widget
-```c++
-Widget& uroot = ui_window.m_root_widget.begin();
-```
-
-after that you can freely declare/draw all your widgets
+once you have setup a window and called the `begin()` function on the root widget on each iteration, you can freely declare/draw all your widgets:
 ```c++
 Widget& window = ui::window(uroot, "My Window");
 ui::label(window, "Welcome to mud ui");
@@ -229,11 +163,7 @@ styles govern literally all aspects of :
 - the layout of the widgets
 - the appearance of the widgets
 
-by switching between style sheets on the fly, you can instantly change the **whole** appearance of the ui
-
-here is what a style sheet looks like
-```json
-```
+by switching between [style sheets]() on the fly, you can instantly change the **whole** appearance of the ui
 
 you can also specify styles on a per-widget basis, by passing in a style parameter
 ```c++
@@ -241,42 +171,57 @@ Style style = {};
 ui::button(parent, style, "Click me!");
 ```
 
-# graphics
+# [graphics](graphics.md)
 mud gfx library uses the same immediate paradigm as the ui. instead of nesting ui nodes (widgets) calls, you nest graphics nodes calls. as such it is perfect for quickly setting up some debug graphics rendering.
 
-create a viewer to render into
 ```c++
+// create a viewer to render into
 SceneViewer& viewer = ui::scene_viewer(uroot);
 Gnode& groot = viewer.m_scene.m_graph.begin();
-```
 
-draw a node, setting the transform for all children of this node
-```c++
+// draw a node, which transform applies to children of this node
 Gnode& gnode gfx::node(root, {}, vec3(0.f, 15.f, 7.5f));
-```
 
-draw a cube shape item
-```c++
+// draw a cube shape item as a child of node
 gfx::shape(gnode, Symbol(Colour::White), Cube());
-```
 
-draw a 3d model item
-```c++
-gfx::model(gnode, "my_3d_model.obj");
-```
-
-animate a model item
-```c
+// draw a 3d model item as a child of node
 Item& item = gfx::model(gnode, "my_3d_model.obj");
+
+// animate a model
 Animated& animated = gfx::animated(gnode, item);
 animated.play("walk");
 ```
 
-meta ui
-=======
+# examples
 
-serialization
-=============
+## [pbr materials](https://hugoam.github.io/mud-io/examples/03_materials_low.html)
+![pbr materials](https://github.com/hugoam/mud-io/blob/master/media/03_materials.png)
 
-scripting
-=========
+## [lights](https://hugoam.github.io/mud-io/examples/04_lights.html)
+![lights](https://github.com/hugoam/mud-io/blob/master/media/04_lights.png)
+
+## [sponza (.obj import)](https://hugoam.github.io/mud-io/examples/04_sponza.html)
+![sponza (.obj import)](https://github.com/hugoam/mud-io/blob/master/media/04_sponza.png)
+
+## [character (animations)](https://hugoam.github.io/mud-io/examples/05_character.html)
+![character (animations)](https://github.com/hugoam/mud-io/blob/master/media/05_character.png)
+
+## [particles](https://hugoam.github.io/mud-io/examples/06_particles.html)
+![particles](https://github.com/hugoam/mud-io/blob/master/media/06_particles.png)
+
+## [gltf](https://hugoam.github.io/mud-io/examples/07_gltf.html)
+![gltf](https://github.com/hugoam/mud-io/blob/master/media/07_gltf.png)
+
+## [sky (perez model)](https://hugoam.github.io/mud-io/examples/08_sky.html)
+![sky (perez model)](https://github.com/hugoam/mud-io/blob/master/media/08_sky.png)
+
+## [live shader](https://hugoam.github.io/mud-io/examples/09_live_shader.html)
+![live shader](https://github.com/hugoam/mud-io/blob/master/media/09_live_shader.png)
+
+## [live graphics](https://hugoam.github.io/mud-io/examples/14_live_gfx.html)
+![live graphics](https://github.com/hugoam/mud-io/blob/master/media/14_live_gfx.png)
+
+## [live graphics (visual script)](https://hugoam.github.io/mud-io/examples/4_live_gfx_visual.html)
+![live graphics (visual script)](https://github.com/hugoam/mud-io/blob/master/media/14_live_gfx_visual.png)
+
