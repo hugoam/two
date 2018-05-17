@@ -30,13 +30,12 @@ before_script:
   - make VERBOSE=1
   - sudo make install
   - cd ../..
-  - mkdir build
-  - cd build
   
 script:
-  - cmake ..
-  - make VERBOSE=1
-  - sudo make install
+  - if [ "$CXX" = "g++" ]; then bin/genie --gcc=linux-gcc gmake fi
+  - if [ "$CXX" = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi
+  - cd build/projects/gmake-linux
+  - make config=debug64 -j8
 
 os:
   - linux
