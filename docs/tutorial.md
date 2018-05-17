@@ -96,7 +96,7 @@ notice how this is a standard c++ definition, with some added [reflection hints]
 
 this is all the [reflection generator](reflection.md#generator) needs to precompile the module reflection files.  
 it's a good moment to note that reflection is not **mandatory** in mud : [ui](ui.md) and [gfx](gfx.md) features can be used from a module that doesn't reflect anything.  
-however as soon as you want to [type-erase](meta.md), [serialize](serialization.md), [inspect](inspection.md) or [script](scripting.md) your objects, you **need** the reflection to be generated.
+however as soon as you want to [type-erase](meta.md), [serialize](serial.md), [inspect](inspection.md) or [script](scripting.md) your objects, you **need** the reflection to be generated.
 
 ### precompiling
 to precompile your module, `generator.py` is used, passing the paths to all modules as arguments :
