@@ -32,8 +32,7 @@ before_script:
   - cd ../..
   
 script:
-  - if [ "$CXX" = "g++" ]; then bin/genie --gcc=linux-gcc gmake fi
-  - if [ "$CXX" = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi
+  - bin/genie --gcc=linux-$TRAVIS_CC gmake
   - cd build/projects/gmake-linux
   - make config=debug64 -j8
 
