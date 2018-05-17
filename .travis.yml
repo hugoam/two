@@ -13,6 +13,7 @@ addons:
       - cmake
       - cmake-data
       - libglew-dev
+      - xorg-dev
             
 compiler:
   - gcc
