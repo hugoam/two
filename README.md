@@ -3,7 +3,7 @@
 mud is an all-purpose c++ app prototyping library, focused towards live graphical apps and games.  
 mud contains all the essential building blocks to develop lean c++ apps from scratch, providing [reflection](#reflection) and low level [generic](#generic-features) algorithms, an [immediate ui](#ui) paradigm, and an immediate minimalistic and flexible [graphics renderer](#graphics).
 
-in essence, mud aims to be the **quickest and simplest** way to prototype a c++ graphical application: it provides facilities which, in retrospect, you will never want to build an application *without*. it handles the problem of the code you **don't** want to write, and **should not have** to write, whenever prototyping an app. as such the core principle in mud is : **don't repeat yourself**, and we take this aim very seriously. we also believe it's a principle that is way too often disregarded.
+In essence, mud aims to be the **quickest and simplest** way to prototype a c++ graphical application: it provides facilities which, in retrospect, you will never want to build an application *without*. It handles the problem of the code you **don't** want to write, and **should not have** to write, whenever prototyping an app. As such the core principle in mud is : **don't repeat yourself**, and we take this aim very seriously. We also believe it's a principle that is way too often disregarded.
 
 mud consists of a set of 6 small, self-contained libraries rather than a single one: 6 building blocks essential to prototyping any c++ app.  
 
@@ -41,7 +41,7 @@ Here is a slightly more in-depth description of each of mud core components :
 
 
 # quickstart
-this is the minimal sample code you need to run a mud application
+This is the minimal sample code you need to run a mud application
 ```c++
 #include <mud/mud.h>
 
@@ -61,8 +61,8 @@ int main(int argc, char *argv[])
 ```
 
 # [reflection](docs/reflection.md)
-everything starts with your code : the domain specific problem you want to solve, the application business logic.  
-in mud we start here, and not in intricate hierarchies of classes and components to inherit. as such mud is more alike to a programming language/idiom than a framework.
+Everything starts with your code : the domain specific problem you want to solve, the application business logic.  
+In mud we start here, and not in intricate hierarchies of classes and components to inherit. As such mud is more alike to a programming language/idiom than a framework.
 
 ```c++
 namespace app
@@ -84,8 +84,8 @@ namespace app
 }
 ```
 
-that code is gonna reside in a module, which you need to precompile to a reflection file, using mud reflection generator.  
-from this point, you are allowed to manipulate the reflected classes, objects and functions in a completely generic and type-erased way:
+That code is gonna reside in a module, which you need to precompile to a reflection file, using mud reflection generator.  
+From this point, you are allowed to manipulate the reflected classes, objects and functions in a completely generic and type-erased way:
 
 ```c++
 // call a generic function
@@ -121,7 +121,7 @@ mud builds on top of these low level generic operations to provide, for any of t
 - [serialization](docs/serialization.md) facilities
 - [scripting](docs/scripting.md) languages seamless integration with languages (lua, visual scripting)
 
-here are a few examples of how using these features looks:
+Here are a few examples of how using these features looks:
 ```cpp
 AppObject object(12, 'cocorico');
 // draw an inspector ui panel to edit this object
@@ -132,28 +132,28 @@ std::string json = slz::pack(object);
 Var object = slz::unpack(type<MyObject>(), json);
 ```
 
-in a lua script you can use any of the reflected functions, types, methods, fields
+In a lua script you can use any of the reflected functions, types, methods, fields
 ```lua
 local object = MyObject(5, 'hello world!')
 print(object:method())
 bar(object) -- you can even pass c++ objects to a function
 ```
 
-add nodes to the visual script from c++
+Add nodes to the visual script from c++
 ```c++
 Valve& arg = script.value(5);
 Valve& field = script.value(string("cocorico"));
 script.create<MyObject>({ &arg, &field }); // adds a node that creates an object
 ```
 
-now to use these features you need an actual running application.  
-the first step to bootstrap an application is to actually create a window with a user interface.
+Now to use these features you need an actual running application.  
+The first step to bootstrap an application is to actually create a window with a user interface.
 
 # [ui](docs/ui.md)
-mud ui uses a novel paradigm that sits halfway between **immediate** (like dear imgui) and **retained** ui (like Qt) : its API looks and feels exactly like an immediate ui library, except not much is *actually* done immediately. as such, we prefer to refer to it as a **declarative** ui.  
-the final tree of widgets will look exactly like the tree of the declarations that is traversed on any given frame. however, events are processed, and rendering is done in a separate step.
+mud ui uses a novel paradigm that sits halfway between **immediate** (like dear imgui) and **retained** ui (like Qt) : its API looks and feels exactly like an immediate ui library, except not much is *actually* done immediately. As such, we prefer to refer to it as a **declarative** ui.  
+The final tree of widgets will look exactly like the tree of the declarations that is traversed on any given frame. however, events are processed, and rendering is done in a separate step.
 
-once you have setup a window and called the `begin()` function on the root widget on each iteration, you can freely declare/draw all your widgets:
+Once you have setup a window and called the `begin()` function on the root widget on each iteration, you can freely declare/draw all your widgets:
 ```c++
 Widget& window = ui::window(uroot, "My Window");
 ui::label(window, "Welcome to mud ui");
@@ -162,14 +162,14 @@ if(ui::button(window, "Click me !"))
 ui::color_edit(window, Colour(1.f, 0.34f, 0.73f));
 ```
 
-the styles of all widgets are entirely customizable, through style sheets declared in the json format  
+The styles of all widgets are entirely customizable, through style sheets declared in the json format  
 styles govern literally all aspects of :
 - the layout of the widgets
 - the appearance of the widgets
 
-by switching between [style sheets]() on the fly, you can instantly change the **whole** appearance of the ui
+By switching between [style sheets]() on the fly, you can instantly change the **whole** appearance of the ui
 
-you can also specify styles on a per-widget basis, by passing in a style parameter
+You can also specify styles on a per-widget basis, by passing in a style parameter
 ```c++
 Style style = {};
 ui::button(parent, style, "Click me!");
