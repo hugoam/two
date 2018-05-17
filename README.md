@@ -14,7 +14,7 @@ These are the three low-level generic c++ blocks: they rely on applying generic 
 - [generic serialization](docs/serialization.md) of any c++ objects to any format (currently json)
 - [generic script](docs/scripting.md) bindings for any c++ objects, methods, functions, seamlessly, **and** a visual scripting language
 
-Two of them make the interactive/graphical foundation of an app:
+The second set of blocks consists of the the interactive/graphical foundation of an app:
 - immediate/declarative UI to draw skinnable, auto-layout ui panels in few lines of code
 - immediate/declarative graphics to render 3d objects in a minimal amount of code
 
