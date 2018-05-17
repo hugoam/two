@@ -61,7 +61,7 @@ In each of these domains, simplicity and DRY is always favored over other concer
 To get a more in-depth look at how using these features looks, in code, you might want to have a look at the [main page](https://github.com/hugoam/mud) of the github repo.
 
 ## What's the plan ?
-The building blocks are just starting to fall in place such that writing mud c++ apps feels thrilling and liberating in its simplicty. That means, I believe, the moment has come to start communicating about this project in order to, if anything, get collective help into pushing it to maturity: there are still many aspects to improve and flaws to iron out. With proper support, I believe a first stable release could happen before the end of the year.
+The building blocks are just starting to fall in place such that writing mud c++ apps feels thrilling and liberating in its simplicity. That means, I believe, the moment has come to start communicating about this project in order to, if anything, get collective help into pushing it to maturity: there are still many aspects to improve and flaws to iron out. With proper support, I believe a first stable release could happen before the end of the year.
 
 Creating mud has been a huge time investment over the course of a few years: the only way I can pursue that effort and make it thrive into the programming ecosystem of our dreams, is through funding and sponsorship: you are welcome to have a look at our [patreon](https://www.patreon.com/libmud).
 
