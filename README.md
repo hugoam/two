@@ -1,35 +1,44 @@
 # mud [![Build Status](https://travis-ci.org/hugoam/mud.svg?branch=master)](https://travis-ci.org/hugoam/mud)
 
-mud aims to be smallest and fastest c++ application prototyping library.  
-it provides facilities which, in retrospect, you will never want to build an application **without**.  
-mud is about all the code you **don't** want to write, and **should not have** to write, whenever prototyping an app.  
-if there should be one central principle at the core of mud, that would be DRY : **don't repeat yourself**. like, **ever**. and we are dead serious about this.
+mud is an all-purpose c++ app prototyping library, focused towards live graphical apps and games.  
+mud contains all the essential building blocks to develop lean c++ apps from scratch, providing [reflection](#reflection) and low level [generic](#generic-features) algorithms, an [immediate ui](#ui) paradigm, and an immediate minimalistic and flexible [graphics renderer](#graphics).
 
-it tries to improve on the somewhat depressing fact that, in many domains, state of the art modern programming is just riddled with redundant, superfluous code.  
-mud tries to set different practices as a standard way to code. using these, we attain the quickest iteration speed.
+in essence, mud aims to be the **quickest and simplest** way to prototype a c++ graphical application: it provides facilities which, in retrospect, you will never want to build an application *without*. it handles the problem of the code you **don't** want to write, and **should not have** to write, whenever prototyping an app. one of mud most important principle is : **don't repeat yourself**, and we take this aim very seriously. we also believe it's a principle that is way too often disregarded.
 
-here is a list of all the code you **never wanted to** write, and **won't need to** when using mud :
-- ui library code
-- debug and introspection ui code
-- object serialization code
-- scripting language binding code (e.g in-app console)
+mud consists of a set of 6 small, self-contained libraries rather than a single one: 6 building blocks essential to prototyping any c++ app.  
 
-on top of that, because these are fundamental to any game prototype, we throw in :
-- a visual scripting language
-- low-level graphics pipeline implementation code
+The first set of blocks, consists of low level c++ programming tools, which purpose is to avoid duplicating code over and over, by providing [generic algorithms](#generic-features) instead, operating on generic objects. Their purpose to maximize the potential of each line of code written, so that ideally, each of them is **only** concerned with the **problem domain** you are trying to solve.
 
-of course, in later stages, you could always want to write code that fits in either of these categories.  
-the point of mud is, until you want to think about this, you don't want to have to think about this.  
-using these features until you outgrow them doesn't cost anything, and once you do they don't either.
+These are the three low-level generic c++ blocks: they rely on applying generic operations on arbitrary types:
+- [reflection](#reflection) of any c++ code to a set of generic primitives
+- [generic serialization](docs/serialization.md) of any c++ objects to any format (currently json)
+- [generic script](docs/scripting.md) bindings for any c++ objects, methods, functions, seamlessly, **and** a visual scripting language
 
-the purpose of mud is to maximize the potential of each line of code written, so that ideally, each of them is **only** concerned with the **problem domain** you are trying to solve, and not any of the auxiliary operations above.
+Two of them make the interactive/graphical foundation of an app:
+- immediate/declarative UI to draw skinnable, auto-layout ui panels in few lines of code
+- immediate/declarative graphics to render 3d objects in a minimal amount of code
 
-mud is divided in 5 sub libraries, all small (between 5k and 10kloc each) :
-- a object library, which sets the common primitives for manipulating dynamic objects
-- a math library provides the glm math types and their reflection along with some common math operations
-- a ui library allows to draw immediate-mode, skinnable, auto-layout ui panels in few lines of code
-- a scripting library allows to call your c++ code from 
-- a meta ui library provides ui elements to manipulate objects 
+The last one ties the ui and the generic c++ blocks together:
+- generic ui to edit and inspect c++ objects, modules, call methods, edit text and visual scripts
+
+**mud** stems from a strong programming philosophy: it wagers that the future of application and game coding lies in small, self-contained, reusable and shared libraries, and **not** in gigantic tightly coupled *engines* of hundreds thousands of lines of code.
+
+For our shared knowledge and our programs to progress, the building blocks have to be **small** and **understandable by most** (which is essentially the same thing). There are many such blocks already in many domains (network, pathfinding, database, graphics).
+
+I started writing mud because I discovered some of the blocks I needed were missing. The common thread between these blocks, is an unrelenting thirst for simplicity. With the building blocks mud provides, one can create live graphical apps in few lines of code, but also, **anyone** can potentially create a *game engine*.
+
+**mud** is open-source, and published under the zlib license: as such it is looking for sponsors, funding, and your support through [patreon](https://www.patreon.com/libmud).
+
+# domains
+Here is a slightly more in-depth description of each of mud core components :
+- [a small generic c++ layer](https://github.com/hugoam/mud/blob/master/docs/reflection.md) (< 5 kLoC): c++ primitives that allow manipulating generic objects at runtime, and precompilation of any c++ code to an initializer for these primitives.
+- [a small generic serialization layer](https://github.com/hugoam/mud/blob/master/docs/serialization.md) (< 1 kLoC): serialize generic c++ objects from and to different formats. mud does only json (and previously sqlite), but some binary formats like flat buffers should be studied (although they usually have their own code generation).
+- [a small generic scripting library](https://github.com/hugoam/mud/blob/master/docs/scripting.md) (< 3 kLoC): manipulate generic c++ objects through scripts. all reflected primitives: functions, methods, members can be used seamlessly. mud does only lua, and a powerful graph based visual scripting language.
+- [a small UI library](https://github.com/hugoam/mud/blob/master/docs/ui.md) (< 10 kLoC) that does: immediate-mode widget declarations, logic/layout/styling separation, fully automatic layout, css-like skinning, image-based skinning, style sheets, input widgets, docking windows and tabs, allows to define complex widgets easily.
+- [a small graphics library](https://github.com/hugoam/mud/blob/master/docs/graphics.md) (< 6 kLoC): immediate-mode rendering graph declaration, with the following basic primitives: meshes, models, shaders, programs, materials, skeletons, animations, render targets, filters, render passes, render pipelines. It is minimalistic in design, and is **NOT a game engine** nor does it try to be.
+- [a small ui inspection library](https://github.com/hugoam/mud/blob/master/docs/inspector.md) (< 3 kLoC): generic ui components: inspector panel, edit an object fields, call a method on an object, inspect an object graph/structure, all these are generic ui components operating on the reflected primitives.
+- [a small pbr rendering model]() (< 4 kLoC): a sample implementation of a physically based rendering model for the above graphics library, demonstrating it can be simple (it's the research behind that is complex).
+
 
 # quickstart
 this is the minimal sample code you need to run a mud application
@@ -107,12 +116,12 @@ iterate(var, [](const Var& element) { printf("%s, ", to_string(element); }); // 
 ```
 
 # [generic features]()
-mud builds on top of these low level generic operations to provide, for any of the reflected types and primitives :
+mud builds on top of these low level generic operations to provide, for any of the reflected types and primitives:
 - [ui components](docs/inspector.md) for creating, editing, saving, inspecting an object structure
 - [serialization](docs/serialization.md) facilities
 - [scripting](docs/scripting.md) languages seamless integration with languages (lua, visual scripting)
 
-draw an inspector ui panel to edit properties of this object
+here are a few examples of how using these features looks:
 ```cpp
 AppObject object(12, 'cocorico');
 // draw an inspector ui panel to edit this object
@@ -220,3 +229,18 @@ animated.play("walk");
 ## [live graphics (visual script)](https://hugoam.github.io/mud-io/examples/4_live_gfx_visual.html)
 ![live graphics (visual script)](https://github.com/hugoam/mud-io/blob/master/media/14_live_gfx_visual.png)
 
+# credits
+mud couldn't exist without:
+- [GENie](https://github.com/bkaradzic/GENie) build system
+- [bgfx](https://github.com/bkaradzic/bgfx) rendering library
+- [vg-renderer](https://github.com/jdryg/vg-renderer) and [NanoVG](https://github.com/memononen/nanovg) vector drawing libraries
+- [lua](https://github.com/lua/lua) scripting language
+- [stb](https://github.com/nothings/stb) headers
+- [glm](https://github.com/g-truc/glm) math library
+- [json](https://github.com/nlohmann/json) header
+
+# support
+Creating mud has been a huge time investment over the course of a few years: the only way I can pursue that effort and make it thrive into the programming ecosystem of our dreams, is through funding and sponsorship: you are welcome to have a look at our [patreon](https://www.patreon.com/libmud).
+
+# license
+mud is licensed under the [zlib license](LICENSE.txt).
