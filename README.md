@@ -46,11 +46,8 @@ bool pump(Shell& app)
 
 int main(int argc, char *argv[])
 {
-    Shell app(EXEC_PATH, RESOURCE_PATH);
-
-    bool pursue = true;
-    while(pursue)
-        pursue = pump(app);
+    Shell app(RESOURCE_PATH);
+    app.run(pump);
 }
 ```
 
@@ -110,8 +107,7 @@ iterate(var, [](const Var& element) { printf("%s, ", to_string(element); }); // 
 ```
 
 # [generic features]()
-these were the low level generic operations that are defined to access the reflected types.  
-mud builds on top of these, to provide you, for any of the reflected types and primitives :
+mud builds on top of these low level generic operations to provide, for any of the reflected types and primitives :
 - [ui components](docs/inspector.md) for creating, editing, saving, inspecting an object structure
 - [serialization](docs/serialization.md) facilities
 - [scripting](docs/scripting.md) languages seamless integration with languages (lua, visual scripting)
@@ -141,7 +137,6 @@ Valve& field = script.value(string("cocorico"));
 script.create<MyObject>({ &arg, &field }); // adds a node that creates an object
 ```
 
-this was a rough overview of all the meta features mud provides on top of your application code : more details on that later.  
 now to use these features you need an actual running application.  
 the first step to bootstrap an application is to actually create a window with a user interface.
 
