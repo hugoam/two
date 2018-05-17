@@ -3,7 +3,7 @@
 mud is an all-purpose c++ app prototyping library, focused towards live graphical apps and games.  
 mud contains all the essential building blocks to develop lean c++ apps from scratch, providing [reflection](#reflection) and low level [generic](#generic-features) algorithms, an [immediate ui](#ui) paradigm, and an immediate minimalistic and flexible [graphics renderer](#graphics).
 
-in essence, mud aims to be the **quickest and simplest** way to prototype a c++ graphical application: it provides facilities which, in retrospect, you will never want to build an application *without*. it handles the problem of the code you **don't** want to write, and **should not have** to write, whenever prototyping an app. one of mud most important principle is : **don't repeat yourself**, and we take this aim very seriously. we also believe it's a principle that is way too often disregarded.
+in essence, mud aims to be the **quickest and simplest** way to prototype a c++ graphical application: it provides facilities which, in retrospect, you will never want to build an application *without*. it handles the problem of the code you **don't** want to write, and **should not have** to write, whenever prototyping an app. as such the core principle in mud is : **don't repeat yourself**, and we take this aim very seriously. we also believe it's a principle that is way too often disregarded.
 
 mud consists of a set of 6 small, self-contained libraries rather than a single one: 6 building blocks essential to prototyping any c++ app.  
 
