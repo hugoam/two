@@ -43,6 +43,16 @@ Here is a slightly more in-depth description of each of mud core components :
 - [a small ui inspection library](https://github.com/hugoam/mud/blob/master/docs/inspector.md) (< 3 kLoC): generic ui components: inspector panel, edit an object fields, call a method on an object, inspect an object graph/structure, all these are generic ui components operating on the reflected primitives.
 - [a small pbr rendering model]() (< 4 kLoC): a sample implementation of a physically based rendering model for the above graphics library, demonstrating it can be simple (it's the research behind that is complex).
 
+# building
+mud is built with [GENie](https://github.com/bkaradzic/GENie) build system, which is based on premake and consists of a bunch of lua scripts. The GENie binaries needed by mud for windows and linux are included for convenience in the `bin` folder.  
+To get a headstart and build mud you should clone the [sample project](https://github.com/hugoam/mud-sample) repository, which builds all the examples. The examples can be built from this repository directly but the data is in the sample repository to keep this one light. 
+
+The build instructions for linux and gcc look like:
+- `git clone --recursive https://github.com/hugoam/mud-sample`
+- `cd mud-sample`
+- `mud/bin/genie --gcc=linux-gcc gmake`
+- `cd build/projects/gmake-linux`
+- `make config=debug64 -j8`
 
 # quickstart
 This is the minimal sample code you need to run a mud application
