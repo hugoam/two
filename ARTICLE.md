@@ -22,16 +22,25 @@ Links: [github](https://github.com/hugoam/mud) - [official page](https://hugoam.
 ## Another screenshot:
 ![gltf](https://github.com/hugoam/mud-io/blob/master/media/07_gltf.png)
 
-## Summary
-[mud](https://github.com/hugoam/mud) is a set of 6 small, self-contained libraries rather than a single one: they are 6 building blocks that turn out essential to prototyping any c++ app.  
-Three of them are low-level generic c++ blocks: they rely on applying generic operations on arbitrary types:
-- reflection of any c++ code to a set of generic primitives
+## What is it ?
+
+[mud](https://github.com/hugoam/mud) is an all-purpose c++ app prototyping library, focused towards live graphical apps and games.  
+mud contains all the essential building blocks to develop lean c++ apps from scratch, providing [reflection](https://github.com/hugoam/mud#reflection) and low level [generic](https://github.com/hugoam/mud#generic-features) algorithms, an [immediate ui](https://github.com/hugoam/mud#ui) paradigm, and an immediate minimalistic and flexible [graphics renderer](https://github.com/hugoam/mud#graphics).
+
+In essence, mud aims to be the **quickest and simplest** way to prototype a c++ graphical application. It handles the problem of the code you **don't** want to write, and **should not have** to write, whenever prototyping an app. As such the core principle in mud is : **don't repeat yourself**, and we take this aim very seriously. We also believe it's a principle that is way too often disregarded.
+
+mud consists of a set of 6 small, self-contained libraries rather than a single one: 6 building blocks essential to prototyping any c++ app.  
+
+The first set of blocks, consists of low level c++ programming tools, which purpose is to avoid duplicating code over and over, by providing [generic algorithms](#generic-features) instead, operating on generic objects. Their purpose to maximize the potential of each line of code written, so that ideally, each of them is **only** concerned with the **problem domain** you are trying to solve.
+
+These are the three low-level generic c++ blocks: they rely on applying generic operations on arbitrary types:
+- [reflection](https://github.com/hugoam/mud#reflection) of any c++ code to a set of generic primitives
 - generic serialization of any c++ objects to any format (currently json)
 - generic script bindings for any c++ objects, methods, functions, seamlessly, **and** a visual scripting language
 
-Two of them make the interactive/graphical foundation of an app:
-- immediate/declarative UI
-- immediate/declarative graphics
+The second set of blocks consists of the the interactive/graphical foundation of an app:
+- immediate/declarative UI to draw skinnable, auto-layout ui panels in few lines of code
+- immediate/declarative graphics to render 3d objects in a minimal amount of code
 
 The last one ties the ui and the generic c++ blocks together:
 - generic ui to edit and inspect c++ objects, modules, call methods, edit text and visual scripts
@@ -46,7 +55,7 @@ I started writing mud because I discovered some of the blocks I needed were miss
 
 In theory, mud compiles to any desktop, mobile or web platform, mud graphics relying on the [bgfx](https://github.com/bkaradzic/bgfx) library which supports them. In practice, there is some work ahead to make that happen and refine the build system for each of them.
 
-## Domains
+## What's inside ?
 To be able to quickly together c++ apps, but also for educational purposes, the following blocks needed to exist in the open-source ecosystem:
 - [a small generic c++ layer](https://github.com/hugoam/mud/blob/master/docs/reflection.md) (< 5 kLoC): c++ primitives that allow manipulating generic objects at runtime, and precompilation of any c++ code to an initializer for these primitives.
 - [a small generic serialization layer](https://github.com/hugoam/mud/blob/master/docs/serial.md) (< 1 kLoC): serialize generic c++ objects from and to different formats. mud does only json (and previously sqlite), but some binary formats like flat buffers should be studied (although they usually have their own code generation).
@@ -69,7 +78,7 @@ Feature-wise, most of the core features are in place, the remaining work being t
 
 And then, of course, there's a game engine. More on that in a few weeks :)
 
-## So what now ?
+## So what do we do now ?
 If you are interested in following the development, it's mostly on my [twitter](https://twitter.com/hugoamnov).  
 If you want to try it, you can just clone the [sample github repo](https://github.com/hugoam/mud-sample), or check out the [main repo](https://github.com/hugoam/mud).  
 If you want to learn about how it works, check out the [documentation](https://github.com/hugoam/mud/blob/master/docs/mud.md) and the [quickstart](https://github.com/hugoam/mud/blob/master/docs/tutorial.md) guide.  
