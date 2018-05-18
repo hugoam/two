@@ -1,0 +1,192 @@
+{
+    "accessors": [
+        {
+            "bufferView": 3,
+            "byteOffset": 0,
+            "componentType": 5123,
+            "count": 11520,
+            "max": [
+                1962
+            ],
+            "min": [
+                0
+            ],
+            "name": "accessor_buffer_Sphere.001_0",
+            "type": "SCALAR"
+        },
+        {
+            "bufferView": 0,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 1963,
+            "max": [
+                0.9996623396873474,
+                0.9971774220466614,
+                0.9979627728462219
+            ],
+            "min": [
+                -0.9996618628501892,
+                -0.9971771836280823,
+                -0.9979626536369324
+            ],
+            "name": "accessor_buffer_Sphere.001_POSITION_0",
+            "type": "VEC3"
+        },
+        {
+            "bufferView": 2,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 1963,
+            "max": [
+                1.0,
+                0.998697817325592
+            ],
+            "min": [
+                0.0004883855581283569,
+                5.960464477539063e-08
+            ],
+            "name": "accessor_buffer_Sphere.001_TEXCOORD_0_0",
+            "type": "VEC2"
+        },
+        {
+            "bufferView": 1,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 1963,
+            "max": [
+                0.999664306640625,
+                0.99945068359375,
+                0.99920654296875
+            ],
+            "min": [
+                -0.999664306640625,
+                -0.99945068359375,
+                -0.99920654296875
+            ],
+            "name": "accessor_buffer_Sphere.001_NORMAL_0",
+            "type": "VEC3"
+        }
+    ],
+    "asset": {
+        "version": "2.0"
+    },
+    "bufferViews": [
+        {
+            "buffer": 0,
+            "byteLength": 23556,
+            "byteOffset": 0,
+            "byteStride": 12,
+            "name": "bufferView_buffer_Sphere.001_POSITION_0",
+            "target": 34962
+        },
+        {
+            "buffer": 0,
+            "byteLength": 23556,
+            "byteOffset": 23556,
+            "byteStride": 12,
+            "name": "bufferView_buffer_Sphere.001_NORMAL_0",
+            "target": 34962
+        },
+        {
+            "buffer": 0,
+            "byteLength": 15704,
+            "byteOffset": 47112,
+            "byteStride": 8,
+            "name": "bufferView_buffer_Sphere.001_TEXCOORD_0_0",
+            "target": 34962
+        },
+        {
+            "buffer": 0,
+            "byteLength": 23040,
+            "byteOffset": 62816,
+            "name": "bufferView_buffer_Sphere.001_0",
+            "target": 34963
+        }
+    ],
+    "buffers": [
+        {
+            "byteLength": 85856,
+            "name": "buffer_sphere",
+            "uri": "buffer_sphere.bin"
+        }
+    ],
+    "meshes": [
+        {
+            "name": "Sphere.001",
+            "primitives": [
+                {
+                    "attributes": {
+                        "NORMAL": 3,
+                        "POSITION": 1,
+                        "TEXCOORD_0": 2
+                    },
+                    "indices": 0,
+                    "mode": 4
+                }
+            ]
+        }
+    ],
+    "nodes": [
+        {
+            "mesh": 0,
+            "name": "Sphere.001",
+            "rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translation": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "children": [
+                0
+            ],
+            "matrix": [
+                -1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "name": "Scene_root"
+        }
+    ],
+    "scene": 0,
+    "scenes": [
+        {
+            "extras": {
+                "background_color": [
+                    0.05,
+                    0.05,
+                    0.05
+                ],
+                "frames_per_second": 24
+            },
+            "name": "Scene",
+            "nodes": [
+                1
+            ]
+        }
+    ]
+}
