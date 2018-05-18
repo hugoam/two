@@ -62,14 +62,12 @@ else
             "lua",
         }
         
-        configuration { "sound" }
+        if _OPTIONS["sound"] then
             includedirs {
                 path.join(MUD_3RDPARTY_DIR, "vorbis", "include"),
                 path.join(MUD_3RDPARTY_DIR, "ogg", "include"),
             }
 
-            mud_module("snd", MUD_SRC_DIR, "snd", "MUD_SND")
-            
             links{
                 "vorbis",
                 "vorbisfile",
@@ -77,7 +75,8 @@ else
                 "OpenAL32",
             }
             
-        configuration {}
+            mud_module("snd", MUD_SRC_DIR, "snd", "MUD_SND")
+        end
 end
     
 function uses_mud()

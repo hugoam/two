@@ -14,6 +14,7 @@ solution "mud"
 	language "C++"
     
     
+PROJECT_DIR = path.getabsolute("..")
 BUILD_DIR = path.join(path.getabsolute(".."), "build")
 
 dofile "toolchain_mud.lua"

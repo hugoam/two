@@ -10,33 +10,7 @@ function file_exists(name)
     end
 end
 
-function mud_module(name, root_path, subpath, preproc_name)
-    module_path = path.join(root_path, subpath)
-    
-    includedirs {
-        root_path,
-    }
-    
-    files {
-        path.join(module_path, "**.h"),
-        path.join(module_path, "**.cpp"),
-    }
-    
-    defines { preproc_name .. "_REFLECT" }
-    defines { preproc_name .. "_LIB" }
-    
-    --vpaths { [name] = { "**.h", "**.cpp" } }
-        
-    if file_exists(path.join(module_path, "module.py")) then
-        local module = {
-            root = root_path,
-            path = module_path,
-            py = path.join(module_path, "module.py")
-        }
-        table.insert(MODULES, module)
-        table.insert(MODULES_PY, path.join(module_path, "module.py"))
-    end
-    
+function mud_defines()
     configuration { "windows", "not asmjs" }
         defines { "MUD_PLATFORM_WINDOWS" }
         
@@ -75,6 +49,36 @@ function mud_module(name, root_path, subpath, preproc_name)
         defines { "MUD_WEBGL2" }
             
     configuration {}
+end
+
+function mud_module(name, root_path, subpath, preproc_name)
+    module_path = path.join(root_path, subpath)
+    
+    includedirs {
+        root_path,
+    }
+    
+    files {
+        path.join(module_path, "**.h"),
+        path.join(module_path, "**.cpp"),
+    }
+    
+    defines { preproc_name .. "_REFLECT" }
+    defines { preproc_name .. "_LIB" }
+    
+    --vpaths { [name] = { "**.h", "**.cpp" } }
+        
+    if file_exists(path.join(module_path, "module.py")) then
+        local module = {
+            root = root_path,
+            path = module_path,
+            py = path.join(module_path, "module.py")
+        }
+        table.insert(MODULES, module)
+        table.insert(MODULES_PY, path.join(module_path, "module.py"))
+    end
+    
+    mud_defines()
 end
 
 function mud_amalgamate(modules)
