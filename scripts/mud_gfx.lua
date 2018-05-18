@@ -104,6 +104,11 @@ project "mud_gfx"
     uses_mud_gfx()
     uses_mud()
     
+    configuration { "vs*", "Release" }
+        buildoptions {
+            "/bigobj",
+        }
+        
     configuration { "not asmjs" }
         links {
             "glfw",
