@@ -39,6 +39,7 @@ project "glfw"
         
     configuration { "mingw* or linux or osx or asmjs" }
         buildoptions {
+            "-Wunused-parameter",
             "-Wno-sign-compare",
             "-Wno-missing-field-initializers",
         }

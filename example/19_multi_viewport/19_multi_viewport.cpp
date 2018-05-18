@@ -35,7 +35,7 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if(!multiple_scene)
 	{
-		static Scene scene = { *app.m_gfx_system };
+		static Scene scene = { app.m_gfx_system };
 		for(size_t i = 0; i < num_viewers; ++i)
 			viewers.push_back(&ui::viewer(i >= 2 ? *second_split : first_split, scene));
 	}

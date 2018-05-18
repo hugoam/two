@@ -59,7 +59,7 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app);
 	if(!g_sky.m_initialized)
-		g_sky.init(*app.m_gfx_system);
+		g_sky.init(app.m_gfx_system);
 
 	//app.m_gfx_system->m_pipeline->block<BlockTonemap>()->m_enabled = false;
 
