@@ -218,40 +218,13 @@ namespace mud
 		nvgStroke(m_ctx);
 	}
 
-	void NanoRenderer::drawImage(uint16_t image, const vec4& rect, const vec4& imageRect)
+	void NanoRenderer::drawTexture(uint16_t image, const vec4& rect, const vec4& imageRect)
 	{
 		NVGpaint imgPaint = nvgImagePattern(m_ctx, RECT_FLOATS(imageRect), 0.0f / 180.0f * NVG_PI, image, 1.f);
 		nvgBeginPath(m_ctx);
 		nvgRect(m_ctx, RECT_FLOATS(rect));
 		nvgFillPaint(m_ctx, imgPaint);
 		nvgFill(m_ctx);
-	}
-
-	void NanoRenderer::drawImage(const Image& image, const vec4& rect)
-	{
-		if(image.d_atlas)
-		{
-			vec4 imageRect = { rect_offset(rect) - vec2(image.d_coord), vec2(image.d_atlas->m_image.d_size) };
-			this->drawImage(image.d_atlas->m_image.d_handle, rect, imageRect);
-		}
-		else
-		{
-			this->drawImage(image.d_handle, rect, rect);
-		}
-	}
-
-	void NanoRenderer::drawImageStretch(const Image& image, const vec4& rect, const vec2& stretch)
-	{
-		if(image.d_atlas)
-		{
-			vec4 imageRect = { rect_offset(rect) - vec2(image.d_coord) * stretch, vec2(image.d_atlas->m_image.d_size) * stretch };
-			this->drawImage(image.d_atlas->m_image.d_handle, rect, imageRect);
-		}
-		else
-		{
-			vec4 imageRect = { rect_offset(rect), vec2(image.d_size) * stretch };
-			this->drawImage(image.d_handle, rect, imageRect);
-		}
 	}
 
 	void NanoRenderer::drawColorWheel(const vec2& center, float r0, float r1)

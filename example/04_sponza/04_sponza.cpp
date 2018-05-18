@@ -33,7 +33,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& sponza_node = gfx::node(groot, {}, vec3{ 0.f, -5.f, 0.f });
 	gfx::model(sponza_node, "sponza");
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<size_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
 		Widget& sheet = ui::columns(*dock, carray<float, 2>{ 0.3f, 0.7f });
 

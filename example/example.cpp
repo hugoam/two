@@ -81,7 +81,7 @@ void pump(Shell& app)
 {
 	edit_context(app.m_ui->begin(), app.m_editor);
 
-	if(Widget* dock = ui::dockitem(*app.m_editor.m_dockbar, "Options", carray<size_t, 1>{ 0U }))
+	if(Widget* dock = ui::dockitem(*app.m_editor.m_dockbar, "Options", carray<uint16_t, 1>{ 0U }))
 		example_select(app, *dock, *app.m_editor.m_dockbar);
 	
 	if(current_example)

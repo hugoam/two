@@ -17,7 +17,7 @@ namespace mud
 	struct carray
 	{
 		template <class... T_Args>
-		carray(T_Args... args) : m_array{ args... } {}
+		carray(T_Args... args) : m_array{ T(args)... } {}
 		T m_array[Size];
 		size_t size() { return Size; }
 		T* data() { return m_array; }

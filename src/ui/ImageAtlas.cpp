@@ -5,24 +5,44 @@
 
 #include <ui/ImageAtlas.h>
 
-#include <RectPacking/Rect.h>
-#include <RectPacking/GuillotineBinPack.h>
-
 #include <math/Interp.h>
 
 #ifndef MUD_PLATFORM_EMSCRIPTEN
 #define STB_IMAGE_IMPLEMENTATION
 #endif
 
+#if defined _MSC_VER
+#	pragma warning (push)
+#	pragma warning (disable : 4100)
+#endif
+
+#define STB_RECT_PACK_IMPLEMENTATION
+#include <stb_rect_pack.h>
 #include <stb_image.h>
+
+#if defined _MSC_VER
+#	pragma warning (pop)
+#endif
 
 namespace mud
 {
+	struct StbRectPack
+	{
+		StbRectPack(uvec2 size, size_t num_nodes)
+			: m_nodes(num_nodes)
+		{
+			stbrp_init_target(&m_context, size.x, size.y, m_nodes.data(), num_nodes);
+		}
+
+		stbrp_context m_context;
+		std::vector<stbrp_node> m_nodes;
+	};
+
 	ImageAtlas::ImageAtlas(uvec2 size)
 		: m_size(size)
 		, m_inverse_size(1.f / vec2(size))
 		, m_image("ImageAtlas", "", m_size)
-		, m_rectPacker(make_unique<GuillotineBinPack>(size.x, size.y))
+		//, m_rect_pack(make_unique<GuillotineBinPack>(size.x, size.y))
 	{}
 
 	ImageAtlas::~ImageAtlas()
@@ -37,6 +57,8 @@ namespace mud
 
 		// @todo : sort images
 
+		m_rect_pack = make_unique<StbRectPack>(m_size, images.size());
+
 		for(Image* image : images)
 		{
 			this->place_image(*image);
@@ -48,8 +70,11 @@ namespace mud
 
 	void ImageAtlas::place_image(Image& sprite)
 	{
-		BPRect rect = m_rectPacker->Insert(sprite.d_size.x, sprite.d_size.y, false,
-										   GuillotineBinPack::RectBestShortSideFit, GuillotineBinPack::SplitShorterLeftoverAxis);
+		//BPRect rect = m_rect_packer->Insert(sprite.d_size.x, sprite.d_size.y, false,
+		//									GuillotineBinPack::RectBestShortSideFit, GuillotineBinPack::SplitShorterLeftoverAxis);
+
+		stbrp_rect rect = { 0, stbrp_coord(sprite.d_size.x), stbrp_coord(sprite.d_size.y) };
+		stbrp_pack_rects(&m_rect_pack->m_context, &rect, 1);
 
 		sprite.d_coord = { uint(rect.x), uint(rect.y) };
 		sprite.d_atlas = this;
@@ -106,7 +131,9 @@ namespace mud
 
 	SpriteAtlas::SpriteAtlas(uvec2 size)
 		: ImageAtlas(size)
-	{}
+	{
+		m_rect_pack = make_unique<StbRectPack>(m_size, 128);
+	}
 
 	const Sprite& SpriteAtlas::find_sprite(cstring name) const
 	{
@@ -116,13 +143,15 @@ namespace mud
 		return m_sprites[0];
 	}
 
-	Sprite& SpriteAtlas::add_sprite(cstring name, uvec2 size, uvec2 frames)
+	Sprite* SpriteAtlas::add_sprite(cstring name, uvec2 size, uvec2 frames)
 	{
+		if(m_sprites.size() >= m_rect_pack->m_nodes.size())
+			return nullptr;
 		m_sprites.emplace_back(name, "", size, frames);
 		Sprite& sprite = m_sprites.back();
 		this->place_image(sprite);
 		sprite.compute_frames(m_inverse_size);
-		return sprite;
+		return &sprite;
 	}
 
 	vec4 SpriteAtlas::sprite_uv(const Sprite& sprite, uint32_t frame) const

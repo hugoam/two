@@ -93,7 +93,7 @@ void ex_04_lights(Shell& app, Widget& parent, Dockbar& dockbar)
 		gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(Colour::None, Colour::White), 0U, &material);
 	}
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<size_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
 		Widget& sheet = ui::columns(*dock, carray<float, 2>{ 0.3f, 0.7f });
 

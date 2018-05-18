@@ -13,6 +13,7 @@
 
 #include <ui/Edit/TypeIn.h>
 #include <ui/Style/Skin.h>
+#include <ui/ImageAtlas.h>
 
 #include <map>
 #include <string>
@@ -296,6 +297,33 @@ namespace mud
 			this->drawImage(*inkstyle.m_overlay, padded_rect);
 		if(inkstyle.m_tile)
 			this->drawImage(*inkstyle.m_tile, rect);
+	}
+
+	void VgRenderer::drawImage(const Image& image, const vec4& rect)
+	{
+		if(image.d_atlas)
+		{
+			vec4 image_rect = { rect_offset(rect) - vec2(image.d_coord), vec2(image.d_atlas->m_image.d_size) };
+			this->drawTexture(uint16_t(image.d_atlas->m_image.d_handle), rect, image_rect);
+		}
+		else
+		{
+			this->drawTexture(uint16_t(image.d_handle), rect, rect);
+		}
+	}
+
+	void VgRenderer::drawImageStretch(const Image& image, const vec4& rect, const vec2& stretch)
+	{
+		if(image.d_atlas)
+		{
+			vec4 image_rect = { rect_offset(rect) - vec2(image.d_coord) * stretch, vec2(image.d_atlas->m_image.d_size) * stretch };
+			this->drawTexture(uint16_t(image.d_atlas->m_image.d_handle), rect, image_rect);
+		}
+		else
+		{
+			vec4 image_rect = { rect_offset(rect), vec2(image.d_size) * stretch };
+			this->drawTexture(uint16_t(image.d_handle), rect, image_rect);
+		}
 	}
 
 	void VgRenderer::drawSkinImage(const Frame& frame, int section, vec4 rect)

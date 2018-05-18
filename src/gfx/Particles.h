@@ -227,8 +227,8 @@ namespace mud
 
 		void shutdown();
 
-		Sprite& createSprite(cstring name, cstring path, uvec2 frames = uvec2(0U));
-		Sprite& createSprite(cstring name, uvec2 size, uvec2 frames, const void* data);
+		Sprite* createSprite(cstring name, cstring path, uvec2 frames = uvec2(0U));
+		Sprite* createSprite(cstring name, uvec2 size, uvec2 frames, const void* data);
 		void removeSprite(Sprite& image);
 
 		void update(float timestep);

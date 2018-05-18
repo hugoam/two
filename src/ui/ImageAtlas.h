@@ -15,6 +15,8 @@ class GuillotineBinPack;
 
 namespace mud
 {
+	struct StbRectPack;
+
 	class _refl_ MUD_UI_EXPORT ImageAtlas
 	{
 	public:
@@ -35,7 +37,8 @@ namespace mud
 		std::vector<Image*> m_images;
 
 	protected:
-		unique_ptr<GuillotineBinPack> m_rectPacker;
+		//unique_ptr<GuillotineBinPack> m_rect_pack;
+		unique_ptr<StbRectPack> m_rect_pack;
 	};
 
 	class _refl_ MUD_UI_EXPORT Sprite : public Image
@@ -59,7 +62,7 @@ namespace mud
 		SpriteAtlas(uvec2 size);
 
 		const Sprite& find_sprite(cstring name) const;
-		Sprite& add_sprite(cstring name, uvec2 size, uvec2 frames = uvec2(0U));
+		Sprite* add_sprite(cstring name, uvec2 size, uvec2 frames = uvec2(0U));
 
 		vec4 sprite_uv(const Sprite& sprite, uint32_t frame) const;
 		vec4 sprite_uv(const Sprite& sprite, float t) const;

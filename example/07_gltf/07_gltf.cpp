@@ -17,7 +17,7 @@ void ex_07_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& model_node = gfx::node(groot);
 	gfx::model(model_node, "DamagedHelmet");
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<size_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 		edit_viewer_filters(*dock, viewer);
 }
 

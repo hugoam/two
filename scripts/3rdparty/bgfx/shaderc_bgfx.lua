@@ -122,7 +122,8 @@ project "spirv-opt"
 			"/wd4127", -- warning C4127: conditional expression is constant
 			"/wd4389", -- warning C4389: '==': signed/unsigned mismatch
 			"/wd4702", -- warning C4702: unreachable code
-			"/wd4706", -- warning C4706: assignment within conditional expression
+			"/wd4706", -- warning C4706: assignment within conditional expressionwarning 
+            "/wd4800", -- warning C4800: 'spvtools::ir::Loop *const ': forcing value to bool 'true' or 'false' (performance warning)
 		}
 
 project "glslang"

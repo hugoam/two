@@ -60,8 +60,8 @@ namespace mud
 		void insert_key(float time, const Var &key, float transition = 1.f);
 		size_t key_after(float time) const;
 		size_t key_before(float time) const;
-		void sample(AnimationCursor& cursor, Var& value, bool forward = true) const;
-		void value(AnimationCursor& cursor, Var& value, bool forward = true) const;
+		void sample(AnimationCursor& cursor, Var& value) const;
+		void value(AnimationCursor& cursor, Var& value, bool forward) const;
 	};
 
 	class _refl_ MUD_GFX_EXPORT Animation

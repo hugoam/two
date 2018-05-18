@@ -19,7 +19,7 @@ namespace mud
 
 namespace ui
 {
-	Widget& dockline(Widget& parent, size_t index, Dim dim)
+	Widget& dockline(Widget& parent, uint16_t index, Dim dim)
 	{
 		if(parent.m_nodes.size() > index && parent.m_nodes[index]->m_heartbeat == parent.m_heartbeat)
 			return *parent.m_nodes[index];
@@ -27,7 +27,7 @@ namespace ui
 		grid_sheet_logic(self, dim);
 		return self;
 	}
-
+	
 	Tabber& docksection(Widget& parent)
 	{
 		if(parent.m_nodes.size() > 0 && parent.m_nodes[0]->m_heartbeat == parent.m_heartbeat)
@@ -82,7 +82,7 @@ namespace ui
 		}
 	}
 
-	Widget* dockitem(Docker& docker, cstring name, array<size_t> dockid)
+	Widget* dockitem(Docker& docker, cstring name, array<uint16_t> dockid)
 	{
 		static std::map<string, Dock> docks;
 		if(docks.find(name) == docks.end())

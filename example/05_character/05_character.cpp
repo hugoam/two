@@ -162,7 +162,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 		selected->m_rotation = rotate(selected->m_rotation, timestep * angular_speed, selected->m_angular_velocity / angular_speed);
 	}
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<size_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
 		anim_editor = true;
 		animation_edit(*dock, *animated);

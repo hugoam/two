@@ -21,7 +21,7 @@ namespace ui
 
 	MUD_UI_EXPORT DockStyles& dock_styles();
 
-	MUD_UI_EXPORT Widget& dockline(Widget& parent, size_t index, Dim dim);
+	MUD_UI_EXPORT Widget& dockline(Widget& parent, uint16_t index, Dim dim);
 	MUD_UI_EXPORT Tabber& docksection(Widget& parent);
 
 	MUD_UI_EXPORT _func_ Dockspace& dockspace(Widget& parent, Docksystem& docksystem);
@@ -29,6 +29,6 @@ namespace ui
 
 	MUD_UI_EXPORT _func_ Widget* dockitem(Widget& parent, Docksystem& docksystem, Dock& dock);
 
-	MUD_UI_EXPORT Widget* dockitem(Docker& docker, cstring name, array<size_t> dockid = {});
+	MUD_UI_EXPORT Widget* dockitem(Docker& docker, cstring name, array<uint16_t> dockid = {});
 }
 }

@@ -205,7 +205,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 		viewer.pick_point(mouse_event.m_relative, callback, ITEM_SELECTABLE);
 	}
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<size_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
 		Widget& sheet = ui::columns(*dock, carray<float, 2>{ 0.3f, 0.7f });
 

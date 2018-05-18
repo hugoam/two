@@ -24,7 +24,7 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar)
 	bool multiple_scene = false;
 
 	static size_t num_viewers = 2;
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<size_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 		num_viewers = viewport_mode(*dock);
 
 	Widget& layout = ui::layout(parent);

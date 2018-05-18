@@ -30,8 +30,8 @@ namespace mud
 
 		User m_user;
 
-		object_ptr<GfxSystem> m_gfx_system;
-		object_ptr<LuaInterpreter> m_interpreter;
+		GfxSystem m_gfx_system;
+		LuaInterpreter m_lua;
 		EditContext m_editor;
 
 		UiWindow* m_ui_window = nullptr;

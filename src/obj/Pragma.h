@@ -5,8 +5,8 @@
 #pragma once
 
 #if defined _MSC_VER
-#	pragma warning (disable : 4201) // anonymous structs are supported by all targets compilers
+#	pragma warning (disable : 4201) // anonymous structs are supported by all target compilers
 #	pragma warning (disable : 4251) // members are private, so there's no risk them being accessed by the user
-//#	pragma warning (disable : 4512) // objects cannot be copied / assigned anyway
+#	pragma warning (disable : 4577) // mud doesn't use exceptions
 #endif
 

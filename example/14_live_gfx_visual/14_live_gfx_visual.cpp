@@ -78,7 +78,7 @@ void ex_14_live_gfx_visual(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static VisualScript& script = create_visual_script();
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<size_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 		visual_script_edit(*dock, script);
 
 	Gnode& groot = viewer.m_scene->begin();

@@ -68,8 +68,6 @@ namespace mud
 
 		virtual void drawShadow(const vec4& rect, const vec4& corner, const Shadow& shadows) final;
 		//virtual void drawRect(const vec4& rect, const vec4& corners, const Paint& paint) final;
-		virtual void drawImage(const Image& image, const vec4& rect) final;
-		virtual void drawImageStretch(const Image& image, const vec4& rect, const vec2& stretch = { 1.f, 1.f }) final;
 		virtual void drawTexture(uint16_t texture, const vec4& rect, const vec4& image_rect) final;
 		virtual void drawText(const vec2& offset, const char* start, const char* end, const TextPaint& paint) final;
 

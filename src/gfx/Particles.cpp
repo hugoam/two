@@ -201,24 +201,26 @@ namespace mud
 		bgfx::destroy(s_texColor);
 	}
 
-	Sprite& ParticleSystem::createSprite(cstring name, cstring pathname, uvec2 frames)
+	Sprite* ParticleSystem::createSprite(cstring name, cstring pathname, uvec2 frames)
 	{
 		carray<cstring, 1> exts = { "" };
 		cstring root_path = m_gfx_system.locate_file(("textures/particles/" + string(pathname)).c_str(), exts);
 		string path = string(root_path) + "textures/particles/" + pathname;
 
 		bimg::ImageContainer* image = load_image(m_gfx_system.m_allocator, m_gfx_system.m_file_reader, path.c_str(), bgfx::TextureFormat::BGRA8);
-		Sprite& sprite = this->createSprite(name, uvec2(image->m_width, image->m_height), frames, image->m_data);
+		Sprite* sprite = this->createSprite(name, uvec2(image->m_width, image->m_height), frames, image->m_data);
 		bimg::imageFree(image);
 		return sprite;
 	}
 
-	Sprite& ParticleSystem::createSprite(cstring name, uvec2 size, uvec2 frames, const void* data)
+	Sprite* ParticleSystem::createSprite(cstring name, uvec2 size, uvec2 frames, const void* data)
 	{
-		Sprite& sprite = m_sprites.add_sprite(name, size, frames);
-
-		bgfx::updateTexture2D(m_texture, 0, 0, sprite.d_coord.x, sprite.d_coord.y, sprite.d_size.x, sprite.d_size.y,
-			bgfx::copy(data, size.x*size.y * 4));
+		Sprite* sprite = m_sprites.add_sprite(name, size, frames);
+		if(sprite)
+		{
+			bgfx::updateTexture2D(m_texture, 0, 0, uint16_t(sprite->d_coord.x), uint16_t(sprite->d_coord.y),
+								  uint16_t(sprite->d_size.x), uint16_t(sprite->d_size.y), bgfx::copy(data, size.x*size.y * 4));
+		}
 
 		return sprite;
 	}

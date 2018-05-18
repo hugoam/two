@@ -53,7 +53,7 @@ void ex_14_live_gfx(Shell& app, Widget& parent, Dockbar& dockbar)
 	static LuaInterpreter lua = { true };
 	static Script& script = create_script(lua);
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<size_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
 		script_edit(*dock, script);
 	}

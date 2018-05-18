@@ -53,7 +53,7 @@ namespace mud
 	void Scene::update()
 	{
 		static Clock clock;
-		float timestep = clock.step();
+		float timestep = float(clock.step());
 
 		VecPool<Animated>* animateds = m_pool->pool<Animated>().m_vec_pool.get();
 		for(; animateds; animateds = animateds->m_next.get())

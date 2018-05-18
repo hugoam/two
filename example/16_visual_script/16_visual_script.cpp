@@ -52,7 +52,7 @@ void ex_16_visual_script(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static VisualScript& script = create_script();
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<size_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 		visual_script_edit(*dock, script);
 
 	static size_t field_size = 10U;

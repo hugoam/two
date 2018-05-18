@@ -7,9 +7,6 @@
 #include <math/Axes.h>
 #include <geom/Primitive.h>
 
-#define _USE_MATH_DEFINES
-#include <math.h>
-
 namespace mud
 {
 	uint16_t circle_subdiv(uint lod) { return uint16_t(6 + 12 * lod); }

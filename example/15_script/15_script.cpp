@@ -97,7 +97,7 @@ void ex_15_script(Shell& app, Widget& parent, Dockbar& dockbar)
 	static Script script = create_script();
 	script.m_interpreter = &lua;
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<size_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
 		script_edit(*dock, script);
 	}

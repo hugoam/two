@@ -183,7 +183,7 @@ namespace mud
 
 	void AnimationPlay::update(float time, float delta, float interp)
 	{
-		UNUSED(time); UNUSED(delta); UNUSED(interp);
+		UNUSED(time); UNUSED(interp);
 		for(AnimatedTrack& track : m_tracks)
 		{
 			if(track.m_track->m_interpolation > Interpolation::Nearest)
@@ -202,7 +202,7 @@ namespace mud
 			}
 			else
 			{
-				track.m_track->value(track.m_cursor, track.m_value);
+				track.m_track->value(track.m_cursor, track.m_value, delta > 0.f);
 				track.m_track->m_member->set(track.m_target, track.m_value);
 			}
 		}

@@ -159,7 +159,7 @@ namespace mud
 	bool UiWindow::next_frame()
 	{
 		if(m_context->m_width != uint(m_width) || m_context->m_height != uint(m_height))
-			this->resize(m_context->m_width, m_context->m_height);
+			this->resize(uint16_t(m_context->m_width), uint16_t(m_context->m_height));
 
 		if(m_context->m_render_system.m_manual_render)
 		{

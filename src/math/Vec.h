@@ -31,6 +31,12 @@ namespace mud
 #else
 #ifndef MUD_META_GENERATOR
 #define GLM_ENABLE_EXPERIMENTAL
+
+#if defined _MSC_VER
+#	pragma warning (push)
+#	pragma warning (disable : 4701)
+#endif
+
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
@@ -41,6 +47,10 @@ namespace mud
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/vector_angle.hpp>
+
+#if defined _MSC_VER
+#	pragma warning (pop)
+#endif
 
 namespace mud
 {

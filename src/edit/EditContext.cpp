@@ -142,17 +142,17 @@ namespace mud
 
 		//if(Widget* dock = ui::dockitem(dockbar, "Library", { 0 }))
 		//	library_section(section, { &type<World>(), &type<Entity>() }, game.m_selection);
-		if(Widget* dock = ui::dockitem(*context.m_dockbar, "Inspect", carray<size_t, 1>{ 2U }))
+		if(Widget* dock = ui::dockitem(*context.m_dockbar, "Inspect", carray<uint16_t, 1>{ 2U }))
 			object_editor(*dock, context.m_selection);
-		if(Widget* dock = ui::dockitem(*context.m_dockbar, "Edit", carray<size_t, 1>{ 3U }))
+		if(Widget* dock = ui::dockitem(*context.m_dockbar, "Edit", carray<uint16_t, 1>{ 3U }))
 			edit_transform(*dock, context);
-		if(Widget* dock = ui::dockitem(*context.m_dockbar, "Script", carray<size_t, 1>{ 4U }))
+		if(Widget* dock = ui::dockitem(*context.m_dockbar, "Script", carray<uint16_t, 1>{ 4U }))
 			script_editor(*dock, context.m_script_editor);
-		//if(Widget* dock = ui::dockitem(*context.m_dockbar, "VisualScript", carray<size_t, 1>{ 5U }))
+		//if(Widget* dock = ui::dockitem(*context.m_dockbar, "VisualScript", carray<uint16_t, 1>{ 5U }))
 		//	visual_script_edit(self, shell.m_editor.m_script_editor);
-		if(Widget* dock = ui::dockitem(*context.m_dockbar, "Gfx", carray<size_t, 1>{ 6U }))
+		if(Widget* dock = ui::dockitem(*context.m_dockbar, "Gfx", carray<uint16_t, 1>{ 6U }))
 			edit_gfx_system(*dock, context.m_gfx_system);
-		if(Widget* dock = ui::dockitem(*context.m_dockbar, "Ui", carray<size_t, 1>{ 7U }))
+		if(Widget* dock = ui::dockitem(*context.m_dockbar, "Ui", carray<uint16_t, 1>{ 7U }))
 			ui_debug(*dock, screen);
 
 		if(context.m_spatial_tool && context.m_viewer)

@@ -31,7 +31,7 @@ namespace mud
 	void draw_shape_lines(const ProcShape& shape, const Triangle& triangle, MeshData& data)
 	{
 		triangle_vertices(shape, triangle, false, data);
-		for(int i = 0; i < 3; i++)
+		for(uint16_t i = 0; i < 3; i++)
 			data.line(i, (i + 1) % 3);
 	}
 

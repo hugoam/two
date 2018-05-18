@@ -17,7 +17,7 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 	gfx::directional_light_node(groot, sun_rotation(M_PI / 4.f, M_PI / 4.f));
 	gfx::radiance(groot, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 	
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<size_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
 		PrefabNode* node = prefab_edit(*dock, viewer.m_gfx_system, prefab); // "Particle Editor" // identity = edited
 		app.m_editor.m_selection = { &node->m_transform };

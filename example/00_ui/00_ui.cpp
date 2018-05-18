@@ -246,16 +246,16 @@ void ex_dockspace(Widget& parent)
 
 	docksystem.m_dockers = { &dockspace, &dockbar };
 
-	if(Widget* dock = ui::dockitem(dockspace, "Dock 0", carray<size_t, 2>{ 0U, 0U }))
+	if(Widget* dock = ui::dockitem(dockspace, "Dock 0", carray<uint16_t, 2>{ 0U, 0U }))
 		ex_controls(*dock);
 
-	if(Widget* dock = ui::dockitem(dockspace, "Dock 1", carray<size_t, 2>{ 0U, 1U }))
+	if(Widget* dock = ui::dockitem(dockspace, "Dock 1", carray<uint16_t, 2>{ 0U, 1U }))
 		ex_inline_controls(*dock);
 
-	if(Widget* dock = ui::dockitem(dockspace, "Dock 2", carray<size_t, 2>{ 0U, 2U }))
+	if(Widget* dock = ui::dockitem(dockspace, "Dock 2", carray<uint16_t, 2>{ 0U, 2U }))
 		ex_table(*dock);
 
-	if(Widget* dock = ui::dockitem(dockbar, "Options", carray<size_t, 1>{ 0U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Options", carray<uint16_t, 1>{ 0U }))
 		ex_controls(*dock);
 
 }
@@ -690,7 +690,7 @@ void ex_debug_dock(Widget& parent)
 	Dockbar& tooldock = ui::dockbar(parent, docksystem);
 
 	{
-		Widget* options = ui::dockitem(tooldock, "Options", carray<size_t, 1>{ 0U });
+		Widget* options = ui::dockitem(tooldock, "Options", carray<uint16_t, 1>{ 0U });
 		UNUSED(options);
 
 		//VgRenderer& renderer = *Frame::s_renderer;

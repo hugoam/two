@@ -91,7 +91,7 @@ namespace mud
 	void vgRenderer::loadImageRGBA(Image& image, const unsigned char* data)
 	{
 		if(m_null) return;
-		vg::ImageHandle vgimage = vg::createImage(m_vg, image.d_size.x, image.d_size.y, image.d_filtering ? vg::ImageFlags::Enum(0) : vg::ImageFlags::Filter_Nearest, data);
+		vg::ImageHandle vgimage = vg::createImage(m_vg, uint16_t(image.d_size.x), uint16_t(image.d_size.y), image.d_filtering ? vg::ImageFlags::Enum(0) : vg::ImageFlags::Filter_Nearest, data);
 		image.d_handle = vgimage.idx;
 	}
 
@@ -102,7 +102,7 @@ namespace mud
 		stbi_set_unpremultiply_on_load(1);
 		stbi_convert_iphone_png_to_rgb(1);
 		unsigned char* img = stbi_load(image.d_path.c_str(), &w, &h, &n, 4);
-		vg::ImageHandle vgimage = vg::createImage(m_vg, image.d_size.x, image.d_size.y, image.d_filtering ? vg::ImageFlags::Enum(0) : vg::ImageFlags::Filter_Nearest, img);
+		vg::ImageHandle vgimage = vg::createImage(m_vg, uint16_t(image.d_size.x), uint16_t(image.d_size.y), image.d_filtering ? vg::ImageFlags::Enum(0) : vg::ImageFlags::Filter_Nearest, img);
 		image.d_handle = vgimage.idx;
 		stbi_image_free(img);
 	}
@@ -122,12 +122,12 @@ namespace mud
 
 	void vgRenderer::beginFrame(UiRenderTarget& target)
 	{
-		bgfx::setViewRect(250, 0, 0, target.m_layer.m_frame.m_size.x, target.m_layer.m_frame.m_size.y);
+		bgfx::setViewRect(250, 0, 0, uint16_t(target.m_layer.m_frame.m_size.x), uint16_t(target.m_layer.m_frame.m_size.y));
 		bgfx::setViewMode(250, bgfx::ViewMode::Sequential);
 		bgfx::setViewName(250, "ui");
 
 		float pixelRatio = 1.f;
-		vg::beginFrame(m_vg, target.m_layer.m_frame.m_size.x, target.m_layer.m_frame.m_size.y, pixelRatio);
+		vg::beginFrame(m_vg, uint16_t(target.m_layer.m_frame.m_size.x), uint16_t(target.m_layer.m_frame.m_size.y), pixelRatio);
 	}
 
 	void vgRenderer::endFrame()
@@ -226,33 +226,6 @@ namespace mud
 		vg::beginPath(m_vg);
 		vg::rect(m_vg, RECT_FLOATS(rect));
 		vg::fillPath(m_vg, pattern, vg::Colors::White, vg::FillFlags::ConvexAA);
-	}
-
-	void vgRenderer::drawImage(const Image& image, const vec4& rect)
-	{
-		if(image.d_atlas)
-		{
-			vec4 imageRect = { rect_offset(rect) - vec2(image.d_coord), vec2(image.d_atlas->m_image.d_size) };
-			this->drawTexture(image.d_atlas->m_image.d_handle, rect, imageRect);
-		}
-		else
-		{
-			this->drawTexture(image.d_handle, rect, rect);
-		}
-	}
-
-	void vgRenderer::drawImageStretch(const Image& image, const vec4& rect, const vec2& stretch)
-	{
-		if(image.d_atlas)
-		{
-			vec4 imageRect = { rect_offset(rect) - vec2(image.d_coord) * stretch, vec2(image.d_atlas->m_image.d_size) * stretch };
-			this->drawTexture(image.d_atlas->m_image.d_handle, rect, imageRect);
-		}
-		else
-		{
-			vec4 imageRect = { rect_offset(rect), vec2(image.d_size) * stretch };
-			this->drawTexture(image.d_handle, rect, imageRect);
-		}
 	}
 
 	void vgRenderer::drawColorWheel(const vec2& center, float r0, float r1)

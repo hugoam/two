@@ -368,8 +368,8 @@ namespace mud
 		vector_remove_pt(m_processes, process);
 
 		size_t index = 0;
-		for(auto& process : m_processes)
-			process->m_index = index++;
+		for(auto& element : m_processes)
+			element->m_index = index++;
 	}
 
 	void VisualScript::lock()

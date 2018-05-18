@@ -68,7 +68,7 @@ void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	tileblock.next_frame(tick, 1);
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<size_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 		tileblock_options(*dock, tileblock);
 }
 

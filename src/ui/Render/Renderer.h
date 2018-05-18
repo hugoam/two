@@ -47,6 +47,8 @@ namespace mud
 		void drawContent(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
 		void drawBackground(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
 		void drawRect(const vec4& rect, const vec4& corners, const InkStyle& inkstyle);
+		void drawImage(const Image& image, const vec4& rect);
+		void drawImageStretch(const Image& image, const vec4& rect, const vec2& stretch = { 1.f, 1.f });
 		void drawSkinImage(const Frame& frame, int section, vec4 rect);
 
 		void logFPS();
@@ -102,11 +104,8 @@ namespace mud
 		virtual void strokeGradient(const Gradient& paint, float width, const vec2& start, const vec2& end) = 0;
 
 		virtual void drawShadow(const vec4& rect, const vec4& corner, const Shadow& shadows) = 0;
-		virtual void drawText(const vec2& offset, const char* start, const char* end, const TextPaint& paint) = 0;
-
-		virtual void drawImage(const Image& image, const vec4& rect) = 0;
-		virtual void drawImageStretch(const Image& image, const vec4& rect, const vec2& stretch = { 1.f, 1.f }) = 0;
 		virtual void drawTexture(uint16_t texture, const vec4& rect, const vec4& image_rect) = 0;
+		virtual void drawText(const vec2& offset, const char* start, const char* end, const TextPaint& paint) = 0;
 
 		virtual void drawColorWheel(const vec2& center, float r0, float r1) = 0;
 		virtual void drawColorTriangle(const vec2& center, float r0, float hue, float s, float l) = 0;

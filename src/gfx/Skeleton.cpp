@@ -54,7 +54,7 @@ namespace mud
 		if(num_joints % SKELETON_TEXTURE_SIZE)
 			height++;
 
-		m_texture = bgfx::createTexture2D(SKELETON_TEXTURE_SIZE, height * 4, false, 1, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP);
+		m_texture = bgfx::createTexture2D(SKELETON_TEXTURE_SIZE, uint16_t(height * 4), false, 1, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP);
 		m_texture_data.resize(SKELETON_TEXTURE_SIZE * height * 4 * 4);
 	}
 
@@ -99,7 +99,7 @@ namespace mud
 		}
 
 		const bgfx::Memory* mem = bgfx::makeRef(m_texture_data.data(), sizeof(float) * m_texture_data.size());
-		bgfx::updateTexture2D(m_texture, 0, 0, 0, 0, SKELETON_TEXTURE_SIZE, height * 4, mem);
+		bgfx::updateTexture2D(m_texture, 0, 0, 0, 0, SKELETON_TEXTURE_SIZE, uint16_t(height * 4), mem);
 	}
 
 	Rig::Rig()

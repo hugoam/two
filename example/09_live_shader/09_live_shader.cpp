@@ -80,7 +80,7 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 	//gfx::manual_job(groot, PassType::Background, draw_quad);
 	gfx::manual_job(groot, PassType::Opaque, draw_quad);
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<size_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
 		ActionList actions = { { "Reload", [&] { program.reload(); } } };
 		Section& edit = section(*dock, "Shader Editor", actions);

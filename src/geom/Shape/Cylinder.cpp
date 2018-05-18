@@ -7,9 +7,6 @@
 #include <geom/Shape/Circle.h>
 #include <geom/Primitive.h>
 
-#define _USE_MATH_DEFINES
-#include <math.h>
-
 namespace mud
 {
 	ShapeSize size_shape_lines(const ProcShape& shape, const Cylinder& cylinder)

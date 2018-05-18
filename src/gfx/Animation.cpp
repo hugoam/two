@@ -42,7 +42,7 @@ namespace mud
 		return key_after(time) - 1;
 	}
 
-	void AnimationTrack::sample(AnimationCursor& cursor, Var& value, bool forward) const
+	void AnimationTrack::sample(AnimationCursor& cursor, Var& value) const
 	{
 		assert(m_keys.size() > 0);
 

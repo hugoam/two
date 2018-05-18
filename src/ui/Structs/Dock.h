@@ -15,10 +15,10 @@ namespace mud
 	struct _refl_ MUD_UI_EXPORT Dock
 	{
 		Dock();
-		Dock(Docker& docker, cstring name, std::vector<size_t> dockid);
+		Dock(Docker& docker, cstring name, std::vector<uint16_t> dockid);
 		Docker* m_docker = nullptr;
 		cstring m_name;
-		std::vector<size_t> m_dockid;
+		std::vector<uint16_t> m_dockid;
 	};
 	
 	class _refl_ MUD_UI_EXPORT Dockable : public Widget

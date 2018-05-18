@@ -25,6 +25,7 @@ namespace mud
 	string exec_path(int argc, char *argv[])
 	{
 #ifdef _WIN32
+		UNUSED(argc);
 		string exec_path = argv[0];
 		string exec_dir(exec_path.begin(), exec_path.begin() + exec_path.rfind('\\'));
 #else
@@ -37,8 +38,9 @@ namespace mud
     Shell::Shell(array<cstring> resource_paths, int argc, char *argv[])
         : m_exec_path(exec_path(argc, argv))
 		, m_resource_path(resource_paths[0])
-		, m_gfx_system(make_object<GfxSystem>(resource_paths))
-		, m_editor(*m_gfx_system)
+		, m_gfx_system(resource_paths)
+		, m_lua()
+		, m_editor(m_gfx_system)
 	{
 		System::instance().load_modules({ &mudobj::module(), &mudmath::module(), &mudgeom::module(), &mudgen::module(), &mudlang::module() });
 		System::instance().load_modules({ &mudui::module(), &mudgfx::module() });
@@ -46,8 +48,7 @@ namespace mud
 		// @todo this should be automatically done by math module
 		register_math_conversions();
 
-		m_interpreter = make_object<LuaInterpreter>();
-		m_editor.m_script_editor.m_interpreter = m_interpreter.get();
+		m_editor.m_script_editor.m_interpreter = &m_lua;
 
 		declare_gfx_edit();
 
@@ -74,12 +75,12 @@ namespace mud
 	bool Shell::pump()
 	{
 		m_pump(*this);
-		return m_gfx_system->next_frame();
+		return m_gfx_system.next_frame();
 	}
 
 	void Shell::init()
 	{
-		m_ui_window = &m_gfx_system->create_window("mud EditorCore", 1600, 900, false);
+		m_ui_window = &m_gfx_system.create_window("mud EditorCore", 1600, 900, false);
 		m_ui = m_ui_window->m_root_sheet.get();
 
 		string stylesheet = "minimal.yml";

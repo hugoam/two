@@ -63,8 +63,7 @@ namespace mud
 
 		virtual void drawShadow(const vec4& rect, const vec4& corner, const Shadow& shadows) final;
 		//virtual void drawRect(const vec4& rect, const vec4& corners, const Paint& paint) final;
-		virtual void drawImage(const Image& image, const vec4& rect) final;
-		virtual void drawImageStretch(const Image& image, const vec4& rect, const vec2& stretch = { 1.f, 1.f }) final;
+		virtual void drawTexture(uint16_t texture, const vec4& rect, const vec4& image_rect) final;
 		virtual void drawText(const vec2& offset, const char* start, const char* end, const TextPaint& paint) final;
 
 		virtual void drawColorWheel(const vec2& center, float r0, float r1) final;
@@ -82,15 +81,13 @@ namespace mud
 
 		virtual void breakNextRow(const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row) final;
 		virtual void breakGlyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow) final;
-
+		
 		virtual float lineHeight(const TextPaint& paint) final;
 		virtual float textSize(cstring text, size_t len, Dim dim, const TextPaint& paint) final;
 		virtual vec2 textSize(cstring text, size_t len, const TextPaint& paint) final;
 
 	private:
 		void setupText(const TextPaint& paint);
-
-		void drawImage(uint16_t image, const vec4& rect, const vec4& imageRect);
 
 	protected:
 		NVGcontext* m_ctx;

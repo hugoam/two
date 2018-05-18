@@ -30,7 +30,7 @@ namespace mud
 				.colour(shape.m_symbol.m_outline);
 
 		for(const IcoSphere::Line& line : icosphere.m_lines)
-			data.line(line[0], line[1]);
+			data.line(ShapeIndex(line[0]), ShapeIndex(line[1]));
 	}
 
 	ShapeSize size_icosphere_triangles(const ProcShape& shape, const Sphere& sphere)
@@ -51,7 +51,7 @@ namespace mud
 				.colour(shape.m_symbol.m_fill);
 
 		for(IcoSphere::Face& face : icosphere.m_faces)
-			data.tri(face[0], face[1], face[2]);
+			data.tri(ShapeIndex(face[0]), ShapeIndex(face[1]), ShapeIndex(face[2]));
 	}
 
 	uint16_t sphere_rings(uint lod) { return uint16_t(6 + 6 * lod); }
@@ -92,7 +92,7 @@ namespace mud
 
 		sphere_vertices(sphere.m_radius, rings, sectors, shape.m_symbol.m_outline, data);
 
-		for(int r = 0; r < rings - 1; r++) for(int s = 0; s < sectors - 1; s++)
+		for(uint16_t r = 0; r < rings - 1; r++) for(uint16_t s = 0; s < sectors - 1; s++)
 		{
 			data.line(r * sectors + (s + 1),
 					  r * sectors + s);
@@ -117,7 +117,7 @@ namespace mud
 
 		sphere_vertices(sphere.m_radius, rings, sectors, shape.m_symbol.m_fill, data);
 
-		for(int r = 0; r < rings - 1; r++) for(int s = 0; s < sectors - 1; s++)
+		for(uint16_t r = 0; r < rings - 1; r++) for(uint16_t s = 0; s < sectors - 1; s++)
 		{
 			data.quad((r + 1) * sectors + s,
 					  (r + 1) * sectors + (s + 1),

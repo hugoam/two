@@ -143,7 +143,7 @@ namespace mud
 
 		if(query && query.m_readback_ready == UINT32_MAX)
 		{
-			bgfx::blit(Render::s_blit_picking_pass_id, m_readback_texture, 0, 0, m_fbo_texture, 0, 0, rect_w(query.m_rect), rect_h(query.m_rect));
+			bgfx::blit(Render::s_blit_picking_pass_id, m_readback_texture, 0, 0, m_fbo_texture, 0, 0, uint16_t(rect_w(query.m_rect)), uint16_t(rect_h(query.m_rect)));
 			query.m_readback_ready = bgfx::readTexture(m_readback_texture, m_data.data());
 		}
 	}

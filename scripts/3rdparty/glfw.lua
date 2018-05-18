@@ -28,6 +28,26 @@ project "glfw"
         
         defines { "_GLFW_WIN32" }
         
+        buildoptions {
+            "/wd4204", -- warning C4204: nonstandard extension used: non-constant aggregate initializer
+            "/wd4152", -- warning C4152: nonstandard extension, function/data pointer conversion in expression
+            "/wd4244", -- warning C4244: '=': conversion from 'int' to 'short', possible loss of data
+            "/wd4456", -- warning C4456: declaration of 'js' hides previous local declaration
+            "/wd4457", -- warning C4457: declaration of 'width' hides function parameter
+            "/wd4100", -- warning C4100: 'handle': unreferenced formal parameter
+        }
+        
+    configuration { "mingw* or linux or osx or asmjs" }
+        buildoptions {
+            "-Wno-sign-compare",
+            "-Wno-missing-field-initializers",
+        }
+        
+    configuration { "clang" }
+        buildoptions {
+            "-Wno-deprecated-declarations",
+        }
+        
     configuration { "linux" }
         files {
             path.join(MUD_3RDPARTY_DIR, "glfw/src/linux_joystick.c"),
