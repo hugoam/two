@@ -103,10 +103,10 @@ namespace mud
 		inline size_t y(size_t index) { return index % (m_x*m_y) / m_x; }
 		inline size_t z(size_t index) { return index / (m_x*m_y); }
 
-		bool border(size_t index, Side direction) { return !m_dims[direction].hasNeighbour(index); }
+		bool border(size_t index, Side direction) { return !m_dims[size_t(direction)].hasNeighbour(index); }
 
-		size_t neighbourMod(size_t index, Side direction) { return m_dims[direction].modNeighbour(index); }
-		size_t neighbour(size_t index, Side direction) { return m_dims[direction].neighbour(index); }
+		size_t neighbourMod(size_t index, Side direction) { return m_dims[size_t(direction)].modNeighbour(index); }
+		size_t neighbour(size_t index, Side direction) { return m_dims[size_t(direction)].neighbour(index); }
 
 		T& neighbourItem(size_t index, Side direction) { return T_Array::at(neighbour(index, direction)); }
 
