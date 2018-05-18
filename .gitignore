@@ -1,2 +1,4 @@
 *.pyc
 build/
+data/shaders/compiled
+!placeholder.txt

@@ -49,13 +49,13 @@ project "glfw"
         defines { "_GLFW_X11" }
       
     --configuration { "wayland" }
-        files {
-            path.join(MUD_3RDPARTY_DIR, "glfw/src/wl_init.c"),
-            path.join(MUD_3RDPARTY_DIR, "glfw/src/wl_monitor.c"),
-            path.join(MUD_3RDPARTY_DIR, "glfw/src/wl_window.c"),
-            path.join(MUD_3RDPARTY_DIR, "glfw/src/wayland-pointer-constraints-unstable-v1-client-protocol.c"),
-            path.join(MUD_3RDPARTY_DIR, "glfw/src/wayland-relative-pointer-unstable-v1-client-protocol.c"),
-        }
+        --files {
+        --    path.join(MUD_3RDPARTY_DIR, "glfw/src/wl_init.c"),
+        --    path.join(MUD_3RDPARTY_DIR, "glfw/src/wl_monitor.c"),
+        --    path.join(MUD_3RDPARTY_DIR, "glfw/src/wl_window.c"),
+        --    path.join(MUD_3RDPARTY_DIR, "glfw/src/wayland-pointer-constraints-unstable-v1-client-protocol.c"),
+        --    path.join(MUD_3RDPARTY_DIR, "glfw/src/wayland-relative-pointer-unstable-v1-client-protocol.c"),
+        --}
         
     --configuration { __FreeBSD__ || __OpenBSD__ ||  __NetBSD__ }
         --files {
