@@ -289,7 +289,7 @@ namespace mud
 
 	void assign_pointer(Ref first, Ref second)
 	{
-
+		UNUSED(first); UNUSED(second);
 	}
 
 	string to_name(Type& type, Ref value)
@@ -350,6 +350,7 @@ namespace mud
 
 	bool is_related(Type& input, Type& output)
 	{
+		UNUSED(input); UNUSED(output);
 		return false;
 	}
 	

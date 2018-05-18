@@ -9,6 +9,7 @@
 #include <obj/Indexer.h>
 #include <obj/Reflect/Meta.h>
 
+#include <string.h>
 #include <stdio.h>
 
 namespace mud

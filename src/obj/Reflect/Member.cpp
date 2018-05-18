@@ -20,10 +20,10 @@ namespace mud
 		: m_index(0)
 		, m_object_type(&object_type)
 		, m_address(address)
-		, m_name(name)
 		, m_type(&type)
-		, m_flags(flags)
+		, m_name(name)
 		, m_default_value(default_value)
+		, m_flags(flags)
 	{
 		m_offset = *reinterpret_cast<size_t*>(m_address.value);
 	}
