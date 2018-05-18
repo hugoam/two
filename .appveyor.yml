@@ -1,3 +1,5 @@
+shallow_clone: true
+
 os:
   - Visual Studio 2017
 
@@ -11,6 +13,7 @@ configuration:
   - Release
 
 install:
+  - git submodule update --init
   - bin\genie --sound %TOOLSET%
 
 build:
