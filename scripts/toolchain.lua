@@ -60,6 +60,7 @@ function toolchain(_buildDir, _libDir)
 			{ "linux-gcc-6",     "Linux (GCC-6 compiler)"     },
 			{ "linux-clang",     "Linux (Clang compiler)"     },
 			{ "linux-clang-afl", "Linux (Clang + AFL fuzzer)" },
+			{ "linux-clang-3.7", "Linux (Clang 3.7 compiler)" },
 			{ "linux-mips-gcc",  "Linux (MIPS, GCC compiler)" },
 			{ "linux-arm-gcc",   "Linux (ARM, GCC compiler)"  },
 			{ "ios-arm",         "iOS - ARM"                  },
