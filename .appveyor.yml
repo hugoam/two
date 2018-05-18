@@ -12,7 +12,7 @@ configuration:
 
 install:
   - git submodule update --init
-  - bin\genie --sound %TOOLSET%
+  - bin\genie %TOOLSET%
 
 build:
   project: build/projects/$(TOOLSET)/mud.sln
