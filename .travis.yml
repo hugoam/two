@@ -30,6 +30,7 @@ before_script:
   - cmake .. -DBUILD_SHARED_LIBS=ON
   - make VERBOSE=1
   - sudo make install
+  - ln -s /usr/local/lib/libglfw.so /usr/local/lib/libglfw3.so
   - cd ../..
   
 script:
