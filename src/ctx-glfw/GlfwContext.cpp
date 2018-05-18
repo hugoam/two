@@ -260,11 +260,6 @@ namespace mud
 		//glfwSetInputMode(m_glWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	}
 
-	void GlfwContext::reset(size_t width, size_t height)
-	{
-		UNUSED(width); UNUSED(height);
-	}
-
 	void GlfwContext::inject_mouse_move(double x, double y)
 	{
 		vec2 size = { float(m_width), float(m_height) };

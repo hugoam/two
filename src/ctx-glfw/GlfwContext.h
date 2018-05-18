@@ -28,8 +28,6 @@ namespace mud
 
 		virtual bool next_frame() final;
 
-		virtual void reset(size_t width, size_t height) final;
-
 		void inject_mouse_move(double x, double y);
 		void inject_mouse_button(int button, int action, int mods);
 		void inject_key(int key, int scancode, int action, int mods);

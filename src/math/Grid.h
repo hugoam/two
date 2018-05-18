@@ -71,7 +71,7 @@ namespace mud
 			Dim neg_y = { -int(m_x*m_y), 0, -int(m_x), m_sq, m_x };
 			Dim pos_z = { int(m_x*m_y*m_z), m_z - 1, +int(m_sq), SIZE_MAX, m_sq };
 			Dim neg_z = { -int(m_x*m_y*m_z), 0, -int(m_sq), SIZE_MAX, m_sq };
-			return { pos_x, neg_x, pos_y, neg_y, pos_z, neg_z };
+			return { { pos_x, neg_x, pos_y, neg_y, pos_z, neg_z } };
 		}
 
 		void clear(T val)

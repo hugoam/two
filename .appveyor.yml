@@ -16,3 +16,4 @@ install:
 
 build:
   project: build/projects/$(TOOLSET)/mud.sln
+  verbosity: normal
