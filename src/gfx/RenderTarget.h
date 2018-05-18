@@ -8,7 +8,7 @@
 #include <gfx/Generated/Forward.h>
 #include <gfx/Viewport.h>
 
-#if MUD_UNIFORM_BLOCKS
+#ifdef MUD_UNIFORM_BLOCKS
 #include <gfx/Uniform.h>
 #endif
 
@@ -18,7 +18,7 @@
 
 namespace mud
 {
-#if MUD_UNIFORM_BLOCKS
+#ifdef MUD_UNIFORM_BLOCKS
 	struct _refl_ MUD_GFX_EXPORT RenderBlock
 	{
 		_attr_ vec2 m_render_size;
@@ -38,7 +38,7 @@ namespace mud
 
 		uvec2 m_size;
 
-#if MUD_UNIFORM_BLOCKS
+#ifdef MUD_UNIFORM_BLOCKS
 		RenderBlock m_render_block;
 #endif
 
