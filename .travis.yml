@@ -20,8 +20,8 @@ compiler:
   - clang
 
 install:
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5" COMPILER="gcc"; fi
-  - if [ "$CXX" = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7" COMPILER="clang"; fi
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5" COMPILER="gcc" GMAKE_FOLDER="gmake-linux"; fi
+  - if [ "$CXX" = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7" COMPILER="clang" GMAKE_FOLDER="gmake-linux-clang"; fi
 
 before_script:
   - git clone https://github.com/glfw/glfw
@@ -34,7 +34,7 @@ before_script:
   
 script:
   - bin/genie --gcc=linux-$CC gmake
-  - cd build/projects/gmake-linux
+  - cd build/projects/$GMAKE_FOLDER
   - make config=debug64 -j8
 
 os:
