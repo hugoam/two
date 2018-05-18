@@ -6,10 +6,10 @@
 
 #include <ui/Generated/Forward.h>
 
-#if MUD_PLATFORM_EMSCRIPTEN
+#if defined MUD_PLATFORM_EMSCRIPTEN
 #define MUD_WASM_EXPORT MUD_BGFX_EXPORT
 #include <ctx-wasm/EmscriptenContext.h>
-#elif MUD_CONTEXT_WINDOWS
+#elif defined MUD_CONTEXT_WINDOWS
 #define MUD_WIN_EXPORT MUD_BGFX_EXPORT
 #include <ctx-win/WindowsContext.h>
 #else
@@ -27,9 +27,9 @@ namespace mud
 {
 	class BgfxSystem;
 
-#if MUD_PLATFORM_EMSCRIPTEN
+#if defined MUD_PLATFORM_EMSCRIPTEN
 	class MUD_BGFX_EXPORT BgfxContext : public EmContext
-#elif MUD_CONTEXT_WINDOWS
+#elif defined MUD_CONTEXT_WINDOWS
 	class MUD_BGFX_EXPORT BgfxContext : public WinContext
 #else
 	class MUD_BGFX_EXPORT BgfxContext : public GlfwContext

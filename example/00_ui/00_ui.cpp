@@ -790,13 +790,13 @@ void example_ui(Widget& root_sheet)
 
 	ui::label(header, "Pick a demo sample : ");
 
-	static SampleId sample = SampleId::Application;
-	if(ui::dropdown_input(header, sample_names, (size_t&)sample))
+	static SampleId selected = SampleId::Application;
+	if(ui::dropdown_input(header, sample_names, (size_t&)selected))
 	{
-		if(sample < SampleId::Window && sample != active_board_sample)
-			active_board_sample = sample;
-		else if(sample >= SampleId::Window)
-			active_window_samples.push_back(sample);
+		if(selected < SampleId::Window && selected != active_board_sample)
+			active_board_sample = selected;
+		else if(selected >= SampleId::Window)
+			active_window_samples.push_back(selected);
 	}
 
 	ui::label(header, "Switch theme : ");
