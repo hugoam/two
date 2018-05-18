@@ -1,4 +1,4 @@
--- toy engine
+-- mud library
 -- ogre library
 
 os.mkdir(path.join(BUILD_DIR, "ogre"))

@@ -21,7 +21,6 @@ project "mud_example"
     
     includedirs {
         path.join(MUD_DIR, "example"),
-        path.join(TOY_DIR, "src"),
     }
     
 	files {
@@ -29,7 +28,7 @@ project "mud_example"
         path.join(MUD_DIR, "example", "**.cpp"),
 	}
     
-    defines { "TOY_VG_RENDERER" }
+    defines { "MUD_VG_RENDERER" }
     defines { "_00_UI_LIB", "_00_TUTORIAL_LIB", "_15_SCRIPT_LIB" }
     
     uses_mud_gfx()

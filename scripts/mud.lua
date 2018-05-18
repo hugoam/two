@@ -64,8 +64,8 @@ else
         
         configuration { "sound" }
             includedirs {
-                path.join(TOY_3RDPARTY_DIR, "vorbis", "include"),
-                path.join(TOY_3RDPARTY_DIR, "ogg", "include"),
+                path.join(MUD_3RDPARTY_DIR, "vorbis", "include"),
+                path.join(MUD_3RDPARTY_DIR, "ogg", "include"),
             }
 
             mud_module("snd", MUD_SRC_DIR, "snd", "MUD_SND")

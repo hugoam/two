@@ -115,7 +115,7 @@ newoption {
 
 newoption {
     trigger = "sound",
-    description = "Build toy engine with Sound.",
+    description = "Build mud library with Sound.",
 }
 
 newoption {
@@ -257,7 +257,7 @@ configuration {}
 
 MUD_NANOVG_DIR = path.join(MUD_3RDPARTY_DIR, "nanovg-layers")
 
---defines { "TOYUI_DRAW_CACHE" }
+--defines { "MUD_UI_DRAW_CACHE" }
 
 function copyLib()
 end
