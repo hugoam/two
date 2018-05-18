@@ -33,7 +33,7 @@ before_script:
   - cd ../..
   
 script:
-  - bin/genie --gcc=linux-$COMPILER gmake
+  - bin/genie --gcc=linux-$CC gmake
   - cd build/projects/gmake-linux
   - make config=debug64 -j8
 
