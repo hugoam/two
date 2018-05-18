@@ -3,16 +3,11 @@ language: cpp
 addons:
   apt:
     sources:
-      - llvm-toolchain-precise-3.7
       - ubuntu-toolchain-r-test
-      - george-edison55-precise-backports
     packages:
       - clang-3.7
       - g++-5
       - gcc-5
-      - cmake
-      - cmake-data
-      - libglew-dev
       - xorg-dev
             
 compiler:
@@ -26,7 +21,7 @@ install:
 script:
   - bin/genie --gcc=linux-$CC gmake
   - cd build/projects/$GMAKE_FOLDER
-  - make config=debug64 -j8
+  - make config=debug64
 
 os:
   - linux
