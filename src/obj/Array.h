@@ -13,17 +13,17 @@ namespace mud
 {
 	using cstring = const char*;
 
-	template <class T, size_t size>
+	template <class T, size_t Size>
 	struct carray
 	{
 		template <class... T_Args>
 		carray(T_Args... args) : m_array{ args... } {}
-		T m_array[size];
-		size_t size() { return size; }
+		T m_array[Size];
+		size_t size() { return Size; }
 		T* data() { return m_array; }
 		T& operator[](size_t at) { return m_array[at]; }
 		const T& operator[](size_t at) const { return m_array[at]; }
-		operator array<T>() { return{ m_array, size }; }
+		operator array<T>() { return{ m_array, Size }; }
 	};
 
 	template <class... T_Args, size_t size = sizeof...(T_Args)>
