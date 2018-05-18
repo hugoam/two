@@ -18,8 +18,8 @@ namespace mud
 	public:
 		IcoSphere(int recursionLevel);
 
-		typedef std::array<int, 2> Line;
-		typedef std::array<int, 3> Face;
+		using Line = ivec2;
+		using Face = ivec3;
 
 		std::vector<vec3> m_vertices;
 		std::vector<Line> m_lines;
