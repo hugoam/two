@@ -15,7 +15,7 @@
 
 namespace mud
 {
-#if MUD_UNIFORM_BLOCKS
+#if defined MUD_UNIFORM_BLOCKS
 	TypedUniformBlock<RenderBlock> RenderBlock::s_block = { "render" };
 #endif
 
@@ -26,7 +26,7 @@ namespace mud
 	{
 		m_fbo = BGFX_INVALID_HANDLE;
 
-#if MUD_UNIFORM_BLOCKS
+#if defined MUD_UNIFORM_BLOCKS
 		m_render_block.m_render_size = vec2(m_size);
 		m_render_block.m_pixel_size = 1.0f / vec2(m_size);
 #endif

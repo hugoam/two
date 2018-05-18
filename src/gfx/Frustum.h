@@ -8,13 +8,13 @@
 #include <geom/Geom.h>
 #include <gfx/Generated/Forward.h>
 
-#if MUD_UNIFORM_BLOCKS
+#if defined MUD_UNIFORM_BLOCKS
 #include <gfx/Uniform.h>
 #endif
 
 namespace mud
 {
-#if MUD_UNIFORM_BLOCKS
+#if defined MUD_UNIFORM_BLOCKS
 	struct _refl_ MUD_GFX_EXPORT FrustumBlock
 	{
 		_attr_ float m_fov = 60.f;

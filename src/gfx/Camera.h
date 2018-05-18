@@ -33,7 +33,7 @@ namespace mud
 		_attr_ mat4 m_transform;
 		_attr_ mat4 m_projection;
 
-#if MUD_UNIFORM_BLOCKS
+#if defined MUD_UNIFORM_BLOCKS
 		_attr_ FrustumBlock m_frustum;
 #endif
 		_attr_ _mut_ float m_fov = 60.f;
