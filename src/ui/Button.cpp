@@ -13,6 +13,8 @@
 #include <ui/ScrollSheet.h>
 #include <ui/UiWindow.h>
 
+#include <string.h>
+
 namespace mud
 {
 namespace ui
