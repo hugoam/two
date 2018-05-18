@@ -1,4 +1,4 @@
-# mud
+# [mud](https://github.com/hugoam/mud)
 
 [![Build Status](https://travis-ci.org/hugoam/mud.svg?branch=master)](https://travis-ci.org/hugoam/mud)
 [![Build status](https://ci.appveyor.com/api/projects/status/4a77n3scl71ybcgj?svg=true)](https://ci.appveyor.com/project/hugoam/mud)
