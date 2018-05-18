@@ -42,7 +42,7 @@ namespace mud
 	Widget& structure_node_widget(Widget& parent, Ref object, std::vector<Ref>& selection)
 	{
 		carray<string, 2> elements = { object_icon(object), object_name(object) };
-		TreeNode& self = ui::tree_node(parent, elements, false, false);
+		TreeNode& self = ui::tree_node(parent, carray<cstring, 2>{ elements[0].c_str(), elements[1].c_str() }, false, false);
 		self.setState(SELECTED, vector_has(selection, object));
 		if(self.m_header->activated())
 			vector_select(selection, object);
