@@ -65,12 +65,9 @@ namespace mud
 		Widget& self = *ui::scroll_sheet(*window.m_body).m_body;
 		Ref selected = object_selector(self, indexer(type));
 		bool closed = !window.m_body || ui::button(self, "Done").activated();
+        UNUSED(closed);
 		//if(closed || selected)
 		//	self.close();
 		return selected;
-
-		//bool done = modal_dialog(parent, "Select " + type.m_name);
-		//return done ? selected : Ref{};
-		//return selected;
 	}
 }

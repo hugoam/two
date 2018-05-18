@@ -205,7 +205,7 @@ namespace
 	};
 }
 
-	void free_orbit_control_key(Viewer& viewer, OrbitController& controller, vec3& speed, const KeyMove& move)
+	void free_orbit_control_key(Viewer& viewer, vec3& speed, const KeyMove& move)
 	{
 		if(viewer.key_event(move.key, EventType::Pressed))
 			speed += move.velocity;
@@ -230,13 +230,10 @@ namespace
 		};
 
 		for(const KeyMove& key_move : moves)
-			free_orbit_control_key(viewer, controller, controller.m_speed, key_move);
+			free_orbit_control_key(viewer, controller.m_speed, key_move);
 
 		vec3 velocity = rotate(quat(vec3{ controller.m_pitch, controller.m_yaw, 0.f }), controller.m_speed);
 		controller.m_position += velocity;
-
-		if(controller.m_speed != Zero3)
-			int i = 0;
 
 		return controller;
 	}

@@ -20,3 +20,4 @@ BUILD_DIR = path.join(path.getabsolute(".."), "build")
 dofile "toolchain_mud.lua"
 
 dofile "mud.lua"
+dofile "mud_example.lua"

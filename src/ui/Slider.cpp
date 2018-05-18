@@ -69,6 +69,7 @@ namespace ui
 
 	bool slider_logic(Widget& self, Frame& slider, Frame& filler, Frame& knob, float& value, const SliderMetrics& metrics, Dim dim, bool relative)
 	{
+        UNUSED(filler);
 		bool changed = false;
 
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))

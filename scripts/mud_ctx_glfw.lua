@@ -13,5 +13,5 @@ project "mud_ctx_glfw"
     
 --usage "mud_ctx_glfw"
     links {
-        "glfw3",
+        "glfw",
     }

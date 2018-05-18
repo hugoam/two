@@ -19,6 +19,8 @@ namespace mud
 		template <class... T_Args>
 		carray(T_Args... args) : m_array{ args... } {}
 		T m_array[size];
+		size_t size() { return size; }
+		T* data() { return m_array; }
 		T& operator[](size_t at) { return m_array[at]; }
 		const T& operator[](size_t at) const { return m_array[at]; }
 		operator array<T>() { return{ m_array, size }; }

@@ -216,12 +216,6 @@ namespace mud
 
 		this->execution_flow();
 
-		for(Valve* output : m_outputs)
-		{
-			//output->m_stream.copy(m_execution_flow);
-			//output->m_stream.compute();
-		}
-
 		m_execution_flow.visit(true, [this](StreamBranch& branch) {
 			this->process_branch({ branch.m_index, m_execution_flow.m_topology });
 		});

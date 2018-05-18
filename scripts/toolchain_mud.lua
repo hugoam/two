@@ -265,21 +265,3 @@ MUD_NANOVG_DIR = path.join(MUD_3RDPARTY_DIR, "nanovg-layers")
 
 function copyLib()
 end
-
-
-configuration { "windows"}
-    libdirs {   
-        "C:/Program Files (x86)/GLFW/lib",
-        "C:/Program Files/GLFW/lib",
-        "C:/Program Files (x86)/GLEW/lib/Release/Win32",
-        "C:/Program Files/GLEW/lib/Release/Win32",
-    }
-    
-    includedirs {   
-        "C:/Program Files (x86)/GLFW/include",
-        "C:/Program Files/GLFW/include",
-        "C:/Program Files (x86)/GLEW/include",
-        "C:/Program Files/GLEW/include",
-    }
-    
-configuration {}

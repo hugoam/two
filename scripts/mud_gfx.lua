@@ -106,7 +106,7 @@ project "mud_gfx"
     
     configuration { "not asmjs" }
         links {
-            "glfw3",
+            "glfw",
         }
         
     configuration {}

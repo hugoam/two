@@ -186,6 +186,7 @@ namespace mud
 
 	bool script_process(Canvas& canvas, VisualScript& script, Process& process)
 	{
+        UNUSED(script);
 		bool destroy = false;
 
 		Node& node = ui::node(canvas, carray<cstring, 1>{ process.m_title.c_str() }, &process.m_position[0], process.m_order, &process);
@@ -194,10 +195,12 @@ namespace mud
 		if(ui::button(*node.m_header, "X").activated())
 			destroy = true;
 
+#if 0
 		if(Widget* context = ui::context(node, (1 << 0), ui::PopupModal))
 		{
 
 		}
+#endif
 
 		if(process.m_in_flow)
 			process_valve(process.m_script, canvas, node, *process.m_in_flow);

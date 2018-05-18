@@ -2,6 +2,7 @@
 
 group "3rdparty"
 dofile(path.join(MUD_DIR, "scripts/3rdparty/lua.lua"))
+dofile(path.join(MUD_DIR, "scripts/3rdparty/glfw.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/bgfx/bgfx.lua"))
 
 group "lib"
@@ -114,7 +115,7 @@ function mud_binary(name)
    
     configuration { "not asmjs" }
         links {
-            "glfw3",
+            "glfw",
         }
     
     configuration { "asmjs" }

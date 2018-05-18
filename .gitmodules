@@ -48,3 +48,6 @@
 [submodule "3rdparty/ogg"]
 	path = 3rdparty/ogg
 	url = https://github.com/xiph/ogg
+[submodule "3rdparty/glfw"]
+	path = 3rdparty/glfw
+	url = https://github.com/glfw/glfw
