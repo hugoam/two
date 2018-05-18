@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
 
 	system().load_module(ex_15_script::module());
 
-	app.m_interpreter = make_object<LuaInterpreter>(true);
+	app.m_lua.declareTypes();
 	app.run(pump);
 }
 #endif
