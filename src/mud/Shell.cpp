@@ -4,13 +4,13 @@
 
 #include <gfx/GfxSystem.h>
 
-#if MUD_PLATFORM_EMSCRIPTEN
+#ifdef MUD_PLATFORM_EMSCRIPTEN
 #include <emscripten/emscripten.h>
 #endif
 
 namespace mud
 {
-#if MUD_PLATFORM_EMSCRIPTEN
+#ifdef MUD_PLATFORM_EMSCRIPTEN
 	static Shell* g_app = nullptr;
 	static size_t g_frame = 0U;
 	static size_t g_iterations = 0U;

@@ -352,6 +352,11 @@ project "fcpp"
 			"/wd4706", -- warning C4706: assignment within conditional expression
 		}
 
+    configuration { "*-clang*" }
+		buildoptions {
+			"-Wno-parentheses-equality",
+		}
+
 	configuration { "not vs*" }
 		buildoptions {
 			"-Wno-implicit-fallthrough",
