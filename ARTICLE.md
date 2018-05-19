@@ -31,7 +31,7 @@ In essence, mud aims to be the **quickest and simplest** way to prototype a c++ 
 
 mud consists of a set of 6 small, self-contained libraries rather than a single one: 6 building blocks essential to prototyping any c++ app.  
 
-The first set of blocks, consists of low level c++ programming tools, which purpose is to avoid duplicating code over and over, by providing [generic algorithms](#generic-features) instead, operating on generic objects. Their purpose to maximize the potential of each line of code written, so that ideally, each of them is **only** concerned with the **problem domain** you are trying to solve.
+The first set of blocks, consists of low level c++ programming tools, which purpose is to avoid duplicating code over and over, by providing [generic algorithms](https://github.com/hugoam/mud#generic-features) instead, operating on generic objects. Their purpose to maximize the potential of each line of code written, so that ideally, each of them is **only** concerned with the **problem domain** you are trying to solve.
 
 These are the three low-level generic c++ blocks: they rely on applying generic operations on arbitrary types:
 - [reflection](https://github.com/hugoam/mud#reflection) of any c++ code to a set of generic primitives
