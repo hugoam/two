@@ -119,7 +119,7 @@ namespace mud
 
 	};
 
-	class _refl_ MUD_EDIT_EXPORT TransformTool : public ViewportTool
+	class _refl_ MUD_EDIT_EXPORT TransformTool : public SpatialTool
 	{
 	public:
 		TransformTool(ToolContext& context, cstring name, Type& type);
@@ -129,11 +129,11 @@ namespace mud
 
 		void refresh();
 
+		virtual void paint(Gnode& parent);
+
 		virtual void process(Viewer& viewer, const std::vector<Ref>& selection);
 
 		virtual bool enabled(const std::vector<Ref>& selection);
-
-		virtual void paint(Gnode& parent);
 
 		virtual object_ptr<TransformAction> create_action(const std::vector<Transform*>& targets) = 0;
 		virtual bool test_target(Ref target) { UNUSED(target); return true; }

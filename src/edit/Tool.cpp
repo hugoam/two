@@ -72,7 +72,7 @@ namespace mud
 	}
 
 	TransformTool::TransformTool(ToolContext& context, cstring name, Type& type)
-		: ViewportTool(context, name, type)
+		: SpatialTool(context, name, type)
 		, m_center(Zero3)
 	{}
 

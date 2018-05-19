@@ -17,7 +17,7 @@ namespace mud
     template <> MUD_EDIT_EXPORT Type& type<mud::ToolContext>() { static Type ty("ToolContext"); return ty; }
     template <> MUD_EDIT_EXPORT Type& type<mud::ToolOption>() { static Type ty("ToolOption"); return ty; }
     template <> MUD_EDIT_EXPORT Type& type<mud::SpatialTool>() { static Type ty("SpatialTool", type<mud::ViewportTool>()); return ty; }
-    template <> MUD_EDIT_EXPORT Type& type<mud::TransformTool>() { static Type ty("TransformTool", type<mud::ViewportTool>()); return ty; }
+    template <> MUD_EDIT_EXPORT Type& type<mud::TransformTool>() { static Type ty("TransformTool", type<mud::SpatialTool>()); return ty; }
     template <> MUD_EDIT_EXPORT Type& type<mud::ViewTool>() { static Type ty("ViewTool", type<mud::ViewportTool>()); return ty; }
     template <> MUD_EDIT_EXPORT Type& type<mud::ViewportTool>() { static Type ty("ViewportTool", type<mud::Tool>()); return ty; }
     template <> MUD_EDIT_EXPORT Type& type<mud::UndoTool>() { static Type ty("UndoTool", type<mud::Tool>()); return ty; }
