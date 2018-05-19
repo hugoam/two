@@ -206,14 +206,6 @@ if not _OPTIONS["vg-vg"] and not _OPTIONS["vg-nanovg"] then
     _OPTIONS["vg-vg"] = ""
 end
 
-if _OPTIONS["vg-vg"] then
-    print "vg-vg"
-end
-
-if _OPTIONS["vg-nanovg"] then
-    print "vg-nanovg"
-end
-
 toolchain(BUILD_DIR)
 
 flags {
