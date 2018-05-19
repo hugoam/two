@@ -6,15 +6,15 @@
 
 #include <ui/Generated/Forward.h>
 
-#if defined MUD_PLATFORM_EMSCRIPTEN
+#if defined MUD_CONTEXT_GLFW
+#define MUD_GLFW_EXPORT MUD_BGFX_EXPORT
+#include <ctx-glfw/GlfwContext.h>
+#elif defined MUD_CONTEXT_WASM
 #define MUD_WASM_EXPORT MUD_BGFX_EXPORT
 #include <ctx-wasm/EmscriptenContext.h>
 #elif defined MUD_CONTEXT_WINDOWS
 #define MUD_WIN_EXPORT MUD_BGFX_EXPORT
 #include <ctx-win/WindowsContext.h>
-#else
-#define MUD_GLFW_EXPORT MUD_BGFX_EXPORT
-#include <ctx-glfw/GlfwContext.h>
 #endif
 
 #ifndef MUD_META_GENERATOR
@@ -27,12 +27,12 @@ namespace mud
 {
 	class BgfxSystem;
 
-#if defined MUD_PLATFORM_EMSCRIPTEN
+#if defined MUD_CONTEXT_GLFW
+	class MUD_BGFX_EXPORT BgfxContext : public GlfwContext
+#elif defined MUD_CONTEXT_WASM
 	class MUD_BGFX_EXPORT BgfxContext : public EmContext
 #elif defined MUD_CONTEXT_WINDOWS
 	class MUD_BGFX_EXPORT BgfxContext : public WinContext
-#else
-	class MUD_BGFX_EXPORT BgfxContext : public GlfwContext
 #endif
 	{
 	public:

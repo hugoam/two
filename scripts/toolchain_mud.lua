@@ -34,6 +34,9 @@ function mud_defines()
     configuration { "context-glfw" }
         defines { "MUD_CONTEXT_GLFW" }
             
+    configuration { "context-wasm" }
+        defines { "MUD_CONTEXT_WASM" }
+        
     configuration { "context-native" }
         defines { "MUD_CONTEXT_NATIVE" }
         
@@ -143,13 +146,23 @@ newoption {
 }
 
 newoption {
-    trigger = "context-bgfx",
-    description = "Use bgfx context",
+    trigger = "context-wasm",
+    description = "Use html5 context",
 }
 
 newoption {
     trigger = "context-ogre",
     description = "Use Ogre context",
+}
+
+newoption {
+    trigger = "vg-vg",
+    description = "Use vg-renderer",
+}
+
+newoption {
+    trigger = "vg-nanovg",
+    description = "Use NanoVG",
 }
 
 MODULES = {}
@@ -182,21 +195,23 @@ if not _OPTIONS["renderer-gl"] and not _OPTIONS["renderer-bgfx"] then
 end
 
 if not _OPTIONS["context-native"] and not _OPTIONS["context-glfw"] and not _OPTIONS["context-ogre"] then
-    _OPTIONS["context-glfw"] = ""
+    if _OPTIONS["vs"] ~= "asmjs" then
+        _OPTIONS["context-glfw"] = ""
+    else
+        _OPTIONS["context-wasm"] = ""
+    end
 end
 
-if _OPTIONS["context-glfw"] then
-    MUD_CTX_BACKEND = "mud_ctx_glfw"
+if not _OPTIONS["vg-vg"] and not _OPTIONS["vg-nanovg"] then
+    _OPTIONS["vg-vg"] = ""
 end
 
-if _OPTIONS["vs"] == "asmjs" then
-    MUD_CTX_BACKEND = "mud_ctx_wasm"   
+if _OPTIONS["vg-vg"] then
+    print "vg-vg"
 end
 
-if _OPTIONS["renderer-bgfx"] then
-    MUD_UI_BACKEND = "mud_ui_bgfx"
-else
-    MUD_UI_BACKEND = "mud_ui_gl"
+if _OPTIONS["vg-nanovg"] then
+    print "vg-nanovg"
 end
 
 toolchain(BUILD_DIR)
@@ -260,8 +275,6 @@ configuration {}
 
 
 MUD_NANOVG_DIR = path.join(MUD_3RDPARTY_DIR, "nanovg-layers")
-
---defines { "MUD_UI_DRAW_CACHE" }
 
 function copyLib()
 end

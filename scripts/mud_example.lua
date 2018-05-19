@@ -1,21 +1,6 @@
 -- mud
 -- mud example application
 
-function uses_mud_bgfx() 
-	includedirs {
-		path.join(MUD_SRC_DIR),
-		path.join(MUD_DIR, "example"),
-        path.join(MUD_3RDPARTY_DIR, "vg-renderer", "include"),
-        path.join(MUD_3RDPARTY_DIR, "vg-renderer", "src"),
-	}
-
-	files {
-        path.join(MUD_SRC_DIR, "bgfx/**.h"),
-        path.join(MUD_SRC_DIR, "bgfx/**.cpp"),
-	}
-end
-
-
 project "mud_example"
 	kind "ConsoleApp"
     
@@ -23,19 +8,19 @@ project "mud_example"
         path.join(MUD_DIR, "example"),
     }
     
-	files {
-        path.join(MUD_DIR, "example", "**.h"),
-        path.join(MUD_DIR, "example", "**.cpp"),
-	}
+    files {
+        path.join(MUD_DIR, "src", "mud", "Shell.cpp"),
+    }
     
-    defines { "MUD_VG_RENDERER" }
+    mud_module("example", MUD_DIR, "example", "_EXAMPLE")
+
     defines { "_00_UI_LIB", "_00_TUTORIAL_LIB", "_15_SCRIPT_LIB" }
     
     uses_mud_gfx()
     uses_mud()
     mud_binary("mud_example")
 
-function example_project(name, ...)
+function example_project(name, gfx, ...)
     project(name)
         kind "ConsoleApp"
 
@@ -45,8 +30,16 @@ function example_project(name, ...)
             mud_module(depname, path.join(MUD_DIR, "example"), depname, "_" .. depname:upper())
         end
         
-        --uses_mud_bgfx()
-        uses_mud_gfx()
+        if gfx then
+            files {
+                path.join(MUD_DIR, "src", "mud", "Shell.cpp"),
+            }
+    
+            uses_mud_gfx()
+        else
+            uses_mud_bgfx()
+        end
+        
         uses_mud()
         mud_binary(name)
         
@@ -58,32 +51,32 @@ function example_project(name, ...)
         configuration {}
 end
 
-example_project("00_tutorial")
-example_project("00_cube")
-example_project("00_ui")
-example_project("01_shapes")
-example_project("02_camera", "03_materials")
-example_project("03_materials")
-example_project("04_lights", "01_shapes", "03_materials")
-example_project("04_sponza", "01_shapes", "03_materials")
---example_project("05_character", "03_materials")
-example_project("06_particles")
-example_project("07_prefabs")
-example_project("07_gltf")
-example_project("08_sky", "01_shapes", "03_materials")
-example_project("09_live_shader")
-example_project("10_post_process", "01_shapes", "03_materials")
-example_project("11_selection", "01_shapes", "03_materials")
-example_project("12_ui", "01_shapes", "03_materials")
-example_project("13_live_ui")
-example_project("14_live_gfx")
-example_project("14_live_gfx_visual")
-example_project("15_script", "01_shapes", "03_materials")
-example_project("16_visual_script", "01_shapes", "03_materials")
-example_project("17_wfc")
---example_project("18_pathfinding")
-example_project("19_multi_viewport")
-example_project("20_meta", "01_shapes", "03_materials")
+example_project("00_tutorial", true)
+example_project("00_cube", true)
+example_project("00_ui", false)
+example_project("01_shapes", true)
+example_project("02_camera", true, "03_materials")
+example_project("03_materials", true)
+example_project("04_lights", true, "01_shapes", "03_materials")
+example_project("04_sponza", true, "01_shapes", "03_materials")
+--example_project("05_character", true, "03_materials")
+example_project("06_particles", true)
+example_project("07_prefabs", true)
+example_project("07_gltf", true)
+example_project("08_sky", true, "01_shapes", "03_materials")
+example_project("09_live_shader", true)
+example_project("10_post_process", true, "01_shapes", "03_materials")
+example_project("11_selection", true, "01_shapes", "03_materials")
+example_project("12_ui", true, "01_shapes", "03_materials")
+example_project("13_live_ui", true)
+example_project("14_live_gfx", true)
+example_project("14_live_gfx_visual", true)
+example_project("15_script", true, "01_shapes", "03_materials")
+example_project("16_visual_script", true, "01_shapes", "03_materials")
+example_project("17_wfc", true)
+--example_project("18_pathfinding", true)
+example_project("19_multi_viewport", true)
+example_project("20_meta", true, "01_shapes", "03_materials")
 
 project "09_live_shader"
     uses_shaderc()

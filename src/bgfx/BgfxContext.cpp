@@ -8,7 +8,11 @@
 #include <obj/Type.h>
 
 #include <ui/UiWindow.h>
-#include <ui-bgfx/BgfxRenderer.h>
+#if defined MUD_VG_VG
+#include <ui-vg/VgRenderer.h>
+#elif defined MUD_VG_NANOVG
+#include <ui-vg/NanoRenderer.h>
+#endif
 
 #include <bgfx/bgfx.h>
 #include <bgfx/platform.h>
@@ -18,12 +22,12 @@
 namespace mud
 {
 	BgfxContext::BgfxContext(BgfxSystem& gfx_system, cstring name, int width, int height, bool fullScreen, bool init)
-#if defined MUD_PLATFORM_EMSCRIPTEN
+#if defined MUD_CONTEXT_GLFW
+		: GlfwContext(gfx_system, name, width, height, fullScreen, false)
+#elif defined MUD_CONTEXT_WASM
 		: EmContext(gfx_system, name, width, height, fullScreen)
 #elif defined MUD_CONTEXT_WINDOWS
 		: WinContext(gfx_system, name, width, height, fullScreen)
-#else
-		: GlfwContext(gfx_system, name, width, height, fullScreen, false)
 #endif
 	{
 		if(init)
@@ -55,7 +59,11 @@ namespace mud
 	object_ptr<VgRenderer> BgfxSystem::create_renderer(Context& context)
 	{
 		UNUSED(context);
-		auto renderer = make_object<BgfxUiRenderer>(m_resource_path.c_str(), &m_allocator);
+#if defined MUD_VG_VG
+		auto renderer = make_object<vgRenderer>(m_resource_path.c_str(), &m_allocator);
+#elif defined MUD_VG_NANOVG
+		auto renderer = make_object<NanoRenderer>(m_resource_path.c_str());
+#endif
 		m_vg_renderer = renderer.get();
 		return std::move(renderer);
 	}

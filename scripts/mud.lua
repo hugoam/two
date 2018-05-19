@@ -98,22 +98,9 @@ end
 function mud_binary(name)
     targetprefix ""
     
-    files {
-        path.join(MUD_DIR, "src", "mud", "Shell.cpp"),
-    }
-    
     defines { "_" .. name:upper() .. "_EXE" }
         
-    defines {
-        "MUD_BGFX_LIB",
-    }
-    
-    links {
-        MUD_CTX_BACKEND,
-        MUD_UI_BACKEND,
-    }
-   
-    configuration { "not asmjs" }
+    configuration { "context-glfw" }
         links {
             "glfw",
         }
@@ -132,6 +119,11 @@ function mud_binary(name)
             "--shell-file ../../../scripts/emshell.html",
         }
             
+    configuration { "asmjs", "context-glfw" }
+        linkoptions {
+            "-s USE_GLFW=3",
+        }
+        
     configuration { "asmjs", "webgl2" }
         linkoptions {
             "-s USE_WEBGL2=1",
@@ -162,6 +154,5 @@ function mud_binary(name)
     configuration {}
 end
 
-dofile(path.join(MUD_DIR, "scripts/" .. MUD_UI_BACKEND .. ".lua"))
-dofile(path.join(MUD_DIR, "scripts/" .. MUD_CTX_BACKEND .. ".lua"))
+dofile(path.join(MUD_DIR, "scripts/mud_bgfx.lua"))
 dofile(path.join(MUD_DIR, "scripts/mud_gfx.lua"))

@@ -1,27 +1,23 @@
 -- mud library
 -- mud ui gl renderer module
 
-project "mud_ui_gl"
-	kind "StaticLib"
-
+function mud_ui_backend()
 	includedirs {
 		path.join(MUD_NANOVG_DIR, "src"),
-        path.join(MUD_3RDPARTY_DIR, "vg-renderer", "src"),
 	}
 
+    mud_module("ui-gl", MUD_SRC_DIR, "ui-gl", "MUD_UI_GL")
+    
     files {
-        path.join(MUD_UI_DIR, "Backend/Gl/**.h"),
-        path.join(MUD_UI_DIR, "Backend/Gl/**.cpp"),
-        path.join(MUD_UI_DIR, "Backend/Nano/**.h"),
-        path.join(MUD_UI_DIR, "Backend/Nano/**.cpp"),
-        path.join(MUD_3RDPARTY_DIR, "vg-renderer", "src/vg/**.c"),
-        path.join(MUD_3RDPARTY_DIR, "vg-renderer", "src/vg/**.cpp"),
-        --path.join(MUD_NANOVG_DIR, "src/nanovg.c"),
+        path.join(MUD_UI_DIR, "ui-vg/NanoRenderer.h"),
+        path.join(MUD_UI_DIR, "ui-vg/NanoRenderer.cpp"),
+        path.join(MUD_NANOVG_DIR, "src/nanovg.c"),
+        path.join(MUD_NANOVG_DIR, "src/nanovg_bgfx.cpp"),
     }
     
-    removefiles {
-        path.join(MUD_3RDPARTY_DIR, "vg-renderer", "src/vg/svg_renderer.cpp"),
-        path.join(MUD_3RDPARTY_DIR, "vg-renderer", "src/vg/nanovg_renderer.cpp"),
+    defines {
+        --"MUD_UI_DRAW_CACHE",
+        "MUD_VG_NANOVG",
     }
     
     links {
@@ -29,9 +25,8 @@ project "mud_ui_gl"
         "OpenGL32"
 	}
     
-    uses_mud()
-    
     configuration { "not asmjs" }
         defines { "NANOVG_GLEW" }
 
 	configuration {}
+end

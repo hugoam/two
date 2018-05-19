@@ -32,6 +32,7 @@ namespace mud
 		virtual void loadImageRGBA(Image& image, const unsigned char* data) final;
 		virtual void loadImage(Image& image) final;
 		virtual void unloadImage(Image& image) final;
+		virtual uint16_t loadTexture(uint16_t texture) final;
 
 		// rendering
 		virtual void beginFrame(UiRenderTarget& target) final;

@@ -3,7 +3,7 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 
-#include <ui-nanovg/NanoRenderer.h>
+#include <ui-vg/NanoRenderer.h>
 
 #include <obj/Serial/Serial.h>
 #include <math/Math.h>
@@ -97,6 +97,11 @@ namespace mud
 		if(m_null) return;
 		nvgDeleteImage(m_ctx, image.d_handle);
 		image.d_handle = 0;
+	}
+
+	uint16_t NanoRenderer::loadTexture(uint16_t texture)
+	{
+		return texture;
 	}
 
 	void NanoRenderer::beginFrame(UiRenderTarget& target)

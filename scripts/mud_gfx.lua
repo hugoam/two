@@ -1,64 +1,10 @@
 -- mud library
 -- mud gfx module
 
-function uses_shaderc()
-    defines { "MUD_LIVE_SHADER_COMPILER" }
-        
-    links {
-        "shaderc",
-        "fcpp",
-        "glslang",
-        "glsl-optimizer",
-        "spirv-opt",
-    }
-end
-
-function uses_bgfx()
-    includedirs {
-        path.join(BX_DIR,    "include"),
-        path.join(BIMG_DIR,  "include"),
-        path.join(BGFX_DIR,  "include"),
-    }
-    
-    configuration { "not asmjs" }
-        uses_shaderc()
-    configuration { "webshaderc" }
-        uses_shaderc()
-        
-    configuration {}
-    
-    links {
-        "bgfx",
-        "bimg_decode",
-        "bimg",
-        "bx",
-    }
-
-    configuration { "linux" }
-        links {
-            "X11",
-            "GLU",
-            "GL",
-            "Xext",
-        }
-    
-    configuration { "vs20*", "not asmjs" }
-        links {
-            "psapi",
-        }
-    
-    configuration { "osx or linux*" }
-        links {
-            "pthread",
-        }
-    
-    configuration {}
-end
+dofile(path.join(MUD_DIR, "scripts/mud_bgfx.lua"))
 
 function uses_mud_gfx()
     uses_bgfx()
-    
-    defines { "MUD_VG_RENDERER" }
     
     if project().name ~= "mud_gfx" then
         links { "mud_gfx" }
@@ -94,17 +40,13 @@ project "mud_gfx"
     defines { "MUD_BGFX_LIB" }
     defines { "MUD_GFX_LIB", "MUD_GEN_LIB", "MUD_EDIT_LIB" }
     
-    --uses(MUD_CTX_BACKEND)
-    
-    links {
-        MUD_CTX_BACKEND,
-        MUD_UI_BACKEND,
-    }
+    mud_ctx_backend()
+    mud_ui_backend()
     
     uses_mud_gfx()
     uses_mud()
-    
-    configuration { "vs*", "Release" }
+        
+    configuration { "vs*", "not asmjs", "Release" }
         buildoptions {
             "/bigobj",
         }

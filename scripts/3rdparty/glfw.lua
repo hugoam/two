@@ -28,6 +28,7 @@ project "glfw"
         
         defines { "_GLFW_WIN32" }
         
+    configuration { "vs*", "not asmjs" }
         buildoptions {
             "/wd4204", -- warning C4204: nonstandard extension used: non-constant aggregate initializer
             "/wd4152", -- warning C4152: nonstandard extension, function/data pointer conversion in expression

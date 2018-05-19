@@ -19,7 +19,7 @@ project "lua"
         path.join(MUD_3RDPARTY_DIR, "lua", "lbitlib.c"),
     }
     
-    configuration { "vs*" }
+    configuration { "vs*", "not asmjs" }
         buildoptions {
             "/wd4244", -- warning C4244: '=': conversion from 'int' to 'lu_byte', possible loss of data
 			"/wd4389", -- warning C4389: '==': signed/unsigned mismatch

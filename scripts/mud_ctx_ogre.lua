@@ -1,9 +1,7 @@
 -- mud engine
 -- mud ctx ogre module
 
-project "mud_ctx_ogre"
-	kind "SharedLib"
-    
+function mud_ctx_backend()
     removeflags {
         "NoRTTI",
         "NoExceptions",
@@ -16,8 +14,7 @@ project "mud_ctx_ogre"
     }
     
     mud_module("ctx-ogre", MUD_SRC_DIR, "ctx-ogre", "MUD_CTX_OGRE")    
-    uses_mud()
-    
+  
     links {
         "OgreMain",
         "ois",
@@ -30,4 +27,5 @@ project "mud_ctx_ogre"
             "dinput8",
         }
 
-    configuration {}
+    configuration {}    
+end
