@@ -8,6 +8,10 @@
 #include <obj/Vector.h>
 #include <obj/String/String.h>
 
+#include <obj/Reflect/Class.h> // @kludge
+#include <ui/Generated/Types.h> // @kludge
+#include <ui/Style/9Sprite.h> // @kludge
+
 #include <ctx/Context.h>
 
 #include <ui/Style/Styler.h>
@@ -57,6 +61,9 @@ namespace mud
 		, m_styler(make_object<Styler>(*this))
 		, m_user(user)
 	{
+		// @kludge until reflection properly supports Enum default parameters
+		cls<ImageSkin>().m_constructors[0].m_arguments.back() = var(DIM_NONE);
+
 		this->init();
 	}
 

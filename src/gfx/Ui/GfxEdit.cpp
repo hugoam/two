@@ -239,9 +239,12 @@ namespace mud
 	bool edit_shape(Widget& parent, ShapeVar& shape)
 	{
 		bool changed = false;
-		static std::vector<Type*> shape_types = type_vector<Line, Rect, Quad, Polygon, Grid2, Triangle, Circle,
-															Ring, Ellipsis, Arc, Cylinder, Capsule, Cube, Aabb, 
-															Box, Sphere, SphereRing, Spheroid, Points, ConvexHull>();
+
+		// @todo: only these shape random distributions are implemented so far
+		static std::vector<Type*> shape_types = type_vector<Sphere, SphereRing, Circle, Ring, Rect, Points>();
+		//static std::vector<Type*> shape_types = type_vector<Line, Rect, Quad, Polygon, Grid2, Triangle, Circle,
+		//													Ring, Ellipsis, Arc, Cylinder, Capsule, Cube, Aabb,
+		//													Box, Sphere, SphereRing, Spheroid, Points, ConvexHull>();
 
 		Widget& self = ui::sheet(parent);
 		Type* type = shape.m_shape ? &shape.m_shape->m_type : nullptr;

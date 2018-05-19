@@ -435,15 +435,17 @@ namespace mud
 			}
 	}
 
-	void VisualScript::operator()(array<Var> args, Var& result)
+	void VisualScript::operator()(array<Var> args, Var& result) const
 	{
-		this->lock();
+		// @kludge: ugly cast until we decide something on this callable constness mess
+		VisualScript& self = const_cast<VisualScript&>(*this);
+		self.lock();
 		for(size_t i = 0; i < m_inputs.size(); ++i)
 			m_inputs[i]->m_output.m_stream.write(args[i]);
-		this->unlock(false);
+		self.unlock(false);
 
-		this->reorder();
-		this->execute(false);
+		self.reorder();
+		self.execute(false);
 		UNUSED(result);
 	}
 

@@ -300,6 +300,9 @@ namespace mud
 
 	std::vector<vec3> distribute_shape(const Shape& shape, size_t count)
 	{
+		if(!RandomShapePoint::me().check(Ref(&shape)))
+			return std::vector<vec3>(count, Zero3);
+
 		std::vector<vec3> points(count);
 		for(size_t i = 0; i < count; ++i)
 			points[i] = RandomShapePoint::me().dispatch(Ref(&shape));

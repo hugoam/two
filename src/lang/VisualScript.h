@@ -149,7 +149,7 @@ namespace mud
 		std::vector<ProcessOutput*> m_outputs;
 
 		using Callable::operator();
-		virtual void operator()(array<Var> args, Var& result);
+		virtual void operator()(array<Var> args, Var& result) const;
 
 		void lock();
 		void unlock(bool execute = false);

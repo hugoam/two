@@ -20,7 +20,7 @@ namespace mud
 	{
 		Widget* current_node = &parent;
 		Widget* current_target = &target.root_sheet();
-		while(current_target)
+		while(current_target && current_node)
 		{
 			string elements[2] = { current_target->m_frame.d_style->name(), to_string(current_target->m_control.m_mask) };
 			current_node = ui::tree_node(*current_node, carray<cstring, 2>{ elements[0].c_str(), elements[1].c_str() }).m_body;

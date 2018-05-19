@@ -127,7 +127,7 @@ namespace mud
 	{
 		Widget& self = section(parent, "Inspector");
 
-		if(!selection.empty())
+		if(!selection.empty() && selection[0])
 		{
 			Ref selected = selection[0];
 			Widget& sheet = ui::widget(self, styles().sheet, (void*)selected.m_value);
