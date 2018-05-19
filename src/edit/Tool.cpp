@@ -23,7 +23,7 @@ namespace mud
 		: m_type(type)
 		, m_context(context)
 		, m_name(name)
-		, m_state(ToolState::INACTIVE)
+		, m_state(ToolState::Inactive)
 	{}
 
 	void Tool::add_option(object_ptr<ToolOption> option)
@@ -37,39 +37,19 @@ namespace mud
 		m_context.m_action_stack->push(std::move(action));
 	}
 
-	bool Tool::activate()
+	void Tool::activate()
 	{
-		m_state = this->start();
-		return m_state == ToolState::ACTIVE;
+		m_state = ToolState::Active;
 	}
 
 	void Tool::deactivate()
 	{
-		this->stop();
-		m_state = ToolState::INACTIVE;
+		m_state = ToolState::Inactive;
 	}
 
 	ViewportTool::ViewportTool(ToolContext& context, cstring name, Type& type)
 		: Tool(context, name, type)
 	{}
-
-	bool ViewportTool::activate(Viewer& viewer)
-	{
-		m_state = this->start(viewer);
-		return m_state == ToolState::ACTIVE;
-	}
-
-	ToolState ViewportTool::start(Viewer& viewer)
-	{
-		UNUSED(viewer);
-		//this->take(viewer);
-		return ToolState::ACTIVE;
-	}
-
-	void ViewportTool::stop()
-	{
-		//this->yield();
-	}
 
 	SpatialTool::SpatialTool(ToolContext& context, cstring name, Type& type)
 		: ViewportTool(context, name, type)

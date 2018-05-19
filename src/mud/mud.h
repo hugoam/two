@@ -11,6 +11,6 @@
 
 #include <mud/Shell.h>
 
-#if MUD_PLATFORM_EMSCRIPTEN
+#ifdef MUD_PLATFORM_EMSCRIPTEN
 #define MUD_RESOURCE_PATH "/data/"
 #endif

@@ -30,8 +30,6 @@
 
 namespace mud
 {
-	static const int cTextStart = 7;
-
 	inline TextPaint style_text_paint(InkStyle& inkstyle)
 	{
 		return { inkstyle.m_text_font.c_str(), inkstyle.m_text_colour, inkstyle.m_text_size, inkstyle.m_align, inkstyle.m_text_break, inkstyle.m_text_wrap };

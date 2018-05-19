@@ -30,9 +30,9 @@ namespace mud
 		, m_offset(offset)
 	{}
 
-	ToolState ViewTool::start(Viewer& viewer)
+	void ViewTool::activate()
 	{
-		this->commit(make_object<ViewAction>(viewer.m_camera, m_offset));
-		return ToolState::DONE;
+		this->commit(make_object<ViewAction>(*m_context.m_camera, m_offset));
+		m_state = ToolState::Done;
 	}
 }

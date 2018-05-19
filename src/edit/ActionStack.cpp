@@ -44,19 +44,19 @@ namespace mud
 		: Tool(context, "Undo", type<UndoTool>())
 	{}
 
-	ToolState UndoTool::start()
+	void UndoTool::activate()
 	{
 		m_context.m_action_stack->undo();
-		return ToolState::DONE;
+		m_state = ToolState::Done;
 	}
 
 	RedoTool::RedoTool(ToolContext& context)
 		: Tool(context, "Redo", type<RedoTool>())
 	{}
 
-	ToolState RedoTool::start()
+	void RedoTool::activate()
 	{
 		m_context.m_action_stack->redo();
-		return ToolState::DONE;
+		m_state = ToolState::Done;
 	}
 }

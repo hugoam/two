@@ -30,7 +30,7 @@ namespace mud
 	public:
 		UndoTool(ToolContext& context);
 
-		virtual ToolState start() final;
+		virtual void activate() final;
 	};
 
 	class _refl_ MUD_EDIT_EXPORT RedoTool : public Tool
@@ -38,6 +38,6 @@ namespace mud
 	public:
 		RedoTool(ToolContext& context);
 
-		virtual ToolState start() final;
+		virtual void activate() final;
 	};
 }

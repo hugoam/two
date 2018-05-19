@@ -214,7 +214,7 @@ project "glslang"
 			"-Wno-deprecated-register",
 		}
 
-	configuration { "linux-*" }
+	configuration { "*-gcc*" }
 		buildoptions {
 			"-Wno-unused-but-set-variable",
 		}
@@ -310,12 +310,12 @@ project "glsl-optimizer"
 			"-Wshadow", -- glsl-optimizer is full of -Wshadow warnings ignore it.
 		}
 
-	configuration { "osx or asmjs" }
+	configuration { "osx or *-clang* or asmjs" }
 		buildoptions {
 			"-Wno-deprecated-register",
 		}
 
-	configuration { "mingw* or linux" }
+	configuration { "mingw* or *-gcc*" }
 		buildoptions {
 			"-Wno-misleading-indentation",
 		}

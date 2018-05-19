@@ -18,9 +18,9 @@
 namespace mud
 {
 	BgfxContext::BgfxContext(BgfxSystem& gfx_system, cstring name, int width, int height, bool fullScreen, bool init)
-#if MUD_PLATFORM_EMSCRIPTEN
+#if defined MUD_PLATFORM_EMSCRIPTEN
 		: EmContext(gfx_system, name, width, height, fullScreen)
-#elif MUD_CONTEXT_WINDOWS
+#elif defined MUD_CONTEXT_WINDOWS
 		: WinContext(gfx_system, name, width, height, fullScreen)
 #else
 		: GlfwContext(gfx_system, name, width, height, fullScreen, false)

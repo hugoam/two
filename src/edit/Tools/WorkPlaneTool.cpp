@@ -29,10 +29,10 @@ namespace mud
 		, m_plane(plane)
 	{}
 
-	ToolState WorkPlaneTool::start()
+	void WorkPlaneTool::activate()
 	{
 		m_action = make_object<WorkPlaneAction>(*m_context.m_work_plane, m_plane);
 		this->commit(std::move(m_action));
-		return ToolState::DONE;
+		m_state = ToolState::Done;
 	}
 }

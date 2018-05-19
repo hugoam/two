@@ -39,9 +39,9 @@ namespace mud
 
 	enum class _refl_ ToolState : unsigned int
 	{
-		INACTIVE = 0,
-		DONE = 1,
-		ACTIVE = 2
+		Inactive = 0,
+		Done = 1,
+		Active = 2
 	};
 
 	class _refl_ MUD_EDIT_EXPORT Tool : public NonCopy
@@ -59,17 +59,14 @@ namespace mud
 
 		OptionVector m_options;
 
-		bool active() { return m_state == ToolState::ACTIVE; }
+		bool active() { return m_state == ToolState::Active; }
 
 		void add_option(object_ptr<ToolOption> option);
 
-		bool activate();
-		void deactivate();
+		virtual void activate();
+		virtual void deactivate();
 
 		void commit(object_ptr<EditorAction> action);
-
-		virtual ToolState start() { return ToolState::ACTIVE; }
-		virtual void stop() {}
 
 		virtual bool enabled(const std::vector<Ref>& selection) { UNUSED(selection); return true; }
 
@@ -81,11 +78,6 @@ namespace mud
 	{
 	public:
 		ViewportTool(ToolContext& context, cstring name, Type& type);
-
-		bool activate(Viewer& viewer);
-
-		virtual ToolState start(Viewer& viewer);
-		virtual void stop();
 
 		vec3 m_symbol_position;
 	};

@@ -22,9 +22,9 @@ namespace mud
         static Meta meta = { type<mud::ToolState>(), &namspc({ "mud" }), "ToolState", sizeof(mud::ToolState), TypeClass::Enum };
         static Enum enu = { type<mud::ToolState>(),
             true,
-            { "INACTIVE", "DONE", "ACTIVE" },
+            { "Inactive", "Done", "Active" },
             { 0, 1, 2 },
-            { var(ToolState::INACTIVE), var(ToolState::DONE), var(ToolState::ACTIVE) }
+            { var(ToolState::Inactive), var(ToolState::Done), var(ToolState::Active) }
         };
         meta_enum<mud::ToolState>();
     }

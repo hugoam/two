@@ -30,7 +30,7 @@ namespace mud
 	public:
 		WorkPlaneTool(ToolContext& context, cstring name, const Plane& plane);
 
-		virtual ToolState start() final;
+		virtual void activate() final;
 
 	private:
 		object_ptr<WorkPlaneAction> m_action;

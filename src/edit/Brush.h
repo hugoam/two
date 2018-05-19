@@ -63,7 +63,7 @@ namespace mud
 
 		_attr_ Creator m_creator;
 
-		virtual ToolState start(Viewer& viewer);
+		virtual void activate();
 		virtual void update(const vec3& position);
 		virtual void paint(Gnode& parent);
 	};
@@ -77,7 +77,7 @@ namespace mud
 		_attr_ _mut_ float m_radius;
 		_attr_ _mut_ float m_maxSpotRadius;
 
-		virtual ToolState start(Viewer& viewer);
+		virtual void activate();
 		virtual void update(const vec3& position);
 		virtual void paint(Gnode& parent);
 
@@ -101,7 +101,7 @@ namespace mud
 
 		_attr_ Call m_call;
 		
-		virtual ToolState start(Viewer& viewer);
+		virtual void activate();
 		virtual void update(const vec3& position);
 		virtual void paint(Gnode& parent);
 

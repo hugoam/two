@@ -41,7 +41,6 @@ namespace mud
 	void EditContext::set_tool(ViewportTool& tool, Viewer& viewer)
 	{
 		m_tool = &tool;
-		m_tool->activate(viewer);
 		m_spatial_tool = try_as<SpatialTool>(tool);
 	}
 

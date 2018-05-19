@@ -126,11 +126,11 @@ namespace mud
 		//m_creator.setPrototype(type<OLight>());
 	}
 
-	ToolState PlaceBrush::start(Viewer& viewer)
+	void PlaceBrush::activate()
 	{
 		m_creator.injector().m_args[0] = var(size_t(0));
 		//m_creator.injector().m_args[1] = Ref(m_context.m_origin);
-		return SpatialTool::start(viewer);
+		m_state = ToolState::Active;
 	}
 
 	void PlaceBrush::update(const vec3& position)
@@ -162,11 +162,11 @@ namespace mud
 		gfx::shape(self, Circle(m_radius, Axis::Y), Symbol(Colour::White, Colour::AlphaGrey));
 	}
 
-	ToolState CircleBrush::start(Viewer& viewer)
+	void CircleBrush::activate()
 	{
 		m_creator.injector().m_args[0] = var(size_t(0));
 		//m_creator.injector().m_args[1] = Ref(m_context.m_origin);
-		return SpatialTool::start(viewer);
+		m_state = ToolState::Active;
 	}
 
 	void CircleBrush::update(const vec3& position)
@@ -217,9 +217,9 @@ namespace mud
 		, m_script(script)
 	{}
 
-	ToolState ScriptedBrush::start(Viewer& viewer)
+	void ScriptedBrush::activate()
 	{
-		return SpatialTool::start(viewer);
+		m_state = ToolState::Active;
 	}
 
 	void ScriptedBrush::update(const vec3& position)

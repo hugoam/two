@@ -36,7 +36,7 @@ namespace mud
 	public:
 		ViewTool(ToolContext& context, cstring name, const vec3& offset);
 
-		virtual ToolState start(Viewer& viewer) final;
+		virtual void activate() final;
 
 		vec3 m_offset;
 	};
