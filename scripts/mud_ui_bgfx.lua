@@ -10,7 +10,7 @@ function mud_ui_backend()
 	}
 
     defines {
-        "MUD_UI_DRAW_CACHE",
+        --"MUD_UI_DRAW_CACHE",
     }
         
     configuration { "vg-vg" }

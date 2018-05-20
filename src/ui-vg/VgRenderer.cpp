@@ -137,12 +137,16 @@ namespace mud
 
 	bool vgRenderer::clipped(const vec4& rect)
 	{
+#ifdef MUD_UI_DRAW_CACHE
+		return false;
+#else
 		return !vg::checkIntersectScissor(m_vg, RECT_FLOATS(rect));
+#endif
 	}
 
 	void vgRenderer::clip(const vec4& rect)
 	{
-		vg::intersectScissor(m_vg, RECT_FLOATS(rect));
+		//vg::intersectScissor(m_vg, RECT_FLOATS(rect));
 	}
 
 	void vgRenderer::unclip()
@@ -350,26 +354,33 @@ namespace mud
 		return { uint16_t(layer.d_handle) };
 	}
 
+	void vgRenderer::begin_cached(Layer& layer)
+	{
+		vg::resetCommandList(m_vg, this->layer_cache(layer));
+		vg::beginCommandList(m_vg, this->layer_cache(layer));
+		vg::transformIdentity(m_vg);
+	}
+
+	void vgRenderer::end_cached()
+	{
+		vg::endCommandList(m_vg);
+	}
+
 	void vgRenderer::draw_layer(Layer& layer, const vec2& position, float scale)
 	{
 		vg::pushState(m_vg);
 		vg::setGlobalAlpha(m_vg, 1.f);
-		//vg::transformIdentity(m_vg);
+		vg::transformIdentity(m_vg);
 		//vg::transformTranslate(m_vg, position.x, position.y);
 		//vg::transformScale(m_vg, scale, scale);
 		vg::submitCommandList(m_vg, this->layer_cache(layer));
 		vg::popState(m_vg);
 	}
-
 #endif
+
 	void vgRenderer::begin_layer(Layer& layer, const vec2& position, float scale)
 	{
-#ifdef MUD_UI_DRAW_CACHE
-		vg::resetCommandList(m_vg, this->layer_cache(layer));
-		vg::beginCommandList(m_vg, this->layer_cache(layer));
-#else
 		UNUSED(layer);
-#endif
 		vg::pushState(m_vg);
 		//vg::transformIdentity(m_vg);
 		vg::transformTranslate(m_vg, position.x, position.y);
@@ -379,9 +390,6 @@ namespace mud
 	void vgRenderer::end_layer()
 	{
 		vg::popState(m_vg);
-#ifdef MUD_UI_DRAW_CACHE
-		vg::endCommandList(m_vg);
-#endif
 	}
 
 	void vgRenderer::begin_update(const vec2& position, float scale)

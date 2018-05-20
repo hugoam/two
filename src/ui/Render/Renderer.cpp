@@ -121,6 +121,10 @@ namespace mud
 		if(layer.master())
 			this->begin_target();
 
+#ifdef MUD_UI_DRAW_CACHE
+		this->begin_cached(layer);
+#endif
+
 		if(layer.m_frame.d_parent)
 			this->begin_layer(*layer.m_frame.d_parent);
 
@@ -130,6 +134,10 @@ namespace mud
 
 		this->end_layer();
 		layer.endRedraw();
+
+#ifdef MUD_UI_DRAW_CACHE
+		this->end_cached();
+#endif
 
 		if(layer.m_frame.d_parent)
 			this->end_layer(*layer.m_frame.d_parent);
@@ -217,13 +225,13 @@ namespace mud
 		vec4 content_rect = { content_pos, frame.m_content };
 		
 #if 0 // DEBUG
-		if(frame.d_style->m_name == m_debugDrawFilter)
+		if(frame.d_style->m_name == m_debug_filter)
 			this->debug_rect(rect, Colour::Red);
-		if(m_debugDrawFrameRect)
+		if(m_debug_frame_rect)
 			this->debug_rect(rect, Colour::Red);
-		if(m_debugDrawPaddedRect)
+		if(m_debug_padded_rect)
 			this->debug_rect(padded_rect, Colour::Green);
-		if(m_debugDrawContentRect)
+		if(m_debug_content_rect)
 			this->debug_rect(content_rect, Colour::Blue);
 #endif
 

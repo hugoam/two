@@ -43,7 +43,9 @@ namespace mud
 		virtual void end_target() final;
 
 #ifdef MUD_UI_DRAW_CACHE
-		NVGdisplayList* layer_cache(Layer& layer);
+		virtual void begin_cached(Layer& layer) final;
+		virtual void end_cached() final;
+
 		virtual void draw_layer(Layer& layer, const vec2& position, float scale) final;
 #endif
 		virtual void begin_layer(Layer& layer, const vec2& position, float scale) final;
@@ -86,6 +88,10 @@ namespace mud
 
 	private:
 		void setup_text(const TextPaint& paint);
+
+#ifdef MUD_UI_DRAW_CACHE
+		NVGdisplayList* layer_cache(Layer& layer);
+#endif
 
 	protected:
 		NVGcontext* m_ctx;

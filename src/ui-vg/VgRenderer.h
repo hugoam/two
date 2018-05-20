@@ -46,12 +46,15 @@ namespace mud
 		virtual void begin_target() final;
 		virtual void end_target() final;
 
-#ifdef MUD_UI_DRAW_CACHE
-		vg::CommandListHandle layer_cache(Layer& layer);
-		virtual void draw_layer(Layer& layer, const vec2& position, float scale) final;
-#endif
 		virtual void begin_layer(Layer& layer, const vec2& position, float scale) final;
 		virtual void end_layer() final;
+
+#ifdef MUD_UI_DRAW_CACHE
+		virtual void begin_cached(Layer& layer) final;
+		virtual void end_cached() final;
+
+		virtual void draw_layer(Layer& layer, const vec2& position, float scale) final;
+#endif
 
 		virtual void begin_update(const vec2& position, float scale) final;
 		virtual void end_update() final;
@@ -89,6 +92,10 @@ namespace mud
 	private:
 		uint32_t text_align(const TextPaint& paint);
 		vg::TextConfig text_font(const TextPaint& paint);
+
+#ifdef MUD_UI_DRAW_CACHE
+		vg::CommandListHandle layer_cache(Layer& layer);
+#endif
 
 	protected:
 		bx::AllocatorI* m_allocator = nullptr;

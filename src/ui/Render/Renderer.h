@@ -80,8 +80,12 @@ namespace mud
 		virtual void end_target() = 0;
 
 #ifdef MUD_UI_DRAW_CACHE
+		virtual void begin_cached(Layer& layer) = 0;
+		virtual void end_cached() = 0;
+
 		virtual void draw_layer(Layer& layer, const vec2& position = Zero2, float scale = 1.f) = 0;
 #endif
+
 		virtual void begin_layer(Layer& layer, const vec2& position = Zero2, float scale = 1.f) = 0;
 		virtual void end_layer() = 0;
 

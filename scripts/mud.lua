@@ -57,7 +57,7 @@ else
             path.join(MUD_UI_DIR, "Backend/**.cpp"),
         }
         
-        defines { "MUD_UI_DRAW_CACHE" }
+        --defines { "MUD_UI_DRAW_CACHE" }
         
         links {
             "lua",

@@ -404,6 +404,17 @@ namespace mud
 		return m_layers[&layer];
 	}
 
+	void NanoRenderer::begin_cached(Layer& layer)
+	{
+		nvgResetDisplayList(this->layer_cache(layer));
+		nvgBindDisplayList(m_ctx, this->layer_cache(layer));
+	}
+
+	void NanoRenderer::end_cached()
+	{
+		nvgBindDisplayList(m_ctx, nullptr);
+	}
+
 	void NanoRenderer::draw_layer(Layer& layer, const vec2& position, float scale)
 	{
 		nvgSave(m_ctx);
@@ -417,12 +428,7 @@ namespace mud
 
 	void NanoRenderer::begin_layer(Layer& layer, const vec2& position, float scale)
 	{
-#ifdef MUD_UI_DRAW_CACHE
-		nvgResetDisplayList(this->layer_cache(layer));
-		nvgBindDisplayList(m_ctx, this->layer_cache(layer));
-#else
 		UNUSED(layer);
-#endif
 		nvgSave(m_ctx);
 		nvgTranslate(m_ctx, position.x, position.y);
 		nvgScale(m_ctx, scale, scale);
@@ -431,9 +437,6 @@ namespace mud
 	void NanoRenderer::end_layer()
 	{
 		nvgRestore(m_ctx);
-#ifdef MUD_UI_DRAW_CACHE
-		nvgBindDisplayList(m_ctx, nullptr);
-#endif
 	}
 
 	void NanoRenderer::begin_update(const vec2& position, float scale)

@@ -32,11 +32,11 @@
 namespace mud
 {
 	ViewerStyles::ViewerStyles()
-		: viewport("Viewer", styles().wedge, [](Layout& l) { l.m_opacity = OPAQUE; l.m_space = SHEET; } }, [](InkStyle& l) { l.m_empty = false; } })
-		, viewport_fixed("ViewerFixed", viewport, [](Layout& l) { l.m_space = BLOCK; } }, [](InkStyle& l) { l.m_empty = false; } })
+		: viewport("Viewer", styles().wedge, [](Layout& l) { l.m_opacity = OPAQUE; l.m_space = SHEET; }, [](InkStyle& l) { l.m_empty = false; })
+		, viewport_fixed("ViewerFixed", viewport, [](Layout& l) { l.m_space = BLOCK; }, [](InkStyle& l) { l.m_empty = false; })
 		//, skin_definitions["Viewer:modal"].set({ &InkStyle::m_border_colour, Colour::White });
 		//, skin_definitions["Viewer:modal"].set({ &InkStyle::m_border_width, vec4(1.f) });
-		, space_sheet("SpaceSheet", styles().root_sheet, [](Layout& l) { l.m_opacity = OPAQUE; l.m_flow = FREE; l.m_size = vec2(600.f, 450.f); } }, {})
+		, space_sheet("SpaceSheet", styles().root_sheet, [](Layout& l) { l.m_opacity = OPAQUE; l.m_flow = FREE; l.m_size = vec2(600.f, 450.f); })
 	{}
 
 	ViewerStyles& viewer_styles() { static ViewerStyles styles; return styles; }
