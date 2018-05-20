@@ -21,8 +21,6 @@ project "mud_gfx"
     includedirs {
         path.join(MUD_NANOVG_DIR, "src"),
         path.join(MUD_3RDPARTY_DIR, "base64"),
-        path.join(MUD_3RDPARTY_DIR, "vg-renderer", "include"),
-        path.join(MUD_3RDPARTY_DIR, "vg-renderer", "src"),
     }
 
     mud_module("bgfx", MUD_SRC_DIR, "bgfx",  "MUD_BGFX")

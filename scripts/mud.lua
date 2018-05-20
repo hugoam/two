@@ -162,5 +162,4 @@ function mud_shell(name)
     }
 end
 
-dofile(path.join(MUD_DIR, "scripts/mud_bgfx.lua"))
 dofile(path.join(MUD_DIR, "scripts/mud_gfx.lua"))
