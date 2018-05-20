@@ -45,8 +45,8 @@ namespace game
 	{
 		Style character_sheet = { "CharacterSheet", styles().sheet, {}, {} };
 		Style inventory_sheet = { "InventorySheet", styles().sheet, {}, {} };
-		Style inventory_slot = { "InventorySlot", styles().item, [](Layout& l) { l.m_size = vec2{ 40.f, 40.f }; } },
-																 [](InkStyle& l) { l.m_empty = false; l.m_border_width = vec4(1.f); l.m_border_colour = Colour::AlphaGrey; } } };
+		Style inventory_slot = { "InventorySlot", styles().item, [](Layout& l) { l.m_size = vec2{ 40.f, 40.f }; },
+																 [](InkStyle& l) { l.m_empty = false; l.m_border_width = vec4(1.f); l.m_border_colour = Colour::AlphaGrey; } };
 	};
 
 	GameStyles& game_styles() { static GameStyles styles; return styles; }
