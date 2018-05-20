@@ -14,7 +14,7 @@ namespace mud
 	Style& section_style()
 	{
 		// STACK
-		static Style style = { "Section", styles().sheet, { [](Layout& l) { l.m_padding = vec4{ 2.f }; } } };
+		static Style style = { "Section", styles().sheet, [](Layout& l) { l.m_padding = vec4{ 2.f }; } };
 		return style;
 	}
 

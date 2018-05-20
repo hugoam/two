@@ -3,7 +3,7 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 
-#include <ui-vg/NanoRenderer.h>
+#include <ui-nanovg/NanoRenderer.h>
 
 #include <obj/Serial/Serial.h>
 #include <math/Math.h>
@@ -38,7 +38,7 @@ namespace mud
 		, m_ctx(nullptr)
 	{}
 
-	void NanoRenderer::setupContext()
+	void NanoRenderer::setup_context()
 	{
 		if(m_null)
 			m_ctx = nvgCreateNull();
@@ -52,7 +52,7 @@ namespace mud
 		}
 	}
 
-	void NanoRenderer::releaseContext()
+	void NanoRenderer::release_context()
 	{
 		if(m_null)
 			nvgDeleteNull(m_ctx);
@@ -61,50 +61,50 @@ namespace mud
 		m_ctx = nullptr;
 	}
 
-	object_ptr<UiRenderTarget> NanoRenderer::createRenderTarget(Layer& layer)
+	object_ptr<UiRenderTarget> NanoRenderer::create_render_target(Layer& layer)
 	{
 		return make_object<UiRenderTarget>(*this, layer, false);
 	}
 
-	void NanoRenderer::loadDefaultFont()
+	void NanoRenderer::load_default_font()
 	{
 		if(m_null) return;
-		this->loadFont("dejavu");
+		this->load_font("dejavu");
 		nvgFontSize(m_ctx, 14.0f);
 		nvgFontFace(m_ctx, "dejavu");
 	}
 
-	void NanoRenderer::loadFont(cstring name)
+	void NanoRenderer::load_font(cstring name)
 	{
-		cstring path = fontPath(name);
+		cstring path = this->font_path(name);
 		nvgCreateFont(m_ctx, name, path);
 	}
 
-	void NanoRenderer::loadImageRGBA(Image& image, const unsigned char* data)
+	void NanoRenderer::load_image_RGBA(Image& image, const unsigned char* data)
 	{
 		if(m_null) return;
 		image.d_handle = nvgCreateImageRGBA(m_ctx, image.d_size.x, image.d_size.y, image.d_filtering ? 0 : NVG_IMAGE_NEAREST, data);
 	}
 
-	void NanoRenderer::loadImage(Image& image)
+	void NanoRenderer::load_image(Image& image)
 	{
 		if(m_null) return;
 		image.d_handle = nvgCreateImage(m_ctx, image.d_path.c_str(), image.d_tile ? (NVG_IMAGE_REPEATX | NVG_IMAGE_REPEATY) : 0);
 	}
 
-	void NanoRenderer::unloadImage(Image& image)
+	void NanoRenderer::unload_image(Image& image)
 	{
 		if(m_null) return;
 		nvgDeleteImage(m_ctx, image.d_handle);
 		image.d_handle = 0;
 	}
 
-	uint16_t NanoRenderer::loadTexture(uint16_t texture)
+	uint16_t NanoRenderer::load_texture(uint16_t texture)
 	{
 		return texture;
 	}
 
-	void NanoRenderer::beginFrame(UiRenderTarget& target)
+	void NanoRenderer::begin_frame(UiRenderTarget& target)
 	{
 		bgfx::setViewRect(250, 0, 0, uint16_t(target.m_layer.m_frame.m_size.x), uint16_t(target.m_layer.m_frame.m_size.y));
 		bgfx::setViewMode(250, bgfx::ViewMode::Sequential);
@@ -114,7 +114,7 @@ namespace mud
 		nvgBeginFrame(m_ctx, int(target.m_layer.m_frame.m_size.x), int(target.m_layer.m_frame.m_size.y), pixelRatio);
 	}
 
-	void NanoRenderer::endFrame()
+	void NanoRenderer::end_frame()
 	{
 		nvgEndFrame(m_ctx);
 	}
@@ -140,14 +140,14 @@ namespace mud
 		nvgResetScissor(m_ctx);
 	}
 
-	void NanoRenderer::pathLine(const vec2& p1, const vec2& p2)
+	void NanoRenderer::path_line(const vec2& p1, const vec2& p2)
 	{
 		nvgBeginPath(m_ctx);
 		nvgMoveTo(m_ctx, p1.x, p1.y);
 		nvgLineTo(m_ctx, p2.x, p2.y);
 	}
 
-	void NanoRenderer::pathBezier(const vec2& p1, const vec2& c1, const vec2& c2, const vec2& p2, bool straighten)
+	void NanoRenderer::path_bezier(const vec2& p1, const vec2& c1, const vec2& c2, const vec2& p2, bool straighten)
 	{
 		nvgBeginPath(m_ctx);
 		nvgMoveTo(m_ctx, p1.x, p1.y);
@@ -161,7 +161,7 @@ namespace mud
 			nvgBezierTo(m_ctx, c1.x, c1.y, c2.x, c2.y, p2.x, p2.y);
 	}
 
-	void NanoRenderer::pathRect(const vec4& rect, const vec4& corners, float border)
+	void NanoRenderer::path_rect(const vec4& rect, const vec4& corners, float border)
 	{
 		nvgBeginPath(m_ctx);
 
@@ -172,13 +172,13 @@ namespace mud
 			nvgRoundedRectVarying(m_ctx, RECT_FLOATS(path_rect), RECT_FLOATS(corners));
 	}
 
-	void NanoRenderer::pathCircle(const vec2& center, float r)
+	void NanoRenderer::path_circle(const vec2& center, float r)
 	{
 		nvgBeginPath(m_ctx);
 		nvgCircle(m_ctx, center.x, center.y, r);
 	}
 	
-	void NanoRenderer::drawShadow(const vec4& rect, const vec4& corners, const Shadow& shadow)
+	void NanoRenderer::draw_shadow(const vec4& rect, const vec4& corners, const Shadow& shadow)
 	{
 		vec4 shadow_rect = { rect_offset(rect) + shadow.d_pos - shadow.d_radius, rect_size(rect) + shadow.d_radius * 2.f };
 		vec4 gradient_rect = { rect_offset(rect) + shadow.d_pos - shadow.d_spread, rect_size(rect) + shadow.d_spread * 2.f };
@@ -213,7 +213,7 @@ namespace mud
 		nvgStroke(m_ctx);
 	}
 
-	void NanoRenderer::strokeGradient(const Gradient& paint, float width, const vec2& start, const vec2& end)
+	void NanoRenderer::stroke_gradient(const Gradient& paint, float width, const vec2& start, const vec2& end)
 	{
 		NVGcolor first = nvgColour(paint.m_start);
 		NVGcolor second = nvgColour(paint.m_end);
@@ -223,7 +223,7 @@ namespace mud
 		nvgStroke(m_ctx);
 	}
 
-	void NanoRenderer::drawTexture(uint16_t image, const vec4& rect, const vec4& imageRect)
+	void NanoRenderer::draw_texture(uint16_t image, const vec4& rect, const vec4& imageRect)
 	{
 		NVGpaint imgPaint = nvgImagePattern(m_ctx, RECT_FLOATS(imageRect), 0.0f / 180.0f * NVG_PI, image, 1.f);
 		nvgBeginPath(m_ctx);
@@ -232,7 +232,7 @@ namespace mud
 		nvgFill(m_ctx);
 	}
 
-	void NanoRenderer::drawColorWheel(const vec2& center, float r0, float r1)
+	void NanoRenderer::draw_color_wheel(const vec2& center, float r0, float r1)
 	{
 		float aeps = 0.5f / r1;	// half a pixel arc length in radians (2pi cancels out).
 
@@ -257,13 +257,13 @@ namespace mud
 
 #if 0
 		nvgBeginPath(vg);
-		renderer.pathCircle(center, r0 - 0.5f);
-		renderer.pathCircle(center, r0 + 0.5f);
+		renderer.path_circle(center, r0 - 0.5f);
+		renderer.path_circle(center, r0 + 0.5f);
 		renderer.stroke({ Colour::None, Colour(0.f, 0.f, 0.f, 64 / 255.f) , 1.0f });
 #endif
 	}
 
-	void NanoRenderer::drawColorTriangle(const vec2& center, float r0, float hue, float s, float l)
+	void NanoRenderer::draw_color_triangle(const vec2& center, float r0, float hue, float s, float l)
 	{
 		nvgTranslate(m_ctx, center.x, center.y);
 		nvgRotate(m_ctx, hue * M_PI * 2);
@@ -326,7 +326,7 @@ namespace mud
 		nvgFill(m_ctx);
 	}
 
-	void NanoRenderer::setupText(const TextPaint& paint)
+	void NanoRenderer::setup_text(const TextPaint& paint)
 	{
 		NVGalign alignH = NVG_ALIGN_LEFT;
 		if(paint.m_align.x == CENTER)
@@ -338,17 +338,17 @@ namespace mud
 		nvgFontFace(m_ctx, paint.m_font);
 		nvgTextAlign(m_ctx, alignH | NVG_ALIGN_BOTTOM);
 
-		m_lineHeight = 0.f;
-		nvgTextMetrics(m_ctx, nullptr, nullptr, &m_lineHeight);
+		m_line_height = 0.f;
+		nvgTextMetrics(m_ctx, nullptr, nullptr, &m_line_height);
 	}
 
-	void NanoRenderer::breakText(cstring text, size_t len, const vec2& space, const TextPaint& paint, std::vector<TextRow>& textRows)
+	void NanoRenderer::break_text(cstring text, size_t len, const vec2& space, const TextPaint& paint, std::vector<TextRow>& text_rows)
 	{
-		this->setupText(paint);
-		VgRenderer::breakText(text, len, space, paint, textRows);
+		this->setup_text(paint);
+		VgRenderer::break_text(text, len, space, paint, text_rows);
 	}
 
-	void NanoRenderer::breakNextRow(const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row)
+	void NanoRenderer::break_next_row(const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row)
 	{
 		UNUSED(paint);
 		NVGtextRow nvgTextRow;
@@ -356,10 +356,10 @@ namespace mud
 
 		row.m_start = nvgTextRow.start;
 		row.m_end = nvgTextRow.end;
-		row.m_rect = vec4{ rect.x, rect.y, nvgTextRow.width, m_lineHeight };
+		row.m_rect = vec4{ rect.x, rect.y, nvgTextRow.width, m_line_height };
 	}
 
-	void NanoRenderer::breakGlyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow)
+	void NanoRenderer::break_glyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow)
 	{
 		UNUSED(paint);
 		size_t numGlyphs = textRow.m_end - textRow.m_start;
@@ -375,28 +375,28 @@ namespace mud
 		}
 	}
 
-	void NanoRenderer::drawText(const vec2& offset, const char* start, const char* end, const TextPaint& paint)
+	void NanoRenderer::draw_text(const vec2& offset, const char* start, const char* end, const TextPaint& paint)
 	{
-		this->setupText(paint);
+		this->setup_text(paint);
 
 		nvgFillColor(m_ctx, nvgColour(paint.m_colour));
-		nvgText(m_ctx, offset.x, offset.y + m_lineHeight, start, end);
+		nvgText(m_ctx, offset.x, offset.y + m_line_height, start, end);
 	}
 
-	void NanoRenderer::beginTarget()
+	void NanoRenderer::begin_target()
 	{
 		nvgSave(m_ctx);
 		nvgResetTransform(m_ctx);
 		nvgResetScissor(m_ctx);
 	}
 
-	void NanoRenderer::endTarget()
+	void NanoRenderer::end_target()
 	{
 		nvgRestore(m_ctx);
 	}
 
 #ifdef MUD_UI_DRAW_CACHE
-	NVGdisplayList* NanoRenderer::layerCache(Layer& layer)
+	NVGdisplayList* NanoRenderer::layer_cache(Layer& layer)
 	{
 		if(m_layers.find(&layer) == m_layers.end())
 			m_layers[&layer] = nvgCreateDisplayList(-1);
@@ -404,22 +404,22 @@ namespace mud
 		return m_layers[&layer];
 	}
 
-	void NanoRenderer::drawLayer(Layer& layer, const vec2& position, float scale)
+	void NanoRenderer::draw_layer(Layer& layer, const vec2& position, float scale)
 	{
 		nvgSave(m_ctx);
 		nvgTranslate(m_ctx, position.x, position.y);
 		nvgScale(m_ctx, scale, scale);
-		nvgDrawDisplayList(m_ctx, layerCache(layer));
+		nvgDrawDisplayList(m_ctx, this->layer_cache(layer));
 		nvgRestore(m_ctx);
 	}
 
 #endif
 
-	void NanoRenderer::beginLayer(Layer& layer, const vec2& position, float scale)
+	void NanoRenderer::begin_layer(Layer& layer, const vec2& position, float scale)
 	{
 #ifdef MUD_UI_DRAW_CACHE
-		nvgResetDisplayList(layerCache(layer));
-		nvgBindDisplayList(m_ctx, layerCache(layer));
+		nvgResetDisplayList(this->layer_cache(layer));
+		nvgBindDisplayList(m_ctx, this->layer_cache(layer));
 #else
 		UNUSED(layer);
 #endif
@@ -428,7 +428,7 @@ namespace mud
 		nvgScale(m_ctx, scale, scale);
 	}
 
-	void NanoRenderer::endLayer()
+	void NanoRenderer::end_layer()
 	{
 		nvgRestore(m_ctx);
 #ifdef MUD_UI_DRAW_CACHE
@@ -436,36 +436,36 @@ namespace mud
 #endif
 	}
 
-	void NanoRenderer::beginUpdate(const vec2& position, float scale)
+	void NanoRenderer::begin_update(const vec2& position, float scale)
 	{
 		nvgSave(m_ctx);
 		nvgTranslate(m_ctx, position.x, position.y);
 		nvgScale(m_ctx, scale, scale);
 	}
 
-	void NanoRenderer::endUpdate()
+	void NanoRenderer::end_update()
 	{
 		nvgRestore(m_ctx);
 	}
 
-	float NanoRenderer::lineHeight(const TextPaint& paint)
+	float NanoRenderer::line_height(const TextPaint& paint)
 	{
-		this->setupText(paint);
-		return m_lineHeight;
+		this->setup_text(paint);
+		return m_line_height;
 	}
 
-	vec2 NanoRenderer::textSize(cstring text, size_t len, const TextPaint& paint)
+	vec2 NanoRenderer::text_size(cstring text, size_t len, const TextPaint& paint)
 	{
-		this->setupText(paint);
+		this->setup_text(paint);
 
 		float bounds[4];
 		nvgTextBounds(m_ctx, 0.f, 0.f, text, text + len, bounds);
 
-		return { bounds[2] - bounds[0], m_lineHeight };
+		return { bounds[2] - bounds[0], m_line_height };
 	}
 
-	float NanoRenderer::textSize(cstring text, size_t len, Dim dim, const TextPaint& paint)
+	float NanoRenderer::text_size(cstring text, size_t len, Dim dim, const TextPaint& paint)
 	{
-		return dim == DIM_X ? textSize(text, len, paint).x : textSize(text, len, paint).y;
+		return dim == DIM_X ? text_size(text, len, paint).x : text_size(text, len, paint).y;
 	}
 }

@@ -3,7 +3,6 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 
-#include <ui/Generated/Types.h>
 #include <ui/Structs/Dock.h>
 #include <ui/Structs/Window.h>
 #include <ui/Dock.h>

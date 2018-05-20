@@ -9,6 +9,10 @@ function mud_ui_backend()
         path.join(MUD_3RDPARTY_DIR, "vg-renderer", "src"),
 	}
 
+    defines {
+        "MUD_UI_DRAW_CACHE",
+    }
+        
     configuration { "vg-vg" }
         files {
             path.join(MUD_SRC_DIR,      "ui-vg",        "**.h"),
@@ -23,7 +27,6 @@ function mud_ui_backend()
         }
         
         defines {
-            --"MUD_UI_DRAW_CACHE",
             "MUD_VG_VG",
         }
         
@@ -36,7 +39,6 @@ function mud_ui_backend()
         }
     
         defines {
-            --"MUD_UI_DRAW_CACHE",
             "MUD_VG_NANOVG",
         }
         

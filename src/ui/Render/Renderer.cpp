@@ -77,19 +77,19 @@ namespace mud
 	VgRenderer::~VgRenderer()
 	{}
 
-	cstring VgRenderer::fontPath(cstring font)
+	cstring VgRenderer::font_path(cstring font)
 	{
 		return m_impl->m_font_sources[string(font)].c_str();
 	}
 
 	void VgRenderer::render(UiRenderTarget& target)
 	{
-		this->logFPS();
+		this->log_FPS();
 
 		m_debug_batch = 0;
 		static size_t prevBatch = 0;
 
-		this->beginFrame(target);
+		this->begin_frame(target);
 
 #ifdef MUD_UI_DRAW_CACHE
 		target.m_layer.visit([&](Layer& layer) {
@@ -98,7 +98,7 @@ namespace mud
 		});
 
 		target.m_layer.visit([&](Layer& layer) {
-			this->drawLayer(layer, Zero2, 1.f);
+			this->draw_layer(layer, Zero2, 1.f);
 		});
 #else
 		target.m_layer.visit([&](Layer& layer)
@@ -113,29 +113,29 @@ namespace mud
 			//printf("DEBUG: Render Frame : %i frames redrawn\n", m_debug_batch);
 		}
 
-		this->endFrame();
+		this->end_frame();
 	}
 
 	void VgRenderer::render_layer(Layer& layer)
 	{
 		if(layer.master())
-			this->beginTarget();
+			this->begin_target();
 
 		if(layer.m_frame.d_parent)
 			this->begin_layer(*layer.m_frame.d_parent);
 
-		this->beginLayer(layer);
+		this->begin_layer(layer);
 
 		this->render_frame(layer.m_frame);
 
-		this->endLayer();
+		this->end_layer();
 		layer.endRedraw();
 
 		if(layer.m_frame.d_parent)
 			this->end_layer(*layer.m_frame.d_parent);
 
 		if(layer.master())
-			this->endTarget();
+			this->end_target();
 	}
 
 	inline bool flow(const Frame& frame) { return frame.d_style->layout().m_flow == FLOW; }
@@ -144,7 +144,7 @@ namespace mud
 
 	void VgRenderer::begin_frame(Frame& frame)
 	{
-		this->beginUpdate(floor(frame.m_position), frame.m_scale);
+		this->begin_update(floor(frame.m_position), frame.m_scale);
 
 		if(mud::clip(frame))
 		{
@@ -161,7 +161,7 @@ namespace mud
 	void VgRenderer::end_frame(Frame& frame)
 	{
 		UNUSED(frame);
-		this->endUpdate();
+		this->end_update();
 	}
 
 	void VgRenderer::begin_layer(Frame& frame)
@@ -213,25 +213,25 @@ namespace mud
 		vec4 padded_rect = { floor(rect_offset(frame.d_inkstyle->m_padding)),
 							 floor(frame.m_size - rect_sum(frame.d_inkstyle->m_padding)) };
 
-		vec2 content_pos = { contentPos(frame, padded_rect, DIM_X), contentPos(frame, padded_rect, DIM_Y) };
+		vec2 content_pos = { this->content_pos(frame, padded_rect, DIM_X), this->content_pos(frame, padded_rect, DIM_Y) };
 		vec4 content_rect = { content_pos, frame.m_content };
 		
 #if 0 // DEBUG
 		if(frame.d_style->m_name == m_debugDrawFilter)
-			this->debugRect(rect, Colour::Red);
+			this->debug_rect(rect, Colour::Red);
 		if(m_debugDrawFrameRect)
-			this->debugRect(rect, Colour::Red);
+			this->debug_rect(rect, Colour::Red);
 		if(m_debugDrawPaddedRect)
-			this->debugRect(padded_rect, Colour::Green);
+			this->debug_rect(padded_rect, Colour::Green);
 		if(m_debugDrawContentRect)
-			this->debugRect(content_rect, Colour::Blue);
+			this->debug_rect(content_rect, Colour::Blue);
 #endif
 
-		this->drawBackground(frame, rect, padded_rect, content_rect);
-		this->drawContent(frame, rect, padded_rect, content_rect);
+		this->draw_background(frame, rect, padded_rect, content_rect);
+		this->draw_content(frame, rect, padded_rect, content_rect);
 	}
 
-	float VgRenderer::contentPos(const Frame& frame, const vec4& padded_rect, Dim dim)
+	float VgRenderer::content_pos(const Frame& frame, const vec4& padded_rect, Dim dim)
 	{
 		if(frame.d_inkstyle->m_align[dim] == CENTER)
 			return padded_rect[dim] + padded_rect[dim + 2] / 2.f - frame.m_content[dim] / 2.f;
@@ -241,7 +241,7 @@ namespace mud
 			return padded_rect[dim];
 	}
 
-	vec4 VgRenderer::selectCorners(const Frame& frame)
+	vec4 VgRenderer::select_corners(const Frame& frame)
 	{
 		Frame& parent = *frame.d_parent;
 
@@ -254,7 +254,7 @@ namespace mud
 			return vec4();
 	}
 
-	void VgRenderer::drawBackground(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)
+	void VgRenderer::draw_background(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)
 	{
 		m_debug_batch++;
 
@@ -263,14 +263,14 @@ namespace mud
 		// Shadow
 		if(!inkstyle.m_shadow.d_null)
 		{
-			this->drawShadow(rect, inkstyle.m_corner_radius, inkstyle.m_shadow);
+			this->draw_shadow(rect, inkstyle.m_corner_radius, inkstyle.m_shadow);
 		}
 
 		// Rect
 		if(inkstyle.m_border_width.x || !inkstyle.m_background_colour.null())
 		{
-			vec4 cornerRadius = inkstyle.m_weak_corners ? this->selectCorners(frame) : inkstyle.m_corner_radius;
-			this->drawRect(rect, cornerRadius, inkstyle);
+			vec4 cornerRadius = inkstyle.m_weak_corners ? this->select_corners(frame) : inkstyle.m_corner_radius;
+			this->draw_rect(rect, cornerRadius, inkstyle);
 		}
 
 		// ImageSkin
@@ -289,44 +289,44 @@ namespace mud
 			image_skin.stretch_coords(rect_offset(skin_rect), rect_size(skin_rect), { sections, ImageSkin::Count });
 
 			for(size_t s = 0; s < ImageSkin::Count; ++s)
-				this->drawSkinImage(frame, s, sections[s]);
+				this->draw_skin_image(frame, s, sections[s]);
 		}
 
 		// Image
 		if(inkstyle.m_overlay)
-			this->drawImage(*inkstyle.m_overlay, padded_rect);
+			this->draw_image(*inkstyle.m_overlay, padded_rect);
 		if(inkstyle.m_tile)
-			this->drawImage(*inkstyle.m_tile, rect);
+			this->draw_image(*inkstyle.m_tile, rect);
 	}
 
-	void VgRenderer::drawImage(const Image& image, const vec4& rect)
+	void VgRenderer::draw_image(const Image& image, const vec4& rect)
 	{
 		if(image.d_atlas)
 		{
 			vec4 image_rect = { rect_offset(rect) - vec2(image.d_coord), vec2(image.d_atlas->m_image.d_size) };
-			this->drawTexture(uint16_t(image.d_atlas->m_image.d_handle), rect, image_rect);
+			this->draw_texture(uint16_t(image.d_atlas->m_image.d_handle), rect, image_rect);
 		}
 		else
 		{
-			this->drawTexture(uint16_t(image.d_handle), rect, rect);
+			this->draw_texture(uint16_t(image.d_handle), rect, rect);
 		}
 	}
 
-	void VgRenderer::drawImageStretch(const Image& image, const vec4& rect, const vec2& stretch)
+	void VgRenderer::draw_image_stretch(const Image& image, const vec4& rect, const vec2& stretch)
 	{
 		if(image.d_atlas)
 		{
 			vec4 image_rect = { rect_offset(rect) - vec2(image.d_coord) * stretch, vec2(image.d_atlas->m_image.d_size) * stretch };
-			this->drawTexture(uint16_t(image.d_atlas->m_image.d_handle), rect, image_rect);
+			this->draw_texture(uint16_t(image.d_atlas->m_image.d_handle), rect, image_rect);
 		}
 		else
 		{
 			vec4 image_rect = { rect_offset(rect), vec2(image.d_size) * stretch };
-			this->drawTexture(uint16_t(image.d_handle), rect, image_rect);
+			this->draw_texture(uint16_t(image.d_handle), rect, image_rect);
 		}
 	}
 
-	void VgRenderer::drawSkinImage(const Frame& frame, int section, vec4 rect)
+	void VgRenderer::draw_skin_image(const Frame& frame, int section, vec4 rect)
 	{
 		ImageSkin& imageSkin = frame.d_inkstyle->m_image_skin;
 		rect.x = rect.x - imageSkin.m_margin;
@@ -340,7 +340,7 @@ namespace mud
 		if(section == ImageSkin::Left || section == ImageSkin::Right || section == ImageSkin::Fill)
 			ratio.y = divided.y;
 
-		this->drawImageStretch(imageSkin.d_images[section], rect, ratio);
+		this->draw_image_stretch(imageSkin.d_images[section], rect, ratio);
 	}
 
 	inline TextPaint text_paint(InkStyle& inkstyle)
@@ -348,7 +348,7 @@ namespace mud
 		return { inkstyle.m_text_font.c_str(), inkstyle.m_text_colour, inkstyle.m_text_size, inkstyle.m_align, inkstyle.m_text_break, inkstyle.m_text_wrap };
 	}
 
-	void VgRenderer::drawContent(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)
+	void VgRenderer::draw_content(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)
 	{
 		UNUSED(rect);
 
@@ -358,15 +358,15 @@ namespace mud
 		//this->clip(rect);
 
 		if(frame.icon())
-			this->drawImage(*frame.icon(), content_rect);
+			this->draw_image(*frame.icon(), content_rect);
 
 		if(frame.caption())
-			this->drawText(rect_offset(padded_rect), frame.caption(), nullptr, text_paint(*frame.d_inkstyle));
+			this->draw_text(rect_offset(padded_rect), frame.caption(), nullptr, text_paint(*frame.d_inkstyle));
 	}
 
-	void VgRenderer::drawRect(const vec4& rect, const vec4& corners, const InkStyle& inkstyle)
+	void VgRenderer::draw_rect(const vec4& rect, const vec4& corners, const InkStyle& inkstyle)
 	{
-		this->pathRect(rect, corners, inkstyle.m_border_width.x);
+		this->path_rect(rect, corners, inkstyle.m_border_width.x);
 
 		if(!inkstyle.m_background_colour.null())
 		{
@@ -389,9 +389,9 @@ namespace mud
 			this->stroke({ inkstyle.m_background_colour, inkstyle.m_border_colour, inkstyle.m_border_width.x });
 	}
 
-	void VgRenderer::drawRect(const vec4& rect, const Paint& paint, const vec4& corners)
+	void VgRenderer::draw_rect(const vec4& rect, const Paint& paint, const vec4& corners)
 	{
-		this->pathRect(rect, corners, paint.m_stroke_width);
+		this->path_rect(rect, corners, paint.m_stroke_width);
 
 		if(!paint.m_fill_colour.null())
 			this->fill(paint);
@@ -399,30 +399,30 @@ namespace mud
 			this->stroke(paint);
 	}
 
-	void VgRenderer::debugRect(const vec4& rect, const Colour& colour)
+	void VgRenderer::debug_rect(const vec4& rect, const Colour& colour)
 	{
 		Paint paint = { Colour::None, colour, 1.f };
-		this->drawRect(rect, paint);
+		this->draw_rect(rect, paint);
 	}
 
-	void VgRenderer::fillText(cstring text, size_t len, const vec4& rect, const TextPaint& paint, TextRow& row)
+	void VgRenderer::fill_text(cstring text, size_t len, const vec4& rect, const TextPaint& paint, TextRow& row)
 	{
 		row.m_start = text;
 		row.m_end = text + len;
-		row.m_rect = vec4{ rect.x, rect.y, this->textSize(text, len, DIM_X, paint), lineHeight(paint) };
+		row.m_rect = vec4{ rect.x, rect.y, this->text_size(text, len, DIM_X, paint), line_height(paint) };
 
-		this->breakGlyphs(rect, paint, row);
+		this->break_glyphs(rect, paint, row);
 	}
 
-	void VgRenderer::breakTextWidth(const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row)
+	void VgRenderer::break_text_width(const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row)
 	{
-		this->breakNextRow(first, end, rect, paint, row);
+		this->break_next_row(first, end, rect, paint, row);
 
 		if(row.m_start != row.m_end)
-			this->breakGlyphs(rect, paint, row);
+			this->break_glyphs(rect, paint, row);
 	}
 
-	void VgRenderer::breakTextReturns(const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row)
+	void VgRenderer::break_text_returns(const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row)
 	{
 		const char* iter = first;
 
@@ -431,18 +431,18 @@ namespace mud
 
 		row.m_start = first;
 		row.m_end = iter;
-		row.m_rect = vec4{ rect.x, rect.y, this->textSize(first, iter - first, DIM_X, paint), lineHeight(paint) };
+		row.m_rect = vec4{ rect.x, rect.y, this->text_size(first, iter - first, DIM_X, paint), line_height(paint) };
 
-		this->breakGlyphs(rect, paint, row);
+		this->break_glyphs(rect, paint, row);
 
-		// @kludge because textSize doesn't report the correct size when there is a space at the end : investigate (vg-renderer, nanovg)
+		// @kludge because text_size doesn't report the correct size when there is a space at the end : investigate (vg-renderer, nanovg)
 		if(!row.m_glyphs.empty())
-			row.m_rect = vec4{ rect.x, rect.y, row.m_glyphs.back().m_rect.x + rect_w(row.m_glyphs.back().m_rect), lineHeight(paint) };
+			row.m_rect = vec4{ rect.x, rect.y, row.m_glyphs.back().m_rect.x + rect_w(row.m_glyphs.back().m_rect), line_height(paint) };
 	}
 
-	void VgRenderer::breakText(cstring text, size_t len, const vec2& space, const TextPaint& paint, std::vector<TextRow>& textRows)
+	void VgRenderer::break_text(cstring text, size_t len, const vec2& space, const TextPaint& paint, std::vector<TextRow>& textRows)
 	{
-		float line_height = lineHeight(paint);
+		float line_height = this->line_height(paint);
 
 		textRows.clear();
 
@@ -451,7 +451,7 @@ namespace mud
 			textRows.resize(1);
 
 			vec4 rect(0.f, 0.f, space.x, line_height);
-			this->fillText(text, len, rect, paint, textRows[0]);
+			this->fill_text(text, len, rect, paint, textRows[0]);
 			return;
 		}
 
@@ -466,9 +466,9 @@ namespace mud
 
 			vec4 rect(0.f, index * line_height, space.x, 0.f);
 			if(paint.m_text_wrap)
-				this->breakTextWidth(first, end, rect, paint, row);
+				this->break_text_width(first, end, rect, paint, row);
 			else
-				this->breakTextReturns(first, end, rect, paint, row);
+				this->break_text_returns(first, end, rect, paint, row);
 
 			row.m_start_index = row.m_start - text;
 			row.m_end_index = row.m_end - text;
@@ -476,7 +476,7 @@ namespace mud
 		}
 	}
 
-	void VgRenderer::logFPS()
+	void VgRenderer::log_FPS()
 	{
 		static size_t frames = 0;
 		static double prevtime;

@@ -72,7 +72,7 @@ namespace mud
 		for(auto& image : m_images)
 			if(image->d_handle != -1)
 			{
-				m_renderer->unloadImage(*image);
+				m_renderer->unload_image(*image);
 			}
 
 #ifndef MUD_UI_IMMEDIATE
@@ -83,7 +83,7 @@ namespace mud
 	void UiWindow::init()
 	{
 		printf("INFO: Initializing UiWindow: resource path %s\n", m_resource_path.c_str());
-		m_renderer->setupContext();
+		m_renderer->setup_context();
 
 		this->init_resources();
 		this->load_resources();
@@ -120,13 +120,13 @@ namespace mud
 
 	void UiWindow::load_resources()
 	{
-		m_renderer->loadDefaultFont();
+		m_renderer->load_default_font();
 
 		std::vector<Image*> images;
 		for(auto& image : m_images) images.push_back(image.get());
 
 		std::vector<unsigned char> atlas = m_atlas.generate_atlas(images);
-		m_renderer->loadImageRGBA(m_atlas.m_image, atlas.data());
+		m_renderer->load_image_RGBA(m_atlas.m_image, atlas.data());
 	}
 
 	Image& UiWindow::create_image(cstring name, uvec2 size, uint8_t* data, bool filtering)
@@ -134,14 +134,14 @@ namespace mud
 		m_images.emplace_back(make_object<Image>(name, name, size));
 		Image& image = *m_images.back();
 		image.d_filtering = filtering;
-		m_renderer->loadImageRGBA(image, data);
+		m_renderer->load_image_RGBA(image, data);
 		return image;
 	}
 
 	void UiWindow::remove_image(Image& image)
 	{
 		vector_remove_if(m_images, [&](object_ptr<Image>& current) { return current.get() == &image; });
-		m_renderer->unloadImage(image);
+		m_renderer->unload_image(image);
 	}
 
 	Image& UiWindow::find_image(cstring name)

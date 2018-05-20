@@ -20,12 +20,12 @@ namespace ui
 
 		for(float val = start; val < frame.m_size.x; val += frequency)
 		{
-			renderer.pathLine({ val, 0.f }, { val, frame.m_size.y });
+			renderer.path_line({ val, 0.f }, { val, frame.m_size.y });
 			renderer.stroke(paint);
 		}
 		for(float val = start; val < frame.m_size.y; val += frequency)
 		{
-			renderer.pathLine({ 0.f, val }, { frame.m_size.x, val });
+			renderer.path_line({ 0.f, val }, { frame.m_size.x, val });
 			renderer.stroke(paint);
 		}
 

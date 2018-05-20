@@ -54,7 +54,7 @@ namespace mud
 	{
 		bgfx::reset(width, height, BGFX_RESET_NONE);
 		m_target = make_object<RenderTarget>(uvec2(width, height));
-		m_vg_handle = m_gfx_system.m_vg_renderer->loadTexture(m_target->m_diffuse.idx);
+		m_vg_handle = m_gfx_system.m_vg_renderer->load_texture(m_target->m_diffuse.idx);
 	}
 
 	struct GfxSystem::Impl

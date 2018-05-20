@@ -11,7 +11,7 @@
 #if defined MUD_VG_VG
 #include <ui-vg/VgRenderer.h>
 #elif defined MUD_VG_NANOVG
-#include <ui-vg/NanoRenderer.h>
+#include <ui-nanovg/NanoRenderer.h>
 #endif
 
 #include <bgfx/bgfx.h>
@@ -97,7 +97,7 @@ namespace mud
 		bgfx::setViewRect(0, 0, 0, uint16_t(context.m_width), uint16_t(context.m_height));
 		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 1.0f, 0);
 
-		m_start_counter = bx::getHPCounter();
+		m_start_counter = double(bx::getHPCounter());
 		m_initialized = true;
 	}
 

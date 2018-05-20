@@ -128,7 +128,7 @@ namespace mud
 
 	float Text::line_height() const
 	{
-		return s_renderer->lineHeight(m_text_paint);
+		return s_renderer->line_height(m_text_paint);
 	}
 
 	vec2 Text::compute_text_size()
@@ -159,7 +159,7 @@ namespace mud
 		vec2 padded_size = floor(m_frame.m_size - rect_sum(m_frame.d_inkstyle->m_padding));
 
 		if(!m_text.empty())
-			s_renderer->breakText(m_text.c_str(), m_text.size(), padded_size, m_text_paint, m_text_rows);
+			s_renderer->break_text(m_text.c_str(), m_text.size(), padded_size, m_text_paint, m_text_rows);
 		else
 			m_text_rows.clear();
 	}
@@ -762,7 +762,7 @@ namespace mud
 	void draw_text(VgRenderer& renderer, const vec2& padding, const Text& text)
 	{
 		for(const TextRow& row : text.m_text_rows)
-			renderer.drawText(padding + rect_offset(row.m_rect), row.m_start, row.m_end, text.m_text_paint);
+			renderer.draw_text(padding + rect_offset(row.m_rect), row.m_start, row.m_end, text.m_text_paint);
 	}
 
 	void draw_editor_text(VgRenderer& renderer, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette)
@@ -777,14 +777,14 @@ namespace mud
 				current_section++;
 
 			snprintf(line_number, 16, "%6d", int(++line));
-			renderer.drawText(padding + rect_offset(row.m_rect), line_number, nullptr, palette_text_paint(text, palette, Text::LineNumber));
+			renderer.draw_text(padding + rect_offset(row.m_rect), line_number, nullptr, palette_text_paint(text, palette, Text::LineNumber));
 
 			while(current_section < text.m_sections.size() && text.m_sections[current_section].m_start < row.m_end)
 			{
 				const Text::ColorSection& section = text.m_sections[current_section];
 
 				vec2 position = text_offset + rect_offset(row.m_glyphs[section.m_start - row.m_start].m_rect);
-				renderer.drawText(floor(position) + vec2(0.f, 0.5f), section.m_start, section.m_end, palette_text_paint(text, palette, section.m_colour));
+				renderer.draw_text(floor(position) + vec2(0.f, 0.5f), section.m_start, section.m_end, palette_text_paint(text, palette, section.m_colour));
 
 				current_section++;
 			}
@@ -802,7 +802,7 @@ namespace mud
 			{
 				if(row.m_glyphs.empty())
 				{
-					renderer.drawRect({ text_offset + rect_offset(row.m_rect), vec2{ 5.f, rect_h(row.m_rect) } }, palette_paint(palette, Text::Selection));
+					renderer.draw_rect({ text_offset + rect_offset(row.m_rect), vec2{ 5.f, rect_h(row.m_rect) } }, palette_paint(palette, Text::Selection));
 					continue;
 				}
 
@@ -810,7 +810,7 @@ namespace mud
 				size_t select_end = min(row.m_end_index, size_t(selection.m_end));
 
 				vec4 row_rect = text.interval_rect(row, select_start, select_end - 1);
-				renderer.drawRect({ text_offset + rect_offset(row_rect), rect_size(row_rect) }, palette_paint(palette, Text::Selection));
+				renderer.draw_rect({ text_offset + rect_offset(row_rect), rect_size(row_rect) }, palette_paint(palette, Text::Selection));
 			}
 
 			if(selection.m_cursor >= row.m_start_index && selection.m_cursor <= row.m_end_index)
@@ -819,7 +819,7 @@ namespace mud
 				{
 					bool focused = false;
 					vec4 rect = { padding + vec2{ 0.f, row.m_rect.y }, vec2{ frame.m_size.x, text.line_height() } };
-					renderer.drawRect(rect, { palette_colour(palette, focused ? Text::CurrentLineFill : Text::CurrentLineFillInactive),
+					renderer.draw_rect(rect, { palette_colour(palette, focused ? Text::CurrentLineFill : Text::CurrentLineFillInactive),
 											  palette_colour(palette, Text::CurrentLineEdge), 1.0f });
 				}
 				
@@ -839,7 +839,7 @@ namespace mud
 						cursor_rect.x -= 1.f;
 						cursor_rect.z = 1.f;
 					}
-					renderer.drawRect({ text_offset + rect_offset(cursor_rect), rect_size(cursor_rect) }, palette_paint(palette, Text::Cursor));
+					renderer.draw_rect({ text_offset + rect_offset(cursor_rect), rect_size(cursor_rect) }, palette_paint(palette, Text::Cursor));
 				}
 			}
 		}
@@ -851,9 +851,9 @@ namespace mud
 			recolorize();
 
 		if(m_editor)
-			renderer.drawRect({ m_frame.m_position, m_frame.m_size }, { palette_paint(m_palette, Text::Background) });
+			renderer.draw_rect({ m_frame.m_position, m_frame.m_size }, { palette_paint(m_palette, Text::Background) });
 		else
-			renderer.drawBackground(m_frame, { m_frame.m_position, m_frame.m_size }, {}, {});
+			renderer.draw_background(m_frame, { m_frame.m_position, m_frame.m_size }, {}, {});
 
 		vec2 padding = floor(rect_offset(m_frame.d_inkstyle->m_padding));
 

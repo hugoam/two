@@ -26,7 +26,7 @@ namespace ui
 	void draw_knob(const Frame& frame, const Colour& colour, bool connected, VgRenderer& renderer)
 	{
 		float radius = connected ? 5.f : 4.f;
-		renderer.pathCircle(frame.m_size / 2.f, radius);
+		renderer.path_circle(frame.m_size / 2.f, radius);
 		if(connected)
 			renderer.fill({ colour });
 		else
@@ -48,10 +48,10 @@ namespace ui
 
 		int shift = -min(0, min_index);
 		
-		static Layout layout_overlay = { [](Layout& l) { l.m_space = BOARD; } };
-		static Layout layout_line = { [](Layout& l) { l.m_space = ITEM; l.m_align = { CENTER, CENTER }; l.m_padding = vec4(20.f); l.m_spacing = vec2(100.f); } };
-		static Layout layout_column = { [](Layout& l) { l.m_space = UNIT; l.m_align = { LEFT, CENTER }; l.m_padding = vec4(20.f); l.m_spacing = vec2(20.f); } };
-		static Layout layout_node = { [](Layout& l) { l.m_space = BLOCK; } };
+		static Layout layout_overlay = [](Layout& l) { l.m_space = BOARD; };
+		static Layout layout_line = [](Layout& l) { l.m_space = ITEM; l.m_align = { CENTER, CENTER }; l.m_padding = vec4(20.f); l.m_spacing = vec2(100.f); };
+		static Layout layout_column = [](Layout& l) { l.m_space = UNIT; l.m_align = { LEFT, CENTER }; l.m_padding = vec4(20.f); l.m_spacing = vec2(20.f); };
+		static Layout layout_node = [](Layout& l) { l.m_space = BLOCK; };
 
 		SolverVector solvers;
 		
@@ -86,8 +86,8 @@ namespace ui
 	{
 		float distance = straight ? 20.f : 100.f;
 		Gradient paint = { colour_out, colour_in };
-		renderer.pathBezier(pos_out, pos_out + vec2{ distance, 0.f }, pos_in - vec2{ distance, 0.f }, pos_in, straight);
-		renderer.strokeGradient(paint, 1.f, pos_out, pos_in);
+		renderer.path_bezier(pos_out, pos_out + vec2{ distance, 0.f }, pos_in - vec2{ distance, 0.f }, pos_in, straight);
+		renderer.stroke_gradient(paint, 1.f, pos_out, pos_in);
 	}
 
 	Widget& node_knob(Widget& parent, Style& style, const Colour& colour, bool active, bool connected)

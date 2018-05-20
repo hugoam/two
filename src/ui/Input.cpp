@@ -87,8 +87,8 @@ namespace ui
 		float r1 = (size.x < size.y ? size.x : size.y) * 0.5f - 5.0f;
 		float r0 = r1 - 20.0f;
 
-		renderer.drawColorWheel(center, r0, r1);
-		renderer.drawColorTriangle(center, r0, hue, s, l);
+		renderer.draw_color_wheel(center, r0, r1);
+		renderer.draw_color_triangle(center, r0, hue, s, l);
 	}
 
 	bool inside_color_wheel(Widget& self, const MouseEvent& event)
@@ -182,7 +182,7 @@ namespace ui
 		Widget& self = button(parent, style);//styles().color_slab);
 		self.m_custom_draw = [=](const Frame& frame, VgRenderer& renderer)
 		{
-			renderer.drawRect({ Zero2, frame.m_size }, { value }, frame.d_inkstyle->m_corner_radius);
+			renderer.draw_rect({ Zero2, frame.m_size }, { value }, frame.d_inkstyle->m_corner_radius);
 		};
 		return self;
 	}

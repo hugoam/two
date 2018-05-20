@@ -148,7 +148,13 @@ namespace mud
 		if(!d_content)
 			d_content = make_unique<Content>();
 		d_content->d_caption = text;
-		m_content = d_content->d_caption != "" ? s_renderer->textSize(d_content->d_caption.c_str(), d_content->d_caption.size(), text_paint(*d_inkstyle)) : Zero2;
+		if(d_content->d_caption != "")
+		{
+			TextPaint paint = text_paint(*d_inkstyle);
+			m_content = s_renderer->text_size(d_content->d_caption.c_str(), d_content->d_caption.size(), paint);
+		}
+		else
+			m_content = Zero2;
 		mark_dirty(DIRTY_LAYOUT);
 	}
 

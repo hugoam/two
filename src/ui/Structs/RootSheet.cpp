@@ -28,7 +28,7 @@ namespace mud
 
 		//if(!params.m_parent)
 		{
-			m_target = window.m_renderer->createRenderTarget(*m_frame.m_layer);
+			m_target = window.m_renderer->create_render_target(*m_frame.m_layer);
 			m_frame.update_style(true);
 		}
 	}

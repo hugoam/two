@@ -46,12 +46,12 @@ namespace mud
 		, m_allocator(allocator)
 	{}
 
-	object_ptr<UiRenderTarget> vgRenderer::createRenderTarget(Layer& layer)
+	object_ptr<UiRenderTarget> vgRenderer::create_render_target(Layer& layer)
 	{
 		return make_object<UiRenderTarget>(*this, layer, false);
 	}
 
-	void vgRenderer::setupContext()
+	void vgRenderer::setup_context()
 	{
 		static const vg::ContextConfig config =
 		{
@@ -69,33 +69,33 @@ namespace mud
 		m_vg = vg::createContext(250, m_allocator, &config);
 	}
 
-	void vgRenderer::releaseContext()
+	void vgRenderer::release_context()
 	{
 		vg::destroyContext(m_vg);
 	}
 
-	void vgRenderer::loadDefaultFont()
+	void vgRenderer::load_default_font()
 	{
 		if(m_null) return;
-		this->loadFont("dejavu");
+		this->load_font("dejavu");
 		m_default_font = m_fonts["dejavu"];
 	}
 
-	void vgRenderer::loadFont(cstring name)
+	void vgRenderer::load_font(cstring name)
 	{
-		string path = this->fontPath(name);
+		string path = this->font_path(name);
 		std::vector<uint8_t> buffer = read_binary_file(path);
 		m_fonts[name] = vg::createFont(m_vg, name, buffer.data(), buffer.size(), 0);
 	}
 
-	void vgRenderer::loadImageRGBA(Image& image, const unsigned char* data)
+	void vgRenderer::load_image_RGBA(Image& image, const unsigned char* data)
 	{
 		if(m_null) return;
 		vg::ImageHandle vgimage = vg::createImage(m_vg, uint16_t(image.d_size.x), uint16_t(image.d_size.y), image.d_filtering ? vg::ImageFlags::Enum(0) : vg::ImageFlags::Filter_Nearest, data);
 		image.d_handle = vgimage.idx;
 	}
 
-	void vgRenderer::loadImage(Image& image)
+	void vgRenderer::load_image(Image& image)
 	{
 		if(m_null) return;
 		int w, h, n;
@@ -107,20 +107,20 @@ namespace mud
 		stbi_image_free(img);
 	}
 
-	void vgRenderer::unloadImage(Image& image)
+	void vgRenderer::unload_image(Image& image)
 	{
 		if(m_null) return;
 		vg::deleteImage(m_vg, { uint16_t(image.d_handle) });
 		image.d_handle = 0;
 	}
 
-	uint16_t vgRenderer::loadTexture(uint16_t texture)
+	uint16_t vgRenderer::load_texture(uint16_t texture)
 	{
 		vg::ImageHandle vgimage = vg::createImage(m_vg, vg::ImageFlags::Filter_Nearest, { texture });
 		return vgimage.idx;
 	}
 
-	void vgRenderer::beginFrame(UiRenderTarget& target)
+	void vgRenderer::begin_frame(UiRenderTarget& target)
 	{
 		bgfx::setViewRect(250, 0, 0, uint16_t(target.m_layer.m_frame.m_size.x), uint16_t(target.m_layer.m_frame.m_size.y));
 		bgfx::setViewMode(250, bgfx::ViewMode::Sequential);
@@ -130,7 +130,7 @@ namespace mud
 		vg::beginFrame(m_vg, uint16_t(target.m_layer.m_frame.m_size.x), uint16_t(target.m_layer.m_frame.m_size.y), pixelRatio);
 	}
 
-	void vgRenderer::endFrame()
+	void vgRenderer::end_frame()
 	{
 		vg::endFrame(m_vg);
 	}
@@ -150,14 +150,14 @@ namespace mud
 		vg::resetScissor(m_vg);
 	}
 
-	void vgRenderer::pathLine(const vec2& p1, const vec2& p2)
+	void vgRenderer::path_line(const vec2& p1, const vec2& p2)
 	{
 		vg::beginPath(m_vg);
 		vg::moveTo(m_vg, p1.x, p1.y);
 		vg::lineTo(m_vg, p2.x, p2.y);
 	}
 
-	void vgRenderer::pathBezier(const vec2& p1, const vec2& c1, const vec2& c2, const vec2& p2, bool straighten)
+	void vgRenderer::path_bezier(const vec2& p1, const vec2& c1, const vec2& c2, const vec2& p2, bool straighten)
 	{
 		vg::beginPath(m_vg);
 		vg::moveTo(m_vg, p1.x, p1.y);
@@ -171,7 +171,7 @@ namespace mud
 			vg::cubicTo(m_vg, c1.x, c1.y, c2.x, c2.y, p2.x, p2.y);
 	}
 
-	void vgRenderer::pathRect(const vec4& rect, const vec4& corners, float border)
+	void vgRenderer::path_rect(const vec4& rect, const vec4& corners, float border)
 	{
 		vg::beginPath(m_vg);
 
@@ -182,13 +182,13 @@ namespace mud
 			vg::roundedRectVarying(m_vg, RECT_FLOATS(path_rect), RECT_FLOATS(corners));
 	}
 
-	void vgRenderer::pathCircle(const vec2& center, float r)
+	void vgRenderer::path_circle(const vec2& center, float r)
 	{
 		vg::beginPath(m_vg);
 		vg::circle(m_vg, center.x, center.y, r);
 	}
 
-	void vgRenderer::drawShadow(const vec4& rect, const vec4& corners, const Shadow& shadow)
+	void vgRenderer::draw_shadow(const vec4& rect, const vec4& corners, const Shadow& shadow)
 	{
 		vec4 shadow_rect = { rect_offset(rect) + shadow.d_pos - shadow.d_radius, rect_size(rect) + shadow.d_radius * 2.f };
 		vec4 gradient_rect = { rect_offset(rect) + shadow.d_pos - shadow.d_spread, rect_size(rect) + shadow.d_spread * 2.f };
@@ -214,13 +214,13 @@ namespace mud
 		vg::strokePath(m_vg, vgColour(paint.m_stroke_colour), paint.m_stroke_width, vg::StrokeFlags::ButtMiterAA);
 	}
 
-	void vgRenderer::strokeGradient(const Gradient& paint, float width, const vec2& start, const vec2& end)
+	void vgRenderer::stroke_gradient(const Gradient& paint, float width, const vec2& start, const vec2& end)
 	{
 		vg::GradientHandle gradient = vg::createLinearGradient(m_vg, start.x, start.y, end.x, end.y, vgColour(paint.m_start), vgColour(paint.m_end));
 		vg::strokePath(m_vg, gradient, width, vg::StrokeFlags::ButtMiterAA);
 	}
 
-	void vgRenderer::drawTexture(uint16_t image, const vec4& rect, const vec4& image_rect)
+	void vgRenderer::draw_texture(uint16_t image, const vec4& rect, const vec4& image_rect)
 	{
 		vg::ImagePatternHandle pattern = vg::createImagePattern(m_vg, RECT_FLOATS(image_rect), 0.0f, { image });
 		vg::beginPath(m_vg);
@@ -228,7 +228,7 @@ namespace mud
 		vg::fillPath(m_vg, pattern, vg::Colors::White, vg::FillFlags::ConvexAA);
 	}
 
-	void vgRenderer::drawColorWheel(const vec2& center, float r0, float r1)
+	void vgRenderer::draw_color_wheel(const vec2& center, float r0, float r1)
 	{
 		float aeps = 0.5f / r1;	// half a pixel arc length in radians (2pi cancels out).
 
@@ -254,7 +254,7 @@ namespace mud
 		}
 	}
 
-	void vgRenderer::drawColorTriangle(const vec2& center, float r0, float hue, float s, float l)
+	void vgRenderer::draw_color_triangle(const vec2& center, float r0, float hue, float s, float l)
 	{
 		UNUSED(s); UNUSED(l);
 		vg::transformTranslate(m_vg, center.x, center.y);
@@ -292,22 +292,22 @@ namespace mud
 	vg::TextConfig vgRenderer::text_font(const TextPaint& paint)
 	{
 		if(m_fonts.find(paint.m_font) == m_fonts.end())
-			this->loadFont(paint.m_font);
+			this->load_font(paint.m_font);
 		return { m_fonts[paint.m_font], paint.m_size, text_align(paint), vgColour(paint.m_colour) };
 	}
 
-	void vgRenderer::breakNextRow(const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row)
+	void vgRenderer::break_next_row(const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row)
 	{
 		vg::TextRow vgTextRow;
 		vg::textBreakLines(m_vg, text_font(paint), first, end, rect.z, &vgTextRow, 1, 0);
 
 		row.m_start = vgTextRow.start;
 		row.m_end = vgTextRow.end;
-		row.m_rect = vec4{ rect.x, rect.y, vgTextRow.width, lineHeight(paint) };
+		row.m_rect = vec4{ rect.x, rect.y, vgTextRow.width, line_height(paint) };
 	}
 
 
-	void vgRenderer::breakGlyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow)
+	void vgRenderer::break_glyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow)
 	{
 		size_t numGlyphs = textRow.m_end - textRow.m_start;
 		std::vector<vg::GlyphPosition> glyphs(numGlyphs);
@@ -322,7 +322,7 @@ namespace mud
 		}
 	}
 
-	void vgRenderer::drawText(const vec2& offset, const char* start, const char* end, const TextPaint& paint)
+	void vgRenderer::draw_text(const vec2& offset, const char* start, const char* end, const TextPaint& paint)
 	{
 		if(paint.m_text_break)
 			vg::textBox(m_vg, text_font(paint), offset.x, offset.y, FLT_MAX, start, end);
@@ -330,43 +330,43 @@ namespace mud
 			vg::text(m_vg, text_font(paint), offset.x, offset.y, start, end);
 	}
 
-	void vgRenderer::beginTarget()
+	void vgRenderer::begin_target()
 	{
 		vg::pushState(m_vg);
 		vg::transformIdentity(m_vg);
 		//vg::resetScissor(m_vg);
 	}
 
-	void vgRenderer::endTarget()
+	void vgRenderer::end_target()
 	{
 		vg::popState(m_vg);
 	}
 
 #ifdef MUD_UI_DRAW_CACHE
-	vg::CommandListHandle vgRenderer::layerCache(Layer& layer)
+	vg::CommandListHandle vgRenderer::layer_cache(Layer& layer)
 	{
 		if(layer.d_handle == SIZE_MAX)
 			layer.d_handle = vg::createCommandList(m_vg, 0).idx;
 		return { uint16_t(layer.d_handle) };
 	}
 
-	void vgRenderer::drawLayer(Layer& layer, const vec2& position, float scale)
+	void vgRenderer::draw_layer(Layer& layer, const vec2& position, float scale)
 	{
 		vg::pushState(m_vg);
 		vg::setGlobalAlpha(m_vg, 1.f);
 		//vg::transformIdentity(m_vg);
 		//vg::transformTranslate(m_vg, position.x, position.y);
 		//vg::transformScale(m_vg, scale, scale);
-		vg::submitCommandList(m_vg, layerCache(layer));
+		vg::submitCommandList(m_vg, this->layer_cache(layer));
 		vg::popState(m_vg);
 	}
 
 #endif
-	void vgRenderer::beginLayer(Layer& layer, const vec2& position, float scale)
+	void vgRenderer::begin_layer(Layer& layer, const vec2& position, float scale)
 	{
 #ifdef MUD_UI_DRAW_CACHE
-		vg::resetCommandList(m_vg, layerCache(layer));
-		vg::beginCommandList(m_vg, layerCache(layer));
+		vg::resetCommandList(m_vg, this->layer_cache(layer));
+		vg::beginCommandList(m_vg, this->layer_cache(layer));
 #else
 		UNUSED(layer);
 #endif
@@ -376,7 +376,7 @@ namespace mud
 		vg::transformScale(m_vg, scale, scale);
 	}
 
-	void vgRenderer::endLayer()
+	void vgRenderer::end_layer()
 	{
 		vg::popState(m_vg);
 #ifdef MUD_UI_DRAW_CACHE
@@ -384,24 +384,24 @@ namespace mud
 #endif
 	}
 
-	void vgRenderer::beginUpdate(const vec2& position, float scale)
+	void vgRenderer::begin_update(const vec2& position, float scale)
 	{
 		vg::pushState(m_vg);
 		vg::transformTranslate(m_vg, position.x, position.y);
 		vg::transformScale(m_vg, scale, scale);
 	}
 
-	void vgRenderer::endUpdate()
+	void vgRenderer::end_update()
 	{
 		vg::popState(m_vg);
 	}
 
-	float vgRenderer::lineHeight(const TextPaint& paint)
+	float vgRenderer::line_height(const TextPaint& paint)
 	{
 		return vg::getTextLineHeight(m_vg, text_font(paint));
 	}
 
-	vec2 vgRenderer::textSize(cstring text, size_t len, const TextPaint& paint)
+	vec2 vgRenderer::text_size(cstring text, size_t len, const TextPaint& paint)
 	{
 		float bounds[4];
 		if(paint.m_text_break)
@@ -411,8 +411,8 @@ namespace mud
 		return { bounds[2] - bounds[0], bounds[3] - bounds[1] };
 	}
 
-	float vgRenderer::textSize(cstring text, size_t len, Dim dim, const TextPaint& paint)
+	float vgRenderer::text_size(cstring text, size_t len, Dim dim, const TextPaint& paint)
 	{
-		return dim == DIM_X ? textSize(text, len, paint).x : textSize(text, len, paint).y;
+		return dim == DIM_X ? text_size(text, len, paint).x : text_size(text, len, paint).y;
 	}
 }
