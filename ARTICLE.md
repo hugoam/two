@@ -27,11 +27,11 @@ Links: [github](https://github.com/hugoam/mud) - [official page](https://hugoam.
 [mud](https://github.com/hugoam/mud) is an all-purpose c++ app prototyping library, focused towards live graphical apps and games.  
 mud contains all the essential building blocks to develop lean c++ apps from scratch, providing [reflection](https://github.com/hugoam/mud#reflection) and low level [generic](https://github.com/hugoam/mud#generic-features) algorithms, an [immediate ui](https://github.com/hugoam/mud#ui) paradigm, and an immediate minimalistic and flexible [graphics renderer](https://github.com/hugoam/mud#graphics).
 
-In essence, mud aims to gather the quickest and simplest building blocks to prototype a c++ graphical application. It handles the problem of the code you **don't** want to write, and **should not have** to write, whenever prototyping an app. As such the core principle in mud is : **don't repeat yourself**, and we take this aim very seriously. We also believe it's a principle that is way too often disregarded.
+In essence, mud aims to gather the quickest and simplest building blocks to prototype a c++ graphical application. It handles the problem of the code you *don't* want to write, and *should not have* to write, whenever prototyping an app. As such the core principle in mud is : *don't repeat yourself*, and we take this aim very seriously. We also believe it's a principle that is way too often disregarded.
 
 mud consists of a set of 6 small, self-contained libraries rather than a single one: 6 building blocks essential to prototyping any c++ app.  
 
-The first set of blocks, consists of low level c++ programming tools, which purpose is to avoid duplicating code over and over, by providing [generic algorithms](https://github.com/hugoam/mud#generic-features) instead, operating on generic objects. Their purpose to maximize the potential of each line of code written, so that ideally, each of them is **only** concerned with the **problem domain** you are trying to solve.
+The first set of blocks, consists of low level c++ programming tools, which purpose is to avoid duplicating code over and over, by providing [generic algorithms](https://github.com/hugoam/mud#generic-features) instead, operating on generic objects. Their purpose to maximize the potential of each line of code written, so that ideally, each of them is *only* concerned with the **problem domain** you are trying to solve.
 
 These are the three low-level generic c++ blocks: they rely on applying generic operations on arbitrary types:
 - [reflection](https://github.com/hugoam/mud#reflection) of any c++ code to a set of generic primitives
