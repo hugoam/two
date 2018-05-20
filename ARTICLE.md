@@ -39,7 +39,7 @@ Three low-level generic c++ blocks in mud rely on applying generic operations on
 - generic serialization of any c++ objects to any format (currently json)
 - generic script bindings for any c++ objects, methods, functions, seamlessly, *and* a visual scripting language
 
-Two other blocks consist of the the interactive/graphical foundation of an app:
+Two blocks consist of the the interactive/graphical foundation of an app:
 - [immediate/declarative UI](https://github.com/hugoam/mud/blob/master/docs/ui.md) to draw skinnable, auto-layout ui panels in few lines of code
 - [immediate/declarative graphics](https://github.com/hugoam/mud/blob/master/docs/graphics.md) to render 3d objects in a minimal amount of code
 
