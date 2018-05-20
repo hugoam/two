@@ -1,6 +1,9 @@
-I am releasing [mud](https://github.com/hugoam/mud): an all-purpose c++ app prototyping library, focused towards live graphical apps and games, packed with features, still in experimental phase.
+[mud](https://github.com/hugoam/mud) is a general purpose c++ library for rapid development of live graphical apps and games.  
+**mud** is really 6 small libraries/independent modules:
+- immediate **declarative UI** and **declarative graphics** blocks to bootstrap interactive applications in a few lines of code.
+- lower-level **c++ reflection**, **serialization**, **scripting**, and **ui inspection** blocks generically extend your c++ code.
 
-### TL;DR: c++ reflection, serialization, scripting, ui inspection on top of any c++ code, declarative UI and declarative graphics, and even a physically based rendering add-on
+It even contains a visual scripting language, and a physically based rendering add-on.
 
 Try some live examples in the browser:
 - [pbr materials](https://hugoam.github.io/mud-io/examples/03_materials_low.html)
@@ -23,24 +26,22 @@ Links: [github](https://github.com/hugoam/mud) - [official page](https://hugoam.
 ![gltf](https://github.com/hugoam/mud-io/blob/master/media/07_gltf.png)
 
 ## What is it ?
+[mud](https://github.com/hugoam/mud) contains all the essential building blocks to develop lean c++ apps from scratch, providing [reflection](https://github.com/hugoam/mud#reflection), low level [generic](https://github.com/hugoam/mud#generic-features) algorithms, an [immediate ui](https://github.com/hugoam/mud#ui) paradigm, and an immediate minimalistic and flexible [graphics renderer](https://github.com/hugoam/mud#graphics).
 
-[mud](https://github.com/hugoam/mud) is an all-purpose c++ app prototyping library, focused towards live graphical apps and games.  
-mud contains all the essential building blocks to develop lean c++ apps from scratch, providing [reflection](https://github.com/hugoam/mud#reflection) and low level [generic](https://github.com/hugoam/mud#generic-features) algorithms, an [immediate ui](https://github.com/hugoam/mud#ui) paradigm, and an immediate minimalistic and flexible [graphics renderer](https://github.com/hugoam/mud#graphics).
-
-In essence, mud aims to gather the quickest and simplest building blocks to prototype a c++ graphical application. It handles the problem of the code you *don't* want to write, and *should not have* to write, whenever prototyping an app. As such the core principle in mud is : *don't repeat yourself*, and we take this aim very seriously. We also believe it's a principle that is way too often disregarded.
+mud aims to provide the *quickest idioms* to build functional and lightweight c++ graphical applications. It tackles the problem of the code you *don't* want to write, and *should not have* to write when prototyping an app. One core principle in mud is : *don't repeat yourself*: we take this aim very seriously and we believe it's a principle that is way too often disregarded.
 
 mud consists of a set of 6 small, self-contained libraries rather than a single one: 6 building blocks essential to prototyping any c++ app.  
 
-The first set of blocks, consists of low level c++ programming tools, which purpose is to avoid duplicating code over and over, by providing [generic algorithms](https://github.com/hugoam/mud#generic-features) instead, operating on generic objects. Their purpose to maximize the potential of each line of code written, so that ideally, each of them is *only* concerned with the *problem domain* you are trying to solve.
+The first set of blocks, consists of low level c++ programming tools, which purpose is to avoid duplicating code over and over, by providing [generic algorithms](https://github.com/hugoam/mud#generic-features) instead, operating on generic objects. Their purpose is that ideally, each line of code you have to write is *only* concerned with the *problem domain* you are trying to solve, and not lower-level auxiliary concerns.
 
-These are the three low-level generic c++ blocks: they rely on applying generic operations on arbitrary types:
+Three low-level generic c++ blocks in mud rely on applying generic operations on arbitrary types:
 - [reflection](https://github.com/hugoam/mud#reflection) of any c++ code to a set of generic primitives
 - generic serialization of any c++ objects to any format (currently json)
 - generic script bindings for any c++ objects, methods, functions, seamlessly, *and* a visual scripting language
 
-The second set of blocks consists of the the interactive/graphical foundation of an app:
-- immediate/declarative UI to draw skinnable, auto-layout ui panels in few lines of code
-- immediate/declarative graphics to render 3d objects in a minimal amount of code
+Two other blocks consist of the the interactive/graphical foundation of an app:
+- [immediate/declarative UI](https://github.com/hugoam/mud/blob/master/docs/ui.md) to draw skinnable, auto-layout ui panels in few lines of code
+- [immediate/declarative graphics](https://github.com/hugoam/mud/blob/master/docs/graphics.md) to render 3d objects in a minimal amount of code
 
 The last one ties the ui and the generic c++ blocks together:
 - generic ui to edit and inspect c++ objects, modules, call methods, edit text and visual scripts
