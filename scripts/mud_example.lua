@@ -8,17 +8,13 @@ project "mud_example"
         path.join(MUD_DIR, "example"),
     }
     
-    files {
-        path.join(MUD_DIR, "src", "mud", "Shell.cpp"),
-    }
-    
     mud_module("example", MUD_DIR, "example", "_EXAMPLE")
 
     defines { "_00_UI_LIB", "_00_TUTORIAL_LIB", "_15_SCRIPT_LIB" }
     
     uses_mud_gfx()
     uses_mud()
-    mud_binary("mud_example")
+    mud_shell("mud_example")
 
 function example_project(name, gfx, ...)
     project(name)

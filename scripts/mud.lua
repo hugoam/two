@@ -154,5 +154,13 @@ function mud_binary(name)
     configuration {}
 end
 
+function mud_shell(name)
+    mud_binary(name)
+    
+    files {
+        path.join(MUD_DIR, "src", "mud", "Shell.cpp"),
+    }
+end
+
 dofile(path.join(MUD_DIR, "scripts/mud_bgfx.lua"))
 dofile(path.join(MUD_DIR, "scripts/mud_gfx.lua"))
