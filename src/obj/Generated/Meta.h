@@ -1198,70 +1198,6 @@ namespace mud
     
     
         
-    // mud::Function
-    {
-        static Meta meta = { type<mud::Function>(), &namspc({ "mud" }), "Function", sizeof(mud::Function), TypeClass::Object };
-        static Class cls = { type<mud::Function>(),
-            // bases
-            { &type<mud::Callable>() },
-            { base_offset<mud::Function, mud::Callable>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Function>();
-    }
-    
-    
-        
-    // mud::Method
-    {
-        static Meta meta = { type<mud::Method>(), &namspc({ "mud" }), "Method", sizeof(mud::Method), TypeClass::Object };
-        static Class cls = { type<mud::Method>(),
-            // bases
-            { &type<mud::Callable>() },
-            { base_offset<mud::Method, mud::Callable>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Method>();
-    }
-    
-    
-        
     // mud::Constructor
     {
         static Meta meta = { type<mud::Constructor>(), &namspc({ "mud" }), "Constructor", sizeof(mud::Constructor), TypeClass::Object };
@@ -1356,6 +1292,70 @@ namespace mud
         meta_class<mud::Destructor>();
     }
     
+    
+        
+    // mud::Function
+    {
+        static Meta meta = { type<mud::Function>(), &namspc({ "mud" }), "Function", sizeof(mud::Function), TypeClass::Object };
+        static Class cls = { type<mud::Function>(),
+            // bases
+            { &type<mud::Callable>() },
+            { base_offset<mud::Function, mud::Callable>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Function>();
+    }
+    
+    
+        
+    // mud::Method
+    {
+        static Meta meta = { type<mud::Method>(), &namspc({ "mud" }), "Method", sizeof(mud::Method), TypeClass::Object };
+        static Class cls = { type<mud::Method>(),
+            // bases
+            { &type<mud::Callable>() },
+            { base_offset<mud::Method, mud::Callable>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Method>();
+    }
+    
 
     
         module.m_types.push_back(&type<mud::Call>());
@@ -1412,11 +1412,11 @@ namespace mud
         module.m_types.push_back(&type<unsigned short>());
         module.m_types.push_back(&type<void>());
         module.m_types.push_back(&type<mud::Prototype>());
-        module.m_types.push_back(&type<mud::Function>());
-        module.m_types.push_back(&type<mud::Method>());
         module.m_types.push_back(&type<mud::Constructor>());
         module.m_types.push_back(&type<mud::CopyConstructor>());
         module.m_types.push_back(&type<mud::Destructor>());
+        module.m_types.push_back(&type<mud::Function>());
+        module.m_types.push_back(&type<mud::Method>());
     
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(args); result = Ref(&mud::system()); };

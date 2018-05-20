@@ -5,9 +5,8 @@
 #include <uio/Generated/Types.h>
 #include <uio/Edit/Section.h>
 
-#include <obj/Reflect/Meta.h>
-#include <obj/Arg.h>
 #include <ui/Style/Layout.h>
+#include <ui/Style/Skin.h>
 #include <ui/Structs/Container.h>
 
 namespace mud
@@ -15,7 +14,7 @@ namespace mud
 	Style& section_style()
 	{
 		// STACK
-		static Style style = { "Section", styles().sheet, { { { &Layout::m_padding, vec4{ 2.f } } } } };
+		static Style style = { "Section", styles().sheet, { [](Layout& l) { l.m_padding = vec4{ 2.f }; } } };
 		return style;
 	}
 

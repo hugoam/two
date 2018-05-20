@@ -3,13 +3,12 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 
-#include <ui/Generated/Types.h>
 #include <ui/Style/Styler.h>
 
 #include <obj/Graph/Node.inl.h>
-
-#include <obj/Arg.h>
+#include <obj/Reflect/Class.h>
 #include <obj/String/StringConvert.h>
+
 #include <ui/Style/Styles.h>
 #include <ui/Style/Skin.h>
 #include <ui/Style/Layout.h>
@@ -138,92 +137,96 @@ namespace mud
 	}
 
 	Styles::Styles()
-		: widget("Widget", nullptr, { { { &Layout::m_solver, FRAME_SOLVER } } })
-		, wedge("Wedge", widget, { { { &Layout::m_solver, ROW_SOLVER }, { &Layout::m_space, SHEET } } })
-		, root_sheet("RootSheet", wedge, { { { &Layout::m_space, LAYOUT }, { &Layout::m_clipping, CLIP }, { &Layout::m_opacity, OPAQUE } } })
+		: widget("Widget", nullptr, { [](Layout& l) { l.m_solver = FRAME_SOLVER; } }, {})
+		, wedge("Wedge", widget, { [](Layout& l) { l.m_solver = ROW_SOLVER; l.m_space = SHEET; } }, {})
+		, root_sheet("RootSheet", wedge, { [](Layout& l) { l.m_space = LAYOUT; l.m_clipping = CLIP; l.m_opacity = OPAQUE; } }, {})
 
-		, item("Item", widget, { { { &Layout::m_space, BLOCK }, { &Layout::m_align, Dim2<Align>{ LEFT, CENTER } }, { &InkStyle::m_text_colour, Colour::White }, { &InkStyle::m_padding, vec4(2.f) } } })
-		, control("Control", item, { { { &Layout::m_opacity, OPAQUE } } })
+		, item("Item", widget, { [](Layout& l) { l.m_space = BLOCK; l.m_align = { LEFT, CENTER }; } },
+							   { [](InkStyle& o) { o.m_text_colour = Colour::White; o.m_padding = vec4(2.f); } })
+		, control("Control", item, { [](Layout& l) { l.m_opacity = OPAQUE; } }, {})
 
-		, spacer("Spacer", item, { { { &Layout::m_space, SPACER } } })
-		, filler("Filler", spacer, { { { &Layout::m_space, FLEX } } })
+		, spacer("Spacer", item, { [](Layout& l) { l.m_space = SPACER; } }, {})
+		, filler("Filler", spacer, { [](Layout& l) { l.m_space = FLEX; } }, {})
 
-		, drag_handle("DragHandle", control, { { { &Layout::m_space, Space{ ORTHOGONAL, WRAP, FIXED } }, { &Layout::m_size, vec2{ 5.f, 5.f } } } })
+		, drag_handle("DragHandle", control, { [](Layout& l) { l.m_space = { ORTHOGONAL, WRAP, FIXED }; l.m_size = vec2{ 5.f, 5.f }; } }, {})
 
-		, div("Div", wedge, { { { &Layout::m_space, DIV } } })
-		, row("Row", wedge, { { { &Layout::m_space, LINE } } })
-		, stack("Stack", wedge, { { { &Layout::m_space, STACK } } })
-		, sheet("Sheet", wedge, { { { &Layout::m_space, SHEET } } })
-		, flex("Flex", wedge, { { { &Layout::m_space, FLEX } } })
-		, list("List", wedge, {})
-		, header("Header", row, {})
-		, board("Board", wedge, { { { &Layout::m_space, BOARD }, { &Layout::m_clipping, CLIP } } })
-		, layout("Layout", board, { { { &Layout::m_space, LAYOUT } } })
-		, screen("Screen", wedge, { { { &Layout::m_flow, FREE }, { &Layout::m_space, LAYOUT } } })
-		, decal("Decal", wedge, { { { &Layout::m_flow, FREE }, { &Layout::m_space, BLOCK } } })
-		, overlay("Overlay", wedge, { { { &Layout::m_flow, FREE }, { &Layout::m_opacity, OPAQUE } } })
-		, gridsheet("GridSheet", wedge, { { { &Layout::m_opacity, OPAQUE }, { &Layout::m_spacing, vec2(5.f) } } })
+		, div("Div", wedge, { [](Layout& l) { l.m_space = DIV; } }, {})
+		, row("Row", wedge, { [](Layout& l) { l.m_space = LINE; } }, {})
+		, stack("Stack", wedge, { [](Layout& l) { l.m_space = STACK; } }, {})
+		, sheet("Sheet", wedge, { [](Layout& l) { l.m_space = SHEET; } }, {})
+		, flex("Flex", wedge, { [](Layout& l) { l.m_space = FLEX; } }, {})
+		, list("List", wedge, {}, {})
+		, header("Header", row, {}, {})
+		, board("Board", wedge, { [](Layout& l) { l.m_space = BOARD; l.m_clipping = CLIP; } }, {})
+		, layout("Layout", board, { [](Layout& l) { l.m_space = LAYOUT; } }, {})
+		, screen("Screen", wedge, { [](Layout& l) { l.m_flow = FREE; l.m_space = LAYOUT; } }, {})
+		, decal("Decal", wedge, { [](Layout& l) { l.m_flow = FREE; l.m_space = BLOCK; } }, {})
+		, overlay("Overlay", wedge, { [](Layout& l) { l.m_flow = FREE; l.m_opacity = OPAQUE; } }, {})
+		, gridsheet("GridSheet", wedge, { [](Layout& l) { l.m_opacity = OPAQUE; l.m_spacing = vec2(5.f); } }, {})
 
-		, wrap_control("WrapControl", wedge, { { { &Layout::m_space, LINE }, { &Layout::m_opacity, OPAQUE } } })
+		, wrap_control("WrapControl", wedge, { [](Layout& l) { l.m_space = LINE; l.m_opacity = OPAQUE; } }, {})
 
-		, label("Label", item, { { { &Layout::m_align, Dim2<Align>{ LEFT, CENTER } } } })
-		, title("Title", item, {})
-		, text("Text", item, { { { &Layout::m_space, Space{ PARAGRAPH, FIXED, WRAP } }, { &InkStyle::m_text_wrap, true } } })
+		, label("Label", item, { [](Layout& l) { l.m_align = { LEFT, CENTER }; } }, {})
+		, title("Title", item, {}, {})
+		, text("Text", item, { [](Layout& l) { l.m_space = { PARAGRAPH, FIXED, WRAP }; } },
+							 { [](InkStyle& o) { o.m_text_wrap = true; } })
 
-		, button("Button", control, {})
-		, wrap_button("WrapButton", wrap_control, {})
-		, multi_button("MultiButton", wrap_button, {})
-		, toggle("Toggle", control, {})
-		, checkbox("Checkbox", toggle, { { { &Layout::m_align, Dim2<Align>{ LEFT, CENTER } } } }) // @todo why doesn't work ?? why u checkbox not aligned ??
+		, button("Button", control, {}, {})
+		, wrap_button("WrapButton", wrap_control, {}, {})
+		, multi_button("MultiButton", wrap_button, {}, {})
+		, toggle("Toggle", control, {}, {})
+		, checkbox("Checkbox", toggle, { [](Layout& l) { l.m_align = { LEFT, CENTER }; } }, {}) // @todo why doesn't work ?? why u checkbox not aligned ??
 
-		, dummy("Dummy", wedge, { { { &Layout::m_space, BLOCK } } })
-		, tooltip("Tooltip", decal, { { { &Layout::m_space, UNIT }, { &Layout::m_zorder, -2 } } })
-		, rectangle("Rectangle", decal, { { { &Layout::m_space, BLOCK }, { &Layout::m_zorder, -3 }, { &InkStyle::m_border_width, 1.f }, { &InkStyle::m_border_colour, Colour::White }, { &InkStyle::m_background_colour, Colour::AlphaGrey } } })
+		, dummy("Dummy", wedge, { [](Layout& l) { l.m_space = BLOCK; } }, {})
+		, tooltip("Tooltip", decal, { [](Layout& l) { l.m_space = UNIT; l.m_zorder = -2; } }, {})
+		, rectangle("Rectangle", decal, { [](Layout& l) { l.m_space = BLOCK; l.m_zorder = -3; } },
+										{ [](InkStyle& l) { l.m_border_width = vec4(1.f); l.m_border_colour = Colour::White; l.m_background_colour = Colour::AlphaGrey; } })
 
-		, type_in("TypeIn", wrap_control, { { { &Layout::m_opacity, OPAQUE } } })
-		, type_zone("TypeZone", wrap_control, { { { &Layout::m_space, SHEET }, { &Layout::m_opacity, OPAQUE } } })
-		, text_edit("TextEdit", type_in, { { { &Layout::m_space, LAYOUT }, { &InkStyle::m_text_font, "consolas" }, { &InkStyle::m_text_wrap, true } } })
-		, caret("Caret", item, { { { &InkStyle::m_background_colour, Colour::White } } })
+		, type_in("TypeIn", wrap_control, { [](Layout& l) { l.m_opacity = OPAQUE; } }, {})
+		, type_zone("TypeZone", wrap_control, { [](Layout& l) { l.m_space = SHEET; l.m_opacity = OPAQUE; } }, {})
+		, text_edit("TextEdit", type_in, { [](Layout& l) { l.m_space = LAYOUT; } },
+										 { [](InkStyle& l) { l.m_text_font = "consolas"; l.m_text_wrap = true; } })
+		, caret("Caret", item, {}, { [](InkStyle& l) { l.m_background_colour = Colour::White; } })
 
-		, figure("Figure", item, { { { &InkStyle::m_empty, false } } })
+		, figure("Figure", item, {}, { [](InkStyle& l) { l.m_empty = false; } })
 
-		, radio_switch("RadioSwitch", wrap_control, {})
-		, radio_switch_h("RadioSwitchH", radio_switch, { { { &Layout::m_space, STACK } } })
-		, radio_choice("RadioChoice", multi_button, {})
-		, radio_choice_item("RadioChoiceItem", item, {})
+		, radio_switch("RadioSwitch", wrap_control, {}, {})
+		, radio_switch_h("RadioSwitchH", radio_switch, { [](Layout& l) { l.m_space = STACK; } }, {})
+		, radio_choice("RadioChoice", multi_button, {}, {})
+		, radio_choice_item("RadioChoiceItem", item, {}, {})
 
-		, slider("Slider", wrap_control, { { { &Layout::m_space, FLEX } } })
-		, slider_knob("SliderKnob", control, { { /*{ &Layout::m_space, FLEX }*/ } })
-		, slider_display("SliderDisplay", label, { { { &Layout::m_flow, OVERLAY }, { &Layout::m_align, Dim2<Align>{ CENTER, CENTER } } } })
+		, slider("Slider", wrap_control, { [](Layout& l) { l.m_space = FLEX; } }, {})
+		, slider_knob("SliderKnob", control, {}, {}) // { [](Layout& l) { l.m_space = FLEX; } }
+		, slider_display("SliderDisplay", label, { [](Layout& l) { l.m_flow = OVERLAY; l.m_align = { CENTER, CENTER }; } }, {})
 
-		, fill_bar("Fillbar", row, {})
+		, fill_bar("Fillbar", row, {}, {})
 
-		, number_input("NumberInput", row, {})
-		, slider_input("SliderInput", row, {})
-		, field_input("Field", wrap_control, {})
-		, input_bool("Input<bool>", wedge, { { { &Layout::m_space, UNIT } } })
-		, input_string("Input<string>", type_in, {})
-		, input_color("Input<Colour>", row, {})
+		, number_input("NumberInput", row, {}, {})
+		, slider_input("SliderInput", row, {}, {})
+		, field_input("Field", wrap_control, {}, {})
+		, input_bool("Input<bool>", wedge, { [](Layout& l) { l.m_space = UNIT; } }, {})
+		, input_string("Input<string>", type_in, {}, {})
+		, input_color("Input<Colour>", row, {}, {})
 
-		, color_wheel("ColourWheel", control, { { { &Layout::m_size, vec2{ 200.f, 200.f } }, { &InkStyle::m_empty, false } } })
-		, color_slab("ColourSlab", control, { { { &Layout::m_size, vec2{ 22.f, 22.f } }, { &InkStyle::m_empty, false } } })
-		, color_display("ColourDisplay", flex, { { { &InkStyle::m_empty, false } } })
-		, color_toggle("ColourToggle", color_slab, { { { &Layout::m_solver, ROW_SOLVER }, { &InkStyle::m_empty, false } } })
+		, color_wheel("ColourWheel", control, { [](Layout& l) { l.m_size = { 200.f, 200.f }; } }, { [](InkStyle& l) { l.m_empty = false; } })
+		, color_slab("ColourSlab", control, { [](Layout& l) { l.m_size = { 22.f, 22.f }; } }, { [](InkStyle& l) { l.m_empty = false; } })
+		, color_display("ColourDisplay", flex, {}, { [](InkStyle& l) { l.m_empty = false; } })
+		, color_toggle("ColourToggle", color_slab, { [](Layout& l) { l.m_solver = ROW_SOLVER; } }, { [](InkStyle& l) { l.m_empty = false; } })
 
-		, scrollsheet("ScrollSheet", wedge, { { { &Layout::m_solver, GRID_SOLVER }, { &Layout::m_opacity, OPAQUE }, { &Layout::m_grid_division, std::vector<Space>{ LAYOUT, LINE } } } })
-		, scroll_zone("ScrollZone", layout, { { { &Layout::m_layout, Dim2<AutoLayout>{ AUTO_SIZE, AUTO_SIZE } }, { &Layout::m_clipping, CLIP } } })
+		, scrollsheet("ScrollSheet", wedge, { [](Layout& l) { l.m_solver = GRID_SOLVER; l.m_opacity = OPAQUE; l.m_grid_division = { LAYOUT, LINE }; } }, {})
+		, scroll_zone("ScrollZone", layout, { [](Layout& l) { l.m_layout = { AUTO_SIZE, AUTO_SIZE }; l.m_clipping = CLIP; } }, {})
 
-		, scroll_surface("ScrollSurface", wedge, {})
-		, scroll_plan("ScrollPlan", sheet, { { { &Layout::m_space, BLOCK }/*, { &InkStyle::m_custom_draw, &draw_grid }*/ } })
+		, scroll_surface("ScrollSurface", wedge, {}, {})
+		, scroll_plan("ScrollPlan", sheet, { [](Layout& l) { l.m_space = BLOCK; } }, {}) // { l.m_custom_draw = &draw_grid }
 
-		, table("Table", stack, { { { &Layout::m_solver, TABLE_SOLVER }, { &Layout::m_spacing, vec2(0.f, 2.f) } } })
-		, table_head("TableHead", gridsheet, { { { &Layout::m_space, DIV } } })
-		, column_header("ColumnHeader", row, { { { &Layout::m_space, LINE } } })
+		, table("Table", stack, { [](Layout& l) { l.m_solver = TABLE_SOLVER; l.m_spacing = vec2(0.f, 2.f); } }, {})
+		, table_head("TableHead", gridsheet, { [](Layout& l) { l.m_space = DIV; } }, {})
+		, column_header("ColumnHeader", row, { [](Layout& l) { l.m_space = LINE; } }, {})
 
-		, popup("Popup", overlay, { { { &Layout::m_space, UNIT }, { &Layout::m_clipping, UNCLIP } } })
-		, modal("Modal", popup, { { { &Layout::m_flow, ALIGN }, { &Layout::m_space, UNIT }, { &Layout::m_align, Dim2<Align>{ CENTER, CENTER } } } })
+		, popup("Popup", overlay, { [](Layout& l) { l.m_space = UNIT; l.m_clipping = UNCLIP; } }, {})
+		, modal("Modal", popup, { [](Layout& l) { l.m_flow = ALIGN; l.m_space = UNIT; l.m_align = { CENTER, CENTER }; } }, {})
 
-		, color_popup("ColourPopup", overlay, { { { &Layout::m_flow, ALIGN }, { &Layout::m_clipping, UNCLIP }, { &Layout::m_align, Dim2<Align>{ LEFT, OUT_RIGHT } } } })
+		, color_popup("ColourPopup", overlay, { [](Layout& l) { l.m_flow = ALIGN; l.m_clipping = UNCLIP; l.m_align = { LEFT, OUT_RIGHT }; } }, {})
 	{}
 
 	void Styles::setup(UiWindow& ui_window)

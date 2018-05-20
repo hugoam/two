@@ -11,7 +11,7 @@
 
 namespace mud
 {
-	struct _refl_ ImageSkin
+	struct _refl_ MUD_UI_EXPORT ImageSkin
 	{
 	public:
 		enum Section

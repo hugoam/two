@@ -666,7 +666,8 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::InkStyle>(), [](Ref ref, array<Var> args) { new(&val<mud::InkStyle>(ref)) mud::InkStyle( val<std::string>(args[0]) ); }, { { "name", var(std::string()), Param::Default } } }
+                { type<mud::InkStyle>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::InkStyle>(ref)) mud::InkStyle(  ); }, {} },
+                { type<mud::InkStyle>(), [](Ref ref, array<Var> args) { new(&val<mud::InkStyle>(ref)) mud::InkStyle( val<cstring>(args[0]) ); }, { { "name", var(cstring()) } } }
             },
             // copy constructor
             {
@@ -675,18 +676,18 @@ namespace mud
             // members
             {
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_empty), type<bool>(), "empty", var(bool()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_empty), type<bool>(), "empty", var(bool(true)), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_background_colour), type<mud::Colour>(), "background_colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_border_colour), type<mud::Colour>(), "border_colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_image_colour), type<mud::Colour>(), "image_colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_colour), type<mud::Colour>(), "text_colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_font), type<std::string>(), "text_font", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_size), type<float>(), "text_size", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_break), type<bool>(), "text_break", var(bool()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_wrap), type<bool>(), "text_wrap", var(bool()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_size), type<float>(), "text_size", var(float(14.f)), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_break), type<bool>(), "text_break", var(bool(true)), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_wrap), type<bool>(), "text_wrap", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_border_width), type<mud::vec4>(), "border_width", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_corner_radius), type<mud::vec4>(), "corner_radius", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_weak_corners), type<bool>(), "weak_corners", var(bool()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_weak_corners), type<bool>(), "weak_corners", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_padding), type<mud::vec4>(), "padding", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_margin), type<mud::vec4>(), "margin", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_align), type<mud::Dim2<mud::Align>>(), "align", var(mud::Dim2<mud::Align>()), Member::Flags(Member::Value|Member::Mutable) },
@@ -759,7 +760,8 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::Layout>(), [](Ref ref, array<Var> args) { new(&val<mud::Layout>(ref)) mud::Layout( val<std::string>(args[0]) ); }, { { "name", var(std::string()), Param::Default } } }
+                { type<mud::Layout>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Layout>(ref)) mud::Layout(  ); }, {} },
+                { type<mud::Layout>(), [](Ref ref, array<Var> args) { new(&val<mud::Layout>(ref)) mud::Layout( val<cstring>(args[0]) ); }, { { "name", var(cstring()) } } }
             },
             // copy constructor
             {
@@ -781,7 +783,7 @@ namespace mud
                 { type<mud::Layout>(), member_address(&mud::Layout::m_margin), type<mud::vec2>(), "margin", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::Layout>(), member_address(&mud::Layout::m_spacing), type<mud::vec2>(), "spacing", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::Layout>(), member_address(&mud::Layout::m_pivot), type<mud::Dim2<mud::Pivot>>(), "pivot", var(mud::Dim2<mud::Pivot>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_zorder), type<int>(), "zorder", var(int()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_zorder), type<int>(), "zorder", var(int(0)), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::Layout>(), member_address(&mud::Layout::m_grid_division), type<std::vector<mud::Space>>(), "grid_division", var(std::vector<mud::Space>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::Layout>(), member_address(&mud::Layout::m_table_division), type<std::vector<float>>(), "table_division", var(std::vector<float>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::Layout>(), member_address(&mud::Layout::m_updated), type<size_t>(), "updated", var(size_t()), Member::Flags(Member::Value|Member::Mutable) }
@@ -1408,13 +1410,13 @@ namespace mud
     
     
         
-    // mud::Dockspace
+    // mud::Sprite
     {
-        static Meta meta = { type<mud::Dockspace>(), &namspc({ "mud" }), "Dockspace", sizeof(mud::Dockspace), TypeClass::Object };
-        static Class cls = { type<mud::Dockspace>(),
+        static Meta meta = { type<mud::Sprite>(), &namspc({ "mud" }), "Sprite", sizeof(mud::Sprite), TypeClass::Object };
+        static Class cls = { type<mud::Sprite>(),
             // bases
-            { &type<mud::Docker>() },
-            { base_offset<mud::Dockspace, mud::Docker>() },
+            { &type<mud::Image>() },
+            { base_offset<mud::Sprite, mud::Image>() },
             // constructors
             {
             },
@@ -1435,39 +1437,7 @@ namespace mud
         
         
         
-        meta_class<mud::Dockspace>();
-    }
-    
-    
-        
-    // mud::Dockbar
-    {
-        static Meta meta = { type<mud::Dockbar>(), &namspc({ "mud" }), "Dockbar", sizeof(mud::Dockbar), TypeClass::Object };
-        static Class cls = { type<mud::Dockbar>(),
-            // bases
-            { &type<mud::Docker>() },
-            { base_offset<mud::Dockbar, mud::Docker>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Dockbar>();
+        meta_class<mud::Sprite>();
     }
     
     
@@ -1500,38 +1470,6 @@ namespace mud
         
         
         meta_class<mud::SpriteAtlas>();
-    }
-    
-    
-        
-    // mud::Sprite
-    {
-        static Meta meta = { type<mud::Sprite>(), &namspc({ "mud" }), "Sprite", sizeof(mud::Sprite), TypeClass::Object };
-        static Class cls = { type<mud::Sprite>(),
-            // bases
-            { &type<mud::Image>() },
-            { base_offset<mud::Sprite, mud::Image>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Sprite>();
     }
     
     
@@ -1600,13 +1538,13 @@ namespace mud
     
     
         
-    // mud::TextEdit
+    // mud::Canvas
     {
-        static Meta meta = { type<mud::TextEdit>(), &namspc({ "mud" }), "TextEdit", sizeof(mud::TextEdit), TypeClass::Object };
-        static Class cls = { type<mud::TextEdit>(),
+        static Meta meta = { type<mud::Canvas>(), &namspc({ "mud" }), "Canvas", sizeof(mud::Canvas), TypeClass::Object };
+        static Class cls = { type<mud::Canvas>(),
             // bases
             { &type<mud::Widget>() },
-            { base_offset<mud::TextEdit, mud::Widget>() },
+            { base_offset<mud::Canvas, mud::Widget>() },
             // constructors
             {
             },
@@ -1627,167 +1565,7 @@ namespace mud
         
         
         
-        meta_class<mud::TextEdit>();
-    }
-    
-    
-        
-    // mud::ScrollSheet
-    {
-        static Meta meta = { type<mud::ScrollSheet>(), &namspc({ "mud" }), "ScrollSheet", sizeof(mud::ScrollSheet), TypeClass::Object };
-        static Class cls = { type<mud::ScrollSheet>(),
-            // bases
-            { &type<mud::Widget>() },
-            { base_offset<mud::ScrollSheet, mud::Widget>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ScrollSheet>();
-    }
-    
-    
-        
-    // mud::Tabber
-    {
-        static Meta meta = { type<mud::Tabber>(), &namspc({ "mud" }), "Tabber", sizeof(mud::Tabber), TypeClass::Object };
-        static Class cls = { type<mud::Tabber>(),
-            // bases
-            { &type<mud::Widget>() },
-            { base_offset<mud::Tabber, mud::Widget>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Tabber>();
-    }
-    
-    
-        
-    // mud::Expandbox
-    {
-        static Meta meta = { type<mud::Expandbox>(), &namspc({ "mud" }), "Expandbox", sizeof(mud::Expandbox), TypeClass::Object };
-        static Class cls = { type<mud::Expandbox>(),
-            // bases
-            { &type<mud::Widget>() },
-            { base_offset<mud::Expandbox, mud::Widget>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Expandbox>();
-    }
-    
-    
-        
-    // mud::TreeNode
-    {
-        static Meta meta = { type<mud::TreeNode>(), &namspc({ "mud" }), "TreeNode", sizeof(mud::TreeNode), TypeClass::Object };
-        static Class cls = { type<mud::TreeNode>(),
-            // bases
-            { &type<mud::Widget>() },
-            { base_offset<mud::TreeNode, mud::Widget>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::TreeNode>();
-    }
-    
-    
-        
-    // mud::Table
-    {
-        static Meta meta = { type<mud::Table>(), &namspc({ "mud" }), "Table", sizeof(mud::Table), TypeClass::Object };
-        static Class cls = { type<mud::Table>(),
-            // bases
-            { &type<mud::Widget>() },
-            { base_offset<mud::Table, mud::Widget>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Table>();
+        meta_class<mud::Canvas>();
     }
     
     
@@ -1856,13 +1634,13 @@ namespace mud
     
     
         
-    // mud::NodePlug
+    // mud::Expandbox
     {
-        static Meta meta = { type<mud::NodePlug>(), &namspc({ "mud" }), "NodePlug", sizeof(mud::NodePlug), TypeClass::Object };
-        static Class cls = { type<mud::NodePlug>(),
+        static Meta meta = { type<mud::Expandbox>(), &namspc({ "mud" }), "Expandbox", sizeof(mud::Expandbox), TypeClass::Object };
+        static Class cls = { type<mud::Expandbox>(),
             // bases
             { &type<mud::Widget>() },
-            { base_offset<mud::NodePlug, mud::Widget>() },
+            { base_offset<mud::Expandbox, mud::Widget>() },
             // constructors
             {
             },
@@ -1883,7 +1661,7 @@ namespace mud
         
         
         
-        meta_class<mud::NodePlug>();
+        meta_class<mud::Expandbox>();
     }
     
     
@@ -1920,13 +1698,13 @@ namespace mud
     
     
         
-    // mud::Canvas
+    // mud::NodePlug
     {
-        static Meta meta = { type<mud::Canvas>(), &namspc({ "mud" }), "Canvas", sizeof(mud::Canvas), TypeClass::Object };
-        static Class cls = { type<mud::Canvas>(),
+        static Meta meta = { type<mud::NodePlug>(), &namspc({ "mud" }), "NodePlug", sizeof(mud::NodePlug), TypeClass::Object };
+        static Class cls = { type<mud::NodePlug>(),
             // bases
             { &type<mud::Widget>() },
-            { base_offset<mud::Canvas, mud::Widget>() },
+            { base_offset<mud::NodePlug, mud::Widget>() },
             // constructors
             {
             },
@@ -1947,7 +1725,7 @@ namespace mud
         
         
         
-        meta_class<mud::Canvas>();
+        meta_class<mud::NodePlug>();
     }
     
     
@@ -1980,6 +1758,230 @@ namespace mud
         
         
         meta_class<mud::RootSheet>();
+    }
+    
+    
+        
+    // mud::ScrollSheet
+    {
+        static Meta meta = { type<mud::ScrollSheet>(), &namspc({ "mud" }), "ScrollSheet", sizeof(mud::ScrollSheet), TypeClass::Object };
+        static Class cls = { type<mud::ScrollSheet>(),
+            // bases
+            { &type<mud::Widget>() },
+            { base_offset<mud::ScrollSheet, mud::Widget>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ScrollSheet>();
+    }
+    
+    
+        
+    // mud::Tabber
+    {
+        static Meta meta = { type<mud::Tabber>(), &namspc({ "mud" }), "Tabber", sizeof(mud::Tabber), TypeClass::Object };
+        static Class cls = { type<mud::Tabber>(),
+            // bases
+            { &type<mud::Widget>() },
+            { base_offset<mud::Tabber, mud::Widget>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Tabber>();
+    }
+    
+    
+        
+    // mud::Table
+    {
+        static Meta meta = { type<mud::Table>(), &namspc({ "mud" }), "Table", sizeof(mud::Table), TypeClass::Object };
+        static Class cls = { type<mud::Table>(),
+            // bases
+            { &type<mud::Widget>() },
+            { base_offset<mud::Table, mud::Widget>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Table>();
+    }
+    
+    
+        
+    // mud::TextEdit
+    {
+        static Meta meta = { type<mud::TextEdit>(), &namspc({ "mud" }), "TextEdit", sizeof(mud::TextEdit), TypeClass::Object };
+        static Class cls = { type<mud::TextEdit>(),
+            // bases
+            { &type<mud::Widget>() },
+            { base_offset<mud::TextEdit, mud::Widget>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::TextEdit>();
+    }
+    
+    
+        
+    // mud::TreeNode
+    {
+        static Meta meta = { type<mud::TreeNode>(), &namspc({ "mud" }), "TreeNode", sizeof(mud::TreeNode), TypeClass::Object };
+        static Class cls = { type<mud::TreeNode>(),
+            // bases
+            { &type<mud::Widget>() },
+            { base_offset<mud::TreeNode, mud::Widget>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::TreeNode>();
+    }
+    
+    
+        
+    // mud::Dockbar
+    {
+        static Meta meta = { type<mud::Dockbar>(), &namspc({ "mud" }), "Dockbar", sizeof(mud::Dockbar), TypeClass::Object };
+        static Class cls = { type<mud::Dockbar>(),
+            // bases
+            { &type<mud::Docker>() },
+            { base_offset<mud::Dockbar, mud::Docker>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Dockbar>();
+    }
+    
+    
+        
+    // mud::Dockspace
+    {
+        static Meta meta = { type<mud::Dockspace>(), &namspc({ "mud" }), "Dockspace", sizeof(mud::Dockspace), TypeClass::Object };
+        static Class cls = { type<mud::Dockspace>(),
+            // bases
+            { &type<mud::Docker>() },
+            { base_offset<mud::Dockspace, mud::Docker>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Dockspace>();
     }
     
     
@@ -2098,24 +2100,24 @@ namespace mud
         module.m_types.push_back(&type<std::vector<mud::Space>>());
         module.m_types.push_back(&type<std::vector<std::string>>());
         module.m_types.push_back(&type<mud::Window>());
-        module.m_types.push_back(&type<mud::Dockspace>());
-        module.m_types.push_back(&type<mud::Dockbar>());
-        module.m_types.push_back(&type<mud::SpriteAtlas>());
         module.m_types.push_back(&type<mud::Sprite>());
+        module.m_types.push_back(&type<mud::SpriteAtlas>());
         module.m_types.push_back(&type<mud::Frame>());
         module.m_types.push_back(&type<mud::FrameSolver>());
-        module.m_types.push_back(&type<mud::TextEdit>());
-        module.m_types.push_back(&type<mud::ScrollSheet>());
-        module.m_types.push_back(&type<mud::Tabber>());
-        module.m_types.push_back(&type<mud::Expandbox>());
-        module.m_types.push_back(&type<mud::TreeNode>());
-        module.m_types.push_back(&type<mud::Table>());
+        module.m_types.push_back(&type<mud::Canvas>());
         module.m_types.push_back(&type<mud::Dockable>());
         module.m_types.push_back(&type<mud::Docker>());
-        module.m_types.push_back(&type<mud::NodePlug>());
+        module.m_types.push_back(&type<mud::Expandbox>());
         module.m_types.push_back(&type<mud::Node>());
-        module.m_types.push_back(&type<mud::Canvas>());
+        module.m_types.push_back(&type<mud::NodePlug>());
         module.m_types.push_back(&type<mud::RootSheet>());
+        module.m_types.push_back(&type<mud::ScrollSheet>());
+        module.m_types.push_back(&type<mud::Tabber>());
+        module.m_types.push_back(&type<mud::Table>());
+        module.m_types.push_back(&type<mud::TextEdit>());
+        module.m_types.push_back(&type<mud::TreeNode>());
+        module.m_types.push_back(&type<mud::Dockbar>());
+        module.m_types.push_back(&type<mud::Dockspace>());
         module.m_types.push_back(&type<mud::RowSolver>());
         module.m_types.push_back(&type<mud::LineSolver>());
     

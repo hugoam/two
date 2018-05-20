@@ -4105,81 +4105,13 @@ namespace mud
     
     
         
-    // mud::SpaceSheet
+    // mud::BlockBlur
     {
-        static Meta meta = { type<mud::SpaceSheet>(), &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
-        static Class cls = { type<mud::SpaceSheet>(),
-            // bases
-            { &type<mud::RootSheet>() },
-            { base_offset<mud::SpaceSheet, mud::RootSheet>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::SpaceSheet>();
-    }
-    
-    
-        
-    // mud::Viewer
-    {
-        static Meta meta = { type<mud::Viewer>(), &namspc({ "mud" }), "Viewer", sizeof(mud::Viewer), TypeClass::Object };
-        static Class cls = { type<mud::Viewer>(),
-            // bases
-            { &type<mud::Widget>() },
-            { base_offset<mud::Viewer, mud::Widget>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link) },
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_viewport), type<mud::Viewport>(), "viewport", Ref(type<mud::Viewport>()), Member::None },
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_position), type<mud::vec2>(), "position", var(mud::vec2()), Member::Value },
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Viewer>();
-    }
-    
-    
-        
-    // mud::DrawBlock
-    {
-        static Meta meta = { type<mud::DrawBlock>(), &namspc({ "mud" }), "DrawBlock", sizeof(mud::DrawBlock), TypeClass::Object };
-        static Class cls = { type<mud::DrawBlock>(),
+        static Meta meta = { type<mud::BlockBlur>(), &namspc({ "mud" }), "BlockBlur", sizeof(mud::BlockBlur), TypeClass::Object };
+        static Class cls = { type<mud::BlockBlur>(),
             // bases
             { &type<mud::GfxBlock>() },
-            { base_offset<mud::DrawBlock, mud::GfxBlock>() },
+            { base_offset<mud::BlockBlur, mud::GfxBlock>() },
             // constructors
             {
             },
@@ -4200,40 +4132,7 @@ namespace mud
         
         
         
-        meta_class<mud::DrawBlock>();
-    }
-    
-    
-    
-        
-    // mud::BlockFilter
-    {
-        static Meta meta = { type<mud::BlockFilter>(), &namspc({ "mud" }), "BlockFilter", sizeof(mud::BlockFilter), TypeClass::Object };
-        static Class cls = { type<mud::BlockFilter>(),
-            // bases
-            { &type<mud::GfxBlock>() },
-            { base_offset<mud::BlockFilter, mud::GfxBlock>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::BlockFilter>();
+        meta_class<mud::BlockBlur>();
     }
     
     
@@ -4270,102 +4169,6 @@ namespace mud
     
     
         
-    // mud::BlockReflection
-    {
-        static Meta meta = { type<mud::BlockReflection>(), &namspc({ "mud" }), "BlockReflection", sizeof(mud::BlockReflection), TypeClass::Object };
-        static Class cls = { type<mud::BlockReflection>(),
-            // bases
-            { &type<mud::GfxBlock>() },
-            { base_offset<mud::BlockReflection, mud::GfxBlock>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::BlockReflection>();
-    }
-    
-    
-        
-    // mud::BlockSky
-    {
-        static Meta meta = { type<mud::BlockSky>(), &namspc({ "mud" }), "BlockSky", sizeof(mud::BlockSky), TypeClass::Object };
-        static Class cls = { type<mud::BlockSky>(),
-            // bases
-            { &type<mud::GfxBlock>() },
-            { base_offset<mud::BlockSky, mud::GfxBlock>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::BlockSky>();
-    }
-    
-    
-        
-    // mud::BlockBlur
-    {
-        static Meta meta = { type<mud::BlockBlur>(), &namspc({ "mud" }), "BlockBlur", sizeof(mud::BlockBlur), TypeClass::Object };
-        static Class cls = { type<mud::BlockBlur>(),
-            // bases
-            { &type<mud::GfxBlock>() },
-            { base_offset<mud::BlockBlur, mud::GfxBlock>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::BlockBlur>();
-    }
-    
-    
-        
     // mud::BlockDofBlur
     {
         static Meta meta = { type<mud::BlockDofBlur>(), &namspc({ "mud" }), "BlockDofBlur", sizeof(mud::BlockDofBlur), TypeClass::Object };
@@ -4398,13 +4201,13 @@ namespace mud
     
     
         
-    // mud::BlockResolve
+    // mud::BlockFilter
     {
-        static Meta meta = { type<mud::BlockResolve>(), &namspc({ "mud" }), "BlockResolve", sizeof(mud::BlockResolve), TypeClass::Object };
-        static Class cls = { type<mud::BlockResolve>(),
+        static Meta meta = { type<mud::BlockFilter>(), &namspc({ "mud" }), "BlockFilter", sizeof(mud::BlockFilter), TypeClass::Object };
+        static Class cls = { type<mud::BlockFilter>(),
             // bases
             { &type<mud::GfxBlock>() },
-            { base_offset<mud::BlockResolve, mud::GfxBlock>() },
+            { base_offset<mud::BlockFilter, mud::GfxBlock>() },
             // constructors
             {
             },
@@ -4425,7 +4228,7 @@ namespace mud
         
         
         
-        meta_class<mud::BlockResolve>();
+        meta_class<mud::BlockFilter>();
     }
     
     
@@ -4462,6 +4265,102 @@ namespace mud
     
     
         
+    // mud::BlockReflection
+    {
+        static Meta meta = { type<mud::BlockReflection>(), &namspc({ "mud" }), "BlockReflection", sizeof(mud::BlockReflection), TypeClass::Object };
+        static Class cls = { type<mud::BlockReflection>(),
+            // bases
+            { &type<mud::GfxBlock>() },
+            { base_offset<mud::BlockReflection, mud::GfxBlock>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::BlockReflection>();
+    }
+    
+    
+        
+    // mud::BlockResolve
+    {
+        static Meta meta = { type<mud::BlockResolve>(), &namspc({ "mud" }), "BlockResolve", sizeof(mud::BlockResolve), TypeClass::Object };
+        static Class cls = { type<mud::BlockResolve>(),
+            // bases
+            { &type<mud::GfxBlock>() },
+            { base_offset<mud::BlockResolve, mud::GfxBlock>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::BlockResolve>();
+    }
+    
+    
+        
+    // mud::BlockSky
+    {
+        static Meta meta = { type<mud::BlockSky>(), &namspc({ "mud" }), "BlockSky", sizeof(mud::BlockSky), TypeClass::Object };
+        static Class cls = { type<mud::BlockSky>(),
+            // bases
+            { &type<mud::GfxBlock>() },
+            { base_offset<mud::BlockSky, mud::GfxBlock>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::BlockSky>();
+    }
+    
+    
+        
     // mud::BlockTonemap
     {
         static Meta meta = { type<mud::BlockTonemap>(), &namspc({ "mud" }), "BlockTonemap", sizeof(mud::BlockTonemap), TypeClass::Object };
@@ -4491,6 +4390,39 @@ namespace mud
         
         meta_class<mud::BlockTonemap>();
     }
+    
+    
+        
+    // mud::DrawBlock
+    {
+        static Meta meta = { type<mud::DrawBlock>(), &namspc({ "mud" }), "DrawBlock", sizeof(mud::DrawBlock), TypeClass::Object };
+        static Class cls = { type<mud::DrawBlock>(),
+            // bases
+            { &type<mud::GfxBlock>() },
+            { base_offset<mud::DrawBlock, mud::GfxBlock>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::DrawBlock>();
+    }
+    
     
     
         
@@ -4654,19 +4586,54 @@ namespace mud
     
     
         
-    // mud::ParticleEmitter
+    // mud::Viewer
     {
-        static Meta meta = { type<mud::ParticleEmitter>(), &namspc({ "mud" }), "ParticleEmitter", sizeof(mud::ParticleEmitter), TypeClass::Struct };
-        static Class cls = { type<mud::ParticleEmitter>(),
+        static Meta meta = { type<mud::Viewer>(), &namspc({ "mud" }), "Viewer", sizeof(mud::Viewer), TypeClass::Object };
+        static Class cls = { type<mud::Viewer>(),
             // bases
-            { &type<mud::ParticleGenerator>() },
-            { base_offset<mud::ParticleEmitter, mud::ParticleGenerator>() },
+            { &type<mud::Widget>() },
+            { base_offset<mud::Viewer, mud::Widget>() },
             // constructors
             {
             },
             // copy constructor
             {
-                { type<mud::ParticleEmitter>(), [](Ref ref, Ref other) { new(&val<mud::ParticleEmitter>(ref)) mud::ParticleEmitter(val<mud::ParticleEmitter>(other)); } }
+            },
+            // members
+            {
+                { type<mud::Viewer>(), member_address(&mud::Viewer::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link) },
+                { type<mud::Viewer>(), member_address(&mud::Viewer::m_viewport), type<mud::Viewport>(), "viewport", Ref(type<mud::Viewport>()), Member::None },
+                { type<mud::Viewer>(), member_address(&mud::Viewer::m_position), type<mud::vec2>(), "position", var(mud::vec2()), Member::Value },
+                { type<mud::Viewer>(), member_address(&mud::Viewer::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Viewer>();
+    }
+    
+    
+        
+    // mud::SpaceSheet
+    {
+        static Meta meta = { type<mud::SpaceSheet>(), &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
+        static Class cls = { type<mud::SpaceSheet>(),
+            // bases
+            { &type<mud::RootSheet>() },
+            { base_offset<mud::SpaceSheet, mud::RootSheet>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
             },
             // members
             {
@@ -4682,7 +4649,7 @@ namespace mud
         
         
         
-        meta_class<mud::ParticleEmitter>();
+        meta_class<mud::SpaceSheet>();
     }
     
     
@@ -4747,6 +4714,39 @@ namespace mud
         
         
         meta_class<mud::SceneViewer>();
+    }
+    
+    
+        
+    // mud::ParticleEmitter
+    {
+        static Meta meta = { type<mud::ParticleEmitter>(), &namspc({ "mud" }), "ParticleEmitter", sizeof(mud::ParticleEmitter), TypeClass::Struct };
+        static Class cls = { type<mud::ParticleEmitter>(),
+            // bases
+            { &type<mud::ParticleGenerator>() },
+            { base_offset<mud::ParticleEmitter, mud::ParticleGenerator>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+                { type<mud::ParticleEmitter>(), [](Ref ref, Ref other) { new(&val<mud::ParticleEmitter>(ref)) mud::ParticleEmitter(val<mud::ParticleEmitter>(other)); } }
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ParticleEmitter>();
     }
     
     
@@ -4898,26 +4898,26 @@ namespace mud
         module.m_types.push_back(&type<std::vector<int>>());
         module.m_types.push_back(&type<std::vector<mud::PrefabNode>>());
         module.m_types.push_back(&type<std::vector<mud::quat>>());
-        module.m_types.push_back(&type<mud::SpaceSheet>());
-        module.m_types.push_back(&type<mud::Viewer>());
-        module.m_types.push_back(&type<mud::DrawBlock>());
-        module.m_types.push_back(&type<mud::BlockFilter>());
-        module.m_types.push_back(&type<mud::BlockCopy>());
-        module.m_types.push_back(&type<mud::BlockReflection>());
-        module.m_types.push_back(&type<mud::BlockSky>());
         module.m_types.push_back(&type<mud::BlockBlur>());
+        module.m_types.push_back(&type<mud::BlockCopy>());
         module.m_types.push_back(&type<mud::BlockDofBlur>());
-        module.m_types.push_back(&type<mud::BlockResolve>());
+        module.m_types.push_back(&type<mud::BlockFilter>());
         module.m_types.push_back(&type<mud::BlockGlow>());
+        module.m_types.push_back(&type<mud::BlockReflection>());
+        module.m_types.push_back(&type<mud::BlockResolve>());
+        module.m_types.push_back(&type<mud::BlockSky>());
         module.m_types.push_back(&type<mud::BlockTonemap>());
+        module.m_types.push_back(&type<mud::DrawBlock>());
         module.m_types.push_back(&type<mud::BlockDepth>());
         module.m_types.push_back(&type<mud::BlockLight>());
         module.m_types.push_back(&type<mud::BlockParticles>());
         module.m_types.push_back(&type<mud::BlockRadiance>());
         module.m_types.push_back(&type<mud::BlockShadow>());
-        module.m_types.push_back(&type<mud::ParticleEmitter>());
+        module.m_types.push_back(&type<mud::Viewer>());
+        module.m_types.push_back(&type<mud::SpaceSheet>());
         module.m_types.push_back(&type<mud::RenderTarget>());
         module.m_types.push_back(&type<mud::SceneViewer>());
+        module.m_types.push_back(&type<mud::ParticleEmitter>());
     
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node(val<mud::Gnode>(args[0]), args[1], val<mud::vec3>(args[2]), val<mud::quat>(args[3]), val<mud::vec3>(args[4]))); };

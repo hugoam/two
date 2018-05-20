@@ -11,11 +11,14 @@ namespace mud
 {
 	using cstring = const char*;
 
+	using LayoutDef = void(*)(Layout&);
+	using InkStyleDef = void(*)(InkStyle&);
+
 	class _refl_ MUD_UI_EXPORT Style
 	{
 	public:
-		Style(cstring name, Style* base, const Args& args);
-		Style(cstring name, Style& base, const Args& args) : Style(name, &base, args) {}
+		Style(cstring name, Style* base, LayoutDef layout, InkStyleDef skin = nullptr);
+		Style(cstring name, Style& base, LayoutDef layout, InkStyleDef skin = nullptr) : Style(name, &base, layout, skin) {}
 		~Style();
 
 		Style(const Style& other);
@@ -34,6 +37,8 @@ namespace mud
 		struct Impl;
 		unique_ptr<Impl> m_impl;
 
+		LayoutDef m_layout_def = nullptr;
+		InkStyleDef m_skin_def = nullptr;
 		bool m_defined;
 	};
 }

@@ -69,9 +69,9 @@ namespace mud
     template <> MUD_OBJ_EXPORT Type& type<mud::array<float>>();
     template <> MUD_OBJ_EXPORT Type& type<mud::array<mud::cstring>>();
     template <> MUD_OBJ_EXPORT Type& type<mud::strung>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Function>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Method>();
     template <> MUD_OBJ_EXPORT Type& type<mud::Constructor>();
     template <> MUD_OBJ_EXPORT Type& type<mud::CopyConstructor>();
     template <> MUD_OBJ_EXPORT Type& type<mud::Destructor>();
+    template <> MUD_OBJ_EXPORT Type& type<mud::Function>();
+    template <> MUD_OBJ_EXPORT Type& type<mud::Method>();
 }

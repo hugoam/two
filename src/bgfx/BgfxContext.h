@@ -33,6 +33,8 @@ namespace mud
 	class MUD_BGFX_EXPORT BgfxContext : public EmContext
 #elif defined MUD_CONTEXT_WINDOWS
 	class MUD_BGFX_EXPORT BgfxContext : public WinContext
+#else
+	class MUD_BGFX_EXPORT BgfxContext : public Context
 #endif
 	{
 	public:

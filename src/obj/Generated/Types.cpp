@@ -64,9 +64,9 @@ namespace mud
     template <> MUD_OBJ_EXPORT Type& type<mud::array<float>>() { static Type ty("array<float>"); return ty; }
     template <> MUD_OBJ_EXPORT Type& type<mud::array<mud::cstring>>() { static Type ty("array<mud::cstring>"); return ty; }
     template <> MUD_OBJ_EXPORT Type& type<mud::strung>() { static Type ty("strung"); return ty; }
-    template <> MUD_OBJ_EXPORT Type& type<mud::Function>() { static Type ty("Function", type<mud::Callable>()); return ty; }
-    template <> MUD_OBJ_EXPORT Type& type<mud::Method>() { static Type ty("Method", type<mud::Callable>()); return ty; }
     template <> MUD_OBJ_EXPORT Type& type<mud::Constructor>() { static Type ty("Constructor", type<mud::Callable>()); return ty; }
     template <> MUD_OBJ_EXPORT Type& type<mud::CopyConstructor>() { static Type ty("CopyConstructor", type<mud::Callable>()); return ty; }
     template <> MUD_OBJ_EXPORT Type& type<mud::Destructor>() { static Type ty("Destructor", type<mud::Callable>()); return ty; }
+    template <> MUD_OBJ_EXPORT Type& type<mud::Function>() { static Type ty("Function", type<mud::Callable>()); return ty; }
+    template <> MUD_OBJ_EXPORT Type& type<mud::Method>() { static Type ty("Method", type<mud::Callable>()); return ty; }
 }

@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <ui/Generated/Types.h>
 #include <ui/Node.h>
 #include <ui/Structs/Node.h>
 #include <ui/Structs/Container.h>
@@ -15,7 +14,6 @@
 #include <ui/Render/Renderer.h>
 #include <ui/Frame/Solver.h>
 
-#include <obj/Arg.h>
 #include <ui/Style/Layout.h>
 
 namespace mud
@@ -50,10 +48,10 @@ namespace ui
 
 		int shift = -min(0, min_index);
 		
-		static Layout layout_overlay = Layout("", { { { &Layout::m_space, BOARD } } });
-		static Layout layout_line = Layout("", { { { &Layout::m_space, ITEM }, { &Layout::m_align, Dim2<Align>{ CENTER, CENTER } }, { &Layout::m_padding, vec4(20.f) }, { &Layout::m_spacing, vec2(100.f) } } });
-		static Layout layout_column = Layout("", { { { &Layout::m_space, UNIT }, { &Layout::m_align, Dim2<Align>{ LEFT, CENTER } }, { &Layout::m_padding, vec4(20.f) }, { &Layout::m_spacing, vec2(20.f) } } });
-		static Layout layout_node = Layout("", { { { &Layout::m_space, BLOCK } } });
+		static Layout layout_overlay = { [](Layout& l) { l.m_space = BOARD; } };
+		static Layout layout_line = { [](Layout& l) { l.m_space = ITEM; l.m_align = { CENTER, CENTER }; l.m_padding = vec4(20.f); l.m_spacing = vec2(100.f); } };
+		static Layout layout_column = { [](Layout& l) { l.m_space = UNIT; l.m_align = { LEFT, CENTER }; l.m_padding = vec4(20.f); l.m_spacing = vec2(20.f); } };
+		static Layout layout_node = { [](Layout& l) { l.m_space = BLOCK; } };
 
 		SolverVector solvers;
 		

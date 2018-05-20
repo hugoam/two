@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <ui/Generated/Types.h>
 #include <ui/Style/Style.h>
 #include <ui/Style/Layout.h>
 #include <ui/Style/Skin.h>
@@ -10,7 +9,6 @@
 
 #include <obj/Iterable/Reverse.h>
 #include <obj/Reflect/Meta.h>
-#include <obj/Arg.h>
 
 #include <ui/Widget.h>
 
@@ -78,15 +76,11 @@ namespace mud
 		std::vector<InkStyle> m_skins;
 	};
 
-	Layout::Layout(cstring name, const Args& args)
-		: Layout(name)
-	{
-		set_args(this, args);
-	}
-
-	Style::Style(cstring name, Style* base, const Args& args)
+	Style::Style(cstring name, Style* base, LayoutDef layout, InkStyleDef skin)
 		: m_base(base)
 		, m_impl(make_unique<Impl>())
+		, m_layout_def(layout)
+		, m_skin_def(skin)
 	{
 		if(Styler::s_styles[name] == nullptr)
 			Styler::s_styles[name] = this;
@@ -103,8 +97,10 @@ namespace mud
 			m_impl->m_layout.m_name = name;
 		}
 
-		set_args(&m_impl->m_layout, args);
-		set_args(&m_impl->m_skin, args);
+		if(layout)
+			layout(m_impl->m_layout);
+		if(skin)
+			skin(m_impl->m_skin);
 	}
 
 	Style::~Style()

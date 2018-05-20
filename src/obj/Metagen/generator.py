@@ -668,6 +668,7 @@ class Generator(object):
         
         def cmp_types(first, other):
             # negative means self before other, positive means self after other
+            bases = cmp(first.deep_bases, other.deep_bases)
             if other.isProto and not first.isProto : 
                 return -1
             elif first.isProto and not other.isProto :
@@ -676,8 +677,8 @@ class Generator(object):
                 return -1
             elif first.deep_bases and not other.deep_bases :
                 return 1
-            elif other.deep_bases and first.deep_bases :
-                return cmp(first.deep_bases, other.deep_bases)
+            elif other.deep_bases and first.deep_bases and bases != 0 :
+                return bases
             elif first in other.deep_bases:
                 return -1
             elif other in first.deep_bases:

@@ -78,12 +78,6 @@ namespace bimg {
     
 }
 
-namespace toy {
-
-    
-    
-}
-
 namespace bx {
 
     
