@@ -146,7 +146,7 @@ namespace mud
 
 	void vgRenderer::clip(const vec4& rect)
 	{
-		//vg::intersectScissor(m_vg, RECT_FLOATS(rect));
+		vg::intersectScissor(m_vg, RECT_FLOATS(rect));
 	}
 
 	void vgRenderer::unclip()
