@@ -255,7 +255,8 @@ The scripting and visual scripting examples are good demonstrations of the power
 - [live graphics](https://hugoam.github.io/mud-io/examples/14_live_gfx.html)
 - [live graphics (visual script)](https://hugoam.github.io/mud-io/examples/14_live_gfx_visual.html)
 
-![live graphics](https://github.com/hugoam/mud-io/blob/master/media/14_live_gfx.png)
+<br>![live graphics](https://github.com/hugoam/mud-io/blob/master/media/14_live_gfx.png)
 
+## Going further
 In a later article, we will show an interesting application of this reflection model: we wrote a **typed** c++ representation of the [glTF](https://github.com/KhronosGroup/glTF/tree/master/specification/2.0) format that generically serialize from and to the *glTF json format*. This eliminates more than half of the logic that is usually contained in glTF importers, and makes it the smallest and simplest it can possibly be (fitting in < 1kLoC).
 
