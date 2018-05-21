@@ -245,10 +245,17 @@ template class _refl_ Foo<int>; // fully reflects the explicit instantiation for
 
 ## Generic features
 The primitives and low level generic operations we outlined might seem trivial, yet they open vast arrays of possibilities for generic programming blocks, that immediately scale to the new types and new modules you add to your application code.
+
 mud builds on top of these to provide the following generic building blocks, for any of the reflected types and primitives :
 - ui for creating, editing, saving, inspecting any object structure
 - serialization in and out of any arbitrary object
 - seamless binding of all reflected primitives with scripting languages (lua, visual scripting)
+
+The scripting and visual scripting examples are good demonstrations of the power enabled by the reflection/generic idioms.
+- [live graphics](https://hugoam.github.io/mud-io/examples/14_live_gfx.html)
+- [live graphics (visual script)](https://hugoam.github.io/mud-io/examples/14_live_gfx_visual.html)
+
+![live graphics](https://github.com/hugoam/mud-io/tree/master/media/14_live_gfx.png)
 
 In a later article, we will show an interesting application of this reflection model: we wrote a **typed** c++ representation of the [glTF](https://github.com/KhronosGroup/glTF/tree/master/specification/2.0) format that generically serialize from and to the *glTF json format*. This eliminates more than half of the logic that is usually contained in glTF importers, and makes it the smallest and simplest it can possibly be (fitting in < 1kLoC).
 
