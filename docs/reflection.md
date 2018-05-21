@@ -1,4 +1,4 @@
-# Reflection in mud
+# Reflection in [mud](https://github.com/hugoam/mud)
 The lowest and most fundamental layer of [mud](mud.md) is the reflection layer.  
 Its **core principle** arises from a pure programming problem : how to *reconcile* **types** with **generic algorithms**, while prioritizing *simple and elegant* code *always*.  
 The issue it solves is the following : *many algorithms* are *best expressed* as operating on **completely generic, type-erased objects**, rather than **typed objects** : however, in its most efficient and mature form, c++ deals with strongly typed objects to generate tightly optimized machine code. (see orthodox c++)
@@ -58,7 +58,6 @@ public:
     _attr_ std::string m_name;
     
     _attr_ ShapeType m_shape;
-    _attr_ Colour m_colour;
     
     _attr_ std::vector<float> m_floats;
 };
@@ -81,7 +80,7 @@ Type& type();
 
 mud **must** ensure that the type of a given c++ class is always unique : wherever, two calls to `type<T>()` from any two points in any two c++ modules, should always return the same [Type](../src/obj/Type.h) handle.
 
-A special case of types is c++ polymorphic objects: to get the proper behavior when passing such objects around using **generic** [primitives](#primitives), the base class is expected to have a `Type` member named `type`, like so:
+A special case of types is c++ polymorphic objects: to correctly pass such objects around using **generic** [primitives](#primitives), mud needs to be able to get the actual derived type. For this, mud expects the base class to have a `Type` member named `type`, like so:
 ```c++
 class Shape
 {
@@ -92,7 +91,7 @@ public:
     _attr_ Type& m_type; // can be a pointer too
 }
 ```
-To get the real type of a potentially polymorphic object, the `typeof(object)` function will ensure you always get the true type of a given object: it simply retrieves the `type` member if that type of object has one (= is polymorphic), or call `type<T>()` instead.
+This allows to convert a pointer or reference to a `Shape` to an aptly typed generic `Ref` or `Var`. To get the real type of a potentially polymorphic object, the `typeof(object)` function ensures you always get the true type of a given object: it simply retrieves the `type` member if that type of object has one (= is polymorphic), or call `type<T>()` instead.
 
 ## Primitives
 ### Values and references
@@ -101,7 +100,7 @@ mud provides two constructs to represent generic objects :
 - a `Var` is a type-erased [value](../src/obj/Var.h), which can contain any object
 - a `Ref` is a type-erased [reference](../src/obj/Ref.h) to a value, which can be of any type
 
-It's worth to note that **generic** *value types* are costly to pass around: as `Var` uses heap allocated memory to contain its objects, memory allocations are acted each time one is created or copied.  
+It's worth to note that **generic** *value types* are costly to pass around: as `Var` uses heap allocated memory to contain its objects, memory allocations happen each time one is created or copied.  
 As a consequence, and a good rule of thumb, when passing objects around, you should use `Ref` everywhere possible.
 
 Creating a `Var` or `Ref` from a c++ objects is done like so :
@@ -111,13 +110,19 @@ Ref a = &object; // a holds generic reference to object
 Var b = var(object); // b holds a copy of object
 ```
 
+Retrieving typed values from generic `Var` and `Ref` is done with the `val()` function :
+```c++
+MyObject& aa = val<MyObject>(a);
+MyObject& bb = val<MyObject>(b);
+```
+
 ### c++ constructs
 Each reflected c++ construct is represented by their respective type and objects :
-- the [function](../src/obj/Reflect/Method.h) class represents any c++ function: use it to [call](#call-a-function) the underlying c++ function with **generic** arguments.
-- the [meta](../src/obj/Reflect/Meta.h) class represents any c++ type: use it to [construct](#create-an-object) an object, [convert](#convert-an-object-to-a-string) an object to a string.
-- the [class](../src/obj/Reflect/Class.h) class represents any c++ class: use it to [construct](#create-an-object) an object,  to iterate a class **bases**, **members** or **methods**.
-- the [member](../src/obj/Reflect/Member.h) class represent a c++ class member (see above): use it to [get](#get-a-member-value) or [set](#set-a-member-value) a **generic** value to this member.
-- the [method](../src/obj/Reflect/Method.h) class represent a c++ class method (see above): use it to [call](#call-an-object-method) the underlying c++ method with **generic** arguments.
+- the [function](../src/obj/Reflect/Method.h) class represents any c++ function: use it to [call](#call-a-function) the underlying c++ function with **generic** arguments
+- the [meta](../src/obj/Reflect/Meta.h) class represents any c++ type: use it to [create](#create-an-object) an object, [convert](#convert-an-object-to-a-string) an object to a string
+- the [class](../src/obj/Reflect/Class.h) class represents any c++ class: use it to [construct](#construct-an-object) an object,  to iterate a class **bases**, **members** or **methods**
+- the [member](../src/obj/Reflect/Member.h) class represents a c++ class member (see above): use it to [get](#get-a-member-value) or [set](#set-a-member-value) a **generic** value to this member
+- the [method](../src/obj/Reflect/Method.h) class represents a c++ class method (see above): use it to [call](#call-an-object-method) the underlying c++ method with **generic** arguments
 - the [enum](../src/obj/Reflect/Enum.h) class represents a c++ enum (scoped or not): use it to convert an index to its label, or a label to its index, or a label to its underlying value, etc...
 
 In general, you can retrieve or browse these construct in different ways:
@@ -126,54 +131,74 @@ In general, you can retrieve or browse these construct in different ways:
 - you can browse all of the [system](../src/obj/System/System.h) constructs, i.e. the sum of all constructs in all currently loaded modules
 
 ## Operations
-these are the different operations you can do on the generic reflection primitives :
+Here are the different operations enabled by the generic reflection primitives :  
+
+(*Note: In these examples retrieving the generic c++ construct and using it is done successively: in real code, these are most likely done in different locations.*)
 
 ### call a function
-call any function object by passing an array of **generic** arguments in the form of the `Var` type:
+Call any [function](../src/obj/Reflect/Method.h) object by passing an array of **generic** arguments (a vector of `Var`):
 ```c++
-Function& func = function(foo);
-Var result = func({ var(5) });
+Function& func = function(foo); // retrieve the function
+Var result = func({ var(5) }); // call it with generic parameters
 ```
 
-### create an object
-create an object by fetching the constructor, and calling it with an array of generic arguments:
-if no constructor taking the following types is found, it will do nothing:
+### construct an object (for classes)
+Call any [constructor](../src/obj/Reflect/Method.h), with an array of generic arguments:
 ```c++
-Type& type = type<MyObject>();
-Var object = create(type, { var(12), var(string("cocorico")) });
+Constructor& constr = cls<MyObject>().constructor(); // retrieve the main constructor
+Var object = constr({ var(12), var(string("cocorico")) }); // call it with generic parameters
+```
+
+### create an object (any type)
+Create an empty object of any default constructible type:
+```c++
+Var value = meta<int>().empty_var();
+Var value = meta<MyObject>().empty_var();
 ```
 
 ### call an object method
-call any method object by passing the object and an array of **generic** arguments in the form of the `Var` type:
+Call any [method](../src/obj/Reflect/Method.h) with an array of generic arguments:
 ```c++
-Method& meth = method(&MyObject::method);
-Var result = meth(object, {});
+Method& bar = method(&MyObject::bar); // retrieve the method
+Var result = bar(object, { var(12) }); // call it with generic parameters
 ```
 
 ### get a member value
+Get the generic value of any [member](../src/obj/Reflect/Member.h):
 ```c++
-Member& mem = member(&MyObject::m_var);
-Var var = mem.get(object);
+Member& colour = member(&MyObject::m_colour); // retrieve the member
+Var value = colour.get(object); // fetch its generic value from a generic object
 ```
 
 ### set a member value
+Set the generic value of any [member](../src/obj/Reflect/Member.h):
 ```c++
-Member& mem = member(&MyObject::m_field);
-mem.set(object, var("cocorico!"));
+Member& name = member(&MyObject::m_name); // retrieve the member
+name.set(object, var(string("cocorico!"))); // set it on a generic object with a generic value
 ```
 
 ### iterate a collection
+Iterate any **sequence** type as a collection of generic values:
 ```c++
-Member& mem = member(&MyObject::m_floats);
-Var var = mem.get(object);
-iterate(var, [](const Var& element) { printf("%f\n", element.val<float>(); }); 
+Member& floats = member(&MyObject::m_floats); // retrieve the member
+Var var = floats.get(object); // fetch its generic value
+iterate(var, [](Ref element) { printf("%f\n", val<float>(element)); });  // iterate its contents as generic values
 ```
 
-### convert an object to string
+### convert an object to a string
+All base, enums and sequence types support conversion to a string from a generic value:
+```c++
+Var a = var(14);
+Var f = var(4.93f);
+Var floats = var(std::vector<float>{ 3.03f, 0.45f, 0.1f });
+to_string(a); // prints "14"
+to_string(f); // prints "4.93"
+to_string(floats); // prints "3.03,0.45,0.1"
+```
 
 ## Generator
 ### Hints
-the following hints are defined for reflecting c++ constructs:
+The following hints are defined for reflecting c++ constructs:
 - `_refl_`: reflect a type
 - `_attr_`: reflect a class field (static or not)
 - `_meth_`: reflect a class method
@@ -181,10 +206,10 @@ the following hints are defined for reflecting c++ constructs:
 - `_array_`: specifies that a reflected type behaves like an array type (implements the [] operator)
 - `_struct_`: specifies that a reflected type has value semantic
 
-when compiling, these are defined to nothing : they only have a meaning when run through the [reflection generator]()
+When compiling, these are defined to nothing : they only have a meaning when run through the reflection generator.
 
 ### Precompiling
-Precompiling is done by the [reflection generator](../src/obj/Metagen/generator.py) : it's essentially a c++ AST parser, written in python over [libclang]() : it goes over all the headers in your module, and each time a [reflection hint](#hints) is found in the AST, the meta data is generated for the hinted construct.
+Precompiling is done by the [reflection generator](../src/obj/Metagen/generator.py) : it's essentially a c++ AST parser, written in python over [libclang](https://github.com/llvm-mirror/clang/tree/master/tools/libclang) : it goes over all the headers in your module, and each time a [reflection hint](#hints) is found in the AST, the meta data is generated for the annotated construct.
 
 The meta data is bundled into the following reflection files, added to a `Generated` folder :
 - a `Forward.h` file containing forward declarations for all types in your module
@@ -219,9 +244,11 @@ template class _refl_ Foo<int>; // fully reflects the explicit instantiation for
 ```
 
 ## Generic features
-these were the low level generic operations that are defined to access the reflected types.  
-mud builds on top of these, to provide you, for any of the reflected types and primitives :
-- ui for creating, editing, saving, inspecting an object structure
-- serialization facilities
-- seamless integration with scripting languages (lua, visual scripting)
+The primitives and low level generic operations we outlined might seem trivial, yet they open vast arrays of possibilities for generic programming blocks, that immediately scale to the new types and new modules you add to your application code.
+mud builds on top of these to provide the following generic building blocks, for any of the reflected types and primitives :
+- ui for creating, editing, saving, inspecting any object structure
+- serialization in and out of any arbitrary object
+- seamless binding of all reflected primitives with scripting languages (lua, visual scripting)
+
+In a later article, we will show an interesting application of this reflection model: we wrote a **typed** c++ representation of the [glTF](https://github.com/KhronosGroup/glTF/tree/master/specification/2.0) format that generically serialize from and to the *glTF json format*. This eliminates more than half of the logic that is usually contained in glTF importers, and makes it the smallest and simplest it can possibly be (fitting in < 1kLoC).
 
