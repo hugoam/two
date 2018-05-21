@@ -1,7 +1,7 @@
 # C++ reflection in [mud](https://github.com/hugoam/mud)
 The lowest and most fundamental layer of [mud](mud.md) is the reflection layer.  
 Its **core principle** arises from a pure programming problem : how to *reconcile* **types** with **generic algorithms**, while prioritizing *simple and elegant* code *always*.  
-The issue it solves is the following : *many algorithms* are *best expressed* as operating on **completely generic, type-erased objects**, rather than **typed objects** : however, in its most efficient and mature form, c++ deals with strongly typed objects to generate tightly optimized machine code. (see orthodox c++)
+The issue it solves is the following : *many algorithms* are *best expressed* as operating on **completely generic, type-erased objects**, rather than **typed objects** : however, in its most efficient and mature form, c++ deals with strongly typed objects to generate tightly optimized machine code (leading some developers to stick to these *good* parts, see *orthodox c++*).
 
 A typical programming problem varies between three degrees of genericity: we can separate algorithms whether they:
 - operate on **one** *specific* data type
