@@ -12,7 +12,7 @@
 #include <ui/Controller/Controller.h>
 #include <edit/Generated/Forward.h>
 #include <edit/Action.h>
-#include <gfx/Widget/Viewer.h>
+#include <edit/Viewer/Viewer.h>
 
 namespace mud
 {

@@ -98,12 +98,12 @@ namespace mud
 
 			if(Function* function = system().find_function(edit.m_hovered_word.c_str()))
 			{
-				Widget& popup = ui::popup_at(edit, hover_at, ui::PopupNone);
+				Widget& popup = ui::popup_at(edit, hover_at, ui::PopupFlags::None);
 				meta_synopsis(popup, *function);
 			}
 			else if(Type* type = system().find_type(edit.m_hovered_word.c_str()))
 			{
-				Widget& popup = ui::popup_at(edit, hover_at, ui::PopupNone);
+				Widget& popup = ui::popup_at(edit, hover_at, ui::PopupFlags::None);
 				meta_synopsis(popup, *type);
 			}
 			else

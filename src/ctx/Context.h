@@ -19,6 +19,8 @@ namespace mud
 	public:
 		RenderSystem(cstring resource_path, bool manual_render);
 
+		virtual bool next_frame() = 0;
+
 		virtual object_ptr<Context> create_context(cstring name, int width, int height, bool fullScreen) = 0;
 		virtual object_ptr<VgRenderer> create_renderer(Context& context) = 0;
 

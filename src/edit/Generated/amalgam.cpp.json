@@ -15,7 +15,13 @@
 		"edit/Tools/ScaleTool.cpp",
 		"edit/Tools/TranslateTool.cpp",
 		"edit/Tools/ViewTool.cpp",
-		"edit/Tools/WorkPlaneTool.cpp"
+		"edit/Tools/WorkPlaneTool.cpp",
+		"edit/Ui/GfxEdit.cpp",
+		"edit/Ui/ParticleEdit.cpp",
+		"edit/Ui/PrefabEdit.cpp",
+		"edit/Viewer/SpaceSheet.cpp",
+		"edit/Viewer/SpaceViewer.cpp",
+		"edit/Viewer/Viewer.cpp"
 	],
 	"include_paths": [
         ""
@@ -28,7 +34,8 @@
 		"lang/": "mudlang.h",
 		"ui/": "mudui.h",
 		"uio/": "muduio.h",
-		"gfx/": "mudgfx.h"
+		"gfx/": "mudgfx.h",
+		"gfxpbr/": "mudgfxpbr.h"
     },
 	"clean_strings": [
 		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",

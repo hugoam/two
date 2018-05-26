@@ -64,7 +64,7 @@ namespace mud
 		bgfx::InstanceDataBuffer m_instance_buffer;
 
 		std::vector<Light*> m_lights;
-		std::vector<ReflectionProbe*> m_reflection_probes;
+		//std::vector<ReflectionProbe*> m_reflection_probes;
 		//std::vector<GIProbe*> m_gi_probes;
 
 		float m_depth = 0.f;

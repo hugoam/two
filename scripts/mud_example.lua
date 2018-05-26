@@ -1,22 +1,36 @@
 -- mud
 -- mud example application
 
-project "mud_example"
-	kind "ConsoleApp"
-    
-    includedirs {
-        path.join(MUD_DIR, "example"),
-    }
-    
-    mud_module("example", MUD_DIR, "example", "_EXAMPLE")
+if _OPTIONS["renderer-bgfx"] then
+    project "mud_example"
+        kind "ConsoleApp"
+        
+        includedirs {
+            path.join(MUD_DIR, "example"),
+        }
+        
+        mud_module("example", MUD_DIR, "example", "_EXAMPLE")
 
-    defines { "_00_UI_LIB", "_00_TUTORIAL_LIB", "_15_SCRIPT_LIB" }
-    
-    uses_mud_gfx()
-    uses_mud()
-    mud_shell("mud_example")
+        defines { "_00_UI_LIB", "_00_TUTORIAL_LIB", "_15_SCRIPT_LIB" }
+        
+        uses_mud_gfx()
+        uses_mud()
+        mud_shell("mud_example")
+        
+    project "mud_shell"
+        kind "ConsoleApp"
+        
+        uses_mud_gfx()
+        uses_mud()
+        mud_shell("mud_shell")  
+end
 
 function example_project(name, gfx, ...)
+
+    if _OPTIONS["renderer-gl"] and gfx then
+        return
+    end
+
     project(name)
         kind "ConsoleApp"
 
@@ -33,7 +47,11 @@ function example_project(name, gfx, ...)
     
             uses_mud_gfx()
         else
-            uses_mud_bgfx()
+            if _OPTIONS["renderer-gl"] then
+                uses_mud_gl()
+            elseif _OPTIONS["renderer-bgfx"] then
+                uses_mud_bgfx()
+            end
         end
         
         uses_mud()
@@ -74,6 +92,7 @@ example_project("17_wfc", true)
 example_project("19_multi_viewport", true)
 example_project("20_meta", true, "01_shapes", "03_materials")
 
-project "09_live_shader"
-    uses_shaderc()
-
+if _OPTIONS["renderer-bgfx"] then
+    project "09_live_shader"
+        uses_shaderc()
+end

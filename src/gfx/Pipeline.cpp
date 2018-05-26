@@ -5,8 +5,10 @@
 #include <obj/Vector.h>
 #include <gfx/Shot.h>
 #include <gfx/Filter.h>
+#include <gfx/Asset.h>
 
 #include <gfx/Generated/Module.h>
+#include <gfx-pbr/Generated/Module.h>
 
 namespace mud
 {
@@ -68,9 +70,9 @@ namespace mud
 		m_pass_blocks[size_t(PassType::Effects)] = { /*&ssao, &ssr, &sss,*/ &resolve };
 		m_pass_blocks[size_t(PassType::PostProcess)] = { &dof_blur/*, &exposure*/, &glow, &tonemap };
 
-		gfx_system.create_program("unshaded", pass_blocks(PassType::Unshaded));
-		gfx_system.create_program("depth", pass_blocks(PassType::Depth));
-		gfx_system.create_program("pbr/pbr", pass_blocks(PassType::Opaque));
+		gfx_system.programs().create("unshaded", [&](Program& program) { program.register_blocks(this->pass_blocks(PassType::Unshaded)); });
+		gfx_system.programs().create("depth", [&](Program& program) { program.register_blocks(this->pass_blocks(PassType::Depth)); });
+		gfx_system.programs().create("pbr/pbr", [&](Program& program) { program.register_blocks(this->pass_blocks(PassType::Opaque)); });
 	};
 
 	MainRenderer::MainRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
@@ -126,6 +128,13 @@ namespace mud
 		this->add_pass<PassClear>(gfx_system);
 		this->add_pass<PassUnshaded>(gfx_system);
 		this->add_pass<PassFlip>(gfx_system, *pipeline.block<BlockCopy>());
+		this->init();
+	}
+
+	ClearRenderer::ClearRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
+		: Renderer(gfx_system, pipeline)
+	{
+		this->add_pass<PassClear>(gfx_system);
 		this->init();
 	}
 

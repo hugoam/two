@@ -15,7 +15,7 @@ namespace mud
 	public:
 		std::vector<Item*> m_items;
 		std::vector<Light*> m_lights;
-		std::vector<ReflectionProbe*> m_reflection_probes;
+		//std::vector<ReflectionProbe*> m_reflection_probes;
 		//std::vector<GIProbe*> m_gi_probes;
 		std::vector<ImmediateDraw*> m_immediate;
 	};

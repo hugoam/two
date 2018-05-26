@@ -248,7 +248,7 @@ namespace mud
 	{
 		Canvas& canvas = ui::canvas(parent, script.m_processes.size());
 
-		if(Widget* popup = ui::context(*canvas.m_scroll_plan, SCRIPT_CANVAS_INSERT, ui::PopupModal))
+		if(Widget* popup = ui::context(*canvas.m_scroll_plan, SCRIPT_CANVAS_INSERT, ui::PopupFlags::Modal))
 			script_canvas_insert(canvas, *popup, script);
 
 		Process* destroy = nullptr;

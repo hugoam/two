@@ -10,6 +10,7 @@
 #include <ui/Generated/Module.h>
 #include <uio/Generated/Module.h>
 #include <gfx/Generated/Module.h>
+#include <gfx-pbr/Generated/Module.h>
         
 #include <edit/Generated/Forward.h>
 #include <edit/Generated/Types.h>
@@ -26,6 +27,12 @@
 #include <edit/Tools/TranslateTool.h>
 #include <edit/Tools/ViewTool.h>
 #include <edit/Tools/WorkPlaneTool.h>
+#include <edit/Ui/GfxEdit.h>
+#include <edit/Ui/ParticleEdit.h>
+#include <edit/Ui/PrefabEdit.h>
+#include <edit/Viewer/SpaceSheet.h>
+#include <edit/Viewer/SpaceViewer.h>
+#include <edit/Viewer/Viewer.h>
 
 namespace mud
 {

@@ -27,7 +27,7 @@ namespace mud
 	class _refl_ MUD_GFX_EXPORT ImmediateDraw
 	{
 	public:
-		ImmediateDraw();
+		ImmediateDraw(Material& material);
 
 		struct Vertex
 		{
@@ -38,7 +38,7 @@ namespace mud
 
 		static bgfx::VertexDecl ms_vertex_decl;
 
-		Material m_material;
+		Material& m_material;
 
 		std::vector<Vertex> m_vertices[2];
 		std::vector<ShapeIndex> m_indices[2];
@@ -57,7 +57,7 @@ namespace mud
 		SymbolIndex();
 		~SymbolIndex();
 
-		Model& symbolModel(GfxSystem& gfx_system, const Symbol& symbol, const Shape& shape, DrawMode draw_mode);
+		Model& symbolModel(const Symbol& symbol, const Shape& shape, DrawMode draw_mode);
 		Material& symbolMaterial(GfxSystem& gfx_system, const Symbol& symbol, DrawMode draw_mode);
 
 	protected:
@@ -65,8 +65,8 @@ namespace mud
 		std::map<uint64_t, std::map<std::array<char, MUD_MAX_SHAPE_SIZE>, object_ptr<Model>>> m_symbols;
 	};
 
-	MUD_GFX_EXPORT object_ptr<Model> draw_model(GfxSystem& gfx_system, cstring name, const ProcShape& shape, bool readback = false);
-	MUD_GFX_EXPORT object_ptr<Model> draw_model(GfxSystem& gfx_system, cstring name, const std::vector<ProcShape>& shapes, bool readback = false);
+	MUD_GFX_EXPORT object_ptr<Model> draw_model(cstring name, const ProcShape& shape, bool readback = false);
+	MUD_GFX_EXPORT object_ptr<Model> draw_model(cstring name, const std::vector<ProcShape>& shapes, bool readback = false);
 	MUD_GFX_EXPORT void draw_model(const ProcShape& shape, Model& model, bool readback = false);
 	MUD_GFX_EXPORT void draw_model(const std::vector<ProcShape>& shapes, Model& model, bool readback = false);
 	MUD_GFX_EXPORT void draw_mesh(const std::vector<ProcShape>& shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback = false);

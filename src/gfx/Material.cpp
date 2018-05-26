@@ -13,6 +13,7 @@
 #include <gfx/Texture.h>
 #include <gfx/Skeleton.h>
 #include <gfx/Program.h>
+#include <gfx/Asset.h>
 
 #include <bgfx/bgfx.h>
 #include <bx/readerwriter.h>
@@ -175,14 +176,14 @@ namespace mud
 
 	GfxSystem* Material::ms_gfx_system = nullptr;
 
-	Material::Material(cstring name, Program& program)
+	void load_material(Material& material, Program& program)
+	{
+		material.m_program = &program;
+	}
+
+	Material::Material(cstring name)
 		: m_index(++materialIndex)
 		, m_name(name)
-		, m_program(&program)
-	{}
-
-	Material::Material(cstring name, cstring shader)
-		: Material(name, ms_gfx_system->get_program(shader))
 	{}
 
 	ShaderVersion Material::shader_version() const

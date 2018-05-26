@@ -166,13 +166,6 @@ namespace mud
     
     // Sequences
     {
-        static Meta meta = { type<std::vector<float>>(), &namspc({}), "std::vector<float>", sizeof(std::vector<float>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<float>>() };
-        cls.m_content = &type<float>();
-        meta_sequence<std::vector<float>, float>();
-    }
-    
-    {
         static Meta meta = { type<std::vector<mud::Space>>(), &namspc({}), "std::vector<mud::Space>", sizeof(std::vector<mud::Space>), TypeClass::Sequence };
         static Class cls = { type<std::vector<mud::Space>>() };
         cls.m_content = &type<mud::Space>();
@@ -482,6 +475,7 @@ namespace mud
     
     
     
+    
         
     // mud::Gradient
     {
@@ -683,7 +677,7 @@ namespace mud
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_colour), type<mud::Colour>(), "text_colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_font), type<std::string>(), "text_font", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_size), type<float>(), "text_size", var(float(14.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_break), type<bool>(), "text_break", var(bool(true)), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_break), type<bool>(), "text_break", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_wrap), type<bool>(), "text_wrap", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_border_width), type<mud::vec4>(), "border_width", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_corner_radius), type<mud::vec4>(), "corner_radius", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
@@ -1237,10 +1231,10 @@ namespace mud
     
     
         
-    // mud::UiRenderTarget
+    // mud::UiTarget
     {
-        static Meta meta = { type<mud::UiRenderTarget>(), &namspc({ "mud" }), "UiRenderTarget", sizeof(mud::UiRenderTarget), TypeClass::Object };
-        static Class cls = { type<mud::UiRenderTarget>(),
+        static Meta meta = { type<mud::UiTarget>(), &namspc({ "mud" }), "UiTarget", sizeof(mud::UiTarget), TypeClass::Object };
+        static Class cls = { type<mud::UiTarget>(),
             // bases
             {  },
             {  },
@@ -1264,7 +1258,7 @@ namespace mud
         
         
         
-        meta_class<mud::UiRenderTarget>();
+        meta_class<mud::UiTarget>();
     }
     
     
@@ -1353,6 +1347,7 @@ namespace mud
                 { type<mud::Widget>(), member_address(&mud::Widget::hovered), type<bool>(), "hovered", var(bool()), Member::Value },
                 { type<mud::Widget>(), member_address(&mud::Widget::pressed), type<bool>(), "pressed", var(bool()), Member::Value },
                 { type<mud::Widget>(), member_address(&mud::Widget::activated), type<bool>(), "activated", var(bool()), Member::Value },
+                { type<mud::Widget>(), member_address(&mud::Widget::selected), type<bool>(), "selected", var(bool()), Member::Value },
                 { type<mud::Widget>(), member_address(&mud::Widget::modal), type<bool>(), "modal", var(bool()), Member::Value },
                 { type<mud::Widget>(), member_address(&mud::Widget::closed), type<bool>(), "closed", var(bool()), Member::Value },
                 { type<mud::Widget>(), member_address(&mud::Widget::m_frame), type<mud::Frame>(), "frame", Ref(type<mud::Frame>()), Member::None },
@@ -1375,38 +1370,6 @@ namespace mud
         meta_class<mud::Widget>();
     }
     
-    
-    
-        
-    // mud::Window
-    {
-        static Meta meta = { type<mud::Window>(), &namspc({ "mud" }), "Window", sizeof(mud::Window), TypeClass::Object };
-        static Class cls = { type<mud::Window>(),
-            // bases
-            { &type<mud::Dockable>() },
-            { base_offset<mud::Window, mud::Dockable>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Window>();
-    }
     
     
         
@@ -1438,6 +1401,70 @@ namespace mud
         
         
         meta_class<mud::Sprite>();
+    }
+    
+    
+        
+    // mud::Dockbar
+    {
+        static Meta meta = { type<mud::Dockbar>(), &namspc({ "mud" }), "Dockbar", sizeof(mud::Dockbar), TypeClass::Object };
+        static Class cls = { type<mud::Dockbar>(),
+            // bases
+            { &type<mud::Docker>() },
+            { base_offset<mud::Dockbar, mud::Docker>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Dockbar>();
+    }
+    
+    
+        
+    // mud::Dockspace
+    {
+        static Meta meta = { type<mud::Dockspace>(), &namspc({ "mud" }), "Dockspace", sizeof(mud::Dockspace), TypeClass::Object };
+        static Class cls = { type<mud::Dockspace>(),
+            // bases
+            { &type<mud::Docker>() },
+            { base_offset<mud::Dockspace, mud::Docker>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Dockspace>();
     }
     
     
@@ -1794,6 +1821,38 @@ namespace mud
     
     
         
+    // mud::ui::Sequence
+    {
+        static Meta meta = { type<mud::ui::Sequence>(), &namspc({ "mud", "ui" }), "Sequence", sizeof(mud::ui::Sequence), TypeClass::Object };
+        static Class cls = { type<mud::ui::Sequence>(),
+            // bases
+            { &type<mud::Widget>() },
+            { base_offset<mud::ui::Sequence, mud::Widget>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ui::Sequence>();
+    }
+    
+    
+        
     // mud::Tabber
     {
         static Meta meta = { type<mud::Tabber>(), &namspc({ "mud" }), "Tabber", sizeof(mud::Tabber), TypeClass::Object };
@@ -1922,70 +1981,6 @@ namespace mud
     
     
         
-    // mud::Dockbar
-    {
-        static Meta meta = { type<mud::Dockbar>(), &namspc({ "mud" }), "Dockbar", sizeof(mud::Dockbar), TypeClass::Object };
-        static Class cls = { type<mud::Dockbar>(),
-            // bases
-            { &type<mud::Docker>() },
-            { base_offset<mud::Dockbar, mud::Docker>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Dockbar>();
-    }
-    
-    
-        
-    // mud::Dockspace
-    {
-        static Meta meta = { type<mud::Dockspace>(), &namspc({ "mud" }), "Dockspace", sizeof(mud::Dockspace), TypeClass::Object };
-        static Class cls = { type<mud::Dockspace>(),
-            // bases
-            { &type<mud::Docker>() },
-            { base_offset<mud::Dockspace, mud::Docker>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Dockspace>();
-    }
-    
-    
-        
     // mud::RowSolver
     {
         static Meta meta = { type<mud::RowSolver>(), &namspc({ "mud" }), "RowSolver", sizeof(mud::RowSolver), TypeClass::Object };
@@ -2049,6 +2044,38 @@ namespace mud
         meta_class<mud::LineSolver>();
     }
     
+    
+        
+    // mud::Window
+    {
+        static Meta meta = { type<mud::Window>(), &namspc({ "mud" }), "Window", sizeof(mud::Window), TypeClass::Object };
+        static Class cls = { type<mud::Window>(),
+            // bases
+            { &type<mud::Dockable>() },
+            { base_offset<mud::Window, mud::Dockable>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Window>();
+    }
+    
 
     
         module.m_types.push_back(&type<mud::Align>());
@@ -2090,17 +2117,17 @@ namespace mud
         module.m_types.push_back(&type<mud::TextPaint>());
         module.m_types.push_back(&type<mud::TextSelection>());
         module.m_types.push_back(&type<mud::UiRect>());
-        module.m_types.push_back(&type<mud::UiRenderTarget>());
+        module.m_types.push_back(&type<mud::UiTarget>());
         module.m_types.push_back(&type<mud::UiWindow>());
         module.m_types.push_back(&type<mud::User>());
         module.m_types.push_back(&type<mud::Widget>());
         module.m_types.push_back(&type<mud::WidgetState>());
         module.m_types.push_back(&type<mud::WindowState>());
-        module.m_types.push_back(&type<std::vector<float>>());
         module.m_types.push_back(&type<std::vector<mud::Space>>());
         module.m_types.push_back(&type<std::vector<std::string>>());
-        module.m_types.push_back(&type<mud::Window>());
         module.m_types.push_back(&type<mud::Sprite>());
+        module.m_types.push_back(&type<mud::Dockbar>());
+        module.m_types.push_back(&type<mud::Dockspace>());
         module.m_types.push_back(&type<mud::SpriteAtlas>());
         module.m_types.push_back(&type<mud::Frame>());
         module.m_types.push_back(&type<mud::FrameSolver>());
@@ -2112,14 +2139,14 @@ namespace mud
         module.m_types.push_back(&type<mud::NodePlug>());
         module.m_types.push_back(&type<mud::RootSheet>());
         module.m_types.push_back(&type<mud::ScrollSheet>());
+        module.m_types.push_back(&type<mud::ui::Sequence>());
         module.m_types.push_back(&type<mud::Tabber>());
         module.m_types.push_back(&type<mud::Table>());
         module.m_types.push_back(&type<mud::TextEdit>());
         module.m_types.push_back(&type<mud::TreeNode>());
-        module.m_types.push_back(&type<mud::Dockbar>());
-        module.m_types.push_back(&type<mud::Dockspace>());
         module.m_types.push_back(&type<mud::RowSolver>());
         module.m_types.push_back(&type<mud::LineSolver>());
+        module.m_types.push_back(&type<mud::Window>());
     
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::widget(val<mud::Widget>(args[0]), val<mud::Style>(args[1]), val<bool>(args[2]), val<mud::Dim>(args[3]), val<mud::Dim2<size_t>>(args[4]))); };
@@ -2425,6 +2452,16 @@ namespace mud
             auto func = [](array<Var> args, Var& result) {  result = Ref(mud::ui::context(val<mud::Widget>(args[0]), val<uint32_t>(args[1]), val<mud::ui::PopupFlags>(args[2]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "mode", var(uint32_t()) }, { "flags", var(mud::ui::PopupFlags()), Param::Default } };
             module.m_functions.push_back({ &namspc({ "mud", "ui" }), "context", function_id<mud::Widget*(*)(mud::Widget&, uint32_t, mud::ui::PopupFlags)>(&mud::ui::context), func, params, Ref(type<mud::Widget>()) });
+        }
+        {
+            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::sequence(val<mud::Widget>(args[0]))); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            module.m_functions.push_back({ &namspc({ "mud", "ui" }), "sequence", function_id<mud::ui::Sequence&(*)(mud::Widget&)>(&mud::ui::sequence), func, params, Ref(type<mud::ui::Sequence>()) });
+        }
+        {
+            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::element(val<mud::ui::Sequence>(args[0]), args[1])); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::ui::Sequence>()) }, { "object", Ref(), Param::Nullable } };
+            module.m_functions.push_back({ &namspc({ "mud", "ui" }), "element", function_id<mud::Widget&(*)(mud::ui::Sequence&, mud::Ref)>(&mud::ui::element), func, params, Ref(type<mud::Widget>()) });
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(mud::ui::tooltip(val<mud::Widget>(args[0]), val<mud::vec2>(args[1]))); };

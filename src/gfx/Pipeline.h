@@ -119,6 +119,11 @@ namespace mud
 		UnshadedRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
 	};
 
+	struct ClearRenderer : public Renderer
+	{
+		ClearRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
+	};
+
 	class MUD_GFX_EXPORT PipelinePbr : public Pipeline
 	{
 	public:

@@ -24,21 +24,24 @@ namespace mud
 		Normal
 	};
 
-	MUD_GFX_EXPORT bgfx::TextureHandle load_texture(bx::AllocatorI& allocator, bx::FileReaderI& reader, cstring file_path, uint32_t flags = BGFX_TEXTURE_NONE, bgfx::TextureInfo* info = nullptr, bimg::Orientation::Enum* orientation = nullptr);
-	MUD_GFX_EXPORT bimg::ImageContainer* load_image(bx::AllocatorI& allocator, bx::FileReaderI& reader, cstring file_path, bgfx::TextureFormat::Enum dst_format);
+	MUD_GFX_EXPORT bgfx::TextureHandle load_bgfx_texture(bx::AllocatorI& allocator, bx::FileReaderI& reader, cstring file_path, uint32_t flags = BGFX_TEXTURE_NONE, bgfx::TextureInfo* info = nullptr, bimg::Orientation::Enum* orientation = nullptr);
+	MUD_GFX_EXPORT bimg::ImageContainer* load_bgfx_image(bx::AllocatorI& allocator, bx::FileReaderI& reader, cstring file_path, bgfx::TextureFormat::Enum dst_format);
+
+	MUD_GFX_EXPORT void load_texture(GfxSystem& gfx_system, Texture& texture, cstring path);
+	MUD_GFX_EXPORT void load_texture_mem(Texture& texture, array<uint8_t> data);
+	MUD_GFX_EXPORT void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, array<uint8_t> data);
 
 	class _refl_ MUD_GFX_EXPORT Texture
 	{
 	public:
-		Texture(GfxSystem& gfx_system, cstring path, cstring name);
-		Texture(GfxSystem& gfx_system, cstring name);
-		Texture(GfxSystem& gfx_system, cstring name, uint16_t width, uint16_t height, array<uint8_t> data);
+		//Texture(cstring path, cstring name);
+		Texture(cstring name);
 		~Texture();
 
 		/*_attr_ _mut_*/ strung m_name;
-		_attr_ _mut_ uint16_t m_width;
-		_attr_ _mut_ uint16_t m_height;
+		_attr_ _mut_ uint16_t m_width = 0;
+		_attr_ _mut_ uint16_t m_height = 0;
 
-		bgfx::TextureHandle m_texture;
+		bgfx::TextureHandle m_texture = BGFX_INVALID_HANDLE;
 	};
 }

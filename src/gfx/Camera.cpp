@@ -14,7 +14,7 @@ namespace mud
 		, m_node(scene)
 		, m_target(scene)
 	{
-		m_node.m_position = 2.f * Unit3;
+		m_node.m_position = 2.f * Z3;
 		m_far = 300.f;
 	}
 

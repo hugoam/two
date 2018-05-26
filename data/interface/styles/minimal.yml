@@ -6,6 +6,7 @@
     "Transparent" : [0, 0, 0, 0],
     "ClearGreyText" : [0.627, 0.627, 0.627, 1],
     "Grey600" : [0.600, 0.600, 0.600, 1],
+    "Grey400" : [0.400, 0.400, 0.400, 1],
     "Grey312" : [0.312, 0.312, 0.312, 1],
     "Grey248" : [0.248, 0.248, 0.248, 1],
     "Grey204" : [0.204, 0.204, 0.204, 1],
@@ -22,7 +23,10 @@
     {   
         "selector" : "Label, Title, Tooltip, TextEdit, TypeLabel, TypeZone, SliderDisplay, RadioChoiceItem",
         "text_colour" : "White",
-        "skin_padding" : [4]
+        "skin_padding" : [4],
+        "disabled" : {
+            "text_colour" : "Grey248"
+        }
     },
     {   
         "selector" : "Title",
@@ -33,7 +37,7 @@
         "skin_padding" : [4]
     },
     {   
-        "selector" : "Button, WrapButton, MultiButton, Toggle, ToolButton, TabHeader, DockToggle, RadioChoice, DropdownChoice, SliderKnob, ScrollerKnob, DragHandle, DropdownInput, DropdownInputCompact, TypedownInput, Menu, TypeIn, Input<string>",
+        "selector" : "Button, WrapButton, MultiButton, Toggle, ToolButton, TabHeader, DockToggle, RadioChoice, DropdownChoice, SliderKnob, ScrollerKnob, DragHandle, DropdownInput, DropdownInputCompact, TypedownInput, Menu, TypeIn, Input<string>, TreeNodeHeader",
         "copy_skin" : "Label",
         "background_colour" : "Grey204",
         "skin_padding" : [4],
@@ -45,7 +49,7 @@
         }
     },
     {
-        "selector" : "CloseButton, Checkbox, ExpandboxHeader, TreeNodeHeader",
+        "selector" : "CloseButton, Checkbox",
         "copy_skin" : "Button"
     },
     {
@@ -103,10 +107,20 @@
         }
     },
     {
-        "selector" : "Slider, Fillbar, TypeIn, Input<string>",
-        "background_colour" : "Grey176",
+        "selector" : "Element, Slider, Fillbar, TypeIn, Input<string>",
+        "background_colour" : "Grey145",
+        "border_colour" : "Grey312",
+        "border_width" : [1],
         "hovered" : {
-            "background_colour" : "Grey204"
+            "background_colour" : "Grey204",
+            "border_colour" : "Grey400",
+            "border_width" : [1]
+        },
+        "focused" : {
+            "background_colour" : "ActiveBlue"
+        },
+        "selected" : {
+            "border_colour" : "ActiveBlue"
         }
     },
     {   
@@ -127,7 +141,7 @@
         "selector" : "Window, Dockbox, Node",
         "shadow" : [2, 2, 7, 2],
         "selected" : {
-            "shadow" : [0, 0, 0, 1, [0, 1, 0, 1]]
+            "shadow" : [0, 0, 0, 1, "Grey600"]
         }
     },
     {   
@@ -156,7 +170,7 @@
         "background_colour" : "Black"
     },
     {   
-        "selector" : "Tooltip, DropdownList, MenuList, SubMenuList",
+        "selector" : "Tooltip, Popdown, DropdownList, MenuList, SubMenuList",
         "background_colour" : [0.098, 0.098, 0.098, 0.802],
         "text_colour" : "ClearGreyText"
     },
@@ -164,8 +178,31 @@
         "selector" : "DropdownChoice",
         "background_colour" : "Transparent"
     },
+    {
+        "selector" : "TableRow, TableRowOdd, TableRowEven",
+        "hovered" : {
+            "border_colour" : "Grey312",
+            "border_width" : [1]
+        },
+        "selected" : {
+            "border_colour" : "ActiveBlue",
+            "border_width" : [1]
+        }
+    },
+    {
+        "selector" : "TableRowOdd",
+        "background_colour" : "Grey117"
+    },
+    {
+        "selector" : "TableRowEven",
+        "background_colour" : "Black"
+    },
     {   
-        "selector" : "ToolButton, ExpandboxBody",
+        "selector" : "ExpandboxBody",
+        "padding" : [32, 6, 8, 6]
+    },
+    {   
+        "selector" : "Element, Tooltip, ToolButton, ExpandboxBody",
         "padding" : [4]
     },
     {   

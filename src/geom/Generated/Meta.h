@@ -429,6 +429,42 @@ namespace mud
     
     
         
+    // mud::Aabb
+    {
+        static Meta meta = { type<mud::Aabb>(), &namspc({ "mud" }), "Aabb", sizeof(mud::Aabb), TypeClass::Struct };
+        static Class cls = { type<mud::Aabb>(),
+            // bases
+            { &type<mud::Cube>() },
+            { base_offset<mud::Aabb, mud::Cube>() },
+            // constructors
+            {
+                { type<mud::Aabb>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Aabb>(ref)) mud::Aabb(  ); }, {} },
+                { type<mud::Aabb>(), [](Ref ref, array<Var> args) { new(&val<mud::Aabb>(ref)) mud::Aabb( val<mud::vec3>(args[0]), val<mud::vec3>(args[1]) ); }, { { "center", var(mud::vec3()) }, { "extents", var(mud::vec3()) } } }
+            },
+            // copy constructor
+            {
+                { type<mud::Aabb>(), [](Ref ref, Ref other) { new(&val<mud::Aabb>(ref)) mud::Aabb(val<mud::Aabb>(other)); } }
+            },
+            // members
+            {
+                { type<mud::Aabb>(), member_address(&mud::Aabb::m_null), type<bool>(), "null", var(bool()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Aabb>();
+    }
+    
+    
+        
     // mud::Arc
     {
         static Meta meta = { type<mud::Arc>(), &namspc({ "mud" }), "Arc", sizeof(mud::Arc), TypeClass::Struct };
@@ -1161,42 +1197,6 @@ namespace mud
     
     
         
-    // mud::Aabb
-    {
-        static Meta meta = { type<mud::Aabb>(), &namspc({ "mud" }), "Aabb", sizeof(mud::Aabb), TypeClass::Struct };
-        static Class cls = { type<mud::Aabb>(),
-            // bases
-            { &type<mud::Cube>() },
-            { base_offset<mud::Aabb, mud::Cube>() },
-            // constructors
-            {
-                { type<mud::Aabb>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Aabb>(ref)) mud::Aabb(  ); }, {} },
-                { type<mud::Aabb>(), [](Ref ref, array<Var> args) { new(&val<mud::Aabb>(ref)) mud::Aabb( val<mud::vec3>(args[0]), val<mud::vec3>(args[1]) ); }, { { "center", var(mud::vec3()) }, { "extents", var(mud::vec3()) } } }
-            },
-            // copy constructor
-            {
-                { type<mud::Aabb>(), [](Ref ref, Ref other) { new(&val<mud::Aabb>(ref)) mud::Aabb(val<mud::Aabb>(other)); } }
-            },
-            // members
-            {
-                { type<mud::Aabb>(), member_address(&mud::Aabb::m_null), type<bool>(), "null", var(bool()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Aabb>();
-    }
-    
-    
-        
     // mud::Poisson
     {
         static Meta meta = { type<mud::Poisson>(), &namspc({ "mud" }), "Poisson", sizeof(mud::Poisson), TypeClass::Object };
@@ -1248,6 +1248,7 @@ namespace mud
         module.m_types.push_back(&type<mud::SymbolDetail>());
         module.m_types.push_back(&type<std::vector<mud::Circle>>());
         module.m_types.push_back(&type<std::vector<mud::vec3>>());
+        module.m_types.push_back(&type<mud::Aabb>());
         module.m_types.push_back(&type<mud::Arc>());
         module.m_types.push_back(&type<mud::Box>());
         module.m_types.push_back(&type<mud::Capsule>());
@@ -1268,7 +1269,6 @@ namespace mud
         module.m_types.push_back(&type<mud::SphereRing>());
         module.m_types.push_back(&type<mud::Spheroid>());
         module.m_types.push_back(&type<mud::Triangle>());
-        module.m_types.push_back(&type<mud::Aabb>());
         module.m_types.push_back(&type<mud::Poisson>());
     
         {

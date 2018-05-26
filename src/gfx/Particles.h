@@ -5,7 +5,7 @@
 #pragma once
 
 #include <math/Vec.h>
-#include <math/Interp.h>
+#include <math/Curve.h>
 #include <geom/Shape.h>
 #include <ui/ImageAtlas.h>
 #include <gfx/Generated/Forward.h>
@@ -43,97 +43,6 @@ namespace mud
 		uint32_t idx;
 	};
 
-	enum class _refl_ TrackMode : unsigned int
-	{
-		Constant,
-		ConstantRandom,
-		Curve,
-		CurveRandom
-	};
-
-	template <class T>
-	struct _refl_ _struct_ ValueCurve
-	{
-		_constr_ ValueCurve() {}
-		_constr_ ValueCurve(std::vector<T> keys) : m_keys(keys) {}
-		ValueCurve(T value) : m_keys(1, value) {}
-
-		T sample_constant()
-		{
-			return m_keys[0];
-		}
-
-		T sample_curve(float t)
-		{
-			//bx::EaseFn ease = bx::getEaseFunc(m_ease);
-			//const float tt = bx::clamp(ease(t), 0.f, 1.f);
-
-			uint32_t key = uint32_t(t * (m_keys.size() - 1));
-			float interval = 1.f / float(m_keys.size() - 1);
-			float ttmod = bx::mod(t, interval) / interval;
-
-			return mud::lerp(m_keys[key], m_keys[key + 1], ttmod);
-		}
-
-		_attr_ _mut_ std::vector<T> m_keys;
-	};
-
-	template struct _refl_ _struct_ MUD_GFX_EXPORT ValueCurve<vec3>;
-	template struct _refl_ _struct_ MUD_GFX_EXPORT ValueCurve<quat>;
-	template struct _refl_ _struct_ MUD_GFX_EXPORT ValueCurve<float>;
-	template struct _refl_ _struct_ MUD_GFX_EXPORT ValueCurve<uint32_t>;
-	template struct _refl_ _struct_ MUD_GFX_EXPORT ValueCurve<Colour>;
-
-	template <class T>
-	struct _refl_ _struct_ ValueTrack
-	{
-		_constr_ ValueTrack() {}
-		_constr_ ValueTrack(TrackMode mode, ValueCurve<T> curve, ValueCurve<T> min_curve, ValueCurve<T> max_curve) : m_mode(mode), m_curve(curve), m_min_curve(min_curve), m_max_curve(max_curve) {}
-		ValueTrack(T value) : m_mode(TrackMode::Constant), m_curve(value) {}
-		ValueTrack(T min, T max) : m_mode(TrackMode::ConstantRandom), m_min_curve(min), m_max_curve(max) {}
-		ValueTrack(std::vector<T> values) : m_mode(TrackMode::Curve), m_curve(values) {}
-		ValueTrack(std::vector<T> min_values, std::vector<T> max_values) : m_mode(TrackMode::CurveRandom), m_min_curve(min_values), m_max_curve(max_values) {}
-
-		void set_mode(TrackMode mode)
-		{
-			if(mode == TrackMode::Constant)
-				*this = ValueTrack<T>(T());
-			else if(mode == TrackMode::ConstantRandom)
-				*this = ValueTrack<T>(T(), T());
-			else if(mode == TrackMode::Curve)
-				*this = ValueTrack<T>(std::vector<T>(2, T()));
-			else if(mode == TrackMode::CurveRandom)
-				*this = ValueTrack<T>(std::vector<T>(2, T()), std::vector<T>(2, T()));
-		}
-
-		T sample(float t, float seed = 0.f)
-		{
-			if(m_mode == TrackMode::Constant)
-				return m_curve.sample_constant();
-			else if(m_mode == TrackMode::ConstantRandom)
-				return mud::lerp(m_min_curve.sample_constant(), m_max_curve.sample_constant(), seed);
-			else if(m_mode == TrackMode::Curve)
-				return m_curve.sample_curve(t);
-			else //if(m_mode == TrackMode::CurveRandom)
-				return mud::lerp(m_min_curve.sample_curve(t), m_max_curve.sample_curve(t), seed);
-		}
-
-		_attr_ _mut_ TrackMode m_mode;
-		_attr_ _mut_ ValueCurve<T> m_curve;
-		_attr_ _mut_ ValueCurve<T> m_min_curve;
-		_attr_ _mut_ ValueCurve<T> m_max_curve;
-
-#ifndef MUD_GENERATOR_SKIP_INCLUDES
-		bx::Easing::Enum m_ease = bx::Easing::Linear;
-#endif
-	};
-
-	template struct _refl_ _struct_ MUD_GFX_EXPORT ValueTrack<vec3>;
-	template struct _refl_ _struct_ MUD_GFX_EXPORT ValueTrack<quat>;
-	template struct _refl_ _struct_ MUD_GFX_EXPORT ValueTrack<float>;
-	template struct _refl_ _struct_ MUD_GFX_EXPORT ValueTrack<uint32_t>;
-	template struct _refl_ _struct_ MUD_GFX_EXPORT ValueTrack<Colour>;
-
 	enum class _refl_ EmitterDirection : unsigned int
 	{
 		Outward,
@@ -143,6 +52,9 @@ namespace mud
 	struct _refl_ MUD_GFX_EXPORT ParticleGenerator
 	{
 		ParticleGenerator();
+		ParticleGenerator(cstring name);
+
+		_attr_ strung m_name;
 
 		// emitter
 		_attr_ _mut_ float m_duration = 1.f;
@@ -257,5 +169,32 @@ namespace mud
 		ParticleEmitter& m_emitter;
 
 		void upload();
+	};
+
+	class _refl_ MUD_GFX_EXPORT BlockParticles : public DrawBlock
+	{
+	public:
+		BlockParticles(GfxSystem& gfx_system);
+
+		ParticleSystem m_particle_system;
+
+		virtual void init_gfx_block() final;
+
+		virtual void begin_gfx_block(Render& render) final;
+		virtual void submit_gfx_block(Render& render) final;
+
+		virtual void begin_gfx_pass(Render& render) final;
+		virtual void submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element) final;
+	};
+
+	class MUD_GFX_EXPORT PassParticles : public RenderPass
+	{
+	public:
+		PassParticles(GfxSystem& gfx_system, BlockParticles& pass_particles);
+
+		virtual void begin_render_pass(Render& render) final;
+		virtual void submit_render_pass(Render& render) final;
+
+		BlockParticles& m_block_particles;
 	};
 }

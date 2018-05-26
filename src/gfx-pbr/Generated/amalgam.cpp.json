@@ -1,0 +1,37 @@
+{
+	"project": "mudgfxpbr.cpp",
+	"target": "mudgfxpbr.cpp",
+	"sources": [
+		"gfx-pbr/Depth.cpp",
+		"gfx-pbr/Light.cpp",
+		"gfx-pbr/Radiance.cpp",
+		"gfx-pbr/Reflection.cpp",
+		"gfx-pbr/ReflectionAtlas.cpp",
+		"gfx-pbr/Shadow.cpp",
+		"gfx-pbr/ShadowAtlas.cpp",
+		"gfx-pbr/ShadowCSM.cpp",
+		"gfx-pbr/Filters/Blur.cpp",
+		"gfx-pbr/Filters/DofBlur.cpp",
+		"gfx-pbr/Filters/Glow.cpp",
+		"gfx-pbr/Filters/Tonemap.cpp",
+		"gfx-pbr/Generated/Module.cpp",
+		"gfx-pbr/Generated/Types.cpp"
+	],
+	"include_paths": [
+        ""
+	],
+    "includes_map": {
+		"gfxpbr/": "mudgfxpbr.h",
+		"obj/": "mudobj.h",
+		"math/": "mudmath.h",
+		"geom/": "mudgeom.h",
+		"gfx/": "mudgfx.h"
+    },
+	"clean_strings": [
+		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",
+		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
+		"//  This notice and the license may not be removed or altered from any source distribution.",
+		"/* mud */"
+	]
+}
+

@@ -23,6 +23,7 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::CodePalette>();
     template <> MUD_UI_EXPORT Type& type<mud::Dim>();
     template <> MUD_UI_EXPORT Type& type<mud::DirtyLayout>();
+    template <> MUD_UI_EXPORT Type& type<mud::DropState>();
     template <> MUD_UI_EXPORT Type& type<mud::Flow>();
     template <> MUD_UI_EXPORT Type& type<mud::FlowAxis>();
     template <> MUD_UI_EXPORT Type& type<mud::LayoutSolver>();
@@ -34,7 +35,6 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::TextFocusMode>();
     template <> MUD_UI_EXPORT Type& type<mud::WidgetState>();
     template <> MUD_UI_EXPORT Type& type<mud::WindowState>();
-    template <> MUD_UI_EXPORT Type& type<std::vector<float>>();
     template <> MUD_UI_EXPORT Type& type<std::vector<mud::Space>>();
     template <> MUD_UI_EXPORT Type& type<std::vector<std::string>>();
     
@@ -66,12 +66,13 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::TextPaint>();
     template <> MUD_UI_EXPORT Type& type<mud::TextSelection>();
     template <> MUD_UI_EXPORT Type& type<mud::UiRect>();
-    template <> MUD_UI_EXPORT Type& type<mud::UiRenderTarget>();
+    template <> MUD_UI_EXPORT Type& type<mud::UiTarget>();
     template <> MUD_UI_EXPORT Type& type<mud::UiWindow>();
     template <> MUD_UI_EXPORT Type& type<mud::User>();
     template <> MUD_UI_EXPORT Type& type<mud::Widget>();
-    template <> MUD_UI_EXPORT Type& type<mud::Window>();
     template <> MUD_UI_EXPORT Type& type<mud::Sprite>();
+    template <> MUD_UI_EXPORT Type& type<mud::Dockbar>();
+    template <> MUD_UI_EXPORT Type& type<mud::Dockspace>();
     template <> MUD_UI_EXPORT Type& type<mud::SpriteAtlas>();
     template <> MUD_UI_EXPORT Type& type<mud::Frame>();
     template <> MUD_UI_EXPORT Type& type<mud::FrameSolver>();
@@ -83,12 +84,12 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::NodePlug>();
     template <> MUD_UI_EXPORT Type& type<mud::RootSheet>();
     template <> MUD_UI_EXPORT Type& type<mud::ScrollSheet>();
+    template <> MUD_UI_EXPORT Type& type<mud::ui::Sequence>();
     template <> MUD_UI_EXPORT Type& type<mud::Tabber>();
     template <> MUD_UI_EXPORT Type& type<mud::Table>();
     template <> MUD_UI_EXPORT Type& type<mud::TextEdit>();
     template <> MUD_UI_EXPORT Type& type<mud::TreeNode>();
-    template <> MUD_UI_EXPORT Type& type<mud::Dockbar>();
-    template <> MUD_UI_EXPORT Type& type<mud::Dockspace>();
     template <> MUD_UI_EXPORT Type& type<mud::RowSolver>();
     template <> MUD_UI_EXPORT Type& type<mud::LineSolver>();
+    template <> MUD_UI_EXPORT Type& type<mud::Window>();
 }

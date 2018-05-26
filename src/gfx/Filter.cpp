@@ -148,7 +148,7 @@ namespace mud
 	BlockCopy::BlockCopy(GfxSystem& gfx_system, BlockFilter& filter)
 		: GfxBlock(gfx_system, *this)
 		, m_filter(filter)
-		, m_program(gfx_system, "filter/copy", {})
+		, m_program("filter/copy")
 	{
 		m_program.register_block(filter);
 	}

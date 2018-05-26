@@ -7,6 +7,7 @@
 #include <geom/Generated/Types.h>
 #include <ui/Generated/Types.h>
 #include <gfx/Generated/Types.h>
+#include <edit/Generated/Types.h>
 
 #include <obj/Type.h>
 #include <obj/Proto.h>

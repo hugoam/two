@@ -6,7 +6,11 @@
 #include <ui/Sheet.h>
 #include <ui/Structs/Widget.h>
 
+#include <obj/Vector.h>
+
 #include <ui/Structs/RootSheet.h>
+#include <ui/Structs/Container.h>
+#include <ui/ScrollSheet.h>
 #include <ui/Cursor.h>
 
 namespace mud
@@ -32,10 +36,10 @@ namespace ui
 	{
 		Widget& self = widget(parent, style, true).layer();
 
-		if(!self.modal() && (flags & PopupModal) != 0)
+		if(!self.modal() && popup_flag(flags, PopupFlags::Modal))
 			self.take_modal();
 
-		if((flags & PopupClamp) != 0)
+		if(popup_flag(flags, PopupFlags::Clamp))
 			self.m_frame.clamp_to_parent();
 
 		// @todo change to Pressed, but causes a crash because InputDevice is holding to the pressed element
@@ -170,5 +174,69 @@ namespace ui
 
 		return self;
 	}
+
+	Sequence& sequence(Widget& parent)
+	{
+		Sequence& self = twidget<Sequence>(parent, styles().sequence);
+		self.m_body = scroll_sheet(self).m_body;
+		return self;
+	}
+
+#ifdef MUD_UI_SEQUENCE_REFS
+	Widget& element(Sequence& parent, Ref object, std::vector<Ref>& selection)
+	{
+		Widget& self = widget(*parent.m_body, styles().element, object.m_value);
+
+		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputModifier::Shift))
+			vector_swap(selection, object);
+		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+			vector_select(selection, object);
+		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
+			vector_select(selection, object);
+
+		self.setState(SELECTED, vector_has(selection, object));
+
+		return self;
+	}
+
+	Widget& element(Sequence& parent, Ref object)
+	{
+		return element(parent, object, *parent.m_selection);
+	}
+#else
+	void element_clear_select(std::vector<Widget*>& selection)
+	{
+		for(Widget* selected : selection)
+			selected->disableState(SELECTED);
+		selection.clear();
+	}
+
+	void element_select(std::vector<Widget*>& selection, Widget& element)
+	{
+		element_clear_select(selection);
+		vector_select(selection, &element);
+		element.enableState(SELECTED);
+	}
+
+	void element_swap_select(std::vector<Widget*>& selection, Widget& element)
+	{
+		bool selected = vector_swap(selection, &element);
+		element.setState(SELECTED, selected);
+	}
+
+	Widget& element(Sequence& parent, Ref object)
+	{
+		Widget& self = widget(parent, styles().element);
+
+		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputModifier::Shift))
+			element_swap_select(parent.m_selection, self);
+		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+			element_select(parent.m_selection, self);
+		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
+			element_select(parent.m_selection, self);
+
+		return self;
+	}
+#endif
 }
 }

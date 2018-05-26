@@ -111,7 +111,7 @@ namespace ui
 	bool color_wheel(Widget& parent, Colour& hsla)
 	{
 		Widget& self = widget(parent, styles().color_wheel);
-		self.m_custom_draw = [=](const Frame& frame, VgRenderer& renderer) { draw_color_wheel(renderer, frame.m_size, hsla.m_h, hsla.m_s, hsla.m_l); };
+		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, VgRenderer& renderer) { UNUSED(rect); draw_color_wheel(renderer, frame.m_size, hsla.m_h, hsla.m_s, hsla.m_l); };
 		bool changed = false;
 
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
@@ -172,7 +172,7 @@ namespace ui
 
 	bool color_popup(Widget& parent, Colour& value, bool& open)
 	{
-		Widget& self = popup(parent, styles().color_popup, PopupModal);
+		Widget& self = popup(parent, styles().color_popup, PopupFlags::Modal);
 		open &= self.m_open;
 		return color_edit(self, value);
 	}
@@ -180,8 +180,9 @@ namespace ui
 	Widget& color_slab(Widget& parent, Style& style, const Colour& value)
 	{
 		Widget& self = button(parent, style);//styles().color_slab);
-		self.m_custom_draw = [=](const Frame& frame, VgRenderer& renderer)
+		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, VgRenderer& renderer)
 		{
+			UNUSED(rect);
 			renderer.draw_rect({ Zero2, frame.m_size }, { value }, frame.d_inkstyle->m_corner_radius);
 		};
 		return self;

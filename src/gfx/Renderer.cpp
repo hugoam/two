@@ -10,13 +10,14 @@
 #include <gfx/Scene.h>
 #include <gfx/Item.h>
 #include <gfx/Mesh.h>
+#include <gfx/Model.h>
 #include <gfx/Skeleton.h>
 #include <gfx/RenderTarget.h>
 #include <gfx/Material.h>
 #include <gfx/Frustum.h>
 #include <gfx/GfxSystem.h>
 
-//#include <gfx/Blocks/GI.h>
+//#include <gfx-pbr/GI.h>
 #include <gfx/Filter.h>
 
 #include <algorithm>

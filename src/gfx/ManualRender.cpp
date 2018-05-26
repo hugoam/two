@@ -7,8 +7,9 @@
 #include <gfx/Item.h>
 #include <gfx/Scene.h>
 #include <gfx/Mesh.h>
+#include <gfx/Model.h>
 #include <gfx/Shot.h>
-#include <gfx/Blocks/Shadow.h>
+#include <gfx-pbr/Shadow.h>
 
 namespace mud
 {

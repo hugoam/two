@@ -6,13 +6,11 @@ function mud_ui_backend()
 		path.join(MUD_NANOVG_DIR, "src"),
 	}
 
-    mud_module("ui-gl", MUD_SRC_DIR, "ui-gl", "MUD_UI_GL")
+    mud_module("ui-nanovg",     MUD_SRC_DIR, "ui-nanovg",       "MUD_UI_NANOVG")
+    mud_module("ui-nanovg-gl",  MUD_SRC_DIR, "ui-nanovg-gl",    "MUD_UI_NANOVG_GL")
     
     files {
-        path.join(MUD_UI_DIR, "ui-vg/NanoRenderer.h"),
-        path.join(MUD_UI_DIR, "ui-vg/NanoRenderer.cpp"),
         path.join(MUD_NANOVG_DIR, "src/nanovg.c"),
-        path.join(MUD_NANOVG_DIR, "src/nanovg_bgfx.cpp"),
     }
     
     defines {

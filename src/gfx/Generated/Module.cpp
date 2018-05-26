@@ -17,7 +17,6 @@ namespace mud
         mudobj::module();
         mudmath::module();
         mudgeom::module();
-        mudui::module();
 
 #ifdef MUD_GFX_REFLECT
         // setup reflection meta data

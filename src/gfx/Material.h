@@ -176,12 +176,13 @@ namespace mud
 
 	PbrBlock& pbr_block(GfxSystem& gfx_system);
 
+	MUD_GFX_EXPORT void load_material(Material& material, Program& program);
+
 	class _refl_ MUD_GFX_EXPORT Material
 	{
 	public:
 		Material() {}
-		Material(cstring name, Program& program);
-		Material(cstring name, cstring shader);
+		Material(cstring name);
 
 		_attr_ uint16_t m_index = 0;
 		/*_attr_ _mut_*/ strung m_name;

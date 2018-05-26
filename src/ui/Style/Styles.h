@@ -15,10 +15,10 @@ namespace mud
 
 		void setup(UiWindow& window);
 
-		Style widget; Style wedge; Style root_sheet; Style item; Style control; Style spacer; Style filler; Style drag_handle;
+		Style widget; Style wedge; Style root_sheet; Style item; Style control; Style wrap_control; Style spacer; Style filler; Style drag_handle;
 		Style div; Style row; Style stack; Style sheet; Style flex; Style list; Style header; Style board; Style layout;
-		Style screen; Style decal; Style overlay; Style gridsheet; Style wrap_control; Style label; Style title; Style text;
-		Style button; Style wrap_button; Style multi_button; Style toggle; Style checkbox;
+		Style screen; Style decal; Style overlay; Style gridsheet; Style sequence; Style element;
+		Style label; Style title; Style text; Style button; Style wrap_button; Style multi_button; Style toggle; Style checkbox;
 		Style dummy; Style tooltip; Style rectangle; Style type_in; Style type_zone; Style text_edit; Style caret; Style figure;
 		Style radio_switch; Style radio_switch_h; Style radio_choice; Style radio_choice_item;
 		Style slider; Style slider_knob; Style slider_display; Style fill_bar; Style number_input;

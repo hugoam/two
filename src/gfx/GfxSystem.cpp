@@ -19,12 +19,17 @@
 #include <gfx/RenderTarget.h>
 #include <gfx/Scene.h>
 #include <gfx/Texture.h>
+#include <gfx/Model.h>
+#include <gfx/Prefab.h>
+#include <gfx/Particles.h>
+#include <gfx/Asset.h>
+#include <gfx/Asset.impl.h>
 #include <gfx/Pipeline.h>
-#include <gfx/Import/ImporterObj.h>
-#include <gfx/Import/ImporterGltf.h>
+#include <gfx-obj/ImporterObj.h>
+#include <gfx-gltf/ImporterGltf.h>
 
 #include <gfx/Filter.h>
-#include <gfx/Blocks/Shadow.h>
+#include <gfx-pbr/Shadow.h>
 
 #include <bgfx/bgfx.h>
 #include <bgfx/platform.h>
@@ -37,6 +42,13 @@
 
 namespace mud
 {
+	template class AssetStore<Texture>;
+	template class AssetStore<Program>;
+	template class AssetStore<Material>;
+	template class AssetStore<Model>;
+	template class AssetStore<ParticleGenerator>;
+	template class AssetStore<Prefab>;
+
 	GfxContext::GfxContext(GfxSystem& gfx_system, cstring name, int width, int height, bool fullScreen, bool init)
 		: BgfxContext(gfx_system, name, width, height, fullScreen, false)
 		, m_gfx_system(gfx_system)
@@ -64,17 +76,19 @@ namespace mud
 		std::vector<GfxContext*> m_contexts;
 		std::vector<Scene*> m_scenes;
 
-		std::map<string, unique_ptr<Texture>> m_textures;
-		std::map<string, unique_ptr<Program>> m_programs;
-		std::vector<object_ptr<Material>> m_materials;
-		std::vector<object_ptr<Model>> m_models;
-
 		unique_ptr<ImporterOBJ> m_importerOBJ;
 		unique_ptr<ImporterGltf> m_importerGltf;
 
-		object_ptr<Texture> m_white_texture;
-		object_ptr<Texture> m_black_texture;
-		object_ptr<Texture> m_normal_texture;
+		unique_ptr<AssetStore<Texture>> m_textures;
+		unique_ptr<AssetStore<Program>> m_programs;
+		unique_ptr<AssetStore<Material>> m_materials;
+		unique_ptr<AssetStore<Model>> m_models;
+		unique_ptr<AssetStore<ParticleGenerator>> m_particles;
+		unique_ptr<AssetStore<Prefab>> m_prefabs;
+
+		Texture* m_white_texture = nullptr;
+		Texture* m_black_texture = nullptr;
+		Texture* m_normal_texture = nullptr;
 	};
 
 	GfxSystem::GfxSystem(array<cstring> resource_paths)
@@ -83,6 +97,7 @@ namespace mud
 		, m_pipeline(make_unique<Pipeline>(*this))
 	{
 		Material::ms_gfx_system = this;
+		Program::ms_gfx_system = this;
 		for(cstring path : resource_paths)
 		{
 			printf("INFO: resource path: %s\n", path);
@@ -93,11 +108,33 @@ namespace mud
 	GfxSystem::~GfxSystem()
 	{}
 
+	AssetStore<Texture>& GfxSystem::textures() { return *m_impl->m_textures; }
+	AssetStore<Program>& GfxSystem::programs() { return *m_impl->m_programs; }
+	AssetStore<Material>& GfxSystem::materials() { return *m_impl->m_materials; }
+	AssetStore<Model>& GfxSystem::models() { return *m_impl->m_models; }
+	AssetStore<ParticleGenerator>& GfxSystem::particles() { return *m_impl->m_particles; }
+	AssetStore<Prefab>& GfxSystem::prefabs() { return *m_impl->m_prefabs; }
+
 	object_ptr<Context> GfxSystem::create_context(cstring name, int width, int height, bool fullScreen)
 	{
 		object_ptr<GfxContext> context = make_object<GfxContext>(*this, name, width, height, fullScreen, !m_initialized);
 		m_impl->m_contexts.push_back(context.get());
 		return std::move(context);
+	}
+
+	ModelConfig load_model_config(cstring path, cstring model_name)
+	{
+		std::ifstream file = std::ifstream(string(path) + "models/" + model_name + ".cfg");
+		ModelConfig model_config = { ModelFormat::obj, bxidentity() };
+
+		if(!file.good())
+		{
+			if(std::ifstream(string(path) + "models/" + model_name + ".gltf").good())
+				model_config.m_format = ModelFormat::gltf;
+			return model_config;
+		}
+
+		return model_config;
 	}
 
 	void GfxSystem::init(GfxContext& context)
@@ -107,9 +144,32 @@ namespace mud
 		m_impl->m_importerOBJ = make_unique<ImporterOBJ>(*this);
 		m_impl->m_importerGltf = make_unique<ImporterGltf>(*this);
 
-		m_impl->m_white_texture = make_object<Texture>(*this, "white.png");
-		m_impl->m_black_texture = make_object<Texture>(*this, "black.png");
-		m_impl->m_normal_texture = make_object<Texture>(*this, "normal.png");
+		static std::vector<string> formats = { ".obj", ".gltf" };
+
+		static auto load_obj = [](GfxSystem& gfx_system, Model& model, cstring path)
+		{
+			ModelConfig config = load_model_config(path, model.m_name.c_str());
+			gfx_system.m_impl->m_importerOBJ->import_model(model, path, config);
+		};
+
+		static auto load_gltf = [](GfxSystem& gfx_system, Model& model, cstring path)
+		{
+			ModelConfig config = load_model_config(path, model.m_name.c_str());
+			gfx_system.m_impl->m_importerGltf->import_model(model, path, config);
+		};
+
+		static std::vector<std::function<void(GfxSystem& gfx_system, Model& model, cstring path)>> loaders = { load_obj, load_gltf };
+
+		m_impl->m_textures = make_unique<AssetStore<Texture>>(*this, "textures/", load_texture);
+		m_impl->m_programs = make_unique<AssetStore<Program>>(*this, "programs/", nullptr);
+		m_impl->m_materials = make_unique<AssetStore<Material>>(*this, "materials/", nullptr); //load_material
+		m_impl->m_models = make_unique<AssetStore<Model>>(*this, "models/", formats, loaders);
+		m_impl->m_particles = make_unique<AssetStore<ParticleGenerator>>(*this, "particles/", nullptr);
+		m_impl->m_prefabs = make_unique<AssetStore<Prefab>>(*this, "prefabs/", nullptr);
+
+		m_impl->m_white_texture = this->textures().file("white.png");
+		m_impl->m_black_texture = this->textures().file("black.png");
+		m_impl->m_normal_texture = this->textures().file("normal.png");
 
 		m_pipeline = make_unique<PipelinePbr>(*this);
 
@@ -127,6 +187,8 @@ namespace mud
 			return gfx_system.renderer<MainRenderer>();
 		else if(viewport.m_shading == Shading::Unshaded)
 			return gfx_system.renderer<UnshadedRenderer>();
+		else if(viewport.m_shading == Shading::Clear)
+			return gfx_system.renderer<ClearRenderer>();
 
 		return gfx_system.renderer<MainRenderer>();
 	}
@@ -160,29 +222,21 @@ namespace mud
 		//copy.debug_show_texture(*render.m_target, bgfx::getTexture(render.m_target->m_effects.last()));
 	}
 
-	cstring GfxSystem::locate_file(cstring file, array<cstring> extensions)
+	LocatedFile GfxSystem::locate_file(cstring file, array<cstring> extensions)
 	{
 		for(const string& path : m_impl->m_resource_paths)
-			for(cstring extension : extensions)
-				if(std::ifstream(path + file + extension).good())
+			for(size_t i = 0; i < extensions.size(); ++i)
+				if(std::ifstream(path + file + extensions[i]).good())
 				{
-					return path.c_str();
+					return { path.c_str(), file, extensions[i], i };
 				}
-		return nullptr;
+		return {};
 	}
 
-	Program& GfxSystem::get_program(cstring program)
+	LocatedFile GfxSystem::locate_file(cstring file)
 	{
-		if(m_impl->m_programs.find(program) == m_impl->m_programs.end())
-			m_impl->m_programs[program] = make_unique<Program>(*this, program, array<GfxBlock*>{});
-		return *m_impl->m_programs[program];
-	}
-	
-	Texture& GfxSystem::get_texture(cstring texture)
-	{
-		if(m_impl->m_textures.find(texture) == m_impl->m_textures.end())
-			m_impl->m_textures[texture] = make_unique<Texture>(*this, texture);
-		return *m_impl->m_textures[texture];
+		carray<cstring, 1> exts = { "" };
+		return this->locate_file(file, exts);
 	}
 
 	Texture& GfxSystem::default_texture(TextureHint hint)
@@ -195,162 +249,44 @@ namespace mud
 			return *m_impl->m_normal_texture;
 	}
 
-	Texture& GfxSystem::load_texture(cstring path, cstring texture)
-	{
-		if(m_impl->m_textures.find(texture) == m_impl->m_textures.end())
-			m_impl->m_textures[texture] = make_unique<Texture>(*this, path, texture);
-		return *m_impl->m_textures[texture];
-	}
-
-	Texture& GfxSystem::load_texture_mem(cstring texture, array<uint8_t> data)
-	{
-		// @todo
-		UNUSED(data);
-		return *m_impl->m_textures[texture];
-	}
-
-	Texture& GfxSystem::load_texture_rgba(cstring texture, uint16_t width, uint16_t height, array<uint8_t> data)
-	{
-		if(m_impl->m_textures.find(texture) == m_impl->m_textures.end())
-			m_impl->m_textures[texture] = make_unique<Texture>(*this, texture, width, height, data);
-		return *m_impl->m_textures[texture];
-	}
-
-	Texture& GfxSystem::fetch_image256(const Image256& image)
-	{
-		string name = "Image256_" + to_string((uintptr_t)&image);
-		std::vector<uint8_t> data = image.read();
-		return this->load_texture_rgba(name.c_str(), image.m_width, image.m_height, { data.data(), data.size() });
-	}
-
-	ModelConfig GfxSystem::load_model_config(cstring path, cstring model_name)
-	{
-		std::ifstream file = std::ifstream(string(path) + "models/" + model_name + ".cfg");
-		ModelConfig model_config = { ModelFormat::obj, bxidentity() };
-
-		if(!file.good())
-		{
-			if(std::ifstream(string(path) + "models/" + model_name + ".gltf").good())
-				model_config.m_format = ModelFormat::gltf;
-			return model_config;
-		}
-
-		vec3 scale = Unit3;
-		vec3 position = Zero3;
-		vec3 rotation = Zero3;
-		//quat rotation = ZeroQuat;
-
-		for(std::string line; std::getline(file, line);)
-		{
-			std::istringstream stream(line);
-
-			string command = read<string>(stream);
-			if(command == "format")
-			{
-				string format = read<string>(stream);
-				model_config.m_format = format == "obj" ? ModelFormat::obj : ModelFormat::gltf;
-			}
-			else if(command == "scale")
-				scale = read<vec3>(stream);
-			else if(command == "position")
-				position = read<vec3>(stream);
-			else if(command == "rotation")
-				rotation = read<vec3>(stream);
-			//else if(command == "rotation")
-			//	rotation = read<quat>(stream);
-			//else if(command == "filter")
-			//	model_config.m_filter.push_back(read<string>(stream));
-		}
-
-		model_config.m_transform = bxSRT(scale, rotation, position);
-
-		return model_config;
-	}
-
-	void GfxSystem::load_model(Model& model)
-	{
-		carray<cstring, 3> formats = { ".cfg", ".obj", ".gltf" };
-
-		cstring path = this->locate_file(("models/" + string(model.m_name)).c_str(), formats);
-		if(path == nullptr)
-		{
-			printf("ERROR: couldn't locate model %s\n", model.m_name.c_str());
-			return;
-		}
-
-		ModelConfig config = load_model_config(path, model.m_name.c_str());
-
-		if(config.m_format == ModelFormat::obj)
-			m_impl->m_importerOBJ->import_model(model, (string(path) + "models/").c_str(), string(model.m_name), config);
-		else if(config.m_format == ModelFormat::gltf)
-			m_impl->m_importerGltf->import_model(model, (string(path) + "models/").c_str(), string(model.m_name), config);
-	}
-
 	void GfxSystem::create_debug_materials()
 	{
-		this->create_material("debug", "unshaded").m_unshaded_block.m_enabled = true;
-		this->create_material("debug_pbr", "pbr/pbr").m_pbr_block.m_enabled = true;
+		this->fetch_material("debug", "unshaded").m_unshaded_block.m_enabled = true;
+		this->fetch_material("debug_pbr", "pbr/pbr").m_pbr_block.m_enabled = true;
 	}
 
 	Material& GfxSystem::debug_material()
 	{
-		return *m_impl->m_materials.front();
+		return *this->materials().get("debug");
 	}
 
-	Program& GfxSystem::create_program(cstring name, array<GfxBlock*> blocks)
+	Material& GfxSystem::fetch_material(cstring name, cstring shader)
 	{
-		m_impl->m_programs[name] = make_unique<Program>(*this, name, blocks);
-		return *m_impl->m_programs[name];
-	}
-
-	Material& GfxSystem::create_material(cstring name, cstring shader)
-	{
-		m_impl->m_materials.emplace_back(make_object<Material>(name, shader));
-		return *m_impl->m_materials.back();
-	}
-
-	Material* GfxSystem::fetch_material(cstring name)
-	{
-		for(auto& material : m_impl->m_materials)
-			if(material->m_name == name)
-				return material.get();
-		return nullptr;
+		Program* program = this->programs().file(shader);
+		return this->materials().fetch(name, [&](Material& material) { material.m_program = program; });
 	}
 
 	Material& GfxSystem::fetch_image256_material(const Image256& image)
 	{
 		string name = "Image256_" + to_string((uintptr_t)&image);
-		Material* material = fetch_material(name.c_str());
+		Material* material = this->materials().get(name.c_str());
 
 		if(!material)
 		{
-			material = &this->create_material(name.c_str(), "unshaded");
+			string image_name = "Image256_" + to_string((uintptr_t)&image);
+			auto initializer = [&](Texture& texture) { auto data = image.read(); load_texture_rgba(texture, image.m_width, image.m_height, data); };
+
+			material = &this->fetch_material(name.c_str(), "unshaded");
 			material->m_unshaded_block.m_enabled = true;
-			material->m_unshaded_block.m_colour.m_texture = &this->fetch_image256(image);
+			material->m_unshaded_block.m_colour.m_texture = &this->textures().fetch(image_name.c_str(), initializer);
 		}
 
 		return *material;
 	}
 
-	Model& GfxSystem::load_model(cstring name)
-	{
-		m_impl->m_models.emplace_back(make_object<Model>(*this, name));
-		this->load_model(*m_impl->m_models.back());
-		return *m_impl->m_models.back();
-	}
-
-	Model& GfxSystem::fetch_model(cstring name)
-	{
-		for(auto& model : m_impl->m_models)
-			if(model->m_name == name)
-				return *model;
-
-		return load_model(name);
-	}
-
 	Model& GfxSystem::fetch_symbol(const Symbol& symbol, const Shape& shape, DrawMode draw_mode)
 	{
-		return SymbolIndex::me().symbolModel(*this, symbol, shape, draw_mode);
+		return SymbolIndex::me().symbolModel(symbol, shape, draw_mode);
 	}
 
 	Material& GfxSystem::fetch_symbol_material(const Symbol& symbol, DrawMode draw_mode)

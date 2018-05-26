@@ -7,7 +7,7 @@
 #include <edit/Viewport.h>
 
 #include <obj/Vector.h>
-#include <gfx/Widget/Viewer.h>
+#include <edit/Viewer/Viewer.h>
 #include <gfx/Item.h>
 
 #include <edit/EditContext.h>

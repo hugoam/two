@@ -19,6 +19,7 @@ namespace mud
         mudgeom::module();
         mudui::module();
         mudgfx::module();
+        mudedit::module();
 
 #ifdef MUD_GEN_REFLECT
         // setup reflection meta data

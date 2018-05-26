@@ -73,6 +73,7 @@ def register_type(module, parent, clsname):
             content_name = clsname[clsname.find('<')+1:-1]
             content_type = module.find_type(parent, content_name.replace('*', ''))
             if content_type :
+                print '>>>>>>>>>>>> register_type Sequence', name, content_type.name, content_name
                 cls = Sequence(module, name, content_type, content_name.find('*') > -1, module.root.root_namespace)
                 module.root.types[clsname] = cls
                 return cls
@@ -332,6 +333,8 @@ class Member(object):
         
         self.output = False
         self.input = False
+        
+        print 'Member', self.name, self.type
         
         if not parent.is_template:
             self.cls = self.parent.module.get_type(parent, self.clsname)

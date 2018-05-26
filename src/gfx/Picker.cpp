@@ -14,9 +14,11 @@
 #include <gfx/Item.h>
 #include <gfx/Shot.h>
 #include <gfx/Mesh.h>
+#include <gfx/Model.h>
 #include <gfx/RenderTarget.h>
 #include <gfx/Renderer.h>
 #include <gfx/Program.h>
+#include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
 
 #include <bgfx/bgfx.h>
@@ -27,7 +29,7 @@ namespace mud
 {
 #define PICKING_FOV 3.0f
 
-	Picker::Picker(GfxSystem& gfxSystem, FrameBuffer& target)
+	Picker::Picker(GfxSystem& gfx_system, FrameBuffer& target)
 		: m_target(target)
 		, m_size(target.m_size) //PICKING_BUFFER_SIZE)
 		, m_data(target.m_size.x * target.m_size.y)
@@ -35,7 +37,7 @@ namespace mud
 		bgfx::setViewClear(Render::s_render_picking_pass_id, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 1.0f, 0);
 
 		u_picking_id = bgfx::createUniform("u_picking_id", bgfx::UniformType::Vec4);
-		m_program = gfxSystem.get_program("picking_id").default_version();
+		m_program = gfx_system.programs().fetch("picking_id").default_version();
 
 		uint32_t flags = GFX_TEXTURE_POINT | BGFX_TEXTURE_MIP_POINT | GFX_TEXTURE_CLAMP;
 

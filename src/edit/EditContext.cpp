@@ -10,7 +10,7 @@
 #include <obj/Memory/ObjectPool.h>
 #include <uio/Edit/Inspector.h>
 #include <uio/Edit/UiEdit.h>
-#include <gfx/Ui/GfxEdit.h>
+#include <edit/Ui/GfxEdit.h>
 #include <ui/Edit/Console.h>
 
 #include <lang/Lua.h>

@@ -6,8 +6,9 @@
 #include <ui/Structs/Widget.h>
 #include <ui/Structs/Container.h>
 
-#include <math/Image.h>
 #include <obj/String/StringConvert.h>
+
+#include <math/Image.h>
 
 #include <ui/Sheet.h>
 #include <ui/ScrollSheet.h>
@@ -36,7 +37,7 @@ namespace ui
 
 	Widget& text(Widget& parent, cstring label)
 	{
-		return item(parent, styles().label, label);
+		return item(parent, styles().text, label);
 	}
 
 	void button_logic(Widget& self)
@@ -216,7 +217,7 @@ namespace ui
 	bool dropdown_input(Widget& parent, array<cstring> choices, size_t& value, bool compact)
 	{
 		Style& style = compact ? dropdown_styles().dropdown_input_compact : dropdown_styles().dropdown_input;
-		Widget& self = dropdown(parent, style, value == SIZE_MAX ? "" : choices[value], PopupModal);
+		Widget& self = dropdown(parent, style, value == SIZE_MAX ? "" : choices[value], PopupFlags::Modal);
 		if(!self.m_body) return false;
 
 		for(size_t i = 0; i < choices.size(); ++i)
@@ -254,7 +255,7 @@ namespace ui
 	Widget& menu(Widget& parent, cstring label, bool submenu)
 	{
 		Style& list_style = submenu ? menu_styles().sublist : menu_styles().list;
-		return dropdown(parent, menu_styles().menu, label, PopupModal, &list_style);
+		return dropdown(parent, menu_styles().menu, label, PopupFlags::Modal, &list_style);
 	}
 
 	Widget& menubar(Widget& parent)

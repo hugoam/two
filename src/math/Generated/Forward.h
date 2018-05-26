@@ -22,18 +22,21 @@ namespace mud {
     enum class Axis : unsigned int;
     enum class SignedAxis : unsigned int;
     enum class Side : unsigned int;
+    enum class TrackMode : unsigned int;
     enum SpectrumPalette : short;
     
+    template <class T> struct Range;
+    template <class T> struct ValueCurve;
+    template <class T> struct ValueTrack;
     template <class T> struct Grid;
     template <class T> struct array_3d;
-    template <class T> struct Range;
     template <class T> class AutoStat;
     
     struct Colour;
+    class Lerp;
     class Grid3;
     struct Palette;
     struct Image256;
-    class Lerp;
     struct Ratio;
     struct Gauge;
 }

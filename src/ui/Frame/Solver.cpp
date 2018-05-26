@@ -70,7 +70,7 @@ namespace mud
 		else if(preset == STACK)  return { PARAGRAPH,  SHRINK, WRAP };
 		else if(preset == DIV)    return { ORTHOGONAL, WRAP,   SHRINK };
 		else if(preset == SPACER) return { PARALLEL,   WRAP,   SHRINK };
-		else if(preset == BOARD)  return { READING,  EXPAND, EXPAND };
+		else if(preset == BOARD)  return { READING,    EXPAND, EXPAND };
 		else if(preset == LAYOUT) return { PARAGRAPH,  EXPAND, EXPAND };
 		else 					  return { PARAGRAPH,  WRAP,   WRAP };
 	}

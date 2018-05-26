@@ -13,6 +13,8 @@
 #include <gfx/Material.h>
 #include <gfx/Program.h>
 #include <gfx/Node3.h>
+#include <gfx/Model.h>
+#include <geom/Mesh.h>
 
 #include <obj/Reflect/Meta.h>
 #include <obj/Serial/Serial.h>
@@ -37,8 +39,8 @@ namespace mud
 		}
 	}
 
-	ImmediateDraw::ImmediateDraw()
-		: m_material("immediate", "unshaded")
+	ImmediateDraw::ImmediateDraw(Material& material)
+		: m_material(material)
 	{
 		m_material.m_unshaded_block.m_enabled = true;
 
@@ -158,14 +160,14 @@ namespace mud
 		uint64_t hash = hash_symbol_material(symbol, draw_mode);
 		if(m_materials[hash] == nullptr)
 		{
-			m_materials[hash] = &gfx_system.create_material(("Symbol" + to_string(hash)).c_str(), "unshaded");
+			m_materials[hash] = &gfx_system.fetch_material(("Symbol" + to_string(hash)).c_str(), "unshaded");
 			m_materials[hash]->m_unshaded_block.m_enabled = true;
 			m_materials[hash]->m_unshaded_block.m_colour.m_value = colour;
 		}
 		return *m_materials[hash];
 	}
 
-	Model& SymbolIndex::symbolModel(GfxSystem& gfx_system, const Symbol& symbol, const Shape& shape, DrawMode draw_mode)
+	Model& SymbolIndex::symbolModel(const Symbol& symbol, const Shape& shape, DrawMode draw_mode)
 	{
 		uint64_t hash = hash_symbol(symbol, draw_mode);
 		std::array<char, MUD_MAX_SHAPE_SIZE> shape_mem = {};
@@ -175,20 +177,20 @@ namespace mud
 		{
 			printf("Creating Indexed Symbol %s %s\n", shape.m_type.m_name, pack_json(Ref(&shape)).c_str());
 			string name = "Symbol:" + string(shape.m_type.m_meta->m_name);
-			m_symbols[hash][shape_mem] = draw_model(gfx_system, name.c_str(), ProcShape{ symbol, &shape, draw_mode, Zero3 });
+			m_symbols[hash][shape_mem] = draw_model(name.c_str(), ProcShape{ symbol, &shape, draw_mode, Zero3 });
 		}
 
 		return *m_symbols[hash][shape_mem];
 	}
 
-	object_ptr<Model> draw_model(GfxSystem& gfx_system, cstring id, const ProcShape& shape, bool readback)
+	object_ptr<Model> draw_model(cstring id, const ProcShape& shape, bool readback)
 	{
-		return draw_model(gfx_system, id, std::vector<ProcShape>{ { shape } }, readback);
+		return draw_model(id, std::vector<ProcShape>{ { shape } }, readback);
 	}
 
-	object_ptr<Model> draw_model(GfxSystem& gfx_system, cstring id, const std::vector<ProcShape>& shapes, bool readback)
+	object_ptr<Model> draw_model(cstring id, const std::vector<ProcShape>& shapes, bool readback)
 	{
-		object_ptr<Model> model = make_object<Model>(gfx_system, id);
+		object_ptr<Model> model = make_object<Model>(id);
 		draw_model(shapes, *model, readback);
 		return model;
 	}

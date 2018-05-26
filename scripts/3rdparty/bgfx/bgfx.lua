@@ -10,6 +10,11 @@ dofile(path.join(BGFX_DIR, "scripts/bgfx.lua"))
 bgfxProject("", "StaticLib", {})
 
 project "bgfx"
+    configuration { "Debug" }
+        defines {
+            "BGFX_CONFIG_DEBUG_UNIFORM=0",
+        }
+        
     configuration { "not asmjs",  }
         --defines {
         --    "BGFX_CONFIG_RENDERER_OPENGL=33",

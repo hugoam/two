@@ -9,6 +9,7 @@
 #include <geom/Generated/Forward.h>
 #include <ui/Generated/Forward.h>
 #include <gfx/Generated/Forward.h>
+#include <edit/Generated/Forward.h>
 
 #if defined MUD_GEN_LIB
 #define MUD_GEN_EXPORT MUD_EXPORT

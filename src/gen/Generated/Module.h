@@ -8,6 +8,7 @@
 #include <geom/Generated/Module.h>
 #include <ui/Generated/Module.h>
 #include <gfx/Generated/Module.h>
+#include <edit/Generated/Module.h>
         
 #include <gen/Generated/Forward.h>
 #include <gen/Generated/Types.h>

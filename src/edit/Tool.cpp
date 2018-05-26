@@ -12,7 +12,7 @@
 #include <ui/Sheet.h>
 #include <ctx/InputDevice.h>
 
-#include <gfx/Widget/Viewer.h>
+#include <edit/Viewer/Viewer.h>
 #include <gfx/Item.h>
 #include <gfx/Gfx.h>
 #include <obj/Any.h>

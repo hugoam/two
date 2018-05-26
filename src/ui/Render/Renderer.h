@@ -14,10 +14,10 @@
 
 namespace mud
 {
-	class _refl_ MUD_UI_EXPORT UiRenderTarget
+	class _refl_ MUD_UI_EXPORT UiTarget
 	{
 	public:
-		UiRenderTarget(VgRenderer& renderer, Layer& layer, bool gammaCorrected);
+		UiTarget(VgRenderer& renderer, Layer& layer, bool gammaCorrected);
 
 		VgRenderer& m_renderer;
 		Layer& m_layer;
@@ -41,6 +41,7 @@ namespace mud
 		void end_frame(Frame& frame);
 		void end_layer(Frame& frame);
 		void draw_frame(const Frame& frame);
+		void draw_frame(const Frame& frame, const vec4& rect);
 
 		vec4 select_corners(const Frame& frame);
 		float content_pos(const Frame& frame, const vec4& padded_rect, Dim dim);
@@ -54,14 +55,14 @@ namespace mud
 		void log_FPS();
 
 		// render
-		virtual void render(UiRenderTarget& target);
+		virtual void render(UiTarget& target);
 
 		// init
 		virtual void setup_context() = 0;
 		virtual void release_context() = 0;
 
 		// targets
-		virtual object_ptr<UiRenderTarget> create_render_target(Layer& masterLayer) = 0;
+		virtual object_ptr<UiTarget> create_render_target(Layer& masterLayer) = 0;
 
 		// setup
 		virtual void load_default_font() = 0;
@@ -72,7 +73,7 @@ namespace mud
 		virtual uint16_t load_texture(uint16_t texture) = 0;
 
 		// rendering
-		virtual void begin_frame(UiRenderTarget& target) = 0;
+		virtual void begin_frame(UiTarget& target) = 0;
 		virtual void end_frame() = 0;
 
 		// drawing

@@ -658,9 +658,9 @@ namespace mud
 		lua_pushnil(state);
 		while(lua_next(state, (index > 0) ? index : (index - 1)) != 0)
 		{
-			Var item = sequence_type.m_class->m_content->m_meta->m_empty_var();
-			read(state, -1, item);
-			add_sequence(result, item);
+			Var element = sequence_type.m_class->m_content->m_meta->m_empty_var();
+			read(state, -1, element);
+			add_sequence(result, element);
 			lua_pop(state, 1); // pop the value but keep the key for the next iteration
 		}
 	}

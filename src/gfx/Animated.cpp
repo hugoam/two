@@ -12,6 +12,7 @@
 #include <gfx/Node3.h>
 #include <gfx/Item.h>
 #include <gfx/Mesh.h>
+#include <gfx/Model.h>
 #include <gfx/Skeleton.h>
 
 #include <math/Math.h>

@@ -11,6 +11,6 @@
 
 namespace mud
 {
-	static inline double fposmod(double p_x, double p_y) { return (p_x >= 0) ? std::fmod(p_x, p_y) : p_y - std::fmod(-p_x, p_y); }
-	static inline float fposmod(float p_x, float p_y) { return (p_x >= 0) ? std::fmod(p_x, p_y) : p_y - std::fmod(-p_x, p_y); }
+	static inline double fposmod(double x, double y) { return (x >= 0) ? std::fmod(x, y) : y - std::fmod(-x, y); }
+	static inline float fposmod(float x, float y) { return (x >= 0) ? std::fmod(x, y) : y - std::fmod(-x, y); }
 }

@@ -72,8 +72,26 @@ namespace mud
         meta_enum<mud::SpectrumPalette>();
     }
     
+    {
+        static Meta meta = { type<mud::TrackMode>(), &namspc({ "mud" }), "TrackMode", sizeof(mud::TrackMode), TypeClass::Enum };
+        static Enum enu = { type<mud::TrackMode>(),
+            true,
+            { "Constant", "ConstantRandom", "Curve", "CurveRandom" },
+            { 0, 1, 2, 3 },
+            { var(TrackMode::Constant), var(TrackMode::ConstantRandom), var(TrackMode::Curve), var(TrackMode::CurveRandom) }
+        };
+        meta_enum<mud::TrackMode>();
+    }
+    
     
     // Sequences
+    {
+        static Meta meta = { type<std::vector<float>>(), &namspc({}), "std::vector<float>", sizeof(std::vector<float>), TypeClass::Sequence };
+        static Class cls = { type<std::vector<float>>() };
+        cls.m_content = &type<float>();
+        meta_sequence<std::vector<float>, float>();
+    }
+    
     {
         static Meta meta = { type<std::vector<mud::Colour>>(), &namspc({}), "std::vector<mud::Colour>", sizeof(std::vector<mud::Colour>), TypeClass::Sequence };
         static Class cls = { type<std::vector<mud::Colour>>() };
@@ -82,10 +100,31 @@ namespace mud
     }
     
     {
+        static Meta meta = { type<std::vector<mud::Colour>>(), &namspc({}), "std::vector<mud::Colour>", sizeof(std::vector<mud::Colour>), TypeClass::Sequence };
+        static Class cls = { type<std::vector<mud::Colour>>() };
+        cls.m_content = &type<mud::Colour>();
+        meta_sequence<std::vector<mud::Colour>, mud::Colour>();
+    }
+    
+    {
+        static Meta meta = { type<std::vector<mud::quat>>(), &namspc({}), "std::vector<mud::quat>", sizeof(std::vector<mud::quat>), TypeClass::Sequence };
+        static Class cls = { type<std::vector<mud::quat>>() };
+        cls.m_content = &type<mud::quat>();
+        meta_sequence<std::vector<mud::quat>, mud::quat>();
+    }
+    
+    {
         static Meta meta = { type<std::vector<mud::uvec3>>(), &namspc({}), "std::vector<mud::uvec3>", sizeof(std::vector<mud::uvec3>), TypeClass::Sequence };
         static Class cls = { type<std::vector<mud::uvec3>>() };
         cls.m_content = &type<mud::uvec3>();
         meta_sequence<std::vector<mud::uvec3>, mud::uvec3>();
+    }
+    
+    {
+        static Meta meta = { type<std::vector<mud::vec3>>(), &namspc({}), "std::vector<mud::vec3>", sizeof(std::vector<mud::vec3>), TypeClass::Sequence };
+        static Class cls = { type<std::vector<mud::vec3>>() };
+        cls.m_content = &type<mud::vec3>();
+        meta_sequence<std::vector<mud::vec3>, mud::vec3>();
     }
     
     {
@@ -540,6 +579,381 @@ namespace mud
     }
     
     
+        
+    // mud::ValueCurve<float>
+    {
+        static Meta meta = { type<mud::ValueCurve<float>>(), &namspc({ "mud" }), "ValueCurve<float>", sizeof(mud::ValueCurve<float>), TypeClass::Struct };
+        static Class cls = { type<mud::ValueCurve<float>>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+                { type<mud::ValueCurve<float>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueCurve<float>>(ref)) mud::ValueCurve<float>(  ); }, {} },
+                { type<mud::ValueCurve<float>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueCurve<float>>(ref)) mud::ValueCurve<float>( val<std::vector<float>>(args[0]) ); }, { { "keys", var(std::vector<float>()) } } }
+            },
+            // copy constructor
+            {
+                { type<mud::ValueCurve<float>>(), [](Ref ref, Ref other) { new(&val<mud::ValueCurve<float>>(ref)) mud::ValueCurve<float>(val<mud::ValueCurve<float>>(other)); } }
+            },
+            // members
+            {
+                { type<mud::ValueCurve<float>>(), member_address(&mud::ValueCurve<float>::m_keys), type<std::vector<float>>(), "keys", var(std::vector<float>()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ValueCurve<float>>();
+    }
+    
+    
+        
+    // mud::ValueCurve<mud::Colour>
+    {
+        static Meta meta = { type<mud::ValueCurve<mud::Colour>>(), &namspc({ "mud" }), "ValueCurve<mud::Colour>", sizeof(mud::ValueCurve<mud::Colour>), TypeClass::Struct };
+        static Class cls = { type<mud::ValueCurve<mud::Colour>>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+                { type<mud::ValueCurve<mud::Colour>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueCurve<mud::Colour>>(ref)) mud::ValueCurve<mud::Colour>(  ); }, {} },
+                { type<mud::ValueCurve<mud::Colour>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueCurve<mud::Colour>>(ref)) mud::ValueCurve<mud::Colour>( val<std::vector<mud::Colour>>(args[0]) ); }, { { "keys", var(std::vector<mud::Colour>()) } } }
+            },
+            // copy constructor
+            {
+                { type<mud::ValueCurve<mud::Colour>>(), [](Ref ref, Ref other) { new(&val<mud::ValueCurve<mud::Colour>>(ref)) mud::ValueCurve<mud::Colour>(val<mud::ValueCurve<mud::Colour>>(other)); } }
+            },
+            // members
+            {
+                { type<mud::ValueCurve<mud::Colour>>(), member_address(&mud::ValueCurve<mud::Colour>::m_keys), type<std::vector<mud::Colour>>(), "keys", var(std::vector<mud::Colour>()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ValueCurve<mud::Colour>>();
+    }
+    
+    
+        
+    // mud::ValueCurve<mud::quat>
+    {
+        static Meta meta = { type<mud::ValueCurve<mud::quat>>(), &namspc({ "mud" }), "ValueCurve<mud::quat>", sizeof(mud::ValueCurve<mud::quat>), TypeClass::Struct };
+        static Class cls = { type<mud::ValueCurve<mud::quat>>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+                { type<mud::ValueCurve<mud::quat>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueCurve<mud::quat>>(ref)) mud::ValueCurve<mud::quat>(  ); }, {} },
+                { type<mud::ValueCurve<mud::quat>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueCurve<mud::quat>>(ref)) mud::ValueCurve<mud::quat>( val<std::vector<mud::quat>>(args[0]) ); }, { { "keys", var(std::vector<mud::quat>()) } } }
+            },
+            // copy constructor
+            {
+                { type<mud::ValueCurve<mud::quat>>(), [](Ref ref, Ref other) { new(&val<mud::ValueCurve<mud::quat>>(ref)) mud::ValueCurve<mud::quat>(val<mud::ValueCurve<mud::quat>>(other)); } }
+            },
+            // members
+            {
+                { type<mud::ValueCurve<mud::quat>>(), member_address(&mud::ValueCurve<mud::quat>::m_keys), type<std::vector<mud::quat>>(), "keys", var(std::vector<mud::quat>()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ValueCurve<mud::quat>>();
+    }
+    
+    
+        
+    // mud::ValueCurve<mud::vec3>
+    {
+        static Meta meta = { type<mud::ValueCurve<mud::vec3>>(), &namspc({ "mud" }), "ValueCurve<mud::vec3>", sizeof(mud::ValueCurve<mud::vec3>), TypeClass::Struct };
+        static Class cls = { type<mud::ValueCurve<mud::vec3>>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+                { type<mud::ValueCurve<mud::vec3>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueCurve<mud::vec3>>(ref)) mud::ValueCurve<mud::vec3>(  ); }, {} },
+                { type<mud::ValueCurve<mud::vec3>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueCurve<mud::vec3>>(ref)) mud::ValueCurve<mud::vec3>( val<std::vector<mud::vec3>>(args[0]) ); }, { { "keys", var(std::vector<mud::vec3>()) } } }
+            },
+            // copy constructor
+            {
+                { type<mud::ValueCurve<mud::vec3>>(), [](Ref ref, Ref other) { new(&val<mud::ValueCurve<mud::vec3>>(ref)) mud::ValueCurve<mud::vec3>(val<mud::ValueCurve<mud::vec3>>(other)); } }
+            },
+            // members
+            {
+                { type<mud::ValueCurve<mud::vec3>>(), member_address(&mud::ValueCurve<mud::vec3>::m_keys), type<std::vector<mud::vec3>>(), "keys", var(std::vector<mud::vec3>()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ValueCurve<mud::vec3>>();
+    }
+    
+    
+        
+    // mud::ValueCurve<uint32_t>
+    {
+        static Meta meta = { type<mud::ValueCurve<uint32_t>>(), &namspc({ "mud" }), "ValueCurve<uint32_t>", sizeof(mud::ValueCurve<uint32_t>), TypeClass::Struct };
+        static Class cls = { type<mud::ValueCurve<uint32_t>>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+                { type<mud::ValueCurve<uint32_t>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueCurve<uint32_t>>(ref)) mud::ValueCurve<uint32_t>(  ); }, {} },
+                { type<mud::ValueCurve<uint32_t>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueCurve<uint32_t>>(ref)) mud::ValueCurve<uint32_t>( val<std::vector<uint32_t>>(args[0]) ); }, { { "keys", var(std::vector<uint32_t>()) } } }
+            },
+            // copy constructor
+            {
+                { type<mud::ValueCurve<uint32_t>>(), [](Ref ref, Ref other) { new(&val<mud::ValueCurve<uint32_t>>(ref)) mud::ValueCurve<uint32_t>(val<mud::ValueCurve<uint32_t>>(other)); } }
+            },
+            // members
+            {
+                { type<mud::ValueCurve<uint32_t>>(), member_address(&mud::ValueCurve<uint32_t>::m_keys), type<std::vector<uint32_t>>(), "keys", var(std::vector<uint32_t>()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ValueCurve<uint32_t>>();
+    }
+    
+    
+        
+    // mud::ValueTrack<float>
+    {
+        static Meta meta = { type<mud::ValueTrack<float>>(), &namspc({ "mud" }), "ValueTrack<float>", sizeof(mud::ValueTrack<float>), TypeClass::Struct };
+        static Class cls = { type<mud::ValueTrack<float>>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+                { type<mud::ValueTrack<float>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueTrack<float>>(ref)) mud::ValueTrack<float>(  ); }, {} },
+                { type<mud::ValueTrack<float>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueTrack<float>>(ref)) mud::ValueTrack<float>( val<mud::TrackMode>(args[0]), val<mud::ValueCurve<float>>(args[1]), val<mud::ValueCurve<float>>(args[2]), val<mud::ValueCurve<float>>(args[3]) ); }, { { "mode", var(mud::TrackMode()) }, { "curve", var(mud::ValueCurve<float>()) }, { "min_curve", var(mud::ValueCurve<float>()) }, { "max_curve", var(mud::ValueCurve<float>()) } } }
+            },
+            // copy constructor
+            {
+                { type<mud::ValueTrack<float>>(), [](Ref ref, Ref other) { new(&val<mud::ValueTrack<float>>(ref)) mud::ValueTrack<float>(val<mud::ValueTrack<float>>(other)); } }
+            },
+            // members
+            {
+                { type<mud::ValueTrack<float>>(), member_address(&mud::ValueTrack<float>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<float>>(), member_address(&mud::ValueTrack<float>::m_curve), type<mud::ValueCurve<float>>(), "curve", var(mud::ValueCurve<float>()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<float>>(), member_address(&mud::ValueTrack<float>::m_min_curve), type<mud::ValueCurve<float>>(), "min_curve", var(mud::ValueCurve<float>()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<float>>(), member_address(&mud::ValueTrack<float>::m_max_curve), type<mud::ValueCurve<float>>(), "max_curve", var(mud::ValueCurve<float>()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ValueTrack<float>>();
+    }
+    
+    
+        
+    // mud::ValueTrack<mud::Colour>
+    {
+        static Meta meta = { type<mud::ValueTrack<mud::Colour>>(), &namspc({ "mud" }), "ValueTrack<mud::Colour>", sizeof(mud::ValueTrack<mud::Colour>), TypeClass::Struct };
+        static Class cls = { type<mud::ValueTrack<mud::Colour>>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+                { type<mud::ValueTrack<mud::Colour>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueTrack<mud::Colour>>(ref)) mud::ValueTrack<mud::Colour>(  ); }, {} },
+                { type<mud::ValueTrack<mud::Colour>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueTrack<mud::Colour>>(ref)) mud::ValueTrack<mud::Colour>( val<mud::TrackMode>(args[0]), val<mud::ValueCurve<mud::Colour>>(args[1]), val<mud::ValueCurve<mud::Colour>>(args[2]), val<mud::ValueCurve<mud::Colour>>(args[3]) ); }, { { "mode", var(mud::TrackMode()) }, { "curve", var(mud::ValueCurve<mud::Colour>()) }, { "min_curve", var(mud::ValueCurve<mud::Colour>()) }, { "max_curve", var(mud::ValueCurve<mud::Colour>()) } } }
+            },
+            // copy constructor
+            {
+                { type<mud::ValueTrack<mud::Colour>>(), [](Ref ref, Ref other) { new(&val<mud::ValueTrack<mud::Colour>>(ref)) mud::ValueTrack<mud::Colour>(val<mud::ValueTrack<mud::Colour>>(other)); } }
+            },
+            // members
+            {
+                { type<mud::ValueTrack<mud::Colour>>(), member_address(&mud::ValueTrack<mud::Colour>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::Colour>>(), member_address(&mud::ValueTrack<mud::Colour>::m_curve), type<mud::ValueCurve<mud::Colour>>(), "curve", var(mud::ValueCurve<mud::Colour>()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::Colour>>(), member_address(&mud::ValueTrack<mud::Colour>::m_min_curve), type<mud::ValueCurve<mud::Colour>>(), "min_curve", var(mud::ValueCurve<mud::Colour>()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::Colour>>(), member_address(&mud::ValueTrack<mud::Colour>::m_max_curve), type<mud::ValueCurve<mud::Colour>>(), "max_curve", var(mud::ValueCurve<mud::Colour>()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ValueTrack<mud::Colour>>();
+    }
+    
+    
+        
+    // mud::ValueTrack<mud::quat>
+    {
+        static Meta meta = { type<mud::ValueTrack<mud::quat>>(), &namspc({ "mud" }), "ValueTrack<mud::quat>", sizeof(mud::ValueTrack<mud::quat>), TypeClass::Struct };
+        static Class cls = { type<mud::ValueTrack<mud::quat>>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+                { type<mud::ValueTrack<mud::quat>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueTrack<mud::quat>>(ref)) mud::ValueTrack<mud::quat>(  ); }, {} },
+                { type<mud::ValueTrack<mud::quat>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueTrack<mud::quat>>(ref)) mud::ValueTrack<mud::quat>( val<mud::TrackMode>(args[0]), val<mud::ValueCurve<mud::quat>>(args[1]), val<mud::ValueCurve<mud::quat>>(args[2]), val<mud::ValueCurve<mud::quat>>(args[3]) ); }, { { "mode", var(mud::TrackMode()) }, { "curve", var(mud::ValueCurve<mud::quat>()) }, { "min_curve", var(mud::ValueCurve<mud::quat>()) }, { "max_curve", var(mud::ValueCurve<mud::quat>()) } } }
+            },
+            // copy constructor
+            {
+                { type<mud::ValueTrack<mud::quat>>(), [](Ref ref, Ref other) { new(&val<mud::ValueTrack<mud::quat>>(ref)) mud::ValueTrack<mud::quat>(val<mud::ValueTrack<mud::quat>>(other)); } }
+            },
+            // members
+            {
+                { type<mud::ValueTrack<mud::quat>>(), member_address(&mud::ValueTrack<mud::quat>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::quat>>(), member_address(&mud::ValueTrack<mud::quat>::m_curve), type<mud::ValueCurve<mud::quat>>(), "curve", var(mud::ValueCurve<mud::quat>()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::quat>>(), member_address(&mud::ValueTrack<mud::quat>::m_min_curve), type<mud::ValueCurve<mud::quat>>(), "min_curve", var(mud::ValueCurve<mud::quat>()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::quat>>(), member_address(&mud::ValueTrack<mud::quat>::m_max_curve), type<mud::ValueCurve<mud::quat>>(), "max_curve", var(mud::ValueCurve<mud::quat>()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ValueTrack<mud::quat>>();
+    }
+    
+    
+        
+    // mud::ValueTrack<mud::vec3>
+    {
+        static Meta meta = { type<mud::ValueTrack<mud::vec3>>(), &namspc({ "mud" }), "ValueTrack<mud::vec3>", sizeof(mud::ValueTrack<mud::vec3>), TypeClass::Struct };
+        static Class cls = { type<mud::ValueTrack<mud::vec3>>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+                { type<mud::ValueTrack<mud::vec3>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueTrack<mud::vec3>>(ref)) mud::ValueTrack<mud::vec3>(  ); }, {} },
+                { type<mud::ValueTrack<mud::vec3>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueTrack<mud::vec3>>(ref)) mud::ValueTrack<mud::vec3>( val<mud::TrackMode>(args[0]), val<mud::ValueCurve<mud::vec3>>(args[1]), val<mud::ValueCurve<mud::vec3>>(args[2]), val<mud::ValueCurve<mud::vec3>>(args[3]) ); }, { { "mode", var(mud::TrackMode()) }, { "curve", var(mud::ValueCurve<mud::vec3>()) }, { "min_curve", var(mud::ValueCurve<mud::vec3>()) }, { "max_curve", var(mud::ValueCurve<mud::vec3>()) } } }
+            },
+            // copy constructor
+            {
+                { type<mud::ValueTrack<mud::vec3>>(), [](Ref ref, Ref other) { new(&val<mud::ValueTrack<mud::vec3>>(ref)) mud::ValueTrack<mud::vec3>(val<mud::ValueTrack<mud::vec3>>(other)); } }
+            },
+            // members
+            {
+                { type<mud::ValueTrack<mud::vec3>>(), member_address(&mud::ValueTrack<mud::vec3>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::vec3>>(), member_address(&mud::ValueTrack<mud::vec3>::m_curve), type<mud::ValueCurve<mud::vec3>>(), "curve", var(mud::ValueCurve<mud::vec3>()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::vec3>>(), member_address(&mud::ValueTrack<mud::vec3>::m_min_curve), type<mud::ValueCurve<mud::vec3>>(), "min_curve", var(mud::ValueCurve<mud::vec3>()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::vec3>>(), member_address(&mud::ValueTrack<mud::vec3>::m_max_curve), type<mud::ValueCurve<mud::vec3>>(), "max_curve", var(mud::ValueCurve<mud::vec3>()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ValueTrack<mud::vec3>>();
+    }
+    
+    
+        
+    // mud::ValueTrack<uint32_t>
+    {
+        static Meta meta = { type<mud::ValueTrack<uint32_t>>(), &namspc({ "mud" }), "ValueTrack<uint32_t>", sizeof(mud::ValueTrack<uint32_t>), TypeClass::Struct };
+        static Class cls = { type<mud::ValueTrack<uint32_t>>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+                { type<mud::ValueTrack<uint32_t>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueTrack<uint32_t>>(ref)) mud::ValueTrack<uint32_t>(  ); }, {} },
+                { type<mud::ValueTrack<uint32_t>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueTrack<uint32_t>>(ref)) mud::ValueTrack<uint32_t>( val<mud::TrackMode>(args[0]), val<mud::ValueCurve<uint32_t>>(args[1]), val<mud::ValueCurve<uint32_t>>(args[2]), val<mud::ValueCurve<uint32_t>>(args[3]) ); }, { { "mode", var(mud::TrackMode()) }, { "curve", var(mud::ValueCurve<uint32_t>()) }, { "min_curve", var(mud::ValueCurve<uint32_t>()) }, { "max_curve", var(mud::ValueCurve<uint32_t>()) } } }
+            },
+            // copy constructor
+            {
+                { type<mud::ValueTrack<uint32_t>>(), [](Ref ref, Ref other) { new(&val<mud::ValueTrack<uint32_t>>(ref)) mud::ValueTrack<uint32_t>(val<mud::ValueTrack<uint32_t>>(other)); } }
+            },
+            // members
+            {
+                { type<mud::ValueTrack<uint32_t>>(), member_address(&mud::ValueTrack<uint32_t>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<uint32_t>>(), member_address(&mud::ValueTrack<uint32_t>::m_curve), type<mud::ValueCurve<uint32_t>>(), "curve", var(mud::ValueCurve<uint32_t>()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<uint32_t>>(), member_address(&mud::ValueTrack<uint32_t>::m_min_curve), type<mud::ValueCurve<uint32_t>>(), "min_curve", var(mud::ValueCurve<uint32_t>()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<uint32_t>>(), member_address(&mud::ValueTrack<uint32_t>::m_max_curve), type<mud::ValueCurve<uint32_t>>(), "max_curve", var(mud::ValueCurve<uint32_t>()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ValueTrack<uint32_t>>();
+    }
+    
+    
     
     
     
@@ -908,11 +1322,26 @@ namespace mud
         module.m_types.push_back(&type<mud::Side>());
         module.m_types.push_back(&type<mud::SignedAxis>());
         module.m_types.push_back(&type<mud::SpectrumPalette>());
+        module.m_types.push_back(&type<mud::TrackMode>());
+        module.m_types.push_back(&type<mud::ValueCurve<float>>());
+        module.m_types.push_back(&type<mud::ValueCurve<mud::Colour>>());
+        module.m_types.push_back(&type<mud::ValueCurve<mud::quat>>());
+        module.m_types.push_back(&type<mud::ValueCurve<mud::vec3>>());
+        module.m_types.push_back(&type<mud::ValueCurve<uint32_t>>());
+        module.m_types.push_back(&type<mud::ValueTrack<float>>());
+        module.m_types.push_back(&type<mud::ValueTrack<mud::Colour>>());
+        module.m_types.push_back(&type<mud::ValueTrack<mud::quat>>());
+        module.m_types.push_back(&type<mud::ValueTrack<mud::vec3>>());
+        module.m_types.push_back(&type<mud::ValueTrack<uint32_t>>());
         module.m_types.push_back(&type<mud::ivec3>());
         module.m_types.push_back(&type<mud::mat4>());
         module.m_types.push_back(&type<mud::quat>());
+        module.m_types.push_back(&type<std::vector<float>>());
         module.m_types.push_back(&type<std::vector<mud::Colour>>());
+        module.m_types.push_back(&type<std::vector<mud::Colour>>());
+        module.m_types.push_back(&type<std::vector<mud::quat>>());
         module.m_types.push_back(&type<std::vector<mud::uvec3>>());
+        module.m_types.push_back(&type<std::vector<mud::vec3>>());
         module.m_types.push_back(&type<std::vector<uint32_t>>());
         module.m_types.push_back(&type<mud::uvec2>());
         module.m_types.push_back(&type<mud::uvec3>());
@@ -1027,16 +1456,6 @@ namespace mud
             module.m_functions.push_back({ &namspc({ "mud" }), "hsla_to_rgba", function_id<mud::Colour(*)(const mud::Colour&)>(&mud::hsla_to_rgba), func, params, var(mud::Colour()) });
         }
         {
-            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::grid(val<mud::uvec3>(args[0]), val<std::vector<mud::uvec3>>(args[1])); };
-            std::vector<Param> params = { { "size", var(mud::uvec3()) }, { "output_coords", var(std::vector<mud::uvec3>()), Param::Output } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "grid", function_id<void(*)(mud::uvec3, std::vector<mud::uvec3>&)>(&mud::grid), func, params, Var() });
-        }
-        {
-            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::grid_center(val<mud::uvec3>(args[0]), val<float>(args[1]), val<mud::vec3>(args[2])); };
-            std::vector<Param> params = { { "coord", var(mud::uvec3()) }, { "cell_size", var(float()) }, { "output_center", var(mud::vec3()), Param::Output } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "grid_center", function_id<void(*)(mud::uvec3, float, mud::vec3&)>(&mud::grid_center), func, params, Var() });
-        }
-        {
             auto func = [](array<Var> args, Var& result) {  val<mud::vec3>(result) = mud::add(val<mud::vec3>(args[0]), val<mud::vec3>(args[1])); };
             std::vector<Param> params = { { "a", var(mud::vec3()) }, { "b", var(mud::vec3()) } };
             module.m_functions.push_back({ &namspc({ "mud" }), "add", function_id<mud::vec3(*)(mud::vec3, mud::vec3)>(&mud::add), func, params, var(mud::vec3()) });
@@ -1055,6 +1474,16 @@ namespace mud
             auto func = [](array<Var> args, Var& result) {  val<mud::vec3>(result) = mud::divide(val<mud::vec3>(args[0]), val<mud::vec3>(args[1])); };
             std::vector<Param> params = { { "a", var(mud::vec3()) }, { "b", var(mud::vec3()) } };
             module.m_functions.push_back({ &namspc({ "mud" }), "divide", function_id<mud::vec3(*)(mud::vec3, mud::vec3)>(&mud::divide), func, params, var(mud::vec3()) });
+        }
+        {
+            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::grid(val<mud::uvec3>(args[0]), val<std::vector<mud::uvec3>>(args[1])); };
+            std::vector<Param> params = { { "size", var(mud::uvec3()) }, { "output_coords", var(std::vector<mud::uvec3>()), Param::Output } };
+            module.m_functions.push_back({ &namspc({ "mud" }), "grid", function_id<void(*)(mud::uvec3, std::vector<mud::uvec3>&)>(&mud::grid), func, params, Var() });
+        }
+        {
+            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::grid_center(val<mud::uvec3>(args[0]), val<float>(args[1]), val<mud::vec3>(args[2])); };
+            std::vector<Param> params = { { "coord", var(mud::uvec3()) }, { "cell_size", var(float()) }, { "output_center", var(mud::vec3()), Param::Output } };
+            module.m_functions.push_back({ &namspc({ "mud" }), "grid_center", function_id<void(*)(mud::uvec3, float, mud::vec3&)>(&mud::grid_center), func, params, Var() });
         }
     }
 #endif

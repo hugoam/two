@@ -13,7 +13,7 @@ project "glfw"
         path.join(MUD_3RDPARTY_DIR, "glfw/src/window.c"),
     }
     
-    configuration { "windows" }
+    configuration { "windows", "not asmjs" }
         files {
             path.join(MUD_3RDPARTY_DIR, "glfw/src/win32_init.c"),
             path.join(MUD_3RDPARTY_DIR, "glfw/src/win32_joystick.c"),

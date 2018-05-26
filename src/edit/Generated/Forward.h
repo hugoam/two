@@ -11,6 +11,7 @@
 #include <ui/Generated/Forward.h>
 #include <uio/Generated/Forward.h>
 #include <gfx/Generated/Forward.h>
+#include <gfx-pbr/Generated/Forward.h>
 
 #if defined MUD_EDIT_LIB
 #define MUD_EDIT_EXPORT MUD_EXPORT
@@ -62,6 +63,12 @@ namespace mud {
     
     
     class EditorAction;
+    struct ViewerStyles;
+    class ViewerController;
+    class Viewer;
+    class SceneViewer;
+    class OrbitController;
+    class FreeOrbitController;
     struct ToolContext;
     class ToolOption;
     class Tool;
@@ -92,6 +99,8 @@ namespace mud {
     class EditContext;
     class WorkPlaneAction;
     class WorkPlaneTool;
+    class SpaceSheet;
+    class SpaceViewport;
 }
 
 namespace mud {

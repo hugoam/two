@@ -19,8 +19,9 @@ uniform vec4 u_tonemap_bcs;
 void main()
 {
 	ivec2 ifrag_coord = ivec2(gl_FragCoord.xy);
-	//vec3 color = texelFetch(s_source, ifrag_coord, 0).rgb;
-    vec3 color = texture2DLod(s_source, v_texcoord0.xy, 0.0).rgb;
+	//vec4 source = texelFetch(s_source, ifrag_coord, 0);
+    vec4 source = texture2DLod(s_source, v_texcoord0.xy, 0.0);
+    vec3 color = source.rgb;
     
 #ifdef AUTO_EXPOSURE
 	color /= texelFetch(s_exposure, ivec2(0,0), 0).r / auto_exposure_grey;
@@ -49,5 +50,5 @@ void main()
 	color.b = texture2D(s_color_correction, vec2(color.b, 0.0)).b;
 #endif
 
-	gl_FragColor = vec4(color.rgb, 1.0);
+	gl_FragColor = vec4(color.rgb, source.a);
 }

@@ -22,11 +22,12 @@
 #include <gfx/Particles.h>
 #include <gfx/Scene.h>
 #include <gfx/Blocks/Sky.h>
-//#include <gfx/Blocks/GI.h>
+//#include <gfx-pbr/GI.h>
+#include <gfx/Asset.h>
+#include <gfx/Model.h>
+#include <gfx/Texture.h> // @kludge : make all this logic private and export asset stores
 #include <gfx/GfxSystem.h>
 #include <gfx/Pipeline.h>
-
-#include <gfx/Blocks/Particles.h>
 
 #include <math/Math.h>
 
@@ -175,10 +176,12 @@ namespace gfx
 		return shape(parent, Quad(size), { image }, flags, material, instances);
 	}
 
-	Item& model(Gnode& parent, const string& name, uint32_t flags, Material* material, size_t instances)
+	Item* model(Gnode& parent, const string& name, uint32_t flags, Material* material, size_t instances)
 	{
-		Model& model = parent.m_scene->m_gfx_system.fetch_model(name.c_str());
-		return item(parent, model, flags, material, instances);
+		Model* model = parent.m_scene->m_gfx_system.models().file(name.c_str());
+		if(model)
+			return &item(parent, *model, flags, material, instances);
+		return nullptr;
 	}
 
 	Animated& animated(Gnode& parent, Item& item)
@@ -266,7 +269,7 @@ namespace gfx
 
 	void radiance(Gnode& parent, const string& texture, BackgroundMode background)
 	{
-		parent.m_scene->m_environment.m_radiance.m_texture = &parent.m_scene->m_gfx_system.get_texture(texture.c_str());
+		parent.m_scene->m_environment.m_radiance.m_texture = parent.m_scene->m_gfx_system.textures().file(texture.c_str());
 		parent.m_scene->m_environment.m_background.m_mode = background;
 	}
 

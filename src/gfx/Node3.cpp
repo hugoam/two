@@ -38,6 +38,11 @@ namespace mud
 
 	static uint16_t nodeIndex = 0;
 
+	Transform::Transform(const mat4& transform)
+	{
+		UNUSED(transform);
+	}
+
 	Node3::Node3(Scene* scene, Ref object)
 		: m_scene(scene)
 		, m_index(nodeIndex++)

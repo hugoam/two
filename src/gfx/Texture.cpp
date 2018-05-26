@@ -22,7 +22,7 @@ namespace mud
 {
 	using string = std::string;
 
-	string readable_size(double size)
+	string readable_file_size(double size)
 	{
 		int i = 0;
 		const char* units[] = { "B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
@@ -51,14 +51,14 @@ namespace mud
 		return data;
 	}
 
-	static void release_image(void* _ptr, void* _userData)
+	static void release_bgfx_image(void* _ptr, void* _userData)
 	{
 		BX_UNUSED(_ptr);
 		bimg::ImageContainer* imageContainer = (bimg::ImageContainer*)_userData;
 		bimg::imageFree(imageContainer);
 	}
 
-	bgfx::TextureHandle load_texture(bx::AllocatorI& allocator, bx::FileReaderI& reader, const char* file_path, uint32_t flags, bgfx::TextureInfo* info, bimg::Orientation::Enum* orientation)
+	bgfx::TextureHandle load_bgfx_texture(bx::AllocatorI& allocator, bx::FileReaderI& reader, const char* file_path, uint32_t flags, bgfx::TextureInfo* info, bimg::Orientation::Enum* orientation)
 	{
 		bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
 
@@ -74,10 +74,10 @@ namespace mud
 		if(orientation)
 			*orientation = image->m_orientation;
 
-		const bgfx::Memory* mem = bgfx::makeRef(image->m_data, image->m_size, release_image, image);
+		const bgfx::Memory* mem = bgfx::makeRef(image->m_data, image->m_size, release_bgfx_image, image);
 		BX_FREE(&allocator, data);
 
-		printf("INFO: Loaded image %s of size %s in memory\n", file_path, readable_size(image->m_size).c_str());
+		printf("INFO: Loaded image %s of size %s in memory\n", file_path, readable_file_size(image->m_size).c_str());
 
 		if(image->m_cubeMap)
 		{
@@ -104,7 +104,7 @@ namespace mud
 		return handle;
 	}
 
-	bimg::ImageContainer* load_image(bx::AllocatorI& allocator, bx::FileReaderI& _reader, const char* _filePath, bgfx::TextureFormat::Enum _dstFormat)
+	bimg::ImageContainer* load_bgfx_image(bx::AllocatorI& allocator, bx::FileReaderI& _reader, const char* _filePath, bgfx::TextureFormat::Enum _dstFormat)
 	{
 		uint32_t size = 0;
 		void* data = load_mem(&_reader, &allocator, _filePath, &size);
@@ -114,35 +114,21 @@ namespace mud
 	void load_texture(GfxSystem& gfx_system, Texture& texture, cstring path)
 	{
 		bgfx::TextureInfo texture_info;
-		texture.m_texture = load_texture(gfx_system.m_allocator, gfx_system.m_file_reader, path, 0U, &texture_info);
+		texture.m_texture = load_bgfx_texture(gfx_system.m_allocator, gfx_system.m_file_reader, path, 0U, &texture_info);
 		texture.m_width = texture_info.width;
 		texture.m_height = texture_info.height;
 	}
 
-	Texture::Texture(GfxSystem& gfx_system, cstring name)
-		: m_name(name)
+	void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, array<uint8_t> data)
 	{
-		carray<cstring, 1> exts = { "" };
-		cstring path = gfx_system.locate_file(("textures/" + string(name)).c_str(), exts);
-		load_texture(gfx_system, *this, (string(path) + "textures/" + name).c_str());
-	}
-
-	Texture::Texture(GfxSystem& gfx_system, cstring path, cstring name)
-		: m_name(name)
-	{
-		load_texture(gfx_system, *this, (string(path) + name).c_str());
-	}
-
-	Texture::Texture(GfxSystem& gfx_system, cstring name, uint16_t width, uint16_t height, array<uint8_t> data)
-		: m_name(name)
-		, m_width(width)
-		, m_height(height)
-	{
-		UNUSED(gfx_system);
 		const bgfx::Memory* memory = bgfx::alloc(sizeof(uint8_t) * data.m_count);
 		std::copy(data.m_pointer, data.m_pointer + data.m_count, memory->data);
-		m_texture = bgfx::createTexture2D(width, height, false, 1, bgfx::TextureFormat::RGBA8, GFX_TEXTURE_POINT, memory);
+		texture.m_texture = bgfx::createTexture2D(width, height, false, 1, bgfx::TextureFormat::RGBA8, GFX_TEXTURE_POINT, memory);
 	}
+
+	Texture::Texture(cstring name)
+		: m_name(name)
+	{}
 
 	Texture::~Texture()
 	{}

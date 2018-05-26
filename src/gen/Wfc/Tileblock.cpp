@@ -10,9 +10,11 @@
 #include <gfx/Scene.h>
 #include <gfx/Item.h>
 #include <gfx/Mesh.h>
+#include <gfx/Model.h>
+#include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Gfx.h>
-#include <gfx/Widget/Viewer.h>
+#include <edit/Viewer/Viewer.h>
 
 namespace mud
 {
@@ -146,8 +148,8 @@ namespace mud
 					if(tile.m_name == "empty")
 						continue;
 
-					Model& model = self.m_scene->m_gfx_system.fetch_model((tileblock.m_tileset.m_name + "/" + tile.m_name).c_str());
-					visu.m_tiles[&model].push_back({ &model, vec3{ float(x) + 0.5f, float(y), float(z) + 0.5f }, vec3{ 0.f, -tile.m_profile * M_PI / 2.f, 0.f } });
+					Model* model = self.m_scene->m_gfx_system.models().file((tileblock.m_tileset.m_name + "/" + tile.m_name).c_str());
+					visu.m_tiles[model].push_back({ model, vec3{ float(x) + 0.5f, float(y), float(z) + 0.5f }, vec3{ 0.f, -tile.m_profile * M_PI / 2.f, 0.f } });
 				}
 			}
 		}
@@ -238,7 +240,7 @@ namespace mud
 		{
 			for(Tile& tile : tileset.m_tiles_flip)
 			{
-				state.models.push_back(&state.m_gfx_system.fetch_model(tile.m_name.c_str()));
+				state.models.push_back(state.m_gfx_system.models().file(tile.m_name.c_str()));
 				state.rotations.push_back(angle_axis(float(M_PI) / 4.f - tile.m_profile * float(M_PI) / 2.f, Y3));
 			}
 		};
@@ -261,7 +263,7 @@ namespace mud
 				if(tileblock.m_wave.m_wave.at(coord.x, coord.y, coord.z)[t])
 				{
 					Tile tile = tileblock.m_tileset.m_tiles_flip[t];
-					state.models.push_back(&state.m_gfx_system.fetch_model(tile.m_name.c_str()));
+					state.models.push_back(state.m_gfx_system.models().file(tile.m_name.c_str()));
 					state.rotations.push_back(angle_axis(float(M_PI) / 4.f - tile.m_profile * float(M_PI) / 2.f, Y3));
 				}
 		};

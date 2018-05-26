@@ -1030,7 +1030,7 @@ namespace ui
 		//self.m_frame.m_content = self.m_text.compute_text_size();
 		//self.m_frame.mark_dirty(DIRTY_LAYOUT);
 
-		self.m_custom_draw = [&](const Frame& frame, VgRenderer& renderer) { UNUSED(frame); self.render(renderer); };
+		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, VgRenderer& renderer) { UNUSED(frame); UNUSED(rect); self.render(renderer); };
 
 		return self;
 	}
@@ -1049,7 +1049,7 @@ namespace ui
 
 		static size_t current = 0;
 
-		bool selected = ui::popdown(edit, completions, current, popup_position, PopupNone); //auto_complete_style
+		bool selected = ui::popdown(edit, completions, current, popup_position, PopupFlags::None); //auto_complete_style
 
 		if(edit.key_event(KC_UP))
 			current = max(current - 1, size_t(0));

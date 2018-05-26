@@ -101,6 +101,8 @@ namespace mud
 		uint8_t m_render_pass;
 	};
 
+	struct RenderFilters;
+
 	struct MUD_GFX_EXPORT Render : public NonCopy
 	{
 		Render(Viewport& viewport, RenderTarget& target, RenderFrame& frame);
@@ -123,8 +125,8 @@ namespace mud
 		bool m_is_mrt = false;
 		bool m_needs_depth_prepass = false;
 
-		ShadowAtlas* m_shadow_atlas = nullptr;
-		ReflectionAtlas* m_reflection_atlas = nullptr;
+		//ShadowAtlas* m_shadow_atlas = nullptr;
+		//ReflectionAtlas* m_reflection_atlas = nullptr;
 
 		uint8_t m_preprocess_view_index = s_preprocess_pass_id;
 		uint8_t m_pass_index = s_render_pass_id;

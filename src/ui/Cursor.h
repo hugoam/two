@@ -25,7 +25,7 @@ namespace ui
 	MUD_UI_EXPORT _func_ Widget* tooltip(Widget& parent, const vec2& position, array<cstring> elements);
 
 	MUD_UI_EXPORT Widget* tooltip(Widget& parent, const Frame& parent_frame);
-	MUD_UI_EXPORT Widget* tooltip(Widget& parent, const Frame& parent_frame, cstring elements);
+	MUD_UI_EXPORT Widget* tooltip(Widget& parent, const Frame& parent_frame, cstring content);
 	MUD_UI_EXPORT Widget* tooltip(Widget& parent, const Frame& parent_frame, array<cstring> elements);
 
 	MUD_UI_EXPORT Widget& cursor(Widget& parent, const vec2& position, Style& style, bool locked = false);

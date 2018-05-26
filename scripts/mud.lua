@@ -100,7 +100,7 @@ function mud_binary(name)
     
     defines { "_" .. name:upper() .. "_EXE" }
         
-    configuration { "context-glfw" }
+    configuration { "context-glfw", "not asmjs" }
         links {
             "glfw",
         }
@@ -162,4 +162,8 @@ function mud_shell(name)
     }
 end
 
-dofile(path.join(MUD_DIR, "scripts/mud_gfx.lua"))
+if _OPTIONS["renderer-gl"] then
+    dofile(path.join(MUD_DIR, "scripts/mud_gl.lua"))
+elseif _OPTIONS["renderer-bgfx"] then
+    dofile(path.join(MUD_DIR, "scripts/mud_gfx.lua"))
+end

@@ -27,7 +27,7 @@ namespace std {
 namespace mud {
 namespace ui {
 
-    enum PopupFlags : unsigned int;
+    enum class PopupFlags : unsigned int;
     
     
     struct DropdownStyles;
@@ -47,6 +47,7 @@ namespace ui {
     struct ScrollbarStyles;
     struct WindowStyles;
     struct FileStyles;
+    class Sequence;
 }
 }
 
@@ -74,6 +75,7 @@ namespace mud {
     enum class CodePalette : unsigned char;
     enum class TextFocusMode : unsigned int;
     enum WindowState : unsigned int;
+    enum class DropState : unsigned int;
     
     template <class T> struct Dim2;
     
@@ -112,7 +114,7 @@ namespace mud {
     class TableSolver;
     class LineSolver;
     class GridSolver;
-    class UiRenderTarget;
+    class UiTarget;
     class VgRenderer;
     class ScrollSheet;
     class Tabber;
@@ -129,6 +131,7 @@ namespace mud {
     class Node;
     struct CanvasConnect;
     class Canvas;
+    struct DropAction;
     class RootSheet;
     class Window;
     struct ImageSkin;

@@ -222,6 +222,11 @@ namespace mud
 #endif
 	}
 
+	void GlfwContext::reset(uint16_t width, uint16_t height)
+	{
+		UNUSED(width); UNUSED(height);
+	}
+
 	bool GlfwContext::next_frame()
 	{
 		this->update_size();
@@ -302,23 +307,3 @@ namespace mud
 	}
 
 }
-#ifdef MUD_RENDERER_GL
-#include <ui/Backend/Gl/GlRenderer.h>
-
-namespace mud
-{
-	GlfwRenderSystem::GlfwRenderSystem(const string& resourcePath)
-		: RenderSystem(resourcePath, true)
-	{}
-
-	object_ptr<Context> GlfwRenderSystem::createContext(const string& name, int width, int height, bool fullScreen)
-	{
-		return make_object<GlfwContext>(*this, name, width, height, fullScreen, true);
-	}
-
-	object_ptr<Renderer> GlfwRenderSystem::createRenderer(Context& context)
-	{
-		return make_object<GlRenderer>(m_resource_path, true);
-	}
-}
-#endif

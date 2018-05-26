@@ -160,6 +160,7 @@ namespace mud
 		//m_context->m_input_window->resize(width, height);
 		m_context->reset(width, height);
 
+		printf("UiWindow :: resize %i, %i\n", int(width), int(height));
 		m_root_sheet->m_frame.set_size({ m_width, m_height });
 	}
 

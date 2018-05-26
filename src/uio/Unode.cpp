@@ -38,7 +38,7 @@ namespace mud
 
 	void object_context(Widget& parent, Ref object)
 	{
-		Widget& self = ui::popup(parent, ui::PopupModal);
+		Widget& self = ui::popup(parent, ui::PopupFlags::Modal);
 		//if(!self.m_open)
 		//	self.close();
 

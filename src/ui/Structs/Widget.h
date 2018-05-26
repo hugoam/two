@@ -18,7 +18,7 @@
 
 namespace mud
 {
-	using CustomRenderer = std::function<void(const Frame&, VgRenderer&)>;
+	using CustomRenderer = std::function<void(const Frame&, const vec4&, VgRenderer&)>;
 
 	using FrameFilter = std::function<bool(Frame&)>;
 
@@ -35,6 +35,7 @@ namespace mud
 		_attr_ bool hovered() { return (m_state & HOVERED) != 0; }
 		_attr_ bool pressed() { return (m_state & PRESSED) != 0; }
 		_attr_ bool activated() { return (m_state & ACTIVATED) != 0; }
+		_attr_ bool selected() { return (m_state & SELECTED) != 0; }
 		_attr_ bool modal() { return (m_state & FOCUSED) != 0; }
 		_attr_ bool closed() { return (m_state & CLOSED) != 0; }
 

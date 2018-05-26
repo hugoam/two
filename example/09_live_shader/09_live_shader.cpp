@@ -67,7 +67,7 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static string source = create_shader();
 
-	static Program program = { groot.m_scene->m_gfx_system, "custom_program", {}, carray<cstring, 2>{ source.c_str(), nullptr } };
+	static Program program = { "custom_program", {}, carray<cstring, 2>{ source.c_str(), nullptr } };
 	
 	//static Material material = { groot.m_scene->m_gfx_system, "custom_shader", program };
 	//material.m_pbr_block.m_enabled = true;

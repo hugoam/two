@@ -12,4 +12,6 @@ function mud_ctx_backend()
         links {
             "glfw",
         }
+        
+    configuration {}
 end

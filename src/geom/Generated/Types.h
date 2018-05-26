@@ -20,7 +20,7 @@ namespace mud
     template <> MUD_GEOM_EXPORT Type& type<mud::PrimitiveType>();
     template <> MUD_GEOM_EXPORT Type& type<mud::SymbolDetail>();
     template <> MUD_GEOM_EXPORT Type& type<std::vector<mud::Circle>>();
-    template <> MUD_GEOM_EXPORT Type& type<std::vector<mud::vec3>>();
+    //template <> MUD_GEOM_EXPORT Type& type<std::vector<mud::vec3>>();
     
     template <> MUD_GEOM_EXPORT Type& type<mud::Distribution>();
     template <> MUD_GEOM_EXPORT Type& type<mud::Face3>();
@@ -32,6 +32,7 @@ namespace mud
     template <> MUD_GEOM_EXPORT Type& type<mud::Shape>();
     template <> MUD_GEOM_EXPORT Type& type<mud::ShapeVar>();
     template <> MUD_GEOM_EXPORT Type& type<mud::Symbol>();
+    template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>();
     template <> MUD_GEOM_EXPORT Type& type<mud::Arc>();
     template <> MUD_GEOM_EXPORT Type& type<mud::Box>();
     template <> MUD_GEOM_EXPORT Type& type<mud::Capsule>();
@@ -52,6 +53,5 @@ namespace mud
     template <> MUD_GEOM_EXPORT Type& type<mud::SphereRing>();
     template <> MUD_GEOM_EXPORT Type& type<mud::Spheroid>();
     template <> MUD_GEOM_EXPORT Type& type<mud::Triangle>();
-    template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>();
     template <> MUD_GEOM_EXPORT Type& type<mud::Poisson>();
 }

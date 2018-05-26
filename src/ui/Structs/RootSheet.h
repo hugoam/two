@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <obj/Ref.h>
 #include <obj/Util/Timer.h>
 #include <ui/Generated/Forward.h>
 #include <ui/Structs/Widget.h>
@@ -12,6 +13,22 @@
 
 namespace mud
 {
+	enum class DropState : unsigned int
+	{
+		None,
+		Preview,
+		Done
+	};
+
+	struct DropAction
+	{
+		DropAction() {}
+		DropAction(Widget* target, Ref object, DropState state) : m_target(target), m_object(object), m_state(state) {}
+		Widget* m_target = nullptr;
+		Ref m_object = {};
+		DropState m_state = DropState::None;
+	};
+
 	class _refl_ MUD_UI_EXPORT RootSheet : public Widget, public EventDispatcher
 	{
 	public:
@@ -31,8 +48,9 @@ namespace mud
 
 		Style* m_cursor_style = nullptr;
 		Widget* m_hovered = nullptr;
+		DropAction m_drop = {};
 		Clock m_tooltip_clock;
 
-		object_ptr<UiRenderTarget> m_target;
+		object_ptr<UiTarget> m_target;
 	};
 }

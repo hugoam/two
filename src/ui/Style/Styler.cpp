@@ -169,13 +169,16 @@ namespace mud
 		, label("Label", item, [](Layout& l) { l.m_align = { LEFT, CENTER }; })
 		, title("Title", item, {})
 		, text("Text", item, [](Layout& l) { l.m_space = { PARAGRAPH, FIXED, WRAP }; },
-							 [](InkStyle& o) { o.m_text_wrap = true; })
+							 [](InkStyle& o) { o.m_text_break = true; })
 
 		, button("Button", control, {})
 		, wrap_button("WrapButton", wrap_control, {})
 		, multi_button("MultiButton", wrap_button, {})
 		, toggle("Toggle", control, {})
 		, checkbox("Checkbox", toggle, [](Layout& l) { l.m_align = { LEFT, CENTER }; }) // @todo why doesn't work ?? why u checkbox not aligned ??
+
+		, sequence("Sequence", wedge, [](Layout& l) { l.m_space = LAYOUT; })
+		, element("Element", wedge, [](Layout& l) { l.m_space = STACK; l.m_opacity = OPAQUE; })
 
 		, dummy("Dummy", wedge, [](Layout& l) { l.m_space = BLOCK; })
 		, tooltip("Tooltip", decal, [](Layout& l) { l.m_space = UNIT; l.m_zorder = -2; })

@@ -1,0 +1,105 @@
+//  Copyright (c) 2018 Hugo Amiard hugo.amiard@laposte.net
+//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
+//  This notice and the license may not be removed or altered from any source distribution.
+
+#pragma once
+
+#include <math/Vec.h>
+#include <math/Interp.h>
+#include <math/Generated/Forward.h>
+
+#include <vector>
+
+namespace mud
+{
+	enum class _refl_ TrackMode : unsigned int
+	{
+		Constant,
+		ConstantRandom,
+		Curve,
+		CurveRandom
+	};
+
+	template <class T>
+	struct _refl_ _struct_ ValueCurve
+	{
+		_constr_ ValueCurve() {}
+		_constr_ ValueCurve(std::vector<T> keys) : m_keys(keys) {}
+		ValueCurve(T value) : m_keys(1, value) {}
+
+		T sample_constant()
+		{
+			return m_keys[0];
+		}
+
+		T sample_curve(float t)
+		{
+			//bx::EaseFn ease = bx::getEaseFunc(m_ease);
+			//const float tt = bx::clamp(ease(t), 0.f, 1.f);
+
+			uint32_t key = uint32_t(t * (m_keys.size() - 1));
+			float interval = 1.f / float(m_keys.size() - 1);
+			float ttmod = fmod(t, interval) / interval;
+
+			return mud::lerp(m_keys[key], m_keys[key + 1], ttmod);
+		}
+
+		_attr_ _mut_ std::vector<T> m_keys;
+	};
+
+	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<vec3>;
+	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<quat>;
+	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<float>;
+	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<uint32_t>;
+	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<Colour>;
+
+	template <class T>
+	struct _refl_ _struct_ ValueTrack
+	{
+		_constr_ ValueTrack() {}
+		_constr_ ValueTrack(TrackMode mode, ValueCurve<T> curve, ValueCurve<T> min_curve, ValueCurve<T> max_curve) : m_mode(mode), m_curve(curve), m_min_curve(min_curve), m_max_curve(max_curve) {}
+		ValueTrack(T value) : m_mode(TrackMode::Constant), m_curve(value) {}
+		ValueTrack(T min, T max) : m_mode(TrackMode::ConstantRandom), m_min_curve(min), m_max_curve(max) {}
+		ValueTrack(std::vector<T> values) : m_mode(TrackMode::Curve), m_curve(values) {}
+		ValueTrack(std::vector<T> min_values, std::vector<T> max_values) : m_mode(TrackMode::CurveRandom), m_min_curve(min_values), m_max_curve(max_values) {}
+
+		void set_mode(TrackMode mode)
+		{
+			if(mode == TrackMode::Constant)
+				*this = ValueTrack<T>(T());
+			else if(mode == TrackMode::ConstantRandom)
+				*this = ValueTrack<T>(T(), T());
+			else if(mode == TrackMode::Curve)
+				*this = ValueTrack<T>(std::vector<T>(2, T()));
+			else if(mode == TrackMode::CurveRandom)
+				*this = ValueTrack<T>(std::vector<T>(2, T()), std::vector<T>(2, T()));
+		}
+
+		T sample(float t, float seed = 0.f)
+		{
+			if(m_mode == TrackMode::Constant)
+				return m_curve.sample_constant();
+			else if(m_mode == TrackMode::ConstantRandom)
+				return mud::lerp(m_min_curve.sample_constant(), m_max_curve.sample_constant(), seed);
+			else if(m_mode == TrackMode::Curve)
+				return m_curve.sample_curve(t);
+			else //if(m_mode == TrackMode::CurveRandom)
+				return mud::lerp(m_min_curve.sample_curve(t), m_max_curve.sample_curve(t), seed);
+		}
+
+		_attr_ _mut_ TrackMode m_mode;
+		_attr_ _mut_ ValueCurve<T> m_curve;
+		_attr_ _mut_ ValueCurve<T> m_min_curve;
+		_attr_ _mut_ ValueCurve<T> m_max_curve;
+
+#ifndef MUD_GENERATOR_SKIP_INCLUDES
+		//bx::Easing::Enum m_ease = bx::Easing::Linear;
+#endif
+	};
+
+	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<vec3>;
+	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<quat>;
+	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<float>;
+	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<uint32_t>;
+	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<Colour>;
+}

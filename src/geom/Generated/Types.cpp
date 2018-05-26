@@ -12,7 +12,7 @@ namespace mud
     template <> MUD_GEOM_EXPORT Type& type<mud::PrimitiveType>() { static Type ty("mud::PrimitiveType"); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::SymbolDetail>() { static Type ty("mud::SymbolDetail"); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<std::vector<mud::Circle>>() { static Type ty("std::vector<mud::Circle>"); return ty; }
-    template <> MUD_GEOM_EXPORT Type& type<std::vector<mud::vec3>>() { static Type ty("std::vector<mud::vec3>"); return ty; }
+    //template <> MUD_GEOM_EXPORT Type& type<std::vector<mud::vec3>>() { static Type ty("std::vector<mud::vec3>"); return ty; }
     
     template <> MUD_GEOM_EXPORT Type& type<mud::Distribution>() { static Type ty("Distribution"); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Face3>() { static Type ty("Face3"); return ty; }
@@ -24,6 +24,7 @@ namespace mud
     template <> MUD_GEOM_EXPORT Type& type<mud::Shape>() { static Type ty("Shape"); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::ShapeVar>() { static Type ty("ShapeVar"); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Symbol>() { static Type ty("Symbol"); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>() { static Type ty("Aabb", type<mud::Cube>()); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Arc>() { static Type ty("Arc", type<mud::Shape>()); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Box>() { static Type ty("Box", type<mud::Shape>()); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Capsule>() { static Type ty("Capsule", type<mud::Shape>()); return ty; }
@@ -44,6 +45,5 @@ namespace mud
     template <> MUD_GEOM_EXPORT Type& type<mud::SphereRing>() { static Type ty("SphereRing", type<mud::Shape>()); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Spheroid>() { static Type ty("Spheroid", type<mud::Shape>()); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Triangle>() { static Type ty("Triangle", type<mud::Shape>()); return ty; }
-    template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>() { static Type ty("Aabb", type<mud::Cube>()); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Poisson>() { static Type ty("Poisson", type<mud::Distribution>()); return ty; }
 }

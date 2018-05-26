@@ -6,6 +6,7 @@
 		"math/Axis.h",
 		"math/Clamp.h",
 		"math/Colour.h",
+		"math/Curve.h",
 		"math/Grid.h",
 		"math/Image.h",
 		"math/Interp.h",

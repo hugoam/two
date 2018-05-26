@@ -36,13 +36,13 @@ namespace mud
 					  colour.m_a);
 	}
 
-	UiRenderTarget::UiRenderTarget(VgRenderer& renderer, Layer& layer, bool gammaCorrected)
+	UiTarget::UiTarget(VgRenderer& renderer, Layer& layer, bool gammaCorrected)
 		: m_renderer(renderer)
 		, m_layer(layer)
 		, m_gammaCorrected(gammaCorrected)
 	{}
 
-	void UiRenderTarget::render()
+	void UiTarget::render()
 	{
 		m_renderer.render(*this);
 	}
@@ -58,8 +58,8 @@ namespace mud
 		bool m_debug_flip_rect = false;
 	};
 
-	VgRenderer::VgRenderer(cstring resourcePath)
-		: m_resource_path(resourcePath)
+	VgRenderer::VgRenderer(cstring resource_path)
+		: m_resource_path(resource_path)
 		, m_impl(make_unique<Impl>())
 	{
 		Frame::s_renderer = this;
@@ -82,7 +82,7 @@ namespace mud
 		return m_impl->m_font_sources[string(font)].c_str();
 	}
 
-	void VgRenderer::render(UiRenderTarget& target)
+	void VgRenderer::render(UiTarget& target)
 	{
 		this->log_FPS();
 
@@ -213,11 +213,16 @@ namespace mud
 			return;
 
 		if(frame.d_widget.m_custom_draw)
-			return frame.d_widget.m_custom_draw(frame, *this);
+			return frame.d_widget.m_custom_draw(frame, rect, *this);
 
 		if(frame.d_inkstyle->m_custom_draw)
-			return frame.d_inkstyle->m_custom_draw(frame, *this);
+			return frame.d_inkstyle->m_custom_draw(frame, rect, *this);
+	
+		this->draw_frame(frame, rect);
+	}
 
+	void VgRenderer::draw_frame(const Frame& frame, const vec4& rect)
+	{
 		vec4 padded_rect = { floor(rect_offset(frame.d_inkstyle->m_padding)),
 							 floor(frame.m_size - rect_sum(frame.d_inkstyle->m_padding)) };
 

@@ -17,7 +17,7 @@ namespace mud
 {
 	using string = std::string;
 
-	using CustomRenderer = std::function<void(const Frame&, VgRenderer&)>;
+	using CustomRenderer = std::function<void(const Frame&, const vec4&, VgRenderer&)>;
 
 	struct _refl_ MUD_UI_EXPORT InkStyle
 	{
@@ -42,7 +42,7 @@ namespace mud
 		_attr_ _mut_ Colour m_text_colour = Colour::None;
 		_attr_ _mut_ string m_text_font = "dejavu";
 		_attr_ _mut_ float m_text_size = 14.f;
-		_attr_ _mut_ bool m_text_break = true;
+		_attr_ _mut_ bool m_text_break = false;
 		_attr_ _mut_ bool m_text_wrap = false;
 		_attr_ _mut_ vec4 m_border_width = vec4(0.f);
 		_attr_ _mut_ vec4 m_corner_radius = vec4(0.f);

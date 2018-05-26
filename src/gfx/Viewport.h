@@ -27,8 +27,11 @@ namespace mud
 	{
 		Wireframe,
 		Unshaded,
-		Shaded
+		Shaded,
+		Clear
 	};
+
+	struct RenderFilters;
 
 	class _refl_ MUD_GFX_EXPORT Viewport
 	{
@@ -43,7 +46,7 @@ namespace mud
 		_attr_ _mut_ bool m_scissor = false;
 		_attr_ _mut_ Colour m_clear_colour = Colour::Black;
 		_attr_ _mut_ Shading m_shading = Shading::Shaded;
-		_attr_ _mut_ RenderFilters* m_filters = nullptr;
+		/*_attr_ _mut_*/ RenderFilters* m_filters = nullptr;
 
 		std::function<uvec4()> m_get_size;
 		std::function<void(Render&)> m_render;

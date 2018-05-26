@@ -5,7 +5,7 @@ using namespace mud;
 
 Material& milky_white(GfxSystem& gfx_system, const string& name)
 {
-	Material& mat = gfx_system.create_material(name.c_str(), "pbr/pbr");
+	Material& mat = gfx_system.fetch_material(name.c_str(), "pbr/pbr");
 	PbrMaterialBlock& pbr = mat.m_pbr_block;
 	pbr.m_enabled = true;
 	pbr.m_albedo.m_value = Colour::White;
@@ -17,7 +17,7 @@ Material& milky_white(GfxSystem& gfx_system, const string& name)
 
 Material& mirror(GfxSystem& gfx_system)
 {
-	Material& mat = gfx_system.create_material("mirror", "pbr/pbr");
+	Material& mat = gfx_system.fetch_material("mirror", "pbr/pbr");
 	PbrMaterialBlock& pbr = mat.m_pbr_block;
 	pbr.m_enabled = true;
 	pbr.m_albedo.m_value = Colour::White;
@@ -30,21 +30,21 @@ Material& material(GfxSystem& gfx_system, const string& name)
 {
 	static carray<cstring, 1> exts = { ".jpg" };
 
-	Material& mat = gfx_system.create_material(name.c_str(), "pbr/pbr");
+	Material& mat = gfx_system.fetch_material(name.c_str(), "pbr/pbr");
 	PbrMaterialBlock& pbr = mat.m_pbr_block;
 
 	pbr.m_enabled = true;
-	pbr.m_albedo.m_texture = &gfx_system.get_texture((name + "/" + name + "_col.jpg").c_str());
-	pbr.m_normal.m_texture = &gfx_system.get_texture((name + "/" + name + "_nrm.jpg").c_str());
-	pbr.m_roughness.m_texture = &gfx_system.get_texture((name + "/" + name + "_rgh.jpg").c_str());
+	pbr.m_albedo.m_texture = gfx_system.textures().file((name + "/" + name + "_col.jpg").c_str());
+	pbr.m_normal.m_texture = gfx_system.textures().file((name + "/" + name + "_nrm.jpg").c_str());
+	pbr.m_roughness.m_texture = gfx_system.textures().file((name + "/" + name + "_rgh.jpg").c_str());
 
-	if(gfx_system.locate_file(("textures/" + name + "/" + name + "_AO").c_str(), exts) != nullptr)
-		pbr.m_ambient_occlusion.m_texture = &gfx_system.get_texture((name + "/" + name + "_AO.jpg").c_str());
-	if(gfx_system.locate_file(("textures/" + name + "/" + name + "_disp").c_str(), exts) != nullptr)
-		pbr.m_depth.m_texture = &gfx_system.get_texture((name + "/" + name + "_disp.jpg").c_str());
-	if(gfx_system.locate_file(("textures/" + name + "/" + name + "_met").c_str(), exts) != nullptr)
+	if(gfx_system.locate_file(("textures/" + name + "/" + name + "_AO").c_str(), exts).m_location != nullptr)
+		pbr.m_ambient_occlusion.m_texture = gfx_system.textures().file((name + "/" + name + "_AO.jpg").c_str());
+	if(gfx_system.locate_file(("textures/" + name + "/" + name + "_disp").c_str(), exts).m_location != nullptr)
+		pbr.m_depth.m_texture = gfx_system.textures().file((name + "/" + name + "_disp.jpg").c_str());
+	if(gfx_system.locate_file(("textures/" + name + "/" + name + "_met").c_str(), exts).m_location != nullptr)
 	{
-		pbr.m_metallic.m_texture = &gfx_system.get_texture((name + "/" + name + "_met.jpg").c_str());
+		pbr.m_metallic.m_texture = gfx_system.textures().file((name + "/" + name + "_met.jpg").c_str());
 		pbr.m_metallic.m_value = 1.f;
 	}
 
@@ -99,7 +99,7 @@ Material& wood_floor_05(GfxSystem& gfx_system)
 
 Material& roughness_material(GfxSystem& gfx_system, const string& name, Colour albedo, float metallic, float roughness)
 {
-	Material& mat = gfx_system.create_material(name.c_str(), "pbr/pbr");
+	Material& mat = gfx_system.fetch_material(name.c_str(), "pbr/pbr");
 	PbrMaterialBlock& pbr = mat.m_pbr_block;
 	pbr.m_enabled = true;
 	pbr.m_albedo.m_value = albedo;

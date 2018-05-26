@@ -1,0 +1,31 @@
+
+#pragma once
+
+#include <obj/System/System.h>
+
+#include <obj/Generated/Module.h>
+#include <math/Generated/Module.h>
+#include <geom/Generated/Module.h>
+#include <gfx/Generated/Module.h>
+        
+#include <gfx-obj/Generated/Forward.h>
+#include <gfx-obj/Generated/Types.h>
+
+#include <gfx-obj/ImporterObj.h>
+
+namespace mud
+{
+	class MUD_GFX_OBJ_EXPORT mudgfxobj : public Module
+	{
+	private:
+		mudgfxobj();
+
+	public:
+		static mudgfxobj& module() { static mudgfxobj instance; return instance; }
+	};
+}
+
+#ifdef MUD_GFXOBJ_MODULE
+extern "C"
+MUD_GFX_OBJ_EXPORT Module& getModule();
+#endif

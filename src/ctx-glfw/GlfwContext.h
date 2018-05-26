@@ -25,6 +25,7 @@ namespace mud
 
 		void init_context();
 		virtual void init_input(Mouse& mouse, Keyboard& keyboard) final;
+		virtual void reset(uint16_t width, uint16_t height) override;
 
 		virtual bool next_frame() final;
 
@@ -42,16 +43,5 @@ namespace mud
 		Mouse* m_mouse = nullptr;
 		Keyboard* m_keyboard = nullptr;
 	};
-
-#ifdef MUD_RENDERER_GL
-	class GlfwRenderSystem : public RenderSystem
-	{
-	public:
-		GlfwRenderSystem(const string& resourcePath);
-
-		virtual object_ptr<Context> createContext(const string& name, int width, int height, bool fullScreen);
-		virtual object_ptr<Renderer> createRenderer(Context& context);
-	};
-#endif
 }
 

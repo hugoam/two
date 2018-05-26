@@ -4,8 +4,11 @@
 	"sources": [
 		"gfx/Animated.h",
 		"gfx/Animation.h",
+		"gfx/Asset.h",
+		"gfx/Asset.impl.h",
 		"gfx/Camera.h",
 		"gfx/Draw.h",
+		"gfx/Effects.h",
 		"gfx/Filter.h",
 		"gfx/Frustum.h",
 		"gfx/Generator.h",
@@ -17,6 +20,7 @@
 		"gfx/ManualRender.h",
 		"gfx/Material.h",
 		"gfx/Mesh.h",
+		"gfx/Model.h",
 		"gfx/Node3.h",
 		"gfx/Particles.h",
 		"gfx/Picker.h",
@@ -32,29 +36,7 @@
 		"gfx/Texture.h",
 		"gfx/Uniform.h",
 		"gfx/Viewport.h",
-		"gfx/Blocks/Depth.h",
-		"gfx/Blocks/Light.h",
-		"gfx/Blocks/Particles.h",
-		"gfx/Blocks/Radiance.h",
-		"gfx/Blocks/Reflection.h",
-		"gfx/Blocks/ReflectionAtlas.h",
-		"gfx/Blocks/Shadow.h",
-		"gfx/Blocks/ShadowAtlas.h",
-		"gfx/Blocks/ShadowCSM.h",
-		"gfx/Blocks/Sky.h",
-		"gfx/Filters/Blur.h",
-		"gfx/Filters/DofBlur.h",
-		"gfx/Filters/EffectBlock.h",
-		"gfx/Filters/Glow.h",
-		"gfx/Filters/Tonemap.h",
-		"gfx/Import/ImporterGltf.h",
-		"gfx/Import/ImporterObj.h",
-		"gfx/Ui/GfxEdit.h",
-		"gfx/Ui/ParticleEdit.h",
-		"gfx/Ui/PrefabEdit.h",
-		"gfx/Widget/SpaceSheet.h",
-		"gfx/Widget/SpaceViewer.h",
-		"gfx/Widget/Viewer.h"
+		"gfx/Blocks/Sky.h"
 	],
 	"include_paths": [
 		""
@@ -62,8 +44,7 @@
 	"includes_map": {
 		"obj/": "mudobj.h",
 		"math/": "mudmath.h",
-		"geom/": "mudgeom.h",
-		"ui/": "mudui.h"
+		"geom/": "mudgeom.h"
 	},
 	"ignore": [
 		"Generated"

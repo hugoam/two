@@ -13,7 +13,13 @@
 		"edit/Tools/ScaleTool.h",
 		"edit/Tools/TranslateTool.h",
 		"edit/Tools/ViewTool.h",
-		"edit/Tools/WorkPlaneTool.h"
+		"edit/Tools/WorkPlaneTool.h",
+		"edit/Ui/GfxEdit.h",
+		"edit/Ui/ParticleEdit.h",
+		"edit/Ui/PrefabEdit.h",
+		"edit/Viewer/SpaceSheet.h",
+		"edit/Viewer/SpaceViewer.h",
+		"edit/Viewer/Viewer.h"
 	],
 	"include_paths": [
 		""
@@ -25,7 +31,8 @@
 		"lang/": "mudlang.h",
 		"ui/": "mudui.h",
 		"uio/": "muduio.h",
-		"gfx/": "mudgfx.h"
+		"gfx/": "mudgfx.h",
+		"gfxpbr/": "mudgfxpbr.h"
 	},
 	"ignore": [
 		"Generated"

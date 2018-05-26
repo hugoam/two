@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <obj/Ref.h>
 #include <math/Vec.h>
 #include <ui/Generated/Forward.h>
 #include <ui/Style/Style.h>
@@ -39,18 +40,23 @@ namespace ui
 
 	MUD_UI_EXPORT ToolbarStyles& toolbar_styles();
 
-	enum PopupFlags : unsigned int
+	enum class PopupFlags : unsigned int
 	{
-		PopupNone = 0,
-		PopupModal = (1 << 0),
-		PopupClamp = (1 << 1)
+		None = 0,
+		Modal = (1 << 0),
+		Clamp = (1 << 1)
 	};
+
+	inline bool popup_flag(PopupFlags flags, PopupFlags check) { return (uint(flags) & uint(check)) != 0; }
 
 	MUD_UI_EXPORT _func_ Widget& spacer(Widget& parent);
 
 	MUD_UI_EXPORT _func_ Widget& icon(Widget& parent, cstring icon);
 	MUD_UI_EXPORT _func_ Widget& label(Widget& parent, cstring label);
 	MUD_UI_EXPORT _func_ Widget& text(Widget& parent, cstring label);
+
+	MUD_UI_EXPORT void button_logic(Widget& self);
+	MUD_UI_EXPORT void toggle_logic(Widget& self, bool& on);
 
 	MUD_UI_EXPORT Widget& button(Widget& parent, Style& style, cstring content = nullptr);
 	MUD_UI_EXPORT Widget& multi_button(Widget& parent, Style& style, array<cstring> elements, Style* element_style = nullptr);

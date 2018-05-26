@@ -202,6 +202,10 @@ if not _OPTIONS["context-native"] and not _OPTIONS["context-glfw"] and not _OPTI
     end
 end
 
+if _OPTIONS["renderer-gl"] then
+    _OPTIONS["vg-nanovg"] = ""
+end
+
 if not _OPTIONS["vg-vg"] and not _OPTIONS["vg-nanovg"] then
     _OPTIONS["vg-vg"] = ""
 end
@@ -270,3 +274,16 @@ MUD_NANOVG_DIR = path.join(MUD_3RDPARTY_DIR, "nanovg-layers")
 
 function copyLib()
 end
+
+configuration { "windows"}
+    libdirs {
+        "C:/Program Files (x86)/GLEW/lib/Release/Win32",
+        "C:/Program Files/GLEW/lib/Release/Win32",
+    }
+    
+    includedirs {
+        "C:/Program Files (x86)/GLEW/include",
+        "C:/Program Files/GLEW/include",
+    }
+    
+configuration {} 

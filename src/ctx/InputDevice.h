@@ -48,17 +48,15 @@ namespace mud
 	public:
 		MouseButton(Mouse& mouse, DeviceType deviceType);
 
-		void moved(MouseEvent& mouse_event);
 		void pressed(vec2 pos);
 		void pressed(vec2 pos, InputModifier modifiers);
 		void released(vec2 pos);
 
 		void drag_start(MouseEvent& mouse_event);
 		void drag_end(MouseEvent& mouse_event);
-		void drag_move(MouseEvent& mouse_event);
+		void drag(MouseEvent& mouse_event);
 		void click(MouseEvent& mouse_event);
 
-	protected:
 		Mouse& m_mouse;
 		DeviceType m_deviceType;
 
@@ -74,7 +72,7 @@ namespace mud
 		Mouse(EventDispatcher& dispatcher, Keyboard& keyboard);
 
 		MouseEvent& dispatch_event(MouseEvent evt);
-		MouseEvent& dispatch_secondary(MouseEvent evt, ControlNode* pressed, vec2 pressed_pos);
+		MouseEvent& dispatch_secondary(MouseEvent evt, ControlNode* pressed, vec2 pressed_pos, ControlNode* target = nullptr);
 
 		MouseEvent& heartbeat();
 		void moved(vec2 pos);
@@ -82,6 +80,7 @@ namespace mud
 
 	public:
 		Keyboard& m_keyboard;
+		vec2 m_pos;
 		vec2 m_last_pos;
 		std::array<MouseButton, 3> m_buttons;
 

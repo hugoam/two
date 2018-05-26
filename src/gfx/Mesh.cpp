@@ -5,13 +5,8 @@
 
 #include <gfx/Mesh.h>
 
-#include <geom/Shape/ProcShape.h>
 #include <obj/Vector.h>
-
 #include <gfx/Node3.h>
-#include <gfx/Skeleton.h>
-
-#include <bgfx/bgfx.h>
 
 namespace mud
 {
@@ -48,13 +43,11 @@ namespace mud
 		return decl;
 	}
 
-	static uint16_t meshIndex = 0;
-	static uint16_t modelIndex = 0;
+	static uint16_t s_mesh_index = 0;
 
-	Mesh::Mesh(GfxSystem& gfx_system, cstring name, bool readback)
-		: m_gfx_system(gfx_system)
-		, m_name(name)
-		, m_index(++meshIndex)
+	Mesh::Mesh(cstring name, bool readback)
+		: m_name(name)
+		, m_index(++s_mesh_index)
 		, m_readback(readback)
 		//, m_material(&gfx_system.debug_material())
 		, m_material(nullptr)
@@ -116,6 +109,8 @@ namespace mud
 		for(const ShapeVertex& vertex : gpu_mesh.m_vertices)
 			m_radius = max(length(vertex.m_position - m_aabb.m_center), m_radius);
 
+		m_origin = m_aabb.m_center;
+
 		if(m_readback)
 			this->conserve(gpu_mesh);
 	}
@@ -139,33 +134,5 @@ namespace mud
 		bgfx::setVertexBuffer(0, m_vertex_buffer);
 		bgfx::setIndexBuffer(m_index_buffer);
 		return m_draw_mode == PLAIN ? 0 : (BGFX_STATE_PT_LINES | BGFX_STATE_LINEAA);
-	}
-
-	Model::Model(GfxSystem& gfx_system, cstring id)
-		: m_gfx_system(gfx_system)
-		, m_name(id)
-		, m_index(++modelIndex)
-	{}
-
-	Model::~Model()
-	{}
-
-	Mesh& Model::add_mesh(cstring name, bool readback)
-	{
-		m_meshes.emplace_back(m_gfx_system, name, readback);
-		return m_meshes.back();
-	}
-
-	void Model::prepare()
-	{
-		m_aabb = { Zero3, Zero3 };
-		m_radius = 0.f;
-
-		for(Mesh& mesh : m_meshes)
-		{
-			m_geometry[mesh.m_draw_mode] = true;
-			m_aabb.merge(mesh.m_aabb);
-			m_radius = max(mesh.m_radius, m_radius);
-		}
 	}
 }

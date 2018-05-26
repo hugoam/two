@@ -48,7 +48,7 @@ namespace mud
 		mem->data[mem->size - 1] = '\0';
 		return mem;
 	}
-	
+
 	bgfx::ProgramHandle load_program(bx::FileReaderI& reader, const string& shader_path)
 	{
 		const string vs_path = shader_path + "_vs";
@@ -72,7 +72,7 @@ namespace mud
 	{
 		string defines = defines_in;
 		bool is_opengl = bgfx::getRendererType() == bgfx::RendererType::OpenGLES
-					  || bgfx::getRendererType() == bgfx::RendererType::OpenGL;
+			|| bgfx::getRendererType() == bgfx::RendererType::OpenGL;
 
 		string source_suffix = shader_type == ShaderType::Vertex ? "_vs.sc" : "_fs.sc";
 		string source_path = string(gfx_system.m_resource_path) + "shaders/" + name + source_suffix;
@@ -169,24 +169,24 @@ namespace mud
 		std::vector<ShaderDefine> m_defines;
 	};
 
-	Program::Program(GfxSystem& gfx_system, cstring name, array<GfxBlock*> blocks)
-		: m_gfx_system(gfx_system)
-		, m_impl(make_unique<Impl>())
+	GfxSystem* Program::ms_gfx_system = nullptr;
+
+	Program::Program(cstring name)
+		: m_impl(make_unique<Impl>())
 	{
 		m_impl->m_name = name;
-		PbrBlock& pbr = pbr_block(gfx_system);
+		PbrBlock& pbr = pbr_block(*ms_gfx_system);
 
 		static cstring options[4] = { "SKELETON", "INSTANCING", "BILLBOARD", "MRT" };
 		this->register_options(0, { options, 4 });
 		this->register_options(pbr.m_index, pbr.m_shader_block->m_options);
-
-		for(GfxBlock* block : blocks)
-			this->register_block(*block);
 	}
 
-	Program::Program(GfxSystem& gfx_system, cstring name, array<GfxBlock*> blocks, array<cstring> sources)
-		: Program(gfx_system, name, blocks)
+	Program::Program(cstring name, array<GfxBlock*> blocks, array<cstring> sources)
+		: Program(name)
 	{
+		this->register_blocks(blocks);
+
 		for(ShaderType shader_type = ShaderType(0); shader_type != ShaderType::Count; shader_type = ShaderType(uint32_t(shader_type) + 1))
 			m_sources[size_t(shader_type)] = sources[size_t(shader_type)];
 	}
@@ -208,7 +208,7 @@ namespace mud
 	bgfx::ProgramHandle Program::version(const ShaderVersion& config)
 	{
 		uint64_t config_hash = config.hash();
-		
+
 		if(m_impl->m_versions.find(config_hash) == m_impl->m_versions.end() || m_impl->m_versions[config_hash].m_update < m_update)
 		{
 			string suffix = "_v" + to_string(config_hash);
@@ -227,15 +227,15 @@ namespace mud
 
 			bool compiled = true;
 #ifdef MUD_LIVE_SHADER_COMPILER
-			compiled &= compile_shader(m_gfx_system, m_impl->m_name.c_str(), suffix.c_str(), ShaderType::Vertex, defines.c_str(), m_sources[size_t(ShaderType::Vertex)]);
-			compiled &= compile_shader(m_gfx_system, m_impl->m_name.c_str(), suffix.c_str(), ShaderType::Fragment, defines.c_str(), m_sources[size_t(ShaderType::Fragment)]);
+			compiled &= compile_shader(*ms_gfx_system, m_impl->m_name.c_str(), suffix.c_str(), ShaderType::Vertex, defines.c_str(), m_sources[size_t(ShaderType::Vertex)]);
+			compiled &= compile_shader(*ms_gfx_system, m_impl->m_name.c_str(), suffix.c_str(), ShaderType::Fragment, defines.c_str(), m_sources[size_t(ShaderType::Fragment)]);
 #endif
 
 			if(compiled)
 			{
 				printf("INFO: loading program %s with options %s\n", full_name.c_str(), defines.c_str());
-				string compiled_path = string(m_gfx_system.m_resource_path) + "/shaders/compiled/" + full_name;
-				m_impl->m_versions[config_hash] = { m_update, load_program(m_gfx_system.m_file_reader, compiled_path) };
+				string compiled_path = string(ms_gfx_system->m_resource_path) + "/shaders/compiled/" + full_name;
+				m_impl->m_versions[config_hash] = { m_update, load_program(ms_gfx_system->m_file_reader, compiled_path) };
 			}
 			else
 			{
@@ -252,6 +252,12 @@ namespace mud
 	inline void vector_prepend(std::vector<T>& vector, const U& other)
 	{
 		vector.insert(vector.begin(), other.begin(), other.end());
+	}
+
+	void Program::register_blocks(array<GfxBlock*> blocks)
+	{
+		for(GfxBlock* block : blocks)
+			this->register_block(*block);
 	}
 
 	void Program::register_block(const GfxBlock& block)

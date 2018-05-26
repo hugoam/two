@@ -24,7 +24,7 @@ namespace gfx
 	MUD_GFX_EXPORT _func_ void draw(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags = 0);
 	MUD_GFX_EXPORT _func_ Item& sprite(Gnode& parent, const Image256& image, const vec2& size, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
 	MUD_GFX_EXPORT _func_ Item& item(Gnode& parent, const Model& model, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
-	MUD_GFX_EXPORT _func_ Item& model(Gnode& parent, const string& name, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
+	MUD_GFX_EXPORT _func_ Item* model(Gnode& parent, const string& name, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
 	MUD_GFX_EXPORT _func_ Animated& animated(Gnode& parent, Item& item);
 	MUD_GFX_EXPORT _func_ Particles& particles(Gnode& parent, const ParticleGenerator& emitter, uint32_t flags = 0, size_t instances = 0);
 	MUD_GFX_EXPORT _func_ Light& light(Gnode& parent, LightType type, bool shadows, Colour colour, float range = 0.f, float attenuation = 0.5f);

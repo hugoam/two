@@ -23,10 +23,13 @@ project "mud_gfx"
         path.join(MUD_3RDPARTY_DIR, "base64"),
     }
 
-    mud_module("bgfx", MUD_SRC_DIR, "bgfx",  "MUD_BGFX")
-    mud_module("gfx",  MUD_SRC_DIR, "gfx",   "MUD_GFX")
-    mud_module("gen",  MUD_SRC_DIR, "gen",   "MUD_GEN")
-    mud_module("edit", MUD_SRC_DIR, "edit",  "MUD_EDIT")
+    mud_module("bgfx",      MUD_SRC_DIR, "bgfx",        "MUD_BGFX")
+    mud_module("gfx",       MUD_SRC_DIR, "gfx",         "MUD_GFX")
+    mud_module("gfx-obj",   MUD_SRC_DIR, "gfx-obj",     "MUD_GFX_OBJ")
+    mud_module("gfx-pbr",   MUD_SRC_DIR, "gfx-pbr",     "MUD_GFX_PBR")
+    mud_module("gfx-gltf",  MUD_SRC_DIR, "gfx-gltf",    "MUD_GFX_GLTF")
+    mud_module("edit",      MUD_SRC_DIR, "edit",        "MUD_EDIT")
+    mud_module("gen",       MUD_SRC_DIR, "gen",         "MUD_GEN")
         
     files {
         path.join(MUD_3RDPARTY_DIR, "FastNoise", "**.h"),

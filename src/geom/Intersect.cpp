@@ -428,6 +428,13 @@ namespace mud
 		return Aabb(center, extent);
 	}
 
+	Aabb translate_aabb(const Aabb& source, const vec3& offset)
+	{
+		Aabb result = source;
+		result.m_center += offset;
+		return result;
+	}
+
 	vec2 project_aabb_in_plane(const Plane& plane, const Aabb& aabb)
 	{
 		float length = dot(abs(plane.m_normal), aabb.m_extents);

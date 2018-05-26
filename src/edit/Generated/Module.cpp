@@ -21,6 +21,7 @@ namespace mud
         mudui::module();
         muduio::module();
         mudgfx::module();
+        mudgfxpbr::module();
 
 #ifdef MUD_EDIT_REFLECT
         // setup reflection meta data

@@ -24,6 +24,9 @@ namespace mud
     template <> inline void from_string(const string& str, mud::SpectrumPalette& val) { val = static_cast<mud::SpectrumPalette>(enu<mud::SpectrumPalette>().value(str.c_str())); };
     template <> inline void to_string(const mud::SpectrumPalette& val, string& str) { str = enu<mud::SpectrumPalette>().m_map[size_t(val)]; };
     
+    template <> inline void from_string(const string& str, mud::TrackMode& val) { val = static_cast<mud::TrackMode>(enu<mud::TrackMode>().value(str.c_str())); };
+    template <> inline void to_string(const mud::TrackMode& val, string& str) { str = enu<mud::TrackMode>().m_map[size_t(val)]; };
+    
     
     template <> inline void from_string(const string& str, mud::Colour& val) { string_to_fixed_vector<mud::Colour, float>(str, val); };
     template <> inline void to_string(const mud::Colour& val, string& str) { fixed_vector_to_string<mud::Colour, 4>(val, str); };

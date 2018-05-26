@@ -2,7 +2,7 @@
 #include <06_particles/06_particles.h>
 
 #include <obj/Serial/Serial.h>
-#include <gfx/Ui/GfxEdit.h>
+#include <edit/Ui/GfxEdit.h>
 
 #include <fstream>
 
@@ -29,11 +29,11 @@ std::vector<ParticleItem> create_particles(GfxSystem& gfx_system, const std::vec
 	{
 		Call particles = Call(function(gfx::particles));
 
-		carray<cstring, 1> exts = { "" };
-		cstring location = gfx_system.locate_file(("prefabs/" + name).c_str(), exts);
-		if(location)
+		string filename = "prefabs/" + name;
+		LocatedFile location = gfx_system.locate_file(filename.c_str());
+		if(location.m_location)
 		{
-			string path = string(location) + "prefabs/" + name;
+			string path = string(location.m_location) + filename;
 			json json_value = parse_json_file(path);
 			val<ParticleGenerator>(particles.m_arguments[1]) = unpackt<ParticleGenerator>(json_value);
 		}

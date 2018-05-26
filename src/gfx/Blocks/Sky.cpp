@@ -6,6 +6,7 @@
 #include <gfx/Scene.h>
 #include <gfx/Camera.h>
 #include <gfx/Texture.h>
+#include <gfx/Asset.h>
 #include <gfx/RenderTarget.h>
 
 #include <bx/math.h>
@@ -196,7 +197,7 @@ namespace mud
 		// Create vertex stream declaration.
 		ScreenPosVertex::init();
 
-		m_program = gfx_system.get_program("sky").default_version();
+		m_program = gfx_system.programs().create("sky").default_version();
 		//m_program_colorBandingFix = gfx_system.get_program("sky_color_banding_fix").default_version();
 
 		m_preventBanding = false;
@@ -312,7 +313,7 @@ namespace mud
 	BlockSky::BlockSky(GfxSystem& gfx_system, BlockFilter& filter)
 		: GfxBlock(gfx_system, *this)
 		, m_filter(filter)
-		, m_skybox_program(gfx_system, "skybox", {})
+		, m_skybox_program("skybox")
 	{}
 
 	void BlockSky::init_gfx_block()

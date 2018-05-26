@@ -8,7 +8,7 @@
 #include <obj/Unique.h>
 #include <gfx/Generated/Forward.h>
 #define MUD_BGFX_EXPORT MUD_GFX_EXPORT
-#include <bgfx/BgfxContext.h>
+#include <bgfx/BgfxSystem.h>
 
 #ifndef MUD_GENERATOR_SKIP_INCLUDES
 #include <bx/file.h>
@@ -30,16 +30,30 @@ namespace mud
 		uint16_t m_vg_handle = UINT16_MAX;
 	};
 
+	template <class T_Asset>
+	class AssetStore;
+
+	struct LocatedFile
+	{
+		LocatedFile() {}
+		LocatedFile(cstring location, cstring name, cstring extension, size_t extension_index) : m_location(location), m_name(name), m_extension(extension), m_extension_index(extension_index) {}
+		cstring m_location = nullptr;
+		cstring m_name = nullptr;
+		cstring m_extension = nullptr;
+		size_t m_extension_index = 0;
+	};
+
 	class _refl_ MUD_GFX_EXPORT GfxSystem : public BgfxSystem
 	{
 	public:
 		GfxSystem(array<cstring> resource_paths = {});
 		~GfxSystem();
-		
-		virtual object_ptr<Context> create_context(cstring name, int width, int height, bool full_screen);
+
+		virtual bool next_frame() final;
+
+		virtual object_ptr<Context> create_context(cstring name, int width, int height, bool full_screen) final;
 
 		void init(GfxContext& context);
-		bool next_frame();
 
 		template <class T_Renderer>
 		Renderer& renderer()
@@ -54,30 +68,22 @@ namespace mud
 		bx::FileWriter m_file_writer;
 		bx::DefaultAllocator m_allocator;
 
-		cstring locate_file(cstring file, array<cstring> extensions);
+		LocatedFile locate_file(cstring file);
+		LocatedFile locate_file(cstring file, array<cstring> extensions);
 
-		Program& create_program(cstring name, array<GfxBlock*> blocks);
-		Program& get_program(cstring program);
-		Texture& get_texture(cstring texture);
+		AssetStore<Texture>& textures();
+		AssetStore<Program>& programs();
+		AssetStore<Material>& materials();
+		AssetStore<Model>& models();
+		AssetStore<ParticleGenerator>& particles();
+		AssetStore<Prefab>& prefabs();
 
 		Texture& default_texture(TextureHint hint);
 
-		Texture& load_texture(cstring path, cstring texture);
-		Texture& load_texture_mem(cstring texture, array<uint8_t> data);
-		Texture& load_texture_rgba(cstring texture, uint16_t width, uint16_t height, array<uint8_t> data);
-
-		Texture& fetch_image256(const Image256& image);
-
-		ModelConfig load_model_config(cstring path, cstring name);
-		void load_model(Model& model);
-
 		Material& debug_material();
-		Material& create_material(cstring name, cstring shader);
-		Material* fetch_material(cstring name);
+		Material& fetch_material(cstring name, cstring shader);
 		Material& fetch_image256_material(const Image256& image);
 
-		Model& load_model(cstring name);
-		Model& fetch_model(cstring name);
 		Model& fetch_symbol(const Symbol& symbol, const Shape& shape, DrawMode draw_mode);
 		Material& fetch_symbol_material(const Symbol& symbol, DrawMode draw_mode);
 

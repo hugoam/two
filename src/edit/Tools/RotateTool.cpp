@@ -9,7 +9,7 @@
 #include <geom/Shapes.h>
 #include <geom/Intersect.h>
 
-#include <gfx/Widget/Viewer.h>
+#include <edit/Viewer/Viewer.h>
 
 namespace mud
 {

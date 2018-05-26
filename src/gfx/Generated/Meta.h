@@ -219,9 +219,9 @@ namespace mud
         static Meta meta = { type<mud::Shading>(), &namspc({ "mud" }), "Shading", sizeof(mud::Shading), TypeClass::Enum };
         static Enum enu = { type<mud::Shading>(),
             true,
-            { "Wireframe", "Unshaded", "Shaded" },
-            { 0, 1, 2 },
-            { var(Shading::Wireframe), var(Shading::Unshaded), var(Shading::Shaded) }
+            { "Wireframe", "Unshaded", "Shaded", "Clear" },
+            { 0, 1, 2, 3 },
+            { var(Shading::Wireframe), var(Shading::Unshaded), var(Shading::Shaded), var(Shading::Clear) }
         };
         meta_enum<mud::Shading>();
     }
@@ -270,216 +270,13 @@ namespace mud
         meta_enum<mud::TextureSampler>();
     }
     
-    {
-        static Meta meta = { type<mud::TonemapMode>(), &namspc({ "mud" }), "TonemapMode", sizeof(mud::TonemapMode), TypeClass::Enum };
-        static Enum enu = { type<mud::TonemapMode>(),
-            true,
-            { "Linear", "Reinhardt", "Filmic", "ACES" },
-            { 0, 1, 2, 3 },
-            { var(TonemapMode::Linear), var(TonemapMode::Reinhardt), var(TonemapMode::Filmic), var(TonemapMode::ACES) }
-        };
-        meta_enum<mud::TonemapMode>();
-    }
-    
-    {
-        static Meta meta = { type<mud::TrackMode>(), &namspc({ "mud" }), "TrackMode", sizeof(mud::TrackMode), TypeClass::Enum };
-        static Enum enu = { type<mud::TrackMode>(),
-            true,
-            { "Constant", "ConstantRandom", "Curve", "CurveRandom" },
-            { 0, 1, 2, 3 },
-            { var(TrackMode::Constant), var(TrackMode::ConstantRandom), var(TrackMode::Curve), var(TrackMode::CurveRandom) }
-        };
-        meta_enum<mud::TrackMode>();
-    }
-    
-    {
-        static Meta meta = { type<glTFAlphaMode>(), &namspc({}), "glTFAlphaMode", sizeof(glTFAlphaMode), TypeClass::Enum };
-        static Enum enu = { type<glTFAlphaMode>(),
-            true,
-            { "OPAQUE", "MASK", "BLEND" },
-            { 0, 1, 2 },
-            { var(glTFAlphaMode::OPAQUE), var(glTFAlphaMode::MASK), var(glTFAlphaMode::BLEND) }
-        };
-        meta_enum<glTFAlphaMode>();
-    }
-    
-    {
-        static Meta meta = { type<glTFComponentType>(), &namspc({}), "glTFComponentType", sizeof(glTFComponentType), TypeClass::Enum };
-        static Enum enu = { type<glTFComponentType>(),
-            true,
-            { "BYTE", "UNSIGNED_BYTE", "SHORT", "UNSIGNED_SHORT", "INT", "FLOAT" },
-            { 5120, 5121, 5122, 5123, 5125, 5126 },
-            { var(glTFComponentType::BYTE), var(glTFComponentType::UNSIGNED_BYTE), var(glTFComponentType::SHORT), var(glTFComponentType::UNSIGNED_SHORT), var(glTFComponentType::INT), var(glTFComponentType::FLOAT) }
-        };
-        meta_enum<glTFComponentType>();
-    }
-    
-    {
-        static Meta meta = { type<glTFInterpolation>(), &namspc({}), "glTFInterpolation", sizeof(glTFInterpolation), TypeClass::Enum };
-        static Enum enu = { type<glTFInterpolation>(),
-            true,
-            { "LINEAR", "STEP", "CATMULLROMSPLINE", "CUBIC_SPLINE" },
-            { 0, 1, 2, 3 },
-            { var(glTFInterpolation::LINEAR), var(glTFInterpolation::STEP), var(glTFInterpolation::CATMULLROMSPLINE), var(glTFInterpolation::CUBIC_SPLINE) }
-        };
-        meta_enum<glTFInterpolation>();
-    }
-    
-    {
-        static Meta meta = { type<glTFPrimitiveType>(), &namspc({}), "glTFPrimitiveType", sizeof(glTFPrimitiveType), TypeClass::Enum };
-        static Enum enu = { type<glTFPrimitiveType>(),
-            true,
-            { "POINTS", "LINES", "LINE_LOOP", "LINE_STRIP", "TRIANGLES", "TRIANGLE_STRIP", "TRIANGLE_FAN" },
-            { 0, 1, 2, 3, 4, 5, 6 },
-            { var(glTFPrimitiveType::POINTS), var(glTFPrimitiveType::LINES), var(glTFPrimitiveType::LINE_LOOP), var(glTFPrimitiveType::LINE_STRIP), var(glTFPrimitiveType::TRIANGLES), var(glTFPrimitiveType::TRIANGLE_STRIP), var(glTFPrimitiveType::TRIANGLE_FAN) }
-        };
-        meta_enum<glTFPrimitiveType>();
-    }
-    
-    {
-        static Meta meta = { type<glTFType>(), &namspc({}), "glTFType", sizeof(glTFType), TypeClass::Enum };
-        static Enum enu = { type<glTFType>(),
-            true,
-            { "SCALAR", "VEC2", "VEC3", "VEC4", "MAT2", "MAT3", "MAT4" },
-            { 0, 1, 2, 3, 4, 5, 6 },
-            { var(glTFType::SCALAR), var(glTFType::VEC2), var(glTFType::VEC3), var(glTFType::VEC4), var(glTFType::MAT2), var(glTFType::MAT3), var(glTFType::MAT4) }
-        };
-        meta_enum<glTFType>();
-    }
-    
     
     // Sequences
-    {
-        static Meta meta = { type<std::vector<glTFAccessor>>(), &namspc({}), "std::vector<glTFAccessor>", sizeof(std::vector<glTFAccessor>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFAccessor>>() };
-        cls.m_content = &type<glTFAccessor>();
-        meta_sequence<std::vector<glTFAccessor>, glTFAccessor>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<glTFAnimation>>(), &namspc({}), "std::vector<glTFAnimation>", sizeof(std::vector<glTFAnimation>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFAnimation>>() };
-        cls.m_content = &type<glTFAnimation>();
-        meta_sequence<std::vector<glTFAnimation>, glTFAnimation>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<glTFAnimationChannel>>(), &namspc({}), "std::vector<glTFAnimationChannel>", sizeof(std::vector<glTFAnimationChannel>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFAnimationChannel>>() };
-        cls.m_content = &type<glTFAnimationChannel>();
-        meta_sequence<std::vector<glTFAnimationChannel>, glTFAnimationChannel>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<glTFAnimationSampler>>(), &namspc({}), "std::vector<glTFAnimationSampler>", sizeof(std::vector<glTFAnimationSampler>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFAnimationSampler>>() };
-        cls.m_content = &type<glTFAnimationSampler>();
-        meta_sequence<std::vector<glTFAnimationSampler>, glTFAnimationSampler>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<glTFBuffer>>(), &namspc({}), "std::vector<glTFBuffer>", sizeof(std::vector<glTFBuffer>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFBuffer>>() };
-        cls.m_content = &type<glTFBuffer>();
-        meta_sequence<std::vector<glTFBuffer>, glTFBuffer>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<glTFBufferView>>(), &namspc({}), "std::vector<glTFBufferView>", sizeof(std::vector<glTFBufferView>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFBufferView>>() };
-        cls.m_content = &type<glTFBufferView>();
-        meta_sequence<std::vector<glTFBufferView>, glTFBufferView>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<glTFCamera>>(), &namspc({}), "std::vector<glTFCamera>", sizeof(std::vector<glTFCamera>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFCamera>>() };
-        cls.m_content = &type<glTFCamera>();
-        meta_sequence<std::vector<glTFCamera>, glTFCamera>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<glTFImage>>(), &namspc({}), "std::vector<glTFImage>", sizeof(std::vector<glTFImage>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFImage>>() };
-        cls.m_content = &type<glTFImage>();
-        meta_sequence<std::vector<glTFImage>, glTFImage>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<glTFMaterial>>(), &namspc({}), "std::vector<glTFMaterial>", sizeof(std::vector<glTFMaterial>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFMaterial>>() };
-        cls.m_content = &type<glTFMaterial>();
-        meta_sequence<std::vector<glTFMaterial>, glTFMaterial>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<glTFMesh>>(), &namspc({}), "std::vector<glTFMesh>", sizeof(std::vector<glTFMesh>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFMesh>>() };
-        cls.m_content = &type<glTFMesh>();
-        meta_sequence<std::vector<glTFMesh>, glTFMesh>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<glTFMorphTarget>>(), &namspc({}), "std::vector<glTFMorphTarget>", sizeof(std::vector<glTFMorphTarget>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFMorphTarget>>() };
-        cls.m_content = &type<glTFMorphTarget>();
-        meta_sequence<std::vector<glTFMorphTarget>, glTFMorphTarget>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<glTFNode>>(), &namspc({}), "std::vector<glTFNode>", sizeof(std::vector<glTFNode>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFNode>>() };
-        cls.m_content = &type<glTFNode>();
-        meta_sequence<std::vector<glTFNode>, glTFNode>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<glTFPrimitive>>(), &namspc({}), "std::vector<glTFPrimitive>", sizeof(std::vector<glTFPrimitive>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFPrimitive>>() };
-        cls.m_content = &type<glTFPrimitive>();
-        meta_sequence<std::vector<glTFPrimitive>, glTFPrimitive>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<glTFScene>>(), &namspc({}), "std::vector<glTFScene>", sizeof(std::vector<glTFScene>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFScene>>() };
-        cls.m_content = &type<glTFScene>();
-        meta_sequence<std::vector<glTFScene>, glTFScene>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<glTFSkin>>(), &namspc({}), "std::vector<glTFSkin>", sizeof(std::vector<glTFSkin>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFSkin>>() };
-        cls.m_content = &type<glTFSkin>();
-        meta_sequence<std::vector<glTFSkin>, glTFSkin>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<glTFTexture>>(), &namspc({}), "std::vector<glTFTexture>", sizeof(std::vector<glTFTexture>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFTexture>>() };
-        cls.m_content = &type<glTFTexture>();
-        meta_sequence<std::vector<glTFTexture>, glTFTexture>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<int>>(), &namspc({}), "std::vector<int>", sizeof(std::vector<int>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<int>>() };
-        cls.m_content = &type<int>();
-        meta_sequence<std::vector<int>, int>();
-    }
-    
     {
         static Meta meta = { type<std::vector<mud::PrefabNode>>(), &namspc({}), "std::vector<mud::PrefabNode>", sizeof(std::vector<mud::PrefabNode>), TypeClass::Sequence };
         static Class cls = { type<std::vector<mud::PrefabNode>>() };
         cls.m_content = &type<mud::PrefabNode>();
         meta_sequence<std::vector<mud::PrefabNode>, mud::PrefabNode>();
-    }
-    
-    {
-        static Meta meta = { type<std::vector<mud::quat>>(), &namspc({}), "std::vector<mud::quat>", sizeof(std::vector<mud::quat>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<mud::quat>>() };
-        cls.m_content = &type<mud::quat>();
-        meta_sequence<std::vector<mud::quat>, mud::quat>();
     }
     
     
@@ -651,43 +448,6 @@ namespace mud
     
     
         
-    // mud::BCS
-    {
-        static Meta meta = { type<mud::BCS>(), &namspc({ "mud" }), "BCS", sizeof(mud::BCS), TypeClass::Struct };
-        static Class cls = { type<mud::BCS>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<mud::BCS>(), [](Ref ref, Ref other) { new(&val<mud::BCS>(ref)) mud::BCS(val<mud::BCS>(other)); } }
-            },
-            // members
-            {
-                { type<mud::BCS>(), member_address(&mud::BCS::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::BCS>(), member_address(&mud::BCS::m_brightness), type<float>(), "brightness", var(float(1.0f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::BCS>(), member_address(&mud::BCS::m_contrast), type<float>(), "contrast", var(float(1.0f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::BCS>(), member_address(&mud::BCS::m_saturation), type<float>(), "saturation", var(float(1.0f)), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::BCS>();
-    }
-    
-    
-        
     // mud::Background
     {
         static Meta meta = { type<mud::Background>(), &namspc({ "mud" }), "Background", sizeof(mud::Background), TypeClass::Struct };
@@ -766,7 +526,6 @@ namespace mud
     }
     
     
-    
         
     // mud::Bone
     {
@@ -801,7 +560,6 @@ namespace mud
         
         meta_class<mud::Bone>();
     }
-    
     
     
         
@@ -848,83 +606,6 @@ namespace mud
         meta_class<mud::Camera>();
     }
     
-    
-    
-    
-        
-    // mud::DepthParams
-    {
-        static Meta meta = { type<mud::DepthParams>(), &namspc({ "mud" }), "DepthParams", sizeof(mud::DepthParams), TypeClass::Struct };
-        static Class cls = { type<mud::DepthParams>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<mud::DepthParams>(), [](Ref ref, Ref other) { new(&val<mud::DepthParams>(ref)) mud::DepthParams(val<mud::DepthParams>(other)); } }
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::DepthParams>();
-    }
-    
-    
-    
-    
-        
-    // mud::DofBlur
-    {
-        static Meta meta = { type<mud::DofBlur>(), &namspc({ "mud" }), "DofBlur", sizeof(mud::DofBlur), TypeClass::Struct };
-        static Class cls = { type<mud::DofBlur>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<mud::DofBlur>(), [](Ref ref, Ref other) { new(&val<mud::DofBlur>(ref)) mud::DofBlur(val<mud::DofBlur>(other)); } }
-            },
-            // members
-            {
-                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_far_distance), type<float>(), "far_distance", var(float(10.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_far_transition), type<float>(), "far_transition", var(float(5.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_far_radius), type<float>(), "far_radius", var(float(5.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_near_distance), type<float>(), "near_distance", var(float(2.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_near_transition), type<float>(), "near_transition", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_near_radius), type<float>(), "near_radius", var(float(5.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_max_coc_radius), type<float>(), "max_coc_radius", var(float(8.f)), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::DofBlur>();
-    }
     
     
     
@@ -1038,7 +719,6 @@ namespace mud
         
         meta_class<mud::FrameBuffer>();
     }
-    
     
     
     
@@ -1212,48 +892,6 @@ namespace mud
     
     
         
-    // mud::Glow
-    {
-        static Meta meta = { type<mud::Glow>(), &namspc({ "mud" }), "Glow", sizeof(mud::Glow), TypeClass::Struct };
-        static Class cls = { type<mud::Glow>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<mud::Glow>(), [](Ref ref, Ref other) { new(&val<mud::Glow>(ref)) mud::Glow(val<mud::Glow>(other)); } }
-            },
-            // members
-            {
-                { type<mud::Glow>(), member_address(&mud::Glow::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Glow>(), member_address(&mud::Glow::m_levels_1_4), type<mud::vec4>(), "levels_1_4", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Glow>(), member_address(&mud::Glow::m_levels_5_8), type<mud::vec4>(), "levels_5_8", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Glow>(), member_address(&mud::Glow::m_intensity), type<float>(), "intensity", var(float(0.8f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Glow>(), member_address(&mud::Glow::m_bloom), type<float>(), "bloom", var(float(0.0f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Glow>(), member_address(&mud::Glow::m_bleed_threshold), type<float>(), "bleed_threshold", var(float(1.0f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Glow>(), member_address(&mud::Glow::m_bleed_scale), type<float>(), "bleed_scale", var(float(2.0f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Glow>(), member_address(&mud::Glow::m_bicubic_filter), type<bool>(), "bicubic_filter", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Glow>();
-    }
-    
-    
-    
-        
     // mud::Gnode
     {
         static Meta meta = { type<mud::Gnode>(), &namspc({ "mud" }), "Gnode", sizeof(mud::Gnode), TypeClass::Object };
@@ -1318,9 +956,6 @@ namespace mud
         
         meta_class<mud::ImmediateDraw>();
     }
-    
-    
-    
     
     
     
@@ -1449,40 +1084,6 @@ namespace mud
         
         
         meta_class<mud::Light>();
-    }
-    
-    
-    
-        
-    // mud::LightShadow
-    {
-        static Meta meta = { type<mud::LightShadow>(), &namspc({ "mud" }), "LightShadow", sizeof(mud::LightShadow), TypeClass::Struct };
-        static Class cls = { type<mud::LightShadow>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<mud::LightShadow>(), [](Ref ref, Ref other) { new(&val<mud::LightShadow>(ref)) mud::LightShadow(val<mud::LightShadow>(other)); } }
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::LightShadow>();
     }
     
     
@@ -1620,6 +1221,7 @@ namespace mud
                 { type<mud::Mesh>(), member_address(&mud::Mesh::m_draw_mode), type<mud::DrawMode>(), "draw_mode", var(mud::DrawMode()), Member::Value },
                 { type<mud::Mesh>(), member_address(&mud::Mesh::m_aabb), type<mud::Aabb>(), "aabb", var(mud::Aabb()), Member::Value },
                 { type<mud::Mesh>(), member_address(&mud::Mesh::m_radius), type<float>(), "radius", var(float(0.f)), Member::Value },
+                { type<mud::Mesh>(), member_address(&mud::Mesh::m_origin), type<mud::vec3>(), "origin", var(mud::vec3()), Member::Value },
                 { type<mud::Mesh>(), member_address(&mud::Mesh::m_readback), type<bool>(), "readback", var(bool(false)), Member::Value },
                 { type<mud::Mesh>(), member_address(&mud::Mesh::m_vertexCount), type<size_t>(), "vertexCount", var(size_t()), Member::Value },
                 { type<mud::Mesh>(), member_address(&mud::Mesh::m_indexCount), type<size_t>(), "indexCount", var(size_t()), Member::Value },
@@ -1660,7 +1262,8 @@ namespace mud
                 { type<mud::Model>(), member_address(&mud::Model::m_name), type<mud::strung>(), "name", var(mud::strung()), Member::Value },
                 { type<mud::Model>(), member_address(&mud::Model::m_index), type<uint16_t>(), "index", var(uint16_t()), Member::Value },
                 { type<mud::Model>(), member_address(&mud::Model::m_aabb), type<mud::Aabb>(), "aabb", var(mud::Aabb()), Member::Value },
-                { type<mud::Model>(), member_address(&mud::Model::m_radius), type<float>(), "radius", var(float(0.f)), Member::Value }
+                { type<mud::Model>(), member_address(&mud::Model::m_radius), type<float>(), "radius", var(float(0.f)), Member::Value },
+                { type<mud::Model>(), member_address(&mud::Model::m_origin), type<mud::vec3>(), "origin", var(mud::vec3()), Member::Value }
             },
             // methods
             {
@@ -1772,6 +1375,7 @@ namespace mud
             },
             // members
             {
+                { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_name), type<mud::strung>(), "name", var(mud::strung()), Member::Value },
                 { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_duration), type<float>(), "duration", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_start_time), type<float>(), "start_time", var(float(0.f)), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_loop), type<bool>(), "loop", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
@@ -1855,10 +1459,6 @@ namespace mud
     
     
     
-    
-    
-    
-    
         
     // mud::PbrMaterialBlock
     {
@@ -1919,6 +1519,40 @@ namespace mud
     
     
         
+    // mud::Prefab
+    {
+        static Meta meta = { type<mud::Prefab>(), &namspc({ "mud" }), "Prefab", sizeof(mud::Prefab), TypeClass::Object };
+        static Class cls = { type<mud::Prefab>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+                { type<mud::Prefab>(), member_address(&mud::Prefab::m_name), type<mud::strung>(), "name", var(mud::strung()), Member::Value },
+                { type<mud::Prefab>(), member_address(&mud::Prefab::m_node), type<mud::PrefabNode>(), "node", var(mud::PrefabNode()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Prefab>();
+    }
+    
+    
+        
     // mud::PrefabNode
     {
         static Meta meta = { type<mud::PrefabNode>(), &namspc({ "mud" }), "PrefabNode", sizeof(mud::PrefabNode), TypeClass::Struct };
@@ -1953,7 +1587,6 @@ namespace mud
         
         meta_class<mud::PrefabNode>();
     }
-    
     
     
     
@@ -2030,85 +1663,6 @@ namespace mud
     }
     
     
-    
-    
-    
-        
-    // mud::ReflectionProbe
-    {
-        static Meta meta = { type<mud::ReflectionProbe>(), &namspc({ "mud" }), "ReflectionProbe", sizeof(mud::ReflectionProbe), TypeClass::Object };
-        static Class cls = { type<mud::ReflectionProbe>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-                { type<mud::ReflectionProbe>(), Address(), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::None },
-                { type<mud::ReflectionProbe>(), member_address(&mud::ReflectionProbe::m_visible), type<bool>(), "visible", var(bool(true)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ReflectionProbe>(), member_address(&mud::ReflectionProbe::m_intensity), type<float>(), "intensity", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ReflectionProbe>(), member_address(&mud::ReflectionProbe::m_extents), type<mud::vec3>(), "extents", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ReflectionProbe>(), member_address(&mud::ReflectionProbe::m_shadows), type<bool>(), "shadows", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ReflectionProbe>(), member_address(&mud::ReflectionProbe::m_dirty), type<bool>(), "dirty", var(bool(true)), Member::Value }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ReflectionProbe>();
-    }
-    
-    
-    
-    
-    
-        
-    // mud::RenderFilters
-    {
-        static Meta meta = { type<mud::RenderFilters>(), &namspc({ "mud" }), "RenderFilters", sizeof(mud::RenderFilters), TypeClass::Struct };
-        static Class cls = { type<mud::RenderFilters>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<mud::RenderFilters>(), [](Ref ref, Ref other) { new(&val<mud::RenderFilters>(ref)) mud::RenderFilters(val<mud::RenderFilters>(other)); } }
-            },
-            // members
-            {
-                { type<mud::RenderFilters>(), member_address(&mud::RenderFilters::m_dof_blur), type<mud::DofBlur>(), "dof_blur", var(mud::DofBlur()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::RenderFilters>(), member_address(&mud::RenderFilters::m_glow), type<mud::Glow>(), "glow", var(mud::Glow()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::RenderFilters>(), member_address(&mud::RenderFilters::m_bcs), type<mud::BCS>(), "bcs", var(mud::BCS()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::RenderFilters>(), member_address(&mud::RenderFilters::m_tonemap), type<mud::Tonemap>(), "tonemap", var(mud::Tonemap()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::RenderFilters>();
-    }
     
     
         
@@ -2252,11 +1806,6 @@ namespace mud
     
     
     
-    
-    
-    
-    
-    
         
     // mud::Shot
     {
@@ -2287,7 +1836,6 @@ namespace mud
         
         meta_class<mud::Shot>();
     }
-    
     
     
         
@@ -2354,42 +1902,6 @@ namespace mud
     }
     
     
-    
-    
-    
-    
-    
-    
-        
-    // mud::SpaceQuad
-    {
-        static Meta meta = { type<mud::SpaceQuad>(), &namspc({ "mud" }), "SpaceQuad", sizeof(mud::SpaceQuad), TypeClass::Object };
-        static Class cls = { type<mud::SpaceQuad>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::SpaceQuad>();
-    }
     
     
         
@@ -2501,44 +2013,6 @@ namespace mud
     
     
         
-    // mud::Tonemap
-    {
-        static Meta meta = { type<mud::Tonemap>(), &namspc({ "mud" }), "Tonemap", sizeof(mud::Tonemap), TypeClass::Struct };
-        static Class cls = { type<mud::Tonemap>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<mud::Tonemap>(), [](Ref ref, Ref other) { new(&val<mud::Tonemap>(ref)) mud::Tonemap(val<mud::Tonemap>(other)); } }
-            },
-            // members
-            {
-                { type<mud::Tonemap>(), member_address(&mud::Tonemap::m_mode), type<mud::TonemapMode>(), "mode", var(mud::TonemapMode()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Tonemap>(), member_address(&mud::Tonemap::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Tonemap>(), member_address(&mud::Tonemap::m_exposure), type<float>(), "exposure", var(float(1.0f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Tonemap>(), member_address(&mud::Tonemap::m_white_point), type<float>(), "white_point", var(float(1.0f)), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Tonemap>();
-    }
-    
-    
-    
-        
     // mud::Transform
     {
         static Meta meta = { type<mud::Transform>(), &namspc({ "mud" }), "Transform", sizeof(mud::Transform), TypeClass::Struct };
@@ -2614,415 +2088,7 @@ namespace mud
     
     
     
-        
-    // mud::ValueCurve<float>
-    {
-        static Meta meta = { type<mud::ValueCurve<float>>(), &namspc({ "mud" }), "ValueCurve<float>", sizeof(mud::ValueCurve<float>), TypeClass::Struct };
-        static Class cls = { type<mud::ValueCurve<float>>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-                { type<mud::ValueCurve<float>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueCurve<float>>(ref)) mud::ValueCurve<float>(  ); }, {} },
-                { type<mud::ValueCurve<float>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueCurve<float>>(ref)) mud::ValueCurve<float>( val<std::vector<float>>(args[0]) ); }, { { "keys", var(std::vector<float>()) } } }
-            },
-            // copy constructor
-            {
-                { type<mud::ValueCurve<float>>(), [](Ref ref, Ref other) { new(&val<mud::ValueCurve<float>>(ref)) mud::ValueCurve<float>(val<mud::ValueCurve<float>>(other)); } }
-            },
-            // members
-            {
-                { type<mud::ValueCurve<float>>(), member_address(&mud::ValueCurve<float>::m_keys), type<std::vector<float>>(), "keys", var(std::vector<float>()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ValueCurve<float>>();
-    }
     
-    
-        
-    // mud::ValueCurve<mud::Colour>
-    {
-        static Meta meta = { type<mud::ValueCurve<mud::Colour>>(), &namspc({ "mud" }), "ValueCurve<mud::Colour>", sizeof(mud::ValueCurve<mud::Colour>), TypeClass::Struct };
-        static Class cls = { type<mud::ValueCurve<mud::Colour>>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-                { type<mud::ValueCurve<mud::Colour>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueCurve<mud::Colour>>(ref)) mud::ValueCurve<mud::Colour>(  ); }, {} },
-                { type<mud::ValueCurve<mud::Colour>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueCurve<mud::Colour>>(ref)) mud::ValueCurve<mud::Colour>( val<std::vector<mud::Colour>>(args[0]) ); }, { { "keys", var(std::vector<mud::Colour>()) } } }
-            },
-            // copy constructor
-            {
-                { type<mud::ValueCurve<mud::Colour>>(), [](Ref ref, Ref other) { new(&val<mud::ValueCurve<mud::Colour>>(ref)) mud::ValueCurve<mud::Colour>(val<mud::ValueCurve<mud::Colour>>(other)); } }
-            },
-            // members
-            {
-                { type<mud::ValueCurve<mud::Colour>>(), member_address(&mud::ValueCurve<mud::Colour>::m_keys), type<std::vector<mud::Colour>>(), "keys", var(std::vector<mud::Colour>()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ValueCurve<mud::Colour>>();
-    }
-    
-    
-        
-    // mud::ValueCurve<mud::quat>
-    {
-        static Meta meta = { type<mud::ValueCurve<mud::quat>>(), &namspc({ "mud" }), "ValueCurve<mud::quat>", sizeof(mud::ValueCurve<mud::quat>), TypeClass::Struct };
-        static Class cls = { type<mud::ValueCurve<mud::quat>>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-                { type<mud::ValueCurve<mud::quat>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueCurve<mud::quat>>(ref)) mud::ValueCurve<mud::quat>(  ); }, {} },
-                { type<mud::ValueCurve<mud::quat>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueCurve<mud::quat>>(ref)) mud::ValueCurve<mud::quat>( val<std::vector<mud::quat>>(args[0]) ); }, { { "keys", var(std::vector<mud::quat>()) } } }
-            },
-            // copy constructor
-            {
-                { type<mud::ValueCurve<mud::quat>>(), [](Ref ref, Ref other) { new(&val<mud::ValueCurve<mud::quat>>(ref)) mud::ValueCurve<mud::quat>(val<mud::ValueCurve<mud::quat>>(other)); } }
-            },
-            // members
-            {
-                { type<mud::ValueCurve<mud::quat>>(), member_address(&mud::ValueCurve<mud::quat>::m_keys), type<std::vector<mud::quat>>(), "keys", var(std::vector<mud::quat>()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ValueCurve<mud::quat>>();
-    }
-    
-    
-        
-    // mud::ValueCurve<mud::vec3>
-    {
-        static Meta meta = { type<mud::ValueCurve<mud::vec3>>(), &namspc({ "mud" }), "ValueCurve<mud::vec3>", sizeof(mud::ValueCurve<mud::vec3>), TypeClass::Struct };
-        static Class cls = { type<mud::ValueCurve<mud::vec3>>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-                { type<mud::ValueCurve<mud::vec3>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueCurve<mud::vec3>>(ref)) mud::ValueCurve<mud::vec3>(  ); }, {} },
-                { type<mud::ValueCurve<mud::vec3>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueCurve<mud::vec3>>(ref)) mud::ValueCurve<mud::vec3>( val<std::vector<mud::vec3>>(args[0]) ); }, { { "keys", var(std::vector<mud::vec3>()) } } }
-            },
-            // copy constructor
-            {
-                { type<mud::ValueCurve<mud::vec3>>(), [](Ref ref, Ref other) { new(&val<mud::ValueCurve<mud::vec3>>(ref)) mud::ValueCurve<mud::vec3>(val<mud::ValueCurve<mud::vec3>>(other)); } }
-            },
-            // members
-            {
-                { type<mud::ValueCurve<mud::vec3>>(), member_address(&mud::ValueCurve<mud::vec3>::m_keys), type<std::vector<mud::vec3>>(), "keys", var(std::vector<mud::vec3>()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ValueCurve<mud::vec3>>();
-    }
-    
-    
-        
-    // mud::ValueCurve<uint32_t>
-    {
-        static Meta meta = { type<mud::ValueCurve<uint32_t>>(), &namspc({ "mud" }), "ValueCurve<uint32_t>", sizeof(mud::ValueCurve<uint32_t>), TypeClass::Struct };
-        static Class cls = { type<mud::ValueCurve<uint32_t>>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-                { type<mud::ValueCurve<uint32_t>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueCurve<uint32_t>>(ref)) mud::ValueCurve<uint32_t>(  ); }, {} },
-                { type<mud::ValueCurve<uint32_t>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueCurve<uint32_t>>(ref)) mud::ValueCurve<uint32_t>( val<std::vector<uint32_t>>(args[0]) ); }, { { "keys", var(std::vector<uint32_t>()) } } }
-            },
-            // copy constructor
-            {
-                { type<mud::ValueCurve<uint32_t>>(), [](Ref ref, Ref other) { new(&val<mud::ValueCurve<uint32_t>>(ref)) mud::ValueCurve<uint32_t>(val<mud::ValueCurve<uint32_t>>(other)); } }
-            },
-            // members
-            {
-                { type<mud::ValueCurve<uint32_t>>(), member_address(&mud::ValueCurve<uint32_t>::m_keys), type<std::vector<uint32_t>>(), "keys", var(std::vector<uint32_t>()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ValueCurve<uint32_t>>();
-    }
-    
-    
-        
-    // mud::ValueTrack<float>
-    {
-        static Meta meta = { type<mud::ValueTrack<float>>(), &namspc({ "mud" }), "ValueTrack<float>", sizeof(mud::ValueTrack<float>), TypeClass::Struct };
-        static Class cls = { type<mud::ValueTrack<float>>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-                { type<mud::ValueTrack<float>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueTrack<float>>(ref)) mud::ValueTrack<float>(  ); }, {} },
-                { type<mud::ValueTrack<float>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueTrack<float>>(ref)) mud::ValueTrack<float>( val<mud::TrackMode>(args[0]), val<mud::ValueCurve<float>>(args[1]), val<mud::ValueCurve<float>>(args[2]), val<mud::ValueCurve<float>>(args[3]) ); }, { { "mode", var(mud::TrackMode()) }, { "curve", var(mud::ValueCurve<float>()) }, { "min_curve", var(mud::ValueCurve<float>()) }, { "max_curve", var(mud::ValueCurve<float>()) } } }
-            },
-            // copy constructor
-            {
-                { type<mud::ValueTrack<float>>(), [](Ref ref, Ref other) { new(&val<mud::ValueTrack<float>>(ref)) mud::ValueTrack<float>(val<mud::ValueTrack<float>>(other)); } }
-            },
-            // members
-            {
-                { type<mud::ValueTrack<float>>(), member_address(&mud::ValueTrack<float>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ValueTrack<float>>(), member_address(&mud::ValueTrack<float>::m_curve), type<mud::ValueCurve<float>>(), "curve", var(mud::ValueCurve<float>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ValueTrack<float>>(), member_address(&mud::ValueTrack<float>::m_min_curve), type<mud::ValueCurve<float>>(), "min_curve", var(mud::ValueCurve<float>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ValueTrack<float>>(), member_address(&mud::ValueTrack<float>::m_max_curve), type<mud::ValueCurve<float>>(), "max_curve", var(mud::ValueCurve<float>()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ValueTrack<float>>();
-    }
-    
-    
-        
-    // mud::ValueTrack<mud::Colour>
-    {
-        static Meta meta = { type<mud::ValueTrack<mud::Colour>>(), &namspc({ "mud" }), "ValueTrack<mud::Colour>", sizeof(mud::ValueTrack<mud::Colour>), TypeClass::Struct };
-        static Class cls = { type<mud::ValueTrack<mud::Colour>>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-                { type<mud::ValueTrack<mud::Colour>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueTrack<mud::Colour>>(ref)) mud::ValueTrack<mud::Colour>(  ); }, {} },
-                { type<mud::ValueTrack<mud::Colour>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueTrack<mud::Colour>>(ref)) mud::ValueTrack<mud::Colour>( val<mud::TrackMode>(args[0]), val<mud::ValueCurve<mud::Colour>>(args[1]), val<mud::ValueCurve<mud::Colour>>(args[2]), val<mud::ValueCurve<mud::Colour>>(args[3]) ); }, { { "mode", var(mud::TrackMode()) }, { "curve", var(mud::ValueCurve<mud::Colour>()) }, { "min_curve", var(mud::ValueCurve<mud::Colour>()) }, { "max_curve", var(mud::ValueCurve<mud::Colour>()) } } }
-            },
-            // copy constructor
-            {
-                { type<mud::ValueTrack<mud::Colour>>(), [](Ref ref, Ref other) { new(&val<mud::ValueTrack<mud::Colour>>(ref)) mud::ValueTrack<mud::Colour>(val<mud::ValueTrack<mud::Colour>>(other)); } }
-            },
-            // members
-            {
-                { type<mud::ValueTrack<mud::Colour>>(), member_address(&mud::ValueTrack<mud::Colour>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ValueTrack<mud::Colour>>(), member_address(&mud::ValueTrack<mud::Colour>::m_curve), type<mud::ValueCurve<mud::Colour>>(), "curve", var(mud::ValueCurve<mud::Colour>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ValueTrack<mud::Colour>>(), member_address(&mud::ValueTrack<mud::Colour>::m_min_curve), type<mud::ValueCurve<mud::Colour>>(), "min_curve", var(mud::ValueCurve<mud::Colour>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ValueTrack<mud::Colour>>(), member_address(&mud::ValueTrack<mud::Colour>::m_max_curve), type<mud::ValueCurve<mud::Colour>>(), "max_curve", var(mud::ValueCurve<mud::Colour>()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ValueTrack<mud::Colour>>();
-    }
-    
-    
-        
-    // mud::ValueTrack<mud::quat>
-    {
-        static Meta meta = { type<mud::ValueTrack<mud::quat>>(), &namspc({ "mud" }), "ValueTrack<mud::quat>", sizeof(mud::ValueTrack<mud::quat>), TypeClass::Struct };
-        static Class cls = { type<mud::ValueTrack<mud::quat>>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-                { type<mud::ValueTrack<mud::quat>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueTrack<mud::quat>>(ref)) mud::ValueTrack<mud::quat>(  ); }, {} },
-                { type<mud::ValueTrack<mud::quat>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueTrack<mud::quat>>(ref)) mud::ValueTrack<mud::quat>( val<mud::TrackMode>(args[0]), val<mud::ValueCurve<mud::quat>>(args[1]), val<mud::ValueCurve<mud::quat>>(args[2]), val<mud::ValueCurve<mud::quat>>(args[3]) ); }, { { "mode", var(mud::TrackMode()) }, { "curve", var(mud::ValueCurve<mud::quat>()) }, { "min_curve", var(mud::ValueCurve<mud::quat>()) }, { "max_curve", var(mud::ValueCurve<mud::quat>()) } } }
-            },
-            // copy constructor
-            {
-                { type<mud::ValueTrack<mud::quat>>(), [](Ref ref, Ref other) { new(&val<mud::ValueTrack<mud::quat>>(ref)) mud::ValueTrack<mud::quat>(val<mud::ValueTrack<mud::quat>>(other)); } }
-            },
-            // members
-            {
-                { type<mud::ValueTrack<mud::quat>>(), member_address(&mud::ValueTrack<mud::quat>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ValueTrack<mud::quat>>(), member_address(&mud::ValueTrack<mud::quat>::m_curve), type<mud::ValueCurve<mud::quat>>(), "curve", var(mud::ValueCurve<mud::quat>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ValueTrack<mud::quat>>(), member_address(&mud::ValueTrack<mud::quat>::m_min_curve), type<mud::ValueCurve<mud::quat>>(), "min_curve", var(mud::ValueCurve<mud::quat>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ValueTrack<mud::quat>>(), member_address(&mud::ValueTrack<mud::quat>::m_max_curve), type<mud::ValueCurve<mud::quat>>(), "max_curve", var(mud::ValueCurve<mud::quat>()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ValueTrack<mud::quat>>();
-    }
-    
-    
-        
-    // mud::ValueTrack<mud::vec3>
-    {
-        static Meta meta = { type<mud::ValueTrack<mud::vec3>>(), &namspc({ "mud" }), "ValueTrack<mud::vec3>", sizeof(mud::ValueTrack<mud::vec3>), TypeClass::Struct };
-        static Class cls = { type<mud::ValueTrack<mud::vec3>>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-                { type<mud::ValueTrack<mud::vec3>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueTrack<mud::vec3>>(ref)) mud::ValueTrack<mud::vec3>(  ); }, {} },
-                { type<mud::ValueTrack<mud::vec3>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueTrack<mud::vec3>>(ref)) mud::ValueTrack<mud::vec3>( val<mud::TrackMode>(args[0]), val<mud::ValueCurve<mud::vec3>>(args[1]), val<mud::ValueCurve<mud::vec3>>(args[2]), val<mud::ValueCurve<mud::vec3>>(args[3]) ); }, { { "mode", var(mud::TrackMode()) }, { "curve", var(mud::ValueCurve<mud::vec3>()) }, { "min_curve", var(mud::ValueCurve<mud::vec3>()) }, { "max_curve", var(mud::ValueCurve<mud::vec3>()) } } }
-            },
-            // copy constructor
-            {
-                { type<mud::ValueTrack<mud::vec3>>(), [](Ref ref, Ref other) { new(&val<mud::ValueTrack<mud::vec3>>(ref)) mud::ValueTrack<mud::vec3>(val<mud::ValueTrack<mud::vec3>>(other)); } }
-            },
-            // members
-            {
-                { type<mud::ValueTrack<mud::vec3>>(), member_address(&mud::ValueTrack<mud::vec3>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ValueTrack<mud::vec3>>(), member_address(&mud::ValueTrack<mud::vec3>::m_curve), type<mud::ValueCurve<mud::vec3>>(), "curve", var(mud::ValueCurve<mud::vec3>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ValueTrack<mud::vec3>>(), member_address(&mud::ValueTrack<mud::vec3>::m_min_curve), type<mud::ValueCurve<mud::vec3>>(), "min_curve", var(mud::ValueCurve<mud::vec3>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ValueTrack<mud::vec3>>(), member_address(&mud::ValueTrack<mud::vec3>::m_max_curve), type<mud::ValueCurve<mud::vec3>>(), "max_curve", var(mud::ValueCurve<mud::vec3>()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ValueTrack<mud::vec3>>();
-    }
-    
-    
-        
-    // mud::ValueTrack<uint32_t>
-    {
-        static Meta meta = { type<mud::ValueTrack<uint32_t>>(), &namspc({ "mud" }), "ValueTrack<uint32_t>", sizeof(mud::ValueTrack<uint32_t>), TypeClass::Struct };
-        static Class cls = { type<mud::ValueTrack<uint32_t>>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-                { type<mud::ValueTrack<uint32_t>>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ValueTrack<uint32_t>>(ref)) mud::ValueTrack<uint32_t>(  ); }, {} },
-                { type<mud::ValueTrack<uint32_t>>(), [](Ref ref, array<Var> args) { new(&val<mud::ValueTrack<uint32_t>>(ref)) mud::ValueTrack<uint32_t>( val<mud::TrackMode>(args[0]), val<mud::ValueCurve<uint32_t>>(args[1]), val<mud::ValueCurve<uint32_t>>(args[2]), val<mud::ValueCurve<uint32_t>>(args[3]) ); }, { { "mode", var(mud::TrackMode()) }, { "curve", var(mud::ValueCurve<uint32_t>()) }, { "min_curve", var(mud::ValueCurve<uint32_t>()) }, { "max_curve", var(mud::ValueCurve<uint32_t>()) } } }
-            },
-            // copy constructor
-            {
-                { type<mud::ValueTrack<uint32_t>>(), [](Ref ref, Ref other) { new(&val<mud::ValueTrack<uint32_t>>(ref)) mud::ValueTrack<uint32_t>(val<mud::ValueTrack<uint32_t>>(other)); } }
-            },
-            // members
-            {
-                { type<mud::ValueTrack<uint32_t>>(), member_address(&mud::ValueTrack<uint32_t>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ValueTrack<uint32_t>>(), member_address(&mud::ValueTrack<uint32_t>::m_curve), type<mud::ValueCurve<uint32_t>>(), "curve", var(mud::ValueCurve<uint32_t>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ValueTrack<uint32_t>>(), member_address(&mud::ValueTrack<uint32_t>::m_min_curve), type<mud::ValueCurve<uint32_t>>(), "min_curve", var(mud::ValueCurve<uint32_t>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ValueTrack<uint32_t>>(), member_address(&mud::ValueTrack<uint32_t>::m_max_curve), type<mud::ValueCurve<uint32_t>>(), "max_curve", var(mud::ValueCurve<uint32_t>()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ValueTrack<uint32_t>>();
-    }
-    
-    
-    
-    
-    
-    
-        
-    // mud::ViewerController
-    {
-        static Meta meta = { type<mud::ViewerController>(), &namspc({ "mud" }), "ViewerController", sizeof(mud::ViewerController), TypeClass::Object };
-        static Class cls = { type<mud::ViewerController>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ViewerController>();
-    }
     
     
     
@@ -3048,8 +2114,7 @@ namespace mud
                 { type<mud::Viewport>(), member_address(&mud::Viewport::m_rect), type<mud::uvec4>(), "rect", var(mud::uvec4()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::Viewport>(), member_address(&mud::Viewport::m_scissor), type<bool>(), "scissor", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::Viewport>(), member_address(&mud::Viewport::m_clear_colour), type<mud::Colour>(), "clear_colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Viewport>(), member_address(&mud::Viewport::m_shading), type<mud::Shading>(), "shading", var(mud::Shading()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Viewport>(), member_address(&mud::Viewport::m_filters), type<mud::RenderFilters>(), "filters", Ref(type<mud::RenderFilters>()), Member::Flags(Member::Pointer|Member::Mutable|Member::Link) }
+                { type<mud::Viewport>(), member_address(&mud::Viewport::m_shading), type<mud::Shading>(), "shading", var(mud::Shading()), Member::Flags(Member::Value|Member::Mutable) }
             },
             // methods
             {
@@ -3063,1076 +2128,6 @@ namespace mud
         
         
         meta_class<mud::Viewport>();
-    }
-    
-    
-        
-    // glTF
-    {
-        static Meta meta = { type<glTF>(), &namspc({}), "glTF", sizeof(glTF), TypeClass::Struct };
-        static Class cls = { type<glTF>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTF>(), [](Ref ref, Ref other) { new(&val<glTF>(ref)) glTF(val<glTF>(other)); } }
-            },
-            // members
-            {
-                { type<glTF>(), member_address(&glTF::m_buffers), type<std::vector<glTFBuffer>>(), "buffers", var(std::vector<glTFBuffer>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_buffer_views), type<std::vector<glTFBufferView>>(), "buffer_views", var(std::vector<glTFBufferView>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_accessors), type<std::vector<glTFAccessor>>(), "accessors", var(std::vector<glTFAccessor>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_images), type<std::vector<glTFImage>>(), "images", var(std::vector<glTFImage>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_textures), type<std::vector<glTFTexture>>(), "textures", var(std::vector<glTFTexture>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_materials), type<std::vector<glTFMaterial>>(), "materials", var(std::vector<glTFMaterial>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_meshes), type<std::vector<glTFMesh>>(), "meshes", var(std::vector<glTFMesh>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_nodes), type<std::vector<glTFNode>>(), "nodes", var(std::vector<glTFNode>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_skins), type<std::vector<glTFSkin>>(), "skins", var(std::vector<glTFSkin>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_animations), type<std::vector<glTFAnimation>>(), "animations", var(std::vector<glTFAnimation>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_cameras), type<std::vector<glTFCamera>>(), "cameras", var(std::vector<glTFCamera>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_scenes), type<std::vector<glTFScene>>(), "scenes", var(std::vector<glTFScene>()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTF>();
-    }
-    
-    
-        
-    // glTFAccessor
-    {
-        static Meta meta = { type<glTFAccessor>(), &namspc({}), "glTFAccessor", sizeof(glTFAccessor), TypeClass::Struct };
-        static Class cls = { type<glTFAccessor>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFAccessor>(), [](Ref ref, Ref other) { new(&val<glTFAccessor>(ref)) glTFAccessor(val<glTFAccessor>(other)); } }
-            },
-            // members
-            {
-                { type<glTFAccessor>(), member_address(&glTFAccessor::buffer_view), type<int>(), "buffer_view", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAccessor>(), member_address(&glTFAccessor::byte_offset), type<int>(), "byte_offset", var(int(0)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAccessor>(), member_address(&glTFAccessor::component_type), type<glTFComponentType>(), "component_type", var(glTFComponentType()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAccessor>(), member_address(&glTFAccessor::normalized), type<bool>(), "normalized", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAccessor>(), member_address(&glTFAccessor::count), type<int>(), "count", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAccessor>(), member_address(&glTFAccessor::type), type<glTFType>(), "type", var(glTFType()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAccessor>(), member_address(&glTFAccessor::sparse), type<glTFSparse>(), "sparse", var(glTFSparse()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFAccessor>();
-    }
-    
-    
-        
-    // glTFAnimation
-    {
-        static Meta meta = { type<glTFAnimation>(), &namspc({}), "glTFAnimation", sizeof(glTFAnimation), TypeClass::Struct };
-        static Class cls = { type<glTFAnimation>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFAnimation>(), [](Ref ref, Ref other) { new(&val<glTFAnimation>(ref)) glTFAnimation(val<glTFAnimation>(other)); } }
-            },
-            // members
-            {
-                { type<glTFAnimation>(), member_address(&glTFAnimation::name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAnimation>(), member_address(&glTFAnimation::samplers), type<std::vector<glTFAnimationSampler>>(), "samplers", var(std::vector<glTFAnimationSampler>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAnimation>(), member_address(&glTFAnimation::channels), type<std::vector<glTFAnimationChannel>>(), "channels", var(std::vector<glTFAnimationChannel>()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFAnimation>();
-    }
-    
-    
-        
-    // glTFAnimationChannel
-    {
-        static Meta meta = { type<glTFAnimationChannel>(), &namspc({}), "glTFAnimationChannel", sizeof(glTFAnimationChannel), TypeClass::Struct };
-        static Class cls = { type<glTFAnimationChannel>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFAnimationChannel>(), [](Ref ref, Ref other) { new(&val<glTFAnimationChannel>(ref)) glTFAnimationChannel(val<glTFAnimationChannel>(other)); } }
-            },
-            // members
-            {
-                { type<glTFAnimationChannel>(), member_address(&glTFAnimationChannel::sampler), type<int>(), "sampler", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAnimationChannel>(), member_address(&glTFAnimationChannel::target), type<glTFAnimationTarget>(), "target", var(glTFAnimationTarget()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFAnimationChannel>();
-    }
-    
-    
-        
-    // glTFAnimationSampler
-    {
-        static Meta meta = { type<glTFAnimationSampler>(), &namspc({}), "glTFAnimationSampler", sizeof(glTFAnimationSampler), TypeClass::Struct };
-        static Class cls = { type<glTFAnimationSampler>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFAnimationSampler>(), [](Ref ref, Ref other) { new(&val<glTFAnimationSampler>(ref)) glTFAnimationSampler(val<glTFAnimationSampler>(other)); } }
-            },
-            // members
-            {
-                { type<glTFAnimationSampler>(), member_address(&glTFAnimationSampler::interpolation), type<glTFInterpolation>(), "interpolation", var(glTFInterpolation()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAnimationSampler>(), member_address(&glTFAnimationSampler::input), type<int>(), "input", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAnimationSampler>(), member_address(&glTFAnimationSampler::output), type<int>(), "output", var(int()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFAnimationSampler>();
-    }
-    
-    
-        
-    // glTFAnimationTarget
-    {
-        static Meta meta = { type<glTFAnimationTarget>(), &namspc({}), "glTFAnimationTarget", sizeof(glTFAnimationTarget), TypeClass::Struct };
-        static Class cls = { type<glTFAnimationTarget>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFAnimationTarget>(), [](Ref ref, Ref other) { new(&val<glTFAnimationTarget>(ref)) glTFAnimationTarget(val<glTFAnimationTarget>(other)); } }
-            },
-            // members
-            {
-                { type<glTFAnimationTarget>(), member_address(&glTFAnimationTarget::node), type<int>(), "node", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAnimationTarget>(), member_address(&glTFAnimationTarget::path), type<std::string>(), "path", var(std::string()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFAnimationTarget>();
-    }
-    
-    
-        
-    // glTFAttributes
-    {
-        static Meta meta = { type<glTFAttributes>(), &namspc({}), "glTFAttributes", sizeof(glTFAttributes), TypeClass::Struct };
-        static Class cls = { type<glTFAttributes>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFAttributes>(), [](Ref ref, Ref other) { new(&val<glTFAttributes>(ref)) glTFAttributes(val<glTFAttributes>(other)); } }
-            },
-            // members
-            {
-                { type<glTFAttributes>(), member_address(&glTFAttributes::POSITION), type<int>(), "POSITION", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAttributes>(), member_address(&glTFAttributes::NORMAL), type<int>(), "NORMAL", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAttributes>(), member_address(&glTFAttributes::TANGENT), type<int>(), "TANGENT", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAttributes>(), member_address(&glTFAttributes::TEXCOORD_0), type<int>(), "TEXCOORD_0", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAttributes>(), member_address(&glTFAttributes::TEXCOORD_1), type<int>(), "TEXCOORD_1", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAttributes>(), member_address(&glTFAttributes::COLOR_0), type<int>(), "COLOR_0", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAttributes>(), member_address(&glTFAttributes::JOINTS_0), type<int>(), "JOINTS_0", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAttributes>(), member_address(&glTFAttributes::WEIGHTS_0), type<int>(), "WEIGHTS_0", var(int()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFAttributes>();
-    }
-    
-    
-        
-    // glTFBuffer
-    {
-        static Meta meta = { type<glTFBuffer>(), &namspc({}), "glTFBuffer", sizeof(glTFBuffer), TypeClass::Struct };
-        static Class cls = { type<glTFBuffer>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFBuffer>(), [](Ref ref, Ref other) { new(&val<glTFBuffer>(ref)) glTFBuffer(val<glTFBuffer>(other)); } }
-            },
-            // members
-            {
-                { type<glTFBuffer>(), member_address(&glTFBuffer::mime_type), type<std::string>(), "mime_type", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFBuffer>(), member_address(&glTFBuffer::uri), type<std::string>(), "uri", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFBuffer>(), member_address(&glTFBuffer::byte_length), type<int>(), "byte_length", var(int()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFBuffer>();
-    }
-    
-    
-        
-    // glTFBufferView
-    {
-        static Meta meta = { type<glTFBufferView>(), &namspc({}), "glTFBufferView", sizeof(glTFBufferView), TypeClass::Struct };
-        static Class cls = { type<glTFBufferView>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFBufferView>(), [](Ref ref, Ref other) { new(&val<glTFBufferView>(ref)) glTFBufferView(val<glTFBufferView>(other)); } }
-            },
-            // members
-            {
-                { type<glTFBufferView>(), member_address(&glTFBufferView::buffer), type<int>(), "buffer", var(int(0)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFBufferView>(), member_address(&glTFBufferView::byte_offset), type<size_t>(), "byte_offset", var(size_t()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFBufferView>(), member_address(&glTFBufferView::byte_length), type<size_t>(), "byte_length", var(size_t()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFBufferView>(), member_address(&glTFBufferView::byte_stride), type<size_t>(), "byte_stride", var(size_t()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFBufferView>(), member_address(&glTFBufferView::target), type<int>(), "target", var(int(0)), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFBufferView>();
-    }
-    
-    
-        
-    // glTFCamera
-    {
-        static Meta meta = { type<glTFCamera>(), &namspc({}), "glTFCamera", sizeof(glTFCamera), TypeClass::Struct };
-        static Class cls = { type<glTFCamera>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFCamera>(), [](Ref ref, Ref other) { new(&val<glTFCamera>(ref)) glTFCamera(val<glTFCamera>(other)); } }
-            },
-            // members
-            {
-                { type<glTFCamera>(), member_address(&glTFCamera::type), type<std::string>(), "type", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFCamera>(), member_address(&glTFCamera::orthographic), type<glTFOrthographic>(), "orthographic", var(glTFOrthographic()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFCamera>(), member_address(&glTFCamera::perspective), type<glTFPerspective>(), "perspective", var(glTFPerspective()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFCamera>();
-    }
-    
-    
-        
-    // glTFImage
-    {
-        static Meta meta = { type<glTFImage>(), &namspc({}), "glTFImage", sizeof(glTFImage), TypeClass::Struct };
-        static Class cls = { type<glTFImage>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFImage>(), [](Ref ref, Ref other) { new(&val<glTFImage>(ref)) glTFImage(val<glTFImage>(other)); } }
-            },
-            // members
-            {
-                { type<glTFImage>(), member_address(&glTFImage::mime_type), type<std::string>(), "mime_type", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFImage>(), member_address(&glTFImage::uri), type<std::string>(), "uri", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFImage>(), member_address(&glTFImage::buffer_view), type<int>(), "buffer_view", var(int()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFImage>();
-    }
-    
-    
-        
-    // mud::glTFImport
-    {
-        static Meta meta = { type<mud::glTFImport>(), &namspc({ "mud" }), "glTFImport", sizeof(mud::glTFImport), TypeClass::Object };
-        static Class cls = { type<mud::glTFImport>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-                { type<mud::glTFImport>(), member_address(&mud::glTFImport::m_gltf), type<glTF>(), "gltf", var(glTF()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::glTFImport>();
-    }
-    
-    
-        
-    // glTFMaterial
-    {
-        static Meta meta = { type<glTFMaterial>(), &namspc({}), "glTFMaterial", sizeof(glTFMaterial), TypeClass::Struct };
-        static Class cls = { type<glTFMaterial>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFMaterial>(), [](Ref ref, Ref other) { new(&val<glTFMaterial>(ref)) glTFMaterial(val<glTFMaterial>(other)); } }
-            },
-            // members
-            {
-                { type<glTFMaterial>(), member_address(&glTFMaterial::name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterial>(), member_address(&glTFMaterial::normal_texture), type<glTFTextureInfo>(), "normal_texture", var(glTFTextureInfo()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterial>(), member_address(&glTFMaterial::occlusion_texture), type<glTFTextureInfo>(), "occlusion_texture", var(glTFTextureInfo()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterial>(), member_address(&glTFMaterial::emissive_factor), type<mud::vec3>(), "emissive_factor", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterial>(), member_address(&glTFMaterial::emissive_texture), type<glTFTextureInfo>(), "emissive_texture", var(glTFTextureInfo()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterial>(), member_address(&glTFMaterial::double_sided), type<bool>(), "double_sided", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterial>(), member_address(&glTFMaterial::alpha_mode), type<glTFAlphaMode>(), "alpha_mode", var(glTFAlphaMode()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterial>(), member_address(&glTFMaterial::pbr_metallic_roughness), type<glTFMaterialPBR>(), "pbr_metallic_roughness", var(glTFMaterialPBR()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFMaterial>();
-    }
-    
-    
-        
-    // glTFMaterialPBR
-    {
-        static Meta meta = { type<glTFMaterialPBR>(), &namspc({}), "glTFMaterialPBR", sizeof(glTFMaterialPBR), TypeClass::Struct };
-        static Class cls = { type<glTFMaterialPBR>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFMaterialPBR>(), [](Ref ref, Ref other) { new(&val<glTFMaterialPBR>(ref)) glTFMaterialPBR(val<glTFMaterialPBR>(other)); } }
-            },
-            // members
-            {
-                { type<glTFMaterialPBR>(), member_address(&glTFMaterialPBR::base_color_factor), type<mud::vec4>(), "base_color_factor", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterialPBR>(), member_address(&glTFMaterialPBR::base_color_texture), type<glTFTextureInfo>(), "base_color_texture", var(glTFTextureInfo()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterialPBR>(), member_address(&glTFMaterialPBR::metallic_factor), type<float>(), "metallic_factor", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterialPBR>(), member_address(&glTFMaterialPBR::roughness_factor), type<float>(), "roughness_factor", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterialPBR>(), member_address(&glTFMaterialPBR::metallic_roughness_texture), type<glTFTextureInfo>(), "metallic_roughness_texture", var(glTFTextureInfo()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFMaterialPBR>();
-    }
-    
-    
-        
-    // glTFMesh
-    {
-        static Meta meta = { type<glTFMesh>(), &namspc({}), "glTFMesh", sizeof(glTFMesh), TypeClass::Struct };
-        static Class cls = { type<glTFMesh>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFMesh>(), [](Ref ref, Ref other) { new(&val<glTFMesh>(ref)) glTFMesh(val<glTFMesh>(other)); } }
-            },
-            // members
-            {
-                { type<glTFMesh>(), member_address(&glTFMesh::primitives), type<std::vector<glTFPrimitive>>(), "primitives", var(std::vector<glTFPrimitive>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMesh>(), member_address(&glTFMesh::weights), type<std::vector<float>>(), "weights", var(std::vector<float>()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFMesh>();
-    }
-    
-    
-        
-    // glTFMorphTarget
-    {
-        static Meta meta = { type<glTFMorphTarget>(), &namspc({}), "glTFMorphTarget", sizeof(glTFMorphTarget), TypeClass::Struct };
-        static Class cls = { type<glTFMorphTarget>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFMorphTarget>(), [](Ref ref, Ref other) { new(&val<glTFMorphTarget>(ref)) glTFMorphTarget(val<glTFMorphTarget>(other)); } }
-            },
-            // members
-            {
-                { type<glTFMorphTarget>(), member_address(&glTFMorphTarget::POSITION), type<int>(), "POSITION", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMorphTarget>(), member_address(&glTFMorphTarget::NORMAL), type<int>(), "NORMAL", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMorphTarget>(), member_address(&glTFMorphTarget::TANGENT), type<int>(), "TANGENT", var(int()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFMorphTarget>();
-    }
-    
-    
-        
-    // glTFNode
-    {
-        static Meta meta = { type<glTFNode>(), &namspc({}), "glTFNode", sizeof(glTFNode), TypeClass::Struct };
-        static Class cls = { type<glTFNode>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFNode>(), [](Ref ref, Ref other) { new(&val<glTFNode>(ref)) glTFNode(val<glTFNode>(other)); } }
-            },
-            // members
-            {
-                { type<glTFNode>(), member_address(&glTFNode::name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFNode>(), member_address(&glTFNode::mesh), type<int>(), "mesh", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFNode>(), member_address(&glTFNode::camera), type<int>(), "camera", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFNode>(), member_address(&glTFNode::skin), type<int>(), "skin", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFNode>(), member_address(&glTFNode::matrix), type<mud::mat4>(), "matrix", var(mud::mat4()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFNode>(), member_address(&glTFNode::translation), type<mud::vec3>(), "translation", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFNode>(), member_address(&glTFNode::rotation), type<mud::quat>(), "rotation", var(mud::quat()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFNode>(), member_address(&glTFNode::scale), type<mud::vec3>(), "scale", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFNode>(), member_address(&glTFNode::children), type<std::vector<int>>(), "children", var(std::vector<int>()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFNode>();
-    }
-    
-    
-        
-    // glTFOrthographic
-    {
-        static Meta meta = { type<glTFOrthographic>(), &namspc({}), "glTFOrthographic", sizeof(glTFOrthographic), TypeClass::Struct };
-        static Class cls = { type<glTFOrthographic>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFOrthographic>(), [](Ref ref, Ref other) { new(&val<glTFOrthographic>(ref)) glTFOrthographic(val<glTFOrthographic>(other)); } }
-            },
-            // members
-            {
-                { type<glTFOrthographic>(), member_address(&glTFOrthographic::xmag), type<float>(), "xmag", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFOrthographic>(), member_address(&glTFOrthographic::ymag), type<float>(), "ymag", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFOrthographic>(), member_address(&glTFOrthographic::zfar), type<float>(), "zfar", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFOrthographic>(), member_address(&glTFOrthographic::znear), type<float>(), "znear", var(float()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFOrthographic>();
-    }
-    
-    
-        
-    // glTFPerspective
-    {
-        static Meta meta = { type<glTFPerspective>(), &namspc({}), "glTFPerspective", sizeof(glTFPerspective), TypeClass::Struct };
-        static Class cls = { type<glTFPerspective>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFPerspective>(), [](Ref ref, Ref other) { new(&val<glTFPerspective>(ref)) glTFPerspective(val<glTFPerspective>(other)); } }
-            },
-            // members
-            {
-                { type<glTFPerspective>(), member_address(&glTFPerspective::yfov), type<float>(), "yfov", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFPerspective>(), member_address(&glTFPerspective::zfar), type<float>(), "zfar", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFPerspective>(), member_address(&glTFPerspective::znear), type<float>(), "znear", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFPerspective>(), member_address(&glTFPerspective::aspect_ration), type<float>(), "aspect_ration", var(float()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFPerspective>();
-    }
-    
-    
-        
-    // glTFPrimitive
-    {
-        static Meta meta = { type<glTFPrimitive>(), &namspc({}), "glTFPrimitive", sizeof(glTFPrimitive), TypeClass::Struct };
-        static Class cls = { type<glTFPrimitive>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFPrimitive>(), [](Ref ref, Ref other) { new(&val<glTFPrimitive>(ref)) glTFPrimitive(val<glTFPrimitive>(other)); } }
-            },
-            // members
-            {
-                { type<glTFPrimitive>(), member_address(&glTFPrimitive::attributes), type<glTFAttributes>(), "attributes", var(glTFAttributes()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFPrimitive>(), member_address(&glTFPrimitive::indices), type<int>(), "indices", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFPrimitive>(), member_address(&glTFPrimitive::material), type<int>(), "material", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFPrimitive>(), member_address(&glTFPrimitive::mode), type<glTFPrimitiveType>(), "mode", var(glTFPrimitiveType()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFPrimitive>(), member_address(&glTFPrimitive::targets), type<std::vector<glTFMorphTarget>>(), "targets", var(std::vector<glTFMorphTarget>()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFPrimitive>();
-    }
-    
-    
-        
-    // glTFSampler
-    {
-        static Meta meta = { type<glTFSampler>(), &namspc({}), "glTFSampler", sizeof(glTFSampler), TypeClass::Struct };
-        static Class cls = { type<glTFSampler>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFSampler>(), [](Ref ref, Ref other) { new(&val<glTFSampler>(ref)) glTFSampler(val<glTFSampler>(other)); } }
-            },
-            // members
-            {
-                { type<glTFSampler>(), member_address(&glTFSampler::mag_filter), type<int>(), "mag_filter", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSampler>(), member_address(&glTFSampler::min_filter), type<int>(), "min_filter", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSampler>(), member_address(&glTFSampler::wrap_s), type<int>(), "wrap_s", var(int(10497)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSampler>(), member_address(&glTFSampler::wrap_t), type<int>(), "wrap_t", var(int(10497)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSampler>(), member_address(&glTFSampler::name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFSampler>();
-    }
-    
-    
-        
-    // glTFScene
-    {
-        static Meta meta = { type<glTFScene>(), &namspc({}), "glTFScene", sizeof(glTFScene), TypeClass::Struct };
-        static Class cls = { type<glTFScene>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFScene>(), [](Ref ref, Ref other) { new(&val<glTFScene>(ref)) glTFScene(val<glTFScene>(other)); } }
-            },
-            // members
-            {
-                { type<glTFScene>(), member_address(&glTFScene::name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFScene>(), member_address(&glTFScene::nodes), type<std::vector<int>>(), "nodes", var(std::vector<int>()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFScene>();
-    }
-    
-    
-        
-    // glTFSkin
-    {
-        static Meta meta = { type<glTFSkin>(), &namspc({}), "glTFSkin", sizeof(glTFSkin), TypeClass::Struct };
-        static Class cls = { type<glTFSkin>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFSkin>(), [](Ref ref, Ref other) { new(&val<glTFSkin>(ref)) glTFSkin(val<glTFSkin>(other)); } }
-            },
-            // members
-            {
-                { type<glTFSkin>(), member_address(&glTFSkin::name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSkin>(), member_address(&glTFSkin::skeleton), type<int>(), "skeleton", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSkin>(), member_address(&glTFSkin::joints), type<std::vector<int>>(), "joints", var(std::vector<int>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSkin>(), member_address(&glTFSkin::inverse_bind_matrices), type<int>(), "inverse_bind_matrices", var(int()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFSkin>();
-    }
-    
-    
-        
-    // glTFSparse
-    {
-        static Meta meta = { type<glTFSparse>(), &namspc({}), "glTFSparse", sizeof(glTFSparse), TypeClass::Struct };
-        static Class cls = { type<glTFSparse>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFSparse>(), [](Ref ref, Ref other) { new(&val<glTFSparse>(ref)) glTFSparse(val<glTFSparse>(other)); } }
-            },
-            // members
-            {
-                { type<glTFSparse>(), member_address(&glTFSparse::count), type<int>(), "count", var(int(0)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSparse>(), member_address(&glTFSparse::indices), type<glTFSparseIndices>(), "indices", var(glTFSparseIndices()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSparse>(), member_address(&glTFSparse::values), type<glTFSparseValues>(), "values", var(glTFSparseValues()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFSparse>();
-    }
-    
-    
-        
-    // glTFSparseIndices
-    {
-        static Meta meta = { type<glTFSparseIndices>(), &namspc({}), "glTFSparseIndices", sizeof(glTFSparseIndices), TypeClass::Struct };
-        static Class cls = { type<glTFSparseIndices>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFSparseIndices>(), [](Ref ref, Ref other) { new(&val<glTFSparseIndices>(ref)) glTFSparseIndices(val<glTFSparseIndices>(other)); } }
-            },
-            // members
-            {
-                { type<glTFSparseIndices>(), member_address(&glTFSparseIndices::buffer_view), type<int>(), "buffer_view", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSparseIndices>(), member_address(&glTFSparseIndices::byte_offset), type<int>(), "byte_offset", var(int(0)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSparseIndices>(), member_address(&glTFSparseIndices::component_type), type<glTFComponentType>(), "component_type", var(glTFComponentType()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFSparseIndices>();
-    }
-    
-    
-        
-    // glTFSparseValues
-    {
-        static Meta meta = { type<glTFSparseValues>(), &namspc({}), "glTFSparseValues", sizeof(glTFSparseValues), TypeClass::Struct };
-        static Class cls = { type<glTFSparseValues>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFSparseValues>(), [](Ref ref, Ref other) { new(&val<glTFSparseValues>(ref)) glTFSparseValues(val<glTFSparseValues>(other)); } }
-            },
-            // members
-            {
-                { type<glTFSparseValues>(), member_address(&glTFSparseValues::buffer_view), type<int>(), "buffer_view", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSparseValues>(), member_address(&glTFSparseValues::byte_offset), type<int>(), "byte_offset", var(int(0)), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFSparseValues>();
-    }
-    
-    
-        
-    // glTFTexture
-    {
-        static Meta meta = { type<glTFTexture>(), &namspc({}), "glTFTexture", sizeof(glTFTexture), TypeClass::Struct };
-        static Class cls = { type<glTFTexture>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFTexture>(), [](Ref ref, Ref other) { new(&val<glTFTexture>(ref)) glTFTexture(val<glTFTexture>(other)); } }
-            },
-            // members
-            {
-                { type<glTFTexture>(), member_address(&glTFTexture::source), type<int>(), "source", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFTexture>(), member_address(&glTFTexture::name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFTexture>();
-    }
-    
-    
-        
-    // glTFTextureInfo
-    {
-        static Meta meta = { type<glTFTextureInfo>(), &namspc({}), "glTFTextureInfo", sizeof(glTFTextureInfo), TypeClass::Struct };
-        static Class cls = { type<glTFTextureInfo>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<glTFTextureInfo>(), [](Ref ref, Ref other) { new(&val<glTFTextureInfo>(ref)) glTFTextureInfo(val<glTFTextureInfo>(other)); } }
-            },
-            // members
-            {
-                { type<glTFTextureInfo>(), member_address(&glTFTextureInfo::index), type<int>(), "index", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFTextureInfo>(), member_address(&glTFTextureInfo::scale), type<float>(), "scale", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<glTFTextureInfo>();
-    }
-    
-    
-        
-    // mud::BlockBlur
-    {
-        static Meta meta = { type<mud::BlockBlur>(), &namspc({ "mud" }), "BlockBlur", sizeof(mud::BlockBlur), TypeClass::Object };
-        static Class cls = { type<mud::BlockBlur>(),
-            // bases
-            { &type<mud::GfxBlock>() },
-            { base_offset<mud::BlockBlur, mud::GfxBlock>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::BlockBlur>();
     }
     
     
@@ -4169,38 +2164,6 @@ namespace mud
     
     
         
-    // mud::BlockDofBlur
-    {
-        static Meta meta = { type<mud::BlockDofBlur>(), &namspc({ "mud" }), "BlockDofBlur", sizeof(mud::BlockDofBlur), TypeClass::Object };
-        static Class cls = { type<mud::BlockDofBlur>(),
-            // bases
-            { &type<mud::GfxBlock>() },
-            { base_offset<mud::BlockDofBlur, mud::GfxBlock>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::BlockDofBlur>();
-    }
-    
-    
-        
     // mud::BlockFilter
     {
         static Meta meta = { type<mud::BlockFilter>(), &namspc({ "mud" }), "BlockFilter", sizeof(mud::BlockFilter), TypeClass::Object };
@@ -4229,70 +2192,6 @@ namespace mud
         
         
         meta_class<mud::BlockFilter>();
-    }
-    
-    
-        
-    // mud::BlockGlow
-    {
-        static Meta meta = { type<mud::BlockGlow>(), &namspc({ "mud" }), "BlockGlow", sizeof(mud::BlockGlow), TypeClass::Object };
-        static Class cls = { type<mud::BlockGlow>(),
-            // bases
-            { &type<mud::GfxBlock>() },
-            { base_offset<mud::BlockGlow, mud::GfxBlock>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::BlockGlow>();
-    }
-    
-    
-        
-    // mud::BlockReflection
-    {
-        static Meta meta = { type<mud::BlockReflection>(), &namspc({ "mud" }), "BlockReflection", sizeof(mud::BlockReflection), TypeClass::Object };
-        static Class cls = { type<mud::BlockReflection>(),
-            // bases
-            { &type<mud::GfxBlock>() },
-            { base_offset<mud::BlockReflection, mud::GfxBlock>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::BlockReflection>();
     }
     
     
@@ -4361,38 +2260,6 @@ namespace mud
     
     
         
-    // mud::BlockTonemap
-    {
-        static Meta meta = { type<mud::BlockTonemap>(), &namspc({ "mud" }), "BlockTonemap", sizeof(mud::BlockTonemap), TypeClass::Object };
-        static Class cls = { type<mud::BlockTonemap>(),
-            // bases
-            { &type<mud::GfxBlock>() },
-            { base_offset<mud::BlockTonemap, mud::GfxBlock>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::BlockTonemap>();
-    }
-    
-    
-        
     // mud::DrawBlock
     {
         static Meta meta = { type<mud::DrawBlock>(), &namspc({ "mud" }), "DrawBlock", sizeof(mud::DrawBlock), TypeClass::Object };
@@ -4426,70 +2293,6 @@ namespace mud
     
     
         
-    // mud::BlockDepth
-    {
-        static Meta meta = { type<mud::BlockDepth>(), &namspc({ "mud" }), "BlockDepth", sizeof(mud::BlockDepth), TypeClass::Object };
-        static Class cls = { type<mud::BlockDepth>(),
-            // bases
-            { &type<mud::DrawBlock>() },
-            { base_offset<mud::BlockDepth, mud::DrawBlock>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::BlockDepth>();
-    }
-    
-    
-        
-    // mud::BlockLight
-    {
-        static Meta meta = { type<mud::BlockLight>(), &namspc({ "mud" }), "BlockLight", sizeof(mud::BlockLight), TypeClass::Object };
-        static Class cls = { type<mud::BlockLight>(),
-            // bases
-            { &type<mud::DrawBlock>() },
-            { base_offset<mud::BlockLight, mud::DrawBlock>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::BlockLight>();
-    }
-    
-    
-        
     // mud::BlockParticles
     {
         static Meta meta = { type<mud::BlockParticles>(), &namspc({ "mud" }), "BlockParticles", sizeof(mud::BlockParticles), TypeClass::Object };
@@ -4518,202 +2321,6 @@ namespace mud
         
         
         meta_class<mud::BlockParticles>();
-    }
-    
-    
-        
-    // mud::BlockRadiance
-    {
-        static Meta meta = { type<mud::BlockRadiance>(), &namspc({ "mud" }), "BlockRadiance", sizeof(mud::BlockRadiance), TypeClass::Object };
-        static Class cls = { type<mud::BlockRadiance>(),
-            // bases
-            { &type<mud::DrawBlock>() },
-            { base_offset<mud::BlockRadiance, mud::DrawBlock>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::BlockRadiance>();
-    }
-    
-    
-        
-    // mud::BlockShadow
-    {
-        static Meta meta = { type<mud::BlockShadow>(), &namspc({ "mud" }), "BlockShadow", sizeof(mud::BlockShadow), TypeClass::Object };
-        static Class cls = { type<mud::BlockShadow>(),
-            // bases
-            { &type<mud::DrawBlock>() },
-            { base_offset<mud::BlockShadow, mud::DrawBlock>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::BlockShadow>();
-    }
-    
-    
-        
-    // mud::Viewer
-    {
-        static Meta meta = { type<mud::Viewer>(), &namspc({ "mud" }), "Viewer", sizeof(mud::Viewer), TypeClass::Object };
-        static Class cls = { type<mud::Viewer>(),
-            // bases
-            { &type<mud::Widget>() },
-            { base_offset<mud::Viewer, mud::Widget>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link) },
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_viewport), type<mud::Viewport>(), "viewport", Ref(type<mud::Viewport>()), Member::None },
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_position), type<mud::vec2>(), "position", var(mud::vec2()), Member::Value },
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Viewer>();
-    }
-    
-    
-        
-    // mud::SpaceSheet
-    {
-        static Meta meta = { type<mud::SpaceSheet>(), &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
-        static Class cls = { type<mud::SpaceSheet>(),
-            // bases
-            { &type<mud::RootSheet>() },
-            { base_offset<mud::SpaceSheet, mud::RootSheet>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::SpaceSheet>();
-    }
-    
-    
-        
-    // mud::RenderTarget
-    {
-        static Meta meta = { type<mud::RenderTarget>(), &namspc({ "mud" }), "RenderTarget", sizeof(mud::RenderTarget), TypeClass::Object };
-        static Class cls = { type<mud::RenderTarget>(),
-            // bases
-            { &type<mud::FrameBuffer>() },
-            { base_offset<mud::RenderTarget, mud::FrameBuffer>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::RenderTarget>();
-    }
-    
-    
-        
-    // mud::SceneViewer
-    {
-        static Meta meta = { type<mud::SceneViewer>(), &namspc({ "mud" }), "SceneViewer", sizeof(mud::SceneViewer), TypeClass::Object };
-        static Class cls = { type<mud::SceneViewer>(),
-            // bases
-            { &type<mud::Scene>(), &type<mud::Viewer>() },
-            { base_offset<mud::SceneViewer, mud::Scene>(), base_offset<mud::SceneViewer, mud::Viewer>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::SceneViewer>();
     }
     
     
@@ -4750,6 +2357,36 @@ namespace mud
     }
     
     
+        
+    // mud::RenderTarget
+    {
+        static Meta meta = { type<mud::RenderTarget>(), &namspc({ "mud" }), "RenderTarget", sizeof(mud::RenderTarget), TypeClass::Object };
+        static Class cls = { type<mud::RenderTarget>(),
+            // bases
+            { &type<mud::FrameBuffer>() },
+            { base_offset<mud::RenderTarget, mud::FrameBuffer>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::RenderTarget>();
+    }
     
 
     
@@ -4758,7 +2395,6 @@ namespace mud
         module.m_types.push_back(&type<mud::Animation>());
         module.m_types.push_back(&type<mud::AnimationPlay>());
         module.m_types.push_back(&type<mud::AnimationTrack>());
-        module.m_types.push_back(&type<mud::BCS>());
         module.m_types.push_back(&type<mud::Background>());
         module.m_types.push_back(&type<mud::BackgroundMode>());
         module.m_types.push_back(&type<mud::BaseMaterialBlock>());
@@ -4767,9 +2403,7 @@ namespace mud
         module.m_types.push_back(&type<mud::Camera>());
         module.m_types.push_back(&type<mud::CullMode>());
         module.m_types.push_back(&type<mud::DepthDraw>());
-        module.m_types.push_back(&type<mud::DepthParams>());
         module.m_types.push_back(&type<mud::DepthTest>());
-        module.m_types.push_back(&type<mud::DofBlur>());
         module.m_types.push_back(&type<mud::EmitterDirection>());
         module.m_types.push_back(&type<mud::Environment>());
         module.m_types.push_back(&type<mud::Filter>());
@@ -4779,7 +2413,6 @@ namespace mud
         module.m_types.push_back(&type<mud::GfxBlock>());
         module.m_types.push_back(&type<mud::GfxContext>());
         module.m_types.push_back(&type<mud::GfxSystem>());
-        module.m_types.push_back(&type<mud::Glow>());
         module.m_types.push_back(&type<mud::Gnode>());
         module.m_types.push_back(&type<mud::ImmediateDraw>());
         module.m_types.push_back(&type<mud::Interpolation>());
@@ -4789,7 +2422,6 @@ namespace mud
         module.m_types.push_back(&type<mud::ItemShadow>());
         module.m_types.push_back(&type<mud::Joint>());
         module.m_types.push_back(&type<mud::Light>());
-        module.m_types.push_back(&type<mud::LightShadow>());
         module.m_types.push_back(&type<mud::LightType>());
         module.m_types.push_back(&type<mud::MSAA>());
         module.m_types.push_back(&type<mud::Material>());
@@ -4806,12 +2438,11 @@ namespace mud
         module.m_types.push_back(&type<mud::PbrDiffuseMode>());
         module.m_types.push_back(&type<mud::PbrMaterialBlock>());
         module.m_types.push_back(&type<mud::PbrSpecularMode>());
+        module.m_types.push_back(&type<mud::Prefab>());
         module.m_types.push_back(&type<mud::PrefabNode>());
         module.m_types.push_back(&type<mud::PrefabType>());
         module.m_types.push_back(&type<mud::Program>());
         module.m_types.push_back(&type<mud::Radiance>());
-        module.m_types.push_back(&type<mud::ReflectionProbe>());
-        module.m_types.push_back(&type<mud::RenderFilters>());
         module.m_types.push_back(&type<mud::RenderFrame>());
         module.m_types.push_back(&type<mud::RenderQuad>());
         module.m_types.push_back(&type<mud::Rig>());
@@ -4822,102 +2453,24 @@ namespace mud
         module.m_types.push_back(&type<mud::Shot>());
         module.m_types.push_back(&type<mud::Skeleton>());
         module.m_types.push_back(&type<mud::Skin>());
-        module.m_types.push_back(&type<mud::SpaceQuad>());
         module.m_types.push_back(&type<mud::Sun>());
         module.m_types.push_back(&type<mud::SymbolIndex>());
         module.m_types.push_back(&type<mud::Texture>());
         module.m_types.push_back(&type<mud::TextureChannel>());
         module.m_types.push_back(&type<mud::TextureHint>());
         module.m_types.push_back(&type<mud::TextureSampler>());
-        module.m_types.push_back(&type<mud::Tonemap>());
-        module.m_types.push_back(&type<mud::TonemapMode>());
-        module.m_types.push_back(&type<mud::TrackMode>());
         module.m_types.push_back(&type<mud::Transform>());
         module.m_types.push_back(&type<mud::UnshadedMaterialBlock>());
-        module.m_types.push_back(&type<mud::ValueCurve<float>>());
-        module.m_types.push_back(&type<mud::ValueCurve<mud::Colour>>());
-        module.m_types.push_back(&type<mud::ValueCurve<mud::quat>>());
-        module.m_types.push_back(&type<mud::ValueCurve<mud::vec3>>());
-        module.m_types.push_back(&type<mud::ValueCurve<uint32_t>>());
-        module.m_types.push_back(&type<mud::ValueTrack<float>>());
-        module.m_types.push_back(&type<mud::ValueTrack<mud::Colour>>());
-        module.m_types.push_back(&type<mud::ValueTrack<mud::quat>>());
-        module.m_types.push_back(&type<mud::ValueTrack<mud::vec3>>());
-        module.m_types.push_back(&type<mud::ValueTrack<uint32_t>>());
-        module.m_types.push_back(&type<mud::ViewerController>());
         module.m_types.push_back(&type<mud::Viewport>());
-        module.m_types.push_back(&type<glTF>());
-        module.m_types.push_back(&type<glTFAccessor>());
-        module.m_types.push_back(&type<glTFAlphaMode>());
-        module.m_types.push_back(&type<glTFAnimation>());
-        module.m_types.push_back(&type<glTFAnimationChannel>());
-        module.m_types.push_back(&type<glTFAnimationSampler>());
-        module.m_types.push_back(&type<glTFAnimationTarget>());
-        module.m_types.push_back(&type<glTFAttributes>());
-        module.m_types.push_back(&type<glTFBuffer>());
-        module.m_types.push_back(&type<glTFBufferView>());
-        module.m_types.push_back(&type<glTFCamera>());
-        module.m_types.push_back(&type<glTFComponentType>());
-        module.m_types.push_back(&type<glTFImage>());
-        module.m_types.push_back(&type<mud::glTFImport>());
-        module.m_types.push_back(&type<glTFInterpolation>());
-        module.m_types.push_back(&type<glTFMaterial>());
-        module.m_types.push_back(&type<glTFMaterialPBR>());
-        module.m_types.push_back(&type<glTFMesh>());
-        module.m_types.push_back(&type<glTFMorphTarget>());
-        module.m_types.push_back(&type<glTFNode>());
-        module.m_types.push_back(&type<glTFOrthographic>());
-        module.m_types.push_back(&type<glTFPerspective>());
-        module.m_types.push_back(&type<glTFPrimitive>());
-        module.m_types.push_back(&type<glTFPrimitiveType>());
-        module.m_types.push_back(&type<glTFSampler>());
-        module.m_types.push_back(&type<glTFScene>());
-        module.m_types.push_back(&type<glTFSkin>());
-        module.m_types.push_back(&type<glTFSparse>());
-        module.m_types.push_back(&type<glTFSparseIndices>());
-        module.m_types.push_back(&type<glTFSparseValues>());
-        module.m_types.push_back(&type<glTFTexture>());
-        module.m_types.push_back(&type<glTFTextureInfo>());
-        module.m_types.push_back(&type<glTFType>());
-        module.m_types.push_back(&type<std::vector<glTFAccessor>>());
-        module.m_types.push_back(&type<std::vector<glTFAnimation>>());
-        module.m_types.push_back(&type<std::vector<glTFAnimationChannel>>());
-        module.m_types.push_back(&type<std::vector<glTFAnimationSampler>>());
-        module.m_types.push_back(&type<std::vector<glTFBuffer>>());
-        module.m_types.push_back(&type<std::vector<glTFBufferView>>());
-        module.m_types.push_back(&type<std::vector<glTFCamera>>());
-        module.m_types.push_back(&type<std::vector<glTFImage>>());
-        module.m_types.push_back(&type<std::vector<glTFMaterial>>());
-        module.m_types.push_back(&type<std::vector<glTFMesh>>());
-        module.m_types.push_back(&type<std::vector<glTFMorphTarget>>());
-        module.m_types.push_back(&type<std::vector<glTFNode>>());
-        module.m_types.push_back(&type<std::vector<glTFPrimitive>>());
-        module.m_types.push_back(&type<std::vector<glTFScene>>());
-        module.m_types.push_back(&type<std::vector<glTFSkin>>());
-        module.m_types.push_back(&type<std::vector<glTFTexture>>());
-        module.m_types.push_back(&type<std::vector<int>>());
         module.m_types.push_back(&type<std::vector<mud::PrefabNode>>());
-        module.m_types.push_back(&type<std::vector<mud::quat>>());
-        module.m_types.push_back(&type<mud::BlockBlur>());
         module.m_types.push_back(&type<mud::BlockCopy>());
-        module.m_types.push_back(&type<mud::BlockDofBlur>());
         module.m_types.push_back(&type<mud::BlockFilter>());
-        module.m_types.push_back(&type<mud::BlockGlow>());
-        module.m_types.push_back(&type<mud::BlockReflection>());
         module.m_types.push_back(&type<mud::BlockResolve>());
         module.m_types.push_back(&type<mud::BlockSky>());
-        module.m_types.push_back(&type<mud::BlockTonemap>());
         module.m_types.push_back(&type<mud::DrawBlock>());
-        module.m_types.push_back(&type<mud::BlockDepth>());
-        module.m_types.push_back(&type<mud::BlockLight>());
         module.m_types.push_back(&type<mud::BlockParticles>());
-        module.m_types.push_back(&type<mud::BlockRadiance>());
-        module.m_types.push_back(&type<mud::BlockShadow>());
-        module.m_types.push_back(&type<mud::Viewer>());
-        module.m_types.push_back(&type<mud::SpaceSheet>());
-        module.m_types.push_back(&type<mud::RenderTarget>());
-        module.m_types.push_back(&type<mud::SceneViewer>());
         module.m_types.push_back(&type<mud::ParticleEmitter>());
+        module.m_types.push_back(&type<mud::RenderTarget>());
     
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node(val<mud::Gnode>(args[0]), args[1], val<mud::vec3>(args[2]), val<mud::quat>(args[3]), val<mud::vec3>(args[4]))); };
@@ -4955,9 +2508,9 @@ namespace mud
             module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "item", function_id<mud::Item&(*)(mud::Gnode&, const mud::Model&, uint32_t, mud::Material*, size_t)>(&mud::gfx::item), func, params, Ref(type<mud::Item>()) });
         }
         {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::model(val<mud::Gnode>(args[0]), val<std::string>(args[1]), val<uint32_t>(args[2]), &val<mud::Material>(args[3]), val<size_t>(args[4]))); };
+            auto func = [](array<Var> args, Var& result) {  result = Ref(mud::gfx::model(val<mud::Gnode>(args[0]), val<std::string>(args[1]), val<uint32_t>(args[2]), &val<mud::Material>(args[3]), val<size_t>(args[4]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "name", var(std::string()) }, { "flags", var(uint32_t()), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t()), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "model", function_id<mud::Item&(*)(mud::Gnode&, const std::string&, uint32_t, mud::Material*, size_t)>(&mud::gfx::model), func, params, Ref(type<mud::Item>()) });
+            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "model", function_id<mud::Item*(*)(mud::Gnode&, const std::string&, uint32_t, mud::Material*, size_t)>(&mud::gfx::model), func, params, Ref(type<mud::Item>()) });
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::animated(val<mud::Gnode>(args[0]), val<mud::Item>(args[1]))); };
@@ -4983,16 +2536,6 @@ namespace mud
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::gfx::radiance(val<mud::Gnode>(args[0]), val<std::string>(args[1]), val<mud::BackgroundMode>(args[2])); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "texture", var(std::string()) }, { "background", var(mud::BackgroundMode()) } };
             module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "radiance", function_id<void(*)(mud::Gnode&, const std::string&, mud::BackgroundMode)>(&mud::gfx::radiance), func, params, Var() });
-        }
-        {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::viewer(val<mud::Widget>(args[0]), val<mud::Scene>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "scene", Ref(type<mud::Scene>()) } };
-            module.m_functions.push_back({ &namspc({ "mud", "ui" }), "viewer", function_id<mud::Viewer&(*)(mud::Widget&, mud::Scene&)>(&mud::ui::viewer), func, params, Ref(type<mud::Viewer>()) });
-        }
-        {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::scene_viewer(val<mud::Widget>(args[0]), val<mud::vec2>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "size", var(mud::vec2()), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud", "ui" }), "scene_viewer", function_id<mud::SceneViewer&(*)(mud::Widget&, const mud::vec2&)>(&mud::ui::scene_viewer), func, params, Ref(type<mud::SceneViewer>()) });
         }
     }
 #endif

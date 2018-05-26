@@ -196,7 +196,7 @@ namespace mud
 		m_keyboard = &keyboard;
 	}
 
-	void EmContext::reset(size_t width, size_t height)
+	void EmContext::reset(uint16_t width, uint16_t height)
 	{
 		UNUSED(width); UNUSED(height);
 	}
@@ -264,25 +264,4 @@ namespace mud
 		m_mouse->wheeled(m_cursor, -wheelEvent.deltaY);
 		return true;
 	}
-
-#ifdef MUD_RENDERER_GL
-#include <ui/Backend/Gl/GlRenderer.h>
-
-namespace mud
-{
-	EmRenderSystem::EmRenderSystem(const string& resourcePath)
-		: RenderSystem(resourcePath, false)
-	{}
-
-	object_ptr<Context> EmRenderSystem::createContext(const string& name, int width, int height, bool fullScreen)
-	{
-		return make_object<EmContext>(*this, name, width, height, fullScreen);
-	}
-
-	object_ptr<Renderer> EmRenderSystem::createRenderer(Context& context)
-	{
-		return make_object<GlRenderer>(m_resourcePath, true);
-	}
-}
-#endif
 }

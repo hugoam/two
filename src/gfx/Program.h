@@ -60,8 +60,8 @@ namespace mud
 		};
 
 	public:
-		Program(GfxSystem& gfx_system, cstring name, array<GfxBlock*> blocks);
-		Program(GfxSystem& gfx_system, cstring name, array<GfxBlock*> blocks, array<cstring> sources);
+		Program(cstring name);
+		Program(cstring name, array<GfxBlock*> blocks, array<cstring> sources);
 		~Program();
 
 		_attr_ cstring name();
@@ -81,11 +81,10 @@ namespace mud
 		bgfx::ProgramHandle default_version();
 		bgfx::ProgramHandle version(const ShaderVersion& config);
 
+		void register_blocks(array<GfxBlock*> blocks);
 		void register_block(const GfxBlock& block);
 		void register_options(uint8_t block, array<cstring> options);
 		void register_modes(uint8_t block, array<cstring> modes);
-
-		GfxSystem& m_gfx_system;
 
 		ProgramBlockArray m_blocks;
 
@@ -95,5 +94,7 @@ namespace mud
 
 		struct Impl;
 		unique_ptr<Impl> m_impl;
+
+		static GfxSystem* ms_gfx_system;
 	};
 }

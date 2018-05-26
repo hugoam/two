@@ -18,8 +18,9 @@
 #include <gfx/Animated.h>
 #include <gfx/Draw.h>
 #include <gfx/Pipeline.h>
+#include <gfx/GfxSystem.h>
 
-#include <gfx/Blocks/Reflection.h>
+#include <gfx-pbr/Reflection.h>
 
 #include <geom/Intersect.h>
 
@@ -29,7 +30,7 @@ namespace mud
 		: m_gfx_system(gfx_system)
 		, m_graph(*this)
 		, m_root_node(this)
-		, m_immediate(make_object<ImmediateDraw>())
+		, m_immediate(make_object<ImmediateDraw>(gfx_system.fetch_material("immediate", "unshaded")))
 		, m_pass_jobs(make_object<PassJobs>())
 	{
 		m_environment.m_radiance.m_colour = Colour::White;//{ 0.35f, 0.33f, 0.3f, 1.f };
@@ -44,7 +45,7 @@ namespace mud
 		m_pool->create_pool<Camera>();
 		m_pool->create_pool<Particles>();
 		//m_pool->create_pool<GIProbe>();
-		m_pool->create_pool<ReflectionProbe>();
+		//m_pool->create_pool<ReflectionProbe>();
 	}
 
 	Scene::~Scene()
@@ -117,7 +118,6 @@ namespace mud
 				render.m_shot->m_gi_probes.push_back(gi_probe);
 				gi_probe->m_dirty = true;
 			}
-#endif
 
 		VecPool<ReflectionProbe>* probes = m_pool->pool<ReflectionProbe>().m_vec_pool.get();
 		for(; probes; probes = probes->m_next.get())
@@ -127,6 +127,7 @@ namespace mud
 					render.m_shot->m_reflection_probes.push_back(probe);
 					probe->m_dirty = true; // force dirty for now
 				}
+#endif
 
 		render.m_frustum = make_unique<Frustum>(optimized_frustum(render.m_camera, to_array(render.m_shot->m_items)));
 

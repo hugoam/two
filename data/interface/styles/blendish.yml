@@ -69,7 +69,7 @@
     },
     {
         "selector" : "Button, Toggle, DockToggle, ToolButton, RadioChoice, Dropdown, DropdownInput, TabHeader",
-        "pressed, active, pressed|active" : {
+        "pressed, selected, active, pressed|active" : {
             "linear_gradient" : [-15, 15]
         }
     },

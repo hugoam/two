@@ -12,6 +12,7 @@
 #include <math/Axis.h>
 #include <math/Clamp.h>
 #include <math/Colour.h>
+#include <math/Curve.h>
 #include <math/Grid.h>
 #include <math/Image.h>
 #include <math/Interp.h>

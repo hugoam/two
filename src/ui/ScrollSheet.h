@@ -12,7 +12,7 @@ namespace mud
 {
 namespace ui
 {
-	MUD_UI_EXPORT void draw_grid(const Frame& frame, VgRenderer& renderer);
+	MUD_UI_EXPORT void draw_grid(const Frame& frame, const vec4& rect, VgRenderer& renderer);
 
 	MUD_UI_EXPORT ScrollSheet& scroll_sheet(Widget& parent, Style& style = styles().scrollsheet, Style* surface_style = nullptr);
 	MUD_UI_EXPORT ScrollSheet& scroll_plan(Widget& parent, Style& style = styles().scrollsheet);

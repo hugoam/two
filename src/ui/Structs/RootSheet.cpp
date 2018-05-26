@@ -47,6 +47,8 @@ namespace mud
 			m_hovered = hovered;
 		}
 
+		m_drop = {};
+
 		//ui::cursor(*this, m_mouse.m_last_pos, m_cursor_style ? *m_cursor_style : ui::cursor_styles().cursor);
 		
 		m_frame.relayout();

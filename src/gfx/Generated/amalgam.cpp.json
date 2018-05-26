@@ -6,6 +6,7 @@
 		"gfx/Animation.cpp",
 		"gfx/Camera.cpp",
 		"gfx/Draw.cpp",
+		"gfx/Effects.cpp",
 		"gfx/Filter.cpp",
 		"gfx/Frustum.cpp",
 		"gfx/GfxSystem.cpp",
@@ -15,6 +16,7 @@
 		"gfx/ManualRender.cpp",
 		"gfx/Material.cpp",
 		"gfx/Mesh.cpp",
+		"gfx/Model.cpp",
 		"gfx/Node3.cpp",
 		"gfx/Particles.cpp",
 		"gfx/Picker.cpp",
@@ -27,31 +29,9 @@
 		"gfx/Texture.cpp",
 		"gfx/Uniform.cpp",
 		"gfx/Viewport.cpp",
-		"gfx/Blocks/Depth.cpp",
-		"gfx/Blocks/Light.cpp",
-		"gfx/Blocks/Particles.cpp",
-		"gfx/Blocks/Radiance.cpp",
-		"gfx/Blocks/Reflection.cpp",
-		"gfx/Blocks/ReflectionAtlas.cpp",
-		"gfx/Blocks/Shadow.cpp",
-		"gfx/Blocks/ShadowAtlas.cpp",
-		"gfx/Blocks/ShadowCSM.cpp",
 		"gfx/Blocks/Sky.cpp",
-		"gfx/Filters/Blur.cpp",
-		"gfx/Filters/DofBlur.cpp",
-		"gfx/Filters/EffectBlock.cpp",
-		"gfx/Filters/Glow.cpp",
-		"gfx/Filters/Tonemap.cpp",
 		"gfx/Generated/Module.cpp",
-		"gfx/Generated/Types.cpp",
-		"gfx/Import/ImporterGltf.cpp",
-		"gfx/Import/ImporterObj.cpp",
-		"gfx/Ui/GfxEdit.cpp",
-		"gfx/Ui/ParticleEdit.cpp",
-		"gfx/Ui/PrefabEdit.cpp",
-		"gfx/Widget/SpaceSheet.cpp",
-		"gfx/Widget/SpaceViewer.cpp",
-		"gfx/Widget/Viewer.cpp"
+		"gfx/Generated/Types.cpp"
 	],
 	"include_paths": [
         ""
@@ -60,8 +40,7 @@
 		"gfx/": "mudgfx.h",
 		"obj/": "mudobj.h",
 		"math/": "mudmath.h",
-		"geom/": "mudgeom.h",
-		"ui/": "mudui.h"
+		"geom/": "mudgeom.h"
     },
 	"clean_strings": [
 		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",

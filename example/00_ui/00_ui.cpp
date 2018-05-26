@@ -1,7 +1,11 @@
 #include <mud/mud.h>
 #include <00_ui/00_ui.h>
 
-#include <bgfx/BgfxContext.h>
+#ifdef MUD_RENDERER_GL
+#include <gl/GlSystem.h>
+#elif defined MUD_RENDERER_BGFX
+#include <bgfx/BgfxSystem.h>
+#endif
 
 #include <cfloat>
 
@@ -841,7 +845,7 @@ void example_ui(Widget& root_sheet)
 }
 
 #ifdef _00_UI_EXE
-bool pump(BgfxSystem& render_system, UiWindow& ui_window)
+bool pump(RenderSystem& render_system, UiWindow& ui_window)
 {
 	example_ui(ui_window.m_root_sheet->begin());
 	render_system.next_frame();
@@ -851,7 +855,7 @@ bool pump(BgfxSystem& render_system, UiWindow& ui_window)
 #ifdef MUD_PLATFORM_EMSCRIPTEN
 	#include <emscripten/emscripten.h>
 
-	BgfxSystem* g_render_system = nullptr;
+	RenderSystem* g_render_system = nullptr;
 	UiWindow* g_window = nullptr;
 	void iterate() { pump(*g_render_system, *g_window); }
 #endif
@@ -861,7 +865,11 @@ int main(int argc, char *argv[])
 	UNUSED(argc); UNUSED(argv);
 	System::instance().load_modules({ &mudobj::module(), &mudmath::module(), &mudlang::module(), &mudui::module() });
 
+#ifdef MUD_RENDERER_GL
+	static GlSystem render_system = { MUD_RESOURCE_PATH };
+#elif defined MUD_RENDERER_BGFX
 	static BgfxSystem render_system = { MUD_RESOURCE_PATH };
+#endif
 
 	static UiWindow ui_window = { render_system, "mud ui demo", 1200, 800, false };
 	//switchUiTheme(ui_window, "Minimal");

@@ -78,19 +78,16 @@ namespace mud
 
 	MouseEvent& Mouse::dispatch_event(MouseEvent input_event)
 	{
-		input_event.m_delta = input_event.m_pos - m_last_pos;
-		//if(input_event.m_delta.x > 0 || input_event.m_delta.y > 0)
-		//	printf("Mouse :: delta %i, %i\n", int(input_event.m_delta.x), int(input_event.m_delta.y));
-		//input_event.m_modifiers = m_keyboard.modifiers();
+		input_event.m_delta = m_pos - m_last_pos;
 		m_events.push_back(input_event);
 		m_dispatcher.dispatchEvent(m_events.back());
 		return m_events.back();
 	}
 
-	MouseEvent& Mouse::dispatch_secondary(MouseEvent input_event, ControlNode* pressed, vec2 pressed_pos)
+	MouseEvent& Mouse::dispatch_secondary(MouseEvent input_event, ControlNode* pressed, vec2 pressed_pos, ControlNode* target)
 	{
 		input_event.m_pressed = pressed_pos;
-		input_event.m_target = m_dispatcher.m_control_node.controlEvent(input_event);
+		input_event.m_target = target;
 		m_events.push_back(input_event);
 		m_dispatcher.dispatchEvent(m_events.back(), pressed);
 		return m_events.back();
@@ -98,16 +95,29 @@ namespace mud
 
 	MouseEvent& Mouse::heartbeat()
 	{
-		return dispatch_event(MouseEvent(DeviceType::Mouse, EventType::Heartbeat, m_last_pos));
+		MouseEvent& mouse_event = dispatch_event(MouseEvent(DeviceType::Mouse, EventType::Heartbeat, m_pos));
+		m_last_pos = m_pos;
+		m_pos = mouse_event.m_pos;
+		for(MouseButton& button : m_buttons)
+			if(button.m_dragging)
+				button.drag(mouse_event);
+		return mouse_event;
 	}
 
 	void Mouse::moved(vec2 pos)
 	{
 		MouseEvent& mouse_event = dispatch_event(MouseEvent(DeviceType::Mouse, EventType::Moved, pos));
-		m_last_pos = mouse_event.m_pos;
+		m_pos = pos;
+
+		const float drag_threshold = 3.f;
 
 		for(MouseButton& button : m_buttons)
-			button.moved(mouse_event);
+			if(button.m_pressed)
+			{
+				vec2 delta = mouse_event.m_pos - button.m_pressed_event.m_pos;
+				if (std::abs(delta.x) > drag_threshold || std::abs(delta.y) > drag_threshold)
+					button.drag_start(mouse_event);
+			}
 	}
 
 	void Mouse::wheeled(vec2 pos, float amount)
@@ -121,17 +131,6 @@ namespace mud
 		, m_mouse(mouse)
 		, m_deviceType(deviceType)
 	{}
-
-	void MouseButton::moved(MouseEvent& mouse_event)
-	{
-		const float threshold = 3.f;
-		vec2 delta = mouse_event.m_pos - m_pressed_event.m_pos;
-
-		if(m_dragging)
-			this->drag_move(mouse_event);
-		else if(m_pressed && (std::abs(delta.x) > threshold || std::abs(delta.y) > threshold))
-			this->drag_start(mouse_event);
-	}
 
 	void MouseButton::pressed(vec2 pos, InputModifier modifiers)
 	{
@@ -161,9 +160,9 @@ namespace mud
 	void MouseButton::drag_start(MouseEvent& mouse_event)
 	{
 		m_mouse.dispatch_secondary(MouseEvent(m_deviceType, EventType::DragStarted, mouse_event), m_pressed, m_pressed_event.m_pos);
-		this->drag_move(mouse_event);
-		//m_root_sheet.m_cursor.lock();
 
+		this->drag(mouse_event);
+		//m_root_sheet.m_cursor.lock();
 		m_dragging = true;
 	}
 
@@ -171,13 +170,16 @@ namespace mud
 	{
 		m_dragging = false;
 		//m_root_sheet.m_cursor.unlock();
-		this->drag_move(mouse_event);
-		m_mouse.dispatch_secondary(MouseEvent(m_deviceType, EventType::DragEnded, mouse_event), m_pressed, m_pressed_event.m_pos);
+		this->drag(mouse_event);
+
+		MouseEvent& drop = m_mouse.dispatch_event(MouseEvent(m_deviceType, EventType::Dropped, mouse_event.m_pos, m_pressed_event.m_modifiers));
+		m_mouse.dispatch_secondary(MouseEvent(m_deviceType, EventType::DragEnded, mouse_event), m_pressed, m_pressed_event.m_pos, drop.m_receiver);
 	}
 
-	void MouseButton::drag_move(MouseEvent& mouse_event)
+	void MouseButton::drag(MouseEvent& mouse_event)
 	{
-		m_mouse.dispatch_secondary(MouseEvent(m_deviceType, EventType::Dragged, mouse_event), m_pressed, m_pressed_event.m_pos);
+		MouseEvent& drop = m_mouse.dispatch_event(MouseEvent(m_deviceType, EventType::DraggedTarget, mouse_event.m_pos, m_pressed_event.m_modifiers));
+		m_mouse.dispatch_secondary(MouseEvent(m_deviceType, EventType::Dragged, mouse_event), m_pressed, m_pressed_event.m_pos, drop.m_receiver);
 	}
 
 	void MouseButton::click(MouseEvent& mouse_event)

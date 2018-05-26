@@ -3,6 +3,7 @@
 	"target": "mudmath.cpp",
 	"sources": [
 		"math/Colour.cpp",
+		"math/Curve.cpp",
 		"math/Image.cpp",
 		"math/Interp.cpp",
 		"math/Math.cpp",

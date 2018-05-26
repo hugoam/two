@@ -48,9 +48,11 @@ namespace mud
 		Stroked = 5,
 		DoubleStroked = 6,
 		Dragged = 7,
-		DragStarted = 8,
-		DragEnded = 9,
-		Count = 10
+		DraggedTarget = 8,
+		DragStarted = 9,
+		DragEnded = 10,
+		Dropped = 11,
+		Count = 12
 	};
 
 	struct MUD_CTX_EXPORT InputEvent

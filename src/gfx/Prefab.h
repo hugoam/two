@@ -33,4 +33,13 @@ namespace mud
 
 		void draw(Gnode& parent);
 	};
+
+	class _refl_ MUD_GFX_EXPORT Prefab
+	{
+	public:
+		Prefab(cstring name) : m_name(name) {}
+
+		_attr_ strung m_name;
+		_attr_ _mut_ PrefabNode m_node;
+	};
 }

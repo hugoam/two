@@ -24,6 +24,7 @@ namespace mud
 	inline float oriented_angle(const vec2& lhs, const vec2& rhs) { return glm::orientedAngle(lhs, rhs); }
 	inline float oriented_angle(const vec3& lhs, const vec3& rhs, const vec3& ref) { return glm::orientedAngle(lhs, rhs, ref); }
 	inline quat angle_axis(float angle, const vec3& axis) { return glm::angleAxis(angle, axis); }
+	inline quat axis_angle(const vec3& axis, float angle) { return glm::angleAxis(angle, axis); }
 	inline quat rotate(const quat& q, float angle, const vec3& axis) { return glm::rotate(q, angle, axis); }
 	//inline vec3 rotate(const vec3& v, float angle, const vec3& axis) { return glm::rotate(v, angle, axis); }
 	inline vec3 rotate(const quat& q, const vec3& vec) { return q * vec; }

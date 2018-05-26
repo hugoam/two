@@ -23,7 +23,10 @@
     {   
         "selector" : "Label, Title, Tooltip, TextEdit, TypeLabel, TypeZone, SliderDisplay, RadioChoiceItem",
         "text_colour" : "White",
-        "skin_padding" : [4]
+        "skin_padding" : [4],
+        "disabled" : {
+            "text_colour" : "Grey117"
+        }
     },
     {   
         "selector" : "Title",
@@ -129,7 +132,7 @@
         "selector" : "Window, Dockbox, Node",
         "shadow" : [2, 2, 7, 2],
         "selected" : {
-            "shadow" : [0, 0, 0, 1, [0, 1, 0, 1]]
+            "shadow" : [0, 0, 0, 1, "Grey600"]
         }
     },
     {   
@@ -154,7 +157,7 @@
         "padding" : [-5, 0, -5, 0]
     },
     {   
-        "selector" : "DropdownList, MenuList, SubMenuList",
+        "selector" : "Popdown, DropdownList, MenuList, SubMenuList",
         "background_colour" : [0.098, 0.098, 0.098, 0.802]
     },
     {

@@ -22,9 +22,9 @@ namespace mud
 
 		void init_context();
 		virtual void init_input(Mouse& mouse, Keyboard& keyboard) final;
+		virtual void reset(uint16_t width, uint16_t height) override;
 
 		virtual bool next_frame() final;
-		virtual void reset(size_t width, size_t height) final;
 
 		void resize();
 
@@ -44,17 +44,6 @@ namespace mud
 		Mouse* m_mouse;
 		Keyboard* m_keyboard;
 	};
-
-#ifdef MUD_RENDERER_GL
-	class MUD_CTX_EXPORT EmRenderSystem : public RenderSystem
-	{
-	public:
-		EmRenderSystem(const string& resourcePath);
-
-		virtual object_ptr<Context> createContext(const string& name, int width, int height, bool fullScreen);
-		virtual object_ptr<Renderer> createRenderer(Context& context);
-	};
-#endif
 }
 
 #endif

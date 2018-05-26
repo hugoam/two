@@ -17,7 +17,8 @@
 		"math/": "mudmath.h",
 		"geom/": "mudgeom.h",
 		"ui/": "mudui.h",
-		"gfx/": "mudgfx.h"
+		"gfx/": "mudgfx.h",
+		"edit/": "mudedit.h"
 	},
 	"ignore": [
 		"Generated"

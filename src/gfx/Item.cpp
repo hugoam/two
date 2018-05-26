@@ -6,6 +6,7 @@
 #include <gfx/Item.h>
 
 #include <gfx/Mesh.h>
+#include <gfx/Model.h>
 #include <gfx/Node3.h>
 
 #include <bgfx/bgfx.h>

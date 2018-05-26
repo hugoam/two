@@ -13,10 +13,10 @@ function mud_ui_backend()
         --"MUD_UI_DRAW_CACHE",
     }
         
-    configuration { "vg-vg" }
+    if _OPTIONS["vg-vg"] then
+        mud_module("ui-vg", MUD_SRC_DIR, "ui-vg", "MUD_UI_VG")
+        
         files {
-            path.join(MUD_SRC_DIR,      "ui-vg",        "**.h"),
-            path.join(MUD_SRC_DIR,      "ui-vg",        "**.cpp"),
             path.join(MUD_3RDPARTY_DIR, "vg-renderer",  "src/**.h"),
             path.join(MUD_3RDPARTY_DIR, "vg-renderer",  "src/**.c"),
             path.join(MUD_3RDPARTY_DIR, "vg-renderer",  "src/**.cpp"),
@@ -29,11 +29,13 @@ function mud_ui_backend()
         defines {
             "MUD_VG_VG",
         }
+    end
         
-    configuration { "vg-nanovg" }
+    if _OPTIONS["vg-nanovg"] then
+        mud_module("ui-nanovg",         MUD_SRC_DIR, "ui-nanovg",       "MUD_UI_NANOVG")
+        mud_module("ui-nanovg-bgfx",    MUD_SRC_DIR, "ui-nanovg-bgfx",  "MUD_UI_NANOVG_BGFX")
+        
         files {
-            path.join(MUD_SRC_DIR,    "ui-nanovg",        "**.cpp"),
-            path.join(MUD_SRC_DIR,    "ui-nanovg",        "**.cpp"),
             path.join(MUD_NANOVG_DIR, "src/nanovg.c"),
             path.join(MUD_NANOVG_DIR, "src/nanovg_bgfx.cpp"),
         }
@@ -41,6 +43,5 @@ function mud_ui_backend()
         defines {
             "MUD_VG_NANOVG",
         }
-        
-    configuration {}
+    end
 end

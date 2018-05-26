@@ -13,6 +13,8 @@
 #include <gfx/Texture.h>
 #include <gfx/Material.h>
 #include <gfx/Program.h>
+#include <gfx/Asset.h>
+#include <gfx/Camera.h>
 
 #include <gfx/Node3.h>
 
@@ -51,6 +53,10 @@ namespace mud
 	bgfx::VertexDecl ParticleVertex::ms_decl;
 
 	ParticleGenerator::ParticleGenerator()
+	{}
+
+	ParticleGenerator::ParticleGenerator(cstring name)
+		: m_name(name)
 	{}
 
 	void ParticleEmitter::update(float delta)
@@ -183,7 +189,7 @@ namespace mud
 		: m_gfx_system(gfx_system)
 		, m_emitters(make_unique<TPool<ParticleEmitter>>(maxEmitters))
 		, m_sprites(uvec2(SPRITE_TEXTURE_SIZE))
-		, m_program(gfx_system.get_program("particle").default_version())
+		, m_program(gfx_system.programs().create("particle").default_version())
 	{
 		ParticleVertex::init();
 
@@ -203,11 +209,11 @@ namespace mud
 
 	Sprite* ParticleSystem::createSprite(cstring name, cstring pathname, uvec2 frames)
 	{
-		carray<cstring, 1> exts = { "" };
-		cstring root_path = m_gfx_system.locate_file(("textures/particles/" + string(pathname)).c_str(), exts);
-		string path = string(root_path) + "textures/particles/" + pathname;
+		string filename = "textures/particles/" + string(pathname);
+		LocatedFile location = m_gfx_system.locate_file(filename.c_str());
+		string path = string(location.m_location) + filename;
 
-		bimg::ImageContainer* image = load_image(m_gfx_system.m_allocator, m_gfx_system.m_file_reader, path.c_str(), bgfx::TextureFormat::BGRA8);
+		bimg::ImageContainer* image = load_bgfx_image(m_gfx_system.m_allocator, m_gfx_system.m_file_reader, path.c_str(), bgfx::TextureFormat::BGRA8);
 		Sprite* sprite = this->createSprite(name, uvec2(image->m_width, image->m_height), frames, image->m_data);
 		bimg::imageFree(image);
 		return sprite;
@@ -305,4 +311,57 @@ namespace mud
 
 	void Particles::upload()
 	{}
+
+	BlockParticles::BlockParticles(GfxSystem& gfx_system)
+		: DrawBlock(gfx_system, type<BlockParticles>())
+		, m_particle_system(gfx_system, 64)
+	{}
+
+	void BlockParticles::init_gfx_block()
+	{
+		m_particle_system.createSprite("particle.ktx", "particle.ktx");
+		m_particle_system.createSprite("flames.png", "flames_b.png", { 2, 2 });
+		m_particle_system.createSprite("billows.png", "billows_b.png", { 2, 2 });
+		m_particle_system.createSprite("wave.png", "wave_b.png");
+	}
+
+	void BlockParticles::begin_gfx_block(Render& render)
+	{
+		UNUSED(render);
+	}
+
+	void BlockParticles::submit_gfx_block(Render& render)
+	{
+		UNUSED(render);
+	}
+
+	void BlockParticles::begin_gfx_pass(Render& render)
+	{
+		UNUSED(render);
+	}
+
+	void BlockParticles::submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element)
+	{
+		UNUSED(render); UNUSED(render_pass); UNUSED(element);
+	}
+
+	PassParticles::PassParticles(GfxSystem& gfx_system, BlockParticles& block_particles)
+		: RenderPass(gfx_system, "particles", {})
+		, m_block_particles(block_particles)
+	{
+		UNUSED(gfx_system);
+	}
+
+	void PassParticles::begin_render_pass(Render& render)
+	{
+		UNUSED(render);
+	}
+
+	void PassParticles::submit_render_pass(Render& render)
+	{
+		Pass particle_pass = render.next_pass("particles");
+
+		m_block_particles.m_particle_system.update(render.m_frame.m_delta_time); // * timeScale
+		m_block_particles.m_particle_system.render(particle_pass.m_index, render.m_camera.m_transform, render.m_camera.m_node.m_position);
+	}
 }

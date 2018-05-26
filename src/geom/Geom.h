@@ -12,6 +12,7 @@
 namespace mud
 {
 	MUD_MATH_EXPORT Aabb transform_aabb(const Aabb& source, const mat4& transform);
+	MUD_MATH_EXPORT Aabb translate_aabb(const Aabb& source, const vec3& offset);
 	MUD_MATH_EXPORT vec2 project_aabb_in_plane(const Plane& plane, const Aabb& aabb);
 
 #define CMP_EPSILON 0.00001f

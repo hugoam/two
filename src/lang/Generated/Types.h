@@ -23,11 +23,6 @@ namespace mud
     template <> MUD_LANG_EXPORT Type& type<mud::Process>();
     template <> MUD_LANG_EXPORT Type& type<mud::StreamBranch>();
     template <> MUD_LANG_EXPORT Type& type<mud::Valve>();
-    template <> MUD_LANG_EXPORT Type& type<mud::Script>();
-    template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>();
-    template <> MUD_LANG_EXPORT Type& type<mud::ProcessFunction>();
-    template <> MUD_LANG_EXPORT Type& type<mud::ProcessMethod>();
-    template <> MUD_LANG_EXPORT Type& type<mud::ProcessScript>();
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessCallable>();
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessCreate>();
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessDisplay>();
@@ -36,5 +31,10 @@ namespace mud
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessValue>();
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessInput>();
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessOutput>();
+    template <> MUD_LANG_EXPORT Type& type<mud::ProcessFunction>();
+    template <> MUD_LANG_EXPORT Type& type<mud::ProcessMethod>();
+    template <> MUD_LANG_EXPORT Type& type<mud::ProcessScript>();
     template <> MUD_LANG_EXPORT Type& type<mud::Stream>();
+    template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>();
+    template <> MUD_LANG_EXPORT Type& type<mud::Script>();
 }
