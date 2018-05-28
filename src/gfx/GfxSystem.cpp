@@ -260,10 +260,10 @@ namespace mud
 		return *this->materials().get("debug");
 	}
 
-	Material& GfxSystem::fetch_material(cstring name, cstring shader)
+	Material& GfxSystem::fetch_material(cstring name, cstring shader, bool builtin)
 	{
 		Program* program = this->programs().file(shader);
-		return this->materials().fetch(name, [&](Material& material) { material.m_program = program; });
+		return this->materials().fetch(name, [&](Material& material) { material.m_builtin = builtin; material.m_program = program; });
 	}
 
 	Material& GfxSystem::fetch_image256_material(const Image256& image)

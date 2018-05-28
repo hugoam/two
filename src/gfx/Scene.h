@@ -70,14 +70,15 @@ namespace mud
 
 		GfxSystem& m_gfx_system;
 
+		object_ptr<ImmediateDraw> m_immediate;
+		object_ptr<ParticleSystem> m_particle_system;
+		object_ptr<PassJobs> m_pass_jobs;
+
 		unique_ptr<ObjectPool> m_pool;
 
 		_attr_ Gnode m_graph;
 		_attr_ Node3 m_root_node;
 		_attr_ _mut_ Environment m_environment;
-		
-		object_ptr<ImmediateDraw> m_immediate;
-		object_ptr<PassJobs> m_pass_jobs;
 
 		_meth_ Gnode& begin();
 		void update();

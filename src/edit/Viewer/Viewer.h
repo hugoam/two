@@ -45,9 +45,7 @@ namespace mud
 
 		Camera m_camera;
 		_attr_ Viewport m_viewport;
-#ifndef MUD_PLATFORM_EMSCRIPTEN
 		unique_ptr<Picker> m_picker;
-#endif
 
 		_attr_ vec2 m_position;
 		_attr_ vec2 m_size;

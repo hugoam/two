@@ -3,10 +3,27 @@
 
 using namespace mud;
 
+PrefabNode& add_node(Prefab& prefab, PrefabType type, Function& function, Ref object)
+{
+	PrefabNode node;
+	node.m_prefab_type = type;
+	node.m_object = object;
+	node.m_call = { function };
+	node.m_call.m_arguments[1] = object;
+	node.m_call.m_arguments[2] = var(uint32_t(ITEM_SELECTABLE));
+	prefab.m_node.m_nodes.push_back(node);
+	return prefab.m_node.m_nodes.back();
+}
+
 void ex_07_prefabs_init(Shell& app)
 {
+#ifdef MUD_PLATFORM_EMSCRIPTEN
+	app.m_gfx_system.particles().load_files(MUD_RESOURCE_PATH);
+	app.m_gfx_system.models().load_files(MUD_RESOURCE_PATH);
+#else
 	app.m_gfx_system.particles().load_files(MUD_RESOURCE_PATH "examples/07_prefabs/");
 	app.m_gfx_system.models().load_files(MUD_RESOURCE_PATH "examples/07_gltf/");
+#endif
 	//app.m_gfx_system.models().load_files(MUD_RESOURCE_PATH "models/");
 }
 
@@ -19,7 +36,7 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 		once = true;
 	}
 
-	static PrefabNode prefab;
+	static Prefab& prefab = app.m_gfx_system.prefabs().create("Prefab");
 	static PrefabNode* selected = nullptr;
 
 	Widget& board = ui::board(parent);
@@ -33,7 +50,7 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 	app.m_editor.m_viewer = &viewer;
 
 	Gnode& scene = viewer.m_scene->begin();
-	prefab.draw(scene);
+	prefab.m_node.draw(scene);
 
 	gfx::directional_light_node(scene, sun_rotation(M_PI / 4.f, M_PI / 4.f));
 	//gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
@@ -51,25 +68,9 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 		if(parent.root_sheet().m_drop.m_object)
 		{
 			if(parent.root_sheet().m_drop.m_object.type().is<Model>())
-			{
-				PrefabNode node;
-				node.m_prefab_type = PrefabType::Item;
-				node.m_call = { function(gfx::item) };
-				node.m_call.m_arguments[1] = parent.root_sheet().m_drop.m_object;
-				node.m_call.m_arguments[2] = var(uint32_t(ITEM_SELECTABLE));
-				prefab.m_nodes.push_back(node);
-				selected = &prefab.m_nodes.back();
-			}
+				selected = &add_node(prefab, PrefabType::Item, function(gfx::item), parent.root_sheet().m_drop.m_object);
 			if(parent.root_sheet().m_drop.m_object.type().is<ParticleGenerator>())
-			{
-				PrefabNode node;
-				node.m_prefab_type = PrefabType::Particles;
-				node.m_call = { function(gfx::particles) };
-				node.m_call.m_arguments[1] = parent.root_sheet().m_drop.m_object;
-				node.m_call.m_arguments[2] = var(uint32_t(ITEM_SELECTABLE));
-				prefab.m_nodes.push_back(node);
-				selected = &prefab.m_nodes.back();
-			}
+				selected = &add_node(prefab, PrefabType::Particles, function(gfx::particles), parent.root_sheet().m_drop.m_object);
 		}
 
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
@@ -80,7 +81,7 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
-		prefab_edit(*dock, viewer.m_gfx_system, prefab, selected, app.m_editor); // "Particle Editor" // identity = edited
+		prefab_edit(*dock, viewer.m_gfx_system, prefab.m_node, selected, app.m_editor); // "Particle Editor" // identity = edited
 		if(selected)
 			app.m_editor.m_selection = { &selected->m_transform };
 		else

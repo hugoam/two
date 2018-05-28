@@ -135,20 +135,6 @@ namespace mud
 			double_label(columns, "backbuffer height", to_string(stats->height).c_str());
 		}
 
-#if 0
-		uint16_t numDynamicIndexBuffers;  //!< Number of used dynamic index buffers.
-		uint16_t numDynamicVertexBuffers; //!< Number of used dynamic vertex buffers.
-		uint16_t numFrameBuffers;         //!< Number of used frame buffers.
-		uint16_t numIndexBuffers;         //!< Number of used index buffers.
-		uint16_t numOcclusionQueries;     //!< Number of used occlusion queries.
-		uint16_t numPrograms;             //!< Number of used programs.
-		uint16_t numShaders;              //!< Number of used shaders.
-		uint16_t numTextures;             //!< Number of used textures.
-		uint16_t numUniforms;             //!< Number of used uniforms.
-		uint16_t numVertexBuffers;        //!< Number of used vertex buffers.
-		uint16_t numVertexDecls;          //!< Number of used vertex declarations.
-#endif
-
 		static cstring columns[3] = { "view", "gpu time", "cpu time" };
 		Table& table = ui::table(self, { columns, 3 }, {});
 
@@ -165,7 +151,7 @@ namespace mud
 		}
 	}
 
-	SceneViewer& asset_viewer(Widget& parent, vec3 offset, float radius)
+	SceneViewer& asset_empty_viewer(Widget& parent, Ref object, vec3 offset, float radius)
 	{
 		static float time = 0.f;
 		time += 0.01f;
@@ -176,56 +162,63 @@ namespace mud
 		quat rotation = axis_angle(Y3, fmod(time, 2.f * M_PI));
 
 		Gnode& scene = viewer.m_scene->begin();
-		Gnode& node = gfx::node(scene, {}, offset, rotation);
+		Gnode& node = gfx::node(scene, object, offset, rotation);
 		gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
+		return viewer;
+	}
+
+	SceneViewer& material_viewer(Widget& parent, Material& material)
+	{
+		SceneViewer& viewer = asset_empty_viewer(parent, &material, Zero3, 1.f);
+		gfx::shape(*viewer.m_scene->m_graph.m_nodes[0], Sphere(), Symbol(Colour::None, Colour::White), 0U, &material);
 		return viewer;
 	}
 
 	SceneViewer& model_viewer(Widget& parent, Model& model)
 	{
-		SceneViewer& viewer = asset_viewer(parent, -model.m_origin, model.m_radius);
+		SceneViewer& viewer = asset_empty_viewer(parent, &model, -model.m_origin, model.m_radius);
 		gfx::item(*viewer.m_scene->m_graph.m_nodes[0], model);
 		return viewer;
 	}
 
 	SceneViewer& particles_viewer(Widget& parent, ParticleGenerator& particles)
 	{
-		SceneViewer& viewer = asset_viewer(parent, Zero3, 1.f); // particles.m_radius
+		SceneViewer& viewer = asset_empty_viewer(parent, &particles, Zero3, 1.f); // particles.m_radius
 		gfx::particles(*viewer.m_scene->m_graph.m_nodes[0], particles);
 		return viewer;
 	}
 
-	Widget& model_item(Widget& parent, Model& model)
+	class DispatchAssetViewer : public Dispatch<SceneViewer&, Widget&>, public LazyGlobal<DispatchAssetViewer>
 	{
-		Widget& self = ui::element(parent, &model);
-		ui::multi_item(self, carray<cstring, 2>{ "(model)", model.m_name });
+	public:
+		DispatchAssetViewer()
+		{
+			dispatch_branch<Material>			(*this, [](Material& material, Widget& parent) -> SceneViewer&				{ return material_viewer(parent, material); });
+			dispatch_branch<Model>				(*this, [](Model& model, Widget& parent) -> SceneViewer&					{ return model_viewer(parent, model); });
+			dispatch_branch<ParticleGenerator>	(*this, [](ParticleGenerator& generator, Widget& parent) -> SceneViewer&	{ return particles_viewer(parent, generator); });
+		}
+	};
+
+	SceneViewer& asset_viewer(Widget& parent, Ref asset)
+	{
+		return DispatchAssetViewer::me().dispatch(asset, parent);
+	}
+
+	Widget& asset_item(Widget& parent, cstring icon, cstring name, Ref asset)
+	{
+		Widget& self = ui::element(parent, asset);
+		ui::multi_item(self, carray<cstring, 2>{ icon, name });
 		//if(self.selected())
-		//	model_viewer(self, model);
+		//	asset_viewer(self, asset);
 		if(Widget* tooltip = ui::tooltip(self, 0.f))
-			model_viewer(*tooltip, model);
+			asset_viewer(*tooltip, asset);
 		return self;
 	}
 
-	Widget& model_element(ui::Sequence& sequence, Model& model)
+	Widget& asset_element(ui::Sequence& sequence, cstring icon, cstring name, Ref asset)
 	{
-		Widget& self = model_item(*sequence.m_body, model);
-		ui::select_logic(self, &model, *sequence.m_selection);
-		return self;
-	}
-
-	Widget& particles_item(Widget& parent, ParticleGenerator& particles)
-	{
-		Widget& self = ui::element(parent, &particles);
-		ui::multi_item(self, carray<cstring, 2>{ "(particles)", particles.m_name });
-		if(Widget* tooltip = ui::tooltip(self, 0.f))
-			particles_viewer(*tooltip, particles);
-		return self;
-	}
-
-	Widget& particles_element(ui::Sequence& sequence, ParticleGenerator& particles)
-	{
-		Widget& self = particles_item(*sequence.m_body, particles);
-		ui::select_logic(self, &particles, *sequence.m_selection);
+		Widget& self = asset_item(*sequence.m_body, icon, name, asset);
+		ui::select_logic(self, asset, *sequence.m_selection);
 		return self;
 	}
 
@@ -254,10 +247,10 @@ namespace mud
 
 		if(materials)
 			for(auto& name_material : gfx_system.materials().m_assets)
-			{
-				Widget& element = ui::element(sequence, name_material.second.get());
-				ui::multi_item(element, carray<cstring, 2>{ "(material)", name_material.first.c_str() });
-			}
+				if(!name_material.second->m_builtin)
+				{
+					asset_element(sequence, "(material)", name_material.first.c_str(), name_material.second.get());
+				}
 
 		if(programs)
 			for(auto& name_program : gfx_system.programs().m_assets)
@@ -269,13 +262,13 @@ namespace mud
 		if(models)
 			for(auto& name_model : gfx_system.models().m_assets)
 			{
-				model_element(sequence, *name_model.second);
+				asset_element(sequence, "(model)", name_model.first.c_str(), name_model.second.get());
 			}
 
 		if(particles)
 			for(auto& name_particles : gfx_system.particles().m_assets)
 			{
-				particles_element(sequence, *name_particles.second);
+				asset_element(sequence, "(particles)", name_particles.first.c_str(), name_particles.second.get());
 			}
 	}
 
@@ -402,7 +395,8 @@ namespace mud
 
 		{
 			DispatchItem& dispatch = DispatchItem::me();
-			dispatch_branch<Model>(dispatch, [](Model& model, Widget& parent) -> Widget& { return model_item(parent, model); });
+			dispatch_branch<Material>	(dispatch, [](Material& material, Widget& parent) -> Widget&	{ return asset_item(parent, "(material)", material.m_name, &material); });
+			dispatch_branch<Model>		(dispatch, [](Model& model, Widget& parent) -> Widget&			{ return asset_item(parent, "(model)", model.m_name, &model); });
 		}
 
 	}

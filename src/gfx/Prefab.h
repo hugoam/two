@@ -27,6 +27,7 @@ namespace mud
 		PrefabNode() {}
 
 		_attr_ _mut_ Transform m_transform = {};
+		_attr_ _mut_ Ref m_object = {};
 		_attr_ _mut_ PrefabType m_prefab_type = PrefabType::None;
 		_attr_ _mut_ Call m_call = {};
 		_attr_ _mut_ std::vector<PrefabNode> m_nodes;

@@ -81,6 +81,7 @@ namespace mud
 	void Shell::init()
 	{
 		m_ui_window = &m_gfx_system.create_window("mud EditorCore", 1600, 900, false);
+		//m_ui_window = &m_gfx_system.create_window("mud EditorCore", 1280, 720, false);
 		m_ui = m_ui_window->m_root_sheet.get();
 
 		string stylesheet = "minimal.yml";

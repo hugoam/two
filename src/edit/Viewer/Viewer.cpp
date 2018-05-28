@@ -74,7 +74,6 @@ namespace mud
 
 	void Viewer::render(Render& render)
 	{
-#ifndef MUD_PLATFORM_EMSCRIPTEN
 		if(m_pick_query)
 		{
 			if(!m_picker)
@@ -82,6 +81,7 @@ namespace mud
 
 			m_picker->process(render, m_pick_query);
 		}
+
 //#define MUD_DEBUG_PICKER_TEXTURE
 #ifdef MUD_DEBUG_PICKER_TEXTURE
 		if(m_picker)
@@ -91,7 +91,6 @@ namespace mud
 			vec4 target_rect = { vec2(0.f), vec2(render.m_target->m_size) * 0.33f };
 			copy.submit_quad(*render.m_target, 251, BGFX_INVALID_HANDLE, m_picker->m_fbo_texture, { source_rect, target_rect, true });
 		}
-#endif
 #endif
 	}
 

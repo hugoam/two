@@ -38,6 +38,13 @@ function example_project(name, gfx, ...)
         
 		for _, depname in ipairs({...}) do
             mud_module(depname, path.join(MUD_DIR, "example"), depname, "_" .. depname:upper())
+            
+            configuration { "asmjs" }
+                linkoptions {
+                    "--preload-file ../../../data/examples/" .. depname .. "@data/",
+                }
+            
+            configuration {}
         end
         
         if gfx then
@@ -75,7 +82,7 @@ example_project("04_lights", true, "01_shapes", "03_materials")
 example_project("04_sponza", true, "01_shapes", "03_materials")
 --example_project("05_character", true, "03_materials")
 example_project("06_particles", true)
-example_project("07_prefabs", true)
+example_project("07_prefabs", true, "07_gltf")
 example_project("07_gltf", true)
 example_project("08_sky", true, "01_shapes", "03_materials")
 example_project("09_live_shader", true)

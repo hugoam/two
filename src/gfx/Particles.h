@@ -136,22 +136,15 @@ namespace mud
 		~ParticleSystem();
 
 		GfxSystem& m_gfx_system;
+		BlockParticles& m_block;
 
 		void shutdown();
 
-		Sprite* createSprite(cstring name, cstring path, uvec2 frames = uvec2(0U));
-		Sprite* createSprite(cstring name, uvec2 size, uvec2 frames, const void* data);
-		void removeSprite(Sprite& image);
-
 		void update(float timestep);
 		void render(uint8_t pass, const mat4& view, const vec3& eye);
-
+		
 		unique_ptr<TPool<ParticleEmitter>> m_emitters;
 
-		SpriteAtlas m_sprites;
-
-		bgfx::UniformHandle s_texColor;
-		bgfx::TextureHandle m_texture;
 		bgfx::ProgramHandle m_program;
 
 		uint32_t m_num = 0;
@@ -171,30 +164,33 @@ namespace mud
 		void upload();
 	};
 
-	class _refl_ MUD_GFX_EXPORT BlockParticles : public DrawBlock
+	class _refl_ MUD_GFX_EXPORT BlockParticles : public GfxBlock
 	{
 	public:
 		BlockParticles(GfxSystem& gfx_system);
-
-		ParticleSystem m_particle_system;
+		~BlockParticles();
 
 		virtual void init_gfx_block() final;
 
 		virtual void begin_gfx_block(Render& render) final;
 		virtual void submit_gfx_block(Render& render) final;
 
-		virtual void begin_gfx_pass(Render& render) final;
-		virtual void submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element) final;
+		SpriteAtlas m_sprites;
+		bgfx::TextureHandle m_texture;
+
+		bgfx::UniformHandle s_color;
+
+		Sprite* create_sprite(cstring name, cstring path, uvec2 frames = uvec2(0U));
+		Sprite* create_sprite(cstring name, uvec2 size, uvec2 frames, const void* data);
+		void remove_sprite(Sprite& image);
 	};
 
 	class MUD_GFX_EXPORT PassParticles : public RenderPass
 	{
 	public:
-		PassParticles(GfxSystem& gfx_system, BlockParticles& pass_particles);
+		PassParticles(GfxSystem& gfx_system);
 
 		virtual void begin_render_pass(Render& render) final;
 		virtual void submit_render_pass(Render& render) final;
-
-		BlockParticles& m_block_particles;
 	};
 }

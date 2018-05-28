@@ -15,6 +15,8 @@
 #include <gfx/Program.h>
 #include <gfx/Asset.h>
 #include <gfx/Camera.h>
+#include <gfx/Scene.h>
+#include <gfx/Pipeline.h>
 
 #include <gfx/Node3.h>
 
@@ -187,15 +189,10 @@ namespace mud
 
 	ParticleSystem::ParticleSystem(GfxSystem& gfx_system, uint16_t maxEmitters)
 		: m_gfx_system(gfx_system)
+		, m_block(*gfx_system.m_pipeline->block<BlockParticles>())
 		, m_emitters(make_unique<TPool<ParticleEmitter>>(maxEmitters))
-		, m_sprites(uvec2(SPRITE_TEXTURE_SIZE))
-		, m_program(gfx_system.programs().create("particle").default_version())
-	{
-		ParticleVertex::init();
-
-		s_texColor = bgfx::createUniform("s_texColor", bgfx::UniformType::Int1);
-		m_texture = bgfx::createTexture2D(SPRITE_TEXTURE_SIZE, SPRITE_TEXTURE_SIZE, false, 1, bgfx::TextureFormat::BGRA8);
-	}
+		, m_program(gfx_system.programs().fetch("particle").default_version())
+	{}
 
 	ParticleSystem::~ParticleSystem()
 	{}
@@ -203,37 +200,6 @@ namespace mud
 	void ParticleSystem::shutdown()
 	{
 		bgfx::destroy(m_program);
-		bgfx::destroy(m_texture);
-		bgfx::destroy(s_texColor);
-	}
-
-	Sprite* ParticleSystem::createSprite(cstring name, cstring pathname, uvec2 frames)
-	{
-		string filename = "textures/particles/" + string(pathname);
-		LocatedFile location = m_gfx_system.locate_file(filename.c_str());
-		string path = string(location.m_location) + filename;
-
-		bimg::ImageContainer* image = load_bgfx_image(m_gfx_system.m_allocator, m_gfx_system.m_file_reader, path.c_str(), bgfx::TextureFormat::BGRA8);
-		Sprite* sprite = this->createSprite(name, uvec2(image->m_width, image->m_height), frames, image->m_data);
-		bimg::imageFree(image);
-		return sprite;
-	}
-
-	Sprite* ParticleSystem::createSprite(cstring name, uvec2 size, uvec2 frames, const void* data)
-	{
-		Sprite* sprite = m_sprites.add_sprite(name, size, frames);
-		if(sprite)
-		{
-			bgfx::updateTexture2D(m_texture, 0, 0, uint16_t(sprite->d_coord.x), uint16_t(sprite->d_coord.y),
-								  uint16_t(sprite->d_size.x), uint16_t(sprite->d_size.y), bgfx::copy(data, size.x*size.y * 4));
-		}
-
-		return sprite;
-	}
-
-	void ParticleSystem::removeSprite(Sprite& sprite)
-	{
-		UNUSED(sprite);
 	}
 
 	void ParticleSystem::update(float _dt)
@@ -270,7 +236,7 @@ namespace mud
 			ParticleVertex* vertices = (ParticleVertex*)vertex_buffer.data;
 
 			for(ParticleEmitter* emitter : m_emitters->m_vec_pool->m_objects)
-				pos += emitter->render(m_sprites, view, eye, pos, max, particleSort.data(), vertices);
+				pos += emitter->render(m_block.m_sprites, view, eye, pos, max, particleSort.data(), vertices);
 
 			qsort(particleSort.data(), max, sizeof(ParticleSort), particleSortFn);
 
@@ -293,7 +259,7 @@ namespace mud
 			bgfx::setState(bgfx_state);
 			bgfx::setVertexBuffer(0, &vertex_buffer);
 			bgfx::setIndexBuffer(&index_buffer);
-			bgfx::setTexture(uint8_t(TextureSampler::Color), s_texColor, m_texture);
+			bgfx::setTexture(uint8_t(TextureSampler::Color), m_block.s_color, m_block.m_texture);
 			bgfx::submit(pass, m_program);
 		}
 	}
@@ -313,16 +279,27 @@ namespace mud
 	{}
 
 	BlockParticles::BlockParticles(GfxSystem& gfx_system)
-		: DrawBlock(gfx_system, type<BlockParticles>())
-		, m_particle_system(gfx_system, 64)
+		: GfxBlock(gfx_system, type<BlockParticles>())
+		, m_sprites(uvec2(SPRITE_TEXTURE_SIZE))
 	{}
+
+	BlockParticles::~BlockParticles()
+	{
+		bgfx::destroy(m_texture);
+		bgfx::destroy(s_color);
+	}
 
 	void BlockParticles::init_gfx_block()
 	{
-		m_particle_system.createSprite("particle.ktx", "particle.ktx");
-		m_particle_system.createSprite("flames.png", "flames_b.png", { 2, 2 });
-		m_particle_system.createSprite("billows.png", "billows_b.png", { 2, 2 });
-		m_particle_system.createSprite("wave.png", "wave_b.png");
+		ParticleVertex::init();
+
+		s_color = bgfx::createUniform("s_texColor", bgfx::UniformType::Int1);
+		m_texture = bgfx::createTexture2D(SPRITE_TEXTURE_SIZE, SPRITE_TEXTURE_SIZE, false, 1, bgfx::TextureFormat::BGRA8);
+
+		this->create_sprite("particle.ktx", "particle.ktx");
+		this->create_sprite("flames.png", "flames_b.png", { 2, 2 });
+		this->create_sprite("billows.png", "billows_b.png", { 2, 2 });
+		this->create_sprite("wave.png", "wave_b.png");
 	}
 
 	void BlockParticles::begin_gfx_block(Render& render)
@@ -335,19 +312,37 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockParticles::begin_gfx_pass(Render& render)
+	Sprite* BlockParticles::create_sprite(cstring name, cstring pathname, uvec2 frames)
 	{
-		UNUSED(render);
+		string filename = "textures/particles/" + string(pathname);
+		LocatedFile location = m_gfx_system.locate_file(filename.c_str());
+		string path = string(location.m_location) + filename;
+
+		bimg::ImageContainer* image = load_bgfx_image(m_gfx_system.m_allocator, m_gfx_system.m_file_reader, path.c_str(), bgfx::TextureFormat::BGRA8);
+		Sprite* sprite = this->create_sprite(name, uvec2(image->m_width, image->m_height), frames, image->m_data);
+		bimg::imageFree(image);
+		return sprite;
 	}
 
-	void BlockParticles::submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element)
+	Sprite* BlockParticles::create_sprite(cstring name, uvec2 size, uvec2 frames, const void* data)
 	{
-		UNUSED(render); UNUSED(render_pass); UNUSED(element);
+		Sprite* sprite = m_sprites.add_sprite(name, size, frames);
+		if(sprite)
+		{
+			bgfx::updateTexture2D(m_texture, 0, 0, uint16_t(sprite->d_coord.x), uint16_t(sprite->d_coord.y),
+								  uint16_t(sprite->d_size.x), uint16_t(sprite->d_size.y), bgfx::copy(data, size.x*size.y * 4));
+		}
+
+		return sprite;
 	}
 
-	PassParticles::PassParticles(GfxSystem& gfx_system, BlockParticles& block_particles)
+	void BlockParticles::remove_sprite(Sprite& sprite)
+	{
+		UNUSED(sprite);
+	}
+
+	PassParticles::PassParticles(GfxSystem& gfx_system)
 		: RenderPass(gfx_system, "particles", {})
-		, m_block_particles(block_particles)
 	{
 		UNUSED(gfx_system);
 	}
@@ -361,7 +356,7 @@ namespace mud
 	{
 		Pass particle_pass = render.next_pass("particles");
 
-		m_block_particles.m_particle_system.update(render.m_frame.m_delta_time); // * timeScale
-		m_block_particles.m_particle_system.render(particle_pass.m_index, render.m_camera.m_transform, render.m_camera.m_node.m_position);
+		render.m_scene.m_particle_system->update(render.m_frame.m_delta_time); // * timeScale
+		render.m_scene.m_particle_system->render(particle_pass.m_index, render.m_camera.m_transform, render.m_camera.m_node.m_position);
 	}
 }

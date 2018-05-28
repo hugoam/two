@@ -81,7 +81,7 @@ namespace mud
 		Texture& default_texture(TextureHint hint);
 
 		Material& debug_material();
-		Material& fetch_material(cstring name, cstring shader);
+		Material& fetch_material(cstring name, cstring shader, bool builtin = true);
 		Material& fetch_image256_material(const Image256& image);
 
 		Model& fetch_symbol(const Symbol& symbol, const Shape& shape, DrawMode draw_mode);

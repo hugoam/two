@@ -131,7 +131,9 @@ function mud_binary(name)
         
     configuration { "asmjs", "Debug" }
         linkoptions {
-            "-s TOTAL_MEMORY=268435456",
+            --"-s TOTAL_MEMORY=268435456",
+            "-s TOTAL_MEMORY=536870912",
+            --"-s ALLOW_MEMORY_GROWTH=1",
         }
         
     configuration { "asmjs", "Release" }

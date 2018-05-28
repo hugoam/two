@@ -186,6 +186,7 @@ namespace mud
 
 		_attr_ uint16_t m_index = 0;
 		/*_attr_ _mut_*/ strung m_name;
+		_attr_ bool m_builtin = false;
 		_attr_ Program* m_program = nullptr;
 
 		_attr_ _mut_ BaseMaterialBlock m_base_block;

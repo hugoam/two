@@ -7,6 +7,7 @@
 #include <edit/Ui/PrefabEdit.h>
 
 #include <obj/Any.h>
+#include <obj/Vector.h>
 #include <obj/String/StringConvert.h>
 #include <obj/Reflect/Convert.h>
 #include <obj/System/System.h>
@@ -25,9 +26,14 @@
 
 namespace mud
 {
-	TreeNode& prefab_node(Widget& parent, PrefabNode& node, PrefabNode*& selected)
+	TreeNode& prefab_node(Widget& parent, PrefabNode* parent_node, PrefabNode& node, PrefabNode*& selected)
 	{
 		TreeNode& self = ui::tree_node(parent, to_string(var(node.m_prefab_type)).c_str());
+
+		if(self.m_header->activated())
+			selected = &node;
+
+		self.m_header->setState(ACTIVE, selected == &node);
 
 		if(ui::button(*self.m_header, "+").activated())
 		{
@@ -36,16 +42,14 @@ namespace mud
 		}
 		if(ui::button(*self.m_header, "X").activated())
 		{
-			//node.m_nodes.push_back({});
+			if(selected == &node)
+				selected = parent_node;
+			vector_remove_object(parent_node->m_nodes, node);
+			return self;
 		}
 
-		if(self.m_header->activated())
-			selected = &node;
-
-		self.m_header->setState(ACTIVE, selected == &node);
-
 		for(PrefabNode& child : node.m_nodes)
-			prefab_node(*self.m_body, child, selected);
+			prefab_node(*self.m_body, &node, child, selected);
 
 		return self;
 	}
@@ -53,7 +57,7 @@ namespace mud
 	void prefab_structure(Widget& parent, PrefabNode& node, PrefabNode*& selected)
 	{
 		Section& self = section(parent, "Prefab Graph");
-		prefab_node(*self.m_body, node, selected);
+		prefab_node(*self.m_body, nullptr, node, selected);
 	}
 
 	Widget& prefab_inspector(Widget& parent, PrefabNode& node)
@@ -93,7 +97,8 @@ namespace mud
 	{
 		prefab_edit(parent, gfx_system, node, selected);
 		Widget& layout = ui::layout(*context.m_viewer);
-		Widget& toolbar = ui::toolbar(layout);
+		//Widget& toolbar = ui::toolbar(layout);
+		Widget& toolbar = ui::row(layout);
 		tools_transform(toolbar, context);
 	}
 }

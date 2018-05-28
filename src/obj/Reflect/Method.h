@@ -167,11 +167,11 @@ namespace mud
 	};
 
 	template<typename T_Function>
-	FunctionPointer function_id(T_Function func) { return reinterpret_cast<FunctionPointer>(func); }
+	inline FunctionPointer function_id(T_Function func) { return reinterpret_cast<FunctionPointer>(func); }
 
 	template<typename T_Return, typename T, typename... T_Params>
-	Method& method(T_Return(T::*meth)(T_Params...)) { return type<T>().m_meta->method(member_address(meth)); }
+	inline Method& method(T_Return(T::*meth)(T_Params...)) { return type<T>().m_meta->method(member_address(meth)); }
 
 	template <typename T_Function>
-	Function& function(T_Function func);
+	inline Function& function(T_Function func);
 }

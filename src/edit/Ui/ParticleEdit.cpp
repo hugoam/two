@@ -13,6 +13,7 @@
 
 #include <obj/Reflect/Method.h>
 #include <obj/Serial/Serial.h>
+#include <obj/System/System.h>
 #include <edit/Viewer/Viewer.h>
 #include <gfx/Gfx.h>
 #include <gfx/GfxSystem.h>

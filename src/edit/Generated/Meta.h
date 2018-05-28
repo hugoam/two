@@ -336,38 +336,6 @@ namespace mud
     
     
         
-    // mud::SceneViewer
-    {
-        static Meta meta = { type<mud::SceneViewer>(), &namspc({ "mud" }), "SceneViewer", sizeof(mud::SceneViewer), TypeClass::Object };
-        static Class cls = { type<mud::SceneViewer>(),
-            // bases
-            { &type<mud::Scene>(), &type<mud::Viewer>() },
-            { base_offset<mud::SceneViewer, mud::Scene>(), base_offset<mud::SceneViewer, mud::Viewer>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::SceneViewer>();
-    }
-    
-    
-        
     // mud::TransformAction
     {
         static Meta meta = { type<mud::TransformAction>(), &namspc({ "mud" }), "TransformAction", sizeof(mud::TransformAction), TypeClass::Object };
@@ -463,6 +431,38 @@ namespace mud
     }
     
     
+    
+    
+        
+    // mud::SceneViewer
+    {
+        static Meta meta = { type<mud::SceneViewer>(), &namspc({ "mud" }), "SceneViewer", sizeof(mud::SceneViewer), TypeClass::Object };
+        static Class cls = { type<mud::SceneViewer>(),
+            // bases
+            { &type<mud::Scene>(), &type<mud::Viewer>() },
+            { base_offset<mud::SceneViewer, mud::Scene>(), base_offset<mud::SceneViewer, mud::Viewer>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::SceneViewer>();
+    }
     
     
         
@@ -1153,10 +1153,10 @@ namespace mud
         module.m_types.push_back(&type<mud::ViewerController>());
         module.m_types.push_back(&type<mud::SpaceSheet>());
         module.m_types.push_back(&type<mud::Viewer>());
-        module.m_types.push_back(&type<mud::SceneViewer>());
         module.m_types.push_back(&type<mud::TransformAction>());
         module.m_types.push_back(&type<mud::ViewAction>());
         module.m_types.push_back(&type<mud::WorkPlaneAction>());
+        module.m_types.push_back(&type<mud::SceneViewer>());
         module.m_types.push_back(&type<mud::PlaneSnapOption>());
         module.m_types.push_back(&type<mud::WorldSnapOption>());
         module.m_types.push_back(&type<mud::RedoTool>());

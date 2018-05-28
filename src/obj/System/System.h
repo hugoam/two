@@ -102,5 +102,5 @@ namespace mud
 	_func_ inline System& system() { return System::instance(); }
 
 	template <typename T_Function>
-	Function& function(T_Function func) { return System::instance().function(function_id(func)); }
+	inline Function& function(T_Function func) { return System::instance().function(function_id(func)); }
 }

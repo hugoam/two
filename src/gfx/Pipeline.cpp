@@ -83,7 +83,7 @@ namespace mud
 		//this->add_pass<PassDepth>(gfx_system, *pipeline.block<BlockDepth>());
 		this->add_pass<PassOpaque>(gfx_system);
 		this->add_pass<PassBackground>(gfx_system);
-		this->add_pass<PassParticles>(gfx_system, *pipeline.block<BlockParticles>());
+		this->add_pass<PassParticles>(gfx_system);
 		this->add_pass<PassAlpha>(gfx_system);
 		this->add_pass<PassUnshaded>(gfx_system);
 		this->add_pass<PassEffects>(gfx_system);
@@ -106,7 +106,7 @@ namespace mud
 		this->add_pass<PassClear>(gfx_system);
 		this->add_pass<PassOpaque>(gfx_system);
 		this->add_pass<PassBackground>(gfx_system);
-		this->add_pass<PassParticles>(gfx_system, *pipeline.block<BlockParticles>());
+		this->add_pass<PassParticles>(gfx_system);
 		this->add_pass<PassAlpha>(gfx_system);
 		this->add_pass<PassFlip>(gfx_system, *pipeline.block<BlockCopy>());
 		this->init();

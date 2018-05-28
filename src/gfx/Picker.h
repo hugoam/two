@@ -56,9 +56,10 @@ namespace mud
 		bgfx::ProgramHandle m_program;
 		bgfx::UniformHandle u_picking_id;
 
-		bgfx::TextureHandle m_readback_texture;
 		bgfx::FrameBufferHandle m_fbo;
 		bgfx::TextureHandle m_fbo_texture;
+
+		bgfx::TextureHandle m_readback_texture = BGFX_INVALID_HANDLE;
 
 		std::vector<uint32_t> m_data;
 	};

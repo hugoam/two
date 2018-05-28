@@ -33,10 +33,10 @@ namespace mud
     template <> MUD_EDIT_EXPORT Type& type<mud::ViewerController>();
     template <> MUD_EDIT_EXPORT Type& type<mud::SpaceSheet>();
     template <> MUD_EDIT_EXPORT Type& type<mud::Viewer>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::SceneViewer>();
     template <> MUD_EDIT_EXPORT Type& type<mud::TransformAction>();
     template <> MUD_EDIT_EXPORT Type& type<mud::ViewAction>();
     template <> MUD_EDIT_EXPORT Type& type<mud::WorkPlaneAction>();
+    template <> MUD_EDIT_EXPORT Type& type<mud::SceneViewer>();
     template <> MUD_EDIT_EXPORT Type& type<mud::PlaneSnapOption>();
     template <> MUD_EDIT_EXPORT Type& type<mud::WorldSnapOption>();
     template <> MUD_EDIT_EXPORT Type& type<mud::RedoTool>();

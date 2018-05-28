@@ -6,6 +6,8 @@
 
 #include <edit/Generated/Forward.h>
 #include <gfx/Particles.h>
+#include <ui/Ui.h>
+#include <ui/Input.h>
 
 namespace mud
 {

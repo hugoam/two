@@ -65,10 +65,11 @@ namespace mud
 
 	void PrefabNode::draw(Gnode& parent)
 	{
-		Gnode& self = gfx::node(parent, this, m_transform.m_position, m_transform.m_rotation, m_transform.m_scale);
+		Gnode& self = gfx::node(parent, m_object);
+		Gnode& item = gfx::node(self, this, m_transform.m_position, m_transform.m_rotation, m_transform.m_scale);
 
 		if(m_call.m_callable)
-			m_call.m_arguments[0] = Ref(&self);
+			m_call.m_arguments[0] = Ref(&item);
 		if(m_call.validate())
 			m_call();
 		//else
@@ -217,13 +218,12 @@ namespace gfx
 	Particles& particles(Gnode& parent, const ParticleGenerator& emitter, uint32_t flags, size_t instances)
 	{
 		UNUSED(flags); UNUSED(instances);
-		ParticleSystem& particle_system = parent.m_scene->m_gfx_system.m_pipeline->block<BlockParticles>()->m_particle_system;
 		Gnode& self = parent.sub();
 		if(!self.m_particles)
-			self.m_particles = &create<Particles>(*self.m_scene, particle_system, *self.m_attach);
+			self.m_particles = &create<Particles>(*self.m_scene, *parent.m_scene->m_particle_system, *self.m_attach);
 		as<ParticleGenerator>(self.m_particles->m_emitter) = emitter;
 		self.m_particles->m_emitter.m_node = self.m_attach;
-		self.m_particles->m_emitter.m_sprite = &particle_system.m_sprites.find_sprite(emitter.m_sprite_name);
+		self.m_particles->m_emitter.m_sprite = &parent.m_scene->m_particle_system->m_block.m_sprites.find_sprite(emitter.m_sprite_name);
 		return *self.m_particles;
 	}
 

@@ -476,7 +476,7 @@ namespace mud
 	{
 		for(const glTFMaterial& gltf_material : gltf.m_materials)
 		{
-			Material& material = state.m_gfx_system.fetch_material(gltf_material.name.c_str(), "pbr/pbr");
+			Material& material = state.m_gfx_system.fetch_material(gltf_material.name.c_str(), "pbr/pbr", false);
 			import_material(state, gltf_material, material);
 			state.m_imported_materials.push_back(&material);
 		}

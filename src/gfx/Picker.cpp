@@ -42,7 +42,8 @@ namespace mud
 
 		uint32_t flags = GFX_TEXTURE_POINT | BGFX_TEXTURE_MIP_POINT | GFX_TEXTURE_CLAMP;
 
-		m_readback_texture = bgfx::createTexture2D(uint16_t(m_size.y), uint16_t(m_size.y), false, 1, bgfx::TextureFormat::RGBA8, 0 | BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK | flags);
+		if((bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0 && (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_READ_BACK) != 0)
+			m_readback_texture = bgfx::createTexture2D(uint16_t(m_size.y), uint16_t(m_size.y), false, 1, bgfx::TextureFormat::RGBA8, 0 | BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK | flags);
 
 		bgfx::TextureHandle rt[2] =
 		{
@@ -57,7 +58,8 @@ namespace mud
 	Picker::~Picker()
 	{
 		bgfx::destroy(m_fbo);
-		bgfx::destroy(m_readback_texture);
+		if(bgfx::isValid(m_readback_texture))
+			bgfx::destroy(m_readback_texture);
 	}
 
 	void Picker::process(Render& render, PickQuery& query)
@@ -91,6 +93,7 @@ namespace mud
 			vec4 unpacked = unpack4(index);
 			vec4 colour_id = { unpacked.w, unpacked.z, unpacked.y, unpacked.x }; // unpack4 gives reversed order from what we wnat
 
+			printf("DEBUG: picker submit id %i\n", int(index));
 			bgfx::setUniform(u_picking_id, value_ptr(colour_id));
 
 			if(item.m_model->m_items.empty())
@@ -110,6 +113,7 @@ namespace mud
 		// every time the blit to CPU texture is finished, we read the focused item
 		if(query.m_readback_ready <= render.m_frame.m_frame)
 		{
+			printf("DEBUG: picker process pixels\n");
 			Item* item = nullptr;
 			std::vector<Item*> items = {};
 
@@ -129,6 +133,7 @@ namespace mud
 					if(id == uint32_t(255 << 24))
 						continue;
 
+					printf("DEBUG: picker pixel id %i\n", int(id));
 					vector_add(items, render.m_shot->m_items[id]);
 
 					uint32_t count = ++counts[id];
@@ -149,8 +154,15 @@ namespace mud
 
 		if(query && query.m_readback_ready == UINT32_MAX)
 		{
-			bgfx::blit(Render::s_blit_picking_pass_id, m_readback_texture, 0, 0, m_fbo_texture, 0, 0, uint16_t(rect_w(query.m_rect)), uint16_t(rect_h(query.m_rect)));
-			query.m_readback_ready = bgfx::readTexture(m_readback_texture, m_data.data());
+			if(bgfx::isValid(m_readback_texture))
+			{
+				bgfx::blit(Render::s_blit_picking_pass_id, m_readback_texture, 0, 0, m_fbo_texture, 0, 0, uint16_t(rect_w(query.m_rect)), uint16_t(rect_h(query.m_rect)));
+				query.m_readback_ready = bgfx::readTexture(m_readback_texture, m_data.data());
+			}
+			else
+			{
+				query.m_readback_ready = bgfx::readTexture(m_fbo_texture, m_data.data());
+			}
 		}
 	}
 	

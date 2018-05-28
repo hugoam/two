@@ -186,9 +186,9 @@ namespace mud
 										[](InkStyle& l) { l.m_border_width = vec4(1.f); l.m_border_colour = Colour::White; l.m_background_colour = Colour::AlphaGrey; })
 
 		, type_in("TypeIn", wrap_control, [](Layout& l) { l.m_opacity = OPAQUE; })
-		, type_zone("TypeZone", wrap_control, [](Layout& l) { l.m_space = SHEET; l.m_opacity = OPAQUE; })
-		, text_edit("TextEdit", type_in, [](Layout& l) { l.m_space = LAYOUT; },
-										 [](InkStyle& l) { l.m_text_font = "consolas"; l.m_text_wrap = true; })
+		, text_edit("TextEdit", type_in, [](Layout& l) { l.m_space = LAYOUT; })
+		, type_zone("TypeZone", wrap_control, [](Layout& l) { l.m_space = SHEET; l.m_opacity = OPAQUE; },
+											  [](InkStyle& l) { l.m_text_font = "consolas"; l.m_text_break = true; })
 		, caret("Caret", item, {}, [](InkStyle& l) { l.m_background_colour = Colour::White; })
 
 		, figure("Figure", item, {}, [](InkStyle& l) { l.m_empty = false; })

@@ -50,5 +50,6 @@ void main()
 	color.b = texture2D(s_color_correction, vec2(color.b, 0.0)).b;
 #endif
 
-	gl_FragColor = vec4(color.rgb, source.a);
+	//gl_FragColor = vec4(color.rgb, source.a);
+	gl_FragColor = vec4(color.rgb, 1.0);
 }
