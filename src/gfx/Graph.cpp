@@ -103,7 +103,7 @@ namespace gfx
 	Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation, const vec3& scale)
 	{
 		vec3 relative = rotate(parent.m_attach->m_rotation, position) * parent.m_attach->m_scale;
-		return node(parent, object, parent.m_attach->m_position + relative, parent.m_attach->m_rotation * rotation, Unit3);
+		return node(parent, object, parent.m_attach->m_position + relative, parent.m_attach->m_rotation * rotation, parent.m_attach->m_scale * scale);
 	}
 
 	Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation)

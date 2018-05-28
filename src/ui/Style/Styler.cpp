@@ -144,6 +144,7 @@ namespace mud
 		, item("Item", widget, [](Layout& l) { l.m_space = BLOCK; l.m_align = { LEFT, CENTER }; },
 							   [](InkStyle& o) { o.m_text_colour = Colour::White; o.m_padding = vec4(2.f); })
 		, control("Control", item, [](Layout& l) { l.m_opacity = OPAQUE; })
+		, wrap_control("WrapControl", wedge, [](Layout& l) { l.m_space = LINE; l.m_opacity = OPAQUE; })
 
 		, spacer("Spacer", item, [](Layout& l) { l.m_space = SPACER; })
 		, filler("Filler", spacer, [](Layout& l) { l.m_space = FLEX; })
@@ -164,7 +165,8 @@ namespace mud
 		, overlay("Overlay", wedge, [](Layout& l) { l.m_flow = FREE; l.m_opacity = OPAQUE; })
 		, gridsheet("GridSheet", wedge, [](Layout& l) { l.m_opacity = OPAQUE; l.m_spacing = vec2(5.f); })
 
-		, wrap_control("WrapControl", wedge, [](Layout& l) { l.m_space = LINE; l.m_opacity = OPAQUE; })
+		, sequence("Sequence", wedge, [](Layout& l) { l.m_space = LAYOUT; })
+		, element("Element", wedge, [](Layout& l) { l.m_space = STACK; l.m_opacity = OPAQUE; })
 
 		, label("Label", item, [](Layout& l) { l.m_align = { LEFT, CENTER }; })
 		, title("Title", item, {})
@@ -176,9 +178,6 @@ namespace mud
 		, multi_button("MultiButton", wrap_button, {})
 		, toggle("Toggle", control, {})
 		, checkbox("Checkbox", toggle, [](Layout& l) { l.m_align = { LEFT, CENTER }; }) // @todo why doesn't work ?? why u checkbox not aligned ??
-
-		, sequence("Sequence", wedge, [](Layout& l) { l.m_space = LAYOUT; })
-		, element("Element", wedge, [](Layout& l) { l.m_space = STACK; l.m_opacity = OPAQUE; })
 
 		, dummy("Dummy", wedge, [](Layout& l) { l.m_space = BLOCK; })
 		, tooltip("Tooltip", decal, [](Layout& l) { l.m_space = UNIT; l.m_zorder = -2; })

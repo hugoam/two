@@ -175,7 +175,7 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if((umain.m_switch & CONTEXT_MENU) != 0)
 	{
-		Widget& popup = ui::popup(viewer, ui::PopupModal);
+		Widget& popup = ui::popup(viewer, ui::PopupFlags::Modal);
 		if(ui::button(popup, "character").activated())
 			umain.m_switch |= CHARACTER_SHEET;
 		if(ui::button(popup, "inventory").activated())

@@ -73,7 +73,7 @@ namespace mud
 		//BPRect rect = m_rect_packer->Insert(sprite.d_size.x, sprite.d_size.y, false,
 		//									GuillotineBinPack::RectBestShortSideFit, GuillotineBinPack::SplitShorterLeftoverAxis);
 
-		stbrp_rect rect = { 0, stbrp_coord(sprite.d_size.x), stbrp_coord(sprite.d_size.y) };
+		stbrp_rect rect = { 0, stbrp_coord(sprite.d_size.x), stbrp_coord(sprite.d_size.y), 0, 0, false };
 		stbrp_pack_rects(&m_rect_pack->m_context, &rect, 1);
 
 		sprite.d_coord = { uint(rect.x), uint(rect.y) };

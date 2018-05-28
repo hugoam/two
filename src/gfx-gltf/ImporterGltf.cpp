@@ -167,8 +167,8 @@ namespace mud
 			}
 			else if(image.buffer_view != -1)
 			{
-				const glTFBufferView& buffer_view = gltf.m_buffer_views[image.buffer_view];
-				array<uint8_t> data = { gltf.m_binary_buffers[buffer_view.buffer].data() + buffer_view.byte_offset, buffer_view.byte_length };
+				//const glTFBufferView& buffer_view = gltf.m_buffer_views[image.buffer_view];
+				//array<uint8_t> data = { gltf.m_binary_buffers[buffer_view.buffer].data() + buffer_view.byte_offset, buffer_view.byte_length };
 				auto load_image_mem = [](Texture&) {}; // to_array(data)
 				Texture& texture = state.m_gfx_system.textures().create("temp", load_image_mem);
 				state.m_imported_images.push_back(&texture);

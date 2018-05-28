@@ -12,7 +12,7 @@
 
 namespace mud
 {
-	static uint16_t s_model_index = 0;
+	//static uint16_t s_model_index = 0;
 
 	Model::Model(cstring id)
 		: m_name(id)

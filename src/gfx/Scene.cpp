@@ -28,11 +28,11 @@ namespace mud
 {
 	Scene::Scene(GfxSystem& gfx_system)
 		: m_gfx_system(gfx_system)
-		, m_graph(*this)
-		, m_root_node(this)
 		, m_immediate(make_object<ImmediateDraw>(gfx_system.fetch_material("immediate", "unshaded")))
 		, m_particle_system(make_object<ParticleSystem>(gfx_system))
 		, m_pass_jobs(make_object<PassJobs>())
+		, m_graph(*this)
+		, m_root_node(this)
 	{
 		m_environment.m_radiance.m_colour = Colour::White;//{ 0.35f, 0.33f, 0.3f, 1.f };
 		m_environment.m_radiance.m_energy = 0.3f;

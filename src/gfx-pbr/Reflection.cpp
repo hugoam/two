@@ -68,7 +68,7 @@ namespace mud
 
 	void BlockReflection::submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element)
 	{
-		UNUSED(render_pass); UNUSED(element);
+		UNUSED(render); UNUSED(render_pass); UNUSED(element);
 		if(m_atlas.m_size > 0)
 			bgfx::setTexture(uint8_t(TextureSampler::ReflectionProbe), u_uniform.s_atlas, m_atlas.m_color_tex);
 
@@ -148,6 +148,7 @@ namespace mud
 
 	void PassProbes::submit_render_pass(Render& render)
 	{
+		UNUSED(render);
 		m_block_reflection.m_reflection_multiplier = 1.f;
 
 #if 0

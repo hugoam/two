@@ -37,7 +37,7 @@ void ex_00_tutorial_pump(Shell& app, Widget& parent, Dockbar& dockbar)
 	static std::vector<Var> objects = { var(MyObject(ShapeType::Sphere, Colour::Pink)) };
 	static size_t selected = SIZE_MAX;
 
-	Widget& modal = ui::popup(viewer, styles().modal, { 800, 600 }, ui::PopupNone);
+	Widget& modal = ui::popup(viewer, styles().modal, { 800, 600 }, ui::PopupFlags::None);
 	//Widget& modal = ui::modal(viewer, { 800, 600 });
 	Widget& board = ui::board(*modal.m_body);
 	multi_inspector(board, type<MyObject>(), objects, selected);

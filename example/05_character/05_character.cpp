@@ -29,8 +29,8 @@ Animated& paint_human(Gnode& parent, Human& human, bool high_lod)
 {
 	Gnode& self = gfx::node(parent, {}, human.m_position, human.m_rotation);
 	gfx::shape(self, Circle(0.35f), Symbol(), ITEM_SELECTABLE);
-	Item& item = gfx::model(self, high_lod ? "human" : "human_0", ITEM_SELECTABLE);
-	Animated& animated = gfx::animated(self, item);
+	Item* item = gfx::model(self, high_lod ? "human" : "human_0", ITEM_SELECTABLE);
+	Animated& animated = gfx::animated(self, *item);
 	return animated;
 }
 

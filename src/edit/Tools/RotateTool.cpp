@@ -56,7 +56,7 @@ namespace mud
 
 	Gizmo RotateTool::rotation_gizmo(Axis axis, float hue)
 	{
-		auto grab_point = [this, axis](Viewer& viewer, const vec2& pos) { return gizmo_grab_planar(viewer, m_transform, axis) - m_transform.m_position; };
+		auto grab_point = [this, axis](Viewer& viewer, const vec2& pos) { UNUSED(pos); return gizmo_grab_planar(viewer, m_transform, axis) - m_transform.m_position; };
 
 		auto draw_handle = [=](Gnode& parent) { return &rotate_gizmo(parent, axis, Colour::Invisible, 0.05f, ITEM_UI); };
 		auto draw_gizmo = [=](Gnode& parent, bool active) { rotate_gizmo(parent, axis, gizmo_colour(hue, active), 0.01f); };

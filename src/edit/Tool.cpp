@@ -71,7 +71,6 @@ namespace mud
 
 	vec3 gizmo_grab_planar(Viewer& viewer, const Transform& space, Axis normal)
 	{
-		vec3 origin = space.m_position;
 		Plane plane(space.m_position, space.m_rotation * to_vec3(normal));
 		return plane_segment_intersection(plane, to_segment(viewer.mouse_ray()));
 	}

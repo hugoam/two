@@ -34,6 +34,7 @@ namespace ui
 
 	void draw_grid(const Frame& frame, const vec4& rect, VgRenderer& renderer)
 	{
+		UNUSED(rect);
 		Paint main_paint = { Colour(0.162f, 0.162f, 0.162f, 1.f), 1.f };
 		Paint second_paint = { Colour(0.094f, 0.094f, 0.094f, 1.f), 0.5f };
 

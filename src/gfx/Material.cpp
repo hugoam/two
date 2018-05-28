@@ -173,14 +173,14 @@ namespace mud
 	//static TypedUniformBlock<UnshadedMaterialBlock> s_unshaded_material_block = { "unshaded" };
 	//static TypedUniformBlock<PbrMaterialBlock> s_pbr_material_block = { "pbr" };
 
-	static uint16_t s_material_index = 0;
-
 	GfxSystem* Material::ms_gfx_system = nullptr;
 
 	void load_material(Material& material, Program& program)
 	{
 		material.m_program = &program;
 	}
+
+	//static uint16_t s_material_index = 0;
 
 	Material::Material(cstring name)
 		: m_index(index(type<Material>(), this))//++s_material_index)

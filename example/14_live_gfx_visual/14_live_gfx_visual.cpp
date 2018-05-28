@@ -46,7 +46,8 @@ void define_visual_script(VisualScript& script)
 
 	Var& colour = script.create<Colour>({ &r, &g, &b, &script.value(1.f) });
 
-	Var& node = *script.function(gfx::node, { &groot, &script.node<ProcessValue>(Ref()).output(), &position, &rotation, &scale });
+	Gnode& (*func_node)(Gnode&, Ref, const vec3&, const quat&, const vec3&) = gfx::node;
+	Var& node = *script.function(func_node, { &groot, &script.node<ProcessValue>(Ref()).output(), &position, &rotation, &scale });
 
 	Var& fill_colour = script.value(Colour::None);
 	Var& symbol = script.create<Symbol>({ &colour, &fill_colour });
