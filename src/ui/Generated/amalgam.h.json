@@ -12,6 +12,7 @@
 		"ui/Node.h",
 		"ui/Scrollbar.h",
 		"ui/ScrollSheet.h",
+		"ui/Sequence.h",
 		"ui/Sheet.h",
 		"ui/Slider.h",
 		"ui/Ui.h",

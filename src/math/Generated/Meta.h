@@ -18,6 +18,17 @@ namespace mud
     
     // Enums
     {
+        static Meta meta = { type<mud::Axes>(), &namspc({ "mud" }), "Axes", sizeof(mud::Axes), TypeClass::Enum };
+        static Enum enu = { type<mud::Axes>(),
+            true,
+            { "None", "X", "Y", "Z" },
+            { 0, 1, 2, 4 },
+            { var(Axes::None), var(Axes::X), var(Axes::Y), var(Axes::Z) }
+        };
+        meta_enum<mud::Axes>();
+    }
+    
+    {
         static Meta meta = { type<mud::Axis>(), &namspc({ "mud" }), "Axis", sizeof(mud::Axis), TypeClass::Enum };
         static Enum enu = { type<mud::Axis>(),
             true,
@@ -1307,6 +1318,7 @@ namespace mud
     
         module.m_types.push_back(&type<mud::AutoStat<float>>());
         module.m_types.push_back(&type<mud::AutoStat<int>>());
+        module.m_types.push_back(&type<mud::Axes>());
         module.m_types.push_back(&type<mud::Axis>());
         module.m_types.push_back(&type<mud::Clockwise>());
         module.m_types.push_back(&type<mud::Colour>());

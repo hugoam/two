@@ -44,6 +44,8 @@ namespace mud
 
 	MUD_OBJ_EXPORT Var unpack(Type& type, const json& data);
 	MUD_OBJ_EXPORT Var unpack(FromJson& unpacker, Type& type, const json& data, bool typed = false);
+	MUD_OBJ_EXPORT void unpack(Var& value, const json& data);
+	MUD_OBJ_EXPORT void unpack(Ref value, const json& data);
 	MUD_OBJ_EXPORT void unpack(FromJson& unpacker, Var& value, const json& data, bool typed = false);
 
 	MUD_OBJ_EXPORT Var unpack_typed(const json& data);

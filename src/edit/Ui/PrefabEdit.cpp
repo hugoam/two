@@ -21,6 +21,8 @@
 #include <gfx/Prefab.h>
 #include <gfx/Gfx.h>
 
+#include <edit/EditContext.h>
+
 namespace mud
 {
 	TreeNode& prefab_node(Widget& parent, PrefabNode& node, PrefabNode*& selected)
@@ -76,7 +78,7 @@ namespace mud
 		return self;
 	}
 
-	PrefabNode* prefab_edit(Widget& parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected)
+	void prefab_edit(Widget& parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected)
 	{
 		UNUSED(gfx_system);
 		Widget& self = ui::sheet(parent);
@@ -85,7 +87,13 @@ namespace mud
 
 		if(selected)
 			prefab_inspector(self, *selected);
+	}
 
-		return selected;
+	void prefab_edit(Widget& parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected, EditContext& context)
+	{
+		prefab_edit(parent, gfx_system, node, selected);
+		Widget& layout = ui::layout(*context.m_viewer);
+		Widget& toolbar = ui::toolbar(layout);
+		tools_transform(toolbar, context);
 	}
 }

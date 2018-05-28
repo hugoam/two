@@ -89,7 +89,7 @@ namespace mud
 		for(Type* type : System::instance().m_types)
 			if(is_root_type(*type) && !type->m_class->m_constructors.empty())
 			{
-				if(object_trigger(self, type))
+				if(object_item(self, type).activated())
 					state.m_type = type;
 			}
 

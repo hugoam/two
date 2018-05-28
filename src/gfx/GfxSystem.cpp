@@ -144,7 +144,7 @@ namespace mud
 		m_impl->m_importerOBJ = make_unique<ImporterOBJ>(*this);
 		m_impl->m_importerGltf = make_unique<ImporterGltf>(*this);
 
-		static std::vector<string> formats = { ".obj", ".gltf" };
+		static std::vector<string> model_formats = { ".obj", ".gltf" };
 
 		static auto load_obj = [](GfxSystem& gfx_system, Model& model, cstring path)
 		{
@@ -158,14 +158,14 @@ namespace mud
 			gfx_system.m_impl->m_importerGltf->import_model(model, path, config);
 		};
 
-		static std::vector<std::function<void(GfxSystem& gfx_system, Model& model, cstring path)>> loaders = { load_obj, load_gltf };
+		static std::vector<std::function<void(GfxSystem& gfx_system, Model& model, cstring path)>> model_loaders = { load_obj, load_gltf };
 
 		m_impl->m_textures = make_unique<AssetStore<Texture>>(*this, "textures/", load_texture);
-		m_impl->m_programs = make_unique<AssetStore<Program>>(*this, "programs/", nullptr);
-		m_impl->m_materials = make_unique<AssetStore<Material>>(*this, "materials/", nullptr); //load_material
-		m_impl->m_models = make_unique<AssetStore<Model>>(*this, "models/", formats, loaders);
-		m_impl->m_particles = make_unique<AssetStore<ParticleGenerator>>(*this, "particles/", nullptr);
-		m_impl->m_prefabs = make_unique<AssetStore<Prefab>>(*this, "prefabs/", nullptr);
+		m_impl->m_programs = make_unique<AssetStore<Program>>(*this, "programs/", ".prg");
+		m_impl->m_materials = make_unique<AssetStore<Material>>(*this, "materials/", ".mtl");
+		m_impl->m_models = make_unique<AssetStore<Model>>(*this, "models/", model_formats, model_loaders);
+		m_impl->m_particles = make_unique<AssetStore<ParticleGenerator>>(*this, "particles/", ".ptc");
+		m_impl->m_prefabs = make_unique<AssetStore<Prefab>>(*this, "prefabs/", ".pfb");
 
 		m_impl->m_white_texture = this->textures().file("white.png");
 		m_impl->m_black_texture = this->textures().file("black.png");

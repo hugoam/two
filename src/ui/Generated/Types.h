@@ -70,12 +70,11 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::UiWindow>();
     template <> MUD_UI_EXPORT Type& type<mud::User>();
     template <> MUD_UI_EXPORT Type& type<mud::Widget>();
-    template <> MUD_UI_EXPORT Type& type<mud::Sprite>();
+    template <> MUD_UI_EXPORT Type& type<mud::RowSolver>();
+    template <> MUD_UI_EXPORT Type& type<mud::LineSolver>();
     template <> MUD_UI_EXPORT Type& type<mud::Dockbar>();
     template <> MUD_UI_EXPORT Type& type<mud::Dockspace>();
-    template <> MUD_UI_EXPORT Type& type<mud::SpriteAtlas>();
-    template <> MUD_UI_EXPORT Type& type<mud::Frame>();
-    template <> MUD_UI_EXPORT Type& type<mud::FrameSolver>();
+    template <> MUD_UI_EXPORT Type& type<mud::Window>();
     template <> MUD_UI_EXPORT Type& type<mud::Canvas>();
     template <> MUD_UI_EXPORT Type& type<mud::Dockable>();
     template <> MUD_UI_EXPORT Type& type<mud::Docker>();
@@ -89,7 +88,8 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::Table>();
     template <> MUD_UI_EXPORT Type& type<mud::TextEdit>();
     template <> MUD_UI_EXPORT Type& type<mud::TreeNode>();
-    template <> MUD_UI_EXPORT Type& type<mud::RowSolver>();
-    template <> MUD_UI_EXPORT Type& type<mud::LineSolver>();
-    template <> MUD_UI_EXPORT Type& type<mud::Window>();
+    template <> MUD_UI_EXPORT Type& type<mud::Sprite>();
+    template <> MUD_UI_EXPORT Type& type<mud::SpriteAtlas>();
+    template <> MUD_UI_EXPORT Type& type<mud::Frame>();
+    template <> MUD_UI_EXPORT Type& type<mud::FrameSolver>();
 }

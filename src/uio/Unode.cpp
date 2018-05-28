@@ -7,6 +7,7 @@
 #include <uio/Unode.h>
 #include <ui/Structs/Window.h>
 #include <ui/Structs/Container.h>
+#include <ui/Sequence.h>
 
 #include <obj/Reflect/Class.h>
 #include <obj/Reflect/Convert.h>
@@ -17,6 +18,9 @@
 
 namespace mud
 {
+	DispatchItem::DispatchItem()
+	{}
+
 	bool modal_dialog(Widget& parent, cstring name, bool query)
 	{
 		Widget& self = ui::window(parent.root(), name);
@@ -36,11 +40,11 @@ namespace mud
 		return object ? "(" + string(meta(object).m_name) + ")" : "";
 	}
 
-	void object_context(Widget& parent, Ref object)
+	void object_context(Widget& parent, Ref object, uint32_t mode)
 	{
 		Widget& self = ui::popup(parent, ui::PopupFlags::Modal);
-		//if(!self.m_open)
-		//	self.close();
+		if(!self.m_open)
+			parent.m_switch &= ~mode;
 
 		if(meta(object).m_type_class == TypeClass::Complex)
 			object = val<Complex>(object).m_construct;
@@ -57,19 +61,38 @@ namespace mud
 		HOOK_CONTEXT = (1 << 0)
 	};
 
-	void object_hook(Widget& parent, Ref object)
+	Widget& generic_object_item(Widget& parent, Ref object)
 	{
-		carray<string, 2> elements = { object_name(object), object_icon(object) };
-		if(ui::modal_multi_button(parent, parent, carray<cstring, 2>{ elements[0].c_str(), elements[1].c_str() }, HOOK_CONTEXT)) // (void*) id
-			object_context(parent, object);
-
-		//parent.m_onSelect = [&] { button.enableState(SELECTED); };
-		//parent.m_onUnselect = [&] { button.disableState(SELECTED); };
+		Widget& self = ui::multi_button(parent, carray<cstring, 2>{ object_icon(object).c_str(), object_name(object).c_str() });
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
+			self.m_switch |= HOOK_CONTEXT;
+		if((self.m_switch & HOOK_CONTEXT) != 0)
+			object_context(self, object, HOOK_CONTEXT);
+		return self;
 	}
 
-	bool object_trigger(Widget& parent, Ref object)
+	Widget& object_button(Widget& parent, Ref object)
 	{
-		Widget& self = ui::multi_button(parent, carray<cstring, 2>{ object_name(object).c_str(), object_icon(object).c_str() }); // (void*)id;
-		return self.activated();
+		return generic_object_item(parent, object);
+	}
+
+	Widget& object_item(Widget& parent, Ref object)
+	{
+		if(DispatchItem::me().check(object))
+			return DispatchItem::me().dispatch(object, parent);
+		else
+			return generic_object_item(parent, object);
+	}
+
+	bool object_item(Widget& parent, Ref object, Ref& selection)
+	{
+		Widget& self = object_item(parent, object);
+		return ui::select_logic(self, object, selection);
+	}
+
+	bool object_item(Widget& parent, Ref object, std::vector<Ref>& selection)
+	{
+		Widget& self = object_item(parent, object);
+		return ui::select_logic(self, object, selection);
 	}
 }

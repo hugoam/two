@@ -27,10 +27,13 @@ namespace mud
 	{
 	public:
 		using Initializer = std::function<void(T_Asset&)>;
-		using Loader = std::function<void(GfxSystem&, T_Asset&, cstring path)>;
+		using Loader = std::function<void(GfxSystem&, T_Asset&, cstring)>;
 
 		AssetStore(GfxSystem& gfx_system, cstring path, const Loader& loader);
+		AssetStore(GfxSystem& gfx_system, cstring path, cstring format);
 		AssetStore(GfxSystem& gfx_system, cstring path, const std::vector<string>& formats = {}, const std::vector<Loader>& loaders = {});
+
+		void setup(const std::vector<string>& formats, const std::vector<Loader>& loaders);
 
 		GfxSystem& m_gfx_system;
 
@@ -51,6 +54,8 @@ namespace mud
 		T_Asset& fetch(cstring name, const Initializer& initializer);
 		T_Asset& file(cstring path, cstring name);
 		T_Asset* file(cstring name);
+
+		void load_files(cstring path);
 
 		std::map<string, unique_ptr<T_Asset>> m_assets;
 	};

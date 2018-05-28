@@ -30,8 +30,8 @@ namespace mud
 		for(uint16_t i = offset; i < call.m_callable->m_params.size(); ++i)
 		{
 			const Param& param = call.m_callable->m_params[i];
-			Ref value = call.m_arguments[i];
-			field_edit(parent, param.m_name, value, param.nullable());
+			bool link = is_object(param.m_value.type()) || param.nullable();
+			field_edit(parent, param.m_name, call.m_arguments[i].m_ref, link);
 		}
 
 		/*uint16_t offset = call.m_arguments.size() - call.m_callable->m_params.size();

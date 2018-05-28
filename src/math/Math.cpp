@@ -19,8 +19,6 @@ namespace mud
 		TypeConverter::me().default_converter<vec3, uvec3>();
 	}
 
-	const Side Sides[6] = { Side::Right, Side::Left, Side::Up, Side::Down, Side::Back, Side::Front };
-
 	const vec3 X3 = { 1.f, 0.f, 0.f };
 	const vec3 Y3 = { 0.f, 1.f, 0.f };
 	const vec3 Z3 = { 0.f, 0.f, 1.f };
@@ -28,10 +26,15 @@ namespace mud
 	const vec3 Zero3 = { 0.f, 0.f, 0.f };
 	const vec3 Unit3 = { 1.f, 1.f, 1.f };
 
-	const vec3 Axes[3] = { X3, Y3, Z3 };
-	const vec3 Directions[6] = { X3, -X3,  Y3, -Y3,  Z3, -Z3 };
-	const vec3 NormalX[6] = { Y3, -Z3, -Z3,  X3,  Y3,  X3 };
-	const vec3 NormalY[6] = { -Z3,  Y3,  X3, -Z3,  X3,  Y3 };
+	const Side c_sides[6] = { Side::Right, Side::Left, Side::Up, Side::Down, Side::Back, Side::Front };
+
+	const vec3 c_axes[3]			 = {  X3,  Y3,  Z3 };
+	const vec3 c_tangents[6]		 = {  Y3,  Z3,  Y3 };
+	const vec3 c_binormals[6]		 = {  Z3,  X3,  X3 };
+
+	const vec3 c_dirs[6]			 = {  X3, -X3,  Y3, -Y3,  Z3, -Z3 };
+	const vec3 c_dirs_tangents[6]	 = {  Y3, -Z3, -Z3,  X3,  Y3,  X3 };
+	const vec3 c_dirs_normals[6]	 = { -Z3,  Y3,  X3, -Z3,  X3,  Y3 };
 
 	const quat ZeroQuat = { 1.f, 0.f, 0.f, 0.f };
 

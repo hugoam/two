@@ -20,6 +20,7 @@ namespace mud {
 
     enum Clockwise : unsigned int;
     enum class Axis : unsigned int;
+    enum class Axes : unsigned int;
     enum class SignedAxis : unsigned int;
     enum class Side : unsigned int;
     enum class TrackMode : unsigned int;

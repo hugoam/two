@@ -14,36 +14,43 @@
 
 namespace mud
 {
-	struct MUD_UIO_EXPORT ObjectPickerState : public NodeState
-	{
-		Ref m_selected = {};
-	};
+	DispatchSelector::DispatchSelector()
+	{}
 
 	using string = std::string;
 
 	void object_indexer(Widget& parent, Indexer& indexer)
 	{
-		//ui::list(parent);
 		Widget& self = ui::sheet(parent);
 		for(size_t id = 0; id < indexer.m_objects.size(); ++id)
 			if(indexer.m_objects[id].m_value)
 			{
-				object_hook(self, indexer.m_objects[id]);
+				object_item(self, indexer.m_objects[id]);
 			}
 	}
 
-	Ref object_selector(Widget& parent, Indexer& indexer)
+	bool generic_object_selector(Widget& parent, Indexer& indexer, Ref& result)
 	{
-		Ref selected = {};
-		//ui::list(parent);
+		bool changed = false;
 		Widget& self = ui::sheet(parent);
 		for(size_t id = 0; id < indexer.m_objects.size(); ++id)
 			if(indexer.m_objects[id].m_value)
 			{
-				if(object_trigger(self, indexer.m_objects[id]))
-					selected = indexer.m_objects[id];
+				if(object_item(self, indexer.m_objects[id], result))
+				{
+					result = indexer.m_objects[id];
+					changed = true;
+				}
 			}
-		return selected;
+		return changed;
+	}
+
+	bool object_selector(Widget& parent, Indexer& indexer, Ref& result)
+	{
+		if(DispatchSelector::me().check(result))
+			return DispatchSelector::me().dispatch(result, parent);
+		else
+			return generic_object_selector(parent, indexer, result);
 	}
 
 	void object_indexer_modal(Widget& parent, Indexer& indexer)
@@ -52,22 +59,33 @@ namespace mud
 		object_indexer(self, indexer);
 	}
 
-	Ref object_picker(Widget& parent, Type& type)
+	bool object_selector(Widget& parent, Ref& result)
 	{
-		//ui::list(parent);
 		Widget& self = ui::sheet(parent);
-		return object_selector(self, indexer(type));
+		return object_selector(self, indexer(result.type()), result);
 	}
 
-	Ref object_picker_modal(Widget& parent, Type& type)
+	enum ObjectPickerModes
 	{
-		Widget& window = ui::window(parent.root(), ("Select " + string(type.m_meta->m_name)).c_str());
-		Widget& self = *ui::scroll_sheet(*window.m_body).m_body;
-		Ref selected = object_selector(self, indexer(type));
-		bool closed = !window.m_body || ui::button(self, "Done").activated();
-        UNUSED(closed);
-		//if(closed || selected)
-		//	self.close();
-		return selected;
+		PICK_OBJECT = 1 << 0
+	};
+
+	bool object_selector_modal(Widget& screen, Widget& parent, Ref& result)
+	{
+		bool changed = false;
+		if(ui::modal_button(screen, parent, ".", PICK_OBJECT))
+		{
+			Widget& window = ui::window(parent.root(), ("Select " + string(result.type().m_name)).c_str());
+			if(window.m_body)
+			{
+				Widget& self = *ui::scroll_sheet(*window.m_body).m_body;
+				changed = object_selector(self, indexer(result.type()), result);
+				if(ui::button(self, "Done").activated())
+					screen.m_switch &= ~PICK_OBJECT;
+			}
+			else
+				screen.m_switch &= ~PICK_OBJECT;
+		}
+		return changed;
 	}
 }

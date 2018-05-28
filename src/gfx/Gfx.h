@@ -18,6 +18,9 @@ namespace mud
 namespace gfx
 {
 	MUD_GFX_EXPORT _func_ Gnode& node(Gnode& parent, Ref object = {}, const vec3& position = Zero3, const quat& rotation = ZeroQuat, const vec3& scale = Unit3);
+	MUD_GFX_EXPORT _func_ Gnode& node(Gnode& parent, Ref object, const Transform& transform);
+	MUD_GFX_EXPORT _func_ Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation, const vec3& scale);
+	MUD_GFX_EXPORT _func_ Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation);
 	MUD_GFX_EXPORT _func_ Item& node_model(Gnode& parent, const Model& model, const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = Unit3);
 	MUD_GFX_EXPORT _func_ Item& node_shape(Gnode& parent, const Shape& shape, const Symbol& symbol, const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = Unit3);
 	MUD_GFX_EXPORT _func_ Item& shape(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);

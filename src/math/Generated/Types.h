@@ -16,6 +16,7 @@
 namespace mud
 {
     // Exported types
+    template <> MUD_MATH_EXPORT Type& type<mud::Axes>();
     template <> MUD_MATH_EXPORT Type& type<mud::Axis>();
     template <> MUD_MATH_EXPORT Type& type<mud::Clockwise>();
     template <> MUD_MATH_EXPORT Type& type<mud::Side>();

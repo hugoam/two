@@ -2,12 +2,13 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-
+#include <gfx/Generated/Types.h>
 #include <gfx/Model.h>
 
 #include <geom/Geom.h>
 #include <gfx/Mesh.h>
 #include <gfx/Skeleton.h>
+#include <obj/Indexer.h>
 
 namespace mud
 {
@@ -15,7 +16,7 @@ namespace mud
 
 	Model::Model(cstring id)
 		: m_name(id)
-		, m_index(++s_model_index)
+		, m_index(index(type<Model>(), this))//++s_model_index)
 	{}
 
 	Model::~Model()

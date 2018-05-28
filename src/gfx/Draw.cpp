@@ -149,8 +149,8 @@ namespace mud
 
 	uint64_t hash_symbol_material(const Symbol& symbol, DrawMode draw_mode)
 	{
-		return draw_mode == PLAIN ? uint64_t(to_abgr(symbol.m_fill)) 
-								  : uint64_t(to_abgr(symbol.m_outline));
+		return draw_mode == PLAIN ? uint64_t(to_abgr(symbol.m_fill)) | uint64_t(symbol.m_overlay) << 32 | uint64_t(symbol.m_double_sided) << 33
+								  : uint64_t(to_abgr(symbol.m_outline)) | uint64_t(symbol.m_overlay) << 32 | uint64_t(symbol.m_double_sided) << 33;
 	}
 
 	Material& SymbolIndex::symbolMaterial(GfxSystem& gfx_system, const Symbol& symbol, DrawMode draw_mode)
@@ -161,6 +161,8 @@ namespace mud
 		if(m_materials[hash] == nullptr)
 		{
 			m_materials[hash] = &gfx_system.fetch_material(("Symbol" + to_string(hash)).c_str(), "unshaded");
+			m_materials[hash]->m_base_block.m_depth_test = symbol.m_overlay ? DepthTest::Disabled : DepthTest::Enabled;
+			m_materials[hash]->m_base_block.m_cull_mode = symbol.m_double_sided ? CullMode::None : CullMode::Back;
 			m_materials[hash]->m_unshaded_block.m_enabled = true;
 			m_materials[hash]->m_unshaded_block.m_colour.m_value = colour;
 		}
@@ -175,8 +177,8 @@ namespace mud
 
 		if(m_symbols[hash][shape_mem] == nullptr)
 		{
-			printf("Creating Indexed Symbol %s %s\n", shape.m_type.m_name, pack_json(Ref(&shape)).c_str());
-			string name = "Symbol:" + string(shape.m_type.m_meta->m_name);
+			printf("INFO: created indexed Shape %s %s\n", shape.m_type.m_name, pack_json(Ref(&shape)).c_str());
+			string name = "Shape:" + string(shape.m_type.m_meta->m_name);
 			m_symbols[hash][shape_mem] = draw_model(name.c_str(), ProcShape{ symbol, &shape, draw_mode, Zero3 });
 		}
 

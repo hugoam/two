@@ -82,7 +82,8 @@ namespace mud
 
 			m_picker->process(render, m_pick_query);
 		}
-#if 0
+//#define MUD_DEBUG_PICKER_TEXTURE
+#ifdef MUD_DEBUG_PICKER_TEXTURE
 		if(m_picker)
 		{
 			BlockCopy& copy = *m_scene->m_gfx_system.m_pipeline->block<BlockCopy>();
@@ -118,7 +119,8 @@ namespace mud
 
 	Ray Viewer::mouse_ray()
 	{
-		return m_viewport.ray(this->root_sheet().m_mouse.m_last_pos);
+		vec2 pos = m_frame.local_position(this->root_sheet().m_mouse.m_pos);
+		return m_viewport.ray(pos);
 	}
 
 	void Viewer::pick_point(vec2 position, std::function<void(Item*)> callback, uint32_t mask)

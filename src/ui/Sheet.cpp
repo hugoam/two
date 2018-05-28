@@ -90,7 +90,7 @@ namespace ui
 
 			if(self.once())
 			{
-				vec2 mouse_pos = self.root_sheet().m_mouse.m_last_pos;
+				vec2 mouse_pos = self.root_sheet().m_mouse.m_pos;
 				vec2 local = parent.m_frame.local_position(mouse_pos);
 				self.m_frame.set_position(local);
 			}
@@ -174,69 +174,5 @@ namespace ui
 
 		return self;
 	}
-
-	Sequence& sequence(Widget& parent)
-	{
-		Sequence& self = twidget<Sequence>(parent, styles().sequence);
-		self.m_body = scroll_sheet(self).m_body;
-		return self;
-	}
-
-#ifdef MUD_UI_SEQUENCE_REFS
-	Widget& element(Sequence& parent, Ref object, std::vector<Ref>& selection)
-	{
-		Widget& self = widget(*parent.m_body, styles().element, object.m_value);
-
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputModifier::Shift))
-			vector_swap(selection, object);
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
-			vector_select(selection, object);
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
-			vector_select(selection, object);
-
-		self.setState(SELECTED, vector_has(selection, object));
-
-		return self;
-	}
-
-	Widget& element(Sequence& parent, Ref object)
-	{
-		return element(parent, object, *parent.m_selection);
-	}
-#else
-	void element_clear_select(std::vector<Widget*>& selection)
-	{
-		for(Widget* selected : selection)
-			selected->disableState(SELECTED);
-		selection.clear();
-	}
-
-	void element_select(std::vector<Widget*>& selection, Widget& element)
-	{
-		element_clear_select(selection);
-		vector_select(selection, &element);
-		element.enableState(SELECTED);
-	}
-
-	void element_swap_select(std::vector<Widget*>& selection, Widget& element)
-	{
-		bool selected = vector_swap(selection, &element);
-		element.setState(SELECTED, selected);
-	}
-
-	Widget& element(Sequence& parent, Ref object)
-	{
-		Widget& self = widget(parent, styles().element);
-
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputModifier::Shift))
-			element_swap_select(parent.m_selection, self);
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
-			element_select(parent.m_selection, self);
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
-			element_select(parent.m_selection, self);
-
-		return self;
-	}
-#endif
 }
 }

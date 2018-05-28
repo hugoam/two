@@ -74,35 +74,40 @@ namespace mud
 			brush_options(self, *context.m_brush);
 	}
 
-	bool edit_tool(Widget& parent, cstring icon)
+	bool edit_tool(Widget& parent, Tool& tool, cstring icon)
 	{
-		return ui::toolbutton(parent, icon).activated();
+		Widget& self = ui::toolbutton(parent, icon);
+		self.setState(ACTIVE, tool.m_state == ToolState::Active);
+		return self.activated();
 	}
-
-	void edit_transform(Widget& parent, EditContext& context)
+		
+	void tools_transform(Widget& toolbar, EditContext& context)
 	{
-		//parent.widget(stack);
-		Widget& self = ui::toolbar(parent);
-
-		if(edit_tool(self, "(empty)"))
-			context.m_tool = nullptr;
-		if(edit_tool(self, "(undo)"))
+		//if(edit_tool(toolbar, "(empty)"))
+		//	context.m_tool = nullptr;
+		if(edit_tool(toolbar, context.m_undo_tool, "(undo)"))
 			context.m_undo_tool.activate();
-		if(edit_tool(self, "(redo)"))
+		if(edit_tool(toolbar, context.m_redo_tool, "(redo)"))
 			context.m_redo_tool.activate();
-		if(edit_tool(self, "(translate)"))
+		if(edit_tool(toolbar, context.m_translate_tool, "(translate)"))
 			context.set_tool(context.m_translate_tool, *context.m_viewer);
-		if(edit_tool(self, "(rotate)"))
+		if(edit_tool(toolbar, context.m_rotate_tool, "(rotate)"))
 			context.set_tool(context.m_rotate_tool, *context.m_viewer);
-		if(edit_tool(self, "(scale)"))
+		if(edit_tool(toolbar, context.m_scale_tool, "(scale)"))
 			context.set_tool(context.m_scale_tool, *context.m_viewer);
 
 		for(auto& brush : context.m_custom_brushes)
-			if(edit_tool(self, brush->m_name))
+			if(edit_tool(toolbar, *brush, brush->m_name))
 			{
 				context.set_tool(*brush, *context.m_viewer);
 				context.m_brush = brush.get();
 			}
+	}
+
+	void edit_transform(Widget& parent, EditContext& context)
+	{
+		Widget& self = ui::toolbar(parent);
+		tools_transform(self, context);
 
 		if(context.m_brush)
 			brush_options(parent, *context.m_brush);

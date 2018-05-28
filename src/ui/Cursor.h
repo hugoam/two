@@ -20,7 +20,8 @@ namespace ui
 
 	MUD_UI_EXPORT CursorStyles& cursor_styles();
 
-	MUD_UI_EXPORT _func_ Widget* tooltip(Widget& parent, const vec2& position);
+	MUD_UI_EXPORT _func_ Widget* tooltip(Widget& parent, const vec2& position, float delay = 0.5f);
+	MUD_UI_EXPORT _func_ Widget* tooltip(Widget& parent, float delay = 0.5f);
 	MUD_UI_EXPORT _func_ Widget* tooltip(Widget& parent, const vec2& position, cstring content);
 	MUD_UI_EXPORT _func_ Widget* tooltip(Widget& parent, const vec2& position, array<cstring> elements);
 

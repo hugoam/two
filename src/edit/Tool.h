@@ -14,6 +14,8 @@
 #include <edit/Action.h>
 #include <edit/Viewer/Viewer.h>
 
+#include <functional>
+
 namespace mud
 {
 	struct _refl_ MUD_EDIT_EXPORT ToolContext
@@ -94,17 +96,21 @@ namespace mud
 
 	struct _refl_ MUD_EDIT_EXPORT Gizmo
 	{
-		Symbol m_symbol;
-		ShapeVar m_shape;
-		Item* m_item;
+		std::function<Item*(Gnode&)> m_draw_handle;
+		std::function<void(Gnode&, bool)> m_draw_gizmo;
+		Item* m_handle;
 		bool m_highlighted;
-		std::function<vec3(Viewer&)> m_grab_point;
+		std::function<vec3(Viewer&, const vec2&)> m_grab_point;
 	};
+
+	MUD_EDIT_EXPORT Colour gizmo_colour(float hue, bool active);
+	MUD_EDIT_EXPORT vec3 gizmo_grab_linear(Viewer& viewer, const Transform& space, Axis axis);
+	MUD_EDIT_EXPORT vec3 gizmo_grab_planar(Viewer& viewer, const Transform& space, Axis normal);
 
 	class _refl_ MUD_EDIT_EXPORT TransformAction : public EditorAction
 	{
 	public:
-		TransformAction(const std::vector<Transform*>& targets) : EditorAction(), m_targets(targets) {}
+		TransformAction(const std::vector<Transform*>& targets);
 
 		virtual void apply() final;
 		virtual void undo() final;
@@ -129,11 +135,11 @@ namespace mud
 
 		void refresh();
 
-		virtual void paint(Gnode& parent);
+		virtual void paint(Gnode& parent) override;
 
-		virtual void process(Viewer& viewer, const std::vector<Ref>& selection);
+		virtual void process(Viewer& viewer, const std::vector<Ref>& selection) override;
 
-		virtual bool enabled(const std::vector<Ref>& selection);
+		virtual bool enabled(const std::vector<Ref>& selection) override;
 
 		virtual object_ptr<TransformAction> create_action(const std::vector<Transform*>& targets) = 0;
 		virtual bool test_target(Ref target) { UNUSED(target); return true; }
@@ -143,7 +149,8 @@ namespace mud
 		Gizmo* m_current = nullptr;
 		Gizmo* m_dragging = nullptr;
 
-		vec3 m_center;
+		Transform m_transform = {};
+		vec2 m_drag_start;
 		vec3 m_grab_start;
 		vec3 m_grab_end;
 

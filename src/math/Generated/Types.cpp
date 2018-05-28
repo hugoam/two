@@ -7,6 +7,7 @@
 namespace mud
 {
     // Exported types
+    template <> MUD_MATH_EXPORT Type& type<mud::Axes>() { static Type ty("mud::Axes"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Axis>() { static Type ty("mud::Axis"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Clockwise>() { static Type ty("mud::Clockwise"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Side>() { static Type ty("mud::Side"); return ty; }

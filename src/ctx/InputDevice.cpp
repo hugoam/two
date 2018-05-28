@@ -112,7 +112,7 @@ namespace mud
 		const float drag_threshold = 3.f;
 
 		for(MouseButton& button : m_buttons)
-			if(button.m_pressed)
+			if(button.m_pressed && !button.m_dragging)
 			{
 				vec2 delta = mouse_event.m_pos - button.m_pressed_event.m_pos;
 				if (std::abs(delta.x) > drag_threshold || std::abs(delta.y) > drag_threshold)

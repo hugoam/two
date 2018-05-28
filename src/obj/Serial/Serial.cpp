@@ -118,12 +118,6 @@ namespace mud
 		});
 	}
 
-	Var unpack(Type& type, const json& json_value)
-	{
-		static FromJson unpacker;
-		return unpack(unpacker, type, json_value);
-	}
-
 	inline void enum_set_value(Ref value, size_t enum_value)
 	{
 		memcpy(value.m_value, &enum_value, meta(value).m_size);
@@ -133,7 +127,26 @@ namespace mud
 	{
 		enum_set_value(result, value);
 	}
-	
+
+	Var unpack(Type& type, const json& json_value)
+	{
+		static FromJson unpacker;
+		return unpack(unpacker, type, json_value);
+	}
+
+	void unpack(Var& value, const json& json_value)
+	{
+		static FromJson unpacker;
+		unpack(unpacker, value, json_value);
+	}
+
+	void unpack(Ref object, const json& json_value)
+	{
+		static FromJson unpacker;
+		Var value = object;
+		unpack(unpacker, value, json_value);
+	}
+
 	Var unpack(FromJson& unpacker, Type& type, const json& json_value, bool typed)
 	{
 		Var result = type.m_meta->m_empty_var();
@@ -146,7 +159,8 @@ namespace mud
 		if(json_value.is_null())
 			return;
 
-
+		// @note: we MUST take a Var& as parameter of this function for this specific case
+		// -> polymorphic objects must be created by value since we don't know in advance the actual type we are loading
 		if(value.type().m_class && cls(value).m_type_member && !typed) // @kludge this parameter is only there to tell us we were called from the typed variant of this function, couldn't think of a better design at this time of the day
 		{
 			value = unpack_typed(unpacker, json_value);
@@ -246,7 +260,8 @@ namespace mud
 		{
 			size_t i = 0;
 			iterate_sequence(value.m_ref, [&](Ref element) {
-				pack(element, json_value[i++]); });
+				pack(element, json_value[i++]);
+			});
 		}
 		else if(is_object(value.type()))
 		{

@@ -81,6 +81,7 @@ namespace mud
 		inline void set(Ref value) { if(m_mode == VAL) m_val.set(value); else m_ref = value; }
 		inline void clear() { m_mode = VAL; m_val.clear(); }
 
-		inline operator Ref() { return m_ref; }
+		inline operator const Ref&() const { return m_ref; }
+		inline operator Ref&() { return m_ref; }
 	};
 }

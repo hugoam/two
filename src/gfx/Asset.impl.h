@@ -4,6 +4,12 @@
 
 #include <gfx/Asset.h>
 
+#include <obj/Serial/Serial.h>
+
+#ifndef MUD_GENERATOR_SKIP_INCLUDES
+#include <dirent.h>
+#endif
+
 namespace mud
 {
 	template <class T_Asset>
@@ -14,13 +20,36 @@ namespace mud
 	{}
 
 	template <class T_Asset>
+	AssetStore<T_Asset>::AssetStore(GfxSystem& gfx_system, cstring path, cstring format)
+		: m_gfx_system(gfx_system)
+		, m_path(path)
+	{
+		auto loader = [&](GfxSystem& gfx_system, T_Asset& asset, cstring path)
+		{
+			UNUSED(gfx_system);
+			json json_value = parse_json_file(string(path) + m_cformats[0]); // @kludge: fix extensions assumed in loaders (gltf, obj, etc...)
+			unpack(Ref(&asset), json_value);
+		};
+
+		this->setup({ format }, { loader });
+	}
+
+	template <class T_Asset>
 	AssetStore<T_Asset>::AssetStore(GfxSystem& gfx_system, cstring path, const std::vector<string>& formats, const std::vector<Loader>& loaders)
 		: m_gfx_system(gfx_system)
 		, m_path(path)
 		, m_formats(formats)
 		, m_format_loaders(loaders)
 	{
-		for(const string& format : formats)
+		this->setup(formats, loaders);
+	}
+
+	template <class T_Asset>
+	void AssetStore<T_Asset>::setup(const std::vector<string>& formats, const std::vector<Loader>& loaders)
+	{
+		m_formats = formats;
+		m_format_loaders = loaders;
+		for(const string& format : m_formats)
 			m_cformats.push_back(format.c_str());
 	}
 
@@ -93,5 +122,35 @@ namespace mud
 				m_loader(m_gfx_system, *m_assets[name], (string(location.m_location) + location.m_name).c_str());
 		}
 		return m_assets[name].get();
+	}
+
+	template <class T_Asset>
+	void AssetStore<T_Asset>::load_files(cstring path)
+	{
+		DIR* dir = opendir(path);
+		dirent* ent;
+
+		while((ent = readdir(dir)) != NULL)
+		{
+			string filename = ent->d_name;
+			if(ent->d_type & DT_REG)
+			{
+				for(size_t i = 0; i < m_cformats.size(); ++i)
+					if(filename.find(m_formats[i]) != string::npos)
+					{
+						string name = filename.substr(0, filename.size() - m_formats[i].size());
+						m_assets[name] = make_unique<T_Asset>(ent->d_name);
+						m_format_loaders[i](m_gfx_system, *m_assets[name], (path + name).c_str());
+						break;
+					}
+			}
+			else if(ent->d_type & DT_DIR)
+			{
+				if(filename != "." && filename != "..")
+					this->load_files((string(path) + ent->d_name + "/").c_str());
+			}
+		}
+
+		closedir(dir);
 	}
 }

@@ -9,6 +9,9 @@
 
 namespace mud
 {
+    template <> inline void from_string(const string& str, mud::Axes& val) { val = static_cast<mud::Axes>(enu<mud::Axes>().value(str.c_str())); };
+    template <> inline void to_string(const mud::Axes& val, string& str) { str = enu<mud::Axes>().m_map[size_t(val)]; };
+    
     template <> inline void from_string(const string& str, mud::Axis& val) { val = static_cast<mud::Axis>(enu<mud::Axis>().value(str.c_str())); };
     template <> inline void to_string(const mud::Axis& val, string& str) { str = enu<mud::Axis>().m_map[size_t(val)]; };
     

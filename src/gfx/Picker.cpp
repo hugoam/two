@@ -15,6 +15,7 @@
 #include <gfx/Shot.h>
 #include <gfx/Mesh.h>
 #include <gfx/Model.h>
+#include <gfx/Material.h>
 #include <gfx/RenderTarget.h>
 #include <gfx/Renderer.h>
 #include <gfx/Program.h>
@@ -97,8 +98,11 @@ namespace mud
 
 			for(const ModelItem& model_item : item.m_model->m_items)
 			{
-				uint64_t item_state = item.submit(model_item);
-				bgfx::setState(BGFX_STATE_DEFAULT | item_state);
+				Material& material = model_item.m_mesh->m_material ? *model_item.m_mesh->m_material : *item.m_material;
+				uint64_t render_state = BGFX_STATE_DEFAULT;
+				material.state(render_state);
+				item.submit(render_state, model_item);
+				bgfx::setState(render_state);
 				bgfx::submit(view, m_program);
 			}
 		}

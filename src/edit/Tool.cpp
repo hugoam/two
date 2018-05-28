@@ -7,6 +7,7 @@
 #include <edit/Tool.h>
 
 #include <geom/Intersect.h>
+#include <math/Axes.h>
 #include <edit/ActionStack.h>
 
 #include <ui/Sheet.h>
@@ -55,9 +56,29 @@ namespace mud
 		: ViewportTool(context, name, type)
 	{}
 
-	//TransformAction::TransformAction(const std::vector<Transform*>& targets)
-	//	: m_targets(targets)
-	//{}
+	Colour gizmo_colour(float hue, bool active)
+	{
+		return hsl_to_rgb(hue, active ? 0.9f : 0.6f, active ? 0.5f : 0.3f);
+	}
+
+	vec3 gizmo_grab_linear(Viewer& viewer, const Transform& space, Axis axis)
+	{
+		vec3 direction = space.m_rotation * to_vec3(axis);
+		vec3 normal = space.m_rotation * c_tangents[uint(axis)];
+		vec3 projected = plane_segment_intersection(Plane(space.m_position, space.m_position + direction, space.m_position + normal), to_segment(viewer.mouse_ray()));
+		return nearest_point_on_line(space.m_position, direction, projected);
+	}
+
+	vec3 gizmo_grab_planar(Viewer& viewer, const Transform& space, Axis normal)
+	{
+		vec3 origin = space.m_position;
+		Plane plane(space.m_position, space.m_rotation * to_vec3(normal));
+		return plane_segment_intersection(plane, to_segment(viewer.mouse_ray()));
+	}
+
+	TransformAction::TransformAction(const std::vector<Transform*>& targets)
+		: m_targets(targets)
+	{}
 
 	void TransformAction::apply()
 	{
@@ -73,7 +94,6 @@ namespace mud
 
 	TransformTool::TransformTool(ToolContext& context, cstring name, Type& type)
 		: SpatialTool(context, name, type)
-		, m_center(Zero3)
 	{}
 
 	TransformTool::~TransformTool()
@@ -89,24 +109,60 @@ namespace mud
 
 	void TransformTool::paint(Gnode& parent)
 	{
-		Gnode& self = gfx::node(parent, {}, m_center);
+		Gnode& self = gfx::node(parent, {}, m_transform);
 
 		for(Gizmo& gizmo : m_gizmos)
 		{
-			if(&gizmo == m_current)
-				gizmo.m_item = &gfx::shape(self, gizmo.m_shape, Symbol(Colour::White), ITEM_UI);
-			else
-				gizmo.m_item = &gfx::shape(self, gizmo.m_shape, gizmo.m_symbol, ITEM_UI);
+			gizmo.m_handle = gizmo.m_draw_handle(self);
+			gizmo.m_draw_gizmo(self, &gizmo == m_current);
 		}
+
+#ifdef MUD_DEBUG_TRANSFORM_POINTS
+		Gnode& start = gfx::node(parent, {}, m_grab_start);
+		gfx::shape(start, Sphere(0.1f), Symbol(Colour::None, Colour::Pink, true));
+
+		Gnode& end = gfx::node(parent, {}, m_grab_end);
+		gfx::shape(end, Sphere(0.1f), Symbol(Colour::None, Colour::Pink, true));
+#endif
 	}
 
 	void TransformTool::refresh()
 	{
 	}
 
+	quat average_quat(quat& cumulative, const quat& rotation, const quat& first, int count)
+	{
+		if(dot(rotation, first) < 0.f)
+			return average_quat(cumulative, inverse(rotation), first, count);
+
+		float factor = 1.f / (float)count;
+		cumulative += rotation;
+		return normalize(cumulative * factor);
+	}
+
+	Transform average_transforms(array<Transform*> transforms)
+	{
+		Transform average;
+		average.m_scale = Zero3;
+
+		quat cumulative = { 0.f, 0.f, 0.f, 0.f };
+
+		size_t count = 0;
+		for(Transform* transform : transforms)
+		{
+			average.m_position += transform->m_position;
+			average.m_scale += transform->m_scale;
+			average.m_rotation = average_quat(cumulative, transform->m_rotation, transforms[0]->m_rotation, ++count);
+		}
+		average.m_position = average.m_position / float(transforms.size());
+		average.m_scale = average.m_scale / float(transforms.size());
+
+		return average;
+	}
+
 	void TransformTool::process(Viewer& viewer, const std::vector<Ref>& targets)
 	{
-		Widget& screen = ui::overlay(viewer);
+		Widget& screen = viewer;//= ui::overlay(viewer);
 
 		this->refresh();
 
@@ -115,11 +171,7 @@ namespace mud
 			if(object.type().is<Transform>())
 				transforms.push_back(&val<Transform>(object));
 
-		m_center = Zero3;
-		for(Transform* transform : transforms)
-			m_center += transform->m_position;
-		//m_center /= transforms.size();
-		m_center = m_center / float(transforms.size());
+		m_transform = average_transforms(transforms);
 
 		if(MouseEvent mouse_event = screen.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
@@ -134,14 +186,15 @@ namespace mud
 		if(MouseEvent mouse_event = screen.mouse_event(DeviceType::MouseLeft, EventType::DragStarted))
 		{
 			m_dragging = m_current;
-			m_grab_start = m_current->m_grab_point(viewer);
+			m_drag_start = mouse_event.m_relative;
+			m_grab_start = m_current->m_grab_point(viewer, mouse_event.m_relative);
 			m_action = this->create_action(transforms);
 			mouse_event.consume(screen);
 		}
 
 		if(MouseEvent mouse_event = screen.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
-			m_grab_end = m_current->m_grab_point(viewer);
+			m_grab_end = m_current->m_grab_point(viewer, mouse_event.m_relative);
 
 			m_action->undo();
 			m_action->update(m_grab_start, m_grab_end);
@@ -166,7 +219,7 @@ namespace mud
 	Gizmo& TransformTool::gizmo(Item& item)
 	{
 		for(Gizmo& gizmo : m_gizmos)
-			if(gizmo.m_item == &item)
+			if(gizmo.m_handle == &item)
 				return gizmo;
 
 		return m_gizmos.front();

@@ -8,8 +8,12 @@
 
 #include <geom/Shapes.h>
 #include <geom/Intersect.h>
+#include <math/Axes.h>
 
 #include <edit/Viewer/Viewer.h>
+
+#include <gfx/Gfx.h>
+#include <gfx/Item.h>
 
 namespace mud
 {
@@ -21,46 +25,50 @@ namespace mud
 
 	void RotateAction::apply(Transform& transform)
 	{
-		transform.m_rotation *= angle_axis(m_angle, m_axis);
+		transform.m_rotation = transform.m_rotation * angle_axis(m_angle, m_axis);
 	}
 
 	void RotateAction::undo(Transform& transform)
 	{
-		transform.m_rotation *= angle_axis(-m_angle, m_axis);
+		transform.m_rotation = transform.m_rotation * angle_axis(-m_angle, m_axis);
 	}
 
 	void RotateAction::update(const vec3& start, const vec3& end)
 	{
 		// @kludge : why negative axis ?
-		m_angle = oriented_angle(normalize(start), normalize(end), -m_axis); 
+		m_angle = oriented_angle(normalize(start), normalize(end), m_axis); 
 	}
 
 	RotateTool::RotateTool(ToolContext& context)
 		: TransformTool(context, "Rotate", type<RotateTool>())
 	{
-		m_gizmos.push_back(rotation_gizmo(Axis::X, X3, Z3, Y3, Colour::Red));
-		m_gizmos.push_back(rotation_gizmo(Axis::Y, Y3, X3, Z3, Colour::Green));
-		m_gizmos.push_back(rotation_gizmo(Axis::Z, Z3, X3, Y3, Colour::Blue));
+		m_gizmos.push_back(rotation_gizmo(Axis::X, 0.f));
+		m_gizmos.push_back(rotation_gizmo(Axis::Y, 1.f / 3.f));
+		m_gizmos.push_back(rotation_gizmo(Axis::Z, 2.f / 3.f));
 		m_current = &m_gizmos.front();
 	}
 
-	Gizmo RotateTool::rotation_gizmo(Axis axis, vec3 dir, vec3 p1, vec3 p2, Colour colour)
+	Item& rotate_gizmo(Gnode& parent, Axis axis, Colour colour, float ring_radius, uint32_t flags = 0U)
 	{
-		auto grab_point = [this, dir, p1, p2](Viewer& viewer)
-		{
-			Ray ray = viewer.mouse_ray();
-			vec3 result = plane_segment_intersection(m_center, m_center + p1, m_center + p2, ray.m_start, ray.m_end);
-			return result - m_center;
-		};
+		Gnode& node = gfx::transform(parent, {}, Zero3, ZeroQuat);
+		return gfx::shape(node, Torus(1.f, ring_radius, axis), Symbol(Colour::None, colour, true, true), flags);
+	}
 
-		return Gizmo{ Symbol(colour, Colour::None), Circle(1.f, axis), nullptr, false, grab_point };
+	Gizmo RotateTool::rotation_gizmo(Axis axis, float hue)
+	{
+		auto grab_point = [this, axis](Viewer& viewer, const vec2& pos) { return gizmo_grab_planar(viewer, m_transform, axis) - m_transform.m_position; };
+
+		auto draw_handle = [=](Gnode& parent) { return &rotate_gizmo(parent, axis, Colour::Invisible, 0.05f, ITEM_UI); };
+		auto draw_gizmo = [=](Gnode& parent, bool active) { rotate_gizmo(parent, axis, gizmo_colour(hue, active), 0.01f); };
+
+		return { draw_handle, draw_gizmo, nullptr, false, grab_point };
 	}
 
 	object_ptr<TransformAction> RotateTool::create_action(const std::vector<Transform*>& targets)
 	{
-		vec3 axis = m_current == &m_gizmos[0] ? X3
-				  : m_current == &m_gizmos[1] ? Y3
-											  : Z3;
+		vec3 axis = m_current == &m_gizmos[0] ? -X3
+				  : m_current == &m_gizmos[1] ?  Y3
+											  : -Z3;
 		return make_object<RotateAction>(targets, axis);
 	}
 

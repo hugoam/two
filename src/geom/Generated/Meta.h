@@ -394,7 +394,7 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::Symbol>(), [](Ref ref, array<Var> args) { new(&val<mud::Symbol>(ref)) mud::Symbol( val<mud::Colour>(args[0]), val<mud::Colour>(args[1]), val<bool>(args[2]), val<mud::SymbolDetail>(args[3]) ); }, { { "outline", var(mud::Colour()), Param::Default }, { "fill", var(mud::Colour()), Param::Default }, { "double_sided", var(bool(false)), Param::Default }, { "detail", var(mud::SymbolDetail()), Param::Default } } }
+                { type<mud::Symbol>(), [](Ref ref, array<Var> args) { new(&val<mud::Symbol>(ref)) mud::Symbol( val<mud::Colour>(args[0]), val<mud::Colour>(args[1]), val<bool>(args[2]), val<bool>(args[3]), val<mud::SymbolDetail>(args[4]) ); }, { { "outline", var(mud::Colour()), Param::Default }, { "fill", var(mud::Colour()), Param::Default }, { "overlay", var(bool(false)), Param::Default }, { "double_sided", var(bool(false)), Param::Default }, { "detail", var(mud::SymbolDetail()), Param::Default } } }
             },
             // copy constructor
             {
@@ -404,11 +404,12 @@ namespace mud
             {
                 { type<mud::Symbol>(), member_address(&mud::Symbol::m_outline), type<mud::Colour>(), "outline", var(mud::Colour()), Member::Value },
                 { type<mud::Symbol>(), member_address(&mud::Symbol::m_fill), type<mud::Colour>(), "fill", var(mud::Colour()), Member::Value },
+                { type<mud::Symbol>(), member_address(&mud::Symbol::m_overlay), type<bool>(), "overlay", var(bool()), Member::Value },
+                { type<mud::Symbol>(), member_address(&mud::Symbol::m_double_sided), type<bool>(), "double_sided", var(bool()), Member::Value },
+                { type<mud::Symbol>(), member_address(&mud::Symbol::m_detail), type<mud::SymbolDetail>(), "detail", var(mud::SymbolDetail()), Member::Value },
                 { type<mud::Symbol>(), member_address(&mud::Symbol::m_image), type<cstring>(), "image", var(cstring()), Member::Value },
                 { type<mud::Symbol>(), member_address(&mud::Symbol::m_image256), type<mud::Image256>(), "image256", Ref(type<mud::Image256>()), Member::Flags(Member::Pointer|Member::Link) },
-                { type<mud::Symbol>(), member_address(&mud::Symbol::m_program), type<cstring>(), "program", var(cstring()), Member::Value },
-                { type<mud::Symbol>(), member_address(&mud::Symbol::m_double_sided), type<bool>(), "double_sided", var(bool()), Member::Value },
-                { type<mud::Symbol>(), member_address(&mud::Symbol::m_detail), type<mud::SymbolDetail>(), "detail", var(mud::SymbolDetail()), Member::Value }
+                { type<mud::Symbol>(), member_address(&mud::Symbol::m_program), type<cstring>(), "program", var(cstring()), Member::Value }
             },
             // methods
             {
@@ -1161,6 +1162,45 @@ namespace mud
     
     
         
+    // mud::Torus
+    {
+        static Meta meta = { type<mud::Torus>(), &namspc({ "mud" }), "Torus", sizeof(mud::Torus), TypeClass::Struct };
+        static Class cls = { type<mud::Torus>(),
+            // bases
+            { &type<mud::Shape>() },
+            { base_offset<mud::Torus, mud::Shape>() },
+            // constructors
+            {
+                { type<mud::Torus>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Torus>(ref)) mud::Torus(  ); }, {} },
+                { type<mud::Torus>(), [](Ref ref, array<Var> args) { new(&val<mud::Torus>(ref)) mud::Torus( val<float>(args[0]), val<float>(args[1]), val<mud::Axis>(args[2]) ); }, { { "radius", var(float()) }, { "solid_radius", var(float()) }, { "axis", var(mud::Axis()), Param::Default } } },
+                { type<mud::Torus>(), [](Ref ref, array<Var> args) { new(&val<mud::Torus>(ref)) mud::Torus( val<mud::vec3>(args[0]), val<float>(args[1]), val<float>(args[2]), val<mud::Axis>(args[3]) ); }, { { "center", var(mud::vec3()) }, { "radius", var(float()) }, { "solid_radius", var(float()) }, { "axis", var(mud::Axis()), Param::Default } } }
+            },
+            // copy constructor
+            {
+                { type<mud::Torus>(), [](Ref ref, Ref other) { new(&val<mud::Torus>(ref)) mud::Torus(val<mud::Torus>(other)); } }
+            },
+            // members
+            {
+                { type<mud::Torus>(), member_address(&mud::Torus::m_radius), type<float>(), "radius", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Torus>(), member_address(&mud::Torus::m_solid_radius), type<float>(), "solid_radius", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Torus>(), member_address(&mud::Torus::m_axis), type<mud::Axis>(), "axis", var(mud::Axis()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Torus>();
+    }
+    
+    
+        
     // mud::Triangle
     {
         static Meta meta = { type<mud::Triangle>(), &namspc({ "mud" }), "Triangle", sizeof(mud::Triangle), TypeClass::Struct };
@@ -1268,6 +1308,7 @@ namespace mud
         module.m_types.push_back(&type<mud::Sphere>());
         module.m_types.push_back(&type<mud::SphereRing>());
         module.m_types.push_back(&type<mud::Spheroid>());
+        module.m_types.push_back(&type<mud::Torus>());
         module.m_types.push_back(&type<mud::Triangle>());
         module.m_types.push_back(&type<mud::Poisson>());
     

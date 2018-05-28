@@ -63,7 +63,7 @@ namespace mud
 		float const S = 1.f / (float)(sectors - 1);
 		float repeat = 1.f;
 
-		for(int r = 0; r < rings; r++) for(int s = 0; s < sectors; s++)
+		for(uint16_t r = 0; r < rings; r++) for(uint16_t s = 0; s < sectors; s++)
 		{
 			float const x = cos(2 * M_PI * s * S) * sin(M_PI * r * R);
 			float const y = sin(-M_PI / 2.f + M_PI * r * R);
@@ -82,7 +82,7 @@ namespace mud
 		uint16_t rings = sphere_rings(uint(shape.m_symbol.m_detail));
 		uint16_t sectors = sphere_sectors(uint(shape.m_symbol.m_detail));
 
-		return{ int(rings * sectors), int((rings-1) * (sectors-1) * 4) };
+		return { int(rings * sectors), int((rings-1) * (sectors-1) * 4) };
 	}
 
 	void draw_sphere_lines(const ProcShape& shape, const Sphere& sphere, MeshData& data)

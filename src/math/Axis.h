@@ -15,6 +15,17 @@ namespace mud
 		Z = 2,
 	};
 
+	enum class _refl_ Axes : unsigned int
+	{
+		None = 0,
+		X = 1 << 0,
+		Y = 1 << 1,
+		Z = 1 << 2,
+	};
+
+	inline Axes to_axes(Axes x = Axes::None, Axes y = Axes::None, Axes z = Axes::None) { return Axes(uint(x) | uint(y) | uint(z)); }
+	inline bool check_axis(Axes axes, Axes axis) { return (uint(axes) & uint(axis)) != 0; }
+
 	enum class _refl_ SignedAxis : unsigned int
 	{
 		PlusX  = 0,

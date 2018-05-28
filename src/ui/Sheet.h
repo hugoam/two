@@ -60,8 +60,5 @@ namespace ui
 	MUD_UI_EXPORT DragPoint grid_sheet_logic(Widget& self, Dim dim);
 	MUD_UI_EXPORT Widget& grid_sheet(Widget& parent, Style& style, Dim dim);
 	MUD_UI_EXPORT Widget& grid_sheet(Widget& parent, Style& style, Dim dim, array<float> spans);
-	
-	MUD_UI_EXPORT _func_ Sequence& sequence(Widget& parent);
-	MUD_UI_EXPORT _func_ Widget& element(Sequence& parent, Ref object);
 }
 }

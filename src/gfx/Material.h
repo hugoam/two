@@ -192,6 +192,7 @@ namespace mud
 		_attr_ _mut_ UnshadedMaterialBlock m_unshaded_block;
 		_attr_ _mut_ PbrMaterialBlock m_pbr_block;
 
+		void state(uint64_t& bgfx_state) const;
 		void submit(uint64_t& bgfx_state, const Skin* skin = nullptr) const;
 		ShaderVersion shader_version() const;
 

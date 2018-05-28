@@ -49,6 +49,11 @@ namespace mud
 	Circle::Circle(const vec3& center, float radius, Axis axis) : Shape(type<Circle>(), center), m_radius(radius), m_axis(axis) {}
 	object_ptr<Shape> Circle::clone() const { return make_object<Circle>(*this); }
 
+	Torus::Torus() : Shape(type<Torus>()) {}
+	Torus::Torus(float radius, float solid_radius, Axis axis) : Shape(type<Torus>()), m_radius(radius), m_solid_radius(solid_radius), m_axis(axis) {}
+	Torus::Torus(const vec3& center, float radius, float solid_radius, Axis axis) : Shape(type<Torus>(), center), m_radius(radius), m_solid_radius(solid_radius), m_axis(axis) {}
+	object_ptr<Shape> Torus::clone() const { return make_object<Torus>(*this); }
+
 	Ring::Ring() : Shape(type<Ring>()) {}
 	Ring::Ring(float radius, float min, float max) : Shape(type<Ring>()), m_radius(radius), m_min(min), m_max(max) {}
 	object_ptr<Shape> Ring::clone() const { return make_object<Ring>(*this); }
@@ -216,12 +221,10 @@ namespace mud
 		m_vertices[7] = { max.x, max.y, min.z };
 	}
 
-	Symbol::Symbol(Colour outline, Colour fill, bool double_sided, SymbolDetail detail)
+	Symbol::Symbol(Colour outline, Colour fill, bool overlay, bool double_sided, SymbolDetail detail)
 		: m_outline(outline)
 		, m_fill(fill)
-		, m_image()
-		, m_image256(nullptr)
-		, m_program(nullptr)
+		, m_overlay(overlay)
 		, m_double_sided(double_sided)
 		, m_detail(detail)
 	{}

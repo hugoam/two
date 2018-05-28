@@ -786,6 +786,102 @@ namespace mud
     
     
         
+    // mud::RotateAction
+    {
+        static Meta meta = { type<mud::RotateAction>(), &namspc({ "mud" }), "RotateAction", sizeof(mud::RotateAction), TypeClass::Object };
+        static Class cls = { type<mud::RotateAction>(),
+            // bases
+            { &type<mud::TransformAction>() },
+            { base_offset<mud::RotateAction, mud::TransformAction>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::RotateAction>();
+    }
+    
+    
+        
+    // mud::ScaleAction
+    {
+        static Meta meta = { type<mud::ScaleAction>(), &namspc({ "mud" }), "ScaleAction", sizeof(mud::ScaleAction), TypeClass::Object };
+        static Class cls = { type<mud::ScaleAction>(),
+            // bases
+            { &type<mud::TransformAction>() },
+            { base_offset<mud::ScaleAction, mud::TransformAction>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ScaleAction>();
+    }
+    
+    
+        
+    // mud::TranslateAction
+    {
+        static Meta meta = { type<mud::TranslateAction>(), &namspc({ "mud" }), "TranslateAction", sizeof(mud::TranslateAction), TypeClass::Object };
+        static Class cls = { type<mud::TranslateAction>(),
+            // bases
+            { &type<mud::TransformAction>() },
+            { base_offset<mud::TranslateAction, mud::TransformAction>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::TranslateAction>();
+    }
+    
+    
+        
     // mud::CopyTool
     {
         static Meta meta = { type<mud::CopyTool>(), &namspc({ "mud" }), "CopyTool", sizeof(mud::CopyTool), TypeClass::Object };
@@ -910,102 +1006,6 @@ namespace mud
         
         
         meta_class<mud::TranslateTool>();
-    }
-    
-    
-        
-    // mud::RotateAction
-    {
-        static Meta meta = { type<mud::RotateAction>(), &namspc({ "mud" }), "RotateAction", sizeof(mud::RotateAction), TypeClass::Object };
-        static Class cls = { type<mud::RotateAction>(),
-            // bases
-            { &type<mud::TransformAction>() },
-            { base_offset<mud::RotateAction, mud::TransformAction>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::RotateAction>();
-    }
-    
-    
-        
-    // mud::ScaleAction
-    {
-        static Meta meta = { type<mud::ScaleAction>(), &namspc({ "mud" }), "ScaleAction", sizeof(mud::ScaleAction), TypeClass::Object };
-        static Class cls = { type<mud::ScaleAction>(),
-            // bases
-            { &type<mud::TransformAction>() },
-            { base_offset<mud::ScaleAction, mud::TransformAction>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ScaleAction>();
-    }
-    
-    
-        
-    // mud::TranslateAction
-    {
-        static Meta meta = { type<mud::TranslateAction>(), &namspc({ "mud" }), "TranslateAction", sizeof(mud::TranslateAction), TypeClass::Object };
-        static Class cls = { type<mud::TranslateAction>(),
-            // bases
-            { &type<mud::TransformAction>() },
-            { base_offset<mud::TranslateAction, mud::TransformAction>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::TranslateAction>();
     }
     
     
@@ -1167,13 +1167,13 @@ namespace mud
         module.m_types.push_back(&type<mud::ViewTool>());
         module.m_types.push_back(&type<mud::Brush>());
         module.m_types.push_back(&type<mud::TransformTool>());
+        module.m_types.push_back(&type<mud::RotateAction>());
+        module.m_types.push_back(&type<mud::ScaleAction>());
+        module.m_types.push_back(&type<mud::TranslateAction>());
         module.m_types.push_back(&type<mud::CopyTool>());
         module.m_types.push_back(&type<mud::RotateTool>());
         module.m_types.push_back(&type<mud::ScaleTool>());
         module.m_types.push_back(&type<mud::TranslateTool>());
-        module.m_types.push_back(&type<mud::RotateAction>());
-        module.m_types.push_back(&type<mud::ScaleAction>());
-        module.m_types.push_back(&type<mud::TranslateAction>());
         module.m_types.push_back(&type<mud::CircleBrush>());
         module.m_types.push_back(&type<mud::PlaceBrush>());
         module.m_types.push_back(&type<mud::ScriptedBrush>());

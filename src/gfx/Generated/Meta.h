@@ -2478,6 +2478,11 @@ namespace mud
             module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "node", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::node), func, params, Ref(type<mud::Gnode>()) });
         }
         {
+            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node(val<mud::Gnode>(args[0]), args[1], val<mud::Transform>(args[2]))); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "object", Ref(), Param::Nullable }, { "transform", var(mud::Transform()) } };
+            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "node", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::Transform&)>(&mud::gfx::node), func, params, Ref(type<mud::Gnode>()) });
+        }
+        {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node_model(val<mud::Gnode>(args[0]), val<mud::Model>(args[1]), val<mud::vec3>(args[2]), val<mud::quat>(args[3]), val<mud::vec3>(args[4]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "model", Ref(type<mud::Model>()) }, { "position", var(mud::vec3()) }, { "rotation", var(mud::quat()), Param::Default }, { "scale", var(mud::vec3()), Param::Default } };
             module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "node_model", function_id<mud::Item&(*)(mud::Gnode&, const mud::Model&, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::node_model), func, params, Ref(type<mud::Item>()) });

@@ -2,10 +2,11 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-
+#include <gfx/Generated/Types.h>
 #include <gfx/Material.h>
 
 #include <obj/Type.h>
+#include <obj/Indexer.h>
 #include <obj/String/StringConvert.h>
 #include <math/VecOps.h>
 
@@ -172,7 +173,7 @@ namespace mud
 	//static TypedUniformBlock<UnshadedMaterialBlock> s_unshaded_material_block = { "unshaded" };
 	//static TypedUniformBlock<PbrMaterialBlock> s_pbr_material_block = { "pbr" };
 
-	static uint16_t materialIndex = 0;
+	static uint16_t s_material_index = 0;
 
 	GfxSystem* Material::ms_gfx_system = nullptr;
 
@@ -182,7 +183,7 @@ namespace mud
 	}
 
 	Material::Material(cstring name)
-		: m_index(++materialIndex)
+		: m_index(index(type<Material>(), this))//++s_material_index)
 		, m_name(name)
 	{}
 
@@ -205,19 +206,24 @@ namespace mud
 		return version;
 	}
 
-	void Material::submit(uint64_t& bgfx_state, const Skin* skin) const
+	void Material::state(uint64_t& bgfx_state) const
 	{
 		if(m_base_block.m_cull_mode == CullMode::None)
-			bgfx_state ^= BGFX_STATE_CULL_MASK;
-		
+			bgfx_state &= ~BGFX_STATE_CULL_MASK;
+
 		if(m_base_block.m_depth_test == DepthTest::Disabled)
-			bgfx_state ^= BGFX_STATE_DEPTH_TEST_MASK;
+			bgfx_state &= ~BGFX_STATE_DEPTH_TEST_MASK;
 
 		if(m_base_block.m_depth_draw_mode == DepthDraw::Enabled)
 			bgfx_state |= BGFX_STATE_WRITE_Z;
 		if(m_base_block.m_depth_draw_mode == DepthDraw::Disabled)
-			bgfx_state ^= BGFX_STATE_WRITE_Z;
-		
+			bgfx_state &= ~BGFX_STATE_WRITE_Z;
+	}
+
+	void Material::submit(uint64_t& bgfx_state, const Skin* skin) const
+	{
+		this->state(bgfx_state);
+
 		static BaseMaterialUniform s_base_material_block = { *ms_gfx_system };
 		static UnshadedMaterialUniform s_unshaded_material_block = { *ms_gfx_system };
 		static PbrMaterialUniform s_pbr_material_block = { *ms_gfx_system };

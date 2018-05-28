@@ -67,7 +67,7 @@ namespace mud
 
 		if(selecting)
 		{
-			Widget* highlighted = target.pinpoint(target.root_sheet().m_mouse.m_last_pos);
+			Widget* highlighted = target.pinpoint(target.root_sheet().m_mouse.m_pos);
 			if(highlighted)
 				ui::rectangle(parent.root_sheet(), { highlighted->m_frame.absolute_position(), highlighted->m_frame.m_size });
 		}

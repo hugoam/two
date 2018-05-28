@@ -27,7 +27,7 @@ namespace mud
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessFunction>() { static Type ty("ProcessFunction", type<mud::ProcessCallable>()); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessMethod>() { static Type ty("ProcessMethod", type<mud::ProcessCallable>()); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessScript>() { static Type ty("ProcessScript", type<mud::ProcessCallable>()); return ty; }
+    template <> MUD_LANG_EXPORT Type& type<mud::Script>() { static Type ty("Script", type<mud::Callable>()); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::Stream>() { static Type ty("Stream", type<mud::StreamBranch>()); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>() { static Type ty("VisualScript", type<mud::Script>()); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::Script>() { static Type ty("Script", type<mud::Callable>()); return ty; }
 }

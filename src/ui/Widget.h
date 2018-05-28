@@ -32,6 +32,7 @@ namespace ui
 	MUD_UI_EXPORT _func_ Widget& widget(Widget& parent, Style& style, bool open = false, Dim length = DIM_NONE, Dim2<size_t> index = { 0, 0 });
 	MUD_UI_EXPORT _func_ Widget& item(Widget& parent, Style& style, cstring content = nullptr);
 	MUD_UI_EXPORT _func_ Widget& multi_item(Widget& parent, Style& style, array<cstring> elements, Style* element_style = nullptr);
+	MUD_UI_EXPORT _func_ Widget& multi_item(Widget& parent, array<cstring> elements, Style* element_style = nullptr);
 	MUD_UI_EXPORT _func_ Widget& spanner(Widget& parent, Style& style, Dim dim, float span);
 }
 }

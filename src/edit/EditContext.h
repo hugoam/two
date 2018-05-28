@@ -66,6 +66,8 @@ namespace mud
 
 	MUD_EDIT_EXPORT void object_editor(Widget& parent, const std::vector<Ref>& selection);
 
-	MUD_EDIT_EXPORT void edit_context(Widget& parent, EditContext& context, bool tools = false);
+	MUD_EDIT_EXPORT void tools_transform(Widget& toolbar, EditContext& context);
+	MUD_EDIT_EXPORT void edit_transform(Widget& parent, EditContext& context);
 	MUD_EDIT_EXPORT void edit_tools(EditContext& context, Widget& screen);
+	MUD_EDIT_EXPORT void edit_context(Widget& parent, EditContext& context, bool tools = false);
 }

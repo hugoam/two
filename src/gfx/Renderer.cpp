@@ -283,12 +283,12 @@ namespace mud
 				element.m_shader_version.set_option(0, BILLBOARD, element.m_item->m_flags & ITEM_BILLBOARD);
 				element.m_shader_version.set_option(0, SKELETON, element.m_skin != nullptr);
 				
-				element.m_material->submit(element.m_bgfx_state, element.m_skin);
-				
+				uint64_t render_state = 0 | render_pass.m_bgfx_state | element.m_bgfx_state;
+				element.m_material->submit(render_state, element.m_skin);
+				element.m_item->submit(render_state, *element.m_model);
+
 				render.set_uniforms();
 
-				uint64_t item_state = element.m_item->submit(*element.m_model);
-				uint64_t render_state = 0 | render_pass.m_bgfx_state | element.m_bgfx_state | item_state;
 				bgfx::setState(render_state);
 
 				bgfx::ProgramHandle program = element.m_material->m_program->version(element.m_shader_version);

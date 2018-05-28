@@ -47,13 +47,13 @@ namespace mud
     template <> MUD_EDIT_EXPORT Type& type<mud::ViewTool>();
     template <> MUD_EDIT_EXPORT Type& type<mud::Brush>();
     template <> MUD_EDIT_EXPORT Type& type<mud::TransformTool>();
+    template <> MUD_EDIT_EXPORT Type& type<mud::RotateAction>();
+    template <> MUD_EDIT_EXPORT Type& type<mud::ScaleAction>();
+    template <> MUD_EDIT_EXPORT Type& type<mud::TranslateAction>();
     template <> MUD_EDIT_EXPORT Type& type<mud::CopyTool>();
     template <> MUD_EDIT_EXPORT Type& type<mud::RotateTool>();
     template <> MUD_EDIT_EXPORT Type& type<mud::ScaleTool>();
     template <> MUD_EDIT_EXPORT Type& type<mud::TranslateTool>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::RotateAction>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::ScaleAction>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::TranslateAction>();
     template <> MUD_EDIT_EXPORT Type& type<mud::CircleBrush>();
     template <> MUD_EDIT_EXPORT Type& type<mud::PlaceBrush>();
     template <> MUD_EDIT_EXPORT Type& type<mud::ScriptedBrush>();

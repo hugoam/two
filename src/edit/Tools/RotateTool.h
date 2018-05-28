@@ -32,7 +32,7 @@ namespace mud
 	public:
 		RotateTool(ToolContext& context);
 
-		Gizmo rotation_gizmo(Axis axis, vec3 dir, vec3 p1, vec3 p2, Colour colour);
+		Gizmo rotation_gizmo(Axis axis, float hue);
 
 		virtual object_ptr<TransformAction> create_action(const std::vector<Transform*>& transforms);
 	};

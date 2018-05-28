@@ -3,8 +3,22 @@
 
 using namespace mud;
 
+void ex_07_prefabs_init(Shell& app)
+{
+	app.m_gfx_system.particles().load_files(MUD_RESOURCE_PATH "examples/07_prefabs/");
+	app.m_gfx_system.models().load_files(MUD_RESOURCE_PATH "examples/07_gltf/");
+	//app.m_gfx_system.models().load_files(MUD_RESOURCE_PATH "models/");
+}
+
 void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 {
+	static bool once = false;
+	if(!once)
+	{
+		ex_07_prefabs_init(app);
+		once = true;
+	}
+
 	static PrefabNode prefab;
 	static PrefabNode* selected = nullptr;
 
@@ -18,12 +32,12 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 	ui::orbit_controller(viewer);
 	app.m_editor.m_viewer = &viewer;
 
-	Gnode& groot = viewer.m_scene->begin();
-	prefab.draw(groot);
+	Gnode& scene = viewer.m_scene->begin();
+	prefab.draw(scene);
 
-	gfx::directional_light_node(groot, sun_rotation(M_PI / 4.f, M_PI / 4.f));
-	//gfx::radiance(groot, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
-	gfx::radiance(groot, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
+	gfx::directional_light_node(scene, sun_rotation(M_PI / 4.f, M_PI / 4.f));
+	//gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
+	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::DraggedTarget))
 		if(parent.root_sheet().m_drop.m_object)
@@ -42,15 +56,48 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 				node.m_prefab_type = PrefabType::Item;
 				node.m_call = { function(gfx::item) };
 				node.m_call.m_arguments[1] = parent.root_sheet().m_drop.m_object;
+				node.m_call.m_arguments[2] = var(uint32_t(ITEM_SELECTABLE));
+				prefab.m_nodes.push_back(node);
+				selected = &prefab.m_nodes.back();
+			}
+			if(parent.root_sheet().m_drop.m_object.type().is<ParticleGenerator>())
+			{
+				PrefabNode node;
+				node.m_prefab_type = PrefabType::Particles;
+				node.m_call = { function(gfx::particles) };
+				node.m_call.m_arguments[1] = parent.root_sheet().m_drop.m_object;
+				node.m_call.m_arguments[2] = var(uint32_t(ITEM_SELECTABLE));
 				prefab.m_nodes.push_back(node);
 				selected = &prefab.m_nodes.back();
 			}
 		}
 
+	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+	{
+		auto select = [&](Item* item) { selected = &val<PrefabNode>(item->m_node.m_object); };
+		viewer.pick_point(mouse_event.m_relative, select, ITEM_SELECTABLE);
+	}
+
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
-		PrefabNode* node = prefab_edit(*dock, viewer.m_gfx_system, prefab, selected); // "Particle Editor" // identity = edited
-		app.m_editor.m_selection = { &node->m_transform };
+		prefab_edit(*dock, viewer.m_gfx_system, prefab, selected, app.m_editor); // "Particle Editor" // identity = edited
+		if(selected)
+			app.m_editor.m_selection = { &selected->m_transform };
+		else
+			app.m_editor.m_selection = {};
+	}
+
+	if(selected)
+	{
+		Gnode& node = gfx::node(scene, selected, selected->m_transform);
+		if(selected->m_prefab_type == PrefabType::Item)
+		{
+			if(!selected->m_call.m_arguments[1].null())
+			{
+				Model& model = val<Model>(selected->m_call.m_arguments[1]);
+				gfx::draw(node, model.m_aabb, Symbol());
+			}
+		}
 	}
 }
 

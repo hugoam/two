@@ -28,17 +28,15 @@ namespace mud
 	Item::~Item()
 	{}
 
-	uint64_t Item::submit(const ModelItem& item)
+	void Item::submit(uint64_t& bgfx_state, const ModelItem& item)
 	{
-		uint64_t bgfx_state = item.m_mesh->submit();
+		bgfx_state |= item.m_mesh->submit();
 
 		mat4 transform = m_node.transform() * item.m_transform;
 		bgfx::setTransform(value_ptr(transform));
 
 		if(!m_instances.empty())
 			submit_instances();
-
-		return bgfx_state;
 	}
 
 	void Item::submit_instances()

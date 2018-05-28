@@ -4,15 +4,23 @@
 
 #pragma once
 
+#include <obj/Util/Dispatch.h>
+#include <obj/Util/Global.h>
 #include <uio/Generated/Forward.h>
 #include <uio/Unode.h>
 
 namespace mud
 {
+	class MUD_UIO_EXPORT DispatchSelector : public Dispatch<bool, Widget&>, public LazyGlobal<DispatchSelector>
+	{
+	public:
+		DispatchSelector();
+	};
+
 	MUD_UIO_EXPORT void object_indexer(Widget& parent, Indexer& indexer);
-	MUD_UIO_EXPORT Ref object_selector(Widget& parent, Indexer& indexer);
 	MUD_UIO_EXPORT void object_indexer_modal(Widget& parent, Indexer& indexer);
 
-	MUD_UIO_EXPORT Ref object_picker(Widget& parent, Type& type);
-	MUD_UIO_EXPORT Ref object_picker_modal(Widget& parent, Type& type);
+	MUD_UIO_EXPORT bool object_selector(Widget& parent, Indexer& indexer, Ref& result);
+	MUD_UIO_EXPORT bool object_selector(Widget& parent, Ref& result);
+	MUD_UIO_EXPORT bool object_selector_modal(Widget& screen, Widget& parent, Ref& result);
 }

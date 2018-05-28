@@ -41,8 +41,7 @@ namespace mud
 
 	Widget& structure_node_widget(Widget& parent, Ref object, std::vector<Ref>& selection)
 	{
-		carray<string, 2> elements = { object_icon(object), object_name(object) };
-		TreeNode& self = ui::tree_node(parent, carray<cstring, 2>{ elements[0].c_str(), elements[1].c_str() }, false, false);
+		TreeNode& self = ui::tree_node(parent, carray<cstring, 2>{ object_icon(object).c_str(), object_name(object).c_str() }, false, false);
 		self.setState(SELECTED, vector_has(selection, object));
 		if(self.m_header->activated())
 			vector_select(selection, object);
@@ -54,7 +53,7 @@ namespace mud
 		Widget& self = structure_node_widget(parent, object, selection);
 		//node.refresh(structure_node_refresh, object, selection);
 
-		object_hook(self, object);
+		object_item(self, object);
 
 		for(auto& member : cls(object).m_members)
 			if(member.cls().m_iterable && member.is_structure())

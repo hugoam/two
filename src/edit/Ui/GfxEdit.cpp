@@ -12,6 +12,7 @@
 #include <ui/Structs/Container.h>
 #include <ui/Structs/RootSheet.h>
 #include <ui/Input.h>
+#include <ui/Sequence.h>
 
 #include <obj/Vector.h>
 
@@ -164,6 +165,70 @@ namespace mud
 		}
 	}
 
+	SceneViewer& asset_viewer(Widget& parent, vec3 offset, float radius)
+	{
+		static float time = 0.f;
+		time += 0.01f;
+
+		SceneViewer& viewer = ui::scene_viewer(parent, vec2(200.f));
+		viewer.m_camera.m_node.m_position = radius * 2.5f * Z3;
+
+		quat rotation = axis_angle(Y3, fmod(time, 2.f * M_PI));
+
+		Gnode& scene = viewer.m_scene->begin();
+		Gnode& node = gfx::node(scene, {}, offset, rotation);
+		gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
+		return viewer;
+	}
+
+	SceneViewer& model_viewer(Widget& parent, Model& model)
+	{
+		SceneViewer& viewer = asset_viewer(parent, -model.m_origin, model.m_radius);
+		gfx::item(*viewer.m_scene->m_graph.m_nodes[0], model);
+		return viewer;
+	}
+
+	SceneViewer& particles_viewer(Widget& parent, ParticleGenerator& particles)
+	{
+		SceneViewer& viewer = asset_viewer(parent, Zero3, 1.f); // particles.m_radius
+		gfx::particles(*viewer.m_scene->m_graph.m_nodes[0], particles);
+		return viewer;
+	}
+
+	Widget& model_item(Widget& parent, Model& model)
+	{
+		Widget& self = ui::element(parent, &model);
+		ui::multi_item(self, carray<cstring, 2>{ "(model)", model.m_name });
+		//if(self.selected())
+		//	model_viewer(self, model);
+		if(Widget* tooltip = ui::tooltip(self, 0.f))
+			model_viewer(*tooltip, model);
+		return self;
+	}
+
+	Widget& model_element(ui::Sequence& sequence, Model& model)
+	{
+		Widget& self = model_item(*sequence.m_body, model);
+		ui::select_logic(self, &model, *sequence.m_selection);
+		return self;
+	}
+
+	Widget& particles_item(Widget& parent, ParticleGenerator& particles)
+	{
+		Widget& self = ui::element(parent, &particles);
+		ui::multi_item(self, carray<cstring, 2>{ "(particles)", particles.m_name });
+		if(Widget* tooltip = ui::tooltip(self, 0.f))
+			particles_viewer(*tooltip, particles);
+		return self;
+	}
+
+	Widget& particles_element(ui::Sequence& sequence, ParticleGenerator& particles)
+	{
+		Widget& self = particles_item(*sequence.m_body, particles);
+		ui::select_logic(self, &particles, *sequence.m_selection);
+		return self;
+	}
+
 	void asset_browser(Widget& parent, GfxSystem& gfx_system)
 	{
 		Section& self = section(parent, "Assets");
@@ -177,58 +242,40 @@ namespace mud
 
 		static std::vector<Ref> selection = {};
 
-		ui::toggle(*self.m_toolbar, textures, "Tex");
-		ui::toggle(*self.m_toolbar, programs, "Prg");
-		ui::toggle(*self.m_toolbar, materials, "Mat");
-		ui::toggle(*self.m_toolbar, models, "Mdl");
-		ui::toggle(*self.m_toolbar, particles, "Ptc");
-		ui::toggle(*self.m_toolbar, prefabs, "Pfb");
+		ui::toggle(*self.m_toolbar, textures, "tex");
+		ui::toggle(*self.m_toolbar, programs, "prg");
+		ui::toggle(*self.m_toolbar, materials, "mat");
+		ui::toggle(*self.m_toolbar, models, "mdl");
+		ui::toggle(*self.m_toolbar, particles, "ptc");
+		ui::toggle(*self.m_toolbar, prefabs, "pfb");
 
 		ui::Sequence& sequence = ui::sequence(*self.m_body);
 		sequence.m_selection = &selection;
 
-		if(programs)
+		if(materials)
 			for(auto& name_material : gfx_system.materials().m_assets)
 			{
 				Widget& element = ui::element(sequence, name_material.second.get());
-				double_label(element, "program", name_material.first.c_str());
+				ui::multi_item(element, carray<cstring, 2>{ "(material)", name_material.first.c_str() });
 			}
 
-		if(materials)
+		if(programs)
 			for(auto& name_program : gfx_system.programs().m_assets)
 			{
 				Widget& element = ui::element(sequence, name_program.second.get());
-				double_label(element, "material", name_program.first.c_str());
+				ui::multi_item(element, carray<cstring, 2>{ "(program)", name_program.first.c_str() });
 			}
-
-		static float time = 0.f;
-		time += 0.01f;
-
-		quat rotation = axis_angle(Y3, fmod(time, 2.f * M_PI));
 
 		if(models)
 			for(auto& name_model : gfx_system.models().m_assets)
 			{
-				Model& model = *name_model.second;
-				Widget& element = ui::element(sequence, &model);
-				double_label(element, "model", name_model.first.c_str());
+				model_element(sequence, *name_model.second);
+			}
 
-				if(MouseEvent mouse_event = element.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
-					parent.root_sheet().m_drop = { static_cast<Widget*>(mouse_event.m_target), &model, DropState::Preview };
-
-				if(MouseEvent mouse_event = element.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
-					parent.root_sheet().m_drop = { static_cast<Widget*>(mouse_event.m_target), &model, DropState::Done };
-
-				if(element.selected())
-				{
-					SceneViewer& viewer = ui::scene_viewer(element, vec2(200.f));
-					viewer.m_camera.m_node.m_position = model.m_radius * 2.5f * Z3;
-
-					Gnode& scene = viewer.m_scene->begin();
-					Gnode& node = gfx::node(scene, {}, -model.m_origin, rotation);
-					gfx::item(node, model);
-					gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
-				}
+		if(particles)
+			for(auto& name_particles : gfx_system.particles().m_assets)
+			{
+				particles_element(sequence, *name_particles.second);
 			}
 	}
 
@@ -342,14 +389,22 @@ namespace mud
 
 	void declare_gfx_edit()
 	{
-		DispatchInput& dispatch = DispatchInput::me();
-		dispatch_branch<ValueTrack<float>>(dispatch, [](ValueTrack<float>& value, Widget& parent) { return value_track_edit<float>(parent, value); });
-		dispatch_branch<ValueTrack<uint32_t>>(dispatch, [](ValueTrack<uint32_t>& value, Widget& parent) { return value_track_edit<uint32_t>(parent, value); });
-		dispatch_branch<ValueTrack<vec3>>(dispatch, [](ValueTrack<vec3>& value, Widget& parent) { return value_track_edit<vec3>(parent, value); });
-		dispatch_branch<ValueTrack<quat>>(dispatch, [](ValueTrack<quat>& value, Widget& parent) { return value_track_edit<quat>(parent, value); });
-		dispatch_branch<ValueTrack<Colour>>(dispatch, [](ValueTrack<Colour>& value, Widget& parent) { return value_track_edit<Colour>(parent, value); });
+		{
+			DispatchInput& dispatch = DispatchInput::me();
+			dispatch_branch<ValueTrack<float>>(dispatch, [](ValueTrack<float>& value, Widget& parent) { return value_track_edit<float>(parent, value); });
+			dispatch_branch<ValueTrack<uint32_t>>(dispatch, [](ValueTrack<uint32_t>& value, Widget& parent) { return value_track_edit<uint32_t>(parent, value); });
+			dispatch_branch<ValueTrack<vec3>>(dispatch, [](ValueTrack<vec3>& value, Widget& parent) { return value_track_edit<vec3>(parent, value); });
+			dispatch_branch<ValueTrack<quat>>(dispatch, [](ValueTrack<quat>& value, Widget& parent) { return value_track_edit<quat>(parent, value); });
+			dispatch_branch<ValueTrack<Colour>>(dispatch, [](ValueTrack<Colour>& value, Widget& parent) { return value_track_edit<Colour>(parent, value); });
 
-		dispatch_branch<ShapeVar>(dispatch, [](ShapeVar& object, Widget& parent) { return edit_shape(parent, object); });
+			dispatch_branch<ShapeVar>(dispatch, [](ShapeVar& object, Widget& parent) { return edit_shape(parent, object); });
+		}
+
+		{
+			DispatchItem& dispatch = DispatchItem::me();
+			dispatch_branch<Model>(dispatch, [](Model& model, Widget& parent) -> Widget& { return model_item(parent, model); });
+		}
+
 	}
 
 }

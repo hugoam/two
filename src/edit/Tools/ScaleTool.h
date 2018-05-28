@@ -31,8 +31,9 @@ namespace mud
 	public:
 		ScaleTool(ToolContext& context);
 
-		Gizmo linear_gizmo(Axis axis, vec3 dir, vec3 normal, Colour colour);
-		Gizmo planar_gizmo(Plane plane, Colour colour);
+		Gizmo linear_gizmo(Axis axis, float hue);
+		Gizmo planar_gizmo(Axis normal, float hue);
+		Gizmo uniform_gizmo();
 
 		virtual object_ptr<TransformAction> create_action(const std::vector<Transform*>& transforms);
 	};

@@ -56,7 +56,7 @@ namespace mud
 
 		Aabb m_aabb;
 
-		uint64_t submit(const ModelItem& item);
+		void submit(uint64_t& bgfx_state, const ModelItem& item);
 		void submit_instances();
 
 		std::vector<mat4> m_instances;

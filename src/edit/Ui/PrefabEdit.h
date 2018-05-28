@@ -8,5 +8,6 @@
 
 namespace mud
 {
-	MUD_GFX_EXPORT PrefabNode* prefab_edit(Widget& parent, GfxSystem& system, PrefabNode& node, PrefabNode*& selected);
+	MUD_GFX_EXPORT void prefab_edit(Widget& parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected);
+	MUD_GFX_EXPORT void prefab_edit(Widget& parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected, EditContext& context);
 }

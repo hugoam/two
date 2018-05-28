@@ -20,6 +20,7 @@
 #include <ui/Node.h>
 #include <ui/Scrollbar.h>
 #include <ui/ScrollSheet.h>
+#include <ui/Sequence.h>
 #include <ui/Sheet.h>
 #include <ui/Slider.h>
 #include <ui/Ui.h>

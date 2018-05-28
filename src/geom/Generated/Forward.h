@@ -32,6 +32,7 @@ namespace mud {
     struct Grid2;
     struct Triangle;
     struct Circle;
+    struct Torus;
     struct Ring;
     struct Ellipsis;
     struct Arc;

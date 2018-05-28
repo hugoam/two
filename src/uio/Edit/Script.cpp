@@ -175,8 +175,8 @@ namespace mud
 		if(ui::modal_button(self, *self.m_toolbar, "Open Script", OPEN_SCRIPT))
 		{
 			Widget& modal = ui::auto_modal(self, OPEN_SCRIPT, { 600, 400 });
-			Ref result = object_picker(modal, type<Script>());
-			if(result)
+			Ref result = Ref(type<Script>());
+			if(object_selector(modal, result))
 			{
 				editor.open(val<Script>(result));
 				self.m_switch &= ~OPEN_SCRIPT;

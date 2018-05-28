@@ -9,10 +9,11 @@
 
 namespace mud
 {
+	struct ProcessStructure;
+	struct ProcessConstruct;
+
 	MUD_UIO_EXPORT void process_display(Widget& parent, ProcessDisplay& process);
-	//void process_display_structure(Widget& nodeProcessStructure& process);
-	// show object_structure
-	//void process_construct(Widget& nodeProcessConstruct& process);
-	// show object_meta_creator
+	MUD_UIO_EXPORT void process_display_structure(Widget& parent, ProcessStructure& process);
+	MUD_UIO_EXPORT void process_construct(Widget& parent, ProcessConstruct& process);
 	MUD_UIO_EXPORT void visual_script_edit(Widget& parent, VisualScript& script, ActionList actions = {});
 }

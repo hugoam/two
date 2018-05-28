@@ -43,8 +43,10 @@ namespace mud {
     enum class EditorHint : unsigned int;
     
     
+    class DispatchItem;
     struct SectionAction;
     struct Section;
+    class DispatchSelector;
     class ScriptEditor;
     class DispatchInput;
 }

@@ -94,6 +94,8 @@ namespace mud
 		vec3 m_inv_dir;
 	};
 
+	inline Segment to_segment(const Ray& ray) { return { ray.m_start, ray.m_end }; }
+
 	struct Plane6
 	{
 		Plane6() {}

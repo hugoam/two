@@ -88,6 +88,22 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
+	struct _refl_ MUD_MATH_EXPORT Torus : public Shape
+	{
+	public:
+		_constr_ Torus();
+		_constr_ Torus(float radius, float solid_radius, Axis axis = Axis::Y);
+		_constr_ Torus(const vec3& center, float radius, float solid_radius, Axis axis = Axis::Y);
+
+		bool operator==(const Torus& other) const { return m_radius == other.m_radius && m_solid_radius == other.m_solid_radius && m_axis == other.m_axis && m_center == other.m_center; }
+
+		_attr_ _mut_ float m_radius = 1.f;
+		_attr_ _mut_ float m_solid_radius = 1.f;
+		_attr_ _mut_ Axis m_axis = Axis::X;
+
+		virtual object_ptr<Shape> clone() const;
+	};
+
 	struct _refl_ MUD_MATH_EXPORT Ring : public Shape
 	{
 	public:

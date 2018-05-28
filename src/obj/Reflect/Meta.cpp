@@ -31,6 +31,21 @@ namespace mud
 	template <>
 	void init_assign<cstring>() {}
 
+	bool is_string(Type& type)
+	{
+		return type.is<string>() || type.is<cstring>() || type.is<strung>();
+	}
+
+	string get_string(Member& member, Ref value)
+	{
+		if(member.m_type->is<cstring>())
+			return val<cstring>(member.get(value));
+		else if(member.m_type->is<strung>())
+			return val<strung>(member.get(value)).c_str();
+		else
+			return val<string>(member.get(value));
+	}
+
 	Meta::Meta(Type& type, Namespace* location, cstring name, size_t size, TypeClass type_class)
 		: m_type(&type)
 		, m_namespace(location)
@@ -145,9 +160,9 @@ namespace mud
 				m_nested = true;
 			if(strcmp(member.m_name, "id") == 0 || strcmp(member.m_name, "index") == 0)
 				m_id_member = &member;
-			if(strcmp(member.m_name, "name") == 0 && member.m_type == &type<string>())
+			if(strcmp(member.m_name, "name") == 0 && is_string(*member.m_type))
 				m_name_member = &member;
-			if(strcmp(member.m_name, "type") == 0 && member.m_type == &type<Type>())
+			if(strcmp(member.m_name, "type") == 0 && member.m_type->is<Type>())
 				m_type_member = &member;
 
 			m_field_names.push_back(member.m_name);
@@ -306,7 +321,7 @@ namespace mud
 		else if(!value)
 			name = "null";
 		else if(type.m_class->m_name_member)
-			name = val<string>(type.m_class->m_name_member->get(value));
+			name = get_string(*type.m_class->m_name_member, value);
 		else if(type.m_class->m_id_member)
 			name = string(type.m_name) + " : " + to_string(type.m_class->m_id_member->get(value));
 		else

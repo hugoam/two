@@ -129,22 +129,25 @@ namespace mud
 	bool object_link_edit(Widget& parent, Ref& value)
 	{
 		Widget& self = ui::row(parent);
-		object_hook(self, value);
-		if(ui::modal_button(self, self, ".", LINK_OBJECT))
+		object_button(self, value);
+		
+#if 1
+		return object_selector_modal(self, self, value);
+#else
+		Ref selected = Ref(*value.m_type);
+		if(object_selector_modal(self, self, value))
 		{
-			Ref selected = object_picker_modal(self, *value.m_type);
-			if(selected)
-			{
-				value = selected;
-				return true;
-			}
+			value = selected;
+			return true;
 		}
+
 		return false;
+#endif
 	}
 
 	bool sequence_element_edit(Widget& parent, Ref sequence, Ref& value)
 	{
-		object_hook(parent, value);
+		object_item(parent, value);
 		if(ui::button(parent, "remove").activated())
 			remove_sequence(sequence, value);
 		return false;
@@ -171,8 +174,8 @@ namespace mud
 			}
 			else
 			{
-				Ref selected = object_picker(self, *value.m_type);
-				if(selected)
+				Ref selected = Ref(*value.m_type);
+				if(object_selector(self, selected))
 				{
 					add_sequence(value, selected);
 					self.m_switch &= ~ADD_ELEMENT;

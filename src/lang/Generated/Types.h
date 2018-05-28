@@ -34,7 +34,7 @@ namespace mud
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessFunction>();
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessMethod>();
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessScript>();
+    template <> MUD_LANG_EXPORT Type& type<mud::Script>();
     template <> MUD_LANG_EXPORT Type& type<mud::Stream>();
     template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>();
-    template <> MUD_LANG_EXPORT Type& type<mud::Script>();
 }

@@ -65,12 +65,14 @@ namespace mud
 
 	void PrefabNode::draw(Gnode& parent)
 	{
-		Gnode& self = gfx::node(parent, {}, m_transform.m_position, m_transform.m_rotation, m_transform.m_scale);
+		Gnode& self = gfx::node(parent, this, m_transform.m_position, m_transform.m_rotation, m_transform.m_scale);
 
 		if(m_call.m_callable)
 			m_call.m_arguments[0] = Ref(&self);
 		if(m_call.validate())
 			m_call();
+		//else
+		//	printf("WARNING: invalid prefab node element arguments\n");
 
 		for(PrefabNode& node : m_nodes)
 			node.draw(self);
@@ -90,6 +92,23 @@ namespace gfx
 		self.m_node->m_rotation = rotation;
 		self.m_node->m_scale = scale;
 		return self;
+	}
+
+	Gnode& node(Gnode& parent, Ref object, const Transform& transform)
+	{
+		return node(parent, object, transform.m_position, transform.m_rotation, transform.m_scale);
+	}
+
+	Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation, const vec3& scale)
+	{
+		vec3 relative = rotate(parent.m_attach->m_rotation, position) * parent.m_attach->m_scale;
+		return node(parent, object, parent.m_attach->m_position + relative, parent.m_attach->m_rotation * rotation, Unit3);
+	}
+
+	Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation)
+	{
+		vec3 relative = rotate(parent.m_attach->m_rotation, position);
+		return node(parent, object, parent.m_attach->m_position + relative, parent.m_attach->m_rotation * rotation, Unit3);
 	}
 
 	void update_item_lights(Item& item)

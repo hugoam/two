@@ -49,6 +49,11 @@ namespace ui
 		return self;
 	}
 
+	Widget& multi_item(Widget& parent, array<cstring> elements, Style* element_style)
+	{
+		return multi_item(parent, styles().row, elements, element_style);
+	}
+
 	Widget& spanner(Widget& parent, Style& style, Dim dim, float span)
 	{
 		Widget& self = widget(parent, style);

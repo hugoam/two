@@ -13,6 +13,7 @@
 		"ui/Node.cpp",
 		"ui/Scrollbar.cpp",
 		"ui/ScrollSheet.cpp",
+		"ui/Sequence.cpp",
 		"ui/Sheet.cpp",
 		"ui/Slider.cpp",
 		"ui/UiWindow.cpp",

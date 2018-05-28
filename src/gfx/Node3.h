@@ -34,6 +34,7 @@ namespace mud
 	struct _refl_ MUD_GFX_EXPORT Transform
 	{
 		Transform() {}
+		Transform(const vec3& position, const quat& rotation, const vec3& scale) : m_position(position), m_rotation(rotation), m_scale(scale) {}
 		Transform(const mat4& mat);
 		_attr_ _mut_ vec3 m_position = Zero3;
 		_attr_ _mut_ quat m_rotation = ZeroQuat;

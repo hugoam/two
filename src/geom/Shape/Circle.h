@@ -23,4 +23,10 @@ namespace mud
 
 	MUD_MATH_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Ellipsis& ellipsis);
 	MUD_MATH_EXPORT void draw_shape_triangles(const ProcShape& shape, const Ellipsis& ellipsis, MeshData& data);
+
+	MUD_MATH_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Torus& torus);
+	MUD_MATH_EXPORT void draw_shape_lines(const ProcShape& shape, const Torus& torus, MeshData& data);
+
+	MUD_MATH_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Torus& torus);
+	MUD_MATH_EXPORT void draw_shape_triangles(const ProcShape& shape, const Torus& torus, MeshData& data);
 }
