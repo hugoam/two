@@ -98,6 +98,8 @@ end
 function mud_binary(name)
     targetprefix ""
     
+    mud_defines()
+    
     defines { "_" .. name:upper() .. "_EXE" }
         
     configuration { "context-glfw", "not asmjs" }
@@ -157,6 +159,7 @@ function mud_binary(name)
 end
 
 function mud_shell(name)
+    mud_defines()
     mud_binary(name)
     
     files {

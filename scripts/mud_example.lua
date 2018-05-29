@@ -17,12 +17,12 @@ if _OPTIONS["renderer-bgfx"] then
         uses_mud()
         mud_shell("mud_example")
         
-    project "mud_shell"
-        kind "ConsoleApp"
+    --project "mud_shell"
+    --    kind "ConsoleApp"
         
-        uses_mud_gfx()
-        uses_mud()
-        mud_shell("mud_shell")  
+    --    uses_mud_gfx()
+    --    uses_mud()
+    --    mud_shell("mud_shell")  
 end
 
 function example_project(name, gfx, ...)
