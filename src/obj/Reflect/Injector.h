@@ -10,11 +10,13 @@
 #include <obj/NonCopy.h>
 #include <obj/Reflect/Method.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	class _refl_ MUD_OBJ_EXPORT Injector
+	export_ class _refl_ MUD_OBJ_EXPORT Injector
 	{
 	public:
 		Injector(Type& type, const Constructor& constructor);
@@ -38,7 +40,7 @@ namespace mud
 		std::vector<size_t> m_partIndex;
 	};
 
-	class _refl_ MUD_OBJ_EXPORT Creator : public NonCopy
+	export_ class _refl_ MUD_OBJ_EXPORT Creator : public NonCopy
 	{
 	public:
 		Creator(Type& type);

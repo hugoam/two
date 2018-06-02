@@ -4,9 +4,10 @@
 
 #pragma once
 
-/* std */
+#ifndef MUD_CPP_20
 #include <type_traits>
-#include <string.h>
+#include <cstring>
+#endif
 
 #if defined __GNUC__
 #   pragma GCC system_header

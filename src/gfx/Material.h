@@ -16,7 +16,7 @@
 
 namespace mud
 {
-	enum class _refl_ BlendMode : unsigned int
+	export_ enum class _refl_ BlendMode : unsigned int
 	{
 		Mix,
 		Add,
@@ -28,33 +28,33 @@ namespace mud
 
 	void blend_state(BlendMode blend_mode, uint64_t& bgfx_state);
 
-	enum class _refl_ CullMode : unsigned int
+	export_ enum class _refl_ CullMode : unsigned int
 	{
 		None,
 		Front,
 		Back
 	};
 
-	enum class _refl_ DepthDraw : unsigned int
+	export_ enum class _refl_ DepthDraw : unsigned int
 	{
 		Enabled,
 		Disabled
 	};
 
-	enum class _refl_ DepthTest : unsigned int
+	export_ enum class _refl_ DepthTest : unsigned int
 	{
 		Enabled,
 		Disabled
 	};
 
-	enum class _refl_ MaterialFlag : unsigned int
+	export_ enum class _refl_ MaterialFlag : unsigned int
 	{
 		TriplanarUV1,
 		TriplanarUV2,
 		Count
 	};
 
-	struct _refl_ MUD_GFX_EXPORT BaseMaterialBlock
+	export_ struct _refl_ MUD_GFX_EXPORT BaseMaterialBlock
 	{
 		_attr_ _mut_ BlendMode m_blend_mode = BlendMode::Mix;
 		_attr_ _mut_ CullMode m_cull_mode = CullMode::Back;
@@ -74,7 +74,7 @@ namespace mud
 #endif		
 	};
 
-	enum class _refl_ TextureChannel : unsigned int
+	export_ enum class _refl_ TextureChannel : unsigned int
 	{
 		Red,
 		Green,
@@ -84,7 +84,7 @@ namespace mud
 	};
 
 	template <class T_Param>
-	struct _refl_ _struct_ MaterialParam
+	export_ struct _refl_ _struct_ MaterialParam
 	{
 		MaterialParam() {}
 		MaterialParam(T_Param value, Texture* texture = nullptr, TextureChannel channel = TextureChannel::All) : m_value(value), m_texture(texture), m_channel(channel) {}
@@ -93,17 +93,17 @@ namespace mud
 		_attr_ _mut_ TextureChannel m_channel = TextureChannel::All;
 	};
 
-	template struct _refl_ _struct_ MUD_GFX_EXPORT MaterialParam<Colour>;
-	template struct _refl_ _struct_ MUD_GFX_EXPORT MaterialParam<float>;
+	export_ template struct _refl_ _struct_ MUD_GFX_EXPORT MaterialParam<Colour>;
+	export_ template struct _refl_ _struct_ MUD_GFX_EXPORT MaterialParam<float>;
 
-	struct _refl_ MUD_GFX_EXPORT UnshadedMaterialBlock
+	export_ struct _refl_ MUD_GFX_EXPORT UnshadedMaterialBlock
 	{
 		_attr_ _mut_ bool m_enabled = false;
 
 		_attr_ _mut_ MaterialParam<Colour> m_colour = { Colour::White, nullptr };
 	};
 
-	enum class _refl_ PbrDiffuseMode : unsigned int
+	export_ enum class _refl_ PbrDiffuseMode : unsigned int
 	{
 		Lambert,
 		LambertHalf,
@@ -112,7 +112,7 @@ namespace mud
 		Toon,
 	};
 
-	enum class _refl_ PbrSpecularMode : unsigned int
+	export_ enum class _refl_ PbrSpecularMode : unsigned int
 	{
 		SchlickGGX,
 		Blinn,
@@ -131,7 +131,7 @@ namespace mud
 		DEEP_PARALLAX
 	};
 
-	struct _refl_ MUD_GFX_EXPORT PbrMaterialBlock
+	export_ struct _refl_ MUD_GFX_EXPORT PbrMaterialBlock
 	{
 		_attr_ _mut_ bool m_enabled = false;
 
@@ -178,7 +178,7 @@ namespace mud
 
 	MUD_GFX_EXPORT void load_material(Material& material, Program& program);
 
-	class _refl_ MUD_GFX_EXPORT Material
+	export_ class _refl_ MUD_GFX_EXPORT Material
 	{
 	public:
 		Material() {}

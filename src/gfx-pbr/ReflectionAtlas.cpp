@@ -2,13 +2,23 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
-#include <gfx-pbr/ReflectionAtlas.h>
-
+#ifdef MUD_MODULES
+module mud.gfx-pbr;
+#else
 #include <obj/Vector.h>
-#include <gfx-pbr/Reflection.h>
 #include <gfx/Renderer.h>
 #include <gfx/Node3.h>
+#include <gfx-pbr/ReflectionAtlas.h>
+#include <gfx-pbr/Reflection.h>
+#endif
 
 #include <bx/math.h>
 
@@ -18,6 +28,7 @@ namespace mud
 		: m_size(size)
 		, m_subdiv(subdiv)
 	{
+#if 0 // @todo: crashes in D3D11
 		bgfx::TextureFormat::Enum color_format = bgfx::TextureFormat::RGBA16F;
 
 		if(!bgfx::isTextureValid(0, true, 1, color_format, GFX_TEXTURE_CLAMP))
@@ -41,6 +52,7 @@ namespace mud
 				vec4 slot_rect = vec4(slot_urect) / float(m_size);
 				m_slots.push_back({ m_slots.size(), nullptr, slot_urect, slot_rect, 0 });
 			}
+#endif
 	}
 
 	ReflectionAtlas::~ReflectionAtlas()

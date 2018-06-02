@@ -8,7 +8,7 @@
 
 namespace mud
 {
-	class _refl_ MUD_EDIT_EXPORT EditorAction
+	export_ class _refl_ MUD_EDIT_EXPORT EditorAction
 	{
 	public:
 		virtual ~EditorAction() {}

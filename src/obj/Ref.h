@@ -5,6 +5,7 @@
 #pragma once
 
 #include <obj/Generated/Forward.h>
+
 #include <obj/Cls.h>
 #include <obj/TypeOf.h>
 
@@ -12,7 +13,7 @@ namespace mud
 {
 	using cstring = const char*;
 
-	class _refl_ MUD_OBJ_EXPORT Ref
+	export_ class _refl_ MUD_OBJ_EXPORT Ref
 	{
 	public:
 		Ref() : m_type(nullptr), m_value(nullptr) {}
@@ -33,15 +34,15 @@ namespace mud
 		void* m_value;
 	};
 
-	template <class T>
+	export_ template <class T>
 	Ref ref(T& value) { return Ref(&value); }
 
-	template <class T>
+	export_ template <class T>
 	Ref ref(const T& value) { return Ref(&value); }
 
-	template <class T>
+	export_ template <class T>
 	Ref ref(T* value) { return Ref(value); }
 
-	template <class T>
+	export_ template <class T>
 	Ref ref(const T* value) { return Ref(value); }
 }

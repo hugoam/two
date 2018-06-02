@@ -12,12 +12,11 @@
 #ifndef MUD_GENERATOR_SKIP_INCLUDES
 #include <bgfx/bgfx.h>
 #include <bimg/bimg.h>
-#include <bx/readerwriter.h>
 #endif
 
 namespace mud
 {
-	enum class _refl_ TextureHint : unsigned int
+	export_ enum class _refl_ TextureHint : unsigned int
 	{
 		Black,
 		White,
@@ -31,7 +30,7 @@ namespace mud
 	MUD_GFX_EXPORT void load_texture_mem(Texture& texture, array<uint8_t> data);
 	MUD_GFX_EXPORT void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, array<uint8_t> data);
 
-	class _refl_ MUD_GFX_EXPORT Texture
+	export_ class _refl_ MUD_GFX_EXPORT Texture
 	{
 	public:
 		//Texture(cstring path, cstring name);

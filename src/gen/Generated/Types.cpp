@@ -1,5 +1,16 @@
 
 
+#ifdef MUD_CPP_20
+#include <cassert>
+#include <cstdint>
+#include <climits>
+#include <cfloat>
+import std.core;
+import std.memory;
+import std.threading;
+import std.regex;
+#endif
+
 #include <gen/Generated/Types.h>
 #include <gen/Generated/Module.h>
 #include <obj/Proto.h>
@@ -23,6 +34,7 @@ namespace mud
     template <> MUD_GEN_EXPORT Type& type<mud::Noise>() { static Type ty("Noise"); return ty; }
     template <> MUD_GEN_EXPORT Type& type<mud::Pattern>() { static Type ty("Pattern"); return ty; }
     template <> MUD_GEN_EXPORT Type& type<mud::Tile>() { static Type ty("Tile"); return ty; }
+    template <> MUD_GEN_EXPORT Type& type<mud::TileModel>() { static Type ty("TileModel"); return ty; }
     template <> MUD_GEN_EXPORT Type& type<mud::Tileblock>() { static Type ty("Tileblock"); return ty; }
     template <> MUD_GEN_EXPORT Type& type<mud::Tileset>() { static Type ty("Tileset"); return ty; }
     template <> MUD_GEN_EXPORT Type& type<mud::Wave>() { static Type ty("Wave"); return ty; }

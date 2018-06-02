@@ -9,15 +9,15 @@
 
 namespace mud
 {
-	class _refl_ MUD_OBJ_EXPORT None
+	export_ class _refl_ MUD_OBJ_EXPORT None
 	{
 	public:
 		bool operator==(const None& other) const { UNUSED(other); return true; }
 	};
 
-	template <> MUD_OBJ_EXPORT Type& type<None>();
+	export_ template <> MUD_OBJ_EXPORT Type& type<None>();
 
-	class MUD_OBJ_EXPORT Any
+	export_ class MUD_OBJ_EXPORT Any
 	{
 	public:
 		virtual ~Any() {}
@@ -29,14 +29,18 @@ namespace mud
 		virtual unique_ptr<Any> clone() const = 0;
 	};
 
-	class MUD_OBJ_EXPORT Val
+	export_ class MUD_OBJ_EXPORT Val
 	{
 	public:
 		Val(Type& type, unique_ptr<Any> ref) : m_type(&type), m_any(std::move(ref)) {}
 		Val();
 
 		Val(Val&& other) : m_type(other.m_type), m_any(std::move(other.m_any)) {}
+#ifdef MUD_MODULES
+		Val(const Val& other);// : m_type(other.m_type), m_any(other.m_any ? other.m_any->clone() : nullptr) {}
+#else
 		Val(const Val& other) : m_type(other.m_type), m_any(other.m_any ? other.m_any->clone() : nullptr) {}
+#endif
 		Val& operator=(const Val& rhs) { if(m_type == rhs.m_type) m_any->assign(*rhs.m_any); else Val(rhs).swap(*this); return *this; }
 
 		Val& swap(Val& rhs) { std::swap(m_any, rhs.m_any); std::swap(m_type, rhs.m_type); return *this; }
@@ -52,13 +56,13 @@ namespace mud
 		unique_ptr<Any> m_any;
 	};
 
-	enum VarMode : unsigned int
+	export_ enum VarMode : unsigned int
 	{
 		VAL,
 		REF
 	};
 
-	class _refl_ MUD_OBJ_EXPORT Var
+	export_ class _refl_ MUD_OBJ_EXPORT Var
 	{
 	public:
 		Var() : m_mode(VAL), m_val(), m_ref(m_val.ref()) {}
@@ -66,7 +70,7 @@ namespace mud
 		Var(const Ref& ref) : m_mode(REF), m_ref(ref) {}
 
 		Var(const Var& other) : m_mode(other.m_mode), m_val(other.m_val), m_ref(m_mode == VAL ? m_val.ref() : other.m_ref) {}
-		Var& operator=(const Var& other) { m_mode = other.m_mode; if(m_mode == VAL) { m_val = other.m_val; m_ref = m_val.ref(); } else m_ref = other.m_ref; return *this; }
+		Var& operator=(const Var& other) { m_mode = other.m_mode; if (m_mode == VAL) { m_val = other.m_val; m_ref = m_val.ref(); } else m_ref = other.m_ref; return *this; }
 		Var& operator=(const Ref& ref) { m_mode = REF; m_ref = ref; return *this; }
 
 		VarMode m_mode;

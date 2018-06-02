@@ -4,14 +4,17 @@
 
 #pragma once
 
+#include <obj/Limits.h>
 #include <ui/Frame/Frame.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
 #include <functional>
+#endif
 
 namespace mud
 {
-	class _refl_ MUD_UI_EXPORT Layer
+	export_ class _refl_ MUD_UI_EXPORT Layer
 	{
 	public:
 		Layer(Frame& frame);

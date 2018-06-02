@@ -15,13 +15,13 @@
 
 namespace mud
 {
-	class MUD_GFX_GLTF_EXPORT mudgfxgltf : public Module
+	export_ class MUD_GFX_GLTF_EXPORT mudgfxgltf : public Module
 	{
 	private:
 		mudgfxgltf();
 
 	public:
-		static mudgfxgltf& module() { static mudgfxgltf instance; return instance; }
+		static mudgfxgltf& m() { static mudgfxgltf instance; return instance; }
 	};
 }
 

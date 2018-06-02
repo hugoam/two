@@ -13,7 +13,7 @@ namespace mud
     template <> MUD_LANG_EXPORT Type& type<mud::Process::State>();
     
 #ifdef MUD_LANG_REFLECTION_IMPL
-    void lang_meta(Module& module)
+    void lang_meta(Module& m)
     {   
     // Base Types
     
@@ -182,6 +182,107 @@ namespace mud
         
         
         meta_class<mud::Valve>();
+    }
+    
+    
+        
+    // mud::Script
+    {
+        static Meta meta = { type<mud::Script>(), &namspc({ "mud" }), "Script", sizeof(mud::Script), TypeClass::Object };
+        static Class cls = { type<mud::Script>(),
+            // bases
+            { &type<mud::Callable>() },
+            { base_offset<mud::Script, mud::Callable>() },
+            // constructors
+            {
+                { type<mud::Script>(), [](Ref ref, array<Var> args) { new(&val<mud::Script>(ref)) mud::Script( val<cstring>(args[0]), val<mud::Signature>(args[1]) ); }, { { "name", var(cstring()) }, { "signature", Ref(type<mud::Signature>()), Param::Default } } }
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+                { type<mud::Script>(), member_address(&mud::Script::m_index), type<uint32_t>(), "index", var(uint32_t()), Member::Value },
+                { type<mud::Script>(), member_address(&mud::Script::m_name), type<std::string>(), "name", var(std::string()), Member::Value },
+                { type<mud::Script>(), member_address(&mud::Script::m_locked), type<bool>(), "locked", var(bool()), Member::Value }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        init_pool<mud::Script>(); 
+        
+        meta_class<mud::Script>();
+    }
+    
+    
+        
+    // mud::VisualScript
+    {
+        static Meta meta = { type<mud::VisualScript>(), &namspc({ "mud" }), "VisualScript", sizeof(mud::VisualScript), TypeClass::Object };
+        static Class cls = { type<mud::VisualScript>(),
+            // bases
+            { &type<mud::Script>() },
+            { base_offset<mud::VisualScript, mud::Script>() },
+            // constructors
+            {
+                { type<mud::VisualScript>(), [](Ref ref, array<Var> args) { new(&val<mud::VisualScript>(ref)) mud::VisualScript( val<cstring>(args[0]), val<mud::Signature>(args[1]) ); }, { { "name", var(cstring()) }, { "signature", Ref(type<mud::Signature>()), Param::Default } } }
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        init_pool<mud::VisualScript>(); 
+        
+        meta_class<mud::VisualScript>();
+    }
+    
+    
+        
+    // mud::Stream
+    {
+        static Meta meta = { type<mud::Stream>(), &namspc({ "mud" }), "Stream", sizeof(mud::Stream), TypeClass::Object };
+        static Class cls = { type<mud::Stream>(),
+            // bases
+            { &type<mud::StreamBranch>() },
+            { base_offset<mud::Stream, mud::StreamBranch>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Stream>();
     }
     
     
@@ -536,128 +637,27 @@ namespace mud
         meta_class<mud::ProcessScript>();
     }
     
-    
-        
-    // mud::Script
-    {
-        static Meta meta = { type<mud::Script>(), &namspc({ "mud" }), "Script", sizeof(mud::Script), TypeClass::Object };
-        static Class cls = { type<mud::Script>(),
-            // bases
-            { &type<mud::Callable>() },
-            { base_offset<mud::Script, mud::Callable>() },
-            // constructors
-            {
-                { type<mud::Script>(), [](Ref ref, array<Var> args) { new(&val<mud::Script>(ref)) mud::Script( val<cstring>(args[0]), val<mud::Signature>(args[1]) ); }, { { "name", var(cstring()) }, { "signature", Ref(type<mud::Signature>()), Param::Default } } }
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-                { type<mud::Script>(), member_address(&mud::Script::m_index), type<uint32_t>(), "index", var(uint32_t()), Member::Value },
-                { type<mud::Script>(), member_address(&mud::Script::m_name), type<std::string>(), "name", var(std::string()), Member::Value },
-                { type<mud::Script>(), member_address(&mud::Script::m_locked), type<bool>(), "locked", var(bool()), Member::Value }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        init_pool<mud::Script>(); 
-        
-        meta_class<mud::Script>();
-    }
-    
-    
-        
-    // mud::Stream
-    {
-        static Meta meta = { type<mud::Stream>(), &namspc({ "mud" }), "Stream", sizeof(mud::Stream), TypeClass::Object };
-        static Class cls = { type<mud::Stream>(),
-            // bases
-            { &type<mud::StreamBranch>() },
-            { base_offset<mud::Stream, mud::StreamBranch>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Stream>();
-    }
-    
-    
-        
-    // mud::VisualScript
-    {
-        static Meta meta = { type<mud::VisualScript>(), &namspc({ "mud" }), "VisualScript", sizeof(mud::VisualScript), TypeClass::Object };
-        static Class cls = { type<mud::VisualScript>(),
-            // bases
-            { &type<mud::Script>() },
-            { base_offset<mud::VisualScript, mud::Script>() },
-            // constructors
-            {
-                { type<mud::VisualScript>(), [](Ref ref, array<Var> args) { new(&val<mud::VisualScript>(ref)) mud::VisualScript( val<cstring>(args[0]), val<mud::Signature>(args[1]) ); }, { { "name", var(cstring()) }, { "signature", Ref(type<mud::Signature>()), Param::Default } } }
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        init_pool<mud::VisualScript>(); 
-        
-        meta_class<mud::VisualScript>();
-    }
-    
 
     
-        module.m_types.push_back(&type<mud::LuaInterpreter>());
-        module.m_types.push_back(&type<mud::Pipe>());
-        module.m_types.push_back(&type<mud::Process>());
-        module.m_types.push_back(&type<mud::StreamBranch>());
-        module.m_types.push_back(&type<mud::Valve>());
-        module.m_types.push_back(&type<mud::ProcessCallable>());
-        module.m_types.push_back(&type<mud::ProcessCreate>());
-        module.m_types.push_back(&type<mud::ProcessDisplay>());
-        module.m_types.push_back(&type<mud::ProcessGetMember>());
-        module.m_types.push_back(&type<mud::ProcessSetMember>());
-        module.m_types.push_back(&type<mud::ProcessValue>());
-        module.m_types.push_back(&type<mud::ProcessInput>());
-        module.m_types.push_back(&type<mud::ProcessOutput>());
-        module.m_types.push_back(&type<mud::ProcessFunction>());
-        module.m_types.push_back(&type<mud::ProcessMethod>());
-        module.m_types.push_back(&type<mud::ProcessScript>());
-        module.m_types.push_back(&type<mud::Script>());
-        module.m_types.push_back(&type<mud::Stream>());
-        module.m_types.push_back(&type<mud::VisualScript>());
+        m.m_types.push_back(&type<mud::LuaInterpreter>());
+        m.m_types.push_back(&type<mud::Pipe>());
+        m.m_types.push_back(&type<mud::Process>());
+        m.m_types.push_back(&type<mud::StreamBranch>());
+        m.m_types.push_back(&type<mud::Valve>());
+        m.m_types.push_back(&type<mud::Script>());
+        m.m_types.push_back(&type<mud::VisualScript>());
+        m.m_types.push_back(&type<mud::Stream>());
+        m.m_types.push_back(&type<mud::ProcessCallable>());
+        m.m_types.push_back(&type<mud::ProcessCreate>());
+        m.m_types.push_back(&type<mud::ProcessDisplay>());
+        m.m_types.push_back(&type<mud::ProcessGetMember>());
+        m.m_types.push_back(&type<mud::ProcessSetMember>());
+        m.m_types.push_back(&type<mud::ProcessValue>());
+        m.m_types.push_back(&type<mud::ProcessInput>());
+        m.m_types.push_back(&type<mud::ProcessOutput>());
+        m.m_types.push_back(&type<mud::ProcessFunction>());
+        m.m_types.push_back(&type<mud::ProcessMethod>());
+        m.m_types.push_back(&type<mud::ProcessScript>());
     
     }
 #endif

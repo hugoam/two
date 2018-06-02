@@ -21,7 +21,7 @@
 "styles" :
 [
     {   
-        "selector" : "Label, Title, Tooltip, TextEdit, TypeLabel, TypeZone, SliderDisplay, RadioChoiceItem",
+        "selector" : "Label, Title, Message, Tooltip, TextEdit, TypeLabel, TypeZone, SliderDisplay, RadioChoiceItem",
         "text_colour" : "White",
         "skin_padding" : [4],
         "disabled" : {

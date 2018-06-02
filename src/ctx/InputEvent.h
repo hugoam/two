@@ -55,7 +55,7 @@ namespace mud
 		Count = 12
 	};
 
-	struct MUD_CTX_EXPORT InputEvent
+	export_ struct MUD_CTX_EXPORT InputEvent
 	{
 		DeviceType m_deviceType = DeviceType::None;
 		EventType m_eventType = EventType::None;
@@ -75,7 +75,7 @@ namespace mud
 		virtual void dispatch(Mouse& mouse, Keyboard& keyboard) { UNUSED(mouse); UNUSED(keyboard); }
 	};
 
-	struct MUD_CTX_EXPORT MouseEvent : public InputEvent
+	export_ struct MUD_CTX_EXPORT MouseEvent : public InputEvent
 	{
 		vec2 m_pos = { 0.f, 0.f };
 		vec2 m_relative = { 0.f, 0.f };
@@ -107,7 +107,7 @@ namespace mud
 		MouseEvent& consume(ControlNode& consumer) { m_consumer = &consumer; return *this; }
 	};
 
-	struct MUD_CTX_EXPORT KeyEvent : public InputEvent
+	export_ struct MUD_CTX_EXPORT KeyEvent : public InputEvent
 	{
 		KeyCode m_code;
 		char m_char;

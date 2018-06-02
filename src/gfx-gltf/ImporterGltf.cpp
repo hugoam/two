@@ -1,14 +1,31 @@
+//  Copyright (c) 2018 Hugo Amiard hugo.amiard@laposte.net
+//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
+//  This notice and the license may not be removed or altered from any source distribution.
 
-#include <gfx-gltf/Generated/Types.h>
-#include <gfx-gltf/ImporterGltf.h>
+#ifdef MUD_CPP_20
+#include <assert.h>
+#include <stdint.h>
+#include <cstring>
+import std.core;
+import std.memory;
+#else
+#include <iostream>
+#include <fstream>
+#endif
 
+#ifdef MUD_MODULES
+module mud.gfx-gltf;
+#else
 #include <obj/Util/DispatchDecl.h>
 #include <obj/Vector.h>
 #include <obj/Serial/Serial.h>
 #include <obj/System/System.h>
 #include <obj/Reflect/Class.h>
 #include <obj/String/String.h>
-
+#include <math/VecJson.h>
+#include <math/Interp.h>
+#include <math/Stream.h>
+#include <geom/Mesh.h>
 #include <gfx/Node3.h>
 #include <gfx/Item.h>
 #include <gfx/Mesh.h>
@@ -18,28 +35,21 @@
 #include <gfx/Animation.h>
 #include <gfx/Texture.h>
 #include <gfx/Asset.h>
+#include <gfx/GfxSystem.h>
+#include <gfx-gltf/Generated/Types.h>
+#include <gfx-gltf/ImporterGltf.h>
+#endif
 
-#include <geom/Mesh.h>
-
-#include <math/VecJson.h>
-#include <math/Interp.h>
-#include <math/Stream.h>
 #include <base64.h>
 
-#include <gfx/GfxSystem.h>
-
-#include <json.hpp>
-
-#include <iostream>
-#include <fstream>
-
-using nlohmann::json;
+#include <json11.hpp>
+using json = json11::Json;
 
 namespace mud
 {
 	inline void from_json(const json& j, PrimitiveType& mat)
 	{
-		mat = static_cast<PrimitiveType>((int)j);
+		mat = static_cast<PrimitiveType>(j.int_value());
 	}
 }
 
@@ -50,6 +60,28 @@ namespace mud
 
 namespace mud
 {
+	class glTFImport
+	{
+	public:
+		glTFImport(GfxSystem& gfx_system, Model& model, const ModelConfig& model_config)
+			: m_gfx_system(gfx_system), m_model(model), m_model_config(model_config)
+		{}
+
+		GfxSystem& m_gfx_system;
+		Model& m_model;
+		const ModelConfig& m_model_config;
+
+		json m_json;
+		std::vector<uint8_t> m_glb;
+
+		glTF m_gltf;
+
+		std::vector<Texture*> m_imported_images;
+		std::vector<Material*> m_imported_materials;
+
+		std::map<int, Skeleton*> m_skeletons;
+	};
+
 	FromJson gltf_unpacker()
 	{
 		FromJson unpacker;
@@ -108,8 +140,9 @@ namespace mud
 
 			if(chunk_type == 0x4E4F534A)
 			{
+				string errors;
 				string json_string = read(file, chunk_length);
-				state.m_json = json::parse(json_string);
+				state.m_json = json::parse(json_string, errors);
 			}
 			else if(chunk_type == 0x004E4942)
 			{
@@ -672,10 +705,10 @@ namespace mud
 		if(glb)
 			parse_glb(path + file + ".glb", state);
 		else
-			state.m_json = parse_json_file(path + file + ".gltf");
+			parse_json_file(path + file + ".gltf", state.m_json);
 
 		json asset = state.m_json["asset"];
-		string version = asset["version"];
+		string version = asset["version"].string_value();
 
 		static FromJson unpacker = gltf_unpacker();
 		Var gltf = Ref(&state.m_gltf);

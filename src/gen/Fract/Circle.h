@@ -4,12 +4,13 @@
 #include <geom/Shape.h>
 #include <gen/Generated/Forward.h>
 
-/* std */
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	class MUD_GEN_EXPORT Pixircle
+	export_ class MUD_GEN_EXPORT Pixircle
 	{
 	public:
 		Pixircle() : radius(0), culled(false) {}
@@ -22,7 +23,7 @@ namespace mud
 		bool culled;
 	};
 
-	class _refl_ MUD_GEN_EXPORT Circlifier
+	export_ class _refl_ MUD_GEN_EXPORT Circlifier
 	{
 	public:
 		_constr_ Circlifier(Image256& image);

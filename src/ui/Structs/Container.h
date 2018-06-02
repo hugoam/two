@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	class _refl_ MUD_UI_EXPORT ScrollSheet : public Widget
+	export_ class _refl_ MUD_UI_EXPORT ScrollSheet : public Widget
 	{
 	public:
 		ScrollSheet(Widget* parent, void* identity) : Widget(parent, identity) {}
@@ -22,7 +22,7 @@ namespace mud
 
 namespace ui
 {
-	class _refl_ MUD_UI_EXPORT Sequence : public Widget
+	export_ class _refl_ MUD_UI_EXPORT Sequence : public Widget
 	{
 	public:
 		Sequence(Widget* parent, void* identity) : Widget(parent, identity) {}
@@ -34,7 +34,7 @@ namespace ui
 	};
 }
 
-	class _refl_ MUD_UI_EXPORT Tabber : public Widget
+	export_ class _refl_ MUD_UI_EXPORT Tabber : public Widget
 	{
 	public:
 		Tabber(Widget* parent, void* identity) : Widget(parent, identity) {}
@@ -43,21 +43,21 @@ namespace ui
 		size_t m_active = 0;
 	};
 
-	class _refl_ MUD_UI_EXPORT Expandbox : public Widget
+	export_ class _refl_ MUD_UI_EXPORT Expandbox : public Widget
 	{
 	public:
 		Expandbox(Widget* parent, void* identity) : Widget(parent, identity) {}
 		Widget* m_header = nullptr;
 	};
 
-	class _refl_ MUD_UI_EXPORT TreeNode : public Widget
+	export_ class _refl_ MUD_UI_EXPORT TreeNode : public Widget
 	{
 	public:
 		TreeNode(Widget* parent, void* identity) : Widget(parent, identity) {}
 		Widget* m_header = nullptr;
 	};
 
-	class _refl_ MUD_UI_EXPORT Table : public Widget
+	export_ class _refl_ MUD_UI_EXPORT Table : public Widget
 	{
 	public:
 		Table(Widget* parent, void* identity, array<float> weights);

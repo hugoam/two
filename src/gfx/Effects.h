@@ -12,7 +12,7 @@ namespace mud
 	{
 	};
 
-	class _refl_ MUD_GFX_EXPORT BlockResolve : public GfxBlock
+	export_ class _refl_ MUD_GFX_EXPORT BlockResolve : public GfxBlock
 	{
 	public:
 		BlockResolve(GfxSystem& gfx_system, BlockCopy& copy);
@@ -25,7 +25,7 @@ namespace mud
 		BlockCopy& m_copy;
 	};
 
-	class MUD_GFX_EXPORT PassEffects : public RenderPass
+	export_ class MUD_GFX_EXPORT PassEffects : public RenderPass
 	{
 	public:
 		PassEffects(GfxSystem& gfx_system);
@@ -34,7 +34,7 @@ namespace mud
 		virtual void submit_render_pass(Render& render) final;
 	};
 
-	class MUD_GFX_EXPORT PassPostProcess : public RenderPass
+	export_ class MUD_GFX_EXPORT PassPostProcess : public RenderPass
 	{
 	public:
 		PassPostProcess(GfxSystem& gfx_system, BlockCopy& copy);

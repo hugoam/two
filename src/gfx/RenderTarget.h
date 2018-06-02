@@ -19,7 +19,7 @@
 namespace mud
 {
 #ifdef MUD_UNIFORM_BLOCKS
-	struct _refl_ MUD_GFX_EXPORT RenderBlock
+	export_ struct _refl_ MUD_GFX_EXPORT RenderBlock
 	{
 		_attr_ vec2 m_render_size;
 		_attr_ vec2 m_pixel_size;
@@ -28,7 +28,7 @@ namespace mud
 	};
 #endif
 
-	class _refl_ MUD_GFX_EXPORT FrameBuffer
+	export_ class _refl_ MUD_GFX_EXPORT FrameBuffer
 	{
 	public:
 		FrameBuffer(uvec2 size);
@@ -68,7 +68,7 @@ namespace mud
 		size_t m_num_mips;
 	};
 
-	class _refl_ MUD_GFX_EXPORT RenderTarget : public FrameBuffer
+	export_ class _refl_ MUD_GFX_EXPORT RenderTarget : public FrameBuffer
 	{
 	public:
 		RenderTarget(uvec2 size);

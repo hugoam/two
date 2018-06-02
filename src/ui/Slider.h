@@ -11,14 +11,14 @@ namespace mud
 {
 namespace ui
 {
-	struct MUD_UI_EXPORT SliderState
+	export_ struct MUD_UI_EXPORT SliderState
 	{
 		float m_pre_span;
 		float m_knob_span;
 		float m_post_span;
 	};
 
-	struct MUD_UI_EXPORT SliderMetrics
+	export_ struct MUD_UI_EXPORT SliderMetrics
 	{
 		SliderMetrics(float min, float max, float step_length = 1.f, float knob_length = 0.f);
 

@@ -7,7 +7,9 @@
 #include <obj/Generated/Forward.h>
 #include <obj/Type.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
@@ -26,7 +28,7 @@ namespace mud
 			and are not part of the object in itself : they can be here or not here, whereas the parts are always here
 	*/
 
-	class _refl_ MUD_OBJ_EXPORT Prototype : public Type
+	export_ class _refl_ MUD_OBJ_EXPORT Prototype : public Type
 	{
 	public:
 		Prototype(const char* name, Type& stem, const std::vector<Type*>& parts);
@@ -44,7 +46,7 @@ namespace mud
 		std::vector<ProtoPart> m_hash_parts;
 	};
 
-	template <class T>
+	export_ template <class T>
 	Prototype& proto();
 
 	template <> inline Type& type<Prototype>() { return Prototype::type(); }

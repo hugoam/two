@@ -6,14 +6,16 @@
 
 #include <geom/Shape/ProcShape.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
 #include <array>
 #include <map>
-#include <stdint.h>
+#include <cstdint>
+#endif
 
 namespace mud
 {
-	class MUD_MATH_EXPORT IcoSphere
+	export_ class MUD_MATH_EXPORT IcoSphere
 	{
 	public:
 		IcoSphere(int recursionLevel);
@@ -26,11 +28,11 @@ namespace mud
 		std::vector<Face> m_faces;
 
 	private:
-		int addVertex(const vec3& vertex);
-		void addTriangle(int index0, int index1, int index2);
-		int addMiddlePoint(int index0, int index1);
+		int vertex(const vec3& vertex);
+		void triangle(int index0, int index1, int index2);
+		int middle_point(int index0, int index1);
  
-		std::map<int64_t, int> m_middlePointIndexCache;
+		std::map<int64_t, int> m_middle_point_cache;
 
 	public:
 		static std::vector<IcoSphere> s_levels;

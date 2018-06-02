@@ -36,13 +36,13 @@
 
 namespace mud
 {
-	class MUD_EDIT_EXPORT mudedit : public Module
+	export_ class MUD_EDIT_EXPORT mudedit : public Module
 	{
 	private:
 		mudedit();
 
 	public:
-		static mudedit& module() { static mudedit instance; return instance; }
+		static mudedit& m() { static mudedit instance; return instance; }
 	};
 }
 

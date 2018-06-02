@@ -9,12 +9,14 @@
 #include <obj/NonCopy.h>
 #include <obj/Util/Global.h>
 
+#ifndef MUD_CPP_20
 #include <unordered_map>
 #include <memory>
+#endif
 
 namespace mud
 {
-	class MUD_OBJ_EXPORT ObjectPool : public NonCopy
+	export_ class MUD_OBJ_EXPORT ObjectPool : public NonCopy
 	{
 	public:
 		ObjectPool();
@@ -32,7 +34,7 @@ namespace mud
 		std::unordered_map<Type*, unique_ptr<Pool>> m_pools;
 	};
 
-	class MUD_OBJ_EXPORT GlobalPool : public ObjectPool, public LazyGlobal<GlobalPool>
+	export_ class MUD_OBJ_EXPORT GlobalPool : public ObjectPool, public LazyGlobal<GlobalPool>
 	{
 	public:
 		GlobalPool();

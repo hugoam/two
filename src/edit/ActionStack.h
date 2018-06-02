@@ -10,7 +10,7 @@
 
 namespace mud
 {
-	class MUD_EDIT_EXPORT ActionStack : public NonCopy
+	export_ class MUD_EDIT_EXPORT ActionStack : public NonCopy
 	{
 	public:
 		ActionStack();
@@ -25,7 +25,7 @@ namespace mud
 		std::vector<object_ptr<EditorAction>> m_undone;
 	};
 
-	class _refl_ MUD_EDIT_EXPORT UndoTool : public Tool
+	export_ class _refl_ MUD_EDIT_EXPORT UndoTool : public Tool
 	{
 	public:
 		UndoTool(ToolContext& context);
@@ -33,7 +33,7 @@ namespace mud
 		virtual void activate() final;
 	};
 
-	class _refl_ MUD_EDIT_EXPORT RedoTool : public Tool
+	export_ class _refl_ MUD_EDIT_EXPORT RedoTool : public Tool
 	{
 	public:
 		RedoTool(ToolContext& context);

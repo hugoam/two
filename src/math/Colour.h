@@ -6,13 +6,15 @@
 
 #include <obj/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
+#endif
 
 namespace mud
 {
-	struct _refl_ _array_  MUD_OBJ_EXPORT Colour
+	export_ struct _refl_ _array_  MUD_OBJ_EXPORT Colour
 	{
 		_constr_ Colour(float r = 0.f, float g = 0.f, float b = 0.f, float a = 1.f);
 

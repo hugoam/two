@@ -2,11 +2,27 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+
+#ifdef MUD_CPP_20
+#include <assert.h>
+#include <string.h>
+#include <dirent.h>
+import std.core;
+import std.memory;
+#else
+#include <fstream>
+#include <string>
+#include <dirent.h>
+#endif
+
+#ifdef MUD_MODULES
+module mud.obj;
+#else
 #include <obj/Config.h>
 #include <obj/System/System.h>
-
 #include <obj/Vector.h>
 #include <obj/Reflect/Class.h>
+#endif
 
 #ifdef _WIN32
 	#include <windows.h>
@@ -17,9 +33,6 @@
 	#define BINARY_EXT ""
 	#define MODULE_EXT ".so"
 #endif
-
-#include <fstream>
-#include <string>
 
 #ifdef _DEBUG
 	#define BUILD_SUFFIX "_d"
@@ -71,48 +84,85 @@ namespace mud
 		getModule_PROC get_module = (getModule_PROC)dlsym(module_handle, "getModule");
 #endif
 
-		Module& module = get_module();
+		Module& m = get_module();
 
-		module.m_handle = module_handle;
-		module.m_path = module_path.c_str();
+		m.m_handle = module_handle;
+		m.m_path = module_path.c_str();
 
-		return &module;
+		return &m;
 	}
 
-	void ModuleLoader::unload_module(Module& module)
+	void ModuleLoader::unload_module(Module& m)
 	{
 #ifdef _WIN32
-		int result = FreeLibrary((HMODULE) module.m_handle);
+		int result = FreeLibrary((HMODULE) m.m_handle);
 #else
-		int result = dlclose(module.m_handle);
+		int result = dlclose(m.m_handle);
 #endif
 		UNUSED(result);
 	}
 
-	void ModuleLoader::reload_module(Module& module)
+	void ModuleLoader::reload_module(Module& m)
 	{
 #ifdef _WIN32
-		HANDLE module_file = CreateFile(module.m_path, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		HANDLE module_file = CreateFile(m.m_path, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 		if(module_file == INVALID_HANDLE_VALUE)
 			return;
 
 		uint64_t last_modified;
 		GetFileTime(module_file, NULL, NULL, (FILETIME*)&last_modified);
 
-		if(module.m_last_modified < last_modified)
+		if(m.m_last_modified < last_modified)
 		{
 			// do reload
 		}
 
 		CloseHandle(module_file);
 #else
-		UNUSED(module);
+		UNUSED(m);
 #endif
 	}
 
 	System::System()
 	{
 		m_namespaces.reserve(100);
+	}
+
+	void System::visit_files(cstring path, FileVisitor visit_file)
+	{
+		DIR* dir = opendir(path);
+		dirent* ent;
+
+		while ((ent = readdir(dir)) != NULL)
+			if (ent->d_type & DT_REG)
+			{
+				visit_file(path, ent->d_name);
+			}
+
+
+		closedir(dir);
+	}
+
+	void System::visit_folders(cstring path, FileVisitor visit_file, bool ignore_symbolic)
+	{
+		DIR* dir = opendir(path);
+		dirent* ent;
+
+		while((ent = readdir(dir)) != NULL)
+			if(ent->d_type & DT_DIR)
+			{
+				bool is_symbolic = string(ent->d_name) == "." || string(ent->d_name) == "..";
+				if(!is_symbolic || !ignore_symbolic)
+					visit_file(path, ent->d_name);
+			}
+
+		closedir(dir);
+	}
+
+	void System::write_file(cstring path, cstring content)
+	{
+		std::ofstream out(path);
+		out << content;
 	}
 
 	void System::launch_process(cstring path, cstring args)
@@ -138,8 +188,8 @@ namespace mud
 
 	void System::load_modules(std::vector<Module*> modules)
 	{
-		for(Module* module : modules)
-			this->load_module(*module);
+		for(Module* m : modules)
+			this->load_module(*m);
 	}
 
 	Module* System::open_module(cstring path)
@@ -147,40 +197,40 @@ namespace mud
 		return m_loader.load_module(path);
 	}
 
-	void System::load_module(Module& module)
+	void System::load_module(Module& m)
 	{
-		m_modules.push_back(&module);
+		m_modules.push_back(&m);
 
-		for(Type* type : module.m_types)
+		for(Type* type : m.m_types)
 			m_types.push_back(type);
 
-		for(Function& function : module.m_functions)
-			m_functions.push_back(&function);
+		for(Function* function : m.m_functions)
+			m_functions.push_back(function);
 
 		for(Module* depend : m_modules)
-			depend->handleLoad(module);
+			depend->handle_load(m);
 	}
 
-	void System::unload_module(Module& module)
+	void System::unload_module(Module& m)
 	{
 		for(Module* depend : m_modules)
-			depend->handleUnload(module);
+			depend->handle_unload(m);
 
-		vector_remove(m_modules, &module);
+		vector_remove(m_modules, &m);
 
-		for(Type* type : module.m_types)
+		for(Type* type : m.m_types)
 			vector_remove(m_types, type);
 
-		for(Function& function : module.m_functions)
-			vector_remove(m_functions, &function);
+		for(Function* function : m.m_functions)
+			vector_remove(m_functions, function);
 
-		m_loader.unload_module(module);
+		m_loader.unload_module(m);
 	}
 
-	Module& System::reload_module(Module& module)
+	Module& System::reload_module(Module& m)
 	{
-		cstring path = module.m_path;
-		this->unload_module(module);
+		cstring path = m.m_path;
+		this->unload_module(m);
 		Module& reloaded = *this->open_module(path);
 		this->load_module(reloaded);
 		return reloaded;

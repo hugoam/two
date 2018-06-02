@@ -9,7 +9,7 @@ project "mud_ui"
         path.join(MUD_3RDPARTY_DIR, "glm"),
 		path.join(MUD_3RDPARTY_DIR, "stb"),
 		path.join(MUD_3RDPARTY_DIR, "rectpacking"),
-        path.join(MUD_3RDPARTY_DIR, "json", "src"),
+        path.join(MUD_3RDPARTY_DIR, "json11"),
 	}
 
 	files {

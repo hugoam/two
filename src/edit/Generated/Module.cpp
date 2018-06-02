@@ -1,3 +1,13 @@
+#ifdef MUD_CPP_20
+#include <cassert>
+#include <cstdint>
+#include <climits>
+#include <cfloat>
+import std.core;
+import std.memory;
+import std.threading;
+import std.regex;
+#endif
 
 #include <edit/Generated/Module.h>
 
@@ -14,14 +24,14 @@ namespace mud
 		: Module("mud::edit")
 	{
         // ensure dependencies are instantiated
-        mudobj::module();
-        mudmath::module();
-        mudgeom::module();
-        mudlang::module();
-        mudui::module();
-        muduio::module();
-        mudgfx::module();
-        mudgfxpbr::module();
+        mudobj::m();
+        mudmath::m();
+        mudgeom::m();
+        mudlang::m();
+        mudui::m();
+        muduio::m();
+        mudgfx::m();
+        mudgfxpbr::m();
 
 #ifdef MUD_EDIT_REFLECT
         // setup reflection meta data
@@ -34,6 +44,6 @@ namespace mud
 extern "C"
 MUD_EDIT_EXPORT Module& getModule()
 {
-	return mudedit::module();
+	return mudedit::m();
 }
 #endif

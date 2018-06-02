@@ -44,3 +44,13 @@
 #define MUD_FUNC_EXPORT __cdecl
 
 #define UNUSED(x) (void)(x)
+
+#if defined _MSC_VER && _MSC_VER >= 1914
+//#define MUD_MODULES
+#endif
+
+#ifdef MUD_MODULES
+#define export_ export
+#else
+#define export_ 
+#endif

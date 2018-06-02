@@ -17,6 +17,24 @@
     
     
 
+namespace std {
+
+    
+    
+}
+
+namespace glm {
+
+    
+    
+}
+
+namespace json11 {
+
+    
+    
+}
+
 namespace mud {
 
     enum DrawMode : unsigned int;
@@ -75,23 +93,11 @@ namespace mud {
     class IcoSphere;
 }
 
-namespace std {
-
-    
-    
-}
-
 namespace mud {
 namespace detail {
 
     
     
 }
-}
-
-namespace glm {
-
-    
-    
 }
 

@@ -2,6 +2,7 @@
 
 #include <gen/Generated/Forward.h>
 
+#ifndef MUD_MODULES
 #include <obj/Generated/Types.h>
 #include <math/Generated/Types.h>
 #include <geom/Generated/Types.h>
@@ -11,31 +12,35 @@
 
 #include <obj/Type.h>
 #include <obj/Proto.h>
+#endif
 
+#ifndef MUD_CPP_20
 #include <string>
 #include <vector>
-#include <stdint.h>
+#include <cstdint>
+#endif
 
 #include <gen/Structs.h>
 
 namespace mud
 {
     // Exported types
-    template <> MUD_GEN_EXPORT Type& type<mud::PatternSampling>();
-    template <> MUD_GEN_EXPORT Type& type<mud::Result>();
-    template <> MUD_GEN_EXPORT Type& type<std::vector<mud::Image256>>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::PatternSampling>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::Result>();
+    export_ template <> MUD_GEN_EXPORT Type& type<std::vector<mud::Image256>>();
     
-    template <> MUD_GEN_EXPORT Type& type<mud::Circlifier>();
-    template <> MUD_GEN_EXPORT Type& type<mud::Fract>();
-    template <> MUD_GEN_EXPORT Type& type<mud::FractSample>();
-    template <> MUD_GEN_EXPORT Type& type<mud::FractTab>();
-    template <> MUD_GEN_EXPORT Type& type<mud::Noise>();
-    template <> MUD_GEN_EXPORT Type& type<mud::Pattern>();
-    template <> MUD_GEN_EXPORT Type& type<mud::Tile>();
-    template <> MUD_GEN_EXPORT Type& type<mud::Tileblock>();
-    template <> MUD_GEN_EXPORT Type& type<mud::Tileset>();
-    template <> MUD_GEN_EXPORT Type& type<mud::Wave>();
-    template <> MUD_GEN_EXPORT Type& type<mud::WaveTileset>();
-    template <> MUD_GEN_EXPORT Type& type<mud::TileWave>();
-    template <> MUD_GEN_EXPORT Type& type<mud::array_3d<float>>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::Circlifier>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::Fract>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::FractSample>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::FractTab>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::Noise>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::Pattern>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::Tile>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::TileModel>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::Tileblock>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::Tileset>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::Wave>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::WaveTileset>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::TileWave>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::array_3d<float>>();
 }

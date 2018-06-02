@@ -1,3 +1,13 @@
+#ifdef MUD_CPP_20
+#include <cassert>
+#include <cstdint>
+#include <climits>
+#include <cfloat>
+import std.core;
+import std.memory;
+import std.threading;
+import std.regex;
+#endif
 
 #include <math/Generated/Module.h>
 
@@ -14,7 +24,7 @@ namespace mud
 		: Module("mud::math")
 	{
         // ensure dependencies are instantiated
-        mudobj::module();
+        mudobj::m();
 
 #ifdef MUD_MATH_REFLECT
         // setup reflection meta data
@@ -27,6 +37,6 @@ namespace mud
 extern "C"
 MUD_MATH_EXPORT Module& getModule()
 {
-	return mudmath::module();
+	return mudmath::m();
 }
 #endif

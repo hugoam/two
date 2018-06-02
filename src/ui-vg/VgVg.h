@@ -7,8 +7,10 @@
 #include <ui/Generated/Forward.h>
 #include <ui/Render/Renderer.h>
 
+#ifndef MUD_CPP_20
 #include <map>
 #include <string>
+#endif
 
 /* vg-renderer */
 #include <vg/vg.h>

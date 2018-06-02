@@ -2,10 +2,22 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
-#include <geom/Shape/Circle.h>
+#ifdef MUD_MODULES
+import mud.math;
+module mud.geom;
+#else
 #include <math/Axes.h>
+#include <geom/Shape/Circle.h>
 #include <geom/Primitive.h>
+#endif
 
 namespace mud
 {
@@ -54,7 +66,7 @@ namespace mud
 
 	void draw_shape_lines(const ProcShape& shape, const Circle& circle, MeshData& data)
 	{
-		uint16_t subdiv = circle_vertices(shape, shape.m_position, vec2{ circle.m_radius }, to_signed_axis(circle.m_axis, true), true, data);
+		uint16_t subdiv = circle_vertices(shape, circle.m_center, vec2{ circle.m_radius }, to_signed_axis(circle.m_axis, true), true, data);
 
 		for (uint16_t i = 0; i < subdiv; i++)
 			data.line(i, i + 1 < subdiv ? i + 1 : 0);
@@ -69,7 +81,7 @@ namespace mud
 
 	void draw_shape_triangles(const ProcShape& shape, const Circle& circle, MeshData& data)
 	{
-		uint16_t subdiv = circle_vertices(shape, shape.m_position, vec2{ circle.m_radius }, to_signed_axis(circle.m_axis, true), false, data);
+		uint16_t subdiv = circle_vertices(shape, circle.m_center, vec2{ circle.m_radius }, to_signed_axis(circle.m_axis, true), false, data);
 
 		for (uint16_t i = 0; i < subdiv; i++)
 			data.tri(i + 1 < subdiv ? i + 1 : 0, i,  subdiv);
@@ -85,7 +97,7 @@ namespace mud
 
 	void draw_shape_lines(const ProcShape& shape, const Ellipsis& ellipsis, MeshData& data)
 	{
-		uint16_t subdiv = circle_vertices(shape, shape.m_position, ellipsis.m_radius, to_signed_axis(ellipsis.m_axis, true), true, data);
+		uint16_t subdiv = circle_vertices(shape, ellipsis.m_center, ellipsis.m_radius, to_signed_axis(ellipsis.m_axis, true), true, data);
 
 		for (uint16_t i = 0; i < subdiv; i++)
 			data.line(i, i + 1 < subdiv ? i + 1 : 0);
@@ -100,7 +112,7 @@ namespace mud
 
 	void draw_shape_triangles(const ProcShape& shape, const Ellipsis& ellipsis, MeshData& data)
 	{
-		uint16_t subdiv = circle_vertices(shape, shape.m_position, ellipsis.m_radius, to_signed_axis(ellipsis.m_axis, true), false, data);
+		uint16_t subdiv = circle_vertices(shape, ellipsis.m_center, ellipsis.m_radius, to_signed_axis(ellipsis.m_axis, true), false, data);
 
 		for (uint16_t i = 0; i < subdiv; i++)
 			data.tri(i + 1 < subdiv ? i + 1 : 0, i,  subdiv);

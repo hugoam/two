@@ -7,7 +7,9 @@
 #include <obj/Ref.h>
 #include <ui/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {

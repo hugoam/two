@@ -10,13 +10,15 @@
 #define MUD_BGFX_EXPORT MUD_GFX_EXPORT
 #include <bgfx/BgfxSystem.h>
 
-#ifndef MUD_GENERATOR_SKIP_INCLUDES
-#include <bx/file.h>
-#endif
+namespace bx
+{
+	struct FileReaderI;
+	struct FileWriterI;
+}
 
 namespace mud
 {
-	class _refl_ MUD_GFX_EXPORT GfxContext : public BgfxContext
+	export_ class _refl_ MUD_GFX_EXPORT GfxContext : public BgfxContext
 	{
 	public:
 		GfxContext(GfxSystem& gfx_system, cstring name, int width, int height, bool fullScreen, bool init);
@@ -43,7 +45,7 @@ namespace mud
 		size_t m_extension_index = 0;
 	};
 
-	class _refl_ MUD_GFX_EXPORT GfxSystem : public BgfxSystem
+	export_ class _refl_ MUD_GFX_EXPORT GfxSystem : public BgfxSystem
 	{
 	public:
 		GfxSystem(array<cstring> resource_paths = {});
@@ -64,8 +66,9 @@ namespace mud
 
 		void render(Renderer& renderer, GfxContext& context, Viewport& viewport, RenderFrame& frame);
 
-		bx::FileReader m_file_reader;
-		bx::FileWriter m_file_writer;
+		bx::FileReaderI& file_reader();
+		bx::FileWriterI& file_writer();
+
 		bx::DefaultAllocator m_allocator;
 
 		LocatedFile locate_file(cstring file);

@@ -2,10 +2,21 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+module mud.geom;
+#else
 #include <geom/Shape/Quad.h>
 #include <geom/Shapes.h>
 #include <geom/Primitive.h>
+#endif
 
 //#define PK_GLITCH
 
@@ -31,7 +42,7 @@ namespace mud
 		{
 			bool clockwise = true;
 			int index = clockwise ? i : 3 - i;
-			data.position(shape.m_position + quad.m_vertices[index])
+			data.position(quad.m_center + quad.m_vertices[index])
 				.colour(fill ? shape.m_symbol.m_fill : shape.m_symbol.m_outline)
 				.normal(normal)
 				.textureCoord(quadUVs[index]);

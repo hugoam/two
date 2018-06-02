@@ -13,7 +13,7 @@ namespace mud
 {
 	using Callback = std::function<void()>;
 
-	struct MUD_UIO_EXPORT SectionAction
+	export_ struct MUD_UIO_EXPORT SectionAction
 	{
 		strung m_name;
 		Callback m_action;
@@ -21,7 +21,7 @@ namespace mud
 
 	using ActionList = std::vector<SectionAction>;
 
-	struct MUD_UIO_EXPORT Section : public Widget
+	export_ struct MUD_UIO_EXPORT Section : public Widget
 	{
 		Section(Widget* parent, void* identity) : Widget(parent, identity) {}
 		Widget* m_toolbar = nullptr;

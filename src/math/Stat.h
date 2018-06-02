@@ -4,10 +4,12 @@
 
 #pragma once
 
+#include <obj/Limits.h>
 #include <math/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <cfloat>
-#include <limits>
+#endif
 
 namespace mud
 {
@@ -108,7 +110,7 @@ namespace mud
 	};
 
 	template <class T>
-	class _refl_ AutoStat
+	export_ class _refl_ AutoStat
 	{
 	public:
 		AutoStat(T value = T(), T min = std::numeric_limits<T>::lowest(), T max = std::numeric_limits<T>::max(), T step = T(1))
@@ -159,10 +161,10 @@ namespace mud
 		StatDef<T> m_def;
 	};
 
-	template class _refl_ MUD_MATH_EXPORT AutoStat<int>;
-	template class _refl_ MUD_MATH_EXPORT AutoStat<float>;
+	template export_ class _refl_ MUD_MATH_EXPORT AutoStat<int>;
+	template export_ class _refl_ MUD_MATH_EXPORT AutoStat<float>;
 
-	struct _refl_ MUD_MATH_EXPORT Ratio : public DefStat<float, Ratio>
+	export_ struct _refl_ MUD_MATH_EXPORT Ratio : public DefStat<float, Ratio>
 	{
 	public:
 		_constr_ Ratio(float value = 0.f) : DefStat<float, Ratio>(value) {}
@@ -175,7 +177,7 @@ namespace mud
 		const StatDef<float>& def() const { static StatDef<float> df(0.f, 1.f, 0.01f); return df; }
 	};
 
-	struct _refl_ MUD_MATH_EXPORT Gauge : public DefStat<float, Gauge>
+	export_ struct _refl_ MUD_MATH_EXPORT Gauge : public DefStat<float, Gauge>
 	{
 	public:
 		_constr_ Gauge(float value = 0.f) : DefStat<float, Gauge>(value) {}

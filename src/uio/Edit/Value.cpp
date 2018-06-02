@@ -2,26 +2,33 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
-#include <uio/Generated/Types.h>
-#include <uio/Edit/Value.h>
-
+#ifdef MUD_MODULES
+module mud.uio;
+#else
 #include <obj/Vector.h>
 #include <obj/Reflect/Meta.h>
 #include <obj/Reflect/Member.h>
 #include <obj/Reflect/Sequence.h>
 #include <obj/Reflect/Enum.h>
 #include <obj/Util/DispatchDecl.h>
-
 #include <math/VecOps.h>
-
+#include <ui/Input.h>
+#include <uio/Generated/Types.h>
+#include <uio/Edit/Value.h>
 #include <uio/Unode.h>
-
 #include <uio/Edit/Inspector.h>
 #include <uio/Edit/Injector.h>
 #include <uio/Edit/Indexer.h>
 #include <uio/Edit/Method.h>
-#include <ui/Input.h>
+#endif
 
 namespace mud
 {

@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_CPP_20
 #include <string>
 #include <vector>
+#endif
 
 #include <obj/Generated/Types.h>
 

@@ -2,6 +2,7 @@
 
 #include <edit/Generated/Forward.h>
 
+#ifndef MUD_MODULES
 #include <obj/Generated/Types.h>
 #include <math/Generated/Types.h>
 #include <geom/Generated/Types.h>
@@ -13,49 +14,52 @@
 
 #include <obj/Type.h>
 #include <obj/Proto.h>
+#endif
 
+#ifndef MUD_CPP_20
 #include <string>
 #include <vector>
-#include <stdint.h>
+#include <cstdint>
+#endif
 
 
 namespace mud
 {
     // Exported types
-    template <> MUD_EDIT_EXPORT Type& type<mud::ToolState>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::ToolState>();
     
-    template <> MUD_EDIT_EXPORT Type& type<mud::EditContext>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::EditorAction>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::Gizmo>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::Tool>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::ToolContext>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::ToolOption>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::ViewerController>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::SpaceSheet>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::Viewer>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::TransformAction>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::ViewAction>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::WorkPlaneAction>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::SceneViewer>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::PlaneSnapOption>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::WorldSnapOption>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::RedoTool>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::UndoTool>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::ViewportTool>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::WorkPlaneTool>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::SpatialTool>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::ViewTool>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::Brush>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::TransformTool>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::RotateAction>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::ScaleAction>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::TranslateAction>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::CopyTool>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::RotateTool>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::ScaleTool>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::TranslateTool>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::CircleBrush>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::PlaceBrush>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::ScriptedBrush>();
-    template <> MUD_EDIT_EXPORT Type& type<mud::CopyAction>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::EditContext>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::EditorAction>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::Gizmo>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::Tool>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::ToolContext>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::ToolOption>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::ViewerController>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::Viewer>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::SpaceSheet>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::CopyAction>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::CircleBrush>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::PlaceBrush>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::ScriptedBrush>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::SceneViewer>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::TransformAction>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::ViewAction>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::WorkPlaneAction>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::PlaneSnapOption>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::WorldSnapOption>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::RedoTool>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::UndoTool>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::ViewportTool>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::WorkPlaneTool>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::SpatialTool>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::ViewTool>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::Brush>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::TransformTool>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::RotateAction>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::ScaleAction>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::TranslateAction>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::CopyTool>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::RotateTool>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::ScaleTool>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::TranslateTool>();
 }

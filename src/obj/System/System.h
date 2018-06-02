@@ -5,25 +5,30 @@
 #pragma once
 
 #include <obj/Generated/Forward.h>
-#include <obj/Reflect/Method.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#include <functional>
+#endif
 
-namespace mud
+export_ namespace mud
 {
-	class _refl_ MUD_OBJ_EXPORT Module
+	export_ using cstring = const char*;
+	export_ using FunctionPointer = void* (*)();
+
+	export_ class _refl_ MUD_OBJ_EXPORT Module
 	{
 	public:
 		Module(cstring name);
 
-		virtual void handleLoad(Module& module) { UNUSED(module); }
-		virtual void handleUnload(Module& module) { UNUSED(module); }
+		virtual void handle_load(Module& m) { UNUSED(m); }
+		virtual void handle_unload(Module& m) { UNUSED(m); }
 
 		//Type& m_type;
 
 		_attr_ cstring m_name;
 		_attr_ std::vector<Type*> m_types;
-		std::vector<Function> m_functions;
+		_attr_ std::vector<Function*> m_functions;
 
 		_attr_ cstring m_path;
 		void* m_handle;
@@ -36,17 +41,17 @@ namespace mud
 	typedef Module& (*getModule_PROC)(void);
 #endif
 
-	class MUD_OBJ_EXPORT ModuleLoader
+	export_ class MUD_OBJ_EXPORT ModuleLoader
 	{
 	public:
 		ModuleLoader();
 
 		Module* load_module(cstring path);
-		void unload_module(Module& module);
-		void reload_module(Module& module);
+		void unload_module(Module& m);
+		void reload_module(Module& m);
 	};
 
-	class _refl_ MUD_OBJ_EXPORT Namespace
+	export_ class _refl_ MUD_OBJ_EXPORT Namespace
 	{
 	public:
 		Namespace(cstring name = nullptr, Namespace* parent = nullptr);
@@ -60,7 +65,7 @@ namespace mud
 
 	MUD_OBJ_EXPORT Namespace& namspc(std::vector<cstring> path);
 
-	class _refl_ MUD_OBJ_EXPORT System
+	export_ class _refl_ MUD_OBJ_EXPORT System
 	{
 	public:
 		System();
@@ -76,11 +81,15 @@ namespace mud
 		void load_modules(std::vector<Module*> modules);
 
 		Module* open_module(cstring path);
-		void load_module(Module& module);
-		void unload_module(Module& module);
-		Module& reload_module(Module& module);
+		void load_module(Module& m);
+		void unload_module(Module& m);
+		Module& reload_module(Module& m);
 
+		using FileVisitor = std::function<void(cstring, cstring)>;
 		bool create_directory(cstring path);
+		void visit_files(cstring path, FileVisitor visit_file);
+		void visit_folders(cstring path, FileVisitor visit_folder, bool ignore_symbolic = true);
+		void write_file(cstring path, cstring content);
 
 		std::vector<cstring> meta_symbols();
 
@@ -99,8 +108,8 @@ namespace mud
 		ModuleLoader m_loader;
 	};
 
-	_func_ inline System& system() { return System::instance(); }
+	export_ _func_ inline System& system() { return System::instance(); }
 
-	template <typename T_Function>
+	export_ template <typename T_Function>
 	inline Function& function(T_Function func) { return System::instance().function(function_id(func)); }
 }

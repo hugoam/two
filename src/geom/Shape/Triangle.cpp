@@ -2,10 +2,21 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+module mud.geom;
+#else
 #include <geom/Shape/Triangle.h>
 #include <geom/Shapes.h>
 #include <geom/Primitive.h>
+#endif
 
 //#define PK_GLITCH
 
@@ -18,7 +29,7 @@ namespace mud
 							 {  0.f,                      triangle.m_size.y / 2.f, 0.f } };
 
 		for(int i = 0; i < 3; i++)
-			data.position(shape.m_position + vertices[i])
+			data.position(triangle.m_center + vertices[i])
 				.colour(fill ? shape.m_symbol.m_fill : shape.m_symbol.m_outline);
 	}
 

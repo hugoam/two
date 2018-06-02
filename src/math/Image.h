@@ -7,19 +7,21 @@
 #include <obj/Generated/Forward.h>
 #include <math/Colour.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
 	using cstring = const char*;
 
-	enum _refl_ SpectrumPalette : short int
+	export_ enum _refl_ SpectrumPalette : short int
 	{
 		SPECTRUM_GRAYSCALE = 0,
 		SPECTRUM_HUE = 1
 	};
 
-	struct _refl_ MUD_OBJ_EXPORT Palette
+	export_ struct _refl_ MUD_OBJ_EXPORT Palette
 	{
 	public:
 		_constr_ Palette(SpectrumPalette spectrum, size_t steps);
@@ -38,7 +40,7 @@ namespace mud
 		std::vector<Colour> m_colours;
 	};
 
-	struct _refl_ MUD_OBJ_EXPORT Image256
+	export_ struct _refl_ MUD_OBJ_EXPORT Image256
 	{
 	public:
 		_constr_ Image256(uint16_t width = 0, uint16_t height = 0, const Palette& palette = Palette());

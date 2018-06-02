@@ -2,12 +2,21 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 #include <gfx/Asset.h>
 
 #include <obj/Serial/Serial.h>
+#include <obj/System/System.h>
 
 #ifndef MUD_GENERATOR_SKIP_INCLUDES
-#include <dirent.h>
+#include <json11.hpp>
+using json = json11::Json;
 #endif
 
 namespace mud
@@ -27,7 +36,8 @@ namespace mud
 		auto loader = [&](GfxSystem& gfx_system, T_Asset& asset, cstring path)
 		{
 			UNUSED(gfx_system);
-			json json_value = parse_json_file(string(path) + m_cformats[0]); // @kludge: fix extensions assumed in loaders (gltf, obj, etc...)
+			json json_value;
+			parse_json_file(string(path) + m_cformats[0], json_value); // @kludge: fix extensions assumed in loaders (gltf, obj, etc...)
 			unpack(Ref(&asset), json_value);
 		};
 
@@ -127,30 +137,25 @@ namespace mud
 	template <class T_Asset>
 	void AssetStore<T_Asset>::load_files(cstring path)
 	{
-		DIR* dir = opendir(path);
-		dirent* ent;
-
-		while((ent = readdir(dir)) != NULL)
+		auto visit_file = [&](cstring path, cstring file)
 		{
-			string filename = ent->d_name;
-			if(ent->d_type & DT_REG)
-			{
-				for(size_t i = 0; i < m_cformats.size(); ++i)
-					if(filename.find(m_formats[i]) != string::npos)
-					{
-						string name = filename.substr(0, filename.size() - m_formats[i].size());
-						m_assets[name] = make_unique<T_Asset>(ent->d_name);
-						m_format_loaders[i](m_gfx_system, *m_assets[name], (path + name).c_str());
-						break;
-					}
-			}
-			else if(ent->d_type & DT_DIR)
-			{
-				if(filename != "." && filename != "..")
-					this->load_files((string(path) + ent->d_name + "/").c_str());
-			}
-		}
+			string filename = file;
+			for (size_t i = 0; i < m_cformats.size(); ++i)
+				if (filename.find(m_formats[i]) != string::npos)
+				{
+					string name = filename.substr(0, filename.size() - m_formats[i].size());
+					m_assets[name] = make_unique<T_Asset>(file);
+					m_format_loaders[i](m_gfx_system, *m_assets[name], (path + name).c_str());
+					break;
+				}
+		};
 
-		closedir(dir);
+		auto visit_folder = [&](cstring path, cstring folder)
+		{
+			this->load_files((string(path) + folder + "/").c_str());
+		};
+
+		system().visit_files(path, visit_file);
+		system().visit_folders(path, visit_file);
 	}
 }

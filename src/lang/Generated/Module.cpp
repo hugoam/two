@@ -1,3 +1,13 @@
+#ifdef MUD_CPP_20
+#include <cassert>
+#include <cstdint>
+#include <climits>
+#include <cfloat>
+import std.core;
+import std.memory;
+import std.threading;
+import std.regex;
+#endif
 
 #include <lang/Generated/Module.h>
 
@@ -14,7 +24,7 @@ namespace mud
 		: Module("mud::lang")
 	{
         // ensure dependencies are instantiated
-        mudobj::module();
+        mudobj::m();
 
 #ifdef MUD_LANG_REFLECT
         // setup reflection meta data
@@ -27,6 +37,6 @@ namespace mud
 extern "C"
 MUD_LANG_EXPORT Module& getModule()
 {
-	return mudlang::module();
+	return mudlang::m();
 }
 #endif

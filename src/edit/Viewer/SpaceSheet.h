@@ -11,7 +11,7 @@ namespace mud
 {
 	class SpaceQuad;
 
-	class _refl_ MUD_GFX_EXPORT SpaceSheet : public RootSheet
+	export_ class _refl_ MUD_GFX_EXPORT SpaceSheet : public RootSheet
 	{
 	public:
 		SpaceSheet(Widget& parent, SpaceViewport& viewport);

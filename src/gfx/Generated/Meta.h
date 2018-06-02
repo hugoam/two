@@ -12,7 +12,7 @@ namespace mud
 {
     
 #ifdef MUD_GFX_REFLECTION_IMPL
-    void gfx_meta(Module& module)
+    void gfx_meta(Module& m)
     {   
     // Base Types
     
@@ -1107,6 +1107,7 @@ namespace mud
             // members
             {
                 { type<mud::Material>(), member_address(&mud::Material::m_index), type<uint16_t>(), "index", var(uint16_t()), Member::Value },
+                { type<mud::Material>(), member_address(&mud::Material::m_builtin), type<bool>(), "builtin", var(bool(false)), Member::Value },
                 { type<mud::Material>(), member_address(&mud::Material::m_program), type<mud::Program>(), "program", Ref(type<mud::Program>()), Member::Flags(Member::Pointer|Member::Link) },
                 { type<mud::Material>(), member_address(&mud::Material::m_base_block), type<mud::BaseMaterialBlock>(), "base_block", var(mud::BaseMaterialBlock()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::Material>(), member_address(&mud::Material::m_unshaded_block), type<mud::UnshadedMaterialBlock>(), "unshaded_block", var(mud::UnshadedMaterialBlock()), Member::Flags(Member::Value|Member::Mutable) },
@@ -1570,6 +1571,7 @@ namespace mud
             // members
             {
                 { type<mud::PrefabNode>(), member_address(&mud::PrefabNode::m_transform), type<mud::Transform>(), "transform", var(mud::Transform()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::PrefabNode>(), member_address(&mud::PrefabNode::m_object), type<mud::Ref>(), "object", Ref(type<mud::Ref>()), Member::Mutable },
                 { type<mud::PrefabNode>(), member_address(&mud::PrefabNode::m_prefab_type), type<mud::PrefabType>(), "prefab_type", var(mud::PrefabType()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::PrefabNode>(), member_address(&mud::PrefabNode::m_call), type<mud::Call>(), "call", var(mud::Call()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::PrefabNode>(), member_address(&mud::PrefabNode::m_nodes), type<std::vector<mud::PrefabNode>>(), "nodes", var(std::vector<mud::PrefabNode>()), Member::Flags(Member::Value|Member::Mutable) }
@@ -2325,6 +2327,38 @@ namespace mud
     
     
         
+    // mud::RenderTarget
+    {
+        static Meta meta = { type<mud::RenderTarget>(), &namspc({ "mud" }), "RenderTarget", sizeof(mud::RenderTarget), TypeClass::Object };
+        static Class cls = { type<mud::RenderTarget>(),
+            // bases
+            { &type<mud::FrameBuffer>() },
+            { base_offset<mud::RenderTarget, mud::FrameBuffer>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::RenderTarget>();
+    }
+    
+    
+        
     // mud::ParticleEmitter
     {
         static Meta meta = { type<mud::ParticleEmitter>(), &namspc({ "mud" }), "ParticleEmitter", sizeof(mud::ParticleEmitter), TypeClass::Struct };
@@ -2356,201 +2390,185 @@ namespace mud
         meta_class<mud::ParticleEmitter>();
     }
     
-    
-        
-    // mud::RenderTarget
-    {
-        static Meta meta = { type<mud::RenderTarget>(), &namspc({ "mud" }), "RenderTarget", sizeof(mud::RenderTarget), TypeClass::Object };
-        static Class cls = { type<mud::RenderTarget>(),
-            // bases
-            { &type<mud::FrameBuffer>() },
-            { base_offset<mud::RenderTarget, mud::FrameBuffer>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::RenderTarget>();
-    }
-    
 
     
-        module.m_types.push_back(&type<mud::Animated>());
-        module.m_types.push_back(&type<mud::AnimatedTrack>());
-        module.m_types.push_back(&type<mud::Animation>());
-        module.m_types.push_back(&type<mud::AnimationPlay>());
-        module.m_types.push_back(&type<mud::AnimationTrack>());
-        module.m_types.push_back(&type<mud::Background>());
-        module.m_types.push_back(&type<mud::BackgroundMode>());
-        module.m_types.push_back(&type<mud::BaseMaterialBlock>());
-        module.m_types.push_back(&type<mud::BlendMode>());
-        module.m_types.push_back(&type<mud::Bone>());
-        module.m_types.push_back(&type<mud::Camera>());
-        module.m_types.push_back(&type<mud::CullMode>());
-        module.m_types.push_back(&type<mud::DepthDraw>());
-        module.m_types.push_back(&type<mud::DepthTest>());
-        module.m_types.push_back(&type<mud::EmitterDirection>());
-        module.m_types.push_back(&type<mud::Environment>());
-        module.m_types.push_back(&type<mud::Filter>());
-        module.m_types.push_back(&type<mud::FrameBuffer>());
-        module.m_types.push_back(&type<mud::Frustum>());
-        module.m_types.push_back(&type<mud::FrustumSlice>());
-        module.m_types.push_back(&type<mud::GfxBlock>());
-        module.m_types.push_back(&type<mud::GfxContext>());
-        module.m_types.push_back(&type<mud::GfxSystem>());
-        module.m_types.push_back(&type<mud::Gnode>());
-        module.m_types.push_back(&type<mud::ImmediateDraw>());
-        module.m_types.push_back(&type<mud::Interpolation>());
-        module.m_types.push_back(&type<mud::IsometricAngle>());
-        module.m_types.push_back(&type<mud::Item>());
-        module.m_types.push_back(&type<mud::ItemFlag>());
-        module.m_types.push_back(&type<mud::ItemShadow>());
-        module.m_types.push_back(&type<mud::Joint>());
-        module.m_types.push_back(&type<mud::Light>());
-        module.m_types.push_back(&type<mud::LightType>());
-        module.m_types.push_back(&type<mud::MSAA>());
-        module.m_types.push_back(&type<mud::Material>());
-        module.m_types.push_back(&type<mud::MaterialFlag>());
-        module.m_types.push_back(&type<mud::MaterialParam<float>>());
-        module.m_types.push_back(&type<mud::MaterialParam<mud::Colour>>());
-        module.m_types.push_back(&type<mud::Mesh>());
-        module.m_types.push_back(&type<mud::Model>());
-        module.m_types.push_back(&type<mud::ModelItem>());
-        module.m_types.push_back(&type<mud::Month>());
-        module.m_types.push_back(&type<mud::Node3>());
-        module.m_types.push_back(&type<mud::ParticleGenerator>());
-        module.m_types.push_back(&type<mud::Particles>());
-        module.m_types.push_back(&type<mud::PbrDiffuseMode>());
-        module.m_types.push_back(&type<mud::PbrMaterialBlock>());
-        module.m_types.push_back(&type<mud::PbrSpecularMode>());
-        module.m_types.push_back(&type<mud::Prefab>());
-        module.m_types.push_back(&type<mud::PrefabNode>());
-        module.m_types.push_back(&type<mud::PrefabType>());
-        module.m_types.push_back(&type<mud::Program>());
-        module.m_types.push_back(&type<mud::Radiance>());
-        module.m_types.push_back(&type<mud::RenderFrame>());
-        module.m_types.push_back(&type<mud::RenderQuad>());
-        module.m_types.push_back(&type<mud::Rig>());
-        module.m_types.push_back(&type<mud::Scene>());
-        module.m_types.push_back(&type<mud::ShaderType>());
-        module.m_types.push_back(&type<mud::Shading>());
-        module.m_types.push_back(&type<mud::ShadowFlags>());
-        module.m_types.push_back(&type<mud::Shot>());
-        module.m_types.push_back(&type<mud::Skeleton>());
-        module.m_types.push_back(&type<mud::Skin>());
-        module.m_types.push_back(&type<mud::Sun>());
-        module.m_types.push_back(&type<mud::SymbolIndex>());
-        module.m_types.push_back(&type<mud::Texture>());
-        module.m_types.push_back(&type<mud::TextureChannel>());
-        module.m_types.push_back(&type<mud::TextureHint>());
-        module.m_types.push_back(&type<mud::TextureSampler>());
-        module.m_types.push_back(&type<mud::Transform>());
-        module.m_types.push_back(&type<mud::UnshadedMaterialBlock>());
-        module.m_types.push_back(&type<mud::Viewport>());
-        module.m_types.push_back(&type<std::vector<mud::PrefabNode>>());
-        module.m_types.push_back(&type<mud::BlockCopy>());
-        module.m_types.push_back(&type<mud::BlockFilter>());
-        module.m_types.push_back(&type<mud::BlockParticles>());
-        module.m_types.push_back(&type<mud::BlockResolve>());
-        module.m_types.push_back(&type<mud::BlockSky>());
-        module.m_types.push_back(&type<mud::DrawBlock>());
-        module.m_types.push_back(&type<mud::ParticleEmitter>());
-        module.m_types.push_back(&type<mud::RenderTarget>());
+        m.m_types.push_back(&type<mud::Animated>());
+        m.m_types.push_back(&type<mud::AnimatedTrack>());
+        m.m_types.push_back(&type<mud::Animation>());
+        m.m_types.push_back(&type<mud::AnimationPlay>());
+        m.m_types.push_back(&type<mud::AnimationTrack>());
+        m.m_types.push_back(&type<mud::Background>());
+        m.m_types.push_back(&type<mud::BackgroundMode>());
+        m.m_types.push_back(&type<mud::BaseMaterialBlock>());
+        m.m_types.push_back(&type<mud::BlendMode>());
+        m.m_types.push_back(&type<mud::Bone>());
+        m.m_types.push_back(&type<mud::Camera>());
+        m.m_types.push_back(&type<mud::CullMode>());
+        m.m_types.push_back(&type<mud::DepthDraw>());
+        m.m_types.push_back(&type<mud::DepthTest>());
+        m.m_types.push_back(&type<mud::EmitterDirection>());
+        m.m_types.push_back(&type<mud::Environment>());
+        m.m_types.push_back(&type<mud::Filter>());
+        m.m_types.push_back(&type<mud::FrameBuffer>());
+        m.m_types.push_back(&type<mud::Frustum>());
+        m.m_types.push_back(&type<mud::FrustumSlice>());
+        m.m_types.push_back(&type<mud::GfxBlock>());
+        m.m_types.push_back(&type<mud::GfxContext>());
+        m.m_types.push_back(&type<mud::GfxSystem>());
+        m.m_types.push_back(&type<mud::Gnode>());
+        m.m_types.push_back(&type<mud::ImmediateDraw>());
+        m.m_types.push_back(&type<mud::Interpolation>());
+        m.m_types.push_back(&type<mud::IsometricAngle>());
+        m.m_types.push_back(&type<mud::Item>());
+        m.m_types.push_back(&type<mud::ItemFlag>());
+        m.m_types.push_back(&type<mud::ItemShadow>());
+        m.m_types.push_back(&type<mud::Joint>());
+        m.m_types.push_back(&type<mud::Light>());
+        m.m_types.push_back(&type<mud::LightType>());
+        m.m_types.push_back(&type<mud::MSAA>());
+        m.m_types.push_back(&type<mud::Material>());
+        m.m_types.push_back(&type<mud::MaterialFlag>());
+        m.m_types.push_back(&type<mud::MaterialParam<float>>());
+        m.m_types.push_back(&type<mud::MaterialParam<mud::Colour>>());
+        m.m_types.push_back(&type<mud::Mesh>());
+        m.m_types.push_back(&type<mud::Model>());
+        m.m_types.push_back(&type<mud::ModelItem>());
+        m.m_types.push_back(&type<mud::Month>());
+        m.m_types.push_back(&type<mud::Node3>());
+        m.m_types.push_back(&type<mud::ParticleGenerator>());
+        m.m_types.push_back(&type<mud::Particles>());
+        m.m_types.push_back(&type<mud::PbrDiffuseMode>());
+        m.m_types.push_back(&type<mud::PbrMaterialBlock>());
+        m.m_types.push_back(&type<mud::PbrSpecularMode>());
+        m.m_types.push_back(&type<mud::Prefab>());
+        m.m_types.push_back(&type<mud::PrefabNode>());
+        m.m_types.push_back(&type<mud::PrefabType>());
+        m.m_types.push_back(&type<mud::Program>());
+        m.m_types.push_back(&type<mud::Radiance>());
+        m.m_types.push_back(&type<mud::RenderFrame>());
+        m.m_types.push_back(&type<mud::RenderQuad>());
+        m.m_types.push_back(&type<mud::Rig>());
+        m.m_types.push_back(&type<mud::Scene>());
+        m.m_types.push_back(&type<mud::ShaderType>());
+        m.m_types.push_back(&type<mud::Shading>());
+        m.m_types.push_back(&type<mud::ShadowFlags>());
+        m.m_types.push_back(&type<mud::Shot>());
+        m.m_types.push_back(&type<mud::Skeleton>());
+        m.m_types.push_back(&type<mud::Skin>());
+        m.m_types.push_back(&type<mud::Sun>());
+        m.m_types.push_back(&type<mud::SymbolIndex>());
+        m.m_types.push_back(&type<mud::Texture>());
+        m.m_types.push_back(&type<mud::TextureChannel>());
+        m.m_types.push_back(&type<mud::TextureHint>());
+        m.m_types.push_back(&type<mud::TextureSampler>());
+        m.m_types.push_back(&type<mud::Transform>());
+        m.m_types.push_back(&type<mud::UnshadedMaterialBlock>());
+        m.m_types.push_back(&type<mud::Viewport>());
+        m.m_types.push_back(&type<std::vector<mud::PrefabNode>>());
+        m.m_types.push_back(&type<mud::BlockCopy>());
+        m.m_types.push_back(&type<mud::BlockFilter>());
+        m.m_types.push_back(&type<mud::BlockParticles>());
+        m.m_types.push_back(&type<mud::BlockResolve>());
+        m.m_types.push_back(&type<mud::BlockSky>());
+        m.m_types.push_back(&type<mud::DrawBlock>());
+        m.m_types.push_back(&type<mud::RenderTarget>());
+        m.m_types.push_back(&type<mud::ParticleEmitter>());
     
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node(val<mud::Gnode>(args[0]), args[1], val<mud::vec3>(args[2]), val<mud::quat>(args[3]), val<mud::vec3>(args[4]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "object", Ref(), Param::Flags(Param::Nullable|Param::Default) }, { "position", var(mud::vec3()), Param::Default }, { "rotation", var(mud::quat()), Param::Default }, { "scale", var(mud::vec3()), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "node", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::node), func, params, Ref(type<mud::Gnode>()) });
+            static Function f = { &namspc({ "mud", "gfx" }), "node", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::node), func, params, Ref(type<mud::Gnode>()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node(val<mud::Gnode>(args[0]), args[1], val<mud::Transform>(args[2]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "object", Ref(), Param::Nullable }, { "transform", var(mud::Transform()) } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "node", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::Transform&)>(&mud::gfx::node), func, params, Ref(type<mud::Gnode>()) });
+            static Function f = { &namspc({ "mud", "gfx" }), "node", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::Transform&)>(&mud::gfx::node), func, params, Ref(type<mud::Gnode>()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::transform(val<mud::Gnode>(args[0]), args[1], val<mud::vec3>(args[2]), val<mud::quat>(args[3]), val<mud::vec3>(args[4]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "object", Ref(), Param::Nullable }, { "position", var(mud::vec3()) }, { "rotation", var(mud::quat()) }, { "scale", var(mud::vec3()) } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "transform", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::transform), func, params, Ref(type<mud::Gnode>()) });
+            static Function f = { &namspc({ "mud", "gfx" }), "transform", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::transform), func, params, Ref(type<mud::Gnode>()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::transform(val<mud::Gnode>(args[0]), args[1], val<mud::vec3>(args[2]), val<mud::quat>(args[3]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "object", Ref(), Param::Nullable }, { "position", var(mud::vec3()) }, { "rotation", var(mud::quat()) } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "transform", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::vec3&, const mud::quat&)>(&mud::gfx::transform), func, params, Ref(type<mud::Gnode>()) });
+            static Function f = { &namspc({ "mud", "gfx" }), "transform", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::vec3&, const mud::quat&)>(&mud::gfx::transform), func, params, Ref(type<mud::Gnode>()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node_model(val<mud::Gnode>(args[0]), val<mud::Model>(args[1]), val<mud::vec3>(args[2]), val<mud::quat>(args[3]), val<mud::vec3>(args[4]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "model", Ref(type<mud::Model>()) }, { "position", var(mud::vec3()) }, { "rotation", var(mud::quat()), Param::Default }, { "scale", var(mud::vec3()), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "node_model", function_id<mud::Item&(*)(mud::Gnode&, const mud::Model&, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::node_model), func, params, Ref(type<mud::Item>()) });
+            static Function f = { &namspc({ "mud", "gfx" }), "node_model", function_id<mud::Item&(*)(mud::Gnode&, const mud::Model&, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::node_model), func, params, Ref(type<mud::Item>()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node_shape(val<mud::Gnode>(args[0]), val<mud::Shape>(args[1]), val<mud::Symbol>(args[2]), val<mud::vec3>(args[3]), val<mud::quat>(args[4]), val<mud::vec3>(args[5]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "shape", Ref(type<mud::Shape>()) }, { "symbol", var(mud::Symbol()) }, { "position", var(mud::vec3()) }, { "rotation", var(mud::quat()), Param::Default }, { "scale", var(mud::vec3()), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "node_shape", function_id<mud::Item&(*)(mud::Gnode&, const mud::Shape&, const mud::Symbol&, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::node_shape), func, params, Ref(type<mud::Item>()) });
+            static Function f = { &namspc({ "mud", "gfx" }), "node_shape", function_id<mud::Item&(*)(mud::Gnode&, const mud::Shape&, const mud::Symbol&, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::node_shape), func, params, Ref(type<mud::Item>()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::shape(val<mud::Gnode>(args[0]), val<mud::Shape>(args[1]), val<mud::Symbol>(args[2]), val<uint32_t>(args[3]), &val<mud::Material>(args[4]), val<size_t>(args[5]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "shape", Ref(type<mud::Shape>()) }, { "symbol", var(mud::Symbol()) }, { "flags", var(uint32_t()), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t()), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "shape", function_id<mud::Item&(*)(mud::Gnode&, const mud::Shape&, const mud::Symbol&, uint32_t, mud::Material*, size_t)>(&mud::gfx::shape), func, params, Ref(type<mud::Item>()) });
+            static Function f = { &namspc({ "mud", "gfx" }), "shape", function_id<mud::Item&(*)(mud::Gnode&, const mud::Shape&, const mud::Symbol&, uint32_t, mud::Material*, size_t)>(&mud::gfx::shape), func, params, Ref(type<mud::Item>()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::gfx::draw(val<mud::Gnode>(args[0]), val<mud::Shape>(args[1]), val<mud::Symbol>(args[2]), val<uint32_t>(args[3])); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "shape", Ref(type<mud::Shape>()) }, { "symbol", var(mud::Symbol()) }, { "flags", var(uint32_t()), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "draw", function_id<void(*)(mud::Gnode&, const mud::Shape&, const mud::Symbol&, uint32_t)>(&mud::gfx::draw), func, params, Var() });
+            static Function f = { &namspc({ "mud", "gfx" }), "draw", function_id<void(*)(mud::Gnode&, const mud::Shape&, const mud::Symbol&, uint32_t)>(&mud::gfx::draw), func, params, Var() };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::sprite(val<mud::Gnode>(args[0]), val<mud::Image256>(args[1]), val<mud::vec2>(args[2]), val<uint32_t>(args[3]), &val<mud::Material>(args[4]), val<size_t>(args[5]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "image", var(mud::Image256()) }, { "size", var(mud::vec2()) }, { "flags", var(uint32_t()), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t()), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "sprite", function_id<mud::Item&(*)(mud::Gnode&, const mud::Image256&, const mud::vec2&, uint32_t, mud::Material*, size_t)>(&mud::gfx::sprite), func, params, Ref(type<mud::Item>()) });
+            static Function f = { &namspc({ "mud", "gfx" }), "sprite", function_id<mud::Item&(*)(mud::Gnode&, const mud::Image256&, const mud::vec2&, uint32_t, mud::Material*, size_t)>(&mud::gfx::sprite), func, params, Ref(type<mud::Item>()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::item(val<mud::Gnode>(args[0]), val<mud::Model>(args[1]), val<uint32_t>(args[2]), &val<mud::Material>(args[3]), val<size_t>(args[4]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "model", Ref(type<mud::Model>()) }, { "flags", var(uint32_t()), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t()), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "item", function_id<mud::Item&(*)(mud::Gnode&, const mud::Model&, uint32_t, mud::Material*, size_t)>(&mud::gfx::item), func, params, Ref(type<mud::Item>()) });
+            static Function f = { &namspc({ "mud", "gfx" }), "item", function_id<mud::Item&(*)(mud::Gnode&, const mud::Model&, uint32_t, mud::Material*, size_t)>(&mud::gfx::item), func, params, Ref(type<mud::Item>()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(mud::gfx::model(val<mud::Gnode>(args[0]), val<std::string>(args[1]), val<uint32_t>(args[2]), &val<mud::Material>(args[3]), val<size_t>(args[4]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "name", var(std::string()) }, { "flags", var(uint32_t()), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t()), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "model", function_id<mud::Item*(*)(mud::Gnode&, const std::string&, uint32_t, mud::Material*, size_t)>(&mud::gfx::model), func, params, Ref(type<mud::Item>()) });
+            static Function f = { &namspc({ "mud", "gfx" }), "model", function_id<mud::Item*(*)(mud::Gnode&, const std::string&, uint32_t, mud::Material*, size_t)>(&mud::gfx::model), func, params, Ref(type<mud::Item>()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::animated(val<mud::Gnode>(args[0]), val<mud::Item>(args[1]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "item", Ref(type<mud::Item>()) } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "animated", function_id<mud::Animated&(*)(mud::Gnode&, mud::Item&)>(&mud::gfx::animated), func, params, Ref(type<mud::Animated>()) });
+            static Function f = { &namspc({ "mud", "gfx" }), "animated", function_id<mud::Animated&(*)(mud::Gnode&, mud::Item&)>(&mud::gfx::animated), func, params, Ref(type<mud::Animated>()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::particles(val<mud::Gnode>(args[0]), val<mud::ParticleGenerator>(args[1]), val<uint32_t>(args[2]), val<size_t>(args[3]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "emitter", var(mud::ParticleGenerator()) }, { "flags", var(uint32_t()), Param::Default }, { "instances", var(size_t()), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "particles", function_id<mud::Particles&(*)(mud::Gnode&, const mud::ParticleGenerator&, uint32_t, size_t)>(&mud::gfx::particles), func, params, Ref(type<mud::Particles>()) });
+            static Function f = { &namspc({ "mud", "gfx" }), "particles", function_id<mud::Particles&(*)(mud::Gnode&, const mud::ParticleGenerator&, uint32_t, size_t)>(&mud::gfx::particles), func, params, Ref(type<mud::Particles>()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::light(val<mud::Gnode>(args[0]), val<mud::LightType>(args[1]), val<bool>(args[2]), val<mud::Colour>(args[3]), val<float>(args[4]), val<float>(args[5]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "type", var(mud::LightType()) }, { "shadows", var(bool()) }, { "colour", var(mud::Colour()) }, { "range", var(float(0.f)), Param::Default }, { "attenuation", var(float(0.5f)), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "light", function_id<mud::Light&(*)(mud::Gnode&, mud::LightType, bool, mud::Colour, float, float)>(&mud::gfx::light), func, params, Ref(type<mud::Light>()) });
+            static Function f = { &namspc({ "mud", "gfx" }), "light", function_id<mud::Light&(*)(mud::Gnode&, mud::LightType, bool, mud::Colour, float, float)>(&mud::gfx::light), func, params, Ref(type<mud::Light>()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::sun_light(val<mud::Gnode>(args[0]), val<float>(args[1]), val<float>(args[2]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "azimuth", var(float()) }, { "elevation", var(float()) } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "sun_light", function_id<mud::Light&(*)(mud::Gnode&, float, float)>(&mud::gfx::sun_light), func, params, Ref(type<mud::Light>()) });
+            static Function f = { &namspc({ "mud", "gfx" }), "sun_light", function_id<mud::Light&(*)(mud::Gnode&, float, float)>(&mud::gfx::sun_light), func, params, Ref(type<mud::Light>()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::gfx::radiance(val<mud::Gnode>(args[0]), val<std::string>(args[1]), val<mud::BackgroundMode>(args[2])); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "texture", var(std::string()) }, { "background", var(mud::BackgroundMode()) } };
-            module.m_functions.push_back({ &namspc({ "mud", "gfx" }), "radiance", function_id<void(*)(mud::Gnode&, const std::string&, mud::BackgroundMode)>(&mud::gfx::radiance), func, params, Var() });
+            static Function f = { &namspc({ "mud", "gfx" }), "radiance", function_id<void(*)(mud::Gnode&, const std::string&, mud::BackgroundMode)>(&mud::gfx::radiance), func, params, Var() };
+            m.m_functions.push_back(&f);
         }
     }
 #endif

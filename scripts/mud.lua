@@ -29,7 +29,7 @@ else
             path.join(MUD_3RDPARTY_DIR, "glm"),
             path.join(MUD_3RDPARTY_DIR, "stb"),
             path.join(MUD_3RDPARTY_DIR, "rectpacking"),
-            path.join(MUD_3RDPARTY_DIR, "json", "src"),
+            path.join(MUD_3RDPARTY_DIR, "json11"),
             path.join(MUD_3RDPARTY_DIR, "mikkt"),
             path.join(MUD_3RDPARTY_DIR, "lua"),
             path.join(MUD_3RDPARTY_DIR, "sqlite3"),
@@ -46,8 +46,8 @@ else
         mud_module("uio",  MUD_SRC_DIR, "uio",  "MUD_UIO")
         
         files {
-            path.join(MUD_SRC_DIR, "mud",    "**.h"),
-            --path.join(MUD_SRC_DIR, "mud",    "**.cpp"),
+            path.join(MUD_SRC_DIR, "mud", "**.h"),
+            path.join(MUD_SRC_DIR, "3rdparty", "**.cpp"),
             path.join(MUD_3RDPARTY_DIR, "rectpacking", "**.cpp"),
             path.join(MUD_3RDPARTY_DIR, "mikkt", "mikktspace.c"),
         }
@@ -85,7 +85,7 @@ function uses_mud()
         path.join(MUD_SRC_DIR),
         path.join(MUD_3RDPARTY_DIR, "glm"),
         path.join(MUD_3RDPARTY_DIR, "stb"),
-        path.join(MUD_3RDPARTY_DIR, "json/src"),
+        path.join(MUD_3RDPARTY_DIR, "json11"),
         path.join(MUD_3RDPARTY_DIR, "FastNoise"),
     }
     
@@ -133,7 +133,6 @@ function mud_binary(name)
         
     configuration { "asmjs", "Debug" }
         linkoptions {
-            --"-s TOTAL_MEMORY=268435456",
             "-s TOTAL_MEMORY=536870912",
             --"-s ALLOW_MEMORY_GROWTH=1",
         }

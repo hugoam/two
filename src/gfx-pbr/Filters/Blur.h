@@ -35,7 +35,7 @@ namespace mud
 		float m_vertical[5];
 	};
 
-	class _refl_ MUD_GFX_EXPORT BlockBlur : public GfxBlock
+	export_ class _refl_ MUD_GFX_EXPORT BlockBlur : public GfxBlock
 	{
 	public:
 		BlockBlur(GfxSystem& gfx_system, BlockFilter& filter);

@@ -8,7 +8,7 @@
 
 namespace mud
 {
-	struct _refl_ DepthParams
+	export_ struct _refl_ DepthParams
 	{
 		float m_depth_bias = 0.f;
 		float m_depth_normal_bias = 0.f;
@@ -16,7 +16,7 @@ namespace mud
 		float _padding;
 	};
 
-	class MUD_GFX_EXPORT PassDepth : public DrawPass
+	export_ class MUD_GFX_EXPORT PassDepth : public DrawPass
 	{
 	public:
 		PassDepth(GfxSystem& gfx_system, BlockDepth& block_depth);
@@ -28,7 +28,7 @@ namespace mud
 		BlockDepth& m_block_depth;
 	};
 
-	class _refl_ MUD_GFX_EXPORT BlockDepth : public DrawBlock
+	export_ class _refl_ MUD_GFX_EXPORT BlockDepth : public DrawBlock
 	{
 	public:
 		BlockDepth(GfxSystem& gfx_system);

@@ -7,11 +7,13 @@
 #include <uio/Generated/Forward.h>
 #include <uio/Unode.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	enum class _refl_ EditorHint : unsigned int
+	export_ enum class _refl_ EditorHint : unsigned int
 	{
 		Table,
 		Rows,

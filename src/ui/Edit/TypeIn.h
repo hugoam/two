@@ -9,10 +9,13 @@
 #include <ui/Frame/Caption.h>
 #include <ui/Style/Paint.h>
 
+#ifndef MUD_CPP_20
 #include <string>
 #include <vector>
 #include <memory>
-#include <inttypes.h>
+#include <cinttypes>
+//#include <inttypes.h>
+#endif
 
 namespace mud
 {
@@ -29,7 +32,7 @@ namespace mud
 
 	MUD_UI_EXPORT void replace_tabs(string& text, size_t tab_size = 4);
 
-	struct _refl_ MUD_UI_EXPORT TextCursor
+	export_ struct _refl_ MUD_UI_EXPORT TextCursor
 	{
 		TextCursor() {}
 		TextCursor(size_t index, uvec2 grid_index) : m_index(index), m_grid_index(grid_index) {}
@@ -42,7 +45,7 @@ namespace mud
 		uvec2 m_grid_index = { SIZE_MAX, SIZE_MAX };
 	};
 
-	struct _refl_ MUD_UI_EXPORT TextSelection
+	export_ struct _refl_ MUD_UI_EXPORT TextSelection
 	{
 		TextSelection() {}
 		TextSelection(TextCursor cursor, size_t start, size_t end, bool insert_mode) : m_cursor(cursor), m_start(start), m_end(end), m_insert_mode(insert_mode) {}
@@ -55,7 +58,7 @@ namespace mud
 	using PaletteIndex = uint16_t;
 	using ColourPalette = array<uint32_t>;
 
-	class _refl_ MUD_UI_EXPORT Text
+	export_ class _refl_ MUD_UI_EXPORT Text
 	{
 	public:
 		Text(Frame& frame);
@@ -145,7 +148,7 @@ namespace mud
 		Click
 	};
 
-	class _refl_ MUD_UI_EXPORT TextEdit : public Widget
+	export_ class _refl_ MUD_UI_EXPORT TextEdit : public Widget
 	{
 	public:
 		class Action

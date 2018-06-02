@@ -2,16 +2,26 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+module mud.ui;
+#else
+#include <math/VecOps.h>
 #include <ui/Input.h>
 #include <ui/Sheet.h>
 #include <ui/Container.h>
 #include <ui/Structs/Container.h>
-
-#include <math/VecOps.h>
 #include <ui/Render/Renderer.h>
 #include <ui/Container.h>
 #include <ui/Style/Skin.h>
+#endif
 
 namespace mud
 {

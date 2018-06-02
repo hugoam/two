@@ -2,13 +2,28 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
-#include <edit/Viewer/Viewer.h>
-
-#include <ui/Render/Renderer.h>
-
+#ifdef MUD_MODULES
+module mud.edit;
+#else
 #include <obj/Vector.h>
-
+#include <math/Math.h>
+#include <ctx/InputEvent.h>
+#include <ui/Render/Renderer.h>
+#include <ui/Frame/Frame.h>
+#include <ui/Style/Layout.h>
+#include <ui/Style/Skin.h>
+#include <ui/Structs/RootSheet.h>
+#include <ui/Style/Styles.h>
+#include <ui/Controller/Controller.h>
+#include <ui/UiWindow.h>
 #include <gfx/Item.h>
 #include <gfx/Camera.h>
 #include <gfx/GfxSystem.h>
@@ -16,24 +31,14 @@
 #include <gfx/Renderer.h>
 #include <gfx/Pipeline.h>
 #include <gfx/Filter.h>
-
-#include <ui/Frame/Frame.h>
-#include <ui/Style/Layout.h>
-#include <ui/Style/Skin.h>
-#include <ui/Structs/RootSheet.h>
-#include <ui/Style/Styles.h>
-
-#include <ui/Controller/Controller.h>
-#include <ctx/InputEvent.h>
-#include <ui/UiWindow.h>
-
-#include <math/Math.h>
+#include <edit/Viewer/Viewer.h>
+#endif
 
 namespace mud
 {
 	ViewerStyles::ViewerStyles()
-		: viewport("Viewer", styles().wedge, [](Layout& l) { l.m_opacity = OPAQUE; l.m_space = SHEET; }, [](InkStyle& l) { l.m_empty = false; })
-		, viewport_fixed("ViewerFixed", viewport, [](Layout& l) { l.m_space = BLOCK; l.m_align = { CENTER, CENTER }; l.m_padding = vec4(4.f); }, [](InkStyle& l) { l.m_empty = false; l.m_border_width = vec4(1.f); l.m_border_colour = Colour::MidGrey; })
+		: viewer("Viewer", styles().wedge, [](Layout& l) { l.m_opacity = OPAQUE; l.m_space = SHEET; }, [](InkStyle& l) { l.m_empty = false; })
+		, viewer_fixed("ViewerFixed", viewer, [](Layout& l) { l.m_space = BLOCK; l.m_align = { CENTER, CENTER }; l.m_padding = vec4(4.f); }, [](InkStyle& l) { l.m_empty = false; l.m_border_width = vec4(1.f); l.m_border_colour = Colour::MidGrey; })
 		//, skin_definitions["Viewer:modal"].set({ &InkStyle::m_border_colour, Colour::White });
 		//, skin_definitions["Viewer:modal"].set({ &InkStyle::m_border_width, vec4(1.f) });
 		, space_sheet("SpaceSheet", styles().root_sheet, [](Layout& l) { l.m_opacity = OPAQUE; l.m_flow = FREE; l.m_size = vec2(600.f, 450.f); })
@@ -49,7 +54,7 @@ namespace mud
 		, m_viewport(m_camera, scene)
 		, m_pick_query()
 	{
-		this->init(viewer_styles().viewport);
+		this->init(viewer_styles().viewer);
 
 		m_viewport.m_get_size = [&] { return uvec4(this->query_size()); };
 		m_viewport.m_render = [&](Render& render) { this->render(render); };
@@ -184,7 +189,7 @@ namespace ui
 		if(self.once() && size != Zero2)
 		{
 			self.m_frame.m_content = size;
-			self.m_frame.solver(viewer_styles().viewport_fixed);
+			self.m_frame.solver(viewer_styles().viewer_fixed);
 			//dummy(self, size);
 		}
 		return self;
@@ -212,7 +217,7 @@ namespace
 		if(viewer.key_event(move.key, EventType::Pressed))
 			speed += move.velocity;
 		if(viewer.key_event(move.key, EventType::Released))
-			speed -= move.velocity;
+			speed += -move.velocity;
 	}
 
 	FreeOrbitController& free_orbit_controller(Viewer& viewer)

@@ -1,11 +1,25 @@
+//  Copyright (c) 2018 Hugo Amiard hugo.amiard@laposte.net
+//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
+//  This notice and the license may not be removed or altered from any source distribution.
 
-#include <gen/Wfc/Tileblock.h>
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+module mud.gen;
+#else
+#include <math/Axes.h>
 #include <geom/Intersect.h>
 #include <geom/Shapes.h>
 #include <geom/Symbol.h>
 #include <geom/Primitive.h>
-
+#include <ui/Input.h>
+#include <uio/Edit/Section.h>
 #include <gfx/Graph.h>
 #include <gfx/Scene.h>
 #include <gfx/Item.h>
@@ -15,29 +29,54 @@
 #include <gfx/GfxSystem.h>
 #include <gfx/Gfx.h>
 #include <edit/Viewer/Viewer.h>
+#include <gen/Wfc/Tileblock.h>
+#endif
 
 namespace mud
 {
-	Tileblock::Tileblock(const uvec3& size, const vec3& period, WaveTileset& tileset)
+	Tileblock::Tileblock(GfxSystem& gfx_system, const uvec3& size, const vec3& period, WaveTileset& tileset)
 		: m_size(size)
 		, m_period(period)
 		, m_tileset(tileset)
+		, m_aabb(vec3(0.f), 0.5f * vec3(size) * period)
 		, m_wave(m_tileset, uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), false)
 		, m_tiles(uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), UINT16_MAX)
 		, m_entropy(uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), 0U)
-	{}
+	{
+		this->load_models(gfx_system);
+	}
+
+	uvec3 Tileblock::to_coord(const vec3& position)
+	{
+		vec3 relative = position - m_aabb.bmin();
+		return clamp(uvec3(floor(relative)), uvec3(0U), m_size - 1U);
+	}
+
+	vec3 Tileblock::to_position(const uvec3& coord)
+	{
+		return m_aabb.bmin() + vec3(coord) + vec3(0.5f, 0.f, 0.5f);
+	}
+
+	void Tileblock::load_models(GfxSystem& gfx_system)
+	{
+		for(Tile& tile : m_tileset.m_tiles_flip)
+		{
+			Model* model = gfx_system.models().file((string(m_tileset.m_name) + "/" + tile.m_name).c_str());
+			quat rotation = angle_axis(tile.m_profile * float(M_PI) / 2.f, Y3);
+			m_tile_models.push_back({ model, rotation });
+		}
+	}
 
 	void Tileblock::next_frame(size_t tick, size_t delta)
 	{
 		UNUSED(delta);
-		if(!m_wave.m_solved)
+		if(m_auto_solve && !m_wave.m_solved)
 		{
 			for(size_t i = 0; i < 10; ++i)
 			{
 				this->propagate();
 				this->observe();
 			}
-			//this->solve();
 		}
 
 		m_last_tick = tick;
@@ -74,13 +113,15 @@ namespace mud
 		for(size_t x = 0; x < wave.m_width; x++) for(size_t y = 0; y < wave.m_height; y++) for(size_t z = 0; z < wave.m_depth; z++)
 		{
 			uint16_t num_states = 0;;
+			uint16_t tile = UINT16_MAX;
 
 			for(uint16_t t = 0; t < wave.m_states.size(); ++t)
 				if(wave.m_wave.at(x, y, z)[t])
-					m_tiles.at(x, y, z) = (num_states++ == 0) ? t : UINT16_MAX;
+					tile = (num_states++ == 0) ? t : UINT16_MAX;
 
-			if(num_states > 1U)
-				m_entropy.at(x, y, z) = num_states;
+			m_entropy.at(x, y, z) = num_states;
+			if(num_states == 1)
+				m_tiles.at(x, y, z) = tile;
 		}
 
 		m_wave_updated = m_last_tick;
@@ -91,8 +132,7 @@ namespace mud
 		Colour colour = { 0.3f, 0.3f, 0.3f, 0.4f };
 		Grid2 grid = { vec2{ float(tileblock.m_size.x), float(tileblock.m_size.z) } };
 
-		vec3 center = -0.5f * vec3(tileblock.m_size) * tileblock.m_period;
-		Gnode& self = gfx::node(parent, {}, center);
+		Gnode& self = gfx::node(parent, {}, tileblock.m_aabb.bmin());
 		gfx::shape(self, grid, Symbol(colour));
 	}
 
@@ -109,7 +149,7 @@ namespace mud
 		return *cubes[states];
 	}
 
-	struct TileOccurence { Model* tile; vec3 position; vec3 rotation; };
+	struct TileOccurence { vec3 m_position; quat m_rotation; };
 
 	struct VisuBlock : public NodeState
 	{
@@ -117,12 +157,11 @@ namespace mud
 		std::map<Model*, std::vector<TileOccurence>> m_tiles;
 	};
 
-	void paint_tiles(Gnode& parent, Tileblock& tileblock)
+	void paint_tiles(Gnode& parent, Tileblock& tileblock, const uvec3& focused)
 	{
 		VisuBlock& visu = parent.state<VisuBlock>();
 
-		vec3 center = -0.5f * vec3(tileblock.m_size) * tileblock.m_period;
-		Gnode& self = gfx::node(parent, {}, center);
+		Gnode& self = gfx::node(parent, {}, tileblock.m_aabb.bmin());
 
 		if(visu.m_updated < tileblock.m_wave_updated)
 		{
@@ -138,162 +177,270 @@ namespace mud
 				if(index == UINT16_MAX)
 				{
 					Model& cube = entropy_cube(parent, tileblock, uint16_t(x), uint16_t(y), uint16_t(z));
-					visu.m_tiles[&cube].push_back({ &cube, vec3(uvec3(x, y, z)) + 0.5f, Zero3 });
-					continue;
+					visu.m_tiles[&cube].push_back({ tileblock.to_position({ x, y, z }), ZeroQuat });
 				}
 				else
 				{
-					Tile& tile = tileblock.m_tileset.m_tiles_flip[index];
-
-					if(tile.m_name == "empty")
-						continue;
-
-					Model* model = self.m_scene->m_gfx_system.models().file((tileblock.m_tileset.m_name + "/" + tile.m_name).c_str());
-					visu.m_tiles[model].push_back({ model, vec3{ float(x) + 0.5f, float(y), float(z) + 0.5f }, vec3{ 0.f, -tile.m_profile * M_PI / 2.f, 0.f } });
+					TileModel& tile = tileblock.m_tile_models[index];
+					if(tile.m_model)
+						visu.m_tiles[tile.m_model].push_back({ tileblock.to_position({ x, y, z }), tile.m_rotation });
 				}
 			}
 		}
 
+		static Material& alpha_material = parent.m_scene->m_gfx_system.fetch_material("debug_alpha", "unshaded");
+
 		for(auto& model_tiles : visu.m_tiles)
 		{
-			Item& item = gfx::item(self, *model_tiles.first, 0, nullptr, model_tiles.second.size());
+			Material* material = focused == uvec3(UINT32_MAX) ? &parent.m_scene->m_gfx_system.debug_material() : &alpha_material;
+			Item& item = gfx::item(self, *model_tiles.first, 0, material, model_tiles.second.size());
 			size_t index = 0;
 			for(TileOccurence& tile : model_tiles.second)
-				item.m_instances[index++] = bxSRT(tileblock.m_tileset.m_tile_scale, tile.rotation, tile.position + center);
+				item.m_instances[index++] = bxTRS(tileblock.m_tileset.m_tile_scale, tile.m_rotation, tile.m_position);
+		}
+
+		if(focused != uvec3(UINT32_MAX))
+		{
+			uint16_t index = tileblock.m_tiles.at(focused.x, focused.y, focused.z);
+			if(index != UINT16_MAX)
+			{
+				TileModel& tile = tileblock.m_tile_models[index];
+				Gnode& node = gfx::node(self, {}, tileblock.to_position(focused), tile.m_rotation, tileblock.m_tileset.m_tile_scale);
+				if(tile.m_model)
+					gfx::item(node, *tile.m_model);
+			}
 		}
 	}
 
-	void highlighted_tile(Gnode& parent, const vec3& coord)
+	void paint_tile_cube(Gnode& parent, Tileblock& tileblock, const uvec3& coord, const Colour& outline, const Colour& fill)
 	{
-		Gnode& self = gfx::node(parent, {}, coord + 0.5f);
-		gfx::shape(self, Cube(0.5f + 0.01f), Symbol(Colour::Red));
+		Gnode& node = gfx::node(parent, {}, tileblock.to_position(coord) + Y3 * 0.5f);
+		gfx::shape(node, Cube(0.5f + 0.01f), Symbol(outline, fill));
 	}
 
-	void highlighted_tile(Gnode& parent, const uvec3& coord)
+	void paint_tile_cube(Gnode& parent, Tileblock& tileblock, const uvec3& coord)
 	{
-		Gnode& node = gfx::node(parent, {}, vec3(coord));
-		gfx::shape(node, Cube(), Symbol());
+		return paint_tile_cube(parent, tileblock, coord, Colour::Red);
 	}
 
-	void paint_tileblock(Gnode& parent, Tileblock& tileblock)
+	void paint_tileblock(Gnode& parent, Tileblock& tileblock, const uvec3& focused)
 	{
 		paint_tile_grid(parent, tileblock);
-		paint_tiles(parent, tileblock);
-
-		if(tileblock.m_highlight != uvec3(UINT32_MAX))
-			highlighted_tile(parent, vec3(tileblock.m_highlight));
+		paint_tiles(parent, tileblock, focused);
 	}
 
-
-	void tile_view(Widget& parent, Tile& tile)
+	struct ModelArrayItem
 	{
-		UNUSED(parent); UNUSED(tile);
-	}
+		Model* m_model;
+		vec3 m_position;
+		quat m_rotation;
+		vec3 m_scale;
+	};
 
 	struct ModelArrayView : public NodeState
 	{
-		GfxSystem& m_gfx_system;
-		std::vector<Model*> models;
-		std::vector<vec3> positions;
-		std::vector<quat> rotations;
-		std::vector<vec3> scales;
-
-		ModelArrayView(GfxSystem& gfx_system) : m_gfx_system(gfx_system) {}
+		ModelArrayView() {}
+		std::vector<ModelArrayItem> m_items = {};
+		float m_item_radius = 0.f;
 	};
 
-	void model_array_view(Widget& parent, std::function<void(ModelArrayView&)> query_state)
+	void model_array_view(Widget& parent, std::function<void(ModelArrayView&)> query_state, void* id = nullptr)
 	{
-		SceneViewer& viewer = ui::scene_viewer(parent);
-		ModelArrayView& state = viewer.state<ModelArrayView>(viewer.m_gfx_system);
+		Widget& self = ui::widget(parent, styles().stack);//, (void*)id);
+		ModelArrayView& state = self.state<ModelArrayView>();
 
-		if(state.models.empty())
-		{
+		if(state.m_items.empty())
 			query_state(state);
 
-			if(state.models.empty())
-				return;
+		if(state.m_items.empty())
+			return;
 
-			uint16_t num_rows = 1;
-			uint16_t num_columns = uint16_t(state.models.size()) / num_rows;
+		uint16_t num_rows = 2;
+		uint16_t num_columns = uint16_t(state.m_items.size()) / num_rows;
 
-			vec3 array_size = { float(num_columns), 1.f, float(num_rows) };
+		float size = 90.f;//parent.m_frame.m_size.x / float(num_columns);
+		SceneViewer& viewer = ui::scene_viewer(self, { num_columns * size, num_rows * size });
 
-			viewer.m_viewport.m_clear_colour = Colour::DarkGrey;
-			viewer.m_camera.set_isometric(SOUTH, array_size * 0.5f);
+		vec3 array_size = { float(num_columns - 1), 1.f, float(num_rows - 1) };
+		vec3 center = array_size * 0.5f;
 
-			float margin = 0.8f;
-			for(uint16_t i = 0; i < state.models.size(); ++i)
-			{
-				state.positions.push_back({ float(i % num_columns), 0.f, float(i / num_columns) });
-				state.scales.push_back(vec3{ 1.f / (state.models[i]->m_radius * 2.f * margin) });
-			}
+		viewer.m_viewport.m_clear_colour = Colour::DarkGrey;
+		viewer.m_camera.set_isometric(IsometricAngle(SOUTH), center);
+		viewer.m_camera.m_height = num_rows;
+
+		float margin = 1.2f;
+		for(uint16_t i = 0; i < state.m_items.size(); ++i)
+		{
+			state.m_items[i].m_position = { float(i % num_columns), 0.f, float(i / num_columns) };
+			state.m_items[i].m_scale = vec3{ 1.f / (state.m_item_radius * 2.f * margin) };
 		}
 
-		Gnode& groot = viewer.m_scene->begin();
-		for(size_t i = 0; i < state.models.size(); ++i)
-			gfx::node_model(groot, *state.models[i], state.positions[i], state.rotations[i], state.scales[i]);
+		Gnode& scene = viewer.m_scene->begin();
+		gfx::directional_light_node(scene);
+
+		for(ModelArrayItem& item : state.m_items)
+			if(item.m_model)
+				gfx::node_model(scene, *item.m_model, item.m_position, item.m_rotation, item.m_scale);
+
+		//Gnode& origin = gfx::node(scene, {}, center);
+		//gfx::draw(origin, Line(-100.f * X3, 100.f * X3), Symbol(Colour::Red));
+		//gfx::draw(origin, Line(-100.f * Y3, 100.f * Y3), Symbol(Colour::Green));
+		//gfx::draw(origin, Line(-100.f * Z3, 100.f * Z3), Symbol(Colour::Blue));
+		//
+		//Gnode& horigin = gfx::node(scene, {}, vec3(0.f, center.y, 0.f));
+		//gfx::draw(horigin, Grid2(vec2(num_columns, num_rows)), Symbol());
 	}
 
-	void tileset_view(Widget& parent, Tileset& tileset)
+	void tileset_view(Widget& parent, Tileblock& tileblock, Tileset& tileset)
 	{
 		auto query_models = [&](ModelArrayView& state)
 		{
 			for(Tile& tile : tileset.m_tiles_flip)
 			{
-				state.models.push_back(state.m_gfx_system.models().file(tile.m_name.c_str()));
-				state.rotations.push_back(angle_axis(float(M_PI) / 4.f - tile.m_profile * float(M_PI) / 2.f, Y3));
+				TileModel& tile_model = tileblock.m_tile_models[tile.m_index];
+				state.m_items.push_back({ tile_model.m_model, Zero3, rotate(tile_model.m_rotation, float(M_PI) / 4.f, Y3), Unit3 });
+				if(tile_model.m_model && state.m_item_radius == 0.f)
+					state.m_item_radius = tile_model.m_model->m_radius;
 			}
 		};
 
 		model_array_view(parent, query_models);
 	}
 
-	void tileblock_view(Widget& parent, Tileblock& tileblock)
+	void tile_states_view(Widget& parent, Tileblock& tileblock, uvec3& coord)
 	{
-		Widget& self = ui::layout(parent);
-
-		if(tileblock.m_highlight == uvec3(UINT32_MAX))
-			return;
-
-		uvec3 coord = tileblock.m_highlight;
-
 		auto query_models = [&](ModelArrayView& state)
 		{
 			for(size_t t = 0; t < tileblock.m_wave.m_states.size(); ++t)
 				if(tileblock.m_wave.m_wave.at(coord.x, coord.y, coord.z)[t])
 				{
-					Tile tile = tileblock.m_tileset.m_tiles_flip[t];
-					state.models.push_back(state.m_gfx_system.models().file(tile.m_name.c_str()));
-					state.rotations.push_back(angle_axis(float(M_PI) / 4.f - tile.m_profile * float(M_PI) / 2.f, Y3));
+					Tile& tile = tileblock.m_tileset.m_tiles_flip[t];
+					TileModel& tile_model = tileblock.m_tile_models[tile.m_index];
+					state.m_items.push_back({ tile_model.m_model, Zero3, rotate(tile_model.m_rotation, float(M_PI) / 4.f, Y3), Unit3 });
+					if(tile_model.m_model && state.m_item_radius == 0.f)
+						state.m_item_radius = tile_model.m_model->m_radius;
 				}
 		};
 
 		uint32_t id = (uint16_t(coord.x) << 16) | (uint16_t(coord.z) << 0);
-		Widget& sheet = ui::widget(self, styles().sheet, (void*)id);
-		model_array_view(sheet, query_models);
+		model_array_view(parent, query_models, (void*)id);
 	}
 
-	void tileblock_edit(Widget& parent, Tileblock& tileblock)
+	uvec3 tileblock_ray(Tileblock& tileblock, const Ray& ray)
 	{
-		Widget& self = ui::layout_span(parent, 0.2f);
-		tileblock_view(self, tileblock);
-		//tileset_view(self, tileblock.m_tileset);
+		vec3 closest;
+		if(ray_aabb_intersection(tileblock.m_aabb.bmin(), tileblock.m_aabb.bmax(), ray, closest))
+			return tileblock.to_coord(closest);
+		else
+			return uvec3(UINT_MAX);
+	}
+	
+	void paint_states(Gnode& parent, Tileblock& tileblock, const uvec3& coord)
+	{
+		paint_tile_cube(parent, tileblock, coord, Colour::AlphaWhite, Colour::AlphaGrey);
+
+		Gnode& node = gfx::node(parent, {}, vec3(coord));
+
+		size_t index = tileblock.m_wave.m_wave.indexAt(coord.x, coord.y, coord.z);
+		size_t side = ceil(sqrt(float(tileblock.m_entropy[index])));
+		size_t columns = tileblock.m_entropy[index] / side;
+
+		vec3 offset = tileblock.to_position(coord) - vec3(float(side - 1), 0.f, float(columns - 1)) * 0.5f + Y3 * 0.5f;
+
+		size_t count = 0;
+		for(uint16_t t = 0; t < tileblock.m_wave.m_states.size(); ++t)
+			if(tileblock.m_wave.m_wave.at(coord.x, coord.y, coord.z)[t])
+			{
+				vec3 position = offset + vec3(float(count % side), 0.f, float(count / side));
+				Gnode& con = gfx::node(node, {}, position, tileblock.m_tile_models[t].m_rotation, tileblock.m_tileset.m_tile_scale / 2.f);
+				if(tileblock.m_tile_models[t].m_model)
+					gfx::item(con, *tileblock.m_tile_models[t].m_model);
+				++count;
+			}
 	}
 
-	void tileblock_editor(Widget& parent, Viewer& viewport, Tileblock& tileblock)
+	void paint_connections(Gnode& parent, Tileblock& tileblock, const uvec3& coord)
+	{
+		Gnode& node = gfx::node(parent, {}, vec3(coord));
+
+		int directions = tileblock.m_wave.m_depth == 1 ? 4 : 6;
+		for(int d = 0; d < directions; d++)
+		{
+			size_t count = 0;
+
+			size_t t2 = tileblock.m_tiles.at(coord.x, coord.y, coord.z);
+			uvec3 adjacent;
+			if(neighbour(tileblock.m_wave, coord, SignedAxis(d), adjacent))
+				for(size_t t1 = 0; t1 < tileblock.m_wave.m_states.size(); ++t1)
+					if(tileblock.m_tileset.m_propagator[d].at(t2, t1))
+						if(tileblock.m_tile_models[t1].m_model)
+						{
+							vec3 position = tileblock.to_position(coord) + to_vec3(SignedAxis(d)) * float(++count) * 2.f;
+							Gnode& con = gfx::node(node, {}, position, tileblock.m_tile_models[t1].m_rotation, tileblock.m_tileset.m_tile_scale);
+							gfx::item(con, *tileblock.m_tile_models[t1].m_model);
+						}
+		}
+	}
+
+	void tileblock_edit(Widget& parent, Viewer& viewer, Tileblock& tileblock, uvec3& highlighted, uvec3& selected, uvec3& focused)
+	{
+		Section& self = section(parent, "Edit Tileblock");
+		Widget& body = *self.m_body;
+
+		if(ui::button(body, "reset").activated())
+			tileblock.reset();
+
+		if(ui::button(body, "solve 10").activated())
+			tileblock.solve(10);
+
+		ui::toggle(body, tileblock.m_auto_solve, "auto solve");
+
+		//Widget& overlay = ui::screen(viewer);
+		//tileset_view(overlay, tileblock, tileblock.m_tileset);
+
+		//if(highlighted != uvec3(UINT32_MAX))
+		//	tile_states_view(overlay, tileblock, highlighted);
+
+		highlighted = tileblock_ray(tileblock, viewer.mouse_ray());
+
+		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+			selected = tileblock_ray(tileblock, viewer.mouse_ray());
+
+		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+			selected = tileblock_ray(tileblock, viewer.mouse_ray());
+
+		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseRight, EventType::Pressed))
+			focused = tileblock_ray(tileblock, viewer.mouse_ray());
+		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseRight, EventType::Released))
+			focused = uvec3(UINT32_MAX);
+
+		if(focused != uvec3(UINT32_MAX))
+		{
+			Widget& widget = ui::popup(viewer, styles().modal, ui::PopupFlags::None);
+
+			size_t entropy = tileblock.m_entropy.at(focused.x, focused.y, focused.z);
+			if(entropy == 1)
+			{
+				paint_connections(viewer.m_scene->m_graph, tileblock, focused);
+				ui::label(widget, "Allowed Connections");
+			}
+			else
+			{
+				paint_states(viewer.m_scene->m_graph, tileblock, focused);
+				ui::label(widget, "Possible States");
+			}
+		}
+	}
+
+	void tileblock_editor(Widget& parent, Viewer& viewer, Tileblock& tileblock)
 	{
 		Widget& self = ui::layout(parent);
-		ui::layout_span(self, 0.8f);
-		tileblock_edit(self, tileblock);
 
-		vec3 closest;
-		if(ray_aabb_intersection(Zero3, vec3(tileblock.m_size), viewport.mouse_ray(), closest))
-			tileblock.m_highlight = clamp(uvec3(floor(closest)), uvec3(0U), tileblock.m_size - 1U);
-		else
-			tileblock.m_highlight = uvec3(UINT_MAX);
+		static uvec3 highlighted = uvec3(UINT32_MAX);
+		static uvec3 selected = uvec3(UINT32_MAX);
+		static uvec3 focused = uvec3(UINT32_MAX);
 
-		if(ray_aabb_intersection(Zero3, vec3(tileblock.m_size), viewport.mouse_ray(), closest))
-			highlighted_tile(viewport.m_scene->m_graph, floor(closest));
+		tileblock_edit(self, viewer, tileblock, highlighted, selected, focused);
 	}
 
 }

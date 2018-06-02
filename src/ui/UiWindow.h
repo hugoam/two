@@ -10,11 +10,13 @@
 #include <ui/Generated/Forward.h>
 #include <ui/ImageAtlas.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	class _refl_ MUD_UI_EXPORT UiWindow : public NonCopy
+	export_ class _refl_ MUD_UI_EXPORT UiWindow : public NonCopy
 	{
 	public:
 		UiWindow(RenderSystem& system, cstring name, int width, int height, bool fullScreen, User* user = nullptr);

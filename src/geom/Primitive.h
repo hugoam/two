@@ -11,13 +11,13 @@
 
 namespace mud
 {
-	enum _refl_ DrawMode : unsigned int
+	export_ enum _refl_ DrawMode : unsigned int
 	{
 		OUTLINE = 0,
 		PLAIN = 1
 	};
 
-	enum class _refl_ PrimitiveType : unsigned int
+	export_ enum class _refl_ PrimitiveType : unsigned int
 	{
 		Points = 0,
 		Lines = 1,
@@ -100,25 +100,25 @@ namespace mud
 
 	using ShapeIndex = uint16_t;
 	
-	struct MUD_MATH_EXPORT Vertex
+	export_ struct MUD_MATH_EXPORT Vertex
 	{
 		static const size_t vertex_format = VertexAttribute::Position;
 		vec3 m_position;
 	};
 
-	struct MUD_MATH_EXPORT Tri
+	export_ struct MUD_MATH_EXPORT Tri
 	{
 		ShapeIndex a, b, c;
 	};
 
-	struct MUD_MATH_EXPORT ShapeVertex
+	export_ struct MUD_MATH_EXPORT ShapeVertex
 	{
 		static const size_t vertex_format = VertexAttribute::Position | VertexAttribute::Normal | VertexAttribute::Colour 
 										  | VertexAttribute::Tangent| VertexAttribute::TexCoord0 | VertexAttribute::Joints | VertexAttribute::Weights;
 		vec3 m_position; vec3 m_normal; uint32_t m_colour; vec4 m_tangent; vec2 m_uv0; uint32_t m_joints; vec4 m_weights;
 	};
 
-	struct MUD_MATH_EXPORT ShapeTriangle
+	export_ struct MUD_MATH_EXPORT ShapeTriangle
 	{
 		uint32_t a, b, c;
 	};

@@ -4,6 +4,7 @@
 #include <math/Vec.h>
 #include <gen/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <unordered_map>
 #include <vector>
 #include <array>
@@ -11,6 +12,7 @@
 #include <functional>
 #include <random>
 #include <string>
+#endif
 
 namespace mud
 {
@@ -19,14 +21,14 @@ namespace mud
 
 #define MUD_WFC_PROPAGATION_VEC
 
-	enum _refl_ Result : unsigned int
+	export_ enum _refl_ Result : unsigned int
 	{
 		kSuccess,
 		kFail,
 		kUnfinished,
 	};
 
-	struct _refl_ MUD_GEN_EXPORT Tile
+	export_ struct _refl_ MUD_GEN_EXPORT Tile
 	{
 		Tile(size_t index, string name, char symmetry, int cardinality, int profile) : m_index(index), m_name(name), m_symmetry(symmetry), m_cardinality(cardinality), m_profile(profile) {}
 		_attr_ size_t m_index;
@@ -38,7 +40,7 @@ namespace mud
 		std::array<uint32_t, 6> m_edges;
 	};
 
-	struct _refl_ MUD_GEN_EXPORT Tileset
+	export_ struct _refl_ MUD_GEN_EXPORT Tileset
 	{
 		_attr_ string m_name;
 		_attr_ vec3 m_tile_size;
@@ -66,7 +68,7 @@ namespace mud
 		DoubleGenerator() : device(), generator(device()), distribution(0.0, 1.0) {}
 	};
 
-	struct _refl_ MUD_GEN_EXPORT Wave
+	export_ struct _refl_ MUD_GEN_EXPORT Wave
 	{
 		Wave();
 		Wave(uint16_t states, uint16_t width, uint16_t height, uint16_t depth, bool periodic);
@@ -108,7 +110,7 @@ namespace mud
 		_meth_ Result solve(size_t limit);
 	};
 
-	struct _refl_ MUD_GEN_EXPORT WaveTileset : public Tileset
+	export_ struct _refl_ MUD_GEN_EXPORT WaveTileset : public Tileset
 	{
 		array_3d<ubool> m_propagator[6];
 
@@ -120,11 +122,13 @@ namespace mud
 		array_3d<ubool>& side(SignedAxis axis) { return m_propagator[size_t(axis)]; }
 	};
 
-	struct _refl_ MUD_GEN_EXPORT TileWave : public Wave
+	export_ struct _refl_ MUD_GEN_EXPORT TileWave : public Wave
 	{
 		TileWave();
 		_constr_ TileWave(WaveTileset& tileset, uint16_t width, uint16_t height, uint16_t depth, bool periodic);
 	};
+
+	MUD_GEN_EXPORT bool neighbour(Wave& wave, const uvec3& coord, SignedAxis d, uvec3& neighbour);
 
 	MUD_GEN_EXPORT _func_ void parse_json_tileset(const string& path, const string& subset, Tileset& outputTileset);
 	MUD_GEN_EXPORT _func_ void parse_json_wave_tileset(const string& path, const string& subset, WaveTileset& outputTileset);

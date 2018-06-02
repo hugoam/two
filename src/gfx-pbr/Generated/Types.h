@@ -2,6 +2,7 @@
 
 #include <gfx-pbr/Generated/Forward.h>
 
+#ifndef MUD_MODULES
 #include <obj/Generated/Types.h>
 #include <math/Generated/Types.h>
 #include <geom/Generated/Types.h>
@@ -9,42 +10,45 @@
 
 #include <obj/Type.h>
 #include <obj/Proto.h>
+#endif
 
+#ifndef MUD_CPP_20
 #include <string>
 #include <vector>
-#include <stdint.h>
+#include <cstdint>
+#endif
 
 
 namespace mud
 {
     // Exported types
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::CSMFilterMode>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::ShaderModeShadow>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::ShaderOptionBlur>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::ShaderOptionDofBlur>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::ShaderOptionGlow>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::ShaderOptionLight>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::ShaderOptionRadiance>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::ShaderOptionShadow>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::TonemapMode>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::TonemapShaderMode>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::TonemapShaderOption>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::CSMFilterMode>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::ShaderModeShadow>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::ShaderOptionBlur>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::ShaderOptionDofBlur>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::ShaderOptionGlow>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::ShaderOptionLight>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::ShaderOptionRadiance>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::ShaderOptionShadow>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::TonemapMode>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::TonemapShaderMode>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::TonemapShaderOption>();
     
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BCS>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::DepthParams>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofBlur>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::Glow>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightShadow>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::ReflectionProbe>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::RenderFilters>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::Tonemap>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockBlur>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockDofBlur>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockGlow>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockReflection>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockTonemap>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockDepth>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockLight>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockRadiance>();
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockShadow>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BCS>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::DepthParams>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofBlur>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Glow>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightShadow>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::ReflectionProbe>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::RenderFilters>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Tonemap>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockBlur>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockDofBlur>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockGlow>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockReflection>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockTonemap>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockDepth>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockLight>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockRadiance>();
+    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockShadow>();
 }

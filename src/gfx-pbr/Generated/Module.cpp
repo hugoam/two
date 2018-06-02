@@ -1,3 +1,13 @@
+#ifdef MUD_CPP_20
+#include <cassert>
+#include <cstdint>
+#include <climits>
+#include <cfloat>
+import std.core;
+import std.memory;
+import std.threading;
+import std.regex;
+#endif
 
 #include <gfx-pbr/Generated/Module.h>
 
@@ -14,10 +24,10 @@ namespace mud
 		: Module("mud::gfxpbr")
 	{
         // ensure dependencies are instantiated
-        mudobj::module();
-        mudmath::module();
-        mudgeom::module();
-        mudgfx::module();
+        mudobj::m();
+        mudmath::m();
+        mudgeom::m();
+        mudgfx::m();
 
 #ifdef MUD_GFX_PBR_REFLECT
         // setup reflection meta data
@@ -30,6 +40,6 @@ namespace mud
 extern "C"
 MUD_GFX_PBR_EXPORT Module& getModule()
 {
-	return mudgfxpbr::module();
+	return mudgfxpbr::m();
 }
 #endif

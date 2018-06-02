@@ -2,22 +2,31 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <gfx/Generated/Types.h>
-#include <gfx/Material.h>
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+module mud.gfx;
+#else
 #include <obj/Type.h>
 #include <obj/Indexer.h>
 #include <obj/String/StringConvert.h>
 #include <math/VecOps.h>
-
+#include <gfx/Generated/Types.h>
+#include <gfx/Material.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Texture.h>
 #include <gfx/Skeleton.h>
 #include <gfx/Program.h>
 #include <gfx/Asset.h>
+#endif
 
 #include <bgfx/bgfx.h>
-#include <bx/readerwriter.h>
 
 namespace mud
 {

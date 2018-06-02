@@ -9,7 +9,7 @@
 #include <gfx/Generated/Forward.h>
 #include <gfx/Shader.h>
 
-#include <stdint.h>
+#include <cstdint>
 
 #ifndef MUD_GENERATOR_SKIP_INCLUDES
 #include <bgfx/bgfx.h>
@@ -23,7 +23,7 @@ namespace mud
 
 	MUD_GFX_EXPORT bgfx::VertexDecl vertex_decl(size_t vertex_format);
 
-	enum class _refl_ TextureSampler : unsigned int
+	export_ enum class _refl_ TextureSampler : unsigned int
 	{
 		Source0 = 0,
 		Source1 = 1,
@@ -79,7 +79,7 @@ namespace mud
 	both are orthogonal
 	*/
 
-	struct MUD_GFX_EXPORT Pass
+	export_ struct MUD_GFX_EXPORT Pass
 	{
 		RenderTarget* m_target = nullptr;
 		bgfx::FrameBufferHandle m_fbo = BGFX_INVALID_HANDLE;
@@ -93,7 +93,7 @@ namespace mud
 		uint8_t m_sub_pass = 0;
 	};
 
-	struct _refl_ MUD_GFX_EXPORT RenderFrame
+	export_ struct _refl_ MUD_GFX_EXPORT RenderFrame
 	{
 		uint32_t m_frame;
 		float m_time;
@@ -103,7 +103,7 @@ namespace mud
 
 	struct RenderFilters;
 
-	struct MUD_GFX_EXPORT Render : public NonCopy
+	export_ struct MUD_GFX_EXPORT Render : public NonCopy
 	{
 		Render(Viewport& viewport, RenderTarget& target, RenderFrame& frame);
 		Render(Viewport& viewport, bgfx::FrameBufferHandle& target_fbo, RenderFrame& frame);
@@ -160,7 +160,7 @@ namespace mud
 		static const uint8_t s_ui_pass_id = 255;
 	};
 
-	class _refl_ MUD_GFX_EXPORT GfxBlock
+	export_ class _refl_ MUD_GFX_EXPORT GfxBlock
 	{
 	public:
 		GfxBlock(GfxSystem& gfx_system, Type& type);
@@ -185,7 +185,7 @@ namespace mud
 		static uint8_t s_block_index;
 	};
 
-	class _refl_ MUD_GFX_EXPORT DrawBlock : public GfxBlock
+	export_ class _refl_ MUD_GFX_EXPORT DrawBlock : public GfxBlock
 	{
 	public:
 		DrawBlock(GfxSystem& gfx_system, Type& type) : GfxBlock(gfx_system, type) { m_draw_block = true; }
@@ -194,7 +194,7 @@ namespace mud
 		virtual void submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element) = 0;
 	};
 
-	class MUD_GFX_EXPORT RenderPass
+	export_ class MUD_GFX_EXPORT RenderPass
 	{
 	public:
 		RenderPass(GfxSystem& gfx_system, const char* name, PassType pass_type);
@@ -210,7 +210,7 @@ namespace mud
 		array<GfxBlock*> m_gfx_blocks;
 	};
 	
-	struct MUD_GFX_EXPORT DrawElement
+	export_ struct MUD_GFX_EXPORT DrawElement
 	{
 		DrawElement() {}
 		DrawElement(Item& item, const ModelItem& model, const Material& material, const Skin* skin = nullptr);
@@ -224,7 +224,7 @@ namespace mud
 		uint64_t m_bgfx_state = 0;
 	};
 
-	class MUD_GFX_EXPORT DrawPass : public RenderPass
+	export_ class MUD_GFX_EXPORT DrawPass : public RenderPass
 	{
 	public:
 		DrawPass(GfxSystem& gfx_system, const char* name, PassType pass_type);
@@ -248,7 +248,7 @@ namespace mud
 		unique_ptr<Impl> m_impl;
 	};
 
-	class MUD_GFX_EXPORT Renderer : public NonCopy
+	export_ class MUD_GFX_EXPORT Renderer : public NonCopy
 	{
 	public:
 		Renderer(GfxSystem& gfx_system, Pipeline& pipeline);

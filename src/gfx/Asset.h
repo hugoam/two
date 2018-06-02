@@ -8,14 +8,15 @@
 #include <obj/Array.h>
 #include <gfx/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <map>
 #include <vector>
 #include <string>
 #include <functional>
+#include <fstream>
+#endif
 
 #include <gfx/GfxSystem.h>
-
-#include <fstream>
 
 namespace mud
 {

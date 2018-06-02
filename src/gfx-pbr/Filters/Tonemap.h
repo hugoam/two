@@ -22,7 +22,7 @@ namespace mud
 		TONEMAP_MODE,
 	};
 
-	enum class _refl_ TonemapMode : unsigned int
+	export_ enum class _refl_ TonemapMode : unsigned int
 	{
 		Linear,
 		Reinhardt,
@@ -30,7 +30,7 @@ namespace mud
 		ACES
 	};
 
-	struct _refl_ MUD_GFX_EXPORT BCS
+	export_ struct _refl_ MUD_GFX_EXPORT BCS
 	{
 		_attr_ _mut_ bool m_enabled = false;
 		_attr_ _mut_ float m_brightness = 1.0f;
@@ -38,7 +38,7 @@ namespace mud
 		_attr_ _mut_ float m_saturation = 1.0f;
 	};
 
-	struct _refl_ MUD_GFX_EXPORT Tonemap
+	export_ struct _refl_ MUD_GFX_EXPORT Tonemap
 	{
 		_attr_ _mut_ TonemapMode m_mode = TonemapMode::Linear;
 		_attr_ _mut_ bool m_enabled = false;
@@ -48,7 +48,7 @@ namespace mud
 		bgfx::TextureHandle m_color_correction = BGFX_INVALID_HANDLE;
 	};
 
-	struct _refl_ MUD_GFX_EXPORT RenderFilters
+	export_ struct _refl_ MUD_GFX_EXPORT RenderFilters
 	{
 		_attr_ _mut_ DofBlur m_dof_blur;
 		//_attr_ _mut_ Exposure m_exposure;
@@ -69,7 +69,7 @@ namespace mud
 		bgfx::UniformHandle u_exposure_params;
 	};
 
-	class _refl_ MUD_GFX_EXPORT BlockTonemap : public GfxBlock
+	export_ class _refl_ MUD_GFX_EXPORT BlockTonemap : public GfxBlock
 	{
 	public:
 		BlockTonemap(GfxSystem& gfx_system, BlockFilter& filter);

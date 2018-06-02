@@ -2,13 +2,21 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
-#include <ui/Style/Styler.h>
-
+#ifdef MUD_MODULES
+module mud.ui;
+#else
 #include <obj/Graph/Node.inl.h>
 #include <obj/Reflect/Class.h>
 #include <obj/String/StringConvert.h>
-
+#include <ui/Style/Styler.h>
 #include <ui/Style/Styles.h>
 #include <ui/Style/Skin.h>
 #include <ui/Style/Layout.h>
@@ -16,8 +24,8 @@
 #include <ui/Ui.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Structs/RootSheet.h>
-
 #include <ui/Generated/Convert.h>
+#endif
 
 namespace mud
 {
@@ -169,7 +177,8 @@ namespace mud
 		, element("Element", wedge, [](Layout& l) { l.m_space = STACK; l.m_opacity = OPAQUE; })
 
 		, label("Label", item, [](Layout& l) { l.m_align = { LEFT, CENTER }; })
-		, title("Title", item, {})
+		, title("Title", label, {}, [](InkStyle& o) { o.m_text_size = 18.f; })
+		, message("Message", label, {}, [](InkStyle& o) { o.m_text_size = 18.f; })
 		, text("Text", item, [](Layout& l) { l.m_space = { PARAGRAPH, FIXED, WRAP }; },
 							 [](InkStyle& o) { o.m_text_break = true; })
 

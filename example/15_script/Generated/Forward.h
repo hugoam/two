@@ -57,6 +57,12 @@ namespace gfx {
 }
 }
 
+namespace json11 {
+
+    
+    
+}
+
 namespace mud {
 
     

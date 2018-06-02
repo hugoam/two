@@ -40,7 +40,7 @@ namespace mud
 		CSMFilterMode m_filter_mode = CSM_PCF5;
 	};
 
-	class MUD_GFX_EXPORT PassShadow : public PassDepth
+	export_ class MUD_GFX_EXPORT PassShadow : public PassDepth
 	{
 	public:
 		PassShadow(GfxSystem& gfx_system, BlockDepth& block_depth, BlockShadow& block_shadow);
@@ -53,7 +53,7 @@ namespace mud
 		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) final;
 	};
 
-	class MUD_GFX_EXPORT PassShadowmap : public RenderPass
+	export_ class MUD_GFX_EXPORT PassShadowmap : public RenderPass
 	{
 	public:
 		PassShadowmap(GfxSystem& gfx_system, BlockShadow& block_shadow);
@@ -75,7 +75,7 @@ namespace mud
 		vec3 max = { -9000.0f, -9000.0f, -9000.0f };
 	};
 
-	struct _refl_ MUD_GFX_EXPORT LightShadow
+	export_ struct _refl_ MUD_GFX_EXPORT LightShadow
 	{
 		struct Slice
 		{
@@ -92,7 +92,7 @@ namespace mud
 		std::vector<Slice> m_slices;
 	};
 
-	class _refl_ MUD_GFX_EXPORT BlockShadow : public DrawBlock
+	export_ class _refl_ MUD_GFX_EXPORT BlockShadow : public DrawBlock
 	{
 	public:
 		BlockShadow(GfxSystem& gfx_system, BlockDepth& block_depth);

@@ -12,7 +12,7 @@ namespace mud
 {
     
 #ifdef MUD_GFX_GLTF_REFLECTION_IMPL
-    void gfxgltf_meta(Module& module)
+    void gfxgltf_meta(Module& m)
     {   
     // Base Types
     
@@ -612,39 +612,6 @@ namespace mud
     
     
         
-    // mud::glTFImport
-    {
-        static Meta meta = { type<mud::glTFImport>(), &namspc({ "mud" }), "glTFImport", sizeof(mud::glTFImport), TypeClass::Object };
-        static Class cls = { type<mud::glTFImport>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-                { type<mud::glTFImport>(), member_address(&mud::glTFImport::m_gltf), type<glTF>(), "gltf", var(glTF()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::glTFImport>();
-    }
-    
-    
-        
     // glTFMaterial
     {
         static Meta meta = { type<glTFMaterial>(), &namspc({}), "glTFMaterial", sizeof(glTFMaterial), TypeClass::Struct };
@@ -1236,56 +1203,55 @@ namespace mud
     
 
     
-        module.m_types.push_back(&type<glTF>());
-        module.m_types.push_back(&type<glTFAccessor>());
-        module.m_types.push_back(&type<glTFAlphaMode>());
-        module.m_types.push_back(&type<glTFAnimation>());
-        module.m_types.push_back(&type<glTFAnimationChannel>());
-        module.m_types.push_back(&type<glTFAnimationSampler>());
-        module.m_types.push_back(&type<glTFAnimationTarget>());
-        module.m_types.push_back(&type<glTFAttributes>());
-        module.m_types.push_back(&type<glTFBuffer>());
-        module.m_types.push_back(&type<glTFBufferView>());
-        module.m_types.push_back(&type<glTFCamera>());
-        module.m_types.push_back(&type<glTFComponentType>());
-        module.m_types.push_back(&type<glTFImage>());
-        module.m_types.push_back(&type<mud::glTFImport>());
-        module.m_types.push_back(&type<glTFInterpolation>());
-        module.m_types.push_back(&type<glTFMaterial>());
-        module.m_types.push_back(&type<glTFMaterialPBR>());
-        module.m_types.push_back(&type<glTFMesh>());
-        module.m_types.push_back(&type<glTFMorphTarget>());
-        module.m_types.push_back(&type<glTFNode>());
-        module.m_types.push_back(&type<glTFOrthographic>());
-        module.m_types.push_back(&type<glTFPerspective>());
-        module.m_types.push_back(&type<glTFPrimitive>());
-        module.m_types.push_back(&type<glTFPrimitiveType>());
-        module.m_types.push_back(&type<glTFSampler>());
-        module.m_types.push_back(&type<glTFScene>());
-        module.m_types.push_back(&type<glTFSkin>());
-        module.m_types.push_back(&type<glTFSparse>());
-        module.m_types.push_back(&type<glTFSparseIndices>());
-        module.m_types.push_back(&type<glTFSparseValues>());
-        module.m_types.push_back(&type<glTFTexture>());
-        module.m_types.push_back(&type<glTFTextureInfo>());
-        module.m_types.push_back(&type<glTFType>());
-        module.m_types.push_back(&type<std::vector<glTFAccessor>>());
-        module.m_types.push_back(&type<std::vector<glTFAnimation>>());
-        module.m_types.push_back(&type<std::vector<glTFAnimationChannel>>());
-        module.m_types.push_back(&type<std::vector<glTFAnimationSampler>>());
-        module.m_types.push_back(&type<std::vector<glTFBuffer>>());
-        module.m_types.push_back(&type<std::vector<glTFBufferView>>());
-        module.m_types.push_back(&type<std::vector<glTFCamera>>());
-        module.m_types.push_back(&type<std::vector<glTFImage>>());
-        module.m_types.push_back(&type<std::vector<glTFMaterial>>());
-        module.m_types.push_back(&type<std::vector<glTFMesh>>());
-        module.m_types.push_back(&type<std::vector<glTFMorphTarget>>());
-        module.m_types.push_back(&type<std::vector<glTFNode>>());
-        module.m_types.push_back(&type<std::vector<glTFPrimitive>>());
-        module.m_types.push_back(&type<std::vector<glTFScene>>());
-        module.m_types.push_back(&type<std::vector<glTFSkin>>());
-        module.m_types.push_back(&type<std::vector<glTFTexture>>());
-        module.m_types.push_back(&type<std::vector<int>>());
+        m.m_types.push_back(&type<glTF>());
+        m.m_types.push_back(&type<glTFAccessor>());
+        m.m_types.push_back(&type<glTFAlphaMode>());
+        m.m_types.push_back(&type<glTFAnimation>());
+        m.m_types.push_back(&type<glTFAnimationChannel>());
+        m.m_types.push_back(&type<glTFAnimationSampler>());
+        m.m_types.push_back(&type<glTFAnimationTarget>());
+        m.m_types.push_back(&type<glTFAttributes>());
+        m.m_types.push_back(&type<glTFBuffer>());
+        m.m_types.push_back(&type<glTFBufferView>());
+        m.m_types.push_back(&type<glTFCamera>());
+        m.m_types.push_back(&type<glTFComponentType>());
+        m.m_types.push_back(&type<glTFImage>());
+        m.m_types.push_back(&type<glTFInterpolation>());
+        m.m_types.push_back(&type<glTFMaterial>());
+        m.m_types.push_back(&type<glTFMaterialPBR>());
+        m.m_types.push_back(&type<glTFMesh>());
+        m.m_types.push_back(&type<glTFMorphTarget>());
+        m.m_types.push_back(&type<glTFNode>());
+        m.m_types.push_back(&type<glTFOrthographic>());
+        m.m_types.push_back(&type<glTFPerspective>());
+        m.m_types.push_back(&type<glTFPrimitive>());
+        m.m_types.push_back(&type<glTFPrimitiveType>());
+        m.m_types.push_back(&type<glTFSampler>());
+        m.m_types.push_back(&type<glTFScene>());
+        m.m_types.push_back(&type<glTFSkin>());
+        m.m_types.push_back(&type<glTFSparse>());
+        m.m_types.push_back(&type<glTFSparseIndices>());
+        m.m_types.push_back(&type<glTFSparseValues>());
+        m.m_types.push_back(&type<glTFTexture>());
+        m.m_types.push_back(&type<glTFTextureInfo>());
+        m.m_types.push_back(&type<glTFType>());
+        m.m_types.push_back(&type<std::vector<glTFAccessor>>());
+        m.m_types.push_back(&type<std::vector<glTFAnimation>>());
+        m.m_types.push_back(&type<std::vector<glTFAnimationChannel>>());
+        m.m_types.push_back(&type<std::vector<glTFAnimationSampler>>());
+        m.m_types.push_back(&type<std::vector<glTFBuffer>>());
+        m.m_types.push_back(&type<std::vector<glTFBufferView>>());
+        m.m_types.push_back(&type<std::vector<glTFCamera>>());
+        m.m_types.push_back(&type<std::vector<glTFImage>>());
+        m.m_types.push_back(&type<std::vector<glTFMaterial>>());
+        m.m_types.push_back(&type<std::vector<glTFMesh>>());
+        m.m_types.push_back(&type<std::vector<glTFMorphTarget>>());
+        m.m_types.push_back(&type<std::vector<glTFNode>>());
+        m.m_types.push_back(&type<std::vector<glTFPrimitive>>());
+        m.m_types.push_back(&type<std::vector<glTFScene>>());
+        m.m_types.push_back(&type<std::vector<glTFSkin>>());
+        m.m_types.push_back(&type<std::vector<glTFTexture>>());
+        m.m_types.push_back(&type<std::vector<int>>());
     
     }
 #endif

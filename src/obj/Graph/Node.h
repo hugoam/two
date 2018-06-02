@@ -7,13 +7,14 @@
 #include <obj/Unique.h>
 #include <obj/Type.h>
 
-/* std */
+#ifndef MUD_CPP_20
 #include <vector>
-#include <stdint.h>
+#include <cstdint>
+#endif
 
 namespace mud
 {
-	class MUD_OBJ_EXPORT NodeState
+	export_ class MUD_OBJ_EXPORT NodeState
 	{
 	public:
 		virtual ~NodeState() {}

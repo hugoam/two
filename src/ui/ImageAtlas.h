@@ -9,7 +9,9 @@
 #include <ui/Generated/Forward.h>
 #include <ui/Image.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 class GuillotineBinPack;
 
@@ -17,7 +19,7 @@ namespace mud
 {
 	struct StbRectPack;
 
-	class _refl_ MUD_UI_EXPORT ImageAtlas
+	export_ class _refl_ MUD_UI_EXPORT ImageAtlas
 	{
 	public:
 		ImageAtlas(uvec2 size);
@@ -41,7 +43,7 @@ namespace mud
 		unique_ptr<StbRectPack> m_rect_pack;
 	};
 
-	class _refl_ MUD_UI_EXPORT Sprite : public Image
+	export_ class _refl_ MUD_UI_EXPORT Sprite : public Image
 	{
 	public:
 		Sprite();
@@ -56,7 +58,7 @@ namespace mud
 		std::vector<vec4> m_frame_uvs;
 	};
 
-	class _refl_ MUD_UI_EXPORT SpriteAtlas : public ImageAtlas
+	export_ class _refl_ MUD_UI_EXPORT SpriteAtlas : public ImageAtlas
 	{
 	public:
 		SpriteAtlas(uvec2 size);

@@ -2,27 +2,31 @@
 
 #include <ctx/Generated/Forward.h>
 
+#ifndef MUD_MODULES
 #include <obj/Generated/Types.h>
 #include <math/Generated/Types.h>
 
 #include <obj/Type.h>
 #include <obj/Proto.h>
+#endif
 
+#ifndef MUD_CPP_20
 #include <string>
 #include <vector>
-#include <stdint.h>
+#include <cstdint>
+#endif
 
 
 namespace mud
 {
     // Exported types
-    template <> MUD_CTX_EXPORT Type& type<mud::DeviceMask>();
-    template <> MUD_CTX_EXPORT Type& type<mud::DeviceType>();
-    template <> MUD_CTX_EXPORT Type& type<mud::EventType>();
-    template <> MUD_CTX_EXPORT Type& type<mud::InputModifier>();
-    template <> MUD_CTX_EXPORT Type& type<mud::KeyCode>();
-    template <> MUD_CTX_EXPORT Type& type<mud::MouseButtonCode>();
+    export_ template <> MUD_CTX_EXPORT Type& type<mud::DeviceMask>();
+    export_ template <> MUD_CTX_EXPORT Type& type<mud::DeviceType>();
+    export_ template <> MUD_CTX_EXPORT Type& type<mud::EventType>();
+    export_ template <> MUD_CTX_EXPORT Type& type<mud::InputModifier>();
+    export_ template <> MUD_CTX_EXPORT Type& type<mud::KeyCode>();
+    export_ template <> MUD_CTX_EXPORT Type& type<mud::MouseButtonCode>();
     
-    template <> MUD_CTX_EXPORT Type& type<mud::Context>();
-    template <> MUD_CTX_EXPORT Type& type<mud::RenderSystem>();
+    export_ template <> MUD_CTX_EXPORT Type& type<mud::Context>();
+    export_ template <> MUD_CTX_EXPORT Type& type<mud::RenderSystem>();
 }

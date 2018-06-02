@@ -2,11 +2,22 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+module mud.geom;
+#else
 #include <geom/Shape/Sphere.h>
 #include <geom/Shape/Icosphere.h>
 #include <geom/Shapes.h>
 #include <geom/Primitive.h>
+#endif
 
 #define ICO_SPHERE_LOD 2
 //#define MUD_SPHERE_ICOSPHERE
@@ -26,7 +37,7 @@ namespace mud
 		IcoSphere& icosphere = IcoSphere::s_levels[ICO_SPHERE_LOD];
 
 		for(const vec3& vertex : icosphere.m_vertices)
-			data.position(shape.m_position + vertex * sphere.m_radius)
+			data.position(sphere.m_center + vertex * sphere.m_radius)
 				.colour(shape.m_symbol.m_outline);
 
 		for(const IcoSphere::Line& line : icosphere.m_lines)
@@ -46,7 +57,7 @@ namespace mud
 		IcoSphere& icosphere = IcoSphere::s_levels[ICO_SPHERE_LOD];
 
 		for(const vec3& vertex : icosphere.m_vertices)
-			data.position(shape.m_position + vertex * sphere.m_radius)
+			data.position(sphere.m_center + vertex * sphere.m_radius)
 				.normal(normalize(vertex))
 				.colour(shape.m_symbol.m_fill);
 
@@ -57,7 +68,7 @@ namespace mud
 	uint16_t sphere_rings(uint lod) { return uint16_t(6 + 6 * lod); }
 	uint16_t sphere_sectors(uint lod) { return uint16_t(6 + 6 * lod); }
 
-	void sphere_vertices(float radius, uint16_t rings, uint16_t sectors, const Colour& colour, MeshData& data)
+	void sphere_vertices(const vec3& center, float radius, uint16_t rings, uint16_t sectors, const Colour& colour, MeshData& data)
 	{
 		float const R = 1.f / (float)(rings - 1);
 		float const S = 1.f / (float)(sectors - 1);
@@ -69,7 +80,7 @@ namespace mud
 			float const y = sin(-M_PI / 2.f + M_PI * r * R);
 			float const z = sin(2 * M_PI * s * S) * sin(M_PI * r * R);
 
-			data.position({ x * radius, y * radius, z * radius })
+			data.position(center + vec3(x, y, z) * radius)
 				.normal({ x, y, z })
 				.textureCoord({ s * S * repeat, r * R * repeat })
 				.colour(colour);
@@ -90,7 +101,7 @@ namespace mud
 		uint16_t rings = sphere_rings(uint(shape.m_symbol.m_detail));
 		uint16_t sectors = sphere_sectors(uint(shape.m_symbol.m_detail));
 
-		sphere_vertices(sphere.m_radius, rings, sectors, shape.m_symbol.m_outline, data);
+		sphere_vertices(sphere.m_center, sphere.m_radius, rings, sectors, shape.m_symbol.m_outline, data);
 
 		for(uint16_t r = 0; r < rings - 1; r++) for(uint16_t s = 0; s < sectors - 1; s++)
 		{
@@ -115,7 +126,7 @@ namespace mud
 		uint16_t rings = sphere_rings(uint(shape.m_symbol.m_detail));
 		uint16_t sectors = sphere_sectors(uint(shape.m_symbol.m_detail));
 
-		sphere_vertices(sphere.m_radius, rings, sectors, shape.m_symbol.m_fill, data);
+		sphere_vertices(sphere.m_center, sphere.m_radius, rings, sectors, shape.m_symbol.m_fill, data);
 
 		for(uint16_t r = 0; r < rings - 1; r++) for(uint16_t s = 0; s < sectors - 1; s++)
 		{

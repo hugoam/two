@@ -14,7 +14,9 @@
 #include <bgfx/bgfx.h>
 #endif
 
+#ifndef MUD_CPP_20
 #include <string>
+#endif
 
 namespace mud
 {
@@ -25,7 +27,7 @@ namespace mud
 	// - enums are sent as a define switch using enum value label
 	// - booleans are sent as a define switch using parameter name
 
-	struct MUD_GFX_EXPORT Uniform
+	export_ struct MUD_GFX_EXPORT Uniform
 	{
 		Uniform(const string& name, Address member, bgfx::UniformType::Enum type) : m_name(name), m_member(member), m_type(type), m_floats(16) {}
 
@@ -72,7 +74,7 @@ namespace mud
 		}
 	};
 
-	struct MUD_GFX_EXPORT Sampler
+	export_ struct MUD_GFX_EXPORT Sampler
 	{
 		string m_name;
 		Address m_member;
@@ -94,7 +96,7 @@ namespace mud
 		}
 	};
 
-	struct MUD_GFX_EXPORT UniformBlock
+	export_ struct MUD_GFX_EXPORT UniformBlock
 	{
 		UniformBlock(Type& type, const string& name);
 

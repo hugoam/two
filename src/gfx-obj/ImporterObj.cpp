@@ -1,10 +1,27 @@
+//  Copyright (c) 2018 Hugo Amiard hugo.amiard@laposte.net
+//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
+//  This notice and the license may not be removed or altered from any source distribution.
 
-#include <gfx/Generated/Types.h>
-#include <gfx-obj/ImporterObj.h>
+#ifdef MUD_CPP_20
+#include <cstdint>
+#include <cstring>
+import std.core;
+import std.memory;
+#else
+#include <array>
+#include <fstream>
+#include <sstream>
+#include <string>
+#endif
 
+#ifdef MUD_MODULES
+module mud.gfx-obj;
+#else
 #include <obj/Vector.h>
 #include <obj/Util/Timer.h>
-
+#include <obj/String/StringConvert.h>
+#include <math/Stream.h>
+#include <geom/Mesh.h>
 #include <gfx/Material.h>
 #include <gfx/Mesh.h>
 #include <gfx/Model.h>
@@ -13,17 +30,8 @@
 #include <gfx/Texture.h>
 #include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
-
-#include <obj/String/StringConvert.h>
-#include <math/Stream.h>
-
-#include <geom/Mesh.h>
-
-#include <array>
-
-#include <fstream>
-#include <sstream>
-#include <string>
+#include <gfx-obj/ImporterObj.h>
+#endif
 
 namespace mud
 {
@@ -220,6 +228,9 @@ namespace mud
 				m_mesh.write(PLAIN, to_array(m_shape.m_vertices), to_array(m_shape.m_indices));
 				m_model.m_items.emplace_back(ModelItem{ bxidentity(), &m_mesh, -1, Colour::White });
 				//printf("INFO: ImporterOBJ imported mesh %s material %s with %u vertices and %u faces\n", m_mesh.m_name.c_str(), m_mesh.m_material->m_name.c_str(), m_shape.m_vertices.size(), m_shape.m_indices.size() / 3);
+				//vec3 min = m_mesh.m_aabb.m_center - m_mesh.m_aabb.m_extents;
+				//vec3 max = m_mesh.m_aabb.m_center + m_mesh.m_aabb.m_extents;
+				//printf("INFO: obj - imported mesh %s bounds %i-%i, %i-%i, %i-%i\n", m_mesh.m_name.c_str(), int(min.x), int(max.x), int(min.y), int(max.y), int(min.z), int(max.z));
 			}
 
 			inline void face(ShapeVertex* face, size_t a, size_t b, size_t c)
@@ -253,13 +264,13 @@ namespace mud
 		unique_ptr<MeshWriter> mesh_writer = make_unique<MeshWriter>(model, string(model.m_name), generate_tangents);
 
 		string line;
-		string tokens[5];
 
 		while(std::getline(filestream, line))
 		{
 			if(line.back() == '\r')
 				line.pop_back();
 
+			string tokens[5];
 			split_string(line, " ", { tokens, 5 });
 
 			const string& command = tokens[0];
@@ -340,8 +351,9 @@ namespace mud
 			}
 		}
 
-		printf("INFO: Imported %i vertices in %.2f seconds\n", int(vertices.size()), clock.step());
-
+		printf("INFO: obj - imported %i vertices in %.2f seconds\n", int(vertices.size()), clock.step());
+		
+		mesh_writer = nullptr;
 		model.prepare();
 	}
 }

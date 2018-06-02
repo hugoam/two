@@ -1,5 +1,16 @@
 
 
+#ifdef MUD_CPP_20
+#include <cassert>
+#include <cstdint>
+#include <climits>
+#include <cfloat>
+import std.core;
+import std.memory;
+import std.threading;
+import std.regex;
+#endif
+
 #include <gfx/Generated/Types.h>
 #include <gfx/Generated/Module.h>
 #include <obj/Proto.h>
@@ -93,6 +104,6 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::BlockResolve>() { static Type ty("BlockResolve", type<mud::GfxBlock>()); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::BlockSky>() { static Type ty("BlockSky", type<mud::GfxBlock>()); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>() { static Type ty("DrawBlock", type<mud::GfxBlock>()); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::ParticleEmitter>() { static Type ty("ParticleEmitter", type<mud::ParticleGenerator>()); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>() { static Type ty("RenderTarget", type<mud::FrameBuffer>()); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::ParticleEmitter>() { static Type ty("ParticleEmitter", type<mud::ParticleGenerator>()); return ty; }
 }

@@ -11,7 +11,7 @@ namespace mud
 {
 	using cstring = const char*;
 
-	enum _refl_ WidgetState : unsigned int
+	export_ enum _refl_ WidgetState : unsigned int
 	{
 		NOSTATE = 0,			// default state
 		CREATED = 1 << 0,		// just created

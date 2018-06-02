@@ -1,25 +1,20 @@
 ﻿#pragma once
 
+#include <obj/Serial/Serial.h>
 #include <gfx/Generated/Forward.h>
 #include <math/Vec.h>
 #include <math/VecOps.h>
 #include <math/Colour.h>
 
+#ifndef MUD_CPP_20
 #include <map>
 #include <vector>
-
-#ifndef MUD_META_GENERATOR
-#include <json.hpp>
-using nlohmann::json;
-#else
-struct json;
 #endif
-
 
 // all the declarations here should fit the glTF 2.0 specification
 // https://github.com/KhronosGroup/glTF/tree/master/specification/2.0
 
-enum class _refl_ glTFComponentType : unsigned int
+export_ enum class _refl_ glTFComponentType : unsigned int
 {
 	BYTE = 5120,
 	UNSIGNED_BYTE = 5121,
@@ -29,7 +24,7 @@ enum class _refl_ glTFComponentType : unsigned int
 	FLOAT = 5126,
 };
 
-enum class _refl_ glTFType : unsigned int
+export_ enum class _refl_ glTFType : unsigned int
 {
 	SCALAR,
 	VEC2,
@@ -40,21 +35,21 @@ enum class _refl_ glTFType : unsigned int
 	MAT4,
 };
 
-struct _refl_ glTFBuffer
+export_ struct _refl_ glTFBuffer
 {
 	_attr_ _mut_ std::string mime_type;
 	_attr_ _mut_ std::string uri;
 	_attr_ _mut_ int byte_length;
 };
 
-struct _refl_ glTFImage
+export_ struct _refl_ glTFImage
 {
 	_attr_ _mut_ std::string mime_type;
 	_attr_ _mut_ std::string uri;
 	_attr_ _mut_ int buffer_view;
 };
 
-struct _refl_ glTFBufferView
+export_ struct _refl_ glTFBufferView
 {
 	glTFBufferView() {}
 	_attr_ _mut_ int buffer = 0;
@@ -64,7 +59,7 @@ struct _refl_ glTFBufferView
 	_attr_ _mut_ int target = 0;
 };
 
-struct _refl_ glTFSparseIndices
+export_ struct _refl_ glTFSparseIndices
 {
 	glTFSparseIndices() {}
 	_attr_ _mut_ int buffer_view;
@@ -72,14 +67,14 @@ struct _refl_ glTFSparseIndices
 	_attr_ _mut_ glTFComponentType component_type;
 };
 
-struct _refl_ glTFSparseValues
+export_ struct _refl_ glTFSparseValues
 {
 	glTFSparseValues() {}
 	_attr_ _mut_ int buffer_view;
 	_attr_ _mut_ int byte_offset = 0;
 };
 
-struct _refl_ glTFSparse
+export_ struct _refl_ glTFSparse
 {
 	glTFSparse() {}
 	_attr_ _mut_ int count = 0;
@@ -87,7 +82,7 @@ struct _refl_ glTFSparse
 	_attr_ _mut_ glTFSparseValues values;
 };
 
-struct _refl_ glTFAccessor
+export_ struct _refl_ glTFAccessor
 {
 	glTFAccessor() {}
 	glTFAccessor(int buffer_view, int byte_offset, glTFComponentType component_type, bool normalized, int count, glTFType type)
@@ -105,7 +100,7 @@ struct _refl_ glTFAccessor
 	_attr_ _mut_ glTFSparse sparse;
 };
 
-struct _refl_ glTFSampler
+export_ struct _refl_ glTFSampler
 {
 	glTFSampler() {}
 	_attr_ _mut_ int mag_filter;
@@ -115,14 +110,14 @@ struct _refl_ glTFSampler
 	_attr_ _mut_ std::string name;
 };
 
-struct _refl_ glTFTexture
+export_ struct _refl_ glTFTexture
 {
 	glTFTexture() {}
 	_attr_ _mut_ int source;
 	_attr_ _mut_ std::string name;
 };
 
-struct _refl_ glTFSkin
+export_ struct _refl_ glTFSkin
 {
 	_attr_ _mut_ std::string name;
 	_attr_ _mut_ int skeleton = -1;
@@ -130,7 +125,7 @@ struct _refl_ glTFSkin
 	_attr_ _mut_ int inverse_bind_matrices;
 };
 
-enum class _refl_ glTFPrimitiveType : unsigned int
+export_ enum class _refl_ glTFPrimitiveType : unsigned int
 {
 	POINTS = 0,
 	LINES = 1,
@@ -141,7 +136,7 @@ enum class _refl_ glTFPrimitiveType : unsigned int
 	TRIANGLE_FAN = 6
 };
 
-struct _refl_ glTFAttributes
+export_ struct _refl_ glTFAttributes
 {
 	_attr_ _mut_ int POSITION = -1;
 	_attr_ _mut_ int NORMAL = -1;
@@ -153,14 +148,14 @@ struct _refl_ glTFAttributes
 	_attr_ _mut_ int WEIGHTS_0 = -1;
 };
 
-struct _refl_ glTFMorphTarget
+export_ struct _refl_ glTFMorphTarget
 {
 	_attr_ _mut_ int POSITION = -1;
 	_attr_ _mut_ int NORMAL = -1;
 	_attr_ _mut_ int TANGENT = -1;
 };
 
-struct _refl_ glTFPrimitive
+export_ struct _refl_ glTFPrimitive
 {
 	_attr_ _mut_ glTFAttributes attributes;
 	_attr_ _mut_ int indices = -1;
@@ -169,13 +164,13 @@ struct _refl_ glTFPrimitive
 	_attr_ _mut_ std::vector<glTFMorphTarget> targets;
 };
 
-struct _refl_ glTFMesh
+export_ struct _refl_ glTFMesh
 {
 	_attr_ _mut_ std::vector<glTFPrimitive> primitives;
 	_attr_ _mut_ std::vector<float> weights;
 };
 
-struct _refl_ glTFPerspective
+export_ struct _refl_ glTFPerspective
 {
 	_attr_ _mut_ float yfov;
 	_attr_ _mut_ float zfar;
@@ -183,7 +178,7 @@ struct _refl_ glTFPerspective
 	_attr_ _mut_ float aspect_ration;
 };
 
-struct _refl_ glTFOrthographic
+export_ struct _refl_ glTFOrthographic
 {
 	_attr_ _mut_ float xmag;
 	_attr_ _mut_ float ymag;
@@ -191,14 +186,14 @@ struct _refl_ glTFOrthographic
 	_attr_ _mut_ float znear;
 };
 
-struct _refl_ glTFCamera
+export_ struct _refl_ glTFCamera
 {
 	_attr_ _mut_ std::string type;
 	_attr_ _mut_ glTFOrthographic orthographic;
 	_attr_ _mut_ glTFPerspective perspective;
 };
 
-enum class _refl_ glTFInterpolation : unsigned int
+export_ enum class _refl_ glTFInterpolation : unsigned int
 {
 	LINEAR,
 	STEP,
@@ -206,40 +201,40 @@ enum class _refl_ glTFInterpolation : unsigned int
 	CUBIC_SPLINE
 };
 
-struct _refl_ glTFAnimationTarget
+export_ struct _refl_ glTFAnimationTarget
 {
 	_attr_ _mut_ int node;
 	_attr_ _mut_ std::string path;
 };
 
-struct _refl_ glTFAnimationChannel
+export_ struct _refl_ glTFAnimationChannel
 {
 	_attr_ _mut_ int sampler;
 	_attr_ _mut_ glTFAnimationTarget target;
 };
 
-struct _refl_ glTFAnimationSampler
+export_ struct _refl_ glTFAnimationSampler
 {
 	_attr_ _mut_ glTFInterpolation interpolation;
 	_attr_ _mut_ int input;
 	_attr_ _mut_ int output;
 };
 
-struct _refl_ glTFAnimation
+export_ struct _refl_ glTFAnimation
 {
 	_attr_ _mut_ std::string name;
 	_attr_ _mut_ std::vector<glTFAnimationSampler> samplers;
 	_attr_ _mut_ std::vector<glTFAnimationChannel> channels;
 };
 
-struct _refl_ glTFTextureInfo
+export_ struct _refl_ glTFTextureInfo
 {
 	glTFTextureInfo() {}
 	_attr_ _mut_ int index = -1;
 	_attr_ _mut_ float scale = 1.f;
 };
 
-struct _refl_ glTFMaterialPBR
+export_ struct _refl_ glTFMaterialPBR
 {
 	glTFMaterialPBR() {}
 	_attr_ _mut_ mud::vec4 base_color_factor = to_vec4(mud::Colour::White);
@@ -249,14 +244,14 @@ struct _refl_ glTFMaterialPBR
 	_attr_ _mut_ glTFTextureInfo metallic_roughness_texture;
 };
 
-enum class _refl_ glTFAlphaMode : unsigned int
+export_ enum class _refl_ glTFAlphaMode : unsigned int
 {
 	OPAQUE,
 	MASK,
 	BLEND,
 };
 
-struct _refl_ glTFMaterial
+export_ struct _refl_ glTFMaterial
 {
 	glTFMaterial() {}
 	_attr_ _mut_ std::string name;
@@ -270,7 +265,7 @@ struct _refl_ glTFMaterial
 	_attr_ _mut_ glTFMaterialPBR pbr_metallic_roughness;
 };
 
-struct _refl_ glTFNode
+export_ struct _refl_ glTFNode
 {
 	glTFNode() {}
 	_attr_ _mut_ std::string name;
@@ -290,13 +285,13 @@ struct _refl_ glTFNode
 	bool is_joint = false;
 };
 
-struct _refl_ glTFScene
+export_ struct _refl_ glTFScene
 {
 	_attr_ _mut_ std::string name;
 	_attr_ _mut_ std::vector<int> nodes;
 };
 
-struct _refl_ glTF
+export_ struct _refl_ glTF
 {
 	_attr_ _mut_ std::vector<glTFBuffer> m_buffers;
 
@@ -319,28 +314,6 @@ struct _refl_ glTF
 namespace mud
 {
 	using string = std::string;
-
-	class _refl_ glTFImport
-	{
-	public:
-		glTFImport(GfxSystem& gfx_system, Model& model, const ModelConfig& model_config)
-			: m_gfx_system(gfx_system), m_model(model), m_model_config(model_config)
-		{}
-
-		GfxSystem& m_gfx_system;
-		Model& m_model;
-		const ModelConfig& m_model_config;
-
-		json m_json;
-		std::vector<uint8_t> m_glb;
-
-		_attr_ _mut_ glTF m_gltf;
-
-		std::vector<Texture*> m_imported_images;
-		std::vector<Material*> m_imported_materials;
-
-		std::map<int, Skeleton*> m_skeletons;
-	};
 
 	class ImporterGltf
 	{

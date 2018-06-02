@@ -2,23 +2,32 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <uio/Edit/Inspector.h>
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+module mud.uio;
+#else
 #include <obj/Any.h>
 #include <obj/Vector.h>
+#include <obj/Complex.h>
+#include <obj/Reflect/Class.h>
+#include <uio/Edit/Inspector.h>
 #include <ui/Structs/Container.h>
-
 #include <uio/Edit/Value.h>
 #include <uio/Edit/Section.h>
 #include <uio/Edit/Injector.h>
 #include <uio/Edit/Reflection.h>
-
-#include <obj/Complex.h>
-#include <obj/Reflect/Class.h>
+#endif
 
 namespace mud
 {
-	struct MUD_UIO_EXPORT EditState : public NodeState
+	export_ struct MUD_UIO_EXPORT EditState : public NodeState
 	{
 		Ref object = {};
 	};

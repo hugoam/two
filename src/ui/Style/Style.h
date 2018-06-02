@@ -14,7 +14,7 @@ namespace mud
 	using LayoutDef = void(*)(Layout&);
 	using InkStyleDef = void(*)(InkStyle&);
 
-	class _refl_ MUD_UI_EXPORT Style
+	export_ class _refl_ MUD_UI_EXPORT Style
 	{
 	public:
 		Style(cstring name, Style* base, LayoutDef layout, InkStyleDef skin = nullptr);

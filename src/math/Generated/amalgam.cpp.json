@@ -8,8 +8,8 @@
 		"math/Interp.cpp",
 		"math/Math.cpp",
 		"math/Stat.cpp",
+		"math/VecJson.cpp",
 		"math/VecMath.cpp",
-		"math/Vector3.cpp",
 		"math/Generated/Module.cpp",
 		"math/Generated/Types.cpp"
 	],

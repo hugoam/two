@@ -10,7 +10,7 @@
 namespace mud
 {
 #if 0
-	class MUD_UIO_EXPORT Dropper : public Widget
+	export_ class MUD_UIO_EXPORT Dropper : public Widget
 	{
 	public:
 		Dropper(Widget& parent, Type& deviceType);

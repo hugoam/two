@@ -5,7 +5,10 @@
 #pragma once
 
 #include <math/Generated/Forward.h>
-#include <stdint.h>
+
+#ifndef MUD_CPP_20
+#include <cstdint>
+#endif
 
 #ifndef MUD_META_GENERATOR
 //#define MUD_NO_GLM
@@ -76,15 +79,15 @@ namespace mud
 #ifdef  MUD_META_GENERATOR
 namespace mud
 {
-	struct _refl_ _array_ _extern_ vec2  { _constr_ vec2();   _constr_ vec2(float a);     _constr_ vec2(float x, float y);                                _attr_ _mut_ float x; _attr_ _mut_ float y; };
-	struct _refl_ _array_ _extern_ uvec2 { _constr_ uvec2();  _constr_ uvec2(uint32_t a); _constr_ uvec2(uint32_t x, uint32_t y);						   _attr_ _mut_ uint32_t x; _attr_ _mut_ uint32_t y; };
-	struct _refl_ _array_ _extern_ vec3  { _constr_ vec3();   _constr_ vec3(float a);     _constr_ vec3(float x, float y, float z);                       _attr_ _mut_ float x; _attr_ _mut_ float y; _attr_ _mut_ float z; };
-	struct _refl_ _array_ _extern_ uvec3 { _constr_ uvec3();  _constr_ uvec3(uint32_t a); _constr_ uvec3(uint32_t x, uint32_t y, uint32_t z);             _attr_ _mut_ uint32_t x;   _attr_ _mut_ uint32_t y;   _attr_ _mut_ uint32_t z; };
-	struct _refl_ _array_ _extern_ ivec3 { _constr_ ivec3();  _constr_ ivec3(int a);      _constr_ ivec3(int x, int y, int z);                            _attr_ _mut_ int x;   _attr_ _mut_ int y;   _attr_ _mut_ int z; };
-	struct _refl_ _array_ _extern_ vec4  { _constr_ vec4();   _constr_ vec4(float a);     _constr_ vec4(float w, float x, float y, float z);              _attr_ _mut_ float x; _attr_ _mut_ float y; _attr_ _mut_ float z; _attr_ _mut_ float w; };
-	struct _refl_ _array_ _extern_ uvec4 { _constr_ uvec4();  _constr_ uvec4(uint32_t a); _constr_ uvec4(uint32_t w, uint32_t x, uint32_t y, uint32_t z); _attr_ _mut_ uint32_t x; _attr_ _mut_ uint32_t y; _attr_ _mut_ uint32_t z; _attr_ _mut_ uint32_t w; };
-	struct _refl_ _array_ _extern_ quat  { _constr_ quat();   _constr_ quat(float w, float x, float y, float z);   _constr_ quat(vec3 euler_angles);      _attr_ _mut_ float x; _attr_ _mut_ float y; _attr_ _mut_ float z; _attr_ _mut_ float w; };
-	struct _refl_ _extern_ mat4 {};
+	export_ struct _refl_ _array_ _extern_ vec2  { _constr_ vec2();   _constr_ vec2(float a);     _constr_ vec2(float x, float y);                                _attr_ _mut_ float x; _attr_ _mut_ float y; };
+	export_ struct _refl_ _array_ _extern_ uvec2 { _constr_ uvec2();  _constr_ uvec2(uint32_t a); _constr_ uvec2(uint32_t x, uint32_t y);						   _attr_ _mut_ uint32_t x; _attr_ _mut_ uint32_t y; };
+	export_ struct _refl_ _array_ _extern_ vec3  { _constr_ vec3();   _constr_ vec3(float a);     _constr_ vec3(float x, float y, float z);                       _attr_ _mut_ float x; _attr_ _mut_ float y; _attr_ _mut_ float z; };
+	export_ struct _refl_ _array_ _extern_ uvec3 { _constr_ uvec3();  _constr_ uvec3(uint32_t a); _constr_ uvec3(uint32_t x, uint32_t y, uint32_t z);             _attr_ _mut_ uint32_t x;   _attr_ _mut_ uint32_t y;   _attr_ _mut_ uint32_t z; };
+	export_ struct _refl_ _array_ _extern_ ivec3 { _constr_ ivec3();  _constr_ ivec3(int a);      _constr_ ivec3(int x, int y, int z);                            _attr_ _mut_ int x;   _attr_ _mut_ int y;   _attr_ _mut_ int z; };
+	export_ struct _refl_ _array_ _extern_ vec4  { _constr_ vec4();   _constr_ vec4(float a);     _constr_ vec4(float w, float x, float y, float z);              _attr_ _mut_ float x; _attr_ _mut_ float y; _attr_ _mut_ float z; _attr_ _mut_ float w; };
+	export_ struct _refl_ _array_ _extern_ uvec4 { _constr_ uvec4();  _constr_ uvec4(uint32_t a); _constr_ uvec4(uint32_t w, uint32_t x, uint32_t y, uint32_t z); _attr_ _mut_ uint32_t x; _attr_ _mut_ uint32_t y; _attr_ _mut_ uint32_t z; _attr_ _mut_ uint32_t w; };
+	export_ struct _refl_ _array_ _extern_ quat  { _constr_ quat();   _constr_ quat(float w, float x, float y, float z);   _constr_ quat(vec3 euler_angles);      _attr_ _mut_ float x; _attr_ _mut_ float y; _attr_ _mut_ float z; _attr_ _mut_ float w; };
+	export_ struct _refl_ _extern_ mat4 {};
 
 	struct _extern_ bvec3 {};
 	struct _extern_ bvec4 {};

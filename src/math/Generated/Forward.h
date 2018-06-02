@@ -16,6 +16,24 @@
     
     
 
+namespace std {
+
+    
+    
+}
+
+namespace glm {
+
+    
+    
+}
+
+namespace json11 {
+
+    
+    
+}
+
 namespace mud {
 
     enum Clockwise : unsigned int;
@@ -42,23 +60,11 @@ namespace mud {
     struct Gauge;
 }
 
-namespace std {
-
-    
-    
-}
-
 namespace mud {
 namespace detail {
 
     
     
 }
-}
-
-namespace glm {
-
-    
-    
 }
 

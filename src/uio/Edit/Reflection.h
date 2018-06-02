@@ -20,7 +20,7 @@ namespace mud
 
 	MUD_UIO_EXPORT void meta_edit(Widget& parent, Type& type);
 
-	MUD_UIO_EXPORT void meta_browser(Widget& parent, Module& module);
+	MUD_UIO_EXPORT void meta_browser(Widget& parent, Module& m);
 	MUD_UIO_EXPORT void meta_browser(Widget& parent);
 
 	MUD_UIO_EXPORT void type_browser(Widget& parent);

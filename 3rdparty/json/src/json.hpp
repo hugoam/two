@@ -29,10 +29,12 @@ SOFTWARE.
 #ifndef NLOHMANN_JSON_HPP
 #define NLOHMANN_JSON_HPP
 
+#include <ciso646> // and, not, or
+#include <iterator>
+
 #include <algorithm> // all_of, copy, fill, find, for_each, generate_n, none_of, remove, reverse, transform
 #include <array> // array
-#include <cassert> // assert
-#include <ciso646> // and, not, or
+#include <cassert>
 #include <clocale> // lconv, localeconv
 #include <cmath> // isfinite, labs, ldexp, signbit
 #include <cstddef> // nullptr_t, ptrdiff_t, size_t

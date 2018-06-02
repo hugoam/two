@@ -6,7 +6,7 @@ project "mud_obj"
 
 	includedirs {
 		path.join(MUD_SRC_DIR),
-        path.join(MUD_3RDPARTY_DIR, "json", "src"),
+        path.join(MUD_3RDPARTY_DIR, "json11"),
 	}
 
 	files {

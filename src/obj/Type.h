@@ -6,28 +6,31 @@
 
 #include <obj/Generated/Forward.h>
 #include <obj/Cls.h>
-#include <cstddef>
 
-namespace mud
+#ifndef MUD_CPP_20
+#include <cstddef>
+#endif
+
+export_ namespace mud
 {
 	using Id = unsigned int;
 	using cstring = const char*;
 
 	class Meta;
 
-	struct Address
+	export_ struct Address
 	{
 		char value[16];
 		bool operator==(const Address& other) const;
 	};
 
-	enum class _refl_ TypeKind : unsigned int
+	export_ enum class _refl_ TypeKind : unsigned int
 	{
 		Type,
 		Prototype
 	};
 
-	class _refl_ MUD_OBJ_EXPORT Type
+	export_ class _refl_ MUD_OBJ_EXPORT Type
 	{
 	public:
 		explicit Type(const char* name, TypeKind kind = TypeKind::Type);
@@ -64,28 +67,28 @@ namespace mud
 		Type(int);
 	};
 
-	template <> inline Type& type<Type>() { return Type::type(); }
+	export_ template <> inline Type& type<Type>() { return Type::type(); }
 
-	template <class T>
+	export_ template <class T>
 	Type& type()
 	{
 		static_assert(sizeof(T) == 0, "Types must be declared by defining a type<T>() function");
 		static Type ty("INVALID"); return ty;
 	}
 
-	template <class T>
+	export_ template <class T>
 	inline Meta& meta() { return *type<T>().m_meta; }
 
-	template <class T>
+	export_ template <class T>
 	inline Class& cls() { return *type<T>().m_class; }
 
-	template <class T>
+	export_ template <class T>
 	inline Enum& enu() { return *type<T>().m_enum; }
 
-	template <class T, class U>
+	export_ template <class T, class U>
 	inline bool is(const U& object) { return object.m_type.template is<T>(); }
 
-	template <class T_Method>
+	export_ template <class T_Method>
 	Address member_address(T_Method p)
 	{
 		Address result;

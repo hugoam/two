@@ -14,7 +14,7 @@
 
 namespace mud
 {
-	class _refl_ MUD_UI_EXPORT UiTarget
+	export_ class _refl_ MUD_UI_EXPORT UiTarget
 	{
 	public:
 		UiTarget(VgRenderer& renderer, Layer& layer, bool gammaCorrected);
@@ -26,7 +26,7 @@ namespace mud
 		void render();
 	};
 
-	class MUD_UI_EXPORT VgRenderer
+	export_ class MUD_UI_EXPORT VgRenderer
 	{
 	public:
 		VgRenderer(cstring resource_path);

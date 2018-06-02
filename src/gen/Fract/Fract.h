@@ -7,9 +7,11 @@
 #include <geom/Shapes.h>
 #include <gen/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
 #include <map>
 #include <memory>
+#endif
 
 namespace mud
 {
@@ -18,7 +20,7 @@ namespace mud
 	//typedef std::function<size_t(const Pattern&, float, float, float)> PatternSampler;
 	typedef size_t(*PatternSampler)(const Pattern&, float, float, float);
 
-	enum _refl_ PatternSampling : unsigned int
+	export_ enum _refl_ PatternSampling : unsigned int
 	{
 		PATTERN_X = 0,
 		PATTERN_XY = 1,
@@ -29,7 +31,7 @@ namespace mud
 	size_t sampleXY(const Pattern& pattern, float x, float y, float depth);
 	size_t sampleZ(const Pattern& pattern, float x, float y, float depth);
 
-	struct _refl_ MUD_GEN_EXPORT Pattern
+	export_ struct _refl_ MUD_GEN_EXPORT Pattern
 	{
 	public:
 		_constr_ Pattern(Palette palette, PatternSampling sampling, float precision = 1.f, size_t step = 1);
@@ -45,7 +47,7 @@ namespace mud
 		PatternSampler m_sampler;
 	};
 
-	struct _refl_ MUD_GEN_EXPORT FractTab
+	export_ struct _refl_ MUD_GEN_EXPORT FractTab
 	{
 	public:
 		FractTab();
@@ -80,7 +82,7 @@ namespace mud
 		float angle_offset_a;
 	};
 
-	class _refl_ MUD_GEN_EXPORT Fract
+	export_ class _refl_ MUD_GEN_EXPORT Fract
 	{
 	public:
 		_constr_ Fract(size_t numTabs = 75);
@@ -103,7 +105,7 @@ namespace mud
 		std::vector<FractTab> m_tabs;
 	};
 
-	class _refl_ MUD_GEN_EXPORT FractSample
+	export_ class _refl_ MUD_GEN_EXPORT FractSample
 	{
 	public:
 		_constr_ FractSample(Fract& fract, const Rect& rect, uint16_t resolutionX, uint16_t resolutionY);

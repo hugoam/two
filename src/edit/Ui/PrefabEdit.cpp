@@ -2,27 +2,33 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
-#include <gfx/Generated/Types.h>
-#include <edit/Ui/PrefabEdit.h>
-
+#ifdef MUD_MODULES
+module mud.edit;
+#else
 #include <obj/Any.h>
 #include <obj/Vector.h>
 #include <obj/String/StringConvert.h>
 #include <obj/Reflect/Convert.h>
 #include <obj/System/System.h>
-
 #include <ui/Structs/Container.h>
 #include <uio/Unode.h>
 #include <uio/Edit/Section.h>
-
 #include <uio/Edit/Inspector.h>
 #include <uio/Edit/Method.h>
-
+#include <gfx/Generated/Types.h>
 #include <gfx/Prefab.h>
 #include <gfx/Gfx.h>
-
+#include <edit/Ui/PrefabEdit.h>
 #include <edit/EditContext.h>
+#endif
 
 namespace mud
 {

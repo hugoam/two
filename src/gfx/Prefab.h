@@ -8,11 +8,13 @@
 #include <gfx/Generated/Forward.h>
 #include <gfx/Node3.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	enum class _refl_ PrefabType : unsigned int
+	export_ enum class _refl_ PrefabType : unsigned int
 	{
 		None,
 		Item,
@@ -22,7 +24,7 @@ namespace mud
 		Light
 	};
 
-	struct _refl_ MUD_GFX_EXPORT PrefabNode
+	export_ struct _refl_ MUD_GFX_EXPORT PrefabNode
 	{
 		PrefabNode() {}
 
@@ -35,7 +37,7 @@ namespace mud
 		void draw(Gnode& parent);
 	};
 
-	class _refl_ MUD_GFX_EXPORT Prefab
+	export_ class _refl_ MUD_GFX_EXPORT Prefab
 	{
 	public:
 		Prefab(cstring name) : m_name(name) {}

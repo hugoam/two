@@ -18,7 +18,7 @@ namespace mud
 #define CMP_EPSILON 0.00001f
 #define CMP_EPSILON2 (CMP_EPSILON * CMP_EPSILON)
 
-	struct _refl_ Plane
+	export_ struct _refl_ Plane
 	{
 		vec3 m_normal;
 		float m_distance;
@@ -29,14 +29,14 @@ namespace mud
 		Plane(const vec3& p1, const vec3& p2, const vec3& p3, Clockwise dir = ANTI_CLOCKWISE);
 	};
 
-	struct _refl_ Plane3
+	export_ struct _refl_ Plane3
 	{
 		vec3 m_origin;
 		vec3 m_a;
 		vec3 m_b;
 	};
 
-	struct _refl_ Face3
+	export_ struct _refl_ Face3
 	{
 		vec3 m_vertices[3];
 
@@ -80,13 +80,13 @@ namespace mud
 		return{ plane.m_normal / l, plane.m_distance / l };
 	}
 
-	struct _refl_ Segment
+	export_ struct _refl_ Segment
 	{
 		vec3 m_start;
 		vec3 m_end;
 	};
 
-	struct _refl_ Ray
+	export_ struct _refl_ Ray
 	{
 		vec3 m_start;
 		vec3 m_end;

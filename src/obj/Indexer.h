@@ -6,17 +6,19 @@
 
 #include <obj/Generated/Forward.h>
 #include <obj/Ref.h>
+#include <obj/Type.h>
 #include <obj/NonCopy.h>
 #include <obj/Unique.h>
-#include <obj/Type.h>
 #include <obj/Util/Global.h>
 
+#ifndef MUD_CPP_20
 #include <functional>
 #include <vector>
+#endif
 
 namespace mud
 {
-	class _refl_ MUD_OBJ_EXPORT Indexer
+	export_ class _refl_ MUD_OBJ_EXPORT Indexer
 	{
 	public:
 		Indexer(Type& type) : m_type(type), m_objects(1, Ref{ type }), m_count(0), m_next(1) {}
@@ -42,7 +44,7 @@ namespace mud
 		size_t m_next;
 	};
 
-	class _refl_ MUD_OBJ_EXPORT Index : public Global<Index>, public NonCopy
+	export_ class _refl_ MUD_OBJ_EXPORT Index : public Global<Index>, public NonCopy
 	{
 	public:
 		Index() : m_indexers(MUD_MAX_TYPES) {}
@@ -61,10 +63,10 @@ namespace mud
 		std::vector<unique_ptr<Indexer>> m_indexers;
 	};
 
-	inline Indexer& indexer(Type& type) { return Index::me().indexer(type); }
-	inline uint32_t index(Type& type, uint32_t id, Ref object) { return Index::me().indexer(type).index(id, object); }
-	inline uint32_t index(Type& type, Ref object) { return Index::me().indexer(type).index(object); }
-	inline void unindex(Type& type, uint32_t id) { Index::me().indexer(type).remove(id); }
+	export_ inline Indexer& indexer(Type& type) { return Index::me().indexer(type); }
+	export_ inline uint32_t index(Type& type, uint32_t id, Ref object) { return Index::me().indexer(type).index(id, object); }
+	export_ inline uint32_t index(Type& type, Ref object) { return Index::me().indexer(type).index(object); }
+	export_ inline void unindex(Type& type, uint32_t id) { Index::me().indexer(type).remove(id); }
 
-	_func_ inline Ref indexed(Type& type, uint32_t id) { return Index::me().indexer(type).m_objects[id]; }
+	export_ _func_ inline Ref indexed(Type& type, uint32_t id) { return Index::me().indexer(type).m_objects[id]; }
 }

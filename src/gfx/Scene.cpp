@@ -2,13 +2,23 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
-#include <gfx/Generated/Types.h>
-#include <gfx/Scene.h>
-
+#ifdef MUD_MODULES
+module mud.gfx;
+#else
 #include <obj/Vector.h>
 #include <obj/Util/Timer.h>
 #include <obj/Memory/ObjectPool.h>
+#include <geom/Intersect.h>
+#include <gfx/Generated/Types.h>
+#include <gfx/Scene.h>
 #include <gfx/Renderer.h>
 #include <gfx/Item.h>
 #include <gfx/Frustum.h>
@@ -19,10 +29,8 @@
 #include <gfx/Draw.h>
 #include <gfx/Pipeline.h>
 #include <gfx/GfxSystem.h>
-
 #include <gfx-pbr/Reflection.h>
-
-#include <geom/Intersect.h>
+#endif
 
 namespace mud
 {

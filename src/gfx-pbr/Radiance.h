@@ -8,7 +8,9 @@
 #include <gfx/Filter.h>
 #include <gfx-pbr/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <map>
+#endif
 
 namespace mud
 {
@@ -18,7 +20,7 @@ namespace mud
 		RADIANCE_ARRAY,
 	};
 
-	class _refl_ MUD_GFX_EXPORT BlockRadiance : public DrawBlock
+	export_ class _refl_ MUD_GFX_EXPORT BlockRadiance : public DrawBlock
 	{
 	public:
 		BlockRadiance(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy);

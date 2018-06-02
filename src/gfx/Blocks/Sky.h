@@ -10,11 +10,13 @@
 #include <gfx/Filter.h>
 #include <gfx/Filter.h>
 
+#ifndef MUD_CPP_20
 #include <map>
+#endif
 
 namespace mud
 {
-	enum class _refl_ Month : unsigned int
+	export_ enum class _refl_ Month : unsigned int
 	{
 		January = 0,
 		February,
@@ -73,7 +75,7 @@ namespace mud
 
 	// Controls sun position according to time, month, and observer's latitude.
 	// Sun position computation based on Earth's orbital elements: https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html
-	class MUD_GFX_EXPORT SunController
+	export_ class MUD_GFX_EXPORT SunController
 	{
 	public:
 		SunController() {}
@@ -93,7 +95,7 @@ namespace mud
 	// Renders a screen-space grid of triangles.
 	// Because of performance reasons, and because sky color is smooth, sky color is computed in vertex shader.
 	// 32x32 is a reasonable size for the grid to have smooth enough colors.
-	struct MUD_GFX_EXPORT ProceduralSky
+	export_ struct MUD_GFX_EXPORT ProceduralSky
 	{
 		void init(GfxSystem& gfx_system, ivec2 vertex_count);
 		void shutdown();
@@ -108,7 +110,7 @@ namespace mud
 		bool m_preventBanding;
 	};
 
-	struct MUD_GFX_EXPORT PerezSky
+	export_ struct MUD_GFX_EXPORT PerezSky
 	{
 		struct SkyUniform
 		{
@@ -148,7 +150,7 @@ namespace mud
 		void render(Render& render);
 	};
 
-	class _refl_ MUD_GFX_EXPORT BlockSky : public GfxBlock
+	export_ class _refl_ MUD_GFX_EXPORT BlockSky : public GfxBlock
 	{
 	public:
 		BlockSky(GfxSystem& gfx_system, BlockFilter& filter);

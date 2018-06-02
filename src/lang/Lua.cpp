@@ -2,29 +2,40 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <lang/Generated/Types.h>
-#include <lang/Lua.h>
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#else
+#include <cassert>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstdarg>
+#include <vector>
+#include <type_traits>
+#endif
 
+#ifdef MUD_MODULES
+import mud.obj;
+module mud.lang;
+#else
+#include <obj/Proto.h>
 #include <obj/NonCopy.h>
 #include <obj/Reflect/Meta.h>
 #include <obj/Reflect/Enum.h>
 #include <obj/Reflect/Sequence.h>
 #include <obj/Any.h>
-#include <obj/Proto.h>
 #include <obj/Vector.h>
 #include <obj/System/System.h>
 #include <obj/Util/Dispatch.h>
 #include <obj/Util/DispatchDecl.h>
 #include <obj/Util/Global.h>
-
-#include <cassert>
-#include <cmath>
-#include <vector>
-#include <type_traits>
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
+#include <lang/Generated/Types.h>
+#include <lang/Lua.h>
+#endif
 
 extern "C"
 {
@@ -150,13 +161,13 @@ namespace mud
 		int release() { const auto n = m_num; m_num = 0; return n; }
 	};
 
-	class MUD_OBJ_EXPORT FromLua : public Dispatch<void, lua_State*, int, Var&>, public LazyGlobal<FromLua>
+	export_ class MUD_OBJ_EXPORT FromLua : public Dispatch<void, lua_State*, int, Var&>, public LazyGlobal<FromLua>
 	{
 	public:
 		FromLua();
 	};
 
-	class MUD_OBJ_EXPORT ToLua : public Dispatch<Stack, lua_State*>, public LazyGlobal<ToLua>
+	export_ class MUD_OBJ_EXPORT ToLua : public Dispatch<Stack, lua_State*>, public LazyGlobal<ToLua>
 	{
 	public:
 		ToLua();

@@ -11,7 +11,7 @@
 
 namespace mud
 {
-	class _refl_ MUD_UI_EXPORT Window : public Dockable
+	export_ class _refl_ MUD_UI_EXPORT Window : public Dockable
 	{
 	public:
 		Window(Widget* parent, void* identity)

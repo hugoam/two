@@ -10,8 +10,10 @@
 #include <ctx/KeyCode.h>
 #include <ctx/InputEvent.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
 #include <map>
+#endif
 
 namespace mud
 {
@@ -26,7 +28,7 @@ namespace mud
 		T_Element& event(DeviceType device_type, EventType event_type, int key) { return m_keyed_events[size_t(device_type)][size_t(event_type)][key]; }
 	};
 
-	struct MUD_CTX_EXPORT EventBatch : public EventMap<InputEvent*>
+	export_ struct MUD_CTX_EXPORT EventBatch : public EventMap<InputEvent*>
 	{
 		ControlNode* m_control_node;
 		//std::vector<InputEvent*> m_events;
@@ -35,7 +37,7 @@ namespace mud
 		EventBatch(ControlNode& control_node) : m_control_node(&control_node) {}
 	};
 
-	class MUD_CTX_EXPORT EventDispatcher
+	export_ class MUD_CTX_EXPORT EventDispatcher
 	{
 	public:
 		EventDispatcher(ControlNode* control_node);

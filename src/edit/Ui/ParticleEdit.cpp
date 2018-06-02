@@ -2,26 +2,38 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <edit/Generated/Types.h>
-#include <edit/Ui/ParticleEdit.h>
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+#include <cstring>
+import std.core;
+import std.memory;
+#else
+#include <fstream>
+#endif
 
-#include <uio/Unode.h>
-
-#include <uio/Edit/Inspector.h>
-#include <uio/Edit/Section.h>
-#include <uio/Edit/Value.h>
-
+#ifdef MUD_MODULES
+module mud.edit;
+#else
 #include <obj/Reflect/Method.h>
 #include <obj/Serial/Serial.h>
 #include <obj/System/System.h>
-#include <edit/Viewer/Viewer.h>
-#include <gfx/Gfx.h>
-#include <gfx/GfxSystem.h>
-
 #include <geom/Shapes.h>
 #include <geom/Symbol.h>
+#include <gfx/Gfx.h>
+#include <gfx/GfxSystem.h>
+#include <uio/Unode.h>
+#include <uio/Edit/Inspector.h>
+#include <uio/Edit/Section.h>
+#include <uio/Edit/Value.h>
+#include <edit/Generated/Types.h>
+#include <edit/Ui/ParticleEdit.h>
+#include <edit/Viewer/Viewer.h>
+#endif
 
-#include <fstream>
+#include <json11.hpp>
+using json = json11::Json;
 
 namespace mud
 {
@@ -37,32 +49,24 @@ namespace mud
 		gfx::shape(self, Cube(1.f), Symbol());
 	}
 
-	SceneViewer& particle_editor_viewport(Widget& parent)
-	{
-		SceneViewer& self = ui::twidget<SceneViewer>(parent, viewer_styles().viewport_fixed);
-		if(self.once())
-			self.m_frame.set_size(vec2{ 500.f });
-		ui::orbit_controller(self);
-		return self;
-	}
-
 	void particle_editor_viewer(Widget& parent, Call& particles)
 	{
-		SceneViewer& viewer = particle_editor_viewport(parent);
+		SceneViewer& viewer = ui::scene_viewer(parent, vec2{ 500.f });
+		ui::orbit_controller(viewer);
 
 		//viewer.m_viewport.m_clear_colour = Colour::DarkGrey;
 		//viewer.m_camera.set_isometric(SOUTH, Zero3);
 
-		Gnode& groot = viewer.m_scene->begin();
+		Gnode& scene = viewer.m_scene->begin();
 		particles.m_arguments[0] = Ref(&parent);
 		particles.m_arguments[1] = var(string("particle.ktx"));
 		particles();
 		
 		Shape* shape = val<ParticleGenerator>(particles.m_arguments[2]).m_shape.m_shape.get();
 		if(shape)
-			gfx::shape(groot, *shape, Symbol());
+			gfx::shape(scene, *shape, Symbol());
 
-		cube_test(groot);
+		cube_test(scene);
 	}
 
 	enum ParticleEditSwitch
@@ -78,7 +82,8 @@ namespace mud
 		{
 			if(std::fstream(string(system.m_resource_path) + location).good())
 			{
-				json json_value = parse_json_file(string(system.m_resource_path) + location);
+				json json_value;
+				parse_json_file(string(system.m_resource_path) + location, json_value);
 				generator = unpackt<ParticleGenerator>(json_value);
 			}
 		}
@@ -89,7 +94,8 @@ namespace mud
 		static string destination = "";
 		if(select_value(parent, SAVE_PARTICLES, destination, true))
 		{
-			json json_value = pack(Ref(&generator));
+			json json_value;
+			pack(Ref(&generator), json_value);
 			dump_json_file(string(system.m_resource_path) + destination, json_value);
 		}
 	}

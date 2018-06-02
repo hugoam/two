@@ -2,17 +2,26 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
+
+#ifdef MUD_MODULES
+module mud.ui;
+#else
+#include <obj/Iterable/Reverse.h>
+#include <obj/Reflect/Meta.h>
 #include <ui/Style/Style.h>
 #include <ui/Style/Layout.h>
 #include <ui/Style/Skin.h>
 #include <ui/Style/Styler.h>
-
-#include <obj/Iterable/Reverse.h>
-#include <obj/Reflect/Meta.h>
-
 #include <ui/Widget.h>
-
 #include <ui/Input.h>
+#endif
 
 namespace mud
 {

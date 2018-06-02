@@ -5,15 +5,18 @@
 #pragma once
 
 #include <obj/Generated/Forward.h>
-#include <stdint.h>
-#include <string.h>
+
+#ifndef MUD_CPP_20
+#include <cstdint>
+#include <cstring>
 #include <cassert>
+#endif
 
 namespace mud
 {
 	using cstring = const char*;
 
-	template <class T, size_t Size>
+	export_ template <class T, size_t Size>
 	struct carray
 	{
 		template <class... T_Args>
@@ -32,7 +35,7 @@ namespace mud
 	template <class... T_Args, size_t size = sizeof...(T_Args)>
 	carray<cstring, size> strarray(T_Args... args) { return carray<cstring, size>{ args.c_str()... }; }
 
-	template <typename T>
+	export_ template <typename T>
 	struct _refl_ _struct_ array
 	{
 	public:
@@ -60,10 +63,10 @@ namespace mud
 		size_t m_count;
 	};
 
-	template struct _refl_ _struct_ MUD_OBJ_EXPORT array<float>;
-	template struct _refl_ _struct_ MUD_OBJ_EXPORT array<cstring>;
+	export_ template struct _refl_ _struct_ MUD_OBJ_EXPORT array<float>;
+	export_ template struct _refl_ _struct_ MUD_OBJ_EXPORT array<cstring>;
 
-	template<typename T> class array_2d : public array<T>
+	export_ template<typename T> class array_2d : public array<T>
 	{
 	public:
 		array_2d(T* pointer, size_t size_x, size_t size_y) : array<T>(pointer, size_x * size_y), m_size_x(size_x), m_size_y(size_y) {}

@@ -14,7 +14,7 @@ namespace mud
     template <> MUD_OBJ_EXPORT Type& type<mud::Member::Flags>();
     
 #ifdef MUD_OBJ_REFLECTION_IMPL
-    void obj_meta(Module& module)
+    void obj_meta(Module& m)
     {   
     // Base Types
     {
@@ -164,8 +164,6 @@ namespace mud
         cls.m_content = &type<mud::Var>();
         meta_sequence<std::vector<mud::Var>, mud::Var>();
     }
-    
-    
     
     
     
@@ -446,7 +444,6 @@ namespace mud
     
     
     
-    
         
     // mud::Index
     {
@@ -631,6 +628,7 @@ namespace mud
             {
                 { type<mud::Module>(), member_address(&mud::Module::m_name), type<cstring>(), "name", var(cstring()), Member::Value },
                 { type<mud::Module>(), member_address(&mud::Module::m_types), type<std::vector<mud::Type*>>(), "types", var(std::vector<mud::Type*>()), Member::Value },
+                { type<mud::Module>(), member_address(&mud::Module::m_functions), type<std::vector<mud::Function*>>(), "functions", var(std::vector<mud::Function*>()), Member::Value },
                 { type<mud::Module>(), member_address(&mud::Module::m_path), type<cstring>(), "path", var(cstring()), Member::Value }
             },
             // methods
@@ -1358,75 +1356,77 @@ namespace mud
     
 
     
-        module.m_types.push_back(&type<mud::Call>());
-        module.m_types.push_back(&type<mud::Callable>());
-        module.m_types.push_back(&type<mud::Class>());
-        module.m_types.push_back(&type<mud::Complex>());
-        module.m_types.push_back(&type<mud::Construct>());
-        module.m_types.push_back(&type<mud::Convert>());
-        module.m_types.push_back(&type<mud::Creator>());
-        module.m_types.push_back(&type<mud::Enum>());
-        module.m_types.push_back(&type<mud::Index>());
-        module.m_types.push_back(&type<mud::Indexer>());
-        module.m_types.push_back(&type<mud::Injector>());
-        module.m_types.push_back(&type<mud::Member>());
-        module.m_types.push_back(&type<mud::Meta>());
-        module.m_types.push_back(&type<mud::Module>());
-        module.m_types.push_back(&type<mud::Namespace>());
-        module.m_types.push_back(&type<mud::None>());
-        module.m_types.push_back(&type<mud::Param>());
-        module.m_types.push_back(&type<mud::Pool>());
-        module.m_types.push_back(&type<mud::Ref>());
-        module.m_types.push_back(&type<mud::Signature>());
-        module.m_types.push_back(&type<mud::Static>());
-        module.m_types.push_back(&type<mud::System>());
-        module.m_types.push_back(&type<mud::Time>());
-        module.m_types.push_back(&type<mud::TimeSpan>());
-        module.m_types.push_back(&type<mud::Type>());
-        module.m_types.push_back(&type<mud::TypeClass>());
-        module.m_types.push_back(&type<mud::TypeKind>());
-        module.m_types.push_back(&type<mud::Var>());
-        module.m_types.push_back(&type<mud::array<float>>());
-        module.m_types.push_back(&type<mud::array<mud::cstring>>());
-        module.m_types.push_back(&type<bool>());
-        module.m_types.push_back(&type<char>());
-        module.m_types.push_back(&type<cstring>());
-        module.m_types.push_back(&type<double>());
-        module.m_types.push_back(&type<float>());
-        module.m_types.push_back(&type<int>());
-        module.m_types.push_back(&type<long>());
-        module.m_types.push_back(&type<long long>());
-        module.m_types.push_back(&type<short>());
-        module.m_types.push_back(&type<std::string>());
-        module.m_types.push_back(&type<std::vector<mud::Function*>>());
-        module.m_types.push_back(&type<std::vector<mud::Module*>>());
-        module.m_types.push_back(&type<std::vector<mud::Prototype*>>());
-        module.m_types.push_back(&type<std::vector<mud::Ref>>());
-        module.m_types.push_back(&type<std::vector<mud::Type*>>());
-        module.m_types.push_back(&type<std::vector<mud::Var>>());
-        module.m_types.push_back(&type<mud::strung>());
-        module.m_types.push_back(&type<unsigned char>());
-        module.m_types.push_back(&type<unsigned int>());
-        module.m_types.push_back(&type<unsigned long>());
-        module.m_types.push_back(&type<unsigned long long>());
-        module.m_types.push_back(&type<unsigned short>());
-        module.m_types.push_back(&type<void>());
-        module.m_types.push_back(&type<mud::Prototype>());
-        module.m_types.push_back(&type<mud::Constructor>());
-        module.m_types.push_back(&type<mud::CopyConstructor>());
-        module.m_types.push_back(&type<mud::Destructor>());
-        module.m_types.push_back(&type<mud::Function>());
-        module.m_types.push_back(&type<mud::Method>());
+        m.m_types.push_back(&type<mud::Call>());
+        m.m_types.push_back(&type<mud::Callable>());
+        m.m_types.push_back(&type<mud::Class>());
+        m.m_types.push_back(&type<mud::Complex>());
+        m.m_types.push_back(&type<mud::Construct>());
+        m.m_types.push_back(&type<mud::Convert>());
+        m.m_types.push_back(&type<mud::Creator>());
+        m.m_types.push_back(&type<mud::Enum>());
+        m.m_types.push_back(&type<mud::Index>());
+        m.m_types.push_back(&type<mud::Indexer>());
+        m.m_types.push_back(&type<mud::Injector>());
+        m.m_types.push_back(&type<mud::Member>());
+        m.m_types.push_back(&type<mud::Meta>());
+        m.m_types.push_back(&type<mud::Module>());
+        m.m_types.push_back(&type<mud::Namespace>());
+        m.m_types.push_back(&type<mud::None>());
+        m.m_types.push_back(&type<mud::Param>());
+        m.m_types.push_back(&type<mud::Pool>());
+        m.m_types.push_back(&type<mud::Ref>());
+        m.m_types.push_back(&type<mud::Signature>());
+        m.m_types.push_back(&type<mud::Static>());
+        m.m_types.push_back(&type<mud::System>());
+        m.m_types.push_back(&type<mud::Time>());
+        m.m_types.push_back(&type<mud::TimeSpan>());
+        m.m_types.push_back(&type<mud::Type>());
+        m.m_types.push_back(&type<mud::TypeClass>());
+        m.m_types.push_back(&type<mud::TypeKind>());
+        m.m_types.push_back(&type<mud::Var>());
+        m.m_types.push_back(&type<mud::array<float>>());
+        m.m_types.push_back(&type<mud::array<mud::cstring>>());
+        m.m_types.push_back(&type<bool>());
+        m.m_types.push_back(&type<char>());
+        m.m_types.push_back(&type<cstring>());
+        m.m_types.push_back(&type<double>());
+        m.m_types.push_back(&type<float>());
+        m.m_types.push_back(&type<int>());
+        m.m_types.push_back(&type<long>());
+        m.m_types.push_back(&type<long long>());
+        m.m_types.push_back(&type<short>());
+        m.m_types.push_back(&type<std::string>());
+        m.m_types.push_back(&type<std::vector<mud::Function*>>());
+        m.m_types.push_back(&type<std::vector<mud::Module*>>());
+        m.m_types.push_back(&type<std::vector<mud::Prototype*>>());
+        m.m_types.push_back(&type<std::vector<mud::Ref>>());
+        m.m_types.push_back(&type<std::vector<mud::Type*>>());
+        m.m_types.push_back(&type<std::vector<mud::Var>>());
+        m.m_types.push_back(&type<mud::strung>());
+        m.m_types.push_back(&type<unsigned char>());
+        m.m_types.push_back(&type<unsigned int>());
+        m.m_types.push_back(&type<unsigned long>());
+        m.m_types.push_back(&type<unsigned long long>());
+        m.m_types.push_back(&type<unsigned short>());
+        m.m_types.push_back(&type<void>());
+        m.m_types.push_back(&type<mud::Prototype>());
+        m.m_types.push_back(&type<mud::Constructor>());
+        m.m_types.push_back(&type<mud::CopyConstructor>());
+        m.m_types.push_back(&type<mud::Destructor>());
+        m.m_types.push_back(&type<mud::Function>());
+        m.m_types.push_back(&type<mud::Method>());
     
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(args); result = Ref(&mud::system()); };
             std::vector<Param> params = {};
-            module.m_functions.push_back({ &namspc({ "mud" }), "system", function_id<mud::System&(*)()>(&mud::system), func, params, Ref(type<mud::System>()) });
+            static Function f = { &namspc({ "mud" }), "system", function_id<mud::System&(*)()>(&mud::system), func, params, Ref(type<mud::System>()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = mud::indexed(val<mud::Type>(args[0]), val<uint32_t>(args[1])); };
             std::vector<Param> params = { { "type", Ref(type<mud::Type>()) }, { "id", var(uint32_t()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "indexed", function_id<mud::Ref(*)(mud::Type&, uint32_t)>(&mud::indexed), func, params, Ref() });
+            static Function f = { &namspc({ "mud" }), "indexed", function_id<mud::Ref(*)(mud::Type&, uint32_t)>(&mud::indexed), func, params, Ref() };
+            m.m_functions.push_back(&f);
         }
     }
 #endif

@@ -10,6 +10,12 @@
 
 namespace mud
 {
+	inline size_t sequence_size(Ref object)
+	{
+		unique_ptr<Iterable> iterable = cls(object).m_iterable(object);
+		return iterable->size();
+	}
+
 	inline void iterate_dict(Ref object, const std::function<void(Ref, Ref)>& callback)
 	{
 		UNUSED(object); UNUSED(callback);

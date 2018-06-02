@@ -6,11 +6,13 @@
 
 #include <gfx/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	class _refl_ MUD_GFX_EXPORT Shot
+	export_ class _refl_ MUD_GFX_EXPORT Shot
 	{
 	public:
 		std::vector<Item*> m_items;

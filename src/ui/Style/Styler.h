@@ -8,15 +8,17 @@
 #include <ui/Generated/Forward.h>
 #include <ui/Style/Style.h>
 
+#ifndef MUD_CPP_20
 #include <string>
 #include <map>
 #include <vector>
+#endif
 
 namespace mud
 {
 	using string = std::string;
 
-	class MUD_UI_EXPORT Options
+	export_ class MUD_UI_EXPORT Options
 	{
 	public:
 		std::vector<Var> m_fields;
@@ -28,7 +30,7 @@ namespace mud
 
 	using StyleMap = std::map<string, Options>;
 
-	class _refl_ MUD_UI_EXPORT Styler
+	export_ class _refl_ MUD_UI_EXPORT Styler
 	{
 	public:
 		Styler(UiWindow& ui_window);

@@ -16,7 +16,7 @@ namespace mud
 		GLOW_FILTER_BICUBIC,
 	};
 
-	struct _refl_ MUD_GFX_EXPORT Glow
+	export_ struct _refl_ MUD_GFX_EXPORT Glow
 	{
 		_attr_ _mut_ bool m_enabled = false;
 		_attr_ _mut_ vec4 m_levels_1_4 = Zero4;
@@ -44,7 +44,7 @@ namespace mud
 		bgfx::UniformHandle u_glow_levels_5_8;
 	};
 
-	class _refl_ MUD_GFX_EXPORT BlockGlow : public GfxBlock
+	export_ class _refl_ MUD_GFX_EXPORT BlockGlow : public GfxBlock
 	{
 	public:
 		BlockGlow(GfxSystem& gfx_system, BlockFilter& filter, BlockBlur& blur);

@@ -2,76 +2,80 @@
 
 #include <obj/Generated/Forward.h>
 
+#ifndef MUD_MODULES
 
 #include <obj/Type.h>
 #include <obj/Proto.h>
+#endif
 
+#ifndef MUD_CPP_20
 #include <string>
 #include <vector>
-#include <stdint.h>
+#include <cstdint>
+#endif
 
 
 namespace mud
 {
     // Exported types
-    template <> MUD_OBJ_EXPORT Type& type<bool>();
-    template <> MUD_OBJ_EXPORT Type& type<char>();
-    template <> MUD_OBJ_EXPORT Type& type<cstring>();
-    template <> MUD_OBJ_EXPORT Type& type<double>();
-    template <> MUD_OBJ_EXPORT Type& type<float>();
-    template <> MUD_OBJ_EXPORT Type& type<int>();
-    template <> MUD_OBJ_EXPORT Type& type<long>();
-    template <> MUD_OBJ_EXPORT Type& type<long long>();
-    template <> MUD_OBJ_EXPORT Type& type<short>();
-    template <> MUD_OBJ_EXPORT Type& type<std::string>();
-    template <> MUD_OBJ_EXPORT Type& type<unsigned char>();
-    template <> MUD_OBJ_EXPORT Type& type<unsigned int>();
-    template <> MUD_OBJ_EXPORT Type& type<unsigned long>();
-    template <> MUD_OBJ_EXPORT Type& type<unsigned long long>();
-    template <> MUD_OBJ_EXPORT Type& type<unsigned short>();
-    template <> MUD_OBJ_EXPORT Type& type<void>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::ConstructorIndex>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::TypeClass>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::TypeKind>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::VarMode>();
-    template <> MUD_OBJ_EXPORT Type& type<std::vector<mud::Function*>>();
-    template <> MUD_OBJ_EXPORT Type& type<std::vector<mud::Module*>>();
-    template <> MUD_OBJ_EXPORT Type& type<std::vector<mud::Prototype*>>();
-    template <> MUD_OBJ_EXPORT Type& type<std::vector<mud::Ref>>();
-    template <> MUD_OBJ_EXPORT Type& type<std::vector<mud::Type*>>();
-    template <> MUD_OBJ_EXPORT Type& type<std::vector<mud::Var>>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<bool>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<char>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<cstring>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<double>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<float>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<int>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<long>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<long long>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<short>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<std::string>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<unsigned char>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<unsigned int>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<unsigned long>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<unsigned long long>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<unsigned short>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<void>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::ConstructorIndex>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::TypeClass>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::TypeKind>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::VarMode>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<std::vector<mud::Function*>>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<std::vector<mud::Module*>>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<std::vector<mud::Prototype*>>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<std::vector<mud::Ref>>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<std::vector<mud::Type*>>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<std::vector<mud::Var>>();
     
-    template <> MUD_OBJ_EXPORT Type& type<mud::Call>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Callable>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Class>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Complex>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Construct>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Convert>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Creator>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Enum>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Index>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Indexer>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Injector>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Member>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Meta>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Module>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Namespace>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::None>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Param>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Pool>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Ref>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Signature>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Static>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::System>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Time>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::TimeSpan>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Var>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::array<float>>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::array<mud::cstring>>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::strung>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Constructor>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::CopyConstructor>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Destructor>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Function>();
-    template <> MUD_OBJ_EXPORT Type& type<mud::Method>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Call>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Callable>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Class>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Complex>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Construct>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Convert>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Creator>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Enum>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Index>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Indexer>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Injector>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Member>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Meta>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Module>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Namespace>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::None>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Param>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Pool>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Ref>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Signature>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Static>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::System>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Time>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::TimeSpan>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Var>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::array<float>>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::array<mud::cstring>>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::strung>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Constructor>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::CopyConstructor>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Destructor>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Function>();
+    export_ template <> MUD_OBJ_EXPORT Type& type<mud::Method>();
 }

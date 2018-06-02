@@ -2,18 +2,27 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
-#include <gfx/Generated/Types.h>
-#include <gfx/Graph.h>
-#include <gfx/Gfx.h>
-
+#ifdef MUD_MODULES
+module mud.gfx;
+#else
 #include <obj/Vector.h>
 #include <obj/Graph/Node.inl.h>
 #include <obj/Memory/ObjectPool.h>
+#include <math/Math.h>
 #include <geom/Intersect.h>
 #include <geom/Symbol.h>
 #include <geom/Geom.h>
-
+#include <gfx/Generated/Types.h>
+#include <gfx/Graph.h>
+#include <gfx/Gfx.h>
 #include <gfx/Draw.h>
 #include <gfx/Shot.h>
 #include <gfx/Prefab.h>
@@ -25,11 +34,10 @@
 //#include <gfx-pbr/GI.h>
 #include <gfx/Asset.h>
 #include <gfx/Model.h>
-#include <gfx/Texture.h> // @kludge : make all this logic private and export asset stores
+#include <gfx/Texture.h> // @kludge : make all this logic private and export_ asset stores
 #include <gfx/GfxSystem.h>
 #include <gfx/Pipeline.h>
-
-#include <math/Math.h>
+#endif
 
 namespace mud
 {
@@ -147,6 +155,8 @@ namespace gfx
 			self.m_item = &create<Item>(*self.m_scene, *self.m_attach, model, flags, material, instances);
 		}
 		self.m_item->m_model = const_cast<Model*>(&model);
+		if(material)
+			self.m_item->m_material = material;
 		update_item_aabb(*self.m_item, instances);
 		update_item_lights(*self.m_item);
 		return *self.m_item;
@@ -186,9 +196,9 @@ namespace gfx
 	{
 		UNUSED(flags);
 		if(symbol.fill())
-			parent.m_scene->m_immediate->draw(parent.m_attach->transform(), { symbol, &shape, PLAIN, Zero3 });
+			parent.m_scene->m_immediate->draw(parent.m_attach->transform(), { symbol, &shape, PLAIN });
 		if(symbol.outline())
-			parent.m_scene->m_immediate->draw(parent.m_attach->transform(), { symbol, &shape, OUTLINE, Zero3 });
+			parent.m_scene->m_immediate->draw(parent.m_attach->transform(), { symbol, &shape, OUTLINE });
 	}
 
 	Item& sprite(Gnode& parent, const Image256& image, const vec2& size, uint32_t flags, Material* material, size_t instances)

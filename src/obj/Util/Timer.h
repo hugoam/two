@@ -7,7 +7,9 @@
 /* std */
 #include <obj/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <ctime>
+#endif
 
 #define TICK_INTERVAL 0.02
 
@@ -18,7 +20,7 @@ namespace mud
 		return size_t(clock() / TICK_INTERVAL);
 	}
 
-	struct _refl_ MUD_OBJ_EXPORT Time
+	export_ struct _refl_ MUD_OBJ_EXPORT Time
 	{
 	public:
 		_constr_ Time(double value) : m_value(value) {}
@@ -37,7 +39,7 @@ namespace mud
 		inline int seconds() { return int(m_value) % 60; }
 	};
 
-	struct _refl_ MUD_OBJ_EXPORT TimeSpan
+	export_ struct _refl_ MUD_OBJ_EXPORT TimeSpan
 	{
 	public:
 		_constr_ TimeSpan(Time s, Time e) : start(s), end(e) {}
@@ -51,7 +53,7 @@ namespace mud
 		_attr_ Time end;
 	};
 
-	class MUD_OBJ_EXPORT Clock
+	export_ class MUD_OBJ_EXPORT Clock
     {
     public:
 		Clock();

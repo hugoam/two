@@ -16,7 +16,7 @@ namespace mud
 
 	MUD_UIO_EXPORT bool modal_dialog(Widget& parent, cstring name, bool query = false);
 
-	class MUD_UIO_EXPORT DispatchItem : public Dispatch<Widget&, Widget&>, public LazyGlobal<DispatchItem>
+	export_ class MUD_UIO_EXPORT DispatchItem : public Dispatch<Widget&, Widget&>, public LazyGlobal<DispatchItem>
 	{
 	public:
 		DispatchItem();

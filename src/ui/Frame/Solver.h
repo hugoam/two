@@ -8,7 +8,9 @@
 #include <ui/Frame/Frame.h>
 #include <ui/Style/Layout.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
@@ -17,7 +19,7 @@ namespace mud
 	void collect_solvers(Frame& frame, SolverVector& solvers, DirtyLayout dirtyTop);
 	void relayout(SolverVector& solvers);
 
-	class _refl_ MUD_UI_EXPORT FrameSolver : public UiRect
+	export_ class _refl_ MUD_UI_EXPORT FrameSolver : public UiRect
 	{
 	public:
 		FrameSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
@@ -105,7 +107,7 @@ namespace mud
 		size_t d_count = 0;
 	};
 
-	class _refl_ MUD_UI_EXPORT RowSolver : public FrameSolver
+	export_ class _refl_ MUD_UI_EXPORT RowSolver : public FrameSolver
 	{
 	public:
 		RowSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
@@ -122,7 +124,7 @@ namespace mud
 		float positionSequence(FrameSolver& frame, float space);
 	};
 
-	class MUD_UI_EXPORT CustomSolver : public NonCopy, public RowSolver
+	export_ class MUD_UI_EXPORT CustomSolver : public NonCopy, public RowSolver
 	{
 	public:
 		CustomSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
@@ -133,7 +135,7 @@ namespace mud
 		std::vector<unique_ptr<FrameSolver>> m_solvers;
 	};
 
-	class _refl_ MUD_UI_EXPORT TableSolver : public CustomSolver
+	export_ class _refl_ MUD_UI_EXPORT TableSolver : public CustomSolver
 	{
 	public:
 		TableSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
@@ -145,7 +147,7 @@ namespace mud
 		virtual FrameSolver* grid() { return this; }
 	};
 
-	class _refl_ MUD_UI_EXPORT LineSolver : public RowSolver
+	export_ class _refl_ MUD_UI_EXPORT LineSolver : public RowSolver
 	{
 	public:
 		LineSolver(FrameSolver* solver, Space space);
@@ -153,7 +155,7 @@ namespace mud
 		Layout d_style;
 	};
 
-	class _refl_ MUD_UI_EXPORT GridSolver : public CustomSolver
+	export_ class _refl_ MUD_UI_EXPORT GridSolver : public CustomSolver
 	{
 	public:
 		GridSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);

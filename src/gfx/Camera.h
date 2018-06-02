@@ -12,7 +12,7 @@
 
 namespace mud
 {
-	enum _refl_ IsometricAngle : unsigned int
+	export_ enum _refl_ IsometricAngle : unsigned int
 	{
 		NORTH = (1 << 0),
 		SOUTH = (2 << 0),
@@ -20,7 +20,7 @@ namespace mud
 		WEST = (2 << 8)
 	};
 
-	class _refl_ MUD_GFX_EXPORT Camera
+	export_ class _refl_ MUD_GFX_EXPORT Camera
 	{
 	public:
 		Camera(Scene* scene = nullptr);
@@ -48,7 +48,7 @@ namespace mud
 
 		_attr_ _mut_ vec4 m_lod_offsets = { 0.1f, 0.3f, 0.6f, 0.8f };
 
-		vec4 ortho_rect() { return { -m_height * m_aspect, m_height * m_aspect, -m_height, m_height }; };
+		vec4 ortho_rect() { return { -m_height / 2.f * m_aspect, m_height / 2.f * m_aspect, -m_height / 2.f, m_height / 2.f }; };
 
 		void update();
 

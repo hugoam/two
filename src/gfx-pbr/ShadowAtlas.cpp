@@ -2,15 +2,24 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
-#include <gfx-pbr/ShadowAtlas.h>
-
+#ifdef MUD_MODULES
+module mud.gfx-pbr;
+#else
 #include <geom/Intersect.h>
-
 #include <gfx/Light.h>
 #include <gfx/Camera.h>
 #include <gfx/Frustum.h>
 #include <gfx/Renderer.h>
+#include <gfx-pbr/ShadowAtlas.h>
+#endif
 
 namespace mud
 {
@@ -38,7 +47,7 @@ namespace mud
 		uint16_t index = 0;
 		for(uint16_t subdiv : slices_subdiv)
 		{
-			m_slices.emplace_back(m_size, subdiv, uvec4{ 0, index * m_size, m_size, m_size });
+			m_slices.emplace_back(m_size, subdiv, uvec4(0, index * m_size, m_size, m_size));
 		}
 
 		uint16_t max_cubemap_size = 512;

@@ -7,11 +7,13 @@
 #include <ui/Generated/Forward.h>
 #include <ui/Edit/TypeIn.h>
 
+#ifndef MUD_CPP_20
 #include <unordered_set>
 #include <unordered_map>
 
 #include <map>
 #include <regex>
+#endif
 
 namespace mud
 {

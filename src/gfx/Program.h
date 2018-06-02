@@ -16,41 +16,41 @@ namespace mud
 {
 	using cstring = const char*;
 
-	enum class _refl_ ShaderType : unsigned int
+	export_ enum class _refl_ ShaderType : unsigned int
 	{
 		Fragment,
 		Vertex,
 		Count
 	};
 
-	struct MUD_GFX_EXPORT ShaderDefine
+	export_ struct MUD_GFX_EXPORT ShaderDefine
 	{
 		cstring m_name;
 		cstring m_value;
 	};
 
-	struct MUD_GFX_EXPORT ShaderBlock
+	export_ struct MUD_GFX_EXPORT ShaderBlock
 	{
 		array<cstring> m_options;
 		array<cstring> m_modes;
 		array<ShaderDefine> m_defines;
 	};
 
-	struct MUD_GFX_EXPORT ProgramBlock
+	export_ struct MUD_GFX_EXPORT ProgramBlock
 	{
 		// maps a block shader option to the program option shift
 		uint8_t m_option_shift;
 		uint8_t m_mode_shift;
 	};
 
-	struct MUD_GFX_EXPORT ProgramBlockArray
+	export_ struct MUD_GFX_EXPORT ProgramBlockArray
 	{
 		// maps a block index to its shader options array
 		ProgramBlock m_shader_blocks[32];
 		uint8_t m_next_option = 0;
 	};
 
-	class _refl_ MUD_GFX_EXPORT Program
+	export_ class _refl_ MUD_GFX_EXPORT Program
 	{
 	public:
 		struct Version

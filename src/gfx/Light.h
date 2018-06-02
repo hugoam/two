@@ -10,7 +10,7 @@
 
 namespace mud
 {
-	enum class _refl_ LightType : unsigned int
+	export_ enum class _refl_ LightType : unsigned int
 	{
 		Directional,
 		Point,
@@ -18,14 +18,14 @@ namespace mud
 		Count
 	};
 
-	enum _refl_ ShadowFlags : unsigned int
+	export_ enum _refl_ ShadowFlags : unsigned int
 	{
 		CSM_Stabilize = 1 << 0,
 		CSM_Optimize = 1 << 1,
 		CSM_BlendSplits = 1 << 2
 	};
 
-	class _refl_ MUD_GFX_EXPORT Light
+	export_ class _refl_ MUD_GFX_EXPORT Light
 	{
 	public:
 		Light(Node3& node, LightType type = LightType::Point, bool shadows = false);

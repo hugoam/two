@@ -31,7 +31,7 @@ namespace mud
 	 
 	void debug_print_mat(const mat4& mat);
 
-	struct _refl_ MUD_GFX_EXPORT Transform
+	export_ struct _refl_ MUD_GFX_EXPORT Transform
 	{
 		Transform() {}
 		Transform(const vec3& position, const quat& rotation, const vec3& scale) : m_position(position), m_rotation(rotation), m_scale(scale) {}
@@ -41,7 +41,7 @@ namespace mud
 		_attr_ _mut_ vec3 m_scale = Unit3;
 	};
 
-	class _refl_ MUD_GFX_EXPORT Node3
+	export_ class _refl_ MUD_GFX_EXPORT Node3
 	{
 	public:
 		// @todo factor out scene management stuff from items, nodes, lights and add it to the graph / scene

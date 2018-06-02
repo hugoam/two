@@ -2,13 +2,23 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#else
+#include <map>
+#endif
 
-#include <gfx/Picker.h>
-
+#ifdef MUD_MODULES
+module mud.gfx;
+#else
 #include <obj/Vector.h>
 #include <math/Math.h>
 #include <math/VecOps.h>
-
+#include <gfx/Picker.h>
 #include <gfx/Frustum.h>
 #include <gfx/Node3.h>
 #include <gfx/Item.h>
@@ -21,10 +31,9 @@
 #include <gfx/Program.h>
 #include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
+#endif
 
 #include <bgfx/bgfx.h>
-
-#include <map>
 
 namespace mud
 {
@@ -93,7 +102,6 @@ namespace mud
 			vec4 unpacked = unpack4(index);
 			vec4 colour_id = { unpacked.w, unpacked.z, unpacked.y, unpacked.x }; // unpack4 gives reversed order from what we wnat
 
-			printf("DEBUG: picker submit id %i\n", int(index));
 			bgfx::setUniform(u_picking_id, value_ptr(colour_id));
 
 			if(item.m_model->m_items.empty())
@@ -113,7 +121,6 @@ namespace mud
 		// every time the blit to CPU texture is finished, we read the focused item
 		if(query.m_readback_ready <= render.m_frame.m_frame)
 		{
-			printf("DEBUG: picker process pixels\n");
 			Item* item = nullptr;
 			std::vector<Item*> items = {};
 
@@ -133,7 +140,6 @@ namespace mud
 					if(id == uint32_t(255 << 24))
 						continue;
 
-					printf("DEBUG: picker pixel id %i\n", int(id));
 					vector_add(items, render.m_shot->m_items[id]);
 
 					uint32_t count = ++counts[id];

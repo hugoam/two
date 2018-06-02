@@ -8,9 +8,11 @@
 #include <obj/Generated/Forward.h>
 #include <obj/String/String.h>
 
+#ifndef MUD_CPP_20
 #include <memory>
 #include <algorithm>
 #include <sstream>
+#endif
 
 namespace mud
 {
@@ -27,10 +29,20 @@ namespace mud
 		ss >> val;
 	}
 
+	template <> inline void string_to_type(const string& str, bool& val) { val = std::stoi(str) != 0; } //str == "true" ? true : false; }
+
 	template <> inline void string_to_type(const string& str, float& val) { val = std::stof(str); }
 	template <> inline void string_to_type(const string& str, double& val) { val = std::stod(str); }
+	template <> inline void string_to_type(const string& str, char& val) { val = char(std::stoi(str)); }
+	template <> inline void string_to_type(const string& str, short& val) { val = short(std::stoi(str)); }
 	template <> inline void string_to_type(const string& str, int& val) { val = std::stoi(str); }
+	template <> inline void string_to_type(const string& str, long& val) { val = std::stoi(str); }
+	template <> inline void string_to_type(const string& str, long long& val) { val = std::stoi(str); }
+	template <> inline void string_to_type(const string& str, unsigned char& val) { val = unsigned char(std::stoi(str)); }
+	template <> inline void string_to_type(const string& str, unsigned short& val) { val = unsigned short(std::stoi(str)); }
 	template <> inline void string_to_type(const string& str, unsigned int& val) { val = std::stoi(str); }
+	template <> inline void string_to_type(const string& str, unsigned long& val) { val = std::stoi(str); }
+	template <> inline void string_to_type(const string& str, unsigned long long& val) { val = std::stoi(str); }
 
 	template <class T>
 	inline typename std::enable_if<is_string_convertible<T>::value, void>::type

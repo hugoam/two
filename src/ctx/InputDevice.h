@@ -9,12 +9,14 @@
 #include <ctx/KeyCode.h>
 #include <ctx/InputDispatcher.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
 #include <array>
+#endif
 
 namespace mud
 {
-	class MUD_CTX_EXPORT InputDevice
+	export_ class MUD_CTX_EXPORT InputDevice
 	{
 	public:
 		InputDevice(EventDispatcher& dispatcher);
@@ -22,7 +24,7 @@ namespace mud
 		EventDispatcher& m_dispatcher;
 	};
 
-	class MUD_CTX_EXPORT Keyboard : public InputDevice
+	export_ class MUD_CTX_EXPORT Keyboard : public InputDevice
 	{
 	public:
 		Keyboard(EventDispatcher& dispatcher);
@@ -43,7 +45,7 @@ namespace mud
 		std::vector<KeyEvent> m_events;
 	};
 
-	class MUD_CTX_EXPORT MouseButton : public InputDevice
+	export_ class MUD_CTX_EXPORT MouseButton : public InputDevice
 	{
 	public:
 		MouseButton(Mouse& mouse, DeviceType deviceType);
@@ -66,7 +68,7 @@ namespace mud
 		MouseEvent m_pressed_event = {};
 	};
 
-	class MUD_CTX_EXPORT Mouse : public InputDevice
+	export_ class MUD_CTX_EXPORT Mouse : public InputDevice
 	{
 	public:
 		Mouse(EventDispatcher& dispatcher, Keyboard& keyboard);

@@ -14,7 +14,9 @@
 
 #define MUD_UI_IMMEDIATE
 
+#ifndef MUD_CPP_20
 #include <functional>
+#endif
 
 namespace mud
 {
@@ -22,7 +24,7 @@ namespace mud
 
 	using FrameFilter = std::function<bool(Frame&)>;
 
-	class _refl_ MUD_UI_EXPORT Widget : public Graph<Widget>, public ControlNode
+	export_ class _refl_ MUD_UI_EXPORT Widget : public Graph<Widget>, public ControlNode
 	{
 	public:
 		Widget();

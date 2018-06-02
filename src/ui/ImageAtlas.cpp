@@ -2,27 +2,23 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
-#include <ui/ImageAtlas.h>
-
+#ifdef MUD_MODULES
+module mud.ui;
+#else
 #include <math/Interp.h>
-
-#ifndef MUD_PLATFORM_EMSCRIPTEN
-#define STB_IMAGE_IMPLEMENTATION
+#include <ui/ImageAtlas.h>
 #endif
 
-#if defined _MSC_VER
-#	pragma warning (push)
-#	pragma warning (disable : 4100)
-#endif
-
-#define STB_RECT_PACK_IMPLEMENTATION
 #include <stb_rect_pack.h>
 #include <stb_image.h>
-
-#if defined _MSC_VER
-#	pragma warning (pop)
-#endif
 
 namespace mud
 {

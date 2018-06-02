@@ -4,20 +4,21 @@
 
 #pragma once
 
-/* std */
 #include <obj/Generated/Forward.h>
 #include <obj/Strung.h>
 #include <obj/Array.h>
 
+#ifndef MUD_CPP_20
 #include <string>
 #include <vector>
+#endif
 
 namespace mud
 {
-	using string = std::string;
+	export_ using string = std::string;
 	//using std::vector;
 
-	struct Filepath
+	export_ struct Filepath
 	{
 		string path;
 		string name;
@@ -30,36 +31,36 @@ namespace mud
 	template <class T>
 	struct StringConverter;
 
-	template <class T>
+	export_ template <class T>
 	inline void from_string(const string& str, T& val);
 
-	template <class T>
+	export_ template <class T>
 	inline void to_string(const T& val, string& str);
 
-	template <class T>
+	export_ template <class T>
 	inline T from_string(const string& str) { T val; from_string<T>(str, val); return val; }
 
-	template <class T>
+	export_ template <class T>
 	inline string to_string(const T& val) { string str; to_string<T>(val, str); return str; }
 
 	// string - string conversion
-	template <> inline void from_string<cstring>(const string& str, cstring& val) { val = str.c_str(); }
-	template <> inline void to_string<cstring>(const cstring& val, string& str) { str = val; }
-	template <> inline void from_string<string>(const string& str, string& val) { val = str; }
-	template <> inline void to_string<string>(const string& val, string& str){ str = val; }
+	export_ template <> inline void from_string<cstring>(const string& str, cstring& val) { val = str.c_str(); }
+	export_ template <> inline void to_string<cstring>(const cstring& val, string& str) { str = val; }
+	export_ template <> inline void from_string<string>(const string& str, string& val) { val = str; }
+	export_ template <> inline void to_string<string>(const string& val, string& str){ str = val; }
 
-	MUD_OBJ_EXPORT void split_string(const string& str, const string& separator, array<string> output);
-	MUD_OBJ_EXPORT std::vector<string> split_string(const string& str, const string& separator);
+	export_ MUD_OBJ_EXPORT void split_string(const string& str, const string& separator, array<string> output);
+	export_ MUD_OBJ_EXPORT std::vector<string> split_string(const string& str, const string& separator);
 
-	MUD_OBJ_EXPORT string replace_all(const string& original, const string& before, const string& after);
+	export_ MUD_OBJ_EXPORT string replace_all(const string& original, const string& before, const string& after);
 
-	MUD_OBJ_EXPORT string to_lower(const string& original);
-	MUD_OBJ_EXPORT string to_upper(const string& original);
-	MUD_OBJ_EXPORT string to_camelcase(const string& name);
+	export_ MUD_OBJ_EXPORT string to_lower(const string& original);
+	export_ MUD_OBJ_EXPORT string to_upper(const string& original);
+	export_ MUD_OBJ_EXPORT string to_camelcase(const string& name);
 
 	extern MUD_OBJ_EXPORT const size_t g_num_precision; // = 3;
 
-	inline string truncate_number(const string& str)
+	export_ inline string truncate_number(const string& str)
 	{
 		// @todo use snprintf ?
 		size_t dot = str.find(".");

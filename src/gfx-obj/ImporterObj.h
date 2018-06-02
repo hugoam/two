@@ -3,9 +3,11 @@
 #include <obj/Type.h>
 #include <gfx/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <string>
 #include <map>
 #include <vector>
+#endif
 
 namespace mud
 {

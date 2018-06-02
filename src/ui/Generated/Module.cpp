@@ -1,3 +1,13 @@
+#ifdef MUD_CPP_20
+#include <cassert>
+#include <cstdint>
+#include <climits>
+#include <cfloat>
+import std.core;
+import std.memory;
+import std.threading;
+import std.regex;
+#endif
 
 #include <ui/Generated/Module.h>
 
@@ -14,9 +24,9 @@ namespace mud
 		: Module("mud::ui")
 	{
         // ensure dependencies are instantiated
-        mudobj::module();
-        mudmath::module();
-        mudctx::module();
+        mudobj::m();
+        mudmath::m();
+        mudctx::m();
 
 #ifdef MUD_UI_REFLECT
         // setup reflection meta data
@@ -29,6 +39,6 @@ namespace mud
 extern "C"
 MUD_UI_EXPORT Module& getModule()
 {
-	return mudui::module();
+	return mudui::m();
 }
 #endif

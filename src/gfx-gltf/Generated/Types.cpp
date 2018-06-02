@@ -1,5 +1,16 @@
 
 
+#ifdef MUD_CPP_20
+#include <cassert>
+#include <cstdint>
+#include <climits>
+#include <cfloat>
+import std.core;
+import std.memory;
+import std.threading;
+import std.regex;
+#endif
+
 #include <gfx-gltf/Generated/Types.h>
 #include <gfx-gltf/Generated/Module.h>
 #include <obj/Proto.h>
@@ -41,7 +52,6 @@ namespace mud
     template <> MUD_GFX_GLTF_EXPORT Type& type<glTFBufferView>() { static Type ty("glTFBufferView"); return ty; }
     template <> MUD_GFX_GLTF_EXPORT Type& type<glTFCamera>() { static Type ty("glTFCamera"); return ty; }
     template <> MUD_GFX_GLTF_EXPORT Type& type<glTFImage>() { static Type ty("glTFImage"); return ty; }
-    template <> MUD_GFX_GLTF_EXPORT Type& type<mud::glTFImport>() { static Type ty("glTFImport"); return ty; }
     template <> MUD_GFX_GLTF_EXPORT Type& type<glTFMaterial>() { static Type ty("glTFMaterial"); return ty; }
     template <> MUD_GFX_GLTF_EXPORT Type& type<glTFMaterialPBR>() { static Type ty("glTFMaterialPBR"); return ty; }
     template <> MUD_GFX_GLTF_EXPORT Type& type<glTFMesh>() { static Type ty("glTFMesh"); return ty; }

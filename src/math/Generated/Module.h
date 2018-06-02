@@ -25,17 +25,16 @@
 #include <math/VecJson.h>
 #include <math/VecMath.h>
 #include <math/VecOps.h>
-#include <math/Vector3.h>
 
 namespace mud
 {
-	class MUD_MATH_EXPORT mudmath : public Module
+	export_ class MUD_MATH_EXPORT mudmath : public Module
 	{
 	private:
 		mudmath();
 
 	public:
-		static mudmath& module() { static mudmath instance; return instance; }
+		static mudmath& m() { static mudmath instance; return instance; }
 	};
 }
 

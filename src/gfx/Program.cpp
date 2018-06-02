@@ -2,26 +2,35 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-
-#include <gfx/Program.h>
-
-#include <obj/Vector.h>
-#include <obj/EnumArray.h>
-#include <obj/Serial/Serial.h>
-#include <obj/String/StringConvert.h>
-
-#include <gfx/GfxSystem.h>
-#include <gfx/Texture.h>
-#include <gfx/Material.h>
-
-#include <bgfx/bgfx.h>
-#include <bx/readerwriter.h>
-
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#else
 #include <string>
 #include <map>
 #include <vector>
-
 #include <fstream>
+#endif
+
+#ifdef MUD_MODULES
+module mud.gfx;
+#else
+#include <obj/Vector.h>
+#include <obj/EnumArray.h>
+#include <obj/Serial/Serial.h>
+#include <obj/System/System.h>
+#include <obj/String/StringConvert.h>
+#include <gfx/Program.h>
+#include <gfx/GfxSystem.h>
+#include <gfx/Texture.h>
+#include <gfx/Material.h>
+#endif
+
+#include <bgfx/bgfx.h>
+#include <bx/readerwriter.h>
 
 namespace bgfx
 {
@@ -72,15 +81,14 @@ namespace mud
 	{
 		string defines = defines_in;
 		bool is_opengl = bgfx::getRendererType() == bgfx::RendererType::OpenGLES
-			|| bgfx::getRendererType() == bgfx::RendererType::OpenGL;
+					  || bgfx::getRendererType() == bgfx::RendererType::OpenGL;
 
 		string source_suffix = shader_type == ShaderType::Vertex ? "_vs.sc" : "_fs.sc";
 		string source_path = string(gfx_system.m_resource_path) + "shaders/" + name + source_suffix;
 
 		if(source != nullptr)
 		{
-			std::ofstream out(source_path);
-			out << source;
+			system().write_file(source_path.c_str(), source);
 		}
 
 #ifdef _DEBUG
@@ -235,7 +243,7 @@ namespace mud
 			{
 				printf("INFO: loading program %s with options %s\n", full_name.c_str(), defines.c_str());
 				string compiled_path = string(ms_gfx_system->m_resource_path) + "/shaders/compiled/" + full_name;
-				m_impl->m_versions[config_hash] = { m_update, load_program(ms_gfx_system->m_file_reader, compiled_path) };
+				m_impl->m_versions[config_hash] = { m_update, load_program(ms_gfx_system->file_reader(), compiled_path) };
 			}
 			else
 			{

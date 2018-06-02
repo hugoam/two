@@ -3,7 +3,21 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <obj/Config.h>
+
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
+
+#ifdef MUD_MODULES
+module mud.obj;
+#else
 #include <obj/Proto.h>
+#include <obj/Cls.h>
+#endif
 
 namespace mud
 {

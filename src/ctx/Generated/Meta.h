@@ -12,7 +12,7 @@ namespace mud
 {
     
 #ifdef MUD_CTX_REFLECTION_IMPL
-    void ctx_meta(Module& module)
+    void ctx_meta(Module& m)
     {   
     // Base Types
     
@@ -98,8 +98,8 @@ namespace mud
     
 
     
-        module.m_types.push_back(&type<mud::Context>());
-        module.m_types.push_back(&type<mud::RenderSystem>());
+        m.m_types.push_back(&type<mud::Context>());
+        m.m_types.push_back(&type<mud::RenderSystem>());
     
     }
 #endif

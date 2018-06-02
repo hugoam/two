@@ -8,19 +8,21 @@
 #include <gfx/Generated/Forward.h>
 #include <gfx/Renderer.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
 #include <functional>
+#endif
 
 namespace mud
 {
 	using PassJob = std::function<void(const Pass&)>;
 
-	struct MUD_GFX_EXPORT PassJobs
+	export_ struct MUD_GFX_EXPORT PassJobs
 	{
 		enum_array<PassType, std::vector<PassJob>> m_jobs;
 	};
 
-	class MUD_GFX_EXPORT Pipeline : public NonCopy
+	export_ class MUD_GFX_EXPORT Pipeline : public NonCopy
 	{
 	public:
 		Pipeline(GfxSystem& gfx_system);
@@ -38,7 +40,7 @@ namespace mud
 		enum_array<PassType, std::vector<GfxBlock*>> m_pass_blocks;
 	};
 
-	class MUD_GFX_EXPORT PassClear : public RenderPass
+	export_ class MUD_GFX_EXPORT PassClear : public RenderPass
 	{
 	public:
 		PassClear(GfxSystem& gfx_system);
@@ -47,7 +49,7 @@ namespace mud
 		virtual void submit_render_pass(Render& render) final;
 	};
 
-	class MUD_GFX_EXPORT PassUnshaded : public DrawPass
+	export_ class MUD_GFX_EXPORT PassUnshaded : public DrawPass
 	{
 	public:
 		PassUnshaded(GfxSystem& gfx_system);
@@ -57,7 +59,7 @@ namespace mud
 		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) final;
 	};
 
-	class MUD_GFX_EXPORT PassOpaque : public DrawPass
+	export_ class MUD_GFX_EXPORT PassOpaque : public DrawPass
 	{
 	public:
 		PassOpaque(GfxSystem& gfx_system);
@@ -69,7 +71,7 @@ namespace mud
 		size_t m_directional_light_index;
 	};
 
-	class MUD_GFX_EXPORT PassBackground : public RenderPass
+	export_ class MUD_GFX_EXPORT PassBackground : public RenderPass
 	{
 	public:
 		PassBackground(GfxSystem& gfx_system);
@@ -78,7 +80,7 @@ namespace mud
 		virtual void submit_render_pass(Render& render) final;
 	};
 
-	class MUD_GFX_EXPORT PassAlpha : public DrawPass
+	export_ class MUD_GFX_EXPORT PassAlpha : public DrawPass
 	{
 	public:
 		PassAlpha(GfxSystem& gfx_system);
@@ -88,7 +90,7 @@ namespace mud
 		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) final;
 	};
 
-	class MUD_GFX_EXPORT PassFlip : public RenderPass
+	export_ class MUD_GFX_EXPORT PassFlip : public RenderPass
 	{
 	public:
 		PassFlip(GfxSystem& gfx_system, BlockCopy& copy);
@@ -124,7 +126,7 @@ namespace mud
 		ClearRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
 	};
 
-	class MUD_GFX_EXPORT PipelinePbr : public Pipeline
+	export_ class MUD_GFX_EXPORT PipelinePbr : public Pipeline
 	{
 	public:
 		PipelinePbr(GfxSystem& gfx_system);

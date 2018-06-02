@@ -7,13 +7,15 @@
 #include <obj/Reflect/Method.h>
 #include <lang/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <string>
+#endif
 
 namespace mud
 {
 	using string = std::string;
 
-	class _refl_ MUD_LANG_EXPORT Script : public Callable
+	export_ class _refl_ MUD_LANG_EXPORT Script : public Callable
 	{
 	public:
 		_constr_ Script(cstring name, const Signature& signature = {});

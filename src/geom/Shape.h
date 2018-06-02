@@ -10,7 +10,7 @@
 
 namespace mud
 {
-	class _refl_ MUD_MATH_EXPORT Shape
+	export_ class _refl_ MUD_MATH_EXPORT Shape
 	{
 	public:
 		Shape(Type& type) : m_type(type), m_center(Zero3) {}
@@ -26,7 +26,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const = 0;
 	};
 
-	struct _refl_ MUD_MATH_EXPORT ShapeVar
+	export_ struct _refl_ MUD_MATH_EXPORT ShapeVar
 	{
 	public:
 		_constr_ ShapeVar() : m_shape() {}

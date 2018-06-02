@@ -18,13 +18,13 @@
 namespace ${ module.namespace }
 {
 % endif
-	class ${ module.export } ${ module.namespace }${ module.name } : public Module
+	export_ class ${ module.export } ${ module.namespace }${ module.name } : public Module
 	{
 	private:
 		${ module.namespace }${ module.name }();
 
 	public:
-		static ${ module.namespace }${ module.name }& module() { static ${ module.namespace }${ module.name } instance; return instance; }
+		static ${ module.namespace }${ module.name }& m() { static ${ module.namespace }${ module.name } instance; return instance; }
 	};
 % if module.namespace != '' :
 }

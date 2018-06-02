@@ -2,29 +2,38 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h>
+#include <stdint.h>
+import std.core;
+import std.memory;
+import std.regex;
+#else
+#include <cctype>
+#include <locale>
+#include <algorithm>
+#include <chrono>
+#include <string>
+#include <regex>
+#include <cmath>
+#endif
 
+#ifdef MUD_MODULES
+import mud.obj;
+module mud.ui;
+#else
+#include <obj/Vector.h>
 #include <ui/Edit/TypeIn.h>
 #include <ui/Structs/Container.h>
 #include <ui/ScrollSheet.h>
-
-#include <obj/Vector.h>
 #include <ui/Edit/Lang.h>
-
 #include <ui/Frame/Frame.h>
 #include <ui/Frame/Caption.h>
 #include <ui/Structs/RootSheet.h>
 #include <ui/Cursor.h>
 #include <ui/Render/Renderer.h>
 #include <ui/Style/Skin.h>
-
-#include <cctype>
-#include <locale>
-
-#include <algorithm>
-#include <chrono>
-#include <string>
-#include <regex>
-#include <cmath>
+#endif
 
 #define MUD_TEXT_RECOLORIZE_ALL
 

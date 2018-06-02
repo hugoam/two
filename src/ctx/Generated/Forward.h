@@ -17,6 +17,24 @@
     
     
 
+namespace std {
+
+    
+    
+}
+
+namespace glm {
+
+    
+    
+}
+
+namespace json11 {
+
+    
+    
+}
+
 namespace mud {
 
     enum KeyCode : unsigned int;
@@ -42,23 +60,11 @@ namespace mud {
     class Mouse;
 }
 
-namespace std {
-
-    
-    
-}
-
 namespace mud {
 namespace detail {
 
     
     
 }
-}
-
-namespace glm {
-
-    
-    
 }
 

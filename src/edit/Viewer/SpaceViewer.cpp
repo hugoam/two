@@ -2,13 +2,23 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <edit/Viewer/SpaceViewer.h>
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+module mud.edit;
+#else
 #include <ctx/InputDevice.h>
-
-#include <edit/Viewer/SpaceSheet.h>
 #include <gfx/Camera.h>
 #include <gfx/Item.h>
+#include <edit/Viewer/SpaceViewer.h>
+#include <edit/Viewer/SpaceSheet.h>
+#endif
 
 namespace mud
 {

@@ -863,7 +863,7 @@ bool pump(RenderSystem& render_system, UiWindow& ui_window)
 int main(int argc, char *argv[])
 {
 	UNUSED(argc); UNUSED(argv);
-	System::instance().load_modules({ &mudobj::module(), &mudmath::module(), &mudlang::module(), &mudui::module() });
+	System::instance().load_modules({ &mudobj::m(), &mudmath::m(), &mudlang::m(), &mudui::m() });
 
 #ifdef MUD_RENDERER_GL
 	static GlSystem render_system = { MUD_RESOURCE_PATH };

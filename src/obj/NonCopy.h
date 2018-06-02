@@ -8,7 +8,7 @@
 
 namespace mud
 {
-	class MUD_OBJ_EXPORT NonCopy
+	export_ class MUD_OBJ_EXPORT NonCopy
 	{
 	public:
 		NonCopy() {}
@@ -16,7 +16,7 @@ namespace mud
 		NonCopy& operator=(const NonCopy&) = delete;
 	};
 
-	class MUD_OBJ_EXPORT Movabl
+	export_ class MUD_OBJ_EXPORT Movabl
 	{
 	public:
 		Movabl() {}

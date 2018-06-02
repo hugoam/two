@@ -26,13 +26,13 @@
 
 namespace mud
 {
-	class MUD_UIO_EXPORT muduio : public Module
+	export_ class MUD_UIO_EXPORT muduio : public Module
 	{
 	private:
 		muduio();
 
 	public:
-		static muduio& module() { static muduio instance; return instance; }
+		static muduio& m() { static muduio instance; return instance; }
 	};
 }
 

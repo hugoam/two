@@ -55,6 +55,12 @@ namespace gfx {
 }
 }
 
+namespace json11 {
+
+    
+    
+}
+
 namespace mud {
 
     enum PatternSampling : unsigned int;
@@ -78,6 +84,7 @@ namespace mud {
     struct RGBA;
     struct PalettedImage;
     class Patternset;
+    struct TileModel;
     class Tileblock;
 }
 

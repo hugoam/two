@@ -12,7 +12,7 @@ namespace mud
 {
     
 #ifdef MUD_GFX_PBR_REFLECTION_IMPL
-    void gfxpbr_meta(Module& module)
+    void gfxpbr_meta(Module& m)
     {   
     // Base Types
     
@@ -649,24 +649,24 @@ namespace mud
     
 
     
-        module.m_types.push_back(&type<mud::BCS>());
-        module.m_types.push_back(&type<mud::DepthParams>());
-        module.m_types.push_back(&type<mud::DofBlur>());
-        module.m_types.push_back(&type<mud::Glow>());
-        module.m_types.push_back(&type<mud::LightShadow>());
-        module.m_types.push_back(&type<mud::ReflectionProbe>());
-        module.m_types.push_back(&type<mud::RenderFilters>());
-        module.m_types.push_back(&type<mud::Tonemap>());
-        module.m_types.push_back(&type<mud::TonemapMode>());
-        module.m_types.push_back(&type<mud::BlockBlur>());
-        module.m_types.push_back(&type<mud::BlockDofBlur>());
-        module.m_types.push_back(&type<mud::BlockGlow>());
-        module.m_types.push_back(&type<mud::BlockReflection>());
-        module.m_types.push_back(&type<mud::BlockTonemap>());
-        module.m_types.push_back(&type<mud::BlockDepth>());
-        module.m_types.push_back(&type<mud::BlockLight>());
-        module.m_types.push_back(&type<mud::BlockRadiance>());
-        module.m_types.push_back(&type<mud::BlockShadow>());
+        m.m_types.push_back(&type<mud::BCS>());
+        m.m_types.push_back(&type<mud::DepthParams>());
+        m.m_types.push_back(&type<mud::DofBlur>());
+        m.m_types.push_back(&type<mud::Glow>());
+        m.m_types.push_back(&type<mud::LightShadow>());
+        m.m_types.push_back(&type<mud::ReflectionProbe>());
+        m.m_types.push_back(&type<mud::RenderFilters>());
+        m.m_types.push_back(&type<mud::Tonemap>());
+        m.m_types.push_back(&type<mud::TonemapMode>());
+        m.m_types.push_back(&type<mud::BlockBlur>());
+        m.m_types.push_back(&type<mud::BlockDofBlur>());
+        m.m_types.push_back(&type<mud::BlockGlow>());
+        m.m_types.push_back(&type<mud::BlockReflection>());
+        m.m_types.push_back(&type<mud::BlockTonemap>());
+        m.m_types.push_back(&type<mud::BlockDepth>());
+        m.m_types.push_back(&type<mud::BlockLight>());
+        m.m_types.push_back(&type<mud::BlockRadiance>());
+        m.m_types.push_back(&type<mud::BlockShadow>());
     
     }
 #endif

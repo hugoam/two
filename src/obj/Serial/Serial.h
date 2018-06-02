@@ -8,26 +8,30 @@
 #include <obj/Any.h>
 #include <obj/Util/Dispatch.h>
 
-#ifndef MUD_META_GENERATOR
-#include <json.hpp>
-using nlohmann::json;
-#else
-struct json;
+#ifndef MUD_CPP_20
+#include <string>
+#include <vector>
+#include <map>
 #endif
 
-#include <string>
+namespace json11
+{
+	export_ class MUD_OBJ_EXPORT Json;
+}
+
+using json = json11::Json;
 
 namespace mud
 {
 	using string = std::string;
 
-	class MUD_OBJ_EXPORT FromJson : public Dispatch<void, Ref&, const json&>
+	export_ class MUD_OBJ_EXPORT FromJson : public Dispatch<void, Ref&, const json&>
 	{
 	public:
 		FromJson();
 	};
 
-	class MUD_OBJ_EXPORT ToJson : public Dispatch<void, json&>
+	export_ class MUD_OBJ_EXPORT ToJson : public Dispatch<void, json&>
 	{
 	public:
 		ToJson();
@@ -38,7 +42,7 @@ namespace mud
 	MUD_OBJ_EXPORT std::vector<uint8_t> read_binary_file(const string& path);
 	MUD_OBJ_EXPORT string read_text_file(const string& path);
 
-	MUD_OBJ_EXPORT json parse_json_file(const string& path);
+	MUD_OBJ_EXPORT void parse_json_file(const string& path, json& data);
 	MUD_OBJ_EXPORT void dump_json_file(const string& path, const json& data);
 	MUD_OBJ_EXPORT void visit_json(json& value, const JsonVisitor& visitor);
 
@@ -51,7 +55,6 @@ namespace mud
 	MUD_OBJ_EXPORT Var unpack_typed(const json& data);
 	MUD_OBJ_EXPORT Var unpack_typed(FromJson& unpacker, const json& data);
 
-	MUD_OBJ_EXPORT json pack(const Var& value);
 	MUD_OBJ_EXPORT void pack(const Var& value, json& data);
 	MUD_OBJ_EXPORT void pack(ToJson& packer, const Var& value, json& data, bool typed = false);
 
@@ -66,4 +69,5 @@ namespace mud
 	}
 
 	MUD_OBJ_EXPORT string pack_json(const Var& value);
+	MUD_OBJ_EXPORT void unpack_json_file(Ref value, const string& path);
 }

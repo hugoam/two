@@ -38,6 +38,12 @@ namespace glm {
     
 }
 
+namespace json11 {
+
+    
+    
+}
+
 namespace mud {
 
     enum class EditorHint : unsigned int;

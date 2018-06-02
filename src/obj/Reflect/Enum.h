@@ -9,12 +9,13 @@
 #include <obj/String/String.h>
 #include <obj/String/StringConvert.h>
 
-/* std */
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	class _refl_ MUD_OBJ_EXPORT Enum
+	export_ class _refl_ MUD_OBJ_EXPORT Enum
 	{
 	public:
 		Enum(Type& type, bool scoped, const std::vector<cstring>& names, const std::vector<size_t>& indices, const std::vector<Var>& values);
@@ -31,17 +32,17 @@ namespace mud
 		size_t index(cstring name);
 	};
 
-	inline size_t enum_index(Ref value)
+	export_ inline size_t enum_index(Ref value)
 	{
 		return enu(value).index(to_string(value).c_str());
 	}
 
-	inline void enum_set_index(Ref value, size_t index)
+	export_ inline void enum_set_index(Ref value, size_t index)
 	{
 		copy_construct(value, enu(value).m_values[index]);
 	}
 
-	inline Var enum_value(Type& type, size_t index)
+	export_ inline Var enum_value(Type& type, size_t index)
 	{
 		Var value = type.m_meta->m_empty_var(); enum_set_index(value, index); return value;
 	}

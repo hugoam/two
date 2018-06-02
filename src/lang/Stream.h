@@ -8,15 +8,17 @@
 #include <obj/String/String.h>
 #include <lang/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
 #include <functional>
+#endif
 
 namespace mud
 {
 	typedef std::vector<size_t> StreamIndex;
 	typedef std::vector<size_t> Topology;
 
-	/*struct MUD_LANG_EXPORT StreamBranch : public StreamIndex
+	/*export_ struct MUD_LANG_EXPORT StreamBranch : public StreamIndex
 	{
 		StreamBranch(StreamIndex index);
 
@@ -24,7 +26,7 @@ namespace mud
 		bool empty;
 	};
 
-	struct MUD_LANG_EXPORT Flow
+	export_ struct MUD_LANG_EXPORT Flow
 	{
 		std::vector<StreamBranch> branches;
 		Topology topology;
@@ -36,7 +38,7 @@ namespace mud
 		const Topology& m_topology;
 	};
 
-	class _refl_ MUD_LANG_EXPORT StreamBranch
+	export_ class _refl_ MUD_LANG_EXPORT StreamBranch
 	{
 	public:
 		StreamBranch(Stream* stream, Var value, StreamIndex index);
@@ -82,7 +84,7 @@ namespace mud
 		SM_GRAFT
 	};
 
-	class _refl_ MUD_LANG_EXPORT Stream : public StreamBranch
+	export_ class _refl_ MUD_LANG_EXPORT Stream : public StreamBranch
 	{
 	public:
 		Stream();

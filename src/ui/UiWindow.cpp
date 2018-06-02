@@ -2,52 +2,51 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
-#include <ui/UiWindow.h>
-
+#ifdef MUD_MODULES
+module mud.ui;
+#else
 #include <obj/Vector.h>
 #include <obj/String/String.h>
-
+#include <obj/System/System.h>
 #include <obj/Reflect/Class.h> // @kludge
+#include <ctx/Context.h>
+#include <ui/UiWindow.h>
 #include <ui/Generated/Types.h> // @kludge
 #include <ui/Style/9Sprite.h> // @kludge
-
-#include <ctx/Context.h>
-
 #include <ui/Style/Styler.h>
 #include <ui/Style/Styles.h>
-
 #include <ui/Structs/RootSheet.h>
-
 #include <ui/Frame/Frame.h>
 #include <ui/Render/Renderer.h>
-
 #include <ui/Controller/Controller.h>
+#endif
 
 #include <stb_image.h>
-#include <dirent.h>
 
 namespace mud
 {
 	static void load_folder_images(std::vector<Image>& images, const string& path, const string& subfolder)
 	{
-		DIR* dir = opendir(path.c_str());
-		dirent* ent;
+		auto visit_file = [&](cstring path, cstring file)
+		{
+			string fullpath = string(path) + file;
+			string name = subfolder + replace_all(file, ".png", "");
 
-		while((ent = readdir(dir)) != NULL)
-			if(ent->d_type & DT_REG)
-			{
-				string fullpath = path + ent->d_name;
-				string name = subfolder + replace_all(ent->d_name, ".png", "");
+			int width, height, n;
+			unsigned char* img = stbi_load(fullpath.c_str(), &width, &height, &n, 4);
+			stbi_image_free(img);
+			images.push_back({ name.c_str(), fullpath.c_str(),{ uint(width), uint(height) } });
+		};
 
-				int width, height, n;
-				unsigned char* img = stbi_load(fullpath.c_str(), &width, &height, &n, 4);
-				stbi_image_free(img);
-				images.push_back({ name.c_str(), fullpath.c_str(), { uint(width), uint(height) } });
-			}
-				
-
-		closedir(dir);
+		system().visit_files(path.c_str(), visit_file);
 	}
 
 	UiWindow::UiWindow(RenderSystem& system, cstring name, int width, int height, bool fullScreen, User* user)
@@ -99,23 +98,21 @@ namespace mud
 
 	void UiWindow::init_resources()
 	{
-		string spritePath = string(m_resource_path) + "interface/uisprites/";
+		string sprite_path = string(m_resource_path) + "interface/uisprites/";
 
-		printf("INFO: Loading Images in path %s\n", spritePath.c_str());
-
-		DIR* dir = opendir(spritePath.c_str());
-		dirent* ent;
+		printf("INFO: Loading Images in path %s\n", sprite_path.c_str());
 
 		std::vector<Image> images;
-		load_folder_images(images, spritePath, "");
+		load_folder_images(images, sprite_path, "");
 
-		while((ent = readdir(dir)) != NULL)
-			if(ent->d_type & DT_DIR && string(ent->d_name) != "." && string(ent->d_name) != "..")
-				load_folder_images(images, spritePath + ent->d_name + "/", string(ent->d_name) + "/");
+		auto visit_folder = [&](cstring path, cstring folder)
+		{
+			load_folder_images(images, sprite_path + folder + "/", string(folder) + "/");
+		};
+
+		system().visit_folders(sprite_path.c_str(), visit_folder);
 
 		m_images = vector_convert<object_ptr<Image>>(images, [](const Image& image) { return make_object<Image>(image); });
-		
-		closedir(dir);
 	}
 
 	void UiWindow::load_resources()

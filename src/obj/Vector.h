@@ -9,8 +9,10 @@
 #include <obj/Cls.h>
 #include <obj/TypeUtils.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
 #include <algorithm>
+#endif
 
 namespace mud
 {

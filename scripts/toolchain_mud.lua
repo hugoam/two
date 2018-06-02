@@ -11,6 +11,18 @@ function file_exists(name)
 end
 
 function mud_defines()
+    configuration { "cpp-modules" }
+        flags {
+            "CppLatest",
+        }
+        
+        defines { "_CRT_NO_VA_START_VALIDATION" }
+        
+        defines {
+            "MUD_CPP_20",
+            "MUD_NO_GLM",
+        }
+        
     configuration { "windows", "not asmjs" }
         defines { "MUD_PLATFORM_WINDOWS" }
         
@@ -66,6 +78,7 @@ function mud_module(name, root_path, subpath, preproc_name)
         path.join(module_path, "**.cpp"),
     }
     
+    
     defines { preproc_name .. "_REFLECT" }
     defines { preproc_name .. "_LIB" }
     
@@ -82,6 +95,13 @@ function mud_module(name, root_path, subpath, preproc_name)
     end
     
     mud_defines()
+    
+    configuration { "cpp-modules" }
+        files {
+            path.join(module_path, "Module.ixx"),
+        }
+            
+    configuration {}
 end
 
 function mud_amalgamate(modules)
@@ -108,6 +128,11 @@ newaction {
     execute     = function()
         mud_amalgamate(MODULES)
     end
+}
+
+newoption {
+    trigger = "cpp-modules",
+    description = "Use C++ experimental modules",
 }
 
 newoption {

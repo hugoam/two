@@ -15,7 +15,7 @@ namespace mud
 		DOF_FIRST_PASS,
 	};
 
-	struct _refl_ MUD_GFX_EXPORT DofBlur
+	export_ struct _refl_ MUD_GFX_EXPORT DofBlur
 	{
 		_attr_ _mut_ bool m_enabled = false;
 		_attr_ _mut_ float m_far_distance = 10.f;
@@ -41,7 +41,7 @@ namespace mud
 		bgfx::UniformHandle u_dof_params;
 	};
 
-	class _refl_ MUD_GFX_EXPORT BlockDofBlur : public GfxBlock
+	export_ class _refl_ MUD_GFX_EXPORT BlockDofBlur : public GfxBlock
 	{
 	public:
 		BlockDofBlur(GfxSystem& gfx_system, BlockFilter& filter);

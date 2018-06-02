@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	struct _refl_ MUD_UI_EXPORT NodeConnection
+	export_ struct _refl_ MUD_UI_EXPORT NodeConnection
 	{
 		NodeConnection() : m_valid(false) {}
 		NodeConnection(size_t out_node, size_t out_plug, size_t in_node, size_t in_plug) : m_valid(true), m_out_node(out_node), m_out_plug(out_plug), m_in_node(in_node), m_in_plug(in_plug) {}

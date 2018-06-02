@@ -10,7 +10,7 @@
 
 namespace mud
 {
-	struct _refl_ MUD_UI_EXPORT Image
+	export_ struct _refl_ MUD_UI_EXPORT Image
 	{
 	public:
 		Image(cstring name = "", cstring path = "", const uvec2& size = {})

@@ -1,3 +1,13 @@
+#ifdef MUD_CPP_20
+#include <cassert>
+#include <cstdint>
+#include <climits>
+#include <cfloat>
+import std.core;
+import std.memory;
+import std.threading;
+import std.regex;
+#endif
 
 #include <ctx/Generated/Module.h>
 
@@ -14,8 +24,8 @@ namespace mud
 		: Module("mud::ctx")
 	{
         // ensure dependencies are instantiated
-        mudobj::module();
-        mudmath::module();
+        mudobj::m();
+        mudmath::m();
 
 #ifdef MUD_CTX_REFLECT
         // setup reflection meta data
@@ -28,6 +38,6 @@ namespace mud
 extern "C"
 MUD_CTX_EXPORT Module& getModule()
 {
-	return mudctx::module();
+	return mudctx::m();
 }
 #endif

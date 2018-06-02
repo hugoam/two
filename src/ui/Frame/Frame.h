@@ -9,7 +9,9 @@
 #include <ui/Generated/Forward.h>
 #include <ui/Frame/UiRect.h>
 
+#ifndef MUD_CPP_20
 #include <cmath>
+#endif
 
 #define MUD_UI_IMMEDIATE
 
@@ -26,7 +28,7 @@ namespace mud
 		DIRTY_FORCE_LAYOUT	// The frame layout has changed
 	};
 
-	class _refl_ MUD_UI_EXPORT Frame : public NonCopy, public UiRect
+	export_ class _refl_ MUD_UI_EXPORT Frame : public NonCopy, public UiRect
 	{
 	public:
 		Frame(Frame* parent, Widget& widget);

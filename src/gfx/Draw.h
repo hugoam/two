@@ -18,13 +18,15 @@
 #define MUD_MAX_SHAPE_SIZE 256
 #endif
 
+#ifndef MUD_CPP_20
 #include <map>
+#endif
 
 namespace mud
 {
 	using cstring = const char*;
 
-	class _refl_ MUD_GFX_EXPORT ImmediateDraw
+	export_ class _refl_ MUD_GFX_EXPORT ImmediateDraw
 	{
 	public:
 		ImmediateDraw(Material& material);
@@ -51,7 +53,7 @@ namespace mud
 		void submit(uint8_t view, uint64_t bgfx_state, DrawMode draw_mode);
 	};
 
-	class _refl_ MUD_GFX_EXPORT SymbolIndex : public NonCopy, public Global<SymbolIndex>
+	export_ class _refl_ MUD_GFX_EXPORT SymbolIndex : public NonCopy, public Global<SymbolIndex>
 	{
 	public:
 		SymbolIndex();

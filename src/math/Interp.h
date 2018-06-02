@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	class MUD_MATH_EXPORT Lerp : public Dispatch<void, Ref, Ref, float>, public LazyGlobal<Lerp>
+	export_ class MUD_MATH_EXPORT Lerp : public Dispatch<void, Ref, Ref, float>, public LazyGlobal<Lerp>
 	{
 	public:
 		Lerp();

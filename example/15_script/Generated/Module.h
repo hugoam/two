@@ -16,13 +16,13 @@
 
 #include <15_script/15_script.h>
 
-	class _15_SCRIPT_EXPORT ex_15_script : public Module
+	export_ class _15_SCRIPT_EXPORT ex_15_script : public Module
 	{
 	private:
 		ex_15_script();
 
 	public:
-		static ex_15_script& module() { static ex_15_script instance; return instance; }
+		static ex_15_script& m() { static ex_15_script instance; return instance; }
 	};
 
 #ifdef _EX_15_SCRIPT_MODULE

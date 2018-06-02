@@ -18,8 +18,7 @@
 		"math/Vec.h",
 		"math/VecJson.h",
 		"math/VecMath.h",
-		"math/VecOps.h",
-		"math/Vector3.h"
+		"math/VecOps.h"
 	],
 	"include_paths": [
 		""

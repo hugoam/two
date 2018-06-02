@@ -10,21 +10,23 @@
 #include <obj/Var.h>
 #include <obj/Strung.h>
 
+#ifndef MUD_CPP_20
 #include <functional>
 #include <vector>
 #include <memory>
+#endif
 
 namespace mud
 {
-	typedef void* (*FunctionPointer)();
+	export_ using FunctionPointer = void* (*)();
 
-	using ConstructorFunc = void(*)(Ref, array<Var>);
-	using CopyConstructorFunc = void(*)(Ref, Ref);
-	using DestructorFunc = void(*)(Ref);
-	using MethodFunc = void(*)(Ref, array<Var>, Var&);
-	using FunctionFunc = void(*)(array<Var>, Var&);
+	export_ using ConstructorFunc = void(*)(Ref, array<Var>);
+	export_ using CopyConstructorFunc = void(*)(Ref, Ref);
+	export_ using DestructorFunc = void(*)(Ref);
+	export_ using MethodFunc = void(*)(Ref, array<Var>, Var&);
+	export_ using FunctionFunc = void(*)(array<Var>, Var&);
 
-	class _refl_ MUD_OBJ_EXPORT Param
+	export_ class _refl_ MUD_OBJ_EXPORT Param
 	{
 	public:
 		enum Flags
@@ -50,9 +52,9 @@ namespace mud
 		bool output() const { return (m_flags & Output) != 0; }
 	};
 
-	typedef std::vector<Param> ParamVector;
+	export_ using ParamVector = std::vector<Param>;
 
-	class _refl_ MUD_OBJ_EXPORT Signature
+	export_ class _refl_ MUD_OBJ_EXPORT Signature
 	{
 	public:
 		Signature(const ParamVector& params = {}, const Var& returnval = Var());
@@ -61,7 +63,8 @@ namespace mud
 		Var m_returnval;
 	};
 
-	class _refl_ MUD_OBJ_EXPORT Callable
+	
+	export_ class _refl_ MUD_OBJ_EXPORT Callable
 	{
 	public:
 		Callable(cstring name, const ParamVector& params = {}, Var returnval = Var());
@@ -84,7 +87,7 @@ namespace mud
 		bool checkArgs(const std::vector<Var>& args) const { for(const Param& param : m_params) if(&args[param.m_index].type() != &param.m_value.type()) return false; return true; }
 	};
 
-	class _refl_ MUD_OBJ_EXPORT Function : public Callable
+	export_ class _refl_ MUD_OBJ_EXPORT Function : public Callable
 	{
 	public:
 		Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc function, const ParamVector& params = {}, Var returnval = Var());
@@ -96,7 +99,7 @@ namespace mud
 		FunctionFunc m_call;
 	};
 
-	class _refl_ MUD_OBJ_EXPORT Method : public Callable
+	export_ class _refl_ MUD_OBJ_EXPORT Method : public Callable
 	{
 	public:
 		Method(Type& object_type, cstring name, Address address, MethodFunc method, const ParamVector& params = {}, Var returnval = Var());
@@ -108,14 +111,14 @@ namespace mud
 		MethodFunc m_call;
 	};
 
-	enum class ConstructorIndex : unsigned int
+	export_ enum class ConstructorIndex : unsigned int
 	{
 		Default = 0,
 		Proto = 0,
 		ProtoParts = 1
 	};
 
-	class _refl_ MUD_OBJ_EXPORT Constructor : public Callable
+	export_ class _refl_ MUD_OBJ_EXPORT Constructor : public Callable
 	{
 	public:
 		Constructor(Type& object_type, ConstructorFunc func, const ParamVector& params = {});
@@ -126,7 +129,7 @@ namespace mud
 		ConstructorFunc m_call;
 	};
 
-	class _refl_ MUD_OBJ_EXPORT CopyConstructor : public Callable
+	export_ class _refl_ MUD_OBJ_EXPORT CopyConstructor : public Callable
 	{
 	public:
 		CopyConstructor(Type& object_type, CopyConstructorFunc func);
@@ -137,7 +140,7 @@ namespace mud
 		CopyConstructorFunc m_call;
 	};
 
-	class _refl_ MUD_OBJ_EXPORT Destructor : public Callable
+	export_ class _refl_ MUD_OBJ_EXPORT Destructor : public Callable
 	{
 	public:
 		Destructor(Type& object_type, DestructorFunc func);
@@ -148,7 +151,7 @@ namespace mud
 		DestructorFunc m_call;
 	};
 
-	struct _refl_ MUD_OBJ_EXPORT Call
+	export_ struct _refl_ MUD_OBJ_EXPORT Call
 	{
 	public:
 		_constr_ Call();
@@ -161,17 +164,14 @@ namespace mud
 		const Var& operator()();
 		const Var& operator()(Ref object);
 
-		/*_attr_*/ const Callable* m_callable = nullptr;
+		const Callable* m_callable = nullptr;
 		_attr_ std::vector<Var> m_arguments;
 		_attr_ Var m_result;
 	};
 
-	template<typename T_Function>
+	export_ template<typename T_Function>
 	inline FunctionPointer function_id(T_Function func) { return reinterpret_cast<FunctionPointer>(func); }
 
-	template<typename T_Return, typename T, typename... T_Params>
-	inline Method& method(T_Return(T::*meth)(T_Params...)) { return type<T>().m_meta->method(member_address(meth)); }
-
-	template <typename T_Function>
+	export_ template <typename T_Function>
 	inline Function& function(T_Function func);
 }

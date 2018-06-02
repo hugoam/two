@@ -13,11 +13,12 @@
 #include <gfx/Mesh.h>
 
 #ifndef MUD_GENERATOR_SKIP_INCLUDES
-#include <bx/easing.h>
 #include <bgfx/bgfx.h>
 #endif
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
@@ -43,13 +44,13 @@ namespace mud
 		uint32_t idx;
 	};
 
-	enum class _refl_ EmitterDirection : unsigned int
+	export_ enum class _refl_ EmitterDirection : unsigned int
 	{
 		Outward,
 		Absolute
 	};
 
-	struct _refl_ MUD_GFX_EXPORT ParticleGenerator
+	export_ struct _refl_ MUD_GFX_EXPORT ParticleGenerator
 	{
 		ParticleGenerator();
 		ParticleGenerator(cstring name);
@@ -102,7 +103,7 @@ namespace mud
 		static bgfx::VertexDecl ms_decl;
 	};
 
-	struct _refl_ MUD_GFX_EXPORT ParticleEmitter : public ParticleGenerator
+	export_ struct _refl_ MUD_GFX_EXPORT ParticleEmitter : public ParticleGenerator
 	{
 		ParticleEmitter(ShapeVar shape = {}, uint32_t max_particles = 1024)
 			: m_max(max_particles)
@@ -130,7 +131,7 @@ namespace mud
 	template <class T>
 	class TPool;
 
-	struct MUD_GFX_EXPORT ParticleSystem
+	export_ struct MUD_GFX_EXPORT ParticleSystem
 	{
 		ParticleSystem(GfxSystem& gfx_system, uint16_t maxEmitters = 64);
 		~ParticleSystem();
@@ -150,7 +151,7 @@ namespace mud
 		uint32_t m_num = 0;
 	};
 
-	class _refl_ MUD_GFX_EXPORT Particles
+	export_ class _refl_ MUD_GFX_EXPORT Particles
 	{
 	public:
 		Particles(ParticleSystem& particle_system, Node3& node);
@@ -164,7 +165,7 @@ namespace mud
 		void upload();
 	};
 
-	class _refl_ MUD_GFX_EXPORT BlockParticles : public GfxBlock
+	export_ class _refl_ MUD_GFX_EXPORT BlockParticles : public GfxBlock
 	{
 	public:
 		BlockParticles(GfxSystem& gfx_system);
@@ -185,7 +186,7 @@ namespace mud
 		void remove_sprite(Sprite& image);
 	};
 
-	class MUD_GFX_EXPORT PassParticles : public RenderPass
+	export_ class MUD_GFX_EXPORT PassParticles : public RenderPass
 	{
 	public:
 		PassParticles(GfxSystem& gfx_system);

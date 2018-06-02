@@ -2,12 +2,24 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#else
+#include <string>
+#endif
 
+#ifdef MUD_MODULES
+module mud.gfx;
+#else
 #include <gfx/Texture.h>
-
 #include <gfx/GfxSystem.h>
 #include <gfx/Node3.h>
 #include <gfx/Renderer.h>
+#endif
 
 #include <bgfx/bgfx.h>
 #include <bimg/bimg.h>
@@ -16,7 +28,6 @@
 #include <bx/readerwriter.h>
 
 #include <stb_image.h>
-#include <string>
 
 namespace mud
 {
@@ -114,7 +125,7 @@ namespace mud
 	void load_texture(GfxSystem& gfx_system, Texture& texture, cstring path)
 	{
 		bgfx::TextureInfo texture_info;
-		texture.m_texture = load_bgfx_texture(gfx_system.m_allocator, gfx_system.m_file_reader, path, 0U, &texture_info);
+		texture.m_texture = load_bgfx_texture(gfx_system.m_allocator, gfx_system.file_reader(), path, 0U, &texture_info);
 		texture.m_width = texture_info.width;
 		texture.m_height = texture_info.height;
 	}

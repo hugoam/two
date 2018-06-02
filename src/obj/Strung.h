@@ -5,13 +5,16 @@
 #pragma once
 
 #include <obj/Generated/Forward.h>
-#include <string.h>
+
+#ifndef MUD_CPP_20
+#include <cstring>
+#endif
 
 namespace mud
 {
 	using cstring = const char*;
 
-	struct _refl_ MUD_OBJ_EXPORT strung
+	export_ struct _refl_ MUD_OBJ_EXPORT strung
 	{
 		_constr_ strung() : m_buffer("") {}
 		_constr_ strung(cstring str) : m_buffer("") { strcpy(m_buffer, str); }

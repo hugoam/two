@@ -1,0 +1,404 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 20.08.2010 18:13:43
+
+newmtl leaf
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/thorn_diff.jpg
+	map_Kd sponza/thorn_diff.jpg	
+	map_Ks sponza/thorn_spec.jpg
+	map_d sponza/thorn_mask.jpg
+	map_bump sponza/thorn_ddn.jpg
+	bump sponza/thorn_ddn.jpg
+
+newmtl vase_round
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/vase_round.jpg
+	map_Kd sponza/vase_round.jpg
+	map_Ks sponza/vase_round_spec.jpg
+	map_bump sponza/vase_round_ddn.jpg
+	bump sponza/vase_round_ddn.jpg
+
+newmtl vase_plant
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/vase_plant.jpg
+	map_Kd sponza/vase_plant.jpg
+	map_Ks sponza/vase_plant_spec.jpg
+	map_d sponza/vase_plant_mask.jpg
+
+newmtl background
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/background.jpg
+	map_Kd sponza/background.jpg
+	map_bump sponza/background_ddn.jpg
+	bump sponza/background_ddn.jpg
+
+newmtl gi_flag
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/gi_flag.jpg
+	map_Kd sponza/gi_flag.jpg
+
+newmtl bricks
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/bricks_a_diff.jpg
+	map_Kd sponza/bricks_a_diff.jpg
+	map_Ks sponza/bricks_a_spec.jpg
+	map_bump sponza/bricks_a_ddn.jpg
+	bump sponza/bricks_a_ddn.jpg
+
+newmtl arch
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/arch_diff.jpg
+	map_Kd sponza/arch_diff.jpg
+	map_Ks sponza/arch_spec.jpg
+	map_bump sponza/arch_ddn.jpg
+	bump sponza/arch_ddn.jpg
+
+newmtl ceiling
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/ceiling_a_diff.jpg
+	map_Kd sponza/ceiling_a_diff.jpg
+	map_Ks sponza/ceiling_a_spec.jpg
+
+newmtl column_a
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/column_a_diff.jpg
+	map_Kd sponza/column_a_diff.jpg
+	map_Ks sponza/column_a_spec.jpg
+	map_bump sponza/column_a_ddn.jpg
+	bump sponza/column_a_ddn.jpg
+
+newmtl floor
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/floor_a_diff.jpg
+	map_Kd sponza/floor_a_diff.jpg
+	map_Ks sponza/floor_a_spec.jpg
+
+newmtl column_c
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/column_c_diff.jpg
+	map_Kd sponza/column_c_diff.jpg
+	map_Ks sponza/column_c_spec.jpg
+	map_bump sponza/column_c_ddn.jpg
+	bump sponza/column_c_ddn.jpg
+
+newmtl details
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/details_diff.jpg
+	map_Kd sponza/details_diff.jpg
+	map_Ks sponza/details_spec.jpg
+
+newmtl column_b
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/column_b_diff.jpg
+	map_Kd sponza/column_b_diff.jpg
+	map_Ks sponza/column_b_spec.jpg
+	map_bump sponza/column_b_ddn.jpg
+	bump sponza/column_b_ddn.jpg
+
+newmtl Material__47
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+
+newmtl flagpole
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/flagpole_diff.jpg
+	map_Kd sponza/flagpole_diff.jpg
+	map_Ks sponza/flagpole_spec.jpg
+
+newmtl fabric_e
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/fabric_green_diff.jpg
+	map_Kd sponza/fabric_green_diff.jpg
+	map_Ks sponza/fabric_spec.jpg
+
+newmtl fabric_d
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/fabric_blue_diff.jpg
+	map_Kd sponza/fabric_blue_diff.jpg
+	map_Ks sponza/fabric_spec.jpg
+
+newmtl fabric_a
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/fabric_diff.jpg
+	map_Kd sponza/fabric_diff.jpg
+	map_Ks sponza/fabric_spec.jpg
+
+newmtl fabric_g
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/curtain_blue_diff.jpg
+	map_Kd sponza/curtain_blue_diff.jpg
+
+newmtl fabric_c
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/curtain_diff.jpg
+	map_Kd sponza/curtain_diff.jpg
+
+newmtl fabric_f
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/curtain_green_diff.jpg
+	map_Kd sponza/curtain_green_diff.jpg
+
+newmtl chain
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/chain_texture.jpg
+	map_Kd sponza/chain_texture.jpg
+	map_d sponza/chain_texture_mask.jpg
+	map_bump sponza/chain_texture_ddn.jpg
+	bump sponza/chain_texture_ddn.jpg
+
+newmtl vase_hanging
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/vase_hanging.jpg
+	map_Kd sponza/vase_hanging.jpg
+
+newmtl vase
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/vase_dif.jpg
+	map_Kd sponza/vase_dif.jpg
+	map_bump sponza/vase_ddn.jpg
+	bump sponza/vase_ddn.jpg
+
+newmtl lion
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/lion.jpg
+	map_Kd sponza/lion.jpg
+	map_bump sponza/lion_ddn.jpg
+	bump sponza/lion_ddn.jpg
+
+newmtl roof
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka sponza/roof_diff.jpg
+	map_Kd sponza/roof_diff.jpg

@@ -10,12 +10,14 @@
 #include <obj/Reflect/Method.h>
 #include <obj/Reflect/Member.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
 #include <functional>
+#endif
 
 namespace mud
 {
-	class _refl_ MUD_OBJ_EXPORT Class
+	export_ class _refl_ MUD_OBJ_EXPORT Class
 	{
 	public:
 		Class(Type& type);
@@ -99,8 +101,11 @@ namespace mud
 		std::function<unique_ptr<Iterable>(Ref)> m_iterable;
 	};
 
-	inline bool is_root_type(Type& ty) { return !ty.m_class || ty.m_class->m_root == &ty; }
+	export_ inline bool is_root_type(Type& ty) { return !ty.m_class || ty.m_class->m_root == &ty; }
 
-	template <class T>
+	export_ template <class T>
 	T& upcast(Ref value) { Ref base = cls(value).upcast(value, type<T>()); return val<T>(base); }
+
+	export_ template<typename T_Return, typename T, typename... T_Params>
+	inline Method& method(T_Return(T::*meth)(T_Params...)) { return cls<T>().method(member_address(meth)); }
 }

@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	struct MUD_MATH_EXPORT DispatchDrawProcShape : public LazyGlobal<DispatchDrawProcShape>
+	export_ struct MUD_MATH_EXPORT DispatchDrawProcShape : public LazyGlobal<DispatchDrawProcShape>
 	{
 		DispatchDrawProcShape();
 

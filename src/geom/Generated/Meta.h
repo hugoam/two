@@ -13,7 +13,7 @@ namespace mud
     template <> MUD_GEOM_EXPORT Type& type<mud::VertexAttribute::Enum>();
     
 #ifdef MUD_GEOM_REFLECTION_IMPL
-    void geom_meta(Module& module)
+    void geom_meta(Module& m)
     {   
     // Base Types
     
@@ -1062,7 +1062,8 @@ namespace mud
             // constructors
             {
                 { type<mud::Sphere>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Sphere>(ref)) mud::Sphere(  ); }, {} },
-                { type<mud::Sphere>(), [](Ref ref, array<Var> args) { new(&val<mud::Sphere>(ref)) mud::Sphere( val<float>(args[0]) ); }, { { "radius", var(float()) } } }
+                { type<mud::Sphere>(), [](Ref ref, array<Var> args) { new(&val<mud::Sphere>(ref)) mud::Sphere( val<float>(args[0]) ); }, { { "radius", var(float()) } } },
+                { type<mud::Sphere>(), [](Ref ref, array<Var> args) { new(&val<mud::Sphere>(ref)) mud::Sphere( val<mud::vec3>(args[0]), val<float>(args[1]) ); }, { { "center", var(mud::vec3()) }, { "radius", var(float()) } } }
             },
             // copy constructor
             {
@@ -1273,49 +1274,50 @@ namespace mud
     
 
     
-        module.m_types.push_back(&type<mud::Distribution>());
-        module.m_types.push_back(&type<mud::DrawMode>());
-        module.m_types.push_back(&type<mud::Face3>());
-        module.m_types.push_back(&type<mud::MeshPacker>());
-        module.m_types.push_back(&type<mud::Plane>());
-        module.m_types.push_back(&type<mud::Plane3>());
-        module.m_types.push_back(&type<mud::PrimitiveType>());
-        module.m_types.push_back(&type<mud::Ray>());
-        module.m_types.push_back(&type<mud::Segment>());
-        module.m_types.push_back(&type<mud::Shape>());
-        module.m_types.push_back(&type<mud::ShapeVar>());
-        module.m_types.push_back(&type<mud::Symbol>());
-        module.m_types.push_back(&type<mud::SymbolDetail>());
-        module.m_types.push_back(&type<std::vector<mud::Circle>>());
-        module.m_types.push_back(&type<std::vector<mud::vec3>>());
-        module.m_types.push_back(&type<mud::Aabb>());
-        module.m_types.push_back(&type<mud::Arc>());
-        module.m_types.push_back(&type<mud::Box>());
-        module.m_types.push_back(&type<mud::Capsule>());
-        module.m_types.push_back(&type<mud::Circle>());
-        module.m_types.push_back(&type<mud::ConvexHull>());
-        module.m_types.push_back(&type<mud::Cube>());
-        module.m_types.push_back(&type<mud::Cylinder>());
-        module.m_types.push_back(&type<mud::Ellipsis>());
-        module.m_types.push_back(&type<mud::Geometry>());
-        module.m_types.push_back(&type<mud::Grid2>());
-        module.m_types.push_back(&type<mud::Line>());
-        module.m_types.push_back(&type<mud::Points>());
-        module.m_types.push_back(&type<mud::Polygon>());
-        module.m_types.push_back(&type<mud::Quad>());
-        module.m_types.push_back(&type<mud::Rect>());
-        module.m_types.push_back(&type<mud::Ring>());
-        module.m_types.push_back(&type<mud::Sphere>());
-        module.m_types.push_back(&type<mud::SphereRing>());
-        module.m_types.push_back(&type<mud::Spheroid>());
-        module.m_types.push_back(&type<mud::Torus>());
-        module.m_types.push_back(&type<mud::Triangle>());
-        module.m_types.push_back(&type<mud::Poisson>());
+        m.m_types.push_back(&type<mud::Distribution>());
+        m.m_types.push_back(&type<mud::DrawMode>());
+        m.m_types.push_back(&type<mud::Face3>());
+        m.m_types.push_back(&type<mud::MeshPacker>());
+        m.m_types.push_back(&type<mud::Plane>());
+        m.m_types.push_back(&type<mud::Plane3>());
+        m.m_types.push_back(&type<mud::PrimitiveType>());
+        m.m_types.push_back(&type<mud::Ray>());
+        m.m_types.push_back(&type<mud::Segment>());
+        m.m_types.push_back(&type<mud::Shape>());
+        m.m_types.push_back(&type<mud::ShapeVar>());
+        m.m_types.push_back(&type<mud::Symbol>());
+        m.m_types.push_back(&type<mud::SymbolDetail>());
+        m.m_types.push_back(&type<std::vector<mud::Circle>>());
+        m.m_types.push_back(&type<std::vector<mud::vec3>>());
+        m.m_types.push_back(&type<mud::Aabb>());
+        m.m_types.push_back(&type<mud::Arc>());
+        m.m_types.push_back(&type<mud::Box>());
+        m.m_types.push_back(&type<mud::Capsule>());
+        m.m_types.push_back(&type<mud::Circle>());
+        m.m_types.push_back(&type<mud::ConvexHull>());
+        m.m_types.push_back(&type<mud::Cube>());
+        m.m_types.push_back(&type<mud::Cylinder>());
+        m.m_types.push_back(&type<mud::Ellipsis>());
+        m.m_types.push_back(&type<mud::Geometry>());
+        m.m_types.push_back(&type<mud::Grid2>());
+        m.m_types.push_back(&type<mud::Line>());
+        m.m_types.push_back(&type<mud::Points>());
+        m.m_types.push_back(&type<mud::Polygon>());
+        m.m_types.push_back(&type<mud::Quad>());
+        m.m_types.push_back(&type<mud::Rect>());
+        m.m_types.push_back(&type<mud::Ring>());
+        m.m_types.push_back(&type<mud::Sphere>());
+        m.m_types.push_back(&type<mud::SphereRing>());
+        m.m_types.push_back(&type<mud::Spheroid>());
+        m.m_types.push_back(&type<mud::Torus>());
+        m.m_types.push_back(&type<mud::Triangle>());
+        m.m_types.push_back(&type<mud::Poisson>());
     
         {
             auto func = [](array<Var> args, Var& result) {  val<std::vector<mud::vec3>>(result) = mud::distribute_poisson(val<mud::vec2>(args[0]), val<float>(args[1])); };
             std::vector<Param> params = { { "size", var(mud::vec2()) }, { "radius", var(float()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "distribute_poisson", function_id<std::vector<vec3>(*)(mud::vec2, float)>(&mud::distribute_poisson), func, params, var(std::vector<mud::vec3>()) });
+            static Function f = { &namspc({ "mud" }), "distribute_poisson", function_id<std::vector<vec3>(*)(mud::vec2, float)>(&mud::distribute_poisson), func, params, var(std::vector<mud::vec3>()) };
+            m.m_functions.push_back(&f);
         }
     }
 #endif

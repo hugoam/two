@@ -12,7 +12,7 @@
 
 namespace mud
 {
-	struct MUD_MATH_EXPORT ShapeSize
+	export_ struct MUD_MATH_EXPORT ShapeSize
 	{
 		ShapeSize(int verts, int indices) : vertex_count(verts), index_count(indices) {}
 
@@ -24,12 +24,11 @@ namespace mud
 		};
 	};
 
-	struct MUD_MATH_EXPORT ProcShape
+	export_ struct MUD_MATH_EXPORT ProcShape
 	{
 		Symbol m_symbol;
 		const Shape* m_shape;
 		DrawMode m_draw_mode;
-		vec3 m_position;
 	};
 
 	MUD_MATH_EXPORT ShapeSize symbol_line_size(const ProcShape& shape);

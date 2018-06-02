@@ -12,8 +12,10 @@
 #include <bgfx/bgfx.h>
 #endif
 
+#ifndef MUD_CPP_20
 #include <vector>
 #include <functional>
+#endif
 
 namespace mud
 {
@@ -40,7 +42,7 @@ namespace mud
 		operator bool() const { return m_rect != uvec4(0U); }
 	};
 
-	class MUD_GFX_EXPORT Picker
+	export_ class MUD_GFX_EXPORT Picker
 	{
 	public:
 		Picker(GfxSystem& system, FrameBuffer& target);

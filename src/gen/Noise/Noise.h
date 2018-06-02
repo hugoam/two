@@ -5,7 +5,7 @@
 #include <math/Grid.h>
 
 #ifndef MUD_META_GENERATOR
-class MUD_GEN_EXPORT FastNoise;
+export_ class MUD_GEN_EXPORT FastNoise;
 #include <FastNoise.h>
 #endif
 
@@ -14,16 +14,16 @@ namespace mud
 	//using fnScalar = FN_DECIMAL;
 
 #ifdef MUD_META_GENERATOR
-	class _refl_ MUD_GEN_EXPORT Noise
+	export_ class _refl_ MUD_GEN_EXPORT Noise
 	{
 	public:
-		enum _refl_ NoiseType { Value, ValueFractal, Perlin, PerlinFractal, Simplex, SimplexFractal, Cellular, WhiteNoise, Cubic, CubicFractal };
-		enum _refl_ Interp { Linear, Hermite, Quintic };
-		enum _refl_ FractalType { FBM, Billow, RigidMulti };
-		enum _refl_ CellularDistanceFunction { Euclidean, Manhattan, Natural };
-		enum _refl_ CellularReturnType { CellValue, NoiseLookup, Distance, Distance2, Distance2Add, Distance2Sub, Distance2Mul, Distance2Div };
+		export_ enum _refl_ NoiseType { Value, ValueFractal, Perlin, PerlinFractal, Simplex, SimplexFractal, Cellular, WhiteNoise, Cubic, CubicFractal };
+		export_ enum _refl_ Interp { Linear, Hermite, Quintic };
+		export_ enum _refl_ FractalType { FBM, Billow, RigidMulti };
+		export_ enum _refl_ CellularDistanceFunction { Euclidean, Manhattan, Natural };
+		export_ enum _refl_ CellularReturnType { CellValue, NoiseLookup, Distance, Distance2, Distance2Add, Distance2Sub, Distance2Mul, Distance2Div };
 #else
-	class _refl_ MUD_GEN_EXPORT Noise : public FastNoise
+	export_ class _refl_ MUD_GEN_EXPORT Noise : public FastNoise
 	{
 #endif
 	public:
@@ -69,7 +69,7 @@ namespace mud
 											   Noise::FractalType fractal_type = Noise::FBM, int octaves = 3, float lacunarity = 2.f, float gain = 0.5f);
 
 
-	template struct _refl_ _struct_ MUD_GEN_EXPORT array_3d<float>;
+	export_ template struct _refl_ _struct_ MUD_GEN_EXPORT array_3d<float>;
 
 	MUD_GEN_EXPORT _func_ void noise_field_2d(array_3d<float>& output_values, Noise::NoiseType noise_type, float frequency = 0.01f, Noise::Interp interp = Noise::Quintic);
 	MUD_GEN_EXPORT _func_ void noise_field_3d(array_3d<float>& output_values, Noise::NoiseType noise_type, float frequency = 0.01f, Noise::Interp interp = Noise::Quintic);

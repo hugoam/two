@@ -4,15 +4,17 @@
 
 #pragma once
 
-#include <obj/Proto.h>
 #include <obj/Ref.h>
+#include <obj/Proto.h>
 #include <obj/Generic.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	class _refl_ MUD_OBJ_EXPORT Complex
+	export_ class _refl_ MUD_OBJ_EXPORT Complex
 	{
 	public:
 		Complex(Id id, Type& type, Prototype& prototype);
@@ -38,10 +40,10 @@ namespace mud
 		inline T& part() { return *static_cast<T*>(this->part(type<T>())); }
 	};
 
-	template <class T>
+	export_ template <class T>
 	inline bool isa(Complex& complex) { return is<T>(complex) || complex.has_part(type<T>()); }
 
-	class _refl_ MUD_OBJ_EXPORT Construct
+	export_ class _refl_ MUD_OBJ_EXPORT Construct
 	{
 	public:
 		Construct(Complex& stem, Prototype& prototype);

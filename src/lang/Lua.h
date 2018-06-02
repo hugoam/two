@@ -16,7 +16,7 @@ namespace mud
 
 	class LuaContext;
 
-	class _refl_ MUD_LANG_EXPORT LuaInterpreter : public NonCopy
+	export_ class _refl_ MUD_LANG_EXPORT LuaInterpreter : public NonCopy
 	{
 	public:
 		LuaInterpreter(bool import_symbols = false);

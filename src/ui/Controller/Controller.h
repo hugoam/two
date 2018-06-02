@@ -9,12 +9,14 @@
 #include <ctx/InputDispatcher.h>
 #include <math/Vec.h>
 
+#ifndef MUD_CPP_20
 #include <map>
 #include <functional>
+#endif
 
 namespace mud
 {
-	struct MUD_UI_EXPORT KeyCombo
+	export_ struct MUD_UI_EXPORT KeyCombo
 	{
 		KeyCombo(KeyCode key) : m_modifier(InputModifier::Any), m_key(key) {}
 		KeyCombo(InputModifier modifier, KeyCode key) : m_modifier(modifier), m_key(key) {}
@@ -24,7 +26,7 @@ namespace mud
 		friend bool operator<(const KeyCombo& lhs, const KeyCombo& rhs) { return lhs.value() < rhs.value(); }
 	};
 
-	class MUD_UI_EXPORT EventDispatch
+	export_ class MUD_UI_EXPORT EventDispatch
 	{
 	public:
 		EventDispatch();

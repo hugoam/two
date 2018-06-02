@@ -29,7 +29,7 @@ namespace mud
 		DropState m_state = DropState::None;
 	};
 
-	class _refl_ MUD_UI_EXPORT RootSheet : public Widget, public EventDispatcher
+	export_ class _refl_ MUD_UI_EXPORT RootSheet : public Widget, public EventDispatcher
 	{
 	public:
 		RootSheet(UiWindow& window);

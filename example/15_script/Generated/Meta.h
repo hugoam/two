@@ -12,7 +12,7 @@ namespace mud
 {
     
 #ifdef _15_SCRIPT_REFLECTION_IMPL
-    void ex_15_script_meta(Module& module)
+    void ex_15_script_meta(Module& m)
     {   
     // Base Types
     
@@ -57,7 +57,7 @@ namespace mud
     
 
     
-        module.m_types.push_back(&type<GameObject>());
+        m.m_types.push_back(&type<GameObject>());
     
     }
 #endif

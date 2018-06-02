@@ -1,3 +1,13 @@
+#ifdef MUD_CPP_20
+#include <cassert>
+#include <cstdint>
+#include <climits>
+#include <cfloat>
+import std.core;
+import std.memory;
+import std.threading;
+import std.regex;
+#endif
 
 #include <${ module.subdir }/Generated/Module.h>
 
@@ -17,7 +27,7 @@ namespace ${ module.namespace }
 	{
         // ensure dependencies are instantiated
 % for m in module.dependencies :
-        ${ m.namespace }${ m.name }::module();
+        ${ m.namespace }${ m.name }::m();
 % endfor
 
 #ifdef ${ module.preproc_name }_REFLECT
@@ -33,6 +43,6 @@ namespace ${ module.namespace }
 extern "C"
 ${ module.export } Module& getModule()
 {
-	return ${ module.namespace }${ module.name }::module();
+	return ${ module.namespace }${ module.name }::m();
 }
 #endif

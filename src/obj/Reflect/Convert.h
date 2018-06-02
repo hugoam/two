@@ -13,31 +13,34 @@
 
 namespace mud
 {
-	class _refl_ MUD_OBJ_EXPORT Convert
+	export_ class _refl_ MUD_OBJ_EXPORT Convert
 	{
 	public:
 		std::function<void(const Var&, string&)> m_to_string;
 		std::function<void(const string&, Ref)> m_from_string;
 	};
 
-	string to_name(Type& type, Ref value);
+	export_ string to_name(Type& type, Ref value);
 
-	template <> inline void to_string<Ref>(const Ref& object, string& str) { object.type().m_convert->m_to_string(object, str); }
-	template <> inline void to_string<Var>(const Var& value, string& str) { value.type().m_convert->m_to_string(value, str); }
+	export_ template <>
+	inline void to_string<Ref>(const Ref& object, string& str) { object.type().m_convert->m_to_string(object, str); }
 
-	template <class T_Source, class T_Dest>
+	export_ template <>
+	inline void to_string<Var>(const Var& value, string& str) { value.type().m_convert->m_to_string(value, str); }
+
+	export_ template <class T_Source, class T_Dest>
 	void convert(T_Source& from, T_Dest& to)
 	{
 		to = static_cast<T_Dest>(from);
 	}
 
-	template <class T_Source, class T_Dest>
+	export_ template <class T_Source, class T_Dest>
 	void copy_convert(T_Source& from, T_Dest& to)
 	{
 		to = T_Dest(from);
 	}
 
-	class MUD_OBJ_EXPORT TypeConverter : public DoubleDispatch, public LazyGlobal<TypeConverter>
+	export_ class MUD_OBJ_EXPORT TypeConverter : public DoubleDispatch, public LazyGlobal<TypeConverter>
 	{
 	public:
 		TypeConverter();

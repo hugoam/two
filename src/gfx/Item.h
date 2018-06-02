@@ -13,11 +13,13 @@
 #include <bgfx/bgfx.h>
 #endif
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	enum _refl_ ItemFlag : unsigned int
+	export_ enum _refl_ ItemFlag : unsigned int
 	{
 		ITEM_BILLBOARD = 1 << 0,
 		ITEM_WORLD_GEOMETRY = 1 << 1,
@@ -31,7 +33,7 @@ namespace mud
 		ITEM_LOD_ALL = (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8)
 	};
 
-	enum class _refl_ ItemShadow : unsigned int
+	export_ enum class _refl_ ItemShadow : unsigned int
 	{
 		Off,
 		On,
@@ -39,7 +41,7 @@ namespace mud
 		OnlyShadow
 	};
 
-	class _refl_ MUD_GFX_EXPORT Item
+	export_ class _refl_ MUD_GFX_EXPORT Item
 	{
 	public:
 		Item(Node3& node, const Model& model, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);

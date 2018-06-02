@@ -2,8 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifndef PFZ_OBJECT_POOL_H
-#define PFZ_OBJECT_POOL_H
+#pragma once
 
 #include <obj/NonCopy.h>
 #include <obj/Unique.h>
@@ -12,7 +11,7 @@
 
 namespace mud
 {
-	template<class T>
+	export_ template<class T>
 	class VecPool : public NonCopy
 	{
 	public:
@@ -87,5 +86,3 @@ namespace mud
 	template<class T>
 	int VecPool<T>::s_count = 0;
 }
-
-#endif

@@ -1,5 +1,16 @@
 
 
+#ifdef MUD_CPP_20
+#include <cassert>
+#include <cstdint>
+#include <climits>
+#include <cfloat>
+import std.core;
+import std.memory;
+import std.threading;
+import std.regex;
+#endif
+
 #include <math/Generated/Types.h>
 #include <math/Generated/Module.h>
 #include <obj/Proto.h>
@@ -15,8 +26,8 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::SpectrumPalette>() { static Type ty("mud::SpectrumPalette"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::TrackMode>() { static Type ty("mud::TrackMode"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<std::vector<float>>() { static Type ty("std::vector<float>"); return ty; }
-    //template <> MUD_MATH_EXPORT Type& type<std::vector<mud::Colour>>() { static Type ty("std::vector<mud::Colour>"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<std::vector<mud::Colour>>() { static Type ty("std::vector<mud::Colour>"); return ty; }
+    //template <> MUD_MATH_EXPORT Type& type<std::vector<mud::Colour>>() { static Type ty("std::vector<mud::Colour>"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<std::vector<mud::quat>>() { static Type ty("std::vector<mud::quat>"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<std::vector<mud::uvec3>>() { static Type ty("std::vector<mud::uvec3>"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<std::vector<mud::vec3>>() { static Type ty("std::vector<mud::vec3>"); return ty; }

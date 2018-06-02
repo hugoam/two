@@ -9,11 +9,13 @@
 #include <math/Vec.h>
 #include <geom/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	class MUD_MATH_EXPORT RandomShapePoint : public Dispatch<vec3>, public LazyGlobal<RandomShapePoint>
+	export_ class MUD_MATH_EXPORT RandomShapePoint : public Dispatch<vec3>, public LazyGlobal<RandomShapePoint>
 	{
 	public:
 		RandomShapePoint();

@@ -7,7 +7,9 @@
 #include <ui/Generated/Forward.h>
 #include <ui/Style/Style.h>
 
+#ifndef MUD_CPP_20
 #include <string>
+#endif
 
 struct dirent;
 

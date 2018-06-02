@@ -7,9 +7,10 @@
 #include <obj/Ref.h>
 #include <obj/Type.h>
 
-/* std */
+#ifndef MUD_CPP_20
 #include <vector>
 #include <functional>
+#endif
 
 namespace mud
 {

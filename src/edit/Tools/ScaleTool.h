@@ -8,11 +8,13 @@
 #include <edit/Generated/Forward.h>
 #include <edit/Tool.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	class _refl_ MUD_EDIT_EXPORT ScaleAction : public TransformAction
+	export_ class _refl_ MUD_EDIT_EXPORT ScaleAction : public TransformAction
 	{
 	public:
 		ScaleAction(const std::vector<Transform*>& targets);
@@ -26,7 +28,7 @@ namespace mud
 		vec3 m_scale_offset;
 	};
 
-	class _refl_ MUD_EDIT_EXPORT ScaleTool : public TransformTool
+	export_ class _refl_ MUD_EDIT_EXPORT ScaleTool : public TransformTool
 	{
 	public:
 		ScaleTool(ToolContext& context);

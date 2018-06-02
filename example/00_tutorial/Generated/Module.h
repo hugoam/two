@@ -16,13 +16,13 @@
 
 #include <00_tutorial/00_tutorial.h>
 
-	class _00_TUTORIAL_EXPORT ex_00_tutorial : public Module
+	export_ class _00_TUTORIAL_EXPORT ex_00_tutorial : public Module
 	{
 	private:
 		ex_00_tutorial();
 
 	public:
-		static ex_00_tutorial& module() { static ex_00_tutorial instance; return instance; }
+		static ex_00_tutorial& m() { static ex_00_tutorial instance; return instance; }
 	};
 
 #ifdef _EX_00_TUTORIAL_MODULE

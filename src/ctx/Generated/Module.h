@@ -18,13 +18,13 @@
 
 namespace mud
 {
-	class MUD_CTX_EXPORT mudctx : public Module
+	export_ class MUD_CTX_EXPORT mudctx : public Module
 	{
 	private:
 		mudctx();
 
 	public:
-		static mudctx& module() { static mudctx instance; return instance; }
+		static mudctx& m() { static mudctx instance; return instance; }
 	};
 }
 

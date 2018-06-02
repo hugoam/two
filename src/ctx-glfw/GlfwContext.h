@@ -17,7 +17,7 @@ struct GLFWwindow;
 
 namespace mud
 {
-	class _refl_ MUD_GLFW_EXPORT GlfwContext : public Context
+	export_ class _refl_ MUD_GLFW_EXPORT GlfwContext : public Context
 	{
 	public:
 		GlfwContext(RenderSystem& render_system, cstring name, int width, int height, bool full_screen, bool auto_swap = true);

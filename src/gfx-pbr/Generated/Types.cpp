@@ -1,5 +1,16 @@
 
 
+#ifdef MUD_CPP_20
+#include <cassert>
+#include <cstdint>
+#include <climits>
+#include <cfloat>
+import std.core;
+import std.memory;
+import std.threading;
+import std.regex;
+#endif
+
 #include <gfx-pbr/Generated/Types.h>
 #include <gfx-pbr/Generated/Module.h>
 #include <obj/Proto.h>

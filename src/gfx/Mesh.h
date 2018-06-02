@@ -15,11 +15,13 @@
 #include <bgfx/bgfx.h>
 #endif
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	struct MUD_GFX_EXPORT GpuMesh
+	export_ struct MUD_GFX_EXPORT GpuMesh
 	{
 		const bgfx::Memory* m_vertex_memory = nullptr;
 		const bgfx::Memory* m_index_memory = nullptr;
@@ -28,7 +30,7 @@ namespace mud
 		array<ShapeIndex> m_indices = {};
 	};
 
-	class _refl_ MUD_GFX_EXPORT Mesh
+	export_ class _refl_ MUD_GFX_EXPORT Mesh
 	{
 	public:
 		Mesh(cstring name, bool readback = false);

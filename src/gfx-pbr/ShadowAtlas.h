@@ -11,8 +11,10 @@
 #include <bgfx/bgfx.h>
 #endif
 
+#ifndef MUD_CPP_20
 #include <vector>
 #include <map>
+#endif
 
 namespace mud
 {

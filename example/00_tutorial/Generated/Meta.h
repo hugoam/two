@@ -12,7 +12,7 @@ namespace mud
 {
     
 #ifdef _00_TUTORIAL_REFLECTION_IMPL
-    void ex_00_tutorial_meta(Module& module)
+    void ex_00_tutorial_meta(Module& m)
     {   
     // Base Types
     
@@ -75,18 +75,20 @@ namespace mud
     
 
     
-        module.m_types.push_back(&type<MyObject>());
-        module.m_types.push_back(&type<ShapeType>());
+        m.m_types.push_back(&type<MyObject>());
+        m.m_types.push_back(&type<ShapeType>());
     
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  ::foo(val<int>(args[0])); };
             std::vector<Param> params = { { "arg", var(int()) } };
-            module.m_functions.push_back({ &namspc({}), "foo", function_id<void(*)(int)>(&::foo), func, params, Var() });
+            static Function f = { &namspc({}), "foo", function_id<void(*)(int)>(&::foo), func, params, Var() };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  ::bar(val<MyObject>(args[0])); };
             std::vector<Param> params = { { "object", Ref(type<MyObject>()) } };
-            module.m_functions.push_back({ &namspc({}), "bar", function_id<void(*)(MyObject&)>(&::bar), func, params, Var() });
+            static Function f = { &namspc({}), "bar", function_id<void(*)(MyObject&)>(&::bar), func, params, Var() };
+            m.m_functions.push_back(&f);
         }
     }
 #endif

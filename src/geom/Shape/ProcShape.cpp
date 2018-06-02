@@ -2,26 +2,34 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+module mud.geom;
+#else
 #include <geom/Generated/Types.h>
 #include <geom/Shape/ProcShape.h>
 #include <geom/Shape/DrawShape.h>
-
 #include <geom/Shape/Line.h>
 #include <geom/Shape/Circle.h>
 #include <geom/Shape/Quad.h>
 #include <geom/Shape/Triangle.h>
-
 #include <geom/Shape/Cube.h>
 #include <geom/Shape/Cylinder.h>
 #include <geom/Shape/Sphere.h>
 #include <geom/Shape/Spheroid.h>
 #include <geom/Shape/Geom.h>
-
 #include <geom/Primitive.h>
 #include <geom/Shapes.h>
 #include <geom/ShapesComplex.h>
 #include <geom/Aabb.h>
+#endif
 
 namespace mud
 {

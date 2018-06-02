@@ -1,24 +1,33 @@
 //  Copyright (c) 2018 Hugo Amiard hugo.amiard@laposte.net
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
+
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
+
+#ifdef MUD_MODULES
+module mud.obj;
+#else
 #include <obj/Config.h>
 #include <obj/Reflect/Meta.h>
 #include <obj/Reflect/MetaDecl.h>
 #include <obj/Reflect/Class.h>
 #include <obj/Reflect/Enum.h>
 #include <obj/Reflect/Convert.h>
-
 #include <obj/Types.h>
 #include <obj/Any.h>
 #include <obj/String/StringConvert.h>
-
 #include <obj/Reflect/Injector.h>
-
 #include <obj/Proto.h>
 #include <obj/Complex.h>
 #include <obj/Vector.h>
-
 #include <obj/Serial/Serial.h>
+#endif
 
 namespace mud
 {
@@ -325,7 +334,7 @@ namespace mud
 		else if(type.m_class->m_id_member)
 			name = string(type.m_name) + " : " + to_string(type.m_class->m_id_member->get(value));
 		else
-			name = string(type.m_name) + " : " + to_string(value.m_value);
+			name = string(type.m_name); // + " : " + to_string(value.m_value); // @todo void* to string fails with vs2017 + modules
 		return name;
 	}
 

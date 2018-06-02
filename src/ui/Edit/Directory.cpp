@@ -2,18 +2,26 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+import mud.obj;
+module mud.ui;
+#else
+#include <obj/Vector.h>
+#include <obj/System/System.h>
 #include <ui/Edit/Directory.h>
 #include <ui/Button.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Structs/Container.h>
 #include <ui/Style/Styles.h>
-
-#include <obj/Vector.h>
-
-#include <functional>
-
-#include <dirent.h>
+#endif
 
 namespace mud
 {
@@ -31,28 +39,10 @@ namespace ui
 		return multi_button(parent, file_styles().file, elements);
 	}
 
-	void iterate_directory(const string& path, std::function<void(cstring)> on_dir, std::function<void(cstring)> on_file)
-	{
-		DIR* dir = opendir(path.c_str());
-		dirent* ent;
-
-		while((ent = readdir(dir)) != NULL)
-			if(ent->d_type & DT_DIR)
-				on_dir(ent->d_name);
-
-		rewinddir(dir);
-
-		while((ent = readdir(dir)) != NULL)
-			if(ent->d_type & DT_REG)
-				on_file(ent->d_name);
-
-		closedir(dir);
-	}
-
 	Widget& file_list(Widget& parent, string& path)
 	{
 		Widget& self = widget(parent, styles().wedge);//file_styles().directory);
-		auto on_dir = [&](cstring dir)
+		auto on_dir = [&](cstring basepath, cstring dir)
 		{
 			if(string(dir) == ".") return;
 			Widget& item = dir_item(self, dir);
@@ -65,12 +55,13 @@ namespace ui
 			}
 		};
 
-		auto on_file = [&](cstring file)
+		auto on_file = [&](cstring path, cstring file)
 		{
 			file_item(self, file);
 		};
 
-		iterate_directory(path, on_dir, on_file);
+		system().visit_folders(path.c_str(), on_dir, false);
+		system().visit_files(path.c_str(), on_file);
 		return self;
 	}
 
@@ -87,18 +78,18 @@ namespace ui
 		Widget& self = tree_node(parent, elements, false, open);
 		if(!self.m_body) return self;
 
-		auto on_dir = [&](cstring dir)
+		auto on_dir = [&](cstring path, cstring dir)
 		{
-			if(string(dir) == "." || string(dir) == "..") return;
 			dir_node(*self.m_body, (string(path) + "/" + dir).c_str(), dir, false);
 		};
 
-		auto on_file = [&](cstring file)
+		auto on_file = [&](cstring path, cstring file)
 		{
 			file_node(*self.m_body, file);
 		};
 
-		iterate_directory(path, on_dir, on_file);
+		system().visit_folders(path, on_dir);
+		system().visit_files(path, on_file);
 		return self;
 	}
 

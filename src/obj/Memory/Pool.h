@@ -1,20 +1,17 @@
-//  Copyright (c) 2018 Hugo Amiard hugo.amiard@laposte.net
-//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
-//  This notice and the license may not be removed or altered from any source distribution.
 //  Copyright (c) 2015 Hugo Amiard hugo.amiard@laposte.net
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #pragma once
 
-#include <obj/Ref.h>
 #include <obj/Generated/Forward.h>
 #include <obj/Memory/VecPool.h>
 #include <obj/Any.h>
+#include <obj/Ref.h>
 
 namespace mud
 {
-	class _refl_ MUD_OBJ_EXPORT Pool
+	export_ class _refl_ MUD_OBJ_EXPORT Pool
 	{
 	public:
 		virtual void reset() = 0;
@@ -27,7 +24,7 @@ namespace mud
 		virtual void free(Ref object) = 0;
 	};
 
-	template <class T>
+	export_ template <class T>
 	class TPool : public Pool
 	{
 	public:

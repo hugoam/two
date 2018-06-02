@@ -6,7 +6,9 @@
 #include <gfx/Light.h>
 #include <gfx-pbr/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
@@ -32,7 +34,7 @@ namespace mud
 		vec4 csm_splits[num_directional];
 	};
 
-	class _refl_ MUD_GFX_EXPORT BlockLight : public DrawBlock
+	export_ class _refl_ MUD_GFX_EXPORT BlockLight : public DrawBlock
 	{
 	public:
 		BlockLight(GfxSystem& gfx_system, BlockShadow& block_shadow);

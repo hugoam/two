@@ -1,3 +1,13 @@
+#ifdef MUD_CPP_20
+#include <cassert>
+#include <cstdint>
+#include <climits>
+#include <cfloat>
+import std.core;
+import std.memory;
+import std.threading;
+import std.regex;
+#endif
 
 #include <gfx-gltf/Generated/Module.h>
 
@@ -14,10 +24,10 @@ namespace mud
 		: Module("mud::gfxgltf")
 	{
         // ensure dependencies are instantiated
-        mudobj::module();
-        mudmath::module();
-        mudgeom::module();
-        mudgfx::module();
+        mudobj::m();
+        mudmath::m();
+        mudgeom::m();
+        mudgfx::m();
 
 #ifdef MUD_GFX_GLTF_REFLECT
         // setup reflection meta data
@@ -30,6 +40,6 @@ namespace mud
 extern "C"
 MUD_GFX_GLTF_EXPORT Module& getModule()
 {
-	return mudgfxgltf::module();
+	return mudgfxgltf::m();
 }
 #endif

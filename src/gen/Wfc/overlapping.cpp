@@ -1,12 +1,32 @@
+//  Copyright (c) 2018 Hugo Amiard hugo.amiard@laposte.net
+//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
+//  This notice and the license may not be removed or altered from any source distribution.
 
-#include <gen/Wfc/wfc.h>
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#else
+#include <map>
+#endif
 
+#ifdef MUD_MODULES
+module mud.gen;
+#else
 #include <obj/Vector.h>
+#include <gen/Wfc/wfc.h>
+// @kludge : not sure why this fixes a compilation error when using MSVC modules :/
+#ifdef MUD_CPP_20
+#include <obj/Serial/Serial.h>
+#endif
+#endif
+
+#include <json11.hpp>
+using json = json11::Json;
 
 #include <stb_image.h>
-
-#include <json.hpp>
-using nlohmann::json;
 
 namespace mud
 {
@@ -121,7 +141,7 @@ namespace mud
 				
 			for(int dx = -n + 1; dx < n; ++dx) for(int dy = -n + 1; dy < n; ++dy) for(int dz = -n + 1; dz < n; ++dz)
 			{
-				ivec3 coord = { changed.x + dx, changed.y + dy, changed.z + dz };
+				ivec3 coord = ivec3(changed.x + dx, changed.y + dy, changed.z + dz);
 
 				int sx = coord.x;
 				if(sx < 0) sx += wave.m_width;
@@ -155,7 +175,7 @@ namespace mud
 
 					if(!can_pattern_fit) {
 						wave.m_wave.at(sx, sy, sz)[t2] = false;
-						wave.m_changes.push_back({ sx, sy, sz });
+						wave.m_changes.push_back(uvec3(sx, sy, sz));
 					}
 				}
 			}

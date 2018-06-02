@@ -10,13 +10,16 @@
 
 namespace mud
 {
-	struct _refl_ MUD_MATH_EXPORT Aabb : public Cube
+	export_ struct _refl_ MUD_MATH_EXPORT Aabb : public Cube
 	{
 	public:
 		_constr_ Aabb();
 		_constr_ Aabb(const vec3& center, const vec3& extents);
 
 		_attr_ _mut_ bool m_null;
+
+		vec3 bmin() { return m_center - m_extents; }
+		vec3 bmax() { return m_center + m_extents; }
 
 		bool intersects(const Aabb& other) const;
 

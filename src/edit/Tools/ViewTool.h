@@ -11,7 +11,7 @@
 
 namespace mud
 {
-	class _refl_ ViewAction : public EditorAction
+	export_ class _refl_ ViewAction : public EditorAction
 	{
 	public:
 		ViewAction(Camera& camera, const vec3& offset);
@@ -31,7 +31,7 @@ namespace mud
 		vec3 m_eye_position[2];
 	};
 
-	class _refl_ ViewTool : public ViewportTool
+	export_ class _refl_ ViewTool : public ViewportTool
 	{
 	public:
 		ViewTool(ToolContext& context, cstring name, const vec3& offset);

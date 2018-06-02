@@ -2,12 +2,26 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#else
+#include <string>
+#endif
 
+#ifdef MUD_MODULES
+module mud.gfx;
+#else
+#include <obj/Memory/Pool.h>
+#include <math/Math.h>
+#include <math/Random.h>
+#include <geom/Anim/Anim.h>
+#include <geom/ShapeDistrib.h>
 #include <gfx/Generated/Types.h>
 #include <gfx/Particles.h>
-
-#include <obj/Memory/Pool.h>
-
 #include <gfx/GfxSystem.h>
 #include <gfx/Renderer.h>
 #include <gfx/Texture.h>
@@ -17,19 +31,12 @@
 #include <gfx/Camera.h>
 #include <gfx/Scene.h>
 #include <gfx/Pipeline.h>
-
 #include <gfx/Node3.h>
-
-#include <geom/Anim/Anim.h>
-#include <math/Math.h>
-#include <math/Random.h>
-#include <geom/ShapeDistrib.h>
+#endif
 
 #include <bgfx/bgfx.h>
 #include <bimg/bimg.h>
 #include <bx/math.h>
-
-#include <string>
 
 #define SPRITE_TEXTURE_SIZE 2048U
 
@@ -318,7 +325,7 @@ namespace mud
 		LocatedFile location = m_gfx_system.locate_file(filename.c_str());
 		string path = string(location.m_location) + filename;
 
-		bimg::ImageContainer* image = load_bgfx_image(m_gfx_system.m_allocator, m_gfx_system.m_file_reader, path.c_str(), bgfx::TextureFormat::BGRA8);
+		bimg::ImageContainer* image = load_bgfx_image(m_gfx_system.m_allocator, m_gfx_system.file_reader(), path.c_str(), bgfx::TextureFormat::BGRA8);
 		Sprite* sprite = this->create_sprite(name, uvec2(image->m_width, image->m_height), frames, image->m_data);
 		bimg::imageFree(image);
 		return sprite;

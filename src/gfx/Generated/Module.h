@@ -48,13 +48,13 @@
 
 namespace mud
 {
-	class MUD_GFX_EXPORT mudgfx : public Module
+	export_ class MUD_GFX_EXPORT mudgfx : public Module
 	{
 	private:
 		mudgfx();
 
 	public:
-		static mudgfx& module() { static mudgfx instance; return instance; }
+		static mudgfx& m() { static mudgfx instance; return instance; }
 	};
 }
 

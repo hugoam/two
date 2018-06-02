@@ -2,24 +2,32 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
-#include <uio/Unode.h>
-#include <ui/Structs/Window.h>
-#include <ui/Structs/Container.h>
-
+#ifdef MUD_MODULES
+module mud.uio;
+#else
 #include <obj/Vector.h>
+#include <obj/Complex.h>
 #include <obj/Reflect/Class.h>
 #include <obj/System/System.h>
 #include <obj/Reflect/Convert.h>
 #include <obj/Generated/Convert.h>
-#include <obj/Complex.h>
-
-#include <uio/Edit/Section.h>
-#include <uio/Edit/Method.h>
-
+#include <ui/Structs/Window.h>
+#include <ui/Structs/Container.h>
 #include <ui/Style/Layout.h>
 #include <ui/Style/Skin.h>
 #include <ui/Input.h>
+#include <uio/Unode.h>
+#include <uio/Edit/Section.h>
+#include <uio/Edit/Method.h>
+#endif
 
 namespace mud
 {
@@ -167,8 +175,8 @@ namespace ui
 	{
 		Widget& list = *ui::scroll_sheet(parent).m_body;
 
-		for(Module* module : system().m_modules)
-			for(Type* type : module->m_types)
+		for(Module* m : system().m_modules)
+			for(Type* type : m->m_types)
 			{
 				cstring elements[1] = { type->m_name };
 				if(ui::multi_button(list, { elements, 1 }).activated())
@@ -218,9 +226,9 @@ namespace ui
 			meta_fields(*container, *state.m_type);
 	}
 
-	void meta_browser(Widget& parent, Module& module)
+	void meta_browser(Widget& parent, Module& m)
 	{
-		UNUSED(parent); UNUSED(module);
+		UNUSED(parent); UNUSED(m);
 	}
 
 	void meta_browser(Widget& parent)
@@ -233,18 +241,18 @@ namespace ui
 
 		Widget& meta_list = *ui::scroll_sheet(self).m_body;
 
-		for(Module* module : System::instance().m_modules)
+		for(Module* m : System::instance().m_modules)
 		{
-			for(Type* type : module->m_types)
+			for(Type* type : m->m_types)
 			{
 				if(ui::button(meta_list, type->m_name).activated())
 					selected_type = type;
 			}
 
-			for(Function& function : module->m_functions)
+			for(Function* function : m->m_functions)
 			{
-				if(ui::button(meta_list, function.m_name).activated())
-					selected_function = &function;
+				if(ui::button(meta_list, function->m_name).activated())
+					selected_function = function;
 			}
 		}
 
@@ -261,8 +269,8 @@ namespace ui
 		Widget& self = ui::board(parent);
 		Widget& list = *ui::scroll_sheet(self).m_body;
 
-		for(Module* module : system().m_modules)
-			for(Type* type : module->m_types)
+		for(Module* m : system().m_modules)
+			for(Type* type : m->m_types)
 			{
 				if(ui::button(list, type->m_name).activated())
 					selected = type;

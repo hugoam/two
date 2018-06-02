@@ -42,8 +42,8 @@ namespace mud
 		, m_lua()
 		, m_editor(m_gfx_system)
 	{
-		System::instance().load_modules({ &mudobj::module(), &mudmath::module(), &mudgeom::module(), &mudgen::module(), &mudlang::module() });
-		System::instance().load_modules({ &mudui::module(), &mudgfx::module(), &mudgfxpbr::module(), &mudgfxgltf::module(), &mudgfxobj::module() });
+		System::instance().load_modules({ &mudobj::m(), &mudmath::m(), &mudgeom::m(), &mudgen::m(), &mudlang::m() });
+		System::instance().load_modules({ &mudui::m(), &mudgfx::m(), &mudgfxpbr::m(), &mudgfxgltf::m(), &mudgfxobj::m() });
 
 		// @todo this should be automatically done by math module
 		register_math_conversions();

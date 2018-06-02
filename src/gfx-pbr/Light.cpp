@@ -1,19 +1,29 @@
+//  Copyright (c) 2018 Hugo Amiard hugo.amiard@laposte.net
+//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
+//  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h>
+#include <stdint.h>
+import std.core;
+import std.memory;
+#endif
 
-#include <gfx-pbr/Generated/Types.h>
-#include <gfx-pbr/Light.h>
-
+#ifdef MUD_MODULES
+module mud.gfx-pbr;
+#else
+#include <obj/Vector.h>
 #include <obj/String/StringConvert.h>
-
+#include <math/VecOps.h>
 #include <gfx/Shot.h>
 #include <gfx/Item.h>
 #include <gfx/Viewport.h>
 #include <gfx/Scene.h>
 #include <gfx/Camera.h>
+#include <gfx-pbr/Generated/Types.h>
+#include <gfx-pbr/Light.h>
 #include <gfx-pbr/Shadow.h>
-
-#include <math/VecOps.h>
-#include <obj/Vector.h>
+#endif
 
 namespace mud
 {

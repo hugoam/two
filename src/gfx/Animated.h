@@ -16,7 +16,7 @@
 namespace mud
 {
 
-	struct _refl_ MUD_GFX_EXPORT AnimatedTrack
+	export_ struct _refl_ MUD_GFX_EXPORT AnimatedTrack
 	{
 		const AnimationTrack* m_track;
 		Ref m_target; // node or bone
@@ -24,7 +24,7 @@ namespace mud
 		Var m_value;
 	};
 
-	struct _refl_ MUD_GFX_EXPORT AnimationPlay
+	export_ struct _refl_ MUD_GFX_EXPORT AnimationPlay
 	{
 		AnimationPlay() {}
 		AnimationPlay(const Animation& animation, bool loop, float speed, bool reverse, Skeleton* skeleton = nullptr);
@@ -45,7 +45,7 @@ namespace mud
 		std::vector<AnimatedTrack> m_tracks;
 	};
 
-	class _refl_ MUD_GFX_EXPORT Animated
+	export_ class _refl_ MUD_GFX_EXPORT Animated
 	{
 	public:
 		Animated(Node3& node);

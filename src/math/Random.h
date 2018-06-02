@@ -6,7 +6,9 @@
 
 #include <math/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <random>
+#endif
 
 namespace mud
 {

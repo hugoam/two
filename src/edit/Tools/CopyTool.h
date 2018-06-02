@@ -9,11 +9,13 @@
 #include <edit/Action.h>
 #include <edit/Tools/TranslateTool.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	class _refl_ MUD_EDIT_EXPORT CopyAction : public TranslateAction
+	export_ class _refl_ MUD_EDIT_EXPORT CopyAction : public TranslateAction
 	{
 	public:
 		CopyAction(const std::vector<Transform*>& targets);
@@ -26,7 +28,7 @@ namespace mud
 		//Injector m_injector;
 	};
 
-	class _refl_ MUD_EDIT_EXPORT CopyTool : public TransformTool
+	export_ class _refl_ MUD_EDIT_EXPORT CopyTool : public TransformTool
 	{
 	public:
 		CopyTool(ToolContext& context);

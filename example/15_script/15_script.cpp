@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
 {
 	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
 
-	system().load_module(ex_15_script::module());
+	system().load_module(ex_15_script::m());
 
 	app.m_lua.declareTypes();
 	app.run(pump);

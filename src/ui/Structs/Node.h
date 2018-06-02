@@ -8,11 +8,13 @@
 #include <ui/Generated/Forward.h>
 #include <ui/Structs/Widget.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	class _refl_ MUD_UI_EXPORT NodePlug : public Widget
+	export_ class _refl_ MUD_UI_EXPORT NodePlug : public Widget
 	{
 	public:
 		NodePlug(Widget* parent, void* identity) : Widget(parent, identity) {}
@@ -21,7 +23,7 @@ namespace mud
 		Colour m_colour;
 	};
 
-	class _refl_ MUD_UI_EXPORT Node : public Widget
+	export_ class _refl_ MUD_UI_EXPORT Node : public Widget
 	{
 	public:
 		Node(Widget* parent, void* identity) : Widget(parent, identity) {}
@@ -32,7 +34,7 @@ namespace mud
 		int m_order = 0;
 	};
 
-	struct _refl_ MUD_UI_EXPORT CanvasConnect
+	export_ struct _refl_ MUD_UI_EXPORT CanvasConnect
 	{
 		NodePlug* m_origin = nullptr;
 		NodePlug* m_in = nullptr;
@@ -41,7 +43,7 @@ namespace mud
 		bool m_done = false;
 	};
 
-	class _refl_ MUD_UI_EXPORT Canvas : public Widget
+	export_ class _refl_ MUD_UI_EXPORT Canvas : public Widget
 	{
 	public:
 		Canvas(Widget* parent, void* identity) : Widget(parent, identity) {}

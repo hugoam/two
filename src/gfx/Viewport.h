@@ -8,13 +8,15 @@
 #include <math/Colour.h>
 #include <gfx/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <functional>
+#endif
 
 namespace mud
 {
 	using cstring = const char*;
 
-	enum class _refl_ MSAA : unsigned int
+	export_ enum class _refl_ MSAA : unsigned int
 	{
 		Disabled,
 		X2,
@@ -23,7 +25,7 @@ namespace mud
 		X16,
 	};
 
-	enum class _refl_ Shading : unsigned int
+	export_ enum class _refl_ Shading : unsigned int
 	{
 		Wireframe,
 		Unshaded,
@@ -33,7 +35,7 @@ namespace mud
 
 	struct RenderFilters;
 
-	class _refl_ MUD_GFX_EXPORT Viewport
+	export_ class _refl_ MUD_GFX_EXPORT Viewport
 	{
 	public:
 		Viewport(Camera& camera, Scene& scene, uvec4 rect = {}, bool scissor = false);

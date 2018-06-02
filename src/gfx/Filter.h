@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <math/Vec.h>
 #include <gfx/Renderer.h>
 
 namespace mud
@@ -54,13 +55,13 @@ namespace mud
 		bgfx::UniformHandle u_camera_params;
 	};
 
-	class _refl_ MUD_GFX_EXPORT Filter
+	export_ class _refl_ MUD_GFX_EXPORT Filter
 	{
 	public:
 		virtual ~Filter() {}
 	};
 
-	struct _refl_ MUD_GFX_EXPORT RenderQuad
+	export_ struct _refl_ MUD_GFX_EXPORT RenderQuad
 	{
 		vec4 m_source = Rect4;
 		vec4 m_dest = Zero4;
@@ -72,7 +73,7 @@ namespace mud
 		RenderQuad() {}
 	};
 
-	class _refl_ MUD_GFX_EXPORT BlockFilter : public GfxBlock
+	export_ class _refl_ MUD_GFX_EXPORT BlockFilter : public GfxBlock
 	{
 	public:
 		BlockFilter(GfxSystem& gfx_system);
@@ -92,7 +93,7 @@ namespace mud
 		FilterUniform u_uniform;
 	};
 
-	class _refl_ MUD_GFX_EXPORT BlockCopy : public GfxBlock
+	export_ class _refl_ MUD_GFX_EXPORT BlockCopy : public GfxBlock
 	{
 	public:
 		BlockCopy(GfxSystem& gfx_system, BlockFilter& filter);

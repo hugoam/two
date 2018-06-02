@@ -20,12 +20,12 @@ namespace mud
 	struct ViewerStyles
 	{
 		ViewerStyles();
-		Style viewport; Style viewport_fixed; Style space_sheet;
+		Style viewer; Style viewer_fixed; Style space_sheet;
 	};
 
 	MUD_GFX_EXPORT ViewerStyles& viewer_styles();
 
-	class _refl_ MUD_GFX_EXPORT ViewerController
+	export_ class _refl_ MUD_GFX_EXPORT ViewerController
 	{
 	public:
 		virtual ~ViewerController() {}
@@ -33,7 +33,7 @@ namespace mud
 		virtual void process(Viewer& viewer) = 0;
 	};
 
-	class _refl_ MUD_GFX_EXPORT Viewer : public Widget
+	export_ class _refl_ MUD_GFX_EXPORT Viewer : public Widget
 	{
 	public:
 		Viewer(Widget* parent, void* identity, Scene& scene);
@@ -70,7 +70,7 @@ namespace mud
 		void pick_rectangle(vec4 rect, std::function<void(array<Item*>)> callback, uint32_t mask = UINT32_MAX);
 	};
 
-	class _refl_ MUD_GFX_EXPORT SceneViewer : public Scene, public Viewer
+	export_ class _refl_ MUD_GFX_EXPORT SceneViewer : public Scene, public Viewer
 	{
 	public:
 		SceneViewer(Widget* parent, void* identity);

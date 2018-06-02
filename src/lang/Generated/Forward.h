@@ -16,6 +16,24 @@
     
     
 
+namespace std {
+
+    
+    
+}
+
+namespace glm {
+
+    
+    
+}
+
+namespace json11 {
+
+    
+    
+}
+
 namespace mud {
 
     enum StreamModifier : unsigned int;
@@ -44,23 +62,11 @@ namespace mud {
     class ProcessDisplay;
 }
 
-namespace std {
-
-    
-    
-}
-
 namespace mud {
 namespace detail {
 
     
     
 }
-}
-
-namespace glm {
-
-    
-    
 }
 

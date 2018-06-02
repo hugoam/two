@@ -2,22 +2,33 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#else
+#include <array>
+#endif
 
+#ifdef MUD_MODULES
+module mud.gfx;
+#else
+#include <obj/Reflect/Convert.h>
+#include <obj/Reflect/Meta.h>
+#include <obj/Serial/Serial.h>
+#include <obj/String/StringConvert.h>
+#include <geom/Mesh.h>
+#include <geom/Shape/ProcShape.h>
 #include <gfx/Generated/Types.h>
 #include <gfx/Draw.h>
-
-#include <obj/Reflect/Convert.h>
-#include <obj/String/StringConvert.h>
-#include <geom/Shape/ProcShape.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Material.h>
 #include <gfx/Program.h>
 #include <gfx/Node3.h>
 #include <gfx/Model.h>
-#include <geom/Mesh.h>
-
-#include <obj/Reflect/Meta.h>
-#include <obj/Serial/Serial.h>
+#endif
 
 namespace mud
 {
@@ -179,7 +190,7 @@ namespace mud
 		{
 			printf("INFO: created indexed Shape %s %s\n", shape.m_type.m_name, pack_json(Ref(&shape)).c_str());
 			string name = "Shape:" + string(shape.m_type.m_meta->m_name);
-			m_symbols[hash][shape_mem] = draw_model(name.c_str(), ProcShape{ symbol, &shape, draw_mode, Zero3 });
+			m_symbols[hash][shape_mem] = draw_model(name.c_str(), ProcShape{ symbol, &shape, draw_mode });
 		}
 
 		return *m_symbols[hash][shape_mem];

@@ -17,7 +17,7 @@ namespace mud
     template <> MUD_GEN_EXPORT Type& type<mud::Noise::NoiseType>();
     
 #ifdef MUD_GEN_REFLECTION_IMPL
-    void gen_meta(Module& module)
+    void gen_meta(Module& m)
     {   
     // Base Types
     
@@ -366,6 +366,39 @@ namespace mud
     
     
         
+    // mud::TileModel
+    {
+        static Meta meta = { type<mud::TileModel>(), &namspc({ "mud" }), "TileModel", sizeof(mud::TileModel), TypeClass::Struct };
+        static Class cls = { type<mud::TileModel>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+                { type<mud::TileModel>(), [](Ref ref, Ref other) { new(&val<mud::TileModel>(ref)) mud::TileModel(val<mud::TileModel>(other)); } }
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::TileModel>();
+    }
+    
+    
+        
     // mud::Tileblock
     {
         static Meta meta = { type<mud::Tileblock>(), &namspc({ "mud" }), "Tileblock", sizeof(mud::Tileblock), TypeClass::Object };
@@ -375,7 +408,7 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::Tileblock>(), [](Ref ref, array<Var> args) { new(&val<mud::Tileblock>(ref)) mud::Tileblock( val<mud::uvec3>(args[0]), val<mud::vec3>(args[1]), val<mud::WaveTileset>(args[2]) ); }, { { "size", var(mud::uvec3()) }, { "period", var(mud::vec3()) }, { "tileset", var(mud::WaveTileset()) } } }
+                { type<mud::Tileblock>(), [](Ref ref, array<Var> args) { new(&val<mud::Tileblock>(ref)) mud::Tileblock( val<mud::GfxSystem>(args[0]), val<mud::uvec3>(args[1]), val<mud::vec3>(args[2]), val<mud::WaveTileset>(args[3]) ); }, { { "gfx_system", Ref(type<mud::GfxSystem>()) }, { "size", var(mud::uvec3()) }, { "period", var(mud::vec3()) }, { "tileset", var(mud::WaveTileset()) } } }
             },
             // copy constructor
             {
@@ -383,7 +416,8 @@ namespace mud
             // members
             {
                 { type<mud::Tileblock>(), member_address(&mud::Tileblock::m_size), type<mud::uvec3>(), "size", var(mud::uvec3()), Member::Value },
-                { type<mud::Tileblock>(), member_address(&mud::Tileblock::m_period), type<mud::vec3>(), "period", var(mud::vec3()), Member::Value }
+                { type<mud::Tileblock>(), member_address(&mud::Tileblock::m_period), type<mud::vec3>(), "period", var(mud::vec3()), Member::Value },
+                { type<mud::Tileblock>(), member_address(&mud::Tileblock::m_aabb), type<mud::Aabb>(), "aabb", var(mud::Aabb()), Member::Value }
             },
             // methods
             {
@@ -580,72 +614,82 @@ namespace mud
     
 
     
-        module.m_types.push_back(&type<mud::Noise::CellularDistanceFunction>());
-        module.m_types.push_back(&type<mud::Noise::CellularReturnType>());
-        module.m_types.push_back(&type<mud::Circlifier>());
-        module.m_types.push_back(&type<mud::Fract>());
-        module.m_types.push_back(&type<mud::FractSample>());
-        module.m_types.push_back(&type<mud::FractTab>());
-        module.m_types.push_back(&type<mud::Noise::FractalType>());
-        module.m_types.push_back(&type<mud::Noise::Interp>());
-        module.m_types.push_back(&type<mud::Noise>());
-        module.m_types.push_back(&type<mud::Noise::NoiseType>());
-        module.m_types.push_back(&type<mud::Pattern>());
-        module.m_types.push_back(&type<mud::PatternSampling>());
-        module.m_types.push_back(&type<mud::Result>());
-        module.m_types.push_back(&type<mud::Tile>());
-        module.m_types.push_back(&type<mud::Tileblock>());
-        module.m_types.push_back(&type<mud::Tileset>());
-        module.m_types.push_back(&type<mud::Wave>());
-        module.m_types.push_back(&type<std::vector<mud::Image256>>());
-        module.m_types.push_back(&type<mud::WaveTileset>());
-        module.m_types.push_back(&type<mud::TileWave>());
-        module.m_types.push_back(&type<mud::array_3d<float>>());
+        m.m_types.push_back(&type<mud::Noise::CellularDistanceFunction>());
+        m.m_types.push_back(&type<mud::Noise::CellularReturnType>());
+        m.m_types.push_back(&type<mud::Circlifier>());
+        m.m_types.push_back(&type<mud::Fract>());
+        m.m_types.push_back(&type<mud::FractSample>());
+        m.m_types.push_back(&type<mud::FractTab>());
+        m.m_types.push_back(&type<mud::Noise::FractalType>());
+        m.m_types.push_back(&type<mud::Noise::Interp>());
+        m.m_types.push_back(&type<mud::Noise>());
+        m.m_types.push_back(&type<mud::Noise::NoiseType>());
+        m.m_types.push_back(&type<mud::Pattern>());
+        m.m_types.push_back(&type<mud::PatternSampling>());
+        m.m_types.push_back(&type<mud::Result>());
+        m.m_types.push_back(&type<mud::Tile>());
+        m.m_types.push_back(&type<mud::TileModel>());
+        m.m_types.push_back(&type<mud::Tileblock>());
+        m.m_types.push_back(&type<mud::Tileset>());
+        m.m_types.push_back(&type<mud::Wave>());
+        m.m_types.push_back(&type<std::vector<mud::Image256>>());
+        m.m_types.push_back(&type<mud::WaveTileset>());
+        m.m_types.push_back(&type<mud::TileWave>());
+        m.m_types.push_back(&type<mud::array_3d<float>>());
     
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::generate_fract(val<uint16_t>(args[0]), val<uint16_t>(args[1]), val<mud::Pattern>(args[2]), val<mud::Image256>(args[3])); };
             std::vector<Param> params = { { "pixelWidth", var(uint16_t()) }, { "pixelHeight", var(uint16_t()) }, { "pattern", var(mud::Pattern()) }, { "outputImage", var(mud::Image256()), Param::Output } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "generate_fract", function_id<void(*)(uint16_t, uint16_t, const mud::Pattern&, mud::Image256&)>(&mud::generate_fract), func, params, Var() });
+            static Function f = { &namspc({ "mud" }), "generate_fract", function_id<void(*)(uint16_t, uint16_t, const mud::Pattern&, mud::Image256&)>(&mud::generate_fract), func, params, Var() };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::noise_2d(val<float>(args[0]), val<float>(args[1]), val<mud::Noise::NoiseType>(args[2]), val<float>(args[3]), val<mud::Noise::Interp>(args[4])); };
             std::vector<Param> params = { { "x", var(float()) }, { "y", var(float()) }, { "noise_type", var(mud::Noise::NoiseType()) }, { "frequency", var(float(0.01f)), Param::Default }, { "interp", var(mud::Noise::Interp()), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "noise_2d", function_id<float(*)(float, float, mud::Noise::NoiseType, float, mud::Noise::Interp)>(&mud::noise_2d), func, params, var(float()) });
+            static Function f = { &namspc({ "mud" }), "noise_2d", function_id<float(*)(float, float, mud::Noise::NoiseType, float, mud::Noise::Interp)>(&mud::noise_2d), func, params, var(float()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::noise_3d(val<float>(args[0]), val<float>(args[1]), val<float>(args[2]), val<mud::Noise::NoiseType>(args[3]), val<float>(args[4]), val<mud::Noise::Interp>(args[5])); };
             std::vector<Param> params = { { "x", var(float()) }, { "y", var(float()) }, { "z", var(float()) }, { "noise_type", var(mud::Noise::NoiseType()) }, { "frequency", var(float(0.01f)), Param::Default }, { "interp", var(mud::Noise::Interp()), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "noise_3d", function_id<float(*)(float, float, float, mud::Noise::NoiseType, float, mud::Noise::Interp)>(&mud::noise_3d), func, params, var(float()) });
+            static Function f = { &namspc({ "mud" }), "noise_3d", function_id<float(*)(float, float, float, mud::Noise::NoiseType, float, mud::Noise::Interp)>(&mud::noise_3d), func, params, var(float()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::noise_fract_2d(val<float>(args[0]), val<float>(args[1]), val<mud::Noise::NoiseType>(args[2]), val<float>(args[3]), val<mud::Noise::Interp>(args[4]), val<mud::Noise::FractalType>(args[5]), val<int>(args[6]), val<float>(args[7]), val<float>(args[8])); };
             std::vector<Param> params = { { "x", var(float()) }, { "y", var(float()) }, { "noise_type", var(mud::Noise::NoiseType()) }, { "frequency", var(float()) }, { "interp", var(mud::Noise::Interp()), Param::Default }, { "fractal_type", var(mud::Noise::FractalType()), Param::Default }, { "octaves", var(int(3)), Param::Default }, { "lacunarity", var(float(2.f)), Param::Default }, { "gain", var(float(0.5f)), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "noise_fract_2d", function_id<float(*)(float, float, mud::Noise::NoiseType, float, mud::Noise::Interp, mud::Noise::FractalType, int, float, float)>(&mud::noise_fract_2d), func, params, var(float()) });
+            static Function f = { &namspc({ "mud" }), "noise_fract_2d", function_id<float(*)(float, float, mud::Noise::NoiseType, float, mud::Noise::Interp, mud::Noise::FractalType, int, float, float)>(&mud::noise_fract_2d), func, params, var(float()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::noise_fract_3d(val<float>(args[0]), val<float>(args[1]), val<float>(args[2]), val<mud::Noise::NoiseType>(args[3]), val<float>(args[4]), val<mud::Noise::Interp>(args[5]), val<mud::Noise::FractalType>(args[6]), val<int>(args[7]), val<float>(args[8]), val<float>(args[9])); };
             std::vector<Param> params = { { "x", var(float()) }, { "y", var(float()) }, { "z", var(float()) }, { "noise_type", var(mud::Noise::NoiseType()) }, { "frequency", var(float()) }, { "interp", var(mud::Noise::Interp()), Param::Default }, { "fractal_type", var(mud::Noise::FractalType()), Param::Default }, { "octaves", var(int(3)), Param::Default }, { "lacunarity", var(float(2.f)), Param::Default }, { "gain", var(float(0.5f)), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "noise_fract_3d", function_id<float(*)(float, float, float, mud::Noise::NoiseType, float, mud::Noise::Interp, mud::Noise::FractalType, int, float, float)>(&mud::noise_fract_3d), func, params, var(float()) });
+            static Function f = { &namspc({ "mud" }), "noise_fract_3d", function_id<float(*)(float, float, float, mud::Noise::NoiseType, float, mud::Noise::Interp, mud::Noise::FractalType, int, float, float)>(&mud::noise_fract_3d), func, params, var(float()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::noise_field_2d(val<mud::array_3d<float>>(args[0]), val<mud::Noise::NoiseType>(args[1]), val<float>(args[2]), val<mud::Noise::Interp>(args[3])); };
             std::vector<Param> params = { { "output_values", var(mud::array_3d<float>()), Param::Output }, { "noise_type", var(mud::Noise::NoiseType()) }, { "frequency", var(float(0.01f)), Param::Default }, { "interp", var(mud::Noise::Interp()), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "noise_field_2d", function_id<void(*)(mud::array_3d<float>&, mud::Noise::NoiseType, float, mud::Noise::Interp)>(&mud::noise_field_2d), func, params, Var() });
+            static Function f = { &namspc({ "mud" }), "noise_field_2d", function_id<void(*)(mud::array_3d<float>&, mud::Noise::NoiseType, float, mud::Noise::Interp)>(&mud::noise_field_2d), func, params, Var() };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::noise_field_3d(val<mud::array_3d<float>>(args[0]), val<mud::Noise::NoiseType>(args[1]), val<float>(args[2]), val<mud::Noise::Interp>(args[3])); };
             std::vector<Param> params = { { "output_values", var(mud::array_3d<float>()), Param::Output }, { "noise_type", var(mud::Noise::NoiseType()) }, { "frequency", var(float(0.01f)), Param::Default }, { "interp", var(mud::Noise::Interp()), Param::Default } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "noise_field_3d", function_id<void(*)(mud::array_3d<float>&, mud::Noise::NoiseType, float, mud::Noise::Interp)>(&mud::noise_field_3d), func, params, Var() });
+            static Function f = { &namspc({ "mud" }), "noise_field_3d", function_id<void(*)(mud::array_3d<float>&, mud::Noise::NoiseType, float, mud::Noise::Interp)>(&mud::noise_field_3d), func, params, Var() };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::parse_json_tileset(val<std::string>(args[0]), val<std::string>(args[1]), val<mud::Tileset>(args[2])); };
             std::vector<Param> params = { { "path", var(std::string()) }, { "subset", var(std::string()) }, { "outputTileset", var(mud::Tileset()), Param::Output } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "parse_json_tileset", function_id<void(*)(const std::string&, const std::string&, mud::Tileset&)>(&mud::parse_json_tileset), func, params, Var() });
+            static Function f = { &namspc({ "mud" }), "parse_json_tileset", function_id<void(*)(const std::string&, const std::string&, mud::Tileset&)>(&mud::parse_json_tileset), func, params, Var() };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::parse_json_wave_tileset(val<std::string>(args[0]), val<std::string>(args[1]), val<mud::WaveTileset>(args[2])); };
             std::vector<Param> params = { { "path", var(std::string()) }, { "subset", var(std::string()) }, { "outputTileset", var(mud::WaveTileset()), Param::Output } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "parse_json_wave_tileset", function_id<void(*)(const std::string&, const std::string&, mud::WaveTileset&)>(&mud::parse_json_wave_tileset), func, params, Var() });
+            static Function f = { &namspc({ "mud" }), "parse_json_wave_tileset", function_id<void(*)(const std::string&, const std::string&, mud::WaveTileset&)>(&mud::parse_json_wave_tileset), func, params, Var() };
+            m.m_functions.push_back(&f);
         }
     }
 #endif

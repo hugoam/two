@@ -2,16 +2,21 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <edit/Viewer/SpaceSheet.h>
-#include <edit/Viewer/SpaceViewer.h>
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+module mud.edit;
+#else
 #include <geom/Intersect.h>
-
+#include <geom/Shape/Quad.h>
 #include <ctx/InputDevice.h>
 #include <ui/Frame/Layer.h>
-
-#include <geom/Shape/Quad.h>
-
 #include <gfx/Texture.h>
 #include <gfx/Material.h>
 #include <gfx/Mesh.h>
@@ -21,6 +26,9 @@
 #include <gfx/Draw.h>
 #include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
+#include <edit/Viewer/SpaceSheet.h>
+#include <edit/Viewer/SpaceViewer.h>
+#endif
 
 namespace mud
 {
@@ -53,7 +61,7 @@ namespace mud
 
 		Symbol symbol = { Colour::None, Colour::White, true };
 		Quad quad = { vec2 { width * scale, height * scale } };
-		draw_model(ProcShape{ symbol, &quad, PLAIN, Zero3 }, m_model);
+		draw_model(ProcShape{ symbol, &quad, PLAIN }, m_model);
 	}
 
 	SpaceSheet::SpaceSheet(Widget& parent, SpaceViewport& viewport)

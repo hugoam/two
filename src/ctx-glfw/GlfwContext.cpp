@@ -2,15 +2,25 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#else
+#include <cstdio>
+#endif
 
-#include <ctx-glfw/GlfwContext.h>
-
+#ifdef MUD_MODULES
+module mud.ctx-glfw;
+#else
 #include <ctx/KeyCode.h>
 #include <ctx/InputDevice.h>
+#include <ctx-glfw/GlfwContext.h>
+#endif
 
 #include <GLFW/glfw3.h>
-
-#include <stdio.h>
 
 #if defined MUD_PLATFORM_WINDOWS
 	#define GLFW_EXPOSE_NATIVE_WIN32

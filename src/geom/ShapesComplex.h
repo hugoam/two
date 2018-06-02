@@ -8,12 +8,14 @@
 #include <geom/Generated/Forward.h>
 #include <geom/Shape.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
 #include <array>
+#endif
 
 namespace mud
 {
-	struct _refl_ MUD_MATH_EXPORT Polygon : public Shape
+	export_ struct _refl_ MUD_MATH_EXPORT Polygon : public Shape
 	{
 	public:
 		_constr_ Polygon();
@@ -24,7 +26,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	struct _refl_ MUD_MATH_EXPORT Box : public Shape
+	export_ struct _refl_ MUD_MATH_EXPORT Box : public Shape
 	{
 	public:
 		_constr_ Box();
@@ -37,7 +39,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	struct _refl_ MUD_MATH_EXPORT Points : public Shape
+	export_ struct _refl_ MUD_MATH_EXPORT Points : public Shape
 	{
 	public:
 		_constr_ Points();
@@ -48,7 +50,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	struct _refl_ MUD_MATH_EXPORT ConvexHull : public Shape
+	export_ struct _refl_ MUD_MATH_EXPORT ConvexHull : public Shape
 	{
 	public:
 		_constr_ ConvexHull();

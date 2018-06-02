@@ -7,12 +7,14 @@
 #include <obj/Ref.h>
 #include <obj/Type.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
 #include <functional>
+#endif
 
 namespace mud
 {
-	class MUD_OBJ_EXPORT DoubleDispatch
+	export_ class MUD_OBJ_EXPORT DoubleDispatch
 	{
 	public:
 		DoubleDispatch()

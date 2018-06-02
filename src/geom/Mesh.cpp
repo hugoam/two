@@ -2,17 +2,29 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#else
+#include <unordered_map>
+#include <cstdio>
+#endif
 
-#include <geom/Mesh.h>
-#include <geom/Geom.h>
-
+#ifdef MUD_MODULES
+import mud.obj;
+import mud.math;
+module mud.geom;
+#else
 #include <obj/Vector.h>
 #include <math/VecOps.h>
+#include <geom/Mesh.h>
+#include <geom/Geom.h>
+#endif
 
 #include <mikktspace.h>
-
-#include <unordered_map>
-#include <stdio.h>
 
 namespace mud
 {

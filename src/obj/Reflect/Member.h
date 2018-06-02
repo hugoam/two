@@ -11,11 +11,13 @@
 #include <obj/Array.h>
 #include <obj/Reflect/Meta.h>
 
+#ifndef MUD_CPP_20
 #include <functional>
+#endif
 
 namespace mud
 {
-	class _refl_ MUD_OBJ_EXPORT Static
+	export_ class _refl_ MUD_OBJ_EXPORT Static
 	{
 	public:
 		Static(Type& parent_type, cstring name, Ref value);
@@ -25,7 +27,7 @@ namespace mud
 		Ref m_value;
 	};
 
-	class _refl_ MUD_OBJ_EXPORT Member
+	export_ class _refl_ MUD_OBJ_EXPORT Member
 	{
 	public:
 		enum Flags
@@ -82,12 +84,12 @@ namespace mud
 		}
 	};
 
-	template <typename T_Value, typename T>
+	export_ template <typename T_Value, typename T>
 	Member& member(T_Value T::*mem) { return type<T>().m_class->member(member_address(mem)); }
 
-	template <typename T_Return, typename T, typename... T_Params>
+	export_ template <typename T_Return, typename T, typename... T_Params>
 	Member& member(T_Return(T::*meth)(T_Params...)) { return type<T>().m_class->member(member_address(meth)); }
 
-	template <typename T_Return, typename T, typename... T_Params>
+	export_ template <typename T_Return, typename T, typename... T_Params>
 	Member& member(T_Return(T::*meth)(T_Params...) const) { return type<T>().m_class->member(member_address(meth)); }
 }

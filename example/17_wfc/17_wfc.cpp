@@ -38,30 +38,32 @@ WaveTileset& create_tileset(Shell& app)
 	return tileset;
 }
 
-void tileblock_options(Widget& parent, Tileblock& tileblock)
-{
-	Widget& self = ui::sheet(parent);
-	if(ui::button(self, "regenerate").activated())
-		tileblock.reset();
-	tileblock_edit(self, tileblock);
-}
-
 void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	//static VisualScript& script = create_visual_script(app);
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
+	//viewer.m_camera.set_isometric(IsometricAngle(SOUTH | WEST), Zero3);
 
-	Gnode& groot = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene->begin();
 
 	static WaveTileset& tileset = create_tileset(app);
-	static Tileblock tileblock = { { 20, 4, 20 }, Unit3, tileset };
+	static Tileblock tileblock = { app.m_gfx_system, { 20, 4, 20 }, Unit3, tileset };
+	static uvec3 highlighted = uvec3(UINT32_MAX);
+	static uvec3 selected = uvec3(UINT32_MAX);
+	static uvec3 focused = uvec3(UINT32_MAX);
 
-	//gfx::directional_light_node(groot);
-	gfx::radiance(groot, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
+	gfx::directional_light_node(scene);
+	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
-	paint_tileblock(groot, tileblock);
+	paint_tileblock(scene, tileblock, focused);
+
+	//if(highlighted != uvec3(UINT32_MAX))
+	//	paint_tile_cube(scene, tileblock, vec3(highlighted), Colour::DarkGrey);
+
+	if(selected != uvec3(UINT32_MAX))
+		paint_tile_cube(scene, tileblock, vec3(selected), Colour::White, Colour::AlphaWhite);
 
 	static size_t tick = 0;
 	tick++;
@@ -69,7 +71,7 @@ void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 	tileblock.next_frame(tick, 1);
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
-		tileblock_options(*dock, tileblock);
+		tileblock_edit(*dock, viewer, tileblock, highlighted, selected, focused);
 }
 
 #ifdef _17_WFC_EXE

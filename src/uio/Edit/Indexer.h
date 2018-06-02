@@ -11,7 +11,7 @@
 
 namespace mud
 {
-	class MUD_UIO_EXPORT DispatchSelector : public Dispatch<bool, Widget&>, public LazyGlobal<DispatchSelector>
+	export_ class MUD_UIO_EXPORT DispatchSelector : public Dispatch<bool, Widget&>, public LazyGlobal<DispatchSelector>
 	{
 	public:
 		DispatchSelector();

@@ -2,13 +2,26 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
+
+#ifdef MUD_MODULES
+import mud.math;
+module mud.geom;
+#else
+#include <math/Clamp.h>
+#include <math/Axes.h>
 #include <geom/Generated/Types.h>
 #include <geom/Intersect.h>
 #include <geom/Shapes.h>
 #include <geom/Geom.h>
 #include <geom/Aabb.h>
-#include <math/Clamp.h>
-#include <math/Axes.h>
+#endif
 
 namespace mud
 {

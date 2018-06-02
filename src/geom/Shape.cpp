@@ -2,7 +2,23 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+import mud.obj;
+import mud.math;
+module mud.geom;
+#else
+#include <obj/Util/DispatchDecl.h>
+#include <math/VecOps.h>
+#include <math/Math.h>
+#include <math/Random.h>
 #include <geom/Generated/Types.h>
 #include <geom/Shape.h>
 #include <geom/ShapeDistrib.h>
@@ -11,11 +27,7 @@
 #include <geom/Aabb.h>
 #include <geom/Symbol.h>
 #include <geom/Geom.h>
-#include <math/VecOps.h>
-
-#include <obj/Util/DispatchDecl.h>
-#include <math/Math.h>
-#include <math/Random.h>
+#endif
 
 namespace mud
 {
@@ -85,6 +97,7 @@ namespace mud
 
 	Sphere::Sphere() : Shape(type<Sphere>()) {}
 	Sphere::Sphere(float radius) : Shape(type<Sphere>()), m_radius(radius) {}
+	Sphere::Sphere(const vec3& center, float radius) : Shape(type<Sphere>(), center), m_radius(radius) {}
 	object_ptr<Shape> Sphere::clone() const { return make_object<Sphere>(*this); }
 
 	SphereRing::SphereRing() : Shape(type<SphereRing>()) {}

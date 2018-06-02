@@ -23,20 +23,22 @@
 #include <bx/allocator.h>
 #endif
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
 	class BgfxSystem;
 
 #if defined MUD_CONTEXT_GLFW
-	class MUD_BGFX_EXPORT BgfxContext : public GlfwContext
+	export_ class MUD_BGFX_EXPORT BgfxContext : public GlfwContext
 #elif defined MUD_CONTEXT_WASM
-	class MUD_BGFX_EXPORT BgfxContext : public EmContext
+	export_ class MUD_BGFX_EXPORT BgfxContext : public EmContext
 #elif defined MUD_CONTEXT_WINDOWS
-	class MUD_BGFX_EXPORT BgfxContext : public WinContext
+	export_ class MUD_BGFX_EXPORT BgfxContext : public WinContext
 #else
-	class MUD_BGFX_EXPORT BgfxContext : public Context
+	export_ class MUD_BGFX_EXPORT BgfxContext : public Context
 #endif
 	{
 	public:
@@ -45,7 +47,7 @@ namespace mud
 		virtual void reset(uint16_t width, uint16_t height) override;
 	};
 
-	class MUD_BGFX_EXPORT BgfxSystem : public NonCopy, public RenderSystem
+	export_ class MUD_BGFX_EXPORT BgfxSystem : public NonCopy, public RenderSystem
 	{
 	public:
 		BgfxSystem(cstring resource_path);

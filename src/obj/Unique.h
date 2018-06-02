@@ -6,11 +6,13 @@
 
 #include <obj/Cls.h>
 
+#ifndef MUD_CPP_20
 #include <memory>
 
 #ifdef MUD_TRACK_MEMORY
 #include <functional>
 #include <type_traits>
+#endif
 #endif
 
 namespace mud

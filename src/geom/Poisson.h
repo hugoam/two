@@ -11,7 +11,7 @@
 
 namespace mud
 {
-	class _refl_ MUD_MATH_EXPORT Distribution
+	export_ class _refl_ MUD_MATH_EXPORT Distribution
 	{
 	public:
 		class Point
@@ -28,7 +28,7 @@ namespace mud
 		//_meth_ virtual bool addPoint(float radius, vec3& point) = 0;
 	};
 
-	class _refl_ MUD_MATH_EXPORT Poisson : public Distribution
+	export_ class _refl_ MUD_MATH_EXPORT Poisson : public Distribution
 	{
 	public:
 		_constr_ Poisson(vec2 size, float maxRadius);

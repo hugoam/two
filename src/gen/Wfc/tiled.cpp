@@ -1,46 +1,49 @@
+//  Copyright (c) 2018 Hugo Amiard hugo.amiard@laposte.net
+//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
+//  This notice and the license may not be removed or altered from any source distribution.
 
-#include <gen/Wfc/wfc.h>
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#else
+#include <fstream>
+#endif
 
+#ifdef MUD_MODULES
+module mud.gen;
+#else
 #include <obj/Vector.h>
 #include <obj/String/StringConvert.h>
 #include <obj/Serial/Serial.h>
 #include <math/Axes.h>
+#include <math/VecJson.h>
+#include <gen/Wfc/wfc.h>
+#endif
 
 #include <stb_image.h>
 
-#include <fstream>
-
-#include <json.hpp>
-using nlohmann::json;
-
-#ifdef MUD_NO_GLM
-namespace mud
-#else
-namespace glm
-#endif
-{
-	static void from_json(const json& j, vec3& vec)
-	{
-		vec = { j[0], j[1], j[2] };
-	}
-}
+#include <json11.hpp>
+using json = json11::Json;
 
 namespace mud
 {
 	void load_json_tileset(Tileset& tileset, const json& config, const string& subset)
 	{
-		tileset.m_name = config["name"];
-		tileset.m_tile_size = config["tile_size"];
-		tileset.m_tile_scale = config["tile_scale"];
+		tileset.m_name = config["name"].string_value();
+		from_json(config["tile_size"], tileset.m_tile_size);
+		from_json(config["tile_scale"], tileset.m_tile_scale);
 
 		std::set<string> subset_tiles;
 		if(subset != "")
-			for(const json& tile_name : config["subsets"][subset])
-				subset_tiles.insert(tile_name.get<string>());
+			for(const json& tile_name : config["subsets"][subset].array_items())
+				subset_tiles.insert(tile_name.string_value());
 
-		for(const json& json_tile : config["tiles"])
+		for(const json& json_tile : config["tiles"].array_items())
 		{
-			const string tile_name = json_tile["name"];
+			const string tile_name = json_tile["name"].string_value();
 			
 			if(!subset_tiles.empty() && subset_tiles.count(tile_name) == 0)
 				continue;
@@ -49,7 +52,7 @@ namespace mud
 			std::function<int(int)> b; // flips pattern vertically
 			int cardinality = 1;
 
-			char symmetry = json_tile["symmetry"].get<string>()[0];
+			char symmetry = json_tile["symmetry"].string_value()[0];
 
 			if(symmetry == 'L') {
 				cardinality = 4;
@@ -101,7 +104,7 @@ namespace mud
 			}
 
 			for(int t = 0; t < cardinality; ++t)
-				tileset.m_weights.push_back(json_tile["weight"].get<float>() / float(cardinality));
+				tileset.m_weights.push_back(json_tile["weight"].number_value() / float(cardinality));
 		}
 
 		tileset.m_num_tiles = uint16_t(tileset.m_tiles_flip.size());
@@ -154,23 +157,23 @@ namespace mud
 
 	void load_rule_propagator(WaveTileset& tileset, const json& config)
 	{
-		for(const json& neighbor : config["neighbors"])
+		for(const json& neighbor : config["neighbors"].array_items())
 		{
-			Tile* left = tileset.tile(neighbor["tiles"][0].get<string>());
-			Tile* right = tileset.tile(neighbor["tiles"][1].get<string>());
-			bool horizontal = neighbor.count("vertical") == 0;
+			Tile* left = tileset.tile(neighbor["tiles"][0].string_value());
+			Tile* right = tileset.tile(neighbor["tiles"][1].string_value());
+			bool horizontal = neighbor["vertical"].is_null();
 
 			if(left == nullptr || right == nullptr)
 				continue;
 
-			if(neighbor.count("flip") == 0)
+			if(neighbor["flip"].is_null())
 			{
 				tileset.connect(left->m_index, right->m_index, horizontal);
 			}
 			else
 			{
-				int L = tileset.flip(left->m_index, neighbor["flip"][0]);
-				int R = tileset.flip(right->m_index, neighbor["flip"][1]);
+				int L = tileset.flip(left->m_index, neighbor["flip"][0].int_value());
+				int R = tileset.flip(right->m_index, neighbor["flip"][1].int_value());
 				tileset.connect(L, R, horizontal);
 			}
 		}
@@ -181,16 +184,16 @@ namespace mud
 		std::map<char, uint32_t> edge_keys;
 		uint32_t next_key = 0;
 
-		for(const json& edge : config["edges"])
+		for(const json& edge : config["edges"].array_items())
 		{
-			char code = edge["code"].get<string>()[0];
+			char code = edge["code"].string_value()[0];
 			edge_keys[code] = next_key++;
 		}
 
-		for(const json& json_tile : config["tiles"])
+		for(const json& json_tile : config["tiles"].array_items())
 		{
-			Tile* tile = tileset.tile(json_tile["name"].get<string>());
-			string edges = json_tile["edges"];
+			Tile* tile = tileset.tile(json_tile["name"].string_value());
+			string edges = json_tile["edges"].string_value();
 
 			for(size_t side = 0; side < 6; ++side)
 				tile->m_edges[side] = edge_keys[edges[side]];
@@ -214,19 +217,21 @@ namespace mud
 
 	void parse_json_tileset(const string& path, const string& subset, Tileset& tileset)
 	{
-		json config = parse_json_file(path);
+		json config;
+		parse_json_file(path, config);
 		load_json_tileset(tileset, config, subset);
 	}
 
 	void parse_json_wave_tileset(const string& path, const string& subset, WaveTileset& tileset)
 	{
-		json config = parse_json_file(path);
+		json config;
+		parse_json_file(path, config);
 		load_json_tileset(tileset, config, subset);
 		tileset.initialize();
 
-		if(config.count("neighbors"))
+		if(!config["neighbors"].is_null())
 			load_rule_propagator(tileset, config);
-		else if(config.count("edges"))
+		else if(!config["edges"].is_null())
 			load_edge_propagator(tileset, config);
 
 		tileset.finalize();

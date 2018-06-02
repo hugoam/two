@@ -2,21 +2,29 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
-#include <edit/Generated/Types.h>
-#include <edit/Tool.h>
-
-#include <geom/Intersect.h>
+#ifdef MUD_MODULES
+module mud.edit;
+#else
+#include <obj/Any.h>
 #include <math/Axes.h>
-#include <edit/ActionStack.h>
-
-#include <ui/Sheet.h>
+#include <geom/Intersect.h>
 #include <ctx/InputDevice.h>
-
-#include <edit/Viewer/Viewer.h>
+#include <ui/Sheet.h>
 #include <gfx/Item.h>
 #include <gfx/Gfx.h>
-#include <obj/Any.h>
+#include <edit/Generated/Types.h>
+#include <edit/Tool.h>
+#include <edit/ActionStack.h>
+#include <edit/Viewer/Viewer.h>
+#endif
 
 namespace mud
 {

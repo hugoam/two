@@ -11,7 +11,7 @@
 
 namespace mud
 {
-	struct MUD_MATH_EXPORT Anim
+	export_ struct MUD_MATH_EXPORT Anim
 	{
 		Ref m_object;
 		Member* m_member;
@@ -23,7 +23,7 @@ namespace mud
 		// Easing m_easing;
 	};
 
-	class MUD_MATH_EXPORT Animator : public Global<Animator>
+	export_ class MUD_MATH_EXPORT Animator : public Global<Animator>
 	{
 	public:
 		Animator();

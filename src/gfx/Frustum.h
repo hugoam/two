@@ -15,7 +15,7 @@
 namespace mud
 {
 #if defined MUD_UNIFORM_BLOCKS
-	struct _refl_ MUD_GFX_EXPORT FrustumBlock
+	export_ struct _refl_ MUD_GFX_EXPORT FrustumBlock
 	{
 		_attr_ float m_fov = 60.f;
 		_attr_ float m_aspect = 1.f;
@@ -31,7 +31,7 @@ namespace mud
 
 	MUD_GFX_EXPORT vec2 frustum_viewport_size(const mat4& projection);
 
-	class _refl_ MUD_GFX_EXPORT Frustum
+	export_ class _refl_ MUD_GFX_EXPORT Frustum
 	{
 	public:
 		Frustum();
@@ -53,7 +53,7 @@ namespace mud
 
 	Frustum optimized_frustum(Camera& camera, array<Item*> items);
 
-	struct _refl_ MUD_GFX_EXPORT FrustumSlice
+	export_ struct _refl_ MUD_GFX_EXPORT FrustumSlice
 	{
 		int m_index;
 		Frustum m_frustum;

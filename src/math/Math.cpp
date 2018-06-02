@@ -2,13 +2,25 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
+
+#ifdef MUD_MODULES
+import mud.obj;
+module mud.math;
+#else
+#include <obj/Reflect/Convert.h>
 #include <math/Generated/Types.h>
 #include <math/VecOps.h>
 #include <math/Math.h>
 #include <math/Grid.h>
 #include <math/Axes.h>
-
-#include <obj/Reflect/Convert.h>
+#endif
 
 namespace mud
 {

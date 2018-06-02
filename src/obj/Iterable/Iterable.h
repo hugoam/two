@@ -7,11 +7,13 @@
 #include <obj/Generated/Forward.h>
 #include <obj/Var.h>
 
+#ifndef MUD_CPP_20
 #include <functional>
+#endif
 
 namespace mud
 {
-	class MUD_OBJ_EXPORT Iterable
+	export_ class MUD_OBJ_EXPORT Iterable
 	{
 	public:
 		virtual ~Iterable() {}
@@ -20,7 +22,7 @@ namespace mud
 		virtual bool has(Ref object) const = 0;
 	};
 
-	class MUD_OBJ_EXPORT Sequence : public Iterable
+	export_ class MUD_OBJ_EXPORT Sequence : public Iterable
 	{
 	public:
 		virtual void add(Ref value) = 0;

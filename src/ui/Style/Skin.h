@@ -10,8 +10,10 @@
 #include <ui/Style/9Sprite.h>
 #include <ui/Style/Paint.h>
 
+#ifndef MUD_CPP_20
 #include <functional>
 #include <string>
+#endif
 
 namespace mud
 {
@@ -19,7 +21,7 @@ namespace mud
 
 	using CustomRenderer = std::function<void(const Frame&, const vec4&, VgRenderer&)>;
 
-	struct _refl_ MUD_UI_EXPORT InkStyle
+	export_ struct _refl_ MUD_UI_EXPORT InkStyle
 	{
 	public:
 		_constr_ InkStyle() {}

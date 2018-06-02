@@ -6,8 +6,10 @@
 
 #include <math/Generated/Forward.h>
 
-#include <stdint.h>
-#include <math.h>
+#ifndef MUD_CPP_20
+#include <cstdint>
+#include <cmath>
+#endif
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846f
@@ -64,7 +66,7 @@ namespace mud
 	template <> _func_ float divide<float>(float a, float b);
 #endif
 
-	enum _refl_ Clockwise : unsigned int
+	export_ enum _refl_ Clockwise : unsigned int
 	{
 		CLOCKWISE,
 		ANTI_CLOCKWISE

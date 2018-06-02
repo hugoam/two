@@ -6,7 +6,7 @@
 
 #include <gfx/Generated/Forward.h>
 #include <gfx/Program.h>
-#include <stdint.h>
+#include <cstdint>
 
 namespace mud
 {
@@ -18,7 +18,7 @@ namespace mud
 		MRT
 	};
 
-	struct MUD_GFX_EXPORT ShaderVersion
+	export_ struct MUD_GFX_EXPORT ShaderVersion
 	{
 		ShaderVersion() {}
 		ShaderVersion(Program* program) : m_program(program) {}

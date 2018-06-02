@@ -8,7 +8,6 @@
 #include <obj/Generated/Types.h>
 
 #include <obj/Any.h>
-#include <obj/Arg.h>
 #include <obj/Array.h>
 #include <obj/Cls.h>
 #include <obj/Complex.h>
@@ -16,6 +15,7 @@
 #include <obj/EnumArray.h>
 #include <obj/Generic.h>
 #include <obj/Indexer.h>
+#include <obj/Limits.h>
 #include <obj/NonCopy.h>
 #include <obj/Pragma.h>
 #include <obj/Proto.h>
@@ -59,13 +59,13 @@
 
 namespace mud
 {
-	class MUD_OBJ_EXPORT mudobj : public Module
+	export_ class MUD_OBJ_EXPORT mudobj : public Module
 	{
 	private:
 		mudobj();
 
 	public:
-		static mudobj& module() { static mudobj instance; return instance; }
+		static mudobj& m() { static mudobj instance; return instance; }
 	};
 }
 

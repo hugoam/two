@@ -3,8 +3,10 @@
 #include <math/Generated/Forward.h>
 #include <math/Math.h>
 
-#include <stdint.h>
+#ifndef MUD_CPP_20
+#include <cstdint>
 #include <cmath>
+#endif
 
 #ifdef MUD_NO_GLM
 #ifndef MUD_META_GENERATOR
@@ -43,26 +45,26 @@ namespace mud
 	using std::ceil;
 
 	// A 16-bit floating point number
-	struct _refl_ _struct_ _array_ half
+	export_ struct _refl_ _struct_ _array_ half
 	{
 		u16 x;
 	};
-	struct _refl_ _struct_ _array_ half2
+	export_ struct _refl_ _struct_ _array_ half2
 	{
 		u16 x, y;
 	};
-	struct _refl_ _struct_ _array_ half3
+	export_ struct _refl_ _struct_ _array_ half3
 	{
 		u16 x, y, z;
 	};
-	struct _refl_ _struct_ _array_ half4
+	export_ struct _refl_ _struct_ _array_ half4
 	{
 		u16 x, y, z, w;
 	};
 
 /*$pycgen
 	tuple2 = """
-	struct _refl_ _struct_ _array_ T2
+	export_ struct _refl_ _struct_ _array_ T2
 	{
 		typedef T type;
 		T2() { }
@@ -83,7 +85,7 @@ namespace mud
 	"""
 
 	tuple3 = """
-	struct _refl_ _struct_ _array_ T3
+	export_ struct _refl_ _struct_ _array_ T3
 	{
 		typedef T type;
 		typedef T2 type2;
@@ -105,7 +107,7 @@ namespace mud
 	"""
 
 	tuple4 = """
-	struct _refl_ _struct_ _array_ T4
+	export_ struct _refl_ _struct_ _array_ T4
 	{
 		typedef T type;
 		typedef T2 type2;
@@ -134,7 +136,7 @@ namespace mud
 	EmitRepl(tuple4, "T:" + vector_types)
 */
 //$pycgen-begin
-	struct _refl_ _struct_ _array_ float2
+	export_ struct _refl_ _struct_ _array_ float2
 	{
 		typedef float type;
 		float2() { }
@@ -152,7 +154,7 @@ namespace mud
 			struct { _attr_ float x; _attr_ float y; };
 		};
 	};
-	struct _refl_ _struct_ _array_ int2
+	export_ struct _refl_ _struct_ _array_ int2
 	{
 		typedef int type;
 		int2() { }
@@ -170,7 +172,7 @@ namespace mud
 			struct { _attr_ int x; _attr_ int y; };
 		};
 	};
-	struct _refl_ _struct_ _array_ uint2
+	export_ struct _refl_ _struct_ _array_ uint2
 	{
 		typedef uint type;
 		uint2() { }
@@ -188,7 +190,7 @@ namespace mud
 			struct { _attr_ uint x; _attr_ uint y; };
 		};
 	};
-	struct _refl_ _struct_ _array_ bool2
+	export_ struct _refl_ _struct_ _array_ bool2
 	{
 		typedef bool type;
 		bool2() { }
@@ -206,7 +208,7 @@ namespace mud
 			struct { _attr_ bool x; _attr_ bool y; };
 		};
 	};
-	struct _refl_ _struct_ _array_ float3
+	export_ struct _refl_ _struct_ _array_ float3
 	{
 		typedef float type;
 		typedef float2 type2;
@@ -225,7 +227,7 @@ namespace mud
 			struct { _attr_ float x; _attr_ float y; _attr_ float z; };
 		};
 	};
-	struct _refl_ _struct_ _array_ int3
+	export_ struct _refl_ _struct_ _array_ int3
 	{
 		typedef int type;
 		typedef int2 type2;
@@ -244,7 +246,7 @@ namespace mud
 			struct { _attr_ int x; _attr_ int y; _attr_ int z; };
 		};
 	};
-	struct _refl_ _struct_ _array_ uint3
+	export_ struct _refl_ _struct_ _array_ uint3
 	{
 		typedef uint type;
 		typedef uint2 type2;
@@ -263,7 +265,7 @@ namespace mud
 			struct { _attr_ uint x; _attr_ uint y; _attr_ uint z; };
 		};
 	};
-	struct _refl_ _struct_ _array_ bool3
+	export_ struct _refl_ _struct_ _array_ bool3
 	{
 		typedef bool type;
 		typedef bool2 type2;
@@ -282,7 +284,7 @@ namespace mud
 			struct { _attr_ bool x; _attr_ bool y; _attr_ bool z; };
 		};
 	};
-	struct _refl_ _struct_ _array_ float4
+	export_ struct _refl_ _struct_ _array_ float4
 	{
 		typedef float type;
 		typedef float2 type2;
@@ -304,7 +306,7 @@ namespace mud
 			struct { _attr_ float x; _attr_ float y; _attr_ float z; _attr_ float w; };
 		};
 	};
-	struct _refl_ _struct_ _array_ int4
+	export_ struct _refl_ _struct_ _array_ int4
 	{
 		typedef int type;
 		typedef int2 type2;
@@ -326,7 +328,7 @@ namespace mud
 			struct { _attr_ int x; _attr_ int y; _attr_ int z; _attr_ int w; };
 		};
 	};
-	struct _refl_ _struct_ _array_ uint4
+	export_ struct _refl_ _struct_ _array_ uint4
 	{
 		typedef uint type;
 		typedef uint2 type2;
@@ -348,7 +350,7 @@ namespace mud
 			struct { _attr_ uint x; _attr_ uint y; _attr_ uint z; _attr_ uint w; };
 		};
 	};
-	struct _refl_ _struct_ _array_ bool4
+	export_ struct _refl_ _struct_ _array_ bool4
 	{
 		typedef bool type;
 		typedef bool2 type2;
@@ -1239,7 +1241,7 @@ namespace mud
 	//
 	// Single precision 3x3 matrix
 	//
-	struct _refl_ _struct_ _array_ mat3
+	export_ struct _refl_ _struct_ _array_ mat3
 	{
 		typedef float type;
 		mat3() { }
@@ -1272,7 +1274,7 @@ namespace mud
 	// Double precision 3x3 matrix
 	// C++ only
 	//
-	struct _refl_ _struct_ _array_ mat3d
+	export_ struct _refl_ _struct_ _array_ mat3d
 	{
 		typedef double type;
 		mat3d() { }
@@ -1303,7 +1305,7 @@ namespace mud
 	//
 	// Single precision 4x4 matrix
 	//
-	struct _refl_ _struct_ _array_ mat4
+	export_ struct _refl_ _struct_ _array_ mat4
 	{
 		typedef float type;
 		mat4() {}
@@ -1344,7 +1346,7 @@ namespace mud
 	//
 	// Single precision quaternion
 	//
-	struct _refl_ _struct_ _array_ quat : public float4
+	export_ struct _refl_ _struct_ _array_ quat : public float4
 	{
 		typedef float type;
 		quat() { }
@@ -1516,7 +1518,7 @@ double3 float3_to_double3(const float3& v);
 	//
 	// Single precision dual quaternion
 	//
-	struct _refl_ _struct_ _array_ dualquat
+	export_ struct _refl_ _struct_ _array_ dualquat
 	{
 		quat r;
 		quat d;
@@ -1526,12 +1528,12 @@ double3 float3_to_double3(const float3& v);
 	//
 	// This is an affine frame with origin and basis as rotation operator
 	//
-	struct _refl_ _struct_ _array_ frame
+	export_ struct _refl_ _struct_ _array_ frame
 	{
 		quat rotation;
 		float3 position;
 	};
-	struct _refl_ _struct_ _array_ framed
+	export_ struct _refl_ _struct_ _array_ framed
 	{
 		quat rotation;
 		double3 position;
@@ -1670,7 +1672,7 @@ double3 float3_to_double3(const float3& v);
 	//
 	// Rigid transform with position stored in double precision
 	//
-	struct _refl_ _struct_ _array_ transform
+	export_ struct _refl_ _struct_ _array_ transform
 	{
 		double3 position;
 		mat3 rotation;
@@ -1678,7 +1680,7 @@ double3 float3_to_double3(const float3& v);
 	};
 
 
-	struct _refl_ _struct_ _array_ boxi
+	export_ struct _refl_ _struct_ _array_ boxi
 	{
 		int3 min;
 		int3 max;
@@ -1688,7 +1690,7 @@ double3 float3_to_double3(const float3& v);
 	//
 	// A plane in 3 dimensions, composed of a normal and distance along the normal from the origin
 	//
-	struct _refl_ _struct_ _array_ planef
+	export_ struct _refl_ _struct_ _array_ planef
 	{
 		planef() { }
 		planef(float x, float y, float z, float d)
@@ -1702,7 +1704,7 @@ double3 float3_to_double3(const float3& v);
 		float3 n;
 		float d;
 	};
-	struct _refl_ _struct_ _array_ planed
+	export_ struct _refl_ _struct_ _array_ planed
 	{
 		planed() { }
 		planed(double x, double y, double z, double d)
@@ -1721,11 +1723,11 @@ double3 float3_to_double3(const float3& v);
 	//
 	// A camera view volume bounded by 6 planes
 	//
-	struct _refl_ _struct_ _array_ frustumf
+	export_ struct _refl_ _struct_ _array_ frustumf
 	{
 		planef planes[6];
 	};
-	struct _refl_ _struct_ _array_ frustumd
+	export_ struct _refl_ _struct_ _array_ frustumd
 	{
 		planed planes[6];
 	};
@@ -1737,7 +1739,7 @@ double3 float3_to_double3(const float3& v);
 	// TODO: This is probably not the ideal place for this but it's better than in
 	//       the VDB or Transvoxel libraries.
 	//
-	struct _refl_ _struct_ _array_ Voxel
+	export_ struct _refl_ _struct_ _array_ Voxel
 	{
 		// Fixed-point compressed distance to zero-surface
 		i16 distance;
@@ -1750,7 +1752,7 @@ double3 float3_to_double3(const float3& v);
 	//
 	// Mutually exclusive flags for storing normal voxels in voxel grids
 	//
-	enum _refl_ _struct_ _array_ VoxelGridFlags
+	export_ enum _refl_ _struct_ _array_ VoxelGridFlags
 	{
 		VoxelGridFlags_NoNormals = 0,
 		VoxelGridFlags_StoreNormals = 1,
@@ -1763,7 +1765,7 @@ double3 float3_to_double3(const float3& v);
 	// The number of voxels is determined by the number of cells and whether an extra padding
 	// layer of voxels is added round the outside for normal calculation.
 	//
-	struct _refl_ _struct_ _array_ VoxelGrid
+	export_ struct _refl_ _struct_ _array_ VoxelGrid
 	{
 		VoxelGrid();
 		VoxelGrid(i32 nb_cells_axis, VoxelGridFlags flags);
@@ -1789,7 +1791,7 @@ double3 float3_to_double3(const float3& v);
 	// A unique node ID within a grid hierarchy stored as a 96-bit value.
 	// Node x,y,z and level integer locations are bit-packed into this.
 	//
-	struct _refl_ _struct_ _array_ NodeID
+	export_ struct _refl_ _struct_ _array_ NodeID
 	{
 		NodeID();
 		NodeID(const int3& node_index, int level_index);

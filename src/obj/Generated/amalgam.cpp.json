@@ -18,9 +18,7 @@
 		"obj/Serial/Serial.cpp",
 		"obj/String/String.cpp",
 		"obj/System/System.cpp",
-		"obj/Util/Global.cpp",
-		"obj/Util/Timer.cpp",
-		"obj/Util/Updatable.cpp"
+		"obj/Util/Timer.cpp"
 	],
 	"include_paths": [
         ""

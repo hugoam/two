@@ -2,32 +2,35 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <ui/Generated/Types.h>
-#include <ui/Style/StyleParser.h>
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+module mud.ui;
+#else
 #include <obj/Any.h>
 #include <obj/Reflect/Class.h>
 #include <obj/Serial/Serial.h>
 #include <obj/String/String.h>
-
+#include <math/VecJson.h>
+#include <ui/Generated/Types.h>
+#include <ui/Style/StyleParser.h>
 #include <ui/Style/Style.h>
 #include <ui/Style/Skin.h>
 #include <ui/Style/Styler.h>
 #include <ui/UiWindow.h>
+#endif
+
+#include <json11.hpp>
 
 namespace mud
 {
 	void load_style(Styler& styler, const string& name, const json& json_style);
-
-	static void from_json(const json& j, Colour& col)
-	{
-		col = { j[0], j[1], j[2], j[3] };
-	}
-
-	static void to_json(json& j, const Colour& col)
-	{
-		j = { col.m_r, col.m_g, col.m_b, col.m_a };
-	}
 
 	void decline_images(Styler& styler, const string& style, Options& skin_def, const string& state)
 	{
@@ -57,8 +60,8 @@ namespace mud
 
 	void decline(Styler& styler, const string& style, Options& skin_def, const json& json_states)
 	{
-		for(json state : json_states)
-			decline_images(styler, style, skin_def, state.get<string>());
+		for(const json& state : json_states.array_items())
+			decline_images(styler, style, skin_def, state.string_value());
 	}
 
 	FromJson style_unpacker(UiWindow& ui_window)
@@ -67,7 +70,7 @@ namespace mud
 		unpacker.function<Image>([&](Ref, Ref& result, const json& json)
 		{
 			result = json == "null" ? Ref((Image*) nullptr)
-									: Ref(&ui_window.find_image(json.get<string>().c_str()));
+									: Ref(&ui_window.find_image(json.string_value().c_str()));
 		});
 		return unpacker;
 	}
@@ -87,7 +90,7 @@ namespace mud
 		if(key == "selector" || key == "reset_skin")
 			;
 		else if(key == "copy_skin")
-			skin_def.merge(styler.m_skin_definitions[json_value.get<string>()]);
+			skin_def.merge(styler.m_skin_definitions[json_value.string_value()]);
 		else if(key == "decline")
 			decline(styler, style, skin_def, json_value);
 		else if(cls<Layout>().has_member(key.c_str()))
@@ -114,8 +117,8 @@ namespace mud
 			Options& layout_def = styler.m_layout_definitions[name];
 			Options& skin_def = styler.m_skin_definitions[name];
 
-			for(json::const_iterator attr_it = json_style.begin(); attr_it != json_style.end(); ++attr_it)
-				load_style_attr(styler, name, layout_def, skin_def, attr_it.key(), attr_it.value());
+			for(auto& key_value : json_style.object_items())
+				load_style_attr(styler, name, layout_def, skin_def, key_value.first, key_value.second);
 		}
 	}
 
@@ -123,35 +126,35 @@ namespace mud
 	{
 		visit_json(json_value, [&](json& json_value)
 		{
-			if(json_value.is_string() && colours.find(json_value.get<string>()) != colours.end())
-				json_value = colours.at(json_value.get<string>());
+			if(json_value.is_string() && colours.find(json_value.string_value()) != colours.end())
+				to_json(colours.at(json_value.string_value()), json_value);
 		});
 	}
 
 	void load_colours(std::map<string, Colour>& colours, const json& json_colours)
 	{
-		//for(size_t i = 0; i < json_colours.size(); ++i)
-		for(json::const_iterator colour_it = json_colours.begin(); colour_it != json_colours.end(); ++colour_it)
-			colours[colour_it.key()] = colour_it.value();
+		for(auto& key_value : json_colours.object_items())
+			from_json(key_value.second, colours[key_value.first]);
 	}
 
 	void load_style_sheet(Styler& styler, cstring path)
 	{
-		json style_sheet = parse_json_file(path);
+		json style_sheet;
+		parse_json_file(path, style_sheet);
 
-		json includes = style_sheet["includes"];
-		for(size_t i = 0; i < includes.size(); ++i)
+		const json& includes = style_sheet["includes"];
+		for(size_t i = 0; i < includes.array_items().size(); ++i)
 		{
-			load_style_sheet(styler, (string(styler.m_uiWindow.m_resource_path) + "interface/styles/" + includes[i].get<string>()).c_str());
+			load_style_sheet(styler, (string(styler.m_uiWindow.m_resource_path) + "interface/styles/" + includes[i].string_value()).c_str());
 		}
 
 		std::map<string, Colour> colours;
 		load_colours(colours, style_sheet["colours"]);
-		replace_colours(colours, style_sheet["styles"]);
+		replace_colours(colours, const_cast<json&>(style_sheet["styles"]));
 
-		json styles = style_sheet["styles"];
-		for(size_t i = 0; i < styles.size(); ++i)
-			load_style(styler, styles[i]["selector"], styles[i]);
+		const json& styles = style_sheet["styles"];
+		for(size_t i = 0; i < styles.array_items().size(); ++i)
+			load_style(styler, styles[i]["selector"].string_value(), styles[i]);
 	}
 
 	void set_style_sheet(Styler& styler, cstring path)

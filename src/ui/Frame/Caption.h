@@ -8,17 +8,19 @@
 #include <ui/Generated/Forward.h>
 #include <ui/Frame/Dim.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	struct MUD_UI_EXPORT TextGlyph
+	export_ struct MUD_UI_EXPORT TextGlyph
 	{
 		const char* m_position;
 		vec4 m_rect;
 	};
 
-	struct MUD_UI_EXPORT TextRow
+	export_ struct MUD_UI_EXPORT TextRow
 	{
 		const char* m_start;
 		const char* m_end;

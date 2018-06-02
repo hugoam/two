@@ -10,7 +10,9 @@
 #include <ui/Style/Style.h>
 #include <ui/Widget.h>
 
-#include <stdint.h>
+#ifndef MUD_CPP_20
+#include <cstdint>
+#endif
 
 namespace mud
 {
@@ -53,6 +55,8 @@ namespace ui
 
 	MUD_UI_EXPORT _func_ Widget& icon(Widget& parent, cstring icon);
 	MUD_UI_EXPORT _func_ Widget& label(Widget& parent, cstring label);
+	MUD_UI_EXPORT _func_ Widget& title(Widget& parent, cstring label);
+	MUD_UI_EXPORT _func_ Widget& message(Widget& parent, cstring label);
 	MUD_UI_EXPORT _func_ Widget& text(Widget& parent, cstring label);
 
 	MUD_UI_EXPORT void button_logic(Widget& self);

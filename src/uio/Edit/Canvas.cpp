@@ -2,27 +2,35 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <uio/Generated/Types.h>
-#include <uio/Edit/Canvas.h>
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#else
+#include <map>
+#endif
 
+#ifdef MUD_MODULES
+module mud.uio;
+#else
 #include <obj/Util/Global.h>
-
-#include <uio/Unode.h>
+#include <lang/VisualScript.h>
+#include <lang/VisualBlocks.h>
 #include <ui/Input.h>
 #include <ui/Structs/Node.h>
 #include <ui/Structs/Container.h>
-
+#include <uio/Generated/Types.h>
+#include <uio/Edit/Canvas.h>
+#include <uio/Unode.h>
 #include <uio/Edit/Structure.h>
 #include <uio/Edit/Value.h>
-
-#include <lang/VisualScript.h>
-#include <lang/VisualBlocks.h>
-
-#include <map>
+#endif
 
 namespace mud
 {
-	struct MUD_UIO_EXPORT TypeColours : public Global<TypeColours>
+	export_ struct MUD_UIO_EXPORT TypeColours : public Global<TypeColours>
 	{
 		TypeColours();
 
@@ -73,14 +81,14 @@ namespace mud
 		Widget& functions = ui::sheet(board);
 		ui::label(functions, "Functions");
 
-		for(Module* module : System::instance().m_modules)
+		for(Module* m : System::instance().m_modules)
 		{
-			ui::label(functions, module->m_name).enableState(DISABLED);
-			for(Function& function : module->m_functions)
-				if(fits_filter(function.m_name, filter))
-					if(ui::multi_button(functions, ui::dropdown_styles().choice, carray<cstring, 2>{ "(function)", function.m_name }).activated())
+			ui::label(functions, m->m_name).enableState(DISABLED);
+			for(Function* function : m->m_functions)
+				if(fits_filter(function->m_name, filter))
+					if(ui::multi_button(functions, ui::dropdown_styles().choice, carray<cstring, 2>{ "(function)", function->m_name }).activated())
 					{
-						add_process(make_object<ProcessFunction>(script, function));
+						add_process(make_object<ProcessFunction>(script, *function));
 						parent.m_open = false;
 					}
 		}
@@ -88,10 +96,10 @@ namespace mud
 		Widget& values = ui::sheet(board);
 		ui::label(values, "Values");
 
-		for(Module* module : System::instance().m_modules)
+		for(Module* m : System::instance().m_modules)
 		{
-			ui::label(values, module->m_name).enableState(DISABLED);
-			for(Type* type : module->m_types)
+			ui::label(values, m->m_name).enableState(DISABLED);
+			for(Type* type : m->m_types)
 				if(is_struct(*type) || is_base_type(*type))
 					if(fits_filter(type->m_name, filter))
 						if(ui::multi_button(values, ui::dropdown_styles().choice, carray<cstring, 2>{ "(value)", type->m_name }).activated())
@@ -104,10 +112,10 @@ namespace mud
 		Widget& types = ui::sheet(board);
 		ui::label(types, "Objects");
 
-		for(Module* module : System::instance().m_modules)
+		for(Module* m : System::instance().m_modules)
 		{
-			ui::label(types, module->m_name).enableState(DISABLED);
-			for(Type* type : module->m_types)
+			ui::label(types, m->m_name).enableState(DISABLED);
+			for(Type* type : m->m_types)
 				if(type->m_class && !type->m_class->m_constructors.empty()) //is_struct(*type) || is_base_type(*type))
 					if(fits_filter(type->m_name, filter))
 						if(ui::multi_button(types, ui::dropdown_styles().choice, carray<cstring, 2>{ "(class)", type->m_name }).activated())

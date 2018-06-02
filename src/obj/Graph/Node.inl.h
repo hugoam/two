@@ -7,7 +7,9 @@
 #include <obj/Graph/Node.h>
 #include <obj/Vector.h>
 
+#ifndef MUD_CPP_20
 #include <functional>
+#endif
 
 namespace mud
 {

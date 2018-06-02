@@ -57,13 +57,13 @@
 
 namespace mud
 {
-	class MUD_UI_EXPORT mudui : public Module
+	export_ class MUD_UI_EXPORT mudui : public Module
 	{
 	private:
 		mudui();
 
 	public:
-		static mudui& module() { static mudui instance; return instance; }
+		static mudui& m() { static mudui instance; return instance; }
 	};
 }
 

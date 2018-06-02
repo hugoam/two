@@ -77,7 +77,7 @@ namespace mud
 #endif
 
 	template <class T>
-	struct _refl_ _struct_ Range
+	export_ struct _refl_ _struct_ Range
 	{
 		Range() {}
 		Range(T min, T max) : m_min(min), m_max(max) {}
@@ -86,9 +86,9 @@ namespace mud
 		bool operator==(const Range<T>& other) const { return m_min == other.m_min && m_max == other.m_max; }
 	};
 
-	template struct _refl_ _struct_ Range<vec3>;
-	template struct _refl_ _struct_ Range<quat>;
-	template struct _refl_ _struct_ Range<float>;
-	template struct _refl_ _struct_ Range<uint32_t>;
-	template struct _refl_ _struct_ Range<Colour>;
+	export_ template struct _refl_ _struct_ Range<vec3>;
+	export_ template struct _refl_ _struct_ Range<quat>;
+	export_ template struct _refl_ _struct_ Range<float>;
+	export_ template struct _refl_ _struct_ Range<uint32_t>;
+	export_ template struct _refl_ _struct_ Range<Colour>;
 }

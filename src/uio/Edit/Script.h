@@ -9,7 +9,7 @@
 
 namespace mud
 {
-	class _refl_ MUD_UIO_EXPORT ScriptEditor
+	export_ class _refl_ MUD_UIO_EXPORT ScriptEditor
 	{
 	public:
 		ScriptEditor();

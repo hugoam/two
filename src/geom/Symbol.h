@@ -11,7 +11,7 @@ namespace mud
 {
 	using cstring = const char*;
 
-	enum class _refl_ SymbolDetail : unsigned short
+	export_ enum class _refl_ SymbolDetail : unsigned short
 	{
 		Lowest,
 		Low,
@@ -20,7 +20,7 @@ namespace mud
 		Highest
 	};
 
-	struct _refl_ MUD_MATH_EXPORT Symbol
+	export_ struct _refl_ MUD_MATH_EXPORT Symbol
 	{
 	public:
 		_constr_ Symbol(Colour outline = Colour::White, Colour fill = Colour::None, bool overlay = false, bool double_sided = false, SymbolDetail detail = SymbolDetail::Medium);

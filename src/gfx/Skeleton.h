@@ -13,14 +13,16 @@
 #include <bgfx/bgfx.h>
 #endif
 
+#ifndef MUD_CPP_20
 #include <vector>
 #include <string>
+#endif
 
 namespace mud
 {
 	using string = std::string;
 
-	struct _refl_ MUD_GFX_EXPORT Bone
+	export_ struct _refl_ MUD_GFX_EXPORT Bone
 	{
 		Bone() {}
 		Bone(cstring name, int index, int parent = -1) : m_name(name), m_index(index), m_parent(parent) {}
@@ -39,7 +41,7 @@ namespace mud
 		std::vector<Node3*> m_attached_nodes;
 	};
 
-	class _refl_ MUD_GFX_EXPORT Skeleton
+	export_ class _refl_ MUD_GFX_EXPORT Skeleton
 	{
 	public:
 		Skeleton();
@@ -53,14 +55,14 @@ namespace mud
 		std::vector<Bone> m_bones;
 	};
 
-	struct _refl_ MUD_GFX_EXPORT Joint
+	export_ struct _refl_ MUD_GFX_EXPORT Joint
 	{
 		size_t m_bone;
 		mat4 m_inverse_bind;
 		mat4 m_joint;
 	};
 
-	class _refl_ MUD_GFX_EXPORT Skin
+	export_ class _refl_ MUD_GFX_EXPORT Skin
 	{
 	public:
 		Skin(Skeleton& skeleton, int num_joints);
@@ -77,7 +79,7 @@ namespace mud
 		std::vector<Joint> m_joints;
 	};
 
-	class _refl_ MUD_GFX_EXPORT Rig
+	export_ class _refl_ MUD_GFX_EXPORT Rig
 	{
 	public:
 		Rig();

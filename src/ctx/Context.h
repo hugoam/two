@@ -14,7 +14,7 @@ namespace mud
 {
 	class VgRenderer;
 
-	class _refl_ MUD_CTX_EXPORT RenderSystem
+	export_ class _refl_ MUD_CTX_EXPORT RenderSystem
 	{
 	public:
 		RenderSystem(cstring resource_path, bool manual_render);
@@ -28,7 +28,7 @@ namespace mud
 		const bool m_manual_render;
 	};
 
-	class _refl_ MUD_CTX_EXPORT Context : public NonCopy
+	export_ class _refl_ MUD_CTX_EXPORT Context : public NonCopy
 	{
 	public:
 		Context(RenderSystem& render_system, cstring title, int width, int height, bool full_screen = false);

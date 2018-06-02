@@ -51,3 +51,6 @@
 [submodule "3rdparty/glfw"]
 	path = 3rdparty/glfw
 	url = https://github.com/glfw/glfw
+[submodule "3rdparty/json11"]
+	path = 3rdparty/json11
+	url = https://github.com/dropbox/json11

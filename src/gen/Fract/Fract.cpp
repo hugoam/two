@@ -1,21 +1,38 @@
+//  Copyright (c) 2018 Hugo Amiard hugo.amiard@laposte.net
+//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
+//  This notice and the license may not be removed or altered from any source distribution.
 
-#include <gen/Fract/Fract.h>
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+#include <cmath>
+#include <ctime>
+import std.core;
+import std.memory;
+#else
+#include <cstdlib>
+#include <cstdio>
+#include <cmath>
+#include <ctime>
+#endif
 
+#ifdef MUD_MODULES
+module mud.gen;
+#else
 #include <math/Colour.h>
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
+#include <gen/Fract/Fract.h>
+#endif
 
 #define PI 3.14159f
 #define COEFF_TRANS 1.5f
 #define COEFF_ROTATION 15
 #define COEFF_V 0.004
 
-// includes, project
+#ifndef MUD_CPP_20
 #include <cstdio>
 #include <string>
+#endif
 
 float rnd_float()
 {

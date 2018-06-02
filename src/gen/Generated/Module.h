@@ -22,13 +22,13 @@
 
 namespace mud
 {
-	class MUD_GEN_EXPORT mudgen : public Module
+	export_ class MUD_GEN_EXPORT mudgen : public Module
 	{
 	private:
 		mudgen();
 
 	public:
-		static mudgen& module() { static mudgen instance; return instance; }
+		static mudgen& m() { static mudgen instance; return instance; }
 	};
 }
 

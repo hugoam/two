@@ -14,11 +14,13 @@
 #include <bgfx/bgfx.h>
 #endif
 
+#ifndef MUD_CPP_20
 #include <functional>
+#endif
 
 namespace mud
 {
-	struct _refl_ Sun
+	export_ struct _refl_ Sun
 	{
 		_attr_ _mut_ float azimuth;
 		_attr_ _mut_ float elevation;
@@ -26,7 +28,7 @@ namespace mud
 		_attr_ _mut_ float m_intensity = 0.f;
 	};
 
-	struct _refl_ Radiance
+	export_ struct _refl_ Radiance
 	{
 		_attr_ _mut_ float m_energy = 1.0f;
 		_attr_ _mut_ float m_ambient = 1.0f;
@@ -36,7 +38,7 @@ namespace mud
 		bool m_preprocessed = false;
 	};
 
-	enum class _refl_ BackgroundMode : unsigned int
+	export_ enum class _refl_ BackgroundMode : unsigned int
 	{
 		None,
 		Panorama,
@@ -44,7 +46,7 @@ namespace mud
 		Custom
 	};
 
-	struct _refl_ Background
+	export_ struct _refl_ Background
 	{
 		_attr_ _mut_ BackgroundMode m_mode = BackgroundMode::None;
 		_attr_ _mut_ Colour m_colour = Colour::Black;
@@ -52,7 +54,7 @@ namespace mud
 		std::function<void(Render&)> m_custom_function;
 	};
 
-	struct _refl_ Environment
+	export_ struct _refl_ Environment
 	{
 		_attr_ _mut_ Background m_background;
 		_attr_ _mut_ Radiance m_radiance;
@@ -62,7 +64,7 @@ namespace mud
 
 	class Shot;
 
-	class _refl_ MUD_GFX_EXPORT Scene : public NonCopy
+	export_ class _refl_ MUD_GFX_EXPORT Scene : public NonCopy
 	{
 	public:
 		Scene(GfxSystem& gfx_system);

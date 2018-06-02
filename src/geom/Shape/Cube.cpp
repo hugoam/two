@@ -2,13 +2,23 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+module mud.geom;
+#else
 #include <geom/Shape/Cube.h>
 #include <geom/Shapes.h>
 #include <geom/ShapesComplex.h>
 #include <geom/Primitive.h>
-
 #include <geom/Shape/Quad.h>
+#endif
 
 namespace mud
 {
@@ -22,7 +32,7 @@ namespace mud
 	{
 		for(int i = 0; i < 8; ++i)
 		{
-			vec3 position = shape.m_position + box.m_vertices[i];
+			vec3 position = box.m_center + box.m_vertices[i];
 
 			static const vec3 components[3] = { X3, Y3, Z3 };
 			float size_factor = 0.2f;
@@ -56,7 +66,7 @@ namespace mud
 		//return draw_cube_corners_lines(shape, box, data);
 
 		for (int i = 0; i < 8; ++i)
-			data.position(shape.m_position + box.m_vertices[i])
+			data.position(box.m_center + box.m_vertices[i])
 				.colour(shape.m_symbol.m_outline);
 
 		for (uint16_t i = 0; i < 4; ++i)

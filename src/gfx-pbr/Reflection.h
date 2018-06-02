@@ -20,7 +20,7 @@ namespace mud
 		vec4 counts;
 	};
 
-	class _refl_ MUD_GFX_EXPORT ReflectionProbe
+	export_ class _refl_ MUD_GFX_EXPORT ReflectionProbe
 	{
 	public:
 		ReflectionProbe(Node3& node);
@@ -38,7 +38,7 @@ namespace mud
 		_attr_ bool m_dirty = true;
 	};
 
-	class MUD_GFX_EXPORT PassProbes : public RenderPass
+	export_ class MUD_GFX_EXPORT PassProbes : public RenderPass
 	{
 	public:
 		PassProbes(GfxSystem& gfx_system, BlockReflection& block_reflection);
@@ -49,7 +49,7 @@ namespace mud
 		virtual void submit_render_pass(Render& render) final;
 	};
 
-	class _refl_ MUD_GFX_EXPORT BlockReflection : public GfxBlock
+	export_ class _refl_ MUD_GFX_EXPORT BlockReflection : public GfxBlock
 	{
 	public:
 		BlockReflection(GfxSystem& gfx_system);

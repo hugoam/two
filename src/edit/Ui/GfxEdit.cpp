@@ -2,38 +2,44 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <edit/Generated/Types.h>
-#include <edit/Ui/GfxEdit.h>
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+module mud.edit;
+#else
+#include <obj/Vector.h>
 #include <obj/Reflect/Class.h>
 #include <obj/Util/DispatchDecl.h>
-
-#include <uio/Unode.h>
-#include <ui/Structs/Container.h>
-#include <ui/Structs/RootSheet.h>
-#include <ui/Input.h>
-#include <ui/Sequence.h>
-
-#include <obj/Vector.h>
-
-#include <uio/Edit/Inspector.h>
-#include <uio/Edit/Section.h>
-#include <uio/Edit/Value.h>
-
-#include <gfx-pbr/Shadow.h>
-#include <edit/Viewer/Viewer.h>
-#include <edit/Ui/ParticleEdit.h>
-#include <gfx/Gfx.h>
-#include <gfx/Animated.h>
-#include <gfx/Mesh.h>
-#include <gfx/Model.h>
-#include <gfx/Asset.h>
-
 #include <math/Axes.h>
 #include <geom/Symbol.h>
 #include <geom/Shapes.h>
 #include <geom/ShapesComplex.h>
 #include <geom/Aabb.h>
+#include <ui/Structs/Container.h>
+#include <ui/Structs/RootSheet.h>
+#include <ui/Input.h>
+#include <ui/Sequence.h>
+#include <uio/Unode.h>
+#include <uio/Edit/Inspector.h>
+#include <uio/Edit/Section.h>
+#include <uio/Edit/Value.h>
+#include <gfx/Gfx.h>
+#include <gfx/Animated.h>
+#include <gfx/Mesh.h>
+#include <gfx/Model.h>
+#include <gfx/Asset.h>
+#include <gfx-pbr/Shadow.h>
+#include <edit/Generated/Types.h>
+#include <edit/Ui/GfxEdit.h>
+#include <edit/Viewer/Viewer.h>
+#include <edit/Ui/ParticleEdit.h>
+#endif
 
 namespace mud
 {

@@ -15,13 +15,13 @@
 
 namespace mud
 {
-	class MUD_GFX_OBJ_EXPORT mudgfxobj : public Module
+	export_ class MUD_GFX_OBJ_EXPORT mudgfxobj : public Module
 	{
 	private:
 		mudgfxobj();
 
 	public:
-		static mudgfxobj& module() { static mudgfxobj instance; return instance; }
+		static mudgfxobj& m() { static mudgfxobj instance; return instance; }
 	};
 }
 

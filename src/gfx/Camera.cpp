@@ -2,8 +2,19 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+module mud.gfx;
+#else
 #include <gfx/Camera.h>
+#endif
 
 #include <bgfx/bgfx.h>
 
@@ -65,8 +76,8 @@ namespace mud
 
 	void Camera::set_isometric(IsometricAngle from_angle, const vec3& position)
 	{
-		static const vec3 z_angles[3] = { Zero3, -Z3, Z3 };
-		static const vec3 x_angles[3] = { Zero3, X3, -X3 };
+		static const vec3 z_angles[3] = { Zero3, -Z3,  Z3 };
+		static const vec3 x_angles[3] = { Zero3,  X3, -X3 };
 
 		vec3 angle = Y3 + z_angles[uint8_t(from_angle >> 0)] + x_angles[uint8_t(from_angle >> 8)];
 

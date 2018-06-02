@@ -4,12 +4,15 @@
 
 #pragma once
 
+#include <obj/Limits.h>
 #include <math/Generated/Forward.h>
 #include <math/Vec.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
 #include <functional>
 #include <array>
+#endif
 
 namespace mud
 {
@@ -206,14 +209,14 @@ namespace mud
 	};
 
 	template <class T_Element>
-	struct _refl_ _struct_ Grid : public Grided<std::vector<T_Element>>
+	export_ struct _refl_ _struct_ Grid : public Grided<std::vector<T_Element>>
 	{
 		using Grided<std::vector<T_Element>>::Grided;
 	};
 
 
 	template <class T_Element>
-	struct _refl_ _struct_ array_3d : public std::vector<T_Element>
+	export_ struct _refl_ _struct_ array_3d : public std::vector<T_Element>
 	{
 	public:
 		typedef T_Element T;

@@ -26,13 +26,13 @@
 
 namespace mud
 {
-	class MUD_GFX_PBR_EXPORT mudgfxpbr : public Module
+	export_ class MUD_GFX_PBR_EXPORT mudgfxpbr : public Module
 	{
 	private:
 		mudgfxpbr();
 
 	public:
-		static mudgfxpbr& module() { static mudgfxpbr instance; return instance; }
+		static mudgfxpbr& m() { static mudgfxpbr instance; return instance; }
 	};
 }
 

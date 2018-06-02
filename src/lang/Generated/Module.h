@@ -16,13 +16,13 @@
 
 namespace mud
 {
-	class MUD_LANG_EXPORT mudlang : public Module
+	export_ class MUD_LANG_EXPORT mudlang : public Module
 	{
 	private:
 		mudlang();
 
 	public:
-		static mudlang& module() { static mudlang instance; return instance; }
+		static mudlang& m() { static mudlang instance; return instance; }
 	};
 }
 

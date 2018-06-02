@@ -6,16 +6,18 @@
 
 #define MUD_MAX_TYPES 1000U
 
+#include <obj/Config.h>
+
 namespace mud
 {
 	class Type;
 
-	template <class T>
+	export_ template <class T>
 	Type& type();
 
-	template <class T, class U>
+	export_ template <class T, class U>
 	inline T& as(U& object) { return static_cast<T&>(object); }
 
-	template <class T, class U>
+	export_ template <class T, class U>
 	inline const T& as(const U& object) { return static_cast<const T&>(object); }
 }

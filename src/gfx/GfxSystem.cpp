@@ -2,16 +2,29 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+#include <cstring>
+import std.core;
+import std.memory;
+#else
+#include <map>
+#include <string>
+#include <fstream>
+#endif
 
-#include <gfx/Generated/Types.h>
-#include <gfx/GfxSystem.h>
-
+#ifdef MUD_MODULES
+module mud.gfx;
+#else
 #include <obj/Memory/ObjectPool.h>
 #include <obj/String/StringConvert.h>
 #include <math/Image.h>
 #include <math/Stream.h>
-
 #include <ui/Render/Renderer.h>
+#include <gfx/Generated/Types.h>
+#include <gfx/GfxSystem.h>
 #include <gfx/Material.h>
 #include <gfx/Program.h>
 #include <gfx/Draw.h>
@@ -25,20 +38,17 @@
 #include <gfx/Asset.h>
 #include <gfx/Asset.impl.h>
 #include <gfx/Pipeline.h>
+#include <gfx/Filter.h>
 #include <gfx-obj/ImporterObj.h>
 #include <gfx-gltf/ImporterGltf.h>
-
-#include <gfx/Filter.h>
 #include <gfx-pbr/Shadow.h>
+#endif
 
 #include <bgfx/bgfx.h>
 #include <bgfx/platform.h>
 
 #include <bx/timer.h>
-
-#include <map>
-#include <string>
-#include <fstream>
+#include <bx/file.h>
 
 namespace mud
 {
@@ -76,6 +86,9 @@ namespace mud
 		std::vector<GfxContext*> m_contexts;
 		std::vector<Scene*> m_scenes;
 
+		bx::FileReader m_file_reader;
+		bx::FileWriter m_file_writer;
+
 		unique_ptr<ImporterOBJ> m_importerOBJ;
 		unique_ptr<ImporterGltf> m_importerGltf;
 
@@ -107,6 +120,9 @@ namespace mud
 
 	GfxSystem::~GfxSystem()
 	{}
+
+	bx::FileReaderI& GfxSystem::file_reader() { return m_impl->m_file_reader; }
+	bx::FileWriterI& GfxSystem::file_writer() { return m_impl->m_file_writer; }
 
 	AssetStore<Texture>& GfxSystem::textures() { return *m_impl->m_textures; }
 	AssetStore<Program>& GfxSystem::programs() { return *m_impl->m_programs; }
@@ -251,13 +267,20 @@ namespace mud
 
 	void GfxSystem::create_debug_materials()
 	{
-		this->fetch_material("debug", "unshaded").m_unshaded_block.m_enabled = true;
-		this->fetch_material("debug_pbr", "pbr/pbr").m_pbr_block.m_enabled = true;
+		Material& debug = this->fetch_material("debug", "unshaded");
+		debug.m_unshaded_block.m_enabled = true;
+
+		Material& alpha = this->fetch_material("debug_alpha", "unshaded");
+		alpha.m_unshaded_block.m_enabled = true;
+		alpha.m_unshaded_block.m_colour = Colour{ 0.2f, 0.2f, 0.2f, 0.1f };
+
+		Material& pbr = this->fetch_material("debug_pbr", "pbr/pbr");
+		pbr.m_pbr_block.m_enabled = true;
 	}
 
 	Material& GfxSystem::debug_material()
 	{
-		return *this->materials().get("debug");
+		return *this->materials().get("debug_pbr");
 	}
 
 	Material& GfxSystem::fetch_material(cstring name, cstring shader, bool builtin)

@@ -2,8 +2,19 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
+#ifdef MUD_MODULES
+module mud.geom;
+#else
 #include <geom/Shape/Icosphere.h>
+#endif
 
 namespace mud
 {
@@ -30,8 +41,8 @@ namespace mud
 			{ -t,  0.0f,  1.0f },
 		};
 
-		for(vec3& vertex : vertices)
-			addVertex(vertex);
+		for(vec3& vert : vertices)
+			this->vertex(vert);
 
 		Face faces[] = {
 			{ 0, 11, 5 }, { 0, 5,  1  }, { 0,  1,  7  }, { 0,  7, 10 }, { 0, 10, 11 },
@@ -65,51 +76,50 @@ namespace mud
 
 			for(Face& face : prevfaces)
 			{
-				int a = addMiddlePoint(face[0], face[1]);
-				int b = addMiddlePoint(face[1], face[2]);
-				int c = addMiddlePoint(face[2], face[0]);
+				int a = this->middle_point(face[0], face[1]);
+				int b = this->middle_point(face[1], face[2]);
+				int c = this->middle_point(face[2], face[0]);
 
 				m_faces.push_back({ face[0], a, c });
 				m_faces.push_back({ face[1], b, a });
 				m_faces.push_back({ face[2], c, b });
 				m_faces.push_back({ a, b, c });
 
-				addTriangle(face[0], a, c);
-				addTriangle(face[1], b, a);
-				addTriangle(face[2], c, b);
+				this->triangle(face[0], a, c);
+				this->triangle(face[1], b, a);
+				this->triangle(face[2], c, b);
 			}
 		}
 	}
 
-	void IcoSphere::addTriangle(int index0, int index1, int index2)
+	void IcoSphere::triangle(int index0, int index1, int index2)
 	{
 		m_lines.push_back({ index0, index1 });
 		m_lines.push_back({ index1, index2 });
 		m_lines.push_back({ index2, index0 });
 	}
 	
-	int IcoSphere::addVertex(const vec3& vertex)
+	int IcoSphere::vertex(const vec3& vertex)
 	{
 		m_vertices.emplace_back(normalize(vertex));
 		return m_vertices.size()-1;
 	}
 
-	int IcoSphere::addMiddlePoint(int index0, int index1)
+	int IcoSphere::middle_point(int index0, int index1)
 	{
-		bool isFirstSmaller = index0 < index1;
-		int64_t smallerIndex = isFirstSmaller ? index0 : index1;
-		int64_t largerIndex = isFirstSmaller ? index1 : index0;
-		int64_t key = (smallerIndex << 32) | largerIndex;
+		int64_t lo = index0 < index1 ? index0 : index1;
+		int64_t hi = index0 < index1 ? index1 : index0;
+		int64_t key = (lo << 32) | hi;
 
-		if (m_middlePointIndexCache.find(key) != m_middlePointIndexCache.end())
-			return m_middlePointIndexCache[key];
+		if (m_middle_point_cache.find(key) != m_middle_point_cache.end())
+			return m_middle_point_cache[key];
 
 		vec3 point1 = m_vertices[index0];
 		vec3 point2 = m_vertices[index1];
 		vec3 middle = (point1 + point2) / 2.f;
 
-		int index = addVertex(middle);
-		m_middlePointIndexCache[key] = index;
+		int index = this->vertex(middle);
+		m_middle_point_cache[key] = index;
 		return index;
 	}
 }

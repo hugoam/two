@@ -2,11 +2,22 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#endif
 
-#include <geom/Anim/Anim.h>
-
+#ifdef MUD_MODULES
+import mud.obj;
+module mud.geom;
+#else
 #include <obj/Vector.h>
 #include <obj/Reflect/Class.h>
+#include <geom/Anim/Anim.h>
+#endif
 
 namespace mud
 {

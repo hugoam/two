@@ -1,8 +1,22 @@
+//  Copyright (c) 2018 Hugo Amiard hugo.amiard@laposte.net
+//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
+//  This notice and the license may not be removed or altered from any source distribution.
 
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#else
+#include <algorithm>
+#endif
 
+#ifdef MUD_MODULES
+module mud.gfx;
+#else
 #include <gfx/Generated/Types.h>
 #include <gfx/Renderer.h>
-
 #include <gfx/Pipeline.h>
 #include <gfx/Shot.h>
 #include <gfx/Program.h>
@@ -16,11 +30,9 @@
 #include <gfx/Material.h>
 #include <gfx/Frustum.h>
 #include <gfx/GfxSystem.h>
-
 //#include <gfx-pbr/GI.h>
 #include <gfx/Filter.h>
-
-#include <algorithm>
+#endif
 
 namespace mud
 {

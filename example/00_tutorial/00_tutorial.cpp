@@ -58,7 +58,7 @@ void pump(Shell& app)
 
 int main(int argc, char *argv[])
 {
-	ex_00_tutorial::module();
+	ex_00_tutorial::m();
 	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
 	app.run(pump);
 }

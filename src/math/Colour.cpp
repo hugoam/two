@@ -2,11 +2,22 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-
-#include <math/Colour.h>
-
+#ifdef MUD_CPP_20
+#include <assert.h> // <cassert>
+#include <stdint.h> // <cstdint>
+#include <float.h> // <cfloat>
+import std.core;
+import std.memory;
+#else
 #include <functional>
 #include <algorithm>
+#endif
+
+#ifdef MUD_MODULES
+module mud.math;
+#else
+#include <math/Colour.h>
+#endif
 
 template<class T>
 constexpr const T& clamp(const T& v, const T& lo, const T& hi)

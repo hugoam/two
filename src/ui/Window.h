@@ -10,7 +10,7 @@
 
 namespace mud
 {
-	enum _refl_ WindowState : unsigned int
+	export_ enum _refl_ WindowState : unsigned int
 	{
 		WINDOW_NOSTATE = 0,
 		WINDOW_HEADER = 1 << 1,

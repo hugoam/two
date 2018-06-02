@@ -11,7 +11,7 @@
 
 namespace mud
 {
-	struct _refl_ MUD_UI_EXPORT Shadow
+	export_ struct _refl_ MUD_UI_EXPORT Shadow
 	{
 	public:
 		_constr_ Shadow(float xpos, float ypos, float blur, float spread, Colour colour = Colour::AlphaBlack)
@@ -33,7 +33,7 @@ namespace mud
 		float d_radius;
 	};
 
-	struct _refl_ MUD_UI_EXPORT Paint
+	export_ struct _refl_ MUD_UI_EXPORT Paint
 	{
 		Paint(Colour fill_colour) : m_fill_colour(fill_colour), m_stroke_colour(Colour::None), m_stroke_width(0.f) {}
 		Paint(Colour stroke_colour, float stroke_width) : m_fill_colour(Colour::None), m_stroke_colour(stroke_colour), m_stroke_width(stroke_width) {}
@@ -43,7 +43,7 @@ namespace mud
 		_attr_ _mut_ float m_stroke_width;
 	};
 
-	struct _refl_ MUD_UI_EXPORT TextPaint
+	export_ struct _refl_ MUD_UI_EXPORT TextPaint
 	{
 		_attr_ _mut_ cstring m_font;
 		_attr_ _mut_ Colour m_colour;
@@ -53,7 +53,7 @@ namespace mud
 		_attr_ _mut_ bool m_text_wrap;
 	};
 
-	struct _refl_ MUD_UI_EXPORT Gradient
+	export_ struct _refl_ MUD_UI_EXPORT Gradient
 	{
 		_attr_ _mut_ Colour m_start;
 		_attr_ _mut_ Colour m_end;

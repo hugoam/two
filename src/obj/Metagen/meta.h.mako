@@ -191,7 +191,7 @@ namespace mud
     % endfor
     
 #ifdef ${ module.preproc_name }_REFLECTION_IMPL
-    void ${ module.name }_meta(Module& module)
+    void ${ module.name }_meta(Module& m)
     {   
     // Base Types
 % for b in module.basetypes :
@@ -289,7 +289,7 @@ namespace mud
     
     % for t in module.types :
         % if t.reflect :
-        module.m_types.push_back(&${ type_get(t) });
+        m.m_types.push_back(&${ type_get(t) });
         % endif
     % endfor
     
@@ -301,7 +301,8 @@ namespace mud
             auto func = [](array<Var> args, Var& result) { ${ unused_args(f) } ${ value_assign(f.returnCls, 'result', f.returnPointer, f.id + '(' + get_args(f.params) + ')') }; };
         % endif
             std::vector<Param> params = ${ params_def(f.params) };
-            module.m_functions.push_back({ ${ namespace(f) }, "${ f.name }", ${ function_identity(f) }, func, params, ${ function_return_def(f) } });
+            static Function f = { ${ namespace(f) }, "${ f.name }", ${ function_identity(f) }, func, params, ${ function_return_def(f) } };
+            m.m_functions.push_back(&f);
         }
     % endfor
     }

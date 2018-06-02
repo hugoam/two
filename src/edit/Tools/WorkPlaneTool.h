@@ -7,11 +7,13 @@
 #include <edit/Generated/Forward.h>
 #include <edit/Tool.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	class _refl_ WorkPlaneAction : public EditorAction
+	export_ class _refl_ WorkPlaneAction : public EditorAction
 	{
 	public:
 		WorkPlaneAction(Plane& workPlane, const Plane& plane);
@@ -25,7 +27,7 @@ namespace mud
 		Plane m_endPlane;
 	};
 
-	class _refl_ WorkPlaneTool : public Tool
+	export_ class _refl_ WorkPlaneTool : public Tool
 	{
 	public:
 		WorkPlaneTool(ToolContext& context, cstring name, const Plane& plane);

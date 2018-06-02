@@ -8,11 +8,13 @@
 #include <geom/Primitive.h>
 #include <geom/Shape.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	class _refl_ MUD_MATH_EXPORT Geometry : public Shape
+	export_ class _refl_ MUD_MATH_EXPORT Geometry : public Shape
 	{
 	public:
 		_constr_ Geometry();
@@ -28,7 +30,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	struct _refl_ MUD_MATH_EXPORT MeshPacker
+	export_ struct _refl_ MUD_MATH_EXPORT MeshPacker
 	{
 		_constr_ MeshPacker();
 

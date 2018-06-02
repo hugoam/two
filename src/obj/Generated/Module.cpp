@@ -1,3 +1,13 @@
+#ifdef MUD_CPP_20
+#include <cassert>
+#include <cstdint>
+#include <climits>
+#include <cfloat>
+import std.core;
+import std.memory;
+import std.threading;
+import std.regex;
+#endif
 
 #include <obj/Generated/Module.h>
 
@@ -26,6 +36,6 @@ namespace mud
 extern "C"
 MUD_OBJ_EXPORT Module& getModule()
 {
-	return mudobj::module();
+	return mudobj::m();
 }
 #endif

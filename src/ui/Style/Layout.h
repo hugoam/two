@@ -8,15 +8,17 @@
 #include <math/Vec.h>
 #include <ui/Frame/Dim.h>
 
-/* std */
+#ifndef MUD_CPP_20
 #include <vector>
 #include <string>
+#endif
 
 namespace mud
 {
 	using string = std::string;
+	using cstring = const char*;
 
-	struct _refl_ MUD_UI_EXPORT Layout
+	export_ struct _refl_ MUD_UI_EXPORT Layout
 	{
 	public:
 		_constr_ Layout() {}

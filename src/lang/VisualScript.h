@@ -10,7 +10,9 @@
 #include <lang/Stream.h>
 #include <lang/Script.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
@@ -22,7 +24,7 @@ namespace mud
 		OUTPUT_VALVE
 	};
 
-	class _refl_ MUD_LANG_EXPORT Valve
+	export_ class _refl_ MUD_LANG_EXPORT Valve
 	{
 	public:
 		Valve(Process& process, cstring name, ValveKind kind, Var value = {}, bool nullable = false, bool reference = false);
@@ -51,7 +53,7 @@ namespace mud
 		void propagate();
 	};
 
-	class _refl_ MUD_LANG_EXPORT Pipe
+	export_ class _refl_ MUD_LANG_EXPORT Pipe
 	{
 	public:
 		Pipe(Valve& output, Valve& input, StreamModifier modifier = SM_NONE);
@@ -64,7 +66,7 @@ namespace mud
 		void propagate();
 	};
 
-	class _refl_ MUD_LANG_EXPORT Process
+	export_ class _refl_ MUD_LANG_EXPORT Process
 	{
 	public:
 		Process(VisualScript& script, cstring title, Type& type);
@@ -135,7 +137,7 @@ namespace mud
 		int visit_order();
 	};
 
-	class _refl_ MUD_LANG_EXPORT VisualScript : public NonCopy, public Script
+	export_ class _refl_ MUD_LANG_EXPORT VisualScript : public NonCopy, public Script
 	{
 	public:
 		_constr_ VisualScript(cstring name, const Signature& signature = {});
@@ -193,7 +195,7 @@ namespace mud
 		Valve* method(T_Method meth, std::vector<Valve*> params = {}, std::vector<StreamModifier> modifiers = {});
 	};
 
-	class _refl_ MUD_LANG_EXPORT ProcessInput : public Process, public Param
+	export_ class _refl_ MUD_LANG_EXPORT ProcessInput : public Process, public Param
 	{
 	public:
 		ProcessInput(VisualScript& script, const Param& param);
@@ -201,7 +203,7 @@ namespace mud
 		Valve m_output;
 	};
 
-	class _refl_ MUD_LANG_EXPORT ProcessOutput : public Process, public Param
+	export_ class _refl_ MUD_LANG_EXPORT ProcessOutput : public Process, public Param
 	{
 	public:
 		ProcessOutput(VisualScript& script, const Param& param);

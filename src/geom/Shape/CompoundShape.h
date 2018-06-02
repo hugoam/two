@@ -7,11 +7,13 @@
 #include <math/Generated/Forward.h>
 #include <geom/Shape/ProcShape.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	struct MUD_MATH_EXPORT CompoundShape
+	export_ struct MUD_MATH_EXPORT CompoundShape
 	{
 		std::vector<ProcShape> m_shapes;
 	};

@@ -18,7 +18,9 @@
 #include <bgfx/bgfx.h>
 #endif
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
@@ -28,14 +30,14 @@ namespace mud
 		gltf
 	};
 
-	struct MUD_GFX_EXPORT ModelConfig
+	export_ struct MUD_GFX_EXPORT ModelConfig
 	{
 		ModelFormat m_format;
 		Transform m_transform;
 		//std::vector<string> m_filter;
 	};
 
-	struct _refl_ ModelItem
+	export_ struct _refl_ ModelItem
 	{
 		_attr_ mat4 m_transform;
 		_attr_ Mesh* m_mesh;
@@ -43,7 +45,7 @@ namespace mud
 		_attr_ Colour m_colour;
 	};
 
-	class _refl_ MUD_GFX_EXPORT Model : public NonCopy
+	export_ class _refl_ MUD_GFX_EXPORT Model : public NonCopy
 	{
 	public:
 		Model(cstring id);

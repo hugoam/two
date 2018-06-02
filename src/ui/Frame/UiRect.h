@@ -10,7 +10,7 @@
 
 namespace mud
 {
-	struct _refl_ MUD_UI_EXPORT UiRect
+	export_ struct _refl_ MUD_UI_EXPORT UiRect
 	{
 		_attr_ _mut_ vec2 m_position = Zero2;
 		_attr_ _mut_ vec2 m_size = Zero2;

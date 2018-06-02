@@ -65,6 +65,12 @@ namespace gfx {
 }
 }
 
+namespace json11 {
+
+    
+    
+}
+
 namespace mud {
 
     enum class Interpolation : unsigned int;

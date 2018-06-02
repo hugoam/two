@@ -8,11 +8,13 @@
 #include <ui/Structs/Widget.h>
 #include <ui/Container.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	struct _refl_ MUD_UI_EXPORT Dock
+	export_ struct _refl_ MUD_UI_EXPORT Dock
 	{
 		Dock();
 		Dock(Docker& docker, cstring name, std::vector<uint16_t> dockid);
@@ -21,14 +23,14 @@ namespace mud
 		std::vector<uint16_t> m_dockid;
 	};
 	
-	class _refl_ MUD_UI_EXPORT Dockable : public Widget
+	export_ class _refl_ MUD_UI_EXPORT Dockable : public Widget
 	{
 	public:
 		Dockable(Widget* parent, void* identity);
 		Dock* m_dock = nullptr;
 	};
 
-	class _refl_ MUD_UI_EXPORT Docker : public Widget
+	export_ class _refl_ MUD_UI_EXPORT Docker : public Widget
 	{
 	public:
 		Docker(Widget* parent, void* identity, Docksystem& docksystem);
@@ -48,7 +50,7 @@ namespace mud
 		std::vector<Dock*> m_docks;
 	};
 
-	class _refl_ MUD_UI_EXPORT Docksystem
+	export_ class _refl_ MUD_UI_EXPORT Docksystem
 	{
 	public:
 		Docksystem();
@@ -58,7 +60,7 @@ namespace mud
 		std::vector<Docker*> m_dockers;
 	};
 
-	class _refl_ MUD_UI_EXPORT Dockspace : public Docker
+	export_ class _refl_ MUD_UI_EXPORT Dockspace : public Docker
 	{
 	public:
 		Dockspace(Widget* parent, void* identity, Docksystem& docksystem);
@@ -74,7 +76,7 @@ namespace mud
 		Widget* m_mainline;
 	};
 
-	class _refl_ MUD_UI_EXPORT Dockbar : public Docker
+	export_ class _refl_ MUD_UI_EXPORT Dockbar : public Docker
 	{
 	public:
 		Dockbar(Widget* parent, void* identity, Docksystem& docksystem);

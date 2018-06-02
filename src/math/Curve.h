@@ -8,11 +8,13 @@
 #include <math/Interp.h>
 #include <math/Generated/Forward.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	enum class _refl_ TrackMode : unsigned int
+	export_ enum class _refl_ TrackMode : unsigned int
 	{
 		Constant,
 		ConstantRandom,
@@ -20,7 +22,7 @@ namespace mud
 		CurveRandom
 	};
 
-	template <class T>
+	export_ template <class T>
 	struct _refl_ _struct_ ValueCurve
 	{
 		_constr_ ValueCurve() {}
@@ -34,9 +36,6 @@ namespace mud
 
 		T sample_curve(float t)
 		{
-			//bx::EaseFn ease = bx::getEaseFunc(m_ease);
-			//const float tt = bx::clamp(ease(t), 0.f, 1.f);
-
 			uint32_t key = uint32_t(t * (m_keys.size() - 1));
 			float interval = 1.f / float(m_keys.size() - 1);
 			float ttmod = fmod(t, interval) / interval;
@@ -47,13 +46,13 @@ namespace mud
 		_attr_ _mut_ std::vector<T> m_keys;
 	};
 
-	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<vec3>;
-	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<quat>;
-	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<float>;
-	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<uint32_t>;
-	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<Colour>;
+	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<vec3>;
+	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<quat>;
+	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<float>;
+	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<uint32_t>;
+	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<Colour>;
 
-	template <class T>
+	export_ template <class T>
 	struct _refl_ _struct_ ValueTrack
 	{
 		_constr_ ValueTrack() {}
@@ -91,15 +90,11 @@ namespace mud
 		_attr_ _mut_ ValueCurve<T> m_curve;
 		_attr_ _mut_ ValueCurve<T> m_min_curve;
 		_attr_ _mut_ ValueCurve<T> m_max_curve;
-
-#ifndef MUD_GENERATOR_SKIP_INCLUDES
-		//bx::Easing::Enum m_ease = bx::Easing::Linear;
-#endif
 	};
 
-	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<vec3>;
-	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<quat>;
-	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<float>;
-	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<uint32_t>;
-	template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<Colour>;
+	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<vec3>;
+	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<quat>;
+	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<float>;
+	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<uint32_t>;
+	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<Colour>;
 }

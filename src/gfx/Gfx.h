@@ -8,8 +8,10 @@
 #include <gfx/Node3.h>
 #include <gfx/Light.h>
 
+#ifndef MUD_CPP_20
 #include <string>
 #include <functional>
+#endif
 
 namespace mud
 {

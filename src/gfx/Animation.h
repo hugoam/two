@@ -13,18 +13,20 @@
 #include <bgfx/bgfx.h>
 #endif
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	enum class _refl_ Interpolation : unsigned int
+	export_ enum class _refl_ Interpolation : unsigned int
 	{
 		Nearest,
 		Linear,
 		Cubic
 	};
 
-	struct MUD_GFX_EXPORT AnimationCursor
+	export_ struct MUD_GFX_EXPORT AnimationCursor
 	{
 		AnimationCursor() {}
 		float m_time = 0.f;
@@ -32,7 +34,7 @@ namespace mud
 		size_t m_next = 1;
 	};
 
-	class _refl_ MUD_GFX_EXPORT AnimationTrack
+	export_ class _refl_ MUD_GFX_EXPORT AnimationTrack
 	{
 	public:
 		struct Key
@@ -64,7 +66,7 @@ namespace mud
 		void value(AnimationCursor& cursor, Var& value, bool forward) const;
 	};
 
-	class _refl_ MUD_GFX_EXPORT Animation
+	export_ class _refl_ MUD_GFX_EXPORT Animation
 	{
 	public:
 		Animation(cstring name);

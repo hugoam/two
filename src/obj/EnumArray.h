@@ -4,12 +4,14 @@
 
 #pragma once
 
+#ifndef MUD_CPP_20
 #include <array>
-#include <stdint.h>
+#include <cstdint>
+#endif
 
 namespace mud
 {
-	template <class T_Enum, class T_Element, size_t Size = size_t(T_Enum::Count)>
+	export_ template <class T_Enum, class T_Element, size_t Size = size_t(T_Enum::Count)>
 	using enum_array = std::array<T_Element, Size>;
 	//using enum_array = T_Element[Size];
 }

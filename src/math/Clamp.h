@@ -4,6 +4,7 @@
 
 #pragma once
 
+#ifndef MUD_CPP_20
 namespace std
 {
 	template<class T>
@@ -18,3 +19,4 @@ namespace std
 		return comp(v, lo) ? lo : comp(hi, v) ? hi : v;
 	}
 }
+#endif

@@ -11,7 +11,7 @@
 
 namespace mud
 {
-	class _refl_ MUD_EDIT_EXPORT Brush : public SpatialTool
+	export_ class _refl_ MUD_EDIT_EXPORT Brush : public SpatialTool
 	{
 	public:
 		Brush(ToolContext& context, cstring name, Type& type);
@@ -32,7 +32,7 @@ namespace mud
 		vec3 m_position;
 	};
 
-	class _refl_ MUD_EDIT_EXPORT PlaneSnapOption : public ToolOption
+	export_ class _refl_ MUD_EDIT_EXPORT PlaneSnapOption : public ToolOption
 	{
 	public:
 		PlaneSnapOption(Brush& tool);
@@ -44,7 +44,7 @@ namespace mud
 		Brush& m_tool;
 	};
 
-	class _refl_ MUD_EDIT_EXPORT WorldSnapOption : public ToolOption
+	export_ class _refl_ MUD_EDIT_EXPORT WorldSnapOption : public ToolOption
 	{
 	public:
 		WorldSnapOption(Brush& tool);
@@ -56,7 +56,7 @@ namespace mud
 		Brush& m_tool;
 	};
 
-	class _refl_ MUD_EDIT_EXPORT PlaceBrush : public Brush
+	export_ class _refl_ MUD_EDIT_EXPORT PlaceBrush : public Brush
 	{
 	public:
 		PlaceBrush(ToolContext& context);
@@ -68,7 +68,7 @@ namespace mud
 		virtual void paint(Gnode& parent);
 	};
 
-	class _refl_ MUD_EDIT_EXPORT CircleBrush : public Brush
+	export_ class _refl_ MUD_EDIT_EXPORT CircleBrush : public Brush
 	{
 	public:
 		CircleBrush(ToolContext& context);
@@ -94,7 +94,7 @@ namespace mud
 	};
 
 
-	class _refl_ MUD_EDIT_EXPORT ScriptedBrush : public Brush
+	export_ class _refl_ MUD_EDIT_EXPORT ScriptedBrush : public Brush
 	{
 	public:
 		ScriptedBrush(ToolContext& context, VisualScript& script);

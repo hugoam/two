@@ -57,6 +57,12 @@ namespace glm {
     
 }
 
+namespace json11 {
+
+    
+    
+}
+
 namespace mud {
 
     enum Dim : unsigned int;

@@ -12,7 +12,7 @@ namespace mud
 {
     
 #ifdef MUD_MATH_REFLECTION_IMPL
-    void math_meta(Module& module)
+    void math_meta(Module& m)
     {   
     // Base Types
     
@@ -1316,186 +1316,213 @@ namespace mud
     
 
     
-        module.m_types.push_back(&type<mud::AutoStat<float>>());
-        module.m_types.push_back(&type<mud::AutoStat<int>>());
-        module.m_types.push_back(&type<mud::Axes>());
-        module.m_types.push_back(&type<mud::Axis>());
-        module.m_types.push_back(&type<mud::Clockwise>());
-        module.m_types.push_back(&type<mud::Colour>());
-        module.m_types.push_back(&type<mud::Gauge>());
-        module.m_types.push_back(&type<mud::Image256>());
-        module.m_types.push_back(&type<mud::Palette>());
-        module.m_types.push_back(&type<mud::Range<float>>());
-        module.m_types.push_back(&type<mud::Range<mud::Colour>>());
-        module.m_types.push_back(&type<mud::Range<mud::quat>>());
-        module.m_types.push_back(&type<mud::Range<mud::vec3>>());
-        module.m_types.push_back(&type<mud::Range<uint32_t>>());
-        module.m_types.push_back(&type<mud::Ratio>());
-        module.m_types.push_back(&type<mud::Side>());
-        module.m_types.push_back(&type<mud::SignedAxis>());
-        module.m_types.push_back(&type<mud::SpectrumPalette>());
-        module.m_types.push_back(&type<mud::TrackMode>());
-        module.m_types.push_back(&type<mud::ValueCurve<float>>());
-        module.m_types.push_back(&type<mud::ValueCurve<mud::Colour>>());
-        module.m_types.push_back(&type<mud::ValueCurve<mud::quat>>());
-        module.m_types.push_back(&type<mud::ValueCurve<mud::vec3>>());
-        module.m_types.push_back(&type<mud::ValueCurve<uint32_t>>());
-        module.m_types.push_back(&type<mud::ValueTrack<float>>());
-        module.m_types.push_back(&type<mud::ValueTrack<mud::Colour>>());
-        module.m_types.push_back(&type<mud::ValueTrack<mud::quat>>());
-        module.m_types.push_back(&type<mud::ValueTrack<mud::vec3>>());
-        module.m_types.push_back(&type<mud::ValueTrack<uint32_t>>());
-        module.m_types.push_back(&type<mud::ivec3>());
-        module.m_types.push_back(&type<mud::mat4>());
-        module.m_types.push_back(&type<mud::quat>());
-        module.m_types.push_back(&type<std::vector<float>>());
-        module.m_types.push_back(&type<std::vector<mud::Colour>>());
-        module.m_types.push_back(&type<std::vector<mud::Colour>>());
-        module.m_types.push_back(&type<std::vector<mud::quat>>());
-        module.m_types.push_back(&type<std::vector<mud::uvec3>>());
-        module.m_types.push_back(&type<std::vector<mud::vec3>>());
-        module.m_types.push_back(&type<std::vector<uint32_t>>());
-        module.m_types.push_back(&type<mud::uvec2>());
-        module.m_types.push_back(&type<mud::uvec3>());
-        module.m_types.push_back(&type<mud::uvec4>());
-        module.m_types.push_back(&type<mud::vec2>());
-        module.m_types.push_back(&type<mud::vec3>());
-        module.m_types.push_back(&type<mud::vec4>());
+        m.m_types.push_back(&type<mud::AutoStat<float>>());
+        m.m_types.push_back(&type<mud::AutoStat<int>>());
+        m.m_types.push_back(&type<mud::Axes>());
+        m.m_types.push_back(&type<mud::Axis>());
+        m.m_types.push_back(&type<mud::Clockwise>());
+        m.m_types.push_back(&type<mud::Colour>());
+        m.m_types.push_back(&type<mud::Gauge>());
+        m.m_types.push_back(&type<mud::Image256>());
+        m.m_types.push_back(&type<mud::Palette>());
+        m.m_types.push_back(&type<mud::Range<float>>());
+        m.m_types.push_back(&type<mud::Range<mud::Colour>>());
+        m.m_types.push_back(&type<mud::Range<mud::quat>>());
+        m.m_types.push_back(&type<mud::Range<mud::vec3>>());
+        m.m_types.push_back(&type<mud::Range<uint32_t>>());
+        m.m_types.push_back(&type<mud::Ratio>());
+        m.m_types.push_back(&type<mud::Side>());
+        m.m_types.push_back(&type<mud::SignedAxis>());
+        m.m_types.push_back(&type<mud::SpectrumPalette>());
+        m.m_types.push_back(&type<mud::TrackMode>());
+        m.m_types.push_back(&type<mud::ValueCurve<float>>());
+        m.m_types.push_back(&type<mud::ValueCurve<mud::Colour>>());
+        m.m_types.push_back(&type<mud::ValueCurve<mud::quat>>());
+        m.m_types.push_back(&type<mud::ValueCurve<mud::vec3>>());
+        m.m_types.push_back(&type<mud::ValueCurve<uint32_t>>());
+        m.m_types.push_back(&type<mud::ValueTrack<float>>());
+        m.m_types.push_back(&type<mud::ValueTrack<mud::Colour>>());
+        m.m_types.push_back(&type<mud::ValueTrack<mud::quat>>());
+        m.m_types.push_back(&type<mud::ValueTrack<mud::vec3>>());
+        m.m_types.push_back(&type<mud::ValueTrack<uint32_t>>());
+        m.m_types.push_back(&type<mud::ivec3>());
+        m.m_types.push_back(&type<mud::mat4>());
+        m.m_types.push_back(&type<mud::quat>());
+        m.m_types.push_back(&type<std::vector<float>>());
+        m.m_types.push_back(&type<std::vector<mud::Colour>>());
+        m.m_types.push_back(&type<std::vector<mud::Colour>>());
+        m.m_types.push_back(&type<std::vector<mud::quat>>());
+        m.m_types.push_back(&type<std::vector<mud::uvec3>>());
+        m.m_types.push_back(&type<std::vector<mud::vec3>>());
+        m.m_types.push_back(&type<std::vector<uint32_t>>());
+        m.m_types.push_back(&type<mud::uvec2>());
+        m.m_types.push_back(&type<mud::uvec3>());
+        m.m_types.push_back(&type<mud::uvec4>());
+        m.m_types.push_back(&type<mud::vec2>());
+        m.m_types.push_back(&type<mud::vec3>());
+        m.m_types.push_back(&type<mud::vec4>());
     
         {
             auto func = [](array<Var> args, Var& result) {  val<float>(result) = ::sinf(val<float>(args[0])); };
             std::vector<Param> params = { { "a", var(float()) } };
-            module.m_functions.push_back({ &namspc({}), "sinf", function_id<float(*)(float)>(&::sinf), func, params, var(float()) });
+            static Function f = { &namspc({}), "sinf", function_id<float(*)(float)>(&::sinf), func, params, var(float()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<float>(result) = ::cosf(val<float>(args[0])); };
             std::vector<Param> params = { { "a", var(float()) } };
-            module.m_functions.push_back({ &namspc({}), "cosf", function_id<float(*)(float)>(&::cosf), func, params, var(float()) });
+            static Function f = { &namspc({}), "cosf", function_id<float(*)(float)>(&::cosf), func, params, var(float()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<double>(result) = ::sin(val<double>(args[0])); };
             std::vector<Param> params = { { "a", var(double()) } };
-            module.m_functions.push_back({ &namspc({}), "sin", function_id<double(*)(double)>(&::sin), func, params, var(double()) });
+            static Function f = { &namspc({}), "sin", function_id<double(*)(double)>(&::sin), func, params, var(double()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<double>(result) = ::cos(val<double>(args[0])); };
             std::vector<Param> params = { { "a", var(double()) } };
-            module.m_functions.push_back({ &namspc({}), "cos", function_id<double(*)(double)>(&::cos), func, params, var(double()) });
+            static Function f = { &namspc({}), "cos", function_id<double(*)(double)>(&::cos), func, params, var(double()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::add(val<float>(args[0]), val<float>(args[1])); };
             std::vector<Param> params = { { "a", var(float()) }, { "b", var(float()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "add", function_id<float(*)(float, float)>(&mud::add), func, params, var(float()) });
+            static Function f = { &namspc({ "mud" }), "add", function_id<float(*)(float, float)>(&mud::add), func, params, var(float()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::subtract(val<float>(args[0]), val<float>(args[1])); };
             std::vector<Param> params = { { "a", var(float()) }, { "b", var(float()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "subtract", function_id<float(*)(float, float)>(&mud::subtract), func, params, var(float()) });
+            static Function f = { &namspc({ "mud" }), "subtract", function_id<float(*)(float, float)>(&mud::subtract), func, params, var(float()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::multiply(val<float>(args[0]), val<float>(args[1])); };
             std::vector<Param> params = { { "a", var(float()) }, { "b", var(float()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "multiply", function_id<float(*)(float, float)>(&mud::multiply), func, params, var(float()) });
+            static Function f = { &namspc({ "mud" }), "multiply", function_id<float(*)(float, float)>(&mud::multiply), func, params, var(float()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::divide(val<float>(args[0]), val<float>(args[1])); };
             std::vector<Param> params = { { "a", var(float()) }, { "b", var(float()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "divide", function_id<float(*)(float, float)>(&mud::divide), func, params, var(float()) });
+            static Function f = { &namspc({ "mud" }), "divide", function_id<float(*)(float, float)>(&mud::divide), func, params, var(float()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::nsinf(val<float>(args[0])); };
             std::vector<Param> params = { { "a", var(float()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "nsinf", function_id<float(*)(float)>(&mud::nsinf), func, params, var(float()) });
+            static Function f = { &namspc({ "mud" }), "nsinf", function_id<float(*)(float)>(&mud::nsinf), func, params, var(float()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::ncosf(val<float>(args[0])); };
             std::vector<Param> params = { { "a", var(float()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "ncosf", function_id<float(*)(float)>(&mud::ncosf), func, params, var(float()) });
+            static Function f = { &namspc({ "mud" }), "ncosf", function_id<float(*)(float)>(&mud::ncosf), func, params, var(float()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<double>(result) = mud::nsin(val<double>(args[0])); };
             std::vector<Param> params = { { "a", var(double()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "nsin", function_id<double(*)(double)>(&mud::nsin), func, params, var(double()) });
+            static Function f = { &namspc({ "mud" }), "nsin", function_id<double(*)(double)>(&mud::nsin), func, params, var(double()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<double>(result) = mud::ncos(val<double>(args[0])); };
             std::vector<Param> params = { { "a", var(double()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "ncos", function_id<double(*)(double)>(&mud::ncos), func, params, var(double()) });
+            static Function f = { &namspc({ "mud" }), "ncos", function_id<double(*)(double)>(&mud::ncos), func, params, var(double()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<uint32_t>(result) = mud::to_rgba(val<mud::Colour>(args[0])); };
             std::vector<Param> params = { { "colour", var(mud::Colour()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "to_rgba", function_id<uint32_t(*)(const mud::Colour&)>(&mud::to_rgba), func, params, var(uint32_t()) });
+            static Function f = { &namspc({ "mud" }), "to_rgba", function_id<uint32_t(*)(const mud::Colour&)>(&mud::to_rgba), func, params, var(uint32_t()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<uint32_t>(result) = mud::to_abgr(val<mud::Colour>(args[0])); };
             std::vector<Param> params = { { "colour", var(mud::Colour()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "to_abgr", function_id<uint32_t(*)(const mud::Colour&)>(&mud::to_abgr), func, params, var(uint32_t()) });
+            static Function f = { &namspc({ "mud" }), "to_abgr", function_id<uint32_t(*)(const mud::Colour&)>(&mud::to_abgr), func, params, var(uint32_t()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<mud::Colour>(result) = mud::from_rgba(val<uint32_t>(args[0])); };
             std::vector<Param> params = { { "colour", var(uint32_t()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "from_rgba", function_id<mud::Colour(*)(uint32_t)>(&mud::from_rgba), func, params, var(mud::Colour()) });
+            static Function f = { &namspc({ "mud" }), "from_rgba", function_id<mud::Colour(*)(uint32_t)>(&mud::from_rgba), func, params, var(mud::Colour()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<mud::Colour>(result) = mud::from_abgr(val<uint32_t>(args[0])); };
             std::vector<Param> params = { { "colour", var(uint32_t()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "from_abgr", function_id<mud::Colour(*)(uint32_t)>(&mud::from_abgr), func, params, var(mud::Colour()) });
+            static Function f = { &namspc({ "mud" }), "from_abgr", function_id<mud::Colour(*)(uint32_t)>(&mud::from_abgr), func, params, var(mud::Colour()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<mud::Colour>(result) = mud::to_linear(val<mud::Colour>(args[0])); };
             std::vector<Param> params = { { "colour", var(mud::Colour()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "to_linear", function_id<mud::Colour(*)(const mud::Colour&)>(&mud::to_linear), func, params, var(mud::Colour()) });
+            static Function f = { &namspc({ "mud" }), "to_linear", function_id<mud::Colour(*)(const mud::Colour&)>(&mud::to_linear), func, params, var(mud::Colour()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<mud::Colour>(result) = mud::hsl_to_rgb(val<float>(args[0]), val<float>(args[1]), val<float>(args[2])); };
             std::vector<Param> params = { { "h", var(float()) }, { "s", var(float()) }, { "l", var(float()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "hsl_to_rgb", function_id<mud::Colour(*)(float, float, float)>(&mud::hsl_to_rgb), func, params, var(mud::Colour()) });
+            static Function f = { &namspc({ "mud" }), "hsl_to_rgb", function_id<mud::Colour(*)(float, float, float)>(&mud::hsl_to_rgb), func, params, var(mud::Colour()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<mud::Colour>(result) = mud::rgb_to_hsl(val<float>(args[0]), val<float>(args[1]), val<float>(args[2])); };
             std::vector<Param> params = { { "r", var(float()) }, { "g", var(float()) }, { "b", var(float()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "rgb_to_hsl", function_id<mud::Colour(*)(float, float, float)>(&mud::rgb_to_hsl), func, params, var(mud::Colour()) });
+            static Function f = { &namspc({ "mud" }), "rgb_to_hsl", function_id<mud::Colour(*)(float, float, float)>(&mud::rgb_to_hsl), func, params, var(mud::Colour()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<mud::Colour>(result) = mud::rgba_to_hsla(val<mud::Colour>(args[0])); };
             std::vector<Param> params = { { "colour", var(mud::Colour()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "rgba_to_hsla", function_id<mud::Colour(*)(const mud::Colour&)>(&mud::rgba_to_hsla), func, params, var(mud::Colour()) });
+            static Function f = { &namspc({ "mud" }), "rgba_to_hsla", function_id<mud::Colour(*)(const mud::Colour&)>(&mud::rgba_to_hsla), func, params, var(mud::Colour()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<mud::Colour>(result) = mud::hsla_to_rgba(val<mud::Colour>(args[0])); };
             std::vector<Param> params = { { "colour", var(mud::Colour()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "hsla_to_rgba", function_id<mud::Colour(*)(const mud::Colour&)>(&mud::hsla_to_rgba), func, params, var(mud::Colour()) });
+            static Function f = { &namspc({ "mud" }), "hsla_to_rgba", function_id<mud::Colour(*)(const mud::Colour&)>(&mud::hsla_to_rgba), func, params, var(mud::Colour()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<mud::vec3>(result) = mud::add(val<mud::vec3>(args[0]), val<mud::vec3>(args[1])); };
             std::vector<Param> params = { { "a", var(mud::vec3()) }, { "b", var(mud::vec3()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "add", function_id<mud::vec3(*)(mud::vec3, mud::vec3)>(&mud::add), func, params, var(mud::vec3()) });
+            static Function f = { &namspc({ "mud" }), "add", function_id<mud::vec3(*)(mud::vec3, mud::vec3)>(&mud::add), func, params, var(mud::vec3()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<mud::vec3>(result) = mud::subtract(val<mud::vec3>(args[0]), val<mud::vec3>(args[1])); };
             std::vector<Param> params = { { "a", var(mud::vec3()) }, { "b", var(mud::vec3()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "subtract", function_id<mud::vec3(*)(mud::vec3, mud::vec3)>(&mud::subtract), func, params, var(mud::vec3()) });
+            static Function f = { &namspc({ "mud" }), "subtract", function_id<mud::vec3(*)(mud::vec3, mud::vec3)>(&mud::subtract), func, params, var(mud::vec3()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<mud::vec3>(result) = mud::multiply(val<mud::vec3>(args[0]), val<mud::vec3>(args[1])); };
             std::vector<Param> params = { { "a", var(mud::vec3()) }, { "b", var(mud::vec3()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "multiply", function_id<mud::vec3(*)(mud::vec3, mud::vec3)>(&mud::multiply), func, params, var(mud::vec3()) });
+            static Function f = { &namspc({ "mud" }), "multiply", function_id<mud::vec3(*)(mud::vec3, mud::vec3)>(&mud::multiply), func, params, var(mud::vec3()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<mud::vec3>(result) = mud::divide(val<mud::vec3>(args[0]), val<mud::vec3>(args[1])); };
             std::vector<Param> params = { { "a", var(mud::vec3()) }, { "b", var(mud::vec3()) } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "divide", function_id<mud::vec3(*)(mud::vec3, mud::vec3)>(&mud::divide), func, params, var(mud::vec3()) });
+            static Function f = { &namspc({ "mud" }), "divide", function_id<mud::vec3(*)(mud::vec3, mud::vec3)>(&mud::divide), func, params, var(mud::vec3()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::grid(val<mud::uvec3>(args[0]), val<std::vector<mud::uvec3>>(args[1])); };
             std::vector<Param> params = { { "size", var(mud::uvec3()) }, { "output_coords", var(std::vector<mud::uvec3>()), Param::Output } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "grid", function_id<void(*)(mud::uvec3, std::vector<mud::uvec3>&)>(&mud::grid), func, params, Var() });
+            static Function f = { &namspc({ "mud" }), "grid", function_id<void(*)(mud::uvec3, std::vector<mud::uvec3>&)>(&mud::grid), func, params, Var() };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::grid_center(val<mud::uvec3>(args[0]), val<float>(args[1]), val<mud::vec3>(args[2])); };
             std::vector<Param> params = { { "coord", var(mud::uvec3()) }, { "cell_size", var(float()) }, { "output_center", var(mud::vec3()), Param::Output } };
-            module.m_functions.push_back({ &namspc({ "mud" }), "grid_center", function_id<void(*)(mud::uvec3, float, mud::vec3&)>(&mud::grid_center), func, params, Var() });
+            static Function f = { &namspc({ "mud" }), "grid_center", function_id<void(*)(mud::uvec3, float, mud::vec3&)>(&mud::grid_center), func, params, Var() };
+            m.m_functions.push_back(&f);
         }
     }
 #endif

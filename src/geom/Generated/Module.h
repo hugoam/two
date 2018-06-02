@@ -37,13 +37,13 @@
 
 namespace mud
 {
-	class MUD_GEOM_EXPORT mudgeom : public Module
+	export_ class MUD_GEOM_EXPORT mudgeom : public Module
 	{
 	private:
 		mudgeom();
 
 	public:
-		static mudgeom& module() { static mudgeom instance; return instance; }
+		static mudgeom& m() { static mudgeom instance; return instance; }
 	};
 }
 
