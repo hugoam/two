@@ -46,22 +46,22 @@ namespace mud
 		vector_remove(m_visual_scripts, &script);
 	}
 
-	void ScriptEditor::open(Script& script)
+	void ScriptEditor::open(LuaScript& script)
 	{
-		vector_add(m_scripts, &script);
+		vector_add(m_lua_scripts, &script);
 	}
 
-	Script& ScriptEditor::create_script(cstring name)
+	LuaScript& ScriptEditor::create_script(cstring name)
 	{
-		Script& script = GlobalPool::me().pool<Script>().construct(name);
+		LuaScript& script = GlobalPool::me().pool<LuaScript>().construct(name);
 		script.m_interpreter = m_interpreter;
-		vector_add(m_scripts, &script);
+		vector_add(m_lua_scripts, &script);
 		return script;
 	}
 
-	void ScriptEditor::close(Script& script)
+	void ScriptEditor::close(LuaScript& script)
 	{
-		vector_remove(m_scripts, &script);
+		vector_remove(m_lua_scripts, &script);
 	}
 
 	std::vector<string> lua_words()
@@ -126,7 +126,7 @@ namespace mud
 	}
 #endif
 
-	void script_edit_code(Widget& parent, Script& script, ActionList actions)
+	void script_edit_code(Widget& parent, LuaScript& script, ActionList actions)
 	{
 		actions.push_back({ "Run", [&] { script({}); } });
 		Section& self = section(parent, script.m_name.c_str(), actions);
@@ -138,7 +138,7 @@ namespace mud
 		//script_edit_hover(edit);
 	}
 
-	void script_edit(Widget& parent, Script& script, ActionList actions)
+	void script_edit(Widget& parent, LuaScript& script, ActionList actions)
 	{
 		Widget& span_0 = ui::layout_span(parent, 0.8f);
 		script_edit_code(span_0, script, actions);
@@ -146,7 +146,7 @@ namespace mud
 		script_edit_output(span_1, *script.m_interpreter);
 	}
 
-	void script_tab(Tabber& parent, ScriptEditor& editor, Script& script)
+	void script_tab(Tabber& parent, ScriptEditor& editor, LuaScript& script)
 	{
 		if(Widget* tab = ui::tab(parent, script.m_name.c_str()))
 		{
@@ -166,7 +166,7 @@ namespace mud
 	{
 		ActionList actions = {
 			//{ "Open Script", [&] { Ref result = object_picker(parent.root(), type<Script>()); if(result) editor.open(result.val<Script>()); } },
-			{ "New Script", [&] { editor.create_script(("Untitled " + to_string(editor.m_scripts.size())).c_str()); } },
+			{ "New Script", [&] { editor.create_script(("Untitled " + to_string(editor.m_lua_scripts.size())).c_str()); } },
 
 			//{ "Open Visual Script", [&] { Ref result = object_picker(parent.root(), type<VisualScript>()); if(result) editor.open(result.val<VisualScript>()); } },
 			{ "New Visual Script", [&] { editor.create_visual(("Untitled " + to_string(editor.m_visual_scripts.size())).c_str()); } }
@@ -180,17 +180,17 @@ namespace mud
 			Ref result = Ref(type<Script>());
 			if(object_selector(modal, result))
 			{
-				editor.open(val<Script>(result));
+				editor.open(val<LuaScript>(result));
 				self.m_switch &= ~OPEN_SCRIPT;
 			}
 		}
 
 		Tabber& tabber = ui::tabber(*self.m_body);
 
-		for(Script* script : editor.m_visual_scripts)
-			script_tab(tabber, editor, *script);
+		//for(Script* script : editor.m_visual_scripts)
+		//	script_tab(tabber, editor, *script);
 
-		for(Script* script : editor.m_scripts)
+		for(LuaScript* script : editor.m_lua_scripts)
 			script_tab(tabber, editor, *script);
 	}
 

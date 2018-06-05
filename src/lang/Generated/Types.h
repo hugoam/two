@@ -42,5 +42,6 @@ namespace mud
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessOutput>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::Script>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::Stream>();
+    export_ template <> MUD_LANG_EXPORT Type& type<mud::LuaScript>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>();
 }

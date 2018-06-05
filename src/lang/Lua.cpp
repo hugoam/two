@@ -155,13 +155,13 @@ namespace mud
 		int release() { const auto n = m_num; m_num = 0; return n; }
 	};
 
-	export_ class MUD_LANG_EXPORT FromLua : public Dispatch<void, lua_State*, int, Var&>, public LazyGlobal<FromLua>
+	class FromLua : public Dispatch<void, lua_State*, int, Var&>, public LazyGlobal<FromLua>
 	{
 	public:
 		FromLua();
 	};
 
-	export_ class MUD_LANG_EXPORT ToLua : public Dispatch<Stack, lua_State*>, public LazyGlobal<ToLua>
+	class ToLua : public Dispatch<Stack, lua_State*>, public LazyGlobal<ToLua>
 	{
 	public:
 		ToLua();

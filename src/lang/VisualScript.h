@@ -139,7 +139,7 @@ namespace mud
 		int visit_order();
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT VisualScript : public NonCopy, public Script
+	export_ class _refl_ MUD_LANG_EXPORT VisualScript final : public NonCopy, public Script
 	{
 	public:
 		_constr_ VisualScript(cstring name, const Signature& signature = {});

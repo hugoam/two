@@ -23,9 +23,9 @@ std::vector<GameObject> create_game_objects(GfxSystem& gfx_system, const std::ve
 	return objects;
 }
 
-static Script create_script()
+static LuaScript create_script()
 {
-	Script script = { "Example Script" };
+	LuaScript script = { "Example Script" };
 	Var test = var(script);
 
 	script.m_script =

@@ -3,10 +3,10 @@
 
 using namespace mud;
 
-static Script& create_script(LuaInterpreter& interpreter)
+static LuaScript& create_script(LuaInterpreter& interpreter)
 {
 	Signature signature = { { Param{ "groot", Ref(type<Gnode>()) } } };
-	static Script script = { "Example Script", signature };
+	static LuaScript script = { "Example Script", signature };
 	script.m_interpreter = &interpreter;
 
 	script.m_script =

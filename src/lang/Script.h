@@ -20,7 +20,7 @@ namespace mud
 	export_ class _refl_ MUD_LANG_EXPORT Script : public Callable
 	{
 	public:
-		_constr_ Script(cstring name, const Signature& signature = {});
+		Script(cstring name, const Signature& signature = {});
 		~Script();
 
 		_attr_ uint32_t m_index;
@@ -28,6 +28,12 @@ namespace mud
 		_attr_ bool m_locked;
 
 		Signature m_signature;
+	};
+
+	export_ class _refl_ MUD_LANG_EXPORT LuaScript final : public Script
+	{
+	public:
+		_constr_ LuaScript(cstring name, const Signature& signature = {});
 
 		string m_script;
 

@@ -27,7 +27,11 @@ namespace mud
 		unindex(type<Script>(), m_index);
 	}
 
-	void Script::operator()(array<Var> args, Var& result) const
+	LuaScript::LuaScript(cstring name, const Signature& signature)
+		: Script(name, signature)
+	{}
+
+	void LuaScript::operator()(array<Var> args, Var& result) const
 	{
 		for(const Param& param : m_signature.m_params)
 			m_interpreter->set(param.m_name, args[param.m_index]);

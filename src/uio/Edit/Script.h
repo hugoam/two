@@ -18,13 +18,13 @@ namespace mud
 		~ScriptEditor();
 
 		std::vector<VisualScript*> m_visual_scripts;
-		std::vector<Script*> m_scripts;
+		std::vector<LuaScript*> m_lua_scripts;
 
 		LuaInterpreter* m_interpreter = nullptr;
 
-		void open(Script& script);
-		Script& create_script(cstring name);
-		void close(Script& script);
+		void open(LuaScript& script);
+		LuaScript& create_script(cstring name);
+		void close(LuaScript& script);
 
 		void open(VisualScript& script);
 		VisualScript& create_visual(cstring name);
@@ -35,7 +35,7 @@ namespace mud
 	};
 
 	MUD_UIO_EXPORT void script_edit_output(Widget& parent, LuaInterpreter& lua);
-	MUD_UIO_EXPORT void script_edit_code(Widget& parent, Script& script, ActionList actions = {});
-	MUD_UIO_EXPORT void script_edit(Widget& parent, Script& script, ActionList actions = {});
+	MUD_UIO_EXPORT void script_edit_code(Widget& parent, LuaScript& script, ActionList actions = {});
+	MUD_UIO_EXPORT void script_edit(Widget& parent, LuaScript& script, ActionList actions = {});
 	MUD_UIO_EXPORT void script_editor(Widget& parent, ScriptEditor& editor);
 }

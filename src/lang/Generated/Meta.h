@@ -549,7 +549,6 @@ namespace mud
             { base_offset<mud::Script, mud::Callable>() },
             // constructors
             {
-                { type<mud::Script>(), [](Ref ref, array<Var> args) { new(&val<mud::Script>(ref)) mud::Script( val<cstring>(args[0]), val<mud::Signature>(args[1]) ); }, { { "name", var(cstring()) }, { "signature", Ref(type<mud::Signature>()), Param::Default } } }
             },
             // copy constructor
             {
@@ -569,7 +568,7 @@ namespace mud
         };
         
         
-        init_pool<mud::Script>(); 
+        
         
         meta_class<mud::Script>();
     }
@@ -604,6 +603,39 @@ namespace mud
         
         
         meta_class<mud::Stream>();
+    }
+    
+    
+        
+    // mud::LuaScript
+    {
+        static Meta meta = { type<mud::LuaScript>(), &namspc({ "mud" }), "LuaScript", sizeof(mud::LuaScript), TypeClass::Object };
+        static Class cls = { type<mud::LuaScript>(),
+            // bases
+            { &type<mud::Script>() },
+            { base_offset<mud::LuaScript, mud::Script>() },
+            // constructors
+            {
+                { type<mud::LuaScript>(), [](Ref ref, array<Var> args) { new(&val<mud::LuaScript>(ref)) mud::LuaScript( val<cstring>(args[0]), val<mud::Signature>(args[1]) ); }, { { "name", var(cstring()) }, { "signature", Ref(type<mud::Signature>()), Param::Default } } }
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        init_pool<mud::LuaScript>(); 
+        
+        meta_class<mud::LuaScript>();
     }
     
     
@@ -659,6 +691,7 @@ namespace mud
         m.m_types.push_back(&type<mud::ProcessOutput>());
         m.m_types.push_back(&type<mud::Script>());
         m.m_types.push_back(&type<mud::Stream>());
+        m.m_types.push_back(&type<mud::LuaScript>());
         m.m_types.push_back(&type<mud::VisualScript>());
     
     }

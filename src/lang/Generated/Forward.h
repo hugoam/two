@@ -42,6 +42,7 @@ namespace mud {
     
     class LuaInterpreter;
     class Script;
+    class LuaScript;
     struct StreamLocation;
     class StreamBranch;
     class Stream;

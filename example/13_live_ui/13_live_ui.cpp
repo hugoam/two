@@ -24,10 +24,10 @@ using namespace mud;
 //"end" "\n"
 #endif
 
-static Script create_script(LuaInterpreter& interpreter)
+static LuaScript create_script(LuaInterpreter& interpreter)
 {
 	Signature signature = { { Param{ "ui_root", Ref(type<Widget>()) } } };
-	Script script = { "Example Script", signature };
+	LuaScript script = { "Example Script", signature };
 	script.m_interpreter = &interpreter;
 
 	//interpreter.set("selected_type", Var());
