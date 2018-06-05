@@ -99,7 +99,7 @@ namespace mud
 
 	void Sprite::compute_frames(const vec2& atlas_inverse_size)
 	{
-		for(size_t i = 0; i < m_num_frames; ++i)
+		for(uint i = 0; i < m_num_frames; ++i)
 		{
 			uvec2 frame_coord = { i % m_frames.x, i / m_frames.x };
 			m_frame_coords.push_back(d_coord + frame_coord * m_frame_size);

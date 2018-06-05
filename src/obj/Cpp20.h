@@ -1,6 +1,9 @@
 #ifdef MUD_CPP_20
 #include <obj/Config.h>
 #define UNUSED(x) (void)(x)
+#ifdef MUD_MODULES
+#define export_ export
+#endif
 #include <assert.h> // <cassert>
 #include <stdint.h> // <cstdint>
 #include <float.h> // <cfloat>

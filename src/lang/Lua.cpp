@@ -14,6 +14,7 @@
 #endif
 
 #ifdef MUD_MODULES
+#include <stdlib.h>
 module mud.lang;
 #else
 #include <obj/Proto.h>

@@ -19,6 +19,7 @@ import std.regex;
 #ifdef MUD_OBJ_LIB
 #include <obj/Cls.h>
 #include <obj/Strung.h>
+#include <obj/String/String.h>
 #endif
 
 #include <obj/Generated/Module.h>

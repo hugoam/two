@@ -54,7 +54,7 @@ namespace mud
 		void compute_frames(const vec2& atlas_inverse_size);
 
 		uvec2 m_frames;
-		size_t m_num_frames;
+		uint m_num_frames;
 		uvec2 m_frame_size;
 		std::vector<uvec2> m_frame_coords;
 		std::vector<vec4> m_frame_uvs;

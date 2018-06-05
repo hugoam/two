@@ -10,7 +10,7 @@
 #include <obj/Config.h>
 
 export module mud.ui;
-import std.core;
+export import std.core;
 import std.io;
 import std.threading;
 import std.regex;

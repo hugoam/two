@@ -20,6 +20,7 @@
 #  include <errno.h>
 #  include <wchar.h>          // struct tm forward declaration.
 #  include <stdio.h>
+#  include <stddef.h>
 #  include <string.h>
 #  include <strings.h>
 #  include <sys/types.h>
