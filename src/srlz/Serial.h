@@ -16,10 +16,12 @@
 #include <map>
 #endif
 
+#ifndef MUD_MODULES
 namespace json11
 {
 	class Json;
 }
+#endif
 
 export_ using json = json11::Json;
 

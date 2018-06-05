@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <stdint.h>
+#include <limits.h>
 #include <float.h>
 #include <string.h>
 #include <stdlib.h>
@@ -11,6 +12,7 @@ export module mud.ui;
 import std.core;
 import std.io;
 import std.threading;
+import std.regex;
 
 export import mud.obj;
 export import mud.math;

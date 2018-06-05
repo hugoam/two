@@ -8,8 +8,10 @@
 #endif
 
 #ifdef MUD_MODULES
-module mud.obj;
+module mud.srlz;
 #else
+#include <json11.hpp>
+
 #include <srlz/Generated/Types.h>
 #include <srlz/Serial.h>
 #include <obj/System/System.h>
@@ -21,8 +23,6 @@ module mud.obj;
 #include <obj/Reflect/Member.h>
 #include <obj/Reflect/Method.h>
 #endif
-
-#include <json11.hpp>
 
 //#define MUD_DEBUG_SERIAL
 
