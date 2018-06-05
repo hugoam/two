@@ -6,7 +6,9 @@
 
 #ifndef MUD_CPP_20
 #include <functional>
+#endif
 
+#ifndef MUD_STD_HAS_CLAMP
 namespace std
 {
 	template<class T>

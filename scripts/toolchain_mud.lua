@@ -22,6 +22,11 @@ function mud_defines()
             "MUD_MODULES",
         }
     
+    configuration { "cpp-modules", "vs*" }
+        defines { 
+            "MUD_STD_HAS_CLAMP",
+        }
+        
     configuration { "windows", "not asmjs" }
         defines { "MUD_PLATFORM_WINDOWS" }
         
