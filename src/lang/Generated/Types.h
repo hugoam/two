@@ -2,11 +2,13 @@
 
 #include <lang/Generated/Forward.h>
 
-#ifndef MUD_MODULES
-#include <obj/Generated/Types.h>
-
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/Type.h>
 #include <obj/Proto.h>
+#endif
+
+#ifndef MUD_MODULES
+#include <obj/Generated/Types.h>
 #endif
 
 #ifndef MUD_CPP_20
@@ -27,9 +29,6 @@ namespace mud
     export_ template <> MUD_LANG_EXPORT Type& type<mud::Process>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::StreamBranch>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::Valve>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::Stream>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::Script>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessFunction>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessMethod>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessScript>();
@@ -41,4 +40,7 @@ namespace mud
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessValue>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessInput>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessOutput>();
+    export_ template <> MUD_LANG_EXPORT Type& type<mud::Script>();
+    export_ template <> MUD_LANG_EXPORT Type& type<mud::Stream>();
+    export_ template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>();
 }

@@ -1,17 +1,20 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/System/System.h>
+#endif
 
+#ifndef MUD_MODULES
 #include <obj/Generated/Module.h>
 #endif
         
 #include <srlz/Generated/Forward.h>
 #include <srlz/Generated/Types.h>
-#include <srlz/Generated/Convert.h>
 
 #include <srlz/Serial.h>
+
+#include <srlz/Generated/Convert.h>
 
 namespace mud
 {

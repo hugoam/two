@@ -1,9 +1,11 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/System/System.h>
+#endif
 
+#ifndef MUD_MODULES
 #include <obj/Generated/Module.h>
 #include <srlz/Generated/Module.h>
 #include <math/Generated/Module.h>
@@ -11,7 +13,6 @@
         
 #include <geom/Generated/Forward.h>
 #include <geom/Generated/Types.h>
-#include <geom/Generated/Convert.h>
 
 #include <geom/Aabb.h>
 #include <geom/Geom.h>
@@ -38,6 +39,8 @@
 #include <geom/Shape/Sphere.h>
 #include <geom/Shape/Spheroid.h>
 #include <geom/Shape/Triangle.h>
+
+#include <geom/Generated/Convert.h>
 
 namespace mud
 {

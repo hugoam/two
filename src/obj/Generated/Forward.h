@@ -19,8 +19,8 @@ namespace mud {
 
     enum class TypeKind : unsigned int;
     enum VarMode : unsigned int;
-    enum class TypeClass : unsigned int;
     enum class ConstructorIndex : unsigned int;
+    enum class TypeClass : unsigned int;
     
     template <class T> struct array;
     
@@ -37,9 +37,6 @@ namespace mud {
     class Any;
     class Val;
     class Var;
-    class Meta;
-    struct strung;
-    class Enum;
     struct swallow;
     class Complex;
     class Construct;
@@ -47,6 +44,7 @@ namespace mud {
     class Movabl;
     class Indexer;
     class Index;
+    struct strung;
     class NodeState;
     class Iterable;
     class Sequence;
@@ -62,12 +60,14 @@ namespace mud {
     class CopyConstructor;
     class Destructor;
     struct Call;
+    class Meta;
     class Static;
     class Member;
     class Class;
     class DoubleDispatch;
     class Convert;
     class TypeConverter;
+    class Enum;
     class Injector;
     class Creator;
     struct Filepath;

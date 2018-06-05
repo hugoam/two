@@ -26,14 +26,14 @@ namespace mud
     template <> MUD_EDIT_EXPORT Type& type<mud::TransformAction>() { static Type ty("TransformAction", type<mud::EditorAction>()); return ty; }
     template <> MUD_EDIT_EXPORT Type& type<mud::ViewAction>() { static Type ty("ViewAction", type<mud::EditorAction>()); return ty; }
     template <> MUD_EDIT_EXPORT Type& type<mud::WorkPlaneAction>() { static Type ty("WorkPlaneAction", type<mud::EditorAction>()); return ty; }
-    template <> MUD_EDIT_EXPORT Type& type<mud::RedoTool>() { static Type ty("RedoTool", type<mud::Tool>()); return ty; }
-    template <> MUD_EDIT_EXPORT Type& type<mud::UndoTool>() { static Type ty("UndoTool", type<mud::Tool>()); return ty; }
-    template <> MUD_EDIT_EXPORT Type& type<mud::ViewportTool>() { static Type ty("ViewportTool", type<mud::Tool>()); return ty; }
-    template <> MUD_EDIT_EXPORT Type& type<mud::WorkPlaneTool>() { static Type ty("WorkPlaneTool", type<mud::Tool>()); return ty; }
     template <> MUD_EDIT_EXPORT Type& type<mud::PlaneSnapOption>() { static Type ty("PlaneSnapOption", type<mud::ToolOption>()); return ty; }
     template <> MUD_EDIT_EXPORT Type& type<mud::WorldSnapOption>() { static Type ty("WorldSnapOption", type<mud::ToolOption>()); return ty; }
     template <> MUD_EDIT_EXPORT Type& type<mud::SpatialTool>() { static Type ty("SpatialTool", type<mud::ViewportTool>()); return ty; }
     template <> MUD_EDIT_EXPORT Type& type<mud::ViewTool>() { static Type ty("ViewTool", type<mud::ViewportTool>()); return ty; }
+    template <> MUD_EDIT_EXPORT Type& type<mud::RedoTool>() { static Type ty("RedoTool", type<mud::Tool>()); return ty; }
+    template <> MUD_EDIT_EXPORT Type& type<mud::UndoTool>() { static Type ty("UndoTool", type<mud::Tool>()); return ty; }
+    template <> MUD_EDIT_EXPORT Type& type<mud::ViewportTool>() { static Type ty("ViewportTool", type<mud::Tool>()); return ty; }
+    template <> MUD_EDIT_EXPORT Type& type<mud::WorkPlaneTool>() { static Type ty("WorkPlaneTool", type<mud::Tool>()); return ty; }
     template <> MUD_EDIT_EXPORT Type& type<mud::Brush>() { static Type ty("Brush", type<mud::SpatialTool>()); return ty; }
     template <> MUD_EDIT_EXPORT Type& type<mud::TransformTool>() { static Type ty("TransformTool", type<mud::SpatialTool>()); return ty; }
     template <> MUD_EDIT_EXPORT Type& type<mud::RotateAction>() { static Type ty("RotateAction", type<mud::TransformAction>()); return ty; }

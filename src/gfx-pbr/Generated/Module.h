@@ -1,9 +1,11 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/System/System.h>
+#endif
 
+#ifndef MUD_MODULES
 #include <obj/Generated/Module.h>
 #include <srlz/Generated/Module.h>
 #include <math/Generated/Module.h>
@@ -26,6 +28,8 @@
 #include <gfx-pbr/Filters/DofBlur.h>
 #include <gfx-pbr/Filters/Glow.h>
 #include <gfx-pbr/Filters/Tonemap.h>
+
+#include <gfx-pbr/Generated/Convert.h>
 
 namespace mud
 {

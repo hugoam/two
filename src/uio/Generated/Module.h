@@ -1,9 +1,11 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/System/System.h>
+#endif
 
+#ifndef MUD_MODULES
 #include <obj/Generated/Module.h>
 #include <lang/Generated/Module.h>
 #include <ui/Generated/Module.h>
@@ -25,6 +27,8 @@
 #include <uio/Edit/Structure.h>
 #include <uio/Edit/UiEdit.h>
 #include <uio/Edit/Value.h>
+
+#include <uio/Generated/Convert.h>
 
 namespace mud
 {

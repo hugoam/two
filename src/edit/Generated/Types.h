@@ -2,6 +2,11 @@
 
 #include <edit/Generated/Forward.h>
 
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
+#include <obj/Type.h>
+#include <obj/Proto.h>
+#endif
+
 #ifndef MUD_MODULES
 #include <obj/Generated/Types.h>
 #include <srlz/Generated/Types.h>
@@ -12,9 +17,6 @@
 #include <uio/Generated/Types.h>
 #include <gfx/Generated/Types.h>
 #include <gfx-pbr/Generated/Types.h>
-
-#include <obj/Type.h>
-#include <obj/Proto.h>
 #endif
 
 #ifndef MUD_CPP_20
@@ -39,14 +41,14 @@ namespace mud
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::TransformAction>();
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::ViewAction>();
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::WorkPlaneAction>();
-    export_ template <> MUD_EDIT_EXPORT Type& type<mud::RedoTool>();
-    export_ template <> MUD_EDIT_EXPORT Type& type<mud::UndoTool>();
-    export_ template <> MUD_EDIT_EXPORT Type& type<mud::ViewportTool>();
-    export_ template <> MUD_EDIT_EXPORT Type& type<mud::WorkPlaneTool>();
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::PlaneSnapOption>();
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::WorldSnapOption>();
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::SpatialTool>();
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::ViewTool>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::RedoTool>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::UndoTool>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::ViewportTool>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::WorkPlaneTool>();
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::Brush>();
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::TransformTool>();
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::RotateAction>();

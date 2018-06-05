@@ -1,14 +1,15 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/System/System.h>
+#endif
 
+#ifndef MUD_MODULES
 #endif
         
 #include <obj/Generated/Forward.h>
 #include <obj/Generated/Types.h>
-#include <obj/Generated/Convert.h>
 
 #include <obj/Any.h>
 #include <obj/Array.h>
@@ -60,6 +61,8 @@
 #include <obj/Util/LocklessQueue.h>
 #include <obj/Util/Timer.h>
 #include <obj/Util/Updatable.h>
+
+#include <obj/Generated/Convert.h>
 
 namespace mud
 {

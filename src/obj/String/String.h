@@ -17,7 +17,7 @@ namespace mud
 {
 	export_ using string = std::string;
 	
-	template <class T>
+	export_ template <class T>
 	struct StringConverter;
 
 	export_ template <class T>

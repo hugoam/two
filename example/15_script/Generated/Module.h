@@ -1,9 +1,11 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/System/System.h>
+#endif
 
+#ifndef MUD_MODULES
 #include <obj/Generated/Module.h>
 #include <math/Generated/Module.h>
 #include <ui/Generated/Module.h>
@@ -17,6 +19,8 @@
 #include <15_script/Generated/Types.h>
 
 #include <15_script/15_script.h>
+
+#include <15_script/Generated/Convert.h>
 
 	export_ class _15_SCRIPT_EXPORT ex_15_script : public Module
 	{

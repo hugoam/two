@@ -368,134 +368,6 @@ namespace mud
     
     
         
-    // mud::RedoTool
-    {
-        static Meta meta = { type<mud::RedoTool>(), &namspc({ "mud" }), "RedoTool", sizeof(mud::RedoTool), TypeClass::Object };
-        static Class cls = { type<mud::RedoTool>(),
-            // bases
-            { &type<mud::Tool>() },
-            { base_offset<mud::RedoTool, mud::Tool>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::RedoTool>();
-    }
-    
-    
-        
-    // mud::UndoTool
-    {
-        static Meta meta = { type<mud::UndoTool>(), &namspc({ "mud" }), "UndoTool", sizeof(mud::UndoTool), TypeClass::Object };
-        static Class cls = { type<mud::UndoTool>(),
-            // bases
-            { &type<mud::Tool>() },
-            { base_offset<mud::UndoTool, mud::Tool>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::UndoTool>();
-    }
-    
-    
-        
-    // mud::ViewportTool
-    {
-        static Meta meta = { type<mud::ViewportTool>(), &namspc({ "mud" }), "ViewportTool", sizeof(mud::ViewportTool), TypeClass::Object };
-        static Class cls = { type<mud::ViewportTool>(),
-            // bases
-            { &type<mud::Tool>() },
-            { base_offset<mud::ViewportTool, mud::Tool>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ViewportTool>();
-    }
-    
-    
-        
-    // mud::WorkPlaneTool
-    {
-        static Meta meta = { type<mud::WorkPlaneTool>(), &namspc({ "mud" }), "WorkPlaneTool", sizeof(mud::WorkPlaneTool), TypeClass::Object };
-        static Class cls = { type<mud::WorkPlaneTool>(),
-            // bases
-            { &type<mud::Tool>() },
-            { base_offset<mud::WorkPlaneTool, mud::Tool>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::WorkPlaneTool>();
-    }
-    
-    
-        
     // mud::PlaneSnapOption
     {
         static Meta meta = { type<mud::PlaneSnapOption>(), &namspc({ "mud" }), "PlaneSnapOption", sizeof(mud::PlaneSnapOption), TypeClass::Object };
@@ -620,6 +492,134 @@ namespace mud
         
         
         meta_class<mud::ViewTool>();
+    }
+    
+    
+        
+    // mud::RedoTool
+    {
+        static Meta meta = { type<mud::RedoTool>(), &namspc({ "mud" }), "RedoTool", sizeof(mud::RedoTool), TypeClass::Object };
+        static Class cls = { type<mud::RedoTool>(),
+            // bases
+            { &type<mud::Tool>() },
+            { base_offset<mud::RedoTool, mud::Tool>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::RedoTool>();
+    }
+    
+    
+        
+    // mud::UndoTool
+    {
+        static Meta meta = { type<mud::UndoTool>(), &namspc({ "mud" }), "UndoTool", sizeof(mud::UndoTool), TypeClass::Object };
+        static Class cls = { type<mud::UndoTool>(),
+            // bases
+            { &type<mud::Tool>() },
+            { base_offset<mud::UndoTool, mud::Tool>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::UndoTool>();
+    }
+    
+    
+        
+    // mud::ViewportTool
+    {
+        static Meta meta = { type<mud::ViewportTool>(), &namspc({ "mud" }), "ViewportTool", sizeof(mud::ViewportTool), TypeClass::Object };
+        static Class cls = { type<mud::ViewportTool>(),
+            // bases
+            { &type<mud::Tool>() },
+            { base_offset<mud::ViewportTool, mud::Tool>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ViewportTool>();
+    }
+    
+    
+        
+    // mud::WorkPlaneTool
+    {
+        static Meta meta = { type<mud::WorkPlaneTool>(), &namspc({ "mud" }), "WorkPlaneTool", sizeof(mud::WorkPlaneTool), TypeClass::Object };
+        static Class cls = { type<mud::WorkPlaneTool>(),
+            // bases
+            { &type<mud::Tool>() },
+            { base_offset<mud::WorkPlaneTool, mud::Tool>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::WorkPlaneTool>();
     }
     
     
@@ -1156,14 +1156,14 @@ namespace mud
         m.m_types.push_back(&type<mud::TransformAction>());
         m.m_types.push_back(&type<mud::ViewAction>());
         m.m_types.push_back(&type<mud::WorkPlaneAction>());
-        m.m_types.push_back(&type<mud::RedoTool>());
-        m.m_types.push_back(&type<mud::UndoTool>());
-        m.m_types.push_back(&type<mud::ViewportTool>());
-        m.m_types.push_back(&type<mud::WorkPlaneTool>());
         m.m_types.push_back(&type<mud::PlaneSnapOption>());
         m.m_types.push_back(&type<mud::WorldSnapOption>());
         m.m_types.push_back(&type<mud::SpatialTool>());
         m.m_types.push_back(&type<mud::ViewTool>());
+        m.m_types.push_back(&type<mud::RedoTool>());
+        m.m_types.push_back(&type<mud::UndoTool>());
+        m.m_types.push_back(&type<mud::ViewportTool>());
+        m.m_types.push_back(&type<mud::WorkPlaneTool>());
         m.m_types.push_back(&type<mud::Brush>());
         m.m_types.push_back(&type<mud::TransformTool>());
         m.m_types.push_back(&type<mud::RotateAction>());

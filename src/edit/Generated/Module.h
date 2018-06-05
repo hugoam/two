@@ -1,9 +1,11 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/System/System.h>
+#endif
 
+#ifndef MUD_MODULES
 #include <obj/Generated/Module.h>
 #include <srlz/Generated/Module.h>
 #include <math/Generated/Module.h>
@@ -36,6 +38,8 @@
 #include <edit/Viewer/SpaceSheet.h>
 #include <edit/Viewer/SpaceViewer.h>
 #include <edit/Viewer/Viewer.h>
+
+#include <edit/Generated/Convert.h>
 
 namespace mud
 {

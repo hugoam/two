@@ -1,9 +1,11 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/System/System.h>
+#endif
 
+#ifndef MUD_MODULES
 #include <obj/Generated/Module.h>
 #include <srlz/Generated/Module.h>
 #include <math/Generated/Module.h>
@@ -15,6 +17,8 @@
 #include <gfx-gltf/Generated/Types.h>
 
 #include <gfx-gltf/ImporterGltf.h>
+
+#include <gfx-gltf/Generated/Convert.h>
 
 namespace mud
 {

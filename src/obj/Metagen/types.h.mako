@@ -2,13 +2,15 @@
 
 #include <${ module.subdir }/Generated/Forward.h>
 
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
+#include <obj/Type.h>
+#include <obj/Proto.h>
+#endif
+
 #ifndef MUD_MODULES
 % for m in module.dependencies :
 #include <${ m.subdir }/Generated/Types.h>
 % endfor
-
-#include <obj/Type.h>
-#include <obj/Proto.h>
 #endif
 
 #ifndef MUD_CPP_20

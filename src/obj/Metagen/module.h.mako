@@ -1,9 +1,11 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/System/System.h>
+#endif
 
+#ifndef MUD_MODULES
 % for m in module.dependencies :
 #include <${ m.subdir }/Generated/Module.h>
 % endfor
@@ -11,11 +13,12 @@
         
 #include <${ module.subdir }/Generated/Forward.h>
 #include <${ module.subdir }/Generated/Types.h>
-#include <${ module.subdir }/Generated/Convert.h>
 
 % for header in module.headers :
 #include <${ module.subdir }/${ header }>
 % endfor
+
+#include <${ module.subdir }/Generated/Convert.h>
 
 % if module.namespace != '' :
 namespace ${ module.namespace }

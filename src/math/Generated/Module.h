@@ -1,16 +1,17 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/System/System.h>
+#endif
 
+#ifndef MUD_MODULES
 #include <obj/Generated/Module.h>
 #include <srlz/Generated/Module.h>
 #endif
         
 #include <math/Generated/Forward.h>
 #include <math/Generated/Types.h>
-#include <math/Generated/Convert.h>
 
 #include <math/Axes.h>
 #include <math/Axis.h>
@@ -29,6 +30,8 @@
 #include <math/VecJson.h>
 #include <math/VecMath.h>
 #include <math/VecOps.h>
+
+#include <math/Generated/Convert.h>
 
 namespace mud
 {
