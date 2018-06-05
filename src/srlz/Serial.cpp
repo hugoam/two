@@ -10,10 +10,10 @@
 #ifdef MUD_MODULES
 module mud.obj;
 #else
-#include <obj/Config.h>
-#include <obj/Types.h>
-#include <obj/Serial/Serial.h>
+#include <srlz/Generated/Types.h>
+#include <srlz/Serial.h>
 #include <obj/System/System.h>
+#include <obj/System/File.h>
 #include <obj/Reflect/Convert.h>
 #include <obj/Reflect/Sequence.h>
 #include <obj/Reflect/Meta.h>
@@ -28,22 +28,6 @@ module mud.obj;
 
 namespace mud
 {
-	std::vector<uint8_t> read_binary_file(const string& path)
-	{
-		std::vector<uint8_t> buffer;
-		std::ifstream file = std::ifstream(path, std::ios::binary);
-		//buffer.resize(file.gcount());
-		buffer.insert(buffer.begin(), std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
-		return buffer;
-	}
-
-	string read_text_file(const string& path)
-	{
-		std::ifstream file = std::ifstream(path);
-		std::string result((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-		return result;
-	}
-
 	void parse_json_file(const string& path, json& data)
 	{
 		if(!std::ifstream(path).good())
@@ -53,12 +37,8 @@ namespace mud
 		}
 
 		string text = read_text_file(path);
-#ifdef MUD_JSON_NLOHMANN
-		data = json::parse(text);
-#else
 		string errors;
 		data = json::parse(text, errors);
-#endif
 	}
 
 	json parse_json_file(const string& path)

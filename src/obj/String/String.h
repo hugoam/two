@@ -16,18 +16,7 @@
 namespace mud
 {
 	export_ using string = std::string;
-	//using std::vector;
-
-	export_ struct Filepath
-	{
-		string path;
-		string name;
-		string extension;
-	};
-
-	//template <>
-	//cstring::operator string() { return m_str; }
-
+	
 	template <class T>
 	struct StringConverter;
 

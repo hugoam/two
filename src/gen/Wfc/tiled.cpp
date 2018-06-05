@@ -12,7 +12,7 @@ module mud.gen;
 #else
 #include <obj/Vector.h>
 #include <obj/String/StringConvert.h>
-#include <obj/Serial/Serial.h>
+#include <srlz/Serial.h>
 #include <math/Axes.h>
 #include <math/VecJson.h>
 #include <gen/Wfc/wfc.h>

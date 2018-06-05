@@ -12,7 +12,7 @@ module mud.gfx;
 #else
 #include <obj/Reflect/Convert.h>
 #include <obj/Reflect/Meta.h>
-#include <obj/Serial/Serial.h>
+#include <srlz/Serial.h>
 #include <obj/String/StringConvert.h>
 #include <geom/Mesh.h>
 #include <geom/Shape/ProcShape.h>

@@ -91,9 +91,9 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::Table>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::TextEdit>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::TreeNode>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::RowSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::LineSolver>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Dockbar>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Dockspace>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::RowSolver>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::LineSolver>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Window>();
 }

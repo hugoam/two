@@ -15,7 +15,7 @@ module mud.gfx;
 #else
 #include <obj/Vector.h>
 #include <obj/EnumArray.h>
-#include <obj/Serial/Serial.h>
+#include <srlz/Serial.h>
 #include <obj/System/System.h>
 #include <obj/String/StringConvert.h>
 #include <gfx/Program.h>

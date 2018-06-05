@@ -445,7 +445,6 @@ namespace mud
     
     
     
-    
         
     // mud::Index
     {
@@ -984,7 +983,6 @@ namespace mud
         
         meta_class<mud::TimeSpan>();
     }
-    
     
     
         

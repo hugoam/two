@@ -270,49 +270,13 @@ namespace mud
     
     
         
-    // mud::Viewer
+    // mud::TransformAction
     {
-        static Meta meta = { type<mud::Viewer>(), &namspc({ "mud" }), "Viewer", sizeof(mud::Viewer), TypeClass::Object };
-        static Class cls = { type<mud::Viewer>(),
+        static Meta meta = { type<mud::TransformAction>(), &namspc({ "mud" }), "TransformAction", sizeof(mud::TransformAction), TypeClass::Object };
+        static Class cls = { type<mud::TransformAction>(),
             // bases
-            { &type<mud::Widget>() },
-            { base_offset<mud::Viewer, mud::Widget>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link) },
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_viewport), type<mud::Viewport>(), "viewport", Ref(type<mud::Viewport>()), Member::None },
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_position), type<mud::vec2>(), "position", var(mud::vec2()), Member::Value },
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Viewer>();
-    }
-    
-    
-        
-    // mud::SpaceSheet
-    {
-        static Meta meta = { type<mud::SpaceSheet>(), &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
-        static Class cls = { type<mud::SpaceSheet>(),
-            // bases
-            { &type<mud::RootSheet>() },
-            { base_offset<mud::SpaceSheet, mud::RootSheet>() },
+            { &type<mud::EditorAction>() },
+            { base_offset<mud::TransformAction, mud::EditorAction>() },
             // constructors
             {
             },
@@ -333,18 +297,18 @@ namespace mud
         
         
         
-        meta_class<mud::SpaceSheet>();
+        meta_class<mud::TransformAction>();
     }
     
     
         
-    // mud::PlaneSnapOption
+    // mud::ViewAction
     {
-        static Meta meta = { type<mud::PlaneSnapOption>(), &namspc({ "mud" }), "PlaneSnapOption", sizeof(mud::PlaneSnapOption), TypeClass::Object };
-        static Class cls = { type<mud::PlaneSnapOption>(),
+        static Meta meta = { type<mud::ViewAction>(), &namspc({ "mud" }), "ViewAction", sizeof(mud::ViewAction), TypeClass::Object };
+        static Class cls = { type<mud::ViewAction>(),
             // bases
-            { &type<mud::ToolOption>() },
-            { base_offset<mud::PlaneSnapOption, mud::ToolOption>() },
+            { &type<mud::EditorAction>() },
+            { base_offset<mud::ViewAction, mud::EditorAction>() },
             // constructors
             {
             },
@@ -365,18 +329,18 @@ namespace mud
         
         
         
-        meta_class<mud::PlaneSnapOption>();
+        meta_class<mud::ViewAction>();
     }
     
     
         
-    // mud::WorldSnapOption
+    // mud::WorkPlaneAction
     {
-        static Meta meta = { type<mud::WorldSnapOption>(), &namspc({ "mud" }), "WorldSnapOption", sizeof(mud::WorldSnapOption), TypeClass::Object };
-        static Class cls = { type<mud::WorldSnapOption>(),
+        static Meta meta = { type<mud::WorkPlaneAction>(), &namspc({ "mud" }), "WorkPlaneAction", sizeof(mud::WorkPlaneAction), TypeClass::Object };
+        static Class cls = { type<mud::WorkPlaneAction>(),
             // bases
-            { &type<mud::ToolOption>() },
-            { base_offset<mud::WorldSnapOption, mud::ToolOption>() },
+            { &type<mud::EditorAction>() },
+            { base_offset<mud::WorkPlaneAction, mud::EditorAction>() },
             // constructors
             {
             },
@@ -397,72 +361,10 @@ namespace mud
         
         
         
-        meta_class<mud::WorldSnapOption>();
+        meta_class<mud::WorkPlaneAction>();
     }
     
     
-        
-    // mud::SpatialTool
-    {
-        static Meta meta = { type<mud::SpatialTool>(), &namspc({ "mud" }), "SpatialTool", sizeof(mud::SpatialTool), TypeClass::Object };
-        static Class cls = { type<mud::SpatialTool>(),
-            // bases
-            { &type<mud::ViewportTool>() },
-            { base_offset<mud::SpatialTool, mud::ViewportTool>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::SpatialTool>();
-    }
-    
-    
-        
-    // mud::ViewTool
-    {
-        static Meta meta = { type<mud::ViewTool>(), &namspc({ "mud" }), "ViewTool", sizeof(mud::ViewTool), TypeClass::Object };
-        static Class cls = { type<mud::ViewTool>(),
-            // bases
-            { &type<mud::ViewportTool>() },
-            { base_offset<mud::ViewTool, mud::ViewportTool>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ViewTool>();
-    }
     
     
         
@@ -594,13 +496,13 @@ namespace mud
     
     
         
-    // mud::Brush
+    // mud::SpatialTool
     {
-        static Meta meta = { type<mud::Brush>(), &namspc({ "mud" }), "Brush", sizeof(mud::Brush), TypeClass::Object };
-        static Class cls = { type<mud::Brush>(),
+        static Meta meta = { type<mud::SpatialTool>(), &namspc({ "mud" }), "SpatialTool", sizeof(mud::SpatialTool), TypeClass::Object };
+        static Class cls = { type<mud::SpatialTool>(),
             // bases
-            { &type<mud::SpatialTool>() },
-            { base_offset<mud::Brush, mud::SpatialTool>() },
+            { &type<mud::ViewportTool>() },
+            { base_offset<mud::SpatialTool, mud::ViewportTool>() },
             // constructors
             {
             },
@@ -621,18 +523,18 @@ namespace mud
         
         
         
-        meta_class<mud::Brush>();
+        meta_class<mud::SpatialTool>();
     }
     
     
         
-    // mud::TransformTool
+    // mud::ViewTool
     {
-        static Meta meta = { type<mud::TransformTool>(), &namspc({ "mud" }), "TransformTool", sizeof(mud::TransformTool), TypeClass::Object };
-        static Class cls = { type<mud::TransformTool>(),
+        static Meta meta = { type<mud::ViewTool>(), &namspc({ "mud" }), "ViewTool", sizeof(mud::ViewTool), TypeClass::Object };
+        static Class cls = { type<mud::ViewTool>(),
             // bases
-            { &type<mud::SpatialTool>() },
-            { base_offset<mud::TransformTool, mud::SpatialTool>() },
+            { &type<mud::ViewportTool>() },
+            { base_offset<mud::ViewTool, mud::ViewportTool>() },
             // constructors
             {
             },
@@ -653,18 +555,18 @@ namespace mud
         
         
         
-        meta_class<mud::TransformTool>();
+        meta_class<mud::ViewTool>();
     }
     
     
         
-    // mud::CircleBrush
+    // mud::PlaneSnapOption
     {
-        static Meta meta = { type<mud::CircleBrush>(), &namspc({ "mud" }), "CircleBrush", sizeof(mud::CircleBrush), TypeClass::Object };
-        static Class cls = { type<mud::CircleBrush>(),
+        static Meta meta = { type<mud::PlaneSnapOption>(), &namspc({ "mud" }), "PlaneSnapOption", sizeof(mud::PlaneSnapOption), TypeClass::Object };
+        static Class cls = { type<mud::PlaneSnapOption>(),
             // bases
-            { &type<mud::Brush>() },
-            { base_offset<mud::CircleBrush, mud::Brush>() },
+            { &type<mud::ToolOption>() },
+            { base_offset<mud::PlaneSnapOption, mud::ToolOption>() },
             // constructors
             {
             },
@@ -673,9 +575,6 @@ namespace mud
             },
             // members
             {
-                { type<mud::CircleBrush>(), member_address(&mud::CircleBrush::m_creator), type<mud::Creator>(), "creator", Ref(type<mud::Creator>()), Member::None },
-                { type<mud::CircleBrush>(), member_address(&mud::CircleBrush::m_radius), type<float>(), "radius", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::CircleBrush>(), member_address(&mud::CircleBrush::m_maxSpotRadius), type<float>(), "maxSpotRadius", var(float()), Member::Flags(Member::Value|Member::Mutable) }
             },
             // methods
             {
@@ -688,84 +587,18 @@ namespace mud
         
         
         
-        meta_class<mud::CircleBrush>();
+        meta_class<mud::PlaneSnapOption>();
     }
     
     
         
-    // mud::PlaceBrush
+    // mud::WorldSnapOption
     {
-        static Meta meta = { type<mud::PlaceBrush>(), &namspc({ "mud" }), "PlaceBrush", sizeof(mud::PlaceBrush), TypeClass::Object };
-        static Class cls = { type<mud::PlaceBrush>(),
+        static Meta meta = { type<mud::WorldSnapOption>(), &namspc({ "mud" }), "WorldSnapOption", sizeof(mud::WorldSnapOption), TypeClass::Object };
+        static Class cls = { type<mud::WorldSnapOption>(),
             // bases
-            { &type<mud::Brush>() },
-            { base_offset<mud::PlaceBrush, mud::Brush>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-                { type<mud::PlaceBrush>(), member_address(&mud::PlaceBrush::m_creator), type<mud::Creator>(), "creator", Ref(type<mud::Creator>()), Member::None }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::PlaceBrush>();
-    }
-    
-    
-        
-    // mud::ScriptedBrush
-    {
-        static Meta meta = { type<mud::ScriptedBrush>(), &namspc({ "mud" }), "ScriptedBrush", sizeof(mud::ScriptedBrush), TypeClass::Object };
-        static Class cls = { type<mud::ScriptedBrush>(),
-            // bases
-            { &type<mud::Brush>() },
-            { base_offset<mud::ScriptedBrush, mud::Brush>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-                { type<mud::ScriptedBrush>(), member_address(&mud::ScriptedBrush::m_call), type<mud::Call>(), "call", var(mud::Call()), Member::Value }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ScriptedBrush>();
-    }
-    
-    
-        
-    // mud::RotateAction
-    {
-        static Meta meta = { type<mud::RotateAction>(), &namspc({ "mud" }), "RotateAction", sizeof(mud::RotateAction), TypeClass::Object };
-        static Class cls = { type<mud::RotateAction>(),
-            // bases
-            { &type<mud::TransformAction>() },
-            { base_offset<mud::RotateAction, mud::TransformAction>() },
+            { &type<mud::ToolOption>() },
+            { base_offset<mud::WorldSnapOption, mud::ToolOption>() },
             // constructors
             {
             },
@@ -786,71 +619,7 @@ namespace mud
         
         
         
-        meta_class<mud::RotateAction>();
-    }
-    
-    
-        
-    // mud::ScaleAction
-    {
-        static Meta meta = { type<mud::ScaleAction>(), &namspc({ "mud" }), "ScaleAction", sizeof(mud::ScaleAction), TypeClass::Object };
-        static Class cls = { type<mud::ScaleAction>(),
-            // bases
-            { &type<mud::TransformAction>() },
-            { base_offset<mud::ScaleAction, mud::TransformAction>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ScaleAction>();
-    }
-    
-    
-        
-    // mud::TranslateAction
-    {
-        static Meta meta = { type<mud::TranslateAction>(), &namspc({ "mud" }), "TranslateAction", sizeof(mud::TranslateAction), TypeClass::Object };
-        static Class cls = { type<mud::TranslateAction>(),
-            // bases
-            { &type<mud::TransformAction>() },
-            { base_offset<mud::TranslateAction, mud::TransformAction>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::TranslateAction>();
+        meta_class<mud::WorldSnapOption>();
     }
     
     
@@ -983,6 +752,267 @@ namespace mud
     
     
         
+    // mud::Brush
+    {
+        static Meta meta = { type<mud::Brush>(), &namspc({ "mud" }), "Brush", sizeof(mud::Brush), TypeClass::Object };
+        static Class cls = { type<mud::Brush>(),
+            // bases
+            { &type<mud::SpatialTool>() },
+            { base_offset<mud::Brush, mud::SpatialTool>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Brush>();
+    }
+    
+    
+        
+    // mud::TransformTool
+    {
+        static Meta meta = { type<mud::TransformTool>(), &namspc({ "mud" }), "TransformTool", sizeof(mud::TransformTool), TypeClass::Object };
+        static Class cls = { type<mud::TransformTool>(),
+            // bases
+            { &type<mud::SpatialTool>() },
+            { base_offset<mud::TransformTool, mud::SpatialTool>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::TransformTool>();
+    }
+    
+    
+        
+    // mud::RotateAction
+    {
+        static Meta meta = { type<mud::RotateAction>(), &namspc({ "mud" }), "RotateAction", sizeof(mud::RotateAction), TypeClass::Object };
+        static Class cls = { type<mud::RotateAction>(),
+            // bases
+            { &type<mud::TransformAction>() },
+            { base_offset<mud::RotateAction, mud::TransformAction>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::RotateAction>();
+    }
+    
+    
+        
+    // mud::ScaleAction
+    {
+        static Meta meta = { type<mud::ScaleAction>(), &namspc({ "mud" }), "ScaleAction", sizeof(mud::ScaleAction), TypeClass::Object };
+        static Class cls = { type<mud::ScaleAction>(),
+            // bases
+            { &type<mud::TransformAction>() },
+            { base_offset<mud::ScaleAction, mud::TransformAction>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ScaleAction>();
+    }
+    
+    
+        
+    // mud::TranslateAction
+    {
+        static Meta meta = { type<mud::TranslateAction>(), &namspc({ "mud" }), "TranslateAction", sizeof(mud::TranslateAction), TypeClass::Object };
+        static Class cls = { type<mud::TranslateAction>(),
+            // bases
+            { &type<mud::TransformAction>() },
+            { base_offset<mud::TranslateAction, mud::TransformAction>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::TranslateAction>();
+    }
+    
+    
+        
+    // mud::CircleBrush
+    {
+        static Meta meta = { type<mud::CircleBrush>(), &namspc({ "mud" }), "CircleBrush", sizeof(mud::CircleBrush), TypeClass::Object };
+        static Class cls = { type<mud::CircleBrush>(),
+            // bases
+            { &type<mud::Brush>() },
+            { base_offset<mud::CircleBrush, mud::Brush>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+                { type<mud::CircleBrush>(), member_address(&mud::CircleBrush::m_creator), type<mud::Creator>(), "creator", Ref(type<mud::Creator>()), Member::None },
+                { type<mud::CircleBrush>(), member_address(&mud::CircleBrush::m_radius), type<float>(), "radius", var(float()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::CircleBrush>(), member_address(&mud::CircleBrush::m_maxSpotRadius), type<float>(), "maxSpotRadius", var(float()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::CircleBrush>();
+    }
+    
+    
+        
+    // mud::PlaceBrush
+    {
+        static Meta meta = { type<mud::PlaceBrush>(), &namspc({ "mud" }), "PlaceBrush", sizeof(mud::PlaceBrush), TypeClass::Object };
+        static Class cls = { type<mud::PlaceBrush>(),
+            // bases
+            { &type<mud::Brush>() },
+            { base_offset<mud::PlaceBrush, mud::Brush>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+                { type<mud::PlaceBrush>(), member_address(&mud::PlaceBrush::m_creator), type<mud::Creator>(), "creator", Ref(type<mud::Creator>()), Member::None }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::PlaceBrush>();
+    }
+    
+    
+        
+    // mud::ScriptedBrush
+    {
+        static Meta meta = { type<mud::ScriptedBrush>(), &namspc({ "mud" }), "ScriptedBrush", sizeof(mud::ScriptedBrush), TypeClass::Object };
+        static Class cls = { type<mud::ScriptedBrush>(),
+            // bases
+            { &type<mud::Brush>() },
+            { base_offset<mud::ScriptedBrush, mud::Brush>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+                { type<mud::ScriptedBrush>(), member_address(&mud::ScriptedBrush::m_call), type<mud::Call>(), "call", var(mud::Call()), Member::Value }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ScriptedBrush>();
+    }
+    
+    
+        
     // mud::CopyAction
     {
         static Meta meta = { type<mud::CopyAction>(), &namspc({ "mud" }), "CopyAction", sizeof(mud::CopyAction), TypeClass::Object };
@@ -1011,6 +1041,74 @@ namespace mud
         
         
         meta_class<mud::CopyAction>();
+    }
+    
+    
+        
+    // mud::Viewer
+    {
+        static Meta meta = { type<mud::Viewer>(), &namspc({ "mud" }), "Viewer", sizeof(mud::Viewer), TypeClass::Object };
+        static Class cls = { type<mud::Viewer>(),
+            // bases
+            { &type<mud::Widget>() },
+            { base_offset<mud::Viewer, mud::Widget>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+                { type<mud::Viewer>(), member_address(&mud::Viewer::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link) },
+                { type<mud::Viewer>(), member_address(&mud::Viewer::m_viewport), type<mud::Viewport>(), "viewport", Ref(type<mud::Viewport>()), Member::None },
+                { type<mud::Viewer>(), member_address(&mud::Viewer::m_position), type<mud::vec2>(), "position", var(mud::vec2()), Member::Value },
+                { type<mud::Viewer>(), member_address(&mud::Viewer::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Viewer>();
+    }
+    
+    
+        
+    // mud::SpaceSheet
+    {
+        static Meta meta = { type<mud::SpaceSheet>(), &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
+        static Class cls = { type<mud::SpaceSheet>(),
+            // bases
+            { &type<mud::RootSheet>() },
+            { base_offset<mud::SpaceSheet, mud::RootSheet>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::SpaceSheet>();
     }
     
     
@@ -1045,104 +1143,6 @@ namespace mud
         meta_class<mud::SceneViewer>();
     }
     
-    
-    
-        
-    // mud::TransformAction
-    {
-        static Meta meta = { type<mud::TransformAction>(), &namspc({ "mud" }), "TransformAction", sizeof(mud::TransformAction), TypeClass::Object };
-        static Class cls = { type<mud::TransformAction>(),
-            // bases
-            { &type<mud::EditorAction>() },
-            { base_offset<mud::TransformAction, mud::EditorAction>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::TransformAction>();
-    }
-    
-    
-        
-    // mud::ViewAction
-    {
-        static Meta meta = { type<mud::ViewAction>(), &namspc({ "mud" }), "ViewAction", sizeof(mud::ViewAction), TypeClass::Object };
-        static Class cls = { type<mud::ViewAction>(),
-            // bases
-            { &type<mud::EditorAction>() },
-            { base_offset<mud::ViewAction, mud::EditorAction>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ViewAction>();
-    }
-    
-    
-        
-    // mud::WorkPlaneAction
-    {
-        static Meta meta = { type<mud::WorkPlaneAction>(), &namspc({ "mud" }), "WorkPlaneAction", sizeof(mud::WorkPlaneAction), TypeClass::Object };
-        static Class cls = { type<mud::WorkPlaneAction>(),
-            // bases
-            { &type<mud::EditorAction>() },
-            { base_offset<mud::WorkPlaneAction, mud::EditorAction>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::WorkPlaneAction>();
-    }
-    
-    
 
     
         m.m_types.push_back(&type<mud::EditContext>());
@@ -1153,33 +1153,33 @@ namespace mud
         m.m_types.push_back(&type<mud::ToolOption>());
         m.m_types.push_back(&type<mud::ToolState>());
         m.m_types.push_back(&type<mud::ViewerController>());
-        m.m_types.push_back(&type<mud::Viewer>());
-        m.m_types.push_back(&type<mud::SpaceSheet>());
-        m.m_types.push_back(&type<mud::PlaneSnapOption>());
-        m.m_types.push_back(&type<mud::WorldSnapOption>());
-        m.m_types.push_back(&type<mud::SpatialTool>());
-        m.m_types.push_back(&type<mud::ViewTool>());
+        m.m_types.push_back(&type<mud::TransformAction>());
+        m.m_types.push_back(&type<mud::ViewAction>());
+        m.m_types.push_back(&type<mud::WorkPlaneAction>());
         m.m_types.push_back(&type<mud::RedoTool>());
         m.m_types.push_back(&type<mud::UndoTool>());
         m.m_types.push_back(&type<mud::ViewportTool>());
         m.m_types.push_back(&type<mud::WorkPlaneTool>());
-        m.m_types.push_back(&type<mud::Brush>());
-        m.m_types.push_back(&type<mud::TransformTool>());
-        m.m_types.push_back(&type<mud::CircleBrush>());
-        m.m_types.push_back(&type<mud::PlaceBrush>());
-        m.m_types.push_back(&type<mud::ScriptedBrush>());
-        m.m_types.push_back(&type<mud::RotateAction>());
-        m.m_types.push_back(&type<mud::ScaleAction>());
-        m.m_types.push_back(&type<mud::TranslateAction>());
+        m.m_types.push_back(&type<mud::SpatialTool>());
+        m.m_types.push_back(&type<mud::ViewTool>());
+        m.m_types.push_back(&type<mud::PlaneSnapOption>());
+        m.m_types.push_back(&type<mud::WorldSnapOption>());
         m.m_types.push_back(&type<mud::CopyTool>());
         m.m_types.push_back(&type<mud::RotateTool>());
         m.m_types.push_back(&type<mud::ScaleTool>());
         m.m_types.push_back(&type<mud::TranslateTool>());
+        m.m_types.push_back(&type<mud::Brush>());
+        m.m_types.push_back(&type<mud::TransformTool>());
+        m.m_types.push_back(&type<mud::RotateAction>());
+        m.m_types.push_back(&type<mud::ScaleAction>());
+        m.m_types.push_back(&type<mud::TranslateAction>());
+        m.m_types.push_back(&type<mud::CircleBrush>());
+        m.m_types.push_back(&type<mud::PlaceBrush>());
+        m.m_types.push_back(&type<mud::ScriptedBrush>());
         m.m_types.push_back(&type<mud::CopyAction>());
+        m.m_types.push_back(&type<mud::Viewer>());
+        m.m_types.push_back(&type<mud::SpaceSheet>());
         m.m_types.push_back(&type<mud::SceneViewer>());
-        m.m_types.push_back(&type<mud::TransformAction>());
-        m.m_types.push_back(&type<mud::ViewAction>());
-        m.m_types.push_back(&type<mud::WorkPlaneAction>());
     
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::viewer(val<mud::Widget>(args[0]), val<mud::Scene>(args[1]))); };

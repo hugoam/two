@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <obj/Generated/Forward.h>
+
 namespace mud
 {
 	export_ template<typename T>

@@ -13,8 +13,9 @@ module mud.gfx-gltf;
 #else
 #include <obj/Util/DispatchDecl.h>
 #include <obj/Vector.h>
-#include <obj/Serial/Serial.h>
+#include <srlz/Serial.h>
 #include <obj/System/System.h>
+#include <obj/System/File.h>
 #include <obj/Reflect/Class.h>
 #include <obj/String/String.h>
 #include <math/VecJson.h>

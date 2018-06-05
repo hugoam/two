@@ -20,7 +20,7 @@ module mud.obj;
 #include <obj/Proto.h>
 #include <obj/Complex.h>
 #include <obj/Vector.h>
-#include <obj/Serial/Serial.h>
+#include <srlz/Serial.h>
 #endif
 
 namespace mud

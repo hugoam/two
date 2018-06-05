@@ -25,7 +25,7 @@ if _OPTIONS["renderer-bgfx"] then
     --    mud_shell("mud_shell")  
 end
 
-function example_project(name, gfx, ...)
+function mud_example(name, gfx, deps)
 
     if _OPTIONS["renderer-gl"] and gfx then
         return
@@ -36,7 +36,7 @@ function example_project(name, gfx, ...)
 
         mud_module(false, "", name, path.join(MUD_DIR, "example"), name, "_" .. name:upper())
         
-		for _, depname in ipairs({...}) do
+		for _, depname in ipairs(deps) do
             mud_module(false, "", depname, path.join(MUD_DIR, "example"), depname, "_" .. depname:upper())
             
             configuration { "asmjs" }
@@ -72,32 +72,32 @@ function example_project(name, gfx, ...)
         configuration {}
 end
 
-example_project("00_tutorial", true)
-example_project("00_cube", true)
-example_project("00_ui", false)
-example_project("01_shapes", true)
-example_project("02_camera", true, "03_materials")
-example_project("03_materials", true)
-example_project("04_lights", true, "01_shapes", "03_materials")
-example_project("04_sponza", true, "01_shapes", "03_materials")
---example_project("05_character", true, "03_materials")
-example_project("06_particles", true)
-example_project("07_prefabs", true, "07_gltf")
-example_project("07_gltf", true)
-example_project("08_sky", true, "01_shapes", "03_materials")
-example_project("09_live_shader", true)
-example_project("10_post_process", true, "01_shapes", "03_materials")
-example_project("11_selection", true, "01_shapes", "03_materials")
-example_project("12_ui", true, "01_shapes", "03_materials")
-example_project("13_live_ui", true)
-example_project("14_live_gfx", true)
-example_project("14_live_gfx_visual", true)
-example_project("15_script", true, "01_shapes", "03_materials")
-example_project("16_visual_script", true, "01_shapes", "03_materials")
-example_project("17_wfc", true)
---example_project("18_pathfinding", true)
-example_project("19_multi_viewport", true)
-example_project("20_meta", true, "01_shapes", "03_materials")
+mud_example("00_tutorial",          true, {})
+mud_example("00_cube",              true, {})
+mud_example("00_ui",                false, {})
+mud_example("01_shapes",            true, {})
+mud_example("02_camera",            true, { "03_materials" })
+mud_example("03_materials",         true, {})
+mud_example("04_lights",            true, { "01_shapes", "03_materials" })
+mud_example("04_sponza",            true, { "01_shapes", "03_materials" })
+--mud_example("05_character",       true, "03_materials")
+mud_example("06_particles",         true, {})
+mud_example("07_prefabs",           true, { "07_gltf" })
+mud_example("07_gltf",              true, {})
+mud_example("08_sky",               true, { "01_shapes", "03_materials" })
+mud_example("09_live_shader",       true, {})
+mud_example("10_post_process",      true, { "01_shapes", "03_materials" })
+mud_example("11_selection",         true, { "01_shapes", "03_materials" })
+mud_example("12_ui",                true, { "01_shapes", "03_materials" })
+mud_example("13_live_ui",           true, {})
+mud_example("14_live_gfx",          true, {})
+mud_example("14_live_gfx_visual",   true, {})
+mud_example("15_script",            true, { "01_shapes", "03_materials" })
+mud_example("16_visual_script",     true, { "01_shapes", "03_materials" })
+mud_example("17_wfc",               true, {})
+--mud_example("18_pathfinding",     true, {})
+mud_example("19_multi_viewport",    true, {})
+mud_example("20_meta",              true, { "01_shapes", "03_materials" })
 
 if _OPTIONS["renderer-bgfx"] then
     project "09_live_shader"

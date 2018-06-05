@@ -11,7 +11,7 @@
 module mud.edit;
 #else
 #include <obj/Reflect/Method.h>
-#include <obj/Serial/Serial.h>
+#include <srlz/Serial.h>
 #include <obj/System/System.h>
 #include <geom/Shapes.h>
 #include <geom/Symbol.h>

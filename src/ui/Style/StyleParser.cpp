@@ -9,7 +9,7 @@ module mud.ui;
 #else
 #include <obj/Any.h>
 #include <obj/Reflect/Class.h>
-#include <obj/Serial/Serial.h>
+#include <srlz/Serial.h>
 #include <obj/String/String.h>
 #include <math/VecJson.h>
 #include <ui/Generated/Types.h>

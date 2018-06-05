@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Serial/Serial.h>
+#include <srlz/Serial.h>
 #endif
 #include <math/Colour.h>
 #include <math/Vec.h>

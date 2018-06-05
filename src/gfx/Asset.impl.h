@@ -14,7 +14,7 @@ import std.memory; // std.memory exists only in Visual Studio experimental modul
 #include <gfx/Asset.h>
 
 #ifndef MUD_MODULES
-#include <obj/Serial/Serial.h>
+#include <srlz/Serial.h>
 #include <obj/System/System.h>
 #endif
 

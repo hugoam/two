@@ -14,7 +14,7 @@ module mud.gen;
 #include <gen/Wfc/wfc.h>
 // @kludge : not sure why this fixes a compilation error when using MSVC modules :/
 #ifdef MUD_CPP_20
-#include <obj/Serial/Serial.h>
+#include <srlz/Serial.h>
 #endif
 #endif
 

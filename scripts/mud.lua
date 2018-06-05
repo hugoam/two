@@ -10,6 +10,7 @@ if _OPTIONS["cpp-modules"] then
 end
 
 dofile(path.join(MUD_DIR, "scripts/mud_obj.lua"))
+dofile(path.join(MUD_DIR, "scripts/mud_srlz.lua"))
 dofile(path.join(MUD_DIR, "scripts/mud_math.lua"))
 dofile(path.join(MUD_DIR, "scripts/mud_geom.lua"))
 dofile(path.join(MUD_DIR, "scripts/mud_lang.lua"))
@@ -27,6 +28,7 @@ group "lib"
 if _OPTIONS["as-libs"] then
     group "lib/mud"
         mud_obj(true)
+        mud_srlz(true)
         mud_math(true)
         mud_geom(true)
         mud_lang(true)
@@ -43,6 +45,7 @@ else
         }
         
         mud_obj(false)
+        mud_srlz(false)
         mud_math(false)
         mud_geom(false)
         mud_lang(false)
@@ -68,7 +71,7 @@ function uses_mud()
     }
     
     if _OPTIONS["as-libs"] then
-        links { "mud_obj", "mud_math", "mud_geom", "mud_lang", "mud_ctx", "mud_ui", "mud_uio" }
+        links { "mud_obj", "mud_srlz", "mud_math", "mud_geom", "mud_lang", "mud_ctx", "mud_ui", "mud_uio" }
     else
         links { "mud" }
     end

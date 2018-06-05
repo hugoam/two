@@ -1,7 +1,7 @@
 #include <mud/mud.h>
 #include <06_particles/06_particles.h>
 
-#include <obj/Serial/Serial.h>
+#include <srlz/Serial.h>
 #include <edit/Ui/GfxEdit.h>
 
 #include <fstream>
