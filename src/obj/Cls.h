@@ -6,6 +6,9 @@
 
 #include <obj/Generated/Forward.h>
 
+export_ namespace mud
+{}
+
 namespace mud
 {
 	export_ extern MUD_OBJ_EXPORT const unsigned int c_max_types;
