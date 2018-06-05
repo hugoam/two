@@ -7,14 +7,11 @@
 #include <ui/Generated/Forward.h>
 #include <ui/Frame/Dim.h>
 
-export_ namespace mud
-{
-export_ namespace ui
-{}
-}
-
 namespace mud
 {
+	export_ namespace ui
+	{}
+
 	using cstring = const char*;
 
 	export_ enum _refl_ WidgetState : unsigned int
