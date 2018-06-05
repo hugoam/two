@@ -1433,7 +1433,7 @@ namespace mud
 	MUD_VEC_FUN mat4 operator*(const mat4& m0, const mat4& m1);
 	MUD_VEC_FUN float4 operator*(const mat4& m, const float4& v);
 
-#if MUD_NOT_IMPLEMENTED
+#if 0 // not implemented
 	// For float->float16 conversion
 	half float_to_half(float f);
 	float half_to_float(const half& h);

@@ -9,15 +9,17 @@
 #endif
 
 #ifndef MUD_STD_HAS_CLAMP
+#include <obj/Config.h>
+
 namespace std
 {
-	template<class T>
+	export_ template<class T>
 	constexpr const T& clamp(const T& v, const T& lo, const T& hi)
 	{
 		return clamp(v, lo, hi, std::less<>());
 	}
 
-	template<class T, class Compare>
+	export_ template<class T, class Compare>
 	constexpr const T& clamp(const T& v, const T& lo, const T& hi, Compare comp)
 	{
 		return comp(v, lo) ? lo : comp(hi, v) ? hi : v;
