@@ -117,7 +117,7 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app);
 	static LuaInterpreter interpreter = { true };
-	static Script script = create_script(interpreter);
+	static LuaScript script = create_script(interpreter);
 
 	std::vector<Var> args = { Ref(&parent) };
 	script(args);

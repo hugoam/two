@@ -31,6 +31,11 @@ namespace mud
 	export_ using i16 = int16_t;
 	export_ using i32 = int32_t;
 
+	export_ using std::floor;
+	export_ using std::ceil;
+	export_ using std::sin;
+	export_ using std::cos;
+
 	export_ template <typename T>
 	inline T sign(T val) { return (T(0) < val) - (val < T(0)); }
 
