@@ -14,6 +14,7 @@ function mud_defines()
     configuration { "cpp-modules" }
         flags {
             "CppLatest",
+            "CppModules",
         }
         
         defines { "_CRT_NO_VA_START_VALIDATION" }
