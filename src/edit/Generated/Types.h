@@ -36,8 +36,6 @@ namespace mud
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::ToolContext>();
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::ToolOption>();
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::ViewerController>();
-    export_ template <> MUD_EDIT_EXPORT Type& type<mud::Viewer>();
-    export_ template <> MUD_EDIT_EXPORT Type& type<mud::SpaceSheet>();
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::SceneViewer>();
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::TransformAction>();
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::ViewAction>();
@@ -63,4 +61,6 @@ namespace mud
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::PlaceBrush>();
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::ScriptedBrush>();
     export_ template <> MUD_EDIT_EXPORT Type& type<mud::CopyAction>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::Viewer>();
+    export_ template <> MUD_EDIT_EXPORT Type& type<mud::SpaceSheet>();
 }
