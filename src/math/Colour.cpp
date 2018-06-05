@@ -12,25 +12,12 @@
 module mud.math;
 #else
 #include <math/Colour.h>
+#include <math/Math.h>
+#include <math/Clamp.h>
 #endif
-
-template<class T>
-constexpr const T& clamp(const T& v, const T& lo, const T& hi)
-{
-	return clamp(v, lo, hi, std::less<>());
-}
-
-template<class T, class Compare>
-constexpr const T& clamp(const T& v, const T& lo, const T& hi, Compare comp)
-{
-	return comp(v, lo) ? lo : comp(hi, v) ? hi : v;
-}
 
 namespace mud
 {
-	using std::max;
-	using std::min;
-
 	Colour Colour::Black(0.f, 0.f, 0.f);
 	Colour Colour::AlphaBlack(0.f, 0.f, 0.f, 0.5f);
 	Colour Colour::Red(1.f, 0.f, 0.f);
