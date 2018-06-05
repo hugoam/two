@@ -4,13 +4,15 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Array.h>
+#endif
 #include <geom/Generated/Forward.h>
 #include <geom/Shapes.h>
 
 namespace mud
 {
-	export_ struct _refl_ MUD_MATH_EXPORT Aabb : public Cube
+	export_ struct _refl_ MUD_GEOM_EXPORT Aabb : public Cube
 	{
 	public:
 		_constr_ Aabb();
@@ -39,6 +41,6 @@ namespace mud
 		return Aabb(min + extents, extents);
 	}
 
-	MUD_MATH_EXPORT Aabb face_aabb(const vec3* vertices);
-	MUD_MATH_EXPORT Aabb face_aabb(const Face3& face);
+	MUD_GEOM_EXPORT Aabb face_aabb(const vec3* vertices);
+	MUD_GEOM_EXPORT Aabb face_aabb(const Face3& face);
 }

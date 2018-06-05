@@ -22,7 +22,7 @@
 #define MATH_fE 2.71828174591064453125f
 #define MATH_dE 2.718281828459045090795598298427648842334747314453125
 
-#define MUD_VEC_FUN MUD_MATH_EXPORT
+#define MUD_VEC_FUN export_ MUD_MATH_EXPORT
 
 namespace mud
 {
@@ -375,7 +375,7 @@ namespace mud
 //$pycgen-end
 
 	template <class T> inline typename T::type* value_ptr(T& v) { return &v[0]; }
-	template <class T> inline typename const T::type* value_ptr(const T& v) { return &v.f[0]; }
+	template <class T> inline const typename T::type* value_ptr(const T& v) { return &v.f[0]; }
 
 	// Experimental swizzling
 	template <typename T> inline typename T::type2 xy(const T& v)

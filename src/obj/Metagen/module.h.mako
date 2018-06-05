@@ -1,11 +1,13 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/System/System.h>
 
 % for m in module.dependencies :
 #include <${ m.subdir }/Generated/Module.h>
 % endfor
+#endif
         
 #include <${ module.subdir }/Generated/Forward.h>
 #include <${ module.subdir }/Generated/Types.h>

@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Ref.h>
+#endif
 #include <uio/Generated/Forward.h>
 
 #ifndef MUD_CPP_20

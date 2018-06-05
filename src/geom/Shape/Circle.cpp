@@ -2,13 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
 import mud.math;
@@ -37,7 +31,7 @@ namespace mud
 	{
 		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
 
-		float increment = 2 * float(M_PI) / subdiv;
+		float increment = 2 * c_pi / subdiv;
 		float angle = 0.0f;
 
 		for(uint16_t i = 0; i < subdiv; i++)
@@ -148,8 +142,8 @@ namespace mud
 		uint16_t sides_subdiv = sides + 1;
 		uint16_t rings_subdiv = rings + 1;
 
-		float vertical_delta = float(M_PI) * 2.0f / float(rings);
-		float horizontal_delta = float(M_PI) * 2.0f / float(sides);
+		float vertical_delta = c_pi * 2.0f / float(rings);
+		float horizontal_delta = c_pi * 2.0f / float(sides);
 
 		for(uint16_t v = 0; v < sides_subdiv; v++)
 			for(uint16_t h = 0; h < rings_subdiv; h++)

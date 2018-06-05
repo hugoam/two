@@ -108,7 +108,7 @@ namespace mud
 	inline typename enable_if<is_object_pointer<T>::value, Var>::type
 		make_var(U&& value) { return Ref(value); }
 
-	template <class T>
+	export_ template <class T>
 	inline Var var(T&& value) { return make_var<T>(std::forward<T>(value)); }
 
 	export_ template <>

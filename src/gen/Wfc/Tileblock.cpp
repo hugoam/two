@@ -2,13 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.gen;
@@ -62,7 +56,7 @@ namespace mud
 		for(Tile& tile : m_tileset.m_tiles_flip)
 		{
 			Model* model = gfx_system.models().file((string(m_tileset.m_name) + "/" + tile.m_name).c_str());
-			quat rotation = angle_axis(tile.m_profile * float(M_PI) / 2.f, Y3);
+			quat rotation = angle_axis(tile.m_profile * c_pi / 2.f, Y3);
 			m_tile_models.push_back({ model, rotation });
 		}
 	}
@@ -298,7 +292,7 @@ namespace mud
 			for(Tile& tile : tileset.m_tiles_flip)
 			{
 				TileModel& tile_model = tileblock.m_tile_models[tile.m_index];
-				state.m_items.push_back({ tile_model.m_model, Zero3, rotate(tile_model.m_rotation, float(M_PI) / 4.f, Y3), Unit3 });
+				state.m_items.push_back({ tile_model.m_model, Zero3, rotate(tile_model.m_rotation, c_pi / 4.f, Y3), Unit3 });
 				if(tile_model.m_model && state.m_item_radius == 0.f)
 					state.m_item_radius = tile_model.m_model->m_radius;
 			}
@@ -316,7 +310,7 @@ namespace mud
 				{
 					Tile& tile = tileblock.m_tileset.m_tiles_flip[t];
 					TileModel& tile_model = tileblock.m_tile_models[tile.m_index];
-					state.m_items.push_back({ tile_model.m_model, Zero3, rotate(tile_model.m_rotation, float(M_PI) / 4.f, Y3), Unit3 });
+					state.m_items.push_back({ tile_model.m_model, Zero3, rotate(tile_model.m_rotation, c_pi / 4.f, Y3), Unit3 });
 					if(tile_model.m_model && state.m_item_radius == 0.f)
 						state.m_item_radius = tile_model.m_model->m_radius;
 				}

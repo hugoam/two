@@ -1,11 +1,13 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/System/System.h>
 
 #include <obj/Generated/Module.h>
 #include <lang/Generated/Module.h>
 #include <ui/Generated/Module.h>
+#endif
         
 #include <uio/Generated/Forward.h>
 #include <uio/Generated/Types.h>

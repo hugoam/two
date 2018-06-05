@@ -70,7 +70,7 @@ end
 project "mud_bgfx"
 	kind "SharedLib"
     
-    mud_module("bgfx", MUD_SRC_DIR, "bgfx",  "MUD_BGFX")
+    mud_module(false, "mud", "bgfx", MUD_SRC_DIR, "bgfx")
     
     mud_ctx_backend()
     mud_ui_backend()

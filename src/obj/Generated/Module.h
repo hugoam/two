@@ -1,8 +1,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/System/System.h>
 
+#endif
         
 #include <obj/Generated/Forward.h>
 #include <obj/Generated/Types.h>
@@ -12,6 +14,7 @@
 #include <obj/Cls.h>
 #include <obj/Complex.h>
 #include <obj/Config.h>
+#include <obj/Cpp20.h>
 #include <obj/EnumArray.h>
 #include <obj/Generic.h>
 #include <obj/Indexer.h>

@@ -41,7 +41,7 @@ void light_grid(Gnode& parent, array_2d<LightInstance> shape_grid, bool moving, 
 
 			float height = moving ? sinf(g_time + float(y + x) * 0.21f) * 5.f : 5.f;
 
-			Gnode& light_node = gfx::node(parent, {}, center + vec3{ x * spacing, height, y * spacing }, angleAxis(bx::kPiHalf, X3));
+			Gnode& light_node = gfx::node(parent, {}, center + vec3{ x * spacing, height, y * spacing }, angleAxis(c_pi / 2.f, X3));
 			Light& light = gfx::light(light_node, light_type, false, light_item.colour, range, attenuation);
 			light.m_spot_attenuation = spot_attenuation;
 			light.m_spot_angle = spot_angle;

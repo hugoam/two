@@ -4,10 +4,12 @@
 
 #pragma once
 
-#include <ui/Generated/Forward.h>
+#ifndef MUD_MODULES
+#include <math/Vec.h>
 #include <ctx/KeyCode.h>
 #include <ctx/InputDispatcher.h>
-#include <math/Vec.h>
+#endif
+#include <ui/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <map>

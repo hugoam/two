@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Colour.h>
+#endif
 #include <geom/Generated/Forward.h>
 
 namespace mud
@@ -20,7 +22,7 @@ namespace mud
 		Highest
 	};
 
-	export_ struct _refl_ MUD_MATH_EXPORT Symbol
+	export_ struct _refl_ MUD_GEOM_EXPORT Symbol
 	{
 	public:
 		_constr_ Symbol(Colour outline = Colour::White, Colour fill = Colour::None, bool overlay = false, bool double_sided = false, SymbolDetail detail = SymbolDetail::Medium);

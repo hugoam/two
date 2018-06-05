@@ -4,10 +4,12 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Strung.h>
+#include <ui/Structs/Widget.h>
+#endif
 #include <uio/Generated/Forward.h>
 #include <uio/Unode.h>
-#include <ui/Structs/Widget.h>
 
 namespace mud
 {

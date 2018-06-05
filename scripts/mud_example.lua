@@ -9,7 +9,7 @@ if _OPTIONS["renderer-bgfx"] then
             path.join(MUD_DIR, "example"),
         }
         
-        mud_module("example", MUD_DIR, "example", "_EXAMPLE")
+        mud_module(false, "mud", "example", MUD_DIR, "example") --, "_EXAMPLE")
 
         defines { "_00_UI_LIB", "_00_TUTORIAL_LIB", "_15_SCRIPT_LIB" }
         
@@ -34,10 +34,10 @@ function example_project(name, gfx, ...)
     project(name)
         kind "ConsoleApp"
 
-        mud_module(name, path.join(MUD_DIR, "example"), name, "_" .. name:upper())
+        mud_module(false, "", name, path.join(MUD_DIR, "example"), name, "_" .. name:upper())
         
 		for _, depname in ipairs({...}) do
-            mud_module(depname, path.join(MUD_DIR, "example"), depname, "_" .. depname:upper())
+            mud_module(false, "", depname, path.join(MUD_DIR, "example"), depname, "_" .. depname:upper())
             
             configuration { "asmjs" }
                 linkoptions {

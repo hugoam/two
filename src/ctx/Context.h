@@ -4,10 +4,12 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/NonCopy.h>
 #include <obj/Unique.h>
 #include <obj/Strung.h>
 #include <math/Vec.h>
+#endif
 #include <ctx/Generated/Forward.h>
 
 namespace mud

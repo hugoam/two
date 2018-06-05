@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Strung.h>
 #include <math/Vec.h>
+#endif
 #include <ui/Generated/Forward.h>
 
 namespace mud

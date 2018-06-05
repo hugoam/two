@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <gfx/Renderer.h>
 #include <gfx/Filter.h>
+#endif
 #include <gfx-pbr/Generated/Forward.h>
 
 #ifndef MUD_CPP_20

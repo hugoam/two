@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
+#endif
 #include <gfx-pbr/Generated/Forward.h>
 
 #ifndef MUD_GENERATOR_SKIP_INCLUDES

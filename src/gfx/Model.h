@@ -4,6 +4,7 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/NonCopy.h>
 #include <obj/Unique.h>
 #include <obj/Array.h>
@@ -11,6 +12,7 @@
 #include <math/Colour.h>
 #include <math/Vec.h>
 #include <geom/Aabb.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Node3.h>
 

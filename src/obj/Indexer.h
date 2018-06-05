@@ -47,7 +47,7 @@ namespace mud
 	export_ class _refl_ MUD_OBJ_EXPORT Index : public Global<Index>, public NonCopy
 	{
 	public:
-		Index() : m_indexers(MUD_MAX_TYPES) {}
+		Index() : m_indexers(c_max_types) {}
 
 		_meth_ Indexer& indexer(Type& type)
 		{

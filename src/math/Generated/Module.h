@@ -1,9 +1,11 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/System/System.h>
 
 #include <obj/Generated/Module.h>
+#endif
         
 #include <math/Generated/Forward.h>
 #include <math/Generated/Types.h>

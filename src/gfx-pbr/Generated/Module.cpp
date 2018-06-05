@@ -1,19 +1,13 @@
-#ifdef MUD_CPP_20
-#include <cassert>
-#include <cstdint>
-#include <climits>
-#include <cfloat>
-import std.core;
-import std.memory;
-import std.threading;
-import std.regex;
-#endif
+#include <obj/Cpp20.h>
 
+#ifdef MUD_MODULES
+module mud.gfxpbr;
+#else
 #include <gfx-pbr/Generated/Module.h>
+#endif
 
 #ifdef MUD_GFX_PBR_REFLECT
 #include <gfx-pbr/Generated/Convert.h>
-
 #define MUD_GFX_PBR_REFLECTION_IMPL
 #include <gfx-pbr/Generated/Meta.h>
 #endif

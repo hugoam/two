@@ -14,7 +14,7 @@ function mud_ui_backend()
     }
         
     if _OPTIONS["vg-vg"] then
-        mud_module("ui-vg", MUD_SRC_DIR, "ui-vg", "MUD_UI_VG")
+        mud_module(false, "mud", "ui-vg", MUD_SRC_DIR, "ui-vg")
         
         files {
             path.join(MUD_3RDPARTY_DIR, "vg-renderer",  "src/**.h"),
@@ -32,8 +32,8 @@ function mud_ui_backend()
     end
         
     if _OPTIONS["vg-nanovg"] then
-        mud_module("ui-nanovg",         MUD_SRC_DIR, "ui-nanovg",       "MUD_UI_NANOVG")
-        mud_module("ui-nanovg-bgfx",    MUD_SRC_DIR, "ui-nanovg-bgfx",  "MUD_UI_NANOVG_BGFX")
+        mud_module(false, "mud", "ui-nanovg",      MUD_SRC_DIR, "ui-nanovg")
+        mud_module(false, "mud", "ui-nanovg-bgfx", MUD_SRC_DIR, "ui-nanovg-bgfx")
         
         files {
             path.join(MUD_NANOVG_DIR, "src/nanovg.c"),

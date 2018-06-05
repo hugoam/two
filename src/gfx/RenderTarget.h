@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Array.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Viewport.h>
 

@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Util/Timer.h>
+#endif
 #include <ui/Generated/Forward.h>
 #include <ui/Sheet.h>
 

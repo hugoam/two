@@ -11,7 +11,7 @@ using namespace mud;
 
 struct ShapeInstance;
 
-export class _refl_ GameObject
+export_ class _refl_ GameObject
 {
 public:
 	GameObject(const ShapeInstance* shape, Material* material, Colour colour);

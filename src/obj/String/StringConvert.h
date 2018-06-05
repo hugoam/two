@@ -16,42 +16,46 @@
 
 namespace mud
 {
+	using uchar = unsigned char;
+	using ushort = unsigned short;
+	using uint = unsigned int;
+
 	template <typename T, typename = int>
 	struct is_string_convertible : std::false_type { };
 
 	template <typename T>
 	struct is_string_convertible <T, decltype(std::to_string(std::declval<T>()), 0)> : std::true_type { };
 
-	template <class T>
+	export_ template <class T>
 	inline void string_to_type(const string& str, T& val)
 	{
 		std::stringstream ss(str);
 		ss >> val;
 	}
 
-	template <> inline void string_to_type(const string& str, bool& val) { val = std::stoi(str) != 0; } //str == "true" ? true : false; }
+	export_ template <> inline void string_to_type(const string& str, bool& val) { val = std::stoi(str) != 0; } //str == "true" ? true : false; }
 
-	template <> inline void string_to_type(const string& str, float& val) { val = std::stof(str); }
-	template <> inline void string_to_type(const string& str, double& val) { val = std::stod(str); }
-	template <> inline void string_to_type(const string& str, char& val) { val = char(std::stoi(str)); }
-	template <> inline void string_to_type(const string& str, short& val) { val = short(std::stoi(str)); }
-	template <> inline void string_to_type(const string& str, int& val) { val = std::stoi(str); }
-	template <> inline void string_to_type(const string& str, long& val) { val = std::stoi(str); }
-	template <> inline void string_to_type(const string& str, long long& val) { val = std::stoi(str); }
-	template <> inline void string_to_type(const string& str, unsigned char& val) { val = unsigned char(std::stoi(str)); }
-	template <> inline void string_to_type(const string& str, unsigned short& val) { val = unsigned short(std::stoi(str)); }
-	template <> inline void string_to_type(const string& str, unsigned int& val) { val = std::stoi(str); }
-	template <> inline void string_to_type(const string& str, unsigned long& val) { val = std::stoi(str); }
-	template <> inline void string_to_type(const string& str, unsigned long long& val) { val = std::stoi(str); }
+	export_ template <> inline void string_to_type(const string& str, float& val) { val = std::stof(str); }
+	export_ template <> inline void string_to_type(const string& str, double& val) { val = std::stod(str); }
+	export_ template <> inline void string_to_type(const string& str, char& val) { val = char(std::stoi(str)); }
+	export_ template <> inline void string_to_type(const string& str, short& val) { val = short(std::stoi(str)); }
+	export_ template <> inline void string_to_type(const string& str, int& val) { val = std::stoi(str); }
+	export_ template <> inline void string_to_type(const string& str, long& val) { val = std::stoi(str); }
+	export_ template <> inline void string_to_type(const string& str, long long& val) { val = std::stoi(str); }
+	export_ template <> inline void string_to_type(const string& str, unsigned char& val) { val = uchar(std::stoi(str)); }
+	export_ template <> inline void string_to_type(const string& str, unsigned short& val) { val = ushort(std::stoi(str)); }
+	export_ template <> inline void string_to_type(const string& str, unsigned int& val) { val = std::stoi(str); }
+	export_ template <> inline void string_to_type(const string& str, unsigned long& val) { val = std::stoi(str); }
+	export_ template <> inline void string_to_type(const string& str, unsigned long long& val) { val = std::stoi(str); }
 
-	template <class T>
+	export_ template <class T>
 	inline typename std::enable_if<is_string_convertible<T>::value, void>::type
 		type_to_string(const T& val, string& str)
 	{
 		str = std::to_string(val);
 	}
 
-	template <class T>
+	export_ template <class T>
 	inline typename std::enable_if<!is_string_convertible<T>::value, void>::type
 		type_to_string(const T& val, string& str)
 	{
@@ -61,7 +65,7 @@ namespace mud
 	}
 
 	// Vector - string conversion
-	template <class T>
+	export_ template <class T>
 	inline void vector_to_string(const T& val, string& str)
 	{
 		for(const typename T::value_type& v : val)
@@ -73,7 +77,7 @@ namespace mud
 			str.pop_back();
 	}
 
-	template <class T>
+	export_ template <class T>
 	inline void string_to_vector(const string& str, T& vec)
 	{
 		auto first = str.begin();
@@ -90,7 +94,7 @@ namespace mud
 		}
 	}
 
-	template <class T, size_t size>
+	export_ template <class T, size_t size>
 	inline void fixed_vector_to_string(const T& val, string& str)
 	{
 		for(size_t i = 0; i < size; ++i)
@@ -101,7 +105,7 @@ namespace mud
 		str.pop_back();
 	}
 
-	template <class Vec, class T>
+	export_ template <class Vec, class T>
 	inline void string_to_fixed_vector(const string& str, Vec& vec)
 	{
 		auto first = str.begin();
@@ -141,7 +145,7 @@ namespace mud
 		static inline void from(const string& str, std::array<T, s>& vec) { string_to_fixed_vector<std::array<T, s>, T>(str, vec); }
 	};
 
-	template <class T_Enum>
+	export_ template <class T_Enum>
 	inline void flags_from_string(const string& str, T_Enum& value)
 	{
 		std::vector<string> names = split_string(to_upper(str), "|");
@@ -149,10 +153,10 @@ namespace mud
 			value = static_cast<T_Enum>(value | from_string<T_Enum>(name));
 	}
 
-	template <class T_Enum>
+	export_ template <class T_Enum>
 	inline T_Enum flags_from_string(const string& str) { T_Enum value = T_Enum(0); flags_from_string(str, value); return value; }
 
-	template <class T_Enum, size_t Count>
+	export_ template <class T_Enum, size_t Count>
 	inline void flags_to_string(const T_Enum& value, string& str)
 	{
 		for(size_t shift = 0; shift < Count; ++shift)
@@ -160,12 +164,12 @@ namespace mud
 				str += (str.empty() ? "" : "|") + to_string<T_Enum>(static_cast<T_Enum>((1 << shift)));
 	}
 
-	template <class T_Enum, size_t Count>
+	export_ template <class T_Enum, size_t Count>
 	inline string flags_to_string(const T_Enum& value) { string str; flags_to_string<T_Enum, Count>(value, str); return str; }
 
-	template <class T>
+	export_ template <class T>
 	inline void from_string(const string& str, T& val) { StringConverter<T>::from(str, val); }
 
-	template <class T>
+	export_ template <class T>
 	inline void to_string(const T& val, string& str) { StringConverter<T>::to(val, str); }
 }

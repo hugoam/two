@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Reflect/Injector.h>
+#endif
 #include <uio/Generated/Forward.h>
 #include <uio/Unode.h>
 

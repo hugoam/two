@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/EnumArray.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Renderer.h>
 

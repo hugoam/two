@@ -4,9 +4,11 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <gfx/Renderer.h>
 #include <gfx/Program.h>
 #include <gfx/Filter.h>
+#endif
 
 namespace mud
 {

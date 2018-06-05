@@ -8,14 +8,14 @@
 
 using namespace mud;
 
-export enum class _refl_ ShapeType : unsigned int
+export_ enum class _refl_ ShapeType : unsigned int
 {
 	Circle,
 	Sphere,
 	Cube
 };
 
-export class _refl_ MyObject
+export_ class _refl_ MyObject
 {
 public:
 	_constr_ MyObject(ShapeType shape, Colour colour);

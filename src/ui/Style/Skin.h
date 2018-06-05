@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Colour.h>
 #include <math/Vec.h>
+#endif
 #include <ui/Frame/Dim.h>
 #include <ui/Style/9Sprite.h>
 #include <ui/Style/Paint.h>

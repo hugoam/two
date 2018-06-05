@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Var.h>
+#endif
 #include <ui/Generated/Forward.h>
 #include <ui/Style/Style.h>
 

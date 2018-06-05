@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Serial/Serial.h>
+#endif
 #include <math/Colour.h>
 #include <math/Vec.h>
 
@@ -15,19 +17,15 @@ namespace glm
 }
 #endif
 
-#ifdef MUD_NO_GLM
 namespace mud
-#else
-namespace glm
-#endif
 {
-	MUD_MATH_EXPORT void from_json(const json& j, vec3& vec);
-	MUD_MATH_EXPORT void from_json(const json& j, quat& quat);
-	MUD_MATH_EXPORT void from_json(const json& j, mat4& mat);
+	export_ MUD_MATH_EXPORT void from_json(const json& j, vec3& vec);
+	export_ MUD_MATH_EXPORT void from_json(const json& j, quat& quat);
+	export_ MUD_MATH_EXPORT void from_json(const json& j, mat4& mat);
 }
 
 namespace mud
 {
-	MUD_MATH_EXPORT void from_json(const json& j, Colour& col);
-	MUD_MATH_EXPORT void to_json(const Colour& col, json& json);
+	export_ MUD_MATH_EXPORT void from_json(const json& j, Colour& col);
+	export_ MUD_MATH_EXPORT void to_json(const Colour& col, json& json);
 }

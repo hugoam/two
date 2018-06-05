@@ -4,10 +4,12 @@
 
 #pragma once
 
-#include <edit/Generated/Forward.h>
-#include <gfx/Particles.h>
+#ifndef MUD_MODULES
 #include <ui/Ui.h>
 #include <ui/Input.h>
+#include <gfx/Particles.h>
+#endif
+#include <edit/Generated/Forward.h>
 
 namespace mud
 {

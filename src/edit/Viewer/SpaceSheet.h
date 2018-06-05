@@ -4,8 +4,10 @@
 
 #pragma once
 
-#include <edit/Generated/Forward.h>
+#ifndef MUD_MODULES
 #include <ui/Structs/RootSheet.h>
+#endif
+#include <edit/Generated/Forward.h>
 
 namespace mud
 {

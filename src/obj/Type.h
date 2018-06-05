@@ -11,7 +11,7 @@
 #include <cstddef>
 #endif
 
-export_ namespace mud
+namespace mud // export_ namespace mud// @todo evaluate export at namespace level ?
 {
 	using Id = unsigned int;
 	using cstring = const char*;

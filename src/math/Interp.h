@@ -4,12 +4,14 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Var.h>
 #include <obj/Util/Global.h>
 #include <obj/Util/Dispatch.h>
 #include <obj/Reflect/Meta.h>
-#include <math/VecOps.h>
+#endif
 #include <math/Generated/Forward.h>
+#include <math/VecOps.h>
 
 namespace mud
 {

@@ -2,13 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.ui;
@@ -115,7 +109,7 @@ namespace ui
 		vec2 coord = { event.m_relative.x, self.m_frame.m_size.y - event.m_relative.y };
 		vec2 center = self.m_frame.m_size * 0.5f;
 		float angle = oriented_angle(normalize(coord - center), { 1.f, 0.f });
-		hsla.m_h = angle / (M_PI * 2.f);
+		hsla.m_h = angle / (c_pi * 2.f);
 	}
 
 	bool color_wheel(Widget& parent, Colour& hsla)

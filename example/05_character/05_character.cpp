@@ -120,8 +120,8 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if(!once)
 	{
-		orbit.m_yaw = M_PI;
-		orbit.m_pitch = - M_PI / 4.f;
+		orbit.m_yaw = c_pi;
+		orbit.m_pitch = - c_pi / 4.f;
 		orbit.m_distance = 4.f;
 		orbit.m_position = Y3 * 1.f;
 

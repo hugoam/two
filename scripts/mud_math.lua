@@ -1,26 +1,18 @@
 -- mud library
 -- mud math module
 
-project "mud_math"
-	kind "SharedLib"
-	--kind "StaticLib"
+function mud_math(as_project)
+    mud_module(as_project, "mud", "math", MUD_SRC_DIR, "math", { "obj" })
     
-	includedirs {
-		path.join(MUD_SRC_DIR),
+    includedirs {
         path.join(MUD_3RDPARTY_DIR, "glm"),
-        path.join(MUD_3RDPARTY_DIR, "mikkt"),
-	}
-
-	files {
-        path.join(MUD_MATH_DIR, "**.h"),
-		path.join(MUD_MATH_DIR, "**.cpp"),
-        path.join(MUD_3RDPARTY_DIR, "mikkt", "mikktspace.c"),
-	}
-
-    defines { "MUD_MATH_LIB" }
+        path.join(MUD_3RDPARTY_DIR, "json11"),
+    }
     
-    links {
-		"mud_obj",
-	}
-    
-
+    --local name = project().name
+    --usage(name)
+    --    includedirs {
+    --        path.join(MUD_3RDPARTY_DIR, "glm"),
+    --    }
+    --usage()
+end

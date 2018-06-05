@@ -107,6 +107,6 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockResolve>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockSky>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ParticleEmitter>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
 }

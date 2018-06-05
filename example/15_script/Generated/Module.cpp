@@ -1,19 +1,13 @@
-#ifdef MUD_CPP_20
-#include <cassert>
-#include <cstdint>
-#include <climits>
-#include <cfloat>
-import std.core;
-import std.memory;
-import std.threading;
-import std.regex;
-#endif
+#include <obj/Cpp20.h>
 
+#ifdef MUD_MODULES
+module .ex_15_script;
+#else
 #include <15_script/Generated/Module.h>
+#endif
 
 #ifdef _15_SCRIPT_REFLECT
 #include <15_script/Generated/Convert.h>
-
 #define _15_SCRIPT_REFLECTION_IMPL
 #include <15_script/Generated/Meta.h>
 #endif

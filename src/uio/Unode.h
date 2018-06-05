@@ -4,11 +4,13 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Ref.h>
 #include <obj/Util/Dispatch.h>
 #include <obj/Util/Global.h>
-#include <uio/Generated/Forward.h>
 #include <ui/Ui.h>
+#endif
+#include <uio/Generated/Forward.h>
 
 namespace mud
 {

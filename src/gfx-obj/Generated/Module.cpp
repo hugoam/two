@@ -1,19 +1,13 @@
-#ifdef MUD_CPP_20
-#include <cassert>
-#include <cstdint>
-#include <climits>
-#include <cfloat>
-import std.core;
-import std.memory;
-import std.threading;
-import std.regex;
-#endif
+#include <obj/Cpp20.h>
 
+#ifdef MUD_MODULES
+module mud.gfxobj;
+#else
 #include <gfx-obj/Generated/Module.h>
+#endif
 
 #ifdef MUD_GFX_OBJ_REFLECT
 #include <gfx-obj/Generated/Convert.h>
-
 #define MUD_GFX_OBJ_REFLECTION_IMPL
 #include <gfx-obj/Generated/Meta.h>
 #endif

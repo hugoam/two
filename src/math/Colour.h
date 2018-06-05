@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <obj/Generated/Forward.h>
+#include <math/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <cmath>
@@ -14,7 +14,7 @@
 
 namespace mud
 {
-	export_ struct _refl_ _array_  MUD_OBJ_EXPORT Colour
+	export_ struct _refl_ _array_  MUD_MATH_EXPORT Colour
 	{
 		_constr_ Colour(float r = 0.f, float g = 0.f, float b = 0.f, float a = 1.f);
 
@@ -65,17 +65,17 @@ namespace mud
 		_attr_ static Colour None;
 	};
 
-	MUD_OBJ_EXPORT _func_ uint32_t to_rgba(const Colour& colour);
-	MUD_OBJ_EXPORT _func_ uint32_t to_abgr(const Colour& colour);
-	MUD_OBJ_EXPORT _func_ Colour from_rgba(uint32_t colour);
-	MUD_OBJ_EXPORT _func_ Colour from_abgr(uint32_t colour);
-	MUD_OBJ_EXPORT _func_ Colour to_linear(const Colour& colour);
+	MUD_MATH_EXPORT _func_ uint32_t to_rgba(const Colour& colour);
+	MUD_MATH_EXPORT _func_ uint32_t to_abgr(const Colour& colour);
+	MUD_MATH_EXPORT _func_ Colour from_rgba(uint32_t colour);
+	MUD_MATH_EXPORT _func_ Colour from_abgr(uint32_t colour);
+	MUD_MATH_EXPORT _func_ Colour to_linear(const Colour& colour);
 
-	MUD_OBJ_EXPORT _func_ Colour hsl_to_rgb(float h, float s, float l);
-	MUD_OBJ_EXPORT _func_ Colour rgb_to_hsl(float r, float g, float b);
+	MUD_MATH_EXPORT _func_ Colour hsl_to_rgb(float h, float s, float l);
+	MUD_MATH_EXPORT _func_ Colour rgb_to_hsl(float r, float g, float b);
 
-	MUD_OBJ_EXPORT _func_ Colour rgba_to_hsla(const Colour& colour);
-	MUD_OBJ_EXPORT _func_ Colour hsla_to_rgba(const Colour& colour);
+	MUD_MATH_EXPORT _func_ Colour rgba_to_hsla(const Colour& colour);
+	MUD_MATH_EXPORT _func_ Colour hsla_to_rgba(const Colour& colour);
 
 	inline Colour to_colour(uint8_t r, uint8_t g, uint8_t b) { return Colour(float(r) / 255.f, float(g) / 255.f, float(b) / 255.f); }
 	inline Colour to_colour(uint8_t r, uint8_t g, uint8_t b, uint8_t a) { return Colour(float(r) / 255.f, float(g) / 255.f, float(b) / 255.f, float(a) / 255.f); }

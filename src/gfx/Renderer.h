@@ -2,10 +2,12 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Cls.h>
 #include <obj/Array.h>
 #include <obj/NonCopy.h>
 #include <obj/Unique.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Shader.h>
 

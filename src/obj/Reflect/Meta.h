@@ -76,23 +76,23 @@ namespace mud
 	export_ inline Enum& enu(const Ref& ref) { return *ref.type().m_enum; }
 	export_ inline Enum& enu(const Var& var) { return *var.m_ref.m_type->m_enum; }
 
-	export_ void copy_construct(Ref dest, Ref source);
+	export_ MUD_OBJ_EXPORT void copy_construct(Ref dest, Ref source);
 
 	export_ inline Var construct(Type& type)
 	{
 		return type.m_meta->m_empty_var();
 	}
 
-	export_ void assign(Ref first, Ref second);
-	export_ void assign_pointer(Ref first, Ref second);
-	export_ bool compare(Ref first, Ref second);
+	export_ MUD_OBJ_EXPORT void assign(Ref first, Ref second);
+	export_ MUD_OBJ_EXPORT void assign_pointer(Ref first, Ref second);
+	export_ MUD_OBJ_EXPORT bool compare(Ref first, Ref second);
 
-	export_ bool is_related(Type& input, Type& output);
+	export_ MUD_OBJ_EXPORT bool is_related(Type& input, Type& output);
 
-	export_ bool convert(Var& input, Type& output, Var& result, bool ref = false);
-	export_ Var convert(Ref input, Type& output);
-	export_ void convert(Ref input, Type& output, Var& result);
+	export_ MUD_OBJ_EXPORT bool convert(Var& input, Type& output, Var& result, bool ref = false);
+	export_ MUD_OBJ_EXPORT Var convert(Ref input, Type& output);
+	export_ MUD_OBJ_EXPORT void convert(Ref input, Type& output, Var& result);
 
-	export_ bool can_convert(Type& input, Type& output);
-	export_ bool can_convert(Ref input, Type& output);
+	export_ MUD_OBJ_EXPORT bool can_convert(Type& input, Type& output);
+	export_ MUD_OBJ_EXPORT bool can_convert(Ref input, Type& output);
 }

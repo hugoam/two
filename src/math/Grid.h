@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Limits.h>
+#endif
 #include <math/Generated/Forward.h>
 #include <math/Vec.h>
 
@@ -208,15 +210,15 @@ namespace mud
 		std::array<Dim, 6> m_dims;
 	};
 
-	template <class T_Element>
-	export_ struct _refl_ _struct_ Grid : public Grided<std::vector<T_Element>>
+	export_ template <class T_Element>
+	struct _refl_ _struct_ Grid : public Grided<std::vector<T_Element>>
 	{
 		using Grided<std::vector<T_Element>>::Grided;
 	};
 
 
-	template <class T_Element>
-	export_ struct _refl_ _struct_ array_3d : public std::vector<T_Element>
+	export_ template <class T_Element>
+	struct _refl_ _struct_ array_3d : public std::vector<T_Element>
 	{
 	public:
 		typedef T_Element T;

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <math/Generated/Forward.h>
+#include <geom/Generated/Forward.h>
 #include <geom/Primitive.h>
 #include <geom/Shape.h>
 
@@ -14,7 +14,7 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_MATH_EXPORT Geometry : public Shape
+	export_ class _refl_ MUD_GEOM_EXPORT Geometry : public Shape
 	{
 	public:
 		_constr_ Geometry();
@@ -30,7 +30,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_MATH_EXPORT MeshPacker
+	export_ struct _refl_ MUD_GEOM_EXPORT MeshPacker
 	{
 		_constr_ MeshPacker();
 

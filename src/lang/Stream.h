@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Var.h>
 #include <obj/String/String.h>
+#endif
 #include <lang/Generated/Forward.h>
 
 #ifndef MUD_CPP_20

@@ -8,7 +8,7 @@
 
 namespace mud
 {
-	template <class T>
+	export_ template <class T>
 	class Global
 	{
 	public:
@@ -19,7 +19,7 @@ namespace mud
 	template <class T>
 	T Global<T>::instance;
 
-	template <class T>
+	export_ template <class T>
 	class LazyGlobal
 	{
 	public:

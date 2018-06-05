@@ -4,9 +4,12 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Unique.h>
 #include <obj/Array.h>
+#endif
 #include <gfx/Generated/Forward.h>
+#include <gfx/GfxSystem.h>
 
 #ifndef MUD_CPP_20
 #include <map>
@@ -15,8 +18,6 @@
 #include <functional>
 #include <fstream>
 #endif
-
-#include <gfx/GfxSystem.h>
 
 namespace mud
 {

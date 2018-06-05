@@ -6,20 +6,15 @@ def type_get_pt(c):
     return '&type<' + c.id + '>()'
 %>
 
-#ifdef MUD_CPP_20
-#include <cassert>
-#include <cstdint>
-#include <climits>
-#include <cfloat>
-import std.core;
-import std.memory;
-import std.threading;
-import std.regex;
-#endif
+#include <obj/Cpp20.h>
 
+#ifdef MUD_MODULES
+module ${ module.namespace }.${ module.name };
+#else
 #include <${ module.subdir }/Generated/Types.h>
 #include <${ module.subdir }/Generated/Module.h>
 #include <obj/Proto.h>
+#endif
 
 namespace mud
 {

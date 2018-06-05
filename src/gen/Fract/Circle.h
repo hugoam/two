@@ -1,7 +1,9 @@
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Grid.h>
 #include <geom/Shape.h>
+#endif
 #include <gen/Generated/Forward.h>
 
 #ifndef MUD_CPP_20

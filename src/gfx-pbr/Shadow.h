@@ -2,8 +2,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <gfx/Renderer.h>
 #include <gfx/Frustum.h>
+#endif
 #include <gfx-pbr/Generated/Forward.h>
 #include <gfx-pbr/Depth.h>
 #include <gfx-pbr/ShadowAtlas.h>

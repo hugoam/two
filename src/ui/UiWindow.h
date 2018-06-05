@@ -4,9 +4,11 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/NonCopy.h>
 #include <obj/Strung.h>
 #include <obj/Util/Timer.h>
+#endif
 #include <ui/Generated/Forward.h>
 #include <ui/ImageAtlas.h>
 

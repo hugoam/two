@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Array.h>
+#endif
 #include <geom/Generated/Forward.h>
 #include <geom/Shape.h>
 
@@ -15,7 +17,7 @@
 
 namespace mud
 {
-	export_ struct _refl_ MUD_MATH_EXPORT Polygon : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Polygon : public Shape
 	{
 	public:
 		_constr_ Polygon();
@@ -26,7 +28,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_MATH_EXPORT Box : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Box : public Shape
 	{
 	public:
 		_constr_ Box();
@@ -39,7 +41,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_MATH_EXPORT Points : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Points : public Shape
 	{
 	public:
 		_constr_ Points();
@@ -50,7 +52,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_MATH_EXPORT ConvexHull : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT ConvexHull : public Shape
 	{
 	public:
 		_constr_ ConvexHull();

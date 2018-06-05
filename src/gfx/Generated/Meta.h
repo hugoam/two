@@ -2,11 +2,13 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <gfx/Generated/Module.h>
 
 #include <obj/Any.h>
 #include <obj/Reflect/MetaDecl.h>
 #include <obj/System/System.h>
+#endif
 
 namespace mud
 {
@@ -2327,38 +2329,6 @@ namespace mud
     
     
         
-    // mud::RenderTarget
-    {
-        static Meta meta = { type<mud::RenderTarget>(), &namspc({ "mud" }), "RenderTarget", sizeof(mud::RenderTarget), TypeClass::Object };
-        static Class cls = { type<mud::RenderTarget>(),
-            // bases
-            { &type<mud::FrameBuffer>() },
-            { base_offset<mud::RenderTarget, mud::FrameBuffer>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::RenderTarget>();
-    }
-    
-    
-        
     // mud::ParticleEmitter
     {
         static Meta meta = { type<mud::ParticleEmitter>(), &namspc({ "mud" }), "ParticleEmitter", sizeof(mud::ParticleEmitter), TypeClass::Struct };
@@ -2388,6 +2358,38 @@ namespace mud
         
         
         meta_class<mud::ParticleEmitter>();
+    }
+    
+    
+        
+    // mud::RenderTarget
+    {
+        static Meta meta = { type<mud::RenderTarget>(), &namspc({ "mud" }), "RenderTarget", sizeof(mud::RenderTarget), TypeClass::Object };
+        static Class cls = { type<mud::RenderTarget>(),
+            // bases
+            { &type<mud::FrameBuffer>() },
+            { base_offset<mud::RenderTarget, mud::FrameBuffer>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::RenderTarget>();
     }
     
 
@@ -2471,8 +2473,8 @@ namespace mud
         m.m_types.push_back(&type<mud::BlockResolve>());
         m.m_types.push_back(&type<mud::BlockSky>());
         m.m_types.push_back(&type<mud::DrawBlock>());
-        m.m_types.push_back(&type<mud::RenderTarget>());
         m.m_types.push_back(&type<mud::ParticleEmitter>());
+        m.m_types.push_back(&type<mud::RenderTarget>());
     
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node(val<mud::Gnode>(args[0]), args[1], val<mud::vec3>(args[2]), val<mud::quat>(args[3]), val<mud::vec3>(args[4]))); };

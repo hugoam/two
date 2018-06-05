@@ -15,7 +15,7 @@
 
 namespace mud
 {
-	export_ class MUD_MATH_EXPORT IcoSphere
+	export_ class MUD_GEOM_EXPORT IcoSphere
 	{
 	public:
 		IcoSphere(int recursionLevel);

@@ -7,7 +7,6 @@
 #include <obj/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
-#include <atomic>
 #include <cstddef>
 #endif
 

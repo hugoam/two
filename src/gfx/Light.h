@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Colour.h>
 #include <math/Vec.h>
+#endif
 #include <gfx/Generated/Forward.h>
 
 namespace mud

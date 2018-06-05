@@ -4,13 +4,17 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Reflect/Class.h>
 #include <obj/Reflect/Injector.h>
 #include <obj/System/System.h>
+#endif
 #include <lang/Generated/Forward.h>
 #include <lang/VisualScript.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {

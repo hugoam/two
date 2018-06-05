@@ -7,7 +7,7 @@
 namespace mud
 {
 	//! Keyboard scan codes
-	enum KeyCode : unsigned int
+	export_ enum KeyCode : unsigned int
 	{
 		KC_UNASSIGNED  = 0x00,
 		KC_ESCAPE      = 0x01,

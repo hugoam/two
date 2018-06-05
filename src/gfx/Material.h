@@ -4,9 +4,11 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Strung.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Renderer.h>
 
@@ -83,8 +85,8 @@ namespace mud
 		All
 	};
 
-	template <class T_Param>
-	export_ struct _refl_ _struct_ MaterialParam
+	export_ template <class T_Param>
+	struct _refl_ _struct_ MaterialParam
 	{
 		MaterialParam() {}
 		MaterialParam(T_Param value, Texture* texture = nullptr, TextureChannel channel = TextureChannel::All) : m_value(value), m_texture(texture), m_channel(channel) {}

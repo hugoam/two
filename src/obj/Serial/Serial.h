@@ -14,12 +14,15 @@
 #include <map>
 #endif
 
+export_ namespace json11
+{}
+
 namespace json11
 {
 	export_ class MUD_OBJ_EXPORT Json;
 }
 
-using json = json11::Json;
+export_ using json = json11::Json;
 
 namespace mud
 {

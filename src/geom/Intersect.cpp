@@ -2,13 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
 import mud.math;
@@ -413,24 +407,6 @@ namespace mud
 		}
 
 		return face.m_vertices[0] + edge0 * s + edge1 * t;
-	}
-
-	Axis nearest_axis(const vec3& direction)
-	{
-		Axis axis = Axis::X;
-
-		float closest_dot = 0.f;
-		for(Axis a : { Axis::X, Axis::Y, Axis::Z })
-		{
-			float product = std::abs(dot(direction, to_vec3(a)));
-			if(a == Axis::X || product > closest_dot)
-			{
-				axis = a;
-				closest_dot = product;
-			}
-		}
-
-		return axis;
 	}
 
 	Aabb transform_aabb(const Aabb& source, const mat4& transform)

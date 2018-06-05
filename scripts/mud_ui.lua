@@ -1,33 +1,17 @@
 -- mud library
 -- mud ui module
 
-project "mud_ui"
-	kind "SharedLib"
-
-	includedirs {
-		path.join(MUD_SRC_DIR),
-        path.join(MUD_3RDPARTY_DIR, "glm"),
-		path.join(MUD_3RDPARTY_DIR, "stb"),
-		path.join(MUD_3RDPARTY_DIR, "rectpacking"),
-        path.join(MUD_3RDPARTY_DIR, "json11"),
-	}
-
-	files {
-        path.join(MUD_UI_DIR, "**.h"),
-        path.join(MUD_UI_DIR, "**.cpp"),
-		path.join(MUD_3RDPARTY_DIR, "rectpacking", "**.cpp"),
-	}
+function mud_ui(as_project)
+    mud_module(as_project, "mud", "ui", MUD_SRC_DIR, "ui", { "obj", "math", "ctx" })
     
-    removefiles {
-        path.join(MUD_UI_DIR, "Backend/**.h"),
-        path.join(MUD_UI_DIR, "Backend/**.cpp"),
+    includedirs {
+        path.join(MUD_3RDPARTY_DIR, "glm"),
+        path.join(MUD_3RDPARTY_DIR, "stb"),
+        path.join(MUD_3RDPARTY_DIR, "json11"),
     }
     
-    defines { "MUD_UI_LIB" }
-    
-    links {
-		"mud_obj",
-		"mud_math",
-		"mud_ctx",
-	}
-    
+    files {
+        path.join(MUD_SRC_DIR, "3rdparty", "stb_image.cpp"),
+        path.join(MUD_SRC_DIR, "3rdparty", "stb_rect_pack.cpp"),
+    }
+end

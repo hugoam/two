@@ -19,10 +19,19 @@ function mud_defines()
         defines { "_CRT_NO_VA_START_VALIDATION" }
         
         defines {
-            "MUD_CPP_20",
             "MUD_NO_GLM",
+            "MUD_CPP_20",
         }
         
+    configuration { "cpp-modules", "*-clang*" }
+        buildoptions {
+            "-fmodules-ts",
+        }
+        
+        defines {
+            "MUD_MODULES",
+        }
+    
     configuration { "windows", "not asmjs" }
         defines { "MUD_PLATFORM_WINDOWS" }
         
@@ -66,8 +75,24 @@ function mud_defines()
     configuration {}
 end
 
-function mud_module(name, root_path, subpath, preproc_name)
-    module_path = path.join(root_path, subpath)
+function mud_module(as_project, root, name, root_path, subpath, deps)
+    if as_project then 
+        project(root .. "_" .. name)
+        cxxmodule(root .. "." .. name)
+        kind "SharedLib"
+    
+        if deps then
+            for _, depname in ipairs(deps) do
+                links(root .. "_" .. depname)
+                uses(root .. "_" .. depname)
+                --links { root .. "_" .. depname }
+            end
+        end
+    end
+    
+    local module_path = path.join(root_path, subpath)
+    local clean_name = string.gsub(name, "-", "_")
+    local preproc_name = root:upper() .. "_" .. clean_name:upper()
     
     includedirs {
         root_path,
@@ -77,7 +102,6 @@ function mud_module(name, root_path, subpath, preproc_name)
         path.join(module_path, "**.h"),
         path.join(module_path, "**.cpp"),
     }
-    
     
     defines { preproc_name .. "_REFLECT" }
     defines { preproc_name .. "_LIB" }
@@ -97,10 +121,25 @@ function mud_module(name, root_path, subpath, preproc_name)
     mud_defines()
     
     configuration { "cpp-modules" }
+        defines { preproc_name .. "_EXPORT=" }
+    
+    configuration { "cpp-modules", "vs*" }
         files {
-            path.join(module_path, "Module.ixx"),
+            path.join(module_path, "Generated/Module.ixx"),
         }
             
+    configuration { "cpp-modules", "*-clang*" }
+        files {
+            path.join(module_path, "Generated/" .. root .. "." .. name .. ".cppm"),
+        }
+        
+        links {
+            "std_core",
+            "std_io",
+            "std_threading",
+            "std_regex",
+        }
+        
     configuration {}
 end
 
@@ -118,7 +157,7 @@ newaction {
     trigger     = "reflect",
     description = "Generate reflection",
     execute     = function()
-        os.execute(path.join(MUD_OBJ_DIR, "Metagen", "generator.py") .. " " .. table.concat(MODULES_PY, " "))
+        os.execute(path.join(MUD_DIR, "src/obj/Metagen", "generator.py") .. " " .. table.concat(MODULES_PY, " "))
     end
 }
 
@@ -133,6 +172,11 @@ newaction {
 newoption {
     trigger = "cpp-modules",
     description = "Use C++ experimental modules",
+}
+
+newoption {
+    trigger = "as-libs",
+    description = "Generate separate mud libraries",
 }
 
 newoption {
@@ -197,15 +241,6 @@ if not MUD_DIR then
     MUD_DIR = path.getabsolute("..")
 end
 MUD_SRC_DIR    = path.join(MUD_DIR, "src")
-MUD_OBJ_DIR    = path.join(MUD_SRC_DIR, "obj")
-MUD_MATH_DIR   = path.join(MUD_SRC_DIR, "math")
-MUD_SCRPT_DIR  = path.join(MUD_SRC_DIR, "lang")
-MUD_UTIL_DIR   = path.join(MUD_SRC_DIR, "util")
-MUD_DB_DIR     = path.join(MUD_SRC_DIR, "db")
-MUD_CTX_DIR    = path.join(MUD_SRC_DIR, "ctx")
-MUD_UI_DIR     = path.join(MUD_SRC_DIR, "ui")
-MUD_UIO_DIR    = path.join(MUD_SRC_DIR, "uio")
-MUD_GFX_DIR    = path.join(MUD_SRC_DIR, "gfx")
 
 MUD_3RDPARTY_DIR = path.join(MUD_DIR, "3rdparty")
 
@@ -214,6 +249,10 @@ BGFX_DIR = path.join(MUD_3RDPARTY_DIR, "bgfx")
 BIMG_DIR = path.join(MUD_3RDPARTY_DIR, "bimg")
 
 dofile("toolchain.lua")
+
+if _OPTIONS["cpp-modules"] then
+    _OPTIONS["as-libs"] = ""
+end
 
 if not _OPTIONS["renderer-gl"] and not _OPTIONS["renderer-bgfx"] then
     _OPTIONS["renderer-bgfx"] = ""

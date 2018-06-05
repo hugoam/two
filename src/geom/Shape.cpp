@@ -2,13 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
 import mud.obj;
@@ -265,7 +259,7 @@ namespace mud
 	inline vec3 distribute_sphere(float radius, float h = 2.f, float maxh = 1.f)
 	{
 		const float rand0 = random_scalar(0.f, 1.f) * h - maxh;
-		const float rand1 = random_scalar(0.f, 1.f) * M_PI * 2.f;
+		const float rand1 = random_scalar(0.f, 1.f) * c_pi * 2.f;
 		const float sqrtf1 = sqrt(1.0f - rand0 * rand0);
 
 		return vec3{ sqrtf1 * cos(rand1), sqrtf1 * sin(rand1), rand0 } * radius;
@@ -280,7 +274,7 @@ namespace mud
 
 	inline vec3 distribute_circle(float radius)
 	{
-		const float angle = random_scalar(0.f, 1.f) * M_PI * 2.f;
+		const float angle = random_scalar(0.f, 1.f) * c_pi * 2.f;
 		return vec3{ cos(angle), 0.0f, sin(angle) } * radius;
 	}
 

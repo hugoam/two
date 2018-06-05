@@ -4,9 +4,11 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Array.h>
 #include <math/VecOps.h>
 #include <geom/Geom.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Node3.h>
 

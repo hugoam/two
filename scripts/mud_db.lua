@@ -1,24 +1,14 @@
 -- mud library
 -- mud db module
 
-project "mud_db"
-	kind "SharedLib"
+function mud_db(as_project)
+    mud_module(as_project, "mud", "db", MUD_SRC_DIR, "db", { "obj", "util" })
 
-	includedirs {
-		path.join(MUD_SRC_DIR),
+    includedirs {
         path.join(MUD_3RDPARTY_DIR, "sqlite3"),
-	}
-
-	files {
-        path.join(MUD_DB_DIR, "**.h"),
-        path.join(MUD_DB_DIR, "**.cpp"),
+    }
+    
+    files {
         path.join(MUD_3RDPARTY_DIR, "sqlite3", "*.c"),
-	}
-                        
-    defines { "MUD_DB_LIB" }
-    
-    links {
-		"mud_obj",
-		"mud_util",
-	}
-    
+    }
+end

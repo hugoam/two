@@ -4,14 +4,16 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
 #include <math/Grid.h>
+#endif
 #include <geom/Generated/Forward.h>
 #include <geom/Shapes.h>
 
 namespace mud
 {
-	export_ class _refl_ MUD_MATH_EXPORT Distribution
+	export_ class _refl_ MUD_GEOM_EXPORT Distribution
 	{
 	public:
 		class Point
@@ -28,7 +30,7 @@ namespace mud
 		//_meth_ virtual bool addPoint(float radius, vec3& point) = 0;
 	};
 
-	export_ class _refl_ MUD_MATH_EXPORT Poisson : public Distribution
+	export_ class _refl_ MUD_GEOM_EXPORT Poisson : public Distribution
 	{
 	public:
 		_constr_ Poisson(vec2 size, float maxRadius);
@@ -66,5 +68,5 @@ namespace mud
 		Grid<std::vector<Point>> m_grid;
 	};
 
-	MUD_MATH_EXPORT _func_ std::vector<vec3> distribute_poisson(vec2 size, float radius);
+	MUD_GEOM_EXPORT _func_ std::vector<vec3> distribute_poisson(vec2 size, float radius);
 }

@@ -7,6 +7,7 @@
 		"obj/Cls.h",
 		"obj/Complex.h",
 		"obj/Config.h",
+		"obj/Cpp20.h",
 		"obj/EnumArray.h",
 		"obj/Generic.h",
 		"obj/Indexer.h",

@@ -9,11 +9,11 @@
 
 namespace mud
 {
-	MUD_MATH_EXPORT void quad_vertices(const ProcShape& shape, const Quad& quad, MeshData& data);
+	MUD_GEOM_EXPORT void quad_vertices(const ProcShape& shape, const Quad& quad, MeshData& data);
 
-	MUD_MATH_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Quad& quad);
-	MUD_MATH_EXPORT void draw_shape_lines(const ProcShape& shape, const Quad& quad, MeshData& data);
+	MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Quad& quad);
+	MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Quad& quad, MeshData& data);
 
-	MUD_MATH_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Quad& quad);
-	MUD_MATH_EXPORT void draw_shape_triangles(const ProcShape& shape, const Quad& quad, MeshData& data);
+	MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Quad& quad);
+	MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Quad& quad, MeshData& data);
 }

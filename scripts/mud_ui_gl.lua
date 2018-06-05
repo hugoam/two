@@ -6,8 +6,8 @@ function mud_ui_backend()
 		path.join(MUD_NANOVG_DIR, "src"),
 	}
 
-    mud_module("ui-nanovg",     MUD_SRC_DIR, "ui-nanovg",       "MUD_UI_NANOVG")
-    mud_module("ui-nanovg-gl",  MUD_SRC_DIR, "ui-nanovg-gl",    "MUD_UI_NANOVG_GL")
+    mud_module(false, "mud", "ui-nanovg",     MUD_SRC_DIR, "ui-nanovg")
+    mud_module(false, "mud", "ui-nanovg-gl",  MUD_SRC_DIR, "ui-nanovg-gl")
     
     files {
         path.join(MUD_NANOVG_DIR, "src/nanovg.c"),

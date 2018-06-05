@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Reflect/Injector.h>
+#endif
 #include <edit/Generated/Forward.h>
 #include <edit/Action.h>
 #include <edit/Tools/TranslateTool.h>

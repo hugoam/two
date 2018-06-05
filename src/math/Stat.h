@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Limits.h>
+#endif
 #include <math/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
@@ -22,7 +24,7 @@ namespace mud
 		inline T max(T a, T b) { return (a < b) ? b : a; }
 	}
 
-	template <class T>
+	export_ template <class T>
 	class StatDef
 	{
 	public:
@@ -58,7 +60,7 @@ namespace mud
 		}
 	};
 
-	template <class T>
+	export_ template <class T>
 	class Stat
 	{
 	public:
@@ -109,8 +111,8 @@ namespace mud
 		inline void multiply(T multiplier) { self()->def().multiply(this->m_value, this->m_base, multiplier); }
 	};
 
-	template <class T>
-	export_ class _refl_ AutoStat
+	export_ template <class T>
+	class _refl_ AutoStat
 	{
 	public:
 		AutoStat(T value = T(), T min = std::numeric_limits<T>::lowest(), T max = std::numeric_limits<T>::max(), T step = T(1))
@@ -161,8 +163,8 @@ namespace mud
 		StatDef<T> m_def;
 	};
 
-	template export_ class _refl_ MUD_MATH_EXPORT AutoStat<int>;
-	template export_ class _refl_ MUD_MATH_EXPORT AutoStat<float>;
+	export_ template class _refl_ MUD_MATH_EXPORT AutoStat<int>;
+	export_ template class _refl_ MUD_MATH_EXPORT AutoStat<float>;
 
 	export_ struct _refl_ MUD_MATH_EXPORT Ratio : public DefStat<float, Ratio>
 	{

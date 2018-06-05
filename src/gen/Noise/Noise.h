@@ -1,8 +1,10 @@
 #pragma once
 
-#include <gen/Generated/Forward.h>
+#ifndef MUD_MODULES
 #include <math/Random.h>
 #include <math/Grid.h>
+#endif
+#include <gen/Generated/Forward.h>
 
 #ifndef MUD_META_GENERATOR
 export_ class MUD_GEN_EXPORT FastNoise;

@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Unique.h>
 #include <obj/EnumArray.h>
+#endif
 #include <ctx/Generated/Forward.h>
 #include <ctx/KeyCode.h>
 #include <ctx/InputEvent.h>
@@ -17,7 +19,7 @@
 
 namespace mud
 {
-	template <class T_Element>
+	export_ template <class T_Element>
 	struct EventMap
 	{
 		EventMap() { m_events = {}; m_keyed_events = {}; }

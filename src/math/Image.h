@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <obj/Generated/Forward.h>
+#include <math/Generated/Forward.h>
 #include <math/Colour.h>
 
 #ifndef MUD_CPP_20
@@ -21,7 +21,7 @@ namespace mud
 		SPECTRUM_HUE = 1
 	};
 
-	export_ struct _refl_ MUD_OBJ_EXPORT Palette
+	export_ struct _refl_ MUD_MATH_EXPORT Palette
 	{
 	public:
 		_constr_ Palette(SpectrumPalette spectrum, size_t steps);
@@ -40,7 +40,7 @@ namespace mud
 		std::vector<Colour> m_colours;
 	};
 
-	export_ struct _refl_ MUD_OBJ_EXPORT Image256
+	export_ struct _refl_ MUD_MATH_EXPORT Image256
 	{
 	public:
 		_constr_ Image256(uint16_t width = 0, uint16_t height = 0, const Palette& palette = Palette());

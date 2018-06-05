@@ -176,11 +176,13 @@ def method_func(c, method):
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <${ module.subdir }/Generated/Module.h>
 
 #include <obj/Any.h>
 #include <obj/Reflect/MetaDecl.h>
 #include <obj/System/System.h>
+#endif
 
 namespace mud
 {

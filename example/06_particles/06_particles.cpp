@@ -34,9 +34,7 @@ std::vector<ParticleItem> create_particles(GfxSystem& gfx_system, const std::vec
 		if(location.m_location)
 		{
 			string path = string(location.m_location) + filename;
-			json json_value;
-			parse_json_file(path, json_value);
-			val<ParticleGenerator>(particles.m_arguments[1]) = unpackt<ParticleGenerator>(json_value);
+			unpack_json_file(particles.m_arguments[1], path);
 		}
 
 		particles_vector.push_back({ particles, index++, nullptr });

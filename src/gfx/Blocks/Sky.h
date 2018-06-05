@@ -6,8 +6,6 @@
 
 #include <gfx/Generated/Forward.h>
 #include <gfx/Renderer.h>
-
-#include <gfx/Filter.h>
 #include <gfx/Filter.h>
 
 #ifndef MUD_CPP_20

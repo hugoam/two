@@ -4,13 +4,13 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Unique.h>
 #include <obj/Strung.h>
 #include <obj/Util/Timer.h>
+#endif
 #include <ui/Generated/Forward.h>
 #include <ui/Frame/Caption.h>
-
-#define MUD_UI_IMMEDIATE
 
 namespace mud
 {

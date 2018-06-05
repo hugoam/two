@@ -8,5 +8,5 @@
 
 namespace mud
 {
-	MUD_MATH_EXPORT CompoundShape shape_compound(const ProcShape& shape, const Spheroid& spheroid);
+	MUD_GEOM_EXPORT CompoundShape shape_compound(const ProcShape& shape, const Spheroid& spheroid);
 }

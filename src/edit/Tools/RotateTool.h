@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
+#endif
 #include <edit/Generated/Forward.h>
 #include <edit/Tool.h>
 

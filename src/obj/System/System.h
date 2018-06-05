@@ -11,7 +11,7 @@
 #include <functional>
 #endif
 
-export_ namespace mud
+namespace mud
 {
 	export_ using cstring = const char*;
 	export_ using FunctionPointer = void* (*)();
@@ -63,7 +63,7 @@ export_ namespace mud
 		std::vector<cstring> m_path;
 	};
 
-	MUD_OBJ_EXPORT Namespace& namspc(std::vector<cstring> path);
+	export_ MUD_OBJ_EXPORT Namespace& namspc(std::vector<cstring> path);
 
 	export_ class _refl_ MUD_OBJ_EXPORT System
 	{
@@ -111,5 +111,5 @@ export_ namespace mud
 	export_ _func_ inline System& system() { return System::instance(); }
 
 	export_ template <typename T_Function>
-	inline Function& function(T_Function func) { return System::instance().function(function_id(func)); }
+	inline Function& function(T_Function func) { return System::instance().function(reinterpret_cast<FunctionPointer>(func)); }
 }

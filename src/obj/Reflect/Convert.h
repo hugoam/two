@@ -20,7 +20,7 @@ namespace mud
 		std::function<void(const string&, Ref)> m_from_string;
 	};
 
-	export_ string to_name(Type& type, Ref value);
+	export_ MUD_OBJ_EXPORT string to_name(Type& type, Ref value);
 
 	export_ template <>
 	inline void to_string<Ref>(const Ref& object, string& str) { object.type().m_convert->m_to_string(object, str); }

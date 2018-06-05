@@ -1,21 +1,10 @@
 -- mud library
 -- mud ctx module
 
-project "mud_ctx"
-	kind "SharedLib"
+function mud_ctx(as_project)
+    mud_module(as_project, "mud", "ctx", MUD_SRC_DIR, "ctx", { "obj", "math" })
     
     includedirs {
-		path.join(MUD_SRC_DIR),
         path.join(MUD_3RDPARTY_DIR, "glm"),
     }
-
-    files {
-        path.join(MUD_CTX_DIR, "**.h"),
-        path.join(MUD_CTX_DIR, "**.cpp"),
-    }
-
-    defines { "MUD_CTX_LIB" }
-    
-    links {
-		"mud_obj",
-	}
+end

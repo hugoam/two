@@ -1,6 +1,7 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/System/System.h>
 
 #include <obj/Generated/Module.h>
@@ -11,6 +12,7 @@
 #include <uio/Generated/Module.h>
 #include <gfx/Generated/Module.h>
 #include <gfx-pbr/Generated/Module.h>
+#endif
         
 #include <edit/Generated/Forward.h>
 #include <edit/Generated/Types.h>

@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Util/Dispatch.h>
 #include <obj/Util/Global.h>
+#endif
 #include <uio/Generated/Forward.h>
 #include <uio/Unode.h>
 

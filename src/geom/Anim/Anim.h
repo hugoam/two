@@ -4,14 +4,16 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Var.h>
 #include <obj/Util/Timer.h>
 #include <math/Interp.h>
+#endif
 #include <geom/Generated/Forward.h>
 
 namespace mud
 {
-	export_ struct MUD_MATH_EXPORT Anim
+	export_ struct MUD_GEOM_EXPORT Anim
 	{
 		Ref m_object;
 		Member* m_member;
@@ -23,7 +25,7 @@ namespace mud
 		// Easing m_easing;
 	};
 
-	export_ class MUD_MATH_EXPORT Animator : public Global<Animator>
+	export_ class MUD_GEOM_EXPORT Animator : public Global<Animator>
 	{
 	public:
 		Animator();

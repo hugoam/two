@@ -1,25 +1,10 @@
 -- mud library
 -- mud uio module
 
-project "mud_uio"
-	kind "SharedLib"
-
-	includedirs {
-		path.join(MUD_SRC_DIR),
+function mud_uio(as_project)
+    mud_module(as_project, "mud", "uio", MUD_SRC_DIR, "uio", { "obj", "math", "lang", "ctx", "ui" })
+    
+    includedirs {
         path.join(MUD_3RDPARTY_DIR, "glm"),
-	}
-
-	files {
-        path.join(MUD_UIO_DIR, "**.h"),
-        path.join(MUD_UIO_DIR, "**.cpp"),
-	}
-        
-    defines { "MUD_UIO_LIB" }
-    
-    links {
-		"mud_obj",
-		"mud_math",
-		"mud_ctx",
-		"mud_ui",
-	}
-    
+    }
+end

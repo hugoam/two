@@ -4,8 +4,10 @@
 
 #pragma once
 
-#include <uio/Edit/Section.h>
+#ifndef MUD_MODULES
 #include <lang/Script.h>
+#endif
+#include <uio/Edit/Section.h>
 
 namespace mud
 {

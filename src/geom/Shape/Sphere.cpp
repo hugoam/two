@@ -2,13 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.geom;
@@ -76,9 +70,9 @@ namespace mud
 
 		for(uint16_t r = 0; r < rings; r++) for(uint16_t s = 0; s < sectors; s++)
 		{
-			float const x = cos(2 * M_PI * s * S) * sin(M_PI * r * R);
-			float const y = sin(-M_PI / 2.f + M_PI * r * R);
-			float const z = sin(2 * M_PI * s * S) * sin(M_PI * r * R);
+			float const x = cos(2 * c_pi * s * S) * sin(c_pi * r * R);
+			float const y = sin(-c_pi / 2.f + c_pi * r * R);
+			float const z = sin(2 * c_pi * s * S) * sin(c_pi * r * R);
 
 			data.position(center + vec3(x, y, z) * radius)
 				.normal({ x, y, z })

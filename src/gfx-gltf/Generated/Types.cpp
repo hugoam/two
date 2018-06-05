@@ -1,19 +1,14 @@
 
 
-#ifdef MUD_CPP_20
-#include <cassert>
-#include <cstdint>
-#include <climits>
-#include <cfloat>
-import std.core;
-import std.memory;
-import std.threading;
-import std.regex;
-#endif
+#include <obj/Cpp20.h>
 
+#ifdef MUD_MODULES
+module mud.gfxgltf;
+#else
 #include <gfx-gltf/Generated/Types.h>
 #include <gfx-gltf/Generated/Module.h>
 #include <obj/Proto.h>
+#endif
 
 namespace mud
 {

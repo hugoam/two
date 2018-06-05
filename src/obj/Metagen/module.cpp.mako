@@ -1,19 +1,13 @@
-#ifdef MUD_CPP_20
-#include <cassert>
-#include <cstdint>
-#include <climits>
-#include <cfloat>
-import std.core;
-import std.memory;
-import std.threading;
-import std.regex;
-#endif
+#include <obj/Cpp20.h>
 
+#ifdef MUD_MODULES
+module ${ module.namespace }.${ module.name };
+#else
 #include <${ module.subdir }/Generated/Module.h>
+#endif
 
 #ifdef ${ module.preproc_name }_REFLECT
 #include <${ module.subdir }/Generated/Convert.h>
-
 #define ${ module.preproc_name }_REFLECTION_IMPL
 #include <${ module.subdir }/Generated/Meta.h>
 #endif

@@ -6,7 +6,9 @@
 #include <ui/Generated/Module.h>
 #include <uio/Generated/Module.h>
 
-#ifdef MUD_RENDERER_BGFX
+#if defined MUD_RENDERER_BGFX
+#include <bgfx/Config.h>
+#if !defined MUD_NO_GFX
 #include <gfx/Generated/Module.h>
 #include <gfx-pbr/Generated/Module.h>
 #include <gfx-obj/Generated/Module.h>
@@ -15,6 +17,7 @@
 #include <edit/Generated/Module.h>
 
 #include <mud/Shell.h>
+#endif
 #endif
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN

@@ -4,16 +4,18 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
 #include <math/Math.h>
 #include <math/Colour.h>
+#endif
 #include <geom/Generated/Forward.h>
 
 namespace mud
 {
-	MUD_MATH_EXPORT Aabb transform_aabb(const Aabb& source, const mat4& transform);
-	MUD_MATH_EXPORT Aabb translate_aabb(const Aabb& source, const vec3& offset);
-	MUD_MATH_EXPORT vec2 project_aabb_in_plane(const Plane& plane, const Aabb& aabb);
+	MUD_GEOM_EXPORT Aabb transform_aabb(const Aabb& source, const mat4& transform);
+	MUD_GEOM_EXPORT Aabb translate_aabb(const Aabb& source, const vec3& offset);
+	MUD_GEOM_EXPORT vec2 project_aabb_in_plane(const Plane& plane, const Aabb& aabb);
 
 #define CMP_EPSILON 0.00001f
 #define CMP_EPSILON2 (CMP_EPSILON * CMP_EPSILON)

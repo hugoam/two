@@ -11,13 +11,13 @@
 #include <ctime>
 #endif
 
-#define TICK_INTERVAL 0.02
-
 namespace mud
 {
+	export_ extern MUD_OBJ_EXPORT const double c_tick_interval;
+
 	inline size_t globalTick()
 	{
-		return size_t(clock() / TICK_INTERVAL);
+		return size_t(clock() / c_tick_interval);
 	}
 
 	export_ struct _refl_ MUD_OBJ_EXPORT Time

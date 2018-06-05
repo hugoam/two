@@ -6,7 +6,7 @@ function mud_ctx_backend()
         path.join(MUD_3RDPARTY_DIR, "glfw", "include"),
     }
 
-    mud_module("ctx-glfw", MUD_SRC_DIR, "ctx-glfw", "MUD_CTX_GLFW")
+    mud_module(false, "mud", "ctx-glfw", MUD_SRC_DIR, "ctx-glfw")
 
     configuration { "not asmjs" }
         links {

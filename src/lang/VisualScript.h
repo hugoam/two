@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Var.h>
 #include <obj/NonCopy.h>
+#endif
 #include <lang/Generated/Forward.h>
 #include <lang/Stream.h>
 #include <lang/Script.h>

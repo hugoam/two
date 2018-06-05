@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Ref.h>
 #include <math/Vec.h>
+#endif
 #include <ui/Generated/Forward.h>
 #include <ui/Style/Style.h>
 #include <ui/Widget.h>

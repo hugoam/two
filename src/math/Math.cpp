@@ -2,13 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
 import mud.obj;
@@ -24,6 +18,12 @@ module mud.math;
 
 namespace mud
 {
+#ifndef M_PI
+	const float c_pi = 3.14159265358979323846f;
+#else
+	const float c_pi = c_pi;
+#endif
+
 	void register_math_conversions()
 	{
 		dispatch_branch<float, vec3, copy_convert<float, vec3>>(TypeConverter::me());
@@ -103,9 +103,27 @@ namespace mud
 		return { x, y, z, w };
 	}
 
+	Axis nearest_axis(const vec3& direction)
+	{
+		Axis axis = Axis::X;
+
+		float closest_dot = 0.f;
+		for(Axis a : { Axis::X, Axis::Y, Axis::Z })
+		{
+			float product = std::abs(dot(direction, to_vec3(a)));
+			if(a == Axis::X || product > closest_dot)
+			{
+				axis = a;
+				closest_dot = product;
+			}
+		}
+
+		return axis;
+	}
+
 	float float_shortest_angle(float angle1, float angle2)
 	{
-		return min((2.f * float(M_PI)) - std::abs(angle1 - angle2), std::abs(angle1 - angle2));
+		return min((2.f * c_pi) - std::abs(angle1 - angle2), std::abs(angle1 - angle2));
 	}
 
 	float trigo_angle(const vec3& vec1, const vec3& vec2)
@@ -113,7 +131,7 @@ namespace mud
 		float angle = shortest_angle(vec1, vec2);
 		
 		if(angle < 0)
-			angle += 2 * M_PI;
+			angle += 2 * c_pi;
 
 		return angle;
 	}

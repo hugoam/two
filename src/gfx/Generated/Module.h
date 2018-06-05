@@ -1,11 +1,13 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/System/System.h>
 
 #include <obj/Generated/Module.h>
 #include <math/Generated/Module.h>
 #include <geom/Generated/Module.h>
+#endif
         
 #include <gfx/Generated/Forward.h>
 #include <gfx/Generated/Types.h>

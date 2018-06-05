@@ -4,16 +4,18 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Style/Style.h>
-#include <edit/Generated/Types.h>
 #include <gfx/Viewport.h>
 #include <gfx/Picker.h>
 #include <gfx/Camera.h>
 #include <gfx/Scene.h>
 #include <gfx/Graph.h>
 #include <gfx-pbr/Filters/Tonemap.h>
+#endif
+#include <edit/Generated/Forward.h>
 
 namespace mud
 {

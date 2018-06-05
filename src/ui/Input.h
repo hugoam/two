@@ -4,10 +4,12 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/String/StringConvert.h>
 #include <math/Stat.h>
 #include <math/Colour.h>
 #include <math/Math.h>
+#endif
 #include <ui/Generated/Forward.h>
 #include <ui/Style/Styles.h>
 #include <ui/Sheet.h>

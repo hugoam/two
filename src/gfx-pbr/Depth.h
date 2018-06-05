@@ -2,8 +2,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Unique.h>
 #include <gfx/Renderer.h>
+#endif
 #include <gfx-pbr/Generated/Forward.h>
 
 namespace mud

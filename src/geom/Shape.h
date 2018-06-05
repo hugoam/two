@@ -4,13 +4,15 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Unique.h>
 #include <math/Vec.h>
+#endif
 #include <geom/Generated/Forward.h>
 
 namespace mud
 {
-	export_ class _refl_ MUD_MATH_EXPORT Shape
+	export_ class _refl_ MUD_GEOM_EXPORT Shape
 	{
 	public:
 		Shape(Type& type) : m_type(type), m_center(Zero3) {}
@@ -26,7 +28,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const = 0;
 	};
 
-	export_ struct _refl_ MUD_MATH_EXPORT ShapeVar
+	export_ struct _refl_ MUD_GEOM_EXPORT ShapeVar
 	{
 	public:
 		_constr_ ShapeVar() : m_shape() {}

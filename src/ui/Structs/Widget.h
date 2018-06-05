@@ -4,15 +4,15 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Graph/Node.h>
 #include <obj/Array.h>
+#include <ctx/ControlNode.h>
+#include <ctx/InputEvent.h>
+#endif
 #include <ui/Generated/Forward.h>
 #include <ui/Frame/Frame.h>
 #include <ui/Widget.h>
-#include <ctx/ControlNode.h>
-#include <ctx/InputEvent.h>
-
-#define MUD_UI_IMMEDIATE
 
 #ifndef MUD_CPP_20
 #include <functional>

@@ -19,17 +19,17 @@
 #ifdef MUD_NO_GLM
 namespace mud
 {
-	using vec2 = float2;
-	using vec3 = float3;
-	using vec4 = float4;
-	using uvec2 = uint2;
-	using uvec3 = uint3;
-	using uvec4 = uint4;
-	using ivec2 = int2;
-	using ivec3 = int3;
-	using ivec4 = int4;
-	using bvec3 = bool3;
-	using bvec4 = bool4;
+	export_ using vec2 = float2;
+	export_ using vec3 = float3;
+	export_ using vec4 = float4;
+	export_ using uvec2 = uint2;
+	export_ using uvec3 = uint3;
+	export_ using uvec4 = uint4;
+	export_ using ivec2 = int2;
+	export_ using ivec3 = int3;
+	export_ using ivec4 = int4;
+	export_ using bvec3 = bool3;
+	export_ using bvec4 = bool4;
 }
 #else
 #ifndef MUD_META_GENERATOR
@@ -57,21 +57,21 @@ namespace mud
 
 namespace mud
 {
-	using glm::vec2;
-	using glm::uvec2;
-	using glm::ivec2;
-	using glm::vec3;
-	using glm::bvec3;
-	using glm::uvec3;
-	using glm::ivec3;
-	using glm::vec4;
-	using glm::bvec4;
-	using glm::uvec4;
-	using glm::ivec4;
-	using glm::quat;
-	using glm::mat2;
-	using glm::mat3;
-	using glm::mat4;
+	export_ using glm::vec2;
+	export_ using glm::uvec2;
+	export_ using glm::ivec2;
+	export_ using glm::vec3;
+	export_ using glm::bvec3;
+	export_ using glm::uvec3;
+	export_ using glm::ivec3;
+	export_ using glm::vec4;
+	export_ using glm::bvec4;
+	export_ using glm::uvec4;
+	export_ using glm::ivec4;
+	export_ using glm::quat;
+	export_ using glm::mat2;
+	export_ using glm::mat3;
+	export_ using glm::mat4;
 }
 #endif
 #endif
@@ -98,36 +98,36 @@ namespace mud
 
 namespace mud
 {
-	extern MUD_MATH_EXPORT const vec3 X3; // = { 1.f, 0.f, 0.f };
-	extern MUD_MATH_EXPORT const vec3 Y3; // = { 0.f, 1.f, 0.f };
-	extern MUD_MATH_EXPORT const vec3 Z3; // = { 0.f, 0.f, 1.f };
+	export_ extern MUD_MATH_EXPORT const vec3 X3; // = { 1.f, 0.f, 0.f };
+	export_ extern MUD_MATH_EXPORT const vec3 Y3; // = { 0.f, 1.f, 0.f };
+	export_ extern MUD_MATH_EXPORT const vec3 Z3; // = { 0.f, 0.f, 1.f };
 
-	extern MUD_MATH_EXPORT const vec3 Zero3; // = { 0.f, 0.f, 0.f };
-	extern MUD_MATH_EXPORT const vec3 Unit3; // = { 1.f, 1.f, 1.f };
+	export_ extern MUD_MATH_EXPORT const vec3 Zero3; // = { 0.f, 0.f, 0.f };
+	export_ extern MUD_MATH_EXPORT const vec3 Unit3; // = { 1.f, 1.f, 1.f };
 
-	extern MUD_MATH_EXPORT const quat ZeroQuat; // = { 1.f, 0.f, 0.f, 0.f };
+	export_ extern MUD_MATH_EXPORT const quat ZeroQuat; // = { 1.f, 0.f, 0.f, 0.f };
 
-	extern MUD_MATH_EXPORT const vec2 Zero2; // = { 0.f, 0.f };
-	extern MUD_MATH_EXPORT const vec2 Unit2; // = { 1.f, 1.f };
+	export_ extern MUD_MATH_EXPORT const vec2 Zero2; // = { 0.f, 0.f };
+	export_ extern MUD_MATH_EXPORT const vec2 Unit2; // = { 1.f, 1.f };
 
-	extern MUD_MATH_EXPORT const vec4 Zero4; // = { 0.f, 0.f, 0.f, 0.f };
-	extern MUD_MATH_EXPORT const vec4 Rect4; // = { 0.f, 0.f, 1.f, 1.f };
+	export_ extern MUD_MATH_EXPORT const vec4 Zero4; // = { 0.f, 0.f, 0.f, 0.f };
+	export_ extern MUD_MATH_EXPORT const vec4 Rect4; // = { 0.f, 0.f, 1.f, 1.f };
 
-	inline float& rect_w(vec4& rect) { return rect.z; }
-	inline float& rect_h(vec4& rect) { return rect.w; }
+	export_ inline float& rect_w(vec4& rect) { return rect.z; }
+	export_ inline float& rect_h(vec4& rect) { return rect.w; }
 
-	inline float rect_w(const vec4& rect) { return rect.z; }
-	inline float rect_h(const vec4& rect) { return rect.w; }
+	export_ inline float rect_w(const vec4& rect) { return rect.z; }
+	export_ inline float rect_h(const vec4& rect) { return rect.w; }
 
-	inline unsigned int& rect_w(uvec4& rect) { return rect.z; }
-	inline unsigned int& rect_h(uvec4& rect) { return rect.w; }
+	export_ inline unsigned int& rect_w(uvec4& rect) { return rect.z; }
+	export_ inline unsigned int& rect_h(uvec4& rect) { return rect.w; }
 
-	inline vec2 rect_offset(const vec4& rect) { return{ rect.x, rect.y }; }
-	inline vec2 rect_size(const vec4& rect) { return{ rect.z, rect.w }; }
-	inline vec2 rect_sum(const vec4& rect) { return vec2{ rect.x, rect.y } + vec2{ rect.z, rect.w }; }
-	inline vec2 rect_center(const vec4& rect) { return rect_offset(rect) + rect_size(rect) * 0.5f; }
+	export_ inline vec2 rect_offset(const vec4& rect) { return{ rect.x, rect.y }; }
+	export_ inline vec2 rect_size(const vec4& rect) { return{ rect.z, rect.w }; }
+	export_ inline vec2 rect_sum(const vec4& rect) { return vec2{ rect.x, rect.y } + vec2{ rect.z, rect.w }; }
+	export_ inline vec2 rect_center(const vec4& rect) { return rect_offset(rect) + rect_size(rect) * 0.5f; }
 
-	inline bool rect_intersects(const vec4& first, const vec4& second)
+	export_ inline bool rect_intersects(const vec4& first, const vec4& second)
 	{
 		return !(second.x > first.x + first.z || second.y > first.y + first.w || second.x + second.z < first.x || second.y + second.w < first.y);
 	}

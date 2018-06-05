@@ -1,7 +1,9 @@
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Type.h>
-#include <gfx/Generated/Forward.h>
+#endif
+#include <gfx-obj/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <string>

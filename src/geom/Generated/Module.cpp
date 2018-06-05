@@ -1,19 +1,13 @@
-#ifdef MUD_CPP_20
-#include <cassert>
-#include <cstdint>
-#include <climits>
-#include <cfloat>
-import std.core;
-import std.memory;
-import std.threading;
-import std.regex;
-#endif
+#include <obj/Cpp20.h>
 
+#ifdef MUD_MODULES
+module mud.geom;
+#else
 #include <geom/Generated/Module.h>
+#endif
 
 #ifdef MUD_GEOM_REFLECT
 #include <geom/Generated/Convert.h>
-
 #define MUD_GEOM_REFLECTION_IMPL
 #include <geom/Generated/Meta.h>
 #endif

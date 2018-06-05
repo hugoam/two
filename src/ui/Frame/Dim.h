@@ -128,8 +128,8 @@ namespace mud
 		HOLLOW = 2
 	};
 	
-	template <class T>
-	export_ struct _refl_ _struct_ Dim2
+	export_ template <class T>
+	struct _refl_ _struct_ Dim2
 	{
 	public:
 		_constr_ Dim2(T a, T b) : d_values{ a, b } {}

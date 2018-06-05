@@ -4,16 +4,18 @@
 
 #pragma once
 
-#include <geom/Generated/Forward.h>
-#include <geom/Shape/ProcShape.h>
-#include <geom/Shape/CompoundShape.h>
+#ifndef MUD_MODULES
 #include <obj/Util/Global.h>
 #include <obj/Util/Dispatch.h>
 #include <obj/Util/DispatchDecl.h>
+#endif
+#include <geom/Generated/Forward.h>
+#include <geom/Shape/ProcShape.h>
+#include <geom/Shape/CompoundShape.h>
 
 namespace mud
 {
-	export_ struct MUD_MATH_EXPORT DispatchDrawProcShape : public LazyGlobal<DispatchDrawProcShape>
+	export_ struct MUD_GEOM_EXPORT DispatchDrawProcShape : public LazyGlobal<DispatchDrawProcShape>
 	{
 		DispatchDrawProcShape();
 

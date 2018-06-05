@@ -42,16 +42,16 @@ namespace mud
 		return (object_ptr<T>(new T(std::forward<Types>(args)...), &delete_tracked<T>));
 	}
 #else
-	template <class T>
+	export_ template <class T>
 	using object_ptr = std::unique_ptr<T>;
 
-	template <typename T, typename... Args>
+	export_ template <typename T, typename... Args>
 	object_ptr<T> make_object(Args&&... args)
 	{
 		return std::make_unique<T>(std::forward<Args>(args)...);
 	}
 #endif
 
-	using std::unique_ptr;
-	using std::make_unique;
+	export_ using std::unique_ptr;
+	export_ using std::make_unique;
 }

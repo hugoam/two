@@ -9,15 +9,15 @@
 
 namespace mud
 {
-	MUD_MATH_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Line& line);
-	MUD_MATH_EXPORT void draw_shape_lines(const ProcShape& shape, const Line& line, MeshData& data);
+	MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Line& line);
+	MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Line& line, MeshData& data);
 
-	MUD_MATH_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Line& line);
-	MUD_MATH_EXPORT void draw_shape_triangles(const ProcShape& shape, const Line& line, MeshData& data);
+	MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Line& line);
+	MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Line& line, MeshData& data);
 
-	MUD_MATH_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Grid2& grid);
-	MUD_MATH_EXPORT void draw_shape_lines(const ProcShape& shape, const Grid2& grid, MeshData& data);
+	MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Grid2& grid);
+	MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Grid2& grid, MeshData& data);
 
-	MUD_MATH_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Grid2& grid);
-	MUD_MATH_EXPORT void draw_shape_triangles(const ProcShape& shape, const Grid2& grid, MeshData& data);
+	MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Grid2& grid);
+	MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Grid2& grid, MeshData& data);
 }

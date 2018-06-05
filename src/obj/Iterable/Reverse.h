@@ -6,7 +6,8 @@
 
 namespace mud
 {
-	template<typename T> class reverse_adapter
+	export_ template<typename T>
+	class reverse_adapter
 	{
 	public:
 		reverse_adapter(T& container) : m_container(container) { }
@@ -17,5 +18,6 @@ namespace mud
 		T& m_container;
 	};
 
-	template<typename T> reverse_adapter<T> reverse_adapt(T& container) { return reverse_adapter<T>(container); }
+	export_ template<typename T>
+	reverse_adapter<T> reverse_adapt(T& container) { return reverse_adapter<T>(container); }
 }

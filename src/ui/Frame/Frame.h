@@ -4,16 +4,16 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/NonCopy.h>
 #include <obj/Unique.h>
+#endif
 #include <ui/Generated/Forward.h>
 #include <ui/Frame/UiRect.h>
 
 #ifndef MUD_CPP_20
 #include <cmath>
 #endif
-
-#define MUD_UI_IMMEDIATE
 
 namespace mud
 {

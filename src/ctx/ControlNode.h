@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Limits.h>
+#endif
 #include <ctx/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
@@ -13,7 +15,7 @@
 
 namespace mud
 {
-	struct ModalControl
+	export_ struct ModalControl
 	{
 		ControlNode* m_parent;
 		ControlNode* m_modal;

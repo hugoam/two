@@ -7,16 +7,15 @@
 #include <stdint.h> // <cstdint>
 #include <float.h> // <cfloat>
 import std.core;
-import std.memory;
+#ifdef _MSC_VER
+import std.memory; // std.memory exists only in Visual Studio experimental modules
+#endif
 #endif
 #include <gfx/Asset.h>
 
+#ifndef MUD_MODULES
 #include <obj/Serial/Serial.h>
 #include <obj/System/System.h>
-
-#ifndef MUD_GENERATOR_SKIP_INCLUDES
-#include <json11.hpp>
-using json = json11::Json;
 #endif
 
 namespace mud
@@ -36,9 +35,7 @@ namespace mud
 		auto loader = [&](GfxSystem& gfx_system, T_Asset& asset, cstring path)
 		{
 			UNUSED(gfx_system);
-			json json_value;
-			parse_json_file(string(path) + m_cformats[0], json_value); // @kludge: fix extensions assumed in loaders (gltf, obj, etc...)
-			unpack(Ref(&asset), json_value);
+			unpack_json_file(Ref(&asset), string(path) + m_cformats[0]); // @kludge: fix extensions assumed in loaders (gltf, obj, etc...)
 		};
 
 		this->setup({ format }, { loader });
@@ -156,6 +153,6 @@ namespace mud
 		};
 
 		system().visit_files(path, visit_file);
-		system().visit_folders(path, visit_file);
+		system().visit_folders(path, visit_folder);
 	}
 }

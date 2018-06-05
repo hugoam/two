@@ -4,10 +4,12 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/NonCopy.h>
 #include <obj/Util/Global.h>
 #include <math/Vec.h>
 #include <geom/Shape/ProcShape.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Mesh.h>
 #include <gfx/Material.h>

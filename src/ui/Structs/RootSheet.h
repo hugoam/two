@@ -4,12 +4,14 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Ref.h>
 #include <obj/Util/Timer.h>
-#include <ui/Generated/Forward.h>
-#include <ui/Structs/Widget.h>
 #include <ctx/InputDispatcher.h>
 #include <ctx/InputDevice.h>
+#endif
+#include <ui/Generated/Forward.h>
+#include <ui/Structs/Widget.h>
 
 namespace mud
 {

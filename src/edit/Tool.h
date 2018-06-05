@@ -4,12 +4,14 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/NonCopy.h>
 #include <obj/Strung.h>
 #include <math/Vec.h>
 #include <geom/Shape.h>
 #include <geom/Symbol.h>
 #include <ui/Controller/Controller.h>
+#endif
 #include <edit/Generated/Forward.h>
 #include <edit/Action.h>
 #include <edit/Viewer/Viewer.h>

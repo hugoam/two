@@ -6,8 +6,10 @@
 
 //#ifdef MUD_CTX_GLFW
 
+#ifndef MUD_MODULES
 #include <ctx/Generated/Forward.h>
 #include <ctx/Context.h>
+#endif
 
 struct GLFWwindow;
 

@@ -2,13 +2,8 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#else
+#include <obj/Cpp20.h>
+#ifndef MUD_CPP_20
 #include <cassert>
 #include <cmath>
 #include <cstdio>
@@ -161,13 +156,13 @@ namespace mud
 		int release() { const auto n = m_num; m_num = 0; return n; }
 	};
 
-	export_ class MUD_OBJ_EXPORT FromLua : public Dispatch<void, lua_State*, int, Var&>, public LazyGlobal<FromLua>
+	export_ class MUD_LANG_EXPORT FromLua : public Dispatch<void, lua_State*, int, Var&>, public LazyGlobal<FromLua>
 	{
 	public:
 		FromLua();
 	};
 
-	export_ class MUD_OBJ_EXPORT ToLua : public Dispatch<Stack, lua_State*>, public LazyGlobal<ToLua>
+	export_ class MUD_LANG_EXPORT ToLua : public Dispatch<Stack, lua_State*>, public LazyGlobal<ToLua>
 	{
 	public:
 		ToLua();

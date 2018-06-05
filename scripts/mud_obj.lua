@@ -1,20 +1,15 @@
 -- mud library
 -- mud obj module
 
-project "mud_obj"
-	kind "SharedLib"
-
-	includedirs {
-		path.join(MUD_SRC_DIR),
+function mud_obj(as_project)
+    mud_module(as_project, "mud", "obj", MUD_SRC_DIR, "obj")
+    
+    includedirs {
         path.join(MUD_3RDPARTY_DIR, "json11"),
-	}
-
-	files {
-		path.join(MUD_OBJ_DIR, "**.h"),
-		path.join(MUD_OBJ_DIR, "**.cpp"),
-		path.join(MUD_OBJ_DIR, "Metagen/*.py"),
-		path.join(MUD_OBJ_DIR, "Metagen/*.mako"),
-	}
-
-    defines { "MUD_OBJ_LIB" }
+    }
+    
+    files {
+        path.join(MUD_SRC_DIR, "3rdparty", "json11.cpp"),
+    }
+end
 

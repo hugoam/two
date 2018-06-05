@@ -604,9 +604,9 @@ class Generator(object):
             
         parse_file(os.path.join(module.path, 'Generated'), 'Module.h', compiler_args, debug_diagnostic)
 
-    def render_mako(self, module, name):
+    def render_mako(self, module, name, output_name = None):
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        output_path = os.path.join(module.outputPath, name)
+        output_path = os.path.join(module.outputPath, output_name if output_name else name)
         print '  ', output_path
         template_path = os.path.join(dir_path, name.lower() + '.mako')
         template = Template(filename=template_path)
@@ -630,6 +630,9 @@ class Generator(object):
         
         self.render_mako(module, "Module.h")
         self.render_mako(module, "Module.cpp")
+        self.render_mako(module, "Module.ixx")
+        self.render_mako(module, "Module.cppm")
+        self.render_mako(module, "Module.cppm", module.namespace + "." + module.name + ".cppm")
             
         def register_classes(cursor, file, module, parent):
             for c in cursor.get_children():

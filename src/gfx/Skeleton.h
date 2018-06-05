@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Node3.h>
 #include <gfx/Animation.h>

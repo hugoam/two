@@ -1,10 +1,12 @@
 ﻿#pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Serial/Serial.h>
-#include <gfx/Generated/Forward.h>
 #include <math/Vec.h>
 #include <math/VecOps.h>
 #include <math/Colour.h>
+#endif
+#include <gfx-gltf/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <map>

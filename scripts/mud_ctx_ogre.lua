@@ -13,7 +13,7 @@ function mud_ctx_backend()
         path.join(MUD_3RDPARTY_DIR, "OIS", "includes"),
     }
     
-    mud_module("ctx-ogre", MUD_SRC_DIR, "ctx-ogre", "MUD_CTX_OGRE")    
+    mud_module(false, "mud", "ctx-ogre", MUD_SRC_DIR, "ctx-ogre")    
   
     links {
         "OgreMain",
