@@ -13,6 +13,7 @@ import std.io;
 import std.threading;
 
 export import mud.obj;
+export import mud.srlz;
 export import mud.math;
 export import mud.geom;
 export import mud.ui;

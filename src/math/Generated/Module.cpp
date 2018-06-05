@@ -19,6 +19,7 @@ namespace mud
 	{
         // ensure dependencies are instantiated
         mudobj::m();
+        mudsrlz::m();
 
 #ifdef MUD_MATH_REFLECT
         // setup reflection meta data

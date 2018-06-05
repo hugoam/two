@@ -270,6 +270,106 @@ namespace mud
     
     
         
+    // mud::Viewer
+    {
+        static Meta meta = { type<mud::Viewer>(), &namspc({ "mud" }), "Viewer", sizeof(mud::Viewer), TypeClass::Object };
+        static Class cls = { type<mud::Viewer>(),
+            // bases
+            { &type<mud::Widget>() },
+            { base_offset<mud::Viewer, mud::Widget>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+                { type<mud::Viewer>(), member_address(&mud::Viewer::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link) },
+                { type<mud::Viewer>(), member_address(&mud::Viewer::m_viewport), type<mud::Viewport>(), "viewport", Ref(type<mud::Viewport>()), Member::None },
+                { type<mud::Viewer>(), member_address(&mud::Viewer::m_position), type<mud::vec2>(), "position", var(mud::vec2()), Member::Value },
+                { type<mud::Viewer>(), member_address(&mud::Viewer::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Viewer>();
+    }
+    
+    
+        
+    // mud::SpaceSheet
+    {
+        static Meta meta = { type<mud::SpaceSheet>(), &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
+        static Class cls = { type<mud::SpaceSheet>(),
+            // bases
+            { &type<mud::RootSheet>() },
+            { base_offset<mud::SpaceSheet, mud::RootSheet>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::SpaceSheet>();
+    }
+    
+    
+        
+    // mud::SceneViewer
+    {
+        static Meta meta = { type<mud::SceneViewer>(), &namspc({ "mud" }), "SceneViewer", sizeof(mud::SceneViewer), TypeClass::Object };
+        static Class cls = { type<mud::SceneViewer>(),
+            // bases
+            { &type<mud::Scene>(), &type<mud::Viewer>() },
+            { base_offset<mud::SceneViewer, mud::Scene>(), base_offset<mud::SceneViewer, mud::Viewer>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::SceneViewer>();
+    }
+    
+    
+        
     // mud::TransformAction
     {
         static Meta meta = { type<mud::TransformAction>(), &namspc({ "mud" }), "TransformAction", sizeof(mud::TransformAction), TypeClass::Object };
@@ -496,70 +596,6 @@ namespace mud
     
     
         
-    // mud::SpatialTool
-    {
-        static Meta meta = { type<mud::SpatialTool>(), &namspc({ "mud" }), "SpatialTool", sizeof(mud::SpatialTool), TypeClass::Object };
-        static Class cls = { type<mud::SpatialTool>(),
-            // bases
-            { &type<mud::ViewportTool>() },
-            { base_offset<mud::SpatialTool, mud::ViewportTool>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::SpatialTool>();
-    }
-    
-    
-        
-    // mud::ViewTool
-    {
-        static Meta meta = { type<mud::ViewTool>(), &namspc({ "mud" }), "ViewTool", sizeof(mud::ViewTool), TypeClass::Object };
-        static Class cls = { type<mud::ViewTool>(),
-            // bases
-            { &type<mud::ViewportTool>() },
-            { base_offset<mud::ViewTool, mud::ViewportTool>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ViewTool>();
-    }
-    
-    
-        
     // mud::PlaneSnapOption
     {
         static Meta meta = { type<mud::PlaneSnapOption>(), &namspc({ "mud" }), "PlaneSnapOption", sizeof(mud::PlaneSnapOption), TypeClass::Object };
@@ -624,13 +660,13 @@ namespace mud
     
     
         
-    // mud::CopyTool
+    // mud::SpatialTool
     {
-        static Meta meta = { type<mud::CopyTool>(), &namspc({ "mud" }), "CopyTool", sizeof(mud::CopyTool), TypeClass::Object };
-        static Class cls = { type<mud::CopyTool>(),
+        static Meta meta = { type<mud::SpatialTool>(), &namspc({ "mud" }), "SpatialTool", sizeof(mud::SpatialTool), TypeClass::Object };
+        static Class cls = { type<mud::SpatialTool>(),
             // bases
-            { &type<mud::TransformTool>() },
-            { base_offset<mud::CopyTool, mud::TransformTool>() },
+            { &type<mud::ViewportTool>() },
+            { base_offset<mud::SpatialTool, mud::ViewportTool>() },
             // constructors
             {
             },
@@ -651,18 +687,18 @@ namespace mud
         
         
         
-        meta_class<mud::CopyTool>();
+        meta_class<mud::SpatialTool>();
     }
     
     
         
-    // mud::RotateTool
+    // mud::ViewTool
     {
-        static Meta meta = { type<mud::RotateTool>(), &namspc({ "mud" }), "RotateTool", sizeof(mud::RotateTool), TypeClass::Object };
-        static Class cls = { type<mud::RotateTool>(),
+        static Meta meta = { type<mud::ViewTool>(), &namspc({ "mud" }), "ViewTool", sizeof(mud::ViewTool), TypeClass::Object };
+        static Class cls = { type<mud::ViewTool>(),
             // bases
-            { &type<mud::TransformTool>() },
-            { base_offset<mud::RotateTool, mud::TransformTool>() },
+            { &type<mud::ViewportTool>() },
+            { base_offset<mud::ViewTool, mud::ViewportTool>() },
             // constructors
             {
             },
@@ -683,71 +719,7 @@ namespace mud
         
         
         
-        meta_class<mud::RotateTool>();
-    }
-    
-    
-        
-    // mud::ScaleTool
-    {
-        static Meta meta = { type<mud::ScaleTool>(), &namspc({ "mud" }), "ScaleTool", sizeof(mud::ScaleTool), TypeClass::Object };
-        static Class cls = { type<mud::ScaleTool>(),
-            // bases
-            { &type<mud::TransformTool>() },
-            { base_offset<mud::ScaleTool, mud::TransformTool>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ScaleTool>();
-    }
-    
-    
-        
-    // mud::TranslateTool
-    {
-        static Meta meta = { type<mud::TranslateTool>(), &namspc({ "mud" }), "TranslateTool", sizeof(mud::TranslateTool), TypeClass::Object };
-        static Class cls = { type<mud::TranslateTool>(),
-            // bases
-            { &type<mud::TransformTool>() },
-            { base_offset<mud::TranslateTool, mud::TransformTool>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::TranslateTool>();
+        meta_class<mud::ViewTool>();
     }
     
     
@@ -912,6 +884,134 @@ namespace mud
     
     
         
+    // mud::CopyTool
+    {
+        static Meta meta = { type<mud::CopyTool>(), &namspc({ "mud" }), "CopyTool", sizeof(mud::CopyTool), TypeClass::Object };
+        static Class cls = { type<mud::CopyTool>(),
+            // bases
+            { &type<mud::TransformTool>() },
+            { base_offset<mud::CopyTool, mud::TransformTool>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::CopyTool>();
+    }
+    
+    
+        
+    // mud::RotateTool
+    {
+        static Meta meta = { type<mud::RotateTool>(), &namspc({ "mud" }), "RotateTool", sizeof(mud::RotateTool), TypeClass::Object };
+        static Class cls = { type<mud::RotateTool>(),
+            // bases
+            { &type<mud::TransformTool>() },
+            { base_offset<mud::RotateTool, mud::TransformTool>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::RotateTool>();
+    }
+    
+    
+        
+    // mud::ScaleTool
+    {
+        static Meta meta = { type<mud::ScaleTool>(), &namspc({ "mud" }), "ScaleTool", sizeof(mud::ScaleTool), TypeClass::Object };
+        static Class cls = { type<mud::ScaleTool>(),
+            // bases
+            { &type<mud::TransformTool>() },
+            { base_offset<mud::ScaleTool, mud::TransformTool>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ScaleTool>();
+    }
+    
+    
+        
+    // mud::TranslateTool
+    {
+        static Meta meta = { type<mud::TranslateTool>(), &namspc({ "mud" }), "TranslateTool", sizeof(mud::TranslateTool), TypeClass::Object };
+        static Class cls = { type<mud::TranslateTool>(),
+            // bases
+            { &type<mud::TransformTool>() },
+            { base_offset<mud::TranslateTool, mud::TransformTool>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::TranslateTool>();
+    }
+    
+    
+        
     // mud::CircleBrush
     {
         static Meta meta = { type<mud::CircleBrush>(), &namspc({ "mud" }), "CircleBrush", sizeof(mud::CircleBrush), TypeClass::Object };
@@ -1043,106 +1143,6 @@ namespace mud
         meta_class<mud::CopyAction>();
     }
     
-    
-        
-    // mud::Viewer
-    {
-        static Meta meta = { type<mud::Viewer>(), &namspc({ "mud" }), "Viewer", sizeof(mud::Viewer), TypeClass::Object };
-        static Class cls = { type<mud::Viewer>(),
-            // bases
-            { &type<mud::Widget>() },
-            { base_offset<mud::Viewer, mud::Widget>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link) },
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_viewport), type<mud::Viewport>(), "viewport", Ref(type<mud::Viewport>()), Member::None },
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_position), type<mud::vec2>(), "position", var(mud::vec2()), Member::Value },
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Viewer>();
-    }
-    
-    
-        
-    // mud::SpaceSheet
-    {
-        static Meta meta = { type<mud::SpaceSheet>(), &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
-        static Class cls = { type<mud::SpaceSheet>(),
-            // bases
-            { &type<mud::RootSheet>() },
-            { base_offset<mud::SpaceSheet, mud::RootSheet>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::SpaceSheet>();
-    }
-    
-    
-        
-    // mud::SceneViewer
-    {
-        static Meta meta = { type<mud::SceneViewer>(), &namspc({ "mud" }), "SceneViewer", sizeof(mud::SceneViewer), TypeClass::Object };
-        static Class cls = { type<mud::SceneViewer>(),
-            // bases
-            { &type<mud::Scene>(), &type<mud::Viewer>() },
-            { base_offset<mud::SceneViewer, mud::Scene>(), base_offset<mud::SceneViewer, mud::Viewer>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::SceneViewer>();
-    }
-    
 
     
         m.m_types.push_back(&type<mud::EditContext>());
@@ -1153,6 +1153,9 @@ namespace mud
         m.m_types.push_back(&type<mud::ToolOption>());
         m.m_types.push_back(&type<mud::ToolState>());
         m.m_types.push_back(&type<mud::ViewerController>());
+        m.m_types.push_back(&type<mud::Viewer>());
+        m.m_types.push_back(&type<mud::SpaceSheet>());
+        m.m_types.push_back(&type<mud::SceneViewer>());
         m.m_types.push_back(&type<mud::TransformAction>());
         m.m_types.push_back(&type<mud::ViewAction>());
         m.m_types.push_back(&type<mud::WorkPlaneAction>());
@@ -1160,26 +1163,23 @@ namespace mud
         m.m_types.push_back(&type<mud::UndoTool>());
         m.m_types.push_back(&type<mud::ViewportTool>());
         m.m_types.push_back(&type<mud::WorkPlaneTool>());
-        m.m_types.push_back(&type<mud::SpatialTool>());
-        m.m_types.push_back(&type<mud::ViewTool>());
         m.m_types.push_back(&type<mud::PlaneSnapOption>());
         m.m_types.push_back(&type<mud::WorldSnapOption>());
-        m.m_types.push_back(&type<mud::CopyTool>());
-        m.m_types.push_back(&type<mud::RotateTool>());
-        m.m_types.push_back(&type<mud::ScaleTool>());
-        m.m_types.push_back(&type<mud::TranslateTool>());
+        m.m_types.push_back(&type<mud::SpatialTool>());
+        m.m_types.push_back(&type<mud::ViewTool>());
         m.m_types.push_back(&type<mud::Brush>());
         m.m_types.push_back(&type<mud::TransformTool>());
         m.m_types.push_back(&type<mud::RotateAction>());
         m.m_types.push_back(&type<mud::ScaleAction>());
         m.m_types.push_back(&type<mud::TranslateAction>());
+        m.m_types.push_back(&type<mud::CopyTool>());
+        m.m_types.push_back(&type<mud::RotateTool>());
+        m.m_types.push_back(&type<mud::ScaleTool>());
+        m.m_types.push_back(&type<mud::TranslateTool>());
         m.m_types.push_back(&type<mud::CircleBrush>());
         m.m_types.push_back(&type<mud::PlaceBrush>());
         m.m_types.push_back(&type<mud::ScriptedBrush>());
         m.m_types.push_back(&type<mud::CopyAction>());
-        m.m_types.push_back(&type<mud::Viewer>());
-        m.m_types.push_back(&type<mud::SpaceSheet>());
-        m.m_types.push_back(&type<mud::SceneViewer>());
     
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::viewer(val<mud::Widget>(args[0]), val<mud::Scene>(args[1]))); };

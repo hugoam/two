@@ -5,6 +5,7 @@
 #include <obj/Config.h>
 
 #include <obj/Generated/Forward.h>
+#include <srlz/Generated/Forward.h>
 #include <math/Generated/Forward.h>
 #include <geom/Generated/Forward.h>
 #include <ui/Generated/Forward.h>

@@ -5,6 +5,7 @@
 #include <obj/Config.h>
 
 #include <obj/Generated/Forward.h>
+#include <srlz/Generated/Forward.h>
 
 #if defined MUD_MATH_LIB
 #define MUD_MATH_EXPORT MUD_EXPORT

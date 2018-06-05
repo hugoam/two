@@ -5,6 +5,7 @@
 #include <obj/System/System.h>
 
 #include <obj/Generated/Module.h>
+#include <srlz/Generated/Module.h>
 #include <math/Generated/Module.h>
 #include <geom/Generated/Module.h>
 #endif

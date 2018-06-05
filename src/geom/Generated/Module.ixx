@@ -8,6 +8,7 @@ export import std.memory;
 export import std.threading;
 
 export import mud.obj;
+export import mud.srlz;
 export import mud.math;
 
 #include <geom/Generated/Module.h>

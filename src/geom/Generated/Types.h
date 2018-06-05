@@ -4,6 +4,7 @@
 
 #ifndef MUD_MODULES
 #include <obj/Generated/Types.h>
+#include <srlz/Generated/Types.h>
 #include <math/Generated/Types.h>
 
 #include <obj/Type.h>
@@ -24,7 +25,7 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::PrimitiveType>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::SymbolDetail>();
     export_ template <> MUD_GEOM_EXPORT Type& type<std::vector<mud::Circle>>();
-    //export_ template <> MUD_GEOM_EXPORT Type& type<std::vector<mud::vec3>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<std::vector<mud::vec3>>();
     
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Distribution>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Face3>();

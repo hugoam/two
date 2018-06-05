@@ -4,6 +4,7 @@
 
 #ifndef MUD_MODULES
 #include <obj/Generated/Types.h>
+#include <srlz/Generated/Types.h>
 #include <math/Generated/Types.h>
 #include <geom/Generated/Types.h>
 #include <gfx/Generated/Types.h>

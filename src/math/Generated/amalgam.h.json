@@ -24,7 +24,8 @@
 		""
 	],
 	"includes_map": {
-		"obj/": "mudobj.h"
+		"obj/": "mudobj.h",
+		"srlz/": "mudsrlz.h"
 	},
 	"ignore": [
 		"Generated"

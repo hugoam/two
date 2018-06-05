@@ -18,6 +18,7 @@
     "includes_map": {
 		"gen/": "mudgen.h",
 		"obj/": "mudobj.h",
+		"srlz/": "mudsrlz.h",
 		"math/": "mudmath.h",
 		"geom/": "mudgeom.h",
 		"ui/": "mudui.h",

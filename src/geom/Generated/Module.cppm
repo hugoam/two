@@ -13,6 +13,7 @@ import std.io;
 import std.threading;
 
 export import mud.obj;
+export import mud.srlz;
 export import mud.math;
 
 #ifdef MUD_OBJ_LIB

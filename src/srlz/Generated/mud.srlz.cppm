@@ -12,7 +12,6 @@ import std.core;
 import std.io;
 import std.threading;
 
-export import json11;
 export import mud.obj;
 
 #ifdef MUD_OBJ_LIB

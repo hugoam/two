@@ -4,6 +4,7 @@
 
 #ifndef MUD_MODULES
 #include <obj/Generated/Types.h>
+#include <srlz/Generated/Types.h>
 
 #include <obj/Type.h>
 #include <obj/Proto.h>

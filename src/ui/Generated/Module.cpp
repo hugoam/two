@@ -19,6 +19,7 @@ namespace mud
 	{
         // ensure dependencies are instantiated
         mudobj::m();
+        mudsrlz::m();
         mudmath::m();
         mudctx::m();
 

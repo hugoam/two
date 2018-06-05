@@ -18,7 +18,7 @@ namespace mud
     template <> MUD_GEOM_EXPORT Type& type<mud::PrimitiveType>() { static Type ty("mud::PrimitiveType"); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::SymbolDetail>() { static Type ty("mud::SymbolDetail"); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<std::vector<mud::Circle>>() { static Type ty("std::vector<mud::Circle>"); return ty; }
-    //template <> MUD_GEOM_EXPORT Type& type<std::vector<mud::vec3>>() { static Type ty("std::vector<mud::vec3>"); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<std::vector<mud::vec3>>() { static Type ty("std::vector<mud::vec3>"); return ty; }
     
     template <> MUD_GEOM_EXPORT Type& type<mud::Distribution>() { static Type ty("Distribution"); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Face3>() { static Type ty("Face3"); return ty; }

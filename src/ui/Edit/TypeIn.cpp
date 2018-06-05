@@ -238,7 +238,7 @@ namespace mud
 	{
 		size_t row = this->text_row_index(index);
 		size_t column = m_text_rows.empty() ? 0U : index - m_text_rows[row].m_start_index;
-		return{ index, { column, row} };
+		return{ index, { uint(column), uint(row) } };
 	}
 
 	TextCursor Text::to_cursor(const uvec2& grid_index) const
