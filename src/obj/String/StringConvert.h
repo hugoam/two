@@ -124,21 +124,21 @@ namespace mud
 		}
 	}
 
-	template <class T>
+	export_ template <class T>
 	struct StringConverter
 	{
 		static inline void to(const T& val, string& str) { type_to_string(val, str); }
 		static inline void from(const string& str, T& val) { string_to_type<T>(str, val); }
 	};
 
-	template <class T>
+	export_ template <class T>
 	struct StringConverter<std::vector<T>>
 	{
 		static inline void to(const std::vector<T>& val, string& str) { vector_to_string(val, str); }
 		static inline void from(const string& str, std::vector<T>& vec) { string_to_vector(str, vec); }
 	};
 
-	template <class T, size_t s>
+	export_ template <class T, size_t s>
 	struct StringConverter<std::array<T, s>>
 	{
 		static inline void to(const std::array<T, s>& val, string& str) { fixed_vector_to_string<std::array<T, s>, s>(val, str); }
