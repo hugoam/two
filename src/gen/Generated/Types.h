@@ -28,6 +28,11 @@
 namespace mud
 {
     // Exported types
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::Noise::CellularDistanceFunction>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::Noise::CellularReturnType>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::Noise::FractalType>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::Noise::Interp>();
+    export_ template <> MUD_GEN_EXPORT Type& type<mud::Noise::NoiseType>();
     export_ template <> MUD_GEN_EXPORT Type& type<mud::PatternSampling>();
     export_ template <> MUD_GEN_EXPORT Type& type<mud::Result>();
     export_ template <> MUD_GEN_EXPORT Type& type<std::vector<mud::Image256>>();

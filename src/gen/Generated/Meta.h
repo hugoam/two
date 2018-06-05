@@ -640,12 +640,6 @@ namespace mud
         m.m_types.push_back(&type<mud::array_3d<float>>());
     
         {
-            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::generate_fract(val<uint16_t>(args[0]), val<uint16_t>(args[1]), val<mud::Pattern>(args[2]), val<mud::Image256>(args[3])); };
-            std::vector<Param> params = { { "pixelWidth", var(uint16_t()) }, { "pixelHeight", var(uint16_t()) }, { "pattern", var(mud::Pattern()) }, { "outputImage", var(mud::Image256()), Param::Output } };
-            static Function f = { &namspc({ "mud" }), "generate_fract", function_id<void(*)(uint16_t, uint16_t, const mud::Pattern&, mud::Image256&)>(&mud::generate_fract), func, params, Var() };
-            m.m_functions.push_back(&f);
-        }
-        {
             auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::noise_2d(val<float>(args[0]), val<float>(args[1]), val<mud::Noise::NoiseType>(args[2]), val<float>(args[3]), val<mud::Noise::Interp>(args[4])); };
             std::vector<Param> params = { { "x", var(float()) }, { "y", var(float()) }, { "noise_type", var(mud::Noise::NoiseType()) }, { "frequency", var(float(0.01f)), Param::Default }, { "interp", var(mud::Noise::Interp()), Param::Default } };
             static Function f = { &namspc({ "mud" }), "noise_2d", function_id<float(*)(float, float, mud::Noise::NoiseType, float, mud::Noise::Interp)>(&mud::noise_2d), func, params, var(float()) };
@@ -679,6 +673,12 @@ namespace mud
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::noise_field_3d(val<mud::array_3d<float>>(args[0]), val<mud::Noise::NoiseType>(args[1]), val<float>(args[2]), val<mud::Noise::Interp>(args[3])); };
             std::vector<Param> params = { { "output_values", var(mud::array_3d<float>()), Param::Output }, { "noise_type", var(mud::Noise::NoiseType()) }, { "frequency", var(float(0.01f)), Param::Default }, { "interp", var(mud::Noise::Interp()), Param::Default } };
             static Function f = { &namspc({ "mud" }), "noise_field_3d", function_id<void(*)(mud::array_3d<float>&, mud::Noise::NoiseType, float, mud::Noise::Interp)>(&mud::noise_field_3d), func, params, Var() };
+            m.m_functions.push_back(&f);
+        }
+        {
+            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::generate_fract(val<uint16_t>(args[0]), val<uint16_t>(args[1]), val<mud::Pattern>(args[2]), val<mud::Image256>(args[3])); };
+            std::vector<Param> params = { { "pixelWidth", var(uint16_t()) }, { "pixelHeight", var(uint16_t()) }, { "pattern", var(mud::Pattern()) }, { "outputImage", var(mud::Image256()), Param::Output } };
+            static Function f = { &namspc({ "mud" }), "generate_fract", function_id<void(*)(uint16_t, uint16_t, const mud::Pattern&, mud::Image256&)>(&mud::generate_fract), func, params, Var() };
             m.m_functions.push_back(&f);
         }
         {

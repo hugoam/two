@@ -6,8 +6,10 @@
 
 #include <gen/Generated/Forward.h>
 
-#ifndef MUD_META_GENERATOR
-// @kludge since we can't forward declare the enums
-export_ class MUD_GEN_EXPORT FastNoise;
-#include <FastNoise.h>
-#endif
+//#ifndef MUD_META_GENERATOR
+//// @kludge since we can't forward declare the enums
+//export_ class MUD_GEN_EXPORT FastNoise;
+//#include <FastNoise.h>
+//#endif
+
+#include <gen/Noise/Noise.h>

@@ -68,13 +68,13 @@ namespace mud {
     enum Result : unsigned int;
     
     
+    class Noise;
     class Pixircle;
     class Circlifier;
     struct Pattern;
     struct FractTab;
     class Fract;
     class FractSample;
-    class Noise;
     struct Tile;
     struct Tileset;
     struct DoubleGenerator;

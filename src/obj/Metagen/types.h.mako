@@ -30,7 +30,7 @@ namespace mud
     export_ template <> ${ module.export } Type& type<${ b.name }>();
     % endfor
     % for e in module.enums :
-        % if not e.nested :
+        % if not e.nested or e.reflect :
     export_ template <> ${ module.export } Type& type<${ e.id }>();
         % endif
     % endfor
