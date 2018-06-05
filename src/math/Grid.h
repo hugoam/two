@@ -18,7 +18,7 @@
 
 namespace mud
 {
-	class Grid3
+	export_ class Grid3
 	{
 	public:
 		struct Dim
@@ -43,7 +43,7 @@ namespace mud
 		};
 	};
 
-	template <class T_Array>
+	export_ template <class T_Array>
 	class Grided : public T_Array, public Grid3
 	{
 	public:
@@ -272,6 +272,6 @@ namespace mud
 		size_t m_x, m_y, m_z;
 	};
 
-	MUD_MATH_EXPORT _func_ void grid(uvec3 size, std::vector<uvec3>& output_coords);
-	MUD_MATH_EXPORT _func_ void grid_center(uvec3 coord, float cell_size, vec3& output_center);
+	export_ MUD_MATH_EXPORT _func_ void grid(uvec3 size, std::vector<uvec3>& output_coords);
+	export_ MUD_MATH_EXPORT _func_ void grid_center(uvec3 coord, float cell_size, vec3& output_center);
 }
