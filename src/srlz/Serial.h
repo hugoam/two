@@ -16,12 +16,9 @@
 #include <map>
 #endif
 
-export_ namespace json11
-{}
-
 namespace json11
 {
-	export_ class MUD_SRLZ_EXPORT Json;
+	class Json;
 }
 
 export_ using json = json11::Json;

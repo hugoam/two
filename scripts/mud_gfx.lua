@@ -26,6 +26,11 @@ function mud_gfx(as_project)
     
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "glm"),
+        path.join(MUD_3RDPARTY_DIR, "json11"),
+    }
+    
+    links {
+        "json11",
     }
     
     mud_ctx_backend()
@@ -70,6 +75,10 @@ function mud_gen(as_project)
     files {
         path.join(MUD_3RDPARTY_DIR, "FastNoise", "**.h"),
         path.join(MUD_3RDPARTY_DIR, "FastNoise", "**.cpp"),
+    }
+    
+    links {
+        "json11",
     }
 end
 
