@@ -153,7 +153,7 @@ namespace mud
 	{
 		if(sprite.m_num_frames > 0)
 		{
-			size_t index = lerp(size_t(0U), sprite.m_num_frames - 1U, t);
+			size_t index = lerp(0U, sprite.m_num_frames - 1U, t);
 			return sprite.m_frame_uvs[index];
 		}
 
