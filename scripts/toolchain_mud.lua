@@ -12,13 +12,6 @@ end
 
 function mud_defines()
     configuration { "cpp-modules" }
-        flags {
-            "CppLatest",
-            "CppModules",
-        }
-        
-        defines { "_CRT_NO_VA_START_VALIDATION" }
-        
         defines {
             "MUD_NO_GLM",
             "MUD_CPP_20",
@@ -281,14 +274,25 @@ removeflags {
     "StaticRuntime",
     "NoFramePointer",
 }
-        
+
+configuration { "cpp-modules" }
+    removeflags { "Cpp14" }
+    flags {
+        "CppLatest",
+        "CppModules",
+    }
+    
+    defines { "_CRT_NO_VA_START_VALIDATION" }
+
+configuration {}
+
 configuration { "Debug" }
     targetsuffix "_d"
-    
+
     removeflags {
         --"NoExceptions",
     }
-    
+
 configuration { "Release" }
     targetsuffix ""
     
