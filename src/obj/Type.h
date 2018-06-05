@@ -13,8 +13,8 @@
 
 namespace mud // export_ namespace mud// @todo evaluate export at namespace level ?
 {
-	using Id = unsigned int;
-	using cstring = const char*;
+	export_ using Id = unsigned int;
+	export_ using cstring = const char*;
 
 	class Meta;
 

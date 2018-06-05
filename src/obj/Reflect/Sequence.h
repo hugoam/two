@@ -10,35 +10,35 @@
 
 namespace mud
 {
-	inline size_t sequence_size(Ref object)
+	export_ inline size_t sequence_size(Ref object)
 	{
 		unique_ptr<Iterable> iterable = cls(object).m_iterable(object);
 		return iterable->size();
 	}
 
-	inline void iterate_dict(Ref object, const std::function<void(Ref, Ref)>& callback)
+	export_ inline void iterate_dict(Ref object, const std::function<void(Ref, Ref)>& callback)
 	{
 		UNUSED(object); UNUSED(callback);
 	}
 
-	inline void iterate_sequence(Ref object, const std::function<void(size_t, Ref)>& callback)
+	export_ inline void iterate_sequence(Ref object, const std::function<void(size_t, Ref)>& callback)
 	{
 		UNUSED(object); UNUSED(callback);
 	}
 
-	inline void iterate_sequence(Ref object, const std::function<void(Ref)>& callback)
+	export_ inline void iterate_sequence(Ref object, const std::function<void(Ref)>& callback)
 	{
 		unique_ptr<Iterable> iterable = cls(object).m_iterable(object);
 		iterable->iterate(callback);
 	}
 
-	inline void add_sequence(Ref value, Ref element)
+	export_ inline void add_sequence(Ref value, Ref element)
 	{
 		unique_ptr<Sequence> sequence = cls(value).m_sequence(value);
 		sequence->add(element);
 	}
 
-	inline void remove_sequence(Ref value, Ref element)
+	export_ inline void remove_sequence(Ref value, Ref element)
 	{
 		unique_ptr<Sequence> sequence = cls(value).m_sequence(value);
 		sequence->remove(element);
