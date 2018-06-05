@@ -4,6 +4,7 @@
 #include <float.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stddef.h>
 #include <time.h>
 #include <stdio.h>
 
@@ -22,6 +23,7 @@ export import ${ m.namespace }.${ m.name };
 #ifdef MUD_OBJ_LIB
 #include <obj/Cls.h>
 #include <obj/Strung.h>
+#include <obj/String/String.h>
 #endif
 
 #include <${ module.subdir }/Generated/Module.h>
