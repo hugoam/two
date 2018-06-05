@@ -14,6 +14,8 @@ namespace mud
 	export_ class _refl_ MUD_OBJ_EXPORT Pool
 	{
 	public:
+		virtual ~Pool() {}
+
 		virtual void reset() = 0;
 		virtual void clear() = 0;
 
