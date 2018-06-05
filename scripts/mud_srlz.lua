@@ -10,8 +10,8 @@ project "json11"
     
     files {
         path.join(MUD_3RDPARTY_DIR, "json11", "json11.cpp"),
-        --path.join(MUD_SRC_DIR, "3rdparty", "json11.cpp"),
         path.join(MUD_SRC_DIR, "3rdparty", "json11.mxx"),
+        path.join(MUD_SRC_DIR, "3rdparty", "json11.cppm"),
     }
     
 function mud_srlz(as_project)
