@@ -8,6 +8,7 @@
         
 #include <obj/Generated/Forward.h>
 #include <obj/Generated/Types.h>
+#include <obj/Generated/Convert.h>
 
 #include <obj/Any.h>
 #include <obj/Array.h>

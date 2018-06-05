@@ -11,6 +11,7 @@
         
 #include <geom/Generated/Forward.h>
 #include <geom/Generated/Types.h>
+#include <geom/Generated/Convert.h>
 
 #include <geom/Aabb.h>
 #include <geom/Geom.h>

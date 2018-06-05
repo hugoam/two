@@ -11,6 +11,7 @@
         
 #include <${ module.subdir }/Generated/Forward.h>
 #include <${ module.subdir }/Generated/Types.h>
+#include <${ module.subdir }/Generated/Convert.h>
 
 % for header in module.headers :
 #include <${ module.subdir }/${ header }>

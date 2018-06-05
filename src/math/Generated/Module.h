@@ -10,6 +10,7 @@
         
 #include <math/Generated/Forward.h>
 #include <math/Generated/Types.h>
+#include <math/Generated/Convert.h>
 
 #include <math/Axes.h>
 #include <math/Axis.h>

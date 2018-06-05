@@ -9,6 +9,7 @@
         
 #include <srlz/Generated/Forward.h>
 #include <srlz/Generated/Types.h>
+#include <srlz/Generated/Convert.h>
 
 #include <srlz/Serial.h>
 
