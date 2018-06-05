@@ -22,18 +22,18 @@ namespace ui
 
 	MUD_UI_EXPORT CursorStyles& cursor_styles();
 
-	MUD_UI_EXPORT _func_ Widget* tooltip(Widget& parent, const vec2& position, float delay = 0.5f);
-	MUD_UI_EXPORT _func_ Widget* tooltip(Widget& parent, float delay = 0.5f);
-	MUD_UI_EXPORT _func_ Widget* tooltip(Widget& parent, const vec2& position, cstring content);
-	MUD_UI_EXPORT _func_ Widget* tooltip(Widget& parent, const vec2& position, array<cstring> elements);
+	export_ MUD_UI_EXPORT _func_ Widget* tooltip(Widget& parent, const vec2& position, float delay = 0.5f);
+	export_ MUD_UI_EXPORT _func_ Widget* tooltip(Widget& parent, float delay = 0.5f);
+	export_ MUD_UI_EXPORT _func_ Widget* tooltip(Widget& parent, const vec2& position, cstring content);
+	export_ MUD_UI_EXPORT _func_ Widget* tooltip(Widget& parent, const vec2& position, array<cstring> elements);
 
 	MUD_UI_EXPORT Widget* tooltip(Widget& parent, const Frame& parent_frame);
 	MUD_UI_EXPORT Widget* tooltip(Widget& parent, const Frame& parent_frame, cstring content);
 	MUD_UI_EXPORT Widget* tooltip(Widget& parent, const Frame& parent_frame, array<cstring> elements);
 
-	MUD_UI_EXPORT Widget& cursor(Widget& parent, const vec2& position, Style& style, bool locked = false);
-	MUD_UI_EXPORT _func_ Widget& cursor(Widget& parent, const vec2& position, Widget& hovered, bool locked = false);
+	export_ MUD_UI_EXPORT Widget& cursor(Widget& parent, const vec2& position, Style& style, bool locked = false);
+	export_ MUD_UI_EXPORT _func_ Widget& cursor(Widget& parent, const vec2& position, Widget& hovered, bool locked = false);
 
-	MUD_UI_EXPORT _func_ Widget& rectangle(Widget& parent, const vec4& rect);
+	export_ MUD_UI_EXPORT _func_ Widget& rectangle(Widget& parent, const vec4& rect);
 }
 }

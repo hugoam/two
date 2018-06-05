@@ -59,11 +59,11 @@ namespace ui
 	MUD_UI_EXPORT Node& node(Canvas& parent, array<cstring> title, int order = 0, Ref identity = {});
 	MUD_UI_EXPORT Node& node(Canvas& parent, array<cstring> title, float* position, int order = 0, Ref identity = {});
 	MUD_UI_EXPORT Node& node(Canvas& parent, array<cstring> title, vec2& position, int order = 0, Ref identity = {});
-	MUD_UI_EXPORT _func_ Node& node(Canvas& parent, cstring title, vec2& position, int order = 0, Ref identity = {});
+	export_ MUD_UI_EXPORT _func_ Node& node(Canvas& parent, cstring title, vec2& position, int order = 0, Ref identity = {});
 
-	MUD_UI_EXPORT _func_ Widget& node_cable(Canvas& canvas, NodePlug& plug_out, NodePlug& plug_in);
+	export_ MUD_UI_EXPORT _func_ Widget& node_cable(Canvas& canvas, NodePlug& plug_out, NodePlug& plug_in);
 
-	MUD_UI_EXPORT _func_ Canvas& canvas(Widget& parent, size_t num_nodes = 0);
+	export_ MUD_UI_EXPORT _func_ Canvas& canvas(Widget& parent, size_t num_nodes = 0);
 	MUD_UI_EXPORT NodeConnection canvas_connect(Canvas& canvas);
 	MUD_UI_EXPORT void canvas_autolayout(Canvas& canvas);
 }

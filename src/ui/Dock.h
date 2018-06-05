@@ -23,13 +23,13 @@ namespace ui
 
 	MUD_UI_EXPORT DockStyles& dock_styles();
 
-	MUD_UI_EXPORT Widget& dockline(Widget& parent, uint16_t index, Dim dim);
+	export_ MUD_UI_EXPORT Widget& dockline(Widget& parent, uint16_t index, Dim dim);
 	MUD_UI_EXPORT Tabber& docksection(Widget& parent);
 
-	MUD_UI_EXPORT _func_ Dockspace& dockspace(Widget& parent, Docksystem& docksystem);
-	MUD_UI_EXPORT _func_ Dockbar& dockbar(Widget& parent, Docksystem& docksystem);
+	export_ MUD_UI_EXPORT _func_ Dockspace& dockspace(Widget& parent, Docksystem& docksystem);
+	export_ MUD_UI_EXPORT _func_ Dockbar& dockbar(Widget& parent, Docksystem& docksystem);
 
-	MUD_UI_EXPORT _func_ Widget* dockitem(Widget& parent, Docksystem& docksystem, Dock& dock);
+	export_ MUD_UI_EXPORT _func_ Widget* dockitem(Widget& parent, Docksystem& docksystem, Dock& dock);
 
 	MUD_UI_EXPORT Widget* dockitem(Docker& docker, cstring name, array<uint16_t> dockid = {});
 }

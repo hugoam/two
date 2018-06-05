@@ -21,6 +21,6 @@ namespace ui
 	MUD_UI_EXPORT ScrollbarStyles& scrollbar_styles();
 
 	MUD_UI_EXPORT bool overflow(Frame& frame, Frame& content, Dim dim);
-	MUD_UI_EXPORT Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Dim dim, Dim2<size_t> grid_index = { 0, 0 });
+	export_ MUD_UI_EXPORT Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Dim dim, Dim2<size_t> grid_index = { 0, 0 });
 }
 }

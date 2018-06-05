@@ -46,21 +46,21 @@ namespace ui
 
 	MUD_UI_EXPORT TabberStyles& tabber_styles();
 
-	MUD_UI_EXPORT _func_ ScrollSheet& select_list(Widget& parent);
+	export_ MUD_UI_EXPORT _func_ ScrollSheet& select_list(Widget& parent);
 
 	// @todo reflection for array<T>
-	MUD_UI_EXPORT _func_ Table& columns(Widget& parent, array<float> weights);
-	MUD_UI_EXPORT _func_ Table& table(Widget& parent, array<cstring> columns, array<float> weights);
-	MUD_UI_EXPORT _func_ Widget& table_row(Widget& parent);
+	export_ MUD_UI_EXPORT _func_ Table& columns(Widget& parent, array<float> weights);
+	export_ MUD_UI_EXPORT _func_ Table& table(Widget& parent, array<cstring> columns, array<float> weights);
+	export_ MUD_UI_EXPORT _func_ Widget& table_row(Widget& parent);
 
-	MUD_UI_EXPORT _func_ Expandbox& expandbox(Widget& parent, array<cstring> elements, bool open = true);
-	MUD_UI_EXPORT _func_ Expandbox& expandbox(Widget& parent, cstring name, bool open = true);
+	export_ MUD_UI_EXPORT _func_ Expandbox& expandbox(Widget& parent, array<cstring> elements, bool open = true);
+	export_ MUD_UI_EXPORT _func_ Expandbox& expandbox(Widget& parent, cstring name, bool open = true);
 
-	MUD_UI_EXPORT _func_ TreeNode& tree_node(Widget& parent, array<cstring> elements, bool leaf = false, bool open = true);
-	MUD_UI_EXPORT _func_ TreeNode& tree_node(Widget& parent, cstring name, bool leaf = false, bool open = true);
-	MUD_UI_EXPORT _func_ Widget& tree(Widget& parent);
+	export_ MUD_UI_EXPORT _func_ TreeNode& tree_node(Widget& parent, array<cstring> elements, bool leaf = false, bool open = true);
+	export_ MUD_UI_EXPORT _func_ TreeNode& tree_node(Widget& parent, cstring name, bool leaf = false, bool open = true);
+	export_ MUD_UI_EXPORT _func_ Widget& tree(Widget& parent);
 
-	MUD_UI_EXPORT _func_ Widget* tab(Tabber& tabber, cstring name);
-	MUD_UI_EXPORT _func_ Tabber& tabber(Widget& parent);
+	export_ MUD_UI_EXPORT _func_ Widget* tab(Tabber& tabber, cstring name);
+	export_ MUD_UI_EXPORT _func_ Tabber& tabber(Widget& parent);
 }
 }

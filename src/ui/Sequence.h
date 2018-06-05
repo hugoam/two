@@ -17,11 +17,11 @@ namespace mud
 {
 namespace ui
 {
-	MUD_UI_EXPORT _func_ Sequence& sequence(Widget& parent);
-	MUD_UI_EXPORT _func_ bool select_logic(Widget& element, Ref object, std::vector<Ref>& selection);
-	MUD_UI_EXPORT _func_ bool select_logic(Widget& element, Ref object, Ref& selection);
-	MUD_UI_EXPORT _func_ Widget& element(Widget& parent, Ref object);
-	MUD_UI_EXPORT _func_ Widget& element(Widget& parent, Ref object, std::vector<Ref>& selection);
-	MUD_UI_EXPORT _func_ Widget& element(Sequence& parent, Ref object);
+	export_ MUD_UI_EXPORT _func_ Sequence& sequence(Widget& parent);
+	export_ MUD_UI_EXPORT _func_ bool select_logic(Widget& element, Ref object, std::vector<Ref>& selection);
+	export_ MUD_UI_EXPORT _func_ bool select_logic(Widget& element, Ref object, Ref& selection);
+	export_ MUD_UI_EXPORT _func_ Widget& element(Widget& parent, Ref object);
+	export_ MUD_UI_EXPORT _func_ Widget& element(Widget& parent, Ref object, std::vector<Ref>& selection);
+	export_ MUD_UI_EXPORT _func_ Widget& element(Sequence& parent, Ref object);
 }
 }
