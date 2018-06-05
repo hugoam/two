@@ -41,34 +41,34 @@ namespace mud
 		ToJson();
 	};
 
-	using JsonVisitor = std::function<void(json&)>;
+	export_ using JsonVisitor = std::function<void(json&)>;
 
-	MUD_SRLZ_EXPORT void parse_json_file(const string& path, json& data);
-	MUD_SRLZ_EXPORT void dump_json_file(const string& path, const json& data);
-	MUD_SRLZ_EXPORT void visit_json(json& value, const JsonVisitor& visitor);
+	export_ MUD_SRLZ_EXPORT void parse_json_file(const string& path, json& data);
+	export_ MUD_SRLZ_EXPORT void dump_json_file(const string& path, const json& data);
+	export_ MUD_SRLZ_EXPORT void visit_json(json& value, const JsonVisitor& visitor);
 
-	MUD_SRLZ_EXPORT Var unpack(Type& type, const json& data);
-	MUD_SRLZ_EXPORT Var unpack(FromJson& unpacker, Type& type, const json& data, bool typed = false);
-	MUD_SRLZ_EXPORT void unpack(Var& value, const json& data);
-	MUD_SRLZ_EXPORT void unpack(Ref value, const json& data);
-	MUD_SRLZ_EXPORT void unpack(FromJson& unpacker, Var& value, const json& data, bool typed = false);
+	export_ MUD_SRLZ_EXPORT Var unpack(Type& type, const json& data);
+	export_ MUD_SRLZ_EXPORT Var unpack(FromJson& unpacker, Type& type, const json& data, bool typed = false);
+	export_ MUD_SRLZ_EXPORT void unpack(Var& value, const json& data);
+	export_ MUD_SRLZ_EXPORT void unpack(Ref value, const json& data);
+	export_ MUD_SRLZ_EXPORT void unpack(FromJson& unpacker, Var& value, const json& data, bool typed = false);
 
-	MUD_SRLZ_EXPORT Var unpack_typed(const json& data);
-	MUD_SRLZ_EXPORT Var unpack_typed(FromJson& unpacker, const json& data);
+	export_ MUD_SRLZ_EXPORT Var unpack_typed(const json& data);
+	export_ MUD_SRLZ_EXPORT Var unpack_typed(FromJson& unpacker, const json& data);
 
-	MUD_SRLZ_EXPORT void pack(const Var& value, json& data);
-	MUD_SRLZ_EXPORT void pack(ToJson& packer, const Var& value, json& data, bool typed = false);
+	export_ MUD_SRLZ_EXPORT void pack(const Var& value, json& data);
+	export_ MUD_SRLZ_EXPORT void pack(ToJson& packer, const Var& value, json& data, bool typed = false);
 
-	MUD_SRLZ_EXPORT void pack_typed(const Var& value, json& data);
-	MUD_SRLZ_EXPORT void pack_typed(ToJson& packer, const Var& value, json& data);
+	export_ MUD_SRLZ_EXPORT void pack_typed(const Var& value, json& data);
+	export_ MUD_SRLZ_EXPORT void pack_typed(ToJson& packer, const Var& value, json& data);
 
-	template <class T>
+	export_ template <class T>
 	T unpackt(const json& data)
 	{
 		Var value = unpack(type<T>(), data);
 		return val<T>(value);
 	}
 
-	MUD_SRLZ_EXPORT string pack_json(const Var& value);
-	MUD_SRLZ_EXPORT void unpack_json_file(Ref value, const string& path);
+	export_ MUD_SRLZ_EXPORT string pack_json(const Var& value);
+	export_ MUD_SRLZ_EXPORT void unpack_json_file(Ref value, const string& path);
 }
