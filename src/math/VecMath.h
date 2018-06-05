@@ -1914,7 +1914,7 @@ double3 float3_to_double3(const float3& v);
 #endif
 }
 
-#if MUD_NOT_IMPLEMENTED
+#if 0 // MUD_NOT_IMPLEMENTED
 #include <vector>
 
 namespace mud

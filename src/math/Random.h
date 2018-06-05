@@ -12,7 +12,7 @@
 
 namespace mud
 {
-	template <class T>
+	export_ template <class T>
 	T random_integer(T min, T max)
 	{
 		static std::random_device randomDevice;
@@ -22,7 +22,7 @@ namespace mud
 		return uniform(range);
 	}
 
-	template <class T>
+	export_ template <class T>
 	T random_scalar(T min, T max)
 	{
 		static std::random_device randomDevice;

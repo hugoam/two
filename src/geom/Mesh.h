@@ -14,7 +14,7 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_GEOM_EXPORT Geometry : public Shape
+	export_ class _refl_ MUD_GEOM_EXPORT Geometry final : public Shape
 	{
 	public:
 		_constr_ Geometry();

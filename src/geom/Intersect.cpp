@@ -296,7 +296,7 @@ namespace mud
 
 		float denom = dot(cross(normal0, normal1), normal2);
 
-		if(std::abs(denom) <= CMP_EPSILON)
+		if(std::abs(denom) <= c_cmp_epsilon)
 			return Zero3; // @todo move to optional when C++17
 
 		return ((cross(normal1, normal2) * plane0.m_distance) +

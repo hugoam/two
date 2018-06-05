@@ -20,7 +20,7 @@ namespace mud
 	extern MUD_MATH_EXPORT const vec3 c_dirs_tangents[6];	// = {  Y3, -Z3, -Z3,  X3,  Y3,  X3 };
 	extern MUD_MATH_EXPORT const vec3 c_dirs_normals[6];	// = { -Z3,  Y3,  X3, -Z3,  X3,  Y3 };
 
-	inline vec3 to_vec3(Axis axis) { return c_axes[size_t(axis)]; }
-	inline vec3 to_vec3(Side side) { return c_dirs[size_t(side)]; }
-	inline vec3 to_vec3(SignedAxis axis) { return c_dirs[size_t(axis)]; }
+	export_ inline vec3 to_vec3(Axis axis) { return c_axes[size_t(axis)]; }
+	export_ inline vec3 to_vec3(Side side) { return c_dirs[size_t(side)]; }
+	export_ inline vec3 to_vec3(SignedAxis axis) { return c_dirs[size_t(axis)]; }
 }

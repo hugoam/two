@@ -17,7 +17,7 @@
 
 namespace mud
 {
-	export_ struct _refl_ MUD_GEOM_EXPORT Polygon : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Polygon final : public Shape
 	{
 	public:
 		_constr_ Polygon();
@@ -28,7 +28,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT Box : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Box final : public Shape
 	{
 	public:
 		_constr_ Box();
@@ -41,7 +41,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT Points : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Points final : public Shape
 	{
 	public:
 		_constr_ Points();
@@ -52,7 +52,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT ConvexHull : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT ConvexHull final : public Shape
 	{
 	public:
 		_constr_ ConvexHull();

@@ -13,6 +13,9 @@ module mud.geom;
 
 namespace mud
 {
+	const float c_cmp_epsilon = 0.00001f;
+	const float c_cmp_epsilon2 = c_cmp_epsilon * c_cmp_epsilon;
+
 	ShapeSize size_shape_lines(const ProcShape& shape, const Geometry& geometry)
 	{
 		UNUSED(shape);

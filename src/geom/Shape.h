@@ -17,6 +17,7 @@ namespace mud
 	public:
 		Shape(Type& type) : m_type(type), m_center(Zero3) {}
 		Shape(Type& type, const vec3& center) : m_type(type), m_center(center) {}
+		virtual ~Shape() {}
 
 		Shape(const Shape& other) : m_type(other.m_type) { *this = other; }
 		Shape& operator=(const Shape& other) { m_center = other.m_center; return *this; }

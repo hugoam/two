@@ -12,7 +12,7 @@
 
 namespace mud
 {
-	export_ struct _refl_ MUD_GEOM_EXPORT Line : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Line final : public Shape
 	{
 	public:
 		_constr_ Line();
@@ -24,7 +24,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT Rect : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Rect final : public Shape
 	{
 	public:
 		_constr_ Rect();
@@ -37,7 +37,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT Quad : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Quad final : public Shape
 	{
 	public:
 		_constr_ Quad();
@@ -52,7 +52,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT Grid2 : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Grid2 final : public Shape
 	{
 	public:
 		_constr_ Grid2();
@@ -64,7 +64,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT Triangle : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Triangle final : public Shape
 	{
 	public:
 		_constr_ Triangle();
@@ -75,7 +75,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT Circle : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Circle final : public Shape
 	{
 	public:
 		_constr_ Circle();
@@ -90,7 +90,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT Torus : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Torus final : public Shape
 	{
 	public:
 		_constr_ Torus();
@@ -106,7 +106,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT Ring : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Ring final : public Shape
 	{
 	public:
 		_constr_ Ring();
@@ -119,7 +119,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT Ellipsis : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Ellipsis final : public Shape
 	{
 	public:
 		_constr_ Ellipsis();
@@ -131,7 +131,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT Arc : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Arc final : public Shape
 	{
 	public:
 		_constr_ Arc();
@@ -144,7 +144,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT Cylinder : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Cylinder final : public Shape
 	{
 	public:
 		_constr_ Cylinder();
@@ -157,7 +157,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT Capsule : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Capsule final : public Shape
 	{
 	public:
 		_constr_ Capsule();
@@ -184,7 +184,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT Sphere : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Sphere final : public Shape
 	{
 	public:
 		_constr_ Sphere();
@@ -196,7 +196,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT SphereRing : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT SphereRing final : public Shape
 	{
 	public:
 		_constr_ SphereRing();
@@ -209,7 +209,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_GEOM_EXPORT Spheroid : public Shape
+	export_ struct _refl_ MUD_GEOM_EXPORT Spheroid final : public Shape
 	{
 	public:
 		_constr_ Spheroid();

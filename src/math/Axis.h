@@ -24,8 +24,8 @@ namespace mud
 		Z = 1 << 2,
 	};
 
-	inline Axes to_axes(Axes x = Axes::None, Axes y = Axes::None, Axes z = Axes::None) { return Axes(uint(x) | uint(y) | uint(z)); }
-	inline bool check_axis(Axes axes, Axes axis) { return (uint(axes) & uint(axis)) != 0; }
+	export_ inline Axes to_axes(Axes x = Axes::None, Axes y = Axes::None, Axes z = Axes::None) { return Axes(uint(x) | uint(y) | uint(z)); }
+	export_ inline bool check_axis(Axes axes, Axes axis) { return (uint(axes) & uint(axis)) != 0; }
 
 	export_ enum class _refl_ SignedAxis : unsigned int
 	{
@@ -37,7 +37,7 @@ namespace mud
 		MinusZ = 5,
 	};
 
-	inline SignedAxis to_signed_axis(Axis axis, bool positive)
+	export_ inline SignedAxis to_signed_axis(Axis axis, bool positive)
 	{
 		return SignedAxis(uint(axis) * 2 + (positive ? 0 : 1));
 	}
