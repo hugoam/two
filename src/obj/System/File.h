@@ -22,6 +22,6 @@ namespace mud
 		string extension;
 	};
 
-	MUD_OBJ_EXPORT std::vector<uint8_t> read_binary_file(const string& path);
-	MUD_OBJ_EXPORT string read_text_file(const string& path);
+	export_ MUD_OBJ_EXPORT std::vector<uint8_t> read_binary_file(const string& path);
+	export_ MUD_OBJ_EXPORT string read_text_file(const string& path);
 }
