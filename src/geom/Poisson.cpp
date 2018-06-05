@@ -5,7 +5,6 @@
 #include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
-import mud.math;
 module mud.geom;
 #else
 #include <math/Axis.h>

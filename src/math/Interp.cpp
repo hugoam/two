@@ -5,7 +5,6 @@
 #include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
-import mud.obj;
 module mud.math;
 #else
 #include <obj/Any.h>

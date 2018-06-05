@@ -14,7 +14,7 @@
 
 namespace mud
 {
-	template <class T>
+	export_ template <class T>
 	class VectorIterable : public Iterable
 	{
 	public:
@@ -28,13 +28,13 @@ namespace mud
 		const std::vector<T>& m_vector;
 	};
 
-	template <class T>
+	export_ template <class T>
 	typename std::enable_if<is_comparable<T>::value, void>::type vector_remove_any(std::vector<T>& vector, T value) { vector_remove(vector, value); }
 
-	template <class T>
+	export_ template <class T>
 	typename std::enable_if<!is_comparable<T>::value, void>::type vector_remove_any(std::vector<T>& vector, T& value) { vector_remove_object(vector, value); }
 
-	template <class T>
+	export_ template <class T>
 	class VectorSequence : public Sequence
 	{
 	public:

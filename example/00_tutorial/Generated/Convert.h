@@ -11,8 +11,8 @@
 
 namespace mud
 {
-    template <> inline void from_string(const string& str, ShapeType& val) { val = static_cast<ShapeType>(enu<ShapeType>().value(str.c_str())); };
-    template <> inline void to_string(const ShapeType& val, string& str) { str = enu<ShapeType>().m_map[size_t(val)]; };
+    export_ template <> inline void from_string(const string& str, ShapeType& val) { val = static_cast<ShapeType>(enu<ShapeType>().value(str.c_str())); };
+    export_ template <> inline void to_string(const ShapeType& val, string& str) { str = enu<ShapeType>().m_map[size_t(val)]; };
     
     
 }

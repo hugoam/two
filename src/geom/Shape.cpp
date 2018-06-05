@@ -5,8 +5,6 @@
 #include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
-import mud.obj;
-import mud.math;
 module mud.geom;
 #else
 #include <obj/Util/DispatchDecl.h>

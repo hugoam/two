@@ -5,7 +5,6 @@
 #include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
-import mud.ctx;
 module mud.ui;
 #else
 #include <ui/Controller/Controller.h>

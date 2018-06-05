@@ -14,7 +14,6 @@
 #endif
 
 #ifdef MUD_MODULES
-import mud.obj;
 module mud.ui;
 #else
 #include <obj/Vector.h>

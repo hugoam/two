@@ -9,8 +9,6 @@
 #endif
 
 #ifdef MUD_MODULES
-import mud.obj;
-import mud.math;
 module mud.geom;
 #else
 #include <obj/Vector.h>
