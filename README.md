@@ -35,13 +35,13 @@ I started writing mud because I discovered some of the blocks I needed were miss
 
 # domains
 Here is a slightly more in-depth description of each of mud core components :
-- [a small generic c++ layer](https://github.com/hugoam/mud/blob/master/docs/reflection.md) (< 5 kLoC): c++ primitives that allow manipulating generic objects at runtime, and precompilation of any c++ code to an initializer for these primitives.
-- [a small generic serialization layer](https://github.com/hugoam/mud/blob/master/docs/serial.md) (< 1 kLoC): serialize generic c++ objects from and to different formats. mud does only json (and previously sqlite), but some binary formats like flat buffers should be studied (although they usually have their own code generation).
-- [a small generic scripting library](https://github.com/hugoam/mud/blob/master/docs/scripting.md) (< 3 kLoC): manipulate generic c++ objects through scripts. all reflected primitives: functions, methods, members can be used seamlessly. mud does only lua, and a powerful graph based visual scripting language.
-- [a small UI library](https://github.com/hugoam/mud/blob/master/docs/ui.md) (< 10 kLoC) that does: immediate-mode widget declarations, logic/layout/styling separation, fully automatic layout, css-like skinning, image-based skinning, style sheets, input widgets, docking windows and tabs, allows to define complex widgets easily.
-- [a small graphics library](https://github.com/hugoam/mud/blob/master/docs/graphics.md) (< 6 kLoC): immediate-mode rendering graph declaration, with the following basic primitives: meshes, models, shaders, programs, materials, skeletons, animations, render targets, filters, render passes, render pipelines. It is minimalistic in design, and is **NOT a game engine** nor does it try to be.
-- [a small ui inspection library](https://github.com/hugoam/mud/blob/master/docs/inspector.md) (< 3 kLoC): generic ui components: inspector panel, edit an object fields, call a method on an object, inspect an object graph/structure, all these are generic ui components operating on the reflected primitives.
-- [a small pbr rendering model]() (< 4 kLoC): a sample implementation of a physically based rendering model for the above graphics library, demonstrating it can be simple (it's the research behind that is complex).
+- [a small generic c++ layer](docs/reflection.md) (< 5 kLoC): c++ primitives that allow manipulating generic objects at runtime, and precompilation of any c++ code to an initializer for these primitives.
+- [a small generic serialization layer](docs/serial.md) (< 1 kLoC): serialize generic c++ objects from and to different formats. mud does only json (and previously sqlite), but some binary formats like flat buffers should be studied (although they usually have their own code generation).
+- [a small generic scripting library](docs/scripting.md) (< 3 kLoC): manipulate generic c++ objects through scripts. all reflected primitives: functions, methods, members can be used seamlessly. mud does only lua, and a powerful graph based visual scripting language.
+- [a small UI library](docs/ui.md) (< 10 kLoC) that does: immediate-mode widget declarations, logic/layout/styling separation, fully automatic layout, css-like skinning, image-based skinning, style sheets, input widgets, docking windows and tabs, allows to define complex widgets easily.
+- [a small graphics library](docs/graphics.md) (< 6 kLoC): immediate-mode rendering graph declaration, with the following basic primitives: meshes, models, shaders, programs, materials, skeletons, animations, render targets, filters, render passes, render pipelines. It is minimalistic in design, and is **NOT a game engine** nor does it try to be.
+- [a small ui inspection library](docs/inspector.md) (< 3 kLoC): generic ui components: inspector panel, edit an object fields, call a method on an object, inspect an object graph/structure, all these are generic ui components operating on the reflected primitives.
+- [a small pbr rendering model](src/gfx-pbr) (< 4 kLoC): a sample implementation of a physically based rendering model for the above graphics library, demonstrating it can be simple (it's the research behind that is complex).
 
 # building
 mud is built with [GENie](https://github.com/bkaradzic/GENie) build system, which is based on premake and consists of a bunch of lua scripts. The GENie binaries needed by mud for windows and linux are included for convenience in the `bin` folder.  
@@ -129,7 +129,7 @@ std::vector<Var> objects = { var(5), var(34.13f), var(string("cocorico")), var(M
 iterate(var, [](const Var& element) { printf("%s, ", to_string(element); }); // prints 5, 34.13f, cocorico, 
 ```
 
-# [generic features]()
+# generic features
 mud builds on top of these low level generic operations to provide, for any of the reflected types and primitives:
 - [ui components](docs/inspector.md) for creating, editing, saving, inspecting an object structure
 - [serialization](docs/serial.md) facilities
@@ -189,7 +189,7 @@ Style style = {};
 ui::button(parent, style, "Click me!");
 ```
 
-# [graphics](graphics.md)
+# [graphics](docs/graphics.md)
 mud gfx library uses the same immediate paradigm as the ui. instead of nesting ui nodes (widgets) calls, you nest graphics nodes calls. as such it is perfect for quickly setting up some debug graphics rendering.
 
 ```c++
