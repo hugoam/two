@@ -7,7 +7,9 @@ module ${ module.namespace }.${ module.name };
 #endif
 
 #ifdef ${ module.preproc_name }_REFLECT
+#ifndef MUD_MODULES
 #include <${ module.subdir }/Generated/Convert.h>
+#endif
 #define ${ module.preproc_name }_REFLECTION_IMPL
 #include <${ module.subdir }/Generated/Meta.h>
 #endif

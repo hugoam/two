@@ -25,7 +25,7 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::PrimitiveType>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::SymbolDetail>();
     export_ template <> MUD_GEOM_EXPORT Type& type<std::vector<mud::Circle>>();
-    //export_ template <> MUD_GEOM_EXPORT Type& type<std::vector<mud::vec3>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<std::vector<mud::vec3>>();
     
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Distribution>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Face3>();

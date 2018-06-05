@@ -7,7 +7,9 @@ module mud.ui;
 #endif
 
 #ifdef MUD_UI_REFLECT
+#ifndef MUD_MODULES
 #include <ui/Generated/Convert.h>
+#endif
 #define MUD_UI_REFLECTION_IMPL
 #include <ui/Generated/Meta.h>
 #endif

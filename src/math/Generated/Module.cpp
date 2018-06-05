@@ -7,7 +7,9 @@ module mud.math;
 #endif
 
 #ifdef MUD_MATH_REFLECT
+#ifndef MUD_MODULES
 #include <math/Generated/Convert.h>
+#endif
 #define MUD_MATH_REFLECTION_IMPL
 #include <math/Generated/Meta.h>
 #endif

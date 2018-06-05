@@ -7,7 +7,9 @@ module .ex_00_tutorial;
 #endif
 
 #ifdef _00_TUTORIAL_REFLECT
+#ifndef MUD_MODULES
 #include <00_tutorial/Generated/Convert.h>
+#endif
 #define _00_TUTORIAL_REFLECTION_IMPL
 #include <00_tutorial/Generated/Meta.h>
 #endif

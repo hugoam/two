@@ -7,7 +7,9 @@ module mud.obj;
 #endif
 
 #ifdef MUD_OBJ_REFLECT
+#ifndef MUD_MODULES
 #include <obj/Generated/Convert.h>
+#endif
 #define MUD_OBJ_REFLECTION_IMPL
 #include <obj/Generated/Meta.h>
 #endif

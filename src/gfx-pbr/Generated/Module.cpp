@@ -7,7 +7,9 @@ module mud.gfxpbr;
 #endif
 
 #ifdef MUD_GFX_PBR_REFLECT
+#ifndef MUD_MODULES
 #include <gfx-pbr/Generated/Convert.h>
+#endif
 #define MUD_GFX_PBR_REFLECTION_IMPL
 #include <gfx-pbr/Generated/Meta.h>
 #endif

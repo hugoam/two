@@ -7,7 +7,9 @@ module mud.edit;
 #endif
 
 #ifdef MUD_EDIT_REFLECT
+#ifndef MUD_MODULES
 #include <edit/Generated/Convert.h>
+#endif
 #define MUD_EDIT_REFLECTION_IMPL
 #include <edit/Generated/Meta.h>
 #endif

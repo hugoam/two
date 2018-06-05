@@ -7,7 +7,9 @@ module mud.ctx;
 #endif
 
 #ifdef MUD_CTX_REFLECT
+#ifndef MUD_MODULES
 #include <ctx/Generated/Convert.h>
+#endif
 #define MUD_CTX_REFLECTION_IMPL
 #include <ctx/Generated/Meta.h>
 #endif

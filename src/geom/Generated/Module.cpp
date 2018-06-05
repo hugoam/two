@@ -7,7 +7,9 @@ module mud.geom;
 #endif
 
 #ifdef MUD_GEOM_REFLECT
+#ifndef MUD_MODULES
 #include <geom/Generated/Convert.h>
+#endif
 #define MUD_GEOM_REFLECTION_IMPL
 #include <geom/Generated/Meta.h>
 #endif

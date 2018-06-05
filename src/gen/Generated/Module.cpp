@@ -7,7 +7,9 @@ module mud.gen;
 #endif
 
 #ifdef MUD_GEN_REFLECT
+#ifndef MUD_MODULES
 #include <gen/Generated/Convert.h>
+#endif
 #define MUD_GEN_REFLECTION_IMPL
 #include <gen/Generated/Meta.h>
 #endif

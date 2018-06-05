@@ -7,7 +7,9 @@ module mud.uio;
 #endif
 
 #ifdef MUD_UIO_REFLECT
+#ifndef MUD_MODULES
 #include <uio/Generated/Convert.h>
+#endif
 #define MUD_UIO_REFLECTION_IMPL
 #include <uio/Generated/Meta.h>
 #endif

@@ -7,7 +7,9 @@ module mud.lang;
 #endif
 
 #ifdef MUD_LANG_REFLECT
+#ifndef MUD_MODULES
 #include <lang/Generated/Convert.h>
+#endif
 #define MUD_LANG_REFLECTION_IMPL
 #include <lang/Generated/Meta.h>
 #endif

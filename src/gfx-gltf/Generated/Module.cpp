@@ -7,7 +7,9 @@ module mud.gfxgltf;
 #endif
 
 #ifdef MUD_GFX_GLTF_REFLECT
+#ifndef MUD_MODULES
 #include <gfx-gltf/Generated/Convert.h>
+#endif
 #define MUD_GFX_GLTF_REFLECTION_IMPL
 #include <gfx-gltf/Generated/Meta.h>
 #endif

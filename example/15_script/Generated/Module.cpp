@@ -7,7 +7,9 @@ module .ex_15_script;
 #endif
 
 #ifdef _15_SCRIPT_REFLECT
+#ifndef MUD_MODULES
 #include <15_script/Generated/Convert.h>
+#endif
 #define _15_SCRIPT_REFLECTION_IMPL
 #include <15_script/Generated/Meta.h>
 #endif

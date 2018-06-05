@@ -7,7 +7,9 @@ module mud.srlz;
 #endif
 
 #ifdef MUD_SRLZ_REFLECT
+#ifndef MUD_MODULES
 #include <srlz/Generated/Convert.h>
+#endif
 #define MUD_SRLZ_REFLECTION_IMPL
 #include <srlz/Generated/Meta.h>
 #endif

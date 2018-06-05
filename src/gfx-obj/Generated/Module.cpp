@@ -7,7 +7,9 @@ module mud.gfxobj;
 #endif
 
 #ifdef MUD_GFX_OBJ_REFLECT
+#ifndef MUD_MODULES
 #include <gfx-obj/Generated/Convert.h>
+#endif
 #define MUD_GFX_OBJ_REFLECTION_IMPL
 #include <gfx-obj/Generated/Meta.h>
 #endif
