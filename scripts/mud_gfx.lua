@@ -22,7 +22,7 @@ function mud_bgfx(as_project)
 end
 
 function mud_gfx(as_project)
-    mud_module(as_project, "mud", "gfx", MUD_SRC_DIR, "gfx", { "obj", "math", "geom", "bgfx" })
+    mud_module(as_project, "mud", "gfx", MUD_SRC_DIR, "gfx", { "obj", "srlz", "math", "geom", "bgfx" })
     
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "glm"),
@@ -40,15 +40,15 @@ function mud_gfx(as_project)
 end
 
 function mud_gfx_obj(as_project)
-    mud_module(as_project, "mud", "gfx-obj", MUD_SRC_DIR, "gfx-obj")
+    mud_module(as_project, "mud", "gfx-obj", MUD_SRC_DIR, "gfx-obj", { "gfx" })
 end
 
 function mud_gfx_pbr(as_project)
-    mud_module(as_project, "mud", "gfx-pbr", MUD_SRC_DIR, "gfx-pbr")
+    mud_module(as_project, "mud", "gfx-pbr", MUD_SRC_DIR, "gfx-pbr", { "gfx" })
 end
 
 function mud_gfx_gltf(as_project)
-    mud_module(as_project, "mud", "gfx-gltf", MUD_SRC_DIR, "gfx-gltf")
+    mud_module(as_project, "mud", "gfx-gltf", MUD_SRC_DIR, "gfx-gltf", { "gfx" })
     
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "base64"),

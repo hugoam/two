@@ -25,10 +25,6 @@ function mud_defines()
         }
         
     configuration { "cpp-modules", "*-clang*" }
-        buildoptions {
-            "-fmodules-ts",
-        }
-        
         defines {
             "MUD_MODULES",
         }
