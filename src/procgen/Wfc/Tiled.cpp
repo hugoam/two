@@ -336,9 +336,11 @@ namespace mud
 	TileWave::TileWave(WaveTileset& tileset, uint16_t width, uint16_t height, uint16_t depth, bool periodic)
 		: Wave(tileset.m_num_tiles, width, height, depth, periodic)
 	{
+#ifndef MUD_MODULES // @todo clang bug
 		m_propagate = [&](Wave& wave) { propagate_tiled(tileset, wave); };
 		m_valid_coord = [](int, int, int) { return true; };
 		m_states = tileset.m_weights;
+#endif
 	}
 
 	void run_tiled(WaveTileset& tileset, uint16_t width, uint16_t height, uint16_t depth, bool periodic)
