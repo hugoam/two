@@ -2,6 +2,7 @@
 	"project": "mudctx.h",
 	"target": "mudctx.h",
 	"sources": [
+		"ctx/Api.h",
 		"ctx/Context.h",
 		"ctx/ControlNode.h",
 		"ctx/InputDevice.h",

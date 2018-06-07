@@ -67,17 +67,16 @@ function uses_bgfx()
     configuration {}
 end
 
-project "mud_bgfx"
-	kind "SharedLib"
-    
-    mud_module("bgfx", MUD_SRC_DIR, "bgfx",  "MUD_BGFX")
-    
-    mud_ctx_backend()
-    mud_ui_backend()
+function mud_bgfx()
+mud.bgfx = mud_module(true, "mud", "bgfx", MUD_SRC_DIR, "bgfx", { mud.obj, mud.math, mud.ctx, mud.ui, mud.ctxbackend, mud.uibackend })
 
+    mud_ctx_backend(mud.bgfx)
+    mud_ui_backend(mud.bgfx)
+    
     uses_mud()
     uses_bgfx()
-    
+end
+
 function uses_mud_bgfx()
     links {
         "mud_bgfx",

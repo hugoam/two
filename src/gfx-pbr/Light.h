@@ -2,8 +2,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <gfx/Renderer.h>
 #include <gfx/Light.h>
+#endif
 #include <gfx-pbr/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
@@ -34,7 +36,7 @@ namespace mud
 		vec4 csm_splits[num_directional];
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT BlockLight : public DrawBlock
+	export_ class refl_ MUD_GFX_PBR_EXPORT BlockLight : public DrawBlock
 	{
 	public:
 		BlockLight(GfxSystem& gfx_system, BlockShadow& block_shadow);

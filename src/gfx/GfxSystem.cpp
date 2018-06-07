@@ -2,18 +2,18 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-#include <cstring>
-import std.core;
-import std.memory;
-#else
+#include <gfx/Cpp20.h>
+#ifndef MUD_CPP_20
 #include <map>
 #include <string>
 #include <fstream>
 #endif
+
+#include <bx/timer.h>
+#include <bx/file.h>
+
+#include <bgfx/bgfx.h>
+#include <bgfx/platform.h>
 
 #ifdef MUD_MODULES
 module mud.gfx;
@@ -37,28 +37,13 @@ module mud.gfx;
 #include <gfx/Particles.h>
 #include <gfx/Asset.h>
 #include <gfx/Asset.impl.h>
+#include <gfx/Assets.h>
 #include <gfx/Pipeline.h>
 #include <gfx/Filter.h>
-#include <gfx-obj/ImporterObj.h>
-#include <gfx-gltf/ImporterGltf.h>
-#include <gfx-pbr/Shadow.h>
 #endif
-
-#include <bgfx/bgfx.h>
-#include <bgfx/platform.h>
-
-#include <bx/timer.h>
-#include <bx/file.h>
 
 namespace mud
 {
-	template class AssetStore<Texture>;
-	template class AssetStore<Program>;
-	template class AssetStore<Material>;
-	template class AssetStore<Model>;
-	template class AssetStore<ParticleGenerator>;
-	template class AssetStore<Prefab>;
-
 	GfxContext::GfxContext(GfxSystem& gfx_system, cstring name, int width, int height, bool fullScreen, bool init)
 		: BgfxContext(gfx_system, name, width, height, fullScreen, false)
 		, m_gfx_system(gfx_system)
@@ -89,15 +74,14 @@ namespace mud
 		bx::FileReader m_file_reader;
 		bx::FileWriter m_file_writer;
 
-		unique_ptr<ImporterOBJ> m_importerOBJ;
-		unique_ptr<ImporterGltf> m_importerGltf;
-
 		unique_ptr<AssetStore<Texture>> m_textures;
 		unique_ptr<AssetStore<Program>> m_programs;
 		unique_ptr<AssetStore<Material>> m_materials;
 		unique_ptr<AssetStore<Model>> m_models;
 		unique_ptr<AssetStore<ParticleGenerator>> m_particles;
 		unique_ptr<AssetStore<Prefab>> m_prefabs;
+
+		std::vector<Renderer*> m_renderers;
 
 		Texture* m_white_texture = nullptr;
 		Texture* m_black_texture = nullptr;
@@ -138,48 +122,14 @@ namespace mud
 		return std::move(context);
 	}
 
-	ModelConfig load_model_config(cstring path, cstring model_name)
-	{
-		std::ifstream file = std::ifstream(string(path) + "models/" + model_name + ".cfg");
-		ModelConfig model_config = { ModelFormat::obj, bxidentity() };
-
-		if(!file.good())
-		{
-			if(std::ifstream(string(path) + "models/" + model_name + ".gltf").good())
-				model_config.m_format = ModelFormat::gltf;
-			return model_config;
-		}
-
-		return model_config;
-	}
-
 	void GfxSystem::init(GfxContext& context)
 	{
 		BgfxSystem::init(context);
 
-		m_impl->m_importerOBJ = make_unique<ImporterOBJ>(*this);
-		m_impl->m_importerGltf = make_unique<ImporterGltf>(*this);
-
-		static std::vector<string> model_formats = { ".obj", ".gltf" };
-
-		static auto load_obj = [](GfxSystem& gfx_system, Model& model, cstring path)
-		{
-			ModelConfig config = load_model_config(path, model.m_name.c_str());
-			gfx_system.m_impl->m_importerOBJ->import_model(model, path, config);
-		};
-
-		static auto load_gltf = [](GfxSystem& gfx_system, Model& model, cstring path)
-		{
-			ModelConfig config = load_model_config(path, model.m_name.c_str());
-			gfx_system.m_impl->m_importerGltf->import_model(model, path, config);
-		};
-
-		static std::vector<std::function<void(GfxSystem& gfx_system, Model& model, cstring path)>> model_loaders = { load_obj, load_gltf };
-
 		m_impl->m_textures = make_unique<AssetStore<Texture>>(*this, "textures/", load_texture);
 		m_impl->m_programs = make_unique<AssetStore<Program>>(*this, "programs/", ".prg");
 		m_impl->m_materials = make_unique<AssetStore<Material>>(*this, "materials/", ".mtl");
-		m_impl->m_models = make_unique<AssetStore<Model>>(*this, "models/", model_formats, model_loaders);
+		m_impl->m_models = make_unique<AssetStore<Model>>(*this, "models/");
 		m_impl->m_particles = make_unique<AssetStore<ParticleGenerator>>(*this, "particles/", ".ptc");
 		m_impl->m_prefabs = make_unique<AssetStore<Prefab>>(*this, "prefabs/", ".pfb");
 
@@ -187,26 +137,34 @@ namespace mud
 		m_impl->m_black_texture = this->textures().file("black.png");
 		m_impl->m_normal_texture = this->textures().file("normal.png");
 
-		m_pipeline = make_unique<PipelinePbr>(*this);
+		m_pipeline = make_unique<Pipeline>(*this);
+	}
 
+	void GfxSystem::init_pipeline()
+	{
 		for(auto& block : m_pipeline->m_gfx_blocks)
 			block->init_gfx_block();
+
+		static ClearRenderer clear_renderer = { *this, *m_pipeline };
+		static UnshadedRenderer unshaded_renderer = { *this, *m_pipeline };
+		static MinimalRenderer minimal_renderer = { *this, *m_pipeline };
+		UNUSED(minimal_renderer);
+
+		this->set_renderer(Shading::Unshaded, unshaded_renderer);
+		this->set_renderer(Shading::Clear, clear_renderer);
 
 		this->create_debug_materials();
 	}
 
-	Renderer& viewport_renderer(GfxSystem& gfx_system, Viewport& viewport)
+	void GfxSystem::set_renderer(Shading shading, Renderer& renderer)
 	{
-		//static MinimalRenderer renderer(*this, static_cast<Pipeline&>(*m_pipeline));
+		m_impl->m_renderers.resize(max(size_t(shading) + 1, m_impl->m_renderers.size()));
+		m_impl->m_renderers[size_t(shading)] = &renderer;
+	}
 
-		if(viewport.m_shading == Shading::Shaded)
-			return gfx_system.renderer<MainRenderer>();
-		else if(viewport.m_shading == Shading::Unshaded)
-			return gfx_system.renderer<UnshadedRenderer>();
-		else if(viewport.m_shading == Shading::Clear)
-			return gfx_system.renderer<ClearRenderer>();
-
-		return gfx_system.renderer<MainRenderer>();
+	Renderer& GfxSystem::renderer(Shading shading)
+	{
+		return *m_impl->m_renderers[size_t(shading)];
 	}
 
 	bool GfxSystem::next_frame()
@@ -216,7 +174,7 @@ namespace mud
 		for(GfxContext* context : m_impl->m_contexts)
 			for(Viewport* viewport : context->m_viewports)
 			{
-				Renderer& renderer = viewport_renderer(*this, *viewport);
+				Renderer& renderer = this->renderer(viewport->m_shading);
 				this->render(renderer, *context, *viewport, frame);
 			}
 		

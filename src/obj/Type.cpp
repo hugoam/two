@@ -2,15 +2,8 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Config.h>
-
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-//import std.core;
-//import std.memory;
-#else
+#include <obj/Cpp20.h>
+#ifndef MUD_CPP_20
 #include <cstring>
 #include <cstdio>
 #endif
@@ -24,6 +17,8 @@ module mud.obj;
 
 namespace mud
 {
+	const unsigned int c_max_types = 1000U;
+
 	bool Address::operator==(const Address& other) const
 	{
 		return strncmp(value, other.value, 16) == 0;

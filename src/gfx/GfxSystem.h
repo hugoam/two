@@ -4,21 +4,27 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Array.h>
 #include <obj/Unique.h>
+#endif
 #include <gfx/Generated/Forward.h>
+#ifndef MUD_BGFX_EXPORT
 #define MUD_BGFX_EXPORT MUD_GFX_EXPORT
+#endif
 #include <bgfx/BgfxSystem.h>
 
+#ifndef MUD_MODULES
 namespace bx
 {
 	struct FileReaderI;
 	struct FileWriterI;
 }
+#endif
 
 namespace mud
 {
-	export_ class _refl_ MUD_GFX_EXPORT GfxContext : public BgfxContext
+	export_ class refl_ MUD_GFX_EXPORT GfxContext : public BgfxContext
 	{
 	public:
 		GfxContext(GfxSystem& gfx_system, cstring name, int width, int height, bool fullScreen, bool init);
@@ -35,7 +41,7 @@ namespace mud
 	template <class T_Asset>
 	class AssetStore;
 
-	struct LocatedFile
+	export_ struct LocatedFile
 	{
 		LocatedFile() {}
 		LocatedFile(cstring location, cstring name, cstring extension, size_t extension_index) : m_location(location), m_name(name), m_extension(extension), m_extension_index(extension_index) {}
@@ -45,7 +51,7 @@ namespace mud
 		size_t m_extension_index = 0;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT GfxSystem : public BgfxSystem
+	export_ class refl_ MUD_GFX_EXPORT GfxSystem : public BgfxSystem
 	{
 	public:
 		GfxSystem(array<cstring> resource_paths = {});
@@ -56,13 +62,10 @@ namespace mud
 		virtual object_ptr<Context> create_context(cstring name, int width, int height, bool full_screen) final;
 
 		void init(GfxContext& context);
+		void init_pipeline();
 
-		template <class T_Renderer>
-		Renderer& renderer()
-		{
-			static T_Renderer renderer(*this, *m_pipeline);
-			return renderer;
-		}
+		void set_renderer(Shading shading, Renderer& renderer);
+		Renderer& renderer(Shading shading);
 
 		void render(Renderer& renderer, GfxContext& context, Viewport& viewport, RenderFrame& frame);
 

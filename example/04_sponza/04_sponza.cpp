@@ -20,7 +20,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	Material& material = milky_white(viewer.m_gfx_system);
 
 	static float azimuth = 0.f;
-	static float altitude = bx::kPiHalf - 0.01f;//M_PI / 2.f;
+	static float altitude = c_pi / 2.f - 0.01f;
 
 	Light& directional_light = gfx::directional_light_node(groot, sun_rotation(azimuth, altitude));
 	gfx::radiance(groot, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
@@ -44,8 +44,8 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 		ui::flag_field(sheet, "Stabilize", (uint32_t&) directional_light.m_shadow_flags, 0);
 
 		ui::label(sheet, "Sun :");
-		ui::slider_field<float>(sheet, "Azimuth", { azimuth, { 0.f, bx::kPi2, 0.01f } });
-		ui::slider_field<float>(sheet, "Altitude", { altitude, { 0.f, bx::kPiHalf, 0.01f } });
+		ui::slider_field<float>(sheet, "Azimuth", { azimuth, { 0.f, c_pi, 0.01f } });
+		ui::slider_field<float>(sheet, "Altitude", { altitude, { 0.f, c_pi / 2.f, 0.01f } });
 	}
 }
 

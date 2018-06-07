@@ -1,98 +1,86 @@
 -- mud library
 
+if _OPTIONS["cpp-modules"] then
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/std.lua"))
+end
+
 group "3rdparty"
+dofile(path.join(MUD_DIR, "scripts/3rdparty/json11.lua"))
+dofile(path.join(MUD_DIR, "scripts/3rdparty/stb.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/lua.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/glfw.lua"))
+dofile(path.join(MUD_DIR, "scripts/3rdparty/vg.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/bgfx/bgfx.lua"))
+
+
+dofile(path.join(MUD_DIR, "scripts/mud_obj.lua"))
+dofile(path.join(MUD_DIR, "scripts/mud_srlz.lua"))
+dofile(path.join(MUD_DIR, "scripts/mud_math.lua"))
+dofile(path.join(MUD_DIR, "scripts/mud_geom.lua"))
+dofile(path.join(MUD_DIR, "scripts/mud_lang.lua"))
+dofile(path.join(MUD_DIR, "scripts/mud_ctx.lua"))
+dofile(path.join(MUD_DIR, "scripts/mud_ui.lua"))
+dofile(path.join(MUD_DIR, "scripts/mud_uio.lua"))
+
+--dofile(path.join(MUD_DIR, "scripts/mud_bgfx.lua"))
+--dofile(path.join(MUD_DIR, "scripts/mud_db.lua"))
+--dofile(path.join(MUD_DIR, "scripts/mud_gen.lua"))
+--dofile(path.join(MUD_DIR, "scripts/mud_util.lua"))
 
 group "lib"
 
-if _OPTIONS["mud-libs"] then
+mud = {}
+
+if _OPTIONS["as-libs"] then
     group "lib/mud"
-    dofile(path.join(MUD_DIR, "scripts/mud_obj.lua"))
-    dofile(path.join(MUD_DIR, "scripts/mud_math.lua"))
-    dofile(path.join(MUD_DIR, "scripts/mud_lang.lua"))
-    dofile(path.join(MUD_DIR, "scripts/mud_gen.lua"))
-    dofile(path.join(MUD_DIR, "scripts/mud_util.lua"))
-    --dofile(path.join(MUD_DIR, "scripts/mud_db.lua"))
-    dofile(path.join(MUD_DIR, "scripts/mud_ctx.lua"))
-    dofile(path.join(MUD_DIR, "scripts/mud_ui.lua"))
-    dofile(path.join(MUD_DIR, "scripts/mud_uio.lua"))
-    dofile(path.join(MUD_DIR, "scripts/mud_bgfx.lua"))
+        mud_obj(true)
+        mud_srlz(true)
+        mud_math(true)
+        mud_geom(true)
+        mud_lang(true)
+        mud_ctx(true)
+        mud_ui(true)
+        mud_uio(true)
     group "lib"
 else
     project "mud"
         kind "SharedLib"
         
         includedirs {
-            path.join(MUD_SRC_DIR),
-            path.join(MUD_3RDPARTY_DIR, "glm"),
             path.join(MUD_3RDPARTY_DIR, "stb"),
-            path.join(MUD_3RDPARTY_DIR, "rectpacking"),
-            path.join(MUD_3RDPARTY_DIR, "json11"),
-            path.join(MUD_3RDPARTY_DIR, "mikkt"),
-            path.join(MUD_3RDPARTY_DIR, "lua"),
-            path.join(MUD_3RDPARTY_DIR, "sqlite3"),
-            path.join(MUD_3RDPARTY_DIR, "FastNoise"),
-            path.join(MUD_3RDPARTY_DIR, "base64"),
         }
         
-        mud_module("obj",  MUD_SRC_DIR, "obj",  "MUD_OBJ")
-        mud_module("math", MUD_SRC_DIR, "math", "MUD_MATH")
-        mud_module("geom", MUD_SRC_DIR, "geom", "MUD_GEOM")
-        mud_module("lang", MUD_SRC_DIR, "lang", "MUD_LANG")
-        mud_module("ctx",  MUD_SRC_DIR, "ctx",  "MUD_CTX")
-        mud_module("ui",   MUD_SRC_DIR, "ui",   "MUD_UI")
-        mud_module("uio",  MUD_SRC_DIR, "uio",  "MUD_UIO")
+        mud_obj(false)
+        mud_srlz(false)
+        mud_math(false)
+        mud_geom(false)
+        mud_lang(false)
+        mud_ctx(false)
+        mud_ui(false)
+        mud_uio(false)
         
         files {
             path.join(MUD_SRC_DIR, "mud", "**.h"),
-            path.join(MUD_SRC_DIR, "3rdparty", "**.cpp"),
-            path.join(MUD_3RDPARTY_DIR, "rectpacking", "**.cpp"),
-            path.join(MUD_3RDPARTY_DIR, "mikkt", "mikktspace.c"),
-        }
-        
-        removefiles {
-            path.join(MUD_UI_DIR, "Backend/**.h"),
-            path.join(MUD_UI_DIR, "Backend/**.cpp"),
         }
         
         --defines { "MUD_UI_DRAW_CACHE" }
         
-        links {
-            "lua",
-        }
-        
         if _OPTIONS["sound"] then
-            includedirs {
-                path.join(MUD_3RDPARTY_DIR, "vorbis", "include"),
-                path.join(MUD_3RDPARTY_DIR, "ogg", "include"),
-            }
-
-            links{
-                "vorbis",
-                "vorbisfile",
-                "ogg",
-                "OpenAL32",
-            }
-            
-            mud_module("snd", MUD_SRC_DIR, "snd", "MUD_SND")
-        end
+            mud_snd(false)
+        end  
 end
     
 function uses_mud()
     includedirs {
         path.join(MUD_SRC_DIR),
         path.join(MUD_3RDPARTY_DIR, "glm"),
-        path.join(MUD_3RDPARTY_DIR, "stb"),
-        path.join(MUD_3RDPARTY_DIR, "json11"),
-        path.join(MUD_3RDPARTY_DIR, "FastNoise"),
     }
     
-    if project().name ~= "mud" then
+    if _OPTIONS["as-libs"] then
+        links { "mud_obj", "mud_srlz", "mud_math", "mud_geom", "mud_lang", "mud_ctx", "mud_ui", "mud_uio" }
+    else
         links { "mud" }
     end
-    
 end
 
 function mud_binary(name)

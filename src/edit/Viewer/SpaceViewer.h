@@ -9,7 +9,7 @@
 
 namespace mud
 {
-	export_ class MUD_GFX_EXPORT SpaceViewport : public Viewer
+	export_ class MUD_EDIT_EXPORT SpaceViewport : public Viewer
 	{
 	public:
 		SpaceViewport(Widget* parent, void* identity, Scene& scene);

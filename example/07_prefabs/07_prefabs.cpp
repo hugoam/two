@@ -52,7 +52,7 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& scene = viewer.m_scene->begin();
 	prefab.m_node.draw(scene);
 
-	gfx::directional_light_node(scene, sun_rotation(M_PI / 4.f, M_PI / 4.f));
+	gfx::directional_light_node(scene, sun_rotation(c_pi / 4.f, c_pi / 4.f));
 	//gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 

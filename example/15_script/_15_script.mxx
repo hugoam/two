@@ -1,0 +1,16 @@
+#include <cpp/preimport.h>
+
+#include <obj/Config.h>
+
+export module _15_script;
+export import std.core;
+export import std.io;
+export import std.threading;
+export import std.regex;
+
+
+#include <15_script/Api.h>
+#include <15_script/Generated/Types.h>
+#include <15_script/Generated/Module.h>
+#include <15_script/Generated/Convert.h>
+

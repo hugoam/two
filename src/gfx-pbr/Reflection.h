@@ -2,7 +2,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <gfx/Renderer.h>
+#endif
 #include <gfx-pbr/Generated/Forward.h>
 #include <gfx-pbr/ReflectionAtlas.h>
 
@@ -20,25 +22,25 @@ namespace mud
 		vec4 counts;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT ReflectionProbe
+	export_ class refl_ MUD_GFX_PBR_EXPORT ReflectionProbe
 	{
 	public:
 		ReflectionProbe(Node3& node);
 
-		_attr_ Node3& m_node;
+		attr_ Node3& m_node;
 
-		_attr_ _mut_ bool m_visible = true;
-		_attr_ _mut_ float m_intensity = 1.f;
-		_attr_ _mut_ vec3 m_extents = Zero3;
-		_attr_ _mut_ bool m_shadows = false;
+		attr_ mut_ bool m_visible = true;
+		attr_ mut_ float m_intensity = 1.f;
+		attr_ mut_ vec3 m_extents = Zero3;
+		attr_ mut_ bool m_shadows = false;
 
 		ReflectionAtlas* m_atlas;
 		int m_atlas_index = -1;
 
-		_attr_ bool m_dirty = true;
+		attr_ bool m_dirty = true;
 	};
 
-	export_ class MUD_GFX_EXPORT PassProbes : public RenderPass
+	export_ class MUD_GFX_PBR_EXPORT PassProbes : public RenderPass
 	{
 	public:
 		PassProbes(GfxSystem& gfx_system, BlockReflection& block_reflection);
@@ -49,7 +51,7 @@ namespace mud
 		virtual void submit_render_pass(Render& render) final;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT BlockReflection : public GfxBlock
+	export_ class refl_ MUD_GFX_PBR_EXPORT BlockReflection : public GfxBlock
 	{
 	public:
 		BlockReflection(GfxSystem& gfx_system);

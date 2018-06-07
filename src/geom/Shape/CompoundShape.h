@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <math/Generated/Forward.h>
+#include <geom/Generated/Forward.h>
 #include <geom/Shape/ProcShape.h>
 
 #ifndef MUD_CPP_20
@@ -13,14 +13,14 @@
 
 namespace mud
 {
-	export_ struct MUD_MATH_EXPORT CompoundShape
+	export_ struct MUD_GEOM_EXPORT CompoundShape
 	{
 		std::vector<ProcShape> m_shapes;
 	};
 
-	MUD_MATH_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const CompoundShape& compound);
-	MUD_MATH_EXPORT void draw_shape_lines(const ProcShape& shape, const CompoundShape& compound, MeshData& data);
+	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const CompoundShape& compound);
+	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const CompoundShape& compound, MeshData& data);
 
-	MUD_MATH_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const CompoundShape& compound);
-	MUD_MATH_EXPORT void draw_shape_triangles(const ProcShape& shape, const CompoundShape& compound, MeshData& data);
+	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const CompoundShape& compound);
+	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const CompoundShape& compound, MeshData& data);
 }

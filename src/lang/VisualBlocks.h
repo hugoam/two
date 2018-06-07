@@ -4,17 +4,21 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Reflect/Class.h>
 #include <obj/Reflect/Injector.h>
 #include <obj/System/System.h>
+#endif
 #include <lang/Generated/Forward.h>
 #include <lang/VisualScript.h>
 
+#ifndef MUD_CPP_20
 #include <vector>
+#endif
 
 namespace mud
 {
-	export_ class _refl_ MUD_LANG_EXPORT ProcessValue : public Process
+	export_ class refl_ MUD_LANG_EXPORT ProcessValue : public Process
 	{
 	public:
 		ProcessValue(VisualScript& script, const Var& value);
@@ -23,7 +27,7 @@ namespace mud
 		Valve m_output;
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT ProcessCreate : public Process
+	export_ class refl_ MUD_LANG_EXPORT ProcessCreate : public Process
 	{
 	public:
 		ProcessCreate(VisualScript& script, Type& type, Meta& meta, const Constructor& constructor);
@@ -43,7 +47,7 @@ namespace mud
 		std::vector<Ref> m_persistentObjects;
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT ProcessCallable : public Process
+	export_ class refl_ MUD_LANG_EXPORT ProcessCallable : public Process
 	{
 	public:
 		ProcessCallable(VisualScript& script, Callable& callable);
@@ -60,7 +64,7 @@ namespace mud
 		object_ptr<Valve> m_result;
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT ProcessScript : public ProcessCallable
+	export_ class refl_ MUD_LANG_EXPORT ProcessScript : public ProcessCallable
 	{
 	public:
 		ProcessScript(VisualScript& script, VisualScript& target);
@@ -68,7 +72,7 @@ namespace mud
 		VisualScript& m_target;
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT ProcessFunction : public ProcessCallable
+	export_ class refl_ MUD_LANG_EXPORT ProcessFunction : public ProcessCallable
 	{
 	public:
 		ProcessFunction(VisualScript& script, Function& function);
@@ -76,7 +80,7 @@ namespace mud
 		Function& m_function;
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT ProcessMethod : public ProcessCallable
+	export_ class refl_ MUD_LANG_EXPORT ProcessMethod : public ProcessCallable
 	{
 	public:
 		ProcessMethod(VisualScript& script, Method& method);
@@ -87,7 +91,7 @@ namespace mud
 		Valve m_object;
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT ProcessGetMember : public Process
+	export_ class refl_ MUD_LANG_EXPORT ProcessGetMember : public Process
 	{
 	public:
 		ProcessGetMember(VisualScript& script, Member& member);
@@ -99,7 +103,7 @@ namespace mud
 		Valve m_output;
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT ProcessSetMember : public Process
+	export_ class refl_ MUD_LANG_EXPORT ProcessSetMember : public Process
 	{
 	public:
 		ProcessSetMember(VisualScript& script, Member& member);
@@ -112,7 +116,7 @@ namespace mud
 		Valve m_output_object;
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT ProcessDisplay : public Process
+	export_ class refl_ MUD_LANG_EXPORT ProcessDisplay : public Process
 	{
 	public:
 		ProcessDisplay(VisualScript& script);

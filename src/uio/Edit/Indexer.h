@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Util/Dispatch.h>
 #include <obj/Util/Global.h>
+#endif
 #include <uio/Generated/Forward.h>
 #include <uio/Unode.h>
 
@@ -17,10 +19,10 @@ namespace mud
 		DispatchSelector();
 	};
 
-	MUD_UIO_EXPORT void object_indexer(Widget& parent, Indexer& indexer);
-	MUD_UIO_EXPORT void object_indexer_modal(Widget& parent, Indexer& indexer);
+	export_ MUD_UIO_EXPORT void object_indexer(Widget& parent, Indexer& indexer);
+	export_ MUD_UIO_EXPORT void object_indexer_modal(Widget& parent, Indexer& indexer);
 
-	MUD_UIO_EXPORT bool object_selector(Widget& parent, Indexer& indexer, Ref& result);
-	MUD_UIO_EXPORT bool object_selector(Widget& parent, Ref& result);
-	MUD_UIO_EXPORT bool object_selector_modal(Widget& screen, Widget& parent, Ref& result);
+	export_ MUD_UIO_EXPORT bool object_selector(Widget& parent, Indexer& indexer, Ref& result);
+	export_ MUD_UIO_EXPORT bool object_selector(Widget& parent, Ref& result);
+	export_ MUD_UIO_EXPORT bool object_selector_modal(Widget& screen, Widget& parent, Ref& result);
 }

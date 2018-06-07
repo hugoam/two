@@ -2,13 +2,8 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h>
-#include <stdint.h>
-import std.core;
-import std.memory;
-import std.regex;
-#else
+#include <obj/Cpp20.h>
+#ifndef MUD_CPP_20
 #include <cctype>
 #include <locale>
 #include <algorithm>
@@ -19,10 +14,10 @@ import std.regex;
 #endif
 
 #ifdef MUD_MODULES
-import mud.obj;
 module mud.ui;
 #else
 #include <obj/Vector.h>
+#include <math/Math.h>
 #include <ui/Edit/TypeIn.h>
 #include <ui/Structs/Container.h>
 #include <ui/ScrollSheet.h>
@@ -243,7 +238,7 @@ namespace mud
 	{
 		size_t row = this->text_row_index(index);
 		size_t column = m_text_rows.empty() ? 0U : index - m_text_rows[row].m_start_index;
-		return{ index, { column, row} };
+		return{ index, { uint(column), uint(row) } };
 	}
 
 	TextCursor Text::to_cursor(const uvec2& grid_index) const

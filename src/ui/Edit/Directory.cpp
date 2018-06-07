@@ -2,16 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
-import mud.obj;
 module mud.ui;
 #else
 #include <obj/Vector.h>
@@ -55,13 +48,19 @@ namespace ui
 			}
 		};
 
+#ifndef MUD_MODULES
+		// clang bug: https://bugs.llvm.org/show_bug.cgi?id=33924
 		auto on_file = [&](cstring path, cstring file)
 		{
 			file_item(self, file);
 		};
+#endif
 
 		system().visit_folders(path.c_str(), on_dir, false);
+#ifndef MUD_MODULES
+		// clang bug: https://bugs.llvm.org/show_bug.cgi?id=33924
 		system().visit_files(path.c_str(), on_file);
+#endif
 		return self;
 	}
 

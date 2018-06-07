@@ -5,13 +5,12 @@
 #include <obj/Config.h>
 
 #include <obj/Generated/Forward.h>
+#include <srlz/Generated/Forward.h>
 #include <math/Generated/Forward.h>
 #include <geom/Generated/Forward.h>
 #include <gfx/Generated/Forward.h>
 
-#if defined MUD_GFX_PBR_LIB
-#define MUD_GFX_PBR_EXPORT MUD_EXPORT
-#else
+#ifndef MUD_GFX_PBR_EXPORT
 #define MUD_GFX_PBR_EXPORT MUD_IMPORT
 #endif
 
@@ -78,6 +77,8 @@ namespace mud {
     class PassDepth;
     class BlockDepth;
     class BlockLight;
+    struct ReflectionRenderer;
+    struct MainRenderer;
     class BlockRadiance;
     struct ReflectionCubemap;
     class ReflectionAtlas;

@@ -10,23 +10,23 @@
 
 namespace mud
 {
-	MUD_MATH_EXPORT uint16_t circle_vertices(const ProcShape& shape, const vec3& position, vec2 radius, SignedAxis axis, bool lines, MeshData& data, bool outward_normals = false);
+	MUD_GEOM_EXPORT uint16_t circle_vertices(const ProcShape& shape, const vec3& position, vec2 radius, SignedAxis axis, bool lines, MeshData& data, bool outward_normals = false);
 
-	MUD_MATH_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Circle& circle);
-	MUD_MATH_EXPORT void draw_shape_lines(const ProcShape& shape, const Circle& circle, MeshData& data);
+	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Circle& circle);
+	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Circle& circle, MeshData& data);
 
-	MUD_MATH_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Circle& circle);
-	MUD_MATH_EXPORT void draw_shape_triangles(const ProcShape& shape, const Circle& circle, MeshData& data);
+	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Circle& circle);
+	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Circle& circle, MeshData& data);
 
-	MUD_MATH_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Ellipsis& ellipsis);
-	MUD_MATH_EXPORT void draw_shape_lines(const ProcShape& shape, const Ellipsis& ellipsis, MeshData& data);
+	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Ellipsis& ellipsis);
+	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Ellipsis& ellipsis, MeshData& data);
 
-	MUD_MATH_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Ellipsis& ellipsis);
-	MUD_MATH_EXPORT void draw_shape_triangles(const ProcShape& shape, const Ellipsis& ellipsis, MeshData& data);
+	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Ellipsis& ellipsis);
+	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Ellipsis& ellipsis, MeshData& data);
 
-	MUD_MATH_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Torus& torus);
-	MUD_MATH_EXPORT void draw_shape_lines(const ProcShape& shape, const Torus& torus, MeshData& data);
+	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Torus& torus);
+	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Torus& torus, MeshData& data);
 
-	MUD_MATH_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Torus& torus);
-	MUD_MATH_EXPORT void draw_shape_triangles(const ProcShape& shape, const Torus& torus, MeshData& data);
+	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Torus& torus);
+	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Torus& torus, MeshData& data);
 }

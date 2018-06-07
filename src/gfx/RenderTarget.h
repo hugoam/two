@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Array.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Viewport.h>
 
@@ -19,16 +21,16 @@
 namespace mud
 {
 #ifdef MUD_UNIFORM_BLOCKS
-	export_ struct _refl_ MUD_GFX_EXPORT RenderBlock
+	export_ struct refl_ MUD_GFX_EXPORT RenderBlock
 	{
-		_attr_ vec2 m_render_size;
-		_attr_ vec2 m_pixel_size;
+		attr_ vec2 m_render_size;
+		attr_ vec2 m_pixel_size;
 
 		static TypedUniformBlock<RenderBlock> s_block;
 	};
 #endif
 
-	export_ class _refl_ MUD_GFX_EXPORT FrameBuffer
+	export_ class refl_ MUD_GFX_EXPORT FrameBuffer
 	{
 	public:
 		FrameBuffer(uvec2 size);
@@ -48,7 +50,7 @@ namespace mud
 		mat4 m_screen_proj;
 	};
 
-	struct SwapBuffer
+	export_ struct SwapBuffer
 	{
 		void create(uvec2 size, bgfx::TextureFormat::Enum color_format);
 		~SwapBuffer();
@@ -59,7 +61,7 @@ namespace mud
 		bool m_state = false;
 	};
 
-	struct Cascade
+	export_ struct Cascade
 	{
 		void create(uvec2 size, bgfx::TextureFormat::Enum color_format);
 		~Cascade();
@@ -68,7 +70,7 @@ namespace mud
 		size_t m_num_mips;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT RenderTarget : public FrameBuffer
+	export_ class refl_ MUD_GFX_EXPORT RenderTarget : public FrameBuffer
 	{
 	public:
 		RenderTarget(uvec2 size);

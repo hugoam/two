@@ -4,12 +4,14 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
+#endif
 #include <gfx/Renderer.h>
 
 namespace mud
 {
-	enum ShaderOptionFilter : unsigned int
+	export_ enum ShaderOptionFilter : unsigned int
 	{
 		FILTER_UNPACK_DEPTH,
 		FILTER_SOURCE_DEPTH,
@@ -18,7 +20,7 @@ namespace mud
 		FILTER_DEBUG_UV,
 	};
 
-	struct FilterUniform
+	export_ struct FilterUniform
 	{
 		void createUniforms()
 		{
@@ -55,13 +57,13 @@ namespace mud
 		bgfx::UniformHandle u_camera_params;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT Filter
+	export_ class refl_ MUD_GFX_EXPORT Filter
 	{
 	public:
 		virtual ~Filter() {}
 	};
 
-	export_ struct _refl_ MUD_GFX_EXPORT RenderQuad
+	export_ struct refl_ MUD_GFX_EXPORT RenderQuad
 	{
 		vec4 m_source = Rect4;
 		vec4 m_dest = Zero4;
@@ -73,7 +75,7 @@ namespace mud
 		RenderQuad() {}
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT BlockFilter : public GfxBlock
+	export_ class refl_ MUD_GFX_EXPORT BlockFilter : public GfxBlock
 	{
 	public:
 		BlockFilter(GfxSystem& gfx_system);
@@ -93,7 +95,7 @@ namespace mud
 		FilterUniform u_uniform;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT BlockCopy : public GfxBlock
+	export_ class refl_ MUD_GFX_EXPORT BlockCopy : public GfxBlock
 	{
 	public:
 		BlockCopy(GfxSystem& gfx_system, BlockFilter& filter);

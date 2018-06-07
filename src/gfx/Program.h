@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Array.h>
 #include <obj/Unique.h>
+#endif
 #include <gfx/Generated/Forward.h>
 
 #ifndef MUD_GENERATOR_SKIP_INCLUDES
@@ -16,7 +18,7 @@ namespace mud
 {
 	using cstring = const char*;
 
-	export_ enum class _refl_ ShaderType : unsigned int
+	export_ enum class refl_ ShaderType : unsigned int
 	{
 		Fragment,
 		Vertex,
@@ -50,7 +52,7 @@ namespace mud
 		uint8_t m_next_option = 0;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT Program
+	export_ class refl_ MUD_GFX_EXPORT Program
 	{
 	public:
 		struct Version
@@ -64,7 +66,7 @@ namespace mud
 		Program(cstring name, array<GfxBlock*> blocks, array<cstring> sources);
 		~Program();
 
-		_attr_ cstring name();
+		attr_ cstring name();
 
 		uint8_t block_option_shift(uint8_t block)
 		{

@@ -4,14 +4,16 @@
 
 #pragma once
 
-#include <edit/Generated/Forward.h>
+#ifndef MUD_MODULES
 #include <ui/Structs/RootSheet.h>
+#endif
+#include <edit/Generated/Forward.h>
 
 namespace mud
 {
 	class SpaceQuad;
 
-	export_ class _refl_ MUD_GFX_EXPORT SpaceSheet : public RootSheet
+	export_ class refl_ MUD_EDIT_EXPORT SpaceSheet : public RootSheet
 	{
 	public:
 		SpaceSheet(Widget& parent, SpaceViewport& viewport);

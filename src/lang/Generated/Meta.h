@@ -2,18 +2,20 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <lang/Generated/Module.h>
 
 #include <obj/Any.h>
 #include <obj/Reflect/MetaDecl.h>
 #include <obj/System/System.h>
+#endif
 
 namespace mud
 {
     template <> MUD_LANG_EXPORT Type& type<mud::Process::State>();
     
 #ifdef MUD_LANG_REFLECTION_IMPL
-    void lang_meta(Module& m)
+    void mudlang_meta(Module& m)
     {   
     // Base Types
     
@@ -195,7 +197,6 @@ namespace mud
             { base_offset<mud::Script, mud::Callable>() },
             // constructors
             {
-                { type<mud::Script>(), [](Ref ref, array<Var> args) { new(&val<mud::Script>(ref)) mud::Script( val<cstring>(args[0]), val<mud::Signature>(args[1]) ); }, { { "name", var(cstring()) }, { "signature", Ref(type<mud::Signature>()), Param::Default } } }
             },
             // copy constructor
             {
@@ -215,9 +216,42 @@ namespace mud
         };
         
         
-        init_pool<mud::Script>(); 
+        
         
         meta_class<mud::Script>();
+    }
+    
+    
+        
+    // mud::LuaScript
+    {
+        static Meta meta = { type<mud::LuaScript>(), &namspc({ "mud" }), "LuaScript", sizeof(mud::LuaScript), TypeClass::Object };
+        static Class cls = { type<mud::LuaScript>(),
+            // bases
+            { &type<mud::Script>() },
+            { base_offset<mud::LuaScript, mud::Script>() },
+            // constructors
+            {
+                { type<mud::LuaScript>(), [](Ref ref, array<Var> args) { new(&val<mud::LuaScript>(ref)) mud::LuaScript( val<cstring>(args[0]), val<mud::Signature>(args[1]) ); }, { { "name", var(cstring()) }, { "signature", Ref(type<mud::Signature>()), Param::Default } } }
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        init_pool<mud::LuaScript>(); 
+        
+        meta_class<mud::LuaScript>();
     }
     
     
@@ -255,13 +289,13 @@ namespace mud
     
     
         
-    // mud::Stream
+    // mud::ProcessFunction
     {
-        static Meta meta = { type<mud::Stream>(), &namspc({ "mud" }), "Stream", sizeof(mud::Stream), TypeClass::Object };
-        static Class cls = { type<mud::Stream>(),
+        static Meta meta = { type<mud::ProcessFunction>(), &namspc({ "mud" }), "ProcessFunction", sizeof(mud::ProcessFunction), TypeClass::Object };
+        static Class cls = { type<mud::ProcessFunction>(),
             // bases
-            { &type<mud::StreamBranch>() },
-            { base_offset<mud::Stream, mud::StreamBranch>() },
+            { &type<mud::ProcessCallable>() },
+            { base_offset<mud::ProcessFunction, mud::ProcessCallable>() },
             // constructors
             {
             },
@@ -282,7 +316,71 @@ namespace mud
         
         
         
-        meta_class<mud::Stream>();
+        meta_class<mud::ProcessFunction>();
+    }
+    
+    
+        
+    // mud::ProcessMethod
+    {
+        static Meta meta = { type<mud::ProcessMethod>(), &namspc({ "mud" }), "ProcessMethod", sizeof(mud::ProcessMethod), TypeClass::Object };
+        static Class cls = { type<mud::ProcessMethod>(),
+            // bases
+            { &type<mud::ProcessCallable>() },
+            { base_offset<mud::ProcessMethod, mud::ProcessCallable>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ProcessMethod>();
+    }
+    
+    
+        
+    // mud::ProcessScript
+    {
+        static Meta meta = { type<mud::ProcessScript>(), &namspc({ "mud" }), "ProcessScript", sizeof(mud::ProcessScript), TypeClass::Object };
+        static Class cls = { type<mud::ProcessScript>(),
+            // bases
+            { &type<mud::ProcessCallable>() },
+            { base_offset<mud::ProcessScript, mud::ProcessCallable>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ProcessScript>();
     }
     
     
@@ -543,13 +641,13 @@ namespace mud
     
     
         
-    // mud::ProcessFunction
+    // mud::Stream
     {
-        static Meta meta = { type<mud::ProcessFunction>(), &namspc({ "mud" }), "ProcessFunction", sizeof(mud::ProcessFunction), TypeClass::Object };
-        static Class cls = { type<mud::ProcessFunction>(),
+        static Meta meta = { type<mud::Stream>(), &namspc({ "mud" }), "Stream", sizeof(mud::Stream), TypeClass::Object };
+        static Class cls = { type<mud::Stream>(),
             // bases
-            { &type<mud::ProcessCallable>() },
-            { base_offset<mud::ProcessFunction, mud::ProcessCallable>() },
+            { &type<mud::StreamBranch>() },
+            { base_offset<mud::Stream, mud::StreamBranch>() },
             // constructors
             {
             },
@@ -570,71 +668,7 @@ namespace mud
         
         
         
-        meta_class<mud::ProcessFunction>();
-    }
-    
-    
-        
-    // mud::ProcessMethod
-    {
-        static Meta meta = { type<mud::ProcessMethod>(), &namspc({ "mud" }), "ProcessMethod", sizeof(mud::ProcessMethod), TypeClass::Object };
-        static Class cls = { type<mud::ProcessMethod>(),
-            // bases
-            { &type<mud::ProcessCallable>() },
-            { base_offset<mud::ProcessMethod, mud::ProcessCallable>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ProcessMethod>();
-    }
-    
-    
-        
-    // mud::ProcessScript
-    {
-        static Meta meta = { type<mud::ProcessScript>(), &namspc({ "mud" }), "ProcessScript", sizeof(mud::ProcessScript), TypeClass::Object };
-        static Class cls = { type<mud::ProcessScript>(),
-            // bases
-            { &type<mud::ProcessCallable>() },
-            { base_offset<mud::ProcessScript, mud::ProcessCallable>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ProcessScript>();
+        meta_class<mud::Stream>();
     }
     
 
@@ -645,8 +679,11 @@ namespace mud
         m.m_types.push_back(&type<mud::StreamBranch>());
         m.m_types.push_back(&type<mud::Valve>());
         m.m_types.push_back(&type<mud::Script>());
+        m.m_types.push_back(&type<mud::LuaScript>());
         m.m_types.push_back(&type<mud::VisualScript>());
-        m.m_types.push_back(&type<mud::Stream>());
+        m.m_types.push_back(&type<mud::ProcessFunction>());
+        m.m_types.push_back(&type<mud::ProcessMethod>());
+        m.m_types.push_back(&type<mud::ProcessScript>());
         m.m_types.push_back(&type<mud::ProcessCallable>());
         m.m_types.push_back(&type<mud::ProcessCreate>());
         m.m_types.push_back(&type<mud::ProcessDisplay>());
@@ -655,9 +692,7 @@ namespace mud
         m.m_types.push_back(&type<mud::ProcessValue>());
         m.m_types.push_back(&type<mud::ProcessInput>());
         m.m_types.push_back(&type<mud::ProcessOutput>());
-        m.m_types.push_back(&type<mud::ProcessFunction>());
-        m.m_types.push_back(&type<mud::ProcessMethod>());
-        m.m_types.push_back(&type<mud::ProcessScript>());
+        m.m_types.push_back(&type<mud::Stream>());
     
     }
 #endif

@@ -2,7 +2,8 @@
 	"project": "ex_15_script.h",
 	"target": "ex_15_script.h",
 	"sources": [
-		"15_script/15_script.h"
+		"15_script/15_script.h",
+		"15_script/Api.h"
 	],
 	"include_paths": [
 		""
@@ -14,7 +15,8 @@
 		"uio/": "muduio.h",
 		"gfx/": "mudgfx.h",
 		"edit/": "mudedit.h",
-		"gen/": "mudgen.h"
+		"procgen/": "mudprocgen.h",
+		"procgen-gfx/": "mudprocgen-gfx.h"
 	},
 	"ignore": [
 		"Generated"

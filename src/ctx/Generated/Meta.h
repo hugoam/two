@@ -2,17 +2,19 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <ctx/Generated/Module.h>
 
 #include <obj/Any.h>
 #include <obj/Reflect/MetaDecl.h>
 #include <obj/System/System.h>
+#endif
 
 namespace mud
 {
     
 #ifdef MUD_CTX_REFLECTION_IMPL
-    void ctx_meta(Module& m)
+    void mudctx_meta(Module& m)
     {   
     // Base Types
     

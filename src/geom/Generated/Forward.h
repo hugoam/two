@@ -7,9 +7,7 @@
 #include <obj/Generated/Forward.h>
 #include <math/Generated/Forward.h>
 
-#if defined MUD_GEOM_LIB
-#define MUD_GEOM_EXPORT MUD_EXPORT
-#else
+#ifndef MUD_GEOM_EXPORT
 #define MUD_GEOM_EXPORT MUD_IMPORT
 #endif
 

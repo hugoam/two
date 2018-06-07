@@ -4,9 +4,11 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Strung.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Renderer.h>
 
@@ -16,7 +18,7 @@
 
 namespace mud
 {
-	export_ enum class _refl_ BlendMode : unsigned int
+	export_ enum class refl_ BlendMode : unsigned int
 	{
 		Mix,
 		Add,
@@ -28,53 +30,53 @@ namespace mud
 
 	void blend_state(BlendMode blend_mode, uint64_t& bgfx_state);
 
-	export_ enum class _refl_ CullMode : unsigned int
+	export_ enum class refl_ CullMode : unsigned int
 	{
 		None,
 		Front,
 		Back
 	};
 
-	export_ enum class _refl_ DepthDraw : unsigned int
+	export_ enum class refl_ DepthDraw : unsigned int
 	{
 		Enabled,
 		Disabled
 	};
 
-	export_ enum class _refl_ DepthTest : unsigned int
+	export_ enum class refl_ DepthTest : unsigned int
 	{
 		Enabled,
 		Disabled
 	};
 
-	export_ enum class _refl_ MaterialFlag : unsigned int
+	export_ enum class refl_ MaterialFlag : unsigned int
 	{
 		TriplanarUV1,
 		TriplanarUV2,
 		Count
 	};
 
-	export_ struct _refl_ MUD_GFX_EXPORT BaseMaterialBlock
+	export_ struct refl_ MUD_GFX_EXPORT BaseMaterialBlock
 	{
-		_attr_ _mut_ BlendMode m_blend_mode = BlendMode::Mix;
-		_attr_ _mut_ CullMode m_cull_mode = CullMode::Back;
-		_attr_ _mut_ DepthDraw m_depth_draw_mode = DepthDraw::Enabled;
-		_attr_ _mut_ DepthTest m_depth_test = DepthTest::Enabled;
+		attr_ mut_ BlendMode m_blend_mode = BlendMode::Mix;
+		attr_ mut_ CullMode m_cull_mode = CullMode::Back;
+		attr_ mut_ DepthDraw m_depth_draw_mode = DepthDraw::Enabled;
+		attr_ mut_ DepthTest m_depth_test = DepthTest::Enabled;
 
-		_attr_ _mut_ vec2 m_uv1_scale = { 1.f, 1.f };
-		_attr_ _mut_ vec2 m_uv1_offset = { 0.f, 0.f };
-		_attr_ _mut_ vec2 m_uv2_scale = { 1.f, 1.f };
-		_attr_ _mut_ vec2 m_uv2_offset = { 0.f, 0.f };
+		attr_ mut_ vec2 m_uv1_scale = { 1.f, 1.f };
+		attr_ mut_ vec2 m_uv1_offset = { 0.f, 0.f };
+		attr_ mut_ vec2 m_uv2_scale = { 1.f, 1.f };
+		attr_ mut_ vec2 m_uv2_offset = { 0.f, 0.f };
 
-		_attr_ _mut_ bool m_is_alpha = false;
-		_attr_ _mut_ bool m_screen_filter = false;
+		attr_ mut_ bool m_is_alpha = false;
+		attr_ mut_ bool m_screen_filter = false;
 
 #if 0
 		BillboardMode m_billboard_mode;
 #endif		
 	};
 
-	export_ enum class _refl_ TextureChannel : unsigned int
+	export_ enum class refl_ TextureChannel : unsigned int
 	{
 		Red,
 		Green,
@@ -83,27 +85,27 @@ namespace mud
 		All
 	};
 
-	template <class T_Param>
-	export_ struct _refl_ _struct_ MaterialParam
+	export_ template <class T_Param>
+	struct refl_ struct_ MaterialParam
 	{
 		MaterialParam() {}
 		MaterialParam(T_Param value, Texture* texture = nullptr, TextureChannel channel = TextureChannel::All) : m_value(value), m_texture(texture), m_channel(channel) {}
-		_attr_ _mut_ T_Param m_value = {};
-		_attr_ _mut_ Texture* m_texture = nullptr;
-		_attr_ _mut_ TextureChannel m_channel = TextureChannel::All;
+		attr_ mut_ T_Param m_value = {};
+		attr_ mut_ Texture* m_texture = nullptr;
+		attr_ mut_ TextureChannel m_channel = TextureChannel::All;
 	};
 
-	export_ template struct _refl_ _struct_ MUD_GFX_EXPORT MaterialParam<Colour>;
-	export_ template struct _refl_ _struct_ MUD_GFX_EXPORT MaterialParam<float>;
+	export_ template struct refl_ struct_ MUD_GFX_EXPORT MaterialParam<Colour>;
+	export_ template struct refl_ struct_ MUD_GFX_EXPORT MaterialParam<float>;
 
-	export_ struct _refl_ MUD_GFX_EXPORT UnshadedMaterialBlock
+	export_ struct refl_ MUD_GFX_EXPORT UnshadedMaterialBlock
 	{
-		_attr_ _mut_ bool m_enabled = false;
+		attr_ mut_ bool m_enabled = false;
 
-		_attr_ _mut_ MaterialParam<Colour> m_colour = { Colour::White, nullptr };
+		attr_ mut_ MaterialParam<Colour> m_colour = { Colour::White, nullptr };
 	};
 
-	export_ enum class _refl_ PbrDiffuseMode : unsigned int
+	export_ enum class refl_ PbrDiffuseMode : unsigned int
 	{
 		Lambert,
 		LambertHalf,
@@ -112,7 +114,7 @@ namespace mud
 		Toon,
 	};
 
-	export_ enum class _refl_ PbrSpecularMode : unsigned int
+	export_ enum class refl_ PbrSpecularMode : unsigned int
 	{
 		SchlickGGX,
 		Blinn,
@@ -121,7 +123,7 @@ namespace mud
 		Disabled,
 	};
 
-	enum PbrShaderOption : unsigned int
+	export_ enum PbrShaderOption : unsigned int
 	{
 		NORMAL_MAP,
 		EMISSIVE,
@@ -131,40 +133,42 @@ namespace mud
 		DEEP_PARALLAX
 	};
 
-	export_ struct _refl_ MUD_GFX_EXPORT PbrMaterialBlock
+	export_ struct refl_ MUD_GFX_EXPORT PbrMaterialBlock
 	{
-		_attr_ _mut_ bool m_enabled = false;
+		PbrMaterialBlock& operator=(const PbrMaterialBlock&) = default; // @kludge because clang-modules bug doesn't have copy-assign with member arrays ?
+
+		attr_ mut_ bool m_enabled = false;
 
 		// basic
-		_attr_ _mut_ MaterialParam<Colour> m_albedo = { Colour::White, nullptr };
-		_attr_ _mut_ float m_specular = 0.5f;
-		_attr_ _mut_ MaterialParam<float> m_metallic = { 0.f, nullptr, TextureChannel::Red };
-		_attr_ _mut_ MaterialParam<float> m_roughness = { 1.f, nullptr, TextureChannel::Red };
-		_attr_ _mut_ MaterialParam<Colour> m_emissive = { Colour::Black, nullptr };
-		_attr_ _mut_ float m_emissive_energy = 0.f;
-		_attr_ _mut_ MaterialParam<float> m_normal = { 1.f, nullptr };
+		attr_ mut_ MaterialParam<Colour> m_albedo = { Colour::White, nullptr };
+		attr_ mut_ float m_specular = 0.5f;
+		attr_ mut_ MaterialParam<float> m_metallic = { 0.f, nullptr, TextureChannel::Red };
+		attr_ mut_ MaterialParam<float> m_roughness = { 1.f, nullptr, TextureChannel::Red };
+		attr_ mut_ MaterialParam<Colour> m_emissive = { Colour::Black, nullptr };
+		attr_ mut_ float m_emissive_energy = 0.f;
+		attr_ mut_ MaterialParam<float> m_normal = { 1.f, nullptr };
 
 		// advanced
-		_attr_ _mut_ MaterialParam<float> m_rim;
-		_attr_ _mut_ float m_rim_tint;
-		_attr_ _mut_ MaterialParam<float> m_clearcoat;
-		_attr_ _mut_ float m_clearcoat_gloss;
-		_attr_ _mut_ MaterialParam<float> m_anisotropy;
-		_attr_ _mut_ MaterialParam<float> m_subsurface;
-		_attr_ _mut_ MaterialParam<Colour> m_transmission;
-		_attr_ _mut_ MaterialParam<float> m_refraction;
-		_attr_ _mut_ MaterialParam<float> m_ambient_occlusion;
-		_attr_ _mut_ MaterialParam<float> m_depth = { -0.02f, nullptr };
+		attr_ mut_ MaterialParam<float> m_rim;
+		attr_ mut_ float m_rim_tint;
+		attr_ mut_ MaterialParam<float> m_clearcoat;
+		attr_ mut_ float m_clearcoat_gloss;
+		attr_ mut_ MaterialParam<float> m_anisotropy;
+		attr_ mut_ MaterialParam<float> m_subsurface;
+		attr_ mut_ MaterialParam<Colour> m_transmission;
+		attr_ mut_ MaterialParam<float> m_refraction;
+		attr_ mut_ MaterialParam<float> m_ambient_occlusion;
+		attr_ mut_ MaterialParam<float> m_depth = { -0.02f, nullptr };
 
-		_attr_ _mut_ bool m_deep_parallax = false;
+		attr_ mut_ bool m_deep_parallax = false;
 
-		_attr_ _mut_ PbrDiffuseMode m_diffuse_mode = PbrDiffuseMode::Burley;
-		_attr_ _mut_ PbrSpecularMode m_specular_mode = PbrSpecularMode::SchlickGGX;
+		attr_ mut_ PbrDiffuseMode m_diffuse_mode = PbrDiffuseMode::Burley;
+		attr_ mut_ PbrSpecularMode m_specular_mode = PbrSpecularMode::SchlickGGX;
 
 		bool m_flags[size_t(MaterialFlag::Count)];
 	};
 
-	struct PbrBlock : public GfxBlock
+	export_ struct PbrBlock : public GfxBlock
 	{
 		PbrBlock(GfxSystem& gfx_system);
 
@@ -174,24 +178,26 @@ namespace mud
 		virtual void submit_gfx_block(Render& render) final { UNUSED(render); }
 	};
 
-	PbrBlock& pbr_block(GfxSystem& gfx_system);
+	export_ PbrBlock& pbr_block(GfxSystem& gfx_system);
 
-	MUD_GFX_EXPORT void load_material(Material& material, Program& program);
+	export_ MUD_GFX_EXPORT void load_material(Material& material, Program& program);
 
-	export_ class _refl_ MUD_GFX_EXPORT Material
+	export_ class refl_ MUD_GFX_EXPORT Material
 	{
 	public:
 		Material() {}
 		Material(cstring name);
 
-		_attr_ uint16_t m_index = 0;
-		/*_attr_ _mut_*/ strung m_name;
-		_attr_ bool m_builtin = false;
-		_attr_ Program* m_program = nullptr;
+		Material& operator=(const Material&) = default; // @kludge because clang-modules bug doesn't have copy-assign with member arrays ?
 
-		_attr_ _mut_ BaseMaterialBlock m_base_block;
-		_attr_ _mut_ UnshadedMaterialBlock m_unshaded_block;
-		_attr_ _mut_ PbrMaterialBlock m_pbr_block;
+		attr_ uint16_t m_index = 0;
+		/*attr_ mut_*/ string m_name;
+		attr_ bool m_builtin = false;
+		attr_ Program* m_program = nullptr;
+
+		attr_ mut_ BaseMaterialBlock m_base_block;
+		attr_ mut_ UnshadedMaterialBlock m_unshaded_block;
+		attr_ mut_ PbrMaterialBlock m_pbr_block;
 
 		void state(uint64_t& bgfx_state) const;
 		void submit(uint64_t& bgfx_state, const Skin* skin = nullptr) const;

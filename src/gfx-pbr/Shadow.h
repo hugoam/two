@@ -2,8 +2,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <gfx/Renderer.h>
 #include <gfx/Frustum.h>
+#endif
 #include <gfx-pbr/Generated/Forward.h>
 #include <gfx-pbr/Depth.h>
 #include <gfx-pbr/ShadowAtlas.h>
@@ -40,7 +42,7 @@ namespace mud
 		CSMFilterMode m_filter_mode = CSM_PCF5;
 	};
 
-	export_ class MUD_GFX_EXPORT PassShadow : public PassDepth
+	export_ class MUD_GFX_PBR_EXPORT PassShadow : public PassDepth
 	{
 	public:
 		PassShadow(GfxSystem& gfx_system, BlockDepth& block_depth, BlockShadow& block_shadow);
@@ -53,7 +55,7 @@ namespace mud
 		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) final;
 	};
 
-	export_ class MUD_GFX_EXPORT PassShadowmap : public RenderPass
+	export_ class MUD_GFX_PBR_EXPORT PassShadowmap : public RenderPass
 	{
 	public:
 		PassShadowmap(GfxSystem& gfx_system, BlockShadow& block_shadow);
@@ -69,13 +71,13 @@ namespace mud
 		ShadowRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
 	};
 
-	struct LightBounds
+	export_ struct LightBounds
 	{
 		vec3 min = { 9000.0f,  9000.0f,  9000.0f };
 		vec3 max = { -9000.0f, -9000.0f, -9000.0f };
 	};
 
-	export_ struct _refl_ MUD_GFX_EXPORT LightShadow
+	export_ struct refl_ MUD_GFX_PBR_EXPORT LightShadow
 	{
 		struct Slice
 		{
@@ -92,7 +94,7 @@ namespace mud
 		std::vector<Slice> m_slices;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT BlockShadow : public DrawBlock
+	export_ class refl_ MUD_GFX_PBR_EXPORT BlockShadow : public DrawBlock
 	{
 	public:
 		BlockShadow(GfxSystem& gfx_system, BlockDepth& block_depth);

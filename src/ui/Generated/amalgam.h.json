@@ -2,6 +2,7 @@
 	"project": "mudui.h",
 	"target": "mudui.h",
 	"sources": [
+		"ui/Api.h",
 		"ui/Button.h",
 		"ui/Container.h",
 		"ui/Cursor.h",
@@ -52,6 +53,7 @@
 	],
 	"includes_map": {
 		"obj/": "mudobj.h",
+		"srlz/": "mudsrlz.h",
 		"math/": "mudmath.h",
 		"ctx/": "mudctx.h"
 	},

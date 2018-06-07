@@ -4,13 +4,15 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
+#endif
 #include <ctx/Generated/Forward.h>
 #include <ctx/KeyCode.h>
 
 namespace mud
 {
-	enum class InputModifier : unsigned int
+	export_ enum class InputModifier : unsigned int
 	{
 		None = 0,
 		Shift = 1 << 0,
@@ -19,7 +21,7 @@ namespace mud
 		Any = Shift | Ctrl | Alt
 	};
 
-	enum class DeviceType : unsigned int
+	export_ enum class DeviceType : unsigned int
 	{
 		None = 0,
 		Keyboard = 1,
@@ -30,15 +32,15 @@ namespace mud
 		Count = 6
 	};
 
-	constexpr uint32_t device_mask(DeviceType device_type) { return (1 << uint32_t(device_type)); }
+	export_ constexpr uint32_t device_mask(DeviceType device_type) { return (1 << uint32_t(device_type)); }
 
-	enum class DeviceMask : unsigned int
+	export_ enum class DeviceMask : unsigned int
 	{
 		AllMouse = device_mask(DeviceType::Mouse) | device_mask(DeviceType::MouseLeft) | device_mask(DeviceType::MouseRight) | device_mask(DeviceType::MouseMiddle),
 		All = device_mask(DeviceType::Keyboard) | AllMouse
 	};
 
-	enum class EventType : unsigned int
+	export_ enum class EventType : unsigned int
 	{
 		None = 0,
 		Heartbeat = 1,

@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Ref.h>
+#endif
 #include <ui/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
@@ -13,7 +15,7 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_UI_EXPORT User
+	export_ class refl_ MUD_UI_EXPORT User
 	{
 	public:
 		std::vector<Ref> m_selection;

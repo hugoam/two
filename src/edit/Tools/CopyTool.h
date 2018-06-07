@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Reflect/Injector.h>
+#endif
 #include <edit/Generated/Forward.h>
 #include <edit/Action.h>
 #include <edit/Tools/TranslateTool.h>
@@ -15,7 +17,7 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_EDIT_EXPORT CopyAction : public TranslateAction
+	export_ class refl_ MUD_EDIT_EXPORT CopyAction : public TranslateAction
 	{
 	public:
 		CopyAction(const std::vector<Transform*>& targets);
@@ -28,7 +30,7 @@ namespace mud
 		//Injector m_injector;
 	};
 
-	export_ class _refl_ MUD_EDIT_EXPORT CopyTool : public TransformTool
+	export_ class refl_ MUD_EDIT_EXPORT CopyTool : public TransformTool
 	{
 	public:
 		CopyTool(ToolContext& context);

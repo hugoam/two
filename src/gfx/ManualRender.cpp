@@ -2,13 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <gfx/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.gfx;
@@ -21,7 +15,7 @@ module mud.gfx;
 #include <gfx/Mesh.h>
 #include <gfx/Model.h>
 #include <gfx/Shot.h>
-#include <gfx-pbr/Shadow.h>
+#include <gfx/Frustum.h>
 #endif
 
 namespace mud
@@ -63,9 +57,8 @@ namespace mud
 			item->m_depth = plane_distance_to(planes.m_near, item->m_node.m_position);
 	}
 
-	void ManualRender::render()
+	void ManualRender::render(Renderer& renderer)
 	{
-		Renderer& renderer = m_render.m_scene.m_gfx_system.renderer<ShadowRenderer>();
 		renderer.render(m_shadow_render);
 		m_render.m_pass_index = m_shadow_render.m_pass_index;
 	}

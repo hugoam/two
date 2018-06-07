@@ -13,25 +13,25 @@
 
 namespace mud
 {
-	export_ enum class _refl_ EditorHint : unsigned int
+	export_ enum class refl_ EditorHint : unsigned int
 	{
 		Table,
 		Rows,
 		Inline
 	};
 
-	MUD_UIO_EXPORT _func_ bool object_edit_inline(Widget& parent, Ref object);
-	MUD_UIO_EXPORT _func_ bool object_edit_rows(Widget& parent, Ref object);
-	MUD_UIO_EXPORT _func_ bool object_edit_columns(Widget& parent, Ref object);
-	MUD_UIO_EXPORT _func_ bool object_edit_table(Widget& parent, Ref object);
-	MUD_UIO_EXPORT _func_ bool object_edit_expandbox(Widget& parent, Ref object);
-	MUD_UIO_EXPORT _func_ bool object_edit(Widget& parent, Ref object, EditorHint hint = EditorHint::Table);
+	export_ MUD_UIO_EXPORT func_ bool object_edit_inline(Widget& parent, Ref object);
+	export_ MUD_UIO_EXPORT func_ bool object_edit_rows(Widget& parent, Ref object);
+	export_ MUD_UIO_EXPORT func_ bool object_edit_columns(Widget& parent, Ref object);
+	export_ MUD_UIO_EXPORT func_ bool object_edit_table(Widget& parent, Ref object);
+	export_ MUD_UIO_EXPORT func_ bool object_edit_expandbox(Widget& parent, Ref object);
+	export_ MUD_UIO_EXPORT func_ bool object_edit(Widget& parent, Ref object, EditorHint hint = EditorHint::Table);
 
-	MUD_UIO_EXPORT _func_ bool inspector(Widget& parent, Ref object);
-	MUD_UIO_EXPORT _func_ bool inspector(Widget& parent);
-	MUD_UIO_EXPORT _func_ void multi_inspector(Widget& parent, Type& type, std::vector<Var>& objects, size_t& selected);
+	export_ MUD_UIO_EXPORT func_ bool inspector(Widget& parent, Ref object);
+	export_ MUD_UIO_EXPORT func_ bool inspector(Widget& parent);
+	export_ MUD_UIO_EXPORT func_ void multi_inspector(Widget& parent, Type& type, std::vector<Var>& objects, size_t& selected);
 
-	MUD_UIO_EXPORT _func_ void multi_object_edit(Widget& parent, Type& type, std::vector<Ref> objects);
+	export_ MUD_UIO_EXPORT func_ void multi_object_edit(Widget& parent, Type& type, std::vector<Ref> objects);
 
 	//template <class T_Object>
 	//T_Object* deref(std::pair<const string, unique_ptr<T_Object>>& element) { return element.second.get(); }

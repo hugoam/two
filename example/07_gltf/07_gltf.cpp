@@ -11,7 +11,7 @@ void ex_07_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Gnode& groot = viewer.m_scene->begin();
 
-	gfx::directional_light_node(groot, sun_rotation(M_PI / 4.f, M_PI / 4.f));
+	gfx::directional_light_node(groot, sun_rotation(c_pi / 4.f, c_pi / 4.f));
 	gfx::radiance(groot, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 	
 	Gnode& model_node = gfx::node(groot);

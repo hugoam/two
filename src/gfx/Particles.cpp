@@ -2,15 +2,15 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#else
+#include <gfx/Cpp20.h>
+#ifndef MUD_CPP_20
 #include <string>
 #endif
+
+#include <bx/math.h>
+#include <bx/allocator.h>
+#include <bimg/bimg.h>
+#include <bgfx/bgfx.h>
 
 #ifdef MUD_MODULES
 module mud.gfx;
@@ -33,10 +33,6 @@ module mud.gfx;
 #include <gfx/Pipeline.h>
 #include <gfx/Node3.h>
 #endif
-
-#include <bgfx/bgfx.h>
-#include <bimg/bimg.h>
-#include <bx/math.h>
 
 #define SPRITE_TEXTURE_SIZE 2048U
 

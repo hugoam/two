@@ -4,10 +4,13 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
+#include <ui/Structs/Dock.h>
+#include <uio/Edit/Script.h>
+#endif
+
 #include <edit/Generated/Forward.h>
 #include <edit/Tool.h>
-
-#include <ui/Structs/Dock.h>
 
 #include <edit/Tools/TranslateTool.h>
 #include <edit/Tools/RotateTool.h>
@@ -15,13 +18,12 @@
 #include <edit/Tools/CopyTool.h>
 #include <edit/Tools/ViewTool.h>
 
-#include <uio/Edit/Script.h>
 
 #include <edit/ActionStack.h>
 
 namespace mud
 {
-	export_ class _refl_ MUD_EDIT_EXPORT EditContext : public NonCopy
+	export_ class refl_ MUD_EDIT_EXPORT EditContext : public NonCopy
     {
     public:
 		EditContext(GfxSystem& gfx_system);

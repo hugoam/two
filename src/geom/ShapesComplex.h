@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Array.h>
+#endif
 #include <geom/Generated/Forward.h>
 #include <geom/Shape.h>
 
@@ -15,21 +17,21 @@
 
 namespace mud
 {
-	export_ struct _refl_ MUD_MATH_EXPORT Polygon : public Shape
+	export_ struct refl_ MUD_GEOM_EXPORT Polygon final : public Shape
 	{
 	public:
-		_constr_ Polygon();
-		_constr_ Polygon(std::vector<vec3> vertices);
+		constr_ Polygon();
+		constr_ Polygon(std::vector<vec3> vertices);
 
 		std::vector<vec3> m_vertices;
 
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_MATH_EXPORT Box : public Shape
+	export_ struct refl_ MUD_GEOM_EXPORT Box final : public Shape
 	{
 	public:
-		_constr_ Box();
+		constr_ Box();
 		Box(array<vec3> vertices);
 
 		Box(const Cube& cube);
@@ -39,24 +41,24 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_MATH_EXPORT Points : public Shape
+	export_ struct refl_ MUD_GEOM_EXPORT Points final : public Shape
 	{
 	public:
-		_constr_ Points();
-		_constr_ Points(const std::vector<vec3>& points);
+		constr_ Points();
+		constr_ Points(const std::vector<vec3>& points);
 
-		_attr_ _mut_ std::vector<vec3> m_points;
+		attr_ mut_ std::vector<vec3> m_points;
 
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_MATH_EXPORT ConvexHull : public Shape
+	export_ struct refl_ MUD_GEOM_EXPORT ConvexHull final : public Shape
 	{
 	public:
-		_constr_ ConvexHull();
-		_constr_ ConvexHull(const std::vector<vec3>& vertices);
+		constr_ ConvexHull();
+		constr_ ConvexHull(const std::vector<vec3>& vertices);
 
-		_attr_ _mut_ std::vector<vec3> m_vertices;
+		attr_ mut_ std::vector<vec3> m_vertices;
 
 		virtual object_ptr<Shape> clone() const;
 	};

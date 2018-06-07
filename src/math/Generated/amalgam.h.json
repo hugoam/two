@@ -2,6 +2,7 @@
 	"project": "mudmath.h",
 	"target": "mudmath.h",
 	"sources": [
+		"math/Api.h",
 		"math/Axes.h",
 		"math/Axis.h",
 		"math/Clamp.h",
@@ -24,7 +25,8 @@
 		""
 	],
 	"includes_map": {
-		"obj/": "mudobj.h"
+		"obj/": "mudobj.h",
+		"srlz/": "mudsrlz.h"
 	},
 	"ignore": [
 		"Generated"

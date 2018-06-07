@@ -36,7 +36,7 @@ namespace mud
 	carray<cstring, size> strarray(T_Args... args) { return carray<cstring, size>{ args.c_str()... }; }
 
 	export_ template <typename T>
-	struct _refl_ _struct_ array
+	struct refl_ struct_ array
 	{
 	public:
 		array() : m_pointer(nullptr), m_count(0) {}
@@ -63,8 +63,8 @@ namespace mud
 		size_t m_count;
 	};
 
-	export_ template struct _refl_ _struct_ MUD_OBJ_EXPORT array<float>;
-	export_ template struct _refl_ _struct_ MUD_OBJ_EXPORT array<cstring>;
+	export_ template struct refl_ struct_ MUD_OBJ_EXPORT array<float>;
+	export_ template struct refl_ struct_ MUD_OBJ_EXPORT array<cstring>;
 
 	export_ template<typename T> class array_2d : public array<T>
 	{

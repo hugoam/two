@@ -2,19 +2,12 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#else
+#include <gfx/Cpp20.h>
+#ifndef MUD_CPP_20
 #include <cstdio>
 #endif
 
-#ifdef MUD_MODULES
-module mud.ctx-glfw;
-#else
+#ifndef MUD_MODULES
 #include <ctx/KeyCode.h>
 #include <ctx/InputDevice.h>
 #include <ctx-glfw/GlfwContext.h>
@@ -23,15 +16,19 @@ module mud.ctx-glfw;
 #include <GLFW/glfw3.h>
 
 #if defined MUD_PLATFORM_WINDOWS
-	#define GLFW_EXPOSE_NATIVE_WIN32
-	#include <GLFW/glfw3native.h>
-	#undef max
-	#undef min
+        #define GLFW_EXPOSE_NATIVE_WIN32
+        #include <GLFW/glfw3native.h>
+        #undef max
+        #undef min
 
 #elif defined MUD_PLATFORM_LINUX
-	#define GLFW_EXPOSE_NATIVE_X11
-	#define GLFW_EXPOSE_NATIVE_GLX
-	#include <GLFW/glfw3native.h>
+        #define GLFW_EXPOSE_NATIVE_X11
+        #define GLFW_EXPOSE_NATIVE_GLX
+        #include <GLFW/glfw3native.h>
+#endif
+
+#ifdef MUD_MODULES
+module mud.ctx.glfw;
 #endif
 
 void glfw_error(int error, const char* desc)

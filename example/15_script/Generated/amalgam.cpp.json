@@ -17,7 +17,8 @@
 		"uio/": "muduio.h",
 		"gfx/": "mudgfx.h",
 		"edit/": "mudedit.h",
-		"gen/": "mudgen.h"
+		"procgen/": "mudprocgen.h",
+		"procgen-gfx/": "mudprocgen-gfx.h"
     },
 	"clean_strings": [
 		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",

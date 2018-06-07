@@ -14,7 +14,7 @@
 
 namespace mud
 {
-	export_ enum class _refl_ TrackMode : unsigned int
+	export_ enum class refl_ TrackMode : unsigned int
 	{
 		Constant,
 		ConstantRandom,
@@ -23,10 +23,10 @@ namespace mud
 	};
 
 	export_ template <class T>
-	struct _refl_ _struct_ ValueCurve
+	struct refl_ struct_ ValueCurve
 	{
-		_constr_ ValueCurve() {}
-		_constr_ ValueCurve(std::vector<T> keys) : m_keys(keys) {}
+		constr_ ValueCurve() {}
+		constr_ ValueCurve(std::vector<T> keys) : m_keys(keys) {}
 		ValueCurve(T value) : m_keys(1, value) {}
 
 		T sample_constant()
@@ -43,20 +43,20 @@ namespace mud
 			return mud::lerp(m_keys[key], m_keys[key + 1], ttmod);
 		}
 
-		_attr_ _mut_ std::vector<T> m_keys;
+		attr_ mut_ std::vector<T> m_keys;
 	};
 
-	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<vec3>;
-	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<quat>;
-	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<float>;
-	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<uint32_t>;
-	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueCurve<Colour>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueCurve<vec3>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueCurve<quat>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueCurve<float>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueCurve<uint32_t>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueCurve<Colour>;
 
 	export_ template <class T>
-	struct _refl_ _struct_ ValueTrack
+	struct refl_ struct_ ValueTrack
 	{
-		_constr_ ValueTrack() {}
-		_constr_ ValueTrack(TrackMode mode, ValueCurve<T> curve, ValueCurve<T> min_curve, ValueCurve<T> max_curve) : m_mode(mode), m_curve(curve), m_min_curve(min_curve), m_max_curve(max_curve) {}
+		constr_ ValueTrack() {}
+		constr_ ValueTrack(TrackMode mode, ValueCurve<T> curve, ValueCurve<T> min_curve, ValueCurve<T> max_curve) : m_mode(mode), m_curve(curve), m_min_curve(min_curve), m_max_curve(max_curve) {}
 		ValueTrack(T value) : m_mode(TrackMode::Constant), m_curve(value) {}
 		ValueTrack(T min, T max) : m_mode(TrackMode::ConstantRandom), m_min_curve(min), m_max_curve(max) {}
 		ValueTrack(std::vector<T> values) : m_mode(TrackMode::Curve), m_curve(values) {}
@@ -86,15 +86,15 @@ namespace mud
 				return mud::lerp(m_min_curve.sample_curve(t), m_max_curve.sample_curve(t), seed);
 		}
 
-		_attr_ _mut_ TrackMode m_mode;
-		_attr_ _mut_ ValueCurve<T> m_curve;
-		_attr_ _mut_ ValueCurve<T> m_min_curve;
-		_attr_ _mut_ ValueCurve<T> m_max_curve;
+		attr_ mut_ TrackMode m_mode;
+		attr_ mut_ ValueCurve<T> m_curve;
+		attr_ mut_ ValueCurve<T> m_min_curve;
+		attr_ mut_ ValueCurve<T> m_max_curve;
 	};
 
-	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<vec3>;
-	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<quat>;
-	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<float>;
-	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<uint32_t>;
-	export_ template struct _refl_ _struct_ MUD_MATH_EXPORT ValueTrack<Colour>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueTrack<vec3>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueTrack<quat>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueTrack<float>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueTrack<uint32_t>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueTrack<Colour>;
 }

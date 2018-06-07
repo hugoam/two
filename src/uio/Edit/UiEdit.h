@@ -9,10 +9,10 @@
 
 namespace mud
 {
-	MUD_UIO_EXPORT void ui_debug_modal(Widget& parent, Widget& target);
-	MUD_UIO_EXPORT void ui_debug_layout(Widget& parent, Widget& target);
-	MUD_UIO_EXPORT void ui_debug(Widget& parent, Widget& target);
+	export_ MUD_UIO_EXPORT void ui_debug_modal(Widget& parent, Widget& target);
+	export_ MUD_UIO_EXPORT void ui_debug_layout(Widget& parent, Widget& target);
+	export_ MUD_UIO_EXPORT void ui_debug(Widget& parent, Widget& target);
 
-	MUD_UIO_EXPORT void ui_edit(Widget& parent, Sequence& selection);
-	MUD_UIO_EXPORT void ui_editor(Widget& parent);
+	export_ MUD_UIO_EXPORT void ui_edit(Widget& parent, Sequence& selection);
+	export_ MUD_UIO_EXPORT void ui_editor(Widget& parent);
 }

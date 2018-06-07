@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/NonCopy.h>
+#endif
 #include <edit/Tool.h>
 #include <edit/Generated/Forward.h>
 
@@ -25,7 +27,7 @@ namespace mud
 		std::vector<object_ptr<EditorAction>> m_undone;
 	};
 
-	export_ class _refl_ MUD_EDIT_EXPORT UndoTool : public Tool
+	export_ class refl_ MUD_EDIT_EXPORT UndoTool : public Tool
 	{
 	public:
 		UndoTool(ToolContext& context);
@@ -33,7 +35,7 @@ namespace mud
 		virtual void activate() final;
 	};
 
-	export_ class _refl_ MUD_EDIT_EXPORT RedoTool : public Tool
+	export_ class refl_ MUD_EDIT_EXPORT RedoTool : public Tool
 	{
 	public:
 		RedoTool(ToolContext& context);

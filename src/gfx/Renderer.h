@@ -2,10 +2,12 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Cls.h>
 #include <obj/Array.h>
 #include <obj/NonCopy.h>
 #include <obj/Unique.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Shader.h>
 
@@ -23,7 +25,7 @@ namespace mud
 
 	MUD_GFX_EXPORT bgfx::VertexDecl vertex_decl(size_t vertex_format);
 
-	export_ enum class _refl_ TextureSampler : unsigned int
+	export_ enum class refl_ TextureSampler : unsigned int
 	{
 		Source0 = 0,
 		Source1 = 1,
@@ -48,7 +50,7 @@ namespace mud
 		GIProbe = 10,
 	};
 
-	enum class PassType : unsigned int
+	export_ enum class PassType : unsigned int
 	{
 		Shadowmap,
 		Probes,
@@ -93,7 +95,7 @@ namespace mud
 		uint8_t m_sub_pass = 0;
 	};
 
-	export_ struct _refl_ MUD_GFX_EXPORT RenderFrame
+	export_ struct refl_ MUD_GFX_EXPORT RenderFrame
 	{
 		uint32_t m_frame;
 		float m_time;
@@ -160,7 +162,7 @@ namespace mud
 		static const uint8_t s_ui_pass_id = 255;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT GfxBlock
+	export_ class refl_ MUD_GFX_EXPORT GfxBlock
 	{
 	public:
 		GfxBlock(GfxSystem& gfx_system, Type& type);
@@ -175,8 +177,8 @@ namespace mud
 		virtual void submit_gfx_block(Render& render) = 0;
 
 		GfxSystem& m_gfx_system;
-		_attr_ Type& m_type;
-		_attr_ uint8_t m_index;
+		attr_ Type& m_type;
+		attr_ uint8_t m_index;
 
 		unique_ptr<ShaderBlock> m_shader_block;
 
@@ -185,7 +187,7 @@ namespace mud
 		static uint8_t s_block_index;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT DrawBlock : public GfxBlock
+	export_ class refl_ MUD_GFX_EXPORT DrawBlock : public GfxBlock
 	{
 	public:
 		DrawBlock(GfxSystem& gfx_system, Type& type) : GfxBlock(gfx_system, type) { m_draw_block = true; }
@@ -198,6 +200,7 @@ namespace mud
 	{
 	public:
 		RenderPass(GfxSystem& gfx_system, const char* name, PassType pass_type);
+		virtual ~RenderPass() {}
 
 		virtual void begin_render_pass(Render& render) = 0;
 		virtual void submit_render_pass(Render& render) = 0;

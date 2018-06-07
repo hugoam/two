@@ -12,7 +12,7 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_GFX_EXPORT Shot
+	export_ class refl_ MUD_GFX_EXPORT Shot
 	{
 	public:
 		std::vector<Item*> m_items;

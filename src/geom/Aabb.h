@@ -4,19 +4,21 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Array.h>
+#endif
 #include <geom/Generated/Forward.h>
 #include <geom/Shapes.h>
 
 namespace mud
 {
-	export_ struct _refl_ MUD_MATH_EXPORT Aabb : public Cube
+	export_ struct refl_ MUD_GEOM_EXPORT Aabb : public Cube
 	{
 	public:
-		_constr_ Aabb();
-		_constr_ Aabb(const vec3& center, const vec3& extents);
+		constr_ Aabb();
+		constr_ Aabb(const vec3& center, const vec3& extents);
 
-		_attr_ _mut_ bool m_null;
+		attr_ mut_ bool m_null;
 
 		vec3 bmin() { return m_center - m_extents; }
 		vec3 bmax() { return m_center + m_extents; }
@@ -33,12 +35,12 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	inline Aabb min_max_to_aabb(const vec3& min, const vec3& max)
+	export_ inline Aabb min_max_to_aabb(const vec3& min, const vec3& max)
 	{
 		vec3 extents = (max - min) / 2.f;
 		return Aabb(min + extents, extents);
 	}
 
-	MUD_MATH_EXPORT Aabb face_aabb(const vec3* vertices);
-	MUD_MATH_EXPORT Aabb face_aabb(const Face3& face);
+	export_ MUD_GEOM_EXPORT Aabb face_aabb(const vec3* vertices);
+	export_ MUD_GEOM_EXPORT Aabb face_aabb(const Face3& face);
 }

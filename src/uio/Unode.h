@@ -4,26 +4,21 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Ref.h>
 #include <obj/Util/Dispatch.h>
 #include <obj/Util/Global.h>
-#include <uio/Generated/Forward.h>
 #include <ui/Ui.h>
+#endif
+#include <uio/Generated/Forward.h>
 
 namespace mud
 {
-	using Id = uint32_t;
-
-	MUD_UIO_EXPORT bool modal_dialog(Widget& parent, cstring name, bool query = false);
+	export_ MUD_UIO_EXPORT bool modal_dialog(Widget& parent, cstring name, bool query = false);
 
 	export_ class MUD_UIO_EXPORT DispatchItem : public Dispatch<Widget&, Widget&>, public LazyGlobal<DispatchItem>
 	{
 	public:
 		DispatchItem();
 	};
-
-	MUD_UIO_EXPORT Widget& object_button(Widget& parent, Ref object);
-	MUD_UIO_EXPORT Widget& object_item(Widget& parent, Ref object);
-	MUD_UIO_EXPORT bool object_item(Widget& parent, Ref object, Ref& selection);
-	MUD_UIO_EXPORT bool object_item(Widget& parent, Ref object, std::vector<Ref>& selection);
 }

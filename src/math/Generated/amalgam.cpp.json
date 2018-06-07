@@ -18,7 +18,8 @@
 	],
     "includes_map": {
 		"math/": "mudmath.h",
-		"obj/": "mudobj.h"
+		"obj/": "mudobj.h",
+		"srlz/": "mudsrlz.h"
     },
 	"clean_strings": [
 		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",

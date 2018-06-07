@@ -20,13 +20,9 @@ def namespace_end(n):
 #include <${ m.subdir }/Generated/Forward.h>
 % endfor
 
-% if module.export != '' :
-#if defined ${ module.preproc_name }_LIB
-#define ${ module.export } MUD_EXPORT
-#else
+#ifndef ${ module.export }
 #define ${ module.export } MUD_IMPORT
 #endif
-% endif
 
 % for key, n in module.root.namespaces.iteritems() :
 ${ namespace_begin(n) }

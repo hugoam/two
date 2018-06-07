@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Colour.h>
+#endif
 #include <ui/Generated/Forward.h>
 #include <ui/Structs/Widget.h>
 
@@ -14,7 +16,7 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_UI_EXPORT NodePlug : public Widget
+	export_ class refl_ MUD_UI_EXPORT NodePlug : public Widget
 	{
 	public:
 		NodePlug(Widget* parent, void* identity) : Widget(parent, identity) {}
@@ -23,7 +25,7 @@ namespace mud
 		Colour m_colour;
 	};
 
-	export_ class _refl_ MUD_UI_EXPORT Node : public Widget
+	export_ class refl_ MUD_UI_EXPORT Node : public Widget
 	{
 	public:
 		Node(Widget* parent, void* identity) : Widget(parent, identity) {}
@@ -34,7 +36,7 @@ namespace mud
 		int m_order = 0;
 	};
 
-	export_ struct _refl_ MUD_UI_EXPORT CanvasConnect
+	export_ struct refl_ MUD_UI_EXPORT CanvasConnect
 	{
 		NodePlug* m_origin = nullptr;
 		NodePlug* m_in = nullptr;
@@ -43,7 +45,7 @@ namespace mud
 		bool m_done = false;
 	};
 
-	export_ class _refl_ MUD_UI_EXPORT Canvas : public Widget
+	export_ class refl_ MUD_UI_EXPORT Canvas : public Widget
 	{
 	public:
 		Canvas(Widget* parent, void* identity) : Widget(parent, identity) {}

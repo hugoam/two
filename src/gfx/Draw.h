@@ -4,19 +4,15 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/NonCopy.h>
 #include <obj/Util/Global.h>
 #include <math/Vec.h>
 #include <geom/Shape/ProcShape.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Mesh.h>
 #include <gfx/Material.h>
-
-#ifdef MUD_VAL_BUFFER
-#define MUD_MAX_SHAPE_SIZE MUD_VAL_BUFFER
-#else
-#define MUD_MAX_SHAPE_SIZE 256
-#endif
 
 #ifndef MUD_CPP_20
 #include <map>
@@ -24,9 +20,11 @@
 
 namespace mud
 {
+	constexpr size_t c_max_shape_size = 256U;
+
 	using cstring = const char*;
 
-	export_ class _refl_ MUD_GFX_EXPORT ImmediateDraw
+	export_ class refl_ MUD_GFX_EXPORT ImmediateDraw
 	{
 	public:
 		ImmediateDraw(Material& material);
@@ -53,7 +51,7 @@ namespace mud
 		void submit(uint8_t view, uint64_t bgfx_state, DrawMode draw_mode);
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT SymbolIndex : public NonCopy, public Global<SymbolIndex>
+	export_ class refl_ MUD_GFX_EXPORT SymbolIndex : public NonCopy, public Global<SymbolIndex>
 	{
 	public:
 		SymbolIndex();
@@ -64,13 +62,13 @@ namespace mud
 
 	protected:
 		std::map<uint64_t, Material*> m_materials;
-		std::map<uint64_t, std::map<std::array<char, MUD_MAX_SHAPE_SIZE>, object_ptr<Model>>> m_symbols;
+		std::map<uint64_t, std::map<std::array<char, c_max_shape_size>, object_ptr<Model>>> m_symbols;
 	};
 
-	MUD_GFX_EXPORT object_ptr<Model> draw_model(cstring name, const ProcShape& shape, bool readback = false);
-	MUD_GFX_EXPORT object_ptr<Model> draw_model(cstring name, const std::vector<ProcShape>& shapes, bool readback = false);
-	MUD_GFX_EXPORT void draw_model(const ProcShape& shape, Model& model, bool readback = false);
-	MUD_GFX_EXPORT void draw_model(const std::vector<ProcShape>& shapes, Model& model, bool readback = false);
-	MUD_GFX_EXPORT void draw_mesh(const std::vector<ProcShape>& shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback = false);
+	export_ MUD_GFX_EXPORT object_ptr<Model> draw_model(cstring name, const ProcShape& shape, bool readback = false);
+	export_ MUD_GFX_EXPORT object_ptr<Model> draw_model(cstring name, const std::vector<ProcShape>& shapes, bool readback = false);
+	export_ MUD_GFX_EXPORT void draw_model(const ProcShape& shape, Model& model, bool readback = false);
+	export_ MUD_GFX_EXPORT void draw_model(const std::vector<ProcShape>& shapes, Model& model, bool readback = false);
+	export_ MUD_GFX_EXPORT void draw_mesh(const std::vector<ProcShape>& shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback = false);
 
 }

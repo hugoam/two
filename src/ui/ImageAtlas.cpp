@@ -2,23 +2,17 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <stb_rect_pack.h>
+#include <stb_image.h>
+
 #include <math/Interp.h>
 #include <ui/ImageAtlas.h>
 #endif
-
-#include <stb_rect_pack.h>
-#include <stb_image.h>
 
 namespace mud
 {
@@ -105,7 +99,7 @@ namespace mud
 
 	void Sprite::compute_frames(const vec2& atlas_inverse_size)
 	{
-		for(size_t i = 0; i < m_num_frames; ++i)
+		for(uint i = 0; i < m_num_frames; ++i)
 		{
 			uvec2 frame_coord = { i % m_frames.x, i / m_frames.x };
 			m_frame_coords.push_back(d_coord + frame_coord * m_frame_size);
@@ -134,7 +128,7 @@ namespace mud
 	const Sprite& SpriteAtlas::find_sprite(cstring name) const
 	{
 		for(const Sprite& sprite : m_sprites)
-			if(strcmp(sprite.d_name, name) == 0)
+			if(strcmp(sprite.d_name.c_str(), name) == 0)
 				return sprite;
 		return m_sprites[0];
 	}
@@ -159,7 +153,7 @@ namespace mud
 	{
 		if(sprite.m_num_frames > 0)
 		{
-			size_t index = lerp(size_t(0U), sprite.m_num_frames - 1U, t);
+			size_t index = lerp(0U, sprite.m_num_frames - 1U, t);
 			return sprite.m_frame_uvs[index];
 		}
 

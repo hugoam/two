@@ -2,16 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
-import mud.math;
 module mud.geom;
 #else
 #include <math/Axis.h>
@@ -45,7 +38,7 @@ namespace mud
 
 		float rr = m_overlap ? random_scalar(point.radius, distance)
 							 : random_scalar(distance, distance * 2.f);
-		float rt = random_scalar(0.f, float(2.f * M_PI));
+		float rt = random_scalar(0.f, float(2.f * c_pi));
 
 		float x = rr * sin(rt) + point.position.x;
 		float y = rr * cos(rt) + point.position.y;

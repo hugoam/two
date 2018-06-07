@@ -2,13 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <gfx/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.gfx;
@@ -31,7 +25,6 @@ module mud.gfx;
 #include <gfx/Particles.h>
 #include <gfx/Scene.h>
 #include <gfx/Blocks/Sky.h>
-//#include <gfx-pbr/GI.h>
 #include <gfx/Asset.h>
 #include <gfx/Model.h>
 #include <gfx/Texture.h> // @kludge : make all this logic private and export_ asset stores
@@ -233,7 +226,7 @@ namespace gfx
 			self.m_particles = &create<Particles>(*self.m_scene, *parent.m_scene->m_particle_system, *self.m_attach);
 		as<ParticleGenerator>(self.m_particles->m_emitter) = emitter;
 		self.m_particles->m_emitter.m_node = self.m_attach;
-		self.m_particles->m_emitter.m_sprite = &parent.m_scene->m_particle_system->m_block.m_sprites.find_sprite(emitter.m_sprite_name);
+		self.m_particles->m_emitter.m_sprite = &parent.m_scene->m_particle_system->m_block.m_sprites.find_sprite(emitter.m_sprite_name.c_str());
 		return *self.m_particles;
 	}
 
@@ -283,7 +276,7 @@ namespace gfx
 
 	Light& directional_light_node(Gnode& parent)
 	{
-		return directional_light_node(parent, quat{ vec3{ -M_PI / 4.f, -M_PI / 4.f, 0.f } });
+		return directional_light_node(parent, quat{ vec3{ -c_pi / 4.f, -c_pi / 4.f, 0.f } });
 	}
 
 #if 0

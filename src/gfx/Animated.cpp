@@ -2,19 +2,16 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <gfx/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <bx/math.h>
+
 #include <obj/Vector.h>
 #include <obj/Reflect/Class.h>
+#include <math/Math.h>
 #include <math/Interp.h>
 #include <gfx/Generated/Types.h>
 #include <gfx/Animated.h>
@@ -24,9 +21,6 @@ module mud.gfx;
 #include <gfx/Model.h>
 #include <gfx/Skeleton.h>
 #endif
-
-#include <math/Math.h>
-#include <bx/math.h>
 
 namespace mud
 {

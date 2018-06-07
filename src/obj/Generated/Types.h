@@ -2,10 +2,12 @@
 
 #include <obj/Generated/Forward.h>
 
-#ifndef MUD_MODULES
-
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/Type.h>
 #include <obj/Proto.h>
+#endif
+
+#ifndef MUD_MODULES
 #endif
 
 #ifndef MUD_CPP_20
@@ -72,7 +74,6 @@ namespace mud
     export_ template <> MUD_OBJ_EXPORT Type& type<mud::Var>();
     export_ template <> MUD_OBJ_EXPORT Type& type<mud::array<float>>();
     export_ template <> MUD_OBJ_EXPORT Type& type<mud::array<mud::cstring>>();
-    export_ template <> MUD_OBJ_EXPORT Type& type<mud::strung>();
     export_ template <> MUD_OBJ_EXPORT Type& type<mud::Constructor>();
     export_ template <> MUD_OBJ_EXPORT Type& type<mud::CopyConstructor>();
     export_ template <> MUD_OBJ_EXPORT Type& type<mud::Destructor>();

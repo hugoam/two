@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/NonCopy.h>
+#endif
 #include <ui/Frame/Frame.h>
 #include <ui/Style/Layout.h>
 
@@ -19,7 +21,7 @@ namespace mud
 	void collect_solvers(Frame& frame, SolverVector& solvers, DirtyLayout dirtyTop);
 	void relayout(SolverVector& solvers);
 
-	export_ class _refl_ MUD_UI_EXPORT FrameSolver : public UiRect
+	export_ class refl_ MUD_UI_EXPORT FrameSolver : public UiRect
 	{
 	public:
 		FrameSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
@@ -107,7 +109,7 @@ namespace mud
 		size_t d_count = 0;
 	};
 
-	export_ class _refl_ MUD_UI_EXPORT RowSolver : public FrameSolver
+	export_ class refl_ MUD_UI_EXPORT RowSolver : public FrameSolver
 	{
 	public:
 		RowSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
@@ -135,7 +137,7 @@ namespace mud
 		std::vector<unique_ptr<FrameSolver>> m_solvers;
 	};
 
-	export_ class _refl_ MUD_UI_EXPORT TableSolver : public CustomSolver
+	export_ class refl_ MUD_UI_EXPORT TableSolver : public CustomSolver
 	{
 	public:
 		TableSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
@@ -147,15 +149,17 @@ namespace mud
 		virtual FrameSolver* grid() { return this; }
 	};
 
-	export_ class _refl_ MUD_UI_EXPORT LineSolver : public RowSolver
+	export_ class refl_ MUD_UI_EXPORT LineSolver : public RowSolver
 	{
 	public:
 		LineSolver(FrameSolver* solver, Space space);
-
+		LineSolver(const LineSolver& other) = delete; // @kludge for clang modules bug
+		LineSolver& operator=(const LineSolver& other) = delete;
+		
 		Layout d_style;
 	};
 
-	export_ class _refl_ MUD_UI_EXPORT GridSolver : public CustomSolver
+	export_ class refl_ MUD_UI_EXPORT GridSolver : public CustomSolver
 	{
 	public:
 		GridSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);

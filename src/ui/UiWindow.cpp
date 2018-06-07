@@ -2,17 +2,13 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <stb_image.h>
+
 #include <obj/Vector.h>
 #include <obj/String/String.h>
 #include <obj/System/System.h>
@@ -28,8 +24,6 @@ module mud.ui;
 #include <ui/Render/Renderer.h>
 #include <ui/Controller/Controller.h>
 #endif
-
-#include <stb_image.h>
 
 namespace mud
 {
@@ -73,10 +67,6 @@ namespace mud
 			{
 				m_renderer->unload_image(*image);
 			}
-
-#ifndef MUD_UI_IMMEDIATE
-		m_root_sheet->store().clear();
-#endif
 	}
 
 	void UiWindow::init()

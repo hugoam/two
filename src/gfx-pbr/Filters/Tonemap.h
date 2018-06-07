@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <gfx/Renderer.h>
+#endif
 #include <gfx-pbr/Generated/Forward.h>
 #include <gfx-pbr/Filters/Glow.h>
 #include <gfx-pbr/Filters/DofBlur.h>
@@ -22,7 +24,7 @@ namespace mud
 		TONEMAP_MODE,
 	};
 
-	export_ enum class _refl_ TonemapMode : unsigned int
+	export_ enum class refl_ TonemapMode : unsigned int
 	{
 		Linear,
 		Reinhardt,
@@ -30,31 +32,31 @@ namespace mud
 		ACES
 	};
 
-	export_ struct _refl_ MUD_GFX_EXPORT BCS
+	export_ struct refl_ MUD_GFX_PBR_EXPORT BCS
 	{
-		_attr_ _mut_ bool m_enabled = false;
-		_attr_ _mut_ float m_brightness = 1.0f;
-		_attr_ _mut_ float m_contrast = 1.0f;
-		_attr_ _mut_ float m_saturation = 1.0f;
+		attr_ mut_ bool m_enabled = false;
+		attr_ mut_ float m_brightness = 1.0f;
+		attr_ mut_ float m_contrast = 1.0f;
+		attr_ mut_ float m_saturation = 1.0f;
 	};
 
-	export_ struct _refl_ MUD_GFX_EXPORT Tonemap
+	export_ struct refl_ MUD_GFX_PBR_EXPORT Tonemap
 	{
-		_attr_ _mut_ TonemapMode m_mode = TonemapMode::Linear;
-		_attr_ _mut_ bool m_enabled = false;
-		_attr_ _mut_ float m_exposure = 1.0f;
-		_attr_ _mut_ float m_white_point = 1.0f;
+		attr_ mut_ TonemapMode m_mode = TonemapMode::Linear;
+		attr_ mut_ bool m_enabled = false;
+		attr_ mut_ float m_exposure = 1.0f;
+		attr_ mut_ float m_white_point = 1.0f;
 
 		bgfx::TextureHandle m_color_correction = BGFX_INVALID_HANDLE;
 	};
 
-	export_ struct _refl_ MUD_GFX_EXPORT RenderFilters
+	export_ struct refl_ MUD_GFX_PBR_EXPORT RenderFilters
 	{
-		_attr_ _mut_ DofBlur m_dof_blur;
-		//_attr_ _mut_ Exposure m_exposure;
-		_attr_ _mut_ Glow m_glow;
-		_attr_ _mut_ BCS m_bcs;
-		_attr_ _mut_ Tonemap m_tonemap;
+		attr_ mut_ DofBlur m_dof_blur;
+		//attr_ mut_ Exposure m_exposure;
+		attr_ mut_ Glow m_glow;
+		attr_ mut_ BCS m_bcs;
+		attr_ mut_ Tonemap m_tonemap;
 	};
 
 	struct TonemapUniform
@@ -69,7 +71,7 @@ namespace mud
 		bgfx::UniformHandle u_exposure_params;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT BlockTonemap : public GfxBlock
+	export_ class refl_ MUD_GFX_PBR_EXPORT BlockTonemap : public GfxBlock
 	{
 	public:
 		BlockTonemap(GfxSystem& gfx_system, BlockFilter& filter);

@@ -9,10 +9,10 @@
 
 namespace mud
 {
-	MUD_UIO_EXPORT bool call_edit(Widget& parent, Call& call);
+	export_ MUD_UIO_EXPORT bool call_edit(Widget& parent, Call& call);
 
-	MUD_UIO_EXPORT void callable_edit(Widget& parent, Callable& callable);
-	MUD_UIO_EXPORT void function_edit(Widget& parent, Function& function);
-	MUD_UIO_EXPORT void method_edit(Widget& parent, Ref object, Method& method);
-	MUD_UIO_EXPORT void method_hook(Widget& parent, Ref object, Method& method);
+	export_ MUD_UIO_EXPORT void callable_edit(Widget& parent, Callable& callable);
+	export_ MUD_UIO_EXPORT void function_edit(Widget& parent, Function& function);
+	export_ MUD_UIO_EXPORT void method_edit(Widget& parent, Ref object, Method& method);
+	export_ MUD_UIO_EXPORT void method_hook(Widget& parent, Ref object, Method& method);
 }

@@ -1,3 +1,4 @@
+#define MUD_NO_GFX
 #include <mud/mud.h>
 #include <00_ui/00_ui.h>
 

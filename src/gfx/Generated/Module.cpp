@@ -1,19 +1,15 @@
-#ifdef MUD_CPP_20
-#include <cassert>
-#include <cstdint>
-#include <climits>
-#include <cfloat>
-import std.core;
-import std.memory;
-import std.threading;
-import std.regex;
+#include <gfx/Cpp20.h>
+
+#ifdef MUD_MODULES
+module mud.gfx;
+#else
+#include <gfx/Generated/Module.h>
 #endif
 
-#include <gfx/Generated/Module.h>
-
 #ifdef MUD_GFX_REFLECT
+#ifndef MUD_MODULES
 #include <gfx/Generated/Convert.h>
-
+#endif
 #define MUD_GFX_REFLECTION_IMPL
 #include <gfx/Generated/Meta.h>
 #endif
@@ -25,12 +21,13 @@ namespace mud
 	{
         // ensure dependencies are instantiated
         mudobj::m();
+        mudsrlz::m();
         mudmath::m();
         mudgeom::m();
 
 #ifdef MUD_GFX_REFLECT
         // setup reflection meta data
-		gfx_meta(*this);
+		mudgfx_meta(*this);
 #endif
 	}
 }

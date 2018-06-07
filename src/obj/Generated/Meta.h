@@ -2,11 +2,13 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Generated/Module.h>
 
 #include <obj/Any.h>
 #include <obj/Reflect/MetaDecl.h>
 #include <obj/System/System.h>
+#endif
 
 namespace mud
 {
@@ -14,7 +16,7 @@ namespace mud
     template <> MUD_OBJ_EXPORT Type& type<mud::Member::Flags>();
     
 #ifdef MUD_OBJ_REFLECTION_IMPL
-    void obj_meta(Module& m)
+    void mudobj_meta(Module& m)
     {   
     // Base Types
     {
@@ -439,7 +441,6 @@ namespace mud
         
         meta_class<mud::Enum>();
     }
-    
     
     
     
@@ -984,7 +985,6 @@ namespace mud
     }
     
     
-    
         
     // mud::Type
     {
@@ -1124,41 +1124,6 @@ namespace mud
         
         
         meta_class<mud::array<mud::cstring>>();
-    }
-    
-    
-        
-    // mud::strung
-    {
-        static Meta meta = { type<mud::strung>(), &namspc({ "mud" }), "strung", sizeof(mud::strung), TypeClass::Struct };
-        static Class cls = { type<mud::strung>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-                { type<mud::strung>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::strung>(ref)) mud::strung(  ); }, {} },
-                { type<mud::strung>(), [](Ref ref, array<Var> args) { new(&val<mud::strung>(ref)) mud::strung( val<cstring>(args[0]) ); }, { { "str", var(cstring()) } } }
-            },
-            // copy constructor
-            {
-                { type<mud::strung>(), [](Ref ref, Ref other) { new(&val<mud::strung>(ref)) mud::strung(val<mud::strung>(other)); } }
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::strung>();
     }
     
     
@@ -1402,7 +1367,6 @@ namespace mud
         m.m_types.push_back(&type<std::vector<mud::Ref>>());
         m.m_types.push_back(&type<std::vector<mud::Type*>>());
         m.m_types.push_back(&type<std::vector<mud::Var>>());
-        m.m_types.push_back(&type<mud::strung>());
         m.m_types.push_back(&type<unsigned char>());
         m.m_types.push_back(&type<unsigned int>());
         m.m_types.push_back(&type<unsigned long>());

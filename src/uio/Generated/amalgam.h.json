@@ -2,7 +2,9 @@
 	"project": "muduio.h",
 	"target": "muduio.h",
 	"sources": [
+		"uio/Api.h",
 		"uio/Dropper.h",
+		"uio/Object.h",
 		"uio/Unode.h",
 		"uio/Edit/Canvas.h",
 		"uio/Edit/Indexer.h",

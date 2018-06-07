@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <gfx/Renderer.h>
 #include <gfx/Filter.h>
+#endif
 #include <gfx-pbr/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
@@ -20,7 +22,7 @@ namespace mud
 		RADIANCE_ARRAY,
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT BlockRadiance : public DrawBlock
+	export_ class refl_ MUD_GFX_PBR_EXPORT BlockRadiance : public DrawBlock
 	{
 	public:
 		BlockRadiance(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy);

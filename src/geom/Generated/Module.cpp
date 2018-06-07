@@ -1,19 +1,15 @@
-#ifdef MUD_CPP_20
-#include <cassert>
-#include <cstdint>
-#include <climits>
-#include <cfloat>
-import std.core;
-import std.memory;
-import std.threading;
-import std.regex;
+#include <obj/Cpp20.h>
+
+#ifdef MUD_MODULES
+module mud.geom;
+#else
+#include <geom/Generated/Module.h>
 #endif
 
-#include <geom/Generated/Module.h>
-
 #ifdef MUD_GEOM_REFLECT
+#ifndef MUD_MODULES
 #include <geom/Generated/Convert.h>
-
+#endif
 #define MUD_GEOM_REFLECTION_IMPL
 #include <geom/Generated/Meta.h>
 #endif
@@ -29,7 +25,7 @@ namespace mud
 
 #ifdef MUD_GEOM_REFLECT
         // setup reflection meta data
-		geom_meta(*this);
+		mudgeom_meta(*this);
 #endif
 	}
 }

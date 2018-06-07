@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Animation.h>
 #include <gfx/Skeleton.h>
@@ -16,7 +18,7 @@
 namespace mud
 {
 
-	export_ struct _refl_ MUD_GFX_EXPORT AnimatedTrack
+	export_ struct refl_ MUD_GFX_EXPORT AnimatedTrack
 	{
 		const AnimationTrack* m_track;
 		Ref m_target; // node or bone
@@ -24,7 +26,7 @@ namespace mud
 		Var m_value;
 	};
 
-	export_ struct _refl_ MUD_GFX_EXPORT AnimationPlay
+	export_ struct refl_ MUD_GFX_EXPORT AnimationPlay
 	{
 		AnimationPlay() {}
 		AnimationPlay(const Animation& animation, bool loop, float speed, bool reverse, Skeleton* skeleton = nullptr);
@@ -45,7 +47,7 @@ namespace mud
 		std::vector<AnimatedTrack> m_tracks;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT Animated
+	export_ class refl_ MUD_GFX_EXPORT Animated
 	{
 	public:
 		Animated(Node3& node);

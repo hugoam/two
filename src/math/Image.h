@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <obj/Generated/Forward.h>
+#include <math/Generated/Forward.h>
 #include <math/Colour.h>
 
 #ifndef MUD_CPP_20
@@ -15,18 +15,18 @@ namespace mud
 {
 	using cstring = const char*;
 
-	export_ enum _refl_ SpectrumPalette : short int
+	export_ enum refl_ SpectrumPalette : short int
 	{
 		SPECTRUM_GRAYSCALE = 0,
 		SPECTRUM_HUE = 1
 	};
 
-	export_ struct _refl_ MUD_OBJ_EXPORT Palette
+	export_ struct refl_ MUD_MATH_EXPORT Palette
 	{
 	public:
-		_constr_ Palette(SpectrumPalette spectrum, size_t steps);
-		_constr_ Palette(std::vector<Colour> colours);
-		_constr_ Palette();
+		constr_ Palette(SpectrumPalette spectrum, size_t steps);
+		constr_ Palette(std::vector<Colour> colours);
+		constr_ Palette();
 
 		void reset();
 		void load(cstring file);
@@ -40,10 +40,10 @@ namespace mud
 		std::vector<Colour> m_colours;
 	};
 
-	export_ struct _refl_ MUD_OBJ_EXPORT Image256
+	export_ struct refl_ MUD_MATH_EXPORT Image256
 	{
 	public:
-		_constr_ Image256(uint16_t width = 0, uint16_t height = 0, const Palette& palette = Palette());
+		constr_ Image256(uint16_t width = 0, uint16_t height = 0, const Palette& palette = Palette());
 
 		bool operator==(const Image256& other) const;
 
@@ -53,9 +53,9 @@ namespace mud
 		std::vector<uint8_t> read() const;
 		void read(uint8_t* data) const;
 
-		_attr_ std::vector<uint32_t> m_pixels;
-		_attr_ uint16_t m_width;
-		_attr_ uint16_t m_height;
-		_attr_ Palette m_palette;
+		attr_ std::vector<uint32_t> m_pixels;
+		attr_ uint16_t m_width;
+		attr_ uint16_t m_height;
+		attr_ Palette m_palette;
 	};
 }

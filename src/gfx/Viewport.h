@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
 #include <math/Colour.h>
+#endif
 #include <gfx/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
@@ -16,7 +18,7 @@ namespace mud
 {
 	using cstring = const char*;
 
-	export_ enum class _refl_ MSAA : unsigned int
+	export_ enum class refl_ MSAA : unsigned int
 	{
 		Disabled,
 		X2,
@@ -25,30 +27,31 @@ namespace mud
 		X16,
 	};
 
-	export_ enum class _refl_ Shading : unsigned int
+	export_ enum class refl_ Shading : unsigned int
 	{
 		Wireframe,
 		Unshaded,
 		Shaded,
+		Volume,
 		Clear
 	};
 
 	struct RenderFilters;
 
-	export_ class _refl_ MUD_GFX_EXPORT Viewport
+	export_ class refl_ MUD_GFX_EXPORT Viewport
 	{
 	public:
 		Viewport(Camera& camera, Scene& scene, uvec4 rect = {}, bool scissor = false);
 
-		_attr_ Camera* m_camera;
-		_attr_ Scene* m_scene;
+		attr_ Camera* m_camera;
+		attr_ Scene* m_scene;
 
-		_attr_ uint16_t m_index = 0;
-		_attr_ _mut_ uvec4 m_rect = {};
-		_attr_ _mut_ bool m_scissor = false;
-		_attr_ _mut_ Colour m_clear_colour = Colour::Black;
-		_attr_ _mut_ Shading m_shading = Shading::Shaded;
-		/*_attr_ _mut_*/ RenderFilters* m_filters = nullptr;
+		attr_ uint16_t m_index = 0;
+		attr_ mut_ uvec4 m_rect = {};
+		attr_ mut_ bool m_scissor = false;
+		attr_ mut_ Colour m_clear_colour = Colour::Black;
+		attr_ mut_ Shading m_shading = Shading::Shaded;
+		/*attr_ mut_*/ RenderFilters* m_filters = nullptr;
 
 		std::function<uvec4()> m_get_size;
 		std::function<void(Render&)> m_render;

@@ -2,13 +2,8 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#else
+#include <obj/Cpp20.h>
+#ifndef MUD_CPP_20
 #include <algorithm>
 #endif
 
@@ -23,16 +18,6 @@ module mud.obj;
 
 namespace mud
 {
-	bool strung::operator==(const strung& other) const
-	{
-		return strcmp(m_buffer, other.m_buffer) == 0;
-	}
-
-	bool strung::operator==(cstring other) const
-	{
-		return strcmp(m_buffer, other) == 0;
-	}
-
 	template MUD_OBJ_EXPORT void from_string(const string& str, float& val);
 	template MUD_OBJ_EXPORT void to_string(const float& val, string& str);
 

@@ -11,12 +11,12 @@
 #include <functional>
 #endif
 
-export_ namespace mud
+namespace mud
 {
 	export_ using cstring = const char*;
 	export_ using FunctionPointer = void* (*)();
-
-	export_ class _refl_ MUD_OBJ_EXPORT Module
+	
+	export_ class refl_ MUD_OBJ_EXPORT Module
 	{
 	public:
 		Module(cstring name);
@@ -26,11 +26,11 @@ export_ namespace mud
 
 		//Type& m_type;
 
-		_attr_ cstring m_name;
-		_attr_ std::vector<Type*> m_types;
-		_attr_ std::vector<Function*> m_functions;
+		attr_ cstring m_name;
+		attr_ std::vector<Type*> m_types;
+		attr_ std::vector<Function*> m_functions;
 
-		_attr_ cstring m_path;
+		attr_ cstring m_path;
 		void* m_handle;
 		uint64_t m_last_modified;
 	};
@@ -51,7 +51,7 @@ export_ namespace mud
 		void reload_module(Module& m);
 	};
 
-	export_ class _refl_ MUD_OBJ_EXPORT Namespace
+	export_ class refl_ MUD_OBJ_EXPORT Namespace
 	{
 	public:
 		Namespace(cstring name = nullptr, Namespace* parent = nullptr);
@@ -63,18 +63,18 @@ export_ namespace mud
 		std::vector<cstring> m_path;
 	};
 
-	MUD_OBJ_EXPORT Namespace& namspc(std::vector<cstring> path);
+	export_ MUD_OBJ_EXPORT Namespace& namspc(std::vector<cstring> path);
 
-	export_ class _refl_ MUD_OBJ_EXPORT System
+	export_ class refl_ MUD_OBJ_EXPORT System
 	{
 	public:
 		System();
 
 		std::vector<Namespace> m_namespaces; // @todo fix reflection
-		_attr_ std::vector<Module*> m_modules;
-		_attr_ std::vector<Type*> m_types;
-		_attr_ std::vector<Prototype*> m_prototypes;
-		_attr_ std::vector<Function*> m_functions;
+		attr_ std::vector<Module*> m_modules;
+		attr_ std::vector<Type*> m_types;
+		attr_ std::vector<Prototype*> m_prototypes;
+		attr_ std::vector<Function*> m_functions;
 
 		void launch_process(cstring path, cstring args);
 
@@ -108,8 +108,8 @@ export_ namespace mud
 		ModuleLoader m_loader;
 	};
 
-	export_ _func_ inline System& system() { return System::instance(); }
+	export_ func_ inline System& system() { return System::instance(); }
 
 	export_ template <typename T_Function>
-	inline Function& function(T_Function func) { return System::instance().function(function_id(func)); }
+	inline Function& function(T_Function func) { return System::instance().function(reinterpret_cast<FunctionPointer>(func)); }
 }

@@ -120,8 +120,8 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if(!once)
 	{
-		orbit.m_yaw = M_PI;
-		orbit.m_pitch = - M_PI / 4.f;
+		orbit.m_yaw = c_pi;
+		orbit.m_pitch = - c_pi / 4.f;
 		orbit.m_distance = 4.f;
 		orbit.m_position = Y3 * 1.f;
 
@@ -139,7 +139,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 		if(anim_editor && selected == &characters[i])
 			continue;
 
-		if(animated->m_playing.empty() || strcmp(animated->m_playing.back().m_animation->m_name, state) != 0)
+		if(animated->m_playing.empty() || strcmp(animated->m_playing.back().m_animation->m_name.c_str(), state) != 0)
 		{
 			Human::State& state = characters[i].m_states.back();
 			animated->play(state.m_action.c_str(), true, 0.f, state.m_action_speed);

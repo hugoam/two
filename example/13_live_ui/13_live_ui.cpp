@@ -24,10 +24,10 @@ using namespace mud;
 //"end" "\n"
 #endif
 
-static Script create_script(LuaInterpreter& interpreter)
+static LuaScript create_script(LuaInterpreter& interpreter)
 {
 	Signature signature = { { Param{ "ui_root", Ref(type<Widget>()) } } };
-	Script script = { "Example Script", signature };
+	LuaScript script = { "Example Script", signature };
 	script.m_interpreter = &interpreter;
 
 	//interpreter.set("selected_type", Var());
@@ -117,7 +117,7 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app);
 	static LuaInterpreter interpreter = { true };
-	static Script script = create_script(interpreter);
+	static LuaScript script = create_script(interpreter);
 
 	std::vector<Var> args = { Ref(&parent) };
 	script(args);

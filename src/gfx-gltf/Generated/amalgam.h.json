@@ -2,6 +2,7 @@
 	"project": "mudgfxgltf.h",
 	"target": "mudgfxgltf.h",
 	"sources": [
+		"gfx-gltf/Api.h",
 		"gfx-gltf/ImporterGltf.h"
 	],
 	"include_paths": [
@@ -9,6 +10,7 @@
 	],
 	"includes_map": {
 		"obj/": "mudobj.h",
+		"srlz/": "mudsrlz.h",
 		"math/": "mudmath.h",
 		"geom/": "mudgeom.h",
 		"gfx/": "mudgfx.h"

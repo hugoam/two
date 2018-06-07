@@ -4,20 +4,22 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Array.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
+#endif
 #include <geom/Generated/Forward.h>
 
 namespace mud
 {
-	export_ enum _refl_ DrawMode : unsigned int
+	export_ enum refl_ DrawMode : unsigned int
 	{
 		OUTLINE = 0,
 		PLAIN = 1
 	};
 
-	export_ enum class _refl_ PrimitiveType : unsigned int
+	export_ enum class refl_ PrimitiveType : unsigned int
 	{
 		Points = 0,
 		Lines = 1,
@@ -28,7 +30,7 @@ namespace mud
 		TriangleFan = 6
 	};
 
-	struct VertexAttribute
+	export_ struct VertexAttribute
 	{
 		enum Enum
 		{
@@ -44,86 +46,86 @@ namespace mud
 		};
 	};
 
-	template <typename T, typename = int>
+	export_ template <typename T, typename = int>
 	struct vertex_position { static vec3* get(T& vertex) { UNUSED(vertex); return nullptr; } };
 
-	template <typename T>
+	export_ template <typename T>
 	struct vertex_position <T, decltype(std::declval<T>().m_position, 0)> { static vec3* get(T& vertex) { return &vertex.m_position; } };
 
-	template <typename T, typename = int>
+	export_ template <typename T, typename = int>
 	struct vertex_normal { static vec3* get(T& vertex) { UNUSED(vertex); return nullptr; } };
 
-	template <typename T>
+	export_ template <typename T>
 	struct vertex_normal <T, decltype(std::declval<T>().m_normal, 0)> { static vec3* get(T& vertex) { return &vertex.m_normal; } };
 
-	template <typename T, typename = int>
+	export_ template <typename T, typename = int>
 	struct vertex_colour { static uint32_t* get(T& vertex) { UNUSED(vertex); return nullptr; } };
 
-	template <typename T>
+	export_ template <typename T>
 	struct vertex_colour <T, decltype(std::declval<T>().m_colour, 0)> { static uint32_t* get(T& vertex) { return &vertex.m_colour; } };
 
-	template <typename T, typename = int>
+	export_ template <typename T, typename = int>
 	struct vertex_tangent { static vec4* get(T& vertex) { UNUSED(vertex); return nullptr; } };
 
-	template <typename T>
+	export_ template <typename T>
 	struct vertex_tangent <T, decltype(std::declval<T>().m_tangent, 0)> { static vec4* get(T& vertex) { return &vertex.m_tangent; } };
 
-	template <typename T, typename = int>
+	export_ template <typename T, typename = int>
 	struct vertex_bitangent { static vec3* get(T& vertex) { UNUSED(vertex); return nullptr; } };
 
-	template <typename T>
+	export_ template <typename T>
 	struct vertex_bitangent <T, decltype(std::declval<T>().m_bitangent, 0)> { static vec3* get(T& vertex) { return &vertex.m_bitangent; } };
 
-	template <typename T, typename = int>
+	export_ template <typename T, typename = int>
 	struct vertex_uv0 { static vec2* get(T& vertex) { UNUSED(vertex); return nullptr; } };
 
-	template <typename T>
+	export_ template <typename T>
 	struct vertex_uv0 <T, decltype(std::declval<T>().m_uv0, 0)> { static vec2* get(T& vertex) { return &vertex.m_uv0; } };
 
-	template <typename T, typename = int>
+	export_ template <typename T, typename = int>
 	struct vertex_uv1 { static vec2* get(T& vertex) { UNUSED(vertex); return nullptr; } };
 
-	template <typename T>
+	export_ template <typename T>
 	struct vertex_uv1 <T, decltype(std::declval<T>().m_uv1, 0)> { static vec2* get(T& vertex) { return &vertex.m_uv1; } };
 
-	template <typename T, typename = int>
+	export_ template <typename T, typename = int>
 	struct vertex_joints { static uint32_t* get(T& vertex) { UNUSED(vertex); return nullptr; } };
 
-	template <typename T>
+	export_ template <typename T>
 	struct vertex_joints <T, decltype(std::declval<T>().m_joints, 0)> { static uint32_t* get(T& vertex) { return &vertex.m_joints; } };
 
-	template <typename T, typename = int>
+	export_ template <typename T, typename = int>
 	struct vertex_weights { static vec4* get(T& vertex) { UNUSED(vertex); return nullptr; } };
 
-	template <typename T>
+	export_ template <typename T>
 	struct vertex_weights <T, decltype(std::declval<T>().m_weights, 0)> { static vec4* get(T& vertex) { return &vertex.m_weights; } };
 
-	using ShapeIndex = uint16_t;
+	export_ using ShapeIndex = uint16_t;
 	
-	export_ struct MUD_MATH_EXPORT Vertex
+	export_ struct MUD_GEOM_EXPORT Vertex
 	{
 		static const size_t vertex_format = VertexAttribute::Position;
 		vec3 m_position;
 	};
 
-	export_ struct MUD_MATH_EXPORT Tri
+	export_ struct MUD_GEOM_EXPORT Tri
 	{
 		ShapeIndex a, b, c;
 	};
 
-	export_ struct MUD_MATH_EXPORT ShapeVertex
+	export_ struct MUD_GEOM_EXPORT ShapeVertex
 	{
 		static const size_t vertex_format = VertexAttribute::Position | VertexAttribute::Normal | VertexAttribute::Colour 
 										  | VertexAttribute::Tangent| VertexAttribute::TexCoord0 | VertexAttribute::Joints | VertexAttribute::Weights;
 		vec3 m_position; vec3 m_normal; uint32_t m_colour; vec4 m_tangent; vec2 m_uv0; uint32_t m_joints; vec4 m_weights;
 	};
 
-	export_ struct MUD_MATH_EXPORT ShapeTriangle
+	export_ struct MUD_GEOM_EXPORT ShapeTriangle
 	{
 		uint32_t a, b, c;
 	};
 
-	struct MeshData
+	export_ struct MeshData
 	{
 		MeshData() {}
 

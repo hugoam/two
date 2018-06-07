@@ -4,10 +4,15 @@
 
 #pragma once
 
+#include <ctx/Generated/Forward.h>
+
+export_ namespace mud
+{}
+
 namespace mud
 {
 	//! Keyboard scan codes
-	enum KeyCode : unsigned int
+	export_ enum KeyCode : unsigned int
 	{
 		KC_UNASSIGNED  = 0x00,
 		KC_ESCAPE      = 0x01,
@@ -156,7 +161,7 @@ namespace mud
 		KC_MEDIASELECT = 0xED     // Media Select
 	};
 
-	enum MouseButtonCode : unsigned int
+	export_ enum MouseButtonCode : unsigned int
 	{
 		LEFT_BUTTON = 0,
 		RIGHT_BUTTON,

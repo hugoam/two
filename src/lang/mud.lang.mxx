@@ -1,0 +1,17 @@
+#include <cpp/preimport.h>
+
+#include <obj/Config.h>
+
+export module mud.lang;
+export import std.core;
+export import std.io;
+export import std.threading;
+export import std.regex;
+
+export import mud.obj;
+
+#include <lang/Api.h>
+#include <lang/Generated/Types.h>
+#include <lang/Generated/Module.h>
+#include <lang/Generated/Convert.h>
+

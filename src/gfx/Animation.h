@@ -4,9 +4,11 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Var.h>
 #include <obj/Strung.h>
 #include <math/Vec.h>
+#endif
 #include <gfx/Generated/Forward.h>
 
 #ifndef MUD_GENERATOR_SKIP_INCLUDES
@@ -19,7 +21,7 @@
 
 namespace mud
 {
-	export_ enum class _refl_ Interpolation : unsigned int
+	export_ enum class refl_ Interpolation : unsigned int
 	{
 		Nearest,
 		Linear,
@@ -34,7 +36,7 @@ namespace mud
 		size_t m_next = 1;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT AnimationTrack
+	export_ class refl_ MUD_GFX_EXPORT AnimationTrack
 	{
 	public:
 		struct Key
@@ -51,7 +53,7 @@ namespace mud
 		
 		Animation* m_animation;
 		size_t m_node;
-		strung m_node_name;
+		string m_node_name;
 		Member* m_member;
 
 		float m_length = 0.f;
@@ -66,14 +68,14 @@ namespace mud
 		void value(AnimationCursor& cursor, Var& value, bool forward) const;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT Animation
+	export_ class refl_ MUD_GFX_EXPORT Animation
 	{
 	public:
 		Animation(cstring name);
 
 		std::vector<AnimationTrack> tracks;
 
-		strung m_name;
+		string m_name;
 		float m_length = 1.f;
 		float m_step = 0.1f;
 	};

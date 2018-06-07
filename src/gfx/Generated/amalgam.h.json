@@ -4,9 +4,12 @@
 	"sources": [
 		"gfx/Animated.h",
 		"gfx/Animation.h",
+		"gfx/Api.h",
 		"gfx/Asset.h",
 		"gfx/Asset.impl.h",
+		"gfx/Assets.h",
 		"gfx/Camera.h",
+		"gfx/Cpp20.h",
 		"gfx/Draw.h",
 		"gfx/Effects.h",
 		"gfx/Filter.h",
@@ -43,6 +46,7 @@
 	],
 	"includes_map": {
 		"obj/": "mudobj.h",
+		"srlz/": "mudsrlz.h",
 		"math/": "mudmath.h",
 		"geom/": "mudgeom.h"
 	},

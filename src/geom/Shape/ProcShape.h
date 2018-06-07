@@ -4,15 +4,17 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Colour.h>
 #include <math/Vec.h>
+#endif
 #include <geom/Generated/Forward.h>
 #include <geom/Shape.h>
 #include <geom/Symbol.h>
 
 namespace mud
 {
-	export_ struct MUD_MATH_EXPORT ShapeSize
+	export_ struct MUD_GEOM_EXPORT ShapeSize
 	{
 		ShapeSize(int verts, int indices) : vertex_count(verts), index_count(indices) {}
 
@@ -24,16 +26,16 @@ namespace mud
 		};
 	};
 
-	export_ struct MUD_MATH_EXPORT ProcShape
+	export_ struct MUD_GEOM_EXPORT ProcShape
 	{
 		Symbol m_symbol;
 		const Shape* m_shape;
 		DrawMode m_draw_mode;
 	};
 
-	MUD_MATH_EXPORT ShapeSize symbol_line_size(const ProcShape& shape);
-	MUD_MATH_EXPORT ShapeSize symbol_triangle_size(const ProcShape& shape);
+	export_ MUD_GEOM_EXPORT ShapeSize symbol_line_size(const ProcShape& shape);
+	export_ MUD_GEOM_EXPORT ShapeSize symbol_triangle_size(const ProcShape& shape);
 
-	MUD_MATH_EXPORT void symbol_draw_lines(const ProcShape& shape, MeshData& data);
-	MUD_MATH_EXPORT void symbol_draw_triangles(const ProcShape& shape, MeshData& data);
+	export_ MUD_GEOM_EXPORT void symbol_draw_lines(const ProcShape& shape, MeshData& data);
+	export_ MUD_GEOM_EXPORT void symbol_draw_triangles(const ProcShape& shape, MeshData& data);
 }

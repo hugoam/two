@@ -9,10 +9,8 @@ end
 
 dofile(path.join(MUD_DIR, "scripts/mud_ui_gl.lua"))
 
-project "mud_gl"
+mud.gl = mud_module(true, "mud", "gl", MUD_SRC_DIR, "gl")
 	kind "SharedLib"
-    
-    mud_module("gl", MUD_SRC_DIR, "gl",  "MUD_GL")
     
     mud_ctx_backend()
     mud_ui_backend()

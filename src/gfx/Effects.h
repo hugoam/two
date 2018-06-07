@@ -12,7 +12,7 @@ namespace mud
 	{
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT BlockResolve : public GfxBlock
+	export_ class refl_ MUD_GFX_EXPORT BlockResolve : public GfxBlock
 	{
 	public:
 		BlockResolve(GfxSystem& gfx_system, BlockCopy& copy);

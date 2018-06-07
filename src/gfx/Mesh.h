@@ -4,11 +4,13 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Array.h>
 #include <obj/Strung.h>
 #include <math/Vec.h>
 #include <geom/Primitive.h>
 #include <geom/Aabb.h>
+#endif
 #include <gfx/Generated/Forward.h>
 
 #ifndef MUD_GENERATOR_SKIP_INCLUDES
@@ -30,7 +32,7 @@ namespace mud
 		array<ShapeIndex> m_indices = {};
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT Mesh
+	export_ class refl_ MUD_GFX_EXPORT Mesh
 	{
 	public:
 		Mesh(cstring name, bool readback = false);
@@ -39,18 +41,18 @@ namespace mud
 		Mesh(Mesh&& other) = default;
 		Mesh& operator=(Mesh&& other) = default;
 
-		_attr_ strung m_name;
-		_attr_ uint16_t m_index;
-		_attr_ DrawMode m_draw_mode = PLAIN;
-		_attr_ Aabb m_aabb = {};
-		_attr_ float m_radius = 0.f;
-		_attr_ vec3 m_origin = Zero3;
-		_attr_ bool m_readback = false;
+		attr_ string m_name;
+		attr_ uint16_t m_index;
+		attr_ DrawMode m_draw_mode = PLAIN;
+		attr_ Aabb m_aabb = {};
+		attr_ float m_radius = 0.f;
+		attr_ vec3 m_origin = Zero3;
+		attr_ bool m_readback = false;
 
-		_attr_ size_t m_vertexCount = 0;
-		_attr_ size_t m_indexCount = 0;
+		attr_ size_t m_vertexCount = 0;
+		attr_ size_t m_indexCount = 0;
 
-		_attr_ Material* m_material = nullptr;
+		attr_ Material* m_material = nullptr;
 
 		bgfx::VertexBufferHandle m_vertex_buffer = BGFX_INVALID_HANDLE;
 		bgfx::IndexBufferHandle m_index_buffer = BGFX_INVALID_HANDLE;

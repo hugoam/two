@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Var.h>
+#endif
 #include <ui/Generated/Forward.h>
 #include <ui/Style/Style.h>
 
@@ -30,7 +32,7 @@ namespace mud
 
 	using StyleMap = std::map<string, Options>;
 
-	export_ class _refl_ MUD_UI_EXPORT Styler
+	export_ class refl_ MUD_UI_EXPORT Styler
 	{
 	public:
 		Styler(UiWindow& ui_window);

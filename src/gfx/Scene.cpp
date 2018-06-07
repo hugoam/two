@@ -2,13 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <gfx/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.gfx;
@@ -29,7 +23,6 @@ module mud.gfx;
 #include <gfx/Draw.h>
 #include <gfx/Pipeline.h>
 #include <gfx/GfxSystem.h>
-#include <gfx-pbr/Reflection.h>
 #endif
 
 namespace mud
@@ -53,8 +46,6 @@ namespace mud
 		m_pool->create_pool<Light>();
 		m_pool->create_pool<Camera>();
 		m_pool->create_pool<Particles>();
-		//m_pool->create_pool<GIProbe>();
-		//m_pool->create_pool<ReflectionProbe>();
 	}
 
 	Scene::~Scene()

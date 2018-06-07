@@ -1,0 +1,10 @@
+#include <cpp/stdguard.h>
+
+export module json11;
+export import std.core;
+
+export
+{
+#include <json11.hpp>
+}
+

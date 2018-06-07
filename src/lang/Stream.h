@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Var.h>
 #include <obj/String/String.h>
+#endif
 #include <lang/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
@@ -38,7 +40,7 @@ namespace mud
 		const Topology& m_topology;
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT StreamBranch
+	export_ class refl_ MUD_LANG_EXPORT StreamBranch
 	{
 	public:
 		StreamBranch(Stream* stream, Var value, StreamIndex index);
@@ -84,7 +86,7 @@ namespace mud
 		SM_GRAFT
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT Stream : public StreamBranch
+	export_ class refl_ MUD_LANG_EXPORT Stream : public StreamBranch
 	{
 	public:
 		Stream();

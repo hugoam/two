@@ -11,10 +11,10 @@
 #include <cstddef>
 #endif
 
-export_ namespace mud
+namespace mud // export_ namespace mud// @todo evaluate export at namespace level ?
 {
-	using Id = unsigned int;
-	using cstring = const char*;
+	export_ using Id = unsigned int;
+	export_ using cstring = const char*;
 
 	class Meta;
 
@@ -24,13 +24,13 @@ export_ namespace mud
 		bool operator==(const Address& other) const;
 	};
 
-	export_ enum class _refl_ TypeKind : unsigned int
+	export_ enum class refl_ TypeKind : unsigned int
 	{
 		Type,
 		Prototype
 	};
 
-	export_ class _refl_ MUD_OBJ_EXPORT Type
+	export_ class refl_ MUD_OBJ_EXPORT Type
 	{
 	public:
 		explicit Type(const char* name, TypeKind kind = TypeKind::Type);
@@ -42,16 +42,16 @@ export_ namespace mud
 
 		Type(Type&&) = delete;
 
-		_attr_ Id m_id;
-		_attr_ Type& m_type;
-		_attr_ TypeKind m_kind;
-		_attr_ cstring m_name;
-		_attr_ Type* m_base = nullptr;
+		attr_ Id m_id;
+		attr_ Type& m_type;
+		attr_ TypeKind m_kind;
+		attr_ cstring m_name;
+		attr_ Type* m_base = nullptr;
 
-		_attr_ Meta* m_meta = nullptr;
-		_attr_ Class* m_class = nullptr;
-		_attr_ Enum* m_enum = nullptr;
-		_attr_ Convert* m_convert = nullptr;
+		attr_ Meta* m_meta = nullptr;
+		attr_ Class* m_class = nullptr;
+		attr_ Enum* m_enum = nullptr;
+		attr_ Convert* m_convert = nullptr;
 
 		bool is(Type& type) const;
 

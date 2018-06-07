@@ -2,12 +2,14 @@
 
 #include <geom/Generated/Forward.h>
 
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
+#include <obj/Type.h>
+#include <obj/Proto.h>
+#endif
+
 #ifndef MUD_MODULES
 #include <obj/Generated/Types.h>
 #include <math/Generated/Types.h>
-
-#include <obj/Type.h>
-#include <obj/Proto.h>
 #endif
 
 #ifndef MUD_CPP_20
@@ -36,7 +38,6 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Shape>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::ShapeVar>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Symbol>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Arc>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Box>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Capsule>();
@@ -58,5 +59,6 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Spheroid>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Torus>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Triangle>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Poisson>();
 }

@@ -128,6 +128,7 @@ class Module(object):
     def __init__(self, root, name, namespace, preproc_name, subdir, dependencies, rootdir):
         self.root = root
         self.name = name
+        self.id = namespace + name.replace('-', '_')
         self.namespace = namespace
         self.preproc_name = preproc_name
         self.export = preproc_name + '_EXPORT'
@@ -553,33 +554,29 @@ class Generator(object):
             '-fms-extensions',
             '-fmsc-version=1900',
             '-Wmicrosoft',
-            '-D_refl_=__attribute__((annotate("reflect")))',
-            '-D_struct_=__attribute__((annotate("struct")))',
-            '-D_extern_=__attribute__((annotate("external")))',
-            '-D_serial_=__attribute__((annotate("serialize")))',
-            '-D_array_=__attribute__((annotate("array_object")))',
-            '-D_comp_=__attribute__((annotate("component")))',
-            '-D_constr_=__attribute__((annotate("constructor")))',
-            '-D_meth_=__attribute__((annotate("method")))',
-            '-D_func_=__attribute__((annotate("function")))',
-            '-D_attr_=__attribute__((annotate("attribute")))',
-            '-D_mut_=__attribute__((annotate("mutable_attr")))',
-            '-D_graph_=__attribute__((annotate("structure_attr")))',
-            '-D_link_=__attribute__((annotate("link_attr")))',
+            '-Drefl_=__attribute__((annotate("reflect")))',
+            '-Dstruct_=__attribute__((annotate("struct")))',
+            '-Dextern_=__attribute__((annotate("external")))',
+            '-Dserial_=__attribute__((annotate("serialize")))',
+            '-Darray_=__attribute__((annotate("array_object")))',
+            '-Dcomp_=__attribute__((annotate("component")))',
+            '-Dconstr_=__attribute__((annotate("constructor")))',
+            '-Dmeth_=__attribute__((annotate("method")))',
+            '-Dfunc_=__attribute__((annotate("function")))',
+            '-Dattr_=__attribute__((annotate("attribute")))',
+            '-Dmut_=__attribute__((annotate("mutable_attr")))',
+            '-Dgraph_=__attribute__((annotate("structure_attr")))',
+            '-Dlink_=__attribute__((annotate("link_attr")))',
             '-DMUD_META_GENERATOR',
             '-DMUD_GENERATOR_SKIP_INCLUDES'
         ]
                 
         for m in module.modules :
-            #compiler_args.append('-include' + m.config)
             compiler_args.append('-I' + m.rootdir)
-            #compiler_args.append('-D' + m.exportmacro + '=')
             if m.has_generator :
                 compiler_args.append('-include' + os.path.join(m.path, 'Generator.h'))
                 
-        #print 'Parsing with compiler args: '
-        #for arg in compiler_args:
-        #    print arg
+        #print 'Parsing with compiler args: ', compiler_args
                   
         def parse_file(path, file, compiler_args, debug = False):
             fullpath = os.path.join(path, file)

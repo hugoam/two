@@ -9,7 +9,7 @@ float spow(float x, float p) {
     return sign(x) * pow(abs(x), p);
 }
 
-void mai
+void main() {
     float aspect = 1.0; //u_screen_size.x / u_screen_size.y;
     vec2 uvp = vec2(aspect, 1.0) * (2.0 * v_texcoord0.xy - 1.0);
     float r = length(uvp);

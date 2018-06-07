@@ -4,9 +4,11 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
 #include <obj/Type.h>
 #include <obj/TypeUtils.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Texture.h>
 

@@ -7,19 +7,19 @@
 #include <obj/Pragma.h>
 
 #ifndef MUD_META_GENERATOR
-#define _refl_   // Reflect
-#define _struct_ // Struct
-#define _array_	 // Array type
-#define _extern_ // Extern type
-#define _comp_   // Component
-#define _constr_ // Constructor
-#define _meth_   // Method
-#define _func_   // Function
-#define _attr_   // Attribute
-#define _mut_    // Mutable Attribute
-#define _graph_  // Graph / Structure Attribute
-#define _link_   // Link / Reference Attribute
-#define _pool_   // Pool Attribute
+#define refl_   // Reflect
+#define struct_ // Struct
+#define array_	// Array type
+#define extern_ // Extern type
+#define comp_   // Component
+#define constr_ // Constructor
+#define meth_   // Method
+#define func_   // Function
+#define attr_   // Attribute
+#define mut_    // Mutable Attribute
+#define graph_  // Graph / Structure Attribute
+#define link_   // Link / Reference Attribute
+#define pool_   // Pool Attribute
 #endif
 
 #if defined _WIN32 || defined __CYGWIN__

@@ -11,13 +11,13 @@ using namespace mud;
 
 struct ShapeInstance;
 
-export class _refl_ GameObject
+export_ class refl_ GameObject
 {
 public:
 	GameObject(const ShapeInstance* shape, Material* material, Colour colour);
-	_attr_ uint32_t m_index;
-	/*_attr_ */const ShapeInstance* m_shape;
-	_attr_ _mut_ Colour m_colour;
+	attr_ uint32_t m_index;
+	/*attr_ */const ShapeInstance* m_shape;
+	attr_ mut_ Colour m_colour;
 	Material* m_material;
 };
 

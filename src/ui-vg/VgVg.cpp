@@ -2,33 +2,31 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
+#include <obj/Cpp20.h>
+#ifndef MUD_CPP_20
+#include <fstream>
+#include <cmath>
 #endif
 
-#include <ui-vg/VgVg.h>
-
-#include <obj/Serial/Serial.h>
-#include <math/Math.h>
-
-#include <ui/Style/Paint.h>
-#include <ui/Frame/Layer.h>
-
-#include <ui/ImageAtlas.h>
-
+#ifdef MUD_MODULES
+#define _GLIBCXX_TYPE_TRAITS
+#endif
+#include <vg/vg.h>
 #include <bgfx/bgfx.h>
 
+#ifdef MUD_MODULES
+module mud.ui.vg;
+#else
 #include <stb_image.h>
 #include <stb_truetype.h>
 
-#ifndef MUD_CPP_20
-#include <fstream>
-
-#include <cmath>
+#include <obj/System/File.h>
+#include <math/Math.h>
+#include <math/Clamp.h>
+#include <ui/Style/Paint.h>
+#include <ui/Frame/Layer.h>
+#include <ui/ImageAtlas.h>
+#include <ui-vg/VgVg.h>
 #endif
 
 namespace vg
@@ -38,11 +36,6 @@ namespace vg
 
 namespace mud
 {
-	inline float clamp(float v, float mn, float mx)
-	{
-		return (v > mx) ? mx : (v < mn) ? mn : v;
-	}
-
 	inline vg::Color vgColour(const Colour& colour)
 	{
 		return vg::color4f(colour.m_r, colour.m_g, colour.m_b, colour.m_a);
@@ -53,6 +46,9 @@ namespace mud
 	VgVg::VgVg(cstring resource_path, bx::AllocatorI* allocator)
 		: VgRenderer(resource_path)
 		, m_allocator(allocator)
+	{}
+
+	VgVg::~VgVg()
 	{}
 
 	object_ptr<UiTarget> VgVg::create_render_target(Layer& layer)
@@ -247,8 +243,8 @@ namespace mud
 
 		for(int i = 0; i < 6; i++)
 		{
-			float a0 = (float)i / 6.0f * M_PI * 2.0f - aeps;
-			float a1 = (float)(i + 1.0f) / 6.0f * M_PI * 2.0f + aeps;
+			float a0 = (float)i / 6.0f * c_pi * 2.0f - aeps;
+			float a1 = (float)(i + 1.0f) / 6.0f * c_pi * 2.0f + aeps;
 			vg::beginPath(m_vg);
 			vg::moveTo(m_vg, center.x + r0 * cosf(a0), center.y + r0 * sinf(a0));
 			vg::lineTo(m_vg, center.x + r0 * cosf(a1), center.y + r0 * sinf(a1));
@@ -260,8 +256,8 @@ namespace mud
 			vg::closePath(m_vg);
 			vec2 a = vec2{ cosf(a0), sinf(a0) } *(r0 + r1) * 0.5f + center;
 			vec2 b = vec2{ cosf(a1), sinf(a1) } *(r0 + r1) * 0.5f + center;
-			Colour colour_a = hsla_to_rgba(Colour{ a0 / (float(M_PI) * 2.f), 1.0f, 0.55f });
-			Colour colour_b = hsla_to_rgba(Colour{ a1 / (float(M_PI) * 2.f), 1.0f, 0.55f });
+			Colour colour_a = hsla_to_rgba(Colour{ a0 / (c_pi * 2.f), 1.0f, 0.55f });
+			Colour colour_b = hsla_to_rgba(Colour{ a1 / (c_pi * 2.f), 1.0f, 0.55f });
 			vg::GradientHandle paint = vg::createLinearGradient(m_vg, a.x, a.y, b.x, b.y, vgColour(colour_a), vgColour(colour_b));
 			vg::fillPath(m_vg, paint, vg::FillFlags::ConvexAA);
 		}
@@ -271,11 +267,11 @@ namespace mud
 	{
 		UNUSED(s); UNUSED(l);
 		vg::transformTranslate(m_vg, center.x, center.y);
-		vg::transformRotate(m_vg, hue * M_PI * 2);
+		vg::transformRotate(m_vg, hue * c_pi * 2);
 
 		float r = r0 - 6;
-		vec2 a = vec2{ cosf(120.0f / 180.0f * M_PI), sinf(120.0f / 180.0f * M_PI) } *r;
-		vec2 b = vec2{ cosf(-120.0f / 180.0f * M_PI), sinf(-120.0f / 180.0f * M_PI) } *r;
+		vec2 a = vec2{ cosf(120.0f / 180.0f * c_pi), sinf(120.0f / 180.0f * c_pi) } *r;
+		vec2 b = vec2{ cosf(-120.0f / 180.0f * c_pi), sinf(-120.0f / 180.0f * c_pi) } *r;
 
 		vg::beginPath(m_vg);
 		vg::moveTo(m_vg, r, 0);

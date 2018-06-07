@@ -16,14 +16,14 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_OBJ_EXPORT Injector
+	export_ class refl_ MUD_OBJ_EXPORT Injector
 	{
 	public:
 		Injector(Type& type, const Constructor& constructor);
 		Injector(Type& type, size_t arguments);
 		Injector(Type& type, ConstructorIndex constructor = ConstructorIndex::Default);
 
-		_attr_ Type& m_type;
+		attr_ Type& m_type;
 		const Constructor& m_constructor;
 		std::vector<Var> m_args;
 
@@ -40,15 +40,15 @@ namespace mud
 		std::vector<size_t> m_partIndex;
 	};
 
-	export_ class _refl_ MUD_OBJ_EXPORT Creator : public NonCopy
+	export_ class refl_ MUD_OBJ_EXPORT Creator : public NonCopy
 	{
 	public:
 		Creator(Type& type);
 
-		_attr_ Type& m_type;
-		_attr_ bool m_construct;
-		_attr_ Type* m_prototype;
-		_attr_ Injector& injector() const { return *m_injector; }
+		attr_ Type& m_type;
+		attr_ bool m_construct;
+		attr_ Type* m_prototype;
+		attr_ Injector& injector() const { return *m_injector; }
 
 		void setPrototype(Type& prototype);
 

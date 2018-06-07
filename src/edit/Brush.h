@@ -4,14 +4,16 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
+#include <obj/Reflect/Injector.h>
 #include <geom/Poisson.h>
+#endif
 #include <edit/Generated/Forward.h>
 #include <edit/Tool.h>
-#include <obj/Reflect/Injector.h>
 
 namespace mud
 {
-	export_ class _refl_ MUD_EDIT_EXPORT Brush : public SpatialTool
+	export_ class refl_ MUD_EDIT_EXPORT Brush : public SpatialTool
 	{
 	public:
 		Brush(ToolContext& context, cstring name, Type& type);
@@ -32,7 +34,7 @@ namespace mud
 		vec3 m_position;
 	};
 
-	export_ class _refl_ MUD_EDIT_EXPORT PlaneSnapOption : public ToolOption
+	export_ class refl_ MUD_EDIT_EXPORT PlaneSnapOption : public ToolOption
 	{
 	public:
 		PlaneSnapOption(Brush& tool);
@@ -44,7 +46,7 @@ namespace mud
 		Brush& m_tool;
 	};
 
-	export_ class _refl_ MUD_EDIT_EXPORT WorldSnapOption : public ToolOption
+	export_ class refl_ MUD_EDIT_EXPORT WorldSnapOption : public ToolOption
 	{
 	public:
 		WorldSnapOption(Brush& tool);
@@ -56,26 +58,26 @@ namespace mud
 		Brush& m_tool;
 	};
 
-	export_ class _refl_ MUD_EDIT_EXPORT PlaceBrush : public Brush
+	export_ class refl_ MUD_EDIT_EXPORT PlaceBrush : public Brush
 	{
 	public:
 		PlaceBrush(ToolContext& context);
 
-		_attr_ Creator m_creator;
+		attr_ Creator m_creator;
 
 		virtual void activate();
 		virtual void update(const vec3& position);
 		virtual void paint(Gnode& parent);
 	};
 
-	export_ class _refl_ MUD_EDIT_EXPORT CircleBrush : public Brush
+	export_ class refl_ MUD_EDIT_EXPORT CircleBrush : public Brush
 	{
 	public:
 		CircleBrush(ToolContext& context);
 
-		_attr_ Creator m_creator;
-		_attr_ _mut_ float m_radius;
-		_attr_ _mut_ float m_maxSpotRadius;
+		attr_ Creator m_creator;
+		attr_ mut_ float m_radius;
+		attr_ mut_ float m_maxSpotRadius;
 
 		virtual void activate();
 		virtual void update(const vec3& position);
@@ -94,12 +96,12 @@ namespace mud
 	};
 
 
-	export_ class _refl_ MUD_EDIT_EXPORT ScriptedBrush : public Brush
+	export_ class refl_ MUD_EDIT_EXPORT ScriptedBrush : public Brush
 	{
 	public:
 		ScriptedBrush(ToolContext& context, VisualScript& script);
 
-		_attr_ Call m_call;
+		attr_ Call m_call;
 		
 		virtual void activate();
 		virtual void update(const vec3& position);

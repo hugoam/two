@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Limits.h>
+#endif
 #include <ui/Frame/Frame.h>
 
 #ifndef MUD_CPP_20
@@ -14,7 +16,7 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_UI_EXPORT Layer
+	export_ class refl_ MUD_UI_EXPORT Layer
 	{
 	public:
 		Layer(Frame& frame);

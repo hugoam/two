@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
+#endif
 #include <edit/Generated/Forward.h>
 #include <edit/Tool.h>
 
@@ -14,7 +16,7 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_EDIT_EXPORT RotateAction : public TransformAction
+	export_ class refl_ MUD_EDIT_EXPORT RotateAction : public TransformAction
 	{
 	public:
 		RotateAction(const std::vector<Transform*>& targets, const vec3& axis);
@@ -29,7 +31,7 @@ namespace mud
 		float m_angle;
 	};
 
-	export_ class _refl_ MUD_EDIT_EXPORT RotateTool : public TransformTool
+	export_ class refl_ MUD_EDIT_EXPORT RotateTool : public TransformTool
 	{
 	public:
 		RotateTool(ToolContext& context);

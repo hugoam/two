@@ -4,12 +4,15 @@
 
 #pragma once
 
-#define MUD_MAX_TYPES 1000U
+#include <obj/Generated/Forward.h>
 
-#include <obj/Config.h>
+export_ namespace mud
+{}
 
 namespace mud
 {
+	export_ extern MUD_OBJ_EXPORT const unsigned int c_max_types;
+
 	class Type;
 
 	export_ template <class T>

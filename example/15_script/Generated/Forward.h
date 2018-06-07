@@ -10,11 +10,10 @@
 #include <uio/Generated/Forward.h>
 #include <gfx/Generated/Forward.h>
 #include <edit/Generated/Forward.h>
-#include <gen/Generated/Forward.h>
+#include <procgen/Generated/Forward.h>
+#include <procgen-gfx/Generated/Forward.h>
 
-#if defined _15_SCRIPT_LIB
-#define _15_SCRIPT_EXPORT MUD_EXPORT
-#else
+#ifndef _15_SCRIPT_EXPORT
 #define _15_SCRIPT_EXPORT MUD_IMPORT
 #endif
 

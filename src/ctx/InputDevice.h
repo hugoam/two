@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
+#endif
 #include <ctx/Generated/Forward.h>
 #include <ctx/KeyCode.h>
 #include <ctx/InputDispatcher.h>

@@ -5,9 +5,7 @@
 
 using namespace mud;
 
-#if defined _00_UI_LIB
-#define _00_UI_EXPORT MUD_EXPORT
-#else
+#ifndef _00_UI_EXPORT
 #define _00_UI_EXPORT MUD_IMPORT
 #endif
 

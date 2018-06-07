@@ -26,7 +26,7 @@ namespace mud
 	export_ using MethodFunc = void(*)(Ref, array<Var>, Var&);
 	export_ using FunctionFunc = void(*)(array<Var>, Var&);
 
-	export_ class _refl_ MUD_OBJ_EXPORT Param
+	export_ class refl_ MUD_OBJ_EXPORT Param
 	{
 	public:
 		enum Flags
@@ -54,7 +54,7 @@ namespace mud
 
 	export_ using ParamVector = std::vector<Param>;
 
-	export_ class _refl_ MUD_OBJ_EXPORT Signature
+	export_ class refl_ MUD_OBJ_EXPORT Signature
 	{
 	public:
 		Signature(const ParamVector& params = {}, const Var& returnval = Var());
@@ -64,7 +64,7 @@ namespace mud
 	};
 
 	
-	export_ class _refl_ MUD_OBJ_EXPORT Callable
+	export_ class refl_ MUD_OBJ_EXPORT Callable
 	{
 	public:
 		Callable(cstring name, const ParamVector& params = {}, Var returnval = Var());
@@ -87,7 +87,7 @@ namespace mud
 		bool checkArgs(const std::vector<Var>& args) const { for(const Param& param : m_params) if(&args[param.m_index].type() != &param.m_value.type()) return false; return true; }
 	};
 
-	export_ class _refl_ MUD_OBJ_EXPORT Function : public Callable
+	export_ class refl_ MUD_OBJ_EXPORT Function final : public Callable
 	{
 	public:
 		Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc function, const ParamVector& params = {}, Var returnval = Var());
@@ -99,7 +99,7 @@ namespace mud
 		FunctionFunc m_call;
 	};
 
-	export_ class _refl_ MUD_OBJ_EXPORT Method : public Callable
+	export_ class refl_ MUD_OBJ_EXPORT Method final : public Callable
 	{
 	public:
 		Method(Type& object_type, cstring name, Address address, MethodFunc method, const ParamVector& params = {}, Var returnval = Var());
@@ -118,7 +118,7 @@ namespace mud
 		ProtoParts = 1
 	};
 
-	export_ class _refl_ MUD_OBJ_EXPORT Constructor : public Callable
+	export_ class refl_ MUD_OBJ_EXPORT Constructor final : public Callable
 	{
 	public:
 		Constructor(Type& object_type, ConstructorFunc func, const ParamVector& params = {});
@@ -129,7 +129,7 @@ namespace mud
 		ConstructorFunc m_call;
 	};
 
-	export_ class _refl_ MUD_OBJ_EXPORT CopyConstructor : public Callable
+	export_ class refl_ MUD_OBJ_EXPORT CopyConstructor final : public Callable
 	{
 	public:
 		CopyConstructor(Type& object_type, CopyConstructorFunc func);
@@ -140,7 +140,7 @@ namespace mud
 		CopyConstructorFunc m_call;
 	};
 
-	export_ class _refl_ MUD_OBJ_EXPORT Destructor : public Callable
+	export_ class refl_ MUD_OBJ_EXPORT Destructor final: public Callable
 	{
 	public:
 		Destructor(Type& object_type, DestructorFunc func);
@@ -151,11 +151,11 @@ namespace mud
 		DestructorFunc m_call;
 	};
 
-	export_ struct _refl_ MUD_OBJ_EXPORT Call
+	export_ struct refl_ MUD_OBJ_EXPORT Call
 	{
 	public:
-		_constr_ Call();
-		_constr_ Call(const Callable& callable, std::vector<Var> arguments);
+		constr_ Call();
+		constr_ Call(const Callable& callable, std::vector<Var> arguments);
 		Call(const Callable& callable);
 		Call(const Callable& callable, Ref object);
 
@@ -165,8 +165,8 @@ namespace mud
 		const Var& operator()(Ref object);
 
 		const Callable* m_callable = nullptr;
-		_attr_ std::vector<Var> m_arguments;
-		_attr_ Var m_result;
+		attr_ std::vector<Var> m_arguments;
+		attr_ Var m_result;
 	};
 
 	export_ template<typename T_Function>

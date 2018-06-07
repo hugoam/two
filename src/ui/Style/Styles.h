@@ -28,5 +28,5 @@ namespace mud
 		Style popup; Style modal; Style color_popup;
 	};
 
-	MUD_UI_EXPORT Styles& styles();
+	export_ MUD_UI_EXPORT Styles& styles();
 }

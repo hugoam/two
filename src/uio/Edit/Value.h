@@ -4,9 +4,11 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Util/Global.h>
 #include <obj/Util/Dispatch.h>
 #include <math/Stat.h>
+#endif
 #include <uio/Generated/Forward.h>
 #include <uio/Edit/Inspector.h>
 
@@ -18,21 +20,21 @@ namespace mud
 		DispatchInput();
 	};
 
-	MUD_UIO_EXPORT Type* type_selector(Widget& parent, Type* current, const std::vector<Type*> types);
+	export_ MUD_UIO_EXPORT Type* type_selector(Widget& parent, Type* current, const std::vector<Type*> types);
 
-	MUD_UIO_EXPORT bool value_edit(Widget& parent, Ref& value);
-	MUD_UIO_EXPORT bool none_edit(Widget& parent, Ref& value);
-	MUD_UIO_EXPORT bool enum_edit(Widget& parent, Ref& value);
-	MUD_UIO_EXPORT bool object_link_edit(Widget& parent, Ref& value);
-	MUD_UIO_EXPORT bool sequence_element_edit(Widget& parent, Ref& value);
-	MUD_UIO_EXPORT bool sequence_edit(Widget& parent, Ref& value, EditorHint hint = EditorHint::Rows);
+	export_ MUD_UIO_EXPORT bool value_edit(Widget& parent, Ref& value);
+	export_ MUD_UIO_EXPORT bool none_edit(Widget& parent, Ref& value);
+	export_ MUD_UIO_EXPORT bool enum_edit(Widget& parent, Ref& value);
+	export_ MUD_UIO_EXPORT bool object_link_edit(Widget& parent, Ref& value);
+	export_ MUD_UIO_EXPORT bool sequence_element_edit(Widget& parent, Ref& value);
+	export_ MUD_UIO_EXPORT bool sequence_edit(Widget& parent, Ref& value, EditorHint hint = EditorHint::Rows);
 
-	MUD_UIO_EXPORT bool any_edit(Widget& parent, Ref& ref, bool link = false, EditorHint hint = EditorHint::Rows);
+	export_ MUD_UIO_EXPORT bool any_edit(Widget& parent, Ref& ref, bool link = false, EditorHint hint = EditorHint::Rows);
 
-	MUD_UIO_EXPORT bool field_edit(Widget& parent, cstring name, Ref& ref, bool nullable);
-	MUD_UIO_EXPORT bool modal_edit(Widget& parent, uint32_t mode, cstring name, Ref& ref, bool nullable, bool confirm = false);
+	export_ MUD_UIO_EXPORT bool field_edit(Widget& parent, cstring name, Ref& ref, bool nullable);
+	export_ MUD_UIO_EXPORT bool modal_edit(Widget& parent, uint32_t mode, cstring name, Ref& ref, bool nullable, bool confirm = false);
 
-	template <class T_Value>
+	export_ template <class T_Value>
 	bool select_value(Widget& parent, uint32_t mode, T_Value& value, bool confirm = true)
 	{
 		Ref ref = &value;

@@ -1,14 +1,7 @@
 #pragma once
 
-#include <obj/Graph/Node.h>
-#include <obj/System/System.h>
 #include <mud/Forward.h>
-#include <edit/EditContext.h>
-
-#include <gfx/GfxSystem.h>
-#include <lang/Lua.h>
-
-#include <uio/Edit/Script.h>
+#include <mud/mud.h>
 
 namespace mud
 {

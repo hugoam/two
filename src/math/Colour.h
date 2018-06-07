@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <obj/Generated/Forward.h>
+#include <math/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <cmath>
@@ -14,9 +14,9 @@
 
 namespace mud
 {
-	export_ struct _refl_ _array_  MUD_OBJ_EXPORT Colour
+	export_ struct refl_ array_  MUD_MATH_EXPORT Colour
 	{
-		_constr_ Colour(float r = 0.f, float g = 0.f, float b = 0.f, float a = 1.f);
+		constr_ Colour(float r = 0.f, float g = 0.f, float b = 0.f, float a = 1.f);
 
 		Colour(const Colour& col) = default;
 		Colour& operator=(const Colour&) = default;
@@ -25,10 +25,10 @@ namespace mud
 
 		union {
 			struct {
-				_attr_ _mut_ float m_r;
-				_attr_ _mut_ float m_g;
-				_attr_ _mut_ float m_b;
-				_attr_ _mut_ float m_a;
+				attr_ mut_ float m_r;
+				attr_ mut_ float m_g;
+				attr_ mut_ float m_b;
+				attr_ mut_ float m_a;
 			};
 			struct { float m_h; float m_s; float m_l; float m__; };
 			float m_floats[4];
@@ -45,38 +45,38 @@ namespace mud
 		bool null() const { return m_a == 0.f; }
 
 	public:
-		_attr_ static Colour Black;
-		_attr_ static Colour AlphaBlack;
-		_attr_ static Colour Red;
-		_attr_ static Colour Green;
-		_attr_ static Colour NeonGreen;
-		_attr_ static Colour Blue;
-		_attr_ static Colour Pink;
-		_attr_ static Colour Cyan;
-		_attr_ static Colour Yellow;
-		_attr_ static Colour White;
-		_attr_ static Colour AlphaWhite;
-		_attr_ static Colour LightGrey;
-		_attr_ static Colour MidGrey;
-		_attr_ static Colour DarkGrey;
-		_attr_ static Colour AlphaGrey;
-		_attr_ static Colour Transparent;
-		_attr_ static Colour Invisible;
-		_attr_ static Colour None;
+		attr_ static Colour Black;
+		attr_ static Colour AlphaBlack;
+		attr_ static Colour Red;
+		attr_ static Colour Green;
+		attr_ static Colour NeonGreen;
+		attr_ static Colour Blue;
+		attr_ static Colour Pink;
+		attr_ static Colour Cyan;
+		attr_ static Colour Yellow;
+		attr_ static Colour White;
+		attr_ static Colour AlphaWhite;
+		attr_ static Colour LightGrey;
+		attr_ static Colour MidGrey;
+		attr_ static Colour DarkGrey;
+		attr_ static Colour AlphaGrey;
+		attr_ static Colour Transparent;
+		attr_ static Colour Invisible;
+		attr_ static Colour None;
 	};
 
-	MUD_OBJ_EXPORT _func_ uint32_t to_rgba(const Colour& colour);
-	MUD_OBJ_EXPORT _func_ uint32_t to_abgr(const Colour& colour);
-	MUD_OBJ_EXPORT _func_ Colour from_rgba(uint32_t colour);
-	MUD_OBJ_EXPORT _func_ Colour from_abgr(uint32_t colour);
-	MUD_OBJ_EXPORT _func_ Colour to_linear(const Colour& colour);
+	export_ MUD_MATH_EXPORT func_ uint32_t to_rgba(const Colour& colour);
+	export_ MUD_MATH_EXPORT func_ uint32_t to_abgr(const Colour& colour);
+	export_ MUD_MATH_EXPORT func_ Colour from_rgba(uint32_t colour);
+	export_ MUD_MATH_EXPORT func_ Colour from_abgr(uint32_t colour);
+	export_ MUD_MATH_EXPORT func_ Colour to_linear(const Colour& colour);
 
-	MUD_OBJ_EXPORT _func_ Colour hsl_to_rgb(float h, float s, float l);
-	MUD_OBJ_EXPORT _func_ Colour rgb_to_hsl(float r, float g, float b);
+	export_ MUD_MATH_EXPORT func_ Colour hsl_to_rgb(float h, float s, float l);
+	export_ MUD_MATH_EXPORT func_ Colour rgb_to_hsl(float r, float g, float b);
 
-	MUD_OBJ_EXPORT _func_ Colour rgba_to_hsla(const Colour& colour);
-	MUD_OBJ_EXPORT _func_ Colour hsla_to_rgba(const Colour& colour);
+	export_ MUD_MATH_EXPORT func_ Colour rgba_to_hsla(const Colour& colour);
+	export_ MUD_MATH_EXPORT func_ Colour hsla_to_rgba(const Colour& colour);
 
-	inline Colour to_colour(uint8_t r, uint8_t g, uint8_t b) { return Colour(float(r) / 255.f, float(g) / 255.f, float(b) / 255.f); }
-	inline Colour to_colour(uint8_t r, uint8_t g, uint8_t b, uint8_t a) { return Colour(float(r) / 255.f, float(g) / 255.f, float(b) / 255.f, float(a) / 255.f); }
+	export_ inline Colour to_colour(uint8_t r, uint8_t g, uint8_t b) { return Colour(float(r) / 255.f, float(g) / 255.f, float(b) / 255.f); }
+	export_ inline Colour to_colour(uint8_t r, uint8_t g, uint8_t b, uint8_t a) { return Colour(float(r) / 255.f, float(g) / 255.f, float(b) / 255.f, float(a) / 255.f); }
 }

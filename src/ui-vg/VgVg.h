@@ -12,18 +12,20 @@
 #include <string>
 #endif
 
-/* vg-renderer */
+#ifndef MUD_MODULES
 #include <vg/vg.h>
 #include <bgfx/bgfx.h>
+#endif
 
 namespace mud
 {
 	using string = std::string;
 
-	class VgVg : public VgRenderer
+	export_ class VgVg : public VgRenderer
 	{
 	public:
 		VgVg(cstring resource_path, bx::AllocatorI* allocator);
+		~VgVg();
 
 		// init
 		virtual void setup_context() final;

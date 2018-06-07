@@ -15,8 +15,8 @@
 		"obj/Reflect/Member.cpp",
 		"obj/Reflect/Meta.cpp",
 		"obj/Reflect/Method.cpp",
-		"obj/Serial/Serial.cpp",
 		"obj/String/String.cpp",
+		"obj/System/File.cpp",
 		"obj/System/System.cpp",
 		"obj/Util/Timer.cpp"
 	],

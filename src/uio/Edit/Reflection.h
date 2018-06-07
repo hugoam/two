@@ -4,24 +4,26 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Ref.h>
-#include <uio/Generated/Forward.h>
 #include <ui/Ui.h>
+#endif
+#include <uio/Generated/Forward.h>
 
 namespace mud
 {
-	MUD_UIO_EXPORT void meta_description(Widget& parent, Type& type);
-	MUD_UIO_EXPORT void meta_methods(Widget& parent, Type& type);
-	MUD_UIO_EXPORT void meta_fields(Widget& parent, Type& type);
+	export_ MUD_UIO_EXPORT void meta_description(Widget& parent, Type& type);
+	export_ MUD_UIO_EXPORT void meta_methods(Widget& parent, Type& type);
+	export_ MUD_UIO_EXPORT void meta_fields(Widget& parent, Type& type);
 
-	MUD_UIO_EXPORT void meta_synopsis(Widget& parent, Function& function);
-	MUD_UIO_EXPORT void meta_synopsis(Widget& parent, Method& method);
-	MUD_UIO_EXPORT void meta_synopsis(Widget& parent, Type& type);
+	export_ MUD_UIO_EXPORT void meta_synopsis(Widget& parent, Function& function);
+	export_ MUD_UIO_EXPORT void meta_synopsis(Widget& parent, Method& method);
+	export_ MUD_UIO_EXPORT void meta_synopsis(Widget& parent, Type& type);
 
-	MUD_UIO_EXPORT void meta_edit(Widget& parent, Type& type);
+	export_ MUD_UIO_EXPORT void meta_edit(Widget& parent, Type& type);
 
-	MUD_UIO_EXPORT void meta_browser(Widget& parent, Module& m);
-	MUD_UIO_EXPORT void meta_browser(Widget& parent);
+	export_ MUD_UIO_EXPORT void meta_browser(Widget& parent, Module& m);
+	export_ MUD_UIO_EXPORT void meta_browser(Widget& parent);
 
-	MUD_UIO_EXPORT void type_browser(Widget& parent);
+	export_ MUD_UIO_EXPORT void type_browser(Widget& parent);
 }

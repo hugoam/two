@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <gfx/Renderer.h>
 #include <gfx/Program.h>
+#endif
 
 namespace mud
 {
@@ -35,7 +37,7 @@ namespace mud
 		float m_vertical[5];
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT BlockBlur : public GfxBlock
+	export_ class refl_ MUD_GFX_PBR_EXPORT BlockBlur : public GfxBlock
 	{
 	public:
 		BlockBlur(GfxSystem& gfx_system, BlockFilter& filter);

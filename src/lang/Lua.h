@@ -4,10 +4,12 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Array.h>
 #include <obj/Var.h>
 #include <obj/NonCopy.h>
 #include <obj/Unique.h>
+#endif
 #include <lang/Generated/Forward.h>
 
 namespace mud
@@ -16,7 +18,7 @@ namespace mud
 
 	class LuaContext;
 
-	export_ class _refl_ MUD_LANG_EXPORT LuaInterpreter : public NonCopy
+	export_ class refl_ MUD_LANG_EXPORT LuaInterpreter : public NonCopy
 	{
 	public:
 		LuaInterpreter(bool import_symbols = false);

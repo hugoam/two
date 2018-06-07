@@ -2,25 +2,22 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
+#pragma once
+
+#ifndef MUD_MODULES
+#include <obj/System/System.h>
+#include <srlz/Serial.h>
 #endif
 #include <gfx/Asset.h>
 
-#include <obj/Serial/Serial.h>
-#include <obj/System/System.h>
-
-#ifndef MUD_GENERATOR_SKIP_INCLUDES
-#include <json11.hpp>
-using json = json11::Json;
-#endif
-
 namespace mud
 {
+	template <class T_Asset>
+	AssetStore<T_Asset>::AssetStore(GfxSystem& gfx_system, cstring path)
+		: m_gfx_system(gfx_system)
+		, m_path(path)
+	{}
+
 	template <class T_Asset>
 	AssetStore<T_Asset>::AssetStore(GfxSystem& gfx_system, cstring path, const Loader& loader)
 		: m_gfx_system(gfx_system)
@@ -36,31 +33,18 @@ namespace mud
 		auto loader = [&](GfxSystem& gfx_system, T_Asset& asset, cstring path)
 		{
 			UNUSED(gfx_system);
-			json json_value;
-			parse_json_file(string(path) + m_cformats[0], json_value); // @kludge: fix extensions assumed in loaders (gltf, obj, etc...)
-			unpack(Ref(&asset), json_value);
+			unpack_json_file(Ref(&asset), string(path) + m_cformats[0]); // @kludge: fix extensions assumed in loaders (gltf, obj, etc...)
 		};
 
-		this->setup({ format }, { loader });
+		this->add_format(format, loader);
 	}
 
 	template <class T_Asset>
-	AssetStore<T_Asset>::AssetStore(GfxSystem& gfx_system, cstring path, const std::vector<string>& formats, const std::vector<Loader>& loaders)
-		: m_gfx_system(gfx_system)
-		, m_path(path)
-		, m_formats(formats)
-		, m_format_loaders(loaders)
+	void AssetStore<T_Asset>::add_format(cstring format, const Loader& loader)
 	{
-		this->setup(formats, loaders);
-	}
-
-	template <class T_Asset>
-	void AssetStore<T_Asset>::setup(const std::vector<string>& formats, const std::vector<Loader>& loaders)
-	{
-		m_formats = formats;
-		m_format_loaders = loaders;
-		for(const string& format : m_formats)
-			m_cformats.push_back(format.c_str());
+		m_formats.push_back(format);
+		m_cformats.push_back(format);
+		m_format_loaders.push_back(loader);
 	}
 
 	template <class T_Asset>
@@ -156,6 +140,6 @@ namespace mud
 		};
 
 		system().visit_files(path, visit_file);
-		system().visit_folders(path, visit_file);
+		system().visit_folders(path, visit_folder);
 	}
 }

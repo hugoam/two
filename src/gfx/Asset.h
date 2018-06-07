@@ -4,9 +4,13 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Unique.h>
 #include <obj/Array.h>
+#include <obj/NonCopy.h>
+#endif
 #include <gfx/Generated/Forward.h>
+#include <gfx/GfxSystem.h>
 
 #ifndef MUD_CPP_20
 #include <map>
@@ -16,25 +20,23 @@
 #include <fstream>
 #endif
 
-#include <gfx/GfxSystem.h>
-
 namespace mud
 {
 	using cstring = const char*;
 	using string = std::string;
 
-	template <class T_Asset>
-	class AssetStore
+	export_ template <class T_Asset>
+	class AssetStore : public NonCopy
 	{
 	public:
 		using Initializer = std::function<void(T_Asset&)>;
 		using Loader = std::function<void(GfxSystem&, T_Asset&, cstring)>;
 
+		AssetStore(GfxSystem& gfx_system, cstring path);
 		AssetStore(GfxSystem& gfx_system, cstring path, const Loader& loader);
 		AssetStore(GfxSystem& gfx_system, cstring path, cstring format);
-		AssetStore(GfxSystem& gfx_system, cstring path, const std::vector<string>& formats = {}, const std::vector<Loader>& loaders = {});
 
-		void setup(const std::vector<string>& formats, const std::vector<Loader>& loaders);
+		void add_format(cstring format, const Loader& loader);
 
 		GfxSystem& m_gfx_system;
 

@@ -4,16 +4,16 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/NonCopy.h>
 #include <obj/Unique.h>
+#endif
 #include <ui/Generated/Forward.h>
 #include <ui/Frame/UiRect.h>
 
 #ifndef MUD_CPP_20
 #include <cmath>
 #endif
-
-#define MUD_UI_IMMEDIATE
 
 namespace mud
 {
@@ -28,7 +28,7 @@ namespace mud
 		DIRTY_FORCE_LAYOUT	// The frame layout has changed
 	};
 
-	export_ class _refl_ MUD_UI_EXPORT Frame : public NonCopy, public UiRect
+	export_ class refl_ MUD_UI_EXPORT Frame : public NonCopy, public UiRect
 	{
 	public:
 		Frame(Frame* parent, Widget& widget);

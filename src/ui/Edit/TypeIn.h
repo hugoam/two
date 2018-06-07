@@ -14,6 +14,7 @@
 #include <vector>
 #include <memory>
 #include <cinttypes>
+#include <climits>
 //#include <inttypes.h>
 #endif
 
@@ -32,7 +33,7 @@ namespace mud
 
 	MUD_UI_EXPORT void replace_tabs(string& text, size_t tab_size = 4);
 
-	export_ struct _refl_ MUD_UI_EXPORT TextCursor
+	export_ struct refl_ MUD_UI_EXPORT TextCursor
 	{
 		TextCursor() {}
 		TextCursor(size_t index, uvec2 grid_index) : m_index(index), m_grid_index(grid_index) {}
@@ -42,10 +43,10 @@ namespace mud
 		operator size_t() const { return size_t(m_index); }
 
 		size_t m_index = SIZE_MAX;
-		uvec2 m_grid_index = { SIZE_MAX, SIZE_MAX };
+		uvec2 m_grid_index = { UINT_MAX, UINT_MAX };
 	};
 
-	export_ struct _refl_ MUD_UI_EXPORT TextSelection
+	export_ struct refl_ MUD_UI_EXPORT TextSelection
 	{
 		TextSelection() {}
 		TextSelection(TextCursor cursor, size_t start, size_t end, bool insert_mode) : m_cursor(cursor), m_start(start), m_end(end), m_insert_mode(insert_mode) {}
@@ -58,7 +59,7 @@ namespace mud
 	using PaletteIndex = uint16_t;
 	using ColourPalette = array<uint32_t>;
 
-	export_ class _refl_ MUD_UI_EXPORT Text
+	export_ class refl_ MUD_UI_EXPORT Text
 	{
 	public:
 		Text(Frame& frame);
@@ -148,7 +149,7 @@ namespace mud
 		Click
 	};
 
-	export_ class _refl_ MUD_UI_EXPORT TextEdit : public Widget
+	export_ class refl_ MUD_UI_EXPORT TextEdit : public Widget
 	{
 	public:
 		class Action
@@ -303,9 +304,9 @@ namespace ui
 {
 	MUD_UI_EXPORT bool filter(const string& filter, const string& value);
 
-	MUD_UI_EXPORT _func_ TextEdit& text_box(Widget& parent, Style& style, string& text, bool editor = false, size_t lines = 1, const string& allowed_chars = "");
-	MUD_UI_EXPORT _func_ TextEdit& type_in(Widget& parent, string& text, size_t lines = 1, const string& allowed_chars = "");
-	MUD_UI_EXPORT _func_ TextEdit& text_edit(Widget& parent, string& text, size_t lines = 1, std::vector<string>* vocabulary = nullptr);
-	MUD_UI_EXPORT _func_ TextEdit& code_edit(Widget& parent, string& text, size_t lines = 1, std::vector<string>* vocabulary = nullptr);
+	export_ MUD_UI_EXPORT func_ TextEdit& text_box(Widget& parent, Style& style, string& text, bool editor = false, size_t lines = 1, const string& allowed_chars = "");
+	export_ MUD_UI_EXPORT func_ TextEdit& type_in(Widget& parent, string& text, size_t lines = 1, const string& allowed_chars = "");
+	export_ MUD_UI_EXPORT func_ TextEdit& text_edit(Widget& parent, string& text, size_t lines = 1, std::vector<string>* vocabulary = nullptr);
+	export_ MUD_UI_EXPORT func_ TextEdit& code_edit(Widget& parent, string& text, size_t lines = 1, std::vector<string>* vocabulary = nullptr);
 }
 }

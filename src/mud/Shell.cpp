@@ -42,7 +42,7 @@ namespace mud
 		, m_lua()
 		, m_editor(m_gfx_system)
 	{
-		System::instance().load_modules({ &mudobj::m(), &mudmath::m(), &mudgeom::m(), &mudgen::m(), &mudlang::m() });
+		System::instance().load_modules({ &mudobj::m(), &mudmath::m(), &mudgeom::m(), &mudprocgen::m(), &mudlang::m() });
 		System::instance().load_modules({ &mudui::m(), &mudgfx::m(), &mudgfxpbr::m(), &mudgfxgltf::m(), &mudgfxobj::m() });
 
 		// @todo this should be automatically done by math module
@@ -83,6 +83,12 @@ namespace mud
 		m_ui_window = &m_gfx_system.create_window("mud EditorCore", 1600, 900, false);
 		//m_ui_window = &m_gfx_system.create_window("mud EditorCore", 1280, 720, false);
 		m_ui = m_ui_window->m_root_sheet.get();
+
+		pipeline_pbr(m_gfx_system, *m_gfx_system.m_pipeline);
+		m_gfx_system.init_pipeline();
+
+		static ImporterOBJ obj_importer(m_gfx_system);
+		static ImporterGltf gltf_importer(m_gfx_system);
 
 		string stylesheet = "minimal.yml";
 		//string stylesheet = "vector.yml";

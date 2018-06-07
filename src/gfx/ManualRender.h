@@ -10,13 +10,13 @@
 
 namespace mud
 {
-	struct ManualRender
+	export_ struct MUD_GFX_EXPORT ManualRender
 	{
 		ManualRender(Render& render, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect);
 		ManualRender(Render& render, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect, const mat4& transform, const mat4& projection);
 
 		void cull(Plane6* input_planes = nullptr);
-		void render();
+		void render(Renderer& renderer);
 
 		Render& m_render;
 		Camera m_camera;

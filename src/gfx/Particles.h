@@ -4,10 +4,12 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
 #include <math/Curve.h>
 #include <geom/Shape.h>
 #include <ui/ImageAtlas.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Material.h>
 #include <gfx/Mesh.h>
@@ -44,47 +46,47 @@ namespace mud
 		uint32_t idx;
 	};
 
-	export_ enum class _refl_ EmitterDirection : unsigned int
+	export_ enum class refl_ EmitterDirection : unsigned int
 	{
 		Outward,
 		Absolute
 	};
 
-	export_ struct _refl_ MUD_GFX_EXPORT ParticleGenerator
+	export_ struct refl_ MUD_GFX_EXPORT ParticleGenerator
 	{
 		ParticleGenerator();
 		ParticleGenerator(cstring name);
 
-		_attr_ strung m_name;
+		attr_ string m_name;
 
 		// emitter
-		_attr_ _mut_ float m_duration = 1.f;
-		_attr_ _mut_ float m_start_time = 0.f;
-		_attr_ _mut_ bool m_loop = false;
-		_attr_ _mut_ ShapeVar m_shape = {};
-		_attr_ _mut_ EmitterDirection m_direction = EmitterDirection::Outward;
-		_attr_ _mut_ vec3 m_absolute_direction = { 0.f, 0.f, -1.f };//-Z3;
-		_attr_ _mut_ BlendMode m_blend_mode = BlendMode::Normal;
+		attr_ mut_ float m_duration = 1.f;
+		attr_ mut_ float m_start_time = 0.f;
+		attr_ mut_ bool m_loop = false;
+		attr_ mut_ ShapeVar m_shape = {};
+		attr_ mut_ EmitterDirection m_direction = EmitterDirection::Outward;
+		attr_ mut_ vec3 m_absolute_direction = { 0.f, 0.f, -1.f };//-Z3;
+		attr_ mut_ BlendMode m_blend_mode = BlendMode::Normal;
 
-		_attr_ _mut_ ValueTrack<vec3> m_position = { Zero3 };
-		_attr_ _mut_ ValueTrack<quat> m_rotation = { ZeroQuat };
-		_attr_ _mut_ ValueTrack<float> m_volume = { 1.f };
+		attr_ mut_ ValueTrack<vec3> m_position = { Zero3 };
+		attr_ mut_ ValueTrack<quat> m_rotation = { ZeroQuat };
+		attr_ mut_ ValueTrack<float> m_volume = { 1.f };
 
-		_attr_ _mut_ ValueTrack<uint32_t> m_rate = { 0 };
+		attr_ mut_ ValueTrack<uint32_t> m_rate = { 0 };
 
-		_attr_ _mut_ ValueTrack<float> m_lifetime = { 1.f };
-		_attr_ _mut_ ValueTrack<float> m_gravity = { 0.f };
+		attr_ mut_ ValueTrack<float> m_lifetime = { 1.f };
+		attr_ mut_ ValueTrack<float> m_gravity = { 0.f };
 
 		// particles
-		_attr_ _mut_ ValueTrack<float> m_speed = { 1.f };
-		_attr_ _mut_ ValueTrack<float> m_angle = { 0.f };
-		_attr_ _mut_ ValueTrack<float> m_blend = { std::vector<float>({ 0.8f, 0.0f }) };
-		_attr_ _mut_ ValueTrack<Colour> m_colour = { Colour::White };
-		_attr_ _mut_ ValueTrack<float> m_scale = { 0.1f };
+		attr_ mut_ ValueTrack<float> m_speed = { 1.f };
+		attr_ mut_ ValueTrack<float> m_angle = { 0.f };
+		attr_ mut_ ValueTrack<float> m_blend = { std::vector<float>({ 0.8f, 0.0f }) };
+		attr_ mut_ ValueTrack<Colour> m_colour = { Colour::White };
+		attr_ mut_ ValueTrack<float> m_scale = { 0.1f };
 
-		_attr_ _mut_ ValueTrack<float> m_sprite_frame = { 0.f };
+		attr_ mut_ ValueTrack<float> m_sprite_frame = { 0.f };
 
-		_attr_ _mut_ strung m_sprite_name;
+		attr_ mut_ string m_sprite_name;
 
 		const Sprite* m_sprite = nullptr;
 	};
@@ -103,7 +105,7 @@ namespace mud
 		static bgfx::VertexDecl ms_decl;
 	};
 
-	export_ struct _refl_ MUD_GFX_EXPORT ParticleEmitter : public ParticleGenerator
+	export_ struct refl_ MUD_GFX_EXPORT ParticleEmitter : public ParticleGenerator
 	{
 		ParticleEmitter(ShapeVar shape = {}, uint32_t max_particles = 1024)
 			: m_max(max_particles)
@@ -128,8 +130,10 @@ namespace mud
 		uint32_t m_max;
 	};
 
+#ifndef MUD_MODULES
 	template <class T>
 	class TPool;
+#endif
 
 	export_ struct MUD_GFX_EXPORT ParticleSystem
 	{
@@ -151,13 +155,13 @@ namespace mud
 		uint32_t m_num = 0;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT Particles
+	export_ class refl_ MUD_GFX_EXPORT Particles
 	{
 	public:
 		Particles(ParticleSystem& particle_system, Node3& node);
 		~Particles();
 
-		_attr_ Node3& m_node;
+		attr_ Node3& m_node;
 
 		ParticleSystem& m_particle_system;
 		ParticleEmitter& m_emitter;
@@ -165,7 +169,7 @@ namespace mud
 		void upload();
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT BlockParticles : public GfxBlock
+	export_ class refl_ MUD_GFX_EXPORT BlockParticles : public GfxBlock
 	{
 	public:
 		BlockParticles(GfxSystem& gfx_system);

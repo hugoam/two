@@ -6,9 +6,7 @@
 
 #include <obj/Generated/Forward.h>
 
-#if defined MUD_LANG_LIB
-#define MUD_LANG_EXPORT MUD_EXPORT
-#else
+#ifndef MUD_LANG_EXPORT
 #define MUD_LANG_EXPORT MUD_IMPORT
 #endif
 
@@ -42,6 +40,7 @@ namespace mud {
     
     class LuaInterpreter;
     class Script;
+    class LuaScript;
     struct StreamLocation;
     class StreamBranch;
     class Stream;

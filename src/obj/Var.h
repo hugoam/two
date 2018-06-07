@@ -9,7 +9,7 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_OBJ_EXPORT None
+	export_ class refl_ MUD_OBJ_EXPORT None
 	{
 	public:
 		bool operator==(const None& other) const { UNUSED(other); return true; }
@@ -62,7 +62,7 @@ namespace mud
 		REF
 	};
 
-	export_ class _refl_ MUD_OBJ_EXPORT Var
+	export_ class refl_ MUD_OBJ_EXPORT Var
 	{
 	public:
 		Var() : m_mode(VAL), m_val(), m_ref(m_val.ref()) {}

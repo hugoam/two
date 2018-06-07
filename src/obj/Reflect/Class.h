@@ -17,7 +17,7 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_OBJ_EXPORT Class
+	export_ class refl_ MUD_OBJ_EXPORT Class
 	{
 	public:
 		Class(Type& type);

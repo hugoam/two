@@ -2,13 +2,15 @@
 
 #include <uio/Generated/Forward.h>
 
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
+#include <obj/Type.h>
+#include <obj/Proto.h>
+#endif
+
 #ifndef MUD_MODULES
 #include <obj/Generated/Types.h>
 #include <lang/Generated/Types.h>
 #include <ui/Generated/Types.h>
-
-#include <obj/Type.h>
-#include <obj/Proto.h>
 #endif
 
 #ifndef MUD_CPP_20

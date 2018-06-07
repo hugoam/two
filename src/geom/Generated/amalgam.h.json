@@ -3,6 +3,7 @@
 	"target": "mudgeom.h",
 	"sources": [
 		"geom/Aabb.h",
+		"geom/Api.h",
 		"geom/Geom.h",
 		"geom/Intersect.h",
 		"geom/Mesh.h",

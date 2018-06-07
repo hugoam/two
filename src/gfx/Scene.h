@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/NonCopy.h>
 #include <math/Vec.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Node3.h>
 #include <gfx/Graph.h>
@@ -20,25 +22,25 @@
 
 namespace mud
 {
-	export_ struct _refl_ Sun
+	export_ struct refl_ Sun
 	{
-		_attr_ _mut_ float azimuth;
-		_attr_ _mut_ float elevation;
-		_attr_ _mut_ Colour m_colour = { 0.8f, 0.8f, 0.0f };
-		_attr_ _mut_ float m_intensity = 0.f;
+		attr_ mut_ float azimuth;
+		attr_ mut_ float elevation;
+		attr_ mut_ Colour m_colour = { 0.8f, 0.8f, 0.0f };
+		attr_ mut_ float m_intensity = 0.f;
 	};
 
-	export_ struct _refl_ Radiance
+	export_ struct refl_ Radiance
 	{
-		_attr_ _mut_ float m_energy = 1.0f;
-		_attr_ _mut_ float m_ambient = 1.0f;
-		_attr_ _mut_ Colour m_colour = Colour::Black;
-		_attr_ _mut_ Texture* m_texture = nullptr;
+		attr_ mut_ float m_energy = 1.0f;
+		attr_ mut_ float m_ambient = 1.0f;
+		attr_ mut_ Colour m_colour = Colour::Black;
+		attr_ mut_ Texture* m_texture = nullptr;
 		bgfx::TextureHandle m_roughness_array = BGFX_INVALID_HANDLE;
 		bool m_preprocessed = false;
 	};
 
-	export_ enum class _refl_ BackgroundMode : unsigned int
+	export_ enum class refl_ BackgroundMode : unsigned int
 	{
 		None,
 		Panorama,
@@ -46,25 +48,25 @@ namespace mud
 		Custom
 	};
 
-	export_ struct _refl_ Background
+	export_ struct refl_ Background
 	{
-		_attr_ _mut_ BackgroundMode m_mode = BackgroundMode::None;
-		_attr_ _mut_ Colour m_colour = Colour::Black;
-		_attr_ _mut_ Program* m_custom_program = nullptr;
+		attr_ mut_ BackgroundMode m_mode = BackgroundMode::None;
+		attr_ mut_ Colour m_colour = Colour::Black;
+		attr_ mut_ Program* m_custom_program = nullptr;
 		std::function<void(Render&)> m_custom_function;
 	};
 
-	export_ struct _refl_ Environment
+	export_ struct refl_ Environment
 	{
-		_attr_ _mut_ Background m_background;
-		_attr_ _mut_ Radiance m_radiance;
-		_attr_ _mut_ Sun m_sun;
+		attr_ mut_ Background m_background;
+		attr_ mut_ Radiance m_radiance;
+		attr_ mut_ Sun m_sun;
 		//Fog* m_fog = nullptr;
 	};
 
 	class Shot;
 
-	export_ class _refl_ MUD_GFX_EXPORT Scene : public NonCopy
+	export_ class refl_ MUD_GFX_EXPORT Scene : public NonCopy
 	{
 	public:
 		Scene(GfxSystem& gfx_system);
@@ -78,11 +80,11 @@ namespace mud
 
 		unique_ptr<ObjectPool> m_pool;
 
-		_attr_ Gnode m_graph;
-		_attr_ Node3 m_root_node;
-		_attr_ _mut_ Environment m_environment;
+		attr_ Gnode m_graph;
+		attr_ Node3 m_root_node;
+		attr_ mut_ Environment m_environment;
 
-		_meth_ Gnode& begin();
+		meth_ Gnode& begin();
 		void update();
 
 		void gather_render(Render& render);

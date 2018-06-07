@@ -2,13 +2,16 @@
 
 #include <gfx/Generated/Forward.h>
 
-#ifndef MUD_MODULES
-#include <obj/Generated/Types.h>
-#include <math/Generated/Types.h>
-#include <geom/Generated/Types.h>
-
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/Type.h>
 #include <obj/Proto.h>
+#endif
+
+#ifndef MUD_MODULES
+#include <obj/Generated/Types.h>
+#include <srlz/Generated/Types.h>
+#include <math/Generated/Types.h>
+#include <geom/Generated/Types.h>
 #endif
 
 #ifndef MUD_CPP_20
@@ -101,6 +104,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Transform>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::UnshadedMaterialBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Viewport>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::ParticleEmitter>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockCopy>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockFilter>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockParticles>();
@@ -108,5 +112,4 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockSky>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::ParticleEmitter>();
 }

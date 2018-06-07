@@ -2,14 +2,12 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <cstdint>
-import std.core;
-import std.memory;
-#endif
+#include <gfx/Cpp20.h>
+
+#include <bgfx/bgfx.h>
 
 #ifdef MUD_MODULES
-module mud.gfx-pbr;
+module mud.gfx.pbr;
 #else
 #include <obj/Vector.h>
 #include <math/Math.h>
@@ -17,6 +15,7 @@ module mud.gfx-pbr;
 #include <gfx/Item.h>
 #include <gfx/Shot.h>
 #include <gfx/Program.h>
+#include <gfx/GfxSystem.h>
 #include <gfx-pbr/Generated/Types.h>
 #include <gfx-pbr/Shadow.h>
 #include <gfx-pbr/Light.h>
@@ -29,7 +28,7 @@ namespace mud
 		return std::floor(value / step + 0.5f) * step;
 	}
 
-	uvec4 csm_rect(size_t size, size_t light_count, Light& light, size_t index, size_t pass)
+	uvec4 csm_rect(uint size, size_t light_count, Light& light, size_t index, size_t pass)
 	{
 		uvec4 light_rect;
 
@@ -87,7 +86,8 @@ namespace mud
 			block_depth.m_depth_params.m_depth_bias = m_light.m_shadow_bias * bias_scale;
 			block_depth.m_depth_params.m_depth_normal_bias = m_light.m_shadow_normal_bias;
 			block_depth.m_depth_params.m_depth_z_far = m_light.m_shadow_range;
-			ManualRender::render();
+			Renderer& renderer = block_depth.m_gfx_system.renderer(Shading::Volume);
+			ManualRender::render(renderer);
 		}
 
 		Light& m_light;

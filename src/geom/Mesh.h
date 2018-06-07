@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <math/Generated/Forward.h>
+#include <geom/Generated/Forward.h>
 #include <geom/Primitive.h>
 #include <geom/Shape.h>
 
@@ -14,10 +14,10 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_MATH_EXPORT Geometry : public Shape
+	export_ class refl_ MUD_GEOM_EXPORT Geometry final : public Shape
 	{
 	public:
-		_constr_ Geometry();
+		constr_ Geometry();
 
 		std::vector<Vertex> m_vertices;
 		std::vector<Tri> m_triangles;
@@ -30,9 +30,9 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ struct _refl_ MUD_MATH_EXPORT MeshPacker
+	export_ struct refl_ MUD_GEOM_EXPORT MeshPacker
 	{
-		_constr_ MeshPacker();
+		constr_ MeshPacker();
 
 		std::vector<ShapeVertex> m_vertices;
 		std::vector<ShapeIndex> m_indices;
@@ -64,5 +64,5 @@ namespace mud
 		}
 	};
 
-	MUD_GEOM_EXPORT void generate_mikkt_tangents(array<ShapeIndex> indices, array<ShapeVertex> vertices);
+	export_ MUD_GEOM_EXPORT void generate_mikkt_tangents(array<ShapeIndex> indices, array<ShapeVertex> vertices);
 }

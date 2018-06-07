@@ -2,17 +2,19 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <gfx-gltf/Generated/Module.h>
 
 #include <obj/Any.h>
 #include <obj/Reflect/MetaDecl.h>
 #include <obj/System/System.h>
+#endif
 
 namespace mud
 {
     
 #ifdef MUD_GFX_GLTF_REFLECTION_IMPL
-    void gfxgltf_meta(Module& m)
+    void mudgfxgltf_meta(Module& m)
     {   
     // Base Types
     

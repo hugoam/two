@@ -20,7 +20,7 @@ namespace mud
 		virtual ~NodeState() {}
 	};
 
-	template <class T_Node>
+	export_ template <class T_Node>
 	class Graph
 	{
 	public:

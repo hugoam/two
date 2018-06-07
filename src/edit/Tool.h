@@ -4,12 +4,14 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/NonCopy.h>
 #include <obj/Strung.h>
 #include <math/Vec.h>
 #include <geom/Shape.h>
 #include <geom/Symbol.h>
 #include <ui/Controller/Controller.h>
+#endif
 #include <edit/Generated/Forward.h>
 #include <edit/Action.h>
 #include <edit/Viewer/Viewer.h>
@@ -20,20 +22,20 @@
 
 namespace mud
 {
-	export_ struct _refl_ MUD_EDIT_EXPORT ToolContext
+	export_ struct refl_ MUD_EDIT_EXPORT ToolContext
 	{
 		Camera* m_camera = nullptr;
 		Plane* m_work_plane = nullptr;
 		ActionStack* m_action_stack = nullptr;
 	};
 
-	export_ class _refl_ MUD_EDIT_EXPORT ToolOption
+	export_ class refl_ MUD_EDIT_EXPORT ToolOption
 	{
 	public:
 		ToolOption(cstring name) : m_name(name) {}
 		virtual ~ToolOption() {}
 
-		/*_attr_*/ strung m_name;
+		/*attr_*/ string m_name;
 
 		virtual void activate() = 0;
 		virtual void deactivate() = 0;
@@ -41,14 +43,14 @@ namespace mud
 
 	typedef std::vector<object_ptr<ToolOption>> OptionVector;
 
-	export_ enum class _refl_ ToolState : unsigned int
+	export_ enum class refl_ ToolState : unsigned int
 	{
 		Inactive = 0,
 		Done = 1,
 		Active = 2
 	};
 
-	export_ class _refl_ MUD_EDIT_EXPORT Tool : public NonCopy
+	export_ class refl_ MUD_EDIT_EXPORT Tool : public NonCopy
 	{
 	public:
 		using Callback = std::function<void(Tool&)>;
@@ -56,10 +58,10 @@ namespace mud
 	public:
 		Tool(ToolContext& context, cstring name, Type& type);
 
-		_attr_ Type& m_type;
-		_attr_ ToolContext& m_context;
-		_attr_ strung m_name;
-		_attr_ ToolState m_state;
+		attr_ Type& m_type;
+		attr_ ToolContext& m_context;
+		attr_ string m_name;
+		attr_ ToolState m_state;
 
 		OptionVector m_options;
 
@@ -78,7 +80,7 @@ namespace mud
 		Callback m_callback;
 	};
 
-	export_ class _refl_ MUD_EDIT_EXPORT ViewportTool : public Tool //, public ViewerController
+	export_ class refl_ MUD_EDIT_EXPORT ViewportTool : public Tool //, public ViewerController
 	{
 	public:
 		ViewportTool(ToolContext& context, cstring name, Type& type);
@@ -86,7 +88,7 @@ namespace mud
 		vec3 m_symbol_position;
 	};
 
-	export_ class _refl_ MUD_EDIT_EXPORT SpatialTool : public ViewportTool
+	export_ class refl_ MUD_EDIT_EXPORT SpatialTool : public ViewportTool
 	{
 	public:
 		SpatialTool(ToolContext& context, cstring name, Type& type);
@@ -96,7 +98,7 @@ namespace mud
 		virtual void process(Viewer& viewer, const std::vector<Ref>& selection) = 0;
 	};
 
-	export_ struct _refl_ MUD_EDIT_EXPORT Gizmo
+	export_ struct refl_ MUD_EDIT_EXPORT Gizmo
 	{
 		std::function<Item*(Gnode&)> m_draw_handle;
 		std::function<void(Gnode&, bool)> m_draw_gizmo;
@@ -109,7 +111,7 @@ namespace mud
 	MUD_EDIT_EXPORT vec3 gizmo_grab_linear(Viewer& viewer, const Transform& space, Axis axis);
 	MUD_EDIT_EXPORT vec3 gizmo_grab_planar(Viewer& viewer, const Transform& space, Axis normal);
 
-	export_ class _refl_ MUD_EDIT_EXPORT TransformAction : public EditorAction
+	export_ class refl_ MUD_EDIT_EXPORT TransformAction : public EditorAction
 	{
 	public:
 		TransformAction(const std::vector<Transform*>& targets);
@@ -127,7 +129,7 @@ namespace mud
 
 	};
 
-	export_ class _refl_ MUD_EDIT_EXPORT TransformTool : public SpatialTool
+	export_ class refl_ MUD_EDIT_EXPORT TransformTool : public SpatialTool
 	{
 	public:
 		TransformTool(ToolContext& context, cstring name, Type& type);

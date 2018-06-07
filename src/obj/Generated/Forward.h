@@ -5,9 +5,7 @@
 #include <obj/Config.h>
 
 
-#if defined MUD_OBJ_LIB
-#define MUD_OBJ_EXPORT MUD_EXPORT
-#else
+#ifndef MUD_OBJ_EXPORT
 #define MUD_OBJ_EXPORT MUD_IMPORT
 #endif
 
@@ -44,7 +42,6 @@ namespace mud {
     class Movabl;
     class Indexer;
     class Index;
-    struct strung;
     class NodeState;
     class Iterable;
     class Sequence;
@@ -65,23 +62,15 @@ namespace mud {
     class Member;
     class Class;
     class DoubleDispatch;
-    struct Filepath;
     class Convert;
     class TypeConverter;
     class Enum;
     class Injector;
     class Creator;
-    class FromJson;
-    class ToJson;
+    struct Filepath;
     struct Time;
     struct TimeSpan;
     class Clock;
     class Updatable;
-}
-
-namespace json11 {
-
-    
-    
 }
 

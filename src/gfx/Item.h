@@ -4,9 +4,11 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
 #include <math/Colour.h>
 #include <geom/Aabb.h>
+#endif
 #include <gfx/Generated/Forward.h>
 
 #ifndef MUD_GENERATOR_SKIP_INCLUDES
@@ -19,7 +21,7 @@
 
 namespace mud
 {
-	export_ enum _refl_ ItemFlag : unsigned int
+	export_ enum refl_ ItemFlag : unsigned int
 	{
 		ITEM_BILLBOARD = 1 << 0,
 		ITEM_WORLD_GEOMETRY = 1 << 1,
@@ -33,7 +35,7 @@ namespace mud
 		ITEM_LOD_ALL = (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8)
 	};
 
-	export_ enum class _refl_ ItemShadow : unsigned int
+	export_ enum class refl_ ItemShadow : unsigned int
 	{
 		Off,
 		On,
@@ -41,20 +43,20 @@ namespace mud
 		OnlyShadow
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT Item
+	export_ class refl_ MUD_GFX_EXPORT Item
 	{
 	public:
 		Item(Node3& node, const Model& model, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
 		~Item();
 
-		_attr_ Node3& m_node;
-		_attr_ _mut_ Model* m_model = nullptr;
-		_attr_ _mut_ uint32_t m_flags = 0;
-		_attr_ _mut_ Colour m_colour = Colour::White;
-		_attr_ _mut_ Material* m_material = nullptr;
-		_attr_ _mut_ bool m_visible = true;
-		_attr_ _mut_ ItemShadow m_cast_shadows = ItemShadow::On;
-		_attr_ Rig* m_rig = nullptr;
+		attr_ Node3& m_node;
+		attr_ mut_ Model* m_model = nullptr;
+		attr_ mut_ uint32_t m_flags = 0;
+		attr_ mut_ Colour m_colour = Colour::White;
+		attr_ mut_ Material* m_material = nullptr;
+		attr_ mut_ bool m_visible = true;
+		attr_ mut_ ItemShadow m_cast_shadows = ItemShadow::On;
+		attr_ Rig* m_rig = nullptr;
 
 		Aabb m_aabb;
 

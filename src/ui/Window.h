@@ -10,7 +10,7 @@
 
 namespace mud
 {
-	export_ enum _refl_ WindowState : unsigned int
+	export_ enum refl_ WindowState : unsigned int
 	{
 		WINDOW_NOSTATE = 0,
 		WINDOW_HEADER = 1 << 1,
@@ -23,16 +23,16 @@ namespace mud
 
 namespace ui
 {
-	struct WindowStyles
+	export_ struct WindowStyles
 	{
 		WindowStyles();
 		Style window; Style body; Style close_button; Style header; Style header_movable; Style footer; Style sizer; Style sizer_left; Style sizer_right;
 		Style dock_window; Style wrap_window;
 	};
 
-	MUD_UI_EXPORT WindowStyles& window_styles();
+	export_ MUD_UI_EXPORT WindowStyles& window_styles();
 
-	_func_ MUD_UI_EXPORT Window& window(Widget& parent, cstring title, WindowState state = WINDOW_DEFAULT);
-	MUD_UI_EXPORT Window& window(Widget& parent, cstring title, WindowState state, void* identity, Dock* dock = nullptr);
+	export_ func_ MUD_UI_EXPORT Window& window(Widget& parent, cstring title, WindowState state = WINDOW_DEFAULT);
+	export_ MUD_UI_EXPORT Window& window(Widget& parent, cstring title, WindowState state, void* identity, Dock* dock = nullptr);
 }
 }

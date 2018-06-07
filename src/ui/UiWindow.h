@@ -4,9 +4,11 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/NonCopy.h>
 #include <obj/Strung.h>
 #include <obj/Util/Timer.h>
+#endif
 #include <ui/Generated/Forward.h>
 #include <ui/ImageAtlas.h>
 
@@ -16,7 +18,7 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_UI_EXPORT UiWindow : public NonCopy
+	export_ class refl_ MUD_UI_EXPORT UiWindow : public NonCopy
 	{
 	public:
 		UiWindow(RenderSystem& system, cstring name, int width, int height, bool fullScreen, User* user = nullptr);
@@ -40,7 +42,7 @@ namespace mud
 
 	public:
 		RenderSystem& m_render_system;
-		const strung m_resource_path;
+		const string m_resource_path;
 
 		object_ptr<Context> m_context;
 		object_ptr<VgRenderer> m_renderer;

@@ -14,12 +14,12 @@
 
 namespace mud
 {
-	template <class T_Return, class... T_Args>
+	export_ template <class T_Return, class... T_Args>
 	class Dispatch
 	{
 	public:
 		Dispatch()
-			: m_branches(MUD_MAX_TYPES)
+			: m_branches(c_max_types)
 		{}
 
 		void function(Type& type, const std::function<T_Return(Ref, T_Args...)>& func)

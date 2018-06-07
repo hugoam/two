@@ -2,12 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
+#include <gfx/Cpp20.h>
+#ifndef MUD_CPP_20
+#include <fstream>
 #endif
 
 #ifdef MUD_MODULES
@@ -23,6 +20,21 @@ module mud.gfx;
 
 namespace mud
 {
+	ModelConfig load_model_config(cstring path, cstring model_name)
+	{
+		std::ifstream file = std::ifstream(string(path) + "models/" + model_name + ".cfg");
+		ModelConfig model_config = { ModelFormat::obj, bxidentity() };
+
+		if(!file.good())
+		{
+			if(std::ifstream(string(path) + "models/" + model_name + ".gltf").good())
+				model_config.m_format = ModelFormat::gltf;
+			return model_config;
+		}
+
+		return model_config;
+	}
+
 	//static uint16_t s_model_index = 0;
 
 	Model::Model(cstring id)

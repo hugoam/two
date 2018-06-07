@@ -4,10 +4,12 @@
 
 #pragma once
 
-#include <edit/Generated/Forward.h>
-#include <gfx/Particles.h>
+#ifndef MUD_MODULES
 #include <ui/Ui.h>
 #include <ui/Input.h>
+#include <gfx/Particles.h>
+#endif
+#include <edit/Generated/Forward.h>
 
 namespace mud
 {
@@ -48,7 +50,7 @@ namespace mud
 		return changed;
 	}
 
-	MUD_GFX_EXPORT void particle_edit(Widget& parent, GfxSystem& system, ParticleGenerator& generator);
-	MUD_GFX_EXPORT void particle_edit(Widget& parent, GfxSystem& system, Call& particles);
-	MUD_GFX_EXPORT void particle_editor(Widget& parent, GfxSystem& system);
+	MUD_EDIT_EXPORT void particle_edit(Widget& parent, GfxSystem& system, ParticleGenerator& generator);
+	MUD_EDIT_EXPORT void particle_edit(Widget& parent, GfxSystem& system, Call& particles);
+	MUD_EDIT_EXPORT void particle_editor(Widget& parent, GfxSystem& system);
 }

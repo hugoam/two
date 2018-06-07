@@ -2,13 +2,8 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#else
+#include <gfx/Cpp20.h>
+#ifndef MUD_CPP_20
 #include <array>
 #endif
 
@@ -17,7 +12,7 @@ module mud.gfx;
 #else
 #include <obj/Reflect/Convert.h>
 #include <obj/Reflect/Meta.h>
-#include <obj/Serial/Serial.h>
+#include <srlz/Serial.h>
 #include <obj/String/StringConvert.h>
 #include <geom/Mesh.h>
 #include <geom/Shape/ProcShape.h>
@@ -183,7 +178,7 @@ namespace mud
 	Model& SymbolIndex::symbolModel(const Symbol& symbol, const Shape& shape, DrawMode draw_mode)
 	{
 		uint64_t hash = hash_symbol(symbol, draw_mode);
-		std::array<char, MUD_MAX_SHAPE_SIZE> shape_mem = {};
+		std::array<char, c_max_shape_size> shape_mem = {};
 		std::memcpy(&shape_mem[0], (void*) &shape, shape.m_type.m_meta->m_size);
 
 		if(m_symbols[hash][shape_mem] == nullptr)
@@ -232,7 +227,7 @@ namespace mud
 
 	void draw_mesh(const std::vector<ProcShape>& shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback)
 	{
-		Mesh& mesh = model.add_mesh(model.m_name, readback);
+		Mesh& mesh = model.add_mesh(model.m_name.c_str(), readback);
 
 		GpuMesh gpu_mesh = mesh.allocate(draw_mode, size.vertex_count, size.index_count);
 		MeshData data(gpu_mesh.m_vertices.m_pointer, gpu_mesh.m_indices.m_pointer);

@@ -2,13 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.obj;
@@ -26,7 +20,7 @@ module mud.obj;
 #include <obj/Proto.h>
 #include <obj/Complex.h>
 #include <obj/Vector.h>
-#include <obj/Serial/Serial.h>
+#include <srlz/Serial.h>
 #endif
 
 namespace mud
@@ -42,15 +36,15 @@ namespace mud
 
 	bool is_string(Type& type)
 	{
-		return type.is<string>() || type.is<cstring>() || type.is<strung>();
+		return type.is<string>() || type.is<cstring>() || type.is<string>();
 	}
 
 	string get_string(Member& member, Ref value)
 	{
 		if(member.m_type->is<cstring>())
 			return val<cstring>(member.get(value));
-		else if(member.m_type->is<strung>())
-			return val<strung>(member.get(value)).c_str();
+		else if(member.m_type->is<string>())
+			return val<string>(member.get(value)).c_str();
 		else
 			return val<string>(member.get(value));
 	}

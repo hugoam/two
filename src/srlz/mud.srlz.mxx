@@ -1,0 +1,18 @@
+#include <cpp/preimport.h>
+
+#include <obj/Config.h>
+
+export module mud.srlz;
+export import std.core;
+export import std.io;
+export import std.threading;
+export import std.regex;
+
+export import json11;
+export import mud.obj;
+
+#include <srlz/Api.h>
+#include <srlz/Generated/Types.h>
+#include <srlz/Generated/Module.h>
+#include <srlz/Generated/Convert.h>
+

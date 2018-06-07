@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
 #include <math/Axis.h>
+#endif
 #include <edit/Generated/Forward.h>
 #include <edit/Tool.h>
 
@@ -15,7 +17,7 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_EDIT_EXPORT TranslateAction : public TransformAction
+	export_ class refl_ MUD_EDIT_EXPORT TranslateAction : public TransformAction
 	{
 	public:
 		TranslateAction(const std::vector<Transform*>& targets);
@@ -29,7 +31,7 @@ namespace mud
 		vec3 m_translation;
 	};
 
-	export_ class _refl_ MUD_EDIT_EXPORT TranslateTool : public TransformTool
+	export_ class refl_ MUD_EDIT_EXPORT TranslateTool : public TransformTool
 	{
 	public:
 		TranslateTool(ToolContext& context);

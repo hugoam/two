@@ -15,7 +15,7 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_OBJ_EXPORT Enum
+	export_ class refl_ MUD_OBJ_EXPORT Enum
 	{
 	public:
 		Enum(Type& type, bool scoped, const std::vector<cstring>& names, const std::vector<size_t>& indices, const std::vector<Var>& values);

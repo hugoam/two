@@ -4,8 +4,10 @@
 
 #pragma once
 
-#include <ui/Generated/Forward.h>
+#ifndef MUD_MODULES
 #include <obj/Unique.h>
+#endif
+#include <ui/Generated/Forward.h>
 
 namespace mud
 {
@@ -14,7 +16,7 @@ namespace mud
 	using LayoutDef = void(*)(Layout&);
 	using InkStyleDef = void(*)(InkStyle&);
 
-	export_ class _refl_ MUD_UI_EXPORT Style
+	export_ class refl_ MUD_UI_EXPORT Style
 	{
 	public:
 		Style(cstring name, Style* base, LayoutDef layout, InkStyleDef skin = nullptr);
@@ -29,10 +31,10 @@ namespace mud
 		InkStyle& state_skin(WidgetState state);
 		InkStyle& decline_skin(WidgetState state);
 
-		_attr_ Style* m_base;
-		_attr_ cstring name();
-		_attr_ Layout& layout();
-		_attr_ InkStyle& skin();
+		attr_ Style* m_base;
+		attr_ cstring name();
+		attr_ Layout& layout();
+		attr_ InkStyle& skin();
 		
 		struct Impl;
 		unique_ptr<Impl> m_impl;

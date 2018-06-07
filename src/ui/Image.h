@@ -4,21 +4,23 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Strung.h>
 #include <math/Vec.h>
+#endif
 #include <ui/Generated/Forward.h>
 
 namespace mud
 {
-	export_ struct _refl_ MUD_UI_EXPORT Image
+	export_ struct refl_ MUD_UI_EXPORT Image
 	{
 	public:
 		Image(cstring name = "", cstring path = "", const uvec2& size = {})
 			: d_name(name), d_path(path), d_size(size)
 		{}
 
-		/*_attr_*/ strung d_name;
-		/*_attr_*/ strung d_path;
+		/*attr_*/ string d_name;
+		/*attr_*/ string d_path;
 		uvec2 d_size;
 		uvec2 d_coord = uvec2(0U);
 

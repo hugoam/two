@@ -61,6 +61,7 @@ function toolchain(_buildDir, _libDir)
 			{ "linux-clang",     "Linux (Clang compiler)"     },
 			{ "linux-clang-afl", "Linux (Clang + AFL fuzzer)" },
 			{ "linux-clang-3.7", "Linux (Clang 3.7 compiler)" },
+			{ "linux-clang-7",   "Linux (Clang 7 compiler)"   },
 			{ "linux-mips-gcc",  "Linux (MIPS, GCC compiler)" },
 			{ "linux-arm-gcc",   "Linux (ARM, GCC compiler)"  },
 			{ "ios-arm",         "iOS - ARM"                  },
@@ -316,6 +317,12 @@ function toolchain(_buildDir, _libDir)
 		elseif "linux-clang-3.7" == _OPTIONS["gcc"] then
 			premake.gcc.cc  = "clang-3.7"
 			premake.gcc.cxx = "clang++-3.7"
+			premake.gcc.ar  = "ar"
+			location (path.join(_buildDir, "projects", _ACTION .. "-linux-clang"))
+
+		elseif "linux-clang-7" == _OPTIONS["gcc"] then
+			premake.gcc.cc  = "clang-7"
+			premake.gcc.cxx = "clang++-7"
 			premake.gcc.ar  = "ar"
 			location (path.join(_buildDir, "projects", _ACTION .. "-linux-clang"))
 

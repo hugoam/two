@@ -2,16 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
-import mud.math;
 module mud.geom;
 #else
 #include <math/Clamp.h>
@@ -25,6 +18,9 @@ module mud.geom;
 
 namespace mud
 {
+	const float c_cmp_epsilon = 0.00001f;
+	const float c_cmp_epsilon2 = c_cmp_epsilon * c_cmp_epsilon;
+
 	float ray_aabb_intersection_dist(const vec3& bmin, const vec3& bmax, const Ray& ray)
 	{
 		const vec3 t1 = (bmin - ray.m_start) * ray.m_inv_dir;
@@ -303,7 +299,7 @@ namespace mud
 
 		float denom = dot(cross(normal0, normal1), normal2);
 
-		if(std::abs(denom) <= CMP_EPSILON)
+		if(std::abs(denom) <= c_cmp_epsilon)
 			return Zero3; // @todo move to optional when C++17
 
 		return ((cross(normal1, normal2) * plane0.m_distance) +
@@ -413,24 +409,6 @@ namespace mud
 		}
 
 		return face.m_vertices[0] + edge0 * s + edge1 * t;
-	}
-
-	Axis nearest_axis(const vec3& direction)
-	{
-		Axis axis = Axis::X;
-
-		float closest_dot = 0.f;
-		for(Axis a : { Axis::X, Axis::Y, Axis::Z })
-		{
-			float product = std::abs(dot(direction, to_vec3(a)));
-			if(a == Axis::X || product > closest_dot)
-			{
-				axis = a;
-				closest_dot = product;
-			}
-		}
-
-		return axis;
 	}
 
 	Aabb transform_aabb(const Aabb& source, const mat4& transform)

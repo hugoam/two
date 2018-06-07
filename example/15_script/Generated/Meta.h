@@ -2,11 +2,13 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <15_script/Generated/Module.h>
 
 #include <obj/Any.h>
 #include <obj/Reflect/MetaDecl.h>
 #include <obj/System/System.h>
+#endif
 
 namespace mud
 {

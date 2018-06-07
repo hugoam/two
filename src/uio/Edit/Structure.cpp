@@ -2,13 +2,8 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#else
+#include <obj/Cpp20.h>
+#ifndef MUD_CPP_20
 #include <string>
 #endif
 
@@ -24,21 +19,12 @@ module mud.uio;
 #include <uio/Edit/Structure.h>
 #include <uio/Unode.h>
 #include <uio/Edit/Section.h>
+#include <uio/Object.h>
 #endif
 
 namespace mud
 {
 	using string = std::string;
-
-	static string object_name(Ref object)
-	{
-		return object ? to_name(object.type(), object) : "null";
-	}
-
-	static string object_icon(Ref object)
-	{
-		return object ? "(" + string(meta(object).m_name) + ")" : "";
-	}
 
 	Widget& structure_widget(Widget& parent)
 	{

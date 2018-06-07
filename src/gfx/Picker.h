@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Array.h>
 #include <geom/Geom.h>
+#endif
 #include <gfx/Generated/Forward.h>
 
 #ifndef MUD_GENERATOR_SKIP_INCLUDES
@@ -21,7 +23,7 @@ namespace mud
 {
 #define PICKING_BUFFER_SIZE 8  // Size of the ID buffer
 
-	struct PickQuery
+	export_ struct PickQuery
 	{
 		PickQuery() {}
 		PickQuery(uvec4 rect, Ray ray, float fov, float aspect, uint32_t mask)

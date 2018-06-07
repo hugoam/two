@@ -4,15 +4,17 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Reflect/Injector.h>
+#endif
 #include <uio/Generated/Forward.h>
 #include <uio/Unode.h>
 
 namespace mud
 {
-	MUD_UIO_EXPORT void meta_object_creator(Widget& parent);
-	MUD_UIO_EXPORT void object_injector(Widget& parent, Injector& injector);
-	MUD_UIO_EXPORT bool object_creator(Widget& parent, Creator& creator);
+	export_ MUD_UIO_EXPORT void meta_object_creator(Widget& parent);
+	export_ MUD_UIO_EXPORT void object_injector(Widget& parent, Injector& injector);
+	export_ MUD_UIO_EXPORT bool object_creator(Widget& parent, Creator& creator);
 
-	MUD_UIO_EXPORT bool object_creator(Widget& parent, Type& type);
+	export_ MUD_UIO_EXPORT bool object_creator(Widget& parent, Type& type);
 }

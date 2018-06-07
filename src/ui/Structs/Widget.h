@@ -4,15 +4,15 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Graph/Node.h>
 #include <obj/Array.h>
+#include <ctx/ControlNode.h>
+#include <ctx/InputEvent.h>
+#endif
 #include <ui/Generated/Forward.h>
 #include <ui/Frame/Frame.h>
 #include <ui/Widget.h>
-#include <ctx/ControlNode.h>
-#include <ctx/InputEvent.h>
-
-#define MUD_UI_IMMEDIATE
 
 #ifndef MUD_CPP_20
 #include <functional>
@@ -24,7 +24,7 @@ namespace mud
 
 	using FrameFilter = std::function<bool(Frame&)>;
 
-	export_ class _refl_ MUD_UI_EXPORT Widget : public Graph<Widget>, public ControlNode
+	export_ class refl_ MUD_UI_EXPORT Widget : public Graph<Widget>, public ControlNode
 	{
 	public:
 		Widget();
@@ -33,15 +33,15 @@ namespace mud
 
 		VgRenderer& renderer();
 
-		_attr_ bool focused() { return (m_state & FOCUSED) != 0; }
-		_attr_ bool hovered() { return (m_state & HOVERED) != 0; }
-		_attr_ bool pressed() { return (m_state & PRESSED) != 0; }
-		_attr_ bool activated() { return (m_state & ACTIVATED) != 0; }
-		_attr_ bool selected() { return (m_state & SELECTED) != 0; }
-		_attr_ bool modal() { return (m_state & FOCUSED) != 0; }
-		_attr_ bool closed() { return (m_state & CLOSED) != 0; }
+		attr_ bool focused() { return (m_state & FOCUSED) != 0; }
+		attr_ bool hovered() { return (m_state & HOVERED) != 0; }
+		attr_ bool pressed() { return (m_state & PRESSED) != 0; }
+		attr_ bool activated() { return (m_state & ACTIVATED) != 0; }
+		attr_ bool selected() { return (m_state & SELECTED) != 0; }
+		attr_ bool modal() { return (m_state & FOCUSED) != 0; }
+		attr_ bool closed() { return (m_state & CLOSED) != 0; }
 
-		_meth_ Widget& begin();
+		meth_ Widget& begin();
 
 		UiWindow& ui_window();
 		RootSheet& root_sheet();
@@ -79,12 +79,12 @@ namespace mud
 		void receiveEvent(InputEvent& inputEvent);
 		ControlNode* propagateEvent(InputEvent& inputEvent);
 
-		_attr_ Frame m_frame;
+		attr_ Frame m_frame;
 		WidgetState m_state = CREATED;
 		uint32_t m_switch = 0;
-		_attr_ size_t m_index = 0;
-		_attr_ bool m_open = false;
-		_attr_ Widget* m_body = nullptr;
+		attr_ size_t m_index = 0;
+		attr_ bool m_open = false;
+		attr_ Widget* m_body = nullptr;
 		CustomRenderer m_custom_draw = {};
 
 		Widget& layer();
@@ -95,7 +95,7 @@ namespace mud
 
 namespace ui
 {
-	template <class T>
+	export_ template <class T>
 	inline T& twidget(Widget& parent, Style& style, bool open = false, Dim length = DIM_NONE, Dim2<size_t> index = { 0, 0 })
 	{
 		T& self = parent.sub<T>(&style); self.init(style, open, length, index); return self;

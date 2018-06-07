@@ -18,13 +18,13 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_OBJ_EXPORT Indexer
+	export_ class refl_ MUD_OBJ_EXPORT Indexer
 	{
 	public:
 		Indexer(Type& type) : m_type(type), m_objects(1, Ref{ type }), m_count(0), m_next(1) {}
 
-		_attr_ Type& m_type;
-		_attr_ std::vector<Ref> m_objects;
+		attr_ Type& m_type;
+		attr_ std::vector<Ref> m_objects;
 
 		inline Id alloc() { return m_next++; }
 		inline void add(uint32_t id, Ref object) { this->resize(id); m_objects[id] = object; ++m_count; }
@@ -44,12 +44,12 @@ namespace mud
 		size_t m_next;
 	};
 
-	export_ class _refl_ MUD_OBJ_EXPORT Index : public Global<Index>, public NonCopy
+	export_ class refl_ MUD_OBJ_EXPORT Index : public Global<Index>, public NonCopy
 	{
 	public:
-		Index() : m_indexers(MUD_MAX_TYPES) {}
+		Index() : m_indexers(c_max_types) {}
 
-		_meth_ Indexer& indexer(Type& type)
+		meth_ Indexer& indexer(Type& type)
 		{
 			if(!m_indexers[type.m_id])
 				m_indexers[type.m_id] = make_unique<Indexer>(type);
@@ -57,7 +57,7 @@ namespace mud
 		}
 
 #ifdef MUD_META_GENERATOR
-		_attr_ static Index instance;
+		attr_ static Index instance;
 #endif
 
 		std::vector<unique_ptr<Indexer>> m_indexers;
@@ -68,5 +68,5 @@ namespace mud
 	export_ inline uint32_t index(Type& type, Ref object) { return Index::me().indexer(type).index(object); }
 	export_ inline void unindex(Type& type, uint32_t id) { Index::me().indexer(type).remove(id); }
 
-	export_ _func_ inline Ref indexed(Type& type, uint32_t id) { return Index::me().indexer(type).m_objects[id]; }
+	export_ func_ inline Ref indexed(Type& type, uint32_t id) { return Index::me().indexer(type).m_objects[id]; }
 }

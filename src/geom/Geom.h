@@ -4,21 +4,23 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
 #include <math/Math.h>
 #include <math/Colour.h>
+#endif
 #include <geom/Generated/Forward.h>
 
 namespace mud
 {
-	MUD_MATH_EXPORT Aabb transform_aabb(const Aabb& source, const mat4& transform);
-	MUD_MATH_EXPORT Aabb translate_aabb(const Aabb& source, const vec3& offset);
-	MUD_MATH_EXPORT vec2 project_aabb_in_plane(const Plane& plane, const Aabb& aabb);
+	export_ MUD_GEOM_EXPORT Aabb transform_aabb(const Aabb& source, const mat4& transform);
+	export_ MUD_GEOM_EXPORT Aabb translate_aabb(const Aabb& source, const vec3& offset);
+	export_ MUD_GEOM_EXPORT vec2 project_aabb_in_plane(const Plane& plane, const Aabb& aabb);
 
-#define CMP_EPSILON 0.00001f
-#define CMP_EPSILON2 (CMP_EPSILON * CMP_EPSILON)
+	export_ extern MUD_GEOM_EXPORT const float c_cmp_epsilon;
+	export_ extern MUD_GEOM_EXPORT const float c_cmp_epsilon2;
 
-	export_ struct _refl_ Plane
+	export_ struct refl_ Plane
 	{
 		vec3 m_normal;
 		float m_distance;
@@ -29,27 +31,29 @@ namespace mud
 		Plane(const vec3& p1, const vec3& p2, const vec3& p3, Clockwise dir = ANTI_CLOCKWISE);
 	};
 
-	export_ struct _refl_ Plane3
+	export_ struct refl_ Plane3
 	{
 		vec3 m_origin;
 		vec3 m_a;
 		vec3 m_b;
 	};
 
-	export_ struct _refl_ Face3
+	export_ struct refl_ Face3
 	{
 		vec3 m_vertices[3];
 
 		Face3() {}
 		Face3(const vec3& a, const vec3& b, const vec3& c) : m_vertices{ a, b, c } {}
+
+		Face3& operator=(const Face3& other) = default; // @kludge: might be a clang modules bug ?
 	};
 
-	inline float plane_distance_to(const Plane& plane, const vec3& p)
+	export_ inline float plane_distance_to(const Plane& plane, const vec3& p)
 	{
 		return dot(plane.m_normal, p) - plane.m_distance;
 	}
 
-	inline vec3 plane_project(const Plane& plane, const vec3& p)
+	export_ inline vec3 plane_project(const Plane& plane, const vec3& p)
 	{
 		return p - plane.m_normal * plane_distance_to(plane, p);
 	}
@@ -72,7 +76,7 @@ namespace mud
 		, m_distance(dot(m_normal, p1))
 	{}
 
-	inline Plane normalize(const Plane& plane)
+	export_ inline Plane normalize(const Plane& plane)
 	{
 		float l = length(plane.m_normal);
 		if(l == 0)
@@ -80,13 +84,13 @@ namespace mud
 		return{ plane.m_normal / l, plane.m_distance / l };
 	}
 
-	export_ struct _refl_ Segment
+	export_ struct refl_ Segment
 	{
 		vec3 m_start;
 		vec3 m_end;
 	};
 
-	export_ struct _refl_ Ray
+	export_ struct refl_ Ray
 	{
 		vec3 m_start;
 		vec3 m_end;
@@ -94,9 +98,9 @@ namespace mud
 		vec3 m_inv_dir;
 	};
 
-	inline Segment to_segment(const Ray& ray) { return { ray.m_start, ray.m_end }; }
+	export_ inline Segment to_segment(const Ray& ray) { return { ray.m_start, ray.m_end }; }
 
-	struct Plane6
+	export_ struct Plane6
 	{
 		Plane6() {}
 		Plane6(Plane right, Plane left, Plane up, Plane down, Plane near, Plane far) : m_right(right), m_left(left), m_up(up), m_down(down), m_near(near), m_far(far) {}
@@ -105,7 +109,7 @@ namespace mud
 		Plane m_right, m_left, m_up, m_down, m_near, m_far;
 	};
 
-	struct Point8
+	export_ struct Point8
 	{
 		Point8() {}
 		Point8(vec3 a, vec3 b, vec3 c, vec3 d, vec3 e, vec3 f, vec3 g, vec3 h) : m_a(a), m_b(b), m_c(c), m_d(d), m_e(e), m_f(f), m_g(g), m_h(h) {}

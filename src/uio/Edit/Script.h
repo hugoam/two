@@ -4,25 +4,27 @@
 
 #pragma once
 
-#include <uio/Edit/Section.h>
+#ifndef MUD_MODULES
 #include <lang/Script.h>
+#endif
+#include <uio/Edit/Section.h>
 
 namespace mud
 {
-	export_ class _refl_ MUD_UIO_EXPORT ScriptEditor
+	export_ class refl_ MUD_UIO_EXPORT ScriptEditor
 	{
 	public:
 		ScriptEditor();
 		~ScriptEditor();
 
 		std::vector<VisualScript*> m_visual_scripts;
-		std::vector<Script*> m_scripts;
+		std::vector<LuaScript*> m_lua_scripts;
 
 		LuaInterpreter* m_interpreter = nullptr;
 
-		void open(Script& script);
-		Script& create_script(cstring name);
-		void close(Script& script);
+		void open(LuaScript& script);
+		LuaScript& create_script(cstring name);
+		void close(LuaScript& script);
 
 		void open(VisualScript& script);
 		VisualScript& create_visual(cstring name);
@@ -32,8 +34,8 @@ namespace mud
 		virtual void handleRemove(VisualScript& script) { this->close(script); }
 	};
 
-	MUD_UIO_EXPORT void script_edit_output(Widget& parent, LuaInterpreter& lua);
-	MUD_UIO_EXPORT void script_edit_code(Widget& parent, Script& script, ActionList actions = {});
-	MUD_UIO_EXPORT void script_edit(Widget& parent, Script& script, ActionList actions = {});
-	MUD_UIO_EXPORT void script_editor(Widget& parent, ScriptEditor& editor);
+	export_ MUD_UIO_EXPORT void script_edit_output(Widget& parent, LuaInterpreter& lua);
+	export_ MUD_UIO_EXPORT void script_edit_code(Widget& parent, LuaScript& script, ActionList actions = {});
+	export_ MUD_UIO_EXPORT void script_edit(Widget& parent, LuaScript& script, ActionList actions = {});
+	export_ MUD_UIO_EXPORT void script_editor(Widget& parent, ScriptEditor& editor);
 }

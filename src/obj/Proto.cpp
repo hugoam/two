@@ -4,13 +4,7 @@
 
 #include <obj/Config.h>
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.obj;
@@ -24,7 +18,7 @@ namespace mud
 	Prototype::Prototype(const char* name, Type& stem, const std::vector<Type*>& parts)
 		: Type(name, TypeKind::Prototype)
 		, m_stem(stem)
-		, m_hash_parts(MUD_MAX_TYPES)
+		, m_hash_parts(c_max_types)
 	{
 		for(Type* type : parts)
 			this->add_part(*type);

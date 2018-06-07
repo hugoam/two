@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Ref.h>
+#endif
 #include <ui/Generated/Forward.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Container.h>
@@ -13,7 +15,7 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_UI_EXPORT ScrollSheet : public Widget
+	export_ class refl_ MUD_UI_EXPORT ScrollSheet : public Widget
 	{
 	public:
 		ScrollSheet(Widget* parent, void* identity) : Widget(parent, identity) {}
@@ -22,7 +24,7 @@ namespace mud
 
 namespace ui
 {
-	export_ class _refl_ MUD_UI_EXPORT Sequence : public Widget
+	export_ class refl_ MUD_UI_EXPORT Sequence : public Widget
 	{
 	public:
 		Sequence(Widget* parent, void* identity) : Widget(parent, identity) {}
@@ -34,7 +36,7 @@ namespace ui
 	};
 }
 
-	export_ class _refl_ MUD_UI_EXPORT Tabber : public Widget
+	export_ class refl_ MUD_UI_EXPORT Tabber : public Widget
 	{
 	public:
 		Tabber(Widget* parent, void* identity) : Widget(parent, identity) {}
@@ -43,21 +45,21 @@ namespace ui
 		size_t m_active = 0;
 	};
 
-	export_ class _refl_ MUD_UI_EXPORT Expandbox : public Widget
+	export_ class refl_ MUD_UI_EXPORT Expandbox : public Widget
 	{
 	public:
 		Expandbox(Widget* parent, void* identity) : Widget(parent, identity) {}
 		Widget* m_header = nullptr;
 	};
 
-	export_ class _refl_ MUD_UI_EXPORT TreeNode : public Widget
+	export_ class refl_ MUD_UI_EXPORT TreeNode : public Widget
 	{
 	public:
 		TreeNode(Widget* parent, void* identity) : Widget(parent, identity) {}
 		Widget* m_header = nullptr;
 	};
 
-	export_ class _refl_ MUD_UI_EXPORT Table : public Widget
+	export_ class refl_ MUD_UI_EXPORT Table : public Widget
 	{
 	public:
 		Table(Widget* parent, void* identity, array<float> weights);

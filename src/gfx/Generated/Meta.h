@@ -2,17 +2,19 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <gfx/Generated/Module.h>
 
 #include <obj/Any.h>
 #include <obj/Reflect/MetaDecl.h>
 #include <obj/System/System.h>
+#endif
 
 namespace mud
 {
     
 #ifdef MUD_GFX_REFLECTION_IMPL
-    void gfx_meta(Module& m)
+    void mudgfx_meta(Module& m)
     {   
     // Base Types
     
@@ -219,9 +221,9 @@ namespace mud
         static Meta meta = { type<mud::Shading>(), &namspc({ "mud" }), "Shading", sizeof(mud::Shading), TypeClass::Enum };
         static Enum enu = { type<mud::Shading>(),
             true,
-            { "Wireframe", "Unshaded", "Shaded", "Clear" },
-            { 0, 1, 2, 3 },
-            { var(Shading::Wireframe), var(Shading::Unshaded), var(Shading::Shaded), var(Shading::Clear) }
+            { "Wireframe", "Unshaded", "Shaded", "Volume", "Clear" },
+            { 0, 1, 2, 3, 4 },
+            { var(Shading::Wireframe), var(Shading::Unshaded), var(Shading::Shaded), var(Shading::Volume), var(Shading::Clear) }
         };
         meta_enum<mud::Shading>();
     }
@@ -445,6 +447,12 @@ namespace mud
         
         meta_class<mud::AnimationTrack>();
     }
+    
+    
+    
+    
+    
+    
     
     
         
@@ -1089,7 +1097,6 @@ namespace mud
     
     
     
-    
         
     // mud::Material
     {
@@ -1217,7 +1224,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Mesh>(), member_address(&mud::Mesh::m_name), type<mud::strung>(), "name", var(mud::strung()), Member::Value },
+                { type<mud::Mesh>(), member_address(&mud::Mesh::m_name), type<std::string>(), "name", var(std::string()), Member::Value },
                 { type<mud::Mesh>(), member_address(&mud::Mesh::m_index), type<uint16_t>(), "index", var(uint16_t()), Member::Value },
                 { type<mud::Mesh>(), member_address(&mud::Mesh::m_draw_mode), type<mud::DrawMode>(), "draw_mode", var(mud::DrawMode()), Member::Value },
                 { type<mud::Mesh>(), member_address(&mud::Mesh::m_aabb), type<mud::Aabb>(), "aabb", var(mud::Aabb()), Member::Value },
@@ -1260,7 +1267,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Model>(), member_address(&mud::Model::m_name), type<mud::strung>(), "name", var(mud::strung()), Member::Value },
+                { type<mud::Model>(), member_address(&mud::Model::m_name), type<std::string>(), "name", var(std::string()), Member::Value },
                 { type<mud::Model>(), member_address(&mud::Model::m_index), type<uint16_t>(), "index", var(uint16_t()), Member::Value },
                 { type<mud::Model>(), member_address(&mud::Model::m_aabb), type<mud::Aabb>(), "aabb", var(mud::Aabb()), Member::Value },
                 { type<mud::Model>(), member_address(&mud::Model::m_radius), type<float>(), "radius", var(float(0.f)), Member::Value },
@@ -1376,7 +1383,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_name), type<mud::strung>(), "name", var(mud::strung()), Member::Value },
+                { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_name), type<std::string>(), "name", var(std::string()), Member::Value },
                 { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_duration), type<float>(), "duration", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_start_time), type<float>(), "start_time", var(float(0.f)), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_loop), type<bool>(), "loop", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
@@ -1396,7 +1403,7 @@ namespace mud
                 { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_colour), type<mud::ValueTrack<mud::Colour>>(), "colour", var(mud::ValueTrack<mud::Colour>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_scale), type<mud::ValueTrack<float>>(), "scale", var(mud::ValueTrack<float>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_sprite_frame), type<mud::ValueTrack<float>>(), "sprite_frame", var(mud::ValueTrack<float>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_sprite_name), type<mud::strung>(), "sprite_name", var(mud::strung()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_sprite_name), type<std::string>(), "sprite_name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) }
             },
             // methods
             {
@@ -1518,7 +1525,6 @@ namespace mud
     
     
     
-    
         
     // mud::Prefab
     {
@@ -1535,7 +1541,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Prefab>(), member_address(&mud::Prefab::m_name), type<mud::strung>(), "name", var(mud::strung()), Member::Value },
+                { type<mud::Prefab>(), member_address(&mud::Prefab::m_name), type<std::string>(), "name", var(std::string()), Member::Value },
                 { type<mud::Prefab>(), member_address(&mud::Prefab::m_node), type<mud::PrefabNode>(), "node", var(mud::PrefabNode()), Member::Flags(Member::Value|Member::Mutable) }
             },
             // methods
@@ -1663,7 +1669,6 @@ namespace mud
         
         meta_class<mud::Radiance>();
     }
-    
     
     
     
@@ -2134,6 +2139,39 @@ namespace mud
     
     
         
+    // mud::ParticleEmitter
+    {
+        static Meta meta = { type<mud::ParticleEmitter>(), &namspc({ "mud" }), "ParticleEmitter", sizeof(mud::ParticleEmitter), TypeClass::Struct };
+        static Class cls = { type<mud::ParticleEmitter>(),
+            // bases
+            { &type<mud::ParticleGenerator>() },
+            { base_offset<mud::ParticleEmitter, mud::ParticleGenerator>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+                { type<mud::ParticleEmitter>(), [](Ref ref, Ref other) { new(&val<mud::ParticleEmitter>(ref)) mud::ParticleEmitter(val<mud::ParticleEmitter>(other)); } }
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ParticleEmitter>();
+    }
+    
+    
+        
     // mud::BlockCopy
     {
         static Meta meta = { type<mud::BlockCopy>(), &namspc({ "mud" }), "BlockCopy", sizeof(mud::BlockCopy), TypeClass::Object };
@@ -2357,39 +2395,6 @@ namespace mud
         meta_class<mud::RenderTarget>();
     }
     
-    
-        
-    // mud::ParticleEmitter
-    {
-        static Meta meta = { type<mud::ParticleEmitter>(), &namspc({ "mud" }), "ParticleEmitter", sizeof(mud::ParticleEmitter), TypeClass::Struct };
-        static Class cls = { type<mud::ParticleEmitter>(),
-            // bases
-            { &type<mud::ParticleGenerator>() },
-            { base_offset<mud::ParticleEmitter, mud::ParticleGenerator>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<mud::ParticleEmitter>(), [](Ref ref, Ref other) { new(&val<mud::ParticleEmitter>(ref)) mud::ParticleEmitter(val<mud::ParticleEmitter>(other)); } }
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ParticleEmitter>();
-    }
-    
 
     
         m.m_types.push_back(&type<mud::Animated>());
@@ -2465,6 +2470,7 @@ namespace mud
         m.m_types.push_back(&type<mud::UnshadedMaterialBlock>());
         m.m_types.push_back(&type<mud::Viewport>());
         m.m_types.push_back(&type<std::vector<mud::PrefabNode>>());
+        m.m_types.push_back(&type<mud::ParticleEmitter>());
         m.m_types.push_back(&type<mud::BlockCopy>());
         m.m_types.push_back(&type<mud::BlockFilter>());
         m.m_types.push_back(&type<mud::BlockParticles>());
@@ -2472,7 +2478,6 @@ namespace mud
         m.m_types.push_back(&type<mud::BlockSky>());
         m.m_types.push_back(&type<mud::DrawBlock>());
         m.m_types.push_back(&type<mud::RenderTarget>());
-        m.m_types.push_back(&type<mud::ParticleEmitter>());
     
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node(val<mud::Gnode>(args[0]), args[1], val<mud::vec3>(args[2]), val<mud::quat>(args[3]), val<mud::vec3>(args[4]))); };

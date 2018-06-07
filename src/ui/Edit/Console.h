@@ -12,7 +12,7 @@ namespace mud
 {
 namespace ui
 {
-	MUD_UI_EXPORT _func_ Widget& command_line(Widget& parent, string& text, string& command);
-	MUD_UI_EXPORT _func_ Widget& console(Widget& parent, string& feed, string& line, string& command, size_t num_lines = 0);
+	export_ MUD_UI_EXPORT func_ Widget& command_line(Widget& parent, string& text, string& command);
+	export_ MUD_UI_EXPORT func_ Widget& console(Widget& parent, string& feed, string& line, string& command, size_t num_lines = 0);
 }
 }

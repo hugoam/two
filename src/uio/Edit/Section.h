@@ -4,10 +4,12 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Strung.h>
+#include <ui/Structs/Widget.h>
+#endif
 #include <uio/Generated/Forward.h>
 #include <uio/Unode.h>
-#include <ui/Structs/Widget.h>
 
 namespace mud
 {
@@ -15,7 +17,7 @@ namespace mud
 
 	export_ struct MUD_UIO_EXPORT SectionAction
 	{
-		strung m_name;
+		string m_name;
 		Callback m_action;
 	};
 
@@ -27,5 +29,5 @@ namespace mud
 		Widget* m_toolbar = nullptr;
 	};
 
-	MUD_UIO_EXPORT Section& section(Widget& parent, cstring name, const ActionList& actions = {}, bool no_toolbar = false);
+	export_ MUD_UIO_EXPORT Section& section(Widget& parent, cstring name, const ActionList& actions = {}, bool no_toolbar = false);
 }

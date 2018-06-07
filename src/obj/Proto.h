@@ -28,7 +28,7 @@ namespace mud
 			and are not part of the object in itself : they can be here or not here, whereas the parts are always here
 	*/
 
-	export_ class _refl_ MUD_OBJ_EXPORT Prototype : public Type
+	export_ class refl_ MUD_OBJ_EXPORT Prototype : public Type
 	{
 	public:
 		Prototype(const char* name, Type& stem, const std::vector<Type*>& parts);

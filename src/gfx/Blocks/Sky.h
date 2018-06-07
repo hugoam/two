@@ -6,8 +6,6 @@
 
 #include <gfx/Generated/Forward.h>
 #include <gfx/Renderer.h>
-
-#include <gfx/Filter.h>
 #include <gfx/Filter.h>
 
 #ifndef MUD_CPP_20
@@ -16,7 +14,7 @@
 
 namespace mud
 {
-	export_ enum class _refl_ Month : unsigned int
+	export_ enum class refl_ Month : unsigned int
 	{
 		January = 0,
 		February,
@@ -150,7 +148,7 @@ namespace mud
 		void render(Render& render);
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT BlockSky : public GfxBlock
+	export_ class refl_ MUD_GFX_EXPORT BlockSky : public GfxBlock
 	{
 	public:
 		BlockSky(GfxSystem& gfx_system, BlockFilter& filter);

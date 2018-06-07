@@ -4,12 +4,14 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Ref.h>
 #include <obj/Util/Timer.h>
-#include <ui/Generated/Forward.h>
-#include <ui/Structs/Widget.h>
 #include <ctx/InputDispatcher.h>
 #include <ctx/InputDevice.h>
+#endif
+#include <ui/Generated/Forward.h>
+#include <ui/Structs/Widget.h>
 
 namespace mud
 {
@@ -29,7 +31,7 @@ namespace mud
 		DropState m_state = DropState::None;
 	};
 
-	export_ class _refl_ MUD_UI_EXPORT RootSheet : public Widget, public EventDispatcher
+	export_ class refl_ MUD_UI_EXPORT RootSheet : public Widget, public EventDispatcher
 	{
 	public:
 		RootSheet(UiWindow& window);

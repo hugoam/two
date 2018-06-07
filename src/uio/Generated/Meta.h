@@ -2,17 +2,19 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <uio/Generated/Module.h>
 
 #include <obj/Any.h>
 #include <obj/Reflect/MetaDecl.h>
 #include <obj/System/System.h>
+#endif
 
 namespace mud
 {
     
 #ifdef MUD_UIO_REFLECTION_IMPL
-    void uio_meta(Module& m)
+    void muduio_meta(Module& m)
     {   
     // Base Types
     

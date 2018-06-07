@@ -1,50 +1,22 @@
 
 #pragma once
 
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/System/System.h>
+#endif
 
+#ifndef MUD_MODULES
 #include <obj/Generated/Module.h>
+#include <srlz/Generated/Module.h>
 #include <math/Generated/Module.h>
 #include <geom/Generated/Module.h>
+#endif
         
 #include <gfx/Generated/Forward.h>
 #include <gfx/Generated/Types.h>
+#include <gfx/Api.h>
 
-#include <gfx/Animated.h>
-#include <gfx/Animation.h>
-#include <gfx/Asset.h>
-#include <gfx/Asset.impl.h>
-#include <gfx/Camera.h>
-#include <gfx/Draw.h>
-#include <gfx/Effects.h>
-#include <gfx/Filter.h>
-#include <gfx/Frustum.h>
-#include <gfx/Generator.h>
-#include <gfx/Gfx.h>
-#include <gfx/GfxSystem.h>
-#include <gfx/Graph.h>
-#include <gfx/Item.h>
-#include <gfx/Light.h>
-#include <gfx/ManualRender.h>
-#include <gfx/Material.h>
-#include <gfx/Mesh.h>
-#include <gfx/Model.h>
-#include <gfx/Node3.h>
-#include <gfx/Particles.h>
-#include <gfx/Picker.h>
-#include <gfx/Pipeline.h>
-#include <gfx/Prefab.h>
-#include <gfx/Program.h>
-#include <gfx/Renderer.h>
-#include <gfx/RenderTarget.h>
-#include <gfx/Scene.h>
-#include <gfx/Shader.h>
-#include <gfx/Shot.h>
-#include <gfx/Skeleton.h>
-#include <gfx/Texture.h>
-#include <gfx/Uniform.h>
-#include <gfx/Viewport.h>
-#include <gfx/Blocks/Sky.h>
+#include <gfx/Generated/Convert.h>
 
 namespace mud
 {

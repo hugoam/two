@@ -4,9 +4,11 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <gfx/Renderer.h>
 #include <gfx/Program.h>
 #include <gfx/Filter.h>
+#endif
 #include <gfx-pbr/Generated/Forward.h>
 
 namespace mud
@@ -16,16 +18,16 @@ namespace mud
 		GLOW_FILTER_BICUBIC,
 	};
 
-	export_ struct _refl_ MUD_GFX_EXPORT Glow
+	export_ struct refl_ MUD_GFX_PBR_EXPORT Glow
 	{
-		_attr_ _mut_ bool m_enabled = false;
-		_attr_ _mut_ vec4 m_levels_1_4 = Zero4;
-		_attr_ _mut_ vec4 m_levels_5_8 = Zero4;
-		_attr_ _mut_ float m_intensity = 0.8f;
-		_attr_ _mut_ float m_bloom = 0.0f;
-		_attr_ _mut_ float m_bleed_threshold = 1.0f;
-		_attr_ _mut_ float m_bleed_scale = 2.0f;
-		_attr_ _mut_ bool m_bicubic_filter = false;
+		attr_ mut_ bool m_enabled = false;
+		attr_ mut_ vec4 m_levels_1_4 = Zero4;
+		attr_ mut_ vec4 m_levels_5_8 = Zero4;
+		attr_ mut_ float m_intensity = 0.8f;
+		attr_ mut_ float m_bloom = 0.0f;
+		attr_ mut_ float m_bleed_threshold = 1.0f;
+		attr_ mut_ float m_bleed_scale = 2.0f;
+		attr_ mut_ bool m_bicubic_filter = false;
 	};
 
 	struct GlowUniform
@@ -44,7 +46,7 @@ namespace mud
 		bgfx::UniformHandle u_glow_levels_5_8;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT BlockGlow : public GfxBlock
+	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGlow : public GfxBlock
 	{
 	public:
 		BlockGlow(GfxSystem& gfx_system, BlockFilter& filter, BlockBlur& blur);

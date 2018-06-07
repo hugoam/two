@@ -15,26 +15,26 @@ struct dirent;
 
 namespace mud
 {
-	using string = std::string;
+	export_ using string = std::string;
 
 namespace ui
 {
-	struct FileStyles
+	export_ struct FileStyles
 	{
 		FileStyles();
 		Style dir; Style file;
 	};
 
-	MUD_UI_EXPORT FileStyles& file_styles();
+	export_ MUD_UI_EXPORT FileStyles& file_styles();
 
-	MUD_UI_EXPORT _func_ Widget& dir_item(Widget& parent, cstring name);
-	MUD_UI_EXPORT _func_ Widget& file_item(Widget& parent, cstring name);
-	MUD_UI_EXPORT _func_ Widget& file_list(Widget& parent, string& path);
+	export_ MUD_UI_EXPORT func_ Widget& dir_item(Widget& parent, cstring name);
+	export_ MUD_UI_EXPORT func_ Widget& file_item(Widget& parent, cstring name);
+	export_ MUD_UI_EXPORT func_ Widget& file_list(Widget& parent, string& path);
 
-	MUD_UI_EXPORT _func_ Widget& file_browser(Widget& parent, string& path);
+	export_ MUD_UI_EXPORT func_ Widget& file_browser(Widget& parent, string& path);
 
-	MUD_UI_EXPORT _func_ Widget& dir_node(Widget& parent, cstring path, cstring name, bool collapsed);
-	MUD_UI_EXPORT _func_ Widget& file_node(Widget& parent, cstring name);
-	MUD_UI_EXPORT _func_ Widget& file_tree(Widget& parent, cstring path);
+	export_ MUD_UI_EXPORT func_ Widget& dir_node(Widget& parent, cstring path, cstring name, bool collapsed);
+	export_ MUD_UI_EXPORT func_ Widget& file_node(Widget& parent, cstring name);
+	export_ MUD_UI_EXPORT func_ Widget& file_tree(Widget& parent, cstring path);
 }
 }

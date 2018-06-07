@@ -1,19 +1,15 @@
-#ifdef MUD_CPP_20
-#include <cassert>
-#include <cstdint>
-#include <climits>
-#include <cfloat>
-import std.core;
-import std.memory;
-import std.threading;
-import std.regex;
+#include <obj/Cpp20.h>
+
+#ifdef MUD_MODULES
+module mud.math;
+#else
+#include <math/Generated/Module.h>
 #endif
 
-#include <math/Generated/Module.h>
-
 #ifdef MUD_MATH_REFLECT
+#ifndef MUD_MODULES
 #include <math/Generated/Convert.h>
-
+#endif
 #define MUD_MATH_REFLECTION_IMPL
 #include <math/Generated/Meta.h>
 #endif
@@ -25,10 +21,11 @@ namespace mud
 	{
         // ensure dependencies are instantiated
         mudobj::m();
+        mudsrlz::m();
 
 #ifdef MUD_MATH_REFLECT
         // setup reflection meta data
-		math_meta(*this);
+		mudmath_meta(*this);
 #endif
 	}
 }

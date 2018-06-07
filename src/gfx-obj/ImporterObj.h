@@ -1,7 +1,9 @@
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Type.h>
-#include <gfx/Generated/Forward.h>
+#endif
+#include <gfx-obj/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <string>
@@ -14,7 +16,7 @@ namespace mud
 	using string = std::string;
 	using MaterialMap = std::map<string, Material*>;
 
-	class ImporterOBJ
+	export_ class MUD_GFX_OBJ_EXPORT ImporterOBJ
 	{
 	public:
 		ImporterOBJ(GfxSystem& gfx_system);

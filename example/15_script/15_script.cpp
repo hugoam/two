@@ -23,9 +23,9 @@ std::vector<GameObject> create_game_objects(GfxSystem& gfx_system, const std::ve
 	return objects;
 }
 
-static Script create_script()
+static LuaScript create_script()
 {
-	Script script = { "Example Script" };
+	LuaScript script = { "Example Script" };
 	Var test = var(script);
 
 	script.m_script =
@@ -94,7 +94,7 @@ void ex_15_script(Shell& app, Widget& parent, Dockbar& dockbar)
 		}
 
 	static LuaInterpreter lua = { true };
-	static Script script = create_script();
+	static LuaScript script = create_script();
 	script.m_interpreter = &lua;
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))

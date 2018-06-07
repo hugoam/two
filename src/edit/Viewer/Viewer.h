@@ -4,28 +4,30 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Style/Style.h>
-#include <edit/Generated/Types.h>
 #include <gfx/Viewport.h>
 #include <gfx/Picker.h>
 #include <gfx/Camera.h>
 #include <gfx/Scene.h>
 #include <gfx/Graph.h>
 #include <gfx-pbr/Filters/Tonemap.h>
+#endif
+#include <edit/Generated/Forward.h>
 
 namespace mud
 {
-	struct ViewerStyles
+	export_ struct ViewerStyles
 	{
 		ViewerStyles();
 		Style viewer; Style viewer_fixed; Style space_sheet;
 	};
 
-	MUD_GFX_EXPORT ViewerStyles& viewer_styles();
+	export_ MUD_EDIT_EXPORT ViewerStyles& viewer_styles();
 
-	export_ class _refl_ MUD_GFX_EXPORT ViewerController
+	export_ class refl_ MUD_EDIT_EXPORT ViewerController
 	{
 	public:
 		virtual ~ViewerController() {}
@@ -33,22 +35,22 @@ namespace mud
 		virtual void process(Viewer& viewer) = 0;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT Viewer : public Widget
+	export_ class refl_ MUD_EDIT_EXPORT Viewer : public Widget
 	{
 	public:
 		Viewer(Widget* parent, void* identity, Scene& scene);
 		//Viewer(UiWindow& ui_window, Scene& scene);
 		~Viewer();
 
-		_attr_ Scene* m_scene;
+		attr_ Scene* m_scene;
 		GfxContext& m_context;
 
 		Camera m_camera;
-		_attr_ Viewport m_viewport;
+		attr_ Viewport m_viewport;
 		unique_ptr<Picker> m_picker;
 
-		_attr_ vec2 m_position;
-		_attr_ vec2 m_size;
+		attr_ vec2 m_position;
+		attr_ vec2 m_size;
 
 		PickQuery m_pick_query;
 
@@ -70,13 +72,13 @@ namespace mud
 		void pick_rectangle(vec4 rect, std::function<void(array<Item*>)> callback, uint32_t mask = UINT32_MAX);
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT SceneViewer : public Scene, public Viewer
+	export_ class refl_ MUD_EDIT_EXPORT SceneViewer : public Scene, public Viewer
 	{
 	public:
 		SceneViewer(Widget* parent, void* identity);
 	};
 
-	class OrbitController : public ViewerController//, public EventDispatch
+	export_ class OrbitController : public ViewerController//, public EventDispatch
 	{
 	public:
 		OrbitController(Viewer& viewer);
@@ -91,7 +93,7 @@ namespace mud
 		virtual void process(Viewer& viewer);
 	};
 
-	class FreeOrbitController : public OrbitController
+	export_ class FreeOrbitController : public OrbitController
 	{
 	public:
 		FreeOrbitController(Viewer& viewer);
@@ -101,10 +103,10 @@ namespace mud
 
 namespace ui
 {
-	MUD_GFX_EXPORT _func_ Viewer& viewer(Widget& parent, Scene& scene);
-	MUD_GFX_EXPORT _func_ SceneViewer& scene_viewer(Widget& parent, const vec2& size = Zero2);
+	export_ MUD_EDIT_EXPORT func_ Viewer& viewer(Widget& parent, Scene& scene);
+	export_ MUD_EDIT_EXPORT func_ SceneViewer& scene_viewer(Widget& parent, const vec2& size = Zero2);
 
-	MUD_GFX_EXPORT OrbitController& orbit_controller(Viewer& viewer);
-	MUD_GFX_EXPORT FreeOrbitController& free_orbit_controller(Viewer& viewer);
+	export_ MUD_EDIT_EXPORT OrbitController& orbit_controller(Viewer& viewer);
+	export_ MUD_EDIT_EXPORT FreeOrbitController& free_orbit_controller(Viewer& viewer);
 }
 }

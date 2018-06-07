@@ -2,6 +2,7 @@
 	"project": "mudlang.h",
 	"target": "mudlang.h",
 	"sources": [
+		"lang/Api.h",
 		"lang/Lua.h",
 		"lang/Script.h",
 		"lang/Stream.h",

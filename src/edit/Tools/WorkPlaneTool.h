@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	export_ class _refl_ WorkPlaneAction : public EditorAction
+	export_ class refl_ WorkPlaneAction : public EditorAction
 	{
 	public:
 		WorkPlaneAction(Plane& workPlane, const Plane& plane);
@@ -27,7 +27,7 @@ namespace mud
 		Plane m_endPlane;
 	};
 
-	export_ class _refl_ WorkPlaneTool : public Tool
+	export_ class refl_ WorkPlaneTool : public Tool
 	{
 	public:
 		WorkPlaneTool(ToolContext& context, cstring name, const Plane& plane);

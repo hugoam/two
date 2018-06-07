@@ -4,18 +4,20 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
+#endif
 #include <ui/Generated/Forward.h>
 #include <ui/Frame/Dim.h>
 
 namespace mud
 {
-	export_ struct _refl_ MUD_UI_EXPORT UiRect
+	export_ struct refl_ MUD_UI_EXPORT UiRect
 	{
-		_attr_ _mut_ vec2 m_position = Zero2;
-		_attr_ _mut_ vec2 m_size = Zero2;
-		_attr_ _mut_ vec2 m_content = Zero2;
-		_attr_ _mut_ vec2 m_span = Unit2;
-		_attr_ _mut_ float m_scale = 1.f;
+		attr_ mut_ vec2 m_position = Zero2;
+		attr_ mut_ vec2 m_size = Zero2;
+		attr_ mut_ vec2 m_content = Zero2;
+		attr_ mut_ vec2 m_span = Unit2;
+		attr_ mut_ float m_scale = 1.f;
 	};
 }

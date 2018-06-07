@@ -4,13 +4,15 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Colour.h>
 #include <math/Vec.h>
+#endif
 #include <gfx/Generated/Forward.h>
 
 namespace mud
 {
-	export_ enum class _refl_ LightType : unsigned int
+	export_ enum class refl_ LightType : unsigned int
 	{
 		Directional,
 		Point,
@@ -18,14 +20,14 @@ namespace mud
 		Count
 	};
 
-	export_ enum _refl_ ShadowFlags : unsigned int
+	export_ enum refl_ ShadowFlags : unsigned int
 	{
 		CSM_Stabilize = 1 << 0,
 		CSM_Optimize = 1 << 1,
 		CSM_BlendSplits = 1 << 2
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT Light
+	export_ class refl_ MUD_GFX_EXPORT Light
 	{
 	public:
 		Light(Node3& node, LightType type = LightType::Point, bool shadows = false);
@@ -33,32 +35,32 @@ namespace mud
 
 		vec3 direction();
 
-		_attr_ Node3& m_node;
+		attr_ Node3& m_node;
 
-		_attr_ _mut_ LightType m_type = LightType::Point;
-		_attr_ _mut_ bool m_visible = true;
-		_attr_ _mut_ Colour m_colour = Colour::White;
-		_attr_ _mut_ float m_range = 1.f;
-		_attr_ _mut_ float m_energy = 1.f;
-		_attr_ _mut_ float m_specular = 0.5f;
-		_attr_ _mut_ bool m_shadows = false;
-		_attr_ _mut_ Colour m_shadow_colour = Colour::Black;
-		_attr_ _mut_ float m_shadow_range = 100.f;
-		_attr_ _mut_ float m_attenuation = 0.5f;
-		_attr_ _mut_ uint32_t m_layers = 0xFFFFFFFF;
+		attr_ mut_ LightType m_type = LightType::Point;
+		attr_ mut_ bool m_visible = true;
+		attr_ mut_ Colour m_colour = Colour::White;
+		attr_ mut_ float m_range = 1.f;
+		attr_ mut_ float m_energy = 1.f;
+		attr_ mut_ float m_specular = 0.5f;
+		attr_ mut_ bool m_shadows = false;
+		attr_ mut_ Colour m_shadow_colour = Colour::Black;
+		attr_ mut_ float m_shadow_range = 100.f;
+		attr_ mut_ float m_attenuation = 0.5f;
+		attr_ mut_ uint32_t m_layers = 0xFFFFFFFF;
 
-		_attr_ uint32_t m_last_render = 0;
-		_attr_ uint32_t m_last_update = 0;
+		attr_ uint32_t m_last_render = 0;
+		attr_ uint32_t m_last_update = 0;
 
 		// spotlight
-		_attr_ _mut_ float m_spot_angle = 45.f;
-		_attr_ _mut_ float m_spot_attenuation = 0.5f;
+		attr_ mut_ float m_spot_angle = 45.f;
+		attr_ mut_ float m_spot_attenuation = 0.5f;
 
-		_attr_ _mut_ ShadowFlags m_shadow_flags = ShadowFlags(0 | CSM_Optimize);
-		_attr_ _mut_ uint8_t m_shadow_num_splits = 1;
-		_attr_ _mut_ float m_shadow_split_distribution = 0.6f;
+		attr_ mut_ ShadowFlags m_shadow_flags = ShadowFlags(0 | CSM_Optimize);
+		attr_ mut_ uint8_t m_shadow_num_splits = 1;
+		attr_ mut_ float m_shadow_split_distribution = 0.6f;
 
-		_attr_ _mut_ float m_shadow_normal_bias = 0.1f;
-		_attr_ _mut_ float m_shadow_bias = 0.f;
+		attr_ mut_ float m_shadow_normal_bias = 0.1f;
+		attr_ mut_ float m_shadow_bias = 0.f;
 	};
 }

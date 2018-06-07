@@ -12,13 +12,13 @@ namespace mud
 {
 namespace ui
 {
-	MUD_UI_EXPORT void draw_grid(const Frame& frame, const vec4& rect, VgRenderer& renderer);
+	export_ MUD_UI_EXPORT void draw_grid(const Frame& frame, const vec4& rect, VgRenderer& renderer);
 
-	MUD_UI_EXPORT ScrollSheet& scroll_sheet(Widget& parent, Style& style = styles().scrollsheet, Style* surface_style = nullptr);
-	MUD_UI_EXPORT ScrollSheet& scroll_plan(Widget& parent, Style& style = styles().scrollsheet);
+	export_ MUD_UI_EXPORT ScrollSheet& scroll_sheet(Widget& parent, Style& style = styles().scrollsheet, Style* surface_style = nullptr);
+	export_ MUD_UI_EXPORT ScrollSheet& scroll_plan(Widget& parent, Style& style = styles().scrollsheet);
 
-	MUD_UI_EXPORT _func_ Widget& scrollable(Widget& parent);
+	export_ MUD_UI_EXPORT func_ Widget& scrollable(Widget& parent);
 
-	MUD_UI_EXPORT void autofit_scroll_plan(ScrollSheet& scroll_sheet, array<Widget*> elements);
+	export_ MUD_UI_EXPORT void autofit_scroll_plan(ScrollSheet& scroll_sheet, array<Widget*> elements);
 }
 }

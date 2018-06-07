@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <lang/Script.h>
+#endif
 #include <uio/Edit/Section.h>
 
 namespace mud
@@ -12,8 +14,8 @@ namespace mud
 	struct ProcessStructure;
 	struct ProcessConstruct;
 
-	MUD_UIO_EXPORT void process_display(Widget& parent, ProcessDisplay& process);
-	MUD_UIO_EXPORT void process_display_structure(Widget& parent, ProcessStructure& process);
-	MUD_UIO_EXPORT void process_construct(Widget& parent, ProcessConstruct& process);
-	MUD_UIO_EXPORT void visual_script_edit(Widget& parent, VisualScript& script, ActionList actions = {});
+	export_ MUD_UIO_EXPORT void process_display(Widget& parent, ProcessDisplay& process);
+	export_ MUD_UIO_EXPORT void process_display_structure(Widget& parent, ProcessStructure& process);
+	export_ MUD_UIO_EXPORT void process_construct(Widget& parent, ProcessConstruct& process);
+	export_ MUD_UIO_EXPORT void visual_script_edit(Widget& parent, VisualScript& script, ActionList actions = {});
 }

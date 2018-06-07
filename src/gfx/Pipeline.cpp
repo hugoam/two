@@ -2,13 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <gfx/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.gfx;
@@ -20,7 +14,6 @@ module mud.gfx;
 #include <gfx/Filter.h>
 #include <gfx/Asset.h>
 #include <gfx/Generated/Module.h>
-#include <gfx-pbr/Generated/Module.h>
 #endif
 
 namespace mud
@@ -42,87 +35,6 @@ namespace mud
 	array<GfxBlock*> Pipeline::pass_blocks(PassType pass)
 	{
 		return to_array(m_pass_blocks[size_t(pass)]);
-	}
-
-	PipelinePbr::PipelinePbr(GfxSystem& gfx_system)
-		: Pipeline(gfx_system)
-	{
-		// filters
-		BlockFilter& filter = this->add_block<BlockFilter>(gfx_system);
-		BlockCopy& copy = this->add_block<BlockCopy>(gfx_system, filter);
-		BlockBlur& blur = this->add_block<BlockBlur>(gfx_system, filter);
-
-		// pipeline 
-		BlockDepth& depth = this->add_block<BlockDepth>(gfx_system);
-		BlockSky& sky = this->add_block<BlockSky>(gfx_system, filter);
-		BlockRadiance& radiance = this->add_block<BlockRadiance>(gfx_system, filter, copy);
-		BlockShadow& shadow = this->add_block<BlockShadow>(gfx_system, depth);
-		BlockLight& light = this->add_block<BlockLight>(gfx_system, shadow);
-		BlockReflection& reflection = this->add_block<BlockReflection>(gfx_system);
-		//BlockGI& gi = this->add_block<BlockGI>(gfx_system);
-		BlockParticles& particles = this->add_block<BlockParticles>(gfx_system);
-		UNUSED(particles);
-
-		// mrt
-		//BlockSSAO& ssao = this->add_block<BlockSSAO>(gfx_system, filter, blur);
-		//BlockSSR& ssr = this->add_block<BlockSSR>(gfx_system);
-		//BlockSSS& sss = this->add_block<BlockSSS>(gfx_system);
-		BlockResolve& resolve = this->add_block<BlockResolve>(gfx_system, copy);
-
-		// effects
-		BlockDofBlur& dof_blur = this->add_block<BlockDofBlur>(gfx_system, filter);
-		//BlockExposure& exposure = this->add_block<BlockExposure>(gfx_system);
-		BlockGlow& glow = this->add_block<BlockGlow>(gfx_system, filter, blur);
-		BlockTonemap& tonemap = this->add_block<BlockTonemap>(gfx_system, filter);
-
-		m_pass_blocks[size_t(PassType::Depth)] = { &depth };
-		m_pass_blocks[size_t(PassType::Unshaded)] = { &depth };
-		m_pass_blocks[size_t(PassType::Background)] = { &sky };
-		m_pass_blocks[size_t(PassType::Opaque)] = { &radiance, &light, &shadow, &reflection };
-		m_pass_blocks[size_t(PassType::Alpha)] = { &radiance, &light, &shadow, &reflection };
-		m_pass_blocks[size_t(PassType::Effects)] = { /*&ssao, &ssr, &sss,*/ &resolve };
-		m_pass_blocks[size_t(PassType::PostProcess)] = { &dof_blur/*, &exposure*/, &glow, &tonemap };
-
-		gfx_system.programs().create("unshaded", [&](Program& program) { program.register_blocks(this->pass_blocks(PassType::Unshaded)); });
-		gfx_system.programs().create("depth", [&](Program& program) { program.register_blocks(this->pass_blocks(PassType::Depth)); });
-		gfx_system.programs().create("pbr/pbr", [&](Program& program) { program.register_blocks(this->pass_blocks(PassType::Opaque)); });
-	};
-
-	MainRenderer::MainRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline)
-	{
-		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
-		this->add_pass<PassClear>(gfx_system);
-		//this->add_pass<PassDepth>(gfx_system, *pipeline.block<BlockDepth>());
-		this->add_pass<PassOpaque>(gfx_system);
-		this->add_pass<PassBackground>(gfx_system);
-		this->add_pass<PassParticles>(gfx_system);
-		this->add_pass<PassAlpha>(gfx_system);
-		this->add_pass<PassUnshaded>(gfx_system);
-		this->add_pass<PassEffects>(gfx_system);
-		this->add_pass<PassPostProcess>(gfx_system, *pipeline.block<BlockCopy>());
-		//this->add_pass<PassFlip>(gfx_system);
-		this->init();
-	}
-
-	ShadowRenderer::ShadowRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline)
-	{
-		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassShadow>(gfx_system, *pipeline.block<BlockDepth>(), *pipeline.block<BlockShadow>());
-		this->init();
-	}
-
-	ReflectionRenderer::ReflectionRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline)
-	{
-		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassOpaque>(gfx_system);
-		this->add_pass<PassBackground>(gfx_system);
-		this->add_pass<PassParticles>(gfx_system);
-		this->add_pass<PassAlpha>(gfx_system);
-		this->add_pass<PassFlip>(gfx_system, *pipeline.block<BlockCopy>());
-		this->init();
 	}
 
 	MinimalRenderer::MinimalRenderer(GfxSystem& gfx_system, Pipeline& pipeline)

@@ -1,7 +1,7 @@
 -- mud library
--- lua dependency
+-- lua 3rdparty module
 
-project "lua"
+lua = mud_dep(nil, "lua")
 	kind "StaticLib"
     
 	includedirs {

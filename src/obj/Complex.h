@@ -14,15 +14,15 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_OBJ_EXPORT Complex
+	export_ class refl_ MUD_OBJ_EXPORT Complex
 	{
 	public:
 		Complex(Id id, Type& type, Prototype& prototype);
 		virtual ~Complex();
 
-		_attr_ Id m_id;
-		_attr_ Type& m_type;
-		_attr_ Prototype& m_prototype;
+		attr_ Id m_id;
+		attr_ Type& m_type;
+		attr_ Prototype& m_prototype;
 
 		Construct* m_construct;
 		std::vector<void*> m_parts;
@@ -43,7 +43,7 @@ namespace mud
 	export_ template <class T>
 	inline bool isa(Complex& complex) { return is<T>(complex) || complex.has_part(type<T>()); }
 
-	export_ class _refl_ MUD_OBJ_EXPORT Construct
+	export_ class refl_ MUD_OBJ_EXPORT Construct
 	{
 	public:
 		Construct(Complex& stem, Prototype& prototype);
@@ -55,7 +55,7 @@ namespace mud
 			swallow { (m_stem.add_part(type<typename type_class<T_Parts>::type>(), &parts), 1)... };
 		}
 
-		_attr_ Type& m_type;
+		attr_ Type& m_type;
 		Complex& m_stem;
 		Prototype& m_prototype;
 	};

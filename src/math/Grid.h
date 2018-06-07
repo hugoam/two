@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Limits.h>
+#endif
 #include <math/Generated/Forward.h>
 #include <math/Vec.h>
 
@@ -16,7 +18,7 @@
 
 namespace mud
 {
-	class Grid3
+	export_ class Grid3
 	{
 	public:
 		struct Dim
@@ -41,7 +43,7 @@ namespace mud
 		};
 	};
 
-	template <class T_Array>
+	export_ template <class T_Array>
 	class Grided : public T_Array, public Grid3
 	{
 	public:
@@ -208,15 +210,15 @@ namespace mud
 		std::array<Dim, 6> m_dims;
 	};
 
-	template <class T_Element>
-	export_ struct _refl_ _struct_ Grid : public Grided<std::vector<T_Element>>
+	export_ template <class T_Element>
+	struct refl_ struct_ Grid : public Grided<std::vector<T_Element>>
 	{
 		using Grided<std::vector<T_Element>>::Grided;
 	};
 
 
-	template <class T_Element>
-	export_ struct _refl_ _struct_ array_3d : public std::vector<T_Element>
+	export_ template <class T_Element>
+	struct refl_ struct_ array_3d : public std::vector<T_Element>
 	{
 	public:
 		typedef T_Element T;
@@ -270,6 +272,6 @@ namespace mud
 		size_t m_x, m_y, m_z;
 	};
 
-	MUD_MATH_EXPORT _func_ void grid(uvec3 size, std::vector<uvec3>& output_coords);
-	MUD_MATH_EXPORT _func_ void grid_center(uvec3 coord, float cell_size, vec3& output_center);
+	export_ MUD_MATH_EXPORT func_ void grid(uvec3 size, std::vector<uvec3>& output_coords);
+	export_ MUD_MATH_EXPORT func_ void grid_center(uvec3 coord, float cell_size, vec3& output_center);
 }

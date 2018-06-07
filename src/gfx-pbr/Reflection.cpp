@@ -2,20 +2,19 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <cstdint>
-import std.core;
-import std.memory;
-#endif
+#include <gfx/Cpp20.h>
+
+#include <bgfx/bgfx.h>
 
 #ifdef MUD_MODULES
-module mud.gfx-pbr;
+module mud.gfx.pbr;
 #else
 #include <obj/Vector.h>
 #include <gfx/Shot.h>
 #include <gfx/RenderTarget.h>
 #include <gfx/ManualRender.h>
 #include <gfx/Scene.h>
+#include <gfx/GfxSystem.h>
 #include <gfx-pbr/Generated/Types.h>
 #include <gfx-pbr/Reflection.h>
 #endif
@@ -141,9 +140,11 @@ namespace mud
 			mat4 transform = probe.m_node.transform() * bxlookat(Zero3, view_normal[i], view_up[i]);
 			mat4 projection = bxproj(90.f, 1.f, 0.01f, range, bgfx::getCaps()->homogeneousDepth);
 
+			Renderer& renderer = m_gfx_system.renderer(Shading::Volume);
+
 			ManualRender probe_render = { render, cubemap.m_fbo[i], uvec4(Rect4), transform, projection };
 			probe_render.cull();
-			probe_render.render();
+			probe_render.render(renderer);
 		}
 	}
 

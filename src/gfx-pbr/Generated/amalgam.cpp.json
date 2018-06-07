@@ -4,6 +4,7 @@
 	"sources": [
 		"gfx-pbr/Depth.cpp",
 		"gfx-pbr/Light.cpp",
+		"gfx-pbr/Pipeline.cpp",
 		"gfx-pbr/Radiance.cpp",
 		"gfx-pbr/Reflection.cpp",
 		"gfx-pbr/ReflectionAtlas.cpp",
@@ -23,6 +24,7 @@
     "includes_map": {
 		"gfxpbr/": "mudgfxpbr.h",
 		"obj/": "mudobj.h",
+		"srlz/": "mudsrlz.h",
 		"math/": "mudmath.h",
 		"geom/": "mudgeom.h",
 		"gfx/": "mudgfx.h"

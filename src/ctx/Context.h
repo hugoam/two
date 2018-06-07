@@ -4,17 +4,19 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/NonCopy.h>
 #include <obj/Unique.h>
 #include <obj/Strung.h>
 #include <math/Vec.h>
+#endif
 #include <ctx/Generated/Forward.h>
 
 namespace mud
 {
 	class VgRenderer;
 
-	export_ class _refl_ MUD_CTX_EXPORT RenderSystem
+	export_ class refl_ MUD_CTX_EXPORT RenderSystem
 	{
 	public:
 		RenderSystem(cstring resource_path, bool manual_render);
@@ -24,20 +26,20 @@ namespace mud
 		virtual object_ptr<Context> create_context(cstring name, int width, int height, bool fullScreen) = 0;
 		virtual object_ptr<VgRenderer> create_renderer(Context& context) = 0;
 
-		const strung m_resource_path;
+		const string m_resource_path;
 		const bool m_manual_render;
 	};
 
-	export_ class _refl_ MUD_CTX_EXPORT Context : public NonCopy
+	export_ class refl_ MUD_CTX_EXPORT Context : public NonCopy
 	{
 	public:
 		Context(RenderSystem& render_system, cstring title, int width, int height, bool full_screen = false);
 		virtual ~Context();
 
 		RenderSystem& m_render_system;
-		const strung m_resource_path;
+		const string m_resource_path;
 
-		strung m_title;
+		string m_title;
 		unsigned int m_width;
 		unsigned int m_height;
 		bool m_full_screen;

@@ -3,6 +3,7 @@
 	"target": "muduio.cpp",
 	"sources": [
 		"uio/Dropper.cpp",
+		"uio/Object.cpp",
 		"uio/Unode.cpp",
 		"uio/Edit/Canvas.cpp",
 		"uio/Edit/Indexer.cpp",

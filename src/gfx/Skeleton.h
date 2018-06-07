@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Node3.h>
 #include <gfx/Animation.h>
@@ -22,7 +24,7 @@ namespace mud
 {
 	using string = std::string;
 
-	export_ struct _refl_ MUD_GFX_EXPORT Bone
+	export_ struct refl_ MUD_GFX_EXPORT Bone
 	{
 		Bone() {}
 		Bone(cstring name, int index, int parent = -1) : m_name(name), m_index(index), m_parent(parent) {}
@@ -31,9 +33,9 @@ namespace mud
 		int m_index = 0;
 		int m_parent = -1;
 
-		_attr_ _mut_ vec3 m_position = Zero3;
-		_attr_ _mut_ quat m_rotation = ZeroQuat;
-		_attr_ _mut_ vec3 m_scale = Unit3;
+		attr_ mut_ vec3 m_position = Zero3;
+		attr_ mut_ quat m_rotation = ZeroQuat;
+		attr_ mut_ vec3 m_scale = Unit3;
 
 		mat4 m_pose_local;
 		mat4 m_pose;
@@ -41,7 +43,7 @@ namespace mud
 		std::vector<Node3*> m_attached_nodes;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT Skeleton
+	export_ class refl_ MUD_GFX_EXPORT Skeleton
 	{
 	public:
 		Skeleton();
@@ -55,14 +57,14 @@ namespace mud
 		std::vector<Bone> m_bones;
 	};
 
-	export_ struct _refl_ MUD_GFX_EXPORT Joint
+	export_ struct refl_ MUD_GFX_EXPORT Joint
 	{
 		size_t m_bone;
 		mat4 m_inverse_bind;
 		mat4 m_joint;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT Skin
+	export_ class refl_ MUD_GFX_EXPORT Skin
 	{
 	public:
 		Skin(Skeleton& skeleton, int num_joints);
@@ -79,7 +81,7 @@ namespace mud
 		std::vector<Joint> m_joints;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT Rig
+	export_ class refl_ MUD_GFX_EXPORT Rig
 	{
 	public:
 		Rig();

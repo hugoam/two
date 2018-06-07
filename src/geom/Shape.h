@@ -4,38 +4,41 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Unique.h>
 #include <math/Vec.h>
+#endif
 #include <geom/Generated/Forward.h>
 
 namespace mud
 {
-	export_ class _refl_ MUD_MATH_EXPORT Shape
+	export_ class refl_ MUD_GEOM_EXPORT Shape
 	{
 	public:
 		Shape(Type& type) : m_type(type), m_center(Zero3) {}
 		Shape(Type& type, const vec3& center) : m_type(type), m_center(center) {}
+		virtual ~Shape() {}
 
 		Shape(const Shape& other) : m_type(other.m_type) { *this = other; }
 		Shape& operator=(const Shape& other) { m_center = other.m_center; return *this; }
 
-		_attr_ Type& m_type;
+		attr_ Type& m_type;
 		// @todo add this to reflection need to fix serialization (must either be an argument of child constructors or init members directly)
 		vec3 m_center;
 
 		virtual object_ptr<Shape> clone() const = 0;
 	};
 
-	export_ struct _refl_ MUD_MATH_EXPORT ShapeVar
+	export_ struct refl_ MUD_GEOM_EXPORT ShapeVar
 	{
 	public:
-		_constr_ ShapeVar() : m_shape() {}
-		_constr_ ShapeVar(const Shape& shape) : m_shape(shape.clone()) {}
+		constr_ ShapeVar() : m_shape() {}
+		constr_ ShapeVar(const Shape& shape) : m_shape(shape.clone()) {}
 
 		ShapeVar(const ShapeVar& other) { *this = other; }
 		ShapeVar& operator=(const ShapeVar& other) { if(other.m_shape) m_shape = other.m_shape->clone(); return *this; }
 
-		_attr_ Shape& shape() { return *m_shape; }
+		attr_ Shape& shape() { return *m_shape; }
 
 		operator Shape&() { return *m_shape; }
 		operator const Shape&() const { return *m_shape; }

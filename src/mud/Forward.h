@@ -2,7 +2,7 @@
 
 #include <obj/Generated/Forward.h>
 #include <math/Generated/Forward.h>
-#include <gen/Generated/Forward.h>
+#include <procgen/Generated/Forward.h>
 #include <lang/Generated/Forward.h>
 #include <ui/Generated/Forward.h>
 #include <uio/Generated/Forward.h>

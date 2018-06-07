@@ -8,36 +8,36 @@
 
 using namespace mud;
 
-export enum class _refl_ ShapeType : unsigned int
+export_ enum class refl_ ShapeType : unsigned int
 {
 	Circle,
 	Sphere,
 	Cube
 };
 
-export class _refl_ MyObject
+export_ class refl_ MyObject
 {
 public:
-	_constr_ MyObject(ShapeType shape, Colour colour);
+	constr_ MyObject(ShapeType shape, Colour colour);
 	MyObject() {}
 
-	_meth_ int method();
+	meth_ int method();
 
 	// simple types
-	_attr_ _mut_ bool m_visible = true;
-	_attr_ _mut_ int m_number = 0;
-	_attr_ _mut_ std::string m_name = "";
+	attr_ mut_ bool m_visible = true;
+	attr_ mut_ int m_number = 0;
+	attr_ mut_ std::string m_name = "";
 
 	// advanced types
-	_attr_ _mut_ ShapeType m_shape = ShapeType::Sphere;
-	_attr_ _mut_ mud::vec3 m_position = Zero3;
-	_attr_ _mut_ mud::Colour m_colour = Colour::Pink;
+	attr_ mut_ ShapeType m_shape = ShapeType::Sphere;
+	attr_ mut_ mud::vec3 m_position = Zero3;
+	attr_ mut_ mud::Colour m_colour = Colour::Pink;
 
 	// vector types
-	_attr_ _mut_ std::vector<float> m_floats;
+	attr_ mut_ std::vector<float> m_floats;
 };
 
-_func_ void foo(int arg);
-_func_ void bar(MyObject& object);
+func_ void foo(int arg);
+func_ void bar(MyObject& object);
 
 void ex_00_tutorial_pump(Shell& app, Widget& parent, Dockbar& dockbar);

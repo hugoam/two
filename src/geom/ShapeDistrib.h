@@ -4,9 +4,11 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Util/Dispatch.h>
 #include <obj/Util/Global.h>
 #include <math/Vec.h>
+#endif
 #include <geom/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
@@ -15,11 +17,11 @@
 
 namespace mud
 {
-	export_ class MUD_MATH_EXPORT RandomShapePoint : public Dispatch<vec3>, public LazyGlobal<RandomShapePoint>
+	export_ class MUD_GEOM_EXPORT RandomShapePoint : public Dispatch<vec3>, public LazyGlobal<RandomShapePoint>
 	{
 	public:
 		RandomShapePoint();
 	};
 
-	MUD_MATH_EXPORT std::vector<vec3> distribute_shape(const Shape& shape, size_t count);
+	export_ MUD_GEOM_EXPORT std::vector<vec3> distribute_shape(const Shape& shape, size_t count);
 }

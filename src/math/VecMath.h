@@ -22,7 +22,7 @@
 #define MATH_fE 2.71828174591064453125f
 #define MATH_dE 2.718281828459045090795598298427648842334747314453125
 
-#define MUD_VEC_FUN MUD_MATH_EXPORT
+#define MUD_VEC_FUN export_ MUD_MATH_EXPORT
 
 namespace mud
 {
@@ -45,26 +45,26 @@ namespace mud
 	using std::ceil;
 
 	// A 16-bit floating point number
-	export_ struct _refl_ _struct_ _array_ half
+	export_ struct refl_ struct_ array_ half
 	{
 		u16 x;
 	};
-	export_ struct _refl_ _struct_ _array_ half2
+	export_ struct refl_ struct_ array_ half2
 	{
 		u16 x, y;
 	};
-	export_ struct _refl_ _struct_ _array_ half3
+	export_ struct refl_ struct_ array_ half3
 	{
 		u16 x, y, z;
 	};
-	export_ struct _refl_ _struct_ _array_ half4
+	export_ struct refl_ struct_ array_ half4
 	{
 		u16 x, y, z, w;
 	};
 
 /*$pycgen
 	tuple2 = """
-	export_ struct _refl_ _struct_ _array_ T2
+	export_ struct refl_ struct_ array_ T2
 	{
 		typedef T type;
 		T2() { }
@@ -79,13 +79,13 @@ namespace mud
 		//T x, y;
 		union {
 			T f[2];
-			struct { _attr_ T x; _attr_ T y; };
+			struct { attr_ T x; attr_ T y; };
 		};
 	};
 	"""
 
 	tuple3 = """
-	export_ struct _refl_ _struct_ _array_ T3
+	export_ struct refl_ struct_ array_ T3
 	{
 		typedef T type;
 		typedef T2 type2;
@@ -101,13 +101,13 @@ namespace mud
 		//T x, y, z;
 		union {
 			T f[3];
-			struct { _attr_ T x; _attr_ T y; _attr_ T z; };
+			struct { attr_ T x; attr_ T y; attr_ T z; };
 		};
 	};
 	"""
 
 	tuple4 = """
-	export_ struct _refl_ _struct_ _array_ T4
+	export_ struct refl_ struct_ array_ T4
 	{
 		typedef T type;
 		typedef T2 type2;
@@ -126,7 +126,7 @@ namespace mud
 		//T x, y, z, w;
 		union {
 			T f[4];
-			struct { _attr_ T x; _attr_ T y; _attr_ T z; _attr_ T w; };
+			struct { attr_ T x; attr_ T y; attr_ T z; attr_ T w; };
 		};
 	};
 	"""
@@ -136,7 +136,7 @@ namespace mud
 	EmitRepl(tuple4, "T:" + vector_types)
 */
 //$pycgen-begin
-	export_ struct _refl_ _struct_ _array_ float2
+	export_ struct refl_ struct_ array_ float2
 	{
 		typedef float type;
 		float2() { }
@@ -151,10 +151,10 @@ namespace mud
 		//float x, y;
 		union {
 			float f[2];
-			struct { _attr_ float x; _attr_ float y; };
+			struct { attr_ float x; attr_ float y; };
 		};
 	};
-	export_ struct _refl_ _struct_ _array_ int2
+	export_ struct refl_ struct_ array_ int2
 	{
 		typedef int type;
 		int2() { }
@@ -169,10 +169,10 @@ namespace mud
 		//int x, y;
 		union {
 			int f[2];
-			struct { _attr_ int x; _attr_ int y; };
+			struct { attr_ int x; attr_ int y; };
 		};
 	};
-	export_ struct _refl_ _struct_ _array_ uint2
+	export_ struct refl_ struct_ array_ uint2
 	{
 		typedef uint type;
 		uint2() { }
@@ -187,10 +187,10 @@ namespace mud
 		//uint x, y;
 		union {
 			uint f[2];
-			struct { _attr_ uint x; _attr_ uint y; };
+			struct { attr_ uint x; attr_ uint y; };
 		};
 	};
-	export_ struct _refl_ _struct_ _array_ bool2
+	export_ struct refl_ struct_ array_ bool2
 	{
 		typedef bool type;
 		bool2() { }
@@ -205,10 +205,10 @@ namespace mud
 		//bool x, y;
 		union {
 			bool f[2];
-			struct { _attr_ bool x; _attr_ bool y; };
+			struct { attr_ bool x; attr_ bool y; };
 		};
 	};
-	export_ struct _refl_ _struct_ _array_ float3
+	export_ struct refl_ struct_ array_ float3
 	{
 		typedef float type;
 		typedef float2 type2;
@@ -224,10 +224,10 @@ namespace mud
 		//float x, y, z;
 		union {
 			float f[3];
-			struct { _attr_ float x; _attr_ float y; _attr_ float z; };
+			struct { attr_ float x; attr_ float y; attr_ float z; };
 		};
 	};
-	export_ struct _refl_ _struct_ _array_ int3
+	export_ struct refl_ struct_ array_ int3
 	{
 		typedef int type;
 		typedef int2 type2;
@@ -243,10 +243,10 @@ namespace mud
 		//int x, y, z;
 		union {
 			int f[3];
-			struct { _attr_ int x; _attr_ int y; _attr_ int z; };
+			struct { attr_ int x; attr_ int y; attr_ int z; };
 		};
 	};
-	export_ struct _refl_ _struct_ _array_ uint3
+	export_ struct refl_ struct_ array_ uint3
 	{
 		typedef uint type;
 		typedef uint2 type2;
@@ -262,10 +262,10 @@ namespace mud
 		//uint x, y, z;
 		union {
 			uint f[3];
-			struct { _attr_ uint x; _attr_ uint y; _attr_ uint z; };
+			struct { attr_ uint x; attr_ uint y; attr_ uint z; };
 		};
 	};
-	export_ struct _refl_ _struct_ _array_ bool3
+	export_ struct refl_ struct_ array_ bool3
 	{
 		typedef bool type;
 		typedef bool2 type2;
@@ -281,10 +281,10 @@ namespace mud
 		//bool x, y, z;
 		union {
 			bool f[3];
-			struct { _attr_ bool x; _attr_ bool y; _attr_ bool z; };
+			struct { attr_ bool x; attr_ bool y; attr_ bool z; };
 		};
 	};
-	export_ struct _refl_ _struct_ _array_ float4
+	export_ struct refl_ struct_ array_ float4
 	{
 		typedef float type;
 		typedef float2 type2;
@@ -303,10 +303,10 @@ namespace mud
 		//float x, y, z, w;
 		union {
 			float f[4];
-			struct { _attr_ float x; _attr_ float y; _attr_ float z; _attr_ float w; };
+			struct { attr_ float x; attr_ float y; attr_ float z; attr_ float w; };
 		};
 	};
-	export_ struct _refl_ _struct_ _array_ int4
+	export_ struct refl_ struct_ array_ int4
 	{
 		typedef int type;
 		typedef int2 type2;
@@ -325,10 +325,10 @@ namespace mud
 		//int x, y, z, w;
 		union {
 			int f[4];
-			struct { _attr_ int x; _attr_ int y; _attr_ int z; _attr_ int w; };
+			struct { attr_ int x; attr_ int y; attr_ int z; attr_ int w; };
 		};
 	};
-	export_ struct _refl_ _struct_ _array_ uint4
+	export_ struct refl_ struct_ array_ uint4
 	{
 		typedef uint type;
 		typedef uint2 type2;
@@ -347,10 +347,10 @@ namespace mud
 		//uint x, y, z, w;
 		union {
 			uint f[4];
-			struct { _attr_ uint x; _attr_ uint y; _attr_ uint z; _attr_ uint w; };
+			struct { attr_ uint x; attr_ uint y; attr_ uint z; attr_ uint w; };
 		};
 	};
-	export_ struct _refl_ _struct_ _array_ bool4
+	export_ struct refl_ struct_ array_ bool4
 	{
 		typedef bool type;
 		typedef bool2 type2;
@@ -369,29 +369,29 @@ namespace mud
 		//bool x, y, z, w;
 		union {
 			bool f[4];
-			struct { _attr_ bool x; _attr_ bool y; _attr_ bool z; _attr_ bool w; };
+			struct { attr_ bool x; attr_ bool y; attr_ bool z; attr_ bool w; };
 		};
 	};
 //$pycgen-end
 
-	template <class T> inline typename T::type* value_ptr(T& v) { return &v[0]; }
-	template <class T> inline typename const T::type* value_ptr(const T& v) { return &v.f[0]; }
+	export_ template <class T> inline typename T::type* value_ptr(T& v) { return &v[0]; }
+	export_ template <class T> inline const typename T::type* value_ptr(const T& v) { return &v.f[0]; }
 
 	// Experimental swizzling
-	template <typename T> inline typename T::type2 xy(const T& v)
+	export_ template <typename T> inline typename T::type2 xy(const T& v)
 	{
 		return typename T::type2(v.x, v.y);
 	}
-	template <typename T> inline typename T::type2 xz(const T& v)
+	export_ template <typename T> inline typename T::type2 xz(const T& v)
 	{
 		return typename T::type2(v.x, v.z);
 	}
 	// These alias instead of constructing another variable, allowing modification
-	template <typename T> inline const typename T::type3& xyz(const T& v)
+	export_ template <typename T> inline const typename T::type3& xyz(const T& v)
 	{
 		return (typename T::type3&)v;
 	}
-	template <typename T> inline typename T::type3& xyz(T& v)
+	export_ template <typename T> inline typename T::type3& xyz(T& v)
 	{
 		return (typename T::type3&)v;
 	}
@@ -1241,7 +1241,7 @@ namespace mud
 	//
 	// Single precision 3x3 matrix
 	//
-	export_ struct _refl_ _struct_ _array_ mat3
+	export_ struct refl_ struct_ array_ mat3
 	{
 		typedef float type;
 		mat3() { }
@@ -1264,7 +1264,7 @@ namespace mud
 		union
 		{
 			float m[3][3];
-			_attr_ float f[9];
+			attr_ float f[9];
 		};
 	};
 
@@ -1274,7 +1274,7 @@ namespace mud
 	// Double precision 3x3 matrix
 	// C++ only
 	//
-	export_ struct _refl_ _struct_ _array_ mat3d
+	export_ struct refl_ struct_ array_ mat3d
 	{
 		typedef double type;
 		mat3d() { }
@@ -1297,7 +1297,7 @@ namespace mud
 		union
 		{
 			double m[3][3];
-			_attr_ double f[9];
+			attr_ double f[9];
 		};
 	};
 #endif
@@ -1305,7 +1305,7 @@ namespace mud
 	//
 	// Single precision 4x4 matrix
 	//
-	export_ struct _refl_ _struct_ _array_ mat4
+	export_ struct refl_ struct_ array_ mat4
 	{
 		typedef float type;
 		mat4() {}
@@ -1338,7 +1338,7 @@ namespace mud
 		union
 		{
 			float m[4][4];
-			_attr_ float f[16];
+			attr_ float f[16];
 		};
 	};
 
@@ -1346,7 +1346,7 @@ namespace mud
 	//
 	// Single precision quaternion
 	//
-	export_ struct _refl_ _struct_ _array_ quat : public float4
+	export_ struct refl_ struct_ array_ quat : public float4
 	{
 		typedef float type;
 		quat() { }
@@ -1364,9 +1364,9 @@ namespace mud
 		}
 	};
 
-	template <> inline float* value_ptr(mat4& m) { return &m[0][0]; }
-	template <> inline const float* value_ptr(const mat4& m) { return &m.f[0]; }
-	template <> inline float* value_ptr(quat& q) { return &q[0]; }
+	export_ template <> inline float* value_ptr(mat4& m) { return &m[0][0]; }
+	export_ template <> inline const float* value_ptr(const mat4& m) { return &m.f[0]; }
+	export_ template <> inline float* value_ptr(quat& q) { return &q[0]; }
 
 	//
 	// Quaternion functions
@@ -1406,19 +1406,19 @@ namespace mud
 	//quat qMultiplyPure(const quat& a, const float3& b);
 	//quat qRotationBetween(float3 v0, float3 v1);
 
-	inline float3 rotate(const quat& q, const float3& v) { return q * v; }
+	export_ inline float3 rotate(const quat& q, const float3& v) { return q * v; }
 
-	inline quat axis_angle(const float3& v, float a)
+	export_ inline quat axis_angle(const float3& v, float a)
 	{
 		const float s = sin(a * float(0.5));
 		return quat(v.x * s, v.y * s, v.z * s, cos(a * float(0.5)));
 	}
 
-	inline quat angle_axis(float a, const float3& v) { return axis_angle(v, a); }
-	inline quat rotate(const quat& q, float a, const float3& v) { return q * angle_axis(a, v); }
-	inline quat rotate(const quat& q, const float3& v, float a) { return q * axis_angle(v, a); }
+	export_ inline quat angle_axis(float a, const float3& v) { return axis_angle(v, a); }
+	export_ inline quat rotate(const quat& q, float a, const float3& v) { return q * angle_axis(a, v); }
+	export_ inline quat rotate(const quat& q, const float3& v, float a) { return q * axis_angle(v, a); }
 
-	inline float2 rotate(const float2& v, float a)
+	export_ inline float2 rotate(const float2& v, float a)
 	{
 		const float c = cos(a);
 		const float s = sin(a);
@@ -1433,7 +1433,7 @@ namespace mud
 	MUD_VEC_FUN mat4 operator*(const mat4& m0, const mat4& m1);
 	MUD_VEC_FUN float4 operator*(const mat4& m, const float4& v);
 
-#if MUD_NOT_IMPLEMENTED
+#if 0 // not implemented
 	// For float->float16 conversion
 	half float_to_half(float f);
 	float half_to_float(const half& h);
@@ -1518,7 +1518,7 @@ double3 float3_to_double3(const float3& v);
 	//
 	// Single precision dual quaternion
 	//
-	export_ struct _refl_ _struct_ _array_ dualquat
+	export_ struct refl_ struct_ array_ dualquat
 	{
 		quat r;
 		quat d;
@@ -1528,12 +1528,12 @@ double3 float3_to_double3(const float3& v);
 	//
 	// This is an affine frame with origin and basis as rotation operator
 	//
-	export_ struct _refl_ _struct_ _array_ frame
+	export_ struct refl_ struct_ array_ frame
 	{
 		quat rotation;
 		float3 position;
 	};
-	export_ struct _refl_ _struct_ _array_ framed
+	export_ struct refl_ struct_ array_ framed
 	{
 		quat rotation;
 		double3 position;
@@ -1672,7 +1672,7 @@ double3 float3_to_double3(const float3& v);
 	//
 	// Rigid transform with position stored in double precision
 	//
-	export_ struct _refl_ _struct_ _array_ transform
+	export_ struct refl_ struct_ array_ transform
 	{
 		double3 position;
 		mat3 rotation;
@@ -1680,7 +1680,7 @@ double3 float3_to_double3(const float3& v);
 	};
 
 
-	export_ struct _refl_ _struct_ _array_ boxi
+	export_ struct refl_ struct_ array_ boxi
 	{
 		int3 min;
 		int3 max;
@@ -1690,7 +1690,7 @@ double3 float3_to_double3(const float3& v);
 	//
 	// A plane in 3 dimensions, composed of a normal and distance along the normal from the origin
 	//
-	export_ struct _refl_ _struct_ _array_ planef
+	export_ struct refl_ struct_ array_ planef
 	{
 		planef() { }
 		planef(float x, float y, float z, float d)
@@ -1704,7 +1704,7 @@ double3 float3_to_double3(const float3& v);
 		float3 n;
 		float d;
 	};
-	export_ struct _refl_ _struct_ _array_ planed
+	export_ struct refl_ struct_ array_ planed
 	{
 		planed() { }
 		planed(double x, double y, double z, double d)
@@ -1723,11 +1723,11 @@ double3 float3_to_double3(const float3& v);
 	//
 	// A camera view volume bounded by 6 planes
 	//
-	export_ struct _refl_ _struct_ _array_ frustumf
+	export_ struct refl_ struct_ array_ frustumf
 	{
 		planef planes[6];
 	};
-	export_ struct _refl_ _struct_ _array_ frustumd
+	export_ struct refl_ struct_ array_ frustumd
 	{
 		planed planes[6];
 	};
@@ -1739,7 +1739,7 @@ double3 float3_to_double3(const float3& v);
 	// TODO: This is probably not the ideal place for this but it's better than in
 	//       the VDB or Transvoxel libraries.
 	//
-	export_ struct _refl_ _struct_ _array_ Voxel
+	export_ struct refl_ struct_ array_ Voxel
 	{
 		// Fixed-point compressed distance to zero-surface
 		i16 distance;
@@ -1752,7 +1752,7 @@ double3 float3_to_double3(const float3& v);
 	//
 	// Mutually exclusive flags for storing normal voxels in voxel grids
 	//
-	export_ enum _refl_ _struct_ _array_ VoxelGridFlags
+	export_ enum refl_ struct_ array_ VoxelGridFlags
 	{
 		VoxelGridFlags_NoNormals = 0,
 		VoxelGridFlags_StoreNormals = 1,
@@ -1765,7 +1765,7 @@ double3 float3_to_double3(const float3& v);
 	// The number of voxels is determined by the number of cells and whether an extra padding
 	// layer of voxels is added round the outside for normal calculation.
 	//
-	export_ struct _refl_ _struct_ _array_ VoxelGrid
+	export_ struct refl_ struct_ array_ VoxelGrid
 	{
 		VoxelGrid();
 		VoxelGrid(i32 nb_cells_axis, VoxelGridFlags flags);
@@ -1791,7 +1791,7 @@ double3 float3_to_double3(const float3& v);
 	// A unique node ID within a grid hierarchy stored as a 96-bit value.
 	// Node x,y,z and level integer locations are bit-packed into this.
 	//
-	export_ struct _refl_ _struct_ _array_ NodeID
+	export_ struct refl_ struct_ array_ NodeID
 	{
 		NodeID();
 		NodeID(const int3& node_index, int level_index);
@@ -1914,7 +1914,7 @@ double3 float3_to_double3(const float3& v);
 #endif
 }
 
-#if MUD_NOT_IMPLEMENTED
+#if 0 // MUD_NOT_IMPLEMENTED
 #include <vector>
 
 namespace mud

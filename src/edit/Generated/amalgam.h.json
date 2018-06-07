@@ -4,6 +4,7 @@
 	"sources": [
 		"edit/Action.h",
 		"edit/ActionStack.h",
+		"edit/Api.h",
 		"edit/Brush.h",
 		"edit/EditContext.h",
 		"edit/Tool.h",
@@ -26,6 +27,7 @@
 	],
 	"includes_map": {
 		"obj/": "mudobj.h",
+		"srlz/": "mudsrlz.h",
 		"math/": "mudmath.h",
 		"geom/": "mudgeom.h",
 		"lang/": "mudlang.h",

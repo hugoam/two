@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Reflect/Method.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Node3.h>
 
@@ -14,7 +16,7 @@
 
 namespace mud
 {
-	export_ enum class _refl_ PrefabType : unsigned int
+	export_ enum class refl_ PrefabType : unsigned int
 	{
 		None,
 		Item,
@@ -24,25 +26,25 @@ namespace mud
 		Light
 	};
 
-	export_ struct _refl_ MUD_GFX_EXPORT PrefabNode
+	export_ struct refl_ MUD_GFX_EXPORT PrefabNode
 	{
 		PrefabNode() {}
 
-		_attr_ _mut_ Transform m_transform = {};
-		_attr_ _mut_ Ref m_object = {};
-		_attr_ _mut_ PrefabType m_prefab_type = PrefabType::None;
-		_attr_ _mut_ Call m_call = {};
-		_attr_ _mut_ std::vector<PrefabNode> m_nodes;
+		attr_ mut_ Transform m_transform = {};
+		attr_ mut_ Ref m_object = {};
+		attr_ mut_ PrefabType m_prefab_type = PrefabType::None;
+		attr_ mut_ Call m_call = {};
+		attr_ mut_ std::vector<PrefabNode> m_nodes;
 
 		void draw(Gnode& parent);
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT Prefab
+	export_ class refl_ MUD_GFX_EXPORT Prefab
 	{
 	public:
 		Prefab(cstring name) : m_name(name) {}
 
-		_attr_ strung m_name;
-		_attr_ _mut_ PrefabNode m_node;
+		attr_ string m_name;
+		attr_ mut_ PrefabNode m_node;
 	};
 }

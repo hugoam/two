@@ -2,20 +2,18 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <cstdint>
-#include <cstring>
-import std.core;
-import std.memory;
-#else
+#include <obj/Cpp20.h>
+#ifndef MUD_CPP_20
 #include <array>
 #include <fstream>
 #include <sstream>
 #include <string>
 #endif
 
+#include <bgfx/bgfx.h>
+
 #ifdef MUD_MODULES
-module mud.gfx-obj;
+module mud.gfx.obj;
 #else
 #include <obj/Vector.h>
 #include <obj/Util/Timer.h>
@@ -37,7 +35,15 @@ namespace mud
 {
 	ImporterOBJ::ImporterOBJ(GfxSystem& gfx_system)
 		: m_gfx_system(gfx_system)
-	{}
+	{
+		static auto load_obj = [&](GfxSystem& gfx_system, Model& model, cstring path)
+		{
+			ModelConfig config = load_model_config(path, model.m_name.c_str());
+			this->import_model(model, path, config);
+		};
+
+		gfx_system.models().add_format(".obj", load_obj);
+	}
 
 	void ImporterOBJ::import_material_library(const string& path, MaterialMap& material_map)
 	{

@@ -2,7 +2,8 @@
 	"project": "ex_00_tutorial.h",
 	"target": "ex_00_tutorial.h",
 	"sources": [
-		"00_tutorial/00_tutorial.h"
+		"00_tutorial/00_tutorial.h",
+		"00_tutorial/Api.h"
 	],
 	"include_paths": [
 		""
@@ -14,7 +15,8 @@
 		"uio/": "muduio.h",
 		"gfx/": "mudgfx.h",
 		"edit/": "mudedit.h",
-		"gen/": "mudgen.h"
+		"procgen/": "mudprocgen.h",
+		"procgen-gfx/": "mudprocgen-gfx.h"
 	},
 	"ignore": [
 		"Generated"

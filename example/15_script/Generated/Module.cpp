@@ -1,19 +1,15 @@
-#ifdef MUD_CPP_20
-#include <cassert>
-#include <cstdint>
-#include <climits>
-#include <cfloat>
-import std.core;
-import std.memory;
-import std.threading;
-import std.regex;
+#include <obj/Cpp20.h>
+
+#ifdef MUD_MODULES
+module .ex_15_script;
+#else
+#include <15_script/Generated/Module.h>
 #endif
 
-#include <15_script/Generated/Module.h>
-
 #ifdef _15_SCRIPT_REFLECT
+#ifndef MUD_MODULES
 #include <15_script/Generated/Convert.h>
-
+#endif
 #define _15_SCRIPT_REFLECTION_IMPL
 #include <15_script/Generated/Meta.h>
 #endif
@@ -28,7 +24,8 @@ import std.regex;
         muduio::m();
         mudgfx::m();
         mudedit::m();
-        mudgen::m();
+        mudprocgen::m();
+        mudprocgen_gfx::m();
 
 #ifdef _15_SCRIPT_REFLECT
         // setup reflection meta data
@@ -36,7 +33,7 @@ import std.regex;
 #endif
 	}
 
-#ifdef _EX_15_SCRIPT_MODULE
+#ifdef _15_SCRIPT_MODULE
 extern "C"
 _15_SCRIPT_EXPORT Module& getModule()
 {

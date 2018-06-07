@@ -12,15 +12,15 @@ namespace mud
 {
 namespace ui
 {
-	struct ScrollbarStyles
+	export_ struct ScrollbarStyles
 	{
 		ScrollbarStyles();
 		Style scrollbar; Style scroll_up; Style scroll_down; Style scroll_left; Style scroll_right; Style scroller; Style scroller_knob;
 	};
 
-	MUD_UI_EXPORT ScrollbarStyles& scrollbar_styles();
+	export_ MUD_UI_EXPORT ScrollbarStyles& scrollbar_styles();
 
-	MUD_UI_EXPORT bool overflow(Frame& frame, Frame& content, Dim dim);
-	MUD_UI_EXPORT Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Dim dim, Dim2<size_t> grid_index = { 0, 0 });
+	export_ MUD_UI_EXPORT bool overflow(Frame& frame, Frame& content, Dim dim);
+	export_ MUD_UI_EXPORT Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Dim dim, Dim2<size_t> grid_index = { 0, 0 });
 }
 }

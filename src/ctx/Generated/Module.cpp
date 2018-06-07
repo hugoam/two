@@ -1,19 +1,15 @@
-#ifdef MUD_CPP_20
-#include <cassert>
-#include <cstdint>
-#include <climits>
-#include <cfloat>
-import std.core;
-import std.memory;
-import std.threading;
-import std.regex;
+#include <obj/Cpp20.h>
+
+#ifdef MUD_MODULES
+module mud.ctx;
+#else
+#include <ctx/Generated/Module.h>
 #endif
 
-#include <ctx/Generated/Module.h>
-
 #ifdef MUD_CTX_REFLECT
+#ifndef MUD_MODULES
 #include <ctx/Generated/Convert.h>
-
+#endif
 #define MUD_CTX_REFLECTION_IMPL
 #include <ctx/Generated/Meta.h>
 #endif
@@ -29,7 +25,7 @@ namespace mud
 
 #ifdef MUD_CTX_REFLECT
         // setup reflection meta data
-		ctx_meta(*this);
+		mudctx_meta(*this);
 #endif
 	}
 }

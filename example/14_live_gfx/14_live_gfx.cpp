@@ -3,10 +3,10 @@
 
 using namespace mud;
 
-static Script& create_script(LuaInterpreter& interpreter)
+static LuaScript& create_script(LuaInterpreter& interpreter)
 {
 	Signature signature = { { Param{ "groot", Ref(type<Gnode>()) } } };
-	static Script script = { "Example Script", signature };
+	static LuaScript script = { "Example Script", signature };
 	script.m_interpreter = &interpreter;
 
 	script.m_script =
@@ -51,7 +51,7 @@ void ex_14_live_gfx(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& groot = viewer.m_scene->begin();
 
 	static LuaInterpreter lua = { true };
-	static Script& script = create_script(lua);
+	static LuaScript& script = create_script(lua);
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{

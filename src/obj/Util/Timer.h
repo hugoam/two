@@ -11,19 +11,19 @@
 #include <ctime>
 #endif
 
-#define TICK_INTERVAL 0.02
-
 namespace mud
 {
+	export_ extern MUD_OBJ_EXPORT const double c_tick_interval;
+
 	inline size_t globalTick()
 	{
-		return size_t(clock() / TICK_INTERVAL);
+		return size_t(clock() / c_tick_interval);
 	}
 
-	export_ struct _refl_ MUD_OBJ_EXPORT Time
+	export_ struct refl_ MUD_OBJ_EXPORT Time
 	{
 	public:
-		_constr_ Time(double value) : m_value(value) {}
+		constr_ Time(double value) : m_value(value) {}
 		Time(int days, int hours, int minutes, int seconds) : m_value(days * 86400 + hours * 3600 + minutes * 60 + seconds) {}
 		Time(int hours, int minutes, int seconds) : m_value(hours * 3600 + minutes * 60 + seconds) {}
 		Time(const Time& other) : m_value(other.m_value) {}
@@ -31,7 +31,7 @@ namespace mud
 
 		operator double() const { return m_value; }
 
-		_attr_ double m_value;
+		attr_ double m_value;
 
 		inline int days() { return int(m_value) / 86400; }
 		inline int hours() { return int(m_value) % 86400 / 3600; }
@@ -39,18 +39,18 @@ namespace mud
 		inline int seconds() { return int(m_value) % 60; }
 	};
 
-	export_ struct _refl_ MUD_OBJ_EXPORT TimeSpan
+	export_ struct refl_ MUD_OBJ_EXPORT TimeSpan
 	{
 	public:
-		_constr_ TimeSpan(Time s, Time e) : start(s), end(e) {}
+		constr_ TimeSpan(Time s, Time e) : start(s), end(e) {}
 		TimeSpan(int sh, int eh) : start(0, sh, 0, 0), end(0, eh, 0, 0) {}
 		TimeSpan() : start(), end() {}
 
 		Time operator [](size_t i) const { return i == 0 ? start : end; }
 		Time& operator [](size_t i) { return i == 0 ? start : end; }
 
-		_attr_ Time start;
-		_attr_ Time end;
+		attr_ Time start;
+		attr_ Time end;
 	};
 
 	export_ class MUD_OBJ_EXPORT Clock

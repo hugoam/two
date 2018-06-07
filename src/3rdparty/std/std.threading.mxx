@@ -1,0 +1,12 @@
+#include <std/std_detect.h>
+#include <std/preimport.h>
+
+export module std.threading;
+import std.core;
+
+#if 0
+export
+{
+#include <std/std_threading.h>
+}
+#endif

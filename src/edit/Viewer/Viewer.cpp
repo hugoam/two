@@ -2,13 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
+
+#include <bgfx/bgfx.h>
 
 #ifdef MUD_MODULES
 module mud.edit;
@@ -165,8 +161,8 @@ namespace mud
 
 		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseMiddle, EventType::Dragged))
 		{
-			m_yaw = fmod(m_yaw - 0.02f * mouse_event.m_delta.x, 2 * M_PI);
-			m_pitch = fmod(m_pitch - 0.02f * mouse_event.m_delta.y, 2 * M_PI);
+			m_yaw = fmod(m_yaw - 0.02f * mouse_event.m_delta.x, 2 * c_pi);
+			m_pitch = fmod(m_pitch - 0.02f * mouse_event.m_delta.y, 2 * c_pi);
 		}
 
 		vec3 direction = rotate(quat(vec3{ m_pitch, m_yaw, 0.f }), -Z3);

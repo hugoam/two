@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Unique.h>
 #include <math/Vec.h>
+#endif
 #include <ui/Generated/Forward.h>
 #include <ui/Image.h>
 
@@ -19,7 +21,7 @@ namespace mud
 {
 	struct StbRectPack;
 
-	export_ class _refl_ MUD_UI_EXPORT ImageAtlas
+	export_ class refl_ MUD_UI_EXPORT ImageAtlas
 	{
 	public:
 		ImageAtlas(uvec2 size);
@@ -43,7 +45,7 @@ namespace mud
 		unique_ptr<StbRectPack> m_rect_pack;
 	};
 
-	export_ class _refl_ MUD_UI_EXPORT Sprite : public Image
+	export_ class refl_ MUD_UI_EXPORT Sprite : public Image
 	{
 	public:
 		Sprite();
@@ -52,13 +54,13 @@ namespace mud
 		void compute_frames(const vec2& atlas_inverse_size);
 
 		uvec2 m_frames;
-		size_t m_num_frames;
+		uint m_num_frames;
 		uvec2 m_frame_size;
 		std::vector<uvec2> m_frame_coords;
 		std::vector<vec4> m_frame_uvs;
 	};
 
-	export_ class _refl_ MUD_UI_EXPORT SpriteAtlas : public ImageAtlas
+	export_ class refl_ MUD_UI_EXPORT SpriteAtlas : public ImageAtlas
 	{
 	public:
 		SpriteAtlas(uvec2 size);

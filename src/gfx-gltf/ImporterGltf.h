@@ -1,10 +1,12 @@
 ﻿#pragma once
 
-#include <obj/Serial/Serial.h>
-#include <gfx/Generated/Forward.h>
+#ifndef MUD_MODULES
+#include <srlz/Serial.h>
 #include <math/Vec.h>
 #include <math/VecOps.h>
 #include <math/Colour.h>
+#endif
+#include <gfx-gltf/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <map>
@@ -14,7 +16,7 @@
 // all the declarations here should fit the glTF 2.0 specification
 // https://github.com/KhronosGroup/glTF/tree/master/specification/2.0
 
-export_ enum class _refl_ glTFComponentType : unsigned int
+export_ enum class refl_ glTFComponentType : unsigned int
 {
 	BYTE = 5120,
 	UNSIGNED_BYTE = 5121,
@@ -24,7 +26,7 @@ export_ enum class _refl_ glTFComponentType : unsigned int
 	FLOAT = 5126,
 };
 
-export_ enum class _refl_ glTFType : unsigned int
+export_ enum class refl_ glTFType : unsigned int
 {
 	SCALAR,
 	VEC2,
@@ -35,97 +37,97 @@ export_ enum class _refl_ glTFType : unsigned int
 	MAT4,
 };
 
-export_ struct _refl_ glTFBuffer
+export_ struct refl_ glTFBuffer
 {
-	_attr_ _mut_ std::string mime_type;
-	_attr_ _mut_ std::string uri;
-	_attr_ _mut_ int byte_length;
+	attr_ mut_ std::string mime_type;
+	attr_ mut_ std::string uri;
+	attr_ mut_ int byte_length;
 };
 
-export_ struct _refl_ glTFImage
+export_ struct refl_ glTFImage
 {
-	_attr_ _mut_ std::string mime_type;
-	_attr_ _mut_ std::string uri;
-	_attr_ _mut_ int buffer_view;
+	attr_ mut_ std::string mime_type;
+	attr_ mut_ std::string uri;
+	attr_ mut_ int buffer_view;
 };
 
-export_ struct _refl_ glTFBufferView
+export_ struct refl_ glTFBufferView
 {
 	glTFBufferView() {}
-	_attr_ _mut_ int buffer = 0;
-	_attr_ _mut_ size_t byte_offset = 0;
-	_attr_ _mut_ size_t byte_length = 0;
-	_attr_ _mut_ size_t byte_stride = 0;
-	_attr_ _mut_ int target = 0;
+	attr_ mut_ int buffer = 0;
+	attr_ mut_ size_t byte_offset = 0;
+	attr_ mut_ size_t byte_length = 0;
+	attr_ mut_ size_t byte_stride = 0;
+	attr_ mut_ int target = 0;
 };
 
-export_ struct _refl_ glTFSparseIndices
+export_ struct refl_ glTFSparseIndices
 {
 	glTFSparseIndices() {}
-	_attr_ _mut_ int buffer_view;
-	_attr_ _mut_ int byte_offset = 0;
-	_attr_ _mut_ glTFComponentType component_type;
+	attr_ mut_ int buffer_view;
+	attr_ mut_ int byte_offset = 0;
+	attr_ mut_ glTFComponentType component_type;
 };
 
-export_ struct _refl_ glTFSparseValues
+export_ struct refl_ glTFSparseValues
 {
 	glTFSparseValues() {}
-	_attr_ _mut_ int buffer_view;
-	_attr_ _mut_ int byte_offset = 0;
+	attr_ mut_ int buffer_view;
+	attr_ mut_ int byte_offset = 0;
 };
 
-export_ struct _refl_ glTFSparse
+export_ struct refl_ glTFSparse
 {
 	glTFSparse() {}
-	_attr_ _mut_ int count = 0;
-	_attr_ _mut_ glTFSparseIndices indices;
-	_attr_ _mut_ glTFSparseValues values;
+	attr_ mut_ int count = 0;
+	attr_ mut_ glTFSparseIndices indices;
+	attr_ mut_ glTFSparseValues values;
 };
 
-export_ struct _refl_ glTFAccessor
+export_ struct refl_ glTFAccessor
 {
 	glTFAccessor() {}
 	glTFAccessor(int buffer_view, int byte_offset, glTFComponentType component_type, bool normalized, int count, glTFType type)
 		: buffer_view(buffer_view), byte_offset(byte_offset), component_type(component_type), normalized(normalized), count(count), type(type)
 	{}
-	_attr_ _mut_ int buffer_view = -1;
-	_attr_ _mut_ int byte_offset = 0;
-	_attr_ _mut_ glTFComponentType component_type;
-	_attr_ _mut_ bool normalized = false;
-	_attr_ _mut_ int count;
-	_attr_ _mut_ glTFType type;
+	attr_ mut_ int buffer_view = -1;
+	attr_ mut_ int byte_offset = 0;
+	attr_ mut_ glTFComponentType component_type;
+	attr_ mut_ bool normalized = false;
+	attr_ mut_ int count;
+	attr_ mut_ glTFType type;
 	// min is an array whose content depends on glTFType
 	// max is an array whose content depends on glTFType
 
-	_attr_ _mut_ glTFSparse sparse;
+	attr_ mut_ glTFSparse sparse;
 };
 
-export_ struct _refl_ glTFSampler
+export_ struct refl_ glTFSampler
 {
 	glTFSampler() {}
-	_attr_ _mut_ int mag_filter;
-	_attr_ _mut_ int min_filter;
-	_attr_ _mut_ int wrap_s = 10497;
-	_attr_ _mut_ int wrap_t = 10497;
-	_attr_ _mut_ std::string name;
+	attr_ mut_ int mag_filter;
+	attr_ mut_ int min_filter;
+	attr_ mut_ int wrap_s = 10497;
+	attr_ mut_ int wrap_t = 10497;
+	attr_ mut_ std::string name;
 };
 
-export_ struct _refl_ glTFTexture
+export_ struct refl_ glTFTexture
 {
 	glTFTexture() {}
-	_attr_ _mut_ int source;
-	_attr_ _mut_ std::string name;
+	attr_ mut_ int source;
+	attr_ mut_ std::string name;
 };
 
-export_ struct _refl_ glTFSkin
+export_ struct refl_ glTFSkin
 {
-	_attr_ _mut_ std::string name;
-	_attr_ _mut_ int skeleton = -1;
-	_attr_ _mut_ std::vector<int> joints;
-	_attr_ _mut_ int inverse_bind_matrices;
+	attr_ mut_ std::string name;
+	attr_ mut_ int skeleton = -1;
+	attr_ mut_ std::vector<int> joints;
+	attr_ mut_ int inverse_bind_matrices;
 };
 
-export_ enum class _refl_ glTFPrimitiveType : unsigned int
+export_ enum class refl_ glTFPrimitiveType : unsigned int
 {
 	POINTS = 0,
 	LINES = 1,
@@ -136,64 +138,64 @@ export_ enum class _refl_ glTFPrimitiveType : unsigned int
 	TRIANGLE_FAN = 6
 };
 
-export_ struct _refl_ glTFAttributes
+export_ struct refl_ glTFAttributes
 {
-	_attr_ _mut_ int POSITION = -1;
-	_attr_ _mut_ int NORMAL = -1;
-	_attr_ _mut_ int TANGENT = -1;
-	_attr_ _mut_ int TEXCOORD_0 = -1;
-	_attr_ _mut_ int TEXCOORD_1 = -1;
-	_attr_ _mut_ int COLOR_0 = -1;
-	_attr_ _mut_ int JOINTS_0 = -1;
-	_attr_ _mut_ int WEIGHTS_0 = -1;
+	attr_ mut_ int POSITION = -1;
+	attr_ mut_ int NORMAL = -1;
+	attr_ mut_ int TANGENT = -1;
+	attr_ mut_ int TEXCOORD_0 = -1;
+	attr_ mut_ int TEXCOORD_1 = -1;
+	attr_ mut_ int COLOR_0 = -1;
+	attr_ mut_ int JOINTS_0 = -1;
+	attr_ mut_ int WEIGHTS_0 = -1;
 };
 
-export_ struct _refl_ glTFMorphTarget
+export_ struct refl_ glTFMorphTarget
 {
-	_attr_ _mut_ int POSITION = -1;
-	_attr_ _mut_ int NORMAL = -1;
-	_attr_ _mut_ int TANGENT = -1;
+	attr_ mut_ int POSITION = -1;
+	attr_ mut_ int NORMAL = -1;
+	attr_ mut_ int TANGENT = -1;
 };
 
-export_ struct _refl_ glTFPrimitive
+export_ struct refl_ glTFPrimitive
 {
-	_attr_ _mut_ glTFAttributes attributes;
-	_attr_ _mut_ int indices = -1;
-	_attr_ _mut_ int material = -1;
-	_attr_ _mut_ glTFPrimitiveType mode = glTFPrimitiveType::TRIANGLES;
-	_attr_ _mut_ std::vector<glTFMorphTarget> targets;
+	attr_ mut_ glTFAttributes attributes;
+	attr_ mut_ int indices = -1;
+	attr_ mut_ int material = -1;
+	attr_ mut_ glTFPrimitiveType mode = glTFPrimitiveType::TRIANGLES;
+	attr_ mut_ std::vector<glTFMorphTarget> targets;
 };
 
-export_ struct _refl_ glTFMesh
+export_ struct refl_ glTFMesh
 {
-	_attr_ _mut_ std::vector<glTFPrimitive> primitives;
-	_attr_ _mut_ std::vector<float> weights;
+	attr_ mut_ std::vector<glTFPrimitive> primitives;
+	attr_ mut_ std::vector<float> weights;
 };
 
-export_ struct _refl_ glTFPerspective
+export_ struct refl_ glTFPerspective
 {
-	_attr_ _mut_ float yfov;
-	_attr_ _mut_ float zfar;
-	_attr_ _mut_ float znear;
-	_attr_ _mut_ float aspect_ration;
+	attr_ mut_ float yfov;
+	attr_ mut_ float zfar;
+	attr_ mut_ float znear;
+	attr_ mut_ float aspect_ration;
 };
 
-export_ struct _refl_ glTFOrthographic
+export_ struct refl_ glTFOrthographic
 {
-	_attr_ _mut_ float xmag;
-	_attr_ _mut_ float ymag;
-	_attr_ _mut_ float zfar;
-	_attr_ _mut_ float znear;
+	attr_ mut_ float xmag;
+	attr_ mut_ float ymag;
+	attr_ mut_ float zfar;
+	attr_ mut_ float znear;
 };
 
-export_ struct _refl_ glTFCamera
+export_ struct refl_ glTFCamera
 {
-	_attr_ _mut_ std::string type;
-	_attr_ _mut_ glTFOrthographic orthographic;
-	_attr_ _mut_ glTFPerspective perspective;
+	attr_ mut_ std::string type;
+	attr_ mut_ glTFOrthographic orthographic;
+	attr_ mut_ glTFPerspective perspective;
 };
 
-export_ enum class _refl_ glTFInterpolation : unsigned int
+export_ enum class refl_ glTFInterpolation : unsigned int
 {
 	LINEAR,
 	STEP,
@@ -201,112 +203,112 @@ export_ enum class _refl_ glTFInterpolation : unsigned int
 	CUBIC_SPLINE
 };
 
-export_ struct _refl_ glTFAnimationTarget
+export_ struct refl_ glTFAnimationTarget
 {
-	_attr_ _mut_ int node;
-	_attr_ _mut_ std::string path;
+	attr_ mut_ int node;
+	attr_ mut_ std::string path;
 };
 
-export_ struct _refl_ glTFAnimationChannel
+export_ struct refl_ glTFAnimationChannel
 {
-	_attr_ _mut_ int sampler;
-	_attr_ _mut_ glTFAnimationTarget target;
+	attr_ mut_ int sampler;
+	attr_ mut_ glTFAnimationTarget target;
 };
 
-export_ struct _refl_ glTFAnimationSampler
+export_ struct refl_ glTFAnimationSampler
 {
-	_attr_ _mut_ glTFInterpolation interpolation;
-	_attr_ _mut_ int input;
-	_attr_ _mut_ int output;
+	attr_ mut_ glTFInterpolation interpolation;
+	attr_ mut_ int input;
+	attr_ mut_ int output;
 };
 
-export_ struct _refl_ glTFAnimation
+export_ struct refl_ glTFAnimation
 {
-	_attr_ _mut_ std::string name;
-	_attr_ _mut_ std::vector<glTFAnimationSampler> samplers;
-	_attr_ _mut_ std::vector<glTFAnimationChannel> channels;
+	attr_ mut_ std::string name;
+	attr_ mut_ std::vector<glTFAnimationSampler> samplers;
+	attr_ mut_ std::vector<glTFAnimationChannel> channels;
 };
 
-export_ struct _refl_ glTFTextureInfo
+export_ struct refl_ glTFTextureInfo
 {
 	glTFTextureInfo() {}
-	_attr_ _mut_ int index = -1;
-	_attr_ _mut_ float scale = 1.f;
+	attr_ mut_ int index = -1;
+	attr_ mut_ float scale = 1.f;
 };
 
-export_ struct _refl_ glTFMaterialPBR
+export_ struct refl_ glTFMaterialPBR
 {
 	glTFMaterialPBR() {}
-	_attr_ _mut_ mud::vec4 base_color_factor = to_vec4(mud::Colour::White);
-	_attr_ _mut_ glTFTextureInfo base_color_texture;
-	_attr_ _mut_ float metallic_factor = 1.f;
-	_attr_ _mut_ float roughness_factor = 1.f;
-	_attr_ _mut_ glTFTextureInfo metallic_roughness_texture;
+	attr_ mut_ mud::vec4 base_color_factor = to_vec4(mud::Colour::White);
+	attr_ mut_ glTFTextureInfo base_color_texture;
+	attr_ mut_ float metallic_factor = 1.f;
+	attr_ mut_ float roughness_factor = 1.f;
+	attr_ mut_ glTFTextureInfo metallic_roughness_texture;
 };
 
-export_ enum class _refl_ glTFAlphaMode : unsigned int
+export_ enum class refl_ glTFAlphaMode : unsigned int
 {
 	OPAQUE,
 	MASK,
 	BLEND,
 };
 
-export_ struct _refl_ glTFMaterial
+export_ struct refl_ glTFMaterial
 {
 	glTFMaterial() {}
-	_attr_ _mut_ std::string name;
-	_attr_ _mut_ glTFTextureInfo normal_texture;
-	_attr_ _mut_ glTFTextureInfo occlusion_texture;
-	_attr_ _mut_ mud::vec3 emissive_factor = to_vec3(mud::Colour::Black);
-	_attr_ _mut_ glTFTextureInfo emissive_texture;
-	_attr_ _mut_ bool double_sided = false;
-	_attr_ _mut_ glTFAlphaMode alpha_mode = glTFAlphaMode::OPAQUE;
+	attr_ mut_ std::string name;
+	attr_ mut_ glTFTextureInfo normal_texture;
+	attr_ mut_ glTFTextureInfo occlusion_texture;
+	attr_ mut_ mud::vec3 emissive_factor = to_vec3(mud::Colour::Black);
+	attr_ mut_ glTFTextureInfo emissive_texture;
+	attr_ mut_ bool double_sided = false;
+	attr_ mut_ glTFAlphaMode alpha_mode = glTFAlphaMode::OPAQUE;
 
-	_attr_ _mut_ glTFMaterialPBR pbr_metallic_roughness;
+	attr_ mut_ glTFMaterialPBR pbr_metallic_roughness;
 };
 
-export_ struct _refl_ glTFNode
+export_ struct refl_ glTFNode
 {
 	glTFNode() {}
-	_attr_ _mut_ std::string name;
+	attr_ mut_ std::string name;
 
-	_attr_ _mut_ int mesh = -1;
-	_attr_ _mut_ int camera = -1;
-	_attr_ _mut_ int skin = -1;
+	attr_ mut_ int mesh = -1;
+	attr_ mut_ int camera = -1;
+	attr_ mut_ int skin = -1;
 
-	_attr_ _mut_ mud::mat4 matrix = {};
-	_attr_ _mut_ mud::vec3 translation = mud::Zero3;
-	_attr_ _mut_ mud::quat rotation = mud::ZeroQuat;
-	_attr_ _mut_ mud::vec3 scale = mud::Unit3;
+	attr_ mut_ mud::mat4 matrix = {};
+	attr_ mut_ mud::vec3 translation = mud::Zero3;
+	attr_ mut_ mud::quat rotation = mud::ZeroQuat;
+	attr_ mut_ mud::vec3 scale = mud::Unit3;
 
-	_attr_ _mut_ std::vector<int> children;
+	attr_ mut_ std::vector<int> children;
 
 	int parent = -1;
 	bool is_joint = false;
 };
 
-export_ struct _refl_ glTFScene
+export_ struct refl_ glTFScene
 {
-	_attr_ _mut_ std::string name;
-	_attr_ _mut_ std::vector<int> nodes;
+	attr_ mut_ std::string name;
+	attr_ mut_ std::vector<int> nodes;
 };
 
-export_ struct _refl_ glTF
+export_ struct refl_ glTF
 {
-	_attr_ _mut_ std::vector<glTFBuffer> m_buffers;
+	attr_ mut_ std::vector<glTFBuffer> m_buffers;
 
-	_attr_ _mut_ std::vector<glTFBufferView> m_buffer_views;
-	_attr_ _mut_ std::vector<glTFAccessor> m_accessors;
+	attr_ mut_ std::vector<glTFBufferView> m_buffer_views;
+	attr_ mut_ std::vector<glTFAccessor> m_accessors;
 
-	_attr_ _mut_ std::vector<glTFImage> m_images;
-	_attr_ _mut_ std::vector<glTFTexture> m_textures;
-	_attr_ _mut_ std::vector<glTFMaterial> m_materials;
-	_attr_ _mut_ std::vector<glTFMesh> m_meshes;
-	_attr_ _mut_ std::vector<glTFNode> m_nodes;
-	_attr_ _mut_ std::vector<glTFSkin> m_skins;
-	_attr_ _mut_ std::vector<glTFAnimation> m_animations;
-	_attr_ _mut_ std::vector<glTFCamera> m_cameras;
-	_attr_ _mut_ std::vector<glTFScene> m_scenes;
+	attr_ mut_ std::vector<glTFImage> m_images;
+	attr_ mut_ std::vector<glTFTexture> m_textures;
+	attr_ mut_ std::vector<glTFMaterial> m_materials;
+	attr_ mut_ std::vector<glTFMesh> m_meshes;
+	attr_ mut_ std::vector<glTFNode> m_nodes;
+	attr_ mut_ std::vector<glTFSkin> m_skins;
+	attr_ mut_ std::vector<glTFAnimation> m_animations;
+	attr_ mut_ std::vector<glTFCamera> m_cameras;
+	attr_ mut_ std::vector<glTFScene> m_scenes;
 
 	std::vector<std::vector<uint8_t>> m_binary_buffers;
 };
@@ -315,7 +317,7 @@ namespace mud
 {
 	using string = std::string;
 
-	class ImporterGltf
+	export_ class MUD_GFX_GLTF_EXPORT ImporterGltf
 	{
 	public:
 		ImporterGltf(GfxSystem& gfx_system);

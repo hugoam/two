@@ -1,19 +1,15 @@
-#ifdef MUD_CPP_20
-#include <cassert>
-#include <cstdint>
-#include <climits>
-#include <cfloat>
-import std.core;
-import std.memory;
-import std.threading;
-import std.regex;
+#include <obj/Cpp20.h>
+
+#ifdef MUD_MODULES
+module .ex_00_tutorial;
+#else
+#include <00_tutorial/Generated/Module.h>
 #endif
 
-#include <00_tutorial/Generated/Module.h>
-
 #ifdef _00_TUTORIAL_REFLECT
+#ifndef MUD_MODULES
 #include <00_tutorial/Generated/Convert.h>
-
+#endif
 #define _00_TUTORIAL_REFLECTION_IMPL
 #include <00_tutorial/Generated/Meta.h>
 #endif
@@ -28,7 +24,8 @@ import std.regex;
         muduio::m();
         mudgfx::m();
         mudedit::m();
-        mudgen::m();
+        mudprocgen::m();
+        mudprocgen_gfx::m();
 
 #ifdef _00_TUTORIAL_REFLECT
         // setup reflection meta data
@@ -36,7 +33,7 @@ import std.regex;
 #endif
 	}
 
-#ifdef _EX_00_TUTORIAL_MODULE
+#ifdef _00_TUTORIAL_MODULE
 extern "C"
 _00_TUTORIAL_EXPORT Module& getModule()
 {

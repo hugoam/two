@@ -7,9 +7,7 @@
 #include <obj/Generated/Forward.h>
 #include <math/Generated/Forward.h>
 
-#if defined MUD_CTX_LIB
-#define MUD_CTX_EXPORT MUD_EXPORT
-#else
+#ifndef MUD_CTX_EXPORT
 #define MUD_CTX_EXPORT MUD_IMPORT
 #endif
 

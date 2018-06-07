@@ -4,14 +4,16 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <math/Vec.h>
 #include <math/Math.h>
+#endif
 #include <edit/Generated/Forward.h>
 #include <edit/Tool.h>
 
 namespace mud
 {
-	export_ class _refl_ ViewAction : public EditorAction
+	export_ class refl_ ViewAction : public EditorAction
 	{
 	public:
 		ViewAction(Camera& camera, const vec3& offset);
@@ -31,7 +33,7 @@ namespace mud
 		vec3 m_eye_position[2];
 	};
 
-	export_ class _refl_ ViewTool : public ViewportTool
+	export_ class refl_ ViewTool : public ViewportTool
 	{
 	public:
 		ViewTool(ToolContext& context, cstring name, const vec3& offset);

@@ -2,13 +2,8 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#else
+#include <obj/Cpp20.h>
+#ifndef MUD_CPP_20
 #include <functional>
 #include <algorithm>
 #endif
@@ -17,25 +12,12 @@ import std.memory;
 module mud.math;
 #else
 #include <math/Colour.h>
+#include <math/Math.h>
+#include <math/Clamp.h>
 #endif
-
-template<class T>
-constexpr const T& clamp(const T& v, const T& lo, const T& hi)
-{
-	return clamp(v, lo, hi, std::less<>());
-}
-
-template<class T, class Compare>
-constexpr const T& clamp(const T& v, const T& lo, const T& hi, Compare comp)
-{
-	return comp(v, lo) ? lo : comp(hi, v) ? hi : v;
-}
 
 namespace mud
 {
-	using std::max;
-	using std::min;
-
 	Colour Colour::Black(0.f, 0.f, 0.f);
 	Colour Colour::AlphaBlack(0.f, 0.f, 0.f, 0.5f);
 	Colour Colour::Red(1.f, 0.f, 0.f);

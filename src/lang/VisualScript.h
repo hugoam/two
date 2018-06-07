@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Var.h>
 #include <obj/NonCopy.h>
+#endif
 #include <lang/Generated/Forward.h>
 #include <lang/Stream.h>
 #include <lang/Script.h>
@@ -16,7 +18,7 @@
 
 namespace mud
 {
-	enum ValveKind : unsigned int
+	export_ enum ValveKind : unsigned int
 	{
 		FLOW_VALVE_IN,
 		FLOW_VALVE_OUT,
@@ -24,7 +26,7 @@ namespace mud
 		OUTPUT_VALVE
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT Valve
+	export_ class refl_ MUD_LANG_EXPORT Valve
 	{
 	public:
 		Valve(Process& process, cstring name, ValveKind kind, Var value = {}, bool nullable = false, bool reference = false);
@@ -53,7 +55,7 @@ namespace mud
 		void propagate();
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT Pipe
+	export_ class refl_ MUD_LANG_EXPORT Pipe
 	{
 	public:
 		Pipe(Valve& output, Valve& input, StreamModifier modifier = SM_NONE);
@@ -66,7 +68,7 @@ namespace mud
 		void propagate();
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT Process
+	export_ class refl_ MUD_LANG_EXPORT Process
 	{
 	public:
 		Process(VisualScript& script, cstring title, Type& type);
@@ -81,7 +83,7 @@ namespace mud
 			COMPUTED = 2
 		};
 
-		_attr_ Type& m_type;
+		attr_ Type& m_type;
 		VisualScript& m_script;
 		size_t m_index;
 		string m_title;
@@ -137,10 +139,10 @@ namespace mud
 		int visit_order();
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT VisualScript : public NonCopy, public Script
+	export_ class refl_ MUD_LANG_EXPORT VisualScript final : public NonCopy, public Script
 	{
 	public:
-		_constr_ VisualScript(cstring name, const Signature& signature = {});
+		constr_ VisualScript(cstring name, const Signature& signature = {});
 
 		std::vector<object_ptr<Process>> m_processes;
 		std::vector<object_ptr<Pipe>> m_pipes;
@@ -195,7 +197,7 @@ namespace mud
 		Valve* method(T_Method meth, std::vector<Valve*> params = {}, std::vector<StreamModifier> modifiers = {});
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT ProcessInput : public Process, public Param
+	export_ class refl_ MUD_LANG_EXPORT ProcessInput : public Process, public Param
 	{
 	public:
 		ProcessInput(VisualScript& script, const Param& param);
@@ -203,7 +205,7 @@ namespace mud
 		Valve m_output;
 	};
 
-	export_ class _refl_ MUD_LANG_EXPORT ProcessOutput : public Process, public Param
+	export_ class refl_ MUD_LANG_EXPORT ProcessOutput : public Process, public Param
 	{
 	public:
 		ProcessOutput(VisualScript& script, const Param& param);

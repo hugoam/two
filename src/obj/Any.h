@@ -40,10 +40,10 @@ namespace mud
 	export_ template <class T, bool onlyref = is_object_pointer<T>::value || !is_copyable<T>::value>
 	struct ValueSemantic : std::true_type {};
 
-	template <class T>
+	export_ template <class T>
 	struct ValueSemantic<T, true> : std::false_type {};
 
-	template <class T>
+	export_ template <class T>
 	class TAny : public Any
 	{
 	public:
@@ -108,7 +108,7 @@ namespace mud
 	inline typename enable_if<is_object_pointer<T>::value, Var>::type
 		make_var(U&& value) { return Ref(value); }
 
-	template <class T>
+	export_ template <class T>
 	inline Var var(T&& value) { return make_var<T>(std::forward<T>(value)); }
 
 	export_ template <>

@@ -2,25 +2,23 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#else
+#include <gfx/Cpp20.h>
+#ifndef MUD_CPP_20
 #include <string>
 #include <map>
 #include <vector>
 #include <fstream>
 #endif
 
+#include <bx/readerwriter.h>
+#include <bgfx/bgfx.h>
+
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
 #include <obj/Vector.h>
 #include <obj/EnumArray.h>
-#include <obj/Serial/Serial.h>
+#include <srlz/Serial.h>
 #include <obj/System/System.h>
 #include <obj/String/StringConvert.h>
 #include <gfx/Program.h>
@@ -28,9 +26,6 @@ module mud.gfx;
 #include <gfx/Texture.h>
 #include <gfx/Material.h>
 #endif
-
-#include <bgfx/bgfx.h>
-#include <bx/readerwriter.h>
 
 namespace bgfx
 {

@@ -11,6 +11,7 @@ project "glsl-optimizer"
 
     configuration {}
     
+    
 project "shaderc"
 	kind "StaticLib"
 

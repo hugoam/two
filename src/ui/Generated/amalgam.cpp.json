@@ -45,6 +45,7 @@
     "includes_map": {
 		"ui/": "mudui.h",
 		"obj/": "mudobj.h",
+		"srlz/": "mudsrlz.h",
 		"math/": "mudmath.h",
 		"ctx/": "mudctx.h"
     },

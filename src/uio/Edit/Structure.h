@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Ref.h>
+#endif
 #include <uio/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
@@ -13,6 +15,6 @@
 
 namespace mud
 {
-	MUD_UIO_EXPORT void structure_node(Widget& parent, Ref object, std::vector<Ref>& selection);
-	MUD_UIO_EXPORT void structure_view(Widget& parent, Ref object, std::vector<Ref>& selection);
+	export_ MUD_UIO_EXPORT void structure_node(Widget& parent, Ref object, std::vector<Ref>& selection);
+	export_ MUD_UIO_EXPORT void structure_view(Widget& parent, Ref object, std::vector<Ref>& selection);
 }

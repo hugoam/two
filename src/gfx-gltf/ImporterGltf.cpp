@@ -2,24 +2,29 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h>
-#include <stdint.h>
-#include <cstring>
-import std.core;
-import std.memory;
-#else
+#include <obj/Cpp20.h>
+#ifndef MUD_CPP_20
 #include <iostream>
 #include <fstream>
 #endif
 
 #ifdef MUD_MODULES
-module mud.gfx-gltf;
+#include <cpp/stdguard.h>
+#endif
+#include <base64.h>
+#include <bgfx/bgfx.h>
+
+#ifdef MUD_MODULES
+module mud.gfx.gltf;
 #else
+#include <json11.hpp>
+using json = json11::Json;
+
 #include <obj/Util/DispatchDecl.h>
 #include <obj/Vector.h>
-#include <obj/Serial/Serial.h>
+#include <srlz/Serial.h>
 #include <obj/System/System.h>
+#include <obj/System/File.h>
 #include <obj/Reflect/Class.h>
 #include <obj/String/String.h>
 #include <math/VecJson.h>
@@ -39,11 +44,6 @@ module mud.gfx-gltf;
 #include <gfx-gltf/Generated/Types.h>
 #include <gfx-gltf/ImporterGltf.h>
 #endif
-
-#include <base64.h>
-
-#include <json11.hpp>
-using json = json11::Json;
 
 namespace mud
 {
@@ -117,6 +117,14 @@ namespace mud
 					assert(index < fixed_members.size());
 				}
 			}
+
+		static auto load_gltf = [&](GfxSystem& gfx_system, Model& model, cstring path)
+		{
+			ModelConfig config = load_model_config(path, model.m_name.c_str());
+			this->import_model(model, path, config);
+		};
+
+		gfx_system.models().add_format(".gltf", load_gltf);
 	}
 
 	void parse_glb(const string& path, glTFImport& state)
@@ -394,7 +402,7 @@ namespace mud
 		{
 			for(const glTFPrimitive& primitive : gltf_mesh.primitives)
 			{
-				state.m_model.m_meshes.emplace_back(state.m_model.m_name, true);
+				state.m_model.m_meshes.emplace_back(state.m_model.m_name.c_str(), true);
 				Mesh& mesh = state.m_model.m_meshes.back();
 
 				MeshPacker shape;

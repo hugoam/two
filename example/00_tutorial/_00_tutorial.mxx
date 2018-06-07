@@ -1,0 +1,16 @@
+#include <cpp/preimport.h>
+
+#include <obj/Config.h>
+
+export module _00_tutorial;
+export import std.core;
+export import std.io;
+export import std.threading;
+export import std.regex;
+
+
+#include <00_tutorial/Api.h>
+#include <00_tutorial/Generated/Types.h>
+#include <00_tutorial/Generated/Module.h>
+#include <00_tutorial/Generated/Convert.h>
+

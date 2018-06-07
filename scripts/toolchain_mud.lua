@@ -12,15 +12,19 @@ end
 
 function mud_defines()
     configuration { "cpp-modules" }
-        flags {
-            "CppLatest",
+        defines {
+            "MUD_NO_GLM",
+            "MUD_CPP_20",
         }
         
-        defines { "_CRT_NO_VA_START_VALIDATION" }
-        
+    configuration { "cpp-modules", "*-clang*" }
         defines {
-            "MUD_CPP_20",
-            "MUD_NO_GLM",
+            "MUD_MODULES",
+        }
+    
+    configuration { "cpp-modules", "vs*" }
+        defines { 
+            "MUD_STD_HAS_CLAMP",
         }
         
     configuration { "windows", "not asmjs" }
@@ -66,42 +70,147 @@ function mud_defines()
     configuration {}
 end
 
-function mud_module(name, root_path, subpath, preproc_name)
-    module_path = path.join(root_path, subpath)
+function mud_modules()
+    configuration { "cpp-modules" }
+        removeflags { "Cpp14" }
+        flags {
+            "CppLatest",
+            "CppModules",
+        }
+        
+        defines { "_CRT_NO_VA_START_VALIDATION" }
+
+    configuration {}
+end
+
+function mud_mxx(cpps, m)
+    local cxxmodules = {}
+
+    for _, cpp in ipairs(cpps) do
+        local relcpp = path.getrelative(MUD_DIR, cpp)
+        print("module for " .. relcpp .. " = " .. m.dotname)
+        cxxmodules[relcpp] = m.dotname
+    end
+
+    cxxmodule(cxxmodules)
+end
+
+function mud_dep(namespace, name, cppmodule)
+    local m = {
+        project = nil,
+        cppmodule = cppmodule,
+        namespace = namespace,
+        name = name,
+        dotname = string.gsub(name, "-", "."),
+        idname = string.gsub(name, "-", "_"),
+    }
+    
+    if namespace then
+        m.dotname = namespace .. "." .. m.dotname
+        m.idname = namespace .. "_" .. m.idname
+    end
+    
+    m.project = project(m.idname)
+    m.lib = project().name
+    
+    mud_defines()
+    if cppmodule then
+        mud_modules()
+    end
+    
+    return m
+end
+
+function mud_module(as_project, namespace, name, root_path, subpath, deps, nomodule)
+    local m = {
+        project = nil,
+        cppmodule = true,
+        reflect = false,
+        namespace = namespace,
+        name = name,
+        dotname = string.gsub(name, "-", "."),
+        idname = string.gsub(name, "-", "_"),
+        root = root_path,
+        subdir = subpath,
+        path = path.join(root_path, subpath),
+        deps = deps,
+    }
+    
+    if namespace then
+        m.dotname = namespace .. "." .. m.dotname
+        m.idname = namespace .. "_" .. m.idname
+    end
+    
+    m.reflect = file_exists(path.join(m.path, "module.py"))
+    
+    if as_project then
+        m.project = project(m.idname)
+        kind "SharedLib"
+        
+        defines { m.idname:upper() .. "_LIB" }
+    end
+
+    m.lib = project().name
+    
+    for _, dep in ipairs(deps or {}) do
+        if dep.lib ~= m.lib then
+            links(dep.lib)
+            print (m.lib .. " links " .. dep.lib)
+            --uses(dep.idname)
+        end
+    end
     
     includedirs {
         root_path,
     }
     
     files {
-        path.join(module_path, "**.h"),
-        path.join(module_path, "**.cpp"),
+        path.join(m.path, "**.h"),
+        path.join(m.path, "**.cpp"),
     }
     
-    
-    defines { preproc_name .. "_REFLECT" }
-    defines { preproc_name .. "_LIB" }
+    local cpps = os.matchfiles(path.join(m.path, "**.cpp"))
+    mud_mxx(cpps, m)
+
+    defines { m.idname:upper() .. "_REFLECT" }
+    defines { m.idname:upper() .. "_EXPORT=MUD_EXPORT" }
     
     --vpaths { [name] = { "**.h", "**.cpp" } }
-        
-    if file_exists(path.join(module_path, "module.py")) then
-        local module = {
-            root = root_path,
-            path = module_path,
-            py = path.join(module_path, "module.py")
-        }
-        table.insert(MODULES, module)
-        table.insert(MODULES_PY, path.join(module_path, "module.py"))
-    end
     
     mud_defines()
+    mud_modules()
     
-    configuration { "cpp-modules" }
-        files {
-            path.join(module_path, "Module.ixx"),
-        }
+    if m.reflect then
+        table.insert(MODULES_PY, path.join(m.path, "module.py"))
+    end
+    
+    if not nomodule then
+        table.insert(MODULES, m)
+        
+        configuration { "cpp-modules", "vs*" }
+            files {
+                --path.join(m.path, m.dotname .. ".ixx"),
+            }
+                
+        configuration { "cpp-modules", "*-clang*" }
+            files {
+                path.join(m.path, m.dotname .. ".mxx"),
+            }
             
+        configuration {}
+    end
+    
+    configuration { "cpp-modules", "*-clang*" }
+        links {
+            "std_core",
+            "std_io",
+            "std_threading",
+            "std_regex",
+        }
+        
     configuration {}
+    
+    return m
 end
 
 function mud_amalgamate(modules)
@@ -114,11 +223,71 @@ function mud_amalgamate(modules)
     end
 end
 
+function mud_write_api(m)
+    headers = os.matchfiles(path.join(m.path, "**.h"))
+    --table.insert(headers, os.matchfiles(path.join(m.path, "**.hpp")))
+    
+    local f, err = io.open(path.join(m.path, "Api.h"), "wb")
+    io.output(f)
+    for _, h in ipairs(headers) do
+        if not string.find(h, "Api.h") and not string.find(h, "Generated/") then
+            io.printf("#include <" .. path.getrelative(m.root, h) .. ">")
+        end
+    end
+    io.printf("")
+    f:close()
+end
+
+function mud_write_mxx(m)
+	local f, err = io.open(path.join(m.path, m.dotname .. ".mxx"), "wb")
+    io.output(f)
+        
+    io.printf("#include <cpp/preimport.h>")
+    io.printf("")
+    io.printf("#include <obj/Config.h>")
+    io.printf("")
+    io.printf("export module " .. m.dotname .. ";")
+    io.printf("export import std.core;")
+    io.printf("export import std.io;")
+    io.printf("export import std.threading;")
+    io.printf("export import std.regex;")
+    io.printf("")
+    for _, dep in ipairs(m.deps or {}) do
+        if dep.cppmodule then
+            io.printf("export import " .. dep.dotname .. ";")
+        end
+    end
+    io.printf("")
+    io.printf("#include <" .. m.subdir .. "/Api.h>")
+    if m.reflect then
+        io.printf("#include <" .. m.subdir .. "/Generated/Types.h>")
+        io.printf("#include <" .. m.subdir .. "/Generated/Module.h>")
+        io.printf("#include <" .. m.subdir .. "/Generated/Convert.h>")
+    end
+    io.printf("")
+    f:close()
+end
+
+function mud_bootstrap(modules)
+    for _, m in ipairs(modules) do
+        mud_write_api(m)
+        mud_write_mxx(m)
+    end
+end
+
+newaction {
+    trigger     = "bootstrap",
+    description = "Bootstrap c++ modules",
+    execute     = function()
+        mud_bootstrap(MODULES)
+    end
+}
+
 newaction {
     trigger     = "reflect",
     description = "Generate reflection",
     execute     = function()
-        os.execute(path.join(MUD_OBJ_DIR, "Metagen", "generator.py") .. " " .. table.concat(MODULES_PY, " "))
+        os.execute(path.join(MUD_DIR, "src/obj/Metagen", "generator.py") .. " " .. table.concat(MODULES_PY, " "))
     end
 }
 
@@ -133,6 +302,11 @@ newaction {
 newoption {
     trigger = "cpp-modules",
     description = "Use C++ experimental modules",
+}
+
+newoption {
+    trigger = "as-libs",
+    description = "Generate separate mud libraries",
 }
 
 newoption {
@@ -197,15 +371,6 @@ if not MUD_DIR then
     MUD_DIR = path.getabsolute("..")
 end
 MUD_SRC_DIR    = path.join(MUD_DIR, "src")
-MUD_OBJ_DIR    = path.join(MUD_SRC_DIR, "obj")
-MUD_MATH_DIR   = path.join(MUD_SRC_DIR, "math")
-MUD_SCRPT_DIR  = path.join(MUD_SRC_DIR, "lang")
-MUD_UTIL_DIR   = path.join(MUD_SRC_DIR, "util")
-MUD_DB_DIR     = path.join(MUD_SRC_DIR, "db")
-MUD_CTX_DIR    = path.join(MUD_SRC_DIR, "ctx")
-MUD_UI_DIR     = path.join(MUD_SRC_DIR, "ui")
-MUD_UIO_DIR    = path.join(MUD_SRC_DIR, "uio")
-MUD_GFX_DIR    = path.join(MUD_SRC_DIR, "gfx")
 
 MUD_3RDPARTY_DIR = path.join(MUD_DIR, "3rdparty")
 
@@ -214,6 +379,10 @@ BGFX_DIR = path.join(MUD_3RDPARTY_DIR, "bgfx")
 BIMG_DIR = path.join(MUD_3RDPARTY_DIR, "bimg")
 
 dofile("toolchain.lua")
+
+if _OPTIONS["cpp-modules"] then
+    _OPTIONS["as-libs"] = ""
+end
 
 if not _OPTIONS["renderer-gl"] and not _OPTIONS["renderer-bgfx"] then
     _OPTIONS["renderer-bgfx"] = ""
@@ -245,14 +414,14 @@ removeflags {
     "StaticRuntime",
     "NoFramePointer",
 }
-        
+
 configuration { "Debug" }
     targetsuffix "_d"
-    
+
     removeflags {
         --"NoExceptions",
     }
-    
+
 configuration { "Release" }
     targetsuffix ""
     
@@ -285,7 +454,7 @@ configuration { "linux-*" }
     buildoptions {
         "-fPIC",
     }
-    
+
 configuration { "*-gcc* or osx" }
     buildoptions {
         "-Wno-shadow",

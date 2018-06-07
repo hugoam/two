@@ -1,0 +1,18 @@
+#include <cpp/preimport.h>
+
+#include <obj/Config.h>
+
+export module mud.geom;
+export import std.core;
+export import std.io;
+export import std.threading;
+export import std.regex;
+
+export import mud.obj;
+export import mud.math;
+
+#include <geom/Api.h>
+#include <geom/Generated/Types.h>
+#include <geom/Generated/Module.h>
+#include <geom/Generated/Convert.h>
+

@@ -4,9 +4,11 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <gfx/Renderer.h>
 #include <gfx/Program.h>
 #include <gfx/Filter.h>
+#endif
 
 namespace mud
 {
@@ -15,16 +17,16 @@ namespace mud
 		DOF_FIRST_PASS,
 	};
 
-	export_ struct _refl_ MUD_GFX_EXPORT DofBlur
+	export_ struct refl_ MUD_GFX_PBR_EXPORT DofBlur
 	{
-		_attr_ _mut_ bool m_enabled = false;
-		_attr_ _mut_ float m_far_distance = 10.f;
-		_attr_ _mut_ float m_far_transition = 5.f;
-		_attr_ _mut_ float m_far_radius = 5.f;
-		_attr_ _mut_ float m_near_distance = 2.f;
-		_attr_ _mut_ float m_near_transition = 1.f;
-		_attr_ _mut_ float m_near_radius = 5.f;
-		_attr_ _mut_ float m_max_coc_radius = 8.f;
+		attr_ mut_ bool m_enabled = false;
+		attr_ mut_ float m_far_distance = 10.f;
+		attr_ mut_ float m_far_transition = 5.f;
+		attr_ mut_ float m_far_radius = 5.f;
+		attr_ mut_ float m_near_distance = 2.f;
+		attr_ mut_ float m_near_transition = 1.f;
+		attr_ mut_ float m_near_radius = 5.f;
+		attr_ mut_ float m_max_coc_radius = 8.f;
 	};
 
 	struct DofBlurUniform
@@ -41,7 +43,7 @@ namespace mud
 		bgfx::UniformHandle u_dof_params;
 	};
 
-	export_ class _refl_ MUD_GFX_EXPORT BlockDofBlur : public GfxBlock
+	export_ class refl_ MUD_GFX_PBR_EXPORT BlockDofBlur : public GfxBlock
 	{
 	public:
 		BlockDofBlur(GfxSystem& gfx_system, BlockFilter& filter);

@@ -2,11 +2,13 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <ui/Generated/Module.h>
 
 #include <obj/Any.h>
 #include <obj/Reflect/MetaDecl.h>
 #include <obj/System/System.h>
+#endif
 
 namespace mud
 {
@@ -15,7 +17,7 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::ImageSkin::Section>();
     
 #ifdef MUD_UI_REFLECTION_IMPL
-    void ui_meta(Module& m)
+    void mudui_meta(Module& m)
     {   
     // Base Types
     
@@ -1405,6 +1407,38 @@ namespace mud
     
     
         
+    // mud::SpriteAtlas
+    {
+        static Meta meta = { type<mud::SpriteAtlas>(), &namspc({ "mud" }), "SpriteAtlas", sizeof(mud::SpriteAtlas), TypeClass::Object };
+        static Class cls = { type<mud::SpriteAtlas>(),
+            // bases
+            { &type<mud::ImageAtlas>() },
+            { base_offset<mud::SpriteAtlas, mud::ImageAtlas>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::SpriteAtlas>();
+    }
+    
+    
+        
     // mud::Frame
     {
         static Meta meta = { type<mud::Frame>(), &namspc({ "mud" }), "Frame", sizeof(mud::Frame), TypeClass::Object };
@@ -1465,199 +1499,6 @@ namespace mud
         
         
         meta_class<mud::FrameSolver>();
-    }
-    
-    
-        
-    // mud::RowSolver
-    {
-        static Meta meta = { type<mud::RowSolver>(), &namspc({ "mud" }), "RowSolver", sizeof(mud::RowSolver), TypeClass::Object };
-        static Class cls = { type<mud::RowSolver>(),
-            // bases
-            { &type<mud::FrameSolver>() },
-            { base_offset<mud::RowSolver, mud::FrameSolver>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::RowSolver>();
-    }
-    
-    
-    
-        
-    // mud::LineSolver
-    {
-        static Meta meta = { type<mud::LineSolver>(), &namspc({ "mud" }), "LineSolver", sizeof(mud::LineSolver), TypeClass::Object };
-        static Class cls = { type<mud::LineSolver>(),
-            // bases
-            { &type<mud::RowSolver>() },
-            { base_offset<mud::LineSolver, mud::RowSolver>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::LineSolver>();
-    }
-    
-    
-        
-    // mud::Dockbar
-    {
-        static Meta meta = { type<mud::Dockbar>(), &namspc({ "mud" }), "Dockbar", sizeof(mud::Dockbar), TypeClass::Object };
-        static Class cls = { type<mud::Dockbar>(),
-            // bases
-            { &type<mud::Docker>() },
-            { base_offset<mud::Dockbar, mud::Docker>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Dockbar>();
-    }
-    
-    
-        
-    // mud::Dockspace
-    {
-        static Meta meta = { type<mud::Dockspace>(), &namspc({ "mud" }), "Dockspace", sizeof(mud::Dockspace), TypeClass::Object };
-        static Class cls = { type<mud::Dockspace>(),
-            // bases
-            { &type<mud::Docker>() },
-            { base_offset<mud::Dockspace, mud::Docker>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Dockspace>();
-    }
-    
-    
-        
-    // mud::Window
-    {
-        static Meta meta = { type<mud::Window>(), &namspc({ "mud" }), "Window", sizeof(mud::Window), TypeClass::Object };
-        static Class cls = { type<mud::Window>(),
-            // bases
-            { &type<mud::Dockable>() },
-            { base_offset<mud::Window, mud::Dockable>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Window>();
-    }
-    
-    
-        
-    // mud::SpriteAtlas
-    {
-        static Meta meta = { type<mud::SpriteAtlas>(), &namspc({ "mud" }), "SpriteAtlas", sizeof(mud::SpriteAtlas), TypeClass::Object };
-        static Class cls = { type<mud::SpriteAtlas>(),
-            // bases
-            { &type<mud::ImageAtlas>() },
-            { base_offset<mud::SpriteAtlas, mud::ImageAtlas>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::SpriteAtlas>();
     }
     
     
@@ -2076,6 +1917,167 @@ namespace mud
         meta_class<mud::TreeNode>();
     }
     
+    
+        
+    // mud::RowSolver
+    {
+        static Meta meta = { type<mud::RowSolver>(), &namspc({ "mud" }), "RowSolver", sizeof(mud::RowSolver), TypeClass::Object };
+        static Class cls = { type<mud::RowSolver>(),
+            // bases
+            { &type<mud::FrameSolver>() },
+            { base_offset<mud::RowSolver, mud::FrameSolver>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::RowSolver>();
+    }
+    
+    
+    
+        
+    // mud::LineSolver
+    {
+        static Meta meta = { type<mud::LineSolver>(), &namspc({ "mud" }), "LineSolver", sizeof(mud::LineSolver), TypeClass::Object };
+        static Class cls = { type<mud::LineSolver>(),
+            // bases
+            { &type<mud::RowSolver>() },
+            { base_offset<mud::LineSolver, mud::RowSolver>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::LineSolver>();
+    }
+    
+    
+        
+    // mud::Window
+    {
+        static Meta meta = { type<mud::Window>(), &namspc({ "mud" }), "Window", sizeof(mud::Window), TypeClass::Object };
+        static Class cls = { type<mud::Window>(),
+            // bases
+            { &type<mud::Dockable>() },
+            { base_offset<mud::Window, mud::Dockable>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Window>();
+    }
+    
+    
+        
+    // mud::Dockbar
+    {
+        static Meta meta = { type<mud::Dockbar>(), &namspc({ "mud" }), "Dockbar", sizeof(mud::Dockbar), TypeClass::Object };
+        static Class cls = { type<mud::Dockbar>(),
+            // bases
+            { &type<mud::Docker>() },
+            { base_offset<mud::Dockbar, mud::Docker>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Dockbar>();
+    }
+    
+    
+        
+    // mud::Dockspace
+    {
+        static Meta meta = { type<mud::Dockspace>(), &namspc({ "mud" }), "Dockspace", sizeof(mud::Dockspace), TypeClass::Object };
+        static Class cls = { type<mud::Dockspace>(),
+            // bases
+            { &type<mud::Docker>() },
+            { base_offset<mud::Dockspace, mud::Docker>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Dockspace>();
+    }
+    
 
     
         m.m_types.push_back(&type<mud::Align>());
@@ -2126,14 +2128,9 @@ namespace mud
         m.m_types.push_back(&type<std::vector<mud::Space>>());
         m.m_types.push_back(&type<std::vector<std::string>>());
         m.m_types.push_back(&type<mud::Sprite>());
+        m.m_types.push_back(&type<mud::SpriteAtlas>());
         m.m_types.push_back(&type<mud::Frame>());
         m.m_types.push_back(&type<mud::FrameSolver>());
-        m.m_types.push_back(&type<mud::RowSolver>());
-        m.m_types.push_back(&type<mud::LineSolver>());
-        m.m_types.push_back(&type<mud::Dockbar>());
-        m.m_types.push_back(&type<mud::Dockspace>());
-        m.m_types.push_back(&type<mud::Window>());
-        m.m_types.push_back(&type<mud::SpriteAtlas>());
         m.m_types.push_back(&type<mud::Canvas>());
         m.m_types.push_back(&type<mud::Dockable>());
         m.m_types.push_back(&type<mud::Docker>());
@@ -2147,6 +2144,11 @@ namespace mud
         m.m_types.push_back(&type<mud::Table>());
         m.m_types.push_back(&type<mud::TextEdit>());
         m.m_types.push_back(&type<mud::TreeNode>());
+        m.m_types.push_back(&type<mud::RowSolver>());
+        m.m_types.push_back(&type<mud::LineSolver>());
+        m.m_types.push_back(&type<mud::Window>());
+        m.m_types.push_back(&type<mud::Dockbar>());
+        m.m_types.push_back(&type<mud::Dockspace>());
     
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::widget(val<mud::Widget>(args[0]), val<mud::Style>(args[1]), val<bool>(args[2]), val<mud::Dim>(args[3]), val<mud::Dim2<size_t>>(args[4]))); };

@@ -2,12 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h>
-#include <time.h>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.obj;
@@ -18,6 +13,8 @@ module mud.obj;
 
 namespace mud
 {
+	const double c_tick_interval = 0.02;
+
     Clock::Clock()
         : m_last(clock())
 		, m_lastTick(0)
@@ -30,7 +27,7 @@ namespace mud
 
 	size_t Clock::readTick()
 	{
-		return size_t(this->read() / TICK_INTERVAL);
+		return size_t(this->read() / c_tick_interval);
 	}
 
 	size_t Clock::stepTick()

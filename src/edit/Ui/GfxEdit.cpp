@@ -2,13 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
+
+#include <bgfx/bgfx.h>
 
 #ifdef MUD_MODULES
 module mud.edit;
@@ -52,7 +48,7 @@ namespace mud
 		static std::vector<cstring> animations;
 		animations.clear();
 		for(Animation& animation : animated.m_rig.m_animations)
-			animations.push_back(animation.m_name);
+			animations.push_back(animation.m_name.c_str());
 
 		static size_t animation = 0;
 		if(ui::radio_field(table, "animation", animations, animation))
@@ -69,18 +65,18 @@ namespace mud
 		for(AnimationPlay& play : animated.m_playing)
 		{
 			Widget& row = ui::table_row(playing);
-			ui::label(row, play.m_animation->m_name);
+			ui::label(row, play.m_animation->m_name.c_str());
 			ui::label(row, to_string(play.m_cursor).c_str());
 		}
 
 	}
 
 	// @kludge FUCK THIS
-	// template <> MUD_GFX_EXPORT Type& type<ValueTrack<vec3>>();
-	// template <> MUD_GFX_EXPORT Type& type<ValueTrack<quat>>();
-	// template <> MUD_GFX_EXPORT Type& type<ValueTrack<float>>();
-	// template <> MUD_GFX_EXPORT Type& type<ValueTrack<uint32_t>>();
-	// template <> MUD_GFX_EXPORT Type& type<ValueTrack<Colour>>();
+	// template <> MUD_EDIT_EXPORT Type& type<ValueTrack<vec3>>();
+	// template <> MUD_EDIT_EXPORT Type& type<ValueTrack<quat>>();
+	// template <> MUD_EDIT_EXPORT Type& type<ValueTrack<float>>();
+	// template <> MUD_EDIT_EXPORT Type& type<ValueTrack<uint32_t>>();
+	// template <> MUD_EDIT_EXPORT Type& type<ValueTrack<Colour>>();
 
 	void space_axes(Gnode& parent)
 	{
@@ -165,7 +161,7 @@ namespace mud
 		SceneViewer& viewer = ui::scene_viewer(parent, vec2(200.f));
 		viewer.m_camera.m_node.m_position = radius * 2.5f * Z3;
 
-		quat rotation = axis_angle(Y3, fmod(time, 2.f * M_PI));
+		quat rotation = axis_angle(Y3, fmod(time, 2.f * c_pi));
 
 		Gnode& scene = viewer.m_scene->begin();
 		gfx::node(scene, object, offset, rotation);
@@ -401,8 +397,8 @@ namespace mud
 
 		{
 			DispatchItem& dispatch = DispatchItem::me();
-			dispatch_branch<Material>	(dispatch, [](Material& material, Widget& parent) -> Widget&	{ return asset_item(parent, "(material)", material.m_name, &material); });
-			dispatch_branch<Model>		(dispatch, [](Model& model, Widget& parent) -> Widget&			{ return asset_item(parent, "(model)", model.m_name, &model); });
+			dispatch_branch<Material>	(dispatch, [](Material& material, Widget& parent) -> Widget&	{ return asset_item(parent, "(material)", material.m_name.c_str(), &material); });
+			dispatch_branch<Model>		(dispatch, [](Model& model, Widget& parent) -> Widget&			{ return asset_item(parent, "(model)", model.m_name.c_str(), &model); });
 		}
 
 	}

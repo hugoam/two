@@ -2,16 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
-import mud.obj;
 module mud.lang;
 #else
 #include <obj/Indexer.h>
@@ -34,7 +27,11 @@ namespace mud
 		unindex(type<Script>(), m_index);
 	}
 
-	void Script::operator()(array<Var> args, Var& result) const
+	LuaScript::LuaScript(cstring name, const Signature& signature)
+		: Script(name, signature)
+	{}
+
+	void LuaScript::operator()(array<Var> args, Var& result) const
 	{
 		for(const Param& param : m_signature.m_params)
 			m_interpreter->set(param.m_name, args[param.m_index]);

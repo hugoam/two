@@ -2,8 +2,10 @@
 	"project": "mudgfxpbr.h",
 	"target": "mudgfxpbr.h",
 	"sources": [
+		"gfx-pbr/Api.h",
 		"gfx-pbr/Depth.h",
 		"gfx-pbr/Light.h",
+		"gfx-pbr/Pipeline.h",
 		"gfx-pbr/Radiance.h",
 		"gfx-pbr/Reflection.h",
 		"gfx-pbr/ReflectionAtlas.h",
@@ -20,6 +22,7 @@
 	],
 	"includes_map": {
 		"obj/": "mudobj.h",
+		"srlz/": "mudsrlz.h",
 		"math/": "mudmath.h",
 		"geom/": "mudgeom.h",
 		"gfx/": "mudgfx.h"

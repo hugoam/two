@@ -2,14 +2,8 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-#include <cstring>
-import std.core;
-import std.memory;
-#else
+#include <obj/Cpp20.h>
+#ifndef MUD_CPP_20
 #include <fstream>
 #endif
 
@@ -17,7 +11,7 @@ import std.memory;
 module mud.edit;
 #else
 #include <obj/Reflect/Method.h>
-#include <obj/Serial/Serial.h>
+#include <srlz/Serial.h>
 #include <obj/System/System.h>
 #include <geom/Shapes.h>
 #include <geom/Symbol.h>
@@ -31,9 +25,6 @@ module mud.edit;
 #include <edit/Ui/ParticleEdit.h>
 #include <edit/Viewer/Viewer.h>
 #endif
-
-#include <json11.hpp>
-using json = json11::Json;
 
 namespace mud
 {
@@ -82,9 +73,7 @@ namespace mud
 		{
 			if(std::fstream(string(system.m_resource_path) + location).good())
 			{
-				json json_value;
-				parse_json_file(string(system.m_resource_path) + location, json_value);
-				generator = unpackt<ParticleGenerator>(json_value);
+				unpack_json_file(&generator, string(system.m_resource_path) + location);
 			}
 		}
 	}
@@ -94,9 +83,7 @@ namespace mud
 		static string destination = "";
 		if(select_value(parent, SAVE_PARTICLES, destination, true))
 		{
-			json json_value;
-			pack(Ref(&generator), json_value);
-			dump_json_file(string(system.m_resource_path) + destination, json_value);
+			pack_json_file(Ref(&generator), string(system.m_resource_path) + destination);
 		}
 	}
 

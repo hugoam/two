@@ -1,20 +1,20 @@
 
 #pragma once
 
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/System/System.h>
+#endif
 
+#ifndef MUD_MODULES
 #include <obj/Generated/Module.h>
 #include <math/Generated/Module.h>
+#endif
         
 #include <ctx/Generated/Forward.h>
 #include <ctx/Generated/Types.h>
+#include <ctx/Api.h>
 
-#include <ctx/Context.h>
-#include <ctx/ControlNode.h>
-#include <ctx/InputDevice.h>
-#include <ctx/InputDispatcher.h>
-#include <ctx/InputEvent.h>
-#include <ctx/KeyCode.h>
+#include <ctx/Generated/Convert.h>
 
 namespace mud
 {

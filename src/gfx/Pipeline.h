@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/EnumArray.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Renderer.h>
 
@@ -19,7 +21,11 @@ namespace mud
 
 	export_ struct MUD_GFX_EXPORT PassJobs
 	{
+#ifdef MUD_MODULES
+		enum_array<PassType, std::vector<PassJob>, size_t(PassType::Count)> m_jobs;
+#else
 		enum_array<PassType, std::vector<PassJob>> m_jobs;
+#endif
 	};
 
 	export_ class MUD_GFX_EXPORT Pipeline : public NonCopy
@@ -37,7 +43,12 @@ namespace mud
 		array<GfxBlock*> pass_blocks(PassType pass);
 
 		std::vector<unique_ptr<GfxBlock>> m_gfx_blocks;
+
+#ifdef MUD_MODULES
+		enum_array<PassType, std::vector<GfxBlock*>, size_t(PassType::Count)> m_pass_blocks;
+#else
 		enum_array<PassType, std::vector<GfxBlock*>> m_pass_blocks;
+#endif
 	};
 
 	export_ class MUD_GFX_EXPORT PassClear : public RenderPass
@@ -101,19 +112,9 @@ namespace mud
 		BlockCopy& m_copy;
 	};
 
-	struct ReflectionRenderer : public Renderer
-	{
-		ReflectionRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
-	};
-
 	struct MinimalRenderer : public Renderer
 	{
 		MinimalRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
-	};
-
-	struct MainRenderer : public Renderer
-	{
-		MainRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
 	};
 
 	struct UnshadedRenderer : public Renderer
@@ -124,11 +125,5 @@ namespace mud
 	struct ClearRenderer : public Renderer
 	{
 		ClearRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
-	};
-
-	export_ class MUD_GFX_EXPORT PipelinePbr : public Pipeline
-	{
-	public:
-		PipelinePbr(GfxSystem& gfx_system);
 	};
 }

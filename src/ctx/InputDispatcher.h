@@ -4,8 +4,10 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Unique.h>
 #include <obj/EnumArray.h>
+#endif
 #include <ctx/Generated/Forward.h>
 #include <ctx/KeyCode.h>
 #include <ctx/InputEvent.h>
@@ -17,12 +19,18 @@
 
 namespace mud
 {
-	template <class T_Element>
+	export_ template <class T_Element>
 	struct EventMap
 	{
 		EventMap() { m_events = {}; m_keyed_events = {}; }
+		
+#ifdef MUD_MODULES
+                enum_array<DeviceType, enum_array<EventType, T_Element, size_t(EventType::Count)>, size_t(DeviceType::Count)> m_events;
+                enum_array<DeviceType, enum_array<EventType, std::map<int, T_Element>, size_t(EventType::Count)>, size_t(DeviceType::Count)> m_keyed_events;
+#else
 		enum_array<DeviceType, enum_array<EventType, T_Element>> m_events;
 		enum_array<DeviceType, enum_array<EventType, std::map<int, T_Element>>> m_keyed_events;
+#endif
 
 		T_Element& event(DeviceType device_type, EventType event_type) { return m_events[size_t(device_type)][size_t(event_type)]; }
 		T_Element& event(DeviceType device_type, EventType event_type, int key) { return m_keyed_events[size_t(device_type)][size_t(event_type)][key]; }

@@ -17,7 +17,7 @@
 
 namespace mud
 {
-	export_ class _refl_ MUD_OBJ_EXPORT Static
+	export_ class refl_ MUD_OBJ_EXPORT Static
 	{
 	public:
 		Static(Type& parent_type, cstring name, Ref value);
@@ -27,7 +27,7 @@ namespace mud
 		Ref m_value;
 	};
 
-	export_ class _refl_ MUD_OBJ_EXPORT Member
+	export_ class refl_ MUD_OBJ_EXPORT Member
 	{
 	public:
 		enum Flags

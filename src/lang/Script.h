@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Reflect/Method.h>
+#endif
 #include <lang/Generated/Forward.h>
 
 #ifndef MUD_CPP_20
@@ -15,17 +17,23 @@ namespace mud
 {
 	using string = std::string;
 
-	export_ class _refl_ MUD_LANG_EXPORT Script : public Callable
+	export_ class refl_ MUD_LANG_EXPORT Script : public Callable
 	{
 	public:
-		_constr_ Script(cstring name, const Signature& signature = {});
+		Script(cstring name, const Signature& signature = {});
 		~Script();
 
-		_attr_ uint32_t m_index;
-		_attr_ string m_name;
-		_attr_ bool m_locked;
+		attr_ uint32_t m_index;
+		attr_ string m_name;
+		attr_ bool m_locked;
 
 		Signature m_signature;
+	};
+
+	export_ class refl_ MUD_LANG_EXPORT LuaScript final : public Script
+	{
+	public:
+		constr_ LuaScript(cstring name, const Signature& signature = {});
 
 		string m_script;
 

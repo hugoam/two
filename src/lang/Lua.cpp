@@ -2,13 +2,8 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#else
+#include <obj/Cpp20.h>
+#ifndef MUD_CPP_20
 #include <cassert>
 #include <cmath>
 #include <cstdio>
@@ -19,7 +14,7 @@ import std.memory;
 #endif
 
 #ifdef MUD_MODULES
-import mud.obj;
+#include <stdlib.h>
 module mud.lang;
 #else
 #include <obj/Proto.h>
@@ -161,13 +156,13 @@ namespace mud
 		int release() { const auto n = m_num; m_num = 0; return n; }
 	};
 
-	export_ class MUD_OBJ_EXPORT FromLua : public Dispatch<void, lua_State*, int, Var&>, public LazyGlobal<FromLua>
+	class FromLua : public Dispatch<void, lua_State*, int, Var&>, public LazyGlobal<FromLua>
 	{
 	public:
 		FromLua();
 	};
 
-	export_ class MUD_OBJ_EXPORT ToLua : public Dispatch<Stack, lua_State*>, public LazyGlobal<ToLua>
+	class ToLua : public Dispatch<Stack, lua_State*>, public LazyGlobal<ToLua>
 	{
 	public:
 		ToLua();
@@ -762,12 +757,13 @@ namespace mud
 		function<void>([](Ref, lua_State* state) { return push_null(state); });
 
 		dispatch_branch<int>     (*this, [](int&      value, lua_State* state) { return push_integer(state, value); });
+		dispatch_branch<uint16_t>(*this, [](uint16_t& value, lua_State* state) { return push_integer(state, value); });
 		dispatch_branch<uint32_t>(*this, [](uint32_t& value, lua_State* state) { return push_integer(state, value); });
+		dispatch_branch<uint64_t>(*this, [](uint64_t& value, lua_State* state) { return push_integer(state, value); });
 		dispatch_branch<float>   (*this, [](float&    value, lua_State* state) { return push_scalar(state, value); });
 		dispatch_branch<double>  (*this, [](double&   value, lua_State* state) { return push_scalar(state, value); });
 		dispatch_branch<cstring> (*this, [](cstring   value, lua_State* state) { return push_cstring(state, value); });
 		dispatch_branch<string>  (*this, [](string&   value, lua_State* state) { return push_string(state, value); });
-		dispatch_branch<Id>      (*this, [](Id&       value, lua_State* state) { return push_integer(state, value); });
 		dispatch_branch<bool>    (*this, [](bool&     value, lua_State* state) { return push_bool(state, value); });
 	}
 

@@ -2,13 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
-#include <assert.h> // <cassert>
-#include <stdint.h> // <cstdint>
-#include <float.h> // <cfloat>
-import std.core;
-import std.memory;
-#endif
+#include <obj/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.uio;
@@ -24,6 +18,7 @@ module mud.uio;
 #include <uio/Generated/Types.h>
 #include <uio/Edit/Value.h>
 #include <uio/Unode.h>
+#include <uio/Object.h>
 #include <uio/Edit/Inspector.h>
 #include <uio/Edit/Injector.h>
 #include <uio/Edit/Indexer.h>

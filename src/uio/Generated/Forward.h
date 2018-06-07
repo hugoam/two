@@ -8,9 +8,7 @@
 #include <lang/Generated/Forward.h>
 #include <ui/Generated/Forward.h>
 
-#if defined MUD_UIO_LIB
-#define MUD_UIO_EXPORT MUD_EXPORT
-#else
+#ifndef MUD_UIO_EXPORT
 #define MUD_UIO_EXPORT MUD_IMPORT
 #endif
 

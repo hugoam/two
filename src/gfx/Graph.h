@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
 #include <obj/Graph/Node.h>
+#endif
 #include <gfx/Generated/Forward.h>
 #include <gfx/Node3.h>
 #include <gfx/Light.h>
@@ -14,7 +16,7 @@ namespace mud
 	class SoundManager;
 	class Sound;
 
-	export_ class _refl_ MUD_GFX_EXPORT Gnode : public Graph<Gnode>
+	export_ class refl_ MUD_GFX_EXPORT Gnode : public Graph<Gnode>
 	{
 	public:
 		Gnode();
@@ -22,7 +24,7 @@ namespace mud
 		Gnode(Gnode* parent, void* identity);
 		~Gnode();
 		
-		_meth_ Gnode& begin();
+		meth_ Gnode& begin();
 
 		Scene* m_scene = nullptr;
 		Node3* m_attach = nullptr;
