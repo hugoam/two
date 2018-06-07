@@ -73,20 +73,28 @@ namespace mud
 
 	Gizmo ScaleTool::linear_gizmo(Axis axis, float hue)
 	{
+#ifdef MUD_MODULES // @todo clang bug
+		return {};
+#else
 		auto grab_point = [this, axis](Viewer& viewer, const vec2& pos) { UNUSED(pos); return inverse(m_transform.m_rotation) * gizmo_grab_linear(viewer, m_transform, axis); };
 
 		auto draw_handle = [=](Gnode& parent) { return &scale_1d_gizmo(parent, axis, Colour::Invisible, ITEM_UI); };
 		auto draw_gizmo = [=](Gnode& parent, bool active) { scale_1d_gizmo(parent, axis, gizmo_colour(hue, active)); };
 		return { draw_handle, draw_gizmo, nullptr, false, grab_point };
+#endif
 	}
 
 	Gizmo ScaleTool::planar_gizmo(Axis normal, float hue)
 	{
+#ifdef MUD_MODULES // @todo clang bug
+		return {};
+#else
 		auto grab_point = [this, normal](Viewer& viewer, const vec2& pos) { UNUSED(pos); return inverse(m_transform.m_rotation) * gizmo_grab_planar(viewer, m_transform, normal); };
 
 		auto draw_handle = [=](Gnode& parent) { return &scale_2d_gizmo(parent, normal, Colour::Invisible, ITEM_UI); };
 		auto draw_gizmo = [=](Gnode& parent, bool active) { scale_2d_gizmo(parent, normal, gizmo_colour(hue, active)); };
 		return { draw_handle, draw_gizmo, nullptr, false, grab_point };
+#endif
 	}
 
 	Gizmo ScaleTool::uniform_gizmo()

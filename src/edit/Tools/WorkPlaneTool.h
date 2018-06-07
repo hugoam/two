@@ -27,7 +27,7 @@ namespace mud
 		Plane m_endPlane;
 	};
 
-	export_ class refl_ WorkPlaneTool : public Tool
+	export_ class refl_ WorkPlaneTool final : public Tool
 	{
 	public:
 		WorkPlaneTool(ToolContext& context, cstring name, const Plane& plane);

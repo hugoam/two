@@ -31,7 +31,7 @@ namespace mud
 		vec3 m_translation;
 	};
 
-	export_ class refl_ MUD_EDIT_EXPORT TranslateTool : public TransformTool
+	export_ class refl_ MUD_EDIT_EXPORT TranslateTool final : public TransformTool
 	{
 	public:
 		TranslateTool(ToolContext& context);

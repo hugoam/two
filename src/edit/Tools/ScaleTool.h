@@ -30,7 +30,7 @@ namespace mud
 		vec3 m_scale_offset;
 	};
 
-	export_ class refl_ MUD_EDIT_EXPORT ScaleTool : public TransformTool
+	export_ class refl_ MUD_EDIT_EXPORT ScaleTool final : public TransformTool
 	{
 	public:
 		ScaleTool(ToolContext& context);

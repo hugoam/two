@@ -33,7 +33,7 @@ namespace mud
 		vec3 m_eye_position[2];
 	};
 
-	export_ class refl_ ViewTool : public ViewportTool
+	export_ class refl_ ViewTool final : public ViewportTool
 	{
 	public:
 		ViewTool(ToolContext& context, cstring name, const vec3& offset);

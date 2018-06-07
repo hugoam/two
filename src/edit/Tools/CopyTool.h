@@ -30,7 +30,7 @@ namespace mud
 		//Injector m_injector;
 	};
 
-	export_ class refl_ MUD_EDIT_EXPORT CopyTool : public TransformTool
+	export_ class refl_ MUD_EDIT_EXPORT CopyTool final : public TransformTool
 	{
 	public:
 		CopyTool(ToolContext& context);

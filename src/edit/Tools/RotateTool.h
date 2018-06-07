@@ -31,7 +31,7 @@ namespace mud
 		float m_angle;
 	};
 
-	export_ class refl_ MUD_EDIT_EXPORT RotateTool : public TransformTool
+	export_ class refl_ MUD_EDIT_EXPORT RotateTool final : public TransformTool
 	{
 	public:
 		RotateTool(ToolContext& context);
