@@ -52,11 +52,13 @@ namespace mud
 	{
 		this->init(viewer_styles().viewer);
 
+#ifndef MUD_MODULES // @todo clang bug
 		m_viewport.m_get_size = [&] { return uvec4(this->query_size()); };
 		m_viewport.m_render = [&](Render& render) { this->render(render); };
 		m_viewport.m_filters = &m_filters;
 
 		m_custom_draw = [&](const Frame& frame, const vec4& rect, VgRenderer& renderer) { UNUSED(frame); renderer.draw_frame(frame, rect); this->blit(renderer); };
+#endif
 
 		m_context.m_viewports.push_back(&m_viewport);
 
