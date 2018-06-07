@@ -233,6 +233,7 @@ namespace mud
 	// n = side of the pattern, e.g. 3.
 	PatternPrevalence extract_patterns(const PalettedImage& sample, int n, bool periodic_in, size_t symmetry, PatternHash* out_lowest_pattern)
 	{
+#ifndef MUD_MODULES // @todo clang bug
 		const auto pattern_from_sample = [&](size_t x, size_t y) {
 			return make_pattern(n, [&](size_t dx, size_t dy) { return sample.at_wrapped(x + dx, y + dy); });
 		};
@@ -266,6 +267,7 @@ namespace mud
 			}
 
 		return patterns;
+#endif
 	}
 
 	void run_overlapping(const std::string& image, size_t symmetry, int n, uint16_t width, uint16_t height, uint16_t depth, bool periodic)
@@ -274,12 +276,14 @@ namespace mud
 		const PatternPrevalence hashed_patterns = extract_patterns(sample_image, n, false, symmetry, nullptr);
 		Patternset tileset = { n, hashed_patterns, sample_image.palette, kInvalidHash };
 
+#ifndef MUD_MODULES // @todo clang bug
 		Wave wave(uint16_t(hashed_patterns.size()), width, height, depth, periodic); // resize each to model._num_patterns
 		wave.m_propagate = [&](Wave& wave) { propagate_overlapping(tileset, wave); };
 		wave.m_valid_coord = [&](int x, int y, int z) { return !on_boundary(n, wave, x, y, z); };
 		//wave.m_states = tileset.m_weights;
 
 		wave.solve(0);
+#endif
 	}
 
 	using WfcImage = array_3d<RGBA>;
