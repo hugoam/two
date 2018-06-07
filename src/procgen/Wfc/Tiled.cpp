@@ -50,6 +50,7 @@ namespace mud
 
 			char symmetry = json_tile["symmetry"].string_value()[0];
 
+#ifndef MUD_MODULES // @todo clang bug
 			if(symmetry == 'L') {
 				cardinality = 4;
 				a = [](int i) { return (i + 1) % 4; };
@@ -75,6 +76,7 @@ namespace mud
 				a = [](int i) { return i; };
 				b = [](int i) { return i; };
 			}
+#endif
 
 			const size_t num_patterns = tileset.m_tiles_flip.size();
 
