@@ -99,6 +99,9 @@ namespace mud
 
 	Gizmo ScaleTool::uniform_gizmo()
 	{
+#ifdef MUD_MODULES // @todo clang bug
+		return {};
+#else
 		auto grab_point = [this](Viewer& viewer, const vec2& pos)
 		{
 			vec2 delta = (pos - m_drag_start) * 5.f / viewer.m_frame.m_size;
@@ -108,6 +111,7 @@ namespace mud
 		auto draw_handle = [=](Gnode& parent) { return &scale_3d_gizmo(parent, Colour::Invisible, ITEM_UI); };
 		auto draw_gizmo = [=](Gnode& parent, bool active) { scale_3d_gizmo(parent, active ? Colour::White : Colour::AlphaWhite); };
 		return { draw_handle, draw_gizmo, nullptr, false, grab_point };
+#endif
 	}
 
 	object_ptr<TransformAction> ScaleTool::create_action(const std::vector<Transform*>& targets)
