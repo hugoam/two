@@ -84,6 +84,10 @@ function mud_modules()
 end
 
 function mud_mxx(cpps, m)
+    if not _OPTIONS["cpp-modules"] then
+        return
+    end
+    
     local cxxmodules = {}
 
     for _, cpp in ipairs(cpps) do
@@ -171,7 +175,7 @@ function mud_module(as_project, namespace, name, root_path, subpath, deps, nomod
     
     local cpps = os.matchfiles(path.join(m.path, "**.cpp"))
     mud_mxx(cpps, m)
-
+    
     defines { m.idname:upper() .. "_REFLECT" }
     defines { m.idname:upper() .. "_EXPORT=MUD_EXPORT" }
     
