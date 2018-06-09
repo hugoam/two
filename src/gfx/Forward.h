@@ -37,12 +37,23 @@ namespace glm {
     
 }
 
-namespace mud {
-namespace gfx {
+namespace bgfx {
 
     
     
-}
+    struct UniformHandle;
+    struct UniformType;
+    struct TextureHandle;
+    struct TextureInfo;
+    struct TextureFormat;
+    struct VertexBufferHandle;
+    struct IndexBufferHandle;
+    struct InstanceDataBuffer;
+    struct ProgramHandle;
+    struct FrameBufferHandle;
+    struct Memory;
+    struct VertexDecl;
+    struct Aabb;
 }
 
 namespace json11 {
@@ -197,23 +208,12 @@ namespace detail {
 }
 }
 
-namespace bgfx {
+namespace mud {
+namespace gfx {
 
     
     
-    struct UniformHandle;
-    struct UniformType;
-    struct TextureHandle;
-    struct TextureInfo;
-    struct TextureFormat;
-    struct VertexBufferHandle;
-    struct IndexBufferHandle;
-    struct InstanceDataBuffer;
-    struct ProgramHandle;
-    struct FrameBufferHandle;
-    struct Memory;
-    struct VertexDecl;
-    struct Aabb;
+}
 }
 
 namespace bimg {

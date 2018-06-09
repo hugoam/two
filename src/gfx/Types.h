@@ -103,12 +103,12 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Transform>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::UnshadedMaterialBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Viewport>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::ParticleEmitter>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockCopy>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockFilter>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockParticles>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockResolve>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockSky>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::ParticleEmitter>();
 }

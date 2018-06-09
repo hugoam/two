@@ -114,7 +114,7 @@ end
 mud.modules = { mud.infra, mud.obj, mud.pool, mud.refl, mud.tree, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio }
 mud.usage_decl = uses_mud
 
-table.extend(mud.modules, mud_reflect({ mud.infra, mud.obj, mud.pool, mud.refl, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio }))
+table.extend(mud.modules, mud_refls({ mud.infra, mud.obj, mud.pool, mud.refl, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio }))
 
 if _OPTIONS["as-libs"] then
     group "lib/mud"

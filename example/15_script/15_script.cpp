@@ -3,7 +3,7 @@
 
 #include <01_shapes/01_shapes.h>
 #include <03_materials/03_materials.h>
-#include <15_script/Refl/Module.h>
+#include <meta/15_script/Module.h>
 
 GameObject::GameObject(const ShapeInstance* shape, Material* material, Colour colour)
 	: m_index(index(type<GameObject>(), this))

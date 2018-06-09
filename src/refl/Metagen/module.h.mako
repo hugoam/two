@@ -7,7 +7,7 @@
 
 #ifndef MUD_MODULES
 % for m in module.dependencies :
-#include <${ m.subdir }/Refl/Module.h>
+#include <meta/${ m.subdir }/Module.h>
 % endfor
 #endif
         
@@ -15,7 +15,7 @@
 #include <${ module.subdir }/Types.h>
 #include <${ module.subdir }/Api.h>
 
-#include <${ module.subdir }/Refl/Convert.h>
+#include <meta/${ module.subdir }/Convert.h>
 
 #ifndef ${ module.refl_export }
 #define ${ module.refl_export } MUD_IMPORT

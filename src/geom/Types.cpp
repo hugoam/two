@@ -29,8 +29,8 @@ namespace mud
     template <> MUD_GEOM_EXPORT Type& type<mud::Shape>() { static Type ty("Shape"); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::ShapeVar>() { static Type ty("ShapeVar"); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Symbol>() { static Type ty("Symbol"); return ty; }
-    template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>() { static Type ty("Aabb", type<mud::Cube>()); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Poisson>() { static Type ty("Poisson", type<mud::Distribution>()); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>() { static Type ty("Aabb", type<mud::Cube>()); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Arc>() { static Type ty("Arc", type<mud::Shape>()); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Box>() { static Type ty("Box", type<mud::Shape>()); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Capsule>() { static Type ty("Capsule", type<mud::Shape>()); return ty; }

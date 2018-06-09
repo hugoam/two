@@ -49,6 +49,12 @@ function mud_example(name, gfx, deps, ismodule)
         kind "ConsoleApp"
         
         mud.examples[name] = mud_module(nil, "_" .. name, path.join(MUD_DIR, "example"), name, mud_example_module_decl, nil, nil, mud.all, not ismodule)
+        
+        if ismodule then
+            mud_refl(mud.examples[name])
+            mud_module_decl(mud.examples[name].refl, false)
+        end
+        
         mud.examples[name].decl(mud.examples[name], false)
         
 		for _, depname in ipairs(deps) do

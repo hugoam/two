@@ -244,17 +244,17 @@ function mud_module(namespace, name, rootpath, subpath, decl, self_decl, usage_d
     return m
 end
 
-function mud_reflect(modules)
+function mud_refl(m)
+    m.refl = mud_module(m.namespace, m.name .. "-refl", m.root, path.join("meta", m.subdir), mud_refl_decl, m.self_decl, m.usage_decl, m.deps)
+    table.extend(m.refl.deps, { mud.infra, mud.obj, mud.pool, mud.refl, m })
+    table.insert(MODULES_PY, path.join(m.path, "module.py"))
+end
+
+function mud_refls(modules)
     refls = {}
     for _, m in ipairs(modules) do
-        --if dep.refl then
-        --    depend(dep.refl)
-        --end
-        m.refl = mud_module(m.namespace, m.name .. "-refl", m.root, path.join(m.subdir, "Refl"), nil, m.self_decl, m.usage_decl, m.deps)
-        table.extend(m.refl.deps, { mud.infra, mud.obj, mud.pool, mud.refl, m })
-        
+        mud_refl(m)
         table.insert(refls, m.refl)
-        table.insert(MODULES_PY, path.join(m.path, "module.py"))
     end
     return refls
 end
@@ -285,6 +285,7 @@ function mud_project(m)
 end
 
 function mud_module_decl(m, as_project)
+    local previous = project().name
     if as_project then
         mud_project(m)
         defines { m.idname:upper() .. "_LIB" }
@@ -307,11 +308,6 @@ function mud_module_decl(m, as_project)
         path.join(m.path, "**.cpp"),
     }
     
-    removefiles {
-        path.join(m.path, "Refl/*.h"),
-        path.join(m.path, "Refl/*.cpp"),
-    }
-    
     local cpps = os.matchfiles(path.join(m.path, "**.cpp"))
     mud_mxx(cpps, m)
     
@@ -329,11 +325,13 @@ function mud_module_decl(m, as_project)
         m.usage_decl()
     end
     
-    if m.refl then
-        m.refl.decl(m.refl, true)
-        project(m.lib)
+    if as_project then
+        project(previous)
     end
-    
+end
+
+function mud_refl_decl(m)
+    mud_module_decl(m, true)
 end
 
 function mud_amalgamate(modules)
@@ -353,7 +351,7 @@ function mud_write_api(m)
     local f, err = io.open(path.join(m.path, "Api.h"), "wb")
     io.output(f)
     for _, h in ipairs(headers) do
-        if not string.find(h, "Api.h") and not string.find(h, "Refl/") then
+        if not string.find(h, "Api.h") then
             io.printf("#include <" .. path.getrelative(m.root, h) .. ">")
         end
     end
@@ -383,8 +381,8 @@ function mud_write_mxx(m)
     io.printf("")
     io.printf("#include <" .. m.subdir .. "/Api.h>")
     if m.reflect then
-        io.printf("#include <" .. m.subdir .. "/Refl/Module.h>")
-        io.printf("#include <" .. m.subdir .. "/Refl/Convert.h>")
+        io.printf("#include <meta/" .. m.subdir .. "/Module.h>")
+        io.printf("#include <meta/" .. m.subdir .. "/Convert.h>")
     end
     io.printf("")
     f:close()

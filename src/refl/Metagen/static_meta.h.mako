@@ -159,7 +159,7 @@ def method_func(c, method):
 
 #pragma once
 
-#include <${ module.subdir }/Refl/Module.h>
+#include <meta/${ module.subdir }/Module.h>
 
 #include <obj/Any.h>
 #include <obj/Reflect/MetaDecl.h>

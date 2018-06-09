@@ -36,8 +36,8 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Shape>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::ShapeVar>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Symbol>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Poisson>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Arc>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Box>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Capsule>();

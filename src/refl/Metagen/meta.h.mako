@@ -177,7 +177,7 @@ def method_func(c, method):
 #pragma once
 
 #ifndef MUD_MODULES
-#include <${ module.subdir }/Refl/Module.h>
+#include <meta/${ module.subdir }/Module.h>
 
 #include <obj/Any.h>
 #include <obj/Vector.h>

@@ -138,7 +138,8 @@ class Module(object):
         self.rootdir = rootdir
         self.modules = dependencies[:]
         self.modules.append(self)
-        self.path = os.path.join(self.rootdir, self.subdir) if self.subdir else self.rootdir
+        self.path = os.path.join(self.rootdir, self.subdir)
+        self.refl_path = os.path.join(os.path.join(self.rootdir, "meta"), self.subdir)
         self.has_structs = os.path.isfile(os.path.join(self.path, 'Structs.h'))
         self.has_generator = False
         
@@ -602,7 +603,7 @@ class Generator(object):
 
     def render_mako(self, module, name, refl):
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        output_path = os.path.join(os.path.join(module.path, 'Refl') if refl else module.path, name)
+        output_path = os.path.join(module.refl_path if refl else module.path, name)
         print '  ', output_path
         template_path = os.path.join(dir_path, name.lower() + '.mako')
         template = Template(filename=template_path)
@@ -678,8 +679,8 @@ class Generator(object):
         if not len(module.classes) > 0 and not len(module.enums) > 0 :
             return
 
-        if not os.path.exists(os.path.join(module.path, 'Refl')) :
-            os.makedirs(os.path.join(module.path, 'Refl'))
+        if not os.path.exists(module.refl_path) :
+            os.makedirs(module.refl_path)
             
         print 'Generating output templates :'
         for name in ('Types.h', 'Types.cpp') :

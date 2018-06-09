@@ -69,7 +69,7 @@ mudgfx = {}
 
 mudgfx.modules = { mud.ctxbackend, mud.uibackend, mud.bgfx, mud.gfx, mud.gfx.obj, mud.gfx.pbr, mud.gfx.gltf, mud.edit, mud.procgen, mud.procgen.gfx }
 
-table.extend(mudgfx.modules, mud_reflect({ mud.gfx, mud.gfx.obj, mud.gfx.pbr, mud.gfx.gltf, mud.edit, mud.procgen, mud.procgen.gfx }))
+table.extend(mudgfx.modules, mud_refls({ mud.gfx, mud.gfx.obj, mud.gfx.pbr, mud.gfx.gltf, mud.edit, mud.procgen, mud.procgen.gfx }))
 
 mud.all = {
     mud.infra, mud.obj, mud.pool, mud.refl, mud.tree, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio,

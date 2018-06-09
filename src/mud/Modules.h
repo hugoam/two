@@ -1,13 +1,13 @@
 #pragma once
 
-#include <obj/Refl/Module.h>
-#include <math/Refl/Module.h>
-#include <procgen/Refl/Module.h>
-#include <lang/Refl/Module.h>
-#include <ui/Refl/Module.h>
-#include <uio/Refl/Module.h>
-#include <gfx/Refl/Module.h>
-#include <gfx-pbr/Refl/Module.h>
-#include <gfx-obj/Refl/Module.h>
-#include <gfx-gltf/Refl/Module.h>
-#include <edit/Refl/Module.h>
+#include <meta/obj/Module.h>
+#include <meta/math/Module.h>
+#include <meta/procgen/Module.h>
+#include <meta/lang/Module.h>
+#include <meta/ui/Module.h>
+#include <meta/uio/Module.h>
+#include <meta/gfx/Module.h>
+#include <meta/gfx-pbr/Module.h>
+#include <meta/gfx-obj/Module.h>
+#include <meta/gfx-gltf/Module.h>
+#include <meta/edit/Module.h>

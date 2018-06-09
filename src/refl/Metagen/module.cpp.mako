@@ -3,14 +3,14 @@
 #ifdef MUD_MODULES
 module ${ module.namespace }.${ module.name };
 #else
-#include <${ module.subdir }/Refl/Module.h>
+#include <meta/${ module.subdir }/Module.h>
 #endif
 
 #ifndef MUD_MODULES
-#include <${ module.subdir }/Refl/Convert.h>
+#include <meta/${ module.subdir }/Convert.h>
 #endif
 #define ${ module.preproc_name }_REFLECTION_IMPL
-#include <${ module.subdir }/Refl/Meta.h>
+#include <meta/${ module.subdir }/Meta.h>
 
 % if module.namespace != '' :
 namespace ${ module.namespace }
