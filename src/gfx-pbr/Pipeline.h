@@ -5,10 +5,10 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/EnumArray.h>
+#include <infra/EnumArray.h>
 #include <gfx/Pipeline.h>
 #endif
-#include <gfx-pbr/Generated/Forward.h>
+#include <gfx-pbr/Forward.h>
 
 namespace mud
 {

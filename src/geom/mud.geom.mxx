@@ -12,7 +12,6 @@ export import mud.obj;
 export import mud.math;
 
 #include <geom/Api.h>
-#include <geom/Generated/Types.h>
-#include <geom/Generated/Module.h>
-#include <geom/Generated/Convert.h>
+#include <geom/Refl/Module.h>
+#include <geom/Refl/Convert.h>
 

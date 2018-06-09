@@ -5,12 +5,12 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Graph/Node.h>
-#include <obj/Array.h>
+#include <tree/Node.h>
+#include <infra/Array.h>
 #include <ctx/ControlNode.h>
 #include <ctx/InputEvent.h>
 #endif
-#include <ui/Generated/Forward.h>
+#include <ui/Forward.h>
 #include <ui/Frame/Frame.h>
 #include <ui/Widget.h>
 

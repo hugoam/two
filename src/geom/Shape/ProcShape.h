@@ -8,7 +8,7 @@
 #include <math/Colour.h>
 #include <math/Vec.h>
 #endif
-#include <geom/Generated/Forward.h>
+#include <geom/Forward.h>
 #include <geom/Shape.h>
 #include <geom/Symbol.h>
 

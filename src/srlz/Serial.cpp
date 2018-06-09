@@ -2,7 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <fstream>
 #endif
@@ -12,16 +12,17 @@ module mud.srlz;
 #else
 #include <json11.hpp>
 
-#include <srlz/Generated/Types.h>
+#include <infra/File.h>
+#include <obj/Vector.h>
+#include <refl/System.h>
+#include <refl/Convert.h>
+#include <refl/Sequence.h>
+#include <refl/Meta.h>
+#include <refl/Injector.h>
+#include <refl/Member.h>
+#include <refl/Method.h>
+#include <srlz/Types.h>
 #include <srlz/Serial.h>
-#include <obj/System/System.h>
-#include <obj/System/File.h>
-#include <obj/Reflect/Convert.h>
-#include <obj/Reflect/Sequence.h>
-#include <obj/Reflect/Meta.h>
-#include <obj/Reflect/Injector.h>
-#include <obj/Reflect/Member.h>
-#include <obj/Reflect/Method.h>
 #endif
 
 //#define MUD_DEBUG_SERIAL
@@ -152,7 +153,7 @@ namespace mud
 	
 	Var unpack(FromJson& unpacker, Type& type, const json& json_value, bool typed)
 	{
-		Var result = type.m_meta->m_empty_var();
+		Var result = meta(type).m_empty_var();
 		unpack(unpacker, result, json_value, typed);
 		return result;
 	}
@@ -164,7 +165,7 @@ namespace mud
 
 		// @note: we MUST take a Var& as parameter of this function for this specific case
 		// -> polymorphic objects must be created by value since we don't know in advance the actual type we are loading
-		if(value.type().m_class && cls(value).m_type_member && !typed) // @kludge this parameter is only there to tell us we were called from the typed variant of this function, couldn't think of a better design at this time of the day
+		if(g_class[value.type().m_id] && cls(value).m_type_member && !typed) // @kludge this parameter is only there to tell us we were called from the typed variant of this function, couldn't think of a better design at this time of the day
 		{
 			value = unpack_typed(unpacker, json_value);
 			return;
@@ -180,9 +181,9 @@ namespace mud
 			enum_manual_value(value, json_value.int_value());
 			return;
 		}
-		else if(value.type().m_convert && json_value.is_string())
+		else if(g_convert[value.type().m_id] && json_value.is_string())
 		{
-			value.type().m_convert->m_from_string(json_value.string_value(), value);
+			convert(value.type()).m_from_string(json_value.string_value(), value);
 			return;
 		}
 		else if(is_sequence(value.type()))

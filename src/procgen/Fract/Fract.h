@@ -1,13 +1,13 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Proto.h>
+#include <proto/Proto.h>
 #include <math/Colour.h>
 #include <math/Image.h>
 #include <math/Vec.h>
 #include <geom/Shapes.h>
 #endif
-#include <procgen/Generated/Forward.h>
+#include <procgen/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <vector>

@@ -6,9 +6,9 @@
 
 #ifndef MUD_MODULES
 #include <obj/Any.h>
-#include <obj/Util/Dispatch.h>
+#include <obj/Dispatch.h>
 #endif
-#include <srlz/Generated/Forward.h>
+#include <srlz/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <string>

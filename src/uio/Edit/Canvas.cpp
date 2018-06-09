@@ -2,7 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <map>
 #endif
@@ -10,13 +10,14 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#include <obj/Util/Global.h>
+#include <infra/Global.h>
+#include <refl/Module.h>
 #include <lang/VisualScript.h>
 #include <lang/VisualBlocks.h>
 #include <ui/Input.h>
 #include <ui/Structs/Node.h>
 #include <ui/Structs/Container.h>
-#include <uio/Generated/Types.h>
+#include <uio/Types.h>
 #include <uio/Edit/Canvas.h>
 #include <uio/Unode.h>
 #include <uio/Edit/Structure.h>
@@ -111,7 +112,7 @@ namespace mud
 		{
 			ui::label(types, m->m_name).enableState(DISABLED);
 			for(Type* type : m->m_types)
-				if(type->m_class && !type->m_class->m_constructors.empty()) //is_struct(*type) || is_base_type(*type))
+				if(g_class[type->m_id] && !cls(*type).m_constructors.empty()) //is_struct(*type) || is_base_type(*type))
 					if(fits_filter(type->m_name, filter))
 						if(ui::multi_button(types, ui::dropdown_styles().choice, carray<cstring, 2>{ "(class)", type->m_name }).activated())
 						{
@@ -130,7 +131,7 @@ namespace mud
 	void process_valve(VisualScript& script, Canvas& canvas, Node& node, Valve& valve)
 	{
 		Colour colour = TypeColours::me().colour(*valve.m_stream.m_type, Colour::Green);
-		string icon = valve.m_stream.m_type ? "(" + string(valve.m_stream.m_type->m_meta->m_name) + ")" : "";
+		string icon = valve.m_stream.m_type ? "(" + string(meta(*valve.m_stream.m_type).m_name) + ")" : "";
 		bool input = (valve.m_kind == INPUT_VALVE || valve.m_kind == FLOW_VALVE_IN);
 
 		bool enabled = true;

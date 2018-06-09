@@ -5,11 +5,11 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Array.h>
+#include <infra/Array.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
 #endif
-#include <geom/Generated/Forward.h>
+#include <geom/Forward.h>
 
 namespace mud
 {

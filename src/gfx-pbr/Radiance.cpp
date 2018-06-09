@@ -12,7 +12,7 @@ module mud.gfx.pbr;
 #include <gfx/Scene.h>
 #include <gfx/Texture.h>
 #include <gfx/RenderTarget.h>
-#include <gfx-pbr/Generated/Types.h>
+#include <gfx-pbr/Types.h>
 #include <gfx-pbr/Radiance.h>
 #endif
 

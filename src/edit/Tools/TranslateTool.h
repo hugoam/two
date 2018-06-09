@@ -8,7 +8,7 @@
 #include <math/Vec.h>
 #include <math/Axis.h>
 #endif
-#include <edit/Generated/Forward.h>
+#include <edit/Forward.h>
 #include <edit/Tool.h>
 
 #ifndef MUD_CPP_20

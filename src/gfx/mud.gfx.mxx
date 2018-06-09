@@ -1,11 +1,5 @@
 #include <cpp/preimport.h>
 
-
-#include <type_traits>
-#include <bx/file.h>
-#include <bgfx/bgfx.h>
-#include <bimg/bimg.h>
-
 #include <obj/Config.h>
 
 export module mud.gfx;
@@ -15,7 +9,10 @@ export import std.threading;
 export import std.regex;
 
 export import json11;
+export import mud.infra;
 export import mud.obj;
+export import mud.pool;
+export import mud.refl;
 export import mud.srlz;
 export import mud.math;
 export import mud.geom;
@@ -25,7 +22,6 @@ export import mud.ctx.glfw;
 export import mud.ui.vg;
 
 #include <gfx/Api.h>
-#include <gfx/Generated/Types.h>
-#include <gfx/Generated/Module.h>
-#include <gfx/Generated/Convert.h>
+#include <gfx/Refl/Module.h>
+#include <gfx/Refl/Convert.h>
 

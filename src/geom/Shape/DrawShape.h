@@ -5,11 +5,11 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Util/Global.h>
-#include <obj/Util/Dispatch.h>
-#include <obj/Util/DispatchDecl.h>
+#include <infra/Global.h>
+#include <obj/Dispatch.h>
+#include <obj/DispatchDecl.h>
 #endif
-#include <geom/Generated/Forward.h>
+#include <geom/Forward.h>
 #include <geom/Shape/ProcShape.h>
 #include <geom/Shape/CompoundShape.h>
 

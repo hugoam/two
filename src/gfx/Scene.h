@@ -5,10 +5,11 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/NonCopy.h>
+#include <infra/NonCopy.h>
+#include <obj/Unique.h>
 #include <math/Vec.h>
 #endif
-#include <gfx/Generated/Forward.h>
+#include <gfx/Forward.h>
 #include <gfx/Node3.h>
 #include <gfx/Graph.h>
 

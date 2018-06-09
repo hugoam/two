@@ -2,16 +2,16 @@
 
 #pragma once
 
-#include <obj/Config.h>
+#include <infra/Config.h>
 
-#include <obj/Generated/Forward.h>
-#include <math/Generated/Forward.h>
-#include <ui/Generated/Forward.h>
-#include <uio/Generated/Forward.h>
-#include <gfx/Generated/Forward.h>
-#include <edit/Generated/Forward.h>
-#include <procgen/Generated/Forward.h>
-#include <procgen-gfx/Generated/Forward.h>
+#include <obj/Forward.h>
+#include <math/Forward.h>
+#include <ui/Forward.h>
+#include <uio/Forward.h>
+#include <gfx/Forward.h>
+#include <edit/Forward.h>
+#include <procgen/Forward.h>
+#include <procgen-gfx/Forward.h>
 
 #ifndef _00_TUTORIAL_EXPORT
 #define _00_TUTORIAL_EXPORT MUD_IMPORT

@@ -2,17 +2,16 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.lang;
 #else
-#include <obj/String/StringConvert.h>
-#include <obj/Limits.h>
-#include <obj/Reflect/Sequence.h>
-#include <obj/Reflect/Convert.h>
-#include <obj/Vector.h>
-#include <obj/Reflect/Meta.h>
+#include <infra/StringConvert.h>
+#include <refl/Sequence.h>
+#include <refl/Convert.h>
+#include <infra/Vector.h>
+#include <refl/Meta.h>
 #include <lang/Stream.h>
 #endif
 
@@ -197,13 +196,13 @@ namespace mud
 
 		m_branches.clear();
 
-		m_value = m_type->m_meta->m_empty_var();
-		unique_ptr<Sequence> sequence = m_type->m_class->m_sequence(m_value);
-		Var element = m_type->m_class->m_content->m_meta->m_empty_var();
+		m_value = meta(*m_type).m_empty_var();
+		unique_ptr<Sequence> sequence = cls(*m_type).m_sequence(m_value);
+		Var element = meta(*cls(*m_type).m_content).m_empty_var();
 
 		source.visit(true, [&](StreamBranch& branch)
 		{
-			branch.read(element, m_type->m_class->m_content, m_reference);
+			branch.read(element, cls(*m_type).m_content, m_reference);
 			sequence->add(element);
 		});
 	}

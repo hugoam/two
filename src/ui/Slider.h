@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <ui/Generated/Forward.h>
+#include <ui/Forward.h>
 #include <ui/Button.h>
 
 namespace mud

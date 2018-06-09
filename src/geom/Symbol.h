@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <math/Colour.h>
 #endif
-#include <geom/Generated/Forward.h>
+#include <geom/Forward.h>
 
 namespace mud
 {

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <gfx/Generated/Forward.h>
+#include <gfx/Forward.h>
 #include <gfx/Renderer.h>
 #include <gfx/Viewport.h>
 #include <gfx/Camera.h>

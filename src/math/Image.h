@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <math/Generated/Forward.h>
+#include <math/Forward.h>
 #include <math/Colour.h>
 
 #ifndef MUD_CPP_20

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <obj/Generated/Forward.h>
+#include <obj/Forward.h>
 
 #include <obj/Cls.h>
 #include <obj/TypeOf.h>
@@ -28,7 +28,6 @@ namespace mud
 		inline operator bool() const { return m_value != nullptr; }
 
 		inline Type& type() const { return *m_type; }
-		//inline Meta& meta() const { return *m_type->m_meta; }
 
 		Type* m_type;
 		void* m_value;

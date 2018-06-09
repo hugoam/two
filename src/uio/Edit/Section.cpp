@@ -2,7 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.uio;
@@ -10,7 +10,7 @@ module mud.uio;
 #include <ui/Style/Layout.h>
 #include <ui/Style/Skin.h>
 #include <ui/Structs/Container.h>
-#include <uio/Generated/Types.h>
+#include <uio/Types.h>
 #include <uio/Edit/Section.h>
 #endif
 

@@ -5,11 +5,11 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Util/Global.h>
-#include <obj/Util/Dispatch.h>
+#include <infra/Global.h>
+#include <obj/Dispatch.h>
 #include <math/Stat.h>
 #endif
-#include <uio/Generated/Forward.h>
+#include <uio/Forward.h>
 #include <uio/Edit/Inspector.h>
 
 namespace mud

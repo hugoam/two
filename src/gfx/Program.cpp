@@ -16,11 +16,11 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <obj/Vector.h>
-#include <obj/EnumArray.h>
+#include <infra/Vector.h>
+#include <infra/EnumArray.h>
+#include <infra/File.h>
 #include <srlz/Serial.h>
-#include <obj/System/System.h>
-#include <obj/String/StringConvert.h>
+#include <infra/StringConvert.h>
 #include <gfx/Program.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Texture.h>
@@ -83,7 +83,7 @@ namespace mud
 
 		if(source != nullptr)
 		{
-			system().write_file(source_path.c_str(), source);
+			write_file(source_path.c_str(), source);
 		}
 
 #ifdef _DEBUG

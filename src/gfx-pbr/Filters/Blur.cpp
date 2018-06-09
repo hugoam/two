@@ -11,7 +11,7 @@ module mud.gfx.pbr;
 #else
 #include <gfx/Filter.h>
 #include <gfx/RenderTarget.h>
-#include <gfx-pbr/Generated/Types.h>
+#include <gfx-pbr/Types.h>
 #include <gfx-pbr/Filters/Blur.h>
 #endif
 

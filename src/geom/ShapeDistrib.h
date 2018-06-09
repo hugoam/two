@@ -5,11 +5,11 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Util/Dispatch.h>
-#include <obj/Util/Global.h>
+#include <obj/Dispatch.h>
+#include <infra/Global.h>
 #include <math/Vec.h>
 #endif
-#include <geom/Generated/Forward.h>
+#include <geom/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <vector>

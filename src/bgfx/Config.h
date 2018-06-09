@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <obj/Config.h>
+#include <infra/Config.h>
 
 #ifndef MUD_BGFX_EXPORT
 #define MUD_BGFX_EXPORT MUD_IMPORT

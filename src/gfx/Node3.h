@@ -6,7 +6,7 @@
 
 #include <obj/Ref.h>
 #include <math/Vec.h>
-#include <gfx/Generated/Forward.h>
+#include <gfx/Forward.h>
 
 namespace mud
 {

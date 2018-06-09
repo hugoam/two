@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <obj/Generated/Forward.h>
+#include <obj/Forward.h>
 #include <obj/Cls.h>
 
 #ifndef MUD_CPP_20
@@ -16,9 +16,7 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 	export_ using Id = unsigned int;
 	export_ using cstring = const char*;
 
-	class Meta;
-
-	export_ struct Address
+	export_ struct MUD_OBJ_EXPORT Address
 	{
 		char value[16];
 		bool operator==(const Address& other) const;
@@ -33,6 +31,7 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 	export_ class refl_ MUD_OBJ_EXPORT Type
 	{
 	public:
+		explicit Type();
 		explicit Type(const char* name, TypeKind kind = TypeKind::Type);
 		explicit Type(const char* name, Type& base, TypeKind kind = TypeKind::Type);
 		~Type();
@@ -48,11 +47,6 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 		attr_ cstring m_name;
 		attr_ Type* m_base = nullptr;
 
-		attr_ Meta* m_meta = nullptr;
-		attr_ Class* m_class = nullptr;
-		attr_ Enum* m_enum = nullptr;
-		attr_ Convert* m_convert = nullptr;
-
 		bool is(Type& type) const;
 
 		template <class T>
@@ -60,8 +54,8 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 
 		static Type& type() { static Type ty(0); return ty; }
 
-		size_t debugTotalCount;
-		size_t debugTotalMemory;
+		size_t m_debug_count;
+		size_t m_debug_memory;
 
 	private:
 		Type(int);
@@ -69,21 +63,18 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 
 	export_ template <> inline Type& type<Type>() { return Type::type(); }
 
-	export_ template <class T>
-	Type& type()
+	template <class T>
+	struct Typed
 	{
-		static_assert(sizeof(T) == 0, "Types must be declared by defining a type<T>() function");
-		static Type ty("INVALID"); return ty;
-	}
+		static Type& type()
+		{
+			static_assert(sizeof(T) == 0, "Types must be declared by defining a type<T>() function");
+			static Type ty("INVALID"); return ty;
+		}
+	};
 
 	export_ template <class T>
-	inline Meta& meta() { return *type<T>().m_meta; }
-
-	export_ template <class T>
-	inline Class& cls() { return *type<T>().m_class; }
-
-	export_ template <class T>
-	inline Enum& enu() { return *type<T>().m_enum; }
+	inline Type& type() { return Typed<T>::type(); }
 
 	export_ template <class T, class U>
 	inline bool is(const U& object) { return object.m_type.template is<T>(); }

@@ -8,7 +8,7 @@
 #include <math/Vec.h>
 #include <math/Colour.h>
 #endif
-#include <gfx/Generated/Forward.h>
+#include <gfx/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <functional>

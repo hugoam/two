@@ -1,13 +1,13 @@
 
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module .ex_15_script;
 #else
-#include <15_script/Generated/Types.h>
-#include <15_script/Generated/Module.h>
-#include <obj/Proto.h>
+#include <15_script/Types.h>
+#include <15_script/Refl/Module.h>
+#include <proto/Proto.h>
 #endif
 
 namespace mud

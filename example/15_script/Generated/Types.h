@@ -1,21 +1,21 @@
 #pragma once
 
-#include <15_script/Generated/Forward.h>
+#include <15_script/Forward.h>
 
 #if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/Type.h>
-#include <obj/Proto.h>
+#include <proto/Proto.h>
 #endif
 
 #ifndef MUD_MODULES
-#include <obj/Generated/Types.h>
-#include <math/Generated/Types.h>
-#include <ui/Generated/Types.h>
-#include <uio/Generated/Types.h>
-#include <gfx/Generated/Types.h>
-#include <edit/Generated/Types.h>
-#include <procgen/Generated/Types.h>
-#include <procgen-gfx/Generated/Types.h>
+#include <obj/Forward.h>
+#include <math/Forward.h>
+#include <ui/Forward.h>
+#include <uio/Forward.h>
+#include <gfx/Forward.h>
+#include <edit/Forward.h>
+#include <procgen/Forward.h>
+#include <procgen-gfx/Forward.h>
 #endif
 
 #ifndef MUD_CPP_20

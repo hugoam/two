@@ -4,11 +4,11 @@
 
 #ifndef MUD_MODULES
 #include <obj/Cls.h>
-#include <obj/Array.h>
-#include <obj/NonCopy.h>
+#include <infra/Array.h>
+#include <infra/NonCopy.h>
 #include <obj/Unique.h>
 #endif
-#include <gfx/Generated/Forward.h>
+#include <gfx/Forward.h>
 #include <gfx/Shader.h>
 
 #include <cstdint>

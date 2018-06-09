@@ -12,7 +12,7 @@ module mud.gfx;
 #else
 #include <obj/Indexer.h>
 #include <geom/Geom.h>
-#include <gfx/Generated/Types.h>
+#include <gfx/Types.h>
 #include <gfx/Model.h>
 #include <gfx/Mesh.h>
 #include <gfx/Skeleton.h>

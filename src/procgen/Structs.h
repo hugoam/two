@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <procgen/Generated/Forward.h>
+#include <procgen/Forward.h>
 
 //#ifndef MUD_META_GENERATOR
 //// @kludge since we can't forward declare the enums

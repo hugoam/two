@@ -8,7 +8,7 @@
 #include <math/Colour.h>
 #include <math/Vec.h>
 #endif
-#include <gfx/Generated/Forward.h>
+#include <gfx/Forward.h>
 
 namespace mud
 {

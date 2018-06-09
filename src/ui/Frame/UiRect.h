@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <math/Vec.h>
 #endif
-#include <ui/Generated/Forward.h>
+#include <ui/Forward.h>
 #include <ui/Frame/Dim.h>
 
 namespace mud

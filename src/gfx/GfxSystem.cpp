@@ -18,12 +18,12 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <obj/Memory/ObjectPool.h>
-#include <obj/String/StringConvert.h>
+#include <pool/ObjectPool.h>
+#include <infra/StringConvert.h>
 #include <math/Image.h>
 #include <math/Stream.h>
 #include <ui/Render/Renderer.h>
-#include <gfx/Generated/Types.h>
+#include <gfx/Types.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Material.h>
 #include <gfx/Program.h>

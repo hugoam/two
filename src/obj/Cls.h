@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <obj/Generated/Forward.h>
+#include <obj/Forward.h>
 
 export_ namespace mud
 {}

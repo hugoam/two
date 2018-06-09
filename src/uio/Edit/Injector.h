@@ -5,9 +5,9 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Reflect/Injector.h>
+#include <refl/Injector.h>
 #endif
-#include <uio/Generated/Forward.h>
+#include <uio/Forward.h>
 #include <uio/Unode.h>
 
 namespace mud

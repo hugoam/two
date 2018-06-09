@@ -8,6 +8,7 @@ export import std.io;
 export import std.threading;
 export import std.regex;
 
+export import mud.infra;
 export import mud.obj;
 export import mud.srlz;
 export import mud.math;
@@ -15,7 +16,6 @@ export import mud.geom;
 export import mud.gfx;
 
 #include <gfx-obj/Api.h>
-#include <gfx-obj/Generated/Types.h>
-#include <gfx-obj/Generated/Module.h>
-#include <gfx-obj/Generated/Convert.h>
+#include <gfx-obj/Refl/Module.h>
+#include <gfx-obj/Refl/Convert.h>
 

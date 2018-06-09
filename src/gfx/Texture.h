@@ -5,11 +5,11 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Array.h>
-#include <obj/Strung.h>
+#include <infra/Array.h>
+#include <infra/Strung.h>
 #include <math/Vec.h>
 #endif
-#include <gfx/Generated/Forward.h>
+#include <gfx/Forward.h>
 
 #ifndef MUD_GENERATOR_SKIP_INCLUDES
 #include <bgfx/bgfx.h>

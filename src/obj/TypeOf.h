@@ -17,7 +17,7 @@ namespace mud
 
 	export_ template<typename T>
 	using type_class = typename std::remove_pointer<typename unqual_type<T>::type>;
-
+	
 	inline void sink_type(Type&) {}
 
 	export_ template <typename T, typename = int>

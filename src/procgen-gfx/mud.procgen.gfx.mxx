@@ -9,6 +9,8 @@ export import std.threading;
 export import std.regex;
 
 export import json11;
+export import mud.infra;
+export import mud.tree;
 export import mud.obj;
 export import mud.srlz;
 export import mud.math;
@@ -21,7 +23,6 @@ export import mud.gfx;
 export import mud.edit;
 
 #include <procgen-gfx/Api.h>
-#include <procgen-gfx/Generated/Types.h>
-#include <procgen-gfx/Generated/Module.h>
-#include <procgen-gfx/Generated/Convert.h>
+#include <procgen-gfx/Refl/Module.h>
+#include <procgen-gfx/Refl/Convert.h>
 

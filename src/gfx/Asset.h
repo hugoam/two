@@ -6,10 +6,10 @@
 
 #ifndef MUD_MODULES
 #include <obj/Unique.h>
-#include <obj/Array.h>
-#include <obj/NonCopy.h>
+#include <infra/Array.h>
+#include <infra/NonCopy.h>
 #endif
-#include <gfx/Generated/Forward.h>
+#include <gfx/Forward.h>
 #include <gfx/GfxSystem.h>
 
 #ifndef MUD_CPP_20

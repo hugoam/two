@@ -5,12 +5,16 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Array.h>
+#include <infra/Array.h>
 #include <obj/Var.h>
-#include <obj/NonCopy.h>
+#include <infra/NonCopy.h>
 #include <obj/Unique.h>
 #endif
-#include <lang/Generated/Forward.h>
+#include <lang/Forward.h>
+
+#ifndef  MUD_CPP_20
+#include <string>
+#endif
 
 namespace mud
 {

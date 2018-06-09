@@ -15,7 +15,7 @@
 
 namespace mud
 {
-	class MUD_CTX_EXPORT EmContext : public Context
+	class MUD_CTX_WASM_EXPORT EmContext : public Context
 	{
 	public:
 		EmContext(RenderSystem& renderSystem, cstring name, int width, int height, bool full_screen);

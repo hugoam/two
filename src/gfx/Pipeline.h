@@ -5,9 +5,9 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/EnumArray.h>
+#include <infra/EnumArray.h>
 #endif
-#include <gfx/Generated/Forward.h>
+#include <gfx/Forward.h>
 #include <gfx/Renderer.h>
 
 #ifndef MUD_CPP_20

@@ -4,13 +4,12 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
-#include <obj/Limits.h>
-#endif
-#include <math/Generated/Forward.h>
+#include <math/Forward.h>
 
 #ifndef MUD_CPP_20
+#include <cstdint>
 #include <cfloat>
+#include <limits>
 #endif
 
 namespace mud

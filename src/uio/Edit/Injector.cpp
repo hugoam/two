@@ -2,13 +2,13 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#include <obj/Reflect/Class.h>
-#include <obj/System/System.h>
+#include <refl/Class.h>
+#include <refl/System.h>
 #include <ui/Structs/Container.h>
 #include <uio/Object.h>
 #include <uio/Edit/Injector.h>
@@ -48,10 +48,12 @@ namespace mud
 
 	void object_creator_prototype(Widget& parent, Creator& creator)
 	{
-		Type* prototype = type_selector(parent, (Type*&) creator.m_prototype, (const std::vector<Type*>&) creator.m_type.m_class->m_prototypes);
+#ifdef MUD_PROTO
+		Type* prototype = type_selector(parent, (Type*&) creator.m_prototype, (const std::vector<Type*>&) *cls(creator.m_type).m_prototypes);
 
 		if(prototype && prototype != creator.m_prototype)
 			creator.setPrototype(*prototype);
+#endif
 	}
 
 	bool object_creator(Widget& parent, Creator& creator)
@@ -89,7 +91,7 @@ namespace mud
 		MetaObjectCreatorState& state = self.state<MetaObjectCreatorState>();
 
 		for(Type* type : System::instance().m_types)
-			if(is_root_type(*type) && !type->m_class->m_constructors.empty())
+			if(is_root_type(*type) && !cls(type).m_constructors.empty())
 			{
 				if(object_item(self, type).activated())
 					state.m_type = type;

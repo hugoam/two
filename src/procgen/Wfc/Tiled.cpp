@@ -2,7 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <fstream>
 #endif
@@ -15,8 +15,8 @@ module mud.procgen;
 #include <json11.hpp>
 using json = json11::Json;
 
-#include <obj/Vector.h>
-#include <obj/String/StringConvert.h>
+#include <infra/Vector.h>
+#include <infra/StringConvert.h>
 #include <srlz/Serial.h>
 #include <math/Axes.h>
 #include <math/VecJson.h>

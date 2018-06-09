@@ -67,21 +67,19 @@ function uses_bgfx()
     configuration {}
 end
 
-function mud_bgfx()
-mud.bgfx = mud_module(true, "mud", "bgfx", MUD_SRC_DIR, "bgfx", { mud.obj, mud.math, mud.ctx, mud.ui, mud.ctxbackend, mud.uibackend })
+mud.ctxbackend  = mud_ctx_backend()
+mud.uibackend   = mud_ui_backend()
 
-    mud_ctx_backend(mud.bgfx)
-    mud_ui_backend(mud.bgfx)
-    
+function uses_mud_bgfx()
     uses_mud()
     uses_bgfx()
 end
 
-function uses_mud_bgfx()
-    links {
-        "mud_bgfx",
-    }
-    
-    uses_mud()
-    uses_bgfx()
+mud.bgfx        = mud_module(mud_module_decl, "mud", "bgfx", MUD_SRC_DIR, "bgfx", nil, uses_mud_bgfx, { mud.infra, mud.obj, mud.math, mud.ctx, mud.ui, mud.ctxbackend, mud.uibackend })
+
+function mud_bgfx()
+    --mud.bgfx = mud_module(true, "mud", "bgfx", MUD_SRC_DIR, "bgfx", { mud.obj, mud.math, mud.ctx, mud.ui, mud.ctxbackend, mud.uibackend })
+
+    --uses_mud()
+    --uses_bgfx()
 end

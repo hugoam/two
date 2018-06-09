@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <math/Axis.h>
 #endif
-#include <geom/Generated/Forward.h>
+#include <geom/Forward.h>
 #include <geom/Shape.h>
 
 namespace mud

@@ -2,23 +2,25 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#include <obj/Vector.h>
-#include <obj/Complex.h>
-#include <obj/Reflect/Class.h>
-#include <obj/System/System.h>
-#include <obj/Reflect/Convert.h>
-#include <obj/Generated/Convert.h>
+#include <infra/Vector.h>
+//#include <obj/Complex.h>
+#include <refl/Class.h>
+#include <refl/System.h>
+#include <refl/Convert.h>
+#include <refl/Module.h>
+#include <obj/Refl/Convert.h>
 #include <ui/Structs/Window.h>
 #include <ui/Structs/Container.h>
 #include <ui/Style/Layout.h>
 #include <ui/Style/Skin.h>
 #include <ui/Input.h>
-#include <uio/Unode.h>
+#include <uio/Types.h>
+#include <uio/Edit/Reflection.h>
 #include <uio/Edit/Section.h>
 #include <uio/Edit/Method.h>
 #endif
@@ -55,7 +57,7 @@ namespace ui
 	{
 		size_t index = enum_index(&value);
 		//ui::radio_switch(parent, meta(value).m_enum_names, index);
-		if(ui::dropdown_input(parent, to_array(type<T>().m_enum->m_names), index))
+		if(ui::dropdown_input(parent, to_array(enu<T>().m_names), index))
 		{
 			enum_set_index(&value, index);
 			return true;
@@ -73,15 +75,19 @@ namespace ui
 		label(self, value);
 	}
 }
-
-	void meta_description(Widget& parent, Type& type)
+	void meta_description(Widget& parent, Meta& meta)
 	{
 		static float columns[2] = { 0.2f, 0.8f };
 		Table& self = ui::columns(parent, { columns, 2 });
-		ui::field_label(self, "name", type.m_meta->m_name);
-		ui::field_label(self, "namespace", type.m_meta->m_namespace->m_name ? type.m_meta->m_namespace->m_name : "");
-		ui::enum_field<TypeClass>(self, "type class", type.m_meta->m_type_class);
-		ui::input_field<size_t>(self, "size", type.m_meta->m_size);
+		ui::field_label(self, "name", meta.m_name);
+		ui::field_label(self, "namespace", meta.m_namespace->m_name ? meta.m_namespace->m_name : "");
+		ui::enum_field<TypeClass>(self, "type class", meta.m_type_class);
+		ui::input_field<size_t>(self, "size", meta.m_size);
+	}
+
+	void meta_description(Widget& parent, Type& type)
+	{
+		return meta_description(parent, meta(type));
 	}
 
 	void meta_callable(Widget& parent, Callable& callable, bool skip_first = false, bool returns = true)
@@ -118,7 +124,7 @@ namespace ui
 	{
 		Widget& self = ui::sheet(parent);
 
-		for(Constructor& constructor : type.m_class->m_constructors)
+		for(Constructor& constructor : cls(type).m_constructors)
 			meta_callable(self, constructor, true, false);
 	}
 
@@ -126,7 +132,7 @@ namespace ui
 	{
 		Widget& self = ui::sheet(parent);
 
-		for(Method& method : type.m_class->m_methods)
+		for(Method& method : cls(type).m_methods)
 			meta_method(self, method);
 	}
 
@@ -134,7 +140,7 @@ namespace ui
 	{
 		Widget& self = ui::columns(parent, carray<float, 2>{ 0.3f, 0.7f });
 
-		for(Member& member : type.m_class->m_members)
+		for(Member& member : cls(type).m_members)
 		{
 			Widget& row = ui::widget(self, meta_info_styles().element);
 			ui::item(row, meta_info_styles().type, member.m_type->m_name);
@@ -158,9 +164,9 @@ namespace ui
 		ui::item(row, meta_info_styles().syntax, "Type");
 		ui::item(row, meta_info_styles().type, type.m_name);
 		//meta_description(parent, type);
-		if(!type.m_class->m_methods.empty())
+		if(!cls(type).m_methods.empty())
 			meta_methods(parent, type);
-		if(!type.m_class->m_members.empty())
+		if(!cls(type).m_members.empty())
 			meta_fields(parent, type);
 		//return meta_function(parent, function);
 	}
@@ -196,7 +202,7 @@ namespace ui
 
 	void meta_edit(Widget& parent, Type& type)
 	{
-		Section& self = section(parent, ("Type Info : " + string(type.m_meta->m_name)).c_str());
+		Section& self = section(parent, ("Type Info : " + string(meta(type).m_name)).c_str());
 		MetaEditState& state = self.state<MetaEditState>(type);
 
 		if(ui::modal_button(self, *self.m_toolbar, "Browse", META_BROWSE))

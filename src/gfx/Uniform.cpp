@@ -7,9 +7,9 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <obj/Reflect/Class.h>
-#include <obj/String/StringConvert.h>
-#include <gfx/Generated/Types.h>
+#include <refl/Class.h>
+#include <infra/StringConvert.h>
+#include <gfx/Types.h>
 #include <gfx/Uniform.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Texture.h>
@@ -66,7 +66,7 @@ namespace mud
 
 	void UniformBlock::create(GfxSystem& gfx_system)
 	{
-		for(Member& member : m_type.m_class->m_members)
+		for(Member& member : cls(m_type).m_members)
 			create_member(gfx_system, member.m_name, member);
 
 		for(Uniform& uniform : m_uniforms)

@@ -125,29 +125,9 @@ function mud_dep(namespace, name, cppmodule)
     return m
 end
 
-function mud_module(as_project, namespace, name, root_path, subpath, deps, nomodule)
-    local m = {
-        project = nil,
-        cppmodule = true,
-        reflect = false,
-        namespace = namespace,
-        name = name,
-        dotname = string.gsub(name, "-", "."),
-        idname = string.gsub(name, "-", "_"),
-        root = root_path,
-        subdir = subpath,
-        path = path.join(root_path, subpath),
-        deps = deps,
-    }
-    
-    if namespace then
-        m.dotname = namespace .. "." .. m.dotname
-        m.idname = namespace .. "_" .. m.idname
-    end
-    
-    m.reflect = file_exists(path.join(m.path, "module.py"))
-    
+function mud_module_decl(m, as_project)
     if as_project then
+        print ("project " .. m.idname)
         m.project = project(m.idname)
         kind "SharedLib"
         
@@ -156,16 +136,18 @@ function mud_module(as_project, namespace, name, root_path, subpath, deps, nomod
 
     m.lib = project().name
     
-    for _, dep in ipairs(deps or {}) do
+    for _, dep in ipairs(m.deps or {}) do
         if dep.lib ~= m.lib then
+            if dep.usage_decl then
+                dep.usage_decl()
+            end
             links(dep.lib)
             print (m.lib .. " links " .. dep.lib)
-            --uses(dep.idname)
         end
     end
     
     includedirs {
-        root_path,
+        m.root,
     }
     
     files {
@@ -173,10 +155,14 @@ function mud_module(as_project, namespace, name, root_path, subpath, deps, nomod
         path.join(m.path, "**.cpp"),
     }
     
+    removefiles {
+        path.join(m.path, "Refl/*.h"),
+        path.join(m.path, "Refl/*.cpp"),
+    }
+    
     local cpps = os.matchfiles(path.join(m.path, "**.cpp"))
     mud_mxx(cpps, m)
     
-    defines { m.idname:upper() .. "_REFLECT" }
     defines { m.idname:upper() .. "_EXPORT=MUD_EXPORT" }
     
     --vpaths { [name] = { "**.h", "**.cpp" } }
@@ -184,8 +170,11 @@ function mud_module(as_project, namespace, name, root_path, subpath, deps, nomod
     mud_defines()
     mud_modules()
     
-    if m.reflect then
-        table.insert(MODULES_PY, path.join(m.path, "module.py"))
+    if m.self_decl then
+        m.self_decl()
+    end
+    if m.usage_decl then
+        m.usage_decl()
     end
     
     if not nomodule then
@@ -204,6 +193,57 @@ function mud_module(as_project, namespace, name, root_path, subpath, deps, nomod
         configuration {}
     end
     
+    if m.reflect then
+        if not m.noreflect then
+            if as_project then
+                print ("project " .. m.idname .. "_refl " .. m.path)
+                project(m.idname .. "_refl")
+                kind "SharedLib"
+            end
+            
+            defines { m.idname:upper() .. "_REFL_EXPORT=MUD_EXPORT" }
+        
+            links {
+                "mud_infra",
+                "mud_obj",
+                "mud_pool",
+                "mud_refl",
+                m.lib,
+            }
+            
+            for _, dep in ipairs(m.deps or {}) do
+                if dep.usage_decl then
+                    dep.usage_decl()
+                end
+                links(dep.lib)
+                if dep.reflect then
+                    links(dep.lib .. "_refl")
+                end
+                
+            end
+            
+            includedirs {
+                m.root,
+            }
+            
+            files {
+                path.join(m.path, "Refl/**.h"),
+                path.join(m.path, "Refl/**.cpp"),
+            }
+            
+            if m.usage_decl then
+                m.usage_decl()
+            end
+        else
+            m.reflect = false
+        end
+        table.insert(MODULES_PY, path.join(m.path, "module.py"))
+        
+        if as_project then
+            project(m.idname)
+        end
+    end
+    
     configuration { "cpp-modules", "*-clang*" }
         links {
             "std_core",
@@ -213,16 +253,96 @@ function mud_module(as_project, namespace, name, root_path, subpath, deps, nomod
         }
         
     configuration {}
+end
+
+function mud_module(decl, namespace, name, rootpath, subpath, self_decl, usage_decl, deps, nomodule, noreflect)
+    local m = {
+        project = nil,
+        cppmodule = true,
+        reflect = false,
+        decl = decl,
+        namespace = namespace,
+        name = name,
+        dotname = string.gsub(name, "-", "."),
+        idname = string.gsub(name, "-", "_"),
+        root = rootpath,
+        subdir = subpath,
+        path = path.join(rootpath, subpath),
+        self_decl = self_decl,
+        usage_decl = usage_decl,
+        deps = deps,
+        nomodule = nomodule,
+        noreflect = noreflect,
+    }
+    
+    if namespace then
+        m.dotname = namespace .. "." .. m.dotname
+        m.idname = namespace .. "_" .. m.idname
+    end
+    
+    m.reflect = file_exists(path.join(m.path, "module.py"))
     
     return m
+end
+
+function mud_binary(name)
+    targetprefix ""
+    
+    mud_defines()
+    
+    defines { "_" .. name:upper() .. "_EXE" }
+        
+    configuration { "asmjs" }
+        linkoptions {
+            "--separate-asm",
+            "--memory-init-file 1",
+            --"--llvm-lto 3",
+        }
+        
+        linkoptions {
+            "--preload-file ../../../data/interface",
+            "--preload-file ../../../data/shaders",
+            "--preload-file ../../../data/textures",
+            "--shell-file ../../../scripts/emshell.html",
+        }
+            
+    configuration { "asmjs", "webgl2" }
+        linkoptions {
+            "-s USE_WEBGL2=1",
+        }
+        
+    configuration { "asmjs", "Debug" }
+        linkoptions {
+            "-s TOTAL_MEMORY=536870912",
+            --"-s ALLOW_MEMORY_GROWTH=1",
+        }
+        
+    configuration { "asmjs", "Release" }
+        linkoptions {
+            "-s WASM=1",
+            "-s ALLOW_MEMORY_GROWTH=1",
+            "-s ALIASING_FUNCTION_POINTERS=0",
+        }
+        
+    configuration { "not linux", "not asmjs" }
+        defines {
+            "MUD_RESOURCE_PATH=\"" .. path.join(PROJECT_DIR, "data") .. "/\"",
+        }
+
+    configuration { "linux", "not asmjs" }
+        defines {
+            "MUD_RESOURCE_PATH=\\\"" .. path.join(PROJECT_DIR, "data") .. "/\\\"",
+        }
+
+    configuration {}
 end
 
 function mud_amalgamate(modules)
     for _, m in ipairs(modules) do
         local dir = os.getcwd()
         os.chdir(m.root)
-        os.execute(path.join(MUD_DIR, "3rdparty/amalgamate/amalgamate.py") .. " -c " .. m.path .. "/Generated/amalgam.h.json" .. " -s " .. MUD_SRC_DIR)
-        os.execute(path.join(MUD_DIR, "3rdparty/amalgamate/amalgamate.py") .. " -c " .. m.path .. "/Generated/amalgam.cpp.json" .. " -s " .. MUD_SRC_DIR)
+        os.execute(path.join(MUD_DIR, "3rdparty/amalgamate/amalgamate.py") .. " -c " .. m.path .. "/Refl/amalgam.h.json" .. " -s " .. MUD_SRC_DIR)
+        os.execute(path.join(MUD_DIR, "3rdparty/amalgamate/amalgamate.py") .. " -c " .. m.path .. "/Refl/amalgam.cpp.json" .. " -s " .. MUD_SRC_DIR)
         os.chdir(dir)
     end
 end
@@ -234,7 +354,7 @@ function mud_write_api(m)
     local f, err = io.open(path.join(m.path, "Api.h"), "wb")
     io.output(f)
     for _, h in ipairs(headers) do
-        if not string.find(h, "Api.h") and not string.find(h, "Generated/") then
+        if not string.find(h, "Api.h") and not string.find(h, "Refl/") then
             io.printf("#include <" .. path.getrelative(m.root, h) .. ">")
         end
     end
@@ -264,9 +384,8 @@ function mud_write_mxx(m)
     io.printf("")
     io.printf("#include <" .. m.subdir .. "/Api.h>")
     if m.reflect then
-        io.printf("#include <" .. m.subdir .. "/Generated/Types.h>")
-        io.printf("#include <" .. m.subdir .. "/Generated/Module.h>")
-        io.printf("#include <" .. m.subdir .. "/Generated/Convert.h>")
+        io.printf("#include <" .. m.subdir .. "/Refl/Module.h>")
+        io.printf("#include <" .. m.subdir .. "/Refl/Convert.h>")
     end
     io.printf("")
     f:close()
@@ -291,7 +410,7 @@ newaction {
     trigger     = "reflect",
     description = "Generate reflection",
     execute     = function()
-        os.execute(path.join(MUD_DIR, "src/obj/Metagen", "generator.py") .. " " .. table.concat(MODULES_PY, " "))
+        os.execute(path.join(MUD_DIR, "src/refl/Metagen", "generator.py") .. " " .. table.concat(MODULES_PY, " "))
     end
 }
 

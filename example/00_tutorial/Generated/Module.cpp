@@ -1,17 +1,17 @@
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module .ex_00_tutorial;
 #else
-#include <00_tutorial/Generated/Module.h>
+#include <00_tutorial/Refl/Module.h>
 #endif
 
 #ifdef _00_TUTORIAL_REFLECT
 #ifndef MUD_MODULES
-#include <00_tutorial/Generated/Convert.h>
+#include <00_tutorial/Refl/Convert.h>
 #endif
 #define _00_TUTORIAL_REFLECTION_IMPL
-#include <00_tutorial/Generated/Meta.h>
+#include <00_tutorial/Refl/Meta.h>
 #endif
 
 	ex_00_tutorial::ex_00_tutorial()

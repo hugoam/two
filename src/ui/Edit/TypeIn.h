@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <ui/Generated/Forward.h>
+#include <ui/Forward.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Frame/Caption.h>
 #include <ui/Style/Paint.h>

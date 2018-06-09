@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <obj/Unique.h>
 #endif
-#include <ui/Generated/Forward.h>
+#include <ui/Forward.h>
 
 namespace mud
 {

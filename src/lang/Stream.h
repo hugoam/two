@@ -6,9 +6,9 @@
 
 #ifndef MUD_MODULES
 #include <obj/Var.h>
-#include <obj/String/String.h>
+#include <infra/String.h>
 #endif
-#include <lang/Generated/Forward.h>
+#include <lang/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <vector>

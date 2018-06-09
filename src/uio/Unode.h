@@ -6,11 +6,11 @@
 
 #ifndef MUD_MODULES
 #include <obj/Ref.h>
-#include <obj/Util/Dispatch.h>
-#include <obj/Util/Global.h>
+#include <obj/Dispatch.h>
+#include <infra/Global.h>
 #include <ui/Ui.h>
 #endif
-#include <uio/Generated/Forward.h>
+#include <uio/Forward.h>
 
 namespace mud
 {

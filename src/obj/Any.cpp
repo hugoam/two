@@ -2,13 +2,12 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.obj;
 #else
-#include <obj/Config.h>
-#include <obj/Types.h>
+#include <infra/Config.h>
 #include <obj/Var.h>
 #include <obj/Any.h>
 #endif

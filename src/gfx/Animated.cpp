@@ -9,11 +9,11 @@ module mud.gfx;
 #else
 #include <bx/math.h>
 
-#include <obj/Vector.h>
-#include <obj/Reflect/Class.h>
+#include <infra/Vector.h>
+#include <refl/Class.h>
 #include <math/Math.h>
 #include <math/Interp.h>
-#include <gfx/Generated/Types.h>
+#include <gfx/Types.h>
 #include <gfx/Animated.h>
 #include <gfx/Node3.h>
 #include <gfx/Item.h>

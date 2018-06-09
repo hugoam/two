@@ -9,7 +9,7 @@
 #include <obj/Type.h>
 #include <obj/TypeUtils.h>
 #endif
-#include <gfx/Generated/Forward.h>
+#include <gfx/Forward.h>
 #include <gfx/Texture.h>
 
 #ifndef MUD_GENERATOR_SKIP_INCLUDES

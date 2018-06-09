@@ -10,7 +10,7 @@
 module mud.gfx.pbr;
 #else
 #include <gfx/RenderTarget.h>
-#include <gfx-pbr/Generated/Types.h>
+#include <gfx-pbr/Types.h>
 #include <gfx-pbr/Filters/DofBlur.h>
 #include <gfx-pbr/Filters/Tonemap.h>
 #endif

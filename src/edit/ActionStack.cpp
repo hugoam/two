@@ -2,13 +2,13 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.edit;
 #else
-#include <obj/Vector.h>
-#include <edit/Generated/Types.h>
+#include <infra/Vector.h>
+#include <edit/Types.h>
 #include <edit/ActionStack.h>
 #endif
 

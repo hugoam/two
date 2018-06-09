@@ -4,7 +4,7 @@
 #include <math/Random.h>
 #include <math/Grid.h>
 #endif
-#include <procgen/Generated/Forward.h>
+#include <procgen/Forward.h>
 
 #ifndef MUD_META_GENERATOR
 export_ class MUD_PROCGEN_EXPORT FastNoise;

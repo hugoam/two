@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/System/System.h>
+#include <infra/File.h>
 #include <srlz/Serial.h>
 #endif
 #include <gfx/Asset.h>
@@ -139,7 +139,7 @@ namespace mud
 			this->load_files((string(path) + folder + "/").c_str());
 		};
 
-		system().visit_files(path, visit_file);
-		system().visit_folders(path, visit_folder);
+		visit_files(path, visit_file);
+		visit_folders(path, visit_folder);
 	}
 }

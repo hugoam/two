@@ -6,7 +6,7 @@
 #include <math/VecOps.h>
 #include <math/Colour.h>
 #endif
-#include <gfx-gltf/Generated/Forward.h>
+#include <gfx-gltf/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <map>

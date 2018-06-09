@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <gfx/Renderer.h>
 #endif
-#include <gfx-pbr/Generated/Forward.h>
+#include <gfx-pbr/Forward.h>
 #include <gfx-pbr/Filters/Glow.h>
 #include <gfx-pbr/Filters/DofBlur.h>
 

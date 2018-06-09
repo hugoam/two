@@ -1,17 +1,17 @@
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module .ex_15_script;
 #else
-#include <15_script/Generated/Module.h>
+#include <15_script/Refl/Module.h>
 #endif
 
 #ifdef _15_SCRIPT_REFLECT
 #ifndef MUD_MODULES
-#include <15_script/Generated/Convert.h>
+#include <15_script/Refl/Convert.h>
 #endif
 #define _15_SCRIPT_REFLECTION_IMPL
-#include <15_script/Generated/Meta.h>
+#include <15_script/Refl/Meta.h>
 #endif
 
 	ex_15_script::ex_15_script()

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <ui/Generated/Forward.h>
+#include <ui/Forward.h>
 #include <ui/Render/Renderer.h>
 
 #ifndef MUD_CPP_20
@@ -17,11 +17,15 @@
 #include <bgfx/bgfx.h>
 #endif
 
+#ifndef MUD_UI_VG_EXPORT
+#define MUD_UI_VG_EXPORT MUD_IMPORT
+#endif
+
 namespace mud
 {
 	using string = std::string;
 
-	export_ class VgVg : public VgRenderer
+	export_ class MUD_UI_VG_EXPORT VgVg : public VgRenderer
 	{
 	public:
 		VgVg(cstring resource_path, bx::AllocatorI* allocator);

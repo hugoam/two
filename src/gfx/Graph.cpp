@@ -7,14 +7,14 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <obj/Vector.h>
-#include <obj/Graph/Node.inl.h>
-#include <obj/Memory/ObjectPool.h>
+#include <infra/Vector.h>
+#include <tree/Node.inl.h>
+#include <pool/ObjectPool.h>
 #include <math/Math.h>
 #include <geom/Intersect.h>
 #include <geom/Symbol.h>
 #include <geom/Geom.h>
-#include <gfx/Generated/Types.h>
+#include <gfx/Types.h>
 #include <gfx/Graph.h>
 #include <gfx/Gfx.h>
 #include <gfx/Draw.h>

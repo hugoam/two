@@ -8,7 +8,7 @@
 #include <math/Vec.h>
 #include <math/Grid.h>
 #endif
-#include <geom/Generated/Forward.h>
+#include <geom/Forward.h>
 #include <geom/Shapes.h>
 
 namespace mud

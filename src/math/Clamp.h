@@ -9,7 +9,7 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <obj/Config.h>
+#include <infra/Config.h>
 
 namespace std
 {

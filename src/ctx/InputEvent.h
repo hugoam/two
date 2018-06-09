@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <math/Vec.h>
 #endif
-#include <ctx/Generated/Forward.h>
+#include <ctx/Forward.h>
 #include <ctx/KeyCode.h>
 
 namespace mud

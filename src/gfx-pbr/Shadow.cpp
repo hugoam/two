@@ -9,14 +9,14 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
-#include <obj/Vector.h>
+#include <infra/Vector.h>
 #include <math/Math.h>
 #include <gfx/ManualRender.h>
 #include <gfx/Item.h>
 #include <gfx/Shot.h>
 #include <gfx/Program.h>
 #include <gfx/GfxSystem.h>
-#include <gfx-pbr/Generated/Types.h>
+#include <gfx-pbr/Types.h>
 #include <gfx-pbr/Shadow.h>
 #include <gfx-pbr/Light.h>
 #endif

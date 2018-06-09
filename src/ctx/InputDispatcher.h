@@ -6,9 +6,9 @@
 
 #ifndef MUD_MODULES
 #include <obj/Unique.h>
-#include <obj/EnumArray.h>
+#include <infra/EnumArray.h>
 #endif
-#include <ctx/Generated/Forward.h>
+#include <ctx/Forward.h>
 #include <ctx/KeyCode.h>
 #include <ctx/InputEvent.h>
 

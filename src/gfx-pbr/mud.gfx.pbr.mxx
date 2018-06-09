@@ -2,14 +2,13 @@
 
 #include <obj/Config.h>
 
-#include <bgfx/bgfx.h>
-
 export module mud.gfx.pbr;
 export import std.core;
 export import std.io;
 export import std.threading;
 export import std.regex;
 
+export import mud.infra;
 export import mud.obj;
 export import mud.srlz;
 export import mud.math;
@@ -17,7 +16,6 @@ export import mud.geom;
 export import mud.gfx;
 
 #include <gfx-pbr/Api.h>
-#include <gfx-pbr/Generated/Types.h>
-#include <gfx-pbr/Generated/Module.h>
-#include <gfx-pbr/Generated/Convert.h>
+#include <gfx-pbr/Refl/Module.h>
+#include <gfx-pbr/Refl/Convert.h>
 

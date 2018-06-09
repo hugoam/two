@@ -15,8 +15,6 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <stb_image.h>
-
 #include <gfx/Texture.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Node3.h>

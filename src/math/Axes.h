@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <math/Generated/Forward.h>
+#include <math/Forward.h>
 #include <math/Axis.h>
 #include <math/Vec.h>
 

@@ -5,10 +5,10 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Array.h>
+#include <infra/Array.h>
 #include <obj/Unique.h>
 #endif
-#include <gfx/Generated/Forward.h>
+#include <gfx/Forward.h>
 #ifndef MUD_BGFX_EXPORT
 #define MUD_BGFX_EXPORT MUD_GFX_EXPORT
 #endif

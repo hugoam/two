@@ -5,7 +5,7 @@
 #pragma once
 
 #include <mud/Forward.h>
-#include <obj/Array.h>
+#include <infra/Array.h>
 #include <geom/Shape.h>
 
 #include <vector>

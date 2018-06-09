@@ -2,7 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <string>
 #endif
@@ -10,11 +10,11 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#include <obj/Vector.h>
-#include <obj/Reflect/Meta.h>
-#include <obj/Reflect/Member.h>
-#include <obj/Reflect/Convert.h>
-#include <obj/Reflect/Sequence.h>
+#include <infra/Vector.h>
+#include <refl/Meta.h>
+#include <refl/Member.h>
+#include <refl/Convert.h>
+#include <refl/Sequence.h>
 #include <ui/Structs/Container.h>
 #include <uio/Edit/Structure.h>
 #include <uio/Unode.h>

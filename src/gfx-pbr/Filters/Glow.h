@@ -9,7 +9,7 @@
 #include <gfx/Program.h>
 #include <gfx/Filter.h>
 #endif
-#include <gfx-pbr/Generated/Forward.h>
+#include <gfx-pbr/Forward.h>
 
 namespace mud
 {

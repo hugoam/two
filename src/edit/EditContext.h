@@ -9,7 +9,7 @@
 #include <uio/Edit/Script.h>
 #endif
 
-#include <edit/Generated/Forward.h>
+#include <edit/Forward.h>
 #include <edit/Tool.h>
 
 #include <edit/Tools/TranslateTool.h>

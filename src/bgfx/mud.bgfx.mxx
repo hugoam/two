@@ -1,8 +1,5 @@
 #include <cpp/preimport.h>
 
-#include <type_traits>
-#include <bx/allocator.h>
-
 #include <obj/Config.h>
 
 export module mud.bgfx;
@@ -15,6 +12,8 @@ export import mud.obj;
 export import mud.math;
 export import mud.ctx;
 export import mud.ui;
+export import mud.ctx.glfw;
+export import mud.ui.vg;
 export import mud.ctx.glfw;
 export import mud.ui.vg;
 

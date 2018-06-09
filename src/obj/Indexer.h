@@ -4,12 +4,12 @@
 
 #pragma once
 
-#include <obj/Generated/Forward.h>
+#include <obj/Forward.h>
 #include <obj/Ref.h>
 #include <obj/Type.h>
-#include <obj/NonCopy.h>
+#include <infra/NonCopy.h>
 #include <obj/Unique.h>
-#include <obj/Util/Global.h>
+#include <infra/Global.h>
 
 #ifndef MUD_CPP_20
 #include <functional>
@@ -43,6 +43,8 @@ namespace mud
 		size_t m_count;
 		size_t m_next;
 	};
+
+	export_ template class MUD_OBJ_EXPORT Global<Index>;
 
 	export_ class refl_ MUD_OBJ_EXPORT Index : public Global<Index>, public NonCopy
 	{

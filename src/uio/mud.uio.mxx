@@ -8,14 +8,17 @@ export import std.io;
 export import std.threading;
 export import std.regex;
 
+export import mud.infra;
+export import mud.tree;
 export import mud.obj;
+export import mud.pool;
+export import mud.refl;
 export import mud.math;
 export import mud.lang;
 export import mud.ctx;
 export import mud.ui;
 
 #include <uio/Api.h>
-#include <uio/Generated/Types.h>
-#include <uio/Generated/Module.h>
-#include <uio/Generated/Convert.h>
+#include <uio/Refl/Module.h>
+#include <uio/Refl/Convert.h>
 

@@ -5,9 +5,9 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Array.h>
+#include <infra/Array.h>
 #endif
-#include <gfx/Generated/Forward.h>
+#include <gfx/Forward.h>
 #include <gfx/Viewport.h>
 
 #ifdef MUD_UNIFORM_BLOCKS

@@ -1,6 +1,6 @@
 #include <mud/mud.h>
 #include <00_tutorial/00_tutorial.h>
-#include <00_tutorial/Generated/Module.h>
+#include <00_tutorial/Refl/Module.h>
 
 MyObject::MyObject(ShapeType shape, Colour colour)
 	: m_shape(shape)

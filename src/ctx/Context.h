@@ -5,12 +5,12 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/NonCopy.h>
+#include <infra/NonCopy.h>
 #include <obj/Unique.h>
-#include <obj/Strung.h>
+#include <infra/Strung.h>
 #include <math/Vec.h>
 #endif
-#include <ctx/Generated/Forward.h>
+#include <ctx/Forward.h>
 
 namespace mud
 {

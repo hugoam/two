@@ -7,13 +7,10 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <obj/Vector.h>
-#include <gfx/Generated/Types.h>
+#include <infra/Vector.h>
+#include <gfx/Types.h>
 #include <gfx/Pipeline.h>
-#include <gfx/Shot.h>
-#include <gfx/Filter.h>
-#include <gfx/Asset.h>
-#include <gfx/Generated/Module.h>
+#include <gfx/Api.h>
 #endif
 
 namespace mud

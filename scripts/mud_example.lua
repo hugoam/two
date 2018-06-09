@@ -1,28 +1,42 @@
 -- mud
 -- mud example application
 
+mud.examples = {}
+mud.examples.all = mud_module(mud_module_decl, nil, "example", MUD_DIR, "example", nil, nil, {}, true)
+        
 if _OPTIONS["renderer-bgfx"] then
     project "mud_example"
         kind "ConsoleApp"
+        
+        mud.examples.all.decl(mud.examples.all, false)
         
         includedirs {
             path.join(MUD_DIR, "example"),
         }
         
-        mud_module(false, "mud", "example", MUD_DIR, "example", {}, true) --, "_EXAMPLE")
-
         defines { "_00_UI_EXPORT=MUD_EXPORT", "_00_TUTORIAL_EXPORT=MUD_EXPORT", "_15_SCRIPT_EXPORT=MUD_EXPORT" }
         
-        uses_mud_gfx()
         uses_mud()
+        uses_mud_coregfx()
         mud_shell("mud_example")
         
     --project "mud_shell"
     --    kind "ConsoleApp"
         
-    --    uses_mud_gfx()
     --    uses_mud()
+    --    uses_mud_coregfx()
     --    mud_shell("mud_shell")  
+end
+
+function mud_example_module_decl(m, as_project)
+    mud_module_decl(m, as_project)
+    
+    configuration { "asmjs" }
+        linkoptions {
+            "--preload-file ../../../data/examples/" .. m.name .. "@data/",
+        }
+    
+    configuration {}
 end
 
 function mud_example(name, gfx, deps, ismodule)
@@ -33,18 +47,12 @@ function mud_example(name, gfx, deps, ismodule)
 
     project(name)
         kind "ConsoleApp"
-
-        mud_module(false, nil, "_" .. name, path.join(MUD_DIR, "example"), name, {}, not ismodule)
+        
+        mud.examples[name] = mud_module(mud_example_module_decl, nil, "_" .. name, path.join(MUD_DIR, "example"), name, nil, nil, mud.all, not ismodule)
+        mud.examples[name].decl(mud.examples[name], false)
         
 		for _, depname in ipairs(deps) do
-            mud_module(false, nil, "_" .. depname, path.join(MUD_DIR, "example"), depname, {}, true)
-            
-            configuration { "asmjs" }
-                linkoptions {
-                    "--preload-file ../../../data/examples/" .. depname .. "@data/",
-                }
-            
-            configuration {}
+            mud.examples[depname].decl(mud.examples[depname], false)
         end
         
         if gfx then
@@ -52,7 +60,7 @@ function mud_example(name, gfx, deps, ismodule)
                 path.join(MUD_DIR, "src", "mud", "Shell.cpp"),
             }
     
-            uses_mud_gfx()
+            uses_mud_coregfx()
         else
             if _OPTIONS["renderer-gl"] then
                 uses_mud_gl()
@@ -63,27 +71,20 @@ function mud_example(name, gfx, deps, ismodule)
         
         uses_mud()
         mud_binary(name)
-        
-        configuration { "asmjs" }
-            linkoptions {
-                "--preload-file ../../../data/examples/" .. name .. "@data/",
-            }
-        
-        configuration {}
 end
 
 mud_example("00_tutorial",          true, {}, true)
 mud_example("00_cube",              true, {})
 --mud_example("00_ui",                false, {})
 mud_example("01_shapes",            true, {})
-mud_example("02_camera",            true, { "03_materials" })
 mud_example("03_materials",         true, {})
+mud_example("02_camera",            true, { "03_materials" })
 mud_example("04_lights",            true, { "01_shapes", "03_materials" })
 mud_example("04_sponza",            true, { "01_shapes", "03_materials" })
 --mud_example("05_character",       true, "03_materials")
 mud_example("06_particles",         true, {})
-mud_example("07_prefabs",           true, { "07_gltf" })
 mud_example("07_gltf",              true, {})
+mud_example("07_prefabs",           true, { "07_gltf" })
 mud_example("08_sky",               true, { "01_shapes", "03_materials" })
 mud_example("09_live_shader",       true, {})
 mud_example("10_post_process",      true, { "01_shapes", "03_materials" })

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <edit/Generated/Forward.h>
+#include <edit/Forward.h>
 #include <edit/Viewer/Viewer.h>
 
 namespace mud

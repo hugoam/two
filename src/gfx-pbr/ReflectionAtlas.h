@@ -8,7 +8,7 @@
 #include <math/Colour.h>
 #include <math/Vec.h>
 #endif
-#include <gfx-pbr/Generated/Forward.h>
+#include <gfx-pbr/Forward.h>
 
 #ifndef MUD_GENERATOR_SKIP_INCLUDES
 #include <bgfx/bgfx.h>

@@ -5,15 +5,15 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/NonCopy.h>
+#include <infra/NonCopy.h>
 #include <obj/Unique.h>
-#include <obj/Array.h>
-#include <obj/Strung.h>
+#include <infra/Array.h>
+#include <infra/Strung.h>
 #include <math/Colour.h>
 #include <math/Vec.h>
 #include <geom/Aabb.h>
 #endif
-#include <gfx/Generated/Forward.h>
+#include <gfx/Forward.h>
 #include <gfx/Node3.h>
 
 #ifndef MUD_GENERATOR_SKIP_INCLUDES

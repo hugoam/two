@@ -2,12 +2,12 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.geom;
 #else
-#include <geom/Generated/Types.h>
+#include <geom/Types.h>
 #include <geom/Shape/ProcShape.h>
 #include <geom/Shape/DrawShape.h>
 #include <geom/Shape/Line.h>

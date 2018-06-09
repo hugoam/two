@@ -9,7 +9,7 @@
 #include <math/Math.h>
 #include <math/Colour.h>
 #endif
-#include <geom/Generated/Forward.h>
+#include <geom/Forward.h>
 
 namespace mud
 {

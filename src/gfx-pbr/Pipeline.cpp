@@ -9,9 +9,10 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
-#include <gfx/Generated/Types.h>
+#include <gfx/Types.h>
+#include <gfx/Api.h>
 #include <gfx-pbr/Pipeline.h>
-#include <gfx-pbr/Generated/Module.h>
+#include <gfx-pbr/Api.h>
 #endif
 
 namespace mud

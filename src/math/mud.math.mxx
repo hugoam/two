@@ -9,11 +9,12 @@ export import std.threading;
 export import std.regex;
 
 export import json11;
+export import mud.infra;
 export import mud.obj;
+export import mud.refl;
 export import mud.srlz;
 
 #include <math/Api.h>
-#include <math/Generated/Types.h>
-#include <math/Generated/Module.h>
-#include <math/Generated/Convert.h>
+#include <math/Refl/Module.h>
+#include <math/Refl/Convert.h>
 

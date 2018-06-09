@@ -7,19 +7,19 @@
 //#ifdef MUD_CTX_GLFW
 
 #ifndef MUD_MODULES
-#include <ctx/Generated/Forward.h>
+#include <ctx/Forward.h>
 #include <ctx/Context.h>
 
 struct GLFWwindow;
 #endif
 
-#ifndef MUD_GLFW_EXPORT
-#define MUD_GLFW_EXPORT
+#ifndef MUD_CTX_GLFW_EXPORT
+#define MUD_CTX_GLFW_EXPORT
 #endif
 
 namespace mud
 {
-	export_ class refl_ MUD_GLFW_EXPORT GlfwContext : public Context
+	export_ class refl_ MUD_CTX_GLFW_EXPORT GlfwContext : public Context
 	{
 	public:
 		GlfwContext(RenderSystem& render_system, cstring name, int width, int height, bool full_screen, bool auto_swap = true);

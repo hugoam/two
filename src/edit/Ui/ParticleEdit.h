@@ -9,7 +9,7 @@
 #include <ui/Input.h>
 #include <gfx/Particles.h>
 #endif
-#include <edit/Generated/Forward.h>
+#include <edit/Forward.h>
 
 namespace mud
 {

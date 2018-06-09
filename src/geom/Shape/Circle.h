@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <geom/Generated/Forward.h>
+#include <geom/Forward.h>
 #include <geom/Shape/ProcShape.h>
 #include <geom/Shapes.h>
 

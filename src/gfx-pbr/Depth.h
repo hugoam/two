@@ -6,7 +6,7 @@
 #include <obj/Unique.h>
 #include <gfx/Renderer.h>
 #endif
-#include <gfx-pbr/Generated/Forward.h>
+#include <gfx-pbr/Forward.h>
 
 namespace mud
 {

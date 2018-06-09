@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <obj/Ref.h>
 #endif
-#include <uio/Generated/Forward.h>
+#include <uio/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <vector>

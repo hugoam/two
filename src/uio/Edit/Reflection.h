@@ -8,7 +8,7 @@
 #include <obj/Ref.h>
 #include <ui/Ui.h>
 #endif
-#include <uio/Generated/Forward.h>
+#include <uio/Forward.h>
 
 namespace mud
 {

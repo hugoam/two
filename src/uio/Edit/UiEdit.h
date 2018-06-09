@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <uio/Generated/Forward.h>
+#include <uio/Forward.h>
 #include <uio/Unode.h>
 
 namespace mud

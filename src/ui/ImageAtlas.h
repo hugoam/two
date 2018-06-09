@@ -8,7 +8,7 @@
 #include <obj/Unique.h>
 #include <math/Vec.h>
 #endif
-#include <ui/Generated/Forward.h>
+#include <ui/Forward.h>
 #include <ui/Image.h>
 
 #ifndef MUD_CPP_20

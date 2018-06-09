@@ -2,16 +2,17 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #include <bgfx/bgfx.h>
 
 #ifdef MUD_MODULES
 module mud.edit;
 #else
+#include <infra/Vector.h>
 #include <obj/Vector.h>
-#include <obj/Reflect/Class.h>
-#include <obj/Util/DispatchDecl.h>
+#include <obj/DispatchDecl.h>
+#include <refl/Class.h>
 #include <math/Axes.h>
 #include <geom/Symbol.h>
 #include <geom/Shapes.h>
@@ -31,7 +32,7 @@ module mud.edit;
 #include <gfx/Model.h>
 #include <gfx/Asset.h>
 #include <gfx-pbr/Shadow.h>
-#include <edit/Generated/Types.h>
+#include <edit/Types.h>
 #include <edit/Ui/GfxEdit.h>
 #include <edit/Viewer/Viewer.h>
 #include <edit/Ui/ParticleEdit.h>

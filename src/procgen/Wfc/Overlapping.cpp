@@ -2,7 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <map>
 #endif
@@ -10,9 +10,7 @@
 #ifdef MUD_MODULES
 module mud.procgen;
 #else
-#include <stb_image.h>
-
-#include <obj/Vector.h>
+#include <infra/Vector.h>
 #include <procgen/Wfc/Wfc.h>
 // @kludge : not sure why this fixes a compilation error when using MSVC modules :/
 #ifdef MUD_CPP_20
@@ -181,7 +179,7 @@ namespace mud
 	PalettedImage load_paletted_image(const std::string& path)
 	{
 		int width, height, comp;
-		RGBA* rgba = reinterpret_cast<RGBA*>(stbi_load(path.c_str(), &width, &height, &comp, 4));
+		RGBA* rgba = nullptr; // reinterpret_cast<RGBA*>(stbi_load(path.c_str(), &width, &height, &comp, 4));
 
 		const size_t num_pixels = width * height;
 

@@ -4,12 +4,10 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
-#include <obj/Limits.h>
-#endif
 #include <ui/Frame/Frame.h>
 
 #ifndef MUD_CPP_20
+#include <cstdint>
 #include <vector>
 #include <functional>
 #endif

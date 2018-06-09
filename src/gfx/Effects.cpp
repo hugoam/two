@@ -7,8 +7,8 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <obj/Vector.h>
-#include <gfx/Generated/Types.h>
+#include <infra/Vector.h>
+#include <gfx/Types.h>
 #include <gfx/Effects.h>
 #include <gfx/Filter.h>
 #include <gfx/RenderTarget.h>

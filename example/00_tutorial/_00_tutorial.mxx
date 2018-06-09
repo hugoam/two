@@ -10,7 +10,6 @@ export import std.regex;
 
 
 #include <00_tutorial/Api.h>
-#include <00_tutorial/Generated/Types.h>
-#include <00_tutorial/Generated/Module.h>
-#include <00_tutorial/Generated/Convert.h>
+#include <00_tutorial/Refl/Module.h>
+#include <00_tutorial/Refl/Convert.h>
 

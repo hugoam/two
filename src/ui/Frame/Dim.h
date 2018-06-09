@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <ui/Generated/Forward.h>
+#include <ui/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <cstddef>

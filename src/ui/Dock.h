@@ -5,9 +5,9 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Array.h>
+#include <infra/Array.h>
 #endif
-#include <ui/Generated/Forward.h>
+#include <ui/Forward.h>
 #include <ui/Sheet.h>
 
 namespace mud

@@ -2,7 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <iostream>
 #include <fstream>
@@ -20,13 +20,13 @@ module mud.gfx.gltf;
 #include <json11.hpp>
 using json = json11::Json;
 
-#include <obj/Util/DispatchDecl.h>
-#include <obj/Vector.h>
+#include <obj/DispatchDecl.h>
+#include <infra/Vector.h>
 #include <srlz/Serial.h>
-#include <obj/System/System.h>
-#include <obj/System/File.h>
-#include <obj/Reflect/Class.h>
-#include <obj/String/String.h>
+#include <refl/System.h>
+#include <infra/File.h>
+#include <refl/Class.h>
+#include <infra/String.h>
 #include <math/VecJson.h>
 #include <math/Interp.h>
 #include <math/Stream.h>
@@ -41,7 +41,7 @@ using json = json11::Json;
 #include <gfx/Texture.h>
 #include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
-#include <gfx-gltf/Generated/Types.h>
+#include <gfx-gltf/Types.h>
 #include <gfx-gltf/ImporterGltf.h>
 #endif
 
@@ -107,9 +107,9 @@ namespace mud
 
 		size_t index = 0;
 		for(Type* type : system().m_types)
-			if(string(type->m_name).find("glTF") == 0 && type->m_class && !type->is<glTFAttributes>())
+			if(string(type->m_name).find("glTF") == 0 && g_class[type->m_id] && !type->is<glTFAttributes>())
 			{
-				for(Member& member : type->m_class->m_members)
+				for(Member& member : cls(type).m_members)
 				{
 					fixed_members[index] = to_camelcase(string(member.m_name));
 					member.m_name = fixed_members[index].c_str();

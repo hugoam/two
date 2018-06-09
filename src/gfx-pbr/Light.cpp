@@ -9,15 +9,15 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
-#include <obj/Vector.h>
-#include <obj/String/StringConvert.h>
+#include <infra/Vector.h>
+#include <infra/StringConvert.h>
 #include <math/VecOps.h>
 #include <gfx/Shot.h>
 #include <gfx/Item.h>
 #include <gfx/Viewport.h>
 #include <gfx/Scene.h>
 #include <gfx/Camera.h>
-#include <gfx-pbr/Generated/Types.h>
+#include <gfx-pbr/Types.h>
 #include <gfx-pbr/Light.h>
 #include <gfx-pbr/Shadow.h>
 #endif

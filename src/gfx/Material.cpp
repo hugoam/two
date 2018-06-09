@@ -4,14 +4,16 @@
 
 #include <gfx/Cpp20.h>
 
+#include <bgfx/bgfx.h>
+
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
 #include <obj/Type.h>
 #include <obj/Indexer.h>
-#include <obj/String/StringConvert.h>
+#include <infra/StringConvert.h>
 #include <math/VecOps.h>
-#include <gfx/Generated/Types.h>
+#include <gfx/Types.h>
 #include <gfx/Material.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Texture.h>
@@ -19,8 +21,6 @@ module mud.gfx;
 #include <gfx/Program.h>
 #include <gfx/Asset.h>
 #endif
-
-#include <bgfx/bgfx.h>
 
 namespace mud
 {

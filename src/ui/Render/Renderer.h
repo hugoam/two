@@ -6,10 +6,10 @@
 
 #ifndef MUD_MODULES
 #include <obj/Unique.h>
-#include <obj/Strung.h>
-#include <obj/Util/Timer.h>
+#include <infra/Strung.h>
+#include <math/Timer.h>
 #endif
-#include <ui/Generated/Forward.h>
+#include <ui/Forward.h>
 #include <ui/Frame/Caption.h>
 
 namespace mud

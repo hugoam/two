@@ -1,13 +1,13 @@
 #pragma once
 
-#include <obj/Generated/Forward.h>
-#include <math/Generated/Forward.h>
-#include <procgen/Generated/Forward.h>
-#include <lang/Generated/Forward.h>
-#include <ui/Generated/Forward.h>
-#include <uio/Generated/Forward.h>
-#include <gfx/Generated/Forward.h>
-#include <edit/Generated/Forward.h>
+#include <obj/Forward.h>
+#include <math/Forward.h>
+#include <procgen/Forward.h>
+#include <lang/Forward.h>
+#include <ui/Forward.h>
+#include <uio/Forward.h>
+#include <gfx/Forward.h>
+#include <edit/Forward.h>
 
 namespace mud
 {

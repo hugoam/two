@@ -2,7 +2,9 @@
 #include <edit/ActionStack.h>
 #include <edit/Brush.h>
 #include <edit/EditContext.h>
+#include <edit/Forward.h>
 #include <edit/Tool.h>
+#include <edit/Types.h>
 #include <edit/Viewport.h>
 #include <edit/Tools/CopyTool.h>
 #include <edit/Tools/RotateTool.h>

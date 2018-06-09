@@ -1,10 +1,10 @@
 #pragma once
 
 #include <obj/Types.h>
-#include <math/Generated/Types.h>
-#include <procgen/Generated/Types.h>
-#include <lang/Generated/Types.h>
-#include <ui/Generated/Types.h>
-#include <uio/Generated/Types.h>
-#include <gfx/Generated/Types.h>
-#include <edit/Generated/Types.h>
+#include <math/Types.h>
+#include <procgen/Types.h>
+#include <lang/Types.h>
+#include <ui/Types.h>
+#include <uio/Types.h>
+#include <gfx/Types.h>
+#include <edit/Types.h>

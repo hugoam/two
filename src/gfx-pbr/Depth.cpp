@@ -9,11 +9,11 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
-#include <obj/Vector.h>
+#include <infra/Vector.h>
 #include <gfx/Item.h>
 #include <gfx/Material.h>
 #include <gfx/GfxSystem.h>
-#include <gfx-pbr/Generated/Types.h>
+#include <gfx-pbr/Types.h>
 #include <gfx-pbr/Depth.h>
 #endif
 

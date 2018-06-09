@@ -1,12 +1,12 @@
 
 #pragma once
 
-#include <00_tutorial/Generated/Types.h>
+#include <00_tutorial/Forward.h>
 
 #if !defined MUD_MODULES || defined MUD_OBJ_LIB
-#include <obj/Reflect/Meta.h>
-#include <obj/Reflect/Enum.h>
-#include <obj/String/StringConvert.h>
+#include <refl/Meta.h>
+#include <refl/Enum.h>
+#include <infra/StringConvert.h>
 #endif
 
 namespace mud

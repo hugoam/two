@@ -8,7 +8,7 @@
 module mud.gfx;
 #else
 #include <geom/Primitive.h>
-#include <gfx/Generated/Types.h>
+#include <gfx/Types.h>
 #include <gfx/Filter.h>
 #include <gfx/RenderTarget.h>
 #include <gfx/Camera.h>

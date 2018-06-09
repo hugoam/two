@@ -2,17 +2,16 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.ui;
 #else
-#include <obj/Any.h>
-#include <obj/Reflect/Class.h>
+#include <refl/Class.h>
 #include <srlz/Serial.h>
-#include <obj/String/String.h>
+#include <infra/String.h>
 #include <math/VecJson.h>
-#include <ui/Generated/Types.h>
+#include <ui/Types.h>
 #include <ui/Style/StyleParser.h>
 #include <ui/Style/Style.h>
 #include <ui/Style/Skin.h>

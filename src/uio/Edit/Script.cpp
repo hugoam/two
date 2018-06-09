@@ -2,19 +2,20 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#include <obj/Vector.h>
-#include <obj/System/System.h>
-#include <obj/Memory/ObjectPool.h>
+#include <infra/Vector.h>
+#include <obj/Any.h>
+#include <refl/System.h>
+#include <pool/ObjectPool.h>
 #include <lang/Script.h>
 #include <lang/VisualScript.h>
 #include <lang/Lua.h>
 #include <ui/Input.h>
-#include <uio/Generated/Types.h>
+#include <uio/Types.h>
 #include <uio/Edit/Script.h>
 #include <uio/Edit/Canvas.h>
 #include <uio/Edit/Indexer.h>

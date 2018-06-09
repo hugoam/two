@@ -3,11 +3,11 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <15_script/Generated/Module.h>
+#include <15_script/Refl/Module.h>
 
 #include <obj/Any.h>
-#include <obj/Reflect/MetaDecl.h>
-#include <obj/System/System.h>
+#include <refl/MetaDecl.h>
+#include <refl/System.h>
 #endif
 
 namespace mud

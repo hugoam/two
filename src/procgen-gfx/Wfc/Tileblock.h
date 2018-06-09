@@ -1,12 +1,12 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Util/Updatable.h>
+#include <infra/Updatable.h>
 #include <geom/Aabb.h>
 #include <uio/Unode.h>
 #include <procgen/Wfc/Wfc.h>
 #endif
-#include <procgen-gfx/Generated/Forward.h>
+#include <procgen-gfx/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <map>

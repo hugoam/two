@@ -4,7 +4,8 @@
 
 #pragma once
 
-#include <ui/Generated/Forward.h>
+#include <infra/Array.h>
+#include <ui/Forward.h>
 #include <ui/Frame/Dim.h>
 
 namespace mud

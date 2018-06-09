@@ -2,14 +2,14 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 #include <cstdlib>
 module mud.math;
 #else
-#include <obj/Reflect/Convert.h>
-#include <math/Generated/Types.h>
+#include <refl/Convert.h>
+#include <math/Types.h>
 #include <math/VecOps.h>
 #include <math/Math.h>
 #include <math/Grid.h>

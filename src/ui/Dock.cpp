@@ -2,7 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <map>
 #include <string>
@@ -11,7 +11,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
-#include <obj/Vector.h>
+#include <infra/Vector.h>
 #include <ui/Dock.h>
 #include <ui/Structs/Dock.h>
 #include <ui/Structs/Window.h>

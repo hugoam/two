@@ -14,7 +14,7 @@
 
 namespace mud
 {
-	class WinRenderWindow : public RenderWindow
+	class MUD_CTX_WIN_EXPORT WinRenderWindow : public RenderWindow
 	{
 	public:
 		WinRenderWindow(const string& name, int width, int height);
@@ -50,7 +50,7 @@ namespace mud
 		uint32_t m_minHeight;
 	};
 
-	class WinInputWindow : public InputWindow
+	class MUD_CTX_WIN_EXPORT WinInputWindow : public InputWindow
 	{
 	public:
 		WinInputWindow();
@@ -79,7 +79,7 @@ namespace mud
 		bool m_mouseLock;
 	};
 
-	class WinContext : public Context
+	class MUD_CTX_WIN_EXPORT WinContext : public Context
 	{
 	public:
 		WinContext(RenderSystem& renderSystem, const string& name, int width, int height, bool fullScreen);

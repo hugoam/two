@@ -2,7 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <unordered_map>
 #include <cstdio>
@@ -11,7 +11,7 @@
 #ifdef MUD_MODULES
 module mud.geom;
 #else
-#include <obj/Vector.h>
+#include <infra/Vector.h>
 #include <math/VecOps.h>
 #include <geom/Mesh.h>
 #include <geom/Geom.h>

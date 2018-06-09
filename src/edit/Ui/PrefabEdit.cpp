@@ -2,22 +2,22 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.edit;
 #else
 #include <obj/Any.h>
-#include <obj/Vector.h>
-#include <obj/String/StringConvert.h>
-#include <obj/Reflect/Convert.h>
-#include <obj/System/System.h>
+#include <infra/Vector.h>
+#include <infra/StringConvert.h>
+#include <refl/Convert.h>
+#include <refl/System.h>
 #include <ui/Structs/Container.h>
 #include <uio/Unode.h>
 #include <uio/Edit/Section.h>
 #include <uio/Edit/Inspector.h>
 #include <uio/Edit/Method.h>
-#include <gfx/Generated/Types.h>
+#include <gfx/Types.h>
 #include <gfx/Prefab.h>
 #include <gfx/Gfx.h>
 #include <edit/Ui/PrefabEdit.h>

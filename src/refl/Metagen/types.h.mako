@@ -1,0 +1,46 @@
+#pragma once
+
+#include <${ module.subdir }/Forward.h>
+
+#if !defined MUD_MODULES || defined MUD_OBJ_LIB
+#include <obj/Type.h>
+//#include <proto/Proto.h>
+#endif
+
+#ifndef MUD_MODULES
+% for m in module.dependencies :
+#include <${ m.subdir }/Types.h>
+% endfor
+#endif
+
+#ifndef MUD_CPP_20
+#include <string>
+#include <vector>
+#include <cstdint>
+#endif
+
+% if module.has_structs :
+#include <${ module.subdir }/Structs.h>
+% endif
+
+namespace mud
+{
+    // Exported types
+    % for b in module.basetypes :
+    export_ template <> ${ module.export } Type& type<${ b.name }>();
+    % endfor
+    % for e in module.enums :
+        % if not e.nested or e.reflect :
+    export_ template <> ${ module.export } Type& type<${ e.id }>();
+        % endif
+    % endfor
+    
+    % for c in module.classes :
+        % if c.isProto:
+    export_ template <> ${ module.export } Prototype& proto<${ c.id }>();
+        % endif
+        % if c.reflect and not c.nested and c.id != 'mud::Type' and c.id != 'mud::Prototype':
+    export_ template <> ${ module.export } Type& type<${ c.id }>();
+        % endif
+    % endfor
+}

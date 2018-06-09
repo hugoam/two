@@ -2,7 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.edit;
@@ -12,7 +12,7 @@ module mud.edit;
 #include <geom/Intersect.h>
 #include <gfx/Gfx.h>
 #include <gfx/Item.h>
-#include <edit/Generated/Types.h>
+#include <edit/Types.h>
 #include <edit/Tools/TranslateTool.h>
 #include <edit/Viewer/Viewer.h>
 #endif

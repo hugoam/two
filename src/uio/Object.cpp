@@ -2,18 +2,20 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#include <obj/Complex.h>
-#include <obj/Reflect/Class.h>
-#include <obj/Reflect/Convert.h>
+#ifdef MUD_PROTO
+#include <proto/Complex.h>
+#endif
+#include <refl/Class.h>
+#include <refl/Convert.h>
 #include <ui/Structs/Window.h>
 #include <ui/Structs/Container.h>
 #include <ui/Sequence.h>
-#include <uio/Generated/Types.h>
+#include <uio/Types.h>
 #include <uio/Unode.h>
 #include <uio/Edit/Section.h>
 #include <uio/Edit/Method.h>
@@ -37,12 +39,18 @@ namespace mud
 		if(!self.m_open)
 			parent.m_switch &= ~mode;
 
+#ifdef MUD_PROTO
 		if(meta(object).m_type_class == TypeClass::Complex)
 			object = val<Complex>(object).m_construct;
+#endif
 
 		for(Method* method : cls(object).m_deep_methods)
 		{
+#ifdef MUD_PROTO
 			Ref component = cls(object).get_related(object, *method->m_object_type);
+#else
+			Ref component = object;
+#endif
 			method_hook(self, component, *method);
 		}
 	}

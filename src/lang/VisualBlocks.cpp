@@ -2,15 +2,15 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.lang;
 #else
 #include <obj/Indexer.h>
-#include <obj/System/System.h>
-#include <obj/Memory/ObjectPool.h>
-#include <lang/Generated/Types.h>
+#include <refl/System.h>
+#include <pool/ObjectPool.h>
+#include <lang/Types.h>
 #include <lang/VisualBlocks.h>
 #endif
 
@@ -26,7 +26,7 @@ namespace mud
 	}
 
 	ProcessValue::ProcessValue(VisualScript& script, Type& type)
-		: ProcessValue(script, type.m_meta->m_empty_var())
+		: ProcessValue(script, meta(type).m_empty_var())
 	{}
 
 	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, Meta& meta, const Constructor& constructor)
@@ -44,11 +44,11 @@ namespace mud
 	}
 
 	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, ConstructorIndex constructor)
-		: ProcessCreate(script, type, *type.m_meta, *type.m_class->constructor(constructor))
+		: ProcessCreate(script, type, meta(type), *cls(type).constructor(constructor))
 	{}
 
 	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, size_t num_args)
-		: ProcessCreate(script, type, *type.m_meta, *type.m_class->constructor(num_args))
+		: ProcessCreate(script, type, meta(type), *cls(type).constructor(num_args))
 	{}
 
 	void ProcessCreate::clear()
@@ -126,7 +126,7 @@ namespace mud
 	ProcessMethod::ProcessMethod(VisualScript& script, Method& method)
 		: ProcessCallable(script, method)
 		, m_method(method)
-		, m_object(*this, "object", OUTPUT_VALVE, method.m_object_type->m_meta->m_empty_ref(), false, true)
+		, m_object(*this, "object", OUTPUT_VALVE, meta(*method.m_object_type).m_empty_ref(), false, true)
 	{
 		m_parameters.resize(m_parameters.size() + 1);
 	}
@@ -140,7 +140,7 @@ namespace mud
 	ProcessGetMember::ProcessGetMember(VisualScript& script, Member& member)
 		: Process(script, member.m_name, type<ProcessGetMember>())
 		, m_member(member)
-		, m_input_object(*this, "object", INPUT_VALVE, member.m_object_type->m_meta->m_empty_ref(), false, true)
+		, m_input_object(*this, "object", INPUT_VALVE, meta(*member.m_object_type).m_empty_ref(), false, true)
 		, m_output(*this, member.m_name, OUTPUT_VALVE, member.m_default_value, false, !(member.is_value()))
 	{}
 
@@ -155,9 +155,9 @@ namespace mud
 	ProcessSetMember::ProcessSetMember(VisualScript& script, Member& member)
 		: Process(script, member.m_name, type<ProcessSetMember>())
 		, m_member(member)
-		, m_input_object(*this, "object", INPUT_VALVE, member.m_object_type->m_meta->m_empty_ref(), false, true)
+		, m_input_object(*this, "object", INPUT_VALVE, meta(*member.m_object_type).m_empty_ref(), false, true)
 		, m_input_value(*this, member.m_name, INPUT_VALVE, member.m_default_value, false, false)
-		, m_output_object(*this, "object", OUTPUT_VALVE, member.m_object_type->m_meta->m_empty_ref(), false, true)
+		, m_output_object(*this, "object", OUTPUT_VALVE, meta(*member.m_object_type).m_empty_ref(), false, true)
 	{}
 
 	void ProcessSetMember::process(const StreamLocation& branch)

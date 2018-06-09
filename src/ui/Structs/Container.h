@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <obj/Ref.h>
 #endif
-#include <ui/Generated/Forward.h>
+#include <ui/Forward.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Container.h>
 

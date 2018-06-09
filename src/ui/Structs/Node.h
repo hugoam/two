@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <math/Colour.h>
 #endif
-#include <ui/Generated/Forward.h>
+#include <ui/Forward.h>
 #include <ui/Structs/Widget.h>
 
 #ifndef MUD_CPP_20

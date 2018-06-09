@@ -6,7 +6,7 @@
 
 #include <math/Vec.h>
 #include <math/Interp.h>
-#include <math/Generated/Forward.h>
+#include <math/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <vector>

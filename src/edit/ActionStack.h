@@ -5,10 +5,10 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/NonCopy.h>
+#include <infra/NonCopy.h>
 #endif
 #include <edit/Tool.h>
-#include <edit/Generated/Forward.h>
+#include <edit/Forward.h>
 
 namespace mud
 {

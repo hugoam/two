@@ -2,15 +2,17 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.uio;
 #else
+#include <infra/Vector.h>
 #include <obj/Any.h>
-#include <obj/Vector.h>
-#include <obj/Complex.h>
-#include <obj/Reflect/Class.h>
+#ifdef MUD_PROTO
+#include <proto/Complex.h>
+#endif
+#include <refl/Class.h>
 #include <uio/Edit/Inspector.h>
 #include <ui/Structs/Container.h>
 #include <uio/Edit/Value.h>
@@ -29,7 +31,7 @@ namespace mud
 	inline Ref safe_target(Member& member, Ref object)
 	{
 		Ref target = object;
-		if(object.m_type != member.m_object_type && object.type().m_class)
+		if(object.m_type != member.m_object_type && g_class[object.type().m_id])
 			target = cls(object).upcast(object, *member.m_object_type);
 		return target;
 	}
@@ -141,6 +143,7 @@ namespace mud
 		Widget& self = ui::table(parent, { columns, 2 }, { spans, 2 });
 		bool changed = object_edit_rows(self, object);
 
+#ifdef MUD_PROTO
 		if(meta(object).m_type_class == TypeClass::Complex)
 		{
 			Complex& modular = val<Complex>(object);
@@ -152,6 +155,7 @@ namespace mud
 					changed |= object_edit_rows(*part_node, modular.part(*type));
 			}
 		}
+#endif
 
 		return changed;
 	}
@@ -192,7 +196,7 @@ namespace mud
 	void multi_object_edit(Widget& parent, Type& type, std::vector<Ref> objects)
 	{
 		ScrollSheet& scroll_sheet = ui::scroll_sheet(parent);
-		Widget& table = ui::table(*scroll_sheet.m_body, to_array(type.m_class->m_field_names), {});
+		Widget& table = ui::table(*scroll_sheet.m_body, to_array(cls(type).m_field_names), {});
 
 		for(Ref object : objects)
 			object_edit_inline(table, object);
@@ -206,7 +210,7 @@ namespace mud
 
 	void multi_inspector(Widget& parent, Type& type, std::vector<Var>& objects, size_t& selected)
 	{
-		Section& self = section(parent, (string(type.m_meta->m_name) + " Library").c_str());
+		Section& self = section(parent, (string(meta(type).m_name) + " Library").c_str());
 
 		if(ui::modal_button(self, *self.m_toolbar, "Type Info", LIBRARY_TYPE_INFO))
 		{
@@ -215,7 +219,7 @@ namespace mud
 		}
 
 		if(ui::button(*self.m_toolbar, "Add").activated())
-			objects.push_back(type.m_meta->m_empty_var());
+			objects.push_back(meta(type).m_empty_var());
 
 		if(ui::modal_button(self, *self.m_toolbar, "Create", LIBRARY_CREATE))
 		{
@@ -227,7 +231,7 @@ namespace mud
 		Widget& board = ui::board(*self.m_body);
 
 		ScrollSheet& scroll_sheet = ui::scroll_sheet(board);
-		Widget& table = ui::table(*scroll_sheet.m_body, to_array(type.m_class->m_field_names), {});
+		Widget& table = ui::table(*scroll_sheet.m_body, to_array(cls(type).m_field_names), {});
 
 		for(size_t i = 0; i < objects.size(); ++i)
 		{

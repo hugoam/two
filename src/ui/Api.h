@@ -2,6 +2,7 @@
 #include <ui/Container.h>
 #include <ui/Cursor.h>
 #include <ui/Dock.h>
+#include <ui/Forward.h>
 #include <ui/Image.h>
 #include <ui/ImageAtlas.h>
 #include <ui/Input.h>
@@ -11,6 +12,7 @@
 #include <ui/Sequence.h>
 #include <ui/Sheet.h>
 #include <ui/Slider.h>
+#include <ui/Types.h>
 #include <ui/Ui.h>
 #include <ui/UiWindow.h>
 #include <ui/User.h>

@@ -10,7 +10,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <obj/Vector.h>
+#include <infra/Vector.h>
 #include <math/Math.h>
 #include <math/VecOps.h>
 #include <gfx/Picker.h>

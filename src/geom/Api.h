@@ -1,4 +1,5 @@
 #include <geom/Aabb.h>
+#include <geom/Forward.h>
 #include <geom/Geom.h>
 #include <geom/Intersect.h>
 #include <geom/Mesh.h>
@@ -9,7 +10,7 @@
 #include <geom/Shapes.h>
 #include <geom/ShapesComplex.h>
 #include <geom/Symbol.h>
-#include <geom/Anim/Anim.h>
+#include <geom/Types.h>
 #include <geom/Shape/Circle.h>
 #include <geom/Shape/CompoundShape.h>
 #include <geom/Shape/Cube.h>

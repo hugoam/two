@@ -8,7 +8,7 @@
 #include <math/Vec.h>
 #include <math/Math.h>
 #endif
-#include <edit/Generated/Forward.h>
+#include <edit/Forward.h>
 #include <edit/Tool.h>
 
 namespace mud

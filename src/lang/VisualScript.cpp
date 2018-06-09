@@ -2,16 +2,16 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.lang;
 #else
-#include <obj/Vector.h>
-#include <obj/Reflect/Convert.h>
-#include <obj/String/StringConvert.h>
-#include <obj/Iterable/Reverse.h>
-#include <lang/Generated/Types.h>
+#include <infra/Vector.h>
+#include <refl/Convert.h>
+#include <infra/StringConvert.h>
+#include <infra/Reverse.h>
+#include <lang/Types.h>
 #include <lang/VisualScript.h>
 #endif
 
@@ -85,7 +85,7 @@ namespace mud
 			else
 			{
 				info += "(" + string(meta(branch.m_value).m_name) + ") ";
-				if(branch.m_value.type().m_convert)
+				if(g_convert[branch.m_value.type().m_id])
 					info += to_string(branch.m_value);
 				info += "\n";
 			}
@@ -153,8 +153,8 @@ namespace mud
 		{
 			for(size_t d = 0; d < branch.m_depth; ++d)
 				printf("    ");
-			printf("Branch %s value %s\n", to_string(branch.m_index).c_str(), branch.m_value.type().m_convert->m_to_string ? to_string(branch.m_value).c_str()
-																														   : to_name(branch.m_value.type(), branch.m_value.m_ref).c_str());
+			printf("Branch %s value %s\n", to_string(branch.m_index).c_str(), convert(branch.m_value.type()).m_to_string ? to_string(branch.m_value).c_str()
+																														 : to_name(branch.m_value.type(), branch.m_value.m_ref).c_str());
 		});
 	}
 

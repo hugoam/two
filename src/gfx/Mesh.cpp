@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <obj/Vector.h>
+#include <infra/Vector.h>
 #include <gfx/Mesh.h>
 #include <gfx/Node3.h>
 #endif

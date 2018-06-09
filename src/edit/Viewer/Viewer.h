@@ -15,7 +15,7 @@
 #include <gfx/Graph.h>
 #include <gfx-pbr/Filters/Tonemap.h>
 #endif
-#include <edit/Generated/Forward.h>
+#include <edit/Forward.h>
 
 namespace mud
 {

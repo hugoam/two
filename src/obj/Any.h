@@ -9,7 +9,7 @@
 #include <obj/TypeOf.h>
 #include <obj/TypeUtils.h>
 #include <obj/Unique.h>
-#include <obj/Generated/Types.h>
+#include <obj/Types.h>
 
 namespace mud
 {

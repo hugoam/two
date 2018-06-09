@@ -9,7 +9,7 @@
 #include <math/Colour.h>
 #include <geom/Aabb.h>
 #endif
-#include <gfx/Generated/Forward.h>
+#include <gfx/Forward.h>
 
 #ifndef MUD_GENERATOR_SKIP_INCLUDES
 #include <bgfx/bgfx.h>

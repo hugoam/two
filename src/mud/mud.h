@@ -1,21 +1,21 @@
 #pragma once
 
-#include <obj/Generated/Module.h>
-#include <math/Generated/Module.h>
-#include <lang/Generated/Module.h>
-#include <ui/Generated/Module.h>
-#include <uio/Generated/Module.h>
+#include <obj/Api.h>
+#include <math/Api.h>
+#include <lang/Api.h>
+#include <ui/Api.h>
+#include <uio/Api.h>
 
 #if defined MUD_RENDERER_BGFX
 #include <bgfx/Config.h>
 #if !defined MUD_NO_GFX
-#include <gfx/Generated/Module.h>
-#include <gfx-pbr/Generated/Module.h>
-#include <gfx-obj/Generated/Module.h>
-#include <gfx-gltf/Generated/Module.h>
-#include <procgen/Generated/Module.h>
-#include <procgen-gfx/Generated/Module.h>
-#include <edit/Generated/Module.h>
+#include <gfx/Api.h>
+#include <gfx-pbr/Api.h>
+#include <gfx-obj/Api.h>
+#include <gfx-gltf/Api.h>
+#include <procgen/Api.h>
+#include <procgen-gfx/Api.h>
+#include <edit/Api.h>
 
 #include <mud/Shell.h>
 #endif

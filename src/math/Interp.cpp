@@ -2,15 +2,15 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.math;
 #else
 #include <obj/Any.h>
-#include <obj/Util/DispatchDecl.h>
+#include <obj/DispatchDecl.h>
 #include <math/Interp.h>
-#include <math/Generated/Types.h>
+#include <math/Types.h>
 #endif
 
 namespace mud

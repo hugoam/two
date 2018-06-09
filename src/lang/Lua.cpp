@@ -2,7 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <cassert>
 #include <cmath>
@@ -17,18 +17,18 @@
 #include <stdlib.h>
 module mud.lang;
 #else
-#include <obj/Proto.h>
-#include <obj/NonCopy.h>
-#include <obj/Reflect/Meta.h>
-#include <obj/Reflect/Enum.h>
-#include <obj/Reflect/Sequence.h>
+#include <proto/Proto.h>
+#include <infra/NonCopy.h>
+#include <refl/Meta.h>
+#include <refl/Enum.h>
+#include <refl/Sequence.h>
 #include <obj/Any.h>
-#include <obj/Vector.h>
-#include <obj/System/System.h>
-#include <obj/Util/Dispatch.h>
-#include <obj/Util/DispatchDecl.h>
-#include <obj/Util/Global.h>
-#include <lang/Generated/Types.h>
+#include <infra/Vector.h>
+#include <refl/System.h>
+#include <obj/Dispatch.h>
+#include <obj/DispatchDecl.h>
+#include <infra/Global.h>
+#include <lang/Types.h>
 #include <lang/Lua.h>
 #endif
 
@@ -209,7 +209,7 @@ namespace mud
 
 	inline Ref alloc_object(lua_State* state, Type& type)
 	{
-		Ref* ref = alloc_userdata(state, type, sizeof(Ref) + type.m_meta->m_size);
+		Ref* ref = alloc_userdata(state, type, sizeof(Ref) + meta(type).m_size);
 		new (ref) Ref(ref + 1, type); return *ref;
 	}
 
@@ -392,7 +392,7 @@ namespace mud
 
 	inline Var get_global(lua_State* state, cstring name, Type& type)
 	{
-		Var result = type.m_meta->m_empty_var();
+		Var result = meta(type).m_empty_var();
 		lua_getglobal(state, name);
 		Stack stack = { state, 1 };
 		read(state, -1, result);
@@ -401,7 +401,7 @@ namespace mud
 	
 	inline Var get_global(lua_State* state, array<cstring> indices, Type& type)
 	{
-		Var result = type.m_meta->m_empty_var();
+		Var result = meta(type).m_empty_var();
 		Stack stack = global_table(state);
 		lookup_table(state, stack, indices);
 		read(state, -1, result);
@@ -503,7 +503,7 @@ namespace mud
 	{
 		Type* type = static_cast<Type*>(lua_touserdata(state, lua_upvalueindex(1)));
 		size_t num_args = lua_gettop(state) - 1;
-		const Constructor* constructor = type->m_class->constructor(num_args);
+		const Constructor* constructor = cls(type).constructor(num_args);
 		if(constructor)
 		{
 			Call& construct = lua_cached_call(*constructor);
@@ -560,7 +560,7 @@ namespace mud
 	{
 		Type* type = static_cast<Type*>(lua_touserdata(state, lua_upvalueindex(1)));
 		Ref object = userdata(state, 1);
-		type->m_class->m_destructor[0].m_call(object);
+		cls(*type).m_destructor[0].m_call(object);
 		return 0;
 	}
 
@@ -592,7 +592,7 @@ namespace mud
 		set_type_closure(state, "__newindex", newindex_function, type);
 		set_type_closure(state, "__tostring", tostring_function, type);
 		set_type_closure(state, "__eq", eq_function, type);
-		if(type.m_class && !type.m_class->m_destructor.empty())
+		if(g_class[type.m_id] && !cls(type).m_destructor.empty())
 			set_type_closure(state, "__gc", gc_function, type);
 
 		lua_pushstring(state, "cpp_type");
@@ -660,11 +660,10 @@ namespace mud
 		if(!lua_istable(state, index))
 			return;
 
-		//Var result = sequence_type.m_meta->m_empty_var();
 		lua_pushnil(state);
 		while(lua_next(state, (index > 0) ? index : (index - 1)) != 0)
 		{
-			Var element = sequence_type.m_class->m_content->m_meta->m_empty_var();
+			Var element = meta(*cls(sequence_type).m_content).m_empty_var();
 			read(state, -1, element);
 			add_sequence(result, element);
 			lua_pop(state, 1); // pop the value but keep the key for the next iteration
@@ -816,9 +815,9 @@ namespace mud
 
 		void register_enum(Type& type)
 		{
-			Enum& enu = *type.m_enum;
+			Enum& enu = mud::enu(type);
 
-			Stack stack = lookup_table(m_state, namespace_path(*type.m_meta->m_namespace));
+			Stack stack = lookup_table(m_state, namespace_path(*meta(type).m_namespace));
 				
 			if(enu.m_scoped)
 				stack += get_table(m_state, type.m_name);
@@ -833,7 +832,7 @@ namespace mud
 		{
 			create_type_metatable(m_state, type);
 
-			Stack stack = lookup_table(m_state, namespace_path(*type.m_meta->m_namespace));
+			Stack stack = lookup_table(m_state, namespace_path(*meta(type).m_namespace));
 			get_type_table(m_state, type);
 			lua_setfield(m_state, -2, type.m_name);
 
@@ -899,13 +898,13 @@ namespace mud
 			m_context->register_type(*type);
 
 		for(Type* type : system.m_types)
-			if(type->m_class)
+			if(g_class[type->m_id])
 			{
-				for(Member& member : type->m_class->m_members)
+				for(Member& member : cls(*type).m_members)
 					m_context->register_member(*type, member);
-				for(Method& method : type->m_class->m_methods)
+				for(Method& method : cls(*type).m_methods)
 					m_context->register_method(*type, method);
-				for(Static& static_member : type->m_class->m_static_members)
+				for(Static& static_member : cls(*type).m_static_members)
 					m_context->register_static(*type, static_member);
 			}
 	}

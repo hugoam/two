@@ -5,11 +5,11 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Reflect/Class.h>
-#include <obj/Reflect/Injector.h>
-#include <obj/System/System.h>
+#include <refl/Class.h>
+#include <refl/Injector.h>
+#include <refl/System.h>
 #endif
-#include <lang/Generated/Forward.h>
+#include <lang/Forward.h>
 #include <lang/VisualScript.h>
 
 #ifndef MUD_CPP_20

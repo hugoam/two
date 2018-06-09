@@ -9,8 +9,8 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <obj/Vector.h>
-#include <obj/Reflect/Meta.h>
+#include <infra/Vector.h>
+#include <refl/Meta.h>
 #include <math/Interp.h>
 #include <math/Math.h>
 #include <gfx/Animation.h>

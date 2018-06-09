@@ -15,12 +15,12 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <obj/Memory/Pool.h>
+#include <pool/Pool.h>
 #include <math/Math.h>
 #include <math/Random.h>
-#include <geom/Anim/Anim.h>
+#include <math/Anim/Anim.h>
 #include <geom/ShapeDistrib.h>
-#include <gfx/Generated/Types.h>
+#include <gfx/Types.h>
 #include <gfx/Particles.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Renderer.h>

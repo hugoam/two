@@ -2,20 +2,20 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#include <obj/Vector.h>
-#include <obj/Reflect/Meta.h>
-#include <obj/Reflect/Member.h>
-#include <obj/Reflect/Sequence.h>
-#include <obj/Reflect/Enum.h>
-#include <obj/Util/DispatchDecl.h>
+#include <infra/Vector.h>
+#include <refl/Meta.h>
+#include <refl/Member.h>
+#include <refl/Sequence.h>
+#include <refl/Enum.h>
+#include <obj/DispatchDecl.h>
 #include <math/VecOps.h>
 #include <ui/Input.h>
-#include <uio/Generated/Types.h>
+#include <uio/Types.h>
 #include <uio/Edit/Value.h>
 #include <uio/Unode.h>
 #include <uio/Object.h>
@@ -168,9 +168,9 @@ namespace mud
 		iterate_sequence(value, [&](Ref element) { changed |= value_edit(self, element); });
 		if(ui::modal_button(self, self, "add", ADD_ELEMENT))
 		{
-			if(cls(value).m_content->m_meta->m_empty_var)
+			if(meta(*cls(value).m_content).m_empty_var)
 			{
-				add_sequence(value, cls(value).m_content->m_meta->m_empty_var());
+				add_sequence(value, meta(*cls(value).m_content).m_empty_var());
 				self.m_switch &= ~ADD_ELEMENT;
 				changed |= true;
 			}

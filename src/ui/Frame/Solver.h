@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/NonCopy.h>
+#include <infra/NonCopy.h>
 #endif
 #include <ui/Frame/Frame.h>
 #include <ui/Style/Layout.h>

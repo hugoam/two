@@ -2,20 +2,21 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.ui;
 #else
 #include <stb_image.h>
 
-#include <obj/Vector.h>
-#include <obj/String/String.h>
-#include <obj/System/System.h>
-#include <obj/Reflect/Class.h> // @kludge
+#include <infra/Vector.h>
+#include <infra/String.h>
+#include <infra/File.h>
+#include <refl/System.h>
+#include <refl/Class.h> // @kludge
 #include <ctx/Context.h>
 #include <ui/UiWindow.h>
-#include <ui/Generated/Types.h> // @kludge
+#include <ui/Types.h> // @kludge
 #include <ui/Style/9Sprite.h> // @kludge
 #include <ui/Style/Styler.h>
 #include <ui/Style/Styles.h>
@@ -40,7 +41,7 @@ namespace mud
 			images.push_back({ name.c_str(), fullpath.c_str(),{ uint(width), uint(height) } });
 		};
 
-		system().visit_files(path.c_str(), visit_file);
+		visit_files(path.c_str(), visit_file);
 	}
 
 	UiWindow::UiWindow(RenderSystem& system, cstring name, int width, int height, bool fullScreen, User* user)
@@ -100,7 +101,7 @@ namespace mud
 			load_folder_images(images, sprite_path + folder + "/", string(folder) + "/");
 		};
 
-		system().visit_folders(sprite_path.c_str(), visit_folder);
+		visit_folders(sprite_path.c_str(), visit_folder);
 
 		m_images = vector_convert<object_ptr<Image>>(images, [](const Image& image) { return make_object<Image>(image); });
 	}

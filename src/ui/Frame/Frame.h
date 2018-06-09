@@ -5,10 +5,10 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/NonCopy.h>
+#include <infra/NonCopy.h>
 #include <obj/Unique.h>
 #endif
-#include <ui/Generated/Forward.h>
+#include <ui/Forward.h>
 #include <ui/Frame/UiRect.h>
 
 #ifndef MUD_CPP_20

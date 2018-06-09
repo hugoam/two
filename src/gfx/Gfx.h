@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <gfx/Generated/Forward.h>
+#include <gfx/Forward.h>
 #include <gfx/Node3.h>
 #include <gfx/Light.h>
 

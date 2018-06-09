@@ -9,7 +9,7 @@
 #include <ctx/KeyCode.h>
 #include <ctx/InputDispatcher.h>
 #endif
-#include <ui/Generated/Forward.h>
+#include <ui/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <map>

@@ -4,10 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
-#include <obj/Limits.h>
-#endif
-#include <ctx/Generated/Forward.h>
+#include <ctx/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <cstdint>

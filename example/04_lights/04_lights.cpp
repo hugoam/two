@@ -4,7 +4,7 @@
 #include <01_shapes/01_shapes.h>
 #include <03_materials/03_materials.h>
 
-#include <gfx/Generated/Convert.h>
+#include <gfx/Refl/Convert.h>
 
 using namespace mud;
 

@@ -3,7 +3,7 @@
 #ifndef MUD_MODULES
 #include <obj/Type.h>
 #endif
-#include <gfx-obj/Generated/Forward.h>
+#include <gfx-obj/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <string>

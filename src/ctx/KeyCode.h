@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <ctx/Generated/Forward.h>
+#include <ctx/Forward.h>
 
 export_ namespace mud
 {}

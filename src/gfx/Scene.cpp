@@ -7,11 +7,11 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <obj/Vector.h>
-#include <obj/Util/Timer.h>
-#include <obj/Memory/ObjectPool.h>
+#include <infra/Vector.h>
+#include <math/Timer.h>
+#include <pool/ObjectPool.h>
 #include <geom/Intersect.h>
-#include <gfx/Generated/Types.h>
+#include <gfx/Types.h>
 #include <gfx/Scene.h>
 #include <gfx/Renderer.h>
 #include <gfx/Item.h>

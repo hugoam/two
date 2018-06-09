@@ -1,6 +1,7 @@
 #include <mud/mud.h>
 #include <mud/Types.h>
 #include <mud/Shell.h>
+#include <mud/Modules.h>
 
 #include <gfx/GfxSystem.h>
 

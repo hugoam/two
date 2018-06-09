@@ -8,7 +8,7 @@
 #include <gfx/Renderer.h>
 #include <gfx/Filter.h>
 #endif
-#include <gfx-pbr/Generated/Forward.h>
+#include <gfx-pbr/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <map>

@@ -2,20 +2,20 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
 module mud.edit;
 #else
 #include <obj/Any.h>
-#include <obj/Reflect/Method.h>
-#include <obj/Reflect/Meta.h>
+#include <refl/Method.h>
+#include <refl/Meta.h>
 #include <lang/VisualScript.h>
 #include <geom/Intersect.h>
 #include <geom/Shapes.h>
 #include <ui/Ui.h>
 #include <gfx/Gfx.h>
-#include <edit/Generated/Types.h>
+#include <edit/Types.h>
 #include <edit/Brush.h>
 #endif
 

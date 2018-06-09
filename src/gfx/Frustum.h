@@ -5,10 +5,10 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Array.h>
+#include <infra/Array.h>
 #include <geom/Geom.h>
 #endif
-#include <gfx/Generated/Forward.h>
+#include <gfx/Forward.h>
 
 #if defined MUD_UNIFORM_BLOCKS
 #include <gfx/Uniform.h>

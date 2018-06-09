@@ -5,10 +5,10 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Reflect/Injector.h>
+#include <refl/Injector.h>
 #include <geom/Poisson.h>
 #endif
-#include <edit/Generated/Forward.h>
+#include <edit/Forward.h>
 #include <edit/Tool.h>
 
 namespace mud

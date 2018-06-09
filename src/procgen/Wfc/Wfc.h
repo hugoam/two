@@ -4,7 +4,7 @@
 #include <math/Grid.h>
 #include <math/Vec.h>
 #endif
-#include <procgen/Generated/Forward.h>
+#include <procgen/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <unordered_map>
