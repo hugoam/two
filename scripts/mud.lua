@@ -137,6 +137,7 @@ function uses_mud()
         links { "mud_obj_refl", "mud_refl_refl", "mud_srlz_refl", "mud_math_refl", "mud_geom_refl", "mud_lang_refl", "mud_ctx_refl", "mud_ui_refl", "mud_uio_refl" }
     else
         links { "mud" }
+        links { "mud_refl" }
     end
 end
 

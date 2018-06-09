@@ -7,6 +7,7 @@
 #include <cstring>
 #include <cstdio>
 #include <vector>
+#include <string>
 #endif
 
 #ifdef MUD_MODULES
@@ -20,10 +21,14 @@ module mud.obj;
 
 namespace mud
 {
+	using string = std::string;
+
 	const unsigned int c_max_types = 1000U;
 
+#ifdef MUD_CONTAINER_TYPES_2
 	std::vector<Type> g_vector_types = std::vector<Type>(1000U);
 	std::vector<Type> g_array_types = std::vector<Type>(1000U);
+#endif
 
 	bool Address::operator==(const Address& other) const
 	{
@@ -40,7 +45,7 @@ namespace mud
 	{}
 
 	Type::Type()
-		: m_id(s_type_index++)
+		: m_id(0)
 		, m_type(*this)
 		, m_kind(TypeKind::Type)
 		, m_name("")
@@ -53,6 +58,8 @@ namespace mud
 		, m_kind(kind)
 		, m_name(name)
 	{
+		printf("DEBUG: Type %s %i\n", name, int(m_id));
+
 		if(strcmp(name, "INVALID") == 0)
 			printf("WARNING: Invalid type created, this means an lref was created for a type which isn't exported\n");
 	}

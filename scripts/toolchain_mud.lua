@@ -1,5 +1,7 @@
 -- mud toolchain
 
+MUD_STATIC = true
+
 function file_exists(name)
     local f = io.open(name, "r")
     if f ~= nil then
@@ -11,6 +13,12 @@ function file_exists(name)
 end
 
 function mud_defines()
+    if MUD_STATIC then
+        defines {
+            "MUD_STATIC",
+        }
+    end
+    
     configuration { "cpp-modules" }
         defines {
             "MUD_NO_GLM",
@@ -129,7 +137,11 @@ function mud_module_decl(m, as_project)
     if as_project then
         print ("project " .. m.idname)
         m.project = project(m.idname)
-        kind "SharedLib"
+        if MUD_STATIC then
+            kind "StaticLib"
+        else
+            kind "SharedLib"
+        end
         
         defines { m.idname:upper() .. "_LIB" }
     end
@@ -198,8 +210,14 @@ function mud_module_decl(m, as_project)
             if as_project then
                 print ("project " .. m.idname .. "_refl " .. m.path)
                 project(m.idname .. "_refl")
-                kind "SharedLib"
+                if MUD_STATIC then
+                    kind "StaticLib"
+                else
+                    kind "SharedLib"
+                end
             end
+            
+            mud_defines()
             
             defines { m.idname:upper() .. "_REFL_EXPORT=MUD_EXPORT" }
         

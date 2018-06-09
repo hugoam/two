@@ -1,7 +1,7 @@
 -- mud engine
 -- mud ctx ogre module
 
-function mud_ctx_backend(parent)
+function mud_ctx_ogre()
     removeflags {
         "NoRTTI",
         "NoExceptions",
@@ -13,9 +13,6 @@ function mud_ctx_backend(parent)
         path.join(MUD_3RDPARTY_DIR, "OIS", "includes"),
     }
     
-    mud.ctxbackend = mud_module(false, "mud", "ctx-ogre", MUD_SRC_DIR, "ctx-ogre")
-    table.insert(parent.deps, mud.ctxbackend)
-  
     links {
         "OgreMain",
         "ois",
@@ -29,4 +26,8 @@ function mud_ctx_backend(parent)
         }
 
     configuration {}    
+end
+
+function mud_ctx_backend()
+    return mud_module(mud_module_decl, "mud", "ctx-ogre", MUD_SRC_DIR, "ctx-ogre", mud_ctx_ogre, nil, { mud.math, mud.ctx })
 end

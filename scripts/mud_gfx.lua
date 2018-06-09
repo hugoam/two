@@ -11,6 +11,7 @@ function uses_mud_coregfx()
         links { "mud_gfx_refl", "mud_gfx_obj_refl", "mud_gfx_pbr_refl", "mud_gfx_gltf_refl", "mud_edit_refl", "mud_procgen_refl", "mud_procgen_gfx_refl" }
     else
         links { "mud_gfx" }
+        links { "mud_gfx_refl" }
     end
 end
 

@@ -10,8 +10,6 @@
 #ifdef MUD_MODULES
 module mud.procgen;
 #else
-#include <stb_image.h>
-
 #include <json11.hpp>
 using json = json11::Json;
 

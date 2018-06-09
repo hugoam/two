@@ -109,7 +109,7 @@ namespace mud
 		for(Type* type : system().m_types)
 			if(string(type->m_name).find("glTF") == 0 && g_class[type->m_id] && !type->is<glTFAttributes>())
 			{
-				for(Member& member : cls(type).m_members)
+				for(Member& member : cls(*type).m_members)
 				{
 					fixed_members[index] = to_camelcase(string(member.m_name));
 					member.m_name = fixed_members[index].c_str();

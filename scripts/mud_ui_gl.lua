@@ -1,7 +1,7 @@
 -- mud library
 -- mud ui gl renderer module
 
-function mud_ui_backend(as_project)
+function mud_ui_backend()
 	includedirs {
 		path.join(MUD_NANOVG_DIR, "src"),
 	}
