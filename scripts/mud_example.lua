@@ -2,7 +2,7 @@
 -- mud example application
 
 mud.examples = {}
-mud.examples.all = mud_module(mud_module_decl, nil, "example", MUD_DIR, "example", nil, nil, {}, true)
+mud.examples.all = mud_module(nil, "example", MUD_DIR, "example", nil, nil, nil, {}, true)
         
 if _OPTIONS["renderer-bgfx"] then
     project "mud_example"
@@ -16,8 +16,8 @@ if _OPTIONS["renderer-bgfx"] then
         
         defines { "_00_UI_EXPORT=MUD_EXPORT", "_00_TUTORIAL_EXPORT=MUD_EXPORT", "_15_SCRIPT_EXPORT=MUD_EXPORT" }
         
-        uses_mud()
-        uses_mud_coregfx()
+        depend(mud)
+        depend(mudgfx)
         mud_shell("mud_example")
         
     --project "mud_shell"
@@ -48,7 +48,7 @@ function mud_example(name, gfx, deps, ismodule)
     project(name)
         kind "ConsoleApp"
         
-        mud.examples[name] = mud_module(mud_example_module_decl, nil, "_" .. name, path.join(MUD_DIR, "example"), name, nil, nil, mud.all, not ismodule)
+        mud.examples[name] = mud_module(nil, "_" .. name, path.join(MUD_DIR, "example"), name, mud_example_module_decl, nil, nil, mud.all, not ismodule)
         mud.examples[name].decl(mud.examples[name], false)
         
 		for _, depname in ipairs(deps) do
@@ -60,7 +60,7 @@ function mud_example(name, gfx, deps, ismodule)
                 path.join(MUD_DIR, "src", "mud", "Shell.cpp"),
             }
     
-            uses_mud_coregfx()
+            depend(mudgfx)
         else
             if _OPTIONS["renderer-gl"] then
                 uses_mud_gl()
@@ -69,7 +69,7 @@ function mud_example(name, gfx, deps, ismodule)
             end
         end
         
-        uses_mud()
+        depend(mud)
         mud_binary(name)
 end
 

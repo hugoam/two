@@ -8,13 +8,10 @@
 
 #ifndef MUD_MODULES
 	#if defined MUD_CONTEXT_GLFW
-		#define MUD_CTX_GLFW_EXPORT MUD_BGFX_EXPORT
 		#include <ctx-glfw/GlfwContext.h>
 	#elif defined MUD_CONTEXT_WASM
-		#define MUD_CTX_WASM_EXPORT MUD_BGFX_EXPORT
 		#include <ctx-wasm/EmscriptenContext.h>
 	#elif defined MUD_CONTEXT_WINDOWS
-		#define MUD_CTX_WIN_EXPORT MUD_BGFX_EXPORT
 		#include <ctx-win/WindowsContext.h>
 	#else
 		#include <ctx/Context.h>

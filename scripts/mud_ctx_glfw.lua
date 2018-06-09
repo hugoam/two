@@ -22,5 +22,5 @@ function uses_mud_ctx_glfw()
 end
 
 function mud_ctx_backend()
-    return mud_module(mud_module_decl, "mud", "ctx-glfw", MUD_SRC_DIR, "ctx-glfw", mud_ctx_glfw, uses_mud_ctx_glfw, { mud.math, mud.ctx })
+    return mud_module("mud", "ctx-glfw", MUD_SRC_DIR, "ctx-glfw", nil, mud_ctx_glfw, uses_mud_ctx_glfw, { mud.math, mud.ctx })
 end

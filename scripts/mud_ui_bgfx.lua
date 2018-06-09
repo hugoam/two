@@ -38,9 +38,9 @@ function uses_mud_ui_nanovg()
     }
 end
 
-mud.ui.vg       = mud_module(mud_module_decl, "mud", "ui-vg",           MUD_SRC_DIR, "ui-vg",           mud_ui_vg,      uses_mud_ui_vg,         { vg, mud.infra, mud.obj, mud.math, mud.ui })
-mud.ui.nanovg   = mud_module(mud_module_decl, "mud", "ui-nanovg",       MUD_SRC_DIR, "ui-nanovg",       nil,            nil,                    {})
-mud.ui.nanobgfx = mud_module(mud_module_decl, "mud", "ui-nanovg-bgfx",  MUD_SRC_DIR, "ui-nanovg-bgfx",  mud_ui_nanovg,  uses_mud_ui_nanovg,     { mud.infra, mud.obj, mud.math, mud.ui })
+mud.ui.vg       = mud_module("mud", "ui-vg",           MUD_SRC_DIR, "ui-vg",           nil,     mud_ui_vg,      uses_mud_ui_vg,         { vg, mud.infra, mud.obj, mud.math, mud.ui })
+mud.ui.nanovg   = mud_module("mud", "ui-nanovg",       MUD_SRC_DIR, "ui-nanovg",       nil,     nil,            nil,                    {})
+mud.ui.nanobgfx = mud_module("mud", "ui-nanovg-bgfx",  MUD_SRC_DIR, "ui-nanovg-bgfx",  nil,     mud_ui_nanovg,  uses_mud_ui_nanovg,     { mud.infra, mud.obj, mud.math, mud.ui })
     
 function mud_ui_backend()
     if _OPTIONS["vg-vg"] then

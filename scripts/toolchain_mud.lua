@@ -12,6 +12,12 @@ function file_exists(name)
     end
 end
 
+function table.extend(dest, source)
+    for _, v in ipairs(source) do
+        table.insert(dest, v)
+    end
+end
+
 function mud_defines()
     if MUD_STATIC then
         defines {
@@ -78,231 +84,6 @@ function mud_defines()
     configuration {}
 end
 
-function mud_modules()
-    configuration { "cpp-modules" }
-        removeflags { "Cpp14" }
-        flags {
-            "CppLatest",
-            "CppModules",
-        }
-        
-        defines { "_CRT_NO_VA_START_VALIDATION" }
-
-    configuration {}
-end
-
-function mud_mxx(cpps, m)
-    if not _OPTIONS["cpp-modules"] then
-        return
-    end
-    
-    local cxxmodules = {}
-
-    for _, cpp in ipairs(cpps) do
-        local relcpp = path.getrelative(MUD_DIR, cpp)
-        print("module for " .. relcpp .. " = " .. m.dotname)
-        cxxmodules[relcpp] = m.dotname
-    end
-
-    cxxmodule(cxxmodules)
-end
-
-function mud_dep(namespace, name, cppmodule)
-    local m = {
-        project = nil,
-        cppmodule = cppmodule,
-        namespace = namespace,
-        name = name,
-        dotname = string.gsub(name, "-", "."),
-        idname = string.gsub(name, "-", "_"),
-    }
-    
-    if namespace then
-        m.dotname = namespace .. "." .. m.dotname
-        m.idname = namespace .. "_" .. m.idname
-    end
-    
-    m.project = project(m.idname)
-    m.lib = project().name
-    
-    mud_defines()
-    if cppmodule then
-        mud_modules()
-    end
-    
-    return m
-end
-
-function mud_module_decl(m, as_project)
-    if as_project then
-        print ("project " .. m.idname)
-        m.project = project(m.idname)
-        if MUD_STATIC then
-            kind "StaticLib"
-        else
-            kind "SharedLib"
-        end
-        
-        defines { m.idname:upper() .. "_LIB" }
-    end
-
-    m.lib = project().name
-    
-    for _, dep in ipairs(m.deps or {}) do
-        if dep.lib ~= m.lib then
-            if dep.usage_decl then
-                dep.usage_decl()
-            end
-            links(dep.lib)
-            print (m.lib .. " links " .. dep.lib)
-        end
-    end
-    
-    includedirs {
-        m.root,
-    }
-    
-    files {
-        path.join(m.path, "**.h"),
-        path.join(m.path, "**.cpp"),
-    }
-    
-    removefiles {
-        path.join(m.path, "Refl/*.h"),
-        path.join(m.path, "Refl/*.cpp"),
-    }
-    
-    local cpps = os.matchfiles(path.join(m.path, "**.cpp"))
-    mud_mxx(cpps, m)
-    
-    defines { m.idname:upper() .. "_EXPORT=MUD_EXPORT" }
-    
-    --vpaths { [name] = { "**.h", "**.cpp" } }
-    
-    mud_defines()
-    mud_modules()
-    
-    if m.self_decl then
-        m.self_decl()
-    end
-    if m.usage_decl then
-        m.usage_decl()
-    end
-    
-    if not nomodule then
-        table.insert(MODULES, m)
-        
-        configuration { "cpp-modules", "vs*" }
-            files {
-                --path.join(m.path, m.dotname .. ".ixx"),
-            }
-                
-        configuration { "cpp-modules", "*-clang*" }
-            files {
-                path.join(m.path, m.dotname .. ".mxx"),
-            }
-            
-        configuration {}
-    end
-    
-    if m.reflect then
-        if not m.noreflect then
-            if as_project then
-                print ("project " .. m.idname .. "_refl " .. m.path)
-                project(m.idname .. "_refl")
-                if MUD_STATIC then
-                    kind "StaticLib"
-                else
-                    kind "SharedLib"
-                end
-            end
-            
-            mud_defines()
-            
-            defines { m.idname:upper() .. "_REFL_EXPORT=MUD_EXPORT" }
-        
-            links {
-                "mud_infra",
-                "mud_obj",
-                "mud_pool",
-                "mud_refl",
-                m.lib,
-            }
-            
-            for _, dep in ipairs(m.deps or {}) do
-                if dep.usage_decl then
-                    dep.usage_decl()
-                end
-                links(dep.lib)
-                if dep.reflect then
-                    links(dep.lib .. "_refl")
-                end
-                
-            end
-            
-            includedirs {
-                m.root,
-            }
-            
-            files {
-                path.join(m.path, "Refl/**.h"),
-                path.join(m.path, "Refl/**.cpp"),
-            }
-            
-            if m.usage_decl then
-                m.usage_decl()
-            end
-        else
-            m.reflect = false
-        end
-        table.insert(MODULES_PY, path.join(m.path, "module.py"))
-        
-        if as_project then
-            project(m.idname)
-        end
-    end
-    
-    configuration { "cpp-modules", "*-clang*" }
-        links {
-            "std_core",
-            "std_io",
-            "std_threading",
-            "std_regex",
-        }
-        
-    configuration {}
-end
-
-function mud_module(decl, namespace, name, rootpath, subpath, self_decl, usage_decl, deps, nomodule, noreflect)
-    local m = {
-        project = nil,
-        cppmodule = true,
-        reflect = false,
-        decl = decl,
-        namespace = namespace,
-        name = name,
-        dotname = string.gsub(name, "-", "."),
-        idname = string.gsub(name, "-", "_"),
-        root = rootpath,
-        subdir = subpath,
-        path = path.join(rootpath, subpath),
-        self_decl = self_decl,
-        usage_decl = usage_decl,
-        deps = deps,
-        nomodule = nomodule,
-        noreflect = noreflect,
-    }
-    
-    if namespace then
-        m.dotname = namespace .. "." .. m.dotname
-        m.idname = namespace .. "_" .. m.idname
-    end
-    
-    m.reflect = file_exists(path.join(m.path, "module.py"))
-    
-    return m
-end
-
 function mud_binary(name)
     targetprefix ""
     
@@ -353,6 +134,206 @@ function mud_binary(name)
         }
 
     configuration {}
+end
+
+function mud_modules(m)
+    configuration { "cpp-modules" }
+        removeflags { "Cpp14" }
+        flags {
+            "CppLatest",
+            "CppModules",
+        }
+        
+        defines { "_CRT_NO_VA_START_VALIDATION" }
+
+    configuration { "cpp-modules", "*-clang*" }
+        links {
+            "std_core",
+            "std_io",
+            "std_threading",
+            "std_regex",
+        }
+        
+    configuration { "cpp-modules", "vs*" }
+        files {
+            --path.join(m.path, m.dotname .. ".ixx"),
+        }
+            
+    configuration { "cpp-modules", "*-clang*" }
+        files {
+            path.join(m.path, m.dotname .. ".mxx"),
+        }
+        
+    configuration {}
+end
+
+function mud_mxx(cpps, m)
+    if not _OPTIONS["cpp-modules"] then
+        return
+    end
+    
+    local cxxmodules = {}
+
+    for _, cpp in ipairs(cpps) do
+        local relcpp = path.getrelative(MUD_DIR, cpp)
+        print("module for " .. relcpp .. " = " .. m.dotname)
+        cxxmodules[relcpp] = m.dotname
+    end
+
+    cxxmodule(cxxmodules)
+end
+
+function mud_dep(namespace, name, cppmodule)
+    local m = {
+        project = nil,
+        cppmodule = cppmodule,
+        namespace = namespace,
+        name = name,
+        dotname = string.gsub(name, "-", "."),
+        idname = string.gsub(name, "-", "_"),
+    }
+    
+    if namespace then
+        m.dotname = namespace .. "." .. m.dotname
+        m.idname = namespace .. "_" .. m.idname
+    end
+    
+    m.project = project(m.idname)
+    m.lib = project().name
+    
+    mud_defines()
+    if cppmodule then
+        mud_modules(m)
+    end
+    
+    return m
+end
+
+function mud_module(namespace, name, rootpath, subpath, decl, self_decl, usage_decl, deps, nomodule, noreflect)
+    local m = {
+        project = nil,
+        cppmodule = true,
+        namespace = namespace,
+        name = name,
+        dotname = string.gsub(name, "-", "."),
+        idname = string.gsub(name, "-", "_"),
+        root = rootpath,
+        subdir = subpath,
+        path = path.join(rootpath, subpath),
+        decl = decl,
+        self_decl = self_decl,
+        usage_decl = usage_decl,
+        deps = deps or {},
+        nomodule = nomodule,
+        noreflect = noreflect,
+    }
+    
+    if not m.decl then
+        m.decl = mud_module_decl
+    end
+    
+    if namespace then
+        m.dotname = namespace .. "." .. m.dotname
+        m.idname = namespace .. "_" .. m.idname
+    end
+    
+    if not nomodule then
+        table.insert(MODULES, m)
+    end
+    
+    return m
+end
+
+function mud_reflect(modules)
+    refls = {}
+    for _, m in ipairs(modules) do
+        --if dep.refl then
+        --    depend(dep.refl)
+        --end
+        m.refl = mud_module(m.namespace, m.name .. "-refl", m.root, path.join(m.subdir, "Refl"), nil, m.self_decl, m.usage_decl, m.deps)
+        table.extend(m.refl.deps, { mud.infra, mud.obj, mud.pool, mud.refl, m })
+        
+        table.insert(refls, m.refl)
+        table.insert(MODULES_PY, path.join(m.path, "module.py"))
+    end
+    return refls
+end
+
+function depend(m)
+    if m.usage_decl then
+        m.usage_decl()
+    end
+    if m.lib then
+        links(m.lib)
+    end
+    if m.modules then
+        for _, m in ipairs(m.modules or {}) do
+            depend(m)
+        end
+    end
+end
+
+function mud_project(m)
+    print ("project " .. m.idname)
+    m.project = project(m.idname)
+    if MUD_STATIC then
+        kind "StaticLib"
+    else
+        kind "SharedLib"
+    end
+    
+end
+
+function mud_module_decl(m, as_project)
+    if as_project then
+        mud_project(m)
+        defines { m.idname:upper() .. "_LIB" }
+    end
+
+    m.lib = project().name
+    
+    for _, dep in ipairs(m.deps or {}) do
+        if dep.lib ~= m.lib then
+            depend(dep)
+        end
+    end
+    
+    includedirs {
+        m.root,
+    }
+    
+    files {
+        path.join(m.path, "**.h"),
+        path.join(m.path, "**.cpp"),
+    }
+    
+    removefiles {
+        path.join(m.path, "Refl/*.h"),
+        path.join(m.path, "Refl/*.cpp"),
+    }
+    
+    local cpps = os.matchfiles(path.join(m.path, "**.cpp"))
+    mud_mxx(cpps, m)
+    
+    defines { m.idname:upper() .. "_EXPORT=MUD_EXPORT" }
+    
+    --vpaths { [name] = { "**.h", "**.cpp" } }
+    
+    mud_defines()
+    mud_modules(m)
+    
+    if m.self_decl then
+        m.self_decl()
+    end
+    if m.usage_decl then
+        m.usage_decl()
+    end
+    
+    if m.refl then
+        m.refl.decl(m.refl, true)
+        project(m.lib)
+    end
+    
 end
 
 function mud_amalgamate(modules)

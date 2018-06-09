@@ -71,15 +71,7 @@ mud.ctxbackend  = mud_ctx_backend()
 mud.uibackend   = mud_ui_backend()
 
 function uses_mud_bgfx()
-    uses_mud()
     uses_bgfx()
 end
 
-mud.bgfx        = mud_module(mud_module_decl, "mud", "bgfx", MUD_SRC_DIR, "bgfx", nil, uses_mud_bgfx, { mud.infra, mud.obj, mud.math, mud.ctx, mud.ui, mud.ctxbackend, mud.uibackend })
-
-function mud_bgfx()
-    --mud.bgfx = mud_module(true, "mud", "bgfx", MUD_SRC_DIR, "bgfx", { mud.obj, mud.math, mud.ctx, mud.ui, mud.ctxbackend, mud.uibackend })
-
-    --uses_mud()
-    --uses_bgfx()
-end
+mud.bgfx        = mud_module("mud", "bgfx", MUD_SRC_DIR, "bgfx", nil, nil, uses_mud_bgfx, { mud.infra, mud.obj, mud.math, mud.ctx, mud.ui, mud.ctxbackend, mud.uibackend })
