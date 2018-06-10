@@ -1,7 +1,7 @@
 -- mud library
 -- lua dependency
 
-project "glfw"
+glfw = mud_dep(nil, "glfw")
 	kind "StaticLib"
     
     files {

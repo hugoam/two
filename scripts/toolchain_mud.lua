@@ -265,14 +265,20 @@ function mud_depend(m)
     if depended[project().name] and depended[project().name][m.idname] then
         return
     end
+    
+    depended[project().name] = depended[project().name] or {}
+    depended[project().name][m.idname] = true
+    
     if m.usage_decl then
         m.usage_decl()
     end
     if m.lib and project().name ~= m.lib then
         links(m.lib)
     end
-    depended[project().name] = depended[project().name] or {}
-    depended[project().name][m.idname] = true
+    if MUD_STATIC then
+        -- with static linking all dependencies must be transitive
+        mud_depends(m.deps or {})
+    end
 end
 
 function mud_depends(modules)
