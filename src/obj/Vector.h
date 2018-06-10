@@ -17,6 +17,8 @@
 #define MUD_CONTAINER_TYPES_1
 namespace mud // export_ namespace mud// @todo evaluate export at namespace level ?
 {
+	using string = std::string;
+
 #ifdef MUD_CONTAINER_TYPES_1
 	export_ template <class T>
 	struct Typed<array<T>>
