@@ -65,20 +65,18 @@ mud.edit        = mud_module("mud", "edit",         MUD_SRC_DIR, "edit",        
 mud.procgen     = mud_module("mud", "procgen",      MUD_SRC_DIR, "procgen",     nil,    mud_procgen,    uses_mud_procgen,   { json11, mud.infra, mud.obj, mud.srlz, mud.math, mud.geom })
 mud.procgen.gfx = mud_module("mud", "procgen-gfx",  MUD_SRC_DIR, "procgen-gfx", nil,    nil,            nil,                { json11, mud.infra, mud.tree, mud.obj, mud.srlz, mud.math, mud.geom, mud.procgen, mud.ctx, mud.ui, mud.uio, mud.gfx, mud.edit })
 
-mudgfx = {}
+mud.gfx.core = { mud.ctxbackend, mud.uibackend, mud.bgfx, mud.gfx, mud.gfx.obj, mud.gfx.pbr, mud.gfx.gltf, mud.edit, mud.procgen, mud.procgen.gfx }
 
-mudgfx.modules = { mud.ctxbackend, mud.uibackend, mud.bgfx, mud.gfx, mud.gfx.obj, mud.gfx.pbr, mud.gfx.gltf, mud.edit, mud.procgen, mud.procgen.gfx }
-
-table.extend(mudgfx.modules, mud_refls({ mud.gfx, mud.gfx.obj, mud.gfx.pbr, mud.gfx.gltf, mud.edit, mud.procgen, mud.procgen.gfx }))
+table.extend(mud.gfx.core, mud_refls({ mud.gfx, mud.gfx.obj, mud.gfx.pbr, mud.gfx.gltf, mud.edit, mud.procgen, mud.procgen.gfx }))
 
 mud.all = {}
 
-table.extend(mud.all, mud.modules)
-table.extend(mud.all, mudgfx.modules)
+table.extend(mud.all, mud.core)
+table.extend(mud.all, mud.gfx.core)
 
 if _OPTIONS["as-libs"] then
     group "lib/mud"
-        for _, m  in ipairs(mudgfx.modules) do
+        for _, m  in ipairs(mud.gfx.core) do
             m.decl(m, true)
         end
     group "lib"
@@ -90,7 +88,7 @@ else
             kind "SharedLib"
         end
 
-        for _, m  in ipairs(mudgfx.modules) do
+        for _, m  in ipairs(mud.gfx.core) do
             m.decl(m, false)
         end
         

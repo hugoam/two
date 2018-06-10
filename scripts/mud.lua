@@ -115,14 +115,14 @@ if _OPTIONS["sound"] then
     mud.snd = mud_module("mud", "snd",      MUD_SRC_DIR, "snd",     nil,        mud_snd,        nil,                { mud.obj })
 end
 
-mud.modules = { mud.infra, mud.obj, mud.pool, mud.refl, mud.tree, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio }
-mud.usage_decl = uses_mud
+mud.core = { mud.infra, mud.obj, mud.pool, mud.refl, mud.tree, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio }
+--mud.usage_decl = uses_mud
 
-table.extend(mud.modules, mud_refls({ mud.infra, mud.obj, mud.pool, mud.refl, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio }))
+table.extend(mud.core, mud_refls({ mud.infra, mud.obj, mud.pool, mud.refl, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio }))
 
 if _OPTIONS["as-libs"] then
     group "lib/mud"
-        for _, m  in ipairs(mud.modules) do
+        for _, m  in ipairs(mud.core) do
             m.decl(m, true)
         end
     group "lib"
@@ -134,7 +134,7 @@ else
             kind "SharedLib"
         end
         
-        for _, m  in ipairs(mud.modules) do
+        for _, m  in ipairs(mud.core) do
             m.decl(m, false)
         end
         

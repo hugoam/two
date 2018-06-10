@@ -20,8 +20,8 @@ if _OPTIONS["renderer-bgfx"] then
         
         defines { "_00_UI_EXPORT=MUD_EXPORT", "_00_TUTORIAL_EXPORT=MUD_EXPORT", "_15_SCRIPT_EXPORT=MUD_EXPORT" }
         
-        mud_depends(mudgfx.modules)
-        mud_depends(mud.modules)
+        mud_depends(mud.all)
+        uses_bgfx()
         mud_shell("mud_example")
         
     --project "mud_shell"
@@ -56,7 +56,7 @@ function mud_example(name, gfx, deps, ismodule)
             path.join(MUD_SRC_DIR),
         }
         
-        mud.examples[name] = mud_module(nil, "_" .. name, path.join(MUD_DIR, "example"), name, mud_example_module_decl, nil, nil, mud.all, not ismodule)
+        mud.examples[name] = mud_module(nil, "_" .. name, path.join(MUD_DIR, "example"), name, mud_example_module_decl, nil, nil, {}, not ismodule)
         
         if ismodule then
             mud_refl(mud.examples[name])
@@ -74,7 +74,7 @@ function mud_example(name, gfx, deps, ismodule)
                 path.join(MUD_DIR, "src", "mud", "Shell.cpp"),
             }
     
-            mud_depends(mudgfx.modules)
+            mud_depends(mud.all)
             uses_bgfx()
         else
             if _OPTIONS["renderer-gl"] then
@@ -82,9 +82,9 @@ function mud_example(name, gfx, deps, ismodule)
             elseif _OPTIONS["renderer-bgfx"] then
                 uses_mud_bgfx()
             end
+            mud_depends(mud.modules)
         end
         
-        mud_depends(mud.modules)
         mud_binary(name)
 end
 
