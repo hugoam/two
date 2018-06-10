@@ -43,7 +43,7 @@ namespace mud
 		std::vector<std::unique_ptr<T_Node>> m_nodes;
 		std::unique_ptr<NodeState> m_state;
 		uint16_t m_next = 0;
-
+		
 		template <class T_Child = T_Node>
 		inline T_Child& append(void* identity = nullptr) { m_nodes.emplace_back(std::make_unique<T_Child>(&impl(), identity)); return static_cast<T_Child&>(*m_nodes.back()); }
 
@@ -80,7 +80,7 @@ namespace mud
 		}
 
 		template <class T_Child, class... T_Args>
-		T_Child& child_args(T_Args... args, void* identity = nullptr) { size_t index = m_next++; if(m_nodes.size() <= index) m_nodes.emplace_back(std::make_unique<T_Child>(&impl(), identity, args...)); update(*m_nodes[index]); return as<T_Child>(*m_nodes[index]); }
+		T_Child& child_args(T_Args... args, void* identity = nullptr) { size_t index = m_next++; if(m_nodes.size() <= index) m_nodes.emplace_back(std::make_unique<T_Child>(&impl(), identity, args...)); update(*m_nodes[index]); return static_cast<T_Child&>(*m_nodes[index]); }
 
 		inline T_Node& root() { if(m_parent) return m_parent->root(); return impl(); }
 
