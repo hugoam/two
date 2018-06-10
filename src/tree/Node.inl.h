@@ -16,7 +16,7 @@ namespace mud
 	export_ template <class T_Node>
 	void clean_node_tree(T_Node& node, size_t heartbeat)
 	{
-		vector_remove_if(node.m_nodes, [=](unique_ptr<T_Node>& node) { return node->m_heartbeat < heartbeat; });
+		vector_remove_if(node.m_nodes, [=](std::unique_ptr<T_Node>& node) { return node->m_heartbeat < heartbeat; });
 		for(auto& child : node.m_nodes)
 			clean_node_tree(*child, heartbeat);
 	}
