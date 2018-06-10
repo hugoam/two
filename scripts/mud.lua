@@ -12,6 +12,12 @@ dofile(path.join(MUD_DIR, "scripts/3rdparty/glfw.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/vg.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/bgfx/bgfx.lua"))
 
+if _OPTIONS["sound"] then
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/ogg/ogg.lua"))
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/vorbis/vorbis.lua"))
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/vorbis/vorbisfile.lua"))
+end
+
 group "lib"
 
 mud = {}

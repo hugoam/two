@@ -22,7 +22,7 @@ install:
 script:
   - bin/genie --gcc=linux-$CC gmake
   - cd build/projects/$GMAKE_FOLDER
-  - make config=debug64 -j8
+  - make config=debug64
 
 os:
   - linux
