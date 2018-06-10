@@ -7,6 +7,7 @@
 #ifndef MUD_MODULES
 #include <infra/NonCopy.h>
 #include <infra/Strung.h>
+#include <obj/Unique.h>
 #include <math/Timer.h>
 #endif
 #include <ui/Forward.h>

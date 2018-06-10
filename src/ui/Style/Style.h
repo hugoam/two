@@ -4,14 +4,16 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
-#include <obj/Unique.h>
-#endif
 #include <ui/Forward.h>
+
+#ifndef MUD_CPP_20
+#include <memory>
+#endif
 
 namespace mud
 {
 	using cstring = const char*;
+	using std::unique_ptr;
 
 	using LayoutDef = void(*)(Layout&);
 	using InkStyleDef = void(*)(InkStyle&);

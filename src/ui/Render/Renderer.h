@@ -6,14 +6,20 @@
 
 #ifndef MUD_MODULES
 #include <obj/Unique.h>
-#include <infra/Strung.h>
 #include <math/Timer.h>
 #endif
 #include <ui/Forward.h>
 #include <ui/Frame/Caption.h>
 
+#ifndef MUD_CPP_20
+#include <string>
+#endif
+
 namespace mud
 {
+	using cstring = const char*;
+	using string = std::string;
+
 	export_ class refl_ MUD_UI_EXPORT UiTarget
 	{
 	public:

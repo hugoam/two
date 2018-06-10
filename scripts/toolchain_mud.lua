@@ -259,17 +259,27 @@ function mud_refls(modules)
     return refls
 end
 
-function depend(m)
+depended = {}
+
+function mud_depend(m)
+    if depended[project().name] and depended[project().name][m.idname] then
+        return
+    end
+    print(project().name .. " depends on " .. m.idname)
     if m.usage_decl then
         m.usage_decl()
     end
-    if m.lib then
+    if m.lib and project().name ~= m.lib then
+        print(project().name .. " links " .. m.lib)
         links(m.lib)
     end
-    if m.modules then
-        for _, m in ipairs(m.modules or {}) do
-            depend(m)
-        end
+    depended[project().name] = depended[project().name] or {}
+    depended[project().name][m.idname] = true
+end
+
+function mud_depends(modules)
+    for _, m in ipairs(modules or {}) do
+        mud_depend(m)
     end
 end
 
@@ -294,9 +304,7 @@ function mud_module_decl(m, as_project)
     m.lib = project().name
     
     for _, dep in ipairs(m.deps or {}) do
-        if dep.lib ~= m.lib then
-            depend(dep)
-        end
+        mud_depend(dep)
     end
     
     includedirs {

@@ -13,6 +13,7 @@
 
 #ifndef MUD_CPP_20
 #include <cmath>
+#include <memory>
 #endif
 
 namespace mud
