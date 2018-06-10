@@ -18,6 +18,22 @@ function table.extend(dest, source)
     end
 end
 
+function table.traverse(tables, children, callback)
+    local queue = tables
+    local visited = {}
+    while next(queue) ~= nil do
+        local n = table.remove(queue, 1);
+        callback(n);
+        table.insert(visited, n)
+        
+        for _, c in ipairs(n[children] or {}) do
+            if not table.contains(visited, c) then
+                table.insert(queue, c);
+            end
+        end
+    end
+end
+
 function mud_defines()
     if MUD_STATIC then
         defines {
@@ -245,8 +261,10 @@ function mud_module(namespace, name, rootpath, subpath, decl, self_decl, usage_d
 end
 
 function mud_refl(m)
-    m.refl = mud_module(m.namespace, m.name .. "-refl", m.root, path.join("meta", m.subdir), mud_refl_decl, m.self_decl, m.usage_decl, m.deps)
-    table.extend(m.refl.deps, { mud.infra, mud.obj, mud.pool, mud.refl, m })
+    deps = { mud.infra, mud.obj, mud.pool, mud.refl }
+    table.extend(deps, m.deps)
+    table.extend(deps, { m })
+    m.refl = mud_module(m.namespace, m.name .. "-refl", m.root, path.join("meta", m.subdir), mud_refl_decl, m.self_decl, m.usage_decl, deps)
     table.insert(MODULES_PY, path.join(m.path, "module.py"))
 end
 
@@ -269,22 +287,28 @@ function mud_depend(m)
     depended[project().name] = depended[project().name] or {}
     depended[project().name][m.idname] = true
     
+    --print(project().name .. " depends on " .. m.idname)
     if m.usage_decl then
         m.usage_decl()
     end
     if m.lib and project().name ~= m.lib then
+        --print(project().name .. " links " .. m.lib)
         links(m.lib)
-    end
-    if MUD_STATIC then
-        -- with static linking all dependencies must be transitive
-        mud_depends(m.deps or {})
     end
 end
 
 function mud_depends(modules)
     -- dependencies are inverted so that linking order is correct : from higher level to lower level
+    list = {}
     for i = #modules, 1, -1 do
-        mud_depend(modules[i])
+        table.insert(list, modules[i])
+    end
+    if MUD_STATIC then
+        table.traverse(list, 'deps', mud_depend)
+    else
+        for _, m in ipairs(list) do
+            mud_depend(modules[i])
+        end
     end
 end
 
