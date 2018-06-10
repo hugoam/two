@@ -101,7 +101,11 @@ mud.math    = mud_module("mud", "math",     MUD_SRC_DIR, "math",    nil,        
 mud.geom    = mud_module("mud", "geom",     MUD_SRC_DIR, "geom",    nil,        mud_geom,       nil,                { mud.obj, mud.math })
 mud.lang    = mud_module("mud", "lang",     MUD_SRC_DIR, "lang",    nil,        mud_lang,       nil,                { lua, mud.infra, mud.obj, mud.pool, mud.refl })
 mud.ctx     = mud_module("mud", "ctx",      MUD_SRC_DIR, "ctx",     nil,        nil,            nil,                { mud.infra, mud.obj, mud.math })
-mud.ui      = mud_module("mud", "ui",       MUD_SRC_DIR, "ui",      nil,        mud_ui,         nil,                { json11, stb.image, stb.rect_pack, mud.infra, mud.obj, mud.refl, mud.srlz, mud.math, mud.ctx })
+if MUD_STATIC then
+    mud.ui  = mud_module("mud", "ui",       MUD_SRC_DIR, "ui",      nil,        mud_ui,         nil,                { json11, stb.rect_pack, mud.infra, mud.obj, mud.refl, mud.srlz, mud.math, mud.ctx })
+else
+    mud.ui  = mud_module("mud", "ui",       MUD_SRC_DIR, "ui",      nil,        mud_ui,         nil,                { json11, stb.image, stb.rect_pack, mud.infra, mud.obj, mud.refl, mud.srlz, mud.math, mud.ctx })
+end
 mud.uio     = mud_module("mud", "uio",      MUD_SRC_DIR, "uio",     nil,        nil,            nil,                { mud.infra, mud.tree, mud.obj, mud.pool, mud.refl, mud.math, mud.lang, mud.ctx, mud.ui })
 --mud_sys(true)
 --mud_vec(true)
