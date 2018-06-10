@@ -117,5 +117,6 @@ mud_example("20_meta",              true, { "01_shapes", "03_materials" })
 
 if _OPTIONS["renderer-bgfx"] then
     project "09_live_shader"
-        uses_shaderc()
+        configuration { "asmjs" }
+            uses_shaderc()
 end
