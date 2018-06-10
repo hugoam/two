@@ -44,7 +44,9 @@ namespace mud
 		size_t m_next;
 	};
 
+#ifndef MUD_STATIC
 	export_ template class MUD_OBJ_EXPORT Global<Index>;
+#endif
 
 	export_ class refl_ MUD_OBJ_EXPORT Index : public Global<Index>, public NonCopy
 	{
