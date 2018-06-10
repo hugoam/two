@@ -45,7 +45,7 @@ namespace mud
 		uint16_t m_next = 0;
 
 		template <class T_Child = T_Node>
-		inline T_Child& append(void* identity = nullptr) { m_nodes.emplace_back(make_unique<T_Child>(&impl(), identity)); return static_cast<T_Child&>(*m_nodes.back()); }
+		inline T_Child& append(void* identity = nullptr) { m_nodes.emplace_back(std::make_unique<T_Child>(&impl(), identity)); return static_cast<T_Child&>(*m_nodes.back()); }
 
 		void clear() { m_nodes.clear(); }
 
@@ -80,7 +80,7 @@ namespace mud
 		}
 
 		template <class T_Child, class... T_Args>
-		T_Child& child_args(T_Args... args, void* identity = nullptr) { size_t index = m_next++; if(m_nodes.size() <= index) m_nodes.emplace_back(make_unique<T_Child>(&impl(), identity, args...)); update(*m_nodes[index]); return as<T_Child>(*m_nodes[index]); }
+		T_Child& child_args(T_Args... args, void* identity = nullptr) { size_t index = m_next++; if(m_nodes.size() <= index) m_nodes.emplace_back(std::make_unique<T_Child>(&impl(), identity, args...)); update(*m_nodes[index]); return as<T_Child>(*m_nodes[index]); }
 
 		inline T_Node& root() { if(m_parent) return m_parent->root(); return impl(); }
 
@@ -88,7 +88,7 @@ namespace mud
 		inline T_State& state(T_Args&&... args)
 		{
 			if(!m_state)
-				m_state = make_unique<T_State>(std::forward<T_Args>(args)...);
+				m_state = std::make_unique<T_State>(std::forward<T_Args>(args)...);
 			return static_cast<T_State&>(*m_state);
 		}
 	};
