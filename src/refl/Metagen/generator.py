@@ -611,7 +611,11 @@ class Generator(object):
         update_file(output_path, rendered)
         
     def generate_module(self, module):
-    
+        
+        if not os.path.exists(os.path.join(module.path, 'Types.h')):
+            with open(os.path.join(module.path, 'Types.h'), "w") as f:
+                pass
+        
         def register_classes(cursor, file, module, parent):
             for c in cursor.get_children():
                 if c.location.file.name.find(module.path) == 0 and c.location.file.name.find('Generated') == -1:
@@ -627,7 +631,7 @@ class Generator(object):
         self.parse_through(module, register_classes)
         
         print 'NUM CLASSES : ', len(module.classes)
-        self.render_mako(module, "Forward.h", False)
+        self.render_mako(module, 'Forward.h', False)
         
         def build_classes(cursor, file, module, parent):
             for c in cursor.get_children():
