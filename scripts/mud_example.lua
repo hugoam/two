@@ -75,6 +75,7 @@ function mud_example(name, gfx, deps, ismodule)
             }
     
             mud_depends(mudgfx.modules)
+            uses_bgfx()
         else
             if _OPTIONS["renderer-gl"] then
                 uses_mud_gl()
