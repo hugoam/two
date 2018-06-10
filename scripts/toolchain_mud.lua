@@ -265,12 +265,10 @@ function mud_depend(m)
     if depended[project().name] and depended[project().name][m.idname] then
         return
     end
-    print(project().name .. " depends on " .. m.idname)
     if m.usage_decl then
         m.usage_decl()
     end
     if m.lib and project().name ~= m.lib then
-        print(project().name .. " links " .. m.lib)
         links(m.lib)
     end
     depended[project().name] = depended[project().name] or {}
@@ -278,8 +276,9 @@ function mud_depend(m)
 end
 
 function mud_depends(modules)
-    for _, m in ipairs(modules or {}) do
-        mud_depend(m)
+    -- dependencies are inverted so that linking order is correct : from higher level to lower level
+    for i = #modules, 1, -1 do
+        mud_depend(modules[i])
     end
 end
 
@@ -303,9 +302,7 @@ function mud_module_decl(m, as_project)
 
     m.lib = project().name
     
-    for _, dep in ipairs(m.deps or {}) do
-        mud_depend(dep)
-    end
+    mud_depends(m.deps)
     
     includedirs {
         m.root,

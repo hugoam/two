@@ -20,8 +20,8 @@ if _OPTIONS["renderer-bgfx"] then
         
         defines { "_00_UI_EXPORT=MUD_EXPORT", "_00_TUTORIAL_EXPORT=MUD_EXPORT", "_15_SCRIPT_EXPORT=MUD_EXPORT" }
         
-        mud_depends(mud.modules)
         mud_depends(mudgfx.modules)
+        mud_depends(mud.modules)
         mud_shell("mud_example")
         
     --project "mud_shell"
