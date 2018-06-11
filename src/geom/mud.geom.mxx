@@ -12,6 +12,4 @@ export import mud.obj;
 export import mud.math;
 
 #include <geom/Api.h>
-#include <geom/Refl/Module.h>
-#include <geom/Refl/Convert.h>
 

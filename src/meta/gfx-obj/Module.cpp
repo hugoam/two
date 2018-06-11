@@ -1,7 +1,7 @@
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
-module mud.gfxobj;
+module mud.gfx-obj;
 #else
 #include <meta/gfx-obj/Module.h>
 #endif
@@ -14,18 +14,19 @@ module mud.gfxobj;
 
 namespace mud
 {
-	mudgfxobj::mudgfxobj()
-		: Module("mud::gfxobj")
+	mud_gfx_obj::mud_gfx_obj()
+		: Module("mud::gfx-obj")
 	{
         // ensure dependencies are instantiated
-        mudobj::m();
-        mudsrlz::m();
-        mudmath::m();
-        mudgeom::m();
-        mudgfx::m();
+        mud_infra::m();
+        mud_obj::m();
+        mud_srlz::m();
+        mud_math::m();
+        mud_geom::m();
+        mud_gfx::m();
 
         // setup reflection meta data
-		mudgfxobj_meta(*this);
+		mud_gfx_obj_meta(*this);
 	}
 }
 
@@ -33,6 +34,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudgfxobj::m();
+	return mud_gfx_obj::m();
 }
 #endif

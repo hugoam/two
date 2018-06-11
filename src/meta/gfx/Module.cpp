@@ -14,17 +14,22 @@ module mud.gfx;
 
 namespace mud
 {
-	mudgfx::mudgfx()
+	mud_gfx::mud_gfx()
 		: Module("mud::gfx")
 	{
         // ensure dependencies are instantiated
-        mudobj::m();
-        mudsrlz::m();
-        mudmath::m();
-        mudgeom::m();
+        mud_infra::m();
+        mud_obj::m();
+        mud_pool::m();
+        mud_refl::m();
+        mud_srlz::m();
+        mud_math::m();
+        mud_geom::m();
+        mud_ctx::m();
+        mud_ui::m();
 
         // setup reflection meta data
-		mudgfx_meta(*this);
+		mud_gfx_meta(*this);
 	}
 }
 
@@ -32,6 +37,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudgfx::m();
+	return mud_gfx::m();
 }
 #endif

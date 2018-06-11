@@ -1,11 +1,11 @@
 import sys
 import os
-import imp
 import copy
-import itertools
-import fnmatch
-import clang.cindex
 import argparse
+import json
+
+import clang.cindex
+
 from mako.template import Template
 
 def update_file(path, content):
@@ -74,8 +74,8 @@ def register_type(module, parent, clsname):
             content_type = module.find_type(parent, content_name.replace('*', ''))
             if content_type :
                 print '>>>>>>>>>>>> register_type Sequence', name, content_type.name, content_name
-                cls = Sequence(module, name, content_type, content_name.find('*') > -1, module.root.root_namespace)
-                module.root.types[clsname] = cls
+                cls = Sequence(module, name, content_type, content_name.find('*') > -1, module.context.root_namespace)
+                module.context.types[clsname] = cls
                 return cls
     for name in ['unique_ptr', 'object_ptr'] :
         if clsname.find(name) > -1 :
@@ -108,7 +108,7 @@ class Namespace(object):
         self.is_template = False
         self.is_templated = False
            
-class Root(object):
+class Context(object):
     def __init__(self):
         self.root_namespace = Namespace('', None)
         self.namespaces = { '' : self.root_namespace }
@@ -125,24 +125,30 @@ class Root(object):
         return self.namespaces[full_name]
         
 class Module(object):
-    def __init__(self, root, name, namespace, preproc_name, subdir, dependencies, rootdir):
-        self.root = root
+    def __init__(self, context, namespace, name, dotname, id, rootdir, subdir, path, includedirs, dependencies):
+        self.context = context
+        self.namespace = namespace if namespace else ''
         self.name = name
-        self.id = namespace + name.replace('-', '_')
-        self.namespace = namespace
-        self.preproc_name = preproc_name
-        self.export = preproc_name + '_EXPORT'
-        self.refl_export = preproc_name + '_REFL_EXPORT'
-        self.subdir = subdir
-        self.dependencies = dependencies[:]
+        self.dotname = dotname
+        self.id = id
         self.rootdir = rootdir
+        self.subdir = subdir
+        self.path = path
+        
+        self.includedirs = includedirs[:]
+        self.dependencies = dependencies[:]
+        
+        self.preproc_name = id.upper()
+        self.export = self.preproc_name + '_EXPORT'
+        self.refl_export = self.preproc_name + '_REFL_EXPORT'
+        
         self.modules = dependencies[:]
         self.modules.append(self)
-        self.path = os.path.join(self.rootdir, self.subdir)
-        self.refl_path = os.path.join(os.path.join(self.rootdir, "meta"), self.subdir)
-        self.has_structs = os.path.isfile(os.path.join(self.path, 'Structs.h'))
-        self.has_generator = False
         
+        self.refl_path = os.path.join(os.path.join(self.rootdir, "meta"), self.subdir)
+        
+        self.has_structs = os.path.isfile(os.path.join(self.path, 'Structs.h'))
+            
         self.headers = []
         self.sources = []
         
@@ -158,26 +164,26 @@ class Module(object):
         print self.path
         
     def get_namespace(self, name, parent):
-        return self.root.get_namespace(name, parent)
+        return self.context.get_namespace(name, parent)
         
     def template(self, name):
-        return self.root.templates[name]
+        return self.context.templates[name]
         
     def find_type_in(self, parent, name, warn = True):
         # stupid fix because clang FUCKING doesn't always put the prefix in types ..............
-        if name in self.root.types:
-            return self.root.types[name]
-        elif parent and parent.prefix + name in self.root.types:
-            return self.root.types[parent.prefix + name]
+        if name in self.context.types:
+            return self.context.types[name]
+        elif parent and parent.prefix + name in self.context.types:
+            return self.context.types[parent.prefix + name]
         elif parent and parent.parent:
             return self.find_type_in(parent.parent, name, warn)
 
     def find_type(self, parent, name, warn = True):
-        if name in self.root.base_types or name in self.root.base_aliases:
+        if name in self.context.base_types or name in self.context.base_aliases:
             return TypeProxy(name)
         cls = self.find_type_in(parent, name, warn)
         if not cls :
-            for key, namespace in self.root.namespaces.iteritems():
+            for key, namespace in self.context.namespaces.iteritems():
                 cls = self.find_type_in(namespace, name, warn)
                 if cls:
                     break
@@ -192,7 +198,7 @@ class Module(object):
         return cls
                 
     def type(self, name):
-        return self.root.types[name]
+        return self.context.types[name]
 
 class Param(object):
     def __init__(self, func, cursor, index, parent):
@@ -248,7 +254,7 @@ class Function(object):
         self.id = parent.id + '::' + self.name if parent else self.name
         self.idstr = self.id.replace('::', '_')
         
-        if self.name in module.root.func_templates:
+        if self.name in module.context.func_templates:
             template_type = clean_name(cursor.displayname[cursor.displayname.find('(')+1:-1].split(',')[0])
             print 'Templated Function', template_type
             self.name += '<' + template_type + '>'
@@ -270,7 +276,7 @@ class Function(object):
         elif self.is_function and self.is_template : 
             print 'Function Template ', cursor.displayname
             module.func_templates.append(self)
-            module.root.func_templates[self.name] = self
+            module.context.func_templates[self.name] = self
             
         if not self.is_template :
             for a in cursor.get_children():
@@ -332,6 +338,8 @@ class Member(object):
         self.structure = 'structure_attr' in self.annotations
         self.link = 'link_attr' in self.annotations
         
+        self.component = 'component' in self.annotations
+        
         self.output = False
         self.input = False
         
@@ -375,7 +383,7 @@ class Type(object):
         self.deep_bases = []
         self.aliases = []
         if not is_template:
-            module.root.types[self.id] = self
+            module.context.types[self.id] = self
             module.types.append(self)
             print 'Type ', self.id
         else:
@@ -384,7 +392,7 @@ class Type(object):
             
 class BaseType(Type):
     def __init__(self, module, name):
-        Type.__init__(self, module, name, module.root.root_namespace)
+        Type.__init__(self, module, name, module.context.root_namespace)
         module.basetypes.append(self)
         
 class Enum(Type):
@@ -425,7 +433,7 @@ class Class(Type):
         self.array = False
         self.template_name = template_name(self.name)
         self.is_templated = self.name.find('<') > -1 and not self.is_template
-        self.template = module.root.templates[self.template_name] if self.is_templated else None
+        self.template = module.context.templates[self.template_name] if self.is_templated else None
         self.template_types = template_types(self.name)
         self.template_used = 'reflect' in get_annotations(cursor)
         self.reflect = 'reflect' in get_annotations(cursor)
@@ -434,7 +442,7 @@ class Class(Type):
         if not self.is_template:
             module.classes.append(self)
         else:
-            module.root.templates[self.template_name] = self
+            module.context.templates[self.template_name] = self
             
         #if self.is_templated and is_template_decl(cursor):
         #    self.template.template_used = True
@@ -532,7 +540,7 @@ class Generator(object):
     def __init__(self):
         self.modules = {}
         self.generator_queue = []
-        self.root = Root()
+        self.context = Context()
         
     def parse_through(self, module, func):
         print 'Module path : ', module.path
@@ -567,14 +575,15 @@ class Generator(object):
             '-Dmut_=__attribute__((annotate("mutable_attr")))',
             '-Dgraph_=__attribute__((annotate("structure_attr")))',
             '-Dlink_=__attribute__((annotate("link_attr")))',
-            '-DMUD_META_GENERATOR',
-            '-DMUD_GENERATOR_SKIP_INCLUDES'
+            '-DMUD_META_GENERATOR'
+            #'-DMUD_GENERATOR_SKIP_INCLUDES'
         ]
-                
+        
+        for dir in module.includedirs:
+            compiler_args.append('-I' + dir)
+            
         for m in module.modules :
             compiler_args.append('-I' + m.rootdir)
-            if m.has_generator :
-                compiler_args.append('-include' + os.path.join(m.path, 'Generator.h'))
                 
         #print 'Parsing with compiler args: ', compiler_args
                   
@@ -597,7 +606,7 @@ class Generator(object):
                     print diag.spelling
                     print diag.option
                     
-            func(translation_unit.cursor, fullpath, module, module.root.root_namespace)
+            func(translation_unit.cursor, fullpath, module, module.context.root_namespace)
             
         parse_file(module.path, 'Api.h', compiler_args, debug_diagnostic)
 
@@ -618,7 +627,7 @@ class Generator(object):
         
         def register_classes(cursor, file, module, parent):
             for c in cursor.get_children():
-                if c.location.file.name.find(module.path) == 0 and c.location.file.name.find('Generated') == -1:
+                if os.path.normpath(c.location.file.name).find(os.path.normpath(module.path)) == 0 and c.location.file.name.find('Generated') == -1:
                     if c.kind == clang.cindex.CursorKind.NAMESPACE :
                         ns = module.get_namespace(c.spelling, parent)
                         register_classes(c, file, module, ns)
@@ -635,7 +644,7 @@ class Generator(object):
         
         def build_classes(cursor, file, module, parent):
             for c in cursor.get_children():
-                if c.location.file.name.find(module.path) == 0 and c.location.file.name.find('Generated') == -1:
+                if os.path.normpath(c.location.file.name).find(os.path.normpath(module.path)) == 0 and c.location.file.name.find('Generated') == -1:
                     if c.kind == clang.cindex.CursorKind.CLASS_TEMPLATE:
                         module.template(template_name(c.displayname)).parse_contents(c)
                     if c.kind == clang.cindex.CursorKind.NAMESPACE :
@@ -692,51 +701,48 @@ class Generator(object):
         for name in ('Module.h', 'Module.cpp', 'Meta.h', 'Convert.h') :
             self.render_mako(module, name, True)
             
-    def add_module(self, module_name, module_def_path):
-        dir_path = os.path.dirname(module_def_path)
-        root_path = os.path.dirname(dir_path)
-
-        print 'Adding module', module_name, module_def_path
-        module_def = imp.load_source(module_name + '_generator', module_def_path)
-
+    def add_module(self, module_def):
         dependencies = []
-        for dependency_name in module_def.dependencies :
+        for dependency_name in module_def['dependencies'] :
             dependencies.append(self.modules[dependency_name])
             
-        module = Module(self.root, module_def.name, module_def.namespace, module_def.preproc_name, module_def.subdir, dependencies, root_path)
+        module = Module(self.context, module_def['namespace'], module_def['name'], module_def['dotname'], module_def['idname'], module_def['root'], module_def['subdir'], module_def['path'], module_def['includedirs'], dependencies)
         
-        self.modules[module_name] = module
+        self.modules[module.id] = module
         self.generator_queue.append(module)
         
-        if hasattr(module_def, 'basetypes'):
-            for basetypeid in module_def.basetypes :
+        if 'basetypes' in module_def:
+            for basetypeid in module_def['basetypes'] :
                 BaseType(module, basetypeid)
 
-        if hasattr(module_def, 'aliases'):
-            for alias, type in module_def.aliases.iteritems(): 
-                self.root.types[alias] = self.root.types[type]
+        if 'aliases' in module_def:
+            for alias, type in module_def['aliases'].iteritems(): 
+                self.context.types[alias] = self.context.types[type]
 
     def generate_all_modules(self):
-        clang.cindex.Config.set_library_file('C:\\Program Files (x86)\\LLVM\\bin\\libclang.dll')
-
         for module in self.generator_queue:
             self.generate_module(module)
             
 instance = Generator()
 
-def add_module(module_name, module_def_path):
-    instance.add_module(module_name, module_def_path)
+def add_module(module_def):
+    instance.add_module(module_def)
     
 def generate_all_modules():
     instance.generate_all_modules()
     
     
 parser = argparse.ArgumentParser(description='Generate reflection for N modules.')
+parser.add_argument('clang', help='path of libclang library')
 parser.add_argument('modules', nargs='+', help='path of the module.py files for which to generate reflection')
 args = parser.parse_args()
-print(args.modules)
+#print(args.modules)
 
 for module in args.modules:
-    add_module(os.path.basename(os.path.dirname(module)), module)
-    
+    print(module)
+    with open(module) as f:
+        add_module(json.load(f))
+
+clang.cindex.Config.set_library_file('C:\\Program Files (x86)\\LLVM\\bin\\libclang.dll')
+
 generate_all_modules()

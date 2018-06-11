@@ -13,7 +13,7 @@
 
 namespace mud
 {
-    void mudprocgen_meta(Module& m)
+    void mud_procgen_meta(Module& m)
     {   
     // Base Types
     
@@ -435,40 +435,6 @@ namespace mud
     
     
         
-    // mud::TileWave
-    {
-        static Meta meta = { type<mud::TileWave>(), &namspc({ "mud" }), "TileWave", sizeof(mud::TileWave), TypeClass::Struct };
-        static Class cls = { type<mud::TileWave>(),
-            // bases
-            { &type<mud::Wave>() },
-            { base_offset<mud::TileWave, mud::Wave>() },
-            // constructors
-            {
-                { type<mud::TileWave>(), [](Ref ref, array<Var> args) { new(&val<mud::TileWave>(ref)) mud::TileWave( val<mud::WaveTileset>(args[0]), val<uint16_t>(args[1]), val<uint16_t>(args[2]), val<uint16_t>(args[3]), val<bool>(args[4]) ); }, { { "tileset", var(mud::WaveTileset()) }, { "width", var(uint16_t()) }, { "height", var(uint16_t()) }, { "depth", var(uint16_t()) }, { "periodic", var(bool()) } } }
-            },
-            // copy constructor
-            {
-                { type<mud::TileWave>(), [](Ref ref, Ref other) { new(&val<mud::TileWave>(ref)) mud::TileWave(val<mud::TileWave>(other)); } }
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::TileWave>();
-    }
-    
-    
-        
     // mud::WaveTileset
     {
         static Meta meta = { type<mud::WaveTileset>(), &namspc({ "mud" }), "WaveTileset", sizeof(mud::WaveTileset), TypeClass::Struct };
@@ -499,6 +465,40 @@ namespace mud
         
         
         meta_class<mud::WaveTileset>();
+    }
+    
+    
+        
+    // mud::TileWave
+    {
+        static Meta meta = { type<mud::TileWave>(), &namspc({ "mud" }), "TileWave", sizeof(mud::TileWave), TypeClass::Struct };
+        static Class cls = { type<mud::TileWave>(),
+            // bases
+            { &type<mud::Wave>() },
+            { base_offset<mud::TileWave, mud::Wave>() },
+            // constructors
+            {
+                { type<mud::TileWave>(), [](Ref ref, array<Var> args) { new(&val<mud::TileWave>(ref)) mud::TileWave( val<mud::WaveTileset>(args[0]), val<uint16_t>(args[1]), val<uint16_t>(args[2]), val<uint16_t>(args[3]), val<bool>(args[4]) ); }, { { "tileset", var(mud::WaveTileset()) }, { "width", var(uint16_t()) }, { "height", var(uint16_t()) }, { "depth", var(uint16_t()) }, { "periodic", var(bool()) } } }
+            },
+            // copy constructor
+            {
+                { type<mud::TileWave>(), [](Ref ref, Ref other) { new(&val<mud::TileWave>(ref)) mud::TileWave(val<mud::TileWave>(other)); } }
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::TileWave>();
     }
     
     
@@ -553,8 +553,8 @@ namespace mud
         m.m_types.push_back(&type<mud::Tileset>());
         m.m_types.push_back(&type<mud::Wave>());
         m.m_types.push_back(&type<std::vector<mud::Image256>>());
-        m.m_types.push_back(&type<mud::TileWave>());
         m.m_types.push_back(&type<mud::WaveTileset>());
+        m.m_types.push_back(&type<mud::TileWave>());
         m.m_types.push_back(&type<mud::array_3d<float>>());
     
         {

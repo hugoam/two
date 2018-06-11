@@ -6,7 +6,7 @@
 
 /* toy */
 #include <snd/Sound.h>
-#include <snd/Generated/Forward.h>
+#include <snd/Forward.h>
 #include <string>
 
 namespace mud

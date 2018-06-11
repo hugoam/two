@@ -1,0 +1,18 @@
+#include <cpp/preimport.h>
+
+#include <obj/Config.h>
+
+export module _00_tutorial.refl;
+export import std.core;
+export import std.io;
+export import std.threading;
+export import std.regex;
+
+export import mud.infra;
+export import mud.obj;
+export import mud.pool;
+export import mud.refl;
+export import _00_tutorial;
+
+#include <meta/00_tutorial/Api.h>
+

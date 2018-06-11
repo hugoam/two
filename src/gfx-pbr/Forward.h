@@ -4,6 +4,7 @@
 
 #include <infra/Config.h>
 
+#include <infra/Forward.h>
 #include <obj/Forward.h>
 #include <srlz/Forward.h>
 #include <math/Forward.h>
@@ -38,10 +39,12 @@ namespace glm {
     
 }
 
-namespace bgfx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace json11 {
@@ -110,12 +113,10 @@ namespace detail {
 }
 }
 
-namespace mud {
-namespace gfx {
+namespace bgfx {
 
     
     
-}
 }
 
 namespace bimg {

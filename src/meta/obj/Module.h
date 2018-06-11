@@ -21,13 +21,13 @@
 
 namespace mud
 {
-	export_ class MUD_OBJ_REFL_EXPORT mudobj : public Module
+	export_ class MUD_OBJ_REFL_EXPORT mud_obj : public Module
 	{
 	private:
-		mudobj();
+		mud_obj();
 
 	public:
-		static mudobj& m() { static mudobj instance; return instance; }
+		static mud_obj& m() { static mud_obj instance; return instance; }
 	};
 }
 

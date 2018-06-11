@@ -13,7 +13,7 @@
 
 namespace mud
 {
-    void mudmath_meta(Module& m)
+    void mud_math_meta(Module& m)
     {   
     // Base Types
     

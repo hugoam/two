@@ -6,6 +6,7 @@
 #endif
 
 #ifndef MUD_MODULES
+#include <meta/infra/Module.h>
 #include <meta/obj/Module.h>
 #include <meta/srlz/Module.h>
 #include <meta/math/Module.h>
@@ -24,13 +25,13 @@
 
 namespace mud
 {
-	export_ class MUD_PROCGEN_REFL_EXPORT mudprocgen : public Module
+	export_ class MUD_PROCGEN_REFL_EXPORT mud_procgen : public Module
 	{
 	private:
-		mudprocgen();
+		mud_procgen();
 
 	public:
-		static mudprocgen& m() { static mudprocgen instance; return instance; }
+		static mud_procgen& m() { static mud_procgen instance; return instance; }
 	};
 }
 

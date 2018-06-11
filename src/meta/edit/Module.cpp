@@ -14,22 +14,25 @@ module mud.edit;
 
 namespace mud
 {
-	mudedit::mudedit()
+	mud_edit::mud_edit()
 		: Module("mud::edit")
 	{
         // ensure dependencies are instantiated
-        mudobj::m();
-        mudsrlz::m();
-        mudmath::m();
-        mudgeom::m();
-        mudlang::m();
-        mudui::m();
-        muduio::m();
-        mudgfx::m();
-        mudgfxpbr::m();
+        mud_infra::m();
+        mud_obj::m();
+        mud_refl::m();
+        mud_srlz::m();
+        mud_lang::m();
+        mud_math::m();
+        mud_geom::m();
+        mud_ctx::m();
+        mud_ui::m();
+        mud_uio::m();
+        mud_gfx::m();
+        mud_gfx_pbr::m();
 
         // setup reflection meta data
-		mudedit_meta(*this);
+		mud_edit_meta(*this);
 	}
 }
 
@@ -37,6 +40,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudedit::m();
+	return mud_edit::m();
 }
 #endif

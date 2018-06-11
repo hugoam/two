@@ -5,7 +5,7 @@
 #pragma once
 
 /* toy */
-#include <snd/Generated/Forward.h>
+#include <snd/Forward.h>
 
 namespace mud
 {

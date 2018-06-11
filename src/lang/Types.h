@@ -8,7 +8,9 @@
 #endif
 
 #ifndef MUD_MODULES
+#include <infra/Types.h>
 #include <obj/Types.h>
+#include <pool/Types.h>
 #include <refl/Types.h>
 #endif
 
@@ -30,12 +32,10 @@ namespace mud
     export_ template <> MUD_LANG_EXPORT Type& type<mud::Process>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::StreamBranch>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::Valve>();
+    export_ template <> MUD_LANG_EXPORT Type& type<mud::Script>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessFunction>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessMethod>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessScript>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::Stream>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::LuaScript>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessCallable>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessCreate>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessDisplay>();
@@ -44,5 +44,7 @@ namespace mud
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessValue>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessInput>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessOutput>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::Script>();
+    export_ template <> MUD_LANG_EXPORT Type& type<mud::Stream>();
+    export_ template <> MUD_LANG_EXPORT Type& type<mud::LuaScript>();
+    export_ template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>();
 }

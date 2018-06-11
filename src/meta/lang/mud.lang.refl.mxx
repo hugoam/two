@@ -1,0 +1,22 @@
+#include <cpp/preimport.h>
+
+#include <obj/Config.h>
+
+export module mud.lang.refl;
+export import std.core;
+export import std.io;
+export import std.threading;
+export import std.regex;
+
+export import mud.infra;
+export import mud.obj;
+export import mud.pool;
+export import mud.refl;
+export import mud.infra;
+export import mud.obj;
+export import mud.pool;
+export import mud.refl;
+export import mud.lang;
+
+#include <meta/lang/Api.h>
+

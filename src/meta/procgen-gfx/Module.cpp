@@ -14,22 +14,24 @@ module mud.procgen-gfx;
 
 namespace mud
 {
-	mudprocgen_gfx::mudprocgen_gfx()
+	mud_procgen_gfx::mud_procgen_gfx()
 		: Module("mud::procgen-gfx")
 	{
         // ensure dependencies are instantiated
-        mudobj::m();
-        mudsrlz::m();
-        mudmath::m();
-        mudgeom::m();
-        mudprocgen::m();
-        mudui::m();
-        muduio::m();
-        mudgfx::m();
-        mudedit::m();
+        mud_infra::m();
+        mud_obj::m();
+        mud_srlz::m();
+        mud_math::m();
+        mud_geom::m();
+        mud_procgen::m();
+        mud_ctx::m();
+        mud_ui::m();
+        mud_uio::m();
+        mud_gfx::m();
+        mud_edit::m();
 
         // setup reflection meta data
-		mudprocgen_gfx_meta(*this);
+		mud_procgen_gfx_meta(*this);
 	}
 }
 
@@ -37,6 +39,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudprocgen_gfx::m();
+	return mud_procgen_gfx::m();
 }
 #endif

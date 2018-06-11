@@ -3,7 +3,7 @@
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
-module .ex_15_script;
+module ._15_script;
 #else
 #include <15_script/Types.h>
 #include <15_script/Api.h>

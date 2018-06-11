@@ -28,10 +28,7 @@ namespace mud
     % endfor
     
     % for c in module.classes :
-        % if c.reflect and c.isProto:
-    template <> ${ module.export } Prototype& proto<${ c.id }>() { static Prototype ty("${ c.id }", ${ type_get(c.parts[0]) }, { ${ ', '.join([type_get_pt(part) for part in c.parts[1:]]) } }); return ty; }
-    template <> ${ module.export } Type& type<${ c.id }>() { return proto<${ c.id }>(); }
-        % elif c.reflect and not c.nested and c.id != 'mud::Type' and c.id != 'mud::Prototype':
+        % if c.reflect and not c.nested and c.id != 'mud::Type':
     template <> ${ module.export } Type& type<${ c.id }>() { static Type ty("${ c.name }"${ ", " + type_get(c.bases[0]) if c.bases else '' }); return ty; }
         % endif
     % endfor

@@ -14,15 +14,16 @@ module mud.refl;
 
 namespace mud
 {
-	mudrefl::mudrefl()
+	mud_refl::mud_refl()
 		: Module("mud::refl")
 	{
         // ensure dependencies are instantiated
-        mudobj::m();
-        mudpool::m();
+        mud_infra::m();
+        mud_obj::m();
+        mud_pool::m();
 
         // setup reflection meta data
-		mudrefl_meta(*this);
+		mud_refl_meta(*this);
 	}
 }
 
@@ -30,6 +31,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudrefl::m();
+	return mud_refl::m();
 }
 #endif

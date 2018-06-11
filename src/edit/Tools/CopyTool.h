@@ -39,8 +39,6 @@ namespace mud
 		void update(const vec3& position);
 		void end();
 
-		virtual object_ptr<TransformAction> create_action(const std::vector<Transform*>& transforms);
-
 	private:
 		object_ptr<CopyAction> m_action;
 	};

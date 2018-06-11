@@ -2,7 +2,10 @@
 
 #include <infra/Api.h>
 #include <obj/Api.h>
+#include <pool/Api.h>
+#include <tree/Api.h>
 #include <math/Api.h>
+#include <geom/Api.h>
 #include <lang/Api.h>
 #include <ui/Api.h>
 #include <uio/Api.h>

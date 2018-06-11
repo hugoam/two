@@ -14,16 +14,21 @@ module mud.uio;
 
 namespace mud
 {
-	muduio::muduio()
+	mud_uio::mud_uio()
 		: Module("mud::uio")
 	{
         // ensure dependencies are instantiated
-        mudobj::m();
-        mudlang::m();
-        mudui::m();
+        mud_infra::m();
+        mud_obj::m();
+        mud_pool::m();
+        mud_refl::m();
+        mud_math::m();
+        mud_lang::m();
+        mud_ctx::m();
+        mud_ui::m();
 
         // setup reflection meta data
-		muduio_meta(*this);
+		mud_uio_meta(*this);
 	}
 }
 
@@ -31,6 +36,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return muduio::m();
+	return mud_uio::m();
 }
 #endif

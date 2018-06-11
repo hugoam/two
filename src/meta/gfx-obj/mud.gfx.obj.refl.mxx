@@ -1,0 +1,24 @@
+#include <cpp/preimport.h>
+
+#include <obj/Config.h>
+
+export module mud.gfx.obj.refl;
+export import std.core;
+export import std.io;
+export import std.threading;
+export import std.regex;
+
+export import mud.infra;
+export import mud.obj;
+export import mud.pool;
+export import mud.refl;
+export import mud.infra;
+export import mud.obj;
+export import mud.srlz;
+export import mud.math;
+export import mud.geom;
+export import mud.gfx;
+export import mud.gfx.obj;
+
+#include <meta/gfx-obj/Api.h>
+

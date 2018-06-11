@@ -14,15 +14,15 @@ module mud.geom;
 
 namespace mud
 {
-	mudgeom::mudgeom()
+	mud_geom::mud_geom()
 		: Module("mud::geom")
 	{
         // ensure dependencies are instantiated
-        mudobj::m();
-        mudmath::m();
+        mud_obj::m();
+        mud_math::m();
 
         // setup reflection meta data
-		mudgeom_meta(*this);
+		mud_geom_meta(*this);
 	}
 }
 
@@ -30,6 +30,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudgeom::m();
+	return mud_geom::m();
 }
 #endif

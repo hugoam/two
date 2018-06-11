@@ -13,7 +13,7 @@
 
 namespace mud
 {
-    void mudgfx_meta(Module& m)
+    void mud_gfx_meta(Module& m)
     {   
     // Base Types
     
@@ -279,8 +279,6 @@ namespace mud
         cls.m_content = &type<mud::PrefabNode>();
         meta_sequence<std::vector<mud::PrefabNode>, mud::PrefabNode>();
     }
-    
-    
     
     
     
@@ -619,10 +617,6 @@ namespace mud
     
     
     
-    
-    
-    
-    
         
     // mud::Environment
     {
@@ -657,9 +651,6 @@ namespace mud
         
         meta_class<mud::Environment>();
     }
-    
-    
-    
     
     
     
@@ -726,7 +717,6 @@ namespace mud
         
         meta_class<mud::FrameBuffer>();
     }
-    
     
     
         
@@ -932,7 +922,6 @@ namespace mud
     
     
     
-    
         
     // mud::ImmediateDraw
     {
@@ -963,8 +952,6 @@ namespace mud
         
         meta_class<mud::ImmediateDraw>();
     }
-    
-    
     
     
         
@@ -1206,7 +1193,6 @@ namespace mud
     }
     
     
-    
         
     // mud::Mesh
     {
@@ -1361,7 +1347,6 @@ namespace mud
         
         meta_class<mud::Node3>();
     }
-    
     
     
     
@@ -1632,7 +1617,6 @@ namespace mud
     
     
     
-    
         
     // mud::Radiance
     {
@@ -1769,7 +1753,6 @@ namespace mud
         
         meta_class<mud::Rig>();
     }
-    
     
     
     
@@ -2015,9 +1998,6 @@ namespace mud
     }
     
     
-    
-    
-    
         
     // mud::Transform
     {
@@ -2052,8 +2032,6 @@ namespace mud
         
         meta_class<mud::Transform>();
     }
-    
-    
     
     
     
@@ -2096,8 +2074,6 @@ namespace mud
     
     
     
-    
-    
         
     // mud::Viewport
     {
@@ -2134,6 +2110,38 @@ namespace mud
         
         
         meta_class<mud::Viewport>();
+    }
+    
+    
+        
+    // mud::RenderTarget
+    {
+        static Meta meta = { type<mud::RenderTarget>(), &namspc({ "mud" }), "RenderTarget", sizeof(mud::RenderTarget), TypeClass::Object };
+        static Class cls = { type<mud::RenderTarget>(),
+            // bases
+            { &type<mud::FrameBuffer>() },
+            { base_offset<mud::RenderTarget, mud::FrameBuffer>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::RenderTarget>();
     }
     
     
@@ -2331,38 +2339,6 @@ namespace mud
     
     
         
-    // mud::RenderTarget
-    {
-        static Meta meta = { type<mud::RenderTarget>(), &namspc({ "mud" }), "RenderTarget", sizeof(mud::RenderTarget), TypeClass::Object };
-        static Class cls = { type<mud::RenderTarget>(),
-            // bases
-            { &type<mud::FrameBuffer>() },
-            { base_offset<mud::RenderTarget, mud::FrameBuffer>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::RenderTarget>();
-    }
-    
-    
-        
     // mud::ParticleEmitter
     {
         static Meta meta = { type<mud::ParticleEmitter>(), &namspc({ "mud" }), "ParticleEmitter", sizeof(mud::ParticleEmitter), TypeClass::Struct };
@@ -2469,13 +2445,13 @@ namespace mud
         m.m_types.push_back(&type<mud::UnshadedMaterialBlock>());
         m.m_types.push_back(&type<mud::Viewport>());
         m.m_types.push_back(&type<std::vector<mud::PrefabNode>>());
+        m.m_types.push_back(&type<mud::RenderTarget>());
         m.m_types.push_back(&type<mud::BlockCopy>());
         m.m_types.push_back(&type<mud::BlockFilter>());
         m.m_types.push_back(&type<mud::BlockParticles>());
         m.m_types.push_back(&type<mud::BlockResolve>());
         m.m_types.push_back(&type<mud::BlockSky>());
         m.m_types.push_back(&type<mud::DrawBlock>());
-        m.m_types.push_back(&type<mud::RenderTarget>());
         m.m_types.push_back(&type<mud::ParticleEmitter>());
     
         {

@@ -14,14 +14,14 @@ module mud.obj;
 
 namespace mud
 {
-	mudobj::mudobj()
+	mud_obj::mud_obj()
 		: Module("mud::obj")
 	{
         // ensure dependencies are instantiated
-        mudinfra::m();
+        mud_infra::m();
 
         // setup reflection meta data
-		mudobj_meta(*this);
+		mud_obj_meta(*this);
 	}
 }
 
@@ -29,6 +29,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudobj::m();
+	return mud_obj::m();
 }
 #endif

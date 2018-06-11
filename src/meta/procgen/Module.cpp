@@ -14,17 +14,18 @@ module mud.procgen;
 
 namespace mud
 {
-	mudprocgen::mudprocgen()
+	mud_procgen::mud_procgen()
 		: Module("mud::procgen")
 	{
         // ensure dependencies are instantiated
-        mudobj::m();
-        mudsrlz::m();
-        mudmath::m();
-        mudgeom::m();
+        mud_infra::m();
+        mud_obj::m();
+        mud_srlz::m();
+        mud_math::m();
+        mud_geom::m();
 
         // setup reflection meta data
-		mudprocgen_meta(*this);
+		mud_procgen_meta(*this);
 	}
 }
 
@@ -32,6 +33,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudprocgen::m();
+	return mud_procgen::m();
 }
 #endif

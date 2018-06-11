@@ -11,16 +11,12 @@ function uses_mud_gfx()
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "glm"),
     }
-    
-    uses_bgfx()
 end
 
 function mud_gfx()
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "json11"),
     }
-    
-    uses_bgfx()
 end
 
 function mud_gfx_gltf()
@@ -54,7 +50,7 @@ function mud_procgen()
 end
 
 --                           base   name            root path    sub path       decl    self decl       decl transitive     dependencies
-mud.gfx         = mud_module("mud", "gfx",          MUD_SRC_DIR, "gfx",         nil,    nil,            uses_mud_gfx,       { json11, mud.infra, mud.obj, mud.pool, mud.refl, mud.srlz, mud.math, mud.geom, mud.ctx, mud.ui, mud.ctxbackend, mud.uibackend, mud.bgfx })
+mud.gfx         = mud_module("mud", "gfx",          MUD_SRC_DIR, "gfx",         nil,    nil,            uses_mud_gfx,       { json11, bgfx, mud.infra, mud.obj, mud.pool, mud.refl, mud.srlz, mud.math, mud.geom, mud.ctx, mud.ui, mud.ctxbackend, mud.uibackend, mud.bgfx })
 
 mud.gfx.pbr     = mud_module("mud", "gfx-pbr",      MUD_SRC_DIR, "gfx-pbr",     nil,    nil,            nil,                { mud.infra, mud.obj, mud.srlz, mud.math, mud.geom, mud.gfx })
 mud.gfx.obj     = mud_module("mud", "gfx-obj",      MUD_SRC_DIR, "gfx-obj",     nil,    nil,            nil,                { mud.infra, mud.obj, mud.srlz, mud.math, mud.geom, mud.gfx })

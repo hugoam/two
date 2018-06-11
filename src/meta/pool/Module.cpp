@@ -14,14 +14,15 @@ module mud.pool;
 
 namespace mud
 {
-	mudpool::mudpool()
+	mud_pool::mud_pool()
 		: Module("mud::pool")
 	{
         // ensure dependencies are instantiated
-        mudobj::m();
+        mud_infra::m();
+        mud_obj::m();
 
         // setup reflection meta data
-		mudpool_meta(*this);
+		mud_pool_meta(*this);
 	}
 }
 
@@ -29,6 +30,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudpool::m();
+	return mud_pool::m();
 }
 #endif

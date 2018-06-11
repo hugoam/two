@@ -36,9 +36,10 @@ namespace mud
 			Pointer = (1 << 0),
 			Mutable = (1 << 1),
 			Structure = (1 << 2),
-			Link = (1 << 3),
-			Value = (1 << 4),
-			Id = (1 << 5),
+			Component = (1 << 3),
+			Link = (1 << 4),
+			Value = (1 << 5),
+			Id = (1 << 6),
 		};
 
 	public:
@@ -60,6 +61,7 @@ namespace mud
 		bool is_pointer() const { return (m_flags & Pointer) != 0; }
 		bool is_mutable() const { return (m_flags & Mutable) != 0; }
 		bool is_structure() const { return (m_flags & Structure) != 0; }
+		bool is_component() const { return (m_flags & Component) != 0; }
 		bool is_link() const { return (m_flags & Link) != 0; }
 		bool is_value() const { return (m_flags & Value) != 0; }
 

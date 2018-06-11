@@ -23,6 +23,4 @@ export import mud.gfx;
 export import mud.edit;
 
 #include <procgen-gfx/Api.h>
-#include <procgen-gfx/Refl/Module.h>
-#include <procgen-gfx/Refl/Convert.h>
 

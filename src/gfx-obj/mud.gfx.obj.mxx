@@ -16,6 +16,4 @@ export import mud.geom;
 export import mud.gfx;
 
 #include <gfx-obj/Api.h>
-#include <gfx-obj/Refl/Module.h>
-#include <gfx-obj/Refl/Convert.h>
 

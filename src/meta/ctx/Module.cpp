@@ -14,15 +14,16 @@ module mud.ctx;
 
 namespace mud
 {
-	mudctx::mudctx()
+	mud_ctx::mud_ctx()
 		: Module("mud::ctx")
 	{
         // ensure dependencies are instantiated
-        mudobj::m();
-        mudmath::m();
+        mud_infra::m();
+        mud_obj::m();
+        mud_math::m();
 
         // setup reflection meta data
-		mudctx_meta(*this);
+		mud_ctx_meta(*this);
 	}
 }
 
@@ -30,6 +31,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudctx::m();
+	return mud_ctx::m();
 }
 #endif

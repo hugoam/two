@@ -8,7 +8,9 @@
 #endif
 
 #ifndef MUD_MODULES
+#include <infra/Types.h>
 #include <obj/Types.h>
+#include <refl/Types.h>
 #include <srlz/Types.h>
 #include <math/Types.h>
 #include <geom/Types.h>

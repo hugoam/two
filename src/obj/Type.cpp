@@ -39,23 +39,16 @@ namespace mud
 
 	Type::Type(int)
 		: m_id(1)
-		, m_type(*this)
-		, m_kind(TypeKind::Type)
 		, m_name("Type")
 	{}
 
 	Type::Type()
 		: m_id(0)
-		, m_type(*this)
-		, m_kind(TypeKind::Type)
 		, m_name("")
 	{}
 
-	Type::Type(const char* name, TypeKind kind)
+	Type::Type(const char* name)
 		: m_id(s_type_index++)
-		//, m_type(kind == TypeKind::Prototype ? Prototype::type() : Type::type())
-		, m_type(Type::type())
-		, m_kind(kind)
 		, m_name(name)
 	{
 		printf("DEBUG: Type %s %i\n", name, int(m_id));
@@ -64,8 +57,8 @@ namespace mud
 			printf("WARNING: Invalid type created, this means an lref was created for a type which isn't exported\n");
 	}
 	
-	Type::Type(const char* name, Type& base, TypeKind kind)
-		: Type(name, kind)
+	Type::Type(const char* name, Type& base)
+		: Type(name)
 	{
 		m_base = &base;
 	}

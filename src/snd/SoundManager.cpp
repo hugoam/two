@@ -5,7 +5,7 @@
 
 #include <snd/SoundManager.h>
 
-#include <obj/Vector.h>
+#include <infra/Vector.h>
 
 /* OpenAL */
 #include <al.h>

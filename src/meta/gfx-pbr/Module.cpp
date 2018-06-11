@@ -1,7 +1,7 @@
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
-module mud.gfxpbr;
+module mud.gfx-pbr;
 #else
 #include <meta/gfx-pbr/Module.h>
 #endif
@@ -14,18 +14,19 @@ module mud.gfxpbr;
 
 namespace mud
 {
-	mudgfxpbr::mudgfxpbr()
-		: Module("mud::gfxpbr")
+	mud_gfx_pbr::mud_gfx_pbr()
+		: Module("mud::gfx-pbr")
 	{
         // ensure dependencies are instantiated
-        mudobj::m();
-        mudsrlz::m();
-        mudmath::m();
-        mudgeom::m();
-        mudgfx::m();
+        mud_infra::m();
+        mud_obj::m();
+        mud_srlz::m();
+        mud_math::m();
+        mud_geom::m();
+        mud_gfx::m();
 
         // setup reflection meta data
-		mudgfxpbr_meta(*this);
+		mud_gfx_pbr_meta(*this);
 	}
 }
 
@@ -33,6 +34,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudgfxpbr::m();
+	return mud_gfx_pbr::m();
 }
 #endif

@@ -68,6 +68,8 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::UiWindow>() { static Type ty("UiWindow"); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::User>() { static Type ty("User"); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Widget>() { static Type ty("Widget"); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::RowSolver>() { static Type ty("RowSolver", type<mud::FrameSolver>()); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::LineSolver>() { static Type ty("LineSolver", type<mud::RowSolver>()); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Sprite>() { static Type ty("Sprite", type<mud::Image>()); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::SpriteAtlas>() { static Type ty("SpriteAtlas", type<mud::ImageAtlas>()); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Frame>() { static Type ty("Frame", type<mud::UiRect>()); return ty; }
@@ -85,9 +87,7 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::Table>() { static Type ty("Table", type<mud::Widget>()); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::TextEdit>() { static Type ty("TextEdit", type<mud::Widget>()); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::TreeNode>() { static Type ty("TreeNode", type<mud::Widget>()); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::RowSolver>() { static Type ty("RowSolver", type<mud::FrameSolver>()); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::LineSolver>() { static Type ty("LineSolver", type<mud::RowSolver>()); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Window>() { static Type ty("Window", type<mud::Dockable>()); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Dockbar>() { static Type ty("Dockbar", type<mud::Docker>()); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Dockspace>() { static Type ty("Dockspace", type<mud::Docker>()); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::Window>() { static Type ty("Window", type<mud::Dockable>()); return ty; }
 }

@@ -1,7 +1,23 @@
 -- mud toolchain
 
 MUD_STATIC = true
+FORCE_REFL_PROJECTS = false
 
+MODULES = {}
+
+if not MUD_DIR then
+    MUD_DIR = path.getabsolute("..")
+end
+MUD_SRC_DIR    = path.join(MUD_DIR, "src")
+
+MUD_3RDPARTY_DIR = path.join(MUD_DIR, "3rdparty")
+
+BX_DIR   = path.join(MUD_3RDPARTY_DIR, "bx")
+BGFX_DIR = path.join(MUD_3RDPARTY_DIR, "bgfx")
+BIMG_DIR = path.join(MUD_3RDPARTY_DIR, "bimg")
+
+json = dofile(path.join(MUD_3RDPARTY_DIR, "jsonlua/json.lua"))
+    
 function file_exists(name)
     local f = io.open(name, "r")
     if f ~= nil then
@@ -199,7 +215,7 @@ function mud_mxx(cpps, m)
     cxxmodule(cxxmodules)
 end
 
-function mud_dep(namespace, name, cppmodule)
+function mud_dep(namespace, name, cppmodule, usage_decl)
     local m = {
         project = nil,
         cppmodule = cppmodule,
@@ -207,6 +223,7 @@ function mud_dep(namespace, name, cppmodule)
         name = name,
         dotname = string.gsub(name, "-", "."),
         idname = string.gsub(name, "-", "_"),
+        usage_decl = usage_decl,
     }
     
     if namespace then
@@ -260,33 +277,24 @@ function mud_module(namespace, name, rootpath, subpath, decl, self_decl, usage_d
     return m
 end
 
-function mud_refl(m)
+function mud_refl(m, force_project)
     deps = { mud.infra, mud.obj, mud.pool, mud.refl }
     table.extend(deps, m.deps)
     table.extend(deps, { m })
     m.refl = mud_module(m.namespace, m.name .. "-refl", m.root, path.join("meta", m.subdir), mud_refl_decl, m.self_decl, m.usage_decl, deps)
-    table.insert(MODULES_PY, path.join(m.path, "module.py"))
+    m.refl.force_project = force_project
+    return m.refl
 end
 
-function mud_refls(modules)
+function mud_refls(modules, force_project)
     refls = {}
     for _, m in ipairs(modules) do
-        mud_refl(m)
-        table.insert(refls, m.refl)
+        table.insert(refls, mud_refl(m, force_project))
     end
     return refls
 end
 
-depended = {}
-
 function mud_depend(m)
-    if depended[project().name] and depended[project().name][m.idname] then
-        return
-    end
-    
-    depended[project().name] = depended[project().name] or {}
-    depended[project().name][m.idname] = true
-    
     --print(project().name .. " depends on " .. m.idname)
     if m.usage_decl then
         m.usage_decl()
@@ -366,7 +374,7 @@ function mud_module_decl(m, as_project)
 end
 
 function mud_refl_decl(m)
-    mud_module_decl(m, true)
+    mud_module_decl(m, m.force_project)
 end
 
 function mud_amalgamate(modules)
@@ -397,29 +405,31 @@ end
 function mud_write_mxx(m)
 	local f, err = io.open(path.join(m.path, m.dotname .. ".mxx"), "wb")
     io.output(f)
-        
-    io.printf("#include <cpp/preimport.h>")
-    io.printf("")
-    io.printf("#include <obj/Config.h>")
-    io.printf("")
-    io.printf("export module " .. m.dotname .. ";")
-    io.printf("export import std.core;")
-    io.printf("export import std.io;")
-    io.printf("export import std.threading;")
-    io.printf("export import std.regex;")
-    io.printf("")
+    
+    local p = io.printf
+    p("#include <cpp/preimport.h>")
+    p("")
+    p("#include <obj/Config.h>")
+    p("")
+    p("export module " .. m.dotname .. ";")
+    p("export import std.core;")
+    p("export import std.io;")
+    p("export import std.threading;")
+    p("export import std.regex;")
+    p("")
     for _, dep in ipairs(m.deps or {}) do
         if dep.cppmodule then
-            io.printf("export import " .. dep.dotname .. ";")
+            p("export import " .. dep.dotname .. ";")
         end
     end
-    io.printf("")
-    io.printf("#include <" .. m.subdir .. "/Api.h>")
+    p("")
+    p("#include <" .. m.subdir .. "/Api.h>")
     if m.reflect then
-        io.printf("#include <meta/" .. m.subdir .. "/Module.h>")
-        io.printf("#include <meta/" .. m.subdir .. "/Convert.h>")
+        p("#include <meta/" .. m.subdir .. "/Module.h>")
+        p("#include <meta/" .. m.subdir .. "/Convert.h>")
     end
-    io.printf("")
+    p("")
+    
     f:close()
 end
 
@@ -428,6 +438,58 @@ function mud_bootstrap(modules)
         mud_write_api(m)
         mud_write_mxx(m)
     end
+end
+
+function mud_reflect(modules)
+    local current = {}
+    includedirs = function(dirs)
+        for _, dir in ipairs(dirs) do
+            if not table.contains(current.includedirs, dir) then
+                --print("includedir " .. dir)
+                table.insert(current.includedirs, dir)
+            end
+        end
+    end
+    
+    local temp_refl_path = path.join(BUILD_DIR, "refl")
+    local jsons = {}
+    for _, m in ipairs(modules) do
+        if m.refl then
+            --print('mud reflect ' .. m.idname)
+            current = {
+                namespace = iif(m.namespace, m.namespace, ''),
+                name = m.name,
+                dotname = m.dotname,
+                idname = m.idname,
+                root = m.root,
+                subdir = m.subdir,
+                path = m.path,
+                basetypes = m.basetypes,
+                aliases = m.aliases,
+                dependencies = {},
+                includedirs = {},
+            }
+            
+            for i, dep in ipairs(m.deps or {}) do
+                if dep.refl then
+                    table.insert(current.dependencies, dep.idname)
+                end
+            end
+            
+            -- trick to collect the includes
+            m.refl.decl(m.refl, true)
+            
+            local json_path = path.join(temp_refl_path, m.idname .. "_refl.json")
+            local f, err = io.open(json_path, "wb")
+            io.output(f)
+            io.printf(json.encode(current))
+            f:close()
+            
+            table.insert(jsons, json_path)
+        end
+    end
+    
+    os.execute(path.join(MUD_DIR, "src/refl/Metagen", "generator.py") .. " " .. table.concat(jsons, " "))
 end
 
 newaction {
@@ -442,7 +504,7 @@ newaction {
     trigger     = "reflect",
     description = "Generate reflection",
     execute     = function()
-        os.execute(path.join(MUD_DIR, "src/refl/Metagen", "generator.py") .. " " .. table.concat(MODULES_PY, " "))
+        mud_reflect(MODULES)
     end
 }
 
@@ -479,6 +541,16 @@ newoption {
     description = "Build mud library with Sound.",
 }
 
+--newoption {
+--    trigger = "renderer",
+--    --value = "toolset",
+--    description = "UI renderer",
+--    allowed = {
+--        { "bgfx",   "bgfx UI renderer"      },
+--        { "gl",     "OpenGL UI renderer"    },
+--    },
+--}
+
 newoption {
     trigger = "renderer-bgfx",
     description = "Use bgfx UI renderer",
@@ -486,7 +558,7 @@ newoption {
 
 newoption {
     trigger = "renderer-gl",
-    description = "Use OpenGL UI renderer",
+    description = "Use ",
 }
 
 newoption {
@@ -518,20 +590,6 @@ newoption {
     trigger = "vg-nanovg",
     description = "Use NanoVG",
 }
-
-MODULES = {}
-MODULES_PY = {}
-
-if not MUD_DIR then
-    MUD_DIR = path.getabsolute("..")
-end
-MUD_SRC_DIR    = path.join(MUD_DIR, "src")
-
-MUD_3RDPARTY_DIR = path.join(MUD_DIR, "3rdparty")
-
-BX_DIR   = path.join(MUD_3RDPARTY_DIR, "bx")
-BGFX_DIR = path.join(MUD_3RDPARTY_DIR, "bgfx")
-BIMG_DIR = path.join(MUD_3RDPARTY_DIR, "bimg")
 
 dofile("toolchain.lua")
 

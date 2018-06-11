@@ -20,8 +20,7 @@ export import mud.ctx;
 export import mud.ui;
 export import mud.ctx.glfw;
 export import mud.ui.vg;
+export import mud.bgfx;
 
 #include <gfx/Api.h>
-#include <gfx/Refl/Module.h>
-#include <gfx/Refl/Convert.h>
 

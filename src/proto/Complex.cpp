@@ -2,15 +2,14 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <obj/Cpp20.h>
+#include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
-module mud.obj;
+module mud.proto;
 #else
-#include <obj/Config.h>
-#include <obj/Complex.h>
 #include <obj/Indexer.h>
-#include <obj/Proto.h>
+#include <proto/Complex.h>
+#include <proto/Proto.h>
 #endif
 
 namespace mud
@@ -28,7 +27,7 @@ namespace mud
 	}
 
 	Construct::Construct(Complex& stem, Prototype& prototype)
-		: m_type(prototype), m_stem(stem), m_prototype(prototype)
+		: m_type(prototype.m_type), m_stem(stem), m_prototype(prototype)
 	{
 		m_stem.m_construct = this;
 	}

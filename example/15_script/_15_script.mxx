@@ -10,6 +10,4 @@ export import std.regex;
 
 
 #include <15_script/Api.h>
-#include <15_script/Refl/Module.h>
-#include <15_script/Refl/Convert.h>
 

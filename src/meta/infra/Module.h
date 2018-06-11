@@ -20,13 +20,13 @@
 
 namespace mud
 {
-	export_ class MUD_INFRA_REFL_EXPORT mudinfra : public Module
+	export_ class MUD_INFRA_REFL_EXPORT mud_infra : public Module
 	{
 	private:
-		mudinfra();
+		mud_infra();
 
 	public:
-		static mudinfra& m() { static mudinfra instance; return instance; }
+		static mud_infra& m() { static mud_infra instance; return instance; }
 	};
 }
 

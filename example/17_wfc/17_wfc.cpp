@@ -49,10 +49,13 @@ void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& scene = viewer.m_scene->begin();
 
 	static WaveTileset& tileset = create_tileset(app);
-	static Tileblock tileblock = { app.m_gfx_system, { 20, 4, 20 }, Unit3, tileset };
+	static Tileblock tileblock = { { 20, 4, 20 }, Unit3, tileset };
 	static uvec3 highlighted = uvec3(UINT32_MAX);
 	static uvec3 selected = uvec3(UINT32_MAX);
 	static uvec3 focused = uvec3(UINT32_MAX);
+
+	if(tileblock.m_tile_models.empty())
+		tileblock.load_models(app.m_gfx_system);
 
 	gfx::directional_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);

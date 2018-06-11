@@ -30,7 +30,6 @@ namespace mud
     template <> MUD_OBJ_EXPORT Type& type<unsigned long long>() { static Type ty("unsigned long long"); return ty; }
     template <> MUD_OBJ_EXPORT Type& type<unsigned short>() { static Type ty("unsigned short"); return ty; }
     template <> MUD_OBJ_EXPORT Type& type<void>() { static Type ty("void"); return ty; }
-    template <> MUD_OBJ_EXPORT Type& type<mud::TypeKind>() { static Type ty("mud::TypeKind"); return ty; }
     template <> MUD_OBJ_EXPORT Type& type<mud::VarMode>() { static Type ty("mud::VarMode"); return ty; }
     
     template <> MUD_OBJ_EXPORT Type& type<mud::Index>() { static Type ty("Index"); return ty; }

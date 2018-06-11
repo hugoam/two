@@ -6,14 +6,6 @@
 #endif
 
 #ifndef MUD_MODULES
-#include <meta/obj/Module.h>
-#include <meta/math/Module.h>
-#include <meta/ui/Module.h>
-#include <meta/uio/Module.h>
-#include <meta/gfx/Module.h>
-#include <meta/edit/Module.h>
-#include <meta/procgen/Module.h>
-#include <meta/procgen-gfx/Module.h>
 #endif
         
 #include <00_tutorial/Forward.h>
@@ -26,13 +18,13 @@
 #define _00_TUTORIAL_REFL_EXPORT MUD_IMPORT
 #endif
 
-	export_ class _00_TUTORIAL_REFL_EXPORT ex_00_tutorial : public Module
+	export_ class _00_TUTORIAL_REFL_EXPORT _00_tutorial : public Module
 	{
 	private:
-		ex_00_tutorial();
+		_00_tutorial();
 
 	public:
-		static ex_00_tutorial& m() { static ex_00_tutorial instance; return instance; }
+		static _00_tutorial& m() { static _00_tutorial instance; return instance; }
 	};
 
 #ifdef _00_TUTORIAL_MODULE

@@ -13,7 +13,7 @@
 
 namespace mud
 {
-    void mudprocgen_gfx_meta(Module& m)
+    void mud_procgen_gfx_meta(Module& m)
     {   
     // Base Types
     
@@ -66,7 +66,7 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::Tileblock>(), [](Ref ref, array<Var> args) { new(&val<mud::Tileblock>(ref)) mud::Tileblock( val<mud::GfxSystem>(args[0]), val<mud::uvec3>(args[1]), val<mud::vec3>(args[2]), val<mud::WaveTileset>(args[3]) ); }, { { "gfx_system", Ref(type<mud::GfxSystem>()) }, { "size", var(mud::uvec3()) }, { "period", var(mud::vec3()) }, { "tileset", var(mud::WaveTileset()) } } }
+                { type<mud::Tileblock>(), [](Ref ref, array<Var> args) { new(&val<mud::Tileblock>(ref)) mud::Tileblock( val<mud::uvec3>(args[0]), val<mud::vec3>(args[1]), val<mud::WaveTileset>(args[2]) ); }, { { "size", var(mud::uvec3()) }, { "period", var(mud::vec3()) }, { "tileset", var(mud::WaveTileset()) } } }
             },
             // copy constructor
             {

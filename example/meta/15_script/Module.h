@@ -6,14 +6,6 @@
 #endif
 
 #ifndef MUD_MODULES
-#include <meta/obj/Module.h>
-#include <meta/math/Module.h>
-#include <meta/ui/Module.h>
-#include <meta/uio/Module.h>
-#include <meta/gfx/Module.h>
-#include <meta/edit/Module.h>
-#include <meta/procgen/Module.h>
-#include <meta/procgen-gfx/Module.h>
 #endif
         
 #include <15_script/Forward.h>
@@ -26,13 +18,13 @@
 #define _15_SCRIPT_REFL_EXPORT MUD_IMPORT
 #endif
 
-	export_ class _15_SCRIPT_REFL_EXPORT ex_15_script : public Module
+	export_ class _15_SCRIPT_REFL_EXPORT _15_script : public Module
 	{
 	private:
-		ex_15_script();
+		_15_script();
 
 	public:
-		static ex_15_script& m() { static ex_15_script instance; return instance; }
+		static _15_script& m() { static _15_script instance; return instance; }
 	};
 
 #ifdef _15_SCRIPT_MODULE

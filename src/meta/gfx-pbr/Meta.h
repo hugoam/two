@@ -13,7 +13,7 @@
 
 namespace mud
 {
-    void mudgfxpbr_meta(Module& m)
+    void mud_gfx_pbr_meta(Module& m)
     {   
     // Base Types
     

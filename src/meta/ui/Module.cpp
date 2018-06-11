@@ -14,17 +14,19 @@ module mud.ui;
 
 namespace mud
 {
-	mudui::mudui()
+	mud_ui::mud_ui()
 		: Module("mud::ui")
 	{
         // ensure dependencies are instantiated
-        mudobj::m();
-        mudsrlz::m();
-        mudmath::m();
-        mudctx::m();
+        mud_infra::m();
+        mud_obj::m();
+        mud_refl::m();
+        mud_srlz::m();
+        mud_math::m();
+        mud_ctx::m();
 
         // setup reflection meta data
-		mudui_meta(*this);
+		mud_ui_meta(*this);
 	}
 }
 
@@ -32,6 +34,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudui::m();
+	return mud_ui::m();
 }
 #endif

@@ -5,8 +5,6 @@ function mud_ui_vg()
     includedirs {
         path.join(MUD_NANOVG_DIR, "src"),
     }
-    
-    uses_bgfx()
 end
 
 function uses_mud_ui_vg()
@@ -28,8 +26,6 @@ function mud_ui_nanovg()
         path.join(MUD_NANOVG_DIR, "src/nanovg.c"),
         path.join(MUD_NANOVG_DIR, "src/nanovg_bgfx.cpp"),
     }
-    
-    uses_bgfx()
 end
 
 function uses_mud_ui_nanovg()
@@ -38,9 +34,9 @@ function uses_mud_ui_nanovg()
     }
 end
 
-mud.ui.vg       = mud_module("mud", "ui-vg",           MUD_SRC_DIR, "ui-vg",           nil,     mud_ui_vg,      uses_mud_ui_vg,         { vg, mud.infra, mud.obj, mud.math, mud.ui })
+mud.ui.vg       = mud_module("mud", "ui-vg",           MUD_SRC_DIR, "ui-vg",           nil,     mud_ui_vg,      uses_mud_ui_vg,         { bgfx, vg, mud.infra, mud.obj, mud.math, mud.ui })
 mud.ui.nanovg   = mud_module("mud", "ui-nanovg",       MUD_SRC_DIR, "ui-nanovg",       nil,     nil,            nil,                    {})
-mud.ui.nanobgfx = mud_module("mud", "ui-nanovg-bgfx",  MUD_SRC_DIR, "ui-nanovg-bgfx",  nil,     mud_ui_nanovg,  uses_mud_ui_nanovg,     { mud.infra, mud.obj, mud.math, mud.ui })
+mud.ui.nanobgfx = mud_module("mud", "ui-nanovg-bgfx",  MUD_SRC_DIR, "ui-nanovg-bgfx",  nil,     mud_ui_nanovg,  uses_mud_ui_nanovg,     { bgfx, mud.infra, mud.obj, mud.math, mud.ui })
     
 function mud_ui_backend()
     if _OPTIONS["vg-vg"] then

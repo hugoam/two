@@ -6,7 +6,7 @@
 
 /* toy */
 #include <math/Vec.h>
-#include <snd/Generated/Forward.h>
+#include <snd/Forward.h>
 
 namespace mud
 {

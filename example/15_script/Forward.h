@@ -4,14 +4,6 @@
 
 #include <infra/Config.h>
 
-#include <obj/Forward.h>
-#include <math/Forward.h>
-#include <ui/Forward.h>
-#include <uio/Forward.h>
-#include <gfx/Forward.h>
-#include <edit/Forward.h>
-#include <procgen/Forward.h>
-#include <procgen-gfx/Forward.h>
 
 #ifndef _15_SCRIPT_EXPORT
 #define _15_SCRIPT_EXPORT MUD_IMPORT
@@ -42,10 +34,12 @@ namespace glm {
     
 }
 
-namespace bgfx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace json11 {
@@ -68,15 +62,19 @@ namespace detail {
 }
 }
 
-namespace mud {
-namespace gfx {
+namespace bgfx {
 
     
     
-}
 }
 
 namespace bimg {
+
+    
+    
+}
+
+namespace toy {
 
     
     

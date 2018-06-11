@@ -16,7 +16,6 @@
 
 namespace mud {
 
-    enum class TypeKind : unsigned int;
     enum VarMode : unsigned int;
     
     

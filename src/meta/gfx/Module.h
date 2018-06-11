@@ -6,10 +6,15 @@
 #endif
 
 #ifndef MUD_MODULES
+#include <meta/infra/Module.h>
 #include <meta/obj/Module.h>
+#include <meta/pool/Module.h>
+#include <meta/refl/Module.h>
 #include <meta/srlz/Module.h>
 #include <meta/math/Module.h>
 #include <meta/geom/Module.h>
+#include <meta/ctx/Module.h>
+#include <meta/ui/Module.h>
 #endif
         
 #include <gfx/Forward.h>
@@ -24,13 +29,13 @@
 
 namespace mud
 {
-	export_ class MUD_GFX_REFL_EXPORT mudgfx : public Module
+	export_ class MUD_GFX_REFL_EXPORT mud_gfx : public Module
 	{
 	private:
-		mudgfx();
+		mud_gfx();
 
 	public:
-		static mudgfx& m() { static mudgfx instance; return instance; }
+		static mud_gfx& m() { static mud_gfx instance; return instance; }
 	};
 }
 

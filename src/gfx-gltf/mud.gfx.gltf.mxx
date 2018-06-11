@@ -18,6 +18,4 @@ export import mud.geom;
 export import mud.gfx;
 
 #include <gfx-gltf/Api.h>
-#include <gfx-gltf/Refl/Module.h>
-#include <gfx-gltf/Refl/Convert.h>
 

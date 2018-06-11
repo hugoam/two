@@ -22,18 +22,12 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 		bool operator==(const Address& other) const;
 	};
 
-	export_ enum class refl_ TypeKind : unsigned int
-	{
-		Type,
-		Prototype
-	};
-
 	export_ class refl_ MUD_OBJ_EXPORT Type
 	{
 	public:
 		explicit Type();
-		explicit Type(const char* name, TypeKind kind = TypeKind::Type);
-		explicit Type(const char* name, Type& base, TypeKind kind = TypeKind::Type);
+		explicit Type(const char* name);
+		explicit Type(const char* name, Type& base);
 		~Type();
 
 		Type(Type&) = delete;
@@ -42,8 +36,6 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 		Type(Type&&) = delete;
 
 		attr_ Id m_id;
-		attr_ Type& m_type;
-		attr_ TypeKind m_kind;
 		attr_ cstring m_name;
 		attr_ Type* m_base = nullptr;
 

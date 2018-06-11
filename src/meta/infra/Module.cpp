@@ -14,13 +14,13 @@ module mud.infra;
 
 namespace mud
 {
-	mudinfra::mudinfra()
+	mud_infra::mud_infra()
 		: Module("mud::infra")
 	{
         // ensure dependencies are instantiated
 
         // setup reflection meta data
-		mudinfra_meta(*this);
+		mud_infra_meta(*this);
 	}
 }
 
@@ -28,6 +28,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudinfra::m();
+	return mud_infra::m();
 }
 #endif

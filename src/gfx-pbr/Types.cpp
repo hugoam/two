@@ -3,7 +3,7 @@
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
-module mud.gfxpbr;
+module mud.gfx-pbr;
 #else
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/Api.h>

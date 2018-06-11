@@ -101,6 +101,7 @@ mud.infra   = mud_module("mud", "infra",    MUD_SRC_DIR, "infra",   nil,        
 mud.obj     = mud_module("mud", "obj",      MUD_SRC_DIR, "obj",     nil,        nil,            uses_mud,           { mud.infra })
 mud.pool    = mud_module("mud", "pool",     MUD_SRC_DIR, "pool",    nil,        nil,            nil,                { mud.infra, mud.obj })
 mud.refl    = mud_module("mud", "refl",     MUD_SRC_DIR, "refl",    nil,        nil,            nil,                { mud.infra, mud.obj, mud.pool })
+mud.proto   = mud_module("mud", "proto",    MUD_SRC_DIR, "proto",   nil,        nil,            uses_mud,           { mud.infra, mud.obj, mud.refl })
 mud.tree    = mud_module("mud", "tree",     MUD_SRC_DIR, "tree",    nil,        nil,            nil,                { mud.infra })
 mud.srlz    = mud_module("mud", "srlz",     MUD_SRC_DIR, "srlz",    nil,        mud_srlz,       nil,                { json11, mud.infra, mud.obj, mud.refl })
 mud.math    = mud_module("mud", "math",     MUD_SRC_DIR, "math",    nil,        mud_math,       uses_mud_math,      { json11, mud.infra, mud.obj, mud.refl, mud.srlz })
@@ -113,17 +114,28 @@ else
     mud.ui  = mud_module("mud", "ui",       MUD_SRC_DIR, "ui",      nil,        mud_ui,         nil,                { json11, stb.image, stb.rect_pack, mud.infra, mud.obj, mud.refl, mud.srlz, mud.math, mud.ctx })
 end
 mud.uio     = mud_module("mud", "uio",      MUD_SRC_DIR, "uio",     nil,        nil,            nil,                { mud.infra, mud.tree, mud.obj, mud.pool, mud.refl, mud.math, mud.lang, mud.ctx, mud.ui })
+mud.snd     = mud_module("mud", "snd",      MUD_SRC_DIR, "snd",     nil,        mud_snd,        nil,                { mud.obj, mud.math })
 --mud_sys(true)
 --mud_vec(true)
---mud.db    = mud_module(as_project, "mud", "db", MUD_SRC_DIR, "db", { mud.obj, mud.util })
-
-mud.snd     = mud_module("mud", "snd",      MUD_SRC_DIR, "snd",     nil,        mud_snd,        nil,                { mud.obj })
+--mud.db = mud_module(as_project, "mud", "db", MUD_SRC_DIR, "db", { mud.obj, mud.util })
 
 
-mud.core = { mud.infra, mud.obj, mud.pool, mud.refl, mud.tree, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio }
 --mud.usage_decl = uses_mud
 
-table.extend(mud.core, mud_refls({ mud.infra, mud.obj, mud.pool, mud.refl, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio }))
+if _OPTIONS["as-libs"] then
+    FORCE_REFL_PROJECTS = true
+end
+
+mud.obj.basetypes = { 'void', 'bool', 'short', 'int', 'long', 'long long', 'float', 'double', 'char', 'unsigned char', 'unsigned short', 'unsigned int', 'unsigned long', 'unsigned long long', 'std::string', 'cstring' }
+mud.obj.aliases = { ['mud::string'] = 'std::string', ['string'] = 'std::string', ['mud::cstring'] = 'cstring' }
+
+if _OPTIONS["sound"] then
+    mud.core = { mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.tree, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio, mud.snd }
+    table.extend(mud.core, mud_refls({ mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio, mud.snd }, FORCE_REFL_PROJECTS))
+else
+    mud.core = { mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.tree, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio }
+    table.extend(mud.core, mud_refls({ mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio }, FORCE_REFL_PROJECTS))
+end
 
 if _OPTIONS["as-libs"] then
     group "lib/mud"

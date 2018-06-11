@@ -4,7 +4,9 @@
 
 #include <infra/Config.h>
 
+#include <infra/Forward.h>
 #include <obj/Forward.h>
+#include <pool/Forward.h>
 #include <refl/Forward.h>
 
 #ifndef MUD_LANG_EXPORT

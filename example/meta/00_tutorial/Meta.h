@@ -13,7 +13,7 @@
 
 namespace mud
 {
-    void ex_00_tutorial_meta(Module& m)
+    void _00_tutorial_meta(Module& m)
     {   
     // Base Types
     

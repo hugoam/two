@@ -109,6 +109,7 @@ def member_flags(c, member):
              ('Member::Value' if member.cls.struct and not member.pointer else None),
              ('Member::Mutable' if member.mutable else None),
              ('Member::Structure' if member.structure else None),
+             ('Member::Component' if member.component else None),
              ('Member::Link' if member.link or member.pointer else None)]
     flags = [flag for flag in flags if flag is not None]
     if len(flags) == 0: return 'Member::None'

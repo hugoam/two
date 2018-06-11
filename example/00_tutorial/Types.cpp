@@ -3,7 +3,7 @@
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
-module .ex_00_tutorial;
+module ._00_tutorial;
 #else
 #include <00_tutorial/Types.h>
 #include <00_tutorial/Api.h>

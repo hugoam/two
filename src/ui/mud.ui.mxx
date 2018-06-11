@@ -9,7 +9,6 @@ export import std.threading;
 export import std.regex;
 
 export import json11;
-export import stb.image;
 export import stb.rect_pack;
 export import mud.infra;
 export import mud.obj;
@@ -19,6 +18,4 @@ export import mud.math;
 export import mud.ctx;
 
 #include <ui/Api.h>
-#include <ui/Refl/Module.h>
-#include <ui/Refl/Convert.h>
 

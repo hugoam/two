@@ -36,10 +36,7 @@ namespace mud
     % endfor
     
     % for c in module.classes :
-        % if c.isProto:
-    export_ template <> ${ module.export } Prototype& proto<${ c.id }>();
-        % endif
-        % if c.reflect and not c.nested and c.id != 'mud::Type' and c.id != 'mud::Prototype':
+        % if c.reflect and not c.nested and c.id != 'mud::Type':
     export_ template <> ${ module.export } Type& type<${ c.id }>();
         % endif
     % endfor

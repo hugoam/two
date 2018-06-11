@@ -37,7 +37,6 @@ namespace mud
     export_ template <> MUD_OBJ_EXPORT Type& type<unsigned long long>();
     export_ template <> MUD_OBJ_EXPORT Type& type<unsigned short>();
     export_ template <> MUD_OBJ_EXPORT Type& type<void>();
-    export_ template <> MUD_OBJ_EXPORT Type& type<mud::TypeKind>();
     export_ template <> MUD_OBJ_EXPORT Type& type<mud::VarMode>();
     
     export_ template <> MUD_OBJ_EXPORT Type& type<mud::Index>();

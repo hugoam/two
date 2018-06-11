@@ -14,15 +14,16 @@ module mud.srlz;
 
 namespace mud
 {
-	mudsrlz::mudsrlz()
+	mud_srlz::mud_srlz()
 		: Module("mud::srlz")
 	{
         // ensure dependencies are instantiated
-        mudobj::m();
-        mudrefl::m();
+        mud_infra::m();
+        mud_obj::m();
+        mud_refl::m();
 
         // setup reflection meta data
-		mudsrlz_meta(*this);
+		mud_srlz_meta(*this);
 	}
 }
 
@@ -30,6 +31,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudsrlz::m();
+	return mud_srlz::m();
 }
 #endif

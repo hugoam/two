@@ -14,15 +14,17 @@ module mud.math;
 
 namespace mud
 {
-	mudmath::mudmath()
+	mud_math::mud_math()
 		: Module("mud::math")
 	{
         // ensure dependencies are instantiated
-        mudobj::m();
-        mudsrlz::m();
+        mud_infra::m();
+        mud_obj::m();
+        mud_refl::m();
+        mud_srlz::m();
 
         // setup reflection meta data
-		mudmath_meta(*this);
+		mud_math_meta(*this);
 	}
 }
 
@@ -30,6 +32,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudmath::m();
+	return mud_math::m();
 }
 #endif

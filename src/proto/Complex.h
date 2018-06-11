@@ -4,9 +4,10 @@
 
 #pragma once
 
+#include <infra/Generic.h>
 #include <obj/Ref.h>
-#include <obj/Proto.h>
-#include <obj/Generic.h>
+#include <proto/Proto.h>
+#include <proto/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <vector>
@@ -14,7 +15,9 @@
 
 namespace mud
 {
-	export_ class refl_ MUD_OBJ_EXPORT Complex
+	class Construct;
+
+	export_ class refl_ MUD_PROTO_EXPORT Complex
 	{
 	public:
 		Complex(Id id, Type& type, Prototype& prototype);

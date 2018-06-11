@@ -6,8 +6,8 @@
 
 #ifndef MUD_MODULES
 #include <infra/Array.h>
-#include <obj/Var.h>
 #include <infra/NonCopy.h>
+#include <obj/Any.h>
 #include <obj/Unique.h>
 #endif
 #include <lang/Forward.h>
@@ -40,13 +40,13 @@ namespace mud
 		string flush();
 
 		template <class T>
-		T get(cstring name) { return get(name, type<T>()).template val<T>(); }
+		T get(cstring name) { return val<T>(get(name, type<T>())); }
 
 		template <class T>
-		T getx(array<cstring> path) { return getx(path, type<T>()).template val<T>(); }
+		T getx(array<cstring> path) { return val<T>(getx(path, type<T>())); }
 
 		template <class T>
-		T call(cstring expr) { return call(expr, &type<T>()).template val<T>(); }
+		T call(cstring expr) { return val<T>(call(expr, &type<T>())); }
 
 		string m_output;
 

@@ -14,15 +14,17 @@ module mud.lang;
 
 namespace mud
 {
-	mudlang::mudlang()
+	mud_lang::mud_lang()
 		: Module("mud::lang")
 	{
         // ensure dependencies are instantiated
-        mudobj::m();
-        mudrefl::m();
+        mud_infra::m();
+        mud_obj::m();
+        mud_pool::m();
+        mud_refl::m();
 
         // setup reflection meta data
-		mudlang_meta(*this);
+		mud_lang_meta(*this);
 	}
 }
 
@@ -30,6 +32,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudlang::m();
+	return mud_lang::m();
 }
 #endif

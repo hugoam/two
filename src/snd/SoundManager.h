@@ -4,18 +4,16 @@
 
 #pragma once
 
-/* toy */
-#include <obj/NonCopy.h>
+#include <infra/NonCopy.h>
 #include <obj/Unique.h>
-#include <obj/Util/Timer.h>
-#include <math/Vec.h>
 #include <obj/Util/LocklessQueue.h>
-#include <snd/Generated/Forward.h>
+#include <math/Timer.h>
+#include <math/Vec.h>
+#include <snd/Forward.h>
 #include <snd/SoundImplementer.h>
 #include <snd/SoundListener.h>
 #include <snd/Sound.h>
 
-/* std */
 #include <string>
 #include <list>
 #include <vector>

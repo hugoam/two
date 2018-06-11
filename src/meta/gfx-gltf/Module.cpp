@@ -1,7 +1,7 @@
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
-module mud.gfxgltf;
+module mud.gfx-gltf;
 #else
 #include <meta/gfx-gltf/Module.h>
 #endif
@@ -14,18 +14,20 @@ module mud.gfxgltf;
 
 namespace mud
 {
-	mudgfxgltf::mudgfxgltf()
-		: Module("mud::gfxgltf")
+	mud_gfx_gltf::mud_gfx_gltf()
+		: Module("mud::gfx-gltf")
 	{
         // ensure dependencies are instantiated
-        mudobj::m();
-        mudsrlz::m();
-        mudmath::m();
-        mudgeom::m();
-        mudgfx::m();
+        mud_infra::m();
+        mud_obj::m();
+        mud_refl::m();
+        mud_srlz::m();
+        mud_math::m();
+        mud_geom::m();
+        mud_gfx::m();
 
         // setup reflection meta data
-		mudgfxgltf_meta(*this);
+		mud_gfx_gltf_meta(*this);
 	}
 }
 
@@ -33,6 +35,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mudgfxgltf::m();
+	return mud_gfx_gltf::m();
 }
 #endif

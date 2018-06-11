@@ -8,8 +8,13 @@
 #endif
 
 #ifndef MUD_MODULES
+#include <infra/Types.h>
 #include <obj/Types.h>
+#include <pool/Types.h>
+#include <refl/Types.h>
+#include <math/Types.h>
 #include <lang/Types.h>
+#include <ctx/Types.h>
 #include <ui/Types.h>
 #endif
 

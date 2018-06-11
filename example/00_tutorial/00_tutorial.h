@@ -5,6 +5,7 @@
 #pragma once
 
 #include <mud/Forward.h>
+#include <mud/mud.h>
 
 using namespace mud;
 

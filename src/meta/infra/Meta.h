@@ -13,7 +13,7 @@
 
 namespace mud
 {
-    void mudinfra_meta(Module& m)
+    void mud_infra_meta(Module& m)
     {   
     // Base Types
     

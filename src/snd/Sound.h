@@ -4,34 +4,18 @@
 
 #pragma once
 
-/* toy */
-#include <snd/Generated/Forward.h>
+#include <snd/Forward.h>
+#include <snd/Structs.h>
 #include <math/Vec.h>
 
-/* std */
 #include <list>
 #include <functional>
 #include <stdint.h>
 
-typedef struct ALCdevice_struct ALCdevice;
-typedef struct ALCcontext_struct ALCcontext;
-
-typedef char ALboolean;
-typedef char ALchar;
-typedef char ALbyte;
-typedef unsigned char ALubyte;
-typedef short ALshort;
-typedef unsigned short ALushort;
-typedef int ALint;
-typedef unsigned int ALuint;
-typedef int ALsizei;
-typedef int ALenum;
-typedef float ALfloat;
-typedef double ALdouble;
-typedef void ALvoid;
-
 namespace mud
 {
+	class Sound;
+
 	using cstring = const char*;
 	using SoundCallback = std::function<void(Sound&)>;
 

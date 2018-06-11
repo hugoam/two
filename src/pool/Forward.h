@@ -4,6 +4,7 @@
 
 #include <infra/Config.h>
 
+#include <infra/Forward.h>
 #include <obj/Forward.h>
 
 #ifndef MUD_POOL_EXPORT

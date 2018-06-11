@@ -8,10 +8,15 @@
 #endif
 
 #ifndef MUD_MODULES
+#include <infra/Types.h>
 #include <obj/Types.h>
+#include <pool/Types.h>
+#include <refl/Types.h>
 #include <srlz/Types.h>
 #include <math/Types.h>
 #include <geom/Types.h>
+#include <ctx/Types.h>
+#include <ui/Types.h>
 #endif
 
 #ifndef MUD_CPP_20
@@ -103,12 +108,12 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Transform>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::UnshadedMaterialBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Viewport>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockCopy>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockFilter>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockParticles>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockResolve>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockSky>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ParticleEmitter>();
 }

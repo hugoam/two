@@ -13,7 +13,7 @@
 
 namespace mud
 {
-    void mudobj_meta(Module& m)
+    void mud_obj_meta(Module& m)
     {   
     // Base Types
     {
@@ -98,17 +98,6 @@ namespace mud
     
     
     // Enums
-    {
-        static Meta meta = { type<mud::TypeKind>(), &namspc({ "mud" }), "TypeKind", sizeof(mud::TypeKind), TypeClass::Enum };
-        static Enum enu = { type<mud::TypeKind>(),
-            true,
-            { "Type", "Prototype" },
-            { 0, 1 },
-            { var(TypeKind::Type), var(TypeKind::Prototype) }
-        };
-        meta_enum<mud::TypeKind>();
-    }
-    
     
     // Sequences
     {
@@ -274,8 +263,6 @@ namespace mud
             // members
             {
                 { type<mud::Type>(), member_address(&mud::Type::m_id), type<mud::Id>(), "id", var(mud::Id()), Member::Value },
-                { type<mud::Type>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::None },
-                { type<mud::Type>(), member_address(&mud::Type::m_kind), type<mud::TypeKind>(), "kind", var(mud::TypeKind()), Member::Value },
                 { type<mud::Type>(), member_address(&mud::Type::m_name), type<cstring>(), "name", var(cstring()), Member::Value },
                 { type<mud::Type>(), member_address(&mud::Type::m_base), type<mud::Type>(), "base", Ref(type<mud::Type>()), Member::Flags(Member::Pointer|Member::Link) }
             },
@@ -334,7 +321,6 @@ namespace mud
         m.m_types.push_back(&type<mud::None>());
         m.m_types.push_back(&type<mud::Ref>());
         m.m_types.push_back(&type<mud::Type>());
-        m.m_types.push_back(&type<mud::TypeKind>());
         m.m_types.push_back(&type<mud::Var>());
         m.m_types.push_back(&type<bool>());
         m.m_types.push_back(&type<char>());

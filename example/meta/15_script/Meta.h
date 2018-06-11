@@ -13,7 +13,7 @@
 
 namespace mud
 {
-    void ex_15_script_meta(Module& m)
+    void _15_script_meta(Module& m)
     {   
     // Base Types
     

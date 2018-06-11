@@ -23,7 +23,7 @@ namespace mud
 	export_ class refl_ MUD_PROCGEN_GFX_EXPORT Tileblock : public Updatable
 	{
 	public:
-		constr_ Tileblock(GfxSystem& gfx_system, const uvec3& size, const vec3& period, WaveTileset& tileset);
+		constr_ Tileblock(const uvec3& size, const vec3& period, WaveTileset& tileset);
 
 		attr_ uvec3 m_size;
 		attr_ vec3 m_period;

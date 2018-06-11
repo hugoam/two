@@ -24,7 +24,7 @@ def namespace_end(n):
 #define ${ module.export } MUD_IMPORT
 #endif
 
-% for key, n in module.root.namespaces.iteritems() :
+% for key, n in module.context.namespaces.iteritems() :
 ${ namespace_begin(n) }
     % for e in module.enums :
         % if e.parent == n :
