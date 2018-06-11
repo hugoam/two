@@ -215,7 +215,7 @@ function mud_mxx(cpps, m)
     cxxmodule(cxxmodules)
 end
 
-function mud_dep(namespace, name, cppmodule, usage_decl)
+function mud_dep(namespace, name, cppmodule, usage_decl, deps)
     local m = {
         project = nil,
         cppmodule = cppmodule,
@@ -224,6 +224,7 @@ function mud_dep(namespace, name, cppmodule, usage_decl)
         dotname = string.gsub(name, "-", "."),
         idname = string.gsub(name, "-", "_"),
         usage_decl = usage_decl,
+        deps = deps,
     }
     
     if namespace then

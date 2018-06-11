@@ -78,8 +78,8 @@ function uses_shaderc()
     }
 end
 
-bx = mud_dep(nil, "bx", false, uses_bx)
-bimg = mud_dep(nil, "bimg", false, uses_bimg)
-bimg.decode = mud_dep(nil, "bimg_decode", false, uses_bimg)
-bgfx = mud_dep(nil, "bgfx", false, uses_bgfx)
-shaderc = mud_dep(nil, "shaderc", false, uses_shaderc)
+bx          = mud_dep(nil, "bx",            false, uses_bx)
+bimg        = mud_dep(nil, "bimg",          false, uses_bimg)
+bimg.decode = mud_dep(nil, "bimg_decode",   false, uses_bimg)
+bgfx        = mud_dep(nil, "bgfx",          false, uses_bgfx,   { bx })
+shaderc     = mud_dep(nil, "shaderc",       false, uses_shaderc)
