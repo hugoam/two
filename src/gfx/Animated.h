@@ -11,9 +11,7 @@
 #include <gfx/Animation.h>
 #include <gfx/Skeleton.h>
 
-#ifndef MUD_GENERATOR_SKIP_INCLUDES
 #include <bgfx/bgfx.h>
-#endif
 
 namespace mud
 {

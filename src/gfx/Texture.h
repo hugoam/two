@@ -11,10 +11,8 @@
 #endif
 #include <gfx/Forward.h>
 
-#ifndef MUD_GENERATOR_SKIP_INCLUDES
 #include <bgfx/bgfx.h>
 #include <bimg/bimg.h>
-#endif
 
 #ifndef MUD_MODULES
 namespace bx

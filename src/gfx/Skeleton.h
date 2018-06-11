@@ -11,9 +11,7 @@
 #include <gfx/Node3.h>
 #include <gfx/Animation.h>
 
-#ifndef MUD_GENERATOR_SKIP_INCLUDES
 #include <bgfx/bgfx.h>
-#endif
 
 #ifndef MUD_CPP_20
 #include <vector>

@@ -12,9 +12,7 @@
 #include <gfx/Forward.h>
 #include <gfx/Renderer.h>
 
-#ifndef MUD_GENERATOR_SKIP_INCLUDES
 #include <bgfx/bgfx.h>
-#endif
 
 namespace mud
 {

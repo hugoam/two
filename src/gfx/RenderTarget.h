@@ -14,9 +14,7 @@
 #include <gfx/Uniform.h>
 #endif
 
-#ifndef MUD_GENERATOR_SKIP_INCLUDES
 #include <bgfx/bgfx.h>
-#endif
 
 namespace mud
 {

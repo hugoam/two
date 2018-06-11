@@ -8,6 +8,7 @@
 module mud.ui;
 #else
 #include <math/VecOps.h>
+#include <math/Clamp.h>
 #include <ui/Input.h>
 #include <ui/Sheet.h>
 #include <ui/Container.h>
@@ -268,8 +269,11 @@ namespace
 
 	bool curve_graph(Widget& parent, array<float> values, array<float> points)
 	{
-		Widget& self = widget(parent, styles().curve_input);
-		Curve curve = { rect_size(self.m_frame.content_rect()), 0.f, 1.f, values, points };
+		const float lowest = 0.f;
+		const float highest = 1.f;
+
+		Widget& self = widget(parent, styles().curve_graph);
+		Curve curve = { rect_size(self.m_frame.content_rect()), lowest, highest, values, points };
 		
 		static size_t hovered = SIZE_MAX;
 		static size_t dragged = SIZE_MAX;
@@ -284,7 +288,7 @@ namespace
 			if(dragged != SIZE_MAX)
 			{
 				vec2 delta = mouse_event.m_delta / curve.m_scale;
-				curve.m_values[dragged] += delta.y;
+				curve.m_values[dragged] = std::clamp(curve.m_values[dragged] + delta.y, lowest, highest);
 			}
 
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Released))
@@ -294,6 +298,7 @@ namespace
 		{
 			UNUSED(rect);
 			Curve curve = { rect_size(rect), 0.f, 1.f, values, points };
+			renderer.draw_rect(rect, { Colour::DarkGrey });
 			draw_curve(Colour::NeonGreen, curve, hovered, renderer);
 			draw_points(Colour::NeonGreen, curve, hovered, renderer);
 		};

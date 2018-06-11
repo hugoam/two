@@ -12,9 +12,7 @@
 #include <gfx/Forward.h>
 #include <gfx/Texture.h>
 
-#ifndef MUD_GENERATOR_SKIP_INCLUDES
 #include <bgfx/bgfx.h>
-#endif
 
 #ifndef MUD_CPP_20
 #include <string>

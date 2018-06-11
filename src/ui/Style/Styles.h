@@ -22,7 +22,7 @@ namespace mud
 		Style dummy; Style tooltip; Style rectangle; Style type_in; Style text_edit; Style type_zone; Style caret; Style figure;
 		Style radio_switch; Style radio_switch_h; Style radio_choice; Style radio_choice_item;
 		Style slider; Style slider_knob; Style slider_display; Style fill_bar; Style number_input;
-		Style slider_input; Style field_input; Style curve_input; Style input_bool; Style input_string; Style input_color;
+		Style slider_input; Style field_input; Style curve_graph; Style curve_input; Style input_bool; Style input_string; Style input_color;
 		Style color_wheel; Style color_slab; Style color_display; Style color_toggle;
 		Style scrollsheet; Style scroll_zone; Style scroll_surface; Style scroll_plan; Style table; Style table_head; Style column_header;
 		Style popup; Style modal; Style color_popup;
