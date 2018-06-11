@@ -14,6 +14,7 @@ module mud.uio;
 #include <refl/Enum.h>
 #include <obj/DispatchDecl.h>
 #include <math/VecOps.h>
+#include <math/Curve.h>
 #include <ui/Input.h>
 #include <uio/Types.h>
 #include <uio/Edit/Value.h>
@@ -35,6 +36,69 @@ namespace mud
 		bool changed = false;
 		changed |= ui::slider_field<T>(self, "min", { value.m_min, def });
 		changed |= ui::slider_field<T>(self, "max", { value.m_max, def });
+		return changed;
+	}
+
+	template <class T>
+	bool curve_edit(Widget& parent, std::vector<T>& keys)
+	{
+		bool changed = false;
+		for(T& key : keys)
+			changed |= ui::input<T>(parent, key);
+		if(ui::button(parent, "+").activated())
+		{
+			changed = true;
+			keys.push_back(keys.back());
+		}
+		if(ui::button(parent, "-").activated() && keys.size() > 1)
+		{
+			changed = true;
+			vector_pop(keys);
+		}
+		return changed;
+	}
+
+	enum CurveEditSwitch
+	{
+		EDIT_CURVE = 1 << 0
+	};
+
+	template <>
+	bool curve_edit(Widget& parent, std::vector<float>& keys)
+	{
+		if(ui::modal_button(parent, parent, "+", EDIT_CURVE))
+		{
+			Widget& widget = ui::auto_modal(parent, EDIT_CURVE, { 300.f, 120.f });
+			ui::label(*widget.m_body, "Curve Editor");
+			return ui::curve_edit(*widget.m_body, array<float>(keys));
+		}
+
+		return false;
+	}
+
+	template <class T>
+	bool value_track_edit(Widget& parent, ValueTrack<T>& track)
+	{
+		Widget& self = ui::row(parent);
+		static cstring modes[4] = { "Constant", "ConstantRandom", "Curve", "CurveRandom" };
+
+		bool changed = false;
+		TrackMode mode = track.m_mode;
+		changed |= ui::dropdown_input(self, { modes, 4 }, (size_t&)mode, true);
+		if(changed)
+			track.set_mode(mode);
+
+		if(track.m_mode == TrackMode::Constant)
+			changed |= ui::input<T>(self, track.m_curve.m_keys[0]);
+		else if(track.m_mode == TrackMode::ConstantRandom)
+		{
+			changed |= ui::input<T>(self, track.m_min_curve.m_keys[0]);
+			changed |= ui::input<T>(self, track.m_max_curve.m_keys[0]);
+		}
+		else if(track.m_mode == TrackMode::Curve)
+		{
+			curve_edit<T>(self, track.m_curve.m_keys);
+		}
 		return changed;
 	}
 
@@ -67,6 +131,12 @@ namespace mud
 
 		dispatch_branch<Range<uint32_t>>(*this, value_input<Range<uint32_t>, range_edit<uint32_t>>);
 		dispatch_branch<Range<float>>(*this, value_input<Range<float>, range_edit<float>>);
+
+		dispatch_branch<ValueTrack<float>>(*this, value_input<ValueTrack<float>, value_track_edit<float>>);
+		dispatch_branch<ValueTrack<uint32_t>>(*this, value_input<ValueTrack<uint32_t>, value_track_edit<uint32_t>>);
+		dispatch_branch<ValueTrack<vec3>>(*this, value_input<ValueTrack<vec3>, value_track_edit<vec3>>);
+		dispatch_branch<ValueTrack<quat>>(*this, value_input<ValueTrack<quat>, value_track_edit<quat>>);
+		dispatch_branch<ValueTrack<Colour>>(*this, value_input<ValueTrack<Colour>, value_track_edit<Colour>>);
 
 		//dispatch_branch<AutoStat<int>>(valueWidget<AutoStat<int>, ui::slider_input<int>>);
 		//dispatch_branch<AutoStat<float>>(valueWidget<AutoStat<float>, ui::slider_input<float>>);

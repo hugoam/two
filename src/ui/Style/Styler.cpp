@@ -209,6 +209,7 @@ namespace mud
 		, number_input("NumberInput", row, {})
 		, slider_input("SliderInput", row, {})
 		, field_input("Field", wrap_control, {})
+		, curve_input("CurveInput", sheet, [](Layout& l) { l.m_opacity = OPAQUE; }, [](InkStyle& l) { l.m_empty = false; })
 		, input_bool("Input<bool>", wedge, [](Layout& l) { l.m_space = UNIT; })
 		, input_string("Input<string>", type_in, {})
 		, input_color("Input<Colour>", row, {})

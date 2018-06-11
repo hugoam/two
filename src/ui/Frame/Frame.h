@@ -81,6 +81,8 @@ namespace mud
 
 		void clamp_to_parent();
 
+		vec4 content_rect() const;
+
 		bool inside(const vec2& pos);
 		bool inside_abs(const vec2& pos) { return this->inside(local_position(pos)); }
 

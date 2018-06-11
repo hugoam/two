@@ -12,6 +12,7 @@ module mud.ui;
 #include <ui/Sheet.h>
 #include <ui/Container.h>
 #include <ui/Structs/Container.h>
+#include <ui/Structs/RootSheet.h>
 #include <ui/Render/Renderer.h>
 #include <ui/Container.h>
 #include <ui/Style/Skin.h>
@@ -204,6 +205,106 @@ namespace ui
 			self.m_open = !self.m_open;
 		if(self.m_open)
 			return color_popup(self, value, self.m_open);
+		return false;
+	}
+
+namespace
+{
+	struct Curve
+	{
+		Curve(const vec2& size, float min, float max, array<float> values, array<float> points)
+			: m_min(min), m_max(max), m_values(values), m_points(points)
+		{
+			m_scale = size * vec2{ 1.f, max - min };
+		}
+
+		float m_min;
+		float m_max;
+		array<float> m_values;
+		array<float> m_points;
+		vec2 m_scale;
+
+		vec2 point(size_t i)
+		{
+			float t = m_points.size() > 0 ? m_points[i] : i / float(m_values.size() - 1);
+			return m_scale * vec2{ t, (m_values[i] - m_min) };
+		}
+
+		size_t point_at(vec2 position)
+		{
+			const float margin = 8.f;
+			for(size_t i = 0; i < m_values.size(); ++i)
+				if(distance(point(i), position) < margin)
+					return i;
+			return SIZE_MAX;
+		}
+	};
+}
+
+	void draw_curve(const Colour& colour, Curve& curve, size_t hovered, VgRenderer& renderer)
+	{
+		float distance = 100.f;
+		Paint paint = { colour, 1.f };
+
+		for(size_t i = 0; i < curve.m_values.size() - 1; ++i)
+		{
+			vec2 begin = curve.point(i);
+			vec2 end = curve.point(i + 1);
+			renderer.path_bezier(begin, begin + vec2{ distance, 0.f }, end - vec2{ distance, 0.f }, end, false);
+			renderer.stroke(paint);
+		}
+	}
+
+	void draw_points(const Colour& colour, Curve& curve, size_t hovered, VgRenderer& renderer)
+	{
+		Paint paint = { colour, 1.f };
+
+		for(size_t i = 0; i < curve.m_values.size(); ++i)
+		{
+			renderer.path_circle(curve.point(i), 5.f);
+			renderer.stroke(hovered == i ? Paint{ Colour::White, 1.f } : paint);
+		}
+	}
+
+	bool curve_graph(Widget& parent, array<float> values, array<float> points)
+	{
+		Widget& self = widget(parent, styles().curve_input);
+		Curve curve = { rect_size(self.m_frame.content_rect()), 0.f, 1.f, values, points };
+		
+		static size_t hovered = SIZE_MAX;
+		static size_t dragged = SIZE_MAX;
+
+		if(self.root_sheet().m_hovered = &self)
+			hovered = curve.point_at(self.m_frame.local_position(self.root_sheet().m_mouse.m_pos));
+
+		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
+			dragged = curve.point_at(mouse_event.m_relative);
+
+		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+			if(dragged != SIZE_MAX)
+			{
+				vec2 delta = mouse_event.m_delta / curve.m_scale;
+				curve.m_values[dragged] += delta.y;
+			}
+
+		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Released))
+			dragged = SIZE_MAX;
+
+		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, VgRenderer& renderer)
+		{
+			UNUSED(rect);
+			Curve curve = { rect_size(rect), 0.f, 1.f, values, points };
+			draw_curve(Colour::NeonGreen, curve, hovered, renderer);
+			draw_points(Colour::NeonGreen, curve, hovered, renderer);
+		};
+
+		return false;
+	}
+
+	bool curve_edit(Widget& parent, array<float> values, array<float> points)
+	{
+		Widget& self = widget(parent, styles().curve_input);
+		curve_graph(self, values, points);
 		return false;
 	}
 }

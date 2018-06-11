@@ -156,10 +156,7 @@ namespace mud
 
 		if(mud::clip(frame))
 		{
-			vec4 rect = { floor(rect_offset(frame.d_inkstyle->m_margin)),
-						  floor(frame.m_size - rect_sum(frame.d_inkstyle->m_margin)) };
-
-			this->clip(rect);
+			this->clip(frame.content_rect());
 		}
 
 		if(mud::unclip(frame))
@@ -203,8 +200,7 @@ namespace mud
 
 	void VgRenderer::draw_frame(const Frame& frame)
 	{
-		vec4 rect = { floor(rect_offset(frame.d_inkstyle->m_margin)),
-					  floor(frame.m_size - rect_sum(frame.d_inkstyle->m_margin)) };
+		vec4 rect = frame.content_rect();
 
 		if(this->clipped(rect))
 			return;

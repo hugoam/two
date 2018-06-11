@@ -387,12 +387,6 @@ namespace mud
 	{
 		{
 			DispatchInput& dispatch = DispatchInput::me();
-			dispatch_branch<ValueTrack<float>>(dispatch, [](ValueTrack<float>& value, Widget& parent) { return value_track_edit<float>(parent, value); });
-			dispatch_branch<ValueTrack<uint32_t>>(dispatch, [](ValueTrack<uint32_t>& value, Widget& parent) { return value_track_edit<uint32_t>(parent, value); });
-			dispatch_branch<ValueTrack<vec3>>(dispatch, [](ValueTrack<vec3>& value, Widget& parent) { return value_track_edit<vec3>(parent, value); });
-			dispatch_branch<ValueTrack<quat>>(dispatch, [](ValueTrack<quat>& value, Widget& parent) { return value_track_edit<quat>(parent, value); });
-			dispatch_branch<ValueTrack<Colour>>(dispatch, [](ValueTrack<Colour>& value, Widget& parent) { return value_track_edit<Colour>(parent, value); });
-
 			dispatch_branch<ShapeVar>(dispatch, [](ShapeVar& object, Widget& parent) { return edit_shape(parent, object); });
 		}
 

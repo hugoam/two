@@ -234,6 +234,12 @@ namespace mud
 		}
 	}
 
+	vec4 Frame::content_rect() const
+	{
+		return { floor(rect_offset(d_inkstyle->m_margin)),
+				 floor(m_size - rect_sum(d_inkstyle->m_margin)) };
+	}
+
 	bool Frame::inside(const vec2& pos)
 	{
 		return (pos.x >= 0.f && pos.x <= m_size.x
