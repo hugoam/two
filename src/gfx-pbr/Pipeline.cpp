@@ -45,7 +45,7 @@ namespace mud
 		BlockDofBlur& dof_blur = pipeline.add_block<BlockDofBlur>(gfx_system, filter);
 		//BlockExposure& exposure = pipeline.add_block<BlockExposure>(gfx_system);
 		BlockGlow& glow = pipeline.add_block<BlockGlow>(gfx_system, filter, blur);
-		BlockTonemap& tonemap = pipeline.add_block<BlockTonemap>(gfx_system, filter);
+		BlockTonemap& tonemap = pipeline.add_block<BlockTonemap>(gfx_system, filter, copy);
 
 		pipeline.m_pass_blocks[size_t(PassType::Depth)] = { &depth };
 		pipeline.m_pass_blocks[size_t(PassType::Unshaded)] = { &depth };
@@ -79,7 +79,7 @@ namespace mud
 		this->add_pass<PassUnshaded>(gfx_system);
 		this->add_pass<PassEffects>(gfx_system);
 		this->add_pass<PassPostProcess>(gfx_system, *pipeline.block<BlockCopy>());
-		//this->add_pass<PassFlip>(gfx_system);
+		//this->add_pass<PassFlip>(gfx_system, *pipeline.block<BlockCopy>());
 		this->init();
 	}
 

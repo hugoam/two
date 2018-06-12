@@ -31,8 +31,6 @@ namespace mud
 		, m_context(context)
 		, m_vg(vg)
 		, m_renderer(vg)
-		//, m_context(system.create_context(name, width, height, fullScreen))
-		//, m_renderer(system.create_renderer(*m_context))
 		, m_atlas(uvec2(1024U))
 		, m_width(float(context.m_width))
 		, m_height(float(context.m_height))

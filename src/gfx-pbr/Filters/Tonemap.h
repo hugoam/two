@@ -74,7 +74,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockTonemap : public GfxBlock
 	{
 	public:
-		BlockTonemap(GfxSystem& gfx_system, BlockFilter& filter);
+		BlockTonemap(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy);
 
 		virtual void init_gfx_block() final;
 
@@ -84,6 +84,7 @@ namespace mud
 		void render(Render& render, Tonemap& tonemap, BCS& bcs);
 
 		BlockFilter& m_filter;
+		BlockCopy& m_copy;
 
 		TonemapUniform u_uniform;
 		Program m_program;

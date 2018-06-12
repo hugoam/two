@@ -17,9 +17,10 @@ module mud.gfx.pbr;
 
 namespace mud
 {
-	BlockTonemap::BlockTonemap(GfxSystem& gfx_system, BlockFilter& filter)
+	BlockTonemap::BlockTonemap(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy)
 		: GfxBlock(gfx_system, *this)
 		, m_filter(filter)
+		, m_copy(copy)
 		, m_program("filter/tonemap")
 	{
 		static cstring options[2] = {
@@ -50,6 +51,8 @@ namespace mud
 	{
 		if(render.m_filters && render.m_filters->m_tonemap.m_enabled)
 			this->render(render, render.m_filters->m_tonemap, render.m_filters->m_bcs);
+		else
+			m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.last(), { vec4(render.m_viewport.m_rect), true });
 	}
 
 	void BlockTonemap::render(Render& render, Tonemap& tonemap, BCS& bcs)
