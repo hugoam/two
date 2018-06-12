@@ -34,17 +34,25 @@ function table.extend(dest, source)
     end
 end
 
+function table.inverse(source)
+    result = {}
+    for i = #source, 1, -1 do
+        table.insert(result, source[i])
+    end
+    return result
+end
+
 function table.traverse(tables, children, callback)
     local queue = tables
     local visited = {}
     while next(queue) ~= nil do
-        local n = table.remove(queue, 1);
-        callback(n);
+        local n = table.remove(queue, 1)
+        callback(n)
         table.insert(visited, n)
         
         for _, c in ipairs(n[children] or {}) do
-            if not table.contains(visited, c) then
-                table.insert(queue, c);
+            if not table.contains(queue, c) and not table.contains(visited, c) then
+                table.insert(queue, c)
             end
         end
     end
@@ -258,6 +266,7 @@ function mud_module(namespace, name, rootpath, subpath, decl, self_decl, usage_d
         self_decl = self_decl,
         usage_decl = usage_decl,
         deps = deps or {},
+        invdeps = table.inverse(deps or {}),
         nomodule = nomodule,
         noreflect = noreflect,
     }
@@ -308,12 +317,9 @@ end
 
 function mud_depends(modules)
     -- dependencies are inverted so that linking order is correct : from higher level to lower level
-    list = {}
-    for i = #modules, 1, -1 do
-        table.insert(list, modules[i])
-    end
+    list = table.inverse(modules)
     if MUD_STATIC then
-        table.traverse(list, 'deps', mud_depend)
+        table.traverse(list, 'invdeps', mud_depend)
     else
         for _, m in ipairs(list) do
             mud_depend(modules[i])
