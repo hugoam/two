@@ -1,4 +1,3 @@
-#include <gfx-pbr/Depth.h>
 #include <gfx-pbr/Forward.h>
 #include <gfx-pbr/Light.h>
 #include <gfx-pbr/Pipeline.h>
