@@ -311,13 +311,13 @@ function mud_refls(modules, force_project)
 end
 
 function mud_depend(m)
-    --print(project().name .. " depends on " .. m.idname)
-    if m.usage_decl then
-        m.usage_decl()
-    end
     if m.lib and project().name ~= m.lib then
         --print(project().name .. " links " .. m.lib)
         links(m.lib)
+    end
+    --print(project().name .. " depends on " .. m.idname)
+    if m.usage_decl then
+        m.usage_decl()
     end
 end
 

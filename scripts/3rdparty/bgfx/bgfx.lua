@@ -69,7 +69,8 @@ end
 
 function uses_shaderc()
     defines { "MUD_LIVE_SHADER_COMPILER" }
-        
+    
+    print(" links fcpp, glslang, etc...")
     links {
         "fcpp",
         "glslang",
@@ -77,6 +78,11 @@ function uses_shaderc()
         "spirv-opt",
     }
 end
+
+--fcpp        = mud_dep(nil, "fcpp",          false, nil)
+--glslang     = mud_dep(nil, "glslang",       false, nil)
+--glslopt     = mud_dep(nil, "glsl-optimizer",false, nil)
+--spirvopt    = mud_dep(nil, "fcpp",          false, nil)
 
 bx          = mud_dep(nil, "bx",            false, uses_bx)
 bimg        = mud_dep(nil, "bimg",          false, uses_bimg,       { bx })
