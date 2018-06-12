@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <ui/Forward.h>
+#include <ctx/Forward.h>
 
 #ifndef MUD_MODULES
 	#if defined MUD_CONTEXT_GLFW
@@ -18,9 +18,7 @@
 	#endif
 #endif
 
-#ifndef MUD_META_GENERATOR
 #include <bx/allocator.h>
-#endif
 
 #ifndef MUD_CPP_20
 #include <vector>
@@ -55,21 +53,13 @@ namespace mud
 		virtual bool next_frame() override;
 
 		virtual object_ptr<Context> create_context(cstring name, int width, int height, bool fullScreen) override;
-		virtual object_ptr<VgRenderer> create_renderer(Context& context) override;
-
+		
 		void init(BgfxContext& context);
 		void advance();
 
-		UiWindow& create_window(cstring name, int width, int height, bool fullScreen, User* user = nullptr);
-
 	public:
-#ifndef MUD_META_GENERATOR
 		bx::DefaultAllocator m_allocator;
-#endif
 		bool m_initialized = false;
-
-		std::vector<object_ptr<UiWindow>> m_windows;
-		VgRenderer* m_vg_renderer = nullptr;
 
 		uint32_t m_frame = 1;
 		double m_start_counter = 0.0;

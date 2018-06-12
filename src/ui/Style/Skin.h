@@ -21,7 +21,7 @@ namespace mud
 {
 	using string = std::string;
 
-	using CustomRenderer = std::function<void(const Frame&, const vec4&, VgRenderer&)>;
+	using CustomRenderer = std::function<void(const Frame&, const vec4&, Vg&)>;
 
 	export_ struct refl_ MUD_UI_EXPORT InkStyle
 	{

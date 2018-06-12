@@ -3,8 +3,6 @@
 #include <ui/Cursor.h>
 #include <ui/Dock.h>
 #include <ui/Forward.h>
-#include <ui/Image.h>
-#include <ui/ImageAtlas.h>
 #include <ui/Input.h>
 #include <ui/Node.h>
 #include <ui/Scrollbar.h>

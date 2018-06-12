@@ -64,7 +64,6 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::TextPaint>() { static Type ty("TextPaint"); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::TextSelection>() { static Type ty("TextSelection"); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::UiRect>() { static Type ty("UiRect"); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::UiTarget>() { static Type ty("UiTarget"); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::UiWindow>() { static Type ty("UiWindow"); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::User>() { static Type ty("User"); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Widget>() { static Type ty("Widget"); return ty; }

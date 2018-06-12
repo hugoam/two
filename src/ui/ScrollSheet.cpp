@@ -18,32 +18,32 @@ namespace mud
 {
 namespace ui
 {
-	void draw_grid(const Frame& frame, float frequency, const Paint& paint, VgRenderer& renderer)
+	void draw_grid(const Frame& frame, float frequency, const Paint& paint, Vg& vg)
 	{
 		float start = frequency;
 
 		for(float val = start; val < frame.m_size.x; val += frequency)
 		{
-			renderer.path_line({ val, 0.f }, { val, frame.m_size.y });
-			renderer.stroke(paint);
+			vg.path_line({ val, 0.f }, { val, frame.m_size.y });
+			vg.stroke(paint);
 		}
 		for(float val = start; val < frame.m_size.y; val += frequency)
 		{
-			renderer.path_line({ 0.f, val }, { frame.m_size.x, val });
-			renderer.stroke(paint);
+			vg.path_line({ 0.f, val }, { frame.m_size.x, val });
+			vg.stroke(paint);
 		}
 
-		renderer.stroke(paint);
+		vg.stroke(paint);
 	}
 
-	void draw_grid(const Frame& frame, const vec4& rect, VgRenderer& renderer)
+	void draw_grid(const Frame& frame, const vec4& rect, Vg& vg)
 	{
 		UNUSED(rect);
 		Paint main_paint = { Colour(0.162f, 0.162f, 0.162f, 1.f), 1.f };
 		Paint second_paint = { Colour(0.094f, 0.094f, 0.094f, 1.f), 0.5f };
 
-		draw_grid(frame, 20.0f, second_paint, renderer);
-		draw_grid(frame, 100.f, main_paint, renderer);
+		draw_grid(frame, 20.0f, second_paint, vg);
+		draw_grid(frame, 100.f, main_paint, vg);
 	}
 
 	void scroll_plan_drag(Frame& scroll_zone, Frame& scroll_plan, const MouseEvent& mouse_event)

@@ -7,8 +7,8 @@
 #ifndef MUD_MODULES
 #include <math/Vec.h>
 #include <math/Curve.h>
+#include <math/ImageAtlas.h>
 #include <geom/Shape.h>
-#include <ui/ImageAtlas.h>
 #endif
 #include <gfx/Forward.h>
 #include <gfx/Material.h>

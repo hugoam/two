@@ -11,7 +11,7 @@
 module mud.ui;
 #else
 #include <infra/StringConvert.h>
-#include <math/Image.h>
+#include <math/Image256.h>
 #include <ui/Button.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Structs/Container.h>

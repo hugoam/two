@@ -16,6 +16,9 @@ export import mud.infra;
 export import mud.obj;
 export import mud.math;
 export import mud.ctx;
+export import mud.infra.refl;
+export import mud.obj.refl;
+export import mud.math.refl;
 
 #include <meta/ctx/Api.h>
 

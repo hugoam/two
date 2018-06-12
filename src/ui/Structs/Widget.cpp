@@ -102,11 +102,6 @@ namespace mud
 		return as<RootSheet>(this->root()).m_window;
 	}
 
-	VgRenderer& Widget::renderer()
-	{
-		return *as<RootSheet>(this->root()).m_window.m_renderer;
-	}
-
 	void Widget::setContent(cstring content)
 	{
 		string str = content;

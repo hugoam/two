@@ -116,6 +116,6 @@ namespace mud
 
 		object_ptr<Layer> m_layer;
 
-		static VgRenderer* s_renderer;
+		static Vg* s_vg;
 	};
 }

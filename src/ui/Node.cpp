@@ -26,14 +26,14 @@ namespace ui
 	template <class T, class U>
 	array<T> to_array(std::vector<U>& vector) { return{ (T*)&vector[0], vector.size() }; }
 
-	void draw_knob(const Frame& frame, const Colour& colour, bool connected, VgRenderer& renderer)
+	void draw_knob(const Frame& frame, const Colour& colour, bool connected, Vg& vg)
 	{
 		float radius = connected ? 5.f : 4.f;
-		renderer.path_circle(frame.m_size / 2.f, radius);
+		vg.path_circle(frame.m_size / 2.f, radius);
 		if(connected)
-			renderer.fill({ colour });
+			vg.fill({ colour });
 		else
-			renderer.stroke({ colour, 2.f });
+			vg.stroke({ colour, 2.f });
 	}
 
 
@@ -85,19 +85,19 @@ namespace ui
 		relayout(solvers);
 	}
 
-	void draw_node_cable(vec2 pos_out, vec2 pos_in, const Colour& colour_out, const Colour& colour_in, bool straight, VgRenderer& renderer)
+	void draw_node_cable(vec2 pos_out, vec2 pos_in, const Colour& colour_out, const Colour& colour_in, bool straight, Vg& vg)
 	{
 		float distance = straight ? 20.f : 100.f;
 		Gradient paint = { colour_out, colour_in };
-		renderer.path_bezier(pos_out, pos_out + vec2{ distance, 0.f }, pos_in - vec2{ distance, 0.f }, pos_in, straight);
-		renderer.stroke_gradient(paint, 1.f, pos_out, pos_in);
+		vg.path_bezier(pos_out, pos_out + vec2{ distance, 0.f }, pos_in - vec2{ distance, 0.f }, pos_in, straight);
+		vg.stroke_gradient(paint, 1.f, pos_out, pos_in);
 	}
 
 	Widget& node_knob(Widget& parent, Style& style, const Colour& colour, bool active, bool connected)
 	{
 		Widget& self = widget(parent, style);
 		static Colour disabled_colour = Colour::DarkGrey;
-		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, VgRenderer& renderer) {  UNUSED(rect); draw_knob(frame, active ? colour : disabled_colour, connected, renderer); };
+		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg) {  UNUSED(rect); draw_knob(frame, active ? colour : disabled_colour, connected, vg); };
 		return self;
 	}
 
@@ -106,7 +106,7 @@ namespace ui
 		Widget& self = widget(parent, node_styles().cable);
 		self.m_frame.m_position = min(out, in);
 		self.m_frame.m_size = max(out, in) - self.m_frame.m_position;
-		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, VgRenderer& renderer) {  UNUSED(rect); draw_node_cable(out - frame.m_position, in - frame.m_position, colour_out, colour_in, straight, renderer); };
+		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg) {  UNUSED(rect); draw_node_cable(out - frame.m_position, in - frame.m_position, colour_out, colour_in, straight, vg); };
 		return self;
 	}
 

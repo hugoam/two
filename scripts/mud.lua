@@ -36,6 +36,7 @@ end
 
 function mud_math()
     includedirs {
+        path.join(MUD_3RDPARTY_DIR, "stb"),
         path.join(MUD_3RDPARTY_DIR, "json11"),
     }
 end
@@ -48,7 +49,6 @@ end
 
 function mud_ui()
     includedirs {
-        path.join(MUD_3RDPARTY_DIR, "stb"),
         path.join(MUD_3RDPARTY_DIR, "json11"),
     }
     
@@ -104,15 +104,15 @@ mud.refl    = mud_module("mud", "refl",     MUD_SRC_DIR, "refl",    nil,        
 mud.proto   = mud_module("mud", "proto",    MUD_SRC_DIR, "proto",   nil,        nil,            uses_mud,           { mud.infra, mud.obj, mud.refl })
 mud.tree    = mud_module("mud", "tree",     MUD_SRC_DIR, "tree",    nil,        nil,            nil,                { mud.infra })
 mud.srlz    = mud_module("mud", "srlz",     MUD_SRC_DIR, "srlz",    nil,        mud_srlz,       nil,                { json11, mud.infra, mud.obj, mud.refl })
-mud.math    = mud_module("mud", "math",     MUD_SRC_DIR, "math",    nil,        mud_math,       uses_mud_math,      { json11, mud.infra, mud.obj, mud.refl, mud.srlz })
+if MUD_STATIC then
+    mud.math = mud_module("mud", "math",    MUD_SRC_DIR, "math",    nil,        mud_math,       uses_mud_math,      { json11, stb.rect_pack, mud.infra, mud.obj, mud.refl, mud.srlz })
+else
+    mud.math = mud_module("mud", "math",    MUD_SRC_DIR, "math",    nil,        mud_math,       uses_mud_math,      { json11, stb.image, stb.rect_pack, mud.infra, mud.obj, mud.refl, mud.srlz })
+end
 mud.geom    = mud_module("mud", "geom",     MUD_SRC_DIR, "geom",    nil,        mud_geom,       nil,                { mud.obj, mud.math })
 mud.lang    = mud_module("mud", "lang",     MUD_SRC_DIR, "lang",    nil,        mud_lang,       nil,                { lua, mud.infra, mud.obj, mud.pool, mud.refl })
 mud.ctx     = mud_module("mud", "ctx",      MUD_SRC_DIR, "ctx",     nil,        nil,            nil,                { mud.infra, mud.obj, mud.math })
-if MUD_STATIC then
-    mud.ui  = mud_module("mud", "ui",       MUD_SRC_DIR, "ui",      nil,        mud_ui,         nil,                { json11, stb.rect_pack, mud.infra, mud.obj, mud.refl, mud.srlz, mud.math, mud.ctx })
-else
-    mud.ui  = mud_module("mud", "ui",       MUD_SRC_DIR, "ui",      nil,        mud_ui,         nil,                { json11, stb.image, stb.rect_pack, mud.infra, mud.obj, mud.refl, mud.srlz, mud.math, mud.ctx })
-end
+mud.ui      = mud_module("mud", "ui",       MUD_SRC_DIR, "ui",      nil,        mud_ui,         nil,                { json11, mud.infra, mud.obj, mud.refl, mud.srlz, mud.math, mud.ctx })
 mud.uio     = mud_module("mud", "uio",      MUD_SRC_DIR, "uio",     nil,        nil,            nil,                { mud.infra, mud.tree, mud.obj, mud.pool, mud.refl, mud.math, mud.lang, mud.ctx, mud.ui })
 mud.snd     = mud_module("mud", "snd",      MUD_SRC_DIR, "snd",     nil,        mud_snd,        nil,                { mud.obj, mud.math })
 --mud_sys(true)

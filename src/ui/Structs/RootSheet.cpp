@@ -29,19 +29,14 @@ namespace mud
 		this->layer();
 
 		//if(!params.m_parent)
-		{
-			m_target = window.m_renderer->create_render_target(*m_frame.m_layer);
 			m_frame.update_style(true);
-		}
 	}
 
 	RootSheet::~RootSheet()
 	{}
 
-	void RootSheet::next_frame(size_t tick, size_t delta)
+	void RootSheet::next_frame()
 	{
-		UNUSED(tick); UNUSED(delta);
-
 		Widget* hovered = static_cast<Widget*>(m_mouse.heartbeat().m_receiver);
 		if(hovered != m_hovered)
 		{

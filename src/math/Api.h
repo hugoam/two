@@ -6,6 +6,8 @@
 #include <math/Forward.h>
 #include <math/Grid.h>
 #include <math/Image.h>
+#include <math/Image256.h>
+#include <math/ImageAtlas.h>
 #include <math/Interp.h>
 #include <math/Math.h>
 #include <math/Random.h>

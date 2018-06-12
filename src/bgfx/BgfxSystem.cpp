@@ -13,14 +13,8 @@
 module mud.bgfx;
 #else
 #include <obj/Type.h>
-#include <ui/UiWindow.h>
 #include <bgfx/Config.h>
 #include <bgfx/BgfxSystem.h>
-#if defined MUD_VG_VG
-#include <ui-vg/VgVg.h>
-#elif defined MUD_VG_NANOVG
-#include <ui-nanovg-bgfx/VgNanoBgfx.h>
-#endif
 #endif
 
 namespace mud
@@ -60,24 +54,6 @@ namespace mud
 		return make_object<BgfxContext>(*this, name, width, height, fullScreen, !m_initialized);
 	}
 
-	object_ptr<VgRenderer> BgfxSystem::create_renderer(Context& context)
-	{
-		UNUSED(context);
-#if defined MUD_VG_VG
-		auto renderer = make_object<VgVg>(m_resource_path.c_str(), &m_allocator);
-#elif defined MUD_VG_NANOVG
-		auto renderer = make_object<VgNanoBgfx>(m_resource_path.c_str());
-#endif
-		m_vg_renderer = renderer.get();
-		return std::move(renderer);
-	}
-
-	UiWindow& BgfxSystem::create_window(cstring name, int width, int height, bool fullScreen, User* user)
-	{
-		m_windows.emplace_back(make_object<UiWindow>(*this, name, width, height, fullScreen, user));
-		return *m_windows.back();
-	}
-
 	void BgfxSystem::init(BgfxContext& context)
 	{
 		printf("GfxSystem: Native Handle = %p\n", context.m_native_handle);
@@ -109,10 +85,6 @@ namespace mud
 	{
 		bgfx::touch(0);
 
-		bool pursue = true;
-		for(auto& window : m_windows)
-			pursue &= window->next_frame();
-
 		size_t capture_every = 100;
 		bool capture = (m_frame % capture_every) == 0;
 		//bool capture = false;
@@ -121,7 +93,7 @@ namespace mud
 		m_frame = bgfx::frame(capture);
 		this->advance();
 
-		return pursue;
+		return true;
 	}
 
 	void BgfxSystem::advance()

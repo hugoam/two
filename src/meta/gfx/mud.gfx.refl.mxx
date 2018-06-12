@@ -21,11 +21,17 @@ export import mud.srlz;
 export import mud.math;
 export import mud.geom;
 export import mud.ctx;
-export import mud.ui;
 export import mud.ctx.glfw;
-export import mud.ui.vg;
 export import mud.bgfx;
 export import mud.gfx;
+export import mud.infra.refl;
+export import mud.obj.refl;
+export import mud.pool.refl;
+export import mud.refl.refl;
+export import mud.srlz.refl;
+export import mud.math.refl;
+export import mud.geom.refl;
+export import mud.ctx.refl;
 
 #include <meta/gfx/Api.h>
 

@@ -12,9 +12,7 @@ export import mud.infra;
 export import mud.obj;
 export import mud.math;
 export import mud.ctx;
-export import mud.ui;
 export import mud.ctx.glfw;
-export import mud.ui.vg;
 
 #include <bgfx/Api.h>
 

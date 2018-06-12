@@ -19,6 +19,8 @@ namespace mud
 {
 	using PassJob = std::function<void(const Pass&)>;
 
+	export_ MUD_GFX_EXPORT void pipeline_minimal(GfxSystem& gfx_system, Pipeline& pipeline);
+
 	export_ struct MUD_GFX_EXPORT PassJobs
 	{
 #ifdef MUD_MODULES

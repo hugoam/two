@@ -11,7 +11,7 @@
 #ifdef MUD_MODULES
 module mud.math;
 #else
-#include <math/Image.h>
+#include <math/Image256.h>
 #include <math/Colour.h>
 #endif
 

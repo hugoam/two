@@ -26,6 +26,18 @@ export import mud.uio;
 export import mud.gfx;
 export import mud.gfx.pbr;
 export import mud.edit;
+export import mud.infra.refl;
+export import mud.obj.refl;
+export import mud.refl.refl;
+export import mud.srlz.refl;
+export import mud.lang.refl;
+export import mud.math.refl;
+export import mud.geom.refl;
+export import mud.ctx.refl;
+export import mud.ui.refl;
+export import mud.uio.refl;
+export import mud.gfx.refl;
+export import mud.gfx.pbr.refl;
 
 #include <meta/edit/Api.h>
 

@@ -233,6 +233,7 @@ function mud_dep(namespace, name, cppmodule, usage_decl, deps)
         idname = string.gsub(name, "-", "_"),
         usage_decl = usage_decl,
         deps = deps,
+        invdeps = table.inverse(deps or {}),
     }
     
     if namespace then
@@ -291,6 +292,11 @@ function mud_refl(m, force_project)
     deps = { mud.infra, mud.obj, mud.pool, mud.refl }
     table.extend(deps, m.deps)
     table.extend(deps, { m })
+    for _, m in ipairs(m.deps) do
+        if m.refl then
+            table.insert(deps, m.refl)
+        end
+    end
     m.refl = mud_module(m.namespace, m.name .. "-refl", m.root, path.join("meta", m.subdir), mud_refl_decl, m.self_decl, m.usage_decl, deps)
     m.refl.force_project = force_project
     return m.refl

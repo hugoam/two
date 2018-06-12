@@ -9,7 +9,7 @@
 #endif
 #include <ui/Forward.h>
 #include <ui/Frame/Dim.h>
-#include <ui/Image.h>
+#include <math/Image.h>
 
 namespace mud
 {

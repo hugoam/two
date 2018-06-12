@@ -87,14 +87,14 @@ namespace ui
 		return changed;
 	}
 
-	void draw_color_wheel(VgRenderer& renderer, const vec2& size, float hue, float s, float l)
+	void draw_color_wheel(Vg& vg, const vec2& size, float hue, float s, float l)
 	{
 		vec2 center = size * 0.5f;
 		float r1 = (size.x < size.y ? size.x : size.y) * 0.5f - 5.0f;
 		float r0 = r1 - 20.0f;
 
-		renderer.draw_color_wheel(center, r0, r1);
-		renderer.draw_color_triangle(center, r0, hue, s, l);
+		vg.draw_color_wheel(center, r0, r1);
+		vg.draw_color_triangle(center, r0, hue, s, l);
 	}
 
 	bool inside_color_wheel(Widget& self, const MouseEvent& event)
@@ -117,7 +117,7 @@ namespace ui
 	bool color_wheel(Widget& parent, Colour& hsla)
 	{
 		Widget& self = widget(parent, styles().color_wheel);
-		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, VgRenderer& renderer) { UNUSED(rect); draw_color_wheel(renderer, frame.m_size, hsla.m_h, hsla.m_s, hsla.m_l); };
+		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(rect); draw_color_wheel(vg, frame.m_size, hsla.m_h, hsla.m_s, hsla.m_l); };
 		bool changed = false;
 
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
@@ -186,10 +186,10 @@ namespace ui
 	Widget& color_slab(Widget& parent, Style& style, const Colour& value)
 	{
 		Widget& self = button(parent, style);//styles().color_slab);
-		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, VgRenderer& renderer)
+		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect);
-			renderer.draw_rect({ Zero2, frame.m_size }, { value }, frame.d_inkstyle->m_corner_radius);
+			vg.draw_rect({ Zero2, frame.m_size }, { value }, frame.d_inkstyle->m_corner_radius);
 		};
 		return self;
 	}
@@ -242,7 +242,7 @@ namespace
 	};
 }
 
-	void draw_curve(const Colour& colour, Curve& curve, size_t hovered, VgRenderer& renderer)
+	void draw_curve(const Colour& colour, Curve& curve, size_t hovered, Vg& vg)
 	{
 		float distance = 100.f;
 		Paint paint = { colour, 1.f };
@@ -251,19 +251,19 @@ namespace
 		{
 			vec2 begin = curve.point(i);
 			vec2 end = curve.point(i + 1);
-			renderer.path_bezier(begin, begin + vec2{ distance, 0.f }, end - vec2{ distance, 0.f }, end, false);
-			renderer.stroke(paint);
+			vg.path_bezier(begin, begin + vec2{ distance, 0.f }, end - vec2{ distance, 0.f }, end, false);
+			vg.stroke(paint);
 		}
 	}
 
-	void draw_points(const Colour& colour, Curve& curve, size_t hovered, VgRenderer& renderer)
+	void draw_points(const Colour& colour, Curve& curve, size_t hovered, Vg& vg)
 	{
 		Paint paint = { colour, 1.f };
 
 		for(size_t i = 0; i < curve.m_values.size(); ++i)
 		{
-			renderer.path_circle(curve.point(i), 5.f);
-			renderer.stroke(hovered == i ? Paint{ Colour::White, 1.f } : paint);
+			vg.path_circle(curve.point(i), 5.f);
+			vg.stroke(hovered == i ? Paint{ Colour::White, 1.f } : paint);
 		}
 	}
 
@@ -294,13 +294,13 @@ namespace
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Released))
 			dragged = SIZE_MAX;
 
-		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, VgRenderer& renderer)
+		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect);
 			Curve curve = { rect_size(rect), 0.f, 1.f, values, points };
-			renderer.draw_rect(rect, { Colour::DarkGrey });
-			draw_curve(Colour::NeonGreen, curve, hovered, renderer);
-			draw_points(Colour::NeonGreen, curve, hovered, renderer);
+			vg.draw_rect(rect, { Colour::DarkGrey });
+			draw_curve(Colour::NeonGreen, curve, hovered, vg);
+			draw_points(Colour::NeonGreen, curve, hovered, vg);
 		};
 
 		return false;

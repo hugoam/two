@@ -19,7 +19,7 @@ namespace mud
 		SpaceSheet(Widget& parent, SpaceViewport& viewport);
 		~SpaceSheet();
 
-		void next_frame(size_t tick, size_t delta);
+		void next_frame();
 
 		void updateSize();
 

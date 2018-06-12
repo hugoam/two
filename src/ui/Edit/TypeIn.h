@@ -123,7 +123,7 @@ namespace mud
 		std::vector<ColorSection> m_sections;
 
 	public:
-		static VgRenderer* s_renderer;
+		static Vg* s_vg;
 	};
 
 	enum class CodePalette : unsigned char
@@ -186,7 +186,7 @@ namespace mud
 		void update_style();
 
 		void update();
-		void render(VgRenderer& renderer);
+		void render(Vg& vg);
 
 		void set_text(const string& text);
 

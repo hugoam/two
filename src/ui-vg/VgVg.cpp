@@ -25,7 +25,7 @@ module mud.ui.vg;
 #include <math/Clamp.h>
 #include <ui/Style/Paint.h>
 #include <ui/Frame/Layer.h>
-#include <ui/ImageAtlas.h>
+#include <math/ImageAtlas.h>
 #include <ui-vg/VgVg.h>
 #endif
 
@@ -44,17 +44,12 @@ namespace mud
 #define RECT_FLOATS(rect) rect.x, rect.y, rect.z, rect.w
 
 	VgVg::VgVg(cstring resource_path, bx::AllocatorI* allocator)
-		: VgRenderer(resource_path)
+		: Vg(resource_path)
 		, m_allocator(allocator)
 	{}
 
 	VgVg::~VgVg()
 	{}
-
-	object_ptr<UiTarget> VgVg::create_render_target(Layer& layer)
-	{
-		return make_object<UiTarget>(*this, layer, false);
-	}
 
 	void VgVg::setup_context()
 	{
@@ -125,14 +120,13 @@ namespace mud
 		return vgimage.idx;
 	}
 
-	void VgVg::begin_frame(UiTarget& target)
+	void VgVg::begin_frame(const vec4& rect, float pixel_ratio)
 	{
-		bgfx::setViewRect(250, 0, 0, uint16_t(target.m_layer.m_frame.m_size.x), uint16_t(target.m_layer.m_frame.m_size.y));
+		bgfx::setViewRect(250, uint16_t(rect.x), uint16_t(rect.y), uint16_t(rect_w(rect)), uint16_t(rect_h(rect)));
 		bgfx::setViewMode(250, bgfx::ViewMode::Sequential);
 		bgfx::setViewName(250, "ui");
 
-		float pixelRatio = 1.f;
-		vg::beginFrame(m_vg, uint16_t(target.m_layer.m_frame.m_size.x), uint16_t(target.m_layer.m_frame.m_size.y), pixelRatio);
+		vg::beginFrame(m_vg, uint16_t(rect_w(rect)), uint16_t(rect_h(rect)), pixel_ratio);
 	}
 
 	void VgVg::end_frame()

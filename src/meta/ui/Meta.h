@@ -1240,38 +1240,7 @@ namespace mud
         
         meta_class<mud::UiRect>();
     }
-    
-    
-        
-    // mud::UiTarget
-    {
-        static Meta meta = { type<mud::UiTarget>(), &namspc({ "mud" }), "UiTarget", sizeof(mud::UiTarget), TypeClass::Object };
-        static Class cls = { type<mud::UiTarget>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::UiTarget>();
-    }
+
     
     
         
@@ -2129,7 +2098,6 @@ namespace mud
         m.m_types.push_back(&type<mud::TextPaint>());
         m.m_types.push_back(&type<mud::TextSelection>());
         m.m_types.push_back(&type<mud::UiRect>());
-        m.m_types.push_back(&type<mud::UiTarget>());
         m.m_types.push_back(&type<mud::UiWindow>());
         m.m_types.push_back(&type<mud::User>());
         m.m_types.push_back(&type<mud::Widget>());

@@ -1,7 +1,17 @@
 -- mud library
 -- mud gfx module
 
-dofile(path.join(MUD_DIR, "scripts/mud_bgfx.lua"))
+if _OPTIONS["context-glfw"] then
+dofile(path.join(MUD_DIR, "scripts/mud_ctx_glfw.lua"))
+elseif _OPTIONS["context-wasm"] then
+dofile(path.join(MUD_DIR, "scripts/mud_ctx_wasm.lua"))
+end
+
+if _OPTIONS["renderer-bgfx"] then
+dofile(path.join(MUD_DIR, "scripts/mud_ui_bgfx.lua"))
+else
+dofile(path.join(MUD_DIR, "scripts/mud_ui_gl.lua"))
+end
 
 os.mkdir(path.join(PROJECT_DIR, "data/shaders/compiled"))
 os.mkdir(path.join(PROJECT_DIR, "data/shaders/compiled/filter"))
@@ -49,8 +59,12 @@ function mud_procgen()
     }
 end
 
+mud.ctxbackend  = mud_ctx_backend()
+mud.uibackend   = mud_ui_backend()
+
 --                           base   name            root path    sub path       decl    self decl       decl transitive     dependencies
-mud.gfx         = mud_module("mud", "gfx",          MUD_SRC_DIR, "gfx",         nil,    nil,            uses_mud_gfx,       { json11, bgfx, mud.infra, mud.obj, mud.pool, mud.refl, mud.srlz, mud.math, mud.geom, mud.ctx, mud.ui, mud.ctxbackend, mud.uibackend, mud.bgfx })
+mud.bgfx        = mud_module("mud", "bgfx",         MUD_SRC_DIR, "bgfx",        nil,    nil,            nil,                { bx, bimg, bimg.decode, bgfx, mud.infra, mud.obj, mud.math, mud.ctx, mud.ctxbackend })
+mud.gfx         = mud_module("mud", "gfx",          MUD_SRC_DIR, "gfx",         nil,    nil,            uses_mud_gfx,       { json11, bgfx, shaderc, mud.infra, mud.obj, mud.pool, mud.refl, mud.srlz, mud.math, mud.geom, mud.ctx, mud.ctxbackend, mud.bgfx })
 
 mud.gfx.pbr     = mud_module("mud", "gfx-pbr",      MUD_SRC_DIR, "gfx-pbr",     nil,    nil,            nil,                { mud.infra, mud.obj, mud.srlz, mud.math, mud.geom, mud.gfx })
 mud.gfx.obj     = mud_module("mud", "gfx-obj",      MUD_SRC_DIR, "gfx-obj",     nil,    nil,            nil,                { mud.infra, mud.obj, mud.srlz, mud.math, mud.geom, mud.gfx })

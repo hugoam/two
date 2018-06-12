@@ -109,7 +109,7 @@ namespace mud
 			}
 	}
 
-	VgRenderer* Text::s_renderer = nullptr;
+	Vg* Text::s_vg = nullptr;
 
 	Text::Text(Frame& frame)
 		: m_frame(frame)
@@ -132,7 +132,7 @@ namespace mud
 
 	float Text::line_height() const
 	{
-		return s_renderer->line_height(m_text_paint);
+		return s_vg->line_height(m_text_paint);
 	}
 
 	vec2 Text::compute_text_size()
@@ -163,7 +163,7 @@ namespace mud
 		vec2 padded_size = floor(m_frame.m_size - rect_sum(m_frame.d_inkstyle->m_padding));
 
 		if(!m_text.empty())
-			s_renderer->break_text(m_text.c_str(), m_text.size(), padded_size, m_text_paint, m_text_rows);
+			s_vg->break_text(m_text.c_str(), m_text.size(), padded_size, m_text_paint, m_text_rows);
 		else
 			m_text_rows.clear();
 	}
@@ -763,13 +763,13 @@ namespace mud
 		return paint;
 	}
 
-	void draw_text(VgRenderer& renderer, const vec2& padding, const Text& text)
+	void draw_text(Vg& vg, const vec2& padding, const Text& text)
 	{
 		for(const TextRow& row : text.m_text_rows)
-			renderer.draw_text(padding + rect_offset(row.m_rect), row.m_start, row.m_end, text.m_text_paint);
+			vg.draw_text(padding + rect_offset(row.m_rect), row.m_start, row.m_end, text.m_text_paint);
 	}
 
-	void draw_editor_text(VgRenderer& renderer, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette)
+	void draw_editor_text(Vg& vg, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette)
 	{
 		char line_number[16];
 
@@ -781,21 +781,21 @@ namespace mud
 				current_section++;
 
 			snprintf(line_number, 16, "%6d", int(++line));
-			renderer.draw_text(padding + rect_offset(row.m_rect), line_number, nullptr, palette_text_paint(text, palette, Text::LineNumber));
+			vg.draw_text(padding + rect_offset(row.m_rect), line_number, nullptr, palette_text_paint(text, palette, Text::LineNumber));
 
 			while(current_section < text.m_sections.size() && text.m_sections[current_section].m_start < row.m_end)
 			{
 				const Text::ColorSection& section = text.m_sections[current_section];
 
 				vec2 position = text_offset + rect_offset(row.m_glyphs[section.m_start - row.m_start].m_rect);
-				renderer.draw_text(floor(position) + vec2(0.f, 0.5f), section.m_start, section.m_end, palette_text_paint(text, palette, section.m_colour));
+				vg.draw_text(floor(position) + vec2(0.f, 0.5f), section.m_start, section.m_end, palette_text_paint(text, palette, section.m_colour));
 
 				current_section++;
 			}
 		}
 	}
 
-	void draw_text_selection(VgRenderer& renderer, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const TextSelection& selection, const ColourPalette& palette, bool current_line)
+	void draw_text_selection(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const TextSelection& selection, const ColourPalette& palette, bool current_line)
 	{
 		if(text.m_text_rows.empty())
 			return;
@@ -806,7 +806,7 @@ namespace mud
 			{
 				if(row.m_glyphs.empty())
 				{
-					renderer.draw_rect({ text_offset + rect_offset(row.m_rect), vec2{ 5.f, rect_h(row.m_rect) } }, palette_paint(palette, Text::Selection));
+					vg.draw_rect({ text_offset + rect_offset(row.m_rect), vec2{ 5.f, rect_h(row.m_rect) } }, palette_paint(palette, Text::Selection));
 					continue;
 				}
 
@@ -814,7 +814,7 @@ namespace mud
 				size_t select_end = min(row.m_end_index, size_t(selection.m_end));
 
 				vec4 row_rect = text.interval_rect(row, select_start, select_end - 1);
-				renderer.draw_rect({ text_offset + rect_offset(row_rect), rect_size(row_rect) }, palette_paint(palette, Text::Selection));
+				vg.draw_rect({ text_offset + rect_offset(row_rect), rect_size(row_rect) }, palette_paint(palette, Text::Selection));
 			}
 
 			if(selection.m_cursor >= row.m_start_index && selection.m_cursor <= row.m_end_index)
@@ -823,8 +823,8 @@ namespace mud
 				{
 					bool focused = false;
 					vec4 rect = { padding + vec2{ 0.f, row.m_rect.y }, vec2{ frame.m_size.x, text.line_height() } };
-					renderer.draw_rect(rect, { palette_colour(palette, focused ? Text::CurrentLineFill : Text::CurrentLineFillInactive),
-											  palette_colour(palette, Text::CurrentLineEdge), 1.0f });
+					vg.draw_rect(rect, { palette_colour(palette, focused ? Text::CurrentLineFill : Text::CurrentLineFillInactive),
+										 palette_colour(palette, Text::CurrentLineEdge), 1.0f });
 				}
 				
 				static Clock blink_clock;
@@ -843,29 +843,29 @@ namespace mud
 						cursor_rect.x -= 1.f;
 						cursor_rect.z = 1.f;
 					}
-					renderer.draw_rect({ text_offset + rect_offset(cursor_rect), rect_size(cursor_rect) }, palette_paint(palette, Text::Cursor));
+					vg.draw_rect({ text_offset + rect_offset(cursor_rect), rect_size(cursor_rect) }, palette_paint(palette, Text::Cursor));
 				}
 			}
 		}
 	}
 
-	void TextEdit::render(VgRenderer& renderer)
+	void TextEdit::render(Vg& vg)
 	{
 		if(m_editor)
 			recolorize();
 
 		if(m_editor)
-			renderer.draw_rect({ m_frame.m_position, m_frame.m_size }, { palette_paint(m_palette, Text::Background) });
-		else
-			renderer.draw_background(m_frame, { m_frame.m_position, m_frame.m_size }, {}, {});
+			vg.draw_rect({ m_frame.m_position, m_frame.m_size }, { palette_paint(m_palette, Text::Background) });
+		//else
+		//	vg.draw_background(m_frame, { m_frame.m_position, m_frame.m_size }, {}, {});
 
 		vec2 padding = floor(rect_offset(m_frame.d_inkstyle->m_padding));
 
-		draw_text_selection(renderer, m_frame, padding, m_text_offset, m_text, m_selection, m_palette, m_editor);
+		draw_text_selection(vg, m_frame, padding, m_text_offset, m_text, m_selection, m_palette, m_editor);
 		if(m_editor)
-			draw_editor_text(renderer, padding, m_text_offset, m_text, m_palette);
+			draw_editor_text(vg, padding, m_text_offset, m_text, m_palette);
 		else
-			draw_text(renderer, padding, m_text);
+			draw_text(vg, padding, m_text);
 	}
 
 	void TextEdit::undo()
@@ -1034,7 +1034,7 @@ namespace ui
 		//self.m_frame.m_content = self.m_text.compute_text_size();
 		//self.m_frame.mark_dirty(DIRTY_LAYOUT);
 
-		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, VgRenderer& renderer) { UNUSED(frame); UNUSED(rect); self.render(renderer); };
+		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(frame); UNUSED(rect); self.render(vg); };
 
 		return self;
 	}

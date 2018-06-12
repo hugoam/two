@@ -25,7 +25,7 @@ namespace mud
 {
 	using string = std::string;
 
-	export_ class MUD_UI_VG_EXPORT VgVg : public VgRenderer
+	export_ class MUD_UI_VG_EXPORT VgVg : public Vg
 	{
 	public:
 		VgVg(cstring resource_path, bx::AllocatorI* allocator);
@@ -34,9 +34,6 @@ namespace mud
 		// init
 		virtual void setup_context() final;
 		virtual void release_context() final;
-
-		// targets
-		virtual object_ptr<UiTarget> create_render_target(Layer& layer);
 
 		// setup
 		virtual void load_default_font() final;
@@ -47,7 +44,7 @@ namespace mud
 		virtual uint16_t load_texture(uint16_t texture) final;
 
 		// rendering
-		virtual void begin_frame(UiTarget& target) final;
+		virtual void begin_frame(const vec4& rect, float pixel_ratio) final;
 		virtual void end_frame() final;
 
 		// drawing

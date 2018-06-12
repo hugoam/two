@@ -38,7 +38,7 @@ namespace mud
 		RootSheet(UiWindow& window);
 		~RootSheet();
 
-		void next_frame(size_t tick, size_t delta);
+		void next_frame();
 
 		void clear_events();
 
@@ -53,7 +53,5 @@ namespace mud
 		Widget* m_hovered = nullptr;
 		DropAction m_drop = {};
 		Clock m_tooltip_clock;
-
-		object_ptr<UiTarget> m_target;
 	};
 }

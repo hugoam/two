@@ -20,7 +20,7 @@
 
 namespace mud
 {
-	using CustomRenderer = std::function<void(const Frame&, const vec4&, VgRenderer&)>;
+	using CustomRenderer = std::function<void(const Frame&, const vec4&, Vg&)>;
 
 	using FrameFilter = std::function<bool(Frame&)>;
 
@@ -30,8 +30,6 @@ namespace mud
 		Widget();
 		Widget(Widget* parent, void* identity);
 		~Widget();
-
-		VgRenderer& renderer();
 
 		attr_ bool focused() { return (m_state & FOCUSED) != 0; }
 		attr_ bool hovered() { return (m_state & HOVERED) != 0; }

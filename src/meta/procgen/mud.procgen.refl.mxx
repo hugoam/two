@@ -19,6 +19,11 @@ export import mud.srlz;
 export import mud.math;
 export import mud.geom;
 export import mud.procgen;
+export import mud.infra.refl;
+export import mud.obj.refl;
+export import mud.srlz.refl;
+export import mud.math.refl;
+export import mud.geom.refl;
 
 #include <meta/procgen/Api.h>
 

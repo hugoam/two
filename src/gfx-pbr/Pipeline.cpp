@@ -64,7 +64,7 @@ namespace mud
 
 		gfx_system.set_renderer(Shading::Shaded, main_renderer);
 		gfx_system.set_renderer(Shading::Volume, shadow_renderer);
-	};
+	}
 
 	MainRenderer::MainRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
 		: Renderer(gfx_system, pipeline)

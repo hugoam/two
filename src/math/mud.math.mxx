@@ -9,6 +9,7 @@ export import std.threading;
 export import std.regex;
 
 export import json11;
+export import stb.rect_pack;
 export import mud.infra;
 export import mud.obj;
 export import mud.refl;

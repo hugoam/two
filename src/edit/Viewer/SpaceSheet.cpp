@@ -71,19 +71,19 @@ namespace mud
 	SpaceSheet::~SpaceSheet()
 	{}
 
-	void SpaceSheet::next_frame(size_t tick, size_t delta)
+	void SpaceSheet::next_frame()
 	{
-		RootSheet::next_frame(tick, delta);
+		RootSheet::next_frame();
 
 		//if(m_viewport.m_active)
 		this->updateSize();
 
+		static Clock clock;
 		if(m_quad)
 		{
-			quat rotation = { vec3{ 0.002f * float(delta), 0.f, 0.f } };
+			quat rotation = { vec3{ 0.002f * float(clock.step()), 0.f, 0.f } };
 			m_quad->m_node.m_rotation = m_quad->m_node.m_rotation * rotation;
 		}
-
 	}
 
 	void SpaceSheet::updateSize()

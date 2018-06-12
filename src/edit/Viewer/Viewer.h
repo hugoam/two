@@ -61,7 +61,7 @@ namespace mud
 		void update();
 
 		void render(Render& render);
-		void blit(VgRenderer& renderer);
+		void blit(Vg& vg);
 
 		void resize();
 		vec4 query_size();

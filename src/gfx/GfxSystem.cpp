@@ -20,7 +20,7 @@ module mud.gfx;
 #else
 #include <pool/ObjectPool.h>
 #include <infra/StringConvert.h>
-#include <math/Image.h>
+#include <math/Image256.h>
 #include <math/Stream.h>
 #include <ui/Render/Renderer.h>
 #include <gfx/Types.h>
@@ -61,7 +61,6 @@ namespace mud
 	{
 		bgfx::reset(width, height, BGFX_RESET_NONE);
 		m_target = make_object<RenderTarget>(uvec2(width, height));
-		m_vg_handle = m_gfx_system.m_vg_renderer->load_texture(m_target->m_diffuse.idx);
 	}
 
 	struct GfxSystem::Impl
@@ -114,7 +113,7 @@ namespace mud
 	AssetStore<Model>& GfxSystem::models() { return *m_impl->m_models; }
 	AssetStore<ParticleGenerator>& GfxSystem::particles() { return *m_impl->m_particles; }
 	AssetStore<Prefab>& GfxSystem::prefabs() { return *m_impl->m_prefabs; }
-
+	
 	object_ptr<Context> GfxSystem::create_context(cstring name, int width, int height, bool fullScreen)
 	{
 		object_ptr<GfxContext> context = make_object<GfxContext>(*this, name, width, height, fullScreen, !m_initialized);
@@ -167,6 +166,11 @@ namespace mud
 		return *m_impl->m_renderers[size_t(shading)];
 	}
 
+	GfxContext& GfxSystem::context(size_t index)
+	{
+		return *m_impl->m_contexts[index];
+	}
+
 	bool GfxSystem::next_frame()
 	{
 		RenderFrame frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
@@ -177,8 +181,14 @@ namespace mud
 				Renderer& renderer = this->renderer(viewport->m_shading);
 				this->render(renderer, *context, *viewport, frame);
 			}
-		
-		return BgfxSystem::next_frame();
+
+		bool pursue = true;
+		for(GfxContext* context : m_impl->m_contexts)
+			pursue &= context->next_frame();
+
+		BgfxSystem::next_frame();
+
+		return pursue;
 	}
 
 	void GfxSystem::render(Renderer& renderer, GfxContext& context, Viewport& viewport, RenderFrame& frame)

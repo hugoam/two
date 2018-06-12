@@ -6,10 +6,4 @@
 
 #include <procgen/Forward.h>
 
-//#ifndef MUD_META_GENERATOR
-//// @kludge since we can't forward declare the enums
-//export_ class MUD_PROCGEN_EXPORT FastNoise;
-//#include <FastNoise.h>
-//#endif
-
 #include <procgen/Noise/Noise.h>

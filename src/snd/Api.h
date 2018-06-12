@@ -1,4 +1,5 @@
 #include <snd/Forward.h>
+#include <snd/Generator.h>
 #include <snd/OggFileBuffer.h>
 #include <snd/SharedBuffer.h>
 #include <snd/Sound.h>

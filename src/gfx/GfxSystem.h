@@ -56,7 +56,7 @@ namespace mud
 	public:
 		GfxSystem(array<cstring> resource_paths = {});
 		~GfxSystem();
-
+		
 		virtual bool next_frame() final;
 
 		virtual object_ptr<Context> create_context(cstring name, int width, int height, bool full_screen) final;
@@ -69,10 +69,10 @@ namespace mud
 
 		void render(Renderer& renderer, GfxContext& context, Viewport& viewport, RenderFrame& frame);
 
+		GfxContext& context(size_t index = 0);
+
 		bx::FileReaderI& file_reader();
 		bx::FileWriterI& file_writer();
-
-		bx::DefaultAllocator m_allocator;
 
 		LocatedFile locate_file(cstring file);
 		LocatedFile locate_file(cstring file, array<cstring> extensions);

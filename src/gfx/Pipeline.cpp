@@ -21,6 +21,42 @@ namespace mud
 #define MUD_GFX_STATE_DEFAULT_ALPHA 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LESS \
 									  | BGFX_STATE_MSAA | BGFX_STATE_BLEND_ALPHA
 
+	void pipeline_minimal(GfxSystem& gfx_system, Pipeline& pipeline)
+	{
+		// filters
+		BlockFilter& filter = pipeline.add_block<BlockFilter>(gfx_system);
+		BlockCopy& copy = pipeline.add_block<BlockCopy>(gfx_system, filter);
+		
+		// pipeline
+		BlockDepth& depth = pipeline.add_block<BlockDepth>(gfx_system);
+		BlockSky& sky = pipeline.add_block<BlockSky>(gfx_system, filter);
+		BlockParticles& particles = pipeline.add_block<BlockParticles>(gfx_system);
+		UNUSED(particles);
+
+		// mrt
+		BlockResolve& resolve = pipeline.add_block<BlockResolve>(gfx_system, copy);
+
+		// effects
+
+		pipeline.m_pass_blocks[size_t(PassType::Depth)] = { &depth };
+		pipeline.m_pass_blocks[size_t(PassType::Unshaded)] = { &depth };
+		pipeline.m_pass_blocks[size_t(PassType::Background)] = { &sky };
+		pipeline.m_pass_blocks[size_t(PassType::Opaque)] = {};
+		pipeline.m_pass_blocks[size_t(PassType::Alpha)] = {};
+		pipeline.m_pass_blocks[size_t(PassType::Effects)] = { &resolve };
+		pipeline.m_pass_blocks[size_t(PassType::PostProcess)] = {};
+
+		gfx_system.programs().create("unshaded", [&](Program& program) { program.register_blocks(pipeline.pass_blocks(PassType::Unshaded)); });
+		gfx_system.programs().create("depth", [&](Program& program) { program.register_blocks(pipeline.pass_blocks(PassType::Depth)); });
+		gfx_system.programs().create("pbr/pbr", [&](Program& program) { program.register_blocks(pipeline.pass_blocks(PassType::Opaque)); });
+
+		static MinimalRenderer main_renderer = { gfx_system, pipeline };
+		static MinimalRenderer shadow_renderer = { gfx_system, pipeline };
+
+		gfx_system.set_renderer(Shading::Shaded, main_renderer);
+		gfx_system.set_renderer(Shading::Volume, shadow_renderer);
+	}
+
 	Pipeline::Pipeline(GfxSystem& gfx_system)
 	{
 		UNUSED(gfx_system);

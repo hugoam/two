@@ -6,10 +6,10 @@
 
 #ifndef MUD_MODULES
 #include <obj/Unique.h>
-#include <math/Vec.h>
 #endif
-#include <ui/Forward.h>
-#include <ui/Image.h>
+#include <math/Vec.h>
+#include <math/Forward.h>
+#include <math/Image.h>
 
 #ifndef MUD_CPP_20
 #include <vector>
@@ -21,7 +21,9 @@ namespace mud
 {
 	struct StbRectPack;
 
-	export_ class refl_ MUD_UI_EXPORT ImageAtlas
+	export_ MUD_MATH_EXPORT void load_folder_images(std::vector<Image>& images, const string& path, const string& subfolder);
+
+	export_ class refl_ MUD_MATH_EXPORT ImageAtlas
 	{
 	public:
 		ImageAtlas(uvec2 size);
@@ -45,7 +47,7 @@ namespace mud
 		unique_ptr<StbRectPack> m_rect_pack;
 	};
 
-	export_ class refl_ MUD_UI_EXPORT Sprite : public Image
+	export_ class refl_ MUD_MATH_EXPORT Sprite : public Image
 	{
 	public:
 		Sprite();
@@ -60,7 +62,7 @@ namespace mud
 		std::vector<vec4> m_frame_uvs;
 	};
 
-	export_ class refl_ MUD_UI_EXPORT SpriteAtlas : public ImageAtlas
+	export_ class refl_ MUD_MATH_EXPORT SpriteAtlas : public ImageAtlas
 	{
 	public:
 		SpriteAtlas(uvec2 size);

@@ -73,7 +73,6 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::TextPaint>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::TextSelection>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::UiRect>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::UiTarget>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::UiWindow>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::User>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Widget>();

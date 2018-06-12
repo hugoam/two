@@ -5,9 +5,9 @@
 #ifndef MUD_MODULES
 #include <gfx/Renderer.h>
 #include <gfx/Frustum.h>
+#include <gfx/Depth.h>
 #endif
 #include <gfx-pbr/Forward.h>
-#include <gfx-pbr/Depth.h>
 #include <gfx-pbr/ShadowAtlas.h>
 
 namespace mud

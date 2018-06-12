@@ -11,7 +11,7 @@
 module mud.procgen;
 #else
 #include <math/Colour.h>
-#include <math/Image.h>
+#include <math/Image256.h>
 #include <geom/Shapes.h>
 #include <procgen/Fract/Circle.h>
 #endif

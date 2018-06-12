@@ -6,16 +6,14 @@
 
 #ifndef MUD_MODULES
 #include <infra/NonCopy.h>
-#include <obj/Unique.h>
 #include <infra/Strung.h>
+#include <obj/Unique.h>
 #include <math/Vec.h>
 #endif
 #include <ctx/Forward.h>
 
 namespace mud
 {
-	class VgRenderer;
-
 	export_ class refl_ MUD_CTX_EXPORT RenderSystem
 	{
 	public:
@@ -24,8 +22,7 @@ namespace mud
 		virtual bool next_frame() = 0;
 
 		virtual object_ptr<Context> create_context(cstring name, int width, int height, bool fullScreen) = 0;
-		virtual object_ptr<VgRenderer> create_renderer(Context& context) = 0;
-
+		
 		const string m_resource_path;
 		const bool m_manual_render;
 	};

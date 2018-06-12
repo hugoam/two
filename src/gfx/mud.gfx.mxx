@@ -17,9 +17,7 @@ export import mud.srlz;
 export import mud.math;
 export import mud.geom;
 export import mud.ctx;
-export import mud.ui;
 export import mud.ctx.glfw;
-export import mud.ui.vg;
 export import mud.bgfx;
 
 #include <gfx/Api.h>

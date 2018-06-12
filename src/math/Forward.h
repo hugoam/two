@@ -64,6 +64,8 @@ namespace mud {
     class Clock;
     struct Anim;
     class Animator;
+	struct Image;
+	class ImageAtlas;
 }
 
 namespace mud {

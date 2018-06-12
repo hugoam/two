@@ -13,7 +13,6 @@ export import mud.obj;
 export import mud.pool;
 export import mud.refl;
 export import json11;
-export import stb.rect_pack;
 export import mud.infra;
 export import mud.obj;
 export import mud.refl;
@@ -21,6 +20,12 @@ export import mud.srlz;
 export import mud.math;
 export import mud.ctx;
 export import mud.ui;
+export import mud.infra.refl;
+export import mud.obj.refl;
+export import mud.refl.refl;
+export import mud.srlz.refl;
+export import mud.math.refl;
+export import mud.ctx.refl;
 
 #include <meta/ui/Api.h>
 

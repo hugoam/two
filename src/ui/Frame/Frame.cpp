@@ -26,7 +26,7 @@ namespace mud
 
 	template <> string to_string<DirtyLayout>(const DirtyLayout& dirty) { if(dirty == CLEAN) return "CLEAN"; else if(dirty == DIRTY_REDRAW) return "DIRTY_REDRAW"; else if(dirty == DIRTY_PARENT) return "DIRTY_PARENT"; else if(dirty == DIRTY_LAYOUT) return "DIRTY_LAYOUT"; else if(dirty == DIRTY_FORCE_LAYOUT) return "DIRTY_FORCE_LAYOUT"; else /*if(dirty == DIRTY_STRUCTURE)*/ return "DIRTY_STRUCTURE"; }
 
-	VgRenderer* Frame::s_renderer = nullptr;
+	Vg* Frame::s_vg = nullptr;
 
 	struct Frame::Content
 	{
@@ -152,7 +152,7 @@ namespace mud
 		if(d_content->d_caption != "")
 		{
 			TextPaint paint = text_paint(*d_inkstyle);
-			m_content = s_renderer->text_size(d_content->d_caption.c_str(), d_content->d_caption.size(), paint);
+			m_content = s_vg->text_size(d_content->d_caption.c_str(), d_content->d_caption.size(), paint);
 		}
 		else
 			m_content = Zero2;

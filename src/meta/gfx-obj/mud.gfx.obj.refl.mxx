@@ -19,6 +19,12 @@ export import mud.math;
 export import mud.geom;
 export import mud.gfx;
 export import mud.gfx.obj;
+export import mud.infra.refl;
+export import mud.obj.refl;
+export import mud.srlz.refl;
+export import mud.math.refl;
+export import mud.geom.refl;
+export import mud.gfx.refl;
 
 #include <meta/gfx-obj/Api.h>
 

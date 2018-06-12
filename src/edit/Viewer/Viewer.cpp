@@ -45,7 +45,7 @@ namespace mud
 	Viewer::Viewer(Widget* parent, void* identity, Scene& scene)
 		: Widget(parent, identity)
 		, m_scene(&scene)
-		, m_context(as<GfxContext>(*parent->ui_window().m_context))
+		, m_context(as<GfxContext>(parent->ui_window().m_context))
 		, m_camera(&scene)
 		, m_viewport(m_camera, scene)
 		, m_pick_query()
@@ -57,7 +57,11 @@ namespace mud
 		m_viewport.m_render = [&](Render& render) { this->render(render); };
 		m_viewport.m_filters = &m_filters;
 
-		m_custom_draw = [&](const Frame& frame, const vec4& rect, VgRenderer& renderer) { UNUSED(frame); renderer.draw_frame(frame, rect); this->blit(renderer); };
+		m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
+		{
+			//renderer.draw_frame(frame, rect);
+			this->blit(vg);
+		};
 #endif
 
 		m_context.m_viewports.push_back(&m_viewport);
@@ -97,14 +101,14 @@ namespace mud
 #endif
 	}
 
-	void Viewer::blit(VgRenderer& renderer)
+	void Viewer::blit(Vg& vg)
 	{
-		renderer.begin_target();
+		vg.begin_target();
 		vec4 image_rect = { vec2(0.f), vec2(m_context.m_target->m_size) };
 		if(bgfx::getCaps()->originBottomLeft)
 			image_rect.w = -image_rect.w;
-		renderer.draw_texture(m_context.m_vg_handle, { vec4(m_viewport.m_rect) }, image_rect);
-		renderer.end_target();
+		vg.draw_texture(m_context.m_vg_handle, { vec4(m_viewport.m_rect) }, image_rect);
+		vg.end_target();
 	}
 
 	vec4 Viewer::query_size()
@@ -143,7 +147,7 @@ namespace mud
 	}
 
 	SceneViewer::SceneViewer(Widget* parent, void* identity)
-		: Scene(as<GfxContext>(*parent->ui_window().m_context).m_gfx_system)
+		: Scene(as<GfxContext>(parent->ui_window().m_context).m_gfx_system)
 		, Viewer(parent, identity, *this)
 	{}
 

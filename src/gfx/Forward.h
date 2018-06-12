@@ -192,6 +192,7 @@ namespace mud {
     struct ProceduralSky;
     struct PerezSky;
     class BlockSky;
+	class BlockDepth;
 }
 
 namespace mud {

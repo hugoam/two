@@ -11,64 +11,19 @@
 #include <ui/Forward.h>
 #include <ui/Frame/Caption.h>
 
-#ifndef MUD_CPP_20
-#include <string>
-#endif
-
 namespace mud
 {
 	using cstring = const char*;
-	using string = std::string;
 
-	export_ class refl_ MUD_UI_EXPORT UiTarget
+	export_ class MUD_UI_EXPORT Vg
 	{
 	public:
-		UiTarget(VgRenderer& renderer, Layer& layer, bool gammaCorrected);
-
-		VgRenderer& m_renderer;
-		Layer& m_layer;
-		bool m_gammaCorrected;
-
-		void render();
-	};
-
-	export_ class MUD_UI_EXPORT VgRenderer
-	{
-	public:
-		VgRenderer(cstring resource_path);
-		virtual ~VgRenderer();
-
-		// drawing implementation
-		void render_layer(Layer& layer);
-
-		void begin_layer(Frame& frame);
-		void begin_frame(Frame& frame);
-		void render_frame(Frame& frame);
-		void end_frame(Frame& frame);
-		void end_layer(Frame& frame);
-		void draw_frame(const Frame& frame);
-		void draw_frame(const Frame& frame, const vec4& rect);
-
-		vec4 select_corners(const Frame& frame);
-		float content_pos(const Frame& frame, const vec4& padded_rect, Dim dim);
-		void draw_content(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
-		void draw_background(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
-		void draw_rect(const vec4& rect, const vec4& corners, const InkStyle& inkstyle);
-		void draw_image(const Image& image, const vec4& rect);
-		void draw_image_stretch(const Image& image, const vec4& rect, const vec2& stretch = { 1.f, 1.f });
-		void draw_skin_image(const Frame& frame, int section, vec4 rect);
-
-		void log_FPS();
-
-		// render
-		virtual void render(UiTarget& target);
+		Vg(cstring resource_path);
+		virtual ~Vg();
 
 		// init
 		virtual void setup_context() = 0;
 		virtual void release_context() = 0;
-
-		// targets
-		virtual object_ptr<UiTarget> create_render_target(Layer& masterLayer) = 0;
 
 		// setup
 		virtual void load_default_font() = 0;
@@ -79,7 +34,7 @@ namespace mud
 		virtual uint16_t load_texture(uint16_t texture) = 0;
 
 		// rendering
-		virtual void begin_frame(UiTarget& target) = 0;
+		virtual void begin_frame(const vec4& rect, float pixel_ratio = 1.f) = 0;
 		virtual void end_frame() = 0;
 
 		// drawing
@@ -141,14 +96,49 @@ namespace mud
 		cstring font_path(cstring font);
 
 	protected:
-		string m_resource_path;
+		struct Impl;
+		unique_ptr<Impl> m_impl;
+
+		bool m_null = false;
+	};
+
+	export_ class MUD_UI_EXPORT UiRenderer
+	{
+	public:
+		UiRenderer(Vg& vg);
+		virtual ~UiRenderer();
+
+		void render(Layer& layer);
+
+		// drawing implementation
+		void render_layer(Layer& layer);
+
+		void begin_layer(Frame& frame);
+		void begin_frame(Frame& frame);
+		void render_frame(Frame& frame);
+		void end_frame(Frame& frame);
+		void end_layer(Frame& frame);
+		void draw_frame(const Frame& frame);
+		void draw_frame(const Frame& frame, const vec4& rect);
+
+		vec4 select_corners(const Frame& frame);
+		float content_pos(const Frame& frame, const vec4& padded_rect, Dim dim);
+		void draw_content(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
+		void draw_background(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
+		void draw_rect(const vec4& rect, const vec4& corners, const InkStyle& inkstyle);
+		void draw_image(const Image& image, const vec4& rect);
+		void draw_image_stretch(const Image& image, const vec4& rect, const vec2& stretch = { 1.f, 1.f });
+		void draw_skin_image(const Frame& frame, int section, vec4 rect);
+
+		void log_FPS();
+
+	protected:
+		Vg& m_vg;
 		size_t m_debug_batch = 0;
 
 		struct Impl;
 		unique_ptr<Impl> m_impl;
 
 		Clock m_clock;
-
-		bool m_null = false;
 	};
 }

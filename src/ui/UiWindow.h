@@ -9,9 +9,10 @@
 #include <infra/Strung.h>
 #include <obj/Unique.h>
 #include <math/Timer.h>
+#include <math/ImageAtlas.h>
 #endif
 #include <ui/Forward.h>
-#include <ui/ImageAtlas.h>
+#include <ui/Render/Renderer.h>
 
 #ifndef MUD_CPP_20
 #include <vector>
@@ -22,7 +23,7 @@ namespace mud
 	export_ class refl_ MUD_UI_EXPORT UiWindow : public NonCopy
 	{
 	public:
-		UiWindow(RenderSystem& system, cstring name, int width, int height, bool fullScreen, User* user = nullptr);
+		UiWindow(Context& context, Vg& vg, User* user = nullptr);
 		~UiWindow();
 
 		void init();
@@ -42,11 +43,12 @@ namespace mud
 		void load_resources();
 
 	public:
-		RenderSystem& m_render_system;
 		const string m_resource_path;
 
-		object_ptr<Context> m_context;
-		object_ptr<VgRenderer> m_renderer;
+		Context& m_context;
+		Vg& m_vg;
+
+		UiRenderer m_renderer;
 
 		std::vector<object_ptr<Image>> m_images;
 		ImageAtlas m_atlas;
@@ -59,8 +61,6 @@ namespace mud
 		object_ptr<RootSheet> m_root_sheet;
 
 		bool m_shutdown = false;
-
-		Clock m_clock;
 
 		User* m_user = nullptr;
 	};

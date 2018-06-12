@@ -27,7 +27,9 @@ namespace mud
 		LuaInterpreter m_lua;
 		EditContext m_editor;
 
-		UiWindow* m_ui_window = nullptr;
+		unique_ptr<Context> m_context = nullptr;
+		unique_ptr<Vg> m_vg = nullptr;
+		unique_ptr<UiWindow> m_ui_window = nullptr;
 		Widget* m_ui = nullptr;
 
 		std::function<void(Shell&)> m_pump;

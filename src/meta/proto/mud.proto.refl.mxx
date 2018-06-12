@@ -16,6 +16,9 @@ export import mud.infra;
 export import mud.obj;
 export import mud.refl;
 export import mud.proto;
+export import mud.infra.refl;
+export import mud.obj.refl;
+export import mud.refl.refl;
 
 #include <meta/proto/Api.h>
 

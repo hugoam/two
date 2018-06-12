@@ -121,7 +121,6 @@ namespace mud {
     class TableSolver;
     class LineSolver;
     class GridSolver;
-    class UiTarget;
     class VgRenderer;
     class ScrollSheet;
     class Tabber;
@@ -145,6 +144,8 @@ namespace mud {
     struct InkStyle;
     class Options;
     class Styler;
+	class Vg;
+	class UiRenderer;
 }
 
 namespace mud {

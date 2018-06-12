@@ -5,11 +5,13 @@
 #include <gfx/Assets.h>
 #include <gfx/Camera.h>
 #include <gfx/Cpp20.h>
+#include <gfx/Depth.h>
 #include <gfx/Draw.h>
 #include <gfx/Effects.h>
 #include <gfx/Filter.h>
 #include <gfx/Forward.h>
 #include <gfx/Frustum.h>
+#include <gfx/Generator.h>
 #include <gfx/Gfx.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Graph.h>

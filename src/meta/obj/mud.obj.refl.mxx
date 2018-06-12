@@ -14,6 +14,7 @@ export import mud.pool;
 export import mud.refl;
 export import mud.infra;
 export import mud.obj;
+export import mud.infra.refl;
 
 #include <meta/obj/Api.h>
 

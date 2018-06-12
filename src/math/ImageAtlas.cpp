@@ -10,12 +10,30 @@ module mud.ui;
 #include <stb_rect_pack.h>
 #include <stb_image.h>
 
+#include <infra/String.h>
+#include <infra/File.h>
 #include <math/Interp.h>
-#include <ui/ImageAtlas.h>
+#include <math/ImageAtlas.h>
 #endif
 
 namespace mud
 {
+	void load_folder_images(std::vector<Image>& images, const string& path, const string& subfolder)
+	{
+		auto visit_file = [&](cstring path, cstring file)
+		{
+			string fullpath = string(path) + file;
+			string name = subfolder + replace_all(file, ".png", "");
+
+			int width, height, n;
+			unsigned char* img = stbi_load(fullpath.c_str(), &width, &height, &n, 4);
+			stbi_image_free(img);
+			images.push_back({ name.c_str(), fullpath.c_str(),{ uint(width), uint(height) } });
+		};
+
+		visit_files(path.c_str(), visit_file);
+	}
+
 	struct StbRectPack
 	{
 		StbRectPack(uvec2 size, size_t num_nodes)

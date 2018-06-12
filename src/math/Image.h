@@ -4,58 +4,32 @@
 
 #pragma once
 
-#include <math/Forward.h>
-#include <math/Colour.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
+#ifndef MUD_MODULES
+#include <infra/Strung.h>
 #endif
+#include <math/Vec.h>
+#include <math/Forward.h>
 
 namespace mud
 {
-	using cstring = const char*;
-
-	export_ enum refl_ SpectrumPalette : short int
-	{
-		SPECTRUM_GRAYSCALE = 0,
-		SPECTRUM_HUE = 1
-	};
-
-	export_ struct refl_ MUD_MATH_EXPORT Palette
+	export_ struct refl_ MUD_MATH_EXPORT Image
 	{
 	public:
-		constr_ Palette(SpectrumPalette spectrum, size_t steps);
-		constr_ Palette(std::vector<Colour> colours);
-		constr_ Palette();
+		Image(cstring name = "", cstring path = "", const uvec2& size = {})
+			: d_name(name), d_path(path), d_size(size)
+		{}
 
-		void reset();
-		void load(cstring file);
-		void add(Colour colour);
+		/*attr_*/ string d_name;
+		/*attr_*/ string d_path;
+		uvec2 d_size;
+		uvec2 d_coord = uvec2(0U);
 
-		size_t findColour(const Colour& colour);
+		int d_handle = -1;
+		ImageAtlas* d_atlas = nullptr;
 
-		void grayScaleSpectrum(size_t steps, bool toWhite = false);
-		void hueSpectrum(size_t steps);
-
-		std::vector<Colour> m_colours;
+		bool d_tile = false;
+		bool d_stretch = false;
+		bool d_filtering = true;
 	};
 
-	export_ struct refl_ MUD_MATH_EXPORT Image256
-	{
-	public:
-		constr_ Image256(uint16_t width = 0, uint16_t height = 0, const Palette& palette = Palette());
-
-		bool operator==(const Image256& other) const;
-
-		void resize(uint16_t width, uint16_t height);
-		uint32_t& at(uint16_t x, uint16_t y) { return m_pixels[x + y * m_width]; }
-
-		std::vector<uint8_t> read() const;
-		void read(uint8_t* data) const;
-
-		attr_ std::vector<uint32_t> m_pixels;
-		attr_ uint16_t m_width;
-		attr_ uint16_t m_height;
-		attr_ Palette m_palette;
-	};
 }
