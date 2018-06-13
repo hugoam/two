@@ -70,7 +70,7 @@ end
 function uses_shaderc()
     defines { "MUD_LIVE_SHADER_COMPILER" }
     
-    print(" links fcpp, glslang, etc...")
+    --print(" links fcpp, glslang, etc...")
     links {
         "fcpp",
         "glslang",
