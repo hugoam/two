@@ -53,9 +53,10 @@ namespace mud
 		FrameBuffer& m_target;
 		uvec2 m_size;
 
+		Program& m_program;
+
 		PickQuery m_query;
 
-		bgfx::ProgramHandle m_program;
 		bgfx::UniformHandle u_picking_id;
 
 		bgfx::FrameBufferHandle m_fbo;

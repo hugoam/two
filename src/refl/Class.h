@@ -53,11 +53,8 @@ namespace mud
 		const Constructor* constructor(ConstructorIndex index) const;
 		const Constructor* constructor(size_t arguments) const;
 
-#ifdef MUD_PROTO
-		Complex& get_stem(Ref object);
-		bool is_related(Ref object, Type& type);
-		Ref get_related(Ref object, Type& type);
-#endif
+		bool is(Type& component);
+		Ref as(Ref object, Type& component);
 
 	public:
 		Type* m_type;
@@ -88,15 +85,13 @@ namespace mud
 		std::vector<Var> m_field_values;
 
 		// Deep Reflection
+		std::vector<Member*> m_components;
 		std::vector<Member*> m_deep_members;
 		std::vector<Method*> m_deep_methods;
 
 		// Complex
-#ifdef MUD_PROTO
 		//Prototype* m_prototype;
 		//std::vector<Prototype*> m_prototypes;
-		//std::vector<Type*> m_components;
-#endif
 
 		// Implementation
 		std::function<unique_ptr<Pool>()> m_make_pool;

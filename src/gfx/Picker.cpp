@@ -37,13 +37,13 @@ namespace mud
 	Picker::Picker(GfxSystem& gfx_system, FrameBuffer& target)
 		: m_target(target)
 		, m_size(target.m_size) //PICKING_BUFFER_SIZE)
+		, m_program(gfx_system.programs().fetch("picking_id"))
 		, m_data(target.m_size.x * target.m_size.y)
 	{
 		bgfx::setViewClear(Render::s_render_picking_pass_id, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 1.0f, 0);
 
 		u_picking_id = bgfx::createUniform("u_picking_id", bgfx::UniformType::Vec4);
-		m_program = gfx_system.programs().fetch("picking_id").default_version();
-
+		
 		uint32_t flags = GFX_TEXTURE_POINT | BGFX_TEXTURE_MIP_POINT | GFX_TEXTURE_CLAMP;
 
 		if((bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0 && (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_READ_BACK) != 0)
@@ -105,11 +105,16 @@ namespace mud
 			for(const ModelItem& model_item : item.m_model->m_items)
 			{
 				Material& material = model_item.m_mesh->m_material ? *model_item.m_mesh->m_material : *item.m_material;
+
+				ShaderVersion shader_version = { &m_program };
+				shader_version.set_option(0, BILLBOARD, item.m_flags & ITEM_BILLBOARD);
+
 				uint64_t render_state = BGFX_STATE_DEFAULT;
 				material.state(render_state);
 				item.submit(render_state, model_item);
+
 				bgfx::setState(render_state);
-				bgfx::submit(view, m_program);
+				bgfx::submit(view, m_program.version(shader_version));
 			}
 		}
 

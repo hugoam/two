@@ -171,8 +171,8 @@ namespace mud
 		, element("Element", wedge, [](Layout& l) { l.m_space = STACK; l.m_opacity = OPAQUE; })
 
 		, label("Label", item, [](Layout& l) { l.m_align = { LEFT, CENTER }; })
-		, title("Title", label, {}, [](InkStyle& o) { o.m_text_size = 18.f; })
-		, message("Message", label, {}, [](InkStyle& o) { o.m_text_size = 18.f; })
+		, title("Title", label, {}, [](InkStyle& o) {}) //o.m_text_size = 18.f; })
+		, message("Message", label, {}, [](InkStyle& o) {}) //o.m_text_size = 18.f; })
 		, text("Text", item, [](Layout& l) { l.m_space = { PARAGRAPH, FIXED, WRAP }; },
 							 [](InkStyle& o) { o.m_text_break = true; })
 

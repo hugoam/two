@@ -41,24 +41,6 @@ function mud_gfx_gltf()
     }
 end
 
-function uses_mud_procgen()
-    includedirs {
-        path.join(MUD_3RDPARTY_DIR, "FastNoise"),
-    }
-end
-
-function mud_procgen()
-    includedirs {
-        path.join(MUD_3RDPARTY_DIR, "json11"),
-        path.join(MUD_3RDPARTY_DIR, "FastNoise"),
-    }
-    
-    files {
-        path.join(MUD_3RDPARTY_DIR, "FastNoise", "**.h"),
-        path.join(MUD_3RDPARTY_DIR, "FastNoise", "**.cpp"),
-    }
-end
-
 mud.ctxbackend  = mud_ctx_backend()
 mud.uibackend   = mud_ui_backend()
 
@@ -72,12 +54,11 @@ mud.gfx.gltf    = mud_module("mud", "gfx-gltf",     MUD_SRC_DIR, "gfx-gltf",    
 
 mud.edit        = mud_module("mud", "edit",         MUD_SRC_DIR, "edit",        nil,    nil,            nil,                { mud.infra, mud.tree, mud.obj, mud.refl, mud.srlz, mud.lang, mud.math, mud.geom, mud.ctx, mud.ui, mud.uio, mud.gfx, mud.gfx.pbr })
 
-mud.procgen     = mud_module("mud", "procgen",      MUD_SRC_DIR, "procgen",     nil,    mud_procgen,    uses_mud_procgen,   { json11, mud.infra, mud.obj, mud.srlz, mud.math, mud.geom })
 mud.procgen.gfx = mud_module("mud", "procgen-gfx",  MUD_SRC_DIR, "procgen-gfx", nil,    nil,            nil,                { json11, mud.infra, mud.tree, mud.obj, mud.srlz, mud.math, mud.geom, mud.procgen, mud.ctx, mud.ui, mud.uio, mud.gfx, mud.edit })
 
-mud.gfx.core = { mud.ctxbackend, mud.uibackend, mud.bgfx, mud.gfx, mud.gfx.obj, mud.gfx.pbr, mud.gfx.gltf, mud.edit, mud.procgen, mud.procgen.gfx }
+mud.gfx.core = { mud.ctxbackend, mud.uibackend, mud.bgfx, mud.gfx, mud.gfx.obj, mud.gfx.pbr, mud.gfx.gltf, mud.edit, mud.procgen.gfx }
 
-table.extend(mud.gfx.core, mud_refls({ mud.gfx, mud.gfx.obj, mud.gfx.pbr, mud.gfx.gltf, mud.edit, mud.procgen, mud.procgen.gfx }, FORCE_REFL_PROJECTS))
+table.extend(mud.gfx.core, mud_refls({ mud.gfx, mud.gfx.obj, mud.gfx.pbr, mud.gfx.gltf, mud.edit, mud.procgen.gfx }, FORCE_REFL_PROJECTS))
 
 mud.all = {}
 

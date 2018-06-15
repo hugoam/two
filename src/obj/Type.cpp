@@ -51,7 +51,7 @@ namespace mud
 		: m_id(s_type_index++)
 		, m_name(name)
 	{
-		printf("DEBUG: Type %s %i\n", name, int(m_id));
+		//printf("DEBUG: Type %s %i\n", name, int(m_id));
 
 		if(strcmp(name, "INVALID") == 0)
 			printf("WARNING: Invalid type created, this means an lref was created for a type which isn't exported\n");

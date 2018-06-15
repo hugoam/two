@@ -165,6 +165,9 @@ namespace mud
 		{
 			track.m_cursor.m_time = m_cursor;
 
+			if(m_ended)
+				continue;
+
 			if(looped)
 			{
 				track.m_cursor.m_prev = m_speed > 0.f ? 0 : track.m_track->m_keys.size() - 2;

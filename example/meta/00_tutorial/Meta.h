@@ -53,11 +53,11 @@ namespace mud
             {
                 { type<MyObject>(), member_address(&MyObject::m_visible), type<bool>(), "visible", var(bool(true)), Member::Flags(Member::Value|Member::Mutable) },
                 { type<MyObject>(), member_address(&MyObject::m_number), type<int>(), "number", var(int(0)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<MyObject>(), member_address(&MyObject::m_name), type<int>(), "name", var(int()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<MyObject>(), member_address(&MyObject::m_name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<MyObject>(), member_address(&MyObject::m_shape), type<ShapeType>(), "shape", var(ShapeType()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<MyObject>(), member_address(&MyObject::m_position), type<int>(), "position", var(int()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<MyObject>(), member_address(&MyObject::m_position), type<mud::vec3>(), "position", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<MyObject>(), member_address(&MyObject::m_colour), type<mud::Colour>(), "colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<MyObject>(), member_address(&MyObject::m_floats), type<int>(), "floats", var(int()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<MyObject>(), member_address(&MyObject::m_floats), type<std::vector<float>>(), "floats", var(std::vector<float>()), Member::Flags(Member::Value|Member::Mutable) }
             },
             // methods
             {

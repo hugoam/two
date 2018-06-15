@@ -16,7 +16,6 @@
 #include <math/Types.h>
 #include <geom/Types.h>
 #include <ctx/Types.h>
-#include <ui/Types.h>
 #endif
 
 #ifndef MUD_CPP_20
@@ -68,6 +67,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BaseMaterialBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Bone>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Camera>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::DepthParams>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Environment>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Filter>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::FrameBuffer>();
@@ -108,13 +108,13 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Transform>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::UnshadedMaterialBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Viewport>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockCopy>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockFilter>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockParticles>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockResolve>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockSky>();
-	export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockDepth>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockDepth>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ParticleEmitter>();
 }

@@ -28,7 +28,7 @@ module mud.procgen.gfx;
 
 namespace mud
 {
-	Tileblock::Tileblock(const uvec3& size, const vec3& period, WaveTileset& tileset)
+	Tileblock::Tileblock(const uvec3& size, const vec3& period, WaveTileset& tileset, bool auto_solve)
 		: m_size(size)
 		, m_period(period)
 		, m_tileset(tileset)
@@ -36,6 +36,7 @@ namespace mud
 		, m_wave(m_tileset, uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), false)
 		, m_tiles(uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), UINT16_MAX)
 		, m_entropy(uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), 0U)
+		, m_auto_solve(auto_solve)
 	{}
 
 	uvec3 Tileblock::to_coord(const vec3& position)

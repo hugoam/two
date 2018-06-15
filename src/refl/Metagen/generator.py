@@ -733,13 +733,11 @@ def generate_all_modules():
     
     
 parser = argparse.ArgumentParser(description='Generate reflection for N modules.')
-parser.add_argument('clang', help='path of libclang library')
+#parser.add_argument('clang', help='path of libclang library')
 parser.add_argument('modules', nargs='+', help='path of the module.py files for which to generate reflection')
 args = parser.parse_args()
-#print(args.modules)
 
 for module in args.modules:
-    print(module)
     with open(module) as f:
         add_module(json.load(f))
 

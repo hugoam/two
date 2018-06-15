@@ -89,10 +89,6 @@ namespace mud {
     class Style;
     struct Space;
     struct Styles;
-    struct Image;
-    class ImageAtlas;
-    class Sprite;
-    class SpriteAtlas;
     struct UiRect;
     class Frame;
     class Widget;
@@ -107,6 +103,8 @@ namespace mud {
     class Text;
     class TextEdit;
     struct NodeConnection;
+    class Vg;
+    class UiRenderer;
     class UiWindow;
     class User;
     struct KeyCombo;
@@ -121,7 +119,6 @@ namespace mud {
     class TableSolver;
     class LineSolver;
     class GridSolver;
-    class VgRenderer;
     class ScrollSheet;
     class Tabber;
     class Expandbox;
@@ -144,8 +141,6 @@ namespace mud {
     struct InkStyle;
     class Options;
     class Styler;
-	class Vg;
-	class UiRenderer;
 }
 
 namespace mud {

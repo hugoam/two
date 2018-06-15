@@ -178,6 +178,13 @@ namespace mud
     }
     
     {
+        static Meta meta = { type<array<mud::Colour>>(), &namspc({}), "array<mud::Colour>", sizeof(array<mud::Colour>), TypeClass::Sequence };
+        static Class cls = { type<array<mud::Colour>>() };
+        cls.m_content = &type<mud::Colour>();
+        meta_sequence<array<mud::Colour>, mud::Colour>();
+    }
+    
+    {
         static Meta meta = { type<std::vector<mud::Space>>(), &namspc({}), "std::vector<mud::Space>", sizeof(std::vector<mud::Space>), TypeClass::Sequence };
         static Class cls = { type<std::vector<mud::Space>>() };
         cls.m_content = &type<mud::Space>();
@@ -554,71 +561,6 @@ namespace mud
         meta_class<mud::GridSolver>();
     }
     
-    
-    
-        
-    // mud::Image
-    {
-        static Meta meta = { type<mud::Image>(), &namspc({ "mud" }), "Image", sizeof(mud::Image), TypeClass::Struct };
-        static Class cls = { type<mud::Image>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<mud::Image>(), [](Ref ref, Ref other) { new(&val<mud::Image>(ref)) mud::Image(val<mud::Image>(other)); } }
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Image>();
-    }
-    
-    
-        
-    // mud::ImageAtlas
-    {
-        static Meta meta = { type<mud::ImageAtlas>(), &namspc({ "mud" }), "ImageAtlas", sizeof(mud::ImageAtlas), TypeClass::Object };
-        static Class cls = { type<mud::ImageAtlas>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::ImageAtlas>();
-    }
     
     
         
@@ -1240,7 +1182,7 @@ namespace mud
         
         meta_class<mud::UiRect>();
     }
-
+    
     
     
         
@@ -1351,135 +1293,6 @@ namespace mud
         meta_class<mud::Widget>();
     }
     
-    
-    
-        
-    // mud::RowSolver
-    {
-        static Meta meta = { type<mud::RowSolver>(), &namspc({ "mud" }), "RowSolver", sizeof(mud::RowSolver), TypeClass::Object };
-        static Class cls = { type<mud::RowSolver>(),
-            // bases
-            { &type<mud::FrameSolver>() },
-            { base_offset<mud::RowSolver, mud::FrameSolver>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::RowSolver>();
-    }
-    
-    
-    
-        
-    // mud::LineSolver
-    {
-        static Meta meta = { type<mud::LineSolver>(), &namspc({ "mud" }), "LineSolver", sizeof(mud::LineSolver), TypeClass::Object };
-        static Class cls = { type<mud::LineSolver>(),
-            // bases
-            { &type<mud::RowSolver>() },
-            { base_offset<mud::LineSolver, mud::RowSolver>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::LineSolver>();
-    }
-    
-    
-        
-    // mud::Sprite
-    {
-        static Meta meta = { type<mud::Sprite>(), &namspc({ "mud" }), "Sprite", sizeof(mud::Sprite), TypeClass::Object };
-        static Class cls = { type<mud::Sprite>(),
-            // bases
-            { &type<mud::Image>() },
-            { base_offset<mud::Sprite, mud::Image>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Sprite>();
-    }
-    
-    
-        
-    // mud::SpriteAtlas
-    {
-        static Meta meta = { type<mud::SpriteAtlas>(), &namspc({ "mud" }), "SpriteAtlas", sizeof(mud::SpriteAtlas), TypeClass::Object };
-        static Class cls = { type<mud::SpriteAtlas>(),
-            // bases
-            { &type<mud::ImageAtlas>() },
-            { base_offset<mud::SpriteAtlas, mud::ImageAtlas>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::SpriteAtlas>();
-    }
     
     
         
@@ -1963,6 +1776,71 @@ namespace mud
     
     
         
+    // mud::RowSolver
+    {
+        static Meta meta = { type<mud::RowSolver>(), &namspc({ "mud" }), "RowSolver", sizeof(mud::RowSolver), TypeClass::Object };
+        static Class cls = { type<mud::RowSolver>(),
+            // bases
+            { &type<mud::FrameSolver>() },
+            { base_offset<mud::RowSolver, mud::FrameSolver>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::RowSolver>();
+    }
+    
+    
+    
+        
+    // mud::LineSolver
+    {
+        static Meta meta = { type<mud::LineSolver>(), &namspc({ "mud" }), "LineSolver", sizeof(mud::LineSolver), TypeClass::Object };
+        static Class cls = { type<mud::LineSolver>(),
+            // bases
+            { &type<mud::RowSolver>() },
+            { base_offset<mud::LineSolver, mud::RowSolver>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::LineSolver>();
+    }
+    
+    
+        
     // mud::Dockbar
     {
         static Meta meta = { type<mud::Dockbar>(), &namspc({ "mud" }), "Dockbar", sizeof(mud::Dockbar), TypeClass::Object };
@@ -2075,8 +1953,6 @@ namespace mud
         m.m_types.push_back(&type<mud::FlowAxis>());
         m.m_types.push_back(&type<mud::Gradient>());
         m.m_types.push_back(&type<mud::GridSolver>());
-        m.m_types.push_back(&type<mud::Image>());
-        m.m_types.push_back(&type<mud::ImageAtlas>());
         m.m_types.push_back(&type<mud::ImageSkin>());
         m.m_types.push_back(&type<mud::InkStyle>());
         m.m_types.push_back(&type<mud::Layer>());
@@ -2105,12 +1981,9 @@ namespace mud
         m.m_types.push_back(&type<mud::WindowState>());
         m.m_types.push_back(&type<array<cstring>>());
         m.m_types.push_back(&type<array<float>>());
+        m.m_types.push_back(&type<array<mud::Colour>>());
         m.m_types.push_back(&type<std::vector<mud::Space>>());
         m.m_types.push_back(&type<std::vector<std::string>>());
-        m.m_types.push_back(&type<mud::RowSolver>());
-        m.m_types.push_back(&type<mud::LineSolver>());
-        m.m_types.push_back(&type<mud::Sprite>());
-        m.m_types.push_back(&type<mud::SpriteAtlas>());
         m.m_types.push_back(&type<mud::Frame>());
         m.m_types.push_back(&type<mud::FrameSolver>());
         m.m_types.push_back(&type<mud::Canvas>());
@@ -2126,6 +1999,8 @@ namespace mud
         m.m_types.push_back(&type<mud::Table>());
         m.m_types.push_back(&type<mud::TextEdit>());
         m.m_types.push_back(&type<mud::TreeNode>());
+        m.m_types.push_back(&type<mud::RowSolver>());
+        m.m_types.push_back(&type<mud::LineSolver>());
         m.m_types.push_back(&type<mud::Dockbar>());
         m.m_types.push_back(&type<mud::Dockspace>());
         m.m_types.push_back(&type<mud::Window>());
@@ -2644,6 +2519,24 @@ namespace mud
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::color_toggle_edit(val<mud::Widget>(args[0]), val<mud::Colour>(args[1])); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "value", var(mud::Colour()) } };
             static Function f = { &namspc({ "mud", "ui" }), "color_toggle_edit", function_id<bool(*)(mud::Widget&, mud::Colour&)>(&mud::ui::color_toggle_edit), func, params, var(bool()) };
+            m.m_functions.push_back(&f);
+        }
+        {
+            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::curve_graph(val<mud::Widget>(args[0]), val<array<float>>(args[1]), val<array<float>>(args[2])); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "values", var(array<float>()) }, { "points", var(array<float>()), Param::Default } };
+            static Function f = { &namspc({ "mud", "ui" }), "curve_graph", function_id<bool(*)(mud::Widget&, array<float>, array<float>)>(&mud::ui::curve_graph), func, params, var(bool()) };
+            m.m_functions.push_back(&f);
+        }
+        {
+            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::curve_edit(val<mud::Widget>(args[0]), val<array<float>>(args[1]), val<array<float>>(args[2])); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "values", var(array<float>()) }, { "points", var(array<float>()), Param::Default } };
+            static Function f = { &namspc({ "mud", "ui" }), "curve_edit", function_id<bool(*)(mud::Widget&, array<float>, array<float>)>(&mud::ui::curve_edit), func, params, var(bool()) };
+            m.m_functions.push_back(&f);
+        }
+        {
+            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::curve_edit(val<mud::Widget>(args[0]), val<array<mud::Colour>>(args[1]), val<array<float>>(args[2])); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "values", var(array<mud::Colour>()) }, { "points", var(array<float>()), Param::Default } };
+            static Function f = { &namspc({ "mud", "ui" }), "curve_edit", function_id<bool(*)(mud::Widget&, array<mud::Colour>, array<float>)>(&mud::ui::curve_edit), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {

@@ -1,5 +1,6 @@
 #define MUD_NO_GFX
 #include <mud/mud.h>
+#include <mud/Modules.h>
 #include <00_ui/00_ui.h>
 
 #ifdef MUD_RENDERER_GL
@@ -8,7 +9,7 @@
 #include <bgfx/BgfxSystem.h>
 #endif
 
-#include <cfloat>
+#include <ui-vg/VgVg.h>
 
 using namespace mud;
 
@@ -864,7 +865,7 @@ bool pump(RenderSystem& render_system, UiWindow& ui_window)
 int main(int argc, char *argv[])
 {
 	UNUSED(argc); UNUSED(argv);
-	System::instance().load_modules({ &mudobj::m(), &mudmath::m(), &mudlang::m(), &mudui::m() });
+	System::instance().load_modules({ &mud_obj::m(), &mud_math::m(), &mud_lang::m(), &mud_ui::m() });
 
 #ifdef MUD_RENDERER_GL
 	static GlSystem render_system = { MUD_RESOURCE_PATH };
@@ -872,7 +873,11 @@ int main(int argc, char *argv[])
 	static BgfxSystem render_system = { MUD_RESOURCE_PATH };
 #endif
 
-	static UiWindow ui_window = { render_system, "mud ui demo", 1200, 800, false };
+	static object_ptr<Context> context = render_system.create_context("mud ui demo", 1200, 800, false);
+
+	static object_ptr<VgVg> vg = make_object<VgVg>(MUD_RESOURCE_PATH, &render_system.m_allocator);
+
+	static UiWindow ui_window = { *context, *vg };
 	//switchUiTheme(ui_window, "Minimal");
 	switchUiTheme(ui_window, "Blendish Dark");
 	//switchUiTheme(ui_window, "Blendish");

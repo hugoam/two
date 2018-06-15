@@ -66,7 +66,7 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::Tileblock>(), [](Ref ref, array<Var> args) { new(&val<mud::Tileblock>(ref)) mud::Tileblock( val<mud::uvec3>(args[0]), val<mud::vec3>(args[1]), val<mud::WaveTileset>(args[2]) ); }, { { "size", var(mud::uvec3()) }, { "period", var(mud::vec3()) }, { "tileset", var(mud::WaveTileset()) } } }
+                { type<mud::Tileblock>(), [](Ref ref, array<Var> args) { new(&val<mud::Tileblock>(ref)) mud::Tileblock( val<mud::uvec3>(args[0]), val<mud::vec3>(args[1]), val<mud::WaveTileset>(args[2]), val<bool>(args[3]) ); }, { { "size", var(mud::uvec3()) }, { "period", var(mud::vec3()) }, { "tileset", var(mud::WaveTileset()) }, { "auto_solve", var(bool(false)), Param::Default } } }
             },
             // copy constructor
             {

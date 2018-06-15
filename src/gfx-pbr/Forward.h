@@ -39,12 +39,10 @@ namespace glm {
     
 }
 
-namespace mud {
-namespace gfx {
+namespace bgfx {
 
     
     
-}
 }
 
 namespace json11 {
@@ -68,9 +66,6 @@ namespace mud {
     enum class TonemapMode : unsigned int;
     
     
-    struct DepthParams;
-    class PassDepth;
-    class BlockDepth;
     class BlockLight;
     struct ReflectionRenderer;
     struct MainRenderer;
@@ -113,10 +108,12 @@ namespace detail {
 }
 }
 
-namespace bgfx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace bimg {

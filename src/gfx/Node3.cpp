@@ -43,7 +43,7 @@ namespace mud
 		//printf("orientation %f, %f, %f, %f\n", m_rotation.x, bone.m_rotation.y, bone.m_rotation.z, bone.m_rotation.w);)
 	}
 
-	static uint16_t nodeIndex = 0;
+	static uint16_t s_node_index = 0;
 
 	Transform::Transform(const mat4& transform)
 	{
@@ -52,7 +52,7 @@ namespace mud
 
 	Node3::Node3(Scene* scene, Ref object)
 		: m_scene(scene)
-		, m_index(nodeIndex++)
+		, m_index(s_node_index++)
 		, m_object(object)
 	{}
 }

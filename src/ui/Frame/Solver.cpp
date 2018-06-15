@@ -153,7 +153,7 @@ namespace mud
 		m_solvers[DIM_X]->layout(*this, DIM_X);
 		m_solvers[DIM_Y]->layout(*this, DIM_Y);
 
-#if 1 // DEBUG
+#if 0 // DEBUG
 		if(!d_frame) return;
 		d_frame->debug_print(false);
 		printf(" size %i , %i ", int(m_size.x), int(m_size.y));

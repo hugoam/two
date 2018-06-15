@@ -26,7 +26,9 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<int>>() { static Type ty("AutoStat<int>"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Colour>() { static Type ty("Colour"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Gauge>() { static Type ty("Gauge"); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::Image>() { static Type ty("Image"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Image256>() { static Type ty("Image256"); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::ImageAtlas>() { static Type ty("ImageAtlas"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Palette>() { static Type ty("Palette"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Range<float>>() { static Type ty("Range<float>"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Range<mud::Colour>>() { static Type ty("Range<mud::Colour>"); return ty; }
@@ -55,4 +57,6 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::vec2>() { static Type ty("vec2"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::vec3>() { static Type ty("vec3"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::vec4>() { static Type ty("vec4"); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::SpriteAtlas>() { static Type ty("SpriteAtlas", type<mud::ImageAtlas>()); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::Sprite>() { static Type ty("Sprite", type<mud::Image>()); return ty; }
 }

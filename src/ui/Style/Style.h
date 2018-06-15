@@ -41,8 +41,6 @@ namespace mud
 		struct Impl;
 		unique_ptr<Impl> m_impl;
 
-		LayoutDef m_layout_def = nullptr;
-		InkStyleDef m_skin_def = nullptr;
 		bool m_defined;
 	};
 }

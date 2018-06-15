@@ -55,8 +55,12 @@ namespace mud {
     struct Colour;
     class Lerp;
     class Grid3;
+    struct Image;
     struct Palette;
     struct Image256;
+    class ImageAtlas;
+    class Sprite;
+    class SpriteAtlas;
     struct Ratio;
     struct Gauge;
     struct Time;
@@ -64,8 +68,6 @@ namespace mud {
     class Clock;
     struct Anim;
     class Animator;
-	struct Image;
-	class ImageAtlas;
 }
 
 namespace mud {

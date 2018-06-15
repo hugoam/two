@@ -3,31 +3,6 @@
 
 using namespace mud;
 
-#if 0
-static void generator_script(Shell& app, VisualScript& script)
-{
-	script.lock();
-
-	Valve& grid_size = script.value(uvec3(20, 4, 20));
-	//Valve& coords = script.function(grid, { &grid_size });
-
-	string path = app.m_resource_path + "models/" + "platform/platform.tls";
-	Valve& tileset = script.function(parse_json_wave_tileset, { &script.value(path), &script.value(string("")) });
-
-	Valve& tileblock = script.create<Tileblock>({ &grid_size, &script.value(Unit3), &tileset });
-	//Valve& world = script.method(&Tileblock::update, { &empty_world, &wave });
-
-	script.unlock();
-}
-
-VisualScript& create_visual_script(Shell& app)
-{
-	static VisualScript script = { "Example Script" };
-	generator_script(app, script);
-	return script;
-}
-#endif
-
 WaveTileset& create_tileset(Shell& app)
 {
 	static WaveTileset tileset;

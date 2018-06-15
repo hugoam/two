@@ -12,7 +12,6 @@
 #include <math/Forward.h>
 #include <geom/Forward.h>
 #include <ctx/Forward.h>
-#include <ui/Forward.h>
 
 #ifndef MUD_GFX_EXPORT
 #define MUD_GFX_EXPORT MUD_IMPORT
@@ -42,12 +41,10 @@ namespace glm {
     
 }
 
-namespace mud {
-namespace gfx {
+namespace bgfx {
 
     
     
-}
 }
 
 namespace json11 {
@@ -144,6 +141,9 @@ namespace mud {
     struct PrefabNode;
     class Prefab;
     class Camera;
+    struct DepthParams;
+    class PassDepth;
+    class BlockDepth;
     class ImmediateDraw;
     class SymbolIndex;
     class BlockResolve;
@@ -192,7 +192,6 @@ namespace mud {
     struct ProceduralSky;
     struct PerezSky;
     class BlockSky;
-	class BlockDepth;
 }
 
 namespace mud {
@@ -203,10 +202,12 @@ namespace detail {
 }
 }
 
-namespace bgfx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace bimg {

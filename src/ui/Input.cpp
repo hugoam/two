@@ -312,5 +312,10 @@ namespace
 		curve_graph(self, values, points);
 		return false;
 	}
+
+	bool curve_edit(Widget& parent, array<Colour> values, array<float> points)
+	{
+		return false;
+	}
 }
 }

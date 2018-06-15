@@ -56,4 +56,9 @@ namespace mud
 	{
 		this->commit(std::move(m_action));
 	}
+
+	object_ptr<TransformAction> CopyTool::create_action(const std::vector<Transform*>& targets)
+	{
+		return make_object<CopyAction>(targets);
+	}
 }

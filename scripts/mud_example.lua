@@ -47,17 +47,17 @@ function mud_example(name, gfx, deps, ismodule)
     project(name)
         kind "ConsoleApp"
         
-        mud.examples[name] = mud_module(nil, "_" .. name, path.join(MUD_DIR, "example"), name, mud_example_module_decl, nil, nil, {}, not ismodule)
+        _G[name] = mud_module(nil, "_" .. name, path.join(MUD_DIR, "example"), name, mud_example_module_decl, nil, nil, {}, not ismodule)
         
         if ismodule then
-            mud_refl(mud.examples[name])
-            mud_module_decl(mud.examples[name].refl, false)
+            mud_refl(_G[name])
+            mud_module_decl(_G[name].refl, false)
         end
         
-        mud.examples[name].decl(mud.examples[name], false)
+        _G[name].decl(_G[name], false)
         
 		for _, depname in ipairs(deps) do
-            mud.examples[depname].decl(mud.examples[depname], false)
+            _G[depname].decl(_G[depname], false)
         end
         
         if gfx then
@@ -68,11 +68,11 @@ function mud_example(name, gfx, deps, ismodule)
             mud_depends(mud.all)
         else
             if _OPTIONS["renderer-gl"] then
-                mud_depends({ mud.gl })
+                mud_depends({ mud.gl, mud.uibackend })
             elseif _OPTIONS["renderer-bgfx"] then
-                mud_depends({ mud.bgfx })
+                mud_depends({ mud.bgfx, mud.uibackend })
             end
-            mud_depends(mud.modules)
+            mud_depends(mud.core)
         end
         
         mud_binary(name)
@@ -80,7 +80,7 @@ end
 
 mud_example("00_tutorial",          true, {}, true)
 mud_example("00_cube",              true, {})
---mud_example("00_ui",                false, {})
+mud_example("00_ui",                false, {})
 mud_example("01_shapes",            true, {})
 mud_example("03_materials",         true, {})
 mud_example("02_camera",            true, { "03_materials" })

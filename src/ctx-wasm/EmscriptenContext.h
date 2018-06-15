@@ -6,12 +6,15 @@
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
 
-/* mud */
-#include <ctx/Generated/Forward.h>
+#include <ctx/Forward.h>
 #include <ctx/Context.h>
 
 #include <emscripten/emscripten.h>
 #include <emscripten/html5.h>
+
+#ifndef MUD_CTX_WASM_EXPORT
+#define MUD_CTX_WASM_EXPORT
+#endif
 
 namespace mud
 {

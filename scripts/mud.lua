@@ -65,6 +65,24 @@ function mud_geom()
     }
 end
 
+function uses_mud_procgen()
+    includedirs {
+        path.join(MUD_3RDPARTY_DIR, "FastNoise"),
+    }
+end
+
+function mud_procgen()
+    includedirs {
+        path.join(MUD_3RDPARTY_DIR, "json11"),
+        path.join(MUD_3RDPARTY_DIR, "FastNoise"),
+    }
+    
+    files {
+        path.join(MUD_3RDPARTY_DIR, "FastNoise", "**.h"),
+        path.join(MUD_3RDPARTY_DIR, "FastNoise", "**.cpp"),
+    }
+end
+
 function mud_lang()
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "lua"),
@@ -110,6 +128,7 @@ else
     mud.math = mud_module("mud", "math",    MUD_SRC_DIR, "math",    nil,        mud_math,       uses_mud_math,      { json11, stb.image, stb.rect_pack, mud.infra, mud.obj, mud.refl, mud.srlz })
 end
 mud.geom    = mud_module("mud", "geom",     MUD_SRC_DIR, "geom",    nil,        mud_geom,       nil,                { mud.obj, mud.math })
+mud.procgen = mud_module("mud", "procgen",  MUD_SRC_DIR, "procgen", nil,        mud_procgen,    uses_mud_procgen,   { json11, mud.infra, mud.obj, mud.srlz, mud.math, mud.geom })
 mud.lang    = mud_module("mud", "lang",     MUD_SRC_DIR, "lang",    nil,        mud_lang,       nil,                { lua, mud.infra, mud.obj, mud.pool, mud.refl })
 mud.ctx     = mud_module("mud", "ctx",      MUD_SRC_DIR, "ctx",     nil,        nil,            nil,                { mud.infra, mud.obj, mud.math })
 mud.ui      = mud_module("mud", "ui",       MUD_SRC_DIR, "ui",      nil,        mud_ui,         nil,                { json11, mud.infra, mud.obj, mud.refl, mud.srlz, mud.math, mud.ctx })
@@ -130,11 +149,11 @@ mud.obj.basetypes = { 'void', 'bool', 'short', 'int', 'long', 'long long', 'floa
 mud.obj.aliases = { ['mud::string'] = 'std::string', ['string'] = 'std::string', ['mud::cstring'] = 'cstring' }
 
 if _OPTIONS["sound"] then
-    mud.core = { mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.tree, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio, mud.snd }
-    table.extend(mud.core, mud_refls({ mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio, mud.snd }, FORCE_REFL_PROJECTS))
+    mud.core = { mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.tree, mud.srlz, mud.math, mud.geom, mud.procgen, mud.lang, mud.ctx, mud.ui, mud.uio, mud.snd }
+    table.extend(mud.core, mud_refls({ mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.srlz, mud.math, mud.geom, mud.procgen, mud.lang, mud.ctx, mud.ui, mud.uio, mud.snd }, FORCE_REFL_PROJECTS))
 else
-    mud.core = { mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.tree, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio }
-    table.extend(mud.core, mud_refls({ mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.srlz, mud.math, mud.geom, mud.lang, mud.ctx, mud.ui, mud.uio }, FORCE_REFL_PROJECTS))
+    mud.core = { mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.tree, mud.srlz, mud.math, mud.geom, mud.procgen, mud.lang, mud.ctx, mud.ui, mud.uio }
+    table.extend(mud.core, mud_refls({ mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.srlz, mud.math, mud.geom, mud.procgen, mud.lang, mud.ctx, mud.ui, mud.uio }, FORCE_REFL_PROJECTS))
 end
 
 if _OPTIONS["as-libs"] then

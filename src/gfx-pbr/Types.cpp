@@ -27,7 +27,6 @@ namespace mud
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::TonemapShaderOption>() { static Type ty("mud::TonemapShaderOption"); return ty; }
     
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::BCS>() { static Type ty("BCS"); return ty; }
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::DepthParams>() { static Type ty("DepthParams"); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofBlur>() { static Type ty("DofBlur"); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::Glow>() { static Type ty("Glow"); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightShadow>() { static Type ty("LightShadow"); return ty; }

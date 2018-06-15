@@ -33,6 +33,11 @@ function uses_bx()
     includedirs {
         path.join(BX_DIR,    "include"),
     }
+    
+	configuration { "vs*", "not orbis", "not asmjs" }
+		includedirs { path.join(BX_DIR, "include/compat/msvc") }
+    
+    configuration {}
 end
 
 function uses_bimg()

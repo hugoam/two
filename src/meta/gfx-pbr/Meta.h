@@ -73,40 +73,6 @@ namespace mud
     
     
     
-        
-    // mud::DepthParams
-    {
-        static Meta meta = { type<mud::DepthParams>(), &namspc({ "mud" }), "DepthParams", sizeof(mud::DepthParams), TypeClass::Struct };
-        static Class cls = { type<mud::DepthParams>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<mud::DepthParams>(), [](Ref ref, Ref other) { new(&val<mud::DepthParams>(ref)) mud::DepthParams(val<mud::DepthParams>(other)); } }
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::DepthParams>();
-    }
-    
-    
-    
     
         
     // mud::DofBlur
@@ -226,7 +192,6 @@ namespace mud
         
         meta_class<mud::LightShadow>();
     }
-    
     
     
     
@@ -524,38 +489,6 @@ namespace mud
     
     
         
-    // mud::BlockDepth
-    {
-        static Meta meta = { type<mud::BlockDepth>(), &namspc({ "mud" }), "BlockDepth", sizeof(mud::BlockDepth), TypeClass::Object };
-        static Class cls = { type<mud::BlockDepth>(),
-            // bases
-            { &type<mud::DrawBlock>() },
-            { base_offset<mud::BlockDepth, mud::DrawBlock>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::BlockDepth>();
-    }
-    
-    
-        
     // mud::BlockLight
     {
         static Meta meta = { type<mud::BlockLight>(), &namspc({ "mud" }), "BlockLight", sizeof(mud::BlockLight), TypeClass::Object };
@@ -653,7 +586,6 @@ namespace mud
 
     
         m.m_types.push_back(&type<mud::BCS>());
-        m.m_types.push_back(&type<mud::DepthParams>());
         m.m_types.push_back(&type<mud::DofBlur>());
         m.m_types.push_back(&type<mud::Glow>());
         m.m_types.push_back(&type<mud::LightShadow>());
@@ -666,7 +598,6 @@ namespace mud
         m.m_types.push_back(&type<mud::BlockGlow>());
         m.m_types.push_back(&type<mud::BlockReflection>());
         m.m_types.push_back(&type<mud::BlockTonemap>());
-        m.m_types.push_back(&type<mud::BlockDepth>());
         m.m_types.push_back(&type<mud::BlockLight>());
         m.m_types.push_back(&type<mud::BlockRadiance>());
         m.m_types.push_back(&type<mud::BlockShadow>());

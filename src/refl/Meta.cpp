@@ -124,12 +124,7 @@ namespace mud
 	}
 
 	Class::~Class()
-	{
-#ifdef MUD_PROTO
-		if(m_prototype)
-			vector_remove(cls(*m_root).m_prototypes, m_prototype);
-#endif
-	}
+	{}
 
 	void Class::inherit(std::vector<Type*> types)
 	{
@@ -143,23 +138,6 @@ namespace mud
 
 	void Class::setup_class()
 	{
-#ifdef MUD_PROTO
-		if(m_type->m_kind == TypeKind::Prototype)
-		{
-			m_prototype = &as<Prototype>(*m_type);
-			cls(*m_root).m_prototypes.push_back(m_prototype);
-			m_components = m_prototype->m_parts;
-
-			for(Type* type : m_prototype->m_parts)
-			{
-				for(Member& member : cls(*type).m_members)
-					m_deep_members.push_back(&member);
-				for(Method& method : cls(*type).m_methods)
-					m_deep_methods.push_back(&method);
-			}
-		}
-#endif
-
 		this->inherit(m_bases);
 
 		for(size_t i = 0; i < m_members.size(); ++i)
@@ -176,9 +154,22 @@ namespace mud
 			if(strcmp(member.m_name, "type") == 0 && member.m_type->is<Type>())
 				m_type_member = &member;
 
+			if(member.is_component())
+				m_components.push_back(&member);
+
 			m_field_names.push_back(member.m_name);
 			m_field_values.push_back(member.m_default_value);
 		}
+
+		for(Member* component : m_components)
+			if(g_class[component->m_type->m_id])
+			{
+				Class& c = cls(*component->m_type);
+				for(Member& member : c.m_members)
+					m_deep_members.push_back(&member);
+				for(Method& method : c.m_methods)
+					m_deep_methods.push_back(&method);
+			}
 	}
 
 	Ref Class::upcast(Ref object, Type& base)
@@ -268,30 +259,16 @@ namespace mud
 		return nullptr;
 	}
 
-#ifdef MUD_PROTO
-	bool Class::is_related(Ref object, Type& target)
+	bool Class::is(Type& component)
 	{
-		bool result = (m_prototype && &target == m_root)
-					|| ((m_meta->m_type_class == TypeClass::Complex || m_prototype) && this->get_stem(object).has_part(target));
-		return result;
+		return vector_find(m_components, [&](Member* member) { return member->m_type == &component; });
 	}
 
-	Complex& Class::get_stem(Ref object)
+	Ref Class::as(Ref object, Type& component)
 	{
-		if(m_prototype)
-			return val<Construct>(object).m_stem;
-		else
-			return val<Complex>(object);
+		Member* member = *vector_find(m_components, [&](Member* member) { return member->m_type == &component; });
+		return member->get(object);
 	}
-
-	Ref Class::get_related(Ref object, Type& target)
-	{
-		if(&target == m_root)
-			return &this->get_stem(object);
-		else 
-			return this->get_stem(object).partref(target);
-	}
-#endif
 
 	bool compare(Ref first, Ref second)
 	{
@@ -347,15 +324,20 @@ namespace mud
 	TypeConverter::TypeConverter()
 		: DoubleDispatch()
 	{
+		this->default_converter<float, double>();
 		this->default_converter<float, int>();
+		this->default_converter<float, uint16_t>();
 		this->default_converter<float, uint32_t>();
 		this->default_converter<float, size_t>();
 		this->default_converter<double, int>();
+		this->default_converter<double, uint16_t>();
 		this->default_converter<double, uint32_t>();
 		this->default_converter<double, size_t>();
-		this->default_converter<double, float>();
+		this->default_converter<int, uint16_t>();
 		this->default_converter<int, uint32_t>();
 		this->default_converter<int, size_t>();
+		this->default_converter<uint16_t, size_t>();
+		this->default_converter<uint16_t, uint32_t>();
 		this->default_converter<uint32_t, size_t>();
 	}
 
@@ -399,10 +381,8 @@ namespace mud
 			dest = source;
 		else if(value.type().is(output))
 			assign(source, dest, ref);
-#ifdef MUD_PROTO
-		else if(is_class(value.type()) && cls(value).is_related(value, output))
-			dest = cls(value).get_related(value, output);
-#endif
+		else if(g_class[source.type().m_id] && cls(source.type()).is(output))
+			dest = cls(source.type()).as(source.m_ref, output);
 		else if(TypeConverter::me().check(value, output))
 			TypeConverter::me().convert(value, output, dest);
 		else

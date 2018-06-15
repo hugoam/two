@@ -37,7 +37,9 @@ namespace mud
     export_ template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<int>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Colour>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Gauge>();
+    export_ template <> MUD_MATH_EXPORT Type& type<mud::Image>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Image256>();
+    export_ template <> MUD_MATH_EXPORT Type& type<mud::ImageAtlas>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Palette>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Range<float>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Range<mud::Colour>>();
@@ -66,4 +68,6 @@ namespace mud
     export_ template <> MUD_MATH_EXPORT Type& type<mud::vec2>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::vec3>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::vec4>();
+    export_ template <> MUD_MATH_EXPORT Type& type<mud::SpriteAtlas>();
+    export_ template <> MUD_MATH_EXPORT Type& type<mud::Sprite>();
 }

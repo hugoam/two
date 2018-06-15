@@ -177,16 +177,19 @@ function mud_binary(name)
 end
 
 function mud_modules(m)
-    configuration { "cpp-modules" }
-        removeflags { "Cpp14" }
-        flags {
-            "CppLatest",
-            "CppModules",
-        }
-        
-        defines { "_CRT_NO_VA_START_VALIDATION" }
+    if not _OPTIONS["cpp-modules"] then
+        return
+    end
+    
+    removeflags { "Cpp14" }
+    flags {
+        "CppLatest",
+        "CppModules",
+    }
+    
+    defines { "_CRT_NO_VA_START_VALIDATION" }
 
-    configuration { "cpp-modules", "*-clang*" }
+    configuration { "*-clang*" }
         links {
             "std_core",
             "std_io",
@@ -194,12 +197,12 @@ function mud_modules(m)
             "std_regex",
         }
         
-    configuration { "cpp-modules", "vs*" }
+    configuration { "vs*" }
         files {
             --path.join(m.path, m.dotname .. ".ixx"),
         }
             
-    configuration { "cpp-modules", "*-clang*" }
+    configuration { "*-clang*" }
         files {
             path.join(m.path, m.dotname .. ".mxx"),
         }
@@ -297,8 +300,9 @@ function mud_refl(m, force_project)
             table.insert(deps, m.refl)
         end
     end
-    m.refl = mud_module(m.namespace, m.name .. "-refl", m.root, path.join("meta", m.subdir), mud_refl_decl, m.self_decl, m.usage_decl, deps)
+    m.refl = mud_module(m.namespace, m.name .. "-refl", m.root, path.join("meta", m.subdir), mud_refl_decl, nil, m.usage_decl, deps)
     m.refl.force_project = force_project
+    m.refl.reflected = m
     return m.refl
 end
 
@@ -334,7 +338,7 @@ function mud_depends(modules)
 end
 
 function mud_project(m)
-    print ("project " .. m.idname)
+    --print ("project " .. m.idname)
     m.project = project(m.idname)
     if MUD_STATIC then
         kind "StaticLib"
@@ -386,8 +390,11 @@ function mud_module_decl(m, as_project)
     end
 end
 
-function mud_refl_decl(m)
-    mud_module_decl(m, m.force_project)
+function mud_refl_decl(m, as_project)
+    if as_project and not m.force_project then
+        project(m.reflected.idname)
+    end
+    mud_module_decl(m, as_project or m.force_project)
 end
 
 function mud_amalgamate(modules)
@@ -502,6 +509,7 @@ function mud_reflect(modules)
         end
     end
     
+    print(path.join(MUD_DIR, "src/refl/Metagen", "generator.py") .. " " .. table.concat(jsons, " "))
     os.execute(path.join(MUD_DIR, "src/refl/Metagen", "generator.py") .. " " .. table.concat(jsons, " "))
 end
 

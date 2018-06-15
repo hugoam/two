@@ -310,6 +310,39 @@ namespace mud
     
     
         
+    // mud::Image
+    {
+        static Meta meta = { type<mud::Image>(), &namspc({ "mud" }), "Image", sizeof(mud::Image), TypeClass::Struct };
+        static Class cls = { type<mud::Image>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+                { type<mud::Image>(), [](Ref ref, Ref other) { new(&val<mud::Image>(ref)) mud::Image(val<mud::Image>(other)); } }
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Image>();
+    }
+    
+    
+        
     // mud::Image256
     {
         static Meta meta = { type<mud::Image256>(), &namspc({ "mud" }), "Image256", sizeof(mud::Image256), TypeClass::Struct };
@@ -344,6 +377,38 @@ namespace mud
         
         
         meta_class<mud::Image256>();
+    }
+    
+    
+        
+    // mud::ImageAtlas
+    {
+        static Meta meta = { type<mud::ImageAtlas>(), &namspc({ "mud" }), "ImageAtlas", sizeof(mud::ImageAtlas), TypeClass::Object };
+        static Class cls = { type<mud::ImageAtlas>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ImageAtlas>();
     }
     
     
@@ -1389,6 +1454,70 @@ namespace mud
         meta_class<mud::vec4>();
     }
     
+    
+        
+    // mud::SpriteAtlas
+    {
+        static Meta meta = { type<mud::SpriteAtlas>(), &namspc({ "mud" }), "SpriteAtlas", sizeof(mud::SpriteAtlas), TypeClass::Object };
+        static Class cls = { type<mud::SpriteAtlas>(),
+            // bases
+            { &type<mud::ImageAtlas>() },
+            { base_offset<mud::SpriteAtlas, mud::ImageAtlas>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::SpriteAtlas>();
+    }
+    
+    
+        
+    // mud::Sprite
+    {
+        static Meta meta = { type<mud::Sprite>(), &namspc({ "mud" }), "Sprite", sizeof(mud::Sprite), TypeClass::Object };
+        static Class cls = { type<mud::Sprite>(),
+            // bases
+            { &type<mud::Image>() },
+            { base_offset<mud::Sprite, mud::Image>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Sprite>();
+    }
+    
 
     
         m.m_types.push_back(&type<mud::AutoStat<float>>());
@@ -1398,7 +1527,9 @@ namespace mud
         m.m_types.push_back(&type<mud::Clockwise>());
         m.m_types.push_back(&type<mud::Colour>());
         m.m_types.push_back(&type<mud::Gauge>());
+        m.m_types.push_back(&type<mud::Image>());
         m.m_types.push_back(&type<mud::Image256>());
+        m.m_types.push_back(&type<mud::ImageAtlas>());
         m.m_types.push_back(&type<mud::Palette>());
         m.m_types.push_back(&type<mud::Range<float>>());
         m.m_types.push_back(&type<mud::Range<mud::Colour>>());
@@ -1438,6 +1569,8 @@ namespace mud
         m.m_types.push_back(&type<mud::vec2>());
         m.m_types.push_back(&type<mud::vec3>());
         m.m_types.push_back(&type<mud::vec4>());
+        m.m_types.push_back(&type<mud::SpriteAtlas>());
+        m.m_types.push_back(&type<mud::Sprite>());
     
         {
             auto func = [](array<Var> args, Var& result) {  val<float>(result) = ::sinf(val<float>(args[0])); };

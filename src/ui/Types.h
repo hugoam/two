@@ -55,8 +55,6 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::Docksystem>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Gradient>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::GridSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Image>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::ImageAtlas>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::ImageSkin>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::InkStyle>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Layer>();
@@ -76,10 +74,6 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::UiWindow>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::User>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Widget>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::RowSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::LineSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Sprite>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::SpriteAtlas>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Frame>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::FrameSolver>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Canvas>();
@@ -95,6 +89,8 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::Table>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::TextEdit>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::TreeNode>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::RowSolver>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::LineSolver>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Dockbar>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Dockspace>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Window>();

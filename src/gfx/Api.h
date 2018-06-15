@@ -11,7 +11,6 @@
 #include <gfx/Filter.h>
 #include <gfx/Forward.h>
 #include <gfx/Frustum.h>
-#include <gfx/Generator.h>
 #include <gfx/Gfx.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Graph.h>

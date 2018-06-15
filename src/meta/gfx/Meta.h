@@ -614,6 +614,40 @@ namespace mud
     
     
     
+        
+    // mud::DepthParams
+    {
+        static Meta meta = { type<mud::DepthParams>(), &namspc({ "mud" }), "DepthParams", sizeof(mud::DepthParams), TypeClass::Struct };
+        static Class cls = { type<mud::DepthParams>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+                { type<mud::DepthParams>(), [](Ref ref, Ref other) { new(&val<mud::DepthParams>(ref)) mud::DepthParams(val<mud::DepthParams>(other)); } }
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::DepthParams>();
+    }
+    
+    
+    
     
     
     
@@ -1451,6 +1485,7 @@ namespace mud
     
     
     
+    
         
     // mud::PbrMaterialBlock
     {
@@ -2114,38 +2149,6 @@ namespace mud
     
     
         
-    // mud::RenderTarget
-    {
-        static Meta meta = { type<mud::RenderTarget>(), &namspc({ "mud" }), "RenderTarget", sizeof(mud::RenderTarget), TypeClass::Object };
-        static Class cls = { type<mud::RenderTarget>(),
-            // bases
-            { &type<mud::FrameBuffer>() },
-            { base_offset<mud::RenderTarget, mud::FrameBuffer>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::RenderTarget>();
-    }
-    
-    
-        
     // mud::BlockCopy
     {
         static Meta meta = { type<mud::BlockCopy>(), &namspc({ "mud" }), "BlockCopy", sizeof(mud::BlockCopy), TypeClass::Object };
@@ -2339,6 +2342,70 @@ namespace mud
     
     
         
+    // mud::BlockDepth
+    {
+        static Meta meta = { type<mud::BlockDepth>(), &namspc({ "mud" }), "BlockDepth", sizeof(mud::BlockDepth), TypeClass::Object };
+        static Class cls = { type<mud::BlockDepth>(),
+            // bases
+            { &type<mud::DrawBlock>() },
+            { base_offset<mud::BlockDepth, mud::DrawBlock>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::BlockDepth>();
+    }
+    
+    
+        
+    // mud::RenderTarget
+    {
+        static Meta meta = { type<mud::RenderTarget>(), &namspc({ "mud" }), "RenderTarget", sizeof(mud::RenderTarget), TypeClass::Object };
+        static Class cls = { type<mud::RenderTarget>(),
+            // bases
+            { &type<mud::FrameBuffer>() },
+            { base_offset<mud::RenderTarget, mud::FrameBuffer>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::RenderTarget>();
+    }
+    
+    
+        
     // mud::ParticleEmitter
     {
         static Meta meta = { type<mud::ParticleEmitter>(), &namspc({ "mud" }), "ParticleEmitter", sizeof(mud::ParticleEmitter), TypeClass::Struct };
@@ -2385,6 +2452,7 @@ namespace mud
         m.m_types.push_back(&type<mud::Camera>());
         m.m_types.push_back(&type<mud::CullMode>());
         m.m_types.push_back(&type<mud::DepthDraw>());
+        m.m_types.push_back(&type<mud::DepthParams>());
         m.m_types.push_back(&type<mud::DepthTest>());
         m.m_types.push_back(&type<mud::EmitterDirection>());
         m.m_types.push_back(&type<mud::Environment>());
@@ -2445,13 +2513,14 @@ namespace mud
         m.m_types.push_back(&type<mud::UnshadedMaterialBlock>());
         m.m_types.push_back(&type<mud::Viewport>());
         m.m_types.push_back(&type<std::vector<mud::PrefabNode>>());
-        m.m_types.push_back(&type<mud::RenderTarget>());
         m.m_types.push_back(&type<mud::BlockCopy>());
         m.m_types.push_back(&type<mud::BlockFilter>());
         m.m_types.push_back(&type<mud::BlockParticles>());
         m.m_types.push_back(&type<mud::BlockResolve>());
         m.m_types.push_back(&type<mud::BlockSky>());
         m.m_types.push_back(&type<mud::DrawBlock>());
+        m.m_types.push_back(&type<mud::BlockDepth>());
+        m.m_types.push_back(&type<mud::RenderTarget>());
         m.m_types.push_back(&type<mud::ParticleEmitter>());
     
         {

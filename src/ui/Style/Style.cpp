@@ -81,8 +81,6 @@ namespace mud
 	Style::Style(cstring name, Style* base, LayoutDef layout, InkStyleDef skin)
 		: m_base(base)
 		, m_impl(make_unique<Impl>())
-		, m_layout_def(layout)
-		, m_skin_def(skin)
 	{
 		if(Styler::s_styles[name] == nullptr)
 			Styler::s_styles[name] = this;
@@ -109,6 +107,8 @@ namespace mud
 	{}
 
 	Style::Style(const Style& other)
+		: m_base(other.m_base)
+		, m_impl(make_unique<Impl>())
 	{
 		*this = other;
 	}
