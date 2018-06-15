@@ -61,6 +61,7 @@ namespace mud
 	{
 		bgfx::reset(width, height, BGFX_RESET_NONE);
 		m_target = make_object<RenderTarget>(uvec2(width, height));
+		m_vg_handle = m_reset_vg();
 	}
 
 	struct GfxSystem::Impl

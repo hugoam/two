@@ -15,7 +15,6 @@ module mud.gfx;
 #include <math/VecOps.h>
 #include <gfx/Types.h>
 #include <gfx/Material.h>
-#include <gfx/GfxSystem.h>
 #include <gfx/Texture.h>
 #include <gfx/Skeleton.h>
 #include <gfx/Program.h>

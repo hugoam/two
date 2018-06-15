@@ -33,8 +33,8 @@
 #define TFALSE		0
 #define TTRUE		1
 
-#ifndef c_pi
-#define c_pi	3.1415926535897932384626433832795
+#ifndef M_PI
+#define M_PI	3.1415926535897932384626433832795
 #endif
 
 #define INTERNAL_RND_SORT_SEED		39871946
@@ -238,7 +238,7 @@ tbool genTangSpace(const SMikkTSpaceContext * pContext, const float fAngularThre
 	int iNrActiveGroups = 0, index = 0;
 	const int iNrFaces = pContext->m_pInterface->m_getNumFaces(pContext);
 	tbool bRes = TFALSE;
-	const float fThresCos = (float) cos((fAngularThreshold*(float)c_pi)/180.0f);
+	const float fThresCos = (float) cos((fAngularThreshold*(float)M_PI)/180.0f);
 
 	// verify all call-backs have been set
 	if ( pContext->m_pInterface->m_getNumFaces==NULL ||

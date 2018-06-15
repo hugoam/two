@@ -14,6 +14,11 @@
 #endif
 #include <bgfx/BgfxSystem.h>
 
+#ifndef MUD_CPP_20
+#include <vector>
+#include <functional>
+#endif
+
 #ifndef MUD_MODULES
 namespace bx
 {
@@ -33,9 +38,13 @@ namespace mud
 		virtual void reset(uint16_t width, uint16_t height) override;
 
 		GfxSystem& m_gfx_system;
+
 		object_ptr<RenderTarget> m_target;
-		std::vector<Viewport*> m_viewports;
+
 		uint16_t m_vg_handle = UINT16_MAX;
+		std::function<uint16_t()> m_reset_vg;
+
+		std::vector<Viewport*> m_viewports;
 	};
 
 	template <class T_Asset>

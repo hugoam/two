@@ -21,7 +21,7 @@ namespace mud
 #ifndef M_PI
 	const float c_pi = 3.14159265358979323846f;
 #else
-	const float c_pi = c_pi;
+	const float c_pi = M_PI;
 #endif
 
 	void register_math_conversions()

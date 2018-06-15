@@ -167,11 +167,12 @@ namespace mud
 
 		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseMiddle, EventType::Dragged))
 		{
-			m_yaw = fmod(m_yaw - 0.02f * mouse_event.m_delta.x, 2 * c_pi);
-			m_pitch = fmod(m_pitch - 0.02f * mouse_event.m_delta.y, 2 * c_pi);
+			m_yaw = fmod(m_yaw - 0.02f * mouse_event.m_delta.x, 2.f * c_pi);
+			m_pitch = fmod(m_pitch - 0.02f * mouse_event.m_delta.y, 2.f * c_pi);
 		}
 
-		vec3 direction = rotate(quat(vec3{ m_pitch, m_yaw, 0.f }), -Z3);
+		quat rotation = quat(vec3{ m_pitch, m_yaw, 0.f });
+		vec3 direction = rotate(rotation, -Z3);
 		m_viewer.m_camera.m_node.m_position = m_position - direction * m_distance;
 		m_viewer.m_camera.m_target.m_position = m_position;
 	}

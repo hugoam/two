@@ -80,7 +80,7 @@ end
 
 mud_example("00_tutorial",          true, {}, true)
 mud_example("00_cube",              true, {})
-mud_example("00_ui",                false, {})
+--mud_example("00_ui",                false, {})
 mud_example("01_shapes",            true, {})
 mud_example("03_materials",         true, {})
 mud_example("02_camera",            true, { "03_materials" })
