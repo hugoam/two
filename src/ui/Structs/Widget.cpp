@@ -66,7 +66,8 @@ namespace mud
 
 	Widget::~Widget()
 	{
-		this->root_sheet().destroy(*this);
+		if(m_events)
+			m_events->m_control_node = nullptr;
 		if(this->modal())
 			this->yield_modal();
 		m_nodes.clear();

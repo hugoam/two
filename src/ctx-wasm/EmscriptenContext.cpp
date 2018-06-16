@@ -220,8 +220,6 @@ namespace mud
 	{
 		vec2 size = { float(m_width), float(m_height) };
 		m_cursor = max(vec2(0.f), min(size, vec2{ float(mouseEvent.canvasX), float(mouseEvent.canvasY) }));
-
-		//printf("mouse %i, %i\n", int(clampedX), int(clampedY));
 		m_mouse->moved(m_cursor); // , mouseEvent.movementX, mouseEvent.movementY
 		return true;
 	}

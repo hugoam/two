@@ -35,7 +35,7 @@ namespace mud
 	RootSheet::~RootSheet()
 	{}
 
-	void RootSheet::next_frame()
+	void RootSheet::input_frame()
 	{
 		Widget* hovered = static_cast<Widget*>(m_mouse.heartbeat().m_receiver);
 		if(hovered != m_hovered)
@@ -47,7 +47,10 @@ namespace mud
 		m_drop = {};
 
 		//ui::cursor(*this, m_mouse.m_pos, m_cursor_style ? *m_cursor_style : ui::cursor_styles().cursor);
-		
+	}
+
+	void RootSheet::render_frame()
+	{
 		m_frame.relayout();
 	}
 
@@ -57,10 +60,5 @@ namespace mud
 		m_keyboard.m_events.clear();
 
 		EventDispatcher::update();
-	}
-
-	void RootSheet::destroy(Widget& widget)
-	{
-		vector_remove_if(m_event_batches, [&](const EventBatch& event_batch) { return event_batch.m_control_node == &widget; });
 	}
 }

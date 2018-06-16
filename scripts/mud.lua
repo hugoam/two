@@ -51,8 +51,10 @@ function mud_ui()
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "json11"),
     }
-    
-    --defines { "MUD_UI_DRAW_CACHE" }    
+end
+
+function uses_mud_ui()
+    defines { "MUD_UI_DRAW_CACHE" }
 end
 
 function mud_geom()
@@ -131,7 +133,7 @@ mud.geom    = mud_module("mud", "geom",     MUD_SRC_DIR, "geom",    nil,        
 mud.procgen = mud_module("mud", "procgen",  MUD_SRC_DIR, "procgen", nil,        mud_procgen,    uses_mud_procgen,   { json11, mud.infra, mud.obj, mud.srlz, mud.math, mud.geom })
 mud.lang    = mud_module("mud", "lang",     MUD_SRC_DIR, "lang",    nil,        mud_lang,       nil,                { lua, mud.infra, mud.obj, mud.pool, mud.refl })
 mud.ctx     = mud_module("mud", "ctx",      MUD_SRC_DIR, "ctx",     nil,        nil,            nil,                { mud.infra, mud.obj, mud.math })
-mud.ui      = mud_module("mud", "ui",       MUD_SRC_DIR, "ui",      nil,        mud_ui,         nil,                { json11, mud.infra, mud.obj, mud.refl, mud.srlz, mud.math, mud.ctx })
+mud.ui      = mud_module("mud", "ui",       MUD_SRC_DIR, "ui",      nil,        mud_ui,         uses_mud_ui,        { json11, mud.infra, mud.obj, mud.refl, mud.srlz, mud.math, mud.ctx })
 mud.uio     = mud_module("mud", "uio",      MUD_SRC_DIR, "uio",     nil,        nil,            nil,                { mud.infra, mud.tree, mud.obj, mud.pool, mud.refl, mud.math, mud.lang, mud.ctx, mud.ui })
 mud.snd     = mud_module("mud", "snd",      MUD_SRC_DIR, "snd",     nil,        mud_snd,        nil,                { mud.obj, mud.math })
 --mud_sys(true)

@@ -190,7 +190,7 @@ namespace mud
 		});
 
 		target.visit([&](Layer& layer) {
-			this->draw_layer(layer, Zero2, 1.f);
+			m_vg.draw_layer(layer, Zero2, 1.f);
 		});
 #else
 		target.visit([&](Layer& layer)
@@ -214,7 +214,7 @@ namespace mud
 			m_vg.begin_target();
 
 #ifdef MUD_UI_DRAW_CACHE
-		this->begin_cached(layer);
+		m_vg.begin_cached(layer);
 #endif
 
 		if(layer.m_frame.d_parent)
@@ -227,12 +227,12 @@ namespace mud
 		m_vg.end_layer();
 		layer.endRedraw();
 
-#ifdef MUD_UI_DRAW_CACHE
-		this->end_cached();
-#endif
-
 		if(layer.m_frame.d_parent)
 			this->end_layer(*layer.m_frame.d_parent);
+
+#ifdef MUD_UI_DRAW_CACHE
+		m_vg.end_cached();
+#endif
 
 		if(layer.master())
 			m_vg.end_target();
@@ -264,17 +264,17 @@ namespace mud
 	void UiRenderer::begin_layer(Frame& frame)
 	{
 		if(frame.d_parent)
-			begin_layer(*frame.d_parent);
+			this->begin_layer(*frame.d_parent);
 
-		begin_frame(frame);
+		this->begin_frame(frame);
 	}
 
 	void UiRenderer::end_layer(Frame& frame)
 	{
-		end_frame(frame);
+		this->end_frame(frame);
 
 		if(frame.d_parent)
-			end_layer(*frame.d_parent);
+			this->end_layer(*frame.d_parent);
 	}
 
 	void UiRenderer::render_frame(Frame& frame)

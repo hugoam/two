@@ -27,7 +27,8 @@ namespace mud
 		~UiWindow();
 
 		void init();
-		bool next_frame();
+		bool input_frame();
+		void render_frame();
 		void shutdown();
 
 		void resize(uint16_t width, uint16_t height);

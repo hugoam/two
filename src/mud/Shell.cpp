@@ -77,9 +77,11 @@ namespace mud
 
 	bool Shell::pump()
 	{
+		bool pursue = m_ui_window->input_frame();
 		m_pump(*this);
-		m_ui_window->next_frame();
-		return m_gfx_system.next_frame();
+		m_ui_window->render_frame();
+		pursue &= m_gfx_system.next_frame();
+		return pursue;
 	}
 
 	void Shell::init()

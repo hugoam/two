@@ -278,7 +278,6 @@ namespace mud
 	{
 		vec2 size = { float(m_width), float(m_height) };
 		m_cursor = max(vec2(0.f), min(size, vec2{ float(x), float(y) }));
-
 		m_mouse->moved(m_cursor);
 	}
 

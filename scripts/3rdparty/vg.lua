@@ -23,7 +23,13 @@ vg = mud_dep(nil, "vg")
         path.join(MUD_3RDPARTY_DIR, "vg-renderer", "src/vg.cpp"),
     }
     
-
+    configuration { "Debug" }
+        defines {
+            "VG_CONFIG_DEBUG=1"
+        }
+        
+    configuration {}
+    
 --nanovg = mud_dep(nil, "nanovg")
 --    cxxmodule("vg")
 --    kind "StaticLib"

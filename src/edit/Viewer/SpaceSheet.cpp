@@ -73,7 +73,7 @@ namespace mud
 
 	void SpaceSheet::next_frame()
 	{
-		RootSheet::next_frame();
+		//RootSheet::next_frame();
 
 		//if(m_viewport.m_active)
 		this->updateSize();

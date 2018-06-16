@@ -20,23 +20,30 @@ namespace mud
 	EventDispatcher::EventDispatcher(ControlNode* control_node)
 		: m_control_node(*control_node)
 	{
-		m_event_batches.reserve(100);
+		m_event_batches.resize(100);
 	}
 
 	void EventDispatcher::update()
 	{
-		for(EventBatch& event_batch : m_event_batches)
-			event_batch.m_control_node->m_events = nullptr;
+		for(size_t i = 0; i < m_top; ++i)
+		{
+			m_event_batches[i].clear();
+			if(m_event_batches[i].m_control_node)
+			{
+				m_event_batches[i].m_control_node->m_events = nullptr;
+				m_event_batches[i].m_control_node = nullptr;
+			}
+		}
 
-		m_event_batches.clear();
+		m_top = 0;
 	}
 
 	void EventDispatcher::receiveEvent(InputEvent& event, ControlNode& receiver)
 	{
 		if(!receiver.m_events)
 		{
-			m_event_batches.emplace_back(receiver);
-			receiver.m_events = &m_event_batches.back();
+			receiver.m_events = &m_event_batches[m_top++];
+			receiver.m_events->m_control_node = &receiver;
 		}
 
 		receiver.m_events->event(event.m_deviceType, event.m_eventType) = &event;

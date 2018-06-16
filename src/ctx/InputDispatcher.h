@@ -25,12 +25,18 @@ namespace mud
 		EventMap() { m_events = {}; m_keyed_events = {}; }
 		
 #ifdef MUD_MODULES
-                enum_array<DeviceType, enum_array<EventType, T_Element, size_t(EventType::Count)>, size_t(DeviceType::Count)> m_events;
-                enum_array<DeviceType, enum_array<EventType, std::map<int, T_Element>, size_t(EventType::Count)>, size_t(DeviceType::Count)> m_keyed_events;
+		enum_array<DeviceType, enum_array<EventType, T_Element, size_t(EventType::Count)>, size_t(DeviceType::Count)> m_events;
+		enum_array<DeviceType, enum_array<EventType, std::map<int, T_Element>, size_t(EventType::Count)>, size_t(DeviceType::Count)> m_keyed_events;
 #else
 		enum_array<DeviceType, enum_array<EventType, T_Element>> m_events;
 		enum_array<DeviceType, enum_array<EventType, std::map<int, T_Element>>> m_keyed_events;
 #endif
+
+		void clear()
+		{
+			static EventMap<T_Element> empty;
+			memcpy(this, &empty, sizeof(EventMap<T_Element>));
+		}
 
 		T_Element& event(DeviceType device_type, EventType event_type) { return m_events[size_t(device_type)][size_t(event_type)]; }
 		T_Element& event(DeviceType device_type, EventType event_type, int key) { return m_keyed_events[size_t(device_type)][size_t(event_type)][key]; }
@@ -38,11 +44,9 @@ namespace mud
 
 	export_ struct MUD_CTX_EXPORT EventBatch : public EventMap<InputEvent*>
 	{
-		ControlNode* m_control_node;
-		//std::vector<InputEvent*> m_events;
-		//EventMap<InputEvent*> m_events;
-
-		EventBatch(ControlNode& control_node) : m_control_node(&control_node) {}
+		ControlNode* m_control_node = nullptr;
+		
+		EventBatch() {}
 	};
 
 	export_ class MUD_CTX_EXPORT EventDispatcher
@@ -57,5 +61,6 @@ namespace mud
 
 		ControlNode& m_control_node;
 		std::vector<EventBatch> m_event_batches;
+		size_t m_top = 0;
 	};
 }

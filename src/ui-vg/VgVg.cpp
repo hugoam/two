@@ -349,7 +349,7 @@ namespace mud
 	vg::CommandListHandle VgVg::layer_cache(Layer& layer)
 	{
 		if(layer.d_handle == SIZE_MAX)
-			layer.d_handle = vg::createCommandList(m_vg, 0).idx;
+			layer.d_handle = vg::createCommandList(m_vg, vg::CommandListFlags::Cacheable).idx;
 		return { uint16_t(layer.d_handle) };
 	}
 

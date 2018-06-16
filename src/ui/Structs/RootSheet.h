@@ -38,11 +38,10 @@ namespace mud
 		RootSheet(UiWindow& window);
 		~RootSheet();
 
-		void next_frame();
+		void input_frame();
+		void render_frame();
 
 		void clear_events();
-
-		void destroy(Widget& widget);
 
 	public:
 		UiWindow& m_window;

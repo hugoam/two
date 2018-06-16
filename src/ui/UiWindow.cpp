@@ -127,17 +127,28 @@ namespace mud
 		m_width = float(width);
 		m_height = float(height);
 
-		//m_context->m_input_window->resize(width, height);
 		m_context.reset(width, height);
 
-		printf("UiWindow :: resize %i, %i\n", int(width), int(height));
+		printf("INFO: UiWindow :: resize %i, %i\n", int(width), int(height));
 		m_root_sheet->m_frame.set_size({ m_width, m_height });
 	}
 
-	bool UiWindow::next_frame()
+	bool UiWindow::input_frame()
 	{
+		bool pursue = !m_shutdown;
+		pursue &= m_context.next_frame();
+
 		if(m_context.m_width != uint(m_width) || m_context.m_height != uint(m_height))
 			this->resize(uint16_t(m_context.m_width), uint16_t(m_context.m_height));
+
+		m_root_sheet->input_frame();
+
+		return pursue;
+	}
+
+	void UiWindow::render_frame()
+	{
+		m_root_sheet->render_frame();
 
 		if(m_context.m_render_system.m_manual_render)
 		{
@@ -146,15 +157,8 @@ namespace mud
 		}
 
 		m_root_sheet->clear_events();
-
-		bool pursue = !m_shutdown;
-		pursue &= m_context.next_frame();
-
-		m_root_sheet->next_frame();
-
-		return pursue;
 	}
-	
+
 	void UiWindow::shutdown()
 	{
 		m_shutdown = true;

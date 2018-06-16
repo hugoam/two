@@ -148,6 +148,8 @@ namespace mud
 	{
 		if(!d_content)
 			d_content = make_unique<Content>();
+		if(d_content->d_caption == text)
+			return;
 		d_content->d_caption = text;
 		if(d_content->d_caption != "")
 		{
@@ -163,6 +165,8 @@ namespace mud
 	{
 		if(!d_content)
 			d_content = make_unique<Content>();
+		if(d_content->d_icon == image)
+			return;
 		d_content->d_icon = image;
 		m_content = image ? vec2{ image->d_size } : Zero2;
 		mark_dirty(DIRTY_LAYOUT);

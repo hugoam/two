@@ -849,9 +849,11 @@ void example_ui(Widget& root_sheet)
 #ifdef _00_UI_EXE
 bool pump(RenderSystem& render_system, UiWindow& ui_window)
 {
+	bool pursue = ui_window.input_frame();
 	example_ui(ui_window.m_root_sheet->begin());
+	ui_window.render_frame();
 	render_system.next_frame();
-	return ui_window.next_frame();
+	return pursue;
 }
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN

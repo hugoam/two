@@ -85,14 +85,15 @@ namespace mud
 	{
 		bgfx::touch(0);
 
+#ifdef  _DEBUG
 		size_t capture_every = 100;
-		bool capture = (m_frame % capture_every) == 0;
-		//bool capture = false;
-		capture = false;
-
+		bool capture = m_profile && (m_frame % capture_every) == 0;
 		m_frame = bgfx::frame(capture);
-		this->advance();
+#else
+		m_frame = bgfx::frame();
+#endif
 
+		this->advance();
 		return true;
 	}
 
