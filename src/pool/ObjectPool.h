@@ -29,7 +29,7 @@ namespace mud
 		TPool<T>& pool() { return as<TPool<T>>(this->pool(type<T>())); }
 
 		template <class T>
-		TPool<T>& create_pool() { m_pools[&type<T>()] = make_unique<TPool<T>>(); return pool<T>(); }
+		TPool<T>& create_pool(size_t size = 12) { m_pools[&type<T>()] = make_unique<TPool<T>>(size); return pool<T>(); }
 
 		std::unordered_map<Type*, unique_ptr<Pool>> m_pools;
 	};

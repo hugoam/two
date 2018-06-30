@@ -12,9 +12,11 @@ module mud.gfx;
 #include <gfx/Node3.h>
 #endif
 
+#include <map>
+
 namespace mud
 {
-	bgfx::VertexDecl vertex_decl(size_t vertex_format)
+	bgfx::VertexDecl create_vertex_decl(size_t vertex_format)
 	{
 		bgfx::VertexDecl decl;
 
@@ -47,6 +49,14 @@ namespace mud
 		return decl;
 	}
 
+	const bgfx::VertexDecl& vertex_decl(size_t vertex_format)
+	{
+		static std::map<size_t, bgfx::VertexDecl> decls;
+		if(decls.find(vertex_format) == decls.end())
+			decls[vertex_format] = create_vertex_decl(vertex_format);
+		return decls[vertex_format];
+	}
+
 	static uint16_t s_mesh_index = 0;
 
 	Mesh::Mesh(cstring name, bool readback)
@@ -65,72 +75,61 @@ namespace mud
 			bgfx::destroy(m_index_buffer);
 	}
 
-	void Mesh::read(MeshData& data, const mat4& transform) const
+	void Mesh::read(MeshData& dest, const mat4& transform) const
 	{
-		for(const ShapeVertex& vertex : m_vertices)
+		MeshData source = m_cache;
+
+		for(size_t i = 0; i < source.m_vertices.size(); ++i)
 		{
-			vec3 vec = bxmul(transform, vertex.m_position);
-			data.position(vec);
+			vec3 vec = bxmul(transform, source.position());
+			dest.position(vec);
 		}
 
-		for(size_t i = 0; i < m_indexCount; ++i)
-			data.index(static_cast<ShapeIndex>(m_indices[i]));
+		for(size_t i = 0; i < source.m_indices.size(); ++i)
+			dest.index(source.index());
 
-		data.next();
+		dest.next();
 	}
 
-	GpuMesh Mesh::allocate(DrawMode draw_mode, size_t vertexCount, size_t indexCount)
+	void Mesh::upload(DrawMode draw_mode, const GpuMesh& gpu_mesh)
 	{
 		m_draw_mode = draw_mode;
-		m_vertexCount = vertexCount;
-		m_indexCount = indexCount;
+		m_vertex_count = gpu_mesh.m_vertex_count;
+		m_index_count = gpu_mesh.m_index_count;
 
-		GpuMesh gpu_mesh;
-
-		gpu_mesh.m_vertex_memory = bgfx::alloc(sizeof(ShapeVertex) * vertexCount);
-		gpu_mesh.m_index_memory = bgfx::alloc(sizeof(ShapeIndex) * indexCount);
-
-		gpu_mesh.m_vertices = { reinterpret_cast<ShapeVertex*>(gpu_mesh.m_vertex_memory->data), vertexCount };
-		gpu_mesh.m_indices = { reinterpret_cast<ShapeIndex*>(gpu_mesh.m_index_memory->data), indexCount };
-
-		memset(gpu_mesh.m_vertices.m_pointer, 64, sizeof(ShapeVertex) * vertexCount);
-
-		return gpu_mesh;
-	}
-
-	void Mesh::upload(const GpuMesh& gpu_mesh)
-	{
-		size_t vertex_format = VertexAttribute::Position | VertexAttribute::Colour | VertexAttribute::Normal | VertexAttribute::Tangent
-							 | VertexAttribute::TexCoord0 | VertexAttribute::Joints | VertexAttribute::Weights;
-		static bgfx::VertexDecl vertex_decl = mud::vertex_decl(vertex_format);
-
-		m_vertex_buffer = bgfx::createVertexBuffer(gpu_mesh.m_vertex_memory, vertex_decl);
+		m_vertex_buffer = bgfx::createVertexBuffer(gpu_mesh.m_vertex_memory, vertex_decl(gpu_mesh.m_vertex_format));
 		m_index_buffer = bgfx::createIndexBuffer(gpu_mesh.m_index_memory);//, BGFX_BUFFER_INDEX32);
 
-		for(const ShapeVertex& vertex : gpu_mesh.m_vertices)
-			m_aabb.merge(vertex.m_position);
+		MeshData data = gpu_mesh.m_data;
 
-		for(const ShapeVertex& vertex : gpu_mesh.m_vertices)
-			m_radius = max(length(vertex.m_position - m_aabb.m_center), m_radius);
+		for(size_t i = 0; i < data.m_vertices.size(); ++i)
+			m_aabb.merge(data.position());
+
+		data = gpu_mesh.m_data;
+
+		for(size_t i = 0; i < data.m_vertices.size(); ++i)
+			m_radius = max(length(data.position() - m_aabb.m_center), m_radius);
 
 		m_origin = m_aabb.m_center;
-
-		if(m_readback)
-			this->conserve(gpu_mesh);
 	}
 
 	void Mesh::write(DrawMode draw_mode, array<ShapeVertex> vertices, array<ShapeIndex> indices)
 	{
-		GpuMesh gpu_mesh = this->allocate(draw_mode, vertices.m_count, indices.m_count);
-		vertices.copy(gpu_mesh.m_vertices);
-		indices.copy(gpu_mesh.m_indices);
-		this->upload(gpu_mesh);
+		GpuMesh gpu_mesh = alloc_mesh<ShapeVertex, ShapeIndex>(vertices.m_count, indices.m_count);
+		vertices.copy(gpu_mesh.vertices<ShapeVertex>());
+		indices.copy(gpu_mesh.indices<ShapeIndex>());
+		this->upload(draw_mode, gpu_mesh);
+		if(m_readback)
+			this->cache<ShapeVertex, ShapeIndex>(gpu_mesh);
 	}
 
-	void Mesh::conserve(const GpuMesh& gpu_mesh)
+	void Mesh::cache(const GpuMesh& gpu_mesh)
 	{
-		m_vertices = to_vector(gpu_mesh.m_vertices);
-		m_indices = to_vector(gpu_mesh.m_indices);
+		m_cached_vertices.resize(gpu_mesh.m_vertex_memory->size);
+		m_cached_indices.resize(gpu_mesh.m_index_memory->size);
+
+		memcpy(m_cached_vertices.data(), gpu_mesh.m_vertex_memory->data, gpu_mesh.m_vertex_memory->size);
+		memcpy(m_cached_indices.data(), gpu_mesh.m_index_memory->data, gpu_mesh.m_index_memory->size);
 	}
 
 	uint64_t Mesh::submit() const

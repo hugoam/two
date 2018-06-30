@@ -25,6 +25,5 @@ namespace mud
     // Exported types
     
     export_ template <> MUD_PROTO_EXPORT Type& type<mud::Complex>();
-    export_ template <> MUD_PROTO_EXPORT Type& type<mud::Construct>();
     export_ template <> MUD_PROTO_EXPORT Type& type<mud::Prototype>();
 }

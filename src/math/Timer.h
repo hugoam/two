@@ -66,6 +66,6 @@ namespace mud
 
     private:
         clock_t m_last;
-		size_t m_lastTick;
+		size_t m_last_tick;
     };
 }

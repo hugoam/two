@@ -69,6 +69,7 @@ namespace mud
 		Skin(const Skin& copy, Skeleton& skeleton);
 
 		void add_joint(cstring bone, const mat4& inverse_bind);
+		Joint* find_bone_joint(cstring name);
 		void update_joints();
 
 		Skeleton* m_skeleton;

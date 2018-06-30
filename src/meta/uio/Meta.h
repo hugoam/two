@@ -24,7 +24,7 @@ namespace mud
             true,
             { "Table", "Rows", "Inline" },
             { 0, 1, 2 },
-            { var(EditorHint::Table), var(EditorHint::Rows), var(EditorHint::Inline) }
+            { var(mud::EditorHint::Table), var(mud::EditorHint::Rows), var(mud::EditorHint::Inline) }
         };
         meta_enum<mud::EditorHint>();
     }

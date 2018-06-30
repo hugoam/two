@@ -114,12 +114,12 @@ namespace mud
 		m_vg.unload_image(image);
 	}
 
-	Image& UiWindow::find_image(cstring name)
+	Image* UiWindow::find_image(cstring name)
 	{
 		for(auto& image : m_images)
 			if(image->d_name == name)
-				return *image;
-		static Image null; return null;
+				return image.get();
+		return nullptr;
 	}
 
 	void UiWindow::resize(uint16_t width, uint16_t height)
@@ -143,12 +143,14 @@ namespace mud
 
 		m_root_sheet->input_frame();
 
+		m_root_sheet->m_frame.relayout();
+
 		return pursue;
 	}
 
 	void UiWindow::render_frame()
 	{
-		m_root_sheet->render_frame();
+		//m_root_sheet->render_frame();
 
 		if(m_context.m_render_system.m_manual_render)
 		{

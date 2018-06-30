@@ -84,7 +84,7 @@ namespace mud
 
 		std::vector<Var> m_arguments;
 
-		bool checkArgs(const std::vector<Var>& args) const { for(const Param& param : m_params) if(&args[param.m_index].type() != &param.m_value.type()) return false; return true; }
+		bool checkArgs(const std::vector<Var>& args) const { for(const Param& param : m_params) if(!type(args[param.m_index]).is(type(param.m_value))) return false; return true; }
 	};
 
 	export_ class refl_ MUD_REFL_EXPORT Function final : public Callable

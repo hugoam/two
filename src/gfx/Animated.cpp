@@ -37,27 +37,28 @@ namespace mud
 		item.m_rig = &m_rig;
 	}
 
-	void Animated::play(cstring name, bool loop, float blend, float speed, bool reverse)
+	void Animated::play(cstring name, bool loop, float blend, float speed, bool transient)
 	{
 		for(Animation& animation : m_rig.m_animations)
 			if(animation.m_name == name)
 			{
-				this->play(animation, loop, blend, speed, reverse);
+				this->play(animation, loop, blend, speed, transient);
 				return;
 			}
 	}
 
-	void Animated::play(const Animation& animation, bool loop, float blend, float speed, bool reverse)
+	void Animated::play(const Animation& animation, bool loop, float blend, float speed, bool transient)
 	{
 		for(AnimationPlay& playing : m_playing)
 		{
+			playing.m_transient = true;
 			if(blend == 0.f)
 				blend = m_default_blend_time;
 			if(blend > 0.f)
 				playing.m_fadeout = blend;
 		}
 
-		m_playing.push_back(AnimationPlay{ animation, loop, speed, reverse, &m_rig.m_skeleton });
+		m_playing.push_back(AnimationPlay{ animation, loop, speed, transient, &m_rig.m_skeleton });
 		m_active = true;
 	}
 
@@ -84,7 +85,7 @@ namespace mud
 		for(AnimationPlay& play : m_playing)
 			play.step(delta, m_speed_scale);
 
-		vector_remove_if(m_playing, [](AnimationPlay& play) { return play.m_ended; });
+		vector_remove_if(m_playing, [](AnimationPlay& play) { return play.m_transient && play.m_ended; });
 
 		for(Bone& bone : m_rig.m_skeleton.m_bones)
 			bone.m_pose_local = bxTRS(bone.m_scale, bone.m_rotation, bone.m_position);
@@ -101,11 +102,11 @@ namespace mud
 		}
 	}
 
-	AnimationPlay::AnimationPlay(const Animation& animation, bool loop, float speed, bool reverse, Skeleton* skeleton)
+	AnimationPlay::AnimationPlay(const Animation& animation, bool loop, float speed, bool transient, Skeleton* skeleton)
 		: m_animation(&animation)
 		, m_loop(loop)
 		, m_speed(speed)
-		, m_reverse(reverse)
+		, m_transient(transient)
 	{
 		m_tracks.reserve(animation.tracks.size());
 
@@ -113,7 +114,7 @@ namespace mud
 		{
 			Ref target = {};
 			if(skeleton && skeleton->m_bones.size() > track.m_node)
-				target = &skeleton->m_bones[track.m_node];
+				target = Ref(&skeleton->m_bones[track.m_node]);
 			if(!target)
 			{
 				//printf("WARNING: No bone found for animation %s track %s with target %s\n", animation.m_name.c_str(), "", track.m_node_name.c_str());

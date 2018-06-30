@@ -430,7 +430,7 @@ namespace mud
 	{
 		float length = dot(abs(plane.m_normal), aabb.m_extents);
 		float distance = plane_distance_to(plane, aabb.m_center);
-		return{ distance - length, distance + length };
+		return { distance - length, distance + length };
 	}
 
 	bool frustum_aabb_intersection(const Plane6& planes, const Aabb& aabb)
@@ -472,5 +472,73 @@ namespace mud
 		}
 
 		return dmin <= r2;
+	}
+
+	// ref: https://www.ics.uci.edu/~eppstein/junkyard/circumcenter.html
+
+	//     |                                                           |
+	//     | |c-a|^2 [(b-a)x(c-a)]x(b-a) + |b-a|^2 (c-a)x[(b-a)x(c-a)] |
+	//     |                                                           |
+	// r = -------------------------------------------------------------,
+	//                          2 | (b-a)x(c-a) |^2
+	// 
+	//         |c-a|^2 [(b-a)x(c-a)]x(b-a) + |b-a|^2 (c-a)x[(b-a)x(c-a)]
+	// m = a + ---------------------------------------------------------.
+	//                            2 | (b-a)x(c-a) |^2
+
+	vec3 circumcenter(const vec3& a, const vec3& b, const vec3& c, float* xi, float* eta)
+	{
+		/* Use coordinates relative to point `a' of the triangle. */
+		vec3 ba = b - a;
+		vec3 ca = c - a;
+
+		/* Squares of lengths of the edges incident to `a'. */
+		float balength = length2(ba);
+		float calength = length2(ca);
+
+		/* Cross product of these edges. */
+		vec3 crossbc = cross(ba, ca);
+
+		/* Calculate the denominator of the formulae. */
+		float denominator = 0.5 / (crossbc.x * crossbc.x + crossbc.y * crossbc.y + crossbc.z * crossbc.z);
+
+		/* Calculate offset (from `a') of circumcenter. */
+		float xcirca = ((balength * ca.y - calength * ba.y) * crossbc.z -
+			(balength * ca.z - calength * ba.z) * crossbc.y) * denominator;
+		float ycirca = ((balength * ca.z - calength * ba.z) * crossbc.x -
+			(balength * ca.x - calength * ba.x) * crossbc.z) * denominator;
+		float zcirca = ((balength * ca.x - calength * ba.x) * crossbc.y -
+			(balength * ca.y - calength * ba.y) * crossbc.x) * denominator;
+
+		if(xi != nullptr)
+		{
+			/* To interpolate a linear function at the circumcenter, define a     */
+			/*   coordinate system with a xi-axis directed from `a' to `b' and    */
+			/*   an eta-axis directed from `a' to `c'.  The values for xi and eta */
+			/*   are computed by Cramer's Rule for solving systems of linear      */
+			/*   equations.                                                       */
+
+			/* There are three ways to do this calculation - using crossbc.x, */
+			/*   crossbc.y, or crossbc.z.  Choose whichever has the largest    */
+			/*   magnitude, to improve stability and avoid division by zero. */
+			if(((crossbc.x >= crossbc.y) ^ (-crossbc.x > crossbc.y))
+			&& ((crossbc.x >= crossbc.z) ^ (-crossbc.x > crossbc.z)))
+			{
+				*xi = (ycirca * ca.z - zcirca * ca.y) / crossbc.x;
+				*eta = (zcirca * ba.y - ycirca * ba.z) / crossbc.x;
+			}
+			else if((crossbc.y >= crossbc.z) ^ (-crossbc.y > crossbc.z))
+			{
+				*xi = (zcirca * ca.x - xcirca * ca.z) / crossbc.y;
+				*eta = (xcirca * ba.z - zcirca * ba.x) / crossbc.y;
+			}
+			else
+			{
+				*xi = (xcirca * ca.y - ycirca * ca.x) / crossbc.z;
+				*eta = (ycirca * ba.x - xcirca * ba.y) / crossbc.z;
+			}
+		}
+
+		return{ xcirca, ycirca, zcirca };
 	}
 }

@@ -45,6 +45,8 @@ using json = json11::Json;
 #include <gfx-gltf/ImporterGltf.h>
 #endif
 
+#define KUPOMAN_EXPORTER 1
+
 namespace mud
 {
 	inline void from_json(const json& j, PrimitiveType& mat)
@@ -390,21 +392,14 @@ namespace mud
 
 	void import_meshes(const glTF& gltf, glTFImport& state)
 	{
-		size_t num_meshes = 0;
-
-		for(size_t i = 0; i < gltf.m_meshes.size(); i++)
-			for(size_t j = 0; j < gltf.m_meshes[i].primitives.size(); j++)
-				num_meshes++;
-
-		state.m_model.m_meshes.reserve(num_meshes);
+		size_t index = 0;
 
 		for(const glTFMesh& gltf_mesh : gltf.m_meshes)
 		{
 			for(const glTFPrimitive& primitive : gltf_mesh.primitives)
 			{
-				state.m_model.m_meshes.emplace_back(state.m_model.m_name.c_str(), true);
-				Mesh& mesh = state.m_model.m_meshes.back();
-
+				Mesh& mesh = state.m_model.add_mesh((state.m_model.m_name + to_string(index++)).c_str(), true);
+				
 				MeshPacker shape;
 
 				shape.m_primitive = PrimitiveType::Triangles;//static_cast<PrimitiveType>(primitive.mode);
@@ -497,7 +492,12 @@ namespace mud
 			material.m_pbr_block.m_ambient_occlusion.m_channel = TextureChannel::Red;
 		}
 
-		material.m_pbr_block.m_emissive.m_value = to_colour(vec3(gltf_material.emissive_factor));
+		vec3 emissive = gltf_material.emissive_factor;
+#if KUPOMAN_EXPORTER
+		emissive *= vec3(gltf_material.pbr_metallic_roughness.base_color_factor);
+#endif
+		float emissive_factor = (emissive.r + emissive.g + emissive.b) / 3.f;
+		material.m_pbr_block.m_emissive.m_value = to_colour(vec4(emissive / emissive_factor, emissive_factor));
 
 		if(gltf_material.emissive_texture.index != -1)
 		{
@@ -681,7 +681,7 @@ namespace mud
 				for(int primitive : primitives[node.mesh])
 				{
 					mat4 transform = derive_transform(gltf, node);
-					model.m_items.emplace_back(ModelItem{ transform, &model.m_meshes[primitive], node.skin, Colour::White });
+					model.m_items.emplace_back(ModelItem{ transform, model.m_meshes[primitive], node.skin, Colour::White, nullptr });
 				}
 			}
 
@@ -729,7 +729,7 @@ namespace mud
 		import_materials(state.m_gltf, state);
 		import_meshes(state.m_gltf, state);
 
-		model.m_rig = make_unique<Rig>();
+		model.add_rig(model.m_name.c_str());
 		model.m_rig->m_skins.reserve(state.m_gltf.m_skins.size());
 		model.m_rig->m_animations.reserve(state.m_gltf.m_animations.size());
 

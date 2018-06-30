@@ -30,8 +30,8 @@ namespace mud
 		VisualScript& create_visual(cstring name);
 		void close(VisualScript& script);
 
-		virtual void handleAdd(VisualScript& script) { this->open(script); }
-		virtual void handleRemove(VisualScript& script) { this->close(script); }
+		virtual void handle_add(VisualScript& script) { this->open(script); }
+		virtual void handle_remove(VisualScript& script) { this->close(script); }
 	};
 
 	export_ MUD_UIO_EXPORT void script_edit_output(Widget& parent, LuaInterpreter& lua);

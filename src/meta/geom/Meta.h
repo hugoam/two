@@ -35,7 +35,7 @@ namespace mud
             true,
             { "Points", "Lines", "LineLoop", "LineStrip", "Triangles", "TriangleStrip", "TriangleFan" },
             { 0, 1, 2, 3, 4, 5, 6 },
-            { var(PrimitiveType::Points), var(PrimitiveType::Lines), var(PrimitiveType::LineLoop), var(PrimitiveType::LineStrip), var(PrimitiveType::Triangles), var(PrimitiveType::TriangleStrip), var(PrimitiveType::TriangleFan) }
+            { var(mud::PrimitiveType::Points), var(mud::PrimitiveType::Lines), var(mud::PrimitiveType::LineLoop), var(mud::PrimitiveType::LineStrip), var(mud::PrimitiveType::Triangles), var(mud::PrimitiveType::TriangleStrip), var(mud::PrimitiveType::TriangleFan) }
         };
         meta_enum<mud::PrimitiveType>();
     }
@@ -46,7 +46,7 @@ namespace mud
             true,
             { "Lowest", "Low", "Medium", "High", "Highest" },
             { 0, 1, 2, 3, 4 },
-            { var(SymbolDetail::Lowest), var(SymbolDetail::Low), var(SymbolDetail::Medium), var(SymbolDetail::High), var(SymbolDetail::Highest) }
+            { var(mud::SymbolDetail::Lowest), var(mud::SymbolDetail::Low), var(mud::SymbolDetail::Medium), var(mud::SymbolDetail::High), var(mud::SymbolDetail::Highest) }
         };
         meta_enum<mud::SymbolDetail>();
     }
@@ -66,6 +66,7 @@ namespace mud
         cls.m_content = &type<mud::vec3>();
         meta_sequence<std::vector<mud::vec3>, mud::vec3>();
     }
+    
     
     
     
@@ -237,6 +238,7 @@ namespace mud
         
         meta_class<mud::Plane3>();
     }
+    
     
     
     
@@ -428,78 +430,6 @@ namespace mud
     
     
         
-    // mud::Poisson
-    {
-        static Meta meta = { type<mud::Poisson>(), &namspc({ "mud" }), "Poisson", sizeof(mud::Poisson), TypeClass::Object };
-        static Class cls = { type<mud::Poisson>(),
-            // bases
-            { &type<mud::Distribution>() },
-            { base_offset<mud::Poisson, mud::Distribution>() },
-            // constructors
-            {
-                { type<mud::Poisson>(), [](Ref ref, array<Var> args) { new(&val<mud::Poisson>(ref)) mud::Poisson( val<mud::vec2>(args[0]), val<float>(args[1]) ); }, { { "size", var(mud::vec2()) }, { "maxRadius", var(float()) } } }
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-                { type<mud::Poisson>(), "distribute", member_address(&mud::Poisson::distribute), [](Ref object, array<Var> args, Var& result) { val<std::vector<mud::vec3>>(result) = val<mud::Poisson>(object).distribute(val<float>(args[0])); }, { { "radius", var(float()) } }, var(std::vector<mud::vec3>()) },
-                { type<mud::Poisson>(), "distribute_circles", member_address(&mud::Poisson::distribute_circles), [](Ref object, array<Var> args, Var& result) { val<std::vector<mud::Circle>>(result) = val<mud::Poisson>(object).distribute_circles(val<float>(args[0])); }, { { "radius", var(float()) } }, var(std::vector<mud::Circle>()) },
-                { type<mud::Poisson>(), "addPoint", member_address(&mud::Poisson::addPoint), [](Ref object, array<Var> args, Var& result) { val<bool>(result) = val<mud::Poisson>(object).addPoint(val<float>(args[0]), val<mud::vec3>(args[1])); }, { { "radius", var(float()) }, { "point", var(mud::vec3()) } }, var(bool()) }
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        init_pool<mud::Poisson>(); 
-        
-        meta_class<mud::Poisson>();
-    }
-    
-    
-        
-    // mud::Aabb
-    {
-        static Meta meta = { type<mud::Aabb>(), &namspc({ "mud" }), "Aabb", sizeof(mud::Aabb), TypeClass::Struct };
-        static Class cls = { type<mud::Aabb>(),
-            // bases
-            { &type<mud::Cube>() },
-            { base_offset<mud::Aabb, mud::Cube>() },
-            // constructors
-            {
-                { type<mud::Aabb>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Aabb>(ref)) mud::Aabb(  ); }, {} },
-                { type<mud::Aabb>(), [](Ref ref, array<Var> args) { new(&val<mud::Aabb>(ref)) mud::Aabb( val<mud::vec3>(args[0]), val<mud::vec3>(args[1]) ); }, { { "center", var(mud::vec3()) }, { "extents", var(mud::vec3()) } } }
-            },
-            // copy constructor
-            {
-                { type<mud::Aabb>(), [](Ref ref, Ref other) { new(&val<mud::Aabb>(ref)) mud::Aabb(val<mud::Aabb>(other)); } }
-            },
-            // members
-            {
-                { type<mud::Aabb>(), member_address(&mud::Aabb::m_null), type<bool>(), "null", var(bool()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Aabb>();
-    }
-    
-    
-        
     // mud::Arc
     {
         static Meta meta = { type<mud::Arc>(), &namspc({ "mud" }), "Arc", sizeof(mud::Arc), TypeClass::Struct };
@@ -534,6 +464,44 @@ namespace mud
         
         
         meta_class<mud::Arc>();
+    }
+    
+    
+        
+    // mud::ArcLine
+    {
+        static Meta meta = { type<mud::ArcLine>(), &namspc({ "mud" }), "ArcLine", sizeof(mud::ArcLine), TypeClass::Struct };
+        static Class cls = { type<mud::ArcLine>(),
+            // bases
+            { &type<mud::Shape>() },
+            { base_offset<mud::ArcLine, mud::Shape>() },
+            // constructors
+            {
+                { type<mud::ArcLine>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ArcLine>(ref)) mud::ArcLine(  ); }, {} },
+                { type<mud::ArcLine>(), [](Ref ref, array<Var> args) { new(&val<mud::ArcLine>(ref)) mud::ArcLine( val<mud::vec3>(args[0]), val<mud::vec3>(args[1]), val<mud::vec3>(args[2]) ); }, { { "start", var(mud::vec3()) }, { "middle", var(mud::vec3()) }, { "end", var(mud::vec3()) } } }
+            },
+            // copy constructor
+            {
+                { type<mud::ArcLine>(), [](Ref ref, Ref other) { new(&val<mud::ArcLine>(ref)) mud::ArcLine(val<mud::ArcLine>(other)); } }
+            },
+            // members
+            {
+                { type<mud::ArcLine>(), member_address(&mud::ArcLine::m_start), type<mud::vec3>(), "start", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ArcLine>(), member_address(&mud::ArcLine::m_middle), type<mud::vec3>(), "middle", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ArcLine>(), member_address(&mud::ArcLine::m_end), type<mud::vec3>(), "end", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ArcLine>();
     }
     
     
@@ -1270,6 +1238,78 @@ namespace mud
         meta_class<mud::Triangle>();
     }
     
+    
+        
+    // mud::Aabb
+    {
+        static Meta meta = { type<mud::Aabb>(), &namspc({ "mud" }), "Aabb", sizeof(mud::Aabb), TypeClass::Struct };
+        static Class cls = { type<mud::Aabb>(),
+            // bases
+            { &type<mud::Cube>() },
+            { base_offset<mud::Aabb, mud::Cube>() },
+            // constructors
+            {
+                { type<mud::Aabb>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Aabb>(ref)) mud::Aabb(  ); }, {} },
+                { type<mud::Aabb>(), [](Ref ref, array<Var> args) { new(&val<mud::Aabb>(ref)) mud::Aabb( val<mud::vec3>(args[0]), val<mud::vec3>(args[1]) ); }, { { "center", var(mud::vec3()) }, { "extents", var(mud::vec3()) } } }
+            },
+            // copy constructor
+            {
+                { type<mud::Aabb>(), [](Ref ref, Ref other) { new(&val<mud::Aabb>(ref)) mud::Aabb(val<mud::Aabb>(other)); } }
+            },
+            // members
+            {
+                { type<mud::Aabb>(), member_address(&mud::Aabb::m_null), type<bool>(), "null", var(bool()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Aabb>();
+    }
+    
+    
+        
+    // mud::Poisson
+    {
+        static Meta meta = { type<mud::Poisson>(), &namspc({ "mud" }), "Poisson", sizeof(mud::Poisson), TypeClass::Object };
+        static Class cls = { type<mud::Poisson>(),
+            // bases
+            { &type<mud::Distribution>() },
+            { base_offset<mud::Poisson, mud::Distribution>() },
+            // constructors
+            {
+                { type<mud::Poisson>(), [](Ref ref, array<Var> args) { new(&val<mud::Poisson>(ref)) mud::Poisson( val<mud::vec2>(args[0]), val<float>(args[1]) ); }, { { "size", var(mud::vec2()) }, { "maxRadius", var(float()) } } }
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+                { type<mud::Poisson>(), "distribute", member_address(&mud::Poisson::distribute), [](Ref object, array<Var> args, Var& result) { val<std::vector<mud::vec3>>(result) = val<mud::Poisson>(object).distribute(val<float>(args[0])); }, { { "radius", var(float()) } }, var(std::vector<mud::vec3>()) },
+                { type<mud::Poisson>(), "distribute_circles", member_address(&mud::Poisson::distribute_circles), [](Ref object, array<Var> args, Var& result) { val<std::vector<mud::Circle>>(result) = val<mud::Poisson>(object).distribute_circles(val<float>(args[0])); }, { { "radius", var(float()) } }, var(std::vector<mud::Circle>()) },
+                { type<mud::Poisson>(), "addPoint", member_address(&mud::Poisson::addPoint), [](Ref object, array<Var> args, Var& result) { val<bool>(result) = val<mud::Poisson>(object).addPoint(val<float>(args[0]), val<mud::vec3>(args[1])); }, { { "radius", var(float()) }, { "point", var(mud::vec3()) } }, var(bool()) }
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        init_pool<mud::Poisson>(); 
+        
+        meta_class<mud::Poisson>();
+    }
+    
 
     
         m.m_types.push_back(&type<mud::Distribution>());
@@ -1287,9 +1327,8 @@ namespace mud
         m.m_types.push_back(&type<mud::SymbolDetail>());
         m.m_types.push_back(&type<std::vector<mud::Circle>>());
         m.m_types.push_back(&type<std::vector<mud::vec3>>());
-        m.m_types.push_back(&type<mud::Poisson>());
-        m.m_types.push_back(&type<mud::Aabb>());
         m.m_types.push_back(&type<mud::Arc>());
+        m.m_types.push_back(&type<mud::ArcLine>());
         m.m_types.push_back(&type<mud::Box>());
         m.m_types.push_back(&type<mud::Capsule>());
         m.m_types.push_back(&type<mud::Circle>());
@@ -1310,6 +1349,8 @@ namespace mud
         m.m_types.push_back(&type<mud::Spheroid>());
         m.m_types.push_back(&type<mud::Torus>());
         m.m_types.push_back(&type<mud::Triangle>());
+        m.m_types.push_back(&type<mud::Aabb>());
+        m.m_types.push_back(&type<mud::Poisson>());
     
         {
             auto func = [](array<Var> args, Var& result) {  val<std::vector<mud::vec3>>(result) = mud::distribute_poisson(val<mud::vec2>(args[0]), val<float>(args[1])); };

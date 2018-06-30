@@ -35,7 +35,7 @@ void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 	gfx::directional_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
-	paint_tileblock(scene, tileblock, focused);
+	paint_tileblock(scene, {}, tileblock, focused);
 
 	//if(highlighted != uvec3(UINT32_MAX))
 	//	paint_tile_cube(scene, tileblock, vec3(highlighted), Colour::DarkGrey);

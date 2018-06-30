@@ -58,6 +58,14 @@ namespace glm {
     
 }
 
+namespace mud {
+namespace gfx {
+
+    
+    
+}
+}
+
 namespace json11 {
 
     
@@ -149,5 +157,23 @@ namespace detail {
     
     
 }
+}
+
+namespace bgfx {
+
+    
+    
+}
+
+namespace bimg {
+
+    
+    
+}
+
+namespace bx {
+
+    
+    
 }
 

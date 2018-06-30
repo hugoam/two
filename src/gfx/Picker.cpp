@@ -150,7 +150,7 @@ namespace mud
 					}
 				}
 
-			if(query.m_callback && item)
+			if(query.m_callback)
 				query.m_callback(item);
 			if(query.m_multi_callback)
 				query.m_multi_callback(items);

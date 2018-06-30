@@ -3,6 +3,20 @@
 
 using namespace mud;
 
+namespace mud
+{
+	//MUD_GFX_UI_EXPORT void prefab_edit(Widget& parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected, EditContext& context);
+
+	void prefab_edit(Widget& parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected, EditContext& context)
+	{
+		prefab_edit(parent, gfx_system, node, selected);
+		Widget& layout = ui::layout(*context.m_viewer);
+		//Widget& toolbar = ui::toolbar(layout);
+		Widget& toolbar = ui::row(layout);
+		tools_transform(toolbar, context);
+	}
+}
+
 PrefabNode& add_node(Prefab& prefab, PrefabType type, Function& function, Ref object)
 {
 	PrefabNode node;
@@ -67,9 +81,9 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Dropped))
 		if(parent.root_sheet().m_drop.m_object)
 		{
-			if(parent.root_sheet().m_drop.m_object.type().is<Model>())
+			if(type(parent.root_sheet().m_drop.m_object).is<Model>())
 				selected = &add_node(prefab, PrefabType::Item, function(gfx::item), parent.root_sheet().m_drop.m_object);
-			if(parent.root_sheet().m_drop.m_object.type().is<ParticleGenerator>())
+			if(type(parent.root_sheet().m_drop.m_object).is<ParticleGenerator>())
 				selected = &add_node(prefab, PrefabType::Particles, function(gfx::particles), parent.root_sheet().m_drop.m_object);
 		}
 
@@ -83,14 +97,14 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 	{
 		prefab_edit(*dock, viewer.m_gfx_system, prefab.m_node, selected, app.m_editor); // "Particle Editor" // identity = edited
 		if(selected)
-			app.m_editor.m_selection = { &selected->m_transform };
+			app.m_editor.m_selection = { Ref(&selected->m_transform) };
 		else
 			app.m_editor.m_selection = {};
 	}
 
 	if(selected)
 	{
-		Gnode& node = gfx::node(scene, selected, selected->m_transform);
+		Gnode& node = gfx::node(scene, Ref(selected), selected->m_transform);
 		if(selected->m_prefab_type == PrefabType::Item)
 		{
 			if(!selected->m_call.m_arguments[1].null())

@@ -26,11 +26,12 @@ namespace mud
 		ITEM_SELECTABLE = 1 << 2,
 		ITEM_UI = 1 << 3,
 		ITEM_SHADEABLE = 1 << 4,
-		ITEM_LOD_0 = 1 << 5,
-		ITEM_LOD_1 = 1 << 6,
-		ITEM_LOD_2 = 1 << 7,
-		ITEM_LOD_3 = 1 << 8,
-		ITEM_LOD_ALL = (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8)
+		ITEM_NO_UPDATE = 1 << 5,
+		ITEM_LOD_0 = 1 << 6,
+		ITEM_LOD_1 = 1 << 7,
+		ITEM_LOD_2 = 1 << 8,
+		ITEM_LOD_3 = 1 << 9,
+		ITEM_LOD_ALL = (1 << 6) | (1 << 7) | (1 << 8) | (1 << 9)
 	};
 
 	export_ enum class refl_ ItemShadow : unsigned int
@@ -59,7 +60,7 @@ namespace mud
 		Aabb m_aabb;
 
 		void submit(uint64_t& bgfx_state, const ModelItem& item);
-		void submit_instances();
+		void submit_instances(const ModelItem& item);
 
 		std::vector<mat4> m_instances;
 

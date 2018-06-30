@@ -30,7 +30,6 @@ namespace mud
 	Scene::Scene(GfxSystem& gfx_system)
 		: m_gfx_system(gfx_system)
 		, m_immediate(make_object<ImmediateDraw>(gfx_system.fetch_material("immediate", "unshaded")))
-		, m_particle_system(make_object<ParticleSystem>(gfx_system))
 		, m_pass_jobs(make_object<PassJobs>())
 		, m_graph(*this)
 		, m_root_node(this)
@@ -45,7 +44,9 @@ namespace mud
 		m_pool->create_pool<Animated>();
 		m_pool->create_pool<Light>();
 		m_pool->create_pool<Camera>();
-		m_pool->create_pool<Particles>();
+		m_pool->create_pool<Particles>(1024);
+
+		m_particle_system = make_object<ParticleSystem>(gfx_system, m_pool->pool<Particles>());
 	}
 
 	Scene::~Scene()

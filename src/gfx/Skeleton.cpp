@@ -75,6 +75,14 @@ namespace mud
 		m_joints.push_back(joint);
 	}
 
+	Joint* Skin::find_bone_joint(cstring name)
+	{
+		for(Joint& joint : m_joints)
+			if(m_skeleton->m_bones[joint.m_bone].m_name == name)
+				return &joint;
+		return nullptr;
+	}
+
 	void Skin::update_joints()
 	{
 		int height = m_joints.size() / SKELETON_TEXTURE_SIZE;

@@ -18,6 +18,7 @@ namespace mud
 namespace ui
 {
 	export_ MUD_UI_EXPORT func_ Sequence& sequence(Widget& parent);
+	export_ MUD_UI_EXPORT func_ Sequence& scroll_sequence(Widget& parent);
 	export_ MUD_UI_EXPORT func_ bool select_logic(Widget& element, Ref object, std::vector<Ref>& selection);
 	export_ MUD_UI_EXPORT func_ bool select_logic(Widget& element, Ref object, Ref& selection);
 	export_ MUD_UI_EXPORT func_ Widget& element(Widget& parent, Ref object);

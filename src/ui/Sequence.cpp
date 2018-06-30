@@ -21,6 +21,11 @@ namespace ui
 {
 	Sequence& sequence(Widget& parent)
 	{
+		return twidget<Sequence>(parent, styles().sequence);
+	}
+
+	Sequence& scroll_sequence(Widget& parent)
+	{
 		Sequence& self = twidget<Sequence>(parent, styles().sequence);
 		self.m_body = scroll_sheet(self).m_body;
 		return self;
@@ -84,7 +89,7 @@ namespace ui
 
 	Widget& element(Sequence& sequence, Ref object)
 	{
-		return element(*sequence.m_body, object, *sequence.m_selection);
+		return element(sequence.m_body ? *sequence.m_body : sequence, object, *sequence.m_selection);
 	}
 }
 }

@@ -24,7 +24,7 @@ export import mud.ctx;
 export import mud.ui;
 export import mud.uio;
 export import mud.gfx;
-export import mud.edit;
+export import mud.gfx.ui;
 export import mud.procgen.gfx;
 export import mud.infra.refl;
 export import mud.obj.refl;
@@ -36,7 +36,7 @@ export import mud.ctx.refl;
 export import mud.ui.refl;
 export import mud.uio.refl;
 export import mud.gfx.refl;
-export import mud.edit.refl;
+export import mud.gfx.ui.refl;
 
 #include <meta/procgen-gfx/Api.h>
 

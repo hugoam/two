@@ -15,16 +15,16 @@ namespace mud
 {
 	using cstring = const char*;
 
-	export_ enum refl_ SpectrumPalette : short int
+	export_ enum class refl_ Spectrum : short int
 	{
-		SPECTRUM_GRAYSCALE = 0,
-		SPECTRUM_HUE = 1
+		Value = 0,
+		Hue = 1
 	};
 
 	export_ struct refl_ MUD_MATH_EXPORT Palette
 	{
 	public:
-		constr_ Palette(SpectrumPalette spectrum, size_t steps);
+		constr_ Palette(Spectrum spectrum, size_t steps);
 		constr_ Palette(std::vector<Colour> colours);
 		constr_ Palette();
 
@@ -32,10 +32,10 @@ namespace mud
 		void load(cstring file);
 		void add(Colour colour);
 
-		size_t findColour(const Colour& colour);
+		size_t find_colour(const Colour& colour);
 
-		void grayScaleSpectrum(size_t steps, bool toWhite = false);
-		void hueSpectrum(size_t steps);
+		void value_spectrum(size_t steps, bool toWhite = false);
+		void hue_spectrum(size_t steps);
 
 		std::vector<Colour> m_colours;
 	};

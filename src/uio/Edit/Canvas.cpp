@@ -49,11 +49,6 @@ namespace mud
 		m_colours[&type<quat>()] = Colour::Pink;
 	}
 
-	enum CanvasModes
-	{
-		SCRIPT_CANVAS_INSERT = (1 << 0)
-	};
-
 	bool fits_filter(const string& name, const string& filter)
 	{
 		return filter.empty() || name.find(filter) != string::npos;
@@ -193,7 +188,7 @@ namespace mud
         UNUSED(script);
 		bool destroy = false;
 
-		Node& node = ui::node(canvas, carray<cstring, 1>{ process.m_title.c_str() }, &process.m_position[0], process.m_order, &process);
+		Node& node = ui::node(canvas, carray<cstring, 1>{ process.m_title.c_str() }, &process.m_position[0], process.m_order, Ref(&process));
 		if(ui::button(*node.m_header, "R").activated())
 			process.recompute();
 		if(ui::button(*node.m_header, "X").activated())
@@ -250,9 +245,11 @@ namespace mud
 
 	Canvas& script_canvas(Widget& parent, VisualScript& script)
 	{
+		enum Modes { INSERT = 1 << 0 };
+
 		Canvas& canvas = ui::canvas(parent, script.m_processes.size());
 
-		if(Widget* popup = ui::context(*canvas.m_scroll_plan, SCRIPT_CANVAS_INSERT, ui::PopupFlags::Modal))
+		if(Widget* popup = ui::context(*canvas.m_scroll_plan, INSERT, ui::PopupFlags::Modal))
 			script_canvas_insert(canvas, *popup, script);
 
 		Process* destroy = nullptr;

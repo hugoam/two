@@ -51,43 +51,21 @@ mud.gfx         = mud_module("mud", "gfx",          MUD_SRC_DIR, "gfx",         
 mud.gfx.pbr     = mud_module("mud", "gfx-pbr",      MUD_SRC_DIR, "gfx-pbr",     nil,    nil,            nil,                { mud.infra, mud.obj, mud.srlz, mud.math, mud.geom, mud.gfx })
 mud.gfx.obj     = mud_module("mud", "gfx-obj",      MUD_SRC_DIR, "gfx-obj",     nil,    nil,            nil,                { mud.infra, mud.obj, mud.srlz, mud.math, mud.geom, mud.gfx })
 mud.gfx.gltf    = mud_module("mud", "gfx-gltf",     MUD_SRC_DIR, "gfx-gltf",    nil,    mud_gfx_gltf,   nil,                { json11, mud.infra, mud.obj, mud.refl, mud.srlz, mud.math, mud.geom, mud.gfx })
+mud.gfx.ui      = mud_module("mud", "gfx-ui",       MUD_SRC_DIR, "gfx-ui",      nil,    nil,            nil,                { mud.infra, mud.tree, mud.obj, mud.refl, mud.srlz, mud.lang, mud.math, mud.geom, mud.ctx, mud.ui, mud.uio, mud.gfx, mud.gfx.pbr })
 
-mud.edit        = mud_module("mud", "edit",         MUD_SRC_DIR, "edit",        nil,    nil,            nil,                { mud.infra, mud.tree, mud.obj, mud.refl, mud.srlz, mud.lang, mud.math, mud.geom, mud.ctx, mud.ui, mud.uio, mud.gfx, mud.gfx.pbr })
+mud.tool        = mud_module("mud", "tool",         MUD_SRC_DIR, "tool",        nil,    nil,            nil,                { mud.infra, mud.tree, mud.obj, mud.refl, mud.srlz, mud.lang, mud.math, mud.geom, mud.ctx, mud.ui, mud.uio, mud.gfx, mud.gfx.pbr })
 
-mud.procgen.gfx = mud_module("mud", "procgen-gfx",  MUD_SRC_DIR, "procgen-gfx", nil,    nil,            nil,                { json11, mud.infra, mud.tree, mud.obj, mud.srlz, mud.math, mud.geom, mud.procgen, mud.ctx, mud.ui, mud.uio, mud.gfx, mud.edit })
+mud.procgen.gfx = mud_module("mud", "procgen-gfx",  MUD_SRC_DIR, "procgen-gfx", nil,    nil,            nil,                { json11, mud.infra, mud.tree, mud.obj, mud.srlz, mud.math, mud.geom, mud.procgen, mud.ctx, mud.ui, mud.uio, mud.gfx, mud.gfx.ui })
 
-mud.gfx.core = { mud.ctxbackend, mud.uibackend, mud.bgfx, mud.gfx, mud.gfx.obj, mud.gfx.pbr, mud.gfx.gltf, mud.edit, mud.procgen.gfx }
+table.extend(mud.mud, { mud.ctxbackend, mud.uibackend, mud.bgfx, mud.gfx, mud.gfx.pbr, mud.gfx.obj, mud.gfx.gltf, mud.gfx.ui, mud.tool, mud.procgen.gfx })
 
-table.extend(mud.gfx.core, mud_refls({ mud.gfx, mud.gfx.obj, mud.gfx.pbr, mud.gfx.gltf, mud.edit, mud.procgen.gfx }, FORCE_REFL_PROJECTS))
+local lgfx = {}
 
-mud.all = {}
-
-table.extend(mud.all, mud.core)
-table.extend(mud.all, mud.gfx.core)
-
-if _OPTIONS["as-libs"] then
-    group "lib/mud"
-        for _, m  in ipairs(mud.gfx.core) do
-            m.decl(m, true)
-        end
-    group "lib"
-else
-    project "mud_gfx"
-        if MUD_STATIC then
-            kind "StaticLib"
-        else
-            kind "SharedLib"
-        end
-
-        for _, m  in ipairs(mud.gfx.core) do
-            m.decl(m, false)
-        end
-        
-        configuration { "vs*", "not asmjs", "Release" }
-            buildoptions {
-                "/bigobj",
-            }
-            
-        configuration {}
+if _OPTIONS["renderer-gl"] then
+    lgfx = { mud.gl, mud.uibackend }
+elseif _OPTIONS["renderer-bgfx"] then
+    lgfx = { mud.bgfx, mud.uibackend }
 end
+
+table.insert(lgfx, mud.core)
 

@@ -35,10 +35,10 @@ namespace mud
 		, m_triangles()
 	{}
 
-	void Geometry::allocate(size_t vertCount, size_t triCount)
+	void Geometry::allocate(size_t vertex_count, size_t tri_count)
 	{
-		m_vertices.resize(vertCount);
-		m_triangles.resize(triCount);
+		m_vertices.resize(vertex_count);
+		m_triangles.resize(tri_count);
 	}
 
 	object_ptr<Shape> Geometry::clone() const { return make_object<Geometry>(*this); }

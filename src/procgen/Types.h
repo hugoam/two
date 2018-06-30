@@ -43,7 +43,7 @@ namespace mud
     export_ template <> MUD_PROCGEN_EXPORT Type& type<mud::Tile>();
     export_ template <> MUD_PROCGEN_EXPORT Type& type<mud::Tileset>();
     export_ template <> MUD_PROCGEN_EXPORT Type& type<mud::Wave>();
-    export_ template <> MUD_PROCGEN_EXPORT Type& type<mud::TileWave>();
     export_ template <> MUD_PROCGEN_EXPORT Type& type<mud::WaveTileset>();
+    export_ template <> MUD_PROCGEN_EXPORT Type& type<mud::TileWave>();
     export_ template <> MUD_PROCGEN_EXPORT Type& type<mud::array_3d<float>>();
 }

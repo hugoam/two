@@ -146,6 +146,7 @@ namespace mud
 		};
 	};
 
+	export_ template struct refl_ array_ struct_ MUD_UI_EXPORT Dim2<bool>;
 	export_ template struct refl_ array_ struct_ MUD_UI_EXPORT Dim2<size_t>;
 	export_ template struct refl_ array_ struct_ MUD_UI_EXPORT Dim2<AutoLayout>;
 	export_ template struct refl_ array_ struct_ MUD_UI_EXPORT Dim2<Sizing>;

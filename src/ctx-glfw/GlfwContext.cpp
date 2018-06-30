@@ -234,6 +234,15 @@ namespace mud
 		UNUSED(width); UNUSED(height);
 	}
 
+	void GlfwContext::lock_mouse(bool locked)
+	{
+		m_mouse_lock = locked;
+		if(locked)
+			glfwSetInputMode(m_gl_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		else
+			glfwSetInputMode(m_gl_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
+
 	bool GlfwContext::next_frame()
 	{
 		this->update_size();
@@ -276,8 +285,12 @@ namespace mud
 
 	void GlfwContext::inject_mouse_move(double x, double y)
 	{
+		//printf("glfw: mouse move %f, %f\n", float(x), float(y));
 		vec2 size = { float(m_width), float(m_height) };
-		m_cursor = max(vec2(0.f), min(size, vec2{ float(x), float(y) }));
+		if(m_mouse_lock)
+			m_cursor = { float(x), float(y) };
+		else
+			m_cursor = max(vec2(0.f), min(size, vec2{ float(x), float(y) }));
 		m_mouse->moved(m_cursor);
 	}
 

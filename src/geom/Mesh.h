@@ -25,7 +25,10 @@ namespace mud
 		vec3 m_bounds_min;
 		vec3 m_bounds_max;
 
-		void allocate(size_t vertCount, size_t triCount);
+		void allocate(size_t vertex_count, size_t tri_count);
+
+		array<Vertex> vertices() { return { &m_vertices[0], m_vertices.size() }; }
+		array<uint32_t> indices() { return { &m_triangles[0].a, m_triangles.size() / 3 }; }
 
 		virtual object_ptr<Shape> clone() const;
 	};

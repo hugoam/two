@@ -160,7 +160,7 @@ namespace mud
 		float m_innerConeAngle = 360.f;	// Inner cone angle
 		float m_outerConeAngle = 360.f;	// outer cone angle
 
-		bool m_updateTransform = false;	// Transformation update flag
+		bool m_update_transform = false;	// Transformation update flag
 		bool m_updateCursor = false;	// Flag indicating playback position has changed
 
 		std::list<float> m_cuePoints;	// List of play position points

@@ -17,15 +17,10 @@ namespace mud
 	export_ using cstring = const char*;
 	export_ using FunctionPointer = void* (*)();
 	
-	export_ class MUD_REFL_EXPORT ModuleLoader
-	{
-	public:
-		ModuleLoader();
-
-		Module* load_module(cstring path);
-		void unload_module(Module& m);
-		void reload_module(Module& m);
-	};
+	export_ MUD_REFL_EXPORT Module* load_module(cstring path);
+	export_ MUD_REFL_EXPORT void unload_module(Module& m);
+	export_ MUD_REFL_EXPORT void reload_module(Module& m);
+	export_ MUD_REFL_EXPORT FunctionPointer module_function(Module& module, cstring name);
 
 	export_ class refl_ MUD_REFL_EXPORT System
 	{
@@ -59,9 +54,6 @@ namespace mud
 		Function* find_function(cstring name);
 
 		static System& instance() { static System instance; return instance; }
-
-	protected:
-		ModuleLoader m_loader;
 	};
 
 	export_ func_ inline System& system() { return System::instance(); }

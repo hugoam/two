@@ -59,11 +59,27 @@ namespace mud
 	using std::sin;
 	using std::cos;
 
+	using std::abs;
+
 	float nsinf(float a) { return (sinf(a) + 1.f) / 2.f; } // @kludge can't be inline because we identify reflected functions through their pointer 
 	float ncosf(float a) { return (cosf(a) + 1.f) / 2.f; }
 
 	double nsin(double a) { return (sin(a) + 1.0) / 2.0; }
 	double ncos(double a) { return (cos(a) + 1.0) / 2.0; }
+
+	quat look_at(const vec3& source, const vec3& dest)
+	{
+		vec3 direction = normalize(dest - source);
+		float d = dot(-Z3, direction);
+
+		//if(abs(d - (-1.0f)) < 0.000001f)
+		//	return quat(Vector3.up.x, Vector3.up.y, Vector3.up.z, 3.1415926535897932f);
+		if(abs(d - (1.0f)) < 0.000001f)
+			return ZeroQuat;
+
+		vec3 axis = normalize(cross(-Z3, direction));
+		return axis_angle(axis, acos(d));
+	}
 
 	uint32_t pack4(const vec4& colour)
 	{
@@ -230,7 +246,7 @@ namespace mud
 		return result;
 	}
 
-	void grid(uvec3 size, std::vector<uvec3>& output_coords)
+	void grid(const uvec3& size, std::vector<uvec3>& output_coords)
 	{
 		for(size_t z = 0; z < size.z; ++z)
 			for(size_t y = 0; y < size.y; ++y)
@@ -238,8 +254,19 @@ namespace mud
 					output_coords.emplace_back(x, y, z);
 	}
 
-	void grid_center(uvec3 coord, float cell_size, vec3& output_center)
+	vec3 grid_center(const uvec3& coord, float cell_size)
 	{
-		output_center = vec3(coord) * cell_size + cell_size * 0.5f;
+		return vec3(coord) * cell_size + cell_size * 0.5f;
+	}
+
+	vec3 grid_center(const uvec3& coord, const vec3& cell_size)
+	{
+		return vec3(coord) * cell_size + cell_size * 0.5f;
+	}
+
+	void index_list(size_t size, std::vector<uint32_t>& output_indices)
+	{
+		for(size_t i = 0; i < size; ++i)
+			output_indices.push_back(i);
 	}
 }

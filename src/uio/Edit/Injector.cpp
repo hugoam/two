@@ -91,9 +91,9 @@ namespace mud
 		MetaObjectCreatorState& state = self.state<MetaObjectCreatorState>();
 
 		for(Type* type : System::instance().m_types)
-			if(is_root_type(*type) && !cls(type).m_constructors.empty())
+			if(is_root_type(*type) && !cls(*type).m_constructors.empty())
 			{
-				if(object_item(self, type).activated())
+				if(object_item(self, Ref(type)).activated())
 					state.m_type = type;
 			}
 

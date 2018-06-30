@@ -27,9 +27,9 @@ namespace mud
 
 		for(const Tri& triangle : geometry.m_triangles)
 		{
-			data.line(triangle.a, triangle.b);
-			data.line(triangle.b, triangle.c);
-			data.line(triangle.c, triangle.a);
+			data.line(uint16_t(triangle.a), uint16_t(triangle.b));
+			data.line(uint16_t(triangle.b), uint16_t(triangle.c));
+			data.line(uint16_t(triangle.c), uint16_t(triangle.a));
 		}
 	}
 	

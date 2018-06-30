@@ -28,7 +28,7 @@ namespace mud
 			int width, height, n;
 			unsigned char* img = stbi_load(fullpath.c_str(), &width, &height, &n, 4);
 			stbi_image_free(img);
-			images.push_back({ name.c_str(), fullpath.c_str(),{ uint(width), uint(height) } });
+			images.push_back({ name.c_str(), fullpath.c_str(), { uint(width), uint(height) } });
 		};
 
 		visit_files(path.c_str(), visit_file);

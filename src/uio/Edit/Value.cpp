@@ -263,21 +263,21 @@ namespace mud
 		//if(is_struct(*value.m_type) && !nullable && !value)
 		//	return object_creator(parent, *value.m_type);
 
-		if(value == Ref() || value.type().is<Type>())
+		if(value == Ref() || type(value).is<Type>())
 			return false;
 		else if(DispatchInput::me().check(value))
 			return DispatchInput::me().dispatch(value, parent);
-		else if(value.type().is<Creator>())
+		else if(type(value).is<Creator>())
 			return object_creator(parent, val<Creator>(value));
-		else if(value.type().is<Call>())
+		else if(type(value).is<Call>())
 			return call_edit(parent, val<Call>(value));
-		else if(is_none(value.type()))
+		else if(is_none(type(value)))
 			return none_edit(parent, value);
-		else if(is_base_type(value.type()))
+		else if(is_base_type(type(value)))
 			return value_edit(parent, value);
-		else if(is_sequence(value.type()))
+		else if(is_sequence(type(value)))
 			return sequence_edit(parent, value, hint);
-		else if(is_enum(value.type()))
+		else if(is_enum(type(value)))
 			return enum_edit(parent, value);
 		else if(link || value.m_value == nullptr)
 			return object_link_edit(parent, value);

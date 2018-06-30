@@ -48,6 +48,9 @@ namespace mud
 	};
 
 	template <class T_Asset>
+	class TPool;
+
+	template <class T_Asset>
 	class AssetStore;
 
 	export_ struct LocatedFile
@@ -85,6 +88,9 @@ namespace mud
 
 		LocatedFile locate_file(cstring file);
 		LocatedFile locate_file(cstring file, array<cstring> extensions);
+
+		TPool<Mesh>& meshes();
+		TPool<Rig>& rigs();
 
 		AssetStore<Texture>& textures();
 		AssetStore<Program>& programs();

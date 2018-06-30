@@ -223,7 +223,7 @@ namespace mud
 	{
 		alloc_ref(state, object);
 #ifdef MUD_LUA_DEBUG
-		printf("Lua -> pushed ref %s at %p\n", object.type().m_name, object.m_value);
+		printf("Lua -> pushed ref %s at %p\n", type(object).m_name, object.m_value);
 #endif
 		return{ state, 1 };
 	}
@@ -233,7 +233,7 @@ namespace mud
 		Ref ref = alloc_object(state, *value.m_type);
 		copy_construct(ref, value);
 #ifdef MUD_LUA_DEBUG
-		printf("Lua -> pushed object %s at %p\n", value.type().m_name, ref.m_value);
+		printf("Lua -> pushed object %s at %p\n", type(value).m_name, ref.m_value);
 #endif
 		return{ state, 1 };
 	}
@@ -268,7 +268,7 @@ namespace mud
 				result = object;
 		}
 #ifdef MUD_LUA_DEBUG
-		printf("Lua -> read object %s at %p\n", result.type().m_name, result.m_ref.m_value);
+		printf("Lua -> read object %s at %p\n", type(result).m_name, result.m_ref.m_value);
 #endif
 	}
 
@@ -292,15 +292,15 @@ namespace mud
 	{
 		if(var.none() || var.null())
 			return push_null(state);
-		else if(var.m_mode == REF && var.type().is<Callable>())
+		else if(var.m_mode == REF && type(var).is<Callable>())
 			return push_callable(state, val<Callable>(var.m_ref));
-		else if(is_sequence(var.type()))
+		else if(is_sequence(type(var)))
 			return push_sequence(state, var);
-		else if(is_object(var.type()))
+		else if(is_object(type(var)))
 			return push_ref(state, var.m_ref);
-		else if(is_struct(var.type()))
+		else if(is_struct(type(var)))
 			return push_object(state, var.m_ref);
-		else if(is_enum(var.type()))
+		else if(is_enum(type(var)))
 			return push_enum(state, var);
 		else
 			return push_value(state, var.m_ref);
@@ -310,16 +310,16 @@ namespace mud
 	{
 		if(value.m_mode == REF && value.m_ref == Ref())
 			read_ref(state, index, value);
-		else if(value.type().is<Type>())
+		else if(type(value).is<Type>())
 			read_type(state, index, value);
-		else if(is_sequence(value.type()))
-			read_sequence(state, index, value.type(), value);
-		else if(is_object(value.type()) || is_struct(value.type()))
-			read_object(state, index, value.type(), value);
-		else if(is_enum(value.type()))
-			read_enum(state, index, value.type(), value);
+		else if(is_sequence(type(value)))
+			read_sequence(state, index, type(value), value);
+		else if(is_object(type(value)) || is_struct(type(value)))
+			read_object(state, index, type(value), value);
+		else if(is_enum(type(value)))
+			read_enum(state, index, type(value), value);
 		else
-			read_value(state, index, value.type(), value);
+			read_value(state, index, type(value), value);
 	}
 
 	inline Stack global_table(lua_State* state)
@@ -447,7 +447,7 @@ namespace mud
 			success &= (!vars[i].none() && (params[i].nullable() || !vars[i].null()));
 #if 0
 			if(!success)
-				printf("ERROR: lua -> wrong argument %s, expect type %s, got %s\n", params[i].m_name, params[i].m_value.type().m_name, vars[i].type().m_name);
+				printf("ERROR: lua -> wrong argument %s, expect type %s, got %s\n", params[i].m_name, type(params[i].m_value).m_name, vars[i].type().m_name);
 #endif
 		}
 		return success;
@@ -503,7 +503,7 @@ namespace mud
 	{
 		Type* type = static_cast<Type*>(lua_touserdata(state, lua_upvalueindex(1)));
 		size_t num_args = lua_gettop(state) - 1;
-		const Constructor* constructor = cls(type).constructor(num_args);
+		const Constructor* constructor = cls(*type).constructor(num_args);
 		if(constructor)
 		{
 			Call& construct = lua_cached_call(*constructor);

@@ -85,6 +85,7 @@ namespace mud
 
 		bool m_stabilized = true;
 		bool m_solved = false;
+		Result m_state = Result::kUnfinished;
 
 		RandomDouble m_random_double;
 		ValidCoord m_valid_coord;
@@ -104,10 +105,10 @@ namespace mud
 		}*/
 
 		void clear();
-		void add_foundation(uint16_t tile);
+		void set_tile(const uvec3& coord, uint16_t tile);
 		Result find_lowest_entropy(uvec3& coord);
 		Result observe();
-		void propagate();
+		void propagate(size_t limit = 0);
 
 		meth_ Result solve(size_t limit);
 	};

@@ -27,7 +27,7 @@ namespace mud
 	export_ struct refl_ MUD_GFX_EXPORT AnimationPlay
 	{
 		AnimationPlay() {}
-		AnimationPlay(const Animation& animation, bool loop, float speed, bool reverse, Skeleton* skeleton = nullptr);
+		AnimationPlay(const Animation& animation, bool loop, float speed, bool transient, Skeleton* skeleton = nullptr);
 		
 		void step(float delta, float speed);
 		void update(float time, float delta, float interp);
@@ -35,7 +35,7 @@ namespace mud
 		const Animation* m_animation = nullptr;
 		bool m_loop = true;
 		float m_speed = 1.f;
-		bool m_reverse = false;
+		bool m_transient = false;
 
 		float m_fadeout = 0.f;
 		float m_fadeout_left = 0.f;
@@ -61,8 +61,8 @@ namespace mud
 
 		bool m_active = true;
 
-		void play(const Animation& animation, bool loop, float blend = 0.f, float speed = 1.f, bool reverse = false);
-		void play(cstring animation, bool loop, float blend = 0.f, float speed = 1.f, bool reverse = false);
+		void play(const Animation& animation, bool loop, float blend = 0.f, float speed = 1.f, bool transient = false);
+		void play(cstring animation, bool loop, float blend = 0.f, float speed = 1.f, bool transient = false);
 		void seek(float time);
 		void pause();
 		void stop();
@@ -70,5 +70,7 @@ namespace mud
 		void next_animation();
 		
 		void add_item(Item& item);
+
+		string playing() { return m_playing.back().m_animation->m_name; }
 	};
 }

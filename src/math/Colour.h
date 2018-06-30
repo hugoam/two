@@ -16,7 +16,9 @@ namespace mud
 {
 	export_ struct refl_ array_  MUD_MATH_EXPORT Colour
 	{
-		constr_ Colour(float r = 0.f, float g = 0.f, float b = 0.f, float a = 1.f);
+		constr_ Colour();
+		constr_ Colour(float v, float a = 1.f);
+		constr_ Colour(float r, float g, float b, float a = 1.f);
 
 		Colour(const Colour& col) = default;
 		Colour& operator=(const Colour&) = default;

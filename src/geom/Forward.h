@@ -52,6 +52,7 @@ namespace mud {
     struct Ring;
     struct Ellipsis;
     struct Arc;
+    struct ArcLine;
     struct Cylinder;
     struct Capsule;
     struct Cube;

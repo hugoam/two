@@ -112,9 +112,10 @@ namespace mud
 
 	void Mouse::moved(vec2 pos)
 	{
-		MouseEvent& mouse_event = dispatch_event(MouseEvent(DeviceType::Mouse, EventType::Moved, pos));
 		m_pos = pos;
 
+		MouseEvent& mouse_event = dispatch_event(MouseEvent(DeviceType::Mouse, EventType::Moved, pos));
+		
 		const float drag_threshold = 3.f;
 
 		for(MouseButton& button : m_buttons)

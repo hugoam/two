@@ -14,7 +14,7 @@ struct GLFWwindow;
 #endif
 
 #ifndef MUD_CTX_GLFW_EXPORT
-#define MUD_CTX_GLFW_EXPORT
+#define MUD_CTX_GLFW_EXPORT //MUD_IMPORT
 #endif
 
 namespace mud
@@ -31,6 +31,8 @@ namespace mud
 
 		virtual bool next_frame() final;
 
+		virtual void lock_mouse(bool locked) final;
+
 		void inject_mouse_move(double x, double y);
 		void inject_mouse_button(int button, int action, int mods);
 		void inject_key(int key, int scancode, int action, int mods);
@@ -44,6 +46,8 @@ namespace mud
 
 		Mouse* m_mouse = nullptr;
 		Keyboard* m_keyboard = nullptr;
+
+		bool m_mouse_lock = false;
 	};
 }
 

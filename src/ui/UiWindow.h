@@ -37,7 +37,7 @@ namespace mud
 
 		Image& create_image(cstring image, uvec2 size, uint8_t* data, bool filtering = true);
 		void remove_image(Image& image);
-		Image& find_image(cstring name);
+		Image* find_image(cstring name);
 
 	protected:
 		void init_resources();

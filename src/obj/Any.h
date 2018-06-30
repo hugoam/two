@@ -30,10 +30,10 @@ namespace mud
 		val(const Ref& ref) { return (T)(ref.m_value); } // static_cast<T>(m_value); }
 
 	export_ template <class T>
-	inline void set(Ref& ref, T& value) { ref.m_value = &value; ref.m_type = &typeof<T>(value); }
+	inline void set(Ref& ref, T& value) { ref.m_value = &value; ref.m_type = &type_of<T>(value); }
 
 	export_ template <class T>
-	inline void set(Ref& ref, T* value) { ref.m_value = (void*)value; ref.m_type = &typeof<T>(value); }
+	inline void set(Ref& ref, T* value) { ref.m_value = (void*)value; ref.m_type = &type_of<T>(value); }
 
 	export_ inline void set(Ref& ref, cstring value) { ref.m_value = (void*)value; ref.m_type = &type<cstring>(); }
 

@@ -24,7 +24,7 @@ namespace mud
             true,
             { "Linear", "Reinhardt", "Filmic", "ACES" },
             { 0, 1, 2, 3 },
-            { var(TonemapMode::Linear), var(TonemapMode::Reinhardt), var(TonemapMode::Filmic), var(TonemapMode::ACES) }
+            { var(mud::TonemapMode::Linear), var(mud::TonemapMode::Reinhardt), var(mud::TonemapMode::Filmic), var(mud::TonemapMode::ACES) }
         };
         meta_enum<mud::TonemapMode>();
     }

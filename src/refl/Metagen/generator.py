@@ -73,7 +73,7 @@ def register_type(module, parent, clsname):
             content_name = clsname[clsname.find('<')+1:-1]
             content_type = module.find_type(parent, content_name.replace('*', ''))
             if content_type :
-                print '>>>>>>>>>>>> register_type Sequence', name, content_type.name, content_name
+                #print '>>>>>>>>>>>> register_type Sequence', name, content_type.name, content_name
                 cls = Sequence(module, name, content_type, content_name.find('*') > -1, module.context.root_namespace)
                 module.context.types[clsname] = cls
                 return cls
@@ -343,7 +343,7 @@ class Member(object):
         self.output = False
         self.input = False
         
-        print 'Member', self.name, self.type
+        #print 'Member', self.name, self.type
         
         if not parent.is_template:
             self.cls = self.parent.module.get_type(parent, self.clsname)
@@ -403,7 +403,7 @@ class Enum(Type):
         self.values = [c.enum_value for c in cursor.get_children() if c.kind == clang.cindex.CursorKind.ENUM_CONSTANT_DECL]
         self.scoped = cursor.is_scoped_enum()
         self.enum_type = cursor.enum_type.spelling
-        self.prefix = self.name + '::' if self.scoped else (self.parent.name + '::' if self.parent else '')
+        self.prefix = self.id + '::' if self.scoped else (self.parent.name + '::' if self.parent else '')
         self.scoped_ids = [self.prefix + id for id in self.ids]
         self.reflect = 'reflect' in get_annotations(cursor)
 

@@ -11,11 +11,13 @@
 module mud.gfx;
 #else
 #include <obj/Indexer.h>
+#include <pool/Pool.h>
 #include <geom/Geom.h>
 #include <gfx/Types.h>
 #include <gfx/Model.h>
 #include <gfx/Mesh.h>
 #include <gfx/Skeleton.h>
+#include <gfx/GfxSystem.h>
 #endif
 
 namespace mud
@@ -37,9 +39,11 @@ namespace mud
 
 	//static uint16_t s_model_index = 0;
 
+	GfxSystem* Model::ms_gfx_system = nullptr;
+
 	Model::Model(cstring id)
 		: m_name(id)
-		, m_index(index(type<Model>(), this))//++s_model_index)
+		, m_index(index(type<Model>(), Ref(this)))//++s_model_index)
 	{}
 
 	Model::~Model()
@@ -47,8 +51,15 @@ namespace mud
 
 	Mesh& Model::add_mesh(cstring name, bool readback)
 	{
-		m_meshes.emplace_back(name, readback);
-		return m_meshes.back();
+		Mesh& mesh = ms_gfx_system->meshes().construct(name, readback);
+		m_meshes.push_back(&mesh);
+		return mesh;
+	}
+
+	Rig& Model::add_rig(cstring name)
+	{
+		m_rig = &ms_gfx_system->rigs().construct();
+		return *m_rig;
 	}
 
 	void Model::prepare()

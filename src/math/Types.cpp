@@ -19,7 +19,7 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::Clockwise>() { static Type ty("mud::Clockwise"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Side>() { static Type ty("mud::Side"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::SignedAxis>() { static Type ty("mud::SignedAxis"); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::SpectrumPalette>() { static Type ty("mud::SpectrumPalette"); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::Spectrum>() { static Type ty("mud::Spectrum"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::TrackMode>() { static Type ty("mud::TrackMode"); return ty; }
     
     template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<float>>() { static Type ty("AutoStat<float>"); return ty; }

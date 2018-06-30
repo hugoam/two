@@ -79,7 +79,9 @@ namespace ui
 
 	export_ MUD_UI_EXPORT func_ Widget& checkbox(Widget& parent, bool& on);
 	export_ MUD_UI_EXPORT func_ Widget& fill_bar(Widget& parent, float percentage, Dim dim = DIM_X);
-	export_ MUD_UI_EXPORT func_ Widget& figure(Widget& parent, const Image256& source);
+
+	export_ MUD_UI_EXPORT func_ Widget& image256(Widget& parent, cstring name, const Image256& source);
+	export_ MUD_UI_EXPORT func_ Widget& image256(Widget& parent, cstring name, const Image256& source, const vec2& size);
 
 	export_ MUD_UI_EXPORT func_ Widget& radio_choice(Widget& parent, cstring value, bool active);
 	export_ MUD_UI_EXPORT func_ bool radio_switch(Widget& parent, array<cstring> labels, size_t& value, Dim dim = DIM_X);

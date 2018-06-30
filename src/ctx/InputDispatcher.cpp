@@ -28,6 +28,7 @@ namespace mud
 		for(size_t i = 0; i < m_top; ++i)
 		{
 			m_event_batches[i].clear();
+
 			if(m_event_batches[i].m_control_node)
 			{
 				m_event_batches[i].m_control_node->m_events = nullptr;

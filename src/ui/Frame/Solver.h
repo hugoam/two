@@ -64,6 +64,7 @@ namespace mud
 			m_size = { 0.f, 0.f };
 			if(!partial)
 				d_content = { 0.f, 0.f };
+			d_spacing = { 0.f, 0.f };
 			m_spaceContent = { 0.f, 0.f };
 			d_contentExpand = false;
 			d_totalSpan = 0.f;
@@ -99,6 +100,7 @@ namespace mud
 		Dim2<Sizing> d_sizing = { SHRINK, SHRINK };
 
 		vec2 d_content = { 0.f, 0.f };
+		vec2 d_spacing = { 0.f, 0.f };
 		vec2 m_spaceContent = { 0.f, 0.f };
 		bool d_contentExpand = false;
 		float d_totalSpan;
@@ -118,7 +120,7 @@ namespace mud
 		virtual void layout(FrameSolver& frame, Dim dim);
 
 	protected:
-		void measure(FrameSolver& frame, vec2& size, Dim dim);
+		void measure(FrameSolver& frame, Dim dim);
 		void resize(FrameSolver& frame, Dim dim);
 		void position(FrameSolver& frame, Dim dim);
 

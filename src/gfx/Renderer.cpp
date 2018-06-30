@@ -219,20 +219,38 @@ namespace mud
 		m_impl->m_draw_elements.add_element() = element;
 	}
 
+	bool mask_draw_mode(uint32_t mask, DrawMode check)
+	{
+		return (mask & 1 << check) == 0;
+	}
+
+	Material& item_material(const Item& item, const ModelItem& model_item)
+	{
+		if(model_item.m_material)
+			return *model_item.m_material;
+		else if(model_item.m_mesh->m_material)
+			return *model_item.m_mesh->m_material;
+		else
+			return *item.m_material;
+	}
+
 	void DrawPass::gather_draw_elements(Render& render)
 	{
 		for(Item* item : render.m_shot->m_items)
 			for(const ModelItem& model_item : item->m_model->m_items)
 			{
-				Material& material = model_item.m_mesh->m_material ? *model_item.m_mesh->m_material : *item->m_material;
+				Material& material = item_material(*item, model_item);
+
+				if(mask_draw_mode(material.m_base_block.m_geometry_filter, model_item.m_mesh->m_draw_mode))
+					continue;
+
 				Skin* skin = (model_item.m_skin > -1 && item->m_rig) ? &item->m_rig->m_skins[model_item.m_skin] : nullptr;
 
 				DrawElement element = { *item, model_item, material, skin };
-
-				this->queue_draw_element(render, element);
-
 				element.m_sort_key |= uint64_t(element.m_material->m_index) << 0;
 				element.m_sort_key |= uint64_t(element.m_model->m_mesh->m_index) << 16;
+
+				this->queue_draw_element(render, element);
 			}
 	}
 

@@ -38,7 +38,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 		Widget& sheet = ui::columns(*dock, carray<float, 2>{ 0.3f, 0.7f });
 
 		ui::label(sheet, "Environment :");
-		ui::number_field<float>(sheet, "Ambient", { viewer.m_environment.m_radiance.m_ambient,{ 0.f, 100.f, 0.01f } });
+		ui::number_field<float>(sheet, "Ambient", { viewer.m_environment.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
 
 		ui::label(sheet, "Shadow : ");
 		ui::flag_field(sheet, "Stabilize", (uint32_t&) directional_light.m_shadow_flags, 0);

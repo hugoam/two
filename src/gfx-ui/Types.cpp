@@ -1,0 +1,22 @@
+
+
+#include <infra/Cpp20.h>
+
+#ifdef MUD_MODULES
+module mud.gfx-ui;
+#else
+#include <gfx-ui/Types.h>
+#include <gfx-ui/Api.h>
+#include <obj/Vector.h>
+//#include <proto/Proto.h>
+#endif
+
+namespace mud
+{
+    // Exported types
+    
+    template <> MUD_GFX_UI_EXPORT Type& type<mud::ViewerController>() { static Type ty("ViewerController"); return ty; }
+    template <> MUD_GFX_UI_EXPORT Type& type<mud::SceneViewer>() { static Type ty("SceneViewer", type<mud::Scene>()); return ty; }
+    template <> MUD_GFX_UI_EXPORT Type& type<mud::Viewer>() { static Type ty("Viewer", type<mud::Widget>()); return ty; }
+    template <> MUD_GFX_UI_EXPORT Type& type<mud::SpaceSheet>() { static Type ty("SpaceSheet", type<mud::RootSheet>()); return ty; }
+}

@@ -190,7 +190,7 @@ namespace mud
 			return;
 
 		if(frame.d_sizing[dim] <= WRAP)
-			this->measure(frame, d_content, dim);
+			this->measure(frame, dim);
 
 		if(frame.d_sizing[dim] <= SHRINK && frame.flow() && dim == d_length)
 			m_spaceContent[dim] += frame.dbounds(dim);
@@ -199,12 +199,15 @@ namespace mud
 			d_contentExpand = true;
 	}
 
-	void RowSolver::measure(FrameSolver& frame, vec2& size, Dim dim)
+	void RowSolver::measure(FrameSolver& frame, Dim dim)
 	{
 		if(dim == d_length && frame.flow())
-			size[dim] += frame.dbounds(dim) + (d_count++ ? this->spacing() : 0.f);
+		{
+			d_content[dim] += frame.dbounds(dim) + (d_count++ ? this->spacing() : 0.f);
+			d_spacing[dim] += frame.dmargin(dim) * 2.f + (d_count++ ? this->spacing() : 0.f);
+		}
 		else
-			size[dim] = max(size[dim], frame.dbounds(dim));
+			d_content[dim] = max(d_content[dim], frame.dbounds(dim));
 	}
 
 	void RowSolver::layout(FrameSolver& frame, Dim dim)
@@ -225,10 +228,15 @@ namespace mud
 
 		float space = this->dspace(dim);
 		//bool hasSpace = space > d_content[dim]; // @todo: implement scarcity check, current behavior when scarce is wrong
-		if(dim == d_length && frame.d_style->m_flow == FLOW)
+		if(dim == d_length && frame.flow())
 		{
-			float spacings = float(max(int(d_count) - 1, 0)) * this->spacing();
-			space = (space - m_spaceContent[dim] - spacings) * frame.m_span[d_length];
+			float spacings = d_spacing[dim];
+			space -= (m_spaceContent[dim] + spacings);
+			space *= frame.m_span[d_length];
+		}
+		else
+		{
+			space -= frame.dmargin(dim) * 2.f;
 		}
 
 		float content = frame.dcontent(dim);
@@ -237,7 +245,7 @@ namespace mud
 		if(sizing == SHRINK)
 			frame.m_size[dim] = content;
 		else if(sizing == WRAP)
-			frame.m_size[dim] =  max(content, space);
+			frame.m_size[dim] = max(content, space);
 		else if(sizing == EXPAND)
 			frame.m_size[dim] = space;
 	}
@@ -303,8 +311,8 @@ namespace mud
 	static Layout& columnSolverStyle()
 	{
 		static Layout style;
-		style.m_space = { PARAGRAPH, EXPAND, EXPAND };
-		//style.m_space = { PARAGRAPH, WRAP, WRAP };
+		//style.m_space = { PARAGRAPH, EXPAND, EXPAND };
+		style.m_space = { PARAGRAPH, WRAP, WRAP };
 		style.m_layout = { AUTO_LAYOUT, NO_LAYOUT };
 		return style;
 	}

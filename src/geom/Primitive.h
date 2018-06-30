@@ -110,7 +110,7 @@ namespace mud
 
 	export_ struct MUD_GEOM_EXPORT Tri
 	{
-		ShapeIndex a, b, c;
+		uint32_t a, b, c;
 	};
 
 	export_ struct MUD_GEOM_EXPORT ShapeVertex
@@ -127,50 +127,78 @@ namespace mud
 
 	export_ struct MeshData
 	{
-		MeshData() {}
-
-		template <class T_Vertex>
-		MeshData(T_Vertex* vertices, ShapeIndex* indices)
-			: m_vertices((void*)vertices), m_indices(indices), m_vertex_format(T_Vertex::vertex_format), m_stride(sizeof(T_Vertex)), m_index(indices)
+		struct Array
 		{
-			m_position	= vertex_position<T_Vertex>::get(*vertices);
-			m_colour	= vertex_colour<T_Vertex>::get(*vertices);
-			m_normal	= vertex_normal<T_Vertex>::get(*vertices);
-			m_tangent	= vertex_tangent<T_Vertex>::get(*vertices);
-			m_uv		= vertex_uv0<T_Vertex>::get(*vertices);
+			Array() : m_pointer(nullptr), m_count(0) {}
+			Array(void* pointer, size_t count) : m_pointer(pointer), m_count(count) {}
+				
+			size_t size() { return m_count; }
+			void* data() const { return m_pointer; }
+
+			void* m_pointer;
+			size_t m_count;
+		};
+
+		MeshData() {}
+		MeshData(const MeshData& other) { *this = other; this->reset(); }
+
+		template <class T_Vertex, class T_Index>
+		MeshData(array<T_Vertex> vertices, array<T_Index> indices)
+			: m_vertices((void*)vertices.m_pointer, vertices.size()), m_indices((void*)indices.m_pointer, indices.size()), m_vertex_format(T_Vertex::vertex_format)
+			, m_vertex_stride(sizeof(T_Vertex)), m_index_stride(sizeof(T_Index)), m_index((void*)indices.m_pointer)
+		{
+			m_start.m_position	= vertex_position<T_Vertex>::get(*vertices.m_pointer);
+			m_start.m_colour	= vertex_colour<T_Vertex>::get(*vertices.m_pointer);
+			m_start.m_normal	= vertex_normal<T_Vertex>::get(*vertices.m_pointer);
+			m_start.m_tangent	= vertex_tangent<T_Vertex>::get(*vertices.m_pointer);
+			m_start.m_uv		= vertex_uv0<T_Vertex>::get(*vertices.m_pointer);
+			m_cursor = m_start;
 		}
 
-		void* m_vertices = nullptr;
-		ShapeIndex* m_indices = nullptr;
+		Array m_vertices = {};
+		Array m_indices = {};
 
 		size_t m_vertex_format = 0;
-		size_t m_stride = 0;
+		size_t m_vertex_stride = 0;
+		size_t m_index_stride = 0;
 
-		vec3* m_position = nullptr;
-		vec3* m_normal = nullptr;
-		uint32_t* m_colour = nullptr;
-		vec4* m_tangent = nullptr;
-		vec2* m_uv = nullptr;
+		struct Pointers
+		{
+			vec3* m_position = nullptr;
+			vec3* m_normal = nullptr;
+			uint32_t* m_colour = nullptr;
+			vec4* m_tangent = nullptr;
+			vec2* m_uv = nullptr;
+		};
 
-		ShapeIndex* m_index = nullptr;
+		Pointers m_start;
+		Pointers m_cursor;
 
-		ShapeIndex m_vertex = 0;
-		ShapeIndex m_offset = 0;
+		void* m_index = nullptr;
+
+		uint32_t m_vertex = 0;
+		uint32_t m_offset = 0;
+
+		inline void reset() { m_cursor = m_start; m_vertex = 0; m_offset = 0; m_index = m_indices.m_pointer; }
 
 		inline void next() { m_offset = m_vertex; }
 
 		template <class T>
-		inline void increment(T*& pointer) { if(m_stride > 0) pointer = (T*)((char*)pointer + m_stride); else pointer++; }
+		inline void next(T*& pointer) { pointer = (T*)((char*)pointer + m_vertex_stride); }
 
-		MeshData& position(const vec3& p) { *m_position = p; increment(m_position); ++m_vertex; return *this; }
-		MeshData& normal(const vec3& n) { if(m_normal) { *m_normal = n; increment(m_normal); } return *this; }
-		MeshData& colour(const Colour& c) { if(m_colour) { *m_colour = to_abgr(c); increment(m_colour); } return *this; }
-		MeshData& tangent(const vec4 t) { if(m_tangent) { *m_tangent = t; increment(m_tangent); } return *this; }
-		MeshData& textureCoord(const vec2& uv) { if(m_uv) { *m_uv = uv; increment(m_uv); } return *this; }
+		MeshData& position(const vec3& p) { *m_cursor.m_position = p; next(m_cursor.m_position); ++m_vertex; return *this; }
+		MeshData& normal(const vec3& n) { if(m_cursor.m_normal) { *m_cursor.m_normal = n; next(m_cursor.m_normal); } return *this; }
+		MeshData& colour(const Colour& c) { if(m_cursor.m_colour) { *m_cursor.m_colour = to_abgr(c); next(m_cursor.m_colour); } return *this; }
+		MeshData& tangent(const vec4 t) { if(m_cursor.m_tangent) { *m_cursor.m_tangent = t; next(m_cursor.m_tangent); } return *this; }
+		MeshData& textureCoord(const vec2& uv) { if(m_cursor.m_uv) { *m_cursor.m_uv = uv; next(m_cursor.m_uv); } return *this; }
 
-		inline void index(ShapeIndex index) { *m_index++ = m_offset + index; }
-		inline void line(ShapeIndex a, ShapeIndex b) { index(a); index(b); }
-		inline void tri(ShapeIndex a, ShapeIndex b, ShapeIndex c) { index(a); index(b); index(c); }
-		inline void quad(ShapeIndex a, ShapeIndex b, ShapeIndex c, ShapeIndex d) { tri(a, b, c); tri(c, d, a); }
+		vec3 position() { vec3 value = *m_cursor.m_position; next(m_cursor.m_position); return value; }
+		uint16_t index() { uint16_t value = *(uint16_t*)m_index; m_index = ((char*)m_index + m_index_stride); return value; }
+		uint32_t index32() { uint32_t value = *(uint32_t*)m_index; m_index = ((char*)m_index + m_index_stride); return value; }
+
+		inline void index(uint32_t i) { uint32_t index = i + m_offset; memcpy(m_index, &index, m_index_stride); m_index = ((char*)m_index + m_index_stride); }
+		inline void line(uint32_t a, uint32_t b) { index(a); index(b); }
+		inline void tri(uint32_t a, uint32_t b, uint32_t c) { index(a); index(b); index(c); }
+		inline void quad(uint32_t a, uint32_t b, uint32_t c, uint32_t d) { tri(a, b, c); tri(c, d, a); }
 	};
 }

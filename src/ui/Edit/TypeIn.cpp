@@ -425,7 +425,7 @@ namespace mud
 		{
 			if(has_selection())
 				erase_selected(action);
-			else
+			else if(m_selection.m_cursor > 0)
 				erase(m_selection.m_cursor - 1, m_selection.m_cursor, m_selection.m_cursor - 1, action);
 		});
 

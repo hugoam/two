@@ -26,8 +26,8 @@ namespace mud
     export_ template <> inline void from_string(const string& str, mud::DepthTest& val) { val = static_cast<mud::DepthTest>(enu<mud::DepthTest>().value(str.c_str())); };
     export_ template <> inline void to_string(const mud::DepthTest& val, string& str) { str = enu<mud::DepthTest>().m_map[size_t(val)]; };
     
-    export_ template <> inline void from_string(const string& str, mud::EmitterDirection& val) { val = static_cast<mud::EmitterDirection>(enu<mud::EmitterDirection>().value(str.c_str())); };
-    export_ template <> inline void to_string(const mud::EmitterDirection& val, string& str) { str = enu<mud::EmitterDirection>().m_map[size_t(val)]; };
+    export_ template <> inline void from_string(const string& str, mud::EmitterFlow& val) { val = static_cast<mud::EmitterFlow>(enu<mud::EmitterFlow>().value(str.c_str())); };
+    export_ template <> inline void to_string(const mud::EmitterFlow& val, string& str) { str = enu<mud::EmitterFlow>().m_map[size_t(val)]; };
     
     export_ template <> inline void from_string(const string& str, mud::Interpolation& val) { val = static_cast<mud::Interpolation>(enu<mud::Interpolation>().value(str.c_str())); };
     export_ template <> inline void to_string(const mud::Interpolation& val, string& str) { str = enu<mud::Interpolation>().m_map[size_t(val)]; };

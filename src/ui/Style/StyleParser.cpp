@@ -28,24 +28,24 @@ namespace mud
 	void decline_images(Styler& styler, const string& style, Options& skin_def, const string& state)
 	{
 		for(size_t i = 0; i < skin_def.m_fields.size(); ++i)
-			if(!skin_def.m_fields[i].none() && (skin_def.m_fields[i].type().is<Image>()
-											|| skin_def.m_fields[i].type().is<ImageSkin>()))
+			if(!skin_def.m_fields[i].none() && (type(skin_def.m_fields[i]).is<Image>()
+											|| type(skin_def.m_fields[i]).is<ImageSkin>()))
 			{
 				Member& member = cls<InkStyle>().m_members[i];
 
 				Var value = skin_def.m_fields[member.m_index];
 				Options& declined_skin_def = styler.m_skin_definitions[style + ":" + state];
 
-				if(value.type().is<Image>())
+				if(type(value).is<Image>())
 				{
 					string image_name = string(val<Image>(value).d_name) + "_" + replace_all(state, "|", "_");
-					Image& declined_image = styler.m_uiWindow.find_image(image_name.c_str());
+					Image& declined_image = *styler.m_uiWindow.find_image(image_name.c_str());
 					declined_skin_def.set(member.m_index, Ref(&declined_image));
 				}
-				else if(value.type().is<ImageSkin>())
+				else if(type(value).is<ImageSkin>())
 				{
 					string image_name = string(val<ImageSkin>(value).d_image->d_name) + "_" + replace_all(state, "|", "_");
-					Image& declined_image = styler.m_uiWindow.find_image(image_name.c_str());
+					Image& declined_image = *styler.m_uiWindow.find_image(image_name.c_str());
 					declined_skin_def.set(member.m_index, var(ImageSkin(declined_image, val<ImageSkin>(value))));
 				}
 			}
@@ -63,7 +63,7 @@ namespace mud
 		unpacker.function<Image>([&](Ref, Ref& result, const json& json)
 		{
 			result = json == "null" ? Ref((Image*) nullptr)
-									: Ref(&ui_window.find_image(json.string_value().c_str()));
+									: Ref(ui_window.find_image(json.string_value().c_str()));
 		});
 		return unpacker;
 	}

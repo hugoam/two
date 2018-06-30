@@ -70,6 +70,10 @@ namespace mud
 	Arc::Arc(float radius, float start, float end) : Shape(type<Arc>()), m_radius(radius), m_start(start), m_end(end) {}
 	object_ptr<Shape> Arc::clone() const { return make_object<Arc>(*this); }
 
+	ArcLine::ArcLine() : Shape(type<ArcLine>()) {}
+	ArcLine::ArcLine(const vec3& start, const vec3& middle, const vec3& end) : Shape(type<ArcLine>()), m_start(start), m_middle(middle), m_end(end) {}
+	object_ptr<Shape> ArcLine::clone() const { return make_object<ArcLine>(*this); }
+
 	Cylinder::Cylinder() : Shape(type<Cylinder>()) {}
 	Cylinder::Cylinder(float radius, float height, Axis axis) : Shape(type<Cylinder>()), m_radius(radius), m_height(height), m_axis(axis) {}
 	object_ptr<Shape> Cylinder::clone() const { return make_object<Cylinder>(*this); }

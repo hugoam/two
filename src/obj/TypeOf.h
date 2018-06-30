@@ -30,19 +30,17 @@ namespace mud
 
 	export_ template <class T>
 	inline typename std::enable_if<!is_typed<T>::value,
-		Type&>::type typeof(const T& value) { UNUSED(value); return type<T>(); }
+		Type&>::type type_of(const T& value) { UNUSED(value); return type<T>(); }
 
 	export_ template <class T>
 	inline typename std::enable_if<is_typed<T>::value,
-		Type&>::type typeof(const T& value) { return value.m_type; }
+		Type&>::type type_of(const T& value) { return value.m_type; }
 
 	export_ template <class T>
 	inline typename std::enable_if<!is_typed<T>::value,
-		Type&>::type typeof(const T* value) { UNUSED(value); return type<T>(); }
+		Type&>::type type_of(const T* value) { UNUSED(value); return type<T>(); }
 
 	export_ template <class T>
 	inline typename std::enable_if<is_typed<T>::value,
-		Type&>::type typeof(const T* value) { if(value) return value->m_type; return type<T>(); }
-
-
+		Type&>::type type_of(const T* value) { if(value) return value->m_type; return type<T>(); }
 }

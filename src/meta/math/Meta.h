@@ -24,7 +24,7 @@ namespace mud
             true,
             { "None", "X", "Y", "Z" },
             { 0, 1, 2, 4 },
-            { var(Axes::None), var(Axes::X), var(Axes::Y), var(Axes::Z) }
+            { var(mud::Axes::None), var(mud::Axes::X), var(mud::Axes::Y), var(mud::Axes::Z) }
         };
         meta_enum<mud::Axes>();
     }
@@ -35,7 +35,7 @@ namespace mud
             true,
             { "X", "Y", "Z" },
             { 0, 1, 2 },
-            { var(Axis::X), var(Axis::Y), var(Axis::Z) }
+            { var(mud::Axis::X), var(mud::Axis::Y), var(mud::Axis::Z) }
         };
         meta_enum<mud::Axis>();
     }
@@ -57,7 +57,7 @@ namespace mud
             true,
             { "Right", "Left", "Up", "Down", "Back", "Front" },
             { 0, 1, 2, 3, 4, 5 },
-            { var(Side::Right), var(Side::Left), var(Side::Up), var(Side::Down), var(Side::Back), var(Side::Front) }
+            { var(mud::Side::Right), var(mud::Side::Left), var(mud::Side::Up), var(mud::Side::Down), var(mud::Side::Back), var(mud::Side::Front) }
         };
         meta_enum<mud::Side>();
     }
@@ -68,20 +68,20 @@ namespace mud
             true,
             { "PlusX", "MinusX", "PlusY", "MinusY", "PlusZ", "MinusZ" },
             { 0, 1, 2, 3, 4, 5 },
-            { var(SignedAxis::PlusX), var(SignedAxis::MinusX), var(SignedAxis::PlusY), var(SignedAxis::MinusY), var(SignedAxis::PlusZ), var(SignedAxis::MinusZ) }
+            { var(mud::SignedAxis::PlusX), var(mud::SignedAxis::MinusX), var(mud::SignedAxis::PlusY), var(mud::SignedAxis::MinusY), var(mud::SignedAxis::PlusZ), var(mud::SignedAxis::MinusZ) }
         };
         meta_enum<mud::SignedAxis>();
     }
     
     {
-        static Meta meta = { type<mud::SpectrumPalette>(), &namspc({ "mud" }), "SpectrumPalette", sizeof(mud::SpectrumPalette), TypeClass::Enum };
-        static Enum enu = { type<mud::SpectrumPalette>(),
-            false,
-            { "SPECTRUM_GRAYSCALE", "SPECTRUM_HUE" },
+        static Meta meta = { type<mud::Spectrum>(), &namspc({ "mud" }), "Spectrum", sizeof(mud::Spectrum), TypeClass::Enum };
+        static Enum enu = { type<mud::Spectrum>(),
+            true,
+            { "Value", "Hue" },
             { 0, 1 },
-            { var(mud::SPECTRUM_GRAYSCALE), var(mud::SPECTRUM_HUE) }
+            { var(mud::Spectrum::Value), var(mud::Spectrum::Hue) }
         };
-        meta_enum<mud::SpectrumPalette>();
+        meta_enum<mud::Spectrum>();
     }
     
     {
@@ -90,7 +90,7 @@ namespace mud
             true,
             { "Constant", "ConstantRandom", "Curve", "CurveRandom" },
             { 0, 1, 2, 3 },
-            { var(TrackMode::Constant), var(TrackMode::ConstantRandom), var(TrackMode::Curve), var(TrackMode::CurveRandom) }
+            { var(mud::TrackMode::Constant), var(mud::TrackMode::ConstantRandom), var(mud::TrackMode::Curve), var(mud::TrackMode::CurveRandom) }
         };
         meta_enum<mud::TrackMode>();
     }
@@ -226,7 +226,9 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::Colour>(), [](Ref ref, array<Var> args) { new(&val<mud::Colour>(ref)) mud::Colour( val<float>(args[0]), val<float>(args[1]), val<float>(args[2]), val<float>(args[3]) ); }, { { "r", var(float(0.f)), Param::Default }, { "g", var(float(0.f)), Param::Default }, { "b", var(float(0.f)), Param::Default }, { "a", var(float(1.f)), Param::Default } } }
+                { type<mud::Colour>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Colour>(ref)) mud::Colour(  ); }, {} },
+                { type<mud::Colour>(), [](Ref ref, array<Var> args) { new(&val<mud::Colour>(ref)) mud::Colour( val<float>(args[0]), val<float>(args[1]) ); }, { { "v", var(float()) }, { "a", var(float(1.f)), Param::Default } } },
+                { type<mud::Colour>(), [](Ref ref, array<Var> args) { new(&val<mud::Colour>(ref)) mud::Colour( val<float>(args[0]), val<float>(args[1]), val<float>(args[2]), val<float>(args[3]) ); }, { { "r", var(float()) }, { "g", var(float()) }, { "b", var(float()) }, { "a", var(float(1.f)), Param::Default } } }
             },
             // copy constructor
             {
@@ -413,6 +415,9 @@ namespace mud
     
     
     
+    
+    
+    
         
     // mud::Palette
     {
@@ -423,7 +428,7 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::Palette>(), [](Ref ref, array<Var> args) { new(&val<mud::Palette>(ref)) mud::Palette( val<mud::SpectrumPalette>(args[0]), val<size_t>(args[1]) ); }, { { "spectrum", var(mud::SpectrumPalette()) }, { "steps", var(size_t()) } } },
+                { type<mud::Palette>(), [](Ref ref, array<Var> args) { new(&val<mud::Palette>(ref)) mud::Palette( val<mud::Spectrum>(args[0]), val<size_t>(args[1]) ); }, { { "spectrum", var(mud::Spectrum()) }, { "steps", var(size_t()) } } },
                 { type<mud::Palette>(), [](Ref ref, array<Var> args) { new(&val<mud::Palette>(ref)) mud::Palette( val<std::vector<mud::Colour>>(args[0]) ); }, { { "colours", var(std::vector<mud::Colour>()) } } },
                 { type<mud::Palette>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Palette>(ref)) mud::Palette(  ); }, {} }
             },
@@ -930,6 +935,9 @@ namespace mud
             // members
             {
                 { type<mud::ValueTrack<float>>(), member_address(&mud::ValueTrack<float>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<float>>(), member_address(&mud::ValueTrack<float>::m_value), type<float>(), "value", var(float()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<float>>(), member_address(&mud::ValueTrack<float>::m_min), type<float>(), "min", var(float()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<float>>(), member_address(&mud::ValueTrack<float>::m_max), type<float>(), "max", var(float()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ValueTrack<float>>(), member_address(&mud::ValueTrack<float>::m_curve), type<mud::ValueCurve<float>>(), "curve", var(mud::ValueCurve<float>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ValueTrack<float>>(), member_address(&mud::ValueTrack<float>::m_min_curve), type<mud::ValueCurve<float>>(), "min_curve", var(mud::ValueCurve<float>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ValueTrack<float>>(), member_address(&mud::ValueTrack<float>::m_max_curve), type<mud::ValueCurve<float>>(), "max_curve", var(mud::ValueCurve<float>()), Member::Flags(Member::Value|Member::Mutable) }
@@ -969,6 +977,9 @@ namespace mud
             // members
             {
                 { type<mud::ValueTrack<mud::Colour>>(), member_address(&mud::ValueTrack<mud::Colour>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::Colour>>(), member_address(&mud::ValueTrack<mud::Colour>::m_value), type<mud::Colour>(), "value", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::Colour>>(), member_address(&mud::ValueTrack<mud::Colour>::m_min), type<mud::Colour>(), "min", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::Colour>>(), member_address(&mud::ValueTrack<mud::Colour>::m_max), type<mud::Colour>(), "max", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ValueTrack<mud::Colour>>(), member_address(&mud::ValueTrack<mud::Colour>::m_curve), type<mud::ValueCurve<mud::Colour>>(), "curve", var(mud::ValueCurve<mud::Colour>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ValueTrack<mud::Colour>>(), member_address(&mud::ValueTrack<mud::Colour>::m_min_curve), type<mud::ValueCurve<mud::Colour>>(), "min_curve", var(mud::ValueCurve<mud::Colour>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ValueTrack<mud::Colour>>(), member_address(&mud::ValueTrack<mud::Colour>::m_max_curve), type<mud::ValueCurve<mud::Colour>>(), "max_curve", var(mud::ValueCurve<mud::Colour>()), Member::Flags(Member::Value|Member::Mutable) }
@@ -1008,6 +1019,9 @@ namespace mud
             // members
             {
                 { type<mud::ValueTrack<mud::quat>>(), member_address(&mud::ValueTrack<mud::quat>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::quat>>(), member_address(&mud::ValueTrack<mud::quat>::m_value), type<mud::quat>(), "value", var(mud::quat()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::quat>>(), member_address(&mud::ValueTrack<mud::quat>::m_min), type<mud::quat>(), "min", var(mud::quat()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::quat>>(), member_address(&mud::ValueTrack<mud::quat>::m_max), type<mud::quat>(), "max", var(mud::quat()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ValueTrack<mud::quat>>(), member_address(&mud::ValueTrack<mud::quat>::m_curve), type<mud::ValueCurve<mud::quat>>(), "curve", var(mud::ValueCurve<mud::quat>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ValueTrack<mud::quat>>(), member_address(&mud::ValueTrack<mud::quat>::m_min_curve), type<mud::ValueCurve<mud::quat>>(), "min_curve", var(mud::ValueCurve<mud::quat>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ValueTrack<mud::quat>>(), member_address(&mud::ValueTrack<mud::quat>::m_max_curve), type<mud::ValueCurve<mud::quat>>(), "max_curve", var(mud::ValueCurve<mud::quat>()), Member::Flags(Member::Value|Member::Mutable) }
@@ -1047,6 +1061,9 @@ namespace mud
             // members
             {
                 { type<mud::ValueTrack<mud::vec3>>(), member_address(&mud::ValueTrack<mud::vec3>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::vec3>>(), member_address(&mud::ValueTrack<mud::vec3>::m_value), type<mud::vec3>(), "value", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::vec3>>(), member_address(&mud::ValueTrack<mud::vec3>::m_min), type<mud::vec3>(), "min", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<mud::vec3>>(), member_address(&mud::ValueTrack<mud::vec3>::m_max), type<mud::vec3>(), "max", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ValueTrack<mud::vec3>>(), member_address(&mud::ValueTrack<mud::vec3>::m_curve), type<mud::ValueCurve<mud::vec3>>(), "curve", var(mud::ValueCurve<mud::vec3>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ValueTrack<mud::vec3>>(), member_address(&mud::ValueTrack<mud::vec3>::m_min_curve), type<mud::ValueCurve<mud::vec3>>(), "min_curve", var(mud::ValueCurve<mud::vec3>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ValueTrack<mud::vec3>>(), member_address(&mud::ValueTrack<mud::vec3>::m_max_curve), type<mud::ValueCurve<mud::vec3>>(), "max_curve", var(mud::ValueCurve<mud::vec3>()), Member::Flags(Member::Value|Member::Mutable) }
@@ -1086,6 +1103,9 @@ namespace mud
             // members
             {
                 { type<mud::ValueTrack<uint32_t>>(), member_address(&mud::ValueTrack<uint32_t>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<uint32_t>>(), member_address(&mud::ValueTrack<uint32_t>::m_value), type<uint32_t>(), "value", var(uint32_t()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<uint32_t>>(), member_address(&mud::ValueTrack<uint32_t>::m_min), type<uint32_t>(), "min", var(uint32_t()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ValueTrack<uint32_t>>(), member_address(&mud::ValueTrack<uint32_t>::m_max), type<uint32_t>(), "max", var(uint32_t()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ValueTrack<uint32_t>>(), member_address(&mud::ValueTrack<uint32_t>::m_curve), type<mud::ValueCurve<uint32_t>>(), "curve", var(mud::ValueCurve<uint32_t>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ValueTrack<uint32_t>>(), member_address(&mud::ValueTrack<uint32_t>::m_min_curve), type<mud::ValueCurve<uint32_t>>(), "min_curve", var(mud::ValueCurve<uint32_t>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ValueTrack<uint32_t>>(), member_address(&mud::ValueTrack<uint32_t>::m_max_curve), type<mud::ValueCurve<uint32_t>>(), "max_curve", var(mud::ValueCurve<uint32_t>()), Member::Flags(Member::Value|Member::Mutable) }
@@ -1539,7 +1559,7 @@ namespace mud
         m.m_types.push_back(&type<mud::Ratio>());
         m.m_types.push_back(&type<mud::Side>());
         m.m_types.push_back(&type<mud::SignedAxis>());
-        m.m_types.push_back(&type<mud::SpectrumPalette>());
+        m.m_types.push_back(&type<mud::Spectrum>());
         m.m_types.push_back(&type<mud::Time>());
         m.m_types.push_back(&type<mud::TimeSpan>());
         m.m_types.push_back(&type<mud::TrackMode>());
@@ -1725,13 +1745,19 @@ namespace mud
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::grid(val<mud::uvec3>(args[0]), val<std::vector<mud::uvec3>>(args[1])); };
             std::vector<Param> params = { { "size", var(mud::uvec3()) }, { "output_coords", var(std::vector<mud::uvec3>()), Param::Output } };
-            static Function f = { &namspc({ "mud" }), "grid", function_id<void(*)(mud::uvec3, std::vector<mud::uvec3>&)>(&mud::grid), func, params, Var() };
+            static Function f = { &namspc({ "mud" }), "grid", function_id<void(*)(const mud::uvec3&, std::vector<mud::uvec3>&)>(&mud::grid), func, params, Var() };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::grid_center(val<mud::uvec3>(args[0]), val<float>(args[1]), val<mud::vec3>(args[2])); };
-            std::vector<Param> params = { { "coord", var(mud::uvec3()) }, { "cell_size", var(float()) }, { "output_center", var(mud::vec3()), Param::Output } };
-            static Function f = { &namspc({ "mud" }), "grid_center", function_id<void(*)(mud::uvec3, float, mud::vec3&)>(&mud::grid_center), func, params, Var() };
+            auto func = [](array<Var> args, Var& result) {  val<mud::vec3>(result) = mud::grid_center(val<mud::uvec3>(args[0]), val<mud::vec3>(args[1])); };
+            std::vector<Param> params = { { "coord", var(mud::uvec3()) }, { "cell_size", var(mud::vec3()) } };
+            static Function f = { &namspc({ "mud" }), "grid_center", function_id<mud::vec3(*)(const mud::uvec3&, const mud::vec3&)>(&mud::grid_center), func, params, var(mud::vec3()) };
+            m.m_functions.push_back(&f);
+        }
+        {
+            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::index_list(val<size_t>(args[0]), val<std::vector<uint32_t>>(args[1])); };
+            std::vector<Param> params = { { "size", var(size_t()) }, { "output_indices", var(std::vector<uint32_t>()), Param::Output } };
+            static Function f = { &namspc({ "mud" }), "index_list", function_id<void(*)(size_t, std::vector<uint32_t>&)>(&mud::index_list), func, params, Var() };
             m.m_functions.push_back(&f);
         }
     }

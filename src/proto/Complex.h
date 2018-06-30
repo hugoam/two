@@ -15,7 +15,7 @@
 
 namespace mud
 {
-	class Construct;
+	class Complex;
 
 	export_ class refl_ MUD_PROTO_EXPORT Complex
 	{
@@ -23,11 +23,17 @@ namespace mud
 		Complex(Id id, Type& type, Prototype& prototype);
 		virtual ~Complex();
 
+		template <typename... T_Parts>
+		Complex(Id id, Type& type, T_Parts&&... parts)
+			: Complex(id, type, proto(type))
+		{
+			swallow{ (this->add_part(mud::type<typename type_class<T_Parts>::type>(), &parts), 1)... };
+		}
+
 		attr_ Id m_id;
 		attr_ Type& m_type;
 		attr_ Prototype& m_prototype;
 
-		Construct* m_construct;
 		std::vector<void*> m_parts;
 
 		void add_part(Type& type, void* pointer) { m_parts[m_prototype.part_index(type)] = pointer; }
@@ -45,21 +51,4 @@ namespace mud
 
 	export_ template <class T>
 	inline bool isa(Complex& complex) { return is<T>(complex) || complex.has_part(type<T>()); }
-
-	export_ class refl_ MUD_OBJ_EXPORT Construct
-	{
-	public:
-		Construct(Complex& stem, Prototype& prototype);
-		virtual ~Construct();
-
-		template <typename... T_Parts>
-		void index(T_Parts&&... parts)
-		{
-			swallow { (m_stem.add_part(type<typename type_class<T_Parts>::type>(), &parts), 1)... };
-		}
-
-		attr_ Type& m_type;
-		Complex& m_stem;
-		Prototype& m_prototype;
-	};
 }

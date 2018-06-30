@@ -8,7 +8,8 @@
 #include <ui/Forward.h>
 #include <uio/Forward.h>
 #include <gfx/Forward.h>
-#include <edit/Forward.h>
+#include <gfx-ui/Forward.h>
+#include <tool/Forward.h>
 
 namespace mud
 {

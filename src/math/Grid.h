@@ -26,10 +26,10 @@ namespace mud
 				: m_period(period), m_limit(limit), m_increment(increment), m_modulo(modulo), m_divide(divide)
 			{}
 
-			size_t dimIndex(size_t index) { return index % m_modulo / m_divide; }
+			size_t dim_index(size_t index) { return index % m_modulo / m_divide; }
 
-			bool hasNeighbour(size_t index) { return dimIndex(index) != m_limit; }
-			size_t modNeighbour(size_t index) { return dimIndex(index) == m_limit ? index + m_increment - m_period : index + m_increment; }
+			bool has_neighbour(size_t index) { return dim_index(index) != m_limit; }
+			size_t neighbour_mod(size_t index) { return dim_index(index) == m_limit ? index + m_increment - m_period : index + m_increment; }
 			size_t neighbour(size_t index) { return index + m_increment; }
 
 		protected:
@@ -96,27 +96,31 @@ namespace mud
 			clear(val);
 		}
 
-		inline T& gridAt(size_t x, size_t y, size_t z = 0) { return T_Array::at(x + y*m_x + z*m_sq); }
-		inline const T& gridAt(size_t x, size_t y, size_t z = 0) const { return T_Array::at(x + y*m_x + z*m_sq); }
-		inline T* safeAt(size_t x, size_t y, size_t z) { if(x > m_x || y > m_y || z > m_z) return nullptr; else return &gridAt(x, y, z); }
+		inline T& at(size_t i) { return T_Array::at(i); }
+		inline const T& at(size_t i) const { return T_Array::at(i); }
+
+		inline T& at(size_t x, size_t y, size_t z = 0) { return at(x + y*m_x + z*m_sq); }
+		inline const T& at(size_t x, size_t y, size_t z = 0) const { return at(x + y*m_x + z*m_sq); }
+
+		inline T* safe_at(size_t x, size_t y, size_t z) { if(x > m_x || y > m_y || z > m_z) return nullptr; else return &at(x, y, z); }
 		
-		inline size_t indexAt(size_t x, size_t y, size_t z) { return x + y*m_x + z*m_sq; }
+		inline size_t index_at(size_t x, size_t y, size_t z) { return x + y*m_x + z*m_sq; }
 
 		inline size_t x(size_t index) { return index % m_x; }
 		inline size_t y(size_t index) { return index % (m_x*m_y) / m_x; }
 		inline size_t z(size_t index) { return index / (m_x*m_y); }
 
-		bool border(size_t index, Side direction) { return !m_dims[size_t(direction)].hasNeighbour(index); }
+		bool border(size_t index, Side direction) { return !m_dims[size_t(direction)].has_neighbour(index); }
 
-		size_t neighbourMod(size_t index, Side direction) { return m_dims[size_t(direction)].modNeighbour(index); }
+		size_t neighbour_mod(size_t index, Side direction) { return m_dims[size_t(direction)].neighbour_mod(index); }
 		size_t neighbour(size_t index, Side direction) { return m_dims[size_t(direction)].neighbour(index); }
 
-		T& neighbourItem(size_t index, Side direction) { return T_Array::at(neighbour(index, direction)); }
+		T& neighbour_item(size_t index, Side direction) { return at(neighbour(index, direction)); }
 
-		T* safeNeighbour(size_t index, Side direction) { if(!border(index, direction)) return &neighbourItem(index, direction); return nullptr; }
+		T* safe_neighbour(size_t index, Side direction) { if(!border(index, direction)) return &neighbour_item(index, direction); return nullptr; }
 
 		template <class T_Visitor>
-		bool iterateDistNeighbours(size_t x, size_t y, size_t z, size_t d, T_Visitor callback)
+		bool visit_near_dist(size_t x, size_t y, size_t z, size_t d, T_Visitor callback)
 		{
 			size_t xMin = x > d ? x - d : 0;
 			size_t yMin = y > d ? y - d : 0;
@@ -129,12 +133,12 @@ namespace mud
 				for(size_t j = yMin; j < yMax; ++j)
 					if(!(i == x && j == y))
 						if((x - i)*(x - i) + (y - j)*(y - j) <= dsquare)
-							if(!callback(this->gridAt(i, j, z)))
+							if(!callback(this->at(i, j, z)))
 								return false;
 			return true;
 		}
 
-		bool iterateFlatNeighbours(size_t x, size_t y, size_t z, size_t d, const std::function<bool(T&)>& callback)
+		bool visit_near_2d(size_t x, size_t y, size_t z, size_t d, const std::function<bool(T&)>& callback)
 		{
 			size_t xMin = x > d ? x - d : 0;
 			size_t yMin = y > d ? y - d : 0;
@@ -148,12 +152,12 @@ namespace mud
 			for(size_t i = xMin; i < xMax; ++i)
 				for(size_t j = yMin; j < yMax; ++j)
 					if(!(i == x && j == y))
-						if(!callback(this->gridAt(i, j, z)))
+						if(!callback(this->at(i, j, z)))
 							return false;
 			return true;
 		}
 
-		bool iterateNeighbours(size_t x, size_t y, size_t z, size_t d, const std::function<bool(T&)>& callback)
+		bool visit_near(size_t x, size_t y, size_t z, size_t d, const std::function<bool(T&)>& callback)
 		{
 			size_t xMin = x > d ? x - d : 0;
 			size_t yMin = y > d ? y - d : 0;
@@ -166,37 +170,37 @@ namespace mud
 				for(size_t j = yMin; j < yMax; ++j)
 					for(size_t k = zMin; k < zMax; ++k)
 						if(!(i == x && j == y && k == z))
-							if(!callback(this->gridAt(i, j, k)))
+							if(!callback(this->at(i, j, k)))
 								return false;
 			return true;
 		}
 
-		bool iterateDistNeighbours(size_t index, size_t dist, const std::function<bool(T&)>& callback)
+		bool visit_near_dist(size_t index, size_t dist, const std::function<bool(T&)>& callback)
 		{
-			return this->iterateDistNeighbours(this->x(index), this->y(index), this->z(index), dist, callback);
+			return this->visit_near_dist(this->x(index), this->y(index), this->z(index), dist, callback);
 		}
 
-		bool iterateFlatNeighbours(size_t index, size_t dist, const std::function<bool(T&)>& callback)
+		bool visit_near_2d(size_t index, size_t dist, const std::function<bool(T&)>& callback)
 		{
-			return this->iterateFlatNeighbours(this->x(index), this->y(index), this->z(index), dist, callback);
+			return this->visit_near_2d(this->x(index), this->y(index), this->z(index), dist, callback);
 		}
 
-		bool iterateNeighbours(size_t index, size_t dist, const std::function<bool(T&)>& callback)
+		bool visit_near(size_t index, size_t dist, const std::function<bool(T&)>& callback)
 		{
-			return this->iterateNeighbours(this->x(index), this->y(index), this->z(index), dist, callback);
+			return this->visit_near(this->x(index), this->y(index), this->z(index), dist, callback);
 		}
 
 		std::vector<T*> neighbours(size_t index, size_t dist)
 		{
 			std::vector<T*> result;
-			this->iterateNeighbours(index, dist, [&](T& obj){ result.push_back(&obj); return true; });
+			this->visit_near(index, dist, [&](T& obj){ result.push_back(&obj); return true; });
 			return result;
 		}
 
-		std::vector<T*> flatNeighbours(size_t index, size_t dist)
+		std::vector<T*> neighbours_2d(size_t index, size_t dist)
 		{
 			std::vector<T*> result;
-			this->iterateFlatNeighbours(index, dist, [&](T& obj){ result.push_back(&obj); return true; });
+			this->visit_near_2d(index, dist, [&](T& obj){ result.push_back(&obj); return true; });
 			return result;
 		}
 
@@ -270,6 +274,8 @@ namespace mud
 		size_t m_x, m_y, m_z;
 	};
 
-	export_ MUD_MATH_EXPORT func_ void grid(uvec3 size, std::vector<uvec3>& output_coords);
-	export_ MUD_MATH_EXPORT func_ void grid_center(uvec3 coord, float cell_size, vec3& output_center);
+	export_ MUD_MATH_EXPORT func_ void grid(const uvec3& size, std::vector<uvec3>& output_coords);
+	export_ MUD_MATH_EXPORT func_ vec3 grid_center(const uvec3& coord, const vec3& cell_size);
+
+	export_ MUD_MATH_EXPORT func_ void index_list(size_t size, std::vector<uint32_t>& output_indices);
 }

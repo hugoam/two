@@ -30,7 +30,7 @@ namespace mud
 		inline void add(uint32_t id, Ref object) { this->resize(id); m_objects[id] = object; ++m_count; }
 		inline uint32_t index(uint32_t id, Ref object) { if(id == 0) id = this->alloc(); this->add(id, object); return id; }
 		inline uint32_t index(Ref object) { uint32_t id = this->alloc(); this->add(id, object); return id; }
-		inline void remove(uint32_t id) { m_objects[id] = { m_type }; --m_count; }
+		inline void remove(uint32_t id) { m_objects[id] = Ref(m_type); --m_count; }
 
 		inline void resize(Id id) { if(id >= m_objects.size()) m_objects.resize(id+1); }
 

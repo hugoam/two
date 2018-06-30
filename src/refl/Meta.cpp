@@ -131,8 +131,8 @@ namespace mud
 		for(Type* type : types)
 			if(g_class[type->m_id])
 			{
-				vector_prepend(m_members, cls(type).m_members);
-				vector_prepend(m_methods, cls(type).m_methods);
+				vector_prepend(m_members, cls(*type).m_members);
+				vector_prepend(m_methods, cls(*type).m_methods);
 			}
 	}
 
@@ -261,7 +261,7 @@ namespace mud
 
 	bool Class::is(Type& component)
 	{
-		return vector_find(m_components, [&](Member* member) { return member->m_type == &component; });
+		return vector_find(m_components, [&](Member* member) { return member->m_type == &component; }) != nullptr;
 	}
 
 	Ref Class::as(Ref object, Type& component)
@@ -278,7 +278,7 @@ namespace mud
 
 	void copy_construct(Ref dest, Ref source)
 	{
-		if(is_basic(dest.type()))
+		if(is_basic(*dest.m_type))
 			memcpy(dest.m_value, source.m_value, meta(dest).m_size);
 		else if(cls(dest).m_copy_constructors.size() > 0)
 			cls(dest).m_copy_constructors[0].m_call(dest, source);
@@ -286,7 +286,7 @@ namespace mud
 
 	void assign(Ref first, Ref second)
 	{
-		if(second.type().is(first.type()))
+		if(second.m_type->is(*first.m_type))
 			meta(first).m_copy_assign(first, second);
 		else
 			printf("WARNING: can't assign values of unrelated types\n");
@@ -302,7 +302,7 @@ namespace mud
 #ifdef MUD_PROTO
 		if(meta(type).m_type_class == TypeClass::Complex)
 		{
-			Construct& construct = *val<Complex>(value).m_construct;
+			Complex& construct = *val<Complex>(value).m_construct;
 			return to_name(construct.m_prototype, &construct);
 		}
 #endif
@@ -341,6 +341,11 @@ namespace mud
 		this->default_converter<uint32_t, size_t>();
 	}
 
+	bool TypeConverter::check(Type& input, Type& output)
+	{
+		return DoubleDispatch::check(input, output);
+	}
+
 	bool TypeConverter::check(Ref input, Type& output)
 	{
 		return DoubleDispatch::check(*input.m_type, output);
@@ -355,7 +360,7 @@ namespace mud
 
 	void TypeConverter::convert(Ref input, Type& output, Var& result)
 	{
-		if(result.none() || !result.type().is(output))
+		if(result.none() || !type(result).is(output))
 			result = meta(output).m_empty_var();
 		DoubleDispatch::dispatch(input, result);
 	}
@@ -379,10 +384,10 @@ namespace mud
 		Ref value = source;
 		if(output.is(type<Ref>()))
 			dest = source;
-		else if(value.type().is(output))
+		else if(type(value).is(output))
 			assign(source, dest, ref);
-		else if(g_class[source.type().m_id] && cls(source.type()).is(output))
-			dest = cls(source.type()).as(source.m_ref, output);
+		else if(g_class[type(source).m_id] && cls(source).is(output))
+			dest = cls(source).as(source.m_ref, output);
 		else if(TypeConverter::me().check(value, output))
 			TypeConverter::me().convert(value, output, dest);
 		else
@@ -411,6 +416,6 @@ namespace mud
 
 	bool can_convert(Ref input, Type& output)
 	{
-		return input.type().is(output) || is_related(input.type(), output) || TypeConverter::me().check(input, output);
+		return type(input).is(output) || is_related(type(input), output) || TypeConverter::me().check(input, output);
 	}
 }

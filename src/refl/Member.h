@@ -17,6 +17,8 @@
 
 namespace mud
 {
+	using MemberGet = Ref(*)(Ref);
+
 	export_ class refl_ MUD_REFL_EXPORT Static
 	{
 	public:
@@ -43,7 +45,7 @@ namespace mud
 		};
 
 	public:
-		Member(Type& object_type, Address address, Type& type, cstring name, Var default_value, Flags flags = Flags::None);
+		Member(Type& object_type, Address address, Type& type, cstring name, Var default_value, Flags flags = Flags::None, MemberGet get = nullptr);
 		~Member();
 
 		int m_index;
@@ -54,6 +56,7 @@ namespace mud
 		cstring m_name;
 		Var m_default_value;
 		Flags m_flags;
+		MemberGet m_get;
 
 		Meta& meta() { return mud::meta(*m_type); }
 		Class& cls() { return mud::cls(*m_type); }
@@ -69,6 +72,7 @@ namespace mud
 
 		inline Ref get(Ref object) const
 		{
+			if(m_get) return m_get(object);
 			Ref ref = this->ref(object);
 			if(this->is_pointer())
 				return Ref(*(void**)ref.m_value, *m_type);

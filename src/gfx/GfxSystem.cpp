@@ -40,6 +40,7 @@ module mud.gfx;
 #include <gfx/Assets.h>
 #include <gfx/Pipeline.h>
 #include <gfx/Filter.h>
+#include <gfx/Skeleton.h>
 #endif
 
 namespace mud
@@ -74,6 +75,9 @@ namespace mud
 		bx::FileReader m_file_reader;
 		bx::FileWriter m_file_writer;
 
+		unique_ptr<TPool<Mesh>> m_meshes;
+		unique_ptr<TPool<Rig>> m_rigs;
+
 		unique_ptr<AssetStore<Texture>> m_textures;
 		unique_ptr<AssetStore<Program>> m_programs;
 		unique_ptr<AssetStore<Material>> m_materials;
@@ -93,8 +97,9 @@ namespace mud
 		, m_impl(make_unique<Impl>())
 		, m_pipeline(make_unique<Pipeline>(*this))
 	{
-		Material::ms_gfx_system = this;
 		Program::ms_gfx_system = this;
+		Material::ms_gfx_system = this;
+		Model::ms_gfx_system = this;
 		for(cstring path : resource_paths)
 		{
 			printf("INFO: resource path: %s\n", path);
@@ -107,6 +112,9 @@ namespace mud
 
 	bx::FileReaderI& GfxSystem::file_reader() { return m_impl->m_file_reader; }
 	bx::FileWriterI& GfxSystem::file_writer() { return m_impl->m_file_writer; }
+
+	TPool<Mesh>& GfxSystem::meshes() { return *m_impl->m_meshes; }
+	TPool<Rig>& GfxSystem::rigs() { return *m_impl->m_rigs; }
 
 	AssetStore<Texture>& GfxSystem::textures() { return *m_impl->m_textures; }
 	AssetStore<Program>& GfxSystem::programs() { return *m_impl->m_programs; }
@@ -125,6 +133,9 @@ namespace mud
 	void GfxSystem::init(GfxContext& context)
 	{
 		BgfxSystem::init(context);
+
+		m_impl->m_meshes = make_unique<TPool<Mesh>>();
+		m_impl->m_rigs = make_unique<TPool<Rig>>();
 
 		m_impl->m_textures = make_unique<AssetStore<Texture>>(*this, "textures/", load_texture);
 		m_impl->m_programs = make_unique<AssetStore<Program>>(*this, "programs/", ".prg");
@@ -278,7 +289,7 @@ namespace mud
 
 	Model& GfxSystem::fetch_symbol(const Symbol& symbol, const Shape& shape, DrawMode draw_mode)
 	{
-		return SymbolIndex::me().symbolModel(symbol, shape, draw_mode);
+		return SymbolIndex::me().symbol_model(symbol, shape, draw_mode);
 	}
 
 	Material& GfxSystem::fetch_symbol_material(const Symbol& symbol, DrawMode draw_mode)
@@ -286,6 +297,6 @@ namespace mud
 		if(symbol.m_image256)
 			return this->fetch_image256_material(*symbol.m_image256);
 		else
-			return SymbolIndex::me().symbolMaterial(*this, symbol, draw_mode);
+			return SymbolIndex::me().symbol_material(*this, symbol, draw_mode);
 	}
 }

@@ -43,7 +43,7 @@ namespace mud {
     enum class SignedAxis : unsigned int;
     enum class Side : unsigned int;
     enum class TrackMode : unsigned int;
-    enum SpectrumPalette : short;
+    enum class Spectrum : short;
     
     template <class T> struct Range;
     template <class T> struct ValueCurve;

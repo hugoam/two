@@ -25,16 +25,16 @@ namespace mud
 		: m_colours(colours)
 	{}
 
-	Palette::Palette(SpectrumPalette spectrum, size_t steps)
+	Palette::Palette(Spectrum spectrum, size_t steps)
 		: m_colours()
 	{
-		if(spectrum == SPECTRUM_GRAYSCALE)
-			this->grayScaleSpectrum(steps);
-		else if(spectrum == SPECTRUM_HUE)
-			this->hueSpectrum(steps);
+		if(spectrum == Spectrum::Value)
+			this->value_spectrum(steps);
+		else if(spectrum == Spectrum::Hue)
+			this->hue_spectrum(steps);
 	}
 
-	void Palette::grayScaleSpectrum(size_t steps, bool to_white)
+	void Palette::value_spectrum(size_t steps, bool to_white)
 	{
 		for(size_t i = 0; i < steps; ++i)
 		{
@@ -44,7 +44,7 @@ namespace mud
 		}
 	}
 
-	void Palette::hueSpectrum(size_t steps)
+	void Palette::hue_spectrum(size_t steps)
 	{
 		for(size_t i = 0; i < steps; ++i)
 		{
@@ -77,7 +77,7 @@ namespace mud
 		m_colours.push_back(colour);
 	}
 
-	size_t Palette::findColour(const Colour& search)
+	size_t Palette::find_colour(const Colour& search)
 	{
 		for(size_t i = 0; i < m_colours.size(); i++)
 			if(m_colours[i] == search)

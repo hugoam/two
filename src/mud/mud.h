@@ -17,9 +17,10 @@
 #include <gfx-pbr/Api.h>
 #include <gfx-obj/Api.h>
 #include <gfx-gltf/Api.h>
+#include <gfx-ui/Api.h>
 #include <procgen/Api.h>
 #include <procgen-gfx/Api.h>
-#include <edit/Api.h>
+#include <tool/Api.h>
 
 #include <mud/Shell.h>
 #endif

@@ -129,48 +129,45 @@ namespace mud
 	{
 		int n = tileset.m_n;
 
-		while(wave.m_changes.size() > 0)
-		{
-			uvec3 changed = vector_pop(wave.m_changes);
+		uvec3 changed = vector_pop(wave.m_changes);
 				
-			for(int dx = -n + 1; dx < n; ++dx) for(int dy = -n + 1; dy < n; ++dy) for(int dz = -n + 1; dz < n; ++dz)
-			{
-				ivec3 coord = ivec3(changed.x + dx, changed.y + dy, changed.z + dz);
+		for(int dx = -n + 1; dx < n; ++dx) for(int dy = -n + 1; dy < n; ++dy) for(int dz = -n + 1; dz < n; ++dz)
+		{
+			ivec3 coord = ivec3(changed.x + dx, changed.y + dy, changed.z + dz);
 
-				int sx = coord.x;
-				if(sx < 0) sx += wave.m_width;
-				else if(sx >= wave.m_width) sx -= wave.m_width;
+			int sx = coord.x;
+			if(sx < 0) sx += wave.m_width;
+			else if(sx >= wave.m_width) sx -= wave.m_width;
 
-				int sy = coord.y;
-				if(sy < 0) sy += wave.m_height;
-				else if(sy >= wave.m_height) sy -= wave.m_height;
+			int sy = coord.y;
+			if(sy < 0) sy += wave.m_height;
+			else if(sy >= wave.m_height) sy -= wave.m_height;
 
-				int sz = coord.z;
-				if(sz < 0) sz += wave.m_depth;
-				else if(sz >= wave.m_depth) sz -= wave.m_depth;
+			int sz = coord.z;
+			if(sz < 0) sz += wave.m_depth;
+			else if(sz >= wave.m_depth) sz -= wave.m_depth;
 
-				if(!wave.m_periodic && (sx + n > wave.m_width || sy + n > wave.m_height || sz + n > wave.m_depth))
-					continue;
+			if(!wave.m_periodic && (sx + n > wave.m_width || sy + n > wave.m_height || sz + n > wave.m_depth))
+				continue;
 		
-				for(size_t t2 = 0; t2 < wave.m_states.size(); ++t2)
-				{
-					if(!wave.m_wave.at(sx, sy, sz)[t2])
-						continue;
+			for(size_t t2 = 0; t2 < wave.m_states.size(); ++t2)
+			{
+				if(!wave.m_wave.at(sx, sy, sz)[t2])
+					continue;
 
-					bool can_pattern_fit = false;
+				bool can_pattern_fit = false;
 
-					const std::vector<PatternIndex>& prop = tileset.m_propagator.at(n - 1 - dx, n - 1 - dy, n - 1 - dz)[t2];
-					for(const auto& t3 : prop) {
-						if(wave.m_wave.at(changed.x, changed.y, changed.z)[t3]) {
-							can_pattern_fit = true;
-							break;
-						}
+				const std::vector<PatternIndex>& prop = tileset.m_propagator.at(n - 1 - dx, n - 1 - dy, n - 1 - dz)[t2];
+				for(const auto& t3 : prop) {
+					if(wave.m_wave.at(changed.x, changed.y, changed.z)[t3]) {
+						can_pattern_fit = true;
+						break;
 					}
+				}
 
-					if(!can_pattern_fit) {
-						wave.m_wave.at(sx, sy, sz)[t2] = false;
-						wave.m_changes.push_back(uvec3(sx, sy, sz));
-					}
+				if(!can_pattern_fit) {
+					wave.m_wave.at(sx, sy, sz)[t2] = false;
+					wave.m_changes.push_back(uvec3(sx, sy, sz));
 				}
 			}
 		}

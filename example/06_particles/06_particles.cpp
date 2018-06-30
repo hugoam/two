@@ -1,9 +1,6 @@
 #include <mud/mud.h>
 #include <06_particles/06_particles.h>
 
-#include <srlz/Serial.h>
-#include <edit/Ui/GfxEdit.h>
-
 #include <fstream>
 
 using namespace mud;
@@ -28,15 +25,7 @@ std::vector<ParticleItem> create_particles(GfxSystem& gfx_system, const std::vec
 	for(const string& name : names)
 	{
 		Call particles = Call(function(gfx::particles));
-
-		string filename = "prefabs/" + name;
-		LocatedFile location = gfx_system.locate_file(filename.c_str());
-		if(location.m_location)
-		{
-			string path = string(location.m_location) + filename;
-			unpack_json_file(particles.m_arguments[1], path);
-		}
-
+		particles.m_arguments[1] = Ref(gfx_system.particles().file(name.c_str()));
 		particles_vector.push_back({ particles, index++, nullptr });
 	}
 
@@ -66,9 +55,12 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 		Var result = item.m_call();
 		item.m_particles = &val<Particles>(result);
 
+		if(item.m_particles->ended())
+			item.m_particles->m_time = 0.f;
+
 		particle_node.m_node->m_object = Ref(&item);
 
-		gfx::shape(particle_node, *item.m_particles->m_emitter.m_shape, Symbol(&item == edited ? Colour::White : Colour::AlphaGrey));
+		gfx::shape(particle_node, *item.m_particles->m_shape, Symbol(&item == edited ? Colour::White : Colour::AlphaGrey));
 		gfx::shape(particle_node, Cube(0.1f), Symbol(Colour::White), ITEM_SELECTABLE);
 		gfx::shape(particle_node, Cube(), Symbol(Colour::None, Colour::Transparent), ITEM_SELECTABLE);
 	}
@@ -77,6 +69,7 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 	{
 		auto callback = [&controller, middle](Item* item)
 		{
+			if(item == nullptr) return;
 			edited = &val<ParticleItem>(item->m_node.m_object);
 			controller.m_position = vec3{ -middle + edited->m_index * 10.f, 0.f, 0.f };
 		};

@@ -314,8 +314,14 @@ namespace mud
 		vec4 padded_rect = { floor(rect_offset(frame.d_inkstyle->m_padding)),
 							 floor(frame.m_size - rect_sum(frame.d_inkstyle->m_padding)) };
 
-		vec2 content_pos = { this->content_pos(frame, padded_rect, DIM_X), this->content_pos(frame, padded_rect, DIM_Y) };
-		vec4 content_rect = { content_pos, frame.m_content };
+		vec2 content = frame.m_content;
+		if(frame.d_inkstyle->m_stretch.x)
+			content.x = rect_w(padded_rect);
+		if(frame.d_inkstyle->m_stretch.y)
+			content.y = rect_h(padded_rect);
+
+		vec2 content_pos = { this->content_pos(frame, content, padded_rect, DIM_X), this->content_pos(frame, content, padded_rect, DIM_Y) };
+		vec4 content_rect = { content_pos, content };
 		
 #if 0 // DEBUG
 		if(frame.d_style->m_name == m_debug_filter)
@@ -332,12 +338,12 @@ namespace mud
 		this->draw_content(frame, rect, padded_rect, content_rect);
 	}
 
-	float UiRenderer::content_pos(const Frame& frame, const vec4& padded_rect, Dim dim)
+	float UiRenderer::content_pos(const Frame& frame, const vec2& content, const vec4& padded_rect, Dim dim)
 	{
 		if(frame.d_inkstyle->m_align[dim] == CENTER)
-			return padded_rect[dim] + padded_rect[dim + 2] / 2.f - frame.m_content[dim] / 2.f;
+			return padded_rect[dim] + padded_rect[dim + 2] / 2.f - content[dim] / 2.f;
 		else if(frame.d_inkstyle->m_align[dim] == RIGHT)
-			return padded_rect[dim] + padded_rect[dim + 2] - frame.m_content[dim];
+			return padded_rect[dim] + padded_rect[dim + 2] - content[dim];
 		else
 			return padded_rect[dim];
 	}

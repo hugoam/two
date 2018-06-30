@@ -13,7 +13,8 @@
 #include <meta/gfx-pbr/Module.h>
 #include <meta/gfx-obj/Module.h>
 #include <meta/gfx-gltf/Module.h>
-#include <meta/edit/Module.h>
+#include <meta/gfx-ui/Module.h>
+#include <meta/tool/Module.h>
 #endif
 #endif
 

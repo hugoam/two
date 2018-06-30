@@ -34,7 +34,7 @@ namespace mud
 #if 1
 		Style frame = { "Frame", styles().sheet, {}, [](InkStyle& l) { l.m_empty = false; l.m_background_colour = to_colour(25, 26, 31); } };
 
-		Style type = { "Type", styles().label,{}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = to_colour(255, 0, 78); l.m_text_size = 18.f; } };
+		Style type = { "Type", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = to_colour(255, 0, 78); l.m_text_size = 18.f; } };
 		Style identifier = { "Identifier", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = to_colour(106, 176, 255); l.m_text_size = 18.f; } };
 		Style syntax = { "Syntax", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = Colour::White; l.m_text_size = 18.f; } };
 		Style argument = { "Argument", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = to_colour(227, 131, 228); l.m_text_size = 18.f; } };
@@ -50,31 +50,6 @@ namespace mud
 
 	MetaStyles& meta_info_styles() { static MetaStyles styles; return styles; }
 
-namespace ui
-{
-	template <class T>
-	inline bool enum_input(Widget& parent, T& value)
-	{
-		size_t index = enum_index(&value);
-		//ui::radio_switch(parent, meta(value).m_enum_names, index);
-		if(ui::dropdown_input(parent, to_array(enu<T>().m_names), index))
-		{
-			enum_set_index(&value, index);
-			return true;
-		}
-		return false;
-	}
-
-	template <class T>
-	inline bool enum_field(Widget& parent, cstring name, T& value, bool reverse = false) { return field([&](Widget& self) { return enum_input<T>(self, value); }, parent, name, reverse); }
-
-	void field_label(Widget& parent, cstring field, cstring value)
-	{
-		Widget& self = row(parent);
-		label(self, field);
-		label(self, value);
-	}
-}
 	void meta_description(Widget& parent, Meta& meta)
 	{
 		static float columns[2] = { 0.2f, 0.8f };
@@ -95,14 +70,14 @@ namespace ui
 		Widget& row = ui::widget(parent, meta_info_styles().element);
 		//ui::item(row, meta_info_styles().syntax, "Function");
 		if(returns)
-			ui::item(row, meta_info_styles().type, callable.m_returnval.type().m_name);
+			ui::item(row, meta_info_styles().type, type(callable.m_returnval).m_name);
 		ui::item(row, meta_info_styles().identifier, callable.m_name);
 		ui::item(row, meta_info_styles().syntax, "(");
 		for(Param& param : callable.m_params)
 		{
 			if(skip_first && param.m_index == 0)
 				continue;
-			ui::item(row, meta_info_styles().type, param.m_value == Ref() ? "Ref" : param.m_value.type().m_name);
+			ui::item(row, meta_info_styles().type, param.m_value == Ref() ? "Ref" : type(param.m_value).m_name);
 			ui::item(row, meta_info_styles().argument, param.m_name);
 			if(&param != &callable.m_params.back())
 				ui::item(row, meta_info_styles().syntax, ",");
@@ -188,11 +163,6 @@ namespace ui
 		return false;
 	}
 
-	enum MetaEditModes
-	{
-		META_BROWSE = 1 << 0,
-	};
-
 	struct MetaEditState : public NodeState
 	{
 		MetaEditState() {}
@@ -202,15 +172,17 @@ namespace ui
 
 	void meta_edit(Widget& parent, Type& type)
 	{
+		enum Modes { BROWSE = 1 << 0 };
+
 		Section& self = section(parent, ("Type Info : " + string(meta(type).m_name)).c_str());
 		MetaEditState& state = self.state<MetaEditState>(type);
 
-		if(ui::modal_button(self, *self.m_toolbar, "Browse", META_BROWSE))
+		if(ui::modal_button(self, *self.m_toolbar, "Browse", BROWSE))
 		{
 			Widget& modal = ui::modal(parent.parent_modal(), { 400, 800 });
 			bool done = type_browser(*modal.m_body, state.m_type);
 			if(done || !modal.m_open)
-				self.m_switch &= ~META_BROWSE;
+				self.m_switch &= ~BROWSE;
 		}
 
 		if(Widget* container = ui::expandbox(*self.m_body, "Description").m_body)

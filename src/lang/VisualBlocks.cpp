@@ -17,7 +17,7 @@ module mud.lang;
 namespace mud
 {
 	ProcessValue::ProcessValue(VisualScript& script, const Var& value)
-		: Process(script, value == Ref() ? "Ref" : value.type().m_name, type<ProcessValue>())
+		: Process(script, value == Ref() ? "Ref" : type(value).m_name, type<ProcessValue>())
 		, m_output(*this, "output", OUTPUT_VALVE, value, false, false)
 	{
 		m_output.m_edit = true;
@@ -99,6 +99,7 @@ namespace mud
 		{
 			Var& value = m_result->m_stream.branch(branch.m_index).m_value;
 			m_callable(to_array(m_parameters), value);
+			m_result->m_stream.branch(branch.m_index).write(value);
 		}
 		else
 		{

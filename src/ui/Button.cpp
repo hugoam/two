@@ -158,12 +158,29 @@ namespace ui
 		return self;
 	}
 
-	Widget& figure(Widget& parent, const Image256& source)
+	Widget& image256(Widget& parent, Style& style, cstring name, const Image256& source)
 	{
-		Widget& self = widget(parent, styles().figure);
-		std::vector<uint8_t> data = source.read();
-		Image& image = self.ui_window().create_image("Figure", uvec2{ source.m_width, source.m_height }, &data[0], false);
-		self.m_frame.set_icon(&image);
+		Widget& self = widget(parent, style);
+		Image* image = self.ui_window().find_image(name);
+		if(!image)
+		{
+			std::vector<uint8_t> data = source.read();
+			image = &self.ui_window().create_image(name, uvec2{ source.m_width, source.m_height }, &data[0], false);
+		}
+		self.m_frame.set_icon(image);
+		return self;
+	}
+
+	Widget& image256(Widget& parent, cstring name, const Image256& source)
+	{
+		return image256(parent, styles().image, name, source);
+	}
+
+	Widget& image256(Widget& parent, cstring name, const Image256& source, const vec2& size)
+	{
+		Widget& self = image256(parent, styles().image_stretch, name, source);
+		//self.m_frame.set_size(size);
+		ui::dummy(self, size);
 		return self;
 	}
 

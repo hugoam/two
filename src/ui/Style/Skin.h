@@ -56,6 +56,7 @@ namespace mud
 		attr_ mut_ Dim2<Align> m_align = { LEFT, LEFT };
 		attr_ mut_ vec2 m_linear_gradient = vec2(0.f);
 		attr_ mut_ Dim m_linear_gradient_dim = DIM_Y;
+		attr_ mut_ Dim2<bool> m_stretch = { false, false };
 		attr_ mut_ Image* m_image = nullptr;
 		attr_ mut_ Image* m_overlay = nullptr;
 		attr_ mut_ Image* m_tile = nullptr;

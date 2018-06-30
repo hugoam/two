@@ -44,14 +44,11 @@ namespace mud
 		destFile << file.rdbuf();
 	}
 
-	ModuleLoader::ModuleLoader()
-	{}
-
-	Module* ModuleLoader::load_module(cstring path)
+	Module* load_module(cstring path)
 	{
 		string module_path = string(path) + BUILD_SUFFIX + MODULE_EXT;
 		string loaded_path = string(path) + BUILD_SUFFIX + "_loaded" + MODULE_EXT;
-
+		
 		if(!std::ifstream(module_path, std::ios::binary).good())
 		{
 			printf("ERROR: Module %s not found\n", module_path.c_str());
@@ -67,9 +64,9 @@ namespace mud
 #endif
 
 #ifdef _WIN32
-		getModule_PROC get_module = (getModule_PROC)GetProcAddress(module_handle, "getModule");
+		GetModule get_module = (GetModule)GetProcAddress(module_handle, "getModule");
 #else
-		getModule_PROC get_module = (getModule_PROC)dlsym(module_handle, "getModule");
+		GetModule get_module = (GetModule)dlsym(module_handle, "getModule");
 #endif
 
 		Module& m = get_module();
@@ -80,7 +77,7 @@ namespace mud
 		return &m;
 	}
 
-	void ModuleLoader::unload_module(Module& m)
+	void unload_module(Module& m)
 	{
 #ifdef _WIN32
 		int result = FreeLibrary((HMODULE) m.m_handle);
@@ -90,7 +87,7 @@ namespace mud
 		UNUSED(result);
 	}
 
-	void ModuleLoader::reload_module(Module& m)
+	void reload_module(Module& m)
 	{
 #ifdef _WIN32
 		HANDLE module_file = CreateFile(m.m_path, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -108,6 +105,15 @@ namespace mud
 		CloseHandle(module_file);
 #else
 		UNUSED(m);
+#endif
+	}
+
+	FunctionPointer module_function(Module& module, cstring name)
+	{
+#ifdef _WIN32
+		return (FunctionPointer)GetProcAddress((HMODULE)module.m_handle, name);
+#else
+		return (FunctionPointer)dlsym(module.m_handle, "getModule");
 #endif
 	}
 
@@ -145,7 +151,7 @@ namespace mud
 
 	Module* System::open_module(cstring path)
 	{
-		return m_loader.load_module(path);
+		return mud::load_module(path);
 	}
 
 	void System::load_module(Module& m)
@@ -175,7 +181,7 @@ namespace mud
 		for(Function* function : m.m_functions)
 			vector_remove(m_functions, function);
 
-		m_loader.unload_module(m);
+		mud::unload_module(m);
 	}
 
 	Module& System::reload_module(Module& m)

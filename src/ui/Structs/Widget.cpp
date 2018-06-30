@@ -109,7 +109,7 @@ namespace mud
 		if(str.front() == '(' && str.back() == ')')
 		{
 			string name = to_lower(string(str.begin() + 1, str.end() - 1));
-			Image& icon = this->ui_window().find_image(name.c_str());
+			Image& icon = *this->ui_window().find_image(name.c_str());
 			m_frame.set_icon(&icon);
 		}
 		else

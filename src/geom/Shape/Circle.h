@@ -10,6 +10,12 @@
 
 namespace mud
 {
+	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const ArcLine& arc);
+	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const ArcLine& arc, MeshData& data);
+
+	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const ArcLine& arc);
+	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const ArcLine& arc, MeshData& data);
+
 	MUD_GEOM_EXPORT uint16_t circle_vertices(const ProcShape& shape, const vec3& position, vec2 radius, SignedAxis axis, bool lines, MeshData& data, bool outward_normals = false);
 
 	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Circle& circle);

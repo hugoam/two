@@ -137,7 +137,7 @@ void material_spheres(Gnode& parent, array<Material*> materials)
 
 	for(size_t i = 0; i < materials.size(); ++i)
 	{
-		Gnode& material_node = gfx::node(parent, materials[i], vec3{ -center + float(i) * spacing, 0.f, 0.f });
+		Gnode& material_node = gfx::node(parent, Ref(materials[i]), vec3{ -center + float(i) * spacing, 0.f, 0.f });
 		gfx::shape(material_node, Sphere(), Symbol(Colour::None, Colour::White), 0, materials[i]);
 		//gfx::model(material_node, "sphere", 0, materials[i]);
 	}
@@ -210,7 +210,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 		Widget& sheet = ui::columns(*dock, carray<float, 2>{ 0.3f, 0.7f });
 
 		ui::label(sheet, "Environment :");
-		ui::number_field<float>(sheet, "Ambient", { viewer.m_environment.m_radiance.m_ambient,{ 0.f, 100.f, 0.01f } });
+		ui::number_field<float>(sheet, "Ambient", { viewer.m_environment.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
 
 		if(edited)
 			object_edit(*dock, Ref(edited)); // "Particle Editor" // identity = edited

@@ -15,8 +15,6 @@ namespace mud
 {
 	export_ using cstring = const char*;
 	
-	class Function;
-
 	export_ class refl_ MUD_REFL_EXPORT Module
 	{
 	public:
@@ -24,8 +22,6 @@ namespace mud
 
 		virtual void handle_load(Module& m) { UNUSED(m); }
 		virtual void handle_unload(Module& m) { UNUSED(m); }
-
-		//Type& m_type;
 
 		attr_ cstring m_name;
 		attr_ std::vector<Type*> m_types;
@@ -37,8 +33,8 @@ namespace mud
 	};
 
 #ifdef _WIN32
-	typedef Module& (__cdecl *getModule_PROC)(void);
+	typedef Module& (__cdecl *GetModule)(void);
 #else
-	typedef Module& (*getModule_PROC)(void);
+	typedef Module& (*GetModule)(void);
 #endif
 }

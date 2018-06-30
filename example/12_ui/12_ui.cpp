@@ -107,9 +107,9 @@ namespace game
 
 	Character create_character()
 	{
-		std::vector<Trait> traits = { { "Force", 7 },{ "Agility", 10 },{ "Charisma", 3 },{ "Blood", 100 } };
-		std::vector<Skill> skills = { { "Hacking", 1 },{ "Firearms", 2 } };
-		Character character = { "Marc Citrus", traits, skills,{} };
+		std::vector<Trait> traits = { { "Force", 7 }, { "Agility", 10 }, { "Charisma", 3 }, { "Blood", 100 } };
+		std::vector<Skill> skills = { { "Hacking", 1 }, { "Firearms", 2 } };
+		Character character = { "Marc Citrus", traits, skills, {} };
 		character.m_inventory.m_slots.resize(20);
 		character.m_inventory.m_items.reserve(20);
 		character.m_inventory.add_item({ "Gun", "" }, 1);
@@ -131,8 +131,8 @@ void edit_styles(Widget& parent)
 	ui::dropdown_input(self, style_names, selected_style);
 
 	Style* edited_style = styles[selected_style];
-	object_edit(parent, &edited_style->layout());
-	object_edit(parent, &edited_style->skin());
+	object_edit(parent, Ref(&edited_style->layout()));
+	object_edit(parent, Ref(&edited_style->skin()));
 }
 
 enum InteractionSwitch

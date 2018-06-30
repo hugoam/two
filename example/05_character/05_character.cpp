@@ -139,7 +139,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 		if(anim_editor && selected == &characters[i])
 			continue;
 
-		if(animated->m_playing.empty() || strcmp(animated->m_playing.back().m_animation->m_name.c_str(), state) != 0)
+		if(animated->m_playing.empty() || animated->playing() == state)
 		{
 			Human::State& state = characters[i].m_states.back();
 			animated->play(state.m_action.c_str(), true, 0.f, state.m_action_speed);
@@ -148,7 +148,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	human_controller_3rdperson(viewer, *selected);
 	if(follow_character)
-		orbit.m_position = characters[0].m_position;
+		orbit.set_position(characters[0].m_position);
 
 	static Clock clock;
 	float timestep = clock.step();

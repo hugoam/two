@@ -16,9 +16,10 @@ namespace mud
 {
 	export_ struct MUD_GEOM_EXPORT ShapeSize
 	{
+		ShapeSize() : vertex_count(0), index_count(0) {}
 		ShapeSize(int verts, int indices) : vertex_count(verts), index_count(indices) {}
 
-		uvec2& operator()() { return vec; }
+		operator uvec2() { return vec; }
 
 		union {
 			uvec2 vec;

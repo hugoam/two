@@ -165,7 +165,7 @@ namespace mud
 
 		// @note: we MUST take a Var& as parameter of this function for this specific case
 		// -> polymorphic objects must be created by value since we don't know in advance the actual type we are loading
-		if(g_class[value.type().m_id] && cls(value).m_type_member && !typed) // @kludge this parameter is only there to tell us we were called from the typed variant of this function, couldn't think of a better design at this time of the day
+		if(g_class[type(value).m_id] && cls(value).m_type_member && !typed) // @kludge this parameter is only there to tell us we were called from the typed variant of this function, couldn't think of a better design at this time of the day
 		{
 			value = unpack_typed(unpacker, json_value);
 			return;
@@ -176,17 +176,17 @@ namespace mud
 			unpacker.dispatch(value, value.m_ref, json_value);
 			return;
 		}
-		else if(is_enum(value.type()) && json_value.is_number()) // is_number_integer
+		else if(is_enum(type(value)) && json_value.is_number()) // is_number_integer
 		{
 			enum_manual_value(value, json_value.int_value());
 			return;
 		}
-		else if(g_convert[value.type().m_id] && json_value.is_string())
+		else if(g_convert[type(value).m_id] && json_value.is_string())
 		{
-			convert(value.type()).m_from_string(json_value.string_value(), value);
+			convert(type(value)).m_from_string(json_value.string_value(), value);
 			return;
 		}
-		else if(is_sequence(value.type()))
+		else if(is_sequence(type(value)))
 		{
 			for(const json& json_element : json_value.array_items())
 			{
@@ -206,7 +206,7 @@ namespace mud
 			auto unpack_member = [&](const Member& member, const json& member_value)
 			{
 #ifdef MUD_DEBUG_SERIAL
-				printf("DEBUG: unpacking member %s :: %s\n", value.type().m_name, member.m_name);
+				printf("DEBUG: unpacking member %s :: %s\n", type(value).m_name, member.m_name);
 #endif
 				member.set(value, unpack(unpacker, *member.m_type, member_value));
 			};
@@ -231,7 +231,7 @@ namespace mud
 			for(size_t index = 0; index < size; ++index)
 			{
 #ifdef MUD_DEBUG_SERIAL
-				printf("DEBUG: unpacking member %s :: %s\n", value.type().m_name, construct.m_callable->m_params[index + 1].m_name);
+				printf("DEBUG: unpacking member %s :: %s\n", type(value).m_name, construct.m_callable->m_params[index + 1].m_name);
 #endif
 				const json& json_field = json_value.is_array() ? json_value[index]
 															   : json_value[construct.m_callable->m_params[index + 1].m_name];
@@ -262,11 +262,11 @@ namespace mud
 		{
 			packer.dispatch(value.m_ref, json_value);
 		}
-		else if(is_basic(value.type()))
+		else if(is_basic(type(value)))
 		{
 			json_value = to_string(value);
 		}
-		else if(is_sequence(value.type()))
+		else if(is_sequence(type(value)))
 		{
 			size_t i = 0;
 			std::vector<json> json_values = std::vector<json>(sequence_size(value.m_ref));
@@ -275,7 +275,7 @@ namespace mud
 			});
 			json_value = json_values;
 		}
-		else if(is_object(value.type()))
+		else if(is_object(type(value)) || is_struct(type(value)))
 		{
 			if(value.null())
 				json_value = nullptr;
@@ -283,13 +283,16 @@ namespace mud
 				pack_typed(value, json_value);
 			else
 			{
+				std::map<std::string, json> json_members;
+
 				for(Member& member : cls(value).m_members)
 					if(&member != cls(value).m_type_member)
 					{
 						Var member_val = member.get(value.m_ref);
-						json member_json = json_value[member.m_name];
-						pack(packer, member_val, member_json);
+						pack(packer, member_val, json_members[member.m_name]);
 					}
+
+				json_value = json_members;
 			}
 		}
 	}
@@ -310,7 +313,7 @@ namespace mud
 	void pack_typed(ToJson& packer, const Var& value, json& json_value)
 	{
 		std::map<std::string, json> json_values;
-		json_values["type"] = value.type().m_name;
+		json_values["type"] = type(value).m_name;
 		pack(packer, value, json_values["value"], true);
 		json_value = json_values;
 	}

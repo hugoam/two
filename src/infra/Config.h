@@ -22,10 +22,6 @@
 #define pool_   // Pool Attribute
 #endif
 
-#ifdef MUD_STATIC
-#define MUD_EXPORT
-#define MUD_IMPORT
-#else
 #if defined _WIN32 || defined __CYGWIN__
 	#if defined __GNUC__
 		#define MUD_EXPORT __attribute__ ((dllexport))
@@ -44,6 +40,10 @@
 	#define MUD_IMPORT
 	#define DLL_LOCAL
 #endif
+
+#ifdef MUD_STATIC
+#undef MUD_IMPORT
+#define MUD_IMPORT
 #endif
 
 #define MUD_FUNC_EXPORT __cdecl

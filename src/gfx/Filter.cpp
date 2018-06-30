@@ -189,7 +189,7 @@ namespace mud
 	{
 		uint8_t view_id = 251;
 
-		RenderQuad target_quad = RenderQuad{ Rect4,{ vec2(0.f), vec2(target.m_size) * 0.33f }, true };
+		RenderQuad target_quad = RenderQuad{ Rect4, { vec2(0.f), vec2(target.m_size) * 0.33f }, true };
 
 		ShaderVersion shader_version = { &m_program };
 		if(is_depth)

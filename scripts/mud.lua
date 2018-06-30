@@ -97,11 +97,10 @@ function mud_snd()
         path.join(MUD_3RDPARTY_DIR, "ogg", "include"),
         path.join(MUD_DIR, "scripts/3rdparty/ogg/"),
     }
-    
+end
+
+function uses_mud_snd()
     links {
-        "vorbis",
-        "vorbisfile",
-        "ogg",
         "OpenAL32",
     }
 end
@@ -135,11 +134,12 @@ mud.lang    = mud_module("mud", "lang",     MUD_SRC_DIR, "lang",    nil,        
 mud.ctx     = mud_module("mud", "ctx",      MUD_SRC_DIR, "ctx",     nil,        nil,            nil,                { mud.infra, mud.obj, mud.math })
 mud.ui      = mud_module("mud", "ui",       MUD_SRC_DIR, "ui",      nil,        mud_ui,         uses_mud_ui,        { json11, mud.infra, mud.obj, mud.refl, mud.srlz, mud.math, mud.ctx })
 mud.uio     = mud_module("mud", "uio",      MUD_SRC_DIR, "uio",     nil,        nil,            nil,                { mud.infra, mud.tree, mud.obj, mud.pool, mud.refl, mud.math, mud.lang, mud.ctx, mud.ui })
-mud.snd     = mud_module("mud", "snd",      MUD_SRC_DIR, "snd",     nil,        mud_snd,        nil,                { mud.obj, mud.math })
+mud.snd     = mud_module("mud", "snd",      MUD_SRC_DIR, "snd",     nil,        mud_snd,        uses_mud_snd,       { ogg, vorbis, vorbisfile, mud.obj, mud.math })
 --mud_sys(true)
 --mud_vec(true)
 --mud.db = mud_module(as_project, "mud", "db", MUD_SRC_DIR, "db", { mud.obj, mud.util })
 
+mud.mud = { mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.tree, mud.srlz, mud.math, mud.geom, mud.procgen, mud.lang, mud.ctx, mud.ui, mud.uio, mud.snd }
 
 --mud.usage_decl = uses_mud
 
@@ -150,48 +150,41 @@ end
 mud.obj.basetypes = { 'void', 'bool', 'short', 'int', 'long', 'long long', 'float', 'double', 'char', 'unsigned char', 'unsigned short', 'unsigned int', 'unsigned long', 'unsigned long long', 'std::string', 'cstring' }
 mud.obj.aliases = { ['mud::string'] = 'std::string', ['string'] = 'std::string', ['mud::cstring'] = 'cstring' }
 
-if _OPTIONS["sound"] then
-    mud.core = { mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.tree, mud.srlz, mud.math, mud.geom, mud.procgen, mud.lang, mud.ctx, mud.ui, mud.uio, mud.snd }
-    table.extend(mud.core, mud_refls({ mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.srlz, mud.math, mud.geom, mud.procgen, mud.lang, mud.ctx, mud.ui, mud.uio, mud.snd }, FORCE_REFL_PROJECTS))
-else
-    mud.core = { mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.tree, mud.srlz, mud.math, mud.geom, mud.procgen, mud.lang, mud.ctx, mud.ui, mud.uio }
-    table.extend(mud.core, mud_refls({ mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.srlz, mud.math, mud.geom, mud.procgen, mud.lang, mud.ctx, mud.ui, mud.uio }, FORCE_REFL_PROJECTS))
-end
-
-if _OPTIONS["as-libs"] then
-    group "lib/mud"
-        for _, m  in ipairs(mud.core) do
-            m.decl(m, true)
-        end
-    group "lib"
-else
-    project "mud"
-        if MUD_STATIC then
-            kind "StaticLib"
-        else
-            kind "SharedLib"
-        end
-        
-        for _, m  in ipairs(mud.core) do
-            m.decl(m, false)
-        end
-        
-        files {
-            path.join(MUD_SRC_DIR, "mud", "**.h"),
-        }
-end
-
-function mud_shell(name)
-    mud_defines()
-    mud_binary(name)
-    
-    files {
-        path.join(MUD_DIR, "src", "mud", "Shell.cpp"),
-    }
-end
-
 if _OPTIONS["renderer-gl"] then
     dofile(path.join(MUD_DIR, "scripts/mud_gl.lua"))
 elseif _OPTIONS["renderer-bgfx"] then
     dofile(path.join(MUD_DIR, "scripts/mud_gfx.lua"))
+end
+
+if _OPTIONS["as-libs"] then
+    group "lib/mud"
+        mud_libs(mud.mud, "StaticLib")
+    group "lib"
+else
+    mud.lib = mud_lib("mud", mud.mud, "StaticLib")
+    
+        files {
+            path.join(MUD_SRC_DIR, "mud", "**.h"),
+        }
+        
+        configuration { "vs*", "not asmjs", "Release" }
+            buildoptions {
+                "/bigobj",
+            }
+            
+        configuration {}
+end
+
+function mud_binary(name, modules, deps)
+    mud_lib(name, modules, "ConsoleApp")
+    defines { "_" .. name:upper() .. "_EXE" }
+    mud_binary_config()
+end
+
+function mud_shell(name, modules, deps)
+    mud_binary(name, modules, deps)
+    
+    files {
+        path.join(MUD_DIR, "src", "mud", "Shell.cpp"),
+    }
 end

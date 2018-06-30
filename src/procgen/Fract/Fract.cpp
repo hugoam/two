@@ -35,12 +35,12 @@ float rnd_float()
 
 namespace mud
 {
-	void generate_fract(uint16_t pixelWidth, uint16_t pixelHeight, const Pattern& pattern, Image256& outputImage)
+	void generate_fract(uvec2 resolution, const Pattern& pattern, Image256& output_image)
 	{
 		Fract fract;
 		fract.generate();
 
-		fract.renderWhole(pattern, pixelWidth, pixelHeight, outputImage);
+		fract.render_whole(pattern, resolution, output_image);
 	}
 
 	FractTab::FractTab()
@@ -138,22 +138,22 @@ namespace mud
 		c /= length;
 	}
 
-	Fract::Fract(size_t numTabs)
+	Fract::Fract(size_t num_tabs)
 		: m_update(0)
 	{
 		int seed = int(time(nullptr));
 		srand(seed);
 
-		this->generate(numTabs);
+		this->generate(num_tabs);
 	}
 
-	void Fract::generate(size_t numTabs)
+	void Fract::generate(size_t num_tabs)
 	{
-		m_numTabs = numTabs;
+		m_num_tabs = num_tabs;
 
 		m_tabs.clear();
 
-		m_tabs.resize(numTabs);
+		m_tabs.resize(num_tabs);
 
 		for(size_t i = 0; i < m_tabs.size(); ++i)
 			m_tabs[i].generate(i);
@@ -169,7 +169,7 @@ namespace mud
 		m_update++;
 	}
 
-	int Fract::inversePoint(float& x, float& y)
+	int Fract::inverse_point(float& x, float& y)
 	{
 		float cx, cy, h;
 
@@ -192,7 +192,7 @@ namespace mud
 		return numReflects;
 	}
 
-	size_t Fract::inverseColour(int x, int y, const Rect& rect, const Pattern& pattern, Image256& image)
+	size_t Fract::inverse_colour(int x, int y, const Rect& rect, const Pattern& pattern, Image256& image)
 	{
 		float ox = float(x) / float(image.m_width) * rect.m_size.x + rect.m_position.x - 0.5f;
 		float oy = float(y) / float(image.m_height) * rect.m_size.y + rect.m_position.y - 0.5f;
@@ -200,7 +200,7 @@ namespace mud
 		float px = ox;
 		float py = oy;
 
-		int num_reflects = this->inversePoint(px, py);
+		int num_reflects = this->inverse_point(px, py);
 
 		px *= image.m_width / rect.m_size.x;
 		py *= image.m_height / rect.m_size.y;
@@ -210,34 +210,34 @@ namespace mud
 		return color;
 	}
 
-	void Fract::render(const Rect& rect, const Pattern& pattern, uint16_t resX, uint16_t resY, Image256& image)
+	void Fract::render(const Rect& rect, const Pattern& pattern, uvec2 resolution, Image256& image)
 	{
-		image.resize(resX, resY);
+		image.resize(resolution.x, resolution.y);
 
 		image.m_palette = pattern.m_palette;
 
 		size_t index = 0;
-		for(size_t y = 0; y < resY; ++y)
-			for(size_t x = 0; x < resX; ++x, ++index)
-				image.m_pixels[index] = this->inverseColour(x, y, rect, pattern, image);
+		for(size_t y = 0; y < resolution.y; ++y)
+			for(size_t x = 0; x < resolution.x; ++x, ++index)
+				image.m_pixels[index] = this->inverse_colour(x, y, rect, pattern, image);
 
 		++m_update;
 	}
 
-	void Fract::renderWhole(const Pattern& pattern, uint16_t resX, uint16_t resY, Image256& image)
+	void Fract::render_whole(const Pattern& pattern, uvec2 resolution, Image256& image)
 	{
 		Rect rect(0.f, 0.f, 1.f, 1.f);
-		this->render(rect, pattern, resX, resY, image);
+		this->render(rect, pattern, resolution, image);
 	}
 
-	void Fract::renderGrid(size_t size, const Pattern& pattern, uint16_t resX, uint16_t resY, std::vector<Image256>& images)
+	void Fract::render_grid(uvec2 subdiv, const Pattern& pattern, uvec2 resolution, std::vector<Image256>& images)
 	{
-		for(size_t y = 0; y < size; ++y)
-			for(size_t x = 0; x < size; ++x)
+		for(size_t y = 0; y < subdiv.y; ++y)
+			for(size_t x = 0; x < subdiv.x; ++x)
 			{
-				Rect rect(float(x) / float(size), float(y) / float(size), 1.f / float(size), 1.f / float(size));
+				Rect rect(float(x) / float(subdiv.x), float(y) / float(subdiv.y), 1.f / float(subdiv.x), 1.f / float(subdiv.y));
 				images.emplace_back();
-				this->render(rect, pattern, resX, resY, images.back());
+				this->render(rect, pattern, resolution, images.back());
 			}
 	}
 
@@ -250,11 +250,11 @@ namespace mud
 		, m_precision(precision)
 		, m_step(step)
 	{
-		if(sampling == PATTERN_X)
+		if(sampling == PatternSampling::X)
 			m_sampler = sampleX;
-		else if(sampling == PATTERN_XY)
+		else if(sampling == PatternSampling::XY)
 			m_sampler = sampleXY;
-		else if(sampling == PATTERN_DEPTH)
+		else if(sampling == PatternSampling::Depth)
 			m_sampler = sampleZ;
 	}
 
@@ -291,15 +291,14 @@ namespace mud
 		return sampleX(pattern, x, y, depth);
 	}
 
-	FractSample::FractSample(Fract& fract, const Rect& rect, uint16_t resolutionX, uint16_t resolutionY)
+	FractSample::FractSample(Fract& fract, const Rect& rect, uvec2 resolution)
 		: m_fract(fract)
 		, m_rect(rect)
-		, m_resolutionX(resolutionX)
-		, m_resolutionY(resolutionY)
+		, m_resolution(resolution)
 	{}
 
 	void FractSample::render(const Pattern& pattern, Image256& image)
 	{
-		m_fract.render(m_rect, pattern, m_resolutionX, m_resolutionY, image);
+		m_fract.render(m_rect, pattern, m_resolution, image);
 	}
 }

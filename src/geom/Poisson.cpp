@@ -73,7 +73,7 @@ namespace mud
 	size_t Poisson::gridIndex(const Point& point)
 	{
 		uvec3 index = uvec3(floor(point.position * m_invCellSize));
-		return m_grid.indexAt(index.x, index.y, 0);
+		return m_grid.index_at(index.x, index.y, 0);
 	}
 
 	bool Poisson::insertPoint(float radius)

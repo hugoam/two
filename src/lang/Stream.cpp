@@ -92,7 +92,7 @@ namespace mud
 
 	void StreamBranch::write(const Var& value, bool multiplex)
 	{
-		if(multiplex && !(value == Ref()) && is_sequence(value.type()))
+		if(multiplex && !(value == Ref()) && is_sequence(type(value)))
 		{
 			unique_ptr<Iterable> iterable = cls(value).m_iterable(value.m_ref);
 			this->resize(iterable->size());
@@ -118,7 +118,7 @@ namespace mud
 		bool result = convert(m_value, *expected_type, value, ref);
 #if 0
 		if(!result)
-			printf("WARNING: No conversion possible from %s to %s : dest set to None\n", source.type().m_name, output.m_name);
+			printf("WARNING: No conversion possible from %s to %s : dest set to None\n", type(source).m_name, output.m_name);
 #endif
 		return result;
 	}
@@ -130,7 +130,7 @@ namespace mud
 	Stream::Stream(Var value, bool nullable, bool reference)
 		: StreamBranch(this, value, { 0 })
 		, m_default(value)
-		, m_type(value == Ref() ? &type<Ref>() : &value.type())
+		, m_type(value == Ref() ? &type<Ref>() : &type(value))
 		, m_nullable(nullable)
 		, m_reference(reference)
 	{}
@@ -209,7 +209,14 @@ namespace mud
 
 	void Stream::graft(Stream& source)
 	{
-		UNUSED(source);
+		unique_ptr<Sequence> sequence = cls(source.m_value).m_sequence(source.m_value);
+		this->resize(sequence->size());
+
+		size_t index = 0;
+		sequence->iterate([&](Ref element)
+		{
+			m_branches[index++].m_value = element;
+		});
 	}
 
 	void Stream::read(Stream& source)

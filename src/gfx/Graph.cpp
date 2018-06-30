@@ -67,7 +67,7 @@ namespace mud
 	void PrefabNode::draw(Gnode& parent)
 	{
 		Gnode& self = gfx::node(parent, m_object);
-		Gnode& item = gfx::node(self, this, m_transform.m_position, m_transform.m_rotation, m_transform.m_scale);
+		Gnode& item = gfx::node(self, Ref(this), m_transform.m_position, m_transform.m_rotation, m_transform.m_scale);
 
 		if(m_call.m_callable)
 			m_call.m_arguments[0] = Ref(&item);
@@ -138,7 +138,7 @@ namespace gfx
 		}
 	}
 
-	Item& item(Gnode& parent, const Model& model, uint32_t flags, Material* material, size_t instances)
+	Item& item(Gnode& parent, const Model& model, uint32_t flags, Material* material, size_t instances, array<mat4> transforms)
 	{
 		Gnode& self = parent.sub();
 		if(!self.m_item)
@@ -150,8 +150,13 @@ namespace gfx
 		self.m_item->m_model = const_cast<Model*>(&model);
 		if(material)
 			self.m_item->m_material = material;
-		update_item_aabb(*self.m_item, instances);
-		update_item_lights(*self.m_item);
+		if(transforms.size() > 0)
+			transforms.copy(self.m_item->m_instances);
+		if((flags & ITEM_NO_UPDATE) == 0)
+		{
+			update_item_aabb(*self.m_item, instances);
+			update_item_lights(*self.m_item);
+		}
 		return *self.m_item;
 	}
 
@@ -223,10 +228,10 @@ namespace gfx
 		UNUSED(flags); UNUSED(instances);
 		Gnode& self = parent.sub();
 		if(!self.m_particles)
-			self.m_particles = &create<Particles>(*self.m_scene, *parent.m_scene->m_particle_system, *self.m_attach);
-		as<ParticleGenerator>(self.m_particles->m_emitter) = emitter;
-		self.m_particles->m_emitter.m_node = self.m_attach;
-		self.m_particles->m_emitter.m_sprite = &parent.m_scene->m_particle_system->m_block.m_sprites.find_sprite(emitter.m_sprite_name.c_str());
+			self.m_particles = &create<Particles>(*self.m_scene, self.m_attach, Sphere(1.f), 1024);
+		as<ParticleGenerator>(*self.m_particles) = emitter;
+		self.m_particles->m_node = self.m_attach;
+		self.m_particles->m_sprite = &parent.m_scene->m_particle_system->m_block.m_sprites.find_sprite(emitter.m_sprite_name.c_str());
 		return *self.m_particles;
 	}
 

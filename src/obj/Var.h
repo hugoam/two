@@ -79,7 +79,6 @@ namespace mud
 
 		bool operator==(const Var& other) const { return m_mode == other.m_mode && (m_mode == VAL ? m_val == other.m_val : m_ref == other.m_ref); }
 
-		inline Type& type() const { return *m_ref.m_type; }
 		inline bool null() const { return m_mode == VAL ? false : m_ref.m_value == nullptr; }
 		inline bool none() const { return m_mode == VAL ? m_val.m_type == &mud::type<None>() : false; }
 		inline void set(Ref value) { if(m_mode == VAL) m_val.set(value); else m_ref = value; }
@@ -88,4 +87,6 @@ namespace mud
 		inline operator const Ref&() const { return m_ref; }
 		inline operator Ref&() { return m_ref; }
 	};
+
+	export_ inline Type& type(const Var& var) { return *var.m_ref.m_type; }
 }

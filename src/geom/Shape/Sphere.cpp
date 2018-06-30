@@ -14,7 +14,7 @@ module mud.geom;
 #endif
 
 #define ICO_SPHERE_LOD 2
-//#define MUD_SPHERE_ICOSPHERE
+#define MUD_SPHERE_ICOSPHERE
 
 namespace mud
 {
@@ -56,7 +56,7 @@ namespace mud
 				.colour(shape.m_symbol.m_fill);
 
 		for(IcoSphere::Face& face : icosphere.m_faces)
-			data.tri(ShapeIndex(face[0]), ShapeIndex(face[1]), ShapeIndex(face[2]));
+			data.tri(face[0], face[1], face[2]);
 	}
 
 	uint16_t sphere_rings(uint lod) { return uint16_t(6 + 6 * lod); }
@@ -136,7 +136,7 @@ namespace mud
 #ifdef MUD_SPHERE_ICOSPHERE
 		return size_icosphere_lines(shape, sphere);
 #else
-		return size_icosphere_lines(shape, sphere);
+		return size_sphere_lines(shape, sphere);
 #endif
 	}
 
@@ -145,7 +145,7 @@ namespace mud
 #ifdef MUD_SPHERE_ICOSPHERE
 		return draw_icosphere_lines(shape, sphere, data);
 #else
-		return draw_icosphere_lines(shape, sphere, data);
+		return draw_sphere_lines(shape, sphere, data);
 #endif
 	}
 

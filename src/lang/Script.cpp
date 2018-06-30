@@ -17,7 +17,7 @@ namespace mud
 {
 	Script::Script(cstring name, const Signature& signature)
 		: Callable(name, signature.m_params, signature.m_returnval)
-		, m_index(index(type<Script>(), this))
+		, m_index(index(type<Script>(), Ref(this)))
 		, m_name(name)
 		, m_signature(signature)
 	{}

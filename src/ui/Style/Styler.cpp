@@ -125,16 +125,16 @@ namespace mud
 		//if(style.m_base)
 		//	this->load(*style.m_base, layout_defs, skin_defs);
 
-		layout_defs[style.name()].apply(&style.layout());
-		skin_defs[style.name()].apply(&style.skin());
+		layout_defs[style.name()].apply(Ref(&style.layout()));
+		skin_defs[style.name()].apply(Ref(&style.skin()));
 
 		for(auto& kv : skin_defs)
 			if(kv.first.find(string(style.name()) + ":") == 0)
 			{
 				WidgetState states = flags_from_string<WidgetState>(split_string(kv.first, ":")[1]);
 				InkStyle& skin = style.decline_skin(states);
-				skin_defs[style.name()].apply(&skin);
-				skin_defs[kv.first].apply(&skin);
+				skin_defs[style.name()].apply(Ref(&skin));
+				skin_defs[kv.first].apply(Ref(&skin));
 			}
 	}
 
@@ -143,6 +143,8 @@ namespace mud
 		, wedge("Wedge", widget, [](Layout& l) { l.m_solver = ROW_SOLVER; l.m_space = SHEET; })
 		, root_sheet("RootSheet", wedge, [](Layout& l) { l.m_space = LAYOUT; l.m_clipping = CLIP; l.m_opacity = OPAQUE; })
 
+		, unit("Unit", wedge, [](Layout& l) { l.m_space = UNIT; l.m_align = { LEFT, CENTER }; },
+							  [](InkStyle& o) { o.m_empty = false; o.m_text_colour = Colour::White; o.m_padding = vec4(2.f); })
 		, item("Item", widget, [](Layout& l) { l.m_space = BLOCK; l.m_align = { LEFT, CENTER }; },
 							   [](InkStyle& o) { o.m_text_colour = Colour::White; o.m_padding = vec4(2.f); })
 		, control("Control", item, [](Layout& l) { l.m_opacity = OPAQUE; })
@@ -167,7 +169,7 @@ namespace mud
 		, overlay("Overlay", wedge, [](Layout& l) { l.m_flow = FREE; l.m_opacity = OPAQUE; })
 		, gridsheet("GridSheet", wedge, [](Layout& l) { l.m_opacity = OPAQUE; l.m_spacing = vec2(5.f); })
 
-		, sequence("Sequence", wedge, [](Layout& l) { l.m_space = LAYOUT; })
+		, sequence("Sequence", wedge, [](Layout& l) { l.m_space = SHEET; })
 		, element("Element", wedge, [](Layout& l) { l.m_space = STACK; l.m_opacity = OPAQUE; })
 
 		, label("Label", item, [](Layout& l) { l.m_align = { LEFT, CENTER }; })
@@ -193,7 +195,8 @@ namespace mud
 											  [](InkStyle& l) { l.m_text_font = "consolas"; l.m_text_break = true; })
 		, caret("Caret", item, {}, [](InkStyle& l) { l.m_background_colour = Colour::White; })
 
-		, figure("Figure", item, {}, [](InkStyle& l) { l.m_empty = false; })
+		, image("Figure", item, {}, [](InkStyle& l) { l.m_empty = false; })
+		, image_stretch("ImageStretch", unit, {}, [](InkStyle& l) { l.m_empty = false; l.m_stretch = { true, true }; })
 
 		, radio_switch("RadioSwitch", wrap_control, {})
 		, radio_switch_h("RadioSwitchH", radio_switch, [](Layout& l) { l.m_space = STACK; })
@@ -240,23 +243,23 @@ namespace mud
 	{
 		styles().scroll_plan.skin().m_custom_draw = &ui::draw_grid;
 
-		ui::cursor_styles().cursor.skin().m_image = &ui_window.find_image("mousepointer");
+		ui::cursor_styles().cursor.skin().m_image = ui_window.find_image("mousepointer");
 
-		ui::cursor_styles().resize_x.skin().m_image = &ui_window.find_image("resize_h_20");
-		ui::cursor_styles().resize_y.skin().m_image = &ui_window.find_image("resize_v_20");
-		ui::cursor_styles().move.skin().m_image = &ui_window.find_image("move_20");
-		ui::cursor_styles().resize_diag_left.skin().m_image = &ui_window.find_image("resize_diag_left_20");
-		ui::cursor_styles().resize_diag_right.skin().m_image = &ui_window.find_image("resize_diag_right_20");
-		ui::cursor_styles().caret.skin().m_image = &ui_window.find_image("caret_white");
+		ui::cursor_styles().resize_x.skin().m_image = ui_window.find_image("resize_h_20");
+		ui::cursor_styles().resize_y.skin().m_image = ui_window.find_image("resize_v_20");
+		ui::cursor_styles().move.skin().m_image = ui_window.find_image("move_20");
+		ui::cursor_styles().resize_diag_left.skin().m_image = ui_window.find_image("resize_diag_left_20");
+		ui::cursor_styles().resize_diag_right.skin().m_image = ui_window.find_image("resize_diag_right_20");
+		ui::cursor_styles().caret.skin().m_image = ui_window.find_image("caret_white");
 
-		ui::scrollbar_styles().scroll_up.skin().m_image = &ui_window.find_image("arrow_up_15");
-		ui::scrollbar_styles().scroll_down.skin().m_image = &ui_window.find_image("arrow_down_15");
-		ui::scrollbar_styles().scroll_left.skin().m_image = &ui_window.find_image("arrow_left_15");
-		ui::scrollbar_styles().scroll_right.skin().m_image = &ui_window.find_image("arrow_right_15");
+		ui::scrollbar_styles().scroll_up.skin().m_image = ui_window.find_image("arrow_up_15");
+		ui::scrollbar_styles().scroll_down.skin().m_image = ui_window.find_image("arrow_down_15");
+		ui::scrollbar_styles().scroll_left.skin().m_image = ui_window.find_image("arrow_left_15");
+		ui::scrollbar_styles().scroll_right.skin().m_image = ui_window.find_image("arrow_right_15");
 
-		ui::window_styles().close_button.skin().m_image = &ui_window.find_image("close_15");
-		ui::toolbar_styles().mover.skin().m_image = &ui_window.find_image("handle");
+		ui::window_styles().close_button.skin().m_image = ui_window.find_image("close_15");
+		ui::toolbar_styles().mover.skin().m_image = ui_window.find_image("handle");
 
-		ui::treenode_styles().no_toggle.skin().m_image = &ui_window.find_image("empty_15");
+		ui::treenode_styles().no_toggle.skin().m_image = ui_window.find_image("empty_15");
 	}
 }

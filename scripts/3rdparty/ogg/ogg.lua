@@ -1,7 +1,7 @@
 -- mud library
 -- ogg library
 
-project "ogg"
+ogg = mud_dep(nil, "ogg")
 	kind "StaticLib"
     
 	includedirs {

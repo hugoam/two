@@ -40,10 +40,10 @@ namespace mud
 		bgfx::setTransform(value_ptr(transform));
 
 		if(!m_instances.empty())
-			submit_instances();
+			submit_instances(item);
 	}
 
-	void Item::submit_instances()
+	void Item::submit_instances(const ModelItem& item)
 	{
 		const uint16_t stride = sizeof(mat4);
 		bgfx::allocInstanceDataBuffer(&m_instance_buffer, m_instances.size(), stride);
@@ -52,7 +52,7 @@ namespace mud
 		for(uint32_t i = 0; i < m_instance_buffer.num; ++i)
 		{
 			mat4* mat = (mat4*)data;
-			*mat = m_instances[i];
+			*mat = m_instances[i] * item.m_transform;
 			data += stride;
 		}
 

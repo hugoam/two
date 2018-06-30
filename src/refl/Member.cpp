@@ -20,7 +20,7 @@ namespace mud
 		, m_value(value)
 	{}
 
-	Member::Member(Type& object_type, Address address, Type& type, cstring name, Var default_value, Flags flags)
+	Member::Member(Type& object_type, Address address, Type& type, cstring name, Var default_value, Flags flags, MemberGet get)
 		: m_index(0)
 		, m_object_type(&object_type)
 		, m_address(address)
@@ -28,6 +28,7 @@ namespace mud
 		, m_name(name)
 		, m_default_value(default_value)
 		, m_flags(flags)
+		, m_get(get)
 	{
 		m_offset = *reinterpret_cast<size_t*>(m_address.value);
 	}

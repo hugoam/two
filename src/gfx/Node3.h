@@ -56,7 +56,7 @@ namespace mud
 		attr_ mut_ bool m_visible = true;
 
 		Ref m_object;
-		size_t m_lastUpdated = 0;
+		size_t m_last_updated = 0;
 
 		mat4 transformTRS() { return bxTRS(m_scale, m_rotation, m_position); }
 		mat4 transformSRT() { return bxSRT(m_scale, m_rotation, m_position); }

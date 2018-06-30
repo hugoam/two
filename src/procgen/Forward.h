@@ -38,10 +38,12 @@ namespace glm {
     
 }
 
-namespace bgfx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace json11 {
@@ -52,7 +54,7 @@ namespace json11 {
 
 namespace mud {
 
-    enum PatternSampling : unsigned int;
+    enum class PatternSampling : unsigned int;
     enum Result : unsigned int;
     
     
@@ -83,12 +85,10 @@ namespace detail {
 }
 }
 
-namespace mud {
-namespace gfx {
+namespace bgfx {
 
     
     
-}
 }
 
 namespace bimg {

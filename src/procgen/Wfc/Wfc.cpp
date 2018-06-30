@@ -117,11 +117,11 @@ namespace mud
 	Result Wave::observe()
 	{
 		uvec3 coord;
-		const auto result = find_lowest_entropy(coord);
-		if(result == Result::kSuccess)
+		m_state = find_lowest_entropy(coord);
+		if(m_state == Result::kSuccess)
 			m_solved = true;
-		if(result != Result::kUnfinished)
-			return result;
+		if(m_state != Result::kUnfinished)
+			return m_state;
 
 		std::vector<double> distribution(m_states.size());
 		for(uint16_t t = 0; t < m_states.size(); ++t)
@@ -137,29 +137,22 @@ namespace mud
 		return Result::kUnfinished;
 	}
 
-	void Wave::propagate()
+	void Wave::propagate(size_t limit)
 	{
-		m_propagate(*this);
+		for(size_t i = 0; (limit && i < limit) || (!limit && m_changes.size() > 0); ++i)
+			m_propagate(*this);
+
+		if(m_changes.size() == 0)
+			m_stabilized = true;
 	}
 
-	void Wave::add_foundation(uint16_t tile)
+	void Wave::set_tile(const uvec3& coord, uint16_t tile)
 	{
-		for(uint16_t x = 0; x < m_wave.m_x; ++x)
-		{
-			for(uint16_t t = 0; t < m_states.size(); ++t)
-				if(t != tile)
-					m_wave.at(x, m_wave.m_y - 1)[t] = false;
+		for(uint16_t t = 0; t < m_states.size(); ++t)
+			if(t != tile)
+				m_wave.at(coord.x, coord.y, coord.z)[t] = false;
 
-			m_changes.push_back({ x, uint(m_wave.m_y) - 1, 0 });
-
-			for(uint16_t y = 0; y < m_wave.m_y - 1; ++y)
-			{
-				m_wave.at(x, y)[tile] = false;
-				m_changes.push_back({ x, y, 0 });
-			}
-
-			this->propagate();
-		}
+		m_changes.push_back({ coord.x, coord.y, coord.z });
 	}
 
 	Result Wave::solve(size_t limit)

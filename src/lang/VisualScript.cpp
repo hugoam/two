@@ -15,7 +15,7 @@ module mud.lang;
 #include <lang/VisualScript.h>
 #endif
 
-//#define MUD_DEBUG_SCRIPT
+#define MUD_DEBUG_SCRIPT
 
 namespace mud
 {
@@ -85,7 +85,7 @@ namespace mud
 			else
 			{
 				info += "(" + string(meta(branch.m_value).m_name) + ") ";
-				if(g_convert[branch.m_value.type().m_id])
+				if(g_convert[type(branch.m_value).m_id])
 					info += to_string(branch.m_value);
 				info += "\n";
 			}
@@ -153,8 +153,8 @@ namespace mud
 		{
 			for(size_t d = 0; d < branch.m_depth; ++d)
 				printf("    ");
-			printf("Branch %s value %s\n", to_string(branch.m_index).c_str(), convert(branch.m_value.type()).m_to_string ? to_string(branch.m_value).c_str()
-																														 : to_name(branch.m_value.type(), branch.m_value.m_ref).c_str());
+			printf("Branch %s value %s\n", to_string(branch.m_index).c_str(), convert(type(branch.m_value)).m_to_string ? to_string(branch.m_value).c_str()
+																														: to_name(type(branch.m_value), branch.m_value.m_ref).c_str());
 		});
 	}
 
@@ -302,14 +302,16 @@ namespace mud
 		return *this;
 	}
 
-	Valve* Process::pipe(std::vector<Valve*> outputParams, std::vector<StreamModifier> modifiers)
+	Valve* Process::pipe(std::vector<Valve*> outputParams, Process* flow, std::vector<StreamModifier> modifiers)
 	{
-		this->plug(outputParams, modifiers);
+		this->plug(outputParams, flow, modifiers);
 		return m_outputs.size() > 0 ? &this->output() : nullptr;
 	}
 
-	Process& Process::plug(std::vector<Valve*> outputParams, std::vector<StreamModifier> modifiers)
+	Process& Process::plug(std::vector<Valve*> outputParams, Process* flow, std::vector<StreamModifier> modifiers)
 	{
+		if(flow)
+			this->flow(flow->out_flow());
 		size_t num_inputs = std::min(m_inputs.size(), outputParams.size());
 		for(size_t i = 0; i < num_inputs; ++i)
 			m_script.connect(*outputParams[i], *m_inputs.at(i), modifiers.size() > i ? modifiers[i] : SM_NONE);

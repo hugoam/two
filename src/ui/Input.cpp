@@ -178,7 +178,7 @@ namespace ui
 
 	bool color_popup(Widget& parent, Colour& value, bool& open)
 	{
-		Widget& self = popup(parent, styles().color_popup, PopupFlags::Modal);
+		Widget& self = popup(parent, styles().color_popup, PopupFlags(size_t(PopupFlags::Clamp) | size_t(PopupFlags::Modal)));
 		open &= self.m_open;
 		return color_edit(self, value);
 	}

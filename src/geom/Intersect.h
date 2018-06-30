@@ -12,6 +12,8 @@
 
 namespace mud
 {
+	export_ MUD_GEOM_EXPORT vec3 circumcenter(const vec3& a, const vec3& b, const vec3& c, float* xi = nullptr, float* eta = nullptr);
+
 	export_ MUD_GEOM_EXPORT bool segment_triangle_intersection(const vec3& sp, const vec3& sq, const vec3& a, const vec3& b, const vec3& c, float& t);
 	export_ MUD_GEOM_EXPORT bool segment_aabb_intersection(const vec3& sp, const vec3& sq, const vec3& amin, const vec3& amax, float& tmin, float& tmax);
 	export_ MUD_GEOM_EXPORT bool segment_aabb_intersection_2d(const vec2& p, const vec2& q, const vec2& bmin, const vec2& bmax);

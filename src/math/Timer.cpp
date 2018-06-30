@@ -16,7 +16,7 @@ namespace mud
 
     Clock::Clock()
         : m_last(clock())
-		, m_lastTick(0)
+		, m_last_tick(0)
     {}
 
     void Clock::update()
@@ -32,9 +32,9 @@ namespace mud
 	size_t Clock::stepTick()
 	{
 		size_t tick = this->readTick();
-		size_t delta = tick - m_lastTick;
+		size_t delta = tick - m_last_tick;
 
-		m_lastTick = tick;
+		m_last_tick = tick;
 		return delta;
 	}
 

@@ -81,7 +81,7 @@ namespace mud
 	{
 		UNUSED(shape); UNUSED(box);
 #if CUBE_NORMALS
-		return{ 24, 36 };
+		return { 24, 36 };
 #else
 		return { 16, 36 };
 #endif

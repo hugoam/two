@@ -130,8 +130,8 @@ namespace mud
 		Valve& find_master_input();
 
 		Process& flow(Valve& valve);
-		Valve* pipe(std::vector<Valve*> params = {}, std::vector<StreamModifier> modifiers = {});
-		Process& plug(std::vector<Valve*> params = {}, std::vector<StreamModifier> modifiers = {});
+		Valve* pipe(std::vector<Valve*> params = {}, Process* flow = nullptr, std::vector<StreamModifier> modifiers = {});
+		Process& plug(std::vector<Valve*> params = {}, Process* flow = nullptr, std::vector<StreamModifier> modifiers = {});
 		Process& combine_flow(size_t masterInput, size_t secondaryInput);
 
 		void connected(Process& output);
@@ -182,19 +182,19 @@ namespace mud
 		Valve& reference(T&& value);
 		
 		template <class T>
-		Valve* function(T func, std::vector<Valve*> params = {}, std::vector<StreamModifier> modifiers = {});
+		Valve* function(T func, std::vector<Valve*> params = {}, Process* flow = nullptr, std::vector<StreamModifier> modifiers = {});
 
 		template <class T>
-		Valve& create(std::vector<Valve*> params = {}, std::vector<StreamModifier> modifiers = {});
+		Valve& create(std::vector<Valve*> params = {}, Process* flow = nullptr, std::vector<StreamModifier> modifiers = {});
 
 		template <class T_Member>
-		Valve& get(T_Member mem, std::vector<Valve*> params = {}, std::vector<StreamModifier> modifiers = {});
+		Valve& get(T_Member mem, std::vector<Valve*> params = {}, Process* flow = nullptr, std::vector<StreamModifier> modifiers = {});
 		
 		template <class T_Member>
-		void set(T_Member mem, std::vector<Valve*> params = {}, std::vector<StreamModifier> modifiers = {});
+		void set(T_Member mem, std::vector<Valve*> params = {}, Process* flow = nullptr, std::vector<StreamModifier> modifiers = {});
 		
 		template <class T_Method>
-		Valve* method(T_Method meth, std::vector<Valve*> params = {}, std::vector<StreamModifier> modifiers = {});
+		Valve* method(T_Method meth, std::vector<Valve*> params = {}, Process* flow = nullptr, std::vector<StreamModifier> modifiers = {});
 	};
 
 	export_ class refl_ MUD_LANG_EXPORT ProcessInput : public Process, public Param

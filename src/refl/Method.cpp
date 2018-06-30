@@ -57,7 +57,7 @@ namespace mud
 		bool valid = true;
 		for(size_t i = 0; i < m_params.size(); ++i)
 		{
-			valid &= m_params[i].m_value.type().is(args[i].type());
+			valid &= type(m_params[i].m_value).is(type(args[i]));
 			valid &= m_params[i].nullable() || !args[i].null();
 		}
 		return valid;

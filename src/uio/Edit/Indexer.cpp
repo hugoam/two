@@ -68,29 +68,26 @@ namespace mud
 	bool object_selector(Widget& parent, Ref& result)
 	{
 		Widget& self = ui::sheet(parent);
-		return object_selector(self, indexer(result.type()), result);
+		return object_selector(self, indexer(type(result)), result);
 	}
-
-	enum ObjectPickerModes
-	{
-		PICK_OBJECT = 1 << 0
-	};
 
 	bool object_selector_modal(Widget& screen, Widget& parent, Ref& result)
 	{
+		enum Modes { PICK = 1 << 0 };
+
 		bool changed = false;
-		if(ui::modal_button(screen, parent, ".", PICK_OBJECT))
+		if(ui::modal_button(screen, parent, ".", PICK))
 		{
-			Widget& window = ui::window(parent.root(), ("Select " + string(result.type().m_name)).c_str());
+			Widget& window = ui::window(parent.root(), ("Select " + string(type(result).m_name)).c_str());
 			if(window.m_body)
 			{
 				Widget& self = *ui::scroll_sheet(*window.m_body).m_body;
-				changed = object_selector(self, indexer(result.type()), result);
+				changed = object_selector(self, indexer(type(result)), result);
 				if(ui::button(self, "Done").activated())
-					screen.m_switch &= ~PICK_OBJECT;
+					screen.m_switch &= ~PICK;
 			}
 			else
-				screen.m_switch &= ~PICK_OBJECT;
+				screen.m_switch &= ~PICK;
 		}
 		return changed;
 	}

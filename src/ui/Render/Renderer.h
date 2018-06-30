@@ -122,7 +122,7 @@ namespace mud
 		void draw_frame(const Frame& frame, const vec4& rect);
 
 		vec4 select_corners(const Frame& frame);
-		float content_pos(const Frame& frame, const vec4& padded_rect, Dim dim);
+		float content_pos(const Frame& frame, const vec2& content, const vec4& padded_rect, Dim dim);
 		void draw_content(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
 		void draw_background(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
 		void draw_rect(const vec4& rect, const vec4& corners, const InkStyle& inkstyle);

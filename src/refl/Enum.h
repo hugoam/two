@@ -6,6 +6,7 @@
 
 #include <refl/Forward.h>
 #include <refl/Meta.h>
+#include <refl/Convert.h>
 #include <infra/String.h>
 #include <infra/StringConvert.h>
 

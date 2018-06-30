@@ -185,7 +185,7 @@ namespace mud
 	//static uint16_t s_material_index = 0;
 
 	Material::Material(cstring name)
-		: m_index(index(type<Material>(), this))//++s_material_index)
+		: m_index(index(type<Material>(), Ref(this)))//++s_material_index)
 		, m_name(name)
 	{}
 
@@ -196,7 +196,7 @@ namespace mud
 		ShaderVersion version = { m_program };
 		if(m_pbr_block.m_enabled && m_pbr_block.m_normal.m_texture)
 			version.set_option(pbr.m_index, NORMAL_MAP);
-		if(m_pbr_block.m_enabled && m_pbr_block.m_emissive.m_texture)
+		if(m_pbr_block.m_enabled && (m_pbr_block.m_emissive.m_value.m_a > 0.f || m_pbr_block.m_emissive.m_texture))
 			version.set_option(pbr.m_index, EMISSIVE);
 		if(m_pbr_block.m_enabled && m_pbr_block.m_ambient_occlusion.m_texture)
 			version.set_option(pbr.m_index, AMBIENT_OCCLUSION);

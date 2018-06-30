@@ -23,10 +23,10 @@ namespace mud
 	export_ MUD_REFL_EXPORT string to_name(Type& type, Ref value);
 
 	export_ template <>
-	inline void to_string<Ref>(const Ref& object, string& str) { convert(object.type()).m_to_string(object, str); }
+	inline void to_string<Ref>(const Ref& object, string& str) { convert(*object.m_type).m_to_string(object, str); }
 
 	export_ template <>
-	inline void to_string<Var>(const Var& value, string& str) { convert(value.type()).m_to_string(value, str); }
+	inline void to_string<Var>(const Var& value, string& str) { convert(type(value)).m_to_string(value, str); }
 
 	export_ template <class T_Source, class T_Dest>
 	void convert(T_Source& from, T_Dest& to)
@@ -45,6 +45,7 @@ namespace mud
 	public:
 		TypeConverter();
 
+		bool check(Type& input, Type& output);
 		bool check(Ref input, Type& output);
 		Var convert(Ref input, Type& output);
 		void convert(Ref input, Type& output, Var& result);

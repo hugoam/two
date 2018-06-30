@@ -54,6 +54,8 @@ namespace mud
 		virtual void init_input(Mouse& mouse, Keyboard& keyboard) = 0;
 
 		virtual bool next_frame() = 0;
+
+		virtual void lock_mouse(bool locked) = 0;
 	};
 
 }

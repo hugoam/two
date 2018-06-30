@@ -40,15 +40,25 @@ namespace mud
 
 		Material& m_material;
 
-		std::vector<Vertex> m_vertices[2];
-		std::vector<ShapeIndex> m_indices[2];
+		struct Batch
+		{
+			//DrawMode m_draw_mode;
+			std::vector<Vertex> m_vertices;
+			std::vector<uint16_t> m_indices;
+		};
+
+		std::vector<Batch> m_batches[2];
+		size_t m_cursor[2];
 
 		void draw(const mat4& transform, const ProcShape& shapes);
 		void draw(const mat4& transform, array<ProcShape> shapes);
 		void draw(const mat4& transform, array<ProcShape> shapes, ShapeSize size, DrawMode draw_mode);
 
+		void draw(Batch& batch, const mat4& transform, array<ProcShape> shapes, ShapeSize size, DrawMode draw_mode);
+
 		void submit(uint8_t view, uint64_t bgfx_state);
 		void submit(uint8_t view, uint64_t bgfx_state, DrawMode draw_mode);
+		void submit(uint8_t view, uint64_t bgfx_state, DrawMode draw_mode, Batch& batch);
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT SymbolIndex : public NonCopy, public Global<SymbolIndex>
@@ -57,8 +67,8 @@ namespace mud
 		SymbolIndex();
 		~SymbolIndex();
 
-		Model& symbolModel(const Symbol& symbol, const Shape& shape, DrawMode draw_mode);
-		Material& symbolMaterial(GfxSystem& gfx_system, const Symbol& symbol, DrawMode draw_mode);
+		Model& symbol_model(const Symbol& symbol, const Shape& shape, DrawMode draw_mode);
+		Material& symbol_material(GfxSystem& gfx_system, const Symbol& symbol, DrawMode draw_mode);
 
 	protected:
 		std::map<uint64_t, Material*> m_materials;

@@ -16,7 +16,7 @@
 #include <meta/ui/Module.h>
 #include <meta/uio/Module.h>
 #include <meta/gfx/Module.h>
-#include <meta/edit/Module.h>
+#include <meta/gfx-ui/Module.h>
 #endif
         
 #include <procgen-gfx/Forward.h>

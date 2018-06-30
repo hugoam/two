@@ -146,6 +146,19 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
+	export_ struct refl_ MUD_GEOM_EXPORT ArcLine final : public Shape
+	{
+	public:
+		constr_ ArcLine();
+		constr_ ArcLine(const vec3& start, const vec3& middle, const vec3& end);
+
+		attr_ mut_ vec3 m_start = Zero3;
+		attr_ mut_ vec3 m_middle;
+		attr_ mut_ vec3 m_end;
+
+		virtual object_ptr<Shape> clone() const;
+	};
+
 	export_ struct refl_ MUD_GEOM_EXPORT Cylinder final : public Shape
 	{
 	public:

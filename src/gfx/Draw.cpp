@@ -47,8 +47,12 @@ namespace mud
 
 	ImmediateDraw::ImmediateDraw(Material& material)
 		: m_material(material)
+		, m_cursor{ 0, 0 }
 	{
 		m_material.m_unshaded_block.m_enabled = true;
+
+		m_batches[PLAIN].resize(64);
+		m_batches[OUTLINE].resize(64);
 
 		ms_vertex_decl = vertex_decl(VertexAttribute::Position | VertexAttribute::Colour);
 	}
@@ -79,14 +83,27 @@ namespace mud
 
 	void ImmediateDraw::draw(const mat4& transform, array<ProcShape> shapes, ShapeSize size, DrawMode draw_mode)
 	{
-		size_t num_vertices = m_vertices[draw_mode].size();
-		size_t num_indices = m_indices[draw_mode].size();
+		size_t& cursor = m_cursor[draw_mode];
+		if(m_batches[draw_mode][cursor].m_vertices.size() + size.vertex_count > UINT16_MAX)
+			cursor++;
+		if(cursor > m_batches[draw_mode].size())
+			return;
+		this->draw(m_batches[draw_mode][cursor], transform, shapes, size, draw_mode);
+	}
 
-		m_vertices[draw_mode].resize(m_vertices[draw_mode].size() + size.vertex_count);
-		m_indices[draw_mode].resize(m_indices[draw_mode].size() + size.index_count);
+	void ImmediateDraw::draw(Batch& batch, const mat4& transform, array<ProcShape> shapes, ShapeSize size, DrawMode draw_mode)
+	{
+		size_t vertex_offset = batch.m_vertices.size();
+		size_t index_offset = batch.m_indices.size();
 
-		MeshData data(m_vertices[draw_mode].data() + num_vertices, m_indices[draw_mode].data() + num_indices);
-		data.m_offset = ShapeIndex(num_vertices);
+		batch.m_vertices.resize(batch.m_vertices.size() + size.vertex_count);
+		batch.m_indices.resize(batch.m_indices.size() + size.index_count);
+
+		array<Vertex> vertices = { &batch.m_vertices[vertex_offset], size_t(size.vertex_count) };
+		array<uint16_t> indices = { &batch.m_indices[index_offset], size_t(size.index_count) };
+
+		MeshData data(vertices, indices);
+		data.m_offset = uint32_t(vertex_offset);
 
 		for(const ProcShape& shape : shapes)
 		{
@@ -95,9 +112,9 @@ namespace mud
 			data.next();
 		}
 
-		for(size_t i = num_vertices; i < m_vertices[draw_mode].size(); ++i)
+		for(size_t i = vertex_offset; i < batch.m_vertices.size(); ++i)
 		{
-			m_vertices[draw_mode][i].m_position = vec3(transform * vec4(m_vertices[draw_mode][i].m_position, 1.f));
+			batch.m_vertices[i].m_position = vec3(transform * vec4(batch.m_vertices[i].m_position, 1.f));
 		}
 	}
 
@@ -109,23 +126,30 @@ namespace mud
 
 	void ImmediateDraw::submit(uint8_t view, uint64_t bgfx_state, DrawMode draw_mode)
 	{
-		if(m_vertices[draw_mode].empty())
+		for(Batch& batch : m_batches[draw_mode])
+			this->submit(view, bgfx_state, draw_mode, batch);
+		m_cursor[draw_mode] = 0;
+	}
+
+	void ImmediateDraw::submit(uint8_t view, uint64_t bgfx_state, DrawMode draw_mode, Batch& batch)
+	{
+		if(batch.m_vertices.empty())
 			return;
 
-		if(!checkAvailTransientBuffers(m_vertices[draw_mode].size(), ms_vertex_decl, m_indices[draw_mode].size()))
+		if(!checkAvailTransientBuffers(batch.m_vertices.size(), ms_vertex_decl, batch.m_indices.size()))
 		{
-			m_vertices[draw_mode].clear();
-			m_indices[draw_mode].clear();
+			batch.m_vertices.clear();
+			batch.m_indices.clear();
 			return;
 		}
 
 		bgfx::TransientVertexBuffer vertex_buffer;
-		bgfx::allocTransientVertexBuffer(&vertex_buffer, m_vertices[draw_mode].size(), ms_vertex_decl);
-		bx::memCopy(vertex_buffer.data, m_vertices[draw_mode].data(), m_vertices[draw_mode].size() * sizeof(Vertex));//ms_vertex_decl.m_stride);
+		bgfx::allocTransientVertexBuffer(&vertex_buffer, batch.m_vertices.size(), ms_vertex_decl);
+		bx::memCopy(vertex_buffer.data, batch.m_vertices.data(), batch.m_vertices.size() * sizeof(Vertex));//ms_vertex_decl.m_stride);
 
 		bgfx::TransientIndexBuffer index_buffer;
-		bgfx::allocTransientIndexBuffer(&index_buffer, m_indices[draw_mode].size());
-		bx::memCopy(index_buffer.data, m_indices[draw_mode].data(), m_indices[draw_mode].size() * sizeof(ShapeIndex));
+		bgfx::allocTransientIndexBuffer(&index_buffer, batch.m_indices.size());
+		bx::memCopy(index_buffer.data, batch.m_indices.data(), batch.m_indices.size() * sizeof(uint16_t));
 
 		m_material.submit(bgfx_state);
 
@@ -136,8 +160,8 @@ namespace mud
 		bgfx::setTransform(value_ptr(identity));
 		bgfx::submit(view, m_material.m_program->default_version());
 
-		m_vertices[draw_mode].clear();
-		m_indices[draw_mode].clear();
+		batch.m_vertices.clear();
+		batch.m_indices.clear();
 	}
 
 	bgfx::VertexDecl ImmediateDraw::ms_vertex_decl;
@@ -159,7 +183,7 @@ namespace mud
 								  : uint64_t(to_abgr(symbol.m_outline)) | uint64_t(symbol.m_overlay) << 32 | uint64_t(symbol.m_double_sided) << 33;
 	}
 
-	Material& SymbolIndex::symbolMaterial(GfxSystem& gfx_system, const Symbol& symbol, DrawMode draw_mode)
+	Material& SymbolIndex::symbol_material(GfxSystem& gfx_system, const Symbol& symbol, DrawMode draw_mode)
 	{
 		Colour colour = draw_mode == PLAIN ? symbol.m_fill : symbol.m_outline;
 
@@ -175,7 +199,7 @@ namespace mud
 		return *m_materials[hash];
 	}
 
-	Model& SymbolIndex::symbolModel(const Symbol& symbol, const Shape& shape, DrawMode draw_mode)
+	Model& SymbolIndex::symbol_model(const Symbol& symbol, const Shape& shape, DrawMode draw_mode)
 	{
 		uint64_t hash = hash_symbol(symbol, draw_mode);
 		std::array<char, c_max_shape_size> shape_mem = {};
@@ -215,8 +239,6 @@ namespace mud
 
 		shapes_size(shapes, { size, 2 }, shape_count);
 
-		model.m_meshes.reserve(shape_count);
-
 		if(size[PLAIN].vertex_count)
 			draw_mesh(shapes, model, size[PLAIN], PLAIN, readback);
 		if(size[OUTLINE].vertex_count)
@@ -227,21 +249,26 @@ namespace mud
 
 	void draw_mesh(const std::vector<ProcShape>& shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback)
 	{
-		Mesh& mesh = model.add_mesh(model.m_name.c_str(), readback);
+		Mesh& mesh = model.add_mesh((model.m_name + to_string(draw_mode)).c_str(), readback);
 
-		GpuMesh gpu_mesh = mesh.allocate(draw_mode, size.vertex_count, size.index_count);
-		MeshData data(gpu_mesh.m_vertices.m_pointer, gpu_mesh.m_indices.m_pointer);
+		GpuMesh gpu_mesh = alloc_mesh<ShapeVertex, ShapeIndex>(size.vertex_count, size.index_count);
+		
+		MeshData data = gpu_mesh.m_data;
 
 		for(const ProcShape& shape : shapes)
-		{
-			draw_mode == OUTLINE ? symbol_draw_lines(shape, data)
-								 : symbol_draw_triangles(shape, data);
-			data.next();
-		}
+			if(shape.m_draw_mode == draw_mode)
+			{
+				draw_mode == OUTLINE ? symbol_draw_lines(shape, data)
+									 : symbol_draw_triangles(shape, data);
+				data.next();
+			}
 
-		generate_mikkt_tangents(gpu_mesh.m_indices, gpu_mesh.m_vertices);
+		//if(draw_mode == PLAIN)
+		//	generate_mikkt_tangents(gpu_mesh.indices<ShapeIndex>(), gpu_mesh.vertices<ShapeVertex>());
 
-		mesh.upload(gpu_mesh);
+		mesh.upload(draw_mode, gpu_mesh);
+		if(readback)
+			mesh.cache<ShapeVertex, ShapeIndex>(gpu_mesh);
 
 		model.m_items.emplace_back(ModelItem{ bxidentity(), &mesh, -1, Colour::White });
 	}

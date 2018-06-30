@@ -37,6 +37,14 @@ namespace mud
 	Colour Colour::Invisible(0.f, 0.f, 0.f, 0.0001f);
 	Colour Colour::None(0.f, 0.f, 0.f, 0.f);
 
+	Colour::Colour()
+		: m_r(1.f), m_g(1.f), m_b(1.f), m_a(1.f)
+	{}
+
+	Colour::Colour(float v, float a)
+		: m_r(v), m_g(v), m_b(v), m_a(a)
+	{}
+
 	Colour::Colour(float r, float g, float b, float a)
 		: m_r(r), m_g(g), m_b(b), m_a(a)
 	{}

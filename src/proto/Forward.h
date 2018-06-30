@@ -22,6 +22,5 @@ namespace mud {
     
     class Prototype;
     class Complex;
-    class Construct;
 }
 

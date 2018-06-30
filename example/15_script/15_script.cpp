@@ -6,7 +6,7 @@
 #include <meta/15_script/Module.h>
 
 GameObject::GameObject(const ShapeInstance* shape, Material* material, Colour colour)
-	: m_index(index(type<GameObject>(), this))
+	: m_index(index(type<GameObject>(), Ref(this)))
 	, m_shape(shape)
 	, m_colour(colour)
 	, m_material(material)

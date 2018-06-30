@@ -25,7 +25,7 @@ namespace mud
 {
 	string object_name(Ref object)
 	{
-		return object ? to_name(object.type(), object) : "null";
+		return object ? to_name(type(object), object) : "null";
 	}
 
 	string object_icon(Ref object)

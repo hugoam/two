@@ -41,10 +41,12 @@ namespace glm {
     
 }
 
-namespace bgfx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace json11 {
@@ -71,7 +73,7 @@ namespace mud {
     enum class PbrSpecularMode : unsigned int;
     enum PbrShaderOption : unsigned int;
     enum class ModelFormat : unsigned int;
-    enum class EmitterDirection : unsigned int;
+    enum class EmitterFlow : unsigned int;
     enum class PrefabType : unsigned int;
     enum IsometricAngle : unsigned int;
     enum ShaderOptionResolve : unsigned int;
@@ -133,9 +135,8 @@ namespace mud {
     struct ParticleSort;
     struct ParticleGenerator;
     struct ParticleVertex;
-    struct ParticleEmitter;
-    struct ParticleSystem;
-    class Particles;
+    struct Particles;
+    class ParticleSystem;
     class BlockParticles;
     class PassParticles;
     struct PrefabNode;
@@ -202,12 +203,10 @@ namespace detail {
 }
 }
 
-namespace mud {
-namespace gfx {
+namespace bgfx {
 
     
     
-}
 }
 
 namespace bimg {

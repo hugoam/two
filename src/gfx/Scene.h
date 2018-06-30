@@ -82,6 +82,7 @@ namespace mud
 		attr_ Gnode m_graph;
 		attr_ Node3 m_root_node;
 		attr_ mut_ Environment m_environment;
+		attr_ Ref m_user;
 
 		meth_ Gnode& begin();
 		void update();

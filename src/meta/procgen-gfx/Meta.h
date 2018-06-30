@@ -66,7 +66,7 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::Tileblock>(), [](Ref ref, array<Var> args) { new(&val<mud::Tileblock>(ref)) mud::Tileblock( val<mud::uvec3>(args[0]), val<mud::vec3>(args[1]), val<mud::WaveTileset>(args[2]), val<bool>(args[3]) ); }, { { "size", var(mud::uvec3()) }, { "period", var(mud::vec3()) }, { "tileset", var(mud::WaveTileset()) }, { "auto_solve", var(bool(false)), Param::Default } } }
+                { type<mud::Tileblock>(), [](Ref ref, array<Var> args) { new(&val<mud::Tileblock>(ref)) mud::Tileblock( val<mud::uvec3>(args[0]), val<mud::vec3>(args[1]), val<mud::WaveTileset>(args[2]), val<bool>(args[3]) ); }, { { "size", var(mud::uvec3()) }, { "scale", var(mud::vec3()) }, { "tileset", var(mud::WaveTileset()) }, { "auto_solve", var(bool(false)), Param::Default } } }
             },
             // copy constructor
             {
@@ -74,7 +74,7 @@ namespace mud
             // members
             {
                 { type<mud::Tileblock>(), member_address(&mud::Tileblock::m_size), type<mud::uvec3>(), "size", var(mud::uvec3()), Member::Value },
-                { type<mud::Tileblock>(), member_address(&mud::Tileblock::m_period), type<mud::vec3>(), "period", var(mud::vec3()), Member::Value },
+                { type<mud::Tileblock>(), member_address(&mud::Tileblock::m_scale), type<mud::vec3>(), "scale", var(mud::vec3()), Member::Value },
                 { type<mud::Tileblock>(), member_address(&mud::Tileblock::m_aabb), type<mud::Aabb>(), "aabb", var(mud::Aabb()), Member::Value }
             },
             // methods

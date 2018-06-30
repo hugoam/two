@@ -16,10 +16,10 @@ void velocity_controller(Widget& widget, vec3& speed, float velocity)
 	struct KeyMove { KeyCode key; vec3 dir; };
 	const KeyMove moves[8] =
 	{
-		{ KC_UP,   -Z3 },{ KC_W, -Z3 },
-		{ KC_DOWN,  Z3 },{ KC_S,  Z3 },
-		{ KC_LEFT, -X3 },{ KC_A, -X3 },
-		{ KC_RIGHT, X3 },{ KC_D,  X3 }
+		{ KC_UP,   -Z3 }, { KC_W, -Z3 },
+		{ KC_DOWN,  Z3 }, { KC_S,  Z3 },
+		{ KC_LEFT, -X3 }, { KC_A, -X3 },
+		{ KC_RIGHT, X3 }, { KC_D,  X3 }
 	};
 
 	for(const KeyMove& key_move : moves)

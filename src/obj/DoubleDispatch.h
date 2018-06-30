@@ -31,7 +31,7 @@ namespace mud
 
 		void dispatch(Ref first, Ref second)
 		{
-			return m_branches[first.m_type->m_id][second.type().m_id](first, second);
+			return m_branches[first.m_type->m_id][second.m_type->m_id](first, second);
 		}
 
 		bool check(Ref first, Ref second)

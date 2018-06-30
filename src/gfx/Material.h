@@ -8,6 +8,7 @@
 #include <infra/Strung.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
+#include <geom/Primitive.h>
 #endif
 #include <gfx/Forward.h>
 #include <gfx/Renderer.h>
@@ -68,6 +69,8 @@ namespace mud
 
 		attr_ mut_ bool m_is_alpha = false;
 		attr_ mut_ bool m_screen_filter = false;
+
+		uint m_geometry_filter = (1 << OUTLINE) | (1 << PLAIN);
 
 #if 0
 		BillboardMode m_billboard_mode;

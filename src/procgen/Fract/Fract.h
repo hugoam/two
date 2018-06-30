@@ -17,16 +17,16 @@
 
 namespace mud
 {
-	MUD_PROCGEN_EXPORT func_ void generate_fract(uint16_t pixelWidth, uint16_t pixelHeight, const Pattern& pattern, Image256& outputImage);
+	MUD_PROCGEN_EXPORT func_ void generate_fract(uvec2 resolution, const Pattern& pattern, Image256& output_image);
 
 	//typedef std::function<size_t(const Pattern&, float, float, float)> PatternSampler;
 	typedef size_t(*PatternSampler)(const Pattern&, float, float, float);
 
-	export_ enum refl_ PatternSampling : unsigned int
+	export_ enum class refl_ PatternSampling : unsigned int
 	{
-		PATTERN_X = 0,
-		PATTERN_XY = 1,
-		PATTERN_DEPTH = 2
+		X = 0,
+		XY = 1,
+		Depth = 2
 	};
 
 	size_t sampleX(const Pattern& pattern, float x, float y, float depth);
@@ -87,22 +87,22 @@ namespace mud
 	export_ class refl_ MUD_PROCGEN_EXPORT Fract
 	{
 	public:
-		constr_ Fract(size_t numTabs = 75);
+		constr_ Fract(size_t num_tabs = 75);
 
-		meth_ void generate(size_t numTabs = 75);
+		meth_ void generate(size_t num_tabs = 75);
 		meth_ void regen();
-		meth_ void render(const Rect& rect, const Pattern& pattern, uint16_t resX, uint16_t resY, Image256& outputImage);
-		meth_ void renderWhole(const Pattern& pattern, uint16_t resX, uint16_t resY, Image256& outputImage);
-		meth_ void renderGrid(size_t size, const Pattern& pattern, uint16_t resX, uint16_t resY, std::vector<Image256>& outputImages);
+		meth_ void render(const Rect& rect, const Pattern& pattern, uvec2 resolution, Image256& output_image);
+		meth_ void render_whole(const Pattern& pattern, uvec2 resolution, Image256& output_image);
+		meth_ void render_grid(uvec2 size, const Pattern& pattern, uvec2 resolution, std::vector<Image256>& output_images);
 
-		int inversePoint(float& x, float& y);		
+		int inverse_point(float& x, float& y);		
 
-		void notifyUpdate() { ++m_update; }
+		void notify_update() { ++m_update; }
 		size_t update() { return m_update; }
 
-		size_t inverseColour(int x, int y, const Rect& rect, const Pattern& pattern, Image256& outputImage);
+		size_t inverse_colour(int x, int y, const Rect& rect, const Pattern& pattern, Image256& outputImage);
 
-		attr_ size_t m_numTabs;
+		attr_ size_t m_num_tabs;
 		size_t m_update;
 		std::vector<FractTab> m_tabs;
 	};
@@ -110,12 +110,11 @@ namespace mud
 	export_ class refl_ MUD_PROCGEN_EXPORT FractSample
 	{
 	public:
-		constr_ FractSample(Fract& fract, const Rect& rect, uint16_t resolutionX, uint16_t resolutionY);
+		constr_ FractSample(Fract& fract, const Rect& rect, uvec2 resolution);
 
 		attr_ Fract& m_fract;
 		attr_ Rect m_rect;
-		attr_ uint16_t m_resolutionX;
-		attr_ uint16_t m_resolutionY;
+		attr_ uvec2 m_resolution;
 
 		meth_ void render(const Pattern& pattern, Image256& outputImage);
 	};

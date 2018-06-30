@@ -56,11 +56,11 @@ namespace mud
 			return;
 		}
 
-		if(m_updateTransform)
+		if(m_update_transform)
 		{
 			alSource3f(m_source, AL_POSITION, m_position.x, m_position.y, m_position.z);
 			alSource3f(m_source, AL_DIRECTION, m_direction.x, m_direction.y, m_direction.z);
-			m_updateTransform = false;
+			m_update_transform = false;
 		}
 
 		if(m_updateCursor)
@@ -172,13 +172,13 @@ namespace mud
 	void Sound::set_position(const vec3& pos)
 	{
 		m_position = pos;
-		m_updateTransform = true;
+		m_update_transform = true;
 	}
 
 	void Sound::setDirection(const vec3& dir)
 	{
 		m_direction = dir;
-		m_updateTransform = true;
+		m_update_transform = true;
 	}
 
 	void Sound::setVelocity(const vec3& vel)

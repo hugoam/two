@@ -23,10 +23,10 @@ namespace mud
 	export_ class refl_ MUD_PROCGEN_GFX_EXPORT Tileblock : public Updatable
 	{
 	public:
-		constr_ Tileblock(const uvec3& size, const vec3& period, WaveTileset& tileset, bool auto_solve = false);
+		constr_ Tileblock(const uvec3& size, const vec3& scale, WaveTileset& tileset, bool auto_solve = false);
 
 		attr_ uvec3 m_size;
-		attr_ vec3 m_period;
+		attr_ vec3 m_scale;
 		attr_ Aabb m_aabb;
 
 		WaveTileset& m_tileset;
@@ -34,6 +34,7 @@ namespace mud
 		TileWave m_wave;
 		size_t m_last_tick = 0;
 		size_t m_wave_updated = 0;
+		size_t m_wave_solved = 0;
 
 		array_3d<uint16_t> m_tiles;
 		array_3d<uint16_t> m_entropy;
@@ -59,11 +60,11 @@ namespace mud
 	MUD_PROCGEN_GFX_EXPORT void paint_tile_grid(Gnode& parent, Tileblock& tileblock);
 	MUD_PROCGEN_GFX_EXPORT Model& entropy_cube(Gnode& parent, Tileblock& tileblock, uint16_t x, uint16_t y, uint16_t z);
 
-	MUD_PROCGEN_GFX_EXPORT void paint_tiles(Gnode& parent, Tileblock& tileblock, const uvec3& focused = uvec3(UINT32_MAX));
+	MUD_PROCGEN_GFX_EXPORT void paint_tiles(Gnode& parent, Ref object, Tileblock& tileblock, const uvec3& focused = uvec3(UINT32_MAX));
 
 	MUD_PROCGEN_GFX_EXPORT void paint_tile_cube(Gnode& parent, Tileblock& tileblock, const uvec3& coord, const Colour& outline, const Colour& fill = Colour::None);
 	MUD_PROCGEN_GFX_EXPORT void paint_tile_cube(Gnode& parent, Tileblock& tileblock, const uvec3& coord);
-	MUD_PROCGEN_GFX_EXPORT void paint_tileblock(Gnode& parent, Tileblock& tileblock, const uvec3& focused = uvec3(UINT32_MAX));
+	MUD_PROCGEN_GFX_EXPORT void paint_tileblock(Gnode& parent, Ref object, Tileblock& tileblock, const uvec3& focused = uvec3(UINT32_MAX));
 
 	MUD_PROCGEN_GFX_EXPORT void tileset_view(Widget& parent, Tileblock& tileblock, Tileset& tileset);
 	MUD_PROCGEN_GFX_EXPORT void tile_states_view(Widget& parent, Tileblock& tileblock, uvec3& coord);

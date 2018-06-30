@@ -30,7 +30,7 @@ namespace mud
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Clockwise>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Side>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::SignedAxis>();
-    export_ template <> MUD_MATH_EXPORT Type& type<mud::SpectrumPalette>();
+    export_ template <> MUD_MATH_EXPORT Type& type<mud::Spectrum>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::TrackMode>();
     
     export_ template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<float>>();

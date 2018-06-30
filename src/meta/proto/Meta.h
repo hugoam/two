@@ -59,39 +59,6 @@ namespace mud
     
     
         
-    // mud::Construct
-    {
-        static Meta meta = { type<mud::Construct>(), &namspc({ "mud" }), "Construct", sizeof(mud::Construct), TypeClass::Object };
-        static Class cls = { type<mud::Construct>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-                { type<mud::Construct>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::None }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Construct>();
-    }
-    
-    
-        
     // mud::Prototype
     {
         static Meta meta = { type<mud::Prototype>(), &namspc({ "mud" }), "Prototype", sizeof(mud::Prototype), TypeClass::Object };
@@ -125,7 +92,6 @@ namespace mud
 
     
         m.m_types.push_back(&type<mud::Complex>());
-        m.m_types.push_back(&type<mud::Construct>());
         m.m_types.push_back(&type<mud::Prototype>());
     
     }

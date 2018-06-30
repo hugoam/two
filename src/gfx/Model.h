@@ -47,9 +47,10 @@ namespace mud
 		attr_ Mesh* m_mesh;
 		attr_ int m_skin;
 		attr_ Colour m_colour;
+		attr_ Material* m_material;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Model : public NonCopy
+	export_ class refl_ MUD_GFX_EXPORT Model
 	{
 	public:
 		Model(cstring id);
@@ -58,8 +59,8 @@ namespace mud
 		attr_ string m_name;
 		attr_ uint16_t m_index;
 
-		std::vector<Mesh> m_meshes;
-		object_ptr<Rig> m_rig;
+		std::vector<Mesh*> m_meshes;
+		Rig* m_rig = nullptr;
 
 		std::vector<ModelItem> m_items;
 		//std::vector<Material> m_materials;
@@ -70,6 +71,9 @@ namespace mud
 		attr_ vec3 m_origin = Zero3;
 
 		Mesh& add_mesh(cstring name, bool readback = false);
+		Rig& add_rig(cstring name);
 		void prepare();
+
+		static GfxSystem* ms_gfx_system;
 	};
 }

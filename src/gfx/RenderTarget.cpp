@@ -82,6 +82,7 @@ namespace mud
 
 	RenderTarget::RenderTarget(uvec2 size)
 		: FrameBuffer(size)
+		, m_msaa(MSAA::X16)
 	{
 		static const uint32_t msaa_value[] = { BGFX_TEXTURE_RT, BGFX_TEXTURE_RT_MSAA_X2, BGFX_TEXTURE_RT_MSAA_X4, BGFX_TEXTURE_RT_MSAA_X8, BGFX_TEXTURE_RT_MSAA_X16 };
 		uint32_t render_target_flags = msaa_value[size_t(m_msaa)];

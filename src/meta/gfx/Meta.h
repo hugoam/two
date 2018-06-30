@@ -24,7 +24,7 @@ namespace mud
             true,
             { "None", "Panorama", "Radiance", "Custom" },
             { 0, 1, 2, 3 },
-            { var(BackgroundMode::None), var(BackgroundMode::Panorama), var(BackgroundMode::Radiance), var(BackgroundMode::Custom) }
+            { var(mud::BackgroundMode::None), var(mud::BackgroundMode::Panorama), var(mud::BackgroundMode::Radiance), var(mud::BackgroundMode::Custom) }
         };
         meta_enum<mud::BackgroundMode>();
     }
@@ -35,7 +35,7 @@ namespace mud
             true,
             { "Mix", "Add", "Sub", "Mul", "Normal", "Alpha" },
             { 0, 1, 2, 3, 4, 5 },
-            { var(BlendMode::Mix), var(BlendMode::Add), var(BlendMode::Sub), var(BlendMode::Mul), var(BlendMode::Normal), var(BlendMode::Alpha) }
+            { var(mud::BlendMode::Mix), var(mud::BlendMode::Add), var(mud::BlendMode::Sub), var(mud::BlendMode::Mul), var(mud::BlendMode::Normal), var(mud::BlendMode::Alpha) }
         };
         meta_enum<mud::BlendMode>();
     }
@@ -46,7 +46,7 @@ namespace mud
             true,
             { "None", "Front", "Back" },
             { 0, 1, 2 },
-            { var(CullMode::None), var(CullMode::Front), var(CullMode::Back) }
+            { var(mud::CullMode::None), var(mud::CullMode::Front), var(mud::CullMode::Back) }
         };
         meta_enum<mud::CullMode>();
     }
@@ -57,7 +57,7 @@ namespace mud
             true,
             { "Enabled", "Disabled" },
             { 0, 1 },
-            { var(DepthDraw::Enabled), var(DepthDraw::Disabled) }
+            { var(mud::DepthDraw::Enabled), var(mud::DepthDraw::Disabled) }
         };
         meta_enum<mud::DepthDraw>();
     }
@@ -68,20 +68,20 @@ namespace mud
             true,
             { "Enabled", "Disabled" },
             { 0, 1 },
-            { var(DepthTest::Enabled), var(DepthTest::Disabled) }
+            { var(mud::DepthTest::Enabled), var(mud::DepthTest::Disabled) }
         };
         meta_enum<mud::DepthTest>();
     }
     
     {
-        static Meta meta = { type<mud::EmitterDirection>(), &namspc({ "mud" }), "EmitterDirection", sizeof(mud::EmitterDirection), TypeClass::Enum };
-        static Enum enu = { type<mud::EmitterDirection>(),
+        static Meta meta = { type<mud::EmitterFlow>(), &namspc({ "mud" }), "EmitterFlow", sizeof(mud::EmitterFlow), TypeClass::Enum };
+        static Enum enu = { type<mud::EmitterFlow>(),
             true,
             { "Outward", "Absolute" },
             { 0, 1 },
-            { var(EmitterDirection::Outward), var(EmitterDirection::Absolute) }
+            { var(mud::EmitterFlow::Outward), var(mud::EmitterFlow::Absolute) }
         };
-        meta_enum<mud::EmitterDirection>();
+        meta_enum<mud::EmitterFlow>();
     }
     
     {
@@ -90,7 +90,7 @@ namespace mud
             true,
             { "Nearest", "Linear", "Cubic" },
             { 0, 1, 2 },
-            { var(Interpolation::Nearest), var(Interpolation::Linear), var(Interpolation::Cubic) }
+            { var(mud::Interpolation::Nearest), var(mud::Interpolation::Linear), var(mud::Interpolation::Cubic) }
         };
         meta_enum<mud::Interpolation>();
     }
@@ -110,9 +110,9 @@ namespace mud
         static Meta meta = { type<mud::ItemFlag>(), &namspc({ "mud" }), "ItemFlag", sizeof(mud::ItemFlag), TypeClass::Enum };
         static Enum enu = { type<mud::ItemFlag>(),
             false,
-            { "ITEM_BILLBOARD", "ITEM_WORLD_GEOMETRY", "ITEM_SELECTABLE", "ITEM_UI", "ITEM_SHADEABLE", "ITEM_LOD_0", "ITEM_LOD_1", "ITEM_LOD_2", "ITEM_LOD_3", "ITEM_LOD_ALL" },
-            { 1, 2, 4, 8, 16, 32, 64, 128, 256, 480 },
-            { var(mud::ITEM_BILLBOARD), var(mud::ITEM_WORLD_GEOMETRY), var(mud::ITEM_SELECTABLE), var(mud::ITEM_UI), var(mud::ITEM_SHADEABLE), var(mud::ITEM_LOD_0), var(mud::ITEM_LOD_1), var(mud::ITEM_LOD_2), var(mud::ITEM_LOD_3), var(mud::ITEM_LOD_ALL) }
+            { "ITEM_BILLBOARD", "ITEM_WORLD_GEOMETRY", "ITEM_SELECTABLE", "ITEM_UI", "ITEM_SHADEABLE", "ITEM_NO_UPDATE", "ITEM_LOD_0", "ITEM_LOD_1", "ITEM_LOD_2", "ITEM_LOD_3", "ITEM_LOD_ALL" },
+            { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 960 },
+            { var(mud::ITEM_BILLBOARD), var(mud::ITEM_WORLD_GEOMETRY), var(mud::ITEM_SELECTABLE), var(mud::ITEM_UI), var(mud::ITEM_SHADEABLE), var(mud::ITEM_NO_UPDATE), var(mud::ITEM_LOD_0), var(mud::ITEM_LOD_1), var(mud::ITEM_LOD_2), var(mud::ITEM_LOD_3), var(mud::ITEM_LOD_ALL) }
         };
         meta_enum<mud::ItemFlag>();
     }
@@ -123,7 +123,7 @@ namespace mud
             true,
             { "Off", "On", "DoubleSided", "OnlyShadow" },
             { 0, 1, 2, 3 },
-            { var(ItemShadow::Off), var(ItemShadow::On), var(ItemShadow::DoubleSided), var(ItemShadow::OnlyShadow) }
+            { var(mud::ItemShadow::Off), var(mud::ItemShadow::On), var(mud::ItemShadow::DoubleSided), var(mud::ItemShadow::OnlyShadow) }
         };
         meta_enum<mud::ItemShadow>();
     }
@@ -134,7 +134,7 @@ namespace mud
             true,
             { "Directional", "Point", "Spot", "Count" },
             { 0, 1, 2, 3 },
-            { var(LightType::Directional), var(LightType::Point), var(LightType::Spot), var(LightType::Count) }
+            { var(mud::LightType::Directional), var(mud::LightType::Point), var(mud::LightType::Spot), var(mud::LightType::Count) }
         };
         meta_enum<mud::LightType>();
     }
@@ -145,7 +145,7 @@ namespace mud
             true,
             { "Disabled", "X2", "X4", "X8", "X16" },
             { 0, 1, 2, 3, 4 },
-            { var(MSAA::Disabled), var(MSAA::X2), var(MSAA::X4), var(MSAA::X8), var(MSAA::X16) }
+            { var(mud::MSAA::Disabled), var(mud::MSAA::X2), var(mud::MSAA::X4), var(mud::MSAA::X8), var(mud::MSAA::X16) }
         };
         meta_enum<mud::MSAA>();
     }
@@ -156,7 +156,7 @@ namespace mud
             true,
             { "TriplanarUV1", "TriplanarUV2", "Count" },
             { 0, 1, 2 },
-            { var(MaterialFlag::TriplanarUV1), var(MaterialFlag::TriplanarUV2), var(MaterialFlag::Count) }
+            { var(mud::MaterialFlag::TriplanarUV1), var(mud::MaterialFlag::TriplanarUV2), var(mud::MaterialFlag::Count) }
         };
         meta_enum<mud::MaterialFlag>();
     }
@@ -167,7 +167,7 @@ namespace mud
             true,
             { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" },
             { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 },
-            { var(Month::January), var(Month::February), var(Month::March), var(Month::April), var(Month::May), var(Month::June), var(Month::July), var(Month::August), var(Month::September), var(Month::October), var(Month::November), var(Month::December) }
+            { var(mud::Month::January), var(mud::Month::February), var(mud::Month::March), var(mud::Month::April), var(mud::Month::May), var(mud::Month::June), var(mud::Month::July), var(mud::Month::August), var(mud::Month::September), var(mud::Month::October), var(mud::Month::November), var(mud::Month::December) }
         };
         meta_enum<mud::Month>();
     }
@@ -178,7 +178,7 @@ namespace mud
             true,
             { "Lambert", "LambertHalf", "OrenNayar", "Burley", "Toon" },
             { 0, 1, 2, 3, 4 },
-            { var(PbrDiffuseMode::Lambert), var(PbrDiffuseMode::LambertHalf), var(PbrDiffuseMode::OrenNayar), var(PbrDiffuseMode::Burley), var(PbrDiffuseMode::Toon) }
+            { var(mud::PbrDiffuseMode::Lambert), var(mud::PbrDiffuseMode::LambertHalf), var(mud::PbrDiffuseMode::OrenNayar), var(mud::PbrDiffuseMode::Burley), var(mud::PbrDiffuseMode::Toon) }
         };
         meta_enum<mud::PbrDiffuseMode>();
     }
@@ -189,7 +189,7 @@ namespace mud
             true,
             { "SchlickGGX", "Blinn", "Phong", "Toon", "Disabled" },
             { 0, 1, 2, 3, 4 },
-            { var(PbrSpecularMode::SchlickGGX), var(PbrSpecularMode::Blinn), var(PbrSpecularMode::Phong), var(PbrSpecularMode::Toon), var(PbrSpecularMode::Disabled) }
+            { var(mud::PbrSpecularMode::SchlickGGX), var(mud::PbrSpecularMode::Blinn), var(mud::PbrSpecularMode::Phong), var(mud::PbrSpecularMode::Toon), var(mud::PbrSpecularMode::Disabled) }
         };
         meta_enum<mud::PbrSpecularMode>();
     }
@@ -200,7 +200,7 @@ namespace mud
             true,
             { "None", "Item", "Model", "Shape", "Particles", "Light" },
             { 0, 1, 2, 3, 4, 5 },
-            { var(PrefabType::None), var(PrefabType::Item), var(PrefabType::Model), var(PrefabType::Shape), var(PrefabType::Particles), var(PrefabType::Light) }
+            { var(mud::PrefabType::None), var(mud::PrefabType::Item), var(mud::PrefabType::Model), var(mud::PrefabType::Shape), var(mud::PrefabType::Particles), var(mud::PrefabType::Light) }
         };
         meta_enum<mud::PrefabType>();
     }
@@ -211,7 +211,7 @@ namespace mud
             true,
             { "Fragment", "Vertex", "Count" },
             { 0, 1, 2 },
-            { var(ShaderType::Fragment), var(ShaderType::Vertex), var(ShaderType::Count) }
+            { var(mud::ShaderType::Fragment), var(mud::ShaderType::Vertex), var(mud::ShaderType::Count) }
         };
         meta_enum<mud::ShaderType>();
     }
@@ -222,7 +222,7 @@ namespace mud
             true,
             { "Wireframe", "Unshaded", "Shaded", "Volume", "Clear" },
             { 0, 1, 2, 3, 4 },
-            { var(Shading::Wireframe), var(Shading::Unshaded), var(Shading::Shaded), var(Shading::Volume), var(Shading::Clear) }
+            { var(mud::Shading::Wireframe), var(mud::Shading::Unshaded), var(mud::Shading::Shaded), var(mud::Shading::Volume), var(mud::Shading::Clear) }
         };
         meta_enum<mud::Shading>();
     }
@@ -244,7 +244,7 @@ namespace mud
             true,
             { "Red", "Green", "Blue", "Alpha", "All" },
             { 0, 1, 2, 3, 4 },
-            { var(TextureChannel::Red), var(TextureChannel::Green), var(TextureChannel::Blue), var(TextureChannel::Alpha), var(TextureChannel::All) }
+            { var(mud::TextureChannel::Red), var(mud::TextureChannel::Green), var(mud::TextureChannel::Blue), var(mud::TextureChannel::Alpha), var(mud::TextureChannel::All) }
         };
         meta_enum<mud::TextureChannel>();
     }
@@ -255,7 +255,7 @@ namespace mud
             true,
             { "Black", "White", "Normal" },
             { 0, 1, 2 },
-            { var(TextureHint::Black), var(TextureHint::White), var(TextureHint::Normal) }
+            { var(mud::TextureHint::Black), var(mud::TextureHint::White), var(mud::TextureHint::Normal) }
         };
         meta_enum<mud::TextureHint>();
     }
@@ -266,13 +266,20 @@ namespace mud
             true,
             { "Source0", "Source1", "Source2", "Source3", "SourceDepth", "Color", "Albedo", "Metallic", "Roughness", "Emissive", "Normal", "AO", "Depth", "Skeleton", "ShadowCSM", "ShadowAtlas", "Radiance", "ReflectionProbe", "GIProbe" },
             { 0, 1, 2, 3, 3, 0, 0, 1, 2, 3, 4, 11, 12, 5, 6, 7, 8, 9, 10 },
-            { var(TextureSampler::Source0), var(TextureSampler::Source1), var(TextureSampler::Source2), var(TextureSampler::Source3), var(TextureSampler::SourceDepth), var(TextureSampler::Color), var(TextureSampler::Albedo), var(TextureSampler::Metallic), var(TextureSampler::Roughness), var(TextureSampler::Emissive), var(TextureSampler::Normal), var(TextureSampler::AO), var(TextureSampler::Depth), var(TextureSampler::Skeleton), var(TextureSampler::ShadowCSM), var(TextureSampler::ShadowAtlas), var(TextureSampler::Radiance), var(TextureSampler::ReflectionProbe), var(TextureSampler::GIProbe) }
+            { var(mud::TextureSampler::Source0), var(mud::TextureSampler::Source1), var(mud::TextureSampler::Source2), var(mud::TextureSampler::Source3), var(mud::TextureSampler::SourceDepth), var(mud::TextureSampler::Color), var(mud::TextureSampler::Albedo), var(mud::TextureSampler::Metallic), var(mud::TextureSampler::Roughness), var(mud::TextureSampler::Emissive), var(mud::TextureSampler::Normal), var(mud::TextureSampler::AO), var(mud::TextureSampler::Depth), var(mud::TextureSampler::Skeleton), var(mud::TextureSampler::ShadowCSM), var(mud::TextureSampler::ShadowAtlas), var(mud::TextureSampler::Radiance), var(mud::TextureSampler::ReflectionProbe), var(mud::TextureSampler::GIProbe) }
         };
         meta_enum<mud::TextureSampler>();
     }
     
     
     // Sequences
+    {
+        static Meta meta = { type<array<mud::mat4>>(), &namspc({}), "array<mud::mat4>", sizeof(array<mud::mat4>), TypeClass::Sequence };
+        static Class cls = { type<array<mud::mat4>>() };
+        cls.m_content = &type<mud::mat4>();
+        meta_sequence<array<mud::mat4>, mud::mat4>();
+    }
+    
     {
         static Meta meta = { type<std::vector<mud::PrefabNode>>(), &namspc({}), "std::vector<mud::PrefabNode>", sizeof(std::vector<mud::PrefabNode>), TypeClass::Sequence };
         static Class cls = { type<std::vector<mud::PrefabNode>>() };
@@ -529,6 +536,7 @@ namespace mud
         
         meta_class<mud::BaseMaterialBlock>();
     }
+    
     
     
         
@@ -1250,8 +1258,8 @@ namespace mud
                 { type<mud::Mesh>(), member_address(&mud::Mesh::m_radius), type<float>(), "radius", var(float(0.f)), Member::Value },
                 { type<mud::Mesh>(), member_address(&mud::Mesh::m_origin), type<mud::vec3>(), "origin", var(mud::vec3()), Member::Value },
                 { type<mud::Mesh>(), member_address(&mud::Mesh::m_readback), type<bool>(), "readback", var(bool(false)), Member::Value },
-                { type<mud::Mesh>(), member_address(&mud::Mesh::m_vertexCount), type<size_t>(), "vertexCount", var(size_t()), Member::Value },
-                { type<mud::Mesh>(), member_address(&mud::Mesh::m_indexCount), type<size_t>(), "indexCount", var(size_t()), Member::Value },
+                { type<mud::Mesh>(), member_address(&mud::Mesh::m_vertex_count), type<size_t>(), "vertex_count", var(size_t()), Member::Value },
+                { type<mud::Mesh>(), member_address(&mud::Mesh::m_index_count), type<size_t>(), "index_count", var(size_t()), Member::Value },
                 { type<mud::Mesh>(), member_address(&mud::Mesh::m_material), type<mud::Material>(), "material", Ref(type<mud::Material>()), Member::Flags(Member::Pointer|Member::Link) }
             },
             // methods
@@ -1328,7 +1336,8 @@ namespace mud
                 { type<mud::ModelItem>(), member_address(&mud::ModelItem::m_transform), type<mud::mat4>(), "transform", var(mud::mat4()), Member::Value },
                 { type<mud::ModelItem>(), member_address(&mud::ModelItem::m_mesh), type<mud::Mesh>(), "mesh", Ref(type<mud::Mesh>()), Member::Flags(Member::Pointer|Member::Link) },
                 { type<mud::ModelItem>(), member_address(&mud::ModelItem::m_skin), type<int>(), "skin", var(int()), Member::Value },
-                { type<mud::ModelItem>(), member_address(&mud::ModelItem::m_colour), type<mud::Colour>(), "colour", var(mud::Colour()), Member::Value }
+                { type<mud::ModelItem>(), member_address(&mud::ModelItem::m_colour), type<mud::Colour>(), "colour", var(mud::Colour()), Member::Value },
+                { type<mud::ModelItem>(), member_address(&mud::ModelItem::m_material), type<mud::Material>(), "material", Ref(type<mud::Material>()), Member::Flags(Member::Pointer|Member::Link) }
             },
             // methods
             {
@@ -1406,11 +1415,11 @@ namespace mud
                 { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_start_time), type<float>(), "start_time", var(float(0.f)), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_loop), type<bool>(), "loop", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_shape), type<mud::ShapeVar>(), "shape", var(mud::ShapeVar()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_direction), type<mud::EmitterDirection>(), "direction", var(mud::EmitterDirection()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_absolute_direction), type<mud::vec3>(), "absolute_direction", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_flow), type<mud::EmitterFlow>(), "flow", var(mud::EmitterFlow()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_billboard), type<bool>(), "billboard", var(bool(true)), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_direction), type<mud::vec3>(), "direction", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_rotation), type<mud::quat>(), "rotation", var(mud::quat()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_blend_mode), type<mud::BlendMode>(), "blend_mode", var(mud::BlendMode()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_position), type<mud::ValueTrack<mud::vec3>>(), "position", var(mud::ValueTrack<mud::vec3>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_rotation), type<mud::ValueTrack<mud::quat>>(), "rotation", var(mud::ValueTrack<mud::quat>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_volume), type<mud::ValueTrack<float>>(), "volume", var(mud::ValueTrack<float>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_rate), type<mud::ValueTrack<uint32_t>>(), "rate", var(mud::ValueTrack<uint32_t>()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::ParticleGenerator>(), member_address(&mud::ParticleGenerator::m_lifetime), type<mud::ValueTrack<float>>(), "lifetime", var(mud::ValueTrack<float>()), Member::Flags(Member::Value|Member::Mutable) },
@@ -1439,39 +1448,6 @@ namespace mud
     
     
     
-    
-    
-        
-    // mud::Particles
-    {
-        static Meta meta = { type<mud::Particles>(), &namspc({ "mud" }), "Particles", sizeof(mud::Particles), TypeClass::Object };
-        static Class cls = { type<mud::Particles>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-                { type<mud::Particles>(), Address(), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::None }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Particles>();
-    }
     
     
     
@@ -1809,7 +1785,8 @@ namespace mud
             {
                 { type<mud::Scene>(), member_address(&mud::Scene::m_graph), type<mud::Gnode>(), "graph", Ref(type<mud::Gnode>()), Member::None },
                 { type<mud::Scene>(), member_address(&mud::Scene::m_root_node), type<mud::Node3>(), "root_node", Ref(type<mud::Node3>()), Member::None },
-                { type<mud::Scene>(), member_address(&mud::Scene::m_environment), type<mud::Environment>(), "environment", var(mud::Environment()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Scene>(), member_address(&mud::Scene::m_environment), type<mud::Environment>(), "environment", var(mud::Environment()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Scene>(), member_address(&mud::Scene::m_user), type<mud::Ref>(), "user", Ref(type<mud::Ref>()), Member::None }
             },
             // methods
             {
@@ -2406,22 +2383,23 @@ namespace mud
     
     
         
-    // mud::ParticleEmitter
+    // mud::Particles
     {
-        static Meta meta = { type<mud::ParticleEmitter>(), &namspc({ "mud" }), "ParticleEmitter", sizeof(mud::ParticleEmitter), TypeClass::Struct };
-        static Class cls = { type<mud::ParticleEmitter>(),
+        static Meta meta = { type<mud::Particles>(), &namspc({ "mud" }), "Particles", sizeof(mud::Particles), TypeClass::Struct };
+        static Class cls = { type<mud::Particles>(),
             // bases
             { &type<mud::ParticleGenerator>() },
-            { base_offset<mud::ParticleEmitter, mud::ParticleGenerator>() },
+            { base_offset<mud::Particles, mud::ParticleGenerator>() },
             // constructors
             {
             },
             // copy constructor
             {
-                { type<mud::ParticleEmitter>(), [](Ref ref, Ref other) { new(&val<mud::ParticleEmitter>(ref)) mud::ParticleEmitter(val<mud::ParticleEmitter>(other)); } }
+                { type<mud::Particles>(), [](Ref ref, Ref other) { new(&val<mud::Particles>(ref)) mud::Particles(val<mud::Particles>(other)); } }
             },
             // members
             {
+                { type<mud::Particles>(), member_address(&mud::Particles::m_node), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::Flags(Member::Pointer|Member::Link) }
             },
             // methods
             {
@@ -2434,7 +2412,7 @@ namespace mud
         
         
         
-        meta_class<mud::ParticleEmitter>();
+        meta_class<mud::Particles>();
     }
     
 
@@ -2454,7 +2432,7 @@ namespace mud
         m.m_types.push_back(&type<mud::DepthDraw>());
         m.m_types.push_back(&type<mud::DepthParams>());
         m.m_types.push_back(&type<mud::DepthTest>());
-        m.m_types.push_back(&type<mud::EmitterDirection>());
+        m.m_types.push_back(&type<mud::EmitterFlow>());
         m.m_types.push_back(&type<mud::Environment>());
         m.m_types.push_back(&type<mud::Filter>());
         m.m_types.push_back(&type<mud::FrameBuffer>());
@@ -2484,7 +2462,6 @@ namespace mud
         m.m_types.push_back(&type<mud::Month>());
         m.m_types.push_back(&type<mud::Node3>());
         m.m_types.push_back(&type<mud::ParticleGenerator>());
-        m.m_types.push_back(&type<mud::Particles>());
         m.m_types.push_back(&type<mud::PbrDiffuseMode>());
         m.m_types.push_back(&type<mud::PbrMaterialBlock>());
         m.m_types.push_back(&type<mud::PbrSpecularMode>());
@@ -2512,6 +2489,7 @@ namespace mud
         m.m_types.push_back(&type<mud::Transform>());
         m.m_types.push_back(&type<mud::UnshadedMaterialBlock>());
         m.m_types.push_back(&type<mud::Viewport>());
+        m.m_types.push_back(&type<array<mud::mat4>>());
         m.m_types.push_back(&type<std::vector<mud::PrefabNode>>());
         m.m_types.push_back(&type<mud::BlockCopy>());
         m.m_types.push_back(&type<mud::BlockFilter>());
@@ -2521,7 +2499,7 @@ namespace mud
         m.m_types.push_back(&type<mud::DrawBlock>());
         m.m_types.push_back(&type<mud::BlockDepth>());
         m.m_types.push_back(&type<mud::RenderTarget>());
-        m.m_types.push_back(&type<mud::ParticleEmitter>());
+        m.m_types.push_back(&type<mud::Particles>());
     
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node(val<mud::Gnode>(args[0]), args[1], val<mud::vec3>(args[2]), val<mud::quat>(args[3]), val<mud::vec3>(args[4]))); };
@@ -2578,9 +2556,9 @@ namespace mud
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::item(val<mud::Gnode>(args[0]), val<mud::Model>(args[1]), val<uint32_t>(args[2]), &val<mud::Material>(args[3]), val<size_t>(args[4]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "model", Ref(type<mud::Model>()) }, { "flags", var(uint32_t()), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t()), Param::Default } };
-            static Function f = { &namspc({ "mud", "gfx" }), "item", function_id<mud::Item&(*)(mud::Gnode&, const mud::Model&, uint32_t, mud::Material*, size_t)>(&mud::gfx::item), func, params, Ref(type<mud::Item>()) };
+            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::item(val<mud::Gnode>(args[0]), val<mud::Model>(args[1]), val<uint32_t>(args[2]), &val<mud::Material>(args[3]), val<size_t>(args[4]), val<array<mud::mat4>>(args[5]))); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "model", Ref(type<mud::Model>()) }, { "flags", var(uint32_t()), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t()), Param::Default }, { "transforms", var(array<mud::mat4>()), Param::Default } };
+            static Function f = { &namspc({ "mud", "gfx" }), "item", function_id<mud::Item&(*)(mud::Gnode&, const mud::Model&, uint32_t, mud::Material*, size_t, array<mud::mat4>)>(&mud::gfx::item), func, params, Ref(type<mud::Item>()) };
             m.m_functions.push_back(&f);
         }
         {
@@ -2596,9 +2574,9 @@ namespace mud
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::particles(val<mud::Gnode>(args[0]), val<mud::ParticleGenerator>(args[1]), val<uint32_t>(args[2]), val<size_t>(args[3]))); };
+            auto func = [](array<Var> args, Var& result) {  val<mud::Particles>(result) = mud::gfx::particles(val<mud::Gnode>(args[0]), val<mud::ParticleGenerator>(args[1]), val<uint32_t>(args[2]), val<size_t>(args[3])); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "emitter", var(mud::ParticleGenerator()) }, { "flags", var(uint32_t()), Param::Default }, { "instances", var(size_t()), Param::Default } };
-            static Function f = { &namspc({ "mud", "gfx" }), "particles", function_id<mud::Particles&(*)(mud::Gnode&, const mud::ParticleGenerator&, uint32_t, size_t)>(&mud::gfx::particles), func, params, Ref(type<mud::Particles>()) };
+            static Function f = { &namspc({ "mud", "gfx" }), "particles", function_id<mud::Particles&(*)(mud::Gnode&, const mud::ParticleGenerator&, uint32_t, size_t)>(&mud::gfx::particles), func, params, var(mud::Particles()) };
             m.m_functions.push_back(&f);
         }
         {

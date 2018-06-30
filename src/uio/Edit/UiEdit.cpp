@@ -79,12 +79,12 @@ namespace mud
 		if(selected)
 		{
 			if(Widget* tab = ui::tab(tabber, "Widget"))
-				object_edit(*tab, selected);
+				object_edit(*tab, Ref(selected));
 
 			if(Widget* tab = ui::tab(tabber, "Style"))
-				object_edit(*tab, &selected->m_frame.d_style->layout());
+				object_edit(*tab, Ref(&selected->m_frame.d_style->layout()));
 			if(Widget* tab = ui::tab(tabber, "Skin"))
-				object_edit(*tab, &selected->m_frame.d_style->skin());
+				object_edit(*tab, Ref(&selected->m_frame.d_style->skin()));
 		}
 	}
 }

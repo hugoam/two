@@ -33,7 +33,7 @@ namespace mud
 
 	std::vector<Circle> Circlifier::compute(const Colour& colour, float scale)
 	{
-		size_t colourIndex = m_image.m_palette.findColour(colour);
+		size_t colourIndex = m_image.m_palette.find_colour(colour);
 		this->grow(colourIndex);
 		this->cull(colourIndex);
 
@@ -54,7 +54,7 @@ namespace mud
 	bool Circlifier::cangrow(Pixircle& circle)
 	{
 		bool fits = circle.radius < m_pixircles.m_x && circle.radius < m_pixircles.m_y;
-		return fits && m_pixircles.iterateDistNeighbours(circle.index, circle.radius + 1, [&](Pixircle& nb) {
+		return fits && m_pixircles.visit_near_dist(circle.index, circle.radius + 1, [&](Pixircle& nb) {
 			return nb.colour == circle.colour;
 		});
 	}
@@ -76,7 +76,7 @@ namespace mud
 			if(circle.colour == colour)
 				if(!m_pixircles[circle.index].culled)
 				{
-					m_pixircles.iterateFlatNeighbours(circle.index, circle.radius, [](Pixircle& nb) {
+					m_pixircles.visit_near_2d(circle.index, circle.radius, [](Pixircle& nb) {
 						nb.culled = true; return true;
 					});
 				}

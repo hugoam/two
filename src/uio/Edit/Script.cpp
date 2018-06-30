@@ -158,13 +158,10 @@ namespace mud
 		}
 	}
 
-	enum ScriptEditorModes
-	{
-		OPEN_SCRIPT = 1 << 0,
-	};
-
 	void script_editor(Widget& parent, ScriptEditor& editor)
 	{
+		enum Modes { OPEN = 1 << 0 };
+
 		ActionList actions = {
 			//{ "Open Script", [&] { Ref result = object_picker(parent.root(), type<Script>()); if(result) editor.open(result.val<Script>()); } },
 			{ "New Script", [&] { editor.create_script(("Untitled " + to_string(editor.m_lua_scripts.size())).c_str()); } },
@@ -175,14 +172,14 @@ namespace mud
 
 		Section& self = section(parent, "Script Editor", actions);
 
-		if(ui::modal_button(self, *self.m_toolbar, "Open Script", OPEN_SCRIPT))
+		if(ui::modal_button(self, *self.m_toolbar, "Open Script", OPEN))
 		{
-			Widget& modal = ui::auto_modal(self, OPEN_SCRIPT, { 600, 400 });
+			Widget& modal = ui::auto_modal(self, OPEN, { 600, 400 });
 			Ref result = Ref(type<Script>());
 			if(object_selector(modal, result))
 			{
 				editor.open(val<LuaScript>(result));
-				self.m_switch &= ~OPEN_SCRIPT;
+				self.m_switch &= ~OPEN;
 			}
 		}
 

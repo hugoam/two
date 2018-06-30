@@ -96,6 +96,7 @@ namespace mud
 				for(int s = 0; s < 8; ++s)
 					tile.m_flips[s] += num_patterns;
 
+				printf("DEBUG: tile %i = %s %i\n", int(tileset.m_tiles_flip.size()), tile_name.c_str(), t);
 				tileset.m_tiles_flip.push_back(tile);
 			}
 
@@ -296,35 +297,30 @@ namespace mud
 
 	void propagate_tiled(WaveTileset& tileset, Wave& wave)
 	{
-		while(wave.m_changes.size() > 0)
+		uvec3 changed = vector_pop(wave.m_changes);
+
+		int directions = wave.m_depth == 1 ? 4 : 6;
+		for(int d = 0; d < directions; d++)
 		{
-			uvec3 changed = vector_pop(wave.m_changes);
+			uvec3 coord;
+			if(!neighbour(wave, changed, SignedAxis(d), coord)) continue;
 
-			int directions = wave.m_depth == 1 ? 4 : 6;
-			for(int d = 0; d < directions; d++)
-			{
-				uvec3 coord;
-				if(!neighbour(wave, changed, SignedAxis(d), coord)) continue;
+			for(size_t t2 = 0; t2 < wave.m_states.size(); t2++)
+				if(wave.m_wave.at(coord.x, coord.y, coord.z)[t2])
+				{
+					bool b = false;
 
-				for(size_t t2 = 0; t2 < wave.m_states.size(); t2++)
-					if(wave.m_wave.at(coord.x, coord.y, coord.z)[t2])
+					for(size_t t1 = 0; t1 < wave.m_states.size() && !b; ++t1)
+						if(wave.m_wave.at(changed.x, changed.y, changed.z)[t1])
+							b = tileset.m_propagator[d].at(t2, t1) != 0;
+
+					if(!b)
 					{
-						bool b = false;
-
-						for(size_t t1 = 0; t1 < wave.m_states.size() && !b; ++t1)
-							if(wave.m_wave.at(changed.x, changed.y, changed.z)[t1])
-								b = tileset.m_propagator[d].at(t2, t1) != 0;
-
-						if(!b)
-						{
-							wave.m_wave.at(coord.x, coord.y, coord.z)[t2] = false;
-							wave.m_changes.push_back(coord);
-						}
+						wave.m_wave.at(coord.x, coord.y, coord.z)[t2] = false;
+						wave.m_changes.push_back(coord);
 					}
-			}
+				}
 		}
-
-		wave.m_stabilized = true;
 	}
 
 	TileWave::TileWave()

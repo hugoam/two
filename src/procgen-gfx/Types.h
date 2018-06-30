@@ -18,7 +18,7 @@
 #include <ui/Types.h>
 #include <uio/Types.h>
 #include <gfx/Types.h>
-#include <edit/Types.h>
+#include <gfx-ui/Types.h>
 #endif
 
 #ifndef MUD_CPP_20

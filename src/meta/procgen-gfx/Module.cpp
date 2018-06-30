@@ -28,7 +28,7 @@ namespace mud
         mud_ui::m();
         mud_uio::m();
         mud_gfx::m();
-        mud_edit::m();
+        mud_gfx_ui::m();
 
         // setup reflection meta data
 		mud_procgen_gfx_meta(*this);

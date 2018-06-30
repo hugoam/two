@@ -62,7 +62,7 @@ namespace ui
 		: node("Node", styles().overlay, [](Layout& l) { l.m_space = UNIT; })
 		, body("NodeBody", styles().sheet, {}, {})
 		, plugs("NodePlugs", styles().sheet, [](Layout& l) { l.m_space = { READING, WRAP, WRAP }; })
-		, inputs("NodeInputs", styles().div,{},{})
+		, inputs("NodeInputs", styles().div, {}, {})
 		, outputs("NodeOutputs", styles().div, [](Layout& l) { l.m_align = { RIGHT, CENTER }; })
 		, knob("NodeKnob", styles().item, [](Layout& l) { l.m_size = { 10.f, 22.f }; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
 		, knob_output("NodeKnobOutput", knob, [](Layout& l) { l.m_align = { RIGHT, CENTER }; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })

@@ -25,13 +25,4 @@ namespace mud
 	{
 		unindex(m_type, m_id);
 	}
-
-	Construct::Construct(Complex& stem, Prototype& prototype)
-		: m_type(prototype.m_type), m_stem(stem), m_prototype(prototype)
-	{
-		m_stem.m_construct = this;
-	}
-
-	Construct::~Construct()
-	{}
 }

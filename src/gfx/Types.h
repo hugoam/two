@@ -33,7 +33,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::CullMode>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DepthDraw>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DepthTest>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::EmitterDirection>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::EmitterFlow>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Interpolation>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::IsometricAngle>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ItemFlag>();
@@ -89,7 +89,6 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ModelItem>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Node3>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ParticleGenerator>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::Particles>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::PbrMaterialBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Prefab>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::PrefabNode>();
@@ -116,5 +115,5 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockDepth>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::ParticleEmitter>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::Particles>();
 }

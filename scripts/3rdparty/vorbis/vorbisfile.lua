@@ -1,7 +1,7 @@
 -- mud library
 -- vorbisfile library
 
-project "vorbisfile"
+vorbisfile = mud_dep(nil, "vorbisfile")
 	kind "StaticLib"
 
 	includedirs {

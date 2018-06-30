@@ -26,8 +26,8 @@ namespace mud
     export_ template <> inline void from_string(const string& str, mud::SignedAxis& val) { val = static_cast<mud::SignedAxis>(enu<mud::SignedAxis>().value(str.c_str())); };
     export_ template <> inline void to_string(const mud::SignedAxis& val, string& str) { str = enu<mud::SignedAxis>().m_map[size_t(val)]; };
     
-    export_ template <> inline void from_string(const string& str, mud::SpectrumPalette& val) { val = static_cast<mud::SpectrumPalette>(enu<mud::SpectrumPalette>().value(str.c_str())); };
-    export_ template <> inline void to_string(const mud::SpectrumPalette& val, string& str) { str = enu<mud::SpectrumPalette>().m_map[size_t(val)]; };
+    export_ template <> inline void from_string(const string& str, mud::Spectrum& val) { val = static_cast<mud::Spectrum>(enu<mud::Spectrum>().value(str.c_str())); };
+    export_ template <> inline void to_string(const mud::Spectrum& val, string& str) { str = enu<mud::Spectrum>().m_map[size_t(val)]; };
     
     export_ template <> inline void from_string(const string& str, mud::TrackMode& val) { val = static_cast<mud::TrackMode>(enu<mud::TrackMode>().value(str.c_str())); };
     export_ template <> inline void to_string(const mud::TrackMode& val, string& str) { str = enu<mud::TrackMode>().m_map[size_t(val)]; };

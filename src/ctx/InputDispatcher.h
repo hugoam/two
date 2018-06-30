@@ -34,8 +34,9 @@ namespace mud
 
 		void clear()
 		{
-			static EventMap<T_Element> empty;
-			memcpy(this, &empty, sizeof(EventMap<T_Element>));
+			m_events = {}; m_keyed_events = {};
+			//static EventMap<T_Element> empty;
+			//memcpy(this, &empty, sizeof(EventMap<T_Element>));
 		}
 
 		T_Element& event(DeviceType device_type, EventType event_type) { return m_events[size_t(device_type)][size_t(event_type)]; }

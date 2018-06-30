@@ -31,7 +31,7 @@ namespace mud
 	inline Ref safe_target(Member& member, Ref object)
 	{
 		Ref target = object;
-		if(object.m_type != member.m_object_type && g_class[object.type().m_id])
+		if(object.m_type != member.m_object_type && g_class[type(object).m_id])
 			target = cls(object).upcast(object, *member.m_object_type);
 		return target;
 	}
@@ -202,28 +202,24 @@ namespace mud
 			object_edit_inline(table, object);
 	}
 
-	enum LibraryModes
-	{
-		LIBRARY_CREATE = 1 << 0,
-		LIBRARY_TYPE_INFO = 1 << 1,
-	};
-
 	void multi_inspector(Widget& parent, Type& type, std::vector<Var>& objects, size_t& selected)
 	{
+		enum Modes { CREATE = 1 << 0, TYPE_INFO = 1 << 1 };
+
 		Section& self = section(parent, (string(meta(type).m_name) + " Library").c_str());
 
-		if(ui::modal_button(self, *self.m_toolbar, "Type Info", LIBRARY_TYPE_INFO))
+		if(ui::modal_button(self, *self.m_toolbar, "Type Info", TYPE_INFO))
 		{
-			Widget& modal = ui::auto_modal(self, LIBRARY_TYPE_INFO, { 600, 400 });
+			Widget& modal = ui::auto_modal(self, TYPE_INFO, { 600, 400 });
 			meta_edit(*modal.m_body, type);
 		}
 
 		if(ui::button(*self.m_toolbar, "Add").activated())
 			objects.push_back(meta(type).m_empty_var());
 
-		if(ui::modal_button(self, *self.m_toolbar, "Create", LIBRARY_CREATE))
+		if(ui::modal_button(self, *self.m_toolbar, "Create", CREATE))
 		{
-			Widget& modal = ui::auto_modal(self, LIBRARY_CREATE);
+			Widget& modal = ui::auto_modal(self, CREATE);
 			bool done = object_creator(modal, type);
 			UNUSED(done);
 		}

@@ -37,7 +37,7 @@ namespace mud
 	export_ template <class T_Value>
 	bool select_value(Widget& parent, uint32_t mode, T_Value& value, bool confirm = true)
 	{
-		Ref ref = &value;
+		Ref ref = Ref(&value);
 		return modal_edit(parent, mode, type<T_Value>().m_name, ref, false, confirm);
 	}
 }

@@ -86,13 +86,13 @@ namespace mud
 	export_ inline bool is_sequence(Type& ty) { return meta(ty).m_type_class == TypeClass::Sequence; }
 	export_ inline bool is_class(Type& ty) { return meta(ty).m_type_class < TypeClass::BaseType; }
 	
-	export_ inline Meta& meta(const Ref& ref) { return meta(ref.type()); }
+	export_ inline Meta& meta(const Ref& ref) { return meta(type(ref)); }
 	export_ inline Meta& meta(const Var& var) { return meta(*var.m_ref.m_type); }
 
-	export_ inline Class& cls(const Ref& ref) { return cls(ref.type()); }
+	export_ inline Class& cls(const Ref& ref) { return cls(type(ref)); }
 	export_ inline Class& cls(const Var& var) { return cls(*var.m_ref.m_type); }
 
-	export_ inline Enum& enu(const Ref& ref) { return enu(ref.type()); }
+	export_ inline Enum& enu(const Ref& ref) { return enu(type(ref)); }
 	export_ inline Enum& enu(const Var& var) { return enu(*var.m_ref.m_type); }
 
 	export_ MUD_REFL_EXPORT void copy_construct(Ref dest, Ref source);

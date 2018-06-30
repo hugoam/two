@@ -28,6 +28,7 @@ namespace mud
 	{
 		vec3 start;
 		vec3 dir;
+		quat rot;
 
 		float speed_seed;
 		float angle_seed;
@@ -46,7 +47,7 @@ namespace mud
 		uint32_t idx;
 	};
 
-	export_ enum class refl_ EmitterDirection : unsigned int
+	export_ enum class refl_ EmitterFlow : unsigned int
 	{
 		Outward,
 		Absolute
@@ -64,12 +65,14 @@ namespace mud
 		attr_ mut_ float m_start_time = 0.f;
 		attr_ mut_ bool m_loop = false;
 		attr_ mut_ ShapeVar m_shape = {};
-		attr_ mut_ EmitterDirection m_direction = EmitterDirection::Outward;
-		attr_ mut_ vec3 m_absolute_direction = { 0.f, 0.f, -1.f };//-Z3;
+		attr_ mut_ EmitterFlow m_flow = EmitterFlow::Outward;
+		attr_ mut_ bool m_billboard = true;
+		attr_ mut_ vec3 m_direction = { 0.f, 0.f, -1.f };
+		attr_ mut_ quat m_rotation = ZeroQuat;
 		attr_ mut_ BlendMode m_blend_mode = BlendMode::Normal;
 
-		attr_ mut_ ValueTrack<vec3> m_position = { Zero3 };
-		attr_ mut_ ValueTrack<quat> m_rotation = { ZeroQuat };
+		//attr_ mut_ ValueTrack<vec3> m_position = { Zero3 };
+		//attr_ mut_ ValueTrack<quat> m_rotation = { ZeroQuat };
 		attr_ mut_ ValueTrack<float> m_volume = { 1.f };
 
 		attr_ mut_ ValueTrack<uint32_t> m_rate = { 0 };
@@ -105,24 +108,25 @@ namespace mud
 		static bgfx::VertexDecl ms_decl;
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT ParticleEmitter : public ParticleGenerator
+	export_ struct refl_ MUD_GFX_EXPORT Particles : public ParticleGenerator
 	{
-		ParticleEmitter(ShapeVar shape = {}, uint32_t max_particles = 1024)
-			: m_max(max_particles)
-		{
-			m_shape = shape;
-			m_particles.reserve(m_max);
-		}
+	public:
+		Particles(Node3* node = nullptr, ShapeVar shape = {}, uint32_t max_particles = 1024);
 
-		void update(float _dt);
-		void spawn(float _dt);
+		attr_ Node3* m_node = nullptr;
+
+		bool ended() { return m_time > m_duration; }
+
+		void upload();
+		void update(float dt);
+		void spawn(float dt);
 		uint32_t render(const SpriteAtlas& atlas, const mat4& view, const vec3& eye, uint32_t first, uint32_t max, ParticleSort* outSort, ParticleVertex* outVertices);
 
-		inline void writeVertex(ParticleVertex*& dest, ParticleVertex vertex);
+		inline void write_vertex(ParticleVertex*& dest, ParticleVertex vertex);
 
 		float m_time = 0.0f;
 		float m_dt = 0.0f;
-		Node3* m_node = nullptr;
+		bool m_ended = false;
 
 		Aabb m_aabb;
 
@@ -135,9 +139,10 @@ namespace mud
 	class TPool;
 #endif
 
-	export_ struct MUD_GFX_EXPORT ParticleSystem
+	export_ class MUD_GFX_EXPORT ParticleSystem
 	{
-		ParticleSystem(GfxSystem& gfx_system, uint16_t maxEmitters = 64);
+	public:
+		ParticleSystem(GfxSystem& gfx_system, TPool<Particles>& emitters);
 		~ParticleSystem();
 
 		GfxSystem& m_gfx_system;
@@ -148,25 +153,11 @@ namespace mud
 		void update(float timestep);
 		void render(uint8_t pass, const mat4& view, const vec3& eye);
 		
-		unique_ptr<TPool<ParticleEmitter>> m_emitters;
+		TPool<Particles>& m_emitters;
 
 		bgfx::ProgramHandle m_program;
 
 		uint32_t m_num = 0;
-	};
-
-	export_ class refl_ MUD_GFX_EXPORT Particles
-	{
-	public:
-		Particles(ParticleSystem& particle_system, Node3& node);
-		~Particles();
-
-		attr_ Node3& m_node;
-
-		ParticleSystem& m_particle_system;
-		ParticleEmitter& m_emitter;
-
-		void upload();
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT BlockParticles : public GfxBlock

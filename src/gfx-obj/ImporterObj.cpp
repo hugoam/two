@@ -199,8 +199,6 @@ namespace mud
 		Clock clock;
 		clock.step();
 
-		model.m_meshes.reserve(1024);
-
 		bool generate_tangents = false;
 
 		std::vector<vec3> vertices;

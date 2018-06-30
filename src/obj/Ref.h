@@ -17,17 +17,16 @@ namespace mud
 	{
 	public:
 		Ref() : m_type(nullptr), m_value(nullptr) {}
-		Ref(Type& type) : m_type(&type), m_value(nullptr) {}
 		Ref(void* value, Type& type) : m_type(&type), m_value(value) {}
+		explicit Ref(Type& type) : m_type(&type), m_value(nullptr) {}
 		template <class T>
-		Ref(T* object) : m_type(&typeof<T>(object)), m_value(object) {}
+		explicit Ref(T* object) : m_type(&type_of<T>(object)), m_value(object) {}
 		template <class T>
-		Ref(const T* object) : m_type(&typeof<T>(object)), m_value(const_cast<T*>(object)) {}
+		explicit Ref(const T* object) : m_type(&type_of<T>(object)), m_value(const_cast<T*>(object)) {}
 
 		inline bool operator==(const Ref& other) const { return m_type == other.m_type && m_value == other.m_value; }
-		inline operator bool() const { return m_value != nullptr; }
-
-		inline Type& type() const { return *m_type; }
+		inline bool operator!=(const Ref& other) const { return m_type != other.m_type || m_value != other.m_value; }
+		inline explicit operator bool() const { return m_value != nullptr; }
 
 		Type* m_type;
 		void* m_value;
@@ -44,4 +43,6 @@ namespace mud
 
 	export_ template <class T>
 	Ref ref(const T* value) { return Ref(value); }
+
+	export_ inline Type& type(Ref ref) { return *ref.m_type; }
 }

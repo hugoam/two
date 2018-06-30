@@ -16,6 +16,5 @@ namespace mud
     // Exported types
     
     template <> MUD_PROTO_EXPORT Type& type<mud::Complex>() { static Type ty("Complex"); return ty; }
-    template <> MUD_PROTO_EXPORT Type& type<mud::Construct>() { static Type ty("Construct"); return ty; }
     template <> MUD_PROTO_EXPORT Type& type<mud::Prototype>() { static Type ty("Prototype"); return ty; }
 }

@@ -23,12 +23,49 @@ namespace mud
 {
 	export_ struct MUD_GFX_EXPORT GpuMesh
 	{
+		GpuMesh() {}
+		GpuMesh(size_t vertex_count, size_t index_count)
+			: m_vertex_count(vertex_count), m_index_count(index_count)
+		{}
+
+		template <class T_Vertex, class T_Index>
+		void init()
+		{
+			m_vertex_format = T_Vertex::vertex_format;
+			m_data = MeshData(this->template vertices<T_Vertex>(), this->template indices<T_Index>());
+		}
+
+		size_t m_vertex_format = 0;
+		
+		size_t m_vertex_count = 0;
+		size_t m_index_count = 0;
+
 		const bgfx::Memory* m_vertex_memory = nullptr;
 		const bgfx::Memory* m_index_memory = nullptr;
 
-		array<ShapeVertex> m_vertices = {};
-		array<ShapeIndex> m_indices = {};
+		MeshData m_data = {};
+
+		template <class T_Vertex>
+		inline array<T_Vertex> vertices() {	return { reinterpret_cast<T_Vertex*>(m_vertex_memory->data), m_vertex_count }; }
+
+		template <class T_Index>
+		inline array<T_Index> indices() { return { reinterpret_cast<T_Index*>(m_index_memory->data), m_index_count }; }
 	};
+
+	template <class T_Vertex, class T_Index>
+	GpuMesh alloc_mesh(size_t vertex_count, size_t index_count)
+	{
+		GpuMesh gpu_mesh = { vertex_count, index_count };
+		
+		gpu_mesh.m_vertex_memory = bgfx::alloc(sizeof(T_Vertex) * vertex_count);
+		gpu_mesh.m_index_memory = bgfx::alloc(sizeof(T_Index) * index_count);
+
+		gpu_mesh.init<T_Vertex, T_Index>();
+
+		//memset(gpu_mesh.m_vertices.m_pointer, 64, sizeof(ShapeVertex) * vertexCount);
+
+		return gpu_mesh;
+	}
 
 	export_ class refl_ MUD_GFX_EXPORT Mesh
 	{
@@ -47,22 +84,31 @@ namespace mud
 		attr_ vec3 m_origin = Zero3;
 		attr_ bool m_readback = false;
 
-		attr_ size_t m_vertexCount = 0;
-		attr_ size_t m_indexCount = 0;
+		attr_ size_t m_vertex_count = 0;
+		attr_ size_t m_index_count = 0;
 
 		attr_ Material* m_material = nullptr;
 
 		bgfx::VertexBufferHandle m_vertex_buffer = BGFX_INVALID_HANDLE;
 		bgfx::IndexBufferHandle m_index_buffer = BGFX_INVALID_HANDLE;
 
-		std::vector<ShapeVertex> m_vertices;
-		std::vector<ShapeIndex> m_indices;
+		std::vector<uint8_t> m_cached_vertices;
+		std::vector<uint8_t> m_cached_indices;
+
+		MeshData m_cache;
 
 		void read(MeshData& data, const mat4& transform) const;
 		void write(DrawMode draw_mode, array<ShapeVertex> vertices, array<ShapeIndex> indices);
-		GpuMesh allocate(DrawMode draw_mode, size_t numVertices, size_t numIndices);
-		void upload(const GpuMesh& gpu_mesh);
-		void conserve(const GpuMesh& gpu_mesh);
+		void upload(DrawMode draw_mode, const GpuMesh& gpu_mesh);
+		void cache(const GpuMesh& gpu_mesh);
 		uint64_t submit() const;
+
+		template <class T_Vertex, class T_Index>
+		void cache(const GpuMesh& gpu_mesh)
+		{
+			this->cache(gpu_mesh);
+			m_cache = MeshData(array<T_Vertex>{ (T_Vertex*)m_cached_vertices.data(), m_vertex_count }, 
+							   array<T_Index>{ (T_Index*)m_cached_indices.data(), m_index_count });
+		}
 	};
 }

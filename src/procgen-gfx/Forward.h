@@ -14,7 +14,7 @@
 #include <ui/Forward.h>
 #include <uio/Forward.h>
 #include <gfx/Forward.h>
-#include <edit/Forward.h>
+#include <gfx-ui/Forward.h>
 
 #ifndef MUD_PROCGEN_GFX_EXPORT
 #define MUD_PROCGEN_GFX_EXPORT MUD_IMPORT
@@ -44,10 +44,12 @@ namespace glm {
     
 }
 
-namespace bgfx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace json11 {
@@ -72,12 +74,10 @@ namespace detail {
 }
 }
 
-namespace mud {
-namespace gfx {
+namespace bgfx {
 
     
     
-}
 }
 
 namespace bimg {

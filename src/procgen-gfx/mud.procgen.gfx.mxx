@@ -20,7 +20,7 @@ export import mud.ctx;
 export import mud.ui;
 export import mud.uio;
 export import mud.gfx;
-export import mud.edit;
+export import mud.gfx.ui;
 
 #include <procgen-gfx/Api.h>
 

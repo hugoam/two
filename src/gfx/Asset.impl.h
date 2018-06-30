@@ -58,6 +58,8 @@ namespace mud
 	template <class T_Asset>
 	T_Asset& AssetStore<T_Asset>::create(cstring name)
 	{
+		if(m_assets.find(name) != m_assets.end())
+			printf("WARNING: creating asset of already existing name: previous asset deleted\n");
 		m_assets[name] = make_unique<T_Asset>(name);
 		return *m_assets[name];
 	}

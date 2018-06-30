@@ -9,6 +9,12 @@
 #include <math/Math.h>
 #include <math/Colour.h>
 
+namespace glm
+{
+	inline bool operator<(const uvec2& lhs, const uvec2& rhs) { return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y); }
+	inline bool operator<(const ivec2& lhs, const ivec2& rhs) { return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y); }
+}
+
 namespace mud
 {
 	export_ inline vec3 to_vec3(const Colour& colour) { return { colour.m_r, colour.m_g, colour.m_b }; }
@@ -26,11 +32,15 @@ namespace mud
 	export_ inline quat angle_axis(float angle, const vec3& axis) { return glm::angleAxis(angle, axis); }
 	export_ inline quat axis_angle(const vec3& axis, float angle) { return glm::angleAxis(angle, axis); }
 	export_ inline quat rotate(const quat& q, float angle, const vec3& axis) { return glm::rotate(q, angle, axis); }
+	export_ inline quat rotate(const quat& q, const vec3& axis, float angle) { return glm::rotate(q, angle, axis); }
 	//inline vec3 rotate(const vec3& v, float angle, const vec3& axis) { return glm::rotate(v, angle, axis); }
 	export_ inline vec3 rotate(const quat& q, const vec3& vec) { return q * vec; }
 #endif
 
 	export_ inline vec3 rotate(const vec3& v, float angle, const vec3& axis) { return angle_axis(angle, axis) * v; }
+	export_ inline vec3 rotate(const vec3& v, const vec3& axis, float angle) { return angle_axis(angle, axis) * v; }
+
+	export_ quat look_at(const vec3& eye, const vec3& target);
 
 	export_ MUD_MATH_EXPORT uint32_t pack4(const vec4& vec);
 	export_ MUD_MATH_EXPORT uint32_t pack3(const vec3& vec);
