@@ -81,10 +81,10 @@ namespace mud
 		SceneViewer(Widget* parent, void* identity);
 	};
 
-	export_ class OrbitController : public ViewerController//, public EventDispatch
+	export_ class refl_ MUD_GFX_UI_EXPORT OrbitController : public ViewerController//, public EventDispatch
 	{
 	public:
-		OrbitController(Viewer& viewer);
+		OrbitController(Viewer& viewer, float yaw = 0.f, float pitch = 0.f, float distance = 1.f);
 
 		Viewer& m_viewer;
 
@@ -100,7 +100,7 @@ namespace mud
 		void set_position(const vec3& position);
 	};
 
-	export_ class FreeOrbitController : public OrbitController
+	export_ class refl_ MUD_GFX_UI_EXPORT FreeOrbitController : public OrbitController
 	{
 	public:
 		FreeOrbitController(Viewer& viewer);
@@ -113,7 +113,8 @@ namespace ui
 	export_ MUD_GFX_UI_EXPORT func_ Viewer& viewer(Widget& parent, Scene& scene);
 	export_ MUD_GFX_UI_EXPORT func_ SceneViewer& scene_viewer(Widget& parent, const vec2& size = Zero2);
 
-	export_ MUD_GFX_UI_EXPORT OrbitController& orbit_controller(Viewer& viewer);
+	export_ MUD_GFX_UI_EXPORT OrbitController& orbit_controller(Viewer& viewer, float yaw = 0.f, float pitch = 0.f, float distance = 1.f);
 	export_ MUD_GFX_UI_EXPORT FreeOrbitController& free_orbit_controller(Viewer& viewer);
+	export_ MUD_GFX_UI_EXPORT OrbitController& isometric_controller(Viewer& viewer, bool topdown = false);
 }
 }

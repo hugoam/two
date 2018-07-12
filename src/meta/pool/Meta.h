@@ -56,6 +56,7 @@ namespace mud
         meta_class<mud::Pool>();
     }
     
+    
 
     
         m.m_types.push_back(&type<mud::Pool>());

@@ -14,6 +14,8 @@
 #include <meta/math/Module.h>
 #include <meta/geom/Module.h>
 #include <meta/ctx/Module.h>
+#include <meta/ctx-glfw/Module.h>
+#include <meta/bgfx/Module.h>
 #endif
         
 #include <gfx/Forward.h>

@@ -7,7 +7,9 @@
 
 #ifndef MUD_MODULES
 #include <meta/infra/Module.h>
+#include <meta/tree/Module.h>
 #include <meta/obj/Module.h>
+#include <meta/proto/Module.h>
 #include <meta/pool/Module.h>
 #include <meta/refl/Module.h>
 #include <meta/math/Module.h>

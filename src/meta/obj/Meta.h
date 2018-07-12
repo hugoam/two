@@ -164,7 +164,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Indexer>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::None },
+                { type<mud::Indexer>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Link },
                 { type<mud::Indexer>(), member_address(&mud::Indexer::m_objects), type<std::vector<mud::Ref>>(), "objects", var(std::vector<mud::Ref>()), Member::Value }
             },
             // methods
@@ -279,6 +279,11 @@ namespace mud
         
         meta_class<mud::Type>();
     }
+    
+    
+    
+    
+    
     
     
     

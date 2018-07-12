@@ -23,7 +23,7 @@ namespace ui
 	{
 		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
-			window.enableState(ACTIVATED);
+			window.enable_state(ACTIVATED);
 			//if(!window.m_dock) // crashes for some reason
 			window.m_frame.layer().moveToTop();
 		}

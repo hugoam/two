@@ -124,9 +124,9 @@ namespace gfx
 				item.m_lights.push_back(light);
 	}
 
-	void update_item_aabb(Item& item, size_t instances)
+	void update_item_aabb(Item& item)
 	{
-		if(instances == 0)
+		if(item.m_instances.size() == 0)
 		{
 			item.m_aabb = transform_aabb(item.m_model->m_aabb, item.m_node.transform());
 		}
@@ -152,9 +152,11 @@ namespace gfx
 			self.m_item->m_material = material;
 		if(transforms.size() > 0)
 			transforms.copy(self.m_item->m_instances);
+		if(instances > 0)
+			self.m_item->m_instances.resize(instances);
 		if((flags & ITEM_NO_UPDATE) == 0)
 		{
-			update_item_aabb(*self.m_item, instances);
+			update_item_aabb(*self.m_item);
 			update_item_lights(*self.m_item);
 		}
 		return *self.m_item;

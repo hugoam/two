@@ -55,12 +55,31 @@ namespace mud
 		std::function<void(Render&)> m_custom_function;
 	};
 
+	export_ struct refl_ Fog
+	{
+		attr_ mut_ bool m_enabled = false;
+		attr_ mut_ float m_density = 0.1f;
+		attr_ mut_ Colour m_colour = Colour::White;
+
+		attr_ mut_ bool m_depth = false;
+		attr_ mut_ float m_depth_begin = 0.f;
+		attr_ mut_ float m_depth_curve = 1.f;
+
+		attr_ mut_ bool m_height = false;
+		attr_ mut_ float m_height_min = 0.f;
+		attr_ mut_ float m_height_max = 1.f;
+		attr_ mut_ float m_height_curve = 1.f;
+
+		attr_ mut_ bool m_transmit = false;
+		attr_ mut_ float m_transmit_curve = 1.f;
+	};
+
 	export_ struct refl_ Environment
 	{
 		attr_ mut_ Background m_background;
 		attr_ mut_ Radiance m_radiance;
 		attr_ mut_ Sun m_sun;
-		//Fog* m_fog = nullptr;
+		attr_ mut_ Fog m_fog;
 	};
 
 	class Shot;

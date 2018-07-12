@@ -299,14 +299,6 @@ namespace mud
 
 	string to_name(Type& type, Ref value)
 	{
-#ifdef MUD_PROTO
-		if(meta(type).m_type_class == TypeClass::Complex)
-		{
-			Complex& construct = *val<Complex>(value).m_construct;
-			return to_name(construct.m_prototype, &construct);
-		}
-#endif
-		
 		string name;
 		if(is_basic(type))
 			name = to_string(value);

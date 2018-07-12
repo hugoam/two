@@ -15,6 +15,9 @@ module mud.gfx.pbr;
 #include <gfx/Item.h>
 #include <gfx/Shot.h>
 #include <gfx/Program.h>
+#include <gfx/Filter.h>
+#include <gfx/Pipeline.h>
+#include <gfx/RenderTarget.h>
 #include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/Shadow.h>
@@ -363,6 +366,8 @@ namespace mud
 	void BlockShadow::begin_gfx_block(Render& render)
 	{
 		UNUSED(render);
+		//BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
+		//copy.debug_show_texture(as<FrameBuffer>(*render.m_target), m_csm.m_depth, true);
 	}
 
 	void BlockShadow::submit_gfx_block(Render& render)
@@ -388,7 +393,7 @@ namespace mud
 			//element.shader_version.set_option(m_index, CSM_BLEND, light->m_shadow_blend_splits);
 
 			element.m_shader_version.set_mode(m_index, CSM_NUM_CASCADES, light->m_shadow_num_splits);
-			element.m_shader_version.set_mode(m_index, CSM_PCF_LEVEL, 0);
+			element.m_shader_version.set_mode(m_index, CSM_PCF_LEVEL, 1);
 
 			vec2 pcf_offset = { 1.f, 1.f };
 			vec4 csm_params = { vec2(1.f / float(m_csm.m_size)), pcf_offset };

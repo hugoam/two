@@ -97,6 +97,8 @@ namespace mud
         meta_class<mud::RenderSystem>();
     }
     
+    
+    
 
     
         m.m_types.push_back(&type<mud::Context>());

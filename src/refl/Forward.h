@@ -44,7 +44,6 @@ namespace mud {
     class Sequence;
     class Namespace;
     class Module;
-    class ModuleLoader;
     class System;
 }
 

@@ -49,7 +49,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGlow : public GfxBlock
 	{
 	public:
-		BlockGlow(GfxSystem& gfx_system, BlockFilter& filter, BlockBlur& blur);
+		BlockGlow(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy, BlockBlur& blur);
 
 		virtual void init_gfx_block() final;
 
@@ -63,6 +63,7 @@ namespace mud
 		void render(Render& render, Glow& glow);
 
 		BlockFilter& m_filter;
+		BlockCopy& m_copy;
 		BlockBlur& m_blur;
 
 		GlowUniform u_uniform;

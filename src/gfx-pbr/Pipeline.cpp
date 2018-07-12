@@ -44,7 +44,7 @@ namespace mud
 		// effects
 		BlockDofBlur& dof_blur = pipeline.add_block<BlockDofBlur>(gfx_system, filter);
 		//BlockExposure& exposure = pipeline.add_block<BlockExposure>(gfx_system);
-		BlockGlow& glow = pipeline.add_block<BlockGlow>(gfx_system, filter, blur);
+		BlockGlow& glow = pipeline.add_block<BlockGlow>(gfx_system, filter, copy, blur);
 		BlockTonemap& tonemap = pipeline.add_block<BlockTonemap>(gfx_system, filter, copy);
 
 		pipeline.m_pass_blocks[size_t(PassType::Depth)] = { &depth };

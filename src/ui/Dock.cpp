@@ -89,12 +89,13 @@ namespace ui
 
 	Widget* dockitem(Docker& docker, cstring name, array<uint16_t> dockid)
 	{
-		static std::map<string, Dock> docks;
-		if(docks.find(name) == docks.end())
+		if(docker.m_docksystem->m_docks.find(name) == docker.m_docksystem->m_docks.end())
 		{
-			docks[name] = { docker, name, to_vector(dockid) };
+			docker.m_docksystem->m_docks[name] = { docker, name, to_vector(dockid) };
+			docker.m_docks.push_back(&docker.m_docksystem->m_docks[name]);
 		}
-		return dockitem(docker, *docker.m_docksystem, docks[name]);
+
+		return dockitem(docker, *docker.m_docksystem, docker.m_docksystem->m_docks[name]);
 	}
 }
 }

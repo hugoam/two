@@ -54,7 +54,7 @@ namespace mud {
     
     struct Colour;
     class Lerp;
-    class Grid3;
+    class Grided3;
     struct Image;
     struct Palette;
     struct Image256;

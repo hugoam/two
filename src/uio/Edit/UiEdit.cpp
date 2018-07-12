@@ -38,7 +38,7 @@ namespace mud
 		{
 			string size = "size : " + truncate_number(to_string(widget->m_frame.m_size.x)) + ", " + truncate_number(to_string(widget->m_frame.m_size.y));
 			TreeNode& node = ui::tree_node(parent, carray<cstring, 2>{ widget->m_frame.d_style->name(), size.c_str() });
-			node.m_header->setState(SELECTED, selected == widget.get());
+			node.m_header->set_state(SELECTED, selected == widget.get());
 			if(node.m_header->activated())
 				selected = widget.get();
 			if(node.m_body)

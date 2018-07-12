@@ -82,7 +82,7 @@ namespace ui
 		Widget& self = button(parent, header_style);
 		Widget& button = toggle(self, toggle_style, open);
 		multi_item(self, styles().row, elements);
-		self.setState(HOVERED, self.hovered() || button.hovered());
+		self.set_state(HOVERED, self.hovered() || button.hovered());
 		return self;
 	}
 
@@ -137,7 +137,7 @@ namespace ui
 		Widget& header = tab_header(*tabber.m_head, name);
 		if(header.activated())
 			tabber.m_active = index;
-		header.setState(ACTIVE, tabber.m_active == index);
+		header.set_state(ACTIVE, tabber.m_active == index);
 		if(index == tabber.m_active)
 			return &tab_body(*tabber.m_body, index);
 		return nullptr;

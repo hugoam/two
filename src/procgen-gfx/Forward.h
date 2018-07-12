@@ -5,6 +5,7 @@
 #include <infra/Config.h>
 
 #include <infra/Forward.h>
+#include <tree/Forward.h>
 #include <obj/Forward.h>
 #include <srlz/Forward.h>
 #include <math/Forward.h>
@@ -44,12 +45,10 @@ namespace glm {
     
 }
 
-namespace mud {
-namespace gfx {
+namespace bx {
 
     
     
-}
 }
 
 namespace json11 {
@@ -63,7 +62,7 @@ namespace mud {
     
     
     struct TileModel;
-    class Tileblock;
+    class WfcBlock;
 }
 
 namespace mud {
@@ -74,10 +73,12 @@ namespace detail {
 }
 }
 
-namespace bgfx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace bimg {
@@ -86,7 +87,7 @@ namespace bimg {
     
 }
 
-namespace bx {
+namespace bgfx {
 
     
     

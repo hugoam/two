@@ -21,6 +21,7 @@ namespace mud
 	};
 
 	export_ MUD_REFL_EXPORT string to_name(Type& type, Ref value);
+	export_ inline string to_name(Ref value) { return to_name(type(value), value); }
 
 	export_ template <>
 	inline void to_string<Ref>(const Ref& object, string& str) { convert(*object.m_type).m_to_string(object, str); }

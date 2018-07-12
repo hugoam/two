@@ -74,7 +74,7 @@ namespace mud
 
 		for(Module* m : System::instance().m_modules)
 		{
-			ui::label(functions, m->m_name).enableState(DISABLED);
+			ui::label(functions, m->m_name).enable_state(DISABLED);
 			for(Function* function : m->m_functions)
 				if(fits_filter(function->m_name, filter))
 					if(ui::multi_button(functions, ui::dropdown_styles().choice, carray<cstring, 2>{ "(function)", function->m_name }).activated())
@@ -89,7 +89,7 @@ namespace mud
 
 		for(Module* m : System::instance().m_modules)
 		{
-			ui::label(values, m->m_name).enableState(DISABLED);
+			ui::label(values, m->m_name).enable_state(DISABLED);
 			for(Type* type : m->m_types)
 				if(is_struct(*type) || is_base_type(*type))
 					if(fits_filter(type->m_name, filter))
@@ -105,7 +105,7 @@ namespace mud
 
 		for(Module* m : System::instance().m_modules)
 		{
-			ui::label(types, m->m_name).enableState(DISABLED);
+			ui::label(types, m->m_name).enable_state(DISABLED);
 			for(Type* type : m->m_types)
 				if(g_class[type->m_id] && !cls(*type).m_constructors.empty()) //is_struct(*type) || is_base_type(*type))
 					if(fits_filter(type->m_name, filter))

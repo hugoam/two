@@ -104,6 +104,7 @@ namespace mud
 		declare_shape<Circle>(*this);
 		declare_shape<Ellipsis>(*this);
 		declare_shape<Grid2>(*this);
+		declare_shape<Grid3>(*this);
 		declare_shape<Quad>(*this);
 		declare_shape<Rect>(*this);
 		declare_shape<Triangle>(*this);

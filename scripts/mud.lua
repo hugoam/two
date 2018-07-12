@@ -100,9 +100,13 @@ function mud_snd()
 end
 
 function uses_mud_snd()
-    links {
-        "OpenAL32",
-    }
+    configuration { "asmjs" }
+        --links { "openal" }
+        
+    configuration { "not asmjs" }
+        links { "OpenAL32" }
+        
+    configuration {}
 end
 
 function mud_db()
@@ -133,7 +137,7 @@ mud.procgen = mud_module("mud", "procgen",  MUD_SRC_DIR, "procgen", nil,        
 mud.lang    = mud_module("mud", "lang",     MUD_SRC_DIR, "lang",    nil,        mud_lang,       nil,                { lua, mud.infra, mud.obj, mud.pool, mud.refl })
 mud.ctx     = mud_module("mud", "ctx",      MUD_SRC_DIR, "ctx",     nil,        nil,            nil,                { mud.infra, mud.obj, mud.math })
 mud.ui      = mud_module("mud", "ui",       MUD_SRC_DIR, "ui",      nil,        mud_ui,         uses_mud_ui,        { json11, mud.infra, mud.obj, mud.refl, mud.srlz, mud.math, mud.ctx })
-mud.uio     = mud_module("mud", "uio",      MUD_SRC_DIR, "uio",     nil,        nil,            nil,                { mud.infra, mud.tree, mud.obj, mud.pool, mud.refl, mud.math, mud.lang, mud.ctx, mud.ui })
+mud.uio     = mud_module("mud", "uio",      MUD_SRC_DIR, "uio",     nil,        nil,            nil,                { mud.infra, mud.tree, mud.obj, mud.proto, mud.pool, mud.refl, mud.math, mud.lang, mud.ctx, mud.ui })
 mud.snd     = mud_module("mud", "snd",      MUD_SRC_DIR, "snd",     nil,        mud_snd,        uses_mud_snd,       { ogg, vorbis, vorbisfile, mud.obj, mud.math })
 --mud_sys(true)
 --mud_vec(true)
@@ -176,7 +180,7 @@ else
 end
 
 function mud_binary(name, modules, deps)
-    mud_lib(name, modules, "ConsoleApp")
+    mud_lib(name, modules, "ConsoleApp", deps)
     defines { "_" .. name:upper() .. "_EXE" }
     mud_binary_config()
 end

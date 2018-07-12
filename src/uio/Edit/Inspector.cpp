@@ -51,7 +51,7 @@ namespace mud
 	bool member_edit(Widget& parent, Ref object, Member& member, EditorHint hint = EditorHint::Inline)
 	{
 		Var value = get_safe(member, object);
-		bool changed = any_edit(parent, value.m_ref, member.is_link(), hint);
+		bool changed = any_edit(parent, value.m_ref, member.is_link() | member.is_pointer(), hint);
 
 		if(changed && member.is_mutable())
 			set_safe(member, object, value);
@@ -143,19 +143,16 @@ namespace mud
 		Widget& self = ui::table(parent, { columns, 2 }, { spans, 2 });
 		bool changed = object_edit_rows(self, object);
 
-#ifdef MUD_PROTO
-		if(meta(object).m_type_class == TypeClass::Complex)
+		Class* c = g_class[type(object).m_id] ? &cls(object) : nullptr;
+		if(c != nullptr)
 		{
-			Complex& modular = val<Complex>(object);
-
-			for(Type* type : modular.m_prototype.m_parts)
+			for(Member* member : c->m_components)
 			{
-				Widget* part_node = ui::tree_node(parent, type->m_name, false, true).m_body;
+				Widget* part_node = ui::tree_node(parent, member->m_name, false, true).m_body;
 				if(part_node)
-					changed |= object_edit_rows(*part_node, modular.part(*type));
+					changed |= object_edit_rows(*part_node, member->get(object));
 			}
 		}
-#endif
 
 		return changed;
 	}
@@ -189,7 +186,7 @@ namespace mud
 		Section& self = section(parent, "Inspector", {}, true);
 		EditState& state = self.state<EditState>();
 		if(state.object)
-			return object_edit(*self.m_body, state.object);
+			return object_edit_table(*self.m_body, state.object);
 		return false;
 	}
 
@@ -232,7 +229,7 @@ namespace mud
 		for(size_t i = 0; i < objects.size(); ++i)
 		{
 			Widget& row = object_edit_inline_item(table, objects[i]);
-			row.setState(SELECTED, selected == i);
+			row.set_state(SELECTED, selected == i);
 			if(row.activated())
 				selected = i;
 		}

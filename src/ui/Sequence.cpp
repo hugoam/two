@@ -50,7 +50,7 @@ namespace ui
 			changed = true;
 		}
 
-		element.setState(SELECTED, vector_has(selection, object));
+		element.set_state(SELECTED, vector_has(selection, object));
 		return changed;
 	}
 
@@ -63,7 +63,7 @@ namespace ui
 			changed = true;
 		}
 
-		element.setState(SELECTED, object == selection);
+		element.set_state(SELECTED, object == selection);
 		return changed;
 	}
 

@@ -70,8 +70,22 @@ namespace mud
 
 	void Cascade::create(uvec2 size, bgfx::TextureFormat::Enum color_format)
 	{
-		if(bgfx::isTextureValid(0, true, 1, color_format, BGFX_TEXTURE_BLIT_DST | GFX_TEXTURE_CLAMP))
-			m_texture = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), true, 1, color_format, BGFX_TEXTURE_BLIT_DST | GFX_TEXTURE_CLAMP);
+		//uint32_t flags = BGFX_TEXTURE_BLIT_DST | GFX_TEXTURE_CLAMP;
+		uint32_t flags = BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP;
+
+		if(bgfx::isTextureValid(0, true, 1, color_format, flags))
+		{
+			m_texture = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), true, 1, color_format, flags);
+
+			for(uint16_t i = 0; size.x > 1 && i < 9; ++i)
+			{
+				bgfx::Attachment attachment = { m_texture, i, 0 };
+				m_mips[i] = make_unique<FrameBuffer>(size, bgfx::createFrameBuffer(1, &attachment, false));
+				size.x >>= 1;
+				size.y >>= 1;
+			}
+
+		}
 	}
 
 	Cascade::~Cascade()
@@ -82,7 +96,7 @@ namespace mud
 
 	RenderTarget::RenderTarget(uvec2 size)
 		: FrameBuffer(size)
-		, m_msaa(MSAA::X16)
+		//, m_msaa(MSAA::X16)
 	{
 		static const uint32_t msaa_value[] = { BGFX_TEXTURE_RT, BGFX_TEXTURE_RT_MSAA_X2, BGFX_TEXTURE_RT_MSAA_X4, BGFX_TEXTURE_RT_MSAA_X8, BGFX_TEXTURE_RT_MSAA_X16 };
 		uint32_t render_target_flags = msaa_value[size_t(m_msaa)];

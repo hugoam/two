@@ -153,7 +153,7 @@ namespace mud
 		, Viewer(parent, identity, *this)
 	{}
 
-	OrbitController::OrbitController(Viewer& viewer) : m_viewer(viewer) {}
+	OrbitController::OrbitController(Viewer& viewer, float yaw, float pitch, float distance) : m_viewer(viewer), m_yaw(yaw), m_pitch(pitch), m_distance(distance) {}
 
 	void OrbitController::process(Viewer& viewer)
 	{
@@ -216,10 +216,10 @@ namespace ui
 		return self;
 	}
 
-	OrbitController& orbit_controller(Viewer& viewer)
+	OrbitController& orbit_controller(Viewer& viewer, float yaw, float pitch, float distance)
 	{
 		if(!viewer.m_controller)
-			viewer.m_controller = make_unique<OrbitController>(viewer);
+			viewer.m_controller = make_unique<OrbitController>(viewer, yaw, pitch, distance);
 		viewer.m_controller->process(viewer);
 		return as<OrbitController>(*viewer.m_controller);
 	}
@@ -264,6 +264,25 @@ namespace
 		controller.m_position += velocity;
 
 		return controller;
+	}
+
+	OrbitController& isometric_controller(Viewer& viewer, bool topdown)
+	{
+		OrbitController& orbit = orbit_controller(viewer);
+
+		if(topdown)
+		{
+			orbit.m_yaw = c_pi / 2.f;
+			orbit.m_pitch = -c_pi / 2.f;
+		}
+		else
+		{
+			orbit.m_yaw = c_pi / 4.f;
+			orbit.m_pitch = -c_pi / 4.f;
+		}
+
+		orbit.update_position();
+		return orbit;
 	}
 }
 }

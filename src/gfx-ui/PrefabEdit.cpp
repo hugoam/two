@@ -32,7 +32,7 @@ namespace mud
 		if(self.m_header->activated())
 			selected = &node;
 
-		self.m_header->setState(ACTIVE, selected == &node);
+		self.m_header->set_state(ACTIVE, selected == &node);
 
 		if(ui::button(*self.m_header, "+").activated())
 		{

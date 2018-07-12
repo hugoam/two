@@ -44,6 +44,9 @@ namespace mud
 		constr_ Quad(const vec3& a, const vec3& b, const vec3& c, const vec3& d);
 
 		Quad(const vec2& size, const vec3& x = X3, const vec3& y = Y3);
+		Quad(const vec2& offset, const vec2& size, const vec3& x = X3, const vec3& y = Y3);
+		Quad(const vec3& center, const vec2& size, const vec3& x = X3, const vec3& y = Y3);
+		Quad(const vec3& center, const vec2& offset, const vec2& size, const vec3& x = X3, const vec3& y = Y3);
 		Quad(float size, const vec3& x = X3, const vec3& y = Y3);
 		Quad(const Rect& rect);
 

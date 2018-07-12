@@ -14,7 +14,7 @@ struct GLFWwindow;
 #endif
 
 #ifndef MUD_CTX_GLFW_EXPORT
-#define MUD_CTX_GLFW_EXPORT //MUD_IMPORT
+#define MUD_CTX_GLFW_EXPORT MUD_IMPORT
 #endif
 
 namespace mud

@@ -5,6 +5,7 @@
 #pragma once
 
 #include <ctx/Forward.h>
+#include <bgfx/Config.h>
 
 #ifndef MUD_MODULES
 	#if defined MUD_CONTEXT_GLFW

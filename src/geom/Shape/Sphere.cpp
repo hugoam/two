@@ -14,7 +14,7 @@ module mud.geom;
 #endif
 
 #define ICO_SPHERE_LOD 2
-#define MUD_SPHERE_ICOSPHERE
+//#define MUD_SPHERE_ICOSPHERE
 
 namespace mud
 {

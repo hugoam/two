@@ -9,11 +9,13 @@
 #include <math/Math.h>
 #include <math/Colour.h>
 
+#ifndef MUD_META_GENERATOR
 namespace glm
 {
 	inline bool operator<(const uvec2& lhs, const uvec2& rhs) { return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y); }
 	inline bool operator<(const ivec2& lhs, const ivec2& rhs) { return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y); }
 }
+#endif
 
 namespace mud
 {
@@ -40,7 +42,7 @@ namespace mud
 	export_ inline vec3 rotate(const vec3& v, float angle, const vec3& axis) { return angle_axis(angle, axis) * v; }
 	export_ inline vec3 rotate(const vec3& v, const vec3& axis, float angle) { return angle_axis(angle, axis) * v; }
 
-	export_ quat look_at(const vec3& eye, const vec3& target);
+	export_ MUD_MATH_EXPORT quat look_at(const vec3& eye, const vec3& target, const vec3& forward = -Z3);
 
 	export_ MUD_MATH_EXPORT uint32_t pack4(const vec4& vec);
 	export_ MUD_MATH_EXPORT uint32_t pack3(const vec3& vec);

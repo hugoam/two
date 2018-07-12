@@ -25,9 +25,7 @@ namespace mud
 		: m_docker(&docker)
 		, m_name(name)
 		, m_dockid(dockid)
-	{
-		docker.m_docks.push_back(this);
-	}
+	{}
 
 	Dockable::Dockable(Widget* parent, void* identity)
 		: Widget(parent, identity)
@@ -95,6 +93,14 @@ namespace mud
 		: Docker(parent, identity, docksystem)
 	{}
 
+	Dockspace::~Dockspace()
+	{
+		for(Dock* dock : m_docks)
+		{
+			m_docksystem->m_docks.erase(dock->m_name);
+		}
+	}
+
 	Dockable& Dockspace::pinpoint_dock(const vec2& pos)
 	{
 		Widget* widget = this->pinpoint(pos, [](Frame& frame) { return frame.d_style == &ui::dock_styles().docksection; });
@@ -161,7 +167,7 @@ namespace mud
 		Widget& toggle = ui::button(*m_togglebar, ui::dock_styles().docktoggle, icon.c_str());
 		if(toggle.activated())
 			m_current_tab = m_current_tab == dock.m_dockid.back() ? SIZE_MAX : dock.m_dockid.back();
-		toggle.setState(ACTIVE, m_current_tab == dock.m_dockid.back());
+		toggle.set_state(ACTIVE, m_current_tab == dock.m_dockid.back());
 
 		if(m_current_tab == dock.m_dockid.back())
 			return ui::window(*m_dockzone, dock.m_name, static_cast<WindowState>(0), &dock, &dock).m_body; // dock_styles().dockbox

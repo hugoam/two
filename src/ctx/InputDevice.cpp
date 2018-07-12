@@ -39,7 +39,7 @@ namespace mud
 	void Keyboard::dispatch_event(KeyEvent evt)
 	{
 		m_events.push_back(evt);
-		m_dispatcher.dispatchEvent(m_events.back());
+		m_dispatcher.dispatch_event(m_events.back());
 	}
 
 	void Keyboard::key_char(KeyCode key, char c)
@@ -86,7 +86,7 @@ namespace mud
 	{
 		input_event.m_delta = m_pos - m_last_pos;
 		m_events.push_back(input_event);
-		m_dispatcher.dispatchEvent(m_events.back());
+		m_dispatcher.dispatch_event(m_events.back());
 		return m_events.back();
 	}
 
@@ -95,7 +95,7 @@ namespace mud
 		input_event.m_pressed = pressed_pos;
 		input_event.m_target = target;
 		m_events.push_back(input_event);
-		m_dispatcher.dispatchEvent(m_events.back(), pressed);
+		m_dispatcher.dispatch_event(m_events.back(), pressed);
 		return m_events.back();
 	}
 
@@ -133,6 +133,12 @@ namespace mud
 		mouse_event.m_deltaZ = amount;
 	}
 
+	void Mouse::fix_press(ControlNode& node)
+	{
+		for(MouseButton& button : m_buttons)
+			button.m_pressed = &node;
+	}
+
 	MouseButton::MouseButton(Mouse& mouse, DeviceType deviceType)
 		: InputDevice(mouse.m_dispatcher)
 		, m_mouse(mouse)
@@ -143,7 +149,7 @@ namespace mud
 	{
 		MouseEvent& mouse_event = m_mouse.dispatch_event(MouseEvent(m_deviceType, EventType::Pressed, pos, modifiers));
 
-		m_pressed = m_dispatcher.dispatchEvent(mouse_event);
+		m_pressed = m_dispatcher.dispatch_event(mouse_event);
 		m_pressed_event = mouse_event;
 	}
 

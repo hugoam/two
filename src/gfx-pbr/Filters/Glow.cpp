@@ -11,6 +11,8 @@ module mud.gfx.pbr;
 #else
 #include <gfx/RenderTarget.h>
 #include <gfx/Filter.h>
+#include <gfx/Pipeline.h>
+#include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/Filters/Glow.h>
 #include <gfx-pbr/Filters/Blur.h>
@@ -21,9 +23,10 @@ module mud.gfx.pbr;
 
 namespace mud
 {
-	BlockGlow::BlockGlow(GfxSystem& gfx_system, BlockFilter& filter, BlockBlur& blur)
+	BlockGlow::BlockGlow(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy, BlockBlur& blur)
 		: GfxBlock(gfx_system, *this)
 		, m_filter(filter)
+		, m_copy(copy)
 		, m_blur(blur)
 		, m_bleed_program("filter/glow_bleed")
 		, m_merge_program("filter/glow")
@@ -43,6 +46,8 @@ namespace mud
 	void BlockGlow::begin_gfx_block(Render& render)
 	{
 		UNUSED(render);
+		//BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
+		//copy.debug_show_texture(*render.m_target, render.m_target->m_cascade.m_texture, false, false, false, 1);
 	}
 
 	void BlockGlow::submit_gfx_block(Render& render)
@@ -85,10 +90,19 @@ namespace mud
 		{
 			m_blur.gaussian_pass(render, rect, i, true, kernel);
 			m_blur.gaussian_pass(render, rect, i, false, kernel);
-			
-			bgfx::blit(render.composite_pass(),
-					   render.m_target->m_cascade.m_texture, i + 1, 0, 0, 0,
-					   render.m_target->m_ping_pong.last(), 0, 0, 0, 0, uint16_t(rect_w(rect)) , uint16_t(rect_h(rect)), 1);
+
+			bool blit_support = (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0;
+			//bool blit_support = false;
+
+			vec4 rectfix = { rect_offset(rect), vec2(float(rect_w(rect) >> (i+1)), float(rect_h(rect) >> (i+1))) };
+			RenderQuad quad = { rectfix, vec4(rect), false, false };
+
+			if(blit_support)
+				bgfx::blit(render.composite_pass(),
+						   render.m_target->m_cascade.m_texture, i + 1, 0, 0, 0,
+						   render.m_target->m_ping_pong.last(), 0, 0, 0, 0, uint16_t(rect_w(rect)), uint16_t(rect_h(rect)), 1);
+			else
+				m_copy.submit_quad(*render.m_target->m_cascade.m_mips[i + 1], render.composite_pass(), render.m_target->m_ping_pong.last(), quad);
 		}
 	}
 

@@ -17,12 +17,13 @@ namespace mud
 
 	using LayoutDef = void(*)(Layout&);
 	using InkStyleDef = void(*)(InkStyle&);
+	using StyleDef = void(*)(Style&);
 
 	export_ class refl_ MUD_UI_EXPORT Style
 	{
 	public:
-		Style(cstring name, Style* base, LayoutDef layout, InkStyleDef skin = nullptr);
-		Style(cstring name, Style& base, LayoutDef layout, InkStyleDef skin = nullptr) : Style(name, &base, layout, skin) {}
+		Style(cstring name, Style* base, LayoutDef layout, InkStyleDef skin = nullptr, StyleDef style = nullptr);
+		Style(cstring name, Style& base, LayoutDef layout, InkStyleDef skin = nullptr, StyleDef style = nullptr) : Style(name, &base, layout, skin, style) {}
 		~Style();
 
 		Style(const Style& other);

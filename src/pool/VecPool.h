@@ -71,6 +71,15 @@ namespace mud
 		}
 
 	public:
+		template<class... Types>
+		inline T& construct(Types&&... args)
+		{
+			T* at = this->alloc();
+			new (at) T(std::forward<Types>(args)...);
+			return *at;
+		}
+
+	public:
 		size_t m_size;
 		std::vector<T*> m_available;
 		std::vector<T*> m_objects;

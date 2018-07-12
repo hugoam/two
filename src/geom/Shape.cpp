@@ -108,6 +108,10 @@ namespace mud
 	Points::Points(const std::vector<vec3>& points) : Shape(type<Points>()), m_points(points) {}
 	object_ptr<Shape> Points::clone() const { return make_object<Points>(*this); }
 
+	Grid3::Grid3() : Shape(type<Grid3>()) {}
+	Grid3::Grid3(const uvec2& size, const std::vector<vec3>& points) : Shape(type<Grid3>()), m_size(size), m_points(points) { m_points.resize(size.x * size.y); }
+	object_ptr<Shape> Grid3::clone() const { return make_object<Grid3>(*this); }
+
 	ConvexHull::ConvexHull() : Shape(type<ConvexHull>()) {}
 	ConvexHull::ConvexHull(const std::vector<vec3>& vertices) : Shape(type<ConvexHull>()), m_vertices(vertices) {}
 	object_ptr<Shape> ConvexHull::clone() const { return make_object<ConvexHull>(*this); }
@@ -190,45 +194,41 @@ namespace mud
 		return face_aabb(face.m_vertices);
 	}
 
-	Quad::Quad(const vec2& size, const vec3& x, const vec3& y)
-		: Shape(type<Quad>())
+	void quad_vertices(const vec2& size, const vec3& u, const vec3& v, array<vec3> vertices, const vec2& offset = Zero2)
 	{
-		m_vertices[0] = (x * size.x + y * size.y) / 2.f;
-		m_vertices[1] = (x * size.x - y * size.y) / 2.f;
-		m_vertices[2] = -m_vertices[0];
-		m_vertices[3] = -m_vertices[1];
+		vec3 offset3d = u * offset.x + v * offset.y;
+		vec3 a = (u * size.x + v * size.y) / 2.f;
+		vec3 b = (u * size.x - v * size.y) / 2.f;
+		vertices[0] = a + offset3d;
+		vertices[1] = b + offset3d;
+		vertices[2] = -a + offset3d;
+		vertices[3] = -b + offset3d;
 	}
 
-	Quad::Quad(float size, const vec3& x, const vec3& y)
-		: Quad({ size, size }, x, y)
-	{}
+	Quad::Quad(const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>()) { quad_vertices(size, x, y, { m_vertices, 4 }); }
+	Quad::Quad(const vec2& offset, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>()) { quad_vertices(size, x, y, { m_vertices, 4 }, offset); }
+	Quad::Quad(const vec3& center, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>(), center) { quad_vertices(size, x, y, { m_vertices, 4 }); }
+	Quad::Quad(const vec3& center, const vec2& offset, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>(), center) { quad_vertices(size, x, y, { m_vertices, 4 }, offset); }
+	Quad::Quad(float size, const vec3& x, const vec3& y) : Quad({ size, size }, x, y) {}
+	Quad::Quad(const Rect& rect) : Quad({ rect.m_size.x, rect.m_size.y }, X3, Z3) {}
 
-	Quad::Quad(const Rect& rect)
-		: Quad({ rect.m_size.x, rect.m_size.y }, X3, Z3)
-	{}
-
-	Box::Box(array<vec3> vertices)
-		: Shape(type<Box>())
+	void box_vertices(const vec3& center, const vec3& extents, array<vec3> vertices)
 	{
-		array<vec3> dest = { m_vertices.data(), 8 };
-		vertices.copy(dest);
+		vec3 min = center - extents;
+		vec3 max = center + extents;
+
+		vertices[0] = { min.x, min.y, max.z };
+		vertices[1] = { max.x, min.y, max.z };
+		vertices[2] = { max.x, max.y, max.z };
+		vertices[3] = { min.x, max.y, max.z };
+		vertices[4] = { max.x, min.y, min.z };
+		vertices[5] = { min.x, min.y, min.z };
+		vertices[6] = { min.x, max.y, min.z };
+		vertices[7] = { max.x, max.y, min.z };
 	}
 
-	Box::Box(const Cube& cube)
-		: Shape(type<Box>())
-	{
-		vec3 min = cube.m_center - cube.m_extents;
-		vec3 max = cube.m_center + cube.m_extents;
-
-		m_vertices[0] = { min.x, min.y, max.z };
-		m_vertices[1] = { max.x, min.y, max.z };
-		m_vertices[2] = { max.x, max.y, max.z };
-		m_vertices[3] = { min.x, max.y, max.z };
-		m_vertices[4] = { max.x, min.y, min.z };
-		m_vertices[5] = { min.x, min.y, min.z };
-		m_vertices[6] = { min.x, max.y, min.z };
-		m_vertices[7] = { max.x, max.y, min.z };
-	}
+	Box::Box(array<vec3> vertices) : Shape(type<Box>()) { array<vec3> dest = { m_vertices.data(), 8 }; vertices.copy(dest); }
+	Box::Box(const Cube& cube) : Shape(type<Box>()) { box_vertices(cube.m_center, cube.m_extents, m_vertices); }
 
 	Symbol::Symbol(Colour outline, Colour fill, bool overlay, bool double_sided, SymbolDetail detail)
 		: m_outline(outline)

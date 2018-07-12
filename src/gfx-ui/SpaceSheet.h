@@ -25,7 +25,7 @@ namespace mud
 
 		void transformCoordinates(MouseEvent& mouse_event);
 
-		virtual void receiveEvent(InputEvent& inputEvent);
+		virtual void receive_event(InputEvent& inputEvent);
 
 	private:
 		SpaceViewport& m_viewport;

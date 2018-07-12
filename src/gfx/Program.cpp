@@ -103,7 +103,7 @@ namespace mud
 
 		bool emscripten = is_opengl && false;
 #ifdef MUD_PLATFORM_EMSCRIPTEN
-		//emscripten = true;
+		emscripten = true;
 #endif
 
 		if(emscripten)
@@ -130,8 +130,6 @@ namespace mud
 		if(emscripten)
 		{
 			push_arg(args, "--platform", "android");
-			//push_arg(args, "--platform", "linux");
-			//push_arg(args, "--profile", "110");
 		}
 		else if(is_opengl)
 		{

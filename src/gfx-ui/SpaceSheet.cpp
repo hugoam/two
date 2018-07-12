@@ -116,7 +116,7 @@ namespace mud
 		mouse_event.m_pos.y = -rel[1] / m_size_ratio + m_frame.m_size.y / 2.f;
 	}
 
-	void SpaceSheet::receiveEvent(InputEvent& inputEvent)
+	void SpaceSheet::receive_event(InputEvent& inputEvent)
 	{
 		inputEvent.dispatch(m_mouse, m_keyboard);
 	}

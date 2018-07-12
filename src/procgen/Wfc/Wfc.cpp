@@ -92,7 +92,17 @@ namespace mud
 					}
 
 					if(entropy == 0 || states == 0)
+					{
+						int directions = m_depth == 1 ? 4 : 6;
+
+						for(int d = 0; d < directions; d++)
+						{
+							uvec3 coord;
+							neighbour(*this, { x, y, z }, SignedAxis(d), coord);
+							m_failure_point[d] = tile_at(*this, coord.x, coord.y, coord.z);
+						}
 						return Result::kFail;
+					}
 
 					if(states == 1)
 						continue; // Already frozen

@@ -23,13 +23,18 @@ namespace mud
 
 		void clear();
 
-		Pool& pool(Type& type);
+		inline Pool& pool(Type& type) { return *m_pools[&type].get(); }
 
 		template <class T>
-		TPool<T>& pool() { return as<TPool<T>>(this->pool(type<T>())); }
+		inline TPool<T>& pool()
+		{
+			if(m_pools.find(&type<T>()) == m_pools.end())
+				m_pools[&type<T>()] = make_unique<TPool<T>>();
+			return as<TPool<T>>(*m_pools[&type<T>()].get());
+		}
 
 		template <class T>
-		TPool<T>& create_pool(size_t size = 12) { m_pools[&type<T>()] = make_unique<TPool<T>>(size); return pool<T>(); }
+		inline TPool<T>& create_pool(size_t size = 12) { m_pools[&type<T>()] = make_unique<TPool<T>>(size); return pool<T>(); }
 
 		std::unordered_map<Type*, unique_ptr<Pool>> m_pools;
 	};

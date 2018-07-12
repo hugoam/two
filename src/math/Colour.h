@@ -79,6 +79,22 @@ namespace mud
 	export_ MUD_MATH_EXPORT func_ Colour rgba_to_hsla(const Colour& colour);
 	export_ MUD_MATH_EXPORT func_ Colour hsla_to_rgba(const Colour& colour);
 
+	inline Colour saturation(const Colour& colour, float amount)
+	{
+		Colour result = rgb_to_hsl(colour.m_r, colour.m_g, colour.m_b);
+		result.m_s *= amount;
+		return hsl_to_rgb(result.m_h, result.m_s, result.m_l);
+	}
+
+	inline Colour offset_hsl(const Colour& colour, float h, float s, float l)
+	{
+		Colour result = rgb_to_hsl(colour.m_r, colour.m_g, colour.m_b);
+		result.m_h *= h;
+		result.m_s *= s;
+		result.m_l *= l;
+		return hsl_to_rgb(result.m_h, result.m_s, result.m_l);
+	}
+
 	export_ inline Colour to_colour(uint8_t r, uint8_t g, uint8_t b) { return Colour(float(r) / 255.f, float(g) / 255.f, float(b) / 255.f); }
 	export_ inline Colour to_colour(uint8_t r, uint8_t g, uint8_t b, uint8_t a) { return Colour(float(r) / 255.f, float(g) / 255.f, float(b) / 255.f, float(a) / 255.f); }
 }

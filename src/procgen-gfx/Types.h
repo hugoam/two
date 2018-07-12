@@ -4,11 +4,12 @@
 
 #if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/Type.h>
-//#include <proto/Proto.h>
+#include <obj/Vector.h>
 #endif
 
 #ifndef MUD_MODULES
 #include <infra/Types.h>
+#include <tree/Types.h>
 #include <obj/Types.h>
 #include <srlz/Types.h>
 #include <math/Types.h>
@@ -23,8 +24,8 @@
 
 #ifndef MUD_CPP_20
 #include <string>
-#include <vector>
 #include <cstdint>
+#include <vector>
 #endif
 
 
@@ -33,5 +34,8 @@ namespace mud
     // Exported types
     
     export_ template <> MUD_PROCGEN_GFX_EXPORT Type& type<mud::TileModel>();
-    export_ template <> MUD_PROCGEN_GFX_EXPORT Type& type<mud::Tileblock>();
+    export_ template <> MUD_PROCGEN_GFX_EXPORT Type& type<mud::WfcBlock>();
+    
+	export_ template struct MUD_PROCGEN_GFX_EXPORT Typed<std::vector<mud::TileModel*>>;
+	export_ template struct MUD_PROCGEN_GFX_EXPORT Typed<std::vector<mud::WfcBlock*>>;
 }

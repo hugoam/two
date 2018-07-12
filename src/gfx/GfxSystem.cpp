@@ -77,6 +77,7 @@ namespace mud
 
 		unique_ptr<TPool<Mesh>> m_meshes;
 		unique_ptr<TPool<Rig>> m_rigs;
+		unique_ptr<TPool<Animation>> m_animations;
 
 		unique_ptr<AssetStore<Texture>> m_textures;
 		unique_ptr<AssetStore<Program>> m_programs;
@@ -115,6 +116,7 @@ namespace mud
 
 	TPool<Mesh>& GfxSystem::meshes() { return *m_impl->m_meshes; }
 	TPool<Rig>& GfxSystem::rigs() { return *m_impl->m_rigs; }
+	TPool<Animation>& GfxSystem::animations() { return *m_impl->m_animations; }
 
 	AssetStore<Texture>& GfxSystem::textures() { return *m_impl->m_textures; }
 	AssetStore<Program>& GfxSystem::programs() { return *m_impl->m_programs; }
@@ -136,6 +138,7 @@ namespace mud
 
 		m_impl->m_meshes = make_unique<TPool<Mesh>>();
 		m_impl->m_rigs = make_unique<TPool<Rig>>();
+		m_impl->m_animations = make_unique<TPool<Animation>>();
 
 		m_impl->m_textures = make_unique<AssetStore<Texture>>(*this, "textures/", load_texture);
 		m_impl->m_programs = make_unique<AssetStore<Program>>(*this, "programs/", ".prg");
@@ -165,6 +168,11 @@ namespace mud
 		this->set_renderer(Shading::Clear, clear_renderer);
 
 		this->create_debug_materials();
+	}
+
+	void GfxSystem::add_resource_path(cstring path)
+	{
+		m_impl->m_resource_paths.push_back(m_resource_path + path);
 	}
 
 	void GfxSystem::set_renderer(Shading shading, Renderer& renderer)
@@ -208,11 +216,10 @@ namespace mud
 		Render render(viewport, *context.m_target, frame);
 		render.m_scene.gather_render(render);
 		render.m_viewport.render(render);
-		renderer.render(render);
+		
+		if(rect_w(viewport.m_rect) != 0 && rect_h(viewport.m_rect) != 0)
+			renderer.render(render);
 
-		//BlockCopy& copy = *m_pipeline->block<BlockCopy>();
-		//copy.debug_show_texture(*render.m_target, m_pipeline->block<BlockShadow>()->m_csm.m_depth, true);
-		//copy.debug_show_texture(*render.m_target, render.m_target->m_effects.m_cascade, false, false, false, 2);
 		//copy.debug_show_texture(*render.m_target, render.m_environment->m_radiance.m_texture->m_texture, false, false, false, 0);
 		//copy.debug_show_texture(*render.m_target, render.m_environment->m_radiance.m_roughness_array, false, false, false, 1);
 		//copy.debug_show_texture(*render.m_target, bgfx::getTexture(render.m_target->m_effects.last()));

@@ -70,6 +70,8 @@ namespace mud
 			m_events->m_control_node = nullptr;
 		if(this->modal())
 			this->yield_modal();
+		if(this->pressed())
+			this->root_sheet().m_mouse.fix_press(this->root_sheet());
 		m_nodes.clear();
 	}
 
@@ -103,7 +105,7 @@ namespace mud
 		return as<RootSheet>(this->root()).m_window;
 	}
 
-	void Widget::setContent(cstring content)
+	void Widget::set_content(cstring content)
 	{
 		string str = content;
 		if(str.front() == '(' && str.back() == ')')
@@ -123,15 +125,15 @@ namespace mud
 		if(m_control.m_modal)
 		{
 			static_cast<Widget*>(m_control.m_modal)->set_modal(nullptr, 0);
-			static_cast<Widget*>(m_control.m_modal)->disableState(FOCUSED);
+			static_cast<Widget*>(m_control.m_modal)->disable_state(FOCUSED);
 			m_control.m_modal->m_control = {};
 		}
 		if(widget)
-			widget->enableState(FOCUSED);
+			widget->enable_state(FOCUSED);
 		m_control = { m_control.m_parent, widget, device_filter };
 	}
 
-	void Widget::toggleState(WidgetState state)
+	void Widget::toggle_state(WidgetState state)
 	{
 		m_state = static_cast<WidgetState>(m_state ^ state);
 		m_frame.update_state(m_state);
@@ -148,7 +150,7 @@ namespace mud
 		return frame ? &frame->d_widget : nullptr;
 	}
 
-	void Widget::transformEvent(InputEvent& event)
+	void Widget::transform_event(InputEvent& event)
 	{
 		if(event.m_deviceType >= DeviceType::Mouse)
 		{
@@ -157,30 +159,30 @@ namespace mud
 		}
 	}
 
-	ControlNode* Widget::controlEvent(InputEvent& event)
+	ControlNode* Widget::control_event(InputEvent& event)
 	{
-		this->transformEvent(event);
+		this->transform_event(event);
 
 		if((m_control.m_mask & device_mask(event.m_deviceType)) != 0)
-			return m_control.m_modal->controlEvent(event);
+			return m_control.m_modal->control_event(event);
 
 		if(event.m_deviceType >= DeviceType::Mouse)
 		{
 			MouseEvent& mouse_event = static_cast<MouseEvent&>(event);
 			Widget* pinned = this->pinpoint(mouse_event.m_relative);
-			return (pinned && pinned != this) ? pinned->controlEvent(event) : this;
+			return (pinned && pinned != this) ? pinned->control_event(event) : this;
 		}
 
 		return this;
 	}
 
-	void Widget::receiveEvent(InputEvent& event)
+	void Widget::receive_event(InputEvent& event)
 	{
 		if(event.m_consumer) return;
-		this->transformEvent(event);
+		this->transform_event(event);
 	}
 
-	ControlNode* Widget::propagateEvent(InputEvent& event)
+	ControlNode* Widget::propagate_event(InputEvent& event)
 	{
 		UNUSED(event);
 		return m_parent;

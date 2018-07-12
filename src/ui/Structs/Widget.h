@@ -45,13 +45,13 @@ namespace mud
 		RootSheet& root_sheet();
 		Widget& parent_modal();
 
-		void setContent(cstring content);
+		void set_content(cstring content);
 
-		void toggleState(WidgetState state);
+		void toggle_state(WidgetState state);
 
-		void disableState(WidgetState state) { if(m_state & state) this->toggleState(state); }
-		void setState(WidgetState state, bool enabled) { enabled ? enableState(state) : disableState(state); }
-		void enableState(WidgetState state) { if(!(m_state & state)) this->toggleState(state); }
+		void disable_state(WidgetState state) { if(m_state & state) this->toggle_state(state); }
+		void set_state(WidgetState state, bool enabled) { enabled ? enable_state(state) : disable_state(state); }
+		void enable_state(WidgetState state) { if(!(m_state & state)) this->toggle_state(state); }
 
 		void clear_focus() { this->parent_modal().set_modal(nullptr, device_mask(DeviceType::Keyboard)); }
 		void take_focus() { this->take_modal(device_mask(DeviceType::Keyboard)); }
@@ -72,10 +72,10 @@ namespace mud
 
 		MouseEvent mouse_event(DeviceType device, EventType event_type, InputModifier modifier = InputModifier::None, bool consume = true);
 		
-		void transformEvent(InputEvent& inputEvent);
-		ControlNode* controlEvent(InputEvent& inputEvent);
-		void receiveEvent(InputEvent& inputEvent);
-		ControlNode* propagateEvent(InputEvent& inputEvent);
+		void transform_event(InputEvent& event);
+		ControlNode* control_event(InputEvent& event);
+		void receive_event(InputEvent& event);
+		ControlNode* propagate_event(InputEvent& event);
 
 		attr_ Frame m_frame;
 		WidgetState m_state = CREATED;
@@ -87,7 +87,7 @@ namespace mud
 
 		Widget& layer();
 
-		bool once() { if((m_state & CREATED) != 0) { disableState(CREATED); return true; } return false; }
+		bool once() { if((m_state & CREATED) != 0) { disable_state(CREATED); return true; } return false; }
 		Widget& init(Style& style, bool open = false, Dim length = DIM_NONE, Dim2<size_t> index = { 0, 0 }) { if(!m_frame.d_style) { m_frame.solver(style, length, index); m_open = open; } return *this; }
 	};
 

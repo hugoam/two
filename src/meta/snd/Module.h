@@ -6,8 +6,6 @@
 #endif
 
 #ifndef MUD_MODULES
-#include <meta/obj/Module.h>
-#include <meta/math/Module.h>
 #endif
         
 #include <snd/Forward.h>

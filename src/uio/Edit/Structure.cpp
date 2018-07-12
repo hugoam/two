@@ -26,31 +26,19 @@ namespace mud
 {
 	using string = std::string;
 
-	Widget& structure_widget(Widget& parent)
-	{
-		ScrollSheet& sheet = ui::scroll_sheet(parent);
-		ui::tree(*sheet.m_body);
-		return sheet;
-	}
-
-	Widget& structure_node_widget(Widget& parent, Ref object, std::vector<Ref>& selection)
-	{
-		TreeNode& self = ui::tree_node(parent, carray<cstring, 2>{ object_icon(object).c_str(), object_name(object).c_str() }, false, false);
-		self.setState(SELECTED, vector_has(selection, object));
-		if(self.m_header->activated())
-			vector_select(selection, object);
-		return self;
-	}
-
 	void structure_node(Widget& parent, Ref object, std::vector<Ref>& selection)
 	{
-		Widget& self = structure_node_widget(parent, object, selection);
-		//node.refresh(structure_node_refresh, object, selection);
-
-		object_item(self, object);
+		TreeNode& self = ui::tree_node(parent, carray<cstring, 2>{ object_icon(object).c_str(), object_name(object).c_str() }, false, false);
+		
+		self.set_state(SELECTED, vector_has(selection, object));
+		
+		if(self.m_header->activated())
+			vector_select(selection, object);
+		
+		//object_item(self, object);
 
 		for(auto& member : cls(object).m_members)
-			if(member.cls().m_iterable && member.is_structure())
+			if(member.is_structure() && (member.cls().m_is_iterable || member.cls().m_iterable))
 			{
 				Var value = member.get(object);
 				iterate_sequence(value, [&](Ref element) {
@@ -61,7 +49,8 @@ namespace mud
 
 	void structure_view(Widget& parent, Ref object, std::vector<Ref>& selection)
 	{
-		Widget& self = section(parent, "Structure");
-		structure_node(self, object, selection);
+		ScrollSheet& sheet = ui::scroll_sheet(parent);
+		Widget& tree = ui::tree(*sheet.m_body);
+		structure_node(tree, object, selection);
 	}
 }

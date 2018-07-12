@@ -20,7 +20,7 @@ namespace mud
 		: Viewer(parent, identity, scene)
 	{}
 
-	ControlNode* SpaceViewport::controlEvent(InputEvent& inputEvent)
+	ControlNode* SpaceViewport::control_event(InputEvent& inputEvent)
 	{
 		if(inputEvent.m_deviceType < DeviceType::Mouse)
 			return this;

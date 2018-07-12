@@ -12,6 +12,7 @@ module mud.uio;
 #endif
 #include <refl/Class.h>
 #include <refl/Convert.h>
+#include <proto/Complex.h>
 #include <ui/Structs/Window.h>
 #include <ui/Structs/Container.h>
 #include <ui/Sequence.h>
@@ -25,12 +26,16 @@ namespace mud
 {
 	string object_name(Ref object)
 	{
-		return object ? to_name(type(object), object) : "null";
+		if(!object) return "null";
+		//else if(object.m_type->is<Complex>()) return to_name(val<Complex>(object).m_prototype.m_type, object);
+		else return to_name(type(object), object);
 	}
 
 	string object_icon(Ref object)
 	{
-		return object ? "(" + string(meta(object).m_name) + ")" : "";
+		if(!object) return "";
+		//else if(type(object).is<Complex>()) return "(" + string(val<Complex>(object).m_prototype.m_type.m_name) + ")";
+		else return "(" + string(type(object).m_name) + ")";
 	}
 
 	void object_context(Widget& parent, Ref object, uint32_t mode)
@@ -39,34 +44,25 @@ namespace mud
 		if(!self.m_open)
 			parent.m_switch &= ~mode;
 
-#ifdef MUD_PROTO
-		if(meta(object).m_type_class == TypeClass::Complex)
-			object = val<Complex>(object).m_construct;
-#endif
+		//if(meta(object).m_type_class == TypeClass::Complex)
+		//	object = val<Complex>(object);
 
 		for(Method* method : cls(object).m_deep_methods)
 		{
-#ifdef MUD_PROTO
-			Ref component = cls(object).get_related(object, *method->m_object_type);
-#else
-			Ref component = object;
-#endif
+			Ref component = cls(object).as(object, *method->m_object_type);
 			method_hook(self, component, *method);
 		}
 	}
 
-	enum HookState
-	{
-		HOOK_CONTEXT = (1 << 0)
-	};
-
 	Widget& generic_object_item(Widget& parent, Ref object)
 	{
+		enum Modes { CONTEXT = (1 << 0) };
+
 		Widget& self = ui::multi_button(parent, carray<cstring, 2>{ object_icon(object).c_str(), object_name(object).c_str() });
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
-			self.m_switch |= HOOK_CONTEXT;
-		if((self.m_switch & HOOK_CONTEXT) != 0)
-			object_context(self, object, HOOK_CONTEXT);
+			self.m_switch |= CONTEXT;
+		if((self.m_switch & CONTEXT) != 0)
+			object_context(self, object, CONTEXT);
 		return self;
 	}
 

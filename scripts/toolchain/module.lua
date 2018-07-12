@@ -99,13 +99,14 @@ function mud_links(lib, dep)
     end
     
     for _, deplink in ipairs(dep.links) do
-        if deplink.kind == "StaticLib" then
+        if dep.kind ~= "StaticLib" and deplink.kind == "StaticLib" then
             table.insert(lib.links, deplink)
         end
     end
 end
 
 function mud_depend(lib, m)
+    --print("    depends on " .. m.dotname)
     if lib.name ~= m.lib.name and not table.contains(lib.links, m.lib) then
         mud_links(lib, m.lib)
     end
@@ -133,10 +134,6 @@ function mud_module_decl(m)
     
     --vpaths { [name] = { "**.h", "**.cpp" } }
     
-    if m.lib.kind == "StaticLib" then
-        --defines { "MUD_STATIC" }
-    end
-    
     mud_defines()
     mud_modules(m)
     
@@ -155,7 +152,7 @@ function mud_refl_decl(m, as_project)
     mud_module_decl(m, as_project or m.force_project)
 end
 
-function mud_project(lib, name, modules, libkind)
+function mud_project(lib, name, modules, libkind, optdeps)
     print("lib " .. name)
     lib.project = project(name)
     kind(libkind)
@@ -176,27 +173,26 @@ function mud_project(lib, name, modules, libkind)
         end
     end
     
-    lib.deps = table.inverse(sort_topological(modules, 'deps'))
+    local deps = table.union(modules, optdeps or {})
+    lib.deps = table.inverse(sort_topological(deps, 'deps'))
     
     for _, m in ipairs(lib.deps) do
-        --print("    depends on " .. m.dotname)
         mud_depend(lib, m)
     end
 end
 
-function mud_lib(name, modules, libkind)
+function mud_lib(name, modules, libkind, deps)
     local lib = {}
-    mud_project(lib, name, modules, libkind)
+    mud_project(lib, name, modules, libkind, deps)
     return lib
 end
 
-function mud_libs(modules, libkind)
+function mud_libs(modules, libkind, deps)
     for k, m  in pairs(modules) do
-        m.lib = mud_lib(m.lib, m.idname, libkind)
-        m.decl(m)
+        m.lib = mud_lib(m.idname, { m }, libkind, deps)
         if m.refl then
-            m.refl.lib = mud_lib(m.refl.lib, m.refl.idname, libkind)
-            m.refl.decl(m.refl)
+            m.refl.lib = mud_lib(m.refl.idname, { m.refl }, libkind, deps)
+            table.insert(modules, m.refl)
         end
     end
 end

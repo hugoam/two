@@ -14,6 +14,6 @@ namespace mud
 	public:
 		SpaceViewport(Widget* parent, void* identity, Scene& scene);
 
-		virtual ControlNode* controlEvent(InputEvent& inputEvent);
+		virtual ControlNode* control_event(InputEvent& inputEvent);
 	};
 }

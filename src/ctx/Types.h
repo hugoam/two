@@ -4,7 +4,7 @@
 
 #if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/Type.h>
-//#include <proto/Proto.h>
+#include <obj/Vector.h>
 #endif
 
 #ifndef MUD_MODULES
@@ -15,8 +15,8 @@
 
 #ifndef MUD_CPP_20
 #include <string>
-#include <vector>
 #include <cstdint>
+#include <vector>
 #endif
 
 
@@ -32,4 +32,7 @@ namespace mud
     
     export_ template <> MUD_CTX_EXPORT Type& type<mud::Context>();
     export_ template <> MUD_CTX_EXPORT Type& type<mud::RenderSystem>();
+    
+	export_ template struct MUD_CTX_EXPORT Typed<std::vector<mud::Context*>>;
+	export_ template struct MUD_CTX_EXPORT Typed<std::vector<mud::RenderSystem*>>;
 }

@@ -79,7 +79,7 @@ function mud_reflect(modules)
     local jsons = {}
     for _, m in ipairs(modules) do
         if m.refl then
-            --print('mud reflect ' .. m.idname)
+            print('mud reflect ' .. m.idname)
             current = {
                 namespace = iif(m.namespace, m.namespace, ''),
                 name = m.name,
@@ -101,7 +101,13 @@ function mud_reflect(modules)
             end
             
             -- trick to collect the includes
-            m.refl.decl(m.refl, true)
+            if m.lib then
+                for i, dep in ipairs(m.lib.deps or {}) do
+                    if dep.usage_decl then
+                        dep.usage_decl()
+                    end
+                end
+            end
             
             local json_path = path.join(temp_refl_path, m.idname .. "_refl.json")
             local f, err = io.open(json_path, "wb")

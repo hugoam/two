@@ -40,8 +40,8 @@ namespace mud
             // members
             {
                 { type<mud::Complex>(), member_address(&mud::Complex::m_id), type<mud::Id>(), "id", var(mud::Id()), Member::Value },
-                { type<mud::Complex>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::None },
-                { type<mud::Complex>(), Address(), type<mud::Prototype>(), "prototype", Ref(type<mud::Prototype>()), Member::None }
+                { type<mud::Complex>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Link },
+                { type<mud::Complex>(), Address(), type<mud::Prototype>(), "prototype", Ref(type<mud::Prototype>()), Member::Link }
             },
             // methods
             {
@@ -88,6 +88,8 @@ namespace mud
         
         meta_class<mud::Prototype>();
     }
+    
+    
     
 
     

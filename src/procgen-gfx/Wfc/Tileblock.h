@@ -20,11 +20,12 @@ namespace mud
 		quat m_rotation;
 	};
 
-	export_ class refl_ MUD_PROCGEN_GFX_EXPORT Tileblock : public Updatable
+	export_ class refl_ MUD_PROCGEN_GFX_EXPORT WfcBlock : public Updatable
 	{
 	public:
-		constr_ Tileblock(const uvec3& size, const vec3& scale, WaveTileset& tileset, bool auto_solve = false);
+		constr_ WfcBlock(const vec3& position, const uvec3& size, const vec3& scale, WaveTileset& tileset, bool auto_solve = false);
 
+		attr_ vec3 m_position;
 		attr_ uvec3 m_size;
 		attr_ vec3 m_scale;
 		attr_ Aabb m_aabb;
@@ -48,7 +49,7 @@ namespace mud
 
 		virtual void next_frame(size_t tick, size_t delta) final;
 
-		void load_models(GfxSystem& gfx_system);
+		void load_models(GfxSystem& gfx_system, bool from_file = true);
 
 		meth_ void reset();
 		meth_ void observe();
@@ -57,19 +58,19 @@ namespace mud
 		meth_ void update(Wave& wave);
 	};
 
-	MUD_PROCGEN_GFX_EXPORT void paint_tile_grid(Gnode& parent, Tileblock& tileblock);
-	MUD_PROCGEN_GFX_EXPORT Model& entropy_cube(Gnode& parent, Tileblock& tileblock, uint16_t x, uint16_t y, uint16_t z);
+	MUD_PROCGEN_GFX_EXPORT void paint_tile_grid(Gnode& parent, WfcBlock& tileblock);
+	MUD_PROCGEN_GFX_EXPORT Model& entropy_cube(Gnode& parent, WfcBlock& tileblock, uint16_t x, uint16_t y, uint16_t z);
 
-	MUD_PROCGEN_GFX_EXPORT void paint_tiles(Gnode& parent, Ref object, Tileblock& tileblock, const uvec3& focused = uvec3(UINT32_MAX));
+	MUD_PROCGEN_GFX_EXPORT void paint_tiles(Gnode& parent, Ref object, WfcBlock& tileblock, const uvec3& focused = uvec3(UINT32_MAX));
 
-	MUD_PROCGEN_GFX_EXPORT void paint_tile_cube(Gnode& parent, Tileblock& tileblock, const uvec3& coord, const Colour& outline, const Colour& fill = Colour::None);
-	MUD_PROCGEN_GFX_EXPORT void paint_tile_cube(Gnode& parent, Tileblock& tileblock, const uvec3& coord);
-	MUD_PROCGEN_GFX_EXPORT void paint_tileblock(Gnode& parent, Ref object, Tileblock& tileblock, const uvec3& focused = uvec3(UINT32_MAX));
+	MUD_PROCGEN_GFX_EXPORT void paint_tile_cube(Gnode& parent, WfcBlock& tileblock, const uvec3& coord, const Colour& outline, const Colour& fill = Colour::None);
+	MUD_PROCGEN_GFX_EXPORT void paint_tile_cube(Gnode& parent, WfcBlock& tileblock, const uvec3& coord);
+	MUD_PROCGEN_GFX_EXPORT void paint_tileblock(Gnode& parent, Ref object, WfcBlock& tileblock, const uvec3& focused = uvec3(UINT32_MAX));
 
-	MUD_PROCGEN_GFX_EXPORT void tileset_view(Widget& parent, Tileblock& tileblock, Tileset& tileset);
-	MUD_PROCGEN_GFX_EXPORT void tile_states_view(Widget& parent, Tileblock& tileblock, uvec3& coord);
+	MUD_PROCGEN_GFX_EXPORT void tileset_view(Widget& parent, WfcBlock& tileblock, Tileset& tileset);
+	MUD_PROCGEN_GFX_EXPORT void tile_states_view(Widget& parent, WfcBlock& tileblock, uvec3& coord);
 
-	MUD_PROCGEN_GFX_EXPORT void tileblock_edit(Widget& parent, Viewer& viewer, Tileblock& tileblock, uvec3& highlighted, uvec3& selected, uvec3& focused);
+	MUD_PROCGEN_GFX_EXPORT void tileblock_edit(Widget& parent, Viewer& viewer, WfcBlock& tileblock, uvec3& highlighted, uvec3& selected, uvec3& focused);
 
-	MUD_PROCGEN_GFX_EXPORT void tileblock_editor(Widget& parent, Viewer& viewer, Tileblock& tileblock);
+	MUD_PROCGEN_GFX_EXPORT void tileblock_editor(Widget& parent, Viewer& viewer, WfcBlock& tileblock);
 }

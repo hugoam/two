@@ -52,6 +52,18 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
+	export_ struct refl_ MUD_GEOM_EXPORT Grid3 final : public Shape
+	{
+	public:
+		constr_ Grid3();
+		constr_ Grid3(const uvec2& size, const std::vector<vec3>& points = {});
+
+		attr_ mut_ uvec2 m_size;
+		attr_ mut_ std::vector<vec3> m_points;
+
+		virtual object_ptr<Shape> clone() const;
+	};
+
 	export_ struct refl_ MUD_GEOM_EXPORT ConvexHull final : public Shape
 	{
 	public:

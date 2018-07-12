@@ -79,13 +79,13 @@ namespace ui
 			changed |= slider_cursor(slider, knob, dim, mouse_event, value, metrics, relative);
 
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::DragStarted))
-			self.enableState(PRESSED);
+			self.enable_state(PRESSED);
 
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 			changed |= slider_cursor(slider, knob, dim, mouse_event, value, metrics, relative);
 
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
-			self.disableState(PRESSED);
+			self.disable_state(PRESSED);
 
 		return changed;
 	}

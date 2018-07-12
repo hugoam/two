@@ -8,11 +8,13 @@ function table.extend(dest, source)
 end
 
 function table.union(dest, source)
+    local result = table.copy(dest)
     for _, v in ipairs(source) do
         if not table.contains(dest, v) then
-            table.insert(dest, v)
+            table.insert(result, v)
         end
     end
+    return result
 end
 
 function table.inverse(source)

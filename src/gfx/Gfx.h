@@ -22,6 +22,9 @@ namespace mud
 
 namespace gfx
 {
+	export_ MUD_GFX_EXPORT func_ void update_item_lights(Item& item);
+	export_ MUD_GFX_EXPORT func_ void update_item_aabb(Item& item);
+
 	export_ MUD_GFX_EXPORT func_ Gnode& node(Gnode& parent, Ref object = {}, const vec3& position = Zero3, const quat& rotation = ZeroQuat, const vec3& scale = Unit3);
 	export_ MUD_GFX_EXPORT func_ Gnode& node(Gnode& parent, Ref object, const Transform& transform);
 	export_ MUD_GFX_EXPORT func_ Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation, const vec3& scale);

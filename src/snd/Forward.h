@@ -4,8 +4,6 @@
 
 #include <infra/Config.h>
 
-#include <obj/Forward.h>
-#include <math/Forward.h>
 
 #ifndef MUD_SND_EXPORT
 #define MUD_SND_EXPORT MUD_IMPORT
@@ -30,6 +28,12 @@ namespace ui {
 }
 
 namespace glm {
+
+    
+    
+}
+
+namespace bx {
 
     
     
@@ -62,5 +66,25 @@ namespace detail {
     
     
 }
+}
+
+namespace mud {
+namespace gfx {
+
+    
+    
+}
+}
+
+namespace bimg {
+
+    
+    
+}
+
+namespace bgfx {
+
+    
+    
 }
 

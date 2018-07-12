@@ -22,11 +22,13 @@ using json = json11::Json;
 
 #include <obj/DispatchDecl.h>
 #include <infra/Vector.h>
+#include <infra/File.h>
+#include <infra/String.h>
+#include <infra/StringConvert.h>
+#include <pool/Pool.h>
 #include <srlz/Serial.h>
 #include <refl/System.h>
-#include <infra/File.h>
 #include <refl/Class.h>
-#include <infra/String.h>
 #include <math/VecJson.h>
 #include <math/Interp.h>
 #include <math/Stream.h>
@@ -604,12 +606,13 @@ namespace mud
 		animation.tracks.push_back(track);
 	}
 
-	void import_animation(const glTF& gltf, size_t index, Model& model)
+	void import_animation(const glTF& gltf, glTFImport& state, size_t index, Model& model)
 	{
 		const glTFAnimation& gltf_anim = gltf.m_animations[index];
 
-		model.m_rig->m_animations.push_back({ gltf_anim.name.c_str() });
-		Animation& animation = model.m_rig->m_animations.back();
+		Animation& animation = state.m_gfx_system.animations().construct(gltf_anim.name.c_str());
+		model.m_rig->m_skeleton.m_animations.push_back(&animation);
+
 		animation.m_length = 0.f;
 
 		printf("INFO: Gltf - importing animation %s\n", animation.m_name.c_str());
@@ -731,12 +734,11 @@ namespace mud
 
 		model.add_rig(model.m_name.c_str());
 		model.m_rig->m_skins.reserve(state.m_gltf.m_skins.size());
-		model.m_rig->m_animations.reserve(state.m_gltf.m_animations.size());
 
 		import_skeletons(state.m_gltf, state, model);
 
 		for(size_t i = 0; i < state.m_gltf.m_animations.size(); i++)
-			import_animation(state.m_gltf, int(i), model);
+			import_animation(state.m_gltf, state, int(i), model);
 
 		import_items(state.m_gltf, model);
 

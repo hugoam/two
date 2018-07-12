@@ -128,7 +128,7 @@ namespace mud
 		ALuint m_source = 0;			// OpenAL Source
 		Priority m_priority;			// Priority assigned to source
 		bool m_active = false;
-		bool m_pauseOnDisactivate;
+		bool m_pauseOnDisactivate = false;
 
 		float m_gain = 1.f;				// Current volume
 		float m_pitch = 1.f;			// Current pitch 
@@ -144,7 +144,7 @@ namespace mud
 		float m_duration = 0.f;			// Time in seconds of sound file
 		bool m_seekable = true;			// Flag indicating seeking available
 
-		bool m_sourceRelative;
+		bool m_sourceRelative = true;
 
 		vec3 m_position = Zero3;	// 3D position
 		vec3 m_direction = Zero3;	// 3D direction

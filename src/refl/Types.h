@@ -4,7 +4,7 @@
 
 #if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/Type.h>
-//#include <proto/Proto.h>
+#include <obj/Vector.h>
 #endif
 
 #ifndef MUD_MODULES
@@ -15,8 +15,8 @@
 
 #ifndef MUD_CPP_20
 #include <string>
-#include <vector>
 #include <cstdint>
+#include <vector>
 #endif
 
 
@@ -46,4 +46,25 @@ namespace mud
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Destructor>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Function>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Method>();
+    
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Call*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Callable*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Class*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Convert*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Creator*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Enum*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Injector*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Member*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Meta*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Module*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Namespace*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Param*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Signature*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Static*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::System*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Constructor*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::CopyConstructor*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Destructor*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Function*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Method*>>;
 }

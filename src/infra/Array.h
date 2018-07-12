@@ -70,7 +70,11 @@ namespace mud
 	{
 	public:
 		array_2d(T* pointer, size_t size_x, size_t size_y) : array<T>(pointer, size_x * size_y), m_size_x(size_x), m_size_y(size_y) {}
+		
 		size_t m_size_x;
 		size_t m_size_y;
+
+		inline T& at(size_t x, size_t y) { return (*this)[x+y*m_size_x]; }
+		inline const T& at(size_t x, size_t y) const { return (*this)[x+y*m_size_x]; }
 	};
 }

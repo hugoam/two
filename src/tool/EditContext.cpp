@@ -79,7 +79,7 @@ namespace mud
 	bool edit_tool(Widget& parent, Tool& tool, cstring icon)
 	{
 		Widget& self = ui::toolbutton(parent, icon);
-		self.setState(ACTIVE, tool.m_state == ToolState::Active);
+		self.set_state(ACTIVE, tool.m_state == ToolState::Active);
 		return self.activated();
 	}
 		
@@ -137,7 +137,7 @@ namespace mud
 		if(!selection.empty() && selection[0])
 		{
 			Ref selected = selection[0];
-			Widget& sheet = ui::widget(self, styles().sheet, (void*)selected.m_value);
+			Widget& sheet = ui::widget(*self.m_body, styles().sheet, (void*)selected.m_value);
 			object_edit(sheet, selected);
 		}
 	}

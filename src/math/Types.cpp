@@ -48,7 +48,11 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::ValueTrack<mud::quat>>() { static Type ty("ValueTrack<mud::quat>"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::ValueTrack<mud::vec3>>() { static Type ty("ValueTrack<mud::vec3>"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::ValueTrack<uint32_t>>() { static Type ty("ValueTrack<uint32_t>"); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::bvec3>() { static Type ty("bvec3"); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::bvec4>() { static Type ty("bvec4"); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::ivec2>() { static Type ty("ivec2"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::ivec3>() { static Type ty("ivec3"); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::ivec4>() { static Type ty("ivec4"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::mat4>() { static Type ty("mat4"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::quat>() { static Type ty("quat"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::uvec2>() { static Type ty("uvec2"); return ty; }

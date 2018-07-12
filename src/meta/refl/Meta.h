@@ -211,10 +211,10 @@ namespace mud
             },
             // members
             {
-                { type<mud::Creator>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::None },
+                { type<mud::Creator>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Link },
                 { type<mud::Creator>(), member_address(&mud::Creator::m_construct), type<bool>(), "construct", var(bool()), Member::Value },
                 { type<mud::Creator>(), member_address(&mud::Creator::m_prototype), type<mud::Type>(), "prototype", Ref(type<mud::Type>()), Member::Flags(Member::Pointer|Member::Link) },
-                { type<mud::Creator>(), member_address(&mud::Creator::injector), type<mud::Injector>(), "injector", Ref(type<mud::Injector>()), Member::None }
+                { type<mud::Creator>(), member_address(&mud::Creator::injector), type<mud::Injector>(), "injector", Ref(type<mud::Injector>()), Member::Link }
             },
             // methods
             {
@@ -279,7 +279,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Injector>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::None }
+                { type<mud::Injector>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Link }
             },
             // methods
             {
@@ -395,7 +395,6 @@ namespace mud
         
         meta_class<mud::Module>();
     }
-    
     
     
         
@@ -560,6 +559,26 @@ namespace mud
         
         meta_class<mud::System>();
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

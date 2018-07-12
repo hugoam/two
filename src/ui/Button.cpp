@@ -57,18 +57,18 @@ namespace ui
 	void button_logic(Widget& self)
 	{
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
-			self.enableState(PRESSED);
+			self.enable_state(PRESSED);
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Released))
-			self.disableState(PRESSED);
+			self.disable_state(PRESSED);
 
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
-			self.enableState(ACTIVATED);
+			self.enable_state(ACTIVATED);
 			mouse_event.consume(self);
 		}
 		else
 		{
-			self.disableState(ACTIVATED);
+			self.disable_state(ACTIVATED);
 		}
 	}
 
@@ -79,7 +79,7 @@ namespace ui
 		if(self.activated())
 			on = !on;
 
-		self.setState(ACTIVE, on);
+		self.set_state(ACTIVE, on);
 	}
 
 	Widget& button(Widget& parent, Style& style, cstring content)
@@ -187,7 +187,7 @@ namespace ui
 	Widget& radio_choice(Widget& parent, cstring value, bool active)
 	{
 		Widget& self = multi_button(parent, styles().radio_choice, carray<cstring, 1>{ value }, &styles().radio_choice_item);
-		self.setState(ACTIVE, active);
+		self.set_state(ACTIVE, active);
 		return self;
 	}
 
@@ -212,7 +212,7 @@ namespace ui
 		Widget& header = multi_toggle(self, dropdown_styles().head, self.m_open, carray<cstring, 1>{ value });
 		Widget& button = toggle(self, dropdown_styles().toggle, self.m_open);
 
-		self.setState(HOVERED, header.hovered() || button.hovered());
+		self.set_state(HOVERED, header.hovered() || button.hovered());
 		self.m_body = nullptr;
 
 		if(self.m_open)
@@ -227,7 +227,7 @@ namespace ui
 	Widget& dropdown_choice(Widget& parent, array<cstring> elements, bool active)
 	{
 		Widget& self = multi_button(parent, dropdown_styles().choice, elements);
-		self.setState(ACTIVE, active);
+		self.set_state(ACTIVE, active);
 		return self;
 	}
 

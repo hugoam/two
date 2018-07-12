@@ -82,6 +82,8 @@ namespace mud
 		void moved(vec2 pos);
 		void wheeled(vec2 pos, float amount);
 
+		void fix_press(ControlNode& node);
+
 	public:
 		Keyboard& m_keyboard;
 		vec2 m_pos;

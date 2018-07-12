@@ -16,7 +16,7 @@
 
 namespace mud
 {
-	export_ class Grid3
+	export_ class Grided3
 	{
 	public:
 		struct Dim
@@ -42,7 +42,7 @@ namespace mud
 	};
 
 	export_ template <class T_Array>
-	class Grided : public T_Array, public Grid3
+	class Grided : public T_Array, public Grided3
 	{
 	public:
 		typedef typename T_Array::value_type T;

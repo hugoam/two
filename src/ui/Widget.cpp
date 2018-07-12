@@ -19,9 +19,9 @@ namespace ui
 	void widget_logic(Widget& self)
 	{
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::Mouse, EventType::Heartbeat))
-			self.enableState(HOVERED);
+			self.enable_state(HOVERED);
 		else
-			self.disableState(HOVERED);
+			self.disable_state(HOVERED);
 	}
 
 	Widget& widget(Widget& parent, Style& style, void* identity)
@@ -42,7 +42,7 @@ namespace ui
 	{
 		Widget& self = widget(parent, style);
 		if(content != nullptr)
-			self.setContent(content);
+			self.set_content(content);
 		return self;
 	}
 

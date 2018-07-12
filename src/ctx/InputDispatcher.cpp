@@ -39,7 +39,7 @@ namespace mud
 		m_top = 0;
 	}
 
-	void EventDispatcher::receiveEvent(InputEvent& event, ControlNode& receiver)
+	void EventDispatcher::receive_event(InputEvent& event, ControlNode& receiver)
 	{
 		if(!receiver.m_events)
 		{
@@ -52,13 +52,13 @@ namespace mud
 			receiver.m_events->event(event.m_deviceType, event.m_eventType, event.m_key) = &event;
 	}
 
-	ControlNode* EventDispatcher::dispatchEvent(InputEvent& event, ControlNode* topReceiver)
+	ControlNode* EventDispatcher::dispatch_event(InputEvent& event, ControlNode* topReceiver)
 	{
-		event.m_receiver = topReceiver ? topReceiver : m_control_node.controlEvent(event);
+		event.m_receiver = topReceiver ? topReceiver : m_control_node.control_event(event);
 
 		// @todo dispatch to all receivers from the lowest controller to the top : problem is declaration order is bottom-up so in the wrong order
-		event.m_receiver->receiveEvent(event); // @kludge to call transformEvent
-		this->receiveEvent(event, *event.m_receiver);
+		event.m_receiver->receive_event(event); // @kludge to call transform_event
+		this->receive_event(event, *event.m_receiver);
 		return event.m_receiver;
 	}
 }

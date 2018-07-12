@@ -5,6 +5,7 @@
 #pragma once
 
 #include <ctx/Forward.h>
+#include <ctx/InputEvent.h>
 
 #ifndef MUD_CPP_20
 #include <cstdint>
@@ -26,9 +27,13 @@ namespace mud
 	{
 	public:
 		ControlNode() {}
-		virtual ControlNode* controlEvent(InputEvent& inputEvent) = 0;
-		virtual ControlNode* propagateEvent(InputEvent& inputEvent) = 0;
-		virtual void receiveEvent(InputEvent& inputEvent) = 0;
+
+		virtual ControlNode* control_event(InputEvent& event) = 0;
+		virtual ControlNode* propagate_event(InputEvent& inputEvent) = 0;
+		virtual void receive_event(InputEvent& inputEvent) = 0;
+
+		virtual void take_modal(uint32_t device_filter = uint32_t(DeviceMask::All)) = 0;
+		virtual void yield_modal() = 0;
 
 		EventBatch* m_events = nullptr;
 		ModalControl m_control = {};

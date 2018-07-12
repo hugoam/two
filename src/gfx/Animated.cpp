@@ -11,6 +11,7 @@ module mud.gfx;
 
 #include <infra/Vector.h>
 #include <refl/Class.h>
+#include <refl/Convert.h>
 #include <math/Math.h>
 #include <math/Interp.h>
 #include <gfx/Types.h>
@@ -39,10 +40,10 @@ namespace mud
 
 	void Animated::play(cstring name, bool loop, float blend, float speed, bool transient)
 	{
-		for(Animation& animation : m_rig.m_animations)
-			if(animation.m_name == name)
+		for(Animation* animation : m_rig.m_skeleton.m_animations)
+			if(animation->m_name == name)
 			{
-				this->play(animation, loop, blend, speed, transient);
+				this->play(*animation, loop, blend, speed, transient);
 				return;
 			}
 	}
@@ -207,6 +208,7 @@ namespace mud
 					track.m_value = interpolate(track.m_value, value, interp);
 				*/
 
+				//printf("Animation value for track %s = %s\n", track.m_track->m_node_name.c_str(), to_string(track.m_value).c_str());
 				track.m_track->m_member->set(track.m_target, track.m_value);
 			}
 			else

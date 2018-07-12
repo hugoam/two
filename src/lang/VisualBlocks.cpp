@@ -29,12 +29,12 @@ namespace mud
 		: ProcessValue(script, meta(type).m_empty_var())
 	{}
 
-	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, Meta& meta, const Constructor& constructor)
-		: Process(script, meta.m_name, mud::type<ProcessCreate>())
+	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, const Constructor& constructor)
+		: Process(script, meta(type).m_name, mud::type<ProcessCreate>())
 		, m_object_type(type)
 		, m_injector(type, constructor)
 		, m_inputParams()
-		, m_output(*this, "output", OUTPUT_VALVE, is_struct(type) ? meta.m_empty_var() : Var(meta.m_empty_ref()), false, is_struct(type) ? false : true)
+		, m_output(*this, "output", OUTPUT_VALVE, is_struct(type) ? meta(type).m_empty_var() : Var(meta(type).m_empty_ref()), false, is_struct(type) ? false : true)
 		, m_pool(is_struct(type) ? nullptr : &GlobalPool::me().pool(m_object_type))
 	{
 		for(const Param& param : m_injector.m_constructor.m_params)
@@ -44,11 +44,11 @@ namespace mud
 	}
 
 	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, ConstructorIndex constructor)
-		: ProcessCreate(script, type, meta(type), *cls(type).constructor(constructor))
+		: ProcessCreate(script, type, *cls(type).constructor(constructor))
 	{}
 
 	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, size_t num_args)
-		: ProcessCreate(script, type, meta(type), *cls(type).constructor(num_args))
+		: ProcessCreate(script, type, *cls(type).constructor(num_args))
 	{}
 
 	void ProcessCreate::clear()

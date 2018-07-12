@@ -137,7 +137,7 @@ namespace ui
 		if(input)
 			self.m_knob = &node_knob(self, node_styles().knob, colour, active, connected);
 
-		label(self, name).setState(DISABLED, !active);
+		label(self, name).set_state(DISABLED, !active);
 		UNUSED(icon);
 		//item(self, icon);
 
@@ -177,7 +177,7 @@ namespace ui
 	void canvas_clear_select(Canvas& canvas)
 	{
 		for(Node* selected : canvas.m_selection)
-			selected->disableState(SELECTED);
+			selected->disable_state(SELECTED);
 		canvas.m_selection.clear();
 	}
 
@@ -185,13 +185,13 @@ namespace ui
 	{
 		canvas_clear_select(canvas);
 		vector_select(canvas.m_selection, &node);
-		node.enableState(SELECTED);
+		node.enable_state(SELECTED);
 	}
 
 	void canvas_swap_select(Canvas& canvas, Node& node)
 	{
 		bool selected = vector_swap(canvas.m_selection, &node);
-		node.setState(SELECTED, selected);
+		node.set_state(SELECTED, selected);
 	}
 
 	template <class T>

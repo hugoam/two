@@ -57,8 +57,8 @@ namespace mud
 
 		void update();
 
-		ControlNode* dispatchEvent(InputEvent& inputEvent, ControlNode* topReceiver = nullptr);
-		void receiveEvent(InputEvent& inputEvent, ControlNode& receiver);
+		ControlNode* dispatch_event(InputEvent& event, ControlNode* top_receiver = nullptr);
+		void receive_event(InputEvent& event, ControlNode& receiver);
 
 		ControlNode& m_control_node;
 		std::vector<EventBatch> m_event_batches;

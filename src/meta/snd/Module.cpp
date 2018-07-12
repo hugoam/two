@@ -18,8 +18,6 @@ namespace mud
 		: Module("mud::snd")
 	{
         // ensure dependencies are instantiated
-        mud_obj::m();
-        mud_math::m();
 
         // setup reflection meta data
 		mud_snd_meta(*this);

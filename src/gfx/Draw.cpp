@@ -27,22 +27,21 @@ module mud.gfx;
 
 namespace mud
 {
-	void shapes_size(array<const ProcShape> shapes, array<ShapeSize> size, size_t& count)
+	void shapes_size(array<const ProcShape> shapes, DrawMode draw_mode, ShapeSize& size, size_t& count)
 	{
 		for(const ProcShape& shape : shapes)
-		{
-			if(shape.m_draw_mode == PLAIN)
+			if(shape.m_draw_mode == draw_mode)
 			{
-				size[PLAIN].vec += symbol_triangle_size(shape).vec;
+				size.vec += draw_mode == PLAIN ? symbol_triangle_size(shape).vec
+											   : symbol_line_size(shape).vec;
 				count++;
 			}
+	}
 
-			if(shape.m_draw_mode == OUTLINE)
-			{
-				size[OUTLINE].vec += symbol_line_size(shape).vec;
-				count++;
-			}
-		}
+	void shapes_size(array<const ProcShape> shapes, array<ShapeSize> size, size_t& count)
+	{
+		shapes_size(shapes, PLAIN, size[PLAIN], count);
+		shapes_size(shapes, OUTLINE, size[OUTLINE], count);
 	}
 
 	ImmediateDraw::ImmediateDraw(Material& material)
@@ -227,12 +226,12 @@ namespace mud
 		return model;
 	}
 
-	void draw_model(const ProcShape& shape, Model& model, bool readback)
+	void draw_model(const ProcShape& shape, Model& model, bool readback, Material* material)
 	{
-		draw_model(std::vector<ProcShape>{ { shape } }, model, readback);
+		draw_model(std::vector<ProcShape>{ { shape } }, model, readback, material);
 	}
 
-	void draw_model(const std::vector<ProcShape>& shapes, Model& model, bool readback)
+	void draw_model(const std::vector<ProcShape>& shapes, Model& model, bool readback, Material* material)
 	{
 		ShapeSize size[2] = { { 0, 0 }, { 0, 0 } };
 		size_t shape_count = 0;
@@ -240,16 +239,31 @@ namespace mud
 		shapes_size(shapes, { size, 2 }, shape_count);
 
 		if(size[PLAIN].vertex_count)
-			draw_mesh(shapes, model, size[PLAIN], PLAIN, readback);
+			draw_mesh(shapes, model, size[PLAIN], PLAIN, readback, material);
 		if(size[OUTLINE].vertex_count)
-			draw_mesh(shapes, model, size[OUTLINE], OUTLINE, readback);
+			draw_mesh(shapes, model, size[OUTLINE], OUTLINE, readback, material);
 
 		model.prepare();
 	}
 
-	void draw_mesh(const std::vector<ProcShape>& shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback)
+	void draw_mesh(const ProcShape& shape, Model& model, DrawMode draw_mode, bool readback, Material* material)
+	{
+		draw_mesh(std::vector<ProcShape>{ { shape } }, model, draw_mode, readback, material);
+	}
+
+	void draw_mesh(const std::vector<ProcShape>& shapes, Model& model, DrawMode draw_mode, bool readback, Material* material)
+	{
+		ShapeSize size = { 0, 0 };
+		size_t shape_count = 0;
+
+		shapes_size(shapes, draw_mode, size, shape_count);
+		draw_mesh(shapes, model, size, draw_mode, readback, material);
+	}
+
+	void draw_mesh(const std::vector<ProcShape>& shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback, Material* material)
 	{
 		Mesh& mesh = model.add_mesh((model.m_name + to_string(draw_mode)).c_str(), readback);
+		mesh.m_material = material;
 
 		GpuMesh gpu_mesh = alloc_mesh<ShapeVertex, ShapeIndex>(size.vertex_count, size.index_count);
 		
@@ -263,8 +277,8 @@ namespace mud
 				data.next();
 			}
 
-		//if(draw_mode == PLAIN)
-		//	generate_mikkt_tangents(gpu_mesh.indices<ShapeIndex>(), gpu_mesh.vertices<ShapeVertex>());
+		if(draw_mode == PLAIN)
+			generate_mikkt_tangents(gpu_mesh.indices<ShapeIndex>(), gpu_mesh.vertices<ShapeVertex>());
 
 		mesh.upload(draw_mode, gpu_mesh);
 		if(readback)

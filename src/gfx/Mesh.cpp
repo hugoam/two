@@ -86,7 +86,9 @@ namespace mud
 		}
 
 		for(size_t i = 0; i < source.m_indices.size(); ++i)
+		{
 			dest.index(source.index());
+		}
 
 		dest.next();
 	}

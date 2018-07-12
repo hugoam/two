@@ -29,6 +29,8 @@ namespace mud
 
 		virtual bool next_frame() final;
 
+		virtual void lock_mouse(bool locked) final;
+
 		void resize();
 
 		bool inject_mouse_move(const EmscriptenMouseEvent& mouseEvent);

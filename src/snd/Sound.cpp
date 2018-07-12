@@ -303,7 +303,7 @@ namespace mud
 
 	void Sound::releaseSource()
 	{
-		if(m_pauseOnDisactivate)
+		if(m_state != STOPPED && m_pauseOnDisactivate)
 			pauseImpl();
 
 		alSourceStop(m_source);

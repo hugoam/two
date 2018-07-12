@@ -4,7 +4,7 @@
 
 #if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/Type.h>
-//#include <proto/Proto.h>
+#include <obj/Vector.h>
 #endif
 
 #ifndef MUD_MODULES
@@ -17,8 +17,8 @@
 
 #ifndef MUD_CPP_20
 #include <string>
-#include <vector>
 #include <cstdint>
+#include <vector>
 #endif
 
 #include <procgen/Structs.h>
@@ -43,7 +43,20 @@ namespace mud
     export_ template <> MUD_PROCGEN_EXPORT Type& type<mud::Tile>();
     export_ template <> MUD_PROCGEN_EXPORT Type& type<mud::Tileset>();
     export_ template <> MUD_PROCGEN_EXPORT Type& type<mud::Wave>();
-    export_ template <> MUD_PROCGEN_EXPORT Type& type<mud::WaveTileset>();
     export_ template <> MUD_PROCGEN_EXPORT Type& type<mud::TileWave>();
+    export_ template <> MUD_PROCGEN_EXPORT Type& type<mud::WaveTileset>();
     export_ template <> MUD_PROCGEN_EXPORT Type& type<mud::array_3d<float>>();
+    
+	export_ template struct MUD_PROCGEN_EXPORT Typed<std::vector<mud::Circlifier*>>;
+	export_ template struct MUD_PROCGEN_EXPORT Typed<std::vector<mud::Fract*>>;
+	export_ template struct MUD_PROCGEN_EXPORT Typed<std::vector<mud::FractSample*>>;
+	export_ template struct MUD_PROCGEN_EXPORT Typed<std::vector<mud::FractTab*>>;
+	export_ template struct MUD_PROCGEN_EXPORT Typed<std::vector<mud::Noise*>>;
+	export_ template struct MUD_PROCGEN_EXPORT Typed<std::vector<mud::Pattern*>>;
+	export_ template struct MUD_PROCGEN_EXPORT Typed<std::vector<mud::Tile*>>;
+	export_ template struct MUD_PROCGEN_EXPORT Typed<std::vector<mud::Tileset*>>;
+	export_ template struct MUD_PROCGEN_EXPORT Typed<std::vector<mud::Wave*>>;
+	export_ template struct MUD_PROCGEN_EXPORT Typed<std::vector<mud::TileWave*>>;
+	export_ template struct MUD_PROCGEN_EXPORT Typed<std::vector<mud::WaveTileset*>>;
+	export_ template struct MUD_PROCGEN_EXPORT Typed<std::vector<mud::array_3d<float>*>>;
 }

@@ -735,6 +735,47 @@ namespace mud
     }
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
         
     // mud::ValueCurve<float>
     {
@@ -1125,7 +1166,103 @@ namespace mud
     }
     
     
+        
+    // mud::bvec3
+    {
+        static Meta meta = { type<mud::bvec3>(), &namspc({ "mud" }), "bvec3", sizeof(mud::bvec3), TypeClass::Struct };
+        static Class cls = { type<mud::bvec3>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+                { type<mud::bvec3>(), [](Ref ref, Ref other) { new(&val<mud::bvec3>(ref)) mud::bvec3(val<mud::bvec3>(other)); } }
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::bvec3>();
+    }
     
+    
+        
+    // mud::bvec4
+    {
+        static Meta meta = { type<mud::bvec4>(), &namspc({ "mud" }), "bvec4", sizeof(mud::bvec4), TypeClass::Struct };
+        static Class cls = { type<mud::bvec4>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+                { type<mud::bvec4>(), [](Ref ref, Ref other) { new(&val<mud::bvec4>(ref)) mud::bvec4(val<mud::bvec4>(other)); } }
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::bvec4>();
+    }
+    
+    
+        
+    // mud::ivec2
+    {
+        static Meta meta = { type<mud::ivec2>(), &namspc({ "mud" }), "ivec2", sizeof(mud::ivec2), TypeClass::Struct };
+        static Class cls = { type<mud::ivec2>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+                { type<mud::ivec2>(), [](Ref ref, Ref other) { new(&val<mud::ivec2>(ref)) mud::ivec2(val<mud::ivec2>(other)); } }
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ivec2>();
+    }
     
     
         
@@ -1166,6 +1303,38 @@ namespace mud
         meta_class<mud::ivec3>();
     }
     
+    
+        
+    // mud::ivec4
+    {
+        static Meta meta = { type<mud::ivec4>(), &namspc({ "mud" }), "ivec4", sizeof(mud::ivec4), TypeClass::Struct };
+        static Class cls = { type<mud::ivec4>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+                { type<mud::ivec4>(), [](Ref ref, Ref other) { new(&val<mud::ivec4>(ref)) mud::ivec4(val<mud::ivec4>(other)); } }
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ivec4>();
+    }
     
     
         
@@ -1573,7 +1742,11 @@ namespace mud
         m.m_types.push_back(&type<mud::ValueTrack<mud::quat>>());
         m.m_types.push_back(&type<mud::ValueTrack<mud::vec3>>());
         m.m_types.push_back(&type<mud::ValueTrack<uint32_t>>());
+        m.m_types.push_back(&type<mud::bvec3>());
+        m.m_types.push_back(&type<mud::bvec4>());
+        m.m_types.push_back(&type<mud::ivec2>());
         m.m_types.push_back(&type<mud::ivec3>());
+        m.m_types.push_back(&type<mud::ivec4>());
         m.m_types.push_back(&type<mud::mat4>());
         m.m_types.push_back(&type<mud::quat>());
         m.m_types.push_back(&type<std::vector<float>>());

@@ -17,6 +17,8 @@ module mud.gfx;
 #include <gfx/Model.h>
 #include <gfx/Mesh.h>
 #include <gfx/Skeleton.h>
+#include <gfx/Asset.h>
+#include <gfx/Material.h>
 #include <gfx/GfxSystem.h>
 #endif
 
@@ -77,5 +79,20 @@ namespace mud
 		m_radius = sqrt(2.f) * max(m_aabb.m_extents.x, max(m_aabb.m_extents.y, m_aabb.m_extents.z));
 
 		m_origin = m_aabb.m_center;
+	}
+
+	Model& model_variant(GfxSystem& gfx_system, Model& original, cstring name, array<cstring> materials, array<Material*> substitutes)
+	{
+		Model& variant = gfx_system.models().create(name);
+		variant = original;
+
+		for(ModelItem& item : variant.m_items)
+			for(size_t i = 0; i < materials.size(); ++i)
+			{
+				if(item.m_mesh->m_material->m_name == materials[i])
+					item.m_material = substitutes[i];
+			}
+
+		return variant;
 	}
 }

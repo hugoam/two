@@ -16,6 +16,7 @@ namespace mud
 {
 	enum ShaderOptionLight : unsigned int
 	{
+		FOG,
 		DIRECTIONAL_LIGHT
 	};
 
@@ -50,6 +51,7 @@ namespace mud
 		virtual void submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element) final;
 
 		void upload_environment(Render& render, Environment* environment);
+		void upload_fog(Render& render, Fog& fog);
 
 		void upload_lights(Render& render, array<Light*> lights, array<LightShadow> shadows);
 		
@@ -129,6 +131,23 @@ namespace mud
 			bgfx::UniformHandle u_ambient_params;
 
 		} u_scene;
+
+		struct FogUniform
+		{
+			void createUniforms()
+			{
+				u_fog_params_0 = bgfx::createUniform("u_fog_params_0", bgfx::UniformType::Vec4);
+				u_fog_params_1 = bgfx::createUniform("u_fog_params_1", bgfx::UniformType::Vec4);
+				u_fog_params_2 = bgfx::createUniform("u_fog_params_2", bgfx::UniformType::Vec4);
+				u_fog_params_3 = bgfx::createUniform("u_fog_params_3", bgfx::UniformType::Vec4);
+			}
+
+			bgfx::UniformHandle u_fog_params_0;
+			bgfx::UniformHandle u_fog_params_1;
+			bgfx::UniformHandle u_fog_params_2;
+			bgfx::UniformHandle u_fog_params_3;
+
+		} u_fog;
 
 		LightArray<ShotUniform::max_lights> m_lights_data;
 	};

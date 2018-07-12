@@ -78,7 +78,7 @@ namespace mud
 		std::vector<InkStyle> m_skins;
 	};
 
-	Style::Style(cstring name, Style* base, LayoutDef layout, InkStyleDef skin)
+	Style::Style(cstring name, Style* base, LayoutDef layout, InkStyleDef skin, StyleDef style)
 		: m_base(base)
 		, m_impl(make_unique<Impl>())
 	{
@@ -101,6 +101,8 @@ namespace mud
 			layout(m_impl->m_layout);
 		if(skin)
 			skin(m_impl->m_skin);
+		if(style)
+			style(*this);
 	}
 
 	Style::~Style()

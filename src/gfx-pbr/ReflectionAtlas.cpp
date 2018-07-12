@@ -53,9 +53,11 @@ namespace mud
 
 	ReflectionAtlas::~ReflectionAtlas()
 	{
+#if 0
 		for(int i = 0; i < 6; i++)
 			bgfx::destroy(m_fbo[i]);
 		bgfx::destroy(m_color);
+#endif
 	}
 
 	vec4 ReflectionAtlas::probe_rect(ReflectionProbe& probe)

@@ -21,7 +21,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT ProcessValue : public Process
 	{
 	public:
-		ProcessValue(VisualScript& script, const Var& value);
+		constr_ ProcessValue(VisualScript& script, const Var& value);
 		ProcessValue(VisualScript& script, Type& type);
 
 		Valve m_output;
@@ -30,7 +30,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT ProcessCreate : public Process
 	{
 	public:
-		ProcessCreate(VisualScript& script, Type& type, Meta& meta, const Constructor& constructor);
+		constr_ ProcessCreate(VisualScript& script, Type& type, const Constructor& constructor);
 		ProcessCreate(VisualScript& script, Type& type, ConstructorIndex constructor = ConstructorIndex::Default);
 		ProcessCreate(VisualScript& script, Type& type, size_t num_args);
 
@@ -50,7 +50,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT ProcessCallable : public Process
 	{
 	public:
-		ProcessCallable(VisualScript& script, Callable& callable);
+		constr_ ProcessCallable(VisualScript& script, Callable& callable);
 
 		virtual void process(const StreamLocation& branch) override;
 
@@ -67,7 +67,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT ProcessScript : public ProcessCallable
 	{
 	public:
-		ProcessScript(VisualScript& script, VisualScript& target);
+		constr_ ProcessScript(VisualScript& script, VisualScript& target);
 
 		VisualScript& m_target;
 	};
@@ -75,7 +75,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT ProcessFunction : public ProcessCallable
 	{
 	public:
-		ProcessFunction(VisualScript& script, Function& function);
+		constr_ ProcessFunction(VisualScript& script, Function& function);
 
 		Function& m_function;
 	};
@@ -83,7 +83,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT ProcessMethod : public ProcessCallable
 	{
 	public:
-		ProcessMethod(VisualScript& script, Method& method);
+		constr_ ProcessMethod(VisualScript& script, Method& method);
 
 		virtual void process(const StreamLocation& branch) override;
 
@@ -94,7 +94,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT ProcessGetMember : public Process
 	{
 	public:
-		ProcessGetMember(VisualScript& script, Member& member);
+		constr_ ProcessGetMember(VisualScript& script, Member& member);
 
 		virtual void process(const StreamLocation& branch);
 
@@ -106,7 +106,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT ProcessSetMember : public Process
 	{
 	public:
-		ProcessSetMember(VisualScript& script, Member& member);
+		constr_ ProcessSetMember(VisualScript& script, Member& member);
 
 		virtual void process(const StreamLocation& branch);
 

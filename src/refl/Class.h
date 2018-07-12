@@ -98,6 +98,9 @@ namespace mud
 
 		std::function<unique_ptr<Sequence>(Ref)> m_sequence;
 		std::function<unique_ptr<Iterable>(Ref)> m_iterable;
+
+		bool m_is_sequence = false;
+		bool m_is_iterable = false;
 	};
 
 	export_ inline bool is_root_type(Type& ty) { return !g_class[ty.m_id] || cls(ty).m_root == &ty; }

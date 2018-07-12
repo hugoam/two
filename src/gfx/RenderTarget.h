@@ -6,6 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <infra/Array.h>
+#include <obj/Unique.h>
 #endif
 #include <gfx/Forward.h>
 #include <gfx/Viewport.h>
@@ -66,6 +67,7 @@ namespace mud
 		bgfx::FrameBufferHandle m_fbo;
 		bgfx::TextureHandle m_texture;
 		size_t m_num_mips;
+		unique_ptr<FrameBuffer> m_mips[9] = {};
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT RenderTarget : public FrameBuffer

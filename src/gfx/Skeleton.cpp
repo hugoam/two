@@ -59,7 +59,7 @@ namespace mud
 			height++;
 
 		m_texture = bgfx::createTexture2D(SKELETON_TEXTURE_SIZE, uint16_t(height * 4), false, 1, bgfx::TextureFormat::RGBA32F, GFX_TEXTURE_POINT | GFX_TEXTURE_CLAMP);
-		m_texture_data.resize(SKELETON_TEXTURE_SIZE * height * 4 * 4);
+		//m_texture_data.resize(SKELETON_TEXTURE_SIZE * height * 4 * 4);
 	}
 
 	Skin::Skin(const Skin& copy, Skeleton& skeleton)
@@ -67,6 +67,12 @@ namespace mud
 	{
 		m_joints = copy.m_joints;
 		m_skeleton = &skeleton;
+	}
+
+	Skin::~Skin()
+	{
+		if(bgfx::isValid(m_texture))
+			bgfx::destroy(m_texture);
 	}
 
 	void Skin::add_joint(cstring bone, const mat4& inverse_bind)
@@ -89,12 +95,15 @@ namespace mud
 		if(m_joints.size() % SKELETON_TEXTURE_SIZE)
 			height++;
 
+		m_memory = bgfx::alloc(SKELETON_TEXTURE_SIZE * height * 4 * 4 * sizeof(float));
+
 		int index = 0;
 		for(Joint& joint : m_joints)
 		{
 			joint.m_joint = m_skeleton->m_bones[joint.m_bone].m_pose * joint.m_inverse_bind;
 
-			float* texture = m_texture_data.data();
+			float* texture = (float*)m_memory->data;
+			//float* texture = m_texture_data.data();
 			int offset = ((index / SKELETON_TEXTURE_SIZE) * SKELETON_TEXTURE_SIZE) * 4 * 4 + (index % SKELETON_TEXTURE_SIZE) * 4;
 			index++;
 
@@ -102,16 +111,14 @@ namespace mud
 
 			for(int i = 0; i < 4; ++i)
 			{
-				texture[offset + 0] = joint.m_joint[0][i];
-				texture[offset + 1] = joint.m_joint[1][i];
-				texture[offset + 2] = joint.m_joint[2][i];
-				texture[offset + 3] = joint.m_joint[3][i];
+				for(int j = 0; j < 4; ++j)
+					texture[offset + j] = joint.m_joint[j][i];
 				offset += SKELETON_TEXTURE_SIZE * 4;
 			}
 		}
 
-		const bgfx::Memory* mem = bgfx::makeRef(m_texture_data.data(), sizeof(float) * m_texture_data.size());
-		bgfx::updateTexture2D(m_texture, 0, 0, 0, 0, SKELETON_TEXTURE_SIZE, uint16_t(height * 4), mem);
+		//const bgfx::Memory* mem = bgfx::makeRef(m_texture_data.data(), sizeof(float) * m_texture_data.size());
+		bgfx::updateTexture2D(m_texture, 0, 0, 0, 0, SKELETON_TEXTURE_SIZE, uint16_t(height * 4), m_memory);
 	}
 
 	Rig::Rig()
@@ -127,9 +134,9 @@ namespace mud
 	Rig& Rig::operator=(const Rig& rig)
 	{
 		m_skeleton = rig.m_skeleton;
+		m_skins.reserve(rig.m_skins.size());
 		for(const Skin& skin : rig.m_skins)
 			m_skins.emplace_back(skin, m_skeleton);
-		m_animations = rig.m_animations;
 		return *this;
 	}
 

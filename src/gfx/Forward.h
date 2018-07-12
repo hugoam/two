@@ -12,6 +12,8 @@
 #include <math/Forward.h>
 #include <geom/Forward.h>
 #include <ctx/Forward.h>
+#include <ctx-glfw/Forward.h>
+#include <bgfx/Forward.h>
 
 #ifndef MUD_GFX_EXPORT
 #define MUD_GFX_EXPORT MUD_IMPORT
@@ -41,12 +43,10 @@ namespace glm {
     
 }
 
-namespace mud {
-namespace gfx {
+namespace bx {
 
     
     
-}
 }
 
 namespace json11 {
@@ -182,6 +182,7 @@ namespace mud {
     struct Sun;
     struct Radiance;
     struct Background;
+    struct Fog;
     struct Environment;
     class Scene;
     class Shot;
@@ -203,10 +204,12 @@ namespace detail {
 }
 }
 
-namespace bgfx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace bimg {
@@ -215,7 +218,7 @@ namespace bimg {
     
 }
 
-namespace bx {
+namespace bgfx {
 
     
     

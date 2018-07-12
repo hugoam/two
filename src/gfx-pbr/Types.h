@@ -4,7 +4,7 @@
 
 #if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/Type.h>
-//#include <proto/Proto.h>
+#include <obj/Vector.h>
 #endif
 
 #ifndef MUD_MODULES
@@ -18,8 +18,8 @@
 
 #ifndef MUD_CPP_20
 #include <string>
-#include <vector>
 #include <cstdint>
+#include <vector>
 #endif
 
 
@@ -53,4 +53,20 @@ namespace mud
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockLight>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockRadiance>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockShadow>();
+    
+	export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BCS*>>;
+	export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::DofBlur*>>;
+	export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::Glow*>>;
+	export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::LightShadow*>>;
+	export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::ReflectionProbe*>>;
+	export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::RenderFilters*>>;
+	export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::Tonemap*>>;
+	export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockBlur*>>;
+	export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockDofBlur*>>;
+	export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockGlow*>>;
+	export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockReflection*>>;
+	export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockTonemap*>>;
+	export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockLight*>>;
+	export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockRadiance*>>;
+	export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockShadow*>>;
 }

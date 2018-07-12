@@ -91,6 +91,8 @@ namespace mud
 		ValidCoord m_valid_coord;
 		Propagator m_propagate;
 
+		uint16_t m_failure_point[6];
+
 		/*double m_logT;
 		std::vector<double> m_log_weights;
 
@@ -132,6 +134,10 @@ namespace mud
 	};
 
 	export_ MUD_PROCGEN_EXPORT bool neighbour(Wave& wave, const uvec3& coord, SignedAxis d, uvec3& neighbour);
+	export_ MUD_PROCGEN_EXPORT uint16_t tile_at(Wave& wave, uint16_t x, uint16_t y, uint16_t z);
+
+	export_ MUD_PROCGEN_EXPORT void add_tile(Tileset& tileset, const std::set<string>& subset_tiles, const string& tile_name, char symmetry, float weight);
+	export_ MUD_PROCGEN_EXPORT void add_tile(Tileset& tileset, const string& tile_name, char symmetry, float weight);
 
 	export_ MUD_PROCGEN_EXPORT func_ void parse_json_tileset(const string& path, const string& subset, Tileset& outputTileset);
 	export_ MUD_PROCGEN_EXPORT func_ void parse_json_wave_tileset(const string& path, const string& subset, WaveTileset& outputTileset);

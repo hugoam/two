@@ -4,6 +4,7 @@
 function mud_ui_vg()
     includedirs {
         path.join(MUD_NANOVG_DIR, "src"),
+        path.join(MUD_3RDPARTY_DIR, "stb"),
     }
 end
 
@@ -34,7 +35,11 @@ function uses_mud_ui_nanovg()
     }
 end
 
-mud.ui.vg       = mud_module("mud", "ui-vg",           MUD_SRC_DIR, "ui-vg",           nil,     mud_ui_vg,      uses_mud_ui_vg,         { bgfx, vg, mud.infra, mud.obj, mud.math, mud.ui })
+if MUD_STATIC then
+    mud.ui.vg   = mud_module("mud", "ui-vg",           MUD_SRC_DIR, "ui-vg",           nil,     mud_ui_vg,      uses_mud_ui_vg,         { bgfx, vg, mud.infra, mud.obj, mud.math, mud.ui })
+else
+    mud.ui.vg   = mud_module("mud", "ui-vg",           MUD_SRC_DIR, "ui-vg",           nil,     mud_ui_vg,      uses_mud_ui_vg,         { stb.image, bgfx, vg, mud.infra, mud.obj, mud.math, mud.ui })
+end
 mud.ui.nanovg   = mud_module("mud", "ui-nanovg",       MUD_SRC_DIR, "ui-nanovg",       nil,     nil,            nil,                    {})
 mud.ui.nanobgfx = mud_module("mud", "ui-nanovg-bgfx",  MUD_SRC_DIR, "ui-nanovg-bgfx",  nil,     mud_ui_nanovg,  uses_mud_ui_nanovg,     { bgfx, mud.infra, mud.obj, mud.math, mud.ui })
     

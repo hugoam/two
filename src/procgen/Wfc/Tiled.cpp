@@ -24,6 +24,76 @@ using json = json11::Json;
 
 namespace mud
 {
+	void add_tile(Tileset& tileset, const std::set<string>& subset_tiles, const string& tile_name, char symmetry, float weight)
+	{
+		if(!subset_tiles.empty() && subset_tiles.count(tile_name) == 0)
+			return;
+
+		std::function<int(int)> a; // rotates pattern counter-clockwise
+		std::function<int(int)> b; // flips pattern vertically
+		int cardinality = 1;
+
+#ifndef MUD_MODULES // @todo clang bug
+		if(symmetry == 'L') {
+			cardinality = 4;
+			a = [](int i) { return (i + 1) % 4; };
+			b = [](int i) { return i % 2 == 0 ? i + 1 : i - 1; };
+		}
+		else if(symmetry == 'T') {
+			cardinality = 4;
+			a = [](int i) { return (i + 1) % 4; };
+			b = [](int i) { return i % 2 == 0 ? i : 4 - i; };
+		}
+		else if(symmetry == 'I') {
+			cardinality = 2;
+			a = [](int i) { return 1 - i; };
+			b = [](int i) { return i; };
+		}
+		else if(symmetry == '\\') {
+			cardinality = 2;
+			a = [](int i) { return 1 - i; };
+			b = [](int i) { return 1 - i; };
+		}
+		else if(symmetry == 'X') {
+			cardinality = 1;
+			a = [](int i) { return i; };
+			b = [](int i) { return i; };
+		}
+#endif
+
+		const size_t num_patterns = tileset.m_tiles_flip.size();
+
+		tileset.m_tiles.push_back(Tile{ num_patterns, tile_name, symmetry, cardinality, 0 });
+
+		for(int t = 0; t < cardinality; ++t)
+		{
+			Tile tile = { num_patterns + t, tile_name, symmetry, cardinality, t };
+
+			tile.m_flips[0] = t;
+			tile.m_flips[1] = a(t);
+			tile.m_flips[2] = a(a(t));
+			tile.m_flips[3] = a(a(a(t)));
+			tile.m_flips[4] = b(t);
+			tile.m_flips[5] = b(a(t));
+			tile.m_flips[6] = b(a(a(t)));
+			tile.m_flips[7] = b(a(a(a(t))));
+
+			for(int s = 0; s < 8; ++s)
+				tile.m_flips[s] += num_patterns;
+
+			printf("DEBUG: tile %i = %s %i\n", int(tileset.m_tiles_flip.size()), tile_name.c_str(), t);
+			tileset.m_tiles_flip.push_back(tile);
+		}
+
+		for(int t = 0; t < cardinality; ++t)
+			tileset.m_weights.push_back(weight / float(cardinality));
+	}
+
+	void add_tile(Tileset& tileset, const string& tile_name, char symmetry, float weight)
+	{
+		add_tile(tileset, {}, tile_name, symmetry, weight);
+	}
+
 	void load_json_tileset(Tileset& tileset, const json& config, const string& subset)
 	{
 		tileset.m_name = config["name"].string_value();
@@ -38,70 +108,10 @@ namespace mud
 		for(const json& json_tile : config["tiles"].array_items())
 		{
 			const string tile_name = json_tile["name"].string_value();
-			
-			if(!subset_tiles.empty() && subset_tiles.count(tile_name) == 0)
-				continue;
-
-			std::function<int(int)> a; // rotates pattern counter-clockwise
-			std::function<int(int)> b; // flips pattern vertically
-			int cardinality = 1;
-
 			char symmetry = json_tile["symmetry"].string_value()[0];
+			float weight = json_tile["weight"].number_value();
 
-#ifndef MUD_MODULES // @todo clang bug
-			if(symmetry == 'L') {
-				cardinality = 4;
-				a = [](int i) { return (i + 1) % 4; };
-				b = [](int i) { return i % 2 == 0 ? i + 1 : i - 1; };
-			}
-			else if(symmetry == 'T') {
-				cardinality = 4;
-				a = [](int i) { return (i + 1) % 4; };
-				b = [](int i) { return i % 2 == 0 ? i : 4 - i; };
-			}
-			else if(symmetry == 'I') {
-				cardinality = 2;
-				a = [](int i) { return 1 - i; };
-				b = [](int i) { return i; };
-			}
-			else if(symmetry == '\\') {
-				cardinality = 2;
-				a = [](int i) { return 1 - i; };
-				b = [](int i) { return 1 - i; };
-			}
-			else if(symmetry == 'X') {
-				cardinality = 1;
-				a = [](int i) { return i; };
-				b = [](int i) { return i; };
-			}
-#endif
-
-			const size_t num_patterns = tileset.m_tiles_flip.size();
-
-			tileset.m_tiles.push_back(Tile{ num_patterns, tile_name, symmetry, cardinality, 0 });
-
-			for(int t = 0; t < cardinality; ++t)
-			{
-				Tile tile = { num_patterns + t, tile_name, symmetry, cardinality, t };
-
-				tile.m_flips[0] = t;
-				tile.m_flips[1] = a(t);
-				tile.m_flips[2] = a(a(t));
-				tile.m_flips[3] = a(a(a(t)));
-				tile.m_flips[4] = b(t);
-				tile.m_flips[5] = b(a(t));
-				tile.m_flips[6] = b(a(a(t)));
-				tile.m_flips[7] = b(a(a(a(t))));
-
-				for(int s = 0; s < 8; ++s)
-					tile.m_flips[s] += num_patterns;
-
-				printf("DEBUG: tile %i = %s %i\n", int(tileset.m_tiles_flip.size()), tile_name.c_str(), t);
-				tileset.m_tiles_flip.push_back(tile);
-			}
-
-			for(int t = 0; t < cardinality; ++t)
-				tileset.m_weights.push_back(json_tile["weight"].number_value() / float(cardinality));
+			add_tile(tileset, subset_tiles, tile_name, symmetry, weight);
 		}
 
 		tileset.m_num_tiles = uint16_t(tileset.m_tiles_flip.size());
@@ -224,6 +234,7 @@ namespace mud
 		json config;
 		parse_json_file(path, config);
 		load_json_tileset(tileset, config, subset);
+
 		tileset.initialize();
 
 		if(!config["neighbors"].is_null())
@@ -293,6 +304,18 @@ namespace mud
 			else neighbour.y = coord.y - 1;
 		}
 		return true;
+	}
+
+	uint16_t tile_at(Wave& wave, uint16_t x, uint16_t y, uint16_t z)
+	{
+		uint16_t num_states = 0;;
+		uint16_t tile = UINT16_MAX;
+
+		for(uint16_t t = 0; t < wave.m_states.size(); ++t)
+			if(wave.m_wave.at(x, y, z)[t])
+				tile = (num_states++ == 0) ? t : UINT16_MAX;
+
+		return tile;
 	}
 
 	void propagate_tiled(WaveTileset& tileset, Wave& wave)

@@ -31,8 +31,8 @@ namespace mud
 		: DrawBlock(gfx_system, type<BlockLight>())
 		, m_block_shadow(block_shadow)
 	{
-		static cstring options[1] = { "DIRECTIONAL_LIGHT" };
-		m_shader_block->m_options = { options, 1 };
+		static cstring options[2] = { "FOG", "DIRECTIONAL_LIGHT" };
+		m_shader_block->m_options = { options, 2 };
 
 		static string max_lights = to_string(ShotUniform::max_lights);
 		static string max_dir_lights = to_string(ShotUniform::max_directional_lights);
@@ -48,6 +48,7 @@ namespace mud
 	{
 		u_shot.createUniforms();
 		u_scene.createUniforms();
+		u_fog.createUniforms();
 	}
 
 	void BlockLight::begin_gfx_block(Render& render)
@@ -80,6 +81,9 @@ namespace mud
 	{
 		UNUSED(render_pass);
 
+		if(render.m_environment && render.m_environment->m_fog.m_enabled)
+			element.m_shader_version.set_option(m_index, FOG, true);
+
 		// @kludge
 		m_directional_light = m_directional_lights.empty() ? nullptr : m_directional_lights[m_directional_light_index];
 		m_block_shadow.m_directional_light = m_directional_light;
@@ -90,6 +94,7 @@ namespace mud
 			element.m_shader_version.set_option(m_index, DIRECTIONAL_LIGHT, true);
 
 		this->upload_lights(render, to_array(element.m_item->m_lights), to_array(m_block_shadow.m_shadows));
+		this->upload_fog(render, render.m_scene.m_environment.m_fog);
 
 		// set to not render if not first directional pass, depending on cull
 	}
@@ -109,6 +114,27 @@ namespace mud
 
 		bgfx::setUniform(u_scene.u_radiance_color_energy, &radiance_color_energy);
 		bgfx::setUniform(u_scene.u_ambient_params, &ambient_params);
+	}
+
+	void BlockLight::upload_fog(Render& render, Fog& fog)
+	{
+		if(!fog.m_enabled)
+			return;
+
+		vec4 fog_params_0 = { fog.m_density, to_vec3(fog.m_colour) };
+		vec4 fog_params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_curve, 0.f };
+		vec4 fog_params_2 = { float(fog.m_height), fog.m_height_max, fog.m_height_max, fog.m_height_curve };
+		vec4 fog_params_3 = { float(fog.m_transmit), fog.m_transmit_curve, 0.f, 0.f };
+		
+		bgfx::setUniform(u_fog.u_fog_params_0, &fog_params_0);
+		bgfx::setUniform(u_fog.u_fog_params_1, &fog_params_1);
+		bgfx::setUniform(u_fog.u_fog_params_2, &fog_params_2);
+		bgfx::setUniform(u_fog.u_fog_params_3, &fog_params_3);
+	}
+
+	inline float to_radians(float degrees)
+	{
+		return degrees / 180.f * c_pi;
 	}
 
 	void BlockLight::upload_lights(Render& render, array<Light*> all_lights, array<LightShadow> shadows)
@@ -138,7 +164,7 @@ namespace mud
 			m_lights_data.position_range[light_count] = { position, light->m_range };
 			m_lights_data.energy_specular[light_count] = { to_vec3(energy), light->m_specular };
 			m_lights_data.direction_attenuation[light_count] = { direction, light->m_attenuation };
-			m_lights_data.spot_params[light_count] = { light->m_spot_attenuation, cos(light->m_spot_angle), 0.f, 0.f };
+			m_lights_data.spot_params[light_count] = { light->m_spot_attenuation, cos(to_radians(light->m_spot_angle)), 0.f, 0.f };
 			
 			float& light_type_count = m_lights_data.light_counts[size_t(light->m_type)];
 			m_lights_data.light_indices[size_t(light_type_count)][size_t(light->m_type)] = light_count;

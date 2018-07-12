@@ -302,7 +302,7 @@ namespace mud
 					block->submit_gfx_element(render, render_pass, element);
 
 				this->submit_draw_element(render_pass, element);
-
+				
 				element.m_shader_version.set_option(0, INSTANCING, !element.m_item->m_instances.empty());
 				element.m_shader_version.set_option(0, BILLBOARD, element.m_item->m_flags & ITEM_BILLBOARD);
 				element.m_shader_version.set_option(0, SKELETON, element.m_skin != nullptr);

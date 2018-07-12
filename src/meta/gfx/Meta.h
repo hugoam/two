@@ -678,7 +678,8 @@ namespace mud
             {
                 { type<mud::Environment>(), member_address(&mud::Environment::m_background), type<mud::Background>(), "background", var(mud::Background()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::Environment>(), member_address(&mud::Environment::m_radiance), type<mud::Radiance>(), "radiance", var(mud::Radiance()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Environment>(), member_address(&mud::Environment::m_sun), type<mud::Sun>(), "sun", var(mud::Sun()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Environment>(), member_address(&mud::Environment::m_sun), type<mud::Sun>(), "sun", var(mud::Sun()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Environment>(), member_address(&mud::Environment::m_fog), type<mud::Fog>(), "fog", var(mud::Fog()), Member::Flags(Member::Value|Member::Mutable) }
             },
             // methods
             {
@@ -727,6 +728,51 @@ namespace mud
         meta_class<mud::Filter>();
     }
     
+    
+    
+        
+    // mud::Fog
+    {
+        static Meta meta = { type<mud::Fog>(), &namspc({ "mud" }), "Fog", sizeof(mud::Fog), TypeClass::Struct };
+        static Class cls = { type<mud::Fog>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+                { type<mud::Fog>(), [](Ref ref, Ref other) { new(&val<mud::Fog>(ref)) mud::Fog(val<mud::Fog>(other)); } }
+            },
+            // members
+            {
+                { type<mud::Fog>(), member_address(&mud::Fog::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Fog>(), member_address(&mud::Fog::m_density), type<float>(), "density", var(float(0.1f)), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Fog>(), member_address(&mud::Fog::m_colour), type<mud::Colour>(), "colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Fog>(), member_address(&mud::Fog::m_depth), type<bool>(), "depth", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Fog>(), member_address(&mud::Fog::m_depth_begin), type<float>(), "depth_begin", var(float(0.f)), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Fog>(), member_address(&mud::Fog::m_depth_curve), type<float>(), "depth_curve", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Fog>(), member_address(&mud::Fog::m_height), type<bool>(), "height", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Fog>(), member_address(&mud::Fog::m_height_min), type<float>(), "height_min", var(float(0.f)), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Fog>(), member_address(&mud::Fog::m_height_max), type<float>(), "height_max", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Fog>(), member_address(&mud::Fog::m_height_curve), type<float>(), "height_curve", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Fog>(), member_address(&mud::Fog::m_transmit), type<bool>(), "transmit", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Fog>(), member_address(&mud::Fog::m_transmit_curve), type<float>(), "transmit_curve", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Fog>();
+    }
     
     
         
@@ -848,7 +894,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::GfxBlock>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::None },
+                { type<mud::GfxBlock>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Link },
                 { type<mud::GfxBlock>(), member_address(&mud::GfxBlock::m_index), type<uint8_t>(), "index", var(uint8_t()), Member::Value }
             },
             // methods
@@ -1012,7 +1058,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Item>(), Address(), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::None },
+                { type<mud::Item>(), Address(), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::Link },
                 { type<mud::Item>(), member_address(&mud::Item::m_model), type<mud::Model>(), "model", Ref(type<mud::Model>()), Member::Flags(Member::Pointer|Member::Mutable|Member::Link) },
                 { type<mud::Item>(), member_address(&mud::Item::m_flags), type<uint32_t>(), "flags", var(uint32_t()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::Item>(), member_address(&mud::Item::m_colour), type<mud::Colour>(), "colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
@@ -1086,7 +1132,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Light>(), Address(), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::None },
+                { type<mud::Light>(), Address(), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::Link },
                 { type<mud::Light>(), member_address(&mud::Light::m_type), type<mud::LightType>(), "type", var(mud::LightType()), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::Light>(), member_address(&mud::Light::m_visible), type<bool>(), "visible", var(bool(true)), Member::Flags(Member::Value|Member::Mutable) },
                 { type<mud::Light>(), member_address(&mud::Light::m_colour), type<mud::Colour>(), "colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
@@ -2048,6 +2094,65 @@ namespace mud
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
         
     // mud::UnshadedMaterialBlock
     {
@@ -2122,6 +2227,40 @@ namespace mud
         
         
         meta_class<mud::Viewport>();
+    }
+    
+    
+        
+    // mud::Particles
+    {
+        static Meta meta = { type<mud::Particles>(), &namspc({ "mud" }), "Particles", sizeof(mud::Particles), TypeClass::Struct };
+        static Class cls = { type<mud::Particles>(),
+            // bases
+            { &type<mud::ParticleGenerator>() },
+            { base_offset<mud::Particles, mud::ParticleGenerator>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+                { type<mud::Particles>(), [](Ref ref, Ref other) { new(&val<mud::Particles>(ref)) mud::Particles(val<mud::Particles>(other)); } }
+            },
+            // members
+            {
+                { type<mud::Particles>(), member_address(&mud::Particles::m_node), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::Flags(Member::Pointer|Member::Link) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Particles>();
     }
     
     
@@ -2381,40 +2520,6 @@ namespace mud
         meta_class<mud::RenderTarget>();
     }
     
-    
-        
-    // mud::Particles
-    {
-        static Meta meta = { type<mud::Particles>(), &namspc({ "mud" }), "Particles", sizeof(mud::Particles), TypeClass::Struct };
-        static Class cls = { type<mud::Particles>(),
-            // bases
-            { &type<mud::ParticleGenerator>() },
-            { base_offset<mud::Particles, mud::ParticleGenerator>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-                { type<mud::Particles>(), [](Ref ref, Ref other) { new(&val<mud::Particles>(ref)) mud::Particles(val<mud::Particles>(other)); } }
-            },
-            // members
-            {
-                { type<mud::Particles>(), member_address(&mud::Particles::m_node), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::Flags(Member::Pointer|Member::Link) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Particles>();
-    }
-    
 
     
         m.m_types.push_back(&type<mud::Animated>());
@@ -2435,6 +2540,7 @@ namespace mud
         m.m_types.push_back(&type<mud::EmitterFlow>());
         m.m_types.push_back(&type<mud::Environment>());
         m.m_types.push_back(&type<mud::Filter>());
+        m.m_types.push_back(&type<mud::Fog>());
         m.m_types.push_back(&type<mud::FrameBuffer>());
         m.m_types.push_back(&type<mud::Frustum>());
         m.m_types.push_back(&type<mud::FrustumSlice>());
@@ -2491,6 +2597,7 @@ namespace mud
         m.m_types.push_back(&type<mud::Viewport>());
         m.m_types.push_back(&type<array<mud::mat4>>());
         m.m_types.push_back(&type<std::vector<mud::PrefabNode>>());
+        m.m_types.push_back(&type<mud::Particles>());
         m.m_types.push_back(&type<mud::BlockCopy>());
         m.m_types.push_back(&type<mud::BlockFilter>());
         m.m_types.push_back(&type<mud::BlockParticles>());
@@ -2499,8 +2606,19 @@ namespace mud
         m.m_types.push_back(&type<mud::DrawBlock>());
         m.m_types.push_back(&type<mud::BlockDepth>());
         m.m_types.push_back(&type<mud::RenderTarget>());
-        m.m_types.push_back(&type<mud::Particles>());
     
+        {
+            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::gfx::update_item_lights(val<mud::Item>(args[0])); };
+            std::vector<Param> params = { { "item", Ref(type<mud::Item>()) } };
+            static Function f = { &namspc({ "mud", "gfx" }), "update_item_lights", function_id<void(*)(mud::Item&)>(&mud::gfx::update_item_lights), func, params, Var() };
+            m.m_functions.push_back(&f);
+        }
+        {
+            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::gfx::update_item_aabb(val<mud::Item>(args[0])); };
+            std::vector<Param> params = { { "item", Ref(type<mud::Item>()) } };
+            static Function f = { &namspc({ "mud", "gfx" }), "update_item_aabb", function_id<void(*)(mud::Item&)>(&mud::gfx::update_item_aabb), func, params, Var() };
+            m.m_functions.push_back(&f);
+        }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node(val<mud::Gnode>(args[0]), args[1], val<mud::vec3>(args[2]), val<mud::quat>(args[3]), val<mud::vec3>(args[4]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "object", Ref(), Param::Flags(Param::Nullable|Param::Default) }, { "position", var(mud::vec3()), Param::Default }, { "rotation", var(mud::quat()), Param::Default }, { "scale", var(mud::vec3()), Param::Default } };

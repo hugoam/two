@@ -48,8 +48,8 @@ namespace mud
 
 		static std::vector<cstring> animations;
 		animations.clear();
-		for(Animation& animation : animated.m_rig.m_animations)
-			animations.push_back(animation.m_name.c_str());
+		for(Animation* animation : animated.m_rig.m_skeleton.m_animations)
+			animations.push_back(animation->m_name.c_str());
 
 		static size_t animation = 0;
 		if(ui::radio_field(table, "animation", animations, animation))

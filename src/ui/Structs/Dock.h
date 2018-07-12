@@ -10,10 +10,14 @@
 
 #ifndef MUD_CPP_20
 #include <vector>
+#include <map>
+#include <string>
 #endif
 
 namespace mud
 {
+	using string = std::string;
+
 	export_ struct refl_ MUD_UI_EXPORT Dock
 	{
 		Dock();
@@ -22,7 +26,18 @@ namespace mud
 		cstring m_name;
 		std::vector<uint16_t> m_dockid;
 	};
-	
+
+	export_ class refl_ MUD_UI_EXPORT Docksystem
+	{
+	public:
+		Docksystem();
+
+		void dock(Dockable& widget, const vec2& pos);
+
+		std::map<string, Dock> m_docks;
+		std::vector<Docker*> m_dockers;
+	};
+
 	export_ class refl_ MUD_UI_EXPORT Dockable : public Widget
 	{
 	public:
@@ -50,20 +65,11 @@ namespace mud
 		std::vector<Dock*> m_docks;
 	};
 
-	export_ class refl_ MUD_UI_EXPORT Docksystem
-	{
-	public:
-		Docksystem();
-
-		void dock(Dockable& widget, const vec2& pos);
-
-		std::vector<Docker*> m_dockers;
-	};
-
 	export_ class refl_ MUD_UI_EXPORT Dockspace : public Docker
 	{
 	public:
 		Dockspace(Widget* parent, void* identity, Docksystem& docksystem);
+		~Dockspace();
 
 		Dockable& pinpoint_dock(const vec2& pos);
 

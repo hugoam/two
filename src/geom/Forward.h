@@ -81,6 +81,7 @@ namespace mud {
     struct Polygon;
     struct Box;
     struct Points;
+    struct Grid3;
     struct ConvexHull;
     struct Symbol;
     struct ShapeSize;

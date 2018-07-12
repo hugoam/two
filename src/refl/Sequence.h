@@ -28,8 +28,15 @@ namespace mud
 
 	export_ inline void iterate_sequence(Ref object, const std::function<void(Ref)>& callback)
 	{
-		unique_ptr<Iterable> iterable = cls(object).m_iterable(object);
-		iterable->iterate(callback);
+		if(cls(object).m_is_iterable)
+		{
+			val<Iterable>(object).iterate(callback);
+		}
+		else
+		{
+			unique_ptr<Iterable> iterable = cls(object).m_iterable(object);
+			iterable->iterate(callback);
+		}
 	}
 
 	export_ inline void add_sequence(Ref value, Ref element)

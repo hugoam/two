@@ -4,7 +4,7 @@
 
 #if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <obj/Type.h>
-//#include <proto/Proto.h>
+#include <obj/Vector.h>
 #endif
 
 #ifndef MUD_MODULES
@@ -13,8 +13,8 @@
 
 #ifndef MUD_CPP_20
 #include <string>
-#include <vector>
 #include <cstdint>
+#include <vector>
 #endif
 
 
@@ -44,4 +44,10 @@ namespace mud
     export_ template <> MUD_OBJ_EXPORT Type& type<mud::None>();
     export_ template <> MUD_OBJ_EXPORT Type& type<mud::Ref>();
     export_ template <> MUD_OBJ_EXPORT Type& type<mud::Var>();
+    
+	export_ template struct MUD_OBJ_EXPORT Typed<std::vector<mud::Index*>>;
+	export_ template struct MUD_OBJ_EXPORT Typed<std::vector<mud::Indexer*>>;
+	export_ template struct MUD_OBJ_EXPORT Typed<std::vector<mud::None*>>;
+	export_ template struct MUD_OBJ_EXPORT Typed<std::vector<mud::Ref*>>;
+	export_ template struct MUD_OBJ_EXPORT Typed<std::vector<mud::Var*>>;
 }

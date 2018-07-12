@@ -47,8 +47,8 @@ namespace mud
 		return true;
 	}
 
-	SoundManager::SoundManager(cstring resourcePath)
-		: m_resource_path(resourcePath)
+	SoundManager::SoundManager(cstring resource_path)
+		: m_resource_path(resource_path)
 		, m_actions(QUEUE_LIST_SIZE)
 		, m_delayedActions(500)
 	{
@@ -217,7 +217,7 @@ namespace mud
 
 	Sound* SoundManager::createSound(cstring filename, bool loop, bool stream, SoundCallback callback)
 	{
-		string path = m_resource_path + "sounds/" + filename;
+		string path = filename; //m_resource_path + "sounds/" + filename;
 
 		std::ifstream ifile(path, std::ifstream::out);
 		if(!ifile.good())
@@ -496,7 +496,7 @@ namespace mud
 	void SoundManager::updateSounds()
 	{
 		double timeStep = m_clock.read();
-
+		
 		m_listener.update();
 
 		for(Sound* sound : m_activeSounds)

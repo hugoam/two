@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.procgen.gfx;
 #else
+#include <meta/math/Convert.h>
 #include <math/Axes.h>
 #include <geom/Intersect.h>
 #include <geom/Shapes.h>
@@ -29,8 +30,9 @@ module mud.procgen.gfx;
 
 namespace mud
 {
-	Tileblock::Tileblock(const uvec3& size, const vec3& scale, WaveTileset& tileset, bool auto_solve)
-		: m_size(size)
+	WfcBlock::WfcBlock(const vec3& position, const uvec3& size, const vec3& scale, WaveTileset& tileset, bool auto_solve)
+		: m_position(position)
+		, m_size(size)
 		, m_scale(scale)
 		, m_tileset(tileset)
 		, m_aabb(vec3(0.f), 0.5f * vec3(size) * scale)
@@ -40,31 +42,32 @@ namespace mud
 		, m_auto_solve(auto_solve)
 	{}
 
-	uvec3 Tileblock::to_coord(const vec3& position)
+	uvec3 WfcBlock::to_coord(const vec3& position)
 	{
-		vec3 relative = position - m_aabb.bmin();
+		vec3 relative = position - m_position - m_aabb.bmin();
 		return clamp(uvec3(floor(relative)), uvec3(0U), m_size - 1U);
 	}
 
-	vec3 Tileblock::to_position(const uvec3& coord)
+	vec3 WfcBlock::to_position(const uvec3& coord)
 	{
-		return m_aabb.bmin() + (vec3(coord) + vec3(0.5f, 0.f, 0.5f)) * m_scale;
+		return m_position + m_aabb.bmin() + (vec3(coord) + vec3(0.5f, 0.f, 0.5f)) * m_scale;
 	}
 
-	void Tileblock::load_models(GfxSystem& gfx_system)
+	void WfcBlock::load_models(GfxSystem& gfx_system, bool from_file)
 	{
 		for(Tile& tile : m_tileset.m_tiles_flip)
 		{
-			Model* model = gfx_system.models().file((string(m_tileset.m_name) + "/" + tile.m_name).c_str());
+			Model* model = from_file ? gfx_system.models().file((string(m_tileset.m_name) + "/" + tile.m_name).c_str())
+									 : gfx_system.models().get(tile.m_name.c_str());
 			quat rotation = angle_axis(tile.m_profile * c_pi / 2.f, Y3);
 			m_tile_models.push_back({ model, rotation });
 		}
 	}
 
-	void Tileblock::next_frame(size_t tick, size_t delta)
+	void WfcBlock::next_frame(size_t tick, size_t delta)
 	{
 		UNUSED(delta);
-		if(m_auto_solve)
+		if(m_auto_solve && !m_wave.m_solved)
 		{
 			if(m_wave.m_state == Result::kFail)
 				this->reset();
@@ -83,31 +86,31 @@ namespace mud
 		m_last_tick = tick;
 	}
 
-	void Tileblock::reset()
+	void WfcBlock::reset()
 	{
 		m_wave = TileWave(m_tileset, uint16_t(m_size.x), uint16_t(m_size.y), uint16_t(m_size.z), false);
 		this->update(m_wave);
 	}
 
-	void Tileblock::observe()
+	void WfcBlock::observe()
 	{
 		m_wave.observe();
 		this->update(m_wave);
 	}
 
-	void Tileblock::propagate()
+	void WfcBlock::propagate()
 	{
 		m_wave.propagate();
 		this->update(m_wave);
 	}
 
-	void Tileblock::solve(size_t limit)
+	void WfcBlock::solve(size_t limit)
 	{
 		m_wave.solve(limit);
 		this->update(m_wave);
 	}
 
-	void Tileblock::update(Wave& wave)
+	void WfcBlock::update(Wave& wave)
 	{
 		m_tiles.clear(UINT16_MAX);
 
@@ -131,7 +134,7 @@ namespace mud
 			m_wave_solved = m_last_tick;
 	}
 
-	void paint_tile_grid(Gnode& parent, Tileblock& tileblock)
+	void paint_tile_grid(Gnode& parent, WfcBlock& tileblock)
 	{
 		Colour colour = { 0.3f, 0.3f, 0.3f, 0.4f };
 		Grid2 grid = { to_xz(vec3(tileblock.m_size)), to_xz(tileblock.m_scale) };
@@ -140,13 +143,15 @@ namespace mud
 		gfx::shape(self, grid, Symbol(colour));
 	}
 
-	Model& entropy_cube(Gnode& parent, Tileblock& tileblock, uint16_t x, uint16_t y, uint16_t z)
+	inline bvec4 less(const vec4& lhs, const vec4& rhs) { return glm::lessThan(lhs, rhs); }
+
+	Model& entropy_cube(Gnode& parent, WfcBlock& tileblock, uint16_t x, uint16_t y, uint16_t z)
 	{
 		static std::vector<Model*> cubes(tileblock.m_tileset.m_num_tiles + 1, nullptr);
 		uint16_t states = tileblock.m_entropy.at(x, y, z);
 		if(!cubes[states])
 		{
-			float entropy = float(states) / float(tileblock.m_tileset.m_num_tiles);
+			float entropy = tileblock.m_tileset.m_num_tiles > 0 ? float(states) / float(tileblock.m_tileset.m_num_tiles) : 1.f;
 			Colour colour = Colour::AlphaGrey * entropy;
 			cubes[states] = &parent.m_scene->m_gfx_system.fetch_symbol(Symbol(colour), Cube(0.5f), OUTLINE);
 		}
@@ -159,7 +164,7 @@ namespace mud
 		std::map<Model*, std::vector<mat4>> m_tiles;
 	};
 
-	void paint_tiles(Gnode& parent, Ref object, Tileblock& tileblock, const uvec3& focused)
+	void paint_tiles(Gnode& parent, Ref object, WfcBlock& tileblock, const uvec3& focused)
 	{
 		VisuBlock& visu = parent.state<VisuBlock>();
 
@@ -179,15 +184,15 @@ namespace mud
 
 				auto tile_transform = [&](quat rotation)
 				{
-					vec3 position = tileblock.to_position({ uint(x), uint(y), uint(z) }) + parent.m_attach->m_position;
+					vec3 position = tileblock.to_position({ uint(x), uint(y), uint(z) });
 					vec3 scale = tileblock.m_tileset.m_tile_scale * tileblock.m_scale;
 					return bxTRS(scale, rotation, position);
 				};
 
 				if(index == UINT16_MAX)
 				{
-					Model& cube = entropy_cube(parent, tileblock, uint16_t(x), uint16_t(y), uint16_t(z));
-					visu.m_tiles[&cube].push_back(tile_transform(ZeroQuat));
+					//Model& cube = entropy_cube(parent, tileblock, uint16_t(x), uint16_t(y), uint16_t(z));
+					//visu.m_tiles[&cube].push_back(tile_transform(ZeroQuat));
 				}
 				else
 				{
@@ -203,7 +208,9 @@ namespace mud
 		for(auto& model_tiles : visu.m_tiles)
 		{
 			Material* material = focused == uvec3(UINT32_MAX) ? &parent.m_scene->m_gfx_system.debug_material() : &alpha_material;
-			gfx::item(self, *model_tiles.first, dirty ? 0 : ITEM_NO_UPDATE, material, model_tiles.second.size(), model_tiles.second);
+			uint32_t flags = ITEM_WORLD_GEOMETRY | (dirty ? 0 : ITEM_NO_UPDATE);
+			Item& item = gfx::item(self, *model_tiles.first, flags, material, model_tiles.second.size(), model_tiles.second);
+			gfx::update_item_lights(item);
 		}
 
 		if(focused != uvec3(UINT32_MAX))
@@ -219,18 +226,18 @@ namespace mud
 		}
 	}
 
-	void paint_tile_cube(Gnode& parent, Tileblock& tileblock, const uvec3& coord, const Colour& outline, const Colour& fill)
+	void paint_tile_cube(Gnode& parent, WfcBlock& tileblock, const uvec3& coord, const Colour& outline, const Colour& fill)
 	{
 		Gnode& node = gfx::node(parent, {}, tileblock.to_position(coord) + Y3 * 0.5f);
 		gfx::shape(node, Cube(0.5f + 0.01f), Symbol(outline, fill));
 	}
 
-	void paint_tile_cube(Gnode& parent, Tileblock& tileblock, const uvec3& coord)
+	void paint_tile_cube(Gnode& parent, WfcBlock& tileblock, const uvec3& coord)
 	{
 		return paint_tile_cube(parent, tileblock, coord, Colour::Red);
 	}
 
-	void paint_tileblock(Gnode& parent, Ref object, Tileblock& tileblock, const uvec3& focused)
+	void paint_tileblock(Gnode& parent, Ref object, WfcBlock& tileblock, const uvec3& focused)
 	{
 		//paint_tile_grid(parent, tileblock);
 		paint_tiles(parent, object, tileblock, focused);
@@ -298,7 +305,7 @@ namespace mud
 		//gfx::draw(horigin, Grid2(vec2(num_columns, num_rows)), Symbol());
 	}
 
-	void tileset_view(Widget& parent, Tileblock& tileblock, Tileset& tileset)
+	void tileset_view(Widget& parent, WfcBlock& tileblock, Tileset& tileset)
 	{
 		auto query_models = [&](ModelArrayView& state)
 		{
@@ -314,7 +321,7 @@ namespace mud
 		model_array_view(parent, query_models);
 	}
 
-	void tile_states_view(Widget& parent, Tileblock& tileblock, uvec3& coord)
+	void tile_states_view(Widget& parent, WfcBlock& tileblock, uvec3& coord)
 	{
 		auto query_models = [&](ModelArrayView& state)
 		{
@@ -333,7 +340,7 @@ namespace mud
 		model_array_view(parent, query_models, (void*)id);
 	}
 
-	uvec3 tileblock_ray(Tileblock& tileblock, const Ray& ray)
+	uvec3 tileblock_ray(WfcBlock& tileblock, const Ray& ray)
 	{
 		vec3 closest;
 		if(ray_aabb_intersection(tileblock.m_aabb.bmin(), tileblock.m_aabb.bmax(), ray, closest))
@@ -342,7 +349,7 @@ namespace mud
 			return uvec3(UINT_MAX);
 	}
 	
-	void paint_states(Gnode& parent, Tileblock& tileblock, const uvec3& coord)
+	void paint_states(Gnode& parent, WfcBlock& tileblock, const uvec3& coord)
 	{
 		paint_tile_cube(parent, tileblock, coord, Colour::Pink, Colour::None);
 
@@ -366,7 +373,7 @@ namespace mud
 			}
 	}
 
-	void paint_connections(Gnode& parent, Tileblock& tileblock, const uvec3& coord)
+	void paint_connections(Gnode& parent, WfcBlock& tileblock, const uvec3& coord)
 	{
 		Gnode& node = gfx::node(parent, {}, vec3(coord));
 
@@ -389,9 +396,9 @@ namespace mud
 		}
 	}
 
-	void tileblock_edit(Widget& parent, Viewer& viewer, Tileblock& tileblock, uvec3& highlighted, uvec3& selected, uvec3& focused)
+	void tileblock_edit(Widget& parent, Viewer& viewer, WfcBlock& tileblock, uvec3& highlighted, uvec3& selected, uvec3& focused)
 	{
-		Section& self = section(parent, "Edit Tileblock");
+		Section& self = section(parent, "Edit WfcBlock");
 		Widget& body = *self.m_body;
 
 		if(ui::button(body, "reset").activated())
@@ -448,7 +455,7 @@ namespace mud
 		}
 	}
 
-	void tileblock_editor(Widget& parent, Viewer& viewer, Tileblock& tileblock)
+	void tileblock_editor(Widget& parent, Viewer& viewer, WfcBlock& tileblock)
 	{
 		Widget& self = ui::layout(parent);
 

@@ -55,6 +55,9 @@ function mud_defines()
         
     configuration {}
         
+    configuration { "asmjs" }
+        defines { "MUD_STATIC" }
+            
     configuration { "webgl2" }
         defines { "MUD_WEBGL2" }
             

@@ -53,6 +53,7 @@ namespace mud
 
 		cstring m_name;
 		std::vector<Bone> m_bones;
+		std::vector<Animation*> m_animations;
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT Joint
@@ -67,6 +68,7 @@ namespace mud
 	public:
 		Skin(Skeleton& skeleton, int num_joints);
 		Skin(const Skin& copy, Skeleton& skeleton);
+		~Skin();
 
 		void add_joint(cstring bone, const mat4& inverse_bind);
 		Joint* find_bone_joint(cstring name);
@@ -75,7 +77,8 @@ namespace mud
 		Skeleton* m_skeleton;
 
 		bgfx::TextureHandle m_texture = BGFX_INVALID_HANDLE;
-		std::vector<float> m_texture_data;
+		const bgfx::Memory* m_memory = nullptr;
+		//std::vector<float> m_texture_data;
 
 		std::vector<Joint> m_joints;
 	};
@@ -92,6 +95,5 @@ namespace mud
 
 		Skeleton m_skeleton;
 		std::vector<Skin> m_skins;
-		std::vector<Animation> m_animations;
 	};
 }

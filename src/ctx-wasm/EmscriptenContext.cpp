@@ -206,6 +206,11 @@ namespace mud
 		return true;
 	}
 
+	void EmContext::lock_mouse(bool locked)
+	{
+
+	}
+
 	void EmContext::resize()
 	{
 		double width, height;

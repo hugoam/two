@@ -328,7 +328,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Shape>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::None }
+                { type<mud::Shape>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Link }
             },
             // methods
             {
@@ -366,7 +366,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::ShapeVar>(), member_address(&mud::ShapeVar::shape), type<mud::Shape>(), "shape", Ref(type<mud::Shape>()), Member::None }
+                { type<mud::ShapeVar>(), member_address(&mud::ShapeVar::shape), type<mud::Shape>(), "shape", Ref(type<mud::Shape>()), Member::Link }
             },
             // methods
             {
@@ -427,6 +427,77 @@ namespace mud
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+    // mud::Aabb
+    {
+        static Meta meta = { type<mud::Aabb>(), &namspc({ "mud" }), "Aabb", sizeof(mud::Aabb), TypeClass::Struct };
+        static Class cls = { type<mud::Aabb>(),
+            // bases
+            { &type<mud::Cube>() },
+            { base_offset<mud::Aabb, mud::Cube>() },
+            // constructors
+            {
+                { type<mud::Aabb>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Aabb>(ref)) mud::Aabb(  ); }, {} },
+                { type<mud::Aabb>(), [](Ref ref, array<Var> args) { new(&val<mud::Aabb>(ref)) mud::Aabb( val<mud::vec3>(args[0]), val<mud::vec3>(args[1]) ); }, { { "center", var(mud::vec3()) }, { "extents", var(mud::vec3()) } } }
+            },
+            // copy constructor
+            {
+                { type<mud::Aabb>(), [](Ref ref, Ref other) { new(&val<mud::Aabb>(ref)) mud::Aabb(val<mud::Aabb>(other)); } }
+            },
+            // members
+            {
+                { type<mud::Aabb>(), member_address(&mud::Aabb::m_null), type<bool>(), "null", var(bool()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Aabb>();
+    }
     
     
         
@@ -831,6 +902,43 @@ namespace mud
         
         
         meta_class<mud::Grid2>();
+    }
+    
+    
+        
+    // mud::Grid3
+    {
+        static Meta meta = { type<mud::Grid3>(), &namspc({ "mud" }), "Grid3", sizeof(mud::Grid3), TypeClass::Struct };
+        static Class cls = { type<mud::Grid3>(),
+            // bases
+            { &type<mud::Shape>() },
+            { base_offset<mud::Grid3, mud::Shape>() },
+            // constructors
+            {
+                { type<mud::Grid3>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Grid3>(ref)) mud::Grid3(  ); }, {} },
+                { type<mud::Grid3>(), [](Ref ref, array<Var> args) { new(&val<mud::Grid3>(ref)) mud::Grid3( val<mud::uvec2>(args[0]), val<std::vector<mud::vec3>>(args[1]) ); }, { { "size", var(mud::uvec2()) }, { "points", var(std::vector<mud::vec3>()), Param::Default } } }
+            },
+            // copy constructor
+            {
+                { type<mud::Grid3>(), [](Ref ref, Ref other) { new(&val<mud::Grid3>(ref)) mud::Grid3(val<mud::Grid3>(other)); } }
+            },
+            // members
+            {
+                { type<mud::Grid3>(), member_address(&mud::Grid3::m_size), type<mud::uvec2>(), "size", var(mud::uvec2()), Member::Flags(Member::Value|Member::Mutable) },
+                { type<mud::Grid3>(), member_address(&mud::Grid3::m_points), type<std::vector<mud::vec3>>(), "points", var(std::vector<mud::vec3>()), Member::Flags(Member::Value|Member::Mutable) }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Grid3>();
     }
     
     
@@ -1240,42 +1348,6 @@ namespace mud
     
     
         
-    // mud::Aabb
-    {
-        static Meta meta = { type<mud::Aabb>(), &namspc({ "mud" }), "Aabb", sizeof(mud::Aabb), TypeClass::Struct };
-        static Class cls = { type<mud::Aabb>(),
-            // bases
-            { &type<mud::Cube>() },
-            { base_offset<mud::Aabb, mud::Cube>() },
-            // constructors
-            {
-                { type<mud::Aabb>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Aabb>(ref)) mud::Aabb(  ); }, {} },
-                { type<mud::Aabb>(), [](Ref ref, array<Var> args) { new(&val<mud::Aabb>(ref)) mud::Aabb( val<mud::vec3>(args[0]), val<mud::vec3>(args[1]) ); }, { { "center", var(mud::vec3()) }, { "extents", var(mud::vec3()) } } }
-            },
-            // copy constructor
-            {
-                { type<mud::Aabb>(), [](Ref ref, Ref other) { new(&val<mud::Aabb>(ref)) mud::Aabb(val<mud::Aabb>(other)); } }
-            },
-            // members
-            {
-                { type<mud::Aabb>(), member_address(&mud::Aabb::m_null), type<bool>(), "null", var(bool()), Member::Flags(Member::Value|Member::Mutable) }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Aabb>();
-    }
-    
-    
-        
     // mud::Poisson
     {
         static Meta meta = { type<mud::Poisson>(), &namspc({ "mud" }), "Poisson", sizeof(mud::Poisson), TypeClass::Object };
@@ -1327,6 +1399,7 @@ namespace mud
         m.m_types.push_back(&type<mud::SymbolDetail>());
         m.m_types.push_back(&type<std::vector<mud::Circle>>());
         m.m_types.push_back(&type<std::vector<mud::vec3>>());
+        m.m_types.push_back(&type<mud::Aabb>());
         m.m_types.push_back(&type<mud::Arc>());
         m.m_types.push_back(&type<mud::ArcLine>());
         m.m_types.push_back(&type<mud::Box>());
@@ -1338,6 +1411,7 @@ namespace mud
         m.m_types.push_back(&type<mud::Ellipsis>());
         m.m_types.push_back(&type<mud::Geometry>());
         m.m_types.push_back(&type<mud::Grid2>());
+        m.m_types.push_back(&type<mud::Grid3>());
         m.m_types.push_back(&type<mud::Line>());
         m.m_types.push_back(&type<mud::Points>());
         m.m_types.push_back(&type<mud::Polygon>());
@@ -1349,7 +1423,6 @@ namespace mud
         m.m_types.push_back(&type<mud::Spheroid>());
         m.m_types.push_back(&type<mud::Torus>());
         m.m_types.push_back(&type<mud::Triangle>());
-        m.m_types.push_back(&type<mud::Aabb>());
         m.m_types.push_back(&type<mud::Poisson>());
     
         {

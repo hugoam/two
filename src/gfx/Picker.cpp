@@ -137,7 +137,7 @@ namespace mud
 					size_t offset = x + y * m_size.x;
 					const uint32_t& id = m_data[offset];
 
-					if(id == uint32_t(255 << 24))
+					if(id == uint32_t(255 << 24) || id >= render.m_shot->m_items.size())
 						continue;
 
 					vector_add(items, render.m_shot->m_items[id]);
