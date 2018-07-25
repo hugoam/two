@@ -11,6 +11,7 @@ module mud.gfx.ui;
 #else
 #include <infra/Vector.h>
 #include <math/Math.h>
+#include <geom/Intersect.h>
 #include <ctx/InputEvent.h>
 #include <ui/Render/Renderer.h>
 #include <ui/Frame/Frame.h>
@@ -225,23 +226,6 @@ namespace ui
 		return as<OrbitController>(*viewer.m_controller);
 	}
 
-namespace
-{
-	struct KeyMove
-	{
-		KeyCode key;
-		vec3 velocity;
-	};
-}
-
-	void free_orbit_control_key(Viewer& viewer, vec3& speed, const KeyMove& move)
-	{
-		if(viewer.key_event(move.key, EventType::Pressed))
-			speed += move.velocity;
-		if(viewer.key_event(move.key, EventType::Released))
-			speed += -move.velocity;
-	}
-
 	FreeOrbitController& free_orbit_controller(Viewer& viewer)
 	{
 		if(!viewer.m_controller)
@@ -253,6 +237,16 @@ namespace
 		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 			viewer.take_focus();
 
+		struct KeyMove { KeyCode key; vec3 velocity; };
+
+		auto move_key = [](Viewer& viewer, vec3& speed, const KeyMove& move)
+		{
+			if(viewer.key_event(move.key, EventType::Pressed))
+				speed += move.velocity;
+			if(viewer.key_event(move.key, EventType::Released))
+				speed += -move.velocity;
+		};
+
 		const KeyMove moves[8] =
 		{
 			{ KC_UP,   -Z3 * 2.f }, { KC_W,  -Z3 * 2.f },
@@ -262,7 +256,7 @@ namespace
 		};
 
 		for(const KeyMove& key_move : moves)
-			free_orbit_control_key(viewer, controller.m_speed, key_move);
+			move_key(viewer, controller.m_speed, key_move);
 
 		vec3 velocity = rotate(quat(vec3{ controller.m_pitch, controller.m_yaw, 0.f }), controller.m_speed);
 		controller.m_position += velocity;
@@ -287,6 +281,80 @@ namespace
 
 		orbit.update_eye();
 		return orbit;
+	}
+
+	OrbitController& hybrid_controller(Viewer& viewer, OrbitMode mode, Transform& entity, bool& aiming, float& pitch)
+	{
+		using Mode = OrbitMode;
+		OrbitController& orbit = mode == Mode::Isometric ? ui::isometric_controller(viewer)
+														 : ui::orbit_controller(viewer);
+
+		orbit.set_target(entity.m_position + Y3 * 2.f);
+
+		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
+		{
+			const float rotation_speed = 1.f;
+			vec2 angle = -mouse_event.m_delta / 250.f * rotation_speed;
+
+			if(mode != Mode::ThirdPerson)
+			{
+				Ray ray = viewer.m_viewport.ray(mouse_event.m_relative);
+				vec3 target = plane_segment_intersection(Plane(Y3, entity.m_position.y), to_segment(ray));
+				if(mode == Mode::Isometric)
+				{
+					entity.m_rotation = look_at(entity.m_position, target);
+				}
+				else if(mode == Mode::PseudoIsometric)
+				{
+					entity.m_rotation = quat(vec3(0.f, orbit.m_yaw, 0.f));
+					orbit.m_yaw += angle.x;
+				}
+			}
+			else
+			{
+				aiming = true;
+				entity.m_rotation = rotate(entity.m_rotation, Y3, angle.x);
+				pitch += angle.y;
+				pitch = min(c_pi / 2.f - 0.01f, max(-c_pi / 2.f + 0.01f, pitch));
+			}
+		}
+
+		if(mode == Mode::ThirdPerson)
+			orbit.set_eye(aiming ? rotate(entity.m_rotation, X3, pitch) : entity.m_rotation);
+
+		if(mode == Mode::PseudoIsometric)
+		{
+			orbit.m_pitch = -c_pi / 4.f;
+			orbit.update_eye();
+		}
+
+		return orbit;
+	}
+
+	void velocity_controller(Viewer& viewer, vec3& linear, vec3& angular, float speed)
+	{
+		struct KeyMove { KeyCode key; vec3 velocity; };
+
+		auto velocity_key = [](Widget& widget, vec3& linear, vec3& angular, const KeyMove& move, float speed)
+		{
+			if(widget.key_event(move.key, EventType::Pressed))
+				linear += move.velocity * speed;
+			if(widget.key_event(move.key, EventType::Released))
+				linear -= move.velocity * speed;
+		};
+
+		bool shift = viewer.root_sheet().m_keyboard.m_shift;
+
+		const KeyMove moves[8] =
+		{
+			{ KC_UP,    -Z3 },{ KC_W, -Z3 },
+			{ KC_DOWN,   Z3 },{ KC_S,  Z3 },
+			{ KC_LEFT,	-X3 },{ KC_A, -X3 },
+			{ KC_RIGHT,  X3 },{ KC_D,  X3 },
+		};
+
+		for(const KeyMove& key_move : moves)
+			velocity_key(viewer, linear, angular, key_move, speed);
 	}
 }
 }

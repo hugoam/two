@@ -21,6 +21,5 @@ namespace mud {
     
     class Pool;
     class ObjectPool;
-    class GlobalPool;
 }
 

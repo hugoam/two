@@ -35,7 +35,7 @@ namespace mud
 		, m_injector(constructor)
 		, m_inputParams()
 		, m_output(*this, "output", OUTPUT_VALVE, is_struct(type) ? meta(type).m_empty_var() : Var(meta(type).m_empty_ref()), false, is_struct(type) ? false : true)
-		, m_pool(is_struct(type) ? nullptr : &GlobalPool::me().pool(m_object_type))
+		, m_pool(is_struct(type) ? nullptr : g_pools[m_object_type.m_id].get())
 	{
 		for(const Param& param : m_injector.m_constructor.m_params)
 			//if(param.m_mode == INPUT_PARAM)

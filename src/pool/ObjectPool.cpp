@@ -14,16 +14,16 @@ module mud.pool;
 
 namespace mud
 {
+	std::vector<unique_ptr<Pool>> g_pools = std::vector<unique_ptr<Pool>>(c_max_types);
+
 	ObjectPool::ObjectPool()
+		: m_pools(c_max_types)
 	{}
 
 	void ObjectPool::clear()
 	{
-		for(auto& kv : m_pools)
-			kv.second->clear();
+		for(auto& pool : m_pools)
+			if(pool)
+				pool->clear();
 	}
-
-	GlobalPool::GlobalPool()
-		: ObjectPool()
-	{}
 }

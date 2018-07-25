@@ -43,14 +43,14 @@ namespace mud
 
 	VisualScript& ScriptEditor::create_visual(cstring name)
 	{
-		VisualScript& script = GlobalPool::me().pool<VisualScript>().construct(name);
+		VisualScript& script = global_pool<VisualScript>().construct(name);
 		this->open(script);
 		return script;
 	}
 
 	LuaScript& ScriptEditor::create_script(cstring name)
 	{
-		LuaScript& script = GlobalPool::me().pool<LuaScript>().construct(name);
+		LuaScript& script = global_pool<LuaScript>().construct(name);
 		script.m_interpreter = m_interpreter;
 		this->open(script);
 		return script;

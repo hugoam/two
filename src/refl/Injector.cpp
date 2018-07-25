@@ -68,13 +68,13 @@ namespace mud
 
 	Ref Injector::injectpool()
 	{
-		Pool& pool = GlobalPool::me().pool(m_object_type);
+		Pool& pool = *g_pools[m_object_type.m_id];
 		return this->inject(pool);
 	}
 
 	void Injector::destroy(Ref object)
 	{
-		Pool& pool = GlobalPool::me().pool(m_object_type);
+		Pool& pool = *g_pools[m_object_type.m_id];
 		pool.destroy(object);
 	}
 
