@@ -30,7 +30,7 @@ namespace mud
 	{
 		if(cls(object).m_is_iterable)
 		{
-			val<Iterable>(object).iterate(callback);
+			((Iterable*) object.m_value)->iterate(callback);
 		}
 		else
 		{

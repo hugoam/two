@@ -72,10 +72,7 @@ namespace mud
 
 		uvec4 source_rect = rect;
 		if(horizontal)
-		{
-			rect_w(rect) = rect_w(rect) >> 1;
-			rect_h(rect) = rect_h(rect) >> 1;
-		}
+			rect = rect / 2U;
 
 		vec4 screen_params{ rect_size(vec4(rect)), 1.f / rect_size(vec4(rect)) };
 		bgfx::setUniform(m_filter.u_uniform.u_screen_size_pixel_size, &screen_params);
@@ -91,6 +88,7 @@ namespace mud
 
 		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, source);
 
-		m_filter.submit_quad(*render.m_target, render.composite_pass(), target, m_program.version(version), { vec4(source_rect), vec4(rect), true, true });
+		RenderQuad quad = { render.m_target->source_quad(vec4(source_rect), true), render.m_target->dest_quad(vec4(rect), true), true };
+		m_filter.submit_quad(*render.m_target, render.composite_pass(), target, m_program.version(version), quad);
 	}
 }

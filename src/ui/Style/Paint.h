@@ -26,11 +26,11 @@ namespace mud
 			: d_null(true)
 		{}
 
-		attr_ mut_ float d_xpos;
-		attr_ mut_ float d_ypos;
-		attr_ mut_ float d_blur;
-		attr_ mut_ float d_spread;
-		attr_ mut_ Colour d_colour;
+		attr_ float d_xpos;
+		attr_ float d_ypos;
+		attr_ float d_blur;
+		attr_ float d_spread;
+		attr_ Colour d_colour;
 
 		vec2 d_pos;
 		bool d_null;
@@ -42,24 +42,24 @@ namespace mud
 		Paint(Colour fill_colour) : m_fill_colour(fill_colour), m_stroke_colour(Colour::None), m_stroke_width(0.f) {}
 		Paint(Colour stroke_colour, float stroke_width) : m_fill_colour(Colour::None), m_stroke_colour(stroke_colour), m_stroke_width(stroke_width) {}
 		Paint(Colour fill_colour, Colour stroke_colour, float stroke_width) : m_fill_colour(fill_colour), m_stroke_colour(stroke_colour), m_stroke_width(stroke_width) {}
-		attr_ mut_ Colour m_fill_colour;
-		attr_ mut_ Colour m_stroke_colour;
-		attr_ mut_ float m_stroke_width;
+		attr_ Colour m_fill_colour;
+		attr_ Colour m_stroke_colour;
+		attr_ float m_stroke_width;
 	};
 
 	export_ struct refl_ MUD_UI_EXPORT TextPaint
 	{
-		attr_ mut_ cstring m_font;
-		attr_ mut_ Colour m_colour;
-		attr_ mut_ float m_size;
-		attr_ mut_ Dim2<Align> m_align;
-		attr_ mut_ bool m_text_break;
-		attr_ mut_ bool m_text_wrap;
+		attr_ cstring m_font;
+		attr_ Colour m_colour;
+		attr_ float m_size;
+		attr_ Dim2<Align> m_align;
+		attr_ bool m_text_break;
+		attr_ bool m_text_wrap;
 	};
 
 	export_ struct refl_ MUD_UI_EXPORT Gradient
 	{
-		attr_ mut_ Colour m_start;
-		attr_ mut_ Colour m_end;
+		attr_ Colour m_start;
+		attr_ Colour m_end;
 	};
 }

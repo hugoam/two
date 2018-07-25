@@ -108,13 +108,13 @@ namespace mud
 		for (int i = 0; i < 8; ++i)
 			data.position(shape.m_position + box.m_vertices[i])
 				.colour(Colour::White)
-				.textureCoord(quadUVs[i%4]);
+				.uv0(quadUVs[i%4]);
 
 		int i = 0;
 		for(int v : { 3, 2, 7, 6, 5, 4, 1, 0 })
 			data.position(shape.m_position + box.m_vertices[v])
 				.colour(Colour::White)
-				.textureCoord(quadUVs[i++ % 4]);
+				.uv0(quadUVs[i++ % 4]);
 
 		data.quad(0, 1, 2, 3);
 		data.quad(4, 5, 6, 7);

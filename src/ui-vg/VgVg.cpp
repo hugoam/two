@@ -53,10 +53,11 @@ namespace mud
 
 	void VgVg::setup_context()
 	{
+		// @todo m_MaxImagePatterns has a very annoying limitation with command lists because each one allocates its own patterns
 		static const vg::ContextConfig config =
 		{
-			64,									// m_MaxGradients
-			1024,								// m_MaxImagePatterns
+			256,								// m_MaxGradients
+			2048,								// m_MaxImagePatterns
 			8,									// m_MaxFonts
 			256,								// m_MaxStateStackSize
 			16,									// m_MaxImages
@@ -137,6 +138,7 @@ namespace mud
 	bool VgVg::clipped(const vec4& rect)
 	{
 #ifdef MUD_UI_DRAW_CACHE
+		UNUSED(rect);
 		return false;
 #else
 		return !vg::checkIntersectScissor(m_vg, RECT_FLOATS(rect));
@@ -299,16 +301,13 @@ namespace mud
 		return { m_fonts[paint.m_font], paint.m_size, text_align(paint), vgColour(paint.m_colour) };
 	}
 
-	void VgVg::break_next_row(const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row)
+	void VgVg::break_next_row(const char* text, const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row)
 	{
 		vg::TextRow vgTextRow;
 		vg::textBreakLines(m_vg, text_font(paint), first, end, rect.z, &vgTextRow, 1, 0);
 
-		row.m_start = vgTextRow.start;
-		row.m_end = vgTextRow.end;
-		row.m_rect = vec4{ rect.x, rect.y, vgTextRow.width, line_height(paint) };
+		row = text_row(text, vgTextRow.start, vgTextRow.end, { rect.x, rect.y, vgTextRow.width, line_height(paint) });
 	}
-
 
 	void VgVg::break_glyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow)
 	{
@@ -368,11 +367,10 @@ namespace mud
 
 	void VgVg::draw_layer(Layer& layer, const vec2& position, float scale)
 	{
+		UNUSED(position); UNUSED(scale);
 		vg::pushState(m_vg);
 		vg::setGlobalAlpha(m_vg, 1.f);
 		vg::transformIdentity(m_vg);
-		//vg::transformTranslate(m_vg, position.x, position.y);
-		//vg::transformScale(m_vg, scale, scale);
 		vg::submitCommandList(m_vg, this->layer_cache(layer));
 		vg::popState(m_vg);
 	}

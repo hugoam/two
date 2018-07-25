@@ -40,7 +40,7 @@ namespace mud
 
 	Viewer& scene_viewport(Widget& parent, Scene& scene, Camera& camera, std::vector<Ref>& selection)
 	{
-		Viewer& viewer = parent.child_args<Viewer, Scene&>(scene);
+		Viewer& viewer = parent.suba<Viewer, Scene&>(scene);
 		if(viewer.once())
 		{
 			UNUSED(camera);

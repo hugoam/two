@@ -49,12 +49,12 @@ namespace mud
 		~Item();
 
 		attr_ Node3& m_node;
-		attr_ mut_ Model* m_model = nullptr;
-		attr_ mut_ uint32_t m_flags = 0;
-		attr_ mut_ Colour m_colour = Colour::White;
-		attr_ mut_ Material* m_material = nullptr;
-		attr_ mut_ bool m_visible = true;
-		attr_ mut_ ItemShadow m_cast_shadows = ItemShadow::On;
+		attr_ Model* m_model = nullptr;
+		attr_ uint32_t m_flags = 0;
+		attr_ Colour m_colour = Colour::White;
+		attr_ Material* m_material = nullptr;
+		attr_ bool m_visible = true;
+		attr_ ItemShadow m_cast_shadows = ItemShadow::On;
 		attr_ Rig* m_rig = nullptr;
 
 		Aabb m_aabb;

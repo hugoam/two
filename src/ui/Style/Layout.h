@@ -29,25 +29,26 @@ namespace mud
 		template <class T_Initializer>
 		Layout(T_Initializer func) { func(*this); }
 
-		attr_ mut_ string m_name = "";
-		attr_ mut_ LayoutSolver m_solver = FRAME_SOLVER;
-		attr_ mut_ Dim2<AutoLayout> m_layout = { AUTO_LAYOUT, AUTO_LAYOUT };
-		attr_ mut_ Flow m_flow = FLOW;
-		attr_ mut_ Space m_space = SHEET;
-		attr_ mut_ Clipping m_clipping = NOCLIP;
-		attr_ mut_ Opacity m_opacity = CLEAR;
-		attr_ mut_ Dim2<Align> m_align = { LEFT, LEFT };
-		attr_ mut_ vec2 m_span = vec2(1.f);
-		attr_ mut_ vec2 m_size = vec2(0.f);
-		attr_ mut_ vec4 m_padding = vec4(0.f);
-		attr_ mut_ vec2 m_margin = vec2(0.f);
-		attr_ mut_ vec2 m_spacing = vec2(0.f);
-		attr_ mut_ Dim2<Pivot> m_pivot = { FORWARD, FORWARD };
-		attr_ mut_ int m_zorder = 0;
+		attr_ string m_name = "";
+		attr_ LayoutSolver m_solver = FRAME_SOLVER;
+		attr_ Dim2<AutoLayout> m_layout = { AUTO_LAYOUT, AUTO_LAYOUT };
+		attr_ Flow m_flow = FLOW;
+		attr_ Space m_space = SHEET;
+		attr_ Clipping m_clipping = NOCLIP;
+		attr_ Opacity m_opacity = CLEAR;
+		attr_ Dim2<Align> m_align = { LEFT, LEFT };
+		attr_ vec2 m_span = vec2(1.f);
+		attr_ vec2 m_size = vec2(0.f);
+		attr_ vec4 m_padding = vec4(0.f);
+		attr_ vec2 m_margin = vec2(0.f);
+		attr_ vec2 m_spacing = vec2(0.f);
+		attr_ Dim2<Pivot> m_pivot = { FORWARD, FORWARD };
+		attr_ int m_zorder = 0;
+		attr_ bool m_no_grid = false;
 
-		attr_ mut_ std::vector<Space> m_grid_division;
-		attr_ mut_ std::vector<float> m_table_division;
+		attr_ std::vector<Space> m_grid_division;
+		attr_ std::vector<float> m_table_division;
 
-		attr_ mut_ size_t m_updated = 0;
+		attr_ size_t m_updated = 0;
 	};
 }

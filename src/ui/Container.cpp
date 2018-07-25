@@ -37,7 +37,7 @@ namespace ui
 
 	Table& columns(Widget& parent, array<float> weights)
 	{
-		Table& self = parent.child_args<Table, array<float>>(weights);
+		Table& self = parent.suba<Table, array<float>>(weights);
 		self.init(styles().table);
 
 		as<TableSolver>(*self.m_frame.m_solver).update(self.m_weights);
@@ -48,9 +48,9 @@ namespace ui
 	Table& table(Widget& parent, size_t columns, array<float> weights)
 	{
 		if(weights.size() > 0)
-			return parent.child_args<Table, array<float>>(weights);
+			return parent.suba<Table, array<float>>(weights);
 		else
-			return parent.child_args<Table, size_t>(columns);
+			return parent.suba<Table, size_t>(columns);
 	}
 
 	Table& table(Widget& parent, array<cstring> columns, array<float> weights)
@@ -75,6 +75,11 @@ namespace ui
 	{
 		bool odd = parent.m_next % 2 == 1;
 		return button(parent, odd ? table_styles().row_odd : table_styles().row_even);
+	}
+
+	Widget& table_separator(Widget& parent)
+	{
+		return widget(parent, table_styles().separator);
 	}
 
 	Widget& toggle_header(Widget& parent, Style& header_style, Style& toggle_style, array<cstring> elements, bool& open)

@@ -46,8 +46,8 @@ namespace mud
 		~Texture();
 
 		/*attr_ mut_*/ string m_name;
-		attr_ mut_ uint16_t m_width = 0;
-		attr_ mut_ uint16_t m_height = 0;
+		attr_ uint16_t m_width = 0;
+		attr_ uint16_t m_height = 0;
 
 		bgfx::TextureHandle m_texture = BGFX_INVALID_HANDLE;
 	};

@@ -100,9 +100,9 @@ namespace mud
 
 	export_ struct refl_ MUD_UI_EXPORT Space
 	{
-		attr_ mut_ FlowAxis direction;
-		attr_ mut_ Sizing sizingLength;
-		attr_ mut_ Sizing sizingDepth;
+		attr_ FlowAxis direction;
+		attr_ Sizing sizingLength;
+		attr_ Sizing sizingDepth;
 
 		Space(FlowAxis dir, Sizing length, Sizing depth) : direction(dir), sizingLength(length), sizingDepth(depth) {}
 		Space(SpacePreset preset = FLEX) { *this = Space::preset(preset); }
@@ -141,7 +141,7 @@ namespace mud
 	public:
 		union {
 			T d_values[2];
-			struct { attr_ mut_ T x; attr_ mut_ T y; };
+			struct { attr_ T x; attr_ T y; };
 			struct { T w; T h; };
 		};
 	};

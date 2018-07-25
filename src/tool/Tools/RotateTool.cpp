@@ -19,7 +19,7 @@ module mud.tool;
 
 namespace mud
 {
-	RotateAction::RotateAction(const std::vector<Transform*>& targets, const vec3& axis)
+	RotateAction::RotateAction(array<Transform*> targets, const vec3& axis)
 		: TransformAction(targets)
 		, m_axis(axis)
 		, m_angle(0.f)
@@ -70,7 +70,7 @@ namespace mud
 #endif
 	}
 
-	object_ptr<TransformAction> RotateTool::create_action(const std::vector<Transform*>& targets)
+	object_ptr<TransformAction> RotateTool::create_action(array<Transform*> targets)
 	{
 		vec3 axis = m_current == &m_gizmos[0] ? -X3
 				  : m_current == &m_gizmos[1] ?  Y3

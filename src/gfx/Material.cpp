@@ -84,6 +84,32 @@ namespace mud
 		bgfx::UniformHandle s_color;
 	};
 
+	struct FresnelMaterialUniform
+	{
+		FresnelMaterialUniform(GfxSystem& gfx_system)
+			: m_white_tex(&gfx_system.default_texture(TextureHint::White))
+			, u_fresnel_params(bgfx::createUniform("u_fresnel_params", bgfx::UniformType::Vec4))
+			, u_fresnel_value(bgfx::createUniform("u_fresnel_value", bgfx::UniformType::Vec4))
+			, s_fresnel(bgfx::createUniform("s_fresnel", bgfx::UniformType::Int1))
+		{}
+
+		void upload(const FresnelMaterialBlock& data)
+		{
+			vec4 value = to_vec4(data.m_value.m_value);
+			vec4 params = { data.m_fresnel_bias, data.m_fresnel_scale, data.m_fresnel_power, 1.f };
+			bgfx::setUniform(u_fresnel_value, &value);
+			bgfx::setUniform(u_fresnel_params, &params);
+
+			bgfx::setTexture(uint8_t(TextureSampler::Color), s_fresnel, data.m_value.m_texture ? data.m_value.m_texture->m_texture : m_white_tex->m_texture);
+		}
+
+		Texture* m_white_tex;
+
+		bgfx::UniformHandle u_fresnel_params;
+		bgfx::UniformHandle u_fresnel_value;
+		bgfx::UniformHandle s_fresnel;
+	};
+
 	struct PbrMaterialUniform
 	{
 		PbrMaterialUniform(GfxSystem& gfx_system)
@@ -185,7 +211,7 @@ namespace mud
 	//static uint16_t s_material_index = 0;
 
 	Material::Material(cstring name)
-		: m_index(index(type<Material>(), Ref(this)))//++s_material_index)
+		: m_index(uint16_t(index(type<Material>(), Ref(this))))//++s_material_index)
 		, m_name(name)
 	{}
 
@@ -228,11 +254,14 @@ namespace mud
 
 		static BaseMaterialUniform s_base_material_block = { *ms_gfx_system };
 		static UnshadedMaterialUniform s_unshaded_material_block = { *ms_gfx_system };
+		static FresnelMaterialUniform s_fresnel_material_block = { *ms_gfx_system };
 		static PbrMaterialUniform s_pbr_material_block = { *ms_gfx_system };
 
 		s_base_material_block.upload(m_base_block);
 		if(m_unshaded_block.m_enabled)
 			s_unshaded_material_block.upload(m_unshaded_block);
+		if(m_fresnel_block.m_enabled)
+			s_fresnel_material_block.upload(m_fresnel_block);
 		if(m_pbr_block.m_enabled)
 			s_pbr_material_block.upload(m_pbr_block);
 

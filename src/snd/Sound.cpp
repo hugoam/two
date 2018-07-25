@@ -4,6 +4,7 @@
 
 
 #include <snd/Sound.h>
+#include <snd/SoundManager.h>
 
 #include <snd/SharedBuffer.h>
 #include <snd/SoundImplementer.h>
@@ -46,6 +47,8 @@ namespace mud
 	{
 		if(!m_active || m_state != PLAYING)
 			return;
+
+		//printf("Playing sound %s\n", m_name.c_str());
 
 		ALenum state;
 		alGetSourcei(m_source, AL_SOURCE_STATE, &state);
@@ -100,10 +103,10 @@ namespace mud
 
 		if(m_active)
 		{
-			updatePlayCursor();
-
 			clearBuffers();
 			fillBuffers();
+
+			updatePlayCursor();
 
 			alSourcePlay(m_source);
 		}
@@ -121,6 +124,7 @@ namespace mud
 			alSourceStop(m_source);
 
 			clearBuffers();
+
 			rewind();
 		}
 	}
@@ -271,11 +275,14 @@ namespace mud
 	}
 
 	void Sound::initSource()
-	{		
+	{
+		ALenum state;
+		alGetSourcei(m_source, AL_SOURCE_STATE, &state);
+
 		alSourcef (m_source, AL_GAIN,				m_gain);
 		alSourcef (m_source, AL_MAX_GAIN,			m_maxGain);
 		alSourcef (m_source, AL_MIN_GAIN,			m_minGain);
-		alSourcef (m_source, AL_MAX_DISTANCE,		m_maxDistance);	
+		alSourcef (m_source, AL_MAX_DISTANCE,		m_maxDistance);
 		alSourcef (m_source, AL_ROLLOFF_FACTOR,		m_rolloffFactor);
 		alSourcef (m_source, AL_REFERENCE_DISTANCE,	m_referenceDistance);
 		alSourcef (m_source, AL_CONE_OUTER_GAIN,	m_outerConeGain);
@@ -287,7 +294,8 @@ namespace mud
 		alSourcef (m_source, AL_PITCH,				m_pitch);
 		alSourcei (m_source, AL_SOURCE_RELATIVE,	m_sourceRelative);
 		alSourcei (m_source, AL_LOOPING,			m_loop);
-		alSourcei (m_source, AL_SOURCE_STATE,		AL_INITIAL);
+		//alSourcei (m_source, AL_SOURCE_STATE,		AL_INITIAL);
+		alSourceRewind(m_source);
 	}
 
 	void Sound::assignSource(ALuint src)
@@ -295,10 +303,12 @@ namespace mud
 		m_active = true;
 		m_source = src;
 		initSource();
-		fillBuffers();	
+		fillBuffers();
 
 		if(m_pauseOnDisactivate)
+		{
 			playImpl();
+		}
 	}
 
 	void Sound::releaseSource()
@@ -307,7 +317,7 @@ namespace mud
 			pauseImpl();
 
 		alSourceStop(m_source);
-		clearBuffers();	
+		clearBuffers();
 
 		m_source = AL_NONE;
 		m_active = false;
@@ -328,7 +338,7 @@ namespace mud
 
 	void Sound::updateFade(float fTime)
 	{
-		if(m_fade) return;
+		if(!m_fade) return;
 
 		m_fadeTimer += fTime;
 		if(m_fadeTimer >= m_fadeTime)

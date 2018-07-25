@@ -226,12 +226,12 @@ namespace mud
 
 	Material& item_material(const Item& item, const ModelItem& model_item)
 	{
-		if(model_item.m_material)
+		if(item.m_material)
+			return *item.m_material;
+		else if(model_item.m_material)
 			return *model_item.m_material;
 		else if(model_item.m_mesh->m_material)
 			return *model_item.m_mesh->m_material;
-		else
-			return *item.m_material;
 	}
 
 	void DrawPass::gather_draw_elements(Render& render)

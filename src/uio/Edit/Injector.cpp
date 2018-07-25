@@ -9,19 +9,76 @@ module mud.uio;
 #else
 #include <refl/Class.h>
 #include <refl/System.h>
+#include <proto/Proto.h>
 #include <ui/Structs/Container.h>
 #include <uio/Object.h>
 #include <uio/Edit/Injector.h>
+#include <uio/Edit/Method.h>
 #include <uio/Edit/Inspector.h>
 #include <uio/Edit/Value.h>
 #endif
 
 namespace mud
 {
-	struct MetaObjectCreatorState : public NodeState
+	void object_injector(Widget& parent, Injector& injector)
 	{
-		Type* m_type = nullptr;
+		Widget& self = ui::sheet(parent);
+		call_edit(self, injector);
+	}
+
+	struct CreatorState : public NodeState
+	{
+		CreatorState(Type& type) : m_type(0), m_injector(make_unique<Injector>(type)) {}
+		size_t m_type;
+		unique_ptr<Injector> m_injector;
 	};
+
+	bool object_creator(Widget& parent, Injector& injector)
+	{
+		Widget& self = ui::widget(parent, styles().sheet, &injector);
+		
+		Table& fields = ui::columns(self, carray<float, 2>{ 0.4f, 0.6f });
+		call_edit(fields, injector);
+
+		if(ui::button(self, "Create").activated())
+		{
+			injector.injectpool();
+			return true;
+		}
+
+		return false;
+	}
+
+	bool object_switch_creator(Widget& parent, array<Type*> types)
+	{
+		Widget& self = ui::sheet(parent);
+		ui::title(self, "Create Object");
+
+		CreatorState& state = self.state<CreatorState>(*types[0]);
+
+		if(type_selector(self, state.m_type, types))
+			state.m_injector = make_unique<Injector>(*types[state.m_type]);
+
+		return object_creator(self, *state.m_injector);
+	}
+
+	bool object_creator(Widget& parent, Creator& creator)
+	{
+		Widget& self = ui::sheet(parent);
+
+		ui::title(self, creator.m_prototype ? creator.m_prototype->m_name : creator.m_type.m_name);
+
+		Table& fields = ui::table(self, carray<cstring, 2>{ "field", "value" }, carray<float, 2>{ 0.3f, 0.7f });
+		call_edit(fields, creator.injector());
+
+		if(ui::button(self, "Create").activated())
+		{
+			creator.m_injector->injectpool();
+			return true;
+		}
+
+		return false;
+	}
 
 	struct ObjectCreatorState : public NodeState
 	{
@@ -29,61 +86,17 @@ namespace mud
 		Creator m_creator;
 	};
 
-	void object_injector_fields(Widget& parent, Injector& injector)
-	{
-		for(size_t i = 1; i < injector.m_args.size(); ++i)
-		{
-			const Param& param = injector.m_constructor.m_params[i];
-			Ref value = injector.m_args[i];
-			field_edit(parent, param.m_name, value, param.nullable());
-			injector.m_args[i].set(value);
-		}
-	}
-
-	void object_injector(Widget& parent, Injector& injector)
-	{
-		Widget& self = ui::sheet(parent);
-		object_injector_fields(self, injector);
-	}
-
-	void object_creator_prototype(Widget& parent, Creator& creator)
-	{
-#ifdef MUD_PROTO
-		Type* prototype = type_selector(parent, (Type*&) creator.m_prototype, (const std::vector<Type*>&) *cls(creator.m_type).m_prototypes);
-
-		if(prototype && prototype != creator.m_prototype)
-			creator.setPrototype(*prototype);
-#endif
-	}
-
-	bool object_creator(Widget& parent, Creator& creator)
-	{
-		Widget& self = ui::stack(parent);
-
-		if(creator.m_construct)
-			object_creator_prototype(self, creator);
-
-		ui::item(self, styles().title, creator.m_prototype ? creator.m_prototype->m_name : creator.m_type.m_name);
-		static cstring columns[2] = { "field", "value" };
-		Widget& fields = ui::table(self, { columns, 2 }, {}); //, { 0.4f, 0.6f });
-
-		object_injector_fields(fields, creator.injector());
-
-		if(ui::button(self, "Create").activated())
-		{
-			creator.create();
-			return true;
-		}
-
-		return false;
-	}
-
 	bool object_creator(Widget& parent, Type& type)
 	{
 		Widget& self = ui::sheet(parent);
 		ObjectCreatorState& state = self.state<ObjectCreatorState>(type);
 		return object_creator(self, state.m_creator);
 	}
+
+	struct MetaObjectCreatorState : public NodeState
+	{
+		Type* m_type = nullptr;
+	};
 
 	void meta_object_creator(Widget& parent)
 	{

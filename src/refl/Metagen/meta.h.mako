@@ -107,7 +107,7 @@ def member_identity(c, member):
 def member_flags(c, member):
     flags = [('Member::Pointer' if member.pointer else None),
              ('Member::Value' if member.cls.struct and not member.pointer else None),
-             ('Member::Mutable' if member.mutable else None),
+             ('Member::NonMutable' if member.nonmutable or member.reference else None),
              ('Member::Structure' if member.structure else None),
              ('Member::Component' if member.component else None),
              ('Member::Link' if member.link or member.pointer or member.reference else None)]
@@ -130,32 +130,26 @@ def type_class(c):
 def member_type(member):
     return member.cls.id + ('*' if member.pointer else '')
     
-# @todo investigate why the explicit lambdas incur such a big size difference (bloat)
-# mud_d.dll 5487kb vs 5304kb mud_gfx_d.dll 16084kb vs 15796kb wasm 8049kb vs 6037kb
-def member_getter_explicit(c, member):
-    if member.function:
-        return '[](Ref object, Var& v) { set<' + member_type(member) + '>(v, val<' + c.id + '>(object).' + member.member + '()); }'
-    else:
-        return '[](Ref object, Var& v) { set<' + member_type(member) + '>(v, val<' + c.id + '>(object).' + member.member + '); }'
-    
 def member_getter(c, member):
-    if member.reference and not member.function:
-        return '[](Ref object, Var& v) { set<' + member.cls.id + '>(v, val<' + c.id + '>(object).' + member.member + '); }'
+    if member.function:
+        return '[](Ref object) { return Ref(' + ('&' if not member.pointer else '') + 'val<' + c.id + '>(object).' + member.member + '()); }'
+    elif member.reference:
+        return '[](Ref object) { return Ref(&val<' + c.id + '>(object).' + member.member + '); }'
     else:
-        return 'member_getter<' + member_type(member) + '>(&' + c.id + '::' + member.member + ')'
-    
+        return 'nullptr'
+
 def member_setter_explicit(c, member):
-    if member.mutable and member.setter:
+    if member.setter:
         return '[](Ref object, const Var& v) { val<' + c.id + '>(object).set' + member.capname + '(val<' + member_type(member) + '>(v)); }'
-    elif member.mutable:
+    elif not member.nonmutable:
         return '[](Ref object, const Var& v) { val<' + c.id + '>(object).' + member.member + ' = val<' + member_type(member) + '>(v); }'
     else:
         return 'nullptr'
         
 def member_setter(c, member):
-    if member.mutable and member.setter:
+    if member.setter:
         return 'member_setter<' + member_type(member) + '>(&' + c.id + '::set' + member.capname + ')'
-    elif member.mutable:
+    elif not member.nonmutable:
         return 'member_setter<' + member_type(member) + '>(&' + c.id + '::' + member.member + ')'
     else:
         return 'nullptr'
@@ -254,7 +248,7 @@ namespace mud
             // members
             {
             % for m in c.members :
-                { ${ type_get(c) }, ${ member_identity(c, m) }, ${ type_get(m.cls) }, "${ m.name }", ${ member_default(c, m) }, ${ member_flags(c, m) } }${ "," if not loop.last else "" }
+                { ${ type_get(c) }, ${ member_identity(c, m) }, ${ type_get(m.cls) }, "${ m.name }", ${ member_default(c, m) }, ${ member_flags(c, m) }, ${ member_getter(c, m) } }${ "," if not loop.last else "" }
             % endfor
             },
             // methods

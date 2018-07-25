@@ -85,32 +85,26 @@ namespace mud
 
 	void Vg::fill_text(cstring text, size_t len, const vec4& rect, const TextPaint& paint, TextRow& row)
 	{
-		row.m_start = text;
-		row.m_end = text + len;
-		row.m_rect = vec4{ rect.x, rect.y, this->text_size(text, len, DIM_X, paint), line_height(paint) };
-
+		row = text_row(text, text, text + len, { rect.x, rect.y, this->text_size(text, len, DIM_X, paint), line_height(paint) });
 		this->break_glyphs(rect, paint, row);
 	}
 
-	void Vg::break_text_width(const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row)
+	void Vg::break_text_width(const char* text, const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row)
 	{
-		this->break_next_row(first, end, rect, paint, row);
+		this->break_next_row(text, first, end, rect, paint, row);
 
 		if(row.m_start != row.m_end)
 			this->break_glyphs(rect, paint, row);
 	}
 
-	void Vg::break_text_returns(const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row)
+	void Vg::break_text_returns(const char* text, const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row)
 	{
 		const char* iter = first;
 
 		while(*iter != '\n' && iter < end)
 			++iter;
 
-		row.m_start = first;
-		row.m_end = iter;
-		row.m_rect = vec4{ rect.x, rect.y, this->text_size(first, iter - first, DIM_X, paint), line_height(paint) };
-
+		row = text_row(text, first, iter, vec4{ rect.x, rect.y, this->text_size(first, iter - first, DIM_X, paint), line_height(paint) });
 		this->break_glyphs(rect, paint, row);
 
 		// @kludge because text_size doesn't report the correct size when there is a space at the end : investigate (vg-renderer, nanovg)
@@ -144,12 +138,10 @@ namespace mud
 
 			vec4 rect(0.f, index * line_height, space.x, 0.f);
 			if(paint.m_text_wrap)
-				this->break_text_width(first, end, rect, paint, row);
+				this->break_text_width(text, first, end, rect, paint, row);
 			else
-				this->break_text_returns(first, end, rect, paint, row);
+				this->break_text_returns(text, first, end, rect, paint, row);
 
-			row.m_start_index = row.m_start - text;
-			row.m_end_index = row.m_end - text;
 			first = row.m_end + 1;
 		}
 	}

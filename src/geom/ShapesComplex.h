@@ -47,7 +47,7 @@ namespace mud
 		constr_ Points();
 		constr_ Points(const std::vector<vec3>& points);
 
-		attr_ mut_ std::vector<vec3> m_points;
+		attr_ std::vector<vec3> m_points;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -58,8 +58,8 @@ namespace mud
 		constr_ Grid3();
 		constr_ Grid3(const uvec2& size, const std::vector<vec3>& points = {});
 
-		attr_ mut_ uvec2 m_size;
-		attr_ mut_ std::vector<vec3> m_points;
+		attr_ uvec2 m_size;
+		attr_ std::vector<vec3> m_points;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -70,7 +70,7 @@ namespace mud
 		constr_ ConvexHull();
 		constr_ ConvexHull(const std::vector<vec3>& vertices);
 
-		attr_ mut_ std::vector<vec3> m_vertices;
+		attr_ std::vector<vec3> m_vertices;
 
 		virtual object_ptr<Shape> clone() const;
 	};

@@ -25,17 +25,17 @@ public:
 	meth_ int method();
 
 	// simple types
-	attr_ mut_ bool m_visible = true;
-	attr_ mut_ int m_number = 0;
-	attr_ mut_ std::string m_name = "";
+	attr_ bool m_visible = true;
+	attr_ int m_number = 0;
+	attr_ std::string m_name = "";
 
 	// advanced types
-	attr_ mut_ ShapeType m_shape = ShapeType::Sphere;
-	attr_ mut_ mud::vec3 m_position = Zero3;
-	attr_ mut_ mud::Colour m_colour = Colour::Pink;
+	attr_ ShapeType m_shape = ShapeType::Sphere;
+	attr_ mud::vec3 m_position = Zero3;
+	attr_ mud::Colour m_colour = Colour::Pink;
 
 	// vector types
-	attr_ mut_ std::vector<float> m_floats;
+	attr_ std::vector<float> m_floats;
 };
 
 func_ void foo(int arg);

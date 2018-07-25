@@ -31,16 +31,6 @@ namespace mud
 	 
 	void debug_print_mat(const mat4& mat);
 
-	export_ struct refl_ MUD_GFX_EXPORT Transform
-	{
-		Transform() {}
-		Transform(const vec3& position, const quat& rotation, const vec3& scale) : m_position(position), m_rotation(rotation), m_scale(scale) {}
-		Transform(const mat4& mat);
-		attr_ mut_ vec3 m_position = Zero3;
-		attr_ mut_ quat m_rotation = ZeroQuat;
-		attr_ mut_ vec3 m_scale = Unit3;
-	};
-
 	export_ class refl_ MUD_GFX_EXPORT Node3
 	{
 	public:
@@ -50,10 +40,10 @@ namespace mud
 		attr_ Scene* m_scene = nullptr;
 		attr_ uint16_t m_index = 0;
 
-		attr_ mut_ vec3 m_position = Zero3;
-		attr_ mut_ quat m_rotation = ZeroQuat;
-		attr_ mut_ vec3 m_scale = Unit3;
-		attr_ mut_ bool m_visible = true;
+		attr_ vec3 m_position = Zero3;
+		attr_ quat m_rotation = ZeroQuat;
+		attr_ vec3 m_scale = Unit3;
+		attr_ bool m_visible = true;
 
 		Ref m_object;
 		size_t m_last_updated = 0;

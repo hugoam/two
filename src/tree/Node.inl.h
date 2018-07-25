@@ -22,9 +22,23 @@ namespace mud
 	}
 
 	export_ template <class T_Node>
-	inline T_Node& begin_node(T_Node& node)
+	void clean_node_tree_preserve(T_Node& node, size_t heartbeat)
 	{
-		clean_node_tree<T_Node>(node, node.m_heartbeat);
+		for(auto& child : node.m_nodes)
+		{
+			if(child->m_heartbeat < heartbeat)
+				child->clear();
+			clean_node_tree_preserve(*child, heartbeat);
+		}
+	}
+
+	export_ template <class T_Node>
+	inline T_Node& begin_node(T_Node& node, bool preserve = false)
+	{
+		if(preserve)
+			clean_node_tree_preserve<T_Node>(node, node.m_heartbeat);
+		else
+			clean_node_tree<T_Node>(node, node.m_heartbeat);
 		node.m_heartbeat++;
 		node.m_next = 0;
 		return node;

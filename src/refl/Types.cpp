@@ -25,7 +25,6 @@ namespace mud
     template <> MUD_REFL_EXPORT Type& type<mud::Convert>() { static Type ty("Convert"); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Creator>() { static Type ty("Creator"); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Enum>() { static Type ty("Enum"); return ty; }
-    template <> MUD_REFL_EXPORT Type& type<mud::Injector>() { static Type ty("Injector"); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Member>() { static Type ty("Member"); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Meta>() { static Type ty("Meta"); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Module>() { static Type ty("Module"); return ty; }
@@ -39,4 +38,5 @@ namespace mud
     template <> MUD_REFL_EXPORT Type& type<mud::Destructor>() { static Type ty("Destructor", type<mud::Callable>()); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Function>() { static Type ty("Function", type<mud::Callable>()); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Method>() { static Type ty("Method", type<mud::Callable>()); return ty; }
+    template <> MUD_REFL_EXPORT Type& type<mud::Injector>() { static Type ty("Injector", type<mud::Call>()); return ty; }
 }

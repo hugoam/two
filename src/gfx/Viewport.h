@@ -47,10 +47,10 @@ namespace mud
 		attr_ Scene* m_scene;
 
 		attr_ uint16_t m_index = 0;
-		attr_ mut_ uvec4 m_rect = {};
-		attr_ mut_ bool m_scissor = false;
-		attr_ mut_ Colour m_clear_colour = Colour::Black;
-		attr_ mut_ Shading m_shading = Shading::Shaded;
+		attr_ uvec4 m_rect = {};
+		attr_ bool m_scissor = false;
+		attr_ Colour m_clear_colour = Colour::Black;
+		attr_ Shading m_shading = Shading::Shaded;
 		/*attr_ mut_*/ RenderFilters* m_filters = nullptr;
 
 		std::function<uvec4()> m_get_size;

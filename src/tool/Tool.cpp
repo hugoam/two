@@ -7,7 +7,11 @@
 #ifdef MUD_MODULES
 module mud.tool;
 #else
+#include <infra/Vector.h>
 #include <obj/Any.h>
+#include <obj/DispatchDecl.h>
+#include <refl/Class.h>
+#include <refl/Convert.h>
 #include <math/Axes.h>
 #include <geom/Intersect.h>
 #include <ctx/InputDevice.h>
@@ -77,8 +81,8 @@ namespace mud
 		return plane_segment_intersection(plane, to_segment(viewer.mouse_ray()));
 	}
 
-	TransformAction::TransformAction(const std::vector<Transform*>& targets)
-		: m_targets(targets)
+	TransformAction::TransformAction(array<Transform*> targets)
+		: m_targets(to_vector(targets))
 	{}
 
 	void TransformAction::apply()
@@ -169,8 +173,11 @@ namespace mud
 
 		std::vector<Transform*> transforms;
 		for(Ref object : targets)
-			if(type(object).is<Transform>())
-				transforms.push_back(&val<Transform>(object));
+		{
+			Var transform;
+			if(convert(Var(object), type<Transform>(), transform))
+				transforms.push_back(&val<Transform>(transform));
+		}
 
 		m_transform = average_transforms(transforms);
 
@@ -214,7 +221,7 @@ namespace mud
 		viewer.m_controller->process(static_cast<Viewer&>(screen)); // @HACK @UGLY it's not a viewer !!
 		//viewport_picker(viewer, screen, targets);
 
-		this->paint(viewer.m_scene->m_graph.sub(this));
+		this->paint(viewer.m_scene->m_graph.subi(this));
 	}
 
 	Gizmo& TransformTool::gizmo(Item& item)

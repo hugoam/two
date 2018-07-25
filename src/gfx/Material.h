@@ -57,18 +57,18 @@ namespace mud
 
 	export_ struct refl_ MUD_GFX_EXPORT BaseMaterialBlock
 	{
-		attr_ mut_ BlendMode m_blend_mode = BlendMode::Mix;
-		attr_ mut_ CullMode m_cull_mode = CullMode::Back;
-		attr_ mut_ DepthDraw m_depth_draw_mode = DepthDraw::Enabled;
-		attr_ mut_ DepthTest m_depth_test = DepthTest::Enabled;
+		attr_ BlendMode m_blend_mode = BlendMode::Mix;
+		attr_ CullMode m_cull_mode = CullMode::Back;
+		attr_ DepthDraw m_depth_draw_mode = DepthDraw::Enabled;
+		attr_ DepthTest m_depth_test = DepthTest::Enabled;
 
-		attr_ mut_ vec2 m_uv1_scale = { 1.f, 1.f };
-		attr_ mut_ vec2 m_uv1_offset = { 0.f, 0.f };
-		attr_ mut_ vec2 m_uv2_scale = { 1.f, 1.f };
-		attr_ mut_ vec2 m_uv2_offset = { 0.f, 0.f };
+		attr_ vec2 m_uv1_scale = { 1.f, 1.f };
+		attr_ vec2 m_uv1_offset = { 0.f, 0.f };
+		attr_ vec2 m_uv2_scale = { 1.f, 1.f };
+		attr_ vec2 m_uv2_offset = { 0.f, 0.f };
 
-		attr_ mut_ bool m_is_alpha = false;
-		attr_ mut_ bool m_screen_filter = false;
+		attr_ bool m_is_alpha = false;
+		attr_ bool m_screen_filter = false;
 
 		uint m_geometry_filter = (1 << OUTLINE) | (1 << PLAIN);
 
@@ -91,9 +91,9 @@ namespace mud
 	{
 		MaterialParam() {}
 		MaterialParam(T_Param value, Texture* texture = nullptr, TextureChannel channel = TextureChannel::All) : m_value(value), m_texture(texture), m_channel(channel) {}
-		attr_ mut_ T_Param m_value = {};
-		attr_ mut_ Texture* m_texture = nullptr;
-		attr_ mut_ TextureChannel m_channel = TextureChannel::All;
+		attr_ T_Param m_value = {};
+		attr_ Texture* m_texture = nullptr;
+		attr_ TextureChannel m_channel = TextureChannel::All;
 	};
 
 	export_ template struct refl_ struct_ MUD_GFX_EXPORT MaterialParam<Colour>;
@@ -101,9 +101,20 @@ namespace mud
 
 	export_ struct refl_ MUD_GFX_EXPORT UnshadedMaterialBlock
 	{
-		attr_ mut_ bool m_enabled = false;
+		attr_ bool m_enabled = false;
 
-		attr_ mut_ MaterialParam<Colour> m_colour = { Colour::White, nullptr };
+		attr_ MaterialParam<Colour> m_colour = { Colour::White, nullptr };
+	};
+
+	export_ struct refl_ MUD_GFX_EXPORT FresnelMaterialBlock
+	{
+		attr_ bool m_enabled = false;
+
+		attr_ MaterialParam<Colour> m_value = { Colour::White, nullptr };
+
+		attr_ float m_fresnel_scale = 1.f;
+		attr_ float m_fresnel_bias = 0.01f;
+		attr_ float m_fresnel_power = 5.f;
 	};
 
 	export_ enum class refl_ PbrDiffuseMode : unsigned int
@@ -138,33 +149,33 @@ namespace mud
 	{
 		PbrMaterialBlock& operator=(const PbrMaterialBlock&) = default; // @kludge because clang-modules bug doesn't have copy-assign with member arrays ?
 
-		attr_ mut_ bool m_enabled = false;
+		attr_ bool m_enabled = false;
 
 		// basic
-		attr_ mut_ MaterialParam<Colour> m_albedo = { Colour::White, nullptr };
-		attr_ mut_ float m_specular = 0.5f;
-		attr_ mut_ MaterialParam<float> m_metallic = { 0.f, nullptr, TextureChannel::Red };
-		attr_ mut_ MaterialParam<float> m_roughness = { 1.f, nullptr, TextureChannel::Red };
-		attr_ mut_ MaterialParam<Colour> m_emissive = { Colour::Black, nullptr };
-		attr_ mut_ float m_emissive_energy = 0.f;
-		attr_ mut_ MaterialParam<float> m_normal = { 1.f, nullptr };
+		attr_ MaterialParam<Colour> m_albedo = { Colour::White, nullptr };
+		attr_ float m_specular = 0.5f;
+		attr_ MaterialParam<float> m_metallic = { 0.f, nullptr, TextureChannel::Red };
+		attr_ MaterialParam<float> m_roughness = { 1.f, nullptr, TextureChannel::Red };
+		attr_ MaterialParam<Colour> m_emissive = { Colour::Black, nullptr };
+		attr_ float m_emissive_energy = 0.f;
+		attr_ MaterialParam<float> m_normal = { 1.f, nullptr };
 
 		// advanced
-		attr_ mut_ MaterialParam<float> m_rim;
-		attr_ mut_ float m_rim_tint;
-		attr_ mut_ MaterialParam<float> m_clearcoat;
-		attr_ mut_ float m_clearcoat_gloss;
-		attr_ mut_ MaterialParam<float> m_anisotropy;
-		attr_ mut_ MaterialParam<float> m_subsurface;
-		attr_ mut_ MaterialParam<Colour> m_transmission;
-		attr_ mut_ MaterialParam<float> m_refraction;
-		attr_ mut_ MaterialParam<float> m_ambient_occlusion;
-		attr_ mut_ MaterialParam<float> m_depth = { -0.02f, nullptr };
+		attr_ MaterialParam<float> m_rim;
+		attr_ float m_rim_tint;
+		attr_ MaterialParam<float> m_clearcoat;
+		attr_ float m_clearcoat_gloss;
+		attr_ MaterialParam<float> m_anisotropy;
+		attr_ MaterialParam<float> m_subsurface;
+		attr_ MaterialParam<Colour> m_transmission;
+		attr_ MaterialParam<float> m_refraction;
+		attr_ MaterialParam<float> m_ambient_occlusion;
+		attr_ MaterialParam<float> m_depth = { -0.02f, nullptr };
 
-		attr_ mut_ bool m_deep_parallax = false;
+		attr_ bool m_deep_parallax = false;
 
-		attr_ mut_ PbrDiffuseMode m_diffuse_mode = PbrDiffuseMode::Burley;
-		attr_ mut_ PbrSpecularMode m_specular_mode = PbrSpecularMode::SchlickGGX;
+		attr_ PbrDiffuseMode m_diffuse_mode = PbrDiffuseMode::Burley;
+		attr_ PbrSpecularMode m_specular_mode = PbrSpecularMode::SchlickGGX;
 
 		bool m_flags[size_t(MaterialFlag::Count)];
 	};
@@ -196,9 +207,10 @@ namespace mud
 		attr_ bool m_builtin = false;
 		attr_ Program* m_program = nullptr;
 
-		attr_ mut_ BaseMaterialBlock m_base_block;
-		attr_ mut_ UnshadedMaterialBlock m_unshaded_block;
-		attr_ mut_ PbrMaterialBlock m_pbr_block;
+		attr_ BaseMaterialBlock m_base_block;
+		attr_ UnshadedMaterialBlock m_unshaded_block;
+		attr_ PbrMaterialBlock m_pbr_block;
+		attr_ FresnelMaterialBlock m_fresnel_block;
 
 		void state(uint64_t& bgfx_state) const;
 		void submit(uint64_t& bgfx_state, const Skin* skin = nullptr) const;

@@ -31,13 +31,13 @@ namespace mud
 		Widget(Widget* parent, void* identity);
 		~Widget();
 
-		attr_ bool focused() { return (m_state & FOCUSED) != 0; }
-		attr_ bool hovered() { return (m_state & HOVERED) != 0; }
-		attr_ bool pressed() { return (m_state & PRESSED) != 0; }
-		attr_ bool activated() { return (m_state & ACTIVATED) != 0; }
-		attr_ bool selected() { return (m_state & SELECTED) != 0; }
-		attr_ bool modal() { return (m_state & FOCUSED) != 0; }
-		attr_ bool closed() { return (m_state & CLOSED) != 0; }
+		/*attr_*/ bool focused() { return (m_state & FOCUSED) != 0; }
+		/*attr_*/ bool hovered() { return (m_state & HOVERED) != 0; }
+		/*attr_*/ bool pressed() { return (m_state & PRESSED) != 0; }
+		/*attr_*/ bool activated() { return (m_state & ACTIVATED) != 0; }
+		/*attr_*/ bool selected() { return (m_state & SELECTED) != 0; }
+		/*attr_*/ bool modal() { return (m_state & FOCUSED) != 0; }
+		/*attr_*/ bool closed() { return (m_state & CLOSED) != 0; }
 
 		meth_ Widget& begin();
 
@@ -96,7 +96,7 @@ namespace ui
 	export_ template <class T>
 	inline T& twidget(Widget& parent, Style& style, bool open = false, Dim length = DIM_NONE, Dim2<size_t> index = { 0, 0 })
 	{
-		T& self = parent.sub<T>(&style); self.init(style, open, length, index); return self;
+		T& self = parent.subi<T>(&style); self.init(style, open, length, index); return self;
 	}
 }
 }

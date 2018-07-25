@@ -72,6 +72,7 @@ namespace mud
 
 	ArcLine::ArcLine() : Shape(type<ArcLine>()) {}
 	ArcLine::ArcLine(const vec3& start, const vec3& middle, const vec3& end) : Shape(type<ArcLine>()), m_start(start), m_middle(middle), m_end(end) {}
+	ArcLine::ArcLine(const vec3& center, const vec3& start, const vec3& middle, const vec3& end) : Shape(type<ArcLine>(), center), m_start(start), m_middle(middle), m_end(end) {}
 	object_ptr<Shape> ArcLine::clone() const { return make_object<ArcLine>(*this); }
 
 	Cylinder::Cylinder() : Shape(type<Cylinder>()) {}
@@ -102,6 +103,7 @@ namespace mud
 
 	Spheroid::Spheroid() : Shape(type<Spheroid>()) {}
 	Spheroid::Spheroid(float radius) : Shape(type<Spheroid>()), m_radius(radius), m_circleX(radius, Axis::X), m_circleY(radius, Axis::Y), m_circleZ(radius, Axis::Z) {}
+	Spheroid::Spheroid(const vec3& center, float radius) : Shape(type<Spheroid>(), center), m_radius(radius), m_circleX(radius, Axis::X), m_circleY(radius, Axis::Y), m_circleZ(radius, Axis::Z) {}
 	object_ptr<Shape> Spheroid::clone() const { return make_object<Spheroid>(*this); }
 
 	Points::Points() : Shape(type<Points>()) {}

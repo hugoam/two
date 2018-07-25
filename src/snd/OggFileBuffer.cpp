@@ -24,7 +24,7 @@ namespace mud
 
 	static int ogg_seek(void* file, ogg_int64_t offset, int whence)
 	{
-		return fseek((FILE*)file, offset, whence);
+		return fseek((FILE*)file, long(offset), whence);
 	}
 
 	static int ogg_close(void* file)
@@ -136,8 +136,9 @@ namespace mud
 		return last_chunk;
 	}
 
-	bool OggFileBuffer::read_chunk(char* dataChunk, size_t chunkSize)
+	bool OggFileBuffer::read_chunk(char* data_chunk, size_t chunk_size)
 	{
+		UNUSED(chunk_size);
 		size_t size = 0;
 		int section;
 		int result;
@@ -145,7 +146,7 @@ namespace mud
 
 		while(size < m_chunk_size)
 		{
-			result = ov_read(&m_impl->m_ogg_file, dataChunk + size, m_chunk_size - size, 0, 2, 1, &section);
+			result = ov_read(&m_impl->m_ogg_file, data_chunk + size, m_chunk_size - size, 0, 2, 1, &section);
 
 			if(result > 0)
 				size += result;

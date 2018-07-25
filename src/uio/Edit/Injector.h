@@ -16,5 +16,6 @@ namespace mud
 	export_ MUD_UIO_EXPORT void object_injector(Widget& parent, Injector& injector);
 	export_ MUD_UIO_EXPORT bool object_creator(Widget& parent, Creator& creator);
 
+	export_ MUD_UIO_EXPORT bool object_switch_creator(Widget& parent, array<Type*> types);
 	export_ MUD_UIO_EXPORT bool object_creator(Widget& parent, Type& type);
 }

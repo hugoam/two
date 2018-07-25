@@ -45,9 +45,12 @@ namespace ui
 		if(popup_flag(flags, PopupFlags::Clamp))
 			self.m_frame.clamp_to_parent();
 
-		// @todo change to Pressed, but causes a crash because InputDevice is holding to the pressed element
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
-			self.m_open = false;
+		if(popup_flag(flags, PopupFlags::AutoClose))
+		{
+			// @todo change to Pressed, but causes a crash because InputDevice is holding to the pressed element
+			if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+				self.m_open = false;
+		}
 
 		return self;
 	}

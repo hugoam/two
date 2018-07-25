@@ -81,10 +81,10 @@ namespace mud
 		virtual void break_text(cstring text, size_t len, const vec2& space, const TextPaint& paint, std::vector<TextRow>& rows);
 
 		void fill_text(cstring text, size_t len, const vec4& rect, const TextPaint& paint, TextRow& row);
-		void break_text_width(const char* string, const char* end, const vec4& rect, const TextPaint& paint, TextRow& textRow);
-		void break_text_returns(const char* string, const char* end, const vec4& rect, const TextPaint& paint, TextRow& textRow);
+		void break_text_width(const char* text, const char* start, const char* end, const vec4& rect, const TextPaint& paint, TextRow& textRow);
+		void break_text_returns(const char* text, const char* start, const char* end, const vec4& rect, const TextPaint& paint, TextRow& textRow);
 
-		virtual void break_next_row(const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row) = 0;
+		virtual void break_next_row(const char* text, const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row) = 0;
 		virtual void break_glyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow) = 0;
 
 		virtual float line_height(const TextPaint& paint) = 0;

@@ -118,26 +118,28 @@ namespace mud
 
 		uint8_t view_id = render.preprocess_pass();
 
-		if(blit_support)
+		auto blit_to_array = [&](bgfx::TextureHandle texture, uvec2 size, int level)
 		{
-			bgfx::blit(view_id, radiance_array, 0, 0, 0, 0, radiance.m_texture->m_texture, 0, 0, 0, 0, width, height, 1);
-		}
-		else
-		{
-			bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, radiance.m_texture->m_texture, GFX_TEXTURE_CLAMP);
+			if(blit_support)
+			{
+				bgfx::blit(view_id, radiance_array, 0, 0, 0, uint16_t(level), texture, 0, 0, 0, 0, uint16_t(size.x), uint16_t(size.y), 1);
+			}
+			else
+			{
+				bgfx::Attachment attachment = { radiance_array, uint16_t(mips ? level : 0), uint16_t(mips ? 0 : level) };
+				FrameBuffer render_target = { size, bgfx::createFrameBuffer(1, &attachment, false) };
+				m_copy.submit_quad(render_target, view_id, texture);
+			}
 
-			FrameBuffer render_target = { uvec2(width, height), bgfx::createFrameBuffer(1, &radiance_array, false) };
-			m_filter.render_quad(render_target, view_id, m_copy.m_program.default_version(), { Rect4, Zero4, true });
-		}
+			bgfx::frame();
+		};
+
+		blit_to_array(radiance.m_texture->m_texture, { width, height }, 0);
 
 		for(uint16_t i = 1; i < roughness_levels; i++)
 		{
-#ifdef MUD_RADIANCE_MIPMAPS
-			width >>= 1;
-			height >>= 1;
-#endif
-
-			FrameBuffer copy_target = { uvec2(width, height), format, GFX_TEXTURE_POINT };
+			uvec2 size = mips ? uvec2(width >> i, height >> i) : uvec2(width, height);
+			FrameBuffer copy_target = { size, format, GFX_TEXTURE_POINT };
 
 			bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, radiance_array, GFX_TEXTURE_POINT);
 
@@ -153,24 +155,9 @@ namespace mud
 			vec4 prefilter_params = { roughness, float(num_samples), 0.f, 0.f };
 			bgfx::setUniform(u_prefilter.u_prefilter_envmap_params, &prefilter_params);
 
-			m_filter.render_quad(copy_target, view_id, m_prefilter_program.default_version(), { Rect4, Zero4, true });
+			m_filter.submit_quad(copy_target, view_id, m_prefilter_program.default_version(), 0U, true);
 
-			if(blit_support)
-			{
-				bgfx::blit(view_id, radiance_array, 0, 0, 0, i, bgfx::getTexture(copy_target.m_fbo), 0, 0, 0, 0, width, height, 1);
-			}
-			else
-			{
-#ifdef MUD_RADIANCE_MIPMAPS
-				bgfx::Attachment attachment = { radiance_array, i, 0 };
-#else
-				bgfx::Attachment attachment = { radiance_array, 0, i };
-#endif
-				FrameBuffer render_target = { uvec2(width, height), bgfx::createFrameBuffer(1, &attachment, false) };
-				m_copy.submit_quad(render_target, view_id, bgfx::getTexture(copy_target.m_fbo), { Rect4, Zero4, true });
-			}
-
-			bgfx::frame();
+			blit_to_array(bgfx::getTexture(copy_target.m_fbo), size, i);
 		}
 
 		m_prefiltered[radiance.m_texture->m_texture.idx] = radiance.m_roughness_array.idx;

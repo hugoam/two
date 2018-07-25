@@ -90,9 +90,10 @@ namespace mud
 	public:
 		Frame* d_frame;
 		FrameSolver* d_parent;
+		Layout* d_style;
+
 		FrameSolver* m_solvers[2];
 		FrameSolver* d_grid;
-		Layout* d_style;
 
 		Dim d_length = DIM_NONE;
 		Dim d_depth = DIM_NONE;

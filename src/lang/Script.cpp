@@ -15,9 +15,10 @@ module mud.lang;
 
 namespace mud
 {
-	Script::Script(cstring name, const Signature& signature)
+	Script::Script(Type& type, cstring name, const Signature& signature)
 		: Callable(name, signature.m_params, signature.m_returnval)
-		, m_index(index(type<Script>(), Ref(this)))
+		, m_index(index(mud::type<Script>(), Ref(this, type)))
+		, m_type(type)
 		, m_name(name)
 		, m_signature(signature)
 	{}
@@ -28,7 +29,7 @@ namespace mud
 	}
 
 	LuaScript::LuaScript(cstring name, const Signature& signature)
-		: Script(name, signature)
+		: Script(type<LuaScript>(), name, signature)
 	{}
 
 	void LuaScript::operator()(array<Var> args, Var& result) const

@@ -109,7 +109,7 @@ namespace mud
 		{
 			const string tile_name = json_tile["name"].string_value();
 			char symmetry = json_tile["symmetry"].string_value()[0];
-			float weight = json_tile["weight"].number_value();
+			float weight = float(json_tile["weight"].number_value());
 
 			add_tile(tileset, subset_tiles, tile_name, symmetry, weight);
 		}
@@ -179,8 +179,8 @@ namespace mud
 			}
 			else
 			{
-				int L = tileset.flip(left->m_index, neighbor["flip"][0].int_value());
-				int R = tileset.flip(right->m_index, neighbor["flip"][1].int_value());
+				int L = tileset.flip(left->m_index, uint8_t(neighbor["flip"][0].int_value()));
+				int R = tileset.flip(right->m_index, uint8_t(neighbor["flip"][1].int_value()));
 				tileset.connect(L, R, horizontal);
 			}
 		}

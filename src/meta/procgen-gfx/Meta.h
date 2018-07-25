@@ -68,16 +68,17 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::WfcBlock>(), [](Ref ref, array<Var> args) { new(&val<mud::WfcBlock>(ref)) mud::WfcBlock( val<mud::uvec3>(args[0]), val<mud::uvec3>(args[1]), val<mud::vec3>(args[2]), val<mud::WaveTileset>(args[3]), val<bool>(args[4]) ); }, { { "position", var(mud::vec3()) }, { "size", var(mud::uvec3()) }, { "scale", var(mud::vec3()) }, { "tileset", var(mud::WaveTileset()) }, { "auto_solve", var(bool(false)), Param::Default } } }
+                { type<mud::WfcBlock>(), [](Ref ref, array<Var> args) { new(&val<mud::WfcBlock>(ref)) mud::WfcBlock( val<mud::vec3>(args[0]), val<mud::uvec3>(args[1]), val<mud::vec3>(args[2]), val<mud::WaveTileset>(args[3]), val<bool>(args[4]) ); }, { { "position", var(mud::vec3()) }, { "size", var(mud::uvec3()) }, { "scale", var(mud::vec3()) }, { "tileset", var(mud::WaveTileset()) }, { "auto_solve", var(bool(false)), Param::Default } } }
             },
             // copy constructor
             {
             },
             // members
             {
-                { type<mud::WfcBlock>(), member_address(&mud::WfcBlock::m_size), type<mud::uvec3>(), "size", var(mud::uvec3()), Member::Value },
-                { type<mud::WfcBlock>(), member_address(&mud::WfcBlock::m_scale), type<mud::vec3>(), "scale", var(mud::vec3()), Member::Value },
-                { type<mud::WfcBlock>(), member_address(&mud::WfcBlock::m_aabb), type<mud::Aabb>(), "aabb", var(mud::Aabb()), Member::Value }
+                { type<mud::WfcBlock>(), member_address(&mud::WfcBlock::m_position), type<mud::vec3>(), "position", var(mud::vec3()), Member::Value, nullptr },
+                { type<mud::WfcBlock>(), member_address(&mud::WfcBlock::m_size), type<mud::uvec3>(), "size", var(mud::uvec3()), Member::Value, nullptr },
+                { type<mud::WfcBlock>(), member_address(&mud::WfcBlock::m_scale), type<mud::vec3>(), "scale", var(mud::vec3()), Member::Value, nullptr },
+                { type<mud::WfcBlock>(), member_address(&mud::WfcBlock::m_aabb), type<mud::Aabb>(), "aabb", var(mud::Aabb()), Member::Value, nullptr }
             },
             // methods
             {

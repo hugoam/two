@@ -98,7 +98,7 @@ namespace ui
 
 	Window& window(Widget& parent, cstring title, WindowState state, void* identity, Dock* dock)
 	{
-		Window& self = parent.sub<Window>(identity);
+		Window& self = parent.subi<Window>(identity);
 		self.m_dock = dock;
 		self.init(dock ? window_styles().dock_window : window_styles().window).layer();
 

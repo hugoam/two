@@ -37,7 +37,7 @@ namespace mud
 			return mud::lerp(m_keys[key], m_keys[key + 1], ttmod);
 		}
 
-		attr_ mut_ std::vector<T> m_keys;
+		attr_ std::vector<T> m_keys;
 	};
 
 	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueCurve<vec3>;
@@ -87,13 +87,13 @@ namespace mud
 				return mud::lerp(m_min * m_min_curve.sample_curve(t), m_max * m_max_curve.sample_curve(t), seed);
 		}
 
-		attr_ mut_ TrackMode m_mode;
-		attr_ mut_ T m_value = One<T>::value();
-		attr_ mut_ T m_min = One<T>::value();
-		attr_ mut_ T m_max = One<T>::value();
-		attr_ mut_ ValueCurve<T> m_curve;
-		attr_ mut_ ValueCurve<T> m_min_curve;
-		attr_ mut_ ValueCurve<T> m_max_curve;
+		attr_ TrackMode m_mode;
+		attr_ T m_value = One<T>::value();
+		attr_ T m_min = One<T>::value();
+		attr_ T m_max = One<T>::value();
+		attr_ ValueCurve<T> m_curve;
+		attr_ ValueCurve<T> m_min_curve;
+		attr_ ValueCurve<T> m_max_curve;
 	};
 
 	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueTrack<vec3>;

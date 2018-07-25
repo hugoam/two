@@ -70,7 +70,7 @@ namespace mud
 
 		viewer.m_controller->process(static_cast<Viewer&>(screen)); // @HACK @UGLY it's not a viewer !!
 
-		this->paint(viewer.m_scene->m_graph.sub(this));
+		this->paint(viewer.m_scene->m_graph.subi(this));
 	}
 
 	vec3 Brush::raycast_target(Viewer& viewer, MouseEvent& mouse_event)
@@ -129,8 +129,8 @@ namespace mud
 
 	void PlaceBrush::activate()
 	{
-		m_creator.injector().m_args[0] = var(size_t(0));
-		//m_creator.injector().m_args[1] = Ref(m_context.m_origin);
+		m_creator.injector().m_arguments[0] = var(size_t(0));
+		//m_creator.injector().m_arguments[1] = Ref(m_context.m_origin);
 		m_state = ToolState::Active;
 	}
 
@@ -165,8 +165,8 @@ namespace mud
 
 	void CircleBrush::activate()
 	{
-		m_creator.injector().m_args[0] = var(size_t(0));
-		//m_creator.injector().m_args[1] = Ref(m_context.m_origin);
+		m_creator.injector().m_arguments[0] = var(size_t(0));
+		//m_creator.injector().m_arguments[1] = Ref(m_context.m_origin);
 		m_state = ToolState::Active;
 	}
 

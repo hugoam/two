@@ -261,13 +261,13 @@ namespace mud
 
 	bool Class::is(Type& component)
 	{
-		return vector_find(m_components, [&](Member* member) { return member->m_type == &component; }) != nullptr;
+		return vector_find(m_components, [&](Member* member) { return member->m_type->is(component); }) != nullptr;
 	}
 
 	Ref Class::as(Ref object, Type& component)
 	{
-		Member* member = *vector_find(m_components, [&](Member* member) { return member->m_type == &component; });
-		return member->get(object);
+		Member* member = *vector_find(m_components, [&](Member* member) { return member->m_type->is(component); });
+		return cls(*member->m_type).upcast(member->get(object), component);
 	}
 
 	bool compare(Ref first, Ref second)
@@ -391,14 +391,17 @@ namespace mud
 		return true;
 	}
 
-	Var convert(Ref input, Type& output)
+	bool convert(Ref input, Type& output, Var& result)
 	{
-		return TypeConverter::me().convert(input, output);
+		Var inputvar = input;
+		return convert(inputvar, output, result);
 	}
 
-	void convert(Ref input, Type& output, Var& result)
+	Var convert(Ref input, Type& output)
 	{
-		return TypeConverter::me().convert(input, output, result);
+		Var result;
+		convert(input, output, result);
+		return result;
 	}
 
 	bool can_convert(Type& input, Type& output)

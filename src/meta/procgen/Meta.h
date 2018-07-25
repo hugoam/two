@@ -160,7 +160,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Fract>(), member_address(&mud::Fract::m_num_tabs), type<size_t>(), "nutabs", var(size_t()), Member::Value }
+                { type<mud::Fract>(), member_address(&mud::Fract::m_num_tabs), type<size_t>(), "nutabs", var(size_t()), Member::Value, nullptr }
             },
             // methods
             {
@@ -199,9 +199,9 @@ namespace mud
             },
             // members
             {
-                { type<mud::FractSample>(), Address(), type<mud::Fract>(), "fract", Ref(type<mud::Fract>()), Member::Link },
-                { type<mud::FractSample>(), member_address(&mud::FractSample::m_rect), type<mud::Rect>(), "rect", var(mud::Rect()), Member::Value },
-                { type<mud::FractSample>(), member_address(&mud::FractSample::m_resolution), type<mud::uvec2>(), "resolution", var(mud::uvec2()), Member::Value }
+                { type<mud::FractSample>(), Address(), type<mud::Fract>(), "fract", Ref(type<mud::Fract>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::FractSample>(object).m_fract); } },
+                { type<mud::FractSample>(), member_address(&mud::FractSample::m_rect), type<mud::Rect>(), "rect", var(mud::Rect()), Member::Value, nullptr },
+                { type<mud::FractSample>(), member_address(&mud::FractSample::m_resolution), type<mud::uvec2>(), "resolution", var(mud::uvec2()), Member::Value, nullptr }
             },
             // methods
             {
@@ -340,11 +340,11 @@ namespace mud
             },
             // members
             {
-                { type<mud::Tile>(), member_address(&mud::Tile::m_index), type<size_t>(), "index", var(size_t()), Member::Value },
-                { type<mud::Tile>(), member_address(&mud::Tile::m_name), type<std::string>(), "name", var(std::string()), Member::Value },
-                { type<mud::Tile>(), member_address(&mud::Tile::m_symmetry), type<char>(), "symmetry", var(char()), Member::Value },
-                { type<mud::Tile>(), member_address(&mud::Tile::m_cardinality), type<int>(), "cardinality", var(int()), Member::Value },
-                { type<mud::Tile>(), member_address(&mud::Tile::m_profile), type<int>(), "profile", var(int()), Member::Value }
+                { type<mud::Tile>(), member_address(&mud::Tile::m_index), type<size_t>(), "index", var(size_t()), Member::Value, nullptr },
+                { type<mud::Tile>(), member_address(&mud::Tile::m_name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<mud::Tile>(), member_address(&mud::Tile::m_symmetry), type<char>(), "symmetry", var(char()), Member::Value, nullptr },
+                { type<mud::Tile>(), member_address(&mud::Tile::m_cardinality), type<int>(), "cardinality", var(int()), Member::Value, nullptr },
+                { type<mud::Tile>(), member_address(&mud::Tile::m_profile), type<int>(), "profile", var(int()), Member::Value, nullptr }
             },
             // methods
             {
@@ -379,10 +379,10 @@ namespace mud
             },
             // members
             {
-                { type<mud::Tileset>(), member_address(&mud::Tileset::m_name), type<std::string>(), "name", var(std::string()), Member::Value },
-                { type<mud::Tileset>(), member_address(&mud::Tileset::m_tile_size), type<mud::vec3>(), "tile_size", var(mud::vec3()), Member::Value },
-                { type<mud::Tileset>(), member_address(&mud::Tileset::m_tile_scale), type<mud::vec3>(), "tile_scale", var(mud::vec3()), Member::Value },
-                { type<mud::Tileset>(), member_address(&mud::Tileset::m_num_tiles), type<uint16_t>(), "nutiles", var(uint16_t()), Member::Value }
+                { type<mud::Tileset>(), member_address(&mud::Tileset::m_name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<mud::Tileset>(), member_address(&mud::Tileset::m_tile_size), type<mud::vec3>(), "tile_size", var(mud::vec3()), Member::Value, nullptr },
+                { type<mud::Tileset>(), member_address(&mud::Tileset::m_tile_scale), type<mud::vec3>(), "tile_scale", var(mud::vec3()), Member::Value, nullptr },
+                { type<mud::Tileset>(), member_address(&mud::Tileset::m_num_tiles), type<uint16_t>(), "nutiles", var(uint16_t()), Member::Value, nullptr }
             },
             // methods
             {
@@ -447,40 +447,6 @@ namespace mud
     
     
         
-    // mud::TileWave
-    {
-        static Meta meta = { type<mud::TileWave>(), &namspc({ "mud" }), "TileWave", sizeof(mud::TileWave), TypeClass::Struct };
-        static Class cls = { type<mud::TileWave>(),
-            // bases
-            { &type<mud::Wave>() },
-            { base_offset<mud::TileWave, mud::Wave>() },
-            // constructors
-            {
-                { type<mud::TileWave>(), [](Ref ref, array<Var> args) { new(&val<mud::TileWave>(ref)) mud::TileWave( val<mud::WaveTileset>(args[0]), val<uint16_t>(args[1]), val<uint16_t>(args[2]), val<uint16_t>(args[3]), val<bool>(args[4]) ); }, { { "tileset", var(mud::WaveTileset()) }, { "width", var(uint16_t()) }, { "height", var(uint16_t()) }, { "depth", var(uint16_t()) }, { "periodic", var(bool()) } } }
-            },
-            // copy constructor
-            {
-                { type<mud::TileWave>(), [](Ref ref, Ref other) { new(&val<mud::TileWave>(ref)) mud::TileWave(val<mud::TileWave>(other)); } }
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::TileWave>();
-    }
-    
-    
-        
     // mud::WaveTileset
     {
         static Meta meta = { type<mud::WaveTileset>(), &namspc({ "mud" }), "WaveTileset", sizeof(mud::WaveTileset), TypeClass::Struct };
@@ -511,6 +477,40 @@ namespace mud
         
         
         meta_class<mud::WaveTileset>();
+    }
+    
+    
+        
+    // mud::TileWave
+    {
+        static Meta meta = { type<mud::TileWave>(), &namspc({ "mud" }), "TileWave", sizeof(mud::TileWave), TypeClass::Struct };
+        static Class cls = { type<mud::TileWave>(),
+            // bases
+            { &type<mud::Wave>() },
+            { base_offset<mud::TileWave, mud::Wave>() },
+            // constructors
+            {
+                { type<mud::TileWave>(), [](Ref ref, array<Var> args) { new(&val<mud::TileWave>(ref)) mud::TileWave( val<mud::WaveTileset>(args[0]), val<uint16_t>(args[1]), val<uint16_t>(args[2]), val<uint16_t>(args[3]), val<bool>(args[4]) ); }, { { "tileset", var(mud::WaveTileset()) }, { "width", var(uint16_t()) }, { "height", var(uint16_t()) }, { "depth", var(uint16_t()) }, { "periodic", var(bool()) } } }
+            },
+            // copy constructor
+            {
+                { type<mud::TileWave>(), [](Ref ref, Ref other) { new(&val<mud::TileWave>(ref)) mud::TileWave(val<mud::TileWave>(other)); } }
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::TileWave>();
     }
     
     
@@ -565,8 +565,8 @@ namespace mud
         m.m_types.push_back(&type<mud::Tileset>());
         m.m_types.push_back(&type<mud::Wave>());
         m.m_types.push_back(&type<std::vector<mud::Image256>>());
-        m.m_types.push_back(&type<mud::TileWave>());
         m.m_types.push_back(&type<mud::WaveTileset>());
+        m.m_types.push_back(&type<mud::TileWave>());
         m.m_types.push_back(&type<mud::array_3d<float>>());
     
         {

@@ -93,8 +93,8 @@ namespace mud
 	{
 		Range() {}
 		Range(T min, T max) : m_min(min), m_max(max) {}
-		attr_ mut_ T m_min = {};
-		attr_ mut_ T m_max = {};
+		attr_ T m_min = {};
+		attr_ T m_max = {};
 		bool operator==(const Range<T>& other) const { return m_min == other.m_min && m_max == other.m_max; }
 	};
 

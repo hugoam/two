@@ -95,9 +95,10 @@ namespace mud
 
 		virtual void process(Viewer& viewer);
 
-		void update_position(const quat& rotation);
-		void update_position();
-		void set_position(const vec3& position);
+		void set_eye(const quat& rotation);
+		void set_target(const vec3& position);
+
+		void update_eye();
 	};
 
 	export_ class refl_ MUD_GFX_UI_EXPORT FreeOrbitController : public OrbitController

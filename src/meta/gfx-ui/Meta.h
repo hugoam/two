@@ -78,10 +78,10 @@ namespace mud
             },
             // members
             {
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link) },
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_viewport), type<mud::Viewport>(), "viewport", Ref(type<mud::Viewport>()), Member::None },
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_position), type<mud::vec2>(), "position", var(mud::vec2()), Member::Value },
-                { type<mud::Viewer>(), member_address(&mud::Viewer::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value }
+                { type<mud::Viewer>(), member_address(&mud::Viewer::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
+                { type<mud::Viewer>(), member_address(&mud::Viewer::m_viewport), type<mud::Viewport>(), "viewport", Ref(type<mud::Viewport>()), Member::None, nullptr },
+                { type<mud::Viewer>(), member_address(&mud::Viewer::m_position), type<mud::vec2>(), "position", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::Viewer>(), member_address(&mud::Viewer::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value, nullptr }
             },
             // methods
             {
@@ -131,39 +131,6 @@ namespace mud
     
     
         
-    // mud::SceneViewer
-    {
-        static Meta meta = { type<mud::SceneViewer>(), &namspc({ "mud" }), "SceneViewer", sizeof(mud::SceneViewer), TypeClass::Object };
-        static Class cls = { type<mud::SceneViewer>(),
-            // bases
-            { &type<mud::Scene>(), &type<mud::Viewer>() },
-            { base_offset<mud::SceneViewer, mud::Scene>(), base_offset<mud::SceneViewer, mud::Viewer>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::SceneViewer>();
-    }
-    
-    
-    
-        
     // mud::OrbitController
     {
         static Meta meta = { type<mud::OrbitController>(), &namspc({ "mud" }), "OrbitController", sizeof(mud::OrbitController), TypeClass::Object };
@@ -193,6 +160,7 @@ namespace mud
         
         meta_class<mud::OrbitController>();
     }
+    
     
     
         
@@ -226,14 +194,46 @@ namespace mud
         meta_class<mud::FreeOrbitController>();
     }
     
+    
+        
+    // mud::SceneViewer
+    {
+        static Meta meta = { type<mud::SceneViewer>(), &namspc({ "mud" }), "SceneViewer", sizeof(mud::SceneViewer), TypeClass::Object };
+        static Class cls = { type<mud::SceneViewer>(),
+            // bases
+            { &type<mud::Scene>(), &type<mud::Viewer>() },
+            { base_offset<mud::SceneViewer, mud::Scene>(), base_offset<mud::SceneViewer, mud::Viewer>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::SceneViewer>();
+    }
+    
 
     
         m.m_types.push_back(&type<mud::ViewerController>());
         m.m_types.push_back(&type<mud::Viewer>());
         m.m_types.push_back(&type<mud::SpaceSheet>());
-        m.m_types.push_back(&type<mud::SceneViewer>());
         m.m_types.push_back(&type<mud::OrbitController>());
         m.m_types.push_back(&type<mud::FreeOrbitController>());
+        m.m_types.push_back(&type<mud::SceneViewer>());
     
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::viewer(val<mud::Widget>(args[0]), val<mud::Scene>(args[1]))); };

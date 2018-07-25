@@ -37,34 +37,35 @@ namespace mud
 	{
 		constr_ MeshPacker();
 
-		std::vector<ShapeVertex> m_vertices;
-		std::vector<ShapeIndex> m_indices;
+		size_t vertex_format();
+		size_t vertex_count() { return m_positions.size(); }
+		size_t index_count() { return m_indices.size() > 0 ? m_indices.size() : m_positions.size(); }
 
 		PrimitiveType m_primitive = PrimitiveType::Triangles;
 
 		std::vector<vec3> m_positions;		// Position
 		std::vector<vec3> m_normals;		// Normal
+		std::vector<Colour> m_colours;		// Colour
 		std::vector<vec4> m_tangents;		// Tangent
 		std::vector<vec3> m_bitangents;		// Bitangent
 		std::vector<vec2> m_uv0s;			// Texture Coordinates 0
 		std::vector<vec2> m_uv1s;			// Texture Coordinates 1
-		std::vector<Colour> m_colours;		// Colour
 		std::vector<ivec4> m_bones;			// Bones Indices
 		std::vector<vec4> m_weights;		// Bones Weights
 
+		std::vector<uint32_t> m_indices;
+
 		void bake(bool normals, bool tangents);
 
-		void pack_vertices();
-		void pack_vertices(const mat4& transform);
+		void pack_vertices(MeshData& data, const mat4& transform);
 		void generate_normals();
 		void generate_tangents();
-		void generate_indices();
 
-		inline ShapeVertex& vertex()
+		/*inline ShapeVertex& vertex()
 		{
 			m_vertices.emplace_back();
 			return m_vertices.back();
-		}
+		}*/
 	};
 
 	export_ MUD_GEOM_EXPORT void generate_mikkt_tangents(array<ShapeIndex> indices, array<ShapeVertex> vertices);

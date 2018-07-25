@@ -59,6 +59,7 @@ namespace mud
 
 		m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
 		{
+			UNUSED(frame); UNUSED(rect);
 			//renderer.draw_frame(frame, rect);
 			this->blit(vg);
 		};
@@ -173,26 +174,26 @@ namespace mud
 			m_pitch = fmod(m_pitch - 0.02f * mouse_event.m_delta.y, 2.f * c_pi);
 		}
 
-		this->update_position();
+		this->update_eye();
 	}
 
-	void OrbitController::update_position(const quat& rotation)
+	void OrbitController::set_eye(const quat& rotation)
 	{
 		vec3 direction = rotate(rotation, -Z3);
 		m_viewer.m_camera.m_node.m_position = m_position - direction * m_distance;
 		m_viewer.m_camera.m_target.m_position = m_position;
 	}
 
-	void OrbitController::update_position()
-	{
-		quat rotation = quat(vec3{ m_pitch, m_yaw, 0.f });
-		this->update_position(rotation);
-	}
-
-	void OrbitController::set_position(const vec3& position)
+	void OrbitController::set_target(const vec3& position)
 	{
 		m_position = position;
-		this->update_position();
+		this->update_eye();
+	}
+
+	void OrbitController::update_eye()
+	{
+		quat rotation = quat(vec3{ m_pitch, m_yaw, 0.f });
+		this->set_eye(rotation);
 	}
 
 	FreeOrbitController::FreeOrbitController(Viewer& viewer) : OrbitController(viewer) {}
@@ -201,12 +202,12 @@ namespace ui
 {
 	Viewer& viewer(Widget& parent, Scene& scene)
 	{
-		return parent.child_args<Viewer, Scene&>(scene);
+		return parent.subi<Viewer, Scene&>(&scene, scene);
 	}
 
 	SceneViewer& scene_viewer(Widget& parent, const vec2& size)
 	{
-		SceneViewer& self = parent.sub<SceneViewer>(nullptr);
+		SceneViewer& self = parent.suba<SceneViewer>();
 		if(self.once() && size != Zero2)
 		{
 			self.m_frame.m_content = size;
@@ -249,6 +250,9 @@ namespace
 		FreeOrbitController& controller = as<FreeOrbitController>(*viewer.m_controller);
 		controller.process(viewer);
 		
+		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+			viewer.take_focus();
+
 		const KeyMove moves[8] =
 		{
 			{ KC_UP,   -Z3 * 2.f }, { KC_W,  -Z3 * 2.f },
@@ -281,7 +285,7 @@ namespace
 			orbit.m_pitch = -c_pi / 4.f;
 		}
 
-		orbit.update_position();
+		orbit.update_eye();
 		return orbit;
 	}
 }

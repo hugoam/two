@@ -37,6 +37,7 @@ namespace ui
 		Widget& self = widget(parent, styles().wedge);//file_styles().directory);
 		auto on_dir = [&](cstring basepath, cstring dir)
 		{
+			UNUSED(basepath);
 			if(string(dir) == ".") return;
 			Widget& item = dir_item(self, dir);
 			if(item.activated())
@@ -52,6 +53,7 @@ namespace ui
 		// clang bug: https://bugs.llvm.org/show_bug.cgi?id=33924
 		auto on_file = [&](cstring path, cstring file)
 		{
+			UNUSED(path);
 			file_item(self, file);
 		};
 #endif
@@ -84,6 +86,7 @@ namespace ui
 
 		auto on_file = [&](cstring path, cstring file)
 		{
+			UNUSED(path);
 			file_node(*self.m_body, file);
 		};
 

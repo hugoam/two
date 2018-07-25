@@ -14,6 +14,7 @@ module mud.uio;
 namespace mud
 {
     // Exported types
+    template <> MUD_UIO_EXPORT Type& type<mud::EditNestMode>() { static Type ty("mud::EditNestMode"); return ty; }
     template <> MUD_UIO_EXPORT Type& type<mud::EditorHint>() { static Type ty("mud::EditorHint"); return ty; }
     
     template <> MUD_UIO_EXPORT Type& type<mud::ScriptEditor>() { static Type ty("ScriptEditor"); return ty; }

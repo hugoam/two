@@ -20,7 +20,7 @@ namespace mud
 		DispatchInput();
 	};
 
-	export_ MUD_UIO_EXPORT Type* type_selector(Widget& parent, Type* current, const std::vector<Type*> types);
+	export_ MUD_UIO_EXPORT bool type_selector(Widget& parent, size_t& type, array<Type*> types);
 
 	export_ MUD_UIO_EXPORT bool value_edit(Widget& parent, Ref& value);
 	export_ MUD_UIO_EXPORT bool none_edit(Widget& parent, Ref& value);

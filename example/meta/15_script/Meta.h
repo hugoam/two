@@ -39,8 +39,8 @@ namespace mud
             },
             // members
             {
-                { type<GameObject>(), member_address(&GameObject::m_index), type<uint32_t>(), "index", var(uint32_t()), Member::Value },
-                { type<GameObject>(), member_address(&GameObject::m_colour), type<mud::Colour>(), "colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<GameObject>(), member_address(&GameObject::m_index), type<uint32_t>(), "index", var(uint32_t()), Member::Value, nullptr },
+                { type<GameObject>(), member_address(&GameObject::m_colour), type<mud::Colour>(), "colour", var(mud::Colour()), Member::Value, nullptr }
             },
             // methods
             {
@@ -55,6 +55,7 @@ namespace mud
         
         meta_class<GameObject>();
     }
+    
     
 
     

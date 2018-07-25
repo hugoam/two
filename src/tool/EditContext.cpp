@@ -37,23 +37,11 @@ namespace mud
 	EditContext::~EditContext()
 	{}
 
-	template <class T, class U>
-	inline T* try_as(U& object) { if(object.m_type.template is<T>()) return &static_cast<T&>(object); else return nullptr; }
-
 	void EditContext::set_tool(ViewportTool& tool, Viewer& viewer)
 	{
 		UNUSED(viewer);
 		m_tool = &tool;
 		m_spatial_tool = try_as<SpatialTool>(tool);
-	}
-
-	void EditContext::createScriptedBrush()
-	{
-#if 0
-		Signature signature({ Param("position", var(Zero3)) });
-		VisualScript& script = GlobalPool::me().pool<VisualScript>().construct("Brush VisualScript", signature);
-		//m_toolbelt.toolbox("Brushes").m_tools.add(make_object<ScriptedBrush>(*this, m_editedWorld->origin(), script));
-#endif
 	}
 
 	void brush_preview(Widget& parent, Brush& brush)
@@ -142,28 +130,33 @@ namespace mud
 		}
 	}
 
-	void edit_tools(EditContext& context, Widget& screen)
+	void edit_tools(Widget& screen, Docker& docker, EditContext& context)
 	{
 		context.m_tool_context.m_action_stack = &context.m_action_stack;
 		context.m_tool_context.m_work_plane = &context.m_work_plane;
 
 		//if(Widget* dock = ui::dockitem(dockbar, "Library", { 0 }))
 		//	library_section(section, { &type<World>(), &type<Entity>() }, game.m_selection);
-		if(Widget* dock = ui::dockitem(*context.m_dockbar, "Inspect", carray<uint16_t, 1>{ 2U }))
+		if(Widget* dock = ui::dockitem(docker, "Inspect", carray<uint16_t, 1>{ 2U }))
 			object_editor(*dock, context.m_selection);
-		if(Widget* dock = ui::dockitem(*context.m_dockbar, "Edit", carray<uint16_t, 1>{ 3U }))
+		if(Widget* dock = ui::dockitem(docker, "Edit", carray<uint16_t, 1>{ 3U }))
 			edit_transform(*dock, context);
-		if(Widget* dock = ui::dockitem(*context.m_dockbar, "Script", carray<uint16_t, 1>{ 4U }))
+		if(Widget* dock = ui::dockitem(docker, "Script", carray<uint16_t, 1>{ 4U }))
 			script_editor(*dock, context.m_script_editor);
 		//if(Widget* dock = ui::dockitem(*context.m_dockbar, "VisualScript", carray<uint16_t, 1>{ 5U }))
 		//	visual_script_edit(self, shell.m_editor.m_script_editor);
-		if(Widget* dock = ui::dockitem(*context.m_dockbar, "Gfx", carray<uint16_t, 1>{ 6U }))
+		if(Widget* dock = ui::dockitem(docker, "Gfx", carray<uint16_t, 1>{ 6U }))
 			edit_gfx_system(*dock, context.m_gfx_system);
-		if(Widget* dock = ui::dockitem(*context.m_dockbar, "Ui", carray<uint16_t, 1>{ 7U }))
+		if(Widget* dock = ui::dockitem(docker, "Ui", carray<uint16_t, 1>{ 7U }))
 			ui_debug(*dock, screen);
 
 		if(context.m_spatial_tool && context.m_viewer)
 			context.m_spatial_tool->process(*context.m_viewer, context.m_selection);
+	}
+
+	void edit_tools(Widget& screen, EditContext& context)
+	{
+		edit_tools(screen, *context.m_dockbar, context);
 	}
 
 	void edit_context(Widget& parent, EditContext& context, bool tools)
@@ -173,6 +166,6 @@ namespace mud
 		context.m_dockbar = &ui::dockbar(board, context.m_docksystem);
 
 		if(tools)
-			edit_tools(context, *context.m_screen);
+			edit_tools(*context.m_screen, context);
 	}
 }

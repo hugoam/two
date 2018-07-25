@@ -7,6 +7,8 @@
 #ifndef MUD_MODULES
 #include <infra/NonCopy.h>
 #include <infra/Strung.h>
+#include <infra/Global.h>
+#include <obj/Dispatch.h>
 #include <math/Vec.h>
 #include <geom/Shape.h>
 #include <geom/Symbol.h>
@@ -114,7 +116,7 @@ namespace mud
 	export_ class refl_ MUD_TOOL_EXPORT TransformAction : public EditorAction
 	{
 	public:
-		TransformAction(const std::vector<Transform*>& targets);
+		TransformAction(array<Transform*> targets);
 
 		virtual void apply() final;
 		virtual void undo() final;
@@ -126,7 +128,6 @@ namespace mud
 
 	public:
 		std::vector<Transform*> m_targets;
-
 	};
 
 	export_ class refl_ MUD_TOOL_EXPORT TransformTool : public SpatialTool
@@ -145,7 +146,7 @@ namespace mud
 
 		virtual bool enabled(const std::vector<Ref>& selection) override;
 
-		virtual object_ptr<TransformAction> create_action(const std::vector<Transform*>& targets) = 0;
+		virtual object_ptr<TransformAction> create_action(array<Transform*> targets) = 0;
 		virtual bool test_target(Ref target) { UNUSED(target); return true; }
 
 	protected:

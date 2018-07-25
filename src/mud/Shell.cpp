@@ -7,13 +7,13 @@
 
 #include <ui-vg/VgVg.h>
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef MUD_MINIMAL_EMSCRIPTEN
 #include <emscripten/emscripten.h>
 #endif
 
 namespace mud
 {
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef MUD_MINIMAL_EMSCRIPTEN
 	static Shell* g_app = nullptr;
 	static size_t g_frame = 0U;
 	static size_t g_iterations = 0U;
@@ -65,7 +65,7 @@ namespace mud
 	{
 		m_pump = func;
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef MUD_MINIMAL_EMSCRIPTEN
 		g_app = this;
 		g_iterations = iterations;
 		emscripten_set_main_loop(iterate, 0, 1);

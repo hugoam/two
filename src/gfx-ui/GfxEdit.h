@@ -16,7 +16,9 @@ namespace mud
 
 	MUD_GFX_UI_EXPORT void space_axes(Gnode& parent);
 
-	MUD_GFX_UI_EXPORT void debug_draw_light_slices(Gnode& parent, Light& light, LightShadow& shadow);
+	MUD_GFX_UI_EXPORT mat4 fix_bone_pose(Bone& bone);
+	MUD_GFX_UI_EXPORT void debug_skeleton(Gnode& parent, const quat& position, const quat& rotation, Rig& rig);
+	MUD_GFX_UI_EXPORT void debug_draw_light_slices(Gnode& parent, Light& light);
 
 	MUD_GFX_UI_EXPORT void animation_edit(Widget& parent, Animated& animated);
 

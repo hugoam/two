@@ -9,8 +9,10 @@ module mud.geom;
 #else
 #include <math/Axes.h>
 #include <geom/Shape/Circle.h>
+#include <geom/Shape/Line.h>
 #include <geom/Primitive.h>
 #include <geom/Intersect.h>
+#include <geom/Geom.h>
 #endif
 
 namespace mud
@@ -116,7 +118,7 @@ namespace mud
 	{
 		UNUSED(arc);
 		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
-		return { subdiv, subdiv * 2 };
+		return { subdiv, (subdiv-1) * 2 };
 	}
 
 	void draw_shape_lines(const ProcShape& shape, const ArcLine& arc, MeshData& data)
@@ -124,73 +126,24 @@ namespace mud
 		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
 
 		vec3 center = circumcenter(arc.m_start, arc.m_middle, arc.m_end);
-		vec3 A = Zero3;
 		vec3 D = arc.m_start - center;
 		vec3 E = arc.m_end - center;
 
-		vec3 N = cross(D, E);
-		float theta = angle(D, E);
+		vec3 N = Plane(arc.m_start, arc.m_middle, arc.m_end).m_normal;
+		float theta = angle(normalize(D), normalize(E));
 		float dtheta = theta / subdiv;
-		vec3 B = normalize(D);
+		vec3 B = D;
 
-		for(size_t i = 1; i < subdiv; ++i)
+		for(size_t i = 0; i < subdiv; ++i)
 		{
-			vec3 p = rotate(B, float(i) * dtheta, N) + center;
-			data.position(p)
+			vec3 dir = rotate(B, float(i) * dtheta, N);
+			vec3 p = dir + center;
+			data.position(arc.m_center + p)
 				.colour(shape.m_symbol.m_outline);
 		}
 
-		for(uint16_t i = 0; i < subdiv; i++)
+		for(uint16_t i = 0; i < subdiv - 1; i++)
 			data.line(i, i + 1 < subdiv ? i + 1 : 0);
-
-		/*
-		First translate your 3 points to the origin by subtracting the vector A from each point.
-		This will give you D' = D - A, E' = E - A, and A' which is at the origin.
-		The plane containing the points A', D', and E' is defined by its normal vector N.
-		Vector N is simply D' x E' (i.e.the vector cross product of D' and E').
-		You will also need to find the angle(theta) between D' and E'.
-		Now select a point somewhere on D', call it B. It could be D' normalized.
-		Points making up an arc from D' to E' are simply vector B rotated around N.
-		To get an arc made up of 10 points, divide theta by 10.
-		Rotate B around N by 10 * i, which i steps from 1 to 10.
-		So you'll need a generic rotation routine which can rotate a vector around another vector.
-		These can be found on the Internet if you don't have one already.
-		All of the above will create an arc from D' to E'.
-		Since you want an arc from D to E, you must translate the D'E' arc by A.
-
-
-		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
-
-		vec2 center;
-		float radius;
-		float start_angle;
-		float end_angle;
-
-		float theta = (end_angle - start_angle) / float(subdiv - 1);//theta is now calculated from the arc angle instead, the - 1 bit comes from the fact that the arc is open
-
-		float tangential_factor = tanf(theta);
-		float radial_factor = cosf(theta);
-
-		float x = radius * cosf(start_angle);//we now start at the start angle
-		float y = radius * sinf(start_angle);
-
-		for(int ii = 0; ii < subdiv; ii++)
-		{
-			data.position({ x + center.x, 0.f, y + center.y });
-
-			float tx = -y;
-			float ty = x;
-
-			x += tx * tangential_factor;
-			y += ty * tangential_factor;
-
-			x *= radial_factor;
-			y *= radial_factor;
-		}
-
-		for(uint16_t i = 0; i < subdiv; i++)
-			data.tri(i + 1 < subdiv ? i + 1 : 0, i, subdiv);
-		*/
 	}
 
 	ShapeSize size_shape_triangles(const ProcShape& shape, const ArcLine& arc)

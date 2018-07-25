@@ -29,8 +29,8 @@ namespace mud
 		Camera(mat4 transform, mat4 projection);
 
 		attr_ Scene* m_scene = nullptr;
-		attr_ mut_ Node3 m_node;
-		attr_ mut_ Node3 m_target;
+		attr_ Node3 m_node;
+		attr_ Node3 m_target;
 
 		attr_ mat4 m_transform;
 		attr_ mat4 m_projection;
@@ -38,17 +38,17 @@ namespace mud
 #if defined MUD_UNIFORM_BLOCKS
 		attr_ FrustumBlock m_frustum;
 #endif
-		attr_ mut_ float m_fov = 60.f;
-		attr_ mut_ float m_aspect = 1.f;
-		attr_ mut_ float m_near = 0.001f;
-		attr_ mut_ float m_far = 100.f;
+		attr_ float m_fov = 60.f;
+		attr_ float m_aspect = 1.f;
+		attr_ float m_near = 0.001f;
+		attr_ float m_far = 100.f;
 
-		attr_ mut_ bool m_orthogonal = false;
-		attr_ mut_ float m_height = 1.f;
+		attr_ bool m_orthogonal = false;
+		attr_ float m_height = 1.f;
 
-		attr_ mut_ bool m_optimize_ends = true;
+		attr_ bool m_optimize_ends = true;
 
-		attr_ mut_ vec4 m_lod_offsets = { 0.1f, 0.3f, 0.6f, 0.8f };
+		attr_ vec4 m_lod_offsets = { 0.1f, 0.3f, 0.6f, 0.8f };
 
 		vec4 ortho_rect() { return { -m_height / 2.f * m_aspect, m_height / 2.f * m_aspect, -m_height / 2.f, m_height / 2.f }; };
 

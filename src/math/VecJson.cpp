@@ -22,7 +22,7 @@ namespace mud
 	void from_json(const json& j, quat& q)
 	{
 		// glm is w, x, y, z whereas gltf is x, y, z, w
-		q = quat(j[3].number_value(), j[0].number_value(), j[1].number_value(), j[2].number_value());
+		q = quat(float(j[3].number_value()), float(j[0].number_value()), float(j[1].number_value()), float(j[2].number_value()));
 	}
 
 	void from_json(const json& j, mat4& mat)
@@ -40,7 +40,7 @@ namespace mud
 {
 	void from_json(const json& j, Colour& col)
 	{
-		col = Colour(j[0].number_value(), j[1].number_value(), j[2].number_value(), j[3].number_value());
+		col = Colour(float(j[0].number_value()), float(j[1].number_value()), float(j[2].number_value()), float(j[3].number_value()));
 	}
 
 	void to_json(const Colour& col, json& j)

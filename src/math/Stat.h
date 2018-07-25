@@ -71,14 +71,10 @@ namespace mud
 
 		operator T() const { return m_value; }
 
-		inline T base() const { return m_base; }
-		inline T value() const { return m_value; }
+		attr_ T m_base;
+		attr_ T m_value;
 
 		virtual const StatDef<T>& vdef() const = 0;
-
-	protected:
-		T m_base;
-		T m_value;
 	};
 
 	template <class T, class T_Def>
@@ -172,8 +168,7 @@ namespace mud
 		Ratio(const Ratio&) = default;
 		Ratio& operator=(const Ratio&) = default;
 
-		attr_ mut_ float value() const { return DefStat<float, Ratio>::value(); }
-		void setValue(float value) { DefStat<float, Ratio>::modify(value); }
+		void set(float value) { DefStat<float, Ratio>::modify(value); }
 
 		const StatDef<float>& def() const { static StatDef<float> df(0.f, 1.f, 0.01f); return df; }
 	};
@@ -185,8 +180,7 @@ namespace mud
 		Gauge(const Gauge&) = default;
 		Gauge& operator=(const Gauge&) = default;
 
-		attr_ mut_ float value() const { return DefStat<float, Gauge>::value(); }
-		void setValue(float value) { DefStat<float, Gauge>::modify(value); }
+		void set(float value) { DefStat<float, Gauge>::modify(value); }
 
 		const StatDef<float>& def() const { static StatDef<float> df(0.f, FLT_MAX, 1.f); return df; }
 	};

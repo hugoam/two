@@ -19,6 +19,9 @@
 
 namespace mud
 {
+	export_ MUD_GFX_EXPORT vec4 fbo_dest_quad(const uvec2& size, const vec4& rect, bool origin_fbo = false);
+	export_ MUD_GFX_EXPORT vec4 fbo_source_quad(const uvec2& size, const vec4& rect, bool origin_fbo = false);
+
 #ifdef MUD_UNIFORM_BLOCKS
 	export_ struct refl_ MUD_GFX_EXPORT RenderBlock
 	{
@@ -38,15 +41,23 @@ namespace mud
 		~FrameBuffer();
 
 		uvec2 m_size;
-
-#ifdef MUD_UNIFORM_BLOCKS
-		RenderBlock m_render_block;
-#endif
-
 		bgfx::FrameBufferHandle m_fbo;
 
 		mat4 m_screen_view;
 		mat4 m_screen_proj;
+
+		vec4 dest_quad(const vec4& rect, bool origin_fbo = false) const { return fbo_dest_quad(m_size, rect, origin_fbo); }
+		vec4 source_quad(const vec4& rect, bool origin_fbo = false) const { return fbo_source_quad(m_size, rect, origin_fbo); }
+
+		vec4 dest_quad(bool origin_fbo = false) const { return dest_quad(vec4(vec2(0.f), vec2(m_size)), origin_fbo); }
+		vec4 source_quad(bool origin_fbo = false) const { return source_quad(vec4(vec2(0.f), vec2(m_size)), origin_fbo); }
+
+		vec4 dest_quad_mip(const vec4& rect, int level, bool origin_fbo = false) const { return fbo_dest_quad({ m_size.x >> level, m_size.y >> level }, rect, origin_fbo); }
+		vec4 source_quad_mip(const vec4& rect, int level, bool origin_fbo = false) const { return fbo_source_quad({ m_size.x >> level, m_size.y >> level }, rect, origin_fbo); }
+
+#ifdef MUD_UNIFORM_BLOCKS
+		RenderBlock m_render_block;
+#endif
 	};
 
 	export_ struct SwapBuffer

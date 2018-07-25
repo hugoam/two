@@ -31,7 +31,7 @@ namespace mud
 		double sum = calc_sum(a);
 
 		if(sum == 0.0)
-			return std::floor(between_zero_and_one * a.size());
+			return size_t(std::floor(between_zero_and_one * a.size()));
 
 		double between_zero_and_sum = between_zero_and_one * sum;
 
@@ -97,9 +97,9 @@ namespace mud
 
 						for(int d = 0; d < directions; d++)
 						{
-							uvec3 coord;
-							neighbour(*this, { x, y, z }, SignedAxis(d), coord);
-							m_failure_point[d] = tile_at(*this, coord.x, coord.y, coord.z);
+							uvec3 adjacent;
+							neighbour(*this, { x, y, z }, SignedAxis(d), adjacent);
+							m_failure_point[d] = tile_at(*this, uint16_t(adjacent.x), uint16_t(adjacent.y), uint16_t(adjacent.z));
 						}
 						return Result::kFail;
 					}

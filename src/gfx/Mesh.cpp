@@ -8,6 +8,7 @@
 module mud.gfx;
 #else
 #include <infra/Vector.h>
+#include <geom/Mesh.h>
 #include <gfx/Mesh.h>
 #include <gfx/Node3.h>
 #endif
@@ -123,6 +124,19 @@ namespace mud
 		this->upload(draw_mode, gpu_mesh);
 		if(m_readback)
 			this->cache<ShapeVertex, ShapeIndex>(gpu_mesh);
+	}
+
+	void Mesh::write(DrawMode draw_mode, MeshPacker& packer)
+	{
+		GpuMesh gpu_mesh = alloc_mesh(packer.vertex_format(), packer.vertex_count(), packer.index_count());
+		MeshData data = gpu_mesh.m_data;
+		packer.pack_vertices(data, bxidentity());
+		this->upload(draw_mode, gpu_mesh);
+		if(m_readback)
+		{
+			this->cache(gpu_mesh);
+			m_cache = MeshData(packer.vertex_format(), m_cached_vertices.data(), m_vertex_count, m_cached_indices.data(), m_index_count);
+		}
 	}
 
 	void Mesh::cache(const GpuMesh& gpu_mesh)

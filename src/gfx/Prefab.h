@@ -30,11 +30,11 @@ namespace mud
 	{
 		PrefabNode() {}
 
-		attr_ mut_ Transform m_transform = {};
-		attr_ mut_ Ref m_object = {};
-		attr_ mut_ PrefabType m_prefab_type = PrefabType::None;
-		attr_ mut_ Call m_call = {};
-		attr_ mut_ std::vector<PrefabNode> m_nodes;
+		attr_ Transform m_transform = {};
+		attr_ Ref m_object = {};
+		attr_ PrefabType m_prefab_type = PrefabType::None;
+		attr_ Call m_call = {};
+		attr_ std::vector<PrefabNode> m_nodes;
 
 		void draw(Gnode& parent);
 	};
@@ -45,6 +45,6 @@ namespace mud
 		Prefab(cstring name) : m_name(name) {}
 
 		attr_ string m_name;
-		attr_ mut_ PrefabNode m_node;
+		attr_ PrefabNode m_node;
 	};
 }

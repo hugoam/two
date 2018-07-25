@@ -357,7 +357,7 @@ namespace mud
 	}
 
 	VisualScript::VisualScript(cstring name, const Signature& signature)
-		: Script(name, signature)
+		: Script(type<VisualScript>(), name, signature)
 	{
 		if(!signature.m_returnval.none())
 			this->node<ProcessOutput>(Param("return", signature.m_returnval));

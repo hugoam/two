@@ -27,10 +27,10 @@ namespace mud
 
 		union {
 			struct {
-				attr_ mut_ float m_r;
-				attr_ mut_ float m_g;
-				attr_ mut_ float m_b;
-				attr_ mut_ float m_a;
+				attr_ float m_r;
+				attr_ float m_g;
+				attr_ float m_b;
+				attr_ float m_a;
 			};
 			struct { float m_h; float m_s; float m_l; float m__; };
 			float m_floats[4];

@@ -23,6 +23,21 @@ module mud.uio;
 
 namespace mud
 {
+	std::vector<EditSpec> g_edit_specs = std::vector<EditSpec>(c_max_types);
+
+	EditSpec::EditSpec(Class& cls)
+		: m_setup(true)
+	{
+		bool big_struct = is_struct(*cls.m_type) && cls.m_members.size() > 4;
+		if(big_struct || is_object(*cls.m_type))
+			m_nest_mode[0] = EditNestMode::Embed;
+		else
+			m_nest_mode[0] = EditNestMode::Inline;
+
+		//bool custom_edit = DispatchInput::me().check(*cls.m_type);
+		//m_row_mode = big_struct || is_object(*cls.m_type) ? EditNestMode::Embed : EditNestMode::Inline;
+	}
+
 	struct EditState : public NodeState
 	{
 		Ref object = {};
@@ -59,14 +74,14 @@ namespace mud
 		return changed;
 	}
 
-	bool member_named_edit(Widget& parent, Ref object, Member& member)
+	bool member_edit_row(Widget& parent, Ref object, Member& member)
 	{
 		Widget& self = ui::table_row(parent);
 		ui::label(self, member.m_name);
 		return member_edit(self, object, member);
 	}
 
-	bool member_toggle_edit(Widget& parent, Ref object, Member& member)
+	bool member_edit_toggle(Widget& parent, Ref object, Member& member)
 	{
 		Widget& self = ui::row(parent);
 		if(ui::modal_button(self, self, "Edit", 1))
@@ -77,41 +92,69 @@ namespace mud
 		return false;
 	}
 
-	bool member_nested_edit(Widget& parent, Ref object, Member& member)
+	bool member_edit_embed(Widget& parent, Ref object, Member& member)
 	{
-		Widget& row = ui::row(parent);
+		return member_edit(parent, object, member, EditorHint::Rows);
+	}
+
+	bool member_edit_nested(Widget& parent, Ref object, Member& member)
+	{
+		//Widget& row = ui::table_row(parent);
+		Widget& row = ui::table_separator(parent);
 		Widget* body = ui::tree_node(row, member.m_name, false, true).m_body;
 		if(body)
 			return member_edit(*body, object, member, EditorHint::Rows);
 		return false;
 	}
 
-	bool nested_object(Member& member)
+	EditNestMode nest_edit_mode(Member& member, size_t mode)
 	{
-		return (is_struct(*member.m_type)|| is_object(*member.m_type)) && !member.is_link();
+		if(member.is_component()) return EditNestMode::Embed;
+		if(member.is_link() || is_basic(*member.m_type)) return EditNestMode::Inline;
+
+		if(!g_edit_specs[member.m_type->m_id].m_setup)
+			g_edit_specs[member.m_type->m_id] = { cls(*member.m_type) };
+
+		return g_edit_specs[member.m_type->m_id].m_nest_mode[mode];
+	}
+
+	bool object_edit_rows(Widget& parent, Table& table, Ref object)
+	{
+		bool changed = false;
+		for(Member& member : cls(object).m_members)
+			if(member.is_mutable())
+			{
+				EditNestMode mode = nest_edit_mode(member, 0);
+				if(mode == EditNestMode::Embed)
+					changed |= member_edit_nested(table, object, member);
+				else if(mode == EditNestMode::Modal)
+					changed |= member_edit_toggle(table, object, member);
+				else
+					changed |= member_edit_row(table, object, member);
+			}
+
+		return changed;
 	}
 
 	bool object_edit_rows(Widget& parent, Ref object)
 	{
-		bool changed = false;
-		for(Member& member : cls(object).m_members)
-			//if(nested_object(member))
-			//	changed |= member_nested_edit(parent, object, member);
-			//else
-				changed |= member_named_edit(parent, object, member);
-		
-		return changed;
+		return object_edit_rows(parent, as<Table>(parent), object);
 	}
 
 	bool object_edit_inrow(Widget& row, Ref object)
 	{
 		bool changed = false;
 		for(Member& member : cls(object).m_members)
-			if(nested_object(member) && !DispatchInput::me().check(member.m_default_value))
-				//changed |= member_toggle_edit(row, object, member);
-				changed |= member_nested_edit(row, object, member);
-			else
-				changed |= member_edit(row, object, member);
+			if(member.is_mutable())
+			{
+				EditNestMode mode = nest_edit_mode(member, 1);
+				if(mode == EditNestMode::Embed)
+					changed |= member_edit_embed(row, object, member);
+				else if(mode == EditNestMode::Modal)
+					changed |= member_edit_toggle(row, object, member);
+				else
+					changed |= member_edit(row, object, member);
+			}
 
 		return changed;
 	}
@@ -131,30 +174,17 @@ namespace mud
 
 	bool object_edit_columns(Widget& parent, Ref object)
 	{
-		static float columns[2] = { 0.4f, 0.6f };
-		Widget& self = ui::columns(parent, { columns, 2 });
-		return object_edit_rows(self, object);
+		static float columns[2] = { 0.33f, 0.67f };
+		Table& self = ui::columns(parent, { columns, 2 });
+		return object_edit_rows(parent, self, object);
 	}
 
 	bool object_edit_table(Widget& parent, Ref object)
 	{
 		static cstring columns[2] = { "field", "value" };
 		static float spans[2] = { 0.4f, 0.6f };
-		Widget& self = ui::table(parent, { columns, 2 }, { spans, 2 });
-		bool changed = object_edit_rows(self, object);
-
-		Class* c = g_class[type(object).m_id] ? &cls(object) : nullptr;
-		if(c != nullptr)
-		{
-			for(Member* member : c->m_components)
-			{
-				Widget* part_node = ui::tree_node(parent, member->m_name, false, true).m_body;
-				if(part_node)
-					changed |= object_edit_rows(*part_node, member->get(object));
-			}
-		}
-
-		return changed;
+		Table& self = ui::table(parent, { columns, 2 }, { spans, 2 });
+		return object_edit_rows(parent, self, object);
 	}
 
 	bool object_edit_expandbox(Widget& parent, Ref object)
@@ -168,9 +198,9 @@ namespace mud
 	bool object_edit(Widget& parent, Ref object, EditorHint hint)
 	{
 		if(hint == EditorHint::Table)
-			return object_edit_table(parent, object);
+			return object_edit_columns(parent, object);
 		else if(hint == EditorHint::Rows)
-			return object_edit_rows(parent, object);
+			return object_edit_columns(parent, object);
 		else //if(hint == EditorHint::Inline)
 			return object_edit_inline(parent, object);
 	}
@@ -178,7 +208,7 @@ namespace mud
 	bool inspector(Widget& parent, Ref object)
 	{
 		Section& self = section(parent, "Inspector", {}, true);
-		return object_edit_table(*self.m_body, object);
+		return object_edit_columns(*self.m_body, object);
 	}
 
 	bool inspector(Widget& parent)
@@ -186,7 +216,7 @@ namespace mud
 		Section& self = section(parent, "Inspector", {}, true);
 		EditState& state = self.state<EditState>();
 		if(state.object)
-			return object_edit_table(*self.m_body, state.object);
+			return object_edit_columns(*self.m_body, state.object);
 		return false;
 	}
 

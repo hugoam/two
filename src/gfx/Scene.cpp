@@ -57,10 +57,10 @@ namespace mud
 		static Clock clock;
 		float timestep = float(clock.step());
 
-		VecPool<Animated>* animateds = m_pool->pool<Animated>().m_vec_pool.get();
-		for(; animateds; animateds = animateds->m_next.get())
-			for(Animated* animated : animateds->m_objects)
-				animated->advance(timestep);
+		m_pool->iterate_objects<Animated>([=](Animated& animated)
+		{
+			animated.advance(timestep);
+		});
 
 		for(size_t i = 0; i < size_t(PassType::Count); ++i)
 			m_pass_jobs->m_jobs[i].clear();
@@ -82,52 +82,52 @@ namespace mud
 
 		//render.m_shot->m_items.reserve(m_pool->pool<Item>().m_vec_pool.size());
 
-		VecPool<Item>* items = m_pool->pool<Item>().m_vec_pool.get();
-		for(; items; items = items->m_next.get())
-			for(Item* item : items->m_objects)
-				if(item->m_visible && item->m_cast_shadows != ItemShadow::OnlyShadow)
+		m_pool->iterate_objects<Item>([&](Item& item)
+		{
+			if(item.m_visible && item.m_cast_shadows != ItemShadow::OnlyShadow)
+			{
+				float depth = plane_distance_to(near_plane, item.m_node.m_position);
+
+				vec4 comparison = vec4(greater(vec4(depth), lod_levels));
+				float index = dot(vec4(1.f), comparison);
+				uint8_t lod = uint8_t(min(index, 3.f));
+
+				bool has_lod = (item.m_flags & (ITEM_LOD_0 << lod)) != 0;
+				if(frustum_aabb_intersection(planes, item.m_aabb) && has_lod)
 				{
-					float depth = plane_distance_to(near_plane, item->m_node.m_position);
-
-					vec4 comparison = vec4(greater(vec4(depth), lod_levels));
-					float index = dot(vec4(1.f), comparison);
-					uint8_t lod = uint8_t(min(index, 3.f));
-
-					bool has_lod = (item->m_flags & (ITEM_LOD_0 << lod)) != 0;
-					if(frustum_aabb_intersection(planes, item->m_aabb) && has_lod)
-					{
-						item->m_depth = depth;
-						render.m_shot->m_items.push_back(item);
-					}
+					item.m_depth = depth;
+					render.m_shot->m_items.push_back(&item);
 				}
+			}
+		});
 
 		//render.m_shot->m_lights.reserve(m_shot->m_lights.size());
-		VecPool<Light>* lights = m_pool->pool<Light>().m_vec_pool.get();
-		for(; lights; lights = lights->m_next.get())
-			for(Light* light : lights->m_objects)
-				if(light->m_visible)
-				{
-					render.m_shot->m_lights.push_back(light);
-				}
+
+		m_pool->iterate_objects<Light>([&](Light& light)
+		{
+			if(light.m_visible)
+			{
+				render.m_shot->m_lights.push_back(&light);
+			}
+		});
 
 #if  0
 		render.m_shot->m_gi_probes.reserve(m_shot->m_gi_probes.size());
-		VecPool<GIProbe>* probes = m_pool->pool<GIProbe>().m_vec_pool.get();
-		for(; probes; probes = probes->m_next.get())
-			for(GIProbe* probe : probes->m_objects)
-			{
-				render.m_shot->m_gi_probes.push_back(gi_probe);
-				gi_probe->m_dirty = true;
-			}
 
-		VecPool<ReflectionProbe>* probes = m_pool->pool<ReflectionProbe>().m_vec_pool.get();
-		for(; probes; probes = probes->m_next.get())
-			for(ReflectionProbe* probe : probes->m_objects)
-				if(probe->m_visible)
-				{
-					render.m_shot->m_reflection_probes.push_back(probe);
-					probe->m_dirty = true; // force dirty for now
-				}
+		m_pool->iterate_objects<GIProbe>([&](GIProbe& gi_probe)
+		{
+			render.m_shot->m_gi_probes.push_back(gi_probe);
+			gi_probe->m_dirty = true;
+		});
+
+		m_pool->iterate_objects<ReflectionProbe>([&](ReflectionProbe& probe)
+		{
+			if(probe->m_visible)
+			{
+				render.m_shot->m_reflection_probes.push_back(probe);
+				probe->m_dirty = true; // force dirty for now
+			}
+		});
 #endif
 
 		render.m_frustum = make_unique<Frustum>(optimized_frustum(render.m_camera, to_array(render.m_shot->m_items)));

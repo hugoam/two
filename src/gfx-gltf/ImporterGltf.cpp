@@ -124,6 +124,7 @@ namespace mud
 
 		static auto load_gltf = [&](GfxSystem& gfx_system, Model& model, cstring path)
 		{
+			UNUSED(gfx_system);
 			ModelConfig config = load_model_config(path, model.m_name.c_str());
 			this->import_model(model, path, config);
 		};
@@ -402,22 +403,22 @@ namespace mud
 			{
 				Mesh& mesh = state.m_model.add_mesh((state.m_model.m_name + to_string(index++)).c_str(), true);
 				
-				MeshPacker shape;
+				MeshPacker packer;
 
-				shape.m_primitive = PrimitiveType::Triangles;//static_cast<PrimitiveType>(primitive.mode);
-				import_attributes(gltf, shape, primitive.attributes);
+				packer.m_primitive = PrimitiveType::Triangles;//static_cast<PrimitiveType>(primitive.mode);
+				import_attributes(gltf, packer, primitive.attributes);
 
 				if(primitive.indices != -1)
 				{
 					std::vector<int> indices = unpack_accessor<int>(gltf, primitive.indices, false);
-					shape.m_indices = std::vector<ShapeIndex>(indices.begin(), indices.end());
+					packer.m_indices = std::vector<uint32_t>(indices.begin(), indices.end());
 				}
 
 				std::vector<MeshPacker> morphs;
 
 				for(const glTFMorphTarget& morph_target : primitive.targets)
 				{
-					morphs.emplace_back(shape);
+					morphs.emplace_back(packer);
 
 					MeshPacker& morph_shape = morphs.back();
 					morph_shape.m_indices = {};
@@ -431,8 +432,8 @@ namespace mud
 						std::vector<vec3> tangents = unpack_accessor<vec3, 3>(gltf, morph_target.TANGENT, true);
 						morph_shape.m_tangents.resize(tangents.size());
 
-						for(size_t i = 0; i < shape.m_tangents.size(); ++i)
-							morph_shape.m_tangents[i] = vec4{ tangents[i], shape.m_tangents[i].w };
+						for(size_t i = 0; i < packer.m_tangents.size(); ++i)
+							morph_shape.m_tangents[i] = vec4{ tangents[i], packer.m_tangents[i].w };
 					}
 
 					morphs.push_back(morph_shape);
@@ -441,12 +442,10 @@ namespace mud
 				if(primitive.material != -1)
 					mesh.m_material = state.m_imported_materials[primitive.material];
 
-				shape.pack_vertices(bxidentity()); //state.m_model_config.m_transform);
+				if(packer.m_tangents.empty() && !packer.m_uv0s.empty())
+					packer.generate_tangents();
 
-				if(shape.m_indices.empty())
-					shape.generate_indices();
-
-				mesh.write(PLAIN, to_array(shape.m_vertices), to_array(shape.m_indices));
+				mesh.write(PLAIN, packer);
 			}
 		}
 	}

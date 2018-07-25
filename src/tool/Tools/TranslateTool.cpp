@@ -19,7 +19,7 @@ module mud.tool;
 
 namespace mud
 {
-	TranslateAction::TranslateAction(const std::vector<Transform*>& targets)
+	TranslateAction::TranslateAction(array<Transform*> targets)
 		: TransformAction(targets)
 		, m_translation(Zero3)
 	{}
@@ -94,7 +94,7 @@ namespace mud
 #endif
 	}
 
-	object_ptr<TransformAction> TranslateTool::create_action(const std::vector<Transform*>& targets)
+	object_ptr<TransformAction> TranslateTool::create_action(array<Transform*> targets)
 	{
 		return make_object<TranslateAction>(targets);
 	}

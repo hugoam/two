@@ -32,7 +32,6 @@ namespace mud
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Convert>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Creator>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Enum>();
-    export_ template <> MUD_REFL_EXPORT Type& type<mud::Injector>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Member>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Meta>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Module>();
@@ -46,6 +45,7 @@ namespace mud
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Destructor>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Function>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Method>();
+    export_ template <> MUD_REFL_EXPORT Type& type<mud::Injector>();
     
 	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Call*>>;
 	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Callable*>>;
@@ -53,7 +53,6 @@ namespace mud
 	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Convert*>>;
 	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Creator*>>;
 	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Enum*>>;
-	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Injector*>>;
 	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Member*>>;
 	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Meta*>>;
 	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Module*>>;
@@ -67,4 +66,5 @@ namespace mud
 	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Destructor*>>;
 	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Function*>>;
 	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Method*>>;
+	export_ template struct MUD_REFL_EXPORT Typed<std::vector<mud::Injector*>>;
 }

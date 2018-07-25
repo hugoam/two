@@ -17,9 +17,8 @@ module mud.tool;
 
 namespace mud
 {
-	CopyAction::CopyAction(const std::vector<Transform*>& targets)
+	CopyAction::CopyAction(array<Transform*> targets)
 		: TranslateAction(targets)
-		, m_copies()
 		//, m_injector(type<Transform>())
 	{}
 
@@ -57,7 +56,7 @@ namespace mud
 		this->commit(std::move(m_action));
 	}
 
-	object_ptr<TransformAction> CopyTool::create_action(const std::vector<Transform*>& targets)
+	object_ptr<TransformAction> CopyTool::create_action(array<Transform*> targets)
 	{
 		return make_object<CopyAction>(targets);
 	}

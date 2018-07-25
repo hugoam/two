@@ -36,7 +36,7 @@ namespace mud
 		{
 			None = 0,
 			Pointer = (1 << 0),
-			Mutable = (1 << 1),
+			NonMutable = (1 << 1),
 			Structure = (1 << 2),
 			Component = (1 << 3),
 			Link = (1 << 4),
@@ -62,7 +62,7 @@ namespace mud
 		Class& cls() { return mud::cls(*m_type); }
 
 		bool is_pointer() const { return (m_flags & Pointer) != 0; }
-		bool is_mutable() const { return (m_flags & Mutable) != 0; }
+		bool is_mutable() const { return (m_flags & NonMutable) == 0; }
 		bool is_structure() const { return (m_flags & Structure) != 0; }
 		bool is_component() const { return (m_flags & Component) != 0; }
 		bool is_link() const { return (m_flags & Link) != 0; }

@@ -42,7 +42,8 @@ namespace mud
 			TexCoord0 = 1 << 5,
 			TexCoord1 = 1 << 6,
 			Joints = 1 << 7,
-			Weights = 1 << 8
+			Weights = 1 << 8,
+			Count = 1 << 9
 		};
 	};
 
@@ -125,6 +126,42 @@ namespace mud
 		uint32_t a, b, c;
 	};
 
+	export_ inline size_t vertex_attribute_size(VertexAttribute::Enum attribute)
+	{
+		if(attribute == VertexAttribute::Position)			return sizeof(vec3);
+		else if(attribute == VertexAttribute::Normal)		return sizeof(vec3);
+		else if(attribute == VertexAttribute::Colour)		return sizeof(uint32_t);
+		else if(attribute == VertexAttribute::Tangent)		return sizeof(vec4);
+		else if(attribute == VertexAttribute::Bitangent)	return sizeof(vec3);
+		else if(attribute == VertexAttribute::TexCoord0)	return sizeof(vec2);
+		else if(attribute == VertexAttribute::TexCoord1)	return sizeof(vec2);
+		else if(attribute == VertexAttribute::Joints)		return sizeof(uint32_t);
+		else if(attribute == VertexAttribute::Weights)		return sizeof(vec4);
+		else return 0;
+	}
+
+	export_ inline size_t vertex_size(size_t vertex_format)
+	{
+		size_t size = 0;
+		for(VertexAttribute::Enum current = VertexAttribute::Position; current != VertexAttribute::Count; current = VertexAttribute::Enum(current << 1))
+		{
+			if((vertex_format & current) != 0)
+				size += vertex_attribute_size(current);
+		}
+		return size;
+	}
+
+	export_ inline size_t vertex_offset(size_t vertex_format, VertexAttribute::Enum attribute)
+	{
+		size_t offset = 0;
+		for(VertexAttribute::Enum current = VertexAttribute::Position; current != attribute; current = VertexAttribute::Enum(current << 1))
+		{
+			if((vertex_format & current) != 0)
+				offset += vertex_attribute_size(current);
+		}
+		return offset;
+	}
+
 	export_ struct MeshData
 	{
 		struct Array
@@ -148,10 +185,30 @@ namespace mud
 			, m_vertex_stride(sizeof(T_Vertex)), m_index_stride(sizeof(T_Index)), m_index((void*)indices.m_pointer)
 		{
 			m_start.m_position	= vertex_position<T_Vertex>::get(*vertices.m_pointer);
-			m_start.m_colour	= vertex_colour<T_Vertex>::get(*vertices.m_pointer);
 			m_start.m_normal	= vertex_normal<T_Vertex>::get(*vertices.m_pointer);
+			m_start.m_colour	= vertex_colour<T_Vertex>::get(*vertices.m_pointer);
 			m_start.m_tangent	= vertex_tangent<T_Vertex>::get(*vertices.m_pointer);
-			m_start.m_uv		= vertex_uv0<T_Vertex>::get(*vertices.m_pointer);
+			m_start.m_bitangent	= vertex_bitangent<T_Vertex>::get(*vertices.m_pointer);
+			m_start.m_uv0		= vertex_uv0<T_Vertex>::get(*vertices.m_pointer);
+			m_start.m_uv1		= vertex_uv1<T_Vertex>::get(*vertices.m_pointer);
+			m_start.m_joints	= vertex_joints<T_Vertex>::get(*vertices.m_pointer);
+			m_start.m_weights	= vertex_weights<T_Vertex>::get(*vertices.m_pointer);
+			m_cursor = m_start;
+		}
+
+		MeshData(size_t vertex_format, void* vertices, size_t num_vertices, void* indices, size_t num_indices)
+			: m_vertices(vertices, num_vertices), m_indices(indices, num_indices), m_vertex_format(vertex_format)
+			, m_vertex_stride(vertex_size(vertex_format)), m_index_stride(sizeof(uint16_t)), m_index(indices)
+		{
+			m_start.m_position	= (vec3*)((char*)		vertices + vertex_offset(vertex_format, VertexAttribute::Position));
+			m_start.m_normal	= (vec3*)((char*)		vertices + vertex_offset(vertex_format, VertexAttribute::Normal));
+			m_start.m_colour	= (uint32_t*)((char*)	vertices + vertex_offset(vertex_format, VertexAttribute::Colour));
+			m_start.m_tangent	= (vec4*)((char*)		vertices + vertex_offset(vertex_format, VertexAttribute::Tangent));
+			m_start.m_bitangent	= (vec3*)((char*)		vertices + vertex_offset(vertex_format, VertexAttribute::Bitangent));
+			m_start.m_uv0		= (vec2*)((char*)		vertices + vertex_offset(vertex_format, VertexAttribute::TexCoord0));
+			m_start.m_uv1		= (vec2*)((char*)		vertices + vertex_offset(vertex_format, VertexAttribute::TexCoord1));
+			m_start.m_joints	= (uint32_t*)((char*)	vertices + vertex_offset(vertex_format, VertexAttribute::Joints));
+			m_start.m_weights	= (vec4*)((char*)		vertices + vertex_offset(vertex_format, VertexAttribute::Weights));
 			m_cursor = m_start;
 		}
 
@@ -168,7 +225,11 @@ namespace mud
 			vec3* m_normal = nullptr;
 			uint32_t* m_colour = nullptr;
 			vec4* m_tangent = nullptr;
-			vec2* m_uv = nullptr;
+			vec3* m_bitangent = nullptr;
+			vec2* m_uv0 = nullptr;
+			vec2* m_uv1 = nullptr;
+			uint32_t* m_joints = nullptr;
+			vec4* m_weights = nullptr;
 		};
 
 		Pointers m_start;
@@ -190,9 +251,14 @@ namespace mud
 		MeshData& normal(const vec3& n) { if(m_cursor.m_normal) { *m_cursor.m_normal = n; next(m_cursor.m_normal); } return *this; }
 		MeshData& colour(const Colour& c) { if(m_cursor.m_colour) { *m_cursor.m_colour = to_abgr(c); next(m_cursor.m_colour); } return *this; }
 		MeshData& tangent(const vec4 t) { if(m_cursor.m_tangent) { *m_cursor.m_tangent = t; next(m_cursor.m_tangent); } return *this; }
-		MeshData& textureCoord(const vec2& uv) { if(m_cursor.m_uv) { *m_cursor.m_uv = uv; next(m_cursor.m_uv); } return *this; }
+		MeshData& bitangent(const vec4 b) { if(m_cursor.m_bitangent) { *m_cursor.m_bitangent = b; next(m_cursor.m_bitangent); } return *this; }
+		MeshData& uv0(const vec2& uv) { if(m_cursor.m_uv0) { *m_cursor.m_uv0 = uv; next(m_cursor.m_uv0); } return *this; }
+		MeshData& uv1(const vec2& uv) { if(m_cursor.m_uv1) { *m_cursor.m_uv1 = uv; next(m_cursor.m_uv1); } return *this; }
+		MeshData& joints(const uint32_t& j) { if(m_cursor.m_joints) { *m_cursor.m_joints = j; next(m_cursor.m_joints); } return *this; }
+		MeshData& weights(const vec4& w) { if(m_cursor.m_weights) { *m_cursor.m_weights = w; next(m_cursor.m_weights); } return *this; }
 
 		vec3 position() { vec3 value = *m_cursor.m_position; next(m_cursor.m_position); return value; }
+		vec3 normal() { if(!m_cursor.m_normal) return Zero3; vec3 value = *m_cursor.m_normal; next(m_cursor.m_normal); return value; }
 		uint16_t index() { uint16_t value = *(uint16_t*)m_index; m_index = ((char*)m_index + m_index_stride); return value; }
 		uint32_t index32() { uint32_t value = *(uint32_t*)m_index; m_index = ((char*)m_index + m_index_stride); return value; }
 

@@ -34,29 +34,29 @@ namespace mud
 
 	export_ struct refl_ MUD_GFX_PBR_EXPORT BCS
 	{
-		attr_ mut_ bool m_enabled = false;
-		attr_ mut_ float m_brightness = 1.0f;
-		attr_ mut_ float m_contrast = 1.0f;
-		attr_ mut_ float m_saturation = 1.0f;
+		attr_ bool m_enabled = false;
+		attr_ float m_brightness = 1.0f;
+		attr_ float m_contrast = 1.0f;
+		attr_ float m_saturation = 1.0f;
 	};
 
 	export_ struct refl_ MUD_GFX_PBR_EXPORT Tonemap
 	{
-		attr_ mut_ TonemapMode m_mode = TonemapMode::Linear;
-		attr_ mut_ bool m_enabled = false;
-		attr_ mut_ float m_exposure = 1.0f;
-		attr_ mut_ float m_white_point = 1.0f;
+		attr_ TonemapMode m_mode = TonemapMode::Linear;
+		attr_ bool m_enabled = false;
+		attr_ float m_exposure = 1.0f;
+		attr_ float m_white_point = 1.0f;
 
 		bgfx::TextureHandle m_color_correction = BGFX_INVALID_HANDLE;
 	};
 
 	export_ struct refl_ MUD_GFX_PBR_EXPORT RenderFilters
 	{
-		attr_ mut_ DofBlur m_dof_blur;
-		//attr_ mut_ Exposure m_exposure;
-		attr_ mut_ Glow m_glow;
-		attr_ mut_ BCS m_bcs;
-		attr_ mut_ Tonemap m_tonemap;
+		attr_ DofBlur m_dof_blur;
+		//attr_ Exposure m_exposure;
+		attr_ Glow m_glow;
+		attr_ BCS m_bcs;
+		attr_ Tonemap m_tonemap;
 	};
 
 	struct TonemapUniform

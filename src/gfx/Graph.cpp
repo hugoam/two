@@ -40,22 +40,64 @@ namespace mud
 
 	Gnode::~Gnode()
 	{
-		m_nodes.clear();
-		if(m_node)
-			m_scene->m_pool->pool<Node3>().tdestroy(*m_node);
-		if(m_item)
-			m_scene->m_pool->pool<Item>().tdestroy(*m_item);
-		if(m_animated)
-			m_scene->m_pool->pool<Animated>().tdestroy(*m_animated);
-		if(m_light)
-			m_scene->m_pool->pool<Light>().tdestroy(*m_light);
-		if(m_particles)
-			m_scene->m_pool->pool<Particles>().tdestroy(*m_particles);
+		this->clear();
 	}
 
 	Gnode& Gnode::begin()
 	{
-		return begin_node(*this);
+		//return begin_node(*this);
+		return begin_node(*this, true);
+	}
+
+	void Gnode::clear()
+	{
+		m_nodes.clear();
+		if(m_node)
+		{
+			m_scene->m_pool->pool<Node3>().tdestroy(*m_node);
+			m_node = nullptr;
+		}
+		if(m_item)
+		{
+			m_scene->m_pool->pool<Item>().tdestroy(*m_item);
+			m_item = nullptr;
+		}
+		if(m_animated)
+		{
+			m_scene->m_pool->pool<Animated>().tdestroy(*m_animated);
+			m_animated = nullptr;
+		}
+		if(m_light)
+		{
+			m_scene->m_pool->pool<Light>().tdestroy(*m_light);
+			m_light = nullptr;
+		}
+		if(m_particles)
+		{
+			m_scene->m_pool->pool<Particles>().tdestroy(*m_particles);
+			m_particles = nullptr;
+		}
+
+		if(m_sound)
+		{
+			m_scene->m_orphan_sounds.push_back(m_sound);
+			m_sound = nullptr;
+			printf("ERROR: sound goes out of graph but wasn't destroyed\n");
+		}
+	}
+
+	void debug_tree(Gnode& node, size_t index, size_t depth)
+	{
+		auto print_depth = [](size_t depth) { for(size_t i = 0; i < depth; ++i) printf("    "); };
+		print_depth(depth);
+		printf("node %i\n", int(index));
+		if(node.m_item)
+		{
+			print_depth(depth + 1);
+			printf("item %s\n", node.m_item->m_model->m_name.c_str());
+		}
+		for(size_t i = 0; i < node.m_nodes.size(); ++i)
+			debug_tree(*node.m_nodes[i], i, depth + 1);
 	}
 
 	template <class T_Element, class... T_Args>
@@ -84,7 +126,7 @@ namespace gfx
 {
 	Gnode& node(Gnode& parent, Ref object, const vec3& position, const quat& rotation, const vec3& scale)
 	{
-		Gnode& self = parent.sub(object.m_value);
+		Gnode& self = parent.subi(object.m_value);
 		if(!self.m_node)
 		{
 			self.m_node = &create<Node3>(*parent.m_scene, parent.m_scene, object);
@@ -116,12 +158,12 @@ namespace gfx
 	void update_item_lights(Item& item)
 	{
 		item.m_lights.clear();
-		//for(Light* light : item.m_node.m_scene->m_shot->m_lights)
-		VecPool<Light>* lights = item.m_node.m_scene->m_pool->pool<Light>().m_vec_pool.get();
-		for(; lights; lights = lights->m_next.get())
-			for(Light* light : lights->m_objects)
-			if(light->m_type == LightType::Directional || sphere_aabb_intersection(light->m_node.m_position, light->m_range, item.m_aabb))
-				item.m_lights.push_back(light);
+
+		item.m_node.m_scene->m_pool->iterate_objects<Light>([&](Light& light)
+		{
+			if(light.m_type == LightType::Directional || sphere_aabb_intersection(light.m_node.m_position, light.m_range, item.m_aabb))
+				item.m_lights.push_back(&light);
+		});
 	}
 
 	void update_item_aabb(Item& item)
@@ -140,16 +182,13 @@ namespace gfx
 
 	Item& item(Gnode& parent, const Model& model, uint32_t flags, Material* material, size_t instances, array<mat4> transforms)
 	{
-		Gnode& self = parent.sub();
+		Gnode& self = parent.suba<Gnode>();
 		if(!self.m_item)
 		{
-			if(!material)
-				material = &parent.m_scene->m_gfx_system.debug_material();
 			self.m_item = &create<Item>(*self.m_scene, *self.m_attach, model, flags, material, instances);
 		}
 		self.m_item->m_model = const_cast<Model*>(&model);
-		if(material)
-			self.m_item->m_material = material;
+		self.m_item->m_material = material;
 		if(transforms.size() > 0)
 			transforms.copy(self.m_item->m_instances);
 		if(instances > 0)
@@ -216,7 +255,7 @@ namespace gfx
 
 	Animated& animated(Gnode& parent, Item& item)
 	{
-		Gnode& self = parent.sub();
+		Gnode& self = parent.suba();
 		if(!self.m_animated)
 		{
 			self.m_animated = &create<Animated>(*self.m_scene, *self.m_attach);
@@ -228,7 +267,7 @@ namespace gfx
 	Particles& particles(Gnode& parent, const ParticleGenerator& emitter, uint32_t flags, size_t instances)
 	{
 		UNUSED(flags); UNUSED(instances);
-		Gnode& self = parent.sub();
+		Gnode& self = parent.suba();
 		if(!self.m_particles)
 			self.m_particles = &create<Particles>(*self.m_scene, self.m_attach, Sphere(1.f), 1024);
 		as<ParticleGenerator>(*self.m_particles) = emitter;
@@ -239,7 +278,7 @@ namespace gfx
 
 	Light& light(Gnode& parent, LightType light_type, bool shadows, Colour colour, float range, float attenuation)
 	{
-		Gnode& self = parent.sub();
+		Gnode& self = parent.suba();
 		if(!self.m_light)
 		{
 			self.m_light = &create<Light>(*self.m_scene, *self.m_attach, light_type, shadows);
@@ -257,7 +296,7 @@ namespace gfx
 		Light& l = light(self, LightType::Directional, true, Colour{ 0.8f, 0.8f, 0.7f }, 1.f);
 		l.m_energy = 0.6f;
 		l.m_shadow_flags = CSM_Stabilize;
-#if 1//MUD_PLATFORM_EMSCRIPTEN
+#if 1 // MUD_PLATFORM_EMSCRIPTEN
 		l.m_shadow_num_splits = 2;
 #else
 		l.m_shadow_num_splits = 4;
@@ -289,7 +328,7 @@ namespace gfx
 #if 0
 	GIProbe& gi_probe(Gnode& parent)
 	{
-		Gnode& self = parent.sub();
+		Gnode& self = parent.suba();
 		if(!self.m_gi_probe)
 			self.m_gi_probe = &create<GIProbe>(*self.m_scene, *self.m_attach);
 		return *self.m_gi_probe;

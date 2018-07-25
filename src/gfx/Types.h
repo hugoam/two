@@ -74,6 +74,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Filter>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Fog>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::FrameBuffer>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::FresnelMaterialBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Frustum>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::FrustumSlice>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxBlock>();
@@ -107,10 +108,8 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Sun>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::SymbolIndex>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Texture>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::Transform>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::UnshadedMaterialBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Viewport>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::Particles>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockCopy>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockFilter>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockParticles>();
@@ -118,6 +117,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockSky>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockDepth>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::Particles>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
     
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Animated*>>;
@@ -134,6 +134,7 @@ namespace mud
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Filter*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Fog*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::FrameBuffer*>>;
+	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::FresnelMaterialBlock*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Frustum*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::FrustumSlice*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::GfxBlock*>>;
@@ -167,10 +168,8 @@ namespace mud
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Sun*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::SymbolIndex*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Texture*>>;
-	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Transform*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::UnshadedMaterialBlock*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Viewport*>>;
-	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Particles*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::BlockCopy*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::BlockFilter*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::BlockParticles*>>;
@@ -178,5 +177,6 @@ namespace mud
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::BlockSky*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::DrawBlock*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::BlockDepth*>>;
+	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Particles*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::RenderTarget*>>;
 }

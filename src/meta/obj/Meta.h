@@ -164,8 +164,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Indexer>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Link },
-                { type<mud::Indexer>(), member_address(&mud::Indexer::m_objects), type<std::vector<mud::Ref>>(), "objects", var(std::vector<mud::Ref>()), Member::Value }
+                { type<mud::Indexer>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Indexer>(object).m_type); } },
+                { type<mud::Indexer>(), member_address(&mud::Indexer::m_objects), type<std::vector<mud::Ref>>(), "objects", var(std::vector<mud::Ref>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -262,9 +262,9 @@ namespace mud
             },
             // members
             {
-                { type<mud::Type>(), member_address(&mud::Type::m_id), type<mud::Id>(), "id", var(mud::Id()), Member::Value },
-                { type<mud::Type>(), member_address(&mud::Type::m_name), type<cstring>(), "name", var(cstring()), Member::Value },
-                { type<mud::Type>(), member_address(&mud::Type::m_base), type<mud::Type>(), "base", Ref(type<mud::Type>()), Member::Flags(Member::Pointer|Member::Link) }
+                { type<mud::Type>(), member_address(&mud::Type::m_id), type<mud::Id>(), "id", var(mud::Id()), Member::Value, nullptr },
+                { type<mud::Type>(), member_address(&mud::Type::m_name), type<cstring>(), "name", var(cstring()), Member::Value, nullptr },
+                { type<mud::Type>(), member_address(&mud::Type::m_base), type<mud::Type>(), "base", Ref(type<mud::Type>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
             },
             // methods
             {
@@ -279,6 +279,7 @@ namespace mud
         
         meta_class<mud::Type>();
     }
+    
     
     
     

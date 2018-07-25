@@ -19,7 +19,7 @@ module mud.tool;
 
 namespace mud
 {
-	ScaleAction::ScaleAction(const std::vector<Transform*>& targets)
+	ScaleAction::ScaleAction(array<Transform*> targets)
 		: TransformAction(targets)
 		, m_scale_offset(Zero3)
 	{}
@@ -114,7 +114,7 @@ namespace mud
 #endif
 	}
 
-	object_ptr<TransformAction> ScaleTool::create_action(const std::vector<Transform*>& targets)
+	object_ptr<TransformAction> ScaleTool::create_action(array<Transform*> targets)
 	{
 		return make_object<ScaleAction>(targets);
 	}

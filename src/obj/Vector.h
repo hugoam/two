@@ -35,6 +35,12 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 	{
 		static inline Type& type() { static string name = "std::vector<" + string(mud::type<typename type_class<T>::type>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
 	};
+	
+	export_ template <>
+	struct Typed<std::vector<cstring>>
+	{
+		static inline Type& type() { static Type ty("std::vector<cstring>"); return ty; }
+	};
 
 	export_ template <class... T_Args>
 	inline std::vector<Type*> type_vector()

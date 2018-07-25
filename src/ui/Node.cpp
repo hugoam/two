@@ -197,7 +197,7 @@ namespace ui
 	template <class T>
 	inline T& ttwidget(Widget& parent, Style& style, void* identity)
 	{
-		T& self = parent.sub<T>(identity); self.init(style); return self;
+		T& self = parent.subi<T>(identity); self.init(style); return self;
 	}
 
 	Node& node(Canvas& parent, array<cstring> title, int order, Ref identity)

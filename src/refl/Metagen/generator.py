@@ -334,7 +334,7 @@ class Member(object):
         self.reference = self.type[-1] == '&' and not self.type.find('const') > -1
         
         self.annotations = get_annotations(cursor)
-        self.mutable = 'mutable_attr' in self.annotations
+        self.nonmutable = 'nonmutable_attr' in self.annotations
         self.structure = 'structure_attr' in self.annotations
         self.link = 'link_attr' in self.annotations
         
@@ -350,7 +350,7 @@ class Member(object):
         else:
             self.cls = None
             
-        self.setter = self.mutable and self.function
+        self.setter = not self.nonmutable and self.function
         
         for c in parent.cursor.get_children(): 
             if (c.kind == clang.cindex.CursorKind.CXX_METHOD and c.spelling == 'set' + self.capname) :
@@ -572,7 +572,7 @@ class Generator(object):
             '-Dmeth_=__attribute__((annotate("method")))',
             '-Dfunc_=__attribute__((annotate("function")))',
             '-Dattr_=__attribute__((annotate("attribute")))',
-            '-Dmut_=__attribute__((annotate("mutable_attr")))',
+            '-Dnomut_=__attribute__((annotate("nonmutable_attr")))',
             '-Dgraph_=__attribute__((annotate("structure_attr")))',
             '-Dlink_=__attribute__((annotate("link_attr")))',
             '-DMUD_META_GENERATOR'

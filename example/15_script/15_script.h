@@ -17,7 +17,7 @@ public:
 	GameObject(const ShapeInstance* shape, Material* material, Colour colour);
 	attr_ uint32_t m_index;
 	/*attr_ */const ShapeInstance* m_shape;
-	attr_ mut_ Colour m_colour;
+	attr_ Colour m_colour;
 	Material* m_material;
 };
 

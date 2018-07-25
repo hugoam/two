@@ -49,6 +49,7 @@ namespace mud
 		gfx_system.programs().create("unshaded", [&](Program& program) { program.register_blocks(pipeline.pass_blocks(PassType::Unshaded)); });
 		gfx_system.programs().create("depth", [&](Program& program) { program.register_blocks(pipeline.pass_blocks(PassType::Depth)); });
 		gfx_system.programs().create("pbr/pbr", [&](Program& program) { program.register_blocks(pipeline.pass_blocks(PassType::Opaque)); });
+		gfx_system.programs().create("fresnel", [&](Program& program) { UNUSED(program); });
 
 		static MinimalRenderer main_renderer = { gfx_system, pipeline };
 		static MinimalRenderer shadow_renderer = { gfx_system, pipeline };
@@ -138,7 +139,7 @@ namespace mud
 	{
 		UNUSED(render);
 
-		if(element.m_material->m_unshaded_block.m_enabled)
+		if(element.m_material->m_unshaded_block.m_enabled || element.m_material->m_fresnel_block.m_enabled)
 			add_element(element);
 	}
 
@@ -225,6 +226,6 @@ namespace mud
 
 	void PassFlip::submit_render_pass(Render& render)
 	{
-		m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_diffuse, { vec4(render.m_viewport.m_rect), true });
+		m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_diffuse, render.m_viewport.m_rect);
 	}
 }

@@ -20,14 +20,14 @@ namespace mud
 
 	export_ struct refl_ MUD_GFX_PBR_EXPORT Glow
 	{
-		attr_ mut_ bool m_enabled = false;
-		attr_ mut_ vec4 m_levels_1_4 = Zero4;
-		attr_ mut_ vec4 m_levels_5_8 = Zero4;
-		attr_ mut_ float m_intensity = 0.8f;
-		attr_ mut_ float m_bloom = 0.0f;
-		attr_ mut_ float m_bleed_threshold = 1.0f;
-		attr_ mut_ float m_bleed_scale = 2.0f;
-		attr_ mut_ bool m_bicubic_filter = false;
+		attr_ bool m_enabled = false;
+		attr_ vec4 m_levels_1_4 = Zero4;
+		attr_ vec4 m_levels_5_8 = Zero4;
+		attr_ float m_intensity = 0.8f;
+		attr_ float m_bloom = 0.0f;
+		attr_ float m_bleed_threshold = 1.0f;
+		attr_ float m_bleed_scale = 2.0f;
+		attr_ bool m_bicubic_filter = false;
 	};
 
 	struct GlowUniform

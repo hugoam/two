@@ -15,35 +15,34 @@
 namespace mud
 {
 	SharedBuffer::SharedBuffer(const string& filename, const ReleaseCallback& onRelease)
-		: m_aLBuffer(AL_NONE)
-		, m_numUsers(0)
-		, m_onRelease(onRelease)
+		: m_al_buffer(AL_NONE)
+		, m_on_release(onRelease)
 	{
 		if(filename.find(".ogg") != filename.npos || filename.find(".OGG") != filename.npos)
-			m_sound_file_buffer = make_unique<OggFileBuffer>();
+			m_file_buffer = make_unique<OggFileBuffer>();
 
-		alGenBuffers(1, &m_aLBuffer);
+		alGenBuffers(1, &m_al_buffer);
 
-		m_sound_file_buffer->open(filename.c_str());
-		m_sound_file_buffer->fill(m_aLBuffer);
+		m_file_buffer->open(filename.c_str());
+		m_file_buffer->fill(m_al_buffer);
 	}
 
 	SharedBuffer::~SharedBuffer()
 	{
-		alDeleteBuffers(1, &m_aLBuffer);
+		alDeleteBuffers(1, &m_al_buffer);
 
-		m_sound_file_buffer->close();
+		m_file_buffer->close();
 	}
 
 	void SharedBuffer::use()
 	{
-		++m_numUsers;
+		++m_num_users;
 	}
 
 	void SharedBuffer::release()
 	{
-		--m_numUsers;
-		if(m_numUsers == 0)
-			m_onRelease(*this);
+		--m_num_users;
+		if(m_num_users == 0)
+			m_on_release(*this);
 	}
 }

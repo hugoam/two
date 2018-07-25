@@ -81,8 +81,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Call>(), member_address(&mud::Call::m_arguments), type<std::vector<mud::Var>>(), "arguments", var(std::vector<mud::Var>()), Member::Value },
-                { type<mud::Call>(), member_address(&mud::Call::m_result), type<mud::Var>(), "result", Ref(type<mud::Var>()), Member::None }
+                { type<mud::Call>(), member_address(&mud::Call::m_arguments), type<std::vector<mud::Var>>(), "arguments", var(std::vector<mud::Var>()), Member::Value, nullptr },
+                { type<mud::Call>(), member_address(&mud::Call::m_result), type<mud::Var>(), "result", Ref(type<mud::Var>()), Member::None, nullptr }
             },
             // methods
             {
@@ -211,10 +211,10 @@ namespace mud
             },
             // members
             {
-                { type<mud::Creator>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Link },
-                { type<mud::Creator>(), member_address(&mud::Creator::m_construct), type<bool>(), "construct", var(bool()), Member::Value },
-                { type<mud::Creator>(), member_address(&mud::Creator::m_prototype), type<mud::Type>(), "prototype", Ref(type<mud::Type>()), Member::Flags(Member::Pointer|Member::Link) },
-                { type<mud::Creator>(), member_address(&mud::Creator::injector), type<mud::Injector>(), "injector", Ref(type<mud::Injector>()), Member::Link }
+                { type<mud::Creator>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Creator>(object).m_type); } },
+                { type<mud::Creator>(), member_address(&mud::Creator::m_construct), type<bool>(), "construct", var(bool()), Member::Value, nullptr },
+                { type<mud::Creator>(), member_address(&mud::Creator::m_prototype), type<mud::Type>(), "prototype", Ref(type<mud::Type>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
+                { type<mud::Creator>(), member_address(&mud::Creator::injector), type<mud::Injector>(), "injector", Ref(type<mud::Injector>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Creator>(object).injector()); } }
             },
             // methods
             {
@@ -260,39 +260,6 @@ namespace mud
         
         
         meta_class<mud::Enum>();
-    }
-    
-    
-        
-    // mud::Injector
-    {
-        static Meta meta = { type<mud::Injector>(), &namspc({ "mud" }), "Injector", sizeof(mud::Injector), TypeClass::Object };
-        static Class cls = { type<mud::Injector>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-                { type<mud::Injector>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Link }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Injector>();
     }
     
     
@@ -377,10 +344,10 @@ namespace mud
             },
             // members
             {
-                { type<mud::Module>(), member_address(&mud::Module::m_name), type<cstring>(), "name", var(cstring()), Member::Value },
-                { type<mud::Module>(), member_address(&mud::Module::m_types), type<std::vector<mud::Type*>>(), "types", var(std::vector<mud::Type*>()), Member::Value },
-                { type<mud::Module>(), member_address(&mud::Module::m_functions), type<std::vector<mud::Function*>>(), "functions", var(std::vector<mud::Function*>()), Member::Value },
-                { type<mud::Module>(), member_address(&mud::Module::m_path), type<cstring>(), "path", var(cstring()), Member::Value }
+                { type<mud::Module>(), member_address(&mud::Module::m_name), type<cstring>(), "name", var(cstring()), Member::Value, nullptr },
+                { type<mud::Module>(), member_address(&mud::Module::m_types), type<std::vector<mud::Type*>>(), "types", var(std::vector<mud::Type*>()), Member::Value, nullptr },
+                { type<mud::Module>(), member_address(&mud::Module::m_functions), type<std::vector<mud::Function*>>(), "functions", var(std::vector<mud::Function*>()), Member::Value, nullptr },
+                { type<mud::Module>(), member_address(&mud::Module::m_path), type<cstring>(), "path", var(cstring()), Member::Value, nullptr }
             },
             // methods
             {
@@ -542,9 +509,9 @@ namespace mud
             },
             // members
             {
-                { type<mud::System>(), member_address(&mud::System::m_modules), type<std::vector<mud::Module*>>(), "modules", var(std::vector<mud::Module*>()), Member::Value },
-                { type<mud::System>(), member_address(&mud::System::m_types), type<std::vector<mud::Type*>>(), "types", var(std::vector<mud::Type*>()), Member::Value },
-                { type<mud::System>(), member_address(&mud::System::m_functions), type<std::vector<mud::Function*>>(), "functions", var(std::vector<mud::Function*>()), Member::Value }
+                { type<mud::System>(), member_address(&mud::System::m_modules), type<std::vector<mud::Module*>>(), "modules", var(std::vector<mud::Module*>()), Member::Value, nullptr },
+                { type<mud::System>(), member_address(&mud::System::m_types), type<std::vector<mud::Type*>>(), "types", var(std::vector<mud::Type*>()), Member::Value, nullptr },
+                { type<mud::System>(), member_address(&mud::System::m_functions), type<std::vector<mud::Function*>>(), "functions", var(std::vector<mud::Function*>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -741,6 +708,38 @@ namespace mud
         meta_class<mud::Method>();
     }
     
+    
+        
+    // mud::Injector
+    {
+        static Meta meta = { type<mud::Injector>(), &namspc({ "mud" }), "Injector", sizeof(mud::Injector), TypeClass::Object };
+        static Class cls = { type<mud::Injector>(),
+            // bases
+            { &type<mud::Call>() },
+            { base_offset<mud::Injector, mud::Call>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Injector>();
+    }
+    
 
     
         m.m_types.push_back(&type<mud::Call>());
@@ -749,7 +748,6 @@ namespace mud
         m.m_types.push_back(&type<mud::Convert>());
         m.m_types.push_back(&type<mud::Creator>());
         m.m_types.push_back(&type<mud::Enum>());
-        m.m_types.push_back(&type<mud::Injector>());
         m.m_types.push_back(&type<mud::Member>());
         m.m_types.push_back(&type<mud::Meta>());
         m.m_types.push_back(&type<mud::Module>());
@@ -768,6 +766,7 @@ namespace mud
         m.m_types.push_back(&type<mud::Destructor>());
         m.m_types.push_back(&type<mud::Function>());
         m.m_types.push_back(&type<mud::Method>());
+        m.m_types.push_back(&type<mud::Injector>());
     
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(args); result = Ref(&mud::system()); };

@@ -4,6 +4,7 @@
 
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
+#include <map>
 #include <unordered_map>
 #include <cstdio>
 #endif
@@ -18,6 +19,11 @@ module mud.geom;
 #endif
 
 #include <mikktspace.h>
+
+namespace glm
+{
+	inline bool operator<(const vec3& lhs, const vec3& rhs) { return all(lessThan(lhs, rhs)); }
+}
 
 namespace mud
 {
@@ -46,6 +52,18 @@ namespace mud
 	MeshPacker::MeshPacker()
 	{}
 
+	size_t MeshPacker::vertex_format()
+	{
+		size_t format = VertexAttribute::Position;
+		if(!m_normals.empty())	format |= VertexAttribute::Normal;
+		if(!m_tangents.empty())	format |= VertexAttribute::Tangent;
+		if(!m_uv0s.empty())		format |= VertexAttribute::TexCoord0;
+		if(!m_uv1s.empty())		format |= VertexAttribute::TexCoord1;
+		if(!m_bones.empty())	format |= VertexAttribute::Joints;
+		if(!m_weights.empty())	format |= VertexAttribute::Weights;
+		return format;
+	}
+
 	void MeshPacker::bake(bool normals, bool tangents)
 	{
 		if(normals)
@@ -53,182 +71,73 @@ namespace mud
 
 		if(tangents)
 			this->generate_tangents();
-
-		this->generate_indices();
 	}
-
-	void MeshPacker::pack_vertices()
+	
+	void MeshPacker::pack_vertices(MeshData& data, const mat4& transform)
 	{
 		for(size_t i = 0; i < m_positions.size(); ++i)
 		{
-			ShapeVertex& vertex = this->vertex();
-			if(!m_positions.empty()) vertex.m_position = m_positions[i];
-			if(!m_normals.empty())   vertex.m_normal = m_normals[i];
-			if(!m_tangents.empty())  vertex.m_tangent = m_tangents[i];
-			if(!m_uv0s.empty())      vertex.m_uv0 = m_uv0s[i];
-			//if(!m_uv1s.empty())      vertex.m_uv1 = m_uv1s[i];
-			if(!m_bones.empty())	 vertex.m_joints = joints(m_bones[i]);
-			if(!m_weights.empty())	 vertex.m_weights = m_weights[i];
+			data.position(vec3(transform * vec4(m_positions[i], 1.f)));
+			if(!m_normals.empty())	data.normal(normalize(vec3(transform * vec4(m_normals[i], 0.f))));
+			if(!m_tangents.empty()) data.tangent(vec4(vec3(transform * vec4(vec3(m_tangents[i]), 0.f)), m_tangents[i].w));
+			if(!m_uv0s.empty())     data.uv0(m_uv0s[i]);
+			if(!m_uv1s.empty())		data.uv1(m_uv1s[i]);
+			if(!m_bones.empty())	data.joints(joints(m_bones[i]));
+			if(!m_weights.empty())	data.weights(m_weights[i]);
+
+			if(m_indices.empty())
+				data.index(i);
 		}
 
-		if(m_normals.empty())
-			this->generate_normals();
-
-		if(m_tangents.empty())
-			this->generate_tangents();
-	}
-
-	void MeshPacker::pack_vertices(const mat4& transform)
-	{
-		for(size_t i = 0; i < m_positions.size(); ++i)
+		for(uint32_t i = 0; i < m_indices.size(); ++i)
 		{
-			ShapeVertex& vertex = this->vertex();
-			if(!m_positions.empty()) vertex.m_position = vec3(transform * vec4(m_positions[i], 1.f));
-			if(!m_normals.empty())   vertex.m_normal = vec3(transform * vec4(m_normals[i], 0.f));
-			if(!m_tangents.empty())  vertex.m_tangent = vec4(vec3(transform * vec4(vec3(m_tangents[i]), 0.f)), m_tangents[i].w);
-			if(!m_uv0s.empty())      vertex.m_uv0 = m_uv0s[i];
-			//if(!m_uv1s.empty())      vertex.m_uv1 = m_uv1s[i];
-			if(!m_bones.empty())	 vertex.m_joints = joints(m_bones[i]);
-			if(!m_weights.empty())	 vertex.m_weights = m_weights[i];
+			data.index(m_indices[i]);
 		}
-
-		if(m_normals.empty())
-			this->generate_normals();
-
-		if(m_tangents.empty())
-			this->generate_tangents();
 	}
 
 	void MeshPacker::generate_normals()
 	{
-		/*
-		std::map<int, bool> smooth_groups;
-
-		bool was_indexed = index_array.size();
-
-		deindex();
-
-		HashMap<Vertex, Vector3, VertexHasher> vertex_hash;
-
-		int count = 0;
-		bool smooth = false;
-		if(smooth_groups.has(0))
-			smooth = smooth_groups[0];
-
-		List<Vertex>::Element *B = vertex_array.front();
-		for(List<Vertex>::Element *E = B; E;) {
-
-			List<Vertex>::Element *v[3];
-			v[0] = E;
-			v[1] = v[0]->next();
-			ERR_FAIL_COND(!v[1]);
-			v[2] = v[1]->next();
-			ERR_FAIL_COND(!v[2]);
-			E = v[2]->next();
-
-			Vector3 normal = Plane(v[0]->get().vertex, v[1]->get().vertex, v[2]->get().vertex).normal;
-
-			if(smooth) {
-
-				for(int i = 0; i < 3; i++) {
-
-					Vector3 *lv = vertex_hash.getptr(v[i]->get());
-					if(!lv) {
-						vertex_hash.set(v[i]->get(), normal);
-					}
-					else {
-						(*lv) += normal;
-					}
-				}
-			}
-			else {
-
-				for(int i = 0; i < 3; i++) {
-
-					v[i]->get().normal = normal;
-				}
-			}
-			count += 3;
-
-			if(smooth_groups.has(count) || !E) {
-
-				if(vertex_hash.size()) {
-
-					while(B != E) {
-
-						Vector3 *lv = vertex_hash.getptr(B->get());
-						if(lv) {
-							B->get().normal = lv->normalized();
-						}
-
-						B = B->next();
-					}
-
-				}
-				else {
-					B = E;
-				}
-
-				vertex_hash.clear();
-				if(E) {
-					smooth = smooth_groups[count];
-				}
-			}
-		}
-
-		format |= Mesh::ARRAY_FORMAT_NORMAL;
-
-		if(was_indexed) {
-			index();
-			smooth_groups.clear();
-		}
-		*/
-
+		std::map<vec3, vec3> smooth_normals;
 		//std::unordered_map<vec3, vec3> smooth_normals;
 
 		std::vector<int> smooth_groups;
 
 		for(int smooth_group : smooth_groups)
 		{
-			for(size_t i = 0; i < m_vertices.size(); i += 3)
+			for(size_t i = 0; i < m_positions.size(); i += 3)
 			{
 				int vert_smooth_group = 0;
 				if(vert_smooth_group != smooth_group)
 					continue;
 
-				ShapeVertex& v0 = m_vertices[i + 0];
-				ShapeVertex& v1 = m_vertices[i + 1];
-				ShapeVertex& v2 = m_vertices[i + 2];
-
-				vec3 normal = Plane(v0.m_position, v1.m_position, v2.m_position).m_normal;
+				vec3 normal = Plane(m_positions[i + 0], m_positions[i + 1], m_positions[i + 2]).m_normal;
 
 				if(smooth_group == 0)
 				{
-					v0.m_normal = normal;
-					v1.m_normal = normal;
-					v2.m_normal = normal;
+					m_normals[i + 0] = normal;
+					m_normals[i + 1] = normal;
+					m_normals[i + 2] = normal;
 				}
 				else
 				{
-					//smooth_normals[v0.m_position] += normal;
-					//smooth_normals[v1.m_position] += normal;
-					//smooth_normals[v2.m_position] += normal;
+					smooth_normals[m_positions[i + 0]] += normal;
+					smooth_normals[m_positions[i + 1]] += normal;
+					smooth_normals[m_positions[i + 2]] += normal;
 				}
 			}
 		
 			if(smooth_group == 0)
 				continue;
 
-			/*for(auto& kv : smooth_normals)
+			for(auto& kv : smooth_normals)
 				kv.second = normalize(kv.second);
 
-			for(size_t i = 0; i < vertices.size(); i++)
+			for(size_t i = 0; i < m_positions.size(); i++)
 			{
-				ShapeVertex& vertex = vertices[i];
-				vertex.m_normal = smooth_normals[vertex.m_position];
+				m_normals[i] = smooth_normals[m_positions[i]];
 			}
 
-			smooth_normals.clear();*/
+			smooth_normals.clear();
 		}
 	}
 
@@ -275,16 +184,37 @@ namespace mud
 			printf("WARNING: Couldn't generate mikktspace tangents\n");
 	}
 
-	void MeshPacker::generate_tangents()
+	inline MeshPacker& mikkt_packer(const SMikkTSpaceContext* context) { return *static_cast<MeshPacker*>(context->m_pUserData); }
+	inline size_t mikkt_index(const SMikkTSpaceContext* context, int face, int vert)
 	{
-		generate_mikkt_tangents(to_array(m_indices), to_array(m_vertices));
+		return mikkt_packer(context).m_indices.size() > 0 ? mikkt_packer(context).m_indices[face * 3 + vert]
+														  : face * 3 + vert;
 	}
 
-	void MeshPacker::generate_indices()
+	void MeshPacker::generate_tangents()
 	{
-		m_indices.resize(m_vertices.size());
+		using Context = SMikkTSpaceContext;
 
-		for(ShapeIndex i = 0; i < ShapeIndex(m_vertices.size()); ++i)
-			m_indices[i] = i;
+		m_tangents.resize(m_positions.size());
+
+		SMikkTSpaceInterface intf = {};
+		intf.m_getNumFaces = [](const Context* c) -> int { return mikkt_packer(c).m_indices.size() / 3; };
+		intf.m_getNumVerticesOfFace = [](const Context* c, const int face) -> int { UNUSED(c); UNUSED(face); return 3; };
+		intf.m_getPosition = [](const Context* c, float pos[], const int face, const int vert) { vec_to_array(mikkt_packer(c).m_positions[mikkt_index(c, face, vert)], pos); };
+		intf.m_getNormal = [](const Context* c, float norm[], const int face, const int vert) { vec_to_array(mikkt_packer(c).m_normals[mikkt_index(c, face, vert)], norm); };
+		intf.m_getTexCoord = [](const Context* c, float uv[], const int face, const int vert) { vec_to_array(mikkt_packer(c).m_uv0s[mikkt_index(c, face, vert)], uv); };
+		
+		intf.m_setTSpaceBasic = [](const SMikkTSpaceContext * c, const float tangent[], const float sign, const int face, const int vert)
+		{
+			mikkt_packer(c).m_tangents[mikkt_index(c, face, vert)] = { tangent[0], tangent[1], tangent[2], sign };
+		};
+
+		SMikkTSpaceContext context;
+		context.m_pInterface = &intf;
+		context.m_pUserData = this;
+
+		bool success = genTangSpaceDefault(&context) != 0;
+		if(!success)
+			printf("WARNING: Couldn't generate mikktspace tangents\n");
 	}
 }

@@ -109,8 +109,8 @@ namespace mud
 	export_ MUD_REFL_EXPORT bool is_related(Type& input, Type& output);
 
 	export_ MUD_REFL_EXPORT bool convert(Var& input, Type& output, Var& result, bool ref = false);
+	export_ MUD_REFL_EXPORT bool convert(Ref input, Type& output, Var& result);
 	export_ MUD_REFL_EXPORT Var convert(Ref input, Type& output);
-	export_ MUD_REFL_EXPORT void convert(Ref input, Type& output, Var& result);
 
 	export_ MUD_REFL_EXPORT bool can_convert(Type& input, Type& output);
 	export_ MUD_REFL_EXPORT bool can_convert(Ref input, Type& output);

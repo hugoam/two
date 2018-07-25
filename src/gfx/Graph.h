@@ -25,7 +25,10 @@ namespace mud
 		~Gnode();
 		
 		meth_ Gnode& begin();
+		
+		void clear();
 
+		// @todo fix this shit by making each node contain one object from one pool and destroy it with that pool
 		Scene* m_scene = nullptr;
 		Node3* m_attach = nullptr;
 		Node3* m_node = nullptr;
@@ -37,4 +40,6 @@ namespace mud
 		SoundManager* m_sound_manager = nullptr;
 		Sound* m_sound = nullptr;
 	};
+
+	export_ MUD_GFX_EXPORT void debug_tree(Gnode& node, size_t index = 0, size_t depth = 0);
 }

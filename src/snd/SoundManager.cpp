@@ -28,37 +28,41 @@ namespace mud
 	bool openal_check_error()
 	{
 		ALenum error = alGetError();
-		if(error == AL_NO_ERROR)
-			return false;
-		else if(error == AL_INVALID_NAME)
-			printf("ERROR: OpenAL - AL_INVALID_NAME");
-		else if(error == AL_ILLEGAL_ENUM)
-			printf("ERROR: OpenAL - AL_ILLEGAL_ENUM");
-		else if(error == AL_INVALID_ENUM)
-			printf("ERROR: OpenAL - AL_INVALID_ENUM");
-		else if(error == AL_INVALID_VALUE)
-			printf("ERROR: OpenAL - AL_INVALID_VALUE");
-		else if(error == AL_ILLEGAL_COMMAND)
-			printf("ERROR: OpenAL - AL_ILLEGAL_COMMAND");
-		else if(error == AL_INVALID_OPERATION)
-			printf("ERROR: OpenAL - AL_INVALID_OPERATION");
-		else if(error == AL_OUT_OF_MEMORY)
-			printf("ERROR: OpenAL - AL_OUT_OF_MEMORY");
+		if(error == AL_NO_ERROR)				return false;
+		else if(error == AL_INVALID_NAME)		printf("ERROR: OpenAL - AL_INVALID_NAME\n");
+		else if(error == AL_ILLEGAL_ENUM)		printf("ERROR: OpenAL - AL_ILLEGAL_ENUM\n");
+		else if(error == AL_INVALID_ENUM)		printf("ERROR: OpenAL - AL_INVALID_ENUM\n");
+		else if(error == AL_INVALID_VALUE)		printf("ERROR: OpenAL - AL_INVALID_VALUE\n");
+		else if(error == AL_ILLEGAL_COMMAND)	printf("ERROR: OpenAL - AL_ILLEGAL_COMMAND\n");
+		else if(error == AL_INVALID_OPERATION)	printf("ERROR: OpenAL - AL_INVALID_OPERATION\n");
+		else if(error == AL_OUT_OF_MEMORY)		printf("ERROR: OpenAL - AL_OUT_OF_MEMORY\n");
+		else									printf("ERROR: OpenAL - %i\n", int(error));
 		return true;
+	}
+
+	bool openalc_check_error(ALCdevice* device)
+	{
+		bool errors = false;
+		while(ALCenum error = alcGetError(device) != ALC_NO_ERROR)
+		{
+			if(error == ALC_INVALID_DEVICE)			printf("ERROR: OpenALC - ALC_INVALID_DEVICE\n");
+			else if(error == ALC_INVALID_CONTEXT)	printf("ERROR: OpenALC - ALC_INVALID_CONTEXT\n");
+			else if(error == ALC_INVALID_ENUM)		printf("ERROR: OpenALC - ALC_INVALID_ENUM\n");
+			else if(error == ALC_INVALID_VALUE)		printf("ERROR: OpenALC - ALC_INVALID_VALUE\n");
+			else if(error == ALC_OUT_OF_MEMORY)		printf("ERROR: OpenALC - ALC_OUT_OF_MEMORY\n");
+			errors = true;
+		}
+		return errors;
 	}
 
 	SoundManager::SoundManager(cstring resource_path)
 		: m_resource_path(resource_path)
 		, m_actions(QUEUE_LIST_SIZE)
 		, m_delayedActions(500)
-	{
-		printf("Sound Manager\n");
-	}
+	{}
 
 	SoundManager::~SoundManager()
 	{
-		printf("Destroy Sound Manager\n");
-
 		if(m_context == 0)
 			return;
 
@@ -82,13 +86,13 @@ namespace mud
 
 	void SoundManager::clearSounds()
 	{
-		for (SoundList::iterator it = m_activeSounds.begin(); it != m_activeSounds.end(); ++it)
+		for (SoundList::iterator it = m_active_sounds.begin(); it != m_active_sounds.end(); ++it)
 		{
 			destroySoundImpl((*it));
 		}
 
 		m_pausedSounds.clear();
-		m_activeSounds.clear();
+		m_active_sounds.clear();
 		m_inactiveSounds.clear();
 	}
 
@@ -107,7 +111,8 @@ namespace mud
 
 	bool SoundManager::init(cstring device_name, unsigned int max_sources)
 	{
-		printf("Init Sound Manager\n");
+		printf("INFO: Init Sound Manager\n");
+
 		if (m_device)
 			return true;
 
@@ -118,19 +123,18 @@ namespace mud
 		string name = device_name;
 		if(!name.empty() && std::find(m_devices.begin(), m_devices.end(), name) != m_devices.end())
 			m_device = alcOpenDevice(name.c_str());
-		else if (m_devices.size() > 0)
+		else if(m_devices.size() > 0)
 			m_device = alcOpenDevice(m_devices.front().c_str());
 		else
 			m_device = alcOpenDevice(NULL);
 
-		if (!m_device)
+		if(!m_device)
 			return false;
 		
+		ALCint attributes[] = { 0 };
 
-        ALint attribs[1] = {4};
-
-		m_context = alcCreateContext(m_device, attribs);
-		if (!m_context)
+		m_context = alcCreateContext(m_device, attributes);
+		if(!m_context)
 			return false;
 
 		if (!alcMakeContextCurrent(m_context))
@@ -145,67 +149,58 @@ namespace mud
 		return true;
 	}
 
-	int SoundManager::createSourcePool(int maxSources)
+	int SoundManager::createSourcePool(int max_sources)
 	{
 		ALuint source;
-		int numSources = 0;
+		int num_sources = 0;
 
-		while(alGetError() == AL_NO_ERROR && numSources < maxSources)
+		while(!openal_check_error() && num_sources < max_sources)
 		{
 			source = 0;
 			alGenSources(1,&source);
 			if(source != 0)
 			{
-				//std::cerr << "Adding Source : " << source << std::endl;
 				m_sourcePool.push_back(source);
-				numSources++;
+				num_sources++;
 			}
 			else
 			{
-				alGetError();
+				openal_check_error();
 				break;
 			}
 		}
 
-		return numSources;
+		printf("INFO: Sound - added %i source\n", num_sources);
+		return num_sources;
 	}
 
 	void SoundManager::enumDevices()
 	{
-		const ALCchar* deviceList = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
+		const ALCchar* devices = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
 
-		/*
-		** The list returned by the call to alcGetString has the names of the
-		** devices seperated by NULL characters and the list is terminated by
-		** two NULL characters, so we can cast the list into a string and it
-		** will automatically stop at the first NULL that it sees, then we
-		** can move the pointer ahead by the lenght of that string + 1 and we
-		** will be at the begining of the next string.  Once we hit an empty
-		** string we know that we've found the double NULL that terminates the
-		** list and we can stop there.
-		*/
-		while(*deviceList != 0)
+		// devices is a list separated by null characters and a double null at the end
+		while(*devices != 0)
 		{
-			ALCdevice* device = alcOpenDevice(deviceList);
-			if (alcGetError(device))
+			ALCdevice* device = alcOpenDevice(devices);
+			if(openalc_check_error(device))
 				continue;
 
 			ALCcontext* context = alcCreateContext(device, NULL);
-			if (alcGetError(device))
+			if(openalc_check_error(device))
 				continue;
 
 			alcMakeContextCurrent(context);
-			if(alcGetError(device))
+			if(openalc_check_error(device))
 				continue;
 
 			m_devices.push_back(alcGetString(device, ALC_DEVICE_SPECIFIER));
-						
+
 			alcMakeContextCurrent(NULL);
 			alcDestroyContext(context);
 
 			alcCloseDevice(device);
 
-			deviceList += strlen(deviceList) + 1;
+			devices += strlen(devices) + 1;
 		}
 	}
 
@@ -313,11 +308,11 @@ namespace mud
 	void SoundManager::queueActiveSound(Sound* sound)
 	{
 		unsigned int index = 0;
-		SoundList::iterator pos = m_activeSounds.begin();
+		SoundList::iterator pos = m_active_sounds.begin();
 
-		while(pos != m_activeSounds.end() && (*pos)->m_priority < sound->m_priority) { ++index; ++pos; }
+		while(pos != m_active_sounds.end() && (*pos)->m_priority < sound->m_priority) { ++index; ++pos; }
 
-		if(m_activeSounds.size() < m_maxSources)
+		if(m_active_sounds.size() < m_maxSources)
 		{
 			sound->assignSource(vector_pop(m_sourcePool));
 		}
@@ -328,7 +323,7 @@ namespace mud
 			--m_lastActive;
 		}
 
-		m_activeSounds.insert(pos, sound);
+		m_active_sounds.insert(pos, sound);
 
 		sound->m_priority.m_queueIndex = index;
 		sound->m_priority.m_queueIterator = pos;
@@ -345,7 +340,7 @@ namespace mud
 		//int lastIndex = sound->getPriority().m_queueIndex;
 		//SoundList::iterator lastPos = sound->getPriority().m_queueIterator;
 
-		if(m_activeSounds.size() <= m_maxSources)
+		if(m_active_sounds.size() <= m_maxSources)
 		{
 			m_sourcePool.push_back(sound->m_source);
 			sound->releaseSource();
@@ -357,7 +352,7 @@ namespace mud
 			sound->releaseSource();
 		}
 
-		m_activeSounds.remove(sound);
+		m_active_sounds.remove(sound);
 	}
 
 	void SoundManager::disactivateSound(Sound* sound)
@@ -425,7 +420,7 @@ namespace mud
 
 	void SoundManager::stopAllSoundsImpl()
 	{
-		SoundList activeSounds(m_activeSounds.begin(), m_activeSounds.end());
+		SoundList activeSounds(m_active_sounds.begin(), m_active_sounds.end());
 
 		for(Sound* sound : activeSounds)
 			stopSoundImpl(sound);
@@ -433,7 +428,7 @@ namespace mud
 
 	void SoundManager::pauseAllSoundsImpl()
 	{
-		SoundList activeSounds(m_activeSounds.begin(), m_activeSounds.end());
+		SoundList activeSounds(m_active_sounds.begin(), m_active_sounds.end());
 
 		for(Sound* sound : activeSounds)
 			pauseSoundImpl(sound);
@@ -449,7 +444,7 @@ namespace mud
 
 	void SoundManager::setGlobalPitchImpl()
 	{
-		for(Sound* sound : m_activeSounds)
+		for(Sound* sound : m_active_sounds)
 			sound->setPitch(m_globalPitch);
 	}
 
@@ -470,7 +465,7 @@ namespace mud
 
 	void SoundManager::releaseBuffer(SharedBuffer& buffer)
 	{
-		m_sharedBuffers.erase(m_sharedBuffers.find(buffer.m_sound_file_buffer->m_filename));
+		m_sharedBuffers.erase(m_sharedBuffers.find(buffer.m_file_buffer->m_filename));
 	}
 
 	void SoundManager::addAction(const SoundAction& action)
@@ -495,18 +490,23 @@ namespace mud
 
 	void SoundManager::updateSounds()
 	{
-		double timeStep = m_clock.read();
+		double time_step = m_clock.read();
 		
-		m_listener.update();
+		while(openal_check_error());
 
-		for(Sound* sound : m_activeSounds)
-			sound->update(timeStep);
+		m_listener.update();
+		
+		for(Sound* sound : m_active_sounds)
+			sound->update(float(time_step));
 
 		m_clock.update();
 	}
 
 	void SoundManager::threadUpdate()
 	{
+		if(!m_device)
+			return;
+
 		//std::cerr << "SoundManager::next_frame" << std::endl;
 		//while(!m_shuttingDown)
 		//{

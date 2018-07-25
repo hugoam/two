@@ -81,6 +81,11 @@ namespace mud
 	export_ MUD_MATH_EXPORT func_ double nsin(double a); // { return a + 1.0 / 2.0; }
 	export_ MUD_MATH_EXPORT func_ double ncos(double a); // { return a + 1.0 / 2.0; }
 
+	inline float to_radians(float degrees)
+	{
+		return degrees / 180.f * c_pi;
+	}
+
 	export_ inline unsigned int pow2_round_up(unsigned int x)
 	{
 		--x;

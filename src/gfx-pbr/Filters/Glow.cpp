@@ -48,6 +48,7 @@ namespace mud
 		UNUSED(render);
 		//BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
 		//copy.debug_show_texture(*render.m_target, render.m_target->m_cascade.m_texture, false, false, false, 1);
+		//copy.debug_show_texture(*render.m_target, render.m_target->m_ping_pong.last());
 	}
 
 	void BlockGlow::submit_gfx_block(Render& render)
@@ -71,7 +72,7 @@ namespace mud
 		vec4 glow_params = { 0.f, glow.m_bloom, glow.m_bleed_threshold, glow.m_bleed_scale };
 		bgfx::setUniform(u_uniform.u_glow_params_0, &glow_params);
 
-		m_filter.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_ping_pong.swap(), m_bleed_program.default_version(), { vec4(render.m_viewport.m_rect), true });
+		m_filter.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_ping_pong.swap(), m_bleed_program.default_version(), render.m_viewport.m_rect);
 	}
 
 	void BlockGlow::glow_blur(Render& render, Glow& glow)
@@ -84,23 +85,26 @@ namespace mud
 			{ 0.288713f, 0.233062f, 0.122581f, 0.233062f, 0.122581f }
 		};
 
-		size_t max_level = min<size_t>(MAX_GLOW_LEVELS, render.m_target->m_cascade.m_num_mips - 1 - 1);
+		size_t max_level = 0;
+
+		for(size_t i = 0; i < 8; ++i)
+			if((i < 4 && glow.m_levels_1_4[i]) || (i >= 4 && glow.m_levels_5_8[i - 4]))
+				max_level = i;
 
 		for(uint8_t i = 0; i < (max_level + 1); i++)
 		{
 			m_blur.gaussian_pass(render, rect, i, true, kernel);
 			m_blur.gaussian_pass(render, rect, i, false, kernel);
 
-			bool blit_support = (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0;
-			//bool blit_support = false;
+			//bool blit_support = (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0;
+			bool blit_support = false;
 
-			vec4 rectfix = { rect_offset(rect), vec2(float(rect_w(rect) >> (i+1)), float(rect_h(rect) >> (i+1))) };
-			RenderQuad quad = { rectfix, vec4(rect), false, false };
-
+			RenderQuad quad = { render.m_target->source_quad(vec4(rect), true), render.m_target->dest_quad_mip(vec4(rect), i + 1, true), true };
+			
 			if(blit_support)
 				bgfx::blit(render.composite_pass(),
-						   render.m_target->m_cascade.m_texture, i + 1, 0, 0, 0,
-						   render.m_target->m_ping_pong.last(), 0, 0, 0, 0, uint16_t(rect_w(rect)), uint16_t(rect_h(rect)), 1);
+						   render.m_target->m_cascade.m_texture, i + 1, uint16_t(rect.x), uint16_t(rect.y), 0,
+						   render.m_target->m_ping_pong.last(), 0, uint16_t(rect.x), uint16_t(rect.y), 0, uint16_t(rect_w(rect)), uint16_t(rect_h(rect)), 1);
 			else
 				m_copy.submit_quad(*render.m_target->m_cascade.m_mips[i + 1], render.composite_pass(), render.m_target->m_ping_pong.last(), quad);
 		}
@@ -121,6 +125,6 @@ namespace mud
 		bgfx::setUniform(u_uniform.u_glow_levels_1_4, &glow.m_levels_1_4);
 		bgfx::setUniform(u_uniform.u_glow_levels_5_8, &glow.m_levels_5_8);
 
-		m_filter.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.swap(), m_merge_program.version(shader_version), { vec4(render.m_viewport.m_rect), true });
+		m_filter.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.swap(), m_merge_program.version(shader_version), render.m_viewport.m_rect);
 	}
 }

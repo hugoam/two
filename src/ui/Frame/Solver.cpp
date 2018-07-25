@@ -85,9 +85,9 @@ namespace mud
 	FrameSolver::FrameSolver(FrameSolver* solver, Layout* layout, Frame* frame)
 		: d_frame(frame)
 		, d_parent(solver)
+		, d_style(layout)
 		, m_solvers{ solver ? &solver->solver(*this, DIM_X) : nullptr, solver ? &solver->solver(*this, DIM_Y) : nullptr }
 		, d_grid(solver ? solver->grid() : nullptr)
-		, d_style(layout)
 	{
 		if(d_style)
 			this->applySpace();
@@ -95,7 +95,7 @@ namespace mud
 
 	FrameSolver& FrameSolver::solver(FrameSolver& frame, Dim dim)
 	{
-		if(dim == d_length && d_grid && frame.d_frame && frame.d_parent != d_grid)
+		if(dim == d_length && d_grid && frame.d_frame && frame.d_parent != d_grid) // && !frame.d_style->m_no_grid
 			return d_grid->solver(frame, dim);
 		return *this;
 	}
@@ -273,13 +273,9 @@ namespace mud
 		return (frame.flow() ? dpadding(dim) + frame.dmargin(dim) : 0.f) + alignOffset;
 	}
 
-	namespace
-	{
-		inline float alignSequence(FrameSolver& frame, float space) { return space * AlignSpace[frame.dalign(DIM_X)]; }
-	}
-
 	float RowSolver::positionSequence(FrameSolver& frame, float space)
 	{
+		auto alignSequence = [&](FrameSolver& frame, float space) { return space * AlignSpace[frame.dalign(d_length)]; };
 		if(d_prev)
 			return d_prev->doffset(d_length) - alignSequence(*d_prev, space) + this->spacing() + alignSequence(frame, space);
 		else
@@ -346,7 +342,7 @@ namespace mud
 	FrameSolver& TableSolver::solver(FrameSolver& frame, Dim dim)
 	{
 		UNUSED(dim);
-		if(frame.d_frame && frame.d_parent != this)
+		if(frame.d_frame && frame.d_parent != this && !frame.d_parent->d_style->m_no_grid)
 		{
 			//size_t column0 = frame.d_frame->dindex(d_depth);
 			size_t column = frame.d_frame->d_widget.m_index;

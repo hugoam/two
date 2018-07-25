@@ -19,6 +19,17 @@ namespace mud
     
     // Enums
     {
+        static Meta meta = { type<mud::EditNestMode>(), &namspc({ "mud" }), "EditNestMode", sizeof(mud::EditNestMode), TypeClass::Enum };
+        static Enum enu = { type<mud::EditNestMode>(),
+            true,
+            { "Inline", "Modal", "Embed" },
+            { 0, 1, 2 },
+            { var(mud::EditNestMode::Inline), var(mud::EditNestMode::Modal), var(mud::EditNestMode::Embed) }
+        };
+        meta_enum<mud::EditNestMode>();
+    }
+    
+    {
         static Meta meta = { type<mud::EditorHint>(), &namspc({ "mud" }), "EditorHint", sizeof(mud::EditorHint), TypeClass::Enum };
         static Enum enu = { type<mud::EditorHint>(),
             true,
@@ -31,6 +42,7 @@ namespace mud
     
     
     // Sequences
+    
     
     
     
@@ -73,6 +85,7 @@ namespace mud
     
 
     
+        m.m_types.push_back(&type<mud::EditNestMode>());
         m.m_types.push_back(&type<mud::EditorHint>());
         m.m_types.push_back(&type<mud::ScriptEditor>());
     

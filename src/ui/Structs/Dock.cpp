@@ -122,13 +122,13 @@ namespace mud
 
 		Tabber& section = ui::docksection(*line);
 		Widget* tab = ui::tab(section, dock.m_name); // dock_styles().docktab, 
-#if 1
+
 		if(tab)
 		{
-			Window& container = ui::window(*tab, dock.m_name, static_cast<WindowState>(WINDOW_DOCKABLE | WINDOW_DEFAULT), nullptr, &dock);
+			Window& container = ui::window(*tab, dock.m_name, WindowState(WINDOW_DOCKABLE), nullptr, &dock);
 			return container.m_body;
 		}
-#endif
+
 		return tab;
 	}
 

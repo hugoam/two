@@ -76,8 +76,8 @@ namespace mud
 		CircleBrush(ToolContext& context);
 
 		attr_ Creator m_creator;
-		attr_ mut_ float m_radius;
-		attr_ mut_ float m_maxSpotRadius;
+		attr_ float m_radius;
+		attr_ float m_maxSpotRadius;
 
 		virtual void activate();
 		virtual void update(const vec3& position);

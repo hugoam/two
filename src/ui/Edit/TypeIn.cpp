@@ -1017,7 +1017,7 @@ namespace ui
 
 	TextEdit& text_box(Widget& parent, Style& style, string& text, bool editor, size_t lines, const string& allowed_chars)
 	{
-		TextEdit& self = parent.child_args<TextEdit, bool, string>(editor, allowed_chars);
+		TextEdit& self = parent.suba<TextEdit, bool, string>(editor, allowed_chars);
 		self.init(style);
 
 		if(lines > 0)

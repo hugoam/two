@@ -328,7 +328,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Shape>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Link }
+                { type<mud::Shape>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Shape>(object).m_type); } }
             },
             // methods
             {
@@ -366,7 +366,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::ShapeVar>(), member_address(&mud::ShapeVar::shape), type<mud::Shape>(), "shape", Ref(type<mud::Shape>()), Member::Link }
+                { type<mud::ShapeVar>(), member_address(&mud::ShapeVar::shape), type<mud::Shape>(), "shape", Ref(type<mud::Shape>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::ShapeVar>(object).shape()); } }
             },
             // methods
             {
@@ -402,14 +402,14 @@ namespace mud
             },
             // members
             {
-                { type<mud::Symbol>(), member_address(&mud::Symbol::m_outline), type<mud::Colour>(), "outline", var(mud::Colour()), Member::Value },
-                { type<mud::Symbol>(), member_address(&mud::Symbol::m_fill), type<mud::Colour>(), "fill", var(mud::Colour()), Member::Value },
-                { type<mud::Symbol>(), member_address(&mud::Symbol::m_overlay), type<bool>(), "overlay", var(bool()), Member::Value },
-                { type<mud::Symbol>(), member_address(&mud::Symbol::m_double_sided), type<bool>(), "double_sided", var(bool()), Member::Value },
-                { type<mud::Symbol>(), member_address(&mud::Symbol::m_detail), type<mud::SymbolDetail>(), "detail", var(mud::SymbolDetail()), Member::Value },
-                { type<mud::Symbol>(), member_address(&mud::Symbol::m_image), type<cstring>(), "image", var(cstring()), Member::Value },
-                { type<mud::Symbol>(), member_address(&mud::Symbol::m_image256), type<mud::Image256>(), "image256", Ref(type<mud::Image256>()), Member::Flags(Member::Pointer|Member::Link) },
-                { type<mud::Symbol>(), member_address(&mud::Symbol::m_program), type<cstring>(), "program", var(cstring()), Member::Value }
+                { type<mud::Symbol>(), member_address(&mud::Symbol::m_outline), type<mud::Colour>(), "outline", var(mud::Colour()), Member::Value, nullptr },
+                { type<mud::Symbol>(), member_address(&mud::Symbol::m_fill), type<mud::Colour>(), "fill", var(mud::Colour()), Member::Value, nullptr },
+                { type<mud::Symbol>(), member_address(&mud::Symbol::m_overlay), type<bool>(), "overlay", var(bool()), Member::Value, nullptr },
+                { type<mud::Symbol>(), member_address(&mud::Symbol::m_double_sided), type<bool>(), "double_sided", var(bool()), Member::Value, nullptr },
+                { type<mud::Symbol>(), member_address(&mud::Symbol::m_detail), type<mud::SymbolDetail>(), "detail", var(mud::SymbolDetail()), Member::Value, nullptr },
+                { type<mud::Symbol>(), member_address(&mud::Symbol::m_image), type<cstring>(), "image", var(cstring()), Member::Value, nullptr },
+                { type<mud::Symbol>(), member_address(&mud::Symbol::m_image256), type<mud::Image256>(), "image256", Ref(type<mud::Image256>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
+                { type<mud::Symbol>(), member_address(&mud::Symbol::m_program), type<cstring>(), "program", var(cstring()), Member::Value, nullptr }
             },
             // methods
             {
@@ -483,7 +483,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Aabb>(), member_address(&mud::Aabb::m_null), type<bool>(), "null", var(bool()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Aabb>(), member_address(&mud::Aabb::m_null), type<bool>(), "null", var(bool()), Member::Value, nullptr }
             },
             // methods
             {
@@ -519,9 +519,9 @@ namespace mud
             },
             // members
             {
-                { type<mud::Arc>(), member_address(&mud::Arc::m_radius), type<float>(), "radius", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Arc>(), member_address(&mud::Arc::m_start), type<float>(), "start", var(float(0.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Arc>(), member_address(&mud::Arc::m_end), type<float>(), "end", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Arc>(), member_address(&mud::Arc::m_radius), type<float>(), "radius", var(float(1.f)), Member::Value, nullptr },
+                { type<mud::Arc>(), member_address(&mud::Arc::m_start), type<float>(), "start", var(float(0.f)), Member::Value, nullptr },
+                { type<mud::Arc>(), member_address(&mud::Arc::m_end), type<float>(), "end", var(float(1.f)), Member::Value, nullptr }
             },
             // methods
             {
@@ -549,7 +549,8 @@ namespace mud
             // constructors
             {
                 { type<mud::ArcLine>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::ArcLine>(ref)) mud::ArcLine(  ); }, {} },
-                { type<mud::ArcLine>(), [](Ref ref, array<Var> args) { new(&val<mud::ArcLine>(ref)) mud::ArcLine( val<mud::vec3>(args[0]), val<mud::vec3>(args[1]), val<mud::vec3>(args[2]) ); }, { { "start", var(mud::vec3()) }, { "middle", var(mud::vec3()) }, { "end", var(mud::vec3()) } } }
+                { type<mud::ArcLine>(), [](Ref ref, array<Var> args) { new(&val<mud::ArcLine>(ref)) mud::ArcLine( val<mud::vec3>(args[0]), val<mud::vec3>(args[1]), val<mud::vec3>(args[2]) ); }, { { "start", var(mud::vec3()) }, { "middle", var(mud::vec3()) }, { "end", var(mud::vec3()) } } },
+                { type<mud::ArcLine>(), [](Ref ref, array<Var> args) { new(&val<mud::ArcLine>(ref)) mud::ArcLine( val<mud::vec3>(args[0]), val<mud::vec3>(args[1]), val<mud::vec3>(args[2]), val<mud::vec3>(args[3]) ); }, { { "center", var(mud::vec3()) }, { "start", var(mud::vec3()) }, { "middle", var(mud::vec3()) }, { "end", var(mud::vec3()) } } }
             },
             // copy constructor
             {
@@ -557,9 +558,9 @@ namespace mud
             },
             // members
             {
-                { type<mud::ArcLine>(), member_address(&mud::ArcLine::m_start), type<mud::vec3>(), "start", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ArcLine>(), member_address(&mud::ArcLine::m_middle), type<mud::vec3>(), "middle", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ArcLine>(), member_address(&mud::ArcLine::m_end), type<mud::vec3>(), "end", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::ArcLine>(), member_address(&mud::ArcLine::m_start), type<mud::vec3>(), "start", var(mud::vec3()), Member::Value, nullptr },
+                { type<mud::ArcLine>(), member_address(&mud::ArcLine::m_middle), type<mud::vec3>(), "middle", var(mud::vec3()), Member::Value, nullptr },
+                { type<mud::ArcLine>(), member_address(&mud::ArcLine::m_end), type<mud::vec3>(), "end", var(mud::vec3()), Member::Value, nullptr }
             },
             // methods
             {
@@ -629,9 +630,9 @@ namespace mud
             },
             // members
             {
-                { type<mud::Capsule>(), member_address(&mud::Capsule::m_radius), type<float>(), "radius", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Capsule>(), member_address(&mud::Capsule::m_height), type<float>(), "height", var(float(2.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Capsule>(), member_address(&mud::Capsule::m_axis), type<mud::Axis>(), "axis", var(mud::Axis()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Capsule>(), member_address(&mud::Capsule::m_radius), type<float>(), "radius", var(float(1.f)), Member::Value, nullptr },
+                { type<mud::Capsule>(), member_address(&mud::Capsule::m_height), type<float>(), "height", var(float(2.f)), Member::Value, nullptr },
+                { type<mud::Capsule>(), member_address(&mud::Capsule::m_axis), type<mud::Axis>(), "axis", var(mud::Axis()), Member::Value, nullptr }
             },
             // methods
             {
@@ -668,8 +669,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Circle>(), member_address(&mud::Circle::m_radius), type<float>(), "radius", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Circle>(), member_address(&mud::Circle::m_axis), type<mud::Axis>(), "axis", var(mud::Axis()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Circle>(), member_address(&mud::Circle::m_radius), type<float>(), "radius", var(float(1.f)), Member::Value, nullptr },
+                { type<mud::Circle>(), member_address(&mud::Circle::m_axis), type<mud::Axis>(), "axis", var(mud::Axis()), Member::Value, nullptr }
             },
             // methods
             {
@@ -705,7 +706,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::ConvexHull>(), member_address(&mud::ConvexHull::m_vertices), type<std::vector<mud::vec3>>(), "vertices", var(std::vector<mud::vec3>()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::ConvexHull>(), member_address(&mud::ConvexHull::m_vertices), type<std::vector<mud::vec3>>(), "vertices", var(std::vector<mud::vec3>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -743,7 +744,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Cube>(), member_address(&mud::Cube::m_extents), type<mud::vec3>(), "extents", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Cube>(), member_address(&mud::Cube::m_extents), type<mud::vec3>(), "extents", var(mud::vec3()), Member::Value, nullptr }
             },
             // methods
             {
@@ -779,9 +780,9 @@ namespace mud
             },
             // members
             {
-                { type<mud::Cylinder>(), member_address(&mud::Cylinder::m_radius), type<float>(), "radius", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Cylinder>(), member_address(&mud::Cylinder::m_height), type<float>(), "height", var(float(2.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Cylinder>(), member_address(&mud::Cylinder::m_axis), type<mud::Axis>(), "axis", var(mud::Axis()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Cylinder>(), member_address(&mud::Cylinder::m_radius), type<float>(), "radius", var(float(1.f)), Member::Value, nullptr },
+                { type<mud::Cylinder>(), member_address(&mud::Cylinder::m_height), type<float>(), "height", var(float(2.f)), Member::Value, nullptr },
+                { type<mud::Cylinder>(), member_address(&mud::Cylinder::m_axis), type<mud::Axis>(), "axis", var(mud::Axis()), Member::Value, nullptr }
             },
             // methods
             {
@@ -817,8 +818,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Ellipsis>(), member_address(&mud::Ellipsis::m_radius), type<mud::vec2>(), "radius", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Ellipsis>(), member_address(&mud::Ellipsis::m_axis), type<mud::Axis>(), "axis", var(mud::Axis()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Ellipsis>(), member_address(&mud::Ellipsis::m_radius), type<mud::vec2>(), "radius", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::Ellipsis>(), member_address(&mud::Ellipsis::m_axis), type<mud::Axis>(), "axis", var(mud::Axis()), Member::Value, nullptr }
             },
             // methods
             {
@@ -887,8 +888,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Grid2>(), member_address(&mud::Grid2::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Grid2>(), member_address(&mud::Grid2::m_space), type<mud::vec2>(), "space", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Grid2>(), member_address(&mud::Grid2::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::Grid2>(), member_address(&mud::Grid2::m_space), type<mud::vec2>(), "space", var(mud::vec2()), Member::Value, nullptr }
             },
             // methods
             {
@@ -924,8 +925,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Grid3>(), member_address(&mud::Grid3::m_size), type<mud::uvec2>(), "size", var(mud::uvec2()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Grid3>(), member_address(&mud::Grid3::m_points), type<std::vector<mud::vec3>>(), "points", var(std::vector<mud::vec3>()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Grid3>(), member_address(&mud::Grid3::m_size), type<mud::uvec2>(), "size", var(mud::uvec2()), Member::Value, nullptr },
+                { type<mud::Grid3>(), member_address(&mud::Grid3::m_points), type<std::vector<mud::vec3>>(), "points", var(std::vector<mud::vec3>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -961,8 +962,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Line>(), member_address(&mud::Line::m_start), type<mud::vec3>(), "start", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Line>(), member_address(&mud::Line::m_end), type<mud::vec3>(), "end", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Line>(), member_address(&mud::Line::m_start), type<mud::vec3>(), "start", var(mud::vec3()), Member::Value, nullptr },
+                { type<mud::Line>(), member_address(&mud::Line::m_end), type<mud::vec3>(), "end", var(mud::vec3()), Member::Value, nullptr }
             },
             // methods
             {
@@ -998,7 +999,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Points>(), member_address(&mud::Points::m_points), type<std::vector<mud::vec3>>(), "points", var(std::vector<mud::vec3>()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Points>(), member_address(&mud::Points::m_points), type<std::vector<mud::vec3>>(), "points", var(std::vector<mud::vec3>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -1105,8 +1106,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Rect>(), member_address(&mud::Rect::m_position), type<mud::vec2>(), "position", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Rect>(), member_address(&mud::Rect::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Rect>(), member_address(&mud::Rect::m_position), type<mud::vec2>(), "position", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::Rect>(), member_address(&mud::Rect::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value, nullptr }
             },
             // methods
             {
@@ -1142,9 +1143,9 @@ namespace mud
             },
             // members
             {
-                { type<mud::Ring>(), member_address(&mud::Ring::m_radius), type<float>(), "radius", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Ring>(), member_address(&mud::Ring::m_min), type<float>(), "min", var(float(0.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Ring>(), member_address(&mud::Ring::m_max), type<float>(), "max", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Ring>(), member_address(&mud::Ring::m_radius), type<float>(), "radius", var(float(1.f)), Member::Value, nullptr },
+                { type<mud::Ring>(), member_address(&mud::Ring::m_min), type<float>(), "min", var(float(0.f)), Member::Value, nullptr },
+                { type<mud::Ring>(), member_address(&mud::Ring::m_max), type<float>(), "max", var(float(1.f)), Member::Value, nullptr }
             },
             // methods
             {
@@ -1181,7 +1182,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Sphere>(), member_address(&mud::Sphere::m_radius), type<float>(), "radius", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Sphere>(), member_address(&mud::Sphere::m_radius), type<float>(), "radius", var(float(1.f)), Member::Value, nullptr }
             },
             // methods
             {
@@ -1217,9 +1218,9 @@ namespace mud
             },
             // members
             {
-                { type<mud::SphereRing>(), member_address(&mud::SphereRing::m_radius), type<float>(), "radius", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::SphereRing>(), member_address(&mud::SphereRing::m_min), type<float>(), "min", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::SphereRing>(), member_address(&mud::SphereRing::m_max), type<float>(), "max", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::SphereRing>(), member_address(&mud::SphereRing::m_radius), type<float>(), "radius", var(float(1.f)), Member::Value, nullptr },
+                { type<mud::SphereRing>(), member_address(&mud::SphereRing::m_min), type<float>(), "min", var(float()), Member::Value, nullptr },
+                { type<mud::SphereRing>(), member_address(&mud::SphereRing::m_max), type<float>(), "max", var(float(1.f)), Member::Value, nullptr }
             },
             // methods
             {
@@ -1247,7 +1248,8 @@ namespace mud
             // constructors
             {
                 { type<mud::Spheroid>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Spheroid>(ref)) mud::Spheroid(  ); }, {} },
-                { type<mud::Spheroid>(), [](Ref ref, array<Var> args) { new(&val<mud::Spheroid>(ref)) mud::Spheroid( val<float>(args[0]) ); }, { { "radius", var(float()) } } }
+                { type<mud::Spheroid>(), [](Ref ref, array<Var> args) { new(&val<mud::Spheroid>(ref)) mud::Spheroid( val<float>(args[0]) ); }, { { "radius", var(float()) } } },
+                { type<mud::Spheroid>(), [](Ref ref, array<Var> args) { new(&val<mud::Spheroid>(ref)) mud::Spheroid( val<mud::vec3>(args[0]), val<float>(args[1]) ); }, { { "center", var(mud::vec3()) }, { "radius", var(float()) } } }
             },
             // copy constructor
             {
@@ -1255,7 +1257,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Spheroid>(), member_address(&mud::Spheroid::m_radius), type<float>(), "radius", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Spheroid>(), member_address(&mud::Spheroid::m_radius), type<float>(), "radius", var(float(1.f)), Member::Value, nullptr }
             },
             // methods
             {
@@ -1292,9 +1294,9 @@ namespace mud
             },
             // members
             {
-                { type<mud::Torus>(), member_address(&mud::Torus::m_radius), type<float>(), "radius", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Torus>(), member_address(&mud::Torus::m_solid_radius), type<float>(), "solid_radius", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Torus>(), member_address(&mud::Torus::m_axis), type<mud::Axis>(), "axis", var(mud::Axis()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Torus>(), member_address(&mud::Torus::m_radius), type<float>(), "radius", var(float(1.f)), Member::Value, nullptr },
+                { type<mud::Torus>(), member_address(&mud::Torus::m_solid_radius), type<float>(), "solid_radius", var(float(1.f)), Member::Value, nullptr },
+                { type<mud::Torus>(), member_address(&mud::Torus::m_axis), type<mud::Axis>(), "axis", var(mud::Axis()), Member::Value, nullptr }
             },
             // methods
             {
@@ -1330,7 +1332,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Triangle>(), member_address(&mud::Triangle::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Triangle>(), member_address(&mud::Triangle::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value, nullptr }
             },
             // methods
             {

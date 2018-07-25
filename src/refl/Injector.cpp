@@ -17,17 +17,14 @@ module mud.refl;
 
 namespace mud
 {
-	Injector::Injector(Type& type, const Constructor& constructor)
-		: m_type(type)
+	Injector::Injector(const Constructor& constructor)
+		: Call(constructor)
+		, m_object_type(*constructor.m_object_type)
 		, m_constructor(constructor)
-		, m_args(m_constructor.m_arguments)
 #ifdef MUD_PROTO
 		, m_proto(is<Prototype>(type) ? &as<Prototype>(type) : nullptr)
 #endif
 	{
-		if(cls(type).m_constructors.empty())
-			return;
-
 #ifdef MUD_PROTO
 		if(m_proto && &constructor == &cls(type).m_constructors[int(ConstructorIndex::ProtoParts)])
 		{
@@ -43,36 +40,42 @@ namespace mud
 	}
 
 	Injector::Injector(Type& type, ConstructorIndex index)
-		: Injector(type, cls(type).m_constructors[int(index)])
+		: Injector(cls(type).m_constructors[int(index)])
 	{}
 
 	Injector::Injector(Type& type, size_t arguments)
-		: Injector(type, *cls(type).constructor(arguments))
+		: Injector(*cls(type).constructor(arguments))
 	{}
 
 	void Injector::inject(Var& value)
 	{
-		m_constructor.m_call(value, to_array(m_args, 1));
+		m_constructor.m_call(value, to_array(m_arguments, 1));
 	}
 
 	Ref Injector::inject(Pool& pool)
 	{
 		Ref ref = pool.alloc();
-		m_constructor.m_call(ref, to_array(m_args, 1));
+		m_constructor.m_call(ref, to_array(m_arguments, 1));
 		return ref;
 	}
 
 	Var Injector::injectvar()
 	{
-		Var value = meta(m_type).m_empty_var();
+		Var value = meta(m_object_type).m_empty_var();
 		this->inject(value);
 		return value;
 	}
 
 	Ref Injector::injectpool()
 	{
-		Pool& pool = GlobalPool::me().pool(m_type);
+		Pool& pool = GlobalPool::me().pool(m_object_type);
 		return this->inject(pool);
+	}
+
+	void Injector::destroy(Ref object)
+	{
+		Pool& pool = GlobalPool::me().pool(m_object_type);
+		pool.destroy(object);
 	}
 
 #ifdef MUD_PROTO
@@ -95,21 +98,9 @@ namespace mud
 		, m_injector(make_object<Injector>(m_prototype ? *m_prototype : type))
 	{}
 
-	void Creator::setPrototype(Type& prototype)
+	void Creator::set_prototype(Type& prototype)
 	{
 		m_prototype = &prototype;
 		m_injector = make_object<Injector>(*m_prototype);
-	}
-
-	Ref Creator::create()
-	{
-		Pool& pool = GlobalPool::me().pool(m_injector->m_type);
-		return m_injector->inject(pool);
-	}
-
-	void Creator::destroy(Ref object)
-	{
-		Pool& pool = GlobalPool::me().pool(m_injector->m_type);
-		pool.destroy(object);
 	}
 }

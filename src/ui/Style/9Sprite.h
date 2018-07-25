@@ -39,14 +39,14 @@ namespace mud
 
 		void stretch_coords(vec2 offset, vec2 size, array<vec4> coords) const;
 
-		attr_ mut_ Image* d_image = nullptr;
+		attr_ Image* d_image = nullptr;
 
-		attr_ mut_ int d_left = 0;
-		attr_ mut_ int d_top = 0;
-		attr_ mut_ int d_right = 0;
-		attr_ mut_ int d_bottom = 0;
-		attr_ mut_ int m_margin = 0;
-		attr_ mut_ Dim d_stretch = DIM_NONE;
+		attr_ int d_left = 0;
+		attr_ int d_top = 0;
+		attr_ int d_right = 0;
+		attr_ int d_bottom = 0;
+		attr_ int m_margin = 0;
+		attr_ Dim d_stretch = DIM_NONE;
 
 		vec2 d_size;
 		vec2 d_solid_size;

@@ -37,10 +37,12 @@ namespace glm {
     
 }
 
-namespace bx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace json11 {
@@ -64,12 +66,10 @@ namespace detail {
 }
 }
 
-namespace mud {
-namespace gfx {
+namespace bgfx {
 
     
     
-}
 }
 
 namespace bimg {
@@ -78,7 +78,7 @@ namespace bimg {
     
 }
 
-namespace bgfx {
+namespace bx {
 
     
     

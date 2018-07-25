@@ -26,14 +26,14 @@ namespace ui
 
 	Widget& widget(Widget& parent, Style& style, void* identity)
 	{
-		Widget& self = parent.sub(identity).init(style);
+		Widget& self = parent.subi(identity).init(style);
 		widget_logic(self);
 		return self;
 	}
 
 	Widget& widget(Widget& parent, Style& style, bool open, Dim length, Dim2<size_t> index)
 	{
-		Widget& self = parent.sub(&style).init(style, open, length, index);
+		Widget& self = parent.subi(&style).init(style, open, length, index);
 		widget_logic(self);
 		return self;
 	}

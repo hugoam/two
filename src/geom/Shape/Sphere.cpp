@@ -76,7 +76,7 @@ namespace mud
 
 			data.position(center + vec3(x, y, z) * radius)
 				.normal({ x, y, z })
-				.textureCoord({ s * S * repeat, r * R * repeat })
+				.uv0({ s * S * repeat, r * R * repeat })
 				.colour(colour);
 		}
 	}

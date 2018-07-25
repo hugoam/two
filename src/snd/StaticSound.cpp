@@ -24,11 +24,12 @@ namespace mud
 
 	void StaticSound::openShared(SharedBuffer& buffer)
 	{
+		m_name = buffer.m_file_buffer->m_filename;
 		m_buffer = &buffer;
 		m_buffer->use();
-		m_duration = buffer.m_sound_file_buffer->m_duration;
-		m_seekable = buffer.m_sound_file_buffer->m_seekable;
-		m_mono = buffer.m_sound_file_buffer->m_mono;
+		m_duration = buffer.m_file_buffer->m_duration;
+		m_seekable = buffer.m_file_buffer->m_seekable;
+		m_mono = buffer.m_file_buffer->m_mono;
 	}
 
 	void StaticSound::release()
@@ -41,7 +42,7 @@ namespace mud
 
 	void StaticSound::fillBuffers()
 	{
-		alSourcei(m_source, AL_BUFFER, m_buffer->m_aLBuffer);
+		alSourcei(m_source, AL_BUFFER, m_buffer->m_al_buffer);
 	}
 
 	void StaticSound::clearBuffers()

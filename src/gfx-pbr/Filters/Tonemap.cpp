@@ -52,7 +52,7 @@ namespace mud
 		if(render.m_filters && render.m_filters->m_tonemap.m_enabled)
 			this->render(render, render.m_filters->m_tonemap, render.m_filters->m_bcs);
 		else
-			m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.last(), { vec4(render.m_viewport.m_rect), true });
+			m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.last(), render.m_viewport.m_rect);
 	}
 
 	void BlockTonemap::render(Render& render, Tonemap& tonemap, BCS& bcs)
@@ -81,7 +81,7 @@ namespace mud
 			vec4 bcs_values = { bcs.m_brightness, bcs.m_contrast, bcs.m_saturation, 0.f };
 			bgfx::setUniform(u_uniform.u_bcs, &bcs_values);
 		}
-		
-		m_filter.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_fbo, m_program.version(shader_version), { vec4(render.m_viewport.m_rect), true });
+
+		m_filter.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_fbo, m_program.version(shader_version), render.m_viewport.m_rect);
 	}
 }

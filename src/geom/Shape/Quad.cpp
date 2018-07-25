@@ -21,6 +21,7 @@ namespace mud
 
 	vec3 quad_normal(const vec3& a, const vec3& b, const vec3& c, const vec3& d)
 	{
+		UNUSED(d);
 #ifndef PK_GLITCH
 		vec3 x = b - a;
 		vec3 y = c - a;
@@ -37,7 +38,7 @@ namespace mud
 			data.position(center + p)
 				.colour(fill ? shape.m_symbol.m_fill : shape.m_symbol.m_outline)
 				.normal(n)
-				.textureCoord(uv);
+				.uv0(uv);
 		};
 
 		vec3 normal = quad_normal(a, b, c, d);

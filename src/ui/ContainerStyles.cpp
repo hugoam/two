@@ -22,6 +22,7 @@ namespace ui
 		: row("TableRow", styles().wrap_button, {})
 		, row_odd("TableRowOdd", row, {}, [](InkStyle& l) { l.m_empty = false; l.m_background_colour = Colour{ 0.1f, 0.1f, 0.1f }; })
 		, row_even("TableRowEven", row, {}, [](InkStyle& l) { l.m_empty = false; l.m_background_colour = Colour::Black; })
+		, separator("TableSeparator", styles().row, [](Layout& l) { l.m_no_grid = true; })
 	{}
 
 	ExpandboxStyles::ExpandboxStyles()

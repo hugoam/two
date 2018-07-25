@@ -71,6 +71,12 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 	export_ template <class T, class U>
 	inline bool is(const U& object) { return object.m_type.template is<T>(); }
 
+	export_ template <class T, class U>
+	inline T* try_as(U& object) { if(object.m_type.template is<T>()) return &static_cast<T&>(object); else return nullptr; }
+
+	export_ template <class T, class U>
+	inline const T* try_as(const U& object) { if(object.m_type.template is<T>()) return &static_cast<const T&>(object); else return nullptr; }
+
 	export_ template <class T_Method>
 	Address member_address(T_Method p)
 	{

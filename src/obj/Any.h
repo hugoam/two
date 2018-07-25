@@ -11,29 +11,40 @@
 #include <obj/Unique.h>
 #include <obj/Types.h>
 
+#include <cassert>
+
 namespace mud
 {
 	export_ template <class T>
+	inline void type_check(const Ref& ref) { assert(type(ref).is<T>()); }
+	
+	export_ template <class T>
 	inline typename std::enable_if<!std::is_pointer<T>::value, T&>::type
-		val(Ref& ref) { return *(T*)(ref.m_value); } // return *static_cast<T*>(m_value); }
+		val(Ref& ref) { type_check<T>(ref); return *(T*)(ref.m_value); }
 
 	export_ template <class T>
 	inline typename std::enable_if<std::is_pointer<T>::value, T>::type
-		val(Ref& ref) { return (T)(ref.m_value); } // static_cast<T>(m_value); }
+		val(Ref& ref) { type_check<typename std::remove_pointer<T>::type>(ref); return (T)(ref.m_value); }
 
 	export_ template <class T>
 	inline typename std::enable_if<!std::is_pointer<T>::value, const T&>::type
-		val(const Ref& ref) { return *(T*)(ref.m_value); } // static_cast<T*>(m_value); }
+		val(const Ref& ref) { type_check<T>(ref); return *(T*)(ref.m_value); }
 
 	export_ template <class T>
 	inline typename std::enable_if<std::is_pointer<T>::value, T>::type
-		val(const Ref& ref) { return (T)(ref.m_value); } // static_cast<T>(m_value); }
+		val(const Ref& ref) { type_check<typename std::remove_pointer<T>::type>(ref); return (T)(ref.m_value); }
 
 	export_ template <class T>
 	inline void set(Ref& ref, T& value) { ref.m_value = &value; ref.m_type = &type_of<T>(value); }
 
 	export_ template <class T>
 	inline void set(Ref& ref, T* value) { ref.m_value = (void*)value; ref.m_type = &type_of<T>(value); }
+
+	export_ template <>
+	inline cstring val<cstring>(Ref& ref) { return (cstring)ref.m_value; }
+
+	export_ template <>
+	inline cstring val<cstring>(const Ref& ref) { return (cstring)ref.m_value; }
 
 	export_ inline void set(Ref& ref, cstring value) { ref.m_value = (void*)value; ref.m_type = &type<cstring>(); }
 
@@ -79,7 +90,7 @@ namespace mud
 	inline cstring& val(Var& var) { return (cstring&)var.m_ref.m_value; }
 
 	export_ template <>
-	inline cstring val(const Var& var) { return (cstring) var.m_ref.m_value; }
+	inline cstring val(const Var& var) { return (cstring)var.m_ref.m_value; }
 
 	export_ template <class T, class U>
 	inline typename std::enable_if<ValueSemantic<T>::value, void>::type

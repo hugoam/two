@@ -48,7 +48,8 @@ namespace ui
 	{
 		None = 0,
 		Modal = (1 << 0),
-		Clamp = (1 << 1)
+		Clamp = (1 << 1),
+		AutoClose = (1 << 2),
 	};
 
 	export_ inline bool popup_flag(PopupFlags flags, PopupFlags check) { return (uint(flags) & uint(check)) != 0; }

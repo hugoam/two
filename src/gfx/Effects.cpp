@@ -50,13 +50,13 @@ namespace mud
 		// @todo three passes to resolve ? this is terrible :( but we can't read and write from the same buffer at the same time can we
 		bgfx::FrameBufferHandle target = render.m_target->m_ping_pong.swap();
 		m_copy.submit_quad(*render.m_target, render.composite_pass(), target,
-						   render.m_target->m_diffuse, { vec4(render.m_viewport.m_rect), true });
+						   render.m_target->m_diffuse, render.m_viewport.m_rect);
 
 		m_copy.submit_quad(*render.m_target, render.composite_pass(), target,
-						   render.m_target->m_specular, { vec4(render.m_viewport.m_rect), true }, BGFX_STATE_BLEND_ADD);
+						   render.m_target->m_specular, render.m_viewport.m_rect, BGFX_STATE_BLEND_ADD);
 
 		m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target_fbo,
-						   render.m_target->m_ping_pong.last(), { vec4(render.m_viewport.m_rect), true });
+						   render.m_target->m_ping_pong.last(), render.m_viewport.m_rect);
 	}
 
 	PassPostProcess::PassPostProcess(GfxSystem& gfx_system, BlockCopy& copy)
@@ -67,7 +67,7 @@ namespace mud
 	void PassPostProcess::begin_render_pass(Render& render)
 	{
 		m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.swap(),
-						   render.m_target->m_diffuse, { vec4(render.m_viewport.m_rect), true });
+						   render.m_target->m_diffuse, render.m_viewport.m_rect);
 	}
 
 	void PassPostProcess::submit_render_pass(Render& render)

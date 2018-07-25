@@ -20,10 +20,11 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT Script : public Callable
 	{
 	public:
-		Script(cstring name, const Signature& signature = {});
+		Script(Type& type, cstring name, const Signature& signature = {});
 		~Script();
 
 		attr_ uint32_t m_index;
+		attr_ Type& m_type;
 		attr_ string m_name;
 		attr_ bool m_locked;
 

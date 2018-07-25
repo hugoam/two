@@ -62,7 +62,18 @@ namespace mud
 
 		gpu_mesh.init<T_Vertex, T_Index>();
 
-		//memset(gpu_mesh.m_vertices.m_pointer, 64, sizeof(ShapeVertex) * vertexCount);
+		return gpu_mesh;
+	}
+	
+	inline GpuMesh alloc_mesh(size_t vertex_format, size_t vertex_count, size_t index_count)
+	{
+		GpuMesh gpu_mesh = { vertex_count, index_count };
+
+		gpu_mesh.m_vertex_memory = bgfx::alloc(vertex_size(vertex_format) * vertex_count);
+		gpu_mesh.m_index_memory = bgfx::alloc(sizeof(uint16_t) * index_count);
+
+		gpu_mesh.m_vertex_format = vertex_format;
+		gpu_mesh.m_data = MeshData(vertex_format, gpu_mesh.m_vertex_memory->data, vertex_count, gpu_mesh.m_index_memory->data, index_count);
 
 		return gpu_mesh;
 	}
@@ -99,6 +110,7 @@ namespace mud
 
 		void read(MeshData& data, const mat4& transform) const;
 		void write(DrawMode draw_mode, array<ShapeVertex> vertices, array<ShapeIndex> indices);
+		void write(DrawMode draw_mode, MeshPacker& packer);
 		void upload(DrawMode draw_mode, const GpuMesh& gpu_mesh);
 		void cache(const GpuMesh& gpu_mesh);
 		uint64_t submit() const;

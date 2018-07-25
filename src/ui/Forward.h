@@ -58,10 +58,12 @@ namespace glm {
     
 }
 
-namespace bx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace json11 {
@@ -131,9 +133,9 @@ namespace mud {
     class TreeNode;
     class Table;
     struct Dock;
+    class Docksystem;
     class Dockable;
     class Docker;
-    class Docksystem;
     class Dockspace;
     class Dockbar;
     class NodePlug;
@@ -157,12 +159,10 @@ namespace detail {
 }
 }
 
-namespace mud {
-namespace gfx {
+namespace bgfx {
 
     
     
-}
 }
 
 namespace bimg {
@@ -171,7 +171,7 @@ namespace bimg {
     
 }
 
-namespace bgfx {
+namespace bx {
 
     
     

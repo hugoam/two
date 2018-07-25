@@ -257,8 +257,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Dim2<bool>>(), member_address(&mud::Dim2<bool>::x), type<bool>(), "x", var(bool()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Dim2<bool>>(), member_address(&mud::Dim2<bool>::y), type<bool>(), "y", var(bool()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Dim2<bool>>(), member_address(&mud::Dim2<bool>::x), type<bool>(), "x", var(bool()), Member::Value, nullptr },
+                { type<mud::Dim2<bool>>(), member_address(&mud::Dim2<bool>::y), type<bool>(), "y", var(bool()), Member::Value, nullptr }
             },
             // methods
             {
@@ -294,8 +294,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Dim2<mud::Align>>(), member_address(&mud::Dim2<mud::Align>::x), type<mud::Align>(), "x", var(mud::Align()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Dim2<mud::Align>>(), member_address(&mud::Dim2<mud::Align>::y), type<mud::Align>(), "y", var(mud::Align()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Dim2<mud::Align>>(), member_address(&mud::Dim2<mud::Align>::x), type<mud::Align>(), "x", var(mud::Align()), Member::Value, nullptr },
+                { type<mud::Dim2<mud::Align>>(), member_address(&mud::Dim2<mud::Align>::y), type<mud::Align>(), "y", var(mud::Align()), Member::Value, nullptr }
             },
             // methods
             {
@@ -331,8 +331,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Dim2<mud::AutoLayout>>(), member_address(&mud::Dim2<mud::AutoLayout>::x), type<mud::AutoLayout>(), "x", var(mud::AutoLayout()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Dim2<mud::AutoLayout>>(), member_address(&mud::Dim2<mud::AutoLayout>::y), type<mud::AutoLayout>(), "y", var(mud::AutoLayout()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Dim2<mud::AutoLayout>>(), member_address(&mud::Dim2<mud::AutoLayout>::x), type<mud::AutoLayout>(), "x", var(mud::AutoLayout()), Member::Value, nullptr },
+                { type<mud::Dim2<mud::AutoLayout>>(), member_address(&mud::Dim2<mud::AutoLayout>::y), type<mud::AutoLayout>(), "y", var(mud::AutoLayout()), Member::Value, nullptr }
             },
             // methods
             {
@@ -368,8 +368,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Dim2<mud::Pivot>>(), member_address(&mud::Dim2<mud::Pivot>::x), type<mud::Pivot>(), "x", var(mud::Pivot()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Dim2<mud::Pivot>>(), member_address(&mud::Dim2<mud::Pivot>::y), type<mud::Pivot>(), "y", var(mud::Pivot()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Dim2<mud::Pivot>>(), member_address(&mud::Dim2<mud::Pivot>::x), type<mud::Pivot>(), "x", var(mud::Pivot()), Member::Value, nullptr },
+                { type<mud::Dim2<mud::Pivot>>(), member_address(&mud::Dim2<mud::Pivot>::y), type<mud::Pivot>(), "y", var(mud::Pivot()), Member::Value, nullptr }
             },
             // methods
             {
@@ -405,8 +405,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Dim2<mud::Sizing>>(), member_address(&mud::Dim2<mud::Sizing>::x), type<mud::Sizing>(), "x", var(mud::Sizing()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Dim2<mud::Sizing>>(), member_address(&mud::Dim2<mud::Sizing>::y), type<mud::Sizing>(), "y", var(mud::Sizing()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Dim2<mud::Sizing>>(), member_address(&mud::Dim2<mud::Sizing>::x), type<mud::Sizing>(), "x", var(mud::Sizing()), Member::Value, nullptr },
+                { type<mud::Dim2<mud::Sizing>>(), member_address(&mud::Dim2<mud::Sizing>::y), type<mud::Sizing>(), "y", var(mud::Sizing()), Member::Value, nullptr }
             },
             // methods
             {
@@ -442,8 +442,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Dim2<size_t>>(), member_address(&mud::Dim2<size_t>::x), type<size_t>(), "x", var(size_t()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Dim2<size_t>>(), member_address(&mud::Dim2<size_t>::y), type<size_t>(), "y", var(size_t()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Dim2<size_t>>(), member_address(&mud::Dim2<size_t>::x), type<size_t>(), "x", var(size_t()), Member::Value, nullptr },
+                { type<mud::Dim2<size_t>>(), member_address(&mud::Dim2<size_t>::y), type<size_t>(), "y", var(size_t()), Member::Value, nullptr }
             },
             // methods
             {
@@ -549,8 +549,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Gradient>(), member_address(&mud::Gradient::m_start), type<mud::Colour>(), "start", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Gradient>(), member_address(&mud::Gradient::m_end), type<mud::Colour>(), "end", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Gradient>(), member_address(&mud::Gradient::m_start), type<mud::Colour>(), "start", var(mud::Colour()), Member::Value, nullptr },
+                { type<mud::Gradient>(), member_address(&mud::Gradient::m_end), type<mud::Colour>(), "end", var(mud::Colour()), Member::Value, nullptr }
             },
             // methods
             {
@@ -618,13 +618,13 @@ namespace mud
             },
             // members
             {
-                { type<mud::ImageSkin>(), member_address(&mud::ImageSkin::d_image), type<mud::Image>(), "d_image", Ref(type<mud::Image>()), Member::Flags(Member::Pointer|Member::Mutable|Member::Link) },
-                { type<mud::ImageSkin>(), member_address(&mud::ImageSkin::d_left), type<int>(), "d_left", var(int(0)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ImageSkin>(), member_address(&mud::ImageSkin::d_top), type<int>(), "d_top", var(int(0)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ImageSkin>(), member_address(&mud::ImageSkin::d_right), type<int>(), "d_right", var(int(0)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ImageSkin>(), member_address(&mud::ImageSkin::d_bottom), type<int>(), "d_bottom", var(int(0)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ImageSkin>(), member_address(&mud::ImageSkin::m_margin), type<int>(), "margin", var(int(0)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ImageSkin>(), member_address(&mud::ImageSkin::d_stretch), type<mud::Dim>(), "d_stretch", var(mud::Dim()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::ImageSkin>(), member_address(&mud::ImageSkin::d_image), type<mud::Image>(), "d_image", Ref(type<mud::Image>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
+                { type<mud::ImageSkin>(), member_address(&mud::ImageSkin::d_left), type<int>(), "d_left", var(int(0)), Member::Value, nullptr },
+                { type<mud::ImageSkin>(), member_address(&mud::ImageSkin::d_top), type<int>(), "d_top", var(int(0)), Member::Value, nullptr },
+                { type<mud::ImageSkin>(), member_address(&mud::ImageSkin::d_right), type<int>(), "d_right", var(int(0)), Member::Value, nullptr },
+                { type<mud::ImageSkin>(), member_address(&mud::ImageSkin::d_bottom), type<int>(), "d_bottom", var(int(0)), Member::Value, nullptr },
+                { type<mud::ImageSkin>(), member_address(&mud::ImageSkin::m_margin), type<int>(), "margin", var(int(0)), Member::Value, nullptr },
+                { type<mud::ImageSkin>(), member_address(&mud::ImageSkin::d_stretch), type<mud::Dim>(), "d_stretch", var(mud::Dim()), Member::Value, nullptr }
             },
             // methods
             {
@@ -660,32 +660,32 @@ namespace mud
             },
             // members
             {
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_empty), type<bool>(), "empty", var(bool(true)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_background_colour), type<mud::Colour>(), "background_colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_border_colour), type<mud::Colour>(), "border_colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_image_colour), type<mud::Colour>(), "image_colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_colour), type<mud::Colour>(), "text_colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_font), type<std::string>(), "text_font", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_size), type<float>(), "text_size", var(float(14.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_break), type<bool>(), "text_break", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_wrap), type<bool>(), "text_wrap", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_border_width), type<mud::vec4>(), "border_width", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_corner_radius), type<mud::vec4>(), "corner_radius", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_weak_corners), type<bool>(), "weak_corners", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_padding), type<mud::vec4>(), "padding", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_margin), type<mud::vec4>(), "margin", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_align), type<mud::Dim2<mud::Align>>(), "align", var(mud::Dim2<mud::Align>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_linear_gradient), type<mud::vec2>(), "linear_gradient", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_linear_gradient_dim), type<mud::Dim>(), "linear_gradient_dim", var(mud::Dim()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_stretch), type<mud::Dim2<bool>>(), "stretch", var(mud::Dim2<bool>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_image), type<mud::Image>(), "image", Ref(type<mud::Image>()), Member::Flags(Member::Pointer|Member::Mutable|Member::Link) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_overlay), type<mud::Image>(), "overlay", Ref(type<mud::Image>()), Member::Flags(Member::Pointer|Member::Mutable|Member::Link) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_tile), type<mud::Image>(), "tile", Ref(type<mud::Image>()), Member::Flags(Member::Pointer|Member::Mutable|Member::Link) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_image_skin), type<mud::ImageSkin>(), "image_skin", var(mud::ImageSkin()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_shadow), type<mud::Shadow>(), "shadow", var(mud::Shadow()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_shadow_colour), type<mud::Colour>(), "shadow_colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_hover_cursor), type<mud::Style>(), "hover_cursor", Ref(type<mud::Style>()), Member::Flags(Member::Pointer|Member::Mutable|Member::Link) }
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_empty), type<bool>(), "empty", var(bool(true)), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_background_colour), type<mud::Colour>(), "background_colour", var(mud::Colour()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_border_colour), type<mud::Colour>(), "border_colour", var(mud::Colour()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_image_colour), type<mud::Colour>(), "image_colour", var(mud::Colour()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_colour), type<mud::Colour>(), "text_colour", var(mud::Colour()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_font), type<std::string>(), "text_font", var(std::string()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_size), type<float>(), "text_size", var(float(14.f)), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_break), type<bool>(), "text_break", var(bool(false)), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_wrap), type<bool>(), "text_wrap", var(bool(false)), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_border_width), type<mud::vec4>(), "border_width", var(mud::vec4()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_corner_radius), type<mud::vec4>(), "corner_radius", var(mud::vec4()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_weak_corners), type<bool>(), "weak_corners", var(bool(false)), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_padding), type<mud::vec4>(), "padding", var(mud::vec4()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_margin), type<mud::vec4>(), "margin", var(mud::vec4()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_align), type<mud::Dim2<mud::Align>>(), "align", var(mud::Dim2<mud::Align>()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_linear_gradient), type<mud::vec2>(), "linear_gradient", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_linear_gradient_dim), type<mud::Dim>(), "linear_gradient_dim", var(mud::Dim()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_stretch), type<mud::Dim2<bool>>(), "stretch", var(mud::Dim2<bool>()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_image), type<mud::Image>(), "image", Ref(type<mud::Image>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_overlay), type<mud::Image>(), "overlay", Ref(type<mud::Image>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_tile), type<mud::Image>(), "tile", Ref(type<mud::Image>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_image_skin), type<mud::ImageSkin>(), "image_skin", var(mud::ImageSkin()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_shadow), type<mud::Shadow>(), "shadow", var(mud::Shadow()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_shadow_colour), type<mud::Colour>(), "shadow_colour", var(mud::Colour()), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_hover_cursor), type<mud::Style>(), "hover_cursor", Ref(type<mud::Style>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
             },
             // methods
             {
@@ -755,24 +755,25 @@ namespace mud
             },
             // members
             {
-                { type<mud::Layout>(), member_address(&mud::Layout::m_name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_solver), type<mud::LayoutSolver>(), "solver", var(mud::LayoutSolver()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_layout), type<mud::Dim2<mud::AutoLayout>>(), "layout", var(mud::Dim2<mud::AutoLayout>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_flow), type<mud::Flow>(), "flow", var(mud::Flow()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_space), type<mud::Space>(), "space", var(mud::Space()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_clipping), type<mud::Clipping>(), "clipping", var(mud::Clipping()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_opacity), type<mud::Opacity>(), "opacity", var(mud::Opacity()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_align), type<mud::Dim2<mud::Align>>(), "align", var(mud::Dim2<mud::Align>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_span), type<mud::vec2>(), "span", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_padding), type<mud::vec4>(), "padding", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_margin), type<mud::vec2>(), "margin", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_spacing), type<mud::vec2>(), "spacing", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_pivot), type<mud::Dim2<mud::Pivot>>(), "pivot", var(mud::Dim2<mud::Pivot>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_zorder), type<int>(), "zorder", var(int(0)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_grid_division), type<std::vector<mud::Space>>(), "grid_division", var(std::vector<mud::Space>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_table_division), type<std::vector<float>>(), "table_division", var(std::vector<float>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_updated), type<size_t>(), "updated", var(size_t()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Layout>(), member_address(&mud::Layout::m_name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_solver), type<mud::LayoutSolver>(), "solver", var(mud::LayoutSolver()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_layout), type<mud::Dim2<mud::AutoLayout>>(), "layout", var(mud::Dim2<mud::AutoLayout>()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_flow), type<mud::Flow>(), "flow", var(mud::Flow()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_space), type<mud::Space>(), "space", var(mud::Space()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_clipping), type<mud::Clipping>(), "clipping", var(mud::Clipping()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_opacity), type<mud::Opacity>(), "opacity", var(mud::Opacity()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_align), type<mud::Dim2<mud::Align>>(), "align", var(mud::Dim2<mud::Align>()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_span), type<mud::vec2>(), "span", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_padding), type<mud::vec4>(), "padding", var(mud::vec4()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_margin), type<mud::vec2>(), "margin", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_spacing), type<mud::vec2>(), "spacing", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_pivot), type<mud::Dim2<mud::Pivot>>(), "pivot", var(mud::Dim2<mud::Pivot>()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_zorder), type<int>(), "zorder", var(int(0)), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_no_grid), type<bool>(), "no_grid", var(bool(false)), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_grid_division), type<std::vector<mud::Space>>(), "grid_division", var(std::vector<mud::Space>()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_table_division), type<std::vector<float>>(), "table_division", var(std::vector<float>()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_updated), type<size_t>(), "updated", var(size_t()), Member::Value, nullptr }
             },
             // methods
             {
@@ -842,9 +843,9 @@ namespace mud
             },
             // members
             {
-                { type<mud::Paint>(), member_address(&mud::Paint::m_fill_colour), type<mud::Colour>(), "fill_colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Paint>(), member_address(&mud::Paint::m_stroke_colour), type<mud::Colour>(), "stroke_colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Paint>(), member_address(&mud::Paint::m_stroke_width), type<float>(), "stroke_width", var(float()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Paint>(), member_address(&mud::Paint::m_fill_colour), type<mud::Colour>(), "fill_colour", var(mud::Colour()), Member::Value, nullptr },
+                { type<mud::Paint>(), member_address(&mud::Paint::m_stroke_colour), type<mud::Colour>(), "stroke_colour", var(mud::Colour()), Member::Value, nullptr },
+                { type<mud::Paint>(), member_address(&mud::Paint::m_stroke_width), type<float>(), "stroke_width", var(float()), Member::Value, nullptr }
             },
             // methods
             {
@@ -881,11 +882,11 @@ namespace mud
             },
             // members
             {
-                { type<mud::Shadow>(), member_address(&mud::Shadow::d_xpos), type<float>(), "d_xpos", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Shadow>(), member_address(&mud::Shadow::d_ypos), type<float>(), "d_ypos", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Shadow>(), member_address(&mud::Shadow::d_blur), type<float>(), "d_blur", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Shadow>(), member_address(&mud::Shadow::d_spread), type<float>(), "d_spread", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Shadow>(), member_address(&mud::Shadow::d_colour), type<mud::Colour>(), "d_colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Shadow>(), member_address(&mud::Shadow::d_xpos), type<float>(), "d_xpos", var(float()), Member::Value, nullptr },
+                { type<mud::Shadow>(), member_address(&mud::Shadow::d_ypos), type<float>(), "d_ypos", var(float()), Member::Value, nullptr },
+                { type<mud::Shadow>(), member_address(&mud::Shadow::d_blur), type<float>(), "d_blur", var(float()), Member::Value, nullptr },
+                { type<mud::Shadow>(), member_address(&mud::Shadow::d_spread), type<float>(), "d_spread", var(float()), Member::Value, nullptr },
+                { type<mud::Shadow>(), member_address(&mud::Shadow::d_colour), type<mud::Colour>(), "d_colour", var(mud::Colour()), Member::Value, nullptr }
             },
             // methods
             {
@@ -921,9 +922,9 @@ namespace mud
             },
             // members
             {
-                { type<mud::Space>(), member_address(&mud::Space::direction), type<mud::FlowAxis>(), "direction", var(mud::FlowAxis()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Space>(), member_address(&mud::Space::sizingLength), type<mud::Sizing>(), "sizingLength", var(mud::Sizing()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Space>(), member_address(&mud::Space::sizingDepth), type<mud::Sizing>(), "sizingDepth", var(mud::Sizing()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Space>(), member_address(&mud::Space::direction), type<mud::FlowAxis>(), "direction", var(mud::FlowAxis()), Member::Value, nullptr },
+                { type<mud::Space>(), member_address(&mud::Space::sizingLength), type<mud::Sizing>(), "sizingLength", var(mud::Sizing()), Member::Value, nullptr },
+                { type<mud::Space>(), member_address(&mud::Space::sizingDepth), type<mud::Sizing>(), "sizingDepth", var(mud::Sizing()), Member::Value, nullptr }
             },
             // methods
             {
@@ -956,10 +957,10 @@ namespace mud
             },
             // members
             {
-                { type<mud::Style>(), member_address(&mud::Style::m_base), type<mud::Style>(), "base", Ref(type<mud::Style>()), Member::Flags(Member::Pointer|Member::Link) },
-                { type<mud::Style>(), member_address(&mud::Style::name), type<cstring>(), "name", var(cstring()), Member::Value },
-                { type<mud::Style>(), member_address(&mud::Style::layout), type<mud::Layout>(), "layout", var(mud::Layout()), Member::Flags(Member::Value|Member::Link) },
-                { type<mud::Style>(), member_address(&mud::Style::skin), type<mud::InkStyle>(), "skin", var(mud::InkStyle()), Member::Flags(Member::Value|Member::Link) }
+                { type<mud::Style>(), member_address(&mud::Style::m_base), type<mud::Style>(), "base", Ref(type<mud::Style>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
+                { type<mud::Style>(), member_address(&mud::Style::name), type<cstring>(), "name", var(cstring()), Member::Value, [](Ref object) { return Ref(val<mud::Style>(object).name()); } },
+                { type<mud::Style>(), member_address(&mud::Style::layout), type<mud::Layout>(), "layout", var(mud::Layout()), Member::Flags(Member::Value|Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Style>(object).layout()); } },
+                { type<mud::Style>(), member_address(&mud::Style::skin), type<mud::InkStyle>(), "skin", var(mud::InkStyle()), Member::Flags(Member::Value|Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Style>(object).skin()); } }
             },
             // methods
             {
@@ -1126,12 +1127,12 @@ namespace mud
             },
             // members
             {
-                { type<mud::TextPaint>(), member_address(&mud::TextPaint::m_font), type<cstring>(), "font", var(cstring()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::TextPaint>(), member_address(&mud::TextPaint::m_colour), type<mud::Colour>(), "colour", var(mud::Colour()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::TextPaint>(), member_address(&mud::TextPaint::m_size), type<float>(), "size", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::TextPaint>(), member_address(&mud::TextPaint::m_align), type<mud::Dim2<mud::Align>>(), "align", var(mud::Dim2<mud::Align>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::TextPaint>(), member_address(&mud::TextPaint::m_text_break), type<bool>(), "text_break", var(bool()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::TextPaint>(), member_address(&mud::TextPaint::m_text_wrap), type<bool>(), "text_wrap", var(bool()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::TextPaint>(), member_address(&mud::TextPaint::m_font), type<cstring>(), "font", var(cstring()), Member::Value, nullptr },
+                { type<mud::TextPaint>(), member_address(&mud::TextPaint::m_colour), type<mud::Colour>(), "colour", var(mud::Colour()), Member::Value, nullptr },
+                { type<mud::TextPaint>(), member_address(&mud::TextPaint::m_size), type<float>(), "size", var(float()), Member::Value, nullptr },
+                { type<mud::TextPaint>(), member_address(&mud::TextPaint::m_align), type<mud::Dim2<mud::Align>>(), "align", var(mud::Dim2<mud::Align>()), Member::Value, nullptr },
+                { type<mud::TextPaint>(), member_address(&mud::TextPaint::m_text_break), type<bool>(), "text_break", var(bool()), Member::Value, nullptr },
+                { type<mud::TextPaint>(), member_address(&mud::TextPaint::m_text_wrap), type<bool>(), "text_wrap", var(bool()), Member::Value, nullptr }
             },
             // methods
             {
@@ -1251,11 +1252,11 @@ namespace mud
             },
             // members
             {
-                { type<mud::UiRect>(), member_address(&mud::UiRect::m_position), type<mud::vec2>(), "position", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::UiRect>(), member_address(&mud::UiRect::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::UiRect>(), member_address(&mud::UiRect::m_content), type<mud::vec2>(), "content", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::UiRect>(), member_address(&mud::UiRect::m_span), type<mud::vec2>(), "span", var(mud::vec2()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::UiRect>(), member_address(&mud::UiRect::m_scale), type<float>(), "scale", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::UiRect>(), member_address(&mud::UiRect::m_position), type<mud::vec2>(), "position", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::UiRect>(), member_address(&mud::UiRect::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::UiRect>(), member_address(&mud::UiRect::m_content), type<mud::vec2>(), "content", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::UiRect>(), member_address(&mud::UiRect::m_span), type<mud::vec2>(), "span", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::UiRect>(), member_address(&mud::UiRect::m_scale), type<float>(), "scale", var(float(1.f)), Member::Value, nullptr }
             },
             // methods
             {
@@ -1354,17 +1355,10 @@ namespace mud
             },
             // members
             {
-                { type<mud::Widget>(), member_address(&mud::Widget::focused), type<bool>(), "focused", var(bool()), Member::Value },
-                { type<mud::Widget>(), member_address(&mud::Widget::hovered), type<bool>(), "hovered", var(bool()), Member::Value },
-                { type<mud::Widget>(), member_address(&mud::Widget::pressed), type<bool>(), "pressed", var(bool()), Member::Value },
-                { type<mud::Widget>(), member_address(&mud::Widget::activated), type<bool>(), "activated", var(bool()), Member::Value },
-                { type<mud::Widget>(), member_address(&mud::Widget::selected), type<bool>(), "selected", var(bool()), Member::Value },
-                { type<mud::Widget>(), member_address(&mud::Widget::modal), type<bool>(), "modal", var(bool()), Member::Value },
-                { type<mud::Widget>(), member_address(&mud::Widget::closed), type<bool>(), "closed", var(bool()), Member::Value },
-                { type<mud::Widget>(), member_address(&mud::Widget::m_frame), type<mud::Frame>(), "frame", Ref(type<mud::Frame>()), Member::None },
-                { type<mud::Widget>(), member_address(&mud::Widget::m_index), type<size_t>(), "index", var(size_t()), Member::Value },
-                { type<mud::Widget>(), member_address(&mud::Widget::m_open), type<bool>(), "open", var(bool(false)), Member::Value },
-                { type<mud::Widget>(), member_address(&mud::Widget::m_body), type<mud::Widget>(), "body", Ref(type<mud::Widget>()), Member::Flags(Member::Pointer|Member::Link) }
+                { type<mud::Widget>(), member_address(&mud::Widget::m_frame), type<mud::Frame>(), "frame", Ref(type<mud::Frame>()), Member::None, nullptr },
+                { type<mud::Widget>(), member_address(&mud::Widget::m_index), type<size_t>(), "index", var(size_t()), Member::Value, nullptr },
+                { type<mud::Widget>(), member_address(&mud::Widget::m_open), type<bool>(), "open", var(bool(false)), Member::Value, nullptr },
+                { type<mud::Widget>(), member_address(&mud::Widget::m_body), type<mud::Widget>(), "body", Ref(type<mud::Widget>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
             },
             // methods
             {
@@ -1864,13 +1858,13 @@ namespace mud
     
     
         
-    // mud::RowSolver
+    // mud::Window
     {
-        static Meta meta = { type<mud::RowSolver>(), &namspc({ "mud" }), "RowSolver", sizeof(mud::RowSolver), TypeClass::Object };
-        static Class cls = { type<mud::RowSolver>(),
+        static Meta meta = { type<mud::Window>(), &namspc({ "mud" }), "Window", sizeof(mud::Window), TypeClass::Object };
+        static Class cls = { type<mud::Window>(),
             // bases
-            { &type<mud::FrameSolver>() },
-            { base_offset<mud::RowSolver, mud::FrameSolver>() },
+            { &type<mud::Dockable>() },
+            { base_offset<mud::Window, mud::Dockable>() },
             // constructors
             {
             },
@@ -1891,40 +1885,7 @@ namespace mud
         
         
         
-        meta_class<mud::RowSolver>();
-    }
-    
-    
-    
-        
-    // mud::LineSolver
-    {
-        static Meta meta = { type<mud::LineSolver>(), &namspc({ "mud" }), "LineSolver", sizeof(mud::LineSolver), TypeClass::Object };
-        static Class cls = { type<mud::LineSolver>(),
-            // bases
-            { &type<mud::RowSolver>() },
-            { base_offset<mud::LineSolver, mud::RowSolver>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::LineSolver>();
+        meta_class<mud::Window>();
     }
     
     
@@ -1993,13 +1954,13 @@ namespace mud
     
     
         
-    // mud::Window
+    // mud::RowSolver
     {
-        static Meta meta = { type<mud::Window>(), &namspc({ "mud" }), "Window", sizeof(mud::Window), TypeClass::Object };
-        static Class cls = { type<mud::Window>(),
+        static Meta meta = { type<mud::RowSolver>(), &namspc({ "mud" }), "RowSolver", sizeof(mud::RowSolver), TypeClass::Object };
+        static Class cls = { type<mud::RowSolver>(),
             // bases
-            { &type<mud::Dockable>() },
-            { base_offset<mud::Window, mud::Dockable>() },
+            { &type<mud::FrameSolver>() },
+            { base_offset<mud::RowSolver, mud::FrameSolver>() },
             // constructors
             {
             },
@@ -2020,7 +1981,40 @@ namespace mud
         
         
         
-        meta_class<mud::Window>();
+        meta_class<mud::RowSolver>();
+    }
+    
+    
+    
+        
+    // mud::LineSolver
+    {
+        static Meta meta = { type<mud::LineSolver>(), &namspc({ "mud" }), "LineSolver", sizeof(mud::LineSolver), TypeClass::Object };
+        static Class cls = { type<mud::LineSolver>(),
+            // bases
+            { &type<mud::RowSolver>() },
+            { base_offset<mud::LineSolver, mud::RowSolver>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::LineSolver>();
     }
     
 
@@ -2088,11 +2082,11 @@ namespace mud
         m.m_types.push_back(&type<mud::Table>());
         m.m_types.push_back(&type<mud::TextEdit>());
         m.m_types.push_back(&type<mud::TreeNode>());
-        m.m_types.push_back(&type<mud::RowSolver>());
-        m.m_types.push_back(&type<mud::LineSolver>());
+        m.m_types.push_back(&type<mud::Window>());
         m.m_types.push_back(&type<mud::Dockbar>());
         m.m_types.push_back(&type<mud::Dockspace>());
-        m.m_types.push_back(&type<mud::Window>());
+        m.m_types.push_back(&type<mud::RowSolver>());
+        m.m_types.push_back(&type<mud::LineSolver>());
     
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::widget(val<mud::Widget>(args[0]), val<mud::Style>(args[1]), val<bool>(args[2]), val<mud::Dim>(args[3]), val<mud::Dim2<size_t>>(args[4]))); };
@@ -2320,6 +2314,12 @@ namespace mud
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::table_row(val<mud::Widget>(args[0]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "table_row", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::table_row), func, params, Ref(type<mud::Widget>()) };
+            m.m_functions.push_back(&f);
+        }
+        {
+            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::table_separator(val<mud::Widget>(args[0]))); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            static Function f = { &namspc({ "mud", "ui" }), "table_separator", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::table_separator), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {

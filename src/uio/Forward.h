@@ -43,10 +43,12 @@ namespace glm {
     
 }
 
-namespace bx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace json11 {
@@ -57,6 +59,7 @@ namespace json11 {
 
 namespace mud {
 
+    enum class EditNestMode : unsigned int;
     enum class EditorHint : unsigned int;
     
     
@@ -64,6 +67,7 @@ namespace mud {
     struct SectionAction;
     struct Section;
     class DispatchSelector;
+    struct EditSpec;
     class ScriptEditor;
     class DispatchInput;
 }
@@ -76,12 +80,10 @@ namespace detail {
 }
 }
 
-namespace mud {
-namespace gfx {
+namespace bgfx {
 
     
     
-}
 }
 
 namespace bimg {
@@ -90,7 +92,7 @@ namespace bimg {
     
 }
 
-namespace bgfx {
+namespace bx {
 
     
     

@@ -132,11 +132,6 @@ namespace mud
 		bgfx::setUniform(u_fog.u_fog_params_3, &fog_params_3);
 	}
 
-	inline float to_radians(float degrees)
-	{
-		return degrees / 180.f * c_pi;
-	}
-
 	void BlockLight::upload_lights(Render& render, array<Light*> all_lights, array<LightShadow> shadows)
 	{
 		mat4 view_matrix = inverse(render.m_camera.m_transform);

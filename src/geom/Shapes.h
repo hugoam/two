@@ -18,8 +18,8 @@ namespace mud
 		constr_ Line();
 		constr_ Line(const vec3& start, const vec3& end);
 
-		attr_ mut_ vec3 m_start = Zero3;
-		attr_ mut_ vec3 m_end = Unit3;
+		attr_ vec3 m_start = Zero3;
+		attr_ vec3 m_end = Unit3;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -31,8 +31,8 @@ namespace mud
 		constr_ Rect(const vec2& position, const vec2& size);
 		constr_ Rect(float x, float y, float w, float h);
 
-		attr_ mut_ vec2 m_position = Zero2;
-		attr_ mut_ vec2 m_size = Unit2;
+		attr_ vec2 m_position = Zero2;
+		attr_ vec2 m_size = Unit2;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -63,8 +63,8 @@ namespace mud
 		constr_ Grid2();
 		constr_ Grid2(const vec2& size, const vec2& space = Unit2);
 
-		attr_ mut_ vec2 m_size = vec2{ 1.f };
-		attr_ mut_ vec2 m_space = vec2{ 0.1f };
+		attr_ vec2 m_size = vec2{ 1.f };
+		attr_ vec2 m_space = vec2{ 0.1f };
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -75,7 +75,7 @@ namespace mud
 		constr_ Triangle();
 		constr_ Triangle(const vec2& size);
 
-		attr_ mut_ vec2 m_size = Unit2;
+		attr_ vec2 m_size = Unit2;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -89,8 +89,8 @@ namespace mud
 
 		bool operator==(const Circle& other) const { return m_radius == other.m_radius && m_axis == other.m_axis && m_center == other.m_center; }
 
-		attr_ mut_ float m_radius = 1.f;
-		attr_ mut_ Axis m_axis = Axis::X;
+		attr_ float m_radius = 1.f;
+		attr_ Axis m_axis = Axis::X;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -104,9 +104,9 @@ namespace mud
 
 		bool operator==(const Torus& other) const { return m_radius == other.m_radius && m_solid_radius == other.m_solid_radius && m_axis == other.m_axis && m_center == other.m_center; }
 
-		attr_ mut_ float m_radius = 1.f;
-		attr_ mut_ float m_solid_radius = 1.f;
-		attr_ mut_ Axis m_axis = Axis::X;
+		attr_ float m_radius = 1.f;
+		attr_ float m_solid_radius = 1.f;
+		attr_ Axis m_axis = Axis::X;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -117,9 +117,9 @@ namespace mud
 		constr_ Ring();
 		constr_ Ring(float radius, float min, float max);
 
-		attr_ mut_ float m_radius = 1.f;
-		attr_ mut_ float m_min = 0.f;
-		attr_ mut_ float m_max = 1.f;
+		attr_ float m_radius = 1.f;
+		attr_ float m_min = 0.f;
+		attr_ float m_max = 1.f;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -130,8 +130,8 @@ namespace mud
 		constr_ Ellipsis();
 		constr_ Ellipsis(vec2 radius, Axis axis = Axis::Y);
 
-		attr_ mut_ vec2 m_radius = Unit2;
-		attr_ mut_ Axis m_axis = Axis::Y;
+		attr_ vec2 m_radius = Unit2;
+		attr_ Axis m_axis = Axis::Y;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -142,9 +142,9 @@ namespace mud
 		constr_ Arc();
 		constr_ Arc(float radius, float start, float end);
 
-		attr_ mut_ float m_radius = 1.f;
-		attr_ mut_ float m_start = 0.f;
-		attr_ mut_ float m_end = 1.f;
+		attr_ float m_radius = 1.f;
+		attr_ float m_start = 0.f;
+		attr_ float m_end = 1.f;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -154,10 +154,11 @@ namespace mud
 	public:
 		constr_ ArcLine();
 		constr_ ArcLine(const vec3& start, const vec3& middle, const vec3& end);
+		constr_ ArcLine(const vec3& center, const vec3& start, const vec3& middle, const vec3& end);
 
-		attr_ mut_ vec3 m_start = Zero3;
-		attr_ mut_ vec3 m_middle;
-		attr_ mut_ vec3 m_end;
+		attr_ vec3 m_start = Zero3;
+		attr_ vec3 m_middle;
+		attr_ vec3 m_end;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -168,9 +169,9 @@ namespace mud
 		constr_ Cylinder();
 		constr_ Cylinder(float radius, float height, Axis axis = Axis::X);
 
-		attr_ mut_ float m_radius = 1.f;
-		attr_ mut_ float m_height = 2.f;
-		attr_ mut_ Axis m_axis = Axis::X;
+		attr_ float m_radius = 1.f;
+		attr_ float m_height = 2.f;
+		attr_ Axis m_axis = Axis::X;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -181,9 +182,9 @@ namespace mud
 		constr_ Capsule();
 		constr_ Capsule(float radius, float height, Axis axis = Axis::X);
 
-		attr_ mut_ float m_radius = 1.f;
-		attr_ mut_ float m_height = 2.f;
-		attr_ mut_ Axis m_axis = Axis::X;
+		attr_ float m_radius = 1.f;
+		attr_ float m_height = 2.f;
+		attr_ Axis m_axis = Axis::X;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -197,7 +198,7 @@ namespace mud
 		constr_ Cube(const vec3& center, const vec3& extents);
 		constr_ Cube(float side);
 
-		attr_ mut_ vec3 m_extents = vec3{ 0.5f };
+		attr_ vec3 m_extents = vec3{ 0.5f };
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -209,7 +210,7 @@ namespace mud
 		constr_ Sphere(float radius);
 		constr_ Sphere(const vec3& center, float radius);
 
-		attr_ mut_ float m_radius = 1.f;
+		attr_ float m_radius = 1.f;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -220,9 +221,9 @@ namespace mud
 		constr_ SphereRing();
 		constr_ SphereRing(float radius, float min, float max);
 
-		attr_ mut_ float m_radius = 1.f;
-		attr_ mut_ float m_min = -1.f;
-		attr_ mut_ float m_max = 1.f;
+		attr_ float m_radius = 1.f;
+		attr_ float m_min = -1.f;
+		attr_ float m_max = 1.f;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -232,8 +233,9 @@ namespace mud
 	public:
 		constr_ Spheroid();
 		constr_ Spheroid(float radius);
+		constr_ Spheroid(const vec3& center, float radius);
 
-		attr_ mut_ float m_radius = 1.f;
+		attr_ float m_radius = 1.f;
 
 		Circle m_circleX;
 		Circle m_circleY;

@@ -87,7 +87,7 @@ namespace mud
 
 		virtual void stroke_gradient(const Gradient& paint, float width, const vec2& start, const vec2& end) final;
 
-		virtual void break_next_row(const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row) final;
+		virtual void break_next_row(const char* text, const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row) final;
 		virtual void break_glyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow) final;
 
 		virtual float line_height(const TextPaint& paint) final;

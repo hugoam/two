@@ -16,32 +16,23 @@
 
 namespace mud
 {
-	export_ class refl_ MUD_REFL_EXPORT Injector
+	export_ class refl_ MUD_REFL_EXPORT Injector : public Call
 	{
 	public:
-		Injector(Type& type, const Constructor& constructor);
+		Injector(const Constructor& constructor);
 		Injector(Type& type, size_t arguments);
 		Injector(Type& type, ConstructorIndex constructor = ConstructorIndex::Default);
 
-		attr_ Type& m_type;
+		Type& m_object_type;
 		const Constructor& m_constructor;
-		std::vector<Var> m_args;
-
-#ifdef MUD_PROTO
-		array<Var> args(Type& type);
-#endif
-
+		
 		void inject(Var& value);
 		Ref inject(Pool& pool);
 
 		Var injectvar();
 		Ref injectpool();
 
-	protected:
-#ifdef MUD_PROTO
-		Prototype* m_proto;
-#endif
-		std::vector<size_t> m_partIndex;
+		void destroy(Ref object);
 	};
 
 	export_ class refl_ MUD_REFL_EXPORT Creator : public NonCopy
@@ -54,15 +45,8 @@ namespace mud
 		attr_ Type* m_prototype;
 		attr_ Injector& injector() const { return *m_injector; }
 
-		void setPrototype(Type& prototype);
-
-		Ref create();
-		void destroy(Ref object);
-
-		template <class T>
-		T& create() { return val<T>(create()); }
-
-	protected:
 		object_ptr<Injector> m_injector;
+
+		void set_prototype(Type& prototype);
 	};
 }

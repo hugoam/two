@@ -19,14 +19,14 @@ namespace mud
 
 	export_ struct refl_ MUD_GFX_PBR_EXPORT DofBlur
 	{
-		attr_ mut_ bool m_enabled = false;
-		attr_ mut_ float m_far_distance = 10.f;
-		attr_ mut_ float m_far_transition = 5.f;
-		attr_ mut_ float m_far_radius = 5.f;
-		attr_ mut_ float m_near_distance = 2.f;
-		attr_ mut_ float m_near_transition = 1.f;
-		attr_ mut_ float m_near_radius = 5.f;
-		attr_ mut_ float m_max_coc_radius = 8.f;
+		attr_ bool m_enabled = false;
+		attr_ float m_far_distance = 10.f;
+		attr_ float m_far_transition = 5.f;
+		attr_ float m_far_radius = 5.f;
+		attr_ float m_near_distance = 2.f;
+		attr_ float m_near_transition = 1.f;
+		attr_ float m_near_radius = 5.f;
+		attr_ float m_max_coc_radius = 8.f;
 	};
 
 	struct DofBlurUniform

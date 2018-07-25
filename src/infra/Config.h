@@ -16,7 +16,7 @@
 #define meth_   // Method
 #define func_   // Function
 #define attr_   // Attribute
-#define mut_    // Mutable Attribute
+#define nomut_  // Non Mutable Attribute
 #define graph_  // Graph / Structure Attribute
 #define link_   // Link / Reference Attribute
 #define pool_   // Pool Attribute

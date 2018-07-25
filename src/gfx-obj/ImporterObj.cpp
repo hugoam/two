@@ -38,6 +38,7 @@ namespace mud
 	{
 		static auto load_obj = [&](GfxSystem& gfx_system, Model& model, cstring path)
 		{
+			UNUSED(gfx_system);
 			ModelConfig config = load_model_config(path, model.m_name.c_str());
 			this->import_model(model, path, config);
 		};
@@ -194,6 +195,7 @@ namespace mud
 
 	void ImporterOBJ::import_model(Model& model, const string& path, const ModelConfig& config)
 	{
+		UNUSED(config);
 		printf("INFO: Importing OBJ model %s\n", model.m_name.c_str());
 
 		Clock clock;
@@ -223,27 +225,30 @@ namespace mud
 
 			~MeshWriter()
 			{
-				if(m_shape.m_vertices.empty() || m_skip)
+				if(m_shape.vertex_count() == 0 || m_skip)
 				{
 					m_model.m_meshes.pop_back();
 					return;
 				}
 				m_shape.bake(!m_normals, m_generate_tangents && m_uvs);
-				m_mesh.write(PLAIN, to_array(m_shape.m_vertices), to_array(m_shape.m_indices));
-				m_model.m_items.emplace_back(ModelItem{ bxidentity(), &m_mesh, -1, Colour::White });
+				m_mesh.write(PLAIN, m_shape);
+				m_model.m_items.push_back({ bxidentity(), &m_mesh, -1, Colour::White });
 				//printf("INFO: ImporterOBJ imported mesh %s material %s with %u vertices and %u faces\n", m_mesh.m_name.c_str(), m_mesh.m_material->m_name.c_str(), m_shape.m_vertices.size(), m_shape.m_indices.size() / 3);
-				//vec3 min = m_mesh.m_aabb.m_center - m_mesh.m_aabb.m_extents;
-				//vec3 max = m_mesh.m_aabb.m_center + m_mesh.m_aabb.m_extents;
-				//printf("INFO: obj - imported mesh %s bounds %i-%i, %i-%i, %i-%i\n", m_mesh.m_name.c_str(), int(min.x), int(max.x), int(min.y), int(max.y), int(min.z), int(max.z));
 			}
 
 			inline void face(ShapeVertex* face, size_t a, size_t b, size_t c)
 			{
+				auto vertex = [&](ShapeVertex& vertex)
+				{
+					m_shape.m_positions.push_back(vertex.m_position);
+					m_shape.m_normals.push_back(vertex.m_normal);
+					m_shape.m_uv0s.push_back(vertex.m_uv0);
+				};
 				// bool flip_faces;
 				// int i = !flip_faces && i < 2 ? 1 ^ i : i;
-				m_shape.vertex() = face[a];
-				m_shape.vertex() = face[b];
-				m_shape.vertex() = face[c];
+				vertex(face[a]);
+				vertex(face[b]);
+				vertex(face[c]);
 			}
 
 			Model& m_model;

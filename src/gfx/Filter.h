@@ -65,16 +65,17 @@ namespace mud
 
 	export_ struct refl_ MUD_GFX_EXPORT RenderQuad
 	{
-		vec4 m_source = Rect4;
-		vec4 m_dest = Zero4;
-		bool m_source_fbo = false;
-		bool m_relative = false;
-
-		RenderQuad(vec4 rect, bool source_fbo = false, bool relative = false) : m_source(rect), m_dest(rect), m_source_fbo(source_fbo), m_relative(relative) {}
-		RenderQuad(vec4 crop, vec4 dest, bool source_fbo = false, bool relative = false) : m_source(crop), m_dest(dest), m_source_fbo(source_fbo), m_relative(relative) {}
+		vec4 m_source;
+		vec4 m_dest;
+		bool m_fbo_flip = false;
+		RenderQuad(vec4 crop, vec4 dest, bool fbo_flip = false) : m_source(crop), m_dest(dest), m_fbo_flip(fbo_flip) {}
 		RenderQuad() {}
 	};
 
+	RenderQuad copy_quad(const FrameBuffer& target, const vec4& rect);
+
+	//RenderQuad copy_quad(const FrameBuffer& source, const FrameBuffer& target, const vec4& source_rect, const vec4& dest_rect);
+	
 	export_ class refl_ MUD_GFX_EXPORT BlockFilter : public GfxBlock
 	{
 	public:
@@ -87,12 +88,16 @@ namespace mud
 
 		void set_uniforms(Render& render);
 
-		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const RenderQuad& quad = {}, uint64_t flags = 0U);
-		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, const RenderQuad& quad = {}, uint64_t flags = 0U);
+		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags = 0U, bool render = false);
+		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags = 0U, bool render = false);
 
-		void render_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, const RenderQuad& quad = {});
+		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags = 0U, bool render = false);
+		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags = 0U, bool render = false);
+		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, uint64_t flags = 0U, bool render = false);
 
 		FilterUniform u_uniform;
+
+		Program m_quad_program;
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT BlockCopy : public GfxBlock
@@ -105,9 +110,12 @@ namespace mud
 		virtual void begin_gfx_block(Render& render) final;
 		virtual void submit_gfx_block(Render& render) final;
 
-		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::TextureHandle texture, const RenderQuad& quad = {}, uint64_t flags = 0U);
-		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, const RenderQuad& quad = {}, uint64_t flags = 0U);
-		
+		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::TextureHandle texture, const RenderQuad& quad, uint64_t flags = 0U);
+		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::TextureHandle texture, const uvec4& rect, uint64_t flags = 0U);
+		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, const RenderQuad& quad, uint64_t flags = 0U);
+		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, const uvec4& rect, uint64_t flags = 0U);
+		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, uint64_t flags = 0U);
+
 		void debug_show_texture(FrameBuffer& target, bgfx::TextureHandle texture, bool is_depth = false, bool is_depth_packed = false, bool is_array = false, int level = 0);
 
 		BlockFilter& m_filter;

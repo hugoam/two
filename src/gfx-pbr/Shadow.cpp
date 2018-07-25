@@ -399,7 +399,7 @@ namespace mud
 			vec4 csm_params = { vec2(1.f / float(m_csm.m_size)), pcf_offset };
 			bgfx::setUniform(u_directional_shadow.u_csm_params, &csm_params);
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#if 0 //def MUD_PLATFORM_EMSCRIPTEN
 			bgfx::setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth, GFX_TEXTURE_POINT);
 #else
 			//bgfx::setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth);

@@ -13,6 +13,23 @@
 
 namespace mud
 {
+	export_ enum class refl_ EditNestMode : unsigned int
+	{
+		Inline,
+		Modal,
+		Embed
+	};
+
+	struct MUD_UIO_EXPORT EditSpec
+	{
+		EditSpec() {}
+		EditSpec(Class& cls);
+		bool m_setup = false;
+		EditNestMode m_nest_mode[2] = { EditNestMode::Inline, EditNestMode::Inline };
+	};
+
+	export_ extern MUD_UIO_EXPORT std::vector<EditSpec> g_edit_specs;
+	
 	export_ enum class refl_ EditorHint : unsigned int
 	{
 		Table,

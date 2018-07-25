@@ -61,35 +61,35 @@ namespace mud
 		attr_ string m_name;
 
 		// emitter
-		attr_ mut_ float m_duration = 1.f;
-		attr_ mut_ float m_start_time = 0.f;
-		attr_ mut_ bool m_loop = false;
-		attr_ mut_ ShapeVar m_shape = {};
-		attr_ mut_ EmitterFlow m_flow = EmitterFlow::Outward;
-		attr_ mut_ bool m_billboard = true;
-		attr_ mut_ vec3 m_direction = { 0.f, 0.f, -1.f };
-		attr_ mut_ quat m_rotation = ZeroQuat;
-		attr_ mut_ BlendMode m_blend_mode = BlendMode::Normal;
+		attr_ float m_duration = 1.f;
+		attr_ float m_start_time = 0.f;
+		attr_ bool m_loop = false;
+		attr_ ShapeVar m_shape = {};
+		attr_ EmitterFlow m_flow = EmitterFlow::Outward;
+		attr_ bool m_billboard = true;
+		attr_ vec3 m_direction = { 0.f, 0.f, -1.f };
+		attr_ quat m_rotation = ZeroQuat;
+		attr_ BlendMode m_blend_mode = BlendMode::Normal;
 
-		//attr_ mut_ ValueTrack<vec3> m_position = { Zero3 };
-		//attr_ mut_ ValueTrack<quat> m_rotation = { ZeroQuat };
-		attr_ mut_ ValueTrack<float> m_volume = { 1.f };
+		//attr_ ValueTrack<vec3> m_position = { Zero3 };
+		//attr_ ValueTrack<quat> m_rotation = { ZeroQuat };
+		attr_ ValueTrack<float> m_volume = { 1.f };
 
-		attr_ mut_ ValueTrack<uint32_t> m_rate = { 0 };
+		attr_ ValueTrack<uint32_t> m_rate = { 0 };
 
-		attr_ mut_ ValueTrack<float> m_lifetime = { 1.f };
-		attr_ mut_ ValueTrack<float> m_gravity = { 0.f };
+		attr_ ValueTrack<float> m_lifetime = { 1.f };
+		attr_ ValueTrack<float> m_gravity = { 0.f };
 
 		// particles
-		attr_ mut_ ValueTrack<float> m_speed = { 1.f };
-		attr_ mut_ ValueTrack<float> m_angle = { 0.f };
-		attr_ mut_ ValueTrack<float> m_blend = { std::vector<float>({ 0.8f, 0.0f }) };
-		attr_ mut_ ValueTrack<Colour> m_colour = { Colour::White };
-		attr_ mut_ ValueTrack<float> m_scale = { 0.1f };
+		attr_ ValueTrack<float> m_speed = { 1.f };
+		attr_ ValueTrack<float> m_angle = { 0.f };
+		attr_ ValueTrack<float> m_blend = { std::vector<float>({ 0.8f, 0.0f }) };
+		attr_ ValueTrack<Colour> m_colour = { Colour::White };
+		attr_ ValueTrack<float> m_scale = { 0.1f };
 
-		attr_ mut_ ValueTrack<float> m_sprite_frame = { 0.f };
+		attr_ ValueTrack<float> m_sprite_frame = { 0.f };
 
-		attr_ mut_ string m_sprite_name;
+		attr_ string m_sprite_name;
 
 		const Sprite* m_sprite = nullptr;
 	};

@@ -78,15 +78,12 @@ namespace mud
 		bool changed = false;
 		if(ui::modal_button(screen, parent, ".", PICK))
 		{
-			Widget& window = ui::window(parent.root(), ("Select " + string(type(result).m_name)).c_str());
-			if(window.m_body)
-			{
-				Widget& self = *ui::scroll_sheet(*window.m_body).m_body;
-				changed = object_selector(self, indexer(type(result)), result);
-				if(ui::button(self, "Done").activated())
-					screen.m_switch &= ~PICK;
-			}
-			else
+			string title = "Select " + string(type(result).m_name);
+			Widget& modal = ui::auto_modal(parent, PICK, { 600, 400 });
+			
+			Widget& self = *ui::scroll_sheet(*modal.m_body).m_body;
+			changed = object_selector(self, indexer(type(result)), result);
+			if(ui::button(*modal.m_body, "Done").activated())
 				screen.m_switch &= ~PICK;
 		}
 		return changed;

@@ -68,9 +68,14 @@ namespace mud
 
 	void method_edit_modal(Widget& parent, Ref object, Method& method)
 	{
+		enum Modes { CALL = 1 << 0 };
 		string name = "Call method " + string(method.m_object_type->m_name) + "::" + method.m_name;
-		if(modal_dialog(parent, name.c_str()))
+		
+		if(ui::modal_button(parent, parent, "Open Script", CALL))
+		{
+			Widget& modal = ui::auto_modal(parent, CALL, { 600, 400 });
 			method_edit(parent, object, method);
+		}
 	}
 
 	void method_trigger(Widget& parent, Ref object, Method& method)

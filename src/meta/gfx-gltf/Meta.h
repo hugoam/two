@@ -242,18 +242,18 @@ namespace mud
             },
             // members
             {
-                { type<glTF>(), member_address(&glTF::m_buffers), type<std::vector<glTFBuffer>>(), "buffers", var(std::vector<glTFBuffer>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_buffer_views), type<std::vector<glTFBufferView>>(), "buffer_views", var(std::vector<glTFBufferView>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_accessors), type<std::vector<glTFAccessor>>(), "accessors", var(std::vector<glTFAccessor>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_images), type<std::vector<glTFImage>>(), "images", var(std::vector<glTFImage>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_textures), type<std::vector<glTFTexture>>(), "textures", var(std::vector<glTFTexture>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_materials), type<std::vector<glTFMaterial>>(), "materials", var(std::vector<glTFMaterial>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_meshes), type<std::vector<glTFMesh>>(), "meshes", var(std::vector<glTFMesh>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_nodes), type<std::vector<glTFNode>>(), "nodes", var(std::vector<glTFNode>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_skins), type<std::vector<glTFSkin>>(), "skins", var(std::vector<glTFSkin>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_animations), type<std::vector<glTFAnimation>>(), "animations", var(std::vector<glTFAnimation>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_cameras), type<std::vector<glTFCamera>>(), "cameras", var(std::vector<glTFCamera>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTF>(), member_address(&glTF::m_scenes), type<std::vector<glTFScene>>(), "scenes", var(std::vector<glTFScene>()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTF>(), member_address(&glTF::m_buffers), type<std::vector<glTFBuffer>>(), "buffers", var(std::vector<glTFBuffer>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_buffer_views), type<std::vector<glTFBufferView>>(), "buffer_views", var(std::vector<glTFBufferView>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_accessors), type<std::vector<glTFAccessor>>(), "accessors", var(std::vector<glTFAccessor>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_images), type<std::vector<glTFImage>>(), "images", var(std::vector<glTFImage>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_textures), type<std::vector<glTFTexture>>(), "textures", var(std::vector<glTFTexture>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_materials), type<std::vector<glTFMaterial>>(), "materials", var(std::vector<glTFMaterial>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_meshes), type<std::vector<glTFMesh>>(), "meshes", var(std::vector<glTFMesh>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_nodes), type<std::vector<glTFNode>>(), "nodes", var(std::vector<glTFNode>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_skins), type<std::vector<glTFSkin>>(), "skins", var(std::vector<glTFSkin>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_animations), type<std::vector<glTFAnimation>>(), "animations", var(std::vector<glTFAnimation>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_cameras), type<std::vector<glTFCamera>>(), "cameras", var(std::vector<glTFCamera>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_scenes), type<std::vector<glTFScene>>(), "scenes", var(std::vector<glTFScene>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -287,13 +287,13 @@ namespace mud
             },
             // members
             {
-                { type<glTFAccessor>(), member_address(&glTFAccessor::buffer_view), type<int>(), "buffer_view", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAccessor>(), member_address(&glTFAccessor::byte_offset), type<int>(), "byte_offset", var(int(0)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAccessor>(), member_address(&glTFAccessor::component_type), type<glTFComponentType>(), "component_type", var(glTFComponentType()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAccessor>(), member_address(&glTFAccessor::normalized), type<bool>(), "normalized", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAccessor>(), member_address(&glTFAccessor::count), type<int>(), "count", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAccessor>(), member_address(&glTFAccessor::type), type<glTFType>(), "type", var(glTFType()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAccessor>(), member_address(&glTFAccessor::sparse), type<glTFSparse>(), "sparse", var(glTFSparse()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFAccessor>(), member_address(&glTFAccessor::buffer_view), type<int>(), "buffer_view", var(int()), Member::Value, nullptr },
+                { type<glTFAccessor>(), member_address(&glTFAccessor::byte_offset), type<int>(), "byte_offset", var(int(0)), Member::Value, nullptr },
+                { type<glTFAccessor>(), member_address(&glTFAccessor::component_type), type<glTFComponentType>(), "component_type", var(glTFComponentType()), Member::Value, nullptr },
+                { type<glTFAccessor>(), member_address(&glTFAccessor::normalized), type<bool>(), "normalized", var(bool(false)), Member::Value, nullptr },
+                { type<glTFAccessor>(), member_address(&glTFAccessor::count), type<int>(), "count", var(int()), Member::Value, nullptr },
+                { type<glTFAccessor>(), member_address(&glTFAccessor::type), type<glTFType>(), "type", var(glTFType()), Member::Value, nullptr },
+                { type<glTFAccessor>(), member_address(&glTFAccessor::sparse), type<glTFSparse>(), "sparse", var(glTFSparse()), Member::Value, nullptr }
             },
             // methods
             {
@@ -327,9 +327,9 @@ namespace mud
             },
             // members
             {
-                { type<glTFAnimation>(), member_address(&glTFAnimation::name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAnimation>(), member_address(&glTFAnimation::samplers), type<std::vector<glTFAnimationSampler>>(), "samplers", var(std::vector<glTFAnimationSampler>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAnimation>(), member_address(&glTFAnimation::channels), type<std::vector<glTFAnimationChannel>>(), "channels", var(std::vector<glTFAnimationChannel>()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFAnimation>(), member_address(&glTFAnimation::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<glTFAnimation>(), member_address(&glTFAnimation::samplers), type<std::vector<glTFAnimationSampler>>(), "samplers", var(std::vector<glTFAnimationSampler>()), Member::Value, nullptr },
+                { type<glTFAnimation>(), member_address(&glTFAnimation::channels), type<std::vector<glTFAnimationChannel>>(), "channels", var(std::vector<glTFAnimationChannel>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -363,8 +363,8 @@ namespace mud
             },
             // members
             {
-                { type<glTFAnimationChannel>(), member_address(&glTFAnimationChannel::sampler), type<int>(), "sampler", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAnimationChannel>(), member_address(&glTFAnimationChannel::target), type<glTFAnimationTarget>(), "target", var(glTFAnimationTarget()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFAnimationChannel>(), member_address(&glTFAnimationChannel::sampler), type<int>(), "sampler", var(int()), Member::Value, nullptr },
+                { type<glTFAnimationChannel>(), member_address(&glTFAnimationChannel::target), type<glTFAnimationTarget>(), "target", var(glTFAnimationTarget()), Member::Value, nullptr }
             },
             // methods
             {
@@ -398,9 +398,9 @@ namespace mud
             },
             // members
             {
-                { type<glTFAnimationSampler>(), member_address(&glTFAnimationSampler::interpolation), type<glTFInterpolation>(), "interpolation", var(glTFInterpolation()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAnimationSampler>(), member_address(&glTFAnimationSampler::input), type<int>(), "input", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAnimationSampler>(), member_address(&glTFAnimationSampler::output), type<int>(), "output", var(int()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFAnimationSampler>(), member_address(&glTFAnimationSampler::interpolation), type<glTFInterpolation>(), "interpolation", var(glTFInterpolation()), Member::Value, nullptr },
+                { type<glTFAnimationSampler>(), member_address(&glTFAnimationSampler::input), type<int>(), "input", var(int()), Member::Value, nullptr },
+                { type<glTFAnimationSampler>(), member_address(&glTFAnimationSampler::output), type<int>(), "output", var(int()), Member::Value, nullptr }
             },
             // methods
             {
@@ -434,8 +434,8 @@ namespace mud
             },
             // members
             {
-                { type<glTFAnimationTarget>(), member_address(&glTFAnimationTarget::node), type<int>(), "node", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAnimationTarget>(), member_address(&glTFAnimationTarget::path), type<std::string>(), "path", var(std::string()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFAnimationTarget>(), member_address(&glTFAnimationTarget::node), type<int>(), "node", var(int()), Member::Value, nullptr },
+                { type<glTFAnimationTarget>(), member_address(&glTFAnimationTarget::path), type<std::string>(), "path", var(std::string()), Member::Value, nullptr }
             },
             // methods
             {
@@ -469,14 +469,14 @@ namespace mud
             },
             // members
             {
-                { type<glTFAttributes>(), member_address(&glTFAttributes::POSITION), type<int>(), "POSITION", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAttributes>(), member_address(&glTFAttributes::NORMAL), type<int>(), "NORMAL", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAttributes>(), member_address(&glTFAttributes::TANGENT), type<int>(), "TANGENT", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAttributes>(), member_address(&glTFAttributes::TEXCOORD_0), type<int>(), "TEXCOORD_0", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAttributes>(), member_address(&glTFAttributes::TEXCOORD_1), type<int>(), "TEXCOORD_1", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAttributes>(), member_address(&glTFAttributes::COLOR_0), type<int>(), "COLOR_0", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAttributes>(), member_address(&glTFAttributes::JOINTS_0), type<int>(), "JOINTS_0", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFAttributes>(), member_address(&glTFAttributes::WEIGHTS_0), type<int>(), "WEIGHTS_0", var(int()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFAttributes>(), member_address(&glTFAttributes::POSITION), type<int>(), "POSITION", var(int()), Member::Value, nullptr },
+                { type<glTFAttributes>(), member_address(&glTFAttributes::NORMAL), type<int>(), "NORMAL", var(int()), Member::Value, nullptr },
+                { type<glTFAttributes>(), member_address(&glTFAttributes::TANGENT), type<int>(), "TANGENT", var(int()), Member::Value, nullptr },
+                { type<glTFAttributes>(), member_address(&glTFAttributes::TEXCOORD_0), type<int>(), "TEXCOORD_0", var(int()), Member::Value, nullptr },
+                { type<glTFAttributes>(), member_address(&glTFAttributes::TEXCOORD_1), type<int>(), "TEXCOORD_1", var(int()), Member::Value, nullptr },
+                { type<glTFAttributes>(), member_address(&glTFAttributes::COLOR_0), type<int>(), "COLOR_0", var(int()), Member::Value, nullptr },
+                { type<glTFAttributes>(), member_address(&glTFAttributes::JOINTS_0), type<int>(), "JOINTS_0", var(int()), Member::Value, nullptr },
+                { type<glTFAttributes>(), member_address(&glTFAttributes::WEIGHTS_0), type<int>(), "WEIGHTS_0", var(int()), Member::Value, nullptr }
             },
             // methods
             {
@@ -510,9 +510,9 @@ namespace mud
             },
             // members
             {
-                { type<glTFBuffer>(), member_address(&glTFBuffer::mime_type), type<std::string>(), "mime_type", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFBuffer>(), member_address(&glTFBuffer::uri), type<std::string>(), "uri", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFBuffer>(), member_address(&glTFBuffer::byte_length), type<int>(), "byte_length", var(int()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFBuffer>(), member_address(&glTFBuffer::mime_type), type<std::string>(), "mime_type", var(std::string()), Member::Value, nullptr },
+                { type<glTFBuffer>(), member_address(&glTFBuffer::uri), type<std::string>(), "uri", var(std::string()), Member::Value, nullptr },
+                { type<glTFBuffer>(), member_address(&glTFBuffer::byte_length), type<int>(), "byte_length", var(int()), Member::Value, nullptr }
             },
             // methods
             {
@@ -546,11 +546,11 @@ namespace mud
             },
             // members
             {
-                { type<glTFBufferView>(), member_address(&glTFBufferView::buffer), type<int>(), "buffer", var(int(0)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFBufferView>(), member_address(&glTFBufferView::byte_offset), type<size_t>(), "byte_offset", var(size_t()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFBufferView>(), member_address(&glTFBufferView::byte_length), type<size_t>(), "byte_length", var(size_t()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFBufferView>(), member_address(&glTFBufferView::byte_stride), type<size_t>(), "byte_stride", var(size_t()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFBufferView>(), member_address(&glTFBufferView::target), type<int>(), "target", var(int(0)), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFBufferView>(), member_address(&glTFBufferView::buffer), type<int>(), "buffer", var(int(0)), Member::Value, nullptr },
+                { type<glTFBufferView>(), member_address(&glTFBufferView::byte_offset), type<size_t>(), "byte_offset", var(size_t()), Member::Value, nullptr },
+                { type<glTFBufferView>(), member_address(&glTFBufferView::byte_length), type<size_t>(), "byte_length", var(size_t()), Member::Value, nullptr },
+                { type<glTFBufferView>(), member_address(&glTFBufferView::byte_stride), type<size_t>(), "byte_stride", var(size_t()), Member::Value, nullptr },
+                { type<glTFBufferView>(), member_address(&glTFBufferView::target), type<int>(), "target", var(int(0)), Member::Value, nullptr }
             },
             // methods
             {
@@ -584,9 +584,9 @@ namespace mud
             },
             // members
             {
-                { type<glTFCamera>(), member_address(&glTFCamera::type), type<std::string>(), "type", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFCamera>(), member_address(&glTFCamera::orthographic), type<glTFOrthographic>(), "orthographic", var(glTFOrthographic()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFCamera>(), member_address(&glTFCamera::perspective), type<glTFPerspective>(), "perspective", var(glTFPerspective()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFCamera>(), member_address(&glTFCamera::type), type<std::string>(), "type", var(std::string()), Member::Value, nullptr },
+                { type<glTFCamera>(), member_address(&glTFCamera::orthographic), type<glTFOrthographic>(), "orthographic", var(glTFOrthographic()), Member::Value, nullptr },
+                { type<glTFCamera>(), member_address(&glTFCamera::perspective), type<glTFPerspective>(), "perspective", var(glTFPerspective()), Member::Value, nullptr }
             },
             // methods
             {
@@ -620,9 +620,9 @@ namespace mud
             },
             // members
             {
-                { type<glTFImage>(), member_address(&glTFImage::mime_type), type<std::string>(), "mime_type", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFImage>(), member_address(&glTFImage::uri), type<std::string>(), "uri", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFImage>(), member_address(&glTFImage::buffer_view), type<int>(), "buffer_view", var(int()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFImage>(), member_address(&glTFImage::mime_type), type<std::string>(), "mime_type", var(std::string()), Member::Value, nullptr },
+                { type<glTFImage>(), member_address(&glTFImage::uri), type<std::string>(), "uri", var(std::string()), Member::Value, nullptr },
+                { type<glTFImage>(), member_address(&glTFImage::buffer_view), type<int>(), "buffer_view", var(int()), Member::Value, nullptr }
             },
             // methods
             {
@@ -656,14 +656,14 @@ namespace mud
             },
             // members
             {
-                { type<glTFMaterial>(), member_address(&glTFMaterial::name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterial>(), member_address(&glTFMaterial::normal_texture), type<glTFTextureInfo>(), "normal_texture", var(glTFTextureInfo()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterial>(), member_address(&glTFMaterial::occlusion_texture), type<glTFTextureInfo>(), "occlusion_texture", var(glTFTextureInfo()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterial>(), member_address(&glTFMaterial::emissive_factor), type<mud::vec3>(), "emissive_factor", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterial>(), member_address(&glTFMaterial::emissive_texture), type<glTFTextureInfo>(), "emissive_texture", var(glTFTextureInfo()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterial>(), member_address(&glTFMaterial::double_sided), type<bool>(), "double_sided", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterial>(), member_address(&glTFMaterial::alpha_mode), type<glTFAlphaMode>(), "alpha_mode", var(glTFAlphaMode()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterial>(), member_address(&glTFMaterial::pbr_metallic_roughness), type<glTFMaterialPBR>(), "pbr_metallic_roughness", var(glTFMaterialPBR()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFMaterial>(), member_address(&glTFMaterial::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<glTFMaterial>(), member_address(&glTFMaterial::normal_texture), type<glTFTextureInfo>(), "normal_texture", var(glTFTextureInfo()), Member::Value, nullptr },
+                { type<glTFMaterial>(), member_address(&glTFMaterial::occlusion_texture), type<glTFTextureInfo>(), "occlusion_texture", var(glTFTextureInfo()), Member::Value, nullptr },
+                { type<glTFMaterial>(), member_address(&glTFMaterial::emissive_factor), type<mud::vec3>(), "emissive_factor", var(mud::vec3()), Member::Value, nullptr },
+                { type<glTFMaterial>(), member_address(&glTFMaterial::emissive_texture), type<glTFTextureInfo>(), "emissive_texture", var(glTFTextureInfo()), Member::Value, nullptr },
+                { type<glTFMaterial>(), member_address(&glTFMaterial::double_sided), type<bool>(), "double_sided", var(bool(false)), Member::Value, nullptr },
+                { type<glTFMaterial>(), member_address(&glTFMaterial::alpha_mode), type<glTFAlphaMode>(), "alpha_mode", var(glTFAlphaMode()), Member::Value, nullptr },
+                { type<glTFMaterial>(), member_address(&glTFMaterial::pbr_metallic_roughness), type<glTFMaterialPBR>(), "pbr_metallic_roughness", var(glTFMaterialPBR()), Member::Value, nullptr }
             },
             // methods
             {
@@ -697,11 +697,11 @@ namespace mud
             },
             // members
             {
-                { type<glTFMaterialPBR>(), member_address(&glTFMaterialPBR::base_color_factor), type<mud::vec4>(), "base_color_factor", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterialPBR>(), member_address(&glTFMaterialPBR::base_color_texture), type<glTFTextureInfo>(), "base_color_texture", var(glTFTextureInfo()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterialPBR>(), member_address(&glTFMaterialPBR::metallic_factor), type<float>(), "metallic_factor", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterialPBR>(), member_address(&glTFMaterialPBR::roughness_factor), type<float>(), "roughness_factor", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMaterialPBR>(), member_address(&glTFMaterialPBR::metallic_roughness_texture), type<glTFTextureInfo>(), "metallic_roughness_texture", var(glTFTextureInfo()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFMaterialPBR>(), member_address(&glTFMaterialPBR::base_color_factor), type<mud::vec4>(), "base_color_factor", var(mud::vec4()), Member::Value, nullptr },
+                { type<glTFMaterialPBR>(), member_address(&glTFMaterialPBR::base_color_texture), type<glTFTextureInfo>(), "base_color_texture", var(glTFTextureInfo()), Member::Value, nullptr },
+                { type<glTFMaterialPBR>(), member_address(&glTFMaterialPBR::metallic_factor), type<float>(), "metallic_factor", var(float(1.f)), Member::Value, nullptr },
+                { type<glTFMaterialPBR>(), member_address(&glTFMaterialPBR::roughness_factor), type<float>(), "roughness_factor", var(float(1.f)), Member::Value, nullptr },
+                { type<glTFMaterialPBR>(), member_address(&glTFMaterialPBR::metallic_roughness_texture), type<glTFTextureInfo>(), "metallic_roughness_texture", var(glTFTextureInfo()), Member::Value, nullptr }
             },
             // methods
             {
@@ -735,8 +735,8 @@ namespace mud
             },
             // members
             {
-                { type<glTFMesh>(), member_address(&glTFMesh::primitives), type<std::vector<glTFPrimitive>>(), "primitives", var(std::vector<glTFPrimitive>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMesh>(), member_address(&glTFMesh::weights), type<std::vector<float>>(), "weights", var(std::vector<float>()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFMesh>(), member_address(&glTFMesh::primitives), type<std::vector<glTFPrimitive>>(), "primitives", var(std::vector<glTFPrimitive>()), Member::Value, nullptr },
+                { type<glTFMesh>(), member_address(&glTFMesh::weights), type<std::vector<float>>(), "weights", var(std::vector<float>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -770,9 +770,9 @@ namespace mud
             },
             // members
             {
-                { type<glTFMorphTarget>(), member_address(&glTFMorphTarget::POSITION), type<int>(), "POSITION", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMorphTarget>(), member_address(&glTFMorphTarget::NORMAL), type<int>(), "NORMAL", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFMorphTarget>(), member_address(&glTFMorphTarget::TANGENT), type<int>(), "TANGENT", var(int()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFMorphTarget>(), member_address(&glTFMorphTarget::POSITION), type<int>(), "POSITION", var(int()), Member::Value, nullptr },
+                { type<glTFMorphTarget>(), member_address(&glTFMorphTarget::NORMAL), type<int>(), "NORMAL", var(int()), Member::Value, nullptr },
+                { type<glTFMorphTarget>(), member_address(&glTFMorphTarget::TANGENT), type<int>(), "TANGENT", var(int()), Member::Value, nullptr }
             },
             // methods
             {
@@ -806,15 +806,15 @@ namespace mud
             },
             // members
             {
-                { type<glTFNode>(), member_address(&glTFNode::name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFNode>(), member_address(&glTFNode::mesh), type<int>(), "mesh", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFNode>(), member_address(&glTFNode::camera), type<int>(), "camera", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFNode>(), member_address(&glTFNode::skin), type<int>(), "skin", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFNode>(), member_address(&glTFNode::matrix), type<mud::mat4>(), "matrix", var(mud::mat4()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFNode>(), member_address(&glTFNode::translation), type<mud::vec3>(), "translation", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFNode>(), member_address(&glTFNode::rotation), type<mud::quat>(), "rotation", var(mud::quat()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFNode>(), member_address(&glTFNode::scale), type<mud::vec3>(), "scale", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFNode>(), member_address(&glTFNode::children), type<std::vector<int>>(), "children", var(std::vector<int>()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFNode>(), member_address(&glTFNode::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<glTFNode>(), member_address(&glTFNode::mesh), type<int>(), "mesh", var(int()), Member::Value, nullptr },
+                { type<glTFNode>(), member_address(&glTFNode::camera), type<int>(), "camera", var(int()), Member::Value, nullptr },
+                { type<glTFNode>(), member_address(&glTFNode::skin), type<int>(), "skin", var(int()), Member::Value, nullptr },
+                { type<glTFNode>(), member_address(&glTFNode::matrix), type<mud::mat4>(), "matrix", var(mud::mat4()), Member::Value, nullptr },
+                { type<glTFNode>(), member_address(&glTFNode::translation), type<mud::vec3>(), "translation", var(mud::vec3()), Member::Value, nullptr },
+                { type<glTFNode>(), member_address(&glTFNode::rotation), type<mud::quat>(), "rotation", var(mud::quat()), Member::Value, nullptr },
+                { type<glTFNode>(), member_address(&glTFNode::scale), type<mud::vec3>(), "scale", var(mud::vec3()), Member::Value, nullptr },
+                { type<glTFNode>(), member_address(&glTFNode::children), type<std::vector<int>>(), "children", var(std::vector<int>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -848,10 +848,10 @@ namespace mud
             },
             // members
             {
-                { type<glTFOrthographic>(), member_address(&glTFOrthographic::xmag), type<float>(), "xmag", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFOrthographic>(), member_address(&glTFOrthographic::ymag), type<float>(), "ymag", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFOrthographic>(), member_address(&glTFOrthographic::zfar), type<float>(), "zfar", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFOrthographic>(), member_address(&glTFOrthographic::znear), type<float>(), "znear", var(float()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFOrthographic>(), member_address(&glTFOrthographic::xmag), type<float>(), "xmag", var(float()), Member::Value, nullptr },
+                { type<glTFOrthographic>(), member_address(&glTFOrthographic::ymag), type<float>(), "ymag", var(float()), Member::Value, nullptr },
+                { type<glTFOrthographic>(), member_address(&glTFOrthographic::zfar), type<float>(), "zfar", var(float()), Member::Value, nullptr },
+                { type<glTFOrthographic>(), member_address(&glTFOrthographic::znear), type<float>(), "znear", var(float()), Member::Value, nullptr }
             },
             // methods
             {
@@ -885,10 +885,10 @@ namespace mud
             },
             // members
             {
-                { type<glTFPerspective>(), member_address(&glTFPerspective::yfov), type<float>(), "yfov", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFPerspective>(), member_address(&glTFPerspective::zfar), type<float>(), "zfar", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFPerspective>(), member_address(&glTFPerspective::znear), type<float>(), "znear", var(float()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFPerspective>(), member_address(&glTFPerspective::aspect_ration), type<float>(), "aspect_ration", var(float()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFPerspective>(), member_address(&glTFPerspective::yfov), type<float>(), "yfov", var(float()), Member::Value, nullptr },
+                { type<glTFPerspective>(), member_address(&glTFPerspective::zfar), type<float>(), "zfar", var(float()), Member::Value, nullptr },
+                { type<glTFPerspective>(), member_address(&glTFPerspective::znear), type<float>(), "znear", var(float()), Member::Value, nullptr },
+                { type<glTFPerspective>(), member_address(&glTFPerspective::aspect_ration), type<float>(), "aspect_ration", var(float()), Member::Value, nullptr }
             },
             // methods
             {
@@ -922,11 +922,11 @@ namespace mud
             },
             // members
             {
-                { type<glTFPrimitive>(), member_address(&glTFPrimitive::attributes), type<glTFAttributes>(), "attributes", var(glTFAttributes()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFPrimitive>(), member_address(&glTFPrimitive::indices), type<int>(), "indices", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFPrimitive>(), member_address(&glTFPrimitive::material), type<int>(), "material", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFPrimitive>(), member_address(&glTFPrimitive::mode), type<glTFPrimitiveType>(), "mode", var(glTFPrimitiveType()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFPrimitive>(), member_address(&glTFPrimitive::targets), type<std::vector<glTFMorphTarget>>(), "targets", var(std::vector<glTFMorphTarget>()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFPrimitive>(), member_address(&glTFPrimitive::attributes), type<glTFAttributes>(), "attributes", var(glTFAttributes()), Member::Value, nullptr },
+                { type<glTFPrimitive>(), member_address(&glTFPrimitive::indices), type<int>(), "indices", var(int()), Member::Value, nullptr },
+                { type<glTFPrimitive>(), member_address(&glTFPrimitive::material), type<int>(), "material", var(int()), Member::Value, nullptr },
+                { type<glTFPrimitive>(), member_address(&glTFPrimitive::mode), type<glTFPrimitiveType>(), "mode", var(glTFPrimitiveType()), Member::Value, nullptr },
+                { type<glTFPrimitive>(), member_address(&glTFPrimitive::targets), type<std::vector<glTFMorphTarget>>(), "targets", var(std::vector<glTFMorphTarget>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -960,11 +960,11 @@ namespace mud
             },
             // members
             {
-                { type<glTFSampler>(), member_address(&glTFSampler::mag_filter), type<int>(), "mag_filter", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSampler>(), member_address(&glTFSampler::min_filter), type<int>(), "min_filter", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSampler>(), member_address(&glTFSampler::wrap_s), type<int>(), "wrap_s", var(int(10497)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSampler>(), member_address(&glTFSampler::wrap_t), type<int>(), "wrap_t", var(int(10497)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSampler>(), member_address(&glTFSampler::name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFSampler>(), member_address(&glTFSampler::mag_filter), type<int>(), "mag_filter", var(int()), Member::Value, nullptr },
+                { type<glTFSampler>(), member_address(&glTFSampler::min_filter), type<int>(), "min_filter", var(int()), Member::Value, nullptr },
+                { type<glTFSampler>(), member_address(&glTFSampler::wrap_s), type<int>(), "wrap_s", var(int(10497)), Member::Value, nullptr },
+                { type<glTFSampler>(), member_address(&glTFSampler::wrap_t), type<int>(), "wrap_t", var(int(10497)), Member::Value, nullptr },
+                { type<glTFSampler>(), member_address(&glTFSampler::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr }
             },
             // methods
             {
@@ -998,8 +998,8 @@ namespace mud
             },
             // members
             {
-                { type<glTFScene>(), member_address(&glTFScene::name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFScene>(), member_address(&glTFScene::nodes), type<std::vector<int>>(), "nodes", var(std::vector<int>()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFScene>(), member_address(&glTFScene::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<glTFScene>(), member_address(&glTFScene::nodes), type<std::vector<int>>(), "nodes", var(std::vector<int>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -1033,10 +1033,10 @@ namespace mud
             },
             // members
             {
-                { type<glTFSkin>(), member_address(&glTFSkin::name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSkin>(), member_address(&glTFSkin::skeleton), type<int>(), "skeleton", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSkin>(), member_address(&glTFSkin::joints), type<std::vector<int>>(), "joints", var(std::vector<int>()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSkin>(), member_address(&glTFSkin::inverse_bind_matrices), type<int>(), "inverse_bind_matrices", var(int()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFSkin>(), member_address(&glTFSkin::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<glTFSkin>(), member_address(&glTFSkin::skeleton), type<int>(), "skeleton", var(int()), Member::Value, nullptr },
+                { type<glTFSkin>(), member_address(&glTFSkin::joints), type<std::vector<int>>(), "joints", var(std::vector<int>()), Member::Value, nullptr },
+                { type<glTFSkin>(), member_address(&glTFSkin::inverse_bind_matrices), type<int>(), "inverse_bind_matrices", var(int()), Member::Value, nullptr }
             },
             // methods
             {
@@ -1070,9 +1070,9 @@ namespace mud
             },
             // members
             {
-                { type<glTFSparse>(), member_address(&glTFSparse::count), type<int>(), "count", var(int(0)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSparse>(), member_address(&glTFSparse::indices), type<glTFSparseIndices>(), "indices", var(glTFSparseIndices()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSparse>(), member_address(&glTFSparse::values), type<glTFSparseValues>(), "values", var(glTFSparseValues()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFSparse>(), member_address(&glTFSparse::count), type<int>(), "count", var(int(0)), Member::Value, nullptr },
+                { type<glTFSparse>(), member_address(&glTFSparse::indices), type<glTFSparseIndices>(), "indices", var(glTFSparseIndices()), Member::Value, nullptr },
+                { type<glTFSparse>(), member_address(&glTFSparse::values), type<glTFSparseValues>(), "values", var(glTFSparseValues()), Member::Value, nullptr }
             },
             // methods
             {
@@ -1106,9 +1106,9 @@ namespace mud
             },
             // members
             {
-                { type<glTFSparseIndices>(), member_address(&glTFSparseIndices::buffer_view), type<int>(), "buffer_view", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSparseIndices>(), member_address(&glTFSparseIndices::byte_offset), type<int>(), "byte_offset", var(int(0)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSparseIndices>(), member_address(&glTFSparseIndices::component_type), type<glTFComponentType>(), "component_type", var(glTFComponentType()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFSparseIndices>(), member_address(&glTFSparseIndices::buffer_view), type<int>(), "buffer_view", var(int()), Member::Value, nullptr },
+                { type<glTFSparseIndices>(), member_address(&glTFSparseIndices::byte_offset), type<int>(), "byte_offset", var(int(0)), Member::Value, nullptr },
+                { type<glTFSparseIndices>(), member_address(&glTFSparseIndices::component_type), type<glTFComponentType>(), "component_type", var(glTFComponentType()), Member::Value, nullptr }
             },
             // methods
             {
@@ -1142,8 +1142,8 @@ namespace mud
             },
             // members
             {
-                { type<glTFSparseValues>(), member_address(&glTFSparseValues::buffer_view), type<int>(), "buffer_view", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFSparseValues>(), member_address(&glTFSparseValues::byte_offset), type<int>(), "byte_offset", var(int(0)), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFSparseValues>(), member_address(&glTFSparseValues::buffer_view), type<int>(), "buffer_view", var(int()), Member::Value, nullptr },
+                { type<glTFSparseValues>(), member_address(&glTFSparseValues::byte_offset), type<int>(), "byte_offset", var(int(0)), Member::Value, nullptr }
             },
             // methods
             {
@@ -1177,8 +1177,8 @@ namespace mud
             },
             // members
             {
-                { type<glTFTexture>(), member_address(&glTFTexture::source), type<int>(), "source", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFTexture>(), member_address(&glTFTexture::name), type<std::string>(), "name", var(std::string()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFTexture>(), member_address(&glTFTexture::source), type<int>(), "source", var(int()), Member::Value, nullptr },
+                { type<glTFTexture>(), member_address(&glTFTexture::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr }
             },
             // methods
             {
@@ -1212,8 +1212,8 @@ namespace mud
             },
             // members
             {
-                { type<glTFTextureInfo>(), member_address(&glTFTextureInfo::index), type<int>(), "index", var(int()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<glTFTextureInfo>(), member_address(&glTFTextureInfo::scale), type<float>(), "scale", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) }
+                { type<glTFTextureInfo>(), member_address(&glTFTextureInfo::index), type<int>(), "index", var(int()), Member::Value, nullptr },
+                { type<glTFTextureInfo>(), member_address(&glTFTextureInfo::scale), type<float>(), "scale", var(float(1.f)), Member::Value, nullptr }
             },
             // methods
             {

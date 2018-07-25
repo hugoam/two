@@ -207,7 +207,7 @@ namespace mud
 
 		for(auto& model_tiles : visu.m_tiles)
 		{
-			Material* material = focused == uvec3(UINT32_MAX) ? &parent.m_scene->m_gfx_system.debug_material() : &alpha_material;
+			Material* material = focused == uvec3(UINT32_MAX) ? nullptr : &alpha_material;
 			uint32_t flags = ITEM_WORLD_GEOMETRY | (dirty ? 0 : ITEM_NO_UPDATE);
 			Item& item = gfx::item(self, *model_tiles.first, flags, material, model_tiles.second.size(), model_tiles.second);
 			gfx::update_item_lights(item);
@@ -260,7 +260,7 @@ namespace mud
 
 	void model_array_view(Widget& parent, std::function<void(ModelArrayView&)> query_state, void* id = nullptr)
 	{
-		Widget& self = ui::widget(parent, styles().stack);//, (void*)id);
+		Widget& self = ui::widget(parent, styles().stack, id);
 		ModelArrayView& state = self.state<ModelArrayView>();
 
 		if(state.m_items.empty())
@@ -356,7 +356,7 @@ namespace mud
 		Gnode& node = gfx::node(parent, {}, vec3(coord));
 
 		size_t index = tileblock.m_wave.m_wave.indexAt(coord.x, coord.y, coord.z);
-		size_t side = ceil(sqrt(float(tileblock.m_entropy[index])));
+		size_t side = size_t(ceil(sqrt(float(tileblock.m_entropy[index]))));
 		size_t columns = tileblock.m_entropy[index] / side;
 
 		vec3 offset = tileblock.to_position(coord) - vec3(float(side - 1), 0.f, float(columns - 1)) * 0.5f + Y3 * 0.5f;
@@ -383,7 +383,7 @@ namespace mud
 			size_t count = 0;
 
 			size_t t2 = tileblock.m_tiles.at(coord.x, coord.y, coord.z);
-			uvec3 adjacent;
+			//uvec3 adjacent;
 			//if(neighbour(tileblock.m_wave, coord, SignedAxis(d), adjacent))
 				for(size_t t1 = 0; t1 < tileblock.m_wave.m_states.size(); ++t1)
 					if(tileblock.m_tileset.m_propagator[d].at(t2, t1))
@@ -407,8 +407,8 @@ namespace mud
 		if(ui::button(body, "solve 10").activated())
 			tileblock.solve(10);
 
-		static size_t tile = 0;
-		ui::number_field<size_t>(body, "tile", { tile, StatDef<size_t>{} });
+		static uint16_t tile = 0;
+		ui::number_field<uint16_t>(body, "tile", { tile, StatDef<uint16_t>{} });
 
 		if(ui::button(body, "set tile").activated())
 			tileblock.m_wave.set_tile(selected, tile);

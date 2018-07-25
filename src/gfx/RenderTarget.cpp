@@ -19,6 +19,22 @@ module mud.gfx;
 
 namespace mud
 {
+	vec4 fbo_dest_quad(const uvec2& size, const vec4& rect, bool relative)
+	{
+		vec4 result = rect;
+		if(relative && bgfx::getCaps()->originBottomLeft)
+			result.y = size.y - rect.y - rect_h(rect);
+		return result;
+	}
+
+	vec4 fbo_source_quad(const uvec2& size, const vec4& rect, bool relative)
+	{
+		vec4 crop = vec4(rect_offset(rect) / vec2(size), rect_size(rect) / vec2(size));
+		if(!relative && bgfx::getCaps()->originBottomLeft)
+			crop.y = 1.f - crop.y - rect_h(crop);
+		return crop;
+	}
+
 #if defined MUD_UNIFORM_BLOCKS
 	TypedUniformBlock<RenderBlock> RenderBlock::s_block = { "render" };
 #endif
@@ -73,18 +89,15 @@ namespace mud
 		//uint32_t flags = BGFX_TEXTURE_BLIT_DST | GFX_TEXTURE_CLAMP;
 		uint32_t flags = BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP;
 
-		if(bgfx::isTextureValid(0, true, 1, color_format, flags))
+		if(bgfx::isTextureValid(1, true, 1, color_format, flags))
 		{
 			m_texture = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), true, 1, color_format, flags);
 
-			for(uint16_t i = 0; size.x > 1 && i < 9; ++i)
+			for(uint16_t i = 1; size.x > 1 && i < 9; ++i)
 			{
 				bgfx::Attachment attachment = { m_texture, i, 0 };
-				m_mips[i] = make_unique<FrameBuffer>(size, bgfx::createFrameBuffer(1, &attachment, false));
-				size.x >>= 1;
-				size.y >>= 1;
+				m_mips[i] = make_unique<FrameBuffer>(uvec2(size.x >> i, size.y >> i), bgfx::createFrameBuffer(1, &attachment, false));
 			}
-
 		}
 	}
 

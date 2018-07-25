@@ -28,7 +28,7 @@ namespace ui
 	{
 		if(parent.m_nodes.size() > index && parent.m_nodes[index]->m_heartbeat == parent.m_heartbeat)
 			return *parent.m_nodes[index];
-		Widget& self = parent.sub(index).init(dock_styles().dockline, false, dim);
+		Widget& self = parent.subx(index).init(dock_styles().dockline, false, dim);
 		grid_sheet_logic(self, dim);
 		return self;
 	}
@@ -37,14 +37,14 @@ namespace ui
 	{
 		if(parent.m_nodes.size() > 0 && parent.m_nodes[0]->m_heartbeat == parent.m_heartbeat)
 			return as<Tabber>(*parent.m_nodes[0]);
-		Widget& section = ui::widget(parent, dock_styles().docksection); // dockid.back()
-		Tabber& tabber = ui::tabber(section); // dockspace_styles().docksection, 
+		//Widget& section = ui::widget(parent, dock_styles().docksection); // dockid.back()
+		Tabber& tabber = ui::tabber(parent); // dockspace_styles().docksection, 
 		return tabber;
 	}
 
 	Dockspace& dockspace(Widget& parent, Docksystem& docksystem)
 	{
-		Dockspace& self = parent.child_args<Dockspace, Docksystem&>(docksystem);
+		Dockspace& self = parent.suba<Dockspace, Docksystem&>(docksystem);
 		self.init(dock_styles().dockspace);
 		self.m_mainline = &dockline(self, 0, DIM_Y);
 		return self;
@@ -52,7 +52,7 @@ namespace ui
 
 	Dockbar& dockbar(Widget& parent, Docksystem& docksystem)
 	{
-		Dockbar& self = parent.child_args<Dockbar, Docksystem&>(docksystem);
+		Dockbar& self = parent.suba<Dockbar, Docksystem&>(docksystem);
 		self.init(dock_styles().dockbar);
 
 		self.m_togglebar = &widget(self, dock_styles().docktabs);

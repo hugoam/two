@@ -49,6 +49,7 @@ namespace mud
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Ratio>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Time>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::TimeSpan>();
+    export_ template <> MUD_MATH_EXPORT Type& type<mud::Transform>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::ValueCurve<float>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::ValueCurve<mud::Colour>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::ValueCurve<mud::quat>>();
@@ -91,6 +92,7 @@ namespace mud
 	export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Ratio*>>;
 	export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Time*>>;
 	export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::TimeSpan*>>;
+	export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Transform*>>;
 	export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ValueCurve<float>*>>;
 	export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ValueCurve<mud::Colour>*>>;
 	export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ValueCurve<mud::quat>*>>;

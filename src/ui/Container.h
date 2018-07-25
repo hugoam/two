@@ -17,7 +17,7 @@ namespace ui
 	export_ struct TableStyles
 	{
 		TableStyles();
-		Style row; Style row_odd; Style row_even;
+		Style row; Style row_odd; Style row_even; Style separator;
 	};
 
 	export_ MUD_UI_EXPORT TableStyles& table_styles();
@@ -52,6 +52,7 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ Table& columns(Widget& parent, array<float> weights);
 	export_ MUD_UI_EXPORT func_ Table& table(Widget& parent, array<cstring> columns, array<float> weights);
 	export_ MUD_UI_EXPORT func_ Widget& table_row(Widget& parent);
+	export_ MUD_UI_EXPORT func_ Widget& table_separator(Widget& parent);
 
 	export_ MUD_UI_EXPORT func_ Expandbox& expandbox(Widget& parent, array<cstring> elements, bool open = true);
 	export_ MUD_UI_EXPORT func_ Expandbox& expandbox(Widget& parent, cstring name, bool open = true);

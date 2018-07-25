@@ -212,7 +212,7 @@ namespace mud
 
 	void Fract::render(const Rect& rect, const Pattern& pattern, uvec2 resolution, Image256& image)
 	{
-		image.resize(resolution.x, resolution.y);
+		image.resize(uint16_t(resolution.x), uint16_t(resolution.y));
 
 		image.m_palette = pattern.m_palette;
 

@@ -38,6 +38,7 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::Ratio>() { static Type ty("Ratio"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Time>() { static Type ty("Time"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::TimeSpan>() { static Type ty("TimeSpan"); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::Transform>() { static Type ty("Transform"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::ValueCurve<float>>() { static Type ty("ValueCurve<float>"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::ValueCurve<mud::Colour>>() { static Type ty("ValueCurve<mud::Colour>"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::ValueCurve<mud::quat>>() { static Type ty("ValueCurve<mud::quat>"); return ty; }

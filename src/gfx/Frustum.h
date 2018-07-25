@@ -41,16 +41,16 @@ namespace mud
 
 		void compute();
 
-		attr_ mut_ float m_fov = 60.f;
-		attr_ mut_ float m_aspect = 1.f;
-		attr_ mut_ float m_near;
-		attr_ mut_ float m_far;
+		attr_ float m_fov = 60.f;
+		attr_ float m_aspect = 1.f;
+		attr_ float m_near;
+		attr_ float m_far;
 
 		Plane6 m_planes;
 		Point8 m_corners;
 
-		attr_ mut_ vec3 m_center;
-		attr_ mut_ float m_radius;
+		attr_ vec3 m_center;
+		attr_ float m_radius;
 	};
 
 	export_ MUD_GFX_EXPORT Frustum optimized_frustum(Camera& camera, array<Item*> items);

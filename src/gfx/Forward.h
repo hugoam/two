@@ -43,10 +43,12 @@ namespace glm {
     
 }
 
-namespace bx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace json11 {
@@ -92,7 +94,6 @@ namespace mud {
     struct AnimationCursor;
     class AnimationTrack;
     class Animation;
-    struct Transform;
     class Node3;
     struct Bone;
     class Skeleton;
@@ -123,6 +124,7 @@ namespace mud {
     class Renderer;
     struct BaseMaterialBlock;
     struct UnshadedMaterialBlock;
+    struct FresnelMaterialBlock;
     struct PbrMaterialBlock;
     struct PbrBlock;
     class Material;
@@ -204,12 +206,10 @@ namespace detail {
 }
 }
 
-namespace mud {
-namespace gfx {
+namespace bgfx {
 
     
     
-}
 }
 
 namespace bimg {
@@ -218,7 +218,7 @@ namespace bimg {
     
 }
 
-namespace bgfx {
+namespace bx {
 
     
     

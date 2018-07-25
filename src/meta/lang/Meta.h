@@ -103,7 +103,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Process>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Link }
+                { type<mud::Process>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Process>(object).m_type); } }
             },
             // methods
             {
@@ -221,9 +221,10 @@ namespace mud
             },
             // members
             {
-                { type<mud::Script>(), member_address(&mud::Script::m_index), type<uint32_t>(), "index", var(uint32_t()), Member::Value },
-                { type<mud::Script>(), member_address(&mud::Script::m_name), type<std::string>(), "name", var(std::string()), Member::Value },
-                { type<mud::Script>(), member_address(&mud::Script::m_locked), type<bool>(), "locked", var(bool()), Member::Value }
+                { type<mud::Script>(), member_address(&mud::Script::m_index), type<uint32_t>(), "index", var(uint32_t()), Member::Value, nullptr },
+                { type<mud::Script>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Script>(object).m_type); } },
+                { type<mud::Script>(), member_address(&mud::Script::m_name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<mud::Script>(), member_address(&mud::Script::m_locked), type<bool>(), "locked", var(bool()), Member::Value, nullptr }
             },
             // methods
             {

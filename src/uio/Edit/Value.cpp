@@ -58,14 +58,11 @@ namespace mud
 		return changed;
 	}
 
-	enum CurveEditSwitch
-	{
-		EDIT_CURVE = 1 << 0
-	};
-
 	template <>
 	bool curve_edit(Widget& parent, std::vector<float>& keys)
 	{
+		enum Modes { EDIT_CURVE = 1 << 0 };
+
 		if(ui::modal_button(parent, parent, "+", EDIT_CURVE))
 		{
 			Widget& widget = ui::auto_modal(parent, EDIT_CURVE, { 300.f, 120.f });
@@ -89,11 +86,11 @@ namespace mud
 			track.set_mode(mode);
 
 		if(track.m_mode == TrackMode::Constant)
-			changed |= ui::input<T>(self, track.m_curve.m_keys[0]);
+			changed |= ui::input<T>(self, track.m_value);
 		else if(track.m_mode == TrackMode::ConstantRandom)
 		{
-			changed |= ui::input<T>(self, track.m_min_curve.m_keys[0]);
-			changed |= ui::input<T>(self, track.m_max_curve.m_keys[0]);
+			changed |= ui::input<T>(self, track.m_min);
+			changed |= ui::input<T>(self, track.m_max);
 		}
 		else if(track.m_mode == TrackMode::Curve)
 		{
@@ -144,19 +141,13 @@ namespace mud
 		//dispatch_branch<Image256>([](Image256& image, Wedge& parent) -> object_ptr<Widget> { return make_object<Figure>(Widget::Input{ &parent }, image); });
 	}
 
-	Type* type_selector(Widget& parent, Type* current, const std::vector<Type*> types)
+	bool type_selector(Widget& parent, size_t& type, array<Type*> types)
 	{
-		size_t choice = SIZE_MAX;
 		std::vector<cstring> type_names;
 		for(size_t i = 0; i < types.size(); ++i)
-		{
-			if(current == types[i])
-				choice = i;
 			type_names.push_back(types[i]->m_name);
-		}
 
-		ui::dropdown_input(parent, to_array(type_names), choice);
-		return choice == SIZE_MAX ? current : types[choice];
+		return ui::dropdown_input(parent, to_array(type_names), type);
 	}
 
 	bool value_edit(Widget& parent, Ref& value)
@@ -193,28 +184,11 @@ namespace mud
 		return false;
 	}
 
-	enum ObjectLinkSwitch
-	{
-		LINK_OBJECT = 1 << 0
-	};
-
 	bool object_link_edit(Widget& parent, Ref& value)
 	{
 		Widget& self = ui::row(parent);
 		object_button(self, value);
-		
-#if 1
 		return object_selector_modal(self, self, value);
-#else
-		Ref selected = Ref(*value.m_type);
-		if(object_selector_modal(self, self, value))
-		{
-			value = selected;
-			return true;
-		}
-
-		return false;
-#endif
 	}
 
 	bool sequence_element_edit(Widget& parent, Ref sequence, Ref& value)
@@ -225,23 +199,20 @@ namespace mud
 		return false;
 	}
 
-	enum ObjectSequenceSwitch
-	{
-		ADD_ELEMENT = 1 << 0
-	};
-
 	bool sequence_edit(Widget& parent, Ref& value, EditorHint hint)
 	{
+		enum Modes { ADD = 1 << 0 };
+
 		Widget& self = hint == EditorHint::Inline ? ui::row(parent)
 												  : ui::sheet(parent);
 		bool changed = false;
 		iterate_sequence(value, [&](Ref element) { changed |= value_edit(self, element); });
-		if(ui::modal_button(self, self, "add", ADD_ELEMENT))
+		if(ui::modal_button(self, self, "add", ADD))
 		{
 			if(meta(*cls(value).m_content).m_empty_var)
 			{
 				add_sequence(value, meta(*cls(value).m_content).m_empty_var());
-				self.m_switch &= ~ADD_ELEMENT;
+				self.m_switch &= ~ADD;
 				changed |= true;
 			}
 			else
@@ -250,7 +221,7 @@ namespace mud
 				if(object_selector(self, selected))
 				{
 					add_sequence(value, selected);
-					self.m_switch &= ~ADD_ELEMENT;
+					self.m_switch &= ~ADD;
 					changed |= true;
 				}
 			}

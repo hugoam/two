@@ -92,6 +92,6 @@ namespace mud
 		bgfx::FrameBufferHandle target = first_pass ? render.m_target->m_ping_pong.swap() : render.m_target->m_post_process.swap();
 
 		m_filter.submit_quad(*render.m_target, render.composite_pass(),
-							 target, m_program.version(shader_version), { vec4(render.m_viewport.m_rect), true }, bgfx_state);
+							 target, m_program.version(shader_version), render.m_viewport.m_rect, bgfx_state);
 	}
 }

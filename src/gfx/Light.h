@@ -37,30 +37,30 @@ namespace mud
 
 		attr_ Node3& m_node;
 
-		attr_ mut_ LightType m_type = LightType::Point;
-		attr_ mut_ bool m_visible = true;
-		attr_ mut_ Colour m_colour = Colour::White;
-		attr_ mut_ float m_range = 1.f;
-		attr_ mut_ float m_energy = 1.f;
-		attr_ mut_ float m_specular = 0.5f;
-		attr_ mut_ bool m_shadows = false;
-		attr_ mut_ Colour m_shadow_colour = Colour::Black;
-		attr_ mut_ float m_shadow_range = 100.f;
-		attr_ mut_ float m_attenuation = 0.5f;
-		attr_ mut_ uint32_t m_layers = 0xFFFFFFFF;
+		attr_ LightType m_type = LightType::Point;
+		attr_ bool m_visible = true;
+		attr_ Colour m_colour = Colour::White;
+		attr_ float m_range = 1.f;
+		attr_ float m_energy = 1.f;
+		attr_ float m_specular = 0.5f;
+		attr_ bool m_shadows = false;
+		attr_ Colour m_shadow_colour = Colour::Black;
+		attr_ float m_shadow_range = 100.f;
+		attr_ float m_attenuation = 0.5f;
+		attr_ uint32_t m_layers = 0xFFFFFFFF;
 
 		attr_ uint32_t m_last_render = 0;
 		attr_ uint32_t m_last_update = 0;
 
 		// spotlight
-		attr_ mut_ float m_spot_angle = 45.f;
-		attr_ mut_ float m_spot_attenuation = 0.5f;
+		attr_ float m_spot_angle = 45.f;
+		attr_ float m_spot_attenuation = 0.5f;
 
-		attr_ mut_ ShadowFlags m_shadow_flags = ShadowFlags(0 | CSM_Optimize);
-		attr_ mut_ uint8_t m_shadow_num_splits = 1;
-		attr_ mut_ float m_shadow_split_distribution = 0.6f;
+		attr_ ShadowFlags m_shadow_flags = ShadowFlags(0 | CSM_Optimize);
+		attr_ uint8_t m_shadow_num_splits = 1;
+		attr_ float m_shadow_split_distribution = 0.6f;
 
-		attr_ mut_ float m_shadow_normal_bias = 0.1f;
-		attr_ mut_ float m_shadow_bias = 0.f;
+		attr_ float m_shadow_normal_bias = 0.1f;
+		attr_ float m_shadow_bias = 0.f;
 	};
 }

@@ -31,38 +31,29 @@ namespace mud
 	ScriptEditor::~ScriptEditor()
 	{}
 
-	void ScriptEditor::open(VisualScript& script)
+	void ScriptEditor::open(Script& script)
 	{
-		vector_add(m_visual_scripts, &script);
+		vector_add(m_scripts, &script);
+	}
+
+	void ScriptEditor::close(Script& script)
+	{
+		vector_remove(m_scripts, &script);
 	}
 
 	VisualScript& ScriptEditor::create_visual(cstring name)
 	{
 		VisualScript& script = GlobalPool::me().pool<VisualScript>().construct(name);
+		this->open(script);
 		return script;
-	}
-
-	void ScriptEditor::close(VisualScript& script)
-	{
-		vector_remove(m_visual_scripts, &script);
-	}
-
-	void ScriptEditor::open(LuaScript& script)
-	{
-		vector_add(m_lua_scripts, &script);
 	}
 
 	LuaScript& ScriptEditor::create_script(cstring name)
 	{
 		LuaScript& script = GlobalPool::me().pool<LuaScript>().construct(name);
 		script.m_interpreter = m_interpreter;
-		vector_add(m_lua_scripts, &script);
+		this->open(script);
 		return script;
-	}
-
-	void ScriptEditor::close(LuaScript& script)
-	{
-		vector_remove(m_lua_scripts, &script);
 	}
 
 	std::vector<string> lua_words()
@@ -84,9 +75,6 @@ namespace mud
 
 		static string output = "";
 		output = lua.flush();
-
-		//Widget& self = widget(parent, styles().text_edit);;
-		//TextEdit& edit = text_box(*scroll_sheet.m_body, styles().type_zone, text, true, lines);
 
 		ui::text_box(self, styles().type_in, output, true, 5);
 	}
@@ -147,14 +135,18 @@ namespace mud
 		script_edit_output(span_1, *script.m_interpreter);
 	}
 
-	void script_tab(Tabber& parent, ScriptEditor& editor, LuaScript& script)
+	void script_tab(Tabber& parent, ScriptEditor& editor, Script& script)
 	{
 		if(Widget* tab = ui::tab(parent, script.m_name.c_str()))
 		{
 			ActionList script_actions = {
 				{ "Close", [&] { editor.close(script); } }
 			};
-			script_edit(*tab, script, script_actions);
+
+			if(script.m_type.is<VisualScript>())
+				visual_script_edit(*tab, as<VisualScript>(script), script_actions);
+			else if(script.m_type.is<LuaScript>())
+				script_edit(*tab, as<LuaScript>(script), script_actions);
 		}
 	}
 
@@ -163,11 +155,8 @@ namespace mud
 		enum Modes { OPEN = 1 << 0 };
 
 		ActionList actions = {
-			//{ "Open Script", [&] { Ref result = object_picker(parent.root(), type<Script>()); if(result) editor.open(result.val<Script>()); } },
-			{ "New Script", [&] { editor.create_script(("Untitled " + to_string(editor.m_lua_scripts.size())).c_str()); } },
-
-			//{ "Open Visual Script", [&] { Ref result = object_picker(parent.root(), type<VisualScript>()); if(result) editor.open(result.val<VisualScript>()); } },
-			{ "New Visual Script", [&] { editor.create_visual(("Untitled " + to_string(editor.m_visual_scripts.size())).c_str()); } }
+			{ "New Script", [&] { editor.create_script(("Untitled " + to_string(editor.m_scripts.size())).c_str()); } },
+			{ "New Visual Script", [&] { editor.create_visual(("Untitled " + to_string(editor.m_scripts.size())).c_str()); } }
 		};
 
 		Section& self = section(parent, "Script Editor", actions);
@@ -176,19 +165,15 @@ namespace mud
 		{
 			Widget& modal = ui::auto_modal(self, OPEN, { 600, 400 });
 			Ref result = Ref(type<Script>());
-			if(object_selector(modal, result))
+			if(object_selector(*modal.m_body, result))
 			{
-				editor.open(val<LuaScript>(result));
+				editor.open(val<Script>(result));
 				self.m_switch &= ~OPEN;
 			}
 		}
 
 		Tabber& tabber = ui::tabber(*self.m_body);
-
-		//for(Script* script : editor.m_visual_scripts)
-		//	script_tab(tabber, editor, *script);
-
-		for(LuaScript* script : editor.m_lua_scripts)
+		for(Script* script : editor.m_scripts)
 			script_tab(tabber, editor, *script);
 	}
 

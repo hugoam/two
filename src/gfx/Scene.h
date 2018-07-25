@@ -23,18 +23,18 @@ namespace mud
 {
 	export_ struct refl_ Sun
 	{
-		attr_ mut_ float azimuth;
-		attr_ mut_ float elevation;
-		attr_ mut_ Colour m_colour = { 0.8f, 0.8f, 0.0f };
-		attr_ mut_ float m_intensity = 0.f;
+		attr_ float azimuth;
+		attr_ float elevation;
+		attr_ Colour m_colour = { 0.8f, 0.8f, 0.0f };
+		attr_ float m_intensity = 0.f;
 	};
 
 	export_ struct refl_ Radiance
 	{
-		attr_ mut_ float m_energy = 1.0f;
-		attr_ mut_ float m_ambient = 1.0f;
-		attr_ mut_ Colour m_colour = Colour::Black;
-		attr_ mut_ Texture* m_texture = nullptr;
+		attr_ float m_energy = 1.0f;
+		attr_ float m_ambient = 1.0f;
+		attr_ Colour m_colour = Colour::Black;
+		attr_ Texture* m_texture = nullptr;
 		bgfx::TextureHandle m_roughness_array = BGFX_INVALID_HANDLE;
 		bool m_preprocessed = false;
 	};
@@ -49,37 +49,37 @@ namespace mud
 
 	export_ struct refl_ Background
 	{
-		attr_ mut_ BackgroundMode m_mode = BackgroundMode::None;
-		attr_ mut_ Colour m_colour = Colour::Black;
-		attr_ mut_ Program* m_custom_program = nullptr;
+		attr_ BackgroundMode m_mode = BackgroundMode::None;
+		attr_ Colour m_colour = Colour::Black;
+		attr_ Program* m_custom_program = nullptr;
 		std::function<void(Render&)> m_custom_function;
 	};
 
 	export_ struct refl_ Fog
 	{
-		attr_ mut_ bool m_enabled = false;
-		attr_ mut_ float m_density = 0.1f;
-		attr_ mut_ Colour m_colour = Colour::White;
+		attr_ bool m_enabled = false;
+		attr_ float m_density = 0.01f;
+		attr_ Colour m_colour = Colour::White;
 
-		attr_ mut_ bool m_depth = false;
-		attr_ mut_ float m_depth_begin = 0.f;
-		attr_ mut_ float m_depth_curve = 1.f;
+		attr_ bool m_depth = false;
+		attr_ float m_depth_begin = 0.f;
+		attr_ float m_depth_curve = 1.f;
 
-		attr_ mut_ bool m_height = false;
-		attr_ mut_ float m_height_min = 0.f;
-		attr_ mut_ float m_height_max = 1.f;
-		attr_ mut_ float m_height_curve = 1.f;
+		attr_ bool m_height = false;
+		attr_ float m_height_min = 0.f;
+		attr_ float m_height_max = 1.f;
+		attr_ float m_height_curve = 0.1f;
 
-		attr_ mut_ bool m_transmit = false;
-		attr_ mut_ float m_transmit_curve = 1.f;
+		attr_ bool m_transmit = false;
+		attr_ float m_transmit_curve = 1.f;
 	};
 
 	export_ struct refl_ Environment
 	{
-		attr_ mut_ Background m_background;
-		attr_ mut_ Radiance m_radiance;
-		attr_ mut_ Sun m_sun;
-		attr_ mut_ Fog m_fog;
+		attr_ Background m_background;
+		attr_ Radiance m_radiance;
+		attr_ Sun m_sun;
+		attr_ Fog m_fog;
 	};
 
 	class Shot;
@@ -100,12 +100,14 @@ namespace mud
 
 		attr_ Gnode m_graph;
 		attr_ Node3 m_root_node;
-		attr_ mut_ Environment m_environment;
+		attr_ Environment m_environment;
 		attr_ Ref m_user;
 
 		meth_ Gnode& begin();
 		void update();
 
 		void gather_render(Render& render);
+
+		std::vector<Sound*> m_orphan_sounds;
 	};
 }

@@ -58,6 +58,7 @@ namespace mud
 		gfx_system.programs().create("unshaded", [&](Program& program) { program.register_blocks(pipeline.pass_blocks(PassType::Unshaded)); });
 		gfx_system.programs().create("depth", [&](Program& program) { program.register_blocks(pipeline.pass_blocks(PassType::Depth)); });
 		gfx_system.programs().create("pbr/pbr", [&](Program& program) { program.register_blocks(pipeline.pass_blocks(PassType::Opaque)); });
+		gfx_system.programs().create("fresnel", [&](Program& program) { /*program.register_blocks(pipeline.pass_blocks(PassType::Unshaded));*/ });
 
 		static MainRenderer main_renderer = { gfx_system, pipeline };
 		static ShadowRenderer shadow_renderer = { gfx_system, pipeline };

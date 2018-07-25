@@ -18,7 +18,7 @@ namespace mud
 		, m_shadows(shadows)
 	{
 		m_shadow_bias = 0.1f;
-		m_shadow_normal_bias = 0.1f;
+		m_shadow_normal_bias = 0.f; // @todo investigate why making this higher fucks up the first shadow slice
 	}
 
 	Light::~Light()

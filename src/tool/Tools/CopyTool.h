@@ -20,13 +20,13 @@ namespace mud
 	export_ class refl_ MUD_TOOL_EXPORT CopyAction : public TranslateAction
 	{
 	public:
-		CopyAction(const std::vector<Transform*>& targets);
+		CopyAction(array<Transform*> targets);
 
 		virtual void apply(Transform& transform) final;
 		virtual void undo(Transform& transform) final;
 
 	private:
-		std::vector<Transform*> m_copies;
+		//std::vector<Transform*> m_copies;
 		//Injector m_injector;
 	};
 
@@ -39,7 +39,7 @@ namespace mud
 		void update(const vec3& position);
 		void end();
 
-		virtual object_ptr<TransformAction> create_action(const std::vector<Transform*>& targets) final;
+		virtual object_ptr<TransformAction> create_action(array<Transform*> targets) final;
 
 	private:
 		object_ptr<CopyAction> m_action;

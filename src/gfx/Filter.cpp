@@ -19,6 +19,7 @@ namespace mud
 {
 	BlockFilter::BlockFilter(GfxSystem& gfx_system)
 		: GfxBlock(gfx_system, *this)
+		, m_quad_program("filter/quad")
 	{
 		static cstring options[5] = {
 			"UNPACK_DEPTH",
@@ -71,7 +72,7 @@ namespace mud
 		}
 	};
 
-	static void draw_quad(const vec2& size, bool source_fbo)
+	static void draw_quad(const vec2& size, bool fbo_flip)
 	{
 		if(3 == bgfx::getAvailTransientVertexBuffer(3, ScreenQuadVertex::decl()))
 		{
@@ -86,7 +87,7 @@ namespace mud
 			vec2 min_uv = { -1.0f, 0.0f };
 			vec2 max_uv = {  1.0f, 2.0f };
 
-			if(source_fbo && bgfx::getCaps()->originBottomLeft)
+			if(fbo_flip && bgfx::getCaps()->originBottomLeft)
 			{
 				min_uv = { -1.0f,  1.0f };
 				max_uv = {  1.0f, -1.0f };
@@ -101,56 +102,57 @@ namespace mud
 		}
 	}
 
-	static void draw_unit_quad(bool source_fbo)
+	static void draw_unit_quad(bool fbo_flip)
 	{
-		draw_quad({ 1.f, 1.f }, source_fbo);
+		draw_quad({ 1.f, 1.f }, fbo_flip);
 	}
 
-	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags)
+	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags, bool render)
 	{
-		float y = quad.m_dest.y;
-		if(quad.m_relative && bgfx::getCaps()->originBottomLeft)
-			y = target.m_size.y - quad.m_dest.y - rect_h(quad.m_dest);
+		if(quad.m_source.z > 1.f || quad.m_source.w > 1.f)
+			printf("WARNING: Source rect expected in relative coordinates\n");
 
 #if _DEBUG
 		bgfx::setViewName(view, "quad");
 #endif
 		bgfx::setViewFrameBuffer(view, fbo);
 		bgfx::setViewTransform(view, value_ptr(target.m_screen_view), value_ptr(target.m_screen_proj));
-		if(quad.m_dest == Zero4)
-			bgfx::setViewRect(view, 0, 0, uint16_t(target.m_size.x), uint16_t(target.m_size.y));
-		else
-			bgfx::setViewRect(view, uint16_t(quad.m_dest.x), uint16_t(y), uint16_t(rect_w(quad.m_dest)), uint16_t(rect_h(quad.m_dest)));
+		bgfx::setViewRect(view, uint16_t(quad.m_dest.x), uint16_t(quad.m_dest.y), uint16_t(rect_w(quad.m_dest)), uint16_t(rect_h(quad.m_dest)));
 
-		draw_unit_quad(quad.m_source_fbo);
+		draw_unit_quad(quad.m_fbo_flip);
 		//draw_quad(rect_w(quad.m_dest), rect_h(quad.m_dest));
 
-		// @todo fix this mess, either receive relative crop and dest rects, or pixel size crop and dest rects
-		if(quad.m_source != Rect4)
-		{
-			vec4 crop = vec4(rect_offset(quad.m_source) / vec2(target.m_size), rect_size(quad.m_source) / vec2(target.m_size));
-			if(!quad.m_relative && bgfx::getCaps()->originBottomLeft)
-				crop.y = 1.f - crop.y - rect_h(crop);
-			bgfx::setUniform(u_uniform.u_source_0_crop, &crop);
-		}
-		else
-		{
-			bgfx::setUniform(u_uniform.u_source_0_crop, &quad.m_source);
-		}
+		bgfx::setUniform(u_uniform.u_source_0_crop, &quad.m_source);
 
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_CULL_CW | flags);
 		bgfx::submit(view, program);
+
+		if(render)
+			bgfx::frame();
 	}
 
-	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags)
+	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags, bool render)
 	{
-		this->submit_quad(target, view, target.m_fbo, program, quad, flags); // BGFX_INVALID_HANDLE
+		RenderQuad quad = { target.source_quad(rect), target.dest_quad(rect), true };
+		this->submit_quad(target, view, fbo, program, quad, flags, render);
 	}
 
-	void BlockFilter::render_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, const RenderQuad& quad)
+	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags, bool render)
 	{
-		this->submit_quad(target, view, program, quad);
-		bgfx::frame();
+		this->submit_quad(target, view, target.m_fbo, program, quad, flags, render); // BGFX_INVALID_HANDLE
+	}
+
+	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags, bool render)
+	{
+		RenderQuad quad = { target.source_quad(vec4(rect)), target.dest_quad(vec4(rect)), true };
+		this->submit_quad(target, view, program, quad, flags, render);
+	}
+
+	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, uint64_t flags, bool render)
+	{
+		uvec4 rect = vec4(vec2(0.f), vec2(target.m_size));
+		RenderQuad quad = { target.source_quad(rect), target.dest_quad(rect), true };
+		this->submit_quad(target, view, program, quad, flags, render);
 	}
 
 	BlockCopy::BlockCopy(GfxSystem& gfx_system, BlockFilter& filter)
@@ -180,16 +182,36 @@ namespace mud
 		m_filter.submit_quad(target, view, fbo, m_program.default_version(), quad, flags);
 	}
 
+	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::TextureHandle texture, const uvec4& rect, uint64_t flags)
+	{
+		RenderQuad quad = { target.source_quad(rect), target.dest_quad(rect), true };
+		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, texture, GFX_TEXTURE_CLAMP);
+		m_filter.submit_quad(target, view, fbo, m_program.default_version(), quad, flags);
+	}
+
 	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, const RenderQuad& quad, uint64_t flags)
 	{
 		this->submit_quad(target, view, target.m_fbo, texture, quad, flags); // BGFX_INVALID_HANDLE
+	}
+
+	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, const uvec4& rect, uint64_t flags)
+	{
+		RenderQuad quad = { target.source_quad(rect), target.dest_quad(rect), true };
+		this->submit_quad(target, view, texture, quad, flags);
+	}
+
+	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, uint64_t flags)
+	{
+		uvec4 rect = vec4(vec2(0.f), vec2(target.m_size));
+		RenderQuad quad = { target.source_quad(rect), target.dest_quad(rect), true };
+		this->submit_quad(target, view, texture, quad, flags);
 	}
 
 	void BlockCopy::debug_show_texture(FrameBuffer& target, bgfx::TextureHandle texture, bool is_depth, bool is_depth_packed, bool is_array, int level)
 	{
 		uint8_t view_id = 251;
 
-		RenderQuad target_quad = RenderQuad{ Rect4, { vec2(0.f), vec2(target.m_size) * 0.33f }, true };
+		RenderQuad target_quad = { Rect4, target.dest_quad(vec4(vec2(0.f), vec2(target.m_size) * 0.33f), true) };
 
 		ShaderVersion shader_version = { &m_program };
 		if(is_depth)

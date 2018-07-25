@@ -358,7 +358,7 @@ namespace mud
 
 			m_filter.set_uniforms(render);
 
-			m_filter.submit_quad(*render.m_target, sky_pass.m_index, render.m_target_fbo, m_skybox_program.default_version(), { vec4(render.m_viewport.m_rect), true }, BGFX_STATE_DEPTH_TEST_LEQUAL);
+			m_filter.submit_quad(*render.m_target, sky_pass.m_index, render.m_target_fbo, m_skybox_program.default_version(), render.m_viewport.m_rect, BGFX_STATE_DEPTH_TEST_LEQUAL);
 		}
 	}
 }

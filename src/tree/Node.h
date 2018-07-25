@@ -44,43 +44,40 @@ namespace mud
 		std::unique_ptr<NodeState> m_state;
 		uint16_t m_next = 0;
 		
-		template <class T_Child = T_Node>
-		inline T_Child& append(void* identity = nullptr) { m_nodes.emplace_back(std::make_unique<T_Child>(&impl(), identity)); return static_cast<T_Child&>(*m_nodes.back()); }
+		template <class T_Child = T_Node, class... T_Args>
+		inline T_Child& append(T_Args... args, void* identity = nullptr) { m_nodes.emplace_back(std::make_unique<T_Child>(&impl(), identity, args...)); return static_cast<T_Child&>(*m_nodes.back()); }
 
 		void clear() { m_nodes.clear(); }
 
 		inline T_Node& update(T_Node& node) { node.m_heartbeat = m_heartbeat; node.m_next = 0; return node; }
 
-		template <class T_Child = T_Node>
-		inline T_Child& sub(uint16_t index)
+		template <class T_Child = T_Node, class... T_Args>
+		inline T_Child& subx(uint16_t index, T_Args... args)
 		{
 			while(m_nodes.size() <= index)
-				append<T_Child>();
+				append<T_Child, T_Args...>(args..., nullptr);
 			return static_cast<T_Child&>(update(*m_nodes[index]));
 		}
 		
-		template <class T_Child = T_Node>
-		inline T_Child& sub()
+		template <class T_Child = T_Node, class... T_Args>
+		inline T_Child& suba(T_Args... args)
 		{
-			return sub<T_Child>(m_next++);
+			return subx<T_Child, T_Args...>(m_next++, args...);
 		}
 
-		template <class T_Child = T_Node>
-		inline T_Child& sub(void* identity)
+		template <class T_Child = T_Node, class... T_Args>
+		inline T_Child& subi(void* identity, T_Args... args)
 		{
 			uint16_t index = m_next++;
 
 			if(m_nodes.size() <= index)
-				append<T_Child>(identity);
+				append<T_Child, T_Args...>(args..., identity);
 
 			if(m_nodes[index]->m_identity != identity)
-				m_nodes.insert(m_nodes.begin() + index, std::make_unique<T_Child>(&impl(), identity));
+				m_nodes.insert(m_nodes.begin() + index, std::make_unique<T_Child>(&impl(), identity, args...));
 
 			return static_cast<T_Child&>(update(*m_nodes[index]));
 		}
-
-		template <class T_Child, class... T_Args>
-		T_Child& child_args(T_Args... args, void* identity = nullptr) { size_t index = m_next++; if(m_nodes.size() <= index) m_nodes.emplace_back(std::make_unique<T_Child>(&impl(), identity, args...)); update(*m_nodes[index]); return static_cast<T_Child&>(*m_nodes[index]); }
 
 		inline T_Node& root() { if(m_parent) return m_parent->root(); return impl(); }
 

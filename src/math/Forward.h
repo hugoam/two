@@ -52,6 +52,7 @@ namespace mud {
     template <class T> struct array_3d;
     template <class T> class AutoStat;
     
+    struct Transform;
     struct Colour;
     class Lerp;
     class Grided3;

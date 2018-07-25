@@ -41,6 +41,7 @@ namespace mud
 
 	void draw_shape_triangles(const ProcShape& shape, const Geometry& geometry, MeshData& data)
 	{
+		UNUSED(shape);
 		for(const Vertex& vertex : geometry.m_vertices)
 			data.position(geometry.m_center + vertex.m_position)
 				.colour(Colour::White);

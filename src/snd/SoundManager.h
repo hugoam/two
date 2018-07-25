@@ -133,7 +133,7 @@ namespace mud
 
 	private:
 		/** Sounds **/
-		SoundList m_activeSounds;				// list of all sounds : m_activeSounds.begin() to m_activeSounds[m_maxSources] are active
+		SoundList m_active_sounds;				// list of all sounds : m_active_sounds.begin() to m_active_sounds[m_maxSources] are active
 		SoundList m_inactiveSounds;
 		SoundList m_pausedSounds;				// list of sounds currently paused
 

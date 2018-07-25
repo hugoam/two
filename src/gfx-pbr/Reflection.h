@@ -29,10 +29,10 @@ namespace mud
 
 		attr_ Node3& m_node;
 
-		attr_ mut_ bool m_visible = true;
-		attr_ mut_ float m_intensity = 1.f;
-		attr_ mut_ vec3 m_extents = Zero3;
-		attr_ mut_ bool m_shadows = false;
+		attr_ bool m_visible = true;
+		attr_ float m_intensity = 1.f;
+		attr_ vec3 m_extents = Zero3;
+		attr_ bool m_shadows = false;
 
 		ReflectionAtlas* m_atlas;
 		int m_atlas_index = -1;

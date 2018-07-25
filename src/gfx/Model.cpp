@@ -45,7 +45,7 @@ namespace mud
 
 	Model::Model(cstring id)
 		: m_name(id)
-		, m_index(index(type<Model>(), Ref(this)))//++s_model_index)
+		, m_index(uint16_t(index(type<Model>(), Ref(this))))//++s_model_index)
 	{}
 
 	Model::~Model()
@@ -60,6 +60,7 @@ namespace mud
 
 	Rig& Model::add_rig(cstring name)
 	{
+		UNUSED(name);
 		m_rig = &ms_gfx_system->rigs().construct();
 		return *m_rig;
 	}

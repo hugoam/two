@@ -278,7 +278,7 @@ namespace
 		static size_t hovered = SIZE_MAX;
 		static size_t dragged = SIZE_MAX;
 
-		if(self.root_sheet().m_hovered = &self)
+		if(self.root_sheet().m_hovered == &self)
 			hovered = curve.point_at(self.m_frame.local_position(self.root_sheet().m_mouse.m_pos));
 
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
@@ -296,7 +296,7 @@ namespace
 
 		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg)
 		{
-			UNUSED(rect);
+			UNUSED(frame); UNUSED(rect);
 			Curve curve = { rect_size(rect), 0.f, 1.f, values, points };
 			vg.draw_rect(rect, { Colour::DarkGrey });
 			draw_curve(Colour::NeonGreen, curve, hovered, vg);
@@ -315,6 +315,7 @@ namespace
 
 	bool curve_edit(Widget& parent, array<Colour> values, array<float> points)
 	{
+		UNUSED(parent); UNUSED(values); UNUSED(points);
 		return false;
 	}
 }

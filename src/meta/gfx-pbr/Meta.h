@@ -51,10 +51,10 @@ namespace mud
             },
             // members
             {
-                { type<mud::BCS>(), member_address(&mud::BCS::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::BCS>(), member_address(&mud::BCS::m_brightness), type<float>(), "brightness", var(float(1.0f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::BCS>(), member_address(&mud::BCS::m_contrast), type<float>(), "contrast", var(float(1.0f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::BCS>(), member_address(&mud::BCS::m_saturation), type<float>(), "saturation", var(float(1.0f)), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::BCS>(), member_address(&mud::BCS::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Value, nullptr },
+                { type<mud::BCS>(), member_address(&mud::BCS::m_brightness), type<float>(), "brightness", var(float(1.0f)), Member::Value, nullptr },
+                { type<mud::BCS>(), member_address(&mud::BCS::m_contrast), type<float>(), "contrast", var(float(1.0f)), Member::Value, nullptr },
+                { type<mud::BCS>(), member_address(&mud::BCS::m_saturation), type<float>(), "saturation", var(float(1.0f)), Member::Value, nullptr }
             },
             // methods
             {
@@ -91,14 +91,14 @@ namespace mud
             },
             // members
             {
-                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_far_distance), type<float>(), "far_distance", var(float(10.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_far_transition), type<float>(), "far_transition", var(float(5.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_far_radius), type<float>(), "far_radius", var(float(5.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_near_distance), type<float>(), "near_distance", var(float(2.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_near_transition), type<float>(), "near_transition", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_near_radius), type<float>(), "near_radius", var(float(5.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_max_coc_radius), type<float>(), "max_coc_radius", var(float(8.f)), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Value, nullptr },
+                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_far_distance), type<float>(), "far_distance", var(float(10.f)), Member::Value, nullptr },
+                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_far_transition), type<float>(), "far_transition", var(float(5.f)), Member::Value, nullptr },
+                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_far_radius), type<float>(), "far_radius", var(float(5.f)), Member::Value, nullptr },
+                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_near_distance), type<float>(), "near_distance", var(float(2.f)), Member::Value, nullptr },
+                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_near_transition), type<float>(), "near_transition", var(float(1.f)), Member::Value, nullptr },
+                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_near_radius), type<float>(), "near_radius", var(float(5.f)), Member::Value, nullptr },
+                { type<mud::DofBlur>(), member_address(&mud::DofBlur::m_max_coc_radius), type<float>(), "max_coc_radius", var(float(8.f)), Member::Value, nullptr }
             },
             // methods
             {
@@ -135,14 +135,14 @@ namespace mud
             },
             // members
             {
-                { type<mud::Glow>(), member_address(&mud::Glow::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Glow>(), member_address(&mud::Glow::m_levels_1_4), type<mud::vec4>(), "levels_1_4", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Glow>(), member_address(&mud::Glow::m_levels_5_8), type<mud::vec4>(), "levels_5_8", var(mud::vec4()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Glow>(), member_address(&mud::Glow::m_intensity), type<float>(), "intensity", var(float(0.8f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Glow>(), member_address(&mud::Glow::m_bloom), type<float>(), "bloom", var(float(0.0f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Glow>(), member_address(&mud::Glow::m_bleed_threshold), type<float>(), "bleed_threshold", var(float(1.0f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Glow>(), member_address(&mud::Glow::m_bleed_scale), type<float>(), "bleed_scale", var(float(2.0f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Glow>(), member_address(&mud::Glow::m_bicubic_filter), type<bool>(), "bicubic_filter", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Glow>(), member_address(&mud::Glow::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Value, nullptr },
+                { type<mud::Glow>(), member_address(&mud::Glow::m_levels_1_4), type<mud::vec4>(), "levels_1_4", var(mud::vec4()), Member::Value, nullptr },
+                { type<mud::Glow>(), member_address(&mud::Glow::m_levels_5_8), type<mud::vec4>(), "levels_5_8", var(mud::vec4()), Member::Value, nullptr },
+                { type<mud::Glow>(), member_address(&mud::Glow::m_intensity), type<float>(), "intensity", var(float(0.8f)), Member::Value, nullptr },
+                { type<mud::Glow>(), member_address(&mud::Glow::m_bloom), type<float>(), "bloom", var(float(0.0f)), Member::Value, nullptr },
+                { type<mud::Glow>(), member_address(&mud::Glow::m_bleed_threshold), type<float>(), "bleed_threshold", var(float(1.0f)), Member::Value, nullptr },
+                { type<mud::Glow>(), member_address(&mud::Glow::m_bleed_scale), type<float>(), "bleed_scale", var(float(2.0f)), Member::Value, nullptr },
+                { type<mud::Glow>(), member_address(&mud::Glow::m_bicubic_filter), type<bool>(), "bicubic_filter", var(bool(false)), Member::Value, nullptr }
             },
             // methods
             {
@@ -220,12 +220,12 @@ namespace mud
             },
             // members
             {
-                { type<mud::ReflectionProbe>(), Address(), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::Link },
-                { type<mud::ReflectionProbe>(), member_address(&mud::ReflectionProbe::m_visible), type<bool>(), "visible", var(bool(true)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ReflectionProbe>(), member_address(&mud::ReflectionProbe::m_intensity), type<float>(), "intensity", var(float(1.f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ReflectionProbe>(), member_address(&mud::ReflectionProbe::m_extents), type<mud::vec3>(), "extents", var(mud::vec3()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ReflectionProbe>(), member_address(&mud::ReflectionProbe::m_shadows), type<bool>(), "shadows", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::ReflectionProbe>(), member_address(&mud::ReflectionProbe::m_dirty), type<bool>(), "dirty", var(bool(true)), Member::Value }
+                { type<mud::ReflectionProbe>(), Address(), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::ReflectionProbe>(object).m_node); } },
+                { type<mud::ReflectionProbe>(), member_address(&mud::ReflectionProbe::m_visible), type<bool>(), "visible", var(bool(true)), Member::Value, nullptr },
+                { type<mud::ReflectionProbe>(), member_address(&mud::ReflectionProbe::m_intensity), type<float>(), "intensity", var(float(1.f)), Member::Value, nullptr },
+                { type<mud::ReflectionProbe>(), member_address(&mud::ReflectionProbe::m_extents), type<mud::vec3>(), "extents", var(mud::vec3()), Member::Value, nullptr },
+                { type<mud::ReflectionProbe>(), member_address(&mud::ReflectionProbe::m_shadows), type<bool>(), "shadows", var(bool(false)), Member::Value, nullptr },
+                { type<mud::ReflectionProbe>(), member_address(&mud::ReflectionProbe::m_dirty), type<bool>(), "dirty", var(bool(true)), Member::Value, nullptr }
             },
             // methods
             {
@@ -261,10 +261,10 @@ namespace mud
             },
             // members
             {
-                { type<mud::RenderFilters>(), member_address(&mud::RenderFilters::m_dof_blur), type<mud::DofBlur>(), "dof_blur", var(mud::DofBlur()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::RenderFilters>(), member_address(&mud::RenderFilters::m_glow), type<mud::Glow>(), "glow", var(mud::Glow()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::RenderFilters>(), member_address(&mud::RenderFilters::m_bcs), type<mud::BCS>(), "bcs", var(mud::BCS()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::RenderFilters>(), member_address(&mud::RenderFilters::m_tonemap), type<mud::Tonemap>(), "tonemap", var(mud::Tonemap()), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::RenderFilters>(), member_address(&mud::RenderFilters::m_dof_blur), type<mud::DofBlur>(), "dof_blur", var(mud::DofBlur()), Member::Value, nullptr },
+                { type<mud::RenderFilters>(), member_address(&mud::RenderFilters::m_glow), type<mud::Glow>(), "glow", var(mud::Glow()), Member::Value, nullptr },
+                { type<mud::RenderFilters>(), member_address(&mud::RenderFilters::m_bcs), type<mud::BCS>(), "bcs", var(mud::BCS()), Member::Value, nullptr },
+                { type<mud::RenderFilters>(), member_address(&mud::RenderFilters::m_tonemap), type<mud::Tonemap>(), "tonemap", var(mud::Tonemap()), Member::Value, nullptr }
             },
             // methods
             {
@@ -308,10 +308,10 @@ namespace mud
             },
             // members
             {
-                { type<mud::Tonemap>(), member_address(&mud::Tonemap::m_mode), type<mud::TonemapMode>(), "mode", var(mud::TonemapMode()), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Tonemap>(), member_address(&mud::Tonemap::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Tonemap>(), member_address(&mud::Tonemap::m_exposure), type<float>(), "exposure", var(float(1.0f)), Member::Flags(Member::Value|Member::Mutable) },
-                { type<mud::Tonemap>(), member_address(&mud::Tonemap::m_white_point), type<float>(), "white_point", var(float(1.0f)), Member::Flags(Member::Value|Member::Mutable) }
+                { type<mud::Tonemap>(), member_address(&mud::Tonemap::m_mode), type<mud::TonemapMode>(), "mode", var(mud::TonemapMode()), Member::Value, nullptr },
+                { type<mud::Tonemap>(), member_address(&mud::Tonemap::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Value, nullptr },
+                { type<mud::Tonemap>(), member_address(&mud::Tonemap::m_exposure), type<float>(), "exposure", var(float(1.0f)), Member::Value, nullptr },
+                { type<mud::Tonemap>(), member_address(&mud::Tonemap::m_white_point), type<float>(), "white_point", var(float(1.0f)), Member::Value, nullptr }
             },
             // methods
             {

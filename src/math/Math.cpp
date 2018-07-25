@@ -56,6 +56,11 @@ namespace mud
 	const vec4 Zero4 = { 0.f, 0.f, 0.f, 0.f };
 	const vec4 Rect4 = { 0.f, 0.f, 1.f, 1.f };
 
+	Transform::Transform(const mat4& mat)
+	{
+		UNUSED(mat);
+	}
+
 	using std::sin;
 	using std::cos;
 
@@ -72,8 +77,8 @@ namespace mud
 		vec3 direction = normalize(dest - source);
 		float d = dot(forward, direction);
 
-		//if(abs(d - (-1.0f)) < 0.000001f)
-		//	return quat(Vector3.up.x, Vector3.up.y, Vector3.up.z, 3.1415926535897932f);
+		if(abs(d - (-1.0f)) < 0.000001f)
+			return quat(0.f, 1.f, 0.f, 3.1415926535897932f);
 		if(abs(d - (1.0f)) < 0.000001f)
 			return ZeroQuat;
 

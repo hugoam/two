@@ -12,6 +12,7 @@ module mud.gfx.ui;
 #include <infra/Vector.h>
 #include <obj/Vector.h>
 #include <obj/DispatchDecl.h>
+#include <pool/ObjectPool.h>
 #include <refl/Class.h>
 #include <math/Axes.h>
 #include <geom/Symbol.h>
@@ -31,6 +32,8 @@ module mud.gfx.ui;
 #include <gfx/Mesh.h>
 #include <gfx/Model.h>
 #include <gfx/Asset.h>
+#include <gfx/Pipeline.h>
+#include <gfx/GfxSystem.h>
 #include <gfx-pbr/Shadow.h>
 #include <gfx-ui/Types.h>
 #include <gfx-ui/GfxEdit.h>
@@ -82,26 +85,56 @@ namespace mud
 		}
 	}
 
-	void debug_draw_light_slices(Gnode& parent, Light& light, LightShadow& shadow)
+	mat4 fix_bone_pose(Bone& bone)
 	{
-		UNUSED(light);
+		return bxrotation(angle_axis(-c_pi * 0.5f, X3)) * bxscale(vec3(0.009999999776482582f)) * bone.m_pose;
+	}
+
+	void debug_skeleton(Gnode& parent, const vec3& position, const quat& rotation, Rig& rig)
+	{
+		for(Bone& bone : rig.m_skeleton.m_bones)
+		{
+			mat4 pose = bxrotation(rotation) * fix_bone_pose(bone);
+			Gnode& node = gfx::node(parent, {}, position + vec3(pose * vec4(Zero3, 1.f)));
+			gfx::shape(node, Sphere(0.02f), Symbol());
+		}
+	}
+
+	void debug_draw_light_slices(Gnode& parent, Light& light)
+	{
+		uint32_t index = 0; // light.m_index];
+
+		GfxSystem& gfx_system = parent.m_scene->m_gfx_system;
+		BlockShadow& block_shadow = *gfx_system.m_pipeline->block<BlockShadow>();
+		
+		if(index >= block_shadow.m_shadows.size())
+			return;
+
+		LightShadow& shadow = block_shadow.m_shadows[index];
+
+		auto draw = [](Gnode& parent, const Shape& shape, const Symbol& symbol)
+		{
+			Gnode& self = gfx::node(parent, {});
+			gfx::draw(self, shape, symbol);
+		};
+
 		for(size_t i = 0; i < shadow.m_slices.size(); ++i)
 		{
 			Frustum& frustum = shadow.m_frustum_slices[i].m_frustum;
-			gfx::node_shape(parent, Box({ &frustum.m_corners[0], 8 }), Symbol(), Zero3);
+			draw(parent, Box({ &frustum.m_corners[0], 8 }), Symbol());
 			if(false)
-				gfx::node_shape(parent, Spheroid(frustum.m_radius), Symbol(Colour::DarkGrey), frustum.m_center);
+				draw(parent, Sphere(frustum.m_center, frustum.m_radius), Symbol(Colour::DarkGrey));
 
 			mat4 inverse_light = inverse(shadow.m_slices[i].m_transform);
 
-			gfx::node_shape(parent, Spheroid(1.f), Symbol(), vec3(inverse_light[3]));
+			draw(parent, Sphere(vec3(inverse_light[3]), 1.f), Symbol());
 
 			Box light_bounds = Box(min_max_to_aabb(shadow.m_slices[i].m_light_bounds.min, shadow.m_slices[i].m_light_bounds.max));
 
 			for(vec3& vertex : light_bounds.m_vertices)
 				vertex = vec3(inverse_light * vec4(vertex, 1.f));
 
-			gfx::node_shape(parent, light_bounds, Symbol(Colour::Pink), Zero3);
+			draw(parent, light_bounds, Symbol(Colour::Pink));
 		}
 	}
 
@@ -309,17 +342,14 @@ namespace mud
 		for(auto& painter : scene.m_painters)
 			painter_edit(self, *painter);
 	}
-#endif
 
-#if 0
-	void edit_gfx_items(Widget& parent, GfxSystem& gfx_system)
+	void edit_gfx_items(Widget& parent, Scene& scene)
 	{
-		VecPool<Item>* pool = gfx_system.m_object_pool.pool<Item>().m_vec_pool.get();
-		for(; pool; pool = pool->m_next.get())
-			for(Item* item : pool->m_objects)
-				object_edit_inline(parent, item);
+		scene.m_pool->iterate_objects<Item>([&](Item& item) {
+			object_edit_inline(parent, Ref(&item));
+		});
 	}
-#endif 
+#endif
 
 	void edit_gfx_scenes(Widget& parent, GfxSystem& gfx_system)
 	{
@@ -397,26 +427,42 @@ namespace mud
 		//													Ring, Ellipsis, Arc, Cylinder, Capsule, Cube, Aabb,
 		//													Box, Sphere, SphereRing, Spheroid, Points, ConvexHull>();
 
-		Widget& self = ui::sheet(parent);
-		Type* type = shape.m_shape ? &shape.m_shape->m_type : nullptr;
-		Type* new_type = type_selector(self, type, shape_types);
+		auto type_index = [&](Type* type) { for(size_t i = 0; i < shape_types.size(); ++i) { if(shape_types[i] == type) return i; } return SIZE_MAX; };
 
-		if(new_type != type)
+		Widget& self = ui::sheet(parent);
+		size_t type = type_index(shape.m_shape ? &shape.m_shape->m_type : nullptr);
+		if(type_selector(self, type, shape_types))
 		{
-			shape = ShapeVar(upcast<Shape>(construct(*new_type)));
+			shape = ShapeVar(upcast<Shape>(construct(*shape_types[type])));
 			changed = true;
 		}
 
 		if(shape.m_shape)
 		{
-			Shape& shape_ref = shape;
-			changed |= object_edit(self, Ref(&shape_ref));
+			Widget& sheet = ui::widget(self, styles().sheet, &shape.shape());
+			changed |= object_edit_columns(sheet, Ref(&shape.shape()));
 		}
 		return changed;
 	}
 
 	void declare_gfx_edit()
 	{
+		auto nest_mode = [](Type& type, EditNestMode mode)
+		{
+			g_edit_specs[type.m_id].m_nest_mode[0] = mode;
+			g_edit_specs[type.m_id].m_nest_mode[1] = mode;
+			g_edit_specs[type.m_id].m_setup = true;
+		};
+
+		nest_mode(type<BaseMaterialBlock>(), EditNestMode::Embed);
+		nest_mode(type<UnshadedMaterialBlock>(), EditNestMode::Embed);
+		nest_mode(type<PbrMaterialBlock>(), EditNestMode::Embed);
+
+		nest_mode(type<MaterialParam<float>>(), EditNestMode::Embed);
+		nest_mode(type<MaterialParam<Colour>>(), EditNestMode::Embed);
+
+		nest_mode(type<ShapeVar>(), EditNestMode::Embed);
+
 		{
 			DispatchInput& dispatch = DispatchInput::me();
 			dispatch_branch<ShapeVar>(dispatch, [](ShapeVar& object, Widget& parent) { return edit_shape(parent, object); });

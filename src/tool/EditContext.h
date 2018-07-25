@@ -58,8 +58,6 @@ namespace mud
 		Docksystem m_docksystem;
 		Dockbar* m_dockbar = nullptr;
 		Widget* m_screen = nullptr;
-
-		void createScriptedBrush();
     };
 
 	MUD_TOOL_EXPORT void brush_preview(Widget& parent, Brush& brush);
@@ -70,6 +68,7 @@ namespace mud
 
 	MUD_TOOL_EXPORT void tools_transform(Widget& toolbar, EditContext& context);
 	MUD_TOOL_EXPORT void edit_transform(Widget& parent, EditContext& context);
-	MUD_TOOL_EXPORT void edit_tools(EditContext& context, Widget& screen);
+	MUD_TOOL_EXPORT void edit_tools(Widget& screen, Docker& docker, EditContext& context);
+	MUD_TOOL_EXPORT void edit_tools(Widget& screen, EditContext& context);
 	MUD_TOOL_EXPORT void edit_context(Widget& parent, EditContext& context, bool tools = false);
 }

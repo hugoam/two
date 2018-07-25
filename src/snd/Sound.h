@@ -8,6 +8,7 @@
 #include <snd/Structs.h>
 #include <math/Vec.h>
 
+#include <string>
 #include <list>
 #include <functional>
 #include <stdint.h>
@@ -172,5 +173,7 @@ namespace mud
 		float m_fadeEndVol = 1.f;
 		bool m_fade = false;
 		FadeControl m_fadeEndAction = FC_NONE;
+
+		std::string m_name;
 	};
 }
