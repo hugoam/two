@@ -28,7 +28,7 @@ namespace mud
 		LuaInterpreter(bool import_symbols = false);
 		~LuaInterpreter();
 
-		void declareTypes();
+		void declare_types();
 
 		Var get(cstring name, Type& type);
 		void set(cstring name, Var value);

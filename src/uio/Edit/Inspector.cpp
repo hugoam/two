@@ -68,7 +68,7 @@ namespace mud
 		Var value = get_safe(member, object);
 		bool changed = any_edit(parent, value.m_ref, member.is_link() | member.is_pointer(), hint);
 
-		if(changed && member.is_mutable())
+		if(changed && member.is_mutable() && !member.is_component())
 			set_safe(member, object, value);
 		
 		return changed;

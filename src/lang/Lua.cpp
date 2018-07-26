@@ -875,13 +875,13 @@ namespace mud
 	{
 		g_lua_print_output = &m_output;
 		if(import_symbols)
-			this->declareTypes();
+			this->declare_types();
 	}
 
 	LuaInterpreter::~LuaInterpreter()
 	{}
 
-	void LuaInterpreter::declareTypes()
+	void LuaInterpreter::declare_types()
 	{
 		System& system = System::instance();
 
