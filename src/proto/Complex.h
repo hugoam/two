@@ -34,19 +34,19 @@ namespace mud
 		attr_ Type& m_type;
 		attr_ Prototype& m_prototype;
 
-		std::vector<void*> m_parts;
+		std::vector<Ref> m_parts;
 
-		void add_part(Type& type, void* pointer) { m_parts[m_prototype.part_index(type)] = pointer; }
-		bool has_part(Type& type) { return m_prototype.has_part(type); }
-		Ref partref(Type& type) { return Ref(m_parts[m_prototype.part_index(type)], type); }
-		void* part(Type& type) { return m_parts[m_prototype.part_index(type)]; }
+		meth_ void add_part(Ref part) { m_parts[m_prototype.part_index(type(part))] = part; }
+		meth_ bool has_part(Type& type) { return m_prototype.has_part(type); }
+		meth_ Ref part(Type& type) { return m_parts[m_prototype.part_index(type)]; }
+		meth_ Ref try_part(Type& type) { if(has_part(type)) return this->part(type); else return Ref(); }
 
 	public:
 		template <class T>
 		inline bool isa() { return is<T>(*this) || this->has_part(type<T>()); }
 
 		template <class T>
-		inline T& part() { return *static_cast<T*>(this->part(type<T>())); }
+		inline T& part() { return *static_cast<T*>(this->part(type<T>()).m_value); }
 	};
 
 	export_ template <class T>

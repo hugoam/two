@@ -22,8 +22,8 @@ namespace mud
 
 	export_ struct refl_ Plane
 	{
-		vec3 m_normal;
-		float m_distance;
+		attr_ vec3 m_normal;
+		attr_ float m_distance;
 
 		Plane(const vec3& normal = Zero3, float distance = 0.f);
 		Plane(float a, float b, float c, float d);
@@ -33,9 +33,9 @@ namespace mud
 
 	export_ struct refl_ Plane3
 	{
-		vec3 m_origin;
-		vec3 m_a;
-		vec3 m_b;
+		attr_ vec3 m_origin;
+		attr_ vec3 m_a;
+		attr_ vec3 m_b;
 	};
 
 	export_ struct refl_ Face3
@@ -86,19 +86,20 @@ namespace mud
 
 	export_ struct refl_ Segment
 	{
-		vec3 m_start;
-		vec3 m_end;
+		attr_ vec3 m_start;
+		attr_ vec3 m_end;
 	};
 
 	export_ struct refl_ Ray
 	{
-		vec3 m_start;
-		vec3 m_end;
-		vec3 m_dir;
-		vec3 m_inv_dir;
+		attr_ vec3 m_start;
+		attr_ vec3 m_end;
+		attr_ vec3 m_dir;
+		attr_ vec3 m_inv_dir;
 	};
 
-	export_ inline Segment to_segment(const Ray& ray) { return { ray.m_start, ray.m_end }; }
+	export_ func_ inline Ray to_ray(const vec3& pos, const vec3& dir, float distance = 1000.f) { return { pos, pos + dir * distance, dir, 1.f / dir }; };
+	export_ func_ inline Segment to_segment(const Ray& ray) { return { ray.m_start, ray.m_end }; }
 
 	export_ struct Plane6
 	{
