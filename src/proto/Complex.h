@@ -27,7 +27,7 @@ namespace mud
 		Complex(Id id, Type& type, T_Parts&&... parts)
 			: Complex(id, type, proto(type))
 		{
-			swallow{ (this->add_part(mud::type<typename type_class<T_Parts>::type>(), &parts), 1)... };
+			swallow{ (this->add_part(Ref(&parts, mud::type<typename type_class<T_Parts>::type>())), 1)... };
 		}
 
 		attr_ Id m_id;
