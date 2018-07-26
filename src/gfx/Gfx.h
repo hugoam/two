@@ -26,11 +26,9 @@ namespace gfx
 	export_ MUD_GFX_EXPORT func_ void update_item_aabb(Item& item);
 
 	export_ MUD_GFX_EXPORT func_ Gnode& node(Gnode& parent, Ref object = {}, const vec3& position = Zero3, const quat& rotation = ZeroQuat, const vec3& scale = Unit3);
-	export_ MUD_GFX_EXPORT func_ Gnode& node(Gnode& parent, Ref object, const Transform& transform);
-	export_ MUD_GFX_EXPORT func_ Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation, const vec3& scale);
-	export_ MUD_GFX_EXPORT func_ Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation);
-	export_ MUD_GFX_EXPORT func_ Item& node_model(Gnode& parent, const Model& model, const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = Unit3);
-	export_ MUD_GFX_EXPORT func_ Item& node_shape(Gnode& parent, const Shape& shape, const Symbol& symbol, const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = Unit3);
+	export_ MUD_GFX_EXPORT Gnode& node(Gnode& parent, Ref object, const Transform& transform);
+	export_ MUD_GFX_EXPORT Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation, const vec3& scale);
+	export_ MUD_GFX_EXPORT Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation);
 	export_ MUD_GFX_EXPORT func_ Item& shape(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
 	export_ MUD_GFX_EXPORT func_ void draw(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags = 0);
 	export_ MUD_GFX_EXPORT func_ Item& sprite(Gnode& parent, const Image256& image, const vec2& size, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);

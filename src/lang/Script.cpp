@@ -37,6 +37,6 @@ namespace mud
 		for(const Param& param : m_signature.m_params)
 			m_interpreter->set(param.m_name, args[param.m_index]);
 
-		m_interpreter->call(m_script.c_str(), &result);
+		m_interpreter->call(m_script.c_str(), result.none() ? nullptr : &result);
 	}
 }

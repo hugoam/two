@@ -46,7 +46,7 @@ namespace mud
 		, m_editor(m_gfx_system)
 	{
 		System::instance().load_modules({ &mud_obj::m(), &mud_math::m(), &mud_geom::m(), &mud_procgen::m(), &mud_lang::m() });
-		System::instance().load_modules({ &mud_ui::m(), &mud_gfx::m(), &mud_gfx_pbr::m(), &mud_gfx_gltf::m(), &mud_gfx_obj::m() });
+		System::instance().load_modules({ &mud_ui::m(), &mud_gfx::m(), &mud_gfx_pbr::m(), &mud_gfx_obj::m(), &mud_gfx_gltf::m(), &mud_gfx_ui::m(), &mud_tool::m() });
 
 		// @todo this should be automatically done by math module
 		register_math_conversions();

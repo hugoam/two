@@ -292,9 +292,15 @@ namespace mud
 		Gnode& scene = viewer.m_scene->begin();
 		gfx::directional_light_node(scene);
 
+		auto draw = [](Gnode& parent, const Model& model, const vec3& position, const quat& rotation, const vec3& scale)
+		{
+			Gnode& self = gfx::node(parent, {}, position, rotation, scale);
+			return gfx::item(self, model);
+		};
+
 		for(ModelArrayItem& item : state.m_items)
 			if(item.m_model)
-				gfx::node_model(scene, *item.m_model, item.m_position, item.m_rotation, item.m_scale);
+				draw(scene, *item.m_model, item.m_position, item.m_rotation, item.m_scale);
 
 		//Gnode& origin = gfx::node(scene, {}, center);
 		//gfx::draw(origin, Line(-100.f * X3, 100.f * X3), Symbol(Colour::Red));

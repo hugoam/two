@@ -37,6 +37,7 @@ namespace mud
 		void setup_class();
 
 		Ref upcast(Ref object, Type& base);
+		Ref downcast(Ref object, Type& derived);
 
 		Member& member(cstring name);
 		Method& method(cstring name);
@@ -105,6 +106,31 @@ namespace mud
 		bool m_is_sequence = false;
 		bool m_is_iterable = false;
 	};
+
+	inline Ref Member::cast(Ref object) const
+	{
+		Ref target = object;
+		if(object.m_type != m_object_type && g_class[type(object).m_id])
+			target = mud::cls(object).upcast(object, *m_object_type);
+		return target;
+	}
+
+	inline Ref Member::cast_get(Ref object) const
+	{
+		return this->get(cast(object));
+	}
+
+	inline Var Member::safe_get(Ref object) const
+	{
+		Var result = m_default_value;
+		result = this->get(cast(object));
+		return result;
+	}
+
+	inline void Member::cast_set(Ref object, Ref value) const
+	{
+		this->set(cast(object), value);
+	}
 
 	export_ inline bool is_root_type(Type& ty) { return !g_class[ty.m_id] || cls(ty).m_root == &ty; }
 

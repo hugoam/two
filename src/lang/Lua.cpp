@@ -39,7 +39,11 @@ extern "C"
 #include <lualib.h>
 }
 
-#define MUD_LUA_DEBUG
+//#define MUD_LUA_DEBUG
+//#define MUD_LUA_DEBUG_IO
+
+// @todo: there is a weird thing where there are constantly about 10 tables on the stack when entering a script
+// so we are missing a pop somewhere in the paths used when declaring reflected types and functions probably
 
 namespace mud
 {
@@ -243,7 +247,7 @@ namespace mud
 		if(!ToLua::me().check(value))
 		{
 			lua_printf("ERROR : lua -> no dispatch to push type %s\n", value.m_type->m_name);
-			return{ state, 0 };
+			return push_null(state);
 		}
 		return ToLua::me().dispatch(value, state);
 	}
@@ -290,6 +294,8 @@ namespace mud
 
 	inline Stack push(lua_State* state, const Var& var)
 	{
+		// @todo: what about automatic conversion as with visual scripts ? it might not belong here, maybe in read() ?
+		// @todo: might want a case for is_complex() before is_object() ?
 		if(var.none() || var.null())
 			return push_null(state);
 		else if(var.m_mode == REF && type(var).is<Callable>())
@@ -445,9 +451,9 @@ namespace mud
 		{
 			read(state, -int(vars.m_count) + int(i), vars[i]);
 			success &= (!vars[i].none() && (params[i].nullable() || !vars[i].null()));
-#if 0
+#if 1
 			if(!success)
-				printf("ERROR: lua -> wrong argument %s, expect type %s, got %s\n", params[i].m_name, type(params[i].m_value).m_name, vars[i].type().m_name);
+				printf("ERROR: lua -> wrong argument %s, expect type %s, got %s\n", params[i].m_name, type(params[i].m_value).m_name, type(vars[i]).m_name);
 #endif
 		}
 		return success;
@@ -485,7 +491,7 @@ namespace mud
 	{
 		const Member& member = val<Member>(userdata(state, -1));
 		Ref object = userdata(state, object_index);
-		Ref value = member.get(object);
+		Ref value = member.cast_get(object);
 		return push(state, value).release();
 	}
 
@@ -495,7 +501,7 @@ namespace mud
 		Ref object = userdata(state, object_index);
 		Var value = member.m_default_value;
 		read(state, value_index, value);
-		member.set(object, value);
+		member.cast_set(object, value);
 		return 0;
 	}
 
@@ -932,8 +938,14 @@ namespace mud
 
 	void LuaInterpreter::call(cstring code, Var* result)
 	{
-		//printf("lua -> %s\n", code.c_str());
+#ifdef MUD_LUA_DEBUG_IO
+		printf("lua -> %s\n", code);
+#endif
 		exec_lua(m_context->m_state, code, result);
+#ifdef MUD_LUA_DEBUG_IO
+		printf("lua -> %s\n", m_output.c_str());
+		m_output = "";
+#endif
 	}
 
 	string LuaInterpreter::flush()

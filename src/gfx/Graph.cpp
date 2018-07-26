@@ -201,18 +201,6 @@ namespace gfx
 		return *self.m_item;
 	}
 
-	Item& node_model(Gnode& parent, const Model& model, const vec3& position, const quat& rotation, const vec3& scale)
-	{
-		Gnode& self = node(parent, {}, position, rotation, scale);
-		return item(self, model);
-	}
-
-	Item& node_shape(Gnode& parent, const Shape& shape, const Symbol& symbol, const vec3& position, const quat& rotation, const vec3& scale)
-	{
-		Gnode& self = node(parent, {}, position, rotation, scale);
-		return gfx::shape(self, shape, symbol);
-	}
-
 	Item& shape_item(Gnode& parent, Model& model, const Symbol& symbol, uint32_t flags, Material* material, size_t instances, DrawMode draw_mode)
 	{
 		Item& self = item(parent, model, flags, material, instances);

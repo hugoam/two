@@ -88,6 +88,11 @@ namespace mud
 			else
 				assign(ref, value);
 		}
+
+		inline Ref cast(Ref object) const;
+		inline Ref cast_get(Ref object) const;
+		inline Var safe_get(Ref object) const;
+		inline void cast_set(Ref object, Ref value) const;
 	};
 
 	export_ template <typename T_Value, typename T>

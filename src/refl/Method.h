@@ -52,14 +52,12 @@ namespace mud
 		bool output() const { return (m_flags & Output) != 0; }
 	};
 
-	export_ using ParamVector = std::vector<Param>;
-
 	export_ class refl_ MUD_REFL_EXPORT Signature
 	{
 	public:
-		Signature(const ParamVector& params = {}, const Var& returnval = Var());
+		Signature(const std::vector<Param>& params = {}, const Var& returnval = Var());
 
-		ParamVector m_params;
+		std::vector<Param> m_params;
 		Var m_returnval;
 	};
 
@@ -67,7 +65,7 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Callable
 	{
 	public:
-		Callable(cstring name, const ParamVector& params = {}, Var returnval = Var());
+		Callable(cstring name, const std::vector<Param>& params = {}, Var returnval = Var());
 
 		void setup();
 
@@ -79,7 +77,7 @@ namespace mud
 		uint32_t m_index;
 		cstring m_name;
 		Var m_returnval;
-		ParamVector m_params;
+		std::vector<Param> m_params;
 		size_t m_num_defaults;
 
 		std::vector<Var> m_arguments;
@@ -90,7 +88,7 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Function final : public Callable
 	{
 	public:
-		Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc function, const ParamVector& params = {}, Var returnval = Var());
+		Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc function, const std::vector<Param>& params = {}, Var returnval = Var());
 
 		virtual void operator()(array<Var> args, Var& result) const { return m_call(args, result); }
 
@@ -102,7 +100,7 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Method final : public Callable
 	{
 	public:
-		Method(Type& object_type, cstring name, Address address, MethodFunc method, const ParamVector& params = {}, Var returnval = Var());
+		Method(Type& object_type, cstring name, Address address, MethodFunc method, const std::vector<Param>& params = {}, Var returnval = Var());
 
 		virtual void operator()(array<Var> args, Var& result) const { return m_call(args[0], array<Var>{ args, 1 }, result); }
 
@@ -121,7 +119,7 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Constructor final : public Callable
 	{
 	public:
-		Constructor(Type& object_type, ConstructorFunc func, const ParamVector& params = {});
+		Constructor(Type& object_type, ConstructorFunc func, const std::vector<Param>& params = {});
 
 		virtual void operator()(array<Var> args, Var& result) const { UNUSED(result); m_call(args[0], array<Var>{ args, 1 }); }
 

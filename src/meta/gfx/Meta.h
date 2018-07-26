@@ -2628,12 +2628,6 @@ namespace mud
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node(val<mud::Gnode>(args[0]), args[1], val<mud::Transform>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "object", Ref(), Param::Nullable }, { "transform", var(mud::Transform()) } };
-            static Function f = { &namspc({ "mud", "gfx" }), "node", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::Transform&)>(&mud::gfx::node), func, params, Ref(type<mud::Gnode>()) };
-            m.m_functions.push_back(&f);
-        }
-        {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::transform(val<mud::Gnode>(args[0]), args[1], val<mud::vec3>(args[2]), val<mud::quat>(args[3]), val<mud::vec3>(args[4]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "object", Ref(), Param::Nullable }, { "position", var(mud::vec3()) }, { "rotation", var(mud::quat()) }, { "scale", var(mud::vec3()) } };
             static Function f = { &namspc({ "mud", "gfx" }), "transform", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::transform), func, params, Ref(type<mud::Gnode>()) };
@@ -2643,18 +2637,6 @@ namespace mud
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::transform(val<mud::Gnode>(args[0]), args[1], val<mud::vec3>(args[2]), val<mud::quat>(args[3]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "object", Ref(), Param::Nullable }, { "position", var(mud::vec3()) }, { "rotation", var(mud::quat()) } };
             static Function f = { &namspc({ "mud", "gfx" }), "transform", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::vec3&, const mud::quat&)>(&mud::gfx::transform), func, params, Ref(type<mud::Gnode>()) };
-            m.m_functions.push_back(&f);
-        }
-        {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node_model(val<mud::Gnode>(args[0]), val<mud::Model>(args[1]), val<mud::vec3>(args[2]), val<mud::quat>(args[3]), val<mud::vec3>(args[4]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "model", Ref(type<mud::Model>()) }, { "position", var(mud::vec3()) }, { "rotation", var(mud::quat()), Param::Default }, { "scale", var(mud::vec3()), Param::Default } };
-            static Function f = { &namspc({ "mud", "gfx" }), "node_model", function_id<mud::Item&(*)(mud::Gnode&, const mud::Model&, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::node_model), func, params, Ref(type<mud::Item>()) };
-            m.m_functions.push_back(&f);
-        }
-        {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node_shape(val<mud::Gnode>(args[0]), val<mud::Shape>(args[1]), val<mud::Symbol>(args[2]), val<mud::vec3>(args[3]), val<mud::quat>(args[4]), val<mud::vec3>(args[5]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "shape", Ref(type<mud::Shape>()) }, { "symbol", var(mud::Symbol()) }, { "position", var(mud::vec3()) }, { "rotation", var(mud::quat()), Param::Default }, { "scale", var(mud::vec3()), Param::Default } };
-            static Function f = { &namspc({ "mud", "gfx" }), "node_shape", function_id<mud::Item&(*)(mud::Gnode&, const mud::Shape&, const mud::Symbol&, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::node_shape), func, params, Ref(type<mud::Item>()) };
             m.m_functions.push_back(&f);
         }
         {

@@ -21,6 +21,8 @@ module mud.uio;
 #include <uio/Edit/Reflection.h>
 #endif
 
+#define EDIT_MEMBER_REF
+
 namespace mud
 {
 	std::vector<EditSpec> g_edit_specs = std::vector<EditSpec>(c_max_types);
@@ -43,33 +45,18 @@ namespace mud
 		Ref object = {};
 	};
 
-	inline Ref safe_target(Member& member, Ref object)
-	{
-		Ref target = object;
-		if(object.m_type != member.m_object_type && g_class[type(object).m_id])
-			target = cls(object).upcast(object, *member.m_object_type);
-		return target;
-	}
-
-	inline Var get_safe(Member& member, Ref object)
-	{
-		Var result = member.m_default_value;
-		result = member.get(safe_target(member, object));
-		return result;
-	}
-
-	inline void set_safe(Member& member, Ref object, Ref value)
-	{
-		member.set(safe_target(member, object), value);
-	}
-
 	bool member_edit(Widget& parent, Ref object, Member& member, EditorHint hint = EditorHint::Inline)
 	{
-		Var value = get_safe(member, object);
+#ifdef EDIT_MEMBER_REF
+		Ref value = member.cast_get(object);
+		bool changed = any_edit(parent, value, member.is_link() | member.is_pointer(), hint);
+#else
+		Var value = member.safe_get(object);
 		bool changed = any_edit(parent, value.m_ref, member.is_link() | member.is_pointer(), hint);
 
 		if(changed && member.is_mutable() && !member.is_component())
-			set_safe(member, object, value);
+			member.cast_set(object, value);
+#endif
 		
 		return changed;
 	}
@@ -121,17 +108,25 @@ namespace mud
 	bool object_edit_rows(Widget& parent, Table& table, Ref object)
 	{
 		bool changed = false;
+
+		auto member_edit = [&](Member& member)
+		{
+			EditNestMode mode = nest_edit_mode(member, 0);
+			if(mode == EditNestMode::Embed)
+				changed |= member_edit_nested(table, object, member);
+			else if(mode == EditNestMode::Modal)
+				changed |= member_edit_toggle(table, object, member);
+			else
+				changed |= member_edit_row(table, object, member);
+		};
+
 		for(Member& member : cls(object).m_members)
-			if(member.is_mutable())
-			{
-				EditNestMode mode = nest_edit_mode(member, 0);
-				if(mode == EditNestMode::Embed)
-					changed |= member_edit_nested(table, object, member);
-				else if(mode == EditNestMode::Modal)
-					changed |= member_edit_toggle(table, object, member);
-				else
-					changed |= member_edit_row(table, object, member);
-			}
+			if(!member.is_component() && member.is_mutable())
+				member_edit(member);
+
+		for(Member& member : cls(object).m_members)
+			if(member.is_component() && member.is_mutable())
+				member_edit(member);
 
 		return changed;
 	}
@@ -144,17 +139,25 @@ namespace mud
 	bool object_edit_inrow(Widget& row, Ref object)
 	{
 		bool changed = false;
+
+		auto member_edit = [&](Member& member)
+		{
+			EditNestMode mode = nest_edit_mode(member, 1);
+			if(mode == EditNestMode::Embed)
+				changed |= member_edit_embed(row, object, member);
+			else if(mode == EditNestMode::Modal)
+				changed |= member_edit_toggle(row, object, member);
+			else
+				changed |= mud::member_edit(row, object, member);
+		};
+
 		for(Member& member : cls(object).m_members)
-			if(member.is_mutable())
-			{
-				EditNestMode mode = nest_edit_mode(member, 1);
-				if(mode == EditNestMode::Embed)
-					changed |= member_edit_embed(row, object, member);
-				else if(mode == EditNestMode::Modal)
-					changed |= member_edit_toggle(row, object, member);
-				else
-					changed |= member_edit(row, object, member);
-			}
+			if(!member.is_component() && member.is_mutable())
+				member_edit(member);
+
+		for(Member& member : cls(object).m_members)
+			if(member.is_component() && member.is_mutable())
+				member_edit(member);
 
 		return changed;
 	}

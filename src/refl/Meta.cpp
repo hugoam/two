@@ -178,7 +178,18 @@ namespace mud
 		for(size_t i = 0; i < m_bases.size(); ++i)
 			if(m_bases[i] == &base)
 			{
-				return Ref{ static_cast<char*>(object.m_value) + m_bases_offsets[i], base };
+				return { static_cast<char*>(object.m_value) + m_bases_offsets[i], base };
+			}
+		return object;
+	}
+
+	Ref Class::downcast(Ref object, Type& base)
+	{
+		if(!object) return object;
+		for(size_t i = 0; i < m_bases.size(); ++i)
+			if(m_bases[i] == &base)
+			{
+				return { static_cast<char*>(object.m_value) - m_bases_offsets[i], *m_type };
 			}
 		return object;
 	}
