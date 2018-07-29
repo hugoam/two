@@ -11,7 +11,8 @@ SAMPLER2D(s_skeleton, 5);
 
 mat4 skeleton_matrix(sampler2D skeleton_texture, ivec4 bone_indices, vec4 bone_weights)
 {
-#if BGFX_SHADER_LANGUAGE_GLSL < 110
+#ifdef NO_TEXEL_FETCH // the point here is to detect WebGL
+//#if BGFX_SHADER_LANGUAGE_GLSL < 110
     bone_indices *= 255.0;
 #endif
 

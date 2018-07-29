@@ -14,6 +14,7 @@ $input a_position, a_normal, a_tangent, a_color0, a_texcoord0/*, a_texcoord1*/ S
 $output v_view, v_position, v_normal, v_tangent, v_color, v_texcoord0/*, v_texcoord1*/, v_binormal
 
 #include <common.sh>
+#include <convert.sh>
 #include <pbr/pbr.sh>
 #include <skeleton.sh>
 
@@ -21,16 +22,18 @@ void main()
 {
 #include "modelview.sh"
 
+    mat4 normalModelView = transpose(inverse(modelView));
+    
 	v_color = a_color0;
 	v_texcoord0 = a_texcoord0;
 	//v_texcoord1 = a_texcoord1;
 
 	v_view = mul(modelView, vec4(a_position, 1.0)).xyz;
-    v_normal = normalize(mul(modelView, vec4(a_normal.xyz, 0.0)).xyz);
-	v_tangent = normalize(mul(modelView, vec4(a_tangent.xyz, 0.0)).xyz);
+    v_normal = normalize(mul(normalModelView, vec4(a_normal.xyz, 0.0)).xyz);
+	v_tangent = normalize(mul(normalModelView, vec4(a_tangent.xyz, 0.0)).xyz);
     
 	vec3 binormal = normalize(a_tangent.a * cross(a_normal.xyz, a_tangent.xyz));
-	v_binormal = normalize(mul(modelView, vec4(binormal, 0.0)).xyz);
+	v_binormal = normalize(mul(normalModelView, vec4(binormal, 0.0)).xyz);
 
 //#define DEBUG_BONES
 #if defined SKELETON && defined DEBUG_BONES 

@@ -34,12 +34,12 @@ void main()
     
 	glow += textureGlow(s_glow, v_texcoord0.xy, 1, u_glow_level_1).rgb;
 	glow += textureGlow(s_glow, v_texcoord0.xy, 2, u_glow_level_2).rgb;
-	glow += textureGlow(s_glow, v_texcoord0.xy, 3, u_glow_level_3).rgb;
-	glow += textureGlow(s_glow, v_texcoord0.xy, 4, u_glow_level_4).rgb;
-	glow += textureGlow(s_glow, v_texcoord0.xy, 5, u_glow_level_5).rgb;
-	glow += textureGlow(s_glow, v_texcoord0.xy, 6, u_glow_level_6).rgb;
-	glow += textureGlow(s_glow, v_texcoord0.xy, 7, u_glow_level_7).rgb;
-	glow += textureGlow(s_glow, v_texcoord0.xy, 8, u_glow_level_8).rgb;
+	//glow += textureGlow(s_glow, v_texcoord0.xy, 3, u_glow_level_3).rgb;
+	//glow += textureGlow(s_glow, v_texcoord0.xy, 4, u_glow_level_4).rgb;
+	//glow += textureGlow(s_glow, v_texcoord0.xy, 5, u_glow_level_5).rgb;
+	//glow += textureGlow(s_glow, v_texcoord0.xy, 6, u_glow_level_6).rgb;
+	//glow += textureGlow(s_glow, v_texcoord0.xy, 7, u_glow_level_7).rgb;
+	//glow += textureGlow(s_glow, v_texcoord0.xy, 8, u_glow_level_8).rgb;
 	glow *= u_glow_intensity;
     
 	gl_FragColor = vec4(color + glow, 1.0);
