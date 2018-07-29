@@ -600,7 +600,7 @@ namespace mud
                 { type<mud::Camera>(), member_address(&mud::Camera::m_aspect), type<float>(), "aspect", var(float(1.f)), Member::Value, nullptr },
                 { type<mud::Camera>(), member_address(&mud::Camera::m_near), type<float>(), "near", var(float(0.001f)), Member::Value, nullptr },
                 { type<mud::Camera>(), member_address(&mud::Camera::m_far), type<float>(), "far", var(float(100.f)), Member::Value, nullptr },
-                { type<mud::Camera>(), member_address(&mud::Camera::m_orthogonal), type<bool>(), "orthogonal", var(bool(false)), Member::Value, nullptr },
+                { type<mud::Camera>(), member_address(&mud::Camera::m_orthographic), type<bool>(), "orthogonal", var(bool(false)), Member::Value, nullptr },
                 { type<mud::Camera>(), member_address(&mud::Camera::m_height), type<float>(), "height", var(float(1.f)), Member::Value, nullptr },
                 { type<mud::Camera>(), member_address(&mud::Camera::m_optimize_ends), type<bool>(), "optimize_ends", var(bool(true)), Member::Value, nullptr },
                 { type<mud::Camera>(), member_address(&mud::Camera::m_lod_offsets), type<mud::vec4>(), "lod_offsets", var(mud::vec4()), Member::Value, nullptr }
@@ -748,7 +748,7 @@ namespace mud
             // members
             {
                 { type<mud::Fog>(), member_address(&mud::Fog::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Value, nullptr },
-                { type<mud::Fog>(), member_address(&mud::Fog::m_density), type<float>(), "density", var(float(0.1f)), Member::Value, nullptr },
+                { type<mud::Fog>(), member_address(&mud::Fog::m_density), type<float>(), "density", var(float(0.01f)), Member::Value, nullptr },
                 { type<mud::Fog>(), member_address(&mud::Fog::m_colour), type<mud::Colour>(), "colour", var(mud::Colour()), Member::Value, nullptr },
                 { type<mud::Fog>(), member_address(&mud::Fog::m_depth), type<bool>(), "depth", var(bool(false)), Member::Value, nullptr },
                 { type<mud::Fog>(), member_address(&mud::Fog::m_depth_begin), type<float>(), "depth_begin", var(float(0.f)), Member::Value, nullptr },
@@ -756,7 +756,7 @@ namespace mud
                 { type<mud::Fog>(), member_address(&mud::Fog::m_height), type<bool>(), "height", var(bool(false)), Member::Value, nullptr },
                 { type<mud::Fog>(), member_address(&mud::Fog::m_height_min), type<float>(), "height_min", var(float(0.f)), Member::Value, nullptr },
                 { type<mud::Fog>(), member_address(&mud::Fog::m_height_max), type<float>(), "height_max", var(float(1.f)), Member::Value, nullptr },
-                { type<mud::Fog>(), member_address(&mud::Fog::m_height_curve), type<float>(), "height_curve", var(float(1.f)), Member::Value, nullptr },
+                { type<mud::Fog>(), member_address(&mud::Fog::m_height_curve), type<float>(), "height_curve", var(float(0.1f)), Member::Value, nullptr },
                 { type<mud::Fog>(), member_address(&mud::Fog::m_transmit), type<bool>(), "transmit", var(bool(false)), Member::Value, nullptr },
                 { type<mud::Fog>(), member_address(&mud::Fog::m_transmit_curve), type<float>(), "transmit_curve", var(float(1.f)), Member::Value, nullptr }
             },
@@ -2155,6 +2155,7 @@ namespace mud
     
     
     
+    
         
     // mud::UnshadedMaterialBlock
     {
@@ -2625,18 +2626,6 @@ namespace mud
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node(val<mud::Gnode>(args[0]), args[1], val<mud::vec3>(args[2]), val<mud::quat>(args[3]), val<mud::vec3>(args[4]))); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "object", Ref(), Param::Flags(Param::Nullable|Param::Default) }, { "position", var(mud::vec3()), Param::Default }, { "rotation", var(mud::quat()), Param::Default }, { "scale", var(mud::vec3()), Param::Default } };
             static Function f = { &namspc({ "mud", "gfx" }), "node", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::node), func, params, Ref(type<mud::Gnode>()) };
-            m.m_functions.push_back(&f);
-        }
-        {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::transform(val<mud::Gnode>(args[0]), args[1], val<mud::vec3>(args[2]), val<mud::quat>(args[3]), val<mud::vec3>(args[4]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "object", Ref(), Param::Nullable }, { "position", var(mud::vec3()) }, { "rotation", var(mud::quat()) }, { "scale", var(mud::vec3()) } };
-            static Function f = { &namspc({ "mud", "gfx" }), "transform", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::transform), func, params, Ref(type<mud::Gnode>()) };
-            m.m_functions.push_back(&f);
-        }
-        {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::transform(val<mud::Gnode>(args[0]), args[1], val<mud::vec3>(args[2]), val<mud::quat>(args[3]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "object", Ref(), Param::Nullable }, { "position", var(mud::vec3()) }, { "rotation", var(mud::quat()) } };
-            static Function f = { &namspc({ "mud", "gfx" }), "transform", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::vec3&, const mud::quat&)>(&mud::gfx::transform), func, params, Ref(type<mud::Gnode>()) };
             m.m_functions.push_back(&f);
         }
         {

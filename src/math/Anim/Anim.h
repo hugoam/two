@@ -39,6 +39,6 @@ namespace mud
 
 	inline void animate(Ref object, Member& member, Var value, float duration)
 	{
-		Animator::me().animate(object, member, value, duration);
+		Animator::me.animate(object, member, value, duration);
 	}
 }

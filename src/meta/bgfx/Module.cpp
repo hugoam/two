@@ -22,7 +22,7 @@ namespace mud
         mud_obj::m();
         mud_math::m();
         mud_ctx::m();
-        //mud_ctx_glfw::m();
+        mud_ctx_glfw::m();
 
         // setup reflection meta data
 		mud_bgfx_meta(*this);

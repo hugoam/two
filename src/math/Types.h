@@ -73,8 +73,8 @@ namespace mud
     export_ template <> MUD_MATH_EXPORT Type& type<mud::vec2>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::vec3>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::vec4>();
-    export_ template <> MUD_MATH_EXPORT Type& type<mud::SpriteAtlas>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Sprite>();
+    export_ template <> MUD_MATH_EXPORT Type& type<mud::SpriteAtlas>();
     
 	export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::AutoStat<float>*>>;
 	export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::AutoStat<int>*>>;
@@ -116,6 +116,6 @@ namespace mud
 	export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::vec2*>>;
 	export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::vec3*>>;
 	export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::vec4*>>;
-	export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::SpriteAtlas*>>;
 	export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Sprite*>>;
+	export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::SpriteAtlas*>>;
 }

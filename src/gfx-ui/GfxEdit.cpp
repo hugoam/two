@@ -217,7 +217,7 @@ namespace mud
 		return viewer;
 	}
 
-	class DispatchAssetViewer : public Dispatch<SceneViewer&, Widget&>, public LazyGlobal<DispatchAssetViewer>
+	class DispatchAssetViewer : public Dispatch<SceneViewer&, Widget&>, public Global<DispatchAssetViewer>
 	{
 	public:
 		DispatchAssetViewer()
@@ -230,7 +230,7 @@ namespace mud
 
 	SceneViewer& asset_viewer(Widget& parent, Ref asset)
 	{
-		return DispatchAssetViewer::me().dispatch(asset, parent);
+		return DispatchAssetViewer::me.dispatch(asset, parent);
 	}
 
 	Widget& asset_item(Widget& parent, cstring icon, cstring name, Ref asset)
@@ -464,7 +464,7 @@ namespace mud
 		nest_mode(type<ShapeVar>(), EditNestMode::Embed);
 
 		{
-			DispatchInput& dispatch = DispatchInput::me();
+			DispatchInput& dispatch = DispatchInput::me;
 			dispatch_branch<ShapeVar>(dispatch, [](ShapeVar& object, Widget& parent) { return edit_shape(parent, object); });
 		}
 

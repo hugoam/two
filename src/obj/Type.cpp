@@ -35,6 +35,8 @@ namespace mud
 		return strncmp(value, other.value, 16) == 0;
 	}
 
+	Index Index::me;
+
 	static size_t s_type_index = 2;
 
 	Type::Type(int)

@@ -92,7 +92,7 @@ namespace mud
 	{
 		int t = lua_type(state, index);
 		if(t == LUA_TSTRING)
-			printf("`%s'", lua_tostring(state, index));
+			printf("'%s'", lua_tostring(state, index));
 		else if(t == LUA_TBOOLEAN)
 			printf(lua_toboolean(state, index) ? "true" : "false");
 		else if(t == LUA_TNUMBER)
@@ -461,7 +461,8 @@ namespace mud
 
 	inline Stack call_cpp(lua_State* state, Call& call, size_t num_arguments)
 	{
-		if(read_params(state, &call.m_callable->m_params[0], to_array(call.m_arguments, 0, num_arguments)))
+		bool enough_arguments = num_arguments >= call.m_arguments.size() - call.m_callable->m_num_defaults;
+		if(enough_arguments && read_params(state, &call.m_callable->m_params[0], to_array(call.m_arguments, 0, num_arguments)))
 		{
 			call();
 			Stack result = call.m_result.none() ? Stack{ state, 0 } : push(state, call.m_result);
@@ -775,7 +776,8 @@ namespace mud
 	class LuaContext : public NonCopy
 	{
 	public:
-		explicit LuaContext()
+		explicit LuaContext(std::vector<string> import_namespaces = {})
+			: m_import_namespaces(import_namespaces)
 		{
 			m_state = luaL_newstate();
 
@@ -789,8 +791,8 @@ namespace mud
 
 			luaL_openlibs(m_state);
 
-			lua_pushcfunction(m_state, lua_print);
-			lua_setglobal(m_state, "print");
+			//lua_pushcfunction(m_state, lua_print);
+			//lua_setglobal(m_state, "print");
 		}
 
 		~LuaContext()
@@ -799,12 +801,19 @@ namespace mud
 			lua_close(m_state);
 		}
 
+		bool import_namespace(const string& path)
+		{
+			for(const string& name : m_import_namespaces)
+				if(path == name)
+					return true;
+			return false;
+		}
+
 		array<cstring> namespace_path(Namespace& location, size_t shave_off = 0)
 		{
 			if(location.is_root())
 				return array<cstring>{};
-			bool in_mud = strcmp(location.m_path[0], "mud") == 0;
-			if(in_mud)
+			if(import_namespace(location.m_path[0]))
 				return location.m_path.size() == 1 ? array<cstring>{} : array<cstring>{ location.m_path.data() + 1, location.m_path.size() - 1 - shave_off };
 			else
 				return array<cstring>{ location.m_path.data(), location.m_path.size() - shave_off };
@@ -868,6 +877,8 @@ namespace mud
 		{
 			register_field(m_state, type, member.m_name, Ref(&member));
 		}
+		
+		std::vector<string> m_import_namespaces;
 
 		lua_State* m_state;
 	};
@@ -877,9 +888,9 @@ namespace mud
 namespace mud
 {
 	LuaInterpreter::LuaInterpreter(bool import_symbols)
-		: m_context(make_unique<LuaContext>())
+		: m_context(make_unique<LuaContext>(std::vector<string>{ "mud", "toy" }))
 	{
-		g_lua_print_output = &m_output;
+		//g_lua_print_output = &m_output;
 		if(import_symbols)
 			this->declare_types();
 	}

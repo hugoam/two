@@ -35,6 +35,7 @@ namespace std {
 namespace mud {
 namespace ui {
 
+    enum class OrbitMode : int;
     
     
 }

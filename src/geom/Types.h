@@ -36,6 +36,7 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Shape>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::ShapeVar>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Symbol>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Poisson>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Arc>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::ArcLine>();
@@ -60,7 +61,6 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Spheroid>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Torus>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Triangle>();
-    export_ template <> MUD_GEOM_EXPORT Type& type<mud::Poisson>();
     
 	export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Distribution*>>;
 	export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Face3*>>;
@@ -72,6 +72,7 @@ namespace mud
 	export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Shape*>>;
 	export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::ShapeVar*>>;
 	export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Symbol*>>;
+	export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Poisson*>>;
 	export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Aabb*>>;
 	export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Arc*>>;
 	export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::ArcLine*>>;
@@ -96,5 +97,4 @@ namespace mud
 	export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Spheroid*>>;
 	export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Torus*>>;
 	export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Triangle*>>;
-	export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Poisson*>>;
 }

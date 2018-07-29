@@ -24,7 +24,6 @@ namespace mud
     
     
     
-    
         
     // mud::Pool
     {

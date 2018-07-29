@@ -46,7 +46,7 @@ namespace mud
 		inline bool isa() { return is<T>(*this) || this->has_part(type<T>()); }
 
 		template <class T>
-		inline T& part() { return *static_cast<T*>(this->part(type<T>()).m_value); }
+		inline T& as() { return *static_cast<T*>(this->part(type<T>()).m_value); }
 	};
 
 	export_ template <class T>

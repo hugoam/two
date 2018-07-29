@@ -29,6 +29,7 @@ namespace mud
     template <> MUD_GEOM_EXPORT Type& type<mud::Shape>() { static Type ty("Shape"); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::ShapeVar>() { static Type ty("ShapeVar"); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Symbol>() { static Type ty("Symbol"); return ty; }
+    template <> MUD_GEOM_EXPORT Type& type<mud::Poisson>() { static Type ty("Poisson", type<mud::Distribution>()); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Aabb>() { static Type ty("Aabb", type<mud::Cube>()); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Arc>() { static Type ty("Arc", type<mud::Shape>()); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::ArcLine>() { static Type ty("ArcLine", type<mud::Shape>()); return ty; }
@@ -53,5 +54,4 @@ namespace mud
     template <> MUD_GEOM_EXPORT Type& type<mud::Spheroid>() { static Type ty("Spheroid", type<mud::Shape>()); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Torus>() { static Type ty("Torus", type<mud::Shape>()); return ty; }
     template <> MUD_GEOM_EXPORT Type& type<mud::Triangle>() { static Type ty("Triangle", type<mud::Shape>()); return ty; }
-    template <> MUD_GEOM_EXPORT Type& type<mud::Poisson>() { static Type ty("Poisson", type<mud::Distribution>()); return ty; }
 }

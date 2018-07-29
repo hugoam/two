@@ -191,6 +191,8 @@ namespace mud
             },
             // members
             {
+                { type<mud::Plane>(), member_address(&mud::Plane::m_normal), type<mud::vec3>(), "normal", var(mud::vec3()), Member::Value, nullptr },
+                { type<mud::Plane>(), member_address(&mud::Plane::m_distance), type<float>(), "distance", var(float()), Member::Value, nullptr }
             },
             // methods
             {
@@ -224,6 +226,9 @@ namespace mud
             },
             // members
             {
+                { type<mud::Plane3>(), member_address(&mud::Plane3::m_origin), type<mud::vec3>(), "origin", var(mud::vec3()), Member::Value, nullptr },
+                { type<mud::Plane3>(), member_address(&mud::Plane3::m_a), type<mud::vec3>(), "a", var(mud::vec3()), Member::Value, nullptr },
+                { type<mud::Plane3>(), member_address(&mud::Plane3::m_b), type<mud::vec3>(), "b", var(mud::vec3()), Member::Value, nullptr }
             },
             // methods
             {
@@ -263,6 +268,10 @@ namespace mud
             },
             // members
             {
+                { type<mud::Ray>(), member_address(&mud::Ray::m_start), type<mud::vec3>(), "start", var(mud::vec3()), Member::Value, nullptr },
+                { type<mud::Ray>(), member_address(&mud::Ray::m_end), type<mud::vec3>(), "end", var(mud::vec3()), Member::Value, nullptr },
+                { type<mud::Ray>(), member_address(&mud::Ray::m_dir), type<mud::vec3>(), "dir", var(mud::vec3()), Member::Value, nullptr },
+                { type<mud::Ray>(), member_address(&mud::Ray::m_inv_dir), type<mud::vec3>(), "inv_dir", var(mud::vec3()), Member::Value, nullptr }
             },
             // methods
             {
@@ -296,6 +305,8 @@ namespace mud
             },
             // members
             {
+                { type<mud::Segment>(), member_address(&mud::Segment::m_start), type<mud::vec3>(), "start", var(mud::vec3()), Member::Value, nullptr },
+                { type<mud::Segment>(), member_address(&mud::Segment::m_end), type<mud::vec3>(), "end", var(mud::vec3()), Member::Value, nullptr }
             },
             // methods
             {
@@ -462,6 +473,42 @@ namespace mud
     
     
     
+    
+    
+        
+    // mud::Poisson
+    {
+        static Meta meta = { type<mud::Poisson>(), &namspc({ "mud" }), "Poisson", sizeof(mud::Poisson), TypeClass::Object };
+        static Class cls = { type<mud::Poisson>(),
+            // bases
+            { &type<mud::Distribution>() },
+            { base_offset<mud::Poisson, mud::Distribution>() },
+            // constructors
+            {
+                { type<mud::Poisson>(), [](Ref ref, array<Var> args) { new(&val<mud::Poisson>(ref)) mud::Poisson( val<mud::vec2>(args[0]), val<float>(args[1]) ); }, { { "size", var(mud::vec2()) }, { "maxRadius", var(float()) } } }
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+                { type<mud::Poisson>(), "distribute", member_address(&mud::Poisson::distribute), [](Ref object, array<Var> args, Var& result) { val<std::vector<mud::vec3>>(result) = val<mud::Poisson>(object).distribute(val<float>(args[0])); }, { { "radius", var(float()) } }, var(std::vector<mud::vec3>()) },
+                { type<mud::Poisson>(), "distribute_circles", member_address(&mud::Poisson::distribute_circles), [](Ref object, array<Var> args, Var& result) { val<std::vector<mud::Circle>>(result) = val<mud::Poisson>(object).distribute_circles(val<float>(args[0])); }, { { "radius", var(float()) } }, var(std::vector<mud::Circle>()) },
+                { type<mud::Poisson>(), "addPoint", member_address(&mud::Poisson::addPoint), [](Ref object, array<Var> args, Var& result) { val<bool>(result) = val<mud::Poisson>(object).addPoint(val<float>(args[0]), val<mud::vec3>(args[1])); }, { { "radius", var(float()) }, { "point", var(mud::vec3()) } }, var(bool()) }
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        init_pool<mud::Poisson>(); 
+        
+        meta_class<mud::Poisson>();
+    }
     
     
         
@@ -1348,42 +1395,6 @@ namespace mud
         meta_class<mud::Triangle>();
     }
     
-    
-        
-    // mud::Poisson
-    {
-        static Meta meta = { type<mud::Poisson>(), &namspc({ "mud" }), "Poisson", sizeof(mud::Poisson), TypeClass::Object };
-        static Class cls = { type<mud::Poisson>(),
-            // bases
-            { &type<mud::Distribution>() },
-            { base_offset<mud::Poisson, mud::Distribution>() },
-            // constructors
-            {
-                { type<mud::Poisson>(), [](Ref ref, array<Var> args) { new(&val<mud::Poisson>(ref)) mud::Poisson( val<mud::vec2>(args[0]), val<float>(args[1]) ); }, { { "size", var(mud::vec2()) }, { "maxRadius", var(float()) } } }
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-                { type<mud::Poisson>(), "distribute", member_address(&mud::Poisson::distribute), [](Ref object, array<Var> args, Var& result) { val<std::vector<mud::vec3>>(result) = val<mud::Poisson>(object).distribute(val<float>(args[0])); }, { { "radius", var(float()) } }, var(std::vector<mud::vec3>()) },
-                { type<mud::Poisson>(), "distribute_circles", member_address(&mud::Poisson::distribute_circles), [](Ref object, array<Var> args, Var& result) { val<std::vector<mud::Circle>>(result) = val<mud::Poisson>(object).distribute_circles(val<float>(args[0])); }, { { "radius", var(float()) } }, var(std::vector<mud::Circle>()) },
-                { type<mud::Poisson>(), "addPoint", member_address(&mud::Poisson::addPoint), [](Ref object, array<Var> args, Var& result) { val<bool>(result) = val<mud::Poisson>(object).addPoint(val<float>(args[0]), val<mud::vec3>(args[1])); }, { { "radius", var(float()) }, { "point", var(mud::vec3()) } }, var(bool()) }
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        init_pool<mud::Poisson>(); 
-        
-        meta_class<mud::Poisson>();
-    }
-    
 
     
         m.m_types.push_back(&type<mud::Distribution>());
@@ -1401,6 +1412,7 @@ namespace mud
         m.m_types.push_back(&type<mud::SymbolDetail>());
         m.m_types.push_back(&type<std::vector<mud::Circle>>());
         m.m_types.push_back(&type<std::vector<mud::vec3>>());
+        m.m_types.push_back(&type<mud::Poisson>());
         m.m_types.push_back(&type<mud::Aabb>());
         m.m_types.push_back(&type<mud::Arc>());
         m.m_types.push_back(&type<mud::ArcLine>());
@@ -1425,8 +1437,19 @@ namespace mud
         m.m_types.push_back(&type<mud::Spheroid>());
         m.m_types.push_back(&type<mud::Torus>());
         m.m_types.push_back(&type<mud::Triangle>());
-        m.m_types.push_back(&type<mud::Poisson>());
     
+        {
+            auto func = [](array<Var> args, Var& result) {  val<mud::Ray>(result) = mud::to_ray(val<mud::vec3>(args[0]), val<mud::vec3>(args[1]), val<float>(args[2])); };
+            std::vector<Param> params = { { "pos", var(mud::vec3()) }, { "dir", var(mud::vec3()) }, { "distance", var(float(1000.f)), Param::Default } };
+            static Function f = { &namspc({ "mud" }), "to_ray", function_id<mud::Ray(*)(const mud::vec3&, const mud::vec3&, float)>(&mud::to_ray), func, params, var(mud::Ray()) };
+            m.m_functions.push_back(&f);
+        }
+        {
+            auto func = [](array<Var> args, Var& result) {  val<mud::Segment>(result) = mud::to_segment(val<mud::Ray>(args[0])); };
+            std::vector<Param> params = { { "ray", var(mud::Ray()) } };
+            static Function f = { &namspc({ "mud" }), "to_segment", function_id<mud::Segment(*)(const mud::Ray&)>(&mud::to_segment), func, params, var(mud::Segment()) };
+            m.m_functions.push_back(&f);
+        }
         {
             auto func = [](array<Var> args, Var& result) {  val<std::vector<mud::vec3>>(result) = mud::distribute_poisson(val<mud::vec2>(args[0]), val<float>(args[1])); };
             std::vector<Param> params = { { "size", var(mud::vec2()) }, { "radius", var(float()) } };

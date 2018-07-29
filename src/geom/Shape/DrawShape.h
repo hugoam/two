@@ -15,7 +15,7 @@
 
 namespace mud
 {
-	export_ struct MUD_GEOM_EXPORT DispatchDrawProcShape : public LazyGlobal<DispatchDrawProcShape>
+	export_ struct MUD_GEOM_EXPORT DispatchDrawProcShape : public Global<DispatchDrawProcShape>
 	{
 		DispatchDrawProcShape();
 

@@ -21,7 +21,7 @@ module mud.uio;
 #include <uio/Edit/Reflection.h>
 #endif
 
-#define EDIT_MEMBER_REF
+//#define EDIT_MEMBER_REF
 
 namespace mud
 {
@@ -36,7 +36,7 @@ namespace mud
 		else
 			m_nest_mode[0] = EditNestMode::Inline;
 
-		//bool custom_edit = DispatchInput::me().check(*cls.m_type);
+		//bool custom_edit = DispatchInput::me.check(*cls.m_type);
 		//m_row_mode = big_struct || is_object(*cls.m_type) ? EditNestMode::Embed : EditNestMode::Inline;
 	}
 

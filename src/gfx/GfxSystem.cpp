@@ -91,6 +91,8 @@ namespace mud
 		Texture* m_white_texture = nullptr;
 		Texture* m_black_texture = nullptr;
 		Texture* m_normal_texture = nullptr;
+
+		SymbolIndex m_symbols;
 	};
 
 	GfxSystem::GfxSystem(array<cstring> resource_paths)
@@ -296,7 +298,7 @@ namespace mud
 
 	Model& GfxSystem::fetch_symbol(const Symbol& symbol, const Shape& shape, DrawMode draw_mode)
 	{
-		return SymbolIndex::me().symbol_model(symbol, shape, draw_mode);
+		return m_impl->m_symbols.symbol_model(symbol, shape, draw_mode);
 	}
 
 	Material& GfxSystem::fetch_symbol_material(const Symbol& symbol, DrawMode draw_mode)
@@ -304,6 +306,6 @@ namespace mud
 		if(symbol.m_image256)
 			return this->fetch_image256_material(*symbol.m_image256);
 		else
-			return SymbolIndex::me().symbol_material(*this, symbol, draw_mode);
+			return m_impl->m_symbols.symbol_material(*this, symbol, draw_mode);
 	}
 }

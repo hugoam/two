@@ -32,31 +32,31 @@ namespace mud
 	ShapeSize symbol_line_size(const ProcShape& procshape)
 	{
 		const Shape& shape = *procshape.m_shape;
-		if(Draw::me().m_size_lines.check(Ref(&shape)))
-			return Draw::me().m_size_lines.dispatch(Ref(&shape), procshape);
+		if(Draw::me.m_size_lines.check(Ref(&shape)))
+			return Draw::me.m_size_lines.dispatch(Ref(&shape), procshape);
 		return { 0, 0 };
 	}
 
 	ShapeSize symbol_triangle_size(const ProcShape& procshape)
 	{
 		const Shape& shape = *procshape.m_shape;
-		if(Draw::me().m_size_triangles.check(Ref(&shape)))
-			return Draw::me().m_size_triangles.dispatch(Ref(&shape), procshape);
+		if(Draw::me.m_size_triangles.check(Ref(&shape)))
+			return Draw::me.m_size_triangles.dispatch(Ref(&shape), procshape);
 		return { 0, 0 };
 	}
 
 	void symbol_draw_lines(const ProcShape& procshape, MeshData& data)
 	{
 		const Shape& shape = *procshape.m_shape;
-		if(Draw::me().m_draw_lines.check(Ref(&shape)))
-			Draw::me().m_draw_lines.dispatch(Ref(&shape), procshape, data);
+		if(Draw::me.m_draw_lines.check(Ref(&shape)))
+			Draw::me.m_draw_lines.dispatch(Ref(&shape), procshape, data);
 	}
 
 	void symbol_draw_triangles(const ProcShape& procshape, MeshData& data)
 	{
 		const Shape& shape = *procshape.m_shape;
-		if(Draw::me().m_draw_triangles.check(Ref(&shape)))
-			Draw::me().m_draw_triangles.dispatch(Ref(&shape), procshape, data);
+		if(Draw::me.m_draw_triangles.check(Ref(&shape)))
+			Draw::me.m_draw_triangles.dispatch(Ref(&shape), procshape, data);
 	}
 
 	ShapeSize size_shape_lines(const ProcShape& procshape, const CompoundShape& compound)

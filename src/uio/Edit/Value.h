@@ -14,7 +14,7 @@
 
 namespace mud
 {
-	export_ class MUD_UIO_EXPORT DispatchInput : public Dispatch<bool, Widget&>, public LazyGlobal<DispatchInput>
+	export_ class MUD_UIO_EXPORT DispatchInput : public Dispatch<bool, Widget&>, public Global<DispatchInput>
 	{
 	public:
 		DispatchInput();

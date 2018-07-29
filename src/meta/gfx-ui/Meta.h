@@ -63,6 +63,38 @@ namespace mud
     
     
         
+    // mud::SpaceSheet
+    {
+        static Meta meta = { type<mud::SpaceSheet>(), &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
+        static Class cls = { type<mud::SpaceSheet>(),
+            // bases
+            { &type<mud::RootSheet>() },
+            { base_offset<mud::SpaceSheet, mud::RootSheet>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::SpaceSheet>();
+    }
+    
+    
+        
     // mud::Viewer
     {
         static Meta meta = { type<mud::Viewer>(), &namspc({ "mud" }), "Viewer", sizeof(mud::Viewer), TypeClass::Object };
@@ -95,38 +127,6 @@ namespace mud
         
         
         meta_class<mud::Viewer>();
-    }
-    
-    
-        
-    // mud::SpaceSheet
-    {
-        static Meta meta = { type<mud::SpaceSheet>(), &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
-        static Class cls = { type<mud::SpaceSheet>(),
-            // bases
-            { &type<mud::RootSheet>() },
-            { base_offset<mud::SpaceSheet, mud::RootSheet>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::SpaceSheet>();
     }
     
     
@@ -229,8 +229,8 @@ namespace mud
 
     
         m.m_types.push_back(&type<mud::ViewerController>());
-        m.m_types.push_back(&type<mud::Viewer>());
         m.m_types.push_back(&type<mud::SpaceSheet>());
+        m.m_types.push_back(&type<mud::Viewer>());
         m.m_types.push_back(&type<mud::OrbitController>());
         m.m_types.push_back(&type<mud::FreeOrbitController>());
         m.m_types.push_back(&type<mud::SceneViewer>());

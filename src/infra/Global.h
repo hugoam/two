@@ -12,12 +12,11 @@ namespace mud
 	class Global
 	{
 	public:
-		static T& me() { return instance; }
-		static T instance;
+		static T me;
 	};
 
 	template <class T>
-	T Global<T>::instance;
+	T Global<T>::me;
 
 	export_ template <class T>
 	class LazyGlobal

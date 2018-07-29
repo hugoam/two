@@ -138,7 +138,7 @@ namespace mud
                 { type<mud::Glow>(), member_address(&mud::Glow::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Value, nullptr },
                 { type<mud::Glow>(), member_address(&mud::Glow::m_levels_1_4), type<mud::vec4>(), "levels_1_4", var(mud::vec4()), Member::Value, nullptr },
                 { type<mud::Glow>(), member_address(&mud::Glow::m_levels_5_8), type<mud::vec4>(), "levels_5_8", var(mud::vec4()), Member::Value, nullptr },
-                { type<mud::Glow>(), member_address(&mud::Glow::m_intensity), type<float>(), "intensity", var(float(0.8f)), Member::Value, nullptr },
+                { type<mud::Glow>(), member_address(&mud::Glow::m_intensity), type<float>(), "intensity", var(float(0.4f)), Member::Value, nullptr },
                 { type<mud::Glow>(), member_address(&mud::Glow::m_bloom), type<float>(), "bloom", var(float(0.0f)), Member::Value, nullptr },
                 { type<mud::Glow>(), member_address(&mud::Glow::m_bleed_threshold), type<float>(), "bleed_threshold", var(float(1.0f)), Member::Value, nullptr },
                 { type<mud::Glow>(), member_address(&mud::Glow::m_bleed_scale), type<float>(), "bleed_scale", var(float(2.0f)), Member::Value, nullptr },

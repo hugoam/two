@@ -66,8 +66,8 @@ namespace mud
 
 	void MeshPacker::bake(bool normals, bool tangents)
 	{
-		if(normals)
-			this->generate_normals();
+		//if(normals)
+		//	this->generate_normals();
 
 		if(tangents)
 			this->generate_tangents();

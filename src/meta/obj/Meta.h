@@ -113,7 +113,6 @@ namespace mud
     
     
     
-    
         
     // mud::Index
     {
@@ -137,7 +136,7 @@ namespace mud
             },
             // static members
             {
-                { type<mud::Index>(), "instance", Ref(&mud::Index::instance) }
+                { type<mud::Index>(), "me", Ref(&mud::Index::me) }
             }
         };
         

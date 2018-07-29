@@ -153,8 +153,8 @@ namespace mud
 	bool value_edit(Widget& parent, Ref& value)
 	{
 		// @kludge ? fix all value == Ref() in the code
-		if(!(value == Ref()) && DispatchInput::me().check(value))
-			return DispatchInput::me().dispatch(value, parent);
+		if(!(value == Ref()) && DispatchInput::me.check(value))
+			return DispatchInput::me.dispatch(value, parent);
 		return false;
 	}
 
@@ -236,8 +236,8 @@ namespace mud
 
 		if(value == Ref() || type(value).is<Type>())
 			return false;
-		else if(DispatchInput::me().check(value))
-			return DispatchInput::me().dispatch(value, parent);
+		else if(DispatchInput::me.check(value))
+			return DispatchInput::me.dispatch(value, parent);
 		else if(type(value).is<Creator>())
 			return object_creator(parent, val<Creator>(value));
 		else if(type(value).is<Call>())

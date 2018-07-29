@@ -61,7 +61,7 @@ namespace mud
 		void submit(uint8_t view, uint64_t bgfx_state, DrawMode draw_mode, Batch& batch);
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT SymbolIndex : public NonCopy, public Global<SymbolIndex>
+	export_ class refl_ MUD_GFX_EXPORT SymbolIndex : public NonCopy
 	{
 	public:
 		SymbolIndex();

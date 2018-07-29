@@ -30,20 +30,20 @@ namespace mud
 
 	Plane Camera::near_plane()
 	{
-		vec3 direction = normalize(m_target.m_position - m_node.m_position);
-		return Plane{ m_node.m_position + direction * m_near, direction };
+		vec3 direction = normalize(m_target - m_eye);
+		return Plane{ m_eye + direction * m_near, direction };
 	}
 
 	Plane Camera::far_plane()
 	{
-		vec3 direction = normalize(m_target.m_position - m_node.m_position);
-		return Plane{ m_node.m_position + direction * m_far, direction };
+		vec3 direction = normalize(m_target - m_eye);
+		return Plane{ m_eye + direction * m_far, direction };
 	}
 
 	mat4 Camera::projection(float near, float far, bool ndc)
 	{
 		UNUSED(ndc);
-		if(!m_orthogonal)
+		if(!m_orthographic)
 			return bxproj(m_fov, m_aspect, near, far, bgfx::getCaps()->homogeneousDepth);
 		else
 			return bxortho(this->ortho_rect(), near, far, 0.0f, bgfx::getCaps()->homogeneousDepth);
@@ -51,12 +51,9 @@ namespace mud
 
 	void Camera::update()
 	{
-		//vec3 up = normalize(rotate(m_node.m_rotation, Y_vec));
-		//m_transform = mtxLookAt(m_node.m_position, m_target.m_position, up);
+		m_transform = bxlookat(m_eye, m_target);
 
-		m_transform = bxlookat(m_node.m_position, m_target.m_position);
-
-		if(!m_orthogonal)
+		if(!m_orthographic)
 			m_projection = bxproj(m_fov, m_aspect, m_near, m_far, bgfx::getCaps()->homogeneousDepth);
 		else
 			m_projection = bxortho(this->ortho_rect(), m_near, m_far, 0.0f, bgfx::getCaps()->homogeneousDepth);
@@ -64,8 +61,8 @@ namespace mud
 
 	void Camera::set_look_at(const vec3& eye, const vec3& target)
 	{
-		m_node.m_position = eye;
-		m_target.m_position = target;
+		m_eye = eye;
+		m_target = target;
 	}
 
 	void Camera::set_isometric(IsometricAngle from_angle, const vec3& position)
@@ -75,11 +72,11 @@ namespace mud
 
 		vec3 angle = Y3 + z_angles[uint8_t(from_angle >> 0)] + x_angles[uint8_t(from_angle >> 8)];
 
-		m_orthogonal = true;
+		m_orthographic = true;
 		m_height = 1.0f;
 
-		m_target.m_position = position;
-		m_node.m_position = position + angle;
+		m_target = position;
+		m_eye = position + angle;
 	}
 
 	Ray Camera::ray(const vec2& offset)

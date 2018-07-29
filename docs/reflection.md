@@ -47,25 +47,25 @@ enum class _refl_ ShapeType
     Cube
 };
 
-class _refl_ MyObject
+class refl_ MyObject
 {
 public:
-    _constr_ MyObject(int number, std::string name);
+    constr_ MyObject(int number, std::string name);
 
-    _meth_ int method();
+    meth_ int method();
 
-    _attr_ int m_number;
-    _attr_ std::string m_name;
+    attr_ int m_number;
+    attr_ std::string m_name;
     
-    _attr_ ShapeType m_shape;
+    attr_ ShapeType m_shape;
     
-    _attr_ std::vector<float> m_floats;
+    attr_ std::vector<float> m_floats;
 };
 
 _func_ void foo(int arg);
 _func_ void bar(MyObject& object);
 ```
-Notice how this is a standard c++ definition, with some added [reflection hints](#hints): `_refl_` to reflect a class, `_constr_` to reflect a constructor, `_meth_` for a reflected method, and `_attr_` for a reflected attribute.
+Notice how this is a standard c++ definition, with some added [reflection hints](#hints): `refl_` to reflect a class, `_constr_` to reflect a constructor, `_meth_` for a reflected method, and `_attr_` for a reflected attribute.
 
 Using these annotations, the reflection [generator](#generator) produces a couple of reflection files, which declares and registers [constructs](#constructs) using mud corresponding types: [functions](../src/obj/Reflect/Method.h), [types](../src/obj/Reflect/Meta.h), [classes](../src/obj/Reflect/Class.h), [class members](../src/obj/Reflect/Member.h), [class methods](../src/obj/Reflect/Method.h), [enums](../src/obj/Reflect/Enum.h).  
 

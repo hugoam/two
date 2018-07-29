@@ -29,8 +29,8 @@ namespace mud
 		Camera(mat4 transform, mat4 projection);
 
 		attr_ Scene* m_scene = nullptr;
-		attr_ Node3 m_node;
-		attr_ Node3 m_target;
+		attr_ vec3 m_eye;
+		attr_ vec3 m_target;
 
 		attr_ mat4 m_transform;
 		attr_ mat4 m_projection;
@@ -43,7 +43,7 @@ namespace mud
 		attr_ float m_near = 0.001f;
 		attr_ float m_far = 100.f;
 
-		attr_ bool m_orthogonal = false;
+		attr_ bool m_orthographic = false;
 		attr_ float m_height = 1.f;
 
 		attr_ bool m_optimize_ends = true;

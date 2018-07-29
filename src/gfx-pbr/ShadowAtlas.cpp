@@ -152,7 +152,7 @@ namespace mud
 			points[1] = base + light.m_node.axis(X3) * w;
 		}
 
-		if(!render.m_camera.m_orthogonal)
+		if(!render.m_camera.m_orthographic)
 		{
 			for(int j = 0; j < 2; j++)
 			{
