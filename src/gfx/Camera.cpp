@@ -16,10 +16,10 @@ namespace mud
 {
 	Camera::Camera(Scene* scene)
 		: m_scene(scene)
-		, m_node(scene)
-		, m_target(scene)
+		, m_eye(Zero3)
+		, m_target(Z3)
 	{
-		m_node.m_position = 2.f * Z3;
+		m_eye = 2.f * Z3;
 		m_far = 300.f;
 	}
 

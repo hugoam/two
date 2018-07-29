@@ -16,17 +16,17 @@ namespace mud
 {
 	ViewAction::ViewAction(Camera& camera, const vec3& offset)
 		: m_camera(camera)
-		, m_eye_position{ camera.m_node.m_position, offset }
+		, m_eye_position{ camera.m_eye, offset }
 	{}
 
 	void ViewAction::apply()
 	{
-		m_camera.m_node.m_position = m_eye_position[END];
+		m_camera.m_eye = m_eye_position[END];
 	}
 
 	void ViewAction::undo()
 	{
-		m_camera.m_node.m_position = m_eye_position[START];
+		m_camera.m_eye = m_eye_position[START];
 	}
 
 	ViewTool::ViewTool(ToolContext& context, cstring name, const vec3& offset)

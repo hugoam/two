@@ -186,7 +186,7 @@ namespace mud
 		time += 0.01f;
 
 		SceneViewer& viewer = ui::scene_viewer(parent, vec2(200.f));
-		viewer.m_camera.m_node.m_position = radius * 2.5f * Z3;
+		viewer.m_camera.m_eye = radius * 2.5f * Z3;
 
 		quat rotation = axis_angle(Y3, fmod(time, 2.f * c_pi));
 

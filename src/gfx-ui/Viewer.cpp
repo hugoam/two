@@ -181,8 +181,8 @@ namespace mud
 	void OrbitController::set_eye(const quat& rotation)
 	{
 		vec3 direction = rotate(rotation, -Z3);
-		m_viewer.m_camera.m_node.m_position = m_position - direction * m_distance;
-		m_viewer.m_camera.m_target.m_position = m_position;
+		m_viewer.m_camera.m_eye = m_position - direction * m_distance;
+		m_viewer.m_camera.m_target = m_position;
 	}
 
 	void OrbitController::set_target(const vec3& position)
