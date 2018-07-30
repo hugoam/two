@@ -368,6 +368,6 @@ namespace mud
 		Pass particle_pass = render.next_pass("particles");
 
 		render.m_scene.m_particle_system->update(render.m_frame.m_delta_time); // * timeScale
-		render.m_scene.m_particle_system->render(particle_pass.m_index, render.m_camera.m_transform, render.m_camera.m_node.m_position);
+		render.m_scene.m_particle_system->render(particle_pass.m_index, render.m_camera.m_transform, render.m_camera.m_eye);
 	}
 }

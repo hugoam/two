@@ -80,6 +80,13 @@ namespace mud
 				return ref;
 		}
 
+		inline Var get_value(Ref object) const
+		{
+			Var result = m_default_value;
+			result.copy(this->get(cast(object)));
+			return result;
+		}
+
 		inline void set(Ref object, Ref value) const
 		{
 			Ref ref = this->ref(object);

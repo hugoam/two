@@ -791,8 +791,8 @@ namespace mud
 
 			luaL_openlibs(m_state);
 
-			//lua_pushcfunction(m_state, lua_print);
-			//lua_setglobal(m_state, "print");
+			lua_pushcfunction(m_state, lua_print);
+			lua_setglobal(m_state, "print");
 		}
 
 		~LuaContext()
@@ -890,7 +890,7 @@ namespace mud
 	LuaInterpreter::LuaInterpreter(bool import_symbols)
 		: m_context(make_unique<LuaContext>(std::vector<string>{ "mud", "toy" }))
 	{
-		//g_lua_print_output = &m_output;
+		g_lua_print_output = &m_output;
 		if(import_symbols)
 			this->declare_types();
 	}

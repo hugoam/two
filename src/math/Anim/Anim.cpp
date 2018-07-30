@@ -14,6 +14,8 @@ module mud.math;
 
 namespace mud
 {
+	Animator Animator::me;
+
 	Animator::Animator()
 	{}
 
@@ -28,7 +30,10 @@ namespace mud
 			float ratio = anim.m_cursor / anim.m_duration;
 			Var value = anim.m_member->get(anim.m_object);
 			Lerp::me().dispatch(value, anim.m_source_value, anim.m_target_value, ratio);
+			if(ratio > 0.5f)
+				int i = 0;
 			anim.m_member->set(anim.m_object, value);
+			printf("animation at %f\n", ratio);
 		}
 
 		vector_prune(m_animations, [](Anim& anim) { return anim.m_cursor >= anim.m_duration; });
@@ -36,6 +41,6 @@ namespace mud
 
 	void Animator::animate(Ref object, Member& member, Var value, float duration)
 	{
-		m_animations.push_back({ object, &member, member.get(object), value, duration, 0.f });
+		m_animations.push_back({ object, &member, member.get_value(object), value, duration, 0.f });
 	}
 }

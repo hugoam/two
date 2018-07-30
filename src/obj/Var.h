@@ -36,12 +36,10 @@ namespace mud
 		Val();
 
 		Val(Val&& other) : m_type(other.m_type), m_any(std::move(other.m_any)) {}
-#ifdef MUD_MODULES
-		Val(const Val& other);// : m_type(other.m_type), m_any(other.m_any ? other.m_any->clone() : nullptr) {}
-#else
 		Val(const Val& other) : m_type(other.m_type), m_any(other.m_any ? other.m_any->clone() : nullptr) {}
-#endif
+
 		Val& operator=(const Val& rhs) { if(m_type == rhs.m_type) m_any->assign(*rhs.m_any); else Val(rhs).swap(*this); return *this; }
+		Val& operator=(Ref ref) { if(m_type == ref.m_type) m_any->assign(ref); return *this; }
 
 		Val& swap(Val& rhs) { std::swap(m_any, rhs.m_any); std::swap(m_type, rhs.m_type); return *this; }
 
@@ -78,6 +76,8 @@ namespace mud
 		Ref m_ref;
 
 		bool operator==(const Var& other) const { return m_mode == other.m_mode && (m_mode == VAL ? m_val == other.m_val : m_ref == other.m_ref); }
+
+		inline void copy(const Ref& ref) { if(m_mode == VAL) m_val = ref; else m_ref = ref; }
 
 		inline bool null() const { return m_mode == VAL ? false : m_ref.m_value == nullptr; }
 		inline bool none() const { return m_mode == VAL ? m_val.m_type == &mud::type<None>() : false; }

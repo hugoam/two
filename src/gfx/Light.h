@@ -43,10 +43,10 @@ namespace mud
 		attr_ float m_range = 1.f;
 		attr_ float m_energy = 1.f;
 		attr_ float m_specular = 0.5f;
+		attr_ float m_attenuation = 0.5f;
 		attr_ bool m_shadows = false;
 		attr_ Colour m_shadow_colour = Colour::Black;
 		attr_ float m_shadow_range = 100.f;
-		attr_ float m_attenuation = 0.5f;
 		attr_ uint32_t m_layers = 0xFFFFFFFF;
 
 		attr_ uint32_t m_last_render = 0;

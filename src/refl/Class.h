@@ -123,7 +123,7 @@ namespace mud
 	inline Var Member::safe_get(Ref object) const
 	{
 		Var result = m_default_value;
-		result = this->get(cast(object));
+		result.copy(this->get(cast(object)));
 		return result;
 	}
 

@@ -31,13 +31,13 @@ namespace mud
 	Plane Camera::near_plane()
 	{
 		vec3 direction = normalize(m_target - m_eye);
-		return Plane{ m_eye + direction * m_near, direction };
+		return { m_eye + direction * m_near, direction };
 	}
 
 	Plane Camera::far_plane()
 	{
 		vec3 direction = normalize(m_target - m_eye);
-		return Plane{ m_eye + direction * m_far, direction };
+		return { m_eye + direction * m_far, direction };
 	}
 
 	mat4 Camera::projection(float near, float far, bool ndc)

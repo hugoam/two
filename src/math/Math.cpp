@@ -78,7 +78,7 @@ namespace mud
 		float d = dot(forward, direction);
 
 		if(abs(d - (-1.0f)) < 0.000001f)
-			return quat(0.f, 1.f, 0.f, 3.1415926535897932f);
+			return axis_angle(Y3, c_pi);
 		if(abs(d - (1.0f)) < 0.000001f)
 			return ZeroQuat;
 

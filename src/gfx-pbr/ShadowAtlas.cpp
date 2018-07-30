@@ -159,7 +159,7 @@ namespace mud
 				if(plane_distance_to(camera_near_plane, points[j]) < 0.f)
 					points[j].z = -render.m_camera.m_near; //small hack to keep size constant when hitting the screen
 
-				points[j] = plane_segment_intersection(camera_near_plane, Segment{ light.m_node.m_position, points[j] });
+				points[j] = plane_segment_intersection(camera_near_plane, { light.m_node.m_position, points[j] });
 			}
 		}
 

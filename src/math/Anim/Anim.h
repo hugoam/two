@@ -25,7 +25,7 @@ namespace mud
 		// Easing m_easing;
 	};
 
-	export_ class MUD_MATH_EXPORT Animator : public Global<Animator>
+	export_ class MUD_MATH_EXPORT Animator
 	{
 	public:
 		Animator();
@@ -35,6 +35,8 @@ namespace mud
 
 		Clock m_clock;
 		std::vector<Anim> m_animations;
+
+		static Animator me;
 	};
 
 	inline void animate(Ref object, Member& member, Var value, float duration)

@@ -164,14 +164,21 @@ namespace mud
 		std::map<Model*, std::vector<mat4>> m_tiles;
 	};
 
-	void paint_tiles(Gnode& parent, Ref object, WfcBlock& tileblock, const uvec3& focused)
+	inline bool intersects(const uvec3& coord, const uvec3& lo, const uvec3& hi)
+	{
+		return coord.x >= lo.x && coord.x <= hi.x
+			&& coord.y >= lo.y && coord.y <= hi.y
+			&& coord.z >= lo.z && coord.z <= hi.z;
+	}
+
+	void paint_tiles(Gnode& parent, Ref object, WfcBlock& tileblock, const uvec3& focused, const uvec3* exclude, bool draw_entropy)
 	{
 		VisuBlock& visu = parent.state<VisuBlock>();
 
 		Gnode& self = gfx::node(parent, object, tileblock.m_aabb.bmin());
 
 		bool dirty = visu.m_updated < tileblock.m_wave_updated;
-		if(dirty)
+		if(dirty || exclude)
 		{
 			visu.m_updated = tileblock.m_wave_updated;
 
@@ -189,13 +196,21 @@ namespace mud
 					return bxTRS(scale, rotation, position);
 				};
 
-				if(index == UINT16_MAX)
+				if(draw_entropy && index == UINT16_MAX)
 				{
-					//Model& cube = entropy_cube(parent, tileblock, uint16_t(x), uint16_t(y), uint16_t(z));
-					//visu.m_tiles[&cube].push_back(tile_transform(ZeroQuat));
+					Model& cube = entropy_cube(parent, tileblock, uint16_t(x), uint16_t(y), uint16_t(z));
+					visu.m_tiles[&cube].push_back(tile_transform(ZeroQuat));
 				}
 				else
 				{
+					if(exclude)
+					{
+						uvec3 lo = exclude[0];
+						uvec3 hi = exclude[1];
+						if(intersects(uvec3(x, y, z), lo, hi))
+							continue;
+					}
+
 					TileModel& tile = tileblock.m_tile_models[index];
 					if(tile.m_model)
 						visu.m_tiles[tile.m_model].push_back(tile_transform(tile.m_rotation));
@@ -237,7 +252,7 @@ namespace mud
 		return paint_tile_cube(parent, tileblock, coord, Colour::Red);
 	}
 
-	void paint_tileblock(Gnode& parent, Ref object, WfcBlock& tileblock, const uvec3& focused)
+	void paint_tileblock(Gnode& parent, Ref object, WfcBlock& tileblock, const uvec3& focused, const uvec3* exclude, bool draw_entropy)
 	{
 		//paint_tile_grid(parent, tileblock);
 		paint_tiles(parent, object, tileblock, focused);
