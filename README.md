@@ -1,8 +1,8 @@
 # [mud](https://github.com/hugoam/mud)
 
-[![Build Status](https://travis-ci.org/hugoam/mud.svg?branch=master)](https://travis-ci.org/hugoam/mud)
-[![Build status](https://ci.appveyor.com/api/projects/status/4a77n3scl71ybcgj?svg=true)](https://ci.appveyor.com/project/hugoam/mud)
-[![Gitter](https://badges.gitter.im/hugoam/mud.svg)](https://gitter.im/hugoam/mud)
+| CI            | Community     | Support   |
+| ------------- | ------------- | --------- |
+[![Build Status](https://travis-ci.org/hugoam/mud.svg?branch=master)](https://travis-ci.org/hugoam/mud) [![Build status](https://ci.appveyor.com/api/projects/status/4a77n3scl71ybcgj?svg=true)](https://ci.appveyor.com/project/hugoam/mud) | [![Community](https://img.shields.io/discourse/https/discourse.toyengine.io/posts.svg)](https://discourse.toyengine.io) [![Gitter](https://badges.gitter.im/hugoam/mud.svg)](https://gitter.im/hugoam/mud) | [![Patreon](https://img.shields.io/badge/donate-patreon-orange.svg)](https://www.patreon.com/bePatron?u=11301355)
 
 mud is an all-purpose c++ app prototyping library, focused towards live graphical apps and games.  
 mud contains all the essential building blocks to develop lean c++ apps from scratch, providing [reflection](#reflection) and low level [generic](#generic-features) algorithms, an [immediate ui](#ui) paradigm, and an immediate minimalistic and flexible [graphics renderer](#graphics).
