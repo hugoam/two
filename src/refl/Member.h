@@ -83,7 +83,7 @@ namespace mud
 		inline Var get_value(Ref object) const
 		{
 			Var result = m_default_value;
-			result.copy(this->get(cast(object)));
+			result.copy(this->get(object));
 			return result;
 		}
 
