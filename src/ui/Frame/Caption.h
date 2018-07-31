@@ -35,6 +35,6 @@ namespace mud
 
 	inline TextRow text_row(const char* str, const char* start, const char* end, const vec4& rect)
 	{
-		return { start, end, size_t(start - str), size_t(end - str), rect };
+		return { start, end, size_t(start - str), size_t(end - str), rect, {} };
 	}
 }
