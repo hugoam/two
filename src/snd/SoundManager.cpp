@@ -492,7 +492,7 @@ namespace mud
 	{
 		double time_step = m_clock.read();
 		
-		while(openal_check_error());
+		//while(openal_check_error());
 
 		m_listener.update();
 		
