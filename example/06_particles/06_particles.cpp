@@ -40,7 +40,7 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	viewer.m_filters.m_tonemap.m_enabled = false;
 
-	Gnode& groot = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene->begin();
 
 	static std::vector<string> particles_names = { "particles_0" };//, "particles_1" }; //, "particles_2" };
 	static std::vector<ParticleItem> particles_vector = create_particles(viewer.m_gfx_system, particles_names);
@@ -49,7 +49,7 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 	float middle = 0.f;//particles_vector.size() * 10.f / 2.f;
 	for(ParticleItem& item : particles_vector)
 	{
-		Gnode& particle_node = gfx::node(groot, {}, vec3{ -middle + item.m_index * 10.f, 0.f, 0.f });
+		Gnode& particle_node = gfx::node(scene, {}, vec3{ -middle + item.m_index * 10.f, 0.f, 0.f });
 
 		item.m_call.m_arguments[0] = Ref(&particle_node);
 		Var result = item.m_call();

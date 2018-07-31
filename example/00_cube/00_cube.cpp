@@ -39,8 +39,9 @@ void ex_00_cube(Shell& app, Widget& parent, Dockbar& dockbar)
 	velocity_controller(viewer, speed, 0.01f);
 	position += speed;
 
-	Gnode& groot = viewer.m_scene->begin();
-	gfx::node_shape(groot, Cube(), Symbol(Colour::Red), position);
+	Gnode& scene = viewer.m_scene->begin();
+    Gnode& node = gfx::node(scene, {}, position);
+	gfx::shape(node, Cube(), Symbol(Colour::Red));
 }
 
 #ifdef _00_CUBE_EXE

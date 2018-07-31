@@ -5,13 +5,13 @@ using namespace mud;
 
 static LuaScript& create_script(LuaInterpreter& interpreter)
 {
-	Signature signature = { { Param{ "groot", Ref(type<Gnode>()) } } };
+	Signature signature = { { Param{ "scene", Ref(type<Gnode>()) } } };
 	static LuaScript script = { "Example Script", signature };
 	script.m_interpreter = &interpreter;
 
 	script.m_script =
 		"\n"
-		"--local n = gfx.node(groot, nil, vec3(0), quat(0,0,0,1), vec3(1))" "\n"
+		"--local n = gfx.node(scene, nil, vec3(0), quat(0,0,0,1), vec3(1))" "\n"
 		"--gfx.shape(n, Symbol(Colour.White, Colour.None), Cube())" "\n"
 		"\n"
 		"if time == nil then" "\n"
@@ -31,7 +31,7 @@ static LuaScript& create_script(LuaInterpreter& interpreter)
 		"        local g = (math.cos(time) + 1.0) / 2.0" "\n"
 		"        local color = Colour(r, g, b)" "\n"
 		"\n"
-		"        local n = gfx.node(groot, nil, pos, quat(angles), vec3(1))" "\n"
+		"        local n = gfx.node(scene, nil, pos, quat(angles), vec3(1))" "\n"
 		"        gfx.draw(n, Cube(), Symbol(color, Colour.None))" "\n"
 		"\n"
 		"    end" "\n"
@@ -48,7 +48,7 @@ void ex_14_live_gfx(Shell& app, Widget& parent, Dockbar& dockbar)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
-	Gnode& groot = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene->begin();
 
 	static LuaInterpreter lua = { true };
 	static LuaScript& script = create_script(lua);
@@ -58,7 +58,7 @@ void ex_14_live_gfx(Shell& app, Widget& parent, Dockbar& dockbar)
 		script_edit(*dock, script);
 	}
 
-	std::vector<Var> args = { Ref(&groot) };
+	std::vector<Var> args = { Ref(&scene) };
 	script(args);
 }
 

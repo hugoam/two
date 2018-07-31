@@ -31,8 +31,9 @@ void ex_00_tutorial_pump(Shell& app, Widget& parent, Dockbar& dockbar)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
-	Gnode& groot = viewer.m_scene->begin();
-	gfx::node_shape(groot, Cube(), Symbol(Colour::Red), Zero3);
+	Gnode& scene = viewer.m_scene->begin();
+	Gnode& node = gfx::node(scene, {}, Zero3);
+    gfx::shape(node, Cube(), Symbol(Colour::Red));
 
 	static std::vector<Var> objects = { var(MyObject(ShapeType::Sphere, Colour::Pink)) };
 	static size_t selected = SIZE_MAX;

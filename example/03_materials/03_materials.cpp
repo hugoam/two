@@ -173,15 +173,15 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	OrbitController& controller = ui::orbit_controller(viewer);
 
-	Gnode& groot = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene->begin();
 
-	Gnode& ground_node = gfx::node(groot, {}, vec3{ 0.f, -1.f, 0.f });
+	Gnode& ground_node = gfx::node(scene, {}, vec3{ 0.f, -1.f, 0.f });
 	gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(Colour::None, Colour::White), 0U, &milky_white(viewer.m_gfx_system));
 
-	gfx::directional_light_node(groot);
-	gfx::radiance(groot, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
+	gfx::directional_light_node(scene);
+	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 
-	GfxSystem& gfx_system = groot.m_scene->m_gfx_system;
+	GfxSystem& gfx_system = scene.m_scene->m_gfx_system;
 	
 	//static std::vector<Material*> materials = { &milky_white(gfx_system), &mirror(gfx_system), &rocks_01(gfx_system), &fabric_08(gfx_system), &paving_stones_11(gfx_system), 
 	//											&wood_floor_05(gfx_system), &paving_stones_08(gfx_system) };
@@ -189,8 +189,8 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Material* edited = materials[0];
 
-	//roughness_spheres(groot);
-	material_spheres(groot, materials);
+	//roughness_spheres(scene);
+	material_spheres(scene, materials);
 
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{

@@ -45,10 +45,10 @@ void ex_16_visual_script(Shell& app, Widget& parent, Dockbar& dockbar)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
-	Gnode& groot = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene->begin();
 
-	gfx::directional_light_node(groot);
-	gfx::radiance(groot, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
+	gfx::directional_light_node(scene);
+	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 	static VisualScript& script = create_script();
 
@@ -61,8 +61,8 @@ void ex_16_visual_script(Shell& app, Widget& parent, Dockbar& dockbar)
 	std::vector<Var> args = { Ref(&noise_field) };
 	script(args);
 
-	Gnode& filled_node = gfx::node(groot);
-	Gnode& empty_node = gfx::node(groot);
+	Gnode& filled_node = gfx::node(scene);
+	Gnode& empty_node = gfx::node(scene);
 
 	std::vector<vec3> filled_positions;
 	std::vector<vec3> empty_positions;

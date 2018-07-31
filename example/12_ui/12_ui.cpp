@@ -153,14 +153,14 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	edit_styles(umain);
 
-	Gnode& groot = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene->begin();
 
 	Material& material = milky_white(viewer.m_gfx_system);
 
-	gfx::directional_light_node(groot);
-	gfx::radiance(groot, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
+	gfx::directional_light_node(scene);
+	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
-	gfx::shape(groot, Cube(), Symbol(Colour::None, Colour::White), ITEM_SELECTABLE, &material);
+	gfx::shape(scene, Cube(), Symbol(Colour::None, Colour::White), ITEM_SELECTABLE, &material);
 
 	static game::Character character = game::create_character();
 

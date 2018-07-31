@@ -19,17 +19,17 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
-	Gnode& groot = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene->begin();
 
 	Material& material = milky_white(viewer.m_gfx_system);
 
-	//gfx::directional_light_node(groot);
-	gfx::radiance(groot, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
+	//gfx::directional_light_node(scene);
+	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
 	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
 
-	shape_grid(groot, { shape_items.data(), 10U, 10U }, Symbol(Colour::None, Colour::White), shapes, false, &material);
+	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(Colour::None, Colour::White), shapes, false, &material);
 
 	static std::vector<Item*> selected = {};
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
@@ -55,7 +55,7 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 		ui::rectangle(viewer, select_rect);
 
 	for(Item* selected_item : selected)
-		gfx::draw(groot, selected_item->m_aabb, Symbol());
+		gfx::draw(scene, selected_item->m_aabb, Symbol());
 }
 
 #ifdef _11_SELECTION_EXE

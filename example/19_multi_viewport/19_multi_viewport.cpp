@@ -50,7 +50,7 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar)
 	{
 		ui::orbit_controller(*viewer);
 
-		Gnode& groot = viewer->m_scene->begin();
+		Gnode& scene = viewer->m_scene->begin();
 
 		for(size_t x = 0; x < 11; ++x)
 			for(size_t y = 0; y < 11; ++y)
@@ -63,7 +63,7 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar)
 				float g = ncosf(time);
 				Colour color = { r, g, b };
 
-				Gnode& gnode = gfx::node(groot, {}, pos, quat(angles), vec3(1));
+				Gnode& gnode = gfx::node(scene, {}, pos, quat(angles), vec3(1));
 				gfx::shape(gnode, Cube(), Symbol(color, Colour::None));
 			}
 	}

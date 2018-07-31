@@ -65,12 +65,12 @@ void ex_04_lights(Shell& app, Widget& parent, Dockbar& dockbar)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
-	Gnode& groot = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene->begin();
 
 	Material& material = milky_white(viewer.m_gfx_system);
 
-	//gfx::radiance(groot, "radiance/rocky_ridge_1k.hdr", BackgroundMode::None);
-	gfx::radiance(groot, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
+	//gfx::radiance(scene, "radiance/rocky_ridge_1k.hdr", BackgroundMode::None);
+	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
 	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
@@ -84,12 +84,12 @@ void ex_04_lights(Shell& app, Widget& parent, Dockbar& dockbar)
 	static float spot_angle = 45.f;
 	static float spot_attenuation = 0.9f;
 
-	shape_grid(groot, { shape_items.data(), 10U, 10U }, Symbol(Colour::None, Colour::White), shapes, true, &material);
-	light_grid(groot, { light_items.data(), 10U, 10U }, moving_lights, light_type, light_range, light_attenuation, spot_angle, spot_attenuation);
+	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(Colour::None, Colour::White), shapes, true, &material);
+	light_grid(scene, { light_items.data(), 10U, 10U }, moving_lights, light_type, light_range, light_attenuation, spot_angle, spot_attenuation);
 
 	if(ground)
 	{
-		Gnode& ground_node = gfx::node(groot, {}, vec3{ 0.f, -5.f, 0.f });
+		Gnode& ground_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
 		gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(Colour::None, Colour::White), 0U, &material);
 	}
 

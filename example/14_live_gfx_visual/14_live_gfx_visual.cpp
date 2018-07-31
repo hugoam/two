@@ -11,7 +11,7 @@ void define_visual_script(VisualScript& script)
 
 	using Var = Valve;
 
-	Valve& groot = script.input("groot");
+	Valve& scene = script.input("scene");
 
 	//static float g_time = 0.f;
 	Var& time = script.reference(&g_time);
@@ -47,7 +47,7 @@ void define_visual_script(VisualScript& script)
 	Var& colour = script.create<Colour>({ &r, &g, &b, &script.value(1.f) });
 
 	Gnode& (*func_node)(Gnode&, Ref, const vec3&, const quat&, const vec3&) = gfx::node;
-	Var& node = *script.function(func_node, { &groot, &script.node<ProcessValue>(Ref()).output(), &position, &rotation, &scale });
+	Var& node = *script.function(func_node, { &scene, &script.node<ProcessValue>(Ref()).output(), &position, &rotation, &scale });
 
 	Var& fill_colour = script.value(Colour::None);
 	Var& symbol = script.create<Symbol>({ &colour, &fill_colour });
@@ -58,7 +58,7 @@ void define_visual_script(VisualScript& script)
 
 VisualScript& create_visual_script()
 {
-	Signature signature = { { Param{ "groot", Ref(type<Gnode>()) } } };
+	Signature signature = { { Param{ "scene", Ref(type<Gnode>()) } } };
 	static VisualScript script = { "Example Script", signature };
 	define_visual_script(script);
 	return script;
@@ -82,10 +82,10 @@ void ex_14_live_gfx_visual(Shell& app, Widget& parent, Dockbar& dockbar)
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 		visual_script_edit(*dock, script);
 
-	Gnode& groot = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene->begin();
 
 	static Var result;
-	static std::vector<Var> args = { Ref(&groot) };
+	static std::vector<Var> args = { Ref(&scene) };
 	script(args, result);
 }
 

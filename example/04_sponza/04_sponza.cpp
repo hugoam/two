@@ -15,22 +15,22 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	ui::free_orbit_controller(viewer);
 	viewer.take_focus();
 
-	Gnode& groot = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene->begin();
 
 	Material& material = milky_white(viewer.m_gfx_system);
 
 	static float azimuth = 0.f;
 	static float altitude = c_pi / 2.f - 0.01f;
 
-	Light& directional_light = gfx::directional_light_node(groot, sun_rotation(azimuth, altitude));
-	gfx::radiance(groot, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
+	Light& directional_light = gfx::directional_light_node(scene, sun_rotation(azimuth, altitude));
+	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
 	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
 	
-	shape_grid(groot, { shape_items.data(), 10U, 10U }, Symbol(Colour::None, Colour::White), shapes, true, &material);
+	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(Colour::None, Colour::White), shapes, true, &material);
 
-	Gnode& sponza_node = gfx::node(groot, {}, vec3{ 0.f, -5.f, 0.f });
+	Gnode& sponza_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
 	gfx::model(sponza_node, "sponza");
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))

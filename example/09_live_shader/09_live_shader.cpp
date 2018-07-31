@@ -62,14 +62,14 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	viewer.m_filters.m_tonemap.m_enabled = false;
 
-	Gnode& groot = viewer.m_scene->begin();
-	BlockFilter& filter = *groot.m_scene->m_gfx_system.m_pipeline->block<BlockFilter>();
+	Gnode& scene = viewer.m_scene->begin();
+	BlockFilter& filter = *scene.m_scene->m_gfx_system.m_pipeline->block<BlockFilter>();
 
 	static string source = create_shader();
 
 	static Program program = { "custom_program", {}, carray<cstring, 2>{ source.c_str(), nullptr } };
 	
-	//static Material material = { groot.m_scene->m_gfx_system, "custom_shader", program };
+	//static Material material = { scene.m_scene->m_gfx_system, "custom_shader", program };
 	//material.m_pbr_block.m_enabled = true;
 
 	auto draw_quad = [&](const Pass& render_pass)
@@ -77,8 +77,8 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 		filter.submit_quad(*render_pass.m_target, render_pass.m_index, render_pass.m_target->m_fbo, program.default_version(), { render_pass.m_viewport->m_rect });
 	};
 
-	//gfx::manual_job(groot, PassType::Background, draw_quad);
-	gfx::manual_job(groot, PassType::Opaque, draw_quad);
+	//gfx::manual_job(scene, PassType::Background, draw_quad);
+	gfx::manual_job(scene, PassType::Opaque, draw_quad);
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{

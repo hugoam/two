@@ -97,14 +97,14 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 	OrbitController& orbit = ui::orbit_controller(viewer);
 	viewer.take_focus();
 
-	Gnode& groot = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene->begin();
 
 	Material& material = milky_white(viewer.m_gfx_system);
 
-	gfx::shape(groot, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(Colour::None, Colour::White), 0U, &material);
+	gfx::shape(scene, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(Colour::None, Colour::White), 0U, &material);
 
-	gfx::directional_light_node(groot);
-	gfx::radiance(groot, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
+	gfx::directional_light_node(scene);
+	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 	static bool once = false;
 
@@ -133,7 +133,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	for(size_t i = 0; i < num_characters; ++i)
 	{
-		animated = &paint_human(groot, characters[i], model_high_lod);
+		animated = &paint_human(scene, characters[i], model_high_lod);
 		cstring state = characters[i].m_states.back().m_action.c_str();
 
 		if(anim_editor && selected == &characters[i])
