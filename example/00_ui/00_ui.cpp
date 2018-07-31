@@ -212,7 +212,7 @@ void ex_application(Widget& parent)
 LuaInterpreter& lua_interpreter()
 {
 	static LuaInterpreter lua;
-	lua.declareTypes();
+	lua.declare_types();
 	return lua;
 }
 

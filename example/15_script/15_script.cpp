@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
 
 	system().load_module(_15_script::m());
 
-	app.m_lua.declareTypes();
+	app.m_lua.declare_types();
 	app.run(pump);
 }
 #endif
