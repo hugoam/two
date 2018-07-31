@@ -139,11 +139,16 @@ mud.ctx     = mud_module("mud", "ctx",      MUD_SRC_DIR, "ctx",     nil,        
 mud.ui      = mud_module("mud", "ui",       MUD_SRC_DIR, "ui",      nil,        mud_ui,         uses_mud_ui,        { json11, mud.infra, mud.obj, mud.refl, mud.srlz, mud.math, mud.ctx })
 mud.uio     = mud_module("mud", "uio",      MUD_SRC_DIR, "uio",     nil,        nil,            nil,                { mud.infra, mud.tree, mud.obj, mud.proto, mud.pool, mud.refl, mud.math, mud.lang, mud.ctx, mud.ui })
 mud.snd     = mud_module("mud", "snd",      MUD_SRC_DIR, "snd",     nil,        mud_snd,        uses_mud_snd,       { ogg, vorbis, vorbisfile, mud.obj, mud.math })
+
 --mud_sys(true)
 --mud_vec(true)
 --mud.db = mud_module(as_project, "mud", "db", MUD_SRC_DIR, "db", { mud.obj, mud.util })
 
-mud.mud = { mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.tree, mud.srlz, mud.math, mud.geom, mud.procgen, mud.lang, mud.ctx, mud.ui, mud.uio, mud.snd }
+if _OPTIONS["sound"] then
+    mud.mud = { mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.tree, mud.srlz, mud.math, mud.geom, mud.procgen, mud.lang, mud.ctx, mud.ui, mud.uio, mud.snd }
+else
+    mud.mud = { mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.tree, mud.srlz, mud.math, mud.geom, mud.procgen, mud.lang, mud.ctx, mud.ui, mud.uio }
+end
 
 --mud.usage_decl = uses_mud
 

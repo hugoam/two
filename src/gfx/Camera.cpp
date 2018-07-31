@@ -16,8 +16,8 @@ namespace mud
 {
 	Camera::Camera(Scene* scene)
 		: m_scene(scene)
-		, m_eye(Zero3)
-		, m_target(Z3)
+		, m_eye(Z3)
+		, m_target(Zero3)
 	{
 		m_eye = 2.f * Z3;
 		m_far = 300.f;
