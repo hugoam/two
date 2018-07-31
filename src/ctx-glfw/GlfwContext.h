@@ -46,8 +46,6 @@ namespace mud
 
 		Mouse* m_mouse = nullptr;
 		Keyboard* m_keyboard = nullptr;
-
-		bool m_mouse_lock = false;
 	};
 }
 

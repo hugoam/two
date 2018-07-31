@@ -386,25 +386,30 @@ namespace mud
 
 		Light* light = m_directional_light;
 		bool directional = light && (element.m_item->m_layer_mask & light->m_layers) != 0;
-		
+
+#ifdef MUD_PLATFORM_EMSCRIPTEN
+		int pcf_level = 0; // @todo can't get pcf working on WebGL so far
+#else
+		int pcf_level = 1;
+#endif
+
 		if(directional && light->m_shadows)
 		{
 			element.m_shader_version.set_option(m_index, CSM_SHADOW);
 			//element.shader_version.set_option(m_index, CSM_BLEND, light->m_shadow_blend_splits);
 
 			element.m_shader_version.set_mode(m_index, CSM_NUM_CASCADES, light->m_shadow_num_splits);
-			element.m_shader_version.set_mode(m_index, CSM_PCF_LEVEL, 1);
+			element.m_shader_version.set_mode(m_index, CSM_PCF_LEVEL, pcf_level);
 
 			vec2 pcf_offset = { 1.f, 1.f };
 			vec4 csm_params = { vec2(1.f / float(m_csm.m_size)), pcf_offset };
 			bgfx::setUniform(u_directional_shadow.u_csm_params, &csm_params);
 
-#if 0 //def MUD_PLATFORM_EMSCRIPTEN
-			bgfx::setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth, GFX_TEXTURE_POINT);
-#else
-			//bgfx::setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth);
-			bgfx::setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth, BGFX_TEXTURE_COMPARE_LESS);
-#endif
+			if(pcf_level == 0)
+				bgfx::setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth, GFX_TEXTURE_POINT);
+			else
+				bgfx::setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth, BGFX_TEXTURE_COMPARE_LESS);
+				//bgfx::setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth);
 		}
 
 		if(0)//render.m_shadow_atlas)

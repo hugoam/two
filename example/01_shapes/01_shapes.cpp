@@ -44,8 +44,8 @@ void shape_grid(Gnode& parent, array_2d<ShapeInstance> shape_grid, const Symbol&
 			vec3 angles = rotate ? vec3{ time + float(x) * 0.21f, 0.f, time + float(y) * 0.37f }
 								 : Zero3;
 
-			Gnode& shape_node = gfx::node(parent, {}, center + vec3{ x * spacing, 0.f, y * spacing }, quat(angles));
-			gfx::shape(shape_node, shapes[shape_item.index], symbol, ITEM_SELECTABLE, material);
+			Gnode& node = gfx::node(parent, {}, center + vec3{ x * spacing, 0.f, y * spacing }, quat(angles));
+			gfx::shape(node, shapes[shape_item.index], symbol, ITEM_SELECTABLE, material);
 		}
 }
 
@@ -55,14 +55,15 @@ void ex_01_shapes(Shell& app, Widget& parent, Dockbar& dockbar)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
-	Gnode& groot = viewer.m_scene->begin();
+	Gnode& scene = viewer.m_scene->begin();
 
-	gfx::node_shape(groot, Grid2({ 10.f, 10.f }), Symbol(Colour::AlphaGrey), vec3{ -5.f, 0.f, -5.f });
+	Gnode& node = gfx::node(scene, {}, vec3(-5.f, 0.f, -5.f));
+	gfx::shape(node, Grid2({ 10.f, 10.f }), Symbol(Colour::AlphaGrey));
 
 	static std::vector<ShapeVar> shapes = { Cube(), Sphere(), Spheroid(), Cylinder(), Rect(), Circle() };
 	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
 
-	shape_grid(groot, { shape_items.data(), 10U, 10U }, Symbol(Colour::Red), shapes);
+	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(Colour::Red), shapes);
 }
 
 #ifdef _01_SHAPES_EXE

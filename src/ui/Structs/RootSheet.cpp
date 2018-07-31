@@ -8,6 +8,7 @@
 module mud.ui;
 #else
 #include <infra/Vector.h>
+#include <ctx/Context.h>
 #include <ui/Structs/RootSheet.h>
 #include <ui/Frame/Layer.h>
 #include <ui/Render/Renderer.h>
@@ -46,9 +47,13 @@ namespace mud
 
 		m_drop = {};
 
-		//if(!m_mouse.m_locked)
-		Widget& cursor = ui::cursor(*this, m_mouse.m_pos, m_cursor_style ? *m_cursor_style : ui::cursor_styles().cursor);
-		cursor.m_frame.layer().setForceRedraw();
+		if(!m_window.m_context.m_mouse_lock)
+		{
+			Widget& cursor = ui::cursor(*this, m_mouse.m_pos, m_cursor_style ? *m_cursor_style : ui::cursor_styles().cursor);
+			cursor.m_frame.layer().setForceRedraw();
+		}
+
+		m_cursor_style = &ui::cursor_styles().cursor;
 	}
 
 	void RootSheet::render_frame()

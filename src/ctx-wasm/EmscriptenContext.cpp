@@ -186,7 +186,7 @@ namespace mud
 
 		m_window = emscripten_webgl_create_context("canvas", &attrs);
 
-		emscripten_set_canvas_element_size("#canvas", m_width, m_height);
+		emscripten_set_canvas_element_size("canvas", m_width, m_height);
 		emscripten_webgl_make_context_current(m_window);
 	}
 
@@ -203,19 +203,22 @@ namespace mud
 
 	bool EmContext::next_frame()
 	{
+		// polling is actually done when yielding control to Emscripten in the main loop (which I find a bit lousy design since it's implicit)
 		return true;
 	}
 
 	void EmContext::lock_mouse(bool locked)
 	{
-
+		m_mouse_lock = locked;
+		if(locked == false)
+			emscripten_exit_pointerlock();
 	}
 
 	void EmContext::resize()
 	{
 		double width, height;
 		emscripten_get_element_css_size("canvas", &width, &height);
-		emscripten_set_canvas_element_size("#canvas", int(width), int(height));
+		emscripten_set_canvas_element_size("canvas", int(width), int(height));
 
 		m_width = width;
 		m_height = height;
@@ -224,13 +227,26 @@ namespace mud
 	bool EmContext::inject_mouse_move(const EmscriptenMouseEvent& mouseEvent)
 	{
 		vec2 size = { float(m_width), float(m_height) };
-		m_cursor = max(vec2(0.f), min(size, vec2{ float(mouseEvent.canvasX), float(mouseEvent.canvasY) }));
-		m_mouse->moved(m_cursor);
+		m_cursor = max(vec2(0.f), min(size, vec2(float(mouseEvent.canvasX), float(mouseEvent.canvasY))));
+		vec2 movement = { float(mouseEvent.movementX), float(mouseEvent.movementY) };
+		m_mouse->moved(m_cursor, m_mouse_lock ? &movement : nullptr);
 		return true;
+	}
+
+	void EmContext::update_mouse_lock()
+	{
+		if(m_mouse_lock)
+		{
+			EmscriptenPointerlockChangeEvent pointer_lock;
+			emscripten_get_pointerlock_status(&pointer_lock);
+			if(!pointer_lock.isActive)
+				emscripten_request_pointerlock("canvas", EM_TRUE);
+		}
 	}
 
 	bool EmContext::inject_mouse_down(const EmscriptenMouseEvent& mouseEvent)
 	{
+		this->update_mouse_lock();
 		m_mouse->m_buttons[convert_html5_mouse_button(mouseEvent.button)].pressed({ float(mouseEvent.canvasX), float(mouseEvent.canvasY) });
 		return true;
 	}

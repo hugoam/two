@@ -291,6 +291,12 @@ namespace ui
 
 		orbit.set_target(entity.m_position + Y3 * 2.f);
 
+		if(mode == Mode::ThirdPerson || mode == Mode::PseudoIsometric)
+		{
+			if(!viewer.ui_window().m_context.m_mouse_lock)
+				viewer.ui_window().m_context.lock_mouse(true);
+		}
+
 		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
 			const float rotation_speed = 1.f;

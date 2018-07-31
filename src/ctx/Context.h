@@ -49,6 +49,7 @@ namespace mud
 		bool m_shutdown = false;
 
 		vec2 m_cursor;
+		bool m_mouse_lock = false;
 
 		virtual void reset(uint16_t width, uint16_t height) = 0;
 		virtual void init_input(Mouse& mouse, Keyboard& keyboard) = 0;

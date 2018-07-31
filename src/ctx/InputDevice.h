@@ -79,7 +79,7 @@ namespace mud
 		MouseEvent& dispatch_secondary(MouseEvent evt, ControlNode* pressed, vec2 pressed_pos, ControlNode* target = nullptr);
 
 		MouseEvent& heartbeat();
-		void moved(vec2 pos);
+		void moved(vec2 pos, vec2* offset = nullptr);
 		void wheeled(vec2 pos, float amount);
 
 		void fix_press(ControlNode& node);

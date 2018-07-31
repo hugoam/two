@@ -110,9 +110,9 @@ namespace mud
 		return mouse_event;
 	}
 
-	void Mouse::moved(vec2 pos)
+	void Mouse::moved(vec2 pos, vec2* offset)
 	{
-		m_pos = pos;
+		m_pos = offset ? m_pos + *offset : pos;
 
 		MouseEvent& mouse_event = dispatch_event(MouseEvent(DeviceType::Mouse, EventType::Moved, pos));
 		

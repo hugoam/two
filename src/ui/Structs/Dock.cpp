@@ -21,10 +21,11 @@ namespace mud
 	Dock::Dock()
 	{}
 
-	Dock::Dock(Docker& docker, cstring name, std::vector<uint16_t> dockid)
+	Dock::Dock(Docker& docker, cstring name, std::vector<uint16_t> dockid, float span)
 		: m_docker(&docker)
 		, m_name(name)
 		, m_dockid(dockid)
+		, m_span(span)
 	{}
 
 	Dockable::Dockable(Widget* parent, void* identity)
@@ -118,6 +119,8 @@ namespace mud
 			uint16_t index = vector_pop(dockid);
 			dim = flip_dim(dim);
 			line = &ui::dockline(*line, index, dim);
+			if(dockid.size() == 0 && dock.m_span > 0.f && line->m_frame.m_span[flip_dim(dim)] == 1.f)
+				line->m_frame.set_span(flip_dim(dim), dock.m_span);
 		}
 
 		Tabber& section = ui::docksection(*line);

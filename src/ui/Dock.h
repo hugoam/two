@@ -31,6 +31,6 @@ namespace ui
 
 	export_ MUD_UI_EXPORT func_ Widget* dockitem(Widget& parent, Docksystem& docksystem, Dock& dock);
 
-	export_ MUD_UI_EXPORT Widget* dockitem(Docker& docker, cstring name, array<uint16_t> dockid = {});
+	export_ MUD_UI_EXPORT Widget* dockitem(Docker& docker, cstring name, array<uint16_t> dockid = {}, float span = 0.f);
 }
 }

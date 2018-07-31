@@ -196,10 +196,13 @@ namespace mud
 					return bxTRS(scale, rotation, position);
 				};
 
-				if(draw_entropy && index == UINT16_MAX)
+				if(index == UINT16_MAX)
 				{
-					Model& cube = entropy_cube(parent, tileblock, uint16_t(x), uint16_t(y), uint16_t(z));
-					visu.m_tiles[&cube].push_back(tile_transform(ZeroQuat));
+					if(draw_entropy)
+					{
+						Model& cube = entropy_cube(parent, tileblock, uint16_t(x), uint16_t(y), uint16_t(z));
+						visu.m_tiles[&cube].push_back(tile_transform(ZeroQuat));
+					}
 				}
 				else
 				{

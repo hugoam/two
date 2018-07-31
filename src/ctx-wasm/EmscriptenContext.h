@@ -33,6 +33,8 @@ namespace mud
 
 		void resize();
 
+		void update_mouse_lock();
+
 		bool inject_mouse_move(const EmscriptenMouseEvent& mouseEvent);
 
 		bool inject_mouse_down(const EmscriptenMouseEvent& mouseEvent);

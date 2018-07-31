@@ -87,11 +87,11 @@ namespace ui
 		}
 	}
 
-	Widget* dockitem(Docker& docker, cstring name, array<uint16_t> dockid)
+	Widget* dockitem(Docker& docker, cstring name, array<uint16_t> dockid, float span)
 	{
 		if(docker.m_docksystem->m_docks.find(name) == docker.m_docksystem->m_docks.end())
 		{
-			docker.m_docksystem->m_docks[name] = { docker, name, to_vector(dockid) };
+			docker.m_docksystem->m_docks[name] = { docker, name, to_vector(dockid), span };
 			docker.m_docks.push_back(&docker.m_docksystem->m_docks[name]);
 		}
 

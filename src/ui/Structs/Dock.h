@@ -21,10 +21,11 @@ namespace mud
 	export_ struct refl_ MUD_UI_EXPORT Dock
 	{
 		Dock();
-		Dock(Docker& docker, cstring name, std::vector<uint16_t> dockid);
+		Dock(Docker& docker, cstring name, std::vector<uint16_t> dockid, float span = 0.f);
 		Docker* m_docker = nullptr;
 		cstring m_name;
 		std::vector<uint16_t> m_dockid;
+		float m_span = 0.f;
 	};
 
 	export_ class refl_ MUD_UI_EXPORT Docksystem
