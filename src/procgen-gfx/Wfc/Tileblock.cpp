@@ -425,22 +425,25 @@ namespace mud
 		Section& self = section(parent, "Edit WfcBlock");
 		Widget& body = *self.m_body;
 
-		if(ui::button(body, "reset").activated())
+		auto button = [&](cstring label) { Widget& row = ui::row(body); return ui::button(row, label).activated(); };
+
+		if(button("reset"))
 			tileblock.reset();
 
-		if(ui::button(body, "solve 10").activated())
+		if(button("solve 10"))
 			tileblock.solve(10);
 
 		static uint16_t tile = 0;
 		ui::number_field<uint16_t>(body, "tile", { tile, StatDef<uint16_t>{} });
 
-		if(ui::button(body, "set tile").activated())
+		if(button("set tile"))
 			tileblock.m_wave.set_tile(selected, tile);
 
-		if(ui::button(body, "propagate once").activated())
+		if(button("propagate once"))
 			tileblock.m_wave.propagate(1);
 
-		ui::toggle(body, tileblock.m_auto_solve, "auto solve");
+		Widget& row = ui::row(body);
+		ui::toggle(row, tileblock.m_auto_solve, "auto solve");
 
 		//Widget& overlay = ui::screen(viewer);
 		//tileset_view(overlay, tileblock, tileblock.m_tileset);

@@ -24,32 +24,32 @@ void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& scene = viewer.m_scene->begin();
 
 	static WaveTileset& tileset = create_tileset(app);
-	static Tileblock tileblock = { { 20, 4, 20 }, Unit3, tileset };
+	static WfcBlock block = { Zero3, { 20, 4, 20 }, Unit3, tileset };
 	static uvec3 highlighted = uvec3(UINT32_MAX);
 	static uvec3 selected = uvec3(UINT32_MAX);
 	static uvec3 focused = uvec3(UINT32_MAX);
 
-	if(tileblock.m_tile_models.empty())
-		tileblock.load_models(app.m_gfx_system);
+	if(block.m_tile_models.empty())
+		block.load_models(app.m_gfx_system);
 
 	gfx::directional_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
-	paint_tileblock(scene, {}, tileblock, focused);
+	paint_tileblock(scene, {}, block, focused);
 
 	//if(highlighted != uvec3(UINT32_MAX))
-	//	paint_tile_cube(scene, tileblock, vec3(highlighted), Colour::DarkGrey);
+	//	paint_tile_cube(scene, block, vec3(highlighted), Colour::DarkGrey);
 
 	if(selected != uvec3(UINT32_MAX))
-		paint_tile_cube(scene, tileblock, vec3(selected), Colour::White, Colour::AlphaWhite);
+		paint_tile_cube(scene, block, vec3(selected), Colour::White, Colour::AlphaWhite);
 
 	static size_t tick = 0;
 	tick++;
 
-	tileblock.next_frame(tick, 1);
+	block.next_frame(tick, 1);
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
-		tileblock_edit(*dock, viewer, tileblock, highlighted, selected, focused);
+		tileblock_edit(*dock, viewer, block, highlighted, selected, focused);
 }
 
 #ifdef _17_WFC_EXE
