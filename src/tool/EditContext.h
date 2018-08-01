@@ -47,7 +47,7 @@ namespace mud
 		RotateTool m_rotate_tool;
 		ScaleTool m_scale_tool;
 
-		PlaceBrush m_place_brush;
+		//PlaceBrush m_place_brush;
 
 		Viewer* m_viewer = nullptr;
 		ViewportTool* m_tool = nullptr;
