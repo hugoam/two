@@ -247,12 +247,14 @@ namespace ui
 				speed += -move.velocity;
 		};
 
-		const KeyMove moves[8] =
+		const KeyMove moves[12] =
 		{
 			{ KC_UP,   -Z3 * 2.f }, { KC_W,  -Z3 * 2.f },
 			{ KC_DOWN,  Z3 * 2.f }, { KC_S,   Z3 * 2.f },
 			{ KC_LEFT, -X3 * 1.f }, { KC_A,  -X3 * 1.f },
 			{ KC_RIGHT, X3 * 1.f }, { KC_D,   X3 * 1.f },
+			{ KC_R,		Y3 * 1.f }, { KC_Z,  -Y3 * 1.f },
+			{ KC_F,	   -Y3 * 1.f }, { KC_X,   Y3 * 1.f },
 		};
 
 		for(const KeyMove& key_move : moves)
