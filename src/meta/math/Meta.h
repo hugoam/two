@@ -743,6 +743,8 @@ namespace mud
             {  },
             // constructors
             {
+				{ type<mud::Transform>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Transform>(ref)) mud::Transform(); },{} },
+				{ type<mud::Transform>(), [](Ref ref, array<Var> args) { new(&val<mud::Transform>(ref)) mud::Transform(val<vec3>(args[0]), val<quat>(args[1]), val<vec3>(args[2])); }, { { "position", var(vec3()) }, { "rotation", var(quat()) }, { "scale", var(vec3()) } } },
             },
             // copy constructor
             {

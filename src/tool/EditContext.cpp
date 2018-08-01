@@ -30,6 +30,7 @@ namespace mud
 		, m_translate_tool(m_tool_context)
 		, m_rotate_tool(m_tool_context)
 		, m_scale_tool(m_tool_context)
+		, m_place_brush(m_tool_context)
 	{
 		m_tool_context.m_action_stack = &m_action_stack;
 	}

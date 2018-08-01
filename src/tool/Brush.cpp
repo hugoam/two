@@ -122,7 +122,7 @@ namespace mud
 
 	PlaceBrush::PlaceBrush(ToolContext& context)
 		: Brush(context, "Place", type<PlaceBrush>())
-		, m_creator(type<Node3>())
+		, m_creator(type<Transform>())
 	{
 		//m_creator.setPrototype(type<OLight>());
 	}
@@ -212,7 +212,7 @@ namespace mud
 		return length2(center - position) <= m_radius * m_radius;
 	}
 
-	ScriptedBrush::ScriptedBrush(ToolContext& context, VisualScript& script)
+	ScriptedBrush::ScriptedBrush(ToolContext& context, Script& script)
 		: Brush(context, "Scripted Brush", type<ScriptedBrush>())
 		, m_call(script)
 		, m_script(script)

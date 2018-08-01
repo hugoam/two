@@ -61,7 +61,7 @@ namespace mud
 	export_ class refl_ MUD_TOOL_EXPORT PlaceBrush : public Brush
 	{
 	public:
-		PlaceBrush(ToolContext& context);
+		constr_ PlaceBrush(ToolContext& context);
 
 		attr_ Creator m_creator;
 
@@ -73,7 +73,7 @@ namespace mud
 	export_ class refl_ MUD_TOOL_EXPORT CircleBrush : public Brush
 	{
 	public:
-		CircleBrush(ToolContext& context);
+		constr_ CircleBrush(ToolContext& context);
 
 		attr_ Creator m_creator;
 		attr_ float m_radius;
@@ -99,7 +99,7 @@ namespace mud
 	export_ class refl_ MUD_TOOL_EXPORT ScriptedBrush : public Brush
 	{
 	public:
-		ScriptedBrush(ToolContext& context, VisualScript& script);
+		constr_ ScriptedBrush(ToolContext& context, Script& script);
 
 		attr_ Call m_call;
 		
@@ -108,6 +108,6 @@ namespace mud
 		virtual void paint(Gnode& parent);
 
 	protected:
-		VisualScript& m_script;
+		Script& m_script;
 	};
 }

@@ -11,6 +11,7 @@
 
 #include <tool/Forward.h>
 #include <tool/Tool.h>
+#include <tool/Brush.h>
 
 #include <tool/Tools/TranslateTool.h>
 #include <tool/Tools/RotateTool.h>
@@ -45,6 +46,8 @@ namespace mud
 		TranslateTool m_translate_tool;
 		RotateTool m_rotate_tool;
 		ScaleTool m_scale_tool;
+
+		PlaceBrush m_place_brush;
 
 		Viewer* m_viewer = nullptr;
 		ViewportTool* m_tool = nullptr;

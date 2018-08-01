@@ -593,6 +593,7 @@ namespace mud
             { base_offset<mud::CircleBrush, mud::Brush>() },
             // constructors
             {
+				{ type<mud::CircleBrush>(), [](Ref ref, array<Var> args) { new(&val<mud::CircleBrush>(ref)) mud::CircleBrush(val<mud::ToolContext>(args[0])); }, { { "context", ref(type<mud::ToolContext>()) } } }
             },
             // copy constructor
             {
@@ -628,6 +629,7 @@ namespace mud
             { base_offset<mud::PlaceBrush, mud::Brush>() },
             // constructors
             {
+				{ type<mud::PlaceBrush>(), [](Ref ref, array<Var> args) { new(&val<mud::PlaceBrush>(ref)) mud::PlaceBrush(val<mud::ToolContext>(args[0])); },{ { "context", ref(type<mud::ToolContext>()) } } }
             },
             // copy constructor
             {
@@ -661,6 +663,7 @@ namespace mud
             { base_offset<mud::ScriptedBrush, mud::Brush>() },
             // constructors
             {
+				{ type<mud::ScriptedBrush>(), [](Ref ref, array<Var> args) { new(&val<mud::ScriptedBrush>(ref)) mud::ScriptedBrush(val<mud::ToolContext>(args[0]), val<mud::Script>(args[0])); }, { { "context", ref(type<mud::ToolContext>()) }, { "script", ref(type<mud::Script>()) } } }
             },
             // copy constructor
             {
