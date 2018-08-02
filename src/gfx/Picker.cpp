@@ -25,6 +25,7 @@ module mud.gfx;
 #include <gfx/Renderer.h>
 #include <gfx/Program.h>
 #include <gfx/Asset.h>
+#include <gfx/Camera.h>
 #include <gfx/GfxSystem.h>
 #endif
 
@@ -40,7 +41,7 @@ namespace mud
 		, m_program(gfx_system.programs().fetch("picking_id"))
 		, m_data(target.m_size.x * target.m_size.y)
 	{
-		bgfx::setViewClear(Render::s_render_picking_pass_id, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 1.0f, 0);
+		printf("Picker::Picker()\n");
 
 		u_picking_id = bgfx::createUniform("u_picking_id", bgfx::UniformType::Vec4);
 		
@@ -66,13 +67,33 @@ namespace mud
 			bgfx::destroy(m_readback_texture);
 	}
 
+	void Picker::pick_point(Viewport& viewport, vec2 position, std::function<void(Item*)> callback, uint32_t mask)
+	{
+		if(m_query) return;
+		Ray ray = viewport.ray(position);
+		float fov = viewport.m_camera->m_fov / m_size.y;// / float(m_context.m_target->m_size.y);
+		m_query = { uvec4{ uvec2(position), uvec2(1U) }, ray, fov, viewport.m_camera->m_aspect, mask };
+		m_query.m_callback = callback;
+	}
+
+	void Picker::pick_rectangle(Viewport& viewport, vec4 rect, std::function<void(array<Item*>)> callback, uint32_t mask)
+	{
+		if(m_query) return;
+		Ray ray = viewport.ray(rect_center(rect));
+		float fov = viewport.m_camera->m_fov * rect_h(rect) / m_size.y;
+		float aspect = rect_w(rect) / rect_h(rect);
+		m_query = { uvec4(rect), ray, fov, aspect, mask };
+		m_query.m_multi_callback = callback;
+	}
+
 	void Picker::process(Render& render, PickQuery& query)
 	{
 		if(!query || render.m_shot->m_items.empty()) return;
 
-		uint8_t view = Render::s_render_picking_pass_id;
+		uint8_t view = render.picking_pass();
 
 		bgfx::setViewFrameBuffer(view, m_fbo);
+		bgfx::setViewClear(view, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 1.0f, 0);
 
 		mat4 pickView = bxlookat(query.m_center_ray.m_start, query.m_center_ray.m_end);
 		mat4 pickProj = bxproj(query.m_fov, query.m_aspect, 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
@@ -162,7 +183,7 @@ namespace mud
 		{
 			if(bgfx::isValid(m_readback_texture))
 			{
-				bgfx::blit(Render::s_blit_picking_pass_id, m_readback_texture, 0, 0, m_fbo_texture, 0, 0, uint16_t(rect_w(query.m_rect)), uint16_t(rect_h(query.m_rect)));
+				bgfx::blit(render.picking_pass(), m_readback_texture, 0, 0, m_fbo_texture, 0, 0, uint16_t(rect_w(query.m_rect)), uint16_t(rect_h(query.m_rect)));
 				query.m_readback_ready = bgfx::readTexture(m_readback_texture, m_data.data());
 			}
 			else

@@ -19,10 +19,10 @@ namespace mud
 {
 	void viewport_picker(Viewer& viewer, Widget& widget, std::vector<Ref>& selection)
 	{
-		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::Mouse, EventType::Moved))
+		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::Mouse, EventType::Moved, InputModifier::None, false))
 		{
 			auto callback = [&](Item* item) { viewer.m_hovered = item != nullptr ? item->m_node.m_object : Ref(); };
-			viewer.pick_point(mouse_event.m_relative, callback, ITEM_SELECTABLE);
+			viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ITEM_SELECTABLE);
 		}
 
 		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseLeft, EventType::Stroked))

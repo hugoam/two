@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <infra/Array.h>
 #include <math/Forward.h>
 
 #ifndef MUD_CPP_20
@@ -146,4 +147,6 @@ namespace mud
 		attr_ quat m_rotation = ZeroQuat;
 		attr_ vec3 m_scale = Unit3;
 	};
+
+	Transform average_transforms(array<Transform*> transforms);
 }

@@ -14,19 +14,35 @@ module mud.tool;
 
 namespace mud
 {
-	ViewAction::ViewAction(Camera& camera, const vec3& offset)
+	ViewAction::ViewAction(Camera& camera, const vec3& eye, const vec3& target)
 		: m_camera(camera)
-		, m_eye_position{ camera.m_eye, offset }
+		, m_eye{ camera.m_eye, eye }
+		, m_target{ camera.m_target, target }
 	{}
 
 	void ViewAction::apply()
 	{
-		m_camera.m_eye = m_eye_position[END];
+		m_camera.m_eye = m_eye[END];
+		m_camera.m_target = m_target[END];
 	}
 
 	void ViewAction::undo()
 	{
-		m_camera.m_eye = m_eye_position[START];
+		m_camera.m_eye = m_eye[START];
+		m_camera.m_target = m_target[START];
+	}
+
+	FrameViewTool::FrameViewTool(ToolContext& context)
+		: ViewportTool(context, "Frame", type<ViewTool>())
+	{}
+
+	void FrameViewTool::activate()
+	{
+		vec3 vision = m_context.m_camera->m_target - m_context.m_camera->m_eye;
+		std::vector<Transform*> transforms = gather_transforms(*m_context.m_selection);
+		Transform transform = average_transforms(transforms);
+		this->commit(make_object<ViewAction>(*m_context.m_camera, transform.m_position - vision, transform.m_position));
+		m_state = ToolState::Done;
 	}
 
 	ViewTool::ViewTool(ToolContext& context, cstring name, const vec3& offset)
@@ -36,7 +52,8 @@ namespace mud
 
 	void ViewTool::activate()
 	{
-		this->commit(make_object<ViewAction>(*m_context.m_camera, m_offset));
+		vec3 target = m_context.m_camera->m_target;
+		this->commit(make_object<ViewAction>(*m_context.m_camera, target + m_offset, target));
 		m_state = ToolState::Done;
 	}
 }

@@ -130,6 +130,7 @@ namespace mud
 		//ShadowAtlas* m_shadow_atlas = nullptr;
 		//ReflectionAtlas* m_reflection_atlas = nullptr;
 
+		uint8_t m_picking_view_index = s_picking_pass_id;
 		uint8_t m_preprocess_view_index = s_preprocess_pass_id;
 		uint8_t m_pass_index = s_render_pass_id;
 		uint8_t m_sub_pass_index = 0;
@@ -138,6 +139,11 @@ namespace mud
 
 		Pass next_pass(const char* name, bool subpass = false);
 		uint8_t next_pass_id() { return m_pass_index++; }
+
+		uint8_t picking_pass()
+		{
+			return m_picking_view_index++;
+		}
 
 		uint8_t preprocess_pass()
 		{
@@ -151,9 +157,8 @@ namespace mud
 
 		void set_uniforms();
 
-		static const uint8_t s_render_picking_pass_id = 1;
-		static const uint8_t s_blit_picking_pass_id = 2;
-		static const uint8_t s_preprocess_pass_id = 10;
+		static const uint8_t s_picking_pass_id = 1;
+		static const uint8_t s_preprocess_pass_id = 20;
 		static const uint8_t s_shadow_atlas_pass_id = 50;
 		static const uint8_t s_reflection_probe_pass_id = 70;
 		static const uint8_t s_render_pass_id = 100;

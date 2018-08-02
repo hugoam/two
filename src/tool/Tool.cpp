@@ -58,6 +58,18 @@ namespace mud
 		: Tool(context, name, type)
 	{}
 
+	std::vector<Transform*> ViewportTool::gather_transforms(const std::vector<Ref>& objects)
+	{
+		std::vector<Transform*> transforms;
+		for(Ref object : objects)
+		{
+			Var transform;
+			if(convert(Var(object), type<Transform>(), transform))
+				transforms.push_back(&val<Transform>(transform));
+		}
+		return transforms;
+	}
+
 	SpatialTool::SpatialTool(ToolContext& context, cstring name, Type& type)
 		: ViewportTool(context, name, type)
 	{}
@@ -132,38 +144,7 @@ namespace mud
 	}
 
 	void TransformTool::refresh()
-	{
-	}
-
-	quat average_quat(quat& cumulative, const quat& rotation, const quat& first, int count)
-	{
-		if(dot(rotation, first) < 0.f)
-			return average_quat(cumulative, inverse(rotation), first, count);
-
-		float factor = 1.f / (float)count;
-		cumulative += rotation;
-		return normalize(cumulative * factor);
-	}
-
-	Transform average_transforms(array<Transform*> transforms)
-	{
-		Transform average;
-		average.m_scale = Zero3;
-
-		quat cumulative = { 0.f, 0.f, 0.f, 0.f };
-
-		size_t count = 0;
-		for(Transform* transform : transforms)
-		{
-			average.m_position += transform->m_position;
-			average.m_scale += transform->m_scale;
-			average.m_rotation = average_quat(cumulative, transform->m_rotation, transforms[0]->m_rotation, ++count);
-		}
-		average.m_position = average.m_position / float(transforms.size());
-		average.m_scale = average.m_scale / float(transforms.size());
-
-		return average;
-	}
+	{}
 
 	void TransformTool::process(Viewer& viewer, const std::vector<Ref>& targets)
 	{
@@ -171,23 +152,15 @@ namespace mud
 
 		this->refresh();
 
-		std::vector<Transform*> transforms;
-		for(Ref object : targets)
-		{
-			Var transform;
-			if(convert(Var(object), type<Transform>(), transform))
-				transforms.push_back(&val<Transform>(transform));
-		}
-
+		std::vector<Transform*> transforms = gather_transforms(targets);
 		m_transform = average_transforms(transforms);
 
 		if(MouseEvent mouse_event = screen.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
 			if(!m_dragging)
 			{
-				// @todo highlight gizmo
 				auto callback = [&](Item* item) { m_current = &this->gizmo(*item); };
-				viewer.pick_point(mouse_event.m_relative, callback, ITEM_UI);
+				viewer.picker(1).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ITEM_UI);
 			}
 		}
 

@@ -61,6 +61,36 @@ namespace mud
 		UNUSED(mat);
 	}
 
+	quat average_quat(quat& cumulative, const quat& rotation, const quat& first, int count)
+	{
+		if(dot(rotation, first) < 0.f)
+			return average_quat(cumulative, inverse(rotation), first, count);
+
+		float factor = 1.f / (float)count;
+		cumulative += rotation;
+		return normalize(cumulative * factor);
+	}
+
+	Transform average_transforms(array<Transform*> transforms)
+	{
+		Transform average;
+		average.m_scale = Zero3;
+
+		quat cumulative = { 0.f, 0.f, 0.f, 0.f };
+
+		size_t count = 0;
+		for(Transform* transform : transforms)
+		{
+			average.m_position += transform->m_position;
+			average.m_scale += transform->m_scale;
+			average.m_rotation = average_quat(cumulative, transform->m_rotation, transforms[0]->m_rotation, ++count);
+		}
+		average.m_position = average.m_position / float(transforms.size());
+		average.m_scale = average.m_scale / float(transforms.size());
+
+		return average;
+	}
+
 	using std::sin;
 	using std::cos;
 

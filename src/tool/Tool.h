@@ -20,6 +20,7 @@
 
 #ifndef MUD_CPP_20
 #include <functional>
+#include <vector>
 #endif
 
 namespace mud
@@ -29,6 +30,7 @@ namespace mud
 		Camera* m_camera = nullptr;
 		Plane* m_work_plane = nullptr;
 		ActionStack* m_action_stack = nullptr;
+		std::vector<Ref>* m_selection = nullptr;
 	};
 
 	export_ class refl_ MUD_TOOL_EXPORT ToolOption
@@ -86,6 +88,8 @@ namespace mud
 	{
 	public:
 		ViewportTool(ToolContext& context, cstring name, Type& type);
+
+		std::vector<Transform*> gather_transforms(const std::vector<Ref>& selection);
 
 		vec3 m_symbol_position;
 	};

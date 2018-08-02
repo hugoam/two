@@ -16,7 +16,7 @@ namespace mud
 	export_ class refl_ ViewAction : public EditorAction
 	{
 	public:
-		ViewAction(Camera& camera, const vec3& offset);
+		ViewAction(Camera& camera, const vec3& eye, const vec3& target);
 
 		virtual void apply() final;
 		virtual void undo() final;
@@ -30,7 +30,16 @@ namespace mud
 	private:
 		Camera& m_camera;
 
-		vec3 m_eye_position[2];
+		vec3 m_eye[2];
+		vec3 m_target[2];
+	};
+
+	export_ class refl_ FrameViewTool final : public ViewportTool
+	{
+	public:
+		FrameViewTool(ToolContext& context);
+
+		virtual void activate() final;
 	};
 
 	export_ class refl_ ViewTool final : public ViewportTool
@@ -38,17 +47,23 @@ namespace mud
 	public:
 		ViewTool(ToolContext& context, cstring name, const vec3& offset);
 
+		ViewTool(const ViewTool& other) = default;
+		ViewTool& operator=(const ViewTool& other) = default;
+
 		virtual void activate() final;
 
 		vec3 m_offset;
 	};
 
-	inline unique_ptr<ViewTool> top_view_tool(ToolContext& context) { return make_unique<ViewTool>(context, "Top View", Y3); }
-	inline unique_ptr<ViewTool> bottom_view_tool(ToolContext& context) { return make_unique<ViewTool>(context, "Bottom View", -Y3); }
-
-	inline unique_ptr<ViewTool> front_view_tool(ToolContext& context) { return make_unique<ViewTool>(context, "Front View", -Z3); }
-	inline unique_ptr<ViewTool> back_view_tool(ToolContext& context) { return make_unique<ViewTool>(context, "Back View", Z3); }
-
-	inline unique_ptr<ViewTool> left_view_tool(ToolContext& context) { return make_unique<ViewTool>(context, "Left View", X3); }
-	inline unique_ptr<ViewTool> right_view_tool(ToolContext& context) { return make_unique<ViewTool>(context, "Right View", -X3); }
+	struct ViewTools
+	{
+		ViewTools(ToolContext& context) : m_context(context) {}
+		ToolContext& m_context;
+		ViewTool m_top		= { m_context, "Top View",	   Y3 };
+		ViewTool m_bottom	= { m_context, "Bottom View", -Y3 };
+		ViewTool m_front	= { m_context, "Front View",  -Z3 };
+		ViewTool m_back		= { m_context, "Back View",	   Z3 };
+		ViewTool m_left		= { m_context, "Left View",	   X3 };
+		ViewTool m_right	= { m_context, "Right View",  -X3 };
+	};
 }

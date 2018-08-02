@@ -49,7 +49,6 @@ namespace mud
 		, m_context(as<GfxContext>(parent->ui_window().m_context))
 		, m_camera(&scene)
 		, m_viewport(m_camera, scene)
-		, m_pick_query()
 	{
 		this->init(viewer_styles().viewer);
 
@@ -83,12 +82,9 @@ namespace mud
 
 	void Viewer::render(Render& render)
 	{
-		if(m_pick_query)
+		for(auto& picker : m_pickers)
 		{
-			if(!m_picker)
-				m_picker = make_unique<Picker>(m_scene->m_gfx_system, *m_context.m_target);
-
-			m_picker->process(render, m_pick_query);
+			picker->process(render, picker->m_query);
 		}
 
 //#define MUD_DEBUG_PICKER_TEXTURE
@@ -131,23 +127,13 @@ namespace mud
 		return m_viewport.ray(pos);
 	}
 
-	void Viewer::pick_point(vec2 position, std::function<void(Item*)> callback, uint32_t mask)
+	Picker& Viewer::picker(size_t index)
 	{
-		if(m_pick_query) return;
-		Ray ray = m_viewport.ray(position);
-		float fov = m_camera.m_fov / m_size.y;// / float(m_context.m_target->m_size.y);
-		m_pick_query = { uvec4{ uvec2(position), uvec2(1U) }, ray, fov, m_camera.m_aspect, mask };
-		m_pick_query.m_callback = callback;
-	}
-
-	void Viewer::pick_rectangle(vec4 rect, std::function<void(array<Item*>)> callback, uint32_t mask)
-	{
-		if(m_pick_query) return;
-		Ray ray = m_viewport.ray(rect_center(rect));
-		float fov = m_camera.m_fov * rect_h(rect) / m_size.y;
-		float aspect = rect_w(rect) / rect_h(rect);
-		m_pick_query = { uvec4(rect), ray, fov, aspect, mask };
-		m_pick_query.m_multi_callback = callback;
+		if(m_pickers.size() <= index)
+			m_pickers.resize(index + 1);
+		if(m_pickers[index] == nullptr)
+			m_pickers[index] = make_unique<Picker>(m_scene->m_gfx_system, *m_context.m_target);
+		return *m_pickers[index];
 	}
 
 	SceneViewer::SceneViewer(Widget* parent, void* identity)
@@ -155,7 +141,7 @@ namespace mud
 		, Viewer(parent, identity, *this)
 	{}
 
-	OrbitController::OrbitController(Viewer& viewer, float yaw, float pitch, float distance) : m_viewer(viewer), m_yaw(yaw), m_pitch(pitch), m_distance(distance) {}
+	OrbitController::OrbitController(Viewer& viewer, float yaw, float pitch, float distance) : m_viewer(viewer), m_camera(viewer.m_camera), m_yaw(yaw), m_pitch(pitch), m_distance(distance) {}
 
 	void OrbitController::process(Viewer& viewer)
 	{
@@ -181,13 +167,13 @@ namespace mud
 	void OrbitController::set_eye(const quat& rotation)
 	{
 		vec3 direction = rotate(rotation, -Z3);
-		m_viewer.m_camera.m_eye = m_position - direction * m_distance;
-		m_viewer.m_camera.m_target = m_position;
+		m_camera.m_eye = m_camera.m_target - direction * m_distance;
+		//m_camera.m_target = m_position;
 	}
 
 	void OrbitController::set_target(const vec3& position)
 	{
-		m_position = position;
+		m_camera.m_target = position;
 		this->update_eye();
 	}
 
@@ -253,15 +239,15 @@ namespace ui
 			{ KC_DOWN,  Z3 * 2.f }, { KC_S,   Z3 * 2.f },
 			{ KC_LEFT, -X3 * 1.f }, { KC_A,  -X3 * 1.f },
 			{ KC_RIGHT, X3 * 1.f }, { KC_D,   X3 * 1.f },
-			{ KC_R,		Y3 * 1.f }, { KC_Z,  -Y3 * 1.f },
-			{ KC_F,	   -Y3 * 1.f }, { KC_X,   Y3 * 1.f },
+			{ KC_T,		Y3 * 1.f }, { KC_Z,  -Y3 * 1.f },
+			{ KC_G,	   -Y3 * 1.f }, { KC_X,   Y3 * 1.f },
 		};
 
 		for(const KeyMove& key_move : moves)
 			move_key(viewer, controller.m_speed, key_move);
 
 		vec3 velocity = rotate(quat(vec3{ controller.m_pitch, controller.m_yaw, 0.f }), controller.m_speed);
-		controller.m_position += velocity;
+		controller.set_target(viewer.m_camera.m_target + velocity);
 
 		return controller;
 	}

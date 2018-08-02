@@ -48,6 +48,9 @@ namespace mud
 		Picker(GfxSystem& system, FrameBuffer& target);
 		~Picker();
 
+		void pick_point(Viewport& viewport, vec2 position, std::function<void(Item*)> callback, uint32_t mask);
+		void pick_rectangle(Viewport& viewport, vec4 rect, std::function<void(array<Item*>)> callback, uint32_t mask);
+
 		void process(Render& render, PickQuery& query);
 
 		FrameBuffer& m_target;

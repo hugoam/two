@@ -47,12 +47,10 @@ namespace mud
 
 		Camera m_camera;
 		attr_ Viewport m_viewport;
-		unique_ptr<Picker> m_picker;
-
 		attr_ vec2 m_position;
 		attr_ vec2 m_size;
 
-		PickQuery m_pick_query;
+		std::vector<unique_ptr<Picker>> m_pickers;
 
 		Ref m_selected;
 		Ref m_hovered;
@@ -71,8 +69,7 @@ namespace mud
 
 		Ray mouse_ray();
 
-		void pick_point(vec2 position, std::function<void(Item*)> callback, uint32_t mask = UINT32_MAX);
-		void pick_rectangle(vec4 rect, std::function<void(array<Item*>)> callback, uint32_t mask = UINT32_MAX);
+		Picker& picker(size_t index);
 	};
 
 	export_ class refl_ MUD_GFX_UI_EXPORT SceneViewer : public Scene, public Viewer
@@ -87,6 +84,7 @@ namespace mud
 		OrbitController(Viewer& viewer, float yaw = 0.f, float pitch = 0.f, float distance = 1.f);
 
 		Viewer& m_viewer;
+		Camera& m_camera;
 
 		vec3 m_position = Zero3;
 		float m_yaw = 0.f;
