@@ -202,7 +202,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 			size_t index = edited->m_index - materials[0]->m_index;
 			controller.m_position = vec3{ -center + index * 4.f, 0.f, 0.f };
 		};
-		viewer.pick_point(mouse_event.m_relative, callback, ITEM_SELECTABLE);
+		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ITEM_SELECTABLE);
 	}
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))

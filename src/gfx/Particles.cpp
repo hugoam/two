@@ -190,10 +190,10 @@ namespace mud
 
 			ParticleVertex* vertex = &outVertices[index * 4];
 
-			write_vertex(vertex, ParticleVertex{ pos - udir - vdir, abgr, { uv[0], uv[1] }, blend, scale });
-			write_vertex(vertex, ParticleVertex{ pos + udir - vdir, abgr, { uv[2], uv[1] }, blend, scale });
-			write_vertex(vertex, ParticleVertex{ pos + udir + vdir, abgr, { uv[2], uv[3] }, blend, scale });
-			write_vertex(vertex, ParticleVertex{ pos - udir + vdir, abgr, { uv[0], uv[3] }, blend, scale });
+			write_vertex(vertex, { pos - udir - vdir, abgr, { uv[0], uv[1] }, blend, scale });
+			write_vertex(vertex, { pos + udir - vdir, abgr, { uv[2], uv[1] }, blend, scale });
+			write_vertex(vertex, { pos + udir + vdir, abgr, { uv[2], uv[3] }, blend, scale });
+			write_vertex(vertex, { pos - udir + vdir, abgr, { uv[0], uv[3] }, blend, scale });
 
 			++index;
 		}

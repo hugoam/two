@@ -1,0 +1,171 @@
+{
+	"direction": {
+		"x": 0.0,
+		"y": 0.0,
+		"z": -1.0
+	},
+	"angle": 
+        "value": 0.0,
+		"curve": {
+			"keys": []
+		},
+		"max_curve": {
+			"keys": null
+		},
+		"min_curve": {
+			"keys": null
+		},
+		"mode": "Constant"
+	},
+	"blend": {
+		"curve": {
+			"keys": [0.0, 1.0]
+		},
+		"max_curve": {
+			"keys": null
+		},
+		"min_curve": {
+			"keys": null
+		},
+		"mode": "Curve"
+	},
+	"blend_mode": "Add",
+	"colour": {
+		"curve": {
+			"keys": [{
+					"a": 1.0,
+					"b": 0.325999945402145,
+					"g": 0.165816426277161,
+					"r": 0.0740000307559967
+				}, {
+					"a": 1.0,
+					"b": 0.512999951839447,
+					"g": 0.218758821487427,
+					"r": 0.0870000123977661
+				}, {
+					"a": 1.0,
+					"b": 0.759900093078613,
+					"g": 0.2600998878479,
+					"r": 0.709873795509338
+				}
+			]
+		},
+		"max_curve": {
+			"keys": null
+		},
+		"min_curve": {
+			"keys": null
+		},
+		"mode": "Curve"
+	},
+	"flow": "Outward",
+	"duration": 1.0,
+	"gravity": {
+        "value": 0.0,
+		"curve": {
+			"keys": []
+		},
+		"max_curve": {
+			"keys": null
+		},
+		"min_curve": {
+			"keys": null
+		},
+		"mode": "Constant"
+	},
+	"lifetime": {
+        "value": 1.0,
+		"curve": {
+			"keys": []
+		},
+		"max_curve": {
+			"keys": null
+		},
+		"min_curve": {
+			"keys": null
+		},
+		"mode": "Constant"
+	},
+	"loop": false,
+	"rate": {
+        "value": 40,
+		"curve": {
+			"keys": []
+		},
+		"max_curve": {
+			"keys": null
+		},
+		"min_curve": {
+			"keys": null
+		},
+		"mode": "Constant"
+	},
+	"rotation": {
+            "w": 1.0,
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+	},
+	"scale": {
+		"curve": {
+			"keys": [0.200000002980232, 1.0, 0.100000001490116]
+		},
+		"max_curve": {
+			"keys": null
+		},
+		"min_curve": {
+			"keys": null
+		},
+		"mode": "Curve"
+	},
+	"shape": {
+		"shape": {
+			"type": "Circle",
+			"value": {
+				"axis": "AXIS_Y",
+				"radius": 1.0
+			}
+		}
+	},
+	"speed": {
+        "value": 0.0,
+		"curve": {
+			"keys": []
+		},
+		"max_curve": {
+			"keys": null
+		},
+		"min_curve": {
+			"keys": null
+		},
+		"mode": "Constant"
+	},
+	"sprite_frame": {
+        "value": 0.0,
+		"curve": {
+			"keys": []
+		},
+		"max_curve": {
+			"keys": null
+		},
+		"min_curve": {
+			"keys": null
+		},
+		"mode": "Constant"
+	},
+	"sprite_name": "particle.ktx",
+	"start_time": 0.0,
+	"volume": {
+        "value": 1.0,
+		"curve": {
+			"keys": []
+		},
+		"max_curve": {
+			"keys": null
+		},
+		"min_curve": {
+			"keys": null
+		},
+		"mode": "Constant"
+	}
+}

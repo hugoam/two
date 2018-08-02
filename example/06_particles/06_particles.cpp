@@ -25,7 +25,8 @@ std::vector<ParticleItem> create_particles(GfxSystem& gfx_system, const std::vec
 	for(const string& name : names)
 	{
 		Call particles = Call(function(gfx::particles));
-		particles.m_arguments[1] = Ref(gfx_system.particles().file(name.c_str()));
+		ParticleGenerator* emitter = gfx_system.particles().file(name.c_str());
+		particles.m_arguments[1] = Ref(emitter);
 		particles_vector.push_back({ particles, index++, nullptr });
 	}
 
@@ -49,20 +50,20 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 	float middle = 0.f;//particles_vector.size() * 10.f / 2.f;
 	for(ParticleItem& item : particles_vector)
 	{
-		Gnode& particle_node = gfx::node(scene, {}, vec3{ -middle + item.m_index * 10.f, 0.f, 0.f });
+		Gnode& node = gfx::node(scene, {}, vec3{ -middle + item.m_index * 10.f, 0.f, 0.f });
 
-		item.m_call.m_arguments[0] = Ref(&particle_node);
+		item.m_call.m_arguments[0] = Ref(&node);
 		Var result = item.m_call();
 		item.m_particles = &val<Particles>(result);
 
 		if(item.m_particles->ended())
 			item.m_particles->m_time = 0.f;
 
-		particle_node.m_node->m_object = Ref(&item);
+		node.m_node->m_object = Ref(&item);
 
-		gfx::shape(particle_node, *item.m_particles->m_shape, Symbol(&item == edited ? Colour::White : Colour::AlphaGrey));
-		gfx::shape(particle_node, Cube(0.1f), Symbol(Colour::White), ITEM_SELECTABLE);
-		gfx::shape(particle_node, Cube(), Symbol(Colour::None, Colour::Transparent), ITEM_SELECTABLE);
+		gfx::shape(node, *item.m_particles->m_shape, Symbol(&item == edited ? Colour::White : Colour::AlphaGrey));
+		gfx::shape(node, Cube(0.1f), Symbol(Colour::White), ITEM_SELECTABLE);
+		gfx::shape(node, Cube(), Symbol(Colour::None, Colour::Transparent), ITEM_SELECTABLE);
 	}
 
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
@@ -73,7 +74,7 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 			edited = &val<ParticleItem>(item->m_node.m_object);
 			controller.m_position = vec3{ -middle + edited->m_index * 10.f, 0.f, 0.f };
 		};
-		viewer.pick_point(mouse_event.m_relative, callback, ITEM_SELECTABLE);
+		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ITEM_SELECTABLE);
 	}
 
 	if(edited)

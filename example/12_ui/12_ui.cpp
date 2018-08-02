@@ -168,7 +168,7 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 	{
 		auto callback = [&](Item* item) { selected = item; umain.m_switch |= CONTEXT_MENU; };
-		viewer.pick_point(mouse_event.m_relative, callback, ITEM_SELECTABLE);
+		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ITEM_SELECTABLE);
 	}
 
 	UNUSED(selected);
