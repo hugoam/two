@@ -59,6 +59,12 @@ function uses_bgfx()
             "Xext",
         }
     
+    configuration { "osx" }
+        linkoptions {
+            "-framework Metal",
+            "-framework QuartzCore",
+        }
+        
     configuration { "vs20*", "not asmjs" }
         links {
             "psapi",
