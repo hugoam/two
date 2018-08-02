@@ -450,7 +450,8 @@ namespace mud
 		for(size_t i = 0; i < vars.m_count; ++i)
 		{
 			read(state, -int(vars.m_count) + int(i), vars[i]);
-			success &= (!vars[i].none() && (params[i].nullable() || !vars[i].null()));
+			success &= !vars[i].none();
+			success &= params[i].nullable() || !vars[i].null();
 #if 1
 			if(!success)
 				printf("ERROR: lua -> wrong argument %s, expect type %s, got %s\n", params[i].m_name, type(params[i].m_value).m_name, type(vars[i]).m_name);

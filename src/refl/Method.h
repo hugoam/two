@@ -69,7 +69,7 @@ namespace mud
 
 		void setup();
 
-		bool validate(array<Var> args) const;
+		bool validate(array<Var> args, size_t offset = 0) const;
 
 		virtual void operator()(array<Var> args) const { Var none; return (*this)(args, none); }
 		virtual void operator()(array<Var> args, Var& result) const = 0;

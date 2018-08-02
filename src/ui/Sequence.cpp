@@ -57,8 +57,7 @@ namespace ui
 	bool select_logic(Widget& element, Ref object, Ref& selection)
 	{
 		bool changed = false;
-		//if(MouseEvent mouse_event = element.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
-		if(element.activated())
+		if(MouseEvent mouse_event = element.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
 			selection = object;
 			changed = true;

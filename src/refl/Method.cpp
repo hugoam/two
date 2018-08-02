@@ -52,10 +52,13 @@ namespace mud
 		}
 	}
 
-	bool Callable::validate(array<Var> args) const
+	bool Callable::validate(array<Var> args, size_t offset) const
 	{
+		if(args.m_count < m_arguments.size() - m_num_defaults)
+			return false;
+
 		bool valid = true;
-		for(size_t i = 0; i < m_params.size(); ++i)
+		for(size_t i = offset; i < m_params.size(); ++i)
 		{
 			valid &= type(m_params[i].m_value).is(type(args[i]));
 			valid &= m_params[i].nullable() || !args[i].null();

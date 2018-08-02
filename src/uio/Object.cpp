@@ -56,15 +56,15 @@ namespace mud
 
 	Widget& generic_object_item(Widget& parent, Ref object)
 	{
-		enum Modes { CONTEXT = (1 << 0) };
+		enum Modes { Context = (1 << 0) };
 
 		Widget& self = ui::element(parent, object);
 		ui::multi_item(self, carray<cstring, 2>{ object_icon(object).c_str(), object_name(object).c_str() });
 		
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
-			self.m_switch |= CONTEXT;
-		if((self.m_switch & CONTEXT) != 0)
-			object_context(self, object, CONTEXT);
+			self.m_switch |= Context;
+		if((self.m_switch & Context) != 0)
+			object_context(self, object, Context);
 
 		return self;
 	}

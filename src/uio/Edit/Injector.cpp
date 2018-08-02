@@ -42,8 +42,11 @@ namespace mud
 
 		if(ui::button(self, "Create").activated())
 		{
-			injector.injectpool();
-			return true;
+			if(injector.m_constructor.validate(injector.m_arguments, 1))
+			{
+				injector.injectpool();
+				return true;
+			}
 		}
 
 		return false;
