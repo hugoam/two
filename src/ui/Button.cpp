@@ -248,7 +248,7 @@ namespace ui
 	bool dropdown_input(Widget& parent, array<cstring> choices, size_t& value, bool compact)
 	{
 		Style& style = compact ? dropdown_styles().dropdown_input_compact : dropdown_styles().dropdown_input;
-		Widget& self = dropdown(parent, style, value == SIZE_MAX ? "" : choices[value], PopupFlags::Modal);
+		Widget& self = dropdown(parent, style, value == SIZE_MAX ? "" : choices[value], PopupFlags::AutoModal);
 		if(!self.m_body) return false;
 
 		for(size_t i = 0; i < choices.size(); ++i)

@@ -40,7 +40,7 @@ namespace mud
 
 	void object_context(Widget& parent, Ref object, uint32_t mode)
 	{
-		Widget& self = ui::popup(parent, ui::PopupFlags::Modal);
+		Widget& self = ui::popup(parent, ui::PopupFlags::AutoModal);
 		if(!self.m_open)
 			parent.m_switch &= ~mode;
 
@@ -58,11 +58,14 @@ namespace mud
 	{
 		enum Modes { CONTEXT = (1 << 0) };
 
-		Widget& self = ui::multi_button(parent, carray<cstring, 2>{ object_icon(object).c_str(), object_name(object).c_str() });
+		Widget& self = ui::element(parent, object);
+		ui::multi_item(self, carray<cstring, 2>{ object_icon(object).c_str(), object_name(object).c_str() });
+		
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 			self.m_switch |= CONTEXT;
 		if((self.m_switch & CONTEXT) != 0)
 			object_context(self, object, CONTEXT);
+
 		return self;
 	}
 

@@ -94,8 +94,7 @@ namespace mud
 		std::vector<Method*> m_deep_methods;
 
 		// Complex
-		//Prototype* m_prototype;
-		//std::vector<Prototype*> m_prototypes;
+		std::vector<Type*> m_complexes;
 
 		// Implementation
 		std::function<unique_ptr<Pool>()> m_make_pool;

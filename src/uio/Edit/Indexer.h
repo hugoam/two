@@ -19,10 +19,12 @@ namespace mud
 		DispatchSelector();
 	};
 
-	export_ MUD_UIO_EXPORT void object_indexer(Widget& parent, Indexer& indexer);
-	export_ MUD_UIO_EXPORT void object_indexer_modal(Widget& parent, Indexer& indexer);
+	export_ MUD_UIO_EXPORT void complex_indexer(Widget& parent, Indexer& indexer, std::vector<Ref>* selection = nullptr);
+	export_ MUD_UIO_EXPORT void object_indexer(Widget& parent, Indexer& indexer, std::vector<Ref>* selection = nullptr);
 
 	export_ MUD_UIO_EXPORT bool object_selector(Widget& parent, Indexer& indexer, Ref& result);
 	export_ MUD_UIO_EXPORT bool object_selector(Widget& parent, Ref& result);
+
+	export_ MUD_UIO_EXPORT void object_indexer_modal(Widget& parent, Indexer& indexer);
 	export_ MUD_UIO_EXPORT bool object_selector_modal(Widget& screen, Widget& parent, Ref& result);
 }

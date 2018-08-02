@@ -50,6 +50,7 @@ namespace ui
 		Modal = (1 << 0),
 		Clamp = (1 << 1),
 		AutoClose = (1 << 2),
+		AutoModal = Modal | AutoClose,
 	};
 
 	export_ inline bool popup_flag(PopupFlags flags, PopupFlags check) { return (uint(flags) & uint(check)) != 0; }

@@ -12,6 +12,8 @@ module mud.uio;
 #else
 #include <obj/Indexer.h>
 #include <refl/Meta.h>
+#include <refl/Class.h>
+#include <ui/Sequence.h>
 #include <ui/Structs/Container.h>
 #include <ui/Structs/Window.h>
 #include <uio/Object.h>
@@ -25,13 +27,30 @@ namespace mud
 
 	using string = std::string;
 
-	void object_indexer(Widget& parent, Indexer& indexer)
+	void complex_indexer(Widget& parent, Indexer& indexer, std::vector<Ref>* selection)
+	{
+		Member& complex = cls(indexer.m_type).member("complex");
+
+		Widget& self = ui::sheet(parent);
+		for(Ref component : indexer.m_objects)
+			if(component)
+			{
+				Ref object = complex.cast_get(component);
+				Widget& item = object_item(self, object);
+				if(selection)
+					ui::select_logic(item, object, *selection);
+			}
+	}
+
+	void object_indexer(Widget& parent, Indexer& indexer, std::vector<Ref>* selection)
 	{
 		Widget& self = ui::sheet(parent);
-		for(size_t id = 0; id < indexer.m_objects.size(); ++id)
-			if(indexer.m_objects[id].m_value)
+		for(Ref object : indexer.m_objects)
+			if(object)
 			{
-				object_item(self, indexer.m_objects[id]);
+				Widget& item = object_item(self, object);
+				if(selection)
+					ui::select_logic(item, object, *selection);
 			}
 	}
 
