@@ -16,15 +16,19 @@
 #include <GLFW/glfw3.h>
 
 #if defined MUD_PLATFORM_WINDOWS
-        #define GLFW_EXPOSE_NATIVE_WIN32
-        #include <GLFW/glfw3native.h>
-        #undef max
-        #undef min
-
+	#define GLFW_EXPOSE_NATIVE_WIN32
 #elif defined MUD_PLATFORM_LINUX
-        #define GLFW_EXPOSE_NATIVE_X11
-        #define GLFW_EXPOSE_NATIVE_GLX
-        #include <GLFW/glfw3native.h>
+	#define GLFW_EXPOSE_NATIVE_X11
+	#define GLFW_EXPOSE_NATIVE_GLX
+#elif defined MUD_PLATFORM_OSX
+	#define GLFW_EXPOSE_NATIVE_COCOA
+#endif
+
+#include <GLFW/glfw3native.h>
+
+#if defined MUD_PLATFORM_WINDOWS
+	#undef max
+	#undef min
 #endif
 
 #ifdef MUD_MODULES

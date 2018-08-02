@@ -239,7 +239,7 @@ namespace ui
 			{ KC_DOWN,  Z3 * 2.f }, { KC_S,   Z3 * 2.f },
 			{ KC_LEFT, -X3 * 1.f }, { KC_A,  -X3 * 1.f },
 			{ KC_RIGHT, X3 * 1.f }, { KC_D,   X3 * 1.f },
-			{ KC_T,		Y3 * 1.f }, { KC_Z,  -Y3 * 1.f },
+			{ KC_T,	    Y3 * 1.f }, { KC_Z,  -Y3 * 1.f },
 			{ KC_G,	   -Y3 * 1.f }, { KC_X,   Y3 * 1.f },
 		};
 
