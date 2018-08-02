@@ -1,7 +1,19 @@
 -- mud library
 -- lua dependency
 
-glfw = mud_dep(nil, "glfw")
+function uses_glfw()
+    configuration { "osx", "not asmjs" }
+        linkoptions {
+            "-framework Cocoa",
+            "-framework OpenGL",
+            "-framework IOKit",
+            "-framework CoreVideo",
+        }
+           
+    configuration {}
+end
+
+glfw = mud_dep(nil, "glfw", false, uses_glfw)
 	kind "StaticLib"
     
     files {
