@@ -101,7 +101,7 @@ function mud_binary_config()
             "-s ALIASING_FUNCTION_POINTERS=0",
         }
         
-    configuration { "not linux", "not asmjs" }
+    configuration { "not linux", "not osx", "not asmjs" }
         defines {
             "MUD_RESOURCE_PATH=\"" .. path.join(PROJECT_DIR, "data") .. "/\"",
         }
