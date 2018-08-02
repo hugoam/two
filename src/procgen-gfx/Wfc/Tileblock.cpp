@@ -139,8 +139,11 @@ namespace mud
 		Colour colour = { 0.3f, 0.3f, 0.3f, 0.4f };
 		Grid2 grid = { to_xz(vec3(tileblock.m_size)), to_xz(tileblock.m_scale) };
 
-		Gnode& self = gfx::node(parent, {}, tileblock.m_aabb.m_center);
-		gfx::shape(self, grid, Symbol(colour));
+		Gnode& top = gfx::node(parent, {}, tileblock.m_aabb.m_center + Y3 * tileblock.m_aabb.m_extents.y);
+		gfx::shape(top, grid, Symbol(colour));
+
+		Gnode& bottom = gfx::node(parent, {}, tileblock.m_aabb.m_center - Y3 * tileblock.m_aabb.m_extents.y);
+		gfx::shape(bottom, grid, Symbol(colour));
 	}
 
 	inline bvec4 less(const vec4& lhs, const vec4& rhs) { return glm::lessThan(lhs, rhs); }
@@ -257,8 +260,8 @@ namespace mud
 
 	void paint_tileblock(Gnode& parent, Ref object, WfcBlock& tileblock, const uvec3& focused, const uvec3* exclude, bool draw_entropy)
 	{
-		//paint_tile_grid(parent, tileblock);
-		paint_tiles(parent, object, tileblock, focused);
+		paint_tile_grid(parent, tileblock);
+		paint_tiles(parent, object, tileblock, focused, exclude, draw_entropy);
 	}
 
 	struct ModelArrayItem

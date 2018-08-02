@@ -7,15 +7,15 @@
         {
             "name" : "empty",
             "symmetry" : "X",
-            "weight" : 20.0
+            "weight" : 10.0
         },
         {
             "name" : "cube_frame",
             "symmetry" : "X",
-            "weight" : 0.5
+            "weight" : 1.0
         },
         {
-            "name" : "cube_covered_corner",
+            "name" : "cube_covered",
             "symmetry" : "X",
             "weight" : 1.0
         },
@@ -32,7 +32,7 @@
         {
             "name" : "corner_frame",
             "symmetry" : "L",
-            "weight" : 0.5
+            "weight" : 1.0
         },
         {
             "name" : "corner_covered",
@@ -63,37 +63,30 @@
         { "tiles" : ["empty", "cube_covered_side" ], "flip" : [0, 3] },
         { "tiles" : ["empty", "corner_frame"] },
         { "tiles" : ["empty", "corner_covered"] },
+        { "tiles" : ["empty", "empty_covered_hole_side"], "flip" : [0, 3] },
         { "tiles" : ["cube_frame", "corner_frame"], "flip" : [0, 1] },
         { "tiles" : ["cube_frame", "cube_covered_angle"] },
         { "tiles" : ["cube_frame", "cube_covered_side"], "flip" : [0, 3] },
-        { "tiles" : ["cube_covered_corner", "cube_covered_side"], "flip" : [1, 0] },
-        { "tiles" : ["cube_covered_corner", "corner_covered"], "flip" : [1, 1] },
+        { "tiles" : ["cube_covered", "cube_covered"] },
+        { "tiles" : ["cube_covered", "cube_covered_side"], "flip" : [0, 1] },
         { "tiles" : ["cube_covered_angle", "cube_covered_angle"], "flip" : [0, 1] },
         { "tiles" : ["cube_covered_angle", "cube_covered_side"] },
         { "tiles" : ["cube_covered_side", "cube_covered_side"] },
         { "tiles" : ["corner_covered", "corner_covered"], "flip" : [0, 1] },
         { "tiles" : ["corner_covered", "cube_covered_side"] },
         { "tiles" : ["corner_covered", "cube_covered_angle"], "flip" : [0, 1] },
-        { "tiles" : ["empty_covered", "empty_covered"] },
-        { "tiles" : ["empty_covered", "cube_covered_corner"], "flip" : [0, 1] },
-        { "tiles" : ["empty_covered", "cube_covered_side"], "flip" : [0, 1] },
+        { "tiles" : ["empty_covered", "cube_covered"] },
         { "tiles" : ["empty_covered", "empty_covered_hole_angle"], "flip" : [0, 1] },
         { "tiles" : ["empty_covered", "empty_covered_hole_side"], "flip" : [0, 1] },
-        { "tiles" : ["empty_covered_hole_angle", "corner_covered"], "flip" : [3, 1] },
-        { "tiles" : ["empty_covered_hole_angle", "cube_covered_corner"], "flip" : [0, 1] },
-        { "tiles" : ["empty_covered_hole_angle", "cube_covered_corner"], "flip" : [0, 2] },
-        { "tiles" : ["empty_covered_hole_angle", "cube_covered_side"], "flip" : [0, 1] },
         { "tiles" : ["empty_covered_hole_angle", "empty_covered_hole_angle"], "flip" : [0, 1] },
-        { "tiles" : ["empty_covered_hole_side", "empty"], "flip" : [1, 0] },
-        { "tiles" : ["empty_covered_hole_side", "cube_covered_corner"], "flip" : [3, 1] },
-        { "tiles" : ["empty_covered_hole_side", "cube_covered_side"], "flip" : [3, 1] },
+        { "tiles" : ["empty_covered_hole_angle", "cube_covered"] },
         { "tiles" : ["empty_covered_hole_side", "empty_covered_hole_side"] },
         { "tiles" : ["empty_covered_hole_side", "empty_covered_hole_side"], "flip" : [1, 3] },
         { "tiles" : ["empty_covered_hole_side", "empty_covered_hole_angle"] },
         
         { "vertical" : true, "tiles" : ["empty", "empty"] },
         { "vertical" : true, "tiles" : ["empty", "cube_frame"] },
-        { "vertical" : true, "tiles" : ["empty", "cube_covered_corner"] },
+        { "vertical" : true, "tiles" : ["empty", "cube_covered"] },
         { "vertical" : true, "tiles" : ["empty", "cube_covered_angle"] },
         { "vertical" : true, "tiles" : ["empty", "cube_covered_side"] },
         { "vertical" : true, "tiles" : ["empty", "corner_frame"] },
@@ -102,19 +95,8 @@
         { "vertical" : true, "tiles" : ["empty", "empty_covered_hole_angle"] },
         { "vertical" : true, "tiles" : ["empty", "empty_covered_hole_side"] },
         
-        { "vertical" : true, "tiles" : ["empty"                    , "empty"] },
-        { "vertical" : true, "tiles" : ["cube_frame"               , "empty"] },
-        { "vertical" : true, "tiles" : ["cube_covered_corner"      , "empty"] },
-        { "vertical" : true, "tiles" : ["cube_covered_angle"       , "empty"] },
-        { "vertical" : true, "tiles" : ["cube_covered_side"        , "empty"] },
-        { "vertical" : true, "tiles" : ["corner_frame"             , "empty"] },
-        { "vertical" : true, "tiles" : ["corner_covered"           , "empty"] },
-        { "vertical" : true, "tiles" : ["empty_covered"            , "empty"] },
-        { "vertical" : true, "tiles" : ["empty_covered_hole_angle" , "empty"] },
-        { "vertical" : true, "tiles" : ["empty_covered_hole_side"  , "empty"] },
-        
         { "vertical" : true, "tiles" : ["cube_frame", "cube_frame"] },
-        { "vertical" : true, "tiles" : ["cube_frame", "cube_covered_corner"] },
+        { "vertical" : true, "tiles" : ["cube_frame", "cube_covered"] },
         { "vertical" : true, "tiles" : ["cube_frame", "cube_covered_angle"] },
         { "vertical" : true, "tiles" : ["cube_frame", "cube_covered_side"] },
         

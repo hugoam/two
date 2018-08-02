@@ -38,5 +38,5 @@ void main() {
         0.0);
 
     c = 1.0 - exp(-1.5 * pow(c, vec3_splat(1.25)));
-    gl_FragData[0] = vec4(c, 1.0);
+    gl_FragData[0] = vec4(c.r c.r, c.b, 1.0);
 }
