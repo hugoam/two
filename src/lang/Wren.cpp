@@ -37,6 +37,9 @@ module mud.lang;
 extern "C"
 {
 #include <wren.h>
+
+void wrenAssignVariable(WrenVM* vm, const char* module, const char* name,
+						int value_slot);
 }
 
 #define MUD_WREN_DEBUG_DECLS

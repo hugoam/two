@@ -16,8 +16,13 @@ wren = mud_dep(nil, "wren")
         path.join(MUD_3RDPARTY_DIR, "wren", "src", "vm", "*.c"),
         path.join(MUD_3RDPARTY_DIR, "wren", "src", "optional", "*.h"),
         path.join(MUD_3RDPARTY_DIR, "wren", "src", "optional", "*.c"),
+        path.join(MUD_SRC_DIR, "3rdparty", "wren_vm.c"),
 	}
 
+    removefiles {
+        path.join(MUD_3RDPARTY_DIR, "wren", "src", "vm", "wren_vm.c"),
+    }
+    
     configuration { "Debug" }
         defines {
             --"DEBUG",
