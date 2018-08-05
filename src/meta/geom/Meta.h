@@ -530,7 +530,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Aabb>(), member_address(&mud::Aabb::m_null), type<bool>(), "null", var(bool()), Member::Value, nullptr }
+                { type<mud::Aabb>(), member_address(&mud::Aabb::m_empty), type<bool>(), "empty", var(bool()), Member::Value, nullptr }
             },
             // methods
             {
@@ -782,8 +782,7 @@ namespace mud
             {
                 { type<mud::Cube>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Cube>(ref)) mud::Cube(  ); }, {} },
                 { type<mud::Cube>(), [](Ref ref, array<Var> args) { new(&val<mud::Cube>(ref)) mud::Cube( val<mud::vec3>(args[0]) ); }, { { "extents", var(mud::vec3()) } } },
-                { type<mud::Cube>(), [](Ref ref, array<Var> args) { new(&val<mud::Cube>(ref)) mud::Cube( val<mud::vec3>(args[0]), val<mud::vec3>(args[1]) ); }, { { "center", var(mud::vec3()) }, { "extents", var(mud::vec3()) } } },
-                { type<mud::Cube>(), [](Ref ref, array<Var> args) { new(&val<mud::Cube>(ref)) mud::Cube( val<float>(args[0]) ); }, { { "side", var(float()) } } }
+                { type<mud::Cube>(), [](Ref ref, array<Var> args) { new(&val<mud::Cube>(ref)) mud::Cube( val<mud::vec3>(args[0]), val<mud::vec3>(args[1]) ); }, { { "center", var(mud::vec3()) }, { "extents", var(mud::vec3()) } } }
             },
             // copy constructor
             {

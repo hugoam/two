@@ -209,6 +209,14 @@ namespace mud
 		return nullptr;
 	}
 
+	Function* System::find_function(cstring nemespace, cstring name)
+	{
+		for(Function* function : m_functions)
+			if(function->m_namespace->m_name == string(nemespace) && function->m_name == string(name))
+				return function;
+		return nullptr;
+	}
+
 	Function& System::function(FunctionPointer identity)
 	{
 		for(Function* func : m_functions)
@@ -289,7 +297,7 @@ namespace mud
 			}
 
 		Namespace* parent = nullptr;
-		cstring name = nullptr;
+		cstring name = "";
 
 		if(!path.empty())
 		{

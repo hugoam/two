@@ -96,7 +96,7 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ bool dropdown_input(Widget& parent, array<cstring> choices, size_t& value, bool compact = false);
 	export_ MUD_UI_EXPORT func_ bool typedown_input(Widget& parent, array<cstring> choices, size_t& value);
 
-	export_ MUD_UI_EXPORT func_ Widget& menu_choice(Widget& parent, array<cstring> elements);
+	export_ MUD_UI_EXPORT Widget& menu_choice(Widget& parent, array<cstring> elements);
 	export_ MUD_UI_EXPORT func_ Widget& menu_choice(Widget& parent, cstring content);
 	export_ MUD_UI_EXPORT func_ Widget& menu(Widget& parent, cstring label, bool submenu = false);
 	export_ MUD_UI_EXPORT func_ Widget& menubar(Widget& parent);

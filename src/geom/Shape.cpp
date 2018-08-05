@@ -118,8 +118,8 @@ namespace mud
 	ConvexHull::ConvexHull(const std::vector<vec3>& vertices) : Shape(type<ConvexHull>()), m_vertices(vertices) {}
 	object_ptr<Shape> ConvexHull::clone() const { return make_object<ConvexHull>(*this); }
 
-	Aabb::Aabb() : Cube(Zero3), m_null(true) {}
-	Aabb::Aabb(const vec3& center, const vec3& extents) : Cube(center, extents), m_null(false) {}
+	Aabb::Aabb() : Cube(Zero3), m_empty(true) {}
+	Aabb::Aabb(const vec3& center, const vec3& extents) : Cube(center, extents), m_empty(false) {}
 	object_ptr<Shape> Aabb::clone() const { return make_object<Aabb>(*this); }
 
 	bool Aabb::intersects(const Aabb& other) const
@@ -130,10 +130,10 @@ namespace mud
 
 	void Aabb::merge(const vec3& point)
 	{
-		if(m_null)
+		if(m_empty)
 		{
 			m_center = point;
-			m_null = false;
+			m_empty = false;
 			return;
 		}
 
@@ -146,9 +146,9 @@ namespace mud
 
 	void Aabb::mergeSafe(const Aabb& other)
 	{
-		if(other.m_null) return;
-		if(m_null) *this = other; else this->merge(other);
-		m_null = false;
+		if(other.m_empty) return;
+		if(m_empty) *this = other; else this->merge(other);
+		m_empty = false;
 	}
 
 	void Aabb::merge(const Aabb& other)
@@ -162,7 +162,7 @@ namespace mud
 
 	bool Aabb::cull(const vec3& point) const
 	{
-		if(m_null) return false;
+		if(m_empty) return false;
 
 		vec3 max_bounds(m_center + m_extents);
 		vec3 min_bounds(m_center - m_extents);

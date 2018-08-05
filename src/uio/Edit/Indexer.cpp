@@ -38,7 +38,7 @@ namespace mud
 				Ref object = complex.cast_get(component);
 				Widget& item = object_item(self, object);
 				if(selection)
-					ui::select_logic(item, object, *selection);
+					ui::multiselect_logic(item, object, *selection);
 			}
 	}
 
@@ -50,7 +50,7 @@ namespace mud
 			{
 				Widget& item = object_item(self, object);
 				if(selection)
-					ui::select_logic(item, object, *selection);
+					ui::multiselect_logic(item, object, *selection);
 			}
 	}
 

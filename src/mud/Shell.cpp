@@ -43,6 +43,7 @@ namespace mud
 		, m_resource_path(resource_paths[0])
 		, m_gfx_system(resource_paths)
 		, m_lua()
+		, m_wren()
 		, m_editor(m_gfx_system)
 	{
 		System::instance().load_modules({ &mud_obj::m(), &mud_math::m(), &mud_geom::m(), &mud_procgen::m(), &mud_lang::m() });
@@ -51,7 +52,8 @@ namespace mud
 		// @todo this should be automatically done by math module
 		register_math_conversions();
 
-		m_editor.m_script_editor.m_interpreter = &m_lua;
+		m_editor.m_script_editor.m_lua = &m_lua;
+		m_editor.m_script_editor.m_wren = &m_wren;
 
 		declare_gfx_edit();
 

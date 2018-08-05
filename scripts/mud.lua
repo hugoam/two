@@ -8,6 +8,7 @@ group "3rdparty"
 dofile(path.join(MUD_DIR, "scripts/3rdparty/json11.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/stb.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/lua.lua"))
+dofile(path.join(MUD_DIR, "scripts/3rdparty/wren.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/glfw.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/vg.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/bgfx/bgfx.lua"))
@@ -88,6 +89,7 @@ end
 function mud_lang()
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "lua"),
+        path.join(MUD_3RDPARTY_DIR, "wren", "src", "include"),
     }
 end
 
@@ -134,7 +136,7 @@ else
 end
 mud.geom    = mud_module("mud", "geom",     MUD_SRC_DIR, "geom",    nil,        mud_geom,       nil,                { mud.obj, mud.math })
 mud.procgen = mud_module("mud", "procgen",  MUD_SRC_DIR, "procgen", nil,        mud_procgen,    uses_mud_procgen,   { json11, mud.infra, mud.obj, mud.srlz, mud.math, mud.geom })
-mud.lang    = mud_module("mud", "lang",     MUD_SRC_DIR, "lang",    nil,        mud_lang,       nil,                { lua, mud.infra, mud.obj, mud.pool, mud.refl })
+mud.lang    = mud_module("mud", "lang",     MUD_SRC_DIR, "lang",    nil,        mud_lang,       nil,                { lua, wren, mud.infra, mud.obj, mud.pool, mud.refl })
 mud.ctx     = mud_module("mud", "ctx",      MUD_SRC_DIR, "ctx",     nil,        nil,            nil,                { mud.infra, mud.obj, mud.math })
 mud.ui      = mud_module("mud", "ui",       MUD_SRC_DIR, "ui",      nil,        mud_ui,         uses_mud_ui,        { json11, mud.infra, mud.obj, mud.refl, mud.srlz, mud.math, mud.ctx })
 mud.uio     = mud_module("mud", "uio",      MUD_SRC_DIR, "uio",     nil,        nil,            nil,                { mud.infra, mud.tree, mud.obj, mud.proto, mud.pool, mud.refl, mud.math, mud.lang, mud.ctx, mud.ui })

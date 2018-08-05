@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <infra/NonCopy.h>
 #include <refl/Method.h>
 #endif
 #include <lang/Forward.h>
@@ -31,16 +32,54 @@ namespace mud
 		Signature m_signature;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT LuaScript final : public Script
+	enum class refl_ Language : unsigned int
+	{
+		Cpp,
+		Lua,
+		Wren
+	};
+
+	export_ class refl_ MUD_LANG_EXPORT TextScript final : public Script
 	{
 	public:
-		constr_ LuaScript(cstring name, const Signature& signature = {});
+		constr_ TextScript(cstring name, Language language, const Signature& signature = {});
 
-		string m_script;
+		attr_ Language m_language;
+		attr_ string m_script;
 
-		LuaInterpreter* m_interpreter;
+		Interpreter* m_interpreter;
 
 		using Callable::operator();
 		virtual void operator()(array<Var> args, Var& result) const;
+	};
+
+	export_ class refl_ MUD_LANG_EXPORT Interpreter : public NonCopy
+	{
+	public:
+		virtual ~Interpreter() {}
+
+		virtual void declare_types() = 0;
+
+		virtual Var get(cstring name, Type& type) { UNUSED(name); UNUSED(type); return Var(); }
+		virtual void set(cstring name, Var value) { UNUSED(name); UNUSED(value); }
+
+		virtual Var getx(array<cstring> path, Type& type) { UNUSED(path); UNUSED(type); return Var(); }
+		virtual void setx(array<cstring> path, Var value) { UNUSED(path); UNUSED(value); }
+
+		virtual void call(cstring code, Var* result = nullptr) = 0;
+		virtual void virtual_call(Method& method, Ref object, array<Var> args) { UNUSED(method); UNUSED(object); UNUSED(args); }
+
+		string flush();
+
+		template <class T>
+		T get(cstring name) { return val<T>(get(name, type<T>())); }
+
+		template <class T>
+		T getx(array<cstring> path) { return val<T>(getx(path, type<T>())); }
+
+		template <class T>
+		T call(cstring expr) { return val<T>(call(expr, &type<T>())); }
+
+		string m_output;
 	};
 }

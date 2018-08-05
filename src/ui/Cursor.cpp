@@ -18,7 +18,7 @@ namespace mud
 {
 namespace ui
 {
-	Widget* tooltip(Widget& parent, const vec2& position, float delay)
+	Widget* hoverbox(Widget& parent, const vec2& position, float delay)
 	{
 		RootSheet& root_sheet = parent.root_sheet();
 
@@ -32,14 +32,14 @@ namespace ui
 		return nullptr;
 	}
 
-	Widget* tooltip(Widget& parent, float delay)
+	Widget* hoverbox(Widget& parent, float delay)
 	{
-		return tooltip(parent, parent.root_sheet().m_mouse.m_pos + vec2(4.f) - parent.m_frame.absolute_position(), delay);
+		return hoverbox(parent, parent.root_sheet().m_mouse.m_pos + vec2(4.f) - parent.m_frame.absolute_position(), delay);
 	}
 
 	Widget* tooltip(Widget& parent, const vec2& position, array<cstring> elements)
 	{
-		Widget* self = tooltip(parent, position);
+		Widget* self = hoverbox(parent, position);
 		if(self)
 			multi_item(parent, styles().tooltip, elements).layer();
 		return self;
@@ -52,7 +52,7 @@ namespace ui
 
 	Widget* tooltip(Widget& parent, const Frame& parent_frame)
 	{
-		return tooltip(parent, vec2{ 0.f, 0.f + parent_frame.m_size.y });
+		return hoverbox(parent, vec2{ 0.f, 0.f + parent_frame.m_size.y });
 	}
 
 	Widget* tooltip(Widget& parent, const Frame& parent_frame, array<cstring> elements)

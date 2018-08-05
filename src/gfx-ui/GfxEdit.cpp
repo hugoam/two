@@ -239,7 +239,7 @@ namespace mud
 		ui::multi_item(self, carray<cstring, 2>{ icon, name });
 		//if(self.selected())
 		//	asset_viewer(self, asset);
-		if(Widget* tooltip = ui::tooltip(self, 0.f))
+		if(Widget* tooltip = ui::hoverbox(self, 0.f))
 			asset_viewer(*tooltip, asset);
 		return self;
 	}
@@ -247,7 +247,7 @@ namespace mud
 	Widget& asset_element(ui::Sequence& sequence, cstring icon, cstring name, Ref asset)
 	{
 		Widget& self = asset_item(sequence.m_body ? *sequence.m_body : sequence, icon, name, asset);
-		ui::select_logic(self, asset, *sequence.m_selection);
+		ui::multiselect_logic(self, asset, *sequence.m_selection);
 		return self;
 	}
 

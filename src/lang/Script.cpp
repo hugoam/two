@@ -21,21 +21,26 @@ namespace mud
 		, m_type(type)
 		, m_name(name)
 		, m_signature(signature)
-	{}
+	{
+		m_signature.m_params = m_params;
+	}
 
 	Script::~Script()
 	{
 		unindex(type<Script>(), m_index);
 	}
 
-	LuaScript::LuaScript(cstring name, const Signature& signature)
-		: Script(type<LuaScript>(), name, signature)
+	TextScript::TextScript(cstring name, Language language, const Signature& signature)
+		: Script(type<TextScript>(), name, signature)
+		, m_language(language)
 	{}
 
-	void LuaScript::operator()(array<Var> args, Var& result) const
+	void TextScript::operator()(array<Var> args, Var& result) const
 	{
 		for(const Param& param : m_signature.m_params)
+		{
 			m_interpreter->set(param.m_name, args[param.m_index]);
+		}
 
 		m_interpreter->call(m_script.c_str(), result.none() ? nullptr : &result);
 	}

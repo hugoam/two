@@ -9,11 +9,14 @@ module mud.refl;
 #else
 #include <refl/Method.h>
 #include <refl/Meta.h>
+#include <refl/Class.h>
 #include <infra/Vector.h>
 #endif
 
 namespace mud
 {
+	template <> Type& type<VirtualMethod>() { static Type ty("VirtualMethod"); return ty; }
+
 	Param::Param(cstring name, Var value, Flags flags)
 		: m_index(0)
 		, m_name(name)
@@ -71,7 +74,34 @@ namespace mud
 		, m_namespace(location)
 		, m_identity(identity)
 		, m_call(trigger)
-	{}
+	{
+		Operator op = as_operator(*this);
+		if(op && is_class(*op.m_type))
+		{
+			cls(*op.m_type).m_operators.push_back(op);
+		}
+	}
+
+	Operator as_operator(Function& function)
+	{
+		if(function.m_name == string("add"))
+		{
+			return { &function, &type(function.m_params[0].m_value), function.m_name, "+" };
+		}
+		else if(function.m_name == string("subtract"))
+		{
+			return { &function, &type(function.m_params[0].m_value), function.m_name, "-" };
+		}
+		else if(function.m_name == string("multiply"))
+		{
+			return { &function, &type(function.m_params[0].m_value), function.m_name, "*" };
+		}
+		else if(function.m_name == string("divide"))
+		{
+			return { &function, &type(function.m_params[0].m_value), function.m_name,  "/" };
+		}
+		else return {};
+	}
 
 	Method::Method(Type& object_type, cstring name, Address address, MethodFunc trigger, const std::vector<Param>& paramvec, Var returnval)
 		: Callable(name, vector_union({ { "self", Ref(object_type) } }, paramvec), returnval)

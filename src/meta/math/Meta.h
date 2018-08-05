@@ -1930,9 +1930,9 @@ namespace mud
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::oriented_angle(val<mud::vec2>(args[0]), val<mud::vec2>(args[1])); };
+            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::oriented_angle_2d(val<mud::vec2>(args[0]), val<mud::vec2>(args[1])); };
             std::vector<Param> params = { { "lhs", var(mud::vec2()) }, { "rhs", var(mud::vec2()) } };
-            static Function f = { &namspc({ "mud" }), "oriented_angle", function_id<float(*)(const mud::vec2&, const mud::vec2&)>(&mud::oriented_angle), func, params, var(float()) };
+            static Function f = { &namspc({ "mud" }), "oriented_angle_2d", function_id<float(*)(const mud::vec2&, const mud::vec2&)>(&mud::oriented_angle_2d), func, params, var(float()) };
             m.m_functions.push_back(&f);
         }
         {
@@ -1954,34 +1954,10 @@ namespace mud
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<mud::quat>(result) = mud::rotate(val<mud::quat>(args[0]), val<float>(args[1]), val<mud::vec3>(args[2])); };
-            std::vector<Param> params = { { "q", var(mud::quat()) }, { "angle", var(float()) }, { "axis", var(mud::vec3()) } };
-            static Function f = { &namspc({ "mud" }), "rotate", function_id<mud::quat(*)(const mud::quat&, float, const mud::vec3&)>(&mud::rotate), func, params, var(mud::quat()) };
-            m.m_functions.push_back(&f);
-        }
-        {
             auto func = [](array<Var> args, Var& result) {  val<mud::quat>(result) = mud::rotate(val<mud::quat>(args[0]), val<mud::vec3>(args[1]), val<float>(args[2])); };
             std::vector<Param> params = { { "q", var(mud::quat()) }, { "axis", var(mud::vec3()) }, { "angle", var(float()) } };
             static Function f = { &namspc({ "mud" }), "rotate", function_id<mud::quat(*)(const mud::quat&, const mud::vec3&, float)>(&mud::rotate), func, params, var(mud::quat()) };
-            m.m_functions.push_back(&f);
-        }
-        {
-            auto func = [](array<Var> args, Var& result) {  val<mud::vec3>(result) = mud::rotate(val<mud::quat>(args[0]), val<mud::vec3>(args[1])); };
-            std::vector<Param> params = { { "q", var(mud::quat()) }, { "vec", var(mud::vec3()) } };
-            static Function f = { &namspc({ "mud" }), "rotate", function_id<mud::vec3(*)(const mud::quat&, const mud::vec3&)>(&mud::rotate), func, params, var(mud::vec3()) };
-            m.m_functions.push_back(&f);
-        }
-        {
-            auto func = [](array<Var> args, Var& result) {  val<mud::vec3>(result) = mud::rotate(val<mud::vec3>(args[0]), val<float>(args[1]), val<mud::vec3>(args[2])); };
-            std::vector<Param> params = { { "v", var(mud::vec3()) }, { "angle", var(float()) }, { "axis", var(mud::vec3()) } };
-            static Function f = { &namspc({ "mud" }), "rotate", function_id<mud::vec3(*)(const mud::vec3&, float, const mud::vec3&)>(&mud::rotate), func, params, var(mud::vec3()) };
-            m.m_functions.push_back(&f);
-        }
-        {
-            auto func = [](array<Var> args, Var& result) {  val<mud::vec3>(result) = mud::rotate(val<mud::vec3>(args[0]), val<mud::vec3>(args[1]), val<float>(args[2])); };
-            std::vector<Param> params = { { "v", var(mud::vec3()) }, { "axis", var(mud::vec3()) }, { "angle", var(float()) } };
-            static Function f = { &namspc({ "mud" }), "rotate", function_id<mud::vec3(*)(const mud::vec3&, const mud::vec3&, float)>(&mud::rotate), func, params, var(mud::vec3()) };
-            m.m_functions.push_back(&f);
+			m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<mud::quat>(result) = mud::look_at(val<mud::vec3>(args[0]), val<mud::vec3>(args[1]), val<mud::vec3>(args[2])); };

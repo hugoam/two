@@ -16,7 +16,7 @@
 namespace mud
 {
 	export_ template <class T>
-	inline void type_check(const Ref& ref) { assert(type(ref).is<T>()); }
+	inline void type_check(const Ref& ref) { UNUSED(ref); assert(type(ref).is<T>()); }
 	
 	export_ template <class T>
 	inline typename std::enable_if<!std::is_pointer<T>::value, T&>::type

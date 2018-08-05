@@ -14,6 +14,7 @@ module mud.lang;
 namespace mud
 {
     // Exported types
+	template <> MUD_LANG_EXPORT Type& type<mud::Language>() { static Type ty("mud::Language"); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::Process::State>() { static Type ty("mud::Process::State"); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::StreamModifier>() { static Type ty("mud::StreamModifier"); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::ValveKind>() { static Type ty("mud::ValveKind"); return ty; }
@@ -24,7 +25,7 @@ namespace mud
     template <> MUD_LANG_EXPORT Type& type<mud::StreamBranch>() { static Type ty("StreamBranch"); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::Valve>() { static Type ty("Valve"); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::Script>() { static Type ty("Script", type<mud::Callable>()); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::LuaScript>() { static Type ty("LuaScript", type<mud::Script>()); return ty; }
+    template <> MUD_LANG_EXPORT Type& type<mud::TextScript>() { static Type ty("TextScript", type<mud::Script>()); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>() { static Type ty("VisualScript", type<mud::Script>()); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::Stream>() { static Type ty("Stream", type<mud::StreamBranch>()); return ty; }
     template <> MUD_LANG_EXPORT Type& type<mud::ProcessCallable>() { static Type ty("ProcessCallable", type<mud::Process>()); return ty; }

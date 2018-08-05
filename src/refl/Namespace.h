@@ -20,7 +20,7 @@ namespace mud
 	public:
 		Namespace(cstring name = nullptr, Namespace* parent = nullptr);
 
-		bool is_root() { return m_name == nullptr; }
+		bool is_root() { return m_name[0] == 0; }
 
 		cstring m_name;
 		Namespace* m_parent;

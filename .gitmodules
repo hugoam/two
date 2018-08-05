@@ -54,3 +54,6 @@
 [submodule "3rdparty/json11"]
 	path = 3rdparty/json11
 	url = https://github.com/dropbox/json11
+[submodule "3rdparty/wren"]
+	path = 3rdparty/wren
+	url = https://github.com/munificent/wren

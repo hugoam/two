@@ -41,6 +41,8 @@ namespace mud
 
 		Member& member(cstring name);
 		Method& method(cstring name);
+		Static& static_member(cstring name);
+		Operator& op(cstring name);
 
 		bool has_member(cstring name);
 		bool has_method(cstring name);
@@ -77,6 +79,8 @@ namespace mud
 		std::vector<Destructor> m_destructor; // in a vector until we update to c++17 optional
 		std::vector<Member> m_members;
 		std::vector<Method> m_methods;
+
+		std::vector<Operator> m_operators;
 
 		std::vector<Static> m_static_members;
 		std::vector<Function> m_static_functions;

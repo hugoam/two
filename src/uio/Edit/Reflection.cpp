@@ -55,7 +55,7 @@ namespace mud
 		static float columns[2] = { 0.2f, 0.8f };
 		Table& self = ui::columns(parent, { columns, 2 });
 		ui::field_label(self, "name", meta.m_name);
-		ui::field_label(self, "namespace", meta.m_namespace->m_name ? meta.m_namespace->m_name : "");
+		ui::field_label(self, "namespace", meta.m_namespace->m_name);
 		ui::enum_field<TypeClass>(self, "type class", meta.m_type_class);
 		ui::input_field<size_t>(self, "size", meta.m_size);
 	}

@@ -53,13 +53,15 @@ namespace json11 {
 
 namespace mud {
 
+	enum class Language : unsigned int;
     enum StreamModifier : unsigned int;
     enum ValveKind : unsigned int;
     
-    
+	class Interpreter;
     class LuaInterpreter;
+	class WrenInterpreter;
     class Script;
-    class LuaScript;
+    class TextScript;
     struct StreamLocation;
     class StreamBranch;
     class Stream;

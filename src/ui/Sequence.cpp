@@ -31,7 +31,7 @@ namespace ui
 		return self;
 	}
 
-	bool select_logic(Widget& element, Ref object, std::vector<Ref>& selection)
+	bool multiselect_logic(Widget& element, Ref object, std::vector<Ref>& selection)
 	{
 		bool changed = false;
 		if(MouseEvent mouse_event = element.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputModifier::Shift))
@@ -83,11 +83,11 @@ namespace ui
 	Widget& element(Widget& parent, Ref object, std::vector<Ref>& selection)
 	{
 		Widget& self = element(parent, object);
-		select_logic(self, object, selection);
+		multiselect_logic(self, object, selection);
 		return self;
 	}
 
-	Widget& element(Sequence& sequence, Ref object)
+	Widget& sequence_element(Sequence& sequence, Ref object)
 	{
 		return element(sequence.m_body ? *sequence.m_body : sequence, object, *sequence.m_selection);
 	}

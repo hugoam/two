@@ -242,16 +242,16 @@ namespace mud
     
     
         
-    // mud::LuaScript
+    // mud::TextScript
     {
-        static Meta meta = { type<mud::LuaScript>(), &namspc({ "mud" }), "LuaScript", sizeof(mud::LuaScript), TypeClass::Object };
-        static Class cls = { type<mud::LuaScript>(),
+        static Meta meta = { type<mud::TextScript>(), &namspc({ "mud" }), "TextScript", sizeof(mud::TextScript), TypeClass::Object };
+        static Class cls = { type<mud::TextScript>(),
             // bases
             { &type<mud::Script>() },
-            { base_offset<mud::LuaScript, mud::Script>() },
+            { base_offset<mud::TextScript, mud::Script>() },
             // constructors
             {
-                { type<mud::LuaScript>(), [](Ref ref, array<Var> args) { new(&val<mud::LuaScript>(ref)) mud::LuaScript( val<cstring>(args[0]), val<mud::Signature>(args[1]) ); }, { { "name", var(cstring()) }, { "signature", Ref(type<mud::Signature>()), Param::Default } } }
+                { type<mud::TextScript>(), [](Ref ref, array<Var> args) { new(&val<mud::TextScript>(ref)) mud::TextScript( val<cstring>(args[0]), val<mud::Language>(args[1]), val<mud::Signature>(args[2]) ); }, { { "name", var(cstring()) }, { "language", Ref(type<mud::Language>()) }, { "signature", Ref(type<mud::Signature>()), Param::Default } } }
             },
             // copy constructor
             {
@@ -268,9 +268,9 @@ namespace mud
         };
         
         
-        init_pool<mud::LuaScript>(); 
+        init_pool<mud::TextScript>(); 
         
-        meta_class<mud::LuaScript>();
+        meta_class<mud::TextScript>();
     }
     
     
@@ -706,7 +706,7 @@ namespace mud
         m.m_types.push_back(&type<mud::StreamBranch>());
         m.m_types.push_back(&type<mud::Valve>());
         m.m_types.push_back(&type<mud::Script>());
-        m.m_types.push_back(&type<mud::LuaScript>());
+        m.m_types.push_back(&type<mud::TextScript>());
         m.m_types.push_back(&type<mud::VisualScript>());
         m.m_types.push_back(&type<mud::Stream>());
         m.m_types.push_back(&type<mud::ProcessCallable>());

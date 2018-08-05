@@ -14,6 +14,7 @@ module mud.uio;
 #include <lang/Script.h>
 #include <lang/VisualScript.h>
 #include <lang/Lua.h>
+#include <lang/Wren.h>
 #include <ui/Input.h>
 #include <uio/Types.h>
 #include <uio/Edit/Script.h>
@@ -48,10 +49,13 @@ namespace mud
 		return script;
 	}
 
-	LuaScript& ScriptEditor::create_script(cstring name)
+	TextScript& ScriptEditor::create_script(cstring name, Language language)
 	{
-		LuaScript& script = global_pool<LuaScript>().construct(name);
-		script.m_interpreter = m_interpreter;
+		TextScript& script = global_pool<TextScript>().construct(name, language);
+		if(language == Language::Lua)
+			script.m_interpreter = m_lua;
+		else if(language == Language::Wren)
+			script.m_interpreter = m_wren;
 		this->open(script);
 		return script;
 	}
@@ -68,13 +72,13 @@ namespace mud
 		return symbols;
 	}
 
-	void script_edit_output(Widget& parent, LuaInterpreter& lua)
+	void script_edit_output(Widget& parent, Interpreter& interpreter)
 	{
 		Widget& self = ui::sheet(parent);
 		ui::title_header(self, "Lua output");
 
 		static string output = "";
-		output = lua.flush();
+		output = interpreter.flush();
 
 		ui::text_box(self, styles().type_in, output, true, 5);
 	}
@@ -115,7 +119,7 @@ namespace mud
 	}
 #endif
 
-	void script_edit_code(Widget& parent, LuaScript& script, ActionList actions)
+	void script_edit_code(Widget& parent, TextScript& script, ActionList actions)
 	{
 		actions.push_back({ "Run", [&] { script({}); } });
 		Section& self = section(parent, script.m_name.c_str(), actions);
@@ -127,7 +131,7 @@ namespace mud
 		//script_edit_hover(edit);
 	}
 
-	void script_edit(Widget& parent, LuaScript& script, ActionList actions)
+	void script_edit(Widget& parent, TextScript& script, ActionList actions)
 	{
 		Widget& span_0 = ui::layout_span(parent, 0.8f);
 		script_edit_code(span_0, script, actions);
@@ -145,8 +149,8 @@ namespace mud
 
 			if(script.m_type.is<VisualScript>())
 				visual_script_edit(*tab, as<VisualScript>(script), script_actions);
-			else if(script.m_type.is<LuaScript>())
-				script_edit(*tab, as<LuaScript>(script), script_actions);
+			else if(script.m_type.is<TextScript>())
+				script_edit(*tab, as<TextScript>(script), script_actions);
 		}
 	}
 
@@ -155,7 +159,7 @@ namespace mud
 		enum Modes { OPEN = 1 << 0 };
 
 		ActionList actions = {
-			{ "New Script", [&] { editor.create_script(("Untitled " + to_string(editor.m_scripts.size())).c_str()); } },
+			{ "New Script", [&] { editor.create_script(("Untitled " + to_string(editor.m_scripts.size())).c_str(), Language::Lua); } },
 			{ "New Visual Script", [&] { editor.create_visual(("Untitled " + to_string(editor.m_scripts.size())).c_str()); } }
 		};
 

@@ -97,6 +97,17 @@ namespace mud
 		FunctionFunc m_call;
 	};
 
+	export_ struct refl_ MUD_REFL_EXPORT Operator
+	{
+		attr_ Function* m_function;
+		attr_ Type* m_type;
+		attr_ cstring m_name;
+		attr_ cstring m_sign;
+		explicit operator bool() { return m_function != nullptr; }
+	};
+
+	export_ MUD_REFL_EXPORT Operator as_operator(Function& function);
+
 	export_ class refl_ MUD_REFL_EXPORT Method final : public Callable
 	{
 	public:
@@ -108,6 +119,10 @@ namespace mud
 		Address m_address;
 		MethodFunc m_call;
 	};
+
+	export_ using VirtualMethod = std::function<void(Method&, Ref, array<Var>)>;
+
+	export_ template <> MUD_REFL_EXPORT Type& type<VirtualMethod>();
 
 	export_ enum class ConstructorIndex : unsigned int
 	{
@@ -123,6 +138,7 @@ namespace mud
 
 		virtual void operator()(array<Var> args, Var& result) const { UNUSED(result); m_call(args[0], array<Var>{ args, 1 }); }
 
+		size_t m_index;
 		Type* m_object_type;
 		ConstructorFunc m_call;
 	};

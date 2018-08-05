@@ -124,7 +124,8 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ bool curve_graph(Widget& parent, array<float> values, array<float> points = {});
 
 	export_ MUD_UI_EXPORT func_ bool curve_edit(Widget& parent, array<float> values, array<float> points = {});
-	export_ MUD_UI_EXPORT func_ bool curve_edit(Widget& parent, array<Colour> values, array<float> points = {});
+
+	export_ MUD_UI_EXPORT bool curve_edit(Widget& parent, array<Colour> values, array<float> points = {});
 
 	export_ MUD_UI_EXPORT bool flag_input(Widget& parent, uint32_t& value, uint8_t shift);
 

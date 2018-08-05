@@ -5,4 +5,5 @@
 #include <lang/Types.h>
 #include <lang/VisualBlocks.h>
 #include <lang/VisualScript.h>
+#include <lang/Wren.h>
 

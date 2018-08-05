@@ -18,7 +18,7 @@ namespace mud
 		constr_ Aabb();
 		constr_ Aabb(const vec3& center, const vec3& extents);
 
-		attr_ bool m_null;
+		attr_ bool m_empty;
 
 		vec3 bmin() { return m_center - m_extents; }
 		vec3 bmax() { return m_center + m_extents; }

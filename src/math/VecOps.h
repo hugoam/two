@@ -29,18 +29,17 @@ namespace mud
 	export_ inline bvec4 greater(const vec4& lhs, const vec4& rhs) { return glm::greaterThan(lhs, rhs); }
 	export_ inline bvec3 greater_equal(const vec3& lhs, const vec3& rhs) { return glm::greaterThanEqual(lhs, rhs); }
 	export_ inline bvec3 less(const vec3& lhs, const vec3& rhs) { return glm::lessThan(lhs, rhs); }
-	export_ func_ inline float oriented_angle(const vec2& lhs, const vec2& rhs) { return glm::orientedAngle(lhs, rhs); }
+	export_ func_ inline float oriented_angle_2d(const vec2& lhs, const vec2& rhs) { return glm::orientedAngle(lhs, rhs); }
 	export_ func_ inline float oriented_angle(const vec3& lhs, const vec3& rhs, const vec3& ref) { return glm::orientedAngle(lhs, rhs, ref); }
 	export_ func_ inline quat angle_axis(float angle, const vec3& axis) { return glm::angleAxis(angle, axis); }
 	export_ func_ inline quat axis_angle(const vec3& axis, float angle) { return glm::angleAxis(angle, axis); }
-	export_ func_ inline quat rotate(const quat& q, float angle, const vec3& axis) { return glm::rotate(q, angle, axis); }
 	export_ func_ inline quat rotate(const quat& q, const vec3& axis, float angle) { return glm::rotate(q, angle, axis); }
-	//inline vec3 rotate(const vec3& v, float angle, const vec3& axis) { return glm::rotate(v, angle, axis); }
-	export_ func_ inline vec3 rotate(const quat& q, const vec3& vec) { return q * vec; }
+	export_ inline quat rotate(const quat& q, float angle, const vec3& axis) { return glm::rotate(q, angle, axis); }
+	export_ inline vec3 rotate(const quat& q, const vec3& vec) { return q * vec; }
 #endif
 
-	export_ func_ inline vec3 rotate(const vec3& v, float angle, const vec3& axis) { return angle_axis(angle, axis) * v; }
-	export_ func_ inline vec3 rotate(const vec3& v, const vec3& axis, float angle) { return angle_axis(angle, axis) * v; }
+	export_ inline vec3 rotate(const vec3& v, float angle, const vec3& axis) { return angle_axis(angle, axis) * v; }
+	export_ inline vec3 rotate(const vec3& v, const vec3& axis, float angle) { return angle_axis(angle, axis) * v; }
 
 	export_ MUD_MATH_EXPORT func_ quat look_at(const vec3& eye, const vec3& target, const vec3& forward = -Z3);
 

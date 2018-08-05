@@ -54,10 +54,10 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ Widget& table_row(Widget& parent);
 	export_ MUD_UI_EXPORT func_ Widget& table_separator(Widget& parent);
 
-	export_ MUD_UI_EXPORT func_ Expandbox& expandbox(Widget& parent, array<cstring> elements, bool open = true);
+	export_ MUD_UI_EXPORT Expandbox& expandbox(Widget& parent, array<cstring> elements, bool open = true);
 	export_ MUD_UI_EXPORT func_ Expandbox& expandbox(Widget& parent, cstring name, bool open = true);
 
-	export_ MUD_UI_EXPORT func_ TreeNode& tree_node(Widget& parent, array<cstring> elements, bool leaf = false, bool open = true);
+	export_ MUD_UI_EXPORT TreeNode& tree_node(Widget& parent, array<cstring> elements, bool leaf = false, bool open = true);
 	export_ MUD_UI_EXPORT func_ TreeNode& tree_node(Widget& parent, cstring name, bool leaf = false, bool open = true);
 	export_ MUD_UI_EXPORT func_ Widget& tree(Widget& parent);
 

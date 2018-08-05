@@ -143,6 +143,9 @@ namespace mud
 		for(size_t i = 0; i < m_members.size(); ++i)
 			m_members[i].m_index = i;
 
+		for(size_t i = 0; i < m_constructors.size(); ++i)
+			m_constructors[i].m_index = i;
+
 		for(Member& member : m_members)
 		{
 			if(member.is_structure() && strcmp(member.m_name, "contents") == 0) // @kludge name check is a kludge until we separate structure and nested member
@@ -208,6 +211,22 @@ namespace mud
 			if(strcmp(method.m_name, name) == 0)
 				return method;
 		return m_methods[0];
+	}
+
+	Static& Class::static_member(cstring name)
+	{
+		for(Static& member : m_static_members)
+			if(strcmp(member.m_name, name) == 0)
+				return member;
+		return m_static_members[0];
+	}
+
+	Operator& Class::op(cstring name)
+	{
+		for(Operator& op : m_operators)
+			if(strcmp(op.m_function->m_name, name) == 0)
+				return op;
+		return m_operators[0];
 	}
 
 	bool Class::has_member(cstring name)

@@ -84,7 +84,7 @@ namespace mud
 	export_ inline bool is_struct(Type& ty) { return meta(ty).m_type_class == TypeClass::Struct; }
 	export_ inline bool is_object(Type& ty) { return meta(ty).m_type_class == TypeClass::Object || meta(ty).m_type_class == TypeClass::Complex; }
 	export_ inline bool is_sequence(Type& ty) { return meta(ty).m_type_class == TypeClass::Sequence; }
-	export_ inline bool is_class(Type& ty) { return meta(ty).m_type_class < TypeClass::BaseType; }
+	export_ inline bool is_class(Type& ty) { return meta(ty).m_type_class < TypeClass::Sequence; }
 	
 	export_ inline Meta& meta(const Ref& ref) { return meta(type(ref)); }
 	export_ inline Meta& meta(const Var& var) { return meta(*var.m_ref.m_type); }

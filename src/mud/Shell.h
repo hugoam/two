@@ -25,6 +25,7 @@ namespace mud
 
 		GfxSystem m_gfx_system;
 		LuaInterpreter m_lua;
+		WrenInterpreter m_wren;
 		EditContext m_editor;
 
 		unique_ptr<Context> m_context = nullptr;

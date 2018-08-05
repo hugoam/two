@@ -52,6 +52,7 @@ namespace mud
 
 		Type* find_type(cstring name);
 		Function* find_function(cstring name);
+		Function* find_function(cstring nemespace, cstring name);
 
 		static System& instance() { static System instance; return instance; }
 	};

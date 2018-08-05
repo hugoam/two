@@ -21,13 +21,13 @@ namespace mud
 {
 	using string = std::string;
 
-	class LuaContext;
+	class WrenContext;
 
-	export_ class refl_ MUD_LANG_EXPORT LuaInterpreter final : public Interpreter
+	export_ class refl_ MUD_LANG_EXPORT WrenInterpreter final : public Interpreter
 	{
 	public:
-		LuaInterpreter(bool import_symbols = false);
-		~LuaInterpreter();
+		WrenInterpreter(bool import_symbols = false);
+		~WrenInterpreter();
 
 		virtual void declare_types() final;
 
@@ -38,7 +38,8 @@ namespace mud
 		virtual void setx(array<cstring> path, Var value) final;
 
 		virtual void call(cstring code, Var* result = nullptr) final;
+		virtual void virtual_call(Method& method, Ref object, array<Var> args) final;
 
-		unique_ptr<LuaContext> m_context;
+		unique_ptr<WrenContext> m_context;
 	};
 }
