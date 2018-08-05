@@ -42,7 +42,7 @@ void wrenAssignVariable(WrenVM* vm, const char* module, const char* name,
 						int value_slot);
 }
 
-#define MUD_WREN_DEBUG_DECLS
+//#define MUD_WREN_DEBUG_DECLS
 
 namespace mud
 {
@@ -394,7 +394,7 @@ namespace mud
 		string t = "    ";
 		string c = type.m_name;
 
-		init += t + t + "__type = Type.create(\"" + c + "\")\n";
+		init += t + t + "__type = Type.new(\"" + c + "\")\n";
 
 		for(Constructor& constructor : cls(type).m_constructors)
 		{
@@ -402,18 +402,18 @@ namespace mud
 			string params = [&]() { if(constructor.m_params.size() == 1) return string("");  string params; for(Param& param : to_array(constructor.m_params, 1)) { params += param.m_name; params += ","; } params.pop_back(); return params; }();
 			string paramsnext = params.empty() ? "" : ", " + params;
 
-			init += t + t + "__" + n + " = Constructor.create(\"" + c + "\", " + to_string(constructor.m_index) + ")\n";
+			init += t + t + "__" + n + " = Constructor.new(\"" + c + "\", " + to_string(constructor.m_index) + ")\n";
 
-			constructors += t + "construct new(constructor" + paramsnext + ") {}\n";
+			constructors += t + "construct new_impl(constructor" + paramsnext + ") {}\n";
 
-			constructors += t + "static create(" + params + ") { new(__" + n + paramsnext + ") }\n";
+			constructors += t + "static new(" + params + ") { new_impl(__" + n + paramsnext + ") }\n";
 		}
 
 		for(Member& member : cls(type).m_members)
 		{
 			string n = string(member.m_name);
 
-			init += t + t + "__" + n + " = Member.create(\"" + c + "\", \"" + n + "\")\n";
+			init += t + t + "__" + n + " = Member.new(\"" + c + "\", \"" + n + "\")\n";
 
 			members += t + n + " { __" + n + ".get(this) }\n";
 			if(member.is_mutable())
@@ -426,14 +426,14 @@ namespace mud
 			string params = [&]() { string params; for(Param& param : method.m_params) { params += param.m_name; params += ","; } params.pop_back(); return params; }();
 			string paramsnext = params.empty() ? "" : ", " + params;
 
-			init += t + t + "__" + n + " = Method.create(\"" + c + "\", \"" + n + "\")\n";
+			init += t + t + "__" + n + " = Method.new(\"" + c + "\", \"" + n + "\")\n";
 
 			methods += t + n + "(" + params + ") { __" + n + ".call(this" + paramsnext + ") }\n";
 		}
 
 		for(Operator& op : cls(type).m_operators)
 		{
-			init += t + t + "__" + op.m_name + " = Operator.create(\"" + op.m_name + "\", \"" + op.m_type->m_name + "\")\n";
+			init += t + t + "__" + op.m_name + " = Operator.new(\"" + op.m_name + "\", \"" + op.m_type->m_name + "\")\n";
 
 			methods += t + op.m_sign + "(other) { __" + op.m_name + ".call(this, other) }\n";
 		}
@@ -442,7 +442,7 @@ namespace mud
 		{
 			string n = string(static_member.m_name);
 
-			init += t + t + "__" + n + " = Static.create(\"" + c + "\", \"" + n + "\")\n";
+			init += t + t + "__" + n + " = Static.new(\"" + c + "\", \"" + n + "\")\n";
 
 			statics += t + "static " + n + " { __" + n + ".get() }\n";
 			statics += t + "static " + n + "=(value) { __" + n + ".set(value) }\n";
@@ -568,7 +568,7 @@ namespace mud
 				alloc_ref(vm, 0, 0, Ref(function));
 			};
 		}
-		else if(strcmp(className, "Interface") == 0)
+		else if(strcmp(className, "VirtualConstructor") == 0)
 		{
 			methods.allocate = [](WrenVM* vm)
 			{
@@ -652,7 +652,7 @@ namespace mud
 				return call_method_args<5>;
 		}
 
-		if(strcmp(className, "Interface") == 0)
+		if(strcmp(className, "VirtualConstructor") == 0)
 		{
 			if(strcmp(signature, "new()") == 0)
 				return construct_interface;
@@ -831,7 +831,7 @@ namespace mud
 
 			string primitives =
 				"foreign class Function {\n"
-				"    construct create(namespace, name) {}\n"
+				"    construct new(namespace, name) {}\n"
 				"    \n"
 				"    foreign call()\n"
 				"    foreign call(a0)\n"
@@ -846,29 +846,29 @@ namespace mud
 				"}\n"
 				"\n"
 				"foreign class Type {\n"
-				"    construct create(name) {}\n"
+				"    construct new(name) {}\n"
 				"}\n"
 				"\n"
 				"foreign class Constructor {\n"
-				"    construct create(class_name, index) {}\n"
+				"    construct new(class_name, index) {}\n"
 				"}\n"
 				"\n"
 				"foreign class Member {\n"
-				"    construct create(class_name, member_name) {}\n"
+				"    construct new(class_name, member_name) {}\n"
 				"    \n"
 				"    foreign get(object)\n"
 				"    foreign set(object, value)\n"
 				"}\n"
 				"\n"
 				"foreign class Static {\n"
-				"    construct create(class_name, member_name) {}\n"
+				"    construct new(class_name, member_name) {}\n"
 				"    \n"
 				"    foreign get()\n"
 				"    foreign set(value)\n"
 				"}\n"
 				"\n"
 				"foreign class Method {\n"
-				"    construct create(class_name, method_name) {}\n"
+				"    construct new(class_name, method_name) {}\n"
 				"    \n"
 				"    foreign call(object)\n"
 				"    foreign call(object, a0)\n"
@@ -879,16 +879,16 @@ namespace mud
 				"}\n"
 				"\n"
 				"foreign class Operator {\n"
-				"    construct create(name, class_name) {}\n"
+				"    construct new(name, class_name) {}\n"
 				"    \n"
 				"    foreign call(a0, a1)\n"
 				"}\n"
 				"\n"
-				"foreign class Interface {\n"
-				"    construct create(class_name) {}\n"
+				"foreign class VirtualConstructor {\n"
+				"    construct new(class_name) {}\n"
 				"    \n"
-				"    foreign new()\n"
-				"    foreign new(a0)\n"
+				"    foreign call()\n"
+				"    foreign call(a0)\n"
 				"}\n"
 				;
 
@@ -923,7 +923,7 @@ namespace mud
 		{
 			if(location.is_root())
 				return;
-			string imports = "import \"main\" for Function, Type, Constructor, Member, Method, Static, Operator, Interface\n";
+			string imports = "import \"main\" for Function, Type, Constructor, Member, Method, Static, Operator, VirtualConstructor\n";
 			wrenInterpret(m_vm, location.m_name, imports.c_str());
 		}
 
@@ -961,7 +961,7 @@ namespace mud
 
 			decls.functions += "    static " + n + "(" + params + ") { __" + n + ".call(" + params + ") }\n";
 
-			decls.init += "        __" + n + " = Function.create(\"" + parent + "\", \"" + n + "\")\n";
+			decls.init += "        __" + n + " = Function.new(\"" + parent + "\", \"" + n + "\")\n";
 		}
 
 		void declare_namespace(Namespace& location)

@@ -27,7 +27,7 @@ using namespace mud;
 static TextScript create_script(LuaInterpreter& interpreter)
 {
 	Signature signature = { { Param{ "ui_root", Ref(type<Widget>()) } } };
-	TextScript script = { "Example Script", signature };
+	TextScript script = { "Example Script", Language::Lua, signature };
 	script.m_interpreter = &interpreter;
 
 	//interpreter.set("selected_type", Var());
