@@ -81,7 +81,10 @@ def register_type(module, parent, clsname):
         if clsname.find(name) > -1 :
             cls = Type(module, clsname)
             return cls
-
+    cls = Type(module, clsname, parent)
+    print('WARNING: declaring empty type', clsname)
+    return cls
+    
 def find_default_value(decl, cls, cursor):
     for l in cursor.get_children():
         if l.kind == clang.cindex.CursorKind.CXX_BOOL_LITERAL_EXPR or l.kind == clang.cindex.CursorKind.FLOATING_LITERAL or l.kind == clang.cindex.CursorKind.INTEGER_LITERAL or l.kind == clang.cindex.CursorKind.STRING_LITERAL:
