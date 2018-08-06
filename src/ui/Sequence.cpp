@@ -72,10 +72,10 @@ namespace ui
 		Widget& self = widget(parent, styles().element, object.m_value);
 
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
-			parent.root_sheet().m_drop = { static_cast<Widget*>(mouse_event.m_target), object, DropState::Preview };
+			parent.ui().m_drop = { static_cast<Widget*>(mouse_event.m_target), object, DropState::Preview };
 
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
-			parent.root_sheet().m_drop = { static_cast<Widget*>(mouse_event.m_target), object, DropState::Done };
+			parent.ui().m_drop = { static_cast<Widget*>(mouse_event.m_target), object, DropState::Done };
 
 		return self;
 	}

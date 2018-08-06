@@ -96,7 +96,7 @@ namespace ui
 
 			if(self.once())
 			{
-				vec2 mouse_pos = self.root_sheet().m_mouse.m_pos;
+				vec2 mouse_pos = self.ui().m_mouse.m_pos;
 				vec2 local = parent.m_frame.local_position(mouse_pos);
 				self.m_frame.set_position(local);
 			}
@@ -145,8 +145,8 @@ namespace ui
 				self.m_frame.transfer_pixel_span(*drag_point.prev, *drag_point.next, dim, mouse_event.m_delta[dim]);
 		}
 
-		if(&self == self.root_sheet().m_hovered)
-			self.root_sheet().m_cursor_style = dim == DIM_X ? &cursor_styles().resize_x
+		if(&self == self.ui().m_hovered)
+			self.ui().m_cursor_style = dim == DIM_X ? &cursor_styles().resize_x
 															: &cursor_styles().resize_x;
 
 		return drag_point;

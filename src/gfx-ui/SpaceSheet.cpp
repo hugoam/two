@@ -59,7 +59,7 @@ namespace mud
 	}
 
 	SpaceSheet::SpaceSheet(Widget& parent, SpaceViewport& viewport)
-		: RootSheet(parent.ui_window()) // , { Input{ &parent }, &type<SpaceSheet>() }
+		: Ui(parent.ui_window()) // , { Input{ &parent }, &type<SpaceSheet>() }
 		, m_viewport(viewport)
 		, m_size_ratio(0.01f)
 	{
@@ -73,7 +73,7 @@ namespace mud
 
 	void SpaceSheet::next_frame()
 	{
-		//RootSheet::next_frame();
+		//Ui::next_frame();
 
 		//if(m_viewport.m_active)
 		this->updateSize();

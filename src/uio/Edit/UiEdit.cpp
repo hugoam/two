@@ -23,7 +23,7 @@ namespace mud
 	void ui_debug_modal(Widget& parent, Widget& target)
 	{
 		Widget* current_node = &parent;
-		Widget* current_target = &target.root_sheet();
+		Widget* current_target = &target.ui();
 		while(current_target && current_node)
 		{
 			string elements[2] = { current_target->m_frame.d_style->name(), to_string(current_target->m_control.m_mask) };
@@ -67,13 +67,13 @@ namespace mud
 			ui_debug_layout(*tab, target, selected);
 
 		if(selected)
-			ui::rectangle(parent.root_sheet(), { selected->m_frame.absolute_position(), selected->m_frame.m_size });
+			ui::rectangle(parent.ui(), { selected->m_frame.absolute_position(), selected->m_frame.m_size });
 
 		if(selecting)
 		{
-			Widget* highlighted = target.pinpoint(target.root_sheet().m_mouse.m_pos);
+			Widget* highlighted = target.pinpoint(target.ui().m_mouse.m_pos);
 			if(highlighted)
-				ui::rectangle(parent.root_sheet(), { highlighted->m_frame.absolute_position(), highlighted->m_frame.m_size });
+				ui::rectangle(parent.ui(), { highlighted->m_frame.absolute_position(), highlighted->m_frame.m_size });
 		}
 
 		if(selected)

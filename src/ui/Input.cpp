@@ -278,8 +278,8 @@ namespace
 		static size_t hovered = SIZE_MAX;
 		static size_t dragged = SIZE_MAX;
 
-		if(self.root_sheet().m_hovered == &self)
-			hovered = curve.point_at(self.m_frame.local_position(self.root_sheet().m_mouse.m_pos));
+		if(self.ui().m_hovered == &self)
+			hovered = curve.point_at(self.m_frame.local_position(self.ui().m_mouse.m_pos));
 
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 			dragged = curve.point_at(mouse_event.m_relative);

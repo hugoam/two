@@ -8,7 +8,6 @@
 module mud.gfx;
 #else
 #include <infra/Vector.h>
-#include <tree/Node.inl.h>
 #include <pool/ObjectPool.h>
 #include <math/Math.h>
 #include <geom/Intersect.h>
@@ -41,12 +40,6 @@ namespace mud
 	Gnode::~Gnode()
 	{
 		this->clear();
-	}
-
-	Gnode& Gnode::begin()
-	{
-		//return begin_node(*this);
-		return begin_node(*this, true);
 	}
 
 	void Gnode::clear()

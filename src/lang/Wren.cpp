@@ -128,7 +128,7 @@ namespace mud
 		{
 			Ref object = userdata(vm, slot);
 			if(object.m_type->is(type))
-				result = object;
+				result = cls(object).upcast(object, type);
 		}
 	}
 
@@ -238,7 +238,7 @@ namespace mud
 			read(vm, int(first) + int(i), vars[i]);
 			bool success = !vars[i].none();
 			success &= params[i].nullable() || !vars[i].null();
-#if 1
+#if MUD_WREN_DEBUG
 			if(!success)
 			{
 				printf("ERROR: wren -> wrong argument %s, expect type %s, got %s\n", params[i].m_name, type(params[i].m_value).m_name, type(vars[i]).m_name);
@@ -257,9 +257,6 @@ namespace mud
 			call();
 			if(!call.m_result.none())
 				push(vm, 0, call.m_result);
-#ifdef MUD_LUA_DEBUG
-			printf("Wren -> called %s\n", call.m_callable->m_name);
-#endif
 		}
 		else
 			printf("ERROR: wren -> %s wrong arguments\n", call.m_callable->m_name);
@@ -282,7 +279,7 @@ namespace mud
 	{
 		const Callable& callable = val<Callable>(read_ref(vm, 0));
 		Call& call = cached_call(callable);
-		call_cpp(vm, call, 1, num_args);
+		call_cpp(vm, call, 1, num_args + 1);
 	}
 
 	template <size_t num_args>
@@ -369,23 +366,6 @@ namespace mud
 		}
 	}
 
-#if 0
-	inline void construct_interface(WrenVM* vm)
-	{
-		const Constructor* constructor = &val<Constructor>(read_ref(vm, 1));
-		if(!constructor) return;
-		Call& construct = cached_call(*constructor);
-		VirtualMethod virtual_method = [=](Method& method, Ref object, array<Var> args) { call_wren_virtual(vm, method, object, args); };
-		construct.m_arguments.back() = var(virtual_method);
-		if (read_params(vm, &construct.m_callable->m_params[1], to_array(construct.m_arguments, 1), 2))
-		{
-			Ref object = alloc_object(vm, 0, 0, *constructor->m_object_type);
-			construct(object);
-			g_wren_objects[object.m_value] = wrenGetSlotHandle(vm, 0);
-		}
-	}
-#endif
-
 	inline void destroy_function(WrenVM* vm)
 	{
 		Ref object = userdata(vm, 0);
@@ -427,12 +407,12 @@ namespace mud
 		string members;
 		string methods;
 		string statics;
-		string init;
+		string bind;
 
 		string t = "    ";
 		string c = type.m_name;
 
-		init += t + t + "__type = Type.ref(\"" + c + "\")\n";
+		bind += t + t + "__type = Type.ref(\"" + c + "\")\n";
 
 		for(Constructor& constructor : cls(type).m_constructors)
 		{
@@ -440,7 +420,7 @@ namespace mud
 			string params = [&]() { if(constructor.m_params.size() == 1) return string("");  string params; for(Param& param : to_array(constructor.m_params, 1)) { params += param.m_name; params += ","; } params.pop_back(); return params; }();
 			string paramsnext = params.empty() ? "" : ", " + params;
 
-			init += t + t + "__" + n + " = Constructor.ref(\"" + c + "\", " + to_string(constructor.m_index) + ")\n";
+			bind += t + t + "__" + n + " = Constructor.ref(\"" + c + "\", " + to_string(constructor.m_index) + ")\n";
 
 			constructors += t + "construct new_impl(constructor" + paramsnext + ") {}\n";
 
@@ -451,7 +431,7 @@ namespace mud
 		{
 			string n = string(member.m_name);
 
-			init += t + t + "__" + n + " = Member.ref(\"" + c + "\", \"" + n + "\")\n";
+			bind += t + t + "__" + n + " = Member.ref(\"" + c + "\", \"" + n + "\")\n";
 
 			members += t + n + " { __" + n + ".get(this) }\n";
 			if(member.is_mutable())
@@ -464,14 +444,14 @@ namespace mud
 			string params = [&]() { if(method.m_params.size() == 1) return string("");  string params; for(Param& param : to_array(method.m_params, 1)) { params += param.m_name; params += ","; } params.pop_back(); return params; }();
 			string paramsnext = params.empty() ? "" : ", " + params;
 
-			init += t + t + "__" + n + " = Method.ref(\"" + c + "\", \"" + n + "\")\n";
+			bind += t + t + "__" + n + " = Method.ref(\"" + c + "\", \"" + n + "\")\n";
 
 			methods += t + n + "(" + params + ") { __" + n + ".call(this" + paramsnext + ") }\n";
 		}
 
 		for(Operator& op : cls(type).m_operators)
 		{
-			init += t + t + "__" + op.m_name + " = Operator.ref(\"" + op.m_name + "\", \"" + op.m_type->m_name + "\")\n";
+			bind += t + t + "__" + op.m_name + " = Operator.ref(\"" + op.m_name + "\", \"" + op.m_type->m_name + "\")\n";
 
 			methods += t + op.m_sign + "(other) { __" + op.m_name + ".call(this, other) }\n";
 		}
@@ -480,7 +460,7 @@ namespace mud
 		{
 			string n = string(static_member.m_name);
 
-			init += t + t + "__" + n + " = Static.ref(\"" + c + "\", \"" + n + "\")\n";
+			bind += t + t + "__" + n + " = Static.ref(\"" + c + "\", \"" + n + "\")\n";
 
 			statics += t + "static " + n + " { __" + n + ".get() }\n";
 			statics += t + "static " + n + "=(value) { __" + n + ".set(value) }\n";
@@ -497,13 +477,13 @@ namespace mud
 		decl += "\n";
 		decl += statics;
 		decl += "\n";
-		decl += t + "static init() {\n";
-		decl += init;
+		decl += t + "static bind() {\n";
+		decl += bind;
 		decl += t + "}\n";
 		decl += "\n";
 		decl += "}\n";
 		decl += "\n";
-		decl += name + ".init()\n";
+		decl += name + ".bind()\n";
 
 		string module = meta(type).m_namespace->m_name != string("") ? meta(type).m_namespace->m_name : "main";
 
@@ -980,9 +960,11 @@ namespace mud
 
 		string clean_name(cstring name)
 		{
+			if(name == string("Ui")) return "UiRoot";
 			string result = replace_all(replace_all(replace_all(name, "<", "_"), ">", ""), "*", "");
 			for(string n : m_import_namespaces)
 				result = replace_all(result, n + "::", "");
+			result[0] = char(toupper(result[0]));
 			return result;
 		}
 
@@ -1002,7 +984,7 @@ namespace mud
 
 			array<cstring> path = namespace_path(*function.m_namespace);
 
-			string c = path.size() > 0 ? path[0] : "Module";
+			string c = path.size() > 0 ? to_pascalcase(path[0]) : "Module";
 			string n = string(function.m_name);
 			string parent = function.m_namespace->m_name;
 			string params = [&]() { if(function.m_params.size() == 0) return string(""); string params; for(Param& param : function.m_params) { params += param.m_name; params += ","; } params.pop_back(); return params; }();
@@ -1012,12 +994,12 @@ namespace mud
 
 			decls.functions += "    static " + n + "(" + params + ") { __" + n + ".call(" + params + ") }\n";
 
-			decls.init += "        __" + n + " = Function.ref(\"" + parent + "\", \"" + n + "\")\n";
+			decls.bind += "        __" + n + " = Function.ref(\"" + parent + "\", \"" + n + "\")\n";
 		}
 
 		void declare_namespace(Namespace& location)
 		{
-			string c = location.m_name != string("") ? location.m_name : "Module";
+			string c = location.m_name != string("") ? to_pascalcase(location.m_name) : "Module";
 
 			if(m_function_decls.find(c) == m_function_decls.end())
 				return;
@@ -1028,12 +1010,12 @@ namespace mud
 			decl += "class " + c + " {\n";
 			decl += decls.functions;
 			decl += "\n";
-			decl += "    static init() {\n";
-			decl += decls.init;
+			decl += "    static bind() {\n";
+			decl += decls.bind;
 			decl += "    }\n";
 			decl += "}\n";
 			decl += "\n";
-			decl += c + ".init()\n";
+			decl += c + ".bind()\n";
 
 #ifdef MUD_WREN_DEBUG_DECLS
 			printf("%s\n", decl.c_str());
@@ -1049,7 +1031,7 @@ namespace mud
 		struct Functions
 		{
 			string functions;
-			string init;
+			string bind;
 		};
 
 		std::map<string, Functions> m_function_decls;

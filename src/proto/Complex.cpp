@@ -14,11 +14,11 @@ module mud.proto;
 
 namespace mud
 {
-	Complex::Complex(Id id, Type& type, Prototype& prototype)
+	Complex::Complex(Id id, Type& type)
 		: m_id(index(type, id, Ref(this, type)))
 		, m_type(type)
-		, m_prototype(prototype)
-		, m_parts(prototype.m_parts.size())
+		, m_prototype(proto(type))
+		, m_parts(m_prototype.m_parts.size())
 	{}
 
 	Complex::~Complex()

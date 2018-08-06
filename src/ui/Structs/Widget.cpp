@@ -7,7 +7,6 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
-#include <tree/Node.inl.h>
 #include <infra/String.h>
 #include <infra/Reverse.h>
 #include <ctx/InputDevice.h>
@@ -71,13 +70,8 @@ namespace mud
 		if(this->modal())
 			this->yield_modal();
 		if(this->pressed())
-			this->root_sheet().m_mouse.fix_press(this->root_sheet());
+			this->ui().m_mouse.fix_press(this->ui());
 		m_nodes.clear();
-	}
-
-	Widget& Widget::begin()
-	{
-		return begin_node(*this);
 	}
 
 	Widget& Widget::layer()
@@ -87,9 +81,9 @@ namespace mud
 		return *this;
 	}
 
-	RootSheet& Widget::root_sheet()
+	Ui& Widget::ui()
 	{
-		return as<RootSheet>(this->root());
+		return as<Ui>(this->root());
 	}
 
 	Widget& Widget::parent_modal()
@@ -102,7 +96,7 @@ namespace mud
 
 	UiWindow& Widget::ui_window()
 	{
-		return as<RootSheet>(this->root()).m_window;
+		return as<Ui>(this->root()).m_window;
 	}
 
 	void Widget::set_content(cstring content)

@@ -13,7 +13,7 @@ namespace mud
 {
 	class SpaceQuad;
 
-	export_ class refl_ MUD_GFX_UI_EXPORT SpaceSheet : public RootSheet
+	export_ class refl_ MUD_GFX_UI_EXPORT SpaceSheet : public Ui
 	{
 	public:
 		SpaceSheet(Widget& parent, SpaceViewport& viewport);

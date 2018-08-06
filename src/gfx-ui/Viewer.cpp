@@ -38,7 +38,7 @@ namespace mud
 		, viewer_fixed("ViewerFixed", viewer, [](Layout& l) { l.m_space = BLOCK; l.m_align = { CENTER, CENTER }; l.m_padding = vec4(4.f); }, [](InkStyle& l) { l.m_empty = false; l.m_border_width = vec4(1.f); l.m_border_colour = Colour::MidGrey; })
 		//, skin_definitions["Viewer:modal"].set({ &InkStyle::m_border_colour, Colour::White });
 		//, skin_definitions["Viewer:modal"].set({ &InkStyle::m_border_width, vec4(1.f) });
-		, space_sheet("SpaceSheet", styles().root_sheet, [](Layout& l) { l.m_opacity = OPAQUE; l.m_flow = FREE; l.m_size = vec2(600.f, 450.f); })
+		, space_sheet("SpaceSheet", styles().ui, [](Layout& l) { l.m_opacity = OPAQUE; l.m_flow = FREE; l.m_size = vec2(600.f, 450.f); })
 	{}
 
 	ViewerStyles& viewer_styles() { static ViewerStyles styles; return styles; }
@@ -123,7 +123,7 @@ namespace mud
 
 	Ray Viewer::mouse_ray()
 	{
-		vec2 pos = m_frame.local_position(this->root_sheet().m_mouse.m_pos);
+		vec2 pos = m_frame.local_position(this->ui().m_mouse.m_pos);
 		return m_viewport.ray(pos);
 	}
 
@@ -337,7 +337,7 @@ namespace ui
 				linear -= move.velocity * speed;
 		};
 
-		bool shift = viewer.root_sheet().m_keyboard.m_shift;
+		bool shift = viewer.ui().m_keyboard.m_shift;
 
 		const KeyMove moves[8] =
 		{

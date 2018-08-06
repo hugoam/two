@@ -8,6 +8,7 @@
 module mud.ui;
 #else
 #include <infra/Vector.h>
+#include <tree/Node.inl.h>
 #include <ctx/Context.h>
 #include <ui/Structs/RootSheet.h>
 #include <ui/Frame/Layer.h>
@@ -19,24 +20,29 @@ module mud.ui;
 
 namespace mud
 {
-	RootSheet::RootSheet(UiWindow& window)
-		: Widget()//{ params, &type<RootSheet>(), MASTER_LAYER })
+	Ui::Ui(UiWindow& window)
+		: Widget()//{ params, &type<Ui>(), MASTER_LAYER })
 		, EventDispatcher(this)
 		, m_window(window)
 		, m_keyboard(*this)
 		, m_mouse(*this, m_keyboard)
 	{
-		this->init(styles().root_sheet);
+		this->init(styles().ui);
 		this->layer();
 
 		//if(!params.m_parent)
 			m_frame.update_style(true);
 	}
 
-	RootSheet::~RootSheet()
+	Ui::~Ui()
 	{}
 
-	void RootSheet::input_frame()
+	Widget& Ui::begin()
+	{
+		return begin_node<Widget>(*this);
+	}
+
+	void Ui::input_frame()
 	{
 		Widget* hovered = static_cast<Widget*>(m_mouse.heartbeat().m_receiver);
 		if(hovered != m_hovered)
@@ -46,22 +52,22 @@ namespace mud
 		}
 
 		m_drop = {};
+	}
 
-		if(!m_window.m_context.m_mouse_lock)
+	void Ui::render_frame()
+	{
+		if (!m_window.m_context.m_mouse_lock)
 		{
 			Widget& cursor = ui::cursor(*this, m_mouse.m_pos, m_cursor_style ? *m_cursor_style : ui::cursor_styles().cursor);
 			cursor.m_frame.layer().setForceRedraw();
 		}
 
 		m_cursor_style = &ui::cursor_styles().cursor;
-	}
 
-	void RootSheet::render_frame()
-	{
 		m_frame.relayout();
 	}
 
-	void RootSheet::clear_events()
+	void Ui::clear_events()
 	{
 		m_mouse.m_events.clear();
 		m_keyboard.m_events.clear();

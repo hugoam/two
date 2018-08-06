@@ -24,8 +24,6 @@ namespace mud
 		Gnode(Gnode* parent, void* identity);
 		~Gnode();
 		
-		meth_ Gnode& begin();
-		
 		void clear();
 
 		// @todo fix this shit by making each node contain one object from one pool and destroy it with that pool

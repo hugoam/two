@@ -1033,7 +1033,6 @@ namespace mud
             },
             // methods
             {
-                { type<mud::Gnode>(), "begin", member_address(&mud::Gnode::begin), [](Ref object, array<Var> args, Var& result) { UNUSED(args);result = Ref(&val<mud::Gnode>(object).begin()); }, {}, Ref(type<mud::Gnode>()) }
             },
             // static members
             {

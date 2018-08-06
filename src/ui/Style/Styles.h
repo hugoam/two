@@ -15,7 +15,7 @@ namespace mud
 
 		void setup(UiWindow& window);
 
-		Style widget; Style wedge; Style root_sheet; Style unit; Style item; Style control; Style wrap_control; Style spacer; Style filler; Style drag_handle;
+		Style widget; Style wedge; Style ui; Style unit; Style item; Style control; Style wrap_control; Style spacer; Style filler; Style drag_handle;
 		Style div; Style row; Style stack; Style sheet; Style flex; Style list; Style header; Style board; Style layout;
 		Style screen; Style decal; Style overlay; Style gridsheet; Style sequence; Style element;
 		Style label; Style title; Style message; Style text; Style button; Style wrap_button; Style multi_button; Style toggle; Style checkbox;

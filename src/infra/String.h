@@ -45,6 +45,7 @@ namespace mud
 
 	export_ MUD_INFRA_EXPORT string to_lower(const string& original);
 	export_ MUD_INFRA_EXPORT string to_upper(const string& original);
+	export_ MUD_INFRA_EXPORT string to_pascalcase(const string& name);
 	export_ MUD_INFRA_EXPORT string to_camelcase(const string& name);
 
 	extern MUD_INFRA_EXPORT const size_t g_num_precision; // = 3;

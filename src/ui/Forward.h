@@ -143,7 +143,7 @@ namespace mud {
     struct CanvasConnect;
     class Canvas;
     struct DropAction;
-    class RootSheet;
+    class Ui;
     class Window;
     struct ImageSkin;
     struct InkStyle;

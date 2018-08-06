@@ -74,7 +74,7 @@ namespace ui
 			if(button(self, window_styles().close_button).activated())
 				window.m_open = false;
 
-		tooltip(self, self.root_sheet().m_mouse.m_pos, "Drag me");
+		tooltip(self, self.ui().m_mouse.m_pos, "Drag me");
 
 		window_drag_logic(self, window);
 

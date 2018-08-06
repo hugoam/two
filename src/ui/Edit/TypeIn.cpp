@@ -626,9 +626,9 @@ namespace mud
 				select(0);
 			}
 
-		auto shift = this->root_sheet().m_keyboard.m_shift;
-		auto ctrl = this->root_sheet().m_keyboard.m_ctrl;
-		auto alt = this->root_sheet().m_keyboard.m_alt;
+		auto shift = this->ui().m_keyboard.m_shift;
+		auto ctrl = this->ui().m_keyboard.m_ctrl;
+		auto alt = this->ui().m_keyboard.m_alt;
 
 		if(MouseEvent mouse_event = this->mouse_event(DeviceType::Mouse, EventType::Heartbeat))
 		{
@@ -640,7 +640,7 @@ namespace mud
 				m_hovered_word_rect = { rect_offset(m_hovered_word_rect) + m_text_offset, rect_size(m_hovered_word_rect) };
 			}
 
-			this->root_sheet().m_cursor_style = &ui::cursor_styles().caret;
+			this->ui().m_cursor_style = &ui::cursor_styles().caret;
 		}
 
 		if(!m_completing && !ctrl && !alt && this->key_event(KC_UP))

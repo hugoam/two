@@ -39,10 +39,8 @@ namespace mud
 		/*attr_*/ bool modal() { return (m_state & FOCUSED) != 0; }
 		/*attr_*/ bool closed() { return (m_state & CLOSED) != 0; }
 
-		meth_ Widget& begin();
-
 		UiWindow& ui_window();
-		RootSheet& root_sheet();
+		Ui& ui();
 		Widget& parent_modal();
 
 		void set_content(cstring content);

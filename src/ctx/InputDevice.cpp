@@ -20,7 +20,7 @@ module mud.ctx;
 namespace mud
 {
 	InputDevice::InputDevice(EventDispatcher& dispatcher)
-		: m_dispatcher(dispatcher) // root_sheet.m_controller
+		: m_dispatcher(dispatcher) // ui.m_controller
 	{}
 
 	Keyboard::Keyboard(EventDispatcher& dispatcher)

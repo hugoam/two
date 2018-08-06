@@ -1362,7 +1362,6 @@ namespace mud
             },
             // methods
             {
-                { type<mud::Widget>(), "begin", member_address(&mud::Widget::begin), [](Ref object, array<Var> args, Var& result) { UNUSED(args);result = Ref(&val<mud::Widget>(object).begin()); }, {}, Ref(type<mud::Widget>()) }
             },
             // static members
             {
@@ -1795,13 +1794,13 @@ namespace mud
     
     
         
-    // mud::RootSheet
+    // mud::Ui
     {
-        static Meta meta = { type<mud::RootSheet>(), &namspc({ "mud" }), "RootSheet", sizeof(mud::RootSheet), TypeClass::Object };
-        static Class cls = { type<mud::RootSheet>(),
+        static Meta meta = { type<mud::Ui>(), &namspc({ "mud" }), "Ui", sizeof(mud::Ui), TypeClass::Object };
+        static Class cls = { type<mud::Ui>(),
             // bases
             { &type<mud::Widget>() },
-            { base_offset<mud::RootSheet, mud::Widget>() },
+            { base_offset<mud::Ui, mud::Widget>() },
             // constructors
             {
             },
@@ -1813,6 +1812,7 @@ namespace mud
             },
             // methods
             {
+				{ type<mud::Ui>(), "begin", member_address(&mud::Ui::begin), [](Ref object, array<Var> args, Var& result) { UNUSED(args); result = Ref(&val<mud::Ui>(object).begin()); }, {}, Ref(type<mud::Widget>()) }
             },
             // static members
             {
@@ -1822,7 +1822,7 @@ namespace mud
         
         
         
-        meta_class<mud::RootSheet>();
+        meta_class<mud::Ui>();
     }
     
     
@@ -2080,7 +2080,7 @@ namespace mud
         m.m_types.push_back(&type<mud::Expandbox>());
         m.m_types.push_back(&type<mud::Node>());
         m.m_types.push_back(&type<mud::NodePlug>());
-        m.m_types.push_back(&type<mud::RootSheet>());
+        m.m_types.push_back(&type<mud::Ui>());
         m.m_types.push_back(&type<mud::ScrollSheet>());
         m.m_types.push_back(&type<mud::ui::Sequence>());
         m.m_types.push_back(&type<mud::Tabber>());

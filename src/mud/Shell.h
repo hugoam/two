@@ -31,7 +31,7 @@ namespace mud
 		unique_ptr<Context> m_context = nullptr;
 		unique_ptr<Vg> m_vg = nullptr;
 		unique_ptr<UiWindow> m_ui_window = nullptr;
-		Widget* m_ui = nullptr;
+		Ui* m_ui = nullptr;
 
 		std::function<void(Shell&)> m_pump;
 	};

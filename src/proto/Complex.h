@@ -20,12 +20,12 @@ namespace mud
 	export_ class refl_ MUD_PROTO_EXPORT Complex
 	{
 	public:
-		Complex(Id id, Type& type, Prototype& prototype);
+		constr_ Complex(Id id, Type& type);
 		virtual ~Complex();
 
 		template <typename... T_Parts>
 		Complex(Id id, Type& type, T_Parts&&... parts)
-			: Complex(id, type, proto(type))
+			: Complex(id, type)
 		{
 			swallow{ (this->add_part(Ref(&parts, mud::type<typename type_class<T_Parts>::type>())), 1)... };
 		}

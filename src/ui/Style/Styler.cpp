@@ -141,7 +141,7 @@ namespace mud
 	Styles::Styles()
 		: widget("Widget", nullptr, [](Layout& l) { l.m_solver = FRAME_SOLVER; })
 		, wedge("Wedge", widget, [](Layout& l) { l.m_solver = ROW_SOLVER; l.m_space = SHEET; })
-		, root_sheet("RootSheet", wedge, [](Layout& l) { l.m_space = LAYOUT; l.m_clipping = CLIP; l.m_opacity = OPAQUE; })
+		, ui("Ui", wedge, [](Layout& l) { l.m_space = LAYOUT; l.m_clipping = CLIP; l.m_opacity = OPAQUE; })
 
 		, unit("Unit", wedge, [](Layout& l) { l.m_space = UNIT; l.m_align = { LEFT, CENTER }; },
 							  [](InkStyle& o) { o.m_empty = false; o.m_text_colour = Colour::White; o.m_padding = vec4(2.f); })

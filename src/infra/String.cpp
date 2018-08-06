@@ -92,6 +92,18 @@ namespace mud
 		return result;
 	}
 
+	string to_pascalcase(const string& name)
+	{
+		string result = name;
+		result[0] = char(::toupper(name[0]));
+		for (size_t pos = result.find('_'); pos != string::npos; pos = result.find('_', pos))
+		{
+			result.erase(pos, 1);
+			result[pos] = char(::toupper(result[pos]));
+		}
+		return result;
+	}
+
 	string to_camelcase(const string& name)
 	{
 		string result = name;

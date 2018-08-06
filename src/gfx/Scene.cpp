@@ -8,6 +8,7 @@
 module mud.gfx;
 #else
 #include <infra/Vector.h>
+#include <tree/Node.inl.h>
 #include <math/Timer.h>
 #include <pool/ObjectPool.h>
 #include <geom/Intersect.h>
@@ -69,7 +70,7 @@ namespace mud
 	Gnode& Scene::begin()
 	{
 		this->update();
-		return m_graph.begin();
+		return begin_node<Gnode>(m_graph, true);
 	}
 
 	void Scene::gather_render(Render& render)

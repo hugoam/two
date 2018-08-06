@@ -71,20 +71,20 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::DraggedTarget))
-		if(parent.root_sheet().m_drop.m_object)
+		if(parent.ui().m_drop.m_object)
 		{
-			Widget& tooltip = ui::widget(viewer.root_sheet(), styles().tooltip).layer();
+			Widget& tooltip = ui::widget(viewer.ui(), styles().tooltip).layer();
 			tooltip.m_frame.set_position(mouse_event.m_pos);
 			ui::label(tooltip, "dropping");
 		}
 
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Dropped))
-		if(parent.root_sheet().m_drop.m_object)
+		if(parent.ui().m_drop.m_object)
 		{
-			if(type(parent.root_sheet().m_drop.m_object).is<Model>())
-				selected = &add_node(prefab, PrefabType::Item, function(gfx::item), parent.root_sheet().m_drop.m_object);
-			if(type(parent.root_sheet().m_drop.m_object).is<ParticleGenerator>())
-				selected = &add_node(prefab, PrefabType::Particles, function(gfx::particles), parent.root_sheet().m_drop.m_object);
+			if(type(parent.ui().m_drop.m_object).is<Model>())
+				selected = &add_node(prefab, PrefabType::Item, function(gfx::item), parent.ui().m_drop.m_object);
+			if(type(parent.ui().m_drop.m_object).is<ParticleGenerator>())
+				selected = &add_node(prefab, PrefabType::Particles, function(gfx::particles), parent.ui().m_drop.m_object);
 		}
 
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))

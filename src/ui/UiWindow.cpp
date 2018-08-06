@@ -62,7 +62,7 @@ namespace mud
 
 		styles().setup(*this);
 
-		m_root_sheet = make_object<RootSheet>(*this);
+		m_root_sheet = make_object<Ui>(*this);
 
 		m_context.init_input(m_root_sheet->m_mouse, m_root_sheet->m_keyboard);
 

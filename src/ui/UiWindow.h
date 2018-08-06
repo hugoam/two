@@ -59,7 +59,7 @@ namespace mud
 
 		object_ptr<Styler> m_styler;
 
-		object_ptr<RootSheet> m_root_sheet;
+		object_ptr<Ui> m_root_sheet;
 
 		bool m_shutdown = false;
 

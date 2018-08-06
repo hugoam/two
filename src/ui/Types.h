@@ -88,7 +88,7 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::Expandbox>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Node>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::NodePlug>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::RootSheet>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Ui>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::ScrollSheet>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::ui::Sequence>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Tabber>();
@@ -139,7 +139,7 @@ namespace mud
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Expandbox*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Node*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::NodePlug*>>;
-	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::RootSheet*>>;
+	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Ui*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::ScrollSheet*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::ui::Sequence*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Tabber*>>;

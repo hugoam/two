@@ -11,14 +11,14 @@ static TextScript& create_wren_script(WrenInterpreter& interpreter)
 
 	script.m_script =
 		"\n"
-		"//n = gfx.node(scene, null, vec3.new(0), quat.new(1,0,0,0), vec3.new(1))\n"
+		"//n = gfx.node(scene, null, Vec3.new(0), Quat.new(1,0,0,0), Vec3.new(1))\n"
 		"//gfx.shape(n, Cube.new(), Symbol.new(Colour.White, Colour.None, false, false, SymbolDetail.Medium), 0, null, 0)\n"
 		"\n"
 		"for (x in 1..11) {\n"
 		"    for (y in 1..11) {\n"
 		"\n"
-		"        var angles = vec3.new(time + x * 0.21, 0, time + y * 0.37)\n"
-		"        var pos = vec3.new(-15 + x * 3, 0, -15 + y * 3)\n"
+		"        var angles = Vec3.new(time + x * 0.21, 0, time + y * 0.37)\n"
+		"        var pos = Vec3.new(-15 + x * 3, 0, -15 + y * 3)\n"
 		"\n"
 		"        var r = ((time + x * 0.21).cos + 1.0) / 2.0\n"
 		"        var b = ((time + y * 0.37).sin + 1.0) / 2.0\n"
@@ -26,7 +26,7 @@ static TextScript& create_wren_script(WrenInterpreter& interpreter)
 		"        var color = Colour.new(r, g, b, 1)\n"
 		"\n"
 		"        var s = Symbol.new(color, Colour.None, false, false, SymbolDetail.Medium)\n"
-		"        var n = gfx.node(scene, null, pos, quat.new(angles), vec3.new(1))\n"
+		"        var n = gfx.node(scene, null, pos, Quat.new(angles), Vec3.new(1))\n"
 		"        gfx.draw(n, Cube.new(), s, 0)\n"
 		"\n"
 		"    }\n"
@@ -45,8 +45,8 @@ static TextScript& create_lua_script(LuaInterpreter& interpreter)
 
 	script.m_script =
 		"\n"
-		"--local n = gfx.node(scene, nil, vec3(0), quat(0,0,0,1), vec3(1))\n"
-		"--gfx.shape(n, Cube(), Symbol(Colour.White, Colour.None))\n"
+		"--local n = Gfx.node(scene, nil, vec3(0), quat(0,0,0,1), vec3(1))\n"
+		"--Gfx.shape(n, Cube(), Symbol(Colour.White, Colour.None))\n"
 		"\n"
 		"for x = 1,11 do\n"
 		"    for y = 1,11 do\n"
@@ -59,8 +59,8 @@ static TextScript& create_lua_script(LuaInterpreter& interpreter)
 		"        local g = (math.cos(time) + 1.0) / 2.0\n"
 		"        local color = Colour(r, g, b)\n"
 		"\n"
-		"        local n = gfx.node(scene, nil, pos, quat(angles), vec3(1))\n"
-		"        gfx.draw(n, Cube(), Symbol(color, Colour.None))\n"
+		"        local n = Gfx.node(scene, nil, pos, quat(angles), vec3(1))\n"
+		"        Gfx.draw(n, Cube(), Symbol(color, Colour.None))\n"
 		"\n"
 		"    end\n"
 		"end\n"
@@ -80,7 +80,7 @@ WrenInterpreter& create_wren()
 {
 	static WrenInterpreter wren = { true };
 	string init =
-		"import \"mud\" for vec3, quat, Colour, Cube, Symbol, SymbolDetail, gfx\n"
+		"import \"mud\" for Vec3, Quat, Colour, Cube, Symbol, SymbolDetail, Gfx\n"
 		"var n = null\n";
 	wren.call(init.c_str());
 	return wren;

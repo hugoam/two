@@ -68,8 +68,8 @@ namespace mud
         static Meta meta = { type<mud::SpaceSheet>(), &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
         static Class cls = { type<mud::SpaceSheet>(),
             // bases
-            { &type<mud::RootSheet>() },
-            { base_offset<mud::SpaceSheet, mud::RootSheet>() },
+            { &type<mud::Ui>() },
+            { base_offset<mud::SpaceSheet, mud::Ui>() },
             // constructors
             {
             },

@@ -20,11 +20,11 @@ namespace ui
 {
 	Widget* hoverbox(Widget& parent, const vec2& position, float delay)
 	{
-		RootSheet& root_sheet = parent.root_sheet();
+		Ui& ui = parent.ui();
 
-		if(&parent == root_sheet.m_hovered && root_sheet.m_tooltip_clock.read() > delay)
+		if(&parent == ui.m_hovered && ui.m_tooltip_clock.read() > delay)
 		{
-			Widget& self = widget(root_sheet, styles().tooltip).layer();
+			Widget& self = widget(ui, styles().tooltip).layer();
 			self.m_frame.set_position(parent.m_frame.absolute_position() + position);
 			return &self;
 		}
@@ -34,7 +34,7 @@ namespace ui
 
 	Widget* hoverbox(Widget& parent, float delay)
 	{
-		return hoverbox(parent, parent.root_sheet().m_mouse.m_pos + vec2(4.f) - parent.m_frame.absolute_position(), delay);
+		return hoverbox(parent, parent.ui().m_mouse.m_pos + vec2(4.f) - parent.m_frame.absolute_position(), delay);
 	}
 
 	Widget* tooltip(Widget& parent, const vec2& position, array<cstring> elements)
