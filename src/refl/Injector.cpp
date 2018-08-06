@@ -61,7 +61,7 @@ namespace mud
 
 	Var Injector::injectvar()
 	{
-		Var value = meta(m_object_type).m_empty_var();
+		Var value = meta(m_object_type).m_empty_var;
 		this->inject(value);
 		return value;
 	}

@@ -26,7 +26,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT WrenInterpreter final : public Interpreter
 	{
 	public:
-		WrenInterpreter(bool import_symbols = false);
+		WrenInterpreter(bool import_symbols);
 		~WrenInterpreter();
 
 		virtual void declare_types() final;

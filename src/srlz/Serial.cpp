@@ -153,7 +153,7 @@ namespace mud
 	
 	Var unpack(FromJson& unpacker, Type& type, const json& json_value, bool typed)
 	{
-		Var result = meta(type).m_empty_var();
+		Var result = meta(type).m_empty_var;
 		unpack(unpacker, result, json_value, typed);
 		return result;
 	}

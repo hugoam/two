@@ -26,7 +26,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT LuaInterpreter final : public Interpreter
 	{
 	public:
-		LuaInterpreter(bool import_symbols = false);
+		LuaInterpreter(bool import_symbols);
 		~LuaInterpreter();
 
 		virtual void declare_types() final;

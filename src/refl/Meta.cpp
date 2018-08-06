@@ -375,7 +375,7 @@ namespace mud
 
 	Var TypeConverter::convert(Ref input, Type& output)
 	{
-		Var result = meta(output).m_empty_var();
+		Var result = meta(output).m_empty_var;
 		DoubleDispatch::dispatch(input, result);
 		return result;
 	}
@@ -383,7 +383,7 @@ namespace mud
 	void TypeConverter::convert(Ref input, Type& output, Var& result)
 	{
 		if(result.none() || !type(result).is(output))
-			result = meta(output).m_empty_var();
+			result = meta(output).m_empty_var;
 		DoubleDispatch::dispatch(input, result);
 	}
 

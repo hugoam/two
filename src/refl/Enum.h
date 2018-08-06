@@ -45,6 +45,6 @@ namespace mud
 
 	export_ inline Var enum_value(Type& type, size_t index)
 	{
-		Var value = meta(type).m_empty_var(); enum_set_index(value, index); return value;
+		Var value = meta(type).m_empty_var; enum_set_index(value, index); return value;
 	}
 }

@@ -66,7 +66,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT GfxSystem : public BgfxSystem
 	{
 	public:
-		GfxSystem(array<cstring> resource_paths = {});
+		GfxSystem(array<cstring> resource_paths);
 		~GfxSystem();
 		
 		virtual bool next_frame() final;

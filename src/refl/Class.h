@@ -66,7 +66,6 @@ namespace mud
 		Type* m_type;
 		Meta* m_meta;
 		Type* m_root;
-		Type* m_content = nullptr;
 
 		std::vector<Type*> m_bases;
 		std::vector<size_t> m_bases_offsets;
@@ -99,6 +98,10 @@ namespace mud
 
 		// Complex
 		std::vector<Type*> m_complexes;
+
+		// Sequence
+		Type* m_content = nullptr;
+		bool m_content_pointer = false;
 
 		// Implementation
 		std::function<unique_ptr<Pool>()> m_make_pool;

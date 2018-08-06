@@ -54,11 +54,14 @@ namespace mud
 
 	export_ template <class T>
 	inline typename std::enable_if<std::is_default_constructible<T>::value, void>::type
-		init_default_value() { meta<T>().m_empty_var = [] { return var(T()); }; meta<T>().m_empty_ref = [] { return Ref(type<T>()); }; }
+		init_default_value() { meta<T>().m_empty_var = var(T()); meta<T>().m_empty_ref = Ref(type<T>()); }
 
 	export_ template <class T>
 	inline typename std::enable_if<!std::is_default_constructible<T>::value, void>::type
-		init_default_value() { meta<T>().m_empty_var = [] { return Ref(type<T>()); }; meta<T>().m_empty_ref = [] { return Ref(type<T>()); }; }
+		init_default_value() { meta<T>().m_empty_var = Ref(type<T>()); meta<T>().m_empty_ref = Ref(type<T>()); }
+	
+	export_ template <>
+	inline void	init_default_value<Ref>() { meta<Ref>().m_empty_var = Ref(); meta<Ref>().m_empty_ref = Ref(); }
 
 	export_ template <class T>
 	inline typename std::enable_if<std::is_copy_assignable<T>::value, void>::type

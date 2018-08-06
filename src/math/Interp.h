@@ -86,7 +86,7 @@ namespace mud
 		return to_colour(va + (vb - va) * c);
 	}
 
-	export_ inline Var interpolate(Ref a, Ref b, float t) { Var result = meta(a).m_empty_var(); Lerp::me().dispatch(result.m_ref, a, b, t); return result; }
+	export_ inline Var interpolate(Ref a, Ref b, float t) { Var result = meta(a).m_empty_var; Lerp::me().dispatch(result.m_ref, a, b, t); return result; }
 	export_ inline void interpolate(Var& result, Ref a, Ref b, float t) { Lerp::me().dispatch(result.m_ref, a, b, t); }
 	export_ inline Var interpolate(const Var& a, const Var& b, float t) { return interpolate(a.m_ref, b.m_ref, t); }
 	export_ inline void interpolate(Var& result, const Var& a, const Var& b, float t) { Lerp::me().dispatch(result.m_ref, a.m_ref, b.m_ref, t); }

@@ -77,6 +77,8 @@ namespace mud
 
 		bool operator==(const Var& other) const { return m_mode == other.m_mode && (m_mode == VAL ? m_val == other.m_val : m_ref == other.m_ref); }
 
+		explicit operator bool() const { return this->none(); }
+
 		inline void copy(const Ref& ref) { if(m_mode == VAL) m_val = ref; else m_ref = ref; }
 
 		inline bool null() const { return m_mode == VAL ? false : m_ref.m_value == nullptr; }

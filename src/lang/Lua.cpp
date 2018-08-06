@@ -398,7 +398,7 @@ namespace mud
 
 	inline Var get_global(lua_State* state, cstring name, Type& type)
 	{
-		Var result = meta(type).m_empty_var();
+		Var result = meta(type).m_empty_var;
 		lua_getglobal(state, name);
 		Stack stack = { state, 1 };
 		read(state, -1, result);
@@ -407,7 +407,7 @@ namespace mud
 	
 	inline Var get_global(lua_State* state, array<cstring> indices, Type& type)
 	{
-		Var result = meta(type).m_empty_var();
+		Var result = meta(type).m_empty_var;
 		Stack stack = global_table(state);
 		lookup_table(state, stack, indices);
 		read(state, -1, result);
@@ -671,7 +671,7 @@ namespace mud
 		lua_pushnil(state);
 		while(lua_next(state, (index > 0) ? index : (index - 1)) != 0)
 		{
-			Var element = meta(*cls(sequence_type).m_content).m_empty_var();
+			Var element = meta(*cls(sequence_type).m_content).m_empty_var;
 			read(state, -1, element);
 			add_sequence(result, element);
 			lua_pop(state, 1); // pop the value but keep the key for the next iteration

@@ -245,7 +245,7 @@ namespace mud
 		}
 
 		if(ui::button(*self.m_toolbar, "Add").activated())
-			objects.push_back(meta(type).m_empty_var());
+			objects.push_back(meta(type).m_empty_var);
 
 		if(ui::modal_button(self, *self.m_toolbar, "Create", CREATE))
 		{

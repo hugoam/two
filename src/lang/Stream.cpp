@@ -196,9 +196,9 @@ namespace mud
 
 		m_branches.clear();
 
-		m_value = meta(*m_type).m_empty_var();
+		m_value = meta(*m_type).m_empty_var;
 		unique_ptr<Sequence> sequence = cls(*m_type).m_sequence(m_value);
-		Var element = meta(*cls(*m_type).m_content).m_empty_var();
+		Var element = meta(*cls(*m_type).m_content).m_empty_var;
 
 		source.visit(true, [&](StreamBranch& branch)
 		{

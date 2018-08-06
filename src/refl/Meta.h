@@ -52,8 +52,9 @@ namespace mud
 		size_t m_size;
 		TypeClass m_type_class;
 
-		std::function<Ref(void)> m_empty_ref;
-		std::function<Var(void)> m_empty_var;
+		Ref m_empty_ref;
+		Var m_empty_var;
+
 		std::function<Var(Ref)> m_copy_construct;
 		std::function<void(Ref, Ref)> m_copy_assign;
 	};
@@ -99,7 +100,7 @@ namespace mud
 
 	export_ inline Var construct(Type& type)
 	{
-		return meta(type).m_empty_var();
+		return meta(type).m_empty_var;
 	}
 
 	export_ MUD_REFL_EXPORT void assign(Ref first, Ref second);

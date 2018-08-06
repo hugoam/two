@@ -761,7 +761,7 @@ namespace mud
 
 		for(int i = 0; i < count; ++i)
 		{
-			Var element = Ref(*cls(sequence_type).m_content);
+			Var element = meta(*cls(sequence_type).m_content).m_empty_ref;
 			wrenGetListElement(vm, slot, i, slot + 1);
 			read(vm, slot + 1, element);
 			add_sequence(result, element);

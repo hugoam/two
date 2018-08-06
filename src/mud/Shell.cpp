@@ -42,8 +42,8 @@ namespace mud
         : m_exec_path(exec_path(argc, argv))
 		, m_resource_path(resource_paths[0])
 		, m_gfx_system(resource_paths)
-		, m_lua()
-		, m_wren()
+		, m_lua(false)
+		, m_wren(false)
 		, m_editor(m_gfx_system)
 	{
 		System::instance().load_modules({ &mud_infra::m(), &mud_obj::m(), &mud_pool::m(), &mud_refl::m(), &mud_proto::m(), &mud_tree::m() });

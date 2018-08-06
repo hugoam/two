@@ -26,7 +26,7 @@ namespace mud
 	}
 
 	ProcessValue::ProcessValue(VisualScript& script, Type& type)
-		: ProcessValue(script, meta(type).m_empty_var())
+		: ProcessValue(script, meta(type).m_empty_var)
 	{}
 
 	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, const Constructor& constructor)
@@ -34,7 +34,7 @@ namespace mud
 		, m_object_type(type)
 		, m_injector(constructor)
 		, m_inputParams()
-		, m_output(*this, "output", OUTPUT_VALVE, is_struct(type) ? meta(type).m_empty_var() : Var(meta(type).m_empty_ref()), false, is_struct(type) ? false : true)
+		, m_output(*this, "output", OUTPUT_VALVE, is_struct(type) ? meta(type).m_empty_var : Var(meta(type).m_empty_ref), false, is_struct(type) ? false : true)
 		, m_pool(is_struct(type) ? nullptr : g_pools[m_object_type.m_id].get())
 	{
 		for(const Param& param : m_injector.m_constructor.m_params)
@@ -127,7 +127,7 @@ namespace mud
 	ProcessMethod::ProcessMethod(VisualScript& script, Method& method)
 		: ProcessCallable(script, method)
 		, m_method(method)
-		, m_object(*this, "object", OUTPUT_VALVE, meta(*method.m_object_type).m_empty_ref(), false, true)
+		, m_object(*this, "object", OUTPUT_VALVE, meta(*method.m_object_type).m_empty_ref, false, true)
 	{
 		m_parameters.resize(m_parameters.size() + 1);
 	}
@@ -141,7 +141,7 @@ namespace mud
 	ProcessGetMember::ProcessGetMember(VisualScript& script, Member& member)
 		: Process(script, member.m_name, type<ProcessGetMember>())
 		, m_member(member)
-		, m_input_object(*this, "object", INPUT_VALVE, meta(*member.m_object_type).m_empty_ref(), false, true)
+		, m_input_object(*this, "object", INPUT_VALVE, meta(*member.m_object_type).m_empty_ref, false, true)
 		, m_output(*this, member.m_name, OUTPUT_VALVE, member.m_default_value, false, !(member.is_value()))
 	{}
 
@@ -156,9 +156,9 @@ namespace mud
 	ProcessSetMember::ProcessSetMember(VisualScript& script, Member& member)
 		: Process(script, member.m_name, type<ProcessSetMember>())
 		, m_member(member)
-		, m_input_object(*this, "object", INPUT_VALVE, meta(*member.m_object_type).m_empty_ref(), false, true)
+		, m_input_object(*this, "object", INPUT_VALVE, meta(*member.m_object_type).m_empty_ref, false, true)
 		, m_input_value(*this, member.m_name, INPUT_VALVE, member.m_default_value, false, false)
-		, m_output_object(*this, "object", OUTPUT_VALVE, meta(*member.m_object_type).m_empty_ref(), false, true)
+		, m_output_object(*this, "object", OUTPUT_VALVE, meta(*member.m_object_type).m_empty_ref, false, true)
 	{}
 
 	void ProcessSetMember::process(const StreamLocation& branch)

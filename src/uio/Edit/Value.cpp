@@ -211,7 +211,7 @@ namespace mud
 		{
 			if(meta(*cls(value).m_content).m_empty_var)
 			{
-				add_sequence(value, meta(*cls(value).m_content).m_empty_var());
+				add_sequence(value, meta(*cls(value).m_content).m_empty_var);
 				self.m_switch &= ~ADD;
 				changed |= true;
 			}
