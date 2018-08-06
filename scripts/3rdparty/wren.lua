@@ -25,7 +25,7 @@ wren = mud_dep(nil, "wren")
     
     configuration { "Debug" }
         defines {
-            --"DEBUG",
+            "DEBUG",
         }
         
     configuration { "vs*", "not asmjs" }

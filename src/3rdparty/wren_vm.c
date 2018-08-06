@@ -1,5 +1,11 @@
 #include <wren_vm.c>
 
+void wrenBegin(WrenVM* vm)
+{
+	vm->fiber = wrenNewFiber(vm, NULL);
+	vm->apiStack = vm->fiber->stack;
+}
+
 void wrenAssignVariable(WrenVM* vm, const char* module, const char* name, int value_slot)
 {
   ASSERT(module != NULL, "Module cannot be NULL.");
