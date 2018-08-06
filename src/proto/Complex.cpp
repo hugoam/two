@@ -21,6 +21,13 @@ namespace mud
 		, m_parts(m_prototype.m_parts.size())
 	{}
 
+	Complex::Complex(Id id, Type& type, const std::vector<Ref>& parts)
+		: Complex(id, type)
+	{
+		for(Ref ref : parts)
+			this->add_part(ref);
+	}
+
 	Complex::~Complex()
 	{
 		unindex(m_type, m_id);

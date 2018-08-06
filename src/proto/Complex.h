@@ -21,6 +21,7 @@ namespace mud
 	{
 	public:
 		constr_ Complex(Id id, Type& type);
+		constr_ Complex(Id id, Type& type, const std::vector<Ref>& parts);
 		virtual ~Complex();
 
 		template <typename... T_Parts>

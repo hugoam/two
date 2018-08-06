@@ -33,6 +33,8 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Complex>(), [](Ref ref, array<Var> args) { new(&val<mud::Complex>(ref)) mud::Complex( val<mud::Id>(args[0]), val<mud::Type>(args[1]) ); }, { { "id", var(mud::Id()) }, { "type", Ref(type<mud::Type>()) } } },
+                { type<mud::Complex>(), [](Ref ref, array<Var> args) { new(&val<mud::Complex>(ref)) mud::Complex( val<mud::Id>(args[0]), val<mud::Type>(args[1]), val<std::vector<mud::Ref>>(args[2]) ); }, { { "id", var(mud::Id()) }, { "type", Ref(type<mud::Type>()) }, { "parts", var(std::vector<mud::Ref>()) } } }
             },
             // copy constructor
             {
@@ -56,7 +58,7 @@ namespace mud
         };
         
         
-        
+        init_pool<mud::Complex>(); 
         
         meta_class<mud::Complex>();
     }
