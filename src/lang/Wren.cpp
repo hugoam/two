@@ -412,7 +412,7 @@ namespace mud
 		string t = "    ";
 		string c = type.m_name;
 
-		bind += t + t + "__type = Type.ref(\"" + c + "\")\n";
+		//bind += t + t + "__type = Type.ref(\"" + c + "\")\n";
 
 		for(Constructor& constructor : cls(type).m_constructors)
 		{

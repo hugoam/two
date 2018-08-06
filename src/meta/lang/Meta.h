@@ -148,7 +148,7 @@ namespace mud
             // members
             {
                 { type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_type), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::None, nullptr },
-                { type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_class), type<mud::Class>(), "class", Ref(type<mud::Class>()), Member::None, nullptr }
+                //{ type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_class), type<mud::Class>(), "class", Ref(type<mud::Class>()), Member::None, nullptr }
             },
             // methods
             {
