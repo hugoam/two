@@ -89,7 +89,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT ScriptClass : public NonCopy
 	{
 	public:
-		ScriptClass(const string& name, const std::vector<Type*>& parts);
+		constr_ ScriptClass(const string& name, const std::vector<Type*>& parts);
 
 		attr_ Type m_type;
 		attr_ Class m_class;
