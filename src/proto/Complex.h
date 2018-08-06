@@ -37,6 +37,8 @@ namespace mud
 
 		std::vector<Ref> m_parts;
 
+		meth_ void setup(const std::vector<Ref>& parts);
+
 		meth_ void add_part(Ref part) { m_parts[m_prototype.part_index(type(part))] = part; }
 		meth_ bool has_part(Type& type) { return m_prototype.has_part(type); }
 		meth_ Ref part(Type& type) { return m_parts[m_prototype.part_index(type)]; }

@@ -24,12 +24,17 @@ namespace mud
 	Complex::Complex(Id id, Type& type, const std::vector<Ref>& parts)
 		: Complex(id, type)
 	{
-		for(Ref ref : parts)
-			this->add_part(ref);
+		this->setup(parts);
 	}
 
 	Complex::~Complex()
 	{
 		unindex(m_type, m_id);
+	}
+
+	void Complex::setup(const std::vector<Ref>& parts)
+	{
+		for (Ref ref : parts)
+			this->add_part(ref);
 	}
 }

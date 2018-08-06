@@ -47,6 +47,7 @@ namespace mud
             },
             // methods
             {
+                { type<mud::Complex>(), "setup", member_address(&mud::Complex::setup), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Complex>(object).setup(val<std::vector<mud::Ref>>(args[0])); }, { { "parts", var(std::vector<mud::Ref>()) } }, Var() },
                 { type<mud::Complex>(), "add_part", member_address(&mud::Complex::add_part), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Complex>(object).add_part(args[0]); }, { { "part", Ref(), Param::Nullable } }, Var() },
                 { type<mud::Complex>(), "has_part", member_address(&mud::Complex::has_part), [](Ref object, array<Var> args, Var& result) { val<bool>(result) = val<mud::Complex>(object).has_part(val<mud::Type>(args[0])); }, { { "type", Ref(type<mud::Type>()) } }, var(bool()) },
                 { type<mud::Complex>(), "part", member_address(&mud::Complex::part), [](Ref object, array<Var> args, Var& result) { result = val<mud::Complex>(object).part(val<mud::Type>(args[0])); }, { { "type", Ref(type<mud::Type>()) } }, Ref() },
