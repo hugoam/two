@@ -160,7 +160,7 @@ namespace mud
         };
         
         
-        init_pool<mud::ScriptClass>(); 
+        //init_pool<mud::ScriptClass>(); 
         
         meta_class<mud::ScriptClass>();
     }
