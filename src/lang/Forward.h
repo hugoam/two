@@ -37,12 +37,10 @@ namespace glm {
     
 }
 
-namespace mud {
-namespace gfx {
+namespace bx {
 
     
     
-}
 }
 
 namespace json11 {
@@ -53,15 +51,16 @@ namespace json11 {
 
 namespace mud {
 
-	enum class Language : unsigned int;
+    enum class Language : unsigned int;
     enum StreamModifier : unsigned int;
     enum ValveKind : unsigned int;
     
-	class Interpreter;
-    class LuaInterpreter;
-	class WrenInterpreter;
+    
     class Script;
     class TextScript;
+    class Interpreter;
+    class ScriptClass;
+    class LuaInterpreter;
     struct StreamLocation;
     class StreamBranch;
     class Stream;
@@ -80,6 +79,7 @@ namespace mud {
     class ProcessGetMember;
     class ProcessSetMember;
     class ProcessDisplay;
+    class WrenInterpreter;
 }
 
 namespace mud {
@@ -90,10 +90,12 @@ namespace detail {
 }
 }
 
-namespace bgfx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace bimg {
@@ -102,7 +104,7 @@ namespace bimg {
     
 }
 
-namespace bx {
+namespace bgfx {
 
     
     
