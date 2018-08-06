@@ -11,8 +11,8 @@ static TextScript& create_wren_script(WrenInterpreter& interpreter)
 
 	script.m_script =
 		"\n"
-		"//n = gfx.node(scene, null, Vec3.new(0), Quat.new(1,0,0,0), Vec3.new(1))\n"
-		"//gfx.shape(n, Cube.new(), Symbol.new(Colour.White, Colour.None, false, false, SymbolDetail.Medium), 0, null, 0)\n"
+		"//n = Gfx.node(scene, null, Vec3.new(0), Quat.new(1,0,0,0), Vec3.new(1))\n"
+		"//Gfx.shape(n, Cube.new(), Symbol.new(Colour.White, Colour.None, false, false, SymbolDetail.Medium), 0, null, 0)\n"
 		"\n"
 		"for (x in 1..11) {\n"
 		"    for (y in 1..11) {\n"
@@ -26,8 +26,8 @@ static TextScript& create_wren_script(WrenInterpreter& interpreter)
 		"        var color = Colour.new(r, g, b, 1)\n"
 		"\n"
 		"        var s = Symbol.new(color, Colour.None, false, false, SymbolDetail.Medium)\n"
-		"        var n = gfx.node(scene, null, pos, Quat.new(angles), Vec3.new(1))\n"
-		"        gfx.draw(n, Cube.new(), s, 0)\n"
+		"        var n = Gfx.node(scene, null, pos, Quat.new(angles), Vec3.new(1))\n"
+		"        Gfx.draw(n, Cube.new(), s, 0)\n"
 		"\n"
 		"    }\n"
 		"}\n"

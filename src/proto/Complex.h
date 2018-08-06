@@ -35,7 +35,7 @@ namespace mud
 		attr_ Type& m_type;
 		attr_ Prototype& m_prototype;
 
-		std::vector<Ref> m_parts;
+		attr_ std::vector<Ref> m_parts;
 
 		meth_ void setup(const std::vector<Ref>& parts);
 

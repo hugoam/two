@@ -45,6 +45,7 @@ void wrenAssignVariable(WrenVM* vm, const char* module, const char* name,
 }
 
 #define MUD_WREN_DEBUG_DECLS
+#define MUD_WREN_DEBUG
 
 namespace mud
 {
@@ -238,7 +239,7 @@ namespace mud
 			read(vm, int(first) + int(i), vars[i]);
 			bool success = !vars[i].none();
 			success &= params[i].nullable() || !vars[i].null();
-#if MUD_WREN_DEBUG
+#ifdef MUD_WREN_DEBUG
 			if(!success)
 			{
 				printf("ERROR: wren -> wrong argument %s, expect type %s, got %s\n", params[i].m_name, type(params[i].m_value).m_name, type(vars[i]).m_name);
@@ -265,6 +266,9 @@ namespace mud
 	inline void call_function(WrenVM* vm, size_t num_args)
 	{
 		const Callable& callable = val<Callable>(userdata(vm, 0));
+#ifdef MUD_WREN_DEBUG
+		printf("INFO: wren -> call function %s\n", callable.m_name);
+#endif
 		Call& call = cached_call(callable);
 		call_cpp(vm, call, 1, num_args);
 	}
@@ -278,6 +282,9 @@ namespace mud
 	inline void call_method(WrenVM* vm, size_t num_args)
 	{
 		const Callable& callable = val<Callable>(read_ref(vm, 0));
+#ifdef MUD_WREN_DEBUG
+		printf("INFO: wren -> call method %s\n", callable.m_name);
+#endif
 		Call& call = cached_call(callable);
 		call_cpp(vm, call, 1, num_args + 1);
 	}
@@ -301,6 +308,9 @@ namespace mud
 
 	inline void call_wren_virtual(WrenVM* vm, Method& method, Ref object, array<Var> parameters)
 	{
+#ifdef MUD_WREN_DEBUG
+		printf("INFO: wren -> call wren %s\n", method.m_name);
+#endif
 		string sig = signature(method.m_name, method.m_params.size() - 1);
 		WrenHandle* hmethod = wrenMakeCallHandle(vm, sig.c_str());
 		WrenHandle* hobject = g_wren_objects[object.m_value];
@@ -310,6 +320,9 @@ namespace mud
 	inline void get_member(WrenVM* vm)
 	{
 		const Member& member = val<Member>(read_ref(vm, 0));
+#ifdef MUD_WREN_DEBUG
+		printf("INFO: wren -> get member %s\n", member.m_name);
+#endif
 		Ref object = read_ref(vm, 1);
 		Ref value = member.cast_get(object);
 		push(vm, 0, value);
@@ -318,6 +331,9 @@ namespace mud
 	inline void set_member(WrenVM* vm)
 	{
 		const Member& member = val<Member>(read_ref(vm, 0));
+#ifdef MUD_WREN_DEBUG
+		printf("INFO: wren -> set member %s\n", member.m_name);
+#endif
 		Ref object = read_ref(vm, 1);
 		Var value = member.m_default_value;
 		read(vm, 2, value);
@@ -341,12 +357,15 @@ namespace mud
 
 	inline void construct(WrenVM* vm)
 	{
-		const Constructor* constructor = &val<Constructor>(read_ref(vm, 1));
+		const Constructor* constructor = &val<Constructor>(read_ref(vm, 0));
 		if(!constructor) return;
+#ifdef MUD_WREN_DEBUG
+		printf("INFO: wren -> construct %s\n", constructor->m_name);
+#endif
 		Call& construct = cached_call(*constructor);
 		if (read_params(vm, &construct.m_callable->m_params[1], to_array(construct.m_arguments, 1), 2))
 		{
-			Ref object = alloc_object(vm, 0, 0, *constructor->m_object_type);
+			Ref object = alloc_object(vm, 0, 1, *constructor->m_object_type);
 			construct(object);
 		}
 	}
@@ -355,6 +374,9 @@ namespace mud
 	{
 		const Constructor* constructor = &val<Constructor>(read_ref(vm, 0));
 		if (!constructor) return;
+#ifdef MUD_WREN_DEBUG
+		printf("INFO: wren -> construct %s\n", constructor->m_name);
+#endif
 		Call& construct = cached_call(*constructor);
 		VirtualMethod virtual_method = [=](Method& method, Ref object, array<Var> args) { call_wren_virtual(vm, method, object, args); };
 		construct.m_arguments.back() = var(virtual_method);
@@ -412,7 +434,7 @@ namespace mud
 		string t = "    ";
 		string c = type.m_name;
 
-		//bind += t + t + "__type = Type.ref(\"" + c + "\")\n";
+		bind += t + t + "__ty = Type.ref(\"" + c + "\")\n";
 
 		for(Constructor& constructor : cls(type).m_constructors)
 		{
@@ -422,9 +444,7 @@ namespace mud
 
 			bind += t + t + "__" + n + " = Constructor.ref(\"" + c + "\", " + to_string(constructor.m_index) + ")\n";
 
-			constructors += t + "construct new_impl(constructor" + paramsnext + ") {}\n";
-
-			constructors += t + "static new(" + params + ") { new_impl(__" + n + paramsnext + ") }\n";
+			constructors += t + "static new(" + params + ") { __" + n + ".call(this" + paramsnext + ") }\n";
 		}
 
 		for(Member& member : cls(type).m_members)
@@ -477,6 +497,7 @@ namespace mud
 		decl += "\n";
 		decl += statics;
 		decl += "\n";
+		decl += t + "static type { __ty }\n";
 		decl += t + "static bind() {\n";
 		decl += bind;
 		decl += t + "}\n";
@@ -596,10 +617,6 @@ namespace mud
 				alloc_ref(vm, 0, 0, Ref(constructor));
 			};
 		}
-		else
-		{
-			methods.allocate = construct;
-		}
 
 		return methods;
 	}
@@ -650,6 +667,11 @@ namespace mud
 				return call_function_args<2>;
 		}
 
+		if (strcmp(className, "Constructor") == 0)
+		{
+			return construct;
+		}
+
 		if(strcmp(className, "Member") == 0)
 		{
 			if(strcmp(signature, "get(_)") == 0)
@@ -684,10 +706,7 @@ namespace mud
 
 		if(strcmp(className, "VirtualConstructor") == 0)
 		{
-			if(strcmp(signature, "call(_)") == 0)
-				return construct_interface;
-			if(strcmp(signature, "call(_,_)") == 0)
-				return construct_interface;
+			return construct_interface;
 		}
 
 		// Unknown method.
@@ -737,11 +756,12 @@ namespace mud
 		if(wrenGetSlotType(vm, slot) != WREN_TYPE_LIST)
 			return;
 
+		wrenEnsureSlots(vm, slot + 2);
 		int count = wrenGetListCount(vm, slot);
-		
+
 		for(int i = 0; i < count; ++i)
 		{
-			Var element = meta(*cls(sequence_type).m_content).m_empty_var();
+			Var element = Ref(*cls(sequence_type).m_content);
 			wrenGetListElement(vm, slot, i, slot + 1);
 			read(vm, slot + 1, element);
 			add_sequence(result, element);
@@ -882,6 +902,14 @@ namespace mud
 				"\n"
 				"foreign class Constructor {\n"
 				"    construct ref(class_name, index) {}\n"
+				"    \n"
+				"    foreign call(cls)\n"
+				"    foreign call(cls, a0)\n"
+				"    foreign call(cls, a0, a1)\n"
+				"    foreign call(cls, a0, a1, a2)\n"
+				"    foreign call(cls, a0, a1, a2, a3)\n"
+				"    foreign call(cls, a0, a1, a2, a3, a4)\n"
+				"    foreign call(cls, a0, a1, a2, a3, a4, a5)\n"
 				"}\n"
 				"\n"
 				"foreign class Member {\n"
@@ -924,6 +952,11 @@ namespace mud
 				;
 
 			wrenInterpret(m_vm, "main", primitives.c_str());
+
+			wrenBegin(m_vm);
+			wrenEnsureSlots(m_vm, 1);
+			wrenGetVariable(m_vm, "main", "Type", 0);
+			g_wren_classes[type<Type>().m_id] = wrenGetSlotHandle(m_vm, 0);
 		}
 
 		~WrenContext()
