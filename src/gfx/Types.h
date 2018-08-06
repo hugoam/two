@@ -65,6 +65,12 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Animation>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimationPlay>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimationTrack>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Material>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Model>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::ParticleGenerator>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Prefab>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Program>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Texture>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Background>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BaseMaterialBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Bone>();
@@ -80,7 +86,6 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxContext>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::GfxSystem>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::Gnode>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ImmediateDraw>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Item>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Joint>();
@@ -119,12 +124,19 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BlockDepth>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Particles>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::Gnode>();
     
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Animated*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AnimatedTrack*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Animation*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AnimationPlay*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AnimationTrack*>>;
+	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AssetStore<mud::Material>*>>;
+	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AssetStore<mud::Model>*>>;
+	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AssetStore<mud::ParticleGenerator>*>>;
+	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AssetStore<mud::Prefab>*>>;
+	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AssetStore<mud::Program>*>>;
+	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AssetStore<mud::Texture>*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Background*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::BaseMaterialBlock*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Bone*>>;
@@ -140,7 +152,6 @@ namespace mud
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::GfxBlock*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::GfxContext*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::GfxSystem*>>;
-	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Gnode*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::ImmediateDraw*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Item*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Joint*>>;
@@ -179,4 +190,5 @@ namespace mud
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::BlockDepth*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Particles*>>;
 	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::RenderTarget*>>;
+	export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Gnode*>>;
 }

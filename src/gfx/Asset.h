@@ -26,7 +26,7 @@ namespace mud
 	using string = std::string;
 
 	export_ template <class T_Asset>
-	class AssetStore : public NonCopy
+	class refl_ AssetStore : public NonCopy
 	{
 	public:
 		using Initializer = std::function<void(T_Asset&)>;

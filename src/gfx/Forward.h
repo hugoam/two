@@ -43,12 +43,10 @@ namespace glm {
     
 }
 
-namespace mud {
-namespace gfx {
+namespace bx {
 
     
     
-}
 }
 
 namespace json11 {
@@ -89,6 +87,7 @@ namespace mud {
     enum class BackgroundMode : unsigned int;
     enum class Month : unsigned int;
     
+    template <class T> class AssetStore;
     template <class T> struct MaterialParam;
     
     struct AnimationCursor;
@@ -206,10 +205,12 @@ namespace detail {
 }
 }
 
-namespace bgfx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace bimg {
@@ -218,7 +219,7 @@ namespace bimg {
     
 }
 
-namespace bx {
+namespace bgfx {
 
     
     

@@ -49,6 +49,12 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::Animation>() { static Type ty("Animation"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::AnimationPlay>() { static Type ty("AnimationPlay"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::AnimationTrack>() { static Type ty("AnimationTrack"); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Material>>() { static Type ty("AssetStore<mud::Material>"); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Model>>() { static Type ty("AssetStore<mud::Model>"); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::ParticleGenerator>>() { static Type ty("AssetStore<mud::ParticleGenerator>"); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Prefab>>() { static Type ty("AssetStore<mud::Prefab>"); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Program>>() { static Type ty("AssetStore<mud::Program>"); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Texture>>() { static Type ty("AssetStore<mud::Texture>"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Background>() { static Type ty("Background"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::BaseMaterialBlock>() { static Type ty("BaseMaterialBlock"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Bone>() { static Type ty("Bone"); return ty; }
@@ -64,7 +70,6 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::GfxBlock>() { static Type ty("GfxBlock"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::GfxContext>() { static Type ty("GfxContext"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::GfxSystem>() { static Type ty("GfxSystem"); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::Gnode>() { static Type ty("Gnode"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ImmediateDraw>() { static Type ty("ImmediateDraw"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Item>() { static Type ty("Item"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Joint>() { static Type ty("Joint"); return ty; }
@@ -103,4 +108,5 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::BlockDepth>() { static Type ty("BlockDepth", type<mud::DrawBlock>()); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Particles>() { static Type ty("Particles", type<mud::ParticleGenerator>()); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>() { static Type ty("RenderTarget", type<mud::FrameBuffer>()); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Gnode>() { static Type ty("Gnode", type<mud::Graph<mud::Gnode>>()); return ty; }
 }

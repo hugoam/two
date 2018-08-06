@@ -453,10 +453,226 @@ namespace mud
     }
     
     
+        
+    // mud::AssetStore<mud::Material>
+    {
+        static Meta meta = { type<mud::AssetStore<mud::Material>>(), &namspc({ "mud" }), "AssetStore<mud::Material>", sizeof(mud::AssetStore<mud::Material>), TypeClass::Object };
+        static Class cls = { type<mud::AssetStore<mud::Material>>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+                { type<mud::AssetStore<mud::Material>>(), "get", member_address(&mud::AssetStore<mud::Material>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Material>>(object).get(val<cstring>(args[0]))); }, { { "name", var(cstring()) } }, Ref(type<mud::AssetStore<mud::Material>::T_Asset>()) },
+                { type<mud::AssetStore<mud::Material>>(), "create", member_address(&mud::AssetStore<mud::Material>::create), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::Material>::T_Asset>(result) = val<mud::AssetStore<mud::Material>>(object).create(val<cstring>(args[0])); }, { { "name", var(cstring()) } }, var(mud::AssetStore<mud::Material>::T_Asset()) },
+                { type<mud::AssetStore<mud::Material>>(), "fetch", member_address(&mud::AssetStore<mud::Material>::fetch), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::Material>::T_Asset>(result) = val<mud::AssetStore<mud::Material>>(object).fetch(val<cstring>(args[0])); }, { { "name", var(cstring()) } }, var(mud::AssetStore<mud::Material>::T_Asset()) },
+                { type<mud::AssetStore<mud::Material>>(), "file", member_address(&mud::AssetStore<mud::Material>::file), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::Material>::T_Asset>(result) = val<mud::AssetStore<mud::Material>>(object).file(val<cstring>(args[0]), val<cstring>(args[1])); }, { { "path", var(cstring()) }, { "name", var(cstring()) } }, var(mud::AssetStore<mud::Material>::T_Asset()) },
+                { type<mud::AssetStore<mud::Material>>(), "file", member_address(&mud::AssetStore<mud::Material>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Material>>(object).file(val<cstring>(args[0]))); }, { { "name", var(cstring()) } }, Ref(type<mud::AssetStore<mud::Material>::T_Asset>()) }
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::AssetStore<mud::Material>>();
+    }
     
     
+        
+    // mud::AssetStore<mud::Model>
+    {
+        static Meta meta = { type<mud::AssetStore<mud::Model>>(), &namspc({ "mud" }), "AssetStore<mud::Model>", sizeof(mud::AssetStore<mud::Model>), TypeClass::Object };
+        static Class cls = { type<mud::AssetStore<mud::Model>>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+                { type<mud::AssetStore<mud::Model>>(), "get", member_address(&mud::AssetStore<mud::Model>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Model>>(object).get(val<cstring>(args[0]))); }, { { "name", var(cstring()) } }, Ref(type<mud::AssetStore<mud::Model>::T_Asset>()) },
+                { type<mud::AssetStore<mud::Model>>(), "create", member_address(&mud::AssetStore<mud::Model>::create), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::Model>::T_Asset>(result) = val<mud::AssetStore<mud::Model>>(object).create(val<cstring>(args[0])); }, { { "name", var(cstring()) } }, var(mud::AssetStore<mud::Model>::T_Asset()) },
+                { type<mud::AssetStore<mud::Model>>(), "fetch", member_address(&mud::AssetStore<mud::Model>::fetch), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::Model>::T_Asset>(result) = val<mud::AssetStore<mud::Model>>(object).fetch(val<cstring>(args[0])); }, { { "name", var(cstring()) } }, var(mud::AssetStore<mud::Model>::T_Asset()) },
+                { type<mud::AssetStore<mud::Model>>(), "file", member_address(&mud::AssetStore<mud::Model>::file), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::Model>::T_Asset>(result) = val<mud::AssetStore<mud::Model>>(object).file(val<cstring>(args[0]), val<cstring>(args[1])); }, { { "path", var(cstring()) }, { "name", var(cstring()) } }, var(mud::AssetStore<mud::Model>::T_Asset()) },
+                { type<mud::AssetStore<mud::Model>>(), "file", member_address(&mud::AssetStore<mud::Model>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Model>>(object).file(val<cstring>(args[0]))); }, { { "name", var(cstring()) } }, Ref(type<mud::AssetStore<mud::Model>::T_Asset>()) }
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::AssetStore<mud::Model>>();
+    }
     
     
+        
+    // mud::AssetStore<mud::ParticleGenerator>
+    {
+        static Meta meta = { type<mud::AssetStore<mud::ParticleGenerator>>(), &namspc({ "mud" }), "AssetStore<mud::ParticleGenerator>", sizeof(mud::AssetStore<mud::ParticleGenerator>), TypeClass::Object };
+        static Class cls = { type<mud::AssetStore<mud::ParticleGenerator>>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+                { type<mud::AssetStore<mud::ParticleGenerator>>(), "get", member_address(&mud::AssetStore<mud::ParticleGenerator>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::ParticleGenerator>>(object).get(val<cstring>(args[0]))); }, { { "name", var(cstring()) } }, Ref(type<mud::AssetStore<mud::ParticleGenerator>::T_Asset>()) },
+                { type<mud::AssetStore<mud::ParticleGenerator>>(), "create", member_address(&mud::AssetStore<mud::ParticleGenerator>::create), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::ParticleGenerator>::T_Asset>(result) = val<mud::AssetStore<mud::ParticleGenerator>>(object).create(val<cstring>(args[0])); }, { { "name", var(cstring()) } }, var(mud::AssetStore<mud::ParticleGenerator>::T_Asset()) },
+                { type<mud::AssetStore<mud::ParticleGenerator>>(), "fetch", member_address(&mud::AssetStore<mud::ParticleGenerator>::fetch), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::ParticleGenerator>::T_Asset>(result) = val<mud::AssetStore<mud::ParticleGenerator>>(object).fetch(val<cstring>(args[0])); }, { { "name", var(cstring()) } }, var(mud::AssetStore<mud::ParticleGenerator>::T_Asset()) },
+                { type<mud::AssetStore<mud::ParticleGenerator>>(), "file", member_address(&mud::AssetStore<mud::ParticleGenerator>::file), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::ParticleGenerator>::T_Asset>(result) = val<mud::AssetStore<mud::ParticleGenerator>>(object).file(val<cstring>(args[0]), val<cstring>(args[1])); }, { { "path", var(cstring()) }, { "name", var(cstring()) } }, var(mud::AssetStore<mud::ParticleGenerator>::T_Asset()) },
+                { type<mud::AssetStore<mud::ParticleGenerator>>(), "file", member_address(&mud::AssetStore<mud::ParticleGenerator>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::ParticleGenerator>>(object).file(val<cstring>(args[0]))); }, { { "name", var(cstring()) } }, Ref(type<mud::AssetStore<mud::ParticleGenerator>::T_Asset>()) }
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::AssetStore<mud::ParticleGenerator>>();
+    }
+    
+    
+        
+    // mud::AssetStore<mud::Prefab>
+    {
+        static Meta meta = { type<mud::AssetStore<mud::Prefab>>(), &namspc({ "mud" }), "AssetStore<mud::Prefab>", sizeof(mud::AssetStore<mud::Prefab>), TypeClass::Object };
+        static Class cls = { type<mud::AssetStore<mud::Prefab>>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+                { type<mud::AssetStore<mud::Prefab>>(), "get", member_address(&mud::AssetStore<mud::Prefab>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Prefab>>(object).get(val<cstring>(args[0]))); }, { { "name", var(cstring()) } }, Ref(type<mud::AssetStore<mud::Prefab>::T_Asset>()) },
+                { type<mud::AssetStore<mud::Prefab>>(), "create", member_address(&mud::AssetStore<mud::Prefab>::create), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::Prefab>::T_Asset>(result) = val<mud::AssetStore<mud::Prefab>>(object).create(val<cstring>(args[0])); }, { { "name", var(cstring()) } }, var(mud::AssetStore<mud::Prefab>::T_Asset()) },
+                { type<mud::AssetStore<mud::Prefab>>(), "fetch", member_address(&mud::AssetStore<mud::Prefab>::fetch), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::Prefab>::T_Asset>(result) = val<mud::AssetStore<mud::Prefab>>(object).fetch(val<cstring>(args[0])); }, { { "name", var(cstring()) } }, var(mud::AssetStore<mud::Prefab>::T_Asset()) },
+                { type<mud::AssetStore<mud::Prefab>>(), "file", member_address(&mud::AssetStore<mud::Prefab>::file), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::Prefab>::T_Asset>(result) = val<mud::AssetStore<mud::Prefab>>(object).file(val<cstring>(args[0]), val<cstring>(args[1])); }, { { "path", var(cstring()) }, { "name", var(cstring()) } }, var(mud::AssetStore<mud::Prefab>::T_Asset()) },
+                { type<mud::AssetStore<mud::Prefab>>(), "file", member_address(&mud::AssetStore<mud::Prefab>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Prefab>>(object).file(val<cstring>(args[0]))); }, { { "name", var(cstring()) } }, Ref(type<mud::AssetStore<mud::Prefab>::T_Asset>()) }
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::AssetStore<mud::Prefab>>();
+    }
+    
+    
+        
+    // mud::AssetStore<mud::Program>
+    {
+        static Meta meta = { type<mud::AssetStore<mud::Program>>(), &namspc({ "mud" }), "AssetStore<mud::Program>", sizeof(mud::AssetStore<mud::Program>), TypeClass::Object };
+        static Class cls = { type<mud::AssetStore<mud::Program>>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+                { type<mud::AssetStore<mud::Program>>(), "get", member_address(&mud::AssetStore<mud::Program>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Program>>(object).get(val<cstring>(args[0]))); }, { { "name", var(cstring()) } }, Ref(type<mud::AssetStore<mud::Program>::T_Asset>()) },
+                { type<mud::AssetStore<mud::Program>>(), "create", member_address(&mud::AssetStore<mud::Program>::create), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::Program>::T_Asset>(result) = val<mud::AssetStore<mud::Program>>(object).create(val<cstring>(args[0])); }, { { "name", var(cstring()) } }, var(mud::AssetStore<mud::Program>::T_Asset()) },
+                { type<mud::AssetStore<mud::Program>>(), "fetch", member_address(&mud::AssetStore<mud::Program>::fetch), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::Program>::T_Asset>(result) = val<mud::AssetStore<mud::Program>>(object).fetch(val<cstring>(args[0])); }, { { "name", var(cstring()) } }, var(mud::AssetStore<mud::Program>::T_Asset()) },
+                { type<mud::AssetStore<mud::Program>>(), "file", member_address(&mud::AssetStore<mud::Program>::file), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::Program>::T_Asset>(result) = val<mud::AssetStore<mud::Program>>(object).file(val<cstring>(args[0]), val<cstring>(args[1])); }, { { "path", var(cstring()) }, { "name", var(cstring()) } }, var(mud::AssetStore<mud::Program>::T_Asset()) },
+                { type<mud::AssetStore<mud::Program>>(), "file", member_address(&mud::AssetStore<mud::Program>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Program>>(object).file(val<cstring>(args[0]))); }, { { "name", var(cstring()) } }, Ref(type<mud::AssetStore<mud::Program>::T_Asset>()) }
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::AssetStore<mud::Program>>();
+    }
+    
+    
+        
+    // mud::AssetStore<mud::Texture>
+    {
+        static Meta meta = { type<mud::AssetStore<mud::Texture>>(), &namspc({ "mud" }), "AssetStore<mud::Texture>", sizeof(mud::AssetStore<mud::Texture>), TypeClass::Object };
+        static Class cls = { type<mud::AssetStore<mud::Texture>>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+                { type<mud::AssetStore<mud::Texture>>(), "get", member_address(&mud::AssetStore<mud::Texture>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Texture>>(object).get(val<cstring>(args[0]))); }, { { "name", var(cstring()) } }, Ref(type<mud::AssetStore<mud::Texture>::T_Asset>()) },
+                { type<mud::AssetStore<mud::Texture>>(), "create", member_address(&mud::AssetStore<mud::Texture>::create), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::Texture>::T_Asset>(result) = val<mud::AssetStore<mud::Texture>>(object).create(val<cstring>(args[0])); }, { { "name", var(cstring()) } }, var(mud::AssetStore<mud::Texture>::T_Asset()) },
+                { type<mud::AssetStore<mud::Texture>>(), "fetch", member_address(&mud::AssetStore<mud::Texture>::fetch), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::Texture>::T_Asset>(result) = val<mud::AssetStore<mud::Texture>>(object).fetch(val<cstring>(args[0])); }, { { "name", var(cstring()) } }, var(mud::AssetStore<mud::Texture>::T_Asset()) },
+                { type<mud::AssetStore<mud::Texture>>(), "file", member_address(&mud::AssetStore<mud::Texture>::file), [](Ref object, array<Var> args, Var& result) { val<mud::AssetStore<mud::Texture>::T_Asset>(result) = val<mud::AssetStore<mud::Texture>>(object).file(val<cstring>(args[0]), val<cstring>(args[1])); }, { { "path", var(cstring()) }, { "name", var(cstring()) } }, var(mud::AssetStore<mud::Texture>::T_Asset()) },
+                { type<mud::AssetStore<mud::Texture>>(), "file", member_address(&mud::AssetStore<mud::Texture>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Texture>>(object).file(val<cstring>(args[0]))); }, { { "name", var(cstring()) } }, Ref(type<mud::AssetStore<mud::Texture>::T_Asset>()) }
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::AssetStore<mud::Texture>>();
+    }
     
     
         
@@ -600,7 +816,7 @@ namespace mud
                 { type<mud::Camera>(), member_address(&mud::Camera::m_aspect), type<float>(), "aspect", var(float(1.f)), Member::Value, nullptr },
                 { type<mud::Camera>(), member_address(&mud::Camera::m_near), type<float>(), "near", var(float(0.001f)), Member::Value, nullptr },
                 { type<mud::Camera>(), member_address(&mud::Camera::m_far), type<float>(), "far", var(float(100.f)), Member::Value, nullptr },
-                { type<mud::Camera>(), member_address(&mud::Camera::m_orthographic), type<bool>(), "orthogonal", var(bool(false)), Member::Value, nullptr },
+                { type<mud::Camera>(), member_address(&mud::Camera::m_orthographic), type<bool>(), "orthographic", var(bool(false)), Member::Value, nullptr },
                 { type<mud::Camera>(), member_address(&mud::Camera::m_height), type<float>(), "height", var(float(1.f)), Member::Value, nullptr },
                 { type<mud::Camera>(), member_address(&mud::Camera::m_optimize_ends), type<bool>(), "optimize_ends", var(bool(true)), Member::Value, nullptr },
                 { type<mud::Camera>(), member_address(&mud::Camera::m_lod_offsets), type<mud::vec4>(), "lod_offsets", var(mud::vec4()), Member::Value, nullptr }
@@ -998,6 +1214,12 @@ namespace mud
             },
             // members
             {
+                { type<mud::GfxSystem>(), member_address(&mud::GfxSystem::textures), type<mud::AssetStore<mud::Texture>>(), "textures", Ref(type<mud::AssetStore<mud::Texture>>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).textures()); } },
+                { type<mud::GfxSystem>(), member_address(&mud::GfxSystem::programs), type<mud::AssetStore<mud::Program>>(), "programs", Ref(type<mud::AssetStore<mud::Program>>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).programs()); } },
+                { type<mud::GfxSystem>(), member_address(&mud::GfxSystem::materials), type<mud::AssetStore<mud::Material>>(), "materials", Ref(type<mud::AssetStore<mud::Material>>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).materials()); } },
+                { type<mud::GfxSystem>(), member_address(&mud::GfxSystem::models), type<mud::AssetStore<mud::Model>>(), "models", Ref(type<mud::AssetStore<mud::Model>>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).models()); } },
+                { type<mud::GfxSystem>(), member_address(&mud::GfxSystem::particles), type<mud::AssetStore<mud::ParticleGenerator>>(), "particles", Ref(type<mud::AssetStore<mud::ParticleGenerator>>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).particles()); } },
+                { type<mud::GfxSystem>(), member_address(&mud::GfxSystem::prefabs), type<mud::AssetStore<mud::Prefab>>(), "prefabs", Ref(type<mud::AssetStore<mud::Prefab>>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).prefabs()); } }
             },
             // methods
             {
@@ -1011,38 +1233,6 @@ namespace mud
         
         
         meta_class<mud::GfxSystem>();
-    }
-    
-    
-        
-    // mud::Gnode
-    {
-        static Meta meta = { type<mud::Gnode>(), &namspc({ "mud" }), "Gnode", sizeof(mud::Gnode), TypeClass::Object };
-        static Class cls = { type<mud::Gnode>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Gnode>();
     }
     
     
@@ -1176,10 +1366,10 @@ namespace mud
                 { type<mud::Light>(), member_address(&mud::Light::m_range), type<float>(), "range", var(float(1.f)), Member::Value, nullptr },
                 { type<mud::Light>(), member_address(&mud::Light::m_energy), type<float>(), "energy", var(float(1.f)), Member::Value, nullptr },
                 { type<mud::Light>(), member_address(&mud::Light::m_specular), type<float>(), "specular", var(float(0.5f)), Member::Value, nullptr },
+                { type<mud::Light>(), member_address(&mud::Light::m_attenuation), type<float>(), "attenuation", var(float(0.5f)), Member::Value, nullptr },
                 { type<mud::Light>(), member_address(&mud::Light::m_shadows), type<bool>(), "shadows", var(bool(false)), Member::Value, nullptr },
                 { type<mud::Light>(), member_address(&mud::Light::m_shadow_colour), type<mud::Colour>(), "shadow_colour", var(mud::Colour()), Member::Value, nullptr },
                 { type<mud::Light>(), member_address(&mud::Light::m_shadow_range), type<float>(), "shadow_range", var(float(100.f)), Member::Value, nullptr },
-                { type<mud::Light>(), member_address(&mud::Light::m_attenuation), type<float>(), "attenuation", var(float(0.5f)), Member::Value, nullptr },
                 { type<mud::Light>(), member_address(&mud::Light::m_layers), type<uint32_t>(), "layers", var(uint32_t(0xFFFFFFFF)), Member::Value, nullptr },
                 { type<mud::Light>(), member_address(&mud::Light::m_last_render), type<uint32_t>(), "last_render", var(uint32_t()), Member::Value, nullptr },
                 { type<mud::Light>(), member_address(&mud::Light::m_last_update), type<uint32_t>(), "last_update", var(uint32_t()), Member::Value, nullptr },
@@ -1693,7 +1883,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Program>(), member_address(&mud::Program::name), type<cstring>(), "name", var(cstring()), Member::Value, [](Ref object) { return Ref(val<mud::Program>(object).name()); } }
+                { type<mud::Program>(), member_address(&mud::Program::name), type<cstring>(), "name", var(cstring()), Member::Value, [](Ref object) { return Ref(&val<mud::Program>(object).name()); } }
             },
             // methods
             {
@@ -2522,6 +2712,38 @@ namespace mud
         meta_class<mud::RenderTarget>();
     }
     
+    
+        
+    // mud::Gnode
+    {
+        static Meta meta = { type<mud::Gnode>(), &namspc({ "mud" }), "Gnode", sizeof(mud::Gnode), TypeClass::Object };
+        static Class cls = { type<mud::Gnode>(),
+            // bases
+            { &type<mud::Graph<mud::Gnode>>() },
+            { base_offset<mud::Gnode, mud::Graph<mud::Gnode>>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Gnode>();
+    }
+    
 
     
         m.m_types.push_back(&type<mud::Animated>());
@@ -2529,6 +2751,12 @@ namespace mud
         m.m_types.push_back(&type<mud::Animation>());
         m.m_types.push_back(&type<mud::AnimationPlay>());
         m.m_types.push_back(&type<mud::AnimationTrack>());
+        m.m_types.push_back(&type<mud::AssetStore<mud::Material>>());
+        m.m_types.push_back(&type<mud::AssetStore<mud::Model>>());
+        m.m_types.push_back(&type<mud::AssetStore<mud::ParticleGenerator>>());
+        m.m_types.push_back(&type<mud::AssetStore<mud::Prefab>>());
+        m.m_types.push_back(&type<mud::AssetStore<mud::Program>>());
+        m.m_types.push_back(&type<mud::AssetStore<mud::Texture>>());
         m.m_types.push_back(&type<mud::Background>());
         m.m_types.push_back(&type<mud::BackgroundMode>());
         m.m_types.push_back(&type<mud::BaseMaterialBlock>());
@@ -2550,7 +2778,7 @@ namespace mud
         m.m_types.push_back(&type<mud::GfxBlock>());
         m.m_types.push_back(&type<mud::GfxContext>());
         m.m_types.push_back(&type<mud::GfxSystem>());
-        m.m_types.push_back(&type<mud::Gnode>());
+        m.m_types.push_back(&type<mud::Graph<mud::Gnode>>());
         m.m_types.push_back(&type<mud::ImmediateDraw>());
         m.m_types.push_back(&type<mud::Interpolation>());
         m.m_types.push_back(&type<mud::IsometricAngle>());
@@ -2591,6 +2819,12 @@ namespace mud
         m.m_types.push_back(&type<mud::Skin>());
         m.m_types.push_back(&type<mud::Sun>());
         m.m_types.push_back(&type<mud::SymbolIndex>());
+        m.m_types.push_back(&type<mud::AssetStore<mud::Texture>::T_Asset>());
+        m.m_types.push_back(&type<mud::AssetStore<mud::Program>::T_Asset>());
+        m.m_types.push_back(&type<mud::AssetStore<mud::Material>::T_Asset>());
+        m.m_types.push_back(&type<mud::AssetStore<mud::Model>::T_Asset>());
+        m.m_types.push_back(&type<mud::AssetStore<mud::ParticleGenerator>::T_Asset>());
+        m.m_types.push_back(&type<mud::AssetStore<mud::Prefab>::T_Asset>());
         m.m_types.push_back(&type<mud::Texture>());
         m.m_types.push_back(&type<mud::TextureChannel>());
         m.m_types.push_back(&type<mud::TextureHint>());
@@ -2608,6 +2842,7 @@ namespace mud
         m.m_types.push_back(&type<mud::BlockDepth>());
         m.m_types.push_back(&type<mud::Particles>());
         m.m_types.push_back(&type<mud::RenderTarget>());
+        m.m_types.push_back(&type<mud::Gnode>());
     
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::gfx::update_item_lights(val<mud::Item>(args[0])); };

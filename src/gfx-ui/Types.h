@@ -38,14 +38,14 @@ namespace mud
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::ViewerController>();
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::SpaceSheet>();
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::Viewer>();
-    export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::OrbitController>();
-    export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::FreeOrbitController>();
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::SceneViewer>();
+    export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::FreeOrbitController>();
+    export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::OrbitController>();
     
 	export_ template struct MUD_GFX_UI_EXPORT Typed<std::vector<mud::ViewerController*>>;
 	export_ template struct MUD_GFX_UI_EXPORT Typed<std::vector<mud::SpaceSheet*>>;
 	export_ template struct MUD_GFX_UI_EXPORT Typed<std::vector<mud::Viewer*>>;
-	export_ template struct MUD_GFX_UI_EXPORT Typed<std::vector<mud::OrbitController*>>;
-	export_ template struct MUD_GFX_UI_EXPORT Typed<std::vector<mud::FreeOrbitController*>>;
 	export_ template struct MUD_GFX_UI_EXPORT Typed<std::vector<mud::SceneViewer*>>;
+	export_ template struct MUD_GFX_UI_EXPORT Typed<std::vector<mud::FreeOrbitController*>>;
+	export_ template struct MUD_GFX_UI_EXPORT Typed<std::vector<mud::OrbitController*>>;
 }

@@ -26,7 +26,7 @@ namespace mud
         mud_math::m();
         mud_geom::m();
         mud_ctx::m();
-        //mud_ctx_glfw::m();
+        mud_ctx_glfw::m();
         mud_bgfx::m();
 
         // setup reflection meta data
