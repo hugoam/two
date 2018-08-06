@@ -95,12 +95,12 @@ namespace mud
 		TPool<Rig>& rigs();
 		TPool<Animation>& animations();
 
-		AssetStore<Texture>& textures();
-		AssetStore<Program>& programs();
-		AssetStore<Material>& materials();
-		AssetStore<Model>& models();
-		AssetStore<ParticleGenerator>& particles();
-		AssetStore<Prefab>& prefabs();
+		attr_ AssetStore<Texture>& textures();
+		attr_ AssetStore<Program>& programs();
+		attr_ AssetStore<Material>& materials();
+		attr_ AssetStore<Model>& models();
+		attr_ AssetStore<ParticleGenerator>& particles();
+		attr_ AssetStore<Prefab>& prefabs();
 
 		Texture& default_texture(TextureHint hint);
 

@@ -39,6 +39,12 @@ namespace mud
 
 	export_ template <class T>
 	inline void set(Ref& ref, T* value) { ref.m_value = (void*)value; ref.m_type = &type_of<T>(value); }
+	
+	export_ template <>
+	inline Ref& val<Ref>(Ref& ref) { return ref; }
+
+	export_ template <>
+	inline const Ref& val<Ref>(const Ref& ref) { return ref; }
 
 	export_ template <>
 	inline cstring val<cstring>(Ref& ref) { return (cstring)ref.m_value; }

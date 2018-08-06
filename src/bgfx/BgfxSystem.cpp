@@ -103,6 +103,6 @@ namespace mud
 		float time = float((bx::getHPCounter() - m_start_counter) / double(bx::getHPFrequency()));
 		m_frame_time = time - m_time;
 		m_time = time;
-		m_delta_time = m_frame_time;//;float(m_frame_time / double(bx::getHPFrequency()));
+		m_delta_time = m_frame_time;
 	}
 }

@@ -50,13 +50,13 @@ namespace mud
 		std::vector<cstring> m_cformats;
 		std::vector<Loader> m_format_loaders;
 
-		T_Asset* get(cstring name);
-		T_Asset& create(cstring name);
+		meth_ T_Asset* get(cstring name);
+		meth_ T_Asset& create(cstring name);
 		T_Asset& create(cstring name, const Initializer& initializer);
-		T_Asset& fetch(cstring name);
+		meth_ T_Asset& fetch(cstring name);
 		T_Asset& fetch(cstring name, const Initializer& initializer);
-		T_Asset& file(cstring path, cstring name);
-		T_Asset* file(cstring name);
+		meth_ T_Asset& file(cstring path, cstring name);
+		meth_ T_Asset* file(cstring name);
 
 		void load_files(cstring path);
 

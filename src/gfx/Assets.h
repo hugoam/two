@@ -16,10 +16,10 @@
 
 namespace mud
 {
-	export_ template class MUD_GFX_EXPORT AssetStore<Texture>;
-	export_ template class MUD_GFX_EXPORT AssetStore<Program>;
-	export_ template class MUD_GFX_EXPORT AssetStore<Material>;
-	export_ template class MUD_GFX_EXPORT AssetStore<Model>;
-	export_ template class MUD_GFX_EXPORT AssetStore<ParticleGenerator>;
-	export_ template class MUD_GFX_EXPORT AssetStore<Prefab>;
+	export_ template class refl_ MUD_GFX_EXPORT AssetStore<Texture>;
+	export_ template class refl_ MUD_GFX_EXPORT AssetStore<Program>;
+	export_ template class refl_ MUD_GFX_EXPORT AssetStore<Material>;
+	export_ template class refl_ MUD_GFX_EXPORT AssetStore<Model>;
+	export_ template class refl_ MUD_GFX_EXPORT AssetStore<ParticleGenerator>;
+	export_ template class refl_ MUD_GFX_EXPORT AssetStore<Prefab>;
 }
