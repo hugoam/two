@@ -8,6 +8,7 @@
 module mud.lang;
 #else
 #include <obj/Indexer.h>
+#include <proto/Proto.h>
 #include <lang/Types.h>
 #include <lang/Script.h>
 #include <lang/Lua.h>
@@ -43,5 +44,14 @@ namespace mud
 		}
 
 		m_interpreter->call(m_script.c_str(), result.none() ? nullptr : &result);
+	}
+
+	ScriptClass::ScriptClass(const string& name, const std::vector<Type*>& parts)
+		: m_type(name.c_str())
+		, m_class(m_type)
+	{
+		g_prototypes[m_type.m_id] = make_unique<Prototype>(m_class);
+		for(Type* type : parts)
+			g_prototypes[m_type.m_id]->add_part(*type);
 	}
 }

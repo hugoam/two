@@ -9,6 +9,7 @@
 #include <infra/NonCopy.h>
 #include <obj/Any.h>
 #include <refl/Method.h>
+#include <refl/Class.h>
 #endif
 #include <lang/Forward.h>
 
@@ -83,5 +84,14 @@ namespace mud
 		T call(cstring expr) { return val<T>(call(expr, &type<T>())); }
 
 		string m_output;
+	};
+
+	export_ class refl_ MUD_LANG_EXPORT ScriptClass : public NonCopy
+	{
+	public:
+		ScriptClass(const string& name, const std::vector<Type*>& parts);
+
+		attr_ Type m_type;
+		attr_ Class m_class;
 	};
 }
