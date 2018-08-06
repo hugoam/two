@@ -25,8 +25,8 @@ namespace mud
 		void open(Script& script);
 		void close(Script& script);
 
-		TextScript& create_script(cstring name, Language language);
-		VisualScript& create_visual(cstring name);
+		TextScript& create_script(cstring name, Language language, Signature signature = {});
+		VisualScript& create_visual(cstring name, Signature signature = {});
 	};
 
 	export_ MUD_UIO_EXPORT void script_edit_output(Widget& parent, Interpreter& interpreter);

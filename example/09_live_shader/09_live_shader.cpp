@@ -92,6 +92,7 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 			program.reload();
 		}
 		text_edit.m_changed = false;
+		text_edit.m_language = &LanguageGLSL();
 	}
 }
 

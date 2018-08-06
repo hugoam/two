@@ -288,16 +288,16 @@ namespace mud
 		static std::vector<uint32_t>& GetDarkPalette();
 
 	public:
-		bool CanUndo() const { return mUndoIndex > 0; }
-		bool CanRedo() const { return mUndoIndex < (int)mUndoStack.size(); }
+		bool CanUndo() const { return m_undo_index > 0; }
+		bool CanRedo() const { return m_undo_index < (int)m_undo_stack.size(); }
 
 	public:
 		void AddUndo(Action& aValue);
 		
-		std::vector<Action> mUndoStack;
-		int mUndoIndex = 0;
+		std::vector<Action> m_undo_stack;
+		int m_undo_index = 0;
 
-		unique_ptr<LanguageDefinition> m_language;
+		LanguageDefinition* m_language = nullptr;
 	};
 
 namespace ui

@@ -16,6 +16,7 @@ module mud.uio;
 #include <lang/Lua.h>
 #include <lang/Wren.h>
 #include <ui/Input.h>
+#include <ui/Edit/Lang.h>
 #include <uio/Types.h>
 #include <uio/Edit/Script.h>
 #include <uio/Edit/Canvas.h>
@@ -42,20 +43,20 @@ namespace mud
 		vector_remove(m_scripts, &script);
 	}
 
-	VisualScript& ScriptEditor::create_visual(cstring name)
+	TextScript& ScriptEditor::create_script(cstring name, Language language, Signature signature)
 	{
-		VisualScript& script = global_pool<VisualScript>().construct(name);
-		this->open(script);
-		return script;
-	}
-
-	TextScript& ScriptEditor::create_script(cstring name, Language language)
-	{
-		TextScript& script = global_pool<TextScript>().construct(name, language);
+		TextScript& script = global_pool<TextScript>().construct(name, language, signature);
 		if(language == Language::Lua)
 			script.m_interpreter = m_lua;
 		else if(language == Language::Wren)
 			script.m_interpreter = m_wren;
+		this->open(script);
+		return script;
+	}
+
+	VisualScript& ScriptEditor::create_visual(cstring name, Signature signature)
+	{
+		VisualScript& script = global_pool<VisualScript>().construct(name, signature);
 		this->open(script);
 		return script;
 	}
@@ -127,6 +128,11 @@ namespace mud
 		std::vector<string> known_words = meta_words();
 		TextEdit& edit = ui::code_edit(*self.m_body, script.m_script, 0, &known_words);
 		UNUSED(edit);
+
+		if(script.m_language == Language::Lua)
+			edit.m_language = &LanguageLua();
+		else if(script.m_language == Language::Wren)
+			edit.m_language = &LanguageWren();
 
 		//script_edit_hover(edit);
 	}

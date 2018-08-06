@@ -53,7 +53,7 @@ namespace mud
 #endif
 	}
 
-	LanguageDefinition LanguageCpp()
+	LanguageDefinition& LanguageCpp()
 	{
 		static bool inited = false;
 		static LanguageDefinition lang;
@@ -104,7 +104,7 @@ namespace mud
 		return lang;
 	}
 
-	LanguageDefinition LanguageHLSL()
+	LanguageDefinition& LanguageHLSL()
 	{
 		static bool inited = false;
 		static LanguageDefinition lang;
@@ -175,7 +175,7 @@ namespace mud
 		return lang;
 	}
 
-	LanguageDefinition LanguageGLSL()
+	LanguageDefinition& LanguageGLSL()
 	{
 		static bool inited = false;
 		static LanguageDefinition lang;
@@ -223,7 +223,7 @@ namespace mud
 		return lang;
 	}
 
-	LanguageDefinition LanguageC()
+	LanguageDefinition& LanguageC()
 	{
 		static bool inited = false;
 		static LanguageDefinition lang;
@@ -271,119 +271,7 @@ namespace mud
 		return lang;
 	}
 
-	LanguageDefinition LanguageSQL()
-	{
-		static bool inited = false;
-		static LanguageDefinition lang;
-		if(!inited)
-		{
-			static const char* const keywords[] = {
-				"ADD", "EXCEPT", "PERCENT", "ALL", "EXEC", "PLAN", "ALTER", "EXECUTE", "PRECISION", "AND", "EXISTS", "PRIMARY", "ANY", "EXIT", "PRINT", "AS", "FETCH", "PROC", "ASC", "FILE", "PROCEDURE",
-				"AUTHORIZATION", "FILLFACTOR", "PUBLIC", "BACKUP", "FOR", "RAISERROR", "BEGIN", "FOREIGN", "READ", "BETWEEN", "FREETEXT", "READTEXT", "BREAK", "FREETEXTTABLE", "RECONFIGURE",
-				"BROWSE", "FROM", "REFERENCES", "BULK", "FULL", "REPLICATION", "BY", "FUNCTION", "RESTORE", "CASCADE", "GOTO", "RESTRICT", "CASE", "GRANT", "RETURN", "CHECK", "GROUP", "REVOKE",
-				"CHECKPOINT", "HAVING", "RIGHT", "CLOSE", "HOLDLOCK", "ROLLBACK", "CLUSTERED", "IDENTITY", "ROWCOUNT", "COALESCE", "IDENTITY_INSERT", "ROWGUIDCOL", "COLLATE", "IDENTITYCOL", "RULE",
-				"COLUMN", "IF", "SAVE", "COMMIT", "IN", "SCHEMA", "COMPUTE", "INDEX", "SELECT", "CONSTRAINT", "INNER", "SESSION_USER", "CONTAINS", "INSERT", "SET", "CONTAINSTABLE", "INTERSECT", "SETUSER",
-				"CONTINUE", "INTO", "SHUTDOWN", "CONVERT", "IS", "SOME", "CREATE", "JOIN", "STATISTICS", "CROSS", "KEY", "SYSTEM_USER", "CURRENT", "KILL", "TABLE", "CURRENT_DATE", "LEFT", "TEXTSIZE",
-				"CURRENT_TIME", "LIKE", "THEN", "CURRENT_TIMESTAMP", "LINENO", "TO", "CURRENT_USER", "LOAD", "TOP", "CURSOR", "NATIONAL", "TRAN", "DATABASE", "NOCHECK", "TRANSACTION",
-				"DBCC", "NONCLUSTERED", "TRIGGER", "DEALLOCATE", "NOT", "TRUNCATE", "DECLARE", "NULL", "TSEQUAL", "DEFAULT", "NULLIF", "UNION", "DELETE", "OF", "UNIQUE", "DENY", "OFF", "UPDATE",
-				"DESC", "OFFSETS", "UPDATETEXT", "DISK", "ON", "USE", "DISTINCT", "OPEN", "USER", "DISTRIBUTED", "OPENDATASOURCE", "VALUES", "DOUBLE", "OPENQUERY", "VARYING","DROP", "OPENROWSET", "VIEW",
-				"DUMMY", "OPENXML", "WAITFOR", "DUMP", "OPTION", "WHEN", "ELSE", "OR", "WHERE", "END", "ORDER", "WHILE", "ERRLVL", "OUTER", "WITH", "ESCAPE", "OVER", "WRITETEXT"
-			};
-
-			for(auto& k : keywords)
-				lang.m_keywords.insert(k);
-
-			static const char* const identifiers[] = {
-				"ABS",  "ACOS",  "ADD_MONTHS",  "ASCII",  "ASCIISTR",  "ASIN",  "ATAN",  "ATAN2",  "AVG",  "BFILENAME",  "BIN_TO_NUM",  "BITAND",  "CARDINALITY",  "CASE",  "CAST",  "CEIL",
-				"CHARTOROWID",  "CHR",  "COALESCE",  "COMPOSE",  "CONCAT",  "CONVERT",  "CORR",  "COS",  "COSH",  "COUNT",  "COVAR_POP",  "COVAR_SAMP",  "CUME_DIST",  "CURRENT_DATE",
-				"CURRENT_TIMESTAMP",  "DBTIMEZONE",  "DECODE",  "DECOMPOSE",  "DENSE_RANK",  "DUMP",  "EMPTY_BLOB",  "EMPTY_CLOB",  "EXP",  "EXTRACT",  "FIRST_VALUE",  "FLOOR",  "FROM_TZ",  "GREATEST",
-				"GROUP_ID",  "HEXTORAW",  "INITCAP",  "INSTR",  "INSTR2",  "INSTR4",  "INSTRB",  "INSTRC",  "LAG",  "LAST_DAY",  "LAST_VALUE",  "LEAD",  "LEAST",  "LENGTH",  "LENGTH2",  "LENGTH4",
-				"LENGTHB",  "LENGTHC",  "LISTAGG",  "LN",  "LNNVL",  "LOCALTIMESTAMP",  "LOG",  "LOWER",  "LPAD",  "LTRIM",  "MAX",  "MEDIAN",  "MIN",  "MOD",  "MONTHS_BETWEEN",  "NANVL",  "NCHR",
-				"NEW_TIME",  "NEXT_DAY",  "NTH_VALUE",  "NULLIF",  "NUMTODSINTERVAL",  "NUMMUDMINTERVAL",  "NVL",  "NVL2",  "POWER",  "RANK",  "RAWTOHEX",  "REGEXP_COUNT",  "REGEXP_INSTR",
-				"REGEXP_REPLACE",  "REGEXP_SUBSTR",  "REMAINDER",  "REPLACE",  "ROUND",  "ROWNUM",  "RPAD",  "RTRIM",  "SESSIONTIMEZONE",  "SIGN",  "SIN",  "SINH",
-				"SOUNDEX",  "SQRT",  "STDDEV",  "SUBSTR",  "SUM",  "SYS_CONTEXT",  "SYSDATE",  "SYSTIMESTAMP",  "TAN",  "TANH",  "TO_CHAR",  "TO_CLOB",  "TO_DATE",  "TO_DSINTERVAL",  "TO_LOB",
-				"TO_MULTI_BYTE",  "TO_NCLOB",  "TO_NUMBER",  "TO_SINGLE_BYTE",  "TO_TIMESTAMP",  "TO_TIMESTAMP_TZ",  "TO_YMINTERVAL",  "TRANSLATE",  "TRIM",  "TRUNC", "TZ_OFFSET",  "UID",  "UPPER",
-				"USER",  "USERENV",  "VAR_POP",  "VAR_SAMP",  "VARIANCE",  "VSIZE "
-			};
-			for(auto& k : identifiers)
-			{
-				Identifier id;
-				id.m_declaration = "Built-in function";
-				lang.m_identifiers.insert(std::make_pair(std::string(k), id));
-			}
-
-			add_token_regex(lang, "\\-\\-.*", CodePalette::Comment);
-			add_token_regex(lang, "L?\\\"(\\\\.|[^\\\"])*\\\"", CodePalette::String);
-			add_token_regex(lang, "\\\'[^\\\']*\\\'", CodePalette::String);
-			add_token_regex(lang, "[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)([eE][+-]?[0-9]+)?[fF]?", CodePalette::Number);
-			add_token_regex(lang, "[+-]?[0-9]+[Uu]?[lL]?[lL]?", CodePalette::Number);
-			add_token_regex(lang, "0[0-7]+[Uu]?[lL]?[lL]?", CodePalette::Number);
-			add_token_regex(lang, "0[xX][0-9a-fA-F]+[uU]?[lL]?[lL]?", CodePalette::Number);
-			add_token_regex(lang, "[a-zA-Z_][a-zA-Z0-9_]*", CodePalette::Identifier);
-			add_token_regex(lang, "[\\[\\]\\{\\}\\!\\%\\^\\&\\*\\(\\)\\-\\+\\=\\~\\|\\<\\>\\?\\/\\;\\,\\.]", CodePalette::Punctuation);
-
-			lang.m_comment_start = "/*";
-			lang.m_comment_end = "*/";
-
-			lang.m_case_sensitive = false;
-
-			lang.m_name = "SQL";
-
-			inited = true;
-			}
-		return lang;
-		}
-
-	LanguageDefinition LanguageAngelScript()
-	{
-		static bool inited = false;
-		static LanguageDefinition lang;
-		if(!inited)
-		{
-			static const char* const keywords[] = {
-				"and", "abstract", "auto", "bool", "break", "case", "cast", "class", "const", "continue", "default", "do", "double", "else", "enum", "false", "final", "float", "for",
-				"from", "funcdef", "function", "get", "if", "import", "in", "inout", "int", "interface", "int8", "int16", "int32", "int64", "is", "mixin", "namespace", "not",
-				"null", "or", "out", "override", "private", "protected", "return", "set", "shared", "super", "switch", "this ", "true", "typedef", "uint", "uint8", "uint16", "uint32",
-				"uint64", "void", "while", "xor"
-			};
-
-			for(auto& k : keywords)
-				lang.m_keywords.insert(k);
-
-			static const char* const identifiers[] = {
-				"cos", "sin", "tab", "acos", "asin", "atan", "atan2", "cosh", "sinh", "tanh", "log", "log10", "pow", "sqrt", "abs", "ceil", "floor", "fraction", "closeTo", "fpFromIEEE", "fpToIEEE",
-				"complex", "opEquals", "opAddAssign", "opSubAssign", "opMulAssign", "opDivAssign", "opAdd", "opSub", "opMul", "opDiv"
-			};
-			for(auto& k : identifiers)
-			{
-				Identifier id;
-				id.m_declaration = "Built-in function";
-				lang.m_identifiers.insert(std::make_pair(std::string(k), id));
-			}
-
-			add_token_regex(lang, "//.*", CodePalette::Comment);
-			add_token_regex(lang, "L?\\\"(\\\\.|[^\\\"])*\\\"", CodePalette::String);
-			add_token_regex(lang, "\\'\\\\?[^\\']\\'", CodePalette::String);
-			add_token_regex(lang, "[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)([eE][+-]?[0-9]+)?[fF]?", CodePalette::Number);
-			add_token_regex(lang, "[+-]?[0-9]+[Uu]?[lL]?[lL]?", CodePalette::Number);
-			add_token_regex(lang, "0[0-7]+[Uu]?[lL]?[lL]?", CodePalette::Number);
-			add_token_regex(lang, "0[xX][0-9a-fA-F]+[uU]?[lL]?[lL]?", CodePalette::Number);
-			add_token_regex(lang, "[a-zA-Z_][a-zA-Z0-9_]*", CodePalette::Identifier);
-			add_token_regex(lang, "[\\[\\]\\{\\}\\!\\%\\^\\&\\*\\(\\)\\-\\+\\=\\~\\|\\<\\>\\?\\/\\;\\,\\.]", CodePalette::Punctuation);
-
-			lang.m_comment_start = "/*";
-			lang.m_comment_end = "*/";
-
-			lang.m_case_sensitive = true;
-
-			lang.m_name = "AngelScript";
-
-			inited = true;
-		}
-		return lang;
-	}
-
-	LanguageDefinition LanguageLua()
+	LanguageDefinition& LanguageLua()
 	{
 		static bool inited = false;
 		static LanguageDefinition lang;
@@ -430,6 +318,53 @@ namespace mud
 			lang.m_case_sensitive = true;
 
 			lang.m_name = "Lua";
+
+			inited = true;
+		}
+		return lang;
+	}
+
+	LanguageDefinition& LanguageWren()
+	{
+		static bool inited = false;
+		static LanguageDefinition lang;
+		if(!inited)
+		{
+			static const char* const cppKeywords[] = {
+				"class", "construct", "continue", "else", "false", "for", "if", "import", "is", "new", "null", "return", "static", "this", "true", "var", "while"
+			};
+			for(auto& k : cppKeywords)
+				lang.m_keywords.insert(k);
+
+			static const char* const identifiers[] = {
+				"abort", "abs", "acos", "asin", "atan", "atexit", "atof", "atoi", "atol", "ceil", "clock", "cosh", "ctime", "div", "exit", "fabs", "floor", "fmod", "getchar", "getenv", "isalnum", "isalpha", "isdigit", "isgraph",
+				"ispunct", "isspace", "isupper", "kbhit", "log10", "log2", "log", "memcmp", "modf", "pow", "printf", "sprintf", "snprintf", "putchar", "putenv", "puts", "rand", "remove", "rename", "sinh", "sqrt", "srand", "strcat", "strcmp", "strerror", "time", "tolower", "toupper",
+				"std", "string", "vector", "map", "unordered_map", "set", "unordered_set", "min", "max"
+			};
+			for(auto& k : identifiers)
+			{
+				Identifier id;
+				id.m_declaration = "Built-in function";
+				lang.m_identifiers.insert(std::make_pair(std::string(k), id));
+			}
+
+			add_token_regex(lang, "//.*", CodePalette::Comment);
+			add_token_regex(lang, "[ \t]*#[ \\t]*[a-zA-Z_]+", CodePalette::Preprocessor);
+			add_token_regex(lang, "L?\\\"(\\\\.|[^\\\"])*\\\"", CodePalette::String);
+			add_token_regex(lang, "\\'\\\\?[^\\']\\'", CodePalette::CharLiteral);
+			add_token_regex(lang, "0[xX][0-9a-fA-F]+[uU]?[lL]?[lL]?", CodePalette::Number);
+			add_token_regex(lang, "[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)([eE][+-]?[0-9]+)?[fF]?", CodePalette::Number);
+			add_token_regex(lang, "0[0-7]+[Uu]?[lL]?[lL]?", CodePalette::Number);
+			add_token_regex(lang, "[+-]?[0-9]+[Uu]?[lL]?[lL]?", CodePalette::Number);
+			add_token_regex(lang, "[a-zA-Z_][a-zA-Z0-9_]*", CodePalette::Identifier);
+			add_token_regex(lang, "[\\[\\]\\{\\}\\!\\%\\^\\&\\*\\(\\)\\-\\+\\=\\~\\|\\<\\>\\?\\/\\;\\,\\.]", CodePalette::Punctuation);
+
+			lang.m_comment_start = "/*";
+			lang.m_comment_end = "*/";
+
+			lang.m_case_sensitive = true;
+
+			lang.m_name = "C++";
 
 			inited = true;
 		}

@@ -277,8 +277,6 @@ namespace mud
 		, m_allowed_chars(allowed_chars)
 	{
 		m_palette = to_array(GetDarkPalette());
-		m_language = make_unique<LanguageDefinition>(LanguageLua());
-		//m_language = LanguageGLSL();
 	}
 
 	TextEdit::~TextEdit()
@@ -609,9 +607,9 @@ namespace mud
 
 	void TextEdit::AddUndo(Action& aValue)
 	{
-		mUndoStack.resize(mUndoIndex + 1);
-		mUndoStack.back() = aValue;
-		++mUndoIndex;
+		m_undo_stack.resize(m_undo_index + 1);
+		m_undo_stack.back() = aValue;
+		++m_undo_index;
 	}
 
 	void TextEdit::update()
@@ -871,13 +869,13 @@ namespace mud
 	void TextEdit::undo()
 	{
 		if(CanUndo())
-			mUndoStack[--mUndoIndex].Undo(this);
+			m_undo_stack[--m_undo_index].Undo(this);
 	}
 
 	void TextEdit::redo()
 	{
 		if(CanRedo())
-			mUndoStack[mUndoIndex++].Redo(this);
+			m_undo_stack[m_undo_index++].Redo(this);
 	}
 
 	void TextEdit::mark_dirty(size_t start, size_t end)
@@ -896,7 +894,7 @@ namespace mud
 
 	void TextEdit::colorize(size_t from, size_t to)
 	{
-		if(m_string.empty())
+		if(m_string.empty() || m_language == nullptr)
 			return;
 
 		std::match_results<const char*> results;

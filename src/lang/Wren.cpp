@@ -42,17 +42,19 @@ void wrenAssignVariable(WrenVM* vm, const char* module, const char* name,
 						int value_slot);
 }
 
-//#define MUD_WREN_DEBUG_DECLS
+#define MUD_WREN_DEBUG_DECLS
 
 namespace mud
 {
 	void wren_error(WrenVM* vm, WrenErrorType type, const char* module, int line, const char* message)
 	{
+		UNUSED(vm);
 		printf("ERROR: wren -> %s:%i %s\n", module, line, message);
 	}
 
 	void wren_print(WrenVM* vm, const char* text)
 	{
+		UNUSED(vm);
 		printf("%s\n", text);
 	}
 
@@ -150,12 +152,12 @@ namespace mud
 		return alloc_object(vm, slot, class_slot, type);
 	}
 
-	inline Ref alloc_ref(WrenVM* vm, int slot, Ref source)
+	inline Ref alloc_ref(WrenVM* vm, int slot, Ref ref)
 	{
 		int class_slot = wrenGetSlotCount(vm);
 		wrenEnsureSlots(vm, class_slot + 1);
-		wrenSetSlotHandle(vm, class_slot, g_wren_classes[type<Ref>().m_id]);
-		return alloc_ref(vm, slot, class_slot, source);
+		wrenSetSlotHandle(vm, class_slot, g_wren_classes[type(ref).m_id]);
+		return alloc_ref(vm, slot, class_slot, ref);
 	}
 
 	inline void push_ref(WrenVM* vm, int slot, Ref object)
@@ -335,12 +337,12 @@ namespace mud
 
 	inline void construct_interface(WrenVM* vm)
 	{
-		const Constructor* constructor = &val<Constructor>(read_ref(vm, 1));
+		const Constructor* constructor = &val<Constructor>(read_ref(vm, 0));
 		if(!constructor) return;
 		Call& construct = cached_call(*constructor);
 		VirtualMethod virtual_method = [&](Method& method, Ref object, array<Var> args) { call_wren_virtual(vm, method, object, args); };
 		construct.m_arguments.back() = var(virtual_method);
-		if(read_params(vm, &construct.m_callable->m_params[1], to_array(construct.m_arguments, 1), 2))
+		if(read_params(vm, &construct.m_callable->m_params[1], to_array(construct.m_arguments, 1), 1))
 			construct(alloc_object(vm, 0, 0, *constructor->m_object_type));
 	}
 
@@ -357,15 +359,10 @@ namespace mud
 		string t = "    ";
 
 		string members;
-
-		if(enu.m_scoped)
-			; //stack += get_table(m_vm, type.m_name);
-
 		for(size_t i = 0; i < enu.m_names.size(); ++i)
 		{
 			members += t + "static " + string(enu.m_names[i]) + " { " + to_string(enu.m_indices[i]) + " }\n";
 		}
-
 
 		string decl;
 		decl += "class " + name + " {\n";
@@ -383,7 +380,8 @@ namespace mud
 
 	inline void register_class(WrenVM* vm, string name, Type& type)
 	{
-		if(type.is<Type>()) return;
+		if(type.is<Function>() || type.is<Type>() || type.is<Constructor>() || type.is<Method>() || type.is<Member>() || type.is<Static>()) return;
+		if(type.is<Class>() || type.is<Creator>() || type.is<System>()) return;
 
 		string constructors;
 		string members;
@@ -394,7 +392,7 @@ namespace mud
 		string t = "    ";
 		string c = type.m_name;
 
-		init += t + t + "__type = Type.new(\"" + c + "\")\n";
+		init += t + t + "__type = Type.ref(\"" + c + "\")\n";
 
 		for(Constructor& constructor : cls(type).m_constructors)
 		{
@@ -402,7 +400,7 @@ namespace mud
 			string params = [&]() { if(constructor.m_params.size() == 1) return string("");  string params; for(Param& param : to_array(constructor.m_params, 1)) { params += param.m_name; params += ","; } params.pop_back(); return params; }();
 			string paramsnext = params.empty() ? "" : ", " + params;
 
-			init += t + t + "__" + n + " = Constructor.new(\"" + c + "\", " + to_string(constructor.m_index) + ")\n";
+			init += t + t + "__" + n + " = Constructor.ref(\"" + c + "\", " + to_string(constructor.m_index) + ")\n";
 
 			constructors += t + "construct new_impl(constructor" + paramsnext + ") {}\n";
 
@@ -413,7 +411,7 @@ namespace mud
 		{
 			string n = string(member.m_name);
 
-			init += t + t + "__" + n + " = Member.new(\"" + c + "\", \"" + n + "\")\n";
+			init += t + t + "__" + n + " = Member.ref(\"" + c + "\", \"" + n + "\")\n";
 
 			members += t + n + " { __" + n + ".get(this) }\n";
 			if(member.is_mutable())
@@ -423,17 +421,17 @@ namespace mud
 		for(Method& method : cls(type).m_methods)
 		{
 			string n = string(method.m_name);
-			string params = [&]() { string params; for(Param& param : method.m_params) { params += param.m_name; params += ","; } params.pop_back(); return params; }();
+			string params = [&]() { if(method.m_params.size() == 0) return string(""); string params; for(Param& param : method.m_params) { params += param.m_name; params += ","; } params.pop_back(); return params; }();
 			string paramsnext = params.empty() ? "" : ", " + params;
 
-			init += t + t + "__" + n + " = Method.new(\"" + c + "\", \"" + n + "\")\n";
+			init += t + t + "__" + n + " = Method.ref(\"" + c + "\", \"" + n + "\")\n";
 
 			methods += t + n + "(" + params + ") { __" + n + ".call(this" + paramsnext + ") }\n";
 		}
 
 		for(Operator& op : cls(type).m_operators)
 		{
-			init += t + t + "__" + op.m_name + " = Operator.new(\"" + op.m_name + "\", \"" + op.m_type->m_name + "\")\n";
+			init += t + t + "__" + op.m_name + " = Operator.ref(\"" + op.m_name + "\", \"" + op.m_type->m_name + "\")\n";
 
 			methods += t + op.m_sign + "(other) { __" + op.m_name + ".call(this, other) }\n";
 		}
@@ -442,7 +440,7 @@ namespace mud
 		{
 			string n = string(static_member.m_name);
 
-			init += t + t + "__" + n + " = Static.new(\"" + c + "\", \"" + n + "\")\n";
+			init += t + t + "__" + n + " = Static.ref(\"" + c + "\", \"" + n + "\")\n";
 
 			statics += t + "static " + n + " { __" + n + ".get() }\n";
 			statics += t + "static " + n + "=(value) { __" + n + ".set(value) }\n";
@@ -484,12 +482,11 @@ namespace mud
 		wrenEnsureSlots(vm, 1);
 		wrenGetVariable(vm, module.c_str(), name.c_str(), 0);
 		g_wren_classes[type.m_id] = wrenGetSlotHandle(vm, 0);
-
 	}
 
 	WrenForeignClassMethods bindForeignClass(WrenVM* vm, const char* module, const char* className)
 	{
-		UNUSED(module);
+		UNUSED(vm); UNUSED(module);
 
 		WrenForeignClassMethods methods = {};
 
@@ -588,7 +585,7 @@ namespace mud
 
 	WrenForeignMethodFn bindForeignMethod(WrenVM* vm, const char* module, const char* className, bool isStatic, const char* signature)
 	{
-		UNUSED(module); UNUSED(isStatic);
+		UNUSED(vm); UNUSED(module); UNUSED(isStatic);
 
 		if(strcmp(className, "Function") == 0)
 		{
@@ -612,6 +609,18 @@ namespace mud
 				return call_function_args<8>;
 			if(strcmp(signature, "call(_,_,_,_,_,_,_,_,_)") == 0)
 				return call_function_args<9>;
+		}
+
+		if(strcmp(className, "Type") == 0)
+		{
+			if(strcmp(signature, "new(_)") == 0)
+			return [](WrenVM* vm)
+			{
+				const char* name = wrenGetSlotString(vm, 1);
+				Ref t = alloc_object(vm, 0, 0, type<Type>());
+				Type* type = new (t.m_value) Type(name);
+				g_wren_types[type->m_id] = wrenGetSlotHandle(vm, 0);
+			};
 		}
 
 		if(strcmp(className, "Operator") == 0)
@@ -654,9 +663,9 @@ namespace mud
 
 		if(strcmp(className, "VirtualConstructor") == 0)
 		{
-			if(strcmp(signature, "new()") == 0)
+			if(strcmp(signature, "call()") == 0)
 				return construct_interface;
-			if(strcmp(signature, "new(_)") == 0)
+			if(strcmp(signature, "call(_)") == 0)
 				return construct_interface;
 		}
 
@@ -831,7 +840,7 @@ namespace mud
 
 			string primitives =
 				"foreign class Function {\n"
-				"    construct new(namespace, name) {}\n"
+				"    construct ref(namespace, name) {}\n"
 				"    \n"
 				"    foreign call()\n"
 				"    foreign call(a0)\n"
@@ -846,29 +855,30 @@ namespace mud
 				"}\n"
 				"\n"
 				"foreign class Type {\n"
-				"    construct new(name) {}\n"
+				"    foreign static new(name)\n"
+				"    construct ref(name) {}\n"
 				"}\n"
 				"\n"
 				"foreign class Constructor {\n"
-				"    construct new(class_name, index) {}\n"
+				"    construct ref(class_name, index) {}\n"
 				"}\n"
 				"\n"
 				"foreign class Member {\n"
-				"    construct new(class_name, member_name) {}\n"
+				"    construct ref(class_name, member_name) {}\n"
 				"    \n"
 				"    foreign get(object)\n"
 				"    foreign set(object, value)\n"
 				"}\n"
 				"\n"
 				"foreign class Static {\n"
-				"    construct new(class_name, member_name) {}\n"
+				"    construct ref(class_name, member_name) {}\n"
 				"    \n"
 				"    foreign get()\n"
 				"    foreign set(value)\n"
 				"}\n"
 				"\n"
 				"foreign class Method {\n"
-				"    construct new(class_name, method_name) {}\n"
+				"    construct ref(class_name, method_name) {}\n"
 				"    \n"
 				"    foreign call(object)\n"
 				"    foreign call(object, a0)\n"
@@ -879,13 +889,13 @@ namespace mud
 				"}\n"
 				"\n"
 				"foreign class Operator {\n"
-				"    construct new(name, class_name) {}\n"
+				"    construct ref(name, class_name) {}\n"
 				"    \n"
 				"    foreign call(a0, a1)\n"
 				"}\n"
 				"\n"
 				"foreign class VirtualConstructor {\n"
-				"    construct new(class_name) {}\n"
+				"    construct ref(class_name) {}\n"
 				"    \n"
 				"    foreign call()\n"
 				"    foreign call(a0)\n"
@@ -937,6 +947,8 @@ namespace mud
 
 		void register_type(Type& type)
 		{
+			if(type.m_name == "Complex")
+				int i = 0;
 			string name = clean_name(type.m_name);
 			if(is_class(type))
 				register_class(m_vm, name, type);
@@ -954,14 +966,14 @@ namespace mud
 			string c = path.size() > 0 ? path[0] : "Module";
 			string n = string(function.m_name);
 			string parent = function.m_namespace->m_name;
-			string params = [&]() { string params; for(Param& param : function.m_params) { params += param.m_name; params += ","; } params.pop_back(); return params; }();
+			string params = [&]() { if(function.m_params.size() == 0) return string(""); string params; for(Param& param : function.m_params) { params += param.m_name; params += ","; } params.pop_back(); return params; }();
 			string paramsnext = params.empty() ? "" : ", " + params;
 
 			Functions& decls = m_function_decls[c];
 
 			decls.functions += "    static " + n + "(" + params + ") { __" + n + ".call(" + params + ") }\n";
 
-			decls.init += "        __" + n + " = Function.new(\"" + parent + "\", \"" + n + "\")\n";
+			decls.init += "        __" + n + " = Function.ref(\"" + parent + "\", \"" + n + "\")\n";
 		}
 
 		void declare_namespace(Namespace& location)
@@ -1063,6 +1075,7 @@ namespace mud
 		wrenEnsureSlots(m_context->m_vm, 1);
 		push(m_context->m_vm, 0, value);
 		wrenAssignVariable(m_context->m_vm, "main", name, 0);
+		Ref r = read_ref(m_context->m_vm, 0);
 	}
 
 	Var WrenInterpreter::getx(array<cstring> path, Type& type)

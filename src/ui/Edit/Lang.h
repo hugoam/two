@@ -38,11 +38,10 @@ namespace mud
 		bool m_case_sensitive;
 	};
 
-	LanguageDefinition LanguageCpp();
-	LanguageDefinition LanguageHLSL();
-	LanguageDefinition LanguageGLSL();
-	LanguageDefinition LanguageC();
-	LanguageDefinition LanguageSQL();
-	LanguageDefinition LanguageAngelScript();
-	LanguageDefinition LanguageLua();
+	LanguageDefinition& LanguageCpp();
+	LanguageDefinition& LanguageHLSL();
+	LanguageDefinition& LanguageGLSL();
+	LanguageDefinition& LanguageC();
+	LanguageDefinition& LanguageLua();
+	LanguageDefinition& LanguageWren();
 }
