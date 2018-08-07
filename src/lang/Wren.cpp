@@ -44,7 +44,7 @@ void wrenAssignVariable(WrenVM* vm, const char* module, const char* name,
 						int value_slot);
 }
 
-//#define MUD_WREN_DEBUG_DECLS
+#define MUD_WREN_DEBUG_DECLS
 //#define MUD_WREN_DEBUG
 
 namespace mud
@@ -538,6 +538,14 @@ namespace mud
 		g_wren_classes[type.m_id] = wrenGetSlotHandle(vm, 0);
 	}
 
+	Function* find_function(cstring nemespace, cstring name, size_t num_args)
+	{
+		for (Function* function : system().m_functions)
+			if (function->m_namespace->m_name == string(nemespace) && function->m_name == string(name) && function->m_params.size() == num_args)
+				return function;
+		return nullptr;
+	}
+
 	WrenForeignClassMethods bindForeignClass(WrenVM* vm, const char* module, const char* className)
 	{
 		UNUSED(vm); UNUSED(module);
@@ -550,7 +558,8 @@ namespace mud
 			{
 				const char* n = wrenGetSlotString(vm, 1);
 				const char* f = wrenGetSlotString(vm, 2);
-				Function* function = system().find_function(n, f);
+				size_t num_args = size_t(wrenGetSlotDouble(vm, 3));
+				Function* function = find_function(n, f, num_args);
 				alloc_ref(vm, 0, 0, Ref(function));
 			};
 		}
@@ -937,7 +946,7 @@ namespace mud
 
 			string primitives =
 				"foreign class Function {\n"
-				"    construct ref(namespace, name) {}\n"
+				"    construct ref(namespace, name, num_args) {}\n"
 				"    \n"
 				"    foreign call()\n"
 				"    foreign call(a0)\n"
@@ -1068,7 +1077,7 @@ namespace mud
 
 			decls.functions += "    static " + n + "(" + params + ") { __" + n + ".call(" + params + ") }\n";
 
-			decls.bind += "        __" + n + " = Function.ref(\"" + parent + "\", \"" + n + "\")\n";
+			decls.bind += "        __" + n + " = Function.ref(\"" + parent + "\", \"" + n + "\", " + to_string(function.m_params.size()) + ")\n";
 		}
 
 		void declare_namespace(Namespace& location)

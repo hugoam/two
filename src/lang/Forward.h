@@ -37,7 +37,7 @@ namespace glm {
     
 }
 
-namespace bx {
+namespace bgfx {
 
     
     
@@ -104,7 +104,7 @@ namespace bimg {
     
 }
 
-namespace bgfx {
+namespace bx {
 
     
     

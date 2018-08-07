@@ -18,7 +18,18 @@ namespace mud
     // Base Types
     
     // Enums
-    
+
+	{
+		static Meta meta = { type<mud::ui::OrbitMode>(), &namspc({ "mud", "ui" }), "OrbitMode", sizeof(mud::ui::OrbitMode), TypeClass::Enum };
+		static Enum enu = { type<mud::ui::OrbitMode>(),
+			true,
+			{ "ThirdPerson", "Isometric", "PseudoIsometric" },
+			{ 0, 1, 2 },
+			{ var(mud::ui::OrbitMode::ThirdPerson), var(mud::ui::OrbitMode::Isometric), var(mud::ui::OrbitMode::PseudoIsometric) }
+		};
+		meta_enum<mud::ui::OrbitMode>();
+	}
+
     // Sequences
     
     
@@ -227,7 +238,8 @@ namespace mud
     }
     
 
-    
+
+		m.m_types.push_back(&type<mud::ui::OrbitMode>());
         m.m_types.push_back(&type<mud::ViewerController>());
         m.m_types.push_back(&type<mud::SpaceSheet>());
         m.m_types.push_back(&type<mud::Viewer>());
