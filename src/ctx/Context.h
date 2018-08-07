@@ -34,29 +34,29 @@ namespace mud
 		virtual ~Context();
 
 		RenderSystem& m_render_system;
-		const string m_resource_path;
+		attr_ const string m_resource_path;
 
-		string m_title;
-		unsigned int m_width;
-		unsigned int m_height;
-		bool m_full_screen;
+		attr_ string m_title;
+		attr_ unsigned int m_width;
+		attr_ unsigned int m_height;
+		attr_ bool m_full_screen;
 
 		size_t m_handle = 0;
 		void* m_native_handle = nullptr;
 		void* m_native_target = nullptr;
 
-		bool m_active = true;
-		bool m_shutdown = false;
+		attr_ bool m_active = true;
+		attr_ bool m_shutdown = false;
 
-		vec2 m_cursor;
-		bool m_mouse_lock = false;
+		attr_ vec2 m_cursor;
+		attr_ bool m_mouse_lock = false;
 
-		virtual void reset(uint16_t width, uint16_t height) = 0;
-		virtual void init_input(Mouse& mouse, Keyboard& keyboard) = 0;
+		meth_ virtual void reset(uint16_t width, uint16_t height) = 0;
+		meth_ virtual void init_input(Mouse& mouse, Keyboard& keyboard) = 0;
 
-		virtual bool next_frame() = 0;
+		meth_ virtual bool next_frame() = 0;
 
-		virtual void lock_mouse(bool locked) = 0;
+		meth_ virtual void lock_mouse(bool locked) = 0;
 	};
 
 }

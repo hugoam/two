@@ -951,7 +951,7 @@ namespace mud
             // members
             {
                 { type<mud::Style>(), member_address(&mud::Style::m_base), type<mud::Style>(), "base", Ref(type<mud::Style>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-                { type<mud::Style>(), member_address(&mud::Style::name), type<cstring>(), "name", var(cstring()), Member::Value, [](Ref object) { return Ref(&val<mud::Style>(object).name()); } },
+                { type<mud::Style>(), member_address(&mud::Style::name), type<cstring>(), "name", var(cstring()), Member::Value, [](Ref object) { return Ref(val<mud::Style>(object).name()); } },
                 { type<mud::Style>(), member_address(&mud::Style::layout), type<mud::Layout>(), "layout", var(mud::Layout()), Member::Flags(Member::Value|Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Style>(object).layout()); } },
                 { type<mud::Style>(), member_address(&mud::Style::skin), type<mud::InkStyle>(), "skin", var(mud::InkStyle()), Member::Flags(Member::Value|Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Style>(object).skin()); } }
             },
@@ -1981,8 +1981,8 @@ namespace mud
         static Meta meta = { type<mud::Widget>(), &namspc({ "mud" }), "Widget", sizeof(mud::Widget), TypeClass::Object };
         static Class cls = { type<mud::Widget>(),
             // bases
-            { &type<mud::Graph<mud::Widget>>(), &type<mud::ControlNode>() },
-            { base_offset<mud::Widget, mud::Graph<mud::Widget>>(), base_offset<mud::Widget, mud::ControlNode>() },
+            { &type<mud::ControlNode>() },
+            { base_offset<mud::Widget, mud::ControlNode>() },
             // constructors
             {
             },
@@ -2045,7 +2045,6 @@ namespace mud
         m.m_types.push_back(&type<mud::Flow>());
         m.m_types.push_back(&type<mud::FlowAxis>());
         m.m_types.push_back(&type<mud::Gradient>());
-        m.m_types.push_back(&type<mud::Graph<mud::Widget>>());
         m.m_types.push_back(&type<mud::GridSolver>());
         m.m_types.push_back(&type<mud::ImageSkin>());
         m.m_types.push_back(&type<mud::InkStyle>());

@@ -72,10 +72,12 @@ namespace mud
 		virtual ~InputEvent() {}
 
 		meth_ inline InputEvent& consume(ControlNode& consumer) { m_consumer = &consumer; return *this; }
-		attr_ inline bool valid() { return m_deviceType != DeviceType::None && m_consumer == nullptr; }
+		meth_ inline bool valid() { return m_deviceType != DeviceType::None && m_consumer == nullptr; }
 		operator bool() { return valid(); }
 
 		virtual void dispatch(Mouse& mouse, Keyboard& keyboard) { UNUSED(mouse); UNUSED(keyboard); }
+
+		bool operator==(const InputEvent& other) const { UNUSED(other); return false; }
 	};
 
 	export_ struct refl_ MUD_CTX_EXPORT MouseEvent : public InputEvent

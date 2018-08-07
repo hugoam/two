@@ -163,11 +163,11 @@ namespace mud
             {
                 { type<mud::InputEvent>(), member_address(&mud::InputEvent::m_deviceType), type<mud::DeviceType>(), "deviceType", var(mud::DeviceType()), Member::Value, nullptr },
                 { type<mud::InputEvent>(), member_address(&mud::InputEvent::m_eventType), type<mud::EventType>(), "eventType", var(mud::EventType()), Member::Value, nullptr },
-                { type<mud::InputEvent>(), member_address(&mud::InputEvent::valid), type<bool>(), "valid", var(bool()), Member::Value, [](Ref object) { return Ref(&val<mud::InputEvent>(object).valid()); } }
             },
             // methods
             {
-                { type<mud::InputEvent>(), "consume", member_address(&mud::InputEvent::consume), [](Ref object, array<Var> args, Var& result) { val<mud::InputEvent>(result) = val<mud::InputEvent>(object).consume(val<mud::ControlNode>(args[0])); }, { { "consumer", Ref(type<mud::ControlNode>()) } }, var(mud::InputEvent()) }
+                { type<mud::InputEvent>(), "consume", member_address(&mud::InputEvent::consume), [](Ref object, array<Var> args, Var& result) { val<mud::InputEvent>(result) = val<mud::InputEvent>(object).consume(val<mud::ControlNode>(args[0])); }, { { "consumer", Ref(type<mud::ControlNode>()) } }, Ref(type<mud::InputEvent>()) },
+				{ type<mud::InputEvent>(), "valid", member_address(&mud::InputEvent::valid), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<bool>(result) = val<mud::InputEvent>(object).valid(); }, {}, var(bool()) }
             },
             // static members
             {
@@ -298,7 +298,6 @@ namespace mud
         m.m_types.push_back(&type<mud::Context>());
         m.m_types.push_back(&type<mud::ControlNode>());
         m.m_types.push_back(&type<mud::DeviceType>());
-        m.m_types.push_back(&type<mud::EventMap<mud::InputEvent*>>());
         m.m_types.push_back(&type<mud::EventType>());
         m.m_types.push_back(&type<mud::InputEvent>());
         m.m_types.push_back(&type<mud::InputMod>());

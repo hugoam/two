@@ -85,5 +85,5 @@ namespace mud
     template <> MUD_UI_EXPORT Type& type<mud::Window>() { static Type ty("Window", type<mud::Dockable>()); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Dockbar>() { static Type ty("Dockbar", type<mud::Docker>()); return ty; }
     template <> MUD_UI_EXPORT Type& type<mud::Dockspace>() { static Type ty("Dockspace", type<mud::Docker>()); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Widget>() { static Type ty("Widget", type<mud::Graph<mud::Widget>>()); return ty; }
+    template <> MUD_UI_EXPORT Type& type<mud::Widget>() { static Type ty("Widget"); return ty; }
 }
