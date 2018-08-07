@@ -44,8 +44,8 @@ void wrenAssignVariable(WrenVM* vm, const char* module, const char* name,
 						int value_slot);
 }
 
-#define MUD_WREN_DEBUG_DECLS
-#define MUD_WREN_DEBUG
+//#define MUD_WREN_DEBUG_DECLS
+//#define MUD_WREN_DEBUG
 
 namespace mud
 {
