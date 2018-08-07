@@ -61,8 +61,8 @@ namespace mud
 	{
 		attr_ DeviceType m_deviceType = DeviceType::None;
 		attr_ EventType m_eventType = EventType::None;
-		ControlNode* m_receiver = nullptr;
-		ControlNode* m_consumer = nullptr;
+		refl_ ControlNode* m_receiver = nullptr;
+		refl_ ControlNode* m_consumer = nullptr;
 		refl_ bool m_abort = false;
 		refl_ InputMod m_modifiers = InputMod::None;
 		refl_ int m_key = -1;
@@ -71,8 +71,9 @@ namespace mud
 		InputEvent(DeviceType deviceType, EventType eventType, InputMod modifiers = InputMod::None) : m_deviceType(deviceType), m_eventType(eventType), m_modifiers(modifiers) {}
 		virtual ~InputEvent() {}
 
-		InputEvent& consume(ControlNode& consumer) { m_consumer = &consumer; return *this; }
-		operator bool() { return m_deviceType != DeviceType::None && m_consumer == nullptr; }
+		meth_ inline InputEvent& consume(ControlNode& consumer) { m_consumer = &consumer; return *this; }
+		attr_ inline bool valid() { return m_deviceType != DeviceType::None && m_consumer == nullptr; }
+		operator bool() { return valid(); }
 
 		virtual void dispatch(Mouse& mouse, Keyboard& keyboard) { UNUSED(mouse); UNUSED(keyboard); }
 	};
@@ -84,7 +85,7 @@ namespace mud
 		attr_ vec2 m_delta = { 0.f, 0.f };
 		attr_ float m_deltaZ = 0.f;
 		attr_ vec2 m_pressed = { 0.f, 0.f };
-		ControlNode* m_target = nullptr;
+		refl_ ControlNode* m_target = nullptr;
 
 		attr_ MouseButtonCode m_button = NO_BUTTON;
 

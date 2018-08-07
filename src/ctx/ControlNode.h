@@ -23,7 +23,7 @@ namespace mud
 		ModalControl(ControlNode* parent, ControlNode* modal, uint32_t mask = UINT32_MAX) : m_parent(parent), m_modal(modal), m_mask(mask) {}
 	};
 
-	export_ class MUD_CTX_EXPORT ControlNode
+	export_ class refl_ MUD_CTX_EXPORT ControlNode
 	{
 	public:
 		ControlNode() {}
