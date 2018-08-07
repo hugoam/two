@@ -223,7 +223,7 @@ namespace ui
 		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 			viewer.take_focus();
 
-		struct KeyMove { KeyCode key; vec3 velocity; };
+		struct KeyMove { Key key; vec3 velocity; };
 
 		auto move_key = [](Viewer& viewer, vec3& speed, const KeyMove& move)
 		{
@@ -235,12 +235,12 @@ namespace ui
 
 		const KeyMove moves[12] =
 		{
-			{ KC_UP,   -Z3 * 2.f }, { KC_W,  -Z3 * 2.f },
-			{ KC_DOWN,  Z3 * 2.f }, { KC_S,   Z3 * 2.f },
-			{ KC_LEFT, -X3 * 1.f }, { KC_A,  -X3 * 1.f },
-			{ KC_RIGHT, X3 * 1.f }, { KC_D,   X3 * 1.f },
-			{ KC_T,	    Y3 * 1.f }, { KC_Z,  -Y3 * 1.f },
-			{ KC_G,	   -Y3 * 1.f }, { KC_X,   Y3 * 1.f },
+			{ Key::Up,   -Z3 * 2.f }, { Key::W,  -Z3 * 2.f },
+			{ Key::Down,  Z3 * 2.f }, { Key::S,   Z3 * 2.f },
+			{ Key::Left, -X3 * 1.f }, { Key::A,  -X3 * 1.f },
+			{ Key::Right, X3 * 1.f }, { Key::D,   X3 * 1.f },
+			{ Key::T,	    Y3 * 1.f }, { Key::Z,  -Y3 * 1.f },
+			{ Key::G,	   -Y3 * 1.f }, { Key::X,   Y3 * 1.f },
 		};
 
 		for(const KeyMove& key_move : moves)
@@ -327,7 +327,7 @@ namespace ui
 
 	void velocity_controller(Viewer& viewer, vec3& linear, vec3& angular, float speed)
 	{
-		struct KeyMove { KeyCode key; vec3 velocity; };
+		struct KeyMove { Key key; vec3 velocity; };
 
 		auto velocity_key = [](Widget& widget, vec3& linear, vec3& angular, const KeyMove& move, float speed)
 		{
@@ -341,10 +341,10 @@ namespace ui
 
 		const KeyMove moves[8] =
 		{
-			{ KC_UP,    -Z3 }, { KC_W, -Z3 },
-			{ KC_DOWN,   Z3 }, { KC_S,  Z3 },
-			{ KC_LEFT,	-X3 }, { KC_A, -X3 },
-			{ KC_RIGHT,  X3 }, { KC_D,  X3 },
+			{ Key::Up,    -Z3 }, { Key::W, -Z3 },
+			{ Key::Down,   Z3 }, { Key::S,  Z3 },
+			{ Key::Left,	-X3 }, { Key::A, -X3 },
+			{ Key::Right,  X3 }, { Key::D,  X3 },
 		};
 
 		for(const KeyMove& key_move : moves)

@@ -112,7 +112,7 @@ namespace ui
 	export_ MUD_GFX_UI_EXPORT func_ Viewer& viewer(Widget& parent, Scene& scene);
 	export_ MUD_GFX_UI_EXPORT func_ SceneViewer& scene_viewer(Widget& parent, const vec2& size = Zero2);
 
-	enum class OrbitMode
+	enum class refl_ OrbitMode
 	{
 		ThirdPerson,
 		Isometric,
