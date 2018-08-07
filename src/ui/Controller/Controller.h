@@ -20,9 +20,9 @@ namespace mud
 {
 	export_ struct MUD_UI_EXPORT KeyCombo
 	{
-		KeyCombo(Key key) : m_modifier(InputModifier::Any), m_key(key) {}
-		KeyCombo(InputModifier modifier, Key key) : m_modifier(modifier), m_key(key) {}
-		InputModifier m_modifier;
+		KeyCombo(Key key) : m_modifier(InputMod::Any), m_key(key) {}
+		KeyCombo(InputMod modifier, Key key) : m_modifier(modifier), m_key(key) {}
+		InputMod m_modifier;
 		Key m_key;
 		uint64_t value() const { return (uint64_t)m_modifier << 32 | uint(m_key); }
 		friend bool operator<(const KeyCombo& lhs, const KeyCombo& rhs) { return lhs.value() < rhs.value(); }

@@ -34,7 +34,7 @@ namespace ui
 	bool multiselect_logic(Widget& element, Ref object, std::vector<Ref>& selection)
 	{
 		bool changed = false;
-		if(MouseEvent mouse_event = element.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputModifier::Shift))
+		if(MouseEvent mouse_event = element.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::Shift))
 		{
 			vector_swap(selection, object);
 			changed = true;

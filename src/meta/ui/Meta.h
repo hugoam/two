@@ -951,7 +951,7 @@ namespace mud
             // members
             {
                 { type<mud::Style>(), member_address(&mud::Style::m_base), type<mud::Style>(), "base", Ref(type<mud::Style>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-                { type<mud::Style>(), member_address(&mud::Style::name), type<cstring>(), "name", var(cstring()), Member::Value, [](Ref object) { return Ref(&val<mud::Style>(object).name()); } },
+                { type<mud::Style>(), member_address(&mud::Style::name), type<cstring>(), "name", var(cstring()), Member::Value, [](Ref object) { return Ref(val<mud::Style>(object).name()); } },
                 { type<mud::Style>(), member_address(&mud::Style::layout), type<mud::Layout>(), "layout", var(mud::Layout()), Member::Flags(Member::Value|Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Style>(object).layout()); } },
                 { type<mud::Style>(), member_address(&mud::Style::skin), type<mud::InkStyle>(), "skin", var(mud::InkStyle()), Member::Flags(Member::Value|Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Style>(object).skin()); } }
             },
@@ -1981,8 +1981,8 @@ namespace mud
         static Meta meta = { type<mud::Widget>(), &namspc({ "mud" }), "Widget", sizeof(mud::Widget), TypeClass::Object };
         static Class cls = { type<mud::Widget>(),
             // bases
-            { &type<mud::Graph<mud::Widget>>() },
-            { base_offset<mud::Widget, mud::Graph<mud::Widget>>() },
+            {  },
+            {  },
             // constructors
             {
             },
@@ -2012,9 +2012,9 @@ namespace mud
                 { type<mud::Widget>(), "yield_focus", member_address(&mud::Widget::yield_focus), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args);val<mud::Widget>(object).yield_focus(); }, {}, Var() },
                 { type<mud::Widget>(), "take_modal", member_address(&mud::Widget::take_modal), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Widget>(object).take_modal(val<uint32_t>(args[0])); }, { { "device_filter", var(uint32_t()) } }, Var() },
                 { type<mud::Widget>(), "yield_modal", member_address(&mud::Widget::yield_modal), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args);val<mud::Widget>(object).yield_modal(); }, {}, Var() },
-                { type<mud::Widget>(), "key_event", member_address(&mud::Widget::key_event), [](Ref object, array<Var> args, Var& result) { val<mud::KeyEvent>(result) = val<mud::Widget>(object).key_event(val<mud::Key>(args[0]), val<mud::EventType>(args[1]), val<mud::InputModifier>(args[2])); }, { { "code", var(mud::Key()) }, { "event_type", var(mud::EventType()) }, { "modifier", var(mud::InputModifier()), Param::Default } }, var(mud::KeyEvent()) },
-                { type<mud::Widget>(), "key_stroke", member_address(&mud::Widget::key_stroke), [](Ref object, array<Var> args, Var& result) { val<mud::KeyEvent>(result) = val<mud::Widget>(object).key_stroke(val<mud::Key>(args[0]), val<mud::InputModifier>(args[1])); }, { { "code", var(mud::Key()) }, { "modifier", var(mud::InputModifier()), Param::Default } }, var(mud::KeyEvent()) },
-                { type<mud::Widget>(), "mouse_event", member_address(&mud::Widget::mouse_event), [](Ref object, array<Var> args, Var& result) { val<mud::MouseEvent>(result) = val<mud::Widget>(object).mouse_event(val<mud::DeviceType>(args[0]), val<mud::EventType>(args[1]), val<mud::InputModifier>(args[2]), val<bool>(args[3])); }, { { "device", var(mud::DeviceType()) }, { "event_type", var(mud::EventType()) }, { "modifier", var(mud::InputModifier()), Param::Default }, { "consume", var(bool(true)), Param::Default } }, var(mud::MouseEvent()) }
+                { type<mud::Widget>(), "key_event", member_address(&mud::Widget::key_event), [](Ref object, array<Var> args, Var& result) { val<mud::KeyEvent>(result) = val<mud::Widget>(object).key_event(val<mud::Key>(args[0]), val<mud::EventType>(args[1]), val<mud::InputMod>(args[2])); }, { { "code", var(mud::Key()) }, { "event_type", var(mud::EventType()) }, { "modifier", var(mud::InputMod()), Param::Default } }, var(mud::KeyEvent()) },
+                { type<mud::Widget>(), "key_stroke", member_address(&mud::Widget::key_stroke), [](Ref object, array<Var> args, Var& result) { val<mud::KeyEvent>(result) = val<mud::Widget>(object).key_stroke(val<mud::Key>(args[0]), val<mud::InputMod>(args[1])); }, { { "code", var(mud::Key()) }, { "modifier", var(mud::InputMod()), Param::Default } }, var(mud::KeyEvent()) },
+                { type<mud::Widget>(), "mouse_event", member_address(&mud::Widget::mouse_event), [](Ref object, array<Var> args, Var& result) { val<mud::MouseEvent>(result) = val<mud::Widget>(object).mouse_event(val<mud::DeviceType>(args[0]), val<mud::EventType>(args[1]), val<mud::InputMod>(args[2]), val<bool>(args[3])); }, { { "device", var(mud::DeviceType()) }, { "event_type", var(mud::EventType()) }, { "modifier", var(mud::InputMod()), Param::Default }, { "consume", var(bool(true)), Param::Default } }, var(mud::MouseEvent()) }
             },
             // static members
             {
@@ -2045,7 +2045,6 @@ namespace mud
         m.m_types.push_back(&type<mud::Flow>());
         m.m_types.push_back(&type<mud::FlowAxis>());
         m.m_types.push_back(&type<mud::Gradient>());
-        m.m_types.push_back(&type<mud::Graph<mud::Widget>>());
         m.m_types.push_back(&type<mud::GridSolver>());
         m.m_types.push_back(&type<mud::ImageSkin>());
         m.m_types.push_back(&type<mud::InkStyle>());

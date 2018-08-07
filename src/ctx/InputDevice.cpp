@@ -29,11 +29,11 @@ namespace mud
 		m_events.reserve(100);
 	}
 
-	InputModifier Keyboard::modifiers()
+	InputMod Keyboard::modifiers()
 	{
-		return InputModifier(0 | (m_shift ? uint32_t(InputModifier::Shift) : 0)
-							   | (m_ctrl ? uint32_t(InputModifier::Ctrl) : 0)
-							   | (m_alt ? uint32_t(InputModifier::Alt) : 0));
+		return InputMod(0 | (m_shift ? uint32_t(InputMod::Shift) : 0)
+							   | (m_ctrl ? uint32_t(InputMod::Ctrl) : 0)
+							   | (m_alt ? uint32_t(InputMod::Alt) : 0));
 	}
 
 	void Keyboard::dispatch_event(KeyEvent evt)
@@ -44,7 +44,7 @@ namespace mud
 
 	void Keyboard::key_char(Key key, char c)
 	{
-		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Stroked, key, c, InputModifier::None));
+		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Stroked, key, c, InputMod::None));
 	}
 
 	void Keyboard::key_pressed(Key key, char c)
@@ -145,7 +145,7 @@ namespace mud
 		, m_deviceType(deviceType)
 	{}
 
-	void MouseButton::pressed(vec2 pos, InputModifier modifiers)
+	void MouseButton::pressed(vec2 pos, InputMod modifiers)
 	{
 		MouseEvent& mouse_event = m_mouse.dispatch_event(MouseEvent(m_deviceType, EventType::Pressed, pos, modifiers));
 

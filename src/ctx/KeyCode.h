@@ -161,7 +161,7 @@ namespace mud
 		//MEDIASELECT = 0xED     // Media Select
 	};
 
-	export_ enum MouseButtonCode : unsigned int
+	export_ enum refl_ MouseButtonCode : unsigned int
 	{
 		LEFT_BUTTON = 0,
 		RIGHT_BUTTON,

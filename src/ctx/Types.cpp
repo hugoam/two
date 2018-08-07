@@ -17,7 +17,7 @@ namespace mud
     template <> MUD_CTX_EXPORT Type& type<mud::DeviceMask>() { static Type ty("mud::DeviceMask"); return ty; }
     template <> MUD_CTX_EXPORT Type& type<mud::DeviceType>() { static Type ty("mud::DeviceType"); return ty; }
     template <> MUD_CTX_EXPORT Type& type<mud::EventType>() { static Type ty("mud::EventType"); return ty; }
-    template <> MUD_CTX_EXPORT Type& type<mud::InputModifier>() { static Type ty("mud::InputModifier"); return ty; }
+    template <> MUD_CTX_EXPORT Type& type<mud::InputMod>() { static Type ty("mud::InputMod"); return ty; }
     template <> MUD_CTX_EXPORT Type& type<mud::Key>() { static Type ty("mud::Key"); return ty; }
     template <> MUD_CTX_EXPORT Type& type<mud::MouseButtonCode>() { static Type ty("mud::MouseButtonCode"); return ty; }
     

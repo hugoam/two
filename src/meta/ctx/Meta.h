@@ -113,7 +113,6 @@ namespace mud
 
     
         m.m_types.push_back(&type<mud::Context>());
-        m.m_types.push_back(&type<mud::EventMap<mud::InputEvent*>>());
         m.m_types.push_back(&type<mud::Key>());
         m.m_types.push_back(&type<mud::RenderSystem>());
     

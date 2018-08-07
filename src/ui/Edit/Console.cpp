@@ -19,11 +19,11 @@ namespace ui
 		string console_chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .,:;+-*=~!()[]{}'\"\t";
 		Widget& self = ui::type_in(parent, text, 1, console_chars);
 
-		if(self.key_event(Key::Return))
+		if(self.key_stroke(Key::Return))
 		{
 			command = text;
 			text = "";
-			self.key_event(Key::Return).consume(self);
+			self.key_stroke(Key::Return).consume(self);
 		}
 
 		return self;

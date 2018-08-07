@@ -63,12 +63,12 @@ namespace mud
 		Widget* pinpoint(vec2 pos);
 		Widget* pinpoint(vec2 pos, const FrameFilter& filter);
 
-		inline bool fits_modifier(InputModifier modifier, InputModifier mask) { return mask == InputModifier::Any || modifier == mask; }
+		inline bool fits_modifier(InputMod modifier, InputMod mask) { return mask == InputMod::Any || modifier == mask; }
 
-		meth_ KeyEvent key_event(Key code, EventType event_type, InputModifier modifier = InputModifier::Any);
-		meth_ KeyEvent key_stroke(Key code, InputModifier modifier = InputModifier::Any) { return key_event(code, EventType::Stroked, modifier); }
+		meth_ KeyEvent key_event(Key code, EventType event_type, InputMod modifier = InputMod::Any);
+		meth_ KeyEvent key_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(code, EventType::Stroked, modifier); }
 
-		meth_ MouseEvent mouse_event(DeviceType device, EventType event_type, InputModifier modifier = InputModifier::None, bool consume = true);
+		meth_ MouseEvent mouse_event(DeviceType device, EventType event_type, InputMod modifier = InputMod::None, bool consume = true);
 		
 		void transform_event(InputEvent& event);
 		ControlNode* control_event(InputEvent& event);

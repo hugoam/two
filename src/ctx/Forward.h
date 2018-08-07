@@ -52,7 +52,7 @@ namespace mud {
 
     enum class Key : unsigned int;
     enum MouseButtonCode : unsigned int;
-    enum class InputModifier : unsigned int;
+    enum class InputMod : unsigned int;
     enum class DeviceType : unsigned int;
     enum class DeviceMask : unsigned int;
     enum class EventType : unsigned int;

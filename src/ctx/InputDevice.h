@@ -33,7 +33,7 @@ namespace mud
 
 		void dispatch_event(KeyEvent evt);
 
-		InputModifier modifiers();
+		InputMod modifiers();
 
 		void key_pressed(Key key, char c);
 		void key_released(Key key, char c);
@@ -53,7 +53,7 @@ namespace mud
 		MouseButton(Mouse& mouse, DeviceType deviceType);
 
 		void pressed(vec2 pos);
-		void pressed(vec2 pos, InputModifier modifiers);
+		void pressed(vec2 pos, InputMod modifiers);
 		void released(vec2 pos);
 
 		void drag_start(MouseEvent& mouse_event);

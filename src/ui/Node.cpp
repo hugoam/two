@@ -214,7 +214,7 @@ namespace ui
 
 		self.m_body = &self;
 
-		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputModifier::Shift))
+		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::Shift))
 			canvas_swap_select(parent, self);
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 			canvas_select(parent, self);

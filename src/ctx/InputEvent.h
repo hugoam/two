@@ -12,7 +12,7 @@
 
 namespace mud
 {
-	export_ enum class InputModifier : unsigned int
+	export_ enum class refl_ InputMod : unsigned int
 	{
 		None = 0,
 		Shift = 1 << 0,
@@ -21,7 +21,7 @@ namespace mud
 		Any = Shift | Ctrl | Alt
 	};
 
-	export_ enum class DeviceType : unsigned int
+	export_ enum class refl_ DeviceType : unsigned int
 	{
 		None = 0,
 		Keyboard = 1,
@@ -40,7 +40,7 @@ namespace mud
 		All = device_mask(DeviceType::Keyboard) | AllMouse
 	};
 
-	export_ enum class EventType : unsigned int
+	export_ enum class refl_ EventType : unsigned int
 	{
 		None = 0,
 		Heartbeat = 1,
@@ -57,18 +57,18 @@ namespace mud
 		Count = 12
 	};
 
-	export_ struct MUD_CTX_EXPORT InputEvent
+	export_ struct refl_ MUD_CTX_EXPORT InputEvent
 	{
-		DeviceType m_deviceType = DeviceType::None;
-		EventType m_eventType = EventType::None;
+		attr_ DeviceType m_deviceType = DeviceType::None;
+		attr_ EventType m_eventType = EventType::None;
 		ControlNode* m_receiver = nullptr;
 		ControlNode* m_consumer = nullptr;
-		bool m_abort = false;
-		InputModifier m_modifiers = InputModifier::None;
-		int m_key = -1;
+		refl_ bool m_abort = false;
+		refl_ InputMod m_modifiers = InputMod::None;
+		refl_ int m_key = -1;
 
 		InputEvent() {}
-		InputEvent(DeviceType deviceType, EventType eventType, InputModifier modifiers = InputModifier::None) : m_deviceType(deviceType), m_eventType(eventType), m_modifiers(modifiers) {}
+		InputEvent(DeviceType deviceType, EventType eventType, InputMod modifiers = InputMod::None) : m_deviceType(deviceType), m_eventType(eventType), m_modifiers(modifiers) {}
 		virtual ~InputEvent() {}
 
 		InputEvent& consume(ControlNode& consumer) { m_consumer = &consumer; return *this; }
@@ -77,19 +77,19 @@ namespace mud
 		virtual void dispatch(Mouse& mouse, Keyboard& keyboard) { UNUSED(mouse); UNUSED(keyboard); }
 	};
 
-	export_ struct MUD_CTX_EXPORT MouseEvent : public InputEvent
+	export_ struct refl_ MUD_CTX_EXPORT MouseEvent : public InputEvent
 	{
-		vec2 m_pos = { 0.f, 0.f };
-		vec2 m_relative = { 0.f, 0.f };
-		vec2 m_delta = { 0.f, 0.f };
-		float m_deltaZ = 0.f;
-		vec2 m_pressed = { 0.f, 0.f };
+		attr_ vec2 m_pos = { 0.f, 0.f };
+		attr_ vec2 m_relative = { 0.f, 0.f };
+		attr_ vec2 m_delta = { 0.f, 0.f };
+		attr_ float m_deltaZ = 0.f;
+		attr_ vec2 m_pressed = { 0.f, 0.f };
 		ControlNode* m_target = nullptr;
 
-		MouseButtonCode m_button = NO_BUTTON;
+		attr_ MouseButtonCode m_button = NO_BUTTON;
 
 		MouseEvent() : InputEvent() {}
-		MouseEvent(DeviceType deviceType, EventType eventType, vec2 pos, InputModifier modifiers = InputModifier::None)
+		MouseEvent(DeviceType deviceType, EventType eventType, vec2 pos, InputMod modifiers = InputMod::None)
 			: InputEvent(deviceType, eventType, modifiers), m_pos(pos)
 		{
 			if(deviceType == DeviceType::MouseLeft)
@@ -107,18 +107,22 @@ namespace mud
 		}
 
 		MouseEvent& consume(ControlNode& consumer) { m_consumer = &consumer; return *this; }
+
+		bool operator==(const MouseEvent& other) const { UNUSED(other); return false; }
 	};
 
-	export_ struct MUD_CTX_EXPORT KeyEvent : public InputEvent
+	export_ struct refl_ MUD_CTX_EXPORT KeyEvent : public InputEvent
 	{
-		Key m_code;
-		char m_char;
+		attr_ Key m_code;
+		attr_ char m_char;
 
 		KeyEvent() : InputEvent() {}
-		KeyEvent(DeviceType deviceType, EventType eventType, Key code, char c, InputModifier modifiers)
+		KeyEvent(DeviceType deviceType, EventType eventType, Key code, char c, InputMod modifiers)
 			: InputEvent(deviceType, eventType, modifiers), m_code(code), m_char(c)
 		{
 			m_key = int(code);
 		}
+
+		bool operator==(const KeyEvent& other) const { UNUSED(other); return false; }
 	};
 }

@@ -623,7 +623,7 @@ namespace mud
 		EventType event_focus = m_focus_mode == TextFocusMode::Press ? EventType::Pressed
 																	 : EventType::Stroked;
 		if(!this->focused())
-			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, event_focus, InputModifier::None, false))
+			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, event_focus, InputMod::None, false))
 			{
 				take_focus();
 				select(0);
@@ -646,60 +646,60 @@ namespace mud
 			this->ui().m_cursor_style = &ui::cursor_styles().caret;
 		}
 
-		if(!m_completing && !ctrl && !alt && this->key_event(Key::Up))
+		if(!m_completing && !ctrl && !alt && this->key_stroke(Key::Up))
 			move_up(shift);
-		else if(!m_completing && !ctrl && !alt && this->key_event(Key::Down))
+		else if(!m_completing && !ctrl && !alt && this->key_stroke(Key::Down))
 			move_down(shift);
-		else if(!alt && this->key_event(Key::Left))
+		else if(!alt && this->key_stroke(Key::Left))
 			move_left(1U, shift, ctrl);
-		else if(!alt && this->key_event(Key::Right))
+		else if(!alt && this->key_stroke(Key::Right))
 			move_right(1U, shift, ctrl);
-		else if(!alt && this->key_event(Key::PageUp))
+		else if(!alt && this->key_stroke(Key::PageUp))
 			move_page_up(shift);
-		else if(!alt && this->key_event(Key::PageDown))
+		else if(!alt && this->key_stroke(Key::PageDown))
 			move_page_down(shift);
-		else if(!alt && ctrl && this->key_event(Key::Home))
+		else if(!alt && ctrl && this->key_stroke(Key::Home))
 			move_top(shift);
-		else if(ctrl && !alt && this->key_event(Key::End))
+		else if(ctrl && !alt && this->key_stroke(Key::End))
 			move_bottom(shift);
-		else if(!ctrl && !alt && this->key_event(Key::Home))
+		else if(!ctrl && !alt && this->key_stroke(Key::Home))
 			move_home(shift);
-		else if(!ctrl && !alt && this->key_event(Key::End))
+		else if(!ctrl && !alt && this->key_stroke(Key::End))
 			move_end(shift);
-		else if(!m_read_only && this->key_event(Key::Delete))
+		else if(!m_read_only && this->key_stroke(Key::Delete))
 			erase();
-		else if(!m_read_only && this->key_event(Key::Back))
+		else if(!m_read_only && this->key_stroke(Key::Back))
 			backspace();
-		else if(this->key_event(Key::Insert, InputModifier::None))
+		else if(this->key_stroke(Key::Insert, InputMod::None))
 			m_selection.m_insert_mode = !m_selection.m_insert_mode;
-		else if(this->key_event(Key::Insert, InputModifier::Ctrl)
-			|| this->key_event(Key::C, InputModifier::Ctrl))
+		else if(this->key_stroke(Key::Insert, InputMod::Ctrl)
+			|| this->key_stroke(Key::C, InputMod::Ctrl))
 			copy();
-		else if(!m_read_only && (this->key_event(Key::Insert, InputModifier::Shift)
-			|| this->key_event(Key::V, InputModifier::Ctrl)))
+		else if(!m_read_only && (this->key_stroke(Key::Insert, InputMod::Shift)
+			|| this->key_stroke(Key::V, InputMod::Ctrl)))
 			paste();
-		else if(this->key_event(Key::X, InputModifier::Ctrl)
-			|| this->key_event(Key::Delete, InputModifier::Shift))
+		else if(this->key_stroke(Key::X, InputMod::Ctrl)
+			|| this->key_stroke(Key::Delete, InputMod::Shift))
 			cut();
-		else if(this->key_event(Key::A, InputModifier::Ctrl))
+		else if(this->key_stroke(Key::A, InputMod::Ctrl))
 			select_all();
-		else if(key_event(Key::Return))
+		else if(key_stroke(Key::Return))
 			enter();
-		else if(key_event(Key::Escape))
+		else if(key_stroke(Key::Escape))
 			yield_focus();
-		else if(key_event(Key::Tab) && !m_completing)
+		else if(key_stroke(Key::Tab) && !m_completing)
 			insert(string(m_tab_size, ' '));
 		else if(!m_read_only && !alt && !ctrl)
 		{
-			KeyEvent key_stroke = key_event(Key::Unassigned);
-			if(key_stroke)
-				insert(key_stroke.m_char);
+			KeyEvent stroke = key_stroke(Key::Unassigned);
+			if(stroke)
+				insert(stroke.m_char);
 		}
 
-		if(!m_read_only && (this->key_event(Key::Z, InputModifier::Ctrl)
-						||  this->key_event(Key::Back, InputModifier::Alt)))
+		if(!m_read_only && (this->key_stroke(Key::Z, InputMod::Ctrl)
+						||  this->key_stroke(Key::Back, InputMod::Alt)))
 			undo();
-		if(!m_read_only && this->key_event(Key::Y, InputModifier::Ctrl))
+		if(!m_read_only && this->key_stroke(Key::Y, InputMod::Ctrl))
 			redo();
 
 		if(this->focused() && !shift && !alt)
@@ -709,7 +709,7 @@ namespace mud
 				m_select_from = m_text.cursor_at(mouse_event.m_relative - m_text_offset);
 				select(m_select_from, ctrl);
 			}
-			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, EventType::Pressed, InputModifier::Ctrl))
+			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, EventType::Pressed, InputMod::Ctrl))
 			{
 				m_select_from = m_text.cursor_at(mouse_event.m_relative - m_text_offset);
 				m_word_selection_mode = true;
@@ -1057,13 +1057,13 @@ namespace ui
 
 		bool selected = ui::popdown(edit, completions, current, popup_position, PopupFlags::None); //auto_complete_style
 
-		if(edit.key_event(Key::Up))
+		if(edit.key_stroke(Key::Up))
 			current = max(current - 1, size_t(0));
 
-		if(edit.key_event(Key::Down))
+		if(edit.key_stroke(Key::Down))
 			current = min(current + 1, completions.size() - 1);
 
-		if(edit.key_event(Key::Tab) || selected)
+		if(edit.key_stroke(Key::Tab) || selected)
 		{
 			edit.insert(string(completions[current]).substr(current_word.size()));
 			edit.m_text.break_text_rows();
