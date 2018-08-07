@@ -62,6 +62,6 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::vec4>() { static Type ty("vec4"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::SpriteAtlas>() { static Type ty("SpriteAtlas", type<mud::ImageAtlas>()); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Sprite>() { static Type ty("Sprite", type<mud::Image>()); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::Ratio>() { static Type ty("Ratio", type<mud::DefStat<float, mud::Ratio>>()); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::Gauge>() { static Type ty("Gauge", type<mud::DefStat<float, mud::Gauge>>()); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::Ratio>() { static Type ty("Ratio"); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::Gauge>() { static Type ty("Gauge"); return ty; }
 }
