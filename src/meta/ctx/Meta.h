@@ -19,6 +19,39 @@ namespace mud
     
     // Enums
     {
+        static Meta meta = { type<mud::DeviceType>(), &namspc({ "mud" }), "DeviceType", sizeof(mud::DeviceType), TypeClass::Enum };
+        static Enum enu = { type<mud::DeviceType>(),
+            true,
+            { "None", "Keyboard", "Mouse", "MouseLeft", "MouseRight", "MouseMiddle", "Count" },
+            { 0, 1, 2, 3, 4, 5, 6 },
+            { var(mud::DeviceType::None), var(mud::DeviceType::Keyboard), var(mud::DeviceType::Mouse), var(mud::DeviceType::MouseLeft), var(mud::DeviceType::MouseRight), var(mud::DeviceType::MouseMiddle), var(mud::DeviceType::Count) }
+        };
+        meta_enum<mud::DeviceType>();
+    }
+    
+    {
+        static Meta meta = { type<mud::EventType>(), &namspc({ "mud" }), "EventType", sizeof(mud::EventType), TypeClass::Enum };
+        static Enum enu = { type<mud::EventType>(),
+            true,
+            { "None", "Heartbeat", "Moved", "Pressed", "Released", "Stroked", "DoubleStroked", "Dragged", "DraggedTarget", "DragStarted", "DragEnded", "Dropped", "Count" },
+            { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 },
+            { var(mud::EventType::None), var(mud::EventType::Heartbeat), var(mud::EventType::Moved), var(mud::EventType::Pressed), var(mud::EventType::Released), var(mud::EventType::Stroked), var(mud::EventType::DoubleStroked), var(mud::EventType::Dragged), var(mud::EventType::DraggedTarget), var(mud::EventType::DragStarted), var(mud::EventType::DragEnded), var(mud::EventType::Dropped), var(mud::EventType::Count) }
+        };
+        meta_enum<mud::EventType>();
+    }
+    
+    {
+        static Meta meta = { type<mud::InputMod>(), &namspc({ "mud" }), "InputMod", sizeof(mud::InputMod), TypeClass::Enum };
+        static Enum enu = { type<mud::InputMod>(),
+            true,
+            { "None", "Shift", "Ctrl", "Alt", "Any" },
+            { 0, 1, 2, 4, 7 },
+            { var(mud::InputMod::None), var(mud::InputMod::Shift), var(mud::InputMod::Ctrl), var(mud::InputMod::Alt), var(mud::InputMod::Any) }
+        };
+        meta_enum<mud::InputMod>();
+    }
+    
+    {
         static Meta meta = { type<mud::Key>(), &namspc({ "mud" }), "Key", sizeof(mud::Key), TypeClass::Enum };
         static Enum enu = { type<mud::Key>(),
             true,
@@ -27,6 +60,17 @@ namespace mud
             { var(mud::Key::Unassigned), var(mud::Key::Escape), var(mud::Key::Num1), var(mud::Key::Num2), var(mud::Key::Num3), var(mud::Key::Num4), var(mud::Key::Num5), var(mud::Key::Num6), var(mud::Key::Num7), var(mud::Key::Num8), var(mud::Key::Num9), var(mud::Key::Num0), var(mud::Key::Minus), var(mud::Key::Equals), var(mud::Key::Back), var(mud::Key::Tab), var(mud::Key::Q), var(mud::Key::W), var(mud::Key::E), var(mud::Key::R), var(mud::Key::T), var(mud::Key::Y), var(mud::Key::U), var(mud::Key::I), var(mud::Key::O), var(mud::Key::P), var(mud::Key::LeftBracket), var(mud::Key::RightBracket), var(mud::Key::Return), var(mud::Key::LeftControl), var(mud::Key::A), var(mud::Key::S), var(mud::Key::D), var(mud::Key::F), var(mud::Key::G), var(mud::Key::H), var(mud::Key::J), var(mud::Key::K), var(mud::Key::L), var(mud::Key::Semicolon), var(mud::Key::Apostrophe), var(mud::Key::Grave), var(mud::Key::LeftShift), var(mud::Key::Backslash), var(mud::Key::Z), var(mud::Key::X), var(mud::Key::C), var(mud::Key::V), var(mud::Key::B), var(mud::Key::N), var(mud::Key::M), var(mud::Key::Comma), var(mud::Key::Period), var(mud::Key::Slash), var(mud::Key::RightShift), var(mud::Key::Multiply), var(mud::Key::LeftAlt), var(mud::Key::Space), var(mud::Key::Capital), var(mud::Key::F1), var(mud::Key::F2), var(mud::Key::F3), var(mud::Key::F4), var(mud::Key::F5), var(mud::Key::F6), var(mud::Key::F7), var(mud::Key::F8), var(mud::Key::F9), var(mud::Key::F10), var(mud::Key::Numlock), var(mud::Key::ScrollLock), var(mud::Key::Numpad7), var(mud::Key::Numpad8), var(mud::Key::Numpad9), var(mud::Key::Subtract), var(mud::Key::Numpad4), var(mud::Key::Numpad5), var(mud::Key::Numpad6), var(mud::Key::Add), var(mud::Key::Numpad1), var(mud::Key::Numpad2), var(mud::Key::Numpad3), var(mud::Key::Numpad0), var(mud::Key::Decimal), var(mud::Key::F11), var(mud::Key::F12), var(mud::Key::F13), var(mud::Key::F14), var(mud::Key::F15), var(mud::Key::NumpadEquals), var(mud::Key::NumpadEnter), var(mud::Key::RightControl), var(mud::Key::Mute), var(mud::Key::NumpadComma), var(mud::Key::Divide), var(mud::Key::RightAlt), var(mud::Key::Pause), var(mud::Key::Home), var(mud::Key::Up), var(mud::Key::PageUp), var(mud::Key::Left), var(mud::Key::Right), var(mud::Key::End), var(mud::Key::Down), var(mud::Key::PageDown), var(mud::Key::Insert), var(mud::Key::Delete), var(mud::Key::LeftWin), var(mud::Key::RightWin) }
         };
         meta_enum<mud::Key>();
+    }
+    
+    {
+        static Meta meta = { type<mud::MouseButtonCode>(), &namspc({ "mud" }), "MouseButtonCode", sizeof(mud::MouseButtonCode), TypeClass::Enum };
+        static Enum enu = { type<mud::MouseButtonCode>(),
+            false,
+            { "LEFT_BUTTON", "RIGHT_BUTTON", "MIDDLE_BUTTON", "NO_BUTTON" },
+            { 0, 1, 2, 3 },
+            { var(mud::LEFT_BUTTON), var(mud::RIGHT_BUTTON), var(mud::MIDDLE_BUTTON), var(mud::NO_BUTTON) }
+        };
+        meta_enum<mud::MouseButtonCode>();
     }
     
     
@@ -66,10 +110,75 @@ namespace mud
     }
     
     
+        
+    // mud::ControlNode
+    {
+        static Meta meta = { type<mud::ControlNode>(), &namspc({ "mud" }), "ControlNode", sizeof(mud::ControlNode), TypeClass::Object };
+        static Class cls = { type<mud::ControlNode>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::ControlNode>();
+    }
     
     
     
     
+        
+    // mud::InputEvent
+    {
+        static Meta meta = { type<mud::InputEvent>(), &namspc({ "mud" }), "InputEvent", sizeof(mud::InputEvent), TypeClass::Struct };
+        static Class cls = { type<mud::InputEvent>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+                { type<mud::InputEvent>(), [](Ref ref, Ref other) { new(&val<mud::InputEvent>(ref)) mud::InputEvent(val<mud::InputEvent>(other)); } }
+            },
+            // members
+            {
+                { type<mud::InputEvent>(), member_address(&mud::InputEvent::m_deviceType), type<mud::DeviceType>(), "deviceType", var(mud::DeviceType()), Member::Value, nullptr },
+                { type<mud::InputEvent>(), member_address(&mud::InputEvent::m_eventType), type<mud::EventType>(), "eventType", var(mud::EventType()), Member::Value, nullptr },
+                { type<mud::InputEvent>(), member_address(&mud::InputEvent::valid), type<bool>(), "valid", var(bool()), Member::Value, [](Ref object) { return Ref(&val<mud::InputEvent>(object).valid()); } }
+            },
+            // methods
+            {
+                { type<mud::InputEvent>(), "consume", member_address(&mud::InputEvent::consume), [](Ref object, array<Var> args, Var& result) { val<mud::InputEvent>(result) = val<mud::InputEvent>(object).consume(val<mud::ControlNode>(args[0])); }, { { "consumer", Ref(type<mud::ControlNode>()) } }, var(mud::InputEvent()) }
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::InputEvent>();
+    }
     
     
     
@@ -110,11 +219,94 @@ namespace mud
     
     
     
+        
+    // mud::KeyEvent
+    {
+        static Meta meta = { type<mud::KeyEvent>(), &namspc({ "mud" }), "KeyEvent", sizeof(mud::KeyEvent), TypeClass::Struct };
+        static Class cls = { type<mud::KeyEvent>(),
+            // bases
+            { &type<mud::InputEvent>() },
+            { base_offset<mud::KeyEvent, mud::InputEvent>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+                { type<mud::KeyEvent>(), [](Ref ref, Ref other) { new(&val<mud::KeyEvent>(ref)) mud::KeyEvent(val<mud::KeyEvent>(other)); } }
+            },
+            // members
+            {
+                { type<mud::KeyEvent>(), member_address(&mud::KeyEvent::m_code), type<mud::Key>(), "code", var(mud::Key()), Member::Value, nullptr },
+                { type<mud::KeyEvent>(), member_address(&mud::KeyEvent::m_char), type<char>(), "char", var(char()), Member::Value, nullptr }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::KeyEvent>();
+    }
+    
+    
+        
+    // mud::MouseEvent
+    {
+        static Meta meta = { type<mud::MouseEvent>(), &namspc({ "mud" }), "MouseEvent", sizeof(mud::MouseEvent), TypeClass::Struct };
+        static Class cls = { type<mud::MouseEvent>(),
+            // bases
+            { &type<mud::InputEvent>() },
+            { base_offset<mud::MouseEvent, mud::InputEvent>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+                { type<mud::MouseEvent>(), [](Ref ref, Ref other) { new(&val<mud::MouseEvent>(ref)) mud::MouseEvent(val<mud::MouseEvent>(other)); } }
+            },
+            // members
+            {
+                { type<mud::MouseEvent>(), member_address(&mud::MouseEvent::m_pos), type<mud::vec2>(), "pos", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::MouseEvent>(), member_address(&mud::MouseEvent::m_relative), type<mud::vec2>(), "relative", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::MouseEvent>(), member_address(&mud::MouseEvent::m_delta), type<mud::vec2>(), "delta", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::MouseEvent>(), member_address(&mud::MouseEvent::m_deltaZ), type<float>(), "deltaZ", var(float(0.f)), Member::Value, nullptr },
+                { type<mud::MouseEvent>(), member_address(&mud::MouseEvent::m_pressed), type<mud::vec2>(), "pressed", var(mud::vec2()), Member::Value, nullptr },
+                { type<mud::MouseEvent>(), member_address(&mud::MouseEvent::m_button), type<mud::MouseButtonCode>(), "button", var(mud::MouseButtonCode()), Member::Value, nullptr }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::MouseEvent>();
+    }
+    
+    
 
     
         m.m_types.push_back(&type<mud::Context>());
+        m.m_types.push_back(&type<mud::ControlNode>());
+        m.m_types.push_back(&type<mud::DeviceType>());
+        m.m_types.push_back(&type<mud::EventMap<mud::InputEvent*>>());
+        m.m_types.push_back(&type<mud::EventType>());
+        m.m_types.push_back(&type<mud::InputEvent>());
+        m.m_types.push_back(&type<mud::InputMod>());
         m.m_types.push_back(&type<mud::Key>());
+        m.m_types.push_back(&type<mud::MouseButtonCode>());
         m.m_types.push_back(&type<mud::RenderSystem>());
+        m.m_types.push_back(&type<mud::KeyEvent>());
+        m.m_types.push_back(&type<mud::MouseEvent>());
     
     }
 }
