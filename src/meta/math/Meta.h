@@ -275,40 +275,6 @@ namespace mud
     
     
     
-        
-    // mud::Gauge
-    {
-        static Meta meta = { type<mud::Gauge>(), &namspc({ "mud" }), "Gauge", sizeof(mud::Gauge), TypeClass::Struct };
-        static Class cls = { type<mud::Gauge>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-                { type<mud::Gauge>(), [](Ref ref, array<Var> args) { new(&val<mud::Gauge>(ref)) mud::Gauge( val<float>(args[0]) ); }, { { "value", var(float(0.f)), Param::Default } } }
-            },
-            // copy constructor
-            {
-                { type<mud::Gauge>(), [](Ref ref, Ref other) { new(&val<mud::Gauge>(ref)) mud::Gauge(val<mud::Gauge>(other)); } }
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Gauge>();
-    }
-    
-    
     
         
     // mud::Image
@@ -411,7 +377,6 @@ namespace mud
         
         meta_class<mud::ImageAtlas>();
     }
-    
     
     
     
@@ -629,40 +594,6 @@ namespace mud
     
     
         
-    // mud::Ratio
-    {
-        static Meta meta = { type<mud::Ratio>(), &namspc({ "mud" }), "Ratio", sizeof(mud::Ratio), TypeClass::Struct };
-        static Class cls = { type<mud::Ratio>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-                { type<mud::Ratio>(), [](Ref ref, array<Var> args) { new(&val<mud::Ratio>(ref)) mud::Ratio( val<float>(args[0]) ); }, { { "value", var(float(0.f)), Param::Default } } }
-            },
-            // copy constructor
-            {
-                { type<mud::Ratio>(), [](Ref ref, Ref other) { new(&val<mud::Ratio>(ref)) mud::Ratio(val<mud::Ratio>(other)); } }
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Ratio>();
-    }
-    
-    
-        
     // mud::Time
     {
         static Meta meta = { type<mud::Time>(), &namspc({ "mud" }), "Time", sizeof(mud::Time), TypeClass::Struct };
@@ -743,8 +674,8 @@ namespace mud
             {  },
             // constructors
             {
-				{ type<mud::Transform>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Transform>(ref)) mud::Transform(); },{} },
-				{ type<mud::Transform>(), [](Ref ref, array<Var> args) { new(&val<mud::Transform>(ref)) mud::Transform(val<vec3>(args[0]), val<quat>(args[1]), val<vec3>(args[2])); }, { { "position", var(vec3()) }, { "rotation", var(quat()) }, { "scale", var(vec3()) } } },
+                { type<mud::Transform>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Transform>(ref)) mud::Transform(  ); }, {} },
+                { type<mud::Transform>(), [](Ref ref, array<Var> args) { new(&val<mud::Transform>(ref)) mud::Transform( val<mud::vec3>(args[0]), val<mud::quat>(args[1]), val<mud::vec3>(args[2]) ); }, { { "position", var(mud::vec3()) }, { "rotation", var(mud::quat()) }, { "scale", var(mud::vec3()) } } }
             },
             // copy constructor
             {
@@ -1682,6 +1613,38 @@ namespace mud
     
     
         
+    // mud::SpriteAtlas
+    {
+        static Meta meta = { type<mud::SpriteAtlas>(), &namspc({ "mud" }), "SpriteAtlas", sizeof(mud::SpriteAtlas), TypeClass::Object };
+        static Class cls = { type<mud::SpriteAtlas>(),
+            // bases
+            { &type<mud::ImageAtlas>() },
+            { base_offset<mud::SpriteAtlas, mud::ImageAtlas>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::SpriteAtlas>();
+    }
+    
+    
+        
     // mud::Sprite
     {
         static Meta meta = { type<mud::Sprite>(), &namspc({ "mud" }), "Sprite", sizeof(mud::Sprite), TypeClass::Object };
@@ -1714,18 +1677,20 @@ namespace mud
     
     
         
-    // mud::SpriteAtlas
+    // mud::Ratio
     {
-        static Meta meta = { type<mud::SpriteAtlas>(), &namspc({ "mud" }), "SpriteAtlas", sizeof(mud::SpriteAtlas), TypeClass::Object };
-        static Class cls = { type<mud::SpriteAtlas>(),
+        static Meta meta = { type<mud::Ratio>(), &namspc({ "mud" }), "Ratio", sizeof(mud::Ratio), TypeClass::Struct };
+        static Class cls = { type<mud::Ratio>(),
             // bases
-            { &type<mud::ImageAtlas>() },
-            { base_offset<mud::SpriteAtlas, mud::ImageAtlas>() },
+            { &type<mud::DefStat<float, mud::Ratio>>() },
+            { base_offset<mud::Ratio, mud::DefStat<float, mud::Ratio>>() },
             // constructors
             {
+                { type<mud::Ratio>(), [](Ref ref, array<Var> args) { new(&val<mud::Ratio>(ref)) mud::Ratio( val<float>(args[0]) ); }, { { "value", var(float(0.f)), Param::Default } } }
             },
             // copy constructor
             {
+                { type<mud::Ratio>(), [](Ref ref, Ref other) { new(&val<mud::Ratio>(ref)) mud::Ratio(val<mud::Ratio>(other)); } }
             },
             // members
             {
@@ -1741,8 +1706,43 @@ namespace mud
         
         
         
-        meta_class<mud::SpriteAtlas>();
+        meta_class<mud::Ratio>();
     }
+    
+    
+        
+    // mud::Gauge
+    {
+        static Meta meta = { type<mud::Gauge>(), &namspc({ "mud" }), "Gauge", sizeof(mud::Gauge), TypeClass::Struct };
+        static Class cls = { type<mud::Gauge>(),
+            // bases
+            { &type<mud::DefStat<float, mud::Gauge>>() },
+            { base_offset<mud::Gauge, mud::DefStat<float, mud::Gauge>>() },
+            // constructors
+            {
+                { type<mud::Gauge>(), [](Ref ref, array<Var> args) { new(&val<mud::Gauge>(ref)) mud::Gauge( val<float>(args[0]) ); }, { { "value", var(float(0.f)), Param::Default } } }
+            },
+            // copy constructor
+            {
+                { type<mud::Gauge>(), [](Ref ref, Ref other) { new(&val<mud::Gauge>(ref)) mud::Gauge(val<mud::Gauge>(other)); } }
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Gauge>();
+    }
+    
     
 
     
@@ -1752,20 +1752,25 @@ namespace mud
         m.m_types.push_back(&type<mud::Axis>());
         m.m_types.push_back(&type<mud::Clockwise>());
         m.m_types.push_back(&type<mud::Colour>());
-        m.m_types.push_back(&type<mud::Gauge>());
+        m.m_types.push_back(&type<mud::DefStat<float, mud::Gauge>>());
+        m.m_types.push_back(&type<mud::DefStat<float, mud::Ratio>>());
+        m.m_types.push_back(&type<mud::Dispatch<void, mud::Ref, mud::Ref, float>>());
+        m.m_types.push_back(&type<mud::Grided<std::vector<T_Element>>>());
         m.m_types.push_back(&type<mud::Image>());
         m.m_types.push_back(&type<mud::Image256>());
         m.m_types.push_back(&type<mud::ImageAtlas>());
+        m.m_types.push_back(&type<mud::LazyGlobal<mud::Lerp>>());
         m.m_types.push_back(&type<mud::Palette>());
         m.m_types.push_back(&type<mud::Range<float>>());
         m.m_types.push_back(&type<mud::Range<mud::Colour>>());
         m.m_types.push_back(&type<mud::Range<mud::quat>>());
         m.m_types.push_back(&type<mud::Range<mud::vec3>>());
         m.m_types.push_back(&type<mud::Range<uint32_t>>());
-        m.m_types.push_back(&type<mud::Ratio>());
         m.m_types.push_back(&type<mud::Side>());
         m.m_types.push_back(&type<mud::SignedAxis>());
         m.m_types.push_back(&type<mud::Spectrum>());
+        m.m_types.push_back(&type<mud::Stat<T>>());
+        m.m_types.push_back(&type<mud::T_Array>());
         m.m_types.push_back(&type<mud::Time>());
         m.m_types.push_back(&type<mud::TimeSpan>());
         m.m_types.push_back(&type<mud::TrackMode>());
@@ -1787,6 +1792,7 @@ namespace mud
         m.m_types.push_back(&type<mud::ivec4>());
         m.m_types.push_back(&type<mud::mat4>());
         m.m_types.push_back(&type<mud::quat>());
+        m.m_types.push_back(&type<mud::std::vector<T_Element>>());
         m.m_types.push_back(&type<std::vector<float>>());
         m.m_types.push_back(&type<std::vector<mud::Colour>>());
         m.m_types.push_back(&type<std::vector<mud::Colour>>());
@@ -1800,8 +1806,10 @@ namespace mud
         m.m_types.push_back(&type<mud::vec2>());
         m.m_types.push_back(&type<mud::vec3>());
         m.m_types.push_back(&type<mud::vec4>());
-        m.m_types.push_back(&type<mud::Sprite>());
         m.m_types.push_back(&type<mud::SpriteAtlas>());
+        m.m_types.push_back(&type<mud::Sprite>());
+        m.m_types.push_back(&type<mud::Ratio>());
+        m.m_types.push_back(&type<mud::Gauge>());
     
         {
             auto func = [](array<Var> args, Var& result) {  val<float>(result) = ::sinf(val<float>(args[0])); };
@@ -1957,7 +1965,13 @@ namespace mud
             auto func = [](array<Var> args, Var& result) {  val<mud::quat>(result) = mud::rotate(val<mud::quat>(args[0]), val<mud::vec3>(args[1]), val<float>(args[2])); };
             std::vector<Param> params = { { "q", var(mud::quat()) }, { "axis", var(mud::vec3()) }, { "angle", var(float()) } };
             static Function f = { &namspc({ "mud" }), "rotate", function_id<mud::quat(*)(const mud::quat&, const mud::vec3&, float)>(&mud::rotate), func, params, var(mud::quat()) };
-			m.m_functions.push_back(&f);
+            m.m_functions.push_back(&f);
+        }
+        {
+            auto func = [](array<Var> args, Var& result) {  val<mud::vec3>(result) = mud::rotate(val<mud::quat>(args[0]), val<mud::vec3>(args[1])); };
+            std::vector<Param> params = { { "q", var(mud::quat()) }, { "vec", var(mud::vec3()) } };
+            static Function f = { &namspc({ "mud" }), "rotate", function_id<mud::vec3(*)(const mud::quat&, const mud::vec3&)>(&mud::rotate), func, params, var(mud::vec3()) };
+            m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<mud::quat>(result) = mud::look_at(val<mud::vec3>(args[0]), val<mud::vec3>(args[1]), val<mud::vec3>(args[2])); };
@@ -1990,15 +2004,21 @@ namespace mud
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<float>(result) = glm::distance(val<mud::vec3>(args[0]), val<mud::vec3>(args[1])); };
+            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::distance(val<mud::vec3>(args[0]), val<mud::vec3>(args[1])); };
             std::vector<Param> params = { { "a", var(mud::vec3()) }, { "b", var(mud::vec3()) } };
-            static Function f = { &namspc({ "mud" }), "distance", function_id<float(*)(const mud::vec3&, const mud::vec3&)>(&glm::distance), func, params, var(float()) };
+            static Function f = { &namspc({ "mud" }), "distance", function_id<float(*)(const mud::vec3&, const mud::vec3&)>(&mud::distance), func, params, var(float()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<float>(result) = glm::length(val<mud::vec3>(args[0])); };
+            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::length(val<mud::vec3>(args[0])); };
             std::vector<Param> params = { { "v", var(mud::vec3()) } };
-            static Function f = { &namspc({ "mud" }), "length", function_id<float(*)(const mud::vec3&)>(&glm::length), func, params, var(float()) };
+            static Function f = { &namspc({ "mud" }), "length", function_id<float(*)(const mud::vec3&)>(&mud::length), func, params, var(float()) };
+            m.m_functions.push_back(&f);
+        }
+        {
+            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::length2(val<mud::vec3>(args[0])); };
+            std::vector<Param> params = { { "v", var(mud::vec3()) } };
+            static Function f = { &namspc({ "mud" }), "length2", function_id<float(*)(const mud::vec3&)>(&mud::length2), func, params, var(float()) };
             m.m_functions.push_back(&f);
         }
         {
