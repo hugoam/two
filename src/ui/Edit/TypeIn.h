@@ -128,14 +128,18 @@ namespace mud
 
 	enum class CodePalette : unsigned char
 	{
-		Keyword = Text::Palette::Count,
+		Word = Text::Palette::Count,
+		Keyword,
 		Number,
 		String,
 		CharLiteral,
 		Punctuation,
+		Operator,
 		Preprocessor,
+		Variable,
 		Identifier,
-		KnownIdentifier,
+		Function,
+		Field,
 		PreprocIdentifier,
 		Comment,
 		ErrorMarker,
@@ -285,7 +289,8 @@ namespace mud
 
 		ColourPalette m_palette;
 
-		static std::vector<uint32_t>& GetDarkPalette();
+		static std::vector<uint32_t>& DarkPalette();
+		static std::vector<uint32_t>& OkaidaPalette();
 
 	public:
 		bool CanUndo() const { return m_undo_index > 0; }

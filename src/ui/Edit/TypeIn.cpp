@@ -276,7 +276,7 @@ namespace mud
 		, m_dirty(0, m_string.size())
 		, m_allowed_chars(allowed_chars)
 	{
-		m_palette = to_array(GetDarkPalette());
+		m_palette = to_array(OkaidaPalette());
 	}
 
 	TextEdit::~TextEdit()
@@ -299,9 +299,12 @@ namespace mud
 			m_text.m_text_paint.m_size = 14.f;
 		}
 
+		auto count_digits = [](int number) { int digits = 0; do { number /= 10; digits++; } while (number != 0); return digits; };
+		int digits = count_digits(m_text.m_text_rows.size());
+
 		vec2 padding = floor(rect_offset(m_frame.d_inkstyle->m_padding));
 		if(m_editor)
-			m_text_offset = padding + vec2{ m_text.line_height() * 6.f * 0.6f, 0.f };
+			m_text_offset = padding + vec2{ m_text.line_height() * float(digits) * 0.7f, 0.f };
 		else
 			m_text_offset = padding;
 	}
@@ -925,7 +928,7 @@ namespace mud
 					string name = m_string.substr(match.first - start, match.second - match.first);
 					PaletteIndex color = token_color.second;
 
-					if(color == uint16_t(CodePalette::Identifier))
+					//if(color == uint16_t(CodePalette::Word))
 					{
 						if(!m_language->m_case_sensitive)
 							std::transform(name.begin(), name.end(), name.begin(), ::toupper);
@@ -935,7 +938,7 @@ namespace mud
 							if(m_language->m_keywords.find(name) != m_language->m_keywords.end())
 								color = uint16_t(CodePalette::Keyword);
 							else if(m_language->m_identifiers.find(name) != m_language->m_identifiers.end())
-								color = uint16_t(CodePalette::KnownIdentifier);
+								color = uint16_t(CodePalette::Identifier);
 							else if(m_language->m_preproc_identifiers.find(name) != m_language->m_preproc_identifiers.end())
 								color = uint16_t(CodePalette::PreprocIdentifier);
 						}
@@ -944,10 +947,11 @@ namespace mud
 							if(m_language->m_preproc_identifiers.find(name) != m_language->m_preproc_identifiers.end())
 								color = uint16_t(CodePalette::PreprocIdentifier);
 							else
-								color = uint16_t(CodePalette::Identifier);
+								color = uint16_t(CodePalette::Word);
 						}
 					}
-					else if(color == uint16_t(CodePalette::Preprocessor))
+					//else
+					if(color == uint16_t(CodePalette::Preprocessor))
 					{
 						preproc = true;
 					}

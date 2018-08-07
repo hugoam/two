@@ -26,8 +26,11 @@ namespace mud
 	struct LanguageDefinition
 	{
 		string m_name;
+		std::vector<string> m_punctuation;
+		std::vector<string> m_operators;
 		std::unordered_set<string> m_keywords;
 		std::unordered_map<string, Identifier> m_identifiers;
+		std::unordered_map<string, Identifier> m_functions;
 		std::unordered_map<string, Identifier> m_preproc_identifiers;
 		string m_comment_start;
 		string m_comment_end;

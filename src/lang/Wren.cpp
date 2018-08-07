@@ -44,7 +44,7 @@ void wrenAssignVariable(WrenVM* vm, const char* module, const char* name,
 						int value_slot);
 }
 
-#define MUD_WREN_DEBUG_DECLS
+//#define MUD_WREN_DEBUG_DECLS
 //#define MUD_WREN_DEBUG
 
 namespace mud
@@ -222,19 +222,20 @@ namespace mud
 			read_value(vm, index, type(value), value);
 	}
 
-	inline void push(WrenVM* vm, int slot, const Var& var)
+	inline void push(WrenVM* vm, int slot, const Var& var, bool force_ref = true)
 	{
 		// @todo: what about automatic conversion as with visual scripts ? it might not belong here, maybe in read() ?
 		// @todo: might want a case for is_complex() before is_object() ?
+		Type& ty = type(var);
 		if(var.none() || var.null())
 			push_null(vm, slot);
-		else if(is_sequence(type(var)))
+		else if(is_sequence(ty))
 			push_sequence(vm, slot, var);
-		else if(is_object(type(var)))
+		else if(is_object(ty) || (is_struct(ty) && force_ref))
 			push_ref(vm, slot, var.m_ref);
-		else if(is_struct(type(var)))
+		else if(is_struct(ty))
 			push_object(vm, slot, var.m_ref);
-		else if(is_enum(type(var)))
+		else if(is_enum(ty))
 			push_enum(vm, slot, var);
 		else
 			push_value(vm, slot, var.m_ref);
@@ -1015,22 +1016,12 @@ namespace mud
 			g_wren_classes[type<Type>().m_id] = wrenGetSlotHandle(m_vm, 0);
 		}
 
-		bool import_namespace(const string& path)
-		{
-			for(const string& name : m_import_namespaces)
-				if(path == name)
-					return true;
-			return false;
-		}
-
-		array<cstring> namespace_path(Namespace& location, size_t shave_off = 0)
+		array<cstring> namespace_path(Namespace& location)
 		{
 			if(location.is_root())
 				return array<cstring>{};
-			if(import_namespace(location.m_path[0]))
-				return location.m_path.size() == 1 ? array<cstring>{} : array<cstring>{ location.m_path.data() + 1, location.m_path.size() - 1 - shave_off };
 			else
-				return array<cstring>{ location.m_path.data(), location.m_path.size() - shave_off };
+				return location.m_path;
 		}
 
 		void register_namespace(Namespace& location)
@@ -1067,7 +1058,7 @@ namespace mud
 
 			array<cstring> path = namespace_path(*function.m_namespace);
 
-			string c = path.size() > 0 ? to_pascalcase(path[0]) : "Module";
+			string c = path.size() > 0 ? to_pascalcase(path[path.m_count-1]) : "Module";
 			string n = string(function.m_name);
 			string parent = function.m_namespace->m_name;
 			string params = [&]() { if(function.m_params.size() == 0) return string(""); string params; for(Param& param : function.m_params) { params += param.m_name; params += ","; } params.pop_back(); return params; }();

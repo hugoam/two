@@ -35,7 +35,7 @@ namespace mud
 	export_ func_ inline quat axis_angle(const vec3& axis, float angle) { return glm::angleAxis(angle, axis); }
 	export_ func_ inline quat rotate(const quat& q, const vec3& axis, float angle) { return glm::rotate(q, angle, axis); }
 	export_ inline quat rotate(const quat& q, float angle, const vec3& axis) { return glm::rotate(q, angle, axis); }
-	export_ inline vec3 rotate(const quat& q, const vec3& vec) { return q * vec; }
+	export_ func_ inline vec3 rotate(const quat& q, const vec3& vec) { return q * vec; }
 #endif
 
 	export_ inline vec3 rotate(const vec3& v, float angle, const vec3& axis) { return angle_axis(angle, axis) * v; }
@@ -88,6 +88,7 @@ namespace mud
 
 	export_ func_ float distance(const vec3& a, const vec3& b);
 	export_ func_ float length(const vec3& v);
+	export_ func_ float length2(const vec3& v);
 #endif
 
 	export_ template <class T>

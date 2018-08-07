@@ -35,14 +35,14 @@ namespace mud
 		Style frame = { "Frame", styles().sheet, {}, [](InkStyle& l) { l.m_empty = false; l.m_background_colour = to_colour(25, 26, 31); } };
 
 		Style type = { "Type", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = to_colour(255, 0, 78); l.m_text_size = 18.f; } };
-		Style identifier = { "Identifier", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = to_colour(106, 176, 255); l.m_text_size = 18.f; } };
+		Style identifier = { "Word", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = to_colour(106, 176, 255); l.m_text_size = 18.f; } };
 		Style syntax = { "Syntax", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = Colour::White; l.m_text_size = 18.f; } };
 		Style argument = { "Argument", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = to_colour(227, 131, 228); l.m_text_size = 18.f; } };
 #else
 		Style frame = { "Frame", styles().sheet, {}, {} };
 
 		Style type = { "Type", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_colour = to_colour(125, 125, 125); l.m_text_size = 16.f; } };
-		Style identifier = { "Identifier", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_colour = to_colour(106, 176, 255); l.m_text_size = 16.f; } };
+		Style identifier = { "Word", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_colour = to_colour(106, 176, 255); l.m_text_size = 16.f; } };
 		Style syntax = { "Syntax", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_colour = Colour::White; l.m_text_size = 16.f; } };
 		Style argument = { "Argument", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_colour = Colour::White; l.m_text_size = 16.f; } };
 #endif
