@@ -279,7 +279,21 @@ namespace mud
         cls.m_content = &type<mud::mat4>();
         meta_sequence<array<mud::mat4>, mud::mat4>();
     }
-    
+
+	{
+		static Meta meta = { type<std::vector<mud::Animation*>>(), &namspc({}), "std::vector<mud::Animation*>", sizeof(std::vector<mud::Animation*>), TypeClass::Sequence };
+		static Class cls = { type<std::vector<mud::Animation*>>() };
+		cls.m_content = &type<mud::Animation>();
+		meta_sequence<std::vector<mud::Animation*>, mud::Animation*>();
+	}
+
+	{
+		static Meta meta = { type<std::vector<mud::AnimationPlay>>(), &namspc({}), "std::vector<mud::AnimationPlay>", sizeof(std::vector<mud::AnimationPlay>), TypeClass::Sequence };
+		static Class cls = { type<std::vector<mud::AnimationPlay>>() };
+		cls.m_content = &type<mud::AnimationPlay>();
+		meta_sequence<std::vector<mud::AnimationPlay>, mud::AnimationPlay>();
+	}
+
     {
         static Meta meta = { type<std::vector<mud::PrefabNode>>(), &namspc({}), "std::vector<mud::PrefabNode>", sizeof(std::vector<mud::PrefabNode>), TypeClass::Sequence };
         static Class cls = { type<std::vector<mud::PrefabNode>>() };
@@ -289,38 +303,85 @@ namespace mud
     
     
     
-    
-        
-    // mud::Animated
-    {
-        static Meta meta = { type<mud::Animated>(), &namspc({ "mud" }), "Animated", sizeof(mud::Animated), TypeClass::Object };
-        static Class cls = { type<mud::Animated>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Animated>();
-    }
-    
+
+
+	// mud::AnimationPlay
+	{
+		static Meta meta = { type<mud::AnimationPlay>(), &namspc({ "mud" }), "AnimationPlay", sizeof(mud::AnimationPlay), TypeClass::Struct };
+		static Class cls = { type<mud::AnimationPlay>(),
+			// bases
+		{},
+		{},
+			// constructors
+		{
+		},
+		// copy constructor
+		{
+			{ type<mud::AnimationPlay>(), [](Ref ref, Ref other) { new(&val<mud::AnimationPlay>(ref)) mud::AnimationPlay(val<mud::AnimationPlay>(other)); } }
+		},
+			// members
+		{
+			{ type<mud::AnimationPlay>(), member_address(&mud::AnimationPlay::m_animation), type<mud::Animation>(), "animation", Ref(type<mud::Animation>()), Member::Flags(Member::Pointer | Member::Link), nullptr },
+			{ type<mud::AnimationPlay>(), member_address(&mud::AnimationPlay::m_loop), type<bool>(), "loop", var(bool(true)), Member::Value, nullptr },
+			{ type<mud::AnimationPlay>(), member_address(&mud::AnimationPlay::m_speed), type<float>(), "speed", var(float(1.f)), Member::Value, nullptr },
+			{ type<mud::AnimationPlay>(), member_address(&mud::AnimationPlay::m_transient), type<bool>(), "transient", var(bool(false)), Member::Value, nullptr },
+			{ type<mud::AnimationPlay>(), member_address(&mud::AnimationPlay::m_fadeout), type<float>(), "fadeout", var(float(0.f)), Member::Value, nullptr },
+			{ type<mud::AnimationPlay>(), member_address(&mud::AnimationPlay::m_fadeout_left), type<float>(), "fadeout_left", var(float(0.f)), Member::Value, nullptr },
+			{ type<mud::AnimationPlay>(), member_address(&mud::AnimationPlay::m_cursor), type<float>(), "cursor", var(float(0.f)), Member::Value, nullptr },
+			{ type<mud::AnimationPlay>(), member_address(&mud::AnimationPlay::m_ended), type<bool>(), "ended", var(bool(false)), Member::Value, nullptr }
+		},
+			// methods
+		{
+		},
+		// static members
+		{
+		}
+		};
+
+
+
+
+		meta_class<mud::AnimationPlay>();
+	}
+
+
+
+	// mud::AnimationTrack
+	{
+		static Meta meta = { type<mud::AnimationTrack>(), &namspc({ "mud" }), "AnimationTrack", sizeof(mud::AnimationTrack), TypeClass::Object };
+		static Class cls = { type<mud::AnimationTrack>(),
+			// bases
+		{},
+		{},
+			// constructors
+		{
+		},
+		// copy constructor
+		{
+		},
+		// members
+		{
+			{ type<mud::AnimationTrack>(), member_address(&mud::AnimationTrack::m_animation), type<mud::Animation>(), "animation", Ref(type<mud::Animation>()), Member::Flags(Member::Pointer | Member::Link), nullptr },
+			{ type<mud::AnimationTrack>(), member_address(&mud::AnimationTrack::m_node), type<size_t>(), "node", var(size_t()), Member::Value, nullptr },
+			{ type<mud::AnimationTrack>(), member_address(&mud::AnimationTrack::m_node_name), type<std::string>(), "node_name", var(std::string()), Member::Value, nullptr },
+			{ type<mud::AnimationTrack>(), member_address(&mud::AnimationTrack::m_member), type<mud::Member>(), "member", Ref(type<mud::Member>()), Member::Flags(Member::Pointer | Member::Link), nullptr },
+			{ type<mud::AnimationTrack>(), member_address(&mud::AnimationTrack::m_length), type<float>(), "length", var(float(0.f)), Member::Value, nullptr },
+			{ type<mud::AnimationTrack>(), member_address(&mud::AnimationTrack::m_interpolation), type<mud::Interpolation>(), "interpolation", var(mud::Interpolation()), Member::Value, nullptr }
+		},
+			// methods
+		{
+		},
+		// static members
+		{
+		}
+		};
+
+
+
+
+		meta_class<mud::AnimationTrack>();
+	}
+
     
         
     // mud::AnimatedTrack
@@ -674,7 +735,50 @@ namespace mud
         meta_class<mud::AssetStore<mud::Texture>>();
     }
     
-    
+
+
+	// mud::Animated
+	{
+		static Meta meta = { type<mud::Animated>(), &namspc({ "mud" }), "Animated", sizeof(mud::Animated), TypeClass::Object };
+		static Class cls = { type<mud::Animated>(),
+		// bases
+		{},
+		{},
+		// constructors
+		{
+		},
+		// copy constructor
+		{
+		},
+		// members
+		{
+			//{ type<mud::Animated>(), member_address(&mud::Animated::m_playing), type<std::vector<mud::AnimationPlay>>(), "playing", var(std::vector<mud::AnimationPlay>()), Member::Value, nullptr },
+			{ type<mud::Animated>(), member_address(&mud::Animated::m_queue), type<std::vector<mud::Animation*>>(), "queue", var(std::vector<mud::Animation*>()), Member::Value, nullptr },
+			{ type<mud::Animated>(), member_address(&mud::Animated::m_active), type<bool>(), "active", var(bool(true)), Member::Value, nullptr },
+			{ type<mud::Animated>(), member_address(&mud::Animated::m_speed_scale), type<float>(), "speed_scale", var(float(1.f)), Member::Value, nullptr },
+			{ type<mud::Animated>(), member_address(&mud::Animated::m_default_blend_time), type<float>(), "default_blend_time", var(float(1.f)), Member::Value, nullptr }
+		},
+		// methods
+		{
+			//{ type<mud::Animated>(), "play", member_address<void (mud::Animated::*)(const Animation&, bool, float, float, bool)>(&mud::Animated::play), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Animated>(object).play(val<mud::Animation>(args[0]), val<bool>(args[1]), val<float>(args[2]), val<float>(args[3]), val<bool>(args[4])); },{ { "animation", Ref(type<mud::Animation>()) },{ "loop", var(bool()) },{ "blend", var(float(0.f)), Param::Default },{ "speed", var(float(1.f)), Param::Default },{ "transient", var(bool(false)), Param::Default } }, Var() },
+			{ type<mud::Animated>(), "play", member_address<void (mud::Animated::*)(cstring, bool, float, float, bool)>(&mud::Animated::play), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Animated>(object).play(val<cstring>(args[0]), val<bool>(args[1]), val<float>(args[2]), val<float>(args[3]), val<bool>(args[4])); },{ { "animation", var(cstring()) },{ "loop", var(bool()) },{ "blend", var(float(0.f)), Param::Default },{ "speed", var(float(1.f)), Param::Default },{ "transient", var(bool(false)), Param::Default } }, Var() },
+			{ type<mud::Animated>(), "seek", member_address(&mud::Animated::seek), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Animated>(object).seek(val<float>(args[0])); },{ { "time", var(float()) } }, Var() },
+			{ type<mud::Animated>(), "pause", member_address(&mud::Animated::pause), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args); val<mud::Animated>(object).pause(); },{}, Var() },
+			{ type<mud::Animated>(), "stop", member_address(&mud::Animated::stop), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args); val<mud::Animated>(object).stop(); },{}, Var() },
+			{ type<mud::Animated>(), "advance", member_address(&mud::Animated::advance), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Animated>(object).advance(val<float>(args[0])); },{ { "time", var(float()) } }, Var() },
+			{ type<mud::Animated>(), "next_animation", member_address(&mud::Animated::next_animation), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args); val<mud::Animated>(object).next_animation(); },{}, Var() },
+			{ type<mud::Animated>(), "playing", member_address(&mud::Animated::playing), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<std::string>(result) = val<mud::Animated>(object).playing(); },{}, var(std::string()) }
+		},
+		// static members
+		{
+		}
+		};
+
+
+
+
+		meta_class<mud::Animated>();
+	}
         
     // mud::Background
     {

@@ -275,7 +275,10 @@ namespace mud
 	Material& GfxSystem::fetch_material(cstring name, cstring shader, bool builtin)
 	{
 		Program* program = this->programs().file(shader);
-		return this->materials().fetch(name, [&](Material& material) { material.m_builtin = builtin; material.m_program = program; });
+		Material& material = this->materials().fetch(name);
+		material.m_builtin = builtin;
+		material.m_program = program;
+		return material;
 	}
 
 	Material& GfxSystem::fetch_image256_material(const Image256& image)
@@ -288,9 +291,11 @@ namespace mud
 			string image_name = "Image256_" + to_string((uintptr_t)&image);
 			auto initializer = [&](Texture& texture) { auto data = image.read(); load_texture_rgba(texture, image.m_width, image.m_height, data); };
 
+			Texture& texture = this->textures().fetch(image_name.c_str());
+			initializer(texture);
 			material = &this->fetch_material(name.c_str(), "unshaded");
 			material->m_unshaded_block.m_enabled = true;
-			material->m_unshaded_block.m_colour.m_texture = &this->textures().fetch(image_name.c_str(), initializer);
+			material->m_unshaded_block.m_colour.m_texture = &texture;
 		}
 
 		return *material;

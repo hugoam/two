@@ -62,16 +62,16 @@ namespace mud
 		attr_ float m_speed_scale = 1.f;
 		attr_ float m_default_blend_time = 1.f;
 
-		void play(const Animation& animation, bool loop, float blend = 0.f, float speed = 1.f, bool transient = false);
-		void play(cstring animation, bool loop, float blend = 0.f, float speed = 1.f, bool transient = false);
-		void seek(float time);
-		void pause();
-		void stop();
-		void advance(float time);
-		void next_animation();
+		meth_ void play(const Animation& animation, bool loop, float blend = 0.f, float speed = 1.f, bool transient = false);
+		meth_ void play(cstring animation, bool loop, float blend = 0.f, float speed = 1.f, bool transient = false);
+		meth_ void seek(float time);
+		meth_ void pause();
+		meth_ void stop();
+		meth_ void advance(float time);
+		meth_ void next_animation();
 		
 		void add_item(Item& item);
 
-		string playing() { return m_playing.back().m_animation->m_name; }
+		meth_ string playing() { return m_playing.empty() ? "" : m_playing.back().m_animation->m_name; }
 	};
 }
