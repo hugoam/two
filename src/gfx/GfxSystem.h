@@ -76,7 +76,7 @@ namespace mud
 		void init(GfxContext& context);
 		void init_pipeline();
 
-		void add_resource_path(cstring path);
+		meth_ void add_resource_path(cstring path);
 
 		void set_renderer(Shading shading, Renderer& renderer);
 		Renderer& renderer(Shading shading);

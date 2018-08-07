@@ -1223,6 +1223,7 @@ namespace mud
             },
             // methods
             {
+				{ type<mud::GfxSystem>(), "add_resource_path", member_address(&mud::GfxSystem::add_resource_path), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::GfxSystem>(object).add_resource_path(val<cstring>(args[0])); },{ { "path", var(cstring()) } }, Ref() },
             },
             // static members
             {
@@ -2818,12 +2819,6 @@ namespace mud
         m.m_types.push_back(&type<mud::Skin>());
         m.m_types.push_back(&type<mud::Sun>());
         m.m_types.push_back(&type<mud::SymbolIndex>());
-        m.m_types.push_back(&type<mud::AssetStore<mud::Texture>>());
-        m.m_types.push_back(&type<mud::AssetStore<mud::Program>>());
-        m.m_types.push_back(&type<mud::AssetStore<mud::Material>>());
-        m.m_types.push_back(&type<mud::AssetStore<mud::Model>>());
-        m.m_types.push_back(&type<mud::AssetStore<mud::ParticleGenerator>>());
-        m.m_types.push_back(&type<mud::AssetStore<mud::Prefab>>());
         m.m_types.push_back(&type<mud::Texture>());
         m.m_types.push_back(&type<mud::TextureChannel>());
         m.m_types.push_back(&type<mud::TextureHint>());

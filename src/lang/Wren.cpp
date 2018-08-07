@@ -127,9 +127,10 @@ namespace mud
 		if(slot_type == WREN_TYPE_NULL) result = Ref(type);
 		else if(slot_type == WREN_TYPE_FOREIGN)
 		{
-			Ref object = userdata(vm, slot);
+			Ref ref = userdata(vm, slot);
+			Ref object = cls(ref).upcast(ref, type);
 			if(object.m_type->is(type))
-				result = cls(object).upcast(object, type);
+				result = object;
 		}
 	}
 
