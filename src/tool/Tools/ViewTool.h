@@ -24,7 +24,7 @@ namespace mud
 		enum State
 		{
 			START = 0,
-			END = 1
+			End = 1
 		};
 
 	private:

@@ -288,7 +288,7 @@ namespace mud
 	{
 		if(paint.m_align.x == CENTER)
 			return vg::TextAlign::Center | vg::TextAlign::Top;
-		else if(paint.m_align.x == RIGHT)
+		else if(paint.m_align.x == Right)
 			return vg::TextAlign::Right | vg::TextAlign::Top;
 		else
 			return vg::TextAlign::Left | vg::TextAlign::Top;

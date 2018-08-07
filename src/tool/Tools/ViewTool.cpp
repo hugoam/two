@@ -22,8 +22,8 @@ namespace mud
 
 	void ViewAction::apply()
 	{
-		m_camera.m_eye = m_eye[END];
-		m_camera.m_target = m_target[END];
+		m_camera.m_eye = m_eye[End];
+		m_camera.m_target = m_target[End];
 	}
 
 	void ViewAction::undo()

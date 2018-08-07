@@ -201,18 +201,18 @@ namespace mud
 
 	bool sequence_edit(Widget& parent, Ref& value, EditorHint hint)
 	{
-		enum Modes { ADD = 1 << 0 };
+		enum Modes { Add = 1 << 0 };
 
 		Widget& self = hint == EditorHint::Inline ? ui::row(parent)
 												  : ui::sheet(parent);
 		bool changed = false;
 		iterate_sequence(value, [&](Ref element) { changed |= value_edit(self, element); });
-		if(ui::modal_button(self, self, "add", ADD))
+		if(ui::modal_button(self, self, "add", Add))
 		{
 			if(meta(*cls(value).m_content).m_empty_var)
 			{
 				add_sequence(value, meta(*cls(value).m_content).m_empty_var);
-				self.m_switch &= ~ADD;
+				self.m_switch &= ~Add;
 				changed |= true;
 			}
 			else
@@ -221,7 +221,7 @@ namespace mud
 				if(object_selector(self, selected))
 				{
 					add_sequence(value, selected);
-					self.m_switch &= ~ADD;
+					self.m_switch &= ~Add;
 					changed |= true;
 				}
 			}

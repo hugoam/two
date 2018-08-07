@@ -245,11 +245,11 @@ namespace mud
 
 	Canvas& script_canvas(Widget& parent, VisualScript& script)
 	{
-		enum Modes { INSERT = 1 << 0 };
+		enum Modes { Insert = 1 << 0 };
 
 		Canvas& canvas = ui::canvas(parent, script.m_processes.size());
 
-		if(Widget* popup = ui::context(*canvas.m_scroll_plan, INSERT, ui::PopupFlags::Modal))
+		if(Widget* popup = ui::context(*canvas.m_scroll_plan, Insert, ui::PopupFlags::Modal))
 			script_canvas_insert(canvas, *popup, script);
 
 		Process* destroy = nullptr;
