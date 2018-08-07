@@ -32,15 +32,15 @@ namespace mud
 		void step(float delta, float speed);
 		void update(float time, float delta, float interp);
 
-		const Animation* m_animation = nullptr;
-		bool m_loop = true;
-		float m_speed = 1.f;
-		bool m_transient = false;
+		attr_ const Animation* m_animation = nullptr;
+		attr_ bool m_loop = true;
+		attr_ float m_speed = 1.f;
+		attr_ bool m_transient = false;
 
-		float m_fadeout = 0.f;
-		float m_fadeout_left = 0.f;
-		float m_cursor = 0.f;
-		bool m_ended = false;
+		attr_ float m_fadeout = 0.f;
+		attr_ float m_fadeout_left = 0.f;
+		attr_ float m_cursor = 0.f;
+		attr_ bool m_ended = false;
 
 		std::vector<AnimatedTrack> m_tracks;
 	};
@@ -53,13 +53,14 @@ namespace mud
 
 		Node3& m_node;
 		Rig m_rig;
-		float m_speed_scale = 1.f;
-		float m_default_blend_time = 1.f;
 
-		std::vector<AnimationPlay> m_playing;
-		std::vector<Animation*> m_queue;
+		attr_ std::vector<AnimationPlay> m_playing;
+		attr_ std::vector<Animation*> m_queue;
 
-		bool m_active = true;
+		attr_ bool m_active = true;
+
+		attr_ float m_speed_scale = 1.f;
+		attr_ float m_default_blend_time = 1.f;
 
 		void play(const Animation& animation, bool loop, float blend = 0.f, float speed = 1.f, bool transient = false);
 		void play(cstring animation, bool loop, float blend = 0.f, float speed = 1.f, bool transient = false);

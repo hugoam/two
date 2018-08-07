@@ -108,5 +108,5 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::BlockDepth>() { static Type ty("BlockDepth", type<mud::DrawBlock>()); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Particles>() { static Type ty("Particles", type<mud::ParticleGenerator>()); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>() { static Type ty("RenderTarget", type<mud::FrameBuffer>()); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::Gnode>() { static Type ty("Gnode", type<mud::Graph<mud::Gnode>>()); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Gnode>() { static Type ty("Gnode"); return ty; }
 }

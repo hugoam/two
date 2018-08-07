@@ -55,10 +55,16 @@ namespace mud
 		pipeline.m_pass_blocks[size_t(PassType::Effects)] = { /*&ssao, &ssr, &sss,*/ &resolve };
 		pipeline.m_pass_blocks[size_t(PassType::PostProcess)] = { &dof_blur/*, &exposure*/, &glow, &tonemap };
 
-		gfx_system.programs().create("unshaded", [&](Program& program) { program.register_blocks(pipeline.pass_blocks(PassType::Unshaded)); });
-		gfx_system.programs().create("depth", [&](Program& program) { program.register_blocks(pipeline.pass_blocks(PassType::Depth)); });
-		gfx_system.programs().create("pbr/pbr", [&](Program& program) { program.register_blocks(pipeline.pass_blocks(PassType::Opaque)); });
-		gfx_system.programs().create("fresnel", [&](Program& program) { /*program.register_blocks(pipeline.pass_blocks(PassType::Unshaded));*/ });
+		{
+			Program& unshaded =gfx_system.programs().create("unshaded");
+			unshaded.register_blocks(pipeline.pass_blocks(PassType::Unshaded));
+			Program& depth = gfx_system.programs().create("depth");
+			depth.register_blocks(pipeline.pass_blocks(PassType::Depth));
+			Program& pbr = gfx_system.programs().create("pbr/pbr");
+			pbr.register_blocks(pipeline.pass_blocks(PassType::Opaque));
+			Program& fresnel = gfx_system.programs().create("fresnel");
+			UNUSED(fresnel);
+		}
 
 		static MainRenderer main_renderer = { gfx_system, pipeline };
 		static ShadowRenderer shadow_renderer = { gfx_system, pipeline };

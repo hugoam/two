@@ -201,12 +201,13 @@ namespace mud
 				{
 					std::vector<uint8_t> data = read_base64_uri(image.uri);
 					auto load_image_mem = [](Texture&) {  }; // to_array(data)
-					Texture& texture = state.m_gfx_system.textures().create("temp", load_image_mem);
+					Texture& texture = state.m_gfx_system.textures().create("temp");
+					load_image_mem(texture);
 					state.m_imported_images.push_back(&texture);
 				}
 				else
 				{
-					Texture& texture = state.m_gfx_system.textures().file((string(path) + file + "/").c_str(), image.uri.c_str());
+					Texture& texture = state.m_gfx_system.textures().file_at((string(path) + file + "/").c_str(), image.uri.c_str());
 					//Texture& texture = state.m_gfx_system.textures().file(image.uri.c_str());
 					state.m_imported_images.push_back(&texture);
 				}
@@ -216,7 +217,8 @@ namespace mud
 				//const glTFBufferView& buffer_view = gltf.m_buffer_views[image.buffer_view];
 				//array<uint8_t> data = { gltf.m_binary_buffers[buffer_view.buffer].data() + buffer_view.byte_offset, buffer_view.byte_length };
 				auto load_image_mem = [](Texture&) {}; // to_array(data)
-				Texture& texture = state.m_gfx_system.textures().create("temp", load_image_mem);
+				Texture& texture = state.m_gfx_system.textures().create("temp");
+				load_image_mem(texture);
 				state.m_imported_images.push_back(&texture);
 			}
 		}

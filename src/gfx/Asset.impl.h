@@ -65,14 +65,6 @@ namespace mud
 	}
 
 	template <class T_Asset>
-	T_Asset& AssetStore<T_Asset>::create(cstring name, const Initializer& initializer)
-	{
-		m_assets[name] = make_unique<T_Asset>(name);
-		initializer(*m_assets[name]);
-		return *m_assets[name];
-	}
-
-	template <class T_Asset>
 	T_Asset& AssetStore<T_Asset>::fetch(cstring name)
 	{
 		if(m_assets.find(name) == m_assets.end())
@@ -81,15 +73,7 @@ namespace mud
 	}
 
 	template <class T_Asset>
-	T_Asset& AssetStore<T_Asset>::fetch(cstring name, const Initializer& initializer)
-	{
-		if(m_assets.find(name) == m_assets.end())
-			return this->create(name, initializer);
-		return *m_assets[name];
-	}
-
-	template <class T_Asset>
-	T_Asset& AssetStore<T_Asset>::file(cstring path, cstring name)
+	T_Asset& AssetStore<T_Asset>::file_at(cstring path, cstring name)
 	{
 		if(m_assets.find(name) == m_assets.end())
 		{

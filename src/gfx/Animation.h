@@ -49,13 +49,13 @@ namespace mud
 			: m_animation(&animation), m_node(node), m_node_name(node_name), m_member(&member)
 		{}
 		
-		Animation* m_animation;
-		size_t m_node;
-		string m_node_name;
-		Member* m_member;
+		attr_ Animation* m_animation;
+		attr_ size_t m_node;
+		attr_ string m_node_name;
+		attr_ Member* m_member;
 
-		float m_length = 0.f;
-		Interpolation m_interpolation = Interpolation::Linear;
+		attr_ float m_length = 0.f;
+		attr_ Interpolation m_interpolation = Interpolation::Linear;
 
 		std::vector<Key> m_keys;
 
@@ -73,8 +73,8 @@ namespace mud
 
 		std::vector<AnimationTrack> tracks;
 
-		string m_name;
-		float m_length = 1.f;
-		float m_step = 0.1f;
+		attr_ string m_name;
+		attr_ float m_length = 1.f;
+		attr_ float m_step = 0.1f;
 	};
 }
