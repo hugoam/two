@@ -36,7 +36,7 @@ namespace mud
 		attr_ Space m_space = SHEET;
 		attr_ Clipping m_clipping = NOCLIP;
 		attr_ Opacity m_opacity = CLEAR;
-		attr_ Dim2<Align> m_align = { LEFT, LEFT };
+		attr_ Dim2<Align> m_align = { Left, Left };
 		attr_ vec2 m_span = vec2(1.f);
 		attr_ vec2 m_size = vec2(0.f);
 		attr_ vec4 m_padding = vec4(0.f);

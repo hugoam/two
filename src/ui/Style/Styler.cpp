@@ -143,9 +143,9 @@ namespace mud
 		, wedge("Wedge", widget, [](Layout& l) { l.m_solver = ROW_SOLVER; l.m_space = SHEET; })
 		, ui("Ui", wedge, [](Layout& l) { l.m_space = LAYOUT; l.m_clipping = CLIP; l.m_opacity = OPAQUE; })
 
-		, unit("Unit", wedge, [](Layout& l) { l.m_space = UNIT; l.m_align = { LEFT, CENTER }; },
+		, unit("Unit", wedge, [](Layout& l) { l.m_space = UNIT; l.m_align = { Left, CENTER }; },
 							  [](InkStyle& o) { o.m_empty = false; o.m_text_colour = Colour::White; o.m_padding = vec4(2.f); })
-		, item("Item", widget, [](Layout& l) { l.m_space = BLOCK; l.m_align = { LEFT, CENTER }; },
+		, item("Item", widget, [](Layout& l) { l.m_space = BLOCK; l.m_align = { Left, CENTER }; },
 							   [](InkStyle& o) { o.m_text_colour = Colour::White; o.m_padding = vec4(2.f); })
 		, control("Control", item, [](Layout& l) { l.m_opacity = OPAQUE; })
 		, wrap_control("WrapControl", wedge, [](Layout& l) { l.m_space = LINE; l.m_opacity = OPAQUE; })
@@ -172,7 +172,7 @@ namespace mud
 		, sequence("Sequence", wedge, [](Layout& l) { l.m_space = SHEET; })
 		, element("Element", wedge, [](Layout& l) { l.m_space = STACK; l.m_opacity = OPAQUE; })
 
-		, label("Label", item, [](Layout& l) { l.m_align = { LEFT, CENTER }; })
+		, label("Label", item, [](Layout& l) { l.m_align = { Left, CENTER }; })
 		, title("Title", label, {}, [](InkStyle& o) {}) //o.m_text_size = 18.f; })
 		, message("Message", label, {}, [](InkStyle& o) {}) //o.m_text_size = 18.f; })
 		, text("Text", item, [](Layout& l) { l.m_space = { PARAGRAPH, FIXED, WRAP }; },
@@ -182,7 +182,7 @@ namespace mud
 		, wrap_button("WrapButton", wrap_control, {})
 		, multi_button("MultiButton", wrap_button, {})
 		, toggle("Toggle", control, {})
-		, checkbox("Checkbox", toggle, [](Layout& l) { l.m_align = { LEFT, CENTER }; }) // @todo why doesn't work ?? why u checkbox not aligned ??
+		, checkbox("Checkbox", toggle, [](Layout& l) { l.m_align = { Left, CENTER }; }) // @todo why doesn't work ?? why u checkbox not aligned ??
 
 		, dummy("Dummy", wedge, [](Layout& l) { l.m_space = BLOCK; })
 		, tooltip("Tooltip", decal, [](Layout& l) { l.m_space = UNIT; l.m_zorder = -2; })
@@ -236,7 +236,7 @@ namespace mud
 		, popup("Popup", overlay, [](Layout& l) { l.m_space = UNIT; l.m_clipping = UNCLIP; })
 		, modal("Modal", popup, [](Layout& l) { l.m_flow = ALIGN; l.m_space = UNIT; l.m_align = { CENTER, CENTER }; })
 
-		, color_popup("ColourPopup", overlay, [](Layout& l) { l.m_flow = ALIGN; l.m_clipping = UNCLIP; l.m_align = { LEFT, OUT_RIGHT }; })
+		, color_popup("ColourPopup", overlay, [](Layout& l) { l.m_flow = ALIGN; l.m_clipping = UNCLIP; l.m_align = { Left, OUT_RIGHT }; })
 	{}
 
 	void Styles::setup(UiWindow& ui_window)

@@ -36,12 +36,10 @@ namespace glm {
     
 }
 
-namespace mud {
-namespace gfx {
+namespace bgfx {
 
     
     
-}
 }
 
 namespace json11 {
@@ -52,7 +50,7 @@ namespace json11 {
 
 namespace mud {
 
-    enum KeyCode : unsigned int;
+    enum class Key : unsigned int;
     enum MouseButtonCode : unsigned int;
     enum class InputModifier : unsigned int;
     enum class DeviceType : unsigned int;
@@ -83,10 +81,12 @@ namespace detail {
 }
 }
 
-namespace bgfx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace bimg {

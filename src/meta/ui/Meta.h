@@ -22,9 +22,9 @@ namespace mud
         static Meta meta = { type<mud::Align>(), &namspc({ "mud" }), "Align", sizeof(mud::Align), TypeClass::Enum };
         static Enum enu = { type<mud::Align>(),
             false,
-            { "LEFT", "CENTER", "RIGHT", "OUT_LEFT", "OUT_RIGHT" },
+            { "Left", "CENTER", "Right", "OUT_LEFT", "OUT_RIGHT" },
             { 0, 1, 2, 3, 4 },
-            { var(mud::LEFT), var(mud::CENTER), var(mud::RIGHT), var(mud::OUT_LEFT), var(mud::OUT_RIGHT) }
+            { var(mud::Left), var(mud::CENTER), var(mud::Right), var(mud::OUT_LEFT), var(mud::OUT_RIGHT) }
         };
         meta_enum<mud::Align>();
     }
@@ -175,13 +175,6 @@ namespace mud
         static Class cls = { type<array<float>>() };
         cls.m_content = &type<float>();
         meta_sequence<array<float>, float>();
-    }
-    
-    {
-        static Meta meta = { type<array<mud::Colour>>(), &namspc({}), "array<mud::Colour>", sizeof(array<mud::Colour>), TypeClass::Sequence };
-        static Class cls = { type<array<mud::Colour>>() };
-        cls.m_content = &type<mud::Colour>();
-        meta_sequence<array<mud::Colour>, mud::Colour>();
     }
     
     {
@@ -873,7 +866,7 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::Shadow>(), [](Ref ref, array<Var> args) { new(&val<mud::Shadow>(ref)) mud::Shadow( val<float>(args[0]), val<float>(args[1]), val<float>(args[2]), val<float>(args[3]), val<mud::Colour>(args[4]) ); }, { { "xpos", var(float()) }, { "ypos", var(float()) }, { "blur", var(float()) }, { "spread", var(float()) }, { "colour", var(mud::Colour(mud::Colour::AlphaBlack)), Param::Default } } },
+                { type<mud::Shadow>(), [](Ref ref, array<Var> args) { new(&val<mud::Shadow>(ref)) mud::Shadow( val<float>(args[0]), val<float>(args[1]), val<float>(args[2]), val<float>(args[3]), val<mud::Colour>(args[4]) ); }, { { "xpos", var(float()) }, { "ypos", var(float()) }, { "blur", var(float()) }, { "spread", var(float()) }, { "colour", var(mud::Colour()), Param::Default } } },
                 { type<mud::Shadow>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Shadow>(ref)) mud::Shadow(  ); }, {} }
             },
             // copy constructor
@@ -958,7 +951,7 @@ namespace mud
             // members
             {
                 { type<mud::Style>(), member_address(&mud::Style::m_base), type<mud::Style>(), "base", Ref(type<mud::Style>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-                { type<mud::Style>(), member_address(&mud::Style::name), type<cstring>(), "name", var(cstring()), Member::Value, [](Ref object) { return Ref(val<mud::Style>(object).name()); } },
+                { type<mud::Style>(), member_address(&mud::Style::name), type<cstring>(), "name", var(cstring()), Member::Value, [](Ref object) { return Ref(&val<mud::Style>(object).name()); } },
                 { type<mud::Style>(), member_address(&mud::Style::layout), type<mud::Layout>(), "layout", var(mud::Layout()), Member::Flags(Member::Value|Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Style>(object).layout()); } },
                 { type<mud::Style>(), member_address(&mud::Style::skin), type<mud::InkStyle>(), "skin", var(mud::InkStyle()), Member::Flags(Member::Value|Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Style>(object).skin()); } }
             },
@@ -1339,203 +1332,6 @@ namespace mud
     
     
     
-        
-    // mud::Widget
-    {
-        static Meta meta = { type<mud::Widget>(), &namspc({ "mud" }), "Widget", sizeof(mud::Widget), TypeClass::Object };
-        static Class cls = { type<mud::Widget>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-                { type<mud::Widget>(), member_address(&mud::Widget::m_frame), type<mud::Frame>(), "frame", Ref(type<mud::Frame>()), Member::None, nullptr },
-                { type<mud::Widget>(), member_address(&mud::Widget::m_index), type<size_t>(), "index", var(size_t()), Member::Value, nullptr },
-                { type<mud::Widget>(), member_address(&mud::Widget::m_open), type<bool>(), "open", var(bool(false)), Member::Value, nullptr },
-                { type<mud::Widget>(), member_address(&mud::Widget::m_body), type<mud::Widget>(), "body", Ref(type<mud::Widget>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Widget>();
-    }
-    
-    
-    
-        
-    // mud::RowSolver
-    {
-        static Meta meta = { type<mud::RowSolver>(), &namspc({ "mud" }), "RowSolver", sizeof(mud::RowSolver), TypeClass::Object };
-        static Class cls = { type<mud::RowSolver>(),
-            // bases
-            { &type<mud::FrameSolver>() },
-            { base_offset<mud::RowSolver, mud::FrameSolver>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::RowSolver>();
-    }
-    
-    
-    
-        
-    // mud::LineSolver
-    {
-        static Meta meta = { type<mud::LineSolver>(), &namspc({ "mud" }), "LineSolver", sizeof(mud::LineSolver), TypeClass::Object };
-        static Class cls = { type<mud::LineSolver>(),
-            // bases
-            { &type<mud::RowSolver>() },
-            { base_offset<mud::LineSolver, mud::RowSolver>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::LineSolver>();
-    }
-    
-    
-        
-    // mud::Window
-    {
-        static Meta meta = { type<mud::Window>(), &namspc({ "mud" }), "Window", sizeof(mud::Window), TypeClass::Object };
-        static Class cls = { type<mud::Window>(),
-            // bases
-            { &type<mud::Dockable>() },
-            { base_offset<mud::Window, mud::Dockable>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Window>();
-    }
-    
-    
-        
-    // mud::Dockbar
-    {
-        static Meta meta = { type<mud::Dockbar>(), &namspc({ "mud" }), "Dockbar", sizeof(mud::Dockbar), TypeClass::Object };
-        static Class cls = { type<mud::Dockbar>(),
-            // bases
-            { &type<mud::Docker>() },
-            { base_offset<mud::Dockbar, mud::Docker>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Dockbar>();
-    }
-    
-    
-        
-    // mud::Dockspace
-    {
-        static Meta meta = { type<mud::Dockspace>(), &namspc({ "mud" }), "Dockspace", sizeof(mud::Dockspace), TypeClass::Object };
-        static Class cls = { type<mud::Dockspace>(),
-            // bases
-            { &type<mud::Docker>() },
-            { base_offset<mud::Dockspace, mud::Docker>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Dockspace>();
-    }
-    
     
         
     // mud::Frame
@@ -1794,39 +1590,6 @@ namespace mud
     
     
         
-    // mud::Ui
-    {
-        static Meta meta = { type<mud::Ui>(), &namspc({ "mud" }), "Ui", sizeof(mud::Ui), TypeClass::Object };
-        static Class cls = { type<mud::Ui>(),
-            // bases
-            { &type<mud::Widget>() },
-            { base_offset<mud::Ui, mud::Widget>() },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-				{ type<mud::Ui>(), "begin", member_address(&mud::Ui::begin), [](Ref object, array<Var> args, Var& result) { UNUSED(args); result = Ref(&val<mud::Ui>(object).begin()); }, {}, Ref(type<mud::Widget>()) }
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::Ui>();
-    }
-    
-    
-        
     // mud::ScrollSheet
     {
         static Meta meta = { type<mud::ScrollSheet>(), &namspc({ "mud" }), "ScrollSheet", sizeof(mud::ScrollSheet), TypeClass::Object };
@@ -2017,6 +1780,253 @@ namespace mud
         meta_class<mud::TreeNode>();
     }
     
+    
+        
+    // mud::Ui
+    {
+        static Meta meta = { type<mud::Ui>(), &namspc({ "mud" }), "Ui", sizeof(mud::Ui), TypeClass::Object };
+        static Class cls = { type<mud::Ui>(),
+            // bases
+            { &type<mud::Widget>() },
+            { base_offset<mud::Ui, mud::Widget>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+                { type<mud::Ui>(), "begin", member_address(&mud::Ui::begin), [](Ref object, array<Var> args, Var& result) { UNUSED(args);result = Ref(&val<mud::Ui>(object).begin()); }, {}, Ref(type<mud::Widget>()) }
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Ui>();
+    }
+    
+    
+        
+    // mud::RowSolver
+    {
+        static Meta meta = { type<mud::RowSolver>(), &namspc({ "mud" }), "RowSolver", sizeof(mud::RowSolver), TypeClass::Object };
+        static Class cls = { type<mud::RowSolver>(),
+            // bases
+            { &type<mud::FrameSolver>() },
+            { base_offset<mud::RowSolver, mud::FrameSolver>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::RowSolver>();
+    }
+    
+    
+    
+        
+    // mud::LineSolver
+    {
+        static Meta meta = { type<mud::LineSolver>(), &namspc({ "mud" }), "LineSolver", sizeof(mud::LineSolver), TypeClass::Object };
+        static Class cls = { type<mud::LineSolver>(),
+            // bases
+            { &type<mud::RowSolver>() },
+            { base_offset<mud::LineSolver, mud::RowSolver>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::LineSolver>();
+    }
+    
+    
+        
+    // mud::Window
+    {
+        static Meta meta = { type<mud::Window>(), &namspc({ "mud" }), "Window", sizeof(mud::Window), TypeClass::Object };
+        static Class cls = { type<mud::Window>(),
+            // bases
+            { &type<mud::Dockable>() },
+            { base_offset<mud::Window, mud::Dockable>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Window>();
+    }
+    
+    
+        
+    // mud::Dockbar
+    {
+        static Meta meta = { type<mud::Dockbar>(), &namspc({ "mud" }), "Dockbar", sizeof(mud::Dockbar), TypeClass::Object };
+        static Class cls = { type<mud::Dockbar>(),
+            // bases
+            { &type<mud::Docker>() },
+            { base_offset<mud::Dockbar, mud::Docker>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Dockbar>();
+    }
+    
+    
+        
+    // mud::Dockspace
+    {
+        static Meta meta = { type<mud::Dockspace>(), &namspc({ "mud" }), "Dockspace", sizeof(mud::Dockspace), TypeClass::Object };
+        static Class cls = { type<mud::Dockspace>(),
+            // bases
+            { &type<mud::Docker>() },
+            { base_offset<mud::Dockspace, mud::Docker>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Dockspace>();
+    }
+    
+    
+        
+    // mud::Widget
+    {
+        static Meta meta = { type<mud::Widget>(), &namspc({ "mud" }), "Widget", sizeof(mud::Widget), TypeClass::Object };
+        static Class cls = { type<mud::Widget>(),
+            // bases
+            { &type<mud::Graph<mud::Widget>>() },
+            { base_offset<mud::Widget, mud::Graph<mud::Widget>>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+                { type<mud::Widget>(), member_address(&mud::Widget::m_frame), type<mud::Frame>(), "frame", Ref(type<mud::Frame>()), Member::None, nullptr },
+                { type<mud::Widget>(), member_address(&mud::Widget::m_state), type<mud::WidgetState>(), "state", var(mud::WidgetState()), Member::Value, nullptr },
+                { type<mud::Widget>(), member_address(&mud::Widget::m_switch), type<uint32_t>(), "switch", var(uint32_t()), Member::Value, nullptr },
+                { type<mud::Widget>(), member_address(&mud::Widget::m_index), type<size_t>(), "index", var(size_t()), Member::Value, nullptr },
+                { type<mud::Widget>(), member_address(&mud::Widget::m_open), type<bool>(), "open", var(bool(false)), Member::Value, nullptr },
+                { type<mud::Widget>(), member_address(&mud::Widget::m_body), type<mud::Widget>(), "body", Ref(type<mud::Widget>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+            },
+            // methods
+            {
+                { type<mud::Widget>(), "ui_window", member_address(&mud::Widget::ui_window), [](Ref object, array<Var> args, Var& result) { UNUSED(args);result = Ref(&val<mud::Widget>(object).ui_window()); }, {}, Ref(type<mud::UiWindow>()) },
+                { type<mud::Widget>(), "ui", member_address(&mud::Widget::ui), [](Ref object, array<Var> args, Var& result) { UNUSED(args);result = Ref(&val<mud::Widget>(object).ui()); }, {}, Ref(type<mud::Ui>()) },
+                { type<mud::Widget>(), "parent_modal", member_address(&mud::Widget::parent_modal), [](Ref object, array<Var> args, Var& result) { UNUSED(args);result = Ref(&val<mud::Widget>(object).parent_modal()); }, {}, Ref(type<mud::Widget>()) },
+                { type<mud::Widget>(), "toggle_state", member_address(&mud::Widget::toggle_state), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Widget>(object).toggle_state(val<mud::WidgetState>(args[0])); }, { { "state", var(mud::WidgetState()) } }, Var() },
+                { type<mud::Widget>(), "disable_state", member_address(&mud::Widget::disable_state), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Widget>(object).disable_state(val<mud::WidgetState>(args[0])); }, { { "state", var(mud::WidgetState()) } }, Var() },
+                { type<mud::Widget>(), "set_state", member_address(&mud::Widget::set_state), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Widget>(object).set_state(val<mud::WidgetState>(args[0]), val<bool>(args[1])); }, { { "state", var(mud::WidgetState()) }, { "enabled", var(bool()) } }, Var() },
+                { type<mud::Widget>(), "enable_state", member_address(&mud::Widget::enable_state), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Widget>(object).enable_state(val<mud::WidgetState>(args[0])); }, { { "state", var(mud::WidgetState()) } }, Var() },
+                { type<mud::Widget>(), "clear_focus", member_address(&mud::Widget::clear_focus), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args);val<mud::Widget>(object).clear_focus(); }, {}, Var() },
+                { type<mud::Widget>(), "take_focus", member_address(&mud::Widget::take_focus), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args);val<mud::Widget>(object).take_focus(); }, {}, Var() },
+                { type<mud::Widget>(), "yield_focus", member_address(&mud::Widget::yield_focus), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args);val<mud::Widget>(object).yield_focus(); }, {}, Var() },
+                { type<mud::Widget>(), "take_modal", member_address(&mud::Widget::take_modal), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Widget>(object).take_modal(val<uint32_t>(args[0])); }, { { "device_filter", var(uint32_t()) } }, Var() },
+                { type<mud::Widget>(), "yield_modal", member_address(&mud::Widget::yield_modal), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args);val<mud::Widget>(object).yield_modal(); }, {}, Var() },
+                { type<mud::Widget>(), "key_event", member_address(&mud::Widget::key_event), [](Ref object, array<Var> args, Var& result) { val<mud::KeyEvent>(result) = val<mud::Widget>(object).key_event(val<mud::Key>(args[0]), val<mud::EventType>(args[1]), val<mud::InputModifier>(args[2])); }, { { "code", var(mud::Key()) }, { "event_type", var(mud::EventType()) }, { "modifier", var(mud::InputModifier()), Param::Default } }, var(mud::KeyEvent()) },
+                { type<mud::Widget>(), "key_stroke", member_address(&mud::Widget::key_stroke), [](Ref object, array<Var> args, Var& result) { val<mud::KeyEvent>(result) = val<mud::Widget>(object).key_stroke(val<mud::Key>(args[0]), val<mud::InputModifier>(args[1])); }, { { "code", var(mud::Key()) }, { "modifier", var(mud::InputModifier()), Param::Default } }, var(mud::KeyEvent()) },
+                { type<mud::Widget>(), "mouse_event", member_address(&mud::Widget::mouse_event), [](Ref object, array<Var> args, Var& result) { val<mud::MouseEvent>(result) = val<mud::Widget>(object).mouse_event(val<mud::DeviceType>(args[0]), val<mud::EventType>(args[1]), val<mud::InputModifier>(args[2]), val<bool>(args[3])); }, { { "device", var(mud::DeviceType()) }, { "event_type", var(mud::EventType()) }, { "modifier", var(mud::InputModifier()), Param::Default }, { "consume", var(bool(true)), Param::Default } }, var(mud::MouseEvent()) }
+            },
+            // static members
+            {
+            }
+        };
+        
+        
+        
+        
+        meta_class<mud::Widget>();
+    }
+    
 
     
         m.m_types.push_back(&type<mud::Align>());
@@ -2035,6 +2045,7 @@ namespace mud
         m.m_types.push_back(&type<mud::Flow>());
         m.m_types.push_back(&type<mud::FlowAxis>());
         m.m_types.push_back(&type<mud::Gradient>());
+        m.m_types.push_back(&type<mud::Graph<mud::Widget>>());
         m.m_types.push_back(&type<mud::GridSolver>());
         m.m_types.push_back(&type<mud::ImageSkin>());
         m.m_types.push_back(&type<mud::InkStyle>());
@@ -2059,19 +2070,12 @@ namespace mud
         m.m_types.push_back(&type<mud::UiRect>());
         m.m_types.push_back(&type<mud::UiWindow>());
         m.m_types.push_back(&type<mud::User>());
-        m.m_types.push_back(&type<mud::Widget>());
         m.m_types.push_back(&type<mud::WidgetState>());
         m.m_types.push_back(&type<mud::WindowState>());
         m.m_types.push_back(&type<array<cstring>>());
         m.m_types.push_back(&type<array<float>>());
-        m.m_types.push_back(&type<array<mud::Colour>>());
         m.m_types.push_back(&type<std::vector<mud::Space>>());
         m.m_types.push_back(&type<std::vector<std::string>>());
-        m.m_types.push_back(&type<mud::RowSolver>());
-        m.m_types.push_back(&type<mud::LineSolver>());
-        m.m_types.push_back(&type<mud::Window>());
-        m.m_types.push_back(&type<mud::Dockbar>());
-        m.m_types.push_back(&type<mud::Dockspace>());
         m.m_types.push_back(&type<mud::Frame>());
         m.m_types.push_back(&type<mud::FrameSolver>());
         m.m_types.push_back(&type<mud::Canvas>());
@@ -2080,13 +2084,19 @@ namespace mud
         m.m_types.push_back(&type<mud::Expandbox>());
         m.m_types.push_back(&type<mud::Node>());
         m.m_types.push_back(&type<mud::NodePlug>());
-        m.m_types.push_back(&type<mud::Ui>());
         m.m_types.push_back(&type<mud::ScrollSheet>());
         m.m_types.push_back(&type<mud::ui::Sequence>());
         m.m_types.push_back(&type<mud::Tabber>());
         m.m_types.push_back(&type<mud::Table>());
         m.m_types.push_back(&type<mud::TextEdit>());
         m.m_types.push_back(&type<mud::TreeNode>());
+        m.m_types.push_back(&type<mud::Ui>());
+        m.m_types.push_back(&type<mud::RowSolver>());
+        m.m_types.push_back(&type<mud::LineSolver>());
+        m.m_types.push_back(&type<mud::Window>());
+        m.m_types.push_back(&type<mud::Dockbar>());
+        m.m_types.push_back(&type<mud::Dockspace>());
+        m.m_types.push_back(&type<mud::Widget>());
     
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::widget(val<mud::Widget>(args[0]), val<mud::Style>(args[1]), val<bool>(args[2]), val<mud::Dim>(args[3]), val<mud::Dim2<size_t>>(args[4]))); };

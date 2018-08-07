@@ -46,7 +46,7 @@ namespace ui
 		, dropdown("Dropdown", styles().wrap_button, {})
 		, toggle("DropdownToggle", styles().button, {})
 		, head("DropdownHead", styles().multi_button, {})
-		, list("DropdownList", styles().overlay, [](Layout& l) { l.m_flow = ALIGN; l.m_clipping = UNCLIP; l.m_align = { LEFT, OUT_RIGHT }; })
+		, list("DropdownList", styles().overlay, [](Layout& l) { l.m_flow = ALIGN; l.m_clipping = UNCLIP; l.m_align = { Left, OUT_RIGHT }; })
 		, choice("DropdownChoice", styles().multi_button, {})
 		, dropdown_input("DropdownInput", dropdown, {})
 		, dropdown_input_compact("DropdownInputCompact", dropdown, [](Layout& l) { l.m_space = ITEM; })
@@ -56,8 +56,8 @@ namespace ui
 	MenuStyles::MenuStyles()
 		: menubar("Menubar", styles().header, {})
 		, menu("Menu", dropdown_styles().dropdown, [](Layout& l) { l.m_space = ITEM; })
-		, list("MenuList", dropdown_styles().list, [](Layout& l) { l.m_align = { LEFT, OUT_RIGHT }; })
-		, sublist("SubMenuList", list, [](Layout& l) { l.m_align = { OUT_RIGHT, LEFT }; })
+		, list("MenuList", dropdown_styles().list, [](Layout& l) { l.m_align = { Left, OUT_RIGHT }; })
+		, sublist("SubMenuList", list, [](Layout& l) { l.m_align = { OUT_RIGHT, Left }; })
 	{}
 
 	ToolbarStyles::ToolbarStyles()

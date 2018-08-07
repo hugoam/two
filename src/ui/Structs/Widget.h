@@ -39,24 +39,24 @@ namespace mud
 		/*attr_*/ bool modal() { return (m_state & FOCUSED) != 0; }
 		/*attr_*/ bool closed() { return (m_state & CLOSED) != 0; }
 
-		UiWindow& ui_window();
-		Ui& ui();
-		Widget& parent_modal();
+		meth_ UiWindow& ui_window();
+		meth_ Ui& ui();
+		meth_ Widget& parent_modal();
 
 		void set_content(cstring content);
 
-		void toggle_state(WidgetState state);
+		meth_ void toggle_state(WidgetState state);
 
-		void disable_state(WidgetState state) { if(m_state & state) this->toggle_state(state); }
-		void set_state(WidgetState state, bool enabled) { enabled ? enable_state(state) : disable_state(state); }
-		void enable_state(WidgetState state) { if(!(m_state & state)) this->toggle_state(state); }
+		meth_ void disable_state(WidgetState state) { if (m_state & state) this->toggle_state(state); }
+		meth_ void set_state(WidgetState state, bool enabled) { enabled ? enable_state(state) : disable_state(state); }
+		meth_ void enable_state(WidgetState state) { if(!(m_state & state)) this->toggle_state(state); }
 
-		void clear_focus() { this->parent_modal().set_modal(nullptr, device_mask(DeviceType::Keyboard)); }
-		void take_focus() { this->take_modal(device_mask(DeviceType::Keyboard)); }
-		void yield_focus() { this->yield_modal(); }
+		meth_ void clear_focus() { this->parent_modal().set_modal(nullptr, device_mask(DeviceType::Keyboard)); }
+		meth_ void take_focus() { this->take_modal(device_mask(DeviceType::Keyboard)); }
+		meth_ void yield_focus() { this->yield_modal(); }
 
-		void take_modal(uint32_t device_filter = uint32_t(DeviceMask::All)) { this->parent_modal().set_modal(this, device_filter); }
-		void yield_modal() { this->parent_modal().set_modal(nullptr, 0); }
+		meth_ void take_modal(uint32_t device_filter = uint32_t(DeviceMask::All)) { this->parent_modal().set_modal(this, device_filter); }
+		meth_ void yield_modal() { this->parent_modal().set_modal(nullptr, 0); }
 
 		void set_modal(Widget* widget, uint32_t device_filter);
 
@@ -65,10 +65,10 @@ namespace mud
 
 		inline bool fits_modifier(InputModifier modifier, InputModifier mask) { return mask == InputModifier::Any || modifier == mask; }
 
-		KeyEvent key_event(KeyCode code, EventType event_type, InputModifier modifier = InputModifier::Any);
-		KeyEvent key_event(KeyCode code, InputModifier modifier = InputModifier::Any) { return key_event(code, EventType::Stroked, modifier); }
+		meth_ KeyEvent key_event(Key code, EventType event_type, InputModifier modifier = InputModifier::Any);
+		meth_ KeyEvent key_stroke(Key code, InputModifier modifier = InputModifier::Any) { return key_event(code, EventType::Stroked, modifier); }
 
-		MouseEvent mouse_event(DeviceType device, EventType event_type, InputModifier modifier = InputModifier::None, bool consume = true);
+		meth_ MouseEvent mouse_event(DeviceType device, EventType event_type, InputModifier modifier = InputModifier::None, bool consume = true);
 		
 		void transform_event(InputEvent& event);
 		ControlNode* control_event(InputEvent& event);
@@ -76,8 +76,8 @@ namespace mud
 		ControlNode* propagate_event(InputEvent& event);
 
 		attr_ Frame m_frame;
-		WidgetState m_state = CREATED;
-		uint32_t m_switch = 0;
+		attr_ WidgetState m_state = CREATED;
+		attr_ uint32_t m_switch = 0;
 		attr_ size_t m_index = 0;
 		attr_ bool m_open = false;
 		attr_ Widget* m_body = nullptr;

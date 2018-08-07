@@ -74,12 +74,6 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::UiRect>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::UiWindow>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::User>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Widget>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::RowSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::LineSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Window>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dockbar>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dockspace>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Frame>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::FrameSolver>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Canvas>();
@@ -88,13 +82,19 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::Expandbox>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Node>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::NodePlug>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Ui>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::ScrollSheet>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::ui::Sequence>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Tabber>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Table>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::TextEdit>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::TreeNode>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Ui>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::RowSolver>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::LineSolver>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Window>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Dockbar>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Dockspace>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Widget>();
     
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::CanvasConnect*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Dim2<bool>*>>;
@@ -125,12 +125,6 @@ namespace mud
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::UiRect*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::UiWindow*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::User*>>;
-	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Widget*>>;
-	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::RowSolver*>>;
-	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::LineSolver*>>;
-	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Window*>>;
-	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Dockbar*>>;
-	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Dockspace*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Frame*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::FrameSolver*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Canvas*>>;
@@ -139,11 +133,17 @@ namespace mud
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Expandbox*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Node*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::NodePlug*>>;
-	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Ui*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::ScrollSheet*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::ui::Sequence*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Tabber*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Table*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::TextEdit*>>;
 	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::TreeNode*>>;
+	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Ui*>>;
+	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::RowSolver*>>;
+	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::LineSolver*>>;
+	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Window*>>;
+	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Dockbar*>>;
+	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Dockspace*>>;
+	export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Widget*>>;
 }

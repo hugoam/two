@@ -334,7 +334,7 @@ namespace mud
 	{
 		if(frame.d_inkstyle->m_align[dim] == CENTER)
 			return padded_rect[dim] + padded_rect[dim + 2] / 2.f - content[dim] / 2.f;
-		else if(frame.d_inkstyle->m_align[dim] == RIGHT)
+		else if(frame.d_inkstyle->m_align[dim] == Right)
 			return padded_rect[dim] + padded_rect[dim + 2] - content[dim];
 		else
 			return padded_rect[dim];

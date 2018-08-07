@@ -42,9 +42,9 @@ namespace mud
 
 	export_ enum refl_ Align : unsigned int
 	{
-		LEFT = 0,
+		Left = 0,
 		CENTER = 1,
-		RIGHT = 2,
+		Right = 2,
 		OUT_LEFT = 3,
 		OUT_RIGHT = 4
 	};

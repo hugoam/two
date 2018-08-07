@@ -111,11 +111,11 @@ namespace mud
 
 	export_ struct MUD_CTX_EXPORT KeyEvent : public InputEvent
 	{
-		KeyCode m_code;
+		Key m_code;
 		char m_char;
 
 		KeyEvent() : InputEvent() {}
-		KeyEvent(DeviceType deviceType, EventType eventType, KeyCode code, char c, InputModifier modifiers)
+		KeyEvent(DeviceType deviceType, EventType eventType, Key code, char c, InputModifier modifiers)
 			: InputEvent(deviceType, eventType, modifiers), m_code(code), m_char(c)
 		{
 			m_key = int(code);

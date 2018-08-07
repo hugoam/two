@@ -53,7 +53,7 @@ namespace mud
 		attr_ bool m_weak_corners = false;
 		attr_ vec4 m_padding = vec4(0.f);
 		attr_ vec4 m_margin = vec4(0.f);
-		attr_ Dim2<Align> m_align = { LEFT, LEFT };
+		attr_ Dim2<Align> m_align = { Left, Left };
 		attr_ vec2 m_linear_gradient = vec2(0.f);
 		attr_ Dim m_linear_gradient_dim = DIM_Y;
 		attr_ Dim2<bool> m_stretch = { false, false };

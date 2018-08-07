@@ -25,7 +25,7 @@ namespace ui
 	WindowStyles::WindowStyles()
 		: window("Window", styles().overlay, [](Layout& l) { l.m_space = BLOCK; })
 		, body("WindowBody", styles().wedge, [](Layout& l) { l.m_clipping = CLIP; })
-		, close_button("CloseButton", styles().button, [](Layout& l) { l.m_align = { RIGHT, CENTER }; })
+		, close_button("CloseButton", styles().button, [](Layout& l) { l.m_align = { Right, CENTER }; })
 		, header("WindowHeader", styles().wrap_control, {}, {})
 		, header_movable("WindowHeaderMovable", header, {}, {}) //, [](InkStyle& l) { l.m_hover_cursor = &cursor_styles().move; } })
 		, footer("WindowFooter", styles().wrap_control, {}, {}) // , [](Layout& l) { l.m_space = Space{ READING, WRAP, FIXED }; } }
@@ -49,8 +49,8 @@ namespace ui
 
 		, docktoggle("DockToggle", styles().toggle, {}, {})
 		, dockdiv("Dockzone", styles().wedge, [](Layout& l) { l.m_space = { PARAGRAPH, WRAP, FIXED }; })
-		//, dockdiv("Dockzone", styles().wedge, [](Layout& l) { l.m_flow = ALIGN; l.m_space = SPACER; l.m_align = { LEFT, OUT_LEFT }; })
-		, docktabs("Docktabs", styles().wedge, [](Layout& l) { l.m_flow = ALIGN; l.m_space = DIV; l.m_align = { OUT_LEFT, LEFT }; })
+		//, dockdiv("Dockzone", styles().wedge, [](Layout& l) { l.m_flow = ALIGN; l.m_space = SPACER; l.m_align = { Left, OUT_LEFT }; })
+		, docktabs("Docktabs", styles().wedge, [](Layout& l) { l.m_flow = ALIGN; l.m_space = DIV; l.m_align = { OUT_LEFT, Left }; })
 		, dockbar("Dockbar", styles().wedge, [](Layout& l) { l.m_space = { PARALLEL, SHRINK, WRAP }; })
 
 		//, dockbox("Dockbox", window_styles().window, [](Layout& l) { l.m_flow = FLOW; l.m_space = { PARAGRAPH, WRAP, SHRINK }; l.m_size = vec2{ 300.f, 0.f }; })
@@ -63,9 +63,9 @@ namespace ui
 		, body("NodeBody", styles().sheet, {}, {})
 		, plugs("NodePlugs", styles().sheet, [](Layout& l) { l.m_space = { READING, WRAP, WRAP }; })
 		, inputs("NodeInputs", styles().div, {}, {})
-		, outputs("NodeOutputs", styles().div, [](Layout& l) { l.m_align = { RIGHT, CENTER }; })
+		, outputs("NodeOutputs", styles().div, [](Layout& l) { l.m_align = { Right, CENTER }; })
 		, knob("NodeKnob", styles().item, [](Layout& l) { l.m_size = { 10.f, 22.f }; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
-		, knob_output("NodeKnobOutput", knob, [](Layout& l) { l.m_align = { RIGHT, CENTER }; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
+		, knob_output("NodeKnobOutput", knob, [](Layout& l) { l.m_align = { Right, CENTER }; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })
 		, knob_proxy("NodeKnobProxy", knob, [](Layout& l) { l.m_flow = FREE; })
 		, plug("NodePlug", styles().wrap_control, {}, {})
 		, cable("NodeCable", styles().decal, [](Layout& l) { l.m_space = UNIT; }, [](InkStyle& l) { l.m_background_colour = Colour::White; })

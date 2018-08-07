@@ -182,7 +182,7 @@ namespace mud
 		return m_parent;
 	}
 
-	KeyEvent Widget::key_event(KeyCode code, EventType event_type, InputModifier modifier)
+	KeyEvent Widget::key_event(Key code, EventType event_type, InputModifier modifier)
 	{
 		if(!m_events) return KeyEvent();
 		KeyEvent* event = static_cast<KeyEvent*>(m_events->event(DeviceType::Keyboard, event_type, int(code)));

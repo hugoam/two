@@ -42,31 +42,31 @@ namespace mud
 		m_dispatcher.dispatch_event(m_events.back());
 	}
 
-	void Keyboard::key_char(KeyCode key, char c)
+	void Keyboard::key_char(Key key, char c)
 	{
 		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Stroked, key, c, InputModifier::None));
 	}
 
-	void Keyboard::key_pressed(KeyCode key, char c)
+	void Keyboard::key_pressed(Key key, char c)
 	{
-		m_shift |= key == KC_LSHIFT || key == KC_RSHIFT;
-		m_ctrl |= key == KC_LCONTROL || key == KC_RCONTROL;
-		m_alt |= key == KC_LMENU || key == KC_RMENU;
+		m_shift |= key == Key::LeftShift || key == Key::RightShift;
+		m_ctrl |= key == Key::LeftControl || key == Key::RightControl;
+		m_alt |= key == Key::LeftAlt || key == Key::RightAlt;
 
 		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Pressed, key, c, modifiers()));
 		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Stroked, key, c, modifiers()));
 	}
 
-	void Keyboard::key_released(KeyCode key, char c)
+	void Keyboard::key_released(Key key, char c)
 	{
-		m_shift &= !(key == KC_LSHIFT || key == KC_RSHIFT);
-		m_ctrl &= !(key == KC_LCONTROL || key == KC_RCONTROL);
-		m_alt &= !(key == KC_LMENU || key == KC_RMENU);
+		m_shift &= !(key == Key::LeftShift || key == Key::RightShift);
+		m_ctrl &= !(key == Key::LeftControl || key == Key::RightControl);
+		m_alt &= !(key == Key::LeftAlt || key == Key::RightAlt);
 
 		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Released, key, c, modifiers()));
 	}
 
-	void Keyboard::key_stroke(KeyCode key, char c)
+	void Keyboard::key_stroke(Key key, char c)
 	{
 		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Stroked, key, c, modifiers()));
 	}

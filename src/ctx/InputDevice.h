@@ -35,10 +35,10 @@ namespace mud
 
 		InputModifier modifiers();
 
-		void key_pressed(KeyCode key, char c);
-		void key_released(KeyCode key, char c);
-		void key_stroke(KeyCode key, char c);
-		void key_char(KeyCode key, char c);
+		void key_pressed(Key key, char c);
+		void key_released(Key key, char c);
+		void key_stroke(Key key, char c);
+		void key_char(Key key, char c);
 
 		bool m_shift = false;
 		bool m_ctrl = false;

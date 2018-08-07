@@ -11,5 +11,8 @@
 
 namespace mud
 {
+    export_ template <> inline void from_string(const string& str, mud::Key& val) { val = static_cast<mud::Key>(enu<mud::Key>().value(str.c_str())); };
+    export_ template <> inline void to_string(const mud::Key& val, string& str) { str = enu<mud::Key>().m_map[size_t(val)]; };
+    
     
 }

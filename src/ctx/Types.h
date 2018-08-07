@@ -27,7 +27,7 @@ namespace mud
     export_ template <> MUD_CTX_EXPORT Type& type<mud::DeviceType>();
     export_ template <> MUD_CTX_EXPORT Type& type<mud::EventType>();
     export_ template <> MUD_CTX_EXPORT Type& type<mud::InputModifier>();
-    export_ template <> MUD_CTX_EXPORT Type& type<mud::KeyCode>();
+    export_ template <> MUD_CTX_EXPORT Type& type<mud::Key>();
     export_ template <> MUD_CTX_EXPORT Type& type<mud::MouseButtonCode>();
     
     export_ template <> MUD_CTX_EXPORT Type& type<mud::Context>();

@@ -53,7 +53,7 @@ namespace ui
 		
 		static Layout layout_overlay = [](Layout& l) { l.m_space = BOARD; };
 		static Layout layout_line = [](Layout& l) { l.m_space = ITEM; l.m_align = { CENTER, CENTER }; l.m_padding = vec4(20.f); l.m_spacing = vec2(100.f); };
-		static Layout layout_column = [](Layout& l) { l.m_space = UNIT; l.m_align = { LEFT, CENTER }; l.m_padding = vec4(20.f); l.m_spacing = vec2(20.f); };
+		static Layout layout_column = [](Layout& l) { l.m_space = UNIT; l.m_align = { Left, CENTER }; l.m_padding = vec4(20.f); l.m_spacing = vec2(20.f); };
 		static Layout layout_node = [](Layout& l) { l.m_space = BLOCK; };
 
 		SolverVector solvers;
