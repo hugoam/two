@@ -49,6 +49,7 @@ namespace mud
 
 		attr_ Language m_language;
 		attr_ string m_script;
+		attr_ bool m_dirty;
 
 		Interpreter* m_interpreter;
 
@@ -75,13 +76,13 @@ namespace mud
 		string flush();
 
 		template <class T>
-		T get(cstring name) { return val<T>(get(name, type<T>())); }
+		T& tget(cstring name) { Var value = get(name, type<T>()); return val<T>(value); }
 
 		template <class T>
-		T getx(array<cstring> path) { return val<T>(getx(path, type<T>())); }
+		T& tgetx(array<cstring> path) { Var value = getx(path, type<T>()); return val<T>(value); }
 
 		template <class T>
-		T call(cstring expr) { return val<T>(call(expr, &type<T>())); }
+		T& tcall(cstring expr) { Var result = call(expr, &type<T>()); return val<T>(result); }
 
 		string m_output;
 	};
@@ -91,6 +92,7 @@ namespace mud
 	public:
 		constr_ ScriptClass(const string& name, const std::vector<Type*>& parts);
 
+		attr_ string m_name;
 		attr_ Type m_type;
 		attr_ Class m_class;
 	};

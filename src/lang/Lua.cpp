@@ -198,14 +198,20 @@ namespace mud
 		lua_gettable(state, LUA_REGISTRYINDEX);
 	}
 
-	inline Ref userdata(lua_State* state, int index)
+	struct LuaRef : public Ref
 	{
-		return *static_cast<Ref*>(lua_touserdata(state, index));
+		LuaRef(bool alloc, void* pointer, Type& type) : Ref(pointer, type), m_alloc(alloc) {}
+		bool m_alloc;
+	};
+
+	inline LuaRef userdata(lua_State* state, int index)
+	{
+		return *static_cast<LuaRef*>(lua_touserdata(state, index));
 	}
 
-	inline Ref* alloc_userdata(lua_State* state, Type& type, size_t size)
+	inline LuaRef* alloc_userdata(lua_State* state, Type& type, size_t size)
 	{
-		Ref* ref = static_cast<Ref*>(lua_newuserdata(state, size));
+		LuaRef* ref = static_cast<LuaRef*>(lua_newuserdata(state, size));
 		get_type_table(state, type);
 		lua_setmetatable(state, -2);
 		return ref;
@@ -213,14 +219,14 @@ namespace mud
 
 	inline Ref alloc_object(lua_State* state, Type& type)
 	{
-		Ref* ref = alloc_userdata(state, type, sizeof(Ref) + meta(type).m_size);
-		new (ref) Ref(ref + 1, type); return *ref;
+		LuaRef* ref = alloc_userdata(state, type, sizeof(LuaRef) + meta(type).m_size);
+		new (ref) LuaRef(true, ref + 1, type); return *ref;
 	}
 
 	inline Ref alloc_ref(lua_State* state, Ref source)
 	{
-		Ref* ref = alloc_userdata(state, *source.m_type, sizeof(Ref));
-		new (ref) Ref(source); return *ref;
+		LuaRef* ref = alloc_userdata(state, *source.m_type, sizeof(LuaRef));
+		new (ref) LuaRef(false, source.m_value, *source.m_type); return *ref;
 	}
 
 	inline Stack push_ref(lua_State* state, Ref object)
@@ -567,8 +573,9 @@ namespace mud
 	inline int gc_function(lua_State* state)
 	{
 		Type* type = static_cast<Type*>(lua_touserdata(state, lua_upvalueindex(1)));
-		Ref object = userdata(state, 1);
-		cls(*type).m_destructor[0].m_call(object);
+		LuaRef object = userdata(state, 1);
+		if(object.m_alloc && cls(object).m_destructor.size() > 0)
+			cls(*type).m_destructor[0].m_call(object);
 		return 0;
 	}
 

@@ -22,6 +22,8 @@ namespace mud
 		LuaInterpreter* m_lua = nullptr;
 		WrenInterpreter* m_wren = nullptr;
 
+		void reset_interpreters(LuaInterpreter& lua, WrenInterpreter& wren);
+
 		void open(Script& script);
 		void close(Script& script);
 

@@ -71,6 +71,14 @@ namespace mud
 	inline typename std::enable_if<!std::is_copy_assignable<T>::value, void>::type
 		init_assign() {}
 
+	export_ template <class T>
+		inline typename std::enable_if<std::is_trivially_destructible<T>::value, void>::type
+		init_destructor() {}
+
+	export_ template <class T>
+		inline typename std::enable_if<!std::is_trivially_destructible<T>::value, void>::type
+		init_destructor() { cls<T>().m_destructor.push_back({ type<T>(), [](Ref ref) { val<T>(ref).~T(); } }); }
+
 	export_ template <>
 	MUD_REFL_EXPORT void init_assign<cstring>();
 
@@ -99,6 +107,7 @@ namespace mud
 	void meta_class()
 	{
 		meta_type<T>();
+		init_destructor<T>();
 		cls<T>().setup_class();
 	}
 

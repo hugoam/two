@@ -33,6 +33,21 @@ namespace mud
 	ScriptEditor::~ScriptEditor()
 	{}
 
+	void ScriptEditor::reset_interpreters(LuaInterpreter& lua, WrenInterpreter& wren)
+	{
+		m_lua = &lua;
+		m_wren = &wren;
+
+		for(Script* script : m_scripts)
+			if(TextScript* text_script = try_as<TextScript>(*script))
+			{
+				if(text_script->m_language == Language::Lua)
+					text_script->m_interpreter = m_lua;
+				else if(text_script->m_language == Language::Wren)
+					text_script->m_interpreter = m_wren;
+			}
+	}
+
 	void ScriptEditor::open(Script& script)
 	{
 		vector_add(m_scripts, &script);
@@ -123,6 +138,7 @@ namespace mud
 	void script_edit_code(Widget& parent, TextScript& script, ActionList actions)
 	{
 		actions.push_back({ "Run", [&] { script({}); } });
+		actions.push_back({ "Reload", [&] { script.m_dirty = true; } });
 		Section& self = section(parent, script.m_name.c_str(), actions);
 
 		std::vector<string> known_words = meta_words();

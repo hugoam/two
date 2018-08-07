@@ -47,7 +47,8 @@ namespace mud
 	}
 
 	ScriptClass::ScriptClass(const string& name, const std::vector<Type*>& parts)
-		: m_type(name.c_str())
+		: m_name(name)
+		, m_type(m_name.c_str())
 		, m_class(m_type)
 	{
 		g_prototypes[m_type.m_id] = make_unique<Prototype>(m_class);
