@@ -3,7 +3,7 @@
 
 using namespace mud;
 
-void speed_key(Widget& widget, vec3& speed, KeyCode key, vec3 speed_offset)
+void speed_key(Widget& widget, vec3& speed, Key key, vec3 speed_offset)
 {
 	if(widget.key_event(key, EventType::Pressed))
 		speed += speed_offset;
@@ -13,13 +13,13 @@ void speed_key(Widget& widget, vec3& speed, KeyCode key, vec3 speed_offset)
 
 void velocity_controller(Widget& widget, vec3& speed, float velocity)
 {
-	struct KeyMove { KeyCode key; vec3 dir; };
+	struct KeyMove { Key key; vec3 dir; };
 	const KeyMove moves[8] =
 	{
-		{ KC_UP,   -Z3 }, { KC_W, -Z3 },
-		{ KC_DOWN,  Z3 }, { KC_S,  Z3 },
-		{ KC_LEFT, -X3 }, { KC_A, -X3 },
-		{ KC_RIGHT, X3 }, { KC_D,  X3 }
+		{ Key::Up,   -Z3 }, { Key::W, -Z3 },
+		{ Key::Down,  Z3 }, { Key::S,  Z3 },
+		{ Key::Left, -X3 }, { Key::A, -X3 },
+		{ Key::Right, X3 }, { Key::D,  X3 }
 	};
 
 	for(const KeyMove& key_move : moves)
