@@ -31,13 +31,13 @@ namespace mud
 		Widget(Widget* parent, void* identity);
 		~Widget();
 
-		/*attr_*/ bool focused() { return (m_state & FOCUSED) != 0; }
-		/*attr_*/ bool hovered() { return (m_state & HOVERED) != 0; }
-		/*attr_*/ bool pressed() { return (m_state & PRESSED) != 0; }
-		/*attr_*/ bool activated() { return (m_state & ACTIVATED) != 0; }
-		/*attr_*/ bool selected() { return (m_state & SELECTED) != 0; }
-		/*attr_*/ bool modal() { return (m_state & FOCUSED) != 0; }
-		/*attr_*/ bool closed() { return (m_state & CLOSED) != 0; }
+		meth_ bool focused() { return (m_state & FOCUSED) != 0; }
+		meth_ bool hovered() { return (m_state & HOVERED) != 0; }
+		meth_ bool pressed() { return (m_state & PRESSED) != 0; }
+		meth_ bool activated() { return (m_state & ACTIVATED) != 0; }
+		meth_ bool selected() { return (m_state & SELECTED) != 0; }
+		meth_ bool modal() { return (m_state & FOCUSED) != 0; }
+		meth_ bool closed() { return (m_state & CLOSED) != 0; }
 
 		meth_ UiWindow& ui_window();
 		meth_ Ui& ui();

@@ -2000,6 +2000,13 @@ namespace mud
             },
             // methods
             {
+				{ type<mud::Widget>(), "focused", member_address(&mud::Widget::focused), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<bool>(result) = val<mud::Widget>(object).focused(); },{}, var(bool()) },
+				{ type<mud::Widget>(), "hovered", member_address(&mud::Widget::hovered), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<bool>(result) = val<mud::Widget>(object).hovered(); },{}, var(bool()) },
+				{ type<mud::Widget>(), "pressed", member_address(&mud::Widget::pressed), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<bool>(result) = val<mud::Widget>(object).pressed(); },{}, var(bool()) },
+				{ type<mud::Widget>(), "activated", member_address(&mud::Widget::activated), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<bool>(result) = val<mud::Widget>(object).activated(); },{}, var(bool()) },
+				{ type<mud::Widget>(), "selected", member_address(&mud::Widget::selected), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<bool>(result) = val<mud::Widget>(object).selected(); },{}, var(bool()) },
+				{ type<mud::Widget>(), "modal", member_address(&mud::Widget::modal), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<bool>(result) = val<mud::Widget>(object).modal(); },{}, var(bool()) },
+				{ type<mud::Widget>(), "closed", member_address(&mud::Widget::closed), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<bool>(result) = val<mud::Widget>(object).closed(); },{}, var(bool()) },
                 { type<mud::Widget>(), "ui_window", member_address(&mud::Widget::ui_window), [](Ref object, array<Var> args, Var& result) { UNUSED(args);result = Ref(&val<mud::Widget>(object).ui_window()); }, {}, Ref(type<mud::UiWindow>()) },
                 { type<mud::Widget>(), "ui", member_address(&mud::Widget::ui), [](Ref object, array<Var> args, Var& result) { UNUSED(args);result = Ref(&val<mud::Widget>(object).ui()); }, {}, Ref(type<mud::Ui>()) },
                 { type<mud::Widget>(), "parent_modal", member_address(&mud::Widget::parent_modal), [](Ref object, array<Var> args, Var& result) { UNUSED(args);result = Ref(&val<mud::Widget>(object).parent_modal()); }, {}, Ref(type<mud::Widget>()) },

@@ -94,7 +94,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Context>(), member_address(&mud::Context::m_resource_path), type<mud::Context::const mud::string>(), "resource_path", var(mud::Context::const mud::string()), Member::Value, nullptr },
+                { type<mud::Context>(), member_address(&mud::Context::m_resource_path), type<mud::string>(), "resource_path", var(mud::string()), Member::Value, nullptr },
                 { type<mud::Context>(), member_address(&mud::Context::m_title), type<std::string>(), "title", var(std::string()), Member::Value, nullptr },
                 { type<mud::Context>(), member_address(&mud::Context::m_width), type<unsigned int>(), "width", var(unsigned int()), Member::Value, nullptr },
                 { type<mud::Context>(), member_address(&mud::Context::m_height), type<unsigned int>(), "height", var(unsigned int()), Member::Value, nullptr },
@@ -107,7 +107,7 @@ namespace mud
             // methods
             {
                 { type<mud::Context>(), "reset", member_address(&mud::Context::reset), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Context>(object).reset(val<uint16_t>(args[0]), val<uint16_t>(args[1])); }, { { "width", var(uint16_t()) }, { "height", var(uint16_t()) } }, Var() },
-                { type<mud::Context>(), "init_input", member_address(&mud::Context::init_input), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Context>(object).init_input(val<mud::Mouse>(args[0]), val<mud::Keyboard>(args[1])); }, { { "mouse", Ref(type<mud::Mouse>()) }, { "keyboard", Ref(type<mud::Keyboard>()) } }, Var() },
+                //{ type<mud::Context>(), "init_input", member_address(&mud::Context::init_input), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Context>(object).init_input(val<mud::Mouse>(args[0]), val<mud::Keyboard>(args[1])); }, { { "mouse", Ref(type<mud::Mouse>()) }, { "keyboard", Ref(type<mud::Keyboard>()) } }, Var() },
                 { type<mud::Context>(), "next_frame", member_address(&mud::Context::next_frame), [](Ref object, array<Var> args, Var& result) { UNUSED(args);val<bool>(result) = val<mud::Context>(object).next_frame(); }, {}, var(bool()) },
                 { type<mud::Context>(), "lock_mouse", member_address(&mud::Context::lock_mouse), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Context>(object).lock_mouse(val<bool>(args[0])); }, { { "locked", var(bool()) } }, Var() }
             },
@@ -180,7 +180,7 @@ namespace mud
             // methods
             {
                 { type<mud::InputEvent>(), "consume", member_address(&mud::InputEvent::consume), [](Ref object, array<Var> args, Var& result) { val<mud::InputEvent>(result) = val<mud::InputEvent>(object).consume(val<mud::ControlNode>(args[0])); }, { { "consumer", Ref(type<mud::ControlNode>()) } }, var(mud::InputEvent()) },
-                { type<mud::InputEvent>(), "valid", member_address(&mud::InputEvent::valid), [](Ref object, array<Var> args, Var& result) { UNUSED(args);val<bool>(result) = val<mud::InputEvent>(object).valid(); }, {}, var(bool()) }
+                { type<mud::InputEvent>(), "valid", member_address(&mud::InputEvent::valid), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<bool>(result) = val<mud::InputEvent>(object).valid(); }, {}, var(bool()) }
             },
             // static members
             {
@@ -315,14 +315,12 @@ namespace mud
         m.m_types.push_back(&type<mud::Context>());
         m.m_types.push_back(&type<mud::ControlNode>());
         m.m_types.push_back(&type<mud::DeviceType>());
-        m.m_types.push_back(&type<mud::EventMap<mud::InputEvent*>>());
         m.m_types.push_back(&type<mud::EventType>());
         m.m_types.push_back(&type<mud::InputEvent>());
         m.m_types.push_back(&type<mud::InputMod>());
         m.m_types.push_back(&type<mud::Key>());
         m.m_types.push_back(&type<mud::MouseButtonCode>());
         m.m_types.push_back(&type<mud::RenderSystem>());
-        m.m_types.push_back(&type<mud::Context::const mud::string>());
         m.m_types.push_back(&type<mud::KeyEvent>());
         m.m_types.push_back(&type<mud::MouseEvent>());
     
