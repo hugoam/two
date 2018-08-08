@@ -27,17 +27,20 @@ module mud.uio;
 
 namespace mud
 {
+	static float text_size = 15.f;
+
 	struct MetaStyles
 	{
 		Style element = { "Element", styles().row, [](Layout& l) { l.m_spacing = vec2{ 5.f, 0.f }; } };
 
 #if 1
-		Style frame = { "Frame", styles().sheet, {}, [](InkStyle& l) { l.m_empty = false; l.m_background_colour = to_colour(25, 26, 31); } };
-
-		Style type = { "Type", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = to_colour(255, 0, 78); l.m_text_size = 18.f; } };
-		Style identifier = { "Word", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = to_colour(106, 176, 255); l.m_text_size = 18.f; } };
-		Style syntax = { "Syntax", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = Colour::White; l.m_text_size = 18.f; } };
-		Style argument = { "Argument", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = to_colour(227, 131, 228); l.m_text_size = 18.f; } };
+		Style frame = { "Frame", styles().sheet, [](Layout& l) { l.m_padding = vec4(5.f); l.m_spacing = vec2(10.f); }, [](InkStyle& l) { l.m_empty = false; l.m_background_colour = to_colour(25, 26, 31); } };
+		
+		Style label = { "Syntax", styles().label,{}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = Colour::White; l.m_text_size = text_size; } };
+		Style type = { "Type", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = to_colour(255, 0, 78); l.m_text_size = text_size; } };
+		Style identifier = { "Word", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = to_colour(106, 176, 255); l.m_text_size = text_size; } };
+		Style syntax = { "Syntax", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = Colour::White; l.m_text_size = text_size; } };
+		Style argument = { "Argument", styles().label, {}, [](InkStyle& l) { l.m_empty = false; l.m_text_font = "veramono-bold"; l.m_text_colour = to_colour(227, 131, 228); l.m_text_size = text_size; } };
 #else
 		Style frame = { "Frame", styles().sheet, {}, {} };
 
@@ -48,7 +51,7 @@ namespace mud
 #endif
 	};
 
-	MetaStyles& meta_info_styles() { static MetaStyles styles; return styles; }
+	MetaStyles& meta_styles() { static MetaStyles styles; return styles; }
 
 	void meta_description(Widget& parent, Meta& meta)
 	{
@@ -67,22 +70,24 @@ namespace mud
 
 	void meta_callable(Widget& parent, Callable& callable, bool skip_first = false, bool returns = true)
 	{
-		Widget& row = ui::widget(parent, meta_info_styles().element);
-		//ui::item(row, meta_info_styles().syntax, "Function");
-		if(returns)
-			ui::item(row, meta_info_styles().type, type(callable.m_returnval).m_name);
-		ui::item(row, meta_info_styles().identifier, callable.m_name);
-		ui::item(row, meta_info_styles().syntax, "(");
+		Widget& sheet = ui::widget(parent, styles().sheet, &callable);
+
+		Widget& row = ui::widget(sheet, meta_styles().element);
+		//ui::item(row, meta_styles().syntax, "Function");
+		if(returns && callable.m_returnval)
+			ui::item(row, meta_styles().type, type(callable.m_returnval).m_name);
+		ui::item(row, meta_styles().identifier, callable.m_name);
+		ui::item(row, meta_styles().syntax, "(");
 		for(Param& param : callable.m_params)
 		{
 			if(skip_first && param.m_index == 0)
 				continue;
-			ui::item(row, meta_info_styles().type, param.m_value == Ref() ? "Ref" : type(param.m_value).m_name);
-			ui::item(row, meta_info_styles().argument, param.m_name);
+			ui::item(row, meta_styles().type, param.m_value == Ref() ? "Ref" : type(param.m_value).m_name);
+			ui::item(row, meta_styles().argument, param.m_name);
 			if(&param != &callable.m_params.back())
-				ui::item(row, meta_info_styles().syntax, ",");
+				ui::item(row, meta_styles().syntax, ",");
 		}
-		ui::item(row, meta_info_styles().syntax, ")");
+		ui::item(row, meta_styles().syntax, ")");
 	}
 
 	void meta_function(Widget& parent, Function& function)
@@ -97,7 +102,7 @@ namespace mud
 
 	void meta_constructors(Widget& parent, Type& type)
 	{
-		Widget& self = ui::sheet(parent);
+		Widget& self = ui::widget(parent, meta_styles().frame);
 
 		for(Constructor& constructor : cls(type).m_constructors)
 			meta_callable(self, constructor, true, false);
@@ -105,7 +110,7 @@ namespace mud
 
 	void meta_methods(Widget& parent, Type& type)
 	{
-		Widget& self = ui::sheet(parent);
+		Widget& self = ui::widget(parent, meta_styles().frame);
 
 		for(Method& method : cls(type).m_methods)
 			meta_method(self, method);
@@ -113,13 +118,15 @@ namespace mud
 
 	void meta_fields(Widget& parent, Type& type)
 	{
-		Widget& self = ui::columns(parent, carray<float, 2>{ 0.3f, 0.7f });
+		Widget& self = ui::widget(parent, meta_styles().frame);
+		Widget& table = self;
+		//Widget& table = ui::columns(self, carray<float, 2>{ 0.3f, 0.7f });
 
 		for(Member& member : cls(type).m_members)
 		{
-			Widget& row = ui::widget(self, meta_info_styles().element);
-			ui::item(row, meta_info_styles().type, member.m_type->m_name);
-			ui::item(row, meta_info_styles().syntax, member.m_name);
+			Widget& row = ui::widget(table, meta_styles().element);
+			ui::item(row, meta_styles().type, member.m_type->m_name);
+			ui::item(row, meta_styles().syntax, member.m_name);
 		}
 	}
 
@@ -135,14 +142,25 @@ namespace mud
 
 	void meta_synopsis(Widget& parent, Type& type)
 	{
-		Widget& row = ui::widget(parent, meta_info_styles().element);
-		ui::item(row, meta_info_styles().syntax, "Type");
-		ui::item(row, meta_info_styles().type, type.m_name);
-		//meta_description(parent, type);
-		if(!cls(type).m_methods.empty())
-			meta_methods(parent, type);
-		if(!cls(type).m_members.empty())
-			meta_fields(parent, type);
+		Widget& self = ui::widget(parent, meta_styles().frame, &type);
+
+		Widget& row = ui::widget(self, meta_styles().element);
+		ui::item(row, meta_styles().syntax, "Type");
+		ui::item(row, meta_styles().type, type.m_name);
+		if (g_class[type.m_id])
+		{
+			//meta_description(parent, type);
+			if (!cls(type).m_methods.empty())
+			{
+				ui::item(self, meta_styles().label, "methods:");
+				meta_methods(self, type);
+			}
+			if (!cls(type).m_members.empty())
+			{
+				ui::item(self, meta_styles().label, "fields:");
+				meta_fields(self, type);
+			}
+		}
 		//return meta_function(parent, function);
 	}
 

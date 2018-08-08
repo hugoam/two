@@ -101,12 +101,15 @@ namespace mud
 		string include = string(gfx_system.m_resource_path) + "shaders/";
 		string varying_path = string(gfx_system.m_resource_path) + "shaders/varying.def.sc";
 
-		bool emscripten = is_opengl && false;
-#ifdef MUD_PLATFORM_EMSCRIPTEN
-		emscripten = true;
+		enum Target { GLSL, ESSL, HLSL, Metal };
+		Target target = is_opengl ? GLSL : HLSL;
+#if defined MUD_PLATFORM_EMSCRIPTEN
+		target = ESSL;
+#elif defined MUD_PLATFORM_OSX
+		target = Metal;
 #endif
 
-		if(emscripten)
+		if(target == ESSL)
 			defines += "NO_TEXEL_FETCH;";
 
 		std::vector<cstring> args;
@@ -127,16 +130,21 @@ namespace mud
 		args.push_back("-O3");
 #endif
 
-		if(emscripten)
+		if(target == ESSL)
 		{
 			push_arg(args, "--platform", "android");
 		}
-		else if(is_opengl)
+		else if (target == Metal)
+		{
+			push_arg(args, "--platform", "osx");
+			push_arg(args, "--profile", "metal");
+		}
+		else if(target == GLSL)
 		{
 			push_arg(args, "--platform", "linux");
 			push_arg(args, "--profile", "120");
 		}
-		else
+		else if(target == HLSL)
 		{
 			push_arg(args, "--platform", "windows");
 			push_arg(args, "--profile", shader_type == ShaderType::Vertex ? "vs_5_0" : "ps_5_0");

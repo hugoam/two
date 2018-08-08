@@ -150,7 +150,7 @@ namespace mud
 		else if(script.m_language == Language::Wren)
 			edit.m_language = &LanguageWren();
 
-		//script_edit_hover(edit);
+		script_edit_hover(edit);
 	}
 
 	void script_edit(Widget& parent, TextScript& script, ActionList actions)
