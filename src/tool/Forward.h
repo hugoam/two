@@ -46,12 +46,10 @@ namespace glm {
     
 }
 
-namespace mud {
-namespace gfx {
+namespace bx {
 
     
     
-}
 }
 
 namespace json11 {
@@ -92,7 +90,9 @@ namespace mud {
     class CopyAction;
     class CopyTool;
     class ViewAction;
+    class FrameViewTool;
     class ViewTool;
+    struct ViewTools;
     class EditContext;
     class WorkPlaneAction;
     class WorkPlaneTool;
@@ -106,10 +106,12 @@ namespace detail {
 }
 }
 
-namespace bgfx {
+namespace mud {
+namespace gfx {
 
     
     
+}
 }
 
 namespace bimg {
@@ -118,7 +120,7 @@ namespace bimg {
     
 }
 
-namespace bx {
+namespace bgfx {
 
     
     

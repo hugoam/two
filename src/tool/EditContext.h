@@ -39,20 +39,22 @@ namespace mud
 		ActionStack m_action_stack;
 		ToolContext m_tool_context;
 
-		UndoTool m_undo_tool;
-		RedoTool m_redo_tool;
+		attr_ UndoTool m_undo_tool;
+		attr_ RedoTool m_redo_tool;
 
-		Plane m_work_plane;
-		TranslateTool m_translate_tool;
-		RotateTool m_rotate_tool;
-		ScaleTool m_scale_tool;
+		attr_ Plane m_work_plane;
+		attr_ TranslateTool m_translate_tool;
+		attr_ RotateTool m_rotate_tool;
+		attr_ ScaleTool m_scale_tool;
+
+		ViewTools m_view_tools;
 
 		//PlaceBrush m_place_brush;
 
-		Viewer* m_viewer = nullptr;
-		ViewportTool* m_tool = nullptr;
-		SpatialTool* m_spatial_tool = nullptr;
-		Brush* m_brush = nullptr;
+		attr_ Viewer* m_viewer = nullptr;
+		attr_ ViewportTool* m_tool = nullptr;
+		attr_ SpatialTool* m_spatial_tool = nullptr;
+		attr_ Brush* m_brush = nullptr;
 
 		std::vector<unique_ptr<Brush>> m_custom_brushes;
 
