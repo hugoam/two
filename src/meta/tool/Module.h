@@ -19,6 +19,7 @@
 #include <meta/uio/Module.h>
 #include <meta/gfx/Module.h>
 #include <meta/gfx-pbr/Module.h>
+#include <meta/gfx-ui/Module.h>
 #endif
         
 #include <tool/Forward.h>

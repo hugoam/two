@@ -16,13 +16,22 @@ compiler:
   - clang
 
 install:
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5" COMPILER="gcc" GMAKE_FOLDER="gmake-linux"; fi
-  - if [ "$CXX" = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7" COMPILER="clang" GMAKE_FOLDER="gmake-linux-clang"; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export GENIE_FOLDER="linux"; fi
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5" COMPILER="gcc" TOOLCHAIN="linux-gcc-5" GMAKE_FOLDER="gmake-linux"; fi
+  - if [ "$CXX" = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7" COMPILER="clang" TOOLCHAIN="linux-clang-3.7" GMAKE_FOLDER="gmake-linux-clang"; fi
+
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export GENIE_FOLDER="darwin" TOOLCHAIN="osx" GMAKE_FOLDER="gmake-osx"; fi
 
 script:
-  - bin/genie --gcc=linux-$CC gmake
+  - bin/$GENIE_FOLDER/genie --gcc=$TOOLCHAIN gmake
   - cd build/projects/$GMAKE_FOLDER
   - make config=debug64
 
 os:
   - linux
+  - osx
+  
+matrix:
+  exclude:
+    - os: osx
+      compiler: gcc
