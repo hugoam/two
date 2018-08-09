@@ -54,6 +54,9 @@ namespace mud
 
 	export_ inline void set(Ref& ref, cstring value) { ref.m_value = (void*)value; ref.m_type = &type<cstring>(); }
 
+	template <class T>
+	export_ inline T* try_val(Ref object) { if (object && type(object).template is<T>()) return &val<T>(object); else return nullptr; }
+
 	export_ template <class T, bool onlyref = is_object_pointer<T>::value || !is_copyable<T>::value>
 	struct ValueSemantic : std::true_type {};
 

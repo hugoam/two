@@ -109,7 +109,7 @@ namespace mud
 		target = Metal;
 #endif
 
-		if(target == ESSL)
+		if(target == ESSL || target == Metal)
 			defines += "NO_TEXEL_FETCH;";
 
 		std::vector<cstring> args;
@@ -130,24 +130,24 @@ namespace mud
 		args.push_back("-O3");
 #endif
 
-		if(target == ESSL)
-		{
-			push_arg(args, "--platform", "android");
-		}
-		else if (target == Metal)
-		{
-			push_arg(args, "--platform", "osx");
-			push_arg(args, "--profile", "metal");
-		}
-		else if(target == GLSL)
+		if (target == GLSL)
 		{
 			push_arg(args, "--platform", "linux");
 			push_arg(args, "--profile", "120");
+		}
+		else if(target == ESSL)
+		{
+			push_arg(args, "--platform", "android");
 		}
 		else if(target == HLSL)
 		{
 			push_arg(args, "--platform", "windows");
 			push_arg(args, "--profile", shader_type == ShaderType::Vertex ? "vs_5_0" : "ps_5_0");
+		}
+		else if (target == Metal)
+		{
+			push_arg(args, "--platform", "osx");
+			push_arg(args, "--profile", "metal");
 		}
 
 		int result = bgfx::compileShader(args.size(), args.data());

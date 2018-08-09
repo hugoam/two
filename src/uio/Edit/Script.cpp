@@ -28,7 +28,9 @@ module mud.uio;
 namespace mud
 {
 	ScriptEditor::ScriptEditor()
-	{}
+	{
+		set_meta_palette(TextEdit::OkaidaPalette());
+	}
 
 	ScriptEditor::~ScriptEditor()
 	{}
@@ -106,20 +108,20 @@ namespace mud
 			vec2 hover_at = rect_offset(edit.m_hovered_word_rect) + vec2{ 0.f, rect_h(edit.m_hovered_word_rect) };
 
 			//ui::rectangle(edit, edit.m_hovered_word_rect);
+			
+			Function* function = system().find_function(edit.m_hovered_word.c_str());
+			Type* type = system().find_type(edit.m_hovered_word.c_str());
+			Type* lowertype = system().find_type(to_lower(edit.m_hovered_word).c_str());
 
-			if(Function* function = system().find_function(edit.m_hovered_word.c_str()))
+			if(function || type || lowertype)
 			{
 				Widget& popup = ui::popup_at(edit, hover_at, ui::PopupFlags::None);
-				meta_synopsis(popup, *function);
+				if(function)
+					meta_synopsis(popup, *function);
+				else if (type || lowertype)
+					meta_synopsis(popup, type ? *type : *lowertype);
 			}
-			else if(Type* type = system().find_type(edit.m_hovered_word.c_str()))
-			{
-				Widget& popup = ui::popup_at(edit, hover_at, ui::PopupFlags::None);
-				meta_synopsis(popup, *type);
-			}
-			else
-				ui::tooltip(edit, hover_at, edit.m_hovered_word.c_str());
-
+		
 			if(MouseEvent mouse_event = edit.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 			{
 			}
@@ -178,7 +180,7 @@ namespace mud
 
 	void script_editor(Widget& parent, ScriptEditor& editor)
 	{
-		enum Modes { OPEN = 1 << 0 };
+		enum Modes { Open = 1 << 0, Browse = 1 << 1 };
 
 		ActionList actions = {
 			{ "New Script", [&] { editor.create_script(("Untitled " + to_string(editor.m_scripts.size())).c_str(), Language::Lua); } },
@@ -187,15 +189,23 @@ namespace mud
 
 		Section& self = section(parent, "Script Editor", actions);
 
-		if(ui::modal_button(self, *self.m_toolbar, "Open Script", OPEN))
+		if(ui::modal_button(self, *self.m_toolbar, "Open Script", Open))
 		{
-			Widget& modal = ui::auto_modal(self, OPEN, { 600, 400 });
+			Widget& modal = ui::auto_modal(self, Open, { 600, 400 });
 			Ref result = Ref(type<Script>());
 			if(object_selector(*modal.m_body, result))
 			{
 				editor.open(val<Script>(result));
-				self.m_switch &= ~OPEN;
+				self.m_switch &= ~Open;
 			}
+		}
+
+		if (ui::modal_button(self, *self.m_toolbar, "Browse API", Browse))
+		{
+			Widget& modal = ui::auto_modal(self, Browse, { 900, 600 });
+			meta_browser(*modal.m_body);
+			if(ui::button(*modal.m_body, "Close").activated())
+				self.m_switch &= ~Browse;
 		}
 
 		Tabber& tabber = ui::tabber(*self.m_body);

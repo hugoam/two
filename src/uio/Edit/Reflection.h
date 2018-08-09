@@ -12,14 +12,21 @@
 
 namespace mud
 {
+	export_ MUD_UIO_EXPORT void set_meta_palette(const std::vector<uint32_t>& palette);
+
 	export_ MUD_UIO_EXPORT void meta_description(Widget& parent, Type& type);
-	export_ MUD_UIO_EXPORT void meta_methods(Widget& parent, Type& type);
-	export_ MUD_UIO_EXPORT void meta_fields(Widget& parent, Type& type);
+
+	export_ MUD_UIO_EXPORT void meta_constructors(Widget& parent, Class& cls);
+	export_ MUD_UIO_EXPORT void meta_methods(Widget& parent, Class& cls);
+	export_ MUD_UIO_EXPORT void meta_fields(Widget& parent, Class& cls);
+
+	export_ MUD_UIO_EXPORT void meta_enum(Widget& parent, Enum& enu);
 
 	export_ MUD_UIO_EXPORT void meta_synopsis(Widget& parent, Function& function);
 	export_ MUD_UIO_EXPORT void meta_synopsis(Widget& parent, Method& method);
 	export_ MUD_UIO_EXPORT void meta_synopsis(Widget& parent, Type& type);
 
+	export_ MUD_UIO_EXPORT void class_edit(Widget& parent, Class& cls);
 	export_ MUD_UIO_EXPORT void meta_edit(Widget& parent, Type& type);
 
 	export_ MUD_UIO_EXPORT void meta_browser(Widget& parent, Module& m);

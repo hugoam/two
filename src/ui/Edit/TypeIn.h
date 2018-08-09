@@ -139,6 +139,7 @@ namespace mud
 		Variable,
 		Identifier,
 		Function,
+		Parameter,
 		Field,
 		PreprocIdentifier,
 		Comment,
