@@ -202,7 +202,7 @@ namespace mud
 
 		if (ui::modal_button(self, *self.m_toolbar, "Browse API", Browse))
 		{
-			Widget& modal = ui::auto_modal(self, Browse, { 900, 600 });
+			Widget& modal = ui::auto_modal(self, Browse, { 600, 600 });
 			meta_browser(*modal.m_body);
 			if(ui::button(*modal.m_body, "Close").activated())
 				self.m_switch &= ~Browse;

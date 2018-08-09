@@ -30,8 +30,6 @@ module mud.ui;
 #include <ui/Style/Skin.h>
 #endif
 
-#define MUD_TEXT_RECOLORIZE_ALL
-
 namespace mud
 {
 	inline TextPaint style_text_paint(InkStyle& inkstyle)
@@ -324,20 +322,17 @@ namespace mud
 		mark_dirty(0, m_string.size());
 	}
 
-	void TextEdit::shift(size_t start, size_t offset)
+	void TextEdit::shift(size_t start, int offset)
 	{
 		const char* begin = &m_string.front() + start;
+		const char* end = &m_string.front() + start + offset;
 		for(Text::ColorSection& section : m_text.m_sections)
+		{
 			if(section.m_start >= begin)
-			{
 				section.m_start += offset;
+			if(section.m_end >= end)
 				section.m_end += offset;
-			}
-#if 0
-		for(auto& marker : m_markers)
-			if(marker.first >= first)
-				marker.first += shift;
-#endif
+		}
 	}
 
 	void TextEdit::changed()
@@ -350,12 +345,8 @@ namespace mud
 	void TextEdit::insert(size_t index, const string& text)
 	{
 		m_string.insert(index, text);
-#ifdef MUD_TEXT_RECOLORIZE_ALL
-		mark_dirty(0, m_string.length());
-#else
 		shift(index, text.length());
-		mark_dirty(index, index + text.length());
-#endif
+		mark_dirty(line_begin(m_string, index), line_end(m_string, index + text.size()));
 		this->changed();
 	}
 
@@ -375,12 +366,8 @@ namespace mud
 	{
 		if(end == start) return;
 		m_string.erase(start, end - start);
-#ifdef MUD_TEXT_RECOLORIZE_ALL
-		mark_dirty(0, m_string.length());
-#else
 		shift(start, start - end);
-		mark_dirty(start, start);
-#endif
+		mark_dirty(line_begin(m_string, start), line_end(m_string, start));
 		this->changed();
 		//Colorize(mAddedStart.y - 1, mAddedEnd.y - mAddedStart.y + 2);
 	}
@@ -910,13 +897,9 @@ namespace mud
 		const char* start = &m_string.front() + begin;
 		const char* last = &m_string.front() + end;
 
-#ifdef MUD_TEXT_RECOLORIZE_ALL
-		m_text.m_sections.clear();
-		auto start_section = m_text.m_sections.end();
-#else
 		// remove all sections that overlap range to colorize, and get iterator to insert the new ones
-		auto start_section = vector_remove_if(m_text.m_sections, [=](Text::ColorSection& section) { return section.m_start >= start && section.m_end < last; });
-#endif
+		vector_remove_if(m_text.m_sections, [=](Text::ColorSection& section) { return section.m_start >= start && section.m_end <= last; });
+		auto start_section = vector_find_if(m_text.m_sections, [=](const Text::ColorSection& section) { return section.m_start >= start; });
 
 		for(const char* current = start; current != last; ++current)
 		{
@@ -925,7 +908,7 @@ namespace mud
 				if(std::regex_search<const char*>(current, last, results, token_color.first, std::regex_constants::match_continuous))
 				{
 					auto match = *results.begin();
-					string name = m_string.substr(match.first - start, match.second - match.first);
+					string name = m_string.substr(match.first - &m_string.front(), match.second - match.first);
 					PaletteIndex color = token_color.second;
 
 					//if(color == uint16_t(CodePalette::Word))

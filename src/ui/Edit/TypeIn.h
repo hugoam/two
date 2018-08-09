@@ -249,7 +249,7 @@ namespace mud
 
 		bool allowed(char c) { return m_allowed_chars.empty() || m_allowed_chars.find(c) != string::npos; }
 
-		void shift(size_t start, size_t offset);
+		void shift(size_t start, int offset);
 
 		void recolorize();
 		void colorize(size_t start, size_t end);

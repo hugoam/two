@@ -102,11 +102,14 @@ namespace mud
 		string varying_path = string(gfx_system.m_resource_path) + "shaders/varying.def.sc";
 
 		enum Target { GLSL, ESSL, HLSL, Metal };
+#if defined MUD_PLATFORM_WINDOWS
 		Target target = is_opengl ? GLSL : HLSL;
-#if defined MUD_PLATFORM_EMSCRIPTEN
-		target = ESSL;
+#elif defined MUD_PLATFORM_LINUX
+		Target target = GLSL;
+#elif defined MUD_PLATFORM_EMSCRIPTEN
+		Target target = ESSL;
 #elif defined MUD_PLATFORM_OSX
-		target = Metal;
+		Target target = is_opengl ? GLSL : Metal;
 #endif
 
 		if(target == ESSL || target == Metal)
