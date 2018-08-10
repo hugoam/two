@@ -12,7 +12,7 @@ configuration:
 
 install:
   - git submodule update --init
-  - bin\genie %TOOLSET%
+  - bin\windows\genie %TOOLSET%
 
 build:
   project: build/projects/$(TOOLSET)/mud.sln

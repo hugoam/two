@@ -139,7 +139,7 @@ namespace mud
 
 	void script_edit_code(Widget& parent, TextScript& script, ActionList actions)
 	{
-		actions.push_back({ "Run", [&] { script({}); } });
+		//actions.push_back({ "Run", [&] { script({}); } });
 		actions.push_back({ "Reload", [&] { script.m_dirty = true; } });
 		Section& self = section(parent, script.m_name.c_str(), actions);
 
