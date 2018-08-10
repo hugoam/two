@@ -25,10 +25,9 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Camera
 	{
 	public:
-		Camera(Scene* scene = nullptr);
+		Camera();
 		Camera(mat4 transform, mat4 projection);
 
-		attr_ Scene* m_scene = nullptr;
 		attr_ vec3 m_eye;
 		attr_ vec3 m_target;
 

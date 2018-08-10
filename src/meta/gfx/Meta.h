@@ -911,7 +911,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Camera>(), member_address(&mud::Camera::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
+                //{ type<mud::Camera>(), member_address(&mud::Camera::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
                 { type<mud::Camera>(), member_address(&mud::Camera::m_eye), type<mud::vec3>(), "eye", var(mud::vec3()), Member::Value, nullptr },
                 { type<mud::Camera>(), member_address(&mud::Camera::m_target), type<mud::vec3>(), "target", var(mud::vec3()), Member::Value, nullptr },
                 { type<mud::Camera>(), member_address(&mud::Camera::m_transform), type<mud::mat4>(), "transform", var(mud::mat4()), Member::Value, nullptr },

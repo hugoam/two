@@ -47,6 +47,7 @@ namespace mud
 		attr_ Scene* m_scene;
 
 		attr_ uint16_t m_index = 0;
+		attr_ bool m_active = true;
 		attr_ uvec4 m_rect = {};
 		attr_ bool m_scissor = false;
 		attr_ Colour m_clear_colour = Colour::Black;

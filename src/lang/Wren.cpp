@@ -11,6 +11,7 @@
 #include <cstdarg>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <set>
 #include <type_traits>
 #endif
@@ -44,8 +45,9 @@ void wrenAssignVariable(WrenVM* vm, const char* module, const char* name,
 						int value_slot);
 }
 
-#define MUD_WREN_DEBUG_DECLS
+//#define MUD_WREN_DEBUG_DECLS
 //#define MUD_WREN_DEBUG
+#define MUD_WREN_CACHE_HANDLES
 
 namespace mud
 {
@@ -97,7 +99,8 @@ namespace mud
 	std::vector<WrenHandle*> g_wren_methods = std::vector<WrenHandle*>(c_max_types * 8);
 	std::vector<WrenHandle*> g_construct_handles;
 
-	std::map<void*, WrenHandle*> g_wren_objects;
+	//std::map<void*, WrenHandle*> g_wren_objects;
+	std::unordered_map<void*, WrenHandle*> g_wren_objects;
 
 	string signature(cstring name, size_t num_args)
 	{
@@ -155,6 +158,7 @@ namespace mud
 
 	inline Ref alloc_object(WrenVM* vm, int slot, int class_slot, Type& type)
 	{
+		//printf("DEBUG: Wren -> alloc object %s\n", type.m_name);
 		WrenRef* ref = static_cast<WrenRef*>(wrenSetSlotNewForeign(vm, slot, class_slot, sizeof(WrenRef) + meta(type).m_size));
 		new (ref) WrenRef(true, ref + 1, type);
 		return *ref;
@@ -162,6 +166,7 @@ namespace mud
 
 	inline Ref alloc_ref(WrenVM* vm, int slot, int class_slot, Ref source)
 	{
+		//printf("DEBUG: Wren -> alloc ref %s\n", type(source).m_name);
 		WrenRef* ref = static_cast<WrenRef*>(wrenSetSlotNewForeign(vm, slot, class_slot, sizeof(WrenRef)));
 		new (ref) WrenRef(false, source.m_value, *source.m_type);
 		return *ref;
@@ -172,7 +177,12 @@ namespace mud
 		int class_slot = wrenGetSlotCount(vm);
 		wrenEnsureSlots(vm, class_slot + 1);
 		wrenSetSlotHandle(vm, class_slot, g_wren_classes[type.m_id]);
-		return alloc_object(vm, slot, class_slot, type);
+		Ref object = alloc_object(vm, slot, class_slot, type);
+#ifdef MUD_WREN_CACHE_HANDLES
+		assert(g_wren_objects[object.m_value] == nullptr);
+		g_wren_objects[object.m_value] = wrenGetSlotHandle(vm, slot);
+#endif
+		return object;
 	}
 
 	inline Ref alloc_ref(WrenVM* vm, int slot, Ref ref)
@@ -180,13 +190,25 @@ namespace mud
 		int class_slot = wrenGetSlotCount(vm);
 		wrenEnsureSlots(vm, class_slot + 1);
 		wrenSetSlotHandle(vm, class_slot, g_wren_classes[type(ref).m_id]);
-		return alloc_ref(vm, slot, class_slot, ref);
+		Ref object = alloc_ref(vm, slot, class_slot, ref);
+#ifdef MUD_WREN_CACHE_HANDLES
+		assert(g_wren_objects[object.m_value] == nullptr);
+		g_wren_objects[object.m_value] = wrenGetSlotHandle(vm, slot);
+#endif
+		return object;
 	}
 
 	inline void push_ref(WrenVM* vm, int slot, Ref object)
 	{
 		if(!object) push_null(vm, slot);
+#ifdef MUD_WREN_CACHE_HANDLES
+		WrenHandle*& handle = g_wren_objects[object.m_value];
+		if(!handle)
+			alloc_ref(vm, slot, object);
+		wrenSetSlotHandle(vm, slot, handle);
+#else
 		alloc_ref(vm, slot, object);
+#endif
 	}
 
 	inline void push_object(WrenVM* vm, int slot, Ref value)
@@ -569,12 +591,13 @@ namespace mud
 			{
 				const char* name = wrenGetSlotString(vm, 1);
 				Type* type = system().find_type(name);
-				alloc_ref(vm, 0, 0, Ref(type));
-				//assert(g_wren_types[type->m_id] == nullptr);
 				if (g_wren_types[type->m_id] != nullptr)
 					printf("WARNING: type %s already fetched\n", name);
 				else
+				{
+					alloc_ref(vm, 0, 0, Ref(type));
 					g_wren_types[type->m_id] = wrenGetSlotHandle(vm, 0);
+				}
 			};
 		}
 		else if(strcmp(className, "Constructor") == 0)

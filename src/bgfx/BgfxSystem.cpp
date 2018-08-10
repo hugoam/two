@@ -65,7 +65,7 @@ namespace mud
 
 		printf("GfxSystem: bgfx::init\n");
 		bgfx::Init params = {};
-		params.type = bgfx::RendererType::OpenGL;
+		//params.type = bgfx::RendererType::OpenGL;
 		params.resolution.width = uint32_t(context.m_width);
 		params.resolution.height = uint32_t(context.m_height);
 		params.resolution.reset = BGFX_RESET_NONE;

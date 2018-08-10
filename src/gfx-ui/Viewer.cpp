@@ -47,7 +47,7 @@ namespace mud
 		: Widget(parent, identity)
 		, m_scene(&scene)
 		, m_context(as<GfxContext>(parent->ui_window().m_context))
-		, m_camera(&scene)
+		, m_camera()
 		, m_viewport(m_camera, scene)
 	{
 		this->init(viewer_styles().viewer);
@@ -189,7 +189,11 @@ namespace ui
 {
 	Viewer& viewer(Widget& parent, Scene& scene)
 	{
-		return parent.subi<Viewer, Scene&>(&scene, scene);
+		//Viewer& viewer = parent.subi<Viewer, Scene&>(&scene, scene);
+		Viewer& viewer = parent.subi<Viewer, Scene&>(&type<Viewer>(), scene);
+		viewer.m_scene = &scene;
+		viewer.m_viewport.m_scene = &scene;
+		return viewer;
 	}
 
 	SceneViewer& scene_viewer(Widget& parent, const vec2& size)
@@ -271,7 +275,7 @@ namespace ui
 		return orbit;
 	}
 
-	OrbitController& hybrid_controller(Viewer& viewer, OrbitMode mode, Transform& entity, bool& aiming, float& pitch)
+	OrbitController& hybrid_controller(Viewer& viewer, OrbitMode mode, Transform& entity, bool& aiming, vec2& angles)
 	{
 		using Mode = OrbitMode;
 		OrbitController& orbit = mode == Mode::Isometric ? ui::isometric_controller(viewer)
@@ -306,15 +310,17 @@ namespace ui
 			}
 			else
 			{
-				aiming = true;
 				entity.m_rotation = rotate(entity.m_rotation, Y3, angle.x);
-				pitch += angle.y;
-				pitch = min(c_pi / 2.f - 0.01f, max(-c_pi / 2.f + 0.01f, pitch));
+				angles.y += angle.y;
+				angles.y = min(c_pi / 2.f - 0.01f, max(-c_pi / 2.f + 0.01f, angles.y));
 			}
 		}
 
 		if(mode == Mode::ThirdPerson)
-			orbit.set_eye(aiming ? rotate(entity.m_rotation, X3, pitch) : entity.m_rotation);
+		{
+			orbit.set_eye(aiming ? rotate(entity.m_rotation, X3, angles.y) : entity.m_rotation);
+			aiming = true;
+		}
 
 		if(mode == Mode::PseudoIsometric)
 		{

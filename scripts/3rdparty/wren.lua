@@ -28,6 +28,11 @@ wren = mud_dep(nil, "wren")
             "DEBUG",
         }
         
+    configuration { "asmjs" }
+        defines {
+            "WREN_NAN_TAGGING=0",
+        }
+        
     configuration { "vs*", "not asmjs" }
         buildoptions {
             "/wd4100", -- warning C4100: 'vm': unreferenced formal parameter

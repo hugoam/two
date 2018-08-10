@@ -14,9 +14,8 @@ module mud.gfx;
 
 namespace mud
 {
-	Camera::Camera(Scene* scene)
-		: m_scene(scene)
-		, m_eye(Z3)
+	Camera::Camera()
+		: m_eye(Z3)
 		, m_target(Zero3)
 	{
 		m_eye = 2.f * Z3;

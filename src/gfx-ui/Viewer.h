@@ -86,15 +86,15 @@ namespace mud
 		Viewer& m_viewer;
 		Camera& m_camera;
 
-		vec3 m_position = Zero3;
-		float m_yaw = 0.f;
-		float m_pitch = 0.f;
-		float m_distance = 1.f;
+		attr_ vec3 m_position = Zero3;
+		attr_ float m_yaw = 0.f;
+		attr_ float m_pitch = 0.f;
+		attr_ float m_distance = 1.f;
 
 		virtual void process(Viewer& viewer);
 
-		void set_eye(const quat& rotation);
-		void set_target(const vec3& position);
+		meth_ void set_eye(const quat& rotation);
+		meth_ void set_target(const vec3& position);
 
 		void update_eye();
 	};
@@ -122,7 +122,7 @@ namespace ui
 	export_ MUD_GFX_UI_EXPORT func_ OrbitController& orbit_controller(Viewer& viewer, float yaw = 0.f, float pitch = 0.f, float distance = 1.f);
 	export_ MUD_GFX_UI_EXPORT func_ FreeOrbitController& free_orbit_controller(Viewer& viewer);
 	export_ MUD_GFX_UI_EXPORT func_ OrbitController& isometric_controller(Viewer& viewer, bool topdown = false);
-	export_ MUD_GFX_UI_EXPORT func_ OrbitController& hybrid_controller(Viewer& viewer, OrbitMode mode, Transform& entity, bool& aiming, float& pitch);
+	export_ MUD_GFX_UI_EXPORT func_ OrbitController& hybrid_controller(Viewer& viewer, OrbitMode mode, Transform& entity, bool& aiming, vec2& angles);
 
 	export_ MUD_GFX_UI_EXPORT func_ void velocity_controller(Viewer& viewer, vec3& linear, vec3& angular, float speed = 1.f);
 }

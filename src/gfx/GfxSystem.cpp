@@ -199,10 +199,11 @@ namespace mud
 
 		for(GfxContext* context : m_impl->m_contexts)
 			for(Viewport* viewport : context->m_viewports)
-			{
-				Renderer& renderer = this->renderer(viewport->m_shading);
-				this->render(renderer, *context, *viewport, frame);
-			}
+				if(viewport->m_active)
+				{
+					Renderer& renderer = this->renderer(viewport->m_shading);
+					this->render(renderer, *context, *viewport, frame);
+				}
 
 		bool pursue = true;
 		for(GfxContext* context : m_impl->m_contexts)

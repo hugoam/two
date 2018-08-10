@@ -25,7 +25,7 @@ namespace mud
 	{
 	public:
 		Script(Type& type, cstring name, const Signature& signature = {});
-		~Script();
+		virtual ~Script();
 
 		attr_ uint32_t m_index;
 		attr_ Type& m_type;

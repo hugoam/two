@@ -18,6 +18,7 @@ namespace mud
 	{
 	public:
 		RenderSystem(cstring resource_path, bool manual_render);
+		virtual ~RenderSystem() {}
 
 		virtual bool next_frame() = 0;
 

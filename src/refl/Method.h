@@ -66,6 +66,7 @@ namespace mud
 	{
 	public:
 		Callable(cstring name, const std::vector<Param>& params = {}, Var returnval = Var());
+		virtual ~Callable() {}
 
 		void setup();
 

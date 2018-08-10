@@ -411,21 +411,19 @@ namespace mud
 				"class", "construct", "continue", "else", "false", "for", "foreign", "if", "import", "in", "is", "new", "null", "return", "static", "this", "true", "var", "while"
 			};
 
-			add_token_regex(lang, "//.*", CodePalette::Comment);
-			add_token_regex(lang, "[ \t]*#[ \\t]*[a-zA-Z_]+", CodePalette::Preprocessor);
+			add_token_regex(lang, "[A-Z][a-zA-Z0-9_]*", CodePalette::Identifier);
+			add_token_regex(lang, "[_][a-zA-Z0-9_]*", CodePalette::Field);
+			add_token_regex(lang, "[a-z0-9_]+(?=\\()", CodePalette::Function);
+			add_token_regex(lang, "[a-zA-Z_][a-zA-Z0-9_]*", CodePalette::Word);
+			add_token_regex(lang, list_regex(lang.m_punctuation), CodePalette::Punctuation);
+			add_token_regex(lang, list_regex(lang.m_operators), CodePalette::Operator);
 			add_token_regex(lang, "L?\\\"(\\\\.|[^\\\"])*\\\"", CodePalette::String);
 			add_token_regex(lang, "\\'\\\\?[^\\']\\'", CodePalette::CharLiteral);
 			add_token_regex(lang, "0[xX][0-9a-fA-F]+[uU]?[lL]?[lL]?", CodePalette::Number);
 			add_token_regex(lang, "[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)([eE][+-]?[0-9]+)?[fF]?", CodePalette::Number);
 			add_token_regex(lang, "0[0-7]+[Uu]?[lL]?[lL]?", CodePalette::Number);
 			add_token_regex(lang, "[+-]?[0-9]+[Uu]?[lL]?[lL]?", CodePalette::Number);
-			add_token_regex(lang, "[A-Z][a-zA-Z0-9_]*", CodePalette::Identifier);
-			add_token_regex(lang, "[_][a-zA-Z0-9_]*", CodePalette::Field);
-			//add_token_regex(lang, "[a-z_A-Z]+\\([^\\)]*\\)(\\.[^\\)]*\\))?", CodePalette::Function);
-			add_token_regex(lang, "[a-z0-9_]+(?=\\()", CodePalette::Function);
-			add_token_regex(lang, "[a-zA-Z_][a-zA-Z0-9_]*", CodePalette::Word);
-			add_token_regex(lang, list_regex(lang.m_punctuation), CodePalette::Punctuation);
-			add_token_regex(lang, list_regex(lang.m_operators), CodePalette::Operator);
+			add_token_regex(lang, "//.*", CodePalette::Comment);
 
 			lang.m_comment_start = "/*";
 			lang.m_comment_end = "*/";
