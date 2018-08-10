@@ -1,7 +1,7 @@
-#ifndef TOY_SHADER_RADIANCE
-#define TOY_SHADER_RADIANCE
+#ifndef MUD_SHADER_RADIANCE
+#define MUD_SHADER_RADIANCE
 
-#include "spherical.sh"
+#include <spherical.sh>
 
 uniform vec4 u_radiance_color_energy;
 #define u_radiance_color u_radiance_color_energy.rgb

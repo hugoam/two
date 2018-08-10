@@ -1,7 +1,7 @@
 $input v_texcoord0
 
-#include "common.sh"
-#include "filter.sh"
+#include <common.sh>
+#include <filter/filter.sh>
 
 #if defined SOURCE_DEPTH || defined UNPACK_DEPTH
 CONST(float) depth_value_pow = 1.0;

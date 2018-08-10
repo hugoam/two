@@ -12,7 +12,8 @@ uniform vec4 u_sky_luminance_xyz;
 uniform vec4 u_sky_params; // x - sun size, y - sun bloom, z - exposition
 uniform vec4 u_perez_coeff[5];
 
-#include "common.sh"
+#include <common.sh>
+#include <convert.sh>
 
 vec3 Perez(vec3 A,vec3 B,vec3 C,vec3 D, vec3 E,float costeta, float cosgamma)
 {

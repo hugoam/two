@@ -1,7 +1,7 @@
-#ifndef TOY_SHADER_GLOW
-#define TOY_SHADER_GLOW
+#ifndef MUD_SHADER_GLOW
+#define MUD_SHADER_GLOW
 
-#include "filter.sh"
+#include <filter/filter.sh>
 
 uniform vec4 u_glow_params_0;
 #define u_glow_strength        u_glow_params_0.x

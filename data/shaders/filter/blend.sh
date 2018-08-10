@@ -1,7 +1,7 @@
-#ifndef TOY_SHADER_BLEND
-#define TOY_SHADER_BLEND
+#ifndef MUD_SHADER_BLEND
+#define MUD_SHADER_BLEND
 
-#include "filter.sh"
+#include <filter/filter.sh>
 
 float softLight(float value, float amount)
 {

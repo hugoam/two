@@ -1,9 +1,10 @@
 $input v_view, v_position, v_normal, v_tangent, v_color, v_texcoord0/*, v_texcoord1*/, v_binormal
 
-#include "pbr.sh"
+#include <pbr/pbr.sh>
 
-#include "light.sh"
-#include "radiance.sh"
+#include <pbr/light.sh>
+#include <pbr/radiance.sh>
+#include <pbr/fog.sh>
 
 void main()
 {
@@ -74,6 +75,11 @@ void main()
     specular *= brdf_specular_term(fragment, material);
 #endif
 
+#ifdef FOG
+    //apply_fog(fragment, emission, ambient, diffuse, specular);
+    apply_fog_0(fragment, emission);
+#endif
+
 #ifdef MRT
 	gl_FragData[0] = vec4(emission + diffuse + ambient, material.alpha);
 	gl_FragData[1] = vec4(specular, material.metallic);
@@ -84,7 +90,8 @@ void main()
 
 #else
 	gl_FragColor = vec4(emission + ambient + diffuse + specular, material.alpha);
-	//gl_FragColor = vec4(fragment.normal, material.alpha);
+	//gl_FragColor = vec4(normalize(fragment.normal) * 0.5 + 0.5, 1.0);
+	//gl_FragColor = vec4(v_color.rgb, 1.0);
 #endif
 
 }

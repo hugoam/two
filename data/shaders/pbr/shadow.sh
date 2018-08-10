@@ -1,7 +1,7 @@
-#ifndef TOY_SHADER_SHADOW
-#define TOY_SHADER_SHADOW
+#ifndef MUD_SHADER_SHADOW
+#define MUD_SHADER_SHADOW
 
-#include "light.sh"
+#include <pbr/light.sh>
 
 #if CSM_PCF_LEVEL > 0
 #define SHADOW_SAMPLER

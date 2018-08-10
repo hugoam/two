@@ -1,8 +1,8 @@
-#ifndef TOY_SHADER_LIGHT
-#define TOY_SHADER_LIGHT
+#ifndef MUD_SHADER_LIGHT
+#define MUD_SHADER_LIGHT
 
-#include "common.sh"
-#include "pbr.sh"
+#include <common.sh>
+#include <pbr/pbr.sh>
 
 uniform vec4 u_light_position_range[MAX_LIGHTS];
 uniform vec4 u_light_energy_specular[MAX_LIGHTS];
@@ -110,10 +110,10 @@ vec3 omni_attenuation(vec3 light, float range, float attenuation_factor, float l
 	return vec3_splat(attenuation);
 }
 
-vec3 spot_attenuation(vec3 light, vec3 light_direction, float range, float attenuation_factor, float spot_attenuation, float spot_cutoff)
+vec3 spot_attenuation(vec3 light, vec3 spot_direction, float range, float attenuation_factor, float spot_attenuation, float spot_cutoff)
 {
 	vec3 attenuation = omni_attenuation(light, range, attenuation_factor, 0.001);
-	float scos = max(dot(normalize(light), light_direction), spot_cutoff);
+	float scos = max(dot(normalize(light), -spot_direction), spot_cutoff);
 	float spot_rim = (1.0 - scos) / (1.0 - spot_cutoff);
 	return attenuation * (1.0 - pow(max(spot_rim, 0.001), spot_attenuation));
 }

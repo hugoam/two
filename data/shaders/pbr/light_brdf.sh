@@ -1,4 +1,4 @@
-#include "light.sh"
+#include <pbr/light.sh>
 
 #define BRDF_ARGS float NoL, float NoH, float LoH, float LoV, float XoH, float RoV, float NoV
 

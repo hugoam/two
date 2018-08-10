@@ -1,7 +1,7 @@
 $input v_texcoord0
 
-#include "filter.sh"
-#include "blur.sh"
+#include <filter/filter.sh>
+#include <filter/blur.sh>
 
 uniform vec4 u_blur_params;
 #define u_blur_lod u_blur_params.x

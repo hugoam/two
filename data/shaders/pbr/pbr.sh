@@ -1,7 +1,7 @@
-#ifndef TOY_SHADER_PBR
-#define TOY_SHADER_PBR
+#ifndef MUD_SHADER_PBR
+#define MUD_SHADER_PBR
 
-#include "common.sh"
+#include <common.sh>
 
 uniform vec4 u_albedo;
 uniform vec4 u_pbr_params_0;

@@ -1,6 +1,6 @@
 $input v_texcoord0
 
-#include "filter.sh"
+#include <filter/filter.sh>
 
 #define s_source_taps s_source_0
 #define s_source_color s_source_1

@@ -13,9 +13,9 @@
 $input a_position, a_normal, a_color0 SKELETON_INPUTS INSTANCING_INPUTS
 $output v_position, v_color
 
-#include "common.sh"
-#include "skeleton.sh"
-#include "depth.sh"
+#include <common.sh>
+#include <skeleton.sh>
+#include <depth.sh>
 
 void main()
 {

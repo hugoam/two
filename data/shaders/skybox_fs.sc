@@ -1,7 +1,7 @@
 $input v_dir, v_texcoord0
 
-#include "common.sh"
-#include "spherical.sh"
+#include <common.sh>
+#include <spherical.sh>
 
 SAMPLER2D(s_skybox_map, 0);
 

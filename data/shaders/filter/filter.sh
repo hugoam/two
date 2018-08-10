@@ -1,7 +1,7 @@
-#ifndef TOY_SHADER_COMPOSITING
-#define TOY_SHADER_COMPOSITING
+#ifndef MUD_SHADER_COMPOSITING
+#define MUD_SHADER_COMPOSITING
 
-#include "common.sh"
+#include <common.sh>
 
 #if defined SOURCE_0_CUBE
 SAMPLERCUBE(    s_source_0, 0);

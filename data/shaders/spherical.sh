@@ -1,7 +1,7 @@
-#ifndef TOY_SHADER_SPHERICAL
-#define TOY_SHADER_SPHERICAL
+#ifndef MUD_SHADER_SPHERICAL
+#define MUD_SHADER_SPHERICAL
 
-#include "common.sh"
+#include <common.sh>
 
 CONST(vec2) inv_atan = vec2(0.1591, 0.3183);
 vec2 sphericalUV(vec3 v)

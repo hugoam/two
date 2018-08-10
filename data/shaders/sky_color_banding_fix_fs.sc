@@ -10,7 +10,7 @@ uniform vec4 	u_parameters; // x - sun size, y - sun bloom, z - exposition, w - 
 uniform vec4 	u_sun_direction;
 uniform vec4 	u_sun_luminance;
 
-#include "common.sh"
+#include <common.sh>
 
 // https://www.shadertoy.com/view/4ssXRX
 // http://www.loopit.dk/banding_in_games.pdf

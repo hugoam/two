@@ -1,7 +1,6 @@
 $input v_dir, v_wpos, v_color, v_texcoord0
 
-#include "common.sh"
-#include "pbr/scene.sh"
+#include <common.sh>
 
 // Star Nest by Pablo Román Andrioli
 // This content is under the MIT License.

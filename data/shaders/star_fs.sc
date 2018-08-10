@@ -1,7 +1,6 @@
 $input v_color, v_texcoord0
 
-#include "common.sh"
-#include "pbr/scene.sh"
+#include <common.sh>
 
 float remap(float number, float from_low, float from_high, float low, float high)
 {
