@@ -15,10 +15,10 @@ project "bgfx"
             "BGFX_CONFIG_DEBUG_UNIFORM=0",
         }
         
-    configuration { "not asmjs",  }
-        --defines {
-        --    "BGFX_CONFIG_RENDERER_OPENGL=33",
-        --}
+    configuration { "osx",  }
+        defines {
+            "BGFX_CONFIG_RENDERER_OPENGL=31",
+        }
         
     configuration { "asmjs", "webgl2" }
         defines {

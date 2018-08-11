@@ -322,11 +322,17 @@ namespace mud
 		mark_dirty(0, m_string.size());
 	}
 
+	void TextEdit::clear(size_t start, size_t end)
+	{
+		const char* cstart = &m_string.front() + start;
+		const char* cend = &m_string.front() + end;
+		vector_remove_if(m_text.m_sections, [&](Text::ColorSection& section) { return section.m_start >= cstart && section.m_end <= cend; });
+	}
+
 	void TextEdit::shift(size_t start, int offset)
 	{
 		const char* begin = &m_string.front() + start;
 		const char* end = &m_string.front() + start + offset;
-		vector_remove_if(m_text.m_sections, [&](Text::ColorSection& section) { return section.m_start >= begin && section.m_end <= end; });
 		for(Text::ColorSection& section : m_text.m_sections)
 		{
 			if(section.m_start >= begin)
@@ -366,9 +372,10 @@ namespace mud
 	void TextEdit::erase(size_t start, size_t end)
 	{
 		if(end == start) return;
-		shift(start, start - end);
+		this->clear(start, end);
+		this->shift(start, start - end);
 		m_string.erase(start, end - start);
-		mark_dirty(line_begin(m_string, start), line_end(m_string, start));
+		this->mark_dirty(line_begin(m_string, start), line_end(m_string, start));
 		this->changed();
 		//Colorize(mAddedStart.y - 1, mAddedEnd.y - mAddedStart.y + 2);
 	}
