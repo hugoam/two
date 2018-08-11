@@ -25,7 +25,7 @@ module mud.srlz;
 #include <srlz/Serial.h>
 #endif
 
-//#define MUD_DEBUG_SERIAL
+#define MUD_DEBUG_SERIAL
 
 namespace mud
 {

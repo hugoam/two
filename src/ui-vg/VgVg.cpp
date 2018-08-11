@@ -111,7 +111,7 @@ namespace mud
 	void VgVg::unload_image(Image& image)
 	{
 		if(m_null) return;
-		vg::deleteImage(m_vg, { uint16_t(image.d_handle) });
+		vg::destroyImage(m_vg, { uint16_t(image.d_handle) });
 		image.d_handle = 0;
 	}
 
