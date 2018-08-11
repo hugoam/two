@@ -332,12 +332,11 @@ namespace mud
 	void TextEdit::shift(size_t start, int offset)
 	{
 		const char* begin = &m_string.front() + start;
-		const char* end = &m_string.front() + start + offset;
 		for(Text::ColorSection& section : m_text.m_sections)
 		{
 			if(section.m_start >= begin)
 				section.m_start += offset;
-			if(section.m_end >= end)
+			if(section.m_end >= begin)
 				section.m_end += offset;
 		}
 	}
@@ -351,9 +350,9 @@ namespace mud
 
 	void TextEdit::insert(size_t index, const string& text)
 	{
+		this->shift(index, text.length());
 		m_string.insert(index, text);
-		shift(index, text.length());
-		mark_dirty(line_begin(m_string, index), line_end(m_string, index + text.size()));
+		this->mark_dirty(line_begin(m_string, index), line_end(m_string, index + text.size()));
 		this->changed();
 	}
 
