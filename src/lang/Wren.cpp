@@ -394,11 +394,24 @@ namespace mud
 		printf("INFO: wren -> construct %s\n", constructor->m_name);
 #endif
 		Call& construct = cached_call(*constructor);
-		if (read_params(vm, &construct.m_callable->m_params[1], to_array(construct.m_arguments, 1), 2))
+		if(read_params(vm, &construct.m_callable->m_params[1], to_array(construct.m_arguments, 1), 2))
 		{
 			Ref object = alloc_object(vm, 0, 1, *constructor->m_object_type);
 			construct(object);
 		}
+	}
+
+	inline void copy_construct(WrenVM* vm)
+	{
+		const CopyConstructor* constructor = &val<CopyConstructor>(read_ref(vm, 0));
+		if (!constructor) return;
+#ifdef MUD_WREN_DEBUG
+		printf("INFO: wren -> copy construct %s\n", constructor->m_name);
+#endif
+		
+		Ref object = alloc_object(vm, 0, 1, *constructor->m_object_type);
+		Ref other = read_ref(vm, 2);
+		constructor->m_call(object, other);
 	}
 
 	inline void construct_interface(WrenVM* vm)
@@ -478,6 +491,13 @@ namespace mud
 			bind += t + t + "__" + n + " = Constructor.ref(\"" + c + "\", " + to_string(constructor.m_index) + ")\n";
 
 			constructors += t + "static new(" + params + ") { __" + n + ".call(this" + paramsnext + ") }\n";
+		}
+
+		for(CopyConstructor& constructor : cls(type).m_copy_constructors)
+		{
+			bind += t + t + "__copy_constructor = CopyConstructor.ref(\"" + c + "\")\n";
+
+			constructors += t + "static copy(other) { __copy_constructor.call(this, other) }\n";
 		}
 
 		for(Member& member : cls(type).m_members)
@@ -611,6 +631,16 @@ namespace mud
 				alloc_ref(vm, 0, 0, Ref(constructor));
 			};
 		}
+		else if(strcmp(className, "CopyConstructor") == 0)
+		{
+			methods.allocate = [](WrenVM* vm)
+			{
+				const char* c = wrenGetSlotString(vm, 1);
+				Type* type = system().find_type(c);
+				const CopyConstructor* constructor = &cls(*type).m_copy_constructors[0];
+				alloc_ref(vm, 0, 0, Ref(constructor));
+			};
+		}
 		else if(strcmp(className, "Member") == 0)
 		{
 			methods.allocate = [](WrenVM* vm)
@@ -725,9 +755,14 @@ namespace mud
 				return call_function_args<2>;
 		}
 
-		if (strcmp(className, "Constructor") == 0)
+		if(strcmp(className, "Constructor") == 0)
 		{
 			return construct;
+		}
+
+		if(strcmp(className, "CopyConstructor") == 0)
+		{
+			return copy_construct;
 		}
 
 		if(strcmp(className, "Member") == 0)
@@ -1000,6 +1035,12 @@ namespace mud
 				"    foreign call(cls, a0, a1, a2, a3, a4, a5)\n"
 				"}\n"
 				"\n"
+				"foreign class CopyConstructor {\n"
+				"    construct ref(class_name) {}\n"
+				"    \n"
+				"    foreign call(cls, other)\n"
+				"}\n"
+				"\n"
 				"foreign class Member {\n"
 				"    construct ref(class_name, member_name) {}\n"
 				"    \n"
@@ -1060,7 +1101,7 @@ namespace mud
 		{
 			if(location.is_root())
 				return;
-			string imports = "import \"main\" for Function, Type, Constructor, Member, Method, Static, Operator, VirtualConstructor\n";
+			string imports = "import \"main\" for Function, Type, Constructor, CopyConstructor, Member, Method, Static, Operator, VirtualConstructor\n";
 			wrenInterpret(m_vm, location.m_name, imports.c_str());
 		}
 
