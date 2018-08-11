@@ -198,6 +198,12 @@ namespace mud
 
 		size_t size = json_value.is_array() ? json_value.array_items().size() : json_value.object_items().size();
 
+		if(!g_class[type(value).m_id])
+		{
+			printf("WARNING: unpack - type %s is not a class\n", type(value).m_name);
+			return;
+		}
+
 		const Class& cls = mud::cls(value);
 		const Constructor* constructor = cls.constructor(size);
 

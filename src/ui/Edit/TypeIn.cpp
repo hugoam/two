@@ -326,6 +326,7 @@ namespace mud
 	{
 		const char* begin = &m_string.front() + start;
 		const char* end = &m_string.front() + start + offset;
+		vector_remove_if(m_text.m_sections, [&](Text::ColorSection& section) { return section.m_start >= begin && section.m_end >= end; });
 		for(Text::ColorSection& section : m_text.m_sections)
 		{
 			if(section.m_start >= begin)
