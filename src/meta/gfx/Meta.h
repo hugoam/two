@@ -1328,6 +1328,8 @@ namespace mud
             // methods
             {
 				{ type<mud::GfxSystem>(), "add_resource_path", member_address(&mud::GfxSystem::add_resource_path), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::GfxSystem>(object).add_resource_path(val<cstring>(args[0])); },{ { "path", var(cstring()) } }, Ref() },
+				{ type<mud::GfxSystem>(), "fetch_symbol", member_address(&mud::GfxSystem::fetch_symbol), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::GfxSystem>(object).fetch_symbol(val<mud::Symbol>(args[0]), val<mud::Shape>(args[1]), val<mud::DrawMode>(args[2]))); }, { { "symbol", Ref(type<mud::Symbol>()) }, { "shape", Ref(type<mud::Shape>()) }, { "draw_mode", var(mud::DrawMode()) } }, Ref(type<mud::Model>()) },
+				{ type<mud::GfxSystem>(), "fetch_symbol_material", member_address(&mud::GfxSystem::fetch_symbol_material), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::GfxSystem>(object).fetch_symbol_material(val<mud::Symbol>(args[0]), val<mud::DrawMode>(args[1]))); }, { { "symbol", Ref(type<mud::Symbol>()) }, { "draw_mode", var(mud::DrawMode()) } }, Ref(type<mud::Material>()) }
             },
             // static members
             {

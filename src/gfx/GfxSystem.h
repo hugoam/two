@@ -108,8 +108,8 @@ namespace mud
 		meth_ Material& fetch_material(cstring name, cstring shader, bool builtin = true);
 		meth_ Material& fetch_image256_material(const Image256& image);
 
-		Model& fetch_symbol(const Symbol& symbol, const Shape& shape, DrawMode draw_mode);
-		Material& fetch_symbol_material(const Symbol& symbol, DrawMode draw_mode);
+		meth_ Model& fetch_symbol(const Symbol& symbol, const Shape& shape, DrawMode draw_mode);
+		meth_ Material& fetch_symbol_material(const Symbol& symbol, DrawMode draw_mode);
 
 		void create_debug_materials();
 
