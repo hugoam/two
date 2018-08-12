@@ -45,6 +45,14 @@ namespace mud
 		virtual void reset(uint16_t width, uint16_t height) override;
 	};
 
+	export_ struct MUD_BGFX_EXPORT TimerBx
+	{
+		double m_start = 0.0;
+
+		void begin();
+		float end();
+	};
+
 	export_ class MUD_BGFX_EXPORT BgfxSystem : public NonCopy, public RenderSystem
 	{
 	public:

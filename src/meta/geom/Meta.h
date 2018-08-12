@@ -405,7 +405,7 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::Symbol>(), [](Ref ref, array<Var> args) { new(&val<mud::Symbol>(ref)) mud::Symbol( val<mud::Colour>(args[0]), val<mud::Colour>(args[1]), val<bool>(args[2]), val<bool>(args[3]), val<mud::SymbolDetail>(args[4]) ); }, { { "outline", var(mud::Colour()), Param::Default }, { "fill", var(mud::Colour()), Param::Default }, { "overlay", var(bool(false)), Param::Default }, { "double_sided", var(bool(false)), Param::Default }, { "detail", var(mud::SymbolDetail()), Param::Default } } }
+                { type<mud::Symbol>(), [](Ref ref, array<Var> args) { new(&val<mud::Symbol>(ref)) mud::Symbol( val<mud::Colour>(args[0]), val<mud::Colour>(args[1]), val<bool>(args[2]), val<bool>(args[3]), val<mud::SymbolDetail>(args[4]) ); }, { { "outline", var(Colour::White), Param::Default }, { "fill", var(Colour::None), Param::Default }, { "overlay", var(bool(false)), Param::Default }, { "double_sided", var(bool(false)), Param::Default }, { "detail", var(SymbolDetail::Medium), Param::Default } } }
             },
             // copy constructor
             {

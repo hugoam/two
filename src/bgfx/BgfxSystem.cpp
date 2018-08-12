@@ -98,6 +98,17 @@ namespace mud
 		return true;
 	}
 
+	void TimerBx::begin()
+	{
+		m_start = bx::getHPCounter();
+	}
+
+	float TimerBx::end()
+	{
+		float time = float((bx::getHPCounter() - m_start) / double(bx::getHPFrequency()));
+		return time;
+	}
+
 	void BgfxSystem::advance()
 	{
 		float time = float((bx::getHPCounter() - m_start_counter) / double(bx::getHPFrequency()));

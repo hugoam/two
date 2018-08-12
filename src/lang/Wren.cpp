@@ -45,7 +45,7 @@ void wrenAssignVariable(WrenVM* vm, const char* module, const char* name,
 						int value_slot);
 }
 
-//#define MUD_WREN_DEBUG_DECLS
+#define MUD_WREN_DEBUG_DECLS
 //#define MUD_WREN_DEBUG
 #define MUD_WREN_CACHE_HANDLES
 //#define MUD_WREN_OPTIMIZE_SET_MEMBER
@@ -266,8 +266,9 @@ namespace mud
 
 	inline bool read_params(WrenVM* vm, const Param* params, array<Var> vars, size_t first)
 	{
-		wrenEnsureSlots(vm, first + vars.m_count);
-		for(size_t i = 0; i < vars.m_count; ++i)
+		//wrenEnsureSlots(vm, first + vars.m_count);
+		size_t num_args = wrenGetSlotCount(vm) - first;
+		for(size_t i = 0; i < num_args; ++i)
 		{
 			read(vm, int(first) + int(i), vars[i].m_ref);
 			bool success = !vars[i].none();
@@ -476,6 +477,20 @@ namespace mud
 		wrenInterpret(vm, module.c_str(), decl.c_str());
 	}
 
+	inline string callable_params(Callable& callable, size_t offset, size_t count)
+	{
+		if(count == offset)
+			return string(""); 
+		string params;
+		for(const Param& param : to_array(callable.m_params, offset, count - offset))
+		{
+			params += param.m_name;
+			params += ",";
+		}
+		params.pop_back();
+		return params;
+	}
+
 	inline void register_class(WrenVM* vm, string name, Type& type)
 	{
 		if(type.is<Function>() || type.is<Type>() || type.is<Constructor>() || type.is<Method>() || type.is<Member>() || type.is<Static>()) return;
@@ -495,12 +510,16 @@ namespace mud
 		for(Constructor& constructor : cls(type).m_constructors)
 		{
 			string n = "constructor" + to_string(constructor.m_index);
-			string params = [&]() { if(constructor.m_params.size() == 1) return string("");  string params; for(Param& param : to_array(constructor.m_params, 1)) { params += param.m_name; params += ","; } params.pop_back(); return params; }();
-			string paramsnext = params.empty() ? "" : ", " + params;
 
 			bind += t + t + "__" + n + " = Constructor.ref(\"" + c + "\", " + to_string(constructor.m_index) + ")\n";
 
-			constructors += t + "static new(" + params + ") { __" + n + ".call(this" + paramsnext + ") }\n";
+			for(size_t count = constructor.m_params.size() - constructor.m_num_defaults; count <= constructor.m_params.size(); ++count)
+			{
+				string params = callable_params(constructor, 1, count);
+				string paramsnext = params.empty() ? "" : ", " + params;
+
+				constructors += t + "static new(" + params + ") { __" + n + ".call(this" + paramsnext + ") }\n";
+			}
 		}
 
 		for(CopyConstructor& constructor : cls(type).m_copy_constructors)
@@ -524,12 +543,15 @@ namespace mud
 		for(Method& method : cls(type).m_methods)
 		{
 			string n = string(method.m_name);
-			string params = [&]() { if(method.m_params.size() == 1) return string("");  string params; for(Param& param : to_array(method.m_params, 1)) { params += param.m_name; params += ","; } params.pop_back(); return params; }();
-			string paramsnext = params.empty() ? "" : ", " + params;
-
 			bind += t + t + "__" + n + " = Method.ref(\"" + c + "\", \"" + n + "\")\n";
 
-			methods += t + n + "(" + params + ") { __" + n + ".call(this" + paramsnext + ") }\n";
+			for(size_t count = method.m_params.size() - method.m_num_defaults; count <= method.m_params.size(); ++count)
+			{
+				string params = callable_params(method, 1, count);
+				string paramsnext = params.empty() ? "" : ", " + params;
+
+				methods += t + n + "(" + params + ") { __" + n + ".call(this" + paramsnext + ") }\n";
+			}
 		}
 
 		for(Operator& op : cls(type).m_operators)
@@ -1141,17 +1163,21 @@ namespace mud
 
 			array<cstring> path = namespace_path(*function.m_namespace);
 
-			string c = path.size() > 0 ? to_pascalcase(path[path.m_count-1]) : "Module";
+			string c = path.size() > 0 ? to_pascalcase(path[path.m_count - 1]) : "Module";
 			string n = string(function.m_name);
 			string parent = function.m_namespace->m_name;
-			string params = [&]() { if(function.m_params.size() == 0) return string(""); string params; for(Param& param : function.m_params) { params += param.m_name; params += ","; } params.pop_back(); return params; }();
-			string paramsnext = params.empty() ? "" : ", " + params;
 
 			Functions& decls = m_function_decls[c];
 
-			decls.functions += "    static " + n + "(" + params + ") { __" + n + ".call(" + params + ") }\n";
-
 			decls.bind += "        __" + n + " = Function.ref(\"" + parent + "\", \"" + n + "\", " + to_string(function.m_params.size()) + ")\n";
+
+			for(size_t count = function.m_params.size() - function.m_num_defaults; count <= function.m_params.size(); ++count)
+			{
+				string params = callable_params(function, 0, count);
+				string paramsnext = params.empty() ? "" : ", " + params;
+
+				decls.functions += "    static " + n + "(" + params + ") { __" + n + ".call(" + params + ") }\n";
+			}
 		}
 
 		void declare_namespace(Namespace& location)
