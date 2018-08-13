@@ -82,7 +82,7 @@ namespace mud
 		T* tgetx(array<cstring> path) { Var value = getx(path, type<T>()); return try_val<T>(value); }
 
 		template <class T>
-		T* tcall(cstring expr) { Var result = call(expr, &type<T>()); return try_val<T>(value); }
+		T* tcall(cstring expr) { Var result = call(expr, &type<T>()); return try_val<T>(result); }
 
 		string m_output;
 	};
