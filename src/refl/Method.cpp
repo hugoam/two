@@ -50,9 +50,12 @@ namespace mud
 		{
 			m_params[i].m_index = i;
 			m_arguments.emplace_back(m_params[i].m_value);
+
 			if(m_num_defaults == 0 && m_params[i].defaulted())
 				m_num_defaults = m_params.size() - i;
 		}
+		
+		m_num_required = m_params.size() - m_num_defaults;
 	}
 
 	bool Callable::validate(array<Var> args, size_t offset) const

@@ -3022,5 +3022,17 @@ namespace mud
             static Function f = { &namspc({ "mud", "gfx" }), "radiance", function_id<void(*)(mud::Gnode&, const std::string&, mud::BackgroundMode)>(&mud::gfx::radiance), func, params, Var() };
             m.m_functions.push_back(&f);
         }
+		/*{
+			auto func = [](array<Var> args, Var& result) { result = Ref(&mud::gfx::pbr_material(val<mud::GfxSystem>(args[0]), val<cstring>(args[1]), val<mud::PbrMaterialBlock>(args[2]))); };
+			std::vector<Param> params = { { "gfx_system", Ref(type<mud::GfxSystem>()) }, { "name", Ref(type<cstring>()) }, { "pbr_block", Ref(type<mud::PbrMaterialBlock>()) } };
+			static Function f = { &namspc({ "mud", "gfx" }), "pbr_material", function_id<mud::Material&(*)(mud::GfxSystem&, cstring, const mud::PbrMaterialBlock&)>(&mud::gfx::pbr_material), func, params, Ref(type<mud::Material>()) };
+			m.m_functions.push_back(&f);
+		}*/
+		{
+			auto func = [](array<Var> args, Var& result) { result = Ref(&mud::gfx::pbr_material(val<mud::GfxSystem>(args[0]), val<cstring>(args[1]), val<mud::Colour>(args[2]), val<float>(args[3]), val<float>(args[4]))); };
+			std::vector<Param> params = { { "gfx_system", Ref(type<mud::GfxSystem>()) }, { "name", Ref(type<cstring>()) }, { "albedo", var(mud::Colour()) }, { "metallic", var(float(0.f)), Param::Default }, { "roughness", var(float(1.f)), Param::Default } };
+			static Function f = { &namspc({ "mud", "gfx" }), "pbr_material", function_id<mud::Material&(*)(mud::GfxSystem&, cstring, const mud::Colour&, float, float)>(&mud::gfx::pbr_material), func, params, Ref(type<mud::Material>()) };
+			m.m_functions.push_back(&f);
+		}
     }
 }

@@ -147,6 +147,9 @@ namespace mud
 
 	export_ struct refl_ MUD_GFX_EXPORT PbrMaterialBlock
 	{
+		constr_ PbrMaterialBlock() {}
+		constr_ PbrMaterialBlock(const Colour& albedo, float metallic = 0.f, float roughness = 1.f) : m_enabled(true), m_albedo(albedo, nullptr), m_metallic(metallic, nullptr, TextureChannel::Red), m_roughness(roughness, nullptr, TextureChannel::Red) {}
+
 		PbrMaterialBlock& operator=(const PbrMaterialBlock&) = default; // @kludge because clang-modules bug doesn't have copy-assign with member arrays ?
 
 		attr_ bool m_enabled = false;

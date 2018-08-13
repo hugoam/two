@@ -264,30 +264,31 @@ namespace mud
 			push_value(vm, slot, value);
 	}
 
-	inline bool read_params(WrenVM* vm, const Param* params, array<Var> vars, size_t first)
+	inline bool read_params(WrenVM* vm, const Callable& callable, array<Var> vars, size_t offset, size_t first_slot)
 	{
-		//wrenEnsureSlots(vm, first + vars.m_count);
-		size_t num_args = wrenGetSlotCount(vm) - first;
-		for(size_t i = 0; i < num_args; ++i)
+		size_t num_args = wrenGetSlotCount(vm) - first_slot;
+		for(size_t i = offset; i < offset + num_args; ++i)
 		{
-			read(vm, int(first) + int(i), vars[i].m_ref);
+			read(vm, int(first_slot - offset + i), vars[i].m_ref);
 			bool success = !vars[i].none();
-			success &= params[i].nullable() || !vars[i].null();
-#ifdef MUD_WREN_DEBUG
-			if(!success)
+			success &= callable.m_params[i].nullable() || !vars[i].null();
+			if (!success)
 			{
+#ifdef MUD_WREN_DEBUG
 				printf("ERROR: wren -> wrong argument %s, expect type %s, got %s\n", params[i].m_name, type(params[i].m_value).m_name, type(vars[i]).m_name);
+#endif
 				return false;
 			}
-#endif
 		}
+		for(size_t i = offset + std::max(num_args, callable.m_num_required - offset); i < vars.size(); ++i)
+			vars[i] = callable.m_params[i].m_value;
 		return true;
 	}
 
 	inline void call_cpp(WrenVM* vm, Call& call, size_t first, size_t num_arguments)
 	{
-		bool enough_arguments = num_arguments >= call.m_arguments.size() - call.m_callable->m_num_defaults;
-		if(enough_arguments && read_params(vm, &call.m_callable->m_params[0], to_array(call.m_arguments, 0, num_arguments), first))
+		bool enough_arguments = num_arguments >= call.m_callable->m_num_required;
+		if(enough_arguments && read_params(vm, *call.m_callable, call.m_arguments, 0, first))
 		{
 			call();
 			if(!call.m_result.none())
@@ -405,7 +406,7 @@ namespace mud
 		printf("INFO: wren -> construct %s\n", constructor->m_name);
 #endif
 		Call& construct = cached_call(*constructor);
-		if(read_params(vm, &construct.m_callable->m_params[1], to_array(construct.m_arguments, 1), 2))
+		if(read_params(vm, *construct.m_callable, construct.m_arguments, 1, 2))
 		{
 			Ref object = alloc_object(vm, 0, 1, *constructor->m_object_type);
 			construct(object);
@@ -435,7 +436,7 @@ namespace mud
 		Call& construct = cached_call(*constructor);
 		VirtualMethod virtual_method = [=](Method& method, Ref object, array<Var> args) { call_wren_virtual(vm, method, object, args); };
 		construct.m_arguments.back() = var(virtual_method);
-		if (read_params(vm, &construct.m_callable->m_params[1], to_array(construct.m_arguments, 1), 2))
+		if(read_params(vm, *construct.m_callable, construct.m_arguments, 1, 2))
 		{
 			Ref object = alloc_object(vm, 0, 1, *constructor->m_object_type);
 			construct(object);
@@ -513,7 +514,7 @@ namespace mud
 
 			bind += t + t + "__" + n + " = Constructor.ref(\"" + c + "\", " + to_string(constructor.m_index) + ")\n";
 
-			for(size_t count = constructor.m_params.size() - constructor.m_num_defaults; count <= constructor.m_params.size(); ++count)
+			for(size_t count = constructor.m_num_required; count <= constructor.m_params.size(); ++count)
 			{
 				string params = callable_params(constructor, 1, count);
 				string paramsnext = params.empty() ? "" : ", " + params;
@@ -545,7 +546,7 @@ namespace mud
 			string n = string(method.m_name);
 			bind += t + t + "__" + n + " = Method.ref(\"" + c + "\", \"" + n + "\")\n";
 
-			for(size_t count = method.m_params.size() - method.m_num_defaults; count <= method.m_params.size(); ++count)
+			for(size_t count = method.m_num_required; count <= method.m_params.size(); ++count)
 			{
 				string params = callable_params(method, 1, count);
 				string paramsnext = params.empty() ? "" : ", " + params;
@@ -1171,7 +1172,7 @@ namespace mud
 
 			decls.bind += "        __" + n + " = Function.ref(\"" + parent + "\", \"" + n + "\", " + to_string(function.m_params.size()) + ")\n";
 
-			for(size_t count = function.m_params.size() - function.m_num_defaults; count <= function.m_params.size(); ++count)
+			for(size_t count = function.m_num_required; count <= function.m_params.size(); ++count)
 			{
 				string params = callable_params(function, 0, count);
 				string paramsnext = params.empty() ? "" : ", " + params;

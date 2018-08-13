@@ -77,9 +77,12 @@ namespace mud
 
 		uint32_t m_index;
 		cstring m_name;
+
 		Var m_returnval;
+
 		std::vector<Param> m_params;
 		size_t m_num_defaults;
+		size_t m_num_required;
 
 		std::vector<Var> m_arguments;
 

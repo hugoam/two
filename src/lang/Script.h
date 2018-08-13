@@ -76,13 +76,13 @@ namespace mud
 		string flush();
 
 		template <class T>
-		T& tget(cstring name) { Var value = get(name, type<T>()); return val<T>(value); }
+		T* tget(cstring name) { Var value = get(name, type<T>()); return try_val<T>(value); }
 
 		template <class T>
-		T& tgetx(array<cstring> path) { Var value = getx(path, type<T>()); return val<T>(value); }
+		T* tgetx(array<cstring> path) { Var value = getx(path, type<T>()); return try_val<T>(value); }
 
 		template <class T>
-		T& tcall(cstring expr) { Var result = call(expr, &type<T>()); return val<T>(result); }
+		T* tcall(cstring expr) { Var result = call(expr, &type<T>()); return try_val<T>(value); }
 
 		string m_output;
 	};

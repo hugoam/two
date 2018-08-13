@@ -332,5 +332,19 @@ namespace gfx
 	{
 		parent.m_scene->m_pass_jobs->m_jobs[size_t(pass)].push_back(job);
 	}
+
+	Material& pbr_material(GfxSystem& gfx_system, cstring name, const PbrMaterialBlock& pbr_block)
+	{
+		Program& program = *gfx_system.programs().file("pbr/pbr");
+		Material& material = gfx_system.materials().fetch(name);
+		material.m_program = &program;
+		material.m_pbr_block = pbr_block;
+		return material;
+	}
+
+	Material& pbr_material(GfxSystem& gfx_system, cstring name, const Colour& albedo, float metallic, float roughness)
+	{
+		return pbr_material(gfx_system, name, { albedo, metallic, roughness });
+	}
 }
 }

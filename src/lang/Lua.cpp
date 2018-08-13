@@ -450,17 +450,17 @@ namespace mud
 			call_lua(state, std::move(stack), {}, result);
 	}
 
-	inline bool read_params(lua_State* state, const Param* params, array<Var> vars)
+	inline bool read_params(lua_State* state, const Callable& callable, array<Var> vars)
 	{
 		bool success = true;
 		for(size_t i = 0; i < vars.m_count; ++i)
 		{
 			read(state, -int(vars.m_count) + int(i), vars[i]);
 			success &= !vars[i].none();
-			success &= params[i].nullable() || !vars[i].null();
+			success &= callable.m_params[i].nullable() || !vars[i].null();
 #if 1
 			if(!success)
-				printf("ERROR: lua -> wrong argument %s, expect type %s, got %s\n", params[i].m_name, type(params[i].m_value).m_name, type(vars[i]).m_name);
+				printf("ERROR: lua -> wrong argument %s, expect type %s, got %s\n", callable.m_params[i].m_name, type(callable.m_params[i].m_value).m_name, type(vars[i]).m_name);
 #endif
 		}
 		return success;
@@ -468,8 +468,8 @@ namespace mud
 
 	inline Stack call_cpp(lua_State* state, Call& call, size_t num_arguments)
 	{
-		bool enough_arguments = num_arguments >= call.m_arguments.size() - call.m_callable->m_num_defaults;
-		if(enough_arguments && read_params(state, &call.m_callable->m_params[0], to_array(call.m_arguments, 0, num_arguments)))
+		bool enough_arguments = num_arguments >= call.m_callable->m_num_required;
+		if(enough_arguments && read_params(state, *call.m_callable, to_array(call.m_arguments, 0, num_arguments)))
 		{
 			call();
 			Stack result = call.m_result.none() ? Stack{ state, 0 } : push(state, call.m_result);
@@ -521,7 +521,7 @@ namespace mud
 		if(constructor)
 		{
 			Call& construct = lua_cached_call(*constructor);
-			if(read_params(state, &construct.m_callable->m_params[1], to_array(construct.m_arguments, 1, num_args)))
+			if(read_params(state, *construct.m_callable, to_array(construct.m_arguments, 1, num_args)))
 				construct(alloc_object(state, *type));
 			else
 				lua_pushnil(state);

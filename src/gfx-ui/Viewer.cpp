@@ -189,7 +189,6 @@ namespace ui
 {
 	Viewer& viewer(Widget& parent, Scene& scene)
 	{
-		//Viewer& viewer = parent.subi<Viewer, Scene&>(&scene, scene);
 		Viewer& viewer = parent.subi<Viewer, Scene&>(&type<Viewer>(), scene);
 		viewer.m_scene = &scene;
 		viewer.m_viewport.m_scene = &scene;
@@ -198,7 +197,7 @@ namespace ui
 
 	SceneViewer& scene_viewer(Widget& parent, const vec2& size)
 	{
-		SceneViewer& self = parent.suba<SceneViewer>();
+		SceneViewer& self = parent.subi<SceneViewer>(&type<SceneViewer>());
 		if(self.once() && size != Zero2)
 		{
 			self.m_frame.m_content = size;
