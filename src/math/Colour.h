@@ -20,6 +20,8 @@ namespace mud
 		constr_ Colour(float v, float a = 1.f);
 		constr_ Colour(float r, float g, float b, float a = 1.f);
 
+		constr_ static Colour hsl(float h, float s, float l);
+
 		Colour(const Colour& col) = default;
 		Colour& operator=(const Colour&) = default;
 

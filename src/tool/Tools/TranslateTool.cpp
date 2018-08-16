@@ -54,13 +54,13 @@ namespace mud
 	Item& translate_1d_gizmo(Gnode& parent, Axis axis, Colour colour, float radius, uint32_t flags = 0U)
 	{
 		Gnode& node = gfx::transform(parent, {}, to_vec3(axis), ZeroQuat);
-		return gfx::shape(node, Cylinder(radius, 1.f, axis), Symbol(Colour::None, colour, true), flags);
+		return gfx::shape(node, Cylinder(radius, 1.f, axis), Symbol(colour, Colour::None, true), flags);
 	}
 
 	Item& translate_2d_gizmo(Gnode& parent, Axis axis, Colour colour, uint32_t flags = 0U)
 	{
 		Gnode& node = gfx::transform(parent, {}, 0.5f * (c_tangents[uint(axis)] + c_binormals[uint(axis)]), ZeroQuat);
-		return gfx::shape(node, Quad(0.3f, c_tangents[uint(axis)], c_binormals[uint(axis)]), Symbol(Colour::None, colour, true, true), flags);
+		return gfx::shape(node, Quad(0.3f, c_tangents[uint(axis)], c_binormals[uint(axis)]), Symbol(colour, Colour::None, true, true), flags);
 	}
 
 	Gizmo TranslateTool::linear_gizmo(Axis axis, float hue)

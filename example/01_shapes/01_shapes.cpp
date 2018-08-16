@@ -63,7 +63,7 @@ void ex_01_shapes(Shell& app, Widget& parent, Dockbar& dockbar)
 	static std::vector<ShapeVar> shapes = { Cube(), Sphere(), Spheroid(), Cylinder(), Rect(), Circle() };
 	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
 
-	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(Colour::Red), shapes);
+	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(Colour::None, Colour::Red), shapes);
 }
 
 #ifdef _01_SHAPES_EXE

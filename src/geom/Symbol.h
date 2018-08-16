@@ -25,7 +25,7 @@ namespace mud
 	export_ struct refl_ MUD_GEOM_EXPORT Symbol
 	{
 	public:
-		constr_ Symbol(Colour outline = Colour::White, Colour fill = Colour::None, bool overlay = false, bool double_sided = false, SymbolDetail detail = SymbolDetail::Medium);
+		constr_ Symbol(Colour fill = Colour::White, Colour outline = Colour::None, bool overlay = false, bool double_sided = false, SymbolDetail detail = SymbolDetail::Medium);
 		Symbol(cstring image, float alpha = 1.f);
 		Symbol(const Image256& image256, float alpha = 1.f);
 

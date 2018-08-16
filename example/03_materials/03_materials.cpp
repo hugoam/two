@@ -138,7 +138,7 @@ void material_spheres(Gnode& parent, array<Material*> materials)
 	for(size_t i = 0; i < materials.size(); ++i)
 	{
 		Gnode& material_node = gfx::node(parent, Ref(materials[i]), vec3{ -center + float(i) * spacing, 0.f, 0.f });
-		gfx::shape(material_node, Sphere(), Symbol(Colour::None, Colour::White), 0, materials[i]);
+		gfx::shape(material_node, Sphere(), Symbol(), 0, materials[i]);
 		//gfx::model(material_node, "sphere", 0, materials[i]);
 	}
 }
@@ -154,16 +154,16 @@ void roughness_spheres(Gnode& parent)
 	for(size_t i = 0; i < roughness_dielectric_materials.size(); ++i)
 	{
 		Gnode& material_node = gfx::node(parent, {}, vec3{ -dielectric_center + float(i) * 2.f, 0.f, 0.f });
-		//Item& item = gfx::shape(material_node, Sphere(), Symbol(Colour::None, Colour::White));
-		gfx::shape(material_node, Sphere(), Symbol(Colour::None, Colour::White), 0U, roughness_dielectric_materials[i]);
+		//Item& item = gfx::shape(material_node, Sphere(), Symbol());
+		gfx::shape(material_node, Sphere(), Symbol(), 0U, roughness_dielectric_materials[i]);
 	}
 
 	float metallic_center = roughness_metallic_materials.size() * 2.f / 2.f;
 	for(size_t i = 0; i < roughness_metallic_materials.size(); ++i)
 	{
 		Gnode& material_node = gfx::node(parent, {}, vec3{ -metallic_center + float(i) * 2.f, 0.f, 4.f });
-		//Item& item = gfx::shape(material_node, Sphere(), Symbol(Colour::None, Colour::White));
-		gfx::shape(material_node, Sphere(), Symbol(Colour::None, Colour::White), 0U, roughness_metallic_materials[i]);
+		//Item& item = gfx::shape(material_node, Sphere(), Symbol());
+		gfx::shape(material_node, Sphere(), Symbol(), 0U, roughness_metallic_materials[i]);
 	}
 }
 
@@ -176,7 +176,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& scene = viewer.m_scene->begin();
 
 	Gnode& ground_node = gfx::node(scene, {}, vec3{ 0.f, -1.f, 0.f });
-	gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(Colour::None, Colour::White), 0U, &milky_white(viewer.m_gfx_system));
+	gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(), 0U, &milky_white(viewer.m_gfx_system));
 
 	gfx::directional_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);

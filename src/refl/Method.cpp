@@ -119,6 +119,12 @@ namespace mud
 		, m_call(constructor)
 	{}
 
+	Constructor::Constructor(Type& object_type, cstring name, ConstructorFunc constructor, const std::vector<Param>& paramvec)
+		: Callable(name, vector_union({ { "self", Ref(object_type) } }, paramvec))
+		, m_object_type(&object_type)
+		, m_call(constructor)
+	{}
+
 	CopyConstructor::CopyConstructor(Type& object_type, CopyConstructorFunc constructor)
 		: Callable(object_type.m_name, { { "self", Ref(object_type) } })
 		, m_object_type(&object_type)

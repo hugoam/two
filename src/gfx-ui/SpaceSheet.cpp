@@ -53,14 +53,14 @@ namespace mud
 
 		//m_target = make_object<FrameBuffer>(*m_viewport.ui_window().m_renderer, as<Layer>(*m_frame), m_viewport.m_scene, m_viewport.m_camera, gfx_system, *m_texture);
 
-		Symbol symbol = { Colour::None, Colour::White, true };
+		Symbol symbol = { Colour::White, Colour::None, true };
 		Quad quad = { vec2 { width * scale, height * scale } };
 		draw_model(ProcShape{ symbol, &quad, PLAIN }, m_model);
 	}
 
 	SpaceSheet::SpaceSheet(Widget& parent, SpaceViewport& viewport)
 		: Ui(parent.ui_window()) // , { Input{ &parent }, &type<SpaceSheet>() }
-		, m_viewport(viewport)
+		, m_viewer(viewport)
 		, m_size_ratio(0.01f)
 	{
 		//m_propagate = parent.m_parent; // we skip the SpaceViewport
@@ -97,12 +97,12 @@ namespace mud
 		printf("SpaceSheet :: updateSize () %f, %f\n", m_width, m_height);
 
 		if(m_width > 0.f && m_height > 0.f)
-			m_quad = make_object<SpaceQuad>(m_viewport.m_viewport, size_t(m_width), size_t(m_height), m_size_ratio);
+			m_quad = make_object<SpaceQuad>(m_viewer.m_viewport, size_t(m_width), size_t(m_height), m_size_ratio);
 	}
 
 	void SpaceSheet::transformCoordinates(MouseEvent& mouse_event)
 	{
-		Ray ray = m_viewport.m_viewport.ray(mouse_event.m_relative);
+		Ray ray = m_viewer.m_viewport.ray(mouse_event.m_relative);
 
 		vec3 p0 = m_quad->m_node.m_position;
 		vec3 p1 = rotate(m_quad->m_node.m_rotation, X3);

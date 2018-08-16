@@ -28,7 +28,7 @@ namespace mud
 		virtual void receive_event(InputEvent& inputEvent);
 
 	private:
-		SpaceViewport& m_viewport;
+		SpaceViewport& m_viewer;
 		//GfxDynamicTexture& m_texture;
 
 		float m_width;

@@ -41,7 +41,7 @@ void ex_00_cube(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Gnode& scene = viewer.m_scene->begin();
     Gnode& node = gfx::node(scene, {}, position);
-	gfx::shape(node, Cube(), Symbol(Colour::Red));
+	gfx::shape(node, Cube(), Symbol(Colour::None, Colour::Red));
 }
 
 #ifdef _00_CUBE_EXE

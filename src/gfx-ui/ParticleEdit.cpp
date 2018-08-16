@@ -45,7 +45,7 @@ namespace mud
 		SceneViewer& viewer = ui::scene_viewer(parent, vec2{ 500.f });
 		ui::orbit_controller(viewer);
 
-		//viewer.m_viewport.m_clear_colour = Colour::DarkGrey;
+		//viewer.m_clear_colour = Colour::DarkGrey;
 		//viewer.m_camera.set_isometric(SOUTH, Zero3);
 
 		Gnode& scene = viewer.m_scene->begin();

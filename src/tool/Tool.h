@@ -61,6 +61,7 @@ namespace mud
 
 	public:
 		Tool(ToolContext& context, cstring name, Type& type);
+		virtual ~Tool() {}
 
 		attr_ Type& m_type;
 		attr_ ToolContext& m_context;

@@ -160,7 +160,7 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 	gfx::directional_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
-	gfx::shape(scene, Cube(), Symbol(Colour::None, Colour::White), ITEM_SELECTABLE, &material);
+	gfx::shape(scene, Cube(), Symbol(), ITEM_SELECTABLE, &material);
 
 	static game::Character character = game::create_character();
 

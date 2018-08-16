@@ -50,7 +50,7 @@ void define_visual_script(VisualScript& script)
 	Var& node = *script.function(func_node, { &scene, &script.node<ProcessValue>(Ref()).output(), &position, &rotation, &scale });
 
 	Var& fill_colour = script.value(Colour::None);
-	Var& symbol = script.create<Symbol>({ &colour, &fill_colour });
+	Var& symbol = script.create<Symbol>({ &fill_colour, &colour });
 	Var& shape = script.value(Cube());
 
 	script.function(gfx::draw, { &node, &shape, &symbol });

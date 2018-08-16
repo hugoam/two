@@ -77,7 +77,7 @@ void ex_16_visual_script(Shell& app, Widget& parent, Dockbar& dockbar)
 					filled_positions.push_back({ x, y, z });
 			}
 
-	Item& filled_item = gfx::shape(filled_node, Cube(), Symbol(Colour::None, Colour::White), 0U, nullptr, filled_positions.size());
+	Item& filled_item = gfx::shape(filled_node, Cube(), Symbol(), 0U, nullptr, filled_positions.size());
 	Item& empty_item = gfx::shape(empty_node, Cube(), Symbol(Colour::White, Colour::None), 0U, nullptr, empty_positions.size());
 
 	for(size_t i = 0; i < filled_positions.size(); ++i)

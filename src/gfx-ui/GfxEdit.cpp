@@ -81,7 +81,7 @@ namespace mud
 		for(Axis axis : { Axis::X, Axis::Y, Axis::Z })
 		{
 			Gnode& node = gfx::node(parent, {}, to_vec3(axis) * 1.f);
-			gfx::shape(node, Cylinder(0.1f, 1.f, axis), Symbol(Colour::None, colours[size_t(axis)]));
+			gfx::shape(node, Cylinder(0.1f, 1.f, axis), Symbol(colours[size_t(axis)]));
 		}
 	}
 
@@ -199,7 +199,7 @@ namespace mud
 	SceneViewer& material_viewer(Widget& parent, Material& material)
 	{
 		SceneViewer& viewer = asset_empty_viewer(parent, Ref(&material), Zero3, 1.f);
-		gfx::shape(*viewer.m_scene->m_graph.m_nodes[0], Sphere(), Symbol(Colour::None, Colour::White), 0U, &material);
+		gfx::shape(*viewer.m_scene->m_graph.m_nodes[0], Sphere(), Symbol(Colour::White), 0U, &material);
 		return viewer;
 	}
 

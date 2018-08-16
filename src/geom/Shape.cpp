@@ -232,23 +232,23 @@ namespace mud
 	Box::Box(array<vec3> vertices) : Shape(type<Box>()) { array<vec3> dest = { m_vertices.data(), 8 }; vertices.copy(dest); }
 	Box::Box(const Cube& cube) : Shape(type<Box>()) { box_vertices(cube.m_center, cube.m_extents, m_vertices); }
 
-	Symbol::Symbol(Colour outline, Colour fill, bool overlay, bool double_sided, SymbolDetail detail)
-		: m_outline(outline)
-		, m_fill(fill)
+	Symbol::Symbol(Colour fill, Colour outline, bool overlay, bool double_sided, SymbolDetail detail)
+		: m_fill(fill)
+		, m_outline(outline)
 		, m_overlay(overlay)
 		, m_double_sided(double_sided)
 		, m_detail(detail)
 	{}
 
 	Symbol::Symbol(cstring image, float alpha)
-		: Symbol(Colour::None, Colour::White)
+		: Symbol()
 	{
 		m_image = image;
 		m_fill.m_a = alpha;
 	}
 
 	Symbol::Symbol(const Image256& image, float alpha)
-		: Symbol(Colour::None, Colour::White)
+		: Symbol()
 	{
 		m_image256 = &const_cast<Image256&>(image);
 		m_fill.m_a = alpha;

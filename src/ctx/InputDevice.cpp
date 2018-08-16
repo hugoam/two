@@ -29,11 +29,18 @@ namespace mud
 		m_events.reserve(100);
 	}
 
+	void Keyboard::update_modifiers(bool shift, bool ctrl, bool alt)
+	{
+		m_shift = shift;
+		m_ctrl = ctrl;
+		m_alt = alt;
+	}
+
 	InputMod Keyboard::modifiers()
 	{
 		return InputMod(0 | (m_shift ? uint32_t(InputMod::Shift) : 0)
-							   | (m_ctrl ? uint32_t(InputMod::Ctrl) : 0)
-							   | (m_alt ? uint32_t(InputMod::Alt) : 0));
+						  | (m_ctrl  ? uint32_t(InputMod::Ctrl)  : 0)
+						  | (m_alt   ? uint32_t(InputMod::Alt)   : 0));
 	}
 
 	void Keyboard::dispatch_event(KeyEvent evt)
@@ -53,8 +60,13 @@ namespace mud
 		m_ctrl |= key == Key::LeftControl || key == Key::RightControl;
 		m_alt |= key == Key::LeftAlt || key == Key::RightAlt;
 
-		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Pressed, key, c, modifiers()));
-		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Stroked, key, c, modifiers()));
+		this->key_pressed(key, c, modifiers());
+	}
+
+	void Keyboard::key_pressed(Key key, char c, InputMod mods)
+	{
+		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Pressed, key, c, mods));
+		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Stroked, key, c, mods));
 	}
 
 	void Keyboard::key_released(Key key, char c)
@@ -63,12 +75,22 @@ namespace mud
 		m_ctrl &= !(key == Key::LeftControl || key == Key::RightControl);
 		m_alt &= !(key == Key::LeftAlt || key == Key::RightAlt);
 
-		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Released, key, c, modifiers()));
+		this->key_released(key, c, modifiers());
+	}
+
+	void Keyboard::key_released(Key key, char c, InputMod mods)
+	{
+		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Released, key, c, mods));
 	}
 
 	void Keyboard::key_stroke(Key key, char c)
 	{
-		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Stroked, key, c, modifiers()));
+		this->key_stroke(key, c, modifiers());
+	}
+
+	void Keyboard::key_stroke(Key key, char c, InputMod mods)
+	{
+		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Stroked, key, c, mods));
 	}
 
 	Mouse::Mouse(EventDispatcher& dispatcher, Keyboard& keyboard)

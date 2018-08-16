@@ -93,7 +93,7 @@ namespace mud
 	void script_edit_output(Widget& parent, Interpreter& interpreter)
 	{
 		Widget& self = ui::sheet(parent);
-		ui::title_header(self, "Lua output");
+		ui::title_header(self, "Output");
 
 		static string output = "";
 		output = interpreter.flush();
@@ -145,22 +145,33 @@ namespace mud
 
 		std::vector<string> known_words = meta_words();
 		TextEdit& edit = ui::code_edit(*self.m_body, script.m_script, 0, &known_words);
-		UNUSED(edit);
-
+		
 		if(script.m_language == Language::Lua)
 			edit.m_language = &LanguageLua();
 		else if(script.m_language == Language::Wren)
 			edit.m_language = &LanguageWren();
+
+		edit.m_markers.clear();
+		for(const Error& error : script.m_compile_errors)
+		{
+			edit.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
+		}
+
+		for(const Error& error : script.m_runtime_errors)
+		{
+			edit.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
+		}
 
 		script_edit_hover(edit);
 	}
 
 	void script_edit(Widget& parent, TextScript& script, ActionList actions)
 	{
-		Widget& span_0 = ui::layout_span(parent, 0.8f);
-		script_edit_code(span_0, script, actions);
-		Widget& span_1 = ui::layout_span(parent, 0.2f);
-		script_edit_output(span_1, *script.m_interpreter);
+		script_edit_code(parent, script, actions);
+		//Widget& span_0 = ui::layout_span(parent, 0.8f);
+		//script_edit_code(span_0, script, actions);
+		//Widget& span_1 = ui::layout_span(parent, 0.2f);
+		//script_edit_output(span_1, *script.m_interpreter);
 	}
 
 	void script_tab(Tabber& parent, ScriptEditor& editor, Script& script)

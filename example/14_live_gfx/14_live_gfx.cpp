@@ -26,7 +26,7 @@ static TextScript& create_wren_script(WrenInterpreter& interpreter)
 		"        var color = Colour.new(r, g, b, 1)\n"
 		"\n"
 		"        var n = Gfx.node(scene, null, pos, Quat.new(angles))\n"
-		"        Gfx.draw(n, Cube.new(), Symbol.new(color))\n"
+		"        Gfx.draw(n, Cube.new(), Symbol.new(Colour.None, color))\n"
 		"\n"
 		"    }\n"
 		"}\n"
@@ -59,7 +59,7 @@ static TextScript& create_lua_script(LuaInterpreter& interpreter)
 		"        local color = Colour(r, g, b)\n"
 		"\n"
 		"        local n = Gfx.node(scene, nil, pos, quat(angles), vec3(1))\n"
-		"        Gfx.draw(n, Cube(), Symbol(color, Colour.None))\n"
+		"        Gfx.draw(n, Cube(), Symbol(Colour.None, color))\n"
 		"\n"
 		"    end\n"
 		"end\n"
@@ -99,7 +99,8 @@ void ex_14_live_gfx(Shell& app, Widget& parent, Dockbar& dockbar)
 	static TextScript& lua_script = create_lua_script(lua);
 	static TextScript& wren_script = create_wren_script(wren);
 
-	static Language language = Language::Wren;
+	//static Language language = Language::Wren;
+	static Language language = Language::Lua;
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{

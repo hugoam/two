@@ -84,13 +84,13 @@ void ex_04_lights(Shell& app, Widget& parent, Dockbar& dockbar)
 	static float spot_angle = 45.f;
 	static float spot_attenuation = 0.9f;
 
-	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(Colour::None, Colour::White), shapes, true, &material);
+	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(), shapes, true, &material);
 	light_grid(scene, { light_items.data(), 10U, 10U }, moving_lights, light_type, light_range, light_attenuation, spot_angle, spot_attenuation);
 
 	if(ground)
 	{
 		Gnode& ground_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
-		gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(Colour::None, Colour::White), 0U, &material);
+		gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(), 0U, &material);
 	}
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))

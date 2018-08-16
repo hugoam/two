@@ -78,7 +78,7 @@ namespace mud
 		if(m_world_snap)
 		{
 #if 0
-			Ray ray = viewer.m_viewport.ray(mouse_event.m_relative);
+			Ray ray = viewer.ray(mouse_event.m_relative);
 			return m_origin.m_world.as<PhysicWorld>().ground_point(ray);
 #endif
 			return vec3();

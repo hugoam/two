@@ -228,7 +228,8 @@ namespace mud
             {
                 { type<mud::Colour>(), [](Ref ref, array<Var> args) { UNUSED(args);new(&val<mud::Colour>(ref)) mud::Colour(  ); }, {} },
                 { type<mud::Colour>(), [](Ref ref, array<Var> args) { new(&val<mud::Colour>(ref)) mud::Colour( val<float>(args[0]), val<float>(args[1]) ); }, { { "v", var(float()) }, { "a", var(float(1.f)), Param::Default } } },
-                { type<mud::Colour>(), [](Ref ref, array<Var> args) { new(&val<mud::Colour>(ref)) mud::Colour( val<float>(args[0]), val<float>(args[1]), val<float>(args[2]), val<float>(args[3]) ); }, { { "r", var(float()) }, { "g", var(float()) }, { "b", var(float()) }, { "a", var(float(1.f)), Param::Default } } }
+                { type<mud::Colour>(), [](Ref ref, array<Var> args) { new(&val<mud::Colour>(ref)) mud::Colour( val<float>(args[0]), val<float>(args[1]), val<float>(args[2]), val<float>(args[3]) ); }, { { "r", var(float()) }, { "g", var(float()) }, { "b", var(float()) }, { "a", var(float(1.f)), Param::Default } } },
+                { type<mud::Colour>(), "hsl", [](Ref ref, array<Var> args) { new(&val<mud::Colour>(ref)) mud::Colour(mud::Colour::hsl( val<float>(args[0]), val<float>(args[1]), val<float>(args[2]) )); }, { { "h", var(float()) }, { "s", var(float()) }, { "l", var(float()) } } }
             },
             // copy constructor
             {

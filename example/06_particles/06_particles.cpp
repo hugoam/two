@@ -61,9 +61,9 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		node.m_node->m_object = Ref(&item);
 
-		gfx::shape(node, *item.m_particles->m_shape, Symbol(&item == edited ? Colour::White : Colour::AlphaGrey));
-		gfx::shape(node, Cube(0.1f), Symbol(Colour::White), ITEM_SELECTABLE);
-		gfx::shape(node, Cube(), Symbol(Colour::None, Colour::Transparent), ITEM_SELECTABLE);
+		gfx::shape(node, *item.m_particles->m_shape, Symbol(Colour::None, &item == edited ? Colour::White : Colour::AlphaGrey));
+		gfx::shape(node, Cube(0.1f), Symbol(Colour::None, Colour::White), ITEM_SELECTABLE);
+		gfx::shape(node, Cube(), Symbol(Colour::Transparent), ITEM_SELECTABLE);
 	}
 
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))

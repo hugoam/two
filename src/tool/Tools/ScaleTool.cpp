@@ -55,20 +55,20 @@ namespace mud
 	Item& scale_1d_gizmo(Gnode& parent, Axis axis, Colour colour, uint32_t flags = 0U)
 	{
 		Gnode& node = gfx::transform(parent, {}, to_vec3(axis), ZeroQuat);
-		//return gfx::shape(node, Quad(0.2f, c_tangents[uint(axis)], c_binormals[uint(axis)]), Symbol(Colour::None, colour, true), flags);
-		return gfx::shape(node, Cube(0.05f), Symbol(Colour::None, colour, true), flags);
+		//return gfx::shape(node, Quad(0.2f, c_tangents[uint(axis)], c_binormals[uint(axis)]), Symbol(colour, Colour::None, true), flags);
+		return gfx::shape(node, Cube(0.05f), Symbol(colour, Colour::None, true), flags);
 	}
 
 	Item& scale_2d_gizmo(Gnode& parent, Axis axis, Colour colour, uint32_t flags = 0U)
 	{
 		Gnode& node = gfx::transform(parent, {}, 0.5f * to_vec3(axis), ZeroQuat);
-		return gfx::shape(node, Quad(0.2f, c_tangents[uint(axis)], c_binormals[uint(axis)]), Symbol(Colour::None, colour, true, true), flags);
+		return gfx::shape(node, Quad(0.2f, c_tangents[uint(axis)], c_binormals[uint(axis)]), Symbol(colour, Colour::None, true, true), flags);
 	}
 
 	Item& scale_3d_gizmo(Gnode& parent, Colour colour, uint32_t flags = 0U)
 	{
 		Gnode& node = gfx::transform(parent, {}, Zero3, ZeroQuat);
-		return gfx::shape(node, Cube(0.1f), Symbol(Colour::None, colour, true), flags);
+		return gfx::shape(node, Cube(0.1f), Symbol(colour, Colour::None, true), flags);
 	}
 
 	Gizmo ScaleTool::linear_gizmo(Axis axis, float hue)

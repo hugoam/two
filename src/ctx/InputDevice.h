@@ -33,11 +33,15 @@ namespace mud
 
 		void dispatch_event(KeyEvent evt);
 
+		void update_modifiers(bool shift, bool ctrl, bool alt);
 		InputMod modifiers();
 
 		void key_pressed(Key key, char c);
+		void key_pressed(Key key, char c, InputMod mods);
 		void key_released(Key key, char c);
+		void key_released(Key key, char c, InputMod mods);
 		void key_stroke(Key key, char c);
+		void key_stroke(Key key, char c, InputMod mods);
 		void key_char(Key key, char c);
 
 		bool m_shift = false;

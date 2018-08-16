@@ -320,7 +320,7 @@ namespace mud
 				{
 					for(Type* type : m->m_types)
 					{
-						if(is_base_type(*type) && mode == Basetypes || is_enum(*type) && mode == Enums || is_class(*type) && mode == Classes)
+						if((is_base_type(*type) && mode == Basetypes) || (is_enum(*type) && mode == Enums) || (is_class(*type) && mode == Classes))
 							choice(meta_list, Ref(type), type->m_name, selected);
 					}
 				}

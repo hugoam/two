@@ -81,6 +81,8 @@ function mud_binary_config()
             "--preload-file ../../../data/shaders",
             "--preload-file ../../../data/textures",
             "--shell-file ../../../scripts/emshell.html",
+            "-s EXPORTED_FUNCTIONS=\"['_main', '_paste']\"",
+            "-s EXTRA_EXPORTED_RUNTIME_METHODS=\"['ccall', 'cwrap']\"",
         }
             
     configuration { "asmjs", "webgl2" }

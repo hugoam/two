@@ -230,7 +230,7 @@ namespace mud
 		m_cursor = max(vec2(0.f), min(size, vec2(float(mouseEvent.canvasX), float(mouseEvent.canvasY))));
 		vec2 movement = { float(mouseEvent.movementX), float(mouseEvent.movementY) };
 		m_mouse->moved(m_cursor, m_mouse_lock ? &movement : nullptr);
-		return true;
+		return false;
 	}
 
 	void EmContext::update_mouse_lock()
@@ -239,7 +239,7 @@ namespace mud
 		{
 			EmscriptenPointerlockChangeEvent pointer_lock;
 			emscripten_get_pointerlock_status(&pointer_lock);
-			if(!pointer_lock.isActive)
+			if (!pointer_lock.isActive)
 				emscripten_request_pointerlock("canvas", EM_TRUE);
 		}
 	}
@@ -248,31 +248,34 @@ namespace mud
 	{
 		this->update_mouse_lock();
 		m_mouse->m_buttons[convert_html5_mouse_button(mouseEvent.button)].pressed({ float(mouseEvent.canvasX), float(mouseEvent.canvasY) });
-		return true;
+		return false;
 	}
 
 	bool EmContext::inject_mouse_up(const EmscriptenMouseEvent& mouseEvent)
 	{
 		m_mouse->m_buttons[convert_html5_mouse_button(mouseEvent.button)].released({ float(mouseEvent.canvasX), float(mouseEvent.canvasY) });
-		return true;
+		return false;
 	}
 
 	bool EmContext::inject_key_down(const EmscriptenKeyboardEvent& keyEvent)
 	{
+		m_keyboard->update_modifiers(keyEvent.shiftKey, keyEvent.ctrlKey, keyEvent.altKey);
 		if(!keyEvent.repeat)
-			m_keyboard->key_pressed(convert_html5_key(keyEvent.code), keyEvent.key[0]);
+			m_keyboard->key_pressed(convert_html5_key(keyEvent.code), keyEvent.key[0], m_keyboard->modifiers());
 		return keyEvent.key[1] != 0; // can't consume if printable value aka key as length one (or we wouldn't receive key_press event)
 	}
 
 	bool EmContext::inject_key_up(const EmscriptenKeyboardEvent& keyEvent)
 	{
-		m_keyboard->key_released(convert_html5_key(keyEvent.code), keyEvent.key[0]);
+		m_keyboard->update_modifiers(keyEvent.shiftKey, keyEvent.ctrlKey, keyEvent.altKey);
+		m_keyboard->key_released(convert_html5_key(keyEvent.code), keyEvent.key[0], m_keyboard->modifiers());
 		return true;
 	}
 
 	bool EmContext::inject_key_press(const EmscriptenKeyboardEvent& keyEvent)
 	{
-		m_keyboard->key_stroke(convert_html5_key(keyEvent.code), keyEvent.key[0]);
+		m_keyboard->update_modifiers(keyEvent.shiftKey, keyEvent.ctrlKey, keyEvent.altKey);
+		m_keyboard->key_stroke(convert_html5_key(keyEvent.code), keyEvent.key[0], m_keyboard->modifiers());
 		if(keyEvent.key[1] == 0)
 			m_keyboard->key_char(Key::Unassigned, keyEvent.key[0]);
 		return true;
@@ -281,6 +284,6 @@ namespace mud
 	bool EmContext::inject_wheel(const EmscriptenWheelEvent& wheelEvent)
 	{
 		m_mouse->wheeled(m_cursor, -wheelEvent.deltaY);
-		return true;
+		return false;
 	}
 }

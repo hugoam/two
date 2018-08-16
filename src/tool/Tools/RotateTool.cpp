@@ -53,7 +53,7 @@ namespace mud
 	Item& rotate_gizmo(Gnode& parent, Axis axis, Colour colour, float ring_radius, uint32_t flags = 0U)
 	{
 		Gnode& node = gfx::transform(parent, {}, Zero3, ZeroQuat);
-		return gfx::shape(node, Torus(1.f, ring_radius, axis), Symbol(Colour::None, colour, true, true), flags);
+		return gfx::shape(node, Torus(1.f, ring_radius, axis), Symbol(colour, Colour::None, true, true), flags);
 	}
 
 	Gizmo RotateTool::rotation_gizmo(Axis axis, float hue)

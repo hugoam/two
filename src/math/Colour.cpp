@@ -49,6 +49,11 @@ namespace mud
 		: m_r(r), m_g(g), m_b(b), m_a(a)
 	{}
 
+	Colour Colour::hsl(float h, float s, float l)
+	{
+		return hsl_to_rgb(h, s, l);
+	}
+
 	Colour clamp_colour(const Colour& colour)
 	{
 #ifdef MUD_PLATFORM_EMSCRIPTEN

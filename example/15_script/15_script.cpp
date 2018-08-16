@@ -66,7 +66,7 @@ void ex_15_script(Shell& app, Widget& parent, Dockbar& dockbar)
 	Material& material = milky_white(viewer.m_gfx_system);
 
 	Gnode& ground_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
-	gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(Colour::None, Colour::White), 0U, &material);
+	gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(), 0U, &material);
 
 	gfx::directional_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
@@ -75,7 +75,7 @@ void ex_15_script(Shell& app, Widget& parent, Dockbar& dockbar)
 	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
 	static std::vector<GameObject> objects = create_game_objects(viewer.m_gfx_system, shape_items);
 
-	//shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(Colour::None, Colour::White), shapes, true, &material);
+	//shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(), shapes, true, &material);
 
 	static size_t size_x = 10U;
 	static size_t size_y = 10U;
@@ -90,7 +90,7 @@ void ex_15_script(Shell& app, Widget& parent, Dockbar& dockbar)
 			object.m_material->m_pbr_block.m_albedo.m_value = object.m_colour;
 
 			Gnode& shape_node = gfx::node(scene, {}, center + vec3{ x * spacing, 0.f, y * spacing });
-			gfx::shape(shape_node, shapes[object.m_shape->index], Symbol(Colour::None, object.m_colour), ITEM_SELECTABLE, object.m_material);
+			gfx::shape(shape_node, shapes[object.m_shape->index], Symbol(object.m_colour), ITEM_SELECTABLE, object.m_material);
 		}
 
 	static LuaInterpreter lua = { true };

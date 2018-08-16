@@ -139,6 +139,7 @@ namespace mud
 	{
 	public:
 		Constructor(Type& object_type, ConstructorFunc func, const std::vector<Param>& params = {});
+		Constructor(Type& object_type, cstring name, ConstructorFunc func, const std::vector<Param>& params = {});
 
 		virtual void operator()(array<Var> args, Var& result) const { UNUSED(result); m_call(args[0], array<Var>{ args, 1 }); }
 

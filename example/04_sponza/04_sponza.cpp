@@ -28,7 +28,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
 	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
 	
-	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(Colour::None, Colour::White), shapes, true, &material);
+	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(), shapes, true, &material);
 
 	Gnode& sponza_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
 	gfx::model(sponza_node, "sponza");

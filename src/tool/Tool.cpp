@@ -76,7 +76,7 @@ namespace mud
 
 	Colour gizmo_colour(float hue, bool active)
 	{
-		return hsl_to_rgb(hue, active ? 0.9f : 0.6f, active ? 0.5f : 0.3f);
+		return Colour::hsl(hue, active ? 0.9f : 0.6f, active ? 0.5f : 0.3f);
 	}
 
 	vec3 gizmo_grab_linear(Viewer& viewer, const Transform& space, Axis axis)
@@ -136,10 +136,10 @@ namespace mud
 
 #ifdef MUD_DEBUG_TRANSFORM_POINTS
 		Gnode& start = gfx::node(parent, {}, m_grab_start);
-		gfx::shape(start, Sphere(0.1f), Symbol(Colour::None, Colour::Pink, true));
+		gfx::shape(start, Sphere(0.1f), Symbol(Colour::Pink, Colour::None, true));
 
 		Gnode& end = gfx::node(parent, {}, m_grab_end);
-		gfx::shape(end, Sphere(0.1f), Symbol(Colour::None, Colour::Pink, true));
+		gfx::shape(end, Sphere(0.1f), Symbol(Colour::Pink, Colour::None, true));
 #endif
 	}
 
