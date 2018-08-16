@@ -895,13 +895,6 @@ namespace mud
 
 namespace mud
 {
-	string Interpreter::flush()
-	{
-		string output = m_output;
-		m_output = "";
-		return output;
-	}
-
 	LuaInterpreter::LuaInterpreter(bool import_symbols)
 		: m_context(make_unique<LuaContext>(std::vector<string>{ "mud", "toy" }))
 	{

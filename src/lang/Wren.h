@@ -14,6 +14,7 @@
 #include <lang/Script.h>
 
 #ifndef  MUD_CPP_20
+#include <map>
 #include <string>
 #endif
 
@@ -41,5 +42,9 @@ namespace mud
 		virtual void virtual_call(Method& method, Ref object, array<Var> args) final;
 
 		unique_ptr<WrenContext> m_context;
+
+		void create_virtual(Ref object);
+
+		std::map<void*, const TextScript*> m_virtual_scripts;
 	};
 }

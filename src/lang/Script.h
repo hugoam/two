@@ -42,6 +42,13 @@ namespace mud
 		Wren
 	};
 
+	export_ struct refl_ MUD_LANG_EXPORT Error
+	{
+		size_t m_line;
+		size_t m_column;
+		string m_message;
+	};
+
 	export_ class refl_ MUD_LANG_EXPORT TextScript final : public Script
 	{
 	public:
@@ -55,11 +62,15 @@ namespace mud
 
 		using Callable::operator();
 		virtual void operator()(array<Var> args, Var& result) const;
+
+		mutable std::vector<Error> m_compile_errors;
+		mutable std::vector<Error> m_runtime_errors;
 	};
 
 	export_ class refl_ MUD_LANG_EXPORT Interpreter : public NonCopy
 	{
 	public:
+		Interpreter();
 		virtual ~Interpreter() {}
 
 		virtual void declare_types() = 0;
@@ -73,6 +84,8 @@ namespace mud
 		virtual void call(cstring code, Var* result = nullptr) = 0;
 		virtual void virtual_call(Method& method, Ref object, array<Var> args) { UNUSED(method); UNUSED(object); UNUSED(args); }
 
+		void call(const TextScript& script, array<Var> args, Var* result = nullptr);
+
 		string flush();
 
 		template <class T>
@@ -84,6 +97,7 @@ namespace mud
 		template <class T>
 		T* tcall(cstring expr) { Var result = call(expr, &type<T>()); return try_val<T>(result); }
 
+		const TextScript* m_script = nullptr;
 		string m_output;
 	};
 

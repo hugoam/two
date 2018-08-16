@@ -45,17 +45,27 @@ void wrenAssignVariable(WrenVM* vm, const char* module, const char* name,
 						int value_slot);
 }
 
-#define MUD_WREN_DEBUG_DECLS
+//#define MUD_WREN_DEBUG_DECLS
 //#define MUD_WREN_DEBUG
 #define MUD_WREN_CACHE_HANDLES
 //#define MUD_WREN_OPTIMIZE_SET_MEMBER
 
 namespace mud
 {
+	inline WrenInterpreter* wren(WrenVM* vm) { return (WrenInterpreter*) wrenGetUserData(vm); }
+	inline const TextScript* wren_script(WrenVM* vm) { return wren(vm)->m_script; }
+
 	void wren_error(WrenVM* vm, WrenErrorType type, const char* module, int line, const char* message)
 	{
-		UNUSED(vm);
-		printf("ERROR: wren -> %s:%i %s\n", module, line, message);
+		const TextScript* script = wren_script(vm);
+		if(script && type == WREN_ERROR_COMPILE)
+			script->m_compile_errors.push_back({ size_t(line), size_t(0), string("^ ") + message });
+		else if(script && type == WREN_ERROR_RUNTIME)
+			script->m_runtime_errors.push_back({ size_t(line), size_t(0), string("^ ") + message });
+		else if(script && type == WREN_ERROR_STACK_TRACE)
+			script->m_runtime_errors.back().m_line = size_t(line);
+		else
+			printf("ERROR: wren -> %s:%i %s\n", module, line, message);
 	}
 
 	void wren_print(WrenVM* vm, const char* text)
@@ -79,7 +89,7 @@ namespace mud
 	inline void read_sequence(WrenVM* vm, int slot, Type& sequence_type, Ref result);
 	inline void push_sequence(WrenVM* vm, int slot, Ref value);
 
-	inline void read_enum(WrenVM* vm, int slot, Type& type, Ref result);
+	inline void read_enum(WrenVM* vm, int slot, Ref result);
 	inline void push_enum(WrenVM* vm, int slot, Ref value);
 
 	inline void push_null(WrenVM* vm, int slot);
@@ -240,7 +250,7 @@ namespace mud
 		else if(is_object(type(value)) || is_struct(type(value)))
 			read_object(vm, index, type(value), value);
 		else if(is_enum(type(value)))
-			read_enum(vm, index, type(value), value);
+			read_enum(vm, index, value);
 		else
 			read_value(vm, index, type(value), value);
 	}
@@ -428,13 +438,14 @@ namespace mud
 
 	inline void construct_interface(WrenVM* vm)
 	{
+		WrenInterpreter* wren = mud::wren(vm);
 		const Constructor* constructor = &val<Constructor>(read_ref(vm, 0));
 		if (!constructor) return;
 #ifdef MUD_WREN_DEBUG
 		printf("INFO: wren -> construct %s\n", constructor->m_name);
 #endif
 		Call& construct = cached_call(*constructor);
-		VirtualMethod virtual_method = [=](Method& method, Ref object, array<Var> args) { call_wren_virtual(vm, method, object, args); };
+		VirtualMethod virtual_method = [=](Method& method, Ref object, array<Var> args) { wren->virtual_call(method, object, args); };
 		construct.m_arguments.back() = var(virtual_method);
 		if(read_params(vm, *construct.m_callable, construct.m_arguments, 1, 2))
 		{
@@ -442,6 +453,7 @@ namespace mud
 			construct(object);
 			assert(g_wren_objects[object.m_value] == nullptr);
 			g_wren_objects[object.m_value] = wrenGetSlotHandle(vm, 0);
+			wren->create_virtual(object);
 		}
 	}
 
@@ -494,7 +506,7 @@ namespace mud
 
 	inline void register_class(WrenVM* vm, string name, Type& type)
 	{
-		if(type.is<Function>() || type.is<Type>() || type.is<Constructor>() || type.is<Method>() || type.is<Member>() || type.is<Static>()) return;
+		if(type.is<Function>() || type.is<Type>() || type.is<Constructor>() || type.is<CopyConstructor>() || type.is<Method>() || type.is<Member>() || type.is<Static>()) return;
 		if(type.is<Class>() || type.is<Creator>() || type.is<System>()) return;
 
 		string constructors;
@@ -519,7 +531,10 @@ namespace mud
 				string params = callable_params(constructor, 1, count);
 				string paramsnext = params.empty() ? "" : ", " + params;
 
-				constructors += t + "static new(" + params + ") { __" + n + ".call(this" + paramsnext + ") }\n";
+				if(constructor.m_name == string(constructor.m_object_type->m_name))
+					constructors += t + "static new(" + params + ") { __" + n + ".call(this" + paramsnext + ") }\n";
+				else
+					constructors += t + "static " + constructor.m_name + "(" + params + ") { __" + n + ".call(this" + paramsnext + ") }\n";
 			}
 		}
 
@@ -871,7 +886,7 @@ namespace mud
 			result = Ref();
 	}
 
-	inline void read_enum(WrenVM* vm, int slot, Type& type, Ref result)
+	inline void read_enum(WrenVM* vm, int slot, Ref result)
 	{
 		if(wrenGetSlotType(vm, slot) == WREN_TYPE_NUM)
 			enum_set_index(result, size_t(wrenGetSlotDouble(vm, slot)));
@@ -941,6 +956,7 @@ namespace mud
 
 	inline void push_dict(WrenVM* vm, int slot, Ref value)
 	{
+		UNUSED(vm); UNUSED(slot);
 		iterate_dict(value, [=](Var key, Var element) {
 		//	set_table(vm, key, element); });
 		});
@@ -982,7 +998,7 @@ namespace mud
 	class WrenContext : public NonCopy
 	{
 	public:
-		explicit WrenContext(std::vector<string> import_namespaces = {})
+		explicit WrenContext(WrenInterpreter& interpreter, std::vector<string> import_namespaces = {})
 			: m_import_namespaces(import_namespaces)
 		{
 			WrenConfiguration config;
@@ -992,6 +1008,7 @@ namespace mud
 			config.bindForeignMethodFn = bindForeignMethod;
 			config.errorFn = wren_error;
 			config.writeFn = wren_print;
+			config.userData = &interpreter;
 
 			m_vm = wrenNewVM(&config);
 		}
@@ -1230,7 +1247,7 @@ namespace mud
 namespace mud
 {
 	WrenInterpreter::WrenInterpreter(bool import_symbols)
-		: m_context(make_unique<WrenContext>(std::vector<string>{ "mud", "toy" }))
+		: m_context(make_unique<WrenContext>(*this, std::vector<string>{ "mud", "toy" }))
 	{
 		//g_lua_print_output = &m_output;
 		if(import_symbols)
@@ -1257,6 +1274,8 @@ namespace mud
 
 		for(Type* type : system.m_types)
 			m_context->register_type(*type);
+
+		this->flush();
 	}
 
 	Var WrenInterpreter::get(cstring name, Type& type)
@@ -1296,11 +1315,20 @@ namespace mud
 
 	void WrenInterpreter::call(cstring code, Var* result)
 	{
+		UNUSED(result);
 		wrenInterpret(m_context->m_vm, "main", code);
 	}
 
 	void WrenInterpreter::virtual_call(Method& method, Ref object, array<Var> args)
 	{
+		m_script = m_virtual_scripts[object.m_value];
+		m_script->m_runtime_errors.clear();
+
 		call_wren_virtual(m_context->m_vm, method, object, args);
+	}
+
+	void WrenInterpreter::create_virtual(Ref object)
+	{
+		m_virtual_scripts[object.m_value] = m_script;
 	}
 }

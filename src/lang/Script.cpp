@@ -31,6 +31,30 @@ namespace mud
 		unindex(type<Script>(), m_index);
 	}
 
+	Interpreter::Interpreter()
+	{}
+
+	void Interpreter::call(const TextScript& script, array<Var> args, Var* result)
+	{
+		m_script = &script;
+		script.m_runtime_errors.clear();
+		script.m_compile_errors.clear();
+
+		for(const Param& param : script.m_signature.m_params)
+		{
+			this->set(param.m_name, args[param.m_index]);
+		}
+
+		this->call(script.m_script.c_str(), result);
+	}
+
+	string Interpreter::flush()
+	{
+		string output = m_output;
+		m_output = "";
+		return output;
+	}
+
 	TextScript::TextScript(cstring name, Language language, const Signature& signature)
 		: Script(type<TextScript>(), name, signature)
 		, m_language(language)
@@ -38,12 +62,7 @@ namespace mud
 
 	void TextScript::operator()(array<Var> args, Var& result) const
 	{
-		for(const Param& param : m_signature.m_params)
-		{
-			m_interpreter->set(param.m_name, args[param.m_index]);
-		}
-
-		m_interpreter->call(m_script.c_str(), result.none() ? nullptr : &result);
+		m_interpreter->call(*this, args, result.none() ? nullptr : &result);
 	}
 
 	ScriptClass::ScriptClass(const string& name, const std::vector<Type*>& parts)
