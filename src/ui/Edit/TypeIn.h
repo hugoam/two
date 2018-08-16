@@ -59,6 +59,21 @@ namespace mud
 	using PaletteIndex = uint16_t;
 	using ColourPalette = array<uint32_t>;
 
+	enum class TextMarkerKind
+	{
+		Error,
+	};
+
+	export_ struct refl_ MUD_UI_EXPORT TextMarker
+	{
+		TextMarkerKind m_type;
+		size_t m_line;
+		size_t m_column;
+		string m_message;
+		PaletteIndex m_colour;
+		PaletteIndex m_highlight;
+	};
+
 	export_ class refl_ MUD_UI_EXPORT Text
 	{
 	public:
@@ -115,8 +130,8 @@ namespace mud
 
 		struct ColorSection
 		{
-			const char* m_start;
-			const char* m_end;
+			size_t m_start;
+			size_t m_end;
 			PaletteIndex m_colour;
 		};
 
@@ -143,6 +158,7 @@ namespace mud
 		Field,
 		PreprocIdentifier,
 		Comment,
+		Error,
 		ErrorMarker,
 		Breakpoint,
 		Count
@@ -305,6 +321,8 @@ namespace mud
 		int m_undo_index = 0;
 
 		LanguageDefinition* m_language = nullptr;
+
+		std::vector<TextMarker> m_markers;
 	};
 
 namespace ui

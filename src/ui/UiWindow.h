@@ -20,6 +20,15 @@
 
 namespace mud
 {
+	export_ struct refl_ MUD_UI_EXPORT Clipboard
+	{
+		Clipboard() {}
+		Clipboard(const string& text, bool line_mode) : m_text(text), m_line_mode(line_mode) {}
+		attr_ string m_text = "";
+		attr_ bool m_line_mode = false;
+		attr_ std::vector<string> m_pasted = {};
+	};
+
 	export_ class refl_ MUD_UI_EXPORT UiWindow : public NonCopy
 	{
 	public:
@@ -56,6 +65,8 @@ namespace mud
 
 		float m_width;
 		float m_height;
+
+		Clipboard m_clipboard;
 
 		object_ptr<Styler> m_styler;
 

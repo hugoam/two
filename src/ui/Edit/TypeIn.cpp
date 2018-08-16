@@ -28,6 +28,7 @@ module mud.ui;
 #include <ui/Cursor.h>
 #include <ui/Render/Renderer.h>
 #include <ui/Style/Skin.h>
+#include <ui/UiWindow.h>
 #endif
 
 namespace mud
@@ -258,14 +259,6 @@ namespace mud
 		return to_cursor({ uint(column), uint(line)});
 	}
 
-	struct Clipboard
-	{
-		string m_text;
-		bool m_line_mode;
-	};
-
-	static Clipboard s_clipboard;
-
 	TextEdit::TextEdit(Widget* parent, void* identity, bool editor, string allowed_chars)
 		: Widget(parent, identity)
 		, m_editor(editor)
@@ -324,19 +317,16 @@ namespace mud
 
 	void TextEdit::clear(size_t start, size_t end)
 	{
-		const char* cstart = &m_string.front() + start;
-		const char* cend = &m_string.front() + end;
-		vector_remove_if(m_text.m_sections, [&](Text::ColorSection& section) { return section.m_start >= cstart && section.m_end <= cend; });
+		vector_remove_if(m_text.m_sections, [&](Text::ColorSection& section) { return section.m_start >= start && section.m_end <= end; });
 	}
 
 	void TextEdit::shift(size_t start, int offset)
 	{
-		const char* begin = &m_string.front() + start;
 		for(Text::ColorSection& section : m_text.m_sections)
 		{
-			if(section.m_start >= begin)
+			if(section.m_start >= start)
 				section.m_start += offset;
-			if(section.m_end >= begin)
+			if(section.m_end >= start)
 				section.m_end += offset;
 		}
 	}
@@ -433,6 +423,7 @@ namespace mud
 		if(c == '\r') c = '\n';
 
 		char last = m_selection.m_cursor < m_string.size() ? m_string[m_selection.m_cursor - 1] : 0;
+		m_completing &= !is_separator(c);
 		m_completing |= (last == 0 || is_separator(last)) && !is_separator(c);
 
 		CommitAction([&](Action& action)
@@ -457,10 +448,11 @@ namespace mud
 
 	void TextEdit::copy()
 	{
+		Clipboard& clipboard = this->ui_window().m_clipboard;
 		if(has_selection())
-			s_clipboard = { selected_text(), false };
+			clipboard = { selected_text(), false };
 		else
-			s_clipboard = { text_line(m_string, m_selection.m_cursor), true };
+			clipboard = { text_line(m_string, m_selection.m_cursor), true };
 	}
 
 	void TextEdit::cut()
@@ -479,17 +471,18 @@ namespace mud
 
 	void TextEdit::paste()
 	{
-		if(s_clipboard.m_text.empty()) return;
+		Clipboard& clipboard = this->ui_window().m_clipboard;
+		if(clipboard.m_text.empty()) return;
 
 		CommitAction([&](Action& action)
 		{
 			if(has_selection())
 				erase_selected(action);
 
-			if(s_clipboard.m_line_mode)
-				insert(line_begin(m_string, m_selection.m_cursor), s_clipboard.m_text, m_selection.m_cursor + s_clipboard.m_text.size(), action);
+			if(clipboard.m_line_mode)
+				insert(line_begin(m_string, m_selection.m_cursor), clipboard.m_text, m_selection.m_cursor + clipboard.m_text.size(), action);
 			else
-				insert(m_selection.m_cursor, s_clipboard.m_text, m_selection.m_cursor + s_clipboard.m_text.size(), action);
+				insert(m_selection.m_cursor, clipboard.m_text, m_selection.m_cursor + clipboard.m_text.size(), action);
 		});
 	}
 
@@ -652,7 +645,7 @@ namespace mud
 			move_page_up(shift);
 		else if(!alt && this->key_stroke(Key::PageDown))
 			move_page_down(shift);
-		else if(!alt && ctrl && this->key_stroke(Key::Home))
+		else if(ctrl && !alt && this->key_stroke(Key::Home))
 			move_top(shift);
 		else if(ctrl && !alt && this->key_stroke(Key::End))
 			move_bottom(shift);
@@ -667,13 +660,13 @@ namespace mud
 		else if(this->key_stroke(Key::Insert, InputMod::None))
 			m_selection.m_insert_mode = !m_selection.m_insert_mode;
 		else if(this->key_stroke(Key::Insert, InputMod::Ctrl)
-			|| this->key_stroke(Key::C, InputMod::Ctrl))
+			 || this->key_stroke(Key::C, InputMod::Ctrl))
 			copy();
 		else if(!m_read_only && (this->key_stroke(Key::Insert, InputMod::Shift)
-			|| this->key_stroke(Key::V, InputMod::Ctrl)))
+			 || this->key_stroke(Key::V, InputMod::Ctrl)))
 			paste();
 		else if(this->key_stroke(Key::X, InputMod::Ctrl)
-			|| this->key_stroke(Key::Delete, InputMod::Shift))
+			 || this->key_stroke(Key::Delete, InputMod::Shift))
 			cut();
 		else if(this->key_stroke(Key::A, InputMod::Ctrl))
 			select_all();
@@ -683,7 +676,7 @@ namespace mud
 			yield_focus();
 		else if(key_stroke(Key::Tab) && !m_completing)
 			insert(string(m_tab_size, ' '));
-		else if(!m_read_only && !alt && !ctrl)
+		else if(!m_read_only && (!ctrl || alt))
 		{
 			KeyEvent stroke = key_stroke(Key::Unassigned);
 			if(stroke)
@@ -695,6 +688,14 @@ namespace mud
 			undo();
 		if(!m_read_only && this->key_stroke(Key::Y, InputMod::Ctrl))
 			redo();
+
+		Clipboard& clipboard = this->ui_window().m_clipboard;
+		if(clipboard.m_pasted.size() > 0)
+		{
+			clipboard.m_text = vector_pop(clipboard.m_pasted);
+			clipboard.m_line_mode = false;
+			this->paste();
+		}
 
 		if(this->focused() && !shift && !alt)
 		{
@@ -764,44 +765,69 @@ namespace mud
 			vg.draw_text(padding + rect_offset(row.m_rect), row.m_start, row.m_end, text.m_text_paint);
 	}
 
-	void draw_editor_text(Vg& vg, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette)
+	void draw_editor_text(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette, array<TextMarker> markers)
 	{
 		char line_number[16];
 
 		size_t line = 0;
-		size_t current_section = 0;
+		size_t isection = 0;
+		size_t imarker = 0;
+
+		vec2 offset = vec2(0.f);
+		float line_height = vg.line_height(text.m_text_paint);
+
 		for(const TextRow& row : text.m_text_rows)
 		{
-			while(current_section < text.m_sections.size() && text.m_sections[current_section].m_start < row.m_start)
-				current_section++;
+			while(isection < text.m_sections.size() && text.m_sections[isection].m_start < row.m_start_index)
+				isection++;
 
 			snprintf(line_number, 16, "%6d", int(++line));
-			vg.draw_text(padding + rect_offset(row.m_rect), line_number, nullptr, palette_text_paint(text, palette, Text::LineNumber));
+			vg.draw_text(padding + offset + rect_offset(row.m_rect), line_number, nullptr, palette_text_paint(text, palette, Text::LineNumber));
 
-			while(current_section < text.m_sections.size() && text.m_sections[current_section].m_start < row.m_end)
+			while(isection < text.m_sections.size() && text.m_sections[isection].m_start < row.m_end_index)
 			{
-				const Text::ColorSection& section = text.m_sections[current_section];
+				const Text::ColorSection& section = text.m_sections[isection];
 
-				vec2 position = text_offset + rect_offset(row.m_glyphs[section.m_start - row.m_start].m_rect);
-				vg.draw_text(floor(position) + vec2(0.f, 0.5f), section.m_start, section.m_end, palette_text_paint(text, palette, section.m_colour));
+				vec2 position = offset + text_offset + rect_offset(row.m_glyphs[section.m_start - row.m_start_index].m_rect);
+				const char* front = &text.m_text.front();
+				vg.draw_text(floor(position) + vec2(0.f, 0.5f), front + section.m_start, front + section.m_end, palette_text_paint(text, palette, section.m_colour));
 
-				current_section++;
+				isection++;
+			}
+
+			if(imarker < markers.size() && markers[imarker].m_line == line)
+			{
+				vec4 rect = { offset + padding + vec2{ 0.f, row.m_rect.y + line_height }, vec2{ frame.m_size.x, text.line_height() } };
+				vec2 position = offset + text_offset + rect_offset(row.m_glyphs[0].m_rect) + line_height;
+
+				vg.draw_rect(rect, palette_paint(palette, markers[imarker].m_highlight));
+				vg.draw_text(floor(position) + vec2(0.f, 2.5f), markers[imarker].m_message.c_str(), nullptr, palette_text_paint(text, palette, markers[imarker].m_colour));
+				
+				offset += vec2(0.f, line_height);
 			}
 		}
 	}
 
-	void draw_text_selection(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const TextSelection& selection, const ColourPalette& palette, bool current_line)
+	void draw_text_selection(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const TextSelection& selection, const ColourPalette& palette, bool current_line, array<TextMarker> markers)
 	{
 		if(text.m_text_rows.empty())
 			return;
 
+		size_t line = 0;
+		size_t imarker = 0;
+
+		vec2 offset = vec2(0.f);
+		float line_height = vg.line_height(text.m_text_paint);
+
 		for(const TextRow& row : text.m_text_rows)
 		{
+			line++;
+
 			if(selection.m_start != selection.m_end && row.m_end_index > selection.m_start && row.m_start_index < selection.m_end)
 			{
 				if(row.m_glyphs.empty())
 				{
-					vg.draw_rect({ text_offset + rect_offset(row.m_rect), vec2{ 5.f, rect_h(row.m_rect) } }, palette_paint(palette, Text::Selection));
+					vg.draw_rect({ offset + text_offset + rect_offset(row.m_rect), vec2{ 5.f, rect_h(row.m_rect) } }, palette_paint(palette, Text::Selection));
 					continue;
 				}
 
@@ -809,7 +835,7 @@ namespace mud
 				size_t select_end = min(row.m_end_index, size_t(selection.m_end));
 
 				vec4 row_rect = text.interval_rect(row, select_start, select_end - 1);
-				vg.draw_rect({ text_offset + rect_offset(row_rect), rect_size(row_rect) }, palette_paint(palette, Text::Selection));
+				vg.draw_rect({ offset + text_offset + rect_offset(row_rect), rect_size(row_rect) }, palette_paint(palette, Text::Selection));
 			}
 
 			if(selection.m_cursor >= row.m_start_index && selection.m_cursor <= row.m_end_index)
@@ -838,9 +864,12 @@ namespace mud
 						cursor_rect.x -= 1.f;
 						cursor_rect.z = 1.f;
 					}
-					vg.draw_rect({ text_offset + rect_offset(cursor_rect), rect_size(cursor_rect) }, palette_paint(palette, Text::Cursor));
+					vg.draw_rect({ offset + text_offset + rect_offset(cursor_rect), rect_size(cursor_rect) }, palette_paint(palette, Text::Cursor));
 				}
 			}
+
+			if(imarker < markers.size() && markers[imarker].m_line == line)
+				offset += vec2(0.f, line_height);
 		}
 	}
 
@@ -856,9 +885,9 @@ namespace mud
 
 		vec2 padding = floor(rect_offset(m_frame.d_inkstyle->m_padding));
 
-		draw_text_selection(vg, m_frame, padding, m_text_offset, m_text, m_selection, m_palette, m_editor);
+		draw_text_selection(vg, m_frame, padding, m_text_offset, m_text, m_selection, m_palette, m_editor, m_markers);
 		if(m_editor)
-			draw_editor_text(vg, padding, m_text_offset, m_text, m_palette);
+			draw_editor_text(vg, m_frame, padding, m_text_offset, m_text, m_palette, m_markers);
 		else
 			draw_text(vg, padding, m_text);
 	}
@@ -901,12 +930,13 @@ namespace mud
 
 		bool preproc = false;
 
-		const char* start = &m_string.front() + begin;
-		const char* last = &m_string.front() + end;
+		const char* first = &m_string.front();
+		const char* start = first + begin;
+		const char* last = first + end;
 
 		// remove all sections that overlap range to colorize, and get iterator to insert the new ones
-		vector_remove_if(m_text.m_sections, [=](Text::ColorSection& section) { return section.m_start >= start && section.m_end <= last; });
-		auto start_section = vector_find_if(m_text.m_sections, [=](const Text::ColorSection& section) { return section.m_start >= start; });
+		vector_remove_if(m_text.m_sections, [=](Text::ColorSection& section) { return section.m_start >= begin && section.m_end <= end; });
+		auto start_section = vector_find_if(m_text.m_sections, [=](const Text::ColorSection& section) { return section.m_start >= begin; });
 
 		for(const char* current = start; current != last; ++current)
 		{
@@ -915,7 +945,7 @@ namespace mud
 				if(std::regex_search<const char*>(current, last, results, token_color.first, std::regex_constants::match_continuous))
 				{
 					auto match = *results.begin();
-					string name = m_string.substr(match.first - &m_string.front(), match.second - match.first);
+					string name = m_string.substr(match.first - first, match.second - match.first);
 					PaletteIndex color = token_color.second;
 
 					//if(color == uint16_t(CodePalette::Word))
@@ -946,7 +976,7 @@ namespace mud
 						preproc = true;
 					}
 
-					Text::ColorSection section = { match.first, match.second, color };
+					Text::ColorSection section = { size_t(match.first - first), size_t(match.second - first), color };
 					start_section = m_text.m_sections.insert(start_section, section) + 1;
 					//m_text.m_sections.push_back(section);
 

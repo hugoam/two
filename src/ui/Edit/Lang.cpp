@@ -45,7 +45,8 @@ namespace mud
 		palette[size_t(CodePalette::Field)] = 0x7d7d7dff;
 		palette[size_t(CodePalette::PreprocIdentifier)] = 0xc040a0ff;
 		palette[size_t(CodePalette::Comment)] = 0x708090ff;
-		palette[size_t(CodePalette::ErrorMarker)] = 0x0020ff80;
+		palette[size_t(CodePalette::Error)] = 0xffffffff;
+		palette[size_t(CodePalette::ErrorMarker)] = 0xa30100ff;
 		palette[size_t(CodePalette::Breakpoint)] = 0xf0800040;
 
 		return palette;
@@ -80,7 +81,8 @@ namespace mud
 		palette[size_t(CodePalette::Field)]				= 0x9b9b9bff;
 		palette[size_t(CodePalette::PreprocIdentifier)] = 0xc040a0ff;
 		palette[size_t(CodePalette::Comment)]           = 0x494949ff;
-		palette[size_t(CodePalette::ErrorMarker)]       = 0x0020ff80;
+		palette[size_t(CodePalette::Error)]				= 0xffffffff;
+		palette[size_t(CodePalette::ErrorMarker)]       = 0xa30100ff;
 		palette[size_t(CodePalette::Breakpoint)]        = 0xf0800040;
 
 		return palette;
