@@ -413,6 +413,7 @@ namespace mud
 				"class", "construct", "continue", "else", "false", "for", "foreign", "if", "import", "in", "is", "new", "null", "return", "static", "this", "true", "var", "while"
 			};
 
+			add_token_regex(lang, "//.*", CodePalette::Comment);
 			add_token_regex(lang, "[A-Z][a-zA-Z0-9_]*", CodePalette::Identifier);
 			add_token_regex(lang, "[_][a-zA-Z0-9_]*", CodePalette::Field);
 			add_token_regex(lang, "[a-z0-9_]+(?=\\()", CodePalette::Function);
@@ -425,7 +426,6 @@ namespace mud
 			add_token_regex(lang, "[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)([eE][+-]?[0-9]+)?[fF]?", CodePalette::Number);
 			add_token_regex(lang, "0[0-7]+[Uu]?[lL]?[lL]?", CodePalette::Number);
 			add_token_regex(lang, "[+-]?[0-9]+[Uu]?[lL]?[lL]?", CodePalette::Number);
-			add_token_regex(lang, "//.*", CodePalette::Comment);
 
 			lang.m_comment_start = "/*";
 			lang.m_comment_end = "*/";

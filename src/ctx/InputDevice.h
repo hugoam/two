@@ -36,13 +36,13 @@ namespace mud
 		void update_modifiers(bool shift, bool ctrl, bool alt);
 		InputMod modifiers();
 
-		void key_pressed(Key key, char c);
-		void key_pressed(Key key, char c, InputMod mods);
-		void key_released(Key key, char c);
-		void key_released(Key key, char c, InputMod mods);
-		void key_stroke(Key key, char c);
-		void key_stroke(Key key, char c, InputMod mods);
-		void key_char(Key key, char c);
+		void key_pressed(Key key, Key translated);
+		void key_pressed(Key key, Key translated, InputMod mods);
+		void key_released(Key key, Key translated);
+		void key_released(Key key, Key translated, InputMod mods);
+		void key_stroke(Key key, Key translated);
+		void key_stroke(Key key, Key translated, InputMod mods);
+		void key_char(char c);
 
 		bool m_shift = false;
 		bool m_ctrl = false;

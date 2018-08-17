@@ -61,11 +61,11 @@ namespace mud
 	{
 		attr_ DeviceType m_deviceType = DeviceType::None;
 		attr_ EventType m_eventType = EventType::None;
-		refl_ ControlNode* m_receiver = nullptr;
-		refl_ ControlNode* m_consumer = nullptr;
-		refl_ bool m_abort = false;
-		refl_ InputMod m_modifiers = InputMod::None;
-		refl_ int m_key = -1;
+		attr_ ControlNode* m_receiver = nullptr;
+		attr_ ControlNode* m_consumer = nullptr;
+		attr_ bool m_abort = false;
+		attr_ InputMod m_modifiers = InputMod::None;
+		attr_ int m_key = -1;
 
 		InputEvent() {}
 		InputEvent(DeviceType deviceType, EventType eventType, InputMod modifiers = InputMod::None) : m_deviceType(deviceType), m_eventType(eventType), m_modifiers(modifiers) {}

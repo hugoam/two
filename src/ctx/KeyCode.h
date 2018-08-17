@@ -6,13 +6,15 @@
 
 #include <ctx/Forward.h>
 
+#include <cstdint>
+
 export_ namespace mud
 {}
 
 namespace mud
 {
 	//! Keyboard scan codes
-	export_ enum class refl_ Key : unsigned int
+	export_ enum class refl_ Key : uint32_t
 	{
 		Unassigned  = 0x00,
 		Escape      = 0x01,
@@ -159,7 +161,10 @@ namespace mud
 		//MYCOMPUTER  = 0xEB,    // My Computer
 		//MAIL        = 0xEC,    // Mail
 		//MEDIASELECT = 0xED     // Media Select
+		Translated = uint32_t(1 << 31)
 	};
+
+	inline Key translate(Key key) { return Key(unsigned(key) | unsigned(Key::Translated)); }
 
 	export_ enum refl_ MouseButtonCode : unsigned int
 	{

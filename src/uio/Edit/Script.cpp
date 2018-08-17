@@ -115,11 +115,13 @@ namespace mud
 
 			if(function || type || lowertype)
 			{
-				Widget& popup = ui::popup_at(edit, hover_at, ui::PopupFlags::None);
-				if(function)
-					meta_synopsis(popup, *function);
-				else if (type || lowertype)
-					meta_synopsis(popup, type ? *type : *lowertype);
+				if(Widget* popup = ui::hoverbox(edit, hover_at))
+				{
+					if(function)
+						meta_synopsis(*popup, *function);
+					else if(type || lowertype)
+						meta_synopsis(*popup, type ? *type : *lowertype);
+				}
 			}
 		
 			if(MouseEvent mouse_event = edit.mouse_event(DeviceType::MouseRight, EventType::Stroked))
@@ -139,8 +141,10 @@ namespace mud
 
 	void script_edit_code(Widget& parent, TextScript& script, ActionList actions)
 	{
-		//actions.push_back({ "Run", [&] { script({}); } });
-		actions.push_back({ "Reload", [&] { script.m_dirty = true; } });
+		auto run = [&] { script({}); };
+		auto reload = [&] { script.m_dirty = true; };
+		//actions.push_back({ "Run",  });
+		actions.push_back({ "Reload", reload });
 		Section& self = section(parent, script.m_name.c_str(), actions);
 
 		std::vector<string> known_words = meta_words();
@@ -150,16 +154,26 @@ namespace mud
 			edit.m_language = &LanguageLua();
 		else if(script.m_language == Language::Wren)
 			edit.m_language = &LanguageWren();
+		
+		if(edit.char_stroke(Key::S, InputMod::Ctrl))
+			reload();
 
-		edit.m_markers.clear();
+		if(ui::button(*self.m_toolbar, "Indent").activated())
+		{
+			script.m_script = ui::auto_indent(edit);
+			edit.m_text.m_sections.clear();
+			edit.mark_dirty(0, script.m_script.size());
+		}
+
+		edit.m_text.m_markers.clear();
 		for(const Error& error : script.m_compile_errors)
 		{
-			edit.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
+			edit.m_text.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
 		}
 
 		for(const Error& error : script.m_runtime_errors)
 		{
-			edit.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
+			edit.m_text.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
 		}
 
 		script_edit_hover(edit);

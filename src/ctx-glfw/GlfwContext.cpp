@@ -42,7 +42,7 @@ void glfw_error(int error, const char* desc)
 
 namespace mud
 {
-	MouseButtonCode convertGlfwButton(int button)
+	MouseButtonCode convert_glfw_button(int button)
 	{
 		if(button == GLFW_MOUSE_BUTTON_LEFT)
 			return LEFT_BUTTON;
@@ -54,7 +54,7 @@ namespace mud
 			return LEFT_BUTTON;
 	}
 
-	Key convertGlfwKey(int key)
+	Key convert_glfw_key(int key)
 	{
 		switch(key)
 		{
@@ -172,6 +172,17 @@ namespace mud
 			//case GLFW_KEY_MENU:
 		default: return Key::Unassigned;
 		}
+	}
+
+	Key translate_glfw_key(int key, int scancode)
+	{
+		const char* name = glfwGetKeyName(key, scancode);
+		if(name == nullptr) return translate(convert_glfw_key(key));
+		else if(name == string("a")) return translate(Key::A);
+		else if(name == string("z")) return translate(Key::Z);
+		else if(name == string("q")) return translate(Key::Q);
+		else if(name == string("w")) return translate(Key::W);
+		else return translate(convert_glfw_key(key));
 	}
 
 	GlfwContext::GlfwContext(RenderSystem& render_system, cstring name, int width, int height, bool full_screen, bool auto_swap)
@@ -302,26 +313,29 @@ namespace mud
 	{
 		UNUSED(mods);
 		if(action == GLFW_PRESS)
-			m_mouse->m_buttons[convertGlfwButton(button)].pressed(m_cursor);
+			m_mouse->m_buttons[convert_glfw_button(button)].pressed(m_cursor);
 		else if(action == GLFW_RELEASE)
-			m_mouse->m_buttons[convertGlfwButton(button)].released(m_cursor);
+			m_mouse->m_buttons[convert_glfw_button(button)].released(m_cursor);
 	}
 
 	void GlfwContext::inject_key(int key, int scancode, int action, int mods)
 	{
-		UNUSED(scancode); UNUSED(mods);
+		UNUSED(mods);
 		if(action == GLFW_PRESS)
-			m_keyboard->key_pressed(convertGlfwKey(key), char(0));
+		{
+			m_keyboard->key_pressed(convert_glfw_key(key), translate_glfw_key(key, scancode));
+			m_keyboard->key_stroke(convert_glfw_key(key), translate_glfw_key(key, scancode));
+		}
 		else if(action == GLFW_RELEASE)
-			m_keyboard->key_released(convertGlfwKey(key), char(0));
+			m_keyboard->key_released(convert_glfw_key(key), translate_glfw_key(key, scancode));
 		else if(action == GLFW_REPEAT)
-			m_keyboard->key_stroke(convertGlfwKey(key), char(0));
+			m_keyboard->key_stroke(convert_glfw_key(key), translate_glfw_key(key, scancode));
 	}
 
 	void GlfwContext::inject_char(unsigned int codepoint, int mods)
 	{
-		UNUSED(codepoint); UNUSED(mods);
-		m_keyboard->key_char(Key::Unassigned, char(codepoint));
+		UNUSED(mods);
+		m_keyboard->key_char(char(codepoint));
 	}
 
 	void GlfwContext::inject_wheel(double x, double y)

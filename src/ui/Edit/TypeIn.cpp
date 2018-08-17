@@ -172,8 +172,20 @@ namespace mud
 		const char* start = m_text.c_str();
 		const char* end = start + m_text.size();// - 1;
 
+		size_t imarker = 0;
+		size_t line = 0;
+		float offset = 0.f;
+		float line_height = s_vg->line_height(m_text_paint);
+
 		for(const TextRow& row : m_text_rows)
-			if(pos.y < row.m_rect.y + rect_h(row.m_rect)) // pos.y >= row.m_rect.y && 
+		{
+			if(imarker < m_markers.size() && m_markers[imarker].m_line == line)
+			{
+				offset += line_height;
+				imarker++;
+			}
+
+			if(pos.y < offset + row.m_rect.y + rect_h(row.m_rect)) // pos.y >= row.m_rect.y && 
 			{
 				for(const TextGlyph& glyph : row.m_glyphs)
 					if(pos.x < glyph.m_rect.x + rect_w(glyph.m_rect) * 0.5f) // pos.x >= glyph.m_rect.x &&
@@ -182,7 +194,10 @@ namespace mud
 				return row.m_end - start;
 			}
 
-		return end - start;
+			line++;
+		}
+
+		return end - start - 1;
 	}
 
 	vec4 Text::interval_rect(const TextRow& row, size_t start, size_t end) const
@@ -280,6 +295,15 @@ namespace mud
 		return size_t(floor(height / m_text.line_height()));
 	}
 
+	vec2 TextEdit::frame_size()
+	{
+		auto count_digits = [](int number) { int digits = 0; do { number /= 10; digits++; } while(number != 0); return digits; };
+		int digits = count_digits(m_text.m_text_rows.size());
+		vec2 offset = { m_text.line_height() * float(digits) * 0.7f, 0.f };
+
+		return offset + m_text.compute_text_size() + rect_sum(m_frame.d_inkstyle->m_padding);
+	}
+
 	void TextEdit::update_style()
 	{
 		m_text.m_text_paint = style_text_paint(*m_frame.d_inkstyle);
@@ -317,16 +341,16 @@ namespace mud
 
 	void TextEdit::clear(size_t start, size_t end)
 	{
-		vector_remove_if(m_text.m_sections, [&](Text::ColorSection& section) { return section.m_start >= start && section.m_end <= end; });
+		vector_remove_if(m_text.m_sections, [&](Text::ColorSection& section) { return section.m_end >= start && section.m_start <= end; });
 	}
 
 	void TextEdit::shift(size_t start, int offset)
 	{
 		for(Text::ColorSection& section : m_text.m_sections)
 		{
-			if(section.m_start >= start)
+			if(section.m_start > start)
 				section.m_start += offset;
-			if(section.m_end >= start)
+			if(section.m_end > start)
 				section.m_end += offset;
 		}
 	}
@@ -334,8 +358,6 @@ namespace mud
 	void TextEdit::changed()
 	{
 		m_changed = true;
-		//if(m_on_type)
-		//	m_string = m_on_type(m_string);
 	}
 
 	void TextEdit::insert(size_t index, const string& text)
@@ -344,6 +366,7 @@ namespace mud
 		m_string.insert(index, text);
 		this->mark_dirty(line_begin(m_string, index), line_end(m_string, index + text.size()));
 		this->changed();
+		m_follow_cursor = true;
 	}
 
 	void TextEdit::insert(size_t index, const string& text, size_t cursor, Action& action)
@@ -366,7 +389,7 @@ namespace mud
 		m_string.erase(start, end - start);
 		this->mark_dirty(line_begin(m_string, start), line_end(m_string, start));
 		this->changed();
-		//Colorize(mAddedStart.y - 1, mAddedEnd.y - mAddedStart.y + 2);
+		m_follow_cursor = true;
 	}
 
 	void TextEdit::erase(size_t start, size_t end, size_t cursor, Action& action)
@@ -389,12 +412,24 @@ namespace mud
 			this->insert('\n');
 	}
 
+	void TextEdit::erase_selected(Action& action)
+	{
+		erase(m_selection.m_start, m_selection.m_end, m_selection.m_start, action);
+	}
+
+	void debug_selection(const string& text, const TextSelection& selection)
+	{
+		if(selection.m_end > selection.m_start)
+			printf("selection [%i,%i] = %s\n", selection.m_start, selection.m_end, text.substr(selection.m_start, selection.m_end - selection.m_start).c_str());
+	}
+
 	void TextEdit::erase()
 	{
 		if(m_string.empty()) return;
 
 		CommitAction([&](Action& action)
 		{
+			debug_selection(m_string, m_selection);
 			if(has_selection())
 				erase_selected(action);
 			else
@@ -408,6 +443,7 @@ namespace mud
 
 		CommitAction([&](Action& action)
 		{
+			debug_selection(m_string, m_selection);
 			if(has_selection())
 				erase_selected(action);
 			else if(m_selection.m_cursor > 0)
@@ -428,6 +464,7 @@ namespace mud
 
 		CommitAction([&](Action& action)
 		{
+			debug_selection(m_string, m_selection);
 			if(has_selection())
 				erase_selected(action);
 
@@ -439,11 +476,17 @@ namespace mud
 	{
 		CommitAction([&](Action& action)
 		{
+			debug_selection(m_string, m_selection);
 			if(has_selection())
 				erase_selected(action);
 
 			insert(m_selection.m_cursor, text, m_selection.m_cursor + text.size(), action);
 		});
+	}
+
+	string TextEdit::selected_text() const
+	{
+		return m_string.substr(m_selection.m_start, m_selection.m_end - m_selection.m_start);
 	}
 
 	void TextEdit::copy()
@@ -461,6 +504,7 @@ namespace mud
 
 		CommitAction([&](Action& action)
 		{
+			debug_selection(m_string, m_selection);
 			copy();
 			if(has_selection())
 				erase_selected(action);
@@ -476,6 +520,7 @@ namespace mud
 
 		CommitAction([&](Action& action)
 		{
+			debug_selection(m_string, m_selection);
 			if(has_selection())
 				erase_selected(action);
 
@@ -582,7 +627,7 @@ namespace mud
 
 	void TextEdit::select_none()
 	{
-		select(SIZE_MAX);
+		select(0U);
 	}
 
 	void TextEdit::select_all()
@@ -608,7 +653,7 @@ namespace mud
 			select_none();
 
 		EventType event_focus = m_focus_mode == TextFocusMode::Press ? EventType::Pressed
-																	 : EventType::Stroked;
+			: EventType::Stroked;
 		if(!this->focused())
 			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, event_focus, InputMod::None, false))
 			{
@@ -619,7 +664,7 @@ namespace mud
 		auto shift = this->ui().m_keyboard.m_shift;
 		auto ctrl = this->ui().m_keyboard.m_ctrl;
 		auto alt = this->ui().m_keyboard.m_alt;
-
+		
 		if(MouseEvent mouse_event = this->mouse_event(DeviceType::Mouse, EventType::Heartbeat))
 		{
 			size_t index = m_text.char_at(mouse_event.m_relative - m_text_offset);
@@ -632,7 +677,7 @@ namespace mud
 
 			this->ui().m_cursor_style = &ui::cursor_styles().caret;
 		}
-
+		
 		if(!m_completing && !ctrl && !alt && this->key_stroke(Key::Up))
 			move_up(shift);
 		else if(!m_completing && !ctrl && !alt && this->key_stroke(Key::Down))
@@ -660,15 +705,15 @@ namespace mud
 		else if(this->key_stroke(Key::Insert, InputMod::None))
 			m_selection.m_insert_mode = !m_selection.m_insert_mode;
 		else if(this->key_stroke(Key::Insert, InputMod::Ctrl)
-			 || this->key_stroke(Key::C, InputMod::Ctrl))
+			 || this->char_stroke(Key::C, InputMod::Ctrl))
 			copy();
 		else if(!m_read_only && (this->key_stroke(Key::Insert, InputMod::Shift)
-			 || this->key_stroke(Key::V, InputMod::Ctrl)))
+							  || this->char_stroke(Key::V, InputMod::Ctrl)))
 			paste();
-		else if(this->key_stroke(Key::X, InputMod::Ctrl)
+		else if(this->char_stroke(Key::X, InputMod::Ctrl)
 			 || this->key_stroke(Key::Delete, InputMod::Shift))
 			cut();
-		else if(this->key_stroke(Key::A, InputMod::Ctrl))
+		else if(this->char_stroke(Key::A, InputMod::Ctrl))
 			select_all();
 		else if(key_stroke(Key::Return))
 			enter();
@@ -683,10 +728,10 @@ namespace mud
 				insert(stroke.m_char);
 		}
 
-		if(!m_read_only && (this->key_stroke(Key::Z, InputMod::Ctrl)
-						||  this->key_stroke(Key::Back, InputMod::Alt)))
+		if(!m_read_only && (this->char_stroke(Key::Z, InputMod::Ctrl)
+						 || this->key_stroke(Key::Back, InputMod::Alt)))
 			undo();
-		if(!m_read_only && this->key_stroke(Key::Y, InputMod::Ctrl))
+		if(!m_read_only && this->char_stroke(Key::Y, InputMod::Ctrl))
 			redo();
 
 		Clipboard& clipboard = this->ui_window().m_clipboard;
@@ -730,18 +775,27 @@ namespace mud
 		if(!this->mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 			m_word_selection_mode = false;
 
-		if(m_follow_cursor)
+		if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
-			//scroll_to_cursor();
-			m_follow_cursor = false;
+			//m_frame.m_position = min(m_frame.m_position, -cursor);
 		}
 
 		if(m_dirty[0] != UINT32_MAX)
 		{
 			m_text.break_text_rows();
+			m_frame.mark_dirty(DIRTY_LAYOUT); // @todo fix this, should be able to just set DIRTY_REDRAW
 		}
 	}
 
+	void TextEdit::update_scroll(Frame& frame, Frame& content)
+	{
+		if(m_follow_cursor)
+		{
+			scroll_to_cursor(frame, content);
+			m_follow_cursor = false;
+		}
+	}
+	
 	Colour palette_colour(const ColourPalette& palette, PaletteIndex color_index)
 	{
 		return from_rgba(palette[color_index]);
@@ -765,7 +819,7 @@ namespace mud
 			vg.draw_text(padding + rect_offset(row.m_rect), row.m_start, row.m_end, text.m_text_paint);
 	}
 
-	void draw_editor_text(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette, array<TextMarker> markers)
+	void draw_editor_text(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette)
 	{
 		char line_number[16];
 
@@ -795,20 +849,22 @@ namespace mud
 				isection++;
 			}
 
-			if(imarker < markers.size() && markers[imarker].m_line == line)
+			if(imarker < text.m_markers.size() && text.m_markers[imarker].m_line == line)
 			{
 				vec4 rect = { offset + padding + vec2{ 0.f, row.m_rect.y + line_height }, vec2{ frame.m_size.x, text.line_height() } };
-				vec2 position = offset + text_offset + rect_offset(row.m_glyphs[0].m_rect) + line_height;
+				vec2 position = offset + text_offset + rect_offset(row.m_rect) + line_height;
 
-				vg.draw_rect(rect, palette_paint(palette, markers[imarker].m_highlight));
-				vg.draw_text(floor(position) + vec2(0.f, 2.5f), markers[imarker].m_message.c_str(), nullptr, palette_text_paint(text, palette, markers[imarker].m_colour));
+				vg.draw_rect(rect, palette_paint(palette, text.m_markers[imarker].m_highlight));
+				vg.draw_text(floor(position) + vec2(0.f, 2.5f), text.m_markers[imarker].m_message.c_str(), nullptr, palette_text_paint(text, palette, text.m_markers[imarker].m_colour));
 				
 				offset += vec2(0.f, line_height);
+
+				imarker++;
 			}
 		}
 	}
 
-	void draw_text_selection(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const TextSelection& selection, const ColourPalette& palette, bool current_line, array<TextMarker> markers)
+	void draw_text_selection(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const TextSelection& selection, const ColourPalette& palette, bool current_line)
 	{
 		if(text.m_text_rows.empty())
 			return;
@@ -843,11 +899,11 @@ namespace mud
 				if(current_line && selection.m_start == selection.m_end)
 				{
 					bool focused = false;
-					vec4 rect = { padding + vec2{ 0.f, row.m_rect.y }, vec2{ frame.m_size.x, text.line_height() } };
+					vec4 rect = { offset + padding + vec2{ 0.f, row.m_rect.y }, vec2{ frame.m_size.x, text.line_height() } };
 					vg.draw_rect(rect, { palette_colour(palette, focused ? Text::CurrentLineFill : Text::CurrentLineFillInactive),
 										 palette_colour(palette, Text::CurrentLineEdge), 1.0f });
 				}
-				
+
 				static Clock blink_clock;
 				static bool caret_visible = true;
 				if(blink_clock.read() > 0.4f)
@@ -855,7 +911,7 @@ namespace mud
 					caret_visible = !caret_visible;
 					blink_clock.step();
 				}
-				
+
 				if(caret_visible)
 				{
 					vec4 cursor_rect = text.cursor_rect(selection.m_cursor);
@@ -868,8 +924,11 @@ namespace mud
 				}
 			}
 
-			if(imarker < markers.size() && markers[imarker].m_line == line)
+			if(imarker < text.m_markers.size() && text.m_markers[imarker].m_line == line)
+			{	
 				offset += vec2(0.f, line_height);
+				imarker++;
+			}
 		}
 	}
 
@@ -885,9 +944,9 @@ namespace mud
 
 		vec2 padding = floor(rect_offset(m_frame.d_inkstyle->m_padding));
 
-		draw_text_selection(vg, m_frame, padding, m_text_offset, m_text, m_selection, m_palette, m_editor, m_markers);
+		draw_text_selection(vg, m_frame, padding, m_text_offset, m_text, m_selection, m_palette, m_editor);
 		if(m_editor)
-			draw_editor_text(vg, m_frame, padding, m_text_offset, m_text, m_palette, m_markers);
+			draw_editor_text(vg, m_frame, padding, m_text_offset, m_text, m_palette);
 		else
 			draw_text(vg, padding, m_text);
 	}
@@ -990,15 +1049,22 @@ namespace mud
 		}
 	}
 
-	void TextEdit::scroll_to_cursor()
+	void TextEdit::scroll_to_cursor(Frame& frame, Frame& content)
 	{
-		//vec2 scroll = -m_frame.m_position;
-		//vec2 size = m_frame.m_size;
+		vec2 margin = vec2(0.f);
+
 		vec4 cursor_rect = m_text.cursor_rect(m_selection.m_cursor);
-		vec2 cursor = { cursor_rect.x, cursor_rect.y };
-		
-		m_frame.m_position = min(m_frame.m_position, -cursor);
-		//m_frame.m_position = max(m_frame.m_position, size - cursor);
+		vec2 cursor_min = rect_offset(cursor_rect) - margin;
+		vec2 cursor_max = cursor_min + rect_size(cursor_rect) + margin;
+
+		vec2 frame_min = -content.m_position;
+		vec2 frame_max = -content.m_position + frame.m_size;
+
+		vec2 delta_neg = max(vec2(0.f), frame_min - cursor_min);
+		vec2 delta_pos = min(vec2(0.f), frame_max - cursor_max);
+
+		content.set_position(content.m_position + delta_neg);
+		content.set_position(content.m_position + delta_pos);
 	}
 
 	void TextEdit::Action::Undo(TextEdit * aEditor)
@@ -1051,10 +1117,8 @@ namespace ui
 		self.update();
 		text = self.m_string;
 
-		vec2 size = self.m_text.compute_text_size() + rect_sum(self.m_frame.d_inkstyle->m_padding);
+		vec2 size = self.frame_size();
 		ui::dummy(self, size);
-		//self.m_frame.m_content = self.m_text.compute_text_size();
-		//self.m_frame.mark_dirty(DIRTY_LAYOUT);
 
 		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(frame); UNUSED(rect); self.render(vg); };
 
@@ -1098,6 +1162,8 @@ namespace ui
 		ScrollSheet& scroll_sheet = ui::scroll_sheet(self);
 		TextEdit& edit = text_box(*scroll_sheet.m_body, styles().type_zone, text, true, lines);
 
+		edit.update_scroll(scroll_sheet.m_scroll_zone->m_frame, scroll_sheet.m_body->m_frame);
+
 		if(vocabulary && edit.m_completing && !edit.has_selection())
 		{
 			size_t cursor = edit.m_selection.m_cursor;
@@ -1126,6 +1192,41 @@ namespace ui
 	TextEdit& code_edit(Widget& parent, string& text, size_t lines, std::vector<string>* vocabulary)
 	{
 		return text_edit(parent, text, lines, vocabulary);
+	}
+
+	string auto_indent(TextEdit& edit)
+	{
+		string text = edit.m_string;
+		text.reserve(text.size() * 2);
+
+		int level = 0;
+		 
+		auto process_line = [&](const char* line)
+		{
+			const char* c = line;
+			while(*c == ' ')
+				c++;
+
+			int current = *c == '}' ? level - 1 : level;
+			for(; c - line > current * 4; c--)
+				text.erase(c - 1 - &text.front(), 1);
+			for(; c - line < current * 4; c++)
+				text.insert(c - &text.front(), " ");
+
+			for(; *c != '\n'; ++c)
+			{
+				if(*c == '{') level++;
+				if(*c == '}') level--;
+			}
+			return c;
+		};
+
+		for(const char* c = &text.front(); c < &text.back(); ++c)
+		{
+			c = process_line(c);
+		}
+
+		return text;
 	}
 }
 }

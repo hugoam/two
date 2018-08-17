@@ -464,7 +464,7 @@ namespace mud
 			cls(ref).m_destructor[0].m_call(ref);
 	}
 
-	inline void register_enum(WrenVM* vm, string name, Type& type)
+	inline void register_enum(WrenVM* vm, string module, string name, Type& type)
 	{
 		Enum& enu = mud::enu(type);
 
@@ -480,8 +480,6 @@ namespace mud
 		decl += "class " + name + " {\n";
 		decl += members;
 		decl += "}\n";
-
-		string module = meta(type).m_namespace->m_name != string("") ? meta(type).m_namespace->m_name : "main";
 
 #ifdef MUD_WREN_DEBUG_DECLS
 		printf("%s\n", decl.c_str());
@@ -504,7 +502,7 @@ namespace mud
 		return params;
 	}
 
-	inline void register_class(WrenVM* vm, string name, Type& type)
+	inline void register_class(WrenVM* vm, string module, string name, Type& type)
 	{
 		if(type.is<Function>() || type.is<Type>() || type.is<Constructor>() || type.is<CopyConstructor>() || type.is<Method>() || type.is<Member>() || type.is<Static>()) return;
 		if(type.is<Class>() || type.is<Creator>() || type.is<System>()) return;
@@ -606,8 +604,6 @@ namespace mud
 		decl += "}\n";
 		decl += "\n";
 		decl += name + ".bind()\n";
-
-		string module = meta(type).m_namespace->m_name != string("") ? meta(type).m_namespace->m_name : "main";
 
 #ifdef MUD_WREN_DEBUG_DECLS
 		printf("%s\n", decl.c_str());
@@ -998,8 +994,8 @@ namespace mud
 	class WrenContext : public NonCopy
 	{
 	public:
-		explicit WrenContext(WrenInterpreter& interpreter, std::vector<string> import_namespaces = {})
-			: m_import_namespaces(import_namespaces)
+		explicit WrenContext(WrenInterpreter& interpreter, std::map<string, string> namespaces = {})
+			: m_namespaces(namespaces)
 		{
 			WrenConfiguration config;
 			wrenInitConfiguration(&config);
@@ -1159,19 +1155,27 @@ namespace mud
 		{
 			if(name == string("Ui")) return "UiRoot";
 			string result = replace_all(replace_all(replace_all(name, "<", "_"), ">", ""), "*", "");
-			for(string n : m_import_namespaces)
-				result = replace_all(result, n + "::", "");
+			for(auto& nemespace : m_namespaces)
+				result = replace_all(result, nemespace.first + "::", "");
 			result[0] = char(toupper(result[0]));
 			return result;
 		}
 
 		void register_type(Type& type)
 		{
+			auto module = [&](Type& type) -> string
+			{
+				if(meta(type).m_namespace->m_name != string(""))
+					return m_namespaces[string(meta(type).m_namespace->m_name)];
+				else
+					return "main";
+			};
+
 			string name = clean_name(type.m_name);
 			if(is_class(type))
-				register_class(m_vm, name, type);
+				register_class(m_vm, module(type), name, type);
 			if(is_enum(type))
-				register_enum(m_vm, name, type);
+				register_enum(m_vm, module(type), name, type);
 		}
 
 		void register_function(Function& function)
@@ -1223,11 +1227,11 @@ namespace mud
 #endif
 
 			string parent = location.m_parent ? location.m_parent->m_name : "";
-			string module = parent != "" ? parent : "main";
+			string module = parent != "" ? m_namespaces[parent] : "main";
 			wrenInterpret(m_vm, module.c_str(), decl.c_str());
 		}
 
-		std::vector<string> m_import_namespaces;
+		std::map<string, string> m_namespaces;
 
 		struct Functions
 		{
@@ -1243,11 +1247,20 @@ namespace mud
 	};
 }
 
-
 namespace mud
 {
+	static std::map<string, string> namespaces()
+	{
+		std::map<string, string> n;
+		n["mud"] = "toy";
+		n["ui"]  = "toy";
+		n["gfx"] = "toy";
+		n["toy"] = "toy";
+		return n;
+	}
+
 	WrenInterpreter::WrenInterpreter(bool import_symbols)
-		: m_context(make_unique<WrenContext>(*this, std::vector<string>{ "mud", "toy" }))
+		: m_context(make_unique<WrenContext>(*this, namespaces()))
 	{
 		//g_lua_print_output = &m_output;
 		if(import_symbols)

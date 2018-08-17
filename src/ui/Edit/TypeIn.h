@@ -137,6 +137,8 @@ namespace mud
 
 		std::vector<ColorSection> m_sections;
 
+		std::vector<TextMarker> m_markers;
+
 	public:
 		static Vg* s_vg;
 	};
@@ -205,8 +207,10 @@ namespace mud
 		bool m_changed = false;
 
 		void update_style();
+		vec2 frame_size();
 
 		void update();
+		void update_scroll(Frame& frame, Frame& content);
 		void render(Vg& vg);
 
 		void set_text(const string& text);
@@ -217,7 +221,7 @@ namespace mud
 		void insert(size_t index, const string& text);
 		void insert(size_t index, const string& text, size_t cursor, Action& action);
 
-		void erase_selected(Action& action) { erase(m_selection.m_start, m_selection.m_end, m_selection.m_start, action); }
+		void erase_selected(Action& action);
 
 		void enter();
 		void erase();
@@ -238,7 +242,7 @@ namespace mud
 
 		bool has_selection() const { return m_selection.m_end > m_selection.m_start; }
 
-		string selected_text() const { return m_string.substr(m_selection.m_start, m_selection.m_end - m_selection.m_start); }
+		string selected_text() const;
 
 		void cursor(size_t index);
 		void select(size_t index, bool word_mode = false);
@@ -250,7 +254,7 @@ namespace mud
 		void select_all();
 		void select_word();
 
-		void scroll_to_cursor();
+		void scroll_to_cursor(Frame& frame, Frame& content);
 
 		void move_right(size_t count, bool select = false, bool word_mode = false);
 		void move_left(size_t count, bool select = false, bool word_mode = false);
@@ -321,8 +325,6 @@ namespace mud
 		int m_undo_index = 0;
 
 		LanguageDefinition* m_language = nullptr;
-
-		std::vector<TextMarker> m_markers;
 	};
 
 namespace ui
@@ -333,5 +335,7 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ TextEdit& type_in(Widget& parent, string& text, size_t lines = 1, const string& allowed_chars = "");
 	export_ MUD_UI_EXPORT func_ TextEdit& text_edit(Widget& parent, string& text, size_t lines = 1, std::vector<string>* vocabulary = nullptr);
 	export_ MUD_UI_EXPORT func_ TextEdit& code_edit(Widget& parent, string& text, size_t lines = 1, std::vector<string>* vocabulary = nullptr);
+
+	export_ MUD_UI_EXPORT string auto_indent(TextEdit& edit);
 }
 }

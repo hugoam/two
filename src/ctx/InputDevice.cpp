@@ -49,48 +49,50 @@ namespace mud
 		m_dispatcher.dispatch_event(m_events.back());
 	}
 
-	void Keyboard::key_char(Key key, char c)
+	void Keyboard::key_char(char c)
 	{
-		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Stroked, key, c, InputMod::None));
+		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Stroked, Key::Unassigned, c, InputMod::None));
 	}
 
-	void Keyboard::key_pressed(Key key, char c)
+	void Keyboard::key_pressed(Key key, Key translated)
 	{
 		m_shift |= key == Key::LeftShift || key == Key::RightShift;
 		m_ctrl |= key == Key::LeftControl || key == Key::RightControl;
 		m_alt |= key == Key::LeftAlt || key == Key::RightAlt;
 
-		this->key_pressed(key, c, modifiers());
+		this->key_pressed(key, translated, modifiers());
 	}
 
-	void Keyboard::key_pressed(Key key, char c, InputMod mods)
+	void Keyboard::key_pressed(Key key, Key translated, InputMod mods)
 	{
-		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Pressed, key, c, mods));
-		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Stroked, key, c, mods));
+		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Pressed, key, char(0), mods));
+		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Pressed, translated, char(0), mods));
 	}
 
-	void Keyboard::key_released(Key key, char c)
+	void Keyboard::key_released(Key key, Key translated)
 	{
 		m_shift &= !(key == Key::LeftShift || key == Key::RightShift);
 		m_ctrl &= !(key == Key::LeftControl || key == Key::RightControl);
 		m_alt &= !(key == Key::LeftAlt || key == Key::RightAlt);
 
-		this->key_released(key, c, modifiers());
+		this->key_released(key, translated, modifiers());
 	}
 
-	void Keyboard::key_released(Key key, char c, InputMod mods)
+	void Keyboard::key_released(Key key, Key translated, InputMod mods)
 	{
-		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Released, key, c, mods));
+		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Released, key, char(0), mods));
+		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Released, translated, char(0), mods));
 	}
 
-	void Keyboard::key_stroke(Key key, char c)
+	void Keyboard::key_stroke(Key key, Key translated)
 	{
-		this->key_stroke(key, c, modifiers());
+		this->key_stroke(key, translated, modifiers());
 	}
 
-	void Keyboard::key_stroke(Key key, char c, InputMod mods)
+	void Keyboard::key_stroke(Key key, Key translated, InputMod mods)
 	{
-		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Stroked, key, c, mods));
+		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Stroked, key, char(0), mods));
+		dispatch_event(KeyEvent(DeviceType::Keyboard, EventType::Stroked, translated, char(0), mods));
 	}
 
 	Mouse::Mouse(EventDispatcher& dispatcher, Keyboard& keyboard)

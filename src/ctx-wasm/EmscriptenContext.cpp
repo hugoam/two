@@ -138,6 +138,14 @@ namespace mud
 		else return Key::Unassigned;
 	}
 
+	Key translate_html5_key(const string& string, char c)
+	{
+		if(c == 'a' || c == 'A') return translate(Key::A);
+		if(c == 'z' || c == 'Z') return translate(Key::Z);
+		if(c == 'q' || c == 'Q') return translate(Key::Q);
+		if(c == 'w' || c == 'W') return translate(Key::W);
+		else return translate(convert_html5_key(string));
+	}
 
 	EmContext::EmContext(RenderSystem& render_system, cstring name, int width, int height, bool full_screen)
 		: Context(render_system, name, width, height, full_screen)
@@ -261,23 +269,23 @@ namespace mud
 	{
 		m_keyboard->update_modifiers(keyEvent.shiftKey, keyEvent.ctrlKey, keyEvent.altKey);
 		if(!keyEvent.repeat)
-			m_keyboard->key_pressed(convert_html5_key(keyEvent.code), keyEvent.key[0], m_keyboard->modifiers());
-		return keyEvent.key[1] != 0; // can't consume if printable value aka key as length one (or we wouldn't receive key_press event)
+			m_keyboard->key_pressed(convert_html5_key(keyEvent.code), translate_html5_key(keyEvent.code, keyEvent.key[0]), m_keyboard->modifiers());
+		return false;
 	}
 
 	bool EmContext::inject_key_up(const EmscriptenKeyboardEvent& keyEvent)
 	{
 		m_keyboard->update_modifiers(keyEvent.shiftKey, keyEvent.ctrlKey, keyEvent.altKey);
-		m_keyboard->key_released(convert_html5_key(keyEvent.code), keyEvent.key[0], m_keyboard->modifiers());
+		m_keyboard->key_released(convert_html5_key(keyEvent.code), translate_html5_key(keyEvent.code, keyEvent.key[0]), m_keyboard->modifiers());
 		return true;
 	}
 
 	bool EmContext::inject_key_press(const EmscriptenKeyboardEvent& keyEvent)
 	{
 		m_keyboard->update_modifiers(keyEvent.shiftKey, keyEvent.ctrlKey, keyEvent.altKey);
-		m_keyboard->key_stroke(convert_html5_key(keyEvent.code), keyEvent.key[0], m_keyboard->modifiers());
+		m_keyboard->key_stroke(convert_html5_key(keyEvent.code), translate_html5_key(keyEvent.code, keyEvent.key[0]), m_keyboard->modifiers());
 		if(keyEvent.key[1] == 0)
-			m_keyboard->key_char(Key::Unassigned, keyEvent.key[0]);
+			m_keyboard->key_char(keyEvent.key[0]);
 		return true;
 	}
 

@@ -67,6 +67,7 @@ namespace mud
 
 		meth_ KeyEvent key_event(Key code, EventType event_type, InputMod modifier = InputMod::Any);
 		meth_ KeyEvent key_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(code, EventType::Stroked, modifier); }
+		meth_ KeyEvent char_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(translate(code), EventType::Stroked, modifier); }
 
 		meth_ MouseEvent mouse_event(DeviceType device, EventType event_type, InputMod modifier = InputMod::None, bool consume = true);
 		

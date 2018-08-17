@@ -119,7 +119,7 @@ namespace ui
 		PseudoIsometric,
 	};
 
-	export_ MUD_GFX_UI_EXPORT func_ OrbitController& orbit_controller(Viewer& viewer, float yaw = 0.f, float pitch = 0.f, float distance = 1.f);
+	export_ MUD_GFX_UI_EXPORT func_ OrbitController& orbit_controller(Viewer& viewer, float yaw = c_pi / 4.f, float pitch = -c_pi / 4.f, float distance = 10.f);
 	export_ MUD_GFX_UI_EXPORT func_ FreeOrbitController& free_orbit_controller(Viewer& viewer);
 	export_ MUD_GFX_UI_EXPORT func_ OrbitController& isometric_controller(Viewer& viewer, bool topdown = false);
 	export_ MUD_GFX_UI_EXPORT func_ OrbitController& hybrid_controller(Viewer& viewer, OrbitMode mode, Transform& entity, bool& aiming, vec2& angles);
