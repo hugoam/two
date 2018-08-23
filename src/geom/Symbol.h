@@ -29,6 +29,9 @@ namespace mud
 		Symbol(cstring image, float alpha = 1.f);
 		Symbol(const Image256& image256, float alpha = 1.f);
 
+		constr_ static Symbol plain(Colour colour) { return Symbol(colour, Colour::None); }
+		constr_ static Symbol wire(Colour colour) { return Symbol(Colour::None, colour); }
+
 		bool operator==(const Symbol& other) const;
 
 		attr_ Colour m_outline;

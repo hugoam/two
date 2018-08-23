@@ -56,7 +56,7 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	for(Item* selected_item : selected)
 		if(selected_item)
-			gfx::draw(scene, selected_item->m_aabb, Symbol(Colour::None, Colour::White));
+			gfx::draw(scene, selected_item->m_aabb, Symbol::wire(Colour::White));
 }
 
 #ifdef _11_SELECTION_EXE

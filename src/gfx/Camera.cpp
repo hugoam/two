@@ -18,7 +18,7 @@ namespace mud
 		: m_eye(Z3)
 		, m_target(Zero3)
 	{
-		m_eye = 2.f * Z3;
+		m_eye = vec3(10.f);
 		m_far = 300.f;
 	}
 

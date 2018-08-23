@@ -205,6 +205,7 @@ namespace mud
 		string& m_string;
 
 		bool m_changed = false;
+		bool m_entered = false;
 
 		void update_style();
 		vec2 frame_size();
@@ -224,6 +225,7 @@ namespace mud
 		void erase_selected(Action& action);
 
 		void enter();
+		void escape();
 		void erase();
 		void backspace();
 		void insert(unsigned char c);
@@ -244,8 +246,7 @@ namespace mud
 
 		string selected_text() const;
 
-		void cursor(size_t index);
-		void select(size_t index, bool word_mode = false);
+		void cursor(size_t index, bool word_mode = false);
 		void select(size_t first, size_t second, bool word_mode = false);
 
 		void move_select(TextCursor dest, bool select, bool word_mode = false);

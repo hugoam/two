@@ -153,7 +153,7 @@ namespace mud
 #ifdef MUD_RENDERER_BGFX
 		// bgfx creates the context itself
 		double canvas_width, canvas_height;
-		emscripten_get_element_css_size("canvas", &canvas_width, &canvas_height);
+		emscripten_get_element_css_size("#canvas", &canvas_width, &canvas_height);
 		emscripten_set_canvas_element_size("#canvas", int(canvas_width), int(canvas_height));
 
 		m_width = int(canvas_width);
@@ -164,16 +164,16 @@ namespace mud
 
 		emscripten_set_resize_callback(0, this, true, [](int, const EmscriptenUiEvent* event, void* w) { static_cast<EmContext*>(w)->resize(); return EM_BOOL(true); });
 
-		emscripten_set_mousemove_callback(0, this, true, [](int, const EmscriptenMouseEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_mouse_move(*event)); });
+		emscripten_set_mousemove_callback("#canvas", this, true, [](int, const EmscriptenMouseEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_mouse_move(*event)); });
 
-		emscripten_set_mousedown_callback(0, this, true, [](int, const EmscriptenMouseEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_mouse_down(*event)); });
-		emscripten_set_mouseup_callback(0, this, true, [](int, const EmscriptenMouseEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_mouse_up(*event)); });
+		emscripten_set_mousedown_callback("#canvas", this, true, [](int, const EmscriptenMouseEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_mouse_down(*event)); });
+		emscripten_set_mouseup_callback("#canvas", this, true, [](int, const EmscriptenMouseEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_mouse_up(*event)); });
 
-		emscripten_set_wheel_callback(0, this, true, [](int, const EmscriptenWheelEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_wheel(*event)); });
+		emscripten_set_wheel_callback("#canvas", this, true, [](int, const EmscriptenWheelEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_wheel(*event)); });
 
-		emscripten_set_keydown_callback(0, this, true, [](int, const EmscriptenKeyboardEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_key_down(*event)); });
-		emscripten_set_keyup_callback(0, this, true, [](int, const EmscriptenKeyboardEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_key_up(*event)); });
-		emscripten_set_keypress_callback(0, this, true, [](int, const EmscriptenKeyboardEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_key_press(*event)); });
+		emscripten_set_keydown_callback("#canvas", this, true, [](int, const EmscriptenKeyboardEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_key_down(*event)); });
+		emscripten_set_keyup_callback("#canvas", this, true, [](int, const EmscriptenKeyboardEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_key_up(*event)); });
+		emscripten_set_keypress_callback("#canvas", this, true, [](int, const EmscriptenKeyboardEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_key_press(*event)); });
 
 	}
 
@@ -192,9 +192,9 @@ namespace mud
 		attrs.minorVersion = 0;
 		attrs.enableExtensionsByDefault = 1;
 
-		m_window = emscripten_webgl_create_context("canvas", &attrs);
+		m_window = emscripten_webgl_create_context("#canvas", &attrs);
 
-		emscripten_set_canvas_element_size("canvas", m_width, m_height);
+		emscripten_set_canvas_element_size("#canvas", m_width, m_height);
 		emscripten_webgl_make_context_current(m_window);
 	}
 
@@ -225,8 +225,8 @@ namespace mud
 	void EmContext::resize()
 	{
 		double width, height;
-		emscripten_get_element_css_size("canvas", &width, &height);
-		emscripten_set_canvas_element_size("canvas", int(width), int(height));
+		emscripten_get_element_css_size("#canvas", &width, &height);
+		emscripten_set_canvas_element_size("#canvas", int(width), int(height));
 
 		m_width = width;
 		m_height = height;
@@ -238,7 +238,7 @@ namespace mud
 		m_cursor = max(vec2(0.f), min(size, vec2(float(mouseEvent.canvasX), float(mouseEvent.canvasY))));
 		vec2 movement = { float(mouseEvent.movementX), float(mouseEvent.movementY) };
 		m_mouse->moved(m_cursor, m_mouse_lock ? &movement : nullptr);
-		return false;
+		return true;
 	}
 
 	void EmContext::update_mouse_lock()
@@ -248,7 +248,7 @@ namespace mud
 			EmscriptenPointerlockChangeEvent pointer_lock;
 			emscripten_get_pointerlock_status(&pointer_lock);
 			if (!pointer_lock.isActive)
-				emscripten_request_pointerlock("canvas", EM_TRUE);
+				emscripten_request_pointerlock("#canvas", EM_TRUE);
 		}
 	}
 
@@ -256,13 +256,13 @@ namespace mud
 	{
 		this->update_mouse_lock();
 		m_mouse->m_buttons[convert_html5_mouse_button(mouseEvent.button)].pressed({ float(mouseEvent.canvasX), float(mouseEvent.canvasY) });
-		return false;
+		return true;
 	}
 
 	bool EmContext::inject_mouse_up(const EmscriptenMouseEvent& mouseEvent)
 	{
 		m_mouse->m_buttons[convert_html5_mouse_button(mouseEvent.button)].released({ float(mouseEvent.canvasX), float(mouseEvent.canvasY) });
-		return false;
+		return true;
 	}
 
 	bool EmContext::inject_key_down(const EmscriptenKeyboardEvent& keyEvent)
@@ -292,6 +292,6 @@ namespace mud
 	bool EmContext::inject_wheel(const EmscriptenWheelEvent& wheelEvent)
 	{
 		m_mouse->wheeled(m_cursor, -wheelEvent.deltaY);
-		return false;
+		return true;
 	}
 }

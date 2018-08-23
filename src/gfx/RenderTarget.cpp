@@ -72,8 +72,8 @@ namespace mud
 
 	void SwapBuffer::create(uvec2 size, bgfx::TextureFormat::Enum color_format)
 	{
-		m_one = bgfx::createFrameBuffer(uint16_t(size.x), uint16_t(size.y), color_format, GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
-		m_two = bgfx::createFrameBuffer(uint16_t(size.x), uint16_t(size.y), color_format, GFX_TEXTURE_CLAMP | GFX_TEXTURE_POINT);
+		m_one = bgfx::createFrameBuffer(uint16_t(size.x), uint16_t(size.y), color_format, GFX_TEXTURE_CLAMP);// | GFX_TEXTURE_POINT);
+		m_two = bgfx::createFrameBuffer(uint16_t(size.x), uint16_t(size.y), color_format, GFX_TEXTURE_CLAMP);// | GFX_TEXTURE_POINT);
 	}
 
 	SwapBuffer::~SwapBuffer()
@@ -112,18 +112,20 @@ namespace mud
 		//, m_msaa(MSAA::X16)
 	{
 		static const uint32_t msaa_value[] = { BGFX_TEXTURE_RT, BGFX_TEXTURE_RT_MSAA_X2, BGFX_TEXTURE_RT_MSAA_X4, BGFX_TEXTURE_RT_MSAA_X8, BGFX_TEXTURE_RT_MSAA_X16 };
-		uint32_t render_target_flags = msaa_value[size_t(m_msaa)];
+		
+		bgfx::TextureFormat::Enum color_format = bgfx::TextureFormat::RGBA16F;
 
+		if(!bgfx::isTextureValid(0, false, 1, color_format, 0))
+			color_format = bgfx::TextureFormat::RGB10A2;
+		if(!bgfx::isTextureValid(0, false, 1, color_format, 0))
+			color_format = bgfx::TextureFormat::RGBA8;
+		if(!bgfx::isTextureValid(0, false, 1, color_format, msaa_value[size_t(m_msaa)]))
+			m_msaa = MSAA::Disabled;
+
+		uint32_t render_target_flags = msaa_value[size_t(m_msaa)];
 #if defined MUD_PLATFORM_EMSCRIPTEN && !defined MUD_WEBGL2
 		render_target_flags |= GFX_TEXTURE_CLAMP;
 #endif
-
-		bgfx::TextureFormat::Enum color_format = bgfx::TextureFormat::RGBA16F;
-
-		if(!bgfx::isTextureValid(0, false, 1, color_format, render_target_flags))
-			color_format = bgfx::TextureFormat::RGB10A2;
-		if(!bgfx::isTextureValid(0, false, 1, color_format, render_target_flags))
-			color_format = bgfx::TextureFormat::RGBA8;
 
 		m_depth = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::D24S8, render_target_flags);
 

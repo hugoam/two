@@ -158,21 +158,19 @@ namespace mud
 		if(edit.char_stroke(Key::S, InputMod::Ctrl))
 			reload();
 
-		if(ui::button(*self.m_toolbar, "Indent").activated())
-		{
+		if(edit.m_entered)
 			script.m_script = ui::auto_indent(edit);
-			edit.m_text.m_sections.clear();
-			edit.mark_dirty(0, script.m_script.size());
-		}
 
 		edit.m_text.m_markers.clear();
-		for(const Error& error : script.m_compile_errors)
+		for(const auto& line_error : script.m_compile_errors)
 		{
+			const Error& error = line_error.second;
 			edit.m_text.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
 		}
 
-		for(const Error& error : script.m_runtime_errors)
+		for(const auto& line_error : script.m_runtime_errors)
 		{
+			const Error& error = line_error.second;
 			edit.m_text.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
 		}
 

@@ -261,7 +261,7 @@ namespace mud
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::orbit_controller(val<mud::Viewer>(args[0]), val<float>(args[1]), val<float>(args[2]), val<float>(args[3]))); };
-            std::vector<Param> params = { { "viewer", Ref(type<mud::Viewer>()) }, { "yaw", var(float(0.f)), Param::Default }, { "pitch", var(float(0.f)), Param::Default }, { "distance", var(float(1.f)), Param::Default } };
+            std::vector<Param> params = { { "viewer", Ref(type<mud::Viewer>()) }, { "yaw", var(float(c_pi / 4.f)), Param::Default }, { "pitch", var(float(-c_pi / 4.f)), Param::Default }, { "distance", var(float(10.f)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "orbit_controller", function_id<mud::OrbitController&(*)(mud::Viewer&, float, float, float)>(&mud::ui::orbit_controller), func, params, Ref(type<mud::OrbitController>()) };
             m.m_functions.push_back(&f);
         }
@@ -278,9 +278,9 @@ namespace mud
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::hybrid_controller(val<mud::Viewer>(args[0]), val<mud::ui::OrbitMode>(args[1]), val<mud::Transform>(args[2]), val<bool>(args[3]), val<vec2>(args[4]))); };
-            std::vector<Param> params = { { "viewer", Ref(type<mud::Viewer>()) }, { "mode", var(mud::ui::OrbitMode()) }, { "entity", var(mud::Transform()) }, { "aiming", var(bool()) }, { "angles", var(vec2()) } };
-            static Function f = { &namspc({ "mud", "ui" }), "hybrid_controller", function_id<mud::OrbitController&(*)(mud::Viewer&, mud::ui::OrbitMode, mud::Transform&, bool&, vec2&)>(&mud::ui::hybrid_controller), func, params, Ref(type<mud::OrbitController>()) };
+            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::hybrid_controller(val<mud::Viewer>(args[0]), val<mud::ui::OrbitMode>(args[1]), val<mud::Transform>(args[2]), val<bool>(args[3]), val<vec2>(args[4]), val<bool>(args[5]))); };
+			std::vector<Param> params = { { "viewer", Ref(type<mud::Viewer>()) }, { "mode", var(mud::ui::OrbitMode()) }, { "entity", var(mud::Transform()) }, { "aiming", var(bool()) }, { "angles", var(vec2()) }, { "modal", var(bool(false)), Param::Default } };
+            static Function f = { &namspc({ "mud", "ui" }), "hybrid_controller", function_id<mud::OrbitController&(*)(mud::Viewer&, mud::ui::OrbitMode, mud::Transform&, bool&, vec2&, bool)>(&mud::ui::hybrid_controller), func, params, Ref(type<mud::OrbitController>()) };
             m.m_functions.push_back(&f);
         }
         {

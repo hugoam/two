@@ -39,7 +39,7 @@ namespace mud
 #endif
 		attr_ float m_fov = 60.f;
 		attr_ float m_aspect = 1.f;
-		attr_ float m_near = 0.001f;
+		attr_ float m_near = 0.1f;
 		attr_ float m_far = 100.f;
 
 		attr_ bool m_orthographic = false;

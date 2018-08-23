@@ -26,7 +26,7 @@ namespace ui
 		if(size != self.m_frame.m_content)
 		{
 			self.m_frame.m_content = size;
-			self.m_frame.set_dirty(DIRTY_LAYOUT);
+			self.m_frame.mark_dirty(DIRTY_LAYOUT);
 		}
 		return self;
 	}

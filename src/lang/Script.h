@@ -14,6 +14,7 @@
 #include <lang/Forward.h>
 
 #ifndef MUD_CPP_20
+#include <map>
 #include <string>
 #endif
 
@@ -63,8 +64,8 @@ namespace mud
 		using Callable::operator();
 		virtual void operator()(array<Var> args, Var& result) const;
 
-		mutable std::vector<Error> m_compile_errors;
-		mutable std::vector<Error> m_runtime_errors;
+		mutable std::map<int, Error> m_compile_errors;
+		mutable std::map<int, Error> m_runtime_errors;
 	};
 
 	export_ class refl_ MUD_LANG_EXPORT Interpreter : public NonCopy

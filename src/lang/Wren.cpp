@@ -59,11 +59,18 @@ namespace mud
 	{
 		const TextScript* script = wren_script(vm);
 		if(script && type == WREN_ERROR_COMPILE)
-			script->m_compile_errors.push_back({ size_t(line), size_t(0), string("^ ") + message });
+			script->m_compile_errors[line] = { size_t(line), size_t(0), string("^ ") + message };
 		else if(script && type == WREN_ERROR_RUNTIME)
-			script->m_runtime_errors.push_back({ size_t(line), size_t(0), string("^ ") + message });
+			script->m_runtime_errors[-1] = { size_t(line), size_t(0), string("^ ") + message };
 		else if(script && type == WREN_ERROR_STACK_TRACE)
-			script->m_runtime_errors.back().m_line = size_t(line);
+		{
+			if(script->m_runtime_errors.find(-1) != script->m_runtime_errors.end())
+			{
+				script->m_runtime_errors[line] = script->m_runtime_errors[-1];
+				script->m_runtime_errors[line].m_line = size_t(line);
+				script->m_runtime_errors.erase(-1);
+			}
+		}
 		else
 			printf("ERROR: wren -> %s:%i %s\n", module, line, message);
 	}
@@ -285,7 +292,7 @@ namespace mud
 			if (!success)
 			{
 #ifdef MUD_WREN_DEBUG
-				printf("ERROR: wren -> wrong argument %s, expect type %s, got %s\n", params[i].m_name, type(params[i].m_value).m_name, type(vars[i]).m_name);
+				printf("ERROR: wren -> wrong argument %s, expect type %s, got %s\n", callable.m_params[i].m_name, type(callable.m_params[i].m_value).m_name, type(vars[i]).m_name);
 #endif
 				return false;
 			}
@@ -297,6 +304,9 @@ namespace mud
 
 	inline void call_cpp(WrenVM* vm, Call& call, size_t first, size_t num_arguments)
 	{
+		if(call.m_callable->m_name == string("add_scene"))
+			int i = 0;
+
 		bool enough_arguments = num_arguments >= call.m_callable->m_num_required;
 		if(enough_arguments && read_params(vm, *call.m_callable, call.m_arguments, 0, first))
 		{
@@ -306,6 +316,12 @@ namespace mud
 		}
 		else
 			printf("ERROR: wren -> %s wrong arguments\n", call.m_callable->m_name);
+
+		if(call.m_callable->m_name == string("add_scene"))
+		{
+			int test = wrenGetSlotCount(vm);
+			int t = 2;
+		}
 	}
 
 	inline void call_function(WrenVM* vm, size_t num_args)
@@ -1335,8 +1351,6 @@ namespace mud
 	void WrenInterpreter::virtual_call(Method& method, Ref object, array<Var> args)
 	{
 		m_script = m_virtual_scripts[object.m_value];
-		m_script->m_runtime_errors.clear();
-
 		call_wren_virtual(m_context->m_vm, method, object, args);
 	}
 

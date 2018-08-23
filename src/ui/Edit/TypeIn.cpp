@@ -22,7 +22,7 @@ module mud.ui;
 #include <ui/Structs/Container.h>
 #include <ui/ScrollSheet.h>
 #include <ui/Edit/Lang.h>
-#include <ui/Frame/Frame.h>
+#include <ui/Frame/Layer.h>
 #include <ui/Frame/Caption.h>
 #include <ui/Structs/RootSheet.h>
 #include <ui/Cursor.h>
@@ -252,7 +252,7 @@ namespace mud
 	{
 		size_t row = this->text_row_index(index);
 		size_t column = m_text_rows.empty() ? 0U : index - m_text_rows[row].m_start_index;
-		return{ index, { uint(column), uint(row) } };
+		return { index, { uint(column), uint(row) } };
 	}
 
 	TextCursor Text::to_cursor(const uvec2& grid_index) const
@@ -271,7 +271,9 @@ namespace mud
 	{
 		int line = max(0, min(int(m_text_rows.size()) - 1, grid_index.y));
 		int column = m_text_rows.empty() ? 0 : min(int(m_text_rows[line].m_glyphs.size()), grid_index.x);
-		return to_cursor({ uint(column), uint(line)});
+		size_t index = m_text_rows[line].m_start_index + column;
+		return { index, grid_index };
+		//return to_cursor({ uint(column), uint(line) });
 	}
 
 	TextEdit::TextEdit(Widget* parent, void* identity, bool editor, string allowed_chars)
@@ -334,9 +336,23 @@ namespace mud
 		m_selection.m_start = min(size_t(m_selection.m_start), text.size());
 		m_selection.m_end = min(size_t(m_selection.m_end), text.size());
 
+		printf("WARNING: undo/redo won't work after this");
 		//mUndoBuffer.clear();
 
 		mark_dirty(0, m_string.size());
+	}
+
+	void TextEdit::changed()
+	{
+		m_changed = true;
+	}
+
+	void TextEdit::mark_dirty(size_t start, size_t end)
+	{
+		m_dirty[0] = min<uint>(m_dirty[0], start);
+		m_dirty[1] = max<uint>(m_dirty[1], end);
+		m_text.break_text_rows();
+		this->changed();
 	}
 
 	void TextEdit::clear(size_t start, size_t end)
@@ -355,17 +371,11 @@ namespace mud
 		}
 	}
 
-	void TextEdit::changed()
-	{
-		m_changed = true;
-	}
-
 	void TextEdit::insert(size_t index, const string& text)
 	{
 		this->shift(index, text.length());
 		m_string.insert(index, text);
 		this->mark_dirty(line_begin(m_string, index), line_end(m_string, index + text.size()));
-		this->changed();
 		m_follow_cursor = true;
 	}
 
@@ -377,8 +387,6 @@ namespace mud
 
 		this->insert(index, text);
 		this->cursor(cursor);
-
-		//shift_lines(num_lines);
 	}
 
 	void TextEdit::erase(size_t start, size_t end)
@@ -388,7 +396,6 @@ namespace mud
 		this->shift(start, start - end);
 		m_string.erase(start, end - start);
 		this->mark_dirty(line_begin(m_string, start), line_end(m_string, start));
-		this->changed();
 		m_follow_cursor = true;
 	}
 
@@ -400,27 +407,28 @@ namespace mud
 
 		this->erase(start, end);
 		this->cursor(cursor);
-
-		//shift_lines(-num_lines);
 	}
 
 	void TextEdit::enter()
 	{
-		//if(m_on_enter)
-		//	this->set_text(m_on_enter(m_string));
 		if(allowed('\n'))
+		{
 			this->insert('\n');
+			m_entered = true;
+		}
+	}
+
+	void TextEdit::escape()
+	{
+		if(m_completing)
+			m_completing = false;
+		else
+			this->yield_focus();
 	}
 
 	void TextEdit::erase_selected(Action& action)
 	{
 		erase(m_selection.m_start, m_selection.m_end, m_selection.m_start, action);
-	}
-
-	void debug_selection(const string& text, const TextSelection& selection)
-	{
-		if(selection.m_end > selection.m_start)
-			printf("selection [%i,%i] = %s\n", selection.m_start, selection.m_end, text.substr(selection.m_start, selection.m_end - selection.m_start).c_str());
 	}
 
 	void TextEdit::erase()
@@ -429,7 +437,6 @@ namespace mud
 
 		CommitAction([&](Action& action)
 		{
-			debug_selection(m_string, m_selection);
 			if(has_selection())
 				erase_selected(action);
 			else
@@ -443,7 +450,6 @@ namespace mud
 
 		CommitAction([&](Action& action)
 		{
-			debug_selection(m_string, m_selection);
 			if(has_selection())
 				erase_selected(action);
 			else if(m_selection.m_cursor > 0)
@@ -464,7 +470,6 @@ namespace mud
 
 		CommitAction([&](Action& action)
 		{
-			debug_selection(m_string, m_selection);
 			if(has_selection())
 				erase_selected(action);
 
@@ -476,7 +481,6 @@ namespace mud
 	{
 		CommitAction([&](Action& action)
 		{
-			debug_selection(m_string, m_selection);
 			if(has_selection())
 				erase_selected(action);
 
@@ -504,7 +508,6 @@ namespace mud
 
 		CommitAction([&](Action& action)
 		{
-			debug_selection(m_string, m_selection);
 			copy();
 			if(has_selection())
 				erase_selected(action);
@@ -520,7 +523,6 @@ namespace mud
 
 		CommitAction([&](Action& action)
 		{
-			debug_selection(m_string, m_selection);
 			if(has_selection())
 				erase_selected(action);
 
@@ -529,33 +531,29 @@ namespace mud
 			else
 				insert(m_selection.m_cursor, clipboard.m_text, m_selection.m_cursor + clipboard.m_text.size(), action);
 		});
-	}
 
-	void TextEdit::cursor(size_t index)
-	{
-		m_selection = { m_text.to_cursor(index), index, index, m_selection.m_insert_mode };
-		m_frame.mark_dirty(DIRTY_REDRAW);
+		m_entered = true;
 	}
 
 	void TextEdit::select(size_t first, size_t second, bool word_mode)
 	{
-		m_selection = { m_text.to_cursor(second), min(first, second), max(first, second), m_selection.m_insert_mode };
+		m_selection.m_start = min(first, second);
+		m_selection.m_end = max(first, second);
+
 		m_completing = false;
+		m_follow_cursor = true;
 
 		if(word_mode)
 		{
 			m_selection.m_start = word_begin(m_string, m_selection.m_start);
 			m_selection.m_end = word_end(m_string, m_selection.m_end);
 		}
-
-		if(m_selection.m_cursor != SIZE_MAX)
-			m_follow_cursor = true;
-		m_frame.mark_dirty(DIRTY_REDRAW);
 	}
 
-	void TextEdit::select(size_t caret, bool word_mode)
+	void TextEdit::cursor(size_t caret, bool word_mode)
 	{
 		this->select(caret, caret, word_mode);
+		m_selection.m_cursor = m_text.to_cursor(word_mode ? m_selection.m_end : caret);
 	}
 
 	void TextEdit::move_select(TextCursor dest, bool select, bool word_mode)
@@ -569,75 +567,76 @@ namespace mud
 		else
 		{
 			m_select_from = {};
-			this->select(dest, select && word_mode);
+			this->select(dest, dest, select && word_mode);
 		}
 
+		m_selection.m_cursor = dest;
 		m_follow_cursor = true;
 	}
 
 	void TextEdit::move_up(bool select)
 	{
-		move_select(m_text.clamp_cursor(ivec2(m_selection.m_cursor.m_grid_index) - ivec2(0, 1)), select);
+		this->move_select(m_text.clamp_cursor(ivec2(m_selection.m_cursor.m_grid_index) - ivec2(0, 1)), select);
 	}
 
 	void TextEdit::move_down(bool select)
 	{
-		move_select(m_text.clamp_cursor(ivec2(m_selection.m_cursor.m_grid_index) + ivec2(0, 1)), select);
+		this->move_select(m_text.clamp_cursor(ivec2(m_selection.m_cursor.m_grid_index) + ivec2(0, 1)), select);
 	}
 
 	void TextEdit::move_page_up(bool select)
 	{
-		move_select(m_text.clamp_cursor(ivec2(m_selection.m_cursor.m_grid_index) - ivec2(0, visible_lines() - 4)), select);
+		this->move_select(m_text.clamp_cursor(ivec2(m_selection.m_cursor.m_grid_index) - ivec2(0, visible_lines() - 4)), select);
 	}
 
 	void TextEdit::move_page_down(bool select)
 	{
-		move_select(m_text.clamp_cursor(ivec2(m_selection.m_cursor.m_grid_index) + ivec2(0, visible_lines() - 4)), select);
+		this->move_select(m_text.clamp_cursor(ivec2(m_selection.m_cursor.m_grid_index) + ivec2(0, visible_lines() - 4)), select);
 	}
 
 	void TextEdit::move_left(size_t count, bool select, bool word_mode)
 	{
-		move_select(m_text.clamp_cursor(m_selection.m_cursor - count), select, select && word_mode);
+		this->move_select(m_text.clamp_cursor(m_selection.m_cursor - count), select, select && word_mode);
 	}
 
 	void TextEdit::move_right(size_t count, bool select, bool word_mode)
 	{
-		move_select(m_text.clamp_cursor(m_selection.m_cursor + count), select, select && word_mode);
+		this->move_select(m_text.clamp_cursor(m_selection.m_cursor + count), select, select && word_mode);
 	}
 	
 	void TextEdit::move_top(bool select)
 	{
-		move_select(m_text.to_cursor(0U), select);
+		this->move_select(m_text.to_cursor(0U), select);
 	}
 
 	void TextEdit::move_bottom(bool select)
 	{
-		move_select(m_text.to_cursor(m_string.size()), select);
+		this->move_select(m_text.to_cursor(m_string.size()), select);
 	}
 
 	void TextEdit::move_home(bool select)
 	{
-		move_select(m_text.to_cursor(line_begin(m_string, m_selection.m_cursor)), select);
+		this->move_select(m_text.to_cursor(line_begin(m_string, m_selection.m_cursor)), select);
 	}
 
 	void TextEdit::move_end(bool select)
 	{
-		move_select(m_text.to_cursor(line_end(m_string, m_selection.m_cursor)), select);
+		this->move_select(m_text.to_cursor(line_end(m_string, m_selection.m_cursor)), select);
 	}
 
 	void TextEdit::select_none()
 	{
-		select(0U);
+		this->cursor(0U);
 	}
 
 	void TextEdit::select_all()
 	{
-		select(0U, m_string.size());
+		this->select(0U, m_string.size());
 	}
 
 	void TextEdit::select_word()
 	{
-		select(word_begin(m_string, m_selection.m_cursor), word_end(m_string, m_selection.m_cursor));
+		this->select(word_begin(m_string, m_selection.m_cursor), word_end(m_string, m_selection.m_cursor));
 	}
 
 	void TextEdit::AddUndo(Action& aValue)
@@ -649,16 +648,16 @@ namespace mud
 
 	void TextEdit::update()
 	{
-		if(!focused())
-			select_none();
+		m_changed = false;
+		m_entered = false;
 
 		EventType event_focus = m_focus_mode == TextFocusMode::Press ? EventType::Pressed
-			: EventType::Stroked;
+																	 : EventType::Stroked;
 		if(!this->focused())
 			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, event_focus, InputMod::None, false))
 			{
 				take_focus();
-				select(0);
+				this->cursor(0);
 			}
 
 		auto shift = this->ui().m_keyboard.m_shift;
@@ -718,7 +717,7 @@ namespace mud
 		else if(key_stroke(Key::Return))
 			enter();
 		else if(key_stroke(Key::Escape))
-			yield_focus();
+			escape();
 		else if(key_stroke(Key::Tab) && !m_completing)
 			insert(string(m_tab_size, ' '));
 		else if(!m_read_only && (!ctrl || alt))
@@ -727,7 +726,7 @@ namespace mud
 			if(stroke)
 				insert(stroke.m_char);
 		}
-
+		
 		if(!m_read_only && (this->char_stroke(Key::Z, InputMod::Ctrl)
 						 || this->key_stroke(Key::Back, InputMod::Alt)))
 			undo();
@@ -747,48 +746,47 @@ namespace mud
 			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 			{
 				m_select_from = m_text.cursor_at(mouse_event.m_relative - m_text_offset);
-				select(m_select_from, ctrl);
+				this->cursor(m_select_from, ctrl);
 			}
 			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, EventType::Pressed, InputMod::Ctrl))
 			{
 				m_select_from = m_text.cursor_at(mouse_event.m_relative - m_text_offset);
 				m_word_selection_mode = true;
-				select(m_select_from, true);
+				this->cursor(m_select_from, true);
 			}
 			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, EventType::Released))
 			{
 				if(!focused())
-					select_all();
+					this->select_all();
 			}
 			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, EventType::DoubleStroked))
 			{
 				TextCursor cursor = m_text.cursor_at(mouse_event.m_relative - m_text_offset);
-				select(cursor, true);
+				this->cursor(cursor, true);
 			}
 			if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 			{
 				TextCursor cursor = m_text.cursor_at(mouse_event.m_relative - m_text_offset);
-				select(m_select_from, cursor, m_word_selection_mode);
+				this->select(m_select_from, cursor, m_word_selection_mode);
+				m_selection.m_cursor = cursor;
 			}
 		}
 
 		if(!this->mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 			m_word_selection_mode = false;
 
-		if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseMiddle, EventType::Moved))
-		{
-			//m_frame.m_position = min(m_frame.m_position, -cursor);
-		}
-
-		if(m_dirty[0] != UINT32_MAX)
-		{
-			m_text.break_text_rows();
-			m_frame.mark_dirty(DIRTY_LAYOUT); // @todo fix this, should be able to just set DIRTY_REDRAW
-		}
+		m_frame.layer().setForceRedraw(); // TextEdit must redraw each frame
 	}
 
 	void TextEdit::update_scroll(Frame& frame, Frame& content)
 	{
+		if(MouseEvent mouse_event = this->mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+		{
+			float overflow = content.m_size.y - frame.m_size.y;
+			content.m_position.y += mouse_event.m_deltaZ * 22.f * 3.f;
+			content.m_position.y = min(0.f, max(content.m_position.y, -overflow));
+		}
+
 		if(m_follow_cursor)
 		{
 			scroll_to_cursor(frame, content);
@@ -961,12 +959,6 @@ namespace mud
 	{
 		if(CanRedo())
 			m_undo_stack[m_undo_index++].Redo(this);
-	}
-
-	void TextEdit::mark_dirty(size_t start, size_t end)
-	{
-		m_dirty[0] = min<uint>(m_dirty[0], start);
-		m_dirty[1] = max<uint>(m_dirty[1], end);
 	}
 
 	void TextEdit::recolorize()
@@ -1200,8 +1192,11 @@ namespace ui
 		text.reserve(text.size() * 2);
 
 		int level = 0;
-		 
-		auto process_line = [&](const char* line)
+		size_t row = 0;
+		size_t cursor_row = edit.m_selection.m_cursor.m_grid_index.y;
+		int cursor_offset  = 0;
+
+		auto process_line = [&](const char* line, size_t i)
 		{
 			const char* c = line;
 			while(*c == ' ')
@@ -1209,9 +1204,17 @@ namespace ui
 
 			int current = *c == '}' ? level - 1 : level;
 			for(; c - line > current * 4; c--)
+			{
 				text.erase(c - 1 - &text.front(), 1);
+				if(cursor_row == i)
+					cursor_offset--;
+			}
 			for(; c - line < current * 4; c++)
+			{
 				text.insert(c - &text.front(), " ");
+				if(cursor_row == i)
+					cursor_offset++;
+			}
 
 			for(; *c != '\n'; ++c)
 			{
@@ -1223,8 +1226,10 @@ namespace ui
 
 		for(const char* c = &text.front(); c < &text.back(); ++c)
 		{
-			c = process_line(c);
+			c = process_line(c, row++);
 		}
+
+		edit.cursor(edit.m_selection.m_cursor + cursor_offset);
 
 		return text;
 	}

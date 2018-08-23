@@ -192,6 +192,8 @@ namespace ui
 		Viewer& viewer = parent.subi<Viewer, Scene&>(&type<Viewer>(), scene);
 		viewer.m_scene = &scene;
 		viewer.m_viewport.m_scene = &scene;
+		//if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
+		//	viewer.take_focus();
 		return viewer;
 	}
 
@@ -274,7 +276,7 @@ namespace ui
 		return orbit;
 	}
 
-	OrbitController& hybrid_controller(Viewer& viewer, OrbitMode mode, Transform& entity, bool& aiming, vec2& angles)
+	OrbitController& hybrid_controller(Viewer& viewer, OrbitMode mode, Transform& entity, bool& aiming, vec2& angles, bool modal)
 	{
 		using Mode = OrbitMode;
 		OrbitController& orbit = mode == Mode::Isometric ? ui::isometric_controller(viewer)
@@ -282,10 +284,18 @@ namespace ui
 
 		orbit.set_target(entity.m_position + Y3 * 2.f);
 
-		if(mode == Mode::ThirdPerson || mode == Mode::PseudoIsometric)
+		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
-			if(!viewer.ui_window().m_context.m_mouse_lock)
-				viewer.ui_window().m_context.lock_mouse(true);
+			if(!viewer.modal())
+			{
+				viewer.take_modal();
+
+				if(mode == Mode::ThirdPerson || mode == Mode::PseudoIsometric)
+				{
+					if(!viewer.ui_window().m_context.m_mouse_lock)
+						viewer.ui_window().m_context.lock_mouse(true);
+				}
+			}
 		}
 
 		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
@@ -325,6 +335,16 @@ namespace ui
 		{
 			orbit.m_pitch = -c_pi / 4.f;
 			orbit.update_eye();
+		}
+
+		if(viewer.key_event(Key::Escape, EventType::Stroked))
+		{
+			viewer.yield_modal();
+			if(mode == Mode::ThirdPerson || mode == Mode::PseudoIsometric)
+			{
+				if(viewer.ui_window().m_context.m_mouse_lock)
+					viewer.ui_window().m_context.lock_mouse(false);
+			}
 		}
 
 		return orbit;

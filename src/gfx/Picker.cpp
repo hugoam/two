@@ -41,8 +41,6 @@ namespace mud
 		, m_program(gfx_system.programs().fetch("picking_id"))
 		, m_data(target.m_size.x * target.m_size.y)
 	{
-		printf("Picker::Picker()\n");
-
 		u_picking_id = bgfx::createUniform("u_picking_id", bgfx::UniformType::Vec4);
 		
 		uint32_t flags = GFX_TEXTURE_POINT | BGFX_TEXTURE_MIP_POINT | GFX_TEXTURE_CLAMP;
