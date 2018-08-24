@@ -256,5 +256,11 @@ mud couldn't exist without:
 # support
 Creating mud has been a huge time investment over the course of a few years: the only way I can pursue that effort and make it thrive into the programming ecosystem of our dreams, is through funding and sponsorship: you are welcome to have a look at our [patreon](https://www.patreon.com/libmud).
 
+Iron supports:
+- Mike King
+
+Stone supports:
+- Etienne Balit, Le Bach, Manos Agelidis, Nebo Milic, Omar Cornut, Stefan Hagen, Sunder Iyer
+
 # license
 mud is licensed under the [zlib license](LICENSE.txt).
