@@ -254,7 +254,7 @@ mud couldn't exist without:
 - [json](https://github.com/nlohmann/json) header
 
 # support
-Creating mud has been a huge time investment over the course of a few years: the only way I can pursue that effort and make it thrive into the programming ecosystem of our dreams, is through funding and sponsorship: you are welcome to have a look at our [patreon](https://www.patreon.com/libmud).
+Creating mud has been a huge time investment over the course of a few years: the only way I can pursue that effort and make it thrive into the programming ecosystem of our dreams, is through funding and sponsorship: you are welcome to have a look at our [patreon](https://www.patreon.com/toyengine).
 
 Iron supports:
 - Mike King
