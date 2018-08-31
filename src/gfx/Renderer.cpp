@@ -293,6 +293,7 @@ namespace mud
 		{
 			Pass render_pass = render.next_pass(m_name, sub_pass > 0);
 			this->next_draw_pass(render, render_pass);
+			render.m_viewport.render_pass(m_name, render_pass);
 
 			for(size_t i = 0; i < m_impl->m_draw_elements.size(); ++i)
 			{

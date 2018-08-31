@@ -62,6 +62,17 @@ namespace mud
 			&& _numIndices == bgfx::getAvailTransientIndexBuffer(_numIndices);
 	}
 
+	void ImmediateDraw::begin()
+	{
+		DrawMode draw_modes[2] = { PLAIN, OUTLINE };
+		for(DrawMode draw_mode : draw_modes)
+			for(Batch& batch : m_batches[draw_mode])
+			{
+				batch.m_vertices.clear();
+				batch.m_indices.clear();
+			}
+	}
+
 	void ImmediateDraw::draw(const mat4& transform, const ProcShape& shape)
 	{
 		this->draw(transform, carray<ProcShape, 1>{ shape });
@@ -136,11 +147,7 @@ namespace mud
 			return;
 
 		if(!checkAvailTransientBuffers(batch.m_vertices.size(), ms_vertex_decl, batch.m_indices.size()))
-		{
-			batch.m_vertices.clear();
-			batch.m_indices.clear();
 			return;
-		}
 
 		bgfx::TransientVertexBuffer vertex_buffer;
 		bgfx::allocTransientVertexBuffer(&vertex_buffer, batch.m_vertices.size(), ms_vertex_decl);
@@ -158,9 +165,6 @@ namespace mud
 		mat4 identity = bxidentity();
 		bgfx::setTransform(value_ptr(identity));
 		bgfx::submit(view, m_material.m_program->default_version());
-
-		batch.m_vertices.clear();
-		batch.m_indices.clear();
 	}
 
 	bgfx::VertexDecl ImmediateDraw::ms_vertex_decl;

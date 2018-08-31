@@ -49,6 +49,9 @@ namespace mud
 
 		virtual void begin_gfx_pass(Render& render) final;
 		virtual void submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element) final;
+		virtual void submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster) final;
+
+		void submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version, array<Light*> lights);
 
 		void upload_environment(Render& render, Environment* environment);
 		void upload_fog(Render& render, Fog& fog);
@@ -101,7 +104,9 @@ namespace mud
 
 		struct ShotUniform
 		{
-			static constexpr size_t max_lights = 16;
+			static constexpr size_t max_lights = 64;
+			static constexpr size_t max_shadows = 32;
+			static constexpr size_t max_forward_lights = 16;
 			static constexpr size_t max_directional_lights = 1;
 
 			void createUniforms()

@@ -212,13 +212,18 @@ namespace gfx
 		return *item;
 	}
 
-	void draw(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags)
+	void draw(Scene& scene, const mat4& transform, const Shape& shape, const Symbol& symbol, uint32_t flags)
 	{
 		UNUSED(flags);
 		if(symbol.fill())
-			parent.m_scene->m_immediate->draw(parent.m_attach->transform(), { symbol, &shape, PLAIN });
+			scene.m_immediate->draw(transform, { symbol, &shape, PLAIN });
 		if(symbol.outline())
-			parent.m_scene->m_immediate->draw(parent.m_attach->transform(), { symbol, &shape, OUTLINE });
+			scene.m_immediate->draw(transform, { symbol, &shape, OUTLINE });
+	}
+
+	void draw(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags)
+	{
+		draw(*parent.m_scene, parent.m_attach->transform(), shape, symbol, flags);
 	}
 
 	Item& sprite(Gnode& parent, const Image256& image, const vec2& size, uint32_t flags, Material* material, size_t instances)

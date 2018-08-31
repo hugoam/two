@@ -12,15 +12,85 @@
 
 namespace mud
 {
+	export_ class refl_ MUD_GFX_EXPORT BlockGeometry : public DrawBlock
+	{
+	public:
+		BlockGeometry(GfxSystem& gfx_system);
+		~BlockGeometry();
+
+		virtual void init_gfx_block() final;
+
+		virtual void begin_gfx_block(Render& render) final;
+		virtual void submit_gfx_block(Render& render) final;
+
+		virtual void begin_gfx_pass(Render& render) final;
+		virtual void submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element) final;
+		virtual void submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster) final;
+
+		Material* m_material = nullptr;
+		Material* m_material_twosided = nullptr;
+	};
+
+	export_ class MUD_GFX_PBR_EXPORT PassOpaque : public DrawPass
+	{
+	public:
+		PassOpaque(GfxSystem& gfx_system);
+
+		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
+		virtual void queue_draw_element(Render& render, DrawElement& element) final;
+		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) final;
+
+		size_t m_directional_light_index;
+	};
+
+	export_ class MUD_GFX_PBR_EXPORT PassAlpha : public DrawPass
+	{
+	public:
+		PassAlpha(GfxSystem& gfx_system);
+
+		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
+		virtual void queue_draw_element(Render& render, DrawElement& element) final;
+		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) final;
+	};
+
+	export_ class MUD_GFX_PBR_EXPORT PassGeometry : public DrawPass
+	{
+	public:
+		PassGeometry(GfxSystem& gfx_system, BlockGeometry& block_geometry);
+
+		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
+		virtual void queue_draw_element(Render& render, DrawElement& element) final;
+		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) final;
+
+		BlockGeometry& m_block_geometry;
+	};
+
+	export_ class MUD_GFX_PBR_EXPORT PassLights : public RenderPass
+	{
+	public:
+		PassLights(GfxSystem& gfx_system, BlockFilter& filter);
+
+		virtual void begin_render_pass(Render& render) final;
+		virtual void submit_render_pass(Render& render) final;
+		
+		BlockFilter& m_filter;
+		Program* m_program;
+	};
+
 	struct ReflectionRenderer : public Renderer
 	{
 		ReflectionRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
 	};
 
-	struct MainRenderer : public Renderer
+	struct ForwardRenderer : public Renderer
 	{
-		MainRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
+		ForwardRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
 	};
 
-	export_ MUD_GFX_PBR_EXPORT void pipeline_pbr(GfxSystem& gfx_system, Pipeline& pipeline);
+	struct DeferredRenderer : public Renderer
+	{
+		DeferredRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
+	};
+
+	export_ MUD_GFX_PBR_EXPORT void pipeline_pbr(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred = false);
 }

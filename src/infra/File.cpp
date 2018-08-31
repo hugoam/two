@@ -11,7 +11,7 @@
 #endif
 
 #ifdef MUD_MODULES
-module mud.obj;
+module mud.infra;
 #else
 #include <infra/File.h>
 #endif

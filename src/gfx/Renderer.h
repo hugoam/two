@@ -48,6 +48,9 @@ namespace mud
 		Radiance = 8,
 		ReflectionProbe = 9,
 		GIProbe = 10,
+		Lights = 13,
+		Clusters = 14,
+		LightRecords = 15,
 	};
 
 	export_ enum class PassType : unsigned int
@@ -56,6 +59,8 @@ namespace mud
 		Probes,
 		Clear,
 		Depth,
+		Geometry,
+		Lights,
 		Opaque,
 		Background,
 		Particles,
@@ -88,7 +93,7 @@ namespace mud
 		Viewport* m_viewport = nullptr;
 		uint64_t m_bgfx_state = 0;
 		//ShaderVersion m_shader_config = {};
-		RenderPass* m_render_block = nullptr;
+		//RenderPass* m_render_block = nullptr;
 
 		bool m_use_mrt = false;
 		uint8_t m_index = 0;
@@ -123,6 +128,7 @@ namespace mud
 		Environment* m_environment = nullptr;
 		RenderFilters* m_filters = nullptr;
 
+		bool m_is_deferred = false;
 		bool m_needs_mrt = false;
 		bool m_is_mrt = false;
 		bool m_needs_depth_prepass = false;
@@ -199,6 +205,7 @@ namespace mud
 
 		virtual void begin_gfx_pass(Render& render) = 0;
 		virtual void submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element) = 0;
+		virtual void submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster) = 0;
 	};
 
 	export_ class MUD_GFX_EXPORT RenderPass
@@ -230,6 +237,13 @@ namespace mud
 		uint64_t m_sort_key = 0;
 		ShaderVersion m_shader_version = {};
 		uint64_t m_bgfx_state = 0;
+	};
+
+	export_ struct MUD_GFX_EXPORT DrawCluster
+	{
+		ShaderVersion m_shader_version = {};
+		uint64_t m_bgfx_state = 0;
+		array<Light*> m_lights = {};
 	};
 
 	export_ class MUD_GFX_EXPORT DrawPass : public RenderPass

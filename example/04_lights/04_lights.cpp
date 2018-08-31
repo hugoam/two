@@ -43,12 +43,15 @@ void light_grid(Gnode& parent, array_2d<LightInstance> shape_grid, bool moving, 
 
 			Gnode& light_node = gfx::node(parent, {}, center + vec3{ x * spacing, height, y * spacing }, angleAxis(c_pi / 2.f, X3));
 			Light& light = gfx::light(light_node, light_type, false, light_item.colour, range, attenuation);
-			light.m_spot_attenuation = spot_attenuation;
-			light.m_spot_angle = spot_angle;
+			if(light_type == LightType::Spot)
+			{
+				light.m_spot_attenuation = spot_attenuation;
+				light.m_spot_angle = spot_angle;
+			}
 
 			gfx::shape(light_node, Cube(0.1f), Symbol(), ITEM_SELECTABLE);
 			//if(light_type == LightType::Point)
-			//	gfx::shape(light_node, Spheroid(range), Symbol(Colour::AlphaWhite), ITEM_SELECTABLE);
+			//	gfx::shape(light_node, Spheroid(range), Symbol::wire(hsl_to_rgb(float(light.m_shot_index) / float(255.f), 1.f, 0.5f)), ITEM_SELECTABLE);
 			
 		}
 }
@@ -76,6 +79,8 @@ void ex_04_lights(Shell& app, Widget& parent, Dockbar& dockbar)
 	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
 	static std::vector<LightInstance > light_items = create_light_grid(10U, 10U);
 
+	static bool debug = true;
+	static bool clustered = true;
 	static bool ground = false;
 	static bool moving_lights = true;
 	static LightType light_type = LightType::Point;
@@ -86,6 +91,20 @@ void ex_04_lights(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(), shapes, true, &material);
 	light_grid(scene, { light_items.data(), 10U, 10U }, moving_lights, light_type, light_range, light_attenuation, spot_angle, spot_attenuation);
+
+	if(clustered && viewer.m_viewport.m_rect != uvec4(0) && !viewer.m_camera.m_clusters)
+	{
+		viewer.m_camera.m_clustered = true;
+		viewer.m_camera.m_clusters = make_unique<Froxelizer>();
+		viewer.m_camera.m_clusters->prepare(viewer.m_viewport, viewer.m_camera.m_projection, viewer.m_camera.m_near, viewer.m_camera.m_far);
+	}
+
+	if(debug)
+	{
+		Viewer& debug_viewer = ui::viewer(parent, *viewer.m_scene);
+		ui::orbit_controller(debug_viewer);
+		debug_draw_light_clusters(scene, viewer.m_camera);
+	}
 
 	if(ground)
 	{

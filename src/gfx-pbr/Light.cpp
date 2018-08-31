@@ -17,6 +17,7 @@ module mud.gfx.pbr;
 #include <gfx/Viewport.h>
 #include <gfx/Scene.h>
 #include <gfx/Camera.h>
+#include <gfx/Froxel.h>
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/Light.h>
 #include <gfx-pbr/Shadow.h>
@@ -25,6 +26,8 @@ module mud.gfx.pbr;
 namespace mud
 {
 	constexpr size_t BlockLight::ShotUniform::max_lights;
+	constexpr size_t BlockLight::ShotUniform::max_shadows;
+	constexpr size_t BlockLight::ShotUniform::max_forward_lights;
 	constexpr size_t BlockLight::ShotUniform::max_directional_lights;
 
 	BlockLight::BlockLight(GfxSystem& gfx_system, BlockShadow& block_shadow)
@@ -35,13 +38,15 @@ namespace mud
 		m_shader_block->m_options = { options, 2 };
 
 		static string max_lights = to_string(ShotUniform::max_lights);
+		static string max_shadows = to_string(ShotUniform::max_shadows);
 		static string max_dir_lights = to_string(ShotUniform::max_directional_lights);
 
-		static ShaderDefine defines[2] = {
+		static ShaderDefine defines[3] = {
 			{ "MAX_LIGHTS", max_lights.c_str()  },
+			{ "MAX_SHADOWS", max_shadows.c_str() },
 			{ "MAX_DIRECTIONAL_LIGHTS", max_dir_lights.c_str() }
 		};
-		m_shader_block->m_defines = { defines, 2 };
+		m_shader_block->m_defines = { defines, 3 };
 	}
 
 	void BlockLight::init_gfx_block()
@@ -79,21 +84,40 @@ namespace mud
 
 	void BlockLight::submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element)
 	{
+		if(render.m_camera.m_clustered)
+			this->submit_pass(render, render_pass, element.m_shader_version, to_array(render.m_shot->m_lights));
+		else
+			this->submit_pass(render, render_pass, element.m_shader_version, to_array(element.m_item->m_lights));
+	}
+
+	void BlockLight::submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster)
+	{
+		this->submit_pass(render, render_pass, cluster.m_shader_version, cluster.m_lights);
+	}
+
+	void BlockLight::submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version, array<Light*> lights)
+	{
 		UNUSED(render_pass);
+		
+		if(render.m_camera.m_clustered)
+		{
+			shader_version.set_option(0, CLUSTERED, true);
+			render.m_camera.m_clusters->submit();
+		}
 
 		if(render.m_environment && render.m_environment->m_fog.m_enabled)
-			element.m_shader_version.set_option(m_index, FOG, true);
+			shader_version.set_option(m_index, FOG, true);
 
 		// @kludge
 		m_directional_light = m_directional_lights.empty() ? nullptr : m_directional_lights[m_directional_light_index];
 		m_block_shadow.m_directional_light = m_directional_light;
 
-		bool cull = !m_directional_light || !(element.m_item->m_layer_mask & m_directional_light->m_layers);
+		bool cull = !m_directional_light || false; // !(element.m_item->m_layer_mask & m_directional_light->m_layers);
 
 		if(!cull)
-			element.m_shader_version.set_option(m_index, DIRECTIONAL_LIGHT, true);
+			shader_version.set_option(m_index, DIRECTIONAL_LIGHT, true);
 
-		this->upload_lights(render, to_array(element.m_item->m_lights), to_array(m_block_shadow.m_shadows));
+		this->upload_lights(render, lights, to_array(m_block_shadow.m_shadows));
 		this->upload_fog(render, render.m_scene.m_environment.m_fog);
 
 		// set to not render if not first directional pass, depending on cull

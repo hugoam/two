@@ -19,6 +19,9 @@ namespace mud
 	{
 		m_shadow_bias = 0.1f;
 		m_shadow_normal_bias = 0.f; // @todo investigate why making this higher fucks up the first shadow slice
+
+		if(type != LightType::Spot)
+			m_spot_angle = 0.f;
 	}
 
 	Light::~Light()

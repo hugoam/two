@@ -15,7 +15,9 @@ namespace mud
 		SKELETON,
 		INSTANCING,
 		BILLBOARD,
-		MRT
+		MRT,
+		DEFERRED,
+		CLUSTERED
 	};
 
 	export_ struct MUD_GFX_EXPORT ShaderVersion

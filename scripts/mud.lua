@@ -1,6 +1,6 @@
 -- mud library
 
-if _OPTIONS["cpp-modules"] then
+if _OPTIONS["cpp-modules"] and _ACTION == "gmake" then
     dofile(path.join(MUD_DIR, "scripts/3rdparty/std.lua"))
 end
 

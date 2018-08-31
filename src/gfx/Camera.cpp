@@ -8,6 +8,7 @@
 module mud.gfx;
 #else
 #include <gfx/Camera.h>
+#include <gfx/Froxel.h>
 #endif
 
 #include <bgfx/bgfx.h>
@@ -25,6 +26,9 @@ namespace mud
 	Camera::Camera(mat4 transform, mat4 projection)
 		: m_transform(transform)
 		, m_projection(projection)
+	{}
+
+	Camera::~Camera()
 	{}
 
 	Plane Camera::near_plane()

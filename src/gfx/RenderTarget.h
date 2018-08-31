@@ -103,5 +103,19 @@ namespace mud
 		SwapBuffer m_post_process;
 
 		Cascade m_cascade;
+
+		bool m_deferred = false;
+
+		struct
+		{
+			bgfx::FrameBufferHandle m_fbo;
+
+			bgfx::TextureHandle m_depth;
+			bgfx::TextureHandle m_position;
+			bgfx::TextureHandle m_normal;
+			bgfx::TextureHandle m_albedo;
+			bgfx::TextureHandle m_surface;
+
+		} m_gbuffer;
 	};
 }

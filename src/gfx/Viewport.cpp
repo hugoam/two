@@ -15,6 +15,8 @@ module mud.gfx;
 #include <gfx/Camera.h>
 #include <gfx/Item.h>
 #include <gfx/Renderer.h>
+#include <gfx/Froxel.h>
+#include <gfx/Shot.h>
 #endif
 
 namespace mud
@@ -52,6 +54,14 @@ namespace mud
 
 		m_camera->m_aspect = float(rect_w(m_rect)) / float(rect_h(m_rect));
 		m_camera->update();
+
+		if(m_camera->m_clusters)
+		{
+			m_camera->m_clusters->m_dirty |= Froxelizer::VIEWPORT_CHANGED | Froxelizer::PROJECTION_CHANGED;
+			m_camera->m_clusters->update(*this, m_camera->m_projection, m_camera->m_near, m_camera->m_far);
+			m_camera->m_clusters->froxelize_lights(*m_camera, render.m_shot->m_lights);
+			m_camera->m_clusters->upload();
+		}
 
 		if(m_render)
 			m_render(render);

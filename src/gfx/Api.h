@@ -6,6 +6,7 @@
 #include <gfx/Asset.h>
 #include <gfx/Asset.impl.h>
 #include <gfx/Assets.h>
+#include <gfx/Buffer.h>
 #include <gfx/Camera.h>
 #include <gfx/Cpp20.h>
 #include <gfx/Depth.h>
@@ -13,6 +14,7 @@
 #include <gfx/Effects.h>
 #include <gfx/Filter.h>
 #include <gfx/Forward.h>
+#include <gfx/Froxel.h>
 #include <gfx/Frustum.h>
 #include <gfx/Gfx.h>
 #include <gfx/GfxSystem.h>

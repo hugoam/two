@@ -56,6 +56,8 @@
 
 #ifdef MUD_MODULES
 #define export_ export
+#undef MUD_EXPORT
+#define MUD_EXPORT
 #else
 #define export_ 
 #endif

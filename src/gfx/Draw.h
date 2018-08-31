@@ -50,6 +50,7 @@ namespace mud
 		std::vector<Batch> m_batches[2];
 		size_t m_cursor[2];
 
+		void begin();
 		void draw(const mat4& transform, const ProcShape& shapes);
 		void draw(const mat4& transform, array<ProcShape> shapes);
 		void draw(const mat4& transform, array<ProcShape> shapes, ShapeSize size, DrawMode draw_mode);

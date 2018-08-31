@@ -89,4 +89,9 @@ namespace mud
 	{
 		UNUSED(render); UNUSED(render_pass); UNUSED(element);
 	}
+
+	void BlockDepth::submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster)
+	{
+		UNUSED(render); UNUSED(render_pass); UNUSED(cluster);
+	}
 }

@@ -70,6 +70,7 @@ namespace mud
 	Gnode& Scene::begin()
 	{
 		this->update();
+		m_immediate->begin();
 		return begin_node<Gnode>(m_graph, true);
 	}
 
@@ -108,6 +109,7 @@ namespace mud
 		{
 			if(light.m_visible)
 			{
+				light.m_shot_index = render.m_shot->m_lights.size();
 				render.m_shot->m_lights.push_back(&light);
 			}
 		});

@@ -6,6 +6,8 @@
 
 #ifndef MUD_MODULES
 #include <infra/Array.h>
+#include <infra/NonCopy.h>
+#include <obj/Unique.h>
 #include <math/VecOps.h>
 #include <geom/Geom.h>
 #endif
@@ -22,11 +24,12 @@ namespace mud
 		WEST = (2 << 8)
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Camera
+	export_ class refl_ MUD_GFX_EXPORT Camera : public NonCopy
 	{
 	public:
 		Camera();
 		Camera(mat4 transform, mat4 projection);
+		~Camera();
 
 		attr_ vec3 m_eye;
 		attr_ vec3 m_target;
@@ -46,6 +49,7 @@ namespace mud
 		attr_ float m_height = 1.f;
 
 		attr_ bool m_optimize_ends = true;
+		attr_ bool m_clustered = false;
 
 		attr_ vec4 m_lod_offsets = { 0.1f, 0.3f, 0.6f, 0.8f };
 
@@ -62,5 +66,7 @@ namespace mud
 		mat4 projection(float near, float far, bool ndc = false);
 
 		Ray ray(const vec2& offset);
+
+		unique_ptr<Froxelizer> m_clusters;
 	};
 }

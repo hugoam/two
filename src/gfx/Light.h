@@ -62,5 +62,7 @@ namespace mud
 
 		attr_ float m_shadow_normal_bias = 0.1f;
 		attr_ float m_shadow_bias = 0.f;
+
+		size_t m_shot_index = 0;
 	};
 }

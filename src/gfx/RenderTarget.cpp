@@ -168,6 +168,19 @@ namespace mud
 #if !defined MUD_PLATFORM_EMSCRIPTEN || defined MUD_WEBGL2
 		m_cascade.create(size, color_format);
 #endif
+
+		m_deferred = true;
+		if(m_deferred)
+		{
+			m_gbuffer.m_depth		= bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::D24S8,	render_target_flags);
+			m_gbuffer.m_position	= bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, color_format,					render_target_flags);
+			m_gbuffer.m_normal		= bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, color_format,					render_target_flags);
+			m_gbuffer.m_albedo		= bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, color_format,					render_target_flags);
+			m_gbuffer.m_surface		= bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::RGBA8,	render_target_flags);
+
+			bgfx::TextureHandle textures[5] = { m_gbuffer.m_depth, m_gbuffer.m_position, m_gbuffer.m_normal, m_gbuffer.m_albedo, m_gbuffer.m_surface };
+			m_gbuffer.m_fbo = bgfx::createFrameBuffer(5, textures, true);
+		}
 	}
 
 	RenderTarget::~RenderTarget()

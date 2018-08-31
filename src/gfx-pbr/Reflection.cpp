@@ -78,7 +78,17 @@ namespace mud
 
 	void BlockReflection::submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element)
 	{
-		UNUSED(render); UNUSED(render_pass); UNUSED(element);
+		this->submit_pass(render, render_pass, element.m_shader_version);
+	}
+
+	void BlockReflection::submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster)
+	{
+		this->submit_pass(render, render_pass, cluster.m_shader_version);
+	}
+
+	void BlockReflection::submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version)
+	{
+		UNUSED(render); UNUSED(render_pass); UNUSED(shader_version);
 		if(m_atlas.m_size > 0)
 			bgfx::setTexture(uint8_t(TextureSampler::ReflectionProbe), u_uniform.s_atlas, m_atlas.m_color_tex);
 

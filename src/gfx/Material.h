@@ -159,7 +159,7 @@ namespace mud
 		attr_ float m_specular = 0.5f;
 		attr_ MaterialParam<float> m_metallic = { 0.f, nullptr, TextureChannel::Red };
 		attr_ MaterialParam<float> m_roughness = { 1.f, nullptr, TextureChannel::Red };
-		attr_ MaterialParam<Colour> m_emissive = { Colour::Black, nullptr };
+		attr_ MaterialParam<Colour> m_emissive = { Colour::None, nullptr };
 		attr_ float m_emissive_energy = 0.f;
 		attr_ MaterialParam<float> m_normal = { 1.f, nullptr };
 

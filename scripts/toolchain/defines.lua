@@ -6,16 +6,7 @@ function mud_defines()
         defines {
             "MUD_NO_GLM",
             "MUD_CPP_20",
-        }
-        
-    configuration { "cpp-modules", "*-clang*" }
-        defines {
             "MUD_MODULES",
-        }
-    
-    configuration { "cpp-modules", "vs*" }
-        defines { 
-            "MUD_STD_HAS_CLAMP",
         }
         
     configuration { "windows", "not asmjs" }

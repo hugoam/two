@@ -257,6 +257,9 @@ namespace mud
 		static FresnelMaterialUniform s_fresnel_material_block = { *ms_gfx_system };
 		static PbrMaterialUniform s_pbr_material_block = { *ms_gfx_system };
 
+		if(m_name == string("crate"))
+			int i = 0;
+
 		s_base_material_block.upload(m_base_block);
 		if(m_unshaded_block.m_enabled)
 			s_unshaded_material_block.upload(m_unshaded_block);

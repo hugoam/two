@@ -33,6 +33,8 @@ module mud.gfx.ui;
 #include <gfx/Model.h>
 #include <gfx/Asset.h>
 #include <gfx/Pipeline.h>
+#include <gfx/Froxel.h>
+#include <gfx/Frustum.h>
 #include <gfx/GfxSystem.h>
 #include <gfx-pbr/Shadow.h>
 #include <gfx-ui/Types.h>
@@ -90,13 +92,52 @@ namespace mud
 		return bxrotation(angle_axis(-c_pi * 0.5f, X3)) * bxscale(vec3(0.009999999776482582f)) * bone.m_pose;
 	}
 
-	void debug_skeleton(Gnode& parent, const vec3& position, const quat& rotation, Rig& rig)
+	void debug_draw_skeleton(Gnode& parent, const vec3& position, const quat& rotation, Rig& rig)
 	{
 		for(Bone& bone : rig.m_skeleton.m_bones)
 		{
 			mat4 pose = bxrotation(rotation) * fix_bone_pose(bone);
 			Gnode& node = gfx::node(parent, {}, position + vec3(pose * vec4(Zero3, 1.f)));
 			gfx::shape(node, Sphere(0.02f), Symbol());
+		}
+	}
+
+	void debug_draw_light_clusters(Gnode& parent, Camera& camera)
+	{
+		if(!camera.m_clustered) return;
+		Froxelizer& clusters = *camera.m_clusters;
+
+		if(clusters.m_debug_clusters.empty())
+			clusters.compute_froxels();
+
+		auto set_alpha = [](Colour c, float a) { c.m_a = a; return c; };
+		static Colour pink = set_alpha(Colour::Pink, 0.1f);
+		static Colour cyan = set_alpha(Colour::Cyan, 0.1f);
+
+		mat4 transform = inverse(bxlookat(camera.m_eye, camera.m_target));
+		size_t i = 0;
+		for(Frustum& frustum : clusters.m_debug_clusters)
+		{
+			if(!clusters.m_froxels.m_data[i].count[0] && !clusters.m_froxels.m_data[i].count[1])
+			{
+				//gfx::draw(*parent.m_scene, transform, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(Colour(1.f, 0.02f)));
+				i++;
+				continue;
+			}
+
+			Colour colour = Colour(1.f, 0.02f);
+			colour = hsl_to_rgb(float(i) / (29.f * 16.f * 16.f), 1.f, 0.5f);
+
+			size_t record = clusters.m_froxels.m_data[i].offset;
+			colour = hsl_to_rgb(float(record) / float(255.f), 1.f, 0.5f);
+
+			size_t light = clusters.m_records.m_data[record];
+			colour = hsl_to_rgb(float(light) / 255.f, 1.f, 0.5f);
+
+			colour = hsl_to_rgb(float(clusters.m_froxels.m_data[i].count[0]) / 32.f, 1.f, 0.5f);
+			
+			gfx::draw(*parent.m_scene, transform, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(colour));
+			i++;
 		}
 	}
 

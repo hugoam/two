@@ -136,7 +136,8 @@ namespace mud
 		if (target == GLSL)
 		{
 			push_arg(args, "--platform", "linux");
-			push_arg(args, "--profile", "120");
+			//push_arg(args, "--profile", "120");
+			push_arg(args, "--profile", "130");
 		}
 		else if(target == ESSL)
 		{
@@ -189,8 +190,8 @@ namespace mud
 		m_impl->m_name = name;
 		PbrBlock& pbr = pbr_block(*ms_gfx_system);
 
-		static cstring options[4] = { "SKELETON", "INSTANCING", "BILLBOARD", "MRT" };
-		this->register_options(0, { options, 4 });
+		static cstring options[6] = { "SKELETON", "INSTANCING", "BILLBOARD", "MRT", "DEFERRED", "CLUSTERED" };
+		this->register_options(0, { options, 6 });
 		this->register_options(pbr.m_index, pbr.m_shader_block->m_options);
 	}
 

@@ -63,6 +63,9 @@ namespace mud
 
 		virtual void begin_gfx_pass(Render& render) final;
 		virtual void submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element) final;
+		virtual void submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster) final;
+
+		void submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version);
 
 		void upload_reflection_probes(Render& render, array<ReflectionProbe*> probes);
 		void render_reflection_probe(Render& render, ReflectionProbe& reflection_probe);

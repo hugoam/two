@@ -54,13 +54,23 @@ namespace mud
 
 	void BlockRadiance::submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element)
 	{
+		this->submit_pass(render, render_pass, element.m_shader_version);
+	}
+
+	void BlockRadiance::submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster)
+	{
+		this->submit_pass(render, render_pass, cluster.m_shader_version);
+	}
+
+	void BlockRadiance::submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version)
+	{
 		UNUSED(render_pass);
 		bgfx::TextureHandle radiance = render.m_environment->m_radiance.m_roughness_array;
 
 		if(bgfx::isValid(radiance))
 		{
 			bgfx::setTexture(uint8_t(TextureSampler::Radiance), u_radiance.s_radiance_map, radiance);
-			element.m_shader_version.set_option(m_index, RADIANCE_ENVMAP);
+			shader_version.set_option(m_index, RADIANCE_ENVMAP);
 		}
 	}
 

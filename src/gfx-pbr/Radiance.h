@@ -33,7 +33,10 @@ namespace mud
 		virtual void submit_gfx_block(Render& render) final;
 
 		virtual void begin_gfx_pass(Render& render) final;
-		virtual void submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element) final;;
+		virtual void submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element) final;
+		virtual void submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster) final;
+
+		void submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version);
 
 		void prefilter_radiance(Render& render, Radiance& radiance);
 

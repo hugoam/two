@@ -119,6 +119,7 @@ namespace mud {
     class DrawBlock;
     class RenderPass;
     struct DrawElement;
+	struct DrawCluster;
     class DrawPass;
     class Renderer;
     struct BaseMaterialBlock;
@@ -143,6 +144,7 @@ namespace mud {
     struct PrefabNode;
     class Prefab;
     class Camera;
+	class Froxelizer;
     struct DepthParams;
     class PassDepth;
     class BlockDepth;
@@ -169,9 +171,7 @@ namespace mud {
     class Pipeline;
     class PassClear;
     class PassUnshaded;
-    class PassOpaque;
     class PassBackground;
-    class PassAlpha;
     class PassFlip;
     struct MinimalRenderer;
     struct UnshadedRenderer;

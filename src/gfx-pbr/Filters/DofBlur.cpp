@@ -25,7 +25,6 @@ namespace mud
 		static cstring options[1] = { "DOF_FIRST_PASS" };
 		m_shader_block->m_options = { options, 1 };
 		m_program.register_block(*this);
-
 	}
 
 	void BlockDofBlur::init_gfx_block()

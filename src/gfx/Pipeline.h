@@ -72,18 +72,6 @@ namespace mud
 		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) final;
 	};
 
-	export_ class MUD_GFX_EXPORT PassOpaque : public DrawPass
-	{
-	public:
-		PassOpaque(GfxSystem& gfx_system);
-
-		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
-		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) final;
-
-		size_t m_directional_light_index;
-	};
-
 	export_ class MUD_GFX_EXPORT PassBackground : public RenderPass
 	{
 	public:
@@ -91,16 +79,6 @@ namespace mud
 
 		virtual void begin_render_pass(Render& render) final;
 		virtual void submit_render_pass(Render& render) final;
-	};
-
-	export_ class MUD_GFX_EXPORT PassAlpha : public DrawPass
-	{
-	public:
-		PassAlpha(GfxSystem& gfx_system);
-		
-		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
-		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) final;
 	};
 
 	export_ class MUD_GFX_EXPORT PassFlip : public RenderPass

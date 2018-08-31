@@ -382,10 +382,20 @@ namespace mud
 
 	void BlockShadow::submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element)
 	{
+		submit_pass(render, render_pass, element.m_shader_version);
+	}
+
+	void BlockShadow::submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster)
+	{
+		submit_pass(render, render_pass, cluster.m_shader_version);
+	}
+
+	void BlockShadow::submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version)
+	{
 		UNUSED(render); UNUSED(render_pass);
 
 		Light* light = m_directional_light;
-		bool directional = light && (element.m_item->m_layer_mask & light->m_layers) != 0;
+		bool directional = light; //&& (element.m_item->m_layer_mask & light->m_layers) != 0;
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
 		int pcf_level = 0; // @todo can't get pcf working on WebGL so far
@@ -395,11 +405,11 @@ namespace mud
 
 		if(directional && light->m_shadows)
 		{
-			element.m_shader_version.set_option(m_index, CSM_SHADOW);
-			//element.shader_version.set_option(m_index, CSM_BLEND, light->m_shadow_blend_splits);
+			shader_version.set_option(m_index, CSM_SHADOW);
+			//shader_version.set_option(m_index, CSM_BLEND, light->m_shadow_blend_splits);
 
-			element.m_shader_version.set_mode(m_index, CSM_NUM_CASCADES, light->m_shadow_num_splits);
-			element.m_shader_version.set_mode(m_index, CSM_PCF_LEVEL, pcf_level);
+			shader_version.set_mode(m_index, CSM_NUM_CASCADES, light->m_shadow_num_splits);
+			shader_version.set_mode(m_index, CSM_PCF_LEVEL, pcf_level);
 
 			vec2 pcf_offset = { 1.f, 1.f };
 			vec4 csm_params = { vec2(1.f / float(m_csm.m_size)), pcf_offset };

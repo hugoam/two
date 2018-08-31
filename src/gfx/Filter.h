@@ -27,11 +27,13 @@ namespace mud
 			s_source_0		= bgfx::createUniform("s_source_0",		bgfx::UniformType::Int1);
 			s_source_1		= bgfx::createUniform("s_source_1",		bgfx::UniformType::Int1);
 			s_source_2		= bgfx::createUniform("s_source_2",		bgfx::UniformType::Int1);
+			s_source_3		= bgfx::createUniform("s_source_3",		bgfx::UniformType::Int1);
 			s_source_depth	= bgfx::createUniform("s_source_depth",	bgfx::UniformType::Int1);
 
 			u_source_0_level	 = bgfx::createUniform("u_source_0_level",		bgfx::UniformType::Int1);
 			u_source_1_level	 = bgfx::createUniform("u_source_1_level",		bgfx::UniformType::Int1);
 			u_source_2_level	 = bgfx::createUniform("u_source_2_level",		bgfx::UniformType::Int1);
+			u_source_3_level	 = bgfx::createUniform("u_source_3_level",		bgfx::UniformType::Int1);
 			u_source_depth_level = bgfx::createUniform("u_source_depth_level",	bgfx::UniformType::Int1);
 
 			u_source_0_crop		 = bgfx::createUniform("u_source_0_crop",		bgfx::UniformType::Vec4);
@@ -43,6 +45,7 @@ namespace mud
 		bgfx::UniformHandle s_source_0;
 		bgfx::UniformHandle s_source_1;
 		bgfx::UniformHandle s_source_2;
+		bgfx::UniformHandle s_source_3;
 		bgfx::UniformHandle s_source_depth;
 
 		bgfx::UniformHandle u_source_0_level;

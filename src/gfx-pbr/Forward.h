@@ -68,13 +68,19 @@ namespace mud {
     enum class TonemapMode : unsigned int;
     
     
+	class BlockGeometry;
     class BlockLight;
     struct ReflectionRenderer;
-    struct MainRenderer;
+    struct ForwardRenderer;
+	struct DeferredRenderer;
     class BlockRadiance;
     struct ReflectionCubemap;
     class ReflectionAtlas;
     class ReflectionProbe;
+	class PassGeometry;
+	class PassLights;
+	class PassOpaque;
+	class PassAlpha;
     class PassProbes;
     class BlockReflection;
     struct ShadowCubemap;
