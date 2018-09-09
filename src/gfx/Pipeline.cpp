@@ -148,8 +148,9 @@ namespace mud
 		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LEQUAL
 									 | BGFX_STATE_MSAA | BGFX_STATE_CULL_CW | BGFX_STATE_BLEND_ALPHA;
 
+		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		for(ImmediateDraw* immediate : render.m_shot->m_immediate)
-			immediate->submit(render_pass.m_index, render_pass.m_bgfx_state);
+			immediate->submit(encoder, render_pass.m_index, render_pass.m_bgfx_state);
 	}
 
 	void PassUnshaded::queue_draw_element(Render& render, DrawElement& element)
@@ -160,7 +161,7 @@ namespace mud
 			add_element(element);
 	}
 
-	void PassUnshaded::submit_draw_element(Pass& render_pass, DrawElement& element)
+	void PassUnshaded::submit_draw_element(Pass& render_pass, DrawElement& element) const
 	{
 		UNUSED(render_pass); UNUSED(element);
 	}

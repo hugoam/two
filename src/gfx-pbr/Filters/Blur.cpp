@@ -10,6 +10,8 @@
 module mud.gfx.pbr;
 #else
 #include <gfx/Filter.h>
+#include <gfx/Asset.h>
+#include <gfx/GfxSystem.h>
 #include <gfx/RenderTarget.h>
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/Filters/Blur.h>
@@ -20,7 +22,7 @@ namespace mud
 	BlockBlur::BlockBlur(GfxSystem& gfx_system, BlockFilter& filter)
 		: GfxBlock(gfx_system, *this)
 		, m_filter(filter)
-		, m_program("filter/gaussian_blur")
+		, m_program(gfx_system.programs().create("filter/gaussian_blur"))
 	{
 		static cstring options[2] = { "GAUSSIAN_HORIZONTAL", "GAUSSIAN_VERTICAL" };
 		m_shader_block->m_options = { options, 2 };

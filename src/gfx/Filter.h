@@ -89,7 +89,7 @@ namespace mud
 		virtual void begin_gfx_block(Render& render) final;
 		virtual void submit_gfx_block(Render& render) final;
 
-		void set_uniforms(Render& render);
+		void set_uniforms(Render& render, bgfx::Encoder& encoder);
 
 		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const RenderQuad& quad, uint64_t flags = 0U, bool render = false);
 		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags = 0U, bool render = false);
@@ -100,7 +100,7 @@ namespace mud
 
 		FilterUniform u_uniform;
 
-		Program m_quad_program;
+		Program& m_quad_program;
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT BlockCopy : public GfxBlock
@@ -123,6 +123,6 @@ namespace mud
 
 		BlockFilter& m_filter;
 
-		Program m_program;
+		Program& m_program;
 	};
 }

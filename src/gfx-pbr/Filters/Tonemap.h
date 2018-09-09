@@ -87,6 +87,6 @@ namespace mud
 		BlockCopy& m_copy;
 
 		TonemapUniform u_uniform;
-		Program m_program;
+		Program& m_program;
 	};
 }

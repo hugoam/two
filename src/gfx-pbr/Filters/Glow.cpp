@@ -12,6 +12,7 @@ module mud.gfx.pbr;
 #include <gfx/RenderTarget.h>
 #include <gfx/Filter.h>
 #include <gfx/Pipeline.h>
+#include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/Filters/Glow.h>
@@ -28,8 +29,8 @@ namespace mud
 		, m_filter(filter)
 		, m_copy(copy)
 		, m_blur(blur)
-		, m_bleed_program("filter/glow_bleed")
-		, m_merge_program("filter/glow")
+		, m_bleed_program(gfx_system.programs().create("filter/glow_bleed"))
+		, m_merge_program(gfx_system.programs().create("filter/glow"))
 	{
 		static cstring options[1] = { "GLOW_FILTER_BICUBIC" };
 		m_shader_block->m_options = { options, 1 };

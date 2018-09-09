@@ -232,7 +232,7 @@ namespace mud
 				}
 				m_shape.bake(!m_normals, m_generate_tangents && m_uvs);
 				m_mesh.write(PLAIN, m_shape);
-				m_model.m_items.push_back({ bxidentity(), &m_mesh, -1, Colour::White });
+				m_model.add_item(bxidentity(), m_mesh);
 				//printf("INFO: ImporterOBJ imported mesh %s material %s with %u vertices and %u faces\n", m_mesh.m_name.c_str(), m_mesh.m_material->m_name.c_str(), m_shape.m_vertices.size(), m_shape.m_indices.size() / 3);
 			}
 

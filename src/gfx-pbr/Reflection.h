@@ -67,7 +67,7 @@ namespace mud
 
 		void submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version);
 
-		void upload_reflection_probes(Render& render, array<ReflectionProbe*> probes);
+		void upload_reflection_probes(Render& render, Pass& render_pass, array<ReflectionProbe*> probes);
 		void render_reflection_probe(Render& render, ReflectionProbe& reflection_probe);
 
 		ReflectionCubemap& find_cubemap(uint16_t size);
@@ -88,12 +88,12 @@ namespace mud
 			}
 
 			template <uint16_t size>
-			void setUniforms(ReflectionProbeArray<size>& data, uint16_t probe_count)
+			void setUniforms(bgfx::Encoder& encoder, ReflectionProbeArray<size>& data, uint16_t probe_count)
 			{
-				bgfx::setUniform(u_extents_intensity,	&data.extents_intensity,	probe_count);
-				bgfx::setUniform(u_ambient,				&data.ambient,				probe_count);
-				bgfx::setUniform(u_atlas_rect,			&data.atlas_rect,			probe_count);
-				bgfx::setUniform(u_matrix,				&data.matrix,				probe_count);
+				encoder.setUniform(u_extents_intensity,		&data.extents_intensity,	probe_count);
+				encoder.setUniform(u_ambient,				&data.ambient,				probe_count);
+				encoder.setUniform(u_atlas_rect,			&data.atlas_rect,			probe_count);
+				encoder.setUniform(u_matrix,				&data.matrix,				probe_count);
 			}
 
 			bgfx::UniformHandle u_extents_intensity;

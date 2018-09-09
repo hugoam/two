@@ -128,20 +128,20 @@ namespace mud
 		}
 	}
 
-	void ImmediateDraw::submit(uint8_t view, uint64_t bgfx_state)
+	void ImmediateDraw::submit(bgfx::Encoder& encoder, uint8_t view, uint64_t bgfx_state)
 	{
-		this->submit(view, bgfx_state, PLAIN);
-		this->submit(view, bgfx_state, OUTLINE);
+		this->submit(encoder, view, bgfx_state, PLAIN);
+		this->submit(encoder, view, bgfx_state, OUTLINE);
 	}
 
-	void ImmediateDraw::submit(uint8_t view, uint64_t bgfx_state, DrawMode draw_mode)
+	void ImmediateDraw::submit(bgfx::Encoder& encoder, uint8_t view, uint64_t bgfx_state, DrawMode draw_mode)
 	{
 		for(Batch& batch : m_batches[draw_mode])
-			this->submit(view, bgfx_state, draw_mode, batch);
+			this->submit(encoder, view, bgfx_state, draw_mode, batch);
 		m_cursor[draw_mode] = 0;
 	}
 
-	void ImmediateDraw::submit(uint8_t view, uint64_t bgfx_state, DrawMode draw_mode, Batch& batch)
+	void ImmediateDraw::submit(bgfx::Encoder& encoder, uint8_t view, uint64_t bgfx_state, DrawMode draw_mode, Batch& batch)
 	{
 		if(batch.m_vertices.empty())
 			return;
@@ -157,14 +157,16 @@ namespace mud
 		bgfx::allocTransientIndexBuffer(&index_buffer, batch.m_indices.size());
 		bx::memCopy(index_buffer.data, batch.m_indices.data(), batch.m_indices.size() * sizeof(uint16_t));
 
-		m_material.submit(bgfx_state);
+		m_material.submit(encoder, bgfx_state);
 
-		bgfx::setVertexBuffer(0, &vertex_buffer);
-		bgfx::setIndexBuffer(&index_buffer);
-		bgfx::setState(draw_mode == OUTLINE ? bgfx_state | BGFX_STATE_PT_LINES | BGFX_STATE_LINEAA : bgfx_state);
+		encoder.setVertexBuffer(0, &vertex_buffer);
+		encoder.setIndexBuffer(&index_buffer);
+		encoder.setState(draw_mode == OUTLINE ? bgfx_state | BGFX_STATE_PT_LINES | BGFX_STATE_LINEAA : bgfx_state);
+
 		mat4 identity = bxidentity();
-		bgfx::setTransform(value_ptr(identity));
-		bgfx::submit(view, m_material.m_program->default_version());
+		encoder.setTransform(value_ptr(identity));
+
+		encoder.submit(view, m_material.m_program->default_version());
 	}
 
 	bgfx::VertexDecl ImmediateDraw::ms_vertex_decl;
@@ -288,6 +290,6 @@ namespace mud
 		if(readback)
 			mesh.cache<ShapeVertex, ShapeIndex>(gpu_mesh);
 
-		model.m_items.emplace_back(ModelItem{ bxidentity(), &mesh, -1, Colour::White });
+		model.add_item(bxidentity(), mesh);
 	}
 }

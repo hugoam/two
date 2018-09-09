@@ -88,15 +88,18 @@ namespace mud
 
 	void BlockReflection::submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version)
 	{
-		UNUSED(render); UNUSED(render_pass); UNUSED(shader_version);
+		UNUSED(render); UNUSED(shader_version);
+		bgfx::Encoder& encoder = *render_pass.m_encoder;
+
 		if(m_atlas.m_size > 0)
-			bgfx::setTexture(uint8_t(TextureSampler::ReflectionProbe), u_uniform.s_atlas, m_atlas.m_color_tex);
+			encoder.setTexture(uint8_t(TextureSampler::ReflectionProbe), u_uniform.s_atlas, m_atlas.m_color_tex);
 
 		//upload_reflection_probes(render, to_array(render.m_shot->m_reflection_probes));
 	}
 
-	void BlockReflection::upload_reflection_probes(Render& render, array<ReflectionProbe*> probes)
+	void BlockReflection::upload_reflection_probes(Render& render, Pass& render_pass, array<ReflectionProbe*> probes)
 	{
+		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		mat4 view_matrix = inverse(render.m_camera.m_transform);
 
 		ReflectionProbeArray<16> probe_array;
@@ -119,10 +122,10 @@ namespace mud
 		}
 
 		if(probe_count > 0)
-			u_uniform.setUniforms(probe_array, probe_count);
+			u_uniform.setUniforms(encoder, probe_array, probe_count);
 
-		bgfx::setUniform(u_uniform.u_count, &probe_array.counts);
-		bgfx::setUniform(u_uniform.u_indices, probe_array.indices, probe_count);
+		encoder.setUniform(u_uniform.u_count, &probe_array.counts);
+		encoder.setUniform(u_uniform.u_indices, probe_array.indices, probe_count);
 	}
 
 	ReflectionCubemap& BlockReflection::find_cubemap(uint16_t size)

@@ -43,6 +43,8 @@ module mud.gfx;
 #include <gfx/Skeleton.h>
 #endif
 
+#define MUD_GFX_THREADED
+
 namespace mud
 {
 	GfxContext::GfxContext(GfxSystem& gfx_system, cstring name, int width, int height, bool fullScreen, bool init)
@@ -93,6 +95,10 @@ namespace mud
 		Texture* m_normal_texture = nullptr;
 
 		SymbolIndex m_symbols;
+
+#ifdef MUD_GFX_THREADED
+		std::vector<bgfx::Encoder*> m_encoders;
+#endif
 	};
 
 	GfxSystem::GfxSystem(array<cstring> resource_paths)
@@ -197,6 +203,22 @@ namespace mud
 	{
 		RenderFrame frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
 
+		for(auto& renderer : m_impl->m_renderers)
+			if(renderer)
+				renderer->frame(frame);
+
+		for(auto& name_program : m_impl->m_programs->m_assets)
+			name_program.second->update();
+
+#ifdef MUD_GFX_THREADED
+		m_num_encoders = min(uint32_t(4U), bgfx::getCaps()->limits.maxEncoders);
+
+		m_encoders[0] = bgfx::begin();
+
+		for(size_t i = 1; i < m_num_encoders; ++i)
+			m_encoders[i] = bgfx::begin(true);
+#endif
+
 		for(GfxContext* context : m_impl->m_contexts)
 			for(Viewport* viewport : context->m_viewports)
 				if(viewport->m_active)
@@ -204,6 +226,11 @@ namespace mud
 					Renderer& renderer = this->renderer(viewport->m_shading);
 					this->render(renderer, *context, *viewport, frame);
 				}
+
+#ifdef MUD_GFX_THREADED
+		for(size_t i = 1; i < m_num_encoders; ++i)
+			bgfx::end(m_encoders[i]);
+#endif
 
 		bool pursue = true;
 		for(GfxContext* context : m_impl->m_contexts)

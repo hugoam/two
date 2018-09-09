@@ -255,15 +255,15 @@ namespace mud
 		bgfx::destroy(m_program_colorBandingFix);
 	}
 
-	void ProceduralSky::render(Render& render)
+	void ProceduralSky::submit(Render& render, Pass& render_pass)
 	{
-		Pass sky_pass = render.next_pass("sky");
+		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
-		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LEQUAL);
-		bgfx::setIndexBuffer(m_ibh);
-		bgfx::setVertexBuffer(0, m_vbh);
+		encoder.setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LEQUAL);
+		encoder.setIndexBuffer(m_ibh);
+		encoder.setVertexBuffer(0, m_vbh);
 
-		bgfx::submit(sky_pass.m_index, m_preventBanding ? m_program_colorBandingFix : m_program);
+		encoder.submit(render_pass.m_index, m_preventBanding ? m_program_colorBandingFix : m_program);
 	}
 
 	void PerezSky::init(GfxSystem& gfx_system)
@@ -293,6 +293,9 @@ namespace mud
 
 	void PerezSky::render(Render& render)
 	{
+		Pass sky_pass = render.next_pass("sky");
+		bgfx::Encoder& encoder = *sky_pass.m_encoder;
+
 		m_time += m_time_scale * render.m_frame.m_delta_time;
 		m_time = bx::mod(m_time, 24.0f);
 		m_sun.Update(m_time);
@@ -303,26 +306,26 @@ namespace mud
 		Color sky_luminance_xyz = m_sky_luminance_xyz.GetValue(m_time);
 		Color sky_luminance_rgb = XYZToRGB(sky_luminance_xyz);
 
-		bgfx::setUniform(u_uniform.u_sun_luminance, sun_luminance_rgb.data);
-		bgfx::setUniform(u_uniform.u_sky_luminance_xyz, sky_luminance_xyz.data);
-		bgfx::setUniform(u_uniform.u_sky_luminance, sky_luminance_rgb.data);
+		encoder.setUniform(u_uniform.u_sun_luminance, sun_luminance_rgb.data);
+		encoder.setUniform(u_uniform.u_sky_luminance_xyz, sky_luminance_xyz.data);
+		encoder.setUniform(u_uniform.u_sky_luminance, sky_luminance_rgb.data);
 
-		bgfx::setUniform(u_uniform.u_sun_direction, &m_sun.m_sun_direction);
+		encoder.setUniform(u_uniform.u_sun_direction, &m_sun.m_sun_direction);
 
 		float exposition[4] = { 0.02f, 3.0f, 0.1f, m_time };
-		bgfx::setUniform(u_uniform.u_sky_params, exposition);
+		encoder.setUniform(u_uniform.u_sky_params, exposition);
 
 		float perez_coeff[4 * 5];
 		compute_perez_coeff(m_turbidity, perez_coeff);
-		bgfx::setUniform(u_uniform.u_perez_coeff, perez_coeff, 5);
+		encoder.setUniform(u_uniform.u_perez_coeff, perez_coeff, 5);
 
-		m_sky.render(render);
+		m_sky.submit(render, sky_pass);
 	}
 
 	BlockSky::BlockSky(GfxSystem& gfx_system, BlockFilter& filter)
 		: GfxBlock(gfx_system, *this)
 		, m_filter(filter)
-		, m_skybox_program("skybox")
+		, m_skybox_program(gfx_system.programs().create("skybox"))
 	{}
 
 	void BlockSky::init_gfx_block()
@@ -346,17 +349,18 @@ namespace mud
 		else if(mode == BackgroundMode::Radiance || mode == BackgroundMode::Panorama)
 		{
 			Pass sky_pass = render.next_pass("sky");
+			bgfx::Encoder& encoder = *sky_pass.m_encoder;
 
-			bgfx::setTexture(uint8_t(TextureSampler::Source0), u_skybox.s_skybox_map, render.m_environment->m_radiance.m_roughness_array);
+			encoder.setTexture(uint8_t(TextureSampler::Source0), u_skybox.s_skybox_map, render.m_environment->m_radiance.m_roughness_array);
 
 			unsigned int level = mode == BackgroundMode::Radiance ? 3 : 0;
 			vec4 skybox_params = { float(level), float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };
-			bgfx::setUniform(u_skybox.u_skybox_params, &skybox_params);
+			encoder.setUniform(u_skybox.u_skybox_params, &skybox_params);
 
 			mat4 skybox_matrix = bxinverse(render.m_camera.m_transform);
-			bgfx::setUniform(u_skybox.u_skybox_matrix, &skybox_matrix);
+			encoder.setUniform(u_skybox.u_skybox_matrix, &skybox_matrix);
 
-			m_filter.set_uniforms(render);
+			m_filter.set_uniforms(render, encoder);
 
 			m_filter.submit_quad(*render.m_target, sky_pass.m_index, render.m_target_fbo, m_skybox_program.default_version(), render.m_viewport.m_rect, BGFX_STATE_DEPTH_TEST_LEQUAL);
 		}

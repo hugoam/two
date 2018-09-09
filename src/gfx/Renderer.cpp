@@ -28,15 +28,38 @@ module mud.gfx;
 #include <gfx/Filter.h>
 #endif
 
+//#define MUD_GFX_THREADED
+//#define MUD_ONE_THREAD
+#define MUD_GFX_JOBS
+
 namespace mud
 {
 	uint8_t GfxBlock::s_block_index = 0;
+
+	struct RenderUniform
+	{
+		RenderUniform() {}
+		RenderUniform(int)
+			: u_render_params(bgfx::createUniform("u_render_params", bgfx::UniformType::Vec4))
+		{}
+
+		bgfx::UniformHandle u_render_params;
+	};
+
+	static RenderUniform s_render_uniform;
 
 	Render::Render(Viewport& viewport, RenderTarget& target, RenderFrame& frame)
 		: m_scene(*viewport.m_scene), m_target(&target), m_target_fbo(target.m_fbo), m_viewport(viewport)
 		, m_camera(*viewport.m_camera), m_frame(frame), m_filters(viewport.m_filters), m_pass_index(frame.m_render_pass)
 		, m_shot(make_unique<Shot>())
-	{}
+	{
+		static bool init_uniform = true;
+		if(init_uniform)
+		{
+			s_render_uniform = { 0 };
+			init_uniform = false;
+		}
+	}
 
 	Render::Render(Viewport& viewport, bgfx::FrameBufferHandle& target_fbo, RenderFrame& frame)
 		: m_scene(*viewport.m_scene), m_target(nullptr), m_target_fbo(target_fbo), m_viewport(viewport)
@@ -61,27 +84,19 @@ namespace mud
 		render_pass.m_index = m_pass_index++;
 		render_pass.m_sub_pass = m_sub_pass_index++;
 
+#ifndef MUD_THREADED
+		render_pass.m_encoder = bgfx::begin();
+#endif
 		//printf("INFO: render pass %s\n", name.c_str());
 		m_viewport.render_pass(name, render_pass);
 
 		return render_pass;
 	}
 
-	struct RenderUniform
+	void Render::set_uniforms(bgfx::Encoder& encoder) const
 	{
-		RenderUniform()
-			: u_render_params(bgfx::createUniform("u_render_params", bgfx::UniformType::Vec4))
-		{}
-
-		bgfx::UniformHandle u_render_params;
-	};
-
-	void Render::set_uniforms()
-	{
-		static RenderUniform render_uniform;
-
 		vec4 render_params = { m_frame.m_time, float(bgfx::getCaps()->originBottomLeft), 0.f, 0.f };
-		bgfx::setUniform(render_uniform.u_render_params, &render_params);
+		encoder.setUniform(s_render_uniform.u_render_params, &render_params);
 	}
 
 	struct Renderer::Impl
@@ -125,6 +140,12 @@ namespace mud
 		return *m_impl->m_render_passes.back();
 	}
 
+	void Renderer::frame(const RenderFrame& frame)
+	{
+		for(GfxBlock* block : m_impl->m_gfx_blocks)
+			block->render_gfx_block();
+	}
+
 	void Renderer::render(Render& render)
 	{
 		//render.m_needs_depth_prepass = true;
@@ -155,7 +176,8 @@ namespace mud
 	{}
 
 	RenderPass::RenderPass(GfxSystem& gfx_system, const char* name, PassType pass_type)
-		: m_name(name)
+		: m_gfx_system(gfx_system)
+		, m_name(name)
 		, m_pass_type(pass_type)
 		, m_gfx_blocks(gfx_system.m_pipeline->pass_blocks(pass_type))
 	{}
@@ -272,6 +294,37 @@ namespace mud
 		return b;
 	}
 
+	void DrawPass::submit_draw_elements(bgfx::Encoder& encoder, Render& render, Pass& render_pass, size_t first, size_t count) const
+	{
+		if(count == 0)
+			int i = 0;
+
+		for(size_t i = first; i < first + count; ++i)
+		{
+			DrawElement element = m_impl->m_draw_elements[i];
+
+			//for(DrawBlock* block : m_impl->m_draw_blocks)
+			//	block->submit_gfx_element(render, render_pass, element);
+			//
+			//this->submit_draw_element(render_pass, element);
+
+			element.m_shader_version.set_option(0, INSTANCING, !element.m_item->m_instances.empty());
+			element.m_shader_version.set_option(0, BILLBOARD, element.m_item->m_flags & ITEM_BILLBOARD);
+			element.m_shader_version.set_option(0, SKELETON, element.m_skin != nullptr);
+
+			uint64_t render_state = 0 | render_pass.m_bgfx_state | element.m_bgfx_state;
+			element.m_material->submit(encoder, render_state, element.m_skin);
+			element.m_item->submit(encoder, render_state, *element.m_model);
+
+			render.set_uniforms(encoder);
+
+			encoder.setState(render_state);
+
+			bgfx::ProgramHandle program = element.m_material->m_program->version(element.m_shader_version);
+			encoder.submit(render_pass.m_index, program, depth_to_bits(element.m_item->m_depth));
+		}
+	}
+
 	void DrawPass::submit_render_pass(Render& render)
 	{
 		for(DrawBlock* block : m_impl->m_draw_blocks)
@@ -285,7 +338,7 @@ namespace mud
 		for(PassJob& job : render.m_scene.m_pass_jobs->m_jobs[size_t(m_pass_type)])
 		{
 			Pass render_pass = render.next_pass(m_name);
-			render.set_uniforms();
+			render.set_uniforms(*render_pass.m_encoder);
 			job(render_pass);
 		}
 
@@ -295,30 +348,44 @@ namespace mud
 			this->next_draw_pass(render, render_pass);
 			render.m_viewport.render_pass(m_name, render_pass);
 
-			for(size_t i = 0; i < m_impl->m_draw_elements.size(); ++i)
+#if 0
+			//for(size_t i = 0; i < 4; ++i)
 			{
-				DrawElement element = m_impl->m_draw_elements[i];
-
-				for(DrawBlock* block : m_impl->m_draw_blocks)
-					block->submit_gfx_element(render, render_pass, element);
-
-				this->submit_draw_element(render_pass, element);
-				
-				element.m_shader_version.set_option(0, INSTANCING, !element.m_item->m_instances.empty());
-				element.m_shader_version.set_option(0, BILLBOARD, element.m_item->m_flags & ITEM_BILLBOARD);
-				element.m_shader_version.set_option(0, SKELETON, element.m_skin != nullptr);
-				
-				uint64_t render_state = 0 | render_pass.m_bgfx_state | element.m_bgfx_state;
-				element.m_material->submit(render_state, element.m_skin);
-				element.m_item->submit(render_state, *element.m_model);
-
-				render.set_uniforms();
-
-				bgfx::setState(render_state);
-
-				bgfx::ProgramHandle program = element.m_material->m_program->version(element.m_shader_version);
-				bgfx::submit(render_pass.m_index, program, depth_to_bits(element.m_item->m_depth));
+				ftl::AtomicCounter counter(m_gfx_system.m_job_system);
+				m_gfx_system.m_job_system->AddTask({ [](JobSystem* system, void* arg) {}, this }, &counter);
+				m_gfx_system.m_job_system->WaitForCounter(&counter, 0, true);
 			}
+#endif
+
+#ifdef MUD_GFX_JOBS
+			size_t elements = m_impl->m_draw_elements.size() / m_gfx_system.m_num_encoders;
+			size_t remainder = m_impl->m_draw_elements.size() % m_gfx_system.m_num_encoders;
+
+			size_t start = 0;
+
+			JobSystem& js = *m_gfx_system.m_job_system;
+
+			auto parent = js.createJob();
+
+			auto submit = [&](bgfx::Encoder& encoder, size_t start, size_t count)
+			{
+				this->submit_draw_elements(encoder, render, render_pass, start, count);
+			};
+
+			for(size_t i = 0; i < m_gfx_system.m_num_encoders; ++i)
+			{
+				size_t count = i == 0 ? remainder + elements : elements;
+				if(count > 0)
+					js.run(jobs::createJob(js, parent, std::cref(submit), std::ref(*m_gfx_system.m_encoders[i]), start, count));
+				start += count;
+			}
+
+			js.runAndWait(parent);
+#else
+			bgfx::Encoder& encoder = *bgfx::begin();
+			this->submit_draw_elements(encoder, render, render_pass, 0, m_impl->m_draw_elements.size());
+			bgfx::end(&encoder);
+#endif
 		}
 	}
 }

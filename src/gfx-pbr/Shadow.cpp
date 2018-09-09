@@ -332,7 +332,7 @@ namespace mud
 			PassDepth::queue_draw_element(render, element);
 	}
 
-	void PassShadow::submit_draw_element(Pass& render_pass, DrawElement& element)
+	void PassShadow::submit_draw_element(Pass& render_pass, DrawElement& element) const
 	{
 		UNUSED(render_pass); UNUSED(element);
 	}
@@ -403,6 +403,8 @@ namespace mud
 		int pcf_level = 1;
 #endif
 
+		bgfx::Encoder& encoder = *render_pass.m_encoder;
+
 		if(directional && light->m_shadows)
 		{
 			shader_version.set_option(m_index, CSM_SHADOW);
@@ -413,20 +415,20 @@ namespace mud
 
 			vec2 pcf_offset = { 1.f, 1.f };
 			vec4 csm_params = { vec2(1.f / float(m_csm.m_size)), pcf_offset };
-			bgfx::setUniform(u_directional_shadow.u_csm_params, &csm_params);
+			encoder.setUniform(u_directional_shadow.u_csm_params, &csm_params);
 
 			if(pcf_level == 0)
-				bgfx::setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth, GFX_TEXTURE_POINT);
+				encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth, GFX_TEXTURE_POINT);
 			else
-				bgfx::setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth, BGFX_TEXTURE_COMPARE_LESS);
-				//bgfx::setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth);
+				encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth, BGFX_TEXTURE_COMPARE_LESS);
+				//encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth);
 		}
 
 		if(0)//render.m_shadow_atlas)
 		{
-			bgfx::setTexture(uint8_t(TextureSampler::ShadowAtlas), u_shadow.s_shadow_atlas, m_atlas.m_depth, BGFX_TEXTURE_COMPARE_LESS);
+			encoder.setTexture(uint8_t(TextureSampler::ShadowAtlas), u_shadow.s_shadow_atlas, m_atlas.m_depth, BGFX_TEXTURE_COMPARE_LESS);
 			vec2 shadow_atlas_pixel_size = vec2(1.f) / float(m_atlas.m_size);
-			bgfx::setUniform(u_shadow.u_shadow_pixel_size, &shadow_atlas_pixel_size[0]);
+			encoder.setUniform(u_shadow.u_shadow_pixel_size, &shadow_atlas_pixel_size[0]);
 		}
 	}
 }

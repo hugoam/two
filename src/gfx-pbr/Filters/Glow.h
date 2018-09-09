@@ -68,8 +68,8 @@ namespace mud
 
 		GlowUniform u_uniform;
 
-		Program m_bleed_program;
-		Program m_merge_program;
+		Program& m_bleed_program;
+		Program& m_merge_program;
 	};
 
 }

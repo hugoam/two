@@ -65,12 +65,18 @@ namespace mud
 		return *m_rig;
 	}
 
+	ModelItem& Model::add_item(mat4 transform, Mesh& mesh, int skin, Colour colour, Material* material)
+	{
+		m_items.push_back({ m_items.size(), transform, &mesh, skin, colour, material });
+		return m_items.back();
+	}
+
 	void Model::prepare()
 	{
 		m_aabb = { Zero3, Zero3 };
 		m_radius = 0.f;
 
-		for(ModelItem& item: m_items) //Mesh& mesh : m_meshes)
+		for(const ModelItem& item: m_items) //Mesh& mesh : m_meshes)
 		{
 			m_geometry[item.m_mesh->m_draw_mode] = true;
 			m_aabb.merge(transform_aabb(item.m_mesh->m_aabb, item.m_transform));

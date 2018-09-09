@@ -177,7 +177,7 @@ namespace mud
 		}
 	}
 
-	void PassOpaque::submit_draw_element(Pass& render_pass, DrawElement& element)
+	void PassOpaque::submit_draw_element(Pass& render_pass, DrawElement& element) const
 	{
 		UNUSED(render_pass);
 		if(element.m_material->m_base_block.m_depth_draw_mode == DepthDraw::Enabled)
@@ -204,7 +204,7 @@ namespace mud
 			add_element(element);
 	}
 
-	void PassAlpha::submit_draw_element(Pass& render_pass, DrawElement& element)
+	void PassAlpha::submit_draw_element(Pass& render_pass, DrawElement& element) const
 	{
 		UNUSED(render_pass);
 		blend_state(element.m_material->m_base_block.m_blend_mode, element.m_bgfx_state);
@@ -231,7 +231,7 @@ namespace mud
 		}
 	}
 
-	void PassGeometry::submit_draw_element(Pass& render_pass, DrawElement& element)
+	void PassGeometry::submit_draw_element(Pass& render_pass, DrawElement& element) const
 	{
 		UNUSED(render_pass);
 		if(element.m_material->m_base_block.m_depth_draw_mode == DepthDraw::Enabled)
@@ -254,6 +254,7 @@ namespace mud
 	void PassLights::submit_render_pass(Render& render)
 	{
 		Pass render_pass = render.next_pass(m_name);
+		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
 		DrawCluster cluster;
 		cluster.m_lights = render.m_shot->m_lights;
@@ -268,10 +269,10 @@ namespace mud
 
 		cluster.m_shader_version.set_option(0, MRT, render.m_is_mrt);
 
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, render.m_target->m_gbuffer.m_position);
-		bgfx::setTexture(uint8_t(TextureSampler::Source1), m_filter.u_uniform.s_source_1, render.m_target->m_gbuffer.m_normal);
-		bgfx::setTexture(uint8_t(TextureSampler::Source2), m_filter.u_uniform.s_source_2, render.m_target->m_gbuffer.m_albedo);
-		bgfx::setTexture(uint8_t(TextureSampler::Source3), m_filter.u_uniform.s_source_3, render.m_target->m_gbuffer.m_surface);
+		encoder.setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, render.m_target->m_gbuffer.m_position);
+		encoder.setTexture(uint8_t(TextureSampler::Source1), m_filter.u_uniform.s_source_1, render.m_target->m_gbuffer.m_normal);
+		encoder.setTexture(uint8_t(TextureSampler::Source2), m_filter.u_uniform.s_source_2, render.m_target->m_gbuffer.m_albedo);
+		encoder.setTexture(uint8_t(TextureSampler::Source3), m_filter.u_uniform.s_source_3, render.m_target->m_gbuffer.m_surface);
 
 		m_filter.submit_quad(*render.m_target, render_pass.m_index, render.m_target_fbo,
 							 m_program->version(cluster.m_shader_version), render.m_viewport.m_rect, BGFX_STATE_BLEND_ALPHA);

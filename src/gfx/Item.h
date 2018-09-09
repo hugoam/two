@@ -59,12 +59,14 @@ namespace mud
 
 		Aabb m_aabb;
 
-		void submit(uint64_t& bgfx_state, const ModelItem& item);
-		void submit_instances(const ModelItem& item);
+		void update();
+		void update_instances();
+
+		void submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const ModelItem& item) const;
 
 		std::vector<mat4> m_instances;
 
-		bgfx::InstanceDataBuffer m_instance_buffer;
+		std::vector<bgfx::InstanceDataBuffer> m_instance_buffers;
 
 		std::vector<Light*> m_lights;
 		//std::vector<ReflectionProbe*> m_reflection_probes;

@@ -685,7 +685,7 @@ namespace mud
 				for(int primitive : primitives[node.mesh])
 				{
 					mat4 transform = derive_transform(gltf, node);
-					model.m_items.emplace_back(ModelItem{ transform, model.m_meshes[primitive], node.skin, Colour::White, nullptr });
+					model.add_item(transform, *model.m_meshes[primitive], node.skin);
 				}
 			}
 

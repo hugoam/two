@@ -61,6 +61,6 @@ namespace mud
 
 		DofBlurUniform u_uniform;
 
-		Program m_program;
+		Program& m_program;
 	};
 }

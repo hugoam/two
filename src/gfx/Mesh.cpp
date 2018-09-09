@@ -148,10 +148,10 @@ namespace mud
 		memcpy(m_cached_indices.data(), gpu_mesh.m_index_memory->data, gpu_mesh.m_index_memory->size);
 	}
 
-	uint64_t Mesh::submit() const
+	uint64_t Mesh::submit(bgfx::Encoder& encoder) const
 	{
-		bgfx::setVertexBuffer(0, m_vertex_buffer);
-		bgfx::setIndexBuffer(m_index_buffer);
+		encoder.setVertexBuffer(0, m_vertex_buffer);
+		encoder.setIndexBuffer(m_index_buffer);
 		return m_draw_mode == PLAIN ? 0 : (BGFX_STATE_PT_LINES | BGFX_STATE_LINEAA);
 	}
 }

@@ -54,6 +54,6 @@ namespace mud
 		BlockFilter& m_filter;
 
 		EffectBlurUniform u_uniform;
-		Program m_program;
+		Program& m_program;
 	};
 }

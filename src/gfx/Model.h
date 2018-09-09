@@ -43,6 +43,7 @@ namespace mud
 
 	export_ struct refl_ ModelItem
 	{
+		attr_ size_t m_index;
 		attr_ mat4 m_transform;
 		attr_ Mesh* m_mesh;
 		attr_ int m_skin;
@@ -72,6 +73,7 @@ namespace mud
 
 		Mesh& add_mesh(cstring name, bool readback = false);
 		Rig& add_rig(cstring name);
+		ModelItem& add_item(mat4 transform, Mesh& mesh, int skin = -1, Colour colour = Colour::White, Material* material = nullptr);
 		void prepare();
 
 		static GfxSystem* ms_gfx_system;

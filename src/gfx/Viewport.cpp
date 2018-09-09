@@ -44,7 +44,7 @@ namespace mud
 		if(m_scissor)
 			bgfx::setViewScissor(render_pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(rect_w(m_rect)), uint16_t(rect_h(m_rect)));
 
-		bgfx::touch(render_pass.m_index);
+		render_pass.m_encoder->touch(render_pass.m_index);
 	}
 
 	void Viewport::render(Render& render)

@@ -11,6 +11,8 @@ module mud.gfx.pbr;
 #else
 #include <gfx/RenderTarget.h>
 #include <gfx/Filter.h>
+#include <gfx/Asset.h>
+#include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/Filters/Tonemap.h>
 #endif
@@ -21,7 +23,7 @@ namespace mud
 		: GfxBlock(gfx_system, *this)
 		, m_filter(filter)
 		, m_copy(copy)
-		, m_program("filter/tonemap")
+		, m_program(gfx_system.programs().create("filter/tonemap"))
 	{
 		static cstring options[2] = {
 			"ADJUST_BCS",
@@ -59,7 +61,7 @@ namespace mud
 	{
 		ShaderVersion shader_version(&m_program);
 
-		m_filter.set_uniforms(render);
+		m_filter.set_uniforms(render, *bgfx::begin());
 
 		shader_version.set_mode(m_index, TONEMAP_MODE, uint8_t(tonemap.m_mode));
 

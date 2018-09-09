@@ -10,8 +10,8 @@
 #include <geom/Geom.h>
 #endif
 #include <gfx/Forward.h>
-#include <gfx/Frustum.h>
 #include <gfx/Buffer.h>
+#include <gfx/FrustumCluster.h>
 
 #if defined MUD_UNIFORM_BLOCKS
 #include <gfx/Uniform.h>
@@ -78,13 +78,6 @@ namespace mud
 			u_froxel_z		= bgfx::createUniform("u_froxel_z",			bgfx::UniformType::Vec4);
 		}
 
-		void upload(const vec4& params, const vec4& f, const vec4& z)
-		{
-			bgfx::setUniform(u_froxel_params, &params);
-			bgfx::setUniform(u_froxel_f, &f);
-			bgfx::setUniform(u_froxel_z, &z);
-		}
-
 		bgfx::UniformHandle s_light_records;
 		bgfx::UniformHandle s_light_clusters;
 
@@ -96,13 +89,11 @@ namespace mud
 	class MUD_GFX_EXPORT Froxelizer
 	{
 	public:
-		Froxelizer();
+		Froxelizer(GfxSystem& gfx_system);
 		~Froxelizer();
 
 		bool prepare(const Viewport& viewport, const mat4& projection, float near, float far);
 		bool update(const Viewport& viewport, const mat4& projection, float near, float far);
-
-		Frustum froxel_at(size_t x, size_t y, size_t z) const;
 
 		// update Records and Froxels texture with lights data. this is thread-safe.
 		void froxelize_lights(const Camera& camera, array<Light*> lights);
@@ -110,7 +101,7 @@ namespace mud
 
 		// send froxel data to GPU
 		void upload();
-		void submit();
+		void submit(bgfx::Encoder& encoder) const;
 
 		void compute_froxels();
 
@@ -169,17 +160,11 @@ namespace mud
 
 		void light_bounds(const mat4& projection, const Froxelizer::LightParams& light, uvec3& lo, uvec3& hi) const;
 		void froxelize_light(FroxelThreadData& froxelThread, size_t bit, const mat4& projection, const LightParams& light) const;
+		void froxelize_light_group(const Camera& camera, array<Light*> lights, size_t offset, size_t stride);
 
-		uint16_t froxel_index(size_t ix, size_t iy, size_t iz) const { return uint16_t(ix + (iy * m_froxel_count_x) + (iz * m_froxel_count_x * m_froxel_count_y)); }
+		GfxSystem& m_gfx_system;
 
-		size_t findSliceZ(float viewSpaceZ) const;
-
-		std::pair<size_t, size_t> clipToIndices(vec2 const& clip) const;
-
-		std::vector<float> m_distances_z;                // max 2.1 MiB (actual: resolution dependant)
-		std::vector<vec4> m_planes_x;
-		std::vector<vec4> m_planes_y;
-		std::vector<vec4> m_bounding_spheres;
+		ClusteredFrustum m_frustum;
 
 		template <class T>
 		struct Buffer
@@ -196,19 +181,9 @@ namespace mud
 		Buffer<FroxelEntry> m_froxels;			//  32 KiB w/ 8192 froxels
 		Buffer<RecordBufferType> m_records;		//  64 KiB // max 32 KiB  (actual: resolution dependant)
 
-		uint16_t m_froxel_count_x = 0;
-		uint16_t m_froxel_count_y = 0;
-		uint16_t m_froxel_count_z = 0;
-		uint16_t m_froxel_count = 0;
-		uvec2 m_froxel_dimension = {};
-
 		std::vector<Frustum> m_debug_clusters;
 
 		mat4 m_projection;
-		float m_linearizer = 0.f;
-		float m_light_far_log2 = 0.f;
-		vec2 m_clip_to_froxel = vec2(0.f);
-		vec2 m_inv_dimension = {};
 
 		// needed for update()
 		const Viewport* m_viewport;

@@ -9,9 +9,12 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
+#include <infra/Vector.h>
 #include <gfx/Scene.h>
 #include <gfx/Texture.h>
 #include <gfx/RenderTarget.h>
+#include <gfx/Asset.h>
+#include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/Radiance.h>
 #endif
@@ -22,7 +25,7 @@ namespace mud
 		: DrawBlock(gfx_system, type<BlockRadiance>())
 		, m_filter(filter)
 		, m_copy(copy)
-		, m_prefilter_program("filter/prefilter_envmap")
+		, m_prefilter_program(gfx_system.programs().create("filter/prefilter_envmap"))
 	{
 		static cstring options[2] = { "RADIANCE_ENVMAP", "RADIANCE_ARRAY" };
 		m_shader_block->m_options = { options, 2 };
@@ -33,13 +36,20 @@ namespace mud
 		u_prefilter.createUniforms();
 		u_radiance.createUniforms();
 	}
+	
+	void BlockRadiance::render_gfx_block()
+	{
+		while(!m_prefilter_queue.empty())
+			this->prefilter_radiance(*vector_pop(m_prefilter_queue));
+	}
 
 	void BlockRadiance::begin_gfx_block(Render& render)
 	{
 		if(!render.m_environment || !render.m_environment->m_radiance.m_texture)
 			return;
-			
-		this->prefilter_radiance(render, render.m_environment->m_radiance);
+
+		if(!render.m_environment->m_radiance.m_preprocessed)
+			m_prefilter_queue.push_back(&render.m_environment->m_radiance);
 	}
 
 	void BlockRadiance::submit_gfx_block(Render& render)
@@ -64,21 +74,18 @@ namespace mud
 
 	void BlockRadiance::submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version)
 	{
-		UNUSED(render_pass);
+		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		bgfx::TextureHandle radiance = render.m_environment->m_radiance.m_roughness_array;
 
 		if(bgfx::isValid(radiance))
 		{
-			bgfx::setTexture(uint8_t(TextureSampler::Radiance), u_radiance.s_radiance_map, radiance);
+			encoder.setTexture(uint8_t(TextureSampler::Radiance), u_radiance.s_radiance_map, radiance);
 			shader_version.set_option(m_index, RADIANCE_ENVMAP);
 		}
 	}
 
-	void BlockRadiance::prefilter_radiance(Render& render, Radiance& radiance)
+	void BlockRadiance::prefilter_radiance(Radiance& radiance)
 	{
-		if(render.m_environment->m_radiance.m_preprocessed == true)
-			return;
-
 		if(m_prefiltered.find(radiance.m_texture->m_texture.idx) != m_prefiltered.end())
 		{
 			radiance.m_roughness_array = { m_prefiltered[radiance.m_texture->m_texture.idx] };
@@ -96,8 +103,9 @@ namespace mud
 		if(bgfx::isValid(radiance.m_roughness_array))
 			bgfx::destroy(radiance.m_roughness_array);
 
-		uint16_t width = uint16_t(render.m_target->m_size.x); //radiance.m_texture->m_width;
-		uint16_t height = uint16_t(render.m_target->m_size.y); //radiance.m_texture->m_height;
+		RenderTarget& target = *m_gfx_system.context().m_target;
+		uint16_t width = uint16_t(target.m_size.x); //radiance.m_texture->m_width;
+		uint16_t height = uint16_t(target.m_size.y); //radiance.m_texture->m_height;
 
 #ifdef MUD_RADIANCE_MIPMAPS
 		uint16_t texture_layers = 1;
@@ -126,7 +134,7 @@ namespace mud
 
 		bgfx::TextureHandle radiance_array = radiance.m_roughness_array;
 
-		uint8_t view_id = render.preprocess_pass();
+		uint8_t view_id = Render::s_preprocess_pass_id; //render.preprocess_pass();
 
 		auto blit_to_array = [&](bgfx::TextureHandle texture, uvec2 size, int level)
 		{

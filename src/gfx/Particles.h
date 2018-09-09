@@ -151,7 +151,7 @@ namespace mud
 		void shutdown();
 
 		void update(float timestep);
-		void render(uint8_t pass, const mat4& view, const vec3& eye);
+		void render(bgfx::Encoder& encoder, uint8_t pass, const mat4& view, const vec3& eye);
 		
 		TPool<Particles>& m_emitters;
 

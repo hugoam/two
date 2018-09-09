@@ -10,6 +10,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <infra/Job.h>
 #include <geom/Aabb.h>
 #include <geom/Intersect.h>
 #include <gfx/Froxel.h>
@@ -68,8 +69,9 @@ namespace mud
 	// http://www.humus.name/Articles/PracticalClusteredShading.pdf
 	// http://www.cse.chalmers.se/~uffe/clustered_shading_preprint.pdf
 
-	Froxelizer::Froxelizer()
-		: m_froxels({ GpuBuffer::ElementType::UINT16, 2 }, FROXEL_BUFFER_WIDTH, FROXEL_BUFFER_HEIGHT)
+	Froxelizer::Froxelizer(GfxSystem& gfx_system)
+		: m_gfx_system(gfx_system)
+		, m_froxels({ GpuBuffer::ElementType::UINT16, 2 }, FROXEL_BUFFER_WIDTH, FROXEL_BUFFER_HEIGHT)
 		, m_records({ record_type(), 1 }, RECORD_BUFFER_WIDTH, RECORD_BUFFER_HEIGHT)
 	{
 		m_uniform.createUniforms();
@@ -117,199 +119,36 @@ namespace mud
 		return uniformsNeedUpdating;
 	}
 
-	void compute_froxel_layout(uvec2* dim, uint16_t* countX, uint16_t* countY, uint16_t* countZ, uvec2 viewport)
-	{
-		if(SUPPORTS_NON_SQUARE_FROXELS == false)
-		{
-			// calculate froxel dimension from FROXEL_BUFFER_ENTRY_COUNT_MAX and viewport
-			// - Start from the maximum number of froxels we can use in the x-y plane
-			size_t froxelSliceCount = CONFIG_FROXEL_SLICE_COUNT;
-			size_t froxelPlaneCount = FROXEL_BUFFER_ENTRY_COUNT_MAX / froxelSliceCount;
-			// - compute the number of square froxels we need in width and height, rounded down
-			//   solving: |  froxel_count_x * froxel_count_y == froxelPlaneCount
-			//            |  froxel_count_x / froxel_count_y == width / height
-			size_t froxel_count_x = size_t(bx::sqrt(froxelPlaneCount * viewport.x / viewport.y));
-			size_t froxel_count_y = size_t(bx::sqrt(froxelPlaneCount * viewport.y / viewport.x));
-			// - copmute the froxels dimensions, rounded up
-			size_t froxelSizeX = (viewport.x + froxel_count_x - 1) / froxel_count_x;
-			size_t froxelSizeY = (viewport.y + froxel_count_y - 1) / froxel_count_y;
-			// - and since our froxels must be square, only keep the largest dimension
-			size_t froxel_dimension = bx::max(froxelSizeX, froxelSizeY);
-
-			// Here we recompute the froxel counts which may have changed a little due to the rounding
-			// and the squareness requirement of froxels
-			froxel_count_x = (viewport.x + froxel_dimension - 1) / froxel_dimension;
-			froxel_count_y = (viewport.y + froxel_dimension - 1) / froxel_dimension;
-
-			*dim = uvec2(froxel_dimension);
-			*countX = uint16_t(froxel_count_x);
-			*countY = uint16_t(froxel_count_y);
-			*countZ = uint16_t(froxelSliceCount);
-		}
-		else
-		{
-			// TODO: don't hardcode this
-			*countX = uint16_t(32);
-			*countY = uint16_t(16);
-			if(viewport.y > viewport.x)
-				std::swap(*countX, *countY);
-			*countZ = uint16_t(CONFIG_FROXEL_SLICE_COUNT);
-			dim->x = (viewport.x + *countX - 1) / *countX;
-			dim->y = (viewport.y + *countY - 1) / *countY;
-		}
-	}
-
 	void Froxelizer::update_viewport()
 	{
-		uvec2 viewport = rect_size(m_viewport->m_rect);
+		m_frustum.m_near = m_light_near;
+		m_frustum.m_far = m_light_far;
 
-		compute_froxel_layout(&m_froxel_dimension, &m_froxel_count_x, &m_froxel_count_y, &m_froxel_count_z, viewport);
+		m_frustum.resize(rect_size(m_viewport->m_rect));
 
-		m_clip_to_froxel = (0.5f * vec2(viewport)) / vec2(m_froxel_dimension);
-
-		m_inv_dimension = 1.0f / vec2(m_froxel_dimension);
-
-		// froxel count must fit on 16 bits
-		m_froxel_count = uint16_t(m_froxel_count_x * m_froxel_count_y * m_froxel_count_z);
-
-		m_distances_z.resize(m_froxel_count_z + 1);
-		m_planes_x.resize(m_froxel_count_x + 1);
-		m_planes_y.resize(m_froxel_count_y + 1);
-		m_bounding_spheres.resize(m_froxel_count);
-
-		m_distances_z[0] = 0.0f;
-		const float linearizer = std::log2(m_light_far / m_light_near) / float(m_froxel_count_z - 1);
-
-		for(ssize_t i = 1, n = m_froxel_count_z; i <= n; i++)
-			m_distances_z[i] = m_light_far * std::exp2f(float(i - n) * linearizer);
-		
-		// for the inverse-transformation (view-space z to z-slice)
-		m_linearizer = 1 / linearizer;
-		m_light_far_log2 = std::log2(m_light_far);
-
-		m_params_z = { 0, 0, -m_linearizer, m_froxel_count_z };
+		m_params_z = { 0, 0, -m_frustum.m_linearizer, m_frustum.m_subdiv_z };
 		if(SUPPORTS_REMAPPED_FROXELS)
 		{
-			m_params_f.x = uint32_t(m_froxel_count_z);
-			m_params_f.y = uint32_t(m_froxel_count_x * m_froxel_count_z);
+			m_params_f.x = uint32_t(m_frustum.m_subdiv_z);
+			m_params_f.y = uint32_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_z);
 			m_params_f.z = 1;
 		}
 		else
 		{
 			m_params_f.x = 1;
-			m_params_f.y = uint32_t(m_froxel_count_x);
-			m_params_f.z = uint32_t(m_froxel_count_x * m_froxel_count_y);
+			m_params_f.y = uint32_t(m_frustum.m_subdiv_x);
+			m_params_f.z = uint32_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_y);
 		}
 	}
 
 	void Froxelizer::update_projection()
 	{
-		// clip-space dimensions
-		const vec2 froxel_clip_size = (2.0f * vec2(m_froxel_dimension)) / rect_size(m_viewport->m_rect);
-		const mat4 inv_projection = inverse(m_projection);
-
-		auto to_view_space = [](const mat4& inv_projection, vec4 p0, vec4 p1)
-		{
-			p0 = inv_projection * p0;
-			p1 = inv_projection * p1;
-			return vec4(normalize(cross(vec3(p1), vec3(p0))), 0.f);
-		};
-
-		for(size_t i = 0, n = m_froxel_count_x; i <= n; ++i)
-		{
-			float x = (i * froxel_clip_size.x) - 1.0f;
-			vec4 p0 = { x, -1, -1, 1 };
-			vec4 p1 = { x,  1, -1, 1 };
-			m_planes_x[i] = to_view_space(inv_projection, p0, p1);
-		}
-
-		for(size_t i = 0, n = m_froxel_count_y; i <= n; ++i)
-		{
-			float y = (i * froxel_clip_size.y) - 1.0f;
-			vec4 p0 = { -1, y, -1, 1 };
-			vec4 p1 = {  1, y, -1, 1 };
-			m_planes_y[i] = to_view_space(inv_projection, p0, p1);
-		}
-
-		// 3-planes intersection:
-		//      -d0.(n1 x n2) - d1.(n2 x n0) - d2.(n0 x n1)
-		// P = ---------------------------------------------
-		//                      n0.(n1 x n2)
-
-		// use stack memory here, it's only 16 KiB max
-		assert(m_froxel_count_x <= 2048);
-		typename std::aligned_storage<sizeof(vec2), alignof(vec2)>::type stack[2048];
-		vec2* const minMaxX = reinterpret_cast<vec2*>(stack);
-
-		for(size_t iz = 0, fi = 0, nz = m_froxel_count_z; iz < nz; ++iz)
-		{
-			vec4 planes[6];
-			vec3 minp;
-			vec3 maxp;
-
-			// near/far planes for all froxels at iz
-			planes[4] = vec4{ 0, 0, 1, m_distances_z[iz + 0] };
-			planes[5] = -vec4{ 0, 0, 1, m_distances_z[iz + 1] };
-
-			// min/max for z is calculated trivially because near/far planes are parallel to
-			// the camera.
-			minp.z = -m_distances_z[iz + 1];
-			maxp.z = -m_distances_z[iz];
-			assert(minp.z < maxp.z);
-			
-			for(size_t ix = 0; ix < m_froxel_count_x; ++ix)
-			{
-				// left, right planes for all froxels at ix
-				planes[0] = m_planes_x[ix];
-				planes[1] = -m_planes_x[ix + 1];
-				minp.x = std::numeric_limits<float>::max();
-				maxp.x = std::numeric_limits<float>::lowest();
-				// min/max for x is calculated by intersecting the near/far and left/right planes
-				for(size_t c = 0; c < 4; ++c)
-				{
-					vec4 const& p0 = planes[0 + (c & 1)];    // {x,0,z,0}
-					vec4 const& p2 = planes[4 + (c >> 1)];    // {0,0,+/-1,d}
-					float px = (p2.z * p2.w * p0.z) / p0.x;
-					minp.x = bx::min(minp.x, px);
-					maxp.x = bx::max(maxp.x, px);
-				}
-				assert(minp.x < maxp.x);
-				minMaxX[ix] = vec2{ minp.x, maxp.x };
-			}
-
-			for(size_t iy = 0; iy < m_froxel_count_y; ++iy)
-			{
-				// bottom, top planes for all froxels at iy
-				planes[2] = m_planes_y[iy];
-				planes[3] = -m_planes_y[iy + 1];
-				minp.y = std::numeric_limits<float>::max();
-				maxp.y = std::numeric_limits<float>::lowest();
-				// min/max for y is calculated by intersecting the near/far and bottom/top planes
-				for(size_t c = 0; c < 4; ++c)
-				{
-					vec4 const& p1 = planes[2 + (c & 1)];    // {0,y,z,0}
-					vec4 const& p2 = planes[4 + (c >> 1)];    // {0,0,+/-1,d}
-					float py = (p2.z * p2.w * p1.z) / p1.y;
-					minp.y = bx::min(minp.y, py);
-					maxp.y = bx::max(maxp.y, py);
-				}
-				assert(minp.y < maxp.y);
-
-				for(size_t ix = 0, nx = m_froxel_count_x; ix < nx; ++ix) 
-				{
-					// note: clang vectorizes this loop!
-					assert(froxel_index(ix, iy, iz) == fi);
-					minp.x = minMaxX[ix][0];
-					maxp.x = minMaxX[ix][1];
-					m_bounding_spheres[fi++] = { (maxp + minp) * 0.5f, length((maxp - minp) * 0.5f) };
-				}
-			}
-		}
+		m_frustum.recompute(m_projection, rect_size(m_viewport->m_rect));
 
 		//    linearizer = log2(zLightFar / zLightNear) / (zcount - 1)
 		//    vz = -exp2((i - zcount) * linearizer) * zLightFar
 		// => i = log2(zLightFar / -vz) / -linearizer + zcount
-
+		
 		float Pz = m_projection[2][2];
 		float Pw = m_projection[3][2];
 		if(m_projection[2][3] != 0)
@@ -335,7 +174,7 @@ namespace mud
 
 			m_params_z[0] = -2.0f / (Pz * m_light_far);
 			m_params_z[1] = (1.0f + Pw) / (Pz * m_light_far);
-			m_params_z[2] = m_linearizer;
+			m_params_z[2] = m_frustum.m_linearizer;
 		}
 
 		if(m_debug_clusters.size() > 0)
@@ -361,68 +200,18 @@ namespace mud
 		return uniformsNeedUpdating;
 	}
 
-	Plane to_plane(const vec4& p) { return { vec3(p), p.w }; }
-
-	Frustum Froxelizer::froxel_at(size_t x, size_t y, size_t z) const
-	{
-		assert(x < m_froxel_count_x);
-		assert(y < m_froxel_count_y);
-		assert(z < m_froxel_count_z);
-		Frustum froxel;
-		froxel.m_planes.m_left	= to_plane(m_planes_x[x]);
-		froxel.m_planes.m_down	= to_plane(m_planes_y[y]);
-		froxel.m_planes.m_near	= to_plane(vec4{ 0, 0, 1, -m_distances_z[z] });
-		froxel.m_planes.m_right = to_plane(-m_planes_x[x + 1]);
-		froxel.m_planes.m_up	= to_plane(-m_planes_y[y + 1]);
-		froxel.m_planes.m_far	= to_plane(vec4{ 0, 0, 1, -m_distances_z[z + 1] });
-		froxel.m_corners = frustum_corners(froxel.m_planes);
-		froxel.compute();
-		return froxel;
-	}
-
 	void Froxelizer::compute_froxels()
 	{	
-		m_debug_clusters.resize(m_froxel_count);
+		m_debug_clusters.resize(m_frustum.m_cluster_count);
 
 		size_t i = 0;
 
-		for(size_t z = 0; z < m_froxel_count_z; ++z)
-		for(size_t y = 0; y < m_froxel_count_y; ++y)
-		for(size_t x = 0; x < m_froxel_count_x; ++x)
+		for(size_t z = 0; z < m_frustum.m_subdiv_z; ++z)
+		for(size_t y = 0; y < m_frustum.m_subdiv_y; ++y)
+		for(size_t x = 0; x < m_frustum.m_subdiv_x; ++x)
 		{
-			m_debug_clusters[i++] = this->froxel_at(x, y, z);
+			m_debug_clusters[i++] = m_frustum.cluster_frustum(x, y, z);
 		}
-	}
-
-	size_t Froxelizer::findSliceZ(float z) const
-	{
-		// The vastly common case is that z<0, so we always do the math for this case
-		// and we "undo" it below otherwise. This works because we're using fast::log2 which
-		// doesn't care if given a negative number (we'd have to use abs() otherwise).
-
-		// This whole function is now branch-less.
-
-		int s = int((bx::log2(-z) - m_light_far_log2) * m_linearizer + m_froxel_count_z);
-
-		// there are cases where z can be negative here, e.g.:
-		// - the light is visible, but its center is behind the camera
-		// - the camera's near is behind the camera (e.g. with shadowmap cameras)
-		// in that case just return the first slice
-		s = z < 0 ? s : 0;
-
-		// clamp between [0, m_froxel_count_z)
-		return size_t(bx::clamp(s, 0, m_froxel_count_z - 1));
-	}
-	
-	std::pair<size_t, size_t> Froxelizer::clipToIndices(const vec2& clip) const
-	{
-		// clip coordinates between [-1, 1], conversion to index between [0, count[
-		//  = floor((clip + 1) * ((0.5 * dimension) / froxelsize))
-		//  = floor((clip + 1) * constant
-		//  = floor(clip * constant + constant)
-		const size_t xi = size_t(bx::clamp(int(clip.x * m_clip_to_froxel.x + m_clip_to_froxel.x), 0, m_froxel_count_x - 1));
-		const size_t yi = size_t(bx::clamp(int(clip.y * m_clip_to_froxel.y + m_clip_to_froxel.y), 0, m_froxel_count_y - 1));
-		return { xi, yi };
 	}
 
 	void Froxelizer::upload()
@@ -435,12 +224,19 @@ namespace mud
 		m_records.m_buffer.commit(m_records.m_memory);
 	}
 
-	void Froxelizer::submit()
+	void Froxelizer::submit(bgfx::Encoder& encoder) const
 	{
-		bgfx::setTexture(uint8_t(TextureSampler::LightRecords), m_uniform.s_light_records, m_records.m_buffer.m_texture);
-		bgfx::setTexture(uint8_t(TextureSampler::Clusters), m_uniform.s_light_clusters, m_froxels.m_buffer.m_texture);
+		encoder.setTexture(uint8_t(TextureSampler::LightRecords), m_uniform.s_light_records, m_records.m_buffer.m_texture);
+		encoder.setTexture(uint8_t(TextureSampler::Clusters), m_uniform.s_light_clusters, m_froxels.m_buffer.m_texture);
 
-		m_uniform.upload(vec4(m_inv_dimension, rect_offset(m_viewport->m_rect)), vec4(m_params_f, 0.f), m_params_z);
+		auto submit = [=](bgfx::Encoder& encoder, vec4 params, vec4 f, vec4 z)
+		{
+			encoder.setUniform(m_uniform.u_froxel_params, &params);
+			encoder.setUniform(m_uniform.u_froxel_f, &f);
+			encoder.setUniform(m_uniform.u_froxel_z, &z);
+		};
+
+		submit(encoder, vec4(m_frustum.m_inv_tile_size, rect_offset(m_viewport->m_rect)), vec4(m_params_f, 0.f), m_params_z);
 	}
 
 	void Froxelizer::froxelize_lights(const Camera& camera, array<Light*> lights)
@@ -450,57 +246,56 @@ namespace mud
 		froxelize_assign_records_compress(lights.size());
 	}
 
+	void Froxelizer::froxelize_light_group(const Camera& camera, array<Light*> lights, size_t offset, size_t stride)
+	{
+		const mat4& projection = m_projection;
+
+		for(size_t i = offset; i < lights.size(); i += stride)
+		{
+			vec3 position = vec3(camera.m_transform * vec4(lights[i]->m_node.m_position, 1.f));
+			vec3 direction = vec3(camera.m_transform * vec4(lights[i]->m_node.direction(), 0.f));
+
+			float cos2 = bx::square(cos(to_radians(lights[i]->m_spot_angle)));
+			float invsin = 1.f / std::sqrt(1.f - cos2);
+
+			LightParams light = { position, cos2, direction, invsin, lights[i]->m_range };
+
+			const size_t group = i % GROUP_COUNT;
+			const size_t bit = i / GROUP_COUNT;
+			assert(bit < LIGHT_PER_GROUP);
+
+			FroxelThreadData& threadData = m_froxel_sharded_data[group];
+			const bool isSpot = light.invSin != std::numeric_limits<float>::infinity();
+			threadData[0] |= isSpot << bit;
+			froxelize_light(threadData, bit, projection, light);
+		}
+	}
+
+#define MUD_THREADED
+
 	void Froxelizer::froxelize_loop(const Camera& camera, array<Light*> lights)
 	{
 		//SYSTRACE_CALL();
 
-		array<FroxelThreadData> froxelThreadData = m_froxel_sharded_data;
-		memset(froxelThreadData.data(), 0, froxelThreadData.size() * sizeof(FroxelThreadData));
+		memset(m_froxel_sharded_data.data(), 0, m_froxel_sharded_data.size() * sizeof(FroxelThreadData));
 
-		auto process = [this, &froxelThreadData, lights, &camera] (size_t count, size_t offset, size_t stride)
+#ifdef MUD_THREADED
+		JobSystem& js = *m_gfx_system.m_job_system;
+
+		auto process_task = [&](size_t offset, size_t stride)
 		{
-			const mat4& projection = m_projection;
-
-			for(size_t i = offset; i < count; i += stride)
-			{
-				vec3 position = vec3(camera.m_transform * vec4(lights[i]->m_node.m_position, 1.f));
-				vec3 direction = vec3(camera.m_transform * vec4(lights[i]->m_node.direction(), 0.f));
-
-				float cos2 = bx::square(cos(to_radians(lights[i]->m_spot_angle)));
-				float invsin = 1.f / std::sqrt(1.f - cos2);
-
-				LightParams light = { position, cos2, direction, invsin, lights[i]->m_range };
-
-				const size_t group = i % GROUP_COUNT;
-				const size_t bit = i / GROUP_COUNT;
-				assert(bit < LIGHT_PER_GROUP);
-
-				FroxelThreadData& threadData = froxelThreadData[group];
-				const bool isSpot = light.invSin != std::numeric_limits<float>::infinity();
-				threadData[0] |= isSpot << bit;
-				froxelize_light(threadData, bit, projection, light);
-			}
+			this->froxelize_light_group(camera, lights, offset, stride);
 		};
 
+		auto parent = js.createJob();
 		for(size_t i = 0; i < GROUP_COUNT; i++)
-			process(lights.size(), i, GROUP_COUNT);
-
-		// we do 64 lights per job
-		/*JobSystem& js = engine.getJobSystem();
-
-		constexpr bool SINGLE_THREADED = false;
-		if(!SINGLE_THREADED) {
-			auto parent = js.createJob();
-			for(size_t i = 0; i < GROUP_COUNT; i++) {
-				js.run(jobs::createJob(js, parent, std::cref(process), lights.size(), i, GROUP_COUNT));
-			}
-			js.runAndWait(parent);
-		}
-		else {
-			js.runAndWait(jobs::createJob(js, nullptr, std::cref(process),
-				lights.size(), 0, 1)
-			);
-		}*/
+			js.run(jobs::createJob(js, parent, std::cref(process_task), i, GROUP_COUNT));
+		js.runAndWait(parent);
+		
+#else
+		for(size_t i = 0; i < GROUP_COUNT; i++)
+			this->froxelize_light_group(camera, lights, i, GROUP_COUNT);
+#endif
 	}
 
 	void Froxelizer::froxelize_assign_records_compress(size_t num_lights)
@@ -518,8 +313,6 @@ namespace mud
 
 		//SYSTRACE_CALL();
 
-		array<FroxelThreadData> froxelThreadData = m_froxel_sharded_data;
-
 		// convert froxel data from N groups of M bits to LightRecord::bitset, so we can
 		// easily compare adjacent froxels, for compaction. The conversion loops below get
 		// inlined and vectorized in release builds.
@@ -533,9 +326,9 @@ namespace mud
 #ifndef USE_STD_BITSET
 		for(size_t i = 0; i < LightRecord::bitset::WORLD_COUNT; i++)
 		{
-			container_type b = froxelThreadData[i * r][0];
+			container_type b = m_froxel_sharded_data[i * r][0];
 			for(size_t k = 0; k < r; k++)
-				b |= (container_type(froxelThreadData[i * r + k][0]) << (LIGHT_PER_GROUP * k));
+				b |= (container_type(m_froxel_sharded_data[i * r + k][0]) << (LIGHT_PER_GROUP * k));
 			spot_lights.at(i) = b;
 		}
 
@@ -544,9 +337,9 @@ namespace mud
 		{
 			for(size_t i = 0; i < LightRecord::bitset::WORLD_COUNT; i++)
 			{
-				container_type b = froxelThreadData[i * r][j];
+				container_type b = m_froxel_sharded_data[i * r][j];
 				for(size_t k = 0; k < r; k++)
-					b |= (container_type(froxelThreadData[i * r + k][j]) << (LIGHT_PER_GROUP * k));
+					b |= (container_type(m_froxel_sharded_data[i * r + k][j]) << (LIGHT_PER_GROUP * k));
 				m_light_records[j - 1].lights.at(i) = b;
 			}
 		}
@@ -561,7 +354,7 @@ namespace mud
 
 		uint16_t offset = 0;
 
-		auto remap = [stride = size_t(m_froxel_count_x * m_froxel_count_y)](size_t i) -> size_t
+		auto remap = [stride = size_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_y)](size_t i) -> size_t
 		{
 			if(SUPPORTS_REMAPPED_FROXELS) {
 				// TODO: with the non-square froxel change these would be mask ops instead of divide.
@@ -570,7 +363,7 @@ namespace mud
 			return i;
 		};
 
-		for(size_t i = 0, c = m_froxel_count; i < c;)
+		for(size_t i = 0, c = m_frustum.m_cluster_count; i < c;)
 		{
 			LightRecord b = m_light_records[i];
 			if(b.lights.none())
@@ -639,13 +432,13 @@ namespace mud
 				m_froxels.m_data[remap(i++)].u32 = entry.u32;
 				if(i >= c) break;
 
-				if(m_light_records[i].lights != b.lights && i >= m_froxel_count_x)
+				if(m_light_records[i].lights != b.lights && i >= m_frustum.m_subdiv_x)
 				{
 					// if this froxel record doesn't match the previous one on its left,
 					// we re-try with the record above it, which saves many froxel records
 					// (north of 10% in practice).
-					b = m_light_records[i - m_froxel_count_x];
-					entry.u32 = m_froxels.m_data[remap(i - m_froxel_count_x)].u32;
+					b = m_light_records[i - m_frustum.m_subdiv_x];
+					entry.u32 = m_froxels.m_data[remap(i - m_frustum.m_subdiv_x)].u32;
 				}
 			} while(m_light_records[i].lights == b.lights);
 
@@ -699,14 +492,14 @@ namespace mud
 		if(xyLeftFar.x  > xyRightFar.x)    std::swap(xyLeftFar.x, xyRightFar.x);
 		if(xyLeftFar.y  > xyRightFar.y)    std::swap(xyLeftFar.y, xyRightFar.y);
 
-		const auto imin = clipToIndices(min(xyLeftNear, xyLeftFar));
-		lo = { imin.first, imin.second, findSliceZ(znear) };
+		const auto imin = m_frustum.tile_index(min(xyLeftNear, xyLeftFar));
+		lo = { imin.x, imin.y, m_frustum.slice(znear) };
 
-		const auto imax = clipToIndices(max(xyRightNear, xyRightFar));
+		const auto imax = m_frustum.tile_index(max(xyRightNear, xyRightFar));
 		hi = {
-			imax.first + 1,   // x1 points to 1 past the last value (like end() does
-			imax.second,      // y1 points to the last value
-			findSliceZ(zfar)  // z1 points to the last value
+			imax.x + 1,   // x1 points to 1 past the last value (like end() does
+			imax.y,      // y1 points to the last value
+			m_frustum.slice(zfar)  // z1 points to the last value
 		};
 	}
 
@@ -729,42 +522,40 @@ namespace mud
 		assert(lo.y <= hi.y);
 		assert(lo.z <= hi.z);
 
-		const size_t zcenter = findSliceZ(s.z);
+		const size_t zcenter = m_frustum.slice(s.z);
 
 		for(size_t iz = lo.z; iz <= hi.z; ++iz)
 		{
 			vec4 cz(s);
 			[[unlikely]] if(iz != zcenter)
-				cz = sphere_plane_intersection(s, (iz < zcenter) ? m_distances_z[iz + 1] : m_distances_z[iz]);
+				cz = sphere_plane_intersection(s, (iz < zcenter) ? m_frustum.m_distances_z[iz + 1] : m_frustum.m_distances_z[iz]);
 
 			// find x & y slices that contain the sphere's center
 			// (note: this changes with the Z slices
 			const vec2 clip = project(projection, vec3(cz));
-			const auto indices = clipToIndices(clip);
-			const size_t xcenter = indices.first;
-			const size_t ycenter = indices.second;
+			const auto center = m_frustum.tile_index(clip);
 
 			if(cz.w > 0)
 			{ // intersection of light with this plane (slice)
 				for(size_t iy = lo.y; iy <= hi.y; ++iy)
 				{
 					vec4 cy(cz);
-					[[unlikely]] if(iy != ycenter)
+					[[unlikely]] if(iy != center.y)
 					{
-						vec4 const& plane = iy < ycenter ? m_planes_y[iy + 1] : m_planes_y[iy];
+						vec4 const& plane = iy < center.y ? m_frustum.m_planes_y[iy + 1] : m_frustum.m_planes_y[iy];
 						cy = sphere_plane_intersection(cz, plane.y, plane.z);
 					}
 					if(cy.w > 0)
 					{ // intersection of light with this horizontal plane
 						size_t bx, ex; // horizontal begin/end indices
 										// find the begin index (left side)
-						for(bx = lo.x; ++bx <= xcenter; bx)
-							if(sphere_plane_distance2(cy, m_planes_x[bx].x, m_planes_x[bx].z) > 0)
+						for(bx = lo.x; ++bx <= center.x; bx)
+							if(sphere_plane_distance2(cy, m_frustum.m_planes_x[bx].x, m_frustum.m_planes_x[bx].z) > 0)
 								break; // intersection
 
 						// find the end index (right side), x1 is past the end
-						for(ex = hi.x; --ex > xcenter; ex)
-							if(sphere_plane_distance2(cy, m_planes_x[ex].x, m_planes_x[ex].z) > 0)
+						for(ex = hi.x; --ex > center.x; ex)
+							if(sphere_plane_distance2(cy, m_frustum.m_planes_x[ex].x, m_frustum.m_planes_x[ex].z) > 0)
 								break; // intersection
 
 						--bx;
@@ -773,10 +564,10 @@ namespace mud
 						[[unlikely]] if(bx >= ex)
 							continue;
 
-						assert(bx < m_froxel_count_x && ex <= m_froxel_count_x);
+						assert(bx < m_frustum.m_subdiv_x && ex <= m_frustum.m_subdiv_x);
 
 						// The first entry reserved for type of light, i.e. point/spot
-						size_t fi = froxel_index(bx, iy, iz) + 1;
+						size_t fi = m_frustum.index(bx, iy, iz) + 1;
 						if(light.invSin != std::numeric_limits<float>::infinity())
 						{
 							// This is a spotlight (common case)
@@ -784,7 +575,7 @@ namespace mud
 							while(bx++ != ex)
 							{
 								// see if this froxel intersects the cone
-								bool intersect = sphere_cone_intersection(m_bounding_spheres[fi - 1], light.position, light.axis, light.invSin, light.cosSqr);
+								bool intersect = sphere_cone_intersection(m_frustum.m_bounding_spheres[fi - 1], light.position, light.axis, light.invSin, light.cosSqr);
 								froxelThread[fi++] |= LightGroupType(intersect) << bit;
 							}
 						}

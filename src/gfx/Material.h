@@ -216,8 +216,9 @@ namespace mud
 		attr_ FresnelMaterialBlock m_fresnel_block;
 
 		void state(uint64_t& bgfx_state) const;
-		void submit(uint64_t& bgfx_state, const Skin* skin = nullptr) const;
 		ShaderVersion shader_version() const;
+
+		void submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin = nullptr) const;
 
 		static GfxSystem* ms_gfx_system;
 	};

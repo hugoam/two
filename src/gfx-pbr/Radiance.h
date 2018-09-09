@@ -11,6 +11,7 @@
 #include <gfx-pbr/Forward.h>
 
 #ifndef MUD_CPP_20
+#include <vector>
 #include <map>
 #endif
 
@@ -28,6 +29,7 @@ namespace mud
 		BlockRadiance(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy);
 
 		virtual void init_gfx_block() final;
+		virtual void render_gfx_block() final;
 
 		virtual void begin_gfx_block(Render& render) final;
 		virtual void submit_gfx_block(Render& render) final;
@@ -38,7 +40,7 @@ namespace mud
 
 		void submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version);
 
-		void prefilter_radiance(Render& render, Radiance& radiance);
+		void prefilter_radiance(Radiance& radiance);
 
 		struct RadianceUniform
 		{
@@ -65,8 +67,9 @@ namespace mud
 		BlockFilter& m_filter;
 		BlockCopy& m_copy;
 
-		Program m_prefilter_program;
+		Program& m_prefilter_program;
 
+		std::vector<Radiance*> m_prefilter_queue;
 		std::map<uint16_t, uint16_t> m_prefiltered;
 	};
 }

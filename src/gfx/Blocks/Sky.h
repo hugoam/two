@@ -97,7 +97,7 @@ namespace mud
 	{
 		void init(GfxSystem& gfx_system, ivec2 vertex_count);
 		void shutdown();
-		void render(Render& render);
+		void submit(Render& render, Pass& render_pass);
 
 		bgfx::VertexBufferHandle m_vbh;
 		bgfx::IndexBufferHandle m_ibh;
@@ -175,6 +175,6 @@ namespace mud
 
 		} u_skybox;
 
-		Program m_skybox_program;
+		Program& m_skybox_program;
 	};
 }

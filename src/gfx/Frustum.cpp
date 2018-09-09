@@ -16,6 +16,14 @@ module mud.gfx;
 #include <gfx/Item.h>
 #endif
 
+#include <cstddef>
+#include <cstdint>
+
+#if defined WIN32
+#include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+#endif
+
 namespace mud
 {
 	inline Plane bounding_plane(const mat4& mat, Axis component, float dir)

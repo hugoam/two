@@ -241,7 +241,7 @@ namespace mud
 		m_num = num_particles;
 	}
 
-	void ParticleSystem::render(uint8_t pass, const mat4& view, const vec3& eye)
+	void ParticleSystem::render(bgfx::Encoder& encoder, uint8_t pass, const mat4& view, const vec3& eye)
 	{
 		if(0 == m_num)
 			return;
@@ -280,11 +280,12 @@ namespace mud
 
 			uint64_t bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LESS; // | BGFX_STATE_CULL_CW;
 			blend_state(m_emitters.m_vec_pool->m_objects[0]->m_blend_mode, bgfx_state);
-			bgfx::setState(bgfx_state);
-			bgfx::setVertexBuffer(0, &vertex_buffer);
-			bgfx::setIndexBuffer(&index_buffer);
-			bgfx::setTexture(uint8_t(TextureSampler::Color), m_block.s_color, m_block.m_texture);
-			bgfx::submit(pass, m_program);
+
+			encoder.setState(bgfx_state);
+			encoder.setVertexBuffer(0, &vertex_buffer);
+			encoder.setIndexBuffer(&index_buffer);
+			encoder.setTexture(uint8_t(TextureSampler::Color), m_block.s_color, m_block.m_texture);
+			encoder.submit(pass, m_program);
 		}
 	}
 
@@ -366,8 +367,9 @@ namespace mud
 	void PassParticles::submit_render_pass(Render& render)
 	{
 		Pass particle_pass = render.next_pass("particles");
+		bgfx::Encoder& encoder = *particle_pass.m_encoder;
 
 		render.m_scene.m_particle_system->update(render.m_frame.m_delta_time); // * timeScale
-		render.m_scene.m_particle_system->render(particle_pass.m_index, render.m_camera.m_transform, render.m_camera.m_eye);
+		render.m_scene.m_particle_system->render(encoder, particle_pass.m_index, render.m_camera.m_transform, render.m_camera.m_eye);
 	}
 }

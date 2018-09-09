@@ -10,6 +10,8 @@
 module mud.gfx.pbr;
 #else
 #include <gfx/RenderTarget.h>
+#include <gfx/Asset.h>
+#include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/Filters/DofBlur.h>
 #include <gfx-pbr/Filters/Tonemap.h>
@@ -20,7 +22,7 @@ namespace mud
 	BlockDofBlur::BlockDofBlur(GfxSystem& gfx_system, BlockFilter& filter)
 		: GfxBlock(gfx_system, *this)
 		, m_filter(filter)
-		, m_program("filter/dof_blur")
+		, m_program(gfx_system.programs().create("filter/dof_blur"))
 	{
 		static cstring options[1] = { "DOF_FIRST_PASS" };
 		m_shader_block->m_options = { options, 1 };

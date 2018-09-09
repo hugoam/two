@@ -92,8 +92,7 @@ namespace mud
 		bgfx::FrameBufferHandle m_fbo = BGFX_INVALID_HANDLE;
 		Viewport* m_viewport = nullptr;
 		uint64_t m_bgfx_state = 0;
-		//ShaderVersion m_shader_config = {};
-		//RenderPass* m_render_block = nullptr;
+		bgfx::Encoder* m_encoder = nullptr;
 
 		bool m_use_mrt = false;
 		uint8_t m_index = 0;
@@ -161,7 +160,7 @@ namespace mud
 			return m_pass_index++;
 		}
 
-		void set_uniforms();
+		void set_uniforms(bgfx::Encoder& encoder) const;
 
 		static const uint8_t s_picking_pass_id = 1;
 		static const uint8_t s_preprocess_pass_id = 20;
@@ -183,6 +182,7 @@ namespace mud
 		GfxBlock(GfxSystem& gfx_system, T& self) : GfxBlock(gfx_system, type<T>()) { UNUSED(self); }
 
 		virtual void init_gfx_block() = 0;
+		virtual void render_gfx_block() {}
 
 		virtual void begin_gfx_block(Render& render) = 0;
 		virtual void submit_gfx_block(Render& render) = 0;
@@ -220,6 +220,7 @@ namespace mud
 		void begin_render_blocks(Render& render) { for(GfxBlock* block : m_gfx_blocks) block->begin_gfx_block(render); }
 		void submit_render_blocks(Render& render) { for(GfxBlock* block : m_gfx_blocks) block->submit_gfx_block(render); }
 
+		GfxSystem& m_gfx_system;
 		const char* m_name;
 		PassType m_pass_type;
 		array<GfxBlock*> m_gfx_blocks;
@@ -259,12 +260,12 @@ namespace mud
 		virtual void submit_render_pass(Render& render) final;
 
 		void gather_draw_elements(Render& render);
-		//void submit_draw_elements(Render& render);
+		void submit_draw_elements(bgfx::Encoder& encoder, Render& render, Pass& render_pass, size_t first, size_t count) const;
 
 		virtual uint8_t num_draw_passes(Render& render) { UNUSED(render); return 1; }
 		virtual void next_draw_pass(Render& render, Pass& render_pass) = 0;
 		virtual void queue_draw_element(Render& render, DrawElement& element) = 0;
-		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) = 0;
+		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) const = 0;
 
 		struct Impl;
 		unique_ptr<Impl> m_impl;
@@ -287,6 +288,7 @@ namespace mud
 		bool has_block(GfxBlock& gfx_block);
 		void add_block(GfxBlock& gfx_block);
 
+		void frame(const RenderFrame& frame);
 		void render(Render& render);
 
 		RenderPass& add_pass(unique_ptr<RenderPass> pass);

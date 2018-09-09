@@ -25,7 +25,7 @@ namespace mud
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) override;
 		virtual void queue_draw_element(Render& render, DrawElement& element) override;
-		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) override;
+		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) const override;
 
 		BlockDepth& m_block_depth;
 	};

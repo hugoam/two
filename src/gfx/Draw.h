@@ -57,9 +57,9 @@ namespace mud
 
 		void draw(Batch& batch, const mat4& transform, array<ProcShape> shapes, ShapeSize size, DrawMode draw_mode);
 
-		void submit(uint8_t view, uint64_t bgfx_state);
-		void submit(uint8_t view, uint64_t bgfx_state, DrawMode draw_mode);
-		void submit(uint8_t view, uint64_t bgfx_state, DrawMode draw_mode, Batch& batch);
+		void submit(bgfx::Encoder& encoder, uint8_t view, uint64_t bgfx_state);
+		void submit(bgfx::Encoder& encoder, uint8_t view, uint64_t bgfx_state, DrawMode draw_mode);
+		void submit(bgfx::Encoder& encoder, uint8_t view, uint64_t bgfx_state, DrawMode draw_mode, Batch& batch);
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT SymbolIndex : public NonCopy

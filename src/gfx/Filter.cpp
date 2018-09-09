@@ -13,13 +13,15 @@ module mud.gfx;
 #include <gfx/RenderTarget.h>
 #include <gfx/Camera.h>
 #include <gfx/Program.h>
+#include <gfx/Asset.h>
+#include <gfx/GfxSystem.h>
 #endif
 
 namespace mud
 {
 	BlockFilter::BlockFilter(GfxSystem& gfx_system)
 		: GfxBlock(gfx_system, *this)
-		, m_quad_program("filter/quad")
+		, m_quad_program(gfx_system.programs().create("filter/quad"))
 	{
 		static cstring options[5] = {
 			"UNPACK_DEPTH",
@@ -38,7 +40,7 @@ namespace mud
 
 	void BlockFilter::begin_gfx_block(Render& render)
 	{
-		this->set_uniforms(render);
+		//this->set_uniforms(render);
 	}
 
 	void BlockFilter::submit_gfx_block(Render& render)
@@ -46,17 +48,17 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockFilter::set_uniforms(Render& render)
+	void BlockFilter::set_uniforms(Render& render, bgfx::Encoder& encoder)
 	{
-		render.set_uniforms();
+		render.set_uniforms(encoder);
 
 		vec4 camera_params{ render.m_camera.m_near, render.m_camera.m_far,
 							render.m_camera.m_fov, render.m_camera.m_aspect };
-		bgfx::setUniform(u_uniform.u_camera_params, &camera_params);
+		encoder.setUniform(u_uniform.u_camera_params, &camera_params);
 
 		vec4 screen_params{ vec2(render.m_target->m_size),
 							1.0f / vec2(render.m_target->m_size) };
-		bgfx::setUniform(u_uniform.u_screen_size_pixel_size, &screen_params);
+		encoder.setUniform(u_uniform.u_screen_size_pixel_size, &screen_params);
 	}
 
 	struct ScreenQuadVertex
@@ -158,7 +160,7 @@ namespace mud
 	BlockCopy::BlockCopy(GfxSystem& gfx_system, BlockFilter& filter)
 		: GfxBlock(gfx_system, *this)
 		, m_filter(filter)
-		, m_program("filter/copy")
+		, m_program(gfx_system.programs().create("filter/copy"))
 	{
 		m_program.register_block(filter);
 	}

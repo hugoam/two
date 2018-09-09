@@ -6,6 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <infra/Array.h>
+#include <infra/Job.h>
 #include <obj/Unique.h>
 #endif
 #include <gfx/Forward.h>
@@ -18,6 +19,8 @@
 #include <vector>
 #include <functional>
 #endif
+
+#include <bgfx/bgfx.h>
 
 #ifndef MUD_MODULES
 namespace bx
@@ -68,7 +71,12 @@ namespace mud
 	public:
 		GfxSystem(array<cstring> resource_paths);
 		~GfxSystem();
-		
+
+		JobSystem* m_job_system = nullptr;
+
+		bgfx::Encoder* m_encoders[8] = {};
+		size_t m_num_encoders = 0;
+
 		virtual bool next_frame() final;
 
 		virtual object_ptr<Context> create_context(cstring name, int width, int height, bool full_screen) final;

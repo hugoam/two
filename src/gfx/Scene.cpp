@@ -63,6 +63,11 @@ namespace mud
 			animated.advance(timestep);
 		});
 
+		m_pool->iterate_objects<Item>([=](Item& item)
+		{
+			item.update();
+		});
+
 		for(size_t i = 0; i < size_t(PassType::Count); ++i)
 			m_pass_jobs->m_jobs[i].clear();
 	}

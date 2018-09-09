@@ -496,6 +496,7 @@ namespace mud
 		double time = m_clock.read();
 		if(time - prevtime >= 4.f)
 		{
+			printf("INFO: frame %.2f\n", ((time - prevtime) / frames) * 1000.f);
 			printf("INFO: fps %f\n", (frames / (time - prevtime)));
 			prevtime = time;
 			frames = 0;

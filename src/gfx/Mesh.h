@@ -113,7 +113,8 @@ namespace mud
 		void write(DrawMode draw_mode, MeshPacker& packer);
 		void upload(DrawMode draw_mode, const GpuMesh& gpu_mesh);
 		void cache(const GpuMesh& gpu_mesh);
-		uint64_t submit() const;
+
+		uint64_t submit(bgfx::Encoder& encoder) const;
 
 		template <class T_Vertex, class T_Index>
 		void cache(const GpuMesh& gpu_mesh)

@@ -185,7 +185,10 @@ namespace gfx
 		if(transforms.size() > 0)
 			transforms.copy(self.m_item->m_instances);
 		if(instances > 0)
+		{
 			self.m_item->m_instances.resize(instances);
+			self.m_item->update_instances();
+		}
 		if((flags & ITEM_NO_UPDATE) == 0)
 		{
 			update_item_aabb(*self.m_item);

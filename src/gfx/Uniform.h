@@ -52,12 +52,12 @@ namespace mud
 		}
 
 		template <class T>
-		void upload(T& object)
+		void upload(bgfx::Encoder& encoder, T& object)
 		{
 			if(m_fields.empty())
 			{
 				void* T::* mem = reinterpret_cast<void* T::*>(m_member.value);
-				bgfx::setUniform(m_uniform, &(object.*mem));
+				encoder.setUniform(m_uniform, &(object.*mem));
 			}
 			else
 			{
@@ -69,7 +69,7 @@ namespace mud
 					std::copy(value, value + field.m_size, m_floats.data() + offset);
 					offset += field.m_size;
 				}
-				bgfx::setUniform(m_uniform, m_floats.data());
+				encoder.setUniform(m_uniform, m_floats.data());
 			}
 		}
 	};
@@ -88,11 +88,11 @@ namespace mud
 		}
 
 		template <class T>
-		void upload(T& object)
+		void upload(bgfx::Encoder& encoder, T& object)
 		{
 			void* T::* mem = reinterpret_cast<void* T::*>(m_member.value);
 			Texture* texture = (Texture*)(object.*mem);
-			bgfx::setTexture(m_stage, m_uniform, texture ? texture->m_texture : m_default->m_texture);
+			encoder.setTexture(m_stage, m_uniform, texture ? texture->m_texture : m_default->m_texture);
 		}
 	};
 

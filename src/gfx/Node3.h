@@ -48,12 +48,12 @@ namespace mud
 		Ref m_object;
 		size_t m_last_updated = 0;
 
-		mat4 transformTRS() { return bxTRS(m_scale, m_rotation, m_position); }
-		mat4 transformSRT() { return bxSRT(m_scale, m_rotation, m_position); }
-		mat4 transform() { return transformTRS(); }
+		mat4 transformTRS() const { return bxTRS(m_scale, m_rotation, m_position); }
+		mat4 transformSRT() const { return bxSRT(m_scale, m_rotation, m_position); }
+		mat4 transform() const { return transformTRS(); }
 
-		vec3 axis(const vec3& dir) { return normalize(rotate(m_rotation, dir)); }
-		vec3 direction() { return normalize(rotate(m_rotation, -Z3)); }
+		vec3 axis(const vec3& dir) const { return normalize(rotate(m_rotation, dir)); }
+		vec3 direction() const { return normalize(rotate(m_rotation, -Z3)); }
 
 		//std::vector<Item*> m_items;
 	};

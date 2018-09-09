@@ -55,6 +55,7 @@ namespace mud
 	public:
 		struct Version
 		{
+			uint64_t m_version;
 			uint32_t m_update;
 			bgfx::ProgramHandle m_program;
 		};
@@ -77,6 +78,8 @@ namespace mud
 		}
 
 		void reload() { m_update++; }
+
+		void update();
 
 		bgfx::ProgramHandle default_version();
 		bgfx::ProgramHandle version(const ShaderVersion& config);

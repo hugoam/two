@@ -6,6 +6,7 @@
 #include <infra/Forward.h>
 #include <infra/Generic.h>
 #include <infra/Global.h>
+#include <infra/Job.h>
 #include <infra/Limits.h>
 #include <infra/NonCopy.h>
 #include <infra/Pragma.h>

@@ -38,7 +38,7 @@ namespace mud
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
 		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) final;
+		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) const final;
 
 		size_t m_directional_light_index;
 	};
@@ -50,7 +50,7 @@ namespace mud
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
 		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) final;
+		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) const final;
 	};
 
 	export_ class MUD_GFX_PBR_EXPORT PassGeometry : public DrawPass
@@ -60,7 +60,7 @@ namespace mud
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
 		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) final;
+		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) const final;
 
 		BlockGeometry& m_block_geometry;
 	};

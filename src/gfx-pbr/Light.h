@@ -53,10 +53,11 @@ namespace mud
 
 		void submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version, array<Light*> lights);
 
-		void upload_environment(Render& render, Environment* environment);
-		void upload_fog(Render& render, Fog& fog);
+		void update_lights(Render& render, array<Light*> lights, array<LightShadow> shadows);
 
-		void upload_lights(Render& render, array<Light*> lights, array<LightShadow> shadows);
+		void upload_environment(Render& render, Pass& render_pass, Environment* environment) const;
+		void upload_fog(Render& render, Pass& render_pass, Fog& fog) const;
+		void upload_lights(Render& render, Pass& render_pass) const;
 		
 		BlockShadow& m_block_shadow;
 
@@ -79,17 +80,17 @@ namespace mud
 			}
 
 			template <uint16_t size>
-			void setUniforms(LightArray<size>& data, uint16_t directional_light_count, uint16_t light_count)
+			void setUniforms(bgfx::Encoder& encoder, const LightArray<size>& data, uint16_t directional_light_count, uint16_t light_count) const
 			{
-				bgfx::setUniform(u_light_position_range,        &data.position_range,			light_count);
-				bgfx::setUniform(u_light_energy_specular,		&data.energy_specular,			light_count);
-				bgfx::setUniform(u_light_direction_attenuation, &data.direction_attenuation,	light_count);
-				bgfx::setUniform(u_light_shadow,				&data.shadow_color_enabled,		light_count);
-				bgfx::setUniform(u_light_shadow_matrix,			&data.shadow_matrix,			light_count);
-				bgfx::setUniform(u_light_spot_params,           &data.spot_params,				light_count);
+				encoder.setUniform(u_light_position_range,			&data.position_range,			light_count);
+				encoder.setUniform(u_light_energy_specular,			&data.energy_specular,			light_count);
+				encoder.setUniform(u_light_direction_attenuation,	&data.direction_attenuation,	light_count);
+				encoder.setUniform(u_light_shadow,					&data.shadow_color_enabled,		light_count);
+				encoder.setUniform(u_light_shadow_matrix,			&data.shadow_matrix,			light_count);
+				encoder.setUniform(u_light_spot_params,				&data.spot_params,				light_count);
 
-				bgfx::setUniform(u_csm_matrix, &data.csm_matrix[0], directional_light_count * 4);
-				bgfx::setUniform(u_csm_splits, &data.csm_splits,	directional_light_count);
+				encoder.setUniform(u_csm_matrix, &data.csm_matrix[0], directional_light_count * 4);
+				encoder.setUniform(u_csm_splits, &data.csm_splits,	directional_light_count);
 			}
 
 			bgfx::UniformHandle u_light_position_range;
@@ -155,5 +156,6 @@ namespace mud
 		} u_fog;
 
 		LightArray<ShotUniform::max_lights> m_lights_data;
+		uint16_t m_light_count;
 	};
 }

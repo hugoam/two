@@ -6,8 +6,9 @@
 
 #include <infra/Generic.h>
 #include <obj/Ref.h>
-#include <proto/Proto.h>
 #include <proto/Forward.h>
+#include <proto/Proto.h>
+#include <proto/ECS/Registry.h>
 
 #ifndef MUD_CPP_20
 #include <vector>
@@ -34,6 +35,7 @@ namespace mud
 		attr_ Id m_id;
 		attr_ Type& m_type;
 		attr_ Prototype& m_prototype;
+		
 
 		attr_ std::vector<Ref> m_parts;
 
@@ -43,6 +45,9 @@ namespace mud
 		meth_ bool has_part(Type& type) { return m_prototype.has_part(type); }
 		meth_ Ref part(Type& type) { return m_parts[m_prototype.part_index(type)]; }
 		meth_ Ref try_part(Type& type) { if(has_part(type)) return this->part(type); else return Ref(); }
+
+		template <class T>
+		T& component();
 
 	public:
 		template <class T>
