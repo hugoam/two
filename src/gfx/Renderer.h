@@ -204,8 +204,8 @@ namespace mud
 		DrawBlock(GfxSystem& gfx_system, Type& type) : GfxBlock(gfx_system, type) { m_draw_block = true; }
 
 		virtual void begin_gfx_pass(Render& render) = 0;
-		virtual void submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element) = 0;
-		virtual void submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster) = 0;
+		virtual void submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const = 0;
+		virtual void submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const = 0;
 	};
 
 	export_ class MUD_GFX_EXPORT RenderPass

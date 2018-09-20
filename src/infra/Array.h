@@ -77,4 +77,49 @@ namespace mud
 		inline T& at(size_t x, size_t y) { return (*this)[x+y*m_size_x]; }
 		inline const T& at(size_t x, size_t y) const { return (*this)[x+y*m_size_x]; }
 	};
+
+#if 0
+	// quicksort implementation for sorting multiple arrays at once
+	template <class T, class... T_Arrays>
+	void quicksort(array<T> keys, const size_t left, const size_t right, T_Arrays... arrays)
+	{
+		auto partition = [](array<T> keys, const size_t left, const size_t right, T_Arrays... arrays)
+		{
+			const size_t mid = left + (right - left) / 2;
+			const T pivot = keys[mid];
+			// move the mid point value to the front.
+			std::swap(keys[mid], keys[left]);
+			swallow{ (std::swap(arrays[mid], arrays[left]), 1)... };
+			size_t i = left + 1;
+			size_t j = right;
+			while(i <= j)
+			{
+				while(i <= j && keys[i] <= pivot)
+					i++;
+
+				while(i <= j && keys[j] > pivot)
+					j--;
+
+				if(i < j)
+					std::swap(keys[i], keys[j]);
+			}
+			std::swap(keys[i - 1], keys[left]);
+			swallow{ (std::swap(arrays[i - 1], arrays[left]), 1)... };
+			return i - 1;
+		};
+
+		if(left >= right)
+			return;
+
+		size_t part = partition(keys, left, right);
+		quicksort(keys, left, part - 1, arrays...);
+		quicksort(keys, part + 1, right, arrays...);
+	}
+
+	template <class T, class... T_Arrays>
+	void quicksort(array<T> keys, T_Arrays... arrays)
+	{
+		quicksort(keys, 0, keys.size() - 1, arrays...);
+	}
+#endif
 }

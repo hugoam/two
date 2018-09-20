@@ -10,7 +10,7 @@ module mud.uio;
 #include <infra/Vector.h>
 #include <obj/Any.h>
 #ifdef MUD_PROTO
-#include <proto/Complex.h>
+#include <proto/Entity.h>
 #endif
 #include <refl/Class.h>
 #include <uio/Edit/Inspector.h>

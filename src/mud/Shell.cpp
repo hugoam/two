@@ -41,6 +41,7 @@ namespace mud
     Shell::Shell(array<cstring> resource_paths, int argc, char *argv[])
         : m_exec_path(exec_path(argc, argv))
 		, m_resource_path(resource_paths[0])
+		, m_job_system()
 		, m_gfx_system(resource_paths)
 		, m_lua(false)
 		, m_wren(false)
@@ -58,11 +59,16 @@ namespace mud
 
 		declare_gfx_edit();
 
+		m_gfx_system.m_job_system = &m_job_system;
+		m_job_system.adopt();
+
 		this->init();
 	}
 
 	Shell::~Shell()
-    {}
+    {
+		m_job_system.emancipate();
+	}
 
 	void Shell::run(const std::function<void(Shell&)>& func, size_t iterations)
 	{
@@ -104,6 +110,7 @@ namespace mud
 		m_ui = m_ui_window->m_root_sheet.get();
 
 		pipeline_pbr(m_gfx_system, *m_gfx_system.m_pipeline);
+		//pipeline_pbr(m_gfx_system, *m_gfx_system.m_pipeline, true);
 		m_gfx_system.init_pipeline();
 
 		static ImporterOBJ obj_importer(m_gfx_system);

@@ -84,7 +84,7 @@ namespace mud
 		//request.num_passes = m_directional_lights.empty() ? 1 : m_directional_lights.size();
 	}
 
-	void BlockLight::submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element)
+	void BlockLight::submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const
 	{
 		if(render.m_camera.m_clustered)
 			this->submit_pass(render, render_pass, element.m_shader_version, to_array(render.m_shot->m_lights));
@@ -92,12 +92,12 @@ namespace mud
 			this->submit_pass(render, render_pass, element.m_shader_version, to_array(element.m_item->m_lights));
 	}
 
-	void BlockLight::submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster)
+	void BlockLight::submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const
 	{
 		this->submit_pass(render, render_pass, cluster.m_shader_version, cluster.m_lights);
 	}
 
-	void BlockLight::submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version, array<Light*> lights)
+	void BlockLight::submit_pass(Render& render, const Pass& render_pass, ShaderVersion& shader_version, array<Light*> lights) const
 	{
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
@@ -122,7 +122,7 @@ namespace mud
 		// set to not render if not first directional pass, depending on cull
 	}
 
-	void BlockLight::upload_environment(Render& render, Pass& render_pass, Environment* environment) const
+	void BlockLight::upload_environment(Render& render, const Pass& render_pass, Environment* environment) const
 	{
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
@@ -141,7 +141,7 @@ namespace mud
 		encoder.setUniform(u_scene.u_ambient_params, &ambient_params);
 	}
 
-	void BlockLight::upload_fog(Render& render, Pass& render_pass, Fog& fog) const
+	void BlockLight::upload_fog(Render& render, const Pass& render_pass, Fog& fog) const
 	{
 		if(!fog.m_enabled)
 			return;
@@ -218,7 +218,7 @@ namespace mud
 		m_light_count = light_count;
 	}
 
-	void BlockLight::upload_lights(Render& render, Pass& render_pass) const
+	void BlockLight::upload_lights(Render& render, const Pass& render_pass) const
 	{
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		

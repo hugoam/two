@@ -8,12 +8,14 @@
 module mud.proto;
 #else
 #include <obj/Indexer.h>
-#include <proto/Complex.h>
+#include <proto/Entity.h>
 #include <proto/Proto.h>
 #endif
 
 namespace mud
 {
+	EntityRegistry s_registry;
+
 	Complex::Complex(Id id, Type& type)
 		: m_id(index(type, id, Ref(this, type)))
 		, m_type(type)

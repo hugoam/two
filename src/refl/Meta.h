@@ -22,7 +22,7 @@ namespace mud
 		None = 0,
 		Object = 1,
 		Struct = 2,
-		Complex = 3,
+		Entity = 3,
 		Sequence = 4,
 		BaseType = 5,
 		Enum = 6
@@ -83,7 +83,7 @@ namespace mud
 	export_ inline bool is_enum(Type& ty) { return meta(ty).m_type_class == TypeClass::Enum; }
 	export_ inline bool is_basic(Type& ty) { return meta(ty).m_type_class == TypeClass::BaseType || meta(ty).m_type_class == TypeClass::Enum; }
 	export_ inline bool is_struct(Type& ty) { return meta(ty).m_type_class == TypeClass::Struct; }
-	export_ inline bool is_object(Type& ty) { return meta(ty).m_type_class == TypeClass::Object || meta(ty).m_type_class == TypeClass::Complex; }
+	export_ inline bool is_object(Type& ty) { return meta(ty).m_type_class == TypeClass::Object || meta(ty).m_type_class == TypeClass::Entity; }
 	export_ inline bool is_sequence(Type& ty) { return meta(ty).m_type_class == TypeClass::Sequence; }
 	export_ inline bool is_class(Type& ty) { return meta(ty).m_type_class < TypeClass::Sequence; }
 	

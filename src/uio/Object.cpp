@@ -8,11 +8,11 @@
 module mud.uio;
 #else
 #ifdef MUD_PROTO
-#include <proto/Complex.h>
+#include <proto/Entity.h>
 #endif
 #include <refl/Class.h>
 #include <refl/Convert.h>
-#include <proto/Complex.h>
+#include <proto/Entity.h>
 #include <ui/Structs/Window.h>
 #include <ui/Structs/Container.h>
 #include <ui/Sequence.h>
@@ -27,14 +27,14 @@ namespace mud
 	string object_name(Ref object)
 	{
 		if(!object) return "null";
-		//else if(object.m_type->is<Complex>()) return to_name(val<Complex>(object).m_prototype.m_type, object);
+		//else if(object.m_type->is<Entity>()) return to_name(val<Entity>(object).m_prototype.m_type, object);
 		else return to_name(type(object), object);
 	}
 
 	string object_icon(Ref object)
 	{
 		if(!object) return "";
-		//else if(type(object).is<Complex>()) return "(" + string(val<Complex>(object).m_prototype.m_type.m_name) + ")";
+		//else if(type(object).is<Entity>()) return "(" + string(val<Entity>(object).m_prototype.m_type.m_name) + ")";
 		else return "(" + string(type(object).m_name) + ")";
 	}
 
@@ -44,8 +44,8 @@ namespace mud
 		if(!self.m_open)
 			parent.m_switch &= ~mode;
 
-		//if(meta(object).m_type_class == TypeClass::Complex)
-		//	object = val<Complex>(object);
+		//if(meta(object).m_type_class == TypeClass::Entity)
+		//	object = val<Entity>(object);
 
 		for(Method* method : cls(object).m_deep_methods)
 		{

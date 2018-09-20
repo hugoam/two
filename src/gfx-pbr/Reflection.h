@@ -51,21 +51,21 @@ namespace mud
 		virtual void submit_render_pass(Render& render) final;
 	};
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT BlockReflection : public GfxBlock
+	export_ class refl_ MUD_GFX_PBR_EXPORT BlockReflection : public DrawBlock
 	{
 	public:
 		BlockReflection(GfxSystem& gfx_system);
 
-		virtual void init_gfx_block() final;
+		void init_gfx_block() final;
 
-		virtual void begin_gfx_block(Render& render) final;
-		virtual void submit_gfx_block(Render& render) final;
+		void begin_gfx_block(Render& render) final;
+		void submit_gfx_block(Render& render) final;
 
-		virtual void begin_gfx_pass(Render& render) final;
-		virtual void submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element) final;
-		virtual void submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster) final;
+		void begin_gfx_pass(Render& render) final;
+		void submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const final;
+		void submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const final;
 
-		void submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version);
+		void submit_pass(Render& render, const Pass& render_pass, ShaderVersion& shader_version) const;
 
 		void upload_reflection_probes(Render& render, Pass& render_pass, array<ReflectionProbe*> probes);
 		void render_reflection_probe(Render& render, ReflectionProbe& reflection_probe);

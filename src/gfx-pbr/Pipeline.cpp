@@ -254,7 +254,8 @@ namespace mud
 	void PassLights::submit_render_pass(Render& render)
 	{
 		Pass render_pass = render.next_pass(m_name);
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		bgfx::Encoder& encoder = *bgfx::begin();//*render_pass.m_encoder;
+		render_pass.m_encoder = &encoder;
 
 		DrawCluster cluster;
 		cluster.m_lights = render.m_shot->m_lights;
@@ -307,12 +308,12 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockGeometry::submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element)
+	void BlockGeometry::submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const
 	{
 		UNUSED(render); UNUSED(render_pass); UNUSED(element);
 	}
 
-	void BlockGeometry::submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster)
+	void BlockGeometry::submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const
 	{
 		UNUSED(render); UNUSED(render_pass); UNUSED(cluster);
 	}

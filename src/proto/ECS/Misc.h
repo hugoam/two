@@ -1,180 +1,59 @@
 ﻿#pragma once
 
 #include <infra/Array.h>
+#include <infra/Generic.h>
 #include <proto/ECS/ECS.h>
 
 #include <vector>
 #include <string>
 
-template <class V0, class V1>
-class DualRef { // overrides copy semantics of std::pair
-protected:
-	V0& m_v0;
-	V1& m_v1;
-
-public:
-	DualRef(V0& v0, V1& v1) : m_v0(v0), m_v1(v1) {}
-
-	void swap(DualRef& other)
-	{
-		std::swap(m_v0, other.m_v0);
-		std::swap(m_v1, other.m_v1);
-	}
-
-	operator std::pair<V0, V1>() const // both g++ and msvc sort requires this (to get a pivot)
-	{
-		return std::pair<V0, V1>(m_v0, m_v1);
-	}
-
-	DualRef& operator=(std::pair<V0, V1> v) // both g++ and msvc sort requires this (for insertion sort)
-	{
-		m_v0 = v.first;
-		m_v1 = v.second;
-		return *this;
-	}
-
-	DualRef& operator=(const DualRef& other) // required by g++ (for _GLIBCXX_MOVE)
-	{
-		m_v0 = other.m_v0;
-		m_v1 = other.m_v1;
-		return *this;
-	}
-};
-
-template <class V0, class V1>
-inline bool operator<(std::pair<V0, V1> a, DualRef<V0, V1> b) // required by both g++ and msvc
-{
-	return a < std::pair<V0, V1>(b); // default pairwise lexicographical comparison
-}
-
-template <class V0, class V1>
-inline bool operator<(DualRef<V0, V1> a, std::pair<V0, V1> b) // required by both g++ and msvc
-{
-	return std::pair<V0, V1>(a) < b; // default pairwise lexicographical comparison
-}
-
-template <class V0, class V1>
-inline bool operator<(DualRef<V0, V1> a, DualRef<V0, V1> b) // required by both g++ and msvc
-{
-	return std::pair<V0, V1>(a) < std::pair<V0, V1>(b); // default pairwise lexicographical comparison
-}
-
-namespace std {
-
-	template <class V0, class V1>
-	inline void swap(DualRef<V0, V1>& a, DualRef<V0, V1>& b)
-	{
-		a.swap(b);
-	}
-
-} // ~std
-
-template <class It0, class It1>
-class DualIterator : public std::random_access_iterator_tag {
-public:
-	typedef typename std::iterator_traits<It0>::value_type value_type0;
-	typedef typename std::iterator_traits<It1>::value_type value_type1;
-	typedef std::pair<value_type0, value_type1> value_type;
-	typedef typename std::iterator_traits<It0>::difference_type difference_type;
-	typedef /*typename std::iterator_traits<It0>::distance_type*/difference_type distance_type; // no distance_type in g++, only in msvc
-	typedef typename std::iterator_traits<It0>::iterator_category iterator_category;
-	typedef DualRef<value_type0, value_type1> reference;
-	typedef reference *pointer; // not so sure about this, probably can't be implemented in a meaningful way, won't be able to overload ->
-								// keep the iterator traits happy
-
-protected:
-	It0 m_it0;
-	It1 m_it1;
-
-public:
-	DualIterator(const DualIterator& r_other) : m_it0(r_other.m_it0), m_it1(r_other.m_it1) {}
-	DualIterator(It0 it0 = It0(), It1 it1 = It1()) : m_it0(it0), m_it1(it1) {}
-
-	reference operator*() { return reference(*m_it0, *m_it1); }
-	value_type operator*() const { return value_type(*m_it0, *m_it1); }
-
-	difference_type operator-(const DualIterator& other) const
-	{
-		assert(m_it0 - other.m_it0 == m_it1 - other.m_it1);
-		// the iterators always need to have the same position
-		// (incomplete check but the best we can do without having also begin / end in either vector)
-
-		return m_it0 - other.m_it0;
-	}
-
-	bool operator==(const DualIterator& other) const
-	{
-		assert(m_it0 - other.m_it0 == m_it1 - other.m_it1);
-		return m_it0 == other.m_it0;
-	}
-
-	bool operator!=(const DualIterator& other) const { return !(*this == other); }
-
-	bool operator<(const DualIterator& other) const
-	{
-		assert(m_it0 - other.m_it0 == m_it1 - other.m_it1);
-		return m_it0 < other.m_it0;
-	}
-
-	bool operator>=(const DualIterator& other) const { return !(*this < other); }
-	bool operator<=(const DualIterator& other) const { return !(other < *this); }
-	bool operator>(const DualIterator& other) const { return other < *this; }
-
-	DualIterator operator+(distance_type d) const { return DualIterator(m_it0 + d, m_it1 + d); }
-	DualIterator operator-(distance_type d) const { return *this + -d; }
-
-	DualIterator& operator+=(distance_type d){ return *this = *this + d; }
-	DualIterator& operator-=(distance_type d) { return *this = *this + -d; }
-
-	DualIterator& operator++() { return *this += 1; }
-	DualIterator& operator--() { return *this += -1; }
-
-	DualIterator operator++(int) // msvc sort actually needs this, g++ does not
-	{
-		DualIterator old = *this;
-		++(*this);
-		return old;
-	}
-
-	DualIterator operator--(int)
-	{
-		DualIterator old = *this;
-		--(*this);
-		return old;
-	}
-};
-
-template <class It0, class It1>
-inline DualIterator<It0, It1> make_dual_iterator(It0 it0, It1 it1)
-{
-	return DualIterator<It0, It1>(it0, it1);
-}
-
-using namespace mud; namespace toy
+namespace mud
 {
 	using string = std::string;
 
-	/*class StopWatchExtensions
+	template <class T_Key, class T_Value, class T_Indices>
+	void quicksort(array<T_Key> keys, array<T_Value> values, T_Indices& indices, const size_t left, const size_t right)
 	{
-	public:
-		static float ElapsedMicroseconds(this Stopwatch sw)
+		auto partition = [](array<T_Key> keys, array<T_Value> values, T_Indices& indices, const size_t left, const size_t right)
 		{
-			return sw.ElapsedTicks / (Stopwatch.Frequency / 1000000f);
-		}
-	};*/
+			const size_t mid = left + (right - left) / 2;
+			const T_Key pivot = keys[mid];
+			// move the mid point value to the front.
+			std::swap(keys[mid], keys[left]);
+			std::swap(values[mid], values[left]);
+			std::swap(indices[keys[mid]], indices[keys[left]]);
+			size_t i = left + 1;
+			size_t j = right;
+			while(i <= j)
+			{
+				while(i <= j && keys[i] <= pivot)
+					i++;
 
-	class MiscUtils
+				while(i <= j && keys[j] > pivot)
+					j--;
+
+				if(i < j)
+					std::swap(keys[i], keys[j]);
+			}
+			std::swap(keys[i - 1], keys[left]);
+			std::swap(values[i - 1], values[left]);
+			std::swap(indices[keys[i - 1]], indices[keys[left]]);
+			return i - 1;
+		};
+
+		if(left >= right)
+			return;
+
+		size_t part = partition(keys, values, indices, left, right);
+		quicksort(keys, values, indices, left, part - 1);
+		quicksort(keys, values, indices, part + 1, right);
+	}
+
+	template <class T_Key, class T_Value, class T_Indices>
+	void quicksort(array<T_Key> keys, array<T_Value> values, T_Indices& indices)
 	{
-	public:
-		template <class T>
-		static std::vector<int> GetSortMap(array<T> original, array<T> sorted)
-		{
-			auto deltas = new int[original.m_count];
-			for(auto i = 0; i < original.m_count; i++)
-				deltas[i] = sorted.IndexOf(original[i]);
-			return deltas;
-		}
-	};
+		quicksort(keys, values, indices, 0, keys.size() - 1);
+	}
 
 	class BitUtils
 	{
@@ -211,11 +90,5 @@ using namespace mud; namespace toy
 			return unchecked(((flags + (flags >> 4))&  0xF0F0F0F0F0F0F0Ful) * 0x101010101010101ul) >> 56;
 		}
 #undef unchecked
-	};
-
-	class IDebugString
-	{
-	public:
-		virtual string GetDebugString(bool detailed) = 0;
 	};
 }

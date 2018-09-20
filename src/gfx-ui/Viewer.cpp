@@ -284,7 +284,7 @@ namespace ui
 
 		orbit.set_target(entity.m_position + Y3 * 2.f);
 
-		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
 		{
 			if(!viewer.modal())
 			{

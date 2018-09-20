@@ -17,8 +17,6 @@ namespace mud
 	public:
 		VecPool(size_t size = 256)
 			: m_size(size)
-			, m_available()
-			, m_objects()
 			, m_chunk(operator new(size * sizeof(T)))
 			, m_memory((T*)m_chunk)
 			, m_last(m_memory + size - 1)

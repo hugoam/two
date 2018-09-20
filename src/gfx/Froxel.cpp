@@ -287,11 +287,10 @@ namespace mud
 			this->froxelize_light_group(camera, lights, offset, stride);
 		};
 
-		auto parent = js.createJob();
+		auto parent = js.job();
 		for(size_t i = 0; i < GROUP_COUNT; i++)
-			js.run(jobs::createJob(js, parent, std::cref(process_task), i, GROUP_COUNT));
-		js.runAndWait(parent);
-		
+			js.run(job(js, parent, std::cref(process_task), i, GROUP_COUNT));
+		js.complete(parent);
 #else
 		for(size_t i = 0; i < GROUP_COUNT; i++)
 			this->froxelize_light_group(camera, lights, i, GROUP_COUNT);

@@ -200,3 +200,72 @@ namespace mud
 	export_ template <class T>
 	inline bool vector_swap(std::vector<T>& vector, T value) { if(vector_has(vector, value)) { vector_remove(vector, value); return false; } else { vector_add(vector, value); return true; } }
 }
+
+#if defined(WIN32)
+#include <malloc.h>
+#endif
+
+namespace mud
+{
+	inline void* aligned_alloc(size_t size, size_t align) noexcept
+	{
+		assert(align && !(align & align - 1));
+		void* p = nullptr;
+
+		// must be a power of two and >= sizeof(void*)
+		while(align < sizeof(void*))
+			align <<= 1;
+
+#if defined(WIN32)
+		p = ::_aligned_malloc(size, align);
+#else
+		::posix_memalign(&p, align, size);
+#endif
+		return p;
+	}
+
+	inline void aligned_free(void* p) noexcept
+	{
+#if defined(WIN32)
+		::_aligned_free(p);
+#else
+		::free(p);
+#endif
+	}
+
+	template <typename T>
+	class STLAlignedAllocator
+	{
+		static_assert(!(alignof(T) & (alignof(T)-1)), "alignof(T) must be a power of two");
+
+	public:
+		using value_type = T;
+		using pointer = T*;
+		using const_pointer = const T*;
+		using reference = T&;
+		using const_reference = const T&;
+		using size_type = std::size_t;
+		using difference_type = std::ptrdiff_t;
+		using propagate_on_container_move_assignment = std::true_type;
+		using is_always_equal = std::true_type;
+
+		template <typename T>
+		struct rebind { using other = STLAlignedAllocator<T>; };
+
+	public:
+		inline STLAlignedAllocator() noexcept = default;
+		inline ~STLAlignedAllocator() noexcept = default;
+
+		template <typename T>
+		inline explicit STLAlignedAllocator(const STLAlignedAllocator<T>&) noexcept {}
+
+		inline pointer allocate(size_type n) noexcept { return (pointer)aligned_alloc(n * sizeof(value_type), alignof(T)); }
+		inline void deallocate(pointer p, size_type) { aligned_free(p); }
+
+		template <typename T, typename U>
+		friend bool operator==(const STLAlignedAllocator<T>& rhs, const STLAlignedAllocator<U>& lhs) { return true; }
+
+		template <typename T, typename U>
+		friend bool operator!=(const STLAlignedAllocator<T>& rhs, const STLAlignedAllocator<U>& lhs) { return false; }
+	};
+}

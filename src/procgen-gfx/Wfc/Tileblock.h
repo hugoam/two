@@ -20,7 +20,7 @@ namespace mud
 		quat m_rotation;
 	};
 
-	export_ class refl_ MUD_PROCGEN_GFX_EXPORT WfcBlock : public Updatable
+	export_ class refl_ MUD_PROCGEN_GFX_EXPORT WfcBlock
 	{
 	public:
 		constr_ WfcBlock(const vec3& position, const uvec3& size, const vec3& scale, WaveTileset& tileset, bool auto_solve = false);
@@ -47,7 +47,7 @@ namespace mud
 		uvec3 to_coord(const vec3& position);
 		vec3 to_position(const uvec3& coord);
 
-		virtual void next_frame(size_t tick, size_t delta) final;
+		void next_frame(size_t tick, size_t delta);
 
 		void load_models(GfxSystem& gfx_system, bool from_file = true);
 

@@ -26,6 +26,7 @@ module mud.procgen.gfx;
 #include <gfx-ui/Viewer.h>
 #include <procgen-gfx/Types.h>
 #include <procgen-gfx/Wfc/Tileblock.h>
+#include <proto/ECS/Registry.h>
 #endif
 
 namespace mud

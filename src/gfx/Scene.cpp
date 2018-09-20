@@ -22,6 +22,7 @@ module mud.gfx;
 #include <gfx/Particles.h>
 #include <gfx/Animated.h>
 #include <gfx/Draw.h>
+#include <gfx/Model.h>
 #include <gfx/Pipeline.h>
 #include <gfx/GfxSystem.h>
 #endif

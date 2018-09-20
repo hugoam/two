@@ -3,15 +3,14 @@
 
 #include <cstdint>
 
-namespace toy
+namespace mud
 {
-	using EntIdx = int32_t;
 	using EntFlags = uint64_t;
 	using EntTags = uint64_t;
 
 	struct EntityData
 	{
-		EntFlags m_flags = UINT64_MAX;
+		EntFlags m_flags = 0;
 		//EntTags m_tags = 0;
 
 		EntityData() {}

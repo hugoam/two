@@ -65,3 +65,6 @@
 #ifndef MUD_INFRA_EXPORT
 #define MUD_INFRA_EXPORT MUD_IMPORT
 #endif
+
+#define MUD_ECS
+#define TOY_ECS

@@ -10,7 +10,7 @@
 namespace mud
 {
 	template<typename T>
-	inline T popcount(T v) noexcept
+	inline T popcount(T v)
 	{
 		static_assert(sizeof(T) * 8 <= 128, "popcount() only support up to 128 bits");
 		const T ONES = ~T(0);
@@ -21,7 +21,7 @@ namespace mud
 	}
 
 	template<typename T>
-	inline T clz(T x) noexcept
+	inline T clz(T x)
 	{
 		static_assert(sizeof(T) <= sizeof(uint64_t), "clz() only support up to 64 bits");
 		x |= (x >> 1);
@@ -36,7 +36,7 @@ namespace mud
 	}
 
 	template<typename T>
-	inline T ctz(T x) noexcept
+	inline T ctz(T x)
 	{
 		static_assert(sizeof(T) <= sizeof(uint64_t), "ctz() only support up to 64 bits");
 		T c = sizeof(T) * 8;
@@ -70,35 +70,35 @@ public:
     static constexpr T WORLD_COUNT = N;
     using container_type = T;
 
-    bitset() noexcept
+    bitset()
 	{
         std::fill(std::begin(storage), std::end(storage), 0);
     }
 
-    T at(size_t n) const noexcept
+    T at(size_t n) const
 	{
         return storage[n];
     }
 
-    T& at(size_t n) noexcept
+    T& at(size_t n)
 	{
         return storage[n];
     }
 
-    T get_bits() const noexcept
+    T get_bits() const
 	{
         static_assert(N == 1, "bitfield must only have one storage word");
         return storage[0];
     }
 
-    void set_bits(T value) noexcept
+    void set_bits(T value)
 	{
         static_assert(N == 1, "bitfield must only have one storage word");
         storage[0] = value;
     }
 
     template<typename F>
-    void for_each(F exec) const noexcept
+    void for_each(F exec) const
 	{
         for(size_t i = 0; i < N; i++)
 		{
@@ -112,42 +112,42 @@ public:
         }
     }
 
-    size_t size() const noexcept { return N * BITS_PER_WORD; }
+    size_t size() const { return N * BITS_PER_WORD; }
 
-    bool test(size_t bit) const noexcept { return operator[](bit); }
+    bool test(size_t bit) const { return operator[](bit); }
 
-    void set(size_t b) noexcept
+    void set(size_t b)
 	{
         storage[b / BITS_PER_WORD] |= T(1) << (b % BITS_PER_WORD);
     }
 
-    void set(size_t b, bool value) noexcept
+    void set(size_t b, bool value)
 	{
         storage[b / BITS_PER_WORD] &= ~(T(1) << (b % BITS_PER_WORD));
         storage[b / BITS_PER_WORD] |= T(value) << (b % BITS_PER_WORD);
     }
 
-    void unset(size_t b) noexcept
+    void unset(size_t b)
 	{
         storage[b / BITS_PER_WORD] &= ~(T(1) << (b % BITS_PER_WORD));
     }
 
-    void flip(size_t b) noexcept
+    void flip(size_t b)
 	{
         storage[b / BITS_PER_WORD] ^= T(1) << (b % BITS_PER_WORD);
     }
 
-    void reset() noexcept
+    void reset()
 	{
         std::fill(std::begin(storage), std::end(storage), 0);
     }
 
-    bool operator[](size_t b) const noexcept
+    bool operator[](size_t b) const
 	{
         return (storage[b / BITS_PER_WORD] & (T(1) << (b % BITS_PER_WORD))) != 0;
     }
 
-    size_t count() const noexcept
+    size_t count() const
 	{
         T r = popcount(storage[0]);
         for (size_t i = 1; i < N; ++i)
@@ -155,7 +155,7 @@ public:
         return r;
     }
 
-    bool any() const noexcept
+    bool any() const
 	{
         T r = storage[0];
         for (size_t i = 1; i < N; ++i)
@@ -163,9 +163,9 @@ public:
         return r != 0;
     }
 
-    bool none() const noexcept { return !any(); }
+    bool none() const { return !any(); }
 
-    bool all() const noexcept
+    bool all() const
 	{
         T r = storage[0];
         for (size_t i = 1; i < N; ++i)
@@ -173,7 +173,7 @@ public:
         return T(~r) == T(0);
     }
 
-    bool operator!=(const bitset& b) const noexcept
+    bool operator!=(const bitset& b) const
 	{
         T r = storage[0] ^ b.storage[0];
         for(size_t i = 1; i < N; ++i)
@@ -181,15 +181,15 @@ public:
         return r != 0;
     }
 
-    bool operator==(const bitset& b) const noexcept { return !operator!=(b); }
+    bool operator==(const bitset& b) const { return !operator!=(b); }
 
-    bitset& operator&=(const bitset& b) noexcept { for(size_t i = 0; i < N; ++i) storage[i] &= b.storage[i]; return *this; }
-    bitset& operator|=(const bitset& b) noexcept { for(size_t i = 0; i < N; ++i) storage[i] |= b.storage[i]; return *this; }
-    bitset& operator^=(const bitset& b) noexcept { for(size_t i = 0; i < N; ++i) storage[i] ^= b.storage[i]; return *this; }
-    bitset operator~() const noexcept { bitset r; for(size_t i = 0; i < N; ++i) r.storage[i] = ~storage[i]; return r; }
+    bitset& operator&=(const bitset& b) { for(size_t i = 0; i < N; ++i) storage[i] &= b.storage[i]; return *this; }
+    bitset& operator|=(const bitset& b) { for(size_t i = 0; i < N; ++i) storage[i] |= b.storage[i]; return *this; }
+    bitset& operator^=(const bitset& b) { for(size_t i = 0; i < N; ++i) storage[i] ^= b.storage[i]; return *this; }
+    bitset operator~() const { bitset r; for(size_t i = 0; i < N; ++i) r.storage[i] = ~storage[i]; return r; }
 
 private:
-    friend bool operator<(bitset const& lhs, bitset const& rhs) noexcept
+    friend bool operator<(bitset const& lhs, bitset const& rhs)
 	{
         return std::lexicographical_compare(
                 std::begin(lhs.storage), std::end(lhs.storage),
@@ -197,9 +197,9 @@ private:
         );
     }
 
-	friend bitset operator&(const bitset& lhs, const bitset& rhs) noexcept { return bitset(lhs) &= rhs; }
-    friend bitset operator|(const bitset& lhs, const bitset& rhs) noexcept { return bitset(lhs) |= rhs; }
-    friend bitset operator^(const bitset& lhs, const bitset& rhs) noexcept { return bitset(lhs) ^= rhs; }
+	friend bitset operator&(const bitset& lhs, const bitset& rhs) { return bitset(lhs) &= rhs; }
+    friend bitset operator|(const bitset& lhs, const bitset& rhs) { return bitset(lhs) |= rhs; }
+    friend bitset operator^(const bitset& lhs, const bitset& rhs) { return bitset(lhs) ^= rhs; }
 };
 
 using bitset8 = bitset<uint8_t>;

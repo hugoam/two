@@ -8,7 +8,9 @@
 #include <obj/Ref.h>
 #include <proto/Forward.h>
 #include <proto/Proto.h>
+#ifdef TOY_ECS
 #include <proto/ECS/Registry.h>
+#endif
 
 #ifndef MUD_CPP_20
 #include <vector>
@@ -16,8 +18,6 @@
 
 namespace mud
 {
-	class Complex;
-
 	export_ class refl_ MUD_PROTO_EXPORT Complex
 	{
 	public:
@@ -35,7 +35,7 @@ namespace mud
 		attr_ Id m_id;
 		attr_ Type& m_type;
 		attr_ Prototype& m_prototype;
-		
+
 
 		attr_ std::vector<Ref> m_parts;
 
@@ -48,15 +48,18 @@ namespace mud
 
 		template <class T>
 		T& component();
-
-	public:
-		template <class T>
-		inline bool isa() { return is<T>(*this) || this->has_part(type<T>()); }
-
-		template <class T>
-		inline T& as() { return *static_cast<T*>(this->part(type<T>()).m_value); }
 	};
 
+#ifndef TOY_ECS
+	using Entity = Complex;
+#endif
+
 	export_ template <class T>
-	inline bool isa(Complex& complex) { return is<T>(complex) || complex.has_part(type<T>()); }
+	inline bool is(Complex& complex) { return complex.m_type.template is<T>() || complex.has_part(type<T>()); }
+
+	export_ template <class T>
+	inline T& as(Complex& complex) { return *static_cast<T*>(complex.part(type<T>()).m_value); }
+
+	export_ template <class T>
+	inline T* try_as(Complex& complex) { return is<T>(complex) ? *as<T>(complex) : nullptr; }
 }

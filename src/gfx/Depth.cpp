@@ -31,7 +31,7 @@ namespace mud
 
 		bgfx::setViewMode(render_pass.m_index, bgfx::ViewMode::DepthAscending);
 
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		bgfx::Encoder& encoder = *bgfx::begin();//*render_pass.m_encoder;
 		encoder.setUniform(m_block_depth.u_depth.u_depth_params, &m_block_depth.m_depth_params);
 	}
 
@@ -84,12 +84,12 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockDepth::submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element)
+	void BlockDepth::submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const
 	{
 		UNUSED(render); UNUSED(render_pass); UNUSED(element);
 	}
 
-	void BlockDepth::submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster)
+	void BlockDepth::submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const
 	{
 		UNUSED(render); UNUSED(render_pass); UNUSED(cluster);
 	}

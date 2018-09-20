@@ -23,6 +23,7 @@ namespace mud
 
 		User m_user;
 
+		JobSystem m_job_system;
 		GfxSystem m_gfx_system;
 		LuaInterpreter m_lua;
 		WrenInterpreter m_wren;

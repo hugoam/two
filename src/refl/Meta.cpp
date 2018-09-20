@@ -17,7 +17,7 @@ module mud.refl;
 #include <infra/StringConvert.h>
 #include <refl/Injector.h>
 //#include <proto/Proto.h>
-//#include <proto/Complex.h>
+//#include <proto/Entity.h>
 #include <infra/Vector.h>
 //#include <srlz/Serial.h>
 #endif

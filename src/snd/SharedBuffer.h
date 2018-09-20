@@ -4,12 +4,10 @@
 
 #pragma once
 
-/* toy */
 #include <obj/Unique.h>
 #include <snd/SoundFileBuffer.h>
 #include <snd/OggFileBuffer.h>
 
-/* std */
 #include <functional>
 
 namespace mud

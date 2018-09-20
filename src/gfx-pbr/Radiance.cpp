@@ -29,6 +29,8 @@ namespace mud
 	{
 		static cstring options[2] = { "RADIANCE_ENVMAP", "RADIANCE_ARRAY" };
 		m_shader_block->m_options = { options, 2 };
+
+		m_prefilter_program.default_version();
 	}
 
 	void BlockRadiance::init_gfx_block()
@@ -62,17 +64,17 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockRadiance::submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element)
+	void BlockRadiance::submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const
 	{
 		this->submit_pass(render, render_pass, element.m_shader_version);
 	}
 
-	void BlockRadiance::submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster)
+	void BlockRadiance::submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const
 	{
 		this->submit_pass(render, render_pass, cluster.m_shader_version);
 	}
 
-	void BlockRadiance::submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version)
+	void BlockRadiance::submit_pass(Render& render, const Pass& render_pass, ShaderVersion& shader_version) const
 	{
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		bgfx::TextureHandle radiance = render.m_environment->m_radiance.m_roughness_array;

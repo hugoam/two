@@ -1,26 +1,26 @@
 ﻿#pragma once
 
-#include <core/Forward.h>
+#include <proto/Forward.h>
 #include <proto/ECS/MappedBuffers.h>
 
 #include <map>
 #include <unordered_map>
 
-namespace toy
+namespace mud
 {
-	template <class TKey, class TData>
-	class MappedBufferDense : public MappedBufferBase<TKey, TData>
+	template <class TData>
+	class MappedBufferDense : public MappedBufferBase<TData>
 	{
 	public:
 		static constexpr bool is_sparse = false;
 
 	public:
-		std::unordered_map<TKey, int> m_keys_to_indices;
+		std::unordered_map<uint32_t, int> m_indices;
 
 	public:
 		MappedBufferDense(int capacity = 1 << 10)
-			: MappedBufferBase<TKey, TData>(4)
-			, m_keys_to_indices(4) // NOTE: We intentionally don't use initialSize for dense buffers
+			: MappedBufferBase<TData>(4)
+			, m_indices(4) // NOTE: We intentionally don't use initialSize for dense buffers
 		{
 			UNUSED(capacity);
 		}
@@ -30,79 +30,30 @@ namespace toy
 			UNUSED(capacity);
 		}
 
-		struct Buffers { std::unordered_map<TKey, int> keys_to_indices; std::vector<TKey> indices_to_keys; std::vector<TData> data; };
-		Buffers __GetBuffers()
+		TData& At(uint32_t key) // internal
 		{
-			return { m_keys_to_indices, m_keys, m_data };
+			return m_data[m_indices[key]];
 		}
 
-		void SetK2i(std::vector<TKey> keys, std::vector<int> ints)
+		void AddKey(uint32_t key, TData data)
 		{
-			m_keys_to_indices.clear();
-			for(auto i = 0; i < keys.size(); i++)
-			{
-				m_keys_to_indices[keys[i]] = ints[i];
-				m_keys[ints[i]] = keys[i];
-			}
+			m_indices[key] = AddEntry(key, std::move(data));
 		}
 
-		int GetIndexFromKey(TKey key) // internal
+		void RemoveKey(uint32_t key) // internal
 		{
-			return m_keys_to_indices[key];
+			uint32_t index = m_indices[key];
+			uint32_t moved = RemoveByIndex(index);
+			m_indices[moved] = index; //update index of last key
+			m_indices.erase(key);
 		}
 
-	public:
-		TData& GetDataFromKey(TKey key) // internal
+		void Move(uint32_t oldKey, uint32_t newKey) override
 		{
-			return ref m_data[m_keys_to_indices[key]];
-		}
-
-		void AddKey(TKey key, const TData& data)
-		{
-			m_keys_to_indices[key] = AddEntry(key, data);
-		}
-
-		int RemoveKey(TKey key) // internal
-		{
-			auto keyIndex = GetIndexFromKey(key);
-			Removed removed = RemoveByIndex(keyIndex);
-			m_keys_to_indices[removed.replacingKey] = keyIndex; //update index of last key
-			m_keys_to_indices.erase(key);
-			return removed.lastIndex;
-		}
-
-	public:
-		virtual void UpdateKeyForEntry(TKey oldKey, TKey newKey) override
-		{
-			auto replacedKeyValue = m_keys_to_indices[oldKey];
-			m_keys_to_indices.erase(oldKey);
-			m_keys_to_indices[newKey] = replacedKeyValue;
+			auto replacedKeyValue = m_indices[oldKey];
+			m_indices.erase(oldKey);
+			m_indices[newKey] = replacedKeyValue;
 			UpdateEntryKey(replacedKeyValue, newKey);
-		}
-
-		std::vector<int> SortDataApplyKeysAndGetMoves()
-		{
-			auto moves = SortDataAndGetMoves();
-
-			auto newKeys = std::vector<TKey>(m_keys.size());
-
-			for(auto i = 0; i < m_count; i++)
-			{
-				newKeys[i] = m_keys[moves[i]];
-				m_keys_to_indices[m_keys[moves[i]]] = i;
-			}
-
-			m_keys = newKeys;
-
-			return moves;
-		}
-
-		string GetDebugString(bool detailed) // override
-		{
-			UNUSED(detailed); return "";
-			//return
-			//	$"  Entries: {m_count}, Map Entries: {m_keys_to_indices.m_count}\n" +
-			//	$"  Map: {string.Join(", ", m_keys_to_indices.Select(x => x.Key + ":" + x.Value))}";
 		}
 	};
 }

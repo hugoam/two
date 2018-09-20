@@ -203,12 +203,12 @@ namespace mud
 	{
 		RenderFrame frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
 
+		for(auto& name_program : m_impl->m_programs->m_assets)
+			name_program.second->update();
+
 		for(auto& renderer : m_impl->m_renderers)
 			if(renderer)
 				renderer->frame(frame);
-
-		for(auto& name_program : m_impl->m_programs->m_assets)
-			name_program.second->update();
 
 #ifdef MUD_GFX_THREADED
 		m_num_encoders = min(uint32_t(4U), bgfx::getCaps()->limits.maxEncoders);

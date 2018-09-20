@@ -137,6 +137,8 @@ namespace mud
 			bgfx::setViewClear(render_pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL, 1.f, 0, s_zero, s_zero, s_zero, s_zero);
 			bgfx::setViewFrameBuffer(render_pass.m_index, render.m_target->m_gbuffer.m_fbo);
 		}
+
+		bgfx::touch(render_pass.m_index);
 	}
 
 	PassUnshaded::PassUnshaded(GfxSystem& gfx_system)
@@ -148,7 +150,8 @@ namespace mud
 		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LEQUAL
 									 | BGFX_STATE_MSAA | BGFX_STATE_CULL_CW | BGFX_STATE_BLEND_ALPHA;
 
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		//bgfx::Encoder& encoder = *render_pass.m_encoder;
+		bgfx::Encoder& encoder = *bgfx::begin();
 		for(ImmediateDraw* immediate : render.m_shot->m_immediate)
 			immediate->submit(encoder, render_pass.m_index, render_pass.m_bgfx_state);
 	}

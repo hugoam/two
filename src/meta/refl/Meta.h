@@ -22,9 +22,9 @@ namespace mud
         static Meta meta = { type<mud::TypeClass>(), &namspc({ "mud" }), "TypeClass", sizeof(mud::TypeClass), TypeClass::Enum };
         static Enum enu = { type<mud::TypeClass>(),
             true,
-            { "None", "Object", "Struct", "Complex", "Sequence", "BaseType", "Enum" },
+            { "None", "Object", "Struct", "Entity", "Sequence", "BaseType", "Enum" },
             { 0, 1, 2, 3, 4, 5, 6 },
-            { var(mud::TypeClass::None), var(mud::TypeClass::Object), var(mud::TypeClass::Struct), var(mud::TypeClass::Complex), var(mud::TypeClass::Sequence), var(mud::TypeClass::BaseType), var(mud::TypeClass::Enum) }
+            { var(mud::TypeClass::None), var(mud::TypeClass::Object), var(mud::TypeClass::Struct), var(mud::TypeClass::Entity), var(mud::TypeClass::Sequence), var(mud::TypeClass::BaseType), var(mud::TypeClass::Enum) }
         };
         meta_enum<mud::TypeClass>();
     }

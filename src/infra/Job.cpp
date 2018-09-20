@@ -1,44 +1,9 @@
 #include <infra/Config.h>
 #include <infra/Job.h>
 
-#ifdef MUD_JOB_FIBERS
-#else
-
-// Note: The overhead of SYSTRACE_TAG_JOBSYSTEM is not negligible especially with parallel_for().
-//#define SYSTRACE_TAG SYSTRACE_TAG_JOBSYSTEM
-#define SYSTRACE_TAG SYSTRACE_TAG_NEVER
-
-// when SYSTRACE_TAG_JOBSYSTEM is used, enables even heavier systraces
-#define HEAVY_SYSTRACE  0
-
-
 #include <cmath>
 #include <random>
 #include <algorithm>
-
-#if !defined(WIN32)
-#    include <pthread.h>
-#endif
-
-#ifdef ANDROID
-#    include <sys/time.h>
-#    include <sys/resource.h>
-#    ifndef ANDROID_PRIORITY_URGENT_DISPLAY
-#        define ANDROID_PRIORITY_URGENT_DISPLAY -8  // see include/system/thread_defs.h
-#    endif
-#    ifndef ANDROID_PRIORITY_DISPLAY
-#        define ANDROID_PRIORITY_DISPLAY -4  // see include/system/thread_defs.h
-#    endif
-#    ifndef ANDROID_PRIORITY_NORMAL
-#        define ANDROID_PRIORITY_NORMAL 0 // see include/system/thread_defs.h
-#    endif
-#elif defined(__linux__)
-// There is no glibc wrapper for gettid on linux so we need to syscall it.
-#    include <unistd.h>
-#    include <sys/syscall.h>
-#    define gettid() syscall(SYS_gettid)
-#endif
-
 
 #if (defined(__i386__) || defined(__x86_64__))
 #   define UTILS_HAS_HYPER_THREADING 0      // on x86 we assume we have hyper-threading.
@@ -52,390 +17,246 @@
 #   define UTILS_HAS_THREADING 1
 #endif
 
-namespace mud {
+#define __i386__
 
-	// ------------------------------------------------------------------------------------------------
-	// FreeList
-	// ------------------------------------------------------------------------------------------------
+#ifdef __ARM_ACLE
+#   include <arm_acle.h>
+#   define UTILS_WAIT_FOR_EVENT()       __wfe()
+#else // !__ARM_ACLE
+#   if (defined(__i386__) || defined(__x86_64__))
+#       define UTILS_WAIT_FOR_EVENT()       _mm_pause();
+#   else // !x86
+#       define UTILS_WAIT_FOR_EVENT()
+#   endif // x86
+#endif // __ARM_ACLE
 
-	FreeListBase::Node* FreeListBase::init(void* begin, void* end,
-		size_t elementSize, size_t alignment, size_t extra) noexcept
+namespace mud
+{
+	thread_local JobSystem::ThreadState* s_thread_state(nullptr);
+
+	JobSystem::JobSystem(size_t num_threads, size_t adoptable_threads)
+		: m_job_pool("JobSystem Job pool", MAX_JOB_COUNT * sizeof(Job))
+		, m_jobs(static_cast<Job*>(m_job_pool.current()))
 	{
-		void* const p = pointermath::align(begin, alignment, extra);
-		void* const n = pointermath::align(pointermath::add(p, elementSize), alignment, extra);
-		assert(p >= begin && p < end);
-		assert(n >= begin && n < end && n > p);
-
-		const size_t d = uintptr_t(n) - uintptr_t(p);
-		const size_t num = (uintptr_t(end) - uintptr_t(p)) / d;
-
-		// set first entry
-		Node* head = static_cast<Node*>(p);
-
-		// next entry
-		Node* cur = head;
-		for(size_t i = 1; i<num; ++i) {
-			Node* next = pointermath::add(cur, d);
-			cur->next = next;
-			cur = next;
+		if(num_threads == 0)
+		{
+			size_t hardware_threads = std::thread::hardware_concurrency();
+			if(UTILS_HAS_HYPER_THREADING)
+				num_threads = hardware_threads / 2 - 1;
+			else
+				num_threads = hardware_threads - 1;
 		}
-		assert(cur < end);
-		assert(pointermath::add(cur, d) <= end);
-		cur->next = nullptr;
-		return head;
-	}
+		num_threads = std::min(size_t(UTILS_HAS_THREADING ? 32 : 0), num_threads);
 
-	FreeList::FreeList(void* begin, void* end,
-		size_t elementSize, size_t alignment, size_t extra) noexcept
-		: mHead(init(begin, end, elementSize, alignment, extra))
-#ifndef NDEBUG
-		, mBegin(begin), mEnd(end)
-#endif
-	{
-	}
+		m_thread_states = aligned_vector<ThreadState>(num_threads + adoptable_threads);
+		m_thread_count = uint16_t(num_threads);
+		m_parallel_split_count = (uint8_t)std::ceil((std::log2f(num_threads + adoptable_threads)));
 
-	AtomicFreeList::AtomicFreeList(void* begin, void* end,
-		size_t elementSize, size_t alignment, size_t extra) noexcept
-		: mHead(init(begin, end, elementSize, alignment, extra)) {
-	}
+		assert(m_exit_requested.is_lock_free());
+		assert(Job().running_jobs.is_lock_free());
 
-	TrackingPolicy::HighWatermark::~HighWatermark() noexcept {
-		size_t wm = mHighWaterMark;
-		size_t wmpct = wm / (mSize / 100);
-		//slog.d << mName << " arena: High watermark "
-		//	<< wm / 1024 << " KiB (" << wmpct << "%)" << io::endl;
-	}
-
-	thread_local JobSystem::ThreadState* JobSystem::sThreadState(nullptr);
-
-	void JobSystem::setThreadName(const char* name) noexcept {
-#if defined(__linux__)
-		pthread_setname_np(pthread_self(), name);
-#elif defined(__APPLE__)
-		pthread_setname_np(name);
-#else
-		// TODO: implement setting thread name on WIN32 
-#endif
-	}
-
-	void JobSystem::setThreadPriority(Priority priority) noexcept {
-#ifdef ANDROID
-		int androidPriority = 0;
-		switch(priority) {
-		case Priority::NORMAL:
-			androidPriority = ANDROID_PRIORITY_NORMAL;
-			break;
-		case Priority::DISPLAY:
-			androidPriority = ANDROID_PRIORITY_DISPLAY;
-			break;
-		case Priority::URGENT_DISPLAY:
-			androidPriority = ANDROID_PRIORITY_URGENT_DISPLAY;
-			break;
-		}
-		setpriority(PRIO_PROCESS, 0, androidPriority);
-#endif
-	}
-
-	void JobSystem::setThreadAffinity(uint32_t mask) noexcept {
-#if defined(__linux__)
-		int bit = 0;
-		cpu_set_t set;
-		CPU_ZERO(&set);
-		while(mask) {
-			if(mask & 1) {
-				CPU_SET(bit, &set);
-			}
-			bit++;
-			mask >>= 1;
-		}
-		sched_setaffinity(gettid(), sizeof(set), &set);
-#endif
-	}
-
-	JobSystem::JobSystem(size_t threadCount, size_t adoptableThreadsCount) noexcept
-		: mJobPool("JobSystem Job pool", MAX_JOB_COUNT * sizeof(Job)),
-		mJobStorageBase(static_cast<Job *>(mJobPool.getAllocator().getCurrent()))
-	{
-		//SYSTRACE_ENABLE();
-
-		if(threadCount == 0) {
-			// default value, system dependant
-			size_t hwThreads = std::thread::hardware_concurrency();
-			if(UTILS_HAS_HYPER_THREADING) {
-				// For now we avoid using HT, this simplifies profiling.
-				// TODO: figure-out what to do with Hyper-threading
-				threadCount = hwThreads / 2 - 1;
-			}
-			else {
-				threadCount = hwThreads - 1;
-			}
-		}
-		threadCount = std::min(size_t(UTILS_HAS_THREADING ? 32 : 0), threadCount);
-
-		mThreadStates = aligned_vector<ThreadState>(threadCount + adoptableThreadsCount);
-		mThreadCount = uint16_t(threadCount);
-		mParallelSplitCount = (uint8_t)std::ceil((std::log2f(threadCount + adoptableThreadsCount)));
-
-		// this is pitty these are not compile-time checks (C++17 supports it apparently)
-		assert(mExitRequested.is_lock_free());
-		assert(Job().runningJobCount.is_lock_free());
-
-		std::random_device rd;
-		const size_t hardwareThreadCount = mThreadCount;
-		auto& states = mThreadStates;
-
-#pragma nounroll
-		for(size_t i = 0, n = states.size(); i < n; i++) {
-			auto& state = states[i];
-			state.rndGen = default_random_engine(rd());
+		for(size_t i = 0, n = m_thread_states.size(); i < n; i++)
+		{
+			ThreadState& state = m_thread_states[i];
+			state.work_queue.m_jobs = m_jobs;
+			state.index = uint32_t(i);
 			state.mask = uint32_t(1UL << i);
 			state.js = this;
-			if(i < hardwareThreadCount) {
-				// don't start a thread of adoptable thread slots
+			if(i < size_t(m_thread_count))
+			{
 				state.thread = std::thread(&JobSystem::loop, this, &state);
 			}
 		}
 	}
 
-	JobSystem::~JobSystem() {
-		requestExit();
+	JobSystem::~JobSystem()
+	{
+		this->shutdown();
 
-#pragma nounroll
-		for(auto &state : mThreadStates) {
-			// adopted threads are not joinable
-			if(state.thread.joinable()) {
+		for(ThreadState& state : m_thread_states)
+		{
+			if(state.thread.joinable())
 				state.thread.join();
-			}
 		}
 	}
 
-	JobSystem* JobSystem::getJobSystem() noexcept {
-		ThreadState* const state = sThreadState;
+	JobSystem* JobSystem::instance()
+	{
+		ThreadState* const state = s_thread_state;
 		return state ? state->js : nullptr;
 	}
 
-	void JobSystem::requestExit() noexcept {
-		mLock.lock();
-		mExitRequested.store(true, std::memory_order_relaxed);
-		mLock.unlock();
-		mCondition.notify_all();
-#if __ARM_ARCH_7A__
-		// on ARMv7a SEL is needed
-		__dsb(0xA);     // ISHST = 0xA (b1010)
-		UTILS_SIGNAL_EVENT();
-#endif
+	void JobSystem::shutdown()
+	{
+		m_exit_requested.store(true, std::memory_order_relaxed);
+		m_condition.notify_all();
 	}
 
-	inline bool JobSystem::exitRequested() const noexcept {
-		return mExitRequested.load(std::memory_order_relaxed);
+	uint32_t JobSystem::thread()
+	{
+		return s_thread_state->index;
 	}
 
-	inline bool JobSystem::hasJobCompleted(JobSystem::Job const* job) noexcept {
-		return job->runningJobCount.load(std::memory_order_relaxed) <= 0;
+	inline bool JobSystem::exiting() const
+	{
+		return m_exit_requested.load(std::memory_order_relaxed);
 	}
 
-	inline JobSystem::ThreadState& JobSystem::getState() noexcept {
-		// check we're not using a thread not owned by the thread pool
-		assert(sThreadState);
-		return *sThreadState;
+	inline bool JobSystem::completed(Job const* job)
+	{
+		return job->running_jobs.load(std::memory_order_relaxed) <= 0;
+		//return job->running_jobs.load(std::memory_order_acquire) <= 0;
 	}
 
-	JobSystem::Job* JobSystem::allocateJob() noexcept {
-		return mJobPool.make<Job>();
+	inline JobSystem::ThreadState& JobSystem::state()
+	{
+		assert(s_thread_state);
+		return *s_thread_state;
 	}
 
-	inline JobSystem::ThreadState& JobSystem::getStateToStealFrom(JobSystem::ThreadState& state) noexcept {
-		uint16_t adopted = mAdoptedThreads.load(std::memory_order_relaxed);
-		// this is biased, but frankly, we don't care. it's fast.
-		uint16_t index = uint16_t(state.rndGen() % (mThreadCount + adopted));
-		assert(index < mThreadStates.size());
-		return mThreadStates[index];
+	static inline double random_index(uint16_t range)
+	{
+		thread_local std::default_random_engine generator(std::random_device{}());
+		return generator() % range;
 	}
 
-	bool JobSystem::execute(JobSystem::ThreadState& state) noexcept {
+	inline JobSystem::ThreadState& JobSystem::random_thread_state(ThreadState& state)
+	{
+		uint16_t adopted = m_adopted_threads.load(std::memory_order_relaxed);
+		uint16_t index = random_index(m_thread_count + adopted);
+		assert(index < m_thread_states.size());
+		return m_thread_states[index];
+	}
 
-		Job* job = pop(state.workQueue);
-		if(job == nullptr) {
-			// our queue is empty, try to steal a job
-			ThreadState& stateToStealFrom = getStateToStealFrom(state);
-			if(&stateToStealFrom != &state) {
-				// don't steal from our own queue
-				job = steal(stateToStealFrom.workQueue);
-				// nullptr -> nothing to steal in that queue either
-			}
+	bool JobSystem::execute(ThreadState& state)
+	{
+		Job* job = state.work_queue.pop();
+		if(job == nullptr)
+		{
+			ThreadState& steal_target = random_thread_state(state);
+			if(&steal_target != &state)
+				job = steal_target.work_queue.steal();
 		}
 
-		if(job) {
-			//SYSTRACE_CALL();
+		if(job)
+		{
+			uint32_t active_jobs = m_active_jobs.fetch_sub(1, std::memory_order_acq_rel);
+			assert(active_jobs);
+			UNUSED(active_jobs);
 
-			uint32_t activeJobs = mActiveJobs.fetch_sub(1, std::memory_order_acq_rel);
-			assert(activeJobs); // whoops, we were already at 0
-			UNUSED(activeJobs);
-
-			//SYSTRACE_VALUE32("JobSystem::activeJobs", activeJobs - 1);
-
-			[[likely]] if(job->function) {
-				//SYSTRACE_NAME("job->function");
+			[[likely]] if(job->function)
 				job->function(job->padding, *this, job);
-			}
+
 			finish(job);
 		}
 		return job != nullptr;
 	}
 
-	void JobSystem::loop(ThreadState* threadState) noexcept {
-		setThreadName("JobSystem::loop");
-		setThreadPriority(Priority::DISPLAY);
+	void JobSystem::loop(ThreadState* thread_state)
+	{
+		set_thread_name("JobSystem::loop");
+		set_thread_priority(ThreadPriority::Display);
 
-		// record our work queue to thread-local storage
-		sThreadState = threadState;
+		s_thread_state = thread_state;
 
-		// run our main loop...
 		do {
-			if(!execute(*threadState)) {
-				std::unique_lock<std::mutex> lock(mLock);
-				while(!exitRequested() && !(mActiveJobs.load(std::memory_order_relaxed))) {
-					mCondition.wait(lock);
-				}
+			if(!execute(*thread_state))
+			{
+				std::unique_lock<std::mutex> lock(m_lock);
+				while(!exiting() && !(m_active_jobs.load(std::memory_order_relaxed)))
+					m_condition.wait(lock);
 			}
-		} while(!exitRequested());
+		} while(!exiting());
 	}
-
-	// -----------------------------------------------------------------------------------------------
-	// public API...
-
-
-	JobSystem::Job* JobSystem::create(JobSystem::Job* parent, JobFunc func) noexcept {
-		parent = (parent == nullptr) ? mMasterJob : parent;
-		Job* const job = allocateJob();
-		[[likely]] if(job) {
+	
+	Job* JobSystem::create(Job* parent, JobFunc func)
+	{
+		parent = (parent == nullptr) ? m_master_job : parent;
+		Job* const job = m_job_pool.make();
+		[[likely]] if(job)
+		{
 			size_t index = 0x7FFF;
-			if(parent) {
-				// can't create a child job of a terminated parent
-				assert(parent->runningJobCount.load(std::memory_order_relaxed) > 0);
+			if(parent)
+			{
+				assert(parent->running_jobs.load(std::memory_order_relaxed) > 0);
 
-				parent->runningJobCount.fetch_add(1, std::memory_order_relaxed);
-				index = parent - mJobStorageBase;
+				parent->running_jobs.fetch_add(1, std::memory_order_relaxed);
+				index = parent - m_jobs;
 				assert(index < MAX_JOB_COUNT);
 			}
 			job->function = func;
 			job->parent = uint16_t(index);
-			job->runningJobCount.store(1, std::memory_order_relaxed);
+			job->running_jobs.store(1, std::memory_order_relaxed);
 		}
 		return job;
 	}
 
-	void JobSystem::finish(Job* job) noexcept {
-		//SYSTRACE_CALL();
-
-		// terminate this job and notify its parent
-		auto& jobPool = mJobPool;
-		Job* const storage = mJobStorageBase;
+	void JobSystem::finish(Job* job)
+	{
+		auto& job_pool = m_job_pool;
+		Job* const storage = m_jobs;
 		do {
-			// std::memory_order_release here is needed to synchronize with JobSystem::wait()
-			// which needs to "see" all changes that happened before the job terminated.
-			int32_t runningJobCount = job->runningJobCount.fetch_sub(1, std::memory_order_release) - 1;
-			assert(runningJobCount >= 0);
-			if(runningJobCount >= 1) {
-				// there is still work (e.g.: children), we're done.
+			int32_t running_jobs = job->running_jobs.fetch_sub(1, std::memory_order_release) - 1;
+			assert(running_jobs >= 0);
+			if(running_jobs > 0)
+			{
 				break;
 			}
-			Job* const parent = job->parent == 0x7FFF ? nullptr : &storage[job->parent];
-			// destroy this job...
-			jobPool.destroy(job);
-			// ... and check the parent
-			job = parent;
+			else
+			{
+				Job* const parent = job->parent == 0x7FFF ? nullptr : &storage[job->parent];
+				job_pool.destroy(job);
+				job = parent;
+			}
 		} while(job);
-
-#if __ARM_ARCH_7A__
-		// on ARMv7a SEL is needed
-		__dsb(0xA);     // ISHST = 0xA (b1010)
-		UTILS_SIGNAL_EVENT();
-#endif
 	}
 
-	void JobSystem::run(JobSystem::Job* job, uint32_t flags) noexcept {
-#if HEAVY_SYSTRACE
-		SYSTRACE_CALL();
-#endif
+	void JobSystem::run(Job* job, uint32_t flags)
+	{
+		ThreadState& state = this->state();
 
-		ThreadState& state(getState());
+		uint32_t active_jobs = m_active_jobs.fetch_add(1, std::memory_order_relaxed);
+		state.work_queue.push(job);
 
-		// increase the active job count before we add the job to the queue, because otherwise
-		// the job could run and finish before the counter is incremented, which would trigger
-		// an assert() in execute(). Either way, it's not "wrong", but the assert() is useful.
-		uint32_t activeJobs = mActiveJobs.fetch_add(1, std::memory_order_relaxed);
-
-		put(state.workQueue, job);
-
-		//SYSTRACE_CONTEXT();
-		//SYSTRACE_VALUE32("JobSystem::activeJobs", activeJobs + 1);
-
-		// wake-up a thread if needed...
-		if(!(flags & DONT_SIGNAL)) {
-			// if it was busy before, try to wake-up another sleeping thread
-			if(activeJobs) {
-				// wake-up a queue
-				{ std::lock_guard<std::mutex> lock(mLock); }
-				mCondition.notify_one();
+		if(!(flags & DONT_SIGNAL))
+		{
+			if(active_jobs)
+			{
+				{ std::lock_guard<std::mutex> lock(m_lock); }
+				m_condition.notify_one();
 			}
 		}
 	}
 
-	void JobSystem::wait(JobSystem::Job const* job) noexcept {
-		//SYSTRACE_CALL();
-
+	void JobSystem::wait(Job const* job)
+	{
 		assert(job);
-		ThreadState& state(getState());
+		ThreadState& state = this->state();
 		do {
-			if(!execute(state)) {
-				// we're a waiter so we spin!!!
+			if(!execute(state))
 				UTILS_WAIT_FOR_EVENT();
-			}
-		} while(!hasJobCompleted(job) && !exitRequested());
+		} while(!completed(job) && !exiting());
 
-		// std::memory_order_acquire here is needed to synchronize with JobSystem::finish()
-		// this guarantees we "see" all the changes performed by the job that just finished.
 		std::atomic_thread_fence(std::memory_order_acquire);
 	}
 
-	void JobSystem::adopt() {
-		ThreadState* const state = sThreadState;
-		if(state) {
-			// we're already part of a JobSystem, do nothing.
-			//ASSERT_PRECONDITION(this == state->js, "Called adopt on a thread owned by another JobSystem (%p), this=%p!", state->js, this);
+	void JobSystem::adopt()
+	{
+		ThreadState* const state = s_thread_state;
+		if(state)
 			return;
-		}
 
-		uint16_t adopted = mAdoptedThreads.fetch_add(1, std::memory_order_relaxed);
-		size_t index = mThreadCount + adopted;
+		uint16_t adopted = m_adopted_threads.fetch_add(1, std::memory_order_relaxed);
+		size_t index = m_thread_count + adopted;
 
-		//ASSERT_POSTCONDITION(index < mThreadStates.size(), "Too many calls to adopt(). No more adoptable threads!");
+		set_thread_priority(ThreadPriority::Display);
 
-		// all threads adopted by the JobSystem need to run at the same priority
-		JobSystem::setThreadPriority(JobSystem::Priority::DISPLAY);
-
-		// This thread's queue will be selectable immediately (i.e.: before we set its TLS)
-		// however, it's not a problem since mThreadState is pre-initialized and valid
-		// (e.g.: the queue is empty).
-
-		sThreadState = &mThreadStates[index];
+		s_thread_state = &m_thread_states[index];
 	}
 
-	void JobSystem::emancipate() {
-		ThreadState* const state = sThreadState;
-		//ASSERT_PRECONDITION(state, "this thread is not an adopted thread");
-		//ASSERT_PRECONDITION(state->js == this, "this thread is not adopted by us");
-		sThreadState = nullptr;
+	void JobSystem::emancipate()
+	{
+		ThreadState* const state = s_thread_state;
+		s_thread_state = nullptr;
 	}
-
-	/*io::ostream& operator<<(io::ostream& out, JobSystem const& js) {
-		for(auto const& item : js.mThreadStates) {
-			out << size_t(std::log2f(item.mask)) << ": " << item.workQueue.getCount() << io::endl;
-		}
-		return out;
-	}*/
-
 }
-
-#endif

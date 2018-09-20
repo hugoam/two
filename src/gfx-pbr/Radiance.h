@@ -28,17 +28,17 @@ namespace mud
 	public:
 		BlockRadiance(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy);
 
-		virtual void init_gfx_block() final;
-		virtual void render_gfx_block() final;
+		void init_gfx_block() final;
+		void render_gfx_block() final;
 
-		virtual void begin_gfx_block(Render& render) final;
-		virtual void submit_gfx_block(Render& render) final;
+		void begin_gfx_block(Render& render) final;
+		void submit_gfx_block(Render& render) final;
 
-		virtual void begin_gfx_pass(Render& render) final;
-		virtual void submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element) final;
-		virtual void submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster) final;
+		void begin_gfx_pass(Render& render) final;
+		void submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const final;
+		void submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const final;
 
-		void submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version);
+		void submit_pass(Render& render, const Pass& render_pass, ShaderVersion& shader_version) const;
 
 		void prefilter_radiance(Radiance& radiance);
 

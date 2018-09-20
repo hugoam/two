@@ -2,16 +2,9 @@
 #include <proto/ECS/Registry.h>
 
 using namespace mud;
-using namespace toy;
 
 struct Position;
 struct Velocity;
-
-namespace mud
-{
-	template <> Type& type<Position>() { static Type ty("Position"); return ty; }
-	template <> Type& type<Velocity>() { static Type ty("Velocity"); return ty; }
-}
 
 struct Position
 {
@@ -25,24 +18,13 @@ struct Velocity
     long m_y;
 };
 
-class MyBufferRegistry : public BufferRegistry<MyBufferRegistry,
-	//ComponentBufferSparse<Position>,
-	//ComponentBufferSparse<Velocity>
-	ComponentBufferDense<Position>,
-	ComponentBufferDense<Velocity>
->
-{
-public:
-	MyBufferRegistry() { m_buffers = { { type<Position>(), 0 }, { type<Velocity>(), 1 } }; }
-	template <class T> static constexpr size_t buffer_index() {}
-	template <> static constexpr size_t buffer_index<Position>() { return 0; }
-	template <> static constexpr size_t buffer_index<Velocity>() { return 1; }
-};
+template <> struct TypedBuffer<Position> { using type = ComponentBufferDense<Position>; static size_t index() { return 0; } };
+template <> struct TypedBuffer<Velocity> { using type = ComponentBufferDense<Velocity>; static size_t index() { return 1; } };
 
 void test_ecs()
 {
 	int preallocShift = 14;
-	static EntityRegistry<MyBufferRegistry> registry_ = { 1 << preallocShift };
+	//static EntityRegistry<MyBufferRegistry> s_registry = { 1 << preallocShift };
 
     //create registry
     //Print("Creating Registry");
@@ -52,35 +34,36 @@ void test_ecs()
     //create and register some component buffers
 //        Print("Creating Component Buffers");
 
-    //registry_.RegisterComponent<Position>(BufferType::Dense, 1<<preallocShift);
-   // registry_.RegisterComponent<Velocity>(BufferType::Dense, 1<<preallocShift);
+	s_registry.AddBuffer<Position>(); // 1 << preallocShift;
+	s_registry.AddBuffer<Velocity>(); // 1 << preallocShift;
         
 //        PrintRegistryDebug();
 //        PrintCompBufsDebug();
 
 
+	Entity entity = {};
+	Component<Position> position = { entity };
+	Component<Velocity> velocity = { entity };
 
+    auto e = s_registry.CreateEntity();
+	s_registry.AddComponent(e, Position());
+	s_registry.AddComponent(e, Velocity{ 0, 3 });
 
-        
-    auto e = registry_.CreateEntity();
-    registry_.AddComponent(e, Position());
-    registry_.AddComponent(e, Velocity{ 0, 3 });
+    auto e1 = s_registry.CreateEntity();
+	s_registry.AddComponent(e1, Position());
+    //s_registry.AddComponent(e1, Velocity { x = 0, y = 1 });
 
-    auto e1 = registry_.CreateEntity();
-    registry_.AddComponent(e1, Position());
-    //registry_.AddComponent(e1, Velocity { x = 0, y = 1 });
+    auto e2 = s_registry.CreateEntity();
+	s_registry.AddComponent(e2, Position());
+	s_registry.AddComponent(e2, Velocity { 0, 5 });
 
-    auto e2 = registry_.CreateEntity();
-    registry_.AddComponent(e2, Position());
-    registry_.AddComponent(e2, Velocity { 0, 5 });
+    auto e3 = s_registry.CreateEntity();
+	s_registry.AddComponent(e3, Position());
+    //s_registry.AddComponent(e3, Velocity { x = 0, y = 1 });
 
-    auto e3 = registry_.CreateEntity();
-    registry_.AddComponent(e3, Position());
-    //registry_.AddComponent(e3, Velocity { x = 0, y = 1 });
-
-    registry_.Loop<Position, Velocity>([](EntIdx entIdx, Position& pos, Velocity& vel)
+    s_registry.Loop<Position, Velocity>([](uint32_t handle, Position& pos, Velocity& vel)
     {
-		UNUSED(entIdx);
+		UNUSED(handle);
         pos.m_y += vel.m_y;
     });
 
@@ -94,23 +77,23 @@ void test_ecs()
     ////create entities and components
     //Print("Creating 4 Entities");
 
-    //auto entA = registry_.CreateEntity();
-    //registry_.AddComponent(entA, new Position());
-    //registry_.AddComponent(entA, new Velocity());
+    //auto entA = s_registry.CreateEntity();
+    //s_registry.AddComponent(entA, new Position());
+    //s_registry.AddComponent(entA, new Velocity());
 
     //PrintEntityDebug(entA);
 
-    //auto entB = registry_.CreateEntity();
-    //registry_.AddComponent(entB, new Position());
+    //auto entB = s_registry.CreateEntity();
+    //s_registry.AddComponent(entB, new Position());
 
     //PrintEntityDebug(entB);
 
-    //auto entC = registry_.CreateEntity();
-    //registry_.AddComponent(entC, new Velocity());
+    //auto entC = s_registry.CreateEntity();
+    //s_registry.AddComponent(entC, new Velocity());
 
     //PrintEntityDebug(entC);
 
-    //auto entD = registry_.CreateEntity();
+    //auto entD = s_registry.CreateEntity();
 
     //PrintEntityDebug(entD);
 
@@ -119,71 +102,71 @@ void test_ecs()
 
     //Print("Removing component");
 
-    //registry_.RemoveComponent<Velocity>(entA);
+    //s_registry.RemoveComponent<Velocity>(entA);
 
     //PrintCompBufsDebug(true);
 
     //Print("Readding component");
 
-    //registry_.AddComponent(entA, new Velocity());
+    //s_registry.AddComponent(entA, new Velocity());
 
     //PrintCompBufsDebug(true);
 
     //Print("Removing other");
 
-    //registry_.RemoveComponent<Position>(entA);
+    //s_registry.RemoveComponent<Position>(entA);
 
     //PrintCompBufsDebug(true);
 
     //Print("Readding other");
 
-    //registry_.AddComponent(entA, new Position());
+    //s_registry.AddComponent(entA, new Position());
 
     //PrintCompBufsDebug(true);
 
     //Print("Adding new to 2nd entity");
 
-    //registry_.AddComponent(entB, new Velocity());
+    //s_registry.AddComponent(entB, new Velocity());
 
     //PrintEntityDebug(entB);
     //PrintCompBufsDebug(true);
 
     //Print("Removing all from 2nd entity");
 
-    //registry_.RemoveAllComponents(entB);
+    //s_registry.RemoveAllComponents(entB);
 
     //PrintEntityDebug(entB);
     //PrintCompBufsDebug(true);
 
     //Print("Removing 3rd entity");
 
-    //registry_.DeleteEntity(entC);
+    //s_registry.DeleteEntity(entC);
     //PrintRegistryDebug(true);
     //PrintCompBufsDebug(true);
 
     //Print("Removing 1st entity");
 
-    //registry_.DeleteEntity(entA);
+    //s_registry.DeleteEntity(entA);
     //PrintRegistryDebug(true);
     //PrintCompBufsDebug(true);
 
     //Print("Creating new with components");
 
-    //auto entE = registry_.CreateEntity();
-    //registry_.AddComponent(entE, new Position());
-    //registry_.AddComponent(entE, new Velocity{x=0,y=1});
+    //auto entE = s_registry.CreateEntity();
+    //s_registry.AddComponent(entE, new Position());
+    //s_registry.AddComponent(entE, new Velocity{x=0,y=1});
     //PrintRegistryDebug(true);
     //PrintCompBufsDebug(true);
 
     //Print("Removing newly created entity");
 
-    //registry_.DeleteEntity(entE);
+    //s_registry.DeleteEntity(entE);
     //PrintRegistryDebug(true);
     //PrintCompBufsDebug(true);
 
     //Print("Adding component to 4th entity");
 
-    //registry_.AddComponent(entD, new Position());
+    //s_registry.AddComponent(entD, new Position());
     //PrintRegistryDebug(true);
     //PrintCompBufsDebug(true);
 
@@ -193,9 +176,9 @@ void test_ecs()
     auto sw = Stopwatch.StartNew();
     for (int i = 0; i < 1<<16; i++)
     {
-        auto id = registry_.CreateEntity();
-        registry_.AddComponent(id, new Position());
-        registry_.AddComponent(id, new Velocity { x = 0, y = 1 });
+        auto id = s_registry.CreateEntity();
+        s_registry.AddComponent(id, new Position());
+        s_registry.AddComponent(id, new Velocity { x = 0, y = 1 });
     }
     Print($"Took {sw.ElapsedMicroseconds()}");
 //        Console.ReadKey();
@@ -210,14 +193,14 @@ void test_ecs()
 
     //Print("Looping a ton of ents and comp");
     //sw = Stopwatch.StartNew();
-    //registry_.Loop((EntIdx entIdx, ref Position transform) =>
+    //s_registry.Loop((uint32_t handle, ref Position transform) =>
     //{
     //    transform.x = 10;
     //});
     //Print($"Took {sw.ElapsedMicroseconds()}");
 
 
-    registry_.Loop((EntIdx entIdx, ref Velocity vel, ref Position pos) =>
+    s_registry.Loop((uint32_t handle, ref Velocity vel, ref Position pos) =>
     {
         pos.y += vel.y;
     });

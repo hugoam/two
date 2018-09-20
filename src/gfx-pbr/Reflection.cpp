@@ -45,7 +45,7 @@ namespace mud
 	}
 
 	BlockReflection::BlockReflection(GfxSystem& gfx_system)
-		: GfxBlock(gfx_system, *this)
+		: DrawBlock(gfx_system, type<BlockReflection>())
 		, m_atlas(1024, 16)
 	{}
 
@@ -76,22 +76,22 @@ namespace mud
 		UNUSED(render);
 	}
 
-	void BlockReflection::submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element)
+	void BlockReflection::submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const
 	{
 		this->submit_pass(render, render_pass, element.m_shader_version);
 	}
 
-	void BlockReflection::submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster)
+	void BlockReflection::submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const
 	{
 		this->submit_pass(render, render_pass, cluster.m_shader_version);
 	}
 
-	void BlockReflection::submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version)
+	void BlockReflection::submit_pass(Render& render, const Pass& render_pass, ShaderVersion& shader_version) const
 	{
 		UNUSED(render); UNUSED(shader_version);
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
-		if(m_atlas.m_size > 0)
+		if(bgfx::isValid(m_atlas.m_color_tex) && m_atlas.m_size > 0)
 			encoder.setTexture(uint8_t(TextureSampler::ReflectionProbe), u_uniform.s_atlas, m_atlas.m_color_tex);
 
 		//upload_reflection_probes(render, to_array(render.m_shot->m_reflection_probes));

@@ -79,7 +79,7 @@ namespace mud
 		{
 #if 0
 			Ray ray = viewer.ray(mouse_event.m_relative);
-			return m_origin.m_world.as<PhysicWorld>().ground_point(ray);
+			return as<PhysicWorld>(m_origin.m_world).ground_point(ray);
 #endif
 			return vec3();
 		}
@@ -137,7 +137,7 @@ namespace mud
 	void PlaceBrush::update(const vec3& position)
 	{
 		UNUSED(position);
-		//Entity& entity = m_creator.create<OLight>().m_entity;
+		//Entity& entity = m_creator.create<OLight>().m_spatial;
 		//entity.set_position(position);
 	}
 
@@ -186,7 +186,7 @@ namespace mud
 			if(filter(position, pos))
 			{
 				//OLight& light = m_creator.create<OLight>();
-				//light.m_entity.set_position(pos);
+				//light.m_spatial.set_position(pos);
 				//m_stroke.push_back(&light);
 			}
 		}
@@ -197,9 +197,9 @@ namespace mud
 		UNUSED(center);
 #if 0
 		for(OLight*& entity : m_stroke)
-			if(entity && this->filter(center, entity->m_entity.m_position))
+			if(entity && this->filter(center, entity->m_spatial.m_position))
 			{
-				entity->m_entity.m_parent->detach(entity->m_entity);
+				entity->m_spatial.m_parent->detach(entity->m_spatial);
 				m_creator.destroy(entity);
 				entity = nullptr;
 			}

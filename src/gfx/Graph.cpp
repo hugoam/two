@@ -176,9 +176,11 @@ namespace gfx
 	Item& item(Gnode& parent, const Model& model, uint32_t flags, Material* material, size_t instances, array<mat4> transforms)
 	{
 		Gnode& self = parent.suba<Gnode>();
+		bool update = (flags & ITEM_NO_UPDATE) == 0;
 		if(!self.m_item)
 		{
 			self.m_item = &create<Item>(*self.m_scene, *self.m_attach, model, flags, material, instances);
+			update = true;
 		}
 		self.m_item->m_model = const_cast<Model*>(&model);
 		self.m_item->m_material = material;
@@ -189,7 +191,7 @@ namespace gfx
 			self.m_item->m_instances.resize(instances);
 			self.m_item->update_instances();
 		}
-		if((flags & ITEM_NO_UPDATE) == 0)
+		if(update)
 		{
 			update_item_aabb(*self.m_item);
 			update_item_lights(*self.m_item);

@@ -1,36 +1,19 @@
 ﻿#pragma once
 
 #include <infra/Vector.h>
-#include <obj/Type.h>
-#include <core/Forward.h>
-#include <core/ECS/ECS.h>
-#include <core/ECS/MappedBuffers.h>
-#include <core/ECS/MappedBufferDense.h>
-#include <core/ECS/MappedBufferSparse.h>
-#include <core/ECS/ComponentBuffer.h>
+#include <proto/Forward.h>
+#include <proto/ECS/ECS.h>
+#include <proto/ECS/MappedBuffers.h>
+#include <proto/ECS/MappedBufferDense.h>
+#include <proto/ECS/MappedBufferSparse.h>
+#include <proto/ECS/ComponentBuffer.h>
 
 #include <memory>
-#include <tuple>
 #include <functional>
 #include <map>
 
-namespace toy
+namespace mud
 {
-	template<class F, class... Types, std::size_t... Indices>
-	void for_each(std::tuple<Types...>& tuple, F func, std::index_sequence<Indices...>)
-	{
-		using expander = int[];
-		(void)expander {
-			0, ((void)func(std::get<Indices>(tuple)), 0)...
-		};
-	}
-
-	template<class F, class... Types>
-	void for_each(std::tuple<Types...>& tuple, F func)
-	{
-		for_each(tuple, func, std::make_index_sequence<sizeof...(Types)>());
-	}
-
 	enum class BufferType
 	{
 		/// Fast to loop, but uses more memory (32KiB per 1024 entities). Use for common components (e.g. position).
@@ -39,470 +22,403 @@ namespace toy
 		Dense,
 	};
 
-	template <class T_Self, class... T_Args>
-	class BufferRegistry
-	{
-	public:
-		std::tuple<T_Args...> m_buffers;
+	template <class T>
+	struct TypedBuffer
+	{};
 
-		void Visit(std::function<void(ComponentBufferBase&)> visit)
-		{
-			for_each(m_buffers, [&](auto& buffer)
-			{
-				visit(buffer);
-			});
-		}
-
-		void VisitMatches(EntityData& entity, std::function<void(ComponentBufferBase&)> visitor)
-		{
-			for_each(m_buffers, [&](auto& buffer)
-			{
-				if(buffer.m_matcher.Matches(entity.m_flags))
-					visitor(buffer);
-			});
-		}
-
-		template <class T>
-		auto& GetBufferSlow()
-		{
-			return std::get<T_Self::buffer_index<T>()>(m_buffers);
-		}
-
-		string GetDebugString(bool detailed = false)
-		{
-			string s = "Registered Component Buffers:\n";
-			for(auto i = 0; i < m_dense_count; i++)
-			{
-				const ComponentBufferBase& matcher = *m_dense_buffers[i];
-				//s += $" {matcher.GetType().GenericTypeArguments[0].Name}";
-				if(detailed)
-				{
-					//	s += $"\n {matcher.GetDebugString(false)}\n";
-				}
-			}
-
-			return s;
-		}
-	};
-
-	template <class T_Buffers>
 	class EntityRegistry
 	{
 	private:
-		T_Buffers m_buffers;
-		//    public TagsManager TagsManager = new TagsManager();
-		 
+		std::vector<std::unique_ptr<ComponentBufferBase>> m_buffers;
+		
 		std::vector<EntityData> m_entities;
-		std::vector<EntIdx> m_available;
+		std::vector<uint32_t> m_available;
 
 	public:
 		EntityRegistry(int capacity = 1 << 10)
+			: m_buffers(64)
 		{
 			m_entities.reserve(capacity);
 		}
 
+		template <class T>
+		auto& buffer()
+		{
+			return static_cast<typename TypedBuffer<T>::type&>(*m_buffers[TypedBuffer<T>::index()]);
+		}
+
+		template <class T>
+		void AddBuffer()
+		{
+			m_buffers[TypedBuffer<T>::index()] = std::make_unique<typename TypedBuffer<T>::type>(TypedBuffer<T>::index());
+		}
+		
 		void UpdateSize()
 		{
-			m_buffers.Visit([&](ComponentBufferBase& buffer)
-			{
-				buffer.SetCapacity(m_entities.size());
-			});
+			for(auto& buffer : m_buffers)
+				if(buffer)
+				{
+					buffer->SetCapacity(m_entities.size());
+				}
 		}
 
-		EntIdx CreateEntity(EntTags tags = 0)
+		uint32_t CreateEntity(EntTags tags = 0)
 		{
+			UNUSED(tags);
 			if(m_available.size() > 0)
 				return vector_pop(m_available);
-			EntIdx id = m_entities.size();
+			uint32_t handle = m_entities.size();
 			m_entities.push_back({});
 			UpdateSize();
-			return id;
+			return handle;
 		}
 
-		void UpdateEntityIndex(EntityData& entityData, EntIdx oldIdx, EntIdx newIdx)
+		void ClearEntity(uint32_t handle, EntityData& entity)
 		{
-			m_buffers.VisitMatches(entityData, [&](ComponentBufferBase& buffer)
-			{
-				buffer.UpdateEntIdx(oldIdx, newIdx);
-			});
+			for(auto& buffer : m_buffers)
+				if(buffer)
+					if((buffer->m_flag & entity.m_flags) != 0)
+					{
+						buffer->RemoveComponent(handle, entity);
+					}
 		}
 
-		void RemoveAllComponents(EntIdx entIdx, EntityData& entityData)
+		void ClearEntity(uint32_t handle)
 		{
-			m_buffers.VisitMatches(entityData, [&](ComponentBufferBase& buffer)
-			{
-				buffer.RemoveComponent(entIdx, entityData);
-			});
+		    EntityData& entity = m_entities[handle];
+			ClearEntity(handle, entity);
+			entity.m_flags = 0;
 		}
 
-		void DeleteEntity(EntIdx id)
+		void DeleteEntity(uint32_t handle)
 		{
-			EntityData& entData = m_entities[id];
-			RemoveAllComponents(entIdx, entData);
-			m_available.push_back(id);
-		}
-
-		// no need to sort entities, we only sort component buffers according on 
-#if 0
-		void UpdateEntityIndices(std::vector<int> mm, std::vector<EntityData> entData)
-		{
-			m_buffers.Visit([&](ComponentBufferBase& buffer)
-			{
-				buffer.UpdateEntitiesIndices(mm, entData);
-			});
-		}
-
-		void SortEntities()
-		{
-			auto moves = SortDataApplyKeysAndGetMoves();
-
-			//todo cache sorting array (GC-less) / non-critical - offline
-
-			UpdateEntityIndices(moves, m_data);
-			// ( ͡~ ͜ʖ ͡°)
-		}
-#endif
-
-#if 0
-		template <class T>
-		void RegisterComponent(BufferType bufferType, int initialSize = 1 << 10)
-		{
-			m_buffers.CreateComponentBuffer<T>(initialSize, bufferType, *this);
-		}
-#endif
-
-		template <class T>
-		void AddComponent(EntIdx id, T component = default)
-		{
-			EntityData& entData = m_entities[id];
-			auto buffer = m_buffers.GetBufferSlow<T>();
-			buffer.AddComponent(id, component, entData);
+			EntityData& entity = m_entities[handle];
+			ClearEntity(handle, entity);
+			m_available.push_back(handle);
 		}
 
 		template <class T>
-		void RemoveComponent(EntIdx id)
+		T& Deref(T& component) { return component; }
+
+		template <class T>
+		T& Deref(T* component) { return *component; }
+
+		template <class T>
+		void AddComponent(uint32_t handle, T component = T())
 		{
-			EntityData& entData = m_entities[id];
-			auto buffer = m_buffers.GetBufferSlow<T>();
-			buffer.RemoveComponent(entIdx, entData);
+			EntityData& entity = m_entities[handle];
+			auto& buffer = this->buffer<T>();
+			buffer.AddComponent(handle, std::move(component), entity);
 		}
 
-		// void RemoveAllComponents(EntIdx id)
-		// {
-		//     EntIdx entIdx = GetIndexFromKey(id);
-		//     ref EntityData entData = ref GetDataFromIndex(entIdx);
-		//     m_buffers.RemoveAllComponents(entIdx, entData.Flags);
-		//     entData.Flags = 0;
-		// }
+		template <class T>
+		void AddPointer(uint32_t handle, T* component)
+		{
+			EntityData& entity = m_entities[handle];
+			auto& buffer = this->buffer<T>();
+			buffer.AddComponent(handle, component, entity);
+		}
+
+		template <class T>
+		void RemoveComponent(uint32_t handle)
+		{
+			EntityData& entity = m_entities[handle];
+			auto& buffer = this->buffer<T>();
+			buffer.RemoveComponent(handle, entity);
+		}
+
+		template <class T>
+		bool HasComponent(uint32_t handle)
+		{
+			auto& buffer = this->buffer<T>();
+			EntityData& entity = m_entities[handle];
+			return (entity.m_flags & buffer.m_flag) != 0;
+		}
+
+		template <class T>
+		T& GetComponent(uint32_t handle)
+		{
+			auto& buffer = this->buffer<T>();
+			int index = buffer.m_indices[handle];
+			return Deref(buffer.m_data[index]);
+		}
 
 		template <class T>
 		void SortComponents()
 		{
-			m_buffers.GetBufferSlow<T>().SortComponents();
+			this->buffer<T>().SortComponents();
 		}
 
-		// public void StreamlineComponents<TModel, TStream>() where TModel : struct  where TStream : struct
-		// {
-		//     auto modelBuf = m_buffers.GetBufferSlow<TModel>();
-		//     auto bufToStreamline = m_buffers.GetBufferSlow<TStream>();
-		//     if (modelBuf.m_sparse && bufToStreamline.m_sparse)
-		//     {
-		//         auto castBuf = (ComponentBufferSparse<TModel>) modelBuf;
-		//         auto castBufTS = (ComponentBufferSparse<TStream>) bufToStreamline;
-		//
-		//         castBufTS.Streamline(castBuf.__GetBuffers().entIdx2i);
-		//     }
-		//     else
-		//     {
-		//         throw new NotImplementedException("Streamlining dense buffers is not currently supported - it probably never makes sense");
-		//     }
-		// }
-
-		//#region Debug
-
-#if 0
-		string GetEntityDebugData(EntIdx id)
+		template <class T0, class T_Function>
+		void Loop(T_Function action)
 		{
-			/*return $"Entity Debug Data: UID: {id}, Idx: {GetIndexFromKey(id)}\n" +
-				$" FlagsD:{Convert.ToString((long)GetDataFromKey(id).m_flags, 2).PadLeft(32, '0').Replace('0', '_').Replace('1', '■')}\n" +
-				$" FlagsS:{Convert.ToString((long)GetDataFromKey(id).m_flags, 2).PadLeft(32, '0').Replace('0', '_').Replace('1', '■')}\n" +
-				$" m_tags:  {Convert.ToString((long)GetDataFromKey(id).m_tags, 2).PadLeft(32, '0').Replace('0', '_').Replace('1', '■')}\n" +
-				$" Components: {string.Join(", ", m_buffers.MatchersFromFlagsSlow(GetDataFromKey(id)).Select(x => x.GetType().GenericTypeArguments[0].Name))}"
-				;*/
-		}
-
-		string GetDebugString(bool detailed = false) override
-		{
-			string s = "";
-			//	$"Entity count: {m_count}, UID Dict Entries: {KeysToIndicesDebug.m_count}, Component Buffers: {m_buffers.m_dense_count}";
-			if(detailed)
+			auto& b0 = this->buffer<T0>();
+			size_t last = b0.m_data.size() - 1;
+			auto& handles = b0.m_keys;
+			auto& components = b0.m_data;
+			for(int i = last; i >= 0; i--)
 			{
-				s += "\n";
-				for(auto pair : KeysToIndicesDebug)
-					s += GetEntityDebugData(pair.Key) + "\n";
-				s += "\n";
+				uint32_t handle = handles[i];
+				T0& component0 = Deref(components[i]);
+				action(handle, component0);
 			}
-			return s;
 		}
 
-		std::vector<ComponentBufferBase*> GetDebugComponentBufferBases()
+		template <class T0, class T1, class T_Function>
+		void Loop(T_Function action)
 		{
-			return m_buffers.MatchersFromFlagsSlow(EntityData(UINT64_MAX, UINT64_MAX));
-		}
+			auto& b0 = this->buffer<T0>();
+			auto& b1 = this->buffer<T1>();
+			size_t last = b0.m_data.size() - 1;
+			auto& handles = b0.m_keys;
+			auto& components = b0.m_data;
+			EntFlags flags = b1.m_flag;
 
-		using DebugLoopDelegate = std::function<void(int entIdx, std::map<ComponentBufferBase*, int> buffersIndices)>;
-		void DebugLoop(DebugLoopDelegate func, std::vector<string> compNames) //no variadic templates so we use a hack
-		{
-			std::vector<ComponentBufferBase> compBuffers = std::vector<ComponentBufferBase>(compNames.size());
-
-			for(auto i = 0; i < compNames.size(); i++)
+			for(int i = last; i >= 0; i--)
 			{
-				string compName = compNames[i];
-				auto compType = Type.GetType(compName);
-				auto buffer = m_buffers.GetType().GetMethod("GetBufferSlow").MakeGenericMethod(compType).Invoke(m_buffers, new object[0]);
-				compBuffers[i] = (ComponentBufferBase)buffer;
-			}
+				uint32_t handle = handles[i];
+				EntityData& entity = m_entities[handle];
 
-			for(auto i = compBuffers[0].ComponentCount - 1; i >= 0; i--)
-			{
-				auto comp = compBuffers[0].GetDebugUntypedBuffers();
-				EntIdx entIdx = comp.i2k[i];
-				EntityData& entityData = m_entities[entIdx];
-
-				auto indsDict = std::map<ComponentBufferBase*, int>();
-				indsDict[&compBuffers[0]] = i;
-
-				for(int j = 1; j < compBuffers.size(); j++)
+				if((entity.m_flags & flags) == flags)
 				{
-					if(compBuffers[j].HasComponentSlow(entityData))
-					{
-						int indexInBuf = compBuffers[j].GetDebugIdxFromKey(entIdx);
-						indsDict[&compBuffers[j]] = indexInBuf;
-					}
-					else
-						break;
+					T0& component0 = Deref(components[i]);
+					int index1 = b1.m_indices[handle];
+					T1& component1 = Deref(b1.m_data[index1]);
+					action(handle, component0, component1);
+				}
+			}
+		}
 
-					if(j == compBuffers.size() - 1)
-					{
-						func(entIdx, indsDict);
-					}
+
+		template <class T0, class T1, class T2, class T_Function>
+		void Loop(T_Function action)
+		{
+			auto& b0 = this->buffer<T0>();
+			auto& b1 = this->buffer<T1>();
+			auto& b2 = this->buffer<T2>();
+			size_t last = b0.m_data.size() - 1;
+			auto& handles = b0.m_keys;
+			auto& components = b0.m_data;
+			EntFlags flags = b1.m_flag | b2.m_flag;
+
+			for(int i = last; i >= 0; i--)
+			{
+				uint32_t handle = handles[i];;
+				EntityData& entity = m_entities[handle];
+
+				if((entity.m_flags & flags) == flags)
+				{
+					T0& component0 = Deref(components[i]);
+					int index1 = b1.m_indices[handle];
+					T1& component1 = Deref(b1.m_data[index1]);
+					int index2 = b2.m_indices[handle];
+					T2& component2 = Deref(b2.m_data[index2]);
+					action(handle, component0, component1, component2);
+				}
+			}
+		}
+
+		template <class T0, class T1, class T2, class T3, class T_Function>
+		void Loop(T_Function action)
+		{
+			auto& b0 = this->buffer<T0>();
+			auto& b1 = this->buffer<T1>();
+			auto& b2 = this->buffer<T2>();
+			auto& b3 = this->buffer<T3>();
+			size_t last = b0.m_data.size() - 1;
+			auto& handles = b0.m_keys;
+			auto& components = b0.m_data;
+
+			EntFlags flags = b1.m_flag | b2.m_flag | b3.m_flag;
+
+			for(int i = last; i >= 0; i--)
+			{
+				uint32_t handle = handles[i];
+				EntityData& entity = m_entities[handle];
+
+				if((entity.m_flags & flags) == flags)
+				{
+					T0& component0 = Deref(components[i]);
+					int index1 = b1.m_indices[handle];
+					T1& component1 = Deref(b1.m_data[index1]);
+					int index2 = b2.m_indices[handle];
+					T2& component2 = Deref(b2.m_data[index2]);
+					int index3 = b3.m_indices[handle];
+					T3& component3 = Deref(b3.m_data[index3]);
+					action(handle, component0, component1, component2, component3);
+				}
+			}
+		}
+
+#ifdef MUD_ECS_SLICES
+		std::vector<EntFlags> prototypes(EntFlags components);
+
+		template <class T0, class T_Function>
+		void LoopFast(T_Function action)
+		{
+			EntFlags prototype = (1 << TypedBuffer<T0>::index());
+			auto prototypes = this->prototypes(prototype);
+			auto& buffer0 = this->buffer<T0>();
+			
+			for(auto& prototype : prototypes)
+			{
+				EntitySlice slice = this->slice(prototype);
+				EntitySlice slice0 = buffer0.slice(prototype);
+				for(size_t i = ; i < slice0.m_end; ++i)
+				{
+					uint32_t entity = m_entities[slice.m_begin + i];
+					T0& component0 = Deref(buffer0.m_data[slice0.m_begin + i]);
+					action(handle, component0);
+				}
+			}
+		}
+
+		template <class T0, class T1, class T_Function>
+		void LoopFast(T_Function action)
+		{
+			EntFlags prototype = (1 << TypedBuffer<T0>::index()) | (1 << TypedBuffer<T1>::index());
+			auto prototypes = this->prototypes(prototype);
+			auto& buffer0 = this->buffer<T0>();
+			auto& buffer1 = this->buffer<T1>();
+
+			for(auto& prototype : prototypes)
+			{
+				EntitySlice slice = this->slice(prototype);
+				EntitySlice slice0 = buffer0.slice(prototype);
+				EntitySlice slice1 = buffer1.slice(prototype);
+				for(size_t i = ; i < slice0.m_end; ++i)
+				{
+					uint32_t entity = m_entities[slice.m_begin + i];
+					T0& component0 = Deref(buffer0.m_data[slice0.m_begin + i]);
+					T1& component1 = Deref(buffer1.m_data[slice1.m_begin + i]);
+					action(handle, component0, component1);
+				}
+			}
+		}
+
+
+		template <class T0, class T1, class T2, class T_Function>
+		void LoopFast(T_Function action)
+		{
+			EntFlags prototype = (1 << TypedBuffer<T0>::index()) | (1 << TypedBuffer<T1>::index()) | (1 << TypedBuffer<T2>::index());
+			auto prototypes = this->prototypes(prototype);
+			auto& buffer0 = this->buffer<T0>();
+			auto& buffer1 = this->buffer<T1>();
+			auto& buffer2 = this->buffer<T2>();
+
+			for(auto& prototype : prototypes)
+			{
+				EntitySlice slice = this->slice(prototype);
+				EntitySlice slice0 = buffer0.slice(prototype);
+				EntitySlice slice1 = buffer1.slice(prototype);
+				EntitySlice slice2 = buffer2.slice(prototype);
+				for(size_t i = 0 ; i < slice0.m_end; ++i)
+				{
+					uint32_t entity = m_entities[slice.m_begin + i];
+					T0& component0 = Deref(buffer0.m_data[slice0.m_begin + i]);
+					T1& component1 = Deref(buffer1.m_data[slice1.m_begin + i]);
+					T2& component2 = Deref(buffer2.m_data[slice2.m_begin + i]);
+					action(handle, component0, component1);
+				}
+			}
+		}
+
+		template <class T0, class T1, class T2, class T3, class T_Function>
+		void LoopFast(T_Function action)
+		{
+			EntFlags prototype = (1 << TypedBuffer<T0>::index()) | (1 << TypedBuffer<T1>::index()) | (1 << TypedBuffer<T2>::index()) | (1 << TypedBuffer<T3>::index());
+			auto prototypes = this->prototypes(prototype);
+			auto& buffer0 = this->buffer<T0>();
+			auto& buffer1 = this->buffer<T1>();
+			auto& buffer2 = this->buffer<T2>();
+			auto& buffer3 = this->buffer<T3>();
+
+			for(auto& prototype : prototypes)
+			{
+				EntitySlice slice = this->slice(prototype);
+				EntitySlice slice0 = buffer0.slice(prototype);
+				EntitySlice slice1 = buffer1.slice(prototype);
+				EntitySlice slice2 = buffer2.slice(prototype);
+				EntitySlice slice3 = buffer3.slice(prototype);
+				for(size_t i = 0; i < slice0.m_end; ++i)
+				{
+					uint32_t entity = m_entities[slice.m_begin + i];
+					T0& component0 = Deref(buffer0.m_data[slice0.m_begin + i]);
+					T1& component1 = Deref(buffer1.m_data[slice1.m_begin + i]);
+					T2& component2 = Deref(buffer2.m_data[slice2.m_begin + i]);
+					T3& component3 = Deref(buffer3.m_data[slice3.m_begin + i]);
+					action(handle, component0, component1);
 				}
 			}
 		}
 #endif
-		//#endregion
 
-		//TODO filter loops by tag too
-		//TODO in loop, sort buffers by entries count NOT VIABLE
+	};
 
-		//TODO signatures:
-		//            * prefiltertags, action
-		//              prefiltertags, action, postfilterexcludetags
-		//              prefiltertags, action, postfilterexcludecomponents
-		//              prefiltertags, action, postfilterexcludetags, postfilterexcludecomponents
-		//              action, postfilterexcludetags, postfilterexcludecomponents
-		//              action, postfilterexcludecomponents
+	export_ extern MUD_PROTO_EXPORT EntityRegistry s_registry;
 
-		enum CollectionType
-		{
-			Dictionary, Array
-		};
+	struct MUD_PROTO_EXPORT Entity
+	{
+		Entity() { m_handle = s_registry.CreateEntity(); }
+		~Entity() { s_registry.DeleteEntity(m_handle); }
 
-		template <class T0>
-		using ProcessComponent0 = std::function<void(int entIdx, T0& component0)>;
+		uint32_t m_handle;
+	};
 
-		template <class T0, class T1>
-		using ProcessComponent1 = std::function<void(int entIdx, T0& component0, T1& component1)>;
+	export_ template <class T>
+	inline bool is(Entity& entity) { return s_registry.HasComponent<T>(entity.m_handle); }
 
-		template <class T0, class T1, class T2>
-		using ProcessComponent2 = std::function<void(int entIdx, T0& component0, T1& component1, T2& component2)>;
+	export_ template <class T>
+	inline T& as(Entity& entity) { return s_registry.GetComponent<T>(entity.m_handle); }
 
-		template <class T0, class T1, class T2, class T3>
-		using ProcessComponent3 = std::function<void(int entIdx, T0& component0, T1& component1, T2& component2, T3& component3)>;
+	export_ template <class T>
+	inline T* try_as(Entity& entity) { if(is<T>(entity)) return &as<T>(entity); else return nullptr; }
+	
+	export_ template <class T>
+	inline T* try_as(Entity* entity) { if(entity && is<T>(*entity)) return &as<T>(*entity); else return nullptr; }
 
-#if 0
-		struct CustomLoopReturn {
-			std::vector<EntityData> entityData;
-			std::vector<EntIdx> buf0Idx2EntIdx; T0[] buf0Data; object EntIdx2buf0Idx; CollectionType EntIdx2buf0IdxType;
-			std::vector<EntIdx> buf1Idx2EntIdx; T1[] buf1Data; object EntIdx2buf1Idx; CollectionType EntIdx2buf1IdxType;
-		};
-		public
-			(
-				
-				)
-			CustomLoop<T0, T1>()
-		{
-			throw new NotImplementedException();
-		}
-#endif
+	template <class T>
+	struct ComponentHandle
+	{
+		ComponentHandle() {}
+		ComponentHandle(uint32_t handle) : m_handle(handle) {}
 
-#if 0
-		template <class T0, class T1>
-		void Loop(EntTags preFilterTags, ProcessComponent1<T0, T1> loopAction)
-		{
-			ushort typeMask = 0;
+		explicit operator bool() const { return m_handle != UINT32_MAX; }
 
-			auto t0Base = m_buffers.GetBufferSlow<T0>();
-			if(t0Base.m_sparse) typeMask |= 1 << 0;
+		operator T&() { return s_registry.GetComponent<T>(m_handle); }
+		operator const T&() const { return s_registry.GetComponent<T>(m_handle); }
+		T* operator->() { return &((T&)*this); }
+		T& operator*() { return *this; }
+		const T* operator->() const { return &((const T&)*this); }
+		const T& operator*() const { return *this; }
 
-			auto t1Base = m_buffers.GetBufferSlow<T1>();
-			if(t1Base.m_sparse) typeMask |= 1 << 1;
+		bool operator==(const ComponentHandle<T>& other) const { return m_handle == other.m_handle; };
 
-			switch(typeMask)
-			{
-			case 0b_0000_0000_0000_0000:
-				Loop00(preFilterTags, loopAction,
-					(ComponentBufferDense<T0>)t0Base,
-					(ComponentBufferDense<T1>)t1Base
-				); return;
-			}
+		uint32_t m_handle = UINT32_MAX;
+	};
 
-		}
+	template <class T>
+	struct Component
+	{
+		template <class... T_Args>
+		Component(uint32_t handle, T_Args&&... args) : m_handle(handle) { s_registry.AddComponent<T>(handle, T(std::forward<T_Args>(args)...)); }
 
-		template <class T0, class T2>
-		void Loop00<T1, T2>(EntTags preFilterTags,
-			ProcessComponent<T1, T2> loopAction,
-			ComponentBufferDense<T1> t1B, ComponentBufferDense<T2> t2B
-			)
-		where T1 : struct where T2 : struct
-		{
-			auto compBuffers = t1B.__GetBuffers();
-			auto compIdx2EntIdx = compBuffers.indices_to_keys;
-			auto components = compBuffers.data;
+		template <class... T_Args>
+		Component(const Entity& entity, T_Args&&... args) : m_handle(entity.m_handle) { s_registry.AddComponent<T>(entity.m_handle, T(std::forward<T_Args>(args)...)); }
 
-			auto matcher2Flag = t2B.m_matcher.m_flag;
-			auto matcher2Buffers = t2B.__GetBuffers();
-			for(auto i = components.size() - 1; i >= 0; i--)
-			{
-				T1& component = components[i];
-				EntIdx entIdx = compIdx2EntIdx[i];
-				EntityData& entityData = m_entities[entIdx];
-				if((entityData.m_flags & matcher2Flag) != 0)
-				{
-					int indexInMatcher2 = matcher2Buffers.entIdx2i[entIdx];
-					T2& component2 = matcher2Buffers.data[indexInMatcher2];
-					loopAction(entIdx, component, component2);
-				}
-			}
-		}
-#endif
+		~Component() { s_registry.RemoveComponent<T>(m_handle); }
 
-		using ushort = uint16_t;
+		operator ComponentHandle<T>() const { return { m_handle }; }
 
-		template <class T0>
-		void Loop(ProcessComponent0<T0> loopAction)
-		{
-			auto t0Base = m_buffers.GetBufferSlow<T0>();
-			auto compBuffers = t0B.__GetBuffers();
-			auto lastCompIndex = t0B.ComponentCount - 1;
-			auto compIdx2EntIdx = compBuffers.indices_to_keys;
-			auto components = compBuffers.data;
-			for(auto i = lastCompIndex; i >= 0; i--)
-			{
-				T0& component0 = components[i];
-				EntIdx entIdx = compIdx2EntIdx[i];
-				EntityData& entityData = m_entities[entIdx];
-				loopAction(entIdx, component0);
-			}
-		}
+		operator T&() { return s_registry.GetComponent<T>(m_handle); }
+		operator const T&() const { return s_registry.GetComponent<T>(m_handle); }
+		T* operator->() { return &((T&)*this); }
+		T& operator*() { return *this; }
+		const T* operator->() const { return &((const T&)*this); }
+		const T& operator*() const { return *this; }
 
-		template <class T0, class T1>
-		void Loop(ProcessComponent1<T0, T1> loopAction)
-		{
-			auto& t0B = m_buffers.GetBufferSlow<T0>();
-			auto& t1B = m_buffers.GetBufferSlow<T1>();
-			auto compBuffers = t0B.__GetBuffers();
-			auto lastCompIndex = t0B.ComponentCount() - 1;
-			auto compIdx2EntIdx = compBuffers.indices_to_keys;
-			auto components = compBuffers.data;
-			auto matcher1Flag = t1B.m_matcher.m_flag;
-			auto matcher1Buffers = t1B.__GetBuffers();
-			for(auto i = lastCompIndex; i >= 0; i--)
-			{
-				EntIdx entIdx = compIdx2EntIdx[i];
-				EntityData& entityData = m_entities[entIdx];
+		bool operator==(const Component<T>& other) const { return m_handle == other.m_handle; };
 
-				if((entityData.m_flags & matcher1Flag) != 0)
-				{
-					T0& component0 = components[i];
-					int indexInMatcher1 = matcher1Buffers.keys_to_indices[entIdx];
-					T1& component1 = matcher1Buffers.data[indexInMatcher1];
-					loopAction(entIdx, component0, component1);
-				}
-			}
-		}
-
-
-		template <class T0, class T1, class T2>
-		void Loop(ProcessComponent2<T0, T1, T2> loopAction)
-		{
-			auto t0Base = m_buffers.GetBufferSlow<T0>();
-			auto t1Base = m_buffers.GetBufferSlow<T1>();
-			auto t2Base = m_buffers.GetBufferSlow<T2>();
-			auto compBuffers = t0B.__GetBuffers();
-			auto lastCompIndex = t0B.ComponentCount() - 1;
-			auto compIdx2EntIdx = compBuffers.indices_to_keys;
-			auto components = compBuffers.data;
-			auto matcher1Flag = t1B.m_matcher.m_flag;
-			auto matcher1Buffers = t1B.__GetBuffers();
-			auto matcher2Flag = t2B.m_matcher.m_flag;
-			auto matcher2Buffers = t2B.__GetBuffers();
-			for(auto i = lastCompIndex; i >= 0; i--)
-			{
-				EntIdx entIdx = compIdx2EntIdx[i];
-				EntityData& entityData = m_entities[entIdx];
-
-				if((entityData.m_flags & matcher1Flag) != 0
-				&& (entityData.m_flags & matcher2Flag) != 0)
-				{
-					T0& component0 = components[i];
-					int indexInMatcher1 = matcher1Buffers.keys_to_indices[entIdx];
-					T1& component1 = matcher1Buffers.data[indexInMatcher1];
-					int indexInMatcher2 = matcher2Buffers.keys_to_indices[entIdx];
-					T2& component2 = matcher2Buffers.data[indexInMatcher2];
-					loopAction(entIdx, component0, component1, component2);
-				}
-			}
-		}
-
-		template <class T0, class T1, class T2, class T3>
-		void Loop(ProcessComponent3<T0, T1, T2, T3> loopAction)
-		{
-			auto t0Base = m_buffers.GetBufferSlow<T0>();
-			auto t1Base = m_buffers.GetBufferSlow<T1>();
-			auto t2Base = m_buffers.GetBufferSlow<T2>();
-			auto t3Base = m_buffers.GetBufferSlow<T3>();
-			auto compBuffers = t0B.__GetBuffers();
-			auto lastCompIndex = t0B.ComponentCount() - 1;
-			auto compIdx2EntIdx = compBuffers.indices_to_keys;
-			auto components = compBuffers.data;
-
-			auto matcher1Flag = t1B.m_matcher.m_flag;
-			auto matcher1Buffers = t1B.__GetBuffers();
-			auto matcher2Flag = t2B.m_matcher.m_flag;
-			auto matcher2Buffers = t2B.__GetBuffers();
-			auto matcher3Flag = t3B.m_matcher.m_flag;
-			auto matcher3Buffers = t3B.__GetBuffers();
-
-			for(auto i = lastCompIndex; i >= 0; i--)
-			{
-				EntIdx entIdx = compIdx2EntIdx[i];
-				EntityData& entityData = m_entities[entIdx];
-
-				if((entityData.m_flags & matcher1Flag) != 0
-				&& (entityData.m_flags & matcher2Flag) != 0
-				&& (entityData.m_flags & matcher3Flag) != 0)
-				{
-					T0& component0 = components[i];
-					int indexInMatcher1 = matcher1Buffers.keys_to_indices[entIdx];
-					T1& component1 = matcher1Buffers.data[indexInMatcher1];
-					int indexInMatcher2 = matcher2Buffers.keys_to_indices[entIdx];
-					T2& component2 = matcher2Buffers.data[indexInMatcher2];
-					int indexInMatcher3 = matcher3Buffers.keys_to_indices[entIdx];
-					T3& component3 = matcher3Buffers.data[indexInMatcher3];
-					loopAction(entIdx, component0, component1, component2, component3);
-				}
-			}
-		}
+		uint32_t m_handle;
 	};
 }

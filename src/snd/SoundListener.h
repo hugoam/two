@@ -4,7 +4,6 @@
 
 #pragma once
 
-/* toy */
 #include <math/Vec.h>
 #include <snd/Forward.h>
 

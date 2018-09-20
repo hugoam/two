@@ -10,6 +10,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <infra/JobLoop.h>
 #include <gfx/Types.h>
 #include <gfx/Renderer.h>
 #include <gfx/Pipeline.h>
@@ -28,8 +29,6 @@ module mud.gfx;
 #include <gfx/Filter.h>
 #endif
 
-//#define MUD_GFX_THREADED
-//#define MUD_ONE_THREAD
 #define MUD_GFX_JOBS
 
 namespace mud
@@ -84,7 +83,7 @@ namespace mud
 		render_pass.m_index = m_pass_index++;
 		render_pass.m_sub_pass = m_sub_pass_index++;
 
-#ifndef MUD_THREADED
+#ifndef MUD_GFX_JOBS
 		render_pass.m_encoder = bgfx::begin();
 #endif
 		//printf("INFO: render pass %s\n", name.c_str());
@@ -294,19 +293,21 @@ namespace mud
 		return b;
 	}
 
-	void DrawPass::submit_draw_elements(bgfx::Encoder& encoder, Render& render, Pass& render_pass, size_t first, size_t count) const
+	void DrawPass::submit_draw_elements(bgfx::Encoder& encoder, Render& render, Pass& pass, size_t first, size_t count) const
 	{
-		if(count == 0)
-			int i = 0;
+		//printf("submit_draw_elements %i to %i\n", int(first), int(first + count));
+
+		Pass render_pass = pass;
+		render_pass.m_encoder = &encoder;
 
 		for(size_t i = first; i < first + count; ++i)
 		{
 			DrawElement element = m_impl->m_draw_elements[i];
 
-			//for(DrawBlock* block : m_impl->m_draw_blocks)
-			//	block->submit_gfx_element(render, render_pass, element);
-			//
-			//this->submit_draw_element(render_pass, element);
+			for(DrawBlock* block : m_impl->m_draw_blocks)
+				block->submit_gfx_element(render, render_pass, element);
+			
+			this->submit_draw_element(render_pass, element);
 
 			element.m_shader_version.set_option(0, INSTANCING, !element.m_item->m_instances.empty());
 			element.m_shader_version.set_option(0, BILLBOARD, element.m_item->m_flags & ITEM_BILLBOARD);
@@ -348,39 +349,16 @@ namespace mud
 			this->next_draw_pass(render, render_pass);
 			render.m_viewport.render_pass(m_name, render_pass);
 
-#if 0
-			//for(size_t i = 0; i < 4; ++i)
-			{
-				ftl::AtomicCounter counter(m_gfx_system.m_job_system);
-				m_gfx_system.m_job_system->AddTask({ [](JobSystem* system, void* arg) {}, this }, &counter);
-				m_gfx_system.m_job_system->WaitForCounter(&counter, 0, true);
-			}
-#endif
-
 #ifdef MUD_GFX_JOBS
-			size_t elements = m_impl->m_draw_elements.size() / m_gfx_system.m_num_encoders;
-			size_t remainder = m_impl->m_draw_elements.size() % m_gfx_system.m_num_encoders;
-
-			size_t start = 0;
-
-			JobSystem& js = *m_gfx_system.m_job_system;
-
-			auto parent = js.createJob();
-
-			auto submit = [&](bgfx::Encoder& encoder, size_t start, size_t count)
+			auto submit = [&](JobSystem& js, Job* job, size_t start, size_t count)
 			{
+				bgfx::Encoder& encoder = *m_gfx_system.m_encoders[js.thread()];
 				this->submit_draw_elements(encoder, render, render_pass, start, count);
 			};
 
-			for(size_t i = 0; i < m_gfx_system.m_num_encoders; ++i)
-			{
-				size_t count = i == 0 ? remainder + elements : elements;
-				if(count > 0)
-					js.run(jobs::createJob(js, parent, std::cref(submit), std::ref(*m_gfx_system.m_encoders[i]), start, count));
-				start += count;
-			}
-
-			js.runAndWait(parent);
+			JobSystem& js = *m_gfx_system.m_job_system;
+			Job* job = jobs<16>(js, nullptr, 0, m_impl->m_draw_elements.size(), submit);
+			js.complete(job);
 #else
 			bgfx::Encoder& encoder = *bgfx::begin();
 			this->submit_draw_elements(encoder, render, render_pass, 0, m_impl->m_draw_elements.size());

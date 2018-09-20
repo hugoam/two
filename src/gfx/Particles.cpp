@@ -367,7 +367,7 @@ namespace mud
 	void PassParticles::submit_render_pass(Render& render)
 	{
 		Pass particle_pass = render.next_pass("particles");
-		bgfx::Encoder& encoder = *particle_pass.m_encoder;
+		bgfx::Encoder& encoder = *bgfx::begin();// *particle_pass.m_encoder;
 
 		render.m_scene.m_particle_system->update(render.m_frame.m_delta_time); // * timeScale
 		render.m_scene.m_particle_system->render(encoder, particle_pass.m_index, render.m_camera.m_transform, render.m_camera.m_eye);

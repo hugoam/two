@@ -96,7 +96,7 @@ namespace mud
 		std::vector<Member*> m_deep_members;
 		std::vector<Method*> m_deep_methods;
 
-		// Complex
+		// Entity
 		std::vector<Type*> m_complexes;
 
 		// Sequence

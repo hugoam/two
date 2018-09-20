@@ -4,7 +4,6 @@
 
 #pragma once
 
-/* toy */
 #include <snd/Forward.h>
 
 namespace mud

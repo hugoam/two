@@ -42,22 +42,22 @@ namespace mud
 	public:
 		BlockLight(GfxSystem& gfx_system, BlockShadow& block_shadow);
 
-		virtual void init_gfx_block() final;
+		void init_gfx_block() final;
 
-		virtual void begin_gfx_block(Render& render) final;
-		virtual void submit_gfx_block(Render& render) final;
+		void begin_gfx_block(Render& render) final;
+		void submit_gfx_block(Render& render) final;
 
-		virtual void begin_gfx_pass(Render& render) final;
-		virtual void submit_gfx_element(Render& render, Pass& render_pass, DrawElement& element) final;
-		virtual void submit_gfx_cluster(Render& render, Pass& render_pass, DrawCluster& cluster) final;
+		void begin_gfx_pass(Render& render) final;
+		void submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const final;
+		void submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const final;
 
-		void submit_pass(Render& render, Pass& render_pass, ShaderVersion& shader_version, array<Light*> lights);
+		void submit_pass(Render& render, const Pass& render_pass, ShaderVersion& shader_version, array<Light*> lights) const;
 
 		void update_lights(Render& render, array<Light*> lights, array<LightShadow> shadows);
 
-		void upload_environment(Render& render, Pass& render_pass, Environment* environment) const;
-		void upload_fog(Render& render, Pass& render_pass, Fog& fog) const;
-		void upload_lights(Render& render, Pass& render_pass) const;
+		void upload_environment(Render& render, const Pass& render_pass, Environment* environment) const;
+		void upload_fog(Render& render, const Pass& render_pass, Fog& fog) const;
+		void upload_lights(Render& render, const Pass& render_pass) const;
 		
 		BlockShadow& m_block_shadow;
 

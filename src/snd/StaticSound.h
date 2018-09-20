@@ -4,7 +4,6 @@
 
 #pragma once
 
-/* toy */
 #include <snd/Sound.h>
 #include <snd/SharedBuffer.h>
 

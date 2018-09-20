@@ -36,7 +36,7 @@ namespace mud
 		uint16_t m_size = 0;
 		uint16_t m_subdiv = 0;
 
-		bgfx::TextureHandle m_color_tex;
+		bgfx::TextureHandle m_color_tex = BGFX_INVALID_HANDLE;
 
 		vec4 probe_rect(ReflectionProbe& probe);
 		uvec4 render_update(Render& render, ReflectionProbe& probe);
