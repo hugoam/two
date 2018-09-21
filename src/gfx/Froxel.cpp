@@ -312,18 +312,18 @@ namespace mud
 
 		//SYSTRACE_CALL();
 
-		// convert froxel data from N groups of M bits to LightRecord::bitset, so we can
+		// convert froxel data from N groups of M bits to LightRecord::Lights, so we can
 		// easily compare adjacent froxels, for compaction. The conversion loops below get
 		// inlined and vectorized in release builds.
 
 		// keep these two loops separate, it helps the compiler a lot
-		LightRecord::bitset spot_lights;
+		LightRecord::Lights spot_lights;
 
-		using container_type = LightRecord::bitset::container_type;
+		using container_type = LightRecord::Lights::container_type;
 		constexpr size_t r = sizeof(container_type) / sizeof(LightGroupType);
 
 #ifndef USE_STD_BITSET
-		for(size_t i = 0; i < LightRecord::bitset::WORLD_COUNT; i++)
+		for(size_t i = 0; i < LightRecord::Lights::WORLD_COUNT; i++)
 		{
 			container_type b = m_froxel_sharded_data[i * r][0];
 			for(size_t k = 0; k < r; k++)
@@ -334,7 +334,7 @@ namespace mud
 		// this gets very well vectorized...
 		for(size_t j = 1, jc = FROXEL_BUFFER_ENTRY_COUNT_MAX; j < jc; j++)
 		{
-			for(size_t i = 0; i < LightRecord::bitset::WORLD_COUNT; i++)
+			for(size_t i = 0; i < LightRecord::Lights::WORLD_COUNT; i++)
 			{
 				container_type b = m_froxel_sharded_data[i * r][j];
 				for(size_t k = 0; k < r; k++)

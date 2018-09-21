@@ -41,13 +41,16 @@ namespace mud
 			return i - 1;
 		};
 
-		if(left >= right)
-			return;
+		//if(left >= right)
+		//	return;
 
 		size_t part = partition(keys, values, indices, greater, left, right);
-		printf("quicksort part %i left %i right %i\n", int(part), int(left), int(right));
-		quicksort(keys, values, indices, greater, left, part - 1);
-		quicksort(keys, values, indices, greater, part + 1, right);
+		//printf("quicksort part %i left %i right %i\n", int(part), int(left), int(right));
+
+		if(int(left) < int(part) - 1)
+			quicksort(keys, values, indices, greater, left, part - 1);
+		if(part + 1 < right)
+			quicksort(keys, values, indices, greater, part + 1, right);
 	}
 
 	template <class T_Key, class T_Value, class T_Indices, class T_Greater>

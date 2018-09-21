@@ -132,11 +132,11 @@ namespace mud
 		struct LightRecord
 		{
 #ifndef USE_STD_BITSET
-			using bitset = bitset<uint64_t, (CONFIG_MAX_LIGHT_COUNT + 63) / 64>;
+			using Lights = bitset<uint64_t, (CONFIG_MAX_LIGHT_COUNT + 63) / 64>;
 #else
-			using bitset = std::bitset<CONFIG_MAX_LIGHT_COUNT>;
+			using Lights = std::bitset<CONFIG_MAX_LIGHT_COUNT>;
 #endif
-			bitset lights;
+			Lights lights;
 		};
 
 		struct LightParams
