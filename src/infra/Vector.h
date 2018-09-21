@@ -249,8 +249,8 @@ namespace mud
 		using propagate_on_container_move_assignment = std::true_type;
 		using is_always_equal = std::true_type;
 
-		template <typename T>
-		struct rebind { using other = STLAlignedAllocator<T>; };
+		template <typename U>
+		struct rebind { using other = STLAlignedAllocator<U>; };
 
 	public:
 		inline STLAlignedAllocator() noexcept = default;
