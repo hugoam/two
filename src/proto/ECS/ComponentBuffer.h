@@ -15,6 +15,8 @@ namespace mud
 
 		virtual void SetCapacity(size_t capacity) = 0;
 
+		virtual void SortComponents(const std::vector<EntityData>& entities) = 0;
+		virtual void SortComponents() = 0;
 		virtual void RemoveComponent(uint32_t handle, EntityData& entity) = 0;
 	};
 
@@ -45,13 +47,29 @@ namespace mud
 			entity.m_flags |= m_flag;
 		}
 
-		void SortPrototypes(const std::vector<EntityData>& entities)
+		void UpdateSlices(const std::vector<EntityData>& entities)
 		{
-			auto compare = [&](uint32_t a, uint32_t b) { return entities[a].m_flags < entities[b].m_flags; };
-			//  quicksort(m_keys, m_data, m_indices);
+			m_slices.clear();
+
+			if(m_keys.empty()) return;
+
+			EntitySlice slice = { entities[m_keys[0]].m_flags, 0, 0 };
+			for(size_t i = 0; i < m_keys.size(); ++i)
+				if(entities[m_keys[i]].m_flags != slice.m_prototype)
+				{
+					m_slices.push_back({ slice.m_prototype, slice.m_begin, i });
+					slice = { entities[m_keys[i]].m_flags, i, 0 };
+				}
 		}
 
-		void SortComponents()
+		virtual void SortComponents(const std::vector<EntityData>& entities) override
+		{
+			auto greater = [&](uint32_t a, uint32_t b) { return entities[a].m_flags > entities[b].m_flags; };
+			quicksort(to_array(m_keys), to_array(m_data), m_indices, greater);
+			this->UpdateSlices(entities);
+		}
+
+		virtual void SortComponents() override
 		{
 			quicksort(to_array(m_keys), to_array(m_data), m_indices);
 		}
@@ -60,6 +78,17 @@ namespace mud
 		{
 			RemoveKey(handle);
 			entity.m_flags ^= m_flag;
+		}
+
+		std::vector<EntitySlice> slices(EntFlags prototype)
+		{
+			std::vector<EntitySlice> result;
+			for(EntitySlice& slice : m_slices)
+				if((slice.m_prototype & prototype) == prototype)
+				{
+					result.push_back(slice);
+				}
+			return result;
 		}
 	};
 

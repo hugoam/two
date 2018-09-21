@@ -262,10 +262,7 @@ namespace mud
 		inline pointer allocate(size_type n) noexcept { return (pointer)aligned_alloc(n * sizeof(value_type), alignof(T)); }
 		inline void deallocate(pointer p, size_type) { aligned_free(p); }
 
-		template <typename T, typename U>
-		friend bool operator==(const STLAlignedAllocator<T>& rhs, const STLAlignedAllocator<U>& lhs) { return true; }
-
-		template <typename T, typename U>
-		friend bool operator!=(const STLAlignedAllocator<T>& rhs, const STLAlignedAllocator<U>& lhs) { return false; }
+		inline bool operator==(const STLAlignedAllocator<T>&) { return true; }
+		inline bool operator!=(const STLAlignedAllocator<T>&) { return false; }
 	};
 }

@@ -11,10 +11,10 @@ namespace mud
 {
 	using string = std::string;
 
-	template <class T_Key, class T_Value, class T_Indices>
-	void quicksort(array<T_Key> keys, array<T_Value> values, T_Indices& indices, const size_t left, const size_t right)
+	template <class T_Key, class T_Value, class T_Indices, class T_Greater>
+	void quicksort(array<T_Key> keys, array<T_Value> values, T_Indices& indices, T_Greater greater, const size_t left, const size_t right)
 	{
-		auto partition = [](array<T_Key> keys, array<T_Value> values, T_Indices& indices, const size_t left, const size_t right)
+		auto partition = [](array<T_Key> keys, array<T_Value> values, T_Indices& indices, T_Greater greater, const size_t left, const size_t right)
 		{
 			const size_t mid = left + (right - left) / 2;
 			const T_Key pivot = keys[mid];
@@ -26,10 +26,10 @@ namespace mud
 			size_t j = right;
 			while(i <= j)
 			{
-				while(i <= j && keys[i] <= pivot)
+				while(i <= j && !greater(keys[i], pivot))
 					i++;
 
-				while(i <= j && keys[j] > pivot)
+				while(i <= j && greater(keys[j], pivot))
 					j--;
 
 				if(i < j)
@@ -44,15 +44,24 @@ namespace mud
 		if(left >= right)
 			return;
 
-		size_t part = partition(keys, values, indices, left, right);
-		quicksort(keys, values, indices, left, part - 1);
-		quicksort(keys, values, indices, part + 1, right);
+		size_t part = partition(keys, values, indices, greater, left, right);
+		quicksort(keys, values, indices, greater, left, part - 1);
+		quicksort(keys, values, indices, greater, part + 1, right);
+	}
+
+	template <class T_Key, class T_Value, class T_Indices, class T_Greater>
+	void quicksort(array<T_Key> keys, array<T_Value> values, T_Indices& indices, T_Greater greater)
+	{
+		if(keys.size() > 0)
+			quicksort(keys, values, indices, greater, 0, keys.size() - 1);
 	}
 
 	template <class T_Key, class T_Value, class T_Indices>
 	void quicksort(array<T_Key> keys, array<T_Value> values, T_Indices& indices)
 	{
-		quicksort(keys, values, indices, 0, keys.size() - 1);
+		auto greater = [](T_Key a, T_Key b) { return a > b; };
+		if(keys.size() > 0)
+			quicksort(keys, values, indices, greater, 0, keys.size() - 1);
 	}
 
 	class BitUtils

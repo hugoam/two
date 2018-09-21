@@ -143,10 +143,13 @@ namespace mud
 			return Deref(buffer.m_data[index]);
 		}
 
-		template <class T>
 		void SortComponents()
 		{
-			this->buffer<T>().SortComponents();
+			for(auto& buffer : m_buffers)
+				if(buffer)
+				{
+					buffer->SortComponents(m_entities);
+				}
 		}
 
 		template <class T0, class T_Function>
@@ -250,23 +253,19 @@ namespace mud
 			}
 		}
 
-#ifdef MUD_ECS_SLICES
-		std::vector<EntFlags> prototypes(EntFlags components);
-
 		template <class T0, class T_Function>
 		void LoopFast(T_Function action)
 		{
-			EntFlags prototype = (1 << TypedBuffer<T0>::index());
-			auto prototypes = this->prototypes(prototype);
+			EntFlags prototype = (1ULL << TypedBuffer<T0>::index());
 			auto& buffer0 = this->buffer<T0>();
-			
-			for(auto& prototype : prototypes)
+			auto slices0 = buffer0.slices(prototype);
+
+			for(size_t slice = 0; slice < slices0.size(); ++slice)
 			{
-				EntitySlice slice = this->slice(prototype);
-				EntitySlice slice0 = buffer0.slice(prototype);
-				for(size_t i = ; i < slice0.m_end; ++i)
+				const EntitySlice slice0 = slices0[slice];
+				for(size_t i = 0; i < slice0.m_end - slice0.m_begin; ++i)
 				{
-					uint32_t entity = m_entities[slice.m_begin + i];
+					uint32_t handle = 0;
 					T0& component0 = Deref(buffer0.m_data[slice0.m_begin + i]);
 					action(handle, component0);
 				}
@@ -276,19 +275,19 @@ namespace mud
 		template <class T0, class T1, class T_Function>
 		void LoopFast(T_Function action)
 		{
-			EntFlags prototype = (1 << TypedBuffer<T0>::index()) | (1 << TypedBuffer<T1>::index());
-			auto prototypes = this->prototypes(prototype);
+			EntFlags prototype = (1ULL << TypedBuffer<T0>::index()) | (1ULL << TypedBuffer<T1>::index());
 			auto& buffer0 = this->buffer<T0>();
 			auto& buffer1 = this->buffer<T1>();
+			auto slices0 = buffer0.slices(prototype);
+			auto slices1 = buffer1.slices(prototype);
 
-			for(auto& prototype : prototypes)
+			for(size_t slice = 0; slice < slices0.size(); ++slice)
 			{
-				EntitySlice slice = this->slice(prototype);
-				EntitySlice slice0 = buffer0.slice(prototype);
-				EntitySlice slice1 = buffer1.slice(prototype);
-				for(size_t i = ; i < slice0.m_end; ++i)
+				const EntitySlice slice0 = slices0[slice];
+				const EntitySlice slice1 = slices1[slice];
+				for(size_t i = 0; i < slice0.m_end - slice0.m_begin; ++i)
 				{
-					uint32_t entity = m_entities[slice.m_begin + i];
+					uint32_t handle = 0;
 					T0& component0 = Deref(buffer0.m_data[slice0.m_begin + i]);
 					T1& component1 = Deref(buffer1.m_data[slice1.m_begin + i]);
 					action(handle, component0, component1);
@@ -300,25 +299,26 @@ namespace mud
 		template <class T0, class T1, class T2, class T_Function>
 		void LoopFast(T_Function action)
 		{
-			EntFlags prototype = (1 << TypedBuffer<T0>::index()) | (1 << TypedBuffer<T1>::index()) | (1 << TypedBuffer<T2>::index());
-			auto prototypes = this->prototypes(prototype);
+			EntFlags prototype = (1ULL << TypedBuffer<T0>::index()) | (1ULL << TypedBuffer<T1>::index()) | (1ULL << TypedBuffer<T2>::index());
 			auto& buffer0 = this->buffer<T0>();
 			auto& buffer1 = this->buffer<T1>();
 			auto& buffer2 = this->buffer<T2>();
+			auto slices0 = buffer0.slices(prototype);
+			auto slices1 = buffer1.slices(prototype);
+			auto slices2 = buffer2.slices(prototype);
 
-			for(auto& prototype : prototypes)
+			for(size_t slice = 0; slice < slices0.size(); ++slice)
 			{
-				EntitySlice slice = this->slice(prototype);
-				EntitySlice slice0 = buffer0.slice(prototype);
-				EntitySlice slice1 = buffer1.slice(prototype);
-				EntitySlice slice2 = buffer2.slice(prototype);
-				for(size_t i = 0 ; i < slice0.m_end; ++i)
+				const EntitySlice slice0 = slices0[slice];
+				const EntitySlice slice1 = slices1[slice];
+				const EntitySlice slice2 = slices2[slice];
+				for(size_t i = 0; i < slice0.m_end - slice0.m_begin; ++i)
 				{
-					uint32_t entity = m_entities[slice.m_begin + i];
+					uint32_t handle = 0;
 					T0& component0 = Deref(buffer0.m_data[slice0.m_begin + i]);
 					T1& component1 = Deref(buffer1.m_data[slice1.m_begin + i]);
 					T2& component2 = Deref(buffer2.m_data[slice2.m_begin + i]);
-					action(handle, component0, component1);
+					action(handle, component0, component1, component2);
 				}
 			}
 		}
@@ -326,33 +326,33 @@ namespace mud
 		template <class T0, class T1, class T2, class T3, class T_Function>
 		void LoopFast(T_Function action)
 		{
-			EntFlags prototype = (1 << TypedBuffer<T0>::index()) | (1 << TypedBuffer<T1>::index()) | (1 << TypedBuffer<T2>::index()) | (1 << TypedBuffer<T3>::index());
-			auto prototypes = this->prototypes(prototype);
+			EntFlags prototype = (1ULL << TypedBuffer<T0>::index()) | (1ULL << TypedBuffer<T1>::index()) | (1ULL << TypedBuffer<T2>::index()) | (1ULL << TypedBuffer<T3>::index());
 			auto& buffer0 = this->buffer<T0>();
 			auto& buffer1 = this->buffer<T1>();
 			auto& buffer2 = this->buffer<T2>();
 			auto& buffer3 = this->buffer<T3>();
+			auto slices0 = buffer0.slices(prototype);
+			auto slices1 = buffer1.slices(prototype);
+			auto slices2 = buffer2.slices(prototype);
+			auto slices3 = buffer3.slices(prototype);
 
-			for(auto& prototype : prototypes)
+			for(size_t slice = 0; slice < slices0.size(); ++slice)
 			{
-				EntitySlice slice = this->slice(prototype);
-				EntitySlice slice0 = buffer0.slice(prototype);
-				EntitySlice slice1 = buffer1.slice(prototype);
-				EntitySlice slice2 = buffer2.slice(prototype);
-				EntitySlice slice3 = buffer3.slice(prototype);
-				for(size_t i = 0; i < slice0.m_end; ++i)
+				const EntitySlice slice0 = slices0[slice];
+				const EntitySlice slice1 = slices1[slice];
+				const EntitySlice slice2 = slices2[slice];
+				const EntitySlice slice3 = slices3[slice];
+				for(size_t i = 0; i < slice0.m_end - slice0.m_begin; ++i)
 				{
-					uint32_t entity = m_entities[slice.m_begin + i];
+					uint32_t handle = 0;
 					T0& component0 = Deref(buffer0.m_data[slice0.m_begin + i]);
 					T1& component1 = Deref(buffer1.m_data[slice1.m_begin + i]);
 					T2& component2 = Deref(buffer2.m_data[slice2.m_begin + i]);
 					T3& component3 = Deref(buffer3.m_data[slice3.m_begin + i]);
-					action(handle, component0, component1);
+					action(handle, component0, component1, component2, component3);
 				}
 			}
 		}
-#endif
-
 	};
 
 	export_ extern MUD_PROTO_EXPORT EntityRegistry s_registry;
