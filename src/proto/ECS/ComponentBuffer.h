@@ -60,11 +60,18 @@ namespace mud
 					m_slices.push_back({ slice.m_prototype, slice.m_begin, i });
 					slice = { entities[m_keys[i]].m_flags, i, 0 };
 				}
+
+			m_slices.push_back({ slice.m_prototype, slice.m_begin, m_keys.size() });
 		}
 
 		virtual void SortComponents(const std::vector<EntityData>& entities) override
 		{
-			auto greater = [&](uint32_t a, uint32_t b) { return entities[a].m_flags > entities[b].m_flags; };
+			auto greater = [&](uint32_t a, uint32_t b)
+			{
+				if(entities[a].m_flags == entities[b].m_flags)
+					return a > b;
+				return entities[a].m_flags > entities[b].m_flags;
+			};
 			quicksort(to_array(m_keys), to_array(m_data), m_indices, greater);
 			this->UpdateSlices(entities);
 		}

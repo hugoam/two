@@ -256,8 +256,8 @@ namespace mud
 		inline STLAlignedAllocator() noexcept = default;
 		inline ~STLAlignedAllocator() noexcept = default;
 
-		template <typename T>
-		inline explicit STLAlignedAllocator(const STLAlignedAllocator<T>&) noexcept {}
+		template <typename U>
+		inline explicit STLAlignedAllocator(const STLAlignedAllocator<U>&) noexcept {}
 
 		inline pointer allocate(size_type n) noexcept { return (pointer)aligned_alloc(n * sizeof(value_type), alignof(T)); }
 		inline void deallocate(pointer p, size_type) { aligned_free(p); }
