@@ -45,6 +45,7 @@ namespace mud
 			return;
 
 		size_t part = partition(keys, values, indices, greater, left, right);
+		printf("quicksort part %i left %i right %i\n", int(part), int(left), int(right));
 		quicksort(keys, values, indices, greater, left, part - 1);
 		quicksort(keys, values, indices, greater, part + 1, right);
 	}

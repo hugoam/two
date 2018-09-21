@@ -175,7 +175,6 @@ namespace mud
 			return p ? new(p) T(std::forward<T_Args>(args)...) : nullptr;
 		}
 
-		template <typename T>
 		void destroy(T* p)
 		{
 			p->~T();
