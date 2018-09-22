@@ -28,7 +28,7 @@ namespace mud
 
 	class EntityRegistry
 	{
-	private:
+	public:
 		std::vector<std::unique_ptr<ComponentBufferBase>> m_buffers;
 		
 		std::vector<EntityData> m_entities;

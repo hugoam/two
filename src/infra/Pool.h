@@ -7,6 +7,7 @@
 
 #include <atomic>
 #include <type_traits>
+#include <utility>
 
 #if defined(WIN32)
 #include <malloc.h>
