@@ -66,7 +66,7 @@ namespace mud
 			Node* const head = m_head;
 			m_head = head ? head->next : nullptr;
 			// this could indicate a use after free
-			assert(!m_head || m_head >= m_begin && m_head < m_end);
+			assert(!m_head || (m_head >= m_begin && m_head < m_end));
 			return head;
 }
 
