@@ -52,8 +52,8 @@ namespace mud
 		m_thread_count = uint16_t(num_threads);
 		m_parallel_split_count = (uint8_t)std::ceil((std::log2f(num_threads + adoptable_threads)));
 
-		assert(m_exit_requested.is_lock_free());
-		assert(Job().running_jobs.is_lock_free());
+		//assert(m_exit_requested.is_lock_free());
+		//assert(Job().running_jobs.is_lock_free());
 
 		for(size_t i = 0, n = m_thread_states.size(); i < n; i++)
 		{
