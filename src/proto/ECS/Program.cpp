@@ -18,8 +18,11 @@ struct Velocity
     long m_y;
 };
 
-template <> struct TypedBuffer<Position> { using type = ComponentBuffer<Position>; static size_t index() { return 0; } };
-template <> struct TypedBuffer<Velocity> { using type = ComponentBuffer<Velocity>; static size_t index() { return 1; } };
+namespace mud
+{
+	template <> struct TypedBuffer<Position> { using type = ComponentBuffer<Position>; static size_t index() { return 0; } };
+	template <> struct TypedBuffer<Velocity> { using type = ComponentBuffer<Velocity>; static size_t index() { return 1; } };
+}
 
 void test_ecs()
 {
