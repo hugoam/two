@@ -102,7 +102,7 @@ namespace mud
 
 		void AddComponent(int handle, T component, EntityData& entity)
 		{
-			AddKey(handle, std::move(component));
+			this->AddKey(handle, std::move(component));
 			entity.m_flags |= m_flag;
 		}
 
@@ -143,7 +143,7 @@ namespace mud
 
 		virtual void RemoveComponent(uint32_t handle, EntityData& entity) override
 		{
-			RemoveKey(handle);
+			this->RemoveKey(handle);
 			entity.m_flags ^= m_flag;
 		}
 
