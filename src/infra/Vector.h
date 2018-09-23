@@ -209,7 +209,7 @@ namespace mud
 {
 	inline void* aligned_alloc(size_t size, size_t align) noexcept
 	{
-		assert(align && !(align & align - 1));
+		assert(align && !(align & (align - 1)));
 		void* p = nullptr;
 
 		// must be a power of two and >= sizeof(void*)

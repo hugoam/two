@@ -79,8 +79,8 @@ namespace mud
 		virtual void RemoveComponent(uint32_t handle, EntityData& entity) = 0;
 	};
 
-	template <class T, class T_Buffer>
-	class ComponentBuffer : public ComponentBufferBase, public T_Buffer
+	template <class T, bool dense = true>
+	class ComponentBuffer : public ComponentBufferBase, public MappedBuffer<T, dense>
 	{
 	private:
 		std::vector<EntitySlice> m_slices;
@@ -88,16 +88,16 @@ namespace mud
 	public:
 		ComponentBuffer() {}
 		ComponentBuffer(int bufferIndex, int initialSize = 1 << 10)
-			: T_Buffer(initialSize)
+			: MappedBuffer<T, dense>(initialSize)
 		{
 			m_flag = uint64_t(1ULL << bufferIndex);
-			m_sparse = T_Buffer::is_sparse;
+			m_sparse = !dense;
 		}
 
 		virtual void SetCapacity(size_t capacity) final
 		{
 			// if sparse
-			T_Buffer::SetCapacity(capacity);
+			MappedBuffer<T, dense>::SetCapacity(capacity);
 		}
 
 		void AddComponent(int handle, T component, EntityData& entity)
@@ -156,19 +156,5 @@ namespace mud
 				}
 			return result;
 		}
-	};
-
-	template <class T>
-	class ComponentBufferSparse : public ComponentBuffer<T, MappedBufferSparse<T>>
-	{
-	public:
-		using ComponentBuffer<T, MappedBufferSparse<T>>::ComponentBuffer;
-	};
-
-	template <class T>
-	class ComponentBufferDense : public ComponentBuffer<T, MappedBufferDense<T>>
-	{
-	public:
-		using ComponentBuffer<T, MappedBufferDense<T>>::ComponentBuffer;
 	};
 }
