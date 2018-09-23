@@ -16,55 +16,55 @@
 namespace mud
 {
 
-class GpuBuffer
-{
-public:
-    enum class ElementType : uint8_t
+	class GpuBuffer
 	{
-        UINT8,
-        INT8,
-        UINT16,
-        INT16,
-        UINT32,
-        INT32,
-        HALF,
-        FLOAT
-    };
+	public:
+		enum class ElementType : uint8_t
+		{
+			UINT8,
+			INT8,
+			UINT16,
+			INT16,
+			UINT32,
+			INT32,
+			HALF,
+			FLOAT
+		};
 
-    struct Element
-	{
-		Element(ElementType type, uint8_t size) : type(type), size(size) {}
-        ElementType type : 3;
-        uint8_t     size : 3; // 1 to 4 allowed
-    };
+		struct Element
+		{
+			Element(ElementType type, uint8_t size) : type(type), size(size) {}
+			ElementType type;
+			uint8_t     size;
+		};
 
-    GpuBuffer() = default;
+		GpuBuffer() = default;
 
-    GpuBuffer(Element element, size_t row_size, size_t row_count);
-	~GpuBuffer();
+		GpuBuffer(Element element, size_t row_size, size_t row_count);
+		~GpuBuffer();
 
-    GpuBuffer(const GpuBuffer&) = delete;
-    GpuBuffer& operator=(const GpuBuffer&) = delete;
-    GpuBuffer(GpuBuffer&&) = default;
-    GpuBuffer& operator=(GpuBuffer&&) = default;
+		GpuBuffer(const GpuBuffer&) = delete;
+		GpuBuffer& operator=(const GpuBuffer&) = delete;
+		GpuBuffer(GpuBuffer&&) = default;
+		GpuBuffer& operator=(GpuBuffer&&) = default;
 
-	bgfx::TextureHandle m_texture;
-	//utils::RangeSet<4> mDirtyRanges;
-	uint32_t m_size = 0;
-	uint16_t m_width;
-	uint16_t m_height;
-	uint16_t m_row_size;
-	Element m_element;
-	bgfx::TextureFormat::Enum m_format;
+		bgfx::TextureHandle m_texture;
+		//utils::RangeSet<4> mDirtyRanges;
+		uint32_t m_size = 0;
+		uint16_t m_width;
+		uint16_t m_height;
+		uint16_t m_row_size;
+		Element m_element;
+		bgfx::TextureFormat::Enum m_format;
 	
-	std::vector<Range<float>> m_dirty_ranges;
+		std::vector<Range<float>> m_dirty_ranges;
 
-    void invalidate() noexcept;
-    void invalidate(size_t row, size_t count) noexcept;
+		void invalidate() noexcept;
+		void invalidate(size_t row, size_t count) noexcept;
 
-    //bool dirty() const noexcept { return !mDirtyRanges.isEmpty(); }
+		//bool dirty() const noexcept { return !mDirtyRanges.isEmpty(); }
 
-    void commit(const bgfx::Memory* memory) noexcept;
-};
+		void commit(const bgfx::Memory* memory) noexcept;
+	};
 
 }
