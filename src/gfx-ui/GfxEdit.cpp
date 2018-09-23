@@ -114,6 +114,9 @@ namespace mud
 		static Colour pink = set_alpha(Colour::Pink, 0.1f);
 		static Colour cyan = set_alpha(Colour::Cyan, 0.1f);
 
+		enum Mode { ClusterIndex, RecordIndex, LightIndex, LightCount };
+		Mode mode = ClusterIndex;
+
 		mat4 transform = inverse(bxlookat(camera.m_eye, camera.m_target));
 		size_t i = 0;
 		for(Frustum& frustum : clusters.m_debug_clusters)
@@ -126,15 +129,17 @@ namespace mud
 			}
 
 			Colour colour = Colour(1.f, 0.02f);
-			colour = hsl_to_rgb(float(i) / (29.f * 16.f * 16.f), 1.f, 0.5f);
-
 			size_t record = clusters.m_froxels.m_data[i].offset;
-			colour = hsl_to_rgb(float(record) / float(255.f), 1.f, 0.5f);
-
 			size_t light = clusters.m_records.m_data[record];
-			colour = hsl_to_rgb(float(light) / 255.f, 1.f, 0.5f);
 
-			colour = hsl_to_rgb(float(clusters.m_froxels.m_data[i].count[0]) / 32.f, 1.f, 0.5f);
+			if(mode == ClusterIndex)
+				colour = hsl_to_rgb(float(i) / (29.f * 16.f * 16.f), 1.f, 0.5f);
+			else if(mode == RecordIndex)
+				colour = hsl_to_rgb(float(record) / float(255.f), 1.f, 0.5f);
+			else if(mode == LightIndex)
+				colour = hsl_to_rgb(float(light) / 255.f, 1.f, 0.5f);
+			else if(mode == LightCount)
+				colour = hsl_to_rgb(float(clusters.m_froxels.m_data[i].count[0]) / 32.f, 1.f, 0.5f);
 			
 			gfx::draw(*parent.m_scene, transform, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(colour));
 			i++;

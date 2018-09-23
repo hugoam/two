@@ -111,7 +111,7 @@ namespace mud
 		: FrameBuffer(size)
 		//, m_msaa(MSAA::X16)
 	{
-		static const uint32_t msaa_value[] = { BGFX_TEXTURE_RT, BGFX_TEXTURE_RT_MSAA_X2, BGFX_TEXTURE_RT_MSAA_X4, BGFX_TEXTURE_RT_MSAA_X8, BGFX_TEXTURE_RT_MSAA_X16 };
+		static const uint64_t msaa_value[] = { BGFX_TEXTURE_RT, BGFX_TEXTURE_RT_MSAA_X2, BGFX_TEXTURE_RT_MSAA_X4, BGFX_TEXTURE_RT_MSAA_X8, BGFX_TEXTURE_RT_MSAA_X16 };
 		
 		bgfx::TextureFormat::Enum color_format = bgfx::TextureFormat::RGBA16F;
 
@@ -122,7 +122,7 @@ namespace mud
 		if(!bgfx::isTextureValid(0, false, 1, color_format, msaa_value[size_t(m_msaa)]))
 			m_msaa = MSAA::Disabled;
 
-		uint32_t render_target_flags = msaa_value[size_t(m_msaa)];
+		uint64_t render_target_flags = msaa_value[size_t(m_msaa)];
 #if defined MUD_PLATFORM_EMSCRIPTEN && !defined MUD_WEBGL2
 		render_target_flags |= GFX_TEXTURE_CLAMP;
 #endif
