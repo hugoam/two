@@ -4,6 +4,7 @@
 
 #include <cassert>
 #include <cstddef>
+#include <cstdlib>
 
 #include <atomic>
 #include <type_traits>
