@@ -19,7 +19,6 @@ namespace mud
 		void ensure(size_t capacity) { UNUSED(capacity); }
 
 		uint32_t& operator[](uint32_t at) { return m_indices[at]; }
-		const uint32_t& operator[](uint32_t at) const { return m_indices[at]; }
 
 	private:
 		std::unordered_map<uint32_t, uint32_t> m_indices;
@@ -36,7 +35,6 @@ namespace mud
 		void ensure(size_t capacity) { m_indices.resize(capacity, UINT32_MAX); }
 
 		uint32_t& operator[](uint32_t at) { return m_indices[at]; }
-		const uint32_t& operator[](uint32_t at) const { return m_indices[at]; }
 
 	private:
 		std::vector<uint32_t> m_indices;
