@@ -53,7 +53,8 @@ void define_visual_script(VisualScript& script)
 	Var& symbol = script.create<Symbol>({ &fill_colour, &colour });
 	Var& shape = script.value(Cube());
 
-	script.function(gfx::draw, { &node, &shape, &symbol });
+	using Draw = void(*)(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags);
+	script.function((Draw)gfx::draw, { &node, &shape, &symbol });
 }
 
 VisualScript& create_visual_script()
