@@ -420,13 +420,13 @@ namespace mud
 			if(pcf_level == 0)
 				encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth, GFX_TEXTURE_POINT);
 			else
-				encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth, BGFX_TEXTURE_COMPARE_LESS);
+				encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth, BGFX_SAMPLER_COMPARE_LESS);
 				//encoder.setTexture(uint8_t(TextureSampler::ShadowCSM), u_directional_shadow.s_csm_atlas, m_csm.m_depth);
 		}
 
 		if(0)//render.m_shadow_atlas)
 		{
-			encoder.setTexture(uint8_t(TextureSampler::ShadowAtlas), u_shadow.s_shadow_atlas, m_atlas.m_depth, BGFX_TEXTURE_COMPARE_LESS);
+			encoder.setTexture(uint8_t(TextureSampler::ShadowAtlas), u_shadow.s_shadow_atlas, m_atlas.m_depth, BGFX_SAMPLER_COMPARE_LESS);
 			vec2 shadow_atlas_pixel_size = vec2(1.f) / float(m_atlas.m_size);
 			encoder.setUniform(u_shadow.u_shadow_pixel_size, &shadow_atlas_pixel_size[0]);
 		}

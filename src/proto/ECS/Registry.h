@@ -3,9 +3,6 @@
 #include <infra/Vector.h>
 #include <proto/Forward.h>
 #include <proto/ECS/ECS.h>
-#include <proto/ECS/MappedBuffers.h>
-#include <proto/ECS/MappedBufferDense.h>
-#include <proto/ECS/MappedBufferSparse.h>
 #include <proto/ECS/ComponentBuffer.h>
 
 #include <memory>

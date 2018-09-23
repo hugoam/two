@@ -214,7 +214,6 @@ namespace mud
 		m_num_encoders = min(uint32_t(4U), bgfx::getCaps()->limits.maxEncoders);
 
 		m_encoders[0] = bgfx::begin();
-
 		for(size_t i = 1; i < m_num_encoders; ++i)
 			m_encoders[i] = bgfx::begin(true);
 #endif
