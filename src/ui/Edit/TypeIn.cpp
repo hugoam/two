@@ -942,7 +942,8 @@ namespace mud
 
 		vec2 padding = floor(rect_offset(m_frame.d_inkstyle->m_padding));
 
-		draw_text_selection(vg, m_frame, padding, m_text_offset, m_text, m_selection, m_palette, m_editor);
+		if(this->focused())
+			draw_text_selection(vg, m_frame, padding, m_text_offset, m_text, m_selection, m_palette, m_editor);
 		if(m_editor)
 			draw_editor_text(vg, m_frame, padding, m_text_offset, m_text, m_palette);
 		else

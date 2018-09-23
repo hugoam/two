@@ -254,7 +254,7 @@ namespace mud
 	void PassLights::submit_render_pass(Render& render)
 	{
 		Pass render_pass = render.next_pass(m_name);
-		bgfx::Encoder& encoder = *bgfx::begin();//*render_pass.m_encoder;
+		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		render_pass.m_encoder = &encoder;
 
 		DrawCluster cluster;

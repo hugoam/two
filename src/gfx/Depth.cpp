@@ -31,7 +31,7 @@ namespace mud
 
 		bgfx::setViewMode(render_pass.m_index, bgfx::ViewMode::DepthAscending);
 
-		bgfx::Encoder& encoder = *bgfx::begin();//*render_pass.m_encoder;
+		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		encoder.setUniform(m_block_depth.u_depth.u_depth_params, &m_block_depth.m_depth_params);
 	}
 

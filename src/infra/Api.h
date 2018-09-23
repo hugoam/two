@@ -16,6 +16,5 @@
 #include <infra/Strung.h>
 #include <infra/Types.h>
 #include <infra/TypeTraits.h>
-#include <infra/Updatable.h>
 #include <infra/Vector.h>
 

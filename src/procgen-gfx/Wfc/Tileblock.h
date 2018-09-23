@@ -1,7 +1,6 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <infra/Updatable.h>
 #include <geom/Aabb.h>
 #include <uio/Unode.h>
 #include <procgen/Wfc/Wfc.h>

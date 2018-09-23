@@ -83,9 +83,8 @@ namespace mud
 		render_pass.m_index = m_pass_index++;
 		render_pass.m_sub_pass = m_sub_pass_index++;
 
-#ifndef MUD_GFX_JOBS
 		render_pass.m_encoder = bgfx::begin();
-#endif
+
 		//printf("INFO: render pass %s\n", name.c_str());
 		m_viewport.render_pass(name, render_pass);
 
@@ -360,7 +359,7 @@ namespace mud
 			Job* job = jobs<16>(js, nullptr, 0, m_impl->m_draw_elements.size(), submit);
 			js.complete(job);
 #else
-			bgfx::Encoder& encoder = *bgfx::begin();
+			bgfx::Encoder& encoder = *render_pass.m_encoder;
 			this->submit_draw_elements(encoder, render, render_pass, 0, m_impl->m_draw_elements.size());
 			bgfx::end(&encoder);
 #endif

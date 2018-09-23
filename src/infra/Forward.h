@@ -22,6 +22,5 @@ namespace mud {
     struct swallow;
     class NonCopy;
     class Movabl;
-    class Updatable;
 }
 

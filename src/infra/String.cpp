@@ -15,7 +15,6 @@ module mud.infra;
 #include <infra/StringConvert.h>
 #include <infra/Strung.h>
 #include <infra/NonCopy.h>
-#include <infra/Updatable.h>
 #endif
 
 namespace mud

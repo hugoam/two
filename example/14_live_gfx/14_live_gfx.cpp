@@ -99,8 +99,8 @@ void ex_14_live_gfx(Shell& app, Widget& parent, Dockbar& dockbar)
 	static TextScript& lua_script = create_lua_script(lua);
 	static TextScript& wren_script = create_wren_script(wren);
 
-	//static Language language = Language::Wren;
-	static Language language = Language::Lua;
+	static Language language = Language::Wren;
+	//static Language language = Language::Lua;
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{

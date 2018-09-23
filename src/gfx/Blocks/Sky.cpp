@@ -349,7 +349,7 @@ namespace mud
 		else if(mode == BackgroundMode::Radiance || mode == BackgroundMode::Panorama)
 		{
 			Pass sky_pass = render.next_pass("sky");
-			bgfx::Encoder& encoder = *bgfx::begin(); //*sky_pass.m_encoder;
+			bgfx::Encoder& encoder = *sky_pass.m_encoder;
 
 			encoder.setTexture(uint8_t(TextureSampler::Source0), u_skybox.s_skybox_map, render.m_environment->m_radiance.m_roughness_array);
 
