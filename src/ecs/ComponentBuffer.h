@@ -2,9 +2,9 @@
 
 #include <infra/Array.h>
 #include <infra/Generic.h>
-#include <proto/Forward.h>
-#include <proto/ECS/ECS.h>
-#include <proto/ECS/SparseBuffer.h>
+#include <ecs/Forward.h>
+#include <ecs/ECS.h>
+#include <ecs/SparseBuffer.h>
 
 #include <vector>
 

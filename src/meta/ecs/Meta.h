@@ -3,7 +3,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <meta/proto/Module.h>
+#include <meta/ecs/Module.h>
 
 #include <obj/Any.h>
 #include <obj/Vector.h>

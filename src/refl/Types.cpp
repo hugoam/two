@@ -8,7 +8,7 @@ module mud.refl;
 #include <refl/Types.h>
 #include <refl/Api.h>
 #include <obj/Vector.h>
-//#include <proto/Proto.h>
+//#include <ecs/Proto.h>
 #endif
 
 namespace mud

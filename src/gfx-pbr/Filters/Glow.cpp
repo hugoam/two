@@ -88,7 +88,7 @@ namespace mud
 
 		size_t max_level = 0;
 
-		for(size_t i = 0; i < 8; ++i)
+		for(vec4::length_type i = 0; i < 8; ++i)
 			if((i < 4 && glow.m_levels_1_4[i]) || (i >= 4 && glow.m_levels_5_8[i - 4]))
 				max_level = i;
 

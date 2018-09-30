@@ -8,7 +8,7 @@ module mud.tool;
 #include <tool/Types.h>
 #include <tool/Api.h>
 #include <obj/Vector.h>
-//#include <proto/Proto.h>
+//#include <ecs/Proto.h>
 #endif
 
 namespace mud

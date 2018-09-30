@@ -133,9 +133,9 @@ namespace mud
 
 		if(render.m_target && render.m_target->m_deferred)
 		{
-			Pass render_pass = render.next_pass("clear gbuffer");
-			bgfx::setViewClear(render_pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL, 1.f, 0, s_zero, s_zero, s_zero, s_zero);
-			bgfx::setViewFrameBuffer(render_pass.m_index, render.m_target->m_gbuffer.m_fbo);
+			Pass gbuffer_pass = render.next_pass("clear gbuffer");
+			bgfx::setViewClear(gbuffer_pass.m_index, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH | BGFX_CLEAR_STENCIL, 1.f, 0, s_zero, s_zero, s_zero, s_zero);
+			bgfx::setViewFrameBuffer(gbuffer_pass.m_index, render.m_target->m_gbuffer.m_fbo);
 		}
 
 		bgfx::touch(render_pass.m_index);

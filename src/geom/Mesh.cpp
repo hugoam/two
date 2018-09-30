@@ -52,9 +52,9 @@ namespace mud
 	MeshPacker::MeshPacker()
 	{}
 
-	size_t MeshPacker::vertex_format()
+	uint32_t MeshPacker::vertex_format()
 	{
-		size_t format = VertexAttribute::Position;
+		uint32_t format = VertexAttribute::Position;
 		if(!m_normals.empty())	format |= VertexAttribute::Normal;
 		if(!m_tangents.empty())	format |= VertexAttribute::Tangent;
 		if(!m_uv0s.empty())		format |= VertexAttribute::TexCoord0;
@@ -66,6 +66,8 @@ namespace mud
 
 	void MeshPacker::bake(bool normals, bool tangents)
 	{
+		UNUSED(normals);
+
 		//if(normals)
 		//	this->generate_normals();
 
@@ -75,7 +77,7 @@ namespace mud
 	
 	void MeshPacker::pack_vertices(MeshData& data, const mat4& transform)
 	{
-		for(size_t i = 0; i < m_positions.size(); ++i)
+		for(uint32_t i = 0; i < uint32_t(m_positions.size()); ++i)
 		{
 			data.position(vec3(transform * vec4(m_positions[i], 1.f)));
 			if(!m_normals.empty())	data.normal(normalize(vec3(transform * vec4(m_normals[i], 0.f))));
@@ -163,7 +165,7 @@ namespace mud
 		using Context = SMikkTSpaceContext;
 
 		SMikkTSpaceInterface intf = {};
-		intf.m_getNumFaces = [](const Context* c) -> int { return mikkt_mesh(c).m_indices.m_count / 3; };
+		intf.m_getNumFaces = [](const Context* c) -> int { return int(mikkt_mesh(c).m_indices.m_count) / 3; };
 		intf.m_getNumVerticesOfFace = [](const Context* c, const int face) -> int { UNUSED(c); UNUSED(face); return 3; };
 		intf.m_getPosition = [](const Context* c, float pos[], const int face, const int vert) { vec_to_array(mikkt_vertex(c, face, vert).m_position, pos); };
 		intf.m_getNormal = [](const Context* c, float norm[], const int face, const int vert) { vec_to_array(mikkt_vertex(c, face, vert).m_normal, norm); };
@@ -198,7 +200,7 @@ namespace mud
 		m_tangents.resize(m_positions.size());
 
 		SMikkTSpaceInterface intf = {};
-		intf.m_getNumFaces = [](const Context* c) -> int { return mikkt_packer(c).m_indices.size() / 3; };
+		intf.m_getNumFaces = [](const Context* c) -> int { return int(mikkt_packer(c).m_indices.size()) / 3; };
 		intf.m_getNumVerticesOfFace = [](const Context* c, const int face) -> int { UNUSED(c); UNUSED(face); return 3; };
 		intf.m_getPosition = [](const Context* c, float pos[], const int face, const int vert) { vec_to_array(mikkt_packer(c).m_positions[mikkt_index(c, face, vert)], pos); };
 		intf.m_getNormal = [](const Context* c, float norm[], const int face, const int vert) { vec_to_array(mikkt_packer(c).m_normals[mikkt_index(c, face, vert)], norm); };

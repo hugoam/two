@@ -1,9 +1,9 @@
 ﻿#pragma once
 
 #include <infra/Vector.h>
-#include <proto/Forward.h>
-#include <proto/ECS/ECS.h>
-#include <proto/ECS/ComponentBuffer.h>
+#include <ecs/Forward.h>
+#include <ecs/ECS.h>
+#include <ecs/ComponentBuffer.h>
 
 #include <memory>
 #include <functional>
@@ -63,7 +63,7 @@ namespace mud
 		template <class T>
 		void AddBuffer()
 		{
-			m_buffers.emplace_back(std::make_unique<ComponentBuffer<T>>(TypedBuffer<T>::index()));
+			m_buffers.emplace_back(std::make_unique<ComponentBuffer<T>>(int(TypedBuffer<T>::index())));
 			m_buffer_map[TypedBuffer<T>::index()] = &(*m_buffers.back());
 		}
 
@@ -93,7 +93,7 @@ namespace mud
 
 		void Add(uint32_t handle)
 		{
-			const uint32_t index = m_handles.size();
+			const uint32_t index = uint32_t(m_handles.size());
 
 			for(auto& buffer : m_buffers)
 				buffer->Add();
@@ -185,7 +185,7 @@ namespace mud
 		{
 			if(m_available.size() > 0)
 				return vector_pop(m_available);
-			uint32_t handle = m_entities.size();
+			uint32_t handle = uint32_t(m_entities.size());
 			m_entities.push_back({ prototype, stream });
 			this->UpdateSize();
 			return handle;
@@ -348,13 +348,13 @@ namespace mud
 		}
 	};
 
-	export_ extern MUD_PROTO_EXPORT EntityRegistry s_registry;
+	export_ extern MUD_ECS_EXPORT EntityRegistry s_registry;
 
 	export_ template <class... T_Components>
 	struct Tags
 	{};
 
-	struct MUD_PROTO_EXPORT Entity
+	struct MUD_ECS_EXPORT Entity
 	{
 		template <class... T_Components>
 		Entity(Tags<T_Components...> tags) { UNUSED(tags); m_handle = s_registry.CreateEntity<T_Components...>(); }

@@ -10,7 +10,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <infra/JobLoop.h>
+#include <jobs/JobLoop.h>
 #include <gfx/Types.h>
 #include <gfx/Renderer.h>
 #include <gfx/Pipeline.h>
@@ -29,7 +29,6 @@ module mud.gfx;
 #include <gfx/Filter.h>
 #endif
 
-#define TRACY_ENABLE
 #include <Tracy.hpp>
 
 #define MUD_GFX_JOBS
@@ -143,6 +142,8 @@ namespace mud
 
 	void Renderer::frame(const RenderFrame& frame)
 	{
+		UNUSED(frame);
+
 		for(GfxBlock* block : m_impl->m_gfx_blocks)
 			block->render_gfx_block();
 	}
@@ -249,7 +250,7 @@ namespace mud
 		return (mask & 1 << check) == 0;
 	}
 
-	Material& item_material(const Item& item, const ModelItem& model_item)
+	inline Material& item_material(const Item& item, const ModelItem& model_item, Material& fallback)
 	{
 		if(item.m_material)
 			return *item.m_material;
@@ -257,14 +258,18 @@ namespace mud
 			return *model_item.m_material;
 		else if(model_item.m_mesh->m_material)
 			return *model_item.m_mesh->m_material;
+		else
+			return fallback;
 	}
 
 	void DrawPass::gather_draw_elements(Render& render)
 	{
+		Material& fallback_material = m_gfx_system.debug_material();
+
 		for(Item* item : render.m_shot->m_items)
 			for(const ModelItem& model_item : item->m_model->m_items)
 			{
-				Material& material = item_material(*item, model_item);
+				Material& material = item_material(*item, model_item, fallback_material);
 
 				if(mask_draw_mode(material.m_base_block.m_geometry_filter, model_item.m_mesh->m_draw_mode))
 					continue;
@@ -356,12 +361,13 @@ namespace mud
 #ifdef MUD_GFX_JOBS
 			auto submit = [&](JobSystem& js, Job* job, size_t start, size_t count)
 			{
+				UNUSED(job);
 				bgfx::Encoder& encoder = *m_gfx_system.m_encoders[js.thread()];
 				this->submit_draw_elements(encoder, render, render_pass, start, count);
 			};
 
 			JobSystem& js = *m_gfx_system.m_job_system;
-			Job* job = split_jobs<16>(js, nullptr, 0, m_impl->m_draw_elements.size(), submit);
+			Job* job = split_jobs<16>(js, nullptr, 0, uint32_t(m_impl->m_draw_elements.size()), submit);
 			js.complete(job);
 #else
 			bgfx::Encoder& encoder = *render_pass.m_encoder;

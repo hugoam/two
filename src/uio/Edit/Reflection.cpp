@@ -302,9 +302,9 @@ namespace mud
 		{
 			for(Module* m : System::instance().m_modules)
 			{
-				Widget& row = ui::row(*drop.m_body);
-				ui::checkbox(row, modules[m]);
-				ui::label(row, m->m_name);
+				Widget& droprow = ui::row(*drop.m_body);
+				ui::checkbox(droprow, modules[m]);
+				ui::label(droprow, m->m_name);
 			}
 		}
 

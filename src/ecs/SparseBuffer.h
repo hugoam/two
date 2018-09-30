@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <proto/ECS/ECS.h>
+#include <ecs/ECS.h>
 
 #include <vector>
 #include <algorithm>

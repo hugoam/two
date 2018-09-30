@@ -31,7 +31,7 @@ namespace mud
 
 		struct Vertex
 		{
-			static const size_t vertex_format = VertexAttribute::Position | VertexAttribute::Colour;
+			static const uint32_t vertex_format = VertexAttribute::Position | VertexAttribute::Colour;
 			vec3 m_position;
 			uint32_t m_colour;
 		};

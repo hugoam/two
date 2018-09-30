@@ -11,19 +11,19 @@
 #include <meta/refl/Module.h>
 #endif
         
-#include <proto/Forward.h>
-#include <proto/Types.h>
-#include <proto/Api.h>
+#include <ecs/Forward.h>
+#include <ecs/Types.h>
+#include <ecs/Api.h>
 
-#include <meta/proto/Convert.h>
+#include <meta/ecs/Convert.h>
 
-#ifndef MUD_PROTO_REFL_EXPORT
-#define MUD_PROTO_REFL_EXPORT MUD_IMPORT
+#ifndef MUD_ECS_REFL_EXPORT
+#define MUD_ECS_REFL_EXPORT MUD_IMPORT
 #endif
 
 namespace mud
 {
-	export_ class MUD_PROTO_REFL_EXPORT mud_proto : public Module
+	export_ class MUD_ECS_REFL_EXPORT mud_proto : public Module
 	{
 	private:
 		mud_proto();
@@ -33,7 +33,7 @@ namespace mud
 	};
 }
 
-#ifdef MUD_PROTO_MODULE
+#ifdef MUD_ECS_MODULE
 extern "C"
-MUD_PROTO_REFL_EXPORT Module& getModule();
+MUD_ECS_REFL_EXPORT Module& getModule();
 #endif

@@ -8,7 +8,7 @@ module ._15_script;
 #include <15_script/Types.h>
 #include <15_script/Api.h>
 #include <obj/Vector.h>
-//#include <proto/Proto.h>
+//#include <ecs/Proto.h>
 #endif
 
 namespace mud

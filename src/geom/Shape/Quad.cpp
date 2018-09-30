@@ -92,10 +92,10 @@ namespace mud
 		// @todo: could draw it like a grid instead of per quads...
 		array_2d<vec3> points = { const_cast<vec3*>(grid.m_points.data()), grid.m_size.x, grid.m_size.y };
 
-		size_t offset = 0;
+		uint32_t offset = 0;
 
-		for(size_t x = 0; x < grid.m_size.x - 1; ++x)
-			for(size_t y = 0; y < grid.m_size.y - 1; ++y)
+		for(uint32_t x = 0; x < grid.m_size.x - 1; ++x)
+			for(uint32_t y = 0; y < grid.m_size.y - 1; ++y)
 			{
 				quad_vertices(shape, grid.m_center, points.at(x, y), points.at(x + 1, y), points.at(x + 1, y + 1), points.at(x, y + 1), true, data);
 				for(uint16_t i = 0; i < 4; i++)
@@ -114,10 +114,10 @@ namespace mud
 	{
 		array_2d<vec3> points = { const_cast<vec3*>(grid.m_points.data()), grid.m_size.x, grid.m_size.y };
 
-		size_t offset = 0;
+		uint32_t offset = 0;
 
-		for(size_t x = 0; x < grid.m_size.x-1; ++x)
-			for(size_t y = 0; y < grid.m_size.y-1; ++y)
+		for(uint32_t x = 0; x < grid.m_size.x-1; ++x)
+			for(uint32_t y = 0; y < grid.m_size.y-1; ++y)
 			{
 				quad_vertices(shape, grid.m_center, points.at(x, y), points.at(x+1, y), points.at(x+1, y+1), points.at(x, y+1), true, data);
 				data.quad(offset + 0, offset + 1, offset + 2, offset + 3);

@@ -8,7 +8,7 @@ module mud.gfx-obj;
 #include <gfx-obj/Types.h>
 #include <gfx-obj/Api.h>
 #include <obj/Vector.h>
-//#include <proto/Proto.h>
+//#include <ecs/Proto.h>
 #endif
 
 namespace mud

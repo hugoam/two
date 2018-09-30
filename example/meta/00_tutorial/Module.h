@@ -10,7 +10,7 @@
 #include <meta/obj/Module.h>
 #include <meta/pool/Module.h>
 #include <meta/refl/Module.h>
-#include <meta/proto/Module.h>
+#include <meta/ecs/Module.h>
 #include <meta/tree/Module.h>
 #include <meta/srlz/Module.h>
 #include <meta/math/Module.h>

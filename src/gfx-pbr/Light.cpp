@@ -99,6 +99,8 @@ namespace mud
 
 	void BlockLight::submit_pass(Render& render, const Pass& render_pass, ShaderVersion& shader_version, array<Light*> lights) const
 	{
+		UNUSED(lights);
+
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
 		if(render.m_camera.m_clustered)
@@ -143,6 +145,8 @@ namespace mud
 
 	void BlockLight::upload_fog(Render& render, const Pass& render_pass, Fog& fog) const
 	{
+		UNUSED(render);
+
 		if(!fog.m_enabled)
 			return;
 
@@ -196,7 +200,7 @@ namespace mud
 			{
 				if(light->m_type == LightType::Directional)
 				{
-					for(size_t i = 0; i < shadows[light_count].m_frustum_slices.size(); ++i)
+					for(uint32_t i = 0; i < shadows[light_count].m_frustum_slices.size(); ++i)
 					{
 						m_lights_data.csm_splits[light_count][i] = shadows[light_count].m_frustum_slices[i].m_frustum.m_far;
 						m_lights_data.csm_matrix[light_count][i] = shadows[light_count].m_slices[i].m_shadow_matrix * view_matrix;
@@ -220,6 +224,8 @@ namespace mud
 
 	void BlockLight::upload_lights(Render& render, const Pass& render_pass) const
 	{
+		UNUSED(render);
+
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		
 		if(m_light_count > 0)

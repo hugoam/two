@@ -16,7 +16,7 @@ module mud.obj;
 #include <obj/Type.h>
 #include <obj/Vector.h>
 #include <obj/Indexer.h>
-//#include <proto/Proto.h>
+//#include <ecs/Proto.h>
 #endif
 
 namespace mud
@@ -37,7 +37,7 @@ namespace mud
 
 	Index Index::me;
 
-	static size_t s_type_index = 2;
+	static uint32_t s_type_index = 2;
 
 	Type::Type(int)
 		: m_id(1)

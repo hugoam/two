@@ -65,7 +65,7 @@ namespace mud
 
 	export_ inline void flatten(vec3& vector)
 	{
-		for(size_t i = 0; i < 3; ++i)
+		for(vec3::length_type i = 0; i < 3; ++i)
 			if(fabs(vector[i]) < 0.0000001f)
 				vector[i] = 0.f;
 	}

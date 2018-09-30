@@ -20,7 +20,7 @@
 #include <stdlib.h>
 module mud.lang;
 #else
-#include <proto/Proto.h>
+#include <ecs/Proto.h>
 #include <infra/NonCopy.h>
 #include <refl/Meta.h>
 #include <refl/Enum.h>
@@ -304,9 +304,6 @@ namespace mud
 
 	inline void call_cpp(WrenVM* vm, Call& call, size_t first, size_t num_arguments)
 	{
-		if(call.m_callable->m_name == string("add_scene"))
-			int i = 0;
-
 		bool enough_arguments = num_arguments >= call.m_callable->m_num_required;
 		if(enough_arguments && read_params(vm, *call.m_callable, call.m_arguments, 0, first))
 		{
@@ -316,12 +313,6 @@ namespace mud
 		}
 		else
 			printf("ERROR: wren -> %s wrong arguments\n", call.m_callable->m_name);
-
-		if(call.m_callable->m_name == string("add_scene"))
-		{
-			int test = wrenGetSlotCount(vm);
-			int t = 2;
-		}
 	}
 
 	inline void call_function(WrenVM* vm, size_t num_args)
@@ -359,9 +350,9 @@ namespace mud
 	inline void call_wren(WrenVM* vm, WrenHandle* method, WrenHandle* object, array<Var> parameters, Var* result = nullptr)
 	{
 		wrenBegin(vm);
-		wrenEnsureSlots(vm, parameters.m_count + 1);
+		wrenEnsureSlots(vm, int(parameters.m_count + 1));
 		wrenSetSlotHandle(vm, 0, object);
-		for(size_t i = 0; i < parameters.size(); ++i)
+		for(int i = 0; i < int(parameters.size()); ++i)
 			push(vm, i + 1, parameters[i]);
 		wrenCall(vm, method);
 		if(result) read(vm, 0, *result);
@@ -554,6 +545,8 @@ namespace mud
 
 		for(CopyConstructor& constructor : cls(type).m_copy_constructors)
 		{
+			UNUSED(constructor);
+
 			bind += t + t + "__copy_constructor = CopyConstructor.ref(\"" + c + "\")\n";
 
 			constructors += t + "static copy(other) { __copy_constructor.call(this, other) }\n";
@@ -977,10 +970,10 @@ namespace mud
 	inline void push_sequence(WrenVM* vm, int slot, Ref value)
 	{
 		wrenSetSlotNewList(vm, slot);
-		size_t slots = wrenGetSlotCount(vm);
+		int slots = wrenGetSlotCount(vm);
 		wrenEnsureSlots(vm, slots + 1);
 
-		size_t index = 1;
+		int index = 1;
 		iterate_sequence(value, [&](Ref element) {
 			push(vm, slots, element);
 			wrenInsertInList(vm, slot, index, slots);

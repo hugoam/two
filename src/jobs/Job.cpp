@@ -1,12 +1,11 @@
 #include <infra/Config.h>
-#include <infra/Job.h>
+#include <jobs/Job.h>
 
 #include <cassert>
 #include <cmath>
 #include <random>
 #include <algorithm>
 
-#define TRACY_ENABLE
 #include <Tracy.hpp>
 
 #define __i386__
@@ -38,23 +37,23 @@ namespace mud
 {
 	thread_local JobSystem::ThreadState* s_thread_state(nullptr);
 
-	JobSystem::JobSystem(size_t num_threads, size_t adoptable_threads)
+	JobSystem::JobSystem(uint16_t num_threads, uint16_t adoptable_threads)
 		: m_job_pool("JobSystem Job pool", MAX_JOB_COUNT * sizeof(Job))
 		, m_jobs(static_cast<Job*>(m_job_pool.current()))
 	{
 		if(num_threads == 0)
 		{
-			size_t hardware_threads = std::thread::hardware_concurrency();
+			uint32_t hardware_threads = std::thread::hardware_concurrency();
 			if(HAS_HYPER_THREADING)
-				num_threads = hardware_threads / 2 - 1;
+				num_threads = uint16_t(hardware_threads / 2 - 1);
 			else
-				num_threads = hardware_threads - 1;
+				num_threads = uint16_t(hardware_threads - 1);
 		}
-		num_threads = std::min(size_t(HAS_THREADING ? 32 : 0), num_threads);
+		num_threads = std::min(uint16_t(HAS_THREADING ? 32 : 0), num_threads);
 
 		m_thread_states = aligned_vector<ThreadState>(num_threads + adoptable_threads);
 		m_thread_count = uint16_t(num_threads);
-		m_parallel_split_count = (uint8_t)std::ceil((std::log2f(num_threads + adoptable_threads)));
+		m_parallel_split_count = (uint8_t)std::ceil(std::log2f(float(num_threads + adoptable_threads)));
 
 		printf("INFO: job system running on %i worker threads\n", int(m_thread_count));
 
@@ -117,16 +116,16 @@ namespace mud
 		return *s_thread_state;
 	}
 
-	static inline double random_index(uint16_t range)
+	static inline uint32_t random_index(uint16_t range)
 	{
 		thread_local std::default_random_engine generator(std::random_device{}());
 		return generator() % range;
 	}
 
-	inline JobSystem::ThreadState& JobSystem::random_thread_state(ThreadState& state)
+	inline JobSystem::ThreadState& JobSystem::random_thread_state()
 	{
 		uint16_t adopted = m_adopted_threads.load(std::memory_order_relaxed);
-		uint16_t index = random_index(m_thread_count + adopted);
+		uint32_t index = random_index(m_thread_count + adopted);
 		assert(index < m_thread_states.size());
 		return m_thread_states[index];
 	}
@@ -136,7 +135,7 @@ namespace mud
 		Job* job = state.work_queue.pop();
 		if(job == nullptr)
 		{
-			ThreadState& steal_target = random_thread_state(state);
+			ThreadState& steal_target = random_thread_state();
 			if(&steal_target != &state)
 				job = steal_target.work_queue.steal();
 		}
@@ -147,7 +146,7 @@ namespace mud
 			assert(active_jobs);
 			UNUSED(active_jobs);
 
-			if(job->function) [[likely]]
+			if(job->function) //[[likely]]
 			{
 				ZoneScopedN("job");
 				job->function(job->padding, *this, job);
@@ -180,7 +179,7 @@ namespace mud
 	{
 		parent = (parent == nullptr) ? m_master_job : parent;
 		Job* const job = m_job_pool.make();
-		if(job) [[likely]]
+		if(job) //[[likely]]
 		{
 			//printf("%i jobs\n", int(job - m_jobs));
 			size_t index = 0x7FFF;
@@ -269,6 +268,7 @@ namespace mud
 	void JobSystem::emancipate()
 	{
 		ThreadState* const state = s_thread_state;
+		UNUSED(state);
 		s_thread_state = nullptr;
 	}
 }

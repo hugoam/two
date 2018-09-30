@@ -148,7 +148,7 @@ namespace mud
 
 	void debug_draw_light_slices(Gnode& parent, Light& light)
 	{
-		uint32_t index = 0; // light.m_index];
+		uint32_t index = 0; UNUSED(light);// light.m_index];
 
 		GfxSystem& gfx_system = parent.m_scene->m_gfx_system;
 		BlockShadow& block_shadow = *gfx_system.m_pipeline->block<BlockShadow>();

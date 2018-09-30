@@ -40,6 +40,7 @@ namespace mud
 
 	void BlockFilter::begin_gfx_block(Render& render)
 	{
+		UNUSED(render);
 		//this->set_uniforms(render);
 	}
 

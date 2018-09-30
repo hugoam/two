@@ -39,7 +39,7 @@ namespace mud
 
 	Bone& Skeleton::add_bone(cstring name, int parent)
 	{		
-		m_bones.emplace_back(name, m_bones.size(), parent);
+		m_bones.emplace_back(name, int(m_bones.size()), parent);
 		return m_bones.back();
 	}
 
@@ -63,7 +63,7 @@ namespace mud
 	}
 
 	Skin::Skin(const Skin& copy, Skeleton& skeleton)
-		: Skin(skeleton, copy.m_joints.size())
+		: Skin(skeleton, int(copy.m_joints.size()))
 	{
 		m_joints = copy.m_joints;
 		m_skeleton = &skeleton;
@@ -91,7 +91,7 @@ namespace mud
 
 	void Skin::update_joints()
 	{
-		int height = m_joints.size() / SKELETON_TEXTURE_SIZE;
+		int height = int(m_joints.size()) / SKELETON_TEXTURE_SIZE;
 		if(m_joints.size() % SKELETON_TEXTURE_SIZE)
 			height++;
 

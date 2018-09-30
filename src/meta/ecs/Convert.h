@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <proto/Types.h>
+#include <ecs/Types.h>
 
 #if !defined MUD_MODULES || defined MUD_OBJ_LIB
 #include <refl/Meta.h>

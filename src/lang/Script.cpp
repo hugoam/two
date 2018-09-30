@@ -8,7 +8,7 @@
 module mud.lang;
 #else
 #include <obj/Indexer.h>
-#include <proto/Proto.h>
+#include <ecs/Proto.h>
 #include <lang/Types.h>
 #include <lang/Script.h>
 #include <lang/Lua.h>

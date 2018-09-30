@@ -6,7 +6,7 @@
 
 #include <obj/Unique.h>
 #include <obj/Type.h>
-#include <proto/Forward.h>
+#include <ecs/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <vector>
@@ -22,7 +22,7 @@ namespace mud
 			and are not part of the object in itself : they can be here or not here, whereas the parts are always here
 	*/
 
-	export_ class refl_ MUD_PROTO_EXPORT Prototype
+	export_ class refl_ MUD_ECS_EXPORT Prototype
 	{
 	public:
 		Prototype(Class& cls);
@@ -34,15 +34,15 @@ namespace mud
 		void add_part(Type& type);
 
 		inline bool has_part(Type& type) { return (m_hash_parts[type.m_id] != 0); }
-		inline int part_index(Type& type) { return m_hash_parts[type.m_id]; }
+		inline size_t part_index(Type& type) { return m_hash_parts[type.m_id]; }
 
 	protected:
 		std::vector<size_t> m_hash_parts;
 	};
 
-	export_ extern MUD_PROTO_EXPORT std::vector<unique_ptr<Prototype>> g_prototypes;
+	export_ extern MUD_ECS_EXPORT std::vector<unique_ptr<Prototype>> g_prototypes;
 
-	export_ MUD_PROTO_EXPORT Prototype& proto(Type& type);
+	export_ MUD_ECS_EXPORT Prototype& proto(Type& type);
 
 	export_ template <class T>
 	inline Prototype& proto() { return proto(type<T>()); }

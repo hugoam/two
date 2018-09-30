@@ -56,12 +56,6 @@ namespace mud
 		ms_vertex_decl = vertex_decl(VertexAttribute::Position | VertexAttribute::Colour);
 	}
 
-	inline bool checkAvailTransientBuffers(uint32_t _numVertices, const bgfx::VertexDecl& _decl, uint32_t _numIndices)
-	{
-		return _numVertices == bgfx::getAvailTransientVertexBuffer(_numVertices, _decl)
-			&& _numIndices == bgfx::getAvailTransientIndexBuffer(_numIndices);
-	}
-
 	void ImmediateDraw::begin()
 	{
 		DrawMode draw_modes[2] = { PLAIN, OUTLINE };
@@ -146,16 +140,20 @@ namespace mud
 		if(batch.m_vertices.empty())
 			return;
 
-		if(!checkAvailTransientBuffers(batch.m_vertices.size(), ms_vertex_decl, batch.m_indices.size()))
+		uint32_t num_vertices = uint32_t(batch.m_vertices.size());
+		uint32_t num_indices = uint32_t(batch.m_indices.size());
+
+		if(num_vertices != bgfx::getAvailTransientVertexBuffer(num_vertices, ms_vertex_decl)
+		|| num_indices != bgfx::getAvailTransientIndexBuffer(num_indices))
 			return;
 
 		bgfx::TransientVertexBuffer vertex_buffer;
-		bgfx::allocTransientVertexBuffer(&vertex_buffer, batch.m_vertices.size(), ms_vertex_decl);
-		bx::memCopy(vertex_buffer.data, batch.m_vertices.data(), batch.m_vertices.size() * sizeof(Vertex));//ms_vertex_decl.m_stride);
+		bgfx::allocTransientVertexBuffer(&vertex_buffer, num_vertices, ms_vertex_decl);
+		bx::memCopy(vertex_buffer.data, batch.m_vertices.data(), num_vertices * sizeof(Vertex));//ms_vertex_decl.m_stride);
 
 		bgfx::TransientIndexBuffer index_buffer;
-		bgfx::allocTransientIndexBuffer(&index_buffer, batch.m_indices.size());
-		bx::memCopy(index_buffer.data, batch.m_indices.data(), batch.m_indices.size() * sizeof(uint16_t));
+		bgfx::allocTransientIndexBuffer(&index_buffer, num_indices);
+		bx::memCopy(index_buffer.data, batch.m_indices.data(), num_indices * sizeof(uint16_t));
 
 		m_material.submit(encoder, bgfx_state);
 

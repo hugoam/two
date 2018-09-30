@@ -23,7 +23,7 @@ namespace mud
 #define GFX_TEXTURE_CLAMP_UVW BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_W_CLAMP
 #define GFX_TEXTURE_POINT BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT
 
-	MUD_GFX_EXPORT const bgfx::VertexDecl& vertex_decl(size_t vertex_format);
+	MUD_GFX_EXPORT const bgfx::VertexDecl& vertex_decl(uint32_t vertex_format);
 
 	export_ enum class refl_ TextureSampler : unsigned int
 	{

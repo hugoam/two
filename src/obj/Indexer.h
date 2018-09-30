@@ -40,7 +40,7 @@ namespace mud
 
 	public:
 		size_t m_count;
-		size_t m_next;
+		uint32_t m_next;
 	};
 
 	export_ class refl_ MUD_OBJ_EXPORT Index : public NonCopy

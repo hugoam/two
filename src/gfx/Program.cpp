@@ -155,7 +155,7 @@ namespace mud
 			push_arg(args, "--profile", "metal");
 		}
 
-		int result = bgfx::compileShader(args.size(), args.data());
+		int result = bgfx::compileShader(uint32_t(args.size()), args.data());
 
 		if(result == EXIT_FAILURE)
 		{

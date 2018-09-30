@@ -105,7 +105,7 @@ namespace mud
 	
 	export_ struct MUD_GEOM_EXPORT Vertex
 	{
-		static const size_t vertex_format = VertexAttribute::Position;
+		static const uint32_t vertex_format = VertexAttribute::Position;
 		vec3 m_position;
 	};
 
@@ -116,7 +116,7 @@ namespace mud
 
 	export_ struct MUD_GEOM_EXPORT ShapeVertex
 	{
-		static const size_t vertex_format = VertexAttribute::Position | VertexAttribute::Normal | VertexAttribute::Colour 
+		static const uint32_t vertex_format = VertexAttribute::Position | VertexAttribute::Normal | VertexAttribute::Colour
 										  | VertexAttribute::Tangent| VertexAttribute::TexCoord0 | VertexAttribute::Joints | VertexAttribute::Weights;
 		vec3 m_position; vec3 m_normal; uint32_t m_colour; vec4 m_tangent; vec2 m_uv0; uint32_t m_joints; vec4 m_weights;
 	};
@@ -140,18 +140,18 @@ namespace mud
 		else return 0;
 	}
 
-	export_ inline size_t vertex_size(size_t vertex_format)
+	export_ inline uint32_t vertex_size(uint32_t vertex_format)
 	{
-		size_t size = 0;
+		uint32_t size = 0;
 		for(VertexAttribute::Enum current = VertexAttribute::Position; current != VertexAttribute::Count; current = VertexAttribute::Enum(current << 1))
 		{
 			if((vertex_format & current) != 0)
-				size += vertex_attribute_size(current);
+				size += uint32_t(vertex_attribute_size(current));
 		}
 		return size;
 	}
 
-	export_ inline size_t vertex_offset(size_t vertex_format, VertexAttribute::Enum attribute)
+	export_ inline size_t vertex_offset(uint32_t vertex_format, VertexAttribute::Enum attribute)
 	{
 		size_t offset = 0;
 		for(VertexAttribute::Enum current = VertexAttribute::Position; current != attribute; current = VertexAttribute::Enum(current << 1))
@@ -167,13 +167,13 @@ namespace mud
 		struct Array
 		{
 			Array() : m_pointer(nullptr), m_count(0) {}
-			Array(void* pointer, size_t count) : m_pointer(pointer), m_count(count) {}
+			Array(void* pointer, uint32_t count) : m_pointer(pointer), m_count(count) {}
 				
-			size_t size() { return m_count; }
+			uint32_t size() { return m_count; }
 			void* data() const { return m_pointer; }
 
 			void* m_pointer;
-			size_t m_count;
+			uint32_t m_count;
 		};
 
 		MeshData() {}
@@ -181,8 +181,9 @@ namespace mud
 
 		template <class T_Vertex, class T_Index>
 		MeshData(array<T_Vertex> vertices, array<T_Index> indices)
-			: m_vertices((void*)vertices.m_pointer, vertices.size()), m_indices((void*)indices.m_pointer, indices.size()), m_vertex_format(T_Vertex::vertex_format)
-			, m_vertex_stride(sizeof(T_Vertex)), m_index_stride(sizeof(T_Index)), m_index((void*)indices.m_pointer)
+			: m_vertices((void*)vertices.m_pointer, uint32_t(vertices.size())), m_indices((void*)indices.m_pointer, uint32_t(indices.size()))
+			, m_vertex_format(T_Vertex::vertex_format), m_vertex_stride(uint32_t(sizeof(T_Vertex)))
+			, m_index_stride(uint32_t(sizeof(T_Index))), m_index((void*)indices.m_pointer)
 		{
 			m_start.m_position	= vertex_position<T_Vertex>::get(*vertices.m_pointer);
 			m_start.m_normal	= vertex_normal<T_Vertex>::get(*vertices.m_pointer);
@@ -196,7 +197,7 @@ namespace mud
 			m_cursor = m_start;
 		}
 
-		MeshData(size_t vertex_format, void* vertices, size_t num_vertices, void* indices, size_t num_indices)
+		MeshData(uint32_t vertex_format, void* vertices, uint32_t num_vertices, void* indices, uint32_t num_indices)
 			: m_vertices(vertices, num_vertices), m_indices(indices, num_indices), m_vertex_format(vertex_format)
 			, m_vertex_stride(vertex_size(vertex_format)), m_index_stride(sizeof(uint16_t)), m_index(indices)
 		{
@@ -215,9 +216,9 @@ namespace mud
 		Array m_vertices = {};
 		Array m_indices = {};
 
-		size_t m_vertex_format = 0;
-		size_t m_vertex_stride = 0;
-		size_t m_index_stride = 0;
+		uint32_t m_vertex_format = 0;
+		uint32_t m_vertex_stride = 0;
+		uint32_t m_index_stride = 0;
 
 		struct Pointers
 		{

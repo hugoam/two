@@ -8,8 +8,8 @@
 module mud.proto;
 #else
 #include <obj/Indexer.h>
-#include <proto/Entity.h>
-#include <proto/Proto.h>
+#include <ecs/Entity.h>
+#include <ecs/Proto.h>
 #endif
 
 namespace mud

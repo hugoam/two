@@ -398,9 +398,9 @@ namespace mud
 		bool directional = light; //&& (element.m_item->m_layer_mask & light->m_layers) != 0;
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
-		int pcf_level = 0; // @todo can't get pcf working on WebGL so far
+		uint8_t pcf_level = 0; // @todo can't get pcf working on WebGL so far
 #else
-		int pcf_level = 1;
+		uint8_t pcf_level = 1;
 #endif
 
 		bgfx::Encoder& encoder = *render_pass.m_encoder;

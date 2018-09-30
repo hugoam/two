@@ -37,9 +37,9 @@ namespace mud
 	{
 		constr_ MeshPacker();
 
-		size_t vertex_format();
-		size_t vertex_count() { return m_positions.size(); }
-		size_t index_count() { return m_indices.size() > 0 ? m_indices.size() : m_positions.size(); }
+		uint32_t vertex_format();
+		uint32_t vertex_count() { return uint32_t(m_positions.size()); }
+		uint32_t index_count() { return m_indices.size() > 0 ? uint32_t(m_indices.size()) : uint32_t(m_positions.size()); }
 
 		PrimitiveType m_primitive = PrimitiveType::Triangles;
 

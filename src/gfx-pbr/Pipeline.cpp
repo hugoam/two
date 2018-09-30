@@ -40,6 +40,7 @@ namespace mud
 		BlockReflection& reflection = pipeline.add_block<BlockReflection>(gfx_system);
 		//BlockGI& gi = pipeline.add_block<BlockGI>(gfx_system);
 		BlockParticles& particles = pipeline.add_block<BlockParticles>(gfx_system);
+		UNUSED(geometry);
 		UNUSED(particles);
 
 		// mrt
@@ -224,6 +225,7 @@ namespace mud
 
 	void PassGeometry::queue_draw_element(Render& render, DrawElement& element)
 	{
+		UNUSED(render);
 		if(element.m_material->m_pbr_block.m_enabled && !element.m_material->m_base_block.m_is_alpha)
 		{
 			element.m_shader_version.set_option(0, DEFERRED, true);

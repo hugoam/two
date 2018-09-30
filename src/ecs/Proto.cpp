@@ -9,7 +9,7 @@ module mud.proto;
 #else
 #include <obj/Cls.h>
 #include <refl/Class.h>
-#include <proto/Proto.h>
+#include <ecs/Proto.h>
 #endif
 
 namespace mud

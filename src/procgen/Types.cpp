@@ -8,7 +8,7 @@ module mud.procgen;
 #include <procgen/Types.h>
 #include <procgen/Api.h>
 #include <obj/Vector.h>
-//#include <proto/Proto.h>
+//#include <ecs/Proto.h>
 #endif
 
 namespace mud

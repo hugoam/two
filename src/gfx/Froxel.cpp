@@ -10,7 +10,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <infra/Job.h>
+#include <jobs/Job.h>
 #include <geom/Aabb.h>
 #include <geom/Intersect.h>
 #include <gfx/Froxel.h>
@@ -85,9 +85,9 @@ namespace mud
 
 	bool Froxelizer::update(const Viewport& viewport, const mat4& projection, float near, float far)
 	{
-		[[unlikely]] if(m_viewport != &viewport || m_viewport->m_rect != viewport.m_rect)
+		if(m_viewport != &viewport || m_viewport->m_rect != viewport.m_rect) //[[unlikely]]
 			m_dirty |= VIEWPORT_CHANGED;
-		[[unlikely]] if(m_projection != projection)
+		if(m_projection != projection) //[[unlikely]]
 			m_dirty |= PROJECTION_CHANGED;
 
 		//if(all(less(abs(m_projection), glm::vec3(EPSILON))))
@@ -99,7 +99,7 @@ namespace mud
 
 		bool uniformsNeedUpdating = false;
 
-		[[unlikely]] if(m_dirty)
+		if(m_dirty) // [[unlikely]] 
 			uniformsNeedUpdating = update();
 
 		return uniformsNeedUpdating;
@@ -216,8 +216,8 @@ namespace mud
 
 	void Froxelizer::upload()
 	{
-		m_froxels.m_memory = bgfx::copy(m_froxels.m_data.data(), sizeof(FroxelEntry) * m_froxels.m_data.size());
-		m_records.m_memory = bgfx::copy(m_records.m_data.data(), sizeof(RecordBufferType) * m_records.m_data.size());
+		m_froxels.m_memory = bgfx::copy(m_froxels.m_data.data(), uint32_t(sizeof(FroxelEntry) * m_froxels.m_data.size()));
+		m_records.m_memory = bgfx::copy(m_records.m_data.data(), uint32_t(sizeof(RecordBufferType) * m_records.m_data.size()));
 
 		// send data to GPU
 		m_froxels.m_buffer.commit(m_froxels.m_memory);
@@ -299,13 +299,15 @@ namespace mud
 
 	void Froxelizer::froxelize_assign_records_compress(size_t num_lights)
 	{
+		UNUSED(num_lights);
+
 		auto inspect = [&]()
 		{
 			size_t i = 0;
 			for(FroxelEntry& entry : m_froxels.m_data)
 			{
 				if(entry.count[0] > 0 || entry.count[1] > 0 && entry.offset == 0)
-					printf("froxel %i has lights but offset 0\n", i);
+					printf("froxel %i has lights but offset 0\n", int(i));
 				i++;
 			}
 		};
@@ -362,12 +364,13 @@ namespace mud
 			return i;
 		};
 
-		for(size_t i = 0, c = m_frustum.m_cluster_count; i < c;)
+		size_t num_clusters = m_frustum.m_cluster_count;
+		for(size_t cluster = 0; cluster < num_clusters;)
 		{
-			LightRecord b = m_light_records[i];
+			LightRecord b = m_light_records[cluster];
 			if(b.lights.none())
 			{
-				m_froxels.m_data[remap(i++)].u32 = 0;
+				m_froxels.m_data[remap(cluster++)].u32 = 0;
 				continue;
 			}
 
@@ -384,8 +387,8 @@ namespace mud
 				// note: instead of dropping froxels we could look for similar records we've already
 				// filed up.
 				do { // this compiles to memset() when remap() is identity
-					m_froxels.m_data[remap(i++)].u32 = 0;
-				} while(i < c);
+					m_froxels.m_data[remap(cluster++)].u32 = 0;
+				} while(cluster < num_clusters);
 				goto out_of_memory;
 			}
 
@@ -428,18 +431,18 @@ namespace mud
 			offset += light_count;
 
 			do {
-				m_froxels.m_data[remap(i++)].u32 = entry.u32;
-				if(i >= c) break;
+				m_froxels.m_data[remap(cluster++)].u32 = entry.u32;
+				if(cluster >= num_clusters) break;
 
-				if(m_light_records[i].lights != b.lights && i >= m_frustum.m_subdiv_x)
+				if(m_light_records[cluster].lights != b.lights && cluster >= m_frustum.m_subdiv_x)
 				{
 					// if this froxel record doesn't match the previous one on its left,
 					// we re-try with the record above it, which saves many froxel records
 					// (north of 10% in practice).
-					b = m_light_records[i - m_frustum.m_subdiv_x];
-					entry.u32 = m_froxels.m_data[remap(i - m_frustum.m_subdiv_x)].u32;
+					b = m_light_records[cluster - m_frustum.m_subdiv_x];
+					entry.u32 = m_froxels.m_data[remap(cluster - m_frustum.m_subdiv_x)].u32;
 				}
-			} while(m_light_records[i].lights == b.lights);
+			} while(m_light_records[cluster].lights == b.lights);
 
 			//printf("\niteration %i\n\n", i);
 			//inspect();

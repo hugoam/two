@@ -8,7 +8,7 @@ module mud.geom;
 #include <geom/Types.h>
 #include <geom/Api.h>
 #include <obj/Vector.h>
-//#include <proto/Proto.h>
+//#include <ecs/Proto.h>
 #endif
 
 namespace mud

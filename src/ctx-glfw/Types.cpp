@@ -8,7 +8,7 @@ module mud.ctx-glfw;
 #include <ctx-glfw/Types.h>
 #include <ctx-glfw/Api.h>
 #include <obj/Vector.h>
-//#include <proto/Proto.h>
+//#include <ecs/Proto.h>
 #endif
 
 namespace mud

@@ -12,7 +12,7 @@
 #include <obj/Types.h>
 #include <pool/Types.h>
 #include <refl/Types.h>
-#include <proto/Types.h>
+#include <ecs/Types.h>
 #include <tree/Types.h>
 #include <srlz/Types.h>
 #include <math/Types.h>

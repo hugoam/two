@@ -73,7 +73,7 @@ namespace mud
 
 		Slot& slot = *vector_pop(m_free_slots);
 		slot.m_probe = &probe;
-		probe.m_atlas_index = slot.m_index;
+		probe.m_atlas_index = int(slot.m_index);
 		return slot.m_urect;
 	}
 }

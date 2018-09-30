@@ -156,7 +156,7 @@ namespace mud
 		m_tabs.resize(num_tabs);
 
 		for(size_t i = 0; i < m_tabs.size(); ++i)
-			m_tabs[i].generate(i);
+			m_tabs[i].generate(int(i));
 
 		m_update++;
 	}
@@ -164,7 +164,7 @@ namespace mud
 	void Fract::regen()
 	{
 		for(size_t i = 0; i < m_tabs.size(); ++i)
-			m_tabs[i].generate(i);
+			m_tabs[i].generate(int(i));
 
 		m_update++;
 	}
@@ -217,8 +217,8 @@ namespace mud
 		image.m_palette = pattern.m_palette;
 
 		size_t index = 0;
-		for(size_t y = 0; y < resolution.y; ++y)
-			for(size_t x = 0; x < resolution.x; ++x, ++index)
+		for(uint y = 0; y < resolution.y; ++y)
+			for(uint x = 0; x < resolution.x; ++x, ++index)
 				image.m_pixels[index] = this->inverse_colour(x, y, rect, pattern, image);
 
 		++m_update;

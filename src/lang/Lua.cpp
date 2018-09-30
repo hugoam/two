@@ -17,8 +17,8 @@
 #include <stdlib.h>
 module mud.lang;
 #else
-#include <proto/Proto.h>
 #include <infra/NonCopy.h>
+#include <ecs/Proto.h>
 #include <refl/Meta.h>
 #include <refl/Enum.h>
 #include <refl/Sequence.h>

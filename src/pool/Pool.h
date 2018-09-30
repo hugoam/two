@@ -134,7 +134,7 @@ namespace mud
 		{
 			if(!m_available.empty())
 				return vector_pop(m_available);
-			size_t count = m_indices.size();
+			uint32_t count = uint32_t(m_indices.size());
 			m_indices.resize(count + 1);
 			return count;
 		}
@@ -169,7 +169,7 @@ namespace mud
 		inline OwnedHandle<T> construct(Types&&... args)
 		{
 			uint32_t handle = this->handle();
-			m_indices[handle] = m_objects.size();
+			m_indices[handle] = uint32_t(m_objects.size());
 			m_objects.emplace_back(std::forward<Types>(args)...);
 			m_handles.push_back(handle);
 			return { *this, handle };

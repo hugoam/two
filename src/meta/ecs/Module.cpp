@@ -3,14 +3,14 @@
 #ifdef MUD_MODULES
 module mud.proto;
 #else
-#include <meta/proto/Module.h>
+#include <meta/ecs/Module.h>
 #endif
 
 #ifndef MUD_MODULES
-#include <meta/proto/Convert.h>
+#include <meta/ecs/Convert.h>
 #endif
-#define MUD_PROTO_REFLECTION_IMPL
-#include <meta/proto/Meta.h>
+#define MUD_ECS_REFLECTION_IMPL
+#include <meta/ecs/Meta.h>
 
 namespace mud
 {
@@ -27,7 +27,7 @@ namespace mud
 	}
 }
 
-#ifdef MUD_PROTO_MODULE
+#ifdef MUD_ECS_MODULE
 extern "C"
 Module& getModule()
 {

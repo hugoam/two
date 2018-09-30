@@ -80,14 +80,14 @@ namespace mud
 	string to_lower(const string& original)
 	{
 		string result = original;
-		std::transform(result.begin(), result.end(), result.begin(), ::tolower);
+		std::transform(result.begin(), result.end(), result.begin(), [](char c) { return char(tolower(c)); });
 		return result;
 	}
 
 	string to_upper(const string& original)
 	{
 		string result = original;
-		std::transform(result.begin(), result.end(), result.begin(), ::toupper);
+		std::transform(result.begin(), result.end(), result.begin(), [](char c) { return char(toupper(c)); });
 		return result;
 	}
 

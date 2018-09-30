@@ -30,8 +30,8 @@ namespace mud
 		if(clip_size.y > clip_size.x)
 			std::swap(frustum.m_subdiv_x, frustum.m_subdiv_y);
 		frustum.m_subdiv_z = uint16_t(slices);
-		frustum.m_tile_size.x = (clip_size.x + frustum.m_subdiv_x - 1) / frustum.m_subdiv_x;
-		frustum.m_tile_size.y = (clip_size.y + frustum.m_subdiv_y - 1) / frustum.m_subdiv_y;
+		frustum.m_tile_size.x = (uint(clip_size.x) + frustum.m_subdiv_x - 1) / frustum.m_subdiv_x;
+		frustum.m_tile_size.y = (uint(clip_size.y) + frustum.m_subdiv_y - 1) / frustum.m_subdiv_y;
 	}
 
 	void compute_frustum_subdiv_square(ClusteredFrustum& frustum, vec2 clip_size, size_t slices, size_t max_clusters)
@@ -45,8 +45,8 @@ namespace mud
 		size_t count_x = size_t(bx::sqrt(per_slice * clip_size.x / clip_size.y));
 		size_t count_y = size_t(bx::sqrt(per_slice * clip_size.y / clip_size.x));
 		// - copmute the froxels dimensions, rounded up
-		size_t size_x = (clip_size.x + count_x - 1) / count_x;
-		size_t size_y = (clip_size.y + count_y - 1) / count_y;
+		size_t size_x = (size_t(clip_size.x) + count_x - 1) / count_x;
+		size_t size_y = (size_t(clip_size.y) + count_y - 1) / count_y;
 		// - and since our froxels must be square, only keep the largest dimension
 		size_t size = bx::max(size_x, size_y);
 

@@ -43,7 +43,6 @@ module mud.gfx;
 #include <gfx/Skeleton.h>
 #endif
 
-#define TRACY_ENABLE
 #include <Tracy.hpp>
 
 #define MUD_GFX_THREADED

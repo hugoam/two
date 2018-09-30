@@ -278,6 +278,7 @@ namespace ui
 
 	OrbitController& hybrid_controller(Viewer& viewer, OrbitMode mode, Transform& entity, bool& aiming, vec2& angles, bool modal)
 	{
+		UNUSED(modal);
 		using Mode = OrbitMode;
 		OrbitController& orbit = mode == Mode::Isometric ? ui::isometric_controller(viewer)
 														 : ui::orbit_controller(viewer);
@@ -356,13 +357,14 @@ namespace ui
 
 		auto velocity_key = [](Widget& widget, vec3& linear, vec3& angular, const KeyMove& move, float speed)
 		{
+			UNUSED(angular);
 			if(widget.key_event(move.key, EventType::Pressed))
 				linear += move.velocity * speed;
 			if(widget.key_event(move.key, EventType::Released))
 				linear -= move.velocity * speed;
 		};
 
-		bool shift = viewer.ui().m_keyboard.m_shift;
+		//bool shift = viewer.ui().m_keyboard.m_shift;
 
 		const KeyMove moves[8] =
 		{

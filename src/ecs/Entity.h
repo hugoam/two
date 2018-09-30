@@ -6,10 +6,10 @@
 
 #include <infra/Generic.h>
 #include <obj/Ref.h>
-#include <proto/Forward.h>
-#include <proto/Proto.h>
+#include <ecs/Forward.h>
+#include <ecs/Proto.h>
 #ifdef TOY_ECS
-#include <proto/ECS/Registry.h>
+#include <ecs/Registry.h>
 #endif
 
 #ifndef MUD_CPP_20
@@ -18,7 +18,7 @@
 
 namespace mud
 {
-	export_ class refl_ MUD_PROTO_EXPORT Complex
+	export_ class refl_ MUD_ECS_EXPORT Complex
 	{
 	public:
 		constr_ Complex(Id id, Type& type);

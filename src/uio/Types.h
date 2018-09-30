@@ -11,7 +11,7 @@
 #include <infra/Types.h>
 #include <tree/Types.h>
 #include <obj/Types.h>
-#include <proto/Types.h>
+#include <ecs/Types.h>
 #include <pool/Types.h>
 #include <refl/Types.h>
 #include <math/Types.h>

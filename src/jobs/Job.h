@@ -3,8 +3,8 @@
 #include <infra/Array.h>
 #include <infra/Pool.h>
 #include <infra/Vector.h>
-#include <infra/JobQueue.h>
 #include <infra/Thread.h>
+#include <jobs/JobQueue.h>
 
 #include <cassert>
 #include <cstddef>
@@ -95,7 +95,7 @@ namespace mud
 		static_assert((sizeof(Job) % CACHELINE_SIZE == 0) || (CACHELINE_SIZE % sizeof(Job) == 0),
 					  "A Job must be N cache-lines long or N Jobs must fit in a cache line exactly.");
 
-		explicit JobSystem(size_t num_threads = 0, size_t adoptable_threads = 1);
+		explicit JobSystem(uint16_t num_threads = 0, uint16_t adoptable_threads = 1);
 
 		~JobSystem();
 
@@ -189,7 +189,7 @@ namespace mud
 		static ThreadState& state();
 
 		Job* create(Job* parent, JobFunc func);
-		ThreadState& random_thread_state(ThreadState& state);
+		ThreadState& random_thread_state();
 		bool completed(Job const* job);
 
 		void shutdown();

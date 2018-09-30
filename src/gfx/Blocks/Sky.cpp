@@ -257,6 +257,7 @@ namespace mud
 
 	void ProceduralSky::submit(Render& render, Pass& render_pass)
 	{
+		UNUSED(render);
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
 		encoder.setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LEQUAL);

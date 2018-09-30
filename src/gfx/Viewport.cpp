@@ -35,6 +35,8 @@ namespace mud
 	{
 #if _DEBUG
 		bgfx::setViewName(render_pass.m_index, name);
+#else
+		UNUSED(name);
 #endif
 
 		bgfx::setViewRect(render_pass.m_index, uint16_t(m_rect.x), uint16_t(m_rect.y), uint16_t(rect_w(m_rect)), uint16_t(rect_h(m_rect)));

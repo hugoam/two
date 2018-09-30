@@ -9,7 +9,7 @@ module mud.uio;
 #else
 #include <refl/Class.h>
 #include <refl/System.h>
-#include <proto/Proto.h>
+#include <ecs/Proto.h>
 #include <ui/Structs/Container.h>
 #include <uio/Object.h>
 #include <uio/Edit/Injector.h>

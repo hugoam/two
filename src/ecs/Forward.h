@@ -8,8 +8,8 @@
 #include <obj/Forward.h>
 #include <refl/Forward.h>
 
-#ifndef MUD_PROTO_EXPORT
-#define MUD_PROTO_EXPORT MUD_IMPORT
+#ifndef MUD_ECS_EXPORT
+#define MUD_ECS_EXPORT MUD_IMPORT
 #endif
 
 

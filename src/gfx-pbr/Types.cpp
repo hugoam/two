@@ -8,7 +8,7 @@ module mud.gfx-pbr;
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/Api.h>
 #include <obj/Vector.h>
-//#include <proto/Proto.h>
+//#include <ecs/Proto.h>
 #endif
 
 namespace mud

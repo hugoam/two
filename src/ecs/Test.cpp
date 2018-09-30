@@ -1,5 +1,5 @@
 ﻿
-#include <proto/ECS/Registry.h>
+#include <ecs/Registry.h>
 
 using namespace mud;
 
@@ -26,12 +26,6 @@ namespace mud
 
 void test_ecs()
 {
-	int preallocShift = 14;
-	//static EntityRegistry<MyBufferRegistry> s_registry = { 1 << preallocShift };
-
-    //create registry
-    //Print("Creating Registry");
-
 //        PrintRegistryDebug();
 
     //create and register some component buffers

@@ -17,7 +17,7 @@ module mud.gfx;
 
 namespace mud
 {
-	bgfx::VertexDecl create_vertex_decl(size_t vertex_format)
+	bgfx::VertexDecl create_vertex_decl(uint32_t vertex_format)
 	{
 		bgfx::VertexDecl decl;
 
@@ -50,9 +50,9 @@ namespace mud
 		return decl;
 	}
 
-	const bgfx::VertexDecl& vertex_decl(size_t vertex_format)
+	const bgfx::VertexDecl& vertex_decl(uint32_t vertex_format)
 	{
-		static std::map<size_t, bgfx::VertexDecl> decls;
+		static std::map<uint32_t, bgfx::VertexDecl> decls;
 		if(decls.find(vertex_format) == decls.end())
 			decls[vertex_format] = create_vertex_decl(vertex_format);
 		return decls[vertex_format];
@@ -118,7 +118,7 @@ namespace mud
 
 	void Mesh::write(DrawMode draw_mode, array<ShapeVertex> vertices, array<ShapeIndex> indices)
 	{
-		GpuMesh gpu_mesh = alloc_mesh<ShapeVertex, ShapeIndex>(vertices.m_count, indices.m_count);
+		GpuMesh gpu_mesh = alloc_mesh<ShapeVertex, ShapeIndex>(uint32_t(vertices.m_count), uint32_t(indices.m_count));
 		vertices.copy(gpu_mesh.vertices<ShapeVertex>());
 		indices.copy(gpu_mesh.indices<ShapeIndex>());
 		this->upload(draw_mode, gpu_mesh);

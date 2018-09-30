@@ -9,8 +9,8 @@ module mud.uio;
 #else
 #include <infra/Vector.h>
 #include <obj/Any.h>
-#ifdef MUD_PROTO
-#include <proto/Entity.h>
+#ifdef MUD_ECS
+#include <ecs/Entity.h>
 #endif
 #include <refl/Class.h>
 #include <uio/Edit/Inspector.h>

@@ -237,11 +237,11 @@ namespace mud
 	{
 		const glTFBufferView& buffer_view = gltf.m_buffer_views[a.buffer_view];
 
-		int stride = buffer_view.byte_stride ? buffer_view.byte_stride : layout.element_size;
+		size_t stride = buffer_view.byte_stride ? buffer_view.byte_stride : layout.element_size;
 		if(for_vertex && stride % 4)
 			stride += 4 - (stride % 4); //according to spec must be multiple of 4
 
-		uint32_t offset = buffer_view.byte_offset + a.byte_offset;
+		size_t offset = buffer_view.byte_offset + a.byte_offset;
 		const std::vector<uint8_t>& buffer = gltf.m_binary_buffers[buffer_view.buffer];
 
 		for(int i = 0; i < a.count; i++)
@@ -365,7 +365,8 @@ namespace mud
 	{
 		std::vector<double> attribs = decode_accessor(gltf, accessor, for_vertex);
 		std::vector<T> ret(attribs.size() / size);
-		std::transform(attribs.begin(), attribs.end(), value_ptr(ret[0]), [](double v) { return static_cast<float>(v); });
+		using U = std::remove_pointer_t<decltype(value_ptr(ret[0]))>;
+		std::transform(attribs.begin(), attribs.end(), value_ptr(ret[0]), [](double v) { return static_cast<U>(v); });
 		return ret;
 	}
 
@@ -538,7 +539,7 @@ namespace mud
 			for(size_t j = 0; j < gltf.m_nodes[i].children.size(); j++)
 			{
 				int child = gltf.m_nodes[i].children[j];
-				gltf.m_nodes[child].parent = i;
+				gltf.m_nodes[child].parent = int(i);
 			}
 	}
 
@@ -580,7 +581,7 @@ namespace mud
 		for(glTFSkin& gltf_skin : gltf.m_skins)
 		{
 			printf("INFO: Gltf - adding skin %s\n", gltf_skin.name.c_str());
-			model.m_rig->m_skins.emplace_back(*state.m_skeletons[gltf_skin.skeleton], gltf_skin.joints.size()); // gltf_skin.name
+			model.m_rig->m_skins.emplace_back(*state.m_skeletons[gltf_skin.skeleton], int(gltf_skin.joints.size())); // gltf_skin.name
 			Skin& skin = model.m_rig->m_skins.back();
 
 			std::vector<mat4> bind_matrices;
@@ -673,10 +674,10 @@ namespace mud
 	{
 		std::map<int, std::vector<int>> primitives;
 		
-		size_t primitive_index = 0;
+		int primitive_index = 0;
 		for(size_t mesh_index = 0; mesh_index < gltf.m_meshes.size(); ++mesh_index)
 			for(size_t prim = 0; prim < gltf.m_meshes[mesh_index].primitives.size(); ++prim)
-				primitives[mesh_index].push_back(primitive_index++);
+				primitives[int(mesh_index)].push_back(primitive_index++);
 
 		for(const glTFNode& node : gltf.m_nodes)
 		{

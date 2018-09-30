@@ -7,12 +7,12 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#ifdef MUD_PROTO
-#include <proto/Entity.h>
+#ifdef MUD_ECS
+#include <ecs/Entity.h>
 #endif
 #include <refl/Class.h>
 #include <refl/Convert.h>
-#include <proto/Entity.h>
+#include <ecs/Entity.h>
 #include <ui/Structs/Window.h>
 #include <ui/Structs/Container.h>
 #include <ui/Sequence.h>

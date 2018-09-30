@@ -8,7 +8,7 @@ module mud.tree;
 #include <tree/Types.h>
 #include <tree/Api.h>
 #include <obj/Vector.h>
-//#include <proto/Proto.h>
+//#include <ecs/Proto.h>
 #endif
 
 namespace mud

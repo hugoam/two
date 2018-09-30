@@ -30,7 +30,7 @@ function uses_mud()
     }
 end
 
-function mud_infra()
+function mud_jobs()
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "tracy"),
     }
@@ -129,11 +129,12 @@ function mud_db()
 end
 
 --                       base   name        root path    sub path   decl        self decl       decl transitive     dependencies
-mud.infra   = mud_module("mud", "infra",    MUD_SRC_DIR, "infra",   nil,        mud_infra,      uses_mud,           { tracy })
+mud.infra   = mud_module("mud", "infra",    MUD_SRC_DIR, "infra",   nil,        nil,            uses_mud,           { })
+mud.jobs    = mud_module("mud", "jobs",     MUD_SRC_DIR, "jobs",    nil,        mud_jobs,       uses_mud,           { tracy })
 mud.obj     = mud_module("mud", "obj",      MUD_SRC_DIR, "obj",     nil,        nil,            uses_mud,           { mud.infra })
 mud.pool    = mud_module("mud", "pool",     MUD_SRC_DIR, "pool",    nil,        nil,            nil,                { mud.infra, mud.obj })
 mud.refl    = mud_module("mud", "refl",     MUD_SRC_DIR, "refl",    nil,        nil,            nil,                { mud.infra, mud.obj, mud.pool })
-mud.proto   = mud_module("mud", "proto",    MUD_SRC_DIR, "proto",   nil,        nil,            uses_mud,           { mud.infra, mud.obj, mud.refl })
+mud.ecs     = mud_module("mud", "ecs",      MUD_SRC_DIR, "ecs",     nil,        nil,            uses_mud,           { mud.infra, mud.obj, mud.refl })
 mud.tree    = mud_module("mud", "tree",     MUD_SRC_DIR, "tree",    nil,        nil,            nil,                { mud.infra })
 mud.srlz    = mud_module("mud", "srlz",     MUD_SRC_DIR, "srlz",    nil,        mud_srlz,       nil,                { json11, mud.infra, mud.obj, mud.refl })
 if MUD_STATIC then
@@ -146,7 +147,7 @@ mud.procgen = mud_module("mud", "procgen",  MUD_SRC_DIR, "procgen", nil,        
 mud.lang    = mud_module("mud", "lang",     MUD_SRC_DIR, "lang",    nil,        mud_lang,       nil,                { lua, wren, mud.infra, mud.obj, mud.pool, mud.refl })
 mud.ctx     = mud_module("mud", "ctx",      MUD_SRC_DIR, "ctx",     nil,        nil,            nil,                { mud.infra, mud.obj, mud.math })
 mud.ui      = mud_module("mud", "ui",       MUD_SRC_DIR, "ui",      nil,        mud_ui,         uses_mud_ui,        { json11, mud.infra, mud.obj, mud.refl, mud.srlz, mud.math, mud.ctx })
-mud.uio     = mud_module("mud", "uio",      MUD_SRC_DIR, "uio",     nil,        nil,            nil,                { mud.infra, mud.tree, mud.obj, mud.proto, mud.pool, mud.refl, mud.math, mud.lang, mud.ctx, mud.ui })
+mud.uio     = mud_module("mud", "uio",      MUD_SRC_DIR, "uio",     nil,        nil,            nil,                { mud.infra, mud.tree, mud.obj, mud.ecs, mud.pool, mud.refl, mud.math, mud.lang, mud.ctx, mud.ui })
 mud.snd     = mud_module("mud", "snd",      MUD_SRC_DIR, "snd",     nil,        mud_snd,        uses_mud_snd,       { ogg, vorbis, vorbisfile, mud.obj, mud.math })
 
 --mud_sys(true)
@@ -154,9 +155,9 @@ mud.snd     = mud_module("mud", "snd",      MUD_SRC_DIR, "snd",     nil,        
 --mud.db = mud_module(as_project, "mud", "db", MUD_SRC_DIR, "db", { mud.obj, mud.util })
 
 if _OPTIONS["sound"] then
-    mud.mud = { mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.tree, mud.srlz, mud.math, mud.geom, mud.procgen, mud.lang, mud.ctx, mud.ui, mud.uio, mud.snd }
+    mud.mud = { mud.infra, mud.jobs, mud.obj, mud.pool, mud.refl, mud.ecs, mud.tree, mud.srlz, mud.math, mud.geom, mud.procgen, mud.lang, mud.ctx, mud.ui, mud.uio, mud.snd }
 else
-    mud.mud = { mud.infra, mud.obj, mud.pool, mud.refl, mud.proto, mud.tree, mud.srlz, mud.math, mud.geom, mud.procgen, mud.lang, mud.ctx, mud.ui, mud.uio }
+    mud.mud = { mud.infra, mud.jobs, mud.obj, mud.pool, mud.refl, mud.ecs, mud.tree, mud.srlz, mud.math, mud.geom, mud.procgen, mud.lang, mud.ctx, mud.ui, mud.uio }
 end
 
 --mud.usage_decl = uses_mud

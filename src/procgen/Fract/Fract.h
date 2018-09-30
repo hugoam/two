@@ -1,7 +1,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <proto/Proto.h>
+#include <ecs/Proto.h>
 #include <math/Colour.h>
 #include <math/Image256.h>
 #include <math/Vec.h>

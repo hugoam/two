@@ -24,7 +24,7 @@ namespace mud
 	export_ struct MUD_GFX_EXPORT GpuMesh
 	{
 		GpuMesh() {}
-		GpuMesh(size_t vertex_count, size_t index_count)
+		GpuMesh(uint32_t vertex_count, uint32_t index_count)
 			: m_vertex_count(vertex_count), m_index_count(index_count)
 		{}
 
@@ -35,10 +35,10 @@ namespace mud
 			m_data = MeshData(this->template vertices<T_Vertex>(), this->template indices<T_Index>());
 		}
 
-		size_t m_vertex_format = 0;
+		uint32_t m_vertex_format = 0;
 		
-		size_t m_vertex_count = 0;
-		size_t m_index_count = 0;
+		uint32_t m_vertex_count = 0;
+		uint32_t m_index_count = 0;
 
 		const bgfx::Memory* m_vertex_memory = nullptr;
 		const bgfx::Memory* m_index_memory = nullptr;
@@ -53,19 +53,19 @@ namespace mud
 	};
 
 	template <class T_Vertex, class T_Index>
-	GpuMesh alloc_mesh(size_t vertex_count, size_t index_count)
+	GpuMesh alloc_mesh(uint32_t vertex_count, uint32_t index_count)
 	{
 		GpuMesh gpu_mesh = { vertex_count, index_count };
 		
-		gpu_mesh.m_vertex_memory = bgfx::alloc(sizeof(T_Vertex) * vertex_count);
-		gpu_mesh.m_index_memory = bgfx::alloc(sizeof(T_Index) * index_count);
+		gpu_mesh.m_vertex_memory = bgfx::alloc(uint32_t(sizeof(T_Vertex) * vertex_count));
+		gpu_mesh.m_index_memory = bgfx::alloc(uint32_t(sizeof(T_Index) * index_count));
 
 		gpu_mesh.init<T_Vertex, T_Index>();
 
 		return gpu_mesh;
 	}
 	
-	inline GpuMesh alloc_mesh(size_t vertex_format, size_t vertex_count, size_t index_count)
+	inline GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count)
 	{
 		GpuMesh gpu_mesh = { vertex_count, index_count };
 
@@ -95,8 +95,8 @@ namespace mud
 		attr_ vec3 m_origin = Zero3;
 		attr_ bool m_readback = false;
 
-		attr_ size_t m_vertex_count = 0;
-		attr_ size_t m_index_count = 0;
+		attr_ uint32_t m_vertex_count = 0;
+		attr_ uint32_t m_index_count = 0;
 
 		attr_ Material* m_material = nullptr;
 

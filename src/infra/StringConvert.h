@@ -93,10 +93,10 @@ namespace mud
 		}
 	}
 
-	export_ template <class T, size_t size>
+	export_ template <class T, uint32_t size>
 	inline void fixed_vector_to_string(const T& val, string& str)
 	{
-		for(size_t i = 0; i < size; ++i)
+		for(uint32_t i = 0; i < size; ++i)
 		{
 			str += to_string(val[i]);
 			str += ",";
@@ -111,7 +111,7 @@ namespace mud
 		auto end = str.end();
 		auto second = std::find(first, end, ',');
 
-		size_t i = 0;
+		uint32_t i = 0;
 		while(second != end)
 		{
 			second = std::find(first, end, ',');

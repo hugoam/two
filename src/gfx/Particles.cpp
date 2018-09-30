@@ -148,7 +148,7 @@ namespace mud
 		if(m_sprite == nullptr)
 			return 0;
 		
-		size_t index = first;
+		uint32_t index = first;
 		for(Particle& particle : m_particles)
 		{
 			if(index + 1 >= max)
@@ -198,7 +198,7 @@ namespace mud
 			++index;
 		}
 
-		return m_particles.size();
+		return uint32_t(m_particles.size());
 	}
 
 	inline void Particles::write_vertex(ParticleVertex*& dest, ParticleVertex vertex)
@@ -236,7 +236,7 @@ namespace mud
 		for(Particles* emitter : m_emitters.m_vec_pool->m_objects)
 		{
 			emitter->update(_dt);
-			num_particles += emitter->m_particles.size();
+			num_particles += uint32_t(emitter->m_particles.size());
 		}
 		m_num = num_particles;
 	}

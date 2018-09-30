@@ -28,6 +28,7 @@ namespace mud
 			case ET::INT32:  return element.size * sizeof(int32_t);
 			//case ET::HALF:   return element.size * sizeof(math::half);
 			case ET::FLOAT:  return element.size * sizeof(float);
+			default: return 0;
 		}
 	}
 
@@ -88,6 +89,7 @@ namespace mud
 
 	void GpuBuffer::invalidate(size_t row, size_t count) noexcept
 	{
+		UNUSED(row); UNUSED(count);
 		//mDirtyRanges.set(uint32_t(row), uint32_t(count));
 	}
 

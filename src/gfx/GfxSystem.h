@@ -6,7 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <infra/Array.h>
-#include <infra/Job.h>
+#include <jobs/Job.h>
 #include <obj/Unique.h>
 #endif
 #include <gfx/Forward.h>
