@@ -5,9 +5,9 @@
 #pragma once
 
 #include <refl/Forward.h>
-#include <obj/Type.h>
-#include <obj/Var.h>
-#include <obj/Any.h>
+#include <type/Type.h>
+#include <type/Var.h>
+#include <type/Any.h>
 #include <infra/Array.h>
 #include <refl/Meta.h>
 

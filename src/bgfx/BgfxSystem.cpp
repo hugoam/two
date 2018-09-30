@@ -12,7 +12,7 @@
 #ifdef MUD_MODULES
 module mud.bgfx;
 #else
-#include <obj/Type.h>
+#include <type/Type.h>
 #include <bgfx/Config.h>
 #include <bgfx/BgfxSystem.h>
 #endif

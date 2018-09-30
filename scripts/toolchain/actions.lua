@@ -33,7 +33,7 @@ function mud_write_mxx(m)
     local p = io.printf
     p("#include <cpp/preimport.h>")
     p("")
-    p("#include <obj/Config.h>")
+    p("#include <infra/Config.h>")
     p("")
     p("export module " .. m.dotname .. ";")
     p("export import std.core;")

@@ -6,8 +6,8 @@
 
 #include <refl/Forward.h>
 #include <refl/Meta.h>
-#include <obj/DoubleDispatch.h>
-#include <obj/DispatchDecl.h>
+#include <type/DoubleDispatch.h>
+#include <type/DispatchDecl.h>
 #include <infra/Global.h>
 #include <infra/String.h>
 

@@ -4,20 +4,20 @@
 
 #pragma once
 
-#include <obj/Ref.h>
-#include <obj/Unique.h>
+#include <type/Ref.h>
+#include <type/Unique.h>
 
 namespace mud
 {
-	export_ class refl_ MUD_OBJ_EXPORT None
+	export_ class refl_ MUD_TYPE_EXPORT None
 	{
 	public:
 		bool operator==(const None& other) const { UNUSED(other); return true; }
 	};
 
-	export_ template <> MUD_OBJ_EXPORT Type& type<None>();
+	export_ template <> MUD_TYPE_EXPORT Type& type<None>();
 
-	export_ class MUD_OBJ_EXPORT Any
+	export_ class MUD_TYPE_EXPORT Any
 	{
 	public:
 		virtual ~Any() {}
@@ -29,7 +29,7 @@ namespace mud
 		virtual unique_ptr<Any> clone() const = 0;
 	};
 
-	export_ class MUD_OBJ_EXPORT Val
+	export_ class MUD_TYPE_EXPORT Val
 	{
 	public:
 		Val(Type& type, unique_ptr<Any> ref) : m_type(&type), m_any(std::move(ref)) {}
@@ -60,7 +60,7 @@ namespace mud
 		REF
 	};
 
-	export_ class refl_ MUD_OBJ_EXPORT Var
+	export_ class refl_ MUD_TYPE_EXPORT Var
 	{
 	public:
 		Var() : m_mode(VAL), m_val(), m_ref(m_val.ref()) {}

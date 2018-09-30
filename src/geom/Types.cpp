@@ -7,7 +7,7 @@ module mud.geom;
 #else
 #include <geom/Types.h>
 #include <geom/Api.h>
-#include <obj/Vector.h>
+#include <type/Vector.h>
 //#include <ecs/Proto.h>
 #endif
 

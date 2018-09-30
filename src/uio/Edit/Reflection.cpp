@@ -8,12 +8,12 @@
 module mud.uio;
 #else
 #include <infra/Vector.h>
-//#include <obj/Entity.h>
+//#include <type/Entity.h>
 #include <refl/Class.h>
 #include <refl/System.h>
 #include <refl/Convert.h>
 #include <refl/Module.h>
-#include <meta/obj/Convert.h>
+#include <meta/type/Convert.h>
 #include <meta/refl/Convert.h>
 #include <ui/Structs/Window.h>
 #include <ui/Structs/Container.h>

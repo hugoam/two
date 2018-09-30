@@ -13,9 +13,9 @@
 #ifdef MUD_MODULES
 module mud.obj;
 #else
-#include <obj/Type.h>
-#include <obj/Vector.h>
-#include <obj/Indexer.h>
+#include <type/Type.h>
+#include <type/Vector.h>
+#include <type/Indexer.h>
 //#include <ecs/Proto.h>
 #endif
 

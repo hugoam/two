@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.tool;
 #else
-#include <obj/Any.h>
+#include <type/Any.h>
 #include <pool/ObjectPool.h>
 #include <lang/Lua.h>
 #include <lang/VisualScript.h>

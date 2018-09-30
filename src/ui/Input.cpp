@@ -244,6 +244,7 @@ namespace
 
 	void draw_curve(const Colour& colour, Curve& curve, size_t hovered, Vg& vg)
 	{
+		UNUSED(hovered);
 		float distance = 100.f;
 		Paint paint = { colour, 1.f };
 

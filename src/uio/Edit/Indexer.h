@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Dispatch.h>
+#include <type/Dispatch.h>
 #include <infra/Global.h>
 #endif
 #include <uio/Forward.h>

@@ -7,7 +7,7 @@ module ._15_script;
 #else
 #include <15_script/Types.h>
 #include <15_script/Api.h>
-#include <obj/Vector.h>
+#include <type/Vector.h>
 //#include <ecs/Proto.h>
 #endif
 

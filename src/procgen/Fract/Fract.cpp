@@ -192,7 +192,7 @@ namespace mud
 		return numReflects;
 	}
 
-	size_t Fract::inverse_colour(int x, int y, const Rect& rect, const Pattern& pattern, Image256& image)
+	uint32_t Fract::inverse_colour(int x, int y, const Rect& rect, const Pattern& pattern, Image256& image)
 	{
 		float ox = float(x) / float(image.m_width) * rect.m_size.x + rect.m_position.x - 0.5f;
 		float oy = float(y) / float(image.m_height) * rect.m_size.y + rect.m_position.y - 0.5f;
@@ -205,7 +205,7 @@ namespace mud
 		px *= image.m_width / rect.m_size.x;
 		py *= image.m_height / rect.m_size.y;
 
-		size_t color = pattern.sample(px, py, float(num_reflects));
+		uint32_t color = pattern.sample(px, py, float(num_reflects));
 
 		return color;
 	}
@@ -258,12 +258,12 @@ namespace mud
 			m_sampler = sampleZ;
 	}
 
-	size_t Pattern::sample(float x, float y, float depth) const
+	uint32_t Pattern::sample(float x, float y, float depth) const
 	{
 		return m_sampler(*this, x, y, depth);
 	}
 
-	size_t sampleX(const Pattern& pattern, float x, float y, float depth)
+	uint32_t sampleX(const Pattern& pattern, float x, float y, float depth)
 	{
 		UNUSED(x); UNUSED(depth);
 		//int px = int(x * pattern.m_precision);
@@ -271,22 +271,22 @@ namespace mud
 		
 		int colourId = int(py);
 		
-		size_t color = colourId;
+		uint32_t color = colourId;
 		color = color % pattern.m_palette.m_colours.size();
 
 		return color;
 	}
 
-	size_t sampleZ(const Pattern& pattern, float x, float y, float depth)
+	uint32_t sampleZ(const Pattern& pattern, float x, float y, float depth)
 	{
 		UNUSED(x); UNUSED(y);
-		size_t color = size_t(depth);
+		uint32_t color = uint32_t(depth);
 		color = color % pattern.m_palette.m_colours.size();
 
 		return color;
 	}
 
-	size_t sampleXY(const Pattern& pattern, float x, float y, float depth)
+	uint32_t sampleXY(const Pattern& pattern, float x, float y, float depth)
 	{
 		return sampleX(pattern, x, y, depth);
 	}

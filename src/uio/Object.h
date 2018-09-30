@@ -5,8 +5,8 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Ref.h>
-#include <obj/Dispatch.h>
+#include <type/Ref.h>
+#include <type/Dispatch.h>
 #include <infra/Global.h>
 #include <ui/Ui.h>
 #endif

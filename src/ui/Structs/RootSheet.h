@@ -5,8 +5,8 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Ref.h>
-#include <obj/Unique.h>
+#include <type/Ref.h>
+#include <type/Unique.h>
 #include <math/Timer.h>
 #include <ctx/InputDispatcher.h>
 #include <ctx/InputDevice.h>

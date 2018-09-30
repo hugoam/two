@@ -6,8 +6,8 @@
 
 #ifndef MUD_MODULES
 #include <math/Vec.h>
-#include <obj/Type.h>
-#include <obj/TypeUtils.h>
+#include <type/Type.h>
+#include <type/TypeUtils.h>
 #endif
 #include <gfx/Forward.h>
 #include <gfx/Texture.h>

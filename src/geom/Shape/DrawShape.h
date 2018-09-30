@@ -6,8 +6,8 @@
 
 #ifndef MUD_MODULES
 #include <infra/Global.h>
-#include <obj/Dispatch.h>
-#include <obj/DispatchDecl.h>
+#include <type/Dispatch.h>
+#include <type/DispatchDecl.h>
 #endif
 #include <geom/Forward.h>
 #include <geom/Shape/ProcShape.h>

@@ -7,7 +7,7 @@ module mud.tool;
 #else
 #include <tool/Types.h>
 #include <tool/Api.h>
-#include <obj/Vector.h>
+#include <type/Vector.h>
 //#include <ecs/Proto.h>
 #endif
 

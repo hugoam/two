@@ -10,8 +10,8 @@
 module mud.gfx.ui;
 #else
 #include <infra/Vector.h>
-#include <obj/Vector.h>
-#include <obj/DispatchDecl.h>
+#include <type/Vector.h>
+#include <type/DispatchDecl.h>
 #include <pool/ObjectPool.h>
 #include <refl/Class.h>
 #include <math/Axes.h>

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <obj/Cls.h>
+#include <type/Cls.h>
 
 #ifndef MUD_CPP_20
 #include <memory>

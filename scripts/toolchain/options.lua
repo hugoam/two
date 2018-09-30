@@ -26,6 +26,11 @@ newoption {
     description = "Build mud library with Sound.",
 }
 
+newoption {
+    trigger = "profile",
+    description = "Integrated profiling.",
+}
+
 --newoption {
 --    trigger = "renderer",
 --    --value = "toolset",

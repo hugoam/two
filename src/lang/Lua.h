@@ -7,8 +7,8 @@
 #ifndef MUD_MODULES
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
-#include <obj/Any.h>
-#include <obj/Unique.h>
+#include <type/Any.h>
+#include <type/Unique.h>
 #endif
 #include <lang/Forward.h>
 #include <lang/Script.h>

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <obj/Unique.h>
+#include <type/Unique.h>
 #include <snd/SoundFileBuffer.h>
 #include <snd/OggFileBuffer.h>
 

@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.proto;
 #else
-#include <obj/Indexer.h>
+#include <type/Indexer.h>
 #include <ecs/Entity.h>
 #include <ecs/Proto.h>
 #endif

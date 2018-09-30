@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <infra/Array.h>
 #include <jobs/Job.h>
-#include <obj/Unique.h>
+#include <type/Unique.h>
 #endif
 #include <gfx/Forward.h>
 #ifndef MUD_BGFX_EXPORT

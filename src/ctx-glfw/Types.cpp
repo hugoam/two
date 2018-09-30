@@ -7,7 +7,7 @@ module mud.ctx-glfw;
 #else
 #include <ctx-glfw/Types.h>
 #include <ctx-glfw/Api.h>
-#include <obj/Vector.h>
+#include <type/Vector.h>
 //#include <ecs/Proto.h>
 #endif
 

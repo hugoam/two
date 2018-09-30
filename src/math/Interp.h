@@ -5,9 +5,9 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Var.h>
+#include <type/Var.h>
 #include <infra/Global.h>
-#include <obj/Dispatch.h>
+#include <type/Dispatch.h>
 #include <refl/Meta.h>
 #endif
 #include <math/Forward.h>

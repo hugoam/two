@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.geom;
 #else
-#include <obj/DispatchDecl.h>
+#include <type/DispatchDecl.h>
 #include <math/VecOps.h>
 #include <math/Math.h>
 #include <math/Random.h>

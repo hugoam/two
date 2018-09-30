@@ -2,7 +2,7 @@
 
 #include <ui-nanovg/Forward.h>
 
-#if !defined MUD_MODULES || defined MUD_OBJ_LIB
+#if !defined MUD_MODULES || defined MUD_TYPE_LIB
 #include <obj/Type.h>
 #include <obj/Vector.h>
 #endif

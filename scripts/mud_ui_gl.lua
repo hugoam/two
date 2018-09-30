@@ -29,5 +29,5 @@ end
 mud.ui.nanovg = mud_module("mud", "ui-nanovg", MUD_SRC_DIR, "ui-nanovg", nil, nil, nil, {})
     
 function mud_ui_backend()
-    return mud_module("mud", "ui-nanovg-gl",  MUD_SRC_DIR, "ui-nanovg-gl", nil, mud_ui_gl, nil, { mud.obj, mud.math, mud.ui })
+    return mud_module("mud", "ui-nanovg-gl",  MUD_SRC_DIR, "ui-nanovg-gl", nil, mud_ui_gl, nil, { mud.type, mud.math, mud.ui })
 end

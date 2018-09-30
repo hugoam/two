@@ -12,7 +12,7 @@ module mud.uio;
 #include <refl/Member.h>
 #include <refl/Sequence.h>
 #include <refl/Enum.h>
-#include <obj/DispatchDecl.h>
+#include <type/DispatchDecl.h>
 #include <math/VecOps.h>
 #include <math/Curve.h>
 #include <ui/Input.h>

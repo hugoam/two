@@ -1,7 +1,7 @@
 
 #pragma once
 
-#if !defined MUD_MODULES || defined MUD_OBJ_LIB
+#if !defined MUD_MODULES || defined MUD_TYPE_LIB
 #include <refl/Module.h>
 #endif
 

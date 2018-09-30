@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Var.h>
+#include <type/Var.h>
 #include <infra/Strung.h>
 #include <math/Vec.h>
 #endif

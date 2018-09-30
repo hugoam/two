@@ -6,8 +6,8 @@
 
 #include <infra/Forward.h>
 
-#ifndef MUD_OBJ_EXPORT
-#define MUD_OBJ_EXPORT MUD_IMPORT
+#ifndef MUD_TYPE_EXPORT
+#define MUD_TYPE_EXPORT MUD_IMPORT
 #endif
 
 

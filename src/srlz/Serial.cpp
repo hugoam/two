@@ -13,7 +13,7 @@ module mud.srlz;
 #include <json11.hpp>
 
 #include <infra/File.h>
-#include <obj/Vector.h>
+#include <type/Vector.h>
 #include <refl/System.h>
 #include <refl/Convert.h>
 #include <refl/Sequence.h>

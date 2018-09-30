@@ -5,10 +5,10 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Cls.h>
+#include <type/Cls.h>
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
-#include <obj/Unique.h>
+#include <type/Unique.h>
 #endif
 #include <gfx/Forward.h>
 #include <gfx/Shader.h>

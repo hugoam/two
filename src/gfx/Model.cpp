@@ -10,7 +10,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <obj/Indexer.h>
+#include <type/Indexer.h>
 #include <pool/Pool.h>
 #include <geom/Geom.h>
 #include <gfx/Types.h>

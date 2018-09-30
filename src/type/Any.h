@@ -4,12 +4,12 @@
 
 #pragma once
 
-#include <obj/Type.h>
-#include <obj/Var.h>
-#include <obj/TypeOf.h>
-#include <obj/TypeUtils.h>
-#include <obj/Unique.h>
-#include <obj/Types.h>
+#include <type/Type.h>
+#include <type/Var.h>
+#include <type/TypeOf.h>
+#include <type/TypeUtils.h>
+#include <type/Unique.h>
+#include <type/Types.h>
 
 #include <cassert>
 

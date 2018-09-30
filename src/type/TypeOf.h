@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <obj/Forward.h>
+#include <type/Forward.h>
 
 #ifndef MUD_CPP_20
 #include <type_traits>

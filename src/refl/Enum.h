@@ -19,18 +19,18 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Enum
 	{
 	public:
-		Enum(Type& type, bool scoped, const std::vector<cstring>& names, const std::vector<size_t>& indices, const std::vector<Var>& values);
+		Enum(Type& type, bool scoped, const std::vector<cstring>& names, const std::vector<uint32_t>& indices, const std::vector<Var>& values);
 
 		Type& m_type;
 
 		bool m_scoped = true;
 		std::vector<cstring> m_names;
-		std::vector<size_t> m_indices;
+		std::vector<uint32_t> m_indices;
 		std::vector<Var> m_values;
 		std::vector<cstring> m_map;
 
 		uint32_t value(cstring name);
-		size_t index(cstring name);
+		uint32_t index(cstring name);
 	};
 
 	export_ inline size_t enum_index(Ref value)

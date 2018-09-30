@@ -5,7 +5,7 @@
 #pragma once
 
 #include <infra/Generic.h>
-#include <obj/Ref.h>
+#include <type/Ref.h>
 #include <ecs/Forward.h>
 #include <ecs/Proto.h>
 #ifdef TOY_ECS

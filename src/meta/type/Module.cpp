@@ -3,32 +3,32 @@
 #ifdef MUD_MODULES
 module mud.obj;
 #else
-#include <meta/obj/Module.h>
+#include <meta/type/Module.h>
 #endif
 
 #ifndef MUD_MODULES
-#include <meta/obj/Convert.h>
+#include <meta/type/Convert.h>
 #endif
-#define MUD_OBJ_REFLECTION_IMPL
-#include <meta/obj/Meta.h>
+#define MUD_TYPE_REFLECTION_IMPL
+#include <meta/type/Meta.h>
 
 namespace mud
 {
-	mud_obj::mud_obj()
+	mud_type::mud_type()
 		: Module("mud::obj")
 	{
         // ensure dependencies are instantiated
         mud_infra::m();
 
         // setup reflection meta data
-		mud_obj_meta(*this);
+		mud_type_meta(*this);
 	}
 }
 
-#ifdef MUD_OBJ_MODULE
+#ifdef MUD_TYPE_MODULE
 extern "C"
 Module& getModule()
 {
-	return mud_obj::m();
+	return mud_type::m();
 }
 #endif

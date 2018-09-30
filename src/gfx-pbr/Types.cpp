@@ -7,7 +7,7 @@ module mud.gfx-pbr;
 #else
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/Api.h>
-#include <obj/Vector.h>
+#include <type/Vector.h>
 //#include <ecs/Proto.h>
 #endif
 

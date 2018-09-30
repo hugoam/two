@@ -7,7 +7,7 @@ module mud.gfx-gltf;
 #else
 #include <gfx-gltf/Types.h>
 #include <gfx-gltf/Api.h>
-#include <obj/Vector.h>
+#include <type/Vector.h>
 //#include <ecs/Proto.h>
 #endif
 

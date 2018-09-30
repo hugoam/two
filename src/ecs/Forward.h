@@ -5,7 +5,7 @@
 #include <infra/Config.h>
 
 #include <infra/Forward.h>
-#include <obj/Forward.h>
+#include <type/Forward.h>
 #include <refl/Forward.h>
 
 #ifndef MUD_ECS_EXPORT

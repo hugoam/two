@@ -61,12 +61,12 @@ namespace mud
 		UNUSED(mat);
 	}
 
-	quat average_quat(quat& cumulative, const quat& rotation, const quat& first, int count)
+	quat average_quat(quat& cumulative, const quat& rotation, const quat& first, uint32_t count)
 	{
 		if(dot(rotation, first) < 0.f)
 			return average_quat(cumulative, inverse(rotation), first, count);
 
-		float factor = 1.f / (float)count;
+		float factor = 1.f / float(count);
 		cumulative += rotation;
 		return normalize(cumulative * factor);
 	}
@@ -78,7 +78,7 @@ namespace mud
 
 		quat cumulative = { 0.f, 0.f, 0.f, 0.f };
 
-		size_t count = 0;
+		uint32_t count = 0;
 		for(Transform* transform : transforms)
 		{
 			average.m_position += transform->m_position;
@@ -102,7 +102,7 @@ namespace mud
 	double nsin(double a) { return (sin(a) + 1.0) / 2.0; }
 	double ncos(double a) { return (cos(a) + 1.0) / 2.0; }
 
-	quat look_dir(const vec3& source, const vec3& direction, const vec3& forward)
+	quat look_dir(const vec3& direction, const vec3& forward)
 	{
 		float d = dot(forward, direction);
 
@@ -118,7 +118,7 @@ namespace mud
 	quat look_at(const vec3& source, const vec3& dest, const vec3& forward)
 	{
 		vec3 direction = normalize(dest - source);
-		return look_dir(source, direction, forward);
+		return look_dir(direction, forward);
 	}
 
 	uint32_t pack4(const vec4& colour)
@@ -280,8 +280,8 @@ namespace mud
 	mat4 abs(const mat4& mat)
 	{
 		mat4 result;
-		for(size_t i = 0; i < 4; ++i)
-			for(size_t j = 0; j < 4; ++j)
+		for(mat4::length_type i = 0; i < 4; ++i)
+			for(mat4::length_type j = 0; j < 4; ++j)
 				result[i][j] = std::abs(mat[i][j]);
 		return result;
 	}
@@ -304,9 +304,9 @@ namespace mud
 		return vec3(coord) * cell_size + cell_size * 0.5f;
 	}
 
-	void index_list(size_t size, std::vector<uint32_t>& output_indices)
+	void index_list(uint32_t size, std::vector<uint32_t>& output_indices)
 	{
-		for(size_t i = 0; i < size; ++i)
+		for(uint32_t i = 0; i < size; ++i)
 			output_indices.push_back(i);
 	}
 }

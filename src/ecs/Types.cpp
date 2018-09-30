@@ -7,7 +7,7 @@ module mud.proto;
 #else
 #include <ecs/Types.h>
 #include <ecs/Api.h>
-#include <obj/Vector.h>
+#include <type/Vector.h>
 //#include <ecs/Proto.h>
 #endif
 

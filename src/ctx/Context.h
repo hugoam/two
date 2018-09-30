@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <infra/NonCopy.h>
 #include <infra/Strung.h>
-#include <obj/Unique.h>
+#include <type/Unique.h>
 #include <math/Vec.h>
 #endif
 #include <ctx/Forward.h>

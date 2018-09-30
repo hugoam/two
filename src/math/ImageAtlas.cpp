@@ -39,7 +39,7 @@ namespace mud
 		StbRectPack(uvec2 size, size_t num_nodes)
 			: m_nodes(num_nodes)
 		{
-			stbrp_init_target(&m_context, size.x, size.y, m_nodes.data(), num_nodes);
+			stbrp_init_target(&m_context, size.x, size.y, m_nodes.data(), int(num_nodes));
 		}
 
 		stbrp_context m_context;

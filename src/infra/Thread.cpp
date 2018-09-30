@@ -38,6 +38,7 @@ namespace mud
 #elif defined(__APPLE__)
 		pthread_setname_np(name);
 #else
+		UNUSED(name);
 		// TODO: implement setting thread name on WIN32 
 #endif
 	}
@@ -59,6 +60,7 @@ namespace mud
 		}
 		setpriority(PRIO_PROCESS, 0, androidPriority);
 #endif
+		UNUSED(priority);
 		//SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST);
 	}
 
@@ -77,6 +79,7 @@ namespace mud
 		}
 		sched_setaffinity(gettid(), sizeof(set), &set);
 #else
+		UNUSED(mask);
 		//SetThreadAffinityMask(GetCurrentThread(), mask);
 #endif
 	}

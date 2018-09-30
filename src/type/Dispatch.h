@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <obj/Ref.h>
-#include <obj/Type.h>
+#include <type/Ref.h>
+#include <type/Type.h>
 
 #ifndef MUD_CPP_20
 #include <vector>

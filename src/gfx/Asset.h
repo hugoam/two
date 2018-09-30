@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Unique.h>
+#include <type/Unique.h>
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
 #endif

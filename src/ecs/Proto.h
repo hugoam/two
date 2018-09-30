@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <obj/Unique.h>
-#include <obj/Type.h>
+#include <type/Unique.h>
+#include <type/Type.h>
 #include <ecs/Forward.h>
 
 #ifndef MUD_CPP_20

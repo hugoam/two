@@ -85,7 +85,7 @@ namespace mud
 			//	m_foundation = m_patterns.size();
 
 			m_patterns.push_back(pattern_from_hash(it.first, n, palette.size()));
-			m_weights.push_back(it.second);
+			m_weights.push_back(double(it.second));
 		}
 
 		const auto agrees = [&](const ColorPattern& p1, const ColorPattern& p2, int dx, int dy)
@@ -173,12 +173,9 @@ namespace mud
 		}
 	}
 
-	PalettedImage load_paletted_image(const std::string& path)
+	PalettedImage load_paletted_image(RGBA* rgba, int width, int height, int comp)
 	{
-		int width, height, comp;
-		RGBA* rgba = nullptr; // reinterpret_cast<RGBA*>(stbi_load(path.c_str(), &width, &height, &comp, 4));
-
-		const size_t num_pixels = width * height;
+		const uint32_t num_pixels = width * height;
 
 		// Fix issues with stbi_load:
 		if(comp == 1)
@@ -210,19 +207,26 @@ namespace mud
 			const uint8_t color_idx = uint8_t(std::find(palette.begin(), palette.end(), color) - palette.begin());
 			if(color_idx == palette.size())
 			{
-				//CHECK_LT_F(palette.size(), MAX_COLORS, "Too many colors in image");
 				palette.push_back(color);
 			}
 			data.push_back(color_idx);
 		}
-
-		//stbi_image_free(rgba);
 
 		return PalettedImage{
 			static_cast<size_t>(width),
 			static_cast<size_t>(height),
 			data, palette
 		};
+	}
+
+	PalettedImage load_paletted_image(const std::string& path)
+	{
+		UNUSED(path);
+		int width = 0; int height = 0; int comp = 0;
+		RGBA* rgba = nullptr; // reinterpret_cast<RGBA*>(stbi_load(path.c_str(), &width, &height, &comp, 4));
+		PalettedImage image = load_paletted_image(rgba, width, height, comp);
+		//stbi_image_free(rgba);
+		return image;
 	}
 
 	// n = side of the pattern, e.g. 3.
@@ -305,8 +309,8 @@ namespace mud
 	OverlapGraphics overlap_graphics(const Patternset& tileset, const Wave& wave)
 	{
 		OverlapGraphics result(wave.m_width, wave.m_height, {});
-		for(size_t y = 0; y < wave.m_height; ++y)
-			for(size_t x = 0; x < wave.m_width; ++x)
+		for(uint16_t y = 0; y < wave.m_height; ++y)
+			for(uint16_t x = 0; x < wave.m_width; ++x)
 			{
 				auto& tile_contributors = result.at(x, y);
 

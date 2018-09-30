@@ -7,7 +7,7 @@ module mud.procgen-gfx;
 #else
 #include <procgen-gfx/Types.h>
 #include <procgen-gfx/Api.h>
-#include <obj/Vector.h>
+#include <type/Vector.h>
 //#include <ecs/Proto.h>
 #endif
 

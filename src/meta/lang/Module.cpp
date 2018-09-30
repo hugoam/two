@@ -19,7 +19,7 @@ namespace mud
 	{
         // ensure dependencies are instantiated
         mud_infra::m();
-        mud_obj::m();
+        mud_type::m();
         mud_pool::m();
         mud_refl::m();
 

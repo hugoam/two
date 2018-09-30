@@ -4,16 +4,16 @@
 
 #pragma once
 
-#include <obj/Forward.h>
+#include <type/Forward.h>
 
-#include <obj/Cls.h>
-#include <obj/TypeOf.h>
+#include <type/Cls.h>
+#include <type/TypeOf.h>
 
 namespace mud
 {
 	using cstring = const char*;
 
-	export_ class refl_ MUD_OBJ_EXPORT Ref
+	export_ class refl_ MUD_TYPE_EXPORT Ref
 	{
 	public:
 		Ref() : m_type(nullptr), m_value(nullptr) {}

@@ -41,7 +41,7 @@ namespace mud
 	export_ inline vec3 rotate(const vec3& v, float angle, const vec3& axis) { return angle_axis(angle, axis) * v; }
 	export_ inline vec3 rotate(const vec3& v, const vec3& axis, float angle) { return angle_axis(angle, axis) * v; }
 
-	export_ MUD_MATH_EXPORT func_ quat look_dir(const vec3& eye, const vec3& direction, const vec3& forward = -Z3);
+	export_ MUD_MATH_EXPORT func_ quat look_dir(const vec3& direction, const vec3& forward = -Z3);
 	export_ MUD_MATH_EXPORT func_ quat look_at(const vec3& eye, const vec3& target, const vec3& forward = -Z3);
 
 	export_ MUD_MATH_EXPORT uint32_t pack4(const vec4& vec);

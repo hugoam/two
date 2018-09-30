@@ -4,10 +4,10 @@
 
 #pragma once
 
-#include <obj/Forward.h>
-#include <obj/Type.h>
-#include <obj/TypeOf.h>
-//#include <obj/Types.h>
+#include <type/Forward.h>
+#include <type/Type.h>
+#include <type/TypeOf.h>
+//#include <type/Types.h>
 
 #ifndef MUD_CPP_20
 #include <vector>

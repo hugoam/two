@@ -73,7 +73,7 @@ function mud_module(namespace, name, rootpath, subpath, decl, self_decl, usage_d
 end
 
 function mud_refl(m, force_project)
-    deps = { mud.infra, mud.obj, mud.pool, mud.refl }
+    deps = { mud.infra, mud.type, mud.pool, mud.refl }
     table.extend(deps, m.deps)
     table.extend(deps, { m })
     for _, m in ipairs(m.deps) do

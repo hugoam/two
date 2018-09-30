@@ -7,7 +7,7 @@ module mud.gfx-ui;
 #else
 #include <gfx-ui/Types.h>
 #include <gfx-ui/Api.h>
-#include <obj/Vector.h>
+#include <type/Vector.h>
 //#include <ecs/Proto.h>
 #endif
 

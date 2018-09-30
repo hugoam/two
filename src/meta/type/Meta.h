@@ -3,17 +3,17 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <meta/obj/Module.h>
+#include <meta/type/Module.h>
 
-#include <obj/Any.h>
-#include <obj/Vector.h>
+#include <type/Any.h>
+#include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
 #endif
 
 namespace mud
 {
-    void mud_obj_meta(Module& m)
+    void mud_type_meta(Module& m)
     {   
     // Base Types
     {

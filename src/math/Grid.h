@@ -277,5 +277,5 @@ namespace mud
 	export_ MUD_MATH_EXPORT func_ void grid(const uvec3& size, std::vector<uvec3>& output_coords);
 	export_ MUD_MATH_EXPORT func_ vec3 grid_center(const uvec3& coord, const vec3& cell_size);
 
-	export_ MUD_MATH_EXPORT func_ void index_list(size_t size, std::vector<uint32_t>& output_indices);
+	export_ MUD_MATH_EXPORT func_ void index_list(uint32_t size, std::vector<uint32_t>& output_indices);
 }

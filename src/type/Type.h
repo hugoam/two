@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <obj/Forward.h>
-#include <obj/Cls.h>
+#include <type/Forward.h>
+#include <type/Cls.h>
 
 #ifndef MUD_CPP_20
 #include <cstddef>
@@ -16,13 +16,13 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 	export_ using Id = unsigned int;
 	export_ using cstring = const char*;
 
-	export_ struct MUD_OBJ_EXPORT Address
+	export_ struct MUD_TYPE_EXPORT Address
 	{
 		char value[16];
 		bool operator==(const Address& other) const;
 	};
 
-	export_ class refl_ MUD_OBJ_EXPORT Type
+	export_ class refl_ MUD_TYPE_EXPORT Type
 	{
 	public:
 		explicit Type();

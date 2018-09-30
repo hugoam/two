@@ -1,6 +1,6 @@
 #pragma once
 
-#include <meta/obj/Module.h>
+#include <meta/type/Module.h>
 #include <meta/math/Module.h>
 #include <meta/procgen/Module.h>
 #include <meta/lang/Module.h>

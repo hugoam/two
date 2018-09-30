@@ -7,7 +7,7 @@ module mud.ctx;
 #else
 #include <ctx/Types.h>
 #include <ctx/Api.h>
-#include <obj/Vector.h>
+#include <type/Vector.h>
 //#include <ecs/Proto.h>
 #endif
 

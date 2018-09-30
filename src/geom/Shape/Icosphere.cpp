@@ -96,7 +96,7 @@ namespace mud
 	int IcoSphere::vertex(const vec3& vertex)
 	{
 		m_vertices.emplace_back(normalize(vertex));
-		return m_vertices.size()-1;
+		return int(m_vertices.size() - 1);
 	}
 
 	int IcoSphere::middle_point(int index0, int index1)

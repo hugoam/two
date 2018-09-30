@@ -37,7 +37,7 @@ namespace mud
 	export_ using std::cos;
 
 	export_ template <typename T>
-	inline T sign(T val) { return (T(0) < val) - (val < T(0)); }
+	inline T sign(T val) { return T(T(0) < val) - (val < T(0)); }
 
 	export_ template <class T>
 	inline T min(T a, T b) { return (b < a) ? b : a; }

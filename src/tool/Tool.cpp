@@ -8,8 +8,8 @@
 module mud.tool;
 #else
 #include <infra/Vector.h>
-#include <obj/Any.h>
-#include <obj/DispatchDecl.h>
+#include <type/Any.h>
+#include <type/DispatchDecl.h>
 #include <refl/Class.h>
 #include <refl/Convert.h>
 #include <math/Axes.h>

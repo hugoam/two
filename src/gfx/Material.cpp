@@ -9,8 +9,8 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <obj/Type.h>
-#include <obj/Indexer.h>
+#include <type/Type.h>
+#include <type/Indexer.h>
 #include <infra/StringConvert.h>
 #include <math/VecOps.h>
 #include <gfx/Types.h>

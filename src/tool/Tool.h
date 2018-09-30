@@ -8,7 +8,7 @@
 #include <infra/NonCopy.h>
 #include <infra/Strung.h>
 #include <infra/Global.h>
-#include <obj/Dispatch.h>
+#include <type/Dispatch.h>
 #include <math/Vec.h>
 #include <geom/Shape.h>
 #include <geom/Symbol.h>

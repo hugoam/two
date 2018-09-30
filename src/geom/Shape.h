@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Unique.h>
+#include <type/Unique.h>
 #include <math/Vec.h>
 #endif
 #include <geom/Forward.h>

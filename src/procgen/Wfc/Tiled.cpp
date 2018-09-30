@@ -61,7 +61,7 @@ namespace mud
 		}
 #endif
 
-		const size_t num_patterns = tileset.m_tiles_flip.size();
+		const uint32_t num_patterns = uint32_t(tileset.m_tiles_flip.size());
 
 		tileset.m_tiles.push_back(Tile{ num_patterns, tile_name, symmetry, cardinality, 0 });
 

@@ -47,7 +47,7 @@ namespace mud
 
 	export_ struct MUD_BGFX_EXPORT TimerBx
 	{
-		double m_start = 0.0;
+		int64_t m_start = 0;
 
 		void begin();
 		float end();

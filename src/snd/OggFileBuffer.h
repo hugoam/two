@@ -5,7 +5,7 @@
 #pragma once
 
 #include <snd/SoundFileBuffer.h>
-#include <obj/Unique.h>
+#include <type/Unique.h>
 
 namespace mud
 {

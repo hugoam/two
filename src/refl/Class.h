@@ -5,7 +5,7 @@
 #pragma once
 
 #include <refl/Forward.h>
-#include <obj/Var.h>
+#include <type/Var.h>
 #include <infra/Strung.h>
 #include <refl/Method.h>
 #include <refl/Member.h>

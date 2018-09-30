@@ -4,7 +4,7 @@
 
 #include <infra/Config.h>
 
-#include <obj/Forward.h>
+#include <type/Forward.h>
 #include <math/Forward.h>
 
 #ifndef MUD_GEOM_EXPORT

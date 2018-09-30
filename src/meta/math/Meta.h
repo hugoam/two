@@ -5,8 +5,8 @@
 #ifndef MUD_MODULES
 #include <meta/math/Module.h>
 
-#include <obj/Any.h>
-#include <obj/Vector.h>
+#include <type/Any.h>
+#include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
 #endif
@@ -2027,9 +2027,9 @@ namespace mud
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::index_list(val<size_t>(args[0]), val<std::vector<uint32_t>>(args[1])); };
-            std::vector<Param> params = { { "size", var(size_t()) }, { "output_indices", var(std::vector<uint32_t>()), Param::Output } };
-            static Function f = { &namspc({ "mud" }), "index_list", function_id<void(*)(size_t, std::vector<uint32_t>&)>(&mud::index_list), func, params, Var() };
+            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::index_list(val<uint32_t>(args[0]), val<std::vector<uint32_t>>(args[1])); };
+            std::vector<Param> params = { { "size", var(uint32_t()) }, { "output_indices", var(std::vector<uint32_t>()), Param::Output } };
+            static Function f = { &namspc({ "mud" }), "index_list", function_id<void(*)(uint32_t, std::vector<uint32_t>&)>(&mud::index_list), func, params, Var() };
             m.m_functions.push_back(&f);
         }
     }

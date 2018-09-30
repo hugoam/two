@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include <obj/Dispatch.h>
-#include <obj/DoubleDispatch.h>
-#include <obj/Any.h>
+#include <type/Dispatch.h>
+#include <type/DoubleDispatch.h>
+#include <type/Any.h>
 
 namespace mud
 {

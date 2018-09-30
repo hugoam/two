@@ -387,7 +387,7 @@ namespace mud
 			vec4 sections[ImageSkin::Count];
 			image_skin.stretch_coords(rect_offset(skin_rect), rect_size(skin_rect), { sections, ImageSkin::Count });
 
-			for(size_t s = 0; s < ImageSkin::Count; ++s)
+			for(int s = 0; s < ImageSkin::Count; ++s)
 				this->draw_skin_image(frame, s, sections[s]);
 		}
 

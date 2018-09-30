@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.refl;
 #else
-#include <obj/Types.h>
+#include <type/Types.h>
 //#include <ecs/Proto.h>
 #include <refl/Injector.h>
 #include <refl/Class.h>

@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.lang;
 #else
-#include <obj/Indexer.h>
+#include <type/Indexer.h>
 #include <refl/System.h>
 #include <pool/ObjectPool.h>
 #include <lang/Types.h>

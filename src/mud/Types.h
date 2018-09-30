@@ -1,6 +1,6 @@
 #pragma once
 
-#include <obj/Types.h>
+#include <type/Types.h>
 #include <math/Types.h>
 #include <procgen/Types.h>
 #include <lang/Types.h>

@@ -109,7 +109,7 @@ namespace mud
 	export_ template <class T, class Pred>
 	inline void vector_prune(std::vector<T>& vector, Pred predicate)
 	{
-		for(int i = vector.size() - 1; i >= 0; i--)
+		for(int i = int(vector.size()) - 1; i >= 0; i--)
 			if(predicate(vector[i]))
 				vector.erase(vector.begin() + i);
 	}

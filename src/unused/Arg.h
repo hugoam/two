@@ -14,7 +14,7 @@
 
 namespace mud
 {
-	struct MUD_OBJ_EXPORT Arg
+	struct MUD_TYPE_EXPORT Arg
 	{
 		template <class T_Value, class T_Object, class T_Arg>
 		Arg(T_Value T_Object::* mem, T_Arg val) : object_type(&type<T_Object>()), member(member_address(mem)), value(make_var<T_Value>(T_Value(val))) {}
@@ -26,7 +26,7 @@ namespace mud
 		Var value;
 	};
 
-	struct MUD_OBJ_EXPORT Args
+	struct MUD_TYPE_EXPORT Args
 	{
 		Args() : m_args() {}
 		Args(std::vector<Arg> args) : m_args(args) {}

@@ -6,8 +6,8 @@
 
 #include <infra/NonCopy.h>
 #include <infra/Vector.h>
-#include <obj/Unique.h>
-#include <obj/TypeUtils.h>
+#include <type/Unique.h>
+#include <type/TypeUtils.h>
 
 namespace mud
 {

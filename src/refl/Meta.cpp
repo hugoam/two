@@ -12,8 +12,8 @@ module mud.refl;
 #include <refl/Class.h>
 #include <refl/Enum.h>
 #include <refl/Convert.h>
-#include <obj/Types.h>
-#include <obj/Any.h>
+#include <type/Types.h>
+#include <type/Any.h>
 #include <infra/StringConvert.h>
 #include <refl/Injector.h>
 //#include <ecs/Proto.h>
@@ -64,7 +64,7 @@ namespace mud
 		g_meta[type.m_id] = this;
 	}
 
-	Enum::Enum(Type& type, bool scoped, const std::vector<cstring>& names, const std::vector<size_t>& indices, const std::vector<Var>& values)
+	Enum::Enum(Type& type, bool scoped, const std::vector<cstring>& names, const std::vector<uint32_t>& indices, const std::vector<Var>& values)
 		: m_type(type)
 		, m_scoped(scoped)
 		, m_names(names)
@@ -83,16 +83,16 @@ namespace mud
 
 	uint32_t Enum::value(cstring name)
 	{
-		for(size_t i = 0; i < m_names.size(); ++i)
+		for(uint32_t i = 0; i < uint32_t(m_names.size()); ++i)
 			if(strcmp(name, m_names[i]) == 0)
 				return m_indices[i];
 		printf("WARNING: fetching unknown Enum %s value : %s\n", m_type.m_name, name);
 		return m_indices[0];
 	}
 
-	size_t Enum::index(cstring name)
+	uint32_t Enum::index(cstring name)
 	{
-		for(size_t i = 0; i < m_names.size(); ++i)
+		for(uint32_t i = 0; i < uint32_t(m_names.size()); ++i)
 			if(strcmp(name, m_names[i]) == 0)
 				return i;
 		printf("WARNING: fetching unknown Enum %s index : %s\n", m_type.m_name, name);
@@ -141,7 +141,7 @@ namespace mud
 		this->inherit(m_bases);
 
 		for(size_t i = 0; i < m_members.size(); ++i)
-			m_members[i].m_index = i;
+			m_members[i].m_index = int(i);
 
 		for(size_t i = 0; i < m_constructors.size(); ++i)
 			m_constructors[i].m_index = i;

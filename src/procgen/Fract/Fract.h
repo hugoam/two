@@ -20,7 +20,7 @@ namespace mud
 	MUD_PROCGEN_EXPORT func_ void generate_fract(uvec2 resolution, const Pattern& pattern, Image256& output_image);
 
 	//typedef std::function<size_t(const Pattern&, float, float, float)> PatternSampler;
-	typedef size_t(*PatternSampler)(const Pattern&, float, float, float);
+	typedef uint32_t(*PatternSampler)(const Pattern&, float, float, float);
 
 	export_ enum class refl_ PatternSampling : unsigned int
 	{
@@ -29,9 +29,9 @@ namespace mud
 		Depth = 2
 	};
 
-	size_t sampleX(const Pattern& pattern, float x, float y, float depth);
-	size_t sampleXY(const Pattern& pattern, float x, float y, float depth);
-	size_t sampleZ(const Pattern& pattern, float x, float y, float depth);
+	uint32_t sampleX(const Pattern& pattern, float x, float y, float depth);
+	uint32_t sampleXY(const Pattern& pattern, float x, float y, float depth);
+	uint32_t sampleZ(const Pattern& pattern, float x, float y, float depth);
 
 	export_ struct refl_ MUD_PROCGEN_EXPORT Pattern
 	{
@@ -39,7 +39,7 @@ namespace mud
 		constr_ Pattern(Palette palette, PatternSampling sampling, float precision = 1.f, size_t step = 1);
 		constr_ Pattern();
 
-		size_t sample(float x, float y, float depth) const;
+		uint32_t sample(float x, float y, float depth) const;
 
 		Palette m_palette;
 		float m_precision;
@@ -100,7 +100,7 @@ namespace mud
 		void notify_update() { ++m_update; }
 		size_t update() { return m_update; }
 
-		size_t inverse_colour(int x, int y, const Rect& rect, const Pattern& pattern, Image256& outputImage);
+		uint32_t inverse_colour(int x, int y, const Rect& rect, const Pattern& pattern, Image256& outputImage);
 
 		attr_ size_t m_num_tabs;
 		size_t m_update;

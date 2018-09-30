@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <obj/Any.h>
-#include <obj/Unique.h>
+#include <type/Any.h>
+#include <type/Unique.h>
 #include <infra/NonCopy.h>
 #include <refl/Forward.h>
 #include <refl/Method.h>

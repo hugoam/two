@@ -184,13 +184,13 @@ namespace mud
 	bool Froxelizer::update()
 	{
 		bool uniformsNeedUpdating = false;
-		[[unlikely]] if(m_dirty & VIEWPORT_CHANGED)
+		if(m_dirty & VIEWPORT_CHANGED) // [[unlikely]] 
 		{
 			update_viewport();
 			uniformsNeedUpdating = true;
 		}
 
-		[[unlikely]] if(m_dirty & (PROJECTION_CHANGED | VIEWPORT_CHANGED))
+		if(m_dirty & (PROJECTION_CHANGED | VIEWPORT_CHANGED)) // [[unlikely]] 
 		{
 			update_projection();
 			uniformsNeedUpdating = true;
@@ -382,7 +382,7 @@ namespace mud
 
 			const uint8_t light_count = entry.count[0] + entry.count[1];
 
-			[[unlikely]] if(offset + light_count >= RECORD_BUFFER_ENTRY_COUNT)
+			if(offset + light_count >= RECORD_BUFFER_ENTRY_COUNT) //[[unlikely]]
 			{
 				// note: instead of dropping froxels we could look for similar records we've already
 				// filed up.
@@ -507,10 +507,11 @@ namespace mud
 
 	void Froxelizer::froxelize_light(FroxelThreadData& froxelThread, size_t bit, const mat4& projection, const Froxelizer::LightParams& light) const
 	{
-		[[unlikely]] if(light.position.z + light.radius < -m_light_far) {    // z values are negative
-																			// This light is fully behind LightFar, it doesn't light anything
-																			// (we could avoid this check if we culled lights using LightFar instead of the
-																			// culling camera's far plane)
+		if(light.position.z + light.radius < -m_light_far) // [[unlikely]] // z values are negative
+		{
+			// This light is fully behind LightFar, it doesn't light anything
+			// (we could avoid this check if we culled lights using LightFar instead of the
+			// culling camera's far plane)
 			return;
 		}
 
@@ -529,7 +530,7 @@ namespace mud
 		for(size_t iz = lo.z; iz <= hi.z; ++iz)
 		{
 			vec4 cz(s);
-			[[unlikely]] if(iz != zcenter)
+			if(iz != zcenter) // [[unlikely]]
 				cz = sphere_plane_intersection(s, (iz < zcenter) ? m_frustum.m_distances_z[iz + 1] : m_frustum.m_distances_z[iz]);
 
 			// find x & y slices that contain the sphere's center
@@ -542,7 +543,7 @@ namespace mud
 				for(size_t iy = lo.y; iy <= hi.y; ++iy)
 				{
 					vec4 cy(cz);
-					[[unlikely]] if(iy != center.y)
+					if(iy != center.y) // [[unlikely]] 
 					{
 						vec4 const& plane = iy < center.y ? m_frustum.m_planes_y[iy + 1] : m_frustum.m_planes_y[iy];
 						cy = sphere_plane_intersection(cz, plane.y, plane.z);
@@ -563,7 +564,7 @@ namespace mud
 						--bx;
 						++ex;
 
-						[[unlikely]] if(bx >= ex)
+						if(bx >= ex) // [[unlikely]]
 							continue;
 
 						assert(bx < m_frustum.m_subdiv_x && ex <= m_frustum.m_subdiv_x);

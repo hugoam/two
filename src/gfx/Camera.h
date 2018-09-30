@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
-#include <obj/Unique.h>
+#include <type/Unique.h>
 #include <math/VecOps.h>
 #include <geom/Geom.h>
 #endif

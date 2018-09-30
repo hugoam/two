@@ -1,7 +1,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Type.h>
+#include <type/Type.h>
 #endif
 #include <gfx-obj/Forward.h>
 

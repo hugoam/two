@@ -5,8 +5,8 @@
 #pragma once
 
 #include <infra/NonCopy.h>
-#include <obj/Unique.h>
-#include <obj/Util/LocklessQueue.h>
+#include <type/Unique.h>
+#include <type/Util/LocklessQueue.h>
 #include <math/Timer.h>
 #include <math/Vec.h>
 #include <snd/Forward.h>

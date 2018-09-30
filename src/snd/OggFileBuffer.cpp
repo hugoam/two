@@ -115,7 +115,7 @@ namespace mud
 		while(size_read > 0)
 		{
 			//std::cerr << "reading : " << size_read << " at pos : " << last_pos << std::endl;
-			size_read = ov_read(&m_impl->m_ogg_file, chunk.data(), m_chunk_size, 0, 2, 1, &section);
+			size_read = ov_read(&m_impl->m_ogg_file, chunk.data(), int(m_chunk_size), 0, 2, 1, &section);
 			data.insert(data.end(), chunk.begin(), chunk.begin() + size_read);
 			last_pos += size_read;
 		}
@@ -130,7 +130,7 @@ namespace mud
 		
 		bool last_chunk = this->read_chunk(chunk.data(), m_chunk_size);
 
-		alBufferData(buffer, m_format, chunk.data(), m_chunk_size, m_impl->m_vorbis_info->rate);
+		alBufferData(buffer, m_format, chunk.data(), ALsizei(m_chunk_size), m_impl->m_vorbis_info->rate);
 		alGetError();
 
 		return last_chunk;
@@ -146,7 +146,7 @@ namespace mud
 
 		while(size < m_chunk_size)
 		{
-			result = ov_read(&m_impl->m_ogg_file, data_chunk + size, m_chunk_size - size, 0, 2, 1, &section);
+			result = ov_read(&m_impl->m_ogg_file, data_chunk + size, int(m_chunk_size - size), 0, 2, 1, &section);
 
 			if(result > 0)
 				size += result;

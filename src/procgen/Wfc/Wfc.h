@@ -32,8 +32,8 @@ namespace mud
 
 	export_ struct refl_ MUD_PROCGEN_EXPORT Tile
 	{
-		Tile(size_t index, string name, char symmetry, int cardinality, int profile) : m_index(index), m_name(name), m_symmetry(symmetry), m_cardinality(cardinality), m_profile(profile) {}
-		attr_ size_t m_index;
+		Tile(uint32_t index, string name, char symmetry, int cardinality, int profile) : m_index(index), m_name(name), m_symmetry(symmetry), m_cardinality(cardinality), m_profile(profile) {}
+		attr_ uint32_t m_index;
 		attr_ string m_name;
 		attr_ char m_symmetry;
 		attr_ int m_cardinality;

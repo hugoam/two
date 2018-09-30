@@ -174,8 +174,8 @@ def method_func(c, method):
 #ifndef MUD_MODULES
 #include <meta/${ module.subdir }/Module.h>
 
-#include <obj/Any.h>
-#include <obj/Vector.h>
+#include <type/Any.h>
+#include <type/Vector.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
 #endif

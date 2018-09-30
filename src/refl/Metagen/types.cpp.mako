@@ -13,8 +13,8 @@ module ${ module.namespace }.${ module.name };
 #else
 #include <${ module.subdir }/Types.h>
 #include <${ module.subdir }/Api.h>
-#include <obj/Vector.h>
-//#include <proto/Proto.h>
+#include <type/Vector.h>
+//#include <ecs/Proto.h>
 #endif
 
 namespace mud

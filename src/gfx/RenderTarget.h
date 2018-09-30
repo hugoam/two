@@ -6,7 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <infra/Array.h>
-#include <obj/Unique.h>
+#include <type/Unique.h>
 #endif
 #include <gfx/Forward.h>
 #include <gfx/Viewport.h>

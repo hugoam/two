@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include <obj/Forward.h>
-#include <obj/Ref.h>
-#include <obj/Type.h>
+#include <type/Forward.h>
+#include <type/Ref.h>
+#include <type/Type.h>
 #include <infra/NonCopy.h>
-#include <obj/Unique.h>
+#include <type/Unique.h>
 
 #ifndef MUD_CPP_20
 #include <functional>
@@ -17,7 +17,7 @@
 
 namespace mud
 {
-	export_ class refl_ MUD_OBJ_EXPORT Indexer
+	export_ class refl_ MUD_TYPE_EXPORT Indexer
 	{
 	public:
 		Indexer(Type& type) : m_type(type), m_objects(1, Ref{ type }), m_count(0), m_next(1) {}
@@ -43,7 +43,7 @@ namespace mud
 		uint32_t m_next;
 	};
 
-	export_ class refl_ MUD_OBJ_EXPORT Index : public NonCopy
+	export_ class refl_ MUD_TYPE_EXPORT Index : public NonCopy
 	{
 	public:
 		Index() : m_indexers(c_max_types) {}

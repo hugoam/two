@@ -7,7 +7,7 @@ module mud.pool;
 #else
 #include <pool/Types.h>
 #include <pool/Api.h>
-#include <obj/Vector.h>
+#include <type/Vector.h>
 //#include <ecs/Proto.h>
 #endif
 

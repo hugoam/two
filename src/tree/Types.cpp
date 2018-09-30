@@ -7,7 +7,7 @@ module mud.tree;
 #else
 #include <tree/Types.h>
 #include <tree/Api.h>
-#include <obj/Vector.h>
+#include <type/Vector.h>
 //#include <ecs/Proto.h>
 #endif
 

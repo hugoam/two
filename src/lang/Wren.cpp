@@ -25,11 +25,11 @@ module mud.lang;
 #include <refl/Meta.h>
 #include <refl/Enum.h>
 #include <refl/Sequence.h>
-#include <obj/Any.h>
+#include <type/Any.h>
 #include <infra/Vector.h>
 #include <refl/System.h>
-#include <obj/Dispatch.h>
-#include <obj/DispatchDecl.h>
+#include <type/Dispatch.h>
+#include <type/DispatchDecl.h>
 #include <infra/Global.h>
 #include <lang/Types.h>
 #include <lang/Wren.h>

@@ -5,8 +5,8 @@
 #pragma once
 
 #include <refl/Forward.h>
-#include <obj/Var.h>
-#include <obj/Type.h>
+#include <type/Var.h>
+#include <type/Type.h>
 
 #ifndef MUD_CPP_20
 #include <vector>

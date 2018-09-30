@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <obj/Ref.h>
-#include <obj/Type.h>
+#include <type/Ref.h>
+#include <type/Type.h>
 
 #ifndef MUD_CPP_20
 #include <vector>
@@ -14,7 +14,7 @@
 
 namespace mud
 {
-	export_ class MUD_OBJ_EXPORT DoubleDispatch
+	export_ class MUD_TYPE_EXPORT DoubleDispatch
 	{
 	public:
 		DoubleDispatch()

@@ -7,7 +7,7 @@ module mud.lang;
 #else
 #include <lang/Types.h>
 #include <lang/Api.h>
-#include <obj/Vector.h>
+#include <type/Vector.h>
 //#include <ecs/Proto.h>
 #endif
 

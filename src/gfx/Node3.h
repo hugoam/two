@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <obj/Ref.h>
+#include <type/Ref.h>
 #include <math/Vec.h>
 #include <gfx/Forward.h>
 

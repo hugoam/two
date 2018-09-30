@@ -10,7 +10,7 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#include <obj/Indexer.h>
+#include <type/Indexer.h>
 #include <refl/Meta.h>
 #include <refl/Class.h>
 #include <ui/Sequence.h>

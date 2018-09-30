@@ -6,7 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <infra/NonCopy.h>
-#include <obj/Unique.h>
+#include <type/Unique.h>
 #include <infra/Array.h>
 #include <infra/Strung.h>
 #include <math/Colour.h>

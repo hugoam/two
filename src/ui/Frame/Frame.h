@@ -6,7 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <infra/NonCopy.h>
-#include <obj/Unique.h>
+#include <type/Unique.h>
 #endif
 #include <ui/Forward.h>
 #include <ui/Frame/UiRect.h>

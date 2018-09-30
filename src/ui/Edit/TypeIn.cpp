@@ -47,7 +47,7 @@ namespace mud
 	size_t word_begin(const string& text, size_t index)
 	{
 		size_t begin = SIZE_MAX;
-		for(int pos = index; pos >= 0 && !is_separator(text[pos]); --pos)
+		for(int pos = int(index); pos >= 0 && !is_separator(text[pos]); --pos)
 			begin = size_t(pos);
 		return begin;
 	}
@@ -300,7 +300,7 @@ namespace mud
 	vec2 TextEdit::frame_size()
 	{
 		auto count_digits = [](int number) { int digits = 0; do { number /= 10; digits++; } while(number != 0); return digits; };
-		int digits = count_digits(m_text.m_text_rows.size());
+		int digits = count_digits(int(m_text.m_text_rows.size()));
 		vec2 offset = { m_text.line_height() * float(digits) * 0.7f, 0.f };
 
 		return offset + m_text.compute_text_size() + rect_sum(m_frame.d_inkstyle->m_padding);
@@ -317,7 +317,7 @@ namespace mud
 		}
 
 		auto count_digits = [](int number) { int digits = 0; do { number /= 10; digits++; } while (number != 0); return digits; };
-		int digits = count_digits(m_text.m_text_rows.size());
+		int digits = count_digits(int(m_text.m_text_rows.size()));
 
 		vec2 padding = floor(rect_offset(m_frame.d_inkstyle->m_padding));
 		if(m_editor)
@@ -349,8 +349,8 @@ namespace mud
 
 	void TextEdit::mark_dirty(size_t start, size_t end)
 	{
-		m_dirty[0] = min<uint>(m_dirty[0], start);
-		m_dirty[1] = max<uint>(m_dirty[1], end);
+		m_dirty[0] = min<uint>(m_dirty[0], uint(start));
+		m_dirty[1] = max<uint>(m_dirty[1], uint(end));
 		m_text.break_text_rows();
 		this->changed();
 	}
@@ -373,7 +373,7 @@ namespace mud
 
 	void TextEdit::insert(size_t index, const string& text)
 	{
-		this->shift(index, text.length());
+		this->shift(index, int(text.length()));
 		m_string.insert(index, text);
 		this->mark_dirty(line_begin(m_string, index), line_end(m_string, index + text.size()));
 		m_follow_cursor = true;
@@ -393,7 +393,7 @@ namespace mud
 	{
 		if(end == start) return;
 		this->clear(start, end);
-		this->shift(start, start - end);
+		this->shift(start, int(start - end));
 		m_string.erase(start, end - start);
 		this->mark_dirty(line_begin(m_string, start), line_end(m_string, start));
 		m_follow_cursor = true;
@@ -596,12 +596,12 @@ namespace mud
 
 	void TextEdit::move_left(size_t count, bool select, bool word_mode)
 	{
-		this->move_select(m_text.clamp_cursor(m_selection.m_cursor - count), select, select && word_mode);
+		this->move_select(m_text.clamp_cursor(int(m_selection.m_cursor - count)), select, select && word_mode);
 	}
 
 	void TextEdit::move_right(size_t count, bool select, bool word_mode)
 	{
-		this->move_select(m_text.clamp_cursor(m_selection.m_cursor + count), select, select && word_mode);
+		this->move_select(m_text.clamp_cursor(int(m_selection.m_cursor + count)), select, select && word_mode);
 	}
 	
 	void TextEdit::move_top(bool select)
@@ -1003,7 +1003,7 @@ namespace mud
 					//if(color == uint16_t(CodePalette::Word))
 					{
 						if(!m_language->m_case_sensitive)
-							std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+							std::transform(name.begin(), name.end(), name.begin(), [](char c) { return char(toupper(c)); });
 						
 						if(!preproc)
 						{

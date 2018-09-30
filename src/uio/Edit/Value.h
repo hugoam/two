@@ -6,7 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <infra/Global.h>
-#include <obj/Dispatch.h>
+#include <type/Dispatch.h>
 #include <math/Stat.h>
 #endif
 #include <uio/Forward.h>

@@ -20,7 +20,7 @@ module mud.gfx.gltf;
 #include <json11.hpp>
 using json = json11::Json;
 
-#include <obj/DispatchDecl.h>
+#include <type/DispatchDecl.h>
 #include <infra/Vector.h>
 #include <infra/File.h>
 #include <infra/String.h>

@@ -8,8 +8,8 @@
 module mud.obj;
 #else
 #include <infra/Config.h>
-#include <obj/Var.h>
-#include <obj/Any.h>
+#include <type/Var.h>
+#include <type/Any.h>
 #endif
 
 namespace mud

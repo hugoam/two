@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <obj/Forward.h>
+#include <type/Forward.h>
 
 export_ namespace mud
 {}
 
 namespace mud
 {
-	export_ extern MUD_OBJ_EXPORT const unsigned int c_max_types;
+	export_ extern MUD_TYPE_EXPORT const unsigned int c_max_types;
 
 	class Type;
 

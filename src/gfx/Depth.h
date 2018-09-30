@@ -3,7 +3,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Unique.h>
+#include <type/Unique.h>
 #endif
 #include <gfx/Renderer.h>
 #include <gfx/Forward.h>

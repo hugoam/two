@@ -465,7 +465,7 @@ namespace mud
 		float r2 = radius * radius;
 		float dmin = 0.f;
 
-		for(size_t i = 0; i < 3; ++i)
+		for(vec3::length_type i = 0; i < 3; ++i)
 		{
 			if(center[i] < min[i]) dmin += sqr(center[i] - min[i]);
 			else if(center[i] > max[i]) dmin += sqr(center[i] - max[i]);

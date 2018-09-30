@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.proto;
 #else
-#include <obj/Cls.h>
+#include <type/Cls.h>
 #include <refl/Class.h>
 #include <ecs/Proto.h>
 #endif

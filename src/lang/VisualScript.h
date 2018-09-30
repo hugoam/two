@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <obj/Var.h>
+#include <type/Var.h>
 #include <infra/NonCopy.h>
 #endif
 #include <lang/Forward.h>

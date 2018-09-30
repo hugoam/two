@@ -7,8 +7,8 @@
 #include <infra/Array.h>
 #include <infra/Strung.h>
 #include <refl/Forward.h>
-#include <obj/Type.h>
-#include <obj/Var.h>
+#include <type/Type.h>
+#include <type/Var.h>
 
 #ifndef MUD_CPP_20
 #include <functional>

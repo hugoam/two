@@ -2,7 +2,7 @@
 
 #include <infra/Api.h>
 #include <jobs/Api.h>
-#include <obj/Api.h>
+#include <type/Api.h>
 #include <pool/Api.h>
 #include <tree/Api.h>
 #include <math/Api.h>

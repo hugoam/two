@@ -8,7 +8,7 @@
 module mud.uio;
 #else
 #include <infra/Vector.h>
-#include <obj/Any.h>
+#include <type/Any.h>
 #ifdef MUD_ECS
 #include <ecs/Entity.h>
 #endif
@@ -107,6 +107,7 @@ namespace mud
 
 	bool object_edit_rows(Widget& parent, Table& table, Ref object)
 	{
+		UNUSED(parent);
 		bool changed = false;
 
 		auto member_edit = [&](Member& member)

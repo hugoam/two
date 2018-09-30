@@ -80,6 +80,7 @@ namespace mud
 
 		auto visit_folder = [&](cstring path, cstring folder)
 		{
+			UNUSED(path);
 			load_folder_images(images, sprite_path + folder + "/", string(folder) + "/");
 		};
 

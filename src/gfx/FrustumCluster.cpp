@@ -52,8 +52,8 @@ namespace mud
 
 		// Here we recompute the froxel counts which may have changed a little due to the rounding
 		// and the squareness requirement of froxels
-		count_x = (clip_size.x + size - 1) / size;
-		count_y = (clip_size.y + size - 1) / size;
+		count_x = (size_t(clip_size.x) + size - 1) / size;
+		count_y = (size_t(clip_size.y) + size - 1) / size;
 
 		frustum.m_tile_size = uvec2(size);
 		frustum.m_subdiv_x = uint16_t(count_x);

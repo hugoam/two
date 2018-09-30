@@ -7,7 +7,7 @@ module mud.refl;
 #else
 #include <refl/Types.h>
 #include <refl/Api.h>
-#include <obj/Vector.h>
+#include <type/Vector.h>
 //#include <ecs/Proto.h>
 #endif
 
