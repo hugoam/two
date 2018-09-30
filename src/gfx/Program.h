@@ -93,7 +93,7 @@ namespace mud
 
 		cstring m_sources[size_t(ShaderType::Count)] = { nullptr, nullptr };
 
-		uint32_t m_update;
+		uint32_t m_update = 1;
 
 		struct Impl;
 		unique_ptr<Impl> m_impl;

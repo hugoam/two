@@ -20,8 +20,8 @@ struct Velocity
 
 namespace mud
 {
-	template <> struct TypedBuffer<Position> { using type = ComponentBuffer<Position>; static size_t index() { return 0; } };
-	template <> struct TypedBuffer<Velocity> { using type = ComponentBuffer<Velocity>; static size_t index() { return 1; } };
+	template <> struct TypedBuffer<Position> { static size_t index() { return 0; } };
+	template <> struct TypedBuffer<Velocity> { static size_t index() { return 1; } };
 }
 
 void test_ecs()
@@ -37,32 +37,32 @@ void test_ecs()
     //create and register some component buffers
 //        Print("Creating Component Buffers");
 
-	s_registry.AddBuffer<Position>(); // 1 << preallocShift;
-	s_registry.AddBuffer<Velocity>(); // 1 << preallocShift;
+	s_registry.AddBuffers<Position>(); // 1 << preallocShift;
+	s_registry.AddBuffers<Position, Velocity>(); // 1 << preallocShift;
         
 //        PrintRegistryDebug();
 //        PrintCompBufsDebug();
 
 
-	Entity entity = {};
+	Entity entity = { Tags<Position, Velocity>{}  };
 	Component<Position> position = { entity };
 	Component<Velocity> velocity = { entity };
 
-    auto e = s_registry.CreateEntity();
-	s_registry.AddComponent(e, Position());
-	s_registry.AddComponent(e, Velocity{ 0, 3 });
+    auto e = s_registry.CreateEntity<Position, Velocity>();
+	s_registry.SetComponent(e, Position());
+	s_registry.SetComponent(e, Velocity{ 0, 3 });
 
-    auto e1 = s_registry.CreateEntity();
-	s_registry.AddComponent(e1, Position());
-    //s_registry.AddComponent(e1, Velocity { x = 0, y = 1 });
+    auto e1 = s_registry.CreateEntity<Position>();
+	s_registry.SetComponent(e1, Position());
+    //s_registry.SetComponent(e1, Velocity { x = 0, y = 1 });
 
-    auto e2 = s_registry.CreateEntity();
-	s_registry.AddComponent(e2, Position());
-	s_registry.AddComponent(e2, Velocity { 0, 5 });
+    auto e2 = s_registry.CreateEntity<Position, Velocity>();
+	s_registry.SetComponent(e2, Position());
+	s_registry.SetComponent(e2, Velocity { 0, 5 });
 
-    auto e3 = s_registry.CreateEntity();
-	s_registry.AddComponent(e3, Position());
-    //s_registry.AddComponent(e3, Velocity { x = 0, y = 1 });
+    auto e3 = s_registry.CreateEntity<Position>();
+	s_registry.SetComponent(e3, Position());
+    //s_registry.SetComponent(e3, Velocity { x = 0, y = 1 });
 
     s_registry.Loop<Position, Velocity>([](uint32_t handle, Position& pos, Velocity& vel)
     {

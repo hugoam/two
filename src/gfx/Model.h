@@ -44,6 +44,7 @@ namespace mud
 	export_ struct refl_ ModelItem
 	{
 		attr_ size_t m_index;
+		attr_ bool m_has_transform;
 		attr_ mat4 m_transform;
 		attr_ Mesh* m_mesh;
 		attr_ int m_skin;

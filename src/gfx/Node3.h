@@ -22,6 +22,7 @@ namespace mud
 	export_ MUD_GFX_EXPORT vec3 bxmul(const mat4& mat, const vec3& vec);
 	export_ MUD_GFX_EXPORT vec3 bxmulh(const mat4& mat, const vec3& vec);
 	export_ MUD_GFX_EXPORT mat4 bxlookat(const vec3& eye, const vec3& at);
+	export_ MUD_GFX_EXPORT void bxlookat(mat4& result, const vec3& eye, const vec3& at, const vec3& up);
 	export_ MUD_GFX_EXPORT mat4 bxlookat(const vec3& eye, const vec3& at, const vec3& up);
 	export_ MUD_GFX_EXPORT mat4 bxproj(float fov, float aspect, float near, float far, bool oglNdc);
 	export_ MUD_GFX_EXPORT mat4 bxortho(const vec4& rect, float near, float far, float offset, bool oglNdc);

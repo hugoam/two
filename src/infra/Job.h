@@ -170,7 +170,7 @@ namespace mud
 		}
 
 		void finish(Job* job);
-
+		
 	public:
 		struct alignas(CACHELINE_SIZE) ThreadState  // this causes 40-bytes padding // make sure storage is cache-line aligned
 		{   			   
@@ -215,9 +215,9 @@ namespace mud
 			aligned_vector<ThreadState> m_thread_states;          // actual data is stored offline
 		std::atomic<bool> m_exit_requested = { 0 };           // this one is almost never written
 		std::atomic<uint16_t> m_adopted_threads = { 0 };      // this one is almost never written
-		Job* const m_jobs;                         // Base for conversion to indices
-		uint16_t m_thread_count = 0;                          // total # of threads in the pool
+		Job* const m_jobs;									  // base for conversion to indices
 	public:
+		uint16_t m_thread_count = 0;                          // total # of threads in the pool
 		uint8_t m_parallel_split_count = 0;                    // # of split allowable in parallel_for
 	private:
 		Job* m_master_job = nullptr;

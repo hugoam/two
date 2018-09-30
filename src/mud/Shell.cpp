@@ -116,7 +116,7 @@ namespace mud
 		static ImporterOBJ obj_importer(m_gfx_system);
 		static ImporterGltf gltf_importer(m_gfx_system);
 
-		string stylesheet = "minimal.yml";
+		string stylesheet = "boids.yml";
 		//string stylesheet = "vector.yml";
 		//string stylesheet = "blendish_dark.yml";
 		set_style_sheet(*m_ui_window->m_styler, (string(m_resource_path) + "interface/styles/" + stylesheet).c_str());

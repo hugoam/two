@@ -43,6 +43,9 @@ module mud.gfx;
 #include <gfx/Skeleton.h>
 #endif
 
+#define TRACY_ENABLE
+#include <Tracy.hpp>
+
 #define MUD_GFX_THREADED
 
 namespace mud
@@ -63,7 +66,10 @@ namespace mud
 	void GfxContext::reset(uint16_t width, uint16_t height)
 	{
 		bgfx::reset(width, height, BGFX_RESET_NONE);
-		m_target = make_object<RenderTarget>(uvec2(width, height));
+		if(width == 0 || height == 0)
+			m_target = nullptr;
+		else
+			m_target = make_object<RenderTarget>(uvec2(width, height));
 		m_vg_handle = m_reset_vg();
 	}
 
@@ -203,39 +209,64 @@ namespace mud
 	{
 		RenderFrame frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
 
-		for(auto& name_program : m_impl->m_programs->m_assets)
-			name_program.second->update();
+		{
+			ZoneScopedNC("programs", tracy::Color::Cyan);
 
-		for(auto& renderer : m_impl->m_renderers)
-			if(renderer)
-				renderer->frame(frame);
+			for(auto& name_program : m_impl->m_programs->m_assets)
+				name_program.second->update();
+		}
+
+		{
+			ZoneScopedNC("renderers", tracy::Color::Cyan);
+
+			for(auto& renderer : m_impl->m_renderers)
+				if(renderer)
+					renderer->frame(frame);
+		}
 
 #ifdef MUD_GFX_THREADED
-		m_num_encoders = min(uint32_t(4U), bgfx::getCaps()->limits.maxEncoders);
+		{
+			ZoneScopedNC("gfx begin", tracy::Color::Cyan);
 
-		m_encoders[0] = bgfx::begin();
-		for(size_t i = 1; i < m_num_encoders; ++i)
-			m_encoders[i] = bgfx::begin(true);
+			m_num_encoders = min(uint32_t(4U), bgfx::getCaps()->limits.maxEncoders);
+
+			m_encoders[0] = bgfx::begin();
+			for(size_t i = 1; i < m_num_encoders; ++i)
+				m_encoders[i] = bgfx::begin(true);
+		}
 #endif
 
 		for(GfxContext* context : m_impl->m_contexts)
 			for(Viewport* viewport : context->m_viewports)
 				if(viewport->m_active)
 				{
+					ZoneScopedNC("gfx viewport", tracy::Color::Cyan);
+
 					Renderer& renderer = this->renderer(viewport->m_shading);
 					this->render(renderer, *context, *viewport, frame);
 				}
 
 #ifdef MUD_GFX_THREADED
-		for(size_t i = 1; i < m_num_encoders; ++i)
-			bgfx::end(m_encoders[i]);
+		{
+			ZoneScopedNC("gfx end", tracy::Color::Cyan);
+
+			for(size_t i = 1; i < m_num_encoders; ++i)
+				bgfx::end(m_encoders[i]);
+		}
 #endif
 
 		bool pursue = true;
-		for(GfxContext* context : m_impl->m_contexts)
-			pursue &= context->next_frame();
+		{
+			ZoneScopedNC("gfx contexts", tracy::Color::Cyan);
 
-		BgfxSystem::next_frame();
+			for(GfxContext* context : m_impl->m_contexts)
+				pursue &= context->next_frame();
+		}
+
+		{
+			ZoneScopedNC("gfx frame", tracy::Color::Cyan);
+			BgfxSystem::next_frame();
+		}
 
 		return pursue;
 	}

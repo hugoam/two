@@ -86,8 +86,8 @@ namespace mud
 
 	void Cascade::create(uvec2 size, bgfx::TextureFormat::Enum color_format)
 	{
-		//uint32_t flags = BGFX_TEXTURE_BLIT_DST | GFX_TEXTURE_CLAMP;
-		uint32_t flags = BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP;
+		//uint64_t flags = BGFX_TEXTURE_BLIT_DST | GFX_TEXTURE_CLAMP;
+		uint64_t flags = BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP;
 
 		if(bgfx::isTextureValid(1, true, 1, color_format, flags))
 		{

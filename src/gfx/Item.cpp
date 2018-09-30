@@ -45,11 +45,22 @@ namespace mud
 		for(const ModelItem& item : m_model->m_items)
 		{
 			bgfx::InstanceDataBuffer& buffer = m_instance_buffers[item.m_index];
-			bgfx::allocInstanceDataBuffer(&buffer, m_instances.size(), sizeof(mat4));
+			uint32_t num = bgfx::getAvailInstanceDataBuffer(m_instances.size(), sizeof(mat4));
+			if(num == 0)
+				return;
+			bgfx::allocInstanceDataBuffer(&buffer, num, sizeof(mat4));
 
 			mat4* mat = (mat4*)buffer.data;
-			for(uint32_t i = 0; i < buffer.num; ++i)
-				*mat++ = m_instances[i] * item.m_transform;
+
+			if(item.m_has_transform)
+			{
+				for(uint32_t i = 0; i < buffer.num; ++i)
+					*mat++ = m_instances[i] * item.m_transform;
+			}
+			else
+			{
+				std::copy(m_instances.begin(), m_instances.end(), mat);
+			}
 		}
 	}
 

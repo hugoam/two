@@ -102,9 +102,8 @@ namespace mud
 	double nsin(double a) { return (sin(a) + 1.0) / 2.0; }
 	double ncos(double a) { return (cos(a) + 1.0) / 2.0; }
 
-	quat look_at(const vec3& source, const vec3& dest, const vec3& forward)
+	quat look_dir(const vec3& source, const vec3& direction, const vec3& forward)
 	{
-		vec3 direction = normalize(dest - source);
 		float d = dot(forward, direction);
 
 		if(abs(d - (-1.0f)) < 0.000001f)
@@ -114,6 +113,12 @@ namespace mud
 
 		vec3 axis = normalize(cross(-Z3, direction));
 		return axis_angle(axis, acos(d));
+	}
+
+	quat look_at(const vec3& source, const vec3& dest, const vec3& forward)
+	{
+		vec3 direction = normalize(dest - source);
+		return look_dir(source, direction, forward);
 	}
 
 	uint32_t pack4(const vec4& colour)

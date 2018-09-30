@@ -29,6 +29,9 @@ module mud.gfx;
 #include <gfx/Filter.h>
 #endif
 
+#define TRACY_ENABLE
+#include <Tracy.hpp>
+
 #define MUD_GFX_JOBS
 
 namespace mud
@@ -157,6 +160,8 @@ namespace mud
 
 		for(auto& pass : m_impl->m_render_passes)
 		{
+			ZoneScopedNC(pass->m_name, tracy::Color::Cyan);
+
 			pass->begin_render_pass(render);
 			pass->submit_render_blocks(render);
 			pass->submit_render_pass(render);
@@ -356,7 +361,7 @@ namespace mud
 			};
 
 			JobSystem& js = *m_gfx_system.m_job_system;
-			Job* job = jobs<16>(js, nullptr, 0, m_impl->m_draw_elements.size(), submit);
+			Job* job = split_jobs<16>(js, nullptr, 0, m_impl->m_draw_elements.size(), submit);
 			js.complete(job);
 #else
 			bgfx::Encoder& encoder = *render_pass.m_encoder;

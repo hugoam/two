@@ -24,6 +24,10 @@
 #    define gettid() syscall(SYS_gettid)
 #endif
 
+#ifdef WIN32
+#include <Windows.h>
+#include <tchar.h>
+#endif
 
 namespace mud
 {
@@ -55,6 +59,7 @@ namespace mud
 		}
 		setpriority(PRIO_PROCESS, 0, androidPriority);
 #endif
+		//SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST);
 	}
 
 	void set_thread_affinity(uint32_t mask)
@@ -71,6 +76,8 @@ namespace mud
 			mask >>= 1;
 		}
 		sched_setaffinity(gettid(), sizeof(set), &set);
+#else
+		//SetThreadAffinityMask(GetCurrentThread(), mask);
 #endif
 	}
 }

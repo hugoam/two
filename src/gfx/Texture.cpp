@@ -61,7 +61,7 @@ namespace mud
 		bimg::imageFree(imageContainer);
 	}
 
-	bgfx::TextureHandle load_bgfx_texture(bx::AllocatorI& allocator, bx::FileReaderI& reader, const char* file_path, uint32_t flags, bgfx::TextureInfo* info, bimg::Orientation::Enum* orientation)
+	bgfx::TextureHandle load_bgfx_texture(bx::AllocatorI& allocator, bx::FileReaderI& reader, const char* file_path, uint64_t flags, bgfx::TextureInfo* info, bimg::Orientation::Enum* orientation)
 	{
 		bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
 

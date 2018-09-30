@@ -66,6 +66,7 @@ namespace mud
 		printf("GfxSystem: bgfx::init\n");
 		bgfx::Init params = {};
 		params.type = bgfx::RendererType::OpenGL;
+		//params.type = bgfx::RendererType::Direct3D11;
 		params.resolution.width = uint32_t(context.m_width);
 		params.resolution.height = uint32_t(context.m_height);
 		params.resolution.reset = BGFX_RESET_NONE;
@@ -73,7 +74,9 @@ namespace mud
 
 		//bgfx::reset(uint32_t(context.m_width), uint32_t(context.m_height), BGFX_RESET_NONE);
 
+#ifdef _DEBUG
 		bgfx::setDebug(BGFX_DEBUG_TEXT | BGFX_DEBUG_PROFILER);
+#endif
 
 		bgfx::setViewRect(0, 0, 0, uint16_t(context.m_width), uint16_t(context.m_height));
 		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 1.0f, 0);
@@ -86,7 +89,7 @@ namespace mud
 	{
 		bgfx::touch(0);
 
-#ifdef  _DEBUG
+#ifdef _DEBUG
 		size_t capture_every = 100;
 		bool capture = m_profile && (m_frame % capture_every) == 0;
 		m_frame = bgfx::frame(capture);

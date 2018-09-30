@@ -80,7 +80,7 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 	export_ template <class T_Method>
 	Address member_address(T_Method p)
 	{
-		Address result;
+		Address result = {};
 		for(size_t i = 0; i < sizeof p; ++i)
 			result.value[i] = reinterpret_cast<char *>(&p)[i];
 		return result;

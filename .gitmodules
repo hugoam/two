@@ -60,3 +60,6 @@
 [submodule "3rdparty/fcontext"]
 	path = 3rdparty/fcontext
 	url = https://github.com/septag/deboost.context
+[submodule "3rdparty/tracy"]
+	path = 3rdparty/tracy
+	url = https://bitbucket.org/wolfpld/tracy.git

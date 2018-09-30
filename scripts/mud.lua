@@ -7,6 +7,7 @@ end
 group "3rdparty"
 dofile(path.join(MUD_DIR, "scripts/3rdparty/json11.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/stb.lua"))
+dofile(path.join(MUD_DIR, "scripts/3rdparty/tracy.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/lua.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/wren.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/glfw.lua"))
@@ -26,6 +27,12 @@ mud = {}
 function uses_mud()
     includedirs {
         path.join(MUD_SRC_DIR),
+    }
+end
+
+function mud_infra()
+    includedirs {
+        path.join(MUD_3RDPARTY_DIR, "tracy"),
     }
 end
 
@@ -122,7 +129,7 @@ function mud_db()
 end
 
 --                       base   name        root path    sub path   decl        self decl       decl transitive     dependencies
-mud.infra   = mud_module("mud", "infra",    MUD_SRC_DIR, "infra",   nil,        nil,            uses_mud,           {})
+mud.infra   = mud_module("mud", "infra",    MUD_SRC_DIR, "infra",   nil,        mud_infra,      uses_mud,           { tracy })
 mud.obj     = mud_module("mud", "obj",      MUD_SRC_DIR, "obj",     nil,        nil,            uses_mud,           { mud.infra })
 mud.pool    = mud_module("mud", "pool",     MUD_SRC_DIR, "pool",    nil,        nil,            nil,                { mud.infra, mud.obj })
 mud.refl    = mud_module("mud", "refl",     MUD_SRC_DIR, "refl",    nil,        nil,            nil,                { mud.infra, mud.obj, mud.pool })

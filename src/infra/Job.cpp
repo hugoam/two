@@ -1,34 +1,38 @@
 #include <infra/Config.h>
 #include <infra/Job.h>
 
+#include <cassert>
 #include <cmath>
 #include <random>
 #include <algorithm>
 
-#if (defined(__i386__) || defined(__x86_64__))
-#   define UTILS_HAS_HYPER_THREADING 0      // on x86 we assume we have hyper-threading.
-#else
-#   define UTILS_HAS_HYPER_THREADING 0
-#endif
-
-#if defined(__EMSCRIPTEN__)
-#   define UTILS_HAS_THREADING 0
-#else
-#   define UTILS_HAS_THREADING 1
-#endif
+#define TRACY_ENABLE
+#include <Tracy.hpp>
 
 #define __i386__
 
+#if (defined(__i386__) || defined(__x86_64__))
+#   define HAS_HYPER_THREADING 0      // on x86 we assume we have hyper-threading.
+#else
+#   define HAS_HYPER_THREADING 0
+#endif
+
+#if defined(__EMSCRIPTEN__)
+#   define HAS_THREADING 0
+#else
+#   define HAS_THREADING 1
+#endif
+
 #ifdef __ARM_ACLE
 #   include <arm_acle.h>
-#   define UTILS_WAIT_FOR_EVENT()       __wfe()
-#else // !__ARM_ACLE
+#   define WAIT_FOR_EVENT()       __wfe()
+#else
 #   if (defined(__i386__) || defined(__x86_64__))
-#       define UTILS_WAIT_FOR_EVENT()       _mm_pause();
-#   else // !x86
-#       define UTILS_WAIT_FOR_EVENT()
-#   endif // x86
-#endif // __ARM_ACLE
+#       define WAIT_FOR_EVENT()       _mm_pause();
+#   else
+#       define WAIT_FOR_EVENT()
+#   endif
+#endif
 
 namespace mud
 {
@@ -41,19 +45,18 @@ namespace mud
 		if(num_threads == 0)
 		{
 			size_t hardware_threads = std::thread::hardware_concurrency();
-			if(UTILS_HAS_HYPER_THREADING)
+			if(HAS_HYPER_THREADING)
 				num_threads = hardware_threads / 2 - 1;
 			else
 				num_threads = hardware_threads - 1;
 		}
-		num_threads = std::min(size_t(UTILS_HAS_THREADING ? 32 : 0), num_threads);
+		num_threads = std::min(size_t(HAS_THREADING ? 32 : 0), num_threads);
 
 		m_thread_states = aligned_vector<ThreadState>(num_threads + adoptable_threads);
 		m_thread_count = uint16_t(num_threads);
 		m_parallel_split_count = (uint8_t)std::ceil((std::log2f(num_threads + adoptable_threads)));
 
-		//assert(m_exit_requested.is_lock_free());
-		//assert(Job().running_jobs.is_lock_free());
+		printf("INFO: job system running on %i worker threads\n", int(m_thread_count));
 
 		for(size_t i = 0, n = m_thread_states.size(); i < n; i++)
 		{
@@ -144,8 +147,11 @@ namespace mud
 			assert(active_jobs);
 			UNUSED(active_jobs);
 
-			[[likely]] if(job->function)
+			if(job->function) [[likely]]
+			{
+				ZoneScopedN("job");
 				job->function(job->padding, *this, job);
+			}
 
 			finish(job);
 		}
@@ -156,6 +162,7 @@ namespace mud
 	{
 		set_thread_name("JobSystem::loop");
 		set_thread_priority(ThreadPriority::Display);
+		set_thread_affinity(1 << (thread_state->index + 1));
 
 		s_thread_state = thread_state;
 
@@ -173,8 +180,9 @@ namespace mud
 	{
 		parent = (parent == nullptr) ? m_master_job : parent;
 		Job* const job = m_job_pool.make();
-		[[likely]] if(job)
+		if(job) [[likely]]
 		{
+			//printf("%i jobs\n", int(job - m_jobs));
 			size_t index = 0x7FFF;
 			if(parent)
 			{
@@ -187,6 +195,10 @@ namespace mud
 			job->function = func;
 			job->parent = uint16_t(index);
 			job->running_jobs.store(1, std::memory_order_relaxed);
+		}
+		else
+		{
+			//printf("no jobs\n");
 		}
 		return job;
 	}
@@ -234,7 +246,7 @@ namespace mud
 		ThreadState& state = this->state();
 		do {
 			if(!execute(state))
-				UTILS_WAIT_FOR_EVENT();
+				WAIT_FOR_EVENT();
 		} while(!completed(job) && !exiting());
 
 		std::atomic_thread_fence(std::memory_order_acquire);

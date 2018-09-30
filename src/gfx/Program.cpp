@@ -215,10 +215,11 @@ namespace mud
 		for(auto& hash_version : m_impl->m_versions)
 		{
 			uint64_t config_hash = hash_version.first;
+			Version& version = hash_version.second;
 			ShaderVersion config = { this };
 			memcpy(&config.m_options, &config_hash, sizeof(uint64_t));
 
-			if(m_impl->m_versions[config_hash].m_update < m_update)
+			if(version.m_update < m_update)
 			{
 				string suffix = "_v" + to_string(config_hash);
 				string full_name = m_impl->m_name + suffix;
@@ -244,12 +245,12 @@ namespace mud
 				{
 					printf("INFO: loading program %s with options %s\n", full_name.c_str(), defines.c_str());
 					string compiled_path = string(ms_gfx_system->m_resource_path) + "/shaders/compiled/" + full_name;
-					m_impl->m_versions[config_hash] = { config_hash, m_update, load_program(ms_gfx_system->file_reader(), compiled_path) };
+					version = { config_hash, m_update, load_program(ms_gfx_system->file_reader(), compiled_path) };
 				}
 				else
 				{
 					printf("WARNING: failed to compile program %s : using last valid version instead\n", full_name.c_str());
-					m_impl->m_versions[config_hash].m_update = m_update;
+					version.m_update = m_update;
 				}
 			}
 		}

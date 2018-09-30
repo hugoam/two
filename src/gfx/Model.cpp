@@ -67,7 +67,7 @@ namespace mud
 
 	ModelItem& Model::add_item(mat4 transform, Mesh& mesh, int skin, Colour colour, Material* material)
 	{
-		m_items.push_back({ m_items.size(), transform, &mesh, skin, colour, material });
+		m_items.push_back({ m_items.size(), transform != bxidentity(), transform, &mesh, skin, colour, material });
 		return m_items.back();
 	}
 

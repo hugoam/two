@@ -29,6 +29,7 @@ namespace mud
 	vec3 bxmul(const mat4& mat, const vec3& vec) { vec3 result; bx::vec3MulMtx(&result[0], value_ptr(vec), value_ptr(mat)); return result; }
 	vec3 bxmulh(const mat4& mat, const vec3& vec) { vec3 result; bx::vec3MulMtxH(&result[0], value_ptr(vec), value_ptr(mat)); return result; }
 	mat4 bxlookat(const vec3& eye, const vec3& at) { mat4 result; bx::mtxLookAtRh(value_ptr(result), value_ptr(eye), value_ptr(at)); return result; }
+	void bxlookat(mat4& result, const vec3& eye, const vec3& at, const vec3& up) { bx::mtxLookAtRh(value_ptr(result), value_ptr(eye), value_ptr(at), value_ptr(up)); }
 	mat4 bxlookat(const vec3& eye, const vec3& at, const vec3& up) { mat4 result; bx::mtxLookAtRh(value_ptr(result), value_ptr(eye), value_ptr(at), value_ptr(up)); return result; }
 	mat4 bxproj(float fov, float aspect, float near, float far, bool oglNdc) { mat4 result; bx::mtxProjRh(value_ptr(result), fov, aspect, near, far, oglNdc); return result; }
 	mat4 bxortho(const vec4& rect, float near, float far, float offset, bool oglNdc) { mat4 result; bx::mtxOrthoRh(value_ptr(result), rect.x, rect.y, rect.z, rect.w, near, far, offset, oglNdc); return result; }

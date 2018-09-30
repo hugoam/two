@@ -49,8 +49,10 @@ namespace mud
 
 			void parallel(JobSystem& js, Job* parent, uint32_t start, uint32_t count, uint8_t splits)
 			{
+				auto round_to = [](uint32_t number, uint32_t divisor) { return number - number % divisor + divisor * !!(number % divisor); };
 				if(m_splitter.split(splits, count))
 				{
+					//const uint32_t left = round_to(count / 2, 64);
 					const uint32_t left = count / 2;
 					parallel(js, parent, start, left, splits);
 					parallel(js, parent, start + left, count - left, splits + 1);
@@ -60,7 +62,10 @@ namespace mud
 					Job* job = js.job(parent, [f = m_functor, start, count](JobSystem& js, Job* job) {
 						f(js, job, start, count);
 					});
-					js.run(job);
+					if(job)
+						js.run(job);
+					else
+						m_functor(js, parent, start, count);
 				}
 			}
 
@@ -74,7 +79,7 @@ namespace mud
 	}
 
 	template <typename S, typename F>
-	Job* jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor, const S& splitter)
+	Job* split_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor, const S& splitter)
 	{
 		using Jobs = details::ParallelJob<S, F>;
 		Jobs jobData(start, count, 0, std::move(functor), splitter);
@@ -82,11 +87,11 @@ namespace mud
 	}
 
 	template <typename T, typename S, typename F>
-	Job* jobs(JobSystem& js, Job* parent, T* data, uint32_t count, F functor, const S& splitter)
+	Job* split_jobs(JobSystem& js, Job* parent, T* data, uint32_t count, F functor, const S& splitter)
 	{
-		auto user = [data, f = std::move(functor)](uint32_t s, uint32_t c)
+		auto user = [data, f = std::move(functor)](JobSystem& js, Job* job, uint32_t start, uint32_t count)
 		{
-			f(data + s, c);
+			f(data + start, count);
 		};
 		using Jobs = details::ParallelJob<S, decltype(user)>;
 		Jobs jobData(0, count, 0, std::move(user), splitter);
@@ -94,9 +99,9 @@ namespace mud
 	}
 
 	template <typename T, typename S, typename F>
-	Job* jobs(JobSystem& js, Job* parent, array<T> slice, F functor, const S& splitter)
+	Job* split_jobs(JobSystem& js, Job* parent, array<T> slice, F functor, const S& splitter)
 	{
-		return jobs(js, parent, slice.data(), slice.size(), functor, splitter);
+		return split_jobs(js, parent, slice.data(), slice.size(), functor, splitter);
 	}
 
 	template <size_t Count, size_t MaxSplits = 12>
@@ -107,14 +112,55 @@ namespace mud
 	};
 
 	template <size_t Count, typename F>
-	Job* jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor)
+	Job* split_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor)
 	{
-		return jobs(js, parent, start, count, functor, CountSplitter<Count>());
+		return split_jobs(js, parent, start, count, functor, CountSplitter<Count>());
 	}
 
 	template <size_t Count, typename T, typename F>
-	Job* jobs(JobSystem& js, Job* parent, array<T> slice, F functor)
+	Job* split_jobs(JobSystem& js, Job* parent, array<T> slice, F functor)
 	{
-		return jobs(js, parent, slice.data(), slice.size(), functor, CountSplitter<Count>());
+		return split_jobs(js, parent, slice.data(), slice.size(), functor, CountSplitter<Count>());
+	}
+
+	template <size_t Count, typename F>
+	Job* parallel_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor)
+	{
+		auto user = [f = std::move(functor)](JobSystem& js, Job* job, uint32_t start, uint32_t count)
+		{
+			for(uint32_t i = start; i < start + count; ++i)
+				f(js, job, i);
+		};
+		using Jobs = details::ParallelJob<CountSplitter<Count>, decltype(user)>;
+		Jobs jobData(start, count, 0, std::move(user), CountSplitter<Count>());
+		return js.job<Jobs, &Jobs::run>(parent, std::move(jobData));
+	}
+
+	template <size_t Count, class T_Source, class T_Dest>
+	void parallel_copy(JobSystem& js, Job* parent, T_Source& source, T_Dest& dest, size_t count)
+	{
+		auto copy = [&source, &dest](JobSystem& js, Job* job, size_t start, size_t count)
+		{
+			UNUSED(js); UNUSED(job);
+			for(size_t i = start; i < start + count; ++i)
+				dest[i] = source[i];
+		};
+
+		Job* job = split_jobs<Count>(js, parent, 0, count, copy);
+		js.complete(job);
+	}
+
+	template <size_t Count, class T_Value, class T_Dest>
+	void parallel_set(JobSystem& js, Job* parent, T_Value value, T_Dest& dest, size_t count)
+	{
+		auto copy = [value, &dest](JobSystem& js, Job* job, size_t start, size_t count)
+		{
+			UNUSED(js); UNUSED(job);
+			for(size_t i = start; i < start + count; ++i)
+				dest[i] = value;
+		};
+
+		Job* job = split_jobs<Count>(js, parent, 0, count, copy);
+		js.complete(job);
 	}
 }
