@@ -13,4 +13,7 @@ tracy = mud_dep(nil, "tracy")
         path.join(MUD_3RDPARTY_DIR, "tracy", "TracyClient.cpp"),
 	}
     
-    defines { "TRACY_ENABLE" }
+    configuration { "not osx" } -- kludge: disabling for OSX until we fix compile errors and add a proper profiling build option
+        defines { "TRACY_ENABLE" }
+
+    configuration {}
