@@ -47,7 +47,7 @@ namespace mud
 		return _stat(path, &info) == 0 && (info.st_mode & _S_IFDIR) != 0;
 #else 
 		struct stat info;
-		return stat(path.c_str(), &info) == 0 && (info.st_mode & S_IFDIR) != 0;
+		return stat(path, &info) == 0 && (info.st_mode & S_IFDIR) != 0;
 #endif
 	}
 
