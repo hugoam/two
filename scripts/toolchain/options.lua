@@ -107,7 +107,7 @@ function default_options()
     end
     
     NO_SHARED_LIBS = false
-    if _OPTIONS["vs"] == "asmjs" or _OPTIONS["gcc"] = "asmjs" then
+    if _OPTIONS["vs"] == "asmjs" or _OPTIONS["gcc"] == "asmjs" then
         NO_SHARED_LIBS = true
     end
 end
