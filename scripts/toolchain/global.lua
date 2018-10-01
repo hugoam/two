@@ -13,9 +13,7 @@ removeflags {
 configuration { "Debug" }
     targetsuffix "_d"
 
-    removeflags {
-        --"NoExceptions",
-    }
+    --removeflags { "NoExceptions" }
 
 configuration { "Release" }
     targetsuffix ""
@@ -32,18 +30,9 @@ configuration { "asmjs", "Release" }
     flags { "OptimizeSpeed" }
 
 configuration { "asmjs", "Debug" }
-    removeflags {
-        --"NoExceptions",
-    }
-    
-    buildoptions {
-        --"-s SAFE_HEAP=1"
-    }
-    
-    linkoptions {
-        --"-s SAFE_HEAP=1",
-    }
-
+    --removeflags { "NoExceptions" }
+    --buildoptions { "-s SAFE_HEAP=1" }
+    --linkoptions { "-s SAFE_HEAP=1" }
 
 configuration { "linux-*" }
     buildoptions {

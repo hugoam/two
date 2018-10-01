@@ -2,7 +2,7 @@
 -- lua dependency
 
 function uses_glfw()
-    configuration { "osx", "not asmjs" }
+    configuration { "osx" }
         linkoptions {
             "-framework Cocoa",
             "-framework OpenGL",
@@ -25,7 +25,7 @@ glfw = mud_dep(nil, "glfw", false, uses_glfw)
         path.join(MUD_3RDPARTY_DIR, "glfw/src/window.c"),
     }
     
-    configuration { "windows", "not asmjs" }
+    configuration { "windows" }
         files {
             path.join(MUD_3RDPARTY_DIR, "glfw/src/win32_init.c"),
             path.join(MUD_3RDPARTY_DIR, "glfw/src/win32_joystick.c"),
@@ -40,7 +40,7 @@ glfw = mud_dep(nil, "glfw", false, uses_glfw)
         
         defines { "_GLFW_WIN32" }
         
-    configuration { "vs*", "not asmjs" }
+    configuration { "vs*" }
         buildoptions {
             "/wd4204", -- warning C4204: nonstandard extension used: non-constant aggregate initializer
             "/wd4152", -- warning C4152: nonstandard extension, function/data pointer conversion in expression
@@ -50,7 +50,7 @@ glfw = mud_dep(nil, "glfw", false, uses_glfw)
             "/wd4100", -- warning C4100: 'handle': unreferenced formal parameter
         }
         
-    configuration { "mingw* or linux or osx or asmjs" }
+    configuration { "mingw* or linux or osx" }
         buildoptions {
             "-Wno-unused-parameter",
             "-Wno-sign-compare",
@@ -72,7 +72,7 @@ glfw = mud_dep(nil, "glfw", false, uses_glfw)
             path.join(MUD_3RDPARTY_DIR, "glfw/src/osmesa_context.c"),
         }
         
-    configuration { "linux", "not asmjs" } -- and not wayland
+    configuration { "linux" } -- and not wayland
         files {
             path.join(MUD_3RDPARTY_DIR, "glfw/src/x11_init.c"),
             path.join(MUD_3RDPARTY_DIR, "glfw/src/x11_monitor.c"),
