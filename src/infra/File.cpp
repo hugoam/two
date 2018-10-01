@@ -18,6 +18,8 @@ module mud.infra;
 
 #if defined _WIN32
 #include <direct.h>
+#else
+#include <sys/stat.h>
 #endif
 
 namespace mud
