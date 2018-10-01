@@ -62,7 +62,6 @@ function mud_binary_config()
     
     configuration { "asmjs" }
         linkoptions {
-            "--separate-asm",
             "--memory-init-file 1",
             --"--llvm-lto 3",
         }
@@ -83,6 +82,7 @@ function mud_binary_config()
         
     configuration { "asmjs", "Debug" }
         linkoptions {
+            "--separate-asm",
             "-s TOTAL_MEMORY=536870912",
             --"-s ALLOW_MEMORY_GROWTH=1",
         }
