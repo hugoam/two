@@ -17,13 +17,9 @@
 #include <condition_variable>
 #include <mutex>
 
-#ifdef WIN32
 // Size is chosen so that we can store at least std::function<> and a job size is a multiple of a
 // cacheline.
-#    define JOB_PADDING (6+8)
-#else
-#    define JOB_PADDING (6)
-#endif
+#define JOB_PADDING (6+8)
 
 namespace mud
 {

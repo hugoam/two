@@ -100,11 +100,8 @@ function mud_links(lib, dep)
     
     for _, deplink in ipairs(dep.links) do
         local dyntostatic = dep.kind ~= "StaticLib" and deplink.kind == "StaticLib"
-        if NO_SHARED_LIBS or dyntostatic then
+        if dyntostatic and not NO_SHARED_LIBS then
             table.insert(lib.links, deplink)
-            if NO_SHARED_LIBS then
-                links(deplink)
-            end
         end
     end
 end
