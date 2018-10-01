@@ -88,7 +88,7 @@ function mud_refl(m, force_project)
 end
 
 function mud_links(lib, dep)
-    print("    links " .. dep.name)
+    --print("    links " .. dep.name)
     table.insert(lib.links, dep)
     links(dep.name)
     
