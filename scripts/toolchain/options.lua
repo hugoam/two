@@ -91,7 +91,7 @@ function default_options()
     end
 
     if not _OPTIONS["context-native"] and not _OPTIONS["context-glfw"] and not _OPTIONS["context-ogre"] then
-        if _OPTIONS["vs"] ~= "asmjs" then
+        if _OPTIONS["vs"] ~= "asmjs" and _OPTIONS["gcc"] ~= "asmjs" then
             _OPTIONS["context-glfw"] = ""
         else
             _OPTIONS["context-wasm"] = ""
