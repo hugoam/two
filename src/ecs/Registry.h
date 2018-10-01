@@ -91,6 +91,15 @@ namespace mud
 			m_indices.ensure(capacity);
 		}
 
+		void Clear()
+		{
+			for(auto& buffer : m_buffers)
+				buffer->Clear();
+
+			m_handles.clear();
+			m_indices.clear();
+		}
+
 		void Add(uint32_t handle)
 		{
 			const uint32_t index = uint32_t(m_handles.size());
@@ -155,6 +164,14 @@ namespace mud
 		{
 			m_buffers.reserve(64);
 			m_entities.reserve(capacity);
+		}
+
+		template <class... T_Components>
+		ParallelBuffers& Stream()
+		{
+			EntFlags prototype = any_flags(1ULL << TypedBuffer<T_Components>::index()...);
+			uint16_t stream = m_streams[prototype];
+			return m_buffers[stream];
 		}
 
 		std::vector<ParallelBuffers*> Match(EntFlags prototype)

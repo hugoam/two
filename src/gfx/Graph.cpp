@@ -185,7 +185,10 @@ namespace gfx
 		self.m_item->m_model = const_cast<Model*>(&model);
 		self.m_item->m_material = material;
 		if(transforms.size() > 0)
+		{
+			self.m_item->m_instances.resize(instances);
 			transforms.copy(self.m_item->m_instances);
+		}
 		if(instances > 0)
 		{
 			self.m_item->m_instances.resize(instances);

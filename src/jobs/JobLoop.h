@@ -91,6 +91,7 @@ namespace mud
 	{
 		auto user = [data, f = std::move(functor)](JobSystem& js, Job* job, uint32_t start, uint32_t count)
 		{
+			UNUSED(js); UNUSED(job);
 			f(data + start, count);
 		};
 		using Jobs = details::ParallelJob<S, decltype(user)>;
@@ -104,26 +105,26 @@ namespace mud
 		return split_jobs(js, parent, slice.data(), slice.size(), functor, splitter);
 	}
 
-	template <size_t Count, size_t MaxSplits = 12>
+	template <uint32_t Count, uint32_t MaxSplits = 12>
 	class CountSplitter
 	{
 	public:
-		bool split(size_t splits, size_t count) const { return (splits < MaxSplits && count >= Count * 2); }
+		bool split(uint32_t splits, uint32_t count) const { return (splits < MaxSplits && count >= Count * 2); }
 	};
 
-	template <size_t Count, typename F>
+	template <uint32_t Count, typename F>
 	Job* split_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor)
 	{
 		return split_jobs(js, parent, start, count, functor, CountSplitter<Count>());
 	}
 
-	template <size_t Count, typename T, typename F>
+	template <uint32_t Count, typename T, typename F>
 	Job* split_jobs(JobSystem& js, Job* parent, array<T> slice, F functor)
 	{
 		return split_jobs(js, parent, slice.data(), slice.size(), functor, CountSplitter<Count>());
 	}
 
-	template <size_t Count, typename F>
+	template <uint32_t Count, typename F>
 	Job* parallel_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor)
 	{
 		auto user = [f = std::move(functor)](JobSystem& js, Job* job, uint32_t start, uint32_t count)
@@ -136,13 +137,13 @@ namespace mud
 		return js.job<Jobs, &Jobs::run>(parent, std::move(jobData));
 	}
 
-	template <size_t Count, class T_Source, class T_Dest>
-	void parallel_copy(JobSystem& js, Job* parent, T_Source& source, T_Dest& dest, size_t count)
+	template <uint32_t Count, class T_Source, class T_Dest>
+	void parallel_copy(JobSystem& js, Job* parent, T_Source& source, T_Dest& dest, uint32_t count)
 	{
-		auto copy = [&source, &dest](JobSystem& js, Job* job, size_t start, size_t count)
+		auto copy = [&source, &dest](JobSystem& js, Job* job, uint32_t start, uint32_t count)
 		{
 			UNUSED(js); UNUSED(job);
-			for(size_t i = start; i < start + count; ++i)
+			for(uint32_t i = start; i < start + count; ++i)
 				dest[i] = source[i];
 		};
 
@@ -150,13 +151,13 @@ namespace mud
 		js.complete(job);
 	}
 
-	template <size_t Count, class T_Value, class T_Dest>
-	void parallel_set(JobSystem& js, Job* parent, T_Value value, T_Dest& dest, size_t count)
+	template <uint32_t Count, class T_Value, class T_Dest>
+	void parallel_set(JobSystem& js, Job* parent, T_Value value, T_Dest& dest, uint32_t count)
 	{
-		auto copy = [value, &dest](JobSystem& js, Job* job, size_t start, size_t count)
+		auto copy = [value, &dest](JobSystem& js, Job* job, uint32_t start, uint32_t count)
 		{
 			UNUSED(js); UNUSED(job);
-			for(size_t i = start; i < start + count; ++i)
+			for(uint32_t i = start; i < start + count; ++i)
 				dest[i] = value;
 		};
 

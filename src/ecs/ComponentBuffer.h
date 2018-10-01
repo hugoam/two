@@ -73,6 +73,7 @@ namespace mud
 
 		EntFlags m_flag;
 
+		virtual void Clear() = 0;
 		virtual void Add() = 0;
 		virtual void Remove(uint32_t index) = 0;
 
@@ -93,6 +94,11 @@ namespace mud
 		virtual void SortComponents() override
 		{
 			//quicksort(to_array(this->m_keys), to_array(this->m_data), this->m_indices);
+		}
+
+		virtual void Clear() override
+		{
+			m_data.clear();
 		}
 
 		virtual void Add() override

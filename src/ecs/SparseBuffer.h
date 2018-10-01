@@ -14,6 +14,8 @@ namespace mud
 	public:
 		SparseIndices(size_t capacity = 1 << 10) : m_indices(capacity, UINT32_MAX) {}
 
+		void clear() { m_indices.resize(m_indices.size(), UINT32_MAX); }
+
 		void erase(uint32_t handle) { m_indices[handle] = UINT32_MAX; }
 
 		void ensure(size_t capacity) { m_indices.resize(capacity, UINT32_MAX); }
@@ -29,6 +31,8 @@ namespace mud
 	{
 	public:
 		SparseIndices(size_t capacity = 1 << 10) : m_indices(4) { UNUSED(capacity); }
+
+		void clear() { m_indices.clear(); }
 
 		void erase(uint32_t handle) { m_indices.erase(handle); }
 
