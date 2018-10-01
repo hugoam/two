@@ -51,7 +51,7 @@ function uses_bgfx()
         path.join(BGFX_DIR,  "include"),
     }
     
-    configuration { "linux" }
+    configuration { "linux", "not asmjs" }
         links {
             "X11",
             "GLU",
@@ -70,7 +70,7 @@ function uses_bgfx()
             "psapi",
         }
     
-    configuration { "osx or linux*" }
+    configuration { "osx or linux*", "not asmjs" }
         links {
             "pthread",
         }

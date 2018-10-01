@@ -251,6 +251,8 @@ function toolchain(_buildDir, _libDir)
 			premake.gcc.cxx  = "\"$(EMSCRIPTEN)/em++\""
 			premake.gcc.ar   = "\"$(EMSCRIPTEN)/emar\""
 			premake.gcc.llvm = true
+            
+            platforms { "Emscripten" }
 			location (path.join(_buildDir, "projects", _ACTION .. "-asmjs"))
 
 		elseif "freebsd" == _OPTIONS["gcc"] then
