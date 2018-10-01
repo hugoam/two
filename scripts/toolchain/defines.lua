@@ -82,14 +82,14 @@ function mud_binary_config()
         
     configuration { "asmjs", "Debug" }
         linkoptions {
-            "--separate-asm",
+            --"--separate-asm",
+            --"-s WASM=0",
             "-s TOTAL_MEMORY=536870912",
             --"-s ALLOW_MEMORY_GROWTH=1",
         }
         
     configuration { "asmjs", "Release" }
         linkoptions {
-            "-s WASM=1",
             "-s ALLOW_MEMORY_GROWTH=1",
             "-s ALIASING_FUNCTION_POINTERS=0",
         }
