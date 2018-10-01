@@ -72,7 +72,7 @@ glfw = mud_dep(nil, "glfw", false, uses_glfw)
             path.join(MUD_3RDPARTY_DIR, "glfw/src/osmesa_context.c"),
         }
         
-    configuration { "linux" } -- and not wayland
+    configuration { "linux", "not asmjs" } -- and not wayland
         files {
             path.join(MUD_3RDPARTY_DIR, "glfw/src/x11_init.c"),
             path.join(MUD_3RDPARTY_DIR, "glfw/src/x11_monitor.c"),
