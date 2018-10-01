@@ -49,7 +49,7 @@ namespace mud
 
 			void parallel(JobSystem& js, Job* parent, uint32_t start, uint32_t count, uint8_t splits)
 			{
-				auto round_to = [](uint32_t number, uint32_t divisor) { return number - number % divisor + divisor * !!(number % divisor); };
+				//auto round_to = [](uint32_t number, uint32_t divisor) { return number - number % divisor + divisor * !!(number % divisor); };
 				if(m_splitter.split(splits, count))
 				{
 					//const uint32_t left = round_to(count / 2, 64);

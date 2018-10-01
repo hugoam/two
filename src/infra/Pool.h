@@ -132,10 +132,10 @@ namespace mud
 		Arena() = default;
 
 		Arena(const char* name, size_t size)
-			: m_begin(malloc(size))
+			: m_name(name)
+			, m_begin(malloc(size))
 			, m_end(pointermath::add(m_begin, size))
 			, m_freelist(m_begin, m_end, sizeof(T), GENERIC_MAX(alignof(T_FreeList), alignof(T)), 0)
-			, m_name(name)
 		{}
 
 		~Arena()

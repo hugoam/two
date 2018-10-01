@@ -4,7 +4,7 @@
 
 #include <ctx-wasm/EmscriptenContext.h>
 
-#include <obj/Type.h>
+#include <type/Type.h>
 //#include <ui/UiWindow.h>
 #include <ctx/InputDevice.h>
 

@@ -69,6 +69,8 @@ namespace mud
 	class ComponentBufferBase
 	{
 	public:
+		virtual ~ComponentBufferBase() {}
+
 		EntFlags m_flag;
 
 		virtual void Add() = 0;
@@ -93,12 +95,12 @@ namespace mud
 			//quicksort(to_array(this->m_keys), to_array(this->m_data), this->m_indices);
 		}
 
-		virtual void Add()
+		virtual void Add() override
 		{
 			m_data.emplace_back();
 		}
 
-		virtual void Remove(uint32_t index)
+		virtual void Remove(uint32_t index) override
 		{
 			std::swap(m_data[index], m_data.back());
 			m_data.pop_back();

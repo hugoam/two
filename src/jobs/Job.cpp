@@ -6,6 +6,8 @@
 #include <random>
 #include <algorithm>
 
+#include <immintrin.h>
+
 #include <Tracy.hpp>
 
 #define __i386__
@@ -25,6 +27,8 @@
 #ifdef __ARM_ACLE
 #   include <arm_acle.h>
 #   define WAIT_FOR_EVENT()       __wfe()
+#elif defined __EMSCRIPTEN__
+#   define WAIT_FOR_EVENT()
 #else
 #   if (defined(__i386__) || defined(__x86_64__))
 #       define WAIT_FOR_EVENT()       _mm_pause();

@@ -20,9 +20,6 @@ namespace mud
 	public:
 		Module(cstring name);
 
-		virtual void handle_load(Module& m) { UNUSED(m); }
-		virtual void handle_unload(Module& m) { UNUSED(m); }
-
 		attr_ cstring m_name;
 		attr_ std::vector<Type*> m_types;
 		attr_ std::vector<Function*> m_functions;

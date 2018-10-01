@@ -50,11 +50,11 @@ namespace mud
 
 		bgfx::TextureHandle m_texture;
 		//utils::RangeSet<4> mDirtyRanges;
-		uint32_t m_size = 0;
-		uint16_t m_width;
-		uint16_t m_height;
-		uint16_t m_row_size;
 		Element m_element;
+		uint32_t m_size = 0;
+		uint16_t m_width = 0;
+		uint16_t m_height = 0;
+		uint16_t m_row_size = 0;
 		bgfx::TextureFormat::Enum m_format;
 	
 		std::vector<Range<float>> m_dirty_ranges;

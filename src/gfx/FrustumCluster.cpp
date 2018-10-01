@@ -15,11 +15,6 @@ module mud.gfx;
 #include <cstddef>
 #include <cstdint>
 
-#if defined WIN32
-#include <BaseTsd.h>
-typedef SSIZE_T ssize_t;
-#endif
-
 namespace mud
 {
 	void compute_frustum_subdiv(ClusteredFrustum& frustum, vec2 clip_size, size_t slices)
@@ -130,7 +125,7 @@ namespace mud
 
 		m_distances_z[0] = 0.0f;
 
-		for(ssize_t i = 1, n = m_subdiv_z; i <= n; i++)
+		for(int i = 1, n = m_subdiv_z; i <= n; i++)
 			m_distances_z[i] = m_far * std::exp2f(float(i - n) * linearizer);
 
 		// for the inverse-transformation (view-space z to z-slice)

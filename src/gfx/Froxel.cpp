@@ -32,7 +32,6 @@ typedef SSIZE_T ssize_t;
 
 namespace mud
 {
-	static constexpr bool SUPPORTS_NON_SQUARE_FROXELS = false;
 	static constexpr bool SUPPORTS_REMAPPED_FROXELS = false;
 
 	// The Froxel buffer is set to FROXEL_BUFFER_WIDTH x n
@@ -275,8 +274,6 @@ namespace mud
 
 	void Froxelizer::froxelize_loop(const Camera& camera, array<Light*> lights)
 	{
-		//SYSTRACE_CALL();
-
 		memset(m_froxel_sharded_data.data(), 0, m_froxel_sharded_data.size() * sizeof(FroxelThreadData));
 
 #ifdef MUD_THREADED
@@ -306,13 +303,12 @@ namespace mud
 			size_t i = 0;
 			for(FroxelEntry& entry : m_froxels.m_data)
 			{
-				if(entry.count[0] > 0 || entry.count[1] > 0 && entry.offset == 0)
+				if((entry.count[0] > 0 || entry.count[1] > 0) && entry.offset == 0)
 					printf("froxel %i has lights but offset 0\n", int(i));
 				i++;
 			}
 		};
-
-		//SYSTRACE_CALL();
+		UNUSED(inspect);
 
 		// convert froxel data from N groups of M bits to LightRecord::Lights, so we can
 		// easily compare adjacent froxels, for compaction. The conversion loops below get
@@ -552,12 +548,12 @@ namespace mud
 					{ // intersection of light with this horizontal plane
 						size_t bx, ex; // horizontal begin/end indices
 										// find the begin index (left side)
-						for(bx = lo.x; ++bx <= center.x; bx)
+						for(bx = lo.x; ++bx <= center.x;)
 							if(sphere_plane_distance2(cy, m_frustum.m_planes_x[bx].x, m_frustum.m_planes_x[bx].z) > 0)
 								break; // intersection
 
 						// find the end index (right side), x1 is past the end
-						for(ex = hi.x; --ex > center.x; ex)
+						for(ex = hi.x; --ex > center.x;)
 							if(sphere_plane_distance2(cy, m_frustum.m_planes_x[ex].x, m_frustum.m_planes_x[ex].z) > 0)
 								break; // intersection
 

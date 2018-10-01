@@ -233,8 +233,8 @@ namespace mud
 	Box::Box(const Cube& cube) : Shape(type<Box>()) { box_vertices(cube.m_center, cube.m_extents, m_vertices); }
 
 	Symbol::Symbol(Colour fill, Colour outline, bool overlay, bool double_sided, SymbolDetail detail)
-		: m_fill(fill)
-		, m_outline(outline)
+		: m_outline(outline)
+		, m_fill(fill)
 		, m_overlay(overlay)
 		, m_double_sided(double_sided)
 		, m_detail(detail)

@@ -111,9 +111,7 @@ namespace mud
 			clusters.compute_froxels();
 
 		auto set_alpha = [](Colour c, float a) { c.m_a = a; return c; };
-		static Colour pink = set_alpha(Colour::Pink, 0.1f);
-		static Colour cyan = set_alpha(Colour::Cyan, 0.1f);
-
+		
 		enum Mode { ClusterIndex, RecordIndex, LightIndex, LightCount };
 		Mode mode = ClusterIndex;
 
@@ -473,7 +471,7 @@ namespace mud
 		//													Ring, Ellipsis, Arc, Cylinder, Capsule, Cube, Aabb,
 		//													Box, Sphere, SphereRing, Spheroid, Points, ConvexHull>();
 
-		auto type_index = [&](Type* type) { for(size_t i = 0; i < shape_types.size(); ++i) { if(shape_types[i] == type) return i; } return SIZE_MAX; };
+		auto type_index = [&](Type* type) -> size_t { for(size_t i = 0; i < shape_types.size(); ++i) { if(shape_types[i] == type) return i; } return SIZE_MAX; };
 
 		Widget& self = ui::sheet(parent);
 		size_t type = type_index(shape.m_shape ? &shape.m_shape->m_type : nullptr);

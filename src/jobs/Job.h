@@ -25,8 +25,6 @@
 #    define JOB_PADDING (6)
 #endif
 
-#include <immintrin.h>
-
 namespace mud
 {
 #ifdef __ARM_32BIT_STATE

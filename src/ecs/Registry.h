@@ -54,8 +54,8 @@ namespace mud
 	{
 	public:
 		ParallelBuffers(size_t size = 0)
-			: m_buffer_map(64)
-			, m_indices(size)
+			: m_indices(size)
+			, m_buffer_map(64)
 		{
 			m_handles.reserve(size);
 		}

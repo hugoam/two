@@ -164,14 +164,14 @@ namespace mud
 		for(Function* function : m.m_functions)
 			m_functions.push_back(function);
 
-		for(Module* depend : m_modules)
-			depend->handle_load(m);
+		//for(Module* depend : m_modules)
+		//	depend->handle_load(m);
 	}
 
 	void System::unload_module(Module& m)
 	{
-		for(Module* depend : m_modules)
-			depend->handle_unload(m);
+		//for(Module* depend : m_modules)
+		//	depend->handle_unload(m);
 
 		vector_remove(m_modules, &m);
 

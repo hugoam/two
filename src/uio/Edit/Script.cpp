@@ -141,7 +141,7 @@ namespace mud
 
 	void script_edit_code(Widget& parent, TextScript& script, ActionList actions)
 	{
-		auto run = [&] { script({}); };
+		//auto run = [&] { script({}); };
 		auto reload = [&] { script.m_dirty = true; };
 		//actions.push_back({ "Run",  });
 		actions.push_back({ "Reload", reload });
