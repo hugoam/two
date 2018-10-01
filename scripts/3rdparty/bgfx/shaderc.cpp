@@ -144,16 +144,6 @@ namespace bgfx
 		NULL
 	};
 
-	static const char* s_uniformTypeName[] =
-	{
-		"int",  "int",
-		NULL,   NULL,
-		"vec4", "float4",
-		"mat3", "float3x3",
-		"mat4", "float4x4",
-	};
-	BX_STATIC_ASSERT(BX_COUNTOF(s_uniformTypeName) == UniformType::Count*2);
-
 
 	Options::Options()
 		: shaderType(' ')
@@ -246,31 +236,6 @@ namespace bgfx
 		}
 
 		return _glsl; // centroid, noperspective
-	}
-
-	static const char* getUniformTypeName(UniformType::Enum _enum)
-	{
-		uint32_t idx = _enum & ~(BGFX_UNIFORM_FRAGMENTBIT|BGFX_UNIFORM_SAMPLERBIT);
-		if (idx < UniformType::Count)
-		{
-			return s_uniformTypeName[idx];
-		}
-
-		return "Unknown uniform type?!";
-	}
-
-	static UniformType::Enum nameToUniformTypeEnum(const char* _name)
-	{
-		for (uint32_t ii = 0; ii < UniformType::Count*2; ++ii)
-		{
-			if (NULL != s_uniformTypeName[ii]
-			&&  0 == bx::strCmp(_name, s_uniformTypeName[ii]) )
-			{
-				return UniformType::Enum(ii/2);
-			}
-		}
-
-		return UniformType::Count;
 	}
 
 	int32_t writef(bx::WriterI* _writer, const char* _format, ...)
