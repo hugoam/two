@@ -96,6 +96,8 @@ namespace mud
 		string output_suffix = shader_type == ShaderType::Vertex ? "_vs" : "_fs";
 		string output_path = string(gfx_system.m_resource_path) + "shaders/compiled/" + name + suffix + output_suffix;
 
+		create_file_tree(output_path.c_str());
+
 		printf("INFO: Compiling Shader : %s\n", source_path.c_str());
 		printf("INFO: Defines : %s\n", defines.c_str());
 

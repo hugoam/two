@@ -27,9 +27,17 @@ namespace mud
 	export_ MUD_INFRA_EXPORT std::vector<uint8_t> read_binary_file(const string& path);
 	export_ MUD_INFRA_EXPORT string read_text_file(const string& path);
 
-	export_ using FileVisitor = std::function<void(cstring, cstring)>;
+
+	export_ MUD_INFRA_EXPORT bool directory_exists(cstring path);
+	export_ MUD_INFRA_EXPORT string file_directory(cstring path);
+
 	export_ MUD_INFRA_EXPORT bool create_directory(cstring path);
+	export_ MUD_INFRA_EXPORT bool create_directory_tree(cstring path);
+	export_ MUD_INFRA_EXPORT bool create_file_tree(cstring path);
+
+	export_ using FileVisitor = std::function<void(cstring, cstring)>;
 	export_ MUD_INFRA_EXPORT void visit_files(cstring path, FileVisitor visit_file);
 	export_ MUD_INFRA_EXPORT void visit_folders(cstring path, FileVisitor visit_folder, bool ignore_symbolic = true);
+
 	export_ MUD_INFRA_EXPORT void write_file(cstring path, cstring content);
 }
