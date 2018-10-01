@@ -164,7 +164,7 @@ namespace mud
 			bgfx::getShaderError(output_text, output_size);
 
 			printf("ERROR: Failed to compile %s (%s), defines = %s\n", source_path.c_str(), output_path.c_str(), defines.c_str());
-			printf("%s", output_text);
+			printf("%s\n", output_text);
 			return false;
 		}
 

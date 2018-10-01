@@ -152,6 +152,7 @@ namespace bgfx
 		bool preferFlowControl;
 		bool backwardsCompatibility;
 		bool warningsAreErrors;
+		bool keepIntermediate;
 
 		bool optimize;
 		uint32_t optimizationLevel;
@@ -173,7 +174,7 @@ namespace bgfx
 
 	int compileShader(int _argc, const char* _argv[]);
 	void compilerError(const char *_format, ...);
- 
+
 	void getShaderError(char* _outputText, uint16_t& _outputSize);
 #define fprintf(target, format, ...) compilerError(format, ##__VA_ARGS__)
 
