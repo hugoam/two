@@ -162,6 +162,7 @@ namespace mud
 
 		void free(void* p, size_t size)
 		{
+			UNUSED(size);
 			if(p) m_freelist.push(p);
 		}
 
