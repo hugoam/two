@@ -105,4 +105,9 @@ function default_options()
     if not _OPTIONS["vg-vg"] and not _OPTIONS["vg-nanovg"] then
         _OPTIONS["vg-vg"] = ""
     end
+    
+    NO_SHARED_LIBS = false
+    if _OPTIONS["vs"] == "asmjs" or _OPTIONS["gcc"] = "asmjs" then
+        NO_SHARED_LIBS = true
+    end
 end
