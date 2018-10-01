@@ -10,9 +10,12 @@ dofile(path.join(MUD_DIR, "scripts/3rdparty/stb.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/tracy.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/lua.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/wren.lua"))
-dofile(path.join(MUD_DIR, "scripts/3rdparty/glfw.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/vg.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/bgfx/bgfx.lua"))
+
+if _OPTIONS["context-glfw"] then
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/glfw.lua"))
+end
 
 if _OPTIONS["sound"] then
     dofile(path.join(MUD_DIR, "scripts/3rdparty/ogg/ogg.lua"))
