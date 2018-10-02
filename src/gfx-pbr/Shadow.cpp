@@ -363,8 +363,9 @@ namespace mud
 	{
 		if(m_directional_light && m_directional_light->m_shadows)
 		{
-			uint16_t csm_size = 4096;
-			m_csm = { csm_size };
+			constexpr uint16_t csm_size = 4096;
+			if(m_csm.m_size != csm_size)
+				m_csm = { csm_size };
 		}
 
 		bool needs_atlases = false;

@@ -109,8 +109,11 @@ namespace mud
 		//m_ui_window = &m_gfx_system.create_window("mud EditorCore", 1280, 720, false);
 		m_ui = m_ui_window->m_root_sheet.get();
 
+#ifdef MUD_GFX_DEFERRED
+		pipeline_pbr(m_gfx_system, *m_gfx_system.m_pipeline, true);
+#else
 		pipeline_pbr(m_gfx_system, *m_gfx_system.m_pipeline);
-		//pipeline_pbr(m_gfx_system, *m_gfx_system.m_pipeline, true);
+#endif
 		m_gfx_system.init_pipeline();
 
 		static ImporterOBJ obj_importer(m_gfx_system);
