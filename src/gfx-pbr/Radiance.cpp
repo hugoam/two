@@ -141,9 +141,6 @@ namespace mud
 		else
 			radiance.m_roughness_array = bgfx::createTexture2D(width, height, mips, texture_layers, format, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP | BGFX_TEXTURE_NO_MIP_AUTOGEN);
 
-		if(!bgfx::isValid(radiance.m_roughness_array))
-			return;
-
 		bgfx::TextureHandle radiance_array = radiance.m_roughness_array;
 
 		uint8_t view_id = Render::s_preprocess_pass_id; //render.preprocess_pass();
