@@ -68,7 +68,10 @@ namespace mud
 		if(width == 0 || height == 0)
 			m_target = nullptr;
 		else
-			m_target = make_object<RenderTarget>(uvec2(width, height));
+		{
+			if(!m_target ||	width != m_target->m_size.x || height != m_target->m_size.y)
+				m_target = make_object<RenderTarget>(uvec2(width, height));
+		}
 		m_vg_handle = m_reset_vg();
 	}
 
