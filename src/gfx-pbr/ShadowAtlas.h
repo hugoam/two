@@ -29,6 +29,7 @@ namespace mud
 	class ShadowAtlas
 	{
 	public:
+		ShadowAtlas() {}
 		ShadowAtlas(uint16_t size, std::vector<uint16_t> slices_subdiv);
 
 		uint16_t m_size = 0;

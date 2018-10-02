@@ -340,7 +340,6 @@ namespace mud
 	BlockShadow::BlockShadow(GfxSystem& gfx_system, BlockDepth& block_depth)
 		: DrawBlock(gfx_system, type<BlockShadow>())
 		, m_block_depth(block_depth)
-		, m_atlas(1024, { 2, 4, 8, 16 })
 	{
 		static cstring options[1] = { "CSM_SHADOW" };
 		static cstring modes[2] = { "CSM_NUM_CASCADES", "CSM_PCF_LEVEL" };
@@ -358,13 +357,22 @@ namespace mud
 	void BlockShadow::init_gfx_block()
 	{
 		u_directional_shadow.createUniforms();
-
-		uint16_t csm_size = 4096;
-		m_csm = { csm_size };
 	}
 
 	void BlockShadow::begin_gfx_block(Render& render)
 	{
+		if(m_directional_light && m_directional_light->m_shadows)
+		{
+			uint16_t csm_size = 4096;
+			m_csm = { csm_size };
+		}
+
+		bool needs_atlases = false;
+		if(needs_atlases)
+		{
+			m_atlas = { 1024, { 2, 4, 8, 16 } };
+		}
+
 		UNUSED(render);
 		//BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
 		//copy.debug_show_texture(as<FrameBuffer>(*render.m_target), m_csm.m_depth, true);
