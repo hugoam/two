@@ -151,10 +151,10 @@ namespace mud
 
 			m_normal_rough = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::RGBA8, render_target_flags);
 
-			m_sss = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::R8, render_target_flags);
+			//m_sss = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::R8, render_target_flags);
 
-			bgfx::TextureHandle textures[5] = { m_depth, m_diffuse, m_specular, m_normal_rough, m_sss };
-			m_fbo = bgfx::createFrameBuffer(5, textures, true);
+			bgfx::TextureHandle textures[4] = { m_depth, m_diffuse, m_specular, m_normal_rough };
+			m_fbo = bgfx::createFrameBuffer(4, textures, true);
 		}
 		else
 		{
