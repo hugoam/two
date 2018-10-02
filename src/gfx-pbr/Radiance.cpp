@@ -161,6 +161,9 @@ namespace mud
 			}
 		};
 
+		//BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
+		//copy.debug_show_texture(target, radiance.m_texture->m_texture);
+
 		blit_to_array(radiance.m_texture->m_texture, { width, height }, 0);
 
 		for(uint16_t i = 1; i < roughness_levels; i++)
