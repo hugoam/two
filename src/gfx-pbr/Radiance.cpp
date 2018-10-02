@@ -56,8 +56,8 @@ namespace mud
 
 		if(bgfx::isValid(render.m_environment->m_radiance.m_roughness_array))
 		{
-			BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
-			copy.debug_show_texture(*render.m_target, render.m_environment->m_radiance.m_roughness_array, false, false, false, 2);
+			//BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
+			//copy.debug_show_texture(*render.m_target, render.m_environment->m_radiance.m_roughness_array, false, false, false, 2);
 		}
 	}
 
@@ -160,9 +160,6 @@ namespace mud
 				bgfx::frame();
 			}
 		};
-
-		//BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
-		//copy.debug_show_texture(target, radiance.m_texture->m_texture);
 
 		blit_to_array(radiance.m_texture->m_texture, { width, height }, 0);
 
