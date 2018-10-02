@@ -71,7 +71,7 @@ namespace mud
 
 		Widget& row = ui::row(table);
 		ui::label(row, "type");
-		if(ui::dropdown_input(row, { types, 6 }, (size_t&)node.m_prefab_type))
+		if(ui::dropdown_input(row, { types, 6 }, (uint32_t&)node.m_prefab_type))
 			node.m_call = { *functions[size_t(node.m_prefab_type)] };
 
 		object_edit(table, Ref(&node.m_transform), EditorHint::Rows);

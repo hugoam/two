@@ -56,7 +56,7 @@ namespace mud
 		for(Animation* animation : animated.m_rig.m_skeleton.m_animations)
 			animations.push_back(animation->m_name.c_str());
 
-		static size_t animation = 0;
+		static uint32_t animation = 0;
 		if(ui::radio_field(table, "animation", animations, animation))
 			animated.play(animations[animation], true, 0.f, 1.f);
 
@@ -471,10 +471,10 @@ namespace mud
 		//													Ring, Ellipsis, Arc, Cylinder, Capsule, Cube, Aabb,
 		//													Box, Sphere, SphereRing, Spheroid, Points, ConvexHull>();
 
-		auto type_index = [&](Type* type) -> size_t { for(size_t i = 0; i < shape_types.size(); ++i) { if(shape_types[i] == type) return i; } return SIZE_MAX; };
+		auto type_index = [&](Type* type) -> uint32_t { for(size_t i = 0; i < shape_types.size(); ++i) { if(shape_types[i] == type) return i; } return UINT32_MAX; };
 
 		Widget& self = ui::sheet(parent);
-		size_t type = type_index(shape.m_shape ? &shape.m_shape->m_type : nullptr);
+		uint32_t type = type_index(shape.m_shape ? &shape.m_shape->m_type : nullptr);
 		if(type_selector(self, type, shape_types))
 		{
 			shape = ShapeVar(upcast<Shape>(construct(*shape_types[type])));

@@ -1130,15 +1130,15 @@ namespace ui
 		vec4 word_rect = edit.m_text.interval_rect(word_start, cursor - 1);
 		vec2 popup_position = edit.m_text_offset + rect_offset(word_rect) + vec2(0.f, rect_h(word_rect));
 
-		static size_t current = 0;
+		static uint32_t current = 0;
 
 		bool selected = ui::popdown(edit, completions, current, popup_position, PopupFlags::None); //auto_complete_style
 
 		if(edit.key_stroke(Key::Up))
-			current = max(current - 1, size_t(0));
+			current = max(current - 1, uint32_t(0));
 
 		if(edit.key_stroke(Key::Down))
-			current = min(current + 1, completions.size() - 1);
+			current = min(current + 1, uint32_t(completions.size()) - 1);
 
 		if(edit.key_stroke(Key::Tab) || selected)
 		{

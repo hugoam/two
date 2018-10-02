@@ -2231,15 +2231,15 @@ namespace mud
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::radio_switch(val<mud::Widget>(args[0]), val<array<cstring>>(args[1]), val<size_t>(args[2]), val<mud::Dim>(args[3])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "labels", var(array<cstring>()) }, { "value", var(size_t()) }, { "dim", var(mud::Dim()), Param::Default } };
-            static Function f = { &namspc({ "mud", "ui" }), "radio_switch", function_id<bool(*)(mud::Widget&, array<cstring>, size_t&, mud::Dim)>(&mud::ui::radio_switch), func, params, var(bool()) };
+            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::radio_switch(val<mud::Widget>(args[0]), val<array<cstring>>(args[1]), val<uint32_t>(args[2]), val<mud::Dim>(args[3])); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "labels", var(array<cstring>()) }, { "value", var(uint32_t()) }, { "dim", var(mud::Dim()), Param::Default } };
+            static Function f = { &namspc({ "mud", "ui" }), "radio_switch", function_id<bool(*)(mud::Widget&, array<cstring>, uint32_t&, mud::Dim)>(&mud::ui::radio_switch), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::popdown(val<mud::Widget>(args[0]), val<array<cstring>>(args[1]), val<size_t>(args[2]), val<mud::vec2>(args[3]), val<mud::ui::PopupFlags>(args[4])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "choices", var(array<cstring>()) }, { "value", var(size_t()) }, { "position", var(mud::vec2()) }, { "flags", var(mud::ui::PopupFlags()) } };
-            static Function f = { &namspc({ "mud", "ui" }), "popdown", function_id<bool(*)(mud::Widget&, array<cstring>, size_t&, mud::vec2, mud::ui::PopupFlags)>(&mud::ui::popdown), func, params, var(bool()) };
+            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::popdown(val<mud::Widget>(args[0]), val<array<cstring>>(args[1]), val<uint32_t>(args[2]), val<mud::vec2>(args[3]), val<mud::ui::PopupFlags>(args[4])); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "choices", var(array<cstring>()) }, { "value", var(uint32_t()) }, { "position", var(mud::vec2()) }, { "flags", var(mud::ui::PopupFlags()) } };
+            static Function f = { &namspc({ "mud", "ui" }), "popdown", function_id<bool(*)(mud::Widget&, array<cstring>, uint32_t&, mud::vec2, mud::ui::PopupFlags)>(&mud::ui::popdown), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
@@ -2249,15 +2249,15 @@ namespace mud
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::dropdown_input(val<mud::Widget>(args[0]), val<array<cstring>>(args[1]), val<size_t>(args[2]), val<bool>(args[3])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "choices", var(array<cstring>()) }, { "value", var(size_t()) }, { "compact", var(bool(false)), Param::Default } };
-            static Function f = { &namspc({ "mud", "ui" }), "dropdown_input", function_id<bool(*)(mud::Widget&, array<cstring>, size_t&, bool)>(&mud::ui::dropdown_input), func, params, var(bool()) };
+            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::dropdown_input(val<mud::Widget>(args[0]), val<array<cstring>>(args[1]), val<uint32_t>(args[2]), val<bool>(args[3])); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "choices", var(array<cstring>()) }, { "value", var(uint32_t()) }, { "compact", var(bool(false)), Param::Default } };
+            static Function f = { &namspc({ "mud", "ui" }), "dropdown_input", function_id<bool(*)(mud::Widget&, array<cstring>, uint32_t&, bool)>(&mud::ui::dropdown_input), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::typedown_input(val<mud::Widget>(args[0]), val<array<cstring>>(args[1]), val<size_t>(args[2])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "choices", var(array<cstring>()) }, { "value", var(size_t()) } };
-            static Function f = { &namspc({ "mud", "ui" }), "typedown_input", function_id<bool(*)(mud::Widget&, array<cstring>, size_t&)>(&mud::ui::typedown_input), func, params, var(bool()) };
+            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::typedown_input(val<mud::Widget>(args[0]), val<array<cstring>>(args[1]), val<uint32_t>(args[2])); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "choices", var(array<cstring>()) }, { "value", var(uint32_t()) } };
+            static Function f = { &namspc({ "mud", "ui" }), "typedown_input", function_id<bool(*)(mud::Widget&, array<cstring>, uint32_t&)>(&mud::ui::typedown_input), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
@@ -2615,21 +2615,21 @@ namespace mud
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::radio_field(val<mud::Widget>(args[0]), val<cstring>(args[1]), val<array<cstring>>(args[2]), val<size_t>(args[3]), val<bool>(args[4])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", var(cstring()) }, { "choices", var(array<cstring>()) }, { "value", var(size_t()) }, { "reverse", var(bool(false)), Param::Default } };
-            static Function f = { &namspc({ "mud", "ui" }), "radio_field", function_id<bool(*)(mud::Widget&, cstring, array<cstring>, size_t&, bool)>(&mud::ui::radio_field), func, params, var(bool()) };
+            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::radio_field(val<mud::Widget>(args[0]), val<cstring>(args[1]), val<array<cstring>>(args[2]), val<uint32_t>(args[3]), val<bool>(args[4])); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", var(cstring()) }, { "choices", var(array<cstring>()) }, { "value", var(uint32_t()) }, { "reverse", var(bool(false)), Param::Default } };
+            static Function f = { &namspc({ "mud", "ui" }), "radio_field", function_id<bool(*)(mud::Widget&, cstring, array<cstring>, uint32_t&, bool)>(&mud::ui::radio_field), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::dropdown_field(val<mud::Widget>(args[0]), val<cstring>(args[1]), val<array<cstring>>(args[2]), val<size_t>(args[3]), val<bool>(args[4])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", var(cstring()) }, { "choices", var(array<cstring>()) }, { "value", var(size_t()) }, { "reverse", var(bool(false)), Param::Default } };
-            static Function f = { &namspc({ "mud", "ui" }), "dropdown_field", function_id<bool(*)(mud::Widget&, cstring, array<cstring>, size_t&, bool)>(&mud::ui::dropdown_field), func, params, var(bool()) };
+            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::dropdown_field(val<mud::Widget>(args[0]), val<cstring>(args[1]), val<array<cstring>>(args[2]), val<uint32_t>(args[3]), val<bool>(args[4])); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", var(cstring()) }, { "choices", var(array<cstring>()) }, { "value", var(uint32_t()) }, { "reverse", var(bool(false)), Param::Default } };
+            static Function f = { &namspc({ "mud", "ui" }), "dropdown_field", function_id<bool(*)(mud::Widget&, cstring, array<cstring>, uint32_t&, bool)>(&mud::ui::dropdown_field), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::typedown_field(val<mud::Widget>(args[0]), val<cstring>(args[1]), val<array<cstring>>(args[2]), val<size_t>(args[3]), val<bool>(args[4])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", var(cstring()) }, { "choices", var(array<cstring>()) }, { "value", var(size_t()) }, { "reverse", var(bool(false)), Param::Default } };
-            static Function f = { &namspc({ "mud", "ui" }), "typedown_field", function_id<bool(*)(mud::Widget&, cstring, array<cstring>, size_t&, bool)>(&mud::ui::typedown_field), func, params, var(bool()) };
+            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::typedown_field(val<mud::Widget>(args[0]), val<cstring>(args[1]), val<array<cstring>>(args[2]), val<uint32_t>(args[3]), val<bool>(args[4])); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", var(cstring()) }, { "choices", var(array<cstring>()) }, { "value", var(uint32_t()) }, { "reverse", var(bool(false)), Param::Default } };
+            static Function f = { &namspc({ "mud", "ui" }), "typedown_field", function_id<bool(*)(mud::Widget&, cstring, array<cstring>, uint32_t&, bool)>(&mud::ui::typedown_field), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {

@@ -50,7 +50,7 @@ void example_options(Widget& parent, PerezSky& sky)
 		"December"
 	};
 
-	ui::dropdown_field(body, "Month", { months, 12 }, (size_t&)sky.m_sun.m_month);
+	ui::dropdown_field(body, "Month", { months, 12 }, (uint32_t&)sky.m_sun.m_month);
 }
 
 static PerezSky g_sky;

@@ -667,7 +667,7 @@ namespace mud
 	{
 		if(!lua_isnumber(state, index) || fmod(lua_tonumber(state, index), 1.) != 0)
 			return;
-		result = enum_value(type, size_t(lua_tointeger(state, index)));
+		result = enum_value(type, uint32_t(lua_tointeger(state, index)));
 	}
 
 	inline void read_sequence(lua_State* state, int index, Type& sequence_type, Var& result)

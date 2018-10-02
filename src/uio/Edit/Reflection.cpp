@@ -278,7 +278,7 @@ namespace mud
 
 	void meta_browser(Widget& parent)
 	{
-		enum Mode : size_t { Basetypes = 0, Enums, Classes, Functions };
+		enum Mode : uint32_t { Basetypes = 0, Enums, Classes, Functions };
 
 		static Ref selected = {};
 
@@ -291,7 +291,7 @@ namespace mud
 		Widget& table = ui::columns(left, carray<float, 2>{ 0.3f, 0.7f });
 
 		static Mode mode = Classes;
-		ui::dropdown_field(table, "Browse:", carray<cstring, 4>{ "Basetypes", "Enums", "Classes", "Functions" }, (size_t&) mode);
+		ui::dropdown_field(table, "Browse:", carray<cstring, 4>{ "Basetypes", "Enums", "Classes", "Functions" }, (uint32_t&) mode);
 
 		static std::map<Module*, bool> modules;
 

@@ -29,7 +29,7 @@ namespace mud
 	struct CreatorState : public NodeState
 	{
 		CreatorState(Type& type) : m_type(0), m_injector(make_unique<Injector>(type)) {}
-		size_t m_type;
+		uint32_t m_type;
 		unique_ptr<Injector> m_injector;
 	};
 

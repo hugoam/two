@@ -894,7 +894,7 @@ namespace mud
 	inline void read_enum(WrenVM* vm, int slot, Ref result)
 	{
 		if(wrenGetSlotType(vm, slot) == WREN_TYPE_NUM)
-			enum_set_index(result, size_t(wrenGetSlotDouble(vm, slot)));
+			enum_set_index(result, uint32_t(wrenGetSlotDouble(vm, slot)));
 	}
 
 	inline void read_sequence(WrenVM* vm, int slot, Type& sequence_type, Ref result)

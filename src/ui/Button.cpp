@@ -191,11 +191,11 @@ namespace ui
 		return self;
 	}
 
-	bool radio_switch(Widget& parent, array<cstring> labels, size_t& value, Dim dim)
+	bool radio_switch(Widget& parent, array<cstring> labels, uint32_t& value, Dim dim)
 	{
 		Widget& self = widget(parent, styles().radio_switch, false, dim);
 		bool changed = false;
-		for(size_t index = 0; index < labels.size(); ++index)
+		for(uint32_t index = 0; index < uint32_t(labels.size()); ++index)
 		{
 			if(radio_choice(self, labels[index], value == index).activated())
 			{
@@ -231,12 +231,12 @@ namespace ui
 		return self;
 	}
 
-	bool popdown(Widget& parent, array<cstring> choices, size_t& value, vec2 position, PopupFlags popup_flags)
+	bool popdown(Widget& parent, array<cstring> choices, uint32_t& value, vec2 position, PopupFlags popup_flags)
 	{
 		Widget& self = popup_at(parent, dropdown_styles().popdown, position, popup_flags);
 		ScrollSheet& sheet = scroll_sheet(self);
 
-		for(size_t i = 0; i < choices.size(); ++i)
+		for(uint32_t i = 0; i < uint32_t(choices.size()); ++i)
 			if(dropdown_choice(*sheet.m_body, carray<cstring, 1>{ choices[i] }, i == value).activated())
 			{
 				value = i;
@@ -245,15 +245,15 @@ namespace ui
 		return false;
 	}
 
-	bool dropdown_input(Widget& parent, array<cstring> choices, size_t& value, bool compact)
+	bool dropdown_input(Widget& parent, array<cstring> choices, uint32_t& value, bool compact)
 	{
 		if(value >= choices.size())
-			value = choices.size();
+			value = uint32_t(choices.size()) - 1;
 		Style& style = compact ? dropdown_styles().dropdown_input_compact : dropdown_styles().dropdown_input;
-		Widget& self = dropdown(parent, style, value == SIZE_MAX ? "" : choices[value], PopupFlags::AutoModal);
+		Widget& self = dropdown(parent, style, value == UINT32_MAX ? "" : choices[value], PopupFlags::AutoModal);
 		if(!self.m_body) return false;
 
-		for(size_t i = 0; i < choices.size(); ++i)
+		for(uint32_t i = 0; i < uint32_t(choices.size()); ++i)
 			if(dropdown_choice(*self.m_body, carray<cstring, 1>{ choices[i] }, value == i).activated())
 			{
 				value = i;
@@ -264,7 +264,7 @@ namespace ui
 		return false;
 	}
 
-	bool typedown_input(Widget& parent, array<cstring> choices, size_t& value)
+	bool typedown_input(Widget& parent, array<cstring> choices, uint32_t& value)
 	{
 		bool changed = dropdown_input(parent, choices, value); //dropdown_styles().typedown_input
 		//if(scope->m_state & ACTIVATED)

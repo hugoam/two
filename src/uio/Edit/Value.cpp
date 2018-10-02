@@ -81,7 +81,7 @@ namespace mud
 
 		bool changed = false;
 		TrackMode mode = track.m_mode;
-		changed |= ui::dropdown_input(self, { modes, 4 }, (size_t&)mode, true);
+		changed |= ui::dropdown_input(self, { modes, 4 }, (uint32_t&)mode, true);
 		if(changed)
 			track.set_mode(mode);
 
@@ -141,7 +141,7 @@ namespace mud
 		//dispatch_branch<Image256>([](Image256& image, Wedge& parent) -> object_ptr<Widget> { return make_object<Figure>(Widget::Input{ &parent }, image); });
 	}
 
-	bool type_selector(Widget& parent, size_t& type, array<Type*> types)
+	bool type_selector(Widget& parent, uint32_t& type, array<Type*> types)
 	{
 		std::vector<cstring> type_names;
 		for(size_t i = 0; i < types.size(); ++i)
@@ -174,7 +174,7 @@ namespace mud
 
 	bool enum_edit(Widget& parent, Ref& value)
 	{
-		size_t index = enum_index(value);
+		uint32_t index = enum_index(value);
 		//ui::radio_switch(parent, meta(value).m_enum_names, index);
 		if(ui::dropdown_input(parent, to_array(enu(value).m_names), index))
 		{

@@ -33,17 +33,17 @@ namespace mud
 		uint32_t index(cstring name);
 	};
 
-	export_ inline size_t enum_index(Ref value)
+	export_ inline uint32_t enum_index(Ref value)
 	{
 		return enu(value).index(to_string(value).c_str());
 	}
 
-	export_ inline void enum_set_index(Ref value, size_t index)
+	export_ inline void enum_set_index(Ref value, uint32_t index)
 	{
 		copy_construct(value, enu(value).m_values[index]);
 	}
 
-	export_ inline Var enum_value(Type& type, size_t index)
+	export_ inline Var enum_value(Type& type, uint32_t index)
 	{
 		Var value = meta(type).m_empty_var; enum_set_index(value, index); return value;
 	}

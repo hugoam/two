@@ -20,7 +20,7 @@ namespace mud
 		DispatchInput();
 	};
 
-	export_ MUD_UIO_EXPORT bool type_selector(Widget& parent, size_t& type, array<Type*> types);
+	export_ MUD_UIO_EXPORT bool type_selector(Widget& parent, uint32_t& type, array<Type*> types);
 
 	export_ MUD_UIO_EXPORT bool value_edit(Widget& parent, Ref& value);
 	export_ MUD_UIO_EXPORT bool none_edit(Widget& parent, Ref& value);

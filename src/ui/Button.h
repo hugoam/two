@@ -86,15 +86,15 @@ namespace ui
 	export_ MUD_UI_EXPORT func_ Widget& image256(Widget& parent, cstring name, const Image256& source, const vec2& size);
 
 	export_ MUD_UI_EXPORT func_ Widget& radio_choice(Widget& parent, cstring value, bool active);
-	export_ MUD_UI_EXPORT func_ bool radio_switch(Widget& parent, array<cstring> labels, size_t& value, Dim dim = DIM_X);
+	export_ MUD_UI_EXPORT func_ bool radio_switch(Widget& parent, array<cstring> labels, uint32_t& value, Dim dim = DIM_X);
 	//MUD_UI_EXPORT bool radio_switch(Widget& parent, array<cstring> labels, string& value, Dim dim = DIM_X);
 
 	//inline bool radio_switch_string(Widget& parent, array<cstring> labels, string& value) { return radio_switch(parent, labels, value); }
 
-	export_ MUD_UI_EXPORT func_ bool popdown(Widget& parent, array<cstring> choices, size_t& value, vec2 position, PopupFlags flags);
+	export_ MUD_UI_EXPORT func_ bool popdown(Widget& parent, array<cstring> choices, uint32_t& value, vec2 position, PopupFlags flags);
 	export_ MUD_UI_EXPORT func_ Widget& dropdown(Widget& parent, Style& style, cstring value, PopupFlags flags, Style* list_style = nullptr);
-	export_ MUD_UI_EXPORT func_ bool dropdown_input(Widget& parent, array<cstring> choices, size_t& value, bool compact = false);
-	export_ MUD_UI_EXPORT func_ bool typedown_input(Widget& parent, array<cstring> choices, size_t& value);
+	export_ MUD_UI_EXPORT func_ bool dropdown_input(Widget& parent, array<cstring> choices, uint32_t& value, bool compact = false);
+	export_ MUD_UI_EXPORT func_ bool typedown_input(Widget& parent, array<cstring> choices, uint32_t& value);
 
 	export_ MUD_UI_EXPORT Widget& menu_choice(Widget& parent, array<cstring> elements);
 	export_ MUD_UI_EXPORT func_ Widget& menu_choice(Widget& parent, cstring content);
