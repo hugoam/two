@@ -169,7 +169,11 @@ namespace mud
 		m_cascade.create(size, color_format);
 #endif
 
+#ifdef MUD_GFX_DEFERRED
 		m_deferred = true;
+#else
+		m_deferred = false;
+#endif
 		if(m_deferred)
 		{
 			m_gbuffer.m_depth		= bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, bgfx::TextureFormat::D24S8,	render_target_flags);
