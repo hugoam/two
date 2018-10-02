@@ -349,6 +349,9 @@ namespace mud
 			return render.m_environment->m_background.m_custom_function(render);
 		else if(mode == BackgroundMode::Radiance || mode == BackgroundMode::Panorama)
 		{
+			if(!bgfx::isValid(render.m_environment->m_radiance.m_roughness_array))
+				return;
+
 			Pass sky_pass = render.next_pass("sky");
 			bgfx::Encoder& encoder = *sky_pass.m_encoder;
 

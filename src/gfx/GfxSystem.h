@@ -77,6 +77,7 @@ namespace mud
 		bgfx::Encoder* m_encoders[8] = {};
 		size_t m_num_encoders = 0;
 
+		virtual void begin_frame() final;
 		virtual bool next_frame() final;
 
 		virtual object_ptr<Context> create_context(cstring name, int width, int height, bool full_screen) final;

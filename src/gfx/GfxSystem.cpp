@@ -45,7 +45,7 @@ module mud.gfx;
 
 #include <Tracy.hpp>
 
-#define MUD_GFX_THREADED
+//#define MUD_GFX_THREADED
 
 namespace mud
 {
@@ -207,7 +207,7 @@ namespace mud
 		return *m_impl->m_contexts[index];
 	}
 
-	bool GfxSystem::next_frame()
+	void GfxSystem::begin_frame()
 	{
 		RenderFrame frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
 
@@ -225,6 +225,11 @@ namespace mud
 				if(renderer)
 					renderer->frame(frame);
 		}
+	}
+
+	bool GfxSystem::next_frame()
+	{
+		RenderFrame frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
 
 #ifdef MUD_GFX_THREADED
 		{

@@ -85,9 +85,12 @@ namespace mud
 		m_initialized = true;
 	}
 
+	void BgfxSystem::begin_frame()
+	{}
+
 	bool BgfxSystem::next_frame()
 	{
-		bgfx::touch(0);
+		//bgfx::touch(0);
 
 #ifdef _DEBUG
 		size_t capture_every = 100;

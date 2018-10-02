@@ -31,7 +31,7 @@ module mud.gfx;
 
 #include <Tracy.hpp>
 
-#define MUD_GFX_JOBS
+//#define MUD_GFX_JOBS
 
 namespace mud
 {

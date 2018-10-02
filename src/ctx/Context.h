@@ -20,6 +20,7 @@ namespace mud
 		RenderSystem(cstring resource_path, bool manual_render);
 		virtual ~RenderSystem() {}
 
+		virtual void begin_frame() = 0;
 		virtual bool next_frame() = 0;
 
 		virtual object_ptr<Context> create_context(cstring name, int width, int height, bool fullScreen) = 0;

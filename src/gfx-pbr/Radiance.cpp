@@ -54,8 +54,11 @@ namespace mud
 		if(!render.m_environment->m_radiance.m_preprocessed)
 			m_prefilter_queue.push_back(&render.m_environment->m_radiance);
 
-		BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
-		copy.debug_show_texture(*render.m_target, render.m_environment->m_radiance.m_roughness_array, false, false, false, 2);
+		if(bgfx::isValid(render.m_environment->m_radiance.m_roughness_array))
+		{
+			BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
+			copy.debug_show_texture(*render.m_target, render.m_environment->m_radiance.m_roughness_array, false, false, false, 2);
+		}
 	}
 
 	void BlockRadiance::submit_gfx_block(Render& render)
@@ -138,6 +141,9 @@ namespace mud
 		else
 			radiance.m_roughness_array = bgfx::createTexture2D(width, height, mips, texture_layers, format, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP | BGFX_TEXTURE_NO_MIP_AUTOGEN);
 
+		if(!bgfx::isValid(radiance.m_roughness_array))
+			return;
+
 		bgfx::TextureHandle radiance_array = radiance.m_roughness_array;
 
 		uint8_t view_id = Render::s_preprocess_pass_id; //render.preprocess_pass();
@@ -147,15 +153,15 @@ namespace mud
 			if(blit_support)
 			{
 				bgfx::blit(view_id + 1, radiance_array, 0, 0, 0, uint16_t(level), texture, 0, 0, 0, 0, uint16_t(size.x), uint16_t(size.y), 1);
+				bgfx::frame();
 			}
 			else
 			{
 				bgfx::Attachment attachment = { radiance_array, uint16_t(mips ? level : 0), uint16_t(mips ? 0 : level) };
 				FrameBuffer render_target = { size, bgfx::createFrameBuffer(1, &attachment, false) };
 				m_copy.submit_quad(render_target, view_id + 1, texture);
+				bgfx::frame();
 			}
-
-			bgfx::frame();
 		};
 
 		blit_to_array(radiance.m_texture->m_texture, { width, height }, 0);

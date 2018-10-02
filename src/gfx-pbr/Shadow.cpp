@@ -200,6 +200,9 @@ namespace mud
 
 	void BlockShadow::render_directional(Render& render, Light& light, size_t num_directional, size_t index)
 	{
+		if(!bgfx::isValid(m_csm.m_fbo))
+			return;
+
 		LightShadow& shadow = m_shadows[index];
 
 		shadow.m_frustum_slices.resize(light.m_shadow_num_splits);
