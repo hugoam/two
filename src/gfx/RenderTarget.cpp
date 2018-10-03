@@ -169,6 +169,7 @@ namespace mud
 		m_cascade.create(size, color_format);
 #endif
 
+//#define MUD_GFX_DEFERRED
 #ifdef MUD_GFX_DEFERRED
 		m_deferred = true;
 #else
