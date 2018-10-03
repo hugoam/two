@@ -123,7 +123,7 @@ void ex_04_lights(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		ui::input_field<bool>(sheet, "Moving", moving_lights);
 
-		size_t light_type_index = SIZE_MAX;
+		uint32_t light_type_index = UINT32_MAX;
 		carray<cstring, 2> light_types = { "Point", "Spot" };
 		if(ui::radio_field(sheet, "Type", light_types, light_type_index))
 			light_type = from_string<LightType>(light_types[light_type_index]);
