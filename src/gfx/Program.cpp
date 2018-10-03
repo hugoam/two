@@ -108,9 +108,9 @@ namespace mud
 #if defined MUD_PLATFORM_WINDOWS
 		Target target = is_opengl ? GLSL : HLSL;
 #elif defined MUD_PLATFORM_LINUX
-		Target target = GLSL;
+		Target target = GLSL; UNUSED(is_opengl);
 #elif defined MUD_PLATFORM_EMSCRIPTEN
-		Target target = ESSL;
+		Target target = ESSL; UNUSED(is_opengl);
 #elif defined MUD_PLATFORM_OSX
 		Target target = is_opengl ? GLSL : Metal;
 #endif

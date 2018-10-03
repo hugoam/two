@@ -58,7 +58,7 @@ namespace mud
 	ShadowCubemap& ShadowAtlas::light_cubemap(Light& light, uint16_t shadow_size)
 	{
 		UNUSED(light);
-		for(size_t i = m_cubemaps.size() - 1; i >= 0; i--)
+		for(int i = int(m_cubemaps.size()) - 1; i >= 0; i--)
 			if(m_cubemaps[i].m_size > shadow_size * 2)
 			{
 				return m_cubemaps[i];

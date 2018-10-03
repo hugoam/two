@@ -14,7 +14,8 @@
 namespace mud
 {
     void mud_infra_meta(Module& m)
-    {   
+    {
+		UNUSED(m);
     // Base Types
     
     // Enums

@@ -20,6 +20,12 @@ local m = mud_dep('stb', name, true)
         
     mud_mxx({ path.join(MUD_SRC_DIR, "3rdparty", "stb_" .. name .. ".cpp") }, m)
     
+    configuration { "osx or *-clang* or asmjs" }
+        buildoptions {
+            "-Wno-unused-but-set-variable",
+            "-Wno-type-limits",
+        }
+    
     return m
 end
 

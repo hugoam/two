@@ -35,8 +35,8 @@ namespace mud
 		: m_position(position)
 		, m_size(size)
 		, m_scale(scale)
-		, m_tileset(tileset)
 		, m_aabb(vec3(0.f), 0.5f * vec3(size) * scale)
+		, m_tileset(tileset)
 		, m_wave(m_tileset, uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), false)
 		, m_tiles(uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), UINT16_MAX)
 		, m_entropy(uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), 0U)
@@ -230,7 +230,7 @@ namespace mud
 		for(auto& model_tiles : visu.m_tiles)
 		{
 			Material* material = focused == uvec3(UINT32_MAX) ? nullptr : &alpha_material;
-			uint32_t flags = ITEM_WORLD_GEOMETRY | (dirty ? 0 : ITEM_NO_UPDATE);
+			uint32_t flags = ITEM_WORLD_GEOMETRY | (dirty ? 0 : uint32_t(ITEM_NO_UPDATE));
 			Item& item = gfx::item(self, *model_tiles.first, flags, material, model_tiles.second.size(), model_tiles.second);
 			gfx::update_item_lights(item);
 		}

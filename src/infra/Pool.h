@@ -28,7 +28,7 @@ namespace mud
 		static inline P* align(P* p, size_t alignment)
 		{
 			// alignment must be a power-of-two
-			assert(alignment && !(alignment & alignment - 1));
+			assert(alignment && !(alignment & (alignment - 1)));
 			return (P*)((uintptr_t(p) + alignment - 1) & ~(alignment - 1));
 		}
 

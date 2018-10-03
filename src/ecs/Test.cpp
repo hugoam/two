@@ -41,6 +41,8 @@ void test_ecs()
 	Entity entity = { Tags<Position, Velocity>{}  };
 	Component<Position> position = { entity };
 	Component<Velocity> velocity = { entity };
+	UNUSED(position);
+	UNUSED(velocity);
 
     auto e = s_registry.CreateEntity<Position, Velocity>();
 	s_registry.SetComponent(e, Position());

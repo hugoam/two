@@ -963,6 +963,7 @@ namespace mud
 	{
 		UNUSED(vm); UNUSED(slot);
 		iterate_dict(value, [=](Var key, Var element) {
+			UNUSED(key); UNUSED(element);
 		//	set_table(vm, key, element); });
 		});
 	}

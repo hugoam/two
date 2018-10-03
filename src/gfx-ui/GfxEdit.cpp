@@ -110,8 +110,6 @@ namespace mud
 		if(clusters.m_debug_clusters.empty())
 			clusters.compute_froxels();
 
-		auto set_alpha = [](Colour c, float a) { c.m_a = a; return c; };
-		
 		enum Mode { ClusterIndex, RecordIndex, LightIndex, LightCount };
 		Mode mode = ClusterIndex;
 

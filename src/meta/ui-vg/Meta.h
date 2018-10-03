@@ -14,7 +14,8 @@
 namespace mud
 {
     void mud_ui_vg_meta(Module& m)
-    {   
+    {
+		UNUSED(m);
     // Base Types
     
     // Enums

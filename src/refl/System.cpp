@@ -113,7 +113,7 @@ namespace mud
 #ifdef _WIN32
 		return (FunctionPointer)GetProcAddress((HMODULE)module.m_handle, name);
 #else
-		return (FunctionPointer)dlsym(module.m_handle, "getModule");
+		return (FunctionPointer)dlsym(module.m_handle, name);
 #endif
 	}
 
