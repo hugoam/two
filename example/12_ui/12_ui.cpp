@@ -127,7 +127,7 @@ void edit_styles(Widget& parent)
 	ScrollSheet& scroll_sheet = ui::scroll_sheet(layout);
 	Widget& self = ui::sheet(*scroll_sheet.m_body);
 
-	static size_t selected_style = 0;
+	static uint32_t selected_style = 0;
 	ui::dropdown_input(self, style_names, selected_style);
 
 	Style* edited_style = styles[selected_style];
