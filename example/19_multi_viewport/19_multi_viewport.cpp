@@ -10,7 +10,7 @@ size_t viewport_mode(Widget& parent)
 	std::vector<size_t> num_viewer_vals = { 1, 2, 4 };
 
 	ui::label(parent, "num viewports : ");
-	static size_t choice = 1;
+	static uint32_t choice = 1;
 	ui::radio_switch(parent, carray<cstring, 3>{ "1", "2", "4" }, choice);
 
 	return num_viewer_vals[choice];
