@@ -36,6 +36,10 @@ wren = mud_dep(nil, "wren")
     configuration { "mingw* or linux or osx or asmjs" }
         buildoptions {
             "-Wno-unused-parameter",
+        }
+        
+    configuration { "osx or *-clang* or asmjs" }
+        buildoptions {
             "-Wno-macro-redefined", -- for __STDC_LIMIT_MACROS, we can't touch the source and don't want to touch the toolchain
         }
         
