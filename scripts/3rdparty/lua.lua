@@ -30,6 +30,11 @@ lua = mud_dep(nil, "lua")
             "/wd4702", -- warning C4702: unreachable code
         }
     
+	configuration { "osx or *-clang* or asmjs" }
+		buildoptions {
+			"-Wno-expansion-to-defined",
+		}
+
 	configuration { "linux-*" }
 		buildoptions {
 			"-fPIC",

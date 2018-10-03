@@ -23,6 +23,11 @@ vg = mud_dep(nil, "vg")
         path.join(MUD_3RDPARTY_DIR, "vg-renderer", "src/vg.cpp"),
     }
     
+    configuration { "*-gcc*" }
+        buildoptions {
+            "-Wno-empty-body",
+        }
+        
     configuration { "Debug" }
         defines {
             "VG_CONFIG_DEBUG=1"

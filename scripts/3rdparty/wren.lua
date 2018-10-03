@@ -33,6 +33,11 @@ wren = mud_dep(nil, "wren")
             "WREN_NAN_TAGGING=0",
         }
         
+    configuration { "mingw* or linux or osx or asmjs" }
+        buildoptions {
+            "-Wno-unused-parameter",
+        }
+        
     configuration { "vs*", "not asmjs" }
         buildoptions {
             "/wd4100", -- warning C4100: 'vm': unreferenced formal parameter
