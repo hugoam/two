@@ -370,6 +370,11 @@ project "fcpp"
 			"-Wno-implicit-fallthrough",
 		}
 
+	configuration { "osx or *-clang* or asmjs" }
+		buildoptions {
+			"-Wno-parentheses-equality",
+		}
+        
 	configuration {}
 
 project "shaderc"
