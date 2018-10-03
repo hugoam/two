@@ -404,7 +404,7 @@ void ex_table(Widget& parent)
 				ui::button(row, name);
 		}
 
-		static size_t radio_val = 0;
+		static uint32_t radio_val = 0;
 		ui::radio_switch(table, carray<cstring, 3>{ "radio a", "radio b", "radio c" }, radio_val);
 
 		{
@@ -529,12 +529,12 @@ void ex_controls(Widget& parent)
 
 	static bool val_bool = false;
 	static string val_string = "Hello, world!";
-	static size_t val_radio = 0;
+	static uint32_t val_radio = 0;
 
 	ui::input_field<bool>(table, "checkbox input", val_bool, true);
 	ui::radio_field(table, "radio input", carray<cstring, 3>{ "radio a", "radio b", "radio c" }, val_radio, true);
 
-	static size_t val_choice = 0;
+	static uint32_t val_choice = 0;
 	static std::vector<cstring> choices = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK" };
 	ui::dropdown_field(table, "dropdown input", choices, val_choice, true);
 	ui::typedown_field(table, "typedown input", choices, val_choice, true);
@@ -721,7 +721,7 @@ void switchUiTheme(UiWindow& ui_window, const string& name)
 
 using Sample = void(*)(Widget&);
 
-enum class SampleId
+enum class SampleId : uint32_t
 {
 	Application,
 	Console,
@@ -797,7 +797,7 @@ void example_ui(Widget& root_sheet)
 	ui::label(header, "Pick a demo sample : ");
 
 	static SampleId selected = SampleId::Application;
-	if(ui::dropdown_input(header, sample_names, (size_t&)selected))
+	if(ui::dropdown_input(header, sample_names, (uint32_t&)selected))
 	{
 		if(selected < SampleId::Window && selected != active_board_sample)
 			active_board_sample = selected;
@@ -807,7 +807,7 @@ void example_ui(Widget& root_sheet)
 
 	ui::label(header, "Switch theme : ");
 
-	static size_t theme = 0;
+	static uint32_t theme = 0;
 	if(ui::dropdown_input(header, themes, theme))
 	{
 		switchUiTheme(root_sheet.ui_window(), themes[theme]);
