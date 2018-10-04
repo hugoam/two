@@ -38,13 +38,13 @@ void test_ecs()
 //        PrintCompBufsDebug();
 
 
-	Entity entity = { Tags<Position, Velocity>{}  };
-	Component<Position> position = { entity };
-	Component<Velocity> velocity = { entity };
+	uint32_t entity = s_registry.CreateEntity<Position, Velocity>();
+	ComponentHandle<Position> position = { entity };
+	ComponentHandle<Velocity> velocity = { entity };
 	UNUSED(position);
 	UNUSED(velocity);
 
-    auto e = s_registry.CreateEntity<Position, Velocity>();
+    uint32_t e = s_registry.CreateEntity<Position, Velocity>();
 	s_registry.SetComponent(e, Position());
 	s_registry.SetComponent(e, Velocity{ 0, 3 });
 

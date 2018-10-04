@@ -50,7 +50,7 @@ namespace mud
 		count_x = (size_t(clip_size.x) + size - 1) / size;
 		count_y = (size_t(clip_size.y) + size - 1) / size;
 
-		frustum.m_tile_size = uvec2(size);
+		frustum.m_tile_size = uvec2(uint(size));
 		frustum.m_subdiv_x = uint16_t(count_x);
 		frustum.m_subdiv_y = uint16_t(count_y);
 		frustum.m_subdiv_z = uint16_t(slices);

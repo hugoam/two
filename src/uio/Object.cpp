@@ -44,7 +44,7 @@ namespace mud
 		if(!self.m_open)
 			parent.m_switch &= ~mode;
 
-		//if(meta(object).m_type_class == TypeClass::Entity)
+		//if(meta(object).m_type_class == TypeClass::Object)
 		//	object = val<Entity>(object);
 
 		for(Method* method : cls(object).m_deep_methods)

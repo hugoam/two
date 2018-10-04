@@ -142,7 +142,7 @@ namespace mud
 		size_t size = 0;
 		int section;
 		int result;
-		bool last_chunk;
+		bool last_chunk = true;
 
 		while(size < m_chunk_size)
 		{

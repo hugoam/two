@@ -23,7 +23,6 @@ namespace mud
     
     
     
-#ifndef TOY_ECS
     // mud::Complex
     {
         static Meta meta = { type<mud::Complex>(), &namspc({ "mud" }), "Complex", sizeof(mud::Complex), TypeClass::Object };
@@ -63,7 +62,6 @@ namespace mud
         
         meta_class<mud::Complex>();
     }
-#endif
     
         
     // mud::Prototype
@@ -100,9 +98,7 @@ namespace mud
     
 
 
-#ifndef TOY_ECS
-        m.m_types.push_back(&type<mud::Entity>());
-#endif
+        m.m_types.push_back(&type<mud::Complex>());
         m.m_types.push_back(&type<mud::Prototype>());
     
     }

@@ -24,7 +24,7 @@ namespace mud
             true,
             { "None", "Object", "Struct", "Entity", "Sequence", "BaseType", "Enum" },
             { 0, 1, 2, 3, 4, 5, 6 },
-            { var(mud::TypeClass::None), var(mud::TypeClass::Object), var(mud::TypeClass::Struct), var(mud::TypeClass::Entity), var(mud::TypeClass::Sequence), var(mud::TypeClass::BaseType), var(mud::TypeClass::Enum) }
+            { var(mud::TypeClass::None), var(mud::TypeClass::Object), var(mud::TypeClass::Struct), var(mud::TypeClass::Object), var(mud::TypeClass::Sequence), var(mud::TypeClass::BaseType), var(mud::TypeClass::Enum) }
         };
         meta_enum<mud::TypeClass>();
     }

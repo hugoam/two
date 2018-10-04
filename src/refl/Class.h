@@ -96,9 +96,6 @@ namespace mud
 		std::vector<Member*> m_deep_members;
 		std::vector<Method*> m_deep_methods;
 
-		// Entity
-		std::vector<Type*> m_complexes;
-
 		// Sequence
 		Type* m_content = nullptr;
 		bool m_content_pointer = false;

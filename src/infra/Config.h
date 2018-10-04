@@ -11,7 +11,7 @@
 #define struct_ // Struct
 #define array_	// Array type
 #define extern_ // Extern type
-#define comp_   // Component
+#define attr_   // Component
 #define constr_ // Constructor
 #define meth_   // Method
 #define func_   // Function
@@ -65,6 +65,3 @@
 #ifndef MUD_INFRA_EXPORT
 #define MUD_INFRA_EXPORT MUD_IMPORT
 #endif
-
-#define MUD_ECS
-#define TOY_ECS

@@ -36,8 +36,8 @@ namespace mud
 		, m_size(size)
 		, m_scale(scale)
 		, m_aabb(vec3(0.f), 0.5f * vec3(size) * scale)
-		, m_tileset(tileset)
-		, m_wave(m_tileset, uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), false)
+		, m_tileset(&tileset)
+		, m_wave(tileset, uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), false)
 		, m_tiles(uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), UINT16_MAX)
 		, m_entropy(uint16_t(size.x), uint16_t(size.y), uint16_t(size.z), 0U)
 		, m_auto_solve(auto_solve)
@@ -56,9 +56,9 @@ namespace mud
 
 	void WfcBlock::load_models(GfxSystem& gfx_system, bool from_file)
 	{
-		for(Tile& tile : m_tileset.m_tiles_flip)
+		for(Tile& tile : m_tileset->m_tiles_flip)
 		{
-			Model* model = from_file ? gfx_system.models().file((string(m_tileset.m_name) + "/" + tile.m_name).c_str())
+			Model* model = from_file ? gfx_system.models().file((string(m_tileset->m_name) + "/" + tile.m_name).c_str())
 									 : gfx_system.models().get(tile.m_name.c_str());
 			quat rotation = angle_axis(tile.m_profile * c_pi / 2.f, Y3);
 			m_tile_models.push_back({ model, rotation });
@@ -89,7 +89,7 @@ namespace mud
 
 	void WfcBlock::reset()
 	{
-		m_wave = TileWave(m_tileset, uint16_t(m_size.x), uint16_t(m_size.y), uint16_t(m_size.z), false);
+		m_wave = TileWave(*m_tileset, uint16_t(m_size.x), uint16_t(m_size.y), uint16_t(m_size.z), false);
 		this->update(m_wave);
 	}
 
@@ -151,11 +151,11 @@ namespace mud
 
 	Model& entropy_cube(Gnode& parent, WfcBlock& tileblock, uint16_t x, uint16_t y, uint16_t z)
 	{
-		static std::vector<Model*> cubes(tileblock.m_tileset.m_num_tiles + 1, nullptr);
+		static std::vector<Model*> cubes(tileblock.m_tileset->m_num_tiles + 1, nullptr);
 		uint16_t states = tileblock.m_entropy.at(x, y, z);
 		if(!cubes[states])
 		{
-			float entropy = tileblock.m_tileset.m_num_tiles > 0 ? float(states) / float(tileblock.m_tileset.m_num_tiles) : 1.f;
+			float entropy = tileblock.m_tileset->m_num_tiles > 0 ? float(states) / float(tileblock.m_tileset->m_num_tiles) : 1.f;
 			Colour colour = Colour::AlphaGrey * entropy;
 			cubes[states] = &parent.m_scene->m_gfx_system.fetch_symbol(Symbol(colour), Cube(0.5f), OUTLINE);
 		}
@@ -196,7 +196,7 @@ namespace mud
 				auto tile_transform = [&](quat rotation)
 				{
 					vec3 position = tileblock.to_position({ uint(x), uint(y), uint(z) });
-					vec3 scale = tileblock.m_tileset.m_tile_scale * tileblock.m_scale;
+					vec3 scale = tileblock.m_tileset->m_tile_scale * tileblock.m_scale;
 					return bxTRS(scale, rotation, position);
 				};
 
@@ -241,7 +241,7 @@ namespace mud
 			if(index != UINT16_MAX)
 			{
 				TileModel& tile = tileblock.m_tile_models[index];
-				Gnode& node = gfx::node(self, {}, tileblock.to_position(focused), tile.m_rotation, tileblock.m_tileset.m_tile_scale * tileblock.m_scale);
+				Gnode& node = gfx::node(self, {}, tileblock.to_position(focused), tile.m_rotation, tileblock.m_tileset->m_tile_scale * tileblock.m_scale);
 				if(tile.m_model)
 					gfx::item(node, *tile.m_model);
 			}
@@ -356,7 +356,7 @@ namespace mud
 			for(size_t t = 0; t < tileblock.m_wave.m_states.size(); ++t)
 				if(tileblock.m_wave.m_wave.at(coord.x, coord.y, coord.z)[t])
 				{
-					Tile& tile = tileblock.m_tileset.m_tiles_flip[t];
+					Tile& tile = tileblock.m_tileset->m_tiles_flip[t];
 					TileModel& tile_model = tileblock.m_tile_models[tile.m_index];
 					state.m_items.push_back({ tile_model.m_model, Zero3, rotate(tile_model.m_rotation, c_pi / 4.f, Y3), Unit3 });
 					if(tile_model.m_model && state.m_item_radius == 0.f)
@@ -394,7 +394,7 @@ namespace mud
 			if(tileblock.m_wave.m_wave.at(coord.x, coord.y, coord.z)[t])
 			{
 				vec3 position = offset + vec3(float(count % side), 0.f, float(count / side));
-				Gnode& con = gfx::node(node, {}, position, tileblock.m_tile_models[t].m_rotation, tileblock.m_tileset.m_tile_scale / 2.f);
+				Gnode& con = gfx::node(node, {}, position, tileblock.m_tile_models[t].m_rotation, tileblock.m_tileset->m_tile_scale / 2.f);
 				if(tileblock.m_tile_models[t].m_model)
 					gfx::item(con, *tileblock.m_tile_models[t].m_model);
 				++count;
@@ -414,11 +414,11 @@ namespace mud
 			//uvec3 adjacent;
 			//if(neighbour(tileblock.m_wave, coord, SignedAxis(d), adjacent))
 				for(size_t t1 = 0; t1 < tileblock.m_wave.m_states.size(); ++t1)
-					if(tileblock.m_tileset.m_propagator[d].at(t2, t1))
+					if(tileblock.m_tileset->m_propagator[d].at(t2, t1))
 						if(tileblock.m_tile_models[t1].m_model)
 						{
 							vec3 position = tileblock.to_position(coord) + to_vec3(SignedAxis(d)) * float(++count) * 2.f;
-							Gnode& con = gfx::node(node, {}, position, tileblock.m_tile_models[t1].m_rotation, tileblock.m_tileset.m_tile_scale);
+							Gnode& con = gfx::node(node, {}, position, tileblock.m_tile_models[t1].m_rotation, tileblock.m_tileset->m_tile_scale);
 							gfx::item(con, *tileblock.m_tile_models[t1].m_model);
 						}
 		}

@@ -8,9 +8,7 @@
 #include <type/Ref.h>
 #include <ecs/Forward.h>
 #include <ecs/Proto.h>
-#ifdef TOY_ECS
 #include <ecs/Registry.h>
-#endif
 
 #ifndef MUD_CPP_20
 #include <vector>
@@ -49,10 +47,6 @@ namespace mud
 		template <class T>
 		T& component();
 	};
-
-#ifndef TOY_ECS
-	using Entity = Complex;
-#endif
 
 	export_ template <class T>
 	inline bool is(Complex& complex) { return complex.m_type.template is<T>() || complex.has_part(type<T>()); }

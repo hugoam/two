@@ -22,6 +22,7 @@ namespace mud
 	export_ class refl_ MUD_PROCGEN_GFX_EXPORT WfcBlock
 	{
 	public:
+		constr_ WfcBlock() {}
 		constr_ WfcBlock(const vec3& position, const uvec3& size, const vec3& scale, WaveTileset& tileset, bool auto_solve = false);
 
 		attr_ vec3 m_position;
@@ -29,7 +30,7 @@ namespace mud
 		attr_ vec3 m_scale;
 		attr_ Aabb m_aabb;
 
-		WaveTileset& m_tileset;
+		WaveTileset* m_tileset = nullptr;
 
 		TileWave m_wave;
 		size_t m_last_tick = 0;

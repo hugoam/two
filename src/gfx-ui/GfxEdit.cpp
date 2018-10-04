@@ -469,7 +469,7 @@ namespace mud
 		//													Ring, Ellipsis, Arc, Cylinder, Capsule, Cube, Aabb,
 		//													Box, Sphere, SphereRing, Spheroid, Points, ConvexHull>();
 
-		auto type_index = [&](Type* type) -> uint32_t { for(size_t i = 0; i < shape_types.size(); ++i) { if(shape_types[i] == type) return i; } return UINT32_MAX; };
+		auto type_index = [&](Type* type) -> uint32_t { for(size_t i = 0; i < shape_types.size(); ++i) { if(shape_types[i] == type) return uint32_t(i); } return UINT32_MAX; };
 
 		Widget& self = ui::sheet(parent);
 		uint32_t type = type_index(shape.m_shape ? &shape.m_shape->m_type : nullptr);

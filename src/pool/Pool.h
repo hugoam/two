@@ -76,6 +76,8 @@ namespace mud
 		SparseHandle() {}
 		SparseHandle(SparsePool<T>& pool, uint32_t handle) : m_pool(&pool), m_handle(handle) {}
 
+		explicit operator bool() const { return m_handle != UINT32_MAX; }
+
 		operator T&();
 		operator const T&() const;
 		T* operator->() { return &((T&)*this); }
