@@ -372,7 +372,6 @@ namespace mud
 #else
 			bgfx::Encoder& encoder = *render_pass.m_encoder;
 			this->submit_draw_elements(encoder, render, render_pass, 0, m_impl->m_draw_elements.size());
-			bgfx::end(&encoder);
 #endif
 		}
 	}

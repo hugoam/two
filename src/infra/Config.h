@@ -11,7 +11,7 @@
 #define struct_ // Struct
 #define array_	// Array type
 #define extern_ // Extern type
-#define attr_   // Component
+#define comp_   // Component
 #define constr_ // Constructor
 #define meth_   // Method
 #define func_   // Function
