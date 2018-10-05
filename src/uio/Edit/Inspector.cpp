@@ -9,9 +9,7 @@ module mud.uio;
 #else
 #include <infra/Vector.h>
 #include <type/Any.h>
-#ifdef MUD_ECS
-#include <ecs/Entity.h>
-#endif
+#include <ecs/Registry.h>
 #include <refl/Class.h>
 #include <uio/Edit/Inspector.h>
 #include <ui/Structs/Container.h>
@@ -209,10 +207,40 @@ namespace mud
 			return object_edit_inline(parent, object);
 	}
 
+	bool entity_edit(Widget& parent, uint32_t entity, EditorHint hint)
+	{
+		bool changed = false;
+
+		static cstring columns[2] = { "field", "value" };
+		static float spans[2] = { 0.4f, 0.6f };
+		Table& self = ui::table(parent, { columns, 2 }, { spans, 2 });
+
+		ParallelBuffers& stream = s_registry.Stream(entity);
+		uint32_t index = stream.m_indices[entity];
+		for(auto& buffer : stream.m_buffers)
+		{
+			Widget& row = ui::table_separator(self);
+			Widget* body = ui::tree_node(row, buffer->m_type->m_name, false, true).m_body;
+			if(body)
+				changed |= object_edit_columns(*body, buffer->Get(index));
+		}
+
+		return changed;
+	}
+
+	bool inspector(Widget& parent, uint32_t entity)
+	{
+		Section& self = section(parent, "Entity Inspector", {}, true);
+		return entity_edit(parent, entity);
+	}
+
 	bool inspector(Widget& parent, Ref object)
 	{
 		Section& self = section(parent, "Inspector", {}, true);
-		return object_edit_columns(*self.m_body, object);
+		if(object.m_type->is<EntityRef>())
+			return inspector(parent, as_ent(object).m_handle);
+		else
+			return object_edit_columns(*self.m_body, object);
 	}
 
 	bool inspector(Widget& parent)

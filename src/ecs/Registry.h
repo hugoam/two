@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 #include <infra/Vector.h>
+#include <type/Type.h>
+#include <type/Ref.h>
 #include <ecs/Forward.h>
 #include <ecs/ECS.h>
 #include <ecs/ComponentBuffer.h>
@@ -53,8 +55,9 @@ namespace mud
 	class ParallelBuffers
 	{
 	public:
-		ParallelBuffers(size_t size = 0)
-			: m_indices(size)
+		ParallelBuffers(cstring name, size_t size = 0)
+			: m_name(name)
+			, m_indices(size)
 			, m_buffer_map(64)
 		{
 			m_handles.reserve(size);
@@ -63,7 +66,11 @@ namespace mud
 		template <class T>
 		void AddBuffer()
 		{
+#ifdef MUD_ECS_TYPED
+			m_buffers.emplace_back(std::make_unique<ComponentBuffer<T>>(type<T>(), int(TypedBuffer<T>::index())));
+#else
 			m_buffers.emplace_back(std::make_unique<ComponentBuffer<T>>(int(TypedBuffer<T>::index())));
+#endif
 			m_buffer_map[TypedBuffer<T>::index()] = &(*m_buffers.back());
 		}
 
@@ -140,6 +147,7 @@ namespace mud
 			return this->Buffer<T>().m_data[index];
 		}
 
+		cstring m_name;
 		EntFlags m_prototype;
 
 		//SparseIndices<Dense> m_indices;
@@ -174,6 +182,12 @@ namespace mud
 			return m_buffers[stream];
 		}
 
+		ParallelBuffers& Stream(uint32_t handle)
+		{
+			uint16_t stream = m_entities[handle].m_stream;
+			return m_buffers[stream];
+		}
+
 		std::vector<ParallelBuffers*> Match(EntFlags prototype)
 		{
 			std::vector<ParallelBuffers*> matches;
@@ -184,11 +198,11 @@ namespace mud
 		}
 
 		template <class... T_Components>
-		void AddBuffers()
+		void AddBuffers(cstring name)
 		{
 			EntFlags prototype = any_flags(1ULL << TypedBuffer<T_Components>::index()...);
 			m_streams[prototype] = uint16_t(m_buffers.size());
-			m_buffers.emplace_back();
+			m_buffers.emplace_back(name);
 			m_buffers.back().AddBuffers<T_Components...>();
 		}
 
@@ -391,14 +405,22 @@ namespace mud
 	inline T& asa(const Entity& entity) { return s_registry.GetComponent<T>(entity.m_handle); }
 
 	export_ template <class T>
-	inline T* try_asa(const Entity& entity) { if(isa<T>(entity)) return &asa<T>(entity); else return nullptr; }
+	inline T* try_asa(const Entity& entity) { if(entity && isa<T>(entity)) return &asa<T>(entity); else return nullptr; }
 	
 	export_ template <class T>
 	inline T* try_asa(const Entity* entity) { if(entity && isa<T>(*entity)) return &asa<T>(*entity); else return nullptr; }
 
+	struct EntityRef {};
+
+	export_ template <> MUD_ECS_EXPORT Type& type<EntityRef>();
+
+	inline Ref ent_ref(uint32_t entity) { return Ref((void*)uintptr_t(entity), type<EntityRef>()); }
+	inline Entity as_ent(const Ref& ref) { return ref.m_type->is<EntityRef>() ? uint32_t((uintptr_t)ref.m_value) : UINT32_MAX; }
+
 	inline cstring entity_prototype(uint32_t entity)
 	{
-		UNUSED(entity); return "";
+		ParallelBuffers& stream = s_registry.Stream(entity);
+		return stream.m_name;
 	}
 
 	template <class T>

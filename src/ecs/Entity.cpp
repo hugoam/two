@@ -16,6 +16,8 @@ namespace mud
 {
 	EntityRegistry s_registry;
 
+	template <> Type& type<EntityRef>() { static Type ty("EntityRef"); return ty; }
+
 	Complex::Complex(Id id, Type& type)
 		: m_id(index(type, id, Ref(this, type)))
 		, m_type(type)

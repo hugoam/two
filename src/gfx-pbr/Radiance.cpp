@@ -51,8 +51,8 @@ namespace mud
 		if(!render.m_environment || !render.m_environment->m_radiance.m_texture)
 			return;
 
-		if(!render.m_environment->m_radiance.m_preprocessed)
-			m_prefilter_queue.push_back(&render.m_environment->m_radiance);
+		//if(!render.m_environment->m_radiance.m_preprocessed)
+		//	m_prefilter_queue.push_back(&render.m_environment->m_radiance);
 
 		if(bgfx::isValid(render.m_environment->m_radiance.m_roughness_array))
 		{

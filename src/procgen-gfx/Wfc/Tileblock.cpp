@@ -365,7 +365,7 @@ namespace mud
 		};
 
 		uint32_t id = (uint16_t(coord.x) << 16) | (uint16_t(coord.z) << 0);
-		model_array_view(parent, query_models, (void*)id);
+		model_array_view(parent, query_models, (void*)uintptr_t(id));
 	}
 
 	uvec3 tileblock_ray(WfcBlock& tileblock, const Ray& ray)

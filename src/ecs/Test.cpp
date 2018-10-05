@@ -22,6 +22,9 @@ namespace mud
 {
 	template <> struct TypedBuffer<Position> { static size_t index() { return 0; } };
 	template <> struct TypedBuffer<Velocity> { static size_t index() { return 1; } };
+
+	template <> Type& type<Position>() { static Type ty("Position"); return ty; }
+	template <> Type& type<Velocity>() { static Type ty("Velocity"); return ty; }
 }
 
 void test_ecs()
@@ -31,8 +34,8 @@ void test_ecs()
     //create and register some component buffers
 //        Print("Creating Component Buffers");
 
-	s_registry.AddBuffers<Position>(); // 1 << preallocShift;
-	s_registry.AddBuffers<Position, Velocity>(); // 1 << preallocShift;
+	s_registry.AddBuffers<Position>("Position"); // 1 << preallocShift;
+	s_registry.AddBuffers<Position, Velocity>("PositionVelocity"); // 1 << preallocShift;
         
 //        PrintRegistryDebug();
 //        PrintCompBufsDebug();

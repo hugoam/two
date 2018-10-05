@@ -44,7 +44,10 @@ namespace mud
 	export_ MUD_UIO_EXPORT func_ bool object_edit_expandbox(Widget& parent, Ref object);
 	export_ MUD_UIO_EXPORT func_ bool object_edit(Widget& parent, Ref object, EditorHint hint = EditorHint::Table);
 
+	export_ MUD_UIO_EXPORT func_ bool entity_edit(Widget& parent, uint32_t entity, EditorHint hint = EditorHint::Table);
+
 	export_ MUD_UIO_EXPORT func_ bool inspector(Widget& parent, Ref object);
+	export_ MUD_UIO_EXPORT func_ bool inspector(Widget& parent, uint32_t entity);
 	export_ MUD_UIO_EXPORT func_ bool inspector(Widget& parent);
 	export_ MUD_UIO_EXPORT func_ void multi_inspector(Widget& parent, Type& type, std::vector<Var>& objects, size_t& selected);
 

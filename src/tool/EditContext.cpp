@@ -9,6 +9,7 @@ module mud.tool;
 #else
 #include <type/Any.h>
 #include <pool/ObjectPool.h>
+#include <ecs/Registry.h>
 #include <lang/Lua.h>
 #include <lang/VisualScript.h>
 #include <ui/Edit/Console.h>
@@ -128,7 +129,10 @@ namespace mud
 		{
 			Ref selected = selection[0];
 			Widget& sheet = ui::widget(*self.m_body, styles().sheet, (void*)selected.m_value);
-			object_edit(sheet, selected);
+			if(selected.m_type->is<EntityRef>())
+				entity_edit(sheet, as_ent(selected).m_handle);
+			else
+				object_edit(sheet, selected);
 		}
 	}
 
