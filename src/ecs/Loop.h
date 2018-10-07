@@ -7,13 +7,13 @@
 namespace mud
 {
 	template <class... Ts, size_t... Is, class T_Function>
-	Job* for_components_impl(JobSystem& job_system, Job* parent, T_Function action, std::index_sequence<Is...>)
+	Job* for_components_impl(JobSystem& job_system, Job* parent, ECS& ecs, T_Function action, std::index_sequence<Is...>)
 	{
 		EntFlags prototype = any_flags(1ULL << TypedBuffer<Ts>::index()...);
 
 		Job* job = job_system.job(parent);
 
-		std::vector<ParallelBuffers*> matches = s_registry.Match(prototype);
+		std::vector<ParallelBuffers*> matches = ecs.Match(prototype);
 		for(ParallelBuffers* stream : matches)
 		{
 			std::tuple<ComponentBuffer<Ts>&...> buffers = std::make_tuple(std::ref(stream->Buffer<Ts>())...);
@@ -36,8 +36,8 @@ namespace mud
 	}
 
 	template <class... Ts, class T_Function>
-	Job* for_components(JobSystem& job_system, Job* parent, T_Function action)
+	Job* for_components(JobSystem& job_system, Job* parent, ECS& ecs, T_Function action)
 	{
-		return for_components_impl<Ts...>(job_system, parent, action, std::make_index_sequence<sizeof...(Ts)>());
+		return for_components_impl<Ts...>(job_system, parent, ecs, action, std::make_index_sequence<sizeof...(Ts)>());
 	}
 }

@@ -29,41 +29,44 @@ namespace mud
 
 void test_ecs()
 {
+	ECS ecs;
+	s_ecs[0] = &ecs;
+
 //        PrintRegistryDebug();
 
     //create and register some component buffers
 //        Print("Creating Component Buffers");
 
-	s_registry.AddBuffers<Position>("Position"); // 1 << preallocShift;
-	s_registry.AddBuffers<Position, Velocity>("PositionVelocity"); // 1 << preallocShift;
+	ecs.AddBuffers<Position>("Position"); // 1 << preallocShift;
+	ecs.AddBuffers<Position, Velocity>("PositionVelocity"); // 1 << preallocShift;
         
 //        PrintRegistryDebug();
 //        PrintCompBufsDebug();
 
 
-	uint32_t entity = s_registry.CreateEntity<Position, Velocity>();
+	Entity entity = { ecs.CreateEntity<Position, Velocity>(), 0 };
 	ComponentHandle<Position> position = { entity };
 	ComponentHandle<Velocity> velocity = { entity };
 	UNUSED(position);
 	UNUSED(velocity);
 
-    uint32_t e = s_registry.CreateEntity<Position, Velocity>();
-	s_registry.SetComponent(e, Position());
-	s_registry.SetComponent(e, Velocity{ 0, 3 });
+    uint32_t e = ecs.CreateEntity<Position, Velocity>();
+	ecs.SetComponent(e, Position());
+	ecs.SetComponent(e, Velocity{ 0, 3 });
 
-    auto e1 = s_registry.CreateEntity<Position>();
-	s_registry.SetComponent(e1, Position());
-    //s_registry.SetComponent(e1, Velocity { x = 0, y = 1 });
+    auto e1 = ecs.CreateEntity<Position>();
+	ecs.SetComponent(e1, Position());
+    //ecs.SetComponent(e1, Velocity { x = 0, y = 1 });
 
-    auto e2 = s_registry.CreateEntity<Position, Velocity>();
-	s_registry.SetComponent(e2, Position());
-	s_registry.SetComponent(e2, Velocity { 0, 5 });
+    auto e2 = ecs.CreateEntity<Position, Velocity>();
+	ecs.SetComponent(e2, Position());
+	ecs.SetComponent(e2, Velocity { 0, 5 });
 
-    auto e3 = s_registry.CreateEntity<Position>();
-	s_registry.SetComponent(e3, Position());
-    //s_registry.SetComponent(e3, Velocity { x = 0, y = 1 });
+    auto e3 = ecs.CreateEntity<Position>();
+	ecs.SetComponent(e3, Position());
+    //ecs.SetComponent(e3, Velocity { x = 0, y = 1 });
 
-    s_registry.Loop<Position, Velocity>([](uint32_t handle, Position& pos, Velocity& vel)
+    ecs.Loop<Position, Velocity>([](uint32_t handle, Position& pos, Velocity& vel)
     {
 		UNUSED(handle);
         pos.m_y += vel.m_y;
@@ -79,23 +82,23 @@ void test_ecs()
     ////create entities and components
     //Print("Creating 4 Entities");
 
-    //auto entA = s_registry.CreateEntity();
-    //s_registry.AddComponent(entA, new Position());
-    //s_registry.AddComponent(entA, new Velocity());
+    //auto entA = ecs.CreateEntity();
+    //ecs.AddComponent(entA, new Position());
+    //ecs.AddComponent(entA, new Velocity());
 
     //PrintEntityDebug(entA);
 
-    //auto entB = s_registry.CreateEntity();
-    //s_registry.AddComponent(entB, new Position());
+    //auto entB = ecs.CreateEntity();
+    //ecs.AddComponent(entB, new Position());
 
     //PrintEntityDebug(entB);
 
-    //auto entC = s_registry.CreateEntity();
-    //s_registry.AddComponent(entC, new Velocity());
+    //auto entC = ecs.CreateEntity();
+    //ecs.AddComponent(entC, new Velocity());
 
     //PrintEntityDebug(entC);
 
-    //auto entD = s_registry.CreateEntity();
+    //auto entD = ecs.CreateEntity();
 
     //PrintEntityDebug(entD);
 
@@ -104,71 +107,71 @@ void test_ecs()
 
     //Print("Removing component");
 
-    //s_registry.RemoveComponent<Velocity>(entA);
+    //ecs.RemoveComponent<Velocity>(entA);
 
     //PrintCompBufsDebug(true);
 
     //Print("Readding component");
 
-    //s_registry.AddComponent(entA, new Velocity());
+    //ecs.AddComponent(entA, new Velocity());
 
     //PrintCompBufsDebug(true);
 
     //Print("Removing other");
 
-    //s_registry.RemoveComponent<Position>(entA);
+    //ecs.RemoveComponent<Position>(entA);
 
     //PrintCompBufsDebug(true);
 
     //Print("Readding other");
 
-    //s_registry.AddComponent(entA, new Position());
+    //ecs.AddComponent(entA, new Position());
 
     //PrintCompBufsDebug(true);
 
     //Print("Adding new to 2nd entity");
 
-    //s_registry.AddComponent(entB, new Velocity());
+    //ecs.AddComponent(entB, new Velocity());
 
     //PrintEntityDebug(entB);
     //PrintCompBufsDebug(true);
 
     //Print("Removing all from 2nd entity");
 
-    //s_registry.RemoveAllComponents(entB);
+    //ecs.RemoveAllComponents(entB);
 
     //PrintEntityDebug(entB);
     //PrintCompBufsDebug(true);
 
     //Print("Removing 3rd entity");
 
-    //s_registry.DeleteEntity(entC);
+    //ecs.DeleteEntity(entC);
     //PrintRegistryDebug(true);
     //PrintCompBufsDebug(true);
 
     //Print("Removing 1st entity");
 
-    //s_registry.DeleteEntity(entA);
+    //ecs.DeleteEntity(entA);
     //PrintRegistryDebug(true);
     //PrintCompBufsDebug(true);
 
     //Print("Creating new with components");
 
-    //auto entE = s_registry.CreateEntity();
-    //s_registry.AddComponent(entE, new Position());
-    //s_registry.AddComponent(entE, new Velocity{x=0,y=1});
+    //auto entE = ecs.CreateEntity();
+    //ecs.AddComponent(entE, new Position());
+    //ecs.AddComponent(entE, new Velocity{x=0,y=1});
     //PrintRegistryDebug(true);
     //PrintCompBufsDebug(true);
 
     //Print("Removing newly created entity");
 
-    //s_registry.DeleteEntity(entE);
+    //ecs.DeleteEntity(entE);
     //PrintRegistryDebug(true);
     //PrintCompBufsDebug(true);
 
     //Print("Adding component to 4th entity");
 
-    //s_registry.AddComponent(entD, new Position());
+    //ecs.AddComponent(entD, new Position());
     //PrintRegistryDebug(true);
     //PrintCompBufsDebug(true);
 
@@ -178,9 +181,9 @@ void test_ecs()
     auto sw = Stopwatch.StartNew();
     for (int i = 0; i < 1<<16; i++)
     {
-        auto id = s_registry.CreateEntity();
-        s_registry.AddComponent(id, new Position());
-        s_registry.AddComponent(id, new Velocity { x = 0, y = 1 });
+        auto id = ecs.CreateEntity();
+        ecs.AddComponent(id, new Position());
+        ecs.AddComponent(id, new Velocity { x = 0, y = 1 });
     }
     Print($"Took {sw.ElapsedMicroseconds()}");
 //        Console.ReadKey();
@@ -195,14 +198,14 @@ void test_ecs()
 
     //Print("Looping a ton of ents and comp");
     //sw = Stopwatch.StartNew();
-    //s_registry.Loop((uint32_t handle, ref Position transform) =>
+    //ecs.Loop((uint32_t handle, ref Position transform) =>
     //{
     //    transform.x = 10;
     //});
     //Print($"Took {sw.ElapsedMicroseconds()}");
 
 
-    s_registry.Loop((uint32_t handle, ref Velocity vel, ref Position pos) =>
+    ecs.Loop((uint32_t handle, ref Velocity vel, ref Position pos) =>
     {
         pos.y += vel.y;
     });

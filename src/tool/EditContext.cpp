@@ -130,7 +130,7 @@ namespace mud
 			Ref selected = selection[0];
 			Widget& sheet = ui::widget(*self.m_body, styles().sheet, (void*)selected.m_value);
 			if(selected.m_type->is<EntityRef>())
-				entity_edit(sheet, as_ent(selected).m_handle);
+				entity_edit(sheet, { as_ent(selected), 0 });
 			else
 				object_edit(sheet, selected);
 		}

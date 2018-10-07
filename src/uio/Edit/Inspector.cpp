@@ -207,7 +207,7 @@ namespace mud
 			return object_edit_inline(parent, object);
 	}
 
-	bool entity_edit(Widget& parent, uint32_t entity, EditorHint hint)
+	bool entity_edit(Widget& parent, Entity entity, EditorHint hint)
 	{
 		bool changed = false;
 
@@ -215,7 +215,7 @@ namespace mud
 		static float spans[2] = { 0.4f, 0.6f };
 		Table& self = ui::table(parent, { columns, 2 }, { spans, 2 });
 
-		ParallelBuffers& stream = s_registry.Stream(entity);
+		ParallelBuffers& stream = s_ecs[entity.m_stream]->Stream(entity);
 		uint32_t index = stream.m_indices[entity];
 		for(auto& buffer : stream.m_buffers)
 		{
@@ -228,7 +228,7 @@ namespace mud
 		return changed;
 	}
 
-	bool inspector(Widget& parent, uint32_t entity)
+	bool inspector(Widget& parent, Entity entity)
 	{
 		Section& self = section(parent, "Entity Inspector", {}, true);
 		return entity_edit(parent, entity);
@@ -238,7 +238,7 @@ namespace mud
 	{
 		Section& self = section(parent, "Inspector", {}, true);
 		if(object.m_type->is<EntityRef>())
-			return inspector(parent, as_ent(object).m_handle);
+			return inspector(parent, { as_ent(object), 0 });
 		else
 			return object_edit_columns(*self.m_body, object);
 	}

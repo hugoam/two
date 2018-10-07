@@ -158,9 +158,11 @@ namespace mud
 		std::vector<ComponentBufferBase*> m_buffer_map;
 	};
 
-	class EntityRegistry
+	class ECS
 	{
 	public:
+		uint32_t m_index = 0;
+
 		std::vector<ParallelBuffers> m_buffers;
 		std::map<EntFlags, uint16_t> m_streams;
 
@@ -168,7 +170,7 @@ namespace mud
 		std::vector<uint32_t> m_available;
 
 	public:
-		EntityRegistry(int capacity = 1 << 10)
+		ECS(int capacity = 1 << 10)
 		{
 			m_buffers.reserve(64);
 			m_entities.reserve(capacity);
@@ -226,6 +228,8 @@ namespace mud
 		uint32_t CreateEntity()
 		{
 			EntFlags prototype = any_flags(1ULL << TypedBuffer<T_Components>::index()...);
+			if(m_streams.find(prototype) == m_streams.end())
+				this->AddBuffers<T_Components...>("Todo");
 			uint16_t stream = m_streams[prototype];
 			uint32_t handle = AllocEntity(prototype, stream);
 			m_buffers[stream].Add(handle);
@@ -379,30 +383,28 @@ namespace mud
 		}
 	};
 
-	export_ extern MUD_ECS_EXPORT EntityRegistry s_registry;
+	export_ extern MUD_ECS_EXPORT ECS* s_ecs[256];
 
-#if 0
-	using Entity = uint32_t;
-#else
 	struct MUD_ECS_EXPORT Entity
 	{
 		Entity() {}
-		Entity(uint32_t handle) : m_handle(handle) {}
+		Entity(uint32_t handle, uint32_t stream) : m_handle(handle), m_stream(stream) {}
 
 		explicit operator bool() const { return m_handle != UINT32_MAX; }
+		operator uint32_t() const { return m_handle; }
 
 		bool operator==(const Entity& other) const { return m_handle == other.m_handle; };
 		bool operator!=(const Entity& other) const { return m_handle != other.m_handle; };
 
+		uint32_t m_stream = UINT32_MAX;
 		uint32_t m_handle = UINT32_MAX;
 	};
-#endif
 
 	export_ template <class T>
-	inline bool isa(const Entity& entity) { return s_registry.HasComponent<T>(entity.m_handle); }
+	inline bool isa(const Entity& entity) { return s_ecs[entity.m_stream]->HasComponent<T>(entity.m_handle); }
 
 	export_ template <class T>
-	inline T& asa(const Entity& entity) { return s_registry.GetComponent<T>(entity.m_handle); }
+	inline T& asa(const Entity& entity) { return s_ecs[entity.m_stream]->GetComponent<T>(entity.m_handle); }
 
 	export_ template <class T>
 	inline T* try_asa(const Entity& entity) { if(entity && isa<T>(entity)) return &asa<T>(entity); else return nullptr; }
@@ -415,61 +417,43 @@ namespace mud
 	export_ template <> MUD_ECS_EXPORT Type& type<EntityRef>();
 
 	inline Ref ent_ref(uint32_t entity) { return Ref((void*)uintptr_t(entity), type<EntityRef>()); }
-	inline Entity as_ent(const Ref& ref) { return ref.m_type->is<EntityRef>() ? uint32_t((uintptr_t)ref.m_value) : UINT32_MAX; }
+	inline uint32_t as_ent(const Ref& ref) { return ref.m_type->is<EntityRef>() ? uint32_t((uintptr_t)ref.m_value) : UINT32_MAX; }
 
-	inline cstring entity_prototype(uint32_t entity)
+	inline cstring entity_prototype(const Entity& entity)
 	{
-		ParallelBuffers& stream = s_registry.Stream(entity);
+		ParallelBuffers& stream = s_ecs[entity.m_stream]->Stream(entity.m_handle);
 		return stream.m_name;
 	}
 
 	template <class T>
-	struct ComponentHandle
+	struct ComponentHandle : public Entity
 	{
 		ComponentHandle() {}
-		ComponentHandle(uint32_t handle) : m_handle(handle) {}
+		ComponentHandle(uint32_t handle, uint32_t stream) : Entity(handle, stream) {}
+		ComponentHandle(const Entity& entity) : Entity(entity) {}
 
-		explicit operator bool() const { return m_handle != UINT32_MAX; }
-		operator Entity() const { return { m_handle }; }
-
-		operator T&() { return s_registry.GetComponent<T>(m_handle); }
-		operator const T&() const { return s_registry.GetComponent<T>(m_handle); }
-		T* operator->() { return &((T&)*this); }
-		T& operator*() { return *this; }
-		const T* operator->() const { return &((const T&)*this); }
-		const T& operator*() const { return *this; }
-
-		bool operator==(const ComponentHandle<T>& other) const { return m_handle == other.m_handle; };
-
-		uint32_t m_handle = UINT32_MAX;
+		operator T&() { return asa<T>(*this); }
+		operator const T&() const { return asa<T>(*this); }
+		T* operator->() { return &asa<T>(*this); }
+		T& operator*() { return asa<T>(*this); }
+		const T* operator->() const { return &asa<T>(*this); }
+		const T& operator*() const { return asa<T>(*this); }
 	};
 
 	template <class T>
-	struct EntityHandle
+	struct EntityHandle : public ComponentHandle<T>
 	{
 		EntityHandle() {}
-		EntityHandle(uint32_t handle) : m_handle(handle) {}
-		~EntityHandle() { if(m_handle != UINT32_MAX) s_registry.DeleteEntity(m_handle); }
+		EntityHandle(uint32_t handle, uint32_t stream) : ComponentHandle<T>(handle, stream) {}
+		~EntityHandle() { if(m_handle != UINT32_MAX) s_ecs[m_stream]->DeleteEntity(m_handle); }
 
 		EntityHandle(EntityHandle<T>& other) = delete;
 		EntityHandle& operator=(EntityHandle<T>& other) = delete;
 
 		EntityHandle(EntityHandle<T>&& other) { other.swap(*this); }
 		EntityHandle& operator=(EntityHandle<T>&& other) { other.swap(*this); return *this; }
-		void swap(EntityHandle<T>& other) { std::swap(m_handle, other.m_handle); }
+		void swap(EntityHandle<T>& other) { std::swap(m_handle, other.m_handle); std::swap(m_stream, other.m_stream); }
 
-		explicit operator bool() const { return m_handle != UINT32_MAX; }
-		explicit operator Entity() const { return { m_handle }; }
-
-		operator T&() { return s_registry.GetComponent<T>(m_handle); }
-		operator const T&() const { return s_registry.GetComponent<T>(m_handle); }
-		T* operator->() { return &((T&)*this); }
-		T& operator*() { return *this; }
-		const T* operator->() const { return &((const T&)*this); }
-		const T& operator*() const { return *this; }
-
-		bool operator==(const ComponentHandle<T>& other) const { return m_handle == other.m_handle; };
-
-		uint32_t m_handle = UINT32_MAX;
+		operator Entity() const { return { m_handle, m_stream }; }
 	};
 }

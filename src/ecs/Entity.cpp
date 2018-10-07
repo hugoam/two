@@ -14,7 +14,7 @@ module mud.proto;
 
 namespace mud
 {
-	EntityRegistry s_registry;
+	ECS* s_ecs[256] = {};
 
 	template <> Type& type<EntityRef>() { static Type ty("EntityRef"); return ty; }
 
