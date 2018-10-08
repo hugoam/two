@@ -28,6 +28,7 @@ namespace mud
 	export_ MUD_INFRA_EXPORT string read_text_file(const string& path);
 
 
+	export_ MUD_INFRA_EXPORT bool file_exists(cstring path);
 	export_ MUD_INFRA_EXPORT bool directory_exists(cstring path);
 	export_ MUD_INFRA_EXPORT string file_directory(cstring path);
 

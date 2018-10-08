@@ -47,6 +47,7 @@ namespace mud
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Tonemap>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockBlur>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockDofBlur>();
+	export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockGI>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockGlow>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockReflection>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockTonemap>();

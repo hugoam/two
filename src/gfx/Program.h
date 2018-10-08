@@ -18,7 +18,9 @@ namespace mud
 
 	export_ enum class refl_ ShaderType : unsigned int
 	{
+		Compute,
 		Fragment,
+		Geometry,
 		Vertex,
 		Count
 	};
@@ -79,7 +81,7 @@ namespace mud
 
 		void reload() { m_update++; }
 
-		void update();
+		void update(GfxSystem& gfx_system);
 
 		bgfx::ProgramHandle default_version();
 		bgfx::ProgramHandle version(const ShaderVersion& config);

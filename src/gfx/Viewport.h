@@ -33,6 +33,7 @@ namespace mud
 		Unshaded,
 		Shaded,
 		Volume,
+		Voxels,
 		Clear
 	};
 

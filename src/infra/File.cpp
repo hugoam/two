@@ -40,6 +40,11 @@ namespace mud
 		return result;
 	}
 
+	bool file_exists(cstring path)
+	{
+		return std::fstream(path).good();
+	}
+
 	bool directory_exists(cstring path)
 	{
 #if defined WIN32

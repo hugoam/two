@@ -46,6 +46,8 @@ wren = mud_dep(nil, "wren")
     configuration { "vs*", "not asmjs" }
         buildoptions {
             "/wd4100", -- warning C4100: 'vm': unreferenced formal parameter
+            "/wd4200", -- warning C4200: nonstandard extension used: zero-sized array in struct/union
+            "/wd4709", -- warning C4200: comma operator within array index expression
         }
     
 	configuration { "linux-*" }

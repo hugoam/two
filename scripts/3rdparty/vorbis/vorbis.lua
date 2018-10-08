@@ -58,6 +58,12 @@ vorbis = mud_dep(nil, "vorbis")
 		"ogg"
 	}
     
+    configuration { "vs*", "not asmjs" }
+        buildoptions {
+            "/wd4244", -- warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+            "/wd4456", -- warning C4456: declaration of 'i' hides previous local declaration
+        }
+        
 	configuration { "linux-*" }
 		buildoptions {
 			"-fPIC",

@@ -215,7 +215,7 @@ namespace mud
 			ZoneScopedNC("programs", tracy::Color::Cyan);
 
 			for(auto& name_program : m_impl->m_programs->m_assets)
-				name_program.second->update();
+				name_program.second->update(*this);
 		}
 
 		{

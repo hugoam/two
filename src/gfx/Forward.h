@@ -195,6 +195,7 @@ namespace mud {
     struct ProceduralSky;
     struct PerezSky;
     class BlockSky;
+	class GIProbe;
 }
 
 namespace mud {

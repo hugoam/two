@@ -100,6 +100,7 @@ namespace mud {
     class BlockDofBlur;
     struct Glow;
     struct GlowUniform;
+	class BlockGI;
     class BlockGlow;
     struct BCS;
     struct Tonemap;

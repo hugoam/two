@@ -209,6 +209,7 @@ namespace mud
 
 	bool entity_edit(Widget& parent, Entity entity, EditorHint hint)
 	{
+		UNUSED(hint);
 		bool changed = false;
 
 		static cstring columns[2] = { "field", "value" };
@@ -231,7 +232,7 @@ namespace mud
 	bool inspector(Widget& parent, Entity entity)
 	{
 		Section& self = section(parent, "Entity Inspector", {}, true);
-		return entity_edit(parent, entity);
+		return entity_edit(*self.m_body, entity);
 	}
 
 	bool inspector(Widget& parent, Ref object)

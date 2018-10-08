@@ -55,6 +55,7 @@ namespace mud
 
 	export_ enum class PassType : unsigned int
 	{
+		VoxelGI,
 		Shadowmap,
 		Probes,
 		Clear,

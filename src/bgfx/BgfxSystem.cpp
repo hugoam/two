@@ -39,7 +39,7 @@ namespace mud
 
 	BgfxSystem::BgfxSystem(cstring resource_path)
 		: RenderSystem(resource_path, true)
-		//, m_profile(true)
+		, m_profile(true)
 	{
 		printf("INFO: Init Gfx System\n");
 	}

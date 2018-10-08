@@ -21,6 +21,7 @@ namespace mud
 	export_ class MUD_GFX_EXPORT PassDepth : public DrawPass
 	{
 	public:
+		PassDepth(GfxSystem& gfx_system, cstring name, BlockDepth& block_depth);
 		PassDepth(GfxSystem& gfx_system, BlockDepth& block_depth);
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) override;

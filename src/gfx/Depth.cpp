@@ -19,9 +19,13 @@ module mud.gfx;
 
 namespace mud
 {
-	PassDepth::PassDepth(GfxSystem& gfx_system, BlockDepth& block_depth)
-		: DrawPass(gfx_system, "depth", PassType::Depth)
+	PassDepth::PassDepth(GfxSystem& gfx_system, cstring name, BlockDepth& block_depth)
+		: DrawPass(gfx_system, name, PassType::Depth)
 		, m_block_depth(block_depth)
+	{}
+
+	PassDepth::PassDepth(GfxSystem& gfx_system, BlockDepth& block_depth)
+		: PassDepth(gfx_system, "depth", block_depth)
 	{}
 
 	void PassDepth::next_draw_pass(Render& render, Pass& render_pass)

@@ -248,7 +248,7 @@ namespace mud
 	}
 
 	PassShadowmap::PassShadowmap(GfxSystem& gfx_system, BlockShadow& block_shadow)
-		: RenderPass(gfx_system, {}, PassType::Shadowmap)
+		: RenderPass(gfx_system, "shadowmap", PassType::Shadowmap)
 		, m_block_shadow(block_shadow)
 	{}
 
@@ -316,7 +316,6 @@ namespace mud
 			}
 		}
 	}
-
 
 	PassShadow::PassShadow(GfxSystem& gfx_system, BlockDepth& block_depth, BlockShadow& block_shadow)
 		: PassDepth(gfx_system, block_depth)

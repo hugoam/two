@@ -388,13 +388,17 @@ namespace mud
 	struct MUD_ECS_EXPORT Entity
 	{
 		Entity() {}
-		Entity(uint32_t handle, uint32_t stream) : m_handle(handle), m_stream(stream) {}
+		Entity(uint32_t handle, uint32_t stream) : m_stream(stream), m_handle(handle){}
 
 		explicit operator bool() const { return m_handle != UINT32_MAX; }
 		operator uint32_t() const { return m_handle; }
 
 		bool operator==(const Entity& other) const { return m_handle == other.m_handle; };
 		bool operator!=(const Entity& other) const { return m_handle != other.m_handle; };
+
+		void destroy() { if(m_handle != UINT32_MAX) s_ecs[m_stream]->DeleteEntity(m_handle); }
+
+		void swap(Entity& other) { std::swap(m_handle, other.m_handle); std::swap(m_stream, other.m_stream); }
 
 		uint32_t m_stream = UINT32_MAX;
 		uint32_t m_handle = UINT32_MAX;
@@ -445,15 +449,14 @@ namespace mud
 	{
 		EntityHandle() {}
 		EntityHandle(uint32_t handle, uint32_t stream) : ComponentHandle<T>(handle, stream) {}
-		~EntityHandle() { if(m_handle != UINT32_MAX) s_ecs[m_stream]->DeleteEntity(m_handle); }
+		~EntityHandle() { this->destroy(); }
 
 		EntityHandle(EntityHandle<T>& other) = delete;
 		EntityHandle& operator=(EntityHandle<T>& other) = delete;
 
 		EntityHandle(EntityHandle<T>&& other) { other.swap(*this); }
 		EntityHandle& operator=(EntityHandle<T>&& other) { other.swap(*this); return *this; }
-		void swap(EntityHandle<T>& other) { std::swap(m_handle, other.m_handle); std::swap(m_stream, other.m_stream); }
 
-		operator Entity() const { return { m_handle, m_stream }; }
+		operator Entity() const { return { this->m_handle, this->m_stream }; }
 	};
 }

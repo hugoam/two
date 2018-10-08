@@ -8,6 +8,7 @@
 #include <gfx-pbr/ShadowAtlas.h>
 #include <gfx-pbr/ShadowCSM.h>
 #include <gfx-pbr/Types.h>
+#include <gfx-pbr/VoxelGI.h>
 #include <gfx-pbr/Filters/Blur.h>
 #include <gfx-pbr/Filters/DofBlur.h>
 #include <gfx-pbr/Filters/Glow.h>
