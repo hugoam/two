@@ -63,7 +63,7 @@ namespace mud
 		};
 
 	public:
-		Program(cstring name);
+		Program(cstring name, bool compute = false);
 		Program(cstring name, array<GfxBlock*> blocks, array<cstring> sources);
 		~Program();
 
@@ -99,6 +99,7 @@ namespace mud
 
 		cstring m_sources[size_t(ShaderType::Count)] = { nullptr, nullptr };
 
+		bool m_compute = false;
 		uint32_t m_update = 1;
 
 		struct Impl;

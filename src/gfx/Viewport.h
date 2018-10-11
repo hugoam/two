@@ -9,6 +9,7 @@
 #include <math/Colour.h>
 #endif
 #include <gfx/Forward.h>
+#include <gfx/Renderer.h>
 
 #ifndef MUD_CPP_20
 #include <functional>
@@ -53,6 +54,7 @@ namespace mud
 		attr_ bool m_scissor = false;
 		attr_ Colour m_clear_colour = Colour::Black;
 		attr_ Shading m_shading = Shading::Shaded;
+		attr_ Lighting m_lighting = Lighting::Clustered;
 		/*attr_ mut_*/ RenderFilters* m_filters = nullptr;
 
 		std::function<uvec4()> m_get_size;

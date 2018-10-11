@@ -51,7 +51,8 @@ namespace mud
 
 	Render::Render(Viewport& viewport, RenderTarget& target, RenderFrame& frame)
 		: m_scene(*viewport.m_scene), m_target(&target), m_target_fbo(target.m_fbo), m_viewport(viewport)
-		, m_camera(*viewport.m_camera), m_frame(frame), m_filters(viewport.m_filters), m_pass_index(frame.m_render_pass)
+		, m_camera(*viewport.m_camera), m_frame(frame), m_filters(viewport.m_filters), m_lighting(viewport.m_lighting)
+		, m_pass_index(frame.m_render_pass)
 		, m_shot(make_unique<Shot>())
 	{
 		static bool init_uniform = true;
@@ -64,7 +65,8 @@ namespace mud
 
 	Render::Render(Viewport& viewport, bgfx::FrameBufferHandle& target_fbo, RenderFrame& frame)
 		: m_scene(*viewport.m_scene), m_target(nullptr), m_target_fbo(target_fbo), m_viewport(viewport)
-		, m_camera(*viewport.m_camera), m_frame(frame), m_filters(viewport.m_filters), m_pass_index(frame.m_render_pass)
+		, m_camera(*viewport.m_camera), m_frame(frame), m_filters(viewport.m_filters), m_lighting(viewport.m_lighting)
+		, m_pass_index(frame.m_render_pass)
 		, m_shot(make_unique<Shot>())
 	{}
 

@@ -72,6 +72,8 @@ namespace mud
 
 		virtual void begin_render_pass(Render& render) final;
 		virtual void submit_render_pass(Render& render) final;
+
+		Program& m_voxel_light;
 	};
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGITrace : public DrawBlock
@@ -99,9 +101,9 @@ namespace mud
 			void createUniforms()
 			{
 				u_transform = bgfx::createUniform("u_gi_probe_transform", bgfx::UniformType::Mat4, max_gi_probes);
-				u_bounds = bgfx::createUniform("u_gi_probe_bounds", bgfx::UniformType::Vec4, max_gi_probes);
+				u_bounds    = bgfx::createUniform("u_gi_probe_bounds",    bgfx::UniformType::Vec4, max_gi_probes);
 				// multiplier, bias, normal_bias, blend_ambient
-				u_params = bgfx::createUniform("u_gi_probe_params", bgfx::UniformType::Vec4, max_gi_probes);
+				u_params    = bgfx::createUniform("u_gi_probe_params",    bgfx::UniformType::Vec4, max_gi_probes);
 				u_cell_size = bgfx::createUniform("u_gi_probe_cell_size", bgfx::UniformType::Vec4, max_gi_probes);
 
 				s_gi_probe = bgfx::createUniform("s_gi_probe", bgfx::UniformType::Int1, max_gi_probes);
@@ -142,6 +144,21 @@ namespace mud
 				u_params_1 = bgfx::createUniform("u_voxelgi_params_1", bgfx::UniformType::Vec4);
 			}
 
+			void setUniforms(bgfx::Encoder& encoder, GIProbe& gi_probe)
+			{
+				vec4 voxelgi_extents = { gi_probe.m_extents, 0.f };
+				vec4 voxelgi_resolution = { vec3(gi_probe.m_subdiv), 0.f };
+
+				mat4 voxelgi_world = gi_probe.m_transform;
+				//mat3 voxelgi_normal = {};
+
+				encoder.setUniform(u_params_0, &voxelgi_extents);
+				encoder.setUniform(u_params_1, &voxelgi_resolution);
+
+				encoder.setUniform(u_world, &voxelgi_world);
+				//encoder.setUniform(u_normal, &voxelgi_normal);
+			}
+
 			bgfx::UniformHandle s_voxels_albedo;
 			bgfx::UniformHandle s_voxels_normals;
 			bgfx::UniformHandle s_voxels_light;
@@ -156,7 +173,5 @@ namespace mud
 
 
 		GIProbe m_probe;
-
-		Program& m_light_program;
 	};
 }

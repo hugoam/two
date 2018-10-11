@@ -99,6 +99,11 @@ namespace mud
 			Program& program_gi_voxelize = gfx_system.programs().create("gi/voxelize");
 			program_gi_voxelize.register_blocks(gi_blocks);
 			program_gi_voxelize.default_version();
+
+			Program& program_gi_voxel_light = gfx_system.programs().create("gi/voxel_light");
+			program_gi_voxel_light.m_compute = true;
+			program_gi_voxel_light.register_blocks(gi_blocks);
+			program_gi_voxel_light.default_version();
 		}
 
 		static ForwardRenderer forward_renderer = { gfx_system, pipeline };
@@ -119,7 +124,7 @@ namespace mud
 	ForwardRenderer::ForwardRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
 		: Renderer(gfx_system, pipeline)
 	{
-		//this->add_pass<PassGIProbes>(gfx_system, *pipeline.block<BlockGIBake>());
+		this->add_pass<PassGIProbes>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
 		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
 		this->add_pass<PassClear>(gfx_system);
 		//this->add_pass<PassDepth>(gfx_system, *pipeline.block<BlockDepth>());
@@ -137,7 +142,7 @@ namespace mud
 	DeferredRenderer::DeferredRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
 		: Renderer(gfx_system, pipeline)
 	{
-		//this->add_pass<PassGIProbes>(gfx_system, *pipeline.block<BlockGIBake>());
+		this->add_pass<PassGIProbes>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
 		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
 		this->add_pass<PassClear>(gfx_system);
 		this->add_pass<PassGeometry>(gfx_system, *pipeline.block<BlockGeometry>());

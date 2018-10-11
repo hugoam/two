@@ -250,8 +250,9 @@ namespace mud
 
 	GfxSystem* Program::ms_gfx_system = nullptr;
 
-	Program::Program(cstring name)
+	Program::Program(cstring name, bool compute)
 		: m_impl(make_unique<Impl>())
+		, m_compute(compute)
 	{
 		m_impl->m_name = name;
 		PbrBlock& pbr = pbr_block(*ms_gfx_system);
@@ -328,7 +329,7 @@ namespace mud
 
 			if(version.m_update < m_update)
 			{
-				this->compile(gfx_system, version);
+				this->compile(gfx_system, version, m_compute);
 			}
 		}
 	}

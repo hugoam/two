@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <math/Math.h>
 #include <type/Cls.h>
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
@@ -74,6 +75,24 @@ namespace mud
 		Count
 	};
 
+	export_ enum class refl_ Lighting : unsigned int
+	{
+		None = 0,
+		Clustered = (1 << 0),
+		Deferred = (1 << 1),
+		VoxelGI = (1 << 2),
+	};
+
+	inline Lighting lighting(Lighting clustered = Lighting::None, Lighting deferred = Lighting::None, Lighting gi = Lighting::None)
+	{
+		return Lighting(uint(clustered) | uint(deferred) | uint(gi));
+	}
+
+	inline bool check_lighting(Lighting lighting, Lighting option)
+	{
+		return (uint(lighting) & uint(option)) != 0;
+	}
+
 	/*
 	initial idea (reality is quite far from that)
 	blocks
@@ -128,7 +147,7 @@ namespace mud
 		Environment* m_environment = nullptr;
 		RenderFilters* m_filters = nullptr;
 
-		bool m_is_deferred = false;
+		Lighting m_lighting = Lighting::None;
 		bool m_needs_mrt = false;
 		bool m_is_mrt = false;
 		bool m_needs_depth_prepass = false;
