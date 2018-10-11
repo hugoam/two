@@ -38,11 +38,11 @@ namespace mud
 		BlockShadow& shadow = pipeline.add_block<BlockShadow>(gfx_system, depth);
 		BlockLight& light = pipeline.add_block<BlockLight>(gfx_system, shadow);
 		BlockReflection& reflection = pipeline.add_block<BlockReflection>(gfx_system);
-		BlockGI& gi = pipeline.add_block<BlockGI>(gfx_system);
+		BlockGIBake& gi_bake = pipeline.add_block<BlockGIBake>(gfx_system);
+		BlockGITrace& gi_trace = pipeline.add_block<BlockGITrace>(gfx_system);
 		BlockParticles& particles = pipeline.add_block<BlockParticles>(gfx_system);
 		UNUSED(geometry);
 		UNUSED(particles);
-		UNUSED(gi);
 
 		// mrt
 		//BlockSSAO& ssao = pipeline.add_block<BlockSSAO>(gfx_system, filter, blur);
@@ -58,8 +58,8 @@ namespace mud
 
 		std::vector<GfxBlock*> depth_blocks = { &depth };
 		std::vector<GfxBlock*> geometry_blocks = { &depth };
-		std::vector<GfxBlock*> shading_blocks = { &radiance, &light, &shadow, &reflection };
-		std::vector<GfxBlock*> gi_blocks = { &gi };
+		std::vector<GfxBlock*> shading_blocks = { &radiance, &light, &gi_trace, &shadow, &reflection };
+		std::vector<GfxBlock*> gi_blocks = { &light, &gi_bake };
 
 		pipeline.m_pass_blocks[size_t(PassType::Unshaded)] = { &depth };
 		pipeline.m_pass_blocks[size_t(PassType::Background)] = { &sky };
@@ -119,7 +119,7 @@ namespace mud
 	ForwardRenderer::ForwardRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
 		: Renderer(gfx_system, pipeline)
 	{
-		this->add_pass<PassVoxelGI>(gfx_system, *pipeline.block<BlockGI>());
+		//this->add_pass<PassGIProbes>(gfx_system, *pipeline.block<BlockGIBake>());
 		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
 		this->add_pass<PassClear>(gfx_system);
 		//this->add_pass<PassDepth>(gfx_system, *pipeline.block<BlockDepth>());
@@ -137,7 +137,7 @@ namespace mud
 	DeferredRenderer::DeferredRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
 		: Renderer(gfx_system, pipeline)
 	{
-		this->add_pass<PassVoxelGI>(gfx_system, *pipeline.block<BlockGI>());
+		//this->add_pass<PassGIProbes>(gfx_system, *pipeline.block<BlockGIBake>());
 		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
 		this->add_pass<PassClear>(gfx_system);
 		this->add_pass<PassGeometry>(gfx_system, *pipeline.block<BlockGeometry>());
@@ -164,7 +164,7 @@ namespace mud
 		: Renderer(gfx_system, pipeline)
 	{
 		this->add_pass<PassClear>(gfx_system);
-		this->add_pass<PassGI>(gfx_system, *pipeline.block<BlockGI>());
+		this->add_pass<PassGIBake>(gfx_system, *pipeline.block<BlockGIBake>());
 		this->init();
 	}
 

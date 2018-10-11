@@ -101,6 +101,8 @@ namespace mud {
     struct Glow;
     struct GlowUniform;
 	class BlockGI;
+	class BlockGIBake;
+	class BlockGITrace;
     class BlockGlow;
     struct BCS;
     struct Tonemap;

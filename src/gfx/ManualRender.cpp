@@ -36,14 +36,14 @@ namespace mud
 		: m_render(render)
 		, m_camera()
 		, m_viewport(m_camera, render.m_scene, viewport_rect)
-		, m_shadow_render(m_viewport, fbo, render.m_frame)
+		, m_sub_render(m_viewport, fbo, render.m_frame)
 	{}
 
 	ManualRender::ManualRender(Render& render, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect, const mat4& transform, const mat4& projection)
 		: m_render(render)
 		, m_camera(transform, projection)
 		, m_viewport(m_camera, render.m_scene, viewport_rect)
-		, m_shadow_render(m_viewport, fbo, render.m_frame)
+		, m_sub_render(m_viewport, fbo, render.m_frame)
 	{}
 
 	void ManualRender::cull(Plane6* input_planes)
@@ -51,15 +51,15 @@ namespace mud
 		Plane6 planes = input_planes ? *input_planes : frustum_planes(m_camera.m_projection, m_camera.m_transform);
 
 		auto filter = [](Item& item) { return item.m_visible && item.m_model->m_geometry[PLAIN] && item.m_cast_shadows != ItemShadow::Off; };
-		m_shadow_render.m_shot->m_items = frustum_cull(m_render, planes, filter);
+		m_sub_render.m_shot->m_items = frustum_cull(m_render, planes, filter);
 
-		for(Item* item : m_shadow_render.m_shot->m_items)
+		for(Item* item : m_sub_render.m_shot->m_items)
 			item->m_depth = plane_distance_to(planes.m_near, item->m_node.m_position);
 	}
 
 	void ManualRender::render(Renderer& renderer)
 	{
-		renderer.render(m_shadow_render);
-		m_render.m_pass_index = m_shadow_render.m_pass_index;
+		renderer.render(m_sub_render);
+		m_render.m_pass_index = m_sub_render.m_pass_index;
 	}
 }

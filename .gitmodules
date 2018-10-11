@@ -32,7 +32,7 @@
 	url = https://github.com/hugoam/GENie
 [submodule "3rdparty/vg-renderer"]
 	path = 3rdparty/vg-renderer
-	url = https://github.com/jdryg/vg-renderer
+	url = https://github.com/hugoam/vg-renderer
 [submodule "3rdparty/FastNoise"]
 	path = 3rdparty/FastNoise
 	url = https://github.com/Auburns/FastNoise

@@ -1462,8 +1462,7 @@ namespace bgfx
                     preprocessor.writef(
                         "struct GSOutput\n"
                         "{\n"
-                        "\tvec4 gl_Position : SV_POSITION;\n"
-						"#define gl_Position output.gl_Position\n");
+                        "\tvec4 gl_Position : SV_POSITION;\n");
 
                     for (InOut::const_iterator it = shaderOutputs.begin(), itEnd = shaderOutputs.end(); it != itEnd; ++it)
                     {
@@ -1479,7 +1478,8 @@ namespace bgfx
 
                     preprocessor.writef(
                         "struct GSInput\n"
-                        "{\n");
+                        "{\n"
+						"\tvec4 gl_Position : SV_POSITION;");
 
                     for (InOut::const_iterator it = shaderInputs.begin(), itEnd = shaderInputs.end(); it != itEnd; ++it)
                     {
@@ -1494,15 +1494,13 @@ namespace bgfx
 
 					entry[4] = '_';
 
+					preprocessor.writef("#define gl_Position output.gl_Position\n");
                     preprocessor.writef("\n#define void_main()");
                     preprocessor.writef(
 						" \\\n[maxvertexcount(3)]"
 						" \\\n\tvoid main("
 						" \\\n\ttriangle GSInput input[3],"
 						" \\\n\tinout TriangleStream<GSOutput> outputStream"
-						);
-
-                    preprocessor.writef(
                         " \\\n)"
                         " \\\n{"
                         " \\\n\tGSOutput output;"

@@ -21,6 +21,6 @@ namespace mud
 		Render& m_render;
 		Camera m_camera;
 		Viewport m_viewport;
-		Render m_shadow_render;
+		Render m_sub_render;
 	};
 }

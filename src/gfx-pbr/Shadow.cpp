@@ -149,7 +149,7 @@ namespace mud
 
 		shadow_render.cull(&light_frustum_planes);
 
-		for(Item* item : shadow_render.m_shadow_render.m_shot->m_items)
+		for(Item* item : shadow_render.m_sub_render.m_shot->m_items)
 		{
 			vec2 min_max = project_aabb_in_plane(Plane{ z, 0 }, item->m_aabb);
 			float z_max = min_max[1];

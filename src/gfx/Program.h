@@ -15,7 +15,7 @@
 namespace mud
 {
 	using cstring = const char*;
-
+	
 	export_ enum class refl_ ShaderType : unsigned int
 	{
 		Compute,
@@ -81,10 +81,14 @@ namespace mud
 
 		void reload() { m_update++; }
 
+		void compile(GfxSystem& gfx_system, Version& version, bool compute = false);
+
 		void update(GfxSystem& gfx_system);
 
 		bgfx::ProgramHandle default_version();
 		bgfx::ProgramHandle version(const ShaderVersion& config);
+
+		ShaderVersion shader_version(Version& version);
 
 		void register_blocks(array<GfxBlock*> blocks);
 		void register_block(const GfxBlock& block);
