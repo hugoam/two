@@ -10,17 +10,40 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
+#include <pool/ObjectPool.h>
 #include <gfx/ManualRender.h>
-#include <gfx/GfxSystem.h>
-#include <gfx/Assets.h>
 #include <gfx/Shot.h>
+#include <gfx/Graph.h>
+#include <gfx/Scene.h>
+#include <gfx/Assets.h>
+#include <gfx/GfxSystem.h>
 #include <gfx-pbr/VoxelGI.h>
 #include <gfx-pbr/Light.h>
 #endif
 
 namespace mud
 {
-	GIProbe::GIProbe()
+namespace gfx
+{
+	template <class T_Element, class... T_Args>
+	inline T_Element& create(Scene& scene, T_Args&&... args)
+	{
+		return scene.m_pool->pool<T_Element>().construct(std::forward<T_Args>(args)...);
+	}
+
+	GIProbe& gi_probe(Gnode& parent, uint16_t subdiv, const vec3& extents)
+	{
+		Gnode& self = parent.suba();
+		if(!self.m_gi_probe)
+			self.m_gi_probe = &create<GIProbe>(*self.m_scene, *self.m_attach);
+		if(subdiv != self.m_gi_probe->m_subdiv || extents != self.m_gi_probe->m_extents)
+			self.m_gi_probe->resize(subdiv, extents);
+		return *self.m_gi_probe;
+	}
+}
+
+	GIProbe::GIProbe(Node3& node)
+		: m_node(node)
 	{}
 
 	void GIProbe::resize(uint16_t subdiv, const vec3& extents)
@@ -69,17 +92,14 @@ namespace mud
 
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
-		if(true)//render.m_shot->m_gi_probes.size() > 0)
-		{
-			GIProbe& gi_probe = m_block_gi_bake.m_probe;//*render.m_shot->m_gi_probes[0];
+		GIProbe& gi_probe = *m_block_gi_bake.m_bake_probe;
 
-			int voxels_albedo_index = 1;
-			int voxels_normals_index = 2;
-			encoder.setUniform(m_block_gi_bake.u_voxelgi.s_voxels_albedo, &voxels_albedo_index);
-			encoder.setUniform(m_block_gi_bake.u_voxelgi.s_voxels_normals, &voxels_normals_index);
+		int voxels_albedo_index = 1;
+		int voxels_normals_index = 2;
+		encoder.setUniform(m_block_gi_bake.u_voxelgi.s_voxels_albedo, &voxels_albedo_index);
+		encoder.setUniform(m_block_gi_bake.u_voxelgi.s_voxels_normals, &voxels_normals_index);
 
-			m_block_gi_bake.u_voxelgi.setUniforms(encoder, gi_probe);
-		}
+		m_block_gi_bake.u_voxelgi.setUniforms(encoder, gi_probe);
 	}
 	
 	PassGIProbes::PassGIProbes(GfxSystem& gfx_system, BlockLight& block_light, BlockGIBake& block_gi_bake)
@@ -99,58 +119,61 @@ namespace mud
 		if(!check_lighting(render.m_lighting, Lighting::VoxelGI))
 			return;
 
-		GIProbe& gi_probe = m_block_gi_bake.m_probe;
+		for(size_t i = 0; i < render.m_shot->m_gi_probes.size(); ++i)
+		{
+			GIProbe& gi_probe = *render.m_shot->m_gi_probes[i];
 
-		uvec4 viewport = { uvec2(0), uvec2(gi_probe.m_subdiv) };
-		ManualRender voxel_render = { render, gi_probe.m_fbo, viewport,  gi_probe.m_transform, bxidentity() };
-		Renderer& renderer = m_gfx_system.renderer(Shading::Voxels);
+			if(gi_probe.m_enabled)
+			{
+				m_block_gi_bake.m_bake_probe = &gi_probe;
 
-		voxel_render.cull();
-		voxel_render.render(renderer);
+				uvec4 viewport = { uvec2(0), uvec2(gi_probe.m_subdiv) };
+				ManualRender voxel_render = { render, gi_probe.m_fbo, viewport,  gi_probe.m_transform, bxidentity() };
+				Renderer& renderer = m_gfx_system.renderer(Shading::Voxels);
 
-		Pass render_pass = render.next_pass("compute light");
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
+				voxel_render.cull();
+				voxel_render.render(renderer);
 
-		//encoder.setImage(0, gi_probe.m_voxels_color,   0, bgfx::Access::Read,      bgfx::TextureFormat::RGBA8);
-		encoder.setImage(0, gi_probe.m_voxels_color,   0, bgfx::Access::Read,      bgfx::TextureFormat::R32U);
-		encoder.setImage(1, gi_probe.m_voxels_normals, 0, bgfx::Access::Read,      bgfx::TextureFormat::R32U);
-		encoder.setImage(2, gi_probe.m_voxels_light,   0, bgfx::Access::ReadWrite, bgfx::TextureFormat::R32U);
+				Pass render_pass = render.next_pass("compute light");
+				bgfx::Encoder& encoder = *render_pass.m_encoder;
 
-		int voxels_albedo_index  = 0;
-		int voxels_normals_index = 1;
-		int voxels_light_index   = 2;
-		encoder.setUniform(m_block_gi_bake.u_voxelgi.s_voxels_albedo,  &voxels_albedo_index);
-		encoder.setUniform(m_block_gi_bake.u_voxelgi.s_voxels_normals, &voxels_normals_index);
-		encoder.setUniform(m_block_gi_bake.u_voxelgi.s_voxels_light,   &voxels_light_index);
+				//encoder.setImage(0, gi_probe.m_voxels_color,   0, bgfx::Access::Read,      bgfx::TextureFormat::RGBA8);
+				encoder.setImage(0, gi_probe.m_voxels_color, 0, bgfx::Access::Read, bgfx::TextureFormat::R32U);
+				encoder.setImage(1, gi_probe.m_voxels_normals, 0, bgfx::Access::Read, bgfx::TextureFormat::R32U);
+				encoder.setImage(2, gi_probe.m_voxels_light, 0, bgfx::Access::ReadWrite, bgfx::TextureFormat::R32U);
 
-		m_block_gi_bake.u_voxelgi.setUniforms(encoder, gi_probe);
+				int voxels_albedo_index = 0;
+				int voxels_normals_index = 1;
+				int voxels_light_index = 2;
+				encoder.setUniform(m_block_gi_bake.u_voxelgi.s_voxels_albedo, &voxels_albedo_index);
+				encoder.setUniform(m_block_gi_bake.u_voxelgi.s_voxels_normals, &voxels_normals_index);
+				encoder.setUniform(m_block_gi_bake.u_voxelgi.s_voxels_light, &voxels_light_index);
 
-		m_block_light.upload_lights(render, render_pass);
+				m_block_gi_bake.u_voxelgi.setUniforms(encoder, gi_probe);
 
-		ShaderVersion shader_version = { &m_voxel_light };
-		if(m_block_light.m_directional_light)
-			shader_version.set_option(m_block_light.m_index, DIRECTIONAL_LIGHT, true);
+				m_block_light.upload_lights(render, render_pass);
 
-		uint16_t subdiv = gi_probe.m_subdiv;
-		bgfx::ProgramHandle program = m_voxel_light.version(shader_version);
-		if(bgfx::isValid(program))
-			encoder.dispatch(render_pass.m_index, program, subdiv / 64, subdiv, subdiv, BGFX_VIEW_NONE);
-		else
-			printf("WARNING: invalid voxel light program\n");
+				ShaderVersion shader_version = { &m_voxel_light };
+				if(m_block_light.m_directional_light)
+					shader_version.set_option(m_block_light.m_index, DIRECTIONAL_LIGHT, true);
+
+				uint16_t subdiv = gi_probe.m_subdiv;
+				bgfx::ProgramHandle program = m_voxel_light.version(shader_version);
+				if(bgfx::isValid(program))
+					encoder.dispatch(render_pass.m_index, program, subdiv / 64, subdiv, subdiv, BGFX_VIEW_NONE);
+				else
+					printf("WARNING: invalid voxel light program\n");
+			}
+		}
 	}
 
 	BlockGIBake::BlockGIBake(GfxSystem& gfx_system)
 		: GfxBlock(gfx_system, type<BlockGIBake>())
-	{
-		//static cstring options[0] = { };
-		//m_shader_block->m_options = { options, 0 };
-	}
+	{}
 
 	void BlockGIBake::init_gfx_block()
 	{
 		u_voxelgi.createUniforms();
-
-		m_probe.resize(256U, vec3(256.f));
 	}
 
 	void BlockGIBake::begin_gfx_block(Render& render)
@@ -166,8 +189,8 @@ namespace mud
 	BlockGITrace::BlockGITrace(GfxSystem& gfx_system)
 		: DrawBlock(gfx_system, type<BlockGITrace>())
 	{
-		//static cstring options[0] = { };
-		//m_shader_block->m_options = { options, 0 };
+		static cstring options[1] = { "GI_CONETRACE" };
+		m_shader_block->m_options = { options, 1 };
 	}
 
 	void BlockGITrace::init_gfx_block()
@@ -202,7 +225,7 @@ namespace mud
 
 	void BlockGITrace::submit_pass(Render& render, const Pass& render_pass, ShaderVersion& shader_version) const
 	{
-		UNUSED(render); UNUSED(render_pass); UNUSED(shader_version);
+		UNUSED(render); UNUSED(render_pass);
 
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
@@ -222,6 +245,8 @@ namespace mud
 				encoder.setUniform(u_gi_probe.u_bounds, &gi_probe->m_extents);
 				encoder.setUniform(u_gi_probe.u_params, &params);
 				encoder.setUniform(u_gi_probe.u_cell_size, &cell_size);
+
+				//shader_version.set_option(m_index, GI_CONETRACE, true);
 			}
 		}
 	}

@@ -59,7 +59,7 @@ namespace mud
 #ifdef MUD_PLATFORM_EMSCRIPTEN
 		Colour clamped = colour;
 		for(size_t i = 0; i < 4; ++i)
-			clamped[i] = std::clamp(colour[i], 0.f, 1.f);
+			clamped[i] = clamp(colour[i], 0.f, 1.f);
 		return clamped;
 #else
 		return colour;

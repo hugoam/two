@@ -125,10 +125,10 @@ namespace mud
 #endif
 
 		bgfx::TextureFormat::Enum format = bgfx::TextureFormat::RGBA16F;
-		if(!bgfx::isTextureValid(1, mips, texture_layers, format, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP | BGFX_TEXTURE_NO_MIP_AUTOGEN))
+		if(!bgfx::isTextureValid(1, mips, texture_layers, format, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP))
 			format = bgfx::TextureFormat::RGB10A2;
 
-		if(!bgfx::isTextureValid(1, mips, texture_layers, format, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP | BGFX_TEXTURE_NO_MIP_AUTOGEN))
+		if(!bgfx::isTextureValid(1, mips, texture_layers, format, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP))
 		{
 			printf("WARNING: could not prefilter env map roughness levels\n");
 			return;
@@ -137,9 +137,9 @@ namespace mud
 		bool blit_support = false; // (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0;
 
 		if(blit_support)
-			radiance.m_roughness_array = bgfx::createTexture2D(width, height, mips, texture_layers, format, BGFX_TEXTURE_BLIT_DST | GFX_TEXTURE_CLAMP | BGFX_TEXTURE_NO_MIP_AUTOGEN);
+			radiance.m_roughness_array = bgfx::createTexture2D(width, height, mips, texture_layers, format, BGFX_TEXTURE_BLIT_DST | GFX_TEXTURE_CLAMP);
 		else
-			radiance.m_roughness_array = bgfx::createTexture2D(width, height, mips, texture_layers, format, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP | BGFX_TEXTURE_NO_MIP_AUTOGEN);
+			radiance.m_roughness_array = bgfx::createTexture2D(width, height, mips, texture_layers, format, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP);
 
 		bgfx::TextureHandle radiance_array = radiance.m_roughness_array;
 
@@ -154,7 +154,7 @@ namespace mud
 			}
 			else
 			{
-				bgfx::Attachment attachment = { radiance_array, uint16_t(mips ? level : 0), uint16_t(mips ? 0 : level) };
+				bgfx::Attachment attachment = { radiance_array, uint16_t(mips ? level : 0), uint16_t(mips ? 0 : level), BGFX_RESOLVE_NONE };
 				FrameBuffer render_target = { size, bgfx::createFrameBuffer(1, &attachment, false) };
 				m_copy.submit_quad(render_target, view_id + 1, texture);
 				bgfx::frame();

@@ -138,7 +138,7 @@ end
 --                       base   name        root path    sub path   decl        self decl       decl transitive     dependencies
 mud.infra   = mud_module("mud", "infra",    MUD_SRC_DIR, "infra",   nil,        nil,            uses_mud,           { })
 mud.jobs    = mud_module("mud", "jobs",     MUD_SRC_DIR, "jobs",    nil,        mud_jobs,       uses_mud,           { tracy })
-mud.type    = mud_module("mud", "type",     MUD_SRC_DIR, "type",     nil,        nil,           uses_mud,           { mud.infra })
+mud.type    = mud_module("mud", "type",     MUD_SRC_DIR, "type",    nil,        nil,            uses_mud,           { mud.infra })
 mud.pool    = mud_module("mud", "pool",     MUD_SRC_DIR, "pool",    nil,        nil,            nil,                { mud.infra, mud.type })
 mud.refl    = mud_module("mud", "refl",     MUD_SRC_DIR, "refl",    nil,        nil,            nil,                { mud.infra, mud.type, mud.pool })
 mud.ecs     = mud_module("mud", "ecs",      MUD_SRC_DIR, "ecs",     nil,        nil,            uses_mud,           { mud.infra, mud.type, mud.refl })

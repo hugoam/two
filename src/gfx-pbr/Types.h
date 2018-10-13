@@ -37,7 +37,8 @@ namespace mud
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::TonemapMode>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::TonemapShaderMode>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::TonemapShaderOption>();
-    
+
+	export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::GIProbe>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BCS>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::DofBlur>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Glow>();

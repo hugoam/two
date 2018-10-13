@@ -39,7 +39,11 @@ namespace mud
 
 		for(int i = 0; i < 6; i++)
 		{
-			bgfx::Attachment attachments[2] = { { m_depth , 0, 1 }, { m_cubemap, 0, uint16_t(i) } };
+			bgfx::Attachment attachments[2] =
+			{
+				{ m_depth , 0, 1, BGFX_RESOLVE_AUTO_GEN_MIPS },
+				{ m_cubemap, 0, uint16_t(i), BGFX_RESOLVE_AUTO_GEN_MIPS }
+			};
 			m_fbo[i] = bgfx::createFrameBuffer(2, attachments, true);
 		}
 	}

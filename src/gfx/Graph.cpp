@@ -60,15 +60,15 @@ namespace mud
 			m_scene->m_pool->pool<Animated>().tdestroy(*m_animated);
 			m_animated = nullptr;
 		}
-		if(m_light)
-		{
-			m_scene->m_pool->pool<Light>().tdestroy(*m_light);
-			m_light = nullptr;
-		}
 		if(m_particles)
 		{
 			m_scene->m_pool->pool<Particles>().tdestroy(*m_particles);
 			m_particles = nullptr;
+		}
+		if(m_light)
+		{
+			m_scene->m_pool->pool<Light>().tdestroy(*m_light);
+			m_light = nullptr;
 		}
 
 		if(m_sound)
@@ -97,7 +97,7 @@ namespace mud
 	inline T_Element& create(Scene& scene, T_Args&&... args)
 	{
 		return scene.m_pool->pool<T_Element>().construct(std::forward<T_Args>(args)...);
-	};
+	}
 
 	void PrefabNode::draw(Gnode& parent)
 	{
@@ -318,16 +318,6 @@ namespace gfx
 	{
 		return directional_light_node(parent, quat{ vec3{ -c_pi / 4.f, -c_pi / 4.f, 0.f } });
 	}
-
-#if 0
-	GIProbe& gi_probe(Gnode& parent)
-	{
-		Gnode& self = parent.suba();
-		if(!self.m_gi_probe)
-			self.m_gi_probe = &create<GIProbe>(*self.m_scene, *self.m_attach);
-		return *self.m_gi_probe;
-	}
-#endif
 
 	void radiance(Gnode& parent, const string& texture, BackgroundMode background)
 	{

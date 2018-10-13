@@ -34,7 +34,7 @@ namespace mud
 
 		for(int i = 0; i < 6; i++)
 		{
-			bgfx::Attachment attachment = { m_color, 0, uint16_t(i) };
+			bgfx::Attachment attachment = { m_color, 0, uint16_t(i), BGFX_RESOLVE_AUTO_GEN_MIPS };
 			m_fbo[i] = bgfx::createFrameBuffer(1, &attachment, true);
 			// clear it ? 
 		}

@@ -21,6 +21,8 @@ module mud.ui;
 
 namespace mud
 {
+	// using std::clamp;
+
 namespace ui
 {
 	bool drag_float(Widget& parent, float& value, float step)
@@ -289,7 +291,7 @@ namespace
 			if(dragged != SIZE_MAX)
 			{
 				vec2 delta = mouse_event.m_delta / curve.m_scale;
-				curve.m_values[dragged] = std::clamp(curve.m_values[dragged] + delta.y, lowest, highest);
+				curve.m_values[dragged] = clamp(curve.m_values[dragged] + delta.y, lowest, highest);
 			}
 
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Released))

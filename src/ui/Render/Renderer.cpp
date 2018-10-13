@@ -24,7 +24,7 @@ module mud.ui;
 
 namespace mud
 {
-	using std::clamp;
+	//using std::clamp;
 	using string = std::string;
 
 	inline Colour offset_colour(const Colour& colour, float delta)

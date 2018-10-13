@@ -95,7 +95,7 @@ namespace mud
 
 			for(uint16_t i = 1; size.x > 1 && i < 9; ++i)
 			{
-				bgfx::Attachment attachment = { m_texture, i, 0 };
+				bgfx::Attachment attachment = { m_texture, i, 0, BGFX_RESOLVE_NONE };
 				m_mips[i] = make_unique<FrameBuffer>(uvec2(size.x >> i, size.y >> i), bgfx::createFrameBuffer(1, &attachment, false));
 			}
 		}

@@ -39,7 +39,6 @@ namespace gfx
 	export_ MUD_GFX_EXPORT func_ Particles& particles(Gnode& parent, const ParticleGenerator& emitter, uint32_t flags = 0, size_t instances = 0);
 	export_ MUD_GFX_EXPORT func_ Light& light(Gnode& parent, LightType type, bool shadows, Colour colour, float range = 0.f, float attenuation = 0.5f);
 	export_ MUD_GFX_EXPORT func_ Light& sun_light(Gnode& parent, float azimuth, float elevation);
-	//export_ MUD_GFX_EXPORT func_ GIProbe& gi_probe(Gnode& parent);
 	export_ MUD_GFX_EXPORT func_ void radiance(Gnode& parent, const string& texture, BackgroundMode background);
 	export_ MUD_GFX_EXPORT void manual_job(Gnode& parent, PassType pass, std::function<void(const Pass&)> job);
 	export_ MUD_GFX_EXPORT void custom_sky(Gnode& parent, std::function<void(Render&)> func);

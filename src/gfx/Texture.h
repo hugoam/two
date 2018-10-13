@@ -31,11 +31,12 @@ namespace mud
 		Normal
 	};
 
+	export_ MUD_GFX_EXPORT bgfx::TextureHandle load_bgfx_texture(bx::AllocatorI& allocator, cstring name, void* data, size_t size, uint64_t flags = BGFX_TEXTURE_NONE, bgfx::TextureInfo* info = nullptr, bimg::Orientation::Enum* orientation = nullptr);
 	export_ MUD_GFX_EXPORT bgfx::TextureHandle load_bgfx_texture(bx::AllocatorI& allocator, bx::FileReaderI& reader, cstring file_path, uint64_t flags = BGFX_TEXTURE_NONE, bgfx::TextureInfo* info = nullptr, bimg::Orientation::Enum* orientation = nullptr);
 	export_ MUD_GFX_EXPORT bimg::ImageContainer* load_bgfx_image(bx::AllocatorI& allocator, bx::FileReaderI& reader, cstring file_path, bgfx::TextureFormat::Enum dst_format);
 
 	export_ MUD_GFX_EXPORT void load_texture(GfxSystem& gfx_system, Texture& texture, cstring path);
-	export_ MUD_GFX_EXPORT void load_texture_mem(Texture& texture, array<uint8_t> data);
+	export_ MUD_GFX_EXPORT void load_texture_mem(GfxSystem& gfx_system, Texture& texture, array<uint8_t> data);
 	export_ MUD_GFX_EXPORT void load_texture_rgba(Texture& texture, uint16_t width, uint16_t height, array<uint8_t> data);
 
 	export_ class refl_ MUD_GFX_EXPORT Texture

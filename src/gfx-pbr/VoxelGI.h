@@ -10,16 +10,24 @@
 
 namespace mud
 {
+namespace gfx
+{
+	export_ MUD_GFX_EXPORT func_ GIProbe& gi_probe(Gnode& parent, uint16_t subdiv, const vec3& extents);
+}
+
 	enum ShaderOptionGI : unsigned int
 	{
+		GI_CONETRACE
 	};
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT GIProbe
 	{
 	public:
-		GIProbe();
+		GIProbe(Node3& node);
 
 		void resize(uint16_t subdiv, const vec3& extents);
+
+		Node3& m_node;
 
 		bgfx::TextureHandle m_raster = BGFX_INVALID_HANDLE;
 		bgfx::TextureHandle m_voxels_color = BGFX_INVALID_HANDLE;
@@ -171,7 +179,8 @@ namespace mud
 
 		} u_voxelgi;
 
-
-		GIProbe m_probe;
+		GIProbe* m_bake_probe = nullptr;
 	};
+
+
 }

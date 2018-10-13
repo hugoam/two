@@ -18,6 +18,8 @@ module mud.geom;
 
 namespace mud
 {
+	// using std::clamp;
+
 	const float c_cmp_epsilon = 0.00001f;
 	const float c_cmp_epsilon2 = c_cmp_epsilon * c_cmp_epsilon;
 
@@ -338,24 +340,24 @@ namespace mud
 				{
 					if(d < 0.f)
 					{
-						s = std::clamp(-d / a, 0.f, 1.f);
+						s = clamp(-d / a, 0.f, 1.f);
 						t = 0.f;
 					}
 					else
 					{
 						s = 0.f;
-						t = std::clamp(-e / c, 0.f, 1.f);
+						t = clamp(-e / c, 0.f, 1.f);
 					}
 				}
 				else
 				{
 					s = 0.f;
-					t = std::clamp(-e / c, 0.f, 1.f);
+					t = clamp(-e / c, 0.f, 1.f);
 				}
 			}
 			else if(t < 0.f)
 			{
-				s = std::clamp(-d / a, 0.f, 1.f);
+				s = clamp(-d / a, 0.f, 1.f);
 				t = 0.f;
 			}
 			else
@@ -375,12 +377,12 @@ namespace mud
 				{
 					float numer = tmp1 - tmp0;
 					float denom = a - 2 * b + c;
-					s = std::clamp(numer / denom, 0.f, 1.f);
+					s = clamp(numer / denom, 0.f, 1.f);
 					t = 1 - s;
 				}
 				else
 				{
-					t = std::clamp(-e / c, 0.f, 1.f);
+					t = clamp(-e / c, 0.f, 1.f);
 					s = 0.f;
 				}
 			}
@@ -390,12 +392,12 @@ namespace mud
 				{
 					float numer = c + e - b - d;
 					float denom = a - 2 * b + c;
-					s = std::clamp(numer / denom, 0.f, 1.f);
+					s = clamp(numer / denom, 0.f, 1.f);
 					t = 1 - s;
 				}
 				else
 				{
-					s = std::clamp(-e / c, 0.f, 1.f);
+					s = clamp(-e / c, 0.f, 1.f);
 					t = 0.f;
 				}
 			}
@@ -403,7 +405,7 @@ namespace mud
 			{
 				float numer = c + e - b - d;
 				float denom = a - 2 * b + c;
-				s = std::clamp(numer / denom, 0.f, 1.f);
+				s = clamp(numer / denom, 0.f, 1.f);
 				t = 1.f - s;
 			}
 		}

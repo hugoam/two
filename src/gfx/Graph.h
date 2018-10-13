@@ -34,7 +34,7 @@ namespace mud
 		Animated* m_animated = nullptr;
 		Particles* m_particles = nullptr;
 		Light* m_light = nullptr;
-		//GIProbe* m_gi_probe = nullptr;
+		GIProbe* m_gi_probe = nullptr;
 		SoundManager* m_sound_manager = nullptr;
 		Sound* m_sound = nullptr;
 	};

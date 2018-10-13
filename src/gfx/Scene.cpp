@@ -25,6 +25,9 @@ module mud.gfx;
 #include <gfx/Model.h>
 #include <gfx/Pipeline.h>
 #include <gfx/GfxSystem.h>
+// @kludge fix this dependency inversion
+#include <gfx-pbr/Types.h>
+#include <gfx-pbr/VoxelGI.h>
 #endif
 
 namespace mud
@@ -120,15 +123,15 @@ namespace mud
 			}
 		});
 
-#if  0
-		render.m_shot->m_gi_probes.reserve(m_shot->m_gi_probes.size());
+		//render.m_shot->m_gi_probes.reserve(m_shot->m_gi_probes.size());
 
 		m_pool->iterate_objects<GIProbe>([&](GIProbe& gi_probe)
 		{
-			render.m_shot->m_gi_probes.push_back(gi_probe);
-			gi_probe->m_dirty = true;
+			render.m_shot->m_gi_probes.push_back(&gi_probe);
+			//gi_probe->m_dirty = true;
 		});
 
+#if  0
 		m_pool->iterate_objects<ReflectionProbe>([&](ReflectionProbe& probe)
 		{
 			if(probe->m_visible)

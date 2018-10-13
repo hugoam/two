@@ -61,14 +61,9 @@ namespace mud
 		bimg::imageFree(imageContainer);
 	}
 
-	bgfx::TextureHandle load_bgfx_texture(bx::AllocatorI& allocator, bx::FileReaderI& reader, const char* file_path, uint64_t flags, bgfx::TextureInfo* info, bimg::Orientation::Enum* orientation)
+	bgfx::TextureHandle load_bgfx_texture(bx::AllocatorI& allocator, const char* name, void* data, size_t size, uint64_t flags, bgfx::TextureInfo* info, bimg::Orientation::Enum* orientation)
 	{
 		bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
-
-		uint32_t size;
-		void* data = load_mem(&reader, &allocator, file_path, &size);
-		if(!data)
-			return handle;
 
 		bimg::ImageContainer* image = bimg::imageParse(&allocator, data, size);
 		if(!image)
@@ -80,7 +75,7 @@ namespace mud
 		const bgfx::Memory* mem = bgfx::makeRef(image->m_data, image->m_size, release_bgfx_image, image);
 		BX_FREE(&allocator, data);
 
-		printf("INFO: Loaded image %s of size %s in memory\n", file_path, readable_file_size(image->m_size).c_str());
+		printf("INFO: Loaded image %s of size %s in memory\n", name, readable_file_size(image->m_size).c_str());
 
 		if(image->m_cubeMap)
 		{
@@ -107,6 +102,16 @@ namespace mud
 		return handle;
 	}
 
+	bgfx::TextureHandle load_bgfx_texture(bx::AllocatorI& allocator, bx::FileReaderI& reader, const char* file_path, uint64_t flags, bgfx::TextureInfo* info, bimg::Orientation::Enum* orientation)
+	{
+		uint32_t size;
+		void* data = load_mem(&reader, &allocator, file_path, &size);
+		if(!data)
+			return BGFX_INVALID_HANDLE;
+		else
+			return load_bgfx_texture(allocator, file_path, data, size, flags, info, orientation);
+	}
+
 	bimg::ImageContainer* load_bgfx_image(bx::AllocatorI& allocator, bx::FileReaderI& _reader, const char* _filePath, bgfx::TextureFormat::Enum _dstFormat)
 	{
 		uint32_t size = 0;
@@ -118,6 +123,14 @@ namespace mud
 	{
 		bgfx::TextureInfo texture_info;
 		texture.m_texture = load_bgfx_texture(gfx_system.m_allocator, gfx_system.file_reader(), path, 0U, &texture_info);
+		texture.m_width = texture_info.width;
+		texture.m_height = texture_info.height;
+	}
+
+	void load_texture_mem(GfxSystem& gfx_system, Texture& texture, array<uint8_t> data)
+	{
+		bgfx::TextureInfo texture_info;
+		texture.m_texture = load_bgfx_texture(gfx_system.m_allocator, texture.m_name.c_str(), (void*)data.m_pointer, data.m_count, 0U, &texture_info);
 		texture.m_width = texture_info.width;
 		texture.m_height = texture_info.height;
 	}

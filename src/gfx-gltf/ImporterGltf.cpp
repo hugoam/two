@@ -193,6 +193,14 @@ namespace mud
 
 	void import_images(glTF& gltf, glTFImport& state, const string& path, const string& file)
 	{
+		auto import_image_mem = [&](array<uint8_t> data)
+		{
+			string name = state.m_model.m_name + to_string(state.m_imported_images.size());
+			Texture& texture = state.m_gfx_system.textures().create(name.c_str());
+			load_texture_mem(state.m_gfx_system, texture, data);
+			state.m_imported_images.push_back(&texture);
+		};
+
 		for(const glTFImage& image : gltf.m_images)
 		{
 			if(image.uri != "")
@@ -200,10 +208,7 @@ namespace mud
 				if(image.uri.find("data:application/octet-stream;base64") == 0)
 				{
 					std::vector<uint8_t> data = read_base64_uri(image.uri);
-					auto load_image_mem = [](Texture&) {  }; // to_array(data)
-					Texture& texture = state.m_gfx_system.textures().create("temp");
-					load_image_mem(texture);
-					state.m_imported_images.push_back(&texture);
+					import_image_mem(data);
 				}
 				else
 				{
@@ -214,12 +219,9 @@ namespace mud
 			}
 			else if(image.buffer_view != -1)
 			{
-				//const glTFBufferView& buffer_view = gltf.m_buffer_views[image.buffer_view];
-				//array<uint8_t> data = { gltf.m_binary_buffers[buffer_view.buffer].data() + buffer_view.byte_offset, buffer_view.byte_length };
-				auto load_image_mem = [](Texture&) {}; // to_array(data)
-				Texture& texture = state.m_gfx_system.textures().create("temp");
-				load_image_mem(texture);
-				state.m_imported_images.push_back(&texture);
+				const glTFBufferView& buffer_view = gltf.m_buffer_views[image.buffer_view];
+				array<uint8_t> data = { gltf.m_binary_buffers[buffer_view.buffer].data() + buffer_view.byte_offset, buffer_view.byte_length };
+				import_image_mem(data);
 			}
 		}
 	}
@@ -469,7 +471,10 @@ namespace mud
 			material.m_pbr_block.m_albedo.m_value = to_colour(pbr_material.base_color_factor); //.toSRGB();
 
 			if(pbr_material.base_color_texture.index != -1)
+			{
+				material.m_pbr_block.m_albedo.m_value = Colour::White;
 				material.m_pbr_block.m_albedo.m_texture = get_texture(state, pbr_material.base_color_texture.index);
+			}
 
 			material.m_pbr_block.m_metallic.m_value = pbr_material.metallic_factor;
 			material.m_pbr_block.m_roughness.m_value = pbr_material.roughness_factor;
