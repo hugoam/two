@@ -37,14 +37,18 @@ namespace mud
 		, m_camera()
 		, m_viewport(m_camera, render.m_scene, viewport_rect)
 		, m_sub_render(m_viewport, fbo, render.m_frame)
-	{}
+	{
+		m_sub_render.m_shot->m_lights = m_render.m_shot->m_lights;
+	}
 
 	ManualRender::ManualRender(Render& render, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect, const mat4& transform, const mat4& projection)
 		: m_render(render)
 		, m_camera(transform, projection)
 		, m_viewport(m_camera, render.m_scene, viewport_rect)
 		, m_sub_render(m_viewport, fbo, render.m_frame)
-	{}
+	{
+		m_sub_render.m_shot->m_lights = m_render.m_shot->m_lights;
+	}
 
 	void ManualRender::cull(Plane6* input_planes)
 	{
@@ -54,7 +58,7 @@ namespace mud
 		m_sub_render.m_shot->m_items = frustum_cull(m_render, planes, filter);
 
 		for(Item* item : m_sub_render.m_shot->m_items)
-			item->m_depth = plane_distance_to(planes.m_near, item->m_node.m_position);
+			item->m_depth = plane_distance_to(planes.m_near, item->m_aabb.m_center);
 	}
 
 	void ManualRender::render(Renderer& renderer)

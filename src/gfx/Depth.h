@@ -26,7 +26,6 @@ namespace mud
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) override;
 		virtual void queue_draw_element(Render& render, DrawElement& element) override;
-		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) const override;
 
 		BlockDepth& m_block_depth;
 	};
@@ -37,14 +36,15 @@ namespace mud
 		BlockDepth(GfxSystem& gfx_system);
 		~BlockDepth();
 
-		void init_gfx_block() final;
+		virtual void init_block() override;
 
-		void begin_gfx_block(Render& render) final;
-		void submit_gfx_block(Render& render) final;
+		virtual void begin_render(Render& render) override;
+		virtual void begin_pass(Render& render) override;
 
-		void begin_gfx_pass(Render& render) final;
-		void submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const final;
-		void submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const final;
+		virtual void begin_draw_pass(Render& render) override;
+
+		virtual void options(Render& render, ShaderVersion& shader_version) const override;
+		virtual void submit(Render& render, const Pass& render_pass) const override;
 
 		struct DepthUniform
 		{

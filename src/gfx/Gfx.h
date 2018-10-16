@@ -26,6 +26,7 @@ namespace gfx
 	export_ MUD_GFX_EXPORT func_ void update_item_aabb(Item& item);
 
 	export_ MUD_GFX_EXPORT func_ Gnode& node(Gnode& parent, Ref object = {}, const vec3& position = Zero3, const quat& rotation = ZeroQuat, const vec3& scale = Unit3);
+	export_ MUD_GFX_EXPORT Gnode& node(Gnode& parent, Ref object, const mat4& transform);
 	export_ MUD_GFX_EXPORT Gnode& node(Gnode& parent, Ref object, const Transform& transform);
 	export_ MUD_GFX_EXPORT Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation, const vec3& scale);
 	export_ MUD_GFX_EXPORT Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation);
@@ -34,6 +35,7 @@ namespace gfx
 	export_ MUD_GFX_EXPORT func_ void draw(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags = 0);
 	export_ MUD_GFX_EXPORT func_ Item& sprite(Gnode& parent, const Image256& image, const vec2& size, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
 	export_ MUD_GFX_EXPORT func_ Item& item(Gnode& parent, const Model& model, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0, array<mat4> transforms = {});
+	export_ MUD_GFX_EXPORT func_ void multi_item(Gnode& parent, const Model& model, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0, array<mat4> transforms = {});
 	export_ MUD_GFX_EXPORT func_ Item* model(Gnode& parent, const string& name, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
 	export_ MUD_GFX_EXPORT func_ Animated& animated(Gnode& parent, Item& item);
 	export_ MUD_GFX_EXPORT func_ Particles& particles(Gnode& parent, const ParticleGenerator& emitter, uint32_t flags = 0, size_t instances = 0);

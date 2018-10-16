@@ -29,17 +29,22 @@ namespace mud
 		m_program.register_block(*this);
 	}
 
-	void BlockDofBlur::init_gfx_block()
+	void BlockDofBlur::init_block()
 	{
 		u_uniform.createUniforms();
 	}
 
-	void BlockDofBlur::begin_gfx_block(Render& render)
+	void BlockDofBlur::begin_render(Render& render)
 	{
 		UNUSED(render);
 	}
 	
-	void BlockDofBlur::submit_gfx_block(Render& render)
+	void BlockDofBlur::begin_pass(Render& render)
+	{
+		UNUSED(render);
+	}
+	
+	void BlockDofBlur::submit_pass(Render& render)
 	{
 		if(render.m_filters && render.m_filters->m_dof_blur.m_enabled)
 			this->render(render, render.m_filters->m_dof_blur);

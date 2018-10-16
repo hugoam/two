@@ -17,10 +17,10 @@ namespace mud
 	public:
 		BlockResolve(GfxSystem& gfx_system, BlockCopy& copy);
 
-		virtual void init_gfx_block() final;
+		virtual void init_block() override;
 
-		virtual void begin_gfx_block(Render& render) final;
-		virtual void submit_gfx_block(Render& render) final;
+		virtual void begin_render(Render& render) override;
+		virtual void begin_pass(Render& render) override;
 
 		BlockCopy& m_copy;
 	};
@@ -30,7 +30,6 @@ namespace mud
 	public:
 		PassEffects(GfxSystem& gfx_system);
 
-		virtual void begin_render_pass(Render& render) final;
 		virtual void submit_render_pass(Render& render) final;
 	};
 
@@ -39,7 +38,6 @@ namespace mud
 	public:
 		PassPostProcess(GfxSystem& gfx_system, BlockCopy& copy);
 
-		virtual void begin_render_pass(Render& render) final;
 		virtual void submit_render_pass(Render& render) final;
 
 		BlockCopy& m_copy;

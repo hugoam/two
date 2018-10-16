@@ -147,7 +147,7 @@ namespace mud
 		UNUSED(frame);
 
 		for(GfxBlock* block : m_impl->m_gfx_blocks)
-			block->render_gfx_block();
+			block->begin_frame();
 	}
 
 	void Renderer::render(Render& render)
@@ -155,7 +155,7 @@ namespace mud
 		//render.m_needs_depth_prepass = true;
 
 		for(GfxBlock* block : m_impl->m_gfx_blocks)
-			block->begin_gfx_block(render);
+			block->begin_render(render);
 
 		// @todo this temporarily fixes the MRT GL bug by forcing MRT in the shader even if not needed by any effects
 		render.m_is_mrt = render.m_target && render.m_target->m_mrt;
@@ -165,8 +165,7 @@ namespace mud
 		{
 			ZoneScopedNC(pass->m_name, tracy::Color::Cyan);
 
-			pass->begin_render_pass(render);
-			pass->submit_render_blocks(render);
+			pass->blocks_begin_pass(render);
 			pass->submit_render_pass(render);
 		}
 
@@ -188,9 +187,9 @@ namespace mud
 		, m_gfx_blocks(gfx_system.m_pipeline->pass_blocks(pass_type))
 	{}
 
-	DrawElement::DrawElement(Item& item, const ModelItem& model, const Material& material, const Skin* skin)
-		: m_item(&item), m_model(&model), m_material(&material), m_skin(skin)
-		, m_shader_version(material.shader_version())
+	DrawElement::DrawElement(Item& item, const Program& program, const ModelItem& model, const Material& material, const Skin* skin)
+		: m_item(&item), m_program(&program), m_model(&model), m_material(&material), m_skin(skin)
+		, m_shader_version(material.shader_version(program))
 	{}
 
 	struct DrawList : public std::vector<DrawElement>
@@ -235,15 +234,21 @@ namespace mud
 		for(GfxBlock* block : m_gfx_blocks)
 			if(block->m_draw_block)
 				m_impl->m_draw_blocks.push_back(&as<DrawBlock>(*block));
+
+		m_draw_blocks = m_impl->m_draw_blocks;
 	}
 
-	void DrawPass::begin_render_pass(Render& render)
+	void DrawPass::add_element(Render& render, DrawElement element)
 	{
-		UNUSED(render);
-	}
-	
-	void DrawPass::add_element(DrawElement element)
-	{
+		for(DrawBlock* block : m_impl->m_draw_blocks)
+			block->options(render, element.m_shader_version);
+
+		element.m_shader_version.set_option(0, INSTANCING, !element.m_item->m_instances.empty());
+		element.m_shader_version.set_option(0, BILLBOARD, element.m_item->m_flags & ITEM_BILLBOARD);
+		element.m_shader_version.set_option(0, SKELETON, element.m_skin != nullptr);
+
+		element.m_bgfx_program = const_cast<Program*>(element.m_program)->version(element.m_shader_version);
+
 		m_impl->m_draw_elements.add_element() = element;
 	}
 
@@ -272,13 +277,14 @@ namespace mud
 			for(const ModelItem& model_item : item->m_model->m_items)
 			{
 				Material& material = item_material(*item, model_item, fallback_material);
+				Program& program = *material.m_program;
 
 				if(mask_draw_mode(material.m_base_block.m_geometry_filter, model_item.m_mesh->m_draw_mode))
 					continue;
 
 				Skin* skin = (model_item.m_skin > -1 && item->m_rig) ? &item->m_rig->m_skins[model_item.m_skin] : nullptr;
 
-				DrawElement element = { *item, model_item, material, skin };
+				DrawElement element = { *item, program, model_item, material, skin };
 				element.m_sort_key |= uint64_t(element.m_material->m_index) << 0;
 				element.m_sort_key |= uint64_t(element.m_model->m_mesh->m_index) << 16;
 
@@ -313,17 +319,11 @@ namespace mud
 
 		for(size_t i = first; i < first + count; ++i)
 		{
-			DrawElement element = m_impl->m_draw_elements[i];
+			const DrawElement& element = m_impl->m_draw_elements[i];
 
 			for(DrawBlock* block : m_impl->m_draw_blocks)
-				block->submit_gfx_element(render, render_pass, element);
+				block->submit(render, render_pass);
 			
-			this->submit_draw_element(render_pass, element);
-
-			element.m_shader_version.set_option(0, INSTANCING, !element.m_item->m_instances.empty());
-			element.m_shader_version.set_option(0, BILLBOARD, element.m_item->m_flags & ITEM_BILLBOARD);
-			element.m_shader_version.set_option(0, SKELETON, element.m_skin != nullptr);
-
 			uint64_t render_state = 0 | render_pass.m_bgfx_state | element.m_bgfx_state;
 			element.m_material->submit(encoder, render_state, element.m_skin);
 			element.m_item->submit(encoder, render_state, *element.m_model);
@@ -332,18 +332,16 @@ namespace mud
 
 			encoder.setState(render_state);
 
-			bgfx::ProgramHandle program = element.m_material->m_program->version(element.m_shader_version);
-			encoder.submit(render_pass.m_index, program, depth_to_bits(element.m_item->m_depth));
+			encoder.submit(render_pass.m_index, element.m_bgfx_program, depth_to_bits(element.m_item->m_depth));
 		}
 	}
 
 	void DrawPass::submit_render_pass(Render& render)
 	{
-		for(DrawBlock* block : m_impl->m_draw_blocks)
-			block->begin_gfx_pass(render);
+		this->blocks_begin_draw_pass(render);
 
 		m_impl->m_draw_elements.clear();
-		gather_draw_elements(render);
+		this->gather_draw_elements(render);
 
 		uint8_t num_sub_passes = this->num_draw_passes(render);
 

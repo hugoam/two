@@ -56,11 +56,6 @@ namespace mud
 	const vec4 Zero4 = { 0.f, 0.f, 0.f, 0.f };
 	const vec4 Rect4 = { 0.f, 0.f, 1.f, 1.f };
 
-	Transform::Transform(const mat4& mat)
-	{
-		UNUSED(mat);
-	}
-
 	quat average_quat(quat& cumulative, const quat& rotation, const quat& first, uint32_t count)
 	{
 		if(dot(rotation, first) < 0.f)

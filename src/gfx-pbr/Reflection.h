@@ -47,7 +47,6 @@ namespace mud
 
 		BlockReflection& m_block_reflection;
 
-		virtual void begin_render_pass(Render& render) final;
 		virtual void submit_render_pass(Render& render) final;
 	};
 
@@ -56,16 +55,15 @@ namespace mud
 	public:
 		BlockReflection(GfxSystem& gfx_system);
 
-		void init_gfx_block() final;
+		virtual void init_block() override;
 
-		void begin_gfx_block(Render& render) final;
-		void submit_gfx_block(Render& render) final;
+		virtual void begin_render(Render& render) override;
+		virtual void begin_pass(Render& render) override;
 
-		void begin_gfx_pass(Render& render) final;
-		void submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const final;
-		void submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const final;
+		virtual void begin_draw_pass(Render& render) override;
 
-		void submit_pass(Render& render, const Pass& render_pass, ShaderVersion& shader_version) const;
+		virtual void options(Render& render, ShaderVersion& shader_version) const final;
+		virtual void submit(Render& render, const Pass& render_pass) const final;
 
 		void upload_reflection_probes(Render& render, Pass& render_pass, array<ReflectionProbe*> probes);
 		void render_reflection_probe(Render& render, ReflectionProbe& reflection_probe);

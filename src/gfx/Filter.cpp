@@ -33,18 +33,18 @@ namespace mud
 		m_shader_block->m_options = { options, 5 };
 	}
 
-	void BlockFilter::init_gfx_block()
+	void BlockFilter::init_block()
 	{
 		u_uniform.createUniforms();
 	}
 
-	void BlockFilter::begin_gfx_block(Render& render)
+	void BlockFilter::begin_render(Render& render)
 	{
 		UNUSED(render);
 		//this->set_uniforms(render);
 	}
 
-	void BlockFilter::submit_gfx_block(Render& render)
+	void BlockFilter::begin_pass(Render& render)
 	{
 		UNUSED(render);
 	}
@@ -166,15 +166,15 @@ namespace mud
 		m_program.register_block(filter);
 	}
 
-	void BlockCopy::init_gfx_block()
+	void BlockCopy::init_block()
 	{}
 
-	void BlockCopy::begin_gfx_block(Render& render)
+	void BlockCopy::begin_render(Render& render)
 	{
 		UNUSED(render);
 	}
 
-	void BlockCopy::submit_gfx_block(Render& render)
+	void BlockCopy::begin_pass(Render& render)
 	{
 		UNUSED(render);
 	}

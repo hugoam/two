@@ -30,23 +30,21 @@ namespace mud
 	{
 		static cstring options[2] = { "RADIANCE_ENVMAP", "RADIANCE_ARRAY" };
 		m_shader_block->m_options = { options, 2 };
-
-		m_prefilter_program.default_version();
 	}
 
-	void BlockRadiance::init_gfx_block()
+	void BlockRadiance::init_block()
 	{
 		u_prefilter.createUniforms();
 		u_radiance.createUniforms();
 	}
 	
-	void BlockRadiance::render_gfx_block()
+	void BlockRadiance::begin_frame()
 	{
 		while(!m_prefilter_queue.empty())
 			this->prefilter_radiance(*vector_pop(m_prefilter_queue));
 	}
 
-	void BlockRadiance::begin_gfx_block(Render& render)
+	void BlockRadiance::begin_render(Render& render)
 	{
 		if(!render.m_environment || !render.m_environment->m_radiance.m_texture)
 			return;
@@ -61,36 +59,31 @@ namespace mud
 		}
 	}
 
-	void BlockRadiance::submit_gfx_block(Render& render)
+	void BlockRadiance::begin_pass(Render& render)
 	{
 		UNUSED(render);
 	}
 
-	void BlockRadiance::begin_gfx_pass(Render& render)
+	void BlockRadiance::begin_draw_pass(Render& render)
 	{
 		UNUSED(render);
 	}
 
-	void BlockRadiance::submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const
+	void BlockRadiance::options(Render& render, ShaderVersion& shader_version) const
 	{
-		this->submit_pass(render, render_pass, element.m_shader_version);
+		bgfx::TextureHandle radiance = render.m_environment->m_radiance.m_roughness_array;
+
+		if(bgfx::isValid(radiance))
+			shader_version.set_option(m_index, RADIANCE_ENVMAP);
 	}
 
-	void BlockRadiance::submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const
-	{
-		this->submit_pass(render, render_pass, cluster.m_shader_version);
-	}
-
-	void BlockRadiance::submit_pass(Render& render, const Pass& render_pass, ShaderVersion& shader_version) const
+	void BlockRadiance::submit(Render& render, const Pass& render_pass) const
 	{
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		bgfx::TextureHandle radiance = render.m_environment->m_radiance.m_roughness_array;
 
 		if(bgfx::isValid(radiance))
-		{
 			encoder.setTexture(uint8_t(TextureSampler::Radiance), u_radiance.s_radiance_map, radiance);
-			shader_version.set_option(m_index, RADIANCE_ENVMAP);
-		}
 	}
 
 	void BlockRadiance::prefilter_radiance(Radiance& radiance)
@@ -182,7 +175,8 @@ namespace mud
 			vec4 prefilter_params = { roughness, float(num_samples), 0.f, 0.f };
 			bgfx::setUniform(u_prefilter.u_prefilter_envmap_params, &prefilter_params);
 
-			m_filter.submit_quad(copy_target, view_id, m_prefilter_program.default_version(), 0U, true);
+			bgfx::ProgramHandle program = m_prefilter_program.default_version();
+			m_filter.submit_quad(copy_target, view_id, program, 0U, true);
 
 			blit_to_array(bgfx::getTexture(copy_target.m_fbo), size, i);
 		}

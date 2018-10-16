@@ -26,16 +26,21 @@
 
 namespace mud
 {
-	enum class ModelFormat : unsigned int
+	export_ enum class refl_ ModelFormat : unsigned int
 	{
 		obj,
 		gltf
 	};
 
-	export_ struct MUD_GFX_EXPORT ModelConfig
+	export_ struct refl_ MUD_GFX_EXPORT ModelConfig
 	{
-		ModelFormat m_format;
-		Transform m_transform;
+		ModelConfig() {}
+		attr_ ModelFormat m_format = ModelFormat::obj;
+		attr_ vec3 m_position = Zero3;
+		attr_ quat m_rotation = ZeroQuat;
+		attr_ vec3 m_scale = Unit3;
+		attr_ mat4 m_transform = bxidentity();
+		attr_ bool m_as_prefab = false;
 		//std::vector<string> m_filter;
 	};
 
@@ -44,9 +49,9 @@ namespace mud
 	export_ struct refl_ ModelItem
 	{
 		attr_ size_t m_index;
+		attr_ Mesh* m_mesh;
 		attr_ bool m_has_transform;
 		attr_ mat4 m_transform;
-		attr_ Mesh* m_mesh;
 		attr_ int m_skin;
 		attr_ Colour m_colour;
 		attr_ Material* m_material;
@@ -62,6 +67,8 @@ namespace mud
 		attr_ uint16_t m_index;
 
 		std::vector<Mesh*> m_meshes;
+		struct Submodel { Model* m_model; mat4 m_transform; };
+		std::vector<Submodel> m_models;
 		Rig* m_rig = nullptr;
 
 		std::vector<ModelItem> m_items;
@@ -74,7 +81,8 @@ namespace mud
 
 		Mesh& add_mesh(cstring name, bool readback = false);
 		Rig& add_rig(cstring name);
-		ModelItem& add_item(mat4 transform, Mesh& mesh, int skin = -1, Colour colour = Colour::White, Material* material = nullptr);
+		Model& add_model(Mesh& mesh, mat4 transform, int skin = -1, Colour colour = Colour::White, Material* material = nullptr);
+		ModelItem& add_item(Mesh& mesh, mat4 transform, int skin = -1, Colour colour = Colour::White, Material* material = nullptr);
 		void prepare();
 
 		static GfxSystem* ms_gfx_system;

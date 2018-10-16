@@ -154,10 +154,18 @@ namespace mud
 			encoder.setTexture(uint8_t(TextureSampler::Color), s_albedo, block.m_albedo.m_texture ? block.m_albedo.m_texture->m_texture : m_white_tex->m_texture);
 			encoder.setTexture(uint8_t(TextureSampler::Metallic), s_metallic, block.m_metallic.m_texture ? block.m_metallic.m_texture->m_texture : m_white_tex->m_texture);
 			encoder.setTexture(uint8_t(TextureSampler::Roughness), s_roughness, block.m_roughness.m_texture ? block.m_roughness.m_texture->m_texture : m_white_tex->m_texture);
-			encoder.setTexture(uint8_t(TextureSampler::Emissive), s_emissive, block.m_emissive.m_texture ? block.m_emissive.m_texture->m_texture : m_black_tex->m_texture);
-			encoder.setTexture(uint8_t(TextureSampler::Normal), s_normal, block.m_normal.m_texture ? block.m_normal.m_texture->m_texture : m_normal_tex->m_texture);
-			encoder.setTexture(uint8_t(TextureSampler::Depth), s_depth, block.m_depth.m_texture ? block.m_depth.m_texture->m_texture : m_black_tex->m_texture);
-			encoder.setTexture(uint8_t(TextureSampler::AO), s_ambient_occlusion, block.m_ambient_occlusion.m_texture ? block.m_ambient_occlusion.m_texture->m_texture : m_black_tex->m_texture);
+
+			if(block.m_normal.m_texture)
+				encoder.setTexture(uint8_t(TextureSampler::Normal), s_normal, block.m_normal.m_texture->m_texture);
+
+			if(block.m_emissive.m_value.m_a > 0.f || block.m_emissive.m_texture)
+				encoder.setTexture(uint8_t(TextureSampler::Emissive), s_emissive, block.m_emissive.m_texture ? block.m_emissive.m_texture->m_texture : m_black_tex->m_texture);
+
+			if(block.m_depth.m_texture)
+				encoder.setTexture(uint8_t(TextureSampler::Depth), s_depth, block.m_depth.m_texture->m_texture);
+			
+			if(block.m_ambient_occlusion.m_texture)
+				encoder.setTexture(uint8_t(TextureSampler::AO), s_ambient_occlusion, block.m_ambient_occlusion.m_texture->m_texture);
 		}
 
 		Texture* m_white_tex;
@@ -235,11 +243,11 @@ namespace mud
 		}
 	}
 
-	ShaderVersion Material::shader_version() const
+	ShaderVersion Material::shader_version(const Program& program) const
 	{
 		PbrBlock& pbr = pbr_block(*ms_gfx_system);
 
-		ShaderVersion version = { m_program };
+		ShaderVersion version = { &program };
 		if(m_pbr_block.m_enabled && m_pbr_block.m_normal.m_texture)
 			version.set_option(pbr.m_index, NORMAL_MAP);
 		if(m_pbr_block.m_enabled && (m_pbr_block.m_emissive.m_value.m_a > 0.f || m_pbr_block.m_emissive.m_texture))

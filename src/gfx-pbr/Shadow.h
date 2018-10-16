@@ -52,7 +52,6 @@ namespace mud
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
 		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) const final;
 	};
 
 	export_ class MUD_GFX_PBR_EXPORT PassShadowmap : public RenderPass
@@ -62,7 +61,6 @@ namespace mud
 
 		BlockShadow& m_block_shadow;
 
-		virtual void begin_render_pass(Render& render) final;
 		virtual void submit_render_pass(Render& render) final;
 	};
 
@@ -99,16 +97,15 @@ namespace mud
 	public:
 		BlockShadow(GfxSystem& gfx_system, BlockDepth& block_depth);
 
-		void init_gfx_block() final;
+		virtual void init_block() override;
 
-		void begin_gfx_block(Render& render) final;
-		void submit_gfx_block(Render& render) final;
+		virtual void begin_render(Render& render) override;
+		virtual void begin_pass(Render& render) override;
 
-		void begin_gfx_pass(Render& render) final;
-		void submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const final;
-		void submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const final;
+		virtual void begin_draw_pass(Render& render) override;
 
-		void submit_pass(Render& render, const Pass& render_pass, ShaderVersion& shader_version) const;
+		virtual void options(Render& render, ShaderVersion& shader_version) const override;
+		virtual void submit(Render& render, const Pass& render_pass) const override;
 
 		void render_directional(Render& render, Light& light, size_t num_directional, size_t index);
 
@@ -147,5 +144,11 @@ namespace mud
 		std::vector<LightShadow> m_shadows;
 
 		CSMShadow m_csm;
+
+#ifdef MUD_PLATFORM_EMSCRIPTEN
+		uint8_t m_pcf_level = 0; // @todo can't get pcf working on WebGL so far
+#else
+		uint8_t m_pcf_level = 1;
+#endif
 	};
 }

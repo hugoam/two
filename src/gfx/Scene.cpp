@@ -83,6 +83,20 @@ namespace mud
 		return begin_node<Gnode>(m_graph, true);
 	}
 
+	void Scene::cull_items(const Plane6& planes, std::vector<Item*>& items)
+	{
+		//render.m_shot->m_items.reserve(m_pool->pool<Item>().m_vec_pool.size());
+
+		m_pool->iterate_objects<Item>([&](Item& item)
+		{
+			if(item.m_visible && item.m_cast_shadows != ItemShadow::OnlyShadow
+			&& frustum_aabb_intersection(planes, item.m_aabb))
+			{
+				items.push_back(&item);
+			}
+		});
+	}
+
 	void Scene::gather_render(Render& render)
 	{
 		Plane6 planes = frustum_planes(render.m_camera.m_projection, render.m_camera.m_transform);
@@ -97,7 +111,7 @@ namespace mud
 		{
 			if(item.m_visible && item.m_cast_shadows != ItemShadow::OnlyShadow)
 			{
-				float depth = plane_distance_to(near_plane, item.m_node.m_position);
+				float depth = plane_distance_to(near_plane, item.m_aabb.m_center);
 
 				vec4 comparison = vec4(greater(vec4(depth), lod_levels));
 				float index = dot(vec4(1.f), comparison);
@@ -128,7 +142,6 @@ namespace mud
 		m_pool->iterate_objects<GIProbe>([&](GIProbe& gi_probe)
 		{
 			render.m_shot->m_gi_probes.push_back(&gi_probe);
-			//gi_probe->m_dirty = true;
 		});
 
 #if  0

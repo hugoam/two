@@ -29,17 +29,17 @@ namespace mud
 		m_program.register_block(*this);
 	}
 
-	void BlockBlur::init_gfx_block()
+	void BlockBlur::init_block()
 	{
 		u_uniform.createUniforms();
 	}
 
-	void BlockBlur::begin_gfx_block(Render& render)
+	void BlockBlur::begin_render(Render& render)
 	{
 		UNUSED(render);
 	}
 
-	void BlockBlur::submit_gfx_block(Render& render)
+	void BlockBlur::begin_pass(Render& render)
 	{
 		UNUSED(render);
 	}

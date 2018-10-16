@@ -201,11 +201,12 @@ namespace mud
 		template <class T>
 		GfxBlock(GfxSystem& gfx_system, T& self) : GfxBlock(gfx_system, type<T>()) { UNUSED(self); }
 
-		virtual void init_gfx_block() = 0;
-		virtual void render_gfx_block() {}
+		virtual void init_block() = 0;
+		virtual void begin_frame() {}
 
-		virtual void begin_gfx_block(Render& render) = 0;
-		virtual void submit_gfx_block(Render& render) = 0;
+		virtual void begin_render(Render& render) = 0;
+		virtual void begin_pass(Render& render) = 0;
+		virtual void submit_pass(Render& render) { UNUSED(render); }
 
 		GfxSystem& m_gfx_system;
 		attr_ Type& m_type;
@@ -223,9 +224,10 @@ namespace mud
 	public:
 		DrawBlock(GfxSystem& gfx_system, Type& type) : GfxBlock(gfx_system, type) { m_draw_block = true; }
 
-		virtual void begin_gfx_pass(Render& render) = 0;
-		virtual void submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const = 0;
-		virtual void submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const = 0;
+		virtual void begin_draw_pass(Render& render) = 0;
+
+		virtual void options(Render& render, ShaderVersion& shader_version) const = 0;
+		virtual void submit(Render& render, const Pass& render_pass) const = 0;
 	};
 
 	export_ class MUD_GFX_EXPORT RenderPass
@@ -234,23 +236,25 @@ namespace mud
 		RenderPass(GfxSystem& gfx_system, const char* name, PassType pass_type);
 		virtual ~RenderPass() {}
 
-		virtual void begin_render_pass(Render& render) = 0;
 		virtual void submit_render_pass(Render& render) = 0;
 
-		void begin_render_blocks(Render& render) { for(GfxBlock* block : m_gfx_blocks) block->begin_gfx_block(render); }
-		void submit_render_blocks(Render& render) { for(GfxBlock* block : m_gfx_blocks) block->submit_gfx_block(render); }
+		void blocks_begin_render(Render& render) { for(GfxBlock* block : m_gfx_blocks) block->begin_render(render); }
+		void blocks_begin_draw_pass(Render& render) { for(DrawBlock* block : m_draw_blocks) block->begin_draw_pass(render); }
+		void blocks_begin_pass(Render& render) { for(GfxBlock* block : m_gfx_blocks) block->begin_pass(render); }
 
 		GfxSystem& m_gfx_system;
 		const char* m_name;
 		PassType m_pass_type;
 		array<GfxBlock*> m_gfx_blocks;
+		array<DrawBlock*> m_draw_blocks;
 	};
 	
 	export_ struct MUD_GFX_EXPORT DrawElement
 	{
 		DrawElement() {}
-		DrawElement(Item& item, const ModelItem& model, const Material& material, const Skin* skin = nullptr);
+		DrawElement(Item& item, const Program& program, const ModelItem& model, const Material& material, const Skin* skin = nullptr);
 		Item* m_item = nullptr;
+		const Program* m_program = nullptr;
 		const ModelItem* m_model = nullptr;
 		const Material* m_material = nullptr;
 		const Skin* m_skin = nullptr;
@@ -258,6 +262,7 @@ namespace mud
 		uint64_t m_sort_key = 0;
 		ShaderVersion m_shader_version = {};
 		uint64_t m_bgfx_state = 0;
+		bgfx::ProgramHandle m_bgfx_program = BGFX_INVALID_HANDLE;
 	};
 
 	export_ struct MUD_GFX_EXPORT DrawCluster
@@ -274,9 +279,8 @@ namespace mud
 		~DrawPass();
 
 		void init_blocks();
-		void add_element(DrawElement element);
+		void add_element(Render& render, DrawElement element);
 
-		virtual void begin_render_pass(Render& render) final;
 		virtual void submit_render_pass(Render& render) final;
 
 		void gather_draw_elements(Render& render);
@@ -285,7 +289,6 @@ namespace mud
 		virtual uint8_t num_draw_passes(Render& render) { UNUSED(render); return 1; }
 		virtual void next_draw_pass(Render& render, Pass& render_pass) = 0;
 		virtual void queue_draw_element(Render& render, DrawElement& element) = 0;
-		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) const = 0;
 
 		struct Impl;
 		unique_ptr<Impl> m_impl;

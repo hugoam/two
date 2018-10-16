@@ -153,10 +153,10 @@ namespace mud
 	public:
 		BlockSky(GfxSystem& gfx_system, BlockFilter& filter);
 
-		virtual void init_gfx_block() final;
+		virtual void init_block() override;
 
-		virtual void begin_gfx_block(Render& render) final;
-		virtual void submit_gfx_block(Render& render) final;
+		virtual void begin_render(Render& render) override;
+		virtual void begin_pass(Render& render) override;
 
 		BlockFilter& m_filter;
 

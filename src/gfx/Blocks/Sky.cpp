@@ -329,17 +329,17 @@ namespace mud
 		, m_skybox_program(gfx_system.programs().create("skybox"))
 	{}
 
-	void BlockSky::init_gfx_block()
+	void BlockSky::init_block()
 	{
 		u_skybox.createUniforms();
 	}
 
-	void BlockSky::begin_gfx_block(Render& render)
+	void BlockSky::begin_render(Render& render)
 	{
 		UNUSED(render);
 	}
 
-	void BlockSky::submit_gfx_block(Render& render)
+	void BlockSky::begin_pass(Render& render)
 	{
 		if(!render.m_environment)
 			return;

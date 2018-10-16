@@ -39,12 +39,12 @@ namespace mud
 		m_merge_program.register_block(*this);
 	}
 
-	void BlockGlow::init_gfx_block()
+	void BlockGlow::init_block()
 	{
 		u_uniform.createUniforms();
 	}
 
-	void BlockGlow::begin_gfx_block(Render& render)
+	void BlockGlow::begin_render(Render& render)
 	{
 		UNUSED(render);
 		//BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
@@ -52,7 +52,12 @@ namespace mud
 		//copy.debug_show_texture(*render.m_target, render.m_target->m_ping_pong.last());
 	}
 
-	void BlockGlow::submit_gfx_block(Render& render)
+	void BlockGlow::begin_pass(Render& render)
+	{
+		UNUSED(render);
+	}
+
+	void BlockGlow::submit_pass(Render& render)
 	{
 		if(render.m_filters && render.m_filters->m_glow.m_enabled)
 			this->render(render, render.m_filters->m_glow);

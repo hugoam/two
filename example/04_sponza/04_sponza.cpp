@@ -12,6 +12,8 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app);
 	SceneViewer& viewer = ui::scene_viewer(parent);
+	viewer.m_viewport.m_lighting = Lighting::VoxelGI;
+
 	ui::free_orbit_controller(viewer);
 	viewer.take_focus();
 
@@ -20,18 +22,28 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	Material& material = milky_white(viewer.m_gfx_system);
 
 	static float azimuth = 0.f;
-	static float altitude = c_pi / 2.f - 0.01f;
+	static float altitude = c_pi / 2.f - 0.01f - 0.1f;
 
 	Light& directional_light = gfx::directional_light_node(scene, sun_rotation(azimuth, altitude));
+	directional_light.m_energy = 2.f;
+	directional_light.m_shadows = false;
+
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
 	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
-	
+
 	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(), shapes, true, &material);
 
 	Gnode& sponza_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
-	gfx::model(sponza_node, "sponza");
+
+	Model& model = *app.m_gfx_system.models().file("sponza");
+	//gfx::item(sponza_node, model);
+	gfx::multi_item(sponza_node, model);
+
+	GIProbe& probe = gfx::gi_probe(scene, 512, model.m_aabb.m_extents);
+	probe.m_transform = bxtranslation(-model.m_aabb.m_center);
+	//probe.m_dirty = true;
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{

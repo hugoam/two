@@ -81,8 +81,8 @@ namespace mud
 		static Clock clock;
 		if(m_quad)
 		{
-			quat rotation = { vec3{ 0.002f * float(clock.step()), 0.f, 0.f } };
-			m_quad->m_node.m_rotation = m_quad->m_node.m_rotation * rotation;
+			//quat rotation = { vec3{ 0.002f * float(clock.step()), 0.f, 0.f } };
+			//m_quad->m_node.m_rotation = m_quad->m_node.m_rotation * rotation;
 		}
 	}
 
@@ -104,13 +104,13 @@ namespace mud
 	{
 		Ray ray = m_viewer.m_viewport.ray(mouse_event.m_relative);
 
-		vec3 p0 = m_quad->m_node.m_position;
-		vec3 p1 = rotate(m_quad->m_node.m_rotation, X3);
-		vec3 p2 = rotate(m_quad->m_node.m_rotation, Y3);
+		vec3 p0 = m_quad->m_node.position();
+		vec3 p1 = p0 + m_quad->m_node.axis(X3);
+		vec3 p2 = p0 + m_quad->m_node.axis(Y3);
 
 		vec3 pos = plane_segment_intersection(p0, p1, p2, ray.m_start, ray.m_end);
 
-		vec3 rel = inverse(m_quad->m_node.m_rotation) * pos - m_quad->m_node.m_position;
+		vec3 rel = vec3(0.f); //inverse(m_quad->m_node.m_rotation) * pos - m_quad->m_node.m_position;
 
 		mouse_event.m_pos.x = rel[0] / m_size_ratio + m_frame.m_size.x / 2.f;
 		mouse_event.m_pos.y = -rel[1] / m_size_ratio + m_frame.m_size.y / 2.f;

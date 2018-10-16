@@ -95,6 +95,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<mud::Colour>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Mesh>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Model>();
+	export_ template <> MUD_GFX_EXPORT Type& type<mud::ModelConfig>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ModelItem>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Node3>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ParticleGenerator>();

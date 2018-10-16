@@ -227,8 +227,6 @@ namespace mud
 		std::vector<string> m_mode_names;
 
 		std::vector<ShaderDefine> m_defines;
-
-		std::mutex m_mutex;
 	};
 
 	string program_defines(Program::Impl& program, const ShaderVersion& version)
@@ -315,18 +313,16 @@ namespace mud
 
 		printf("INFO: loading program %s with options %s\n", full_name.c_str(), defines.c_str());
 		string compiled_path = string(gfx_system.m_resource_path) + "/shaders/compiled/" + full_name;
-		bgfx::ProgramHandle program = compute ? load_compute_program(gfx_system.file_reader(), compiled_path)
-											  : load_program(gfx_system.file_reader(), compiled_path);
-		version = { version.m_version, m_update, program };
+		version.m_program = compute ? load_compute_program(gfx_system.file_reader(), compiled_path)
+									: load_program(gfx_system.file_reader(), compiled_path);
+		version.m_update = m_update;
 	}
 
 	void Program::update(GfxSystem& gfx_system)
 	{
 		for(auto& hash_version : m_impl->m_versions)
 		{
-			uint64_t config_hash = hash_version.first;
 			Version& version = hash_version.second;
-
 			if(version.m_update < m_update)
 			{
 				this->compile(gfx_system, version, m_compute);
@@ -349,16 +345,14 @@ namespace mud
 	{
 		uint64_t version_hash = config.hash();
 
-		m_impl->m_mutex.lock();
+		Version& version = m_impl->m_versions[version_hash];
+		if(version.m_update < m_update)
+		{
+			version.m_version = version_hash;
+			this->compile(*ms_gfx_system, version, m_compute);
+		}
 
-		if(m_impl->m_versions.find(version_hash) == m_impl->m_versions.end())
-			m_impl->m_versions[version_hash] = { version_hash, 0, BGFX_INVALID_HANDLE };
-
-		bgfx::ProgramHandle program = m_impl->m_versions[version_hash].m_program;
-
-		m_impl->m_mutex.unlock();
-
-		return program;
+		return version.m_program;
 	}
 
 	template <class T, class U>

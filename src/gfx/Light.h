@@ -33,8 +33,6 @@ namespace mud
 		Light(Node3& node, LightType type = LightType::Point, bool shadows = false);
 		~Light();
 
-		vec3 direction();
-
 		attr_ Node3& m_node;
 
 		attr_ LightType m_type = LightType::Point;

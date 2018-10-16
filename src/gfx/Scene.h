@@ -106,6 +106,8 @@ namespace mud
 		meth_ Gnode& begin();
 		void update();
 
+		void cull_items(const Plane6& planes, std::vector<Item*>& items);
+
 		void gather_render(Render& render);
 
 		std::vector<Sound*> m_orphan_sounds;

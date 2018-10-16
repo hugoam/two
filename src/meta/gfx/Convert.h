@@ -79,6 +79,9 @@ namespace mud
     
     export_ template <> inline void from_string(const string& str, mud::TextureSampler& val) { val = static_cast<mud::TextureSampler>(enu<mud::TextureSampler>().value(str.c_str())); };
     export_ template <> inline void to_string(const mud::TextureSampler& val, string& str) { str = enu<mud::TextureSampler>().m_map[size_t(val)]; };
+
+	export_ template <> inline void from_string(const string& str, mud::ModelFormat& val) { val = static_cast<mud::ModelFormat>(enu<mud::ModelFormat>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::ModelFormat& val, string& str) { str = enu<mud::ModelFormat>().m_map[size_t(val)]; };
     
     
 }

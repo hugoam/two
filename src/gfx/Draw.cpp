@@ -288,6 +288,6 @@ namespace mud
 		if(readback)
 			mesh.cache<ShapeVertex, ShapeIndex>(gpu_mesh);
 
-		model.add_item(bxidentity(), mesh);
+		model.add_item(mesh, bxidentity());
 	}
 }

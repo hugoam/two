@@ -39,14 +39,14 @@ namespace mud
 
 	BgfxSystem::BgfxSystem(cstring resource_path)
 		: RenderSystem(resource_path, true)
-		//, m_profile(true)
+		//, m_capture_every(100)
 	{
 		printf("INFO: Init Gfx System\n");
 	}
 
 	BgfxSystem::~BgfxSystem()
 	{
-		// we would need to do that after all ressources are destroyed
+		// we would need to do that after all resources are destroyed
 		// bgfx::shutdown();
 	}
 
@@ -65,8 +65,8 @@ namespace mud
 
 		printf("GfxSystem: bgfx::init\n");
 		bgfx::Init params = {};
-		params.type = bgfx::RendererType::OpenGL;
-		//params.type = bgfx::RendererType::Direct3D11;
+		//params.type = bgfx::RendererType::OpenGL;
+		params.type = bgfx::RendererType::Direct3D11;
 		params.resolution.width = uint32_t(context.m_width);
 		params.resolution.height = uint32_t(context.m_height);
 		params.resolution.reset = BGFX_RESET_NONE;
@@ -91,9 +91,9 @@ namespace mud
 	bool BgfxSystem::next_frame()
 	{
 #ifdef _DEBUG
-		size_t capture_every = 100;
-		bool capture = m_profile && (m_frame % capture_every) == 0;
-		m_frame = bgfx::frame(capture);
+		m_capture |= m_capture_every && (m_frame % m_capture_every) == 0;
+		m_frame = bgfx::frame(m_capture);
+		m_capture = false;
 #else
 		m_frame = bgfx::frame();
 #endif

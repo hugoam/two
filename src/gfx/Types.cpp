@@ -79,6 +79,7 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<mud::Colour>>() { static Type ty("MaterialParam<mud::Colour>"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Mesh>() { static Type ty("Mesh"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Model>() { static Type ty("Model"); return ty; }
+	template <> MUD_GFX_EXPORT Type& type<mud::ModelConfig>() { static Type ty("ModelConfig"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ModelItem>() { static Type ty("ModelItem"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Node3>() { static Type ty("Node3"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ParticleGenerator>() { static Type ty("ParticleGenerator"); return ty; }

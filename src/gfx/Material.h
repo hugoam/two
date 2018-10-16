@@ -187,10 +187,10 @@ namespace mud
 	{
 		PbrBlock(GfxSystem& gfx_system);
 
-		virtual void init_gfx_block() final {}
+		virtual void init_block() override {}
 
-		virtual void begin_gfx_block(Render& render) final { UNUSED(render); }
-		virtual void submit_gfx_block(Render& render) final { UNUSED(render); }
+		virtual void begin_render(Render& render) override { UNUSED(render); }
+		virtual void begin_pass(Render& render) override { UNUSED(render); }
 	};
 
 	export_ PbrBlock& pbr_block(GfxSystem& gfx_system);
@@ -216,7 +216,7 @@ namespace mud
 		attr_ FresnelMaterialBlock m_fresnel_block;
 
 		void state(uint64_t& bgfx_state) const;
-		ShaderVersion shader_version() const;
+		ShaderVersion shader_version(const Program& program) const;
 
 		void submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin = nullptr) const;
 

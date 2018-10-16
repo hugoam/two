@@ -675,7 +675,7 @@ namespace mud
 			return node.matrix;
 	}
 
-	void import_items(const glTF& gltf, Model& model)
+	void import_items(const glTF& gltf, Model& model, bool as_prefab)
 	{
 		std::map<int, std::vector<int>> primitives;
 		
@@ -691,7 +691,10 @@ namespace mud
 				for(int primitive : primitives[node.mesh])
 				{
 					mat4 transform = derive_transform(gltf, node);
-					model.add_item(transform, *model.m_meshes[primitive], node.skin);
+					if(as_prefab)
+						model.add_model(*model.m_meshes[primitive], transform, node.skin);
+					else
+						model.add_item(*model.m_meshes[primitive], transform, node.skin);
 				}
 			}
 
@@ -747,7 +750,7 @@ namespace mud
 		for(size_t i = 0; i < state.m_gltf.m_animations.size(); i++)
 			import_animation(state.m_gltf, state, int(i), model);
 
-		import_items(state.m_gltf, model);
+		import_items(state.m_gltf, model, config.m_as_prefab);
 
 		model.prepare();
 	}

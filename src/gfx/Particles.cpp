@@ -122,7 +122,7 @@ namespace mud
 
 			particle.start = vec3(transform * vec4{ pos, 1.f });
 			particle.dir = vec3(transform * vec4{ dir, 0.f });
-			particle.rot = m_node->m_rotation;
+			particle.rot = ZeroQuat; // m_node->m_rotation; // @todo
 
 			particle.speed_seed = random_scalar(0.f, 1.f);
 			particle.angle_seed = random_scalar(0.f, 1.f);
@@ -300,7 +300,7 @@ namespace mud
 		bgfx::destroy(s_color);
 	}
 
-	void BlockParticles::init_gfx_block()
+	void BlockParticles::init_block()
 	{
 		ParticleVertex::init();
 
@@ -314,12 +314,12 @@ namespace mud
 		this->create_sprite("geometric.png", "geometric_b.png", { 2, 2 });
 	}
 
-	void BlockParticles::begin_gfx_block(Render& render)
+	void BlockParticles::begin_render(Render& render)
 	{
 		UNUSED(render);
 	}
 
-	void BlockParticles::submit_gfx_block(Render& render)
+	void BlockParticles::begin_pass(Render& render)
 	{
 		UNUSED(render);
 	}
@@ -357,11 +357,6 @@ namespace mud
 		: RenderPass(gfx_system, "particles", {})
 	{
 		UNUSED(gfx_system);
-	}
-
-	void PassParticles::begin_render_pass(Render& render)
-	{
-		UNUSED(render);
 	}
 
 	void PassParticles::submit_render_pass(Render& render)

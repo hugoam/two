@@ -53,7 +53,7 @@ namespace mud
 		, m_atlas(1024, 16)
 	{}
 
-	void BlockReflection::init_gfx_block()
+	void BlockReflection::init_block()
 	{
 		int max_cubemap_size = 512;
 		int cube_size = max_cubemap_size;
@@ -65,34 +65,29 @@ namespace mud
 		}
 	}
 
-	void BlockReflection::begin_gfx_block(Render& render)
+	void BlockReflection::begin_render(Render& render)
 	{
 		UNUSED(render);
 	}
 
-	void BlockReflection::submit_gfx_block(Render& render)
+	void BlockReflection::begin_pass(Render& render)
 	{
 		UNUSED(render);
 	}
 
-	void BlockReflection::begin_gfx_pass(Render& render)
+	void BlockReflection::begin_draw_pass(Render& render)
 	{
 		UNUSED(render);
 	}
 
-	void BlockReflection::submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const
-	{
-		this->submit_pass(render, render_pass, element.m_shader_version);
-	}
-
-	void BlockReflection::submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const
-	{
-		this->submit_pass(render, render_pass, cluster.m_shader_version);
-	}
-
-	void BlockReflection::submit_pass(Render& render, const Pass& render_pass, ShaderVersion& shader_version) const
+	void BlockReflection::options(Render& render, ShaderVersion& shader_version) const
 	{
 		UNUSED(render); UNUSED(shader_version);
+	}
+
+	void BlockReflection::submit(Render& render, const Pass& render_pass) const
+	{
+		UNUSED(render);
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
 		if(bgfx::isValid(m_atlas.m_color_tex) && m_atlas.m_size > 0)
@@ -169,11 +164,6 @@ namespace mud
 		: RenderPass(gfx_system, {}, PassType::Probes)
 		, m_block_reflection(block_reflection)
 	{}
-
-	void PassProbes::begin_render_pass(Render& render)
-	{
-		UNUSED(render);
-	}
 
 	void PassProbes::submit_render_pass(Render& render)
 	{

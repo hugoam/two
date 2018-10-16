@@ -35,6 +35,8 @@ namespace mud
 
 		bgfx::setViewMode(render_pass.m_index, bgfx::ViewMode::DepthAscending);
 
+		m_block_depth.m_depth_params = {};
+
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		encoder.setUniform(m_block_depth.u_depth.u_depth_params, &m_block_depth.m_depth_params);
 	}
@@ -50,12 +52,7 @@ namespace mud
 
 		element.m_shader_version = { element.m_material->m_program };
 
-		add_element(element);
-	}
-
-	void PassDepth::submit_draw_element(Pass& render_pass, DrawElement& element) const
-	{
-		UNUSED(render_pass); UNUSED(element);
+		this->add_element(render, element);
 	}
 
 	BlockDepth::BlockDepth(GfxSystem& gfx_system)
@@ -65,7 +62,7 @@ namespace mud
 	BlockDepth::~BlockDepth()
 	{}
 
-	void BlockDepth::init_gfx_block()
+	void BlockDepth::init_block()
 	{
 		m_depth_material = &m_gfx_system.fetch_material("depth", "depth");
 		m_depth_material_twosided = &m_gfx_system.fetch_material("depth_twosided", "depth");
@@ -73,28 +70,28 @@ namespace mud
 		u_depth.createUniforms();
 	}
 
-	void BlockDepth::begin_gfx_block(Render& render)
+	void BlockDepth::begin_render(Render& render)
 	{
 		UNUSED(render);
 	}
 
-	void BlockDepth::submit_gfx_block(Render& render)
+	void BlockDepth::begin_pass(Render& render)
 	{
 		UNUSED(render);
 	}
 
-	void BlockDepth::begin_gfx_pass(Render& render)
+	void BlockDepth::begin_draw_pass(Render& render)
 	{
 		UNUSED(render);
 	}
 
-	void BlockDepth::submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const
+	void BlockDepth::options(Render& render, ShaderVersion& shader_version) const
 	{
-		UNUSED(render); UNUSED(render_pass); UNUSED(element);
+		UNUSED(render); UNUSED(shader_version);
 	}
 
-	void BlockDepth::submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const
+	void BlockDepth::submit(Render& render, const Pass& render_pass) const
 	{
-		UNUSED(render); UNUSED(render_pass); UNUSED(cluster);
+		UNUSED(render); UNUSED(render_pass);
 	}
 }

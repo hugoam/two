@@ -117,11 +117,6 @@ namespace mud
 		bgfx::setPaletteColor(s_zero, 0.f, 0.f, 0.f, 0.f);
 	}
 
-	void PassClear::begin_render_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
 	void PassClear::submit_render_pass(Render& render)
 	{
 		Pass render_pass = render.next_pass("clear");
@@ -160,22 +155,12 @@ namespace mud
 		UNUSED(render);
 
 		if(element.m_material->m_unshaded_block.m_enabled || element.m_material->m_fresnel_block.m_enabled)
-			add_element(element);
-	}
-
-	void PassUnshaded::submit_draw_element(Pass& render_pass, DrawElement& element) const
-	{
-		UNUSED(render_pass); UNUSED(element);
+			this->add_element(render, element);
 	}
 
 	PassBackground::PassBackground(GfxSystem& gfx_system)
 		: RenderPass(gfx_system, "background", PassType::Background)
 	{}
-
-	void PassBackground::begin_render_pass(Render& render)
-	{
-		UNUSED(render);
-	}
 
 	void PassBackground::submit_render_pass(Render& render)
 	{
@@ -186,11 +171,6 @@ namespace mud
 		: RenderPass(gfx_system, "post process", PassType::Flip)
 		, m_copy(copy)
 	{}
-
-	void PassFlip::begin_render_pass(Render& render)
-	{
-		UNUSED(render);
-	}
 
 	void PassFlip::submit_render_pass(Render& render)
 	{

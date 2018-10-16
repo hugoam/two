@@ -18,14 +18,15 @@ namespace mud
 		BlockGeometry(GfxSystem& gfx_system);
 		~BlockGeometry();
 
-		void init_gfx_block() final;
+		virtual void init_block() override;
 
-		void begin_gfx_block(Render& render) final;
-		void submit_gfx_block(Render& render) final;
+		virtual void begin_render(Render& render) override;
+		virtual void begin_pass(Render& render) override;
 
-		void begin_gfx_pass(Render& render) final;
-		void submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const final;
-		void submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const final;
+		virtual void begin_draw_pass(Render& render) override;
+
+		virtual void options(Render& render, ShaderVersion& shader_version) const final;
+		virtual void submit(Render& render, const Pass& render_pass) const final;
 
 		Material* m_material = nullptr;
 		Material* m_material_twosided = nullptr;
@@ -38,7 +39,6 @@ namespace mud
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
 		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) const final;
 
 		size_t m_directional_light_index;
 	};
@@ -50,7 +50,6 @@ namespace mud
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
 		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) const final;
 	};
 
 	export_ class MUD_GFX_PBR_EXPORT PassGeometry : public DrawPass
@@ -60,7 +59,6 @@ namespace mud
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
 		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) const final;
 
 		BlockGeometry& m_block_geometry;
 	};
@@ -70,7 +68,6 @@ namespace mud
 	public:
 		PassLights(GfxSystem& gfx_system, BlockFilter& filter);
 
-		virtual void begin_render_pass(Render& render) final;
 		virtual void submit_render_pass(Render& render) final;
 		
 		BlockFilter& m_filter;

@@ -145,6 +145,7 @@ namespace mud
 			m_mrt = false;
 #endif
 
+		m_mrt = false;
 		if(m_mrt)
 		{
 			m_specular = bgfx::createTexture2D(uint16_t(size.x), uint16_t(size.y), false, 1, color_format, render_target_flags);

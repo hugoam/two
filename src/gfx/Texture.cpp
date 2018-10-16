@@ -65,7 +65,7 @@ namespace mud
 	{
 		bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
 
-		bimg::ImageContainer* image = bimg::imageParse(&allocator, data, size);
+		bimg::ImageContainer* image = bimg::imageParse(&allocator, data, uint32_t(size));
 		if(!image)
 			return handle;
 

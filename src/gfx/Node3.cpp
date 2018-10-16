@@ -15,15 +15,58 @@ module mud.gfx;
 #include <gfx/Node3.h>
 #endif
 
+namespace bx
+{
+	inline void mtxQuatLh(float* _result, const float* _quat)
+	{
+		const float x = _quat[0];
+		const float y = _quat[1];
+		const float z = _quat[2];
+		const float w = _quat[3];
+
+		const float x2  =  x + x;
+		const float y2  =  y + y;
+		const float z2  =  z + z;
+		const float x2x = x2 * x;
+		const float x2y = x2 * y;
+		const float x2z = x2 * z;
+		const float x2w = x2 * w;
+		const float y2y = y2 * y;
+		const float y2z = y2 * z;
+		const float y2w = y2 * w;
+		const float z2z = z2 * z;
+		const float z2w = z2 * w;
+
+		_result[ 0] = 1.0f - (y2y + z2z);
+		_result[ 1] =         x2y + z2w;
+		_result[ 2] =         x2z - y2w;
+		_result[ 3] = 0.0f;
+
+		_result[ 4] =         x2y - z2w;
+		_result[ 5] = 1.0f - (x2x + z2z);
+		_result[ 6] =         y2z + x2w;
+		_result[ 7] = 0.0f;
+
+		_result[ 8] =         x2z + y2w;
+		_result[ 9] =         y2z - x2w;
+		_result[10] = 1.0f - (x2x + y2y);
+		_result[11] = 0.0f;
+
+		_result[12] = 0.0f;
+		_result[13] = 0.0f;
+		_result[14] = 0.0f;
+		_result[15] = 1.0f;
+	}
+}
+
 namespace mud
 {
 	mat4 bxidentity() { mat4 result; bx::mtxIdentity(value_ptr(result)); return result; }
 	mat4 bxinverse(const mat4& mat) { mat4 result; bx::mtxInverse(value_ptr(result), value_ptr(mat)); return result; }
 	mat4 bxSRT(const vec3& scale, const vec3& rot, const vec3& trans) { mat4 result; bx::mtxSRT(value_ptr(result), scale.x, scale.y, scale.z, rot.x, rot.y, rot.z, trans.x, trans.y, trans.z); return result; }
 	mat4 bxscale(const vec3& scale) { mat4 result; bx::mtxScale(value_ptr(result), scale.x, scale.y, scale.z); return result; }
-	// transpose because we are right-handed but bgfx assumes left-handed
-	mat4 bxrotation(const quat& rot) { mat4 result; bx::mtxQuat(value_ptr(result), value_ptr(rot)); return transpose(result); }
-	//inline mat4 mtxQuat(const quat& rot) { mat4 result; bx::mtxQuat(value_ptr(result), &rot[0]); return result; }
+	mat4 bxrotation(const quat& rot) { mat4 result; bx::mtxQuatLh(value_ptr(result), value_ptr(rot)); return result; }
+	//mat4 bxrotation(const quat& rot) { mat4 result; bx::mtxQuat(value_ptr(result), value_ptr(rot)); return transpose(result); }
 	mat4 bxtranslation(const vec3& vec) { mat4 result; bx::mtxTranslate(value_ptr(result), vec.x, vec.y, vec.z); return result; }
 	mat4 bxmul(const mat4& lhs, const mat4& rhs) { mat4 result; bx::mtxMul(value_ptr(result), value_ptr(lhs), value_ptr(rhs)); return result; }
 	vec3 bxmul(const mat4& mat, const vec3& vec) { vec3 result; bx::vec3MulMtx(&result[0], value_ptr(vec), value_ptr(mat)); return result; }

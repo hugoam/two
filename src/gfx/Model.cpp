@@ -10,6 +10,9 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <infra/File.h>
+#include <infra/StringConvert.h>
+#include <srlz/Serial.h>
 #include <type/Indexer.h>
 #include <pool/Pool.h>
 #include <geom/Geom.h>
@@ -26,17 +29,15 @@ namespace mud
 {
 	ModelConfig load_model_config(cstring path, cstring model_name)
 	{
-		std::ifstream file = std::ifstream(string(path) + "models/" + model_name + ".cfg");
-		ModelConfig model_config = { ModelFormat::obj, bxidentity() };
+		ModelConfig config = {};
 
-		if(!file.good())
-		{
-			if(std::ifstream(string(path) + "models/" + model_name + ".gltf").good())
-				model_config.m_format = ModelFormat::gltf;
-			return model_config;
-		}
+		string config_path = file_directory(path) + "/" + model_name + ".cfg";
+		if(file_exists(config_path.c_str()))
+			unpack_json_file(Ref(&config), config_path);
 
-		return model_config;
+		config.m_transform = bxSRT(config.m_scale, config.m_rotation, config.m_position);
+
+		return config;
 	}
 
 	//static uint16_t s_model_index = 0;
@@ -65,22 +66,38 @@ namespace mud
 		return *m_rig;
 	}
 
-	ModelItem& Model::add_item(mat4 transform, Mesh& mesh, int skin, Colour colour, Material* material)
+	Model& Model::add_model(Mesh& mesh, mat4 transform, int skin, Colour colour, Material* material)
 	{
-		m_items.push_back({ m_items.size(), transform != bxidentity(), transform, &mesh, skin, colour, material });
+		string name = m_name + ":" + mesh.m_name + ":" + to_string(m_models.size());
+		Model& model = ms_gfx_system->models().create(name.c_str());
+		model.m_meshes.push_back(&mesh);
+		model.add_item(mesh, bxidentity(), skin, colour, material);
+		m_models.push_back({ &model, transform });
+		return model;
+	}
+
+	ModelItem& Model::add_item(Mesh& mesh, mat4 transform, int skin, Colour colour, Material* material)
+	{
+		m_items.push_back({ m_items.size(), &mesh, transform != bxidentity(), transform, skin, colour, material });
 		return m_items.back();
 	}
 
 	void Model::prepare()
 	{
-		m_aabb = { Zero3, Zero3 };
+		m_aabb = {};
 		m_radius = 0.f;
 
-		for(const ModelItem& item: m_items) //Mesh& mesh : m_meshes)
+		for(Submodel& submodel : m_models)
+		{
+			submodel.m_model->prepare();
+			m_aabb.mergeSafe(submodel.m_model->m_aabb);
+			m_radius = max(submodel.m_model->m_radius, m_radius);
+		}
+
+		for(const ModelItem& item: m_items)
 		{
 			m_geometry[item.m_mesh->m_draw_mode] = true;
-			m_aabb.merge(transform_aabb(item.m_mesh->m_aabb, item.m_transform));
-			//m_radius = max(item.m_mesh->m_radius, m_radius);
+			m_aabb.mergeSafe(transform_aabb(item.m_mesh->m_aabb, item.m_transform));
 		}
 
 		m_radius = sqrt(2.f) * max(m_aabb.m_extents.x, max(m_aabb.m_extents.y, m_aabb.m_extents.z));

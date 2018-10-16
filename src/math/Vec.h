@@ -142,7 +142,6 @@ namespace mud
 	{
 		constr_ Transform() {}
 		constr_ Transform(const vec3& position, const quat& rotation, const vec3& scale) : m_position(position), m_rotation(rotation), m_scale(scale) {}
-		Transform(const mat4& mat);
 		attr_ vec3 m_position = Zero3;
 		attr_ quat m_rotation = ZeroQuat;
 		attr_ vec3 m_scale = Unit3;

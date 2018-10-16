@@ -78,7 +78,8 @@ namespace mud
 		float m_frame_time = 0.f;
 		float m_delta_time = 0.f;
 
-		bool m_profile = false;
+		bool m_capture = false;
+		size_t m_capture_every = 0;
 	};
 }
 

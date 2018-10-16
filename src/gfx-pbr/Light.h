@@ -42,22 +42,21 @@ namespace mud
 	public:
 		BlockLight(GfxSystem& gfx_system, BlockShadow& block_shadow);
 
-		void init_gfx_block() final;
+		virtual void init_block() override;
 
-		void begin_gfx_block(Render& render) final;
-		void submit_gfx_block(Render& render) final;
+		virtual void begin_render(Render& render) override;
+		virtual void begin_pass(Render& render) override;
 
-		void begin_gfx_pass(Render& render) final;
-		void submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const final;
-		void submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const final;
+		virtual void begin_draw_pass(Render& render) override;
 
-		void submit_pass(Render& render, const Pass& render_pass, ShaderVersion& shader_version, array<Light*> lights) const;
+		virtual void options(Render& render, ShaderVersion& shader_version) const final;
+		virtual void submit(Render& render, const Pass& render_pass) const final;
 
-		void update_lights(Render& render, array<Light*> lights, array<LightShadow> shadows);
+		void update_lights(Render& render, const mat4& view, array<Light*> lights, array<LightShadow> shadows);
 
 		void upload_environment(Render& render, const Pass& render_pass, Environment* environment) const;
 		void upload_fog(Render& render, const Pass& render_pass, Fog& fog) const;
-		void upload_lights(Render& render, const Pass& render_pass) const;
+		void upload_lights(const Pass& render_pass) const;
 		
 		BlockShadow& m_block_shadow;
 

@@ -39,17 +39,22 @@ namespace mud
 		m_program.register_block(*this);
 	}
 
-	void BlockTonemap::init_gfx_block()
+	void BlockTonemap::init_block()
 	{
 		u_uniform.createUniforms();
 	}
 
-	void BlockTonemap::begin_gfx_block(Render& render)
+	void BlockTonemap::begin_render(Render& render)
 	{
 		UNUSED(render);
 	}
 
-	void BlockTonemap::submit_gfx_block(Render& render)
+	void BlockTonemap::begin_pass(Render& render)
+	{
+		UNUSED(render);
+	}
+	
+	void BlockTonemap::submit_pass(Render& render)
 	{
 		if(render.m_filters && render.m_filters->m_tonemap.m_enabled)
 			this->render(render, render.m_filters->m_tonemap, render.m_filters->m_bcs);

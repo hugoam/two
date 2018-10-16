@@ -58,7 +58,6 @@ namespace mud
 	public:
 		PassClear(GfxSystem& gfx_system);
 
-		virtual void begin_render_pass(Render& render) final;
 		virtual void submit_render_pass(Render& render) final;
 	};
 
@@ -69,7 +68,6 @@ namespace mud
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
 		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) const final;
 	};
 
 	export_ class MUD_GFX_EXPORT PassBackground : public RenderPass
@@ -77,7 +75,6 @@ namespace mud
 	public:
 		PassBackground(GfxSystem& gfx_system);
 
-		virtual void begin_render_pass(Render& render) final;
 		virtual void submit_render_pass(Render& render) final;
 	};
 
@@ -86,7 +83,6 @@ namespace mud
 	public:
 		PassFlip(GfxSystem& gfx_system, BlockCopy& copy);
 
-		virtual void begin_render_pass(Render& render) final;
 		virtual void submit_render_pass(Render& render) final;
 
 		BlockCopy& m_copy;

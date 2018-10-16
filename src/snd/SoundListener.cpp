@@ -20,7 +20,7 @@ namespace mud
 			alListener3f(AL_POSITION, m_position.x, m_position.y, m_position.z);
 			alListenerfv(AL_ORIENTATION, value_ptr(m_front));
 
-			//alListener3f(AL_VELOCITY, m_spatial.direction().getX(), m_spatial.direction().getY(), m_spatial.direction().getZ());
+			//alListener3f(AL_VELOCITY, );
 
 			m_transformUpdated = false;
 		}     

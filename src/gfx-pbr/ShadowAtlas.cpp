@@ -138,15 +138,15 @@ namespace mud
 
 		if(light.m_type == LightType::Point)
 		{
-			points[0] = light.m_node.m_position;
-			points[1] = light.m_node.m_position + light.m_node.axis(X3) * light.m_range;
+			points[0] = light.m_node.position();
+			points[1] = light.m_node.position() + light.m_node.axis(X3) * light.m_range;
 		}
 		else if(light.m_type == LightType::Spot)
 		{
 			float w = light.m_range * std::sin(light.m_spot_angle);
 			float d = light.m_range * std::cos(light.m_spot_angle);
 
-			vec3 base = light.m_node.m_position + light.m_node.direction() * d;
+			vec3 base = light.m_node.position() + light.m_node.direction() * d;
 
 			points[0] = base;
 			points[1] = base + light.m_node.axis(X3) * w;
@@ -159,7 +159,7 @@ namespace mud
 				if(plane_distance_to(camera_near_plane, points[j]) < 0.f)
 					points[j].z = -render.m_camera.m_near; //small hack to keep size constant when hitting the screen
 
-				points[j] = plane_segment_intersection(camera_near_plane, { light.m_node.m_position, points[j] });
+				points[j] = plane_segment_intersection(camera_near_plane, { light.m_node.position(), points[j] });
 			}
 		}
 

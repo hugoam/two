@@ -200,7 +200,7 @@ namespace mud
 		m_tangents.resize(m_positions.size());
 
 		SMikkTSpaceInterface intf = {};
-		intf.m_getNumFaces = [](const Context* c) -> int { return int(mikkt_packer(c).m_indices.size()) / 3; };
+		intf.m_getNumFaces = [](const Context* c) -> int { return int(mikkt_packer(c).index_count()) / 3; };
 		intf.m_getNumVerticesOfFace = [](const Context* c, const int face) -> int { UNUSED(c); UNUSED(face); return 3; };
 		intf.m_getPosition = [](const Context* c, float pos[], const int face, const int vert) { vec_to_array(mikkt_packer(c).m_positions[mikkt_index(c, face, vert)], pos); };
 		intf.m_getNormal = [](const Context* c, float norm[], const int face, const int vert) { vec_to_array(mikkt_packer(c).m_normals[mikkt_index(c, face, vert)], norm); };

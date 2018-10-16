@@ -2300,6 +2300,7 @@ namespace bgfx
 									  "#define textureCubeLod    textureLod\n"
 									  "#define textureCubeGrad   textureGrad\n"
 									  "#define texture3D         texture\n"
+									  "#define texture3DLod      textureLod\n"
 									);
 
 								bx::stringPrintf(code, "#define attribute in\n");

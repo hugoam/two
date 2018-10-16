@@ -271,7 +271,16 @@ namespace mud
         meta_enum<mud::TextureSampler>();
     }
     
-    
+    {
+        static Meta meta = { type<mud::ModelFormat>(), &namspc({ "mud" }), "ModelFormat", sizeof(mud::ModelFormat), TypeClass::Enum };
+        static Enum enu = { type<mud::ModelFormat>(),
+            true,
+            { "obj", "gltf" },
+            { 0, 1 },
+            { var(mud::ModelFormat::obj), var(mud::ModelFormat::gltf) }
+        };
+        meta_enum<mud::ModelFormat>();
+    }
     // Sequences
     {
         static Meta meta = { type<array<mud::mat4>>(), &namspc({}), "array<mud::mat4>", sizeof(array<mud::mat4>), TypeClass::Sequence };
@@ -1695,7 +1704,43 @@ namespace mud
         meta_class<mud::Model>();
     }
     
-    
+
+	// mud::ModelConfig
+	{
+		static Meta meta = { type<mud::ModelConfig>(), &namspc({ "mud" }), "ModelConfig", sizeof(mud::ModelConfig), TypeClass::Struct };
+		static Class cls = { type<mud::ModelConfig>(),
+			// bases
+			{  },
+			{  },
+			// constructors
+			{
+			},
+			// copy constructor
+			{
+				{ type<mud::ModelConfig>(), [](Ref ref, Ref other) { new(&val<mud::ModelConfig>(ref)) mud::ModelConfig(val<mud::ModelConfig>(other)); } }
+			},
+			// members
+			{
+				{ type<mud::ModelConfig>(), member_address(&mud::ModelConfig::m_format), type<mud::ModelFormat>(), "format", var(ModelFormat::obj), Member::Value, nullptr },
+				{ type<mud::ModelConfig>(), member_address(&mud::ModelConfig::m_position), type<mud::vec3>(), "position", var(Zero3), Member::Value, nullptr },
+				{ type<mud::ModelConfig>(), member_address(&mud::ModelConfig::m_rotation), type<mud::quat>(), "rotation", var(ZeroQuat), Member::Value, nullptr },
+				{ type<mud::ModelConfig>(), member_address(&mud::ModelConfig::m_scale), type<mud::vec3>(), "scale", var(Unit3), Member::Value, nullptr },
+				{ type<mud::ModelConfig>(), member_address(&mud::ModelConfig::m_as_prefab), type<bool>(), "as_prefab", var(bool(false)), Member::Value, nullptr }
+			},
+			// methods
+			{
+			},
+			// static members
+			{
+			}
+		};
+
+
+
+
+		meta_class<mud::ModelConfig>();
+	}
+
     
         
     // mud::ModelItem
@@ -1753,9 +1798,9 @@ namespace mud
             {
                 { type<mud::Node3>(), member_address(&mud::Node3::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
                 { type<mud::Node3>(), member_address(&mud::Node3::m_index), type<uint16_t>(), "index", var(uint16_t()), Member::Value, nullptr },
-                { type<mud::Node3>(), member_address(&mud::Node3::m_position), type<mud::vec3>(), "position", var(mud::vec3()), Member::Value, nullptr },
-                { type<mud::Node3>(), member_address(&mud::Node3::m_rotation), type<mud::quat>(), "rotation", var(mud::quat()), Member::Value, nullptr },
-                { type<mud::Node3>(), member_address(&mud::Node3::m_scale), type<mud::vec3>(), "scale", var(mud::vec3()), Member::Value, nullptr },
+                //{ type<mud::Node3>(), member_address(&mud::Node3::m_position), type<mud::vec3>(), "position", var(mud::vec3()), Member::Value, nullptr },
+                //{ type<mud::Node3>(), member_address(&mud::Node3::m_rotation), type<mud::quat>(), "rotation", var(mud::quat()), Member::Value, nullptr },
+                //{ type<mud::Node3>(), member_address(&mud::Node3::m_scale), type<mud::vec3>(), "scale", var(mud::vec3()), Member::Value, nullptr },
                 { type<mud::Node3>(), member_address(&mud::Node3::m_visible), type<bool>(), "visible", var(bool(true)), Member::Value, nullptr }
             },
             // methods
@@ -2901,6 +2946,8 @@ namespace mud
         m.m_types.push_back(&type<mud::MaterialParam<mud::Colour>>());
         m.m_types.push_back(&type<mud::Mesh>());
         m.m_types.push_back(&type<mud::Model>());
+		m.m_types.push_back(&type<mud::ModelFormat>());
+		m.m_types.push_back(&type<mud::ModelConfig>());
         m.m_types.push_back(&type<mud::ModelItem>());
         m.m_types.push_back(&type<mud::Month>());
         m.m_types.push_back(&type<mud::Node3>());

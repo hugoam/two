@@ -57,9 +57,10 @@ namespace mud
 	public:
 		struct Version
 		{
-			uint64_t m_version;
-			uint32_t m_update;
-			bgfx::ProgramHandle m_program;
+			Version() {}
+			uint64_t m_version = 0;
+			uint32_t m_update = 0;
+			bgfx::ProgramHandle m_program = BGFX_INVALID_HANDLE;
 		};
 
 	public:
@@ -69,12 +70,12 @@ namespace mud
 
 		attr_ cstring name();
 
-		uint8_t block_option_shift(uint8_t block)
+		uint8_t block_option_shift(uint8_t block) const
 		{
 			return m_blocks.m_shader_blocks[block].m_option_shift;
 		}
 
-		uint8_t block_mode_shift(uint8_t block)
+		uint8_t block_mode_shift(uint8_t block) const
 		{
 			return m_blocks.m_shader_blocks[block].m_mode_shift;
 		}

@@ -173,7 +173,7 @@ namespace mud
 	void GfxSystem::init_pipeline()
 	{
 		for(auto& block : m_pipeline->m_gfx_blocks)
-			block->init_gfx_block();
+			block->init_block();
 
 		static ClearRenderer clear_renderer = { *this, *m_pipeline };
 		static UnshadedRenderer unshaded_renderer = { *this, *m_pipeline };

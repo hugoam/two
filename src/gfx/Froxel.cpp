@@ -251,7 +251,7 @@ namespace mud
 
 		for(size_t i = offset; i < lights.size(); i += stride)
 		{
-			vec3 position = vec3(camera.m_transform * vec4(lights[i]->m_node.m_position, 1.f));
+			vec3 position = vec3(camera.m_transform * vec4(lights[i]->m_node.position(), 1.f));
 			vec3 direction = vec3(camera.m_transform * vec4(lights[i]->m_node.direction(), 0.f));
 
 			float cos2 = bx::square(cos(to_radians(lights[i]->m_spot_angle)));

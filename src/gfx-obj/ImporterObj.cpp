@@ -201,7 +201,7 @@ namespace mud
 		Clock clock;
 		clock.step();
 
-		bool generate_tangents = false;
+		bool generate_tangents = true;
 
 		std::vector<vec3> vertices;
 		std::vector<vec3> normals;
@@ -217,9 +217,10 @@ namespace mud
 
 		struct MeshWriter
 		{
-			MeshWriter(Model& model, const string& name, bool generate_tangents)
+			MeshWriter(Model& model, const string& name, bool as_prefab, bool generate_tangents)
 				: m_model(model)
 				, m_mesh(model.add_mesh(name.c_str(), true))
+				, m_as_prefab(as_prefab)
 				, m_generate_tangents(generate_tangents)
 			{}
 
@@ -232,7 +233,10 @@ namespace mud
 				}
 				m_shape.bake(!m_normals, m_generate_tangents && m_uvs);
 				m_mesh.write(PLAIN, m_shape);
-				m_model.add_item(bxidentity(), m_mesh);
+				if(m_as_prefab)
+					m_model.add_model(m_mesh, bxidentity());
+				else
+					m_model.add_item(m_mesh, bxidentity());
 				//printf("INFO: ImporterOBJ imported mesh %s material %s with %u vertices and %u faces\n", m_mesh.m_name.c_str(), m_mesh.m_material->m_name.c_str(), m_shape.m_vertices.size(), m_shape.m_indices.size() / 3);
 			}
 
@@ -254,6 +258,7 @@ namespace mud
 			Model& m_model;
 			Mesh& m_mesh;
 			MeshPacker m_shape;
+			bool m_as_prefab;
 			bool m_generate_tangents;
 			bool m_normals = true;
 			bool m_uvs = true;
@@ -270,7 +275,7 @@ namespace mud
 			return;
 		}
 
-		unique_ptr<MeshWriter> mesh_writer = make_unique<MeshWriter>(model, string(model.m_name), generate_tangents);
+		unique_ptr<MeshWriter> mesh_writer = make_unique<MeshWriter>(model, string(model.m_name), config.m_as_prefab, generate_tangents);
 
 		string line;
 
@@ -287,7 +292,7 @@ namespace mud
 			if(command == "o" || command == "g")
 			{
 				mesh_writer = nullptr;
-				mesh_writer = make_unique<MeshWriter>(model, string(model.m_name), generate_tangents);
+				mesh_writer = make_unique<MeshWriter>(model, string(model.m_name), config.m_as_prefab, generate_tangents);
 			}
 			if(command == "o")
 			{
@@ -315,7 +320,7 @@ namespace mud
 			else if(command == "v")
 			{
 				vec3 vert = { std::stof(tokens[1]), std::stof(tokens[2]), std::stof(tokens[3]) };
-				//vert = bxmul(config.m_transform, vert);
+				vert = config.m_transform * vec4(vert, 1.f);
 				vertices.emplace_back(vert);
 			}
 			else if(command == "vt")
@@ -326,7 +331,7 @@ namespace mud
 			else if(command == "vn")
 			{
 				vec3 norm = { std::stof(tokens[1]), std::stof(tokens[2]), std::stof(tokens[3]) };
-				//norm = bxmul(config.m_transform, norm);
+				norm = config.m_transform * vec4(norm, 0.f);
 				normals.emplace_back(norm);
 			}
 			else if(command == "f")

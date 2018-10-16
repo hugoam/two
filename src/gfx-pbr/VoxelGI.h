@@ -32,14 +32,16 @@ namespace gfx
 		bgfx::TextureHandle m_raster = BGFX_INVALID_HANDLE;
 		bgfx::TextureHandle m_voxels_color = BGFX_INVALID_HANDLE;
 		bgfx::TextureHandle m_voxels_normals = BGFX_INVALID_HANDLE;
+		bgfx::TextureHandle m_voxels_light = BGFX_INVALID_HANDLE;
 		bgfx::FrameBufferHandle m_fbo = BGFX_INVALID_HANDLE;
 
-		bgfx::TextureHandle m_voxels_light = BGFX_INVALID_HANDLE;
+		bgfx::TextureHandle m_voxels_light_rgba = BGFX_INVALID_HANDLE;
 
 		bool m_enabled = true;
 		mat4 m_transform;
-		uint16_t m_subdiv = 256;
-		vec3 m_extents = vec3(256.f);
+		uint16_t m_subdiv = 0;
+		vec3 m_extents = vec3(0.f);
+		bool m_dirty = false;
 
 		int m_dynamic_range = 4;
 		float m_energy = 1.0f;
@@ -58,16 +60,13 @@ namespace gfx
 	export_ class MUD_GFX_PBR_EXPORT PassGIBake : public DrawPass
 	{
 	public:
-		PassGIBake(GfxSystem& gfx_system, BlockGIBake& block_gi_bake);
+		PassGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockGIBake& block_gi_bake);
 
+		BlockLight& m_block_light;
 		BlockGIBake& m_block_gi_bake;
 
 		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
 		virtual void queue_draw_element(Render& render, DrawElement& element) final;
-		virtual void submit_draw_element(Pass& render_pass, DrawElement& element) const final;
-
-		Material* m_voxelize_material = nullptr;
-		Program& m_voxelize;
 	};
 
 	export_ class MUD_GFX_PBR_EXPORT PassGIProbes : public RenderPass
@@ -78,10 +77,7 @@ namespace gfx
 		BlockLight& m_block_light;
 		BlockGIBake& m_block_gi_bake;
 
-		virtual void begin_render_pass(Render& render) final;
 		virtual void submit_render_pass(Render& render) final;
-
-		Program& m_voxel_light;
 	};
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGITrace : public DrawBlock
@@ -89,16 +85,15 @@ namespace gfx
 	public:
 		BlockGITrace(GfxSystem& gfx_system);
 
-		void init_gfx_block() final;
+		virtual void init_block() override;
 
-		void begin_gfx_block(Render& render) final;
-		void submit_gfx_block(Render& render) final;
+		virtual void begin_render(Render& render) override;
+		virtual void begin_pass(Render& render) override;
 
-		void begin_gfx_pass(Render& render) final;
-		void submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const final;
-		void submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const final;
+		virtual void begin_draw_pass(Render& render) override;
 
-		void submit_pass(Render& render, const Pass& render_pass, ShaderVersion& shader_version) const;
+		virtual void options(Render& render, ShaderVersion& shader_version) const override;
+		virtual void submit(Render& render, const Pass& render_pass) const override;
 
 		void upload_gi_probes(Render& render, const Pass& render_pass) const;
 
@@ -127,15 +122,27 @@ namespace gfx
 		} u_gi_probe;
 	};
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGIBake : public GfxBlock
+	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGIBake : public DrawBlock
 	{
 	public:
-		BlockGIBake(GfxSystem& gfx_system);
+		BlockGIBake(GfxSystem& gfx_system, BlockLight& block_light);
 
-		void init_gfx_block() final;
+		BlockLight& m_block_light;
 
-		void begin_gfx_block(Render& render) final;
-		void submit_gfx_block(Render& render) final;
+		virtual void init_block() override;
+
+		virtual void begin_render(Render& render) override;
+		virtual void begin_pass(Render& render) override;
+
+		virtual void begin_draw_pass(Render& render) override;
+
+		virtual void options(Render& render, ShaderVersion& shader_version) const override;
+		virtual void submit(Render& render, const Pass& render_pass) const override;
+
+		void compile();
+		void voxelize(Render& render, GIProbe& gi_probe);
+		void compute(Render& render, GIProbe& gi_probe);
+		void output(Render& render, GIProbe& gi_probe);
 
 		struct VoxelGIUniform
 		{
@@ -145,6 +152,8 @@ namespace gfx
 				s_voxels_normals   = bgfx::createUniform("s_voxels_normals", bgfx::UniformType::Int1);
 				s_voxels_light     = bgfx::createUniform("s_voxels_light",   bgfx::UniformType::Int1);
 
+				s_voxels_light_rgba  = bgfx::createUniform("s_voxels_light_rgba",   bgfx::UniformType::Int1);
+
 				u_world  = bgfx::createUniform("u_voxelgi_world",  bgfx::UniformType::Mat4);
 				u_normal = bgfx::createUniform("u_voxelgi_normal", bgfx::UniformType::Mat3);
 
@@ -152,7 +161,7 @@ namespace gfx
 				u_params_1 = bgfx::createUniform("u_voxelgi_params_1", bgfx::UniformType::Vec4);
 			}
 
-			void setUniforms(bgfx::Encoder& encoder, GIProbe& gi_probe)
+			void setUniforms(bgfx::Encoder& encoder, GIProbe& gi_probe) const
 			{
 				vec4 voxelgi_extents = { gi_probe.m_extents, 0.f };
 				vec4 voxelgi_resolution = { vec3(gi_probe.m_subdiv), 0.f };
@@ -170,6 +179,7 @@ namespace gfx
 			bgfx::UniformHandle s_voxels_albedo;
 			bgfx::UniformHandle s_voxels_normals;
 			bgfx::UniformHandle s_voxels_light;
+			bgfx::UniformHandle s_voxels_light_rgba;
 
 			bgfx::UniformHandle u_world;
 			bgfx::UniformHandle u_normal;
@@ -178,6 +188,10 @@ namespace gfx
 			bgfx::UniformHandle u_params_1;
 
 		} u_voxelgi;
+
+		Program* m_voxel_light;
+		Program* m_voxel_output;
+		Program* m_voxelize;
 
 		GIProbe* m_bake_probe = nullptr;
 	};

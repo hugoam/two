@@ -49,65 +49,47 @@ namespace mud
 		m_shader_block->m_defines = { defines, 3 };
 	}
 
-	void BlockLight::init_gfx_block()
+	void BlockLight::init_block()
 	{
 		u_shot.createUniforms();
 		u_scene.createUniforms();
 		u_fog.createUniforms();
 	}
 
-	void BlockLight::begin_gfx_block(Render& render)
+	void BlockLight::begin_render(Render& render)
 	{
 		UNUSED(render);
 	}
 
-	void BlockLight::submit_gfx_block(Render& render)
+	void BlockLight::begin_pass(Render& render)
 	{
 		UNUSED(render);
 	}
 
-	void BlockLight::begin_gfx_pass(Render& render)
+	void BlockLight::begin_draw_pass(Render& render)
 	{
+		this->update_lights(render, render.m_camera.m_transform, to_array(render.m_shot->m_lights), to_array(m_block_shadow.m_shadows));
+
 		m_directional_light_index = 0;
 
 		m_directional_light = m_directional_lights.empty() ? nullptr : m_directional_lights[m_directional_light_index];
 		m_block_shadow.m_directional_light = m_directional_light;
 
-		this->update_lights(render, to_array(render.m_shot->m_lights), to_array(m_block_shadow.m_shadows));
+#ifdef MULTIPLE_DIRECT_LIGHTS
+		if(!m_directional_lights.empty())
+			m_directional_light = m_directional_lights[m_directional_light_index++];
 
-		//if(!m_directional_lights.empty())
-		//	m_directional_light = m_directional_lights[m_directional_light_index++];
+		if(m_directional_light_index > 0)
+			render_pass.m_bgfx_state |= BGFX_STATE_BLEND_ADD;
 
-		//if(m_directional_light_index > 0)
-		//	render_pass.m_bgfx_state |= BGFX_STATE_BLEND_ADD;
-
-		//request.num_passes = m_directional_lights.empty() ? 1 : m_directional_lights.size();
+		request.num_passes = m_directional_lights.empty() ? 1 : m_directional_lights.size();
+#endif
 	}
 
-	void BlockLight::submit_gfx_element(Render& render, const Pass& render_pass, DrawElement& element) const
+	void BlockLight::options(Render& render, ShaderVersion& shader_version) const
 	{
 		if(render.m_camera.m_clustered)
-			this->submit_pass(render, render_pass, element.m_shader_version, to_array(render.m_shot->m_lights));
-		else
-			this->submit_pass(render, render_pass, element.m_shader_version, to_array(element.m_item->m_lights));
-	}
-
-	void BlockLight::submit_gfx_cluster(Render& render, const Pass& render_pass, DrawCluster& cluster) const
-	{
-		this->submit_pass(render, render_pass, cluster.m_shader_version, cluster.m_lights);
-	}
-
-	void BlockLight::submit_pass(Render& render, const Pass& render_pass, ShaderVersion& shader_version, array<Light*> lights) const
-	{
-		UNUSED(lights);
-
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
-
-		if(render.m_camera.m_clustered)
-		{
 			shader_version.set_option(0, CLUSTERED, true);
-			render.m_camera.m_clusters->submit(encoder);
-		}
 
 		if(render.m_environment && render.m_environment->m_fog.m_enabled)
 			shader_version.set_option(m_index, FOG, true);
@@ -116,10 +98,18 @@ namespace mud
 
 		if(!cull)
 			shader_version.set_option(m_index, DIRECTIONAL_LIGHT, true);
+	}
+
+	void BlockLight::submit(Render& render, const Pass& render_pass) const
+	{
+		bgfx::Encoder& encoder = *render_pass.m_encoder;
+
+		if(render.m_camera.m_clustered)
+			render.m_camera.m_clusters->submit(encoder);
 
 		this->upload_environment(render, render_pass, render.m_environment);
 		this->upload_fog(render, render_pass, render.m_scene.m_environment.m_fog);
-		this->upload_lights(render, render_pass);
+		this->upload_lights(render_pass);
 
 		// set to not render if not first directional pass, depending on cull
 	}
@@ -163,9 +153,9 @@ namespace mud
 		encoder.setUniform(u_fog.u_fog_params_3, &fog_params_3);
 	}
 
-	void BlockLight::update_lights(Render& render, array<Light*> all_lights, array<LightShadow> shadows)
+	void BlockLight::update_lights(Render& render, const mat4& view, array<Light*> all_lights, array<LightShadow> shadows)
 	{
-		mat4 view_matrix = inverse(render.m_camera.m_transform);
+		mat4 inverse_view = inverse(view);
 
 		array<Light*> lights = { all_lights.m_pointer, min(all_lights.m_count, size_t(ShotUniform::max_lights)) };
 		m_directional_lights.clear();
@@ -182,8 +172,8 @@ namespace mud
 		for(Light* light : lights)
 		{
 			Colour energy = to_linear(light->m_colour) * light->m_energy;
-			vec3 position = vec3(render.m_camera.m_transform * vec4(light->m_node.m_position, 1.f));
-			vec3 direction = vec3(render.m_camera.m_transform * vec4(light->m_node.direction(), 0.f));
+			vec3 position = vec3(view * vec4(light->m_node.position(), 1.f));
+			vec3 direction = vec3(view * vec4(light->m_node.direction(), 0.f));
 			Colour shadow_color = to_linear(light->m_shadow_colour);
 			m_lights_data.shadow_color_enabled[light_count] = { to_vec3(shadow_color), light->m_shadows ? 1.f : 0.f };
 
@@ -203,16 +193,16 @@ namespace mud
 					for(uint32_t i = 0; i < shadows[light_count].m_frustum_slices.size(); ++i)
 					{
 						m_lights_data.csm_splits[light_count][i] = shadows[light_count].m_frustum_slices[i].m_frustum.m_far;
-						m_lights_data.csm_matrix[light_count][i] = shadows[light_count].m_slices[i].m_shadow_matrix * view_matrix;
+						m_lights_data.csm_matrix[light_count][i] = shadows[light_count].m_slices[i].m_shadow_matrix * inverse_view;
 					}
 				}
 				else if(light->m_type == LightType::Point)
 				{
-					m_lights_data.shadow_matrix[light_count] = inverse(render.m_camera.m_transform * light->m_node.transform());
+					m_lights_data.shadow_matrix[light_count] = inverse(view * light->m_node.transform());
 				}
 				else if(light->m_type == LightType::Spot)
 				{
-					m_lights_data.shadow_matrix[light_count] = shadows[light_count].m_slices[0].m_shadow_matrix * view_matrix;
+					m_lights_data.shadow_matrix[light_count] = shadows[light_count].m_slices[0].m_shadow_matrix * inverse_view;
 				}
 			}
 
@@ -222,10 +212,8 @@ namespace mud
 		m_light_count = light_count;
 	}
 
-	void BlockLight::upload_lights(Render& render, const Pass& render_pass) const
+	void BlockLight::upload_lights(const Pass& render_pass) const
 	{
-		UNUSED(render);
-
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		
 		if(m_light_count > 0)

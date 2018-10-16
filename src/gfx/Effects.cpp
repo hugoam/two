@@ -20,11 +20,6 @@ namespace mud
 		: RenderPass(gfx_system, "effects", PassType::Effects)
 	{}
 
-	void PassEffects::begin_render_pass(Render& render)
-	{
-		UNUSED(render);
-	}
-
 	void PassEffects::submit_render_pass(Render& render)
 	{
 		UNUSED(render);
@@ -35,15 +30,15 @@ namespace mud
 		, m_copy(copy)
 	{}
 
-	void BlockResolve::init_gfx_block()
+	void BlockResolve::init_block()
 	{}
 
-	void BlockResolve::begin_gfx_block(Render& render)
+	void BlockResolve::begin_render(Render& render)
 	{
 		UNUSED(render);
 	}
 	
-	void BlockResolve::submit_gfx_block(Render& render)
+	void BlockResolve::begin_pass(Render& render)
 	{
 		if(!render.m_is_mrt) return;
 		
@@ -64,14 +59,12 @@ namespace mud
 		, m_copy(copy)
 	{}
 
-	void PassPostProcess::begin_render_pass(Render& render)
-	{
-		m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.swap(),
-						   render.m_target->m_diffuse, render.m_viewport.m_rect);
-	}
-
 	void PassPostProcess::submit_render_pass(Render& render)
 	{
-		UNUSED(render);
+		m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.swap(),
+							render.m_target->m_diffuse, render.m_viewport.m_rect);
+
+		for(GfxBlock* block : m_gfx_blocks)
+			block->submit_pass(render);
 	}
 }
