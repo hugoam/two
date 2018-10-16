@@ -74,12 +74,13 @@ namespace mud
 
 	FromJson::FromJson()
 	{
-		dispatch_branch<int>(*this, [](int& value, Ref&, const json& json_value) { value = json_value.int_value(); });
-		dispatch_branch<uint16_t>(*this, [](uint16_t& value, Ref&, const json& json_value) { value = uint16_t(json_value.int_value()); });
-		dispatch_branch<uint32_t>(*this, [](uint32_t& value, Ref&, const json& json_value) { value = uint32_t(json_value.int_value()); });
-		dispatch_branch<uint64_t>(*this, [](uint64_t& value, Ref&, const json& json_value) { value = uint64_t(json_value.number_value()); });
-		dispatch_branch<float>(*this, [](float& value, Ref&, const json& json_value) { value = float(json_value.number_value()); });
-		dispatch_branch<double>(*this, [](double& value, Ref&, const json& json_value) { value = json_value.number_value(); });
+		dispatch_branch<int>    (*this, [](int&    value, Ref&, const json& json_value) { value = json_value.int_value(); });
+		dispatch_branch<ushort> (*this, [](ushort& value, Ref&, const json& json_value) { value = ushort(json_value.int_value()); });
+		dispatch_branch<uint>   (*this, [](uint&   value, Ref&, const json& json_value) { value = uint(json_value.int_value()); });
+		dispatch_branch<ulong>  (*this, [](ulong&  value, Ref&, const json& json_value) { value = ulong(json_value.number_value()); });
+		dispatch_branch<ulong2> (*this, [](ulong2& value, Ref&, const json& json_value) { value = ulong2(json_value.number_value()); });
+		dispatch_branch<float>  (*this, [](float&  value, Ref&, const json& json_value) { value = float(json_value.number_value()); });
+		dispatch_branch<double> (*this, [](double& value, Ref&, const json& json_value) { value = json_value.number_value(); });
 		// cstring can't be deserialized I believe, or we need to memoize them ?
 		dispatch_branch<string>(*this, [](string& value, Ref&, const json& json_value) { value = json_value.string_value(); });
 		dispatch_branch<bool>(*this, [](bool& value, Ref&, const json& json_value) { value = json_value.bool_value(); });
@@ -99,15 +100,16 @@ namespace mud
 
 	ToJson::ToJson()
 	{
-		dispatch_branch<int>(*this, [](int& value, json& json_value) { json_value = json(value); });
-		dispatch_branch<uint16_t>(*this, [](uint16_t& value, json& json_value) { json_value = json(int(value)); });
-		dispatch_branch<uint32_t>(*this, [](uint32_t& value, json& json_value) { json_value = json(int(value)); });
-		dispatch_branch<uint64_t>(*this, [](uint64_t& value, json& json_value) { json_value = json(double(value)); });
-		dispatch_branch<float>(*this, [](float& value, json& json_value) { json_value = value; });
-		dispatch_branch<double>(*this, [](double& value, json& json_value) { json_value = value; });
-		dispatch_branch<cstring>(*this, [](cstring value, json& json_value) { json_value = string(value); });
-		dispatch_branch<string>(*this, [](string& value, json& json_value) { json_value = value; });
-		dispatch_branch<bool>(*this, [](bool& value, json& json_value) { json_value = value; });
+		dispatch_branch<int>     (*this, [](int&     value, json& json_value) { json_value = json(value); });
+		dispatch_branch<uint>    (*this, [](uint&    value, json& json_value) { json_value = json(int(value)); });
+		dispatch_branch<ushort>  (*this, [](ushort&  value, json& json_value) { json_value = json(int(value)); });
+		dispatch_branch<ulong>   (*this, [](ulong&   value, json& json_value) { json_value = json(double(value)); });
+		dispatch_branch<ulong2>  (*this, [](ulong2&  value, json& json_value) { json_value = json(double(value)); });
+		dispatch_branch<float>   (*this, [](float&   value, json& json_value) { json_value = value; });
+		dispatch_branch<double>  (*this, [](double&  value, json& json_value) { json_value = value; });
+		dispatch_branch<cstring> (*this, [](cstring  value, json& json_value) { json_value = string(value); });
+		dispatch_branch<string>  (*this, [](string&  value, json& json_value) { json_value = value; });
+		dispatch_branch<bool>    (*this, [](bool&    value, json& json_value) { json_value = value; });
 
 		dispatch_branch<Type>(*this, [](Type& type, json& json_value) { json_value = type.m_name; });
 

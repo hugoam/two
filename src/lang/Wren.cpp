@@ -991,9 +991,10 @@ namespace mud
 		function<void>([](Ref, WrenVM* vm, int slot) { return push_null(vm, slot); });
 
 		dispatch_branch<int>     (*this, [](int&      value, WrenVM* vm, int slot) { return push_integer(vm, slot, value); });
-		dispatch_branch<uint16_t>(*this, [](uint16_t& value, WrenVM* vm, int slot) { return push_integer(vm, slot, value); });
-		dispatch_branch<uint32_t>(*this, [](uint32_t& value, WrenVM* vm, int slot) { return push_integer(vm, slot, value); });
-		dispatch_branch<uint64_t>(*this, [](uint64_t& value, WrenVM* vm, int slot) { return push_integer(vm, slot, value); });
+		dispatch_branch<ushort>  (*this, [](ushort&   value, WrenVM* vm, int slot) { return push_integer(vm, slot, value); });
+		dispatch_branch<uint>    (*this, [](uint&     value, WrenVM* vm, int slot) { return push_integer(vm, slot, value); });
+		dispatch_branch<ulong>   (*this, [](ulong&    value, WrenVM* vm, int slot) { return push_integer(vm, slot, value); });
+		dispatch_branch<ulong2>  (*this, [](ulong2&   value, WrenVM* vm, int slot) { return push_integer(vm, slot, value); });
 		dispatch_branch<float>   (*this, [](float&    value, WrenVM* vm, int slot) { return push_scalar(vm, slot, value); });
 		dispatch_branch<double>  (*this, [](double&   value, WrenVM* vm, int slot) { return push_scalar(vm, slot, value); });
 		dispatch_branch<cstring> (*this, [](cstring   value, WrenVM* vm, int slot) { return push_cstring(vm, slot, value); });

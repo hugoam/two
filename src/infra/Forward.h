@@ -15,7 +15,11 @@
 
 namespace mud {
 
-    
+	using ushort = unsigned short;
+	using uint = unsigned int;
+	using ulong = unsigned long;
+	using ulong2 = unsigned long long;
+
     template <class T> struct array;
     
     struct Filepath;

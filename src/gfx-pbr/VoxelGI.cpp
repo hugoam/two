@@ -22,7 +22,7 @@ module mud.gfx.pbr;
 #include <gfx-pbr/Shadow.h>
 #endif
 
-#define VOXELGI_COMPUTE_LIGHTS
+//#define VOXELGI_COMPUTE_LIGHTS
 //#define VOXELGI_BOUNCE
 
 namespace mud

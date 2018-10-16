@@ -771,9 +771,10 @@ namespace mud
 		function<void>([](Ref, lua_State* state) { return push_null(state); });
 
 		dispatch_branch<int>     (*this, [](int&      value, lua_State* state) { return push_integer(state, value); });
-		dispatch_branch<uint16_t>(*this, [](uint16_t& value, lua_State* state) { return push_integer(state, value); });
-		dispatch_branch<uint32_t>(*this, [](uint32_t& value, lua_State* state) { return push_integer(state, value); });
-		dispatch_branch<uint64_t>(*this, [](uint64_t& value, lua_State* state) { return push_integer(state, value); });
+		dispatch_branch<ushort>  (*this, [](ushort&   value, lua_State* state) { return push_integer(state, value); });
+		dispatch_branch<uint>    (*this, [](uint&     value, lua_State* state) { return push_integer(state, value); });
+		dispatch_branch<ulong>   (*this, [](ulong&    value, lua_State* state) { return push_integer(state, value); });
+		dispatch_branch<ulong2>  (*this, [](ulong2&   value, lua_State* state) { return push_integer(state, value); });
 		dispatch_branch<float>   (*this, [](float&    value, lua_State* state) { return push_scalar(state, value); });
 		dispatch_branch<double>  (*this, [](double&   value, lua_State* state) { return push_scalar(state, value); });
 		dispatch_branch<cstring> (*this, [](cstring   value, lua_State* state) { return push_cstring(state, value); });

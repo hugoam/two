@@ -349,19 +349,25 @@ namespace mud
 	{
 		this->default_converter<float, double>();
 		this->default_converter<float, int>();
-		this->default_converter<float, uint16_t>();
-		this->default_converter<float, uint32_t>();
-		this->default_converter<float, size_t>();
+		this->default_converter<float, ushort>();
+		this->default_converter<float, uint>();
+		this->default_converter<float, ulong>();
+		this->default_converter<float, ulong2>();
 		this->default_converter<double, int>();
-		this->default_converter<double, uint16_t>();
-		this->default_converter<double, uint32_t>();
-		this->default_converter<double, size_t>();
-		this->default_converter<int, uint16_t>();
-		this->default_converter<int, uint32_t>();
-		this->default_converter<int, size_t>();
-		this->default_converter<uint16_t, size_t>();
-		this->default_converter<uint16_t, uint32_t>();
-		this->default_converter<uint32_t, size_t>();
+		this->default_converter<double, ushort>();
+		this->default_converter<double, uint>();
+		this->default_converter<double, ulong>();
+		this->default_converter<double, ulong2>();
+		this->default_converter<int, ushort>();
+		this->default_converter<int, uint>();
+		this->default_converter<int, ulong>();
+		this->default_converter<int, ulong2>();
+		this->default_converter<ushort, uint>();
+		this->default_converter<ushort, ulong>();
+		this->default_converter<ushort, ulong2>();
+		this->default_converter<uint, ulong>();
+		this->default_converter<uint, ulong2>();
+		this->default_converter<ulong, ulong2>();
 	}
 
 	bool TypeConverter::check(Type& input, Type& output)
