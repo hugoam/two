@@ -395,9 +395,9 @@ function toolchain(_buildDir, _libDir)
 			location (path.join(_buildDir, "projects", _ACTION .. "-rpi"))
 
 		elseif "riscv" == _OPTIONS["gcc"] then
-			premake.gcc.cc  = "$(FREEDOM_E_SDK)/toolchain/bin/riscv32-unknown-elf-gcc"
-			premake.gcc.cxx = "$(FREEDOM_E_SDK)/toolchain/bin/riscv32-unknown-elf-g++"
-			premake.gcc.ar  = "$(FREEDOM_E_SDK)/toolchain/bin/riscv32-unknown-elf-ar"
+			premake.gcc.cc  = "$(FREEDOM_E_SDK)/work/build/riscv-gnu-toolchain/riscv64-unknown-elf/prefix/bin/riscv64-unknown-elf-gcc"
+			premake.gcc.cxx = "$(FREEDOM_E_SDK)/work/build/riscv-gnu-toolchain/riscv64-unknown-elf/prefix/bin/riscv64-unknown-elf-g++"
+			premake.gcc.ar  = "$(FREEDOM_E_SDK)/work/build/riscv-gnu-toolchain/riscv64-unknown-elf/prefix/bin/riscv64-unknown-elf-ar"
 			location (path.join(_buildDir, "projects", _ACTION .. "-riscv"))
 
 		end
@@ -464,7 +464,11 @@ function toolchain(_buildDir, _libDir)
 
 		end
 
-	elseif _ACTION == "xcode4" then
+	elseif _ACTION == "xcode8"
+		or _ACTION == "xcode9"
+		or _ACTION == "xcode10"
+        then
+        
 		local action = premake.action.current()
 		local str_or = function(str, def)
 			return #str > 0 and str or def
@@ -548,6 +552,7 @@ function toolchain(_buildDir, _libDir)
 			"_WIN32",
 			"_HAS_EXCEPTIONS=0",
 			"_HAS_ITERATOR_DEBUGGING=0",
+			"_ITERATOR_DEBUG_LEVEL=0",
 			"_SCL_SECURE=0",
 			"_SECURE_SCL=0",
 			"_SCL_SECURE_NO_WARNINGS",
@@ -727,7 +732,6 @@ function toolchain(_buildDir, _libDir)
 --			"-Wduplicated-branches",
 --			"-Wduplicated-cond",
 --			"-Wjump-misses-init",
-			"-Wlogical-op",
 			"-Wshadow",
 --			"-Wnull-dereference",
 			"-Wunused-value",
@@ -744,6 +748,11 @@ function toolchain(_buildDir, _libDir)
 		linkoptions {
 			"-Wl,--gc-sections",
 			"-Wl,--as-needed",
+		}
+
+	configuration { "linux-gcc*" }
+		buildoptions {
+			"-Wlogical-op",
 		}
 
 	configuration { "linux-gcc*", "x32" }
@@ -1072,7 +1081,7 @@ function toolchain(_buildDir, _libDir)
 		}
 		includedirs { path.join(bxDir, "include/compat/ios") }
 
-	configuration { "xcode4", "ios*" }
+	configuration { "xcode*", "ios*" }
 		targetdir (path.join(_buildDir, "ios-arm/bin"))
 		objdir (path.join(_buildDir, "ios-arm/obj"))
 
@@ -1158,7 +1167,7 @@ function toolchain(_buildDir, _libDir)
 		}
 		includedirs { path.join(bxDir, "include/compat/ios") }
 
-	configuration { "xcode4", "tvos*" }
+	configuration { "xcode*", "tvos*" }
 		targetdir (path.join(_buildDir, "tvos-arm64/bin"))
 		objdir (path.join(_buildDir, "tvos-arm64/obj"))
 
@@ -1250,13 +1259,13 @@ function toolchain(_buildDir, _libDir)
 			"__MISC_VISIBLE",
 		}
 		includedirs {
-			"$(FREEDOM_E_SDK)/toolchain/riscv32-unknown-elf/include",
+			"$(FREEDOM_E_SDK)/work/build/riscv-gnu-toolchain/riscv64-unknown-elf/prefix/riscv64-unknown-elf/include",
 			path.join(bxDir, "include/compat/riscv"),
 		}
 		buildoptions {
 			"-Wunused-value",
 			"-Wundef",
-			"--sysroot=$(FREEDOM_E_SDK)/toolchain/riscv32-unknown-elf",
+			"--sysroot=$(FREEDOM_E_SDK)/work/build/riscv-gnu-toolchain/riscv64-unknown-elf/prefix/riscv64-unknown-elf",
 		}
 		buildoptions_cpp {
 			"-std=c++11",
@@ -1309,21 +1318,24 @@ function strip()
 		postbuildcommands {
 			"$(SILENT) echo Running asmjs finalize.",
 			"$(SILENT) \"$(EMSCRIPTEN)/emcc\" -O2 "
+
+--				.. "-s ALLOW_MEMORY_GROWTH=1 "
+--				.. "-s ASSERTIONS=2 "
 --				.. "-s EMTERPRETIFY=1 "
 --				.. "-s EMTERPRETIFY_ASYNC=1 "
+				.. "-s PRECISE_F32=1 "
 				.. "-s TOTAL_MEMORY=268435456 "
---				.. "-s ALLOW_MEMORY_GROWTH=1 "
 --				.. "-s USE_WEBGL2=1 "
+
 				.. "--memory-init-file 1 "
 				.. "\"$(TARGET)\" -o \"$(TARGET)\".html "
 --				.. "--preload-file ../../../examples/runtime@/ "
-				.. "-s PRECISE_F32=1"
 		}
 
 	configuration { "riscv" }
 		postbuildcommands {
 			"$(SILENT) echo Stripping symbols.",
-			"$(SILENT) $(FREEDOM_E_SDK)/toolchain/bin/riscv32-unknown-elf-strip -s \"$(TARGET)\""
+			"$(SILENT) $(FREEDOM_E_SDK)/work/build/riscv-gnu-toolchain/riscv64-unknown-elf/prefix/bin/riscv64-unknown-elf-strip -s \"$(TARGET)\""
 		}
 
 	configuration {} -- reset configuration
