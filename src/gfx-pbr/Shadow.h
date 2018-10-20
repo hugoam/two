@@ -26,9 +26,10 @@ namespace mud
 
 	enum CSMFilterMode : unsigned int
 	{
-		CSM_PCF,
-		CSM_PCF5,
-		CSM_PCF13
+		CSM_NO_PCF = 0,
+		CSM_HARD_PCF = 1,
+		CSM_PCF5 = 2,
+		CSM_PCF13 = 3
 	};
 
 	struct CSMShadow
@@ -79,13 +80,17 @@ namespace mud
 	{
 		struct Slice
 		{
-			vec4 m_rect;
+			vec4 m_viewport_rect;
+			vec4 m_texture_rect;
 			mat4 m_projection;
 			mat4 m_transform;
 			mat4 m_shadow_matrix;
+			float m_bias_scale;
 
 			FrustumSlice m_frustum_slice;
 			LightBounds m_light_bounds;
+
+			std::vector<Item*> m_items;
 		};
 
 		std::vector<FrustumSlice> m_frustum_slices;
@@ -107,11 +112,17 @@ namespace mud
 		virtual void options(Render& render, ShaderVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;
 
-		void render_directional(Render& render, Light& light, size_t num_directional, size_t index);
+		void update_shadows(Render& render);
+		void render_shadows(Render& render);
+
+		void update_direct(Render& render, Light& light, size_t num_direct, size_t index);
+		void render_direct(Render& render, Light& light, size_t index);
 
 		BlockDepth& m_block_depth;
 
-		Light* m_directional_light = nullptr;
+		DepthParams m_depth_params;
+
+		Light* m_direct_light = nullptr;
 
 		struct DirectionalShadowUniform
 		{
@@ -124,7 +135,7 @@ namespace mud
 			bgfx::UniformHandle s_csm_atlas;
 			bgfx::UniformHandle u_csm_params;
 
-		} u_directional_shadow;
+		} u_direct_shadow;
 
 		struct ShadowUniform
 		{
@@ -146,9 +157,9 @@ namespace mud
 		CSMShadow m_csm;
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
-		uint8_t m_pcf_level = 0; // @todo can't get pcf working on WebGL so far
+		CSMFilterMode m_pcf_level = CSM_HARD_PCF; // @todo can't get true pcf working on WebGL so far
 #else
-		uint8_t m_pcf_level = 1;
+		CSMFilterMode m_pcf_level = CSM_PCF5;
 #endif
 	};
 }

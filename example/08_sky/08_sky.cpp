@@ -64,6 +64,8 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 	//app.m_gfx_system->m_pipeline->block<BlockTonemap>()->m_enabled = false;
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
+	//viewer.m_viewport.m_lighting = Lighting::VoxelGI;
+
 	ui::orbit_controller(viewer);
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
@@ -76,8 +78,9 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& ground_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
 	gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(), 0U, &material);
 
-	gfx::directional_light_node(scene, g_sky.m_sun.m_sun_rotation);
+	gfx::direct_light_node(scene, g_sky.m_sun.m_sun_rotation);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
+	//gfx::gi_probe(scene, 512, vec3(50.f));
 
 	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
 	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);

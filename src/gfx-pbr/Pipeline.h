@@ -40,7 +40,7 @@ namespace mud
 		virtual void next_draw_pass(Render& render, Pass& render_pass) final;
 		virtual void queue_draw_element(Render& render, DrawElement& element) final;
 
-		size_t m_directional_light_index;
+		size_t m_direct_light_index;
 	};
 
 	export_ class MUD_GFX_PBR_EXPORT PassAlpha : public DrawPass

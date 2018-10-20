@@ -3,6 +3,7 @@
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
+#include <climits>
 
 #include <algorithm>
 #include <type_traits>

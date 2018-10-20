@@ -44,10 +44,11 @@ namespace gfx
 		bool m_dirty = false;
 
 		int m_dynamic_range = 4;
-		float m_energy = 1.0f;
+		float m_diffuse = 3.0f;
+		float m_specular = 1.0f;
+		int m_bounces = 0;
 		float m_propagation = 1.0f;
-		bool m_interior = false;
-
+		
 		float m_bias = 0.0f;
 		float m_normal_bias = 0.8f;
 	};
@@ -103,18 +104,37 @@ namespace gfx
 
 			void createUniforms()
 			{
-				u_transform = bgfx::createUniform("u_gi_probe_transform", bgfx::UniformType::Mat4, max_gi_probes);
-				u_bounds    = bgfx::createUniform("u_gi_probe_bounds",    bgfx::UniformType::Vec4, max_gi_probes);
+				u_transform   = bgfx::createUniform("u_gi_probe_transform",    bgfx::UniformType::Mat4, max_gi_probes);
+				u_bounds      = bgfx::createUniform("u_gi_probe_bounds4",      bgfx::UniformType::Vec4, max_gi_probes);
 				// multiplier, bias, normal_bias, blend_ambient
-				u_params    = bgfx::createUniform("u_gi_probe_params",    bgfx::UniformType::Vec4, max_gi_probes);
-				u_cell_size = bgfx::createUniform("u_gi_probe_cell_size", bgfx::UniformType::Vec4, max_gi_probes);
+				u_params      = bgfx::createUniform("u_gi_probe_params",       bgfx::UniformType::Vec4, max_gi_probes);
+				u_inv_extents = bgfx::createUniform("u_gi_probe_inv_extents4", bgfx::UniformType::Vec4, max_gi_probes);
+				u_cell_size   = bgfx::createUniform("u_gi_probe_cell_size4",   bgfx::UniformType::Vec4, max_gi_probes);
 
 				s_gi_probe = bgfx::createUniform("s_gi_probe", bgfx::UniformType::Int1, max_gi_probes);
+			}
+
+			void setUniforms(bgfx::Encoder& encoder, GIProbe& gi_probe, const mat4& view) const
+			{
+				float diffuse = gi_probe.m_dynamic_range * gi_probe.m_diffuse;
+				float specular = gi_probe.m_dynamic_range * gi_probe.m_specular;
+				vec4 params = { diffuse, specular, gi_probe.m_bias, gi_probe.m_normal_bias };
+				vec4 bounds = { gi_probe.m_extents * 2.f, 0.f };
+				mat4 transform = gi_probe.m_transform * inverse(view);
+				vec4 inv_extents = { Unit3 / gi_probe.m_extents, 1.f };
+				vec4 cell_size = { gi_probe.m_extents * 2.f / float(gi_probe.m_subdiv), 1.f };
+
+				encoder.setUniform(u_transform, &transform);
+				encoder.setUniform(u_bounds, &bounds);
+				encoder.setUniform(u_params, &params);
+				encoder.setUniform(u_inv_extents, &inv_extents);
+				encoder.setUniform(u_cell_size, &cell_size);
 			}
 
 			bgfx::UniformHandle u_transform;
 			bgfx::UniformHandle u_bounds;
 			bgfx::UniformHandle u_params;
+			bgfx::UniformHandle u_inv_extents;
 			bgfx::UniformHandle u_cell_size;
 
 			bgfx::UniformHandle s_gi_probe;
@@ -125,9 +145,10 @@ namespace gfx
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGIBake : public DrawBlock
 	{
 	public:
-		BlockGIBake(GfxSystem& gfx_system, BlockLight& block_light);
+		BlockGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockGITrace& block_trace);
 
 		BlockLight& m_block_light;
+		BlockGITrace& m_block_trace;
 
 		virtual void init_block() override;
 
@@ -142,6 +163,7 @@ namespace gfx
 		void compile();
 		void voxelize(Render& render, GIProbe& gi_probe);
 		void compute(Render& render, GIProbe& gi_probe);
+		void bounce(Render& render, GIProbe& gi_probe);
 		void output(Render& render, GIProbe& gi_probe);
 
 		struct VoxelGIUniform
@@ -164,13 +186,13 @@ namespace gfx
 			void setUniforms(bgfx::Encoder& encoder, GIProbe& gi_probe) const
 			{
 				vec4 voxelgi_extents = { gi_probe.m_extents, 0.f };
-				vec4 voxelgi_resolution = { vec3(gi_probe.m_subdiv), 0.f };
+				vec4 voxelgi_subdiv = { vec3(gi_probe.m_subdiv), 0.f };
 
 				mat4 voxelgi_world = gi_probe.m_transform;
 				//mat3 voxelgi_normal = {};
 
 				encoder.setUniform(u_params_0, &voxelgi_extents);
-				encoder.setUniform(u_params_1, &voxelgi_resolution);
+				encoder.setUniform(u_params_1, &voxelgi_subdiv);
 
 				encoder.setUniform(u_world, &voxelgi_world);
 				//encoder.setUniform(u_normal, &voxelgi_normal);
@@ -189,11 +211,14 @@ namespace gfx
 
 		} u_voxelgi;
 
-		Program* m_voxel_light;
-		Program* m_voxel_output;
+		Program* m_direct_light;
+		Program* m_bounce_light;
+		Program* m_output_light;
 		Program* m_voxelize;
 
 		GIProbe* m_bake_probe = nullptr;
+
+		bool m_direct_light_compute = false;
 	};
 
 

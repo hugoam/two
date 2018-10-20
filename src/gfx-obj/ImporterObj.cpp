@@ -159,6 +159,7 @@ namespace mud
 			else if(command == "map_Ks") // specular texture
 			{
 				string map = read<string>(stream);
+				//current->m_pbr_block.m_metallic.m_value = 1.f;
 				current->m_pbr_block.m_metallic.m_texture = fetch_texture(map);
 			}
 			else if(command == "map_Ke") // emissive texture
@@ -177,9 +178,15 @@ namespace mud
 				string map = read<string>(stream);
 				current->m_pbr_block.m_normal.m_texture = fetch_texture(map);
 			}
+			else if(command == "map_Pr") // PBR: roughness texture
+			{
+				string map = read<string>(stream);
+				current->m_pbr_block.m_roughness.m_texture = fetch_texture(map);
+			}
 			else if(command == "map_Pm") // PBR: metallic texture
 			{
 				string map = read<string>(stream);
+				//current->m_pbr_block.m_metallic.m_value = 1.f;
 				current->m_pbr_block.m_metallic.m_texture = fetch_texture(map);
 			}
 

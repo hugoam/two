@@ -38,7 +38,8 @@ namespace mud
 	{
 	public:
 		Frustum();
-		Frustum(const mat4& projection, const mat4& transform, float near, float far, float fov, float aspect);
+		Frustum(const mat4& projection, const mat4& transform, float fov, float aspect, float near, float far);
+		Frustum(const mat4& projection, const mat4& transform, const vec2& rect, float near, float far);
 
 		void compute();
 

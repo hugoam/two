@@ -35,10 +35,7 @@ namespace mud
 
 		bgfx::setViewMode(render_pass.m_index, bgfx::ViewMode::DepthAscending);
 
-		m_block_depth.m_depth_params = {};
-
-		bgfx::Encoder& encoder = *render_pass.m_encoder;
-		encoder.setUniform(m_block_depth.u_depth.u_depth_params, &m_block_depth.m_depth_params);
+		m_block_depth.m_current_params = &m_block_depth.m_depth_params;
 	}
 
 	void PassDepth::queue_draw_element(Render& render, DrawElement& element)
@@ -50,6 +47,7 @@ namespace mud
 		else
 			element.m_material = m_block_depth.m_depth_material;
 
+		element.m_program = element.m_material->m_program;
 		element.m_shader_version = { element.m_material->m_program };
 
 		this->add_element(render, element);
@@ -92,6 +90,8 @@ namespace mud
 
 	void BlockDepth::submit(Render& render, const Pass& render_pass) const
 	{
-		UNUSED(render); UNUSED(render_pass);
+		UNUSED(render);
+		bgfx::Encoder& encoder = *render_pass.m_encoder;
+		encoder.setUniform(u_depth.u_depth_params, &(*m_current_params));
 	}
 }

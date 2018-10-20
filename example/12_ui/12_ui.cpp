@@ -157,7 +157,7 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Material& material = milky_white(viewer.m_gfx_system);
 
-	gfx::directional_light_node(scene);
+	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 	gfx::shape(scene, Cube(), Symbol(), ITEM_SELECTABLE, &material);

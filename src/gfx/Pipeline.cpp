@@ -39,7 +39,7 @@ namespace mud
 		// effects
 
 		pipeline.m_pass_blocks[size_t(PassType::Depth)] = { &depth };
-		pipeline.m_pass_blocks[size_t(PassType::Unshaded)] = { &depth };
+		pipeline.m_pass_blocks[size_t(PassType::Unshaded)] = {};
 		pipeline.m_pass_blocks[size_t(PassType::Background)] = { &sky };
 		pipeline.m_pass_blocks[size_t(PassType::Opaque)] = {};
 		pipeline.m_pass_blocks[size_t(PassType::Alpha)] = {};

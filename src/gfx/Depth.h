@@ -57,6 +57,8 @@ namespace mud
 
 		} u_depth;
 
+		DepthParams* m_current_params = nullptr;
+
 		DepthParams m_depth_params;
 
 		Material* m_depth_material = nullptr;

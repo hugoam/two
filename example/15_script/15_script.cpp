@@ -68,7 +68,7 @@ void ex_15_script(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& ground_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
 	gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(), 0U, &material);
 
-	gfx::directional_light_node(scene);
+	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird

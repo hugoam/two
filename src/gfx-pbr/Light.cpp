@@ -28,23 +28,23 @@ namespace mud
 	constexpr size_t BlockLight::ShotUniform::max_lights;
 	constexpr size_t BlockLight::ShotUniform::max_shadows;
 	constexpr size_t BlockLight::ShotUniform::max_forward_lights;
-	constexpr size_t BlockLight::ShotUniform::max_directional_lights;
+	constexpr size_t BlockLight::ShotUniform::max_direct_lights;
 
 	BlockLight::BlockLight(GfxSystem& gfx_system, BlockShadow& block_shadow)
 		: DrawBlock(gfx_system, type<BlockLight>())
 		, m_block_shadow(block_shadow)
 	{
-		static cstring options[2] = { "FOG", "DIRECTIONAL_LIGHT" };
+		static cstring options[2] = { "FOG", "DIRECT_LIGHT" };
 		m_shader_block->m_options = { options, 2 };
 
 		static string max_lights = to_string(ShotUniform::max_lights);
 		static string max_shadows = to_string(ShotUniform::max_shadows);
-		static string max_dir_lights = to_string(ShotUniform::max_directional_lights);
+		static string max_dir_lights = to_string(ShotUniform::max_direct_lights);
 
 		static ShaderDefine defines[3] = {
 			{ "MAX_LIGHTS", max_lights.c_str()  },
 			{ "MAX_SHADOWS", max_shadows.c_str() },
-			{ "MAX_DIRECTIONAL_LIGHTS", max_dir_lights.c_str() }
+			{ "MAX_DIRECT_LIGHTS", max_dir_lights.c_str() }
 		};
 		m_shader_block->m_defines = { defines, 3 };
 	}
@@ -59,6 +59,16 @@ namespace mud
 	void BlockLight::begin_render(Render& render)
 	{
 		UNUSED(render);
+
+		m_direct_lights.clear();
+		for(Light* light : render.m_shot->m_lights)
+		{
+			if(light->m_type == LightType::Direct && m_direct_lights.size() < ShotUniform::max_direct_lights)
+				m_direct_lights.push_back(light);
+		}
+
+		m_direct_light = m_direct_lights.empty() ? nullptr : m_direct_lights[m_direct_light_index];
+		m_block_shadow.m_direct_light = m_direct_light;
 	}
 
 	void BlockLight::begin_pass(Render& render)
@@ -70,19 +80,19 @@ namespace mud
 	{
 		this->update_lights(render, render.m_camera.m_transform, to_array(render.m_shot->m_lights), to_array(m_block_shadow.m_shadows));
 
-		m_directional_light_index = 0;
+		m_direct_light_index = 0;
 
-		m_directional_light = m_directional_lights.empty() ? nullptr : m_directional_lights[m_directional_light_index];
-		m_block_shadow.m_directional_light = m_directional_light;
+		m_direct_light = m_direct_lights.empty() ? nullptr : m_direct_lights[m_direct_light_index];
+		m_block_shadow.m_direct_light = m_direct_light;
 
 #ifdef MULTIPLE_DIRECT_LIGHTS
-		if(!m_directional_lights.empty())
-			m_directional_light = m_directional_lights[m_directional_light_index++];
+		if(!m_direct_lights.empty())
+			m_direct_light = m_direct_lights[m_direct_light_index++];
 
-		if(m_directional_light_index > 0)
+		if(m_direct_light_index > 0)
 			render_pass.m_bgfx_state |= BGFX_STATE_BLEND_ADD;
 
-		request.num_passes = m_directional_lights.empty() ? 1 : m_directional_lights.size();
+		request.num_passes = m_direct_lights.empty() ? 1 : m_direct_lights.size();
 #endif
 	}
 
@@ -94,10 +104,10 @@ namespace mud
 		if(render.m_environment && render.m_environment->m_fog.m_enabled)
 			shader_version.set_option(m_index, FOG, true);
 
-		bool cull = !m_directional_light || false; // !(element.m_item->m_layer_mask & m_directional_light->m_layers);
+		bool cull = !m_direct_light || false; // !(element.m_item->m_layer_mask & m_direct_light->m_layers);
 
 		if(!cull)
-			shader_version.set_option(m_index, DIRECTIONAL_LIGHT, true);
+			shader_version.set_option(m_index, DIRECT_LIGHT, true);
 	}
 
 	void BlockLight::submit(Render& render, const Pass& render_pass) const
@@ -111,7 +121,7 @@ namespace mud
 		this->upload_fog(render, render_pass, render.m_scene.m_environment.m_fog);
 		this->upload_lights(render_pass);
 
-		// set to not render if not first directional pass, depending on cull
+		// set to not render if not first direct pass, depending on cull
 	}
 
 	void BlockLight::upload_environment(Render& render, const Pass& render_pass, Environment* environment) const
@@ -158,16 +168,9 @@ namespace mud
 		mat4 inverse_view = inverse(view);
 
 		array<Light*> lights = { all_lights.m_pointer, min(all_lights.m_count, size_t(ShotUniform::max_lights)) };
-		m_directional_lights.clear();
 		uint16_t light_count = 0;
 
 		m_lights_data.light_counts = Zero4;
-
-		for(Light* light : lights)
-		{
-			if(light->m_type == LightType::Directional && m_directional_lights.size() < ShotUniform::max_directional_lights)
-				m_directional_lights.push_back(light);
-		}
 
 		for(Light* light : lights)
 		{
@@ -188,7 +191,7 @@ namespace mud
 
 			if(light->m_shadows) //&& shadows[light_count])
 			{
-				if(light->m_type == LightType::Directional)
+				if(light->m_type == LightType::Direct)
 				{
 					for(uint32_t i = 0; i < shadows[light_count].m_frustum_slices.size(); ++i)
 					{
@@ -217,7 +220,7 @@ namespace mud
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 		
 		if(m_light_count > 0)
-			u_shot.u_light_array.setUniforms(encoder, m_lights_data, uint16_t(m_directional_lights.size()), m_light_count);
+			u_shot.u_light_array.setUniforms(encoder, m_lights_data, uint16_t(m_direct_lights.size()), m_light_count);
 
 		encoder.setUniform(u_shot.u_light_counts, &m_lights_data.light_counts);
 		encoder.setUniform(u_shot.u_light_indices, m_lights_data.light_indices, m_light_count);

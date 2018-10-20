@@ -92,6 +92,8 @@ namespace mud
 		//printf("INFO: render pass %s\n", name.c_str());
 		m_viewport.render_pass(name, render_pass);
 
+		bgfx::setViewName(render_pass.m_index, name);
+
 		return render_pass;
 	}
 
@@ -172,6 +174,12 @@ namespace mud
 		render.m_frame.m_render_pass = render.m_pass_index;
 	}
 	
+	void Renderer::subrender(Render& render, Render& sub)
+	{
+		this->render(sub);
+		render.m_pass_index = sub.m_pass_index;
+	}
+
 	GfxBlock::GfxBlock(GfxSystem& gfx_system, Type& type)
 		: m_gfx_system(gfx_system), m_type(type), m_index(s_block_index++)
 		, m_shader_block(make_unique<ShaderBlock>())

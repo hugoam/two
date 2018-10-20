@@ -47,7 +47,7 @@ void ex_16_visual_script(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Gnode& scene = viewer.m_scene->begin();
 
-	gfx::directional_light_node(scene);
+	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 	static VisualScript& script = create_script();

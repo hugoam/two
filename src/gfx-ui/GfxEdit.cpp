@@ -142,7 +142,7 @@ namespace mud
 		}
 	}
 
-	void debug_draw_light_slices(Gnode& parent, Light& light)
+	void debug_draw_light_slices(Gnode& parent, Light& light, bool frustums, bool bounds)
 	{
 		uint32_t index = 0; UNUSED(light);// light.m_index];
 
@@ -162,21 +162,27 @@ namespace mud
 
 		for(size_t i = 0; i < shadow.m_slices.size(); ++i)
 		{
-			Frustum& frustum = shadow.m_frustum_slices[i].m_frustum;
-			draw(parent, Box({ &frustum.m_corners[0], 8 }), Symbol());
-			if(false)
-				draw(parent, Sphere(frustum.m_center, frustum.m_radius), Symbol(Colour::DarkGrey));
-
 			mat4 inverse_light = inverse(shadow.m_slices[i].m_transform);
+			draw(parent, Sphere(vec3(inverse_light[3]), 1.f), Symbol::wire(Colour::White));
 
-			draw(parent, Sphere(vec3(inverse_light[3]), 1.f), Symbol());
+			if(frustums)
+			{
+				Frustum& frustum = shadow.m_frustum_slices[i].m_frustum;
+				draw(parent, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(Colour::White));
+				if(false)
+					draw(parent, Sphere(frustum.m_center, frustum.m_radius), Symbol::wire(Colour::DarkGrey));
 
-			Box light_bounds = Box(min_max_to_aabb(shadow.m_slices[i].m_light_bounds.min, shadow.m_slices[i].m_light_bounds.max));
+			}
 
-			for(vec3& vertex : light_bounds.m_vertices)
-				vertex = vec3(inverse_light * vec4(vertex, 1.f));
+			if(bounds)
+			{
+				Box light_bounds = Box(min_max_to_aabb(shadow.m_slices[i].m_light_bounds.min, shadow.m_slices[i].m_light_bounds.max));
 
-			draw(parent, light_bounds, Symbol(Colour::Pink));
+				for(vec3& vertex : light_bounds.m_vertices)
+					vertex = vec3(inverse_light * vec4(vertex, 1.f));
+
+				draw(parent, light_bounds, Symbol::wire(Colour::Pink));
+			}
 		}
 	}
 

@@ -312,7 +312,7 @@ namespace mud
 		}
 
 		Gnode& scene = viewer.m_scene->begin();
-		gfx::directional_light_node(scene);
+		gfx::direct_light_node(scene);
 
 		auto draw = [](Gnode& parent, const Model& model, const vec3& position, const quat& rotation, const vec3& scale)
 		{

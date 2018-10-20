@@ -132,9 +132,9 @@ namespace mud
         static Meta meta = { type<mud::LightType>(), &namspc({ "mud" }), "LightType", sizeof(mud::LightType), TypeClass::Enum };
         static Enum enu = { type<mud::LightType>(),
             true,
-            { "Directional", "Point", "Spot", "Count" },
+            { "Direct", "Point", "Spot", "Count" },
             { 0, 1, 2, 3 },
-            { var(mud::LightType::Directional), var(mud::LightType::Point), var(mud::LightType::Spot), var(mud::LightType::Count) }
+            { var(mud::LightType::Direct), var(mud::LightType::Point), var(mud::LightType::Spot), var(mud::LightType::Count) }
         };
         meta_enum<mud::LightType>();
     }

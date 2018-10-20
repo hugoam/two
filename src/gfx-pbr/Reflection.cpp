@@ -155,7 +155,7 @@ namespace mud
 			Renderer& renderer = m_gfx_system.renderer(Shading::Volume);
 
 			ManualRender probe_render = { render, cubemap.m_fbo[i], uvec4(Rect4), transform, projection };
-			probe_render.cull();
+			//probe_render.cull();
 			probe_render.render(renderer);
 		}
 	}

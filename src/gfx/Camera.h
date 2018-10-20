@@ -28,7 +28,9 @@ namespace mud
 	{
 	public:
 		Camera();
-		Camera(mat4 transform, mat4 projection);
+		Camera(mat4 transform, mat4 projection, bool ortho = false);
+		Camera(mat4 transform, float fov, float aspect, float near, float far);
+		Camera(mat4 transform, vec2 rect, float near, float far);
 		~Camera();
 
 		attr_ vec3 m_eye;
@@ -52,8 +54,6 @@ namespace mud
 		attr_ bool m_clustered = false;
 
 		attr_ vec4 m_lod_offsets = { 0.1f, 0.3f, 0.6f, 0.8f };
-
-		vec4 ortho_rect() { return { -m_height / 2.f * m_aspect, m_height / 2.f * m_aspect, -m_height / 2.f, m_height / 2.f }; };
 
 		void update();
 

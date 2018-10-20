@@ -13,9 +13,8 @@ namespace mud
 	export_ struct MUD_GFX_EXPORT ManualRender
 	{
 		ManualRender(Render& render, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect);
-		ManualRender(Render& render, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect, const mat4& transform, const mat4& projection);
+		ManualRender(Render& render, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect, const mat4& transform, const mat4& projection, bool ortho = false);
 
-		void cull(Plane6* input_planes = nullptr);
 		void render(Renderer& renderer);
 
 		Render& m_render;

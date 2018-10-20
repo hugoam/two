@@ -45,9 +45,9 @@ namespace gfx
 	export_ MUD_GFX_EXPORT void manual_job(Gnode& parent, PassType pass, std::function<void(const Pass&)> job);
 	export_ MUD_GFX_EXPORT void custom_sky(Gnode& parent, std::function<void(Render&)> func);
 
-	export_ MUD_GFX_EXPORT Light& directional_light_node(Gnode& parent);
-	export_ MUD_GFX_EXPORT Light& directional_light_node(Gnode& parent, const quat& rotation);
-	export_ MUD_GFX_EXPORT Light& directional_light_node(Gnode& parent, const vec3& direction);
+	export_ MUD_GFX_EXPORT Light& direct_light_node(Gnode& parent);
+	export_ MUD_GFX_EXPORT Light& direct_light_node(Gnode& parent, const quat& rotation);
+	export_ MUD_GFX_EXPORT Light& direct_light_node(Gnode& parent, const vec3& direction);
 
 	export_ MUD_GFX_EXPORT Material& pbr_material(GfxSystem& gfx, cstring name, const PbrMaterialBlock& pbr_block);
 	export_ MUD_GFX_EXPORT Material& pbr_material(GfxSystem& gfx, cstring name, const Colour& albedo, float metallic = 0.f, float roughness = 1.f);

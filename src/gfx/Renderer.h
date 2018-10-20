@@ -313,6 +313,7 @@ namespace mud
 
 		void frame(const RenderFrame& frame);
 		void render(Render& render);
+		void subrender(Render& render, Render& sub);
 
 		RenderPass& add_pass(unique_ptr<RenderPass> pass);
 

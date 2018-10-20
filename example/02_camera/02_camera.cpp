@@ -14,7 +14,7 @@ void ex_02_camera(Shell& app, Widget& parent, Dockbar& dockbar)
 	Material& material = milky_white(viewer.m_gfx_system);
 
 	Gnode& scene = viewer.m_scene->begin();
-	gfx::directional_light_node(scene);
+	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 	gfx::shape(scene, Sphere(), Symbol(), 0U, &material);
 }

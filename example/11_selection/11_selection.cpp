@@ -23,7 +23,7 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Material& material = milky_white(viewer.m_gfx_system);
 
-	//gfx::directional_light_node(scene);
+	//gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird

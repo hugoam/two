@@ -40,8 +40,8 @@ namespace mud
 		BlockShadow& shadow = pipeline.add_block<BlockShadow>(gfx_system, depth);
 		BlockLight& light = pipeline.add_block<BlockLight>(gfx_system, shadow);
 		BlockReflection& reflection = pipeline.add_block<BlockReflection>(gfx_system);
-		BlockGIBake& gi_bake = pipeline.add_block<BlockGIBake>(gfx_system, light);
 		BlockGITrace& gi_trace = pipeline.add_block<BlockGITrace>(gfx_system);
+		BlockGIBake& gi_bake = pipeline.add_block<BlockGIBake>(gfx_system, light, gi_trace);
 		BlockParticles& particles = pipeline.add_block<BlockParticles>(gfx_system);
 		UNUSED(geometry);
 		UNUSED(particles);
@@ -59,11 +59,11 @@ namespace mud
 		BlockTonemap& tonemap = pipeline.add_block<BlockTonemap>(gfx_system, filter, copy);
 
 		std::vector<GfxBlock*> depth_blocks = { &depth };
-		std::vector<GfxBlock*> geometry_blocks = { &depth };
-		std::vector<GfxBlock*> shading_blocks = { &radiance, &light, &gi_trace, &shadow, &reflection };
-		std::vector<GfxBlock*> gi_blocks = { &light, &gi_bake };
+		std::vector<GfxBlock*> geometry_blocks = {};
+		std::vector<GfxBlock*> shading_blocks = { &radiance, &light, &shadow, &gi_trace, &reflection };
+		std::vector<GfxBlock*> gi_blocks = { &light, &shadow, &gi_bake };
 
-		pipeline.m_pass_blocks[size_t(PassType::Unshaded)] = { &depth };
+		pipeline.m_pass_blocks[size_t(PassType::Unshaded)] = {};
 		pipeline.m_pass_blocks[size_t(PassType::Background)] = { &sky };
 		pipeline.m_pass_blocks[size_t(PassType::Effects)] = { /*&ssao, &ssr, &sss,*/ &resolve };
 		pipeline.m_pass_blocks[size_t(PassType::PostProcess)] = { &dof_blur/*, &exposure*/, &glow, &tonemap };
@@ -101,13 +101,17 @@ namespace mud
 			Program& program_gi_voxelize = gfx_system.programs().create("gi/voxelize");
 			program_gi_voxelize.register_blocks(gi_blocks);
 
-			Program& program_gi_voxel_light = gfx_system.programs().create("gi/voxel_light");
+			Program& program_gi_voxel_light = gfx_system.programs().create("gi/direct_light");
 			program_gi_voxel_light.m_compute = true;
 			program_gi_voxel_light.register_blocks(gi_blocks);
 
-			Program& program_gi_voxel_light_out = gfx_system.programs().create("gi/voxel_light_out");
-			program_gi_voxel_light_out.m_compute = true;
-			program_gi_voxel_light_out.register_blocks(gi_blocks);
+			Program& program_gi_voxel_bounce = gfx_system.programs().create("gi/bounce_light");
+			program_gi_voxel_bounce.m_compute = true;
+			program_gi_voxel_bounce.register_blocks(gi_blocks);
+
+			Program& program_gi_voxel_output = gfx_system.programs().create("gi/output_light");
+			program_gi_voxel_output.m_compute = true;
+			program_gi_voxel_output.register_blocks(gi_blocks);
 		}
 
 		static ForwardRenderer forward_renderer = { gfx_system, pipeline };
@@ -128,8 +132,8 @@ namespace mud
 	ForwardRenderer::ForwardRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
 		: Renderer(gfx_system, pipeline)
 	{
-		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
 		this->add_pass<PassGIProbes>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
+		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
 		this->add_pass<PassClear>(gfx_system);
 #ifdef MUD_DEPTH_PASS
 		this->add_pass<PassDepth>(gfx_system, *pipeline.block<BlockDepth>());
@@ -148,8 +152,8 @@ namespace mud
 	DeferredRenderer::DeferredRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
 		: Renderer(gfx_system, pipeline)
 	{
-		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
 		this->add_pass<PassGIProbes>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
+		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
 		this->add_pass<PassClear>(gfx_system);
 		this->add_pass<PassGeometry>(gfx_system, *pipeline.block<BlockGeometry>());
 		this->add_pass<PassLights>(gfx_system, *pipeline.block<BlockFilter>());
@@ -174,6 +178,7 @@ namespace mud
 	VoxelRenderer::VoxelRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
 		: Renderer(gfx_system, pipeline)
 	{
+		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
 		this->add_pass<PassClear>(gfx_system);
 		this->add_pass<PassGIBake>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
 		this->init();

@@ -184,7 +184,7 @@ namespace gfx
 
 		item.m_node.m_scene->m_pool->iterate_objects<Light>([&](Light& light)
 		{
-			if(light.m_type == LightType::Directional || sphere_aabb_intersection(light.m_node.position(), light.m_range, item.m_aabb))
+			if(light.m_type == LightType::Direct || sphere_aabb_intersection(light.m_node.position(), light.m_range, item.m_aabb))
 				item.m_lights.push_back(&light);
 		});
 	}
@@ -238,7 +238,7 @@ namespace gfx
 		
 		for(const Model::Submodel& submodel : model.m_models)
 		{
-			Gnode& n = node(self, {}, submodel.m_transform);
+			Gnode& n = node(self, {}, parent.m_attach->m_transform * submodel.m_transform);
 			Item& i = item(n, *submodel.m_model, flags, material, instances, transforms);
 			//shape(self, Cube(i.m_aabb.m_center, vec3(0.1f)), Symbol::wire(Colour::Red, true));
 			//shape(self, submodel->m_aabb, Symbol::wire(Colour::White));
@@ -327,13 +327,13 @@ namespace gfx
 		return *self.m_light;
 	}
 
-	Light& directional_light_node(Gnode& parent, const quat& rotation)
+	Light& direct_light_node(Gnode& parent, const quat& rotation)
 	{
 		Gnode& self = node(parent, {}, Zero3, rotation);
-		Light& l = light(self, LightType::Directional, true, Colour{ 0.8f, 0.8f, 0.7f }, 1.f);
+		Light& l = light(self, LightType::Direct, true, Colour{ 0.8f, 0.8f, 0.7f }, 1.f);
 		l.m_energy = 0.6f;
 		l.m_shadow_flags = CSM_Stabilize;
-#if 1 // MUD_PLATFORM_EMSCRIPTEN
+#if MUD_PLATFORM_EMSCRIPTEN
 		l.m_shadow_num_splits = 2;
 #else
 		l.m_shadow_num_splits = 4;
@@ -343,7 +343,7 @@ namespace gfx
 
 	Light& sun_light(Gnode& parent, float azimuth, float elevation)
 	{
-		return directional_light_node(parent, sun_rotation(azimuth, elevation));
+		return direct_light_node(parent, sun_rotation(azimuth, elevation));
 	}
 
 	quat facing(const vec3& direction)
@@ -352,14 +352,14 @@ namespace gfx
 		return { cosf(angle / 2.f), 0.f, 1.f * sinf(angle / 2.f), 0.f };
 	}
 
-	Light& directional_light_node(Gnode& parent, const vec3& direction)
+	Light& direct_light_node(Gnode& parent, const vec3& direction)
 	{
-		return directional_light_node(parent, facing(direction));
+		return direct_light_node(parent, facing(direction));
 	}
 
-	Light& directional_light_node(Gnode& parent)
+	Light& direct_light_node(Gnode& parent)
 	{
-		return directional_light_node(parent, quat{ vec3{ -c_pi / 4.f, -c_pi / 4.f, 0.f } });
+		return direct_light_node(parent, quat{ vec3{ -c_pi / 4.f, -c_pi / 4.f, 0.f } });
 	}
 
 	void radiance(Gnode& parent, const string& texture, BackgroundMode background)

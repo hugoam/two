@@ -14,7 +14,7 @@ namespace mud
 {
 	export_ enum class refl_ LightType : unsigned int
 	{
-		Directional,
+		Direct,
 		Point,
 		Spot,
 		Count

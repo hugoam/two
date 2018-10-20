@@ -23,9 +23,29 @@ namespace mud
 		m_far = 300.f;
 	}
 
-	Camera::Camera(mat4 transform, mat4 projection)
+	Camera::Camera(mat4 transform, mat4 projection, bool ortho)
 		: m_transform(transform)
 		, m_projection(projection)
+		, m_orthographic(ortho)
+	{}
+
+	Camera::Camera(mat4 transform, float fov, float aspect, float near, float far)
+		: m_transform(transform)
+		, m_projection(bxproj(fov, aspect, near, far, bgfx::getCaps()->homogeneousDepth))
+		, m_fov(fov)
+		, m_aspect(aspect)
+		, m_near(near)
+		, m_far(far)
+	{}
+
+	Camera::Camera(mat4 transform, vec2 rect, float near, float far)
+		: m_transform(transform)
+		, m_projection(bxortho(-rect.x / 2.f, rect.x / 2.f, -rect.y / 2.f, rect.y / 2.f, near, far, 0.0f, bgfx::getCaps()->homogeneousDepth))
+		, m_aspect(rect.x / rect.y)
+		, m_near(near)
+		, m_far(far)
+		, m_orthographic(true)
+		, m_height(rect.y)
 	{}
 
 	Camera::~Camera()
@@ -43,13 +63,15 @@ namespace mud
 		return { m_eye + direction * m_far, direction };
 	}
 
+	inline vec4 ortho_rect(float height, float aspect) { return { -height / 2.f * aspect, height / 2.f * aspect, -height / 2.f, height / 2.f }; };
+
 	mat4 Camera::projection(float near, float far, bool ndc)
 	{
 		UNUSED(ndc);
 		if(!m_orthographic)
 			return bxproj(m_fov, m_aspect, near, far, bgfx::getCaps()->homogeneousDepth);
 		else
-			return bxortho(this->ortho_rect(), near, far, 0.0f, bgfx::getCaps()->homogeneousDepth);
+			return bxortho(ortho_rect(m_height, m_aspect), near, far, 0.0f, bgfx::getCaps()->homogeneousDepth);
 	}
 
 	void Camera::update()
@@ -59,7 +81,7 @@ namespace mud
 		if(!m_orthographic)
 			m_projection = bxproj(m_fov, m_aspect, m_near, m_far, bgfx::getCaps()->homogeneousDepth);
 		else
-			m_projection = bxortho(this->ortho_rect(), m_near, m_far, 0.0f, bgfx::getCaps()->homogeneousDepth);
+			m_projection = bxortho(ortho_rect(m_height, m_aspect), m_near, m_far, 0.0f, bgfx::getCaps()->homogeneousDepth);
 	}
 
 	void Camera::set_look_at(const vec3& eye, const vec3& target)
