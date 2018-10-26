@@ -55,7 +55,7 @@ The build instructions for linux and gcc look like:
   - `cd build/projects/gmake-linux`
   - `make config=debug64 -j8`
 - for osx (make): `mud/bin/genie --gcc=osx gmake`
-- for osx (xcode): `mud/bin/genie --osx=ios xcode9`
+- for osx (xcode): `mud/bin/genie --xcode=osx xcode9`
 - for windows (visual studio): `mud/bin/genie vs2017`
 
 # quickstart
