@@ -51,12 +51,12 @@ The build instructions for linux and gcc look like:
 - `git clone --recursive https://github.com/hugoam/mud`
 - `cd mud`
 - for linux (make):
-  - `mud/bin/linux/genie --gcc=linux-gcc gmake`
+  - `bin/linux/genie --gcc=linux-gcc gmake`
   - `cd build/projects/gmake-linux`
   - `make config=debug64 -j8`
-- for osx (make): `mud/bin/darwin/genie --gcc=osx gmake`
-- for osx (xcode): `mud/bin/darwin/genie --xcode=osx xcode9`
-- for windows (visual studio): `mud/bin/windows/genie vs2017`
+- for osx (make): `bin/darwin/genie --gcc=osx gmake`
+- for osx (xcode): `bin/darwin/genie --xcode=osx xcode9`
+- for windows (visual studio): `bin/windows/genie vs2017`
 
 # quickstart
 This is the minimal sample code you need to run a mud application
