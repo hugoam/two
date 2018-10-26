@@ -45,14 +45,18 @@ Here is a slightly more in-depth description of each of mud core components :
 
 # building
 mud is built with [GENie](https://github.com/bkaradzic/GENie) build system, which is based on premake and consists of a bunch of lua scripts. The GENie binaries needed by mud for windows and linux are included for convenience in the `bin` folder.  
-To get a headstart and build mud you should clone the [sample project](https://github.com/hugoam/mud-sample) repository, which builds all the examples. The examples can be built from this repository directly but the data is in the sample repository to keep this one light. 
+To get a headstart and build mud you should clone this repository, and run GENie which will generate projects for mud libraries and for the examples.
 
 The build instructions for linux and gcc look like:
-- `git clone --recursive https://github.com/hugoam/mud-sample`
-- `cd mud-sample`
-- `mud/bin/genie --gcc=linux-gcc gmake`
-- `cd build/projects/gmake-linux`
-- `make config=debug64 -j8`
+- `git clone --recursive https://github.com/hugoam/mud`
+- `cd mud`
+- for linux (make):
+  - `mud/bin/genie --gcc=linux-gcc gmake`
+  - `cd build/projects/gmake-linux`
+  - `make config=debug64 -j8`
+- for osx (make): `mud/bin/genie --gcc=osx gmake`
+- for osx (xcode): `mud/bin/genie --osx=ios xcode9`
+- for windows (visual studio): `mud/bin/genie vs2017`
 
 # quickstart
 This is the minimal sample code you need to run a mud application
