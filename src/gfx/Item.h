@@ -8,6 +8,7 @@
 #include <math/Vec.h>
 #include <math/Colour.h>
 #include <geom/Aabb.h>
+#include <geom/Geom.h>
 #endif
 #include <gfx/Forward.h>
 
@@ -19,27 +20,31 @@
 
 namespace mud
 {
-	export_ enum refl_ ItemFlag : unsigned int
+	export_ struct ItemFlag
 	{
-		ITEM_BILLBOARD = 1 << 0,
-		ITEM_WORLD_GEOMETRY = 1 << 1,
-		ITEM_SELECTABLE = 1 << 2,
-		ITEM_UI = 1 << 3,
-		ITEM_SHADEABLE = 1 << 4,
-		ITEM_NO_UPDATE = 1 << 5,
-		ITEM_LOD_0 = 1 << 6,
-		ITEM_LOD_1 = 1 << 7,
-		ITEM_LOD_2 = 1 << 8,
-		ITEM_LOD_3 = 1 << 9,
-		ITEM_LOD_ALL = (1 << 6) | (1 << 7) | (1 << 8) | (1 << 9)
+		enum Enum : unsigned int
+		{
+			Render = 1 << 0,
+			Shadows = 1 << 1,
+			Occluder = 1 << 2,
+			Billboard = 1 << 3,
+			WorldGeometry = 1 << 4,
+			Selectable = 1 << 5,
+			Ui = 1 << 6,
+			NoUpdate = 1 << 7,
+			Lod0 = 1 << 8,
+			Lod1 = 1 << 9,
+			Lod2 = 1 << 10,
+			Lod3 = 1 << 11,
+			LodAll = Lod0 | Lod1 | Lod2 | Lod3,
+			Default = Render | Shadows | LodAll
+		};
 	};
 
 	export_ enum class refl_ ItemShadow : unsigned int
 	{
-		Off,
-		On,
-		DoubleSided,
-		OnlyShadow
+		Default,
+		DoubleSided
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT Item
@@ -48,13 +53,13 @@ namespace mud
 		Item(Node3& node, const Model& model, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
 		~Item();
 
-		attr_ Node3& m_node;
+		attr_ Node3* m_node;
 		attr_ Model* m_model = nullptr;
 		attr_ uint32_t m_flags = 0;
 		attr_ Colour m_colour = Colour::White;
 		attr_ Material* m_material = nullptr;
 		attr_ bool m_visible = true;
-		attr_ ItemShadow m_cast_shadows = ItemShadow::On;
+		attr_ ItemShadow m_shadow = ItemShadow::Default;
 		attr_ Rig* m_rig = nullptr;
 
 		Aabb m_aabb;
@@ -67,10 +72,12 @@ namespace mud
 		std::vector<mat4> m_instances;
 
 		std::vector<bgfx::InstanceDataBuffer> m_instance_buffers;
-
+		
 		std::vector<Light*> m_lights;
 		//std::vector<ReflectionProbe*> m_reflection_probes;
 		//std::vector<GIProbe*> m_gi_probes;
+		
+		std::vector<LightmapItem*> m_lightmaps;
 
 		float m_depth = 0.f;
 		uint32_t m_layer_mask = 1;

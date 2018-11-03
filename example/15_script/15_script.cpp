@@ -90,7 +90,7 @@ void ex_15_script(Shell& app, Widget& parent, Dockbar& dockbar)
 			object.m_material->m_pbr_block.m_albedo.m_value = object.m_colour;
 
 			Gnode& shape_node = gfx::node(scene, {}, center + vec3{ x * spacing, 0.f, y * spacing });
-			gfx::shape(shape_node, shapes[object.m_shape->index], Symbol(object.m_colour), ITEM_SELECTABLE, object.m_material);
+			gfx::shape(shape_node, shapes[object.m_shape->index], Symbol(object.m_colour), ItemFlag::Default | ItemFlag::Selectable, object.m_material);
 		}
 
 	static LuaInterpreter lua = { true };

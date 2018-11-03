@@ -107,23 +107,12 @@ namespace mud
     }
     
     {
-        static Meta meta = { type<mud::ItemFlag>(), &namspc({ "mud" }), "ItemFlag", sizeof(mud::ItemFlag), TypeClass::Enum };
-        static Enum enu = { type<mud::ItemFlag>(),
-            false,
-            { "ITEM_BILLBOARD", "ITEM_WORLD_GEOMETRY", "ITEM_SELECTABLE", "ITEM_UI", "ITEM_SHADEABLE", "ITEM_NO_UPDATE", "ITEM_LOD_0", "ITEM_LOD_1", "ITEM_LOD_2", "ITEM_LOD_3", "ITEM_LOD_ALL" },
-            { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 960 },
-            { var(mud::ITEM_BILLBOARD), var(mud::ITEM_WORLD_GEOMETRY), var(mud::ITEM_SELECTABLE), var(mud::ITEM_UI), var(mud::ITEM_SHADEABLE), var(mud::ITEM_NO_UPDATE), var(mud::ITEM_LOD_0), var(mud::ITEM_LOD_1), var(mud::ITEM_LOD_2), var(mud::ITEM_LOD_3), var(mud::ITEM_LOD_ALL) }
-        };
-        meta_enum<mud::ItemFlag>();
-    }
-    
-    {
         static Meta meta = { type<mud::ItemShadow>(), &namspc({ "mud" }), "ItemShadow", sizeof(mud::ItemShadow), TypeClass::Enum };
         static Enum enu = { type<mud::ItemShadow>(),
             true,
-            { "Off", "On", "DoubleSided", "OnlyShadow" },
-            { 0, 1, 2, 3 },
-            { var(mud::ItemShadow::Off), var(mud::ItemShadow::On), var(mud::ItemShadow::DoubleSided), var(mud::ItemShadow::OnlyShadow) }
+            { "Default", "DoubleSided" },
+            { 0, 1 },
+            { var(mud::ItemShadow::Default), var(mud::ItemShadow::DoubleSided) }
         };
         meta_enum<mud::ItemShadow>();
     }
@@ -1401,13 +1390,13 @@ namespace mud
             },
             // members
             {
-                { type<mud::Item>(), Address(), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Item>(object).m_node); } },
+                { type<mud::Item>(), member_address(&mud::Item::m_node), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
                 { type<mud::Item>(), member_address(&mud::Item::m_model), type<mud::Model>(), "model", Ref(type<mud::Model>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
                 { type<mud::Item>(), member_address(&mud::Item::m_flags), type<uint32_t>(), "flags", var(uint32_t()), Member::Value, nullptr },
                 { type<mud::Item>(), member_address(&mud::Item::m_colour), type<mud::Colour>(), "colour", var(mud::Colour()), Member::Value, nullptr },
                 { type<mud::Item>(), member_address(&mud::Item::m_material), type<mud::Material>(), "material", Ref(type<mud::Material>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
                 { type<mud::Item>(), member_address(&mud::Item::m_visible), type<bool>(), "visible", var(bool(true)), Member::Value, nullptr },
-                { type<mud::Item>(), member_address(&mud::Item::m_cast_shadows), type<mud::ItemShadow>(), "cast_shadows", var(mud::ItemShadow()), Member::Value, nullptr },
+                { type<mud::Item>(), member_address(&mud::Item::m_shadow), type<mud::ItemShadow>(), "shadow", var(mud::ItemShadow()), Member::Value, nullptr },
                 { type<mud::Item>(), member_address(&mud::Item::m_rig), type<mud::Rig>(), "rig", Ref(type<mud::Rig>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
             },
             // methods
@@ -1705,10 +1694,10 @@ namespace mud
     }
     
 
-	// mud::ModelConfig
+	// mud::ImportConfig
 	{
-		static Meta meta = { type<mud::ModelConfig>(), &namspc({ "mud" }), "ModelConfig", sizeof(mud::ModelConfig), TypeClass::Struct };
-		static Class cls = { type<mud::ModelConfig>(),
+		static Meta meta = { type<mud::ImportConfig>(), &namspc({ "mud" }), "ImportConfig", sizeof(mud::ImportConfig), TypeClass::Struct };
+		static Class cls = { type<mud::ImportConfig>(),
 			// bases
 			{  },
 			{  },
@@ -1717,15 +1706,18 @@ namespace mud
 			},
 			// copy constructor
 			{
-				{ type<mud::ModelConfig>(), [](Ref ref, Ref other) { new(&val<mud::ModelConfig>(ref)) mud::ModelConfig(val<mud::ModelConfig>(other)); } }
+				{ type<mud::ImportConfig>(), [](Ref ref, Ref other) { new(&val<mud::ImportConfig>(ref)) mud::ImportConfig(val<mud::ImportConfig>(other)); } }
 			},
 			// members
 			{
-				{ type<mud::ModelConfig>(), member_address(&mud::ModelConfig::m_format), type<mud::ModelFormat>(), "format", var(ModelFormat::obj), Member::Value, nullptr },
-				{ type<mud::ModelConfig>(), member_address(&mud::ModelConfig::m_position), type<mud::vec3>(), "position", var(Zero3), Member::Value, nullptr },
-				{ type<mud::ModelConfig>(), member_address(&mud::ModelConfig::m_rotation), type<mud::quat>(), "rotation", var(ZeroQuat), Member::Value, nullptr },
-				{ type<mud::ModelConfig>(), member_address(&mud::ModelConfig::m_scale), type<mud::vec3>(), "scale", var(Unit3), Member::Value, nullptr },
-				{ type<mud::ModelConfig>(), member_address(&mud::ModelConfig::m_as_prefab), type<bool>(), "as_prefab", var(bool(false)), Member::Value, nullptr }
+				{ type<mud::ImportConfig>(), member_address(&mud::ImportConfig::m_format), type<mud::ModelFormat>(), "format", var(ModelFormat::obj), Member::Value, nullptr },
+				{ type<mud::ImportConfig>(), member_address(&mud::ImportConfig::m_position), type<mud::vec3>(), "position", var(Zero3), Member::Value, nullptr },
+				{ type<mud::ImportConfig>(), member_address(&mud::ImportConfig::m_rotation), type<mud::quat>(), "rotation", var(ZeroQuat), Member::Value, nullptr },
+				{ type<mud::ImportConfig>(), member_address(&mud::ImportConfig::m_scale), type<mud::vec3>(), "scale", var(Unit3), Member::Value, nullptr },
+				{ type<mud::ImportConfig>(), member_address(&mud::ImportConfig::m_as_prefab), type<bool>(), "as_prefab", var(bool(false)), Member::Value, nullptr },
+				{ type<mud::ImportConfig>(), member_address(&mud::ImportConfig::m_exclude_elements), type<std::vector<std::string>>(), "exclude_elements", var(std::vector<std::string>()), Member::Value, nullptr },
+				{ type<mud::ImportConfig>(), member_address(&mud::ImportConfig::m_exclude_materials), type<std::vector<std::string>>(), "exclude_materials", var(std::vector<std::string>()), Member::Value, nullptr },
+				{ type<mud::ImportConfig>(), member_address(&mud::ImportConfig::m_include_elements), type<std::vector<std::string>>(), "include_elements", var(std::vector<std::string>()), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1738,7 +1730,7 @@ namespace mud
 
 
 
-		meta_class<mud::ModelConfig>();
+		meta_class<mud::ImportConfig>();
 	}
 
     
@@ -2934,7 +2926,6 @@ namespace mud
         m.m_types.push_back(&type<mud::Interpolation>());
         m.m_types.push_back(&type<mud::IsometricAngle>());
         m.m_types.push_back(&type<mud::Item>());
-        m.m_types.push_back(&type<mud::ItemFlag>());
         m.m_types.push_back(&type<mud::ItemShadow>());
         m.m_types.push_back(&type<mud::Joint>());
         m.m_types.push_back(&type<mud::Light>());
@@ -2947,7 +2938,7 @@ namespace mud
         m.m_types.push_back(&type<mud::Mesh>());
         m.m_types.push_back(&type<mud::Model>());
 		m.m_types.push_back(&type<mud::ModelFormat>());
-		m.m_types.push_back(&type<mud::ModelConfig>());
+		m.m_types.push_back(&type<mud::ImportConfig>());
         m.m_types.push_back(&type<mud::ModelItem>());
         m.m_types.push_back(&type<mud::Month>());
         m.m_types.push_back(&type<mud::Node3>());

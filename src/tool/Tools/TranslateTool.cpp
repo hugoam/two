@@ -70,7 +70,7 @@ namespace mud
 #else
 		auto grab_point = [this, axis](Viewer& viewer, const vec2& pos) { UNUSED(pos); return gizmo_grab_linear(viewer, m_transform, axis); };
 
-		auto draw_handle = [=](Gnode& parent) { return &translate_1d_gizmo(parent, axis, Colour::Invisible, 0.05f, ITEM_UI); };
+		auto draw_handle = [=](Gnode& parent) { return &translate_1d_gizmo(parent, axis, Colour::Invisible, 0.05f, ItemFlag::Ui); };
 		auto draw_gizmo = [=](Gnode& parent, bool active) { translate_1d_gizmo(parent, axis, gizmo_colour(hue, active), 0.02f); };
 		return { draw_handle, draw_gizmo, nullptr, false, grab_point };
 #endif
@@ -88,7 +88,7 @@ namespace mud
 #else
 		auto grab_point = [this, normal](Viewer& viewer, const vec2& pos) { UNUSED(pos); return gizmo_grab_planar(viewer, m_transform, normal); };
 
-		auto draw_handle = [=](Gnode& parent) { return &translate_2d_gizmo(parent, normal, Colour::Invisible, ITEM_UI); };
+		auto draw_handle = [=](Gnode& parent) { return &translate_2d_gizmo(parent, normal, Colour::Invisible, ItemFlag::Ui); };
 		auto draw_gizmo = [=](Gnode& parent, bool active) { translate_2d_gizmo(parent, normal, gizmo_colour(hue, active)); };
 		return { draw_handle, draw_gizmo, nullptr, false, grab_point };
 #endif

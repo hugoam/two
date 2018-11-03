@@ -1,5 +1,6 @@
 #include <gfx-pbr/Forward.h>
 #include <gfx-pbr/Light.h>
+#include <gfx-pbr/Lightmap.h>
 #include <gfx-pbr/Pipeline.h>
 #include <gfx-pbr/Radiance.h>
 #include <gfx-pbr/Reflection.h>

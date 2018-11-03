@@ -5,6 +5,7 @@
 #include <math/Vec.h>
 #include <math/VecOps.h>
 #include <math/Colour.h>
+#include <gfx/Importer.h>
 #endif
 #include <gfx-gltf/Forward.h>
 
@@ -12,6 +13,12 @@
 #include <map>
 #include <vector>
 #endif
+
+export_ struct refl_ glTFNodeExtras
+{
+	bool occluder = false;
+	bool collision = false;
+};
 
 // all the declarations here should fit the glTF 2.0 specification
 // https://github.com/KhronosGroup/glTF/tree/master/specification/2.0
@@ -44,6 +51,7 @@ export_ enum class refl_ glTFType : unsigned int
 
 export_ struct refl_ glTFBuffer
 {
+	attr_ std::string name;
 	attr_ std::string mime_type;
 	attr_ std::string uri;
 	attr_ int byte_length;
@@ -51,6 +59,7 @@ export_ struct refl_ glTFBuffer
 
 export_ struct refl_ glTFImage
 {
+	attr_ std::string name;
 	attr_ std::string mime_type;
 	attr_ std::string uri;
 	attr_ int buffer_view;
@@ -59,6 +68,7 @@ export_ struct refl_ glTFImage
 export_ struct refl_ glTFBufferView
 {
 	glTFBufferView() {}
+	attr_ std::string name;
 	attr_ int buffer = 0;
 	attr_ size_t byte_offset = 0;
 	attr_ size_t byte_length = 0;
@@ -95,6 +105,7 @@ export_ struct refl_ glTFAccessor
 	glTFAccessor(int buffer_view, int byte_offset, glTFComponentType component_type, bool normalized, int count, glTFType type)
 		: buffer_view(buffer_view), byte_offset(byte_offset), component_type(component_type), normalized(normalized), count(count), type(type)
 	{}
+	attr_ std::string name;
 	attr_ int buffer_view = -1;
 	attr_ int byte_offset = 0;
 	attr_ glTFComponentType component_type;
@@ -173,6 +184,7 @@ export_ struct refl_ glTFPrimitive
 
 export_ struct refl_ glTFMesh
 {
+	attr_ std::string name;
 	attr_ std::vector<glTFPrimitive> primitives;
 	attr_ std::vector<float> weights;
 };
@@ -195,6 +207,7 @@ export_ struct refl_ glTFOrthographic
 
 export_ struct refl_ glTFCamera
 {
+	attr_ std::string name;
 	attr_ std::string type;
 	attr_ glTFOrthographic orthographic;
 	attr_ glTFPerspective perspective;
@@ -322,13 +335,15 @@ namespace mud
 {
 	using string = std::string;
 
-	export_ class MUD_GFX_GLTF_EXPORT ImporterGltf
+	export_ class MUD_GFX_GLTF_EXPORT ImporterGltf : public Importer
 	{
 	public:
 		ImporterGltf(GfxSystem& gfx_system);
 
 		GfxSystem& m_gfx_system;
 
-		void import_model(Model& model, const string& path, const ModelConfig& config);
+		virtual void import(Import& import, const string& path, const ImportConfig& config) override;
+		virtual void import_model(Model& model, const string& path, const ImportConfig& config) override;
+		virtual void import_prefab(Prefab& prefab, const string& path, const ImportConfig& config) override;
 	};
 }

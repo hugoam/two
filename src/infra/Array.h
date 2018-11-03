@@ -61,6 +61,7 @@ namespace mud
 		const T* end() const { return m_pointer + m_count; }
 
 		void copy(array<T> dest) { memcpy(dest.m_pointer, m_pointer, sizeof(T) * m_count); }
+		void copy(void* dest) { memcpy(dest, m_pointer, sizeof(T) * m_count); }
 
 		T* m_pointer;
 		size_t m_count;

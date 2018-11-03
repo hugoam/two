@@ -38,6 +38,7 @@ module mud.gfx;
 #include <gfx/Asset.h>
 #include <gfx/Asset.impl.h>
 #include <gfx/Assets.h>
+#include <gfx/Importer.h>
 #include <gfx/Pipeline.h>
 #include <gfx/Filter.h>
 #include <gfx/Skeleton.h>
@@ -96,6 +97,8 @@ namespace mud
 		unique_ptr<AssetStore<ParticleGenerator>> m_particles;
 		unique_ptr<AssetStore<Prefab>> m_prefabs;
 
+		std::vector<Importer*> m_importers;
+
 		std::vector<Renderer*> m_renderers;
 
 		Texture* m_white_texture = nullptr;
@@ -140,7 +143,17 @@ namespace mud
 	AssetStore<Model>& GfxSystem::models() { return *m_impl->m_models; }
 	AssetStore<ParticleGenerator>& GfxSystem::particles() { return *m_impl->m_particles; }
 	AssetStore<Prefab>& GfxSystem::prefabs() { return *m_impl->m_prefabs; }
-	
+
+	void GfxSystem::add_importer(ModelFormat format, Importer& importer)
+	{
+		m_impl->m_importers[size_t(format)] = &importer;
+	}
+
+	Importer* GfxSystem::importer(ModelFormat format)
+	{
+		return m_impl->m_importers[size_t(format)];
+	}
+
 	object_ptr<Context> GfxSystem::create_context(cstring name, int width, int height, bool fullScreen)
 	{
 		object_ptr<GfxContext> context = make_object<GfxContext>(*this, name, width, height, fullScreen, !m_initialized);
@@ -161,7 +174,11 @@ namespace mud
 		m_impl->m_materials = make_unique<AssetStore<Material>>(*this, "materials/", ".mtl");
 		m_impl->m_models = make_unique<AssetStore<Model>>(*this, "models/");
 		m_impl->m_particles = make_unique<AssetStore<ParticleGenerator>>(*this, "particles/", ".ptc");
-		m_impl->m_prefabs = make_unique<AssetStore<Prefab>>(*this, "prefabs/", ".pfb");
+		//m_impl->m_prefabs = make_unique<AssetStore<Prefab>>(*this, "prefabs/", ".pfb");
+		m_impl->m_prefabs = make_unique<AssetStore<Prefab>>(*this, "models/");
+
+		m_impl->m_renderers.resize(size_t(Shading::Count));
+		m_impl->m_importers.resize(size_t(ModelFormat::Count));
 
 		m_impl->m_white_texture = this->textures().file("white.png");
 		m_impl->m_black_texture = this->textures().file("black.png");
@@ -193,7 +210,6 @@ namespace mud
 
 	void GfxSystem::set_renderer(Shading shading, Renderer& renderer)
 	{
-		m_impl->m_renderers.resize(max(size_t(shading) + 1, m_impl->m_renderers.size()));
 		m_impl->m_renderers[size_t(shading)] = &renderer;
 	}
 
@@ -221,9 +237,8 @@ namespace mud
 		{
 			ZoneScopedNC("renderers", tracy::Color::Cyan);
 
-			for(auto& renderer : m_impl->m_renderers)
-				if(renderer)
-					renderer->frame(frame);
+			for(auto& block : m_pipeline->m_gfx_blocks)
+				block->begin_frame(frame);
 		}
 	}
 
@@ -280,8 +295,9 @@ namespace mud
 
 	void GfxSystem::render(Renderer& renderer, GfxContext& context, Viewport& viewport, RenderFrame& frame)
 	{
-		Render render(viewport, *context.m_target, frame);
+		Render render = { renderer.m_shading, viewport, *context.m_target, frame };
 		render.m_scene.gather_render(render);
+		render.m_viewport.cull(render);
 		render.m_viewport.render(render);
 		
 		if(rect_w(viewport.m_rect) != 0 && rect_h(viewport.m_rect) != 0)
@@ -290,6 +306,11 @@ namespace mud
 		//copy.debug_show_texture(*render.m_target, render.m_environment->m_radiance.m_texture->m_texture, false, false, false, 0);
 		//copy.debug_show_texture(*render.m_target, render.m_environment->m_radiance.m_roughness_array, false, false, false, 1);
 		//copy.debug_show_texture(*render.m_target, bgfx::getTexture(render.m_target->m_effects.last()));
+	}
+
+	RenderFrame GfxSystem::render_frame()
+	{
+		return { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
 	}
 
 	LocatedFile GfxSystem::locate_file(cstring file, array<cstring> extensions)

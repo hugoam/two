@@ -35,7 +35,10 @@ namespace mud
 		Shaded,
 		Volume,
 		Voxels,
-		Clear
+		Lightmap,
+		Clear,
+
+		Count
 	};
 
 	struct RenderFilters;
@@ -44,6 +47,7 @@ namespace mud
 	{
 	public:
 		Viewport(Camera& camera, Scene& scene, uvec4 rect = {}, bool scissor = false);
+		~Viewport();
 
 		attr_ Camera* m_camera;
 		attr_ Scene* m_scene;
@@ -60,8 +64,11 @@ namespace mud
 		std::function<uvec4()> m_get_size;
 		std::function<void(Render&)> m_render;
 
+		unique_ptr<Culler> m_culler;
+
 		void render_pass(cstring name, const Pass& render_pass);
 
+		void cull(Render& render);
 		void render(Render& render);
 
 		Ray ray(const vec2& pos);

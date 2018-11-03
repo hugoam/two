@@ -60,12 +60,12 @@ namespace mud
 		void set_look_at(const vec3& eye, const vec3& target);
 		void set_isometric(IsometricAngle angle, const vec3& position);
 
-		Plane near_plane();
-		Plane far_plane();
+		Plane near_plane() const;
+		Plane far_plane() const;
 
 		mat4 projection(float near, float far, bool ndc = false);
 
-		Ray ray(const vec2& offset);
+		Ray ray(const vec2& offset) const;
 
 		unique_ptr<Froxelizer> m_clusters;
 	};

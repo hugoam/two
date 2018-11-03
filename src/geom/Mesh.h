@@ -55,17 +55,13 @@ namespace mud
 
 		std::vector<uint32_t> m_indices;
 
+		bool m_quantize = false;
+
 		void bake(bool normals, bool tangents);
 
 		void pack_vertices(MeshData& data, const mat4& transform);
 		void generate_normals();
 		void generate_tangents();
-
-		/*inline ShapeVertex& vertex()
-		{
-			m_vertices.emplace_back();
-			return m_vertices.back();
-		}*/
 	};
 
 	export_ MUD_GEOM_EXPORT void generate_mikkt_tangents(array<ShapeIndex> indices, array<ShapeVertex> vertices);

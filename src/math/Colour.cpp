@@ -113,9 +113,24 @@ namespace mud
 		return value < 0.04045 ? float(value * (1.0 / 12.92)) : float(std::pow((value + 0.055) * (1.0 / (1 + 0.055)), 2.4));
 	}
 
+	inline float to_gamma(float value)
+	{
+		return value > 0.0031308 ? float(value * 12.92) : float(std::pow(abs(value), 1.0 / 2.4) * 1.055 - 0.055);
+	}
+
 	Colour to_linear(const Colour& colour)
 	{
 		return Colour(to_linear(colour.m_r), to_linear(colour.m_g), to_linear(colour.m_b), colour.m_a);
+	}
+
+	Colour to_gamma(const Colour& colour)
+	{
+		return Colour(to_gamma(colour.m_r), to_gamma(colour.m_g), to_gamma(colour.m_b), colour.m_a);
+	}
+
+	Colour to_srgb(const Colour& colour)
+	{
+		return Colour(to_gamma(colour.m_r), to_gamma(colour.m_g), to_gamma(colour.m_b), colour.m_a);
 	}
 
 	float hue_to_rgb(float p, float q, float t)

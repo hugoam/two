@@ -160,7 +160,7 @@ namespace mud
 			if(!m_dragging)
 			{
 				auto callback = [&](Item* item) { m_current = &this->gizmo(*item); };
-				viewer.picker(1).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ITEM_UI);
+				viewer.picker(1).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Ui);
 			}
 		}
 

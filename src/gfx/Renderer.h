@@ -52,11 +52,13 @@ namespace mud
 		Lights = 13,
 		Clusters = 14,
 		LightRecords = 15,
+		Lightmap = 7,  // can't be 16 because max samplers... FIX THIS
 	};
 
 	export_ enum class PassType : unsigned int
 	{
 		VoxelGI,
+		Lightmap,
 		Shadowmap,
 		Probes,
 		Clear,
@@ -125,16 +127,20 @@ namespace mud
 		float m_time;
 		float m_delta_time;
 		uint8_t m_render_pass;
+		uint32_t m_num_draw_calls;
+		uint32_t m_num_vertices;
+		uint32_t m_num_triangles;
 	};
 
 	struct RenderFilters;
 
 	export_ struct MUD_GFX_EXPORT Render : public NonCopy
 	{
-		Render(Viewport& viewport, RenderTarget& target, RenderFrame& frame);
-		Render(Viewport& viewport, bgfx::FrameBufferHandle& target_fbo, RenderFrame& frame);
+		Render(Shading shading, Viewport& viewport, RenderTarget& target, RenderFrame& frame);
+		Render(Shading shading, Viewport& viewport, bgfx::FrameBufferHandle& target_fbo, RenderFrame& frame);
 		~Render();
 
+		Shading m_shading;
 		Scene& m_scene;
 		RenderTarget* m_target;
 		bgfx::FrameBufferHandle m_target_fbo;
@@ -161,6 +167,10 @@ namespace mud
 		uint8_t m_sub_pass_index = 0;
 
 		unique_ptr<Shot> m_shot;
+
+		uint32_t m_num_draw_calls;
+		uint32_t m_num_vertices;
+		uint32_t m_num_triangles;
 
 		Pass next_pass(const char* name, bool subpass = false);
 		uint8_t next_pass_id() { return m_pass_index++; }
@@ -202,7 +212,7 @@ namespace mud
 		GfxBlock(GfxSystem& gfx_system, T& self) : GfxBlock(gfx_system, type<T>()) { UNUSED(self); }
 
 		virtual void init_block() = 0;
-		virtual void begin_frame() {}
+		virtual void begin_frame(const RenderFrame& frame) { UNUSED(frame); }
 
 		virtual void begin_render(Render& render) = 0;
 		virtual void begin_pass(Render& render) = 0;
@@ -228,6 +238,7 @@ namespace mud
 
 		virtual void options(Render& render, ShaderVersion& shader_version) const = 0;
 		virtual void submit(Render& render, const Pass& render_pass) const = 0;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const { UNUSED(element); this->submit(render, render_pass); }
 	};
 
 	export_ class MUD_GFX_EXPORT RenderPass
@@ -297,11 +308,12 @@ namespace mud
 	export_ class MUD_GFX_EXPORT Renderer : public NonCopy
 	{
 	public:
-		Renderer(GfxSystem& gfx_system, Pipeline& pipeline);
+		Renderer(GfxSystem& gfx_system, Pipeline& pipeline, Shading shading);
 		~Renderer();
 
 		GfxSystem& m_gfx_system;
 		Pipeline& m_pipeline;
+		Shading m_shading;
 
 		struct Impl;
 		unique_ptr<Impl> m_impl;
@@ -311,7 +323,6 @@ namespace mud
 		bool has_block(GfxBlock& gfx_block);
 		void add_block(GfxBlock& gfx_block);
 
-		void frame(const RenderFrame& frame);
 		void render(Render& render);
 		void subrender(Render& render, Render& sub);
 

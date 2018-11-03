@@ -63,3 +63,12 @@
 [submodule "3rdparty/tracy"]
 	path = 3rdparty/tracy
 	url = https://bitbucket.org/wolfpld/tracy.git
+[submodule "3rdparty/xatlas"]
+	path = 3rdparty/xatlas
+	url = https://github.com/jpcy/xatlas
+[submodule "3rdparty/meshoptimizer"]
+	path = 3rdparty/meshoptimizer
+	url = https://github.com/zeux/meshoptimizer
+[submodule "3rdparty/culling"]
+	path = 3rdparty/culling
+	url = https://github.com/GameTechDev/MaskedOcclusionCulling

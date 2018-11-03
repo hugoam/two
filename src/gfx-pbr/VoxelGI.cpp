@@ -6,11 +6,14 @@
 #include <gfx/Cpp20.h>
 
 #include <bgfx/bgfx.h>
+#include <xatlas.h>
 
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
+#include <geom/Intersect.h>
 #include <pool/ObjectPool.h>
+#include <gfx/Item.h>
 #include <gfx/ManualRender.h>
 #include <gfx/Shot.h>
 #include <gfx/Graph.h>
@@ -21,7 +24,10 @@ module mud.gfx.pbr;
 #include <gfx-pbr/VoxelGI.h>
 #include <gfx-pbr/Light.h>
 #include <gfx-pbr/Shadow.h>
+#include <gfx-pbr/Lightmap.h>
 #endif
+
+#define LIGHTMAP_XATLAS
 
 namespace mud
 {
@@ -48,6 +54,9 @@ namespace gfx
 		: m_node(node)
 	{}
 
+	GIProbe::~GIProbe()
+	{}
+
 	void GIProbe::resize(uint16_t subdiv, const vec3& extents)
 	{
 		if(bgfx::isValid(m_raster))
@@ -62,17 +71,41 @@ namespace gfx
 
 		m_normal_bias = length(extents * 2.f / float(subdiv)) * sqrt(2.f) * 2.f;
 
-		m_raster = bgfx::createTexture2D(subdiv, subdiv, false, 0, bgfx::TextureFormat::RGBA8, BGFX_TEXTURE_RT);
+		m_raster = bgfx::createTexture2D(subdiv, subdiv, false, 1, bgfx::TextureFormat::RGBA8, BGFX_TEXTURE_RT);
 		m_voxels_color   = bgfx::createTexture3D(subdiv, subdiv, subdiv, false, bgfx::TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE);
 		m_voxels_normals = bgfx::createTexture3D(subdiv, subdiv, subdiv, false, bgfx::TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE);
 		m_voxels_light   = bgfx::createTexture3D(subdiv, subdiv, subdiv, false, bgfx::TextureFormat::R32U, BGFX_TEXTURE_COMPUTE_WRITE);
 
 		bgfx::TextureHandle textures[4] = { m_raster, m_voxels_color, m_voxels_normals, m_voxels_light };
 		m_fbo = bgfx::createFrameBuffer(4, textures, true);
-
-		m_voxels_light_rgba = bgfx::createTexture3D(subdiv, subdiv, subdiv, true, bgfx::TextureFormat::RGBA8, BGFX_TEXTURE_RT | BGFX_TEXTURE_COMPUTE_WRITE);
+		
+		m_voxels_light_rgba = bgfx::createTexture3D(subdiv, subdiv, subdiv, true, bgfx::TextureFormat::RGBA16F, BGFX_TEXTURE_RT | BGFX_TEXTURE_COMPUTE_WRITE);
 
 		m_dirty = true;
+	}
+
+	void GIProbe::lightmap(uint32_t size, float density, const string& save_path)
+	{
+		m_bake_lightmaps = true;
+		m_lightmaps = make_unique<LightmapAtlas>(size, density);
+		m_lightmaps->m_dirty = true;
+		m_lightmaps->m_save_path = save_path;
+	}
+
+	void save_gi_probe(GfxSystem& gfx_system, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path)
+	{
+		uint16_t subdiv = gi_probe.m_subdiv;
+		bgfx::TextureHandle texture = bgfx::createTexture3D(subdiv, subdiv, subdiv, true, source_format, BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK);
+		bgfx::blit(0, texture, 0, 0, 0, 0, gi_probe.m_voxels_light_rgba, 0, 0, 0, 0, subdiv, subdiv, subdiv);
+		bgfx::frame();
+		bgfx::frame();
+
+		save_bgfx_texture(gfx_system.m_allocator, gfx_system.file_writer(), path.c_str(), target_format, texture, source_format, uint16_t(gi_probe.m_subdiv), uint16_t(gi_probe.m_subdiv), uint16_t(gi_probe.m_subdiv));
+	}
+
+	void load_gi_probe(GfxSystem& gfx_system, GIProbe& gi_probe, const string& path)
+	{
+		gi_probe.m_voxels_light_rgba = load_bgfx_texture(gfx_system.m_allocator, gfx_system.file_reader(), path.c_str());
 	}
 
 	PassGIBake::PassGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockGIBake& block_gi_bake)
@@ -83,12 +116,15 @@ namespace gfx
 
 	void PassGIBake::next_draw_pass(Render& render, Pass& render_pass)
 	{
+		bool conservative = (bgfx::getCaps()->supported & BGFX_CAPS_CONSERVATIVE_RASTER) != 0;
+		if(!conservative)
+			printf("WARNING: rendering GI probe without conservative raster support will produce wrong output\n");
+
 		UNUSED(render); UNUSED(render_pass);
-		render_pass.m_bgfx_state = BGFX_STATE_CONSERVATIVE_RASTER | BGFX_STATE_MSAA;
-		//render_pass.m_bgfx_state = BGFX_STATE_CONSERVATIVE_RASTER | BGFX_STATE_CULL_CW | BGFX_STATE_MSAA;
+		render_pass.m_bgfx_state = BGFX_STATE_CONSERVATIVE_RASTER | BGFX_STATE_CULL_CW | BGFX_STATE_MSAA;
 
 #ifndef VOXELGI_COMPUTE_LIGHTS
-		GIProbe gi_probe = *m_block_gi_bake.m_bake_probe;
+		GIProbe& gi_probe = *m_block_gi_bake.m_bake_probe;
 		mat4 view = bxidentity();//gi_probe.m_transform * bxscale(1.f / gi_probe.m_extents);
 		m_block_light.update_lights(render, view, to_array(render.m_shot->m_lights), to_array(m_block_light.m_block_shadow.m_shadows));
 #endif
@@ -117,23 +153,33 @@ namespace gfx
 		if(!check_lighting(render.m_lighting, Lighting::VoxelGI))
 			return;
 
-		m_block_gi_bake.compile();
-
 		for(GIProbe* gi_probe : render.m_shot->m_gi_probes)
 		{
 			if(gi_probe->m_enabled && gi_probe->m_dirty)
 			{
-				m_block_gi_bake.voxelize(render, *gi_probe);
-				m_block_gi_bake.output(render, *gi_probe);
-
-				for(int i = 0; i < gi_probe->m_bounces; ++i)
+				if(gi_probe->m_mode == GIProbeMode::Voxelize)
 				{
-					// @todo fix D3D bounce bug
-					m_block_gi_bake.bounce(render, *gi_probe);
+					m_block_gi_bake.voxelize(render, *gi_probe);
 					m_block_gi_bake.output(render, *gi_probe);
+
+					for(int i = 0; i < gi_probe->m_bounces; ++i)
+					{
+						// @todo fix D3D bounce bug
+						m_block_gi_bake.bounce(render, *gi_probe);
+						m_block_gi_bake.output(render, *gi_probe);
+					}
+
+					gi_probe->m_dirty = false;
+
+					//string path = m_gfx_system.m_resource_path + "gi_probe.dds";
+					//save_gi_probe(m_gfx_system, *gi_probe, bgfx::TextureFormat::RGBA16F, bgfx::TextureFormat::BC6H, path);
 				}
 
-				gi_probe->m_dirty = false;
+				if(gi_probe->m_mode == GIProbeMode::LoadVoxels)
+				{
+					string path = m_gfx_system.m_resource_path + "gi_probe.dds";
+					load_gi_probe(m_gfx_system, *gi_probe, path);
+				}
 			}
 		}
 	}
@@ -153,14 +199,6 @@ namespace gfx
 		m_bounce_light = &m_gfx_system.programs().fetch("gi/bounce_light");
 		m_output_light = &m_gfx_system.programs().fetch("gi/output_light");
 	}
-	
-	void BlockGIBake::compile()
-	{
-		m_voxelize->update(m_gfx_system);
-		m_direct_light->update(m_gfx_system);
-		m_bounce_light->update(m_gfx_system);
-		m_output_light->update(m_gfx_system);
-	}
 
 	void BlockGIBake::voxelize(Render& render, GIProbe& gi_probe)
 	{
@@ -170,7 +208,7 @@ namespace gfx
 		
 		Camera camera = { gi_probe.m_transform, vec2(extents.x * 2.f, extents.y * 2.f), -extents.z, extents.z };
 		Viewport viewport = { camera, render.m_scene, { uvec2(0), uvec2(gi_probe.m_subdiv) } };
-		Render voxel_render = { viewport, gi_probe.m_fbo, render.m_frame };
+		Render voxel_render = { Shading::Voxels, viewport, gi_probe.m_fbo, render.m_frame };
 
 		BlockShadow& block_shadow = *m_gfx_system.m_pipeline->block<BlockShadow>();
 		CSMFilterMode pcf_level = block_shadow.m_pcf_level;
@@ -246,7 +284,7 @@ namespace gfx
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
 
 		encoder.setImage(0, u_voxelgi.s_voxels_light,      gi_probe.m_voxels_light,      0, bgfx::Access::ReadWrite, bgfx::TextureFormat::R32U);
-		encoder.setImage(1, u_voxelgi.s_voxels_light_rgba, gi_probe.m_voxels_light_rgba, 0, bgfx::Access::ReadWrite, bgfx::TextureFormat::RGBA8);
+		encoder.setImage(1, u_voxelgi.s_voxels_light_rgba, gi_probe.m_voxels_light_rgba, 0, bgfx::Access::ReadWrite, bgfx::TextureFormat::RGBA16F);
 
 		uint16_t subdiv = gi_probe.m_subdiv;
 		bgfx::ProgramHandle program = m_output_light->default_version();

@@ -67,6 +67,16 @@ namespace mud
 			}
 	}
 
+	ImmediateDraw::Batch* ImmediateDraw::batch(DrawMode draw_mode, size_t vertex_count)
+	{
+		size_t& cursor = m_cursor[draw_mode];
+		if(m_batches[draw_mode][cursor].m_vertices.size() + vertex_count > UINT16_MAX)
+			cursor++;
+		if(cursor > m_batches[draw_mode].size())
+			return nullptr;
+		return &m_batches[draw_mode][cursor];
+	}
+
 	void ImmediateDraw::draw(const mat4& transform, const ProcShape& shape)
 	{
 		this->draw(transform, carray<ProcShape, 1>{ shape });
@@ -87,12 +97,9 @@ namespace mud
 
 	void ImmediateDraw::draw(const mat4& transform, array<ProcShape> shapes, ShapeSize size, DrawMode draw_mode)
 	{
-		size_t& cursor = m_cursor[draw_mode];
-		if(m_batches[draw_mode][cursor].m_vertices.size() + size.vertex_count > UINT16_MAX)
-			cursor++;
-		if(cursor > m_batches[draw_mode].size())
-			return;
-		this->draw(m_batches[draw_mode][cursor], transform, shapes, size, draw_mode);
+		Batch* batch = this->batch(draw_mode, size.vertex_count);
+		if(batch)
+			this->draw(*batch, transform, shapes, size, draw_mode);
 	}
 
 	void ImmediateDraw::draw(Batch& batch, const mat4& transform, array<ProcShape> shapes, ShapeSize size, DrawMode draw_mode)
@@ -119,6 +126,7 @@ namespace mud
 		for(size_t i = vertex_offset; i < batch.m_vertices.size(); ++i)
 		{
 			batch.m_vertices[i].m_position = vec3(transform * vec4(batch.m_vertices[i].m_position, 1.f));
+			//batch.m_vertices[i].m_position = batch.m_vertices[i].m_position;
 		}
 	}
 
@@ -212,7 +220,7 @@ namespace mud
 		{
 			printf("INFO: created indexed Shape %s %s\n", shape.m_type.m_name, pack_json(Ref(&shape)).c_str());
 			string name = "Shape:" + string(meta(shape.m_type).m_name);
-			m_symbols[hash][shape_mem] = draw_model(name.c_str(), ProcShape{ symbol, &shape, draw_mode });
+			m_symbols[hash][shape_mem] = draw_model(name.c_str(), ProcShape{ symbol, &shape, draw_mode }, true);
 		}
 
 		return *m_symbols[hash][shape_mem];
@@ -269,7 +277,7 @@ namespace mud
 		Mesh& mesh = model.add_mesh((model.m_name + to_string(draw_mode)).c_str(), readback);
 		mesh.m_material = material;
 
-		GpuMesh gpu_mesh = alloc_mesh<ShapeVertex, ShapeIndex>(size.vertex_count, size.index_count);
+		GpuMesh gpu_mesh = alloc_mesh(ShapeVertex::vertex_format, size.vertex_count, size.index_count);
 		
 		MeshData data = gpu_mesh.m_data;
 
@@ -282,11 +290,10 @@ namespace mud
 			}
 
 		if(draw_mode == PLAIN)
-			generate_mikkt_tangents(gpu_mesh.indices<ShapeIndex>(), gpu_mesh.vertices<ShapeVertex>());
+			generate_mikkt_tangents({ (ShapeIndex*)gpu_mesh.m_indices, gpu_mesh.m_index_count }, { (ShapeVertex*)gpu_mesh.m_vertices, gpu_mesh.m_vertex_count });
 
 		mesh.upload(draw_mode, gpu_mesh);
-		if(readback)
-			mesh.cache<ShapeVertex, ShapeIndex>(gpu_mesh);
+		mesh.m_unwrapped = false;
 
 		model.add_item(mesh, bxidentity());
 	}

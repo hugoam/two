@@ -30,6 +30,8 @@ namespace mud
 
 	export_ MUD_GFX_EXPORT Plane6 bounding_planes(const mat4& mat);
 	export_ MUD_GFX_EXPORT Plane6 frustum_planes(const mat4& projection, const mat4& transform);
+	export_ MUD_GFX_EXPORT Plane6 frustum_planes(const mat4& view, float fov, float aspect, float near, float far);
+	export_ MUD_GFX_EXPORT Plane6 frustum_planes(const mat4& view, const vec2& rect, float near, float far);
 	export_ MUD_GFX_EXPORT Point8 frustum_corners(const Plane6& planes);
 
 	export_ MUD_GFX_EXPORT vec2 frustum_viewport_size(const mat4& projection);
@@ -38,8 +40,8 @@ namespace mud
 	{
 	public:
 		Frustum();
-		Frustum(const mat4& projection, const mat4& transform, float fov, float aspect, float near, float far);
-		Frustum(const mat4& projection, const mat4& transform, const vec2& rect, float near, float far);
+		Frustum(const mat4& transform, float fov, float aspect, float near, float far);
+		Frustum(const mat4& transform, const vec2& rect, float near, float far);
 
 		void compute();
 

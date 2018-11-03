@@ -115,7 +115,7 @@ namespace mud
 			probe_array.ambient[probe_count] = { to_vec3(ambient_linear), 0.f };
 
 			probe_array.atlas_rect[probe_count] = { m_atlas.probe_rect(*probe) };
-			probe_array.matrix[probe_count] = view_matrix * probe->m_node.transform();
+			probe_array.matrix[probe_count] = view_matrix * probe->m_node.m_transform;
 
 			probe_count++;
 		}
@@ -149,12 +149,12 @@ namespace mud
 			vec3 edge = view_normal[i] * probe.m_extents;
 			float range = std::abs(dot(view_normal[i], edge));
 
-			mat4 transform = probe.m_node.transform() * bxlookat(Zero3, view_normal[i], view_up[i]);
+			mat4 transform = probe.m_node.m_transform * bxlookat(Zero3, view_normal[i], view_up[i]);
 			mat4 projection = bxproj(90.f, 1.f, 0.01f, range, bgfx::getCaps()->homogeneousDepth);
 
 			Renderer& renderer = m_gfx_system.renderer(Shading::Volume);
 
-			ManualRender probe_render = { render, cubemap.m_fbo[i], uvec4(Rect4), transform, projection };
+			ManualRender probe_render = { render, Shading::Volume,  cubemap.m_fbo[i], uvec4(Rect4), transform, projection };
 			//probe_render.cull();
 			probe_render.render(renderer);
 		}

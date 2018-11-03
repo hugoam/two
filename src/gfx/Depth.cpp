@@ -42,7 +42,7 @@ namespace mud
 	{
 		UNUSED(render);
 
-		if(element.m_item->m_cast_shadows == ItemShadow::DoubleSided)
+		if(element.m_item->m_shadow == ItemShadow::DoubleSided)
 			element.m_material = m_block_depth.m_depth_material_twosided;
 		else
 			element.m_material = m_block_depth.m_depth_material;

@@ -24,7 +24,7 @@ namespace mud
 	{
 		vec3 offset = cylinder.m_axis == Axis::X ? X3 * cylinder.m_height / 2.f
 					: cylinder.m_axis == Axis::Y ? Y3 * cylinder.m_height / 2.f
-												: Z3 * cylinder.m_height / 2.f;
+												 : Z3 * cylinder.m_height / 2.f;
 
 		Circle circle = { cylinder.m_radius, cylinder.m_axis };
 		uint16_t subdiv = circle_vertices(shape, cylinder.m_center + offset, vec2{ circle.m_radius }, to_signed_axis(circle.m_axis, true), true, data);

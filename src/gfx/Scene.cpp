@@ -89,7 +89,7 @@ namespace mud
 
 		m_pool->iterate_objects<Item>([&](Item& item)
 		{
-			if(item.m_visible && item.m_cast_shadows != ItemShadow::OnlyShadow
+			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0
 			&& frustum_aabb_intersection(planes, item.m_aabb))
 			{
 				items.push_back(&item);
@@ -97,63 +97,80 @@ namespace mud
 		});
 	}
 
-	void Scene::gather_render(Render& render)
+	void Scene::gather_items(const Camera& camera, std::vector<Item*>& items)
 	{
-		Plane6 planes = frustum_planes(render.m_camera.m_projection, render.m_camera.m_transform);
+		Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
 
-		Plane near_plane = render.m_camera.near_plane();
+		Plane near_plane = camera.near_plane();
 
-		vec4 lod_levels = render.m_camera.m_far * vec4{ 0.02f, 0.3f, 0.6f, 0.8f };
+		vec4 lod_levels = camera.m_far * vec4{ 0.02f, 0.3f, 0.6f, 0.8f };
 
-		//render.m_shot->m_items.reserve(m_pool->pool<Item>().m_vec_pool.size());
-
+		//items.reserve(m_pool->pool<Item>().size());
 		m_pool->iterate_objects<Item>([&](Item& item)
 		{
-			if(item.m_visible && item.m_cast_shadows != ItemShadow::OnlyShadow)
+			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0)
 			{
-				float depth = plane_distance_to(near_plane, item.m_aabb.m_center);
+				if(!frustum_aabb_intersection(planes, item.m_aabb))
+					return;
+
+				float depth = distance(near_plane, item.m_aabb.m_center);
 
 				vec4 comparison = vec4(greater(vec4(depth), lod_levels));
 				float index = dot(vec4(1.f), comparison);
 				uint8_t lod = uint8_t(min(index, 3.f));
 
-				bool has_lod = (item.m_flags & (ITEM_LOD_0 << lod)) != 0;
-				if(frustum_aabb_intersection(planes, item.m_aabb) && has_lod)
+				bool has_lod = (item.m_flags & (ItemFlag::Lod0 << lod)) != 0;
+				if(has_lod)
 				{
 					item.m_depth = depth;
-					render.m_shot->m_items.push_back(&item);
+					items.push_back(&item);
 				}
 			}
 		});
+	}
 
-		//render.m_shot->m_lights.reserve(m_shot->m_lights.size());
-
+	void Scene::gather_lights(std::vector<Light*>& lights)
+	{
+		//lights.reserve(m_pool->pool<Light>().size());
 		m_pool->iterate_objects<Light>([&](Light& light)
 		{
 			if(light.m_visible)
 			{
-				light.m_shot_index = render.m_shot->m_lights.size();
-				render.m_shot->m_lights.push_back(&light);
+				light.m_shot_index = lights.size();
+				lights.push_back(&light);
 			}
 		});
+	}
 
-		//render.m_shot->m_gi_probes.reserve(m_shot->m_gi_probes.size());
-
+	void Scene::gather_gi_probes(std::vector<GIProbe*>& gi_probes)
+	{
+		//gi_probes.reserve(m_pool->pool<GIProbe>().size());
 		m_pool->iterate_objects<GIProbe>([&](GIProbe& gi_probe)
 		{
-			render.m_shot->m_gi_probes.push_back(&gi_probe);
+			gi_probes.push_back(&gi_probe);
 		});
+	}
 
 #if  0
+	void Scene::gather_reflection_probes(std::vector<ReflectionProbe*>& reflection_probes)
+	{
 		m_pool->iterate_objects<ReflectionProbe>([&](ReflectionProbe& probe)
 		{
-			if(probe->m_visible)
+			if(probe.m_visible)
 			{
-				render.m_shot->m_reflection_probes.push_back(probe);
-				probe->m_dirty = true; // force dirty for now
+				reflection_probes.push_back(probe);
+				probe.m_dirty = true; // force dirty for now
 			}
 		});
+	}
 #endif
+
+	void Scene::gather_render(Render& render)
+	{
+		this->gather_items(render.m_camera, render.m_shot->m_items);
+		this->gather_lights(render.m_shot->m_lights);
+		this->gather_gi_probes(render.m_shot->m_gi_probes);
+		//this->gather_reflection_probes(render.m_shot->m_reflection_probes);
 
 		render.m_frustum = make_unique<Frustum>(optimized_frustum(render.m_camera, to_array(render.m_shot->m_items)));
 

@@ -5,10 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <infra/NonCopy.h>
-#include <type/Unique.h>
 #include <infra/Array.h>
-#include <infra/Strung.h>
 #include <math/Colour.h>
 #include <math/Vec.h>
 #include <geom/Aabb.h>
@@ -26,25 +23,7 @@
 
 namespace mud
 {
-	export_ enum class refl_ ModelFormat : unsigned int
-	{
-		obj,
-		gltf
-	};
-
-	export_ struct refl_ MUD_GFX_EXPORT ModelConfig
-	{
-		ModelConfig() {}
-		attr_ ModelFormat m_format = ModelFormat::obj;
-		attr_ vec3 m_position = Zero3;
-		attr_ quat m_rotation = ZeroQuat;
-		attr_ vec3 m_scale = Unit3;
-		attr_ mat4 m_transform = bxidentity();
-		attr_ bool m_as_prefab = false;
-		//std::vector<string> m_filter;
-	};
-
-	export_ MUD_GFX_EXPORT ModelConfig load_model_config(cstring path, cstring model_name);
+	using string = std::string;
 
 	export_ struct refl_ ModelItem
 	{
@@ -66,13 +45,9 @@ namespace mud
 		attr_ string m_name;
 		attr_ uint16_t m_index;
 
-		std::vector<Mesh*> m_meshes;
-		struct Submodel { Model* m_model; mat4 m_transform; };
-		std::vector<Submodel> m_models;
 		Rig* m_rig = nullptr;
 
 		std::vector<ModelItem> m_items;
-		//std::vector<Material> m_materials;
 
 		/*attr_*/ bool m_geometry[2] = { false, false };
 		attr_ Aabb m_aabb = { Zero3, Zero3 };
@@ -81,7 +56,6 @@ namespace mud
 
 		Mesh& add_mesh(cstring name, bool readback = false);
 		Rig& add_rig(cstring name);
-		Model& add_model(Mesh& mesh, mat4 transform, int skin = -1, Colour colour = Colour::White, Material* material = nullptr);
 		ModelItem& add_item(Mesh& mesh, mat4 transform, int skin = -1, Colour colour = Colour::White, Material* material = nullptr);
 		void prepare();
 

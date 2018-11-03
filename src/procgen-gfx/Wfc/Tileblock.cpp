@@ -230,7 +230,7 @@ namespace mud
 		for(auto& model_tiles : visu.m_tiles)
 		{
 			Material* material = focused == uvec3(UINT32_MAX) ? nullptr : &alpha_material;
-			uint32_t flags = ITEM_WORLD_GEOMETRY | (dirty ? 0 : uint32_t(ITEM_NO_UPDATE));
+			uint32_t flags = ItemFlag::Default | ItemFlag::WorldGeometry | (dirty ? 0 : uint32_t(ItemFlag::NoUpdate));
 			Item& item = gfx::item(self, *model_tiles.first, flags, material, model_tiles.second.size(), model_tiles.second);
 			gfx::update_item_lights(item);
 		}

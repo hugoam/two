@@ -20,12 +20,20 @@ namespace gfx
 		GI_CONETRACE
 	};
 
+	enum class GIProbeMode
+	{
+		Voxelize,
+		LoadVoxels,
+	};
+
 	export_ class refl_ MUD_GFX_PBR_EXPORT GIProbe
 	{
 	public:
 		GIProbe(Node3& node);
+		~GIProbe();
 
 		void resize(uint16_t subdiv, const vec3& extents);
+		void lightmap(uint32_t size, float density, const string& save_path = "");
 
 		Node3& m_node;
 
@@ -41,6 +49,7 @@ namespace gfx
 		mat4 m_transform;
 		uint16_t m_subdiv = 0;
 		vec3 m_extents = vec3(0.f);
+		GIProbeMode m_mode = GIProbeMode::Voxelize;
 		bool m_dirty = false;
 
 		int m_dynamic_range = 4;
@@ -51,7 +60,13 @@ namespace gfx
 		
 		float m_bias = 0.0f;
 		float m_normal_bias = 0.8f;
+
+		bool m_bake_lightmaps = false;
+		unique_ptr<LightmapAtlas> m_lightmaps;
 	};
+
+	export_ MUD_GFX_PBR_EXPORT void save_gi_probe(GfxSystem& gfx_system, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path);
+	export_ MUD_GFX_PBR_EXPORT void load_gi_probe(GfxSystem& gfx_system, GIProbe& gi_probe, const string& path);
 
 	struct VoxelRenderer : public Renderer
 	{
@@ -160,7 +175,6 @@ namespace gfx
 		virtual void options(Render& render, ShaderVersion& shader_version) const override;
 		virtual void submit(Render& render, const Pass& render_pass) const override;
 
-		void compile();
 		void voxelize(Render& render, GIProbe& gi_probe);
 		void compute(Render& render, GIProbe& gi_probe);
 		void bounce(Render& render, GIProbe& gi_probe);
@@ -220,6 +234,4 @@ namespace gfx
 
 		bool m_direct_light_compute = false;
 	};
-
-
 }

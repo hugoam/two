@@ -431,8 +431,8 @@ namespace mud
 	vec2 project_aabb_in_plane(const Plane& plane, const Aabb& aabb)
 	{
 		float length = dot(abs(plane.m_normal), aabb.m_extents);
-		float distance = plane_distance_to(plane, aabb.m_center);
-		return { distance - length, distance + length };
+		float dist = distance(plane, aabb.m_center);
+		return { dist - length, dist + length };
 	}
 
 	bool frustum_aabb_intersection(const Plane6& planes, const Aabb& aabb)

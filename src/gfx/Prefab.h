@@ -6,9 +6,11 @@
 
 #ifndef MUD_MODULES
 #include <refl/Method.h>
+#include <geom/Aabb.h>
 #endif
 #include <gfx/Forward.h>
 #include <gfx/Node3.h>
+#include <gfx/Item.h>
 
 #ifndef MUD_CPP_20
 #include <vector>
@@ -46,5 +48,10 @@ namespace mud
 
 		attr_ string m_name;
 		attr_ PrefabNode m_node;
+
+		std::vector<Node3> m_nodes;
+		std::vector<Item> m_items;
+
+		Aabb m_aabb;
 	};
 }

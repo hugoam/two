@@ -103,6 +103,7 @@ namespace mud {
 	class BlockGI;
 	class BlockGIBake;
 	class BlockGITrace;
+	class BlockLightmap;
     class BlockGlow;
     struct BCS;
     struct Tonemap;

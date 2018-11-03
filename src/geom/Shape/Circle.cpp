@@ -26,7 +26,7 @@ namespace mud
 		else if(axis == SignedAxis::PlusZ || axis == SignedAxis::MinusZ)
 			return { point.z, point.x, point.y };
 		else
-			return point;
+			return { point.z, point.y, point.x };
 	}
 
 	uint16_t circle_vertices(const ProcShape& shape, const vec3& position, vec2 radius, SignedAxis axis, bool lines, MeshData& data, bool outward_normals)

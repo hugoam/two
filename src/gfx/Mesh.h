@@ -28,54 +28,42 @@ namespace mud
 			: m_vertex_count(vertex_count), m_index_count(index_count)
 		{}
 
-		template <class T_Vertex, class T_Index>
-		void init()
-		{
-			m_vertex_format = T_Vertex::vertex_format;
-			m_data = MeshData(this->template vertices<T_Vertex>(), this->template indices<T_Index>());
-		}
-
 		uint32_t m_vertex_format = 0;
 		
 		uint32_t m_vertex_count = 0;
 		uint32_t m_index_count = 0;
+		bool m_index32 = false;
 
 		const bgfx::Memory* m_vertex_memory = nullptr;
 		const bgfx::Memory* m_index_memory = nullptr;
 
+		void* m_vertices = nullptr;
+		void* m_indices = nullptr;
+
 		MeshData m_data = {};
-
-		template <class T_Vertex>
-		inline array<T_Vertex> vertices() {	return { reinterpret_cast<T_Vertex*>(m_vertex_memory->data), m_vertex_count }; }
-
-		template <class T_Index>
-		inline array<T_Index> indices() { return { reinterpret_cast<T_Index*>(m_index_memory->data), m_index_count }; }
 	};
-
-	template <class T_Vertex, class T_Index>
-	GpuMesh alloc_mesh(uint32_t vertex_count, uint32_t index_count)
-	{
-		GpuMesh gpu_mesh = { vertex_count, index_count };
-		
-		gpu_mesh.m_vertex_memory = bgfx::alloc(uint32_t(sizeof(T_Vertex) * vertex_count));
-		gpu_mesh.m_index_memory = bgfx::alloc(uint32_t(sizeof(T_Index) * index_count));
-
-		gpu_mesh.init<T_Vertex, T_Index>();
-
-		return gpu_mesh;
-	}
 	
-	inline GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count)
+	inline GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32)
 	{
 		GpuMesh gpu_mesh = { vertex_count, index_count };
 
 		gpu_mesh.m_vertex_memory = bgfx::alloc(vertex_size(vertex_format) * vertex_count);
-		gpu_mesh.m_index_memory = bgfx::alloc(sizeof(uint16_t) * index_count);
+		gpu_mesh.m_index_memory = index32 ? bgfx::alloc(sizeof(uint32_t) * index_count)
+										  : bgfx::alloc(sizeof(uint16_t) * index_count);
+		gpu_mesh.m_index32 = index32;
+
+		gpu_mesh.m_vertices = gpu_mesh.m_vertex_memory->data;
+		gpu_mesh.m_indices = gpu_mesh.m_index_memory->data;
 
 		gpu_mesh.m_vertex_format = vertex_format;
-		gpu_mesh.m_data = MeshData(vertex_format, gpu_mesh.m_vertex_memory->data, vertex_count, gpu_mesh.m_index_memory->data, index_count);
+		gpu_mesh.m_data = MeshData(vertex_format, gpu_mesh.m_vertices, vertex_count, gpu_mesh.m_indices, index_count, index32);
 
 		return gpu_mesh;
+	}
+
+	inline GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count)
+	{
+		return alloc_mesh(vertex_format, vertex_count, index_count, vertex_count > UINT16_MAX);
 	}
 
 	export_ class refl_ MUD_GFX_EXPORT Mesh
@@ -95,10 +83,15 @@ namespace mud
 		attr_ vec3 m_origin = Zero3;
 		attr_ bool m_readback = false;
 
+		attr_ uint32_t m_vertex_format = 0;
+
 		attr_ uint32_t m_vertex_count = 0;
 		attr_ uint32_t m_index_count = 0;
+		attr_ bool m_index32 = false;
 
 		attr_ Material* m_material = nullptr;
+
+		attr_ bool m_unwrapped = false;
 
 		bgfx::VertexBufferHandle m_vertex_buffer = BGFX_INVALID_HANDLE;
 		bgfx::IndexBufferHandle m_index_buffer = BGFX_INVALID_HANDLE;
@@ -109,19 +102,15 @@ namespace mud
 		MeshData m_cache;
 
 		void read(MeshData& data, const mat4& transform) const;
-		void write(DrawMode draw_mode, array<ShapeVertex> vertices, array<ShapeIndex> indices);
-		void write(DrawMode draw_mode, MeshPacker& packer);
+		void read(MeshPacker& packer, const mat4& transform) const;
+		void write(DrawMode draw_mode, array<ShapeVertex> vertices, array<ShapeIndex> indices, bool optimize = false);
+		void write(DrawMode draw_mode, MeshPacker& packer, bool optimize = false);
 		void upload(DrawMode draw_mode, const GpuMesh& gpu_mesh);
+		void upload_opt(DrawMode draw_mode, const GpuMesh& gpu_mesh);
 		void cache(const GpuMesh& gpu_mesh);
-
+		
 		uint64_t submit(bgfx::Encoder& encoder) const;
-
-		template <class T_Vertex, class T_Index>
-		void cache(const GpuMesh& gpu_mesh)
-		{
-			this->cache(gpu_mesh);
-			m_cache = MeshData(array<T_Vertex>{ (T_Vertex*)m_cached_vertices.data(), m_vertex_count }, 
-							   array<T_Index>{ (T_Index*)m_cached_indices.data(), m_index_count });
-		}
 	};
+
+	export_ MUD_GFX_EXPORT float calc_mesh_uv_scale(Mesh& mesh, const mat4& transform);
 }

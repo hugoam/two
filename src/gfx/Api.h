@@ -19,6 +19,7 @@
 #include <gfx/Gfx.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Graph.h>
+#include <gfx/Importer.h>
 #include <gfx/Item.h>
 #include <gfx/Light.h>
 #include <gfx/ManualRender.h>

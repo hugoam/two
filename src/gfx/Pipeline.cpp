@@ -81,7 +81,7 @@ namespace mud
 	}
 
 	MinimalRenderer::MinimalRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline)
+		: Renderer(gfx_system, pipeline, Shading::Shaded)
 	{
 		this->add_pass<PassClear>(gfx_system);
 		//this->add_pass<PassOpaque>(gfx_system);
@@ -92,7 +92,7 @@ namespace mud
 	}
 
 	UnshadedRenderer::UnshadedRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline)
+		: Renderer(gfx_system, pipeline, Shading::Unshaded)
 	{
 		this->add_pass<PassClear>(gfx_system);
 		this->add_pass<PassUnshaded>(gfx_system);
@@ -101,7 +101,7 @@ namespace mud
 	}
 
 	ClearRenderer::ClearRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline)
+		: Renderer(gfx_system, pipeline, Shading::Clear)
 	{
 		this->add_pass<PassClear>(gfx_system);
 		this->init();

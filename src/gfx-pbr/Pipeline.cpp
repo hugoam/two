@@ -42,6 +42,7 @@ namespace mud
 		BlockReflection& reflection = pipeline.add_block<BlockReflection>(gfx_system);
 		BlockGITrace& gi_trace = pipeline.add_block<BlockGITrace>(gfx_system);
 		BlockGIBake& gi_bake = pipeline.add_block<BlockGIBake>(gfx_system, light, gi_trace);
+		BlockLightmap& lightmap = pipeline.add_block<BlockLightmap>(gfx_system, light, gi_bake);
 		BlockParticles& particles = pipeline.add_block<BlockParticles>(gfx_system);
 		UNUSED(geometry);
 		UNUSED(particles);
@@ -60,8 +61,9 @@ namespace mud
 
 		std::vector<GfxBlock*> depth_blocks = { &depth };
 		std::vector<GfxBlock*> geometry_blocks = {};
-		std::vector<GfxBlock*> shading_blocks = { &radiance, &light, &shadow, &gi_trace, &reflection };
+		std::vector<GfxBlock*> shading_blocks = { &radiance, &light, &shadow, &gi_trace, &reflection, &lightmap };
 		std::vector<GfxBlock*> gi_blocks = { &light, &shadow, &gi_bake };
+		std::vector<GfxBlock*> lightmap_blocks = { &light, &shadow, &gi_trace, &lightmap };
 
 		pipeline.m_pass_blocks[size_t(PassType::Unshaded)] = {};
 		pipeline.m_pass_blocks[size_t(PassType::Background)] = { &sky };
@@ -69,6 +71,7 @@ namespace mud
 		pipeline.m_pass_blocks[size_t(PassType::PostProcess)] = { &dof_blur/*, &exposure*/, &glow, &tonemap };
 
 		pipeline.m_pass_blocks[size_t(PassType::VoxelGI)] = gi_blocks;
+		pipeline.m_pass_blocks[size_t(PassType::Lightmap)] = lightmap_blocks;
 
 		// forward
 		pipeline.m_pass_blocks[size_t(PassType::Depth)] = depth_blocks;
@@ -112,12 +115,16 @@ namespace mud
 			Program& program_gi_voxel_output = gfx_system.programs().create("gi/output_light");
 			program_gi_voxel_output.m_compute = true;
 			program_gi_voxel_output.register_blocks(gi_blocks);
+
+			Program& program_lightmap = gfx_system.programs().create("pbr/lightmap");
+			program_lightmap.register_blocks(lightmap_blocks);
 		}
 
 		static ForwardRenderer forward_renderer = { gfx_system, pipeline };
 		static DeferredRenderer deferred_renderer = { gfx_system, pipeline };
 		static ShadowRenderer shadow_renderer = { gfx_system, pipeline };
 		static VoxelRenderer voxel_renderer = { gfx_system, pipeline };
+		static LightmapRenderer lightmap_renderer = { gfx_system, pipeline };
 
 		if(deferred)
 			gfx_system.set_renderer(Shading::Shaded, deferred_renderer);
@@ -127,10 +134,12 @@ namespace mud
 		gfx_system.set_renderer(Shading::Volume, shadow_renderer);
 
 		gfx_system.set_renderer(Shading::Voxels, voxel_renderer);
+
+		gfx_system.set_renderer(Shading::Lightmap, lightmap_renderer);
 	}
 
 	ForwardRenderer::ForwardRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline)
+		: Renderer(gfx_system, pipeline, Shading::Shaded)
 	{
 		this->add_pass<PassGIProbes>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
 		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
@@ -150,7 +159,7 @@ namespace mud
 	}
 
 	DeferredRenderer::DeferredRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline)
+		: Renderer(gfx_system, pipeline, Shading::Shaded)
 	{
 		this->add_pass<PassGIProbes>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
 		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
@@ -168,7 +177,7 @@ namespace mud
 	}
 
 	ShadowRenderer::ShadowRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline)
+		: Renderer(gfx_system, pipeline, Shading::Volume)
 	{
 		this->add_pass<PassClear>(gfx_system);
 		this->add_pass<PassShadow>(gfx_system, *pipeline.block<BlockDepth>(), *pipeline.block<BlockShadow>());
@@ -176,7 +185,7 @@ namespace mud
 	}
 
 	VoxelRenderer::VoxelRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline)
+		: Renderer(gfx_system, pipeline, Shading::Voxels)
 	{
 		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
 		this->add_pass<PassClear>(gfx_system);
@@ -184,8 +193,16 @@ namespace mud
 		this->init();
 	}
 
+	LightmapRenderer::LightmapRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
+		: Renderer(gfx_system, pipeline, Shading::Lightmap)
+	{
+		this->add_pass<PassClear>(gfx_system);
+		this->add_pass<PassLightmap>(gfx_system, *pipeline.block<BlockLightmap>());
+		this->init();
+	}
+
 	ReflectionRenderer::ReflectionRenderer(GfxSystem& gfx_system, Pipeline& pipeline)
-		: Renderer(gfx_system, pipeline)
+		: Renderer(gfx_system, pipeline, Shading::Volume)
 	{
 		this->add_pass<PassClear>(gfx_system);
 		this->add_pass<PassOpaque>(gfx_system);

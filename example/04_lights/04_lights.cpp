@@ -49,14 +49,18 @@ void light_grid(Gnode& parent, array_2d<LightInstance> shape_grid, bool moving, 
 				light.m_spot_angle = spot_angle;
 			}
 
-			gfx::shape(light_node, Cube(0.1f), Symbol(), ITEM_SELECTABLE);
+			gfx::shape(light_node, Cube(0.1f), Symbol(), ItemFlag::Default | ItemFlag::Selectable);
 			//if(light_type == LightType::Point)
-			//	gfx::shape(light_node, Spheroid(range), Symbol::wire(hsl_to_rgb(float(light.m_shot_index) / float(255.f), 1.f, 0.5f)), ITEM_SELECTABLE);
+			//	gfx::shape(light_node, Spheroid(range), Symbol::wire(hsl_to_rgb(float(light.m_shot_index) / float(255.f), 1.f, 0.5f)), ItemFlag::Default | ItemFlag::Selectable);
 			
 		}
 }
 
+#ifdef DOCKBAR
 void ex_04_lights(Shell& app, Widget& parent, Dockbar& dockbar)
+#else
+void ex_04_lights(Shell& app, Widget& parent)
+#endif
 {
 	UNUSED(app);
 #ifdef MUD_PLATFORM_EMSCRIPTEN
@@ -75,11 +79,11 @@ void ex_04_lights(Shell& app, Widget& parent, Dockbar& dockbar)
 	//gfx::radiance(scene, "radiance/rocky_ridge_1k.hdr", BackgroundMode::None);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
-	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
+	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder(1.f, 2.f, Axis::Y) }; // @todo Circle() looks weird
 	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
 	static std::vector<LightInstance > light_items = create_light_grid(10U, 10U);
 
-	static bool debug = true;
+	static bool debug = false;
 	static bool clustered = true;
 	static bool ground = false;
 	static bool moving_lights = true;
@@ -91,6 +95,9 @@ void ex_04_lights(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(), shapes, true, &material);
 	light_grid(scene, { light_items.data(), 10U, 10U }, moving_lights, light_type, light_range, light_attenuation, spot_angle, spot_attenuation);
+
+	//gfx::shape(scene, Quad(vec2(50.f), X3, Y3), Symbol::plain(Colour::AlphaWhite), ItemFlag::Occluder);
+	//gfx::shape(scene, Cylinder(20.f, 20.f, Axis::Y), Symbol::plain(Colour::AlphaWhite), ItemFlag::Occluder);
 
 	if(clustered && viewer.m_viewport.m_rect != uvec4(0) && !viewer.m_camera.m_clusters)
 	{
@@ -112,6 +119,7 @@ void ex_04_lights(Shell& app, Widget& parent, Dockbar& dockbar)
 		gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(), 0U, &material);
 	}
 
+#ifdef DOCKBAR
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
 		Widget& sheet = ui::columns(*dock, carray<float, 2>{ 0.3f, 0.7f });
@@ -133,13 +141,18 @@ void ex_04_lights(Shell& app, Widget& parent, Dockbar& dockbar)
 		ui::slider_field<float>(sheet, "Spot Angle", { spot_angle, { 0.f, 180.f, 0.1f } });
 		ui::slider_field<float>(sheet, "Spot Attenuation", { spot_attenuation, { 0.f, 4.f, 0.01f } });
 	}
+#endif
 }
 
 #ifdef _04_LIGHTS_EXE
 void pump(Shell& app)
 {
+#ifdef DOCKBAR
 	edit_context(app.m_ui->begin(), app.m_editor, true);
 	ex_04_lights(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+#else
+	ex_04_lights(app, app.m_ui->begin());
+#endif
 }
 
 int main(int argc, char *argv[])

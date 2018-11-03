@@ -29,7 +29,7 @@ namespace mud
 		BlockRadiance(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy);
 
 		virtual void init_block() override;
-		virtual void begin_frame() override;
+		virtual void begin_frame(const RenderFrame& frame) override;
 
 		virtual void begin_render(Render& render) override;
 		virtual void begin_pass(Render& render) override;

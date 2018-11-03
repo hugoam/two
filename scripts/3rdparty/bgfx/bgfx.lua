@@ -6,6 +6,7 @@ group "bgfx"
 dofile(path.join(BX_DIR, "scripts/bx.lua"))
 dofile(path.join(BIMG_DIR, "scripts/bimg.lua"))
 dofile(path.join(BIMG_DIR, "scripts/bimg_decode.lua"))
+dofile(path.join(BIMG_DIR, "scripts/bimg_encode.lua"))
 dofile(path.join(BGFX_DIR, "scripts/bgfx.lua"))
 bgfxProject("", "StaticLib", {})
 
@@ -98,5 +99,6 @@ end
 bx          = mud_dep(nil, "bx",            false, uses_bx)
 bimg        = mud_dep(nil, "bimg",          false, uses_bimg,       { bx })
 bimg.decode = mud_dep(nil, "bimg_decode",   false, uses_bimg        { bx })
+bimg.encode = mud_dep(nil, "bimg_encode",   false, uses_bimg        { bx })
 bgfx        = mud_dep(nil, "bgfx",          false, uses_bgfx,       { bx, bimg })
 shaderc     = mud_dep(nil, "shaderc",       false, uses_shaderc,    { bx, bimg, bgfx })

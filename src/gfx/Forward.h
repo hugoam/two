@@ -80,7 +80,6 @@ namespace mud {
     enum ShaderOptionFilter : unsigned int;
     enum class LightType : unsigned int;
     enum ShadowFlags : unsigned int;
-    enum ItemFlag : unsigned int;
     enum class ItemShadow : unsigned int;
     enum class MSAA : unsigned int;
     enum class Shading : unsigned int;
@@ -128,7 +127,8 @@ namespace mud {
     struct PbrMaterialBlock;
     struct PbrBlock;
     class Material;
-    struct ModelConfig;
+    struct ImportConfig;
+	class Importer;
     struct ModelItem;
     class Model;
     struct GpuMesh;
@@ -144,6 +144,7 @@ namespace mud {
     struct PrefabNode;
     class Prefab;
     class Camera;
+	class Culler;
 	class Froxelizer;
     struct DepthParams;
     class PassDepth;
@@ -196,6 +197,9 @@ namespace mud {
     struct PerezSky;
     class BlockSky;
 	class GIProbe;
+	class Lightmap;
+	class LightmapAtlas;
+	class LightmapItem;
 }
 
 namespace mud {

@@ -73,6 +73,12 @@ namespace mud
 	export_ using glm::mat2;
 	export_ using glm::mat3;
 	export_ using glm::mat4;
+
+	export_ using half3 = glm::vec<3, ushort, glm::highp>;
+	export_ using half2 = glm::vec<2, ushort, glm::highp>;
+	export_ using ushort2 = glm::vec<2, ushort, glm::highp>;
+	export_ using ushort3 = glm::vec<3, ushort, glm::highp>;
+	export_ using ushort4 = glm::vec<4, ushort, glm::highp>;
 }
 #endif
 #endif

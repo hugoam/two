@@ -22,7 +22,6 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::EmitterFlow>() { static Type ty("mud::EmitterFlow"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Interpolation>() { static Type ty("mud::Interpolation"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::IsometricAngle>() { static Type ty("mud::IsometricAngle"); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::ItemFlag>() { static Type ty("mud::ItemFlag"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ItemShadow>() { static Type ty("mud::ItemShadow"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::LightType>() { static Type ty("mud::LightType"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MSAA>() { static Type ty("mud::MSAA"); return ty; }
@@ -79,7 +78,7 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<mud::Colour>>() { static Type ty("MaterialParam<mud::Colour>"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Mesh>() { static Type ty("Mesh"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Model>() { static Type ty("Model"); return ty; }
-	template <> MUD_GFX_EXPORT Type& type<mud::ModelConfig>() { static Type ty("ModelConfig"); return ty; }
+	template <> MUD_GFX_EXPORT Type& type<mud::ImportConfig>() { static Type ty("ImportConfig"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ModelItem>() { static Type ty("ModelItem"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Node3>() { static Type ty("Node3"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ParticleGenerator>() { static Type ty("ParticleGenerator"); return ty; }

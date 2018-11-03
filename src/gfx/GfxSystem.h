@@ -91,6 +91,7 @@ namespace mud
 		Renderer& renderer(Shading shading);
 
 		void render(Renderer& renderer, GfxContext& context, Viewport& viewport, RenderFrame& frame);
+		RenderFrame render_frame();
 
 		GfxContext& context(size_t index = 0);
 
@@ -110,6 +111,9 @@ namespace mud
 		attr_ AssetStore<Model>& models();
 		attr_ AssetStore<ParticleGenerator>& particles();
 		attr_ AssetStore<Prefab>& prefabs();
+
+		void add_importer(ModelFormat format, Importer& importer);
+		Importer* importer(ModelFormat format);
 
 		Texture& default_texture(TextureHint hint);
 

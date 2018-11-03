@@ -14,7 +14,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	//viewer.m_filters.m_tonemap.m_mode = TonemapMode::ACES;
 	viewer.m_filters.m_tonemap.m_mode = TonemapMode::Filmic;
-	viewer.m_filters.m_tonemap.m_mode = TonemapMode::Reinhardt;
+	//viewer.m_filters.m_tonemap.m_mode = TonemapMode::Reinhardt;
 	viewer.m_viewport.m_lighting = Lighting::VoxelGI;
 
 	OrbitController& controller = ui::free_orbit_controller(viewer);
@@ -44,21 +44,25 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(), shapes, true, &material);
 
-	Model& model = *app.m_gfx_system.models().file("sponza");
+	Prefab& prefab = *app.m_gfx_system.prefabs().file("sponza");
 
 	//Gnode& sponza_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
-	Gnode& sponza_node = gfx::node(scene, {}, -model.m_aabb.m_center);
-	gfx::multi_item(sponza_node, model);
+	Gnode& sponza_node = gfx::node(scene, {}, -prefab.m_aabb.m_center);
+	gfx::prefab(sponza_node, prefab);
 
 	//GIProbe& probe = gfx::gi_probe(scene, 256, model.m_aabb.m_extents);
-	GIProbe& probe = gfx::gi_probe(scene, 512, model.m_aabb.m_extents);
+	GIProbe& probe = gfx::gi_probe(scene, 512, prefab.m_aabb.m_extents);
 	//probe.m_transform = bxtranslation(-model.m_aabb.m_center);
 
 	if(app.m_gfx_system.m_frame == 1)
 	{
-		probe.m_bounces = 1;
+		//probe.m_bounces = 1;
 		probe.m_diffuse = 6.f;
 	}
+
+	//if(!probe.m_bake_lightmaps)
+	//	probe.lightmap(4096U, 16.f);
+		//probe.lightmap(uvec2(4096U), 0.3f);
 
 	//if(app.m_gfx_system.m_frame % 100 == 0)
 	//	app.m_gfx_system.m_capture = true;
@@ -72,6 +76,16 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		ui::label(sheet, "Environment :");
 		ui::number_field<float>(sheet, "Ambient", { viewer.m_environment.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
+
+		ui::label(sheet, "Post process :");
+		ui::slider_field<float>(sheet, "Exposure", { viewer.m_filters.m_tonemap.m_exposure, { 0.f, 2.f, 0.01f } });
+		ui::slider_field<float>(sheet, "Whitepoint", { viewer.m_filters.m_tonemap.m_white_point, { 0.f, 2.f, 0.01f } });
+
+		viewer.m_filters.m_bcs.m_enabled = true;
+		ui::slider_field<float>(sheet, "Brightness", { viewer.m_filters.m_bcs.m_brightness, { 0.f, 2.f, 0.01f } });
+		ui::slider_field<float>(sheet, "Contrast", { viewer.m_filters.m_bcs.m_contrast, { 0.f, 2.f, 0.01f } });
+		ui::slider_field<float>(sheet, "Saturation", { viewer.m_filters.m_bcs.m_saturation, { 0.f, 2.f, 0.01f } });
+		
 
 		ui::label(sheet, "Shadow : ");
 		ui::flag_field(sheet, "Stabilize", (uint32_t&) direct_light.m_shadow_flags, 0);

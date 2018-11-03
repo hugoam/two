@@ -8,4 +8,8 @@
 
 using namespace mud;
 
+#ifdef DOCKBAR
 void ex_04_lights(Shell& app, Widget& parent, Dockbar& dockbar);
+#else
+void ex_04_lights(Shell& app, Widget& parent);
+#endif

@@ -108,6 +108,11 @@ namespace mud
 
 		void cull_items(const Plane6& planes, std::vector<Item*>& items);
 
+		void gather_items(const Camera& camera, std::vector<Item*>& items);
+		void gather_lights(std::vector<Light*>& lights);
+		void gather_gi_probes(std::vector<GIProbe*>& gi_probes);
+		//void gather_reflection_probes(std::vector<ReflectionProbe*>& reflection_probes);
+
 		void gather_render(Render& render);
 
 		std::vector<Sound*> m_orphan_sounds;

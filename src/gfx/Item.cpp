@@ -19,14 +19,16 @@ module mud.gfx;
 namespace mud
 {
 	Item::Item(Node3& node, const Model& model, uint32_t flags, Material* material, size_t instances)
-		: m_node(node)
+		: m_node(&node)
 		, m_model(const_cast<Model*>(&model))
 		, m_flags(flags)
 		, m_material(material)
 		, m_instances(instances)
 	{
-		if((flags & ITEM_LOD_ALL) == 0)
-			m_flags |= ITEM_LOD_ALL;
+		if(flags == 0)
+			m_flags = ItemFlag::Default;
+		if((flags & ItemFlag::LodAll) == 0)
+			m_flags |= ItemFlag::LodAll;
 	}
 
 	Item::~Item()
@@ -68,7 +70,7 @@ namespace mud
 	{
 		bgfx_state |= item.m_mesh->submit(encoder);
 
-		mat4 transform = m_node.transform() * item.m_transform;
+		mat4 transform = m_node->m_transform * item.m_transform;
 		encoder.setTransform(value_ptr(transform));
 
 		if(!m_instances.empty())

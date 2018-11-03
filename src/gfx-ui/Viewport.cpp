@@ -21,8 +21,8 @@ namespace mud
 	{
 		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::Mouse, EventType::Moved, InputMod::None, false))
 		{
-			auto callback = [&](Item* item) { viewer.m_hovered = item != nullptr ? item->m_node.m_object : Ref(); };
-			viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ITEM_SELECTABLE);
+			auto callback = [&](Item* item) { viewer.m_hovered = item != nullptr ? item->m_node->m_object : Ref(); };
+			viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Selectable);
 		}
 
 		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
@@ -33,7 +33,7 @@ namespace mud
 
 		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 		{
-			//Entity* entity = pick_entity(viewer, mouse_event.m_relative, ITEM_SELECTABLE | ITEM_WORLD_GEOMETRY);
+			//Entity* entity = pick_entity(viewer, mouse_event.m_relative, ItemFlag::Selectable | ItemFlag::WorldGeometry);
 			//context_menu(viewer.m_vision.m_user.m_selector, *entity);
 		}
 	}

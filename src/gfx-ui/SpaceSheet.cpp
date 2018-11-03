@@ -43,7 +43,7 @@ namespace mud
 		, m_material("SpaceSheetMaterial")
 		, m_model("SpaceSheet")
 		, m_node(viewport.m_scene)
-		, m_item(m_node, m_model, ITEM_UI, &m_material)
+		, m_item(m_node, m_model, ItemFlag::Ui, &m_material)
 	{
 		load_texture_rgba(m_texture, uint16_t(width), uint16_t(height), {});
 		m_material.m_program = viewport.m_scene->m_gfx_system.programs().file("debug");

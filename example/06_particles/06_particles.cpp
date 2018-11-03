@@ -62,8 +62,8 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 		node.m_node->m_object = Ref(&item);
 
 		gfx::shape(node, *item.m_particles->m_shape, Symbol::wire(&item == edited ? Colour::White : Colour::AlphaGrey));
-		gfx::shape(node, Cube(0.1f), Symbol::wire(Colour::White), ITEM_SELECTABLE);
-		gfx::shape(node, Cube(), Symbol(Colour::Transparent), ITEM_SELECTABLE);
+		gfx::shape(node, Cube(0.1f), Symbol::wire(Colour::White), ItemFlag::Default | ItemFlag::Selectable);
+		gfx::shape(node, Cube(), Symbol(Colour::Transparent), ItemFlag::Default | ItemFlag::Selectable);
 	}
 
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
@@ -71,10 +71,10 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 		auto callback = [&controller, middle](Item* item)
 		{
 			if(item == nullptr) return;
-			edited = &val<ParticleItem>(item->m_node.m_object);
+			edited = &val<ParticleItem>(item->m_node->m_object);
 			controller.m_position = vec3{ -middle + edited->m_index * 10.f, 0.f, 0.f };
 		};
-		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ITEM_SELECTABLE);
+		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
 	if(edited)

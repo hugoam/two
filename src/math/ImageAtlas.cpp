@@ -50,7 +50,6 @@ namespace mud
 		: m_size(size)
 		, m_inverse_size(1.f / vec2(size))
 		, m_image("ImageAtlas", "", m_size)
-		//, m_rect_pack(make_unique<GuillotineBinPack>(size.x, size.y))
 	{}
 
 	ImageAtlas::~ImageAtlas()
@@ -76,16 +75,16 @@ namespace mud
 		return data;
 	}
 
-	void ImageAtlas::place_image(Image& sprite)
+	bool ImageAtlas::place_image(Image& sprite)
 	{
-		//BPRect rect = m_rect_packer->Insert(sprite.d_size.x, sprite.d_size.y, false,
-		//									GuillotineBinPack::RectBestShortSideFit, GuillotineBinPack::SplitShorterLeftoverAxis);
-
 		stbrp_rect rect = { 0, stbrp_coord(sprite.d_size.x), stbrp_coord(sprite.d_size.y), 0, 0, false };
-		stbrp_pack_rects(&m_rect_pack->m_context, &rect, 1);
+		int success = stbrp_pack_rects(&m_rect_pack->m_context, &rect, 1);
+		if(success == 0)
+			return false;
 
 		sprite.d_coord = { uint(rect.x), uint(rect.y) };
 		sprite.d_atlas = this;
+		return true;
 	}
 
 	void ImageAtlas::blit_image(Image& sprite, std::vector<unsigned char>& data)
@@ -102,6 +101,34 @@ namespace mud
 		}
 
 		stbi_image_free(sprite_data);
+	}
+
+	TextureAtlas::TextureAtlas(uvec2 size)
+		: ImageAtlas(size)
+	{
+		m_rect_pack = make_unique<StbRectPack>(size, size.x);
+	}
+
+	const Image& TextureAtlas::find_texture(cstring name) const
+	{
+		for(const Image& texture : m_textures)
+			if(strcmp(texture.d_name.c_str(), name) == 0)
+				return texture;
+		return m_textures[0];
+	}
+
+	Image* TextureAtlas::add_texture(cstring name, uvec2 size)
+	{
+		if(m_textures.size() >= m_rect_pack->m_nodes.size())
+			return nullptr;
+		m_textures.emplace_back(name, "", size);
+		Image& texture = m_textures.back();
+		if(!this->place_image(texture))
+		{
+			m_textures.pop_back();
+			return nullptr;
+		}
+		return &texture;
 	}
 
 	Sprite::Sprite(cstring name, cstring path, const uvec2& size, const uvec2& frames)
@@ -140,7 +167,7 @@ namespace mud
 	SpriteAtlas::SpriteAtlas(uvec2 size)
 		: ImageAtlas(size)
 	{
-		m_rect_pack = make_unique<StbRectPack>(m_size, 128);
+		m_rect_pack = make_unique<StbRectPack>(size, size.x);
 	}
 
 	const Sprite& SpriteAtlas::find_sprite(cstring name) const
@@ -157,7 +184,11 @@ namespace mud
 			return nullptr;
 		m_sprites.emplace_back(name, "", size, frames);
 		Sprite& sprite = m_sprites.back();
-		this->place_image(sprite);
+		if(!this->place_image(sprite))
+		{
+			m_sprites.pop_back();
+			return nullptr;
+		}
 		sprite.compute_frames(m_inverse_size);
 		return &sprite;
 	}

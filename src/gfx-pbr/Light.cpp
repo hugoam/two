@@ -165,6 +165,7 @@ namespace mud
 
 	void BlockLight::update_lights(Render& render, const mat4& view, array<Light*> all_lights, array<LightShadow> shadows)
 	{
+		UNUSED(render);
 		mat4 inverse_view = inverse(view);
 
 		array<Light*> lights = { all_lights.m_pointer, min(all_lights.m_count, size_t(ShotUniform::max_lights)) };
@@ -201,7 +202,7 @@ namespace mud
 				}
 				else if(light->m_type == LightType::Point)
 				{
-					m_lights_data.shadow_matrix[light_count] = inverse(view * light->m_node.transform());
+					m_lights_data.shadow_matrix[light_count] = inverse(view * light->m_node.m_transform);
 				}
 				else if(light->m_type == LightType::Spot)
 				{

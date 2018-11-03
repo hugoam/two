@@ -51,13 +51,13 @@ namespace mud
 	Camera::~Camera()
 	{}
 
-	Plane Camera::near_plane()
+	Plane Camera::near_plane() const
 	{
 		vec3 direction = normalize(m_target - m_eye);
 		return { m_eye + direction * m_near, direction };
 	}
 
-	Plane Camera::far_plane()
+	Plane Camera::far_plane() const
 	{
 		vec3 direction = normalize(m_target - m_eye);
 		return { m_eye + direction * m_far, direction };
@@ -104,7 +104,7 @@ namespace mud
 		m_eye = position + angle;
 	}
 
-	Ray Camera::ray(const vec2& offset)
+	Ray Camera::ray(const vec2& offset) const
 	{
 		mat4 invViewProj = inverse(bxmul(m_transform, m_projection));
 

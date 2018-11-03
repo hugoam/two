@@ -584,6 +584,7 @@ namespace mud
             },
             // members
             {
+				{ type<glTFCamera>(), member_address(&glTFCamera::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
                 { type<glTFCamera>(), member_address(&glTFCamera::type), type<std::string>(), "type", var(std::string()), Member::Value, nullptr },
                 { type<glTFCamera>(), member_address(&glTFCamera::orthographic), type<glTFOrthographic>(), "orthographic", var(glTFOrthographic()), Member::Value, nullptr },
                 { type<glTFCamera>(), member_address(&glTFCamera::perspective), type<glTFPerspective>(), "perspective", var(glTFPerspective()), Member::Value, nullptr }
@@ -735,6 +736,7 @@ namespace mud
             },
             // members
             {
+				{ type<glTFMesh>(), member_address(&glTFMesh::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
                 { type<glTFMesh>(), member_address(&glTFMesh::primitives), type<std::vector<glTFPrimitive>>(), "primitives", var(std::vector<glTFPrimitive>()), Member::Value, nullptr },
                 { type<glTFMesh>(), member_address(&glTFMesh::weights), type<std::vector<float>>(), "weights", var(std::vector<float>()), Member::Value, nullptr }
             },

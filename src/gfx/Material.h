@@ -142,7 +142,8 @@ namespace mud
 		ANISOTROPY,
 		AMBIENT_OCCLUSION,
 		DEPTH_MAPPING,
-		DEEP_PARALLAX
+		DEEP_PARALLAX,
+		LIGHTMAP
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT PbrMaterialBlock
@@ -217,6 +218,7 @@ namespace mud
 
 		void state(uint64_t& bgfx_state) const;
 		ShaderVersion shader_version(const Program& program) const;
+		ShaderVersion shader_version(const Program& program, const Item& item, const ModelItem& model_item) const;
 
 		void submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin = nullptr) const;
 

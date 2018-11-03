@@ -86,7 +86,7 @@ namespace mud
 	{
 		string path = this->font_path(name);
 		std::vector<uint8_t> buffer = read_binary_file(path);
-		m_fonts[name] = vg::createFont(m_vg, name, buffer.data(), buffer.size(), 0);
+		m_fonts[name] = vg::createFont(m_vg, name, buffer.data(), uint32_t(buffer.size()), 0);
 	}
 
 	void VgVg::load_image_RGBA(Image& image, const unsigned char* data)
@@ -315,7 +315,7 @@ namespace mud
 		std::vector<vg::GlyphPosition> glyphs(numGlyphs);
 		textRow.m_glyphs.resize(numGlyphs);
 
-		vg::textGlyphPositions(m_vg, text_font(paint), rect.x, rect.y, textRow.m_start, textRow.m_end, &glyphs.front(), glyphs.size());
+		vg::textGlyphPositions(m_vg, text_font(paint), rect.x, rect.y, textRow.m_start, textRow.m_end, &glyphs.front(), int(glyphs.size()));
 
 		for(size_t i = 0; i < glyphs.size(); ++i)
 		{

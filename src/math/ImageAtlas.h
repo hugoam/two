@@ -29,10 +29,9 @@ namespace mud
 		ImageAtlas(uvec2 size);
 		~ImageAtlas();
 
-		void create_atlas();
 		std::vector<unsigned char> generate_atlas(std::vector<Image*>& images);
 
-		void place_image(Image& image);
+		bool place_image(Image& image);
 		void blit_image(Image& image, std::vector<unsigned char>& data);
 
 	public:
@@ -45,6 +44,17 @@ namespace mud
 	protected:
 		//unique_ptr<GuillotineBinPack> m_rect_pack;
 		unique_ptr<StbRectPack> m_rect_pack;
+	};
+
+	export_ class refl_ MUD_MATH_EXPORT TextureAtlas : public ImageAtlas
+	{
+	public:
+		TextureAtlas(uvec2 size);
+
+		const Image& find_texture(cstring name) const;
+		Image* add_texture(cstring name, uvec2 size);
+
+		std::vector<Image> m_textures;
 	};
 
 	export_ class refl_ MUD_MATH_EXPORT Sprite : public Image

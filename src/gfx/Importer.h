@@ -1,0 +1,84 @@
+//  Copyright (c) 2018 Hugo Amiard hugo.amiard@laposte.net
+//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
+//  This notice and the license may not be removed or altered from any source distribution.
+
+#pragma once
+
+#include <gfx/Forward.h>
+#include <gfx/Item.h>
+#include <gfx/Node3.h>
+
+#ifndef MUD_CPP_20
+#include <vector>
+#include <string>
+#include <map>
+#endif
+
+namespace mud
+{
+	using string = std::string;
+
+	export_ enum class refl_ ModelFormat : unsigned int
+	{
+		obj,
+		gltf,
+
+		Count
+	};
+
+	export_ struct refl_ MUD_GFX_EXPORT ImportConfig
+	{
+		ImportConfig() {}
+
+		attr_ ModelFormat m_format = ModelFormat::obj;
+		attr_ vec3 m_position = Zero3;
+		attr_ quat m_rotation = ZeroQuat;
+		attr_ vec3 m_scale = Unit3;
+		attr_ mat4 m_transform = bxidentity();
+		attr_ bool m_as_prefab = false;
+		attr_ std::vector<string> m_exclude_elements = {};
+		attr_ std::vector<string> m_exclude_materials = {};
+		attr_ std::vector<string> m_include_elements = {};
+		attr_ std::vector<string> m_include_materials = {};
+		attr_ string m_suffix;
+
+		bool filter_element(const string& name) const;
+		bool filter_material(const string& name) const;
+	};
+
+	export_ class MUD_GFX_EXPORT Import
+	{
+	public:
+		Import(GfxSystem& gfx_system, const string& filepath, const ImportConfig& config);
+
+		string m_name;
+		string m_file;
+		string m_path;
+
+		GfxSystem& m_gfx_system;
+		const ImportConfig& m_config;
+
+		std::vector<Mesh*> m_meshes;
+		std::vector<Model*> m_models;
+		std::vector<Texture*> m_images;
+		std::vector<Material*> m_materials;
+
+		std::map<int, Skeleton*> m_skeletons;
+
+		struct Item { mat4 transform; Model* model; int skin; };
+		std::vector<Item> m_items;
+	};
+
+	export_ class MUD_GFX_EXPORT Importer
+	{
+	public:
+		virtual ~Importer() {}
+		virtual void import(Import& import, const string& path, const ImportConfig& config) = 0;
+		virtual void import_model(Model& model, const string& path, const ImportConfig& config) = 0;
+		virtual void import_prefab(Prefab& prefab, const string& path, const ImportConfig& config) = 0;
+	};
+
+	export_ MUD_GFX_EXPORT ImportConfig load_model_config(cstring path, cstring model_name);
+
+	export_ MUD_GFX_EXPORT void import_to_prefab(GfxSystem& gfx_system, Prefab& prefab, Import& state);
+}

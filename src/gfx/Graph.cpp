@@ -127,30 +127,13 @@ namespace gfx
 			self.m_node = &create<Node3>(*parent.m_scene, parent.m_scene, object);
 			self.m_attach = self.m_node;
 		}
-#ifdef NODE_MAT4
 		self.m_node->m_transform = transform;
-#endif
 		return self;
 	}
 
 	Gnode& node(Gnode& parent, Ref object, const vec3& position, const quat& rotation, const vec3& scale)
 	{
-#ifdef NODE_MAT4
 		return node(parent, object, bxTRS(scale, rotation, position));
-#else
-		Gnode& self = parent.subi(object.m_value);
-		if(!self.m_node)
-		{
-			self.m_node = &create<Node3>(*parent.m_scene, parent.m_scene, object);
-			self.m_attach = self.m_node;
-		}
-
-		self.m_node->m_position = position;
-		self.m_node->m_rotation = rotation;
-		self.m_node->m_scale = scale;
-
-		return self;
-#endif
 	}
 
 	Gnode& node(Gnode& parent, Ref object, const Transform& transform)
@@ -160,40 +143,19 @@ namespace gfx
 
 	Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation, const vec3& scale)
 	{
-#ifdef NODE_MAT4
 		return node(parent, object, parent.m_attach->m_transform * bxTRS(scale, rotation, position));
-#else
-		vec3 relative = rotate(parent.m_attach->m_rotation, position) * parent.m_attach->m_scale;
-		return node(parent, object, parent.m_attach->m_position + relative, parent.m_attach->m_rotation * rotation, parent.m_attach->m_scale * scale);
-#endif
 	}
 
 	Gnode& transform(Gnode& parent, Ref object, const vec3& position, const quat& rotation)
 	{
-#ifdef NODE_MAT4
 		return node(parent, object, parent.m_attach->m_transform * bxTRS(Unit3, rotation, position));
-#else
-		vec3 relative = rotate(parent.m_attach->m_rotation, position);
-		return node(parent, object, parent.m_attach->m_position + relative, parent.m_attach->m_rotation * rotation, Unit3);
-#endif
-	}
-
-	void update_item_lights(Item& item)
-	{
-		item.m_lights.clear();
-
-		item.m_node.m_scene->m_pool->iterate_objects<Light>([&](Light& light)
-		{
-			if(light.m_type == LightType::Direct || sphere_aabb_intersection(light.m_node.position(), light.m_range, item.m_aabb))
-				item.m_lights.push_back(&light);
-		});
 	}
 
 	void update_item_aabb(Item& item)
 	{
 		if(item.m_instances.size() == 0)
 		{
-			item.m_aabb = transform_aabb(item.m_model->m_aabb, item.m_node.transform());
+			item.m_aabb = transform_aabb(item.m_model->m_aabb, item.m_node->m_transform);
 		}
 		else
 		{
@@ -203,10 +165,21 @@ namespace gfx
 		}
 	}
 
+	void update_item_lights(Item& item)
+	{
+		item.m_lights.clear();
+
+		item.m_node->m_scene->m_pool->iterate_objects<Light>([&](Light& light)
+		{
+			if(light.m_type == LightType::Direct || sphere_aabb_intersection(light.m_node.position(), light.m_range, item.m_aabb))
+				item.m_lights.push_back(&light);
+		});
+	}
+
 	Item& item(Gnode& parent, const Model& model, uint32_t flags, Material* material, size_t instances, array<mat4> transforms)
 	{
 		Gnode& self = parent.suba<Gnode>();
-		bool update = (flags & ITEM_NO_UPDATE) == 0;
+		bool update = (flags & ItemFlag::NoUpdate) == 0;
 		if(!self.m_item)
 		{
 			self.m_item = &create<Item>(*self.m_scene, *self.m_attach, model, flags, material, instances);
@@ -232,16 +205,20 @@ namespace gfx
 		return *self.m_item;
 	}
 
-	void multi_item(Gnode& parent, const Model& model, uint32_t flags, Material* material, size_t instances, array<mat4> transforms)
+	void prefab(Gnode& parent, const Prefab& prefab, bool transform, uint32_t flags, Material* material, size_t instances, array<mat4> transforms)
 	{
 		Gnode& self = parent.suba<Gnode>();
 		
-		for(const Model::Submodel& submodel : model.m_models)
+		for(size_t i = 0; i < prefab.m_items.size(); ++i)
 		{
-			Gnode& n = node(self, {}, parent.m_attach->m_transform * submodel.m_transform);
-			Item& i = item(n, *submodel.m_model, flags, material, instances, transforms);
+			mat4 tr = transform ? parent.m_attach->m_transform * prefab.m_nodes[i].m_transform
+								: prefab.m_nodes[i].m_transform;
+			Gnode& no = node(self, {}, tr);
+			Item& it = item(no, *prefab.m_items[i].m_model, flags, material, instances, transforms);
+			//it = prefab.m_items[i];
 			//shape(self, Cube(i.m_aabb.m_center, vec3(0.1f)), Symbol::wire(Colour::Red, true));
 			//shape(self, submodel->m_aabb, Symbol::wire(Colour::White));
+			UNUSED(it);
 		}
 	}
 
@@ -274,7 +251,7 @@ namespace gfx
 
 	void draw(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags)
 	{
-		draw(*parent.m_scene, parent.m_attach->transform(), shape, symbol, flags);
+		draw(*parent.m_scene, parent.m_attach->m_transform, shape, symbol, flags);
 	}
 
 	Item& sprite(Gnode& parent, const Image256& image, const vec2& size, uint32_t flags, Material* material, size_t instances)

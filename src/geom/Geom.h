@@ -48,15 +48,15 @@ namespace mud
 		Face3& operator=(const Face3& other) = default; // @kludge: might be a clang modules bug ?
 	};
 
-	export_ inline float plane_distance_to(const Plane& plane, const vec3& p)
+	export_ inline float distance(const Plane& plane, const vec3& p)
 	{
 		return dot(plane.m_normal, p) - plane.m_distance;
 	}
 
-	export_ inline vec3 plane_project(const Plane& plane, const vec3& p)
+	export_ inline vec3 project(const Plane& plane, const vec3& p)
 	{
-		return p - plane.m_normal * plane_distance_to(plane, p);
-	}
+		return p - plane.m_normal * distance(plane, p);
+	}	// Implementation
 
 	inline Plane::Plane(const vec3& normal, float distance)
 		: m_normal(normal), m_distance(distance)

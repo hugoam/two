@@ -49,8 +49,8 @@ namespace mud
 
 	static RenderUniform s_render_uniform;
 
-	Render::Render(Viewport& viewport, RenderTarget& target, RenderFrame& frame)
-		: m_scene(*viewport.m_scene), m_target(&target), m_target_fbo(target.m_fbo), m_viewport(viewport)
+	Render::Render(Shading shading, Viewport& viewport, RenderTarget& target, RenderFrame& frame)
+		: m_shading(shading), m_scene(*viewport.m_scene), m_target(&target), m_target_fbo(target.m_fbo), m_viewport(viewport)
 		, m_camera(*viewport.m_camera), m_frame(frame), m_filters(viewport.m_filters), m_lighting(viewport.m_lighting)
 		, m_pass_index(frame.m_render_pass)
 		, m_shot(make_unique<Shot>())
@@ -63,8 +63,8 @@ namespace mud
 		}
 	}
 
-	Render::Render(Viewport& viewport, bgfx::FrameBufferHandle& target_fbo, RenderFrame& frame)
-		: m_scene(*viewport.m_scene), m_target(nullptr), m_target_fbo(target_fbo), m_viewport(viewport)
+	Render::Render(Shading shading, Viewport& viewport, bgfx::FrameBufferHandle& target_fbo, RenderFrame& frame)
+		: m_shading(shading), m_scene(*viewport.m_scene), m_target(nullptr), m_target_fbo(target_fbo), m_viewport(viewport)
 		, m_camera(*viewport.m_camera), m_frame(frame), m_filters(viewport.m_filters), m_lighting(viewport.m_lighting)
 		, m_pass_index(frame.m_render_pass)
 		, m_shot(make_unique<Shot>())
@@ -109,9 +109,10 @@ namespace mud
 		std::vector<unique_ptr<RenderPass>> m_render_passes;
 	};
 
-	Renderer::Renderer(GfxSystem& gfx_system, Pipeline& pipeline)
+	Renderer::Renderer(GfxSystem& gfx_system, Pipeline& pipeline, Shading shading)
 		: m_gfx_system(gfx_system)
 		, m_pipeline(pipeline)
+		, m_shading(shading)
 		, m_impl(make_unique<Impl>())
 	{}
 
@@ -144,14 +145,6 @@ namespace mud
 		return *m_impl->m_render_passes.back();
 	}
 
-	void Renderer::frame(const RenderFrame& frame)
-	{
-		UNUSED(frame);
-
-		for(GfxBlock* block : m_impl->m_gfx_blocks)
-			block->begin_frame();
-	}
-
 	void Renderer::render(Render& render)
 	{
 		//render.m_needs_depth_prepass = true;
@@ -172,6 +165,10 @@ namespace mud
 		}
 
 		render.m_frame.m_render_pass = render.m_pass_index;
+
+		render.m_frame.m_num_draw_calls += render.m_num_draw_calls;
+		render.m_frame.m_num_vertices += render.m_num_vertices;
+		render.m_frame.m_num_triangles += render.m_num_triangles;
 	}
 	
 	void Renderer::subrender(Render& render, Render& sub)
@@ -197,7 +194,7 @@ namespace mud
 
 	DrawElement::DrawElement(Item& item, const Program& program, const ModelItem& model, const Material& material, const Skin* skin)
 		: m_item(&item), m_program(&program), m_model(&model), m_material(&material), m_skin(skin)
-		, m_shader_version(material.shader_version(program))
+		, m_shader_version(material.shader_version(program, item, model))
 	{}
 
 	struct DrawList : public std::vector<DrawElement>
@@ -252,7 +249,7 @@ namespace mud
 			block->options(render, element.m_shader_version);
 
 		element.m_shader_version.set_option(0, INSTANCING, !element.m_item->m_instances.empty());
-		element.m_shader_version.set_option(0, BILLBOARD, element.m_item->m_flags & ITEM_BILLBOARD);
+		element.m_shader_version.set_option(0, BILLBOARD, element.m_item->m_flags & ItemFlag::Billboard);
 		element.m_shader_version.set_option(0, SKELETON, element.m_skin != nullptr);
 
 		element.m_bgfx_program = const_cast<Program*>(element.m_program)->version(element.m_shader_version);
@@ -330,7 +327,7 @@ namespace mud
 			const DrawElement& element = m_impl->m_draw_elements[i];
 
 			for(DrawBlock* block : m_impl->m_draw_blocks)
-				block->submit(render, render_pass);
+				block->submit(render, element, render_pass);
 			
 			uint64_t render_state = 0 | render_pass.m_bgfx_state | element.m_bgfx_state;
 			element.m_material->submit(encoder, render_state, element.m_skin);
@@ -341,6 +338,10 @@ namespace mud
 			encoder.setState(render_state);
 
 			encoder.submit(render_pass.m_index, element.m_bgfx_program, depth_to_bits(element.m_item->m_depth));
+
+			render.m_num_draw_calls += 1;
+			render.m_num_vertices += element.m_model->m_mesh->m_vertex_count;
+			render.m_num_triangles += element.m_model->m_mesh->m_index_count / 3;
 		}
 	}
 

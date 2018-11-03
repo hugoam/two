@@ -55,6 +55,7 @@ namespace mud
 		meth_ T_Asset& fetch(cstring name);
 		meth_ T_Asset& file_at(cstring path, cstring name);
 		meth_ T_Asset* file(cstring name);
+		meth_ void destroy(cstring name);
 
 		void load_files(cstring path);
 

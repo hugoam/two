@@ -24,6 +24,12 @@ module mud.infra;
 
 namespace mud
 {
+	void write_binary_file(const string& path, array<uint8_t> data)
+	{
+		std::ofstream file(path, std::ios::out | std::ios::binary);
+		file.write((const char*)data.data(), data.size());
+	}
+
 	std::vector<uint8_t> read_binary_file(const string& path)
 	{
 		std::vector<uint8_t> buffer;

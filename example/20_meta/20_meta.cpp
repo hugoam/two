@@ -20,7 +20,7 @@ void ex_20_meta(Shell& app, Widget& parent, Dockbar& dockbar)
 	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
-	gfx::shape(scene, Cube(), Symbol(), ITEM_SELECTABLE, &material);
+	gfx::shape(scene, Cube(), Symbol(), ItemFlag::Default | ItemFlag::Selectable, &material);
 }
 
 #ifdef _20_META_EXE

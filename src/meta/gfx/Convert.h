@@ -35,9 +35,6 @@ namespace mud
     export_ template <> inline void from_string(const string& str, mud::IsometricAngle& val) { val = static_cast<mud::IsometricAngle>(enu<mud::IsometricAngle>().value(str.c_str())); };
     export_ template <> inline void to_string(const mud::IsometricAngle& val, string& str) { str = enu<mud::IsometricAngle>().m_map[size_t(val)]; };
     
-    export_ template <> inline void from_string(const string& str, mud::ItemFlag& val) { val = static_cast<mud::ItemFlag>(enu<mud::ItemFlag>().value(str.c_str())); };
-    export_ template <> inline void to_string(const mud::ItemFlag& val, string& str) { str = enu<mud::ItemFlag>().m_map[size_t(val)]; };
-    
     export_ template <> inline void from_string(const string& str, mud::ItemShadow& val) { val = static_cast<mud::ItemShadow>(enu<mud::ItemShadow>().value(str.c_str())); };
     export_ template <> inline void to_string(const mud::ItemShadow& val, string& str) { str = enu<mud::ItemShadow>().m_map[size_t(val)]; };
     

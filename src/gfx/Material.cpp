@@ -19,6 +19,10 @@ module mud.gfx;
 #include <gfx/Skeleton.h>
 #include <gfx/Program.h>
 #include <gfx/Asset.h>
+#include <gfx/Item.h>
+#include <gfx/Model.h>
+#include <gfx-pbr/VoxelGI.h>
+#include <gfx-pbr/Lightmap.h>
 #endif
 
 namespace mud
@@ -125,6 +129,7 @@ namespace mud
 			, u_pbr_params_1(bgfx::createUniform("u_pbr_params_1", bgfx::UniformType::Vec4))
 			, u_pbr_channels_0(bgfx::createUniform("u_pbr_channels_0", bgfx::UniformType::Vec4))
 			, u_emissive(bgfx::createUniform("u_emissive", bgfx::UniformType::Vec4))
+			//, u_lightmap_params(bgfx::createUniform("u_lightmap_params", bgfx::UniformType::Vec4))
 			, s_albedo(bgfx::createUniform("s_albedo", bgfx::UniformType::Int1))
 			, s_metallic (bgfx::createUniform("s_metallic", bgfx::UniformType::Int1))
 			, s_roughness(bgfx::createUniform("s_roughness", bgfx::UniformType::Int1))
@@ -132,6 +137,7 @@ namespace mud
 			, s_normal(bgfx::createUniform("s_normal", bgfx::UniformType::Int1))
 			, s_depth(bgfx::createUniform("s_depth", bgfx::UniformType::Int1))
 			, s_ambient_occlusion(bgfx::createUniform("s_ambient_occlusion", bgfx::UniformType::Int1))
+			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Int1))
 		{}
 
 		void upload(bgfx::Encoder& encoder, const PbrMaterialBlock& block) const
@@ -177,6 +183,7 @@ namespace mud
 		bgfx::UniformHandle u_pbr_params_1;
 		bgfx::UniformHandle u_pbr_channels_0;
 		bgfx::UniformHandle u_emissive;
+		//bgfx::UniformHandle u_lightmap_params;
 
 		bgfx::UniformHandle s_albedo;
 		bgfx::UniformHandle s_metallic;
@@ -185,20 +192,22 @@ namespace mud
 		bgfx::UniformHandle s_normal;
 		bgfx::UniformHandle s_depth;
 		bgfx::UniformHandle s_ambient_occlusion;
+		//bgfx::UniformHandle s_lightmap;
 	};
 
 	PbrBlock::PbrBlock(GfxSystem& gfx_system)
 		: GfxBlock(gfx_system, *this)
 	{
-		static cstring options[6] = {
+		static cstring options[7] = {
 			"NORMAL_MAP",
 			"EMISSIVE",
 			"ANISOTROPY",
 			"AMBIENT_OCCLUSION",
 			"DEPTH_MAPPING",
-			"DEEP_PARALLAX"
+			"DEEP_PARALLAX",
+			"LIGHTMAP"
 		};
-		m_shader_block->m_options = { options, 6 };
+		m_shader_block->m_options = { options, 7 };
 	}
 
 	template <> Type& type<mud::PbrBlock>() { static Type ty("PbrBlock"); return ty; }
@@ -258,6 +267,24 @@ namespace mud
 			version.set_option(pbr.m_index, DEPTH_MAPPING);
 		if(m_pbr_block.m_enabled && m_pbr_block.m_deep_parallax)
 			version.set_option(pbr.m_index, DEEP_PARALLAX);
+
+		return version;
+	}
+
+	ShaderVersion Material::shader_version(const Program& program, const Item& item, const ModelItem& model_item) const
+	{
+		ShaderVersion version = this->shader_version(program);
+
+		PbrBlock& pbr = pbr_block(*ms_gfx_system);
+
+		if(item.m_lightmaps.size() > 0)
+		{
+			LightmapItem& binding = *item.m_lightmaps[model_item.m_index];
+			if(bgfx::isValid(binding.m_lightmap))
+			{
+				version.set_option(pbr.m_index, LIGHTMAP);
+			}
+		}
 
 		return version;
 	}

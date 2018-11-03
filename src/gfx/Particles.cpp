@@ -92,7 +92,7 @@ namespace mud
 
 	void Particles::spawn(float dt)
 	{
-		mat4 transform = m_node ? m_node->transform() : bxidentity();
+		mat4 transform = m_node ? m_node->m_transform : bxidentity();
 
 		//quat rotation = m_rotation.sample(m_time, random_scalar(0.f, 1.f));
 		//vec3 position = m_position.sample(m_time, random_scalar(0.f, 1.f));

@@ -135,16 +135,15 @@ void edit_styles(Widget& parent)
 	object_edit(parent, Ref(&edited_style->skin()));
 }
 
-enum InteractionSwitch
-{
-	CONTEXT_MENU = 1 << 0,
-	CHARACTER_SHEET = 1 << 1,
-	INVENTORY_SHEET = 1 << 2
-
-};
-
 void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 {
+	enum Modes
+	{
+		Context = 1 << 0,
+		Character = 1 << 1,
+		Inventory = 1 << 2
+	};
+
 	UNUSED(app); UNUSED(dockbar);
 	Widget& umain = ui::board(parent);
 
@@ -160,36 +159,36 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
-	gfx::shape(scene, Cube(), Symbol(), ITEM_SELECTABLE, &material);
+	gfx::shape(scene, Cube(), Symbol(), ItemFlag::Default | ItemFlag::Selectable, &material);
 
 	static game::Character character = game::create_character();
 
 	static Item* selected = nullptr;
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 	{
-		auto callback = [&](Item* item) { selected = item; umain.m_switch |= CONTEXT_MENU; };
-		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ITEM_SELECTABLE);
+		auto callback = [&](Item* item) { selected = item; umain.m_switch |= Context; };
+		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
 	UNUSED(selected);
 
-	if((umain.m_switch & CONTEXT_MENU) != 0)
+	if((umain.m_switch & Context) != 0)
 	{
 		Widget& popup = ui::popup(viewer, ui::PopupFlags::Modal);
 		if(ui::button(popup, "character").activated())
-			umain.m_switch |= CHARACTER_SHEET;
+			umain.m_switch |= Character;
 		if(ui::button(popup, "inventory").activated())
-			umain.m_switch |= INVENTORY_SHEET;
-		if((umain.m_switch & CHARACTER_SHEET) != 0
-			|| (umain.m_switch & INVENTORY_SHEET) != 0
+			umain.m_switch |= Inventory;
+		if((umain.m_switch & Character) != 0
+			|| (umain.m_switch & Inventory) != 0
 			|| !popup.m_open)
-			umain.m_switch &= ~(CONTEXT_MENU);
+			umain.m_switch &= ~(Context);
 	}
 
-	if((umain.m_switch & CHARACTER_SHEET) != 0)
+	if((umain.m_switch & Character) != 0)
 		game::character_sheet(umain, character);
 
-	if((umain.m_switch & INVENTORY_SHEET) != 0)
+	if((umain.m_switch & Inventory) != 0)
 		game::inventory_sheet(umain, character.m_inventory);
 }
 

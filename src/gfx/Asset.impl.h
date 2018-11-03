@@ -65,6 +65,12 @@ namespace mud
 	}
 
 	template <class T_Asset>
+	void AssetStore<T_Asset>::destroy(cstring name)
+	{
+		m_assets[name] = nullptr;
+	}
+
+	template <class T_Asset>
 	T_Asset& AssetStore<T_Asset>::fetch(cstring name)
 	{
 		if(m_assets.find(name) == m_assets.end())

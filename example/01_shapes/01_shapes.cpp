@@ -45,7 +45,7 @@ void shape_grid(Gnode& parent, array_2d<ShapeInstance> shape_grid, const Symbol&
 								 : Zero3;
 
 			Gnode& node = gfx::node(parent, {}, center + vec3{ x * spacing, 0.f, y * spacing }, quat(angles));
-			gfx::shape(node, shapes[shape_item.index], symbol, ITEM_SELECTABLE, material);
+			gfx::shape(node, shapes[shape_item.index], symbol, ItemFlag::Default | ItemFlag::Selectable, material);
 		}
 }
 

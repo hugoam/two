@@ -32,41 +32,24 @@ namespace mud
 	 
 	void debug_print_mat(const mat4& mat);
 
-#define NODE_MAT4
-
 	export_ class refl_ MUD_GFX_EXPORT Node3
 	{
 	public:
 		// @todo factor out scene management stuff from items, nodes, lights and add it to the graph / scene
 		Node3(Scene* scene = nullptr, Ref object = {});
+		Node3(const mat4& transform);
 
 		attr_ Scene* m_scene = nullptr;
 		attr_ uint16_t m_index = 0;
 
-#ifdef NODE_MAT4
 		attr_ mat4 m_transform = bxidentity();
-#else
-		attr_ vec3 m_position = Zero3;
-		attr_ quat m_rotation = ZeroQuat;
-		attr_ vec3 m_scale = Unit3;
-#endif
 		attr_ bool m_visible = true;
 
 		Ref m_object;
 		size_t m_last_updated = 0;
 
-#ifdef NODE_MAT4
-		const mat4& transform() const { return m_transform; }
-
 		vec3 position() const { return m_transform * vec4(Zero3, 1.f); }
 		vec3 axis(const vec3& dir) const { return normalize(m_transform * vec4(dir, 0.f)); }
 		vec3 direction() const { return normalize(m_transform * vec4(-Z3, 0.f)); }
-#else
-		mat4 transform() const { return bxTRS(m_scale, m_rotation, m_position); }
-
-		const vec3& position() const { return m_position; }
-		vec3 axis(const vec3& dir) const { return normalize(rotate(m_rotation, dir)); }
-		vec3 direction() const { return normalize(rotate(m_rotation, -Z3)); }
-#endif
 	};
 }

@@ -16,18 +16,21 @@
 module mud.gfx.obj;
 #else
 #include <infra/Vector.h>
-#include <math/Timer.h>
 #include <infra/StringConvert.h>
+#include <pool/Pool.h>
+#include <math/Timer.h>
 #include <math/Stream.h>
 #include <geom/Mesh.h>
 #include <gfx/Material.h>
 #include <gfx/Mesh.h>
 #include <gfx/Model.h>
+#include <gfx/Prefab.h>
 #include <gfx/Draw.h>
 #include <gfx/Node3.h>
 #include <gfx/Texture.h>
 #include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
+#include <gfx-obj/Types.h>
 #include <gfx-obj/ImporterObj.h>
 #endif
 
@@ -36,23 +39,32 @@ namespace mud
 	ImporterOBJ::ImporterOBJ(GfxSystem& gfx_system)
 		: m_gfx_system(gfx_system)
 	{
-		static auto load_obj = [&](GfxSystem& gfx_system, Model& model, cstring path)
+		static auto load_obj_model = [&](GfxSystem& gfx_system, Model& model, cstring path)
 		{
 			UNUSED(gfx_system);
-			ModelConfig config = load_model_config(path, model.m_name.c_str());
+			ImportConfig config = load_model_config(path, model.m_name.c_str());
 			this->import_model(model, path, config);
 		};
 
-		gfx_system.models().add_format(".obj", load_obj);
+		static auto load_obj_prefab = [&](GfxSystem& gfx_system, Prefab& prefab, cstring path)
+		{
+			UNUSED(gfx_system);
+			ImportConfig config = load_model_config(path, prefab.m_name.c_str());
+			this->import_prefab(prefab, path, config);
+		};
+
+		gfx_system.add_importer(ModelFormat::obj, *this);
+		gfx_system.models().add_format(".obj", load_obj_model);
+		gfx_system.prefabs().add_format(".obj", load_obj_prefab);
 	}
 
-	void ImporterOBJ::import_material_library(const string& path, MaterialMap& material_map)
+	void import_material_library(GfxSystem& gfx_system, const string& path, MaterialMap& material_map)
 	{
 		string models_path = "models/" + path;
 		string materials_path = "materials/" + path;
-		LocatedFile location = m_gfx_system.locate_file(models_path.c_str());
+		LocatedFile location = gfx_system.locate_file(models_path.c_str());
 		if(location.m_location == nullptr)
-			location = m_gfx_system.locate_file(materials_path.c_str());
+			location = gfx_system.locate_file(materials_path.c_str());
 
 		std::ifstream file = std::ifstream(string(location.m_location) + location.m_name);
 
@@ -89,8 +101,8 @@ namespace mud
 			auto fetch_texture = [&](const string& path) -> Texture*
 			{
 				// @todo replace backslashes with slashes  ?
-				if(m_gfx_system.locate_file(("textures/" + path).c_str()).m_location)
-					return m_gfx_system.textures().file(path.c_str());
+				if(gfx_system.locate_file(("textures/" + path).c_str()).m_location)
+					return gfx_system.textures().file(path.c_str());
 				else
 					return nullptr;
 			};
@@ -98,7 +110,7 @@ namespace mud
 			if(command == "newmtl")
 			{
 				string name = read<string>(stream);
-				current = &m_gfx_system.fetch_material(name.c_str(), "pbr/pbr");
+				current = &gfx_system.fetch_material(name.c_str(), "pbr/pbr");
 				current->m_pbr_block.m_enabled = true;
 				material_map[name] = current;
 			}
@@ -200,10 +212,10 @@ namespace mud
 		}
 	}
 
-	void ImporterOBJ::import_model(Model& model, const string& path, const ModelConfig& config)
+	void ImporterOBJ::import(Import& scene, const string& path, const ImportConfig& config)
 	{
 		UNUSED(config);
-		printf("INFO: Importing OBJ model %s\n", model.m_name.c_str());
+		printf("INFO: gltf - loading scene %s\n", scene.m_file.c_str());
 
 		Clock clock;
 		clock.step();
@@ -224,27 +236,32 @@ namespace mud
 
 		struct MeshWriter
 		{
-			MeshWriter(Model& model, const string& name, bool as_prefab, bool generate_tangents)
-				: m_model(model)
-				, m_mesh(model.add_mesh(name.c_str(), true))
-				, m_as_prefab(as_prefab)
+			MeshWriter(Import& import, bool generate_tangents)
+				: m_import(import)
+				, m_name(import.m_name)
 				, m_generate_tangents(generate_tangents)
 			{}
 
 			~MeshWriter()
 			{
 				if(m_shape.vertex_count() == 0 || m_skip)
-				{
-					m_model.m_meshes.pop_back();
 					return;
-				}
+
+				Mesh& mesh = m_import.m_gfx_system.meshes().construct(m_name.c_str(), true);
 				m_shape.bake(!m_normals, m_generate_tangents && m_uvs);
-				m_mesh.write(PLAIN, m_shape);
-				if(m_as_prefab)
-					m_model.add_model(m_mesh, bxidentity());
-				else
-					m_model.add_item(m_mesh, bxidentity());
-				//printf("INFO: ImporterOBJ imported mesh %s material %s with %u vertices and %u faces\n", m_mesh.m_name.c_str(), m_mesh.m_material->m_name.c_str(), m_shape.m_vertices.size(), m_shape.m_indices.size() / 3);
+				mesh.write(PLAIN, m_shape);
+				mesh.m_material = m_material;
+				m_import.m_meshes.push_back(&mesh);
+
+				Model& model = m_import.m_gfx_system.models().create(m_name.c_str());
+				model.add_item(mesh, bxidentity());
+				model.prepare();
+				m_import.m_models.push_back(&model);
+
+				m_import.m_items.push_back({ bxidentity(), &model });
+
+				//printf("INFO: ImporterOBJ imported mesh %s material %s with %u vertices and %u faces\n", 
+				//	   m_mesh.m_name.c_str(), m_mesh.m_material->m_name.c_str(), m_shape.m_positions.size(), m_shape.m_indices.size() / 3);
 			}
 
 			inline void face(ShapeVertex* face, size_t a, size_t b, size_t c)
@@ -262,10 +279,10 @@ namespace mud
 				vertex(face[c]);
 			}
 
-			Model& m_model;
-			Mesh& m_mesh;
+			Import& m_import;
+			string m_name;
+			Material* m_material = nullptr;
 			MeshPacker m_shape;
-			bool m_as_prefab;
 			bool m_generate_tangents;
 			bool m_normals = true;
 			bool m_uvs = true;
@@ -282,7 +299,7 @@ namespace mud
 			return;
 		}
 
-		unique_ptr<MeshWriter> mesh_writer = make_unique<MeshWriter>(model, string(model.m_name), config.m_as_prefab, generate_tangents);
+		unique_ptr<MeshWriter> mesh_writer = make_unique<MeshWriter>(scene, generate_tangents);
 
 		string line;
 
@@ -299,24 +316,26 @@ namespace mud
 			if(command == "o" || command == "g")
 			{
 				mesh_writer = nullptr;
-				mesh_writer = make_unique<MeshWriter>(model, string(model.m_name), config.m_as_prefab, generate_tangents);
+				mesh_writer = make_unique<MeshWriter>(scene, generate_tangents);
 			}
 			if(command == "o")
 			{
 				const string& name = tokens[1];
-				model.m_name = name.c_str();
+				scene.m_name = name.c_str();
 			}
 			else if(command == "g")
 			{
 				const string& name = tokens[1];
-				mesh_writer->m_mesh.m_name = name.c_str();
-				//if(vector_has(config.m_filter, name))
-				//	mesh_writer->m_skip = true;
+				mesh_writer->m_name = name.c_str();
+				if(config.filter_element(name))
+					mesh_writer->m_skip = true;
 			}
 			else if(command == "usemtl")
 			{
 				const string& material = tokens[1];
-				mesh_writer->m_mesh.m_material = materials[material];
+				mesh_writer->m_material = materials[material];
+				if(config.filter_material(material))
+					mesh_writer->m_skip = true;
 			}
 			else if(command == "s") //smoothing
 			{
@@ -368,13 +387,36 @@ namespace mud
 			else if(command == "mtllib")
 			{
 				const string& lib_path = tokens[1];
-				import_material_library(lib_path, materials);
+				import_material_library(m_gfx_system, lib_path, materials);
 			}
 		}
 
 		printf("INFO: obj - imported %i vertices in %.2f seconds\n", int(vertices.size()), clock.step());
 		
 		mesh_writer = nullptr;
+	}
+
+	void ImporterOBJ::import_model(Model& model, const string& filepath, const ImportConfig& config)
+	{
+		Import state = { m_gfx_system, filepath, config };
+
+		this->import(state, filepath, config);
+
+		for(const Import::Item& item : state.m_items)
+		{
+			for(const ModelItem& model_item : item.model->m_items)
+				model.add_item(*model_item.m_mesh, item.transform, item.skin);
+		}
+
 		model.prepare();
+	}
+
+	void ImporterOBJ::import_prefab(Prefab& prefab, const string& filepath, const ImportConfig& config)
+	{
+		Import state = { m_gfx_system, filepath, config };
+
+		this->import(state, filepath, config);
+
+		import_to_prefab(m_gfx_system, prefab, state);
 	}
 }

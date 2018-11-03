@@ -38,7 +38,6 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::EmitterFlow>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Interpolation>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::IsometricAngle>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::ItemFlag>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ItemShadow>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::LightType>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MSAA>();
@@ -95,7 +94,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<mud::Colour>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Mesh>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Model>();
-	export_ template <> MUD_GFX_EXPORT Type& type<mud::ModelConfig>();
+	export_ template <> MUD_GFX_EXPORT Type& type<mud::ImportConfig>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ModelItem>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Node3>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ParticleGenerator>();

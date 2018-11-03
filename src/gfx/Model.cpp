@@ -10,9 +10,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <infra/File.h>
 #include <infra/StringConvert.h>
-#include <srlz/Serial.h>
 #include <type/Indexer.h>
 #include <pool/Pool.h>
 #include <geom/Geom.h>
@@ -27,19 +25,6 @@ module mud.gfx;
 
 namespace mud
 {
-	ModelConfig load_model_config(cstring path, cstring model_name)
-	{
-		ModelConfig config = {};
-
-		string config_path = file_directory(path) + "/" + model_name + ".cfg";
-		if(file_exists(config_path.c_str()))
-			unpack_json_file(Ref(&config), config_path);
-
-		config.m_transform = bxSRT(config.m_scale, config.m_rotation, config.m_position);
-
-		return config;
-	}
-
 	//static uint16_t s_model_index = 0;
 
 	GfxSystem* Model::ms_gfx_system = nullptr;
@@ -55,7 +40,6 @@ namespace mud
 	Mesh& Model::add_mesh(cstring name, bool readback)
 	{
 		Mesh& mesh = ms_gfx_system->meshes().construct(name, readback);
-		m_meshes.push_back(&mesh);
 		return mesh;
 	}
 
@@ -64,16 +48,6 @@ namespace mud
 		UNUSED(name);
 		m_rig = &ms_gfx_system->rigs().construct();
 		return *m_rig;
-	}
-
-	Model& Model::add_model(Mesh& mesh, mat4 transform, int skin, Colour colour, Material* material)
-	{
-		string name = m_name + ":" + mesh.m_name + ":" + to_string(m_models.size());
-		Model& model = ms_gfx_system->models().create(name.c_str());
-		model.m_meshes.push_back(&mesh);
-		model.add_item(mesh, bxidentity(), skin, colour, material);
-		m_models.push_back({ &model, transform });
-		return model;
 	}
 
 	ModelItem& Model::add_item(Mesh& mesh, mat4 transform, int skin, Colour colour, Material* material)
@@ -86,13 +60,6 @@ namespace mud
 	{
 		m_aabb = {};
 		m_radius = 0.f;
-
-		for(Submodel& submodel : m_models)
-		{
-			submodel.m_model->prepare();
-			m_aabb.mergeSafe(submodel.m_model->m_aabb);
-			m_radius = max(submodel.m_model->m_radius, m_radius);
-		}
 
 		for(const ModelItem& item: m_items)
 		{

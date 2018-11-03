@@ -75,7 +75,7 @@ namespace mud
 	struct ShadowRender : public ManualRender
 	{
 		ShadowRender(Render& render, Light& light, bgfx::FrameBufferHandle fbo, const uvec4& viewport_rect, const mat4& transform, const mat4& projection)
-			: ManualRender(render, fbo, viewport_rect, transform, projection)
+			: ManualRender(render, Shading::Volume, fbo, viewport_rect, transform, projection)
 			, m_light(light)
 		{}
 
@@ -91,6 +91,17 @@ namespace mud
 		Light& m_light;
 	};
 
+	std::vector<Item*> filter_cull(array<Item*> items, std::function<bool(Item&)> filter)
+	{
+		std::vector<Item*> culled;
+		for(Item* item : items)
+			if(!filter || filter(*item))
+			{
+				culled.push_back(item);
+			}
+		return culled;
+	}
+
 	std::vector<Item*> frustum_cull(array<Item*> items, const Plane6& frustum_planes, std::function<bool(Item&)> filter)
 	{
 		std::vector<Item*> culled;
@@ -105,11 +116,12 @@ namespace mud
 
 	void cull_shadow_render(array<Item*> items, std::vector<Item*>& result, const Plane6& planes)
 	{
-		auto filter = [](Item& item) { return item.m_visible && item.m_model->m_geometry[PLAIN] && item.m_cast_shadows != ItemShadow::Off; };
-		result = frustum_cull(items, planes, filter);
+		auto filter = [](Item& item) { return item.m_visible && item.m_model->m_geometry[PLAIN] && (item.m_flags & ItemFlag::Shadows) != 0; };
+		result = filter_cull(items, filter);
+		//result = frustum_cull(items, planes, filter);
 
 		for(Item* item : items)
-			item->m_depth = plane_distance_to(planes.m_near, item->m_aabb.m_center);
+			item->m_depth = distance(planes.m_near, item->m_aabb.m_center);
 	}
 
 	void cull_shadow_render(array<Item*> items, std::vector<Item*>& result, const mat4& projection, const mat4& transform)
@@ -390,7 +402,7 @@ namespace mud
 					static const vec3 view_normals[6] = { -X3, X3, -Y3, Y3, -Z3, Z3 };
 					static const vec3 view_up[6] = { -Y3, -Y3, -Z3, Z3, -Y3, -Y3 };
 
-					mat4 transform = light->m_node.transform() * bxlookat(Zero3, view_normals[i], view_up[i]);
+					mat4 transform = light->m_node.m_transform * bxlookat(Zero3, view_normals[i], view_up[i]);
 
 					ShadowCubemap& cubemap = m_atlas.light_cubemap(*light, uint16_t(rect_w(atlas_rect)));
 
@@ -404,7 +416,7 @@ namespace mud
 				uvec4 atlas_rect = m_atlas.render_update(render, *light);
 
 				mat4 projection = bxproj(light->m_spot_angle * 2.f, 1.f, 0.01f, light->m_range, bgfx::getCaps()->homogeneousDepth);
-				mat4 transform = light->m_node.transform();
+				mat4 transform = light->m_node.m_transform;
 
 				ShadowRender shadow_render = { render, *light, m_atlas.m_fbo, atlas_rect, projection, transform };
 				cull_shadow_render(render.m_shot->m_items, shadow_render.m_sub_render.m_shot->m_items, projection, transform);

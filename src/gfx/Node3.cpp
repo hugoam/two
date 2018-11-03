@@ -94,4 +94,9 @@ namespace mud
 		, m_index(s_node_index++)
 		, m_object(object)
 	{}
+
+	Node3::Node3(const mat4& transform)
+		: m_index(s_node_index++)
+		, m_transform(transform)
+	{}
 }

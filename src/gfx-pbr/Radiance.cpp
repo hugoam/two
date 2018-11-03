@@ -38,10 +38,12 @@ namespace mud
 		u_radiance.createUniforms();
 	}
 	
-	void BlockRadiance::begin_frame()
+	void BlockRadiance::begin_frame(const RenderFrame& frame)
 	{
-		while(!m_prefilter_queue.empty())
-			this->prefilter_radiance(*vector_pop(m_prefilter_queue));
+		UNUSED(frame);
+		for(Radiance* radiance : m_prefilter_queue)
+			this->prefilter_radiance(*radiance);
+		m_prefilter_queue.clear();
 	}
 
 	void BlockRadiance::begin_render(Render& render)
