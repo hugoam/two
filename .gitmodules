@@ -71,4 +71,4 @@
 	url = https://github.com/zeux/meshoptimizer
 [submodule "3rdparty/culling"]
 	path = 3rdparty/culling
-	url = https://github.com/GameTechDev/MaskedOcclusionCulling
+	url = https://github.com/hugoam/MaskedOcclusionCulling

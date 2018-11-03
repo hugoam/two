@@ -93,13 +93,9 @@ namespace mud
 		if(m_cursor.m_qnormal)
 		{
 			uint8_t* packed = (uint8_t*)m_cursor.m_qnormal;
-			*packed++ = uint8_t(n.x * 127.0f + 128.0f);
+			*packed++ = uint8_t(n.x * 127.0f + 128.0f); // quantize_snorm(n.x, 8)
 			*packed++ = uint8_t(n.y * 127.0f + 128.0f);
 			*packed++ = uint8_t(n.z * 127.0f + 128.0f);
-
-			//*m_cursor.m_qnormal = (quantize_snorm(n.x, 8) << 0)
-			//					| (quantize_snorm(n.y, 8) << 8)
-			//					| (quantize_snorm(n.z, 8) << 16);
 
 			next(m_cursor.m_qnormal);
 		}
@@ -111,16 +107,11 @@ namespace mud
 		if(m_cursor.m_qtangent)
 		{
 			uint8_t* packed = (uint8_t*)m_cursor.m_qtangent;
-			*packed++ = uint8_t(t.x * 127.0f + 128.0f);
+			*packed++ = uint8_t(t.x * 127.0f + 128.0f);  // quantize_snorm(t.x, 8)
 			*packed++ = uint8_t(t.y * 127.0f + 128.0f);
 			*packed++ = uint8_t(t.z * 127.0f + 128.0f);
 			*packed++ = uint8_t(t.w * 127.0f + 128.0f);
 
-			//*m_cursor.m_qtangent = (quantize_snorm(t.x, 8) << 0)
-			//					 | (quantize_snorm(t.y, 8) << 8)
-			//					 | (quantize_snorm(t.z, 8) << 16)
-			//					 | (quantize_snorm(t.w, 8) << 24);
-			
 			next(m_cursor.m_qtangent);
 		}
 		return *this;
