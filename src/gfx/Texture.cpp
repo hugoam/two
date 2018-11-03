@@ -181,6 +181,7 @@ namespace mud
 	{
 		bgfx::TextureInfo texture_info;
 		texture.m_texture = load_bgfx_texture(gfx_system.m_allocator, gfx_system.file_reader(), path, 0U, &texture_info);
+		// if(!bgfx::isValid(texture.m_texture)) set placeholder "missing texture" texture instead
 		set_texture_info(texture, texture_info);
 	}
 
@@ -188,6 +189,7 @@ namespace mud
 	{
 		bgfx::TextureInfo texture_info;
 		texture.m_texture = load_bgfx_texture(gfx_system.m_allocator, texture.m_name.c_str(), (void*)data.m_pointer, data.m_count, 0U, &texture_info);
+		// if(!bgfx::isValid(texture.m_texture)) set placeholder "missing texture" texture instead
 		set_texture_info(texture, texture_info);
 	}
 

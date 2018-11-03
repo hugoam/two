@@ -45,28 +45,6 @@ namespace mud
 			bgfx_state |= BGFX_STATE_BLEND_ALPHA;
 	}
 
-	struct BaseMaterialUniform
-	{
-		BaseMaterialUniform() {}
-		BaseMaterialUniform(GfxSystem& gfx_system)
-			: u_uv1_scale_offset(bgfx::createUniform("u_material_params_0", bgfx::UniformType::Vec4))
-			, u_uv2_scale_offset(bgfx::createUniform("u_material_params_1", bgfx::UniformType::Vec4))
-			, s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Int1))
-		{
-			UNUSED(gfx_system);
-		}
-
-		void upload(bgfx::Encoder& encoder, const BaseMaterialBlock& data) const
-		{
-			encoder.setUniform(u_uv1_scale_offset, &data.m_uv1_scale.x);
-			encoder.setUniform(u_uv2_scale_offset, &data.m_uv2_scale.x);
-		}
-
-		bgfx::UniformHandle u_uv1_scale_offset;
-		bgfx::UniformHandle u_uv2_scale_offset;
-		bgfx::UniformHandle s_skeleton;
-	};
-
 	struct UnshadedMaterialUniform
 	{
 		UnshadedMaterialUniform() {}
@@ -157,20 +135,24 @@ namespace mud
 			vec4 pbr_channels = { float(block.m_roughness.m_channel), float(block.m_metallic.m_channel), 0.f, 0.f };
 			encoder.setUniform(u_pbr_channels_0, &pbr_channels);
 
-			encoder.setTexture(uint8_t(TextureSampler::Color), s_albedo, block.m_albedo.m_texture ? block.m_albedo.m_texture->m_texture : m_white_tex->m_texture);
-			encoder.setTexture(uint8_t(TextureSampler::Metallic), s_metallic, block.m_metallic.m_texture ? block.m_metallic.m_texture->m_texture : m_white_tex->m_texture);
-			encoder.setTexture(uint8_t(TextureSampler::Roughness), s_roughness, block.m_roughness.m_texture ? block.m_roughness.m_texture->m_texture : m_white_tex->m_texture);
+			auto is_valid = [](Texture* texture) { return texture != nullptr && bgfx::isValid(texture->m_texture); };
 
-			if(block.m_normal.m_texture)
+			encoder.setTexture(uint8_t(TextureSampler::Color), s_albedo, is_valid(block.m_albedo.m_texture) ? block.m_albedo.m_texture->m_texture : m_white_tex->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Metallic), s_metallic, is_valid(block.m_metallic.m_texture) ? block.m_metallic.m_texture->m_texture : m_white_tex->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Roughness), s_roughness, is_valid(block.m_roughness.m_texture) ? block.m_roughness.m_texture->m_texture : m_white_tex->m_texture);
+
+			if(is_valid(block.m_normal.m_texture))
 				encoder.setTexture(uint8_t(TextureSampler::Normal), s_normal, block.m_normal.m_texture->m_texture);
 
-			if(block.m_emissive.m_value.m_a > 0.f || block.m_emissive.m_texture)
-				encoder.setTexture(uint8_t(TextureSampler::Emissive), s_emissive, block.m_emissive.m_texture ? block.m_emissive.m_texture->m_texture : m_black_tex->m_texture);
+			if(is_valid(block.m_emissive.m_texture))
+				encoder.setTexture(uint8_t(TextureSampler::Emissive), s_emissive, block.m_emissive.m_texture->m_texture);
+			else if(block.m_emissive.m_value.m_a > 0.f)
+				encoder.setTexture(uint8_t(TextureSampler::Emissive), s_emissive, m_black_tex->m_texture);
 
-			if(block.m_depth.m_texture)
+			if(is_valid(block.m_depth.m_texture))
 				encoder.setTexture(uint8_t(TextureSampler::Depth), s_depth, block.m_depth.m_texture->m_texture);
 			
-			if(block.m_ambient_occlusion.m_texture)
+			if(is_valid(block.m_ambient_occlusion.m_texture))
 				encoder.setTexture(uint8_t(TextureSampler::AO), s_ambient_occlusion, block.m_ambient_occlusion.m_texture->m_texture);
 		}
 
@@ -231,7 +213,7 @@ namespace mud
 
 	//static uint16_t s_material_index = 0;
 
-	static BaseMaterialUniform s_base_material_block = {};
+	Material::BaseMaterialUniform Material::s_base_uniform = {};
 	static UnshadedMaterialUniform s_unshaded_material_block = {};
 	static FresnelMaterialUniform s_fresnel_material_block = {};
 	static PbrMaterialUniform s_pbr_material_block = {};
@@ -243,7 +225,7 @@ namespace mud
 		static bool init_blocks = true;
 		if(init_blocks)
 		{
-			s_base_material_block = { *ms_gfx_system };
+			s_base_uniform = { *ms_gfx_system };
 			s_unshaded_material_block = { *ms_gfx_system };
 			s_fresnel_material_block = { *ms_gfx_system };
 			s_pbr_material_block = { *ms_gfx_system };
@@ -257,16 +239,22 @@ namespace mud
 		PbrBlock& pbr = pbr_block(*ms_gfx_system);
 
 		ShaderVersion version = { &program };
-		if(m_pbr_block.m_enabled && m_pbr_block.m_normal.m_texture)
-			version.set_option(pbr.m_index, NORMAL_MAP);
-		if(m_pbr_block.m_enabled && (m_pbr_block.m_emissive.m_value.m_a > 0.f || m_pbr_block.m_emissive.m_texture))
-			version.set_option(pbr.m_index, EMISSIVE);
-		if(m_pbr_block.m_enabled && m_pbr_block.m_ambient_occlusion.m_texture)
-			version.set_option(pbr.m_index, AMBIENT_OCCLUSION);
-		if(m_pbr_block.m_enabled && m_pbr_block.m_depth.m_texture)
-			version.set_option(pbr.m_index, DEPTH_MAPPING);
-		if(m_pbr_block.m_enabled && m_pbr_block.m_deep_parallax)
-			version.set_option(pbr.m_index, DEEP_PARALLAX);
+
+		auto is_valid = [](Texture* texture) { return texture != nullptr && bgfx::isValid(texture->m_texture); };
+
+		if(m_pbr_block.m_enabled)
+		{
+			if(is_valid(m_pbr_block.m_normal.m_texture))
+				version.set_option(pbr.m_index, NORMAL_MAP);
+			if(is_valid(m_pbr_block.m_emissive.m_texture) || m_pbr_block.m_emissive.m_value.m_a > 0.f)
+				version.set_option(pbr.m_index, EMISSIVE);
+			if(is_valid(m_pbr_block.m_ambient_occlusion.m_texture))
+				version.set_option(pbr.m_index, AMBIENT_OCCLUSION);
+			if(is_valid(m_pbr_block.m_depth.m_texture))
+				version.set_option(pbr.m_index, DEPTH_MAPPING);
+			if(m_pbr_block.m_deep_parallax)
+				version.set_option(pbr.m_index, DEEP_PARALLAX);
+		}
 
 		return version;
 	}
@@ -307,7 +295,7 @@ namespace mud
 	{
 		this->state(bgfx_state);
 
-		s_base_material_block.upload(encoder, m_base_block);
+		s_base_uniform.upload(encoder, m_base_block);
 		if(m_unshaded_block.m_enabled)
 			s_unshaded_material_block.upload(encoder, m_unshaded_block);
 		if(m_fresnel_block.m_enabled)
@@ -316,6 +304,6 @@ namespace mud
 			s_pbr_material_block.upload(encoder, m_pbr_block);
 
 		if(skin)
-			encoder.setTexture(uint8_t(TextureSampler::Skeleton), s_base_material_block.s_skeleton, skin->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Skeleton), s_base_uniform.s_skeleton, skin->m_texture);
 	}
 }

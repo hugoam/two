@@ -14,9 +14,11 @@ namespace mud
 	export_ class refl_ MUD_GFX_PBR_EXPORT LightmapItem
 	{
 	public:
+		LightmapItem() {}
+		LightmapItem(size_t item, bgfx::TextureHandle lightmap, vec4 uv_scale_offset) : m_item(item), m_lightmap(lightmap), m_uv_scale_offset(uv_scale_offset) {}
 		size_t m_item = SIZE_MAX;
 		bgfx::TextureHandle m_lightmap = BGFX_INVALID_HANDLE;
-		bgfx::VertexBufferHandle m_light_uvs = BGFX_INVALID_HANDLE;
+		vec4 m_uv_scale_offset = vec4(1.f, 1.f, 0.f, 0.f);
 	};
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT Lightmap
@@ -34,8 +36,7 @@ namespace mud
 
 		std::vector<LightmapItem> m_items;
 
-		void add_item(size_t index, Item& item, bgfx::VertexBufferHandle uvs);
-		bgfx::VertexBufferHandle create_uv_buffer(const std::vector<vec2>& uvs);
+		void add_item(size_t index, Item& item, bool valid, const vec4& uv_scale_offset);
 	};
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT LightmapAtlas : public NonCopy

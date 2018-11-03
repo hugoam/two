@@ -136,6 +136,16 @@ namespace mud
 		return *this;
 	}
 
+	MeshData& MeshData::quv1(const vec2& uv)
+	{
+		if(m_cursor.m_quv1)
+		{
+			*m_cursor.m_quv1 = half2(quantize_half(uv.x), quantize_half(uv.y));
+			next(m_cursor.m_quv1);
+		}
+		return *this;
+	}
+
 	Geometry::Geometry()
 		: Shape(type<Geometry>())
 		, m_vertices()
@@ -160,7 +170,7 @@ namespace mud
 		if(!m_normals.empty())	format |= (m_quantize ? VertexAttribute::QNormal : VertexAttribute::Normal);
 		if(!m_tangents.empty())	format |= (m_quantize ? VertexAttribute::QTangent : VertexAttribute::Tangent);
 		if(!m_uv0s.empty())		format |= (m_quantize ? VertexAttribute::QTexCoord0 : VertexAttribute::TexCoord0);
-		if(!m_uv1s.empty())		format |= VertexAttribute::TexCoord1;
+		if(!m_uv1s.empty())		format |= (m_quantize ? VertexAttribute::QTexCoord1 : VertexAttribute::TexCoord1);
 		if(!m_bones.empty())	format |= VertexAttribute::Joints;
 		if(!m_weights.empty())	format |= VertexAttribute::Weights;
 		return format;
@@ -190,7 +200,7 @@ namespace mud
 			if(!m_normals.empty())	m_quantize ? data.qnormal(normal(i)) : data.normal(normal(i));
 			if(!m_tangents.empty()) m_quantize ? data.qtangent(tangent(i)) : data.tangent(tangent(i));
 			if(!m_uv0s.empty())     m_quantize ? data.quv0(m_uv0s[i]) : data.uv0(m_uv0s[i]);
-			if(!m_uv1s.empty())		data.uv1(m_uv1s[i]);
+			if(!m_uv1s.empty())		m_quantize ? data.quv1(m_uv1s[i]) : data.uv1(m_uv1s[i]);
 			if(!m_bones.empty())	data.joints(joints(m_bones[i]));
 			if(!m_weights.empty())	data.weights(m_weights[i]);
 

@@ -87,7 +87,11 @@ namespace mud
 		{
 			Model& model = *item.model;
 			prefab.m_nodes.push_back({ item.transform });
-			prefab.m_items.push_back({ prefab.m_nodes.back(), model });
+			prefab.m_items.push_back({ prefab.m_nodes.back(), model, ItemFlag::Default });
+
+			// special hack for occluders
+			if(model.m_items[0].m_mesh->m_material && model.m_items[0].m_mesh->m_material->m_name == "occluder")
+				prefab.m_items.back().m_flags = ItemFlag::Occluder;
 
 			prefab.m_aabb.mergeSafe(transform_aabb(model.m_aabb, item.transform));
 		}

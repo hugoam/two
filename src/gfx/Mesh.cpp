@@ -52,6 +52,8 @@ namespace mud
 			decl.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Half);
 		if((vertex_format & VertexAttribute::TexCoord1) != 0)
 			decl.add(bgfx::Attrib::TexCoord1, 2, bgfx::AttribType::Float);
+		if((vertex_format & VertexAttribute::QTexCoord1) != 0)
+			decl.add(bgfx::Attrib::TexCoord1, 2, bgfx::AttribType::Half);
 		if((vertex_format & VertexAttribute::Joints) != 0)
 			decl.add(bgfx::Attrib::Indices, 4, bgfx::AttribType::Uint8, normalize_indices);
 		if((vertex_format & VertexAttribute::Weights) != 0)
@@ -82,6 +84,11 @@ namespace mud
 
 	Mesh::~Mesh()
 	{
+		this->clear();
+	}
+
+	void Mesh::clear()
+	{
 		if(bgfx::isValid(m_vertex_buffer))
 			bgfx::destroy(m_vertex_buffer);
 		if(bgfx::isValid(m_index_buffer))
@@ -103,7 +110,7 @@ namespace mud
 
 		for(size_t i = 0; i < source.m_indices.size(); ++i)
 		{
-			uint16_t index = source.index();
+			uint32_t index = m_index32 ? source.index32() : source.index();
 			assert(index <= dest.m_vertices.size());
 			dest.index(index);
 		}
@@ -111,25 +118,35 @@ namespace mud
 		dest.next();
 	}
 
+	inline vec3 mulp(const mat4& mat, const vec3& p) { return vec3(mat * vec4(p, 1.f)); }
+	inline vec3 muln(const mat4& mat, const vec3& n) { return normalize(vec3(mat * vec4(n, 0.f))); }
+	inline vec4 mult(const mat4& mat, const vec4& t) { return vec4(vec3(mat * vec4(vec3(t), 0.f)), t.w); }
+
 	void Mesh::read(MeshPacker& packer, const mat4& transform) const
 	{
 		MeshData source = m_cache;
 
 		for(size_t i = 0; i < source.m_vertices.size(); ++i)
 		{
-			packer.m_positions.push_back(transform * vec4(source.position(), 1.f));
-			packer.m_normals.push_back(transform * vec4(source.normal(), 0.f));
+			packer.m_positions.push_back(mulp(transform, source.position()));
+			packer.m_normals.push_back(muln(transform, source.normal()));
+			//packer.m_colours.push_back(source.colour());
+			packer.m_tangents.push_back(mult(transform, source.tangent()));
 			packer.m_uv0s.push_back(source.uv0());
+			//packer.m_bones.push_back(source.bones());
+			//packer.m_weights.push_back(source.weights());
 		}
 
 		for(size_t i = 0; i < source.m_indices.size(); ++i)
 		{
-			packer.m_indices.push_back(source.index());
+			packer.m_indices.push_back(m_index32 ? source.index32() : source.index());
 		}
 	}
 
 	void Mesh::upload(DrawMode draw_mode, const GpuMesh& gpu_mesh)
 	{
+		this->clear();
+
 		m_draw_mode = draw_mode;
 		m_vertex_format = gpu_mesh.m_vertex_format;
 		m_vertex_count = gpu_mesh.m_vertex_count;
@@ -139,13 +156,13 @@ namespace mud
 		m_vertex_buffer = bgfx::createVertexBuffer(gpu_mesh.m_vertex_memory, vertex_decl(gpu_mesh.m_vertex_format));
 		m_index_buffer = bgfx::createIndexBuffer(gpu_mesh.m_index_memory, m_index32 ? BGFX_BUFFER_INDEX32 : 0);
 
-		m_unwrapped = (m_vertex_format & VertexAttribute::TexCoord0) != 0;
-
 		MeshData data = gpu_mesh.m_data;
+		m_aabb = {};
 		for(size_t i = 0; i < data.m_vertices.size(); ++i)
 			m_aabb.merge(data.position());
 
 		data = gpu_mesh.m_data;
+		m_radius = 0.f;
 		for(size_t i = 0; i < data.m_vertices.size(); ++i)
 			m_radius = max(length(data.position() - m_aabb.m_center), m_radius);
 
@@ -233,35 +250,5 @@ namespace mud
 		encoder.setVertexBuffer(0, m_vertex_buffer);
 		encoder.setIndexBuffer(m_index_buffer);
 		return m_draw_mode == PLAIN ? 0 : (BGFX_STATE_PT_LINES | BGFX_STATE_LINEAA);
-	}
-
-	float calc_mesh_uv_scale(Mesh& mesh, const mat4& transform)
-	{
-		MeshPacker geom;
-		mesh.read(geom, transform);
-
-		float scale = 0.f;
-
-		for(size_t i = 0; i < mesh.m_index_count; i += 3)
-		{
-			float face_scale = 0.f;
-			for(int v = 0; v < 3; v++)
-			{
-				uint32_t i0 = geom.m_indices[i + (v % 3)];
-				uint32_t i1 = geom.m_indices[i + (v + 1) % 3];
-				float real_length = distance(geom.m_positions[i0], geom.m_positions[i1]);
-				float uv_length = distance(geom.m_uv0s[i0], geom.m_uv0s[i1]);
-				if(uv_length > 0.f)
-				{
-					float edge_scale = real_length / uv_length;
-					face_scale += edge_scale;
-				}
-			}
-			face_scale /= 3.f;
-			scale += face_scale;
-		}
-
-		scale /= float(mesh.m_index_count / 3);
-		return scale;
 	}
 }

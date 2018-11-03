@@ -91,8 +91,6 @@ namespace mud
 
 		attr_ Material* m_material = nullptr;
 
-		attr_ bool m_unwrapped = false;
-
 		bgfx::VertexBufferHandle m_vertex_buffer = BGFX_INVALID_HANDLE;
 		bgfx::IndexBufferHandle m_index_buffer = BGFX_INVALID_HANDLE;
 
@@ -101,6 +99,7 @@ namespace mud
 
 		MeshData m_cache;
 
+		void clear();
 		void read(MeshData& data, const mat4& transform) const;
 		void read(MeshPacker& packer, const mat4& transform) const;
 		void write(DrawMode draw_mode, array<ShapeVertex> vertices, array<ShapeIndex> indices, bool optimize = false);
@@ -111,6 +110,4 @@ namespace mud
 		
 		uint64_t submit(bgfx::Encoder& encoder) const;
 	};
-
-	export_ MUD_GFX_EXPORT float calc_mesh_uv_scale(Mesh& mesh, const mat4& transform);
 }

@@ -214,7 +214,7 @@ namespace gfx
 			mat4 tr = transform ? parent.m_attach->m_transform * prefab.m_nodes[i].m_transform
 								: prefab.m_nodes[i].m_transform;
 			Gnode& no = node(self, {}, tr);
-			Item& it = item(no, *prefab.m_items[i].m_model, flags, material, instances, transforms);
+			Item& it = item(no, *prefab.m_items[i].m_model, prefab.m_items[i].m_flags, material, instances, transforms);
 			//it = prefab.m_items[i];
 			//shape(self, Cube(i.m_aabb.m_center, vec3(0.1f)), Symbol::wire(Colour::Red, true));
 			//shape(self, submodel->m_aabb, Symbol::wire(Colour::White));

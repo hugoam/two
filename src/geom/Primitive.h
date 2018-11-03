@@ -45,10 +45,11 @@ namespace mud
 			TexCoord0 = 1 << 8,
 			QTexCoord0 = 1 << 9,
 			TexCoord1 = 1 << 10,
-			Joints = 1 << 11,
-			Weights = 1 << 12,
+			QTexCoord1 = 1 << 11,
+			Joints = 1 << 12,
+			Weights = 1 << 13,
 
-			Count = 1 << 13
+			Count = 1 << 14
 		};
 	};
 
@@ -237,6 +238,8 @@ namespace mud
 				m_start.m_qtangent	= (uint32_t*)	((char*)vertices + vertex_offset(vertex_format, VertexAttribute::QTangent));
 			if((vertex_format & VertexAttribute::QTexCoord0) != 0)
 				m_start.m_quv0		= (half2*)		((char*)vertices + vertex_offset(vertex_format, VertexAttribute::QTexCoord0));
+			if((vertex_format & VertexAttribute::QTexCoord1) != 0)
+				m_start.m_quv1		= (half2*)		((char*)vertices + vertex_offset(vertex_format, VertexAttribute::QTexCoord1));
 
 			m_cursor = m_start;
 		}
@@ -264,6 +267,7 @@ namespace mud
 			uint32_t* m_qnormal = nullptr;
 			uint32_t* m_qtangent = nullptr;
 			half2* m_quv0 = nullptr;
+			half2* m_quv1 = nullptr;
 		};
 
 		Pointers m_start;
@@ -293,6 +297,7 @@ namespace mud
 
 		vec3 position() { vec3 value = *m_cursor.m_position; next(m_cursor.m_position); return value; }
 		vec3 normal() { if(!m_cursor.m_normal) return Zero3; vec3 value = *m_cursor.m_normal; next(m_cursor.m_normal); return value; }
+		vec4 tangent() { if(!m_cursor.m_tangent) return vec4(Zero3, 1.f); vec4 value = *m_cursor.m_tangent; next(m_cursor.m_tangent); return value; }
 		vec2 uv0() { if(!m_cursor.m_uv0) return Zero2; vec2 value = *m_cursor.m_uv0; next(m_cursor.m_uv0); return value; }
 		uint16_t index() { uint16_t value = *(uint16_t*)m_index; m_index = ((char*)m_index + m_index_stride); return value; }
 		uint32_t index32() { uint32_t value = *(uint32_t*)m_index; m_index = ((char*)m_index + m_index_stride); return value; }
@@ -306,5 +311,6 @@ namespace mud
 		MeshData& qnormal(const vec3& n);
 		MeshData& qtangent(const vec4& t);
 		MeshData& quv0(const vec2& uv);
+		MeshData& quv1(const vec2& uv);
 	};
 }

@@ -293,7 +293,6 @@ namespace mud
 			generate_mikkt_tangents({ (ShapeIndex*)gpu_mesh.m_indices, gpu_mesh.m_index_count }, { (ShapeVertex*)gpu_mesh.m_vertices, gpu_mesh.m_vertex_count });
 
 		mesh.upload(draw_mode, gpu_mesh);
-		mesh.m_unwrapped = false;
 
 		model.add_item(mesh, bxidentity());
 	}
