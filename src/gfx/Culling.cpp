@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifndef NO_OCCLUSION_CULLING
 #include <gfx/Cpp20.h>
 
 #ifdef MUD_MODULES
@@ -23,10 +22,35 @@ module mud.gfx;
 #include <gfx/GfxSystem.h>
 #endif
 
+#ifndef NO_OCCLUSION_CULLING
 #include <MaskedOcclusionCulling.h>
+#endif
 
 namespace mud
 {
+#ifdef NO_OCCLUSION_CULLING
+	Culler::Culler(Viewport& viewport)
+		: m_viewport(&viewport)
+	{}
+
+	Culler::~Culler()
+	{}
+
+	void Culler::begin(Viewport& viewport)
+	{}
+
+	void Culler::render(Render& render)
+	{}
+
+	void Culler::rasterize(Render& render)
+	{}
+
+	void Culler::cull(Render& render)
+	{}
+
+	void Culler::debug(Render& render)
+	{}
+#else
 	Culler::Culler(Viewport& viewport)
 		: m_viewport(&viewport)
 	{
@@ -159,5 +183,5 @@ namespace mud
 		BlockCopy& copy = *render.m_scene.m_gfx_system.m_pipeline->block<BlockCopy>();
 		copy.debug_show_texture(as<FrameBuffer>(*render.m_target), m_depth_texture);
 	}
-}
 #endif
+}

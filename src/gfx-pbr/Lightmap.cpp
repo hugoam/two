@@ -187,8 +187,6 @@ namespace mud
 		xmesh.indexFormat = mesh.m_index32 ? xatlas::IndexFormat::UInt32 : xatlas::IndexFormat::UInt16;
 
 		xatlas::AddMeshError error = xatlas::AddMesh(m_atlas, xmesh, true);
-		//xatlas::AddMeshError error = xatlas::AddMesh(m_atlas, xmesh, true, false);
-		//xatlas::AddMeshError error = xatlas::AddMesh(m_atlas, xmesh, false, false);
 
 		if(error.code != xatlas::AddMeshErrorCode::Success)
 		{
@@ -221,7 +219,7 @@ namespace mud
 
 	void XAtlas::repack_mesh_uvs(uint32_t index, Mesh& mesh, MeshPacker& geometry)
 	{
-		const xatlas::OutputMesh* xmesh = xatlas::GetOutputMeshes(m_atlas)[index++];
+		const xatlas::OutputMesh* xmesh = xatlas::GetOutputMeshes(m_atlas)[index];
 
 		MeshPacker result;
 
@@ -267,11 +265,10 @@ namespace mud
 
 		bool is_unwrapped = false;
 
-		std::vector<MeshPacker> geometry;
+		std::vector<MeshPacker> geometry(model.m_items.size());
 		for(size_t i = 0; i < model.m_items.size(); ++i)
 		{
 			Mesh& mesh = *model.m_items[i].m_mesh;
-			geometry.push_back({});
 			mesh.read(geometry[i], model.m_items[i].m_transform);
 
 			bool has_uv1 = (mesh.m_vertex_format & VertexAttribute::TexCoord1) != 0;
