@@ -33,9 +33,10 @@ function mud_gfx()
         path.join(MUD_3RDPARTY_DIR, "meshoptimizer", "src/**.cpp"),
     }
     
-    configuration { "not asmjs" }
+    configuration { "asmjs" }
         defines { "NO_OCCLUSION_CULLING" }
         
+    configuration { "not asmjs" }
         includedirs {
             path.join(MUD_3RDPARTY_DIR, "culling"),
         }

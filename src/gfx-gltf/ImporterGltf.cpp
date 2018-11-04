@@ -709,7 +709,7 @@ namespace mud
 				Model* model = state.m_models[node.mesh];
 				if(!model) continue;
 				mat4 node_transform = config.m_transform * derive_transform(gltf, node);
-				state.m_items.push_back({ node_transform, model });
+				state.m_items.push_back({ node_transform, model, node.skin });
 			}
 
 			//if(node.camera)
