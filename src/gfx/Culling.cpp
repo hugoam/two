@@ -2,6 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#ifndef NO_OCCLUSION_CULLING
 #include <gfx/Cpp20.h>
 
 #ifdef MUD_MODULES
@@ -159,3 +160,4 @@ namespace mud
 		copy.debug_show_texture(as<FrameBuffer>(*render.m_target), m_depth_texture);
 	}
 }
+#endif

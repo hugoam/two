@@ -51,10 +51,12 @@ namespace mud
 
 	void Viewport::cull(Render& render)
 	{
-		return;
+#ifndef NO_OCCLUSION_CULLING
 		if(!m_culler)
 			m_culler = make_unique<Culler>(*this);
-		m_culler->render(render);
+		if(m_culler)
+			m_culler->render(render);
+#endif
 	}
 
 	void Viewport::render(Render& render)

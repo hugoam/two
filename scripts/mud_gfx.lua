@@ -26,19 +26,22 @@ end
 function mud_gfx()
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "json11"),
-        path.join(MUD_3RDPARTY_DIR, "culling"),
         path.join(MUD_3RDPARTY_DIR, "meshoptimizer", "src"),
     }
     
     files {
-        path.join(MUD_3RDPARTY_DIR, "culling",       "*.cpp"),
         path.join(MUD_3RDPARTY_DIR, "meshoptimizer", "src/**.cpp"),
     }
     
-    configuration { "asmjs" }
-        removefiles {
-            path.join(MUD_3RDPARTY_DIR, "meshoptimizer", "src/MaskedOcclusionCullingAVX2.cpp.cpp"),
-            path.join(MUD_3RDPARTY_DIR, "meshoptimizer", "src/MaskedOcclusionCullingAVX512.cpp.cpp"),
+    configuration { "not asmjs" }
+        defines { "NO_OCCLUSION_CULLING" }
+        
+        includedirs {
+            path.join(MUD_3RDPARTY_DIR, "culling"),
+        }
+        
+        files {
+            path.join(MUD_3RDPARTY_DIR, "culling", "*.cpp"),
         }
         
     configuration {}
