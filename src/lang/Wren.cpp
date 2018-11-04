@@ -480,7 +480,7 @@ namespace mud
 		string members;
 		for(size_t i = 0; i < enu.m_names.size(); ++i)
 		{
-			members += t + "static " + string(enu.m_names[i]) + " { " + to_string(enu.m_indices[i]) + " }\n";
+			members += t + "static " + string(enu.m_names[i]) + " { " + to_string(enu.m_values[i]) + " }\n";
 		}
 
 		string decl;

@@ -419,4 +419,10 @@ namespace mud
 
 		import_to_prefab(m_gfx_system, prefab, state);
 	}
+
+	void ImporterOBJ::repack(const string& filepath, const ImportConfig& config)
+	{
+		UNUSED(filepath); UNUSED(config);
+		printf("WARNING: obj - repack for this format not supported\n");
+	}
 }

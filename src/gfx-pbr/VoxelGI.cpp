@@ -53,8 +53,10 @@ namespace gfx
 	{
 		Gnode& self = parent.suba();
 		if(!self.m_lightmap_atlas)
+		{
 			self.m_lightmap_atlas = &create<LightmapAtlas>(*self.m_scene, resolution, density);
-		self.m_lightmap_atlas->m_dirty = true;
+			self.m_lightmap_atlas->m_dirty = true;
+		}
 		self.m_lightmap_atlas->m_save_path = save_path;
 		return *self.m_lightmap_atlas;
 	}

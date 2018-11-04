@@ -129,10 +129,16 @@ namespace mud
 		for(size_t i = 0; i < source.m_vertices.size(); ++i)
 		{
 			packer.m_positions.push_back(mulp(transform, source.position()));
-			packer.m_normals.push_back(muln(transform, source.normal()));
-			//packer.m_colours.push_back(source.colour());
-			packer.m_tangents.push_back(mult(transform, source.tangent()));
-			packer.m_uv0s.push_back(source.uv0());
+			if((m_vertex_format & VertexAttribute::Normal) != 0)
+				packer.m_normals.push_back(muln(transform, source.normal()));
+			if((m_vertex_format & VertexAttribute::Colour) != 0)
+				packer.m_colours.push_back(source.colour());
+			if((m_vertex_format & VertexAttribute::Tangent) != 0)
+				packer.m_tangents.push_back(mult(transform, source.tangent()));
+			if((m_vertex_format & VertexAttribute::TexCoord0) != 0)
+				packer.m_uv0s.push_back(source.uv0());
+			if((m_vertex_format & VertexAttribute::TexCoord1) != 0)
+				packer.m_uv1s.push_back(source.uv1());
 			//packer.m_bones.push_back(source.bones());
 			//packer.m_weights.push_back(source.weights());
 		}

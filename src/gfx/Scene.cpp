@@ -28,6 +28,7 @@ module mud.gfx;
 // @kludge fix this dependency inversion
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/VoxelGI.h>
+#include <gfx-pbr/Lightmap.h>
 #endif
 
 namespace mud
@@ -62,12 +63,12 @@ namespace mud
 		static Clock clock;
 		float timestep = float(clock.step());
 
-		m_pool->iterate_objects<Animated>([=](Animated& animated)
+		m_pool->pool<Animated>().iterate([=](Animated& animated)
 		{
 			animated.advance(timestep);
 		});
 
-		m_pool->iterate_objects<Item>([=](Item& item)
+		m_pool->pool<Item>().iterate([=](Item& item)
 		{
 			item.update();
 		});
@@ -87,7 +88,7 @@ namespace mud
 	{
 		//render.m_shot->m_items.reserve(m_pool->pool<Item>().m_vec_pool.size());
 
-		m_pool->iterate_objects<Item>([&](Item& item)
+		m_pool->pool<Item>().iterate([&](Item& item)
 		{
 			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0
 			&& frustum_aabb_intersection(planes, item.m_aabb))
@@ -106,7 +107,7 @@ namespace mud
 		vec4 lod_levels = camera.m_far * vec4{ 0.02f, 0.3f, 0.6f, 0.8f };
 
 		//items.reserve(m_pool->pool<Item>().size());
-		m_pool->iterate_objects<Item>([&](Item& item)
+		m_pool->pool<Item>().iterate([&](Item& item)
 		{
 			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0)
 			{
@@ -132,7 +133,7 @@ namespace mud
 	void Scene::gather_lights(std::vector<Light*>& lights)
 	{
 		//lights.reserve(m_pool->pool<Light>().size());
-		m_pool->iterate_objects<Light>([&](Light& light)
+		m_pool->pool<Light>().iterate([&](Light& light)
 		{
 			if(light.m_visible)
 			{
@@ -145,16 +146,25 @@ namespace mud
 	void Scene::gather_gi_probes(std::vector<GIProbe*>& gi_probes)
 	{
 		//gi_probes.reserve(m_pool->pool<GIProbe>().size());
-		m_pool->iterate_objects<GIProbe>([&](GIProbe& gi_probe)
+		m_pool->pool<GIProbe>().iterate([&](GIProbe& gi_probe)
 		{
 			gi_probes.push_back(&gi_probe);
+		});
+	}
+
+	void Scene::gather_lightmaps(std::vector<LightmapAtlas*>& atlases)
+	{
+		//atlases.reserve(m_pool->pool<LightmapAtlas>().size());
+		m_pool->pool<LightmapAtlas>().iterate([&](LightmapAtlas& atlas)
+		{
+			atlases.push_back(&atlas);
 		});
 	}
 
 #if  0
 	void Scene::gather_reflection_probes(std::vector<ReflectionProbe*>& reflection_probes)
 	{
-		m_pool->iterate_objects<ReflectionProbe>([&](ReflectionProbe& probe)
+		m_pool->pool<ReflectionProbe>().iterate([&](ReflectionProbe& probe)
 		{
 			if(probe.m_visible)
 			{
@@ -170,6 +180,7 @@ namespace mud
 		this->gather_items(render.m_camera, render.m_shot->m_items);
 		this->gather_lights(render.m_shot->m_lights);
 		this->gather_gi_probes(render.m_shot->m_gi_probes);
+		this->gather_lightmaps(render.m_shot->m_lightmaps);
 		//this->gather_reflection_probes(render.m_shot->m_reflection_probes);
 
 		render.m_frustum = make_unique<Frustum>(optimized_frustum(render.m_camera, to_array(render.m_shot->m_items)));

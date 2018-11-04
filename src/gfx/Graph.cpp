@@ -169,7 +169,7 @@ namespace gfx
 	{
 		item.m_lights.clear();
 
-		item.m_node->m_scene->m_pool->iterate_objects<Light>([&](Light& light)
+		item.m_node->m_scene->m_pool->pool<Light>().iterate([&](Light& light)
 		{
 			if(light.m_type == LightType::Direct || sphere_aabb_intersection(light.m_node.position(), light.m_range, item.m_aabb))
 				item.m_lights.push_back(&light);

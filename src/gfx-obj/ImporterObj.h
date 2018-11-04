@@ -24,8 +24,9 @@ namespace mud
 
 		GfxSystem& m_gfx_system;
 
-		virtual void import(Import& import, const string& path, const ImportConfig& config) override;
-		virtual void import_model(Model& model, const string& path, const ImportConfig& config) override;
-		virtual void import_prefab(Prefab& prefab, const string& path, const ImportConfig& config) override;
+		virtual void import(Import& import, const string& filepath, const ImportConfig& config) override;
+		virtual void import_model(Model& model, const string& filepath, const ImportConfig& config) override;
+		virtual void import_prefab(Prefab& prefab, const string& filepath, const ImportConfig& config) override;
+		virtual void repack(const string& filepath, const ImportConfig& config) override;
 	};
 }

@@ -848,7 +848,7 @@ namespace mud
 
 			for(size_t i = 0; i < enu.m_names.size(); ++i)
 			{
-				set_table(m_state, enu.m_names[i], enu.m_values[i]);
+				set_table(m_state, enu.m_names[i], enu.m_vars[i]);
 			}
 		}
 

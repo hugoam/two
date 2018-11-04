@@ -41,6 +41,7 @@ namespace mud
 		attr_ std::vector<string> m_include_elements = {};
 		attr_ std::vector<string> m_include_materials = {};
 		attr_ string m_suffix;
+		attr_ bool m_force_reimport = false;
 
 		bool filter_element(const string& name) const;
 		bool filter_material(const string& name) const;
@@ -73,9 +74,10 @@ namespace mud
 	{
 	public:
 		virtual ~Importer() {}
-		virtual void import(Import& import, const string& path, const ImportConfig& config) = 0;
-		virtual void import_model(Model& model, const string& path, const ImportConfig& config) = 0;
-		virtual void import_prefab(Prefab& prefab, const string& path, const ImportConfig& config) = 0;
+		virtual void import(Import& import, const string& filepath, const ImportConfig& config) = 0;
+		virtual void import_model(Model& model, const string& filepath, const ImportConfig& config) = 0;
+		virtual void import_prefab(Prefab& prefab, const string& filepath, const ImportConfig& config) = 0;
+		virtual void repack(const string& filepath, const ImportConfig& config) = 0;
 	};
 
 	export_ MUD_GFX_EXPORT ImportConfig load_model_config(cstring path, cstring model_name);

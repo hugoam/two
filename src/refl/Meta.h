@@ -43,13 +43,14 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Meta
 	{
 	public:
-		Meta(Type& type, Namespace* location, cstring name, size_t size, TypeClass type_class);
+		Meta(Type& type, Namespace* location, cstring name, size_t size, TypeClass type_class, bool is_array = false);
 
 		Type* m_type;
 		Namespace* m_namespace = nullptr;
 		cstring m_name;
 		size_t m_size;
 		TypeClass m_type_class;
+		bool m_is_array = false;
 
 		Ref m_empty_ref;
 		Var m_empty_var;
@@ -85,7 +86,9 @@ namespace mud
 	export_ inline bool is_object(Type& ty) { return meta(ty).m_type_class == TypeClass::Object; }
 	export_ inline bool is_sequence(Type& ty) { return meta(ty).m_type_class == TypeClass::Sequence; }
 	export_ inline bool is_class(Type& ty) { return meta(ty).m_type_class < TypeClass::Sequence; }
-	
+
+	export_ inline bool is_array(Type& ty) { return meta(ty).m_is_array; }
+
 	export_ inline Meta& meta(const Ref& ref) { return meta(type(ref)); }
 	export_ inline Meta& meta(const Var& var) { return meta(*var.m_ref.m_type); }
 

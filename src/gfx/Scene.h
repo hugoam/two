@@ -111,6 +111,7 @@ namespace mud
 		void gather_items(const Camera& camera, std::vector<Item*>& items);
 		void gather_lights(std::vector<Light*>& lights);
 		void gather_gi_probes(std::vector<GIProbe*>& gi_probes);
+		void gather_lightmaps(std::vector<LightmapAtlas*>& atlases);
 		//void gather_reflection_probes(std::vector<ReflectionProbe*>& reflection_probes);
 
 		void gather_render(Render& render);

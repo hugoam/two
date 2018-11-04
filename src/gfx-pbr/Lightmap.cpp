@@ -146,9 +146,9 @@ namespace mud
 		XAtlas();
 		~XAtlas();
 
-		bool add_mesh(Mesh& mesh, const mat4& transform);
+		bool add_mesh(Mesh& mesh, MeshPacker& geometry);
 		uvec2 generate(uint32_t rect_size, float density);
-		void repack_mesh_uvs(uint32_t index, Mesh& mesh);
+		void repack_mesh_uvs(uint32_t index, Mesh& mesh, MeshPacker& geometry);
 
 		xatlas::Atlas* m_atlas = nullptr;
 	};
@@ -163,25 +163,22 @@ namespace mud
 		xatlas::Destroy(m_atlas);
 	}
 
-	bool XAtlas::add_mesh(Mesh& mesh, const mat4& transform)
+	bool XAtlas::add_mesh(Mesh& mesh, MeshPacker& geometry)
 	{
-		MeshPacker vertices;
-		mesh.read(vertices, transform);
-
 		xatlas::InputMesh xmesh = {};
 		xmesh.vertexCount = (int)mesh.m_vertex_count;
-		xmesh.vertexPositionData = vertices.m_positions.data();
+		xmesh.vertexPositionData = geometry.m_positions.data();
 		xmesh.vertexPositionStride = sizeof(float) * 3;
 
 		if((mesh.m_vertex_format & VertexAttribute::Normal) != 0)
 		{
-			xmesh.vertexNormalData = vertices.m_normals.data();
+			xmesh.vertexNormalData = geometry.m_normals.data();
 			xmesh.vertexNormalStride = sizeof(float) * 3;
 		}
 
 		if((mesh.m_vertex_format & VertexAttribute::TexCoord0) != 0)
 		{
-			xmesh.vertexUvData = vertices.m_uv0s.data();
+			xmesh.vertexUvData = geometry.m_uv0s.data();
 			xmesh.vertexUvStride = sizeof(float) * 2;
 		}
 
@@ -198,8 +195,8 @@ namespace mud
 			printf("ERROR: xatlas - adding mesh '%s': %s\n", mesh.m_name.c_str(), xatlas::StringForEnum(error.code));
 			if(error.code == xatlas::AddMeshErrorCode::AlreadyAddedEdge)
 			{
-				vec3 pos0 = vertices.m_positions[error.index0];
-				vec3 pos1 = vertices.m_positions[error.index1];
+				vec3 pos0 = geometry.m_positions[error.index0];
+				vec3 pos1 = geometry.m_positions[error.index1];
 				printf("DEBUG: already added edge %i to %i from face %i from %f, %f, %f to %f, %f, %f\n", error.index0, error.index1, error.face, pos0.x, pos0.y, pos0.z, pos1.x, pos1.y, pos1.z);
 			}
 		}
@@ -222,12 +219,9 @@ namespace mud
 		return { xatlas::GetWidth(m_atlas), xatlas::GetHeight(m_atlas) };
 	}
 
-	void XAtlas::repack_mesh_uvs(uint32_t index, Mesh& mesh)
+	void XAtlas::repack_mesh_uvs(uint32_t index, Mesh& mesh, MeshPacker& geometry)
 	{
 		const xatlas::OutputMesh* xmesh = xatlas::GetOutputMeshes(m_atlas)[index++];
-
-		MeshPacker source;
-		mesh.read(source, bxidentity());
 
 		MeshPacker result;
 
@@ -237,11 +231,15 @@ namespace mud
 			const xatlas::OutputVertex& vertex = xmesh->vertexArray[i];
 			vec2 uv = { vertex.uv[0], vertex.uv[1] };
 
-			result.m_positions.push_back(source.m_positions[vertex.xref]);
-			//result.m_colours.push_back(source.m_colours[vertex.xref]);
-			result.m_normals.push_back(source.m_normals[vertex.xref]);
-			result.m_tangents.push_back(source.m_tangents[vertex.xref]);
-			result.m_uv0s.push_back(source.m_uv0s[vertex.xref]);
+			result.m_positions.push_back(geometry.m_positions[vertex.xref]);
+			if(geometry.m_colours.size() > 0)
+				result.m_colours.push_back(geometry.m_colours[vertex.xref]);
+			if(geometry.m_normals.size() > 0)
+				result.m_normals.push_back(geometry.m_normals[vertex.xref]);
+			if(geometry.m_tangents.size() > 0)
+				result.m_tangents.push_back(geometry.m_tangents[vertex.xref]);
+			if(geometry.m_uv0s.size() > 0)
+				result.m_uv0s.push_back(geometry.m_uv0s[vertex.xref]);
 
 			result.m_uv1s.push_back(uv);
 		}
@@ -256,30 +254,52 @@ namespace mud
 
 	struct ModelUnwrap
 	{
-		Model* model;
-		uvec2 size;
 		std::vector<bool> success;
+		uvec2 size;
 	};
 
 	void unwrap_model(Model& model, ModelUnwrap& unwrap, uint32_t rect_size, float density)
 	{
 		printf("INFO: unwrapping model %s for lightmap\n", model.m_name.c_str());
 
+		bool is_unwrapped = false;
+
+		std::vector<MeshPacker> geometry;
+		for(size_t i = 0; i < model.m_items.size(); ++i)
+		{
+			Mesh& mesh = *model.m_items[i].m_mesh;
+			geometry.push_back({});
+			mesh.read(geometry[i], model.m_items[i].m_transform);
+
+			if((mesh.m_vertex_format & VertexAttribute::TexCoord1) != 0)
+			{
+				is_unwrapped = true;
+				unwrap.success[i] = true;
+
+				for(const vec2& uv : geometry[i].m_uv1s)
+				{
+					unwrap.size = max(uvec2(uv), unwrap.size);
+				}
+			}
+		}
+
+		if(is_unwrapped)
+			return;
+
 		XAtlas atlas;
 
-		for(ModelItem& model_item : model.m_items)
+		for(size_t i = 0; i < model.m_items.size(); ++i)
 		{
-			Mesh& mesh = *model_item.m_mesh;
+			Mesh& mesh = *model.m_items[i].m_mesh;
 
 			bool skip = false;
 			skip |= mesh.m_draw_mode != PLAIN;
 			skip |= !mesh.m_cache.m_vertex_format;
 
-			bool success = skip ? false : atlas.add_mesh(mesh, bxidentity());
+			bool success = skip ? false : atlas.add_mesh(mesh, geometry[i]);
 			unwrap.success.push_back(success);
 		}
 
-		unwrap.model = &model;
 		unwrap.size = atlas.generate(rect_size, density);
 
 		if(unwrap.size.x == 0 || unwrap.size.y == 0)
@@ -293,7 +313,7 @@ namespace mud
 		{
 			if(!unwrap.success[i]) continue;
 			Mesh& mesh = *model.m_items[i].m_mesh;
-			atlas.repack_mesh_uvs(mesh_index++, mesh);
+			atlas.repack_mesh_uvs(mesh_index++, mesh, geometry[i]);
 		}
 	}
 
@@ -380,7 +400,7 @@ namespace mud
 		std::vector<Item*> items;
 
 		//scene.cull_items(planes, items);
-		scene.m_pool->iterate_objects<Item>([&](Item& item)
+		scene.m_pool->pool<Item>().iterate([&](Item& item)
 		{
 			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0)
 				items.push_back(&item);

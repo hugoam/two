@@ -110,14 +110,7 @@ namespace mud
         cls.m_content = &type<mud::Colour>();
         meta_sequence<std::vector<mud::Colour>, mud::Colour>();
     }
-    
-    {
-        static Meta meta = { type<std::vector<mud::Colour>>(), &namspc({}), "std::vector<mud::Colour>", sizeof(std::vector<mud::Colour>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<mud::Colour>>() };
-        cls.m_content = &type<mud::Colour>();
-        meta_sequence<std::vector<mud::Colour>, mud::Colour>();
-    }
-    
+
     {
         static Meta meta = { type<std::vector<mud::quat>>(), &namspc({}), "std::vector<mud::quat>", sizeof(std::vector<mud::quat>), TypeClass::Sequence };
         static Class cls = { type<std::vector<mud::quat>>() };
@@ -219,7 +212,7 @@ namespace mud
         
     // mud::Colour
     {
-        static Meta meta = { type<mud::Colour>(), &namspc({ "mud" }), "Colour", sizeof(mud::Colour), TypeClass::Struct };
+        static Meta meta = { type<mud::Colour>(), &namspc({ "mud" }), "Colour", sizeof(mud::Colour), TypeClass::Struct, true };
         static Class cls = { type<mud::Colour>(),
             // bases
             {  },
@@ -1138,7 +1131,7 @@ namespace mud
         
     // mud::bvec3
     {
-        static Meta meta = { type<mud::bvec3>(), &namspc({ "mud" }), "bvec3", sizeof(mud::bvec3), TypeClass::Struct };
+        static Meta meta = { type<mud::bvec3>(), &namspc({ "mud" }), "bvec3", sizeof(mud::bvec3), TypeClass::Struct, true };
         static Class cls = { type<mud::bvec3>(),
             // bases
             {  },
@@ -1171,7 +1164,7 @@ namespace mud
         
     // mud::bvec4
     {
-        static Meta meta = { type<mud::bvec4>(), &namspc({ "mud" }), "bvec4", sizeof(mud::bvec4), TypeClass::Struct };
+        static Meta meta = { type<mud::bvec4>(), &namspc({ "mud" }), "bvec4", sizeof(mud::bvec4), TypeClass::Struct, true };
         static Class cls = { type<mud::bvec4>(),
             // bases
             {  },
@@ -1204,7 +1197,7 @@ namespace mud
         
     // mud::ivec2
     {
-        static Meta meta = { type<mud::ivec2>(), &namspc({ "mud" }), "ivec2", sizeof(mud::ivec2), TypeClass::Struct };
+        static Meta meta = { type<mud::ivec2>(), &namspc({ "mud" }), "ivec2", sizeof(mud::ivec2), TypeClass::Struct, true };
         static Class cls = { type<mud::ivec2>(),
             // bases
             {  },
@@ -1237,7 +1230,7 @@ namespace mud
         
     // mud::ivec3
     {
-        static Meta meta = { type<mud::ivec3>(), &namspc({ "mud" }), "ivec3", sizeof(mud::ivec3), TypeClass::Struct };
+        static Meta meta = { type<mud::ivec3>(), &namspc({ "mud" }), "ivec3", sizeof(mud::ivec3), TypeClass::Struct, true };
         static Class cls = { type<mud::ivec3>(),
             // bases
             {  },
@@ -1276,7 +1269,7 @@ namespace mud
         
     // mud::ivec4
     {
-        static Meta meta = { type<mud::ivec4>(), &namspc({ "mud" }), "ivec4", sizeof(mud::ivec4), TypeClass::Struct };
+        static Meta meta = { type<mud::ivec4>(), &namspc({ "mud" }), "ivec4", sizeof(mud::ivec4), TypeClass::Struct, true };
         static Class cls = { type<mud::ivec4>(),
             // bases
             {  },
@@ -1309,7 +1302,7 @@ namespace mud
         
     // mud::mat4
     {
-        static Meta meta = { type<mud::mat4>(), &namspc({ "mud" }), "mat4", sizeof(mud::mat4), TypeClass::Struct };
+        static Meta meta = { type<mud::mat4>(), &namspc({ "mud" }), "mat4", sizeof(mud::mat4), TypeClass::Struct, true };
         static Class cls = { type<mud::mat4>(),
             // bases
             {  },
@@ -1342,7 +1335,7 @@ namespace mud
         
     // mud::quat
     {
-        static Meta meta = { type<mud::quat>(), &namspc({ "mud" }), "quat", sizeof(mud::quat), TypeClass::Struct };
+        static Meta meta = { type<mud::quat>(), &namspc({ "mud" }), "quat", sizeof(mud::quat), TypeClass::Struct, true };
         static Class cls = { type<mud::quat>(),
             // bases
             {  },
@@ -1382,7 +1375,7 @@ namespace mud
         
     // mud::uvec2
     {
-        static Meta meta = { type<mud::uvec2>(), &namspc({ "mud" }), "uvec2", sizeof(mud::uvec2), TypeClass::Struct };
+        static Meta meta = { type<mud::uvec2>(), &namspc({ "mud" }), "uvec2", sizeof(mud::uvec2), TypeClass::Struct, true };
         static Class cls = { type<mud::uvec2>(),
             // bases
             {  },
@@ -1420,7 +1413,7 @@ namespace mud
         
     // mud::uvec3
     {
-        static Meta meta = { type<mud::uvec3>(), &namspc({ "mud" }), "uvec3", sizeof(mud::uvec3), TypeClass::Struct };
+        static Meta meta = { type<mud::uvec3>(), &namspc({ "mud" }), "uvec3", sizeof(mud::uvec3), TypeClass::Struct, true };
         static Class cls = { type<mud::uvec3>(),
             // bases
             {  },
@@ -1459,7 +1452,7 @@ namespace mud
         
     // mud::uvec4
     {
-        static Meta meta = { type<mud::uvec4>(), &namspc({ "mud" }), "uvec4", sizeof(mud::uvec4), TypeClass::Struct };
+        static Meta meta = { type<mud::uvec4>(), &namspc({ "mud" }), "uvec4", sizeof(mud::uvec4), TypeClass::Struct, true };
         static Class cls = { type<mud::uvec4>(),
             // bases
             {  },
@@ -1499,7 +1492,7 @@ namespace mud
         
     // mud::vec2
     {
-        static Meta meta = { type<mud::vec2>(), &namspc({ "mud" }), "vec2", sizeof(mud::vec2), TypeClass::Struct };
+        static Meta meta = { type<mud::vec2>(), &namspc({ "mud" }), "vec2", sizeof(mud::vec2), TypeClass::Struct, true };
         static Class cls = { type<mud::vec2>(),
             // bases
             {  },
@@ -1537,7 +1530,7 @@ namespace mud
         
     // mud::vec3
     {
-        static Meta meta = { type<mud::vec3>(), &namspc({ "mud" }), "vec3", sizeof(mud::vec3), TypeClass::Struct };
+        static Meta meta = { type<mud::vec3>(), &namspc({ "mud" }), "vec3", sizeof(mud::vec3), TypeClass::Struct, true };
         static Class cls = { type<mud::vec3>(),
             // bases
             {  },
@@ -1576,7 +1569,7 @@ namespace mud
         
     // mud::vec4
     {
-        static Meta meta = { type<mud::vec4>(), &namspc({ "mud" }), "vec4", sizeof(mud::vec4), TypeClass::Struct };
+        static Meta meta = { type<mud::vec4>(), &namspc({ "mud" }), "vec4", sizeof(mud::vec4), TypeClass::Struct, true };
         static Class cls = { type<mud::vec4>(),
             // bases
             {  },

@@ -47,6 +47,7 @@ export_ enum class refl_ glTFType : unsigned int
 	MAT2,
 	MAT3,
 	MAT4,
+	INVALID,
 };
 
 export_ struct refl_ glTFBuffer
@@ -111,7 +112,7 @@ export_ struct refl_ glTFAccessor
 	attr_ glTFComponentType component_type;
 	attr_ bool normalized = false;
 	attr_ int count;
-	attr_ glTFType type;
+	attr_ glTFType type = glTFType::INVALID;
 	// min is an array whose content depends on glTFType
 	// max is an array whose content depends on glTFType
 
@@ -131,8 +132,9 @@ export_ struct refl_ glTFSampler
 export_ struct refl_ glTFTexture
 {
 	glTFTexture() {}
-	attr_ int source;
 	attr_ std::string name;
+	attr_ int sampler = -1;
+	attr_ int source = -1;
 };
 
 export_ struct refl_ glTFSkin
@@ -257,7 +259,7 @@ export_ struct refl_ glTFTextureInfo
 export_ struct refl_ glTFMaterialPBR
 {
 	glTFMaterialPBR() {}
-	attr_ mud::vec4 base_color_factor = to_vec4(mud::Colour::White);
+	attr_ mud::vec4 base_color_factor = mud::vec4(1.f);
 	attr_ glTFTextureInfo base_color_texture;
 	attr_ float metallic_factor = 1.f;
 	attr_ float roughness_factor = 1.f;
@@ -326,6 +328,7 @@ export_ struct refl_ glTF
 	attr_ std::vector<glTFSkin> m_skins;
 	attr_ std::vector<glTFAnimation> m_animations;
 	attr_ std::vector<glTFCamera> m_cameras;
+	attr_ std::vector<glTFSampler> m_samplers;
 	attr_ std::vector<glTFScene> m_scenes;
 
 	std::vector<std::vector<uint8_t>> m_binary_buffers;
@@ -342,8 +345,9 @@ namespace mud
 
 		GfxSystem& m_gfx_system;
 
-		virtual void import(Import& import, const string& path, const ImportConfig& config) override;
-		virtual void import_model(Model& model, const string& path, const ImportConfig& config) override;
-		virtual void import_prefab(Prefab& prefab, const string& path, const ImportConfig& config) override;
+		virtual void import(Import& import, const string& filepath, const ImportConfig& config) override;
+		virtual void import_model(Model& model, const string& filepath, const ImportConfig& config) override;
+		virtual void import_prefab(Prefab& prefab, const string& filepath, const ImportConfig& config) override;
+		virtual void repack(const string& filepath, const ImportConfig& config) override;
 	};
 }

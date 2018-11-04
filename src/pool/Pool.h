@@ -54,6 +54,26 @@ namespace mud
 			return *at;
 		}
 
+		template <class T_Func>
+		inline void iterate(T_Func func) const
+		{
+			VecPool<T>* pool = m_vec_pool.get();
+			for(; pool; pool = pool->m_next.get())
+				for(T* object : pool->m_objects)
+					func(*object);
+		}
+
+		template <class T_Test>
+		inline T* find(T_Test test) const
+		{
+			VecPool<T>* pool = m_vec_pool.get();
+			for(; pool; pool = pool->m_next.get())
+				for(T* object : pool->m_objects)
+					if(test(*object))
+						return object;
+			return nullptr;
+		}
+
 		unique_ptr<VecPool<T>> m_vec_pool;
 	};
 

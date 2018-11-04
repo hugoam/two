@@ -184,7 +184,7 @@ namespace mud
 			Widget& row = ui::widget(self, meta_styles().element);
 			ui::item(row, meta_styles().identifier, enu.m_names[i]);
 			ui::item(row, meta_styles().syntax, "=");
-			ui::item(row, meta_styles().number, to_string(enu.m_indices[i]).c_str());
+			ui::item(row, meta_styles().number, to_string(enu.m_values[i]).c_str());
 		}
 	}
 

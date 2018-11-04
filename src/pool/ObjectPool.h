@@ -33,15 +33,6 @@ namespace mud
 			return as<TPool<T>>(*m_pools[type<T>().m_id].get());
 		}
 
-		template <class T, class T_Func>
-		inline void iterate_objects(T_Func func)
-		{
-			VecPool<T>* pool = this->pool<T>().m_vec_pool.get();
-			for(; pool; pool = pool->m_next.get())
-				for(T* object : pool->m_objects)
-					func(*object);
-		}
-
 		template <class T>
 		inline TPool<T>& create_pool(size_t size = 12) { m_pools[type<T>().m_id] = make_unique<TPool<T>>(size); return pool<T>(); }
 

@@ -297,8 +297,10 @@ namespace mud
 
 		vec3 position() { vec3 value = *m_cursor.m_position; next(m_cursor.m_position); return value; }
 		vec3 normal() { if(!m_cursor.m_normal) return Zero3; vec3 value = *m_cursor.m_normal; next(m_cursor.m_normal); return value; }
+		Colour colour() { if(!m_cursor.m_colour) return Colour::None; Colour value = from_abgr(*m_cursor.m_colour); next(m_cursor.m_colour); return value; }
 		vec4 tangent() { if(!m_cursor.m_tangent) return vec4(Zero3, 1.f); vec4 value = *m_cursor.m_tangent; next(m_cursor.m_tangent); return value; }
 		vec2 uv0() { if(!m_cursor.m_uv0) return Zero2; vec2 value = *m_cursor.m_uv0; next(m_cursor.m_uv0); return value; }
+		vec2 uv1() { if(!m_cursor.m_uv1) return Zero2; vec2 value = *m_cursor.m_uv1; next(m_cursor.m_uv1); return value; }
 		uint16_t index() { uint16_t value = *(uint16_t*)m_index; m_index = ((char*)m_index + m_index_stride); return value; }
 		uint32_t index32() { uint32_t value = *(uint32_t*)m_index; m_index = ((char*)m_index + m_index_stride); return value; }
 

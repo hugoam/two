@@ -53,29 +53,30 @@ namespace mud
 			return val<string>(member.get(value));
 	}
 
-	Meta::Meta(Type& type, Namespace* location, cstring name, size_t size, TypeClass type_class)
+	Meta::Meta(Type& type, Namespace* location, cstring name, size_t size, TypeClass type_class, bool is_array)
 		: m_type(&type)
 		, m_namespace(location)
 		, m_name(name)
 		, m_size(size)
 		, m_type_class(type_class)
+		, m_is_array(is_array)
 	{
 		type.m_name = m_name;
 		g_meta[type.m_id] = this;
 	}
 
-	Enum::Enum(Type& type, bool scoped, const std::vector<cstring>& names, const std::vector<uint32_t>& indices, const std::vector<Var>& values)
+	Enum::Enum(Type& type, bool scoped, const std::vector<cstring>& names, const std::vector<uint32_t>& values, const std::vector<Var>& vars)
 		: m_type(type)
 		, m_scoped(scoped)
 		, m_names(names)
-		, m_indices(indices)
 		, m_values(values)
+		, m_vars(vars)
 	{
 		g_enu[type.m_id] = this;
 
 		for(size_t i = 0; i < m_names.size(); ++i)
 		{
-			size_t index = m_indices[i];
+			size_t index = m_values[i];
 			m_map.resize(index + 1);
 			m_map[index] = m_names[i];
 		}
@@ -85,9 +86,19 @@ namespace mud
 	{
 		for(uint32_t i = 0; i < uint32_t(m_names.size()); ++i)
 			if(strcmp(name, m_names[i]) == 0)
-				return m_indices[i];
+				return m_values[i];
 		printf("WARNING: fetching unknown Enum %s value : %s\n", m_type.m_name, name);
-		return m_indices[0];
+		return m_values[0];
+	}
+
+	uint32_t Enum::value(const Var& value)
+	{
+		size_t size = meta(m_type).m_size;
+		for(uint32_t i = 0; i < uint32_t(m_vars.size()); ++i)
+			if(memcmp(value.m_ref.m_value, m_vars[i].m_ref.m_value, size) == 0)
+				return m_values[i];
+		printf("WARNING: fetching unknown Enum %s index : %s\n", m_type.m_name, to_string(value).c_str());
+		return 0;
 	}
 
 	uint32_t Enum::index(cstring name)

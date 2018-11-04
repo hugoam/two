@@ -393,7 +393,7 @@ namespace mud
 
 	void edit_gfx_items(Widget& parent, Scene& scene)
 	{
-		scene.m_pool->iterate_objects<Item>([&](Item& item) {
+		scene.m_pool->pool<Item>().iterate([&](Item& item) {
 			object_edit_inline(parent, Ref(&item));
 		});
 	}

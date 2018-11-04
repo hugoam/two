@@ -25,11 +25,12 @@ namespace mud
 
 		bool m_scoped = true;
 		std::vector<cstring> m_names;
-		std::vector<uint32_t> m_indices;
-		std::vector<Var> m_values;
+		std::vector<uint32_t> m_values;
+		std::vector<Var> m_vars;
 		std::vector<cstring> m_map;
 
 		uint32_t value(cstring name);
+		uint32_t value(const Var& value);
 		uint32_t index(cstring name);
 	};
 
@@ -40,7 +41,7 @@ namespace mud
 
 	export_ inline void enum_set_index(Ref value, uint32_t index)
 	{
-		copy_construct(value, enu(value).m_values[index]);
+		copy_construct(value, enu(value).m_vars[index]);
 	}
 
 	export_ inline Var enum_value(Type& type, uint32_t index)

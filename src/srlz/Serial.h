@@ -72,5 +72,6 @@ namespace mud
 	export_ MUD_SRLZ_EXPORT string pack_json(const Var& value);
 
 	export_ MUD_SRLZ_EXPORT void pack_json_file(const Var& value, const string& path);
+	export_ MUD_SRLZ_EXPORT void pack_json_file(ToJson& packer, const Var& value, const string& path);
 	export_ MUD_SRLZ_EXPORT void unpack_json_file(Ref value, const string& path);
 }
