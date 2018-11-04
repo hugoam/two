@@ -48,6 +48,16 @@ namespace gfx
 			self.m_gi_probe->resize(subdiv, extents);
 		return *self.m_gi_probe;
 	}
+
+	LightmapAtlas& lightmap(Gnode& parent, uint32_t resolution, float density, const string& save_path)
+	{
+		Gnode& self = parent.suba();
+		if(!self.m_lightmap_atlas)
+			self.m_lightmap_atlas = &create<LightmapAtlas>(*self.m_scene, resolution, density);
+		self.m_lightmap_atlas->m_dirty = true;
+		self.m_lightmap_atlas->m_save_path = save_path;
+		return *self.m_lightmap_atlas;
+	}
 }
 
 	GIProbe::GIProbe(Node3& node)
@@ -82,14 +92,6 @@ namespace gfx
 		m_voxels_light_rgba = bgfx::createTexture3D(subdiv, subdiv, subdiv, true, bgfx::TextureFormat::RGBA16F, BGFX_TEXTURE_RT | BGFX_TEXTURE_COMPUTE_WRITE);
 
 		m_dirty = true;
-	}
-
-	void GIProbe::lightmap(uint32_t size, float density, const string& save_path)
-	{
-		m_bake_lightmaps = true;
-		m_lightmaps = make_unique<LightmapAtlas>(size, density);
-		m_lightmaps->m_dirty = true;
-		m_lightmaps->m_save_path = save_path;
 	}
 
 	void save_gi_probe(GfxSystem& gfx_system, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path)

@@ -992,9 +992,9 @@ function toolchain(_buildDir, _libDir)
 		objdir (path.join(_buildDir, "asmjs/obj"))
 		libdirs { path.join(_libDir, "lib/asmjs") }
 		buildoptions {
-			"-i\"system$(EMSCRIPTEN)/system/include\"",
-			"-i\"system$(EMSCRIPTEN)/system/include/libcxx\"",
-			"-i\"system$(EMSCRIPTEN)/system/include/libc\"",
+			--"-i\"system$(EMSCRIPTEN)/system/include\"",
+			--"-i\"system$(EMSCRIPTEN)/system/include/libcxx\"",
+			--"-i\"system$(EMSCRIPTEN)/system/include/libc\"",
 			"-Wunused-value",
 			"-Wundef",
 		}

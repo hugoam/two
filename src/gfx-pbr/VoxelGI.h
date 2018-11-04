@@ -13,6 +13,7 @@ namespace mud
 namespace gfx
 {
 	export_ MUD_GFX_EXPORT func_ GIProbe& gi_probe(Gnode& parent, uint16_t subdiv, const vec3& extents);
+	export_ MUD_GFX_EXPORT func_ LightmapAtlas& lightmap(Gnode& parent, uint32_t resolution, float density = 8.f, const string& save_path = "");
 }
 
 	enum ShaderOptionGI : unsigned int
@@ -60,9 +61,6 @@ namespace gfx
 		
 		float m_bias = 0.0f;
 		float m_normal_bias = 0.8f;
-
-		bool m_bake_lightmaps = false;
-		unique_ptr<LightmapAtlas> m_lightmaps;
 	};
 
 	export_ MUD_GFX_PBR_EXPORT void save_gi_probe(GfxSystem& gfx_system, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path);

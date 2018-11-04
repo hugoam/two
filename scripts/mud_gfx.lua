@@ -34,6 +34,14 @@ function mud_gfx()
         path.join(MUD_3RDPARTY_DIR, "culling",       "*.cpp"),
         path.join(MUD_3RDPARTY_DIR, "meshoptimizer", "src/**.cpp"),
     }
+    
+    configuration { "asmjs" }
+        removefiles {
+            path.join(MUD_3RDPARTY_DIR, "meshoptimizer", "src/MaskedOcclusionCullingAVX2.cpp.cpp"),
+            path.join(MUD_3RDPARTY_DIR, "meshoptimizer", "src/MaskedOcclusionCullingAVX512.cpp.cpp"),
+        }
+        
+    configuration {}
 end
 
 function mud_gfx_pbr()

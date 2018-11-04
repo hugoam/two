@@ -35,6 +35,7 @@ namespace mud
 		Particles* m_particles = nullptr;
 		Light* m_light = nullptr;
 		GIProbe* m_gi_probe = nullptr;
+		LightmapAtlas* m_lightmap_atlas = nullptr;
 		SoundManager* m_sound_manager = nullptr;
 		Sound* m_sound = nullptr;
 	};

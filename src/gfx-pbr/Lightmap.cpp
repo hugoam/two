@@ -321,7 +321,7 @@ namespace mud
 		std::map<Model*, ModelUnwrap> unwraps;
 	};
 
-	void BlockLightmap::bake_geometry(array<Item*> items, const mat4& transform, LightmapAtlas& lightmaps)
+	void BlockLightmap::bake_geometry(array<Item*> items, LightmapAtlas& lightmaps)
 	{
 		struct PackResult { Image* image; Lightmap* lightmap; };
 
@@ -371,7 +371,7 @@ namespace mud
 		}
 	}
 
-	void BlockLightmap::bake_lightmaps(Scene& scene, const mat4& transform, const vec3& extents, LightmapAtlas& lightmaps)
+	void BlockLightmap::bake_lightmaps(Scene& scene, LightmapAtlas& atlas, const mat4& transform, const vec3& extents)
 	{
 		printf("INFO: bake lightmaps\n");
 
@@ -386,7 +386,7 @@ namespace mud
 				items.push_back(&item);
 		});
 
-		this->bake_geometry(items, transform, lightmaps);
+		this->bake_geometry(items, atlas);
 
 		std::vector<GIProbe*> gi_probes;
 		scene.gather_gi_probes(gi_probes);
@@ -394,12 +394,12 @@ namespace mud
 		Renderer& renderer = m_gfx_system.renderer(Shading::Lightmap);
 
 		size_t i = 0;
-		for(auto& lightmap : lightmaps.m_layers)
+		for(auto& lightmap : atlas.m_layers)
 		{
 #ifdef LIGHTMAP_COMPRESS
-			string cached_path = lightmaps.m_save_path + "lightmap_" + to_string(i++) + ".dds";
+			string cached_path = atlas.m_save_path + "lightmap_" + to_string(i++) + ".dds";
 #else
-			string cached_path = lightmaps.m_save_path + "lightmap_" + to_string(i++) + ".hdr";
+			string cached_path = atlas.m_save_path + "lightmap_" + to_string(i++) + ".hdr";
 #endif
 			if(file_exists(cached_path.c_str()))
 			{
@@ -407,7 +407,7 @@ namespace mud
 				continue;
 			}
 
-			uint16_t resolution = uint16_t(lightmaps.m_size);
+			uint16_t resolution = uint16_t(atlas.m_size);
 			bgfx::FrameBufferHandle fbo = bgfx::createFrameBuffer(resolution, resolution, c_lightmap_format, BGFX_TEXTURE_RT);
 
 			RenderFrame frame = m_gfx_system.render_frame();
@@ -436,11 +436,11 @@ namespace mud
 	void BlockLightmap::begin_frame(const RenderFrame& frame)
 	{
 		UNUSED(frame);
-		for(BakeProbe bake_probe : m_bake_queue)
+		for(const BakeEntry& bake_entry : m_bake_queue)
 		{
-			GIProbe& gi_probe = *bake_probe.m_probe;
-			this->bake_lightmaps(*bake_probe.m_scene, gi_probe.m_transform, gi_probe.m_extents, *gi_probe.m_lightmaps);
-			gi_probe.m_lightmaps->m_dirty = false;
+			LightmapAtlas& atlas = *bake_entry.atlas;
+			this->bake_lightmaps(*bake_entry.scene, atlas, atlas.m_capture_transform, atlas.m_capture_extents);
+			bake_entry.atlas->m_dirty = false;
 		}
 		m_bake_queue.clear();
 	}
@@ -451,14 +451,11 @@ namespace mud
 			return;
 
 		UNUSED(render);
-		for(GIProbe* gi_probe : render.m_shot->m_gi_probes)
-		{
-			if(gi_probe->m_enabled && !gi_probe->m_dirty
-			&& gi_probe->m_bake_lightmaps && gi_probe->m_lightmaps->m_dirty)
+		for(LightmapAtlas* atlas : render.m_shot->m_lightmaps)
+			if(atlas->m_dirty)
 			{
-				m_bake_queue.push_back({ &render.m_scene, gi_probe });
+				m_bake_queue.push_back({ &render.m_scene, atlas });
 			}
-		}
 	}
 
 	void BlockLightmap::begin_pass(Render& render)

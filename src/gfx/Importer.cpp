@@ -78,6 +78,7 @@ namespace mud
 
 	void import_to_prefab(GfxSystem& gfx_system, Prefab& prefab, Import& state)
 	{
+		UNUSED(gfx_system);
 		prefab.m_nodes.reserve(state.m_items.size());
 		prefab.m_items.reserve(state.m_items.size());
 

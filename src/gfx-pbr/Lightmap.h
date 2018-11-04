@@ -52,11 +52,11 @@ namespace mud
 		bool m_dirty = false;
 		string m_save_path;
 
+		mat4 m_capture_transform;
+		vec3 m_capture_extents;
+
 		std::vector<unique_ptr<Lightmap>> m_layers;
 	};
-
-	export_ MUD_GFX_PBR_EXPORT void export_lightmaps(GfxSystem& gfx_system, const string& path, GIProbe& gi_probe);
-	export_ MUD_GFX_PBR_EXPORT void import_lightmaps(GfxSystem& gfx_system, const string& path, Scene& scene, GIProbe& gi_probe);
 
 	struct LightmapRenderer : public Renderer
 	{
@@ -94,8 +94,8 @@ namespace mud
 		virtual void submit(Render& render, const Pass& render_pass) const override;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& render_pass) const override;
 
-		void bake_geometry(array<Item*> items, const mat4& transform, LightmapAtlas& lightmaps);
-		void bake_lightmaps(Scene& scene, const mat4& transform, const vec3& extents, LightmapAtlas& lightmaps);
+		void bake_geometry(array<Item*> items, LightmapAtlas& atlas);
+		void bake_lightmaps(Scene& scene, LightmapAtlas& atlas, const mat4& transform, const vec3& extents);
 
 		struct VoxelGIUniform
 		{
@@ -110,7 +110,7 @@ namespace mud
 
 		Program* m_lightmap;
 
-		struct BakeProbe { Scene* m_scene; GIProbe* m_probe; };
-		std::vector<BakeProbe> m_bake_queue;
+		struct BakeEntry { Scene* scene; LightmapAtlas* atlas; };
+		std::vector<BakeEntry> m_bake_queue;
 	};
 }
