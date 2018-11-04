@@ -262,6 +262,9 @@ namespace mud
 	{
 		printf("INFO: unwrapping model %s for lightmap\n", model.m_name.c_str());
 
+		unwrap.success = std::vector<bool>(model.m_items.size(), false);
+		unwrap.size = uvec2(0);
+
 		bool is_unwrapped = false;
 
 		std::vector<MeshPacker> geometry;
@@ -271,16 +274,15 @@ namespace mud
 			geometry.push_back({});
 			mesh.read(geometry[i], model.m_items[i].m_transform);
 
-			if((mesh.m_vertex_format & VertexAttribute::TexCoord1) != 0)
-			{
-				is_unwrapped = true;
-				unwrap.success[i] = true;
+			bool has_uv1 = (mesh.m_vertex_format & VertexAttribute::TexCoord1) != 0;
+			unwrap.success[i] = has_uv1;
+			is_unwrapped |= has_uv1;
 
+			if(has_uv1)
 				for(const vec2& uv : geometry[i].m_uv1s)
 				{
 					unwrap.size = max(uvec2(uv), unwrap.size);
 				}
-			}
 		}
 
 		if(is_unwrapped)
@@ -297,7 +299,7 @@ namespace mud
 			skip |= !mesh.m_cache.m_vertex_format;
 
 			bool success = skip ? false : atlas.add_mesh(mesh, geometry[i]);
-			unwrap.success.push_back(success);
+			unwrap.success[i] = success;
 		}
 
 		unwrap.size = atlas.generate(rect_size, density);
@@ -421,7 +423,7 @@ namespace mud
 #else
 			string cached_path = atlas.m_save_path + "lightmap_" + to_string(i++) + ".hdr";
 #endif
-			if(file_exists(cached_path.c_str()))
+			if(false && file_exists(cached_path.c_str()))
 			{
 				load_lightmap(m_gfx_system, *lightmap, cached_path);
 				continue;
