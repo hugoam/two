@@ -19,6 +19,7 @@
 
 #ifndef MUD_CPP_20
 #include <vector>
+#include <string>
 #endif
 
 namespace mud
