@@ -20,6 +20,8 @@ module mud.gfx;
 #include <gfx/Culling.h>
 #endif
 
+#define NO_OCCLUSION_CULLING
+
 namespace mud
 {
 	static uint16_t viewportIndex = 1;

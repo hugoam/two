@@ -32,20 +32,22 @@ function mud_gfx()
     files {
         path.join(MUD_3RDPARTY_DIR, "meshoptimizer", "src/**.cpp"),
     }
-    
-    configuration { "asmjs" }
-        defines { "NO_OCCLUSION_CULLING" }
-        
-    configuration { "not asmjs" }
-        includedirs {
-            path.join(MUD_3RDPARTY_DIR, "culling"),
-        }
-        
-        files {
-            path.join(MUD_3RDPARTY_DIR, "culling", "*.cpp"),
-        }
-        
-    configuration {}
+
+    if _OPTIONS["occl-culling"] then
+        configuration { "asmjs" }
+            defines { "NO_OCCLUSION_CULLING" }
+            
+        configuration { "not asmjs" }
+            includedirs {
+                path.join(MUD_3RDPARTY_DIR, "culling"),
+            }
+            
+            files {
+                path.join(MUD_3RDPARTY_DIR, "culling", "*.cpp"),
+            }
+            
+        configuration {}
+    end
 end
 
 function mud_gfx_pbr()

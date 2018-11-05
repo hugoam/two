@@ -158,7 +158,7 @@ namespace mud
 			DepthRect bounds = project_aabb(world_to_clip, item->m_aabb);
 
 			MaskedOcclusionCulling::CullingResult result = m_moc->TestRect(bounds.corners.x, bounds.corners.y, bounds.corners.z, bounds.corners.w, bounds.depth);
-			if(result == MaskedOcclusionCulling::VISIBLE)
+			if(result == MaskedOcclusionCulling::VISIBLE || result == MaskedOcclusionCulling::VIEW_CULLED)
 				render.m_shot->m_items.push_back(item);
 		}
 	}

@@ -360,6 +360,8 @@ namespace mud
 			if(unwrap.size == uvec2(0))
 				continue;
 
+			printf("DEBUG: packing model %s uv rect %i, %i\n", model.m_name.c_str(), unwrap.size.x, unwrap.size.y);
+
 			auto pack = pack_texture(model.m_name.c_str(), unwrap.size);
 			if(!pack.image)
 			{
@@ -414,7 +416,7 @@ namespace mud
 #else
 			string cached_path = atlas.m_save_path + "lightmap_" + to_string(i++) + ".hdr";
 #endif
-			if(file_exists(cached_path.c_str()))
+			if(false && file_exists(cached_path.c_str()))
 			{
 				load_lightmap(m_gfx_system, *lightmap, cached_path);
 				continue;
