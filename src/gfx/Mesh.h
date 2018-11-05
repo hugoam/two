@@ -95,8 +95,8 @@ namespace mud
 		bgfx::IndexBufferHandle m_index_buffer = BGFX_INVALID_HANDLE;
 
 		struct UvBounds { vec2 min; vec2 max; };
-		UvBounds m_uv0_rect;
-		UvBounds m_uv1_rect;
+		UvBounds m_uv0_rect = {};
+		UvBounds m_uv1_rect = {};
 
 		std::vector<uint8_t> m_cached_vertices;
 		std::vector<uint8_t> m_cached_indices;

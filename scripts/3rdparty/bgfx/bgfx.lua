@@ -28,6 +28,14 @@ project "bgfx"
         
     configuration {}
 
+project "bimg_encode"
+	configuration { "mingw* or linux or osx or asmjs" }
+		buildoptions {
+			"-Wno-undef"
+        }
+        
+    configuration {}
+        
 dofile(path.join(MUD_DIR, "scripts/3rdparty/bgfx/shaderc.lua"))
 
 function uses_bx()

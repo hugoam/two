@@ -170,6 +170,8 @@ namespace mud
 
 		MeshData data = gpu_mesh.m_data;
 		m_aabb = {};
+		m_uv0_rect = {};
+		m_uv1_rect = {};
 		for(size_t i = 0; i < data.m_vertices.size(); ++i)
 		{
 			m_aabb.merge(data.position());

@@ -163,6 +163,8 @@ namespace gfx
 			{
 				if(gi_probe->m_mode == GIProbeMode::Voxelize)
 				{
+					printf("INFO: bake GIProbe\n");
+
 					m_block_gi_bake.voxelize(render, *gi_probe);
 					m_block_gi_bake.output(render, *gi_probe);
 
@@ -174,6 +176,8 @@ namespace gfx
 					}
 
 					gi_probe->m_dirty = false;
+
+					printf("INFO: bake GIProbe done\n");
 
 					//string path = m_gfx_system.m_resource_path + "gi_probe.dds";
 					//save_gi_probe(m_gfx_system, *gi_probe, bgfx::TextureFormat::RGBA16F, bgfx::TextureFormat::BC6H, path);

@@ -31,8 +31,8 @@ module mud.gfx.pbr;
 #include <gfx-pbr/Lightmap.h>
 #endif
 
-#define LIGHTMAP_HDR
-//#define LIGHTMAP_COMPRESS
+//#define LIGHTMAP_HDR
+#define LIGHTMAP_COMPRESS
 
 namespace glm
 {
@@ -360,8 +360,6 @@ namespace mud
 			if(unwrap.size == uvec2(0))
 				continue;
 
-			printf("DEBUG: packing model %s uv rect %i, %i\n", model.m_name.c_str(), unwrap.size.x, unwrap.size.y);
-
 			auto pack = pack_texture(model.m_name.c_str(), unwrap.size);
 			if(!pack.image)
 			{
@@ -416,7 +414,7 @@ namespace mud
 #else
 			string cached_path = atlas.m_save_path + "lightmap_" + to_string(i++) + ".hdr";
 #endif
-			if(false && file_exists(cached_path.c_str()))
+			if(file_exists(cached_path.c_str()))
 			{
 				load_lightmap(m_gfx_system, *lightmap, cached_path);
 				continue;
@@ -506,7 +504,11 @@ namespace mud
 			encoder.setUniform(Material::s_base_uniform.u_uv1_scale_offset, &binding.m_uv_scale_offset);
 
 			if(bgfx::isValid(binding.m_lightmap))
+#ifdef LIGHTMAP_COMPRESS
+				encoder.setTexture(uint8_t(TextureSampler::Lightmap), u_lightmap.s_lightmap, binding.m_lightmap, GFX_TEXTURE_POINT);
+#else
 				encoder.setTexture(uint8_t(TextureSampler::Lightmap), u_lightmap.s_lightmap, binding.m_lightmap);
+#endif
 		}
 		else
 		{

@@ -11,6 +11,7 @@
 #include <mutex>
 #endif
 
+#include <bx/platform.h>
 #include <bx/readerwriter.h>
 #include <bgfx/bgfx.h>
 
@@ -145,17 +146,16 @@ namespace mud
 		string varying_path = string(gfx_system.m_resource_path) + "shaders/varying.def.sc";
 
 		enum Target { GLSL, ESSL, HLSL, Metal };
-#if defined MUD_PLATFORM_WINDOWS
+#if BX_PLATFORM_WINDOWS
 		Target target = is_opengl ? GLSL : HLSL;
-#elif defined MUD_PLATFORM_LINUX
+#elif BX_PLATFORM_LINUX
 		Target target = GLSL; UNUSED(is_opengl);
-#elif defined MUD_PLATFORM_EMSCRIPTEN
+#elif BX_PLATFORM_EMSCRIPTEN
 		Target target = ESSL; UNUSED(is_opengl);
-#elif defined MUD_PLATFORM_OSX
+#elif BX_PLATFORM_OSX
 		Target target = is_opengl ? GLSL : Metal;
 #endif
 
-		//target = ESSL;
 		if(target == ESSL || target == Metal)
 			defines += "NO_TEXEL_FETCH;";
 
@@ -250,8 +250,8 @@ namespace mud
 	GfxSystem* Program::ms_gfx_system = nullptr;
 
 	Program::Program(cstring name, bool compute)
-		: m_impl(make_unique<Impl>())
-		, m_compute(compute)
+		: m_compute(compute)
+		, m_impl(make_unique<Impl>())
 	{
 		m_impl->m_name = name;
 		PbrBlock& pbr = pbr_block(*ms_gfx_system);
