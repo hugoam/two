@@ -33,6 +33,8 @@ module mud.gfx.pbr;
 
 //#define LIGHTMAP_HDR
 #define LIGHTMAP_COMPRESS
+//#define LIGHTMAP_FORCE_RENDER
+//#define LIGHTMAP_PIXELS
 
 namespace glm
 {
@@ -258,8 +260,6 @@ namespace mud
 
 	void unwrap_model(Model& model, ModelUnwrap& unwrap, uint32_t rect_size, float density)
 	{
-		printf("INFO: unwrapping model %s for lightmap\n", model.m_name.c_str());
-
 		unwrap.success = std::vector<bool>(model.m_items.size(), false);
 		unwrap.size = uvec2(0);
 
@@ -277,6 +277,8 @@ namespace mud
 
 		if(is_unwrapped)
 			return;
+
+		printf("INFO: unwrapping model %s for lightmap\n", model.m_name.c_str());
 
 		XAtlas atlas;
 
@@ -412,13 +414,20 @@ namespace mud
 #ifdef LIGHTMAP_COMPRESS
 			string cached_path = atlas.m_save_path + "lightmap_" + to_string(i++) + ".dds";
 #else
+#ifdef LIGHTMAP_HDR
 			string cached_path = atlas.m_save_path + "lightmap_" + to_string(i++) + ".hdr";
+#else
+			string cached_path = atlas.m_save_path + "lightmap_" + to_string(i++) + ".png";
 #endif
+#endif
+
+#ifndef LIGHTMAP_FORCE_RENDER
 			if(file_exists(cached_path.c_str()))
 			{
 				load_lightmap(m_gfx_system, *lightmap, cached_path);
 				continue;
 			}
+#endif
 
 			uint16_t resolution = uint16_t(atlas.m_size);
 			bgfx::FrameBufferHandle fbo = bgfx::createFrameBuffer(resolution, resolution, c_lightmap_format, BGFX_TEXTURE_RT);
@@ -428,6 +437,7 @@ namespace mud
 			Camera camera = { transform, vec2(extents.x * 2.f, extents.y * 2.f), -extents.z, extents.z };
 			Viewport viewport = { camera, scene, { uvec2(0), uvec2(lightmap->m_size) } };
 			Render lightmap_render = { Shading::Lightmap, viewport, fbo, frame };
+			viewport.m_clear_colour = Colour::None;
 
 			for(LightmapItem& item : lightmap->m_items)
 				lightmap_render.m_shot->m_items.push_back(items[item.m_item]);
@@ -504,7 +514,7 @@ namespace mud
 			encoder.setUniform(Material::s_base_uniform.u_uv1_scale_offset, &binding.m_uv_scale_offset);
 
 			if(bgfx::isValid(binding.m_lightmap))
-#ifdef LIGHTMAP_COMPRESS
+#ifdef LIGHTMAP_PIXELS
 				encoder.setTexture(uint8_t(TextureSampler::Lightmap), u_lightmap.s_lightmap, binding.m_lightmap, GFX_TEXTURE_POINT);
 #else
 				encoder.setTexture(uint8_t(TextureSampler::Lightmap), u_lightmap.s_lightmap, binding.m_lightmap);
