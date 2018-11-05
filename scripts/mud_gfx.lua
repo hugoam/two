@@ -47,6 +47,8 @@ function mud_gfx()
             }
             
         configuration {}
+    else
+        defines { "NO_OCCLUSION_CULLING" }
     end
 end
 
