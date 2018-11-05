@@ -544,7 +544,7 @@ namespace mud
 					}
 				}
 
-				Mesh& mesh = state.m_gfx_system.meshes().construct(name.c_str(), true);
+				Mesh& mesh = state.m_gfx_system.meshes().construct(name.c_str(), config.m_cache_geometry);
 				state.m_meshes.push_back(&mesh);
 				model.add_item(mesh, bxidentity());
 
@@ -593,7 +593,7 @@ namespace mud
 				if(packer.m_tangents.empty() && packer.m_uv0s.empty())
 					printf("WARNING: mesh %s imported without tangents (no uvs)\n", name.c_str());
 
-				mesh.write(PLAIN, packer, true);
+				mesh.write(PLAIN, packer, config.m_optimize_geometry);
 				//mesh.write(PLAIN, packer);
 			}
 
@@ -979,7 +979,7 @@ namespace mud
 		unpack_gltf(state.m_path, state.m_file, gltf);
 
 		import_gltf(gltf, state, config);
-		import_to_prefab(m_gfx_system, prefab, state);
+		import_to_prefab(m_gfx_system, prefab, state, config.m_flags);
 	}
 
 	void ImporterGltf::repack(const string& filepath, const ImportConfig& config)

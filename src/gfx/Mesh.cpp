@@ -162,10 +162,22 @@ namespace mud
 		m_vertex_buffer = bgfx::createVertexBuffer(gpu_mesh.m_vertex_memory, vertex_decl(gpu_mesh.m_vertex_format));
 		m_index_buffer = bgfx::createIndexBuffer(gpu_mesh.m_index_memory, m_index32 ? BGFX_BUFFER_INDEX32 : 0);
 
+		auto minmax = [](vec2& lo, vec2& hi, const vec2& point)
+		{
+			lo = min(point, lo);
+			hi = max(point, hi);
+		};
+
 		MeshData data = gpu_mesh.m_data;
 		m_aabb = {};
 		for(size_t i = 0; i < data.m_vertices.size(); ++i)
+		{
 			m_aabb.merge(data.position());
+			if((m_vertex_format & VertexAttribute::TexCoord0) != 0)
+				minmax(m_uv0_rect.min, m_uv0_rect.max, data.uv0());
+			if((m_vertex_format & VertexAttribute::TexCoord1) != 0)
+				minmax(m_uv1_rect.min, m_uv1_rect.max, data.uv1());
+		}
 
 		data = gpu_mesh.m_data;
 		m_radius = 0.f;

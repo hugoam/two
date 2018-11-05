@@ -33,7 +33,7 @@ namespace mud
 
 		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 		{
-			//Entity* entity = pick_entity(viewer, mouse_event.m_relative, ItemFlag::Selectable | ItemFlag::WorldGeometry);
+			//Entity* entity = pick_entity(viewer, mouse_event.m_relative, ItemFlag::Selectable | ItemFlag::Static);
 			//context_menu(viewer.m_vision.m_user.m_selector, *entity);
 		}
 	}

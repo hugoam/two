@@ -145,6 +145,7 @@ namespace mud
 		else if(attribute == VertexAttribute::TexCoord0)	return sizeof(vec2);
 		else if(attribute == VertexAttribute::QTexCoord0)	return sizeof(half2);
 		else if(attribute == VertexAttribute::TexCoord1)	return sizeof(vec2);
+		else if(attribute == VertexAttribute::QTexCoord1)	return sizeof(half2);
 		else if(attribute == VertexAttribute::Joints)		return sizeof(uint32_t);
 		else if(attribute == VertexAttribute::Weights)		return sizeof(vec4);
 		else return 0;

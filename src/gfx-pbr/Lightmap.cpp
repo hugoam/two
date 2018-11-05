@@ -264,22 +264,15 @@ namespace mud
 		unwrap.size = uvec2(0);
 
 		bool is_unwrapped = false;
-
-		std::vector<MeshPacker> geometry(model.m_items.size());
 		for(size_t i = 0; i < model.m_items.size(); ++i)
 		{
 			Mesh& mesh = *model.m_items[i].m_mesh;
-			mesh.read(geometry[i], model.m_items[i].m_transform);
-
-			bool has_uv1 = (mesh.m_vertex_format & VertexAttribute::TexCoord1) != 0;
-			unwrap.success[i] = has_uv1;
-			is_unwrapped |= has_uv1;
-
-			if(has_uv1)
-				for(const vec2& uv : geometry[i].m_uv1s)
-				{
-					unwrap.size = max(uvec2(uv), unwrap.size);
-				}
+			if((mesh.m_vertex_format & VertexAttribute::TexCoord1) != 0)
+			{
+				unwrap.success[i] = true;
+				is_unwrapped = true;
+				unwrap.size = max(uvec2(mesh.m_uv1_rect.max), unwrap.size);
+			}
 		}
 
 		if(is_unwrapped)
@@ -287,9 +280,11 @@ namespace mud
 
 		XAtlas atlas;
 
+		std::vector<MeshPacker> geometry(model.m_items.size());
 		for(size_t i = 0; i < model.m_items.size(); ++i)
 		{
 			Mesh& mesh = *model.m_items[i].m_mesh;
+			mesh.read(geometry[i], model.m_items[i].m_transform);
 
 			bool skip = false;
 			skip |= mesh.m_draw_mode != PLAIN;
@@ -394,14 +389,13 @@ namespace mud
 	{
 		printf("INFO: bake lightmaps\n");
 
-		Plane6 planes = frustum_planes(transform, vec2(extents.x, extents.y), -extents.z / 2.f, -extents.z / 2.f);
-
 		std::vector<Item*> items;
-
+		//Plane6 planes = frustum_planes(transform, vec2(extents.x, extents.y), -extents.z / 2.f, -extents.z / 2.f);
 		//scene.cull_items(planes, items);
 		scene.m_pool->pool<Item>().iterate([&](Item& item)
 		{
-			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0)
+			if((item.m_flags & ItemFlag::Render) != 0
+			&& (item.m_flags & ItemFlag::Static) != 0)
 				items.push_back(&item);
 		});
 
@@ -420,7 +414,7 @@ namespace mud
 #else
 			string cached_path = atlas.m_save_path + "lightmap_" + to_string(i++) + ".hdr";
 #endif
-			if(false && file_exists(cached_path.c_str()))
+			if(file_exists(cached_path.c_str()))
 			{
 				load_lightmap(m_gfx_system, *lightmap, cached_path);
 				continue;

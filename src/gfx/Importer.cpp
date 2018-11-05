@@ -76,7 +76,7 @@ namespace mud
 		return config;
 	}
 
-	void import_to_prefab(GfxSystem& gfx_system, Prefab& prefab, Import& state)
+	void import_to_prefab(GfxSystem& gfx_system, Prefab& prefab, Import& state, uint32_t flags)
 	{
 		UNUSED(gfx_system);
 		prefab.m_nodes.reserve(state.m_items.size());
@@ -88,7 +88,7 @@ namespace mud
 		{
 			Model& model = *item.model;
 			prefab.m_nodes.push_back({ item.transform });
-			prefab.m_items.push_back({ prefab.m_nodes.back(), model, ItemFlag::Default });
+			prefab.m_items.push_back({ prefab.m_nodes.back(), model, ItemFlag::Default | flags });
 
 			// special hack for occluders
 			if(model.m_items[0].m_mesh->m_material && model.m_items[0].m_mesh->m_material->m_name == "occluder")

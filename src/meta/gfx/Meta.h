@@ -1714,7 +1714,6 @@ namespace mud
 				{ type<mud::ImportConfig>(), member_address(&mud::ImportConfig::m_position), type<mud::vec3>(), "position", var(Zero3), Member::Value, nullptr },
 				{ type<mud::ImportConfig>(), member_address(&mud::ImportConfig::m_rotation), type<mud::quat>(), "rotation", var(ZeroQuat), Member::Value, nullptr },
 				{ type<mud::ImportConfig>(), member_address(&mud::ImportConfig::m_scale), type<mud::vec3>(), "scale", var(Unit3), Member::Value, nullptr },
-				{ type<mud::ImportConfig>(), member_address(&mud::ImportConfig::m_as_prefab), type<bool>(), "as_prefab", var(bool(false)), Member::Value, nullptr },
 				{ type<mud::ImportConfig>(), member_address(&mud::ImportConfig::m_exclude_elements), type<std::vector<std::string>>(), "exclude_elements", var(std::vector<std::string>()), Member::Value, nullptr },
 				{ type<mud::ImportConfig>(), member_address(&mud::ImportConfig::m_exclude_materials), type<std::vector<std::string>>(), "exclude_materials", var(std::vector<std::string>()), Member::Value, nullptr },
 				{ type<mud::ImportConfig>(), member_address(&mud::ImportConfig::m_include_elements), type<std::vector<std::string>>(), "include_elements", var(std::vector<std::string>()), Member::Value, nullptr }

@@ -24,11 +24,12 @@ namespace mud
 	{
 		enum Enum : unsigned int
 		{
+			None = 0,
 			Render = 1 << 0,
 			Shadows = 1 << 1,
 			Occluder = 1 << 2,
 			Billboard = 1 << 3,
-			WorldGeometry = 1 << 4,
+			Static = 1 << 4,
 			Selectable = 1 << 5,
 			Ui = 1 << 6,
 			NoUpdate = 1 << 7,
