@@ -354,7 +354,14 @@ namespace mud
 
 		LightmapUnwrap atlas = { lightmaps.m_save_path, lightmaps.m_size, lightmaps.m_density };
 		
+		std::vector<size_t> sorted;
 		for(size_t i = 0; i < items.size(); ++i)
+			sorted.push_back(i);
+
+		auto compare = [&](size_t& a, size_t& b) { return atlas.unwrap(*items[a]->m_model).size.y > atlas.unwrap(*items[b]->m_model).size.y; };
+		std::sort(sorted.begin(), sorted.end(), compare);
+
+		for(size_t i : sorted)
 		{
 			Model& model = *items[i]->m_model;
 			ModelUnwrap& unwrap = atlas.unwrap(model);
