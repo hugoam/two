@@ -71,29 +71,23 @@ function mud_binary_config()
             "--preload-file ../../../data/shaders",
             "--preload-file ../../../data/textures",
             "--shell-file ../../../scripts/emshell.html",
+        }
+        
+        linkoptions {
             "-s EXPORTED_FUNCTIONS=\"['_main', '_copy', '_paste']\"",
             "-s EXTRA_EXPORTED_RUNTIME_METHODS=\"['ccall', 'cwrap']\"",
         }
-            
-    configuration { "asmjs", "webgl2" }
-        linkoptions {
-            "-s USE_WEBGL2=1",
-        }
         
-    configuration { "asmjs", "Debug" }
-        linkoptions {
-            --"--separate-asm",
-            --"-s WASM=0",
-            "-s TOTAL_MEMORY=536870912",
-            --"-s ALLOW_MEMORY_GROWTH=1",
-        }
-        
-    configuration { "asmjs", "Release" }
         linkoptions {
             "-s ALLOW_MEMORY_GROWTH=1",
             "-s ALIASING_FUNCTION_POINTERS=0",
         }
         
+    configuration { "asmjs", "webgl2" }
+        linkoptions {
+            "-s USE_WEBGL2=1",
+        }
+
     configuration { "not osx", "not asmjs" }
         defines {
             "MUD_RESOURCE_PATH=\"" .. path.join(PROJECT_DIR, "data") .. "/\"",
