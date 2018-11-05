@@ -916,7 +916,6 @@ namespace mud
 		for(glTFMesh& gltf_mesh : gltf.m_meshes)
 		{
 			string model_name = gltf_mesh.name == "" ? file + ":" + to_string(model_index++) : gltf_mesh.name;
-			Model* model = gfx_system.models().get(model_name.c_str());
 
 			size_t mesh_index = 0;
 			for(glTFPrimitive& primitive : gltf_mesh.primitives)

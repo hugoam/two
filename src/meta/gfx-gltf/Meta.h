@@ -1227,7 +1227,7 @@ namespace mud
             },
             // members
             {
-                { type<glTFTextureInfo>(), member_address(&glTFTextureInfo::index), type<int>(), "index", var(int()), Member::Value, nullptr },
+                { type<glTFTextureInfo>(), member_address(&glTFTextureInfo::index), type<int>(), "index", var(int(-1)), Member::Value, nullptr },
                 { type<glTFTextureInfo>(), member_address(&glTFTextureInfo::scale), type<float>(), "scale", var(float(1.f)), Member::Value, nullptr }
             },
             // methods
