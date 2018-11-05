@@ -171,9 +171,14 @@ namespace mud
 
 		emscripten_set_wheel_callback("#canvas", this, true, [](int, const EmscriptenWheelEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_wheel(*event)); });
 
-		emscripten_set_keydown_callback("#canvas", this, true, [](int, const EmscriptenKeyboardEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_key_down(*event)); });
-		emscripten_set_keyup_callback("#canvas", this, true, [](int, const EmscriptenKeyboardEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_key_up(*event)); });
-		emscripten_set_keypress_callback("#canvas", this, true, [](int, const EmscriptenKeyboardEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_key_press(*event)); });
+#ifdef KEYS_INPUT_CANVAS_ONLY
+		const char* keys_target = "#canvas";
+#else
+		const char* keys_target = nullptr;
+#endif
+		emscripten_set_keydown_callback(keys_target, this, true, [](int, const EmscriptenKeyboardEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_key_down(*event)); });
+		emscripten_set_keyup_callback(keys_target, this, true, [](int, const EmscriptenKeyboardEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_key_up(*event)); });
+		emscripten_set_keypress_callback(keys_target, this, true, [](int, const EmscriptenKeyboardEvent* event, void* w) { return EM_BOOL(static_cast<EmContext*>(w)->inject_key_press(*event)); });
 
 	}
 
