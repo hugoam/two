@@ -34,19 +34,13 @@ function mud_gfx()
     }
 
     if _OPTIONS["occl-culling"] then
-        configuration { "asmjs" }
-            defines { "NO_OCCLUSION_CULLING" }
-            
-        configuration { "not asmjs" }
-            includedirs {
-                path.join(MUD_3RDPARTY_DIR, "culling"),
-            }
-            
-            files {
-                path.join(MUD_3RDPARTY_DIR, "culling", "*.cpp"),
-            }
-            
-        configuration {}
+        includedirs {
+            path.join(MUD_3RDPARTY_DIR, "culling"),
+        }
+        
+        files {
+            path.join(MUD_3RDPARTY_DIR, "culling", "*.cpp"),
+        }
     else
         defines { "NO_OCCLUSION_CULLING" }
     end
