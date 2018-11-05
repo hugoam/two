@@ -35,6 +35,7 @@ module mud.gfx.pbr;
 #define LIGHTMAP_COMPRESS
 //#define LIGHTMAP_FORCE_RENDER
 //#define LIGHTMAP_PIXELS
+//#define LIGHTMAP_SORT
 
 namespace glm
 {
@@ -358,8 +359,10 @@ namespace mud
 		for(size_t i = 0; i < items.size(); ++i)
 			sorted.push_back(i);
 
+#ifdef LIGHTMAP_SORT
 		auto compare = [&](size_t& a, size_t& b) { return atlas.unwrap(*items[a]->m_model).size.y > atlas.unwrap(*items[b]->m_model).size.y; };
 		std::sort(sorted.begin(), sorted.end(), compare);
+#endif
 
 		for(size_t i : sorted)
 		{

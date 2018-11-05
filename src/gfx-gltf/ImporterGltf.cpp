@@ -622,7 +622,7 @@ namespace mud
 			glTFMaterialPBR pbr_material = gltf_material.pbr_metallic_roughness;
 
 			material.m_pbr_block.m_enabled = true;
-			material.m_pbr_block.m_albedo.m_value = to_colour(pbr_material.base_color_factor); //.toSRGB();
+			material.m_pbr_block.m_albedo.m_value = to_colour(pbr_material.base_color_factor);
 
 			if(pbr_material.base_color_texture.index != -1)
 			{
