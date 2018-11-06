@@ -362,7 +362,7 @@ namespace mud
 			{ type<mud::AnimationTrack>(), member_address(&mud::AnimationTrack::m_animation), type<mud::Animation>(), "animation", Ref(type<mud::Animation>()), Member::Flags(Member::Pointer | Member::Link), nullptr },
 			{ type<mud::AnimationTrack>(), member_address(&mud::AnimationTrack::m_node), type<size_t>(), "node", var(size_t()), Member::Value, nullptr },
 			{ type<mud::AnimationTrack>(), member_address(&mud::AnimationTrack::m_node_name), type<std::string>(), "node_name", var(std::string()), Member::Value, nullptr },
-			{ type<mud::AnimationTrack>(), member_address(&mud::AnimationTrack::m_member), type<mud::Member>(), "member", Ref(type<mud::Member>()), Member::Flags(Member::Pointer | Member::Link), nullptr },
+			//{ type<mud::AnimationTrack>(), member_address(&mud::AnimationTrack::m_member), type<mud::Member>(), "member", Ref(type<mud::Member>()), Member::Flags(Member::Pointer | Member::Link), nullptr },
 			{ type<mud::AnimationTrack>(), member_address(&mud::AnimationTrack::m_length), type<float>(), "length", var(float(0.f)), Member::Value, nullptr },
 			{ type<mud::AnimationTrack>(), member_address(&mud::AnimationTrack::m_interpolation), type<mud::Interpolation>(), "interpolation", var(mud::Interpolation()), Member::Value, nullptr }
 		},

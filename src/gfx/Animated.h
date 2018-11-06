@@ -19,9 +19,10 @@ namespace mud
 	export_ struct refl_ MUD_GFX_EXPORT AnimatedTrack
 	{
 		const AnimationTrack* m_track;
-		Ref m_target; // node or bone
+		// this used to be generic Ref, but until we actually need a generic animation system, switched to explicit type
+		Bone* m_target; // node or bone
 		AnimationCursor m_cursor;
-		Var m_value;
+		Value m_value;
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT AnimationPlay

@@ -20,7 +20,7 @@ module mud.gfx;
 #include <gfx/Culling.h>
 #endif
 
-//#define NO_OCCLUSION_CULLING
+#define NO_OCCLUSION_CULLING
 
 namespace mud
 {

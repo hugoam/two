@@ -59,7 +59,7 @@ namespace mud
 				playing.m_fadeout = blend;
 		}
 
-		m_playing.push_back(AnimationPlay{ animation, loop, speed, transient, &m_rig.m_skeleton });
+		m_playing.push_back({ animation, loop, speed, transient, &m_rig.m_skeleton });
 		m_active = true;
 	}
 
@@ -113,9 +113,9 @@ namespace mud
 
 		for(const AnimationTrack& track : animation.tracks)
 		{
-			Ref target = {};
+			Bone* target = nullptr;
 			if(skeleton && skeleton->m_bones.size() > track.m_node)
-				target = Ref(&skeleton->m_bones[track.m_node]);
+				target = &skeleton->m_bones[track.m_node];
 			if(!target)
 			{
 				//printf("WARNING: No bone found for animation %s track %s with target %s\n", animation.m_name.c_str(), "", track.m_node_name.c_str());
@@ -196,9 +196,19 @@ namespace mud
 		UNUSED(time); UNUSED(interp);
 		for(AnimatedTrack& track : m_tracks)
 		{
+			auto apply = [](Bone& bone, AnimationTarget target, const Value& value)
+			{
+				if(target == AnimationTarget::Position)
+					bone.m_position = *(vec3*)value.m_value;
+				else if(target == AnimationTarget::Rotation)
+					bone.m_rotation = *(quat*)value.m_value;
+				if(target == AnimationTarget::Scale)
+					bone.m_scale = *(vec3*)value.m_value;
+			};
+
 			if(track.m_track->m_interpolation > Interpolation::Nearest)
 			{
-				track.m_track->sample(track.m_cursor, track.m_value);
+				track.m_value = track.m_track->sample(track.m_cursor);
 
 				// @todo : add blending of multiple animations
 				/*
@@ -209,12 +219,12 @@ namespace mud
 				*/
 
 				//printf("Animation value for track %s = %s\n", track.m_track->m_node_name.c_str(), to_string(track.m_value).c_str());
-				track.m_track->m_member->set(track.m_target, track.m_value);
+				apply(*track.m_target, track.m_track->m_target, track.m_value);
 			}
 			else
 			{
-				track.m_track->value(track.m_cursor, track.m_value, delta > 0.f);
-				track.m_track->m_member->set(track.m_target, track.m_value);
+				track.m_value = track.m_track->value(track.m_cursor, delta > 0.f);
+				apply(*track.m_target, track.m_track->m_target, track.m_value);
 			}
 		}
 	}

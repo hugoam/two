@@ -760,14 +760,14 @@ namespace mud
 	}
 
 	template <class T>
-	void import_track(const glTFNode& node, glTFInterpolation interpolation, const std::vector<float>& times, const std::vector<T>& values, Animation& animation, size_t bone, Member& member)
+	void import_track(const glTFNode& node, glTFInterpolation interpolation, const std::vector<float>& times, const std::vector<T>& values, Animation& animation, size_t bone, AnimationTarget target)
 	{
-		AnimationTrack track = { animation, bone, node.name.c_str(), member };
+		AnimationTrack track = { animation, bone, node.name.c_str(), target };
 
 		track.m_interpolation = interpolation == glTFInterpolation::STEP ? Interpolation::Nearest
 																		 : Interpolation::Linear;
 		for(size_t i = 0; i < times.size(); i++)
-			track.m_keys.push_back(AnimationTrack::Key{ times[i], var(values[i]) });
+			track.m_keys.push_back({ times[i], values[i] });
 
 		animation.tracks.push_back(track);
 	}
@@ -803,17 +803,17 @@ namespace mud
 			if(channel.target.path == "translation")
 			{
 				std::vector<vec3> translations = unpack_accessor<vec3, 3>(gltf, sampler.output, false);
-				import_track(node, sampler.interpolation, times, translations, animation, bone_index, member(&Bone::m_position));
+				import_track(node, sampler.interpolation, times, translations, animation, bone_index, AnimationTarget::Position); // member(&Bone::m_position)
 			}
 			else if(channel.target.path == "rotation")
 			{
 				std::vector<quat> rotations = unpack_accessor<quat, 4>(gltf, sampler.output, false);
-				import_track(node, sampler.interpolation, times, rotations, animation, bone_index, member(&Bone::m_rotation));
+				import_track(node, sampler.interpolation, times, rotations, animation, bone_index, AnimationTarget::Rotation); // member(&Bone::m_rotation)
 			}
 			else if(channel.target.path == "scale")
 			{
 				std::vector<vec3> scales = unpack_accessor<vec3, 3>(gltf, sampler.output, false);
-				import_track(node, sampler.interpolation, times, scales, animation, bone_index, member(&Bone::m_scale));
+				import_track(node, sampler.interpolation, times, scales, animation, bone_index, AnimationTarget::Scale); // member(&Bone::m_scale)
 			}
 			else if(channel.target.path == "weights")
 			{
