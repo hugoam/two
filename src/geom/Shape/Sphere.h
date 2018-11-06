@@ -9,8 +9,8 @@
 namespace mud
 {
 	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Sphere& sphere);
-	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Sphere& sphere, MeshData& data);
+	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Sphere& sphere, MeshAdapter& writer);
 
 	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Sphere& sphere);
-	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Sphere& sphere, MeshData& data);
+	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Sphere& sphere, MeshAdapter& writer);
 }

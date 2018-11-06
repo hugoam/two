@@ -33,6 +33,8 @@ void shape_grid(Gnode& parent, array_2d<ShapeInstance> shape_grid, const Symbol&
 	float spacing = 4.f;
 	vec3 center = { shape_grid.m_size_x * spacing * -0.5f, 0.f, shape_grid.m_size_y * spacing * -0.5f };
 
+	//size_t x = shape_grid.m_size_x - 1;
+	//size_t y = shape_grid.m_size_y - 1;
 	for(size_t x = 0; x < shape_grid.m_size_x; ++x)
 		for(size_t y = 0; y < shape_grid.m_size_y; ++y)
 		{

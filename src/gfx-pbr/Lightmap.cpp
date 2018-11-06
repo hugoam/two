@@ -189,20 +189,25 @@ namespace mud
 		xmesh.indexData = mesh.m_cached_indices.data();
 		xmesh.indexFormat = mesh.m_index32 ? xatlas::IndexFormat::UInt32 : xatlas::IndexFormat::UInt16;
 
-		xatlas::AddMeshError error = xatlas::AddMesh(m_atlas, xmesh, true);
-
-		if(error.code != xatlas::AddMeshErrorCode::Success)
+		auto on_warning = [](xatlas::AddMeshWarning::Enum warning, uint32_t face, uint32_t index0, uint32_t index1, void* userData)
 		{
-			printf("ERROR: xatlas - adding mesh '%s': %s\n", mesh.m_name.c_str(), xatlas::StringForEnum(error.code));
-			if(error.code == xatlas::AddMeshErrorCode::AlreadyAddedEdge)
+			if(warning == xatlas::AddMeshWarning::AlreadyAddedEdge)
 			{
-				vec3 pos0 = geometry.m_positions[error.index0];
-				vec3 pos1 = geometry.m_positions[error.index1];
-				printf("DEBUG: already added edge %i to %i from face %i from %f, %f, %f to %f, %f, %f\n", error.index0, error.index1, error.face, pos0.x, pos0.y, pos0.z, pos1.x, pos1.y, pos1.z);
+				MeshPacker& geometry = *(MeshPacker*)userData;
+				vec3 pos0 = geometry.m_positions[index0];
+				vec3 pos1 = geometry.m_positions[index1];
+				printf("DEBUG: already added edge %i to %i from face %i from %f, %f, %f to %f, %f, %f\n", index0, index1, face, pos0.x, pos0.y, pos0.z, pos1.x, pos1.y, pos1.z);
 			}
+		};
+
+		xatlas::AddMeshError::Enum error = xatlas::AddMesh(m_atlas, xmesh, on_warning, &geometry);
+
+		if(error != xatlas::AddMeshError::Success)
+		{
+			printf("ERROR: xatlas - adding mesh '%s': %s\n", mesh.m_name.c_str(), xatlas::StringForEnum(error));
 		}
 
-		return error.code == xatlas::AddMeshErrorCode::Success;
+		return error == xatlas::AddMeshError::Success;
 	}
 
 	uvec2 XAtlas::generate(uint32_t rect_size, float density)
@@ -268,7 +273,8 @@ namespace mud
 		for(size_t i = 0; i < model.m_items.size(); ++i)
 		{
 			Mesh& mesh = *model.m_items[i].m_mesh;
-			if((mesh.m_vertex_format & VertexAttribute::TexCoord1) != 0)
+			if((mesh.m_vertex_format & VertexAttribute::TexCoord1) != 0
+			|| (mesh.m_vertex_format & VertexAttribute::QTexCoord1) != 0)
 			{
 				unwrap.success[i] = true;
 				is_unwrapped = true;

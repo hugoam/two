@@ -29,7 +29,7 @@ namespace mud
 			return { point.z, point.y, point.x };
 	}
 
-	uint16_t circle_vertices(const ProcShape& shape, const vec3& position, vec2 radius, SignedAxis axis, bool lines, MeshData& data, bool outward_normals)
+	uint16_t circle_vertices(const ProcShape& shape, const vec3& position, vec2 radius, SignedAxis axis, bool lines, MeshAdapter& writer, bool outward_normals)
 	{
 		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
 
@@ -39,16 +39,16 @@ namespace mud
 		for(uint16_t i = 0; i < subdiv; i++)
 		{
 			vec3 point = flip_point_axis({ radius.x * cos(angle), 0.f, radius.y * sin(angle) }, axis);
-			data.position(position + point)
-				.normal(outward_normals ? point : to_vec3(axis))
-				.colour(lines ? shape.m_symbol.m_outline : shape.m_symbol.m_fill);
+			writer.position(position + point)
+				  .normal(outward_normals ? point : to_vec3(axis))
+				  .colour(lines ? shape.m_symbol.m_outline : shape.m_symbol.m_fill);
 			angle += increment;
 		}
 
 		if(!lines)
-			data.position(position)
-				.normal(to_vec3(axis))
-				.colour(lines ? shape.m_symbol.m_outline : shape.m_symbol.m_fill);
+			writer.position(position)
+				  .normal(to_vec3(axis))
+				  .colour(lines ? shape.m_symbol.m_outline : shape.m_symbol.m_fill);
 
 		return subdiv;
 	}
@@ -60,12 +60,12 @@ namespace mud
 		return { subdiv, subdiv * 2 };
 	}
 
-	void draw_shape_lines(const ProcShape& shape, const Circle& circle, MeshData& data)
+	void draw_shape_lines(const ProcShape& shape, const Circle& circle, MeshAdapter& writer)
 	{
-		uint16_t subdiv = circle_vertices(shape, circle.m_center, vec2{ circle.m_radius }, to_signed_axis(circle.m_axis, true), true, data);
+		uint16_t subdiv = circle_vertices(shape, circle.m_center, vec2{ circle.m_radius }, to_signed_axis(circle.m_axis, true), true, writer);
 
 		for (uint16_t i = 0; i < subdiv; i++)
-			data.line(i, i + 1 < subdiv ? i + 1 : 0);
+			writer.line(i, i + 1 < subdiv ? i + 1 : 0);
 	}
 
 	ShapeSize size_shape_triangles(const ProcShape& shape, const Circle& circle)
@@ -75,12 +75,12 @@ namespace mud
 		return { subdiv + 1, subdiv * 3 };
 	}
 
-	void draw_shape_triangles(const ProcShape& shape, const Circle& circle, MeshData& data)
+	void draw_shape_triangles(const ProcShape& shape, const Circle& circle, MeshAdapter& writer)
 	{
-		uint16_t subdiv = circle_vertices(shape, circle.m_center, vec2{ circle.m_radius }, to_signed_axis(circle.m_axis, true), false, data);
+		uint16_t subdiv = circle_vertices(shape, circle.m_center, vec2{ circle.m_radius }, to_signed_axis(circle.m_axis, true), false, writer);
 
 		for (uint16_t i = 0; i < subdiv; i++)
-			data.tri(i + 1 < subdiv ? i + 1 : 0, i,  subdiv);
+			writer.tri(i + 1 < subdiv ? i + 1 : 0, i,  subdiv);
 	}
 
 	
@@ -91,12 +91,12 @@ namespace mud
 		return { subdiv, subdiv * 2 };
 	}
 
-	void draw_shape_lines(const ProcShape& shape, const Ellipsis& ellipsis, MeshData& data)
+	void draw_shape_lines(const ProcShape& shape, const Ellipsis& ellipsis, MeshAdapter& writer)
 	{
-		uint16_t subdiv = circle_vertices(shape, ellipsis.m_center, ellipsis.m_radius, to_signed_axis(ellipsis.m_axis, true), true, data);
+		uint16_t subdiv = circle_vertices(shape, ellipsis.m_center, ellipsis.m_radius, to_signed_axis(ellipsis.m_axis, true), true, writer);
 
 		for (uint16_t i = 0; i < subdiv; i++)
-			data.line(i, i + 1 < subdiv ? i + 1 : 0);
+			writer.line(i, i + 1 < subdiv ? i + 1 : 0);
 	}
 
 	ShapeSize size_shape_triangles(const ProcShape& shape, const Ellipsis& ellipsis)
@@ -106,12 +106,12 @@ namespace mud
 		return { subdiv + 1, subdiv * 3 };
 	}
 
-	void draw_shape_triangles(const ProcShape& shape, const Ellipsis& ellipsis, MeshData& data)
+	void draw_shape_triangles(const ProcShape& shape, const Ellipsis& ellipsis, MeshAdapter& writer)
 	{
-		uint16_t subdiv = circle_vertices(shape, ellipsis.m_center, ellipsis.m_radius, to_signed_axis(ellipsis.m_axis, true), false, data);
+		uint16_t subdiv = circle_vertices(shape, ellipsis.m_center, ellipsis.m_radius, to_signed_axis(ellipsis.m_axis, true), false, writer);
 
 		for (uint16_t i = 0; i < subdiv; i++)
-			data.tri(i + 1 < subdiv ? i + 1 : 0, i,  subdiv);
+			writer.tri(i + 1 < subdiv ? i + 1 : 0, i,  subdiv);
 	}
 
 	ShapeSize size_shape_lines(const ProcShape& shape, const ArcLine& arc)
@@ -121,7 +121,7 @@ namespace mud
 		return { subdiv, (subdiv-1) * 2 };
 	}
 
-	void draw_shape_lines(const ProcShape& shape, const ArcLine& arc, MeshData& data)
+	void draw_shape_lines(const ProcShape& shape, const ArcLine& arc, MeshAdapter& writer)
 	{
 		uint16_t subdiv = circle_subdiv(uint(shape.m_symbol.m_detail));
 
@@ -138,12 +138,12 @@ namespace mud
 		{
 			vec3 dir = rotate(B, float(i) * dtheta, N);
 			vec3 p = dir + center;
-			data.position(arc.m_center + p)
-				.colour(shape.m_symbol.m_outline);
+			writer.position(arc.m_center + p)
+				  .colour(shape.m_symbol.m_outline);
 		}
 
 		for(uint16_t i = 0; i < subdiv - 1; i++)
-			data.line(i, i + 1 < subdiv ? i + 1 : 0);
+			writer.line(i, i + 1 < subdiv ? i + 1 : 0);
 	}
 
 	ShapeSize size_shape_triangles(const ProcShape& shape, const ArcLine& arc)
@@ -152,9 +152,9 @@ namespace mud
 		return { 0, 0 };
 	}
 
-	void draw_shape_triangles(const ProcShape& shape, const ArcLine& arc, MeshData& data)
+	void draw_shape_triangles(const ProcShape& shape, const ArcLine& arc, MeshAdapter& writer)
 	{
-		UNUSED(shape); UNUSED(arc); UNUSED(data);
+		UNUSED(shape); UNUSED(arc); UNUSED(writer);
 	}
 
 	uint16_t torus_sides(uint lod) { return uint16_t(12 + 12 * lod); }
@@ -166,9 +166,9 @@ namespace mud
 		return { 0, 0 };
 	}
 
-	void draw_shape_lines(const ProcShape& shape, const Torus& torus, MeshData& data)
+	void draw_shape_lines(const ProcShape& shape, const Torus& torus, MeshAdapter& writer)
 	{
-		UNUSED(shape); UNUSED(torus); UNUSED(data);
+		UNUSED(shape); UNUSED(torus); UNUSED(writer);
 	}
 
 	ShapeSize size_shape_triangles(const ProcShape& shape, const Torus& torus)
@@ -179,7 +179,7 @@ namespace mud
 		return { int(sides_subdiv * rings_subdiv), int((sides_subdiv-1) * (rings_subdiv-1) * 6) };
 	}
 
-	void draw_shape_triangles(const ProcShape& shape, const Torus& torus, MeshData& data)
+	void draw_shape_triangles(const ProcShape& shape, const Torus& torus, MeshAdapter& writer)
 	{
 		uint16_t sides = torus_sides(uint(shape.m_symbol.m_detail));
 		uint16_t rings = torus_rings(uint(shape.m_symbol.m_detail));
@@ -202,8 +202,8 @@ namespace mud
 
 				vec3 point = flip_point_axis({ x, z, y }, to_signed_axis(torus.m_axis, true));
 
-				data.position(point)
-					.colour(shape.m_symbol.m_fill);
+				writer.position(point)
+					  .colour(shape.m_symbol.m_fill);
 			}
 
 		for(uint16_t v = 0; v < sides; v++)
@@ -215,8 +215,8 @@ namespace mud
 				const uint16_t lb = h + (v + 1) * sides_subdiv;
 				const uint16_t rb = (h + 1) + (v + 1) * sides_subdiv;
 
-				data.tri(lt, rt, lb);
-				data.tri(rt, rb, lb);
+				writer.tri(lt, rt, lb);
+				writer.tri(rt, rb, lb);
 			}
 	}
 }

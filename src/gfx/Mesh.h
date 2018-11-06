@@ -40,7 +40,7 @@ namespace mud
 		void* m_vertices = nullptr;
 		void* m_indices = nullptr;
 
-		MeshData m_data = {};
+		MeshAdapter m_writer = {};
 	};
 	
 	inline GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32)
@@ -56,7 +56,7 @@ namespace mud
 		gpu_mesh.m_indices = gpu_mesh.m_index_memory->data;
 
 		gpu_mesh.m_vertex_format = vertex_format;
-		gpu_mesh.m_data = MeshData(vertex_format, gpu_mesh.m_vertices, vertex_count, gpu_mesh.m_indices, index_count, index32);
+		gpu_mesh.m_writer = MeshAdapter(vertex_format, gpu_mesh.m_vertices, vertex_count, gpu_mesh.m_indices, index_count, index32);
 
 		return gpu_mesh;
 	}
@@ -84,6 +84,7 @@ namespace mud
 		attr_ bool m_readback = false;
 
 		attr_ uint32_t m_vertex_format = 0;
+		attr_ bool m_qnormals = false;
 
 		attr_ uint32_t m_vertex_count = 0;
 		attr_ uint32_t m_index_count = 0;
@@ -101,12 +102,11 @@ namespace mud
 		std::vector<uint8_t> m_cached_vertices;
 		std::vector<uint8_t> m_cached_indices;
 
-		MeshData m_cache;
+		MeshAdapter m_cache;
 
 		void clear();
-		void read(MeshData& data, const mat4& transform) const;
+		void read(MeshAdapter& writer, const mat4& transform) const;
 		void read(MeshPacker& packer, const mat4& transform) const;
-		void write(DrawMode draw_mode, array<ShapeVertex> vertices, array<ShapeIndex> indices, bool optimize = false);
 		void write(DrawMode draw_mode, MeshPacker& packer, bool optimize = false);
 		void upload(DrawMode draw_mode, const GpuMesh& gpu_mesh);
 		void upload_opt(DrawMode draw_mode, const GpuMesh& gpu_mesh);

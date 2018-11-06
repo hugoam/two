@@ -10,18 +10,18 @@
 
 namespace mud
 {
-	MUD_GEOM_EXPORT void quad_vertices(const ProcShape& shape, const vec3& center, const vec3& a, const vec3& b, const vec3& c, const vec3& d, bool fill, MeshData& data);
-	MUD_GEOM_EXPORT void quad_vertices(const ProcShape& shape, const vec3& center, array<vec3> vertices, bool fill, MeshData& data);
+	MUD_GEOM_EXPORT void quad_vertices(const ProcShape& shape, const vec3& center, const vec3& a, const vec3& b, const vec3& c, const vec3& d, bool fill, MeshAdapter& writer);
+	MUD_GEOM_EXPORT void quad_vertices(const ProcShape& shape, const vec3& center, array<vec3> vertices, bool fill, MeshAdapter& writer);
 
 	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Quad& quad);
-	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Quad& quad, MeshData& data);
+	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Quad& quad, MeshAdapter& writer);
 
 	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Quad& quad);
-	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Quad& quad, MeshData& data);
+	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Quad& quad, MeshAdapter& writer);
 
 	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Grid3& grid);
-	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Grid3& grid, MeshData& data);
+	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Grid3& grid, MeshAdapter& writer);
 
 	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Grid3& grid);
-	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Grid3& grid, MeshData& data);
+	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Grid3& grid, MeshAdapter& writer);
 }

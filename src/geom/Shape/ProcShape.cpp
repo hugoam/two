@@ -45,18 +45,18 @@ namespace mud
 		return { 0, 0 };
 	}
 
-	void symbol_draw_lines(const ProcShape& procshape, MeshData& data)
+	void symbol_draw_lines(const ProcShape& procshape, MeshAdapter& writer)
 	{
 		const Shape& shape = *procshape.m_shape;
 		if(Draw::me.m_draw_lines.check(Ref(&shape)))
-			Draw::me.m_draw_lines.dispatch(Ref(&shape), procshape, data);
+			Draw::me.m_draw_lines.dispatch(Ref(&shape), procshape, writer);
 	}
 
-	void symbol_draw_triangles(const ProcShape& procshape, MeshData& data)
+	void symbol_draw_triangles(const ProcShape& procshape, MeshAdapter& writer)
 	{
 		const Shape& shape = *procshape.m_shape;
 		if(Draw::me.m_draw_triangles.check(Ref(&shape)))
-			Draw::me.m_draw_triangles.dispatch(Ref(&shape), procshape, data);
+			Draw::me.m_draw_triangles.dispatch(Ref(&shape), procshape, writer);
 	}
 
 	ShapeSize size_shape_lines(const ProcShape& procshape, const CompoundShape& compound)
@@ -68,13 +68,13 @@ namespace mud
 		return result;
 	}
 
-	void draw_shape_lines(const ProcShape& procshape, const CompoundShape& compound, MeshData& data)
+	void draw_shape_lines(const ProcShape& procshape, const CompoundShape& compound, MeshAdapter& writer)
 	{
 		UNUSED(procshape);
 		for(auto& shape : compound.m_shapes)
 		{
-			symbol_draw_lines(shape, data);
-			data.next();
+			symbol_draw_lines(shape, writer);
+			writer.next();
 		}
 	}
 
@@ -87,13 +87,13 @@ namespace mud
 		return result;
 	}
 
-	void draw_shape_triangles(const ProcShape& procshape, const CompoundShape& compound, MeshData& data)
+	void draw_shape_triangles(const ProcShape& procshape, const CompoundShape& compound, MeshAdapter& writer)
 	{
 		UNUSED(procshape);
 		for(auto& shape : compound.m_shapes)
 		{
-			symbol_draw_triangles(shape, data);
-			data.next();
+			symbol_draw_triangles(shape, writer);
+			writer.next();
 		}
 	}
 

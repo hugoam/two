@@ -16,15 +16,15 @@ module mud.geom;
 
 namespace mud
 {
-	void triangle_vertices(const ProcShape& shape, const Triangle& triangle, bool fill, MeshData& data)
+	void triangle_vertices(const ProcShape& shape, const Triangle& triangle, bool fill, MeshAdapter& writer)
 	{
 		vec3 vertices[3] = { { -triangle.m_size.x / 2.f, -triangle.m_size.y / 2.f, 0.f },
 							 {  triangle.m_size.x / 2.f, -triangle.m_size.y / 2.f, 0.f },
 							 {  0.f,                      triangle.m_size.y / 2.f, 0.f } };
 
 		for(int i = 0; i < 3; i++)
-			data.position(triangle.m_center + vertices[i])
-				.colour(fill ? shape.m_symbol.m_fill : shape.m_symbol.m_outline);
+			writer.position(triangle.m_center + vertices[i])
+				  .colour(fill ? shape.m_symbol.m_fill : shape.m_symbol.m_outline);
 	}
 
 	ShapeSize size_shape_lines(const ProcShape& shape, const Triangle& triangle)
@@ -33,11 +33,11 @@ namespace mud
 		return { 3, 6 };
 	}
 
-	void draw_shape_lines(const ProcShape& shape, const Triangle& triangle, MeshData& data)
+	void draw_shape_lines(const ProcShape& shape, const Triangle& triangle, MeshAdapter& writer)
 	{
-		triangle_vertices(shape, triangle, false, data);
+		triangle_vertices(shape, triangle, false, writer);
 		for(uint16_t i = 0; i < 3; i++)
-			data.line(i, (i + 1) % 3);
+			writer.line(i, (i + 1) % 3);
 	}
 
 	ShapeSize size_shape_triangles(const ProcShape& shape, const Triangle& triangle)
@@ -46,9 +46,9 @@ namespace mud
 		return { 3, 3 };
 	}
 
-	void draw_shape_triangles(const ProcShape& shape, const Triangle& triangle, MeshData& data)
+	void draw_shape_triangles(const ProcShape& shape, const Triangle& triangle, MeshAdapter& writer)
 	{
-		triangle_vertices(shape, triangle, true, data);
-		data.tri(0, 1, 2);
+		triangle_vertices(shape, triangle, true, writer);
+		writer.tri(0, 1, 2);
 	}
 }

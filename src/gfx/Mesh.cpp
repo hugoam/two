@@ -23,6 +23,12 @@ namespace mud
 	{
 		bgfx::VertexDecl decl;
 
+		bool half_support = (bgfx::getCaps()->supported & BGFX_CAPS_VERTEX_ATTRIB_HALF) != 0;
+		bool needs_half = (vertex_format & VertexAttribute::QTexCoord0) != 0
+					   || (vertex_format & VertexAttribute::QTexCoord1) != 0;
+		if(needs_half && !half_support)
+			printf("WARNING: half vertex attribute not supported but used by texcoords\n");
+
 		bool normalize_indices = false;
 #ifdef MUD_PLATFORM_EMSCRIPTEN
 		normalize_indices = true;
@@ -95,27 +101,27 @@ namespace mud
 			bgfx::destroy(m_index_buffer);
 	}
 
-	void Mesh::read(MeshData& dest, const mat4& transform) const
+	void Mesh::read(MeshAdapter& writer, const mat4& transform) const
 	{
-		MeshData source = m_cache;
+		MeshAdapter reader = m_cache.read();
 
-		for(size_t i = 0; i < source.m_vertices.size(); ++i)
+		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
 		{
-			dest.position(transform * vec4(source.position(), 1.f));
-			if(dest.m_cursor.m_normal)
-				dest.normal(transform * vec4(source.normal(), 0.f));
-			if(dest.m_cursor.m_uv0)
-				dest.uv0(source.uv0());
+			writer.position(transform * vec4(reader.position(), 1.f));
+			if(writer.m_cursor.m_normal)
+				writer.normal(transform * vec4(reader.normal(), 0.f));
+			if(writer.m_cursor.m_uv0)
+				writer.uv0(reader.uv0());
 		}
 
-		for(size_t i = 0; i < source.m_indices.size(); ++i)
+		for(size_t i = 0; i < reader.m_indices.size(); ++i)
 		{
-			uint32_t index = m_index32 ? source.index32() : source.index();
-			assert(index <= dest.m_vertices.size());
-			dest.index(index);
+			uint32_t index = m_index32 ? reader.index32() : reader.index();
+			assert(index <= writer.m_vertices.size());
+			writer.index(index);
 		}
 
-		dest.next();
+		writer.next();
 	}
 
 	inline vec3 mulp(const mat4& mat, const vec3& p) { return vec3(mat * vec4(p, 1.f)); }
@@ -124,28 +130,28 @@ namespace mud
 
 	void Mesh::read(MeshPacker& packer, const mat4& transform) const
 	{
-		MeshData source = m_cache;
+		MeshAdapter reader = m_cache.read();
 
-		for(size_t i = 0; i < source.m_vertices.size(); ++i)
+		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
 		{
-			packer.m_positions.push_back(mulp(transform, source.position()));
+			packer.m_positions.push_back(mulp(transform, reader.position()));
 			if((m_vertex_format & VertexAttribute::Normal) != 0)
-				packer.m_normals.push_back(muln(transform, source.normal()));
+				packer.m_normals.push_back(muln(transform, reader.normal()));
 			if((m_vertex_format & VertexAttribute::Colour) != 0)
-				packer.m_colours.push_back(source.colour());
+				packer.m_colours.push_back(reader.colour());
 			if((m_vertex_format & VertexAttribute::Tangent) != 0)
-				packer.m_tangents.push_back(mult(transform, source.tangent()));
+				packer.m_tangents.push_back(mult(transform, reader.tangent()));
 			if((m_vertex_format & VertexAttribute::TexCoord0) != 0)
-				packer.m_uv0s.push_back(source.uv0());
+				packer.m_uv0s.push_back(reader.uv0());
 			if((m_vertex_format & VertexAttribute::TexCoord1) != 0)
-				packer.m_uv1s.push_back(source.uv1());
+				packer.m_uv1s.push_back(reader.uv1());
 			//packer.m_bones.push_back(source.bones());
 			//packer.m_weights.push_back(source.weights());
 		}
 
-		for(size_t i = 0; i < source.m_indices.size(); ++i)
+		for(size_t i = 0; i < reader.m_indices.size(); ++i)
 		{
-			packer.m_indices.push_back(m_index32 ? source.index32() : source.index());
+			packer.m_indices.push_back(m_index32 ? reader.index32() : reader.index());
 		}
 	}
 
@@ -168,31 +174,19 @@ namespace mud
 			hi = max(point, hi);
 		};
 
-		MeshData data = gpu_mesh.m_data;
-		m_aabb = {};
-		m_uv0_rect = {};
-		m_uv1_rect = {};
-		for(size_t i = 0; i < data.m_vertices.size(); ++i)
-		{
-			m_aabb.merge(data.position());
-			if((m_vertex_format & VertexAttribute::TexCoord0) != 0)
-				minmax(m_uv0_rect.min, m_uv0_rect.max, data.uv0());
-			if((m_vertex_format & VertexAttribute::TexCoord1) != 0)
-				minmax(m_uv1_rect.min, m_uv1_rect.max, data.uv1());
-		}
+		m_aabb = aabb(gpu_mesh.m_writer.m_aabb.lo, gpu_mesh.m_writer.m_aabb.hi);
+		m_uv0_rect = { gpu_mesh.m_writer.m_uv0_rect.lo, gpu_mesh.m_writer.m_uv0_rect.hi };
+		m_uv1_rect = { gpu_mesh.m_writer.m_uv1_rect.lo, gpu_mesh.m_writer.m_uv1_rect.hi };
 
-		data = gpu_mesh.m_data;
+		MeshAdapter reader = gpu_mesh.m_writer.read();
 		m_radius = 0.f;
-		for(size_t i = 0; i < data.m_vertices.size(); ++i)
-			m_radius = max(length(data.position() - m_aabb.m_center), m_radius);
+		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
+			m_radius = max(length(reader.position() - m_aabb.m_center), m_radius);
 
 		m_origin = m_aabb.m_center;
 
 		if(m_readback)
-		{
 			this->cache(gpu_mesh);
-			m_cache = MeshData(gpu_mesh.m_vertex_format, m_cached_vertices.data(), m_vertex_count, m_cached_indices.data(), m_index_count, m_index32);
-		}
 	}
 
 	template <class T>
@@ -234,22 +228,14 @@ namespace mud
 		this->upload(draw_mode, optmesh);
 	}
 
-	void Mesh::write(DrawMode draw_mode, array<ShapeVertex> vertices, array<ShapeIndex> indices, bool optimize)
-	{
-		GpuMesh gpu_mesh = alloc_mesh(ShapeVertex::vertex_format, uint32_t(vertices.m_count), uint32_t(indices.m_count));
-		vertices.copy(gpu_mesh.m_vertices);
-		indices.copy(gpu_mesh.m_indices);
-		if(optimize)
-			this->upload_opt(draw_mode, gpu_mesh);
-		else
-			this->upload(draw_mode, gpu_mesh);
-	}
-
 	void Mesh::write(DrawMode draw_mode, MeshPacker& packer, bool optimize)
 	{
+		m_qnormals = packer.m_quantize;
+
 		GpuMesh gpu_mesh = alloc_mesh(packer.vertex_format(), packer.vertex_count(), packer.index_count());
-		MeshData data = gpu_mesh.m_data;
-		packer.pack_vertices(data, bxidentity());
+		packer.pack_vertices(gpu_mesh.m_writer, bxidentity());
+		gpu_mesh.m_writer.rewind();
+
 		if(optimize)
 			this->upload_opt(draw_mode, gpu_mesh);
 		else
@@ -263,6 +249,9 @@ namespace mud
 
 		memcpy(m_cached_vertices.data(), gpu_mesh.m_vertex_memory->data, gpu_mesh.m_vertex_memory->size);
 		memcpy(m_cached_indices.data(), gpu_mesh.m_index_memory->data, gpu_mesh.m_index_memory->size);
+
+		m_cache = MeshAdapter(gpu_mesh.m_vertex_format, m_cached_vertices.data(), m_vertex_count, m_cached_indices.data(), m_index_count, m_index32);
+		m_cache.rewind();
 	}
 
 	uint64_t Mesh::submit(bgfx::Encoder& encoder) const

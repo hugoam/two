@@ -22,7 +22,7 @@ namespace mud
 		return { 8 * 4, 8 * 3 * 2 };
 	}
 
-	void draw_cube_corners_lines(const ProcShape& shape, const Box& box, MeshData& data)
+	void draw_cube_corners_lines(const ProcShape& shape, const Box& box, MeshAdapter& writer)
 	{
 		for(int i = 0; i < 8; ++i)
 		{
@@ -31,20 +31,20 @@ namespace mud
 			static const vec3 components[3] = { X3, Y3, Z3 };
 			float size_factor = 0.2f;
 			
-			data.position(position)
-				.colour(shape.m_symbol.m_outline);
+			writer.position(position)
+				  .colour(shape.m_symbol.m_outline);
 
 			for(int j = 0; j < 3; ++j)
-				data.position(position - position * components[j] * size_factor)
-					.colour(shape.m_symbol.m_outline);
+				writer.position(position - position * components[j] * size_factor)
+					  .colour(shape.m_symbol.m_outline);
 		}
 
 
 		for(uint16_t i = 0; i < 8 * 4; i+=4)
 		{
-			data.line(i, i + 1);
-			data.line(i, i + 2);
-			data.line(i, i + 3);
+			writer.line(i, i + 1);
+			writer.line(i, i + 2);
+			writer.line(i, i + 3);
 		}
 	}
 
@@ -55,24 +55,24 @@ namespace mud
 		return { 8, 24 };
 	}
 
-	void draw_shape_lines(const ProcShape& shape, const Box& box, MeshData& data)
+	void draw_shape_lines(const ProcShape& shape, const Box& box, MeshAdapter& writer)
 	{
-		//return draw_cube_corners_lines(shape, box, data);
+		//return draw_cube_corners_lines(shape, box, writer);
 
 		for (int i = 0; i < 8; ++i)
-			data.position(box.m_center + box.m_vertices[i])
-				.colour(shape.m_symbol.m_outline);
+			writer.position(box.m_center + box.m_vertices[i])
+				  .colour(shape.m_symbol.m_outline);
 
 		for (uint16_t i = 0; i < 4; ++i)
-			data.line(i, (i + 1) % 4);
+			writer.line(i, (i + 1) % 4);
 
 		for (uint16_t i = 4; i < 8; ++i)
-			data.line(i,  i == 7 ? 4 : i + 1);
+			writer.line(i,  i == 7 ? 4 : i + 1);
 
-		data.line(1, 4);
-		data.line(2, 7);
-		data.line(0, 5);
-		data.line(3, 6);
+		writer.line(1, 4);
+		writer.line(2, 7);
+		writer.line(0, 5);
+		writer.line(3, 6);
 	}
 
 #define CUBE_NORMALS 1
@@ -87,43 +87,43 @@ namespace mud
 #endif
 	}
 
-	void draw_cube_quad(const ProcShape& shape, const Box& box, MeshData& data, uint32_t a, uint32_t b, uint32_t c, uint32_t d)
+	void draw_cube_quad(const ProcShape& shape, const Box& box, MeshAdapter& writer, uint32_t a, uint32_t b, uint32_t c, uint32_t d)
 	{
-		draw_shape_triangles(shape, Quad(box.m_vertices[a], box.m_vertices[b], box.m_vertices[c], box.m_vertices[d]), data);
-		data.m_offset += 4;
+		draw_shape_triangles(shape, Quad(box.m_vertices[a], box.m_vertices[b], box.m_vertices[c], box.m_vertices[d]), writer);
+		writer.m_offset += 4;
 	}
 
-	void draw_shape_triangles(const ProcShape& shape, const Box& box, MeshData& data)
+	void draw_shape_triangles(const ProcShape& shape, const Box& box, MeshAdapter& writer)
 	{
 #if CUBE_NORMALS
-		draw_cube_quad(shape, box, data, 0, 1, 2, 3);
-		draw_cube_quad(shape, box, data, 4, 5, 6, 7);
-		draw_cube_quad(shape, box, data, 0, 3, 6, 5);
-		draw_cube_quad(shape, box, data, 4, 7, 2, 1);
-		draw_cube_quad(shape, box, data, 3, 2, 7, 6);
-		draw_cube_quad(shape, box, data, 5, 4, 1, 0);
+		draw_cube_quad(shape, box, writer, 0, 1, 2, 3);
+		draw_cube_quad(shape, box, writer, 4, 5, 6, 7);
+		draw_cube_quad(shape, box, writer, 0, 3, 6, 5);
+		draw_cube_quad(shape, box, writer, 4, 7, 2, 1);
+		draw_cube_quad(shape, box, writer, 3, 2, 7, 6);
+		draw_cube_quad(shape, box, writer, 5, 4, 1, 0);
 #else
 		static vec2 quadUVs[4] = { { 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 0.f }, { 0.f, 1.f } };
 
 		for (int i = 0; i < 8; ++i)
-			data.position(shape.m_position + box.m_vertices[i])
-				.colour(Colour::White)
-				.uv0(quadUVs[i%4]);
+			writer.position(shape.m_position + box.m_vertices[i])
+				  .colour(Colour::White)
+				  .uv0(quadUVs[i%4]);
 
 		int i = 0;
 		for(int v : { 3, 2, 7, 6, 5, 4, 1, 0 })
-			data.position(shape.m_position + box.m_vertices[v])
-				.colour(Colour::White)
-				.uv0(quadUVs[i++ % 4]);
+			writer.position(shape.m_position + box.m_vertices[v])
+				  .colour(Colour::White)
+				  .uv0(quadUVs[i++ % 4]);
 
-		data.quad(0, 1, 2, 3);
-		data.quad(4, 5, 6, 7);
+		writer.quad(0, 1, 2, 3);
+		writer.quad(4, 5, 6, 7);
 
-		data.quad(0, 3, 6, 5);
-		data.quad(4, 7, 2, 1);
+		writer.quad(0, 3, 6, 5);
+		writer.quad(4, 7, 2, 1);
 
-		data.quad(8, 9, 10, 11);
-		data.quad(12, 13, 14, 15);
+		writer.quad(8, 9, 10, 11);
+		writer.quad(12, 13, 14, 15);
 #endif
 	}
 }

@@ -532,11 +532,14 @@ namespace mud
 			for(const glTFPrimitive& primitive : gltf_mesh.primitives)
 			{
 				string name = model_name + ":" + to_string(primindex++);
+				bool occluder = false;
 
 				//printf("DEBUG: importing mesh %s\n", name.c_str());
 
 				if(primitive.material != -1)
 				{
+					occluder |= state.m_materials[primitive.material]->m_name == "occluder";
+
 					if(config.filter_material(state.m_materials[primitive.material]->m_name))
 					{
 						state.m_meshes.push_back(nullptr);
@@ -544,12 +547,12 @@ namespace mud
 					}
 				}
 
-				Mesh& mesh = state.m_gfx_system.meshes().construct(name.c_str(), config.m_cache_geometry);
+				Mesh& mesh = state.m_gfx_system.meshes().construct(name.c_str(), config.m_cache_geometry || occluder);
 				state.m_meshes.push_back(&mesh);
 				model.add_item(mesh, bxidentity());
 
 				MeshPacker packer;
-				//packer.m_quantize = true;
+				packer.m_quantize = true;
 
 				packer.m_primitive = PrimitiveType::Triangles;//static_cast<PrimitiveType>(primitive.mode);
 				import_attributes(gltf, packer, primitive.attributes);
@@ -983,6 +986,7 @@ namespace mud
 
 	void ImporterGltf::repack(const string& filepath, const ImportConfig& config)
 	{
+		UNUSED(config);
 		printf("INFO: gltf - repacking asset %s\n", filepath.c_str());
 
 		string path = file_directory(filepath);

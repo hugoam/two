@@ -110,10 +110,7 @@ namespace mud
 		batch.m_vertices.resize(batch.m_vertices.size() + size.vertex_count);
 		batch.m_indices.resize(batch.m_indices.size() + size.index_count);
 
-		array<Vertex> vertices = { &batch.m_vertices[vertex_offset], size_t(size.vertex_count) };
-		array<uint16_t> indices = { &batch.m_indices[index_offset], size_t(size.index_count) };
-
-		MeshData data(vertices, indices);
+		MeshAdapter data(Vertex::vertex_format, &batch.m_vertices[vertex_offset], size.vertex_count, &batch.m_indices[index_offset], size.index_count, false);
 		data.m_offset = uint32_t(vertex_offset);
 
 		for(const ProcShape& shape : shapes)
@@ -279,14 +276,12 @@ namespace mud
 
 		GpuMesh gpu_mesh = alloc_mesh(ShapeVertex::vertex_format, size.vertex_count, size.index_count);
 		
-		MeshData data = gpu_mesh.m_data;
-
 		for(const ProcShape& shape : shapes)
 			if(shape.m_draw_mode == draw_mode)
 			{
-				draw_mode == OUTLINE ? symbol_draw_lines(shape, data)
-									 : symbol_draw_triangles(shape, data);
-				data.next();
+				draw_mode == OUTLINE ? symbol_draw_lines(shape, gpu_mesh.m_writer)
+									 : symbol_draw_triangles(shape, gpu_mesh.m_writer);
+				gpu_mesh.m_writer.next();
 			}
 
 		if(draw_mode == PLAIN)

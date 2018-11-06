@@ -80,7 +80,7 @@ namespace mud
 		return (unsigned short)(s | h);
 	}
 
-	MeshData& MeshData::qposition(const vec3& p)
+	MeshAdapter& MeshAdapter::qposition(const vec3& p)
 	{
 		*m_cursor.m_qposition = half3(quantize_half(p.x), quantize_half(p.y), quantize_half(p.z));
 		next(m_cursor.m_qposition);
@@ -88,7 +88,7 @@ namespace mud
 		return *this;
 	}
 
-	MeshData& MeshData::qnormal(const vec3& n)
+	MeshAdapter& MeshAdapter::qnormal(const vec3& n)
 	{
 		if(m_cursor.m_qnormal)
 		{
@@ -102,7 +102,7 @@ namespace mud
 		return *this;
 	}
 
-	MeshData& MeshData::qtangent(const vec4& t)
+	MeshAdapter& MeshAdapter::qtangent(const vec4& t)
 	{
 		if(m_cursor.m_qtangent)
 		{
@@ -117,20 +117,22 @@ namespace mud
 		return *this;
 	}
 
-	MeshData& MeshData::quv0(const vec2& uv)
+	MeshAdapter& MeshAdapter::quv0(const vec2& uv)
 	{
 		if(m_cursor.m_quv0)
 		{
+			m_uv0_rect.add(uv);
 			*m_cursor.m_quv0 = half2(quantize_half(uv.x), quantize_half(uv.y));
 			next(m_cursor.m_quv0);
 		}
 		return *this;
 	}
 
-	MeshData& MeshData::quv1(const vec2& uv)
+	MeshAdapter& MeshAdapter::quv1(const vec2& uv)
 	{
 		if(m_cursor.m_quv1)
 		{
+			m_uv1_rect.add(uv);
 			*m_cursor.m_quv1 = half2(quantize_half(uv.x), quantize_half(uv.y));
 			next(m_cursor.m_quv1);
 		}
@@ -178,7 +180,7 @@ namespace mud
 			this->generate_tangents();
 	}
 
-	void MeshPacker::pack_vertices(MeshData& data, const mat4& transform)
+	void MeshPacker::pack_vertices(MeshAdapter& writer, const mat4& transform)
 	{
 		auto position = [&](uint32_t i) { return vec3(transform * vec4(m_positions[i], 1.f)); };
 		auto normal = [&](uint32_t i) { return normalize(vec3(transform * vec4(m_normals[i], 0.f))); };
@@ -186,22 +188,21 @@ namespace mud
 
 		for(uint32_t i = 0; i < uint32_t(m_positions.size()); ++i)
 		{
-			data.position(position(i));
-			//m_quantize ? data.qposition(position(i)) : data.position(position(i));
-			if(!m_normals.empty())	m_quantize ? data.qnormal(normal(i)) : data.normal(normal(i));
-			if(!m_tangents.empty()) m_quantize ? data.qtangent(tangent(i)) : data.tangent(tangent(i));
-			if(!m_uv0s.empty())     m_quantize ? data.quv0(m_uv0s[i]) : data.uv0(m_uv0s[i]);
-			if(!m_uv1s.empty())		m_quantize ? data.quv1(m_uv1s[i]) : data.uv1(m_uv1s[i]);
-			if(!m_bones.empty())	data.joints(joints(m_bones[i]));
-			if(!m_weights.empty())	data.weights(m_weights[i]);
+			writer.position(position(i));
+			if(!m_normals.empty())	m_quantize ? writer.qnormal(normal(i)) : writer.normal(normal(i));
+			if(!m_tangents.empty()) m_quantize ? writer.qtangent(tangent(i)) : writer.tangent(tangent(i));
+			if(!m_uv0s.empty())     m_quantize ? writer.quv0(m_uv0s[i]) : writer.uv0(m_uv0s[i]);
+			if(!m_uv1s.empty())		m_quantize ? writer.quv1(m_uv1s[i]) : writer.uv1(m_uv1s[i]);
+			if(!m_bones.empty())	writer.joints(joints(m_bones[i]));
+			if(!m_weights.empty())	writer.weights(m_weights[i]);
 
 			if(m_indices.empty())
-				data.index(i);
+				writer.index(i);
 		}
 
 		for(uint32_t i = 0; i < m_indices.size(); ++i)
 		{
-			data.index(m_indices[i]);
+			writer.index(m_indices[i]);
 		}
 	}
 

@@ -96,8 +96,8 @@ void ex_04_lights(Shell& app, Widget& parent)
 	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(), shapes, true, &material);
 	light_grid(scene, { light_items.data(), 10U, 10U }, moving_lights, light_type, light_range, light_attenuation, spot_angle, spot_attenuation);
 
-	//gfx::shape(scene, Quad(vec2(50.f), X3, Y3), Symbol::plain(Colour::AlphaWhite), ItemFlag::Occluder);
-	//gfx::shape(scene, Cylinder(20.f, 20.f, Axis::Y), Symbol::plain(Colour::AlphaWhite), ItemFlag::Occluder);
+	//gfx::shape(scene, Quad(vec2(50.f), X3, Y3), Symbol::plain(Colour::AlphaWhite), ItemFlag::Render | ItemFlag::Occluder);
+	gfx::shape(scene, Cylinder(20.f, 20.f, Axis::Y), Symbol::plain(Colour::AlphaWhite), ItemFlag::Render | ItemFlag::Occluder);
 
 	if(clustered && viewer.m_viewport.m_rect != uvec4(0) && !viewer.m_camera.m_clusters)
 	{

@@ -59,7 +59,7 @@ namespace mud
 
 		void bake(bool normals, bool tangents);
 
-		void pack_vertices(MeshData& data, const mat4& transform);
+		void pack_vertices(MeshAdapter& writer, const mat4& transform);
 		void generate_normals();
 		void generate_tangents();
 	};

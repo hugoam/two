@@ -53,60 +53,6 @@ namespace mud
 		};
 	};
 
-	export_ template <typename T, typename = int>
-	struct vertex_position { static vec3* get(T& vertex) { UNUSED(vertex); return nullptr; } };
-
-	export_ template <typename T>
-	struct vertex_position <T, decltype(std::declval<T>().m_position, 0)> { static vec3* get(T& vertex) { return &vertex.m_position; } };
-
-	export_ template <typename T, typename = int>
-	struct vertex_normal { static vec3* get(T& vertex) { UNUSED(vertex); return nullptr; } };
-
-	export_ template <typename T>
-	struct vertex_normal <T, decltype(std::declval<T>().m_normal, 0)> { static vec3* get(T& vertex) { return &vertex.m_normal; } };
-
-	export_ template <typename T, typename = int>
-	struct vertex_colour { static uint32_t* get(T& vertex) { UNUSED(vertex); return nullptr; } };
-
-	export_ template <typename T>
-	struct vertex_colour <T, decltype(std::declval<T>().m_colour, 0)> { static uint32_t* get(T& vertex) { return &vertex.m_colour; } };
-
-	export_ template <typename T, typename = int>
-	struct vertex_tangent { static vec4* get(T& vertex) { UNUSED(vertex); return nullptr; } };
-
-	export_ template <typename T>
-	struct vertex_tangent <T, decltype(std::declval<T>().m_tangent, 0)> { static vec4* get(T& vertex) { return &vertex.m_tangent; } };
-
-	export_ template <typename T, typename = int>
-	struct vertex_bitangent { static vec3* get(T& vertex) { UNUSED(vertex); return nullptr; } };
-
-	export_ template <typename T>
-	struct vertex_bitangent <T, decltype(std::declval<T>().m_bitangent, 0)> { static vec3* get(T& vertex) { return &vertex.m_bitangent; } };
-
-	export_ template <typename T, typename = int>
-	struct vertex_uv0 { static vec2* get(T& vertex) { UNUSED(vertex); return nullptr; } };
-
-	export_ template <typename T>
-	struct vertex_uv0 <T, decltype(std::declval<T>().m_uv0, 0)> { static vec2* get(T& vertex) { return &vertex.m_uv0; } };
-
-	export_ template <typename T, typename = int>
-	struct vertex_uv1 { static vec2* get(T& vertex) { UNUSED(vertex); return nullptr; } };
-
-	export_ template <typename T>
-	struct vertex_uv1 <T, decltype(std::declval<T>().m_uv1, 0)> { static vec2* get(T& vertex) { return &vertex.m_uv1; } };
-
-	export_ template <typename T, typename = int>
-	struct vertex_joints { static uint32_t* get(T& vertex) { UNUSED(vertex); return nullptr; } };
-
-	export_ template <typename T>
-	struct vertex_joints <T, decltype(std::declval<T>().m_joints, 0)> { static uint32_t* get(T& vertex) { return &vertex.m_joints; } };
-
-	export_ template <typename T, typename = int>
-	struct vertex_weights { static vec4* get(T& vertex) { UNUSED(vertex); return nullptr; } };
-
-	export_ template <typename T>
-	struct vertex_weights <T, decltype(std::declval<T>().m_weights, 0)> { static vec4* get(T& vertex) { return &vertex.m_weights; } };
-
 	export_ using ShapeIndex = uint16_t;
 	
 	export_ struct MUD_GEOM_EXPORT Vertex
@@ -123,7 +69,7 @@ namespace mud
 	export_ struct MUD_GEOM_EXPORT ShapeVertex
 	{
 		static const uint32_t vertex_format = VertexAttribute::Position | VertexAttribute::Normal | VertexAttribute::Colour
-										  | VertexAttribute::Tangent| VertexAttribute::TexCoord0 | VertexAttribute::Joints | VertexAttribute::Weights;
+										    | VertexAttribute::Tangent| VertexAttribute::TexCoord0 | VertexAttribute::Joints | VertexAttribute::Weights;
 		vec3 m_position; vec3 m_normal; uint32_t m_colour; vec4 m_tangent; vec2 m_uv0; uint32_t m_joints; vec4 m_weights;
 	};
 
@@ -173,7 +119,7 @@ namespace mud
 		return offset;
 	}
 
-	export_ struct MeshData
+	export_ struct MeshAdapter
 	{
 		struct Array
 		{
@@ -187,28 +133,8 @@ namespace mud
 			uint32_t m_count;
 		};
 
-		MeshData() {}
-		MeshData(const MeshData& other) { *this = other; this->reset(); }
-
-		template <class T_Vertex, class T_Index>
-		MeshData(array<T_Vertex> vertices, array<T_Index> indices)
-			: m_vertices((void*)vertices.m_pointer, uint32_t(vertices.size())), m_indices((void*)indices.m_pointer, uint32_t(indices.size()))
-			, m_vertex_format(T_Vertex::vertex_format), m_vertex_stride(uint32_t(sizeof(T_Vertex)))
-			, m_index_stride(uint32_t(sizeof(T_Index))), m_index((void*)indices.m_pointer)
-		{
-			m_start.m_position	= vertex_position<T_Vertex>::get(*vertices.m_pointer);
-			m_start.m_normal	= vertex_normal<T_Vertex>::get(*vertices.m_pointer);
-			m_start.m_colour	= vertex_colour<T_Vertex>::get(*vertices.m_pointer);
-			m_start.m_tangent	= vertex_tangent<T_Vertex>::get(*vertices.m_pointer);
-			m_start.m_bitangent	= vertex_bitangent<T_Vertex>::get(*vertices.m_pointer);
-			m_start.m_uv0		= vertex_uv0<T_Vertex>::get(*vertices.m_pointer);
-			m_start.m_uv1		= vertex_uv1<T_Vertex>::get(*vertices.m_pointer);
-			m_start.m_joints	= vertex_joints<T_Vertex>::get(*vertices.m_pointer);
-			m_start.m_weights	= vertex_weights<T_Vertex>::get(*vertices.m_pointer);
-			m_cursor = m_start;
-		}
-
-		MeshData(uint32_t vertex_format, void* vertices, uint32_t num_vertices, void* indices, uint32_t num_indices, bool index32)
+		MeshAdapter() {}
+		MeshAdapter(uint32_t vertex_format, void* vertices, uint32_t num_vertices, void* indices, uint32_t num_indices, bool index32)
 			: m_vertices(vertices, num_vertices), m_indices(indices, num_indices), m_vertex_format(vertex_format)
 			, m_vertex_stride(vertex_size(vertex_format)), m_index_stride(index32 ? sizeof(uint32_t) : sizeof(uint16_t)), m_index(indices)
 		{
@@ -279,22 +205,29 @@ namespace mud
 		uint32_t m_vertex = 0;
 		uint32_t m_offset = 0;
 
-		inline void reset() { m_cursor = m_start; m_vertex = 0; m_offset = 0; m_index = m_indices.m_pointer; }
+		template <class T>
+		struct Bounds { T lo = T(FLT_MAX); T hi = T(FLT_MIN); void add(const T& val) { lo = min(val, lo); hi = max(val, hi); } };
+		Bounds<vec3> m_aabb = {};
+		Bounds<vec2> m_uv0_rect = {};
+		Bounds<vec2> m_uv1_rect = {};
 
+		inline void rewind() { m_cursor = m_start; m_vertex = 0; m_offset = 0; m_index = m_indices.m_pointer; }
 		inline void next() { m_offset = m_vertex; }
+
+		MeshAdapter read() const { MeshAdapter reader = *this; reader.rewind(); return reader; }
 
 		template <class T>
 		inline void next(T*& pointer) { pointer = (T*)((char*)pointer + m_vertex_stride); }
 
-		MeshData& position(const vec3& p) { *m_cursor.m_position = p; next(m_cursor.m_position); ++m_vertex; return *this; }
-		MeshData& normal(const vec3& n) { if(m_cursor.m_normal) { *m_cursor.m_normal = n; next(m_cursor.m_normal); } return *this; }
-		MeshData& colour(const Colour& c) { if(m_cursor.m_colour) { *m_cursor.m_colour = to_abgr(c); next(m_cursor.m_colour); } return *this; }
-		MeshData& tangent(const vec4& t) { if(m_cursor.m_tangent) { *m_cursor.m_tangent = t; next(m_cursor.m_tangent); } return *this; }
-		MeshData& bitangent(const vec4& b) { if(m_cursor.m_bitangent) { *m_cursor.m_bitangent = b; next(m_cursor.m_bitangent); } return *this; }
-		MeshData& uv0(const vec2& uv) { if(m_cursor.m_uv0) { *m_cursor.m_uv0 = uv; next(m_cursor.m_uv0); } return *this; }
-		MeshData& uv1(const vec2& uv) { if(m_cursor.m_uv1) { *m_cursor.m_uv1 = uv; next(m_cursor.m_uv1); } return *this; }
-		MeshData& joints(const uint32_t& j) { if(m_cursor.m_joints) { *m_cursor.m_joints = j; next(m_cursor.m_joints); } return *this; }
-		MeshData& weights(const vec4& w) { if(m_cursor.m_weights) { *m_cursor.m_weights = w; next(m_cursor.m_weights); } return *this; }
+		MeshAdapter& position(const vec3& p) { m_aabb.add(p); *m_cursor.m_position = p; next(m_cursor.m_position); ++m_vertex; return *this; }
+		MeshAdapter& normal(const vec3& n) { if(m_cursor.m_normal) { *m_cursor.m_normal = n; next(m_cursor.m_normal); } return *this; }
+		MeshAdapter& colour(const Colour& c) { if(m_cursor.m_colour) { *m_cursor.m_colour = to_abgr(c); next(m_cursor.m_colour); } return *this; }
+		MeshAdapter& tangent(const vec4& t) { if(m_cursor.m_tangent) { *m_cursor.m_tangent = t; next(m_cursor.m_tangent); } return *this; }
+		MeshAdapter& bitangent(const vec4& b) { if(m_cursor.m_bitangent) { *m_cursor.m_bitangent = b; next(m_cursor.m_bitangent); } return *this; }
+		MeshAdapter& uv0(const vec2& uv) { if(m_cursor.m_uv0) { m_uv0_rect.add(uv); *m_cursor.m_uv0 = uv; next(m_cursor.m_uv0); } return *this; }
+		MeshAdapter& uv1(const vec2& uv) { if(m_cursor.m_uv1) { m_uv1_rect.add(uv); *m_cursor.m_uv1 = uv; next(m_cursor.m_uv1); } return *this; }
+		MeshAdapter& joints(const uint32_t& j) { if(m_cursor.m_joints) { *m_cursor.m_joints = j; next(m_cursor.m_joints); } return *this; }
+		MeshAdapter& weights(const vec4& w) { if(m_cursor.m_weights) { *m_cursor.m_weights = w; next(m_cursor.m_weights); } return *this; }
 
 		vec3 position() { vec3 value = *m_cursor.m_position; next(m_cursor.m_position); return value; }
 		vec3 normal() { if(!m_cursor.m_normal) return Zero3; vec3 value = *m_cursor.m_normal; next(m_cursor.m_normal); return value; }
@@ -310,10 +243,10 @@ namespace mud
 		inline void tri(uint32_t a, uint32_t b, uint32_t c) { index(a); index(b); index(c); }
 		inline void quad(uint32_t a, uint32_t b, uint32_t c, uint32_t d) { tri(a, b, c); tri(c, d, a); }
 
-		MeshData& qposition(const vec3& p);
-		MeshData& qnormal(const vec3& n);
-		MeshData& qtangent(const vec4& t);
-		MeshData& quv0(const vec2& uv);
-		MeshData& quv1(const vec2& uv);
+		MeshAdapter& qposition(const vec3& p);
+		MeshAdapter& qnormal(const vec3& n);
+		MeshAdapter& qtangent(const vec4& t);
+		MeshAdapter& quv0(const vec2& uv);
+		MeshAdapter& quv1(const vec2& uv);
 	};
 }

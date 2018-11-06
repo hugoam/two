@@ -251,6 +251,7 @@ namespace mud
 		element.m_shader_version.set_option(0, INSTANCING, !element.m_item->m_instances.empty());
 		element.m_shader_version.set_option(0, BILLBOARD, element.m_item->m_flags & ItemFlag::Billboard);
 		element.m_shader_version.set_option(0, SKELETON, element.m_skin != nullptr);
+		element.m_shader_version.set_option(0, QNORMALS, element.m_model->m_mesh->m_qnormals);
 
 		element.m_bgfx_program = const_cast<Program*>(element.m_program)->version(element.m_shader_version);
 

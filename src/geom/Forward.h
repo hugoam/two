@@ -72,7 +72,7 @@ namespace mud {
     struct Tri;
     struct ShapeVertex;
     struct ShapeTriangle;
-    struct MeshData;
+    struct MeshAdapter;
     class Geometry;
     struct MeshPacker;
     class Distribution;

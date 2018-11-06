@@ -37,6 +37,6 @@ namespace mud
 	export_ MUD_GEOM_EXPORT ShapeSize symbol_line_size(const ProcShape& shape);
 	export_ MUD_GEOM_EXPORT ShapeSize symbol_triangle_size(const ProcShape& shape);
 
-	export_ MUD_GEOM_EXPORT void symbol_draw_lines(const ProcShape& shape, MeshData& data);
-	export_ MUD_GEOM_EXPORT void symbol_draw_triangles(const ProcShape& shape, MeshData& data);
+	export_ MUD_GEOM_EXPORT void symbol_draw_lines(const ProcShape& shape, MeshAdapter& writer);
+	export_ MUD_GEOM_EXPORT void symbol_draw_triangles(const ProcShape& shape, MeshAdapter& writer);
 }

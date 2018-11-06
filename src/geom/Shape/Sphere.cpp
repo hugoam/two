@@ -26,16 +26,16 @@ namespace mud
 		return { int(icosphere.m_vertices.size()), int(icosphere.m_lines.size()) * 2 };
 	}
 
-	void draw_icosphere_lines(const ProcShape& shape, const Sphere& sphere, MeshData& data)
+	void draw_icosphere_lines(const ProcShape& shape, const Sphere& sphere, MeshAdapter& writer)
 	{
 		IcoSphere& icosphere = IcoSphere::s_levels[ICO_SPHERE_LOD];
 
 		for(const vec3& vertex : icosphere.m_vertices)
-			data.position(sphere.m_center + vertex * sphere.m_radius)
-				.colour(shape.m_symbol.m_outline);
+			writer.position(sphere.m_center + vertex * sphere.m_radius)
+				  .colour(shape.m_symbol.m_outline);
 
 		for(const IcoSphere::Line& line : icosphere.m_lines)
-			data.line(ShapeIndex(line[0]), ShapeIndex(line[1]));
+			writer.line(ShapeIndex(line[0]), ShapeIndex(line[1]));
 	}
 
 	ShapeSize size_icosphere_triangles(const ProcShape& shape, const Sphere& sphere)
@@ -46,23 +46,23 @@ namespace mud
 		return { int(icosphere.m_vertices.size()), int(icosphere.m_faces.size()) * 3 };
 	}
 
-	void draw_icosphere_triangles(const ProcShape& shape, const Sphere& sphere, MeshData& data)
+	void draw_icosphere_triangles(const ProcShape& shape, const Sphere& sphere, MeshAdapter& writer)
 	{
 		IcoSphere& icosphere = IcoSphere::s_levels[ICO_SPHERE_LOD];
 
 		for(const vec3& vertex : icosphere.m_vertices)
-			data.position(sphere.m_center + vertex * sphere.m_radius)
-				.normal(normalize(vertex))
-				.colour(shape.m_symbol.m_fill);
+			writer.position(sphere.m_center + vertex * sphere.m_radius)
+				  .normal(normalize(vertex))
+				  .colour(shape.m_symbol.m_fill);
 
 		for(IcoSphere::Face& face : icosphere.m_faces)
-			data.tri(face[0], face[1], face[2]);
+			writer.tri(face[0], face[1], face[2]);
 	}
 
 	uint16_t sphere_rings(uint lod) { return uint16_t(6 + 6 * lod); }
 	uint16_t sphere_sectors(uint lod) { return uint16_t(6 + 6 * lod); }
 
-	void sphere_vertices(const vec3& center, float radius, uint16_t rings, uint16_t sectors, const Colour& colour, MeshData& data)
+	void sphere_vertices(const vec3& center, float radius, uint16_t rings, uint16_t sectors, const Colour& colour, MeshAdapter& writer)
 	{
 		float const R = 1.f / (float)(rings - 1);
 		float const S = 1.f / (float)(sectors - 1);
@@ -74,10 +74,10 @@ namespace mud
 			float const y = sin(-c_pi / 2.f + c_pi * r * R);
 			float const z = sin(2 * c_pi * s * S) * sin(c_pi * r * R);
 
-			data.position(center + vec3(x, y, z) * radius)
-				.normal({ x, y, z })
-				.uv0({ s * S * repeat, r * R * repeat })
-				.colour(colour);
+			writer.position(center + vec3(x, y, z) * radius)
+				  .normal({ x, y, z })
+				  .uv0({ s * S * repeat, r * R * repeat })
+				  .colour(colour);
 		}
 	}
 
@@ -90,19 +90,19 @@ namespace mud
 		return { int(rings * sectors), int((rings-1) * (sectors-1) * 4) };
 	}
 
-	void draw_sphere_lines(const ProcShape& shape, const Sphere& sphere, MeshData& data)
+	void draw_sphere_lines(const ProcShape& shape, const Sphere& sphere, MeshAdapter& writer)
 	{
 		uint16_t rings = sphere_rings(uint(shape.m_symbol.m_detail));
 		uint16_t sectors = sphere_sectors(uint(shape.m_symbol.m_detail));
 
-		sphere_vertices(sphere.m_center, sphere.m_radius, rings, sectors, shape.m_symbol.m_outline, data);
+		sphere_vertices(sphere.m_center, sphere.m_radius, rings, sectors, shape.m_symbol.m_outline, writer);
 
 		for(uint16_t r = 0; r < rings - 1; r++) for(uint16_t s = 0; s < sectors - 1; s++)
 		{
-			data.line(r * sectors + (s + 1),
-					  r * sectors + s);
-			data.line((r + 1) * sectors + (s + 1),
-					  r * sectors + (s + 1));
+			writer.line(r * sectors + (s + 1),
+					    r * sectors + s);
+			writer.line((r + 1) * sectors + (s + 1),
+					    r * sectors + (s + 1));
 		}
 	}
 
@@ -115,19 +115,19 @@ namespace mud
 		return { int(rings * sectors), int((rings-1) * (sectors-1) * 6) };
 	}
 
-	void draw_sphere_triangles(const ProcShape& shape, const Sphere& sphere, MeshData& data)
+	void draw_sphere_triangles(const ProcShape& shape, const Sphere& sphere, MeshAdapter& writer)
 	{
 		uint16_t rings = sphere_rings(uint(shape.m_symbol.m_detail));
 		uint16_t sectors = sphere_sectors(uint(shape.m_symbol.m_detail));
 
-		sphere_vertices(sphere.m_center, sphere.m_radius, rings, sectors, shape.m_symbol.m_fill, data);
+		sphere_vertices(sphere.m_center, sphere.m_radius, rings, sectors, shape.m_symbol.m_fill, writer);
 
 		for(uint16_t r = 0; r < rings - 1; r++) for(uint16_t s = 0; s < sectors - 1; s++)
 		{
-			data.quad((r + 1) * sectors + s,
-					  (r + 1) * sectors + (s + 1),
-					  r * sectors + (s + 1),
-					  r * sectors + s);
+			writer.quad((r + 1) * sectors + s,
+					    (r + 1) * sectors + (s + 1),
+					    r * sectors + (s + 1),
+					    r * sectors + s);
 		}
 	}
 
@@ -140,12 +140,12 @@ namespace mud
 #endif
 	}
 
-	void draw_shape_lines(const ProcShape& shape, const Sphere& sphere, MeshData& data)
+	void draw_shape_lines(const ProcShape& shape, const Sphere& sphere, MeshAdapter& writer)
 	{
 #ifdef MUD_SPHERE_ICOSPHERE
-		return draw_icosphere_lines(shape, sphere, data);
+		return draw_icosphere_lines(shape, sphere, writer);
 #else
-		return draw_sphere_lines(shape, sphere, data);
+		return draw_sphere_lines(shape, sphere, writer);
 #endif
 	}
 
@@ -158,12 +158,12 @@ namespace mud
 #endif
 	}
 
-	void draw_shape_triangles(const ProcShape& shape, const Sphere& sphere, MeshData& data)
+	void draw_shape_triangles(const ProcShape& shape, const Sphere& sphere, MeshAdapter& writer)
 	{
 #ifdef MUD_SPHERE_ICOSPHERE
-		return draw_icosphere_triangles(shape, sphere, data);
+		return draw_icosphere_triangles(shape, sphere, writer);
 #else
-		return draw_sphere_triangles(shape, sphere, data);
+		return draw_sphere_triangles(shape, sphere, writer);
 #endif
 	}
 }

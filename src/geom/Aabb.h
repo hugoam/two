@@ -20,8 +20,8 @@ namespace mud
 
 		attr_ bool m_empty;
 
-		vec3 bmin() { return m_center - m_extents; }
-		vec3 bmax() { return m_center + m_extents; }
+		vec3 bmin() const { return m_center - m_extents; }
+		vec3 bmax() const { return m_center + m_extents; }
 
 		bool intersects(const Aabb& other) const;
 
@@ -35,7 +35,7 @@ namespace mud
 		virtual object_ptr<Shape> clone() const;
 	};
 
-	export_ inline Aabb min_max_to_aabb(const vec3& min, const vec3& max)
+	export_ inline Aabb aabb(const vec3& min, const vec3& max)
 	{
 		vec3 extents = (max - min) / 2.f;
 		return Aabb(min + extents, extents);

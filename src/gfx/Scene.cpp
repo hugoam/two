@@ -31,6 +31,8 @@ module mud.gfx;
 #include <gfx-pbr/Lightmap.h>
 #endif
 
+//#define DEBUG_ITEMS
+
 namespace mud
 {
 	Scene::Scene(GfxSystem& gfx_system)
@@ -86,8 +88,7 @@ namespace mud
 
 	void Scene::cull_items(const Plane6& planes, std::vector<Item*>& items)
 	{
-		//render.m_shot->m_items.reserve(m_pool->pool<Item>().m_vec_pool.size());
-
+		//items.reserve(m_pool->pool<Item>().size());
 		m_pool->pool<Item>().iterate([&](Item& item)
 		{
 			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0
@@ -130,6 +131,20 @@ namespace mud
 		});
 	}
 
+	void Scene::gather_occluders(const Camera& camera, std::vector<Item*>& occluders)
+	{
+		Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
+
+		//occluders.reserve(m_pool->pool<Item>().size());
+		m_pool->pool<Item>().iterate([&](Item& item)
+		{
+			if(item.m_visible && (item.m_flags & ItemFlag::Occluder) != 0
+			&& frustum_aabb_intersection(planes, item.m_aabb))
+			{
+				occluders.push_back(&item);
+			}
+		});
+	}
 	void Scene::gather_lights(std::vector<Light*>& lights)
 	{
 		//lights.reserve(m_pool->pool<Light>().size());
@@ -178,6 +193,7 @@ namespace mud
 	void Scene::gather_render(Render& render)
 	{
 		this->gather_items(render.m_camera, render.m_shot->m_items);
+		this->gather_occluders(render.m_camera, render.m_shot->m_occluders);
 		this->gather_lights(render.m_shot->m_lights);
 		this->gather_gi_probes(render.m_shot->m_gi_probes);
 		this->gather_lightmaps(render.m_shot->m_lightmaps);
@@ -187,5 +203,17 @@ namespace mud
 
 		render.m_environment = &m_environment;
 		render.m_shot->m_immediate = { m_immediate.get() };
+
+#ifdef DEBUG_ITEMS
+		mat4 identity = bxidentity();
+		bool debug = render.m_target != nullptr;
+		if(debug)
+			for(Item* item : render.m_shot->m_items)
+			{
+				Colour colour = { 1.f, 0.f, 1.f, 0.15f };
+				m_immediate->draw(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
+				//m_immediate->draw(item->m_node->m_transform, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
+			}
+#endif
 	}
 }

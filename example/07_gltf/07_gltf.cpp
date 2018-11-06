@@ -5,7 +5,7 @@ using namespace mud;
 
 void debug_normals(Gnode& parent, Mesh& mesh, const mat4& transform, float length = 1.f)
 {
-	MeshData source = mesh.m_cache;
+	MeshAdapter source = mesh.m_cache.read();
 
 	for(size_t i = 0; i < source.m_vertices.size(); ++i)
 	{
