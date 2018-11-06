@@ -28,6 +28,7 @@ module mud.gfx;
 #endif
 
 //#define DEBUG_VISIBLE
+#define DEBUG_CULLED
 
 namespace mud
 {
@@ -84,7 +85,7 @@ namespace mud
 		this->begin(render.m_viewport);
 		this->rasterize(render);
 		this->cull(render);
-		this->debug(render);
+		//this->debug(render);
 
 #ifdef DEBUG_VISIBLE
 		mat4 identity = bxidentity();
@@ -144,37 +145,25 @@ namespace mud
 
 		Plane near = render.m_camera.near_plane();
 
-		struct DepthRect { vec4 corners; float depth; };
-		auto project_aabb = [](const mat4& transform, const Aabb& aabb) -> DepthRect
-		{
-			vec4 center = transform * vec4(aabb.m_center, 1.f);
-			vec4 lo = transform * vec4(aabb.m_center - aabb.m_extents, 1.f);
-			vec4 hi = transform * vec4(aabb.m_center + aabb.m_extents, 1.f);
-			float depth = max(lo.w, hi.w);
-			//float depth = center.w;
-			lo /= lo.w;
-			hi /= hi.w;
-			vec2 loclip = min(lo, hi);
-			vec2 hiclip = max(lo, hi);
-			return { vec4(loclip, hiclip), depth };
-		};
-
-		auto project_aabb2 = [](const mat4& transform, const mat4& abs_transform, const Aabb& aabb) -> DepthRect
+		struct DepthRect { vec2 lo; vec2 hi; float depth; };
+		auto project_aabb = [](const mat4& transform, const mat4& abs_transform, const Aabb& aabb) -> DepthRect
 		{
 			vec4 center = transform * vec4(aabb.m_center, 1.f);
 			vec4 extent = abs_transform * vec4(aabb.m_extents, 0.f);
 			vec4 lo = center - extent;
 			vec4 hi = center + extent;
-			float depth = lo.w;
+			assert(lo.x <= hi.x && lo.y <= hi.y && lo.z <= hi.z && lo.w <= hi.w);
+			float depth = max(0.f, lo.w);
 			lo /= lo.w;
 			hi /= hi.w;
 			vec2 loclip = min(lo, hi);
 			vec2 hiclip = max(lo, hi);
-			return { vec4(loclip, hiclip), depth };
+			return { loclip, hiclip, depth };
 		};
 
 		mat4 world_to_clip_abs = abs(world_to_clip);
 
+		std::vector<Item*> culled;
 		for(Item* item : items)
 		{
 			if((item->m_flags & ItemFlag::Occluder) != 0)
@@ -183,13 +172,32 @@ namespace mud
 				continue;
 			}
 
-			//DepthRect bounds = project_aabb(world_to_clip, item->m_aabb);
-			DepthRect bounds = project_aabb2(world_to_clip, world_to_clip_abs, item->m_aabb);
+#ifdef ITEM_TO_CLIP
+			mat4 item_to_clip = world_to_clip * item->m_node->m_transform;
+			mat4 item_to_clip_abs = abs(item_to_clip);
+			DepthRect bounds = project_aabb(item_to_clip, item_to_clip_abs, item->m_model->m_aabb);
+#else
+			DepthRect bounds = project_aabb(world_to_clip, world_to_clip_abs, item->m_aabb);
+#endif
 
-			MaskedOcclusionCulling::CullingResult result = m_moc->TestRect(bounds.corners.x, bounds.corners.y, bounds.corners.z, bounds.corners.w, bounds.depth);
+			MaskedOcclusionCulling::CullingResult result = m_moc->TestRect(bounds.lo.x, bounds.lo.y, bounds.hi.x, bounds.hi.y, bounds.depth);
 			if(result == MaskedOcclusionCulling::VISIBLE || result == MaskedOcclusionCulling::VIEW_CULLED)
 				render.m_shot->m_items.push_back(item);
+			else
+				culled.push_back(item);
 		}
+
+#ifdef DEBUG_CULLED
+		mat4 identity = bxidentity();
+		bool debug = render.m_target != nullptr;
+		if(debug)
+			for(Item* item : culled)
+			{
+				Colour colour = { 1.f, 0.f, 1.f, 0.15f };
+				render.m_shot->m_immediate[0]->draw(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
+				//m_immediate->draw(item->m_node->m_transform, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
+			}
+#endif
 	}
 
 	void Culler::debug(Render& render)
