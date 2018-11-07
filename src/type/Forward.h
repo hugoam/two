@@ -24,7 +24,7 @@ namespace mud {
     class Ref;
     class None;
     class Any;
-    class Val;
+    class Any;
     class Var;
     class DoubleDispatch;
     class Indexer;

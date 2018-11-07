@@ -234,7 +234,7 @@ namespace mud
 		//if(is_struct(*value.m_type) && !nullable && !value)
 		//	return object_creator(parent, *value.m_type);
 
-		if(value == Ref() || type(value).is<Type>())
+		if(value == Ref() || value == Var() || type(value).is<Type>())
 			return false;
 		else if(DispatchInput::me.check(value))
 			return DispatchInput::me.dispatch(value, parent);
@@ -242,8 +242,6 @@ namespace mud
 			return object_creator(parent, val<Creator>(value));
 		else if(type(value).is<Call>())
 			return call_edit(parent, val<Call>(value));
-		else if(is_none(type(value)))
-			return none_edit(parent, value);
 		else if(is_base_type(type(value)))
 			return value_edit(parent, value);
 		else if(is_sequence(type(value)))

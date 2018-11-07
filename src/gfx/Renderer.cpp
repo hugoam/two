@@ -219,7 +219,7 @@ namespace mud
 
 	struct DrawPass::Impl
 	{
-		Impl() : m_draw_elements(1024) {}
+		Impl() : m_draw_elements(0) {}
 		DrawList m_draw_elements;
 		std::vector<DrawBlock*> m_draw_blocks;
 	};

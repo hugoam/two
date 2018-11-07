@@ -14,8 +14,5 @@ module mud.obj;
 
 namespace mud
 {
-	Val::Val()
-		: m_type(&type<None>())
-		, m_any(make_unique<TAny<None>>())
-	{}
+	AnyHandler AnyHandler::none;
 }

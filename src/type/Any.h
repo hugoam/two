@@ -63,31 +63,65 @@ namespace mud
 	export_ template <class T>
 	struct ValueSemantic<T, true> : std::false_type {};
 
-	export_ template <class T>
-	class TAny : public Any
+	template <class T>
+	using IsSmallObject = integral_constant<bool, sizeof(T) <= sizeof(void*)*3>;
+
+	export_ template <class T, bool small = IsSmallObject<T>::value>
+	class TAnyHandlerImpl : public AnyHandler
 	{
 	public:
 		template <class U>
-		TAny(U&& value) : m_content(any_copy<T>(std::forward<U>(value))) {}
-		TAny() : m_content() {}
+		static void create(Any& any, const AnyHandler& handler, U&& value) { any.m_pointer = new T(std::forward<U>(value)); any.m_handler = &handler; }
 
-		virtual Ref ref() const { return Ref(const_cast<T*>(&m_content)); }
-		virtual void assign(Ref ref) { any_assign<T>(m_content, val<T>(ref)); }
-		virtual void assign(const Any& other) { any_assign<T>(m_content, static_cast<const TAny<T>&>(other).m_content); }
-		virtual bool compare(const Any& other) const { return any_compare<T>(m_content, static_cast<const TAny<T>&>(other).m_content); }
-		virtual unique_ptr<Any> clone() const { return make_unique<TAny<T>>(any_copy<T>(m_content)); }
+		static inline T& value(Any& any) { return *static_cast<T*>(any.m_pointer); }
+		static inline const T& value(const Any& any) { return *static_cast<const T*>(any.m_pointer); }
 
-		T m_content;
+		virtual void destroy(Any& any) const { delete static_cast<T*>(any.m_pointer); }
+		virtual void copy(Any& any, const Any& other) const { create(any, *this, value(other));  }
+		virtual void move(Any& any, Any& other) const { any.swap(other); }
 	};
 
 	export_ template <class T>
-	inline T& val(Val& v) { return static_cast<TAny<T>&>(*v.m_any).m_content; }
+	class TAnyHandlerImpl<T, true> : public AnyHandler
+	{
+	public:
+		template <class U>
+		static void create(Any& any, const AnyHandler& handler, U&& value) { new ((void*)&any.m_storage) T(std::forward<U>(value)); any.m_handler = &handler; }
+
+		static inline T& value(Any& any) { return *static_cast<T*>((void*)&any.m_storage); }
+		static inline const T& value(const Any& any) { return *static_cast<const T*>((void*)&any.m_storage); }
+
+		virtual void destroy(Any& any) const { any_destruct<T>(value(any)); }
+		virtual void copy(Any& any, const Any& other) const { create(any, *this, value(other)); }
+		virtual void move(Any& any, Any& other) const { create(any, *this, std::move(value(other))); destroy(other); }
+	};
 
 	export_ template <class T>
-	inline const T& val(const Val& v) { return static_cast<const TAny<T>&>(*v.m_any).m_content; }
+	class TAnyHandler : public TAnyHandlerImpl<T>
+	{
+	public:
+		template <class U>
+		static Any create(U&& value) { Any any; TAnyHandlerImpl<T>::create(any, me, std::forward<U>(value)); return any; }
+
+		virtual Ref ref(const Any& any) const { return Ref(&const_cast<T&>(value(any))); }
+		virtual void assign(Any& any, Ref ref) const { any_assign<T>(value(any), val<T>(ref)); }
+		virtual void assign(Any& any, const Any& other) const { any_assign<T>(value(any), value(other)); }
+		virtual bool compare(const Any& any, const Any& other) const { return any_compare<T>(value(any), value(other)); }
+
+		static TAnyHandler<T> me;
+	};
+
+	template <class T>
+	TAnyHandler<T> TAnyHandler<T>::me;
+
+	export_ template <class T>
+	inline T& val(Any& v) { return TAnyHandler<T>::value(v); }
+
+	export_ template <class T>
+	inline const T& val(const Any& v) { return TAnyHandler<T>::value(v); }
 
 	export_ template <class T, class U>
-	inline void set(Val& v, U&& value) { static_cast<TAny<T>&>(*v.m_any).m_content = value; }
+	inline void set(Any& v, U&& value) { TAnyHandler<T>::value(v) = value; }
 	
 	export_ template <class T>
 	inline T& val(Var& var) { return val<T>(var.m_ref); }
@@ -103,18 +137,18 @@ namespace mud
 
 	export_ template <class T, class U>
 	inline typename std::enable_if<ValueSemantic<T>::value, void>::type
-		set(Var& var, U&& value) { if(var.m_mode == VAL) { set<T>(var.m_val, value); set(var.m_ref, val<T>(var.m_val)); } else set<T>(var.m_ref, value); }
+		set(Var& var, U&& value) { if(var.m_mode == VAL) { set<T>(var.m_any, value); set(var.m_ref, val<T>(var.m_val)); } else set<T>(var.m_ref, value); }
 
 	export_ template <class T, class U>
 	inline typename std::enable_if<!ValueSemantic<T>::value, void>::type
 		set(Var& var, U&& value) { set(var.m_ref, std::forward<U>(value)); }
 
 	export_ template <class T, class U>
-	inline Var make_val(U&& value) { return Val{ type<T>(), make_unique<TAny<T>>(std::forward<U>(value)) }; }
-
+	inline Var make_any(U&& value) { return TAnyHandler<T>::create(std::forward<U>(value)); }
+	
 	export_ template <class T, class U>
 	inline typename enable_if<ValueSemantic<T>::value, Var>::type
-		var_value(U&& value) { return make_val<T>(std::forward<U>(value)); }
+		var_value(U&& value) { return make_any<T>(std::forward<U>(value)); }
 
 	export_ template <class T, class U>
 	inline typename enable_if<!ValueSemantic<T>::value, Var>::type

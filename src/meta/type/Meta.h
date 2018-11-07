@@ -182,37 +182,6 @@ namespace mud
     
     
         
-    // mud::None
-    {
-        static Meta meta = { type<mud::None>(), &namspc({ "mud" }), "None", sizeof(mud::None), TypeClass::Object };
-        static Class cls = { type<mud::None>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        
-        
-        
-        
-        meta_class<mud::None>();
-    }
-    
-    
         
     // mud::Ref
     {
@@ -323,7 +292,6 @@ namespace mud
     
         m.m_types.push_back(&type<mud::Index>());
         m.m_types.push_back(&type<mud::Indexer>());
-        m.m_types.push_back(&type<mud::None>());
         m.m_types.push_back(&type<mud::Ref>());
         m.m_types.push_back(&type<mud::Type>());
         m.m_types.push_back(&type<mud::Var>());

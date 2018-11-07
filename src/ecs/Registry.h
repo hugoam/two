@@ -67,9 +67,9 @@ namespace mud
 		void AddBuffer()
 		{
 #ifdef MUD_ECS_TYPED
-			m_buffers.emplace_back(std::make_unique<ComponentBuffer<T>>(type<T>(), int(TypedBuffer<T>::index())));
+			m_buffers.emplace_back(std::make_unique<ComponentBuffer<T>>(type<T>(), int(TypedBuffer<T>::index()), int(m_handles.capacity())));
 #else
-			m_buffers.emplace_back(std::make_unique<ComponentBuffer<T>>(int(TypedBuffer<T>::index())));
+			m_buffers.emplace_back(std::make_unique<ComponentBuffer<T>>(int(TypedBuffer<T>::index()), int(m_handles.capacity())));
 #endif
 			m_buffer_map[TypedBuffer<T>::index()] = &(*m_buffers.back());
 		}

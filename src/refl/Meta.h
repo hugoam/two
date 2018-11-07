@@ -78,7 +78,6 @@ namespace mud
 	export_ template <class T>
 	inline Enum& enu() { return enu(type<T>()); }
 
-	export_ inline bool is_none(Type& ty) { return &ty == &type<None>(); }
 	export_ inline bool is_base_type(Type& ty) { return meta(ty).m_type_class == TypeClass::BaseType; }
 	export_ inline bool is_enum(Type& ty) { return meta(ty).m_type_class == TypeClass::Enum; }
 	export_ inline bool is_basic(Type& ty) { return meta(ty).m_type_class == TypeClass::BaseType || meta(ty).m_type_class == TypeClass::Enum; }

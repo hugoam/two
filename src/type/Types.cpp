@@ -34,7 +34,6 @@ namespace mud
     
     template <> MUD_TYPE_EXPORT Type& type<mud::Index>() { static Type ty("Index"); return ty; }
     template <> MUD_TYPE_EXPORT Type& type<mud::Indexer>() { static Type ty("Indexer"); return ty; }
-    template <> MUD_TYPE_EXPORT Type& type<mud::None>() { static Type ty("None"); return ty; }
     template <> MUD_TYPE_EXPORT Type& type<mud::Ref>() { static Type ty("Ref"); return ty; }
     template <> MUD_TYPE_EXPORT Type& type<mud::Var>() { static Type ty("Var"); return ty; }
 }

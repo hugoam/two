@@ -41,13 +41,11 @@ namespace mud
     
     export_ template <> MUD_TYPE_EXPORT Type& type<mud::Index>();
     export_ template <> MUD_TYPE_EXPORT Type& type<mud::Indexer>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<mud::None>();
     export_ template <> MUD_TYPE_EXPORT Type& type<mud::Ref>();
     export_ template <> MUD_TYPE_EXPORT Type& type<mud::Var>();
     
 	export_ template struct MUD_TYPE_EXPORT Typed<std::vector<mud::Index*>>;
 	export_ template struct MUD_TYPE_EXPORT Typed<std::vector<mud::Indexer*>>;
-	export_ template struct MUD_TYPE_EXPORT Typed<std::vector<mud::None*>>;
 	export_ template struct MUD_TYPE_EXPORT Typed<std::vector<mud::Ref*>>;
 	export_ template struct MUD_TYPE_EXPORT Typed<std::vector<mud::Var*>>;
 }

@@ -43,7 +43,7 @@ namespace mud
 
 	struct Value
 	{
-		char m_value[32];
+		char m_value[16];
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT AnimationTrack
