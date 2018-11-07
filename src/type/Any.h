@@ -103,10 +103,10 @@ namespace mud
 		template <class U>
 		static Any create(U&& value) { Any any; TAnyHandlerImpl<T>::create(any, me, std::forward<U>(value)); return any; }
 
-		virtual Ref ref(const Any& any) const { return Ref(&const_cast<T&>(value(any))); }
-		virtual void assign(Any& any, Ref ref) const { any_assign<T>(value(any), val<T>(ref)); }
-		virtual void assign(Any& any, const Any& other) const { any_assign<T>(value(any), value(other)); }
-		virtual bool compare(const Any& any, const Any& other) const { return any_compare<T>(value(any), value(other)); }
+		virtual Ref ref(const Any& any) const { return Ref(&const_cast<T&>(this->value(any))); }
+		virtual void assign(Any& any, Ref ref) const { any_assign<T>(this->value(any), val<T>(ref)); }
+		virtual void assign(Any& any, const Any& other) const { any_assign<T>(this->value(any), this->value(other)); }
+		virtual bool compare(const Any& any, const Any& other) const { return any_compare<T>(this->value(any), this->value(other)); }
 
 		static TAnyHandler<T> me;
 	};
@@ -137,7 +137,7 @@ namespace mud
 
 	export_ template <class T, class U>
 	inline typename std::enable_if<ValueSemantic<T>::value, void>::type
-		set(Var& var, U&& value) { if(var.m_mode == VAL) { set<T>(var.m_any, value); set(var.m_ref, val<T>(var.m_val)); } else set<T>(var.m_ref, value); }
+		set(Var& var, U&& value) { if(var.m_mode == VAL) { set<T>(var.m_any, value); set(var.m_ref, val<T>(var.m_any)); } else set<T>(var.m_ref, value); }
 
 	export_ template <class T, class U>
 	inline typename std::enable_if<!ValueSemantic<T>::value, void>::type
