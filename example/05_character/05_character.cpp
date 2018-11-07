@@ -29,7 +29,7 @@ Animated& paint_human(Gnode& parent, Human& human, bool high_lod)
 {
 	Gnode& self = gfx::node(parent, {}, human.m_position, human.m_rotation);
 	gfx::shape(self, Circle(0.35f), Symbol(), ItemFlag::Default | ItemFlag::Selectable);
-	Item* item = gfx::model(self, high_lod ? "human" : "human_0", ItemFlag::Default | ItemFlag::Selectable);
+	Item* item = gfx::model(self, high_lod ? "human" : "human00", ItemFlag::Default | ItemFlag::Selectable);
 	Animated& animated = gfx::animated(self, *item);
 	return animated;
 }
@@ -101,7 +101,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Material& material = milky_white(viewer.m_gfx_system);
 
-	gfx::shape(scene, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(Colour::None, Colour::White), 0U, &material);
+	gfx::shape(scene, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol::plain(Colour::White), 0U, &material);
 
 	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
@@ -139,7 +139,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 		if(anim_editor && selected == &characters[i])
 			continue;
 
-		if(animated->m_playing.empty() || animated->playing() == state)
+		if(animated->m_playing.empty() || animated->playing() != state)
 		{
 			Human::State& state = characters[i].m_states.back();
 			animated->play(state.m_action.c_str(), true, 0.f, state.m_action_speed);
