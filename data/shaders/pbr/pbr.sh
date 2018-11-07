@@ -2,6 +2,7 @@
 #define MUD_SHADER_PBR
 
 #include <common.sh>
+#include <srgb.sh>
 
 uniform vec4 u_albedo;
 uniform vec4 u_pbr_params_0;
@@ -17,9 +18,22 @@ SAMPLER2D(s_albedo, 0);
 SAMPLER2D(s_metallic, 1);
 SAMPLER2D(s_roughness, 2);
 SAMPLER2D(s_emissive, 3);
+
+#ifdef NORMAL_MAP
 SAMPLER2D(s_normal, 4);
+#endif
+
+#ifdef DEPTH_MAPPING
 SAMPLER2D(s_depth, 12);
+#endif
+
+#ifdef AMBIENT_OCCLUSION
 SAMPLER2D(s_ambient_occlusion, 11);
+#endif
+
+#ifdef LIGHTMAP
+SAMPLER2D(s_lightmap, 7);
+#endif
 
 #if 0
 SAMPLER2D(s_anisotropy, 6);
@@ -48,8 +62,13 @@ uniform vec4 u_pbr_params_2;
 #define u_clearcoat u_pbr_params_2.z
 #define u_clearcoat_gloss u_pbr_params_2.w
 
+uniform vec4 u_lightmap_params;
+#define u_lightmap_offset u_lightmap_params.xy
+#define u_lightmap_factor u_lightmap_params.zw
+
 struct Fragment
 {
+    vec4 coord;
     vec3 position;
     float depth;
     vec3 view;
@@ -57,7 +76,7 @@ struct Fragment
     vec3 binormal;
     vec3 tangent;
     vec2 uv;
-    //vec2 uv2;
+    vec2 uv2;
     vec4 color;
     
     float NoV;

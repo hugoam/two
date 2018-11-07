@@ -128,7 +128,7 @@ namespace gfx
 		render_pass.m_bgfx_state = BGFX_STATE_CONSERVATIVE_RASTER | BGFX_STATE_CULL_CW | BGFX_STATE_MSAA;
 
 #ifndef VOXELGI_COMPUTE_LIGHTS
-		GIProbe& gi_probe = *m_block_gi_bake.m_bake_probe;
+		GIProbe& gi_probe = *m_block_gi_bake.m_bake_probe; UNUSED(gi_probe);
 		mat4 view = bxidentity();//gi_probe.m_transform * bxscale(1.f / gi_probe.m_extents);
 		m_block_light.update_lights(render, view, to_array(render.m_shot->m_lights), to_array(m_block_light.m_block_shadow.m_shadows));
 #endif

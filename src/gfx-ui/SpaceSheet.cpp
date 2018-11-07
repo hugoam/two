@@ -110,7 +110,7 @@ namespace mud
 
 		vec3 pos = plane_segment_intersection(p0, p1, p2, ray.m_start, ray.m_end);
 
-		vec3 rel = vec3(0.f); //inverse(m_quad->m_node.m_rotation) * pos - m_quad->m_node.m_position;
+		vec3 rel = vec3(0.f); UNUSED(pos); //inverse(m_quad->m_node.m_rotation) * pos - m_quad->m_node.m_position;
 
 		mouse_event.m_pos.x = rel[0] / m_size_ratio + m_frame.m_size.x / 2.f;
 		mouse_event.m_pos.y = -rel[1] / m_size_ratio + m_frame.m_size.y / 2.f;

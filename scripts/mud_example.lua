@@ -40,7 +40,7 @@ if not _OPTIONS["renderer-gl"] then
     mud_example("02_camera",            { _G["03_materials"] })
     mud_example("04_lights",            { _G["01_shapes"], _G["03_materials"] })
     mud_example("04_sponza",            { _G["01_shapes"], _G["03_materials"] })
-    --mud_example("05_character",       "03_materials")
+    mud_example("05_character",         { _G["03_materials"] })
     mud_example("06_particles",         {})
     mud_example("07_gltf",              {})
     mud_example("07_prefabs",           { _G["07_gltf"] })

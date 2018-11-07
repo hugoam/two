@@ -11,9 +11,9 @@ SAMPLER2DARRAY( s_source_0, 0);
 SAMPLER2D(      s_source_0, 0);
 #endif
 
-//SAMPLER2D(s_source_0, 0);
 SAMPLER2D(s_source_1, 1);
 SAMPLER2D(s_source_2, 2);
+SAMPLER2D(s_source_3, 3);
 SAMPLER2D(s_source_depth, 3);
 
 uniform vec4 u_source_0_crop;
@@ -21,6 +21,7 @@ uniform vec4 u_source_0_crop;
 uniform int u_source_0_level;
 uniform int u_source_1_level;
 uniform int u_source_2_level;
+uniform int u_source_3_level;
 
 uniform mat4 u_camera_proj;
 

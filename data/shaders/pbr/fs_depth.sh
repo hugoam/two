@@ -5,7 +5,7 @@
 #if BGFX_SHADER_LANGUAGE_HLSL
     vec3 view_dir = normalize(mul(mat3(v_tangent, v_binormal, v_normal), fragment.view));
 #else
-    vec3 view_dir = normalize(mul(fragment.view, mat3(v_tangent, v_binormal, v_normal)));
+    vec3 view_dir = normalize(mul(transpose(mat3(v_tangent, v_binormal, v_normal)), fragment.view));
 #endif
 
 #ifdef DEEP_PARALLAX

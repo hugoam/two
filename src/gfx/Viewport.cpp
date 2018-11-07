@@ -58,6 +58,8 @@ namespace mud
 			m_culler = make_unique<Culler>(*this);
 		if(m_culler)
 			m_culler->render(render);
+#else
+		UNUSED(render);
 #endif
 	}
 

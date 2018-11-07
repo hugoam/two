@@ -220,11 +220,25 @@ ivec4 bgfxTexture3D(BgfxISampler3D _sampler, vec3 _coord)
 	return _sampler.m_texture.Load(ivec4(_coord * size, 0) );
 }
 
+ivec4 bgfxTexture3DLod(BgfxISampler3D _sampler, vec3 _coord, float _level)
+{
+	uvec3 size;
+	_sampler.m_texture.GetDimensions(size.x, size.y, size.z);
+	return _sampler.m_texture.Load(ivec4(_coord * size, _level) );
+}
+
 uvec4 bgfxTexture3D(BgfxUSampler3D _sampler, vec3 _coord)
 {
 	uvec3 size;
 	_sampler.m_texture.GetDimensions(size.x, size.y, size.z);
 	return _sampler.m_texture.Load(ivec4(_coord * size, 0) );
+}
+
+ivec4 bgfxTexture3DLod(BgfxUSampler3D _sampler, vec3 _coord, float _level)
+{
+	uvec3 size;
+	_sampler.m_texture.GetDimensions(size.x, size.y, size.z);
+	return _sampler.m_texture.Load(ivec4(_coord * size, _level) );
 }
 
 vec4 bgfxTextureCube(BgfxSamplerCube _sampler, vec3 _coord)
@@ -310,6 +324,8 @@ vec4 bgfxTexelFetch(BgfxSampler3D _sampler, ivec3 _coord, int _lod)
 			uniform Texture3D<uvec4> _name ## Texture : REGISTER(t, _reg); \
 			static BgfxUSampler3D _name = { _name ## Texture }
 #		define sampler3D BgfxSampler3D
+#		define isampler3D BgfxISampler3D
+#		define usampler3D BgfxUSampler3D
 #		define texture3D(_sampler, _coord) bgfxTexture3D(_sampler, _coord)
 #		define texture3DLod(_sampler, _coord, _level) bgfxTexture3DLod(_sampler, _coord, _level)
 
@@ -320,6 +336,9 @@ vec4 bgfxTexelFetch(BgfxSampler3D _sampler, ivec3 _coord, int _lod)
 #		define samplerCube BgfxSamplerCube
 #		define textureCube(_sampler, _coord) bgfxTextureCube(_sampler, _coord)
 #		define textureCubeLod(_sampler, _coord, _level) bgfxTextureCubeLod(_sampler, _coord, _level)
+
+#       define EmitVertex() outputStream.Append(output)
+#       define EndPrimitive() outputStream.RestartStrip()
 
 #		define texelFetch(_sampler, _coord, _lod) bgfxTexelFetch(_sampler, _coord, _lod)
 #	else
@@ -465,6 +484,7 @@ float rcp(float _a) { return 1.0/_a; }
 vec2  rcp(vec2  _a) { return vec2(1.0)/_a; }
 vec3  rcp(vec3  _a) { return vec3(1.0)/_a; }
 vec4  rcp(vec4  _a) { return vec4(1.0)/_a; }
+
 #endif // BGFX_SHADER_LANGUAGE_*
 
 vec2 vec2_splat(float _x) { return vec2(_x, _x); }

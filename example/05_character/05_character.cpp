@@ -28,15 +28,15 @@ public:
 Animated& paint_human(Gnode& parent, Human& human, bool high_lod)
 {
 	Gnode& self = gfx::node(parent, {}, human.m_position, human.m_rotation);
-	gfx::shape(self, Circle(0.35f), Symbol(), ITEM_SELECTABLE);
-	Item* item = gfx::model(self, high_lod ? "human" : "human_0", ITEM_SELECTABLE);
+	gfx::shape(self, Circle(0.35f), Symbol(), ItemFlag::Default | ItemFlag::Selectable);
+	Item* item = gfx::model(self, high_lod ? "human" : "human_0", ItemFlag::Default | ItemFlag::Selectable);
 	Animated& animated = gfx::animated(self, *item);
 	return animated;
 }
 
 struct KeyMove
 {
-	KeyCode key;
+	Key key;
 	vec3 velocity;
 	string action;
 	float action_speed;
@@ -58,18 +58,18 @@ void human_control_key(Widget& widget, Human& human, vec3& speed, const KeyMove&
 
 static void human_velocity_controller(Widget& widget, Human& human)
 {
-	bool shift = widget.root_sheet().m_keyboard.m_shift;
+	bool shift = widget.ui().m_keyboard.m_shift;
 
 	const KeyMove moves[4] =
 	{
-		{ KC_UP,   -Z3 * 2.f, "Walk",  1.f }, { KC_W,  -Z3 * 2.f, "Walk",  1.f },
-		{ KC_DOWN,  Z3 * 2.f, "Walk", -1.f }, { KC_S,   Z3 * 2.f, "Walk", -1.f },
+		{ Key::Up,   -Z3 * 2.f, "Walk",  1.f }, { Key::W,  -Z3 * 2.f, "Walk",  1.f },
+		{ Key::Down,  Z3 * 2.f, "Walk", -1.f }, { Key::S,   Z3 * 2.f, "Walk", -1.f },
 	};
 
 	const KeyMove shift_moves[4] =
 	{
-		{ KC_UP,  -Z3 * 12.f, "Run",  1.f }, { KC_W, -Z3 * 12.f, "Run",  1.f },
-		{ KC_DOWN, Z3 * 12.f, "Run", -1.f }, { KC_S,  Z3 * 12.f, "Run", -1.f },
+		{ Key::Up,  -Z3 * 12.f, "Run",  1.f }, { Key::W, -Z3 * 12.f, "Run",  1.f },
+		{ Key::Down, Z3 * 12.f, "Run", -1.f }, { Key::S,  Z3 * 12.f, "Run", -1.f },
 	};
 
 	for(const KeyMove& key_move : (shift ? shift_moves : moves))
@@ -77,8 +77,8 @@ static void human_velocity_controller(Widget& widget, Human& human)
 
 	const KeyMove rotations[4] =
 	{
-		{ KC_RIGHT, -Y3 * 4.f, "Step",  1.f }, { KC_D, -Y3 * 4.f, "Step",  1.f },
-		{ KC_LEFT,   Y3 * 4.f, "Step", -1.f }, { KC_A,  Y3 * 4.f, "Step", -1.f },
+		{ Key::Right, -Y3 * 4.f, "Step",  1.f }, { Key::D, -Y3 * 4.f, "Step",  1.f },
+		{ Key::Left,   Y3 * 4.f, "Step", -1.f }, { Key::A,  Y3 * 4.f, "Step", -1.f },
 	};
 
 	for(const KeyMove& key_rotation: rotations)
@@ -103,7 +103,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	gfx::shape(scene, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(Colour::None, Colour::White), 0U, &material);
 
-	gfx::directional_light_node(scene);
+	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 	static bool once = false;
@@ -148,7 +148,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	human_controller_3rdperson(viewer, *selected);
 	if(follow_character)
-		orbit.set_position(characters[0].m_position);
+		orbit.set_target(characters[0].m_position);
 
 	static Clock clock;
 	float timestep = clock.step();

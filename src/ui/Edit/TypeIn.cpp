@@ -660,9 +660,9 @@ namespace mud
 				this->cursor(0);
 			}
 
-		auto shift = this->ui().m_keyboard.m_shift;
-		auto ctrl = this->ui().m_keyboard.m_ctrl;
-		auto alt = this->ui().m_keyboard.m_alt;
+		bool shift = this->ui().m_keyboard.m_shift;
+		bool ctrl = this->ui().m_keyboard.m_ctrl;
+		bool alt = this->ui().m_keyboard.m_alt;
 		
 		if(MouseEvent mouse_event = this->mouse_event(DeviceType::Mouse, EventType::Heartbeat))
 		{

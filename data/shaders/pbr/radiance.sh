@@ -13,6 +13,7 @@ uniform vec4 u_ambient_params;
 uniform vec4 u_pbr_globals;
 #define u_roughness_levels u_pbr_globals.x
 
+#ifdef RADIANCE_ENVMAP
 #define RADIANCE_MAX_LOD 7.0
 
 #ifdef RADIANCE_ARRAY
@@ -43,5 +44,6 @@ vec3 radiance_ambient(vec3 normal)
 #endif
 	return tex_ambient * u_ambient;
 }
+#endif
 
 #endif

@@ -127,9 +127,9 @@ namespace mud
 		float m_time;
 		float m_delta_time;
 		uint8_t m_render_pass;
-		uint32_t m_num_draw_calls;
-		uint32_t m_num_vertices;
-		uint32_t m_num_triangles;
+		uint32_t m_num_draw_calls = 0;
+		uint32_t m_num_vertices = 0;
+		uint32_t m_num_triangles = 0;
 	};
 
 	struct RenderFilters;

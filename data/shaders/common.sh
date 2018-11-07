@@ -21,10 +21,10 @@ uniform vec4 u_screen_size_pixel_size;
 
 uniform vec4 u_material_params_0;
 uniform vec4 u_material_params_1;
-#define u_uv1_scale u_material_params_0.xy
-#define u_uv1_offset u_material_params_0.zw
-#define u_uv2_scale u_material_params_1.xy
-#define u_uv2_offset u_material_params_1.zw
+#define u_uv0_scale u_material_params_0.xy
+#define u_uv0_offset u_material_params_0.zw
+#define u_uv1_scale u_material_params_1.xy
+#define u_uv1_offset u_material_params_1.zw
 
 #if BGFX_SHADER_LANGUAGE_GLSL == 110
 mat4 transpose(in mat4 mat)

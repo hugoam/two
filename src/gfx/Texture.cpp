@@ -68,7 +68,7 @@ namespace mud
 		bimg::ImageContainer* source = bimg::imageAlloc(&allocator, bimg::TextureFormat::Enum(texture_format), width, height, depth, 1, false, false);
 		if(source == nullptr) return;
 
-		for(size_t mip = 0; mip < source->m_numMips; ++mip)
+		for(uint8_t mip = 0; mip < source->m_numMips; ++mip)
 		{
 			uint32_t ready = bgfx::readTexture(texture, source->m_data, mip);
 			while(bgfx::frame() != ready);

@@ -258,7 +258,7 @@ namespace mud
 				model.prepare();
 				m_import.m_models.push_back(&model);
 
-				m_import.m_items.push_back({ bxidentity(), &model });
+				m_import.m_items.push_back({ bxidentity(), &model, -1 });
 
 				//printf("INFO: ImporterOBJ imported mesh %s material %s with %u vertices and %u faces\n", 
 				//	   m_mesh.m_name.c_str(), m_mesh.m_material->m_name.c_str(), m_shape.m_positions.size(), m_shape.m_indices.size() / 3);
