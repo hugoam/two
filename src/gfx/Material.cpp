@@ -54,12 +54,12 @@ namespace mud
 			, s_color (bgfx::createUniform("s_color", bgfx::UniformType::Int1))
 		{}
 
-		void upload(bgfx::Encoder& encoder, const UnshadedMaterialBlock& data) const
+		void upload(bgfx::Encoder& encoder, const UnshadedMaterialBlock& block) const
 		{
-			vec4 colour = to_vec4(data.m_colour.m_value);
+			vec4 colour = to_vec4(block.m_colour.m_value);
 			encoder.setUniform(u_color, &colour);
 
-			encoder.setTexture(uint8_t(TextureSampler::Color), s_color, data.m_colour.m_texture ? data.m_colour.m_texture->m_texture : m_white_tex->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Color), s_color, block.m_colour.m_texture ? block.m_colour.m_texture->m_texture : m_white_tex->m_texture);
 		}
 
 		Texture* m_white_tex;
@@ -78,14 +78,14 @@ namespace mud
 			, s_fresnel(bgfx::createUniform("s_fresnel", bgfx::UniformType::Int1))
 		{}
 
-		void upload(bgfx::Encoder& encoder, const FresnelMaterialBlock& data) const
+		void upload(bgfx::Encoder& encoder, const FresnelMaterialBlock& block) const
 		{
-			vec4 value = to_vec4(data.m_value.m_value);
-			vec4 params = { data.m_fresnel_bias, data.m_fresnel_scale, data.m_fresnel_power, 1.f };
+			vec4 value = to_vec4(block.m_value.m_value);
+			vec4 params = { block.m_fresnel_bias, block.m_fresnel_scale, block.m_fresnel_power, 1.f };
 			encoder.setUniform(u_fresnel_value, &value);
 			encoder.setUniform(u_fresnel_params, &params);
 
-			encoder.setTexture(uint8_t(TextureSampler::Color), s_fresnel, data.m_value.m_texture ? data.m_value.m_texture->m_texture : m_white_tex->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Color), s_fresnel, block.m_value.m_texture ? block.m_value.m_texture->m_texture : m_white_tex->m_texture);
 		}
 
 		Texture* m_white_tex;
