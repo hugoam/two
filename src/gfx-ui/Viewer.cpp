@@ -225,7 +225,7 @@ namespace ui
 		FreeOrbitController& controller = as<FreeOrbitController>(*viewer.m_controller);
 		controller.process(viewer);
 		
-		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+		if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
 			viewer.take_focus();
 
 		struct KeyMove { Key key; vec3 velocity; };

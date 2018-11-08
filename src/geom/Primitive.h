@@ -206,7 +206,7 @@ namespace mud
 		uint32_t m_offset = 0;
 
 		template <class T>
-		struct Bounds { T lo = T(FLT_MAX); T hi = T(FLT_MIN); void add(const T& val) { lo = min(val, lo); hi = max(val, hi); } };
+		struct Bounds { T lo = T(FLT_MAX); T hi = T(-FLT_MAX); void add(const T& val) { lo = min(val, lo); hi = max(val, hi); } };
 		Bounds<vec3> m_aabb = {};
 		Bounds<vec2> m_uv0_rect = {};
 		Bounds<vec2> m_uv1_rect = {};

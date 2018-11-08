@@ -54,11 +54,17 @@ namespace mud
 
 	void Culler::begin(Viewport& viewport)
 	{
+		//auto round = [](uint number, uint multiple) { return ((number + multiple / 2) / multiple) * multiple; };
+		auto round = [](uint number, uint multiple) { return (number / multiple) * multiple; };
+
+		// these are defines in culling library but not exposed
+		uvec2 size = { round(rect_w(viewport.m_rect), 8), round(rect_h(viewport.m_rect), 4) };
+
 		unsigned int width, height;
 		m_moc->GetResolution(width, height);
 
-		if(width != rect_w(viewport.m_rect) || height != rect_h(viewport.m_rect))
-			m_moc->SetResolution(rect_w(viewport.m_rect), rect_h(viewport.m_rect));
+		if(width != size.x || height != size.y)
+			m_moc->SetResolution(size.x, size.y);
 
 		m_moc->ClearBuffer();
 	}

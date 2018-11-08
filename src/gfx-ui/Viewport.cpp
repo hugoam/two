@@ -21,14 +21,14 @@ namespace mud
 	{
 		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::Mouse, EventType::Moved, InputMod::None, false))
 		{
-			auto callback = [&](Item* item) { viewer.m_hovered = item != nullptr ? item->m_node->m_object : Ref(); };
+			auto callback = [&](Item* item) { viewer.m_hovered = item; };
 			viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Selectable);
 		}
 
 		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
 			if(viewer.m_hovered)
-				vector_select(selection, viewer.m_hovered);
+				vector_select(selection, viewer.m_hovered->m_node->m_object);
 		}
 
 		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseRight, EventType::Stroked))
