@@ -33,7 +33,7 @@ function mud_gfx()
         path.join(MUD_3RDPARTY_DIR, "meshoptimizer", "src/**.cpp"),
     }
 
-    if _OPTIONS["occl-culling"] then
+    if _OPTIONS["culling"] then
         includedirs {
             path.join(MUD_3RDPARTY_DIR, "culling"),
         }

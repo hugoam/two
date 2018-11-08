@@ -17,6 +17,11 @@ newoption {
 }
 
 newoption {
+    trigger = "culling",
+    description = "Enable Occlusion Culling",
+}
+
+newoption {
     trigger = "webshaderc",
     description = "Use shaderc compiler on web",
 }
