@@ -297,8 +297,8 @@ namespace mud
 	{
 		Render render = { renderer.m_shading, viewport, *context.m_target, frame };
 		render.m_scene.gather_render(render);
-		render.m_viewport.cull(render);
 		render.m_viewport.render(render);
+		render.m_viewport.cull(render);
 		
 		if(rect_w(viewport.m_rect) != 0 && rect_h(viewport.m_rect) != 0)
 			renderer.render(render);

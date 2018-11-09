@@ -552,7 +552,7 @@ namespace mud
 				model.add_item(mesh, bxidentity());
 
 				MeshPacker packer;
-				packer.m_quantize = true;
+				//packer.m_quantize = true;
 
 				packer.m_primitive = PrimitiveType::Triangles;//static_cast<PrimitiveType>(primitive.mode);
 				import_attributes(gltf, packer, primitive.attributes);

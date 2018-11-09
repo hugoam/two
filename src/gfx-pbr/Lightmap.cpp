@@ -279,6 +279,7 @@ namespace mud
 				unwrap.success[i] = true;
 				is_unwrapped = true;
 				unwrap.size = max(uvec2(mesh.m_uv1_rect.max), unwrap.size);
+				// @todo this gives a different size than original packing because of margins, which means we can't reuse lightmaps baked from original model before repack
 			}
 		}
 
@@ -384,6 +385,8 @@ namespace mud
 				lightmaps.add_lightmap();
 				pack = pack_texture(model.m_name.c_str(), unwrap.size);
 			}
+
+			//printf("packing model %s rect size %i, %i at %i, %i\n", model.m_name.c_str(), unwrap.size.x, unwrap.size.y, pack.image->d_coord.x, pack.image->d_coord.y);
 
 			uvec4 rect = { pack.image->d_coord, unwrap.size };
 
