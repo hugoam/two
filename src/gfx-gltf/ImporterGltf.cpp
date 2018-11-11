@@ -517,10 +517,17 @@ namespace mud
 
 	void import_meshes(const glTF& gltf, Import& state, const ImportConfig& config)
 	{
+		std::map<string, int> duplicate_names;
+
 		size_t index = 0;
 		for(const glTFMesh& gltf_mesh : gltf.m_meshes)
 		{
+#if 0
 			string model_name = gltf_mesh.name == "" ? state.m_file + ":" + to_string(index++) : gltf_mesh.name;
+			model_name += "_" + to_string(duplicate_names[model_name]++);
+#else
+			string model_name = state.m_file + ":" + to_string(index++);
+#endif
 			if(config.m_suffix != "")
 				model_name += ":" + config.m_suffix;
 

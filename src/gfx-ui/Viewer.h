@@ -52,7 +52,7 @@ namespace mud
 
 		std::vector<unique_ptr<Picker>> m_pickers;
 
-		Item* m_hovered;
+		Item* m_hovered = nullptr;
 
 		RenderFilters m_filters;
 

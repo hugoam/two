@@ -225,7 +225,7 @@ namespace mud
 
 	void GfxSystem::begin_frame()
 	{
-		RenderFrame frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
+		RenderFrame frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id, 0, 0, 0 };
 
 		{
 			ZoneScopedNC("programs", tracy::Color::Cyan);
@@ -244,7 +244,7 @@ namespace mud
 
 	bool GfxSystem::next_frame()
 	{
-		RenderFrame frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
+		RenderFrame frame = { m_frame, m_time, m_delta_time, Render::s_render_pass_id, 0, 0, 0 };
 
 #ifdef MUD_GFX_THREADED
 		{
