@@ -199,6 +199,7 @@ namespace mud
 		if(m_materials[hash] == nullptr)
 		{
 			m_materials[hash] = &gfx_system.fetch_material(("Symbol" + to_string(hash)).c_str(), "unshaded");
+			m_materials[hash]->m_base_block.m_depth_draw_mode = DepthDraw::Disabled;
 			m_materials[hash]->m_base_block.m_depth_test = symbol.m_overlay ? DepthTest::Disabled : DepthTest::Enabled;
 			m_materials[hash]->m_base_block.m_cull_mode = symbol.m_double_sided ? CullMode::None : CullMode::Back;
 			m_materials[hash]->m_unshaded_block.m_enabled = true;

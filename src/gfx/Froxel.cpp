@@ -77,10 +77,7 @@ namespace mud
 	}
 
 	Froxelizer::~Froxelizer()
-	{
-		// destroy m_records_buffer
-		// destroy m_froxel_buffer
-	}
+	{}
 
 	bool Froxelizer::update(const Viewport& viewport, const mat4& projection, float near, float far)
 	{
@@ -284,7 +281,7 @@ namespace mud
 			this->froxelize_light_group(camera, lights, offset, stride);
 		};
 
-		auto parent = js.job();
+		Job* parent = js.job();
 		for(size_t i = 0; i < GROUP_COUNT; i++)
 			js.run(job(js, parent, std::cref(process_task), i, GROUP_COUNT));
 		js.complete(parent);
@@ -320,7 +317,6 @@ namespace mud
 		using container_type = LightRecord::Lights::container_type;
 		constexpr size_t r = sizeof(container_type) / sizeof(LightGroupType);
 
-#ifndef USE_STD_BITSET
 		for(size_t i = 0; i < LightRecord::Lights::WORLD_COUNT; i++)
 		{
 			container_type b = m_froxel_sharded_data[i * r][0];
@@ -340,14 +336,6 @@ namespace mud
 				m_light_records[j - 1].lights.at(i) = b;
 			}
 		}
-#else
-		for(size_t i = 0; i < CONFIG_MAX_LIGHT_COUNT; ++i)
-			spot_lights[i] = froxelThreadData[i][0];
-
-		for(size_t j = 1, jc = FROXEL_BUFFER_ENTRY_COUNT_MAX; j < jc; j++)
-			for(size_t i = 0; i < CONFIG_MAX_LIGHT_COUNT; ++i)
-				m_light_records[j - 1].lights[i] = froxelThreadData[i][j];
-#endif
 
 		uint16_t offset = 0;
 

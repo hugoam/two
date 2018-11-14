@@ -10,6 +10,7 @@
 module mud.gfx.pbr;
 #else
 #include <infra/Vector.h>
+#include <pool/ObjectPool.h>
 #include <math/Math.h>
 #include <geom/Intersect.h>
 #include <gfx/ManualRender.h>
@@ -20,12 +21,15 @@ module mud.gfx.pbr;
 #include <gfx/Program.h>
 #include <gfx/Filter.h>
 #include <gfx/Pipeline.h>
+#include <gfx/Scene.h>
 #include <gfx/RenderTarget.h>
 #include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/Shadow.h>
 #include <gfx-pbr/Light.h>
 #endif
+
+//#define DEBUG_CSM
 
 namespace mud
 {
@@ -91,43 +95,45 @@ namespace mud
 		Light& m_light;
 	};
 
-	std::vector<Item*> filter_cull(array<Item*> items, std::function<bool(Item&)> filter)
+	std::vector<Item*> filter_cull(Scene& scene, std::function<bool(Item&)> filter)
 	{
 		std::vector<Item*> culled;
-		for(Item* item : items)
-			if(!filter || filter(*item))
+		scene.m_pool->pool<Item>().iterate([&](Item& item) {
+			if(!filter || filter(item))
 			{
-				culled.push_back(item);
+				culled.push_back(&item);
 			}
+		});
 		return culled;
 	}
 
-	std::vector<Item*> frustum_cull(array<Item*> items, const Plane6& frustum_planes, std::function<bool(Item&)> filter)
+	std::vector<Item*> frustum_cull(Scene& scene, const Plane6& frustum_planes, std::function<bool(Item&)> filter)
 	{
 		std::vector<Item*> culled;
-		for(Item* item : items)
-			if(!filter || filter(*item))
+		scene.m_pool->pool<Item>().iterate([&](Item& item) {
+			if(!filter || filter(item))
 			{
-				if(frustum_aabb_intersection(frustum_planes, item->m_aabb))
-					culled.push_back(item);
+				if(frustum_aabb_intersection(frustum_planes, item.m_aabb))
+					culled.push_back(&item);
 			}
+		});
 		return culled;
 	}
 
-	void cull_shadow_render(array<Item*> items, std::vector<Item*>& result, const Plane6& planes)
+	void cull_shadow_render(Render& render, std::vector<Item*>& result, const Plane6& planes)
 	{
 		auto filter = [](Item& item) { return item.m_visible && item.m_model->m_geometry[PLAIN] && (item.m_flags & ItemFlag::Shadows) != 0; };
-		result = filter_cull(items, filter);
+		result = filter_cull(render.m_scene, filter);
 		//result = frustum_cull(items, planes, filter);
 
-		for(Item* item : items)
+		for(Item* item : result)
 			item->m_depth = distance(planes.m_near, item->m_aabb.m_center);
 	}
 
-	void cull_shadow_render(array<Item*> items, std::vector<Item*>& result, const mat4& projection, const mat4& transform)
+	void cull_shadow_render(Render& render, std::vector<Item*>& result, const mat4& projection, const mat4& transform)
 	{
 		Plane6 planes = frustum_planes(projection, transform);
-		cull_shadow_render(items, result, planes);
+		cull_shadow_render(render, result, planes);
 	}
 
 #if 0
@@ -165,7 +171,7 @@ namespace mud
 		light_bounds.max.z = zmax;
 	}
 
-	void light_slice_cull(Light& light, LightBounds& light_bounds, array<Item*> items, std::vector<Item*>& result)
+	void light_slice_cull(Render& render, Light& light, LightBounds& light_bounds, std::vector<Item*>& result)
 	{
 		vec3 x = light.m_node.axis(X3);
 		vec3 y = light.m_node.axis(Y3);
@@ -181,7 +187,7 @@ namespace mud
 			{ -z, -light_bounds.min.z }
 		};
 
-		cull_shadow_render(items, result, light_frustum_planes);
+		cull_shadow_render(render, result, light_frustum_planes);
 
 		for(Item* item : result)
 		{
@@ -242,7 +248,7 @@ namespace mud
 		shadow_slice.m_light_bounds = light_slice_bounds(slice.m_frustum, light_transform);
 
 		shadow_slice.m_items = render.m_shot->m_items;
-		light_slice_cull(light, shadow_slice.m_light_bounds, render.m_shot->m_items, shadow_slice.m_items);
+		light_slice_cull(render, light, shadow_slice.m_light_bounds, shadow_slice.m_items);
 
 		float texture_size = float(rect_w(shadow_slice.m_viewport_rect));
 
@@ -342,11 +348,13 @@ namespace mud
 			m_atlas = { 1024, { 2, 4, 8, 16 } };
 		}
 
+#ifdef DEBUG_CSM
 		if(render.m_target)
 		{
-			//BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
-			//copy.debug_show_texture(as<FrameBuffer>(*render.m_target), m_csm.m_depth, true);
+			BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
+			copy.debug_show_texture(render, m_csm.m_depth, vec4(0.f), true);
 		}
+#endif
 	}
 
 	void BlockShadow::update_shadows(Render& render)
@@ -407,7 +415,7 @@ namespace mud
 					ShadowCubemap& cubemap = m_atlas.light_cubemap(*light, uint16_t(rect_w(atlas_rect)));
 
 					ShadowRender shadow_render = { render, *light, cubemap.m_fbos[i], { uvec2(0U), uvec2(uint(cubemap.m_size)) }, projection, transform };
-					cull_shadow_render(render.m_shot->m_items, shadow_render.m_sub_render.m_shot->m_items, projection, transform);
+					cull_shadow_render(render, shadow_render.m_sub_render.m_shot->m_items, projection, transform);
 					shadow_render.render(*this, 1.f);
 				}
 			}
@@ -419,7 +427,7 @@ namespace mud
 				mat4 transform = light->m_node.m_transform;
 
 				ShadowRender shadow_render = { render, *light, m_atlas.m_fbo, atlas_rect, projection, transform };
-				cull_shadow_render(render.m_shot->m_items, shadow_render.m_sub_render.m_shot->m_items, projection, transform);
+				cull_shadow_render(render, shadow_render.m_sub_render.m_shot->m_items, projection, transform);
 				shadow_render.render(*this, 1.f);
 			}
 		}

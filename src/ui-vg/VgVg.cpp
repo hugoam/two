@@ -67,7 +67,7 @@ namespace mud
 			16									// m_MaxCommandListDepth
 		};
 
-		m_vg = vg::createContext(250, m_allocator, &config);
+		m_vg = vg::createContext(240, m_allocator, &config);
 	}
 
 	void VgVg::release_context()
@@ -123,9 +123,9 @@ namespace mud
 
 	void VgVg::begin_frame(const vec4& rect, float pixel_ratio)
 	{
-		bgfx::setViewRect(250, uint16_t(rect.x), uint16_t(rect.y), uint16_t(rect_w(rect)), uint16_t(rect_h(rect)));
-		bgfx::setViewMode(250, bgfx::ViewMode::Sequential);
-		bgfx::setViewName(250, "ui");
+		bgfx::setViewRect(240, uint16_t(rect.x), uint16_t(rect.y), uint16_t(rect_w(rect)), uint16_t(rect_h(rect)));
+		bgfx::setViewMode(240, bgfx::ViewMode::Sequential);
+		bgfx::setViewName(240, "ui");
 
 		vg::beginFrame(m_vg, uint16_t(rect_w(rect)), uint16_t(rect_h(rect)), pixel_ratio);
 	}

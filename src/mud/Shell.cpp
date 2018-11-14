@@ -11,6 +11,8 @@
 #include <emscripten/emscripten.h>
 #endif
 
+//#define MUD_GFX_DEFERRED
+
 namespace mud
 {
 #ifdef MUD_PLATFORM_EMSCRIPTEN

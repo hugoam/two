@@ -20,6 +20,7 @@ module mud.gfx.obj;
 #include <pool/Pool.h>
 #include <math/Timer.h>
 #include <math/Stream.h>
+#include <math/VecOps.h>
 #include <geom/Mesh.h>
 #include <gfx/Material.h>
 #include <gfx/Mesh.h>
@@ -132,7 +133,7 @@ namespace mud
 			{
 				Colour emissive = read<Colour>(stream);
 				current->m_pbr_block.m_emissive.m_value = emissive;
-				current->m_pbr_block.m_emissive.m_value.m_a = 2.f;
+				current->m_pbr_block.m_emissive.m_value.m_a = length(to_vec3(emissive));
 			}
 			else if(command == "Ns")
 			{
@@ -214,7 +215,6 @@ namespace mud
 
 	void ImporterOBJ::import(Import& scene, const string& path, const ImportConfig& config)
 	{
-		UNUSED(config);
 		printf("INFO: gltf - loading scene %s\n", scene.m_file.c_str());
 
 		Clock clock;
@@ -236,8 +236,9 @@ namespace mud
 
 		struct MeshWriter
 		{
-			MeshWriter(Import& import, bool generate_tangents)
-				: m_import(import)
+			MeshWriter(const ImportConfig& config, Import& import, bool generate_tangents)
+				: m_config(config)
+				, m_import(import)
 				, m_name(import.m_name)
 				, m_generate_tangents(generate_tangents)
 			{}
@@ -249,7 +250,7 @@ namespace mud
 
 				Mesh& mesh = m_import.m_gfx_system.meshes().construct(m_name.c_str(), true);
 				m_shape.bake(!m_normals, m_generate_tangents && m_uvs);
-				mesh.write(PLAIN, m_shape);
+				mesh.write(PLAIN, m_shape, m_config.m_optimize_geometry);
 				mesh.m_material = m_material;
 				m_import.m_meshes.push_back(&mesh);
 
@@ -279,6 +280,7 @@ namespace mud
 				vertex(face[c]);
 			}
 
+			const ImportConfig& m_config;
 			Import& m_import;
 			string m_name;
 			Material* m_material = nullptr;
@@ -299,7 +301,7 @@ namespace mud
 			return;
 		}
 
-		unique_ptr<MeshWriter> mesh_writer = make_unique<MeshWriter>(scene, generate_tangents);
+		unique_ptr<MeshWriter> mesh_writer = make_unique<MeshWriter>(config, scene, generate_tangents);
 
 		string line;
 
@@ -316,7 +318,7 @@ namespace mud
 			if(command == "o" || command == "g")
 			{
 				mesh_writer = nullptr;
-				mesh_writer = make_unique<MeshWriter>(scene, generate_tangents);
+				mesh_writer = make_unique<MeshWriter>(config, scene, generate_tangents);
 			}
 			if(command == "o")
 			{
@@ -417,7 +419,7 @@ namespace mud
 
 		this->import(state, filepath, config);
 
-		import_to_prefab(m_gfx_system, prefab, state);
+		import_to_prefab(m_gfx_system, prefab, state, config.m_flags);
 	}
 
 	void ImporterOBJ::repack(const string& filepath, const ImportConfig& config)

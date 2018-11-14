@@ -119,7 +119,7 @@ namespace mud
 		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, const uvec4& rect, uint64_t flags = 0U);
 		void submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, uint64_t flags = 0U);
 
-		void debug_show_texture(FrameBuffer& target, bgfx::TextureHandle texture, bool is_depth = false, bool is_depth_packed = false, bool is_array = false, int level = 0);
+		void debug_show_texture(Render& render, bgfx::TextureHandle texture, const vec4& rect, bool is_depth = false, bool is_depth_packed = false, bool is_array = false, int level = 0);
 
 		BlockFilter& m_filter;
 

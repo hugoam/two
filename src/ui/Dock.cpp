@@ -28,6 +28,8 @@ namespace ui
 	{
 		if(parent.m_nodes.size() > index && parent.m_nodes[index]->m_heartbeat == parent.m_heartbeat)
 			return *parent.m_nodes[index];
+		for(size_t i = 0; i < index; ++i)
+			parent.subx(i).init(dock_styles().dockline, false, dim);
 		Widget& self = parent.subx(index).init(dock_styles().dockline, false, dim);
 		grid_sheet_logic(self, dim);
 		return self;

@@ -210,11 +210,11 @@ namespace mud
 		this->submit_quad(target, view, texture, quad, flags);
 	}
 
-	void BlockCopy::debug_show_texture(FrameBuffer& target, bgfx::TextureHandle texture, bool is_depth, bool is_depth_packed, bool is_array, int level)
+	void BlockCopy::debug_show_texture(Render& render, bgfx::TextureHandle texture, const vec4& rect, bool is_depth, bool is_depth_packed, bool is_array, int level)
 	{
-		uint8_t view_id = 251;
-
-		RenderQuad target_quad = { Rect4, target.dest_quad(vec4(vec2(0.f), vec2(target.m_size) * 0.33f), true) };
+		assert(render.m_target);
+		vec4 dest = rect == vec4(0.f) ? vec4(vec2(0.f), vec2(render.m_target->m_size) * 0.25f) : rect;;
+		RenderQuad target_quad = { Rect4, render.m_target->dest_quad(dest, true) };
 
 		ShaderVersion shader_version = { &m_program };
 		if(is_depth)
@@ -227,6 +227,7 @@ namespace mud
 		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, texture, GFX_TEXTURE_CLAMP);
 		bgfx::setUniform(m_filter.u_uniform.u_source_0_level, &level);
 
-		m_filter.submit_quad(target, view_id, BGFX_INVALID_HANDLE, m_program.version(shader_version), target_quad, 0);
+		uint8_t view = render.debug_pass();
+		m_filter.submit_quad(*render.m_target, view, BGFX_INVALID_HANDLE, m_program.version(shader_version), target_quad, 0);
 	}
 }

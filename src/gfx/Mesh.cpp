@@ -195,6 +195,10 @@ namespace mud
 		// we can't allocate a new mesh with different index size because meshoptimizer remap functions don't allow for different types of indices
 		optmesh = alloc_mesh(mesh.m_vertex_format, uint32_t(vertex_count), index_count, mesh.m_index32);
 
+		optmesh.m_writer.m_aabb = mesh.m_writer.m_aabb;
+		optmesh.m_writer.m_uv0_rect = mesh.m_writer.m_uv0_rect;
+		optmesh.m_writer.m_uv1_rect = mesh.m_writer.m_uv1_rect;
+
 		meshopt_remapIndexBuffer((T*)optmesh.m_indices, (T*)mesh.m_indices, index_count, remap.data());
 
 		meshopt_remapVertexBuffer(optmesh.m_vertices, mesh.m_vertices, mesh.m_vertex_count, vertex_stride, remap.data());

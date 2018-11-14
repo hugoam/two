@@ -47,9 +47,11 @@ namespace mud
 	void BlockGlow::begin_render(Render& render)
 	{
 		UNUSED(render);
-		//BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
-		//copy.debug_show_texture(*render.m_target, render.m_target->m_cascade.m_texture, false, false, false, 1);
-		//copy.debug_show_texture(*render.m_target, render.m_target->m_ping_pong.last());
+#ifdef DEBUG_GLOW
+		BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
+		copy.debug_show_texture(render, render.m_target->m_cascade.m_texture, vec4(0.f), false, false, false, 1);
+		copy.debug_show_texture(render, render.m_target->m_ping_pong.last(), vec4(0.f));
+#endif
 	}
 
 	void BlockGlow::begin_pass(Render& render)

@@ -54,11 +54,13 @@ namespace mud
 		if(!render.m_environment->m_radiance.m_preprocessed)
 			m_prefilter_queue.push_back(&render.m_environment->m_radiance);
 
+#ifdef DEBUG_RADIANCE
 		if(bgfx::isValid(render.m_environment->m_radiance.m_roughness_array))
 		{
-			//BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
-			//copy.debug_show_texture(*render.m_target, render.m_environment->m_radiance.m_roughness_array, false, false, false, 2);
+			BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
+			copy.debug_show_texture(render, render.m_environment->m_radiance.m_roughness_array, vec4(0.f), false, false, false, 2);
 		}
+#endif
 	}
 
 	void BlockRadiance::begin_pass(Render& render)

@@ -54,4 +54,7 @@ namespace mud
 
 		Aabb m_aabb;
 	};
+
+	export_ MUD_GFX_EXPORT Prefab& import_prefab(GfxSystem& gfx_system, ModelFormat format, const string& name, const ImportConfig& config);
+	export_ MUD_GFX_EXPORT void destroy_prefab(GfxSystem& gfx_system, Prefab& prefab);
 }

@@ -8,27 +8,23 @@
 module mud.gfx;
 #else
 #include <infra/Vector.h>
-#include <math/Timer.h>
-#include <math/Random.h>
 #include <pool/ObjectPool.h>
 #include <math/Math.h>
 #include <geom/Intersect.h>
 #include <geom/Symbol.h>
-#include <geom/Geom.h>
 #include <gfx/Types.h>
 #include <gfx/Graph.h>
 #include <gfx/Gfx.h>
 #include <gfx/Draw.h>
-#include <gfx/Shot.h>
 #include <gfx/Prefab.h>
 #include <gfx/Item.h>
 #include <gfx/Animated.h>
 #include <gfx/Particles.h>
 #include <gfx/Scene.h>
-#include <gfx/Blocks/Sky.h>
 #include <gfx/Asset.h>
 #include <gfx/Model.h>
 #include <gfx/Texture.h> // @kludge : make all this logic private and export_ asset stores
+#include <gfx/Blocks/Sky.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Pipeline.h>
 #endif
@@ -99,22 +95,6 @@ namespace mud
 	inline T_Element& create(Scene& scene, T_Args&&... args)
 	{
 		return scene.m_pool->pool<T_Element>().construct(std::forward<T_Args>(args)...);
-	}
-
-	void PrefabNode::draw(Gnode& parent)
-	{
-		Gnode& self = gfx::node(parent, m_object);
-		Gnode& item = gfx::node(self, Ref(this), m_transform.m_position, m_transform.m_rotation, m_transform.m_scale);
-
-		if(m_call.m_callable)
-			m_call.m_arguments[0] = Ref(&item);
-		if(m_call.validate())
-			m_call();
-		//else
-		//	printf("WARNING: invalid prefab node element arguments\n");
-
-		for(PrefabNode& node : m_nodes)
-			node.draw(self);
 	}
 
 namespace gfx

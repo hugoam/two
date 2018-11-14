@@ -12,13 +12,13 @@
 
 #define __i386__
 
-#if (defined(__i386__) || defined(__x86_64__))
+#if defined __i386__ || defined __x86_64__
 #   define HAS_HYPER_THREADING 0      // on x86 we assume we have hyper-threading.
 #else
 #   define HAS_HYPER_THREADING 0
 #endif
 
-#if defined(__EMSCRIPTEN__)
+#if defined __EMSCRIPTEN__
 #   define HAS_THREADING 0
 #else
 #   define HAS_THREADING 1
@@ -30,7 +30,7 @@
 #elif defined __EMSCRIPTEN__
 #   define WAIT_FOR_EVENT()
 #else
-#   if (defined(__i386__) || defined(__x86_64__))
+#   if defined __i386__ || defined __x86_64__
 #       define WAIT_FOR_EVENT()       _mm_pause();
 #   else
 #       define WAIT_FOR_EVENT()

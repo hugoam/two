@@ -41,16 +41,19 @@ namespace mud
 	void PassDepth::queue_draw_element(Render& render, DrawElement& element)
 	{
 		UNUSED(render);
+		
+		if(element.m_material->m_base_block.m_depth_draw_mode == DepthDraw::Enabled)
+		{
+			if(element.m_item->m_shadow == ItemShadow::DoubleSided)
+				element.m_material = m_block_depth.m_depth_material_twosided;
+			else
+				element.m_material = m_block_depth.m_depth_material;
 
-		if(element.m_item->m_shadow == ItemShadow::DoubleSided)
-			element.m_material = m_block_depth.m_depth_material_twosided;
-		else
-			element.m_material = m_block_depth.m_depth_material;
+			element.m_program = element.m_material->m_program;
+			element.m_shader_version = { element.m_material->m_program };
 
-		element.m_program = element.m_material->m_program;
-		element.m_shader_version = { element.m_material->m_program };
-
-		this->add_element(render, element);
+			this->add_element(render, element);
+		}
 	}
 
 	BlockDepth::BlockDepth(GfxSystem& gfx_system)

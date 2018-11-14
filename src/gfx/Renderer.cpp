@@ -55,6 +55,7 @@ namespace mud
 		, m_pass_index(frame.m_render_pass)
 		, m_shot(make_unique<Shot>())
 	{
+		m_debug_pass_index = 245;
 		static bool init_uniform = true;
 		if(init_uniform)
 		{
@@ -68,7 +69,9 @@ namespace mud
 		, m_camera(*viewport.m_camera), m_frame(frame), m_filters(viewport.m_filters), m_lighting(viewport.m_lighting)
 		, m_pass_index(frame.m_render_pass)
 		, m_shot(make_unique<Shot>())
-	{}
+	{
+		m_debug_pass_index = 245;
+	}
 
 	Render::~Render()
 	{}

@@ -15,7 +15,8 @@ module mud.gfx.pbr;
 #include <gfx-pbr/Api.h>
 #endif
 
-//#define MUD_DEPTH_PASS
+#define DEPTH_PASS
+//#define DEBUG_GBUFFERS
 
 namespace mud
 {
@@ -144,7 +145,7 @@ namespace mud
 		this->add_pass<PassGIProbes>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
 		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
 		this->add_pass<PassClear>(gfx_system);
-#ifdef MUD_DEPTH_PASS
+#ifdef DEPTH_PASS
 		this->add_pass<PassDepth>(gfx_system, *pipeline.block<BlockDepth>());
 #endif
 		this->add_pass<PassOpaque>(gfx_system);
@@ -223,7 +224,7 @@ namespace mud
 
 		bgfx::setViewMode(render_pass.m_index, bgfx::ViewMode::DepthAscending);
 
-#ifdef MUD_DEPTH_PASS
+#ifdef DEPTH_PASS
 		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_EQUAL
 								     | BGFX_STATE_WRITE_Z | BGFX_STATE_CULL_CW | BGFX_STATE_MSAA;
 #else
@@ -331,6 +332,18 @@ namespace mud
 
 		m_filter.submit_quad(*render.m_target, render_pass.m_index, render.m_target_fbo,
 							 m_program->version(cluster.m_shader_version), render.m_viewport.m_rect, BGFX_STATE_BLEND_ALPHA);
+
+#ifdef DEBUG_GBUFFERS
+		if(render.m_target)
+		{
+			BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();
+			vec2 size = vec2(render.m_target->m_size) * 0.25f;
+			copy.debug_show_texture(render, render.m_target->m_gbuffer.m_depth,    vec4(vec2(0.f, size.y * 0.f), size), true);
+			copy.debug_show_texture(render, render.m_target->m_gbuffer.m_normal,   vec4(vec2(0.f, size.y * 1.f), size));
+			copy.debug_show_texture(render, render.m_target->m_gbuffer.m_albedo,   vec4(vec2(0.f, size.y * 2.f), size));
+			copy.debug_show_texture(render, render.m_target->m_gbuffer.m_surface,  vec4(vec2(0.f, size.y * 3.f), size));
+		}
+#endif
 	}
 
 	BlockGeometry::BlockGeometry(GfxSystem& gfx_system)

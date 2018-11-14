@@ -303,9 +303,9 @@ namespace mud
 		if(rect_w(viewport.m_rect) != 0 && rect_h(viewport.m_rect) != 0)
 			renderer.render(render);
 
-		//copy.debug_show_texture(*render.m_target, render.m_environment->m_radiance.m_texture->m_texture, false, false, false, 0);
-		//copy.debug_show_texture(*render.m_target, render.m_environment->m_radiance.m_roughness_array, false, false, false, 1);
-		//copy.debug_show_texture(*render.m_target, bgfx::getTexture(render.m_target->m_effects.last()));
+		//copy.debug_show_texture(render, render.m_environment->m_radiance.m_texture->m_texture, vec4(0.f), false, false, false, 0);
+		//copy.debug_show_texture(render, render.m_environment->m_radiance.m_roughness_array, vec4(0.f), false, false, false, 1);
+		//copy.debug_show_texture(render, bgfx::getTexture(render.m_target->m_effects.last()), vec4(0.f));
 	}
 
 	RenderFrame GfxSystem::render_frame()

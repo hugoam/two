@@ -8,9 +8,9 @@
 
 using namespace mud;
 
-static float g_time = 0.f;
+#define CLUSTERED 0
 
-struct LightInstance { Colour colour; };
+static float g_time = 0.f;
 
 std::vector<LightInstance> create_light_grid(size_t size_x, size_t size_y)
 {
@@ -27,17 +27,17 @@ std::vector<LightInstance> create_light_grid(size_t size_x, size_t size_y)
 	return light_items;
 }
 
-void light_grid(Gnode& parent, array_2d<LightInstance> shape_grid, bool moving, LightType light_type, float range, float attenuation, float spot_angle, float spot_attenuation)
+void light_grid(Gnode& parent, array_2d<LightInstance> light_grid, bool moving, LightType light_type, float range, float attenuation, float spot_angle, float spot_attenuation)
 {
-	size_t size_x = shape_grid.m_size_x / 2;
-	size_t size_y = shape_grid.m_size_y / 2;
+	size_t size_x = light_grid.m_size_x / 2;
+	size_t size_y = light_grid.m_size_y / 2;
 	float spacing = 4.f * 2.f;
-	vec3 center = { size_x * spacing * -0.5f, 0.f, size_y * spacing * -0.5f };
+	vec3 center = { (size_x-1) * spacing * -0.5f, 0.f, (size_y-1) * spacing * -0.5f };
 
 	for(size_t x = 0; x < size_x; ++x)
 		for(size_t y = 0; y < size_y; ++y)
 		{
-			LightInstance& light_item = shape_grid[x + y * size_x];
+			LightInstance& light_item = light_grid[x + y * size_x];
 
 			float height = moving ? sinf(g_time + float(y + x) * 0.21f) * 5.f : 5.f;
 
@@ -70,7 +70,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 #endif
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controller(viewer);
+	ui::free_orbit_controller(viewer);
 
 	Gnode& scene = viewer.m_scene->begin();
 
@@ -86,7 +86,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 	static bool debug = false;
 	static bool clustered = true;
 	static bool ground = false;
-	static bool moving_lights = true;
+	static bool moving_lights = false;
 	static LightType light_type = LightType::Point;
 	static float light_range = 9.f;
 	static float light_attenuation = 0.4f;
@@ -96,15 +96,20 @@ void ex_04_lights(Shell& app, Widget& parent)
 	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(), shapes, true, &material);
 	light_grid(scene, { light_items.data(), 10U, 10U }, moving_lights, light_type, light_range, light_attenuation, spot_angle, spot_attenuation);
 
-	//gfx::shape(scene, Quad(vec2(50.f), X3, Y3), Symbol::plain(Colour::AlphaWhite), ItemFlag::Render | ItemFlag::Occluder);
-	gfx::shape(scene, Cylinder(20.f, 20.f, Axis::Y), Symbol::plain(Colour::AlphaWhite), ItemFlag::Render | ItemFlag::Occluder);
+	Colour pink = { 1.f, 0.f, 1.f, 0.15f };
+	gfx::draw(scene, Quad(vec2(40.f), X3,  Y3), Symbol::wire(Colour::White), ItemFlag::Render);
+	gfx::shape(scene, Quad(vec2(40.f), X3,  Y3), Symbol::plain(Colour::Invisible),  ItemFlag::Render | ItemFlag::Occluder);
+	gfx::shape(scene, Quad(vec2(40.f), X3, -Y3), Symbol::plain(Colour::Invisible),  ItemFlag::Render | ItemFlag::Occluder);
+	//gfx::shape(scene, Cylinder(20.f, 20.f, Axis::Y), Symbol::plain(Colour::AlphaWhite), ItemFlag::Render | ItemFlag::Occluder);
 
+#if CLUSTERED 
 	if(clustered && viewer.m_viewport.m_rect != uvec4(0) && !viewer.m_camera.m_clusters)
 	{
 		viewer.m_camera.m_clustered = true;
 		viewer.m_camera.m_clusters = make_unique<Froxelizer>(viewer.m_scene->m_gfx_system);
 		viewer.m_camera.m_clusters->prepare(viewer.m_viewport, viewer.m_camera.m_projection, viewer.m_camera.m_near, viewer.m_camera.m_far);
 	}
+#endif
 
 	if(debug)
 	{

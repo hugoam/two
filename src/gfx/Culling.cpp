@@ -29,7 +29,7 @@ module mud.gfx;
 #include <MaskedOcclusionCulling.h>
 #endif
 
-//#define DEBUG_VISIBLE
+#define DEBUG_VISIBLE
 #define DEBUG_CULLED
 //#define DEBUG_RECTS
 //#define DEBUG_CULLED_RECTS
@@ -369,7 +369,7 @@ namespace mud
 		}
 
 		BlockCopy& copy = *render.m_scene.m_gfx_system.m_pipeline->block<BlockCopy>();
-		copy.debug_show_texture(as<FrameBuffer>(*render.m_target), m_depth_texture);
+		copy.debug_show_texture(render, m_depth_texture, vec4(0.f));
 	}
 #endif
 }

@@ -142,7 +142,7 @@ namespace mud
 
 	void PassUnshaded::next_draw_pass(Render& render, Pass& render_pass)
 	{
-		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A //| BGFX_STATE_DEPTH_TEST_LEQUAL
+		render_pass.m_bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LEQUAL
 									 | BGFX_STATE_MSAA | BGFX_STATE_CULL_CW | BGFX_STATE_BLEND_ALPHA;
 
 		bgfx::Encoder& encoder = *render_pass.m_encoder;
