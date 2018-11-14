@@ -16,7 +16,7 @@ module mud.gfx;
 #endif
 
 #define MUD_GL_NO_MRT
-#define MUD_GFX_DEFERRED
+//#define MUD_GFX_DEFERRED
 
 namespace mud
 {
