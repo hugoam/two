@@ -308,10 +308,10 @@ namespace mud
 		m_texture = bgfx::createTexture2D(SPRITE_TEXTURE_SIZE, SPRITE_TEXTURE_SIZE, false, 1, bgfx::TextureFormat::BGRA8);
 
 		this->create_sprite("particle.ktx", "particle.ktx");
-		this->create_sprite("flames.png", "flames_b.png", { 2, 2 });
-		this->create_sprite("billows.png", "billows_b.png", { 2, 2 });
-		this->create_sprite("wave.png", "wave_b.png");
-		this->create_sprite("geometric.png", "geometric_b.png", { 2, 2 });
+		//this->create_sprite("flames.png", "flames_b.png", { 2, 2 });
+		//this->create_sprite("billows.png", "billows_b.png", { 2, 2 });
+		//this->create_sprite("wave.png", "wave_b.png");
+		//this->create_sprite("geometric.png", "geometric_b.png", { 2, 2 });
 	}
 
 	void BlockParticles::begin_render(Render& render)
