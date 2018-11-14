@@ -7,13 +7,10 @@
 #include <iostream>
 #include <vector>
 
-/* vorbis */
 #include <vorbis/vorbisfile.h>
 
-/* OpenAL */
-#include <al.h>
-#include <alc.h>
-
+#include <AL/al.h>
+#include <AL/alc.h>
 
 namespace mud
 {

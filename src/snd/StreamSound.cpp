@@ -5,9 +5,9 @@
 
 #include <snd/StreamSound.h>
 
-#include <al.h>
-
 #include <snd/OggFileBuffer.h>
+
+#include <AL/al.h>
 
 namespace mud
 {

@@ -7,8 +7,7 @@
 
 #include <iostream>
 
-/* OpenAL */
-#include <al.h>
+#include <AL/al.h>
 
 namespace mud
 {

@@ -7,9 +7,8 @@
 
 #include <infra/Vector.h>
 
-/* OpenAL */
-#include <al.h>
-#include <alc.h>
+#include <AL/al.h>
+#include <AL/alc.h>
 
 #include <snd/StaticSound.h>
 #include <snd/StreamSound.h>
