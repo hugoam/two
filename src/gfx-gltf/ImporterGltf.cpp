@@ -559,7 +559,9 @@ namespace mud
 				model.add_item(mesh, bxidentity());
 
 				MeshPacker packer;
-				//packer.m_quantize = true;
+#ifndef MUD_PLATFORM_EMSCRIPTEN
+				packer.m_quantize = true;
+#endif
 
 				packer.m_primitive = PrimitiveType::Triangles;//static_cast<PrimitiveType>(primitive.mode);
 				import_attributes(gltf, packer, primitive.attributes);
@@ -603,7 +605,11 @@ namespace mud
 				if(packer.m_tangents.empty() && packer.m_uv0s.empty())
 					printf("WARNING: mesh %s imported without tangents (no uvs)\n", name.c_str());
 
+#ifdef MUD_PLATFORM_EMSCRIPTEN
+				mesh.write(PLAIN, packer, false);
+#else
 				mesh.write(PLAIN, packer, config.m_optimize_geometry);
+#endif
 				//mesh.write(PLAIN, packer);
 			}
 
