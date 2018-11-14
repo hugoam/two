@@ -20,6 +20,9 @@ module mud.gfx;
 
 namespace mud
 {
+	PrefabNode::PrefabNode()
+	{}
+
 	void PrefabNode::draw(Gnode& parent)
 	{
 		Gnode& self = gfx::node(parent, m_object);
@@ -35,6 +38,10 @@ namespace mud
 		for(PrefabNode& node : m_nodes)
 			node.draw(self);
 	}
+	
+	Prefab::Prefab(cstring name)
+		: m_name(name)
+	{}
 
 	Prefab& import_prefab(GfxSystem& gfx_system, ModelFormat format, const string& name, const ImportConfig& config)
 	{

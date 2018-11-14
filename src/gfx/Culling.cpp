@@ -29,8 +29,8 @@ module mud.gfx;
 #include <MaskedOcclusionCulling.h>
 #endif
 
-#define DEBUG_VISIBLE
-#define DEBUG_CULLED
+//#define DEBUG_VISIBLE
+//#define DEBUG_CULLED
 //#define DEBUG_RECTS
 //#define DEBUG_CULLED_RECTS
 #define ITEM_TO_CLIP

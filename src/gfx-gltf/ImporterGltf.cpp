@@ -560,7 +560,7 @@ namespace mud
 
 				MeshPacker packer;
 #ifndef MUD_PLATFORM_EMSCRIPTEN
-				packer.m_quantize = true;
+				//packer.m_quantize = true;
 #endif
 
 				packer.m_primitive = PrimitiveType::Triangles;//static_cast<PrimitiveType>(primitive.mode);

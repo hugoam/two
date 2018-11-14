@@ -11,6 +11,7 @@
 #include <gfx/Forward.h>
 #include <gfx/Node3.h>
 #include <gfx/Item.h>
+#include <gfx/Importer.h>
 
 #ifndef MUD_CPP_20
 #include <vector>
@@ -30,7 +31,7 @@ namespace mud
 
 	export_ struct refl_ MUD_GFX_EXPORT PrefabNode
 	{
-		PrefabNode() {}
+		PrefabNode();
 
 		attr_ Transform m_transform = {};
 		attr_ Ref m_object = {};
@@ -44,7 +45,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Prefab
 	{
 	public:
-		Prefab(cstring name) : m_name(name) {}
+		Prefab(cstring name);
 
 		attr_ string m_name;
 		attr_ PrefabNode m_node;
