@@ -33,7 +33,7 @@ namespace mud
 	{
 		static float text_size = 15.f;
 		style.m_empty = false;
-		style.m_text_font = "veramono-bold";
+		//style.m_text_font = "veramono-bold";
 		style.m_text_colour = colour;
 		style.m_text_size = text_size;
 	}

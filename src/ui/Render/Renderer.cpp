@@ -52,11 +52,11 @@ namespace mud
 
 		m_impl->m_font_sources["dejavu"] = string(resource_path) + "interface/fonts/DejaVuSans.ttf";
 		m_impl->m_font_sources["consolas"] = string(resource_path) + "interface/fonts/Consolas.ttf";
-		m_impl->m_font_sources["consolas-bold"] = string(resource_path) + "interface/fonts/Consolas-Bold.ttf";
-		m_impl->m_font_sources["inconsolata"] = string(resource_path) + "interface/fonts/Inconsolata-Regular.ttf";
-		m_impl->m_font_sources["inconsolata-bold"] = string(resource_path) + "interface/fonts/Inconsolata-Bold.ttf";
-		m_impl->m_font_sources["veramono"] = string(resource_path) + "interface/fonts/VeraMono.ttf";
-		m_impl->m_font_sources["veramono-bold"] = string(resource_path) + "interface/fonts/VeraMono-Bold.ttf";
+		//m_impl->m_font_sources["consolas-bold"] = string(resource_path) + "interface/fonts/Consolas-Bold.ttf";
+		//m_impl->m_font_sources["inconsolata"] = string(resource_path) + "interface/fonts/Inconsolata-Regular.ttf";
+		//m_impl->m_font_sources["inconsolata-bold"] = string(resource_path) + "interface/fonts/Inconsolata-Bold.ttf";
+		//m_impl->m_font_sources["veramono"] = string(resource_path) + "interface/fonts/VeraMono.ttf";
+		//m_impl->m_font_sources["veramono-bold"] = string(resource_path) + "interface/fonts/VeraMono-Bold.ttf";
 	}
 
 	Vg::~Vg()
