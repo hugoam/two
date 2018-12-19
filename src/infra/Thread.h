@@ -9,7 +9,7 @@ namespace mud
 {
 	export_ MUD_INFRA_EXPORT void set_thread_name(const char* name);
 
-	enum class ThreadPriority
+	export_ enum class ThreadPriority
 	{
 		Normal,
 		Display,

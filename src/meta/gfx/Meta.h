@@ -183,7 +183,7 @@ namespace mud
         meta_enum<mud::PbrSpecularMode>();
     }
     
-    {
+    /*{
         static Meta meta = { type<mud::PrefabType>(), &namspc({ "mud" }), "PrefabType", sizeof(mud::PrefabType), TypeClass::Enum };
         static Enum enu = { type<mud::PrefabType>(),
             true,
@@ -192,7 +192,7 @@ namespace mud
             { var(mud::PrefabType::None), var(mud::PrefabType::Item), var(mud::PrefabType::Model), var(mud::PrefabType::Shape), var(mud::PrefabType::Particles), var(mud::PrefabType::Light) }
         };
         meta_enum<mud::PrefabType>();
-    }
+    }*/
     
     {
         static Meta meta = { type<mud::ShaderType>(), &namspc({ "mud" }), "ShaderType", sizeof(mud::ShaderType), TypeClass::Enum };
@@ -292,12 +292,12 @@ namespace mud
 		meta_sequence<std::vector<mud::AnimationPlay>, mud::AnimationPlay>();
 	}
 
-    {
+    /*{
         static Meta meta = { type<std::vector<mud::PrefabNode>>(), &namspc({}), "std::vector<mud::PrefabNode>", sizeof(std::vector<mud::PrefabNode>), TypeClass::Sequence };
         static Class cls = { type<std::vector<mud::PrefabNode>>() };
         cls.m_content = &type<mud::PrefabNode>();
         meta_sequence<std::vector<mud::PrefabNode>, mud::PrefabNode>();
-    }
+    }*/
     
     
     
@@ -1939,7 +1939,7 @@ namespace mud
     
         
     // mud::Prefab
-    {
+    /*{
         static Meta meta = { type<mud::Prefab>(), &namspc({ "mud" }), "Prefab", sizeof(mud::Prefab), TypeClass::Object };
         static Class cls = { type<mud::Prefab>(),
             // bases
@@ -1968,12 +1968,12 @@ namespace mud
         
         
         meta_class<mud::Prefab>();
-    }
+    }*/
     
     
         
     // mud::PrefabNode
-    {
+    /*{
         static Meta meta = { type<mud::PrefabNode>(), &namspc({ "mud" }), "PrefabNode", sizeof(mud::PrefabNode), TypeClass::Struct };
         static Class cls = { type<mud::PrefabNode>(),
             // bases
@@ -2006,7 +2006,7 @@ namespace mud
         
         
         meta_class<mud::PrefabNode>();
-    }
+    }*/
     
     
     

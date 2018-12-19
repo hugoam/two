@@ -6,12 +6,32 @@
 
 #ifndef MUD_MODULES
 #include <type/Ref.h>
+#include <refl/Enum.h>
 #include <ui/Ui.h>
 #endif
 #include <uio/Forward.h>
 
 namespace mud
 {
+namespace ui
+{
+	template <class T>
+	inline bool enum_input(Widget& parent, T& value)
+	{
+		uint32_t index = enum_index(Ref(&value));
+		//ui::radio_switch(parent, meta(value).m_enum_names, index);
+		if(ui::dropdown_input(parent, to_array(enu<T>().m_names), index))
+		{
+			enum_set_index(Ref(&value), index);
+			return true;
+		}
+		return false;
+	}
+
+	template <class T>
+	inline bool enum_field(Widget& parent, cstring name, T& value, bool reverse = false) { return field([&](Widget& self) { return enum_input<T>(self, value); }, parent, name, reverse); }
+}
+
 	export_ MUD_UIO_EXPORT void set_meta_palette(const std::vector<uint32_t>& palette);
 
 	export_ MUD_UIO_EXPORT void meta_description(Widget& parent, Type& type);

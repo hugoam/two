@@ -9,7 +9,6 @@
 #include <math/Stat.h>
 #include <math/Colour.h>
 #include <math/Math.h>
-#include <refl/Enum.h>
 #endif
 #include <ui/Forward.h>
 #include <ui/Style/Styles.h>
@@ -157,22 +156,6 @@ namespace ui
 	export_ func_ inline bool typedown_field(Widget& parent, cstring name, array<cstring> choices, uint32_t& value, bool reverse = false) { return field([&](Widget& self) { return typedown_input(self, choices, value); }, parent, name, reverse); }
 	export_ func_ inline bool color_field(Widget& parent, cstring name, Colour& value, bool reverse = false) { return field([&](Widget& self) { return color_toggle_edit(self, value); }, parent, name, reverse); }
 	export_ func_ inline void color_display_field(Widget& parent, cstring name, const Colour& value, bool reverse = false) { field([&](Widget& self) { color_display(self, value); return false; }, parent, name, reverse); }
-
-	template <class T>
-	inline bool enum_input(Widget& parent, T& value)
-	{
-		uint32_t index = enum_index(Ref(&value));
-		//ui::radio_switch(parent, meta(value).m_enum_names, index);
-		if(ui::dropdown_input(parent, to_array(enu<T>().m_names), index))
-		{
-			enum_set_index(Ref(&value), index);
-			return true;
-		}
-		return false;
-	}
-
-	template <class T>
-	inline bool enum_field(Widget& parent, cstring name, T& value, bool reverse = false) { return field([&](Widget& self) { return enum_input<T>(self, value); }, parent, name, reverse); }
 
 	inline void field_label(Widget& parent, cstring field, cstring value)
 	{

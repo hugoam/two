@@ -20,6 +20,7 @@ module mud.gfx;
 
 namespace mud
 {
+#ifdef MUD_PREFABNODE
 	PrefabNode::PrefabNode()
 	{}
 
@@ -38,7 +39,8 @@ namespace mud
 		for(PrefabNode& node : m_nodes)
 			node.draw(self);
 	}
-	
+#endif
+
 	Prefab::Prefab(cstring name)
 		: m_name(name)
 	{}

@@ -11,7 +11,7 @@
 module mud.gfx;
 #else
 #include <infra/File.h>
-#include <srlz/Serial.h>
+//#include <srlz/Serial.h>
 #include <gfx/Types.h>
 #include <gfx/Importer.h>
 #include <gfx/Prefab.h>
@@ -61,19 +61,6 @@ namespace mud
 			}
 
 		return false;
-	}
-
-	ImportConfig load_model_config(cstring path, cstring model_name)
-	{
-		ImportConfig config = {};
-
-		string config_path = file_directory(path) + "/" + model_name + ".cfg";
-		if(file_exists(config_path.c_str()))
-			unpack_json_file(Ref(&config), config_path);
-
-		config.m_transform = bxSRT(config.m_scale, config.m_rotation, config.m_position);
-
-		return config;
 	}
 
 	void import_to_prefab(GfxSystem& gfx_system, Prefab& prefab, Import& state, uint32_t flags)

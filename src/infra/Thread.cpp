@@ -1,5 +1,8 @@
-#include <infra/Config.h>
-#include <infra/Thread.h>
+//  Copyright (c) 2018 Hugo Amiard hugo.amiard@laposte.net
+//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
+//  This notice and the license may not be removed or altered from any source distribution.
+
+#include <infra/Cpp20.h>
 
 #if !defined(WIN32)
 #    include <pthread.h>
@@ -27,6 +30,14 @@
 #ifdef WIN32
 #include <Windows.h>
 #include <tchar.h>
+#endif
+
+
+#ifdef MUD_MODULES
+module mud.infra;
+#else
+#include <infra/Config.h>
+#include <infra/Thread.h>
 #endif
 
 namespace mud

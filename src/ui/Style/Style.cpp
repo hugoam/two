@@ -11,9 +11,9 @@ module mud.ui;
 #include <ui/Style/Style.h>
 #include <ui/Style/Layout.h>
 #include <ui/Style/Skin.h>
-#include <ui/Style/Styler.h>
 #include <ui/Widget.h>
 #include <ui/Input.h>
+#include <ui/UiWindow.h>
 #endif
 
 namespace mud
@@ -82,10 +82,9 @@ namespace mud
 		: m_base(base)
 		, m_impl(make_unique<Impl>())
 	{
-		if(Styler::s_styles[name] == nullptr)
-			Styler::s_styles[name] = this;
+		if(UiWindow::s_styles[name] == nullptr)
+			UiWindow::s_styles[name] = this;
 
-		m_defined = false;
 		m_impl->m_name = name;
 		m_impl->m_layout = { name };
 		m_impl->m_skin = { name };
@@ -120,7 +119,6 @@ namespace mud
 		m_impl->m_layout = other.m_impl->m_layout;
 		m_impl->m_skin = other.m_impl->m_skin;
 		m_impl->m_skins = other.m_impl->m_skins;
-		m_defined = other.m_defined;
 		return *this;
 	}
 

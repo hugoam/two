@@ -1,4 +1,9 @@
-#include <mud/mud.h>
+#include <math/Api.h>
+#include <ui/Api.h>
+#include <gfx/Api.h>
+#include <gfx-ui/Api.h>
+#include <mud/Shell.h>
+
 #include <04_lights/04_lights.h>
 
 #include <01_shapes/01_shapes.h>

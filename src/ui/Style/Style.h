@@ -41,7 +41,7 @@ namespace mud
 		
 		struct Impl;
 		unique_ptr<Impl> m_impl;
-
-		bool m_defined;
 	};
+
+	export_ MUD_UI_EXPORT void style_minimal(UiWindow& ui_window);
 }

@@ -1,0 +1,29 @@
+#include <cpp/preimport.h>
+
+#include <obj/Config.h>
+
+export module mud.procgen.refl;
+export import std.core;
+export import std.io;
+export import std.threading;
+export import std.regex;
+
+export import mud.infra;
+export import mud.obj;
+export import mud.pool;
+export import mud.refl;
+export import json11;
+export import mud.infra;
+export import mud.obj;
+export import mud.srlz;
+export import mud.math;
+export import mud.geom;
+export import mud.procgen;
+export import mud.infra.refl;
+export import mud.obj.refl;
+export import mud.srlz.refl;
+export import mud.math.refl;
+export import mud.geom.refl;
+
+#include <meta/procgen/Api.h>
+

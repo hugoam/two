@@ -67,6 +67,19 @@ namespace mud
 
 namespace mud
 {
+	static ImportConfig load_model_config(cstring path, cstring model_name)
+	{
+		ImportConfig config = {};
+
+		string config_path = file_directory(path) + "/" + model_name + ".cfg";
+		if(file_exists(config_path.c_str()))
+			unpack_json_file(Ref(&config), config_path);
+
+		config.m_transform = bxSRT(config.m_scale, config.m_rotation, config.m_position);
+
+		return config;
+	}
+
 	FromJson gltf_unpacker()
 	{
 		FromJson unpacker;

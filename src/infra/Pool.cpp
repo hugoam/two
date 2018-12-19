@@ -1,9 +1,19 @@
-#include <infra/Config.h>
-#include <infra/Pool.h>
+//  Copyright (c) 2018 Hugo Amiard hugo.amiard@laposte.net
+//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
+//  This notice and the license may not be removed or altered from any source distribution.
 
+#include <infra/Cpp20.h>
+#ifndef MUD_CPP_20
 #include <cmath>
 #include <random>
 #include <algorithm>
+#endif
+
+#ifdef MUD_MODULES
+module mud.infra;
+#else
+#include <infra/Pool.h>
+#endif
 
 namespace mud
 {

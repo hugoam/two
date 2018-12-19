@@ -20,5 +20,4 @@
 #include <math/VecJson.h>
 #include <math/VecMath.h>
 #include <math/VecOps.h>
-#include <math/Anim/Anim.h>
 

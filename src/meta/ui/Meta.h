@@ -972,7 +972,7 @@ namespace mud
     
         
     // mud::Styler
-    {
+    /*{
         static Meta meta = { type<mud::Styler>(), &namspc({ "mud" }), "Styler", sizeof(mud::Styler), TypeClass::Object };
         static Class cls = { type<mud::Styler>(),
             // bases
@@ -999,7 +999,7 @@ namespace mud
         
         
         meta_class<mud::Styler>();
-    }
+    }*/
     
     
     

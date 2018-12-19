@@ -8,11 +8,13 @@
 #include <infra/Global.h>
 #include <infra/Limits.h>
 #include <infra/NonCopy.h>
+#include <infra/Pool.h>
 #include <infra/Pragma.h>
 #include <infra/Reverse.h>
 #include <infra/String.h>
 #include <infra/StringConvert.h>
 #include <infra/Strung.h>
+#include <infra/Thread.h>
 #include <infra/Types.h>
 #include <infra/TypeTraits.h>
 #include <infra/Vector.h>

@@ -82,7 +82,5 @@ namespace mud
 		virtual void repack(const string& filepath, const ImportConfig& config) = 0;
 	};
 
-	export_ MUD_GFX_EXPORT ImportConfig load_model_config(cstring path, cstring model_name);
-
 	export_ MUD_GFX_EXPORT void import_to_prefab(GfxSystem& gfx_system, Prefab& prefab, Import& state, uint32_t flags = 0);
 }

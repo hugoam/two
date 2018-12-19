@@ -17,7 +17,7 @@ module mud.tool;
 #include <uio/Edit/UiEdit.h>
 #include <tool/Types.h>
 #include <tool/EditContext.h>
-#include <gfx-ui/GfxEdit.h>
+#include <gfx-edit/GfxEdit.h>
 #include <tool/Brush.h>
 #endif
 

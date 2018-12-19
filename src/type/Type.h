@@ -26,8 +26,8 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 	{
 	public:
 		explicit Type();
-		explicit Type(const char* name);
-		explicit Type(const char* name, Type& base);
+		explicit Type(const char* name, size_t size = 0);
+		explicit Type(const char* name, Type& base, size_t size = 0);
 		~Type();
 
 		Type(Type&) = delete;
@@ -37,6 +37,7 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 
 		attr_ Id m_id;
 		attr_ cstring m_name;
+		attr_ size_t m_size;
 		attr_ Type* m_base = nullptr;
 
 		bool is(Type& type) const;

@@ -2,7 +2,9 @@
 
 #include <meta/type/Module.h>
 #include <meta/math/Module.h>
-#include <meta/procgen/Module.h>
+#include <meta/noise/Module.h>
+#include <meta/wfc/Module.h>
+#include <meta/fract/Module.h>
 #include <meta/lang/Module.h>
 #include <meta/ui/Module.h>
 #include <meta/uio/Module.h>

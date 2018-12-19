@@ -10,6 +10,9 @@
 #include <lang/Api.h>
 #include <ui/Api.h>
 #include <uio/Api.h>
+#include <noise/Api.h>
+#include <wfc/Api.h>
+#include <fract/Api.h>
 
 #if defined MUD_RENDERER_BGFX
 #include <bgfx/Config.h>
@@ -19,8 +22,8 @@
 #include <gfx-obj/Api.h>
 #include <gfx-gltf/Api.h>
 #include <gfx-ui/Api.h>
-#include <procgen/Api.h>
-#include <procgen-gfx/Api.h>
+#include <gfx-edit/Api.h>
+#include <wfc-gfx/Api.h>
 #include <tool/Api.h>
 
 #include <mud/Shell.h>

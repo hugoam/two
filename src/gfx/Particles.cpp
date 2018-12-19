@@ -18,7 +18,6 @@ module mud.gfx;
 #include <pool/Pool.h>
 #include <math/Math.h>
 #include <math/Random.h>
-#include <math/Anim/Anim.h>
 #include <geom/ShapeDistrib.h>
 #include <gfx/Types.h>
 #include <gfx/Particles.h>

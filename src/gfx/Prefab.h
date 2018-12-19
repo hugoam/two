@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <refl/Method.h>
+//#include <refl/Method.h>
 #include <geom/Aabb.h>
 #endif
 #include <gfx/Forward.h>
@@ -19,6 +19,7 @@
 
 namespace mud
 {
+#ifdef MUD_PREFABNODE
 	export_ enum class refl_ PrefabType : unsigned int
 	{
 		None,
@@ -41,6 +42,7 @@ namespace mud
 
 		void draw(Gnode& parent);
 	};
+#endif
 
 	export_ class refl_ MUD_GFX_EXPORT Prefab
 	{
@@ -48,7 +50,9 @@ namespace mud
 		Prefab(cstring name);
 
 		attr_ string m_name;
+#ifdef MUD_PREFABNODE
 		attr_ PrefabNode m_node;
+#endif
 
 		std::vector<Node3> m_nodes;
 		std::vector<Item> m_items;

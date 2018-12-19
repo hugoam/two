@@ -1,4 +1,8 @@
-#include <mud/mud.h>
+#include <ui/Api.h>
+#include <gfx/Api.h>
+#include <gfx-ui/Api.h>
+#include <mud/Shell.h>
+
 #include <04_sponza/04_sponza.h>
 
 #include <01_shapes/01_shapes.h>

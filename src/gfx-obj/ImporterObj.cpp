@@ -16,12 +16,14 @@
 module mud.gfx.obj;
 #else
 #include <infra/Vector.h>
+#include <infra/File.h>
 #include <infra/StringConvert.h>
 #include <pool/Pool.h>
 #include <math/Timer.h>
 #include <math/Stream.h>
 #include <math/VecOps.h>
 #include <geom/Mesh.h>
+#include <srlz/Serial.h>
 #include <gfx/Material.h>
 #include <gfx/Mesh.h>
 #include <gfx/Model.h>
@@ -37,6 +39,19 @@ module mud.gfx.obj;
 
 namespace mud
 {
+	static ImportConfig load_model_config(cstring path, cstring model_name)
+	{
+		ImportConfig config = {};
+
+		string config_path = file_directory(path) + "/" + model_name + ".cfg";
+		if(file_exists(config_path.c_str()))
+			unpack_json_file(Ref(&config), config_path);
+
+		config.m_transform = bxSRT(config.m_scale, config.m_rotation, config.m_position);
+
+		return config;
+	}
+
 	ImporterOBJ::ImporterOBJ(GfxSystem& gfx_system)
 		: m_gfx_system(gfx_system)
 	{
@@ -101,7 +116,7 @@ namespace mud
 
 			auto fetch_texture = [&](const string& path) -> Texture*
 			{
-				// @todo replace backslashes with slashes  ?
+				// @todo replace backslashes with slashes ?
 				if(gfx_system.locate_file(("textures/" + path).c_str()).m_location)
 					return gfx_system.textures().file(path.c_str());
 				else

@@ -39,7 +39,5 @@
 #include <ui/Style/Paint.h>
 #include <ui/Style/Skin.h>
 #include <ui/Style/Style.h>
-#include <ui/Style/StyleParser.h>
-#include <ui/Style/Styler.h>
 #include <ui/Style/Styles.h>
 

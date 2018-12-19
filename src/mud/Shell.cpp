@@ -1,7 +1,12 @@
-#include <mud/mud.h>
-#include <mud/Types.h>
+//#include <mud/mud.h>
+//#include <mud/Types.h>
+//#include <mud/Modules.h>
+
 #include <mud/Shell.h>
-#include <mud/Modules.h>
+
+#include <gfx-pbr/Api.h>
+#include <gfx-obj/Api.h>
+#include <gfx-gltf/Api.h>
 
 #include <gfx/GfxSystem.h>
 
@@ -45,21 +50,21 @@ namespace mud
 		, m_resource_path(resource_paths[0])
 		, m_job_system()
 		, m_gfx_system(resource_paths)
-		, m_lua(false)
-		, m_wren(false)
-		, m_editor(m_gfx_system)
+		//, m_lua(false)
+		//, m_wren(false)
+		//, m_editor(m_gfx_system)
 	{
-		System::instance().load_modules({ &mud_infra::m(), &mud_type::m(), &mud_pool::m(), &mud_refl::m(), &mud_proto::m(), &mud_tree::m() });
-		System::instance().load_modules({ &mud_srlz::m(), &mud_math::m(), &mud_geom::m(), &mud_procgen::m(), &mud_lang::m() });
-		System::instance().load_modules({ &mud_ctx::m(), &mud_ui::m(), &mud_gfx::m(), &mud_gfx_pbr::m(), &mud_gfx_obj::m(), &mud_gfx_gltf::m(), &mud_gfx_ui::m(), &mud_tool::m() });
+		//System::instance().load_modules({ &mud_infra::m(), &mud_type::m(), &mud_pool::m(), &mud_refl::m(), &mud_proto::m(), &mud_tree::m() });
+		//System::instance().load_modules({ &mud_srlz::m(), &mud_math::m(), &mud_geom::m(), &mud_noise::m(), &mud_wfc::m(), &mud_fract::m(), &mud_lang::m() });
+		//System::instance().load_modules({ &mud_ctx::m(), &mud_ui::m(), &mud_gfx::m(), &mud_gfx_pbr::m(), &mud_gfx_obj::m(), &mud_gfx_gltf::m(), &mud_gfx_ui::m(), &mud_tool::m() });
 
 		// @todo this should be automatically done by math module
 		register_math_conversions();
 
-		m_editor.m_script_editor.m_lua = &m_lua;
-		m_editor.m_script_editor.m_wren = &m_wren;
+		//m_editor.m_script_editor.m_lua = &m_lua;
+		//m_editor.m_script_editor.m_wren = &m_wren;
 
-		declare_gfx_edit();
+		//declare_gfx_edit();
 
 		m_gfx_system.m_job_system = &m_job_system;
 		m_job_system.adopt();
@@ -119,12 +124,21 @@ namespace mud
 #endif
 		m_gfx_system.init_pipeline();
 
-		static ImporterOBJ obj_importer(m_gfx_system);
-		static ImporterGltf gltf_importer(m_gfx_system);
+		//static ImporterOBJ obj_importer(m_gfx_system);
+		//static ImporterGltf gltf_importer(m_gfx_system);
 
-		string stylesheet = "minimal.yml";
+		//string stylesheet = "minimal.yml";
 		//string stylesheet = "vector.yml";
 		//string stylesheet = "blendish_dark.yml";
-		set_style_sheet(*m_ui_window->m_styler, (string(m_resource_path) + "interface/styles/" + stylesheet).c_str());
+		//set_style_sheet(*m_ui_window->m_styler, (string(m_resource_path) + "interface/styles/" + stylesheet).c_str());
+
+		style_minimal(*m_ui_window);
+	}
+
+	void shell_context(Widget& parent, ShellContext& context)
+	{
+		Widget& board = ui::board(parent);
+		context.m_screen = &ui::board(board);
+		context.m_dockbar = &ui::dockbar(board, context.m_docksystem);
 	}
 }

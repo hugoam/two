@@ -17,7 +17,9 @@
 #include <srlz/Types.h>
 #include <math/Types.h>
 #include <geom/Types.h>
-#include <procgen/Types.h>
+#include <noise/Types.h>
+#include <wfc/Types.h>
+#include <fract/Types.h>
 #include <lang/Types.h>
 #include <ctx/Types.h>
 #include <ui/Types.h>
@@ -32,7 +34,7 @@
 #include <gfx-gltf/Types.h>
 #include <gfx-ui/Types.h>
 #include <tool/Types.h>
-#include <procgen-gfx/Types.h>
+#include <wfc-gfx/Types.h>
 #endif
 
 #ifndef MUD_CPP_20

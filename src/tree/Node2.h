@@ -24,18 +24,14 @@ namespace mud
 		virtual ~NodeState() {}
 	};
 
-	export_  class Graph
+	export_ class Graph
 	{
 	public:
 		Graph() {}
 		Graph(Graph* parent, void* identity) : m_parent(parent), m_identity(identity) {}
-		virtual ~Graph() {}
 
 		Graph(Graph&& other) = default;
 		Graph& operator=(Graph&& other) = default;
-
-		template <class T_Node>
-		T_Node& impl() { return static_cast<T_Node&>(*this); }
 
 		Graph* m_parent = nullptr;
 		void* m_identity = nullptr;

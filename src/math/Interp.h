@@ -8,7 +8,7 @@
 #include <type/Var.h>
 #include <infra/Global.h>
 #include <type/Dispatch.h>
-#include <refl/Meta.h>
+//#include <refl/Meta.h>
 #endif
 #include <math/Forward.h>
 #include <math/VecOps.h>
@@ -87,7 +87,7 @@ namespace mud
 	}
 
 	export_ inline void interpolate(Ref result, Ref a, Ref b, float t) { Lerp::me().dispatch(result, a, b, t); }
-	export_ inline Var interpolate(Ref a, Ref b, float t) { Var result = meta(a).m_empty_var; Lerp::me().dispatch(result.m_ref, a, b, t); return result; }
+	//export_ inline Var interpolate(Ref a, Ref b, float t) { Var result = meta(a).m_empty_var; Lerp::me().dispatch(result.m_ref, a, b, t); return result; }
 	export_ inline void interpolate_cubic(Ref result, Ref a, Ref b, Ref d, Ref e, float t) { UNUSED(e); UNUSED(d); return interpolate(result, a, b, t); }
-	export_ inline Var interpolate_cubic(Ref a, Ref b, Ref d, Ref e, float t) { UNUSED(e); UNUSED(d); return interpolate(a, b, t); }
+	//export_ inline Var interpolate_cubic(Ref a, Ref b, Ref d, Ref e, float t) { UNUSED(e); UNUSED(d); return interpolate(a, b, t); }
 }

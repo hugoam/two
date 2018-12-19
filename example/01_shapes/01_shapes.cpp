@@ -1,4 +1,8 @@
-#include <mud/mud.h>
+#include <math/Api.h>
+#include <gfx/Api.h>
+#include <gfx-ui/Api.h>
+#include <mud/Shell.h>
+
 #include <01_shapes/01_shapes.h>
 
 using namespace mud;

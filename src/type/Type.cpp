@@ -49,9 +49,10 @@ namespace mud
 		, m_name("")
 	{}
 
-	Type::Type(const char* name)
+	Type::Type(const char* name, size_t size)
 		: m_id(s_type_index++)
 		, m_name(name)
+		, m_size(size)
 	{
 		//printf("DEBUG: Type %s %i\n", name, int(m_id));
 
@@ -59,8 +60,8 @@ namespace mud
 			printf("WARNING: Invalid type created, this means an lref was created for a type which isn't exported\n");
 	}
 	
-	Type::Type(const char* name, Type& base)
-		: Type(name)
+	Type::Type(const char* name, Type& base, size_t size)
+		: Type(name, size)
 	{
 		m_base = &base;
 	}

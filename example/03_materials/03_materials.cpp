@@ -1,4 +1,9 @@
-#include <mud/mud.h>
+#include <ui/Api.h>
+//#include <uio/Api.h>
+#include <gfx/Api.h>
+#include <gfx-ui/Api.h>
+#include <mud/Shell.h>
+
 #include <03_materials/03_materials.h>
 
 using namespace mud;
@@ -192,6 +197,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 	//roughness_spheres(scene);
 	material_spheres(scene, materials);
 
+#if 0
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
 		auto callback = [&](Item* item)
@@ -204,6 +210,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 		};
 		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
 	}
+#endif
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
@@ -212,16 +219,18 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 		ui::label(sheet, "Environment :");
 		ui::number_field<float>(sheet, "Ambient", { viewer.m_environment.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
 
-		if(edited)
-			object_edit(*dock, Ref(edited)); // "Particle Editor" // identity = edited
+		//if(edited)
+		//	object_edit(*dock, Ref(edited)); // "Particle Editor" // identity = edited
 	}
 }
 
 #ifdef _03_MATERIALS_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_03_materials(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	//edit_context(app.m_ui->begin(), app.m_editor, true);
+	//ex_03_materials(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

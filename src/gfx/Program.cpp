@@ -21,7 +21,6 @@ module mud.gfx;
 #include <infra/Vector.h>
 #include <infra/EnumArray.h>
 #include <infra/File.h>
-#include <srlz/Serial.h>
 #include <infra/StringConvert.h>
 #include <gfx/Program.h>
 #include <gfx/GfxSystem.h>

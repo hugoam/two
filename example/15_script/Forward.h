@@ -13,7 +13,9 @@
 #include <srlz/Forward.h>
 #include <math/Forward.h>
 #include <geom/Forward.h>
-#include <procgen/Forward.h>
+#include <noise/Forward.h>
+#include <wfc/Forward.h>
+#include <fract/Forward.h>
 #include <lang/Forward.h>
 #include <ctx/Forward.h>
 #include <ui/Forward.h>
@@ -28,7 +30,7 @@
 #include <gfx-gltf/Forward.h>
 #include <gfx-ui/Forward.h>
 #include <tool/Forward.h>
-#include <procgen-gfx/Forward.h>
+#include <wfc-gfx/Forward.h>
 
 #ifndef _15_SCRIPT_EXPORT
 #define _15_SCRIPT_EXPORT MUD_IMPORT

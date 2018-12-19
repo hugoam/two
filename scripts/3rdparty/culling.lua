@@ -1,3 +1,6 @@
+-- mud library
+-- masked occlusion culling 3rdparty module
+
 function uses_culling()
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "culling"),

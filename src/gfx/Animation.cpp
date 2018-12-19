@@ -10,7 +10,6 @@
 module mud.gfx;
 #else
 #include <infra/Vector.h>
-#include <refl/Meta.h>
 #include <math/Interp.h>
 #include <math/Math.h>
 #include <gfx/Types.h>

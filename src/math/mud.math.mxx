@@ -1,6 +1,6 @@
 #include <cpp/preimport.h>
 
-#include <obj/Config.h>
+#include <infra/Config.h>
 
 export module mud.math;
 export import std.core;

@@ -10,9 +10,6 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <refl/Convert.h>
-#include <refl/Meta.h>
-#include <srlz/Serial.h>
 #include <infra/StringConvert.h>
 #include <geom/Mesh.h>
 #include <geom/Shape/ProcShape.h>
@@ -212,12 +209,12 @@ namespace mud
 	{
 		uint64_t hash = hash_symbol(symbol, draw_mode);
 		std::array<char, c_max_shape_size> shape_mem = {};
-		std::memcpy(&shape_mem[0], (void*) &shape, meta(shape.m_type).m_size);
+		std::memcpy(&shape_mem[0], (void*) &shape, shape.m_type.m_size);
 
 		if(m_symbols[hash][shape_mem] == nullptr)
 		{
-			printf("INFO: created indexed Shape %s %s\n", shape.m_type.m_name, pack_json(Ref(&shape)).c_str());
-			string name = "Shape:" + string(meta(shape.m_type).m_name);
+			//printf("INFO: created indexed Shape %s %s\n", shape.m_type.m_name, pack_json(Ref(&shape)).c_str());
+			string name = "Shape:" + string(shape.m_type.m_name);
 			m_symbols[hash][shape_mem] = draw_model(name.c_str(), ProcShape{ symbol, &shape, draw_mode }, true);
 		}
 
