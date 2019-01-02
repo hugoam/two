@@ -38,7 +38,7 @@ namespace mud
 		for(Style* style : styles)
 			for(uint32_t state : states)
 			{
-				decl(style->decline_skin(WidgetState(state)));
+				decl(style->state_skin(WidgetState(state)));
 			}
 		return *this;
 	}
@@ -47,80 +47,15 @@ namespace mud
 	{
 		StyleSelector selector;
 		for(const string& name : styles)
-			if(UiWindow::s_styles.find(name) != UiWindow::s_styles.end())
+			if(UiWindow::s_styles[name])
 				selector.styles.push_back(UiWindow::s_styles[name]);
 			else
 				printf("WARNING: style %s not found\n", name.c_str());
 		return selector;
 	}
 
-	void layout_minimal(UiWindow& ui_window)
-	{
-		select({ "Label", "Title", "Message", "Tooltip", "TextEdit", "TypeLabel", "TypeZone", "SliderDisplay", "RadioChoiceItem" })
-		.declare([&](Layout& l, InkStyle& i) {
-			i.m_padding = vec4(4);
-		});
-
-		select({ "Title" })
-		.declare([&](Layout& l, InkStyle& i) {
-			i.m_padding = vec4(8);
-		});
-
-		select({ "Element", "Button", "WrapButton", "MultiButton", "Toggle", "ToolButton", "TabHeader", "DockToggle", "RadioChoice", "DropdownChoice", "SliderKnob", "ScrollerKnob", "DragHandle", "DropdownInput", "DropdownInputCompact", "TypedownInput", "Menu", "TypeIn", "Input<string>", "TreeNodeHeader" })
-		.declare([&](Layout& l, InkStyle& i) {
-			i.m_padding = vec4(4);
-		});
-
-		select({ "Item", "DropdownToggle", "ExpandboxToggle", "TreeNodeToggle", "TreeNodeNoToggle" })
-		.declare([&](Layout& l, InkStyle& i) {
-			i.m_padding = vec4(4);
-		});
-
-		select({ "TabHeader" })
-		.declare([&](Layout& l, InkStyle& i) {
-			i.m_padding = vec4(6);
-		});
-
-		select({ "Tooltip", "ToolButton", "ExpandboxBody" })
-		.declare([&](Layout& l, InkStyle& i) {
-			l.m_padding = vec4(4);
-		});
-
-		select({ "Dockspace", "Toolbar", "Header", "Popup" })
-		.declare([&](Layout& l, InkStyle& i) {
-			l.m_padding = vec4(6);
-		});
-
-		select({ "Modal" })
-		.declare([&](Layout& l, InkStyle& i) {
-			l.m_padding = vec4(12);
-		});
-
-		select({ "ExpandboxBody" })
-		.declare([&](Layout& l, InkStyle& i) {
-			l.m_padding = vec4(32, 6, 8, 6);
-		});
-
-		select({ "ExpandboxBody", "WindowBody" })
-		.declare([&](Layout& l, InkStyle& i) {
-			l.m_spacing = vec4(4);
-		});
-
-		select({ "Dockbar", "Toolbar", "Menubar", "Header" })
-		.declare([&](Layout& l, InkStyle& i) {
-			l.m_spacing = vec2(6);
-		});
-		
-		select({ "NodePlugs" })
-		.declare([&](Layout& l, InkStyle& i) {
-			i.m_padding = vec4(-5, 0, -5, 0);
-		});
-	}
-
 	void style_minimal(UiWindow& ui_window)
 	{
-		layout_minimal(ui_window);
-
 		Colour white = { 1.f };
 		Colour black = { 0.f };
 		Colour transparent = { 0.f, 0.f };
@@ -141,15 +76,27 @@ namespace mud
 		select({ "Label", "Title", "Message", "Tooltip", "TextEdit", "TypeLabel", "TypeZone", "SliderDisplay", "RadioChoiceItem" })
 		.declare([&](Layout& l, InkStyle& i) {
 			i.m_text_colour = white;
+			i.m_padding = vec4(4.f);
 		})
 		.decline({ DISABLED }, [&](InkStyle& i) {
 			i.m_text_colour = grey248;
 		});
 
+		select({ "Title" })
+		.declare([&](Layout& l, InkStyle& i) {
+			i.m_padding = vec4(8);
+		});
+
+		select({ "Item", "DropdownToggle", "ExpandboxToggle", "TreeNodeToggle", "TreeNodeNoToggle" })
+		.declare([&](Layout& l, InkStyle& i) {
+			i.m_padding = vec4(4);
+		});
+
 		select({ "Element", "Button", "WrapButton", "MultiButton", "Toggle", "ToolButton", "TabHeader", "DockToggle", "RadioChoice", "DropdownChoice", "SliderKnob", "ScrollerKnob", "DragHandle", "DropdownInput", "DropdownInputCompact", "TypedownInput", "Menu", "TypeIn", "Input<string>", "TreeNodeHeader" })
 		.declare([&](Layout& l, InkStyle& i) {
-			i = styles().label.skin();
+			//"copy_skin = "Label",
 			i.m_background_colour = grey204;
+			i.m_padding = vec4(4.f);
 		})
 		.decline({ HOVERED }, [&](InkStyle& i) {
 			i.m_background_colour = grey312;
@@ -160,7 +107,7 @@ namespace mud
 
 		select({ "CloseButton", "Checkbox" })
 		.declare([&](Layout& l, InkStyle& i) {
-			i = styles().button.skin();
+			//"copy_skin = "Button"
 		});
 
 		select({ "Element", "TreeNodeHeader" })
@@ -175,7 +122,7 @@ namespace mud
 
 		select({ "SliderKnob", "ScrollerKnob" })
 		.declare([&](Layout& l, InkStyle& i) {
-			i = styles().button.skin();
+			//"copy_skin = "Button",
 			i.m_background_colour = grey176;
 		});
 
@@ -197,7 +144,7 @@ namespace mud
 			l.m_size = vec2(0, 10);
 		});
 
-		/*select({ "ExpandboxToggle", "TreeNodeToggle" })
+		select({ "ExpandboxToggle", "TreeNodeToggle" })
 		.declare([&](Layout& l, InkStyle& i) {
 			i.m_image = ui_window.find_image("toggle_closed");
 		})
@@ -206,11 +153,16 @@ namespace mud
 		})
 		.decline({ DISABLED }, [&](InkStyle& i) {
 			i.m_image = ui_window.find_image("empty_15");
-		});*/
+		});
 
 		select({ "DropdownToggle" })
 		.declare([&](Layout& l, InkStyle& i) {
 			i.m_image = ui_window.find_image("drop_down");
+		});
+
+		select({ "TabHeader" })
+		.declare([&](Layout& l, InkStyle& i) {
+			i.m_padding = vec4(6);
 		});
 
 		select({  "Checkbox" })
@@ -286,6 +238,11 @@ namespace mud
 			i.m_background_colour = grey145;
 		});
 
+		select({ "NodePlugs" })
+		.declare([&](Layout& l, InkStyle& i) {
+			i.m_padding = vec4(-5, 0, -5, 0);
+		});
+
 		select({ "Canvas" })
 		.declare([&](Layout& l, InkStyle& i) {
 			i.m_background_colour = black;
@@ -324,7 +281,34 @@ namespace mud
 			i.m_background_colour = black;
 		});
 
-		for(auto name_style : UiWindow::s_styles)
-			name_style.second->prepare();
+		select({ "ExpandboxBody" })
+		.declare([&](Layout& l, InkStyle& i) {
+			l.m_padding = vec4(32, 6, 8, 6);
+		});
+
+		select({ "Tooltip", "ToolButton", "ExpandboxBody" })
+		.declare([&](Layout& l, InkStyle& i) {
+			l.m_padding = vec4(4);
+		});
+
+		select({ "ExpandboxBody", "WindowBody" })
+		.declare([&](Layout& l, InkStyle& i) {
+			l.m_spacing = vec4(4);
+		});
+
+		select({ "Dockspace", "Toolbar", "Header", "Popup" })
+		.declare([&](Layout& l, InkStyle& i) {
+			l.m_padding = vec4(6);
+		});
+
+		select({ "Dockbar", "Toolbar", "Menubar", "Header" })
+		.declare([&](Layout& l, InkStyle& i) {
+			l.m_spacing = vec2(6);
+		});
+
+		select({ "Modal" })
+		.declare([&](Layout& l, InkStyle& i) {
+			l.m_padding = vec4(12);
+		});
 	}
 }

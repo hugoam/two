@@ -43,5 +43,6 @@ namespace mud
 		unique_ptr<Impl> m_impl;
 	};
 
+	export_ MUD_UI_EXPORT void layout_minimal(UiWindow& ui_window);
 	export_ MUD_UI_EXPORT void style_minimal(UiWindow& ui_window);
 }

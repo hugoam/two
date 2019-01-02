@@ -143,5 +143,9 @@ namespace mud
 		ui::toolbar_styles().mover.skin().m_image = ui_window.find_image("handle");
 
 		ui::treenode_styles().no_toggle.skin().m_image = ui_window.find_image("empty_15");
+
+		ui::treenode_styles().toggle.skin().m_image = ui_window.find_image("toggle_closed");
+		ui::treenode_styles().toggle.decline_skin(ACTIVE).m_image = ui_window.find_image("toggle_open");
+		ui::treenode_styles().toggle.decline_skin(DISABLED).m_image = ui_window.find_image("empty_15");
 	}
 }
