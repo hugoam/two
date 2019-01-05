@@ -198,9 +198,9 @@ namespace mud
         static Meta meta = { type<mud::ShaderType>(), &namspc({ "mud" }), "ShaderType", sizeof(mud::ShaderType), TypeClass::Enum };
         static Enum enu = { type<mud::ShaderType>(),
             true,
-            { "Fragment", "Vertex", "Count" },
-            { 0, 1, 2 },
-            { var(mud::ShaderType::Fragment), var(mud::ShaderType::Vertex), var(mud::ShaderType::Count) }
+            { "Compute", "Fragment", "Geometry", "Vertex", "Count" },
+            { 0, 1, 2, 3, 4 },
+            { var(mud::ShaderType::Compute), var(mud::ShaderType::Fragment), var(mud::ShaderType::Geometry), var(mud::ShaderType::Vertex), var(mud::ShaderType::Count) }
         };
         meta_enum<mud::ShaderType>();
     }
@@ -209,9 +209,9 @@ namespace mud
         static Meta meta = { type<mud::Shading>(), &namspc({ "mud" }), "Shading", sizeof(mud::Shading), TypeClass::Enum };
         static Enum enu = { type<mud::Shading>(),
             true,
-            { "Wireframe", "Unshaded", "Shaded", "Volume", "Clear" },
-            { 0, 1, 2, 3, 4 },
-            { var(mud::Shading::Wireframe), var(mud::Shading::Unshaded), var(mud::Shading::Shaded), var(mud::Shading::Volume), var(mud::Shading::Clear) }
+            { "Wireframe", "Unshaded", "Shaded", "Volume", "Voxels", "Lightmap", "Clear" },
+            { 0, 1, 2, 3, 4, 5, 6 },
+            { var(mud::Shading::Wireframe), var(mud::Shading::Unshaded), var(mud::Shading::Shaded), var(mud::Shading::Volume), var(mud::Shading::Voxels), var(mud::Shading::Lightmap), var(mud::Shading::Clear) }
         };
         meta_enum<mud::Shading>();
     }

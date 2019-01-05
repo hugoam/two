@@ -1174,6 +1174,12 @@ namespace mud
 
 		void register_type(Type& type)
 		{
+			if(!g_meta[type.m_id])
+			{
+				printf("WARNING: wren - type %s doesn't have reflection meta type\n", type.m_name);
+				return;
+			}
+
 			auto module = [&](Type& type) -> string
 			{
 				if(meta(type).m_namespace->m_name != string(""))

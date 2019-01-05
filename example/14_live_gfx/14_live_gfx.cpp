@@ -48,8 +48,8 @@ static TextScript& create_lua_script(LuaInterpreter& interpreter)
 
 	script.m_script =
 		"\n"
-		"--local n = Gfx.node(scene, nil, vec3(0), quat(0,0,0,1), vec3(1))\n"
-		"--Gfx.shape(n, Cube(), Symbol(Colour.White, Colour.None))\n"
+		"--local n = gfx.node(scene, nil, vec3(0), quat(0,0,0,1), vec3(1))\n"
+		"--gfx.shape(n, Cube(), Symbol(Colour.White, Colour.None))\n"
 		"\n"
 		"for x = 1,11 do\n"
 		"    for y = 1,11 do\n"
@@ -62,8 +62,8 @@ static TextScript& create_lua_script(LuaInterpreter& interpreter)
 		"        local g = (math.cos(time) + 1.0) / 2.0\n"
 		"        local color = Colour(r, g, b)\n"
 		"\n"
-		"        local n = Gfx.node(scene, nil, pos, quat(angles), vec3(1))\n"
-		"        Gfx.draw(n, Cube(), Symbol(Colour.None, color))\n"
+		"        local n = gfx.node(scene, nil, pos, quat(angles), vec3(1))\n"
+		"        gfx.draw(n, Cube(), Symbol(Colour.None, color))\n"
 		"\n"
 		"    end\n"
 		"end\n"
@@ -103,8 +103,8 @@ void ex_14_live_gfx(Shell& app, Widget& parent, Dockbar& dockbar)
 	static TextScript& lua_script = create_lua_script(lua);
 	static TextScript& wren_script = create_wren_script(wren);
 
-	static Language language = Language::Wren;
-	//static Language language = Language::Lua;
+	//static Language language = Language::Wren;
+	static Language language = Language::Lua;
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{

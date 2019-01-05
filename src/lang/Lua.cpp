@@ -304,6 +304,9 @@ namespace mud
 		// @todo: might want a case for is_complex() before is_object() ?
 		if(var.none() || var.null())
 			return push_null(state);
+		// kludge
+		else if(var.m_mode == REF && type(var).is<Member>())
+			return push_ref(state, var.m_ref);
 		else if(var.m_mode == REF && type(var).is<Callable>())
 			return push_callable(state, val<Callable>(var.m_ref));
 		else if(is_sequence(type(var)))
@@ -854,6 +857,12 @@ namespace mud
 
 		void register_type(Type& type)
 		{
+			if(!g_meta[type.m_id])
+			{
+				printf("WARNING: lua - type %s doesn't have reflection meta type\n", type.m_name);
+				return;
+			}
+
 			create_type_metatable(m_state, type);
 
 			Stack stack = lookup_table(m_state, namespace_path(*meta(type).m_namespace));

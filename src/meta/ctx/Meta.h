@@ -22,9 +22,9 @@ namespace mud
         static Meta meta = { type<mud::DeviceType>(), &namspc({ "mud" }), "DeviceType", sizeof(mud::DeviceType), TypeClass::Enum };
         static Enum enu = { type<mud::DeviceType>(),
             true,
-            { "None", "Keyboard", "Mouse", "MouseLeft", "MouseRight", "MouseMiddle", "Count" },
-            { 0, 1, 2, 3, 4, 5, 6 },
-            { var(mud::DeviceType::None), var(mud::DeviceType::Keyboard), var(mud::DeviceType::Mouse), var(mud::DeviceType::MouseLeft), var(mud::DeviceType::MouseRight), var(mud::DeviceType::MouseMiddle), var(mud::DeviceType::Count) }
+            { "None", "Keyboard", "Mouse", "MouseLeft", "MouseRight", "MouseMiddle", "Touch", "Count" },
+            { 0, 1, 2, 3, 4, 5, 6, 7 },
+            { var(mud::DeviceType::None), var(mud::DeviceType::Keyboard), var(mud::DeviceType::Mouse), var(mud::DeviceType::MouseLeft), var(mud::DeviceType::MouseRight), var(mud::DeviceType::MouseMiddle), var(mud::DeviceType::Touch), var(mud::DeviceType::Count) }
         };
         meta_enum<mud::DeviceType>();
     }
