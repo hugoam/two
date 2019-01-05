@@ -203,8 +203,8 @@ The following hints are defined for reflecting c++ constructs:
 - `attr_`: reflect a class field (static or not)
 - `meth_`: reflect a class method
 - `func_`: reflect a function
-- `_array_`: specifies that a reflected type behaves like an array type (implements the [] operator)
-- `_struct_`: specifies that a reflected type has value semantic
+- `array_`: specifies that a reflected type behaves like an array type (implements the [] operator)
+- `struct_`: specifies that a reflected type has value semantic
 
 When compiling, these are defined to nothing : they only have a meaning when run through the reflection generator.
 
