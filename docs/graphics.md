@@ -112,7 +112,7 @@ meshes are usually created by mud when loading a [model](#models) so you don't h
    
 meshes are composed of indices, vertices, and a [primitive types](../src/math/Geometry.h#L170) :
 ```c++
-enum class _refl_ PrimitiveType : unsigned int
+enum class refl_ PrimitiveType : unsigned int
 {
     Points = 0,
     Lines = 1,

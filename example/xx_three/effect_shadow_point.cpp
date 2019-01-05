@@ -1,4 +1,4 @@
-#include <mud/mud.h>
+#include <mud/core.h>
 
 using namespace mud;
 
@@ -134,7 +134,7 @@ void ex_xx_three_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar)
 #ifdef _XX_THREE_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_xx_three_shadow_point(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 

@@ -15,15 +15,8 @@ module mud.wfc;
 namespace mud
 {
 	mud_wfc::mud_wfc()
-		: Module("mud::wfc")
+		: Module("mud::wfc", { &mud_infra::m(), &mud_type::m(), &mud_srlz::m(), &mud_math::m(), &mud_geom::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_type::m();
-        mud_srlz::m();
-        mud_math::m();
-        mud_geom::m();
-
         // setup reflection meta data
 		mud_wfc_meta(*this);
 	}

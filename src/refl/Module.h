@@ -18,9 +18,10 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Module
 	{
 	public:
-		Module(cstring name);
+		Module(cstring name, std::vector<Module*> deps);
 
 		attr_ cstring m_name;
+		attr_ std::vector<Module*> m_deps;
 		attr_ std::vector<Type*> m_types;
 		attr_ std::vector<Function*> m_functions;
 

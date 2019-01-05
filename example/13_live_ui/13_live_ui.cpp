@@ -1,4 +1,8 @@
-#include <mud/mud.h>
+#include <mud/core.h>
+#include <lang/Api.h>
+#include <uio/Api.h>
+#include <meta/ui/Module.h>
+
 #include <13_live_ui/13_live_ui.h>
 
 using namespace mud;
@@ -131,13 +135,15 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 #ifdef _13_LIVE_UI_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_13_live_ui(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])
 {
 	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
+	System::instance().load_modules({ &mud_ui::m() });
+	app.m_gfx_system.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }
 #endif

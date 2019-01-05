@@ -10,7 +10,7 @@
 #include <uio/Edit/Method.h>
 #include <uio/Edit/Reflection.h>
 #include <uio/Edit/Script.h>
-#include <uio/Edit/Section.h>
+#include <ui/Section.h>
 #include <uio/Edit/Structure.h>
 #include <uio/Edit/UiEdit.h>
 #include <uio/Edit/Value.h>

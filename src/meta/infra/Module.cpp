@@ -15,10 +15,8 @@ module mud.infra;
 namespace mud
 {
 	mud_infra::mud_infra()
-		: Module("mud::infra")
+		: Module("mud::infra", {})
 	{
-        // ensure dependencies are instantiated
-
         // setup reflection meta data
 		mud_infra_meta(*this);
 	}

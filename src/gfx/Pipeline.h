@@ -19,7 +19,7 @@ namespace mud
 {
 	using PassJob = std::function<void(const Pass&)>;
 
-	export_ MUD_GFX_EXPORT void pipeline_minimal(GfxSystem& gfx_system, Pipeline& pipeline);
+	export_ MUD_GFX_EXPORT void pipeline_minimal(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred);
 
 	export_ struct MUD_GFX_EXPORT PassJobs
 	{
@@ -35,6 +35,9 @@ namespace mud
 	public:
 		Pipeline(GfxSystem& gfx_system);
 		~Pipeline();
+
+		using GatherFunc = void(*)(Scene&, Render&);
+		GatherFunc m_gather_func;
 
 		template <class T_Block>
 		T_Block* block() { for(auto& block : m_gfx_blocks) if(&(block->m_type) == &type<T_Block>()) return &as<T_Block>(*block); return nullptr; }

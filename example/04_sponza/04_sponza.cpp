@@ -1,10 +1,8 @@
-#include <ui/Api.h>
-#include <gfx/Api.h>
-#include <gfx-ui/Api.h>
-#include <mud/Shell.h>
+#include <mud/core.h>
+#include <gfx-pbr/Api.h>
+#include <gfx-obj/Api.h>
 
 #include <04_sponza/04_sponza.h>
-
 #include <01_shapes/01_shapes.h>
 #include <03_materials/03_materials.h>
 #include <04_lights/04_lights.h>
@@ -19,13 +17,15 @@ using namespace mud;
 #define POINT_LIGHTS 0
 #define CLUSTERED 1
 #define SHAPES 1
+#define POSTPROCESS 0
 
 void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 {
-	UNUSED(app);
+	static ImporterOBJ obj_importer(app.m_gfx_system);
+
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	//viewer.m_filters.m_tonemap.m_mode = TonemapMode::ACES;
-	viewer.m_filters.m_tonemap.m_mode = TonemapMode::Filmic;
+	//viewer.m_filters.m_tonemap.m_mode = TonemapMode::Filmic;
 	//viewer.m_filters.m_tonemap.m_mode = TonemapMode::Reinhardt;
 	viewer.m_viewport.m_lighting = Lighting::VoxelGI;
 
@@ -116,6 +116,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 		ui::label(sheet, "Environment :");
 		ui::number_field<float>(sheet, "Ambient", { viewer.m_environment.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
 
+#if POSTPROCESS
 		ui::label(sheet, "Post process :");
 		ui::slider_field<float>(sheet, "Exposure", { viewer.m_filters.m_tonemap.m_exposure, { 0.f, 2.f, 0.01f } });
 		ui::slider_field<float>(sheet, "Whitepoint", { viewer.m_filters.m_tonemap.m_white_point, { 0.f, 2.f, 0.01f } });
@@ -124,7 +125,8 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 		ui::slider_field<float>(sheet, "Brightness", { viewer.m_filters.m_bcs.m_brightness, { 0.f, 2.f, 0.01f } });
 		ui::slider_field<float>(sheet, "Contrast", { viewer.m_filters.m_bcs.m_contrast, { 0.f, 2.f, 0.01f } });
 		ui::slider_field<float>(sheet, "Saturation", { viewer.m_filters.m_bcs.m_saturation, { 0.f, 2.f, 0.01f } });
-		
+#endif
+
 #if DIRECT_LIGHT
 		ui::label(sheet, "Shadow : ");
 		ui::flag_field(sheet, "Stabilize", (uint32_t&) direct_light.m_shadow_flags, 0);
@@ -150,7 +152,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 #ifdef _04_SPONZA_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_04_sponza(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
@@ -158,6 +160,7 @@ int main(int argc, char *argv[])
 {
 	cstring example_path = MUD_RESOURCE_PATH "examples/04_sponza/";
 	Shell app(carray<cstring, 2>{ MUD_RESOURCE_PATH, example_path }, argc, argv);
+	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

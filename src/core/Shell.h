@@ -1,10 +1,23 @@
 #pragma once
 
-#include <mud/Forward.h>
+#include <core/Forward.h>
 
 #include <ui/Api.h>
 #include <gfx/Api.h>
 #include <gfx-ui/Api.h>
+
+#ifdef NEED_REFL
+#include <mud/Modules.h>
+namespace mud
+{
+	void load_modules()
+	{
+		System::instance().load_modules({ &mud_infra::m(), &mud_type::m(), &mud_pool::m(), &mud_refl::m(), &mud_ecs::m(), &mud_tree::m() });
+		System::instance().load_modules({ &mud_srlz::m(), &mud_math::m(), &mud_geom::m(), &mud_noise::m(), &mud_wfc::m(), &mud_fract::m(), &mud_lang::m() });
+		System::instance().load_modules({ &mud_ctx::m(), &mud_ui::m(), &mud_gfx::m(), &mud_gfx_pbr::m(), &mud_gfx_obj::m(), &mud_gfx_gltf::m(), &mud_gfx_ui::m(), &mud_tool::m() });
+	}
+}
+#endif
 
 namespace mud
 {

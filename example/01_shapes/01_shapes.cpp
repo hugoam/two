@@ -1,7 +1,7 @@
 #include <math/Api.h>
 #include <gfx/Api.h>
 #include <gfx-ui/Api.h>
-#include <mud/Shell.h>
+#include <core/Shell.h>
 
 #include <01_shapes/01_shapes.h>
 
@@ -75,13 +75,14 @@ void ex_01_shapes(Shell& app, Widget& parent, Dockbar& dockbar)
 #ifdef _01_SHAPES_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_01_shapes(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])
 {
 	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
+	app.m_gfx_system.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }
 #endif

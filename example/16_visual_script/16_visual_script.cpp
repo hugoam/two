@@ -1,7 +1,10 @@
-#include <mud/mud.h>
-#include <mud/Types.h>
-#include <11_selection/11_selection.h>
+#include <mud/core.h>
+#include <core/Types.h>
+#include <lang/Api.h>
+#include <uio/Api.h>
+#include <noise/Api.h>
 
+#include <11_selection/11_selection.h>
 #include <01_shapes/01_shapes.h>
 #include <03_materials/03_materials.h>
 
@@ -90,13 +93,14 @@ void ex_16_visual_script(Shell& app, Widget& parent, Dockbar& dockbar)
 #ifdef _16_VISUAL_SCRIPT_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_16_visual_script(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])
 {
 	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
+	app.m_gfx_system.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }
 #endif

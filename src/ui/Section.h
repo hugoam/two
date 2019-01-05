@@ -8,14 +8,13 @@
 #include <infra/Strung.h>
 #include <ui/Structs/Widget.h>
 #endif
-#include <uio/Forward.h>
-#include <uio/Unode.h>
+#include <ui/Forward.h>
 
 namespace mud
 {
 	using Callback = std::function<void()>;
 
-	export_ struct MUD_UIO_EXPORT SectionAction
+	export_ struct MUD_UI_EXPORT SectionAction
 	{
 		string m_name;
 		Callback m_action;
@@ -23,11 +22,11 @@ namespace mud
 
 	using ActionList = std::vector<SectionAction>;
 
-	export_ struct MUD_UIO_EXPORT Section : public Widget
+	export_ struct MUD_UI_EXPORT Section : public Widget
 	{
 		Section(Widget* parent, void* identity) : Widget(parent, identity) {}
 		Widget* m_toolbar = nullptr;
 	};
 
-	export_ MUD_UIO_EXPORT Section& section(Widget& parent, cstring name, const ActionList& actions = {}, bool no_toolbar = false);
+	export_ MUD_UI_EXPORT Section& section(Widget& parent, cstring name, const ActionList& actions = {}, bool no_toolbar = false);
 }

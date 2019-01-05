@@ -11,7 +11,6 @@
 #include <infra/Types.h>
 #include <type/Types.h>
 #include <refl/Types.h>
-#include <srlz/Types.h>
 #endif
 
 #ifndef MUD_CPP_20

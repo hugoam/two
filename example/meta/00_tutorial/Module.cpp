@@ -20,7 +20,7 @@ module ._00_tutorial;
         mud_type::m();
         mud_pool::m();
         mud_refl::m();
-        mud_proto::m();
+        mud_ecs::m();
         mud_tree::m();
         mud_srlz::m();
         mud_math::m();

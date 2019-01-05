@@ -1,4 +1,4 @@
-#include <mud/mud.h>
+#include <mud/core.h>
 #include <00_cube/00_cube.h>
 
 using namespace mud;
@@ -47,13 +47,14 @@ void ex_00_cube(Shell& app, Widget& parent, Dockbar& dockbar)
 #ifdef _00_CUBE_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_00_cube(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])
 {
 	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
+	app.m_gfx_system.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }
 #endif

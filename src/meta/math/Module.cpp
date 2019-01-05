@@ -15,14 +15,8 @@ module mud.math;
 namespace mud
 {
 	mud_math::mud_math()
-		: Module("mud::math")
+		: Module("mud::math", { &mud_infra::m(), &mud_type::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_type::m();
-        mud_refl::m();
-        mud_srlz::m();
-
         // setup reflection meta data
 		mud_math_meta(*this);
 	}

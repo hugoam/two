@@ -83,7 +83,9 @@ namespace mud
 		virtual object_ptr<Context> create_context(cstring name, int width, int height, bool full_screen) final;
 
 		void init(GfxContext& context);
-		void init_pipeline();
+
+		using PipelineDecl = void(*)(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred);
+		void init_pipeline(PipelineDecl pipeline);
 
 		meth_ void add_resource_path(cstring path);
 

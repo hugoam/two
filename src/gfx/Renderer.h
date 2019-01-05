@@ -316,6 +316,7 @@ namespace mud
 		bool has_block(GfxBlock& gfx_block);
 		void add_block(GfxBlock& gfx_block);
 
+		void gather(Render& render);
 		void render(Render& render);
 		void subrender(Render& render, Render& sub);
 

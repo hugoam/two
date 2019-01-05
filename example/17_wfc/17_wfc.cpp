@@ -1,4 +1,8 @@
-#include <mud/mud.h>
+#include <mud/core.h>
+#include <gfx-pbr/Api.h>
+#include <wfc/Api.h>
+#include <wfc-gfx/Api.h>
+
 #include <17_wfc/17_wfc.h>
 
 using namespace mud;
@@ -55,7 +59,7 @@ void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 #ifdef _17_WFC_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_17_wfc(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
@@ -63,6 +67,7 @@ int main(int argc, char *argv[])
 {
 	cstring example_path = MUD_RESOURCE_PATH "examples/17_wfc/";
 	Shell app(carray<cstring, 2>{ MUD_RESOURCE_PATH, example_path }, argc, argv);
+	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

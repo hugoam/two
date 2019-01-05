@@ -15,15 +15,8 @@ module mud.bgfx;
 namespace mud
 {
 	mud_bgfx::mud_bgfx()
-		: Module("mud::bgfx")
+		: Module("mud::bgfx", { &mud_infra::m(), &mud_type::m(), &mud_math::m(), &mud_ctx::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_type::m();
-        mud_math::m();
-        mud_ctx::m();
-        //mud_ctx_glfw::m();
-
         // setup reflection meta data
 		mud_bgfx_meta(*this);
 	}

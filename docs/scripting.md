@@ -9,15 +9,15 @@ it supports the following features :
 
 given the following reflected c++ class :
 ```c++
-class _refl_ MyObject
+class refl_ MyObject
 {
 public:
-    _constr_ MyObject(int var, std::string field);
+    constr_ MyObject(int var, std::string field);
     
-    _meth_ int method();
+    meth_ int method();
 };
 
-_func_ void bar(MyObject& object);
+func_ void bar(MyObject& object);
 ```
 
 mud allows you to write a lua script using any of the reflected functions, types, methods, fields

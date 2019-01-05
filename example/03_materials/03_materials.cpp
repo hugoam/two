@@ -1,8 +1,5 @@
-#include <ui/Api.h>
-//#include <uio/Api.h>
-#include <gfx/Api.h>
-#include <gfx-ui/Api.h>
-#include <mud/Shell.h>
+#include <mud/core.h>
+#include <gfx-pbr/Api.h>
 
 #include <03_materials/03_materials.h>
 
@@ -229,14 +226,13 @@ void pump(Shell& app)
 {
 	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_03_materials(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
-	//edit_context(app.m_ui->begin(), app.m_editor, true);
-	//ex_03_materials(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])
 {
 	cstring example_path = MUD_RESOURCE_PATH "examples/03_materials/";
 	Shell app(carray<cstring, 2>{ MUD_RESOURCE_PATH, example_path }, argc, argv);
+	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

@@ -15,6 +15,23 @@
 
 namespace mud
 {
+#if 0
+	export_ class refl_ MUD_INFRA_EXPORT pvector
+	{
+	public:
+		pvector(Type& element_type) : m_element_type(&element_type) {}
+
+		template <class T>
+		array<T*> array() { return { (T*)m_elements.data(), m_elements.size() }; }
+
+		template <class T>
+		void push_back(T* object) { m_elements.push_back(object); }
+
+		Type* m_element_type;
+		std::vector<void*> m_elements;
+	};
+#endif
+
 	template <typename T>
 	struct is_comparable<std::vector<T>> : is_comparable_base<T> {};
 

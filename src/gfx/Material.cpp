@@ -21,8 +21,8 @@ module mud.gfx;
 #include <gfx/Asset.h>
 #include <gfx/Item.h>
 #include <gfx/Model.h>
-#include <gfx-pbr/VoxelGI.h>
-#include <gfx-pbr/Lightmap.h>
+//#include <gfx-pbr/VoxelGI.h>
+//#include <gfx-pbr/Lightmap.h>
 #endif
 
 namespace mud
@@ -263,6 +263,7 @@ namespace mud
 	{
 		ShaderVersion version = this->shader_version(program);
 
+#if 0
 		PbrBlock& pbr = pbr_block(*ms_gfx_system);
 
 		if(item.m_lightmaps.size() > 0)
@@ -273,6 +274,7 @@ namespace mud
 				version.set_option(pbr.m_index, LIGHTMAP);
 			}
 		}
+#endif
 
 		return version;
 	}

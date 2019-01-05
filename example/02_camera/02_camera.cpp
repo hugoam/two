@@ -1,6 +1,7 @@
-#include <mud/mud.h>
-#include <02_camera/02_camera.h>
+#include <mud/core.h>
+#include <gfx-pbr/Api.h>
 
+#include <02_camera/02_camera.h>
 #include <03_materials/03_materials.h>
 
 using namespace mud;
@@ -22,13 +23,14 @@ void ex_02_camera(Shell& app, Widget& parent, Dockbar& dockbar)
 #ifdef _02_CAMERA_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_02_camera(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])
 {
 	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
+	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

@@ -15,14 +15,8 @@ module mud.lang;
 namespace mud
 {
 	mud_lang::mud_lang()
-		: Module("mud::lang")
+		: Module("mud::lang", { &mud_infra::m(), &mud_type::m(), &mud_pool::m(), &mud_refl::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_type::m();
-        mud_pool::m();
-        mud_refl::m();
-
         // setup reflection meta data
 		mud_lang_meta(*this);
 	}

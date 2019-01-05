@@ -1,4 +1,8 @@
-#include <mud/mud.h>
+#include <mud/core.h>
+#include <lang/Api.h>
+#include <uio/Api.h>
+#include <meta/gfx/Module.h>
+
 #include <14_live_gfx/14_live_gfx.h>
 
 using namespace mud;
@@ -122,13 +126,15 @@ void ex_14_live_gfx(Shell& app, Widget& parent, Dockbar& dockbar)
 #ifdef _14_LIVE_GFX_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_14_live_gfx(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])
 {
 	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
+	System::instance().load_modules({ &mud_gfx::m() });
+	app.m_gfx_system.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }
 #endif

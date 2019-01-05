@@ -55,7 +55,6 @@ namespace mud
 #ifndef MUD_MODULES // @todo clang bug
 		m_viewport.m_get_size = [&] { return uvec4(this->query_size()); };
 		m_viewport.m_render = [&](Render& render) { this->render(render); };
-		m_viewport.m_filters = &m_filters;
 
 		m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
 		{
@@ -68,8 +67,6 @@ namespace mud
 		m_context.m_viewports.push_back(&m_viewport);
 
 		//this->take_focus();
-
-		m_filters.m_tonemap.m_enabled = true;
 	}
 
 	Viewer::~Viewer()
@@ -196,6 +193,15 @@ namespace ui
 		//	viewer.take_focus();
 		return viewer;
 	}
+
+#if 0
+	Viewer& pbr_viewer(Widget& parent, Scene& scene)
+	{
+		viewer.m_filters = make_unique<RenderFilters>();
+		viewer.m_viewport.m_filters = &viewer.m_filters;
+		viewer.m_viewport.m_filters.m_tonemap.m_enabled = true;
+	}
+#endif
 
 	SceneViewer& scene_viewer(Widget& parent, const vec2& size)
 	{

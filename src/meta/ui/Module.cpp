@@ -15,16 +15,8 @@ module mud.ui;
 namespace mud
 {
 	mud_ui::mud_ui()
-		: Module("mud::ui")
+		: Module("mud::ui", { &mud_infra::m(), &mud_type::m(), &mud_math::m(), &mud_ctx::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_type::m();
-        mud_refl::m();
-        mud_srlz::m();
-        mud_math::m();
-        mud_ctx::m();
-
         // setup reflection meta data
 		mud_ui_meta(*this);
 	}

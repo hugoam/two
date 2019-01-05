@@ -7,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <lang/Script.h>
 #endif
-#include <uio/Edit/Section.h>
+#include <ui/Section.h>
 
 namespace mud
 {

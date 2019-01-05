@@ -195,6 +195,7 @@ namespace mud {
     struct PerezSky;
     class BlockSky;
 	class GIProbe;
+	class ReflectionProbe;
 	class Lightmap;
 	class LightmapAtlas;
 	class LightmapItem;

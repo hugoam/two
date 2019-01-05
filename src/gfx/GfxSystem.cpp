@@ -187,8 +187,14 @@ namespace mud
 		m_pipeline = make_unique<Pipeline>(*this);
 	}
 
-	void GfxSystem::init_pipeline()
+	void GfxSystem::init_pipeline(PipelineDecl decl)
 	{
+#ifdef MUD_GFX_DEFERRED
+		decl(*this, *m_pipeline, true);
+#else
+		decl(*this, *m_pipeline, false);
+#endif
+
 		for(auto& block : m_pipeline->m_gfx_blocks)
 			block->init_block();
 
@@ -296,10 +302,14 @@ namespace mud
 	void GfxSystem::render(Renderer& renderer, GfxContext& context, Viewport& viewport, RenderFrame& frame)
 	{
 		Render render = { renderer.m_shading, viewport, *context.m_target, frame };
-		render.m_scene.gather_render(render);
+		renderer.gather(render);
 		render.m_viewport.render(render);
 		render.m_viewport.cull(render);
-		
+
+#ifdef DEBUG_ITEMS
+		scene.debug_items(render);
+#endif
+
 		if(rect_w(viewport.m_rect) != 0 && rect_h(viewport.m_rect) != 0)
 			renderer.render(render);
 

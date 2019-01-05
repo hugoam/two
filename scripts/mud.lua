@@ -162,9 +162,9 @@ end
 -- geom
 mud.geom    = mud_module("mud", "geom",     MUD_SRC_DIR, "geom",    nil,        mud_geom,       nil,                { mud.type, mud.math })
 -- procgen
-mud.noise   = mud_module("mud", "noise",    MUD_SRC_DIR, "noise",   nil,        mud_noise,      uses_mud_noise,     { json11, mud.infra, mud.type, mud.srlz, mud.math, mud.geom })
+mud.noise   = mud_module("mud", "noise",    MUD_SRC_DIR, "noise",   nil,        mud_noise,      uses_mud_noise,     { json11, mud.infra, mud.type, mud.math, mud.geom })
 mud.wfc     = mud_module("mud", "wfc",      MUD_SRC_DIR, "wfc",     nil,        mud_wfc,        nil,                { json11, mud.infra, mud.type, mud.srlz, mud.math, mud.geom })
-mud.fract   = mud_module("mud", "fract",    MUD_SRC_DIR, "fract",   nil,        nil,            nil,                { json11, mud.infra, mud.type, mud.srlz, mud.math, mud.geom })
+mud.fract   = mud_module("mud", "fract",    MUD_SRC_DIR, "fract",   nil,        nil,            nil,                { json11, mud.infra, mud.type, mud.math, mud.geom })
 -- lang
 mud.lang    = mud_module("mud", "lang",     MUD_SRC_DIR, "lang",    nil,        mud_lang,       nil,                { lua, wren, mud.infra, mud.type, mud.pool, mud.refl })
 -- ui
@@ -222,12 +222,4 @@ function mud_binary(name, modules, deps)
     mud_lib(name, modules, "ConsoleApp", deps)
     defines { "_" .. name:upper() .. "_EXE" }
     mud_binary_config()
-end
-
-function mud_shell(name, modules, deps)
-    mud_binary(name, modules, deps)
-    
-    files {
-        path.join(MUD_DIR, "src", "mud", "Shell.cpp"),
-    }
 end

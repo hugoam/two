@@ -15,16 +15,8 @@ module mud.gfx-obj;
 namespace mud
 {
 	mud_gfx_obj::mud_gfx_obj()
-		: Module("mud::gfx-obj")
+		: Module("mud::gfx-obj", { &mud_infra::m(), &mud_type::m(), &mud_srlz::m(), &mud_math::m(), &mud_geom::m(), &mud_gfx::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_type::m();
-        mud_srlz::m();
-        mud_math::m();
-        mud_geom::m();
-        mud_gfx::m();
-
         // setup reflection meta data
 		mud_gfx_obj_meta(*this);
 	}

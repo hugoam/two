@@ -41,6 +41,7 @@ namespace mud
 		void load_module(Module& m);
 		void unload_module(Module& m);
 		Module& reload_module(Module& m);
+		bool has_module(Module& m);
 
 		std::vector<cstring> meta_symbols();
 

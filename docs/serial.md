@@ -5,20 +5,20 @@ in mud we start here, and not in intricate hierarchies of classes and components
 ```c++
 namespace app
 {
-    class _refl_ MyObject
+    class refl_ MyObject
     {
     public:
-        _constr_ MyObject(int var, std::string field);
+        constr_ MyObject(int var, std::string field);
         
-        _meth_ int method();
+        meth_ int method();
 
-        _attr_ int m_var; 
-        _attr_ std::string m_field;
-        _attr_ std::vector<float> m_floats;
+        attr_ int m_var; 
+        attr_ std::string m_field;
+        attr_ std::vector<float> m_floats;
     };
     
-    _func_ void foo(int arg);
-    _func_ void bar(MyObject& object);
+    func_ void foo(int arg);
+    func_ void bar(MyObject& object);
 }
 ```
 

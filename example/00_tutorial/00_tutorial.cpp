@@ -1,4 +1,4 @@
-#include <mud/mud.h>
+#include <mud/core.h>
 #include <00_tutorial/00_tutorial.h>
 #include <meta/00_tutorial/Module.h>
 
@@ -53,7 +53,7 @@ void ex_00_tutorial_pump(Shell& app, Widget& parent, Dockbar& dockbar)
 #ifdef _00_TUTORIAL_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_00_tutorial_pump(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
@@ -61,6 +61,7 @@ int main(int argc, char *argv[])
 {
 	_00_tutorial::m();
 	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
+	app.m_gfx_system.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }
 #endif

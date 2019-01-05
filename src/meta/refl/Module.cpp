@@ -15,13 +15,8 @@ module mud.refl;
 namespace mud
 {
 	mud_refl::mud_refl()
-		: Module("mud::refl")
+		: Module("mud::refl", { &mud_infra::m(), &mud_type::m(), &mud_pool::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_type::m();
-        mud_pool::m();
-
         // setup reflection meta data
 		mud_refl_meta(*this);
 	}

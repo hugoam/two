@@ -6,7 +6,6 @@
 
 #ifndef MUD_MODULES
 #include <math/Vec.h>
-#include <uio/Unode.h>
 #endif
 #include <gfx-ui/Forward.h>
 

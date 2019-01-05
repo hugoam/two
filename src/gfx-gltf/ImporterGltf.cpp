@@ -102,6 +102,8 @@ namespace mud
 	ImporterGltf::ImporterGltf(GfxSystem& gfx_system)
 		: m_gfx_system(gfx_system)
 	{
+		//System::instance().load_modules({ &mud_gltf::m() });
+		
 		static std::vector<string> fixed_members(256);
 
 		size_t index = 0;

@@ -13,7 +13,7 @@ module mud.uio;
 #include <ui/Controller/Controller.h>
 #include <meta/ui/Convert.h>
 #include <uio/Edit/UiEdit.h>
-#include <uio/Edit/Section.h>
+#include <ui/Section.h>
 #include <uio/Edit/Inspector.h>
 #include <uio/Edit/Structure.h>
 #endif

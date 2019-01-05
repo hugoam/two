@@ -9,12 +9,9 @@
 #include <meta/infra/Module.h>
 #include <meta/type/Module.h>
 #include <meta/pool/Module.h>
-#include <meta/refl/Module.h>
-#include <meta/srlz/Module.h>
 #include <meta/math/Module.h>
 #include <meta/geom/Module.h>
 #include <meta/ctx/Module.h>
-#include <meta/ctx-glfw/Module.h>
 #include <meta/bgfx/Module.h>
 #endif
         

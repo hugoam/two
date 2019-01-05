@@ -15,10 +15,8 @@ module mud.snd;
 namespace mud
 {
 	mud_snd::mud_snd()
-		: Module("mud::snd")
+		: Module("mud::snd", {})
 	{
-        // ensure dependencies are instantiated
-
         // setup reflection meta data
 		mud_snd_meta(*this);
 	}

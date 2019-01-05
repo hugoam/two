@@ -15,20 +15,9 @@ module mud.uio;
 namespace mud
 {
 	mud_uio::mud_uio()
-		: Module("mud::uio")
+		: Module("mud::uio", { &mud_infra::m(), &mud_tree::m(), &mud_type::m(), &mud_ecs::m(), &mud_pool::m(), 
+							   &mud_refl::m(), &mud_math::m(), &mud_lang::m(), &mud_ctx::m(), &mud_ui::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_tree::m();
-        mud_type::m();
-        mud_proto::m();
-        mud_pool::m();
-        mud_refl::m();
-        mud_math::m();
-        mud_lang::m();
-        mud_ctx::m();
-        mud_ui::m();
-
         // setup reflection meta data
 		mud_uio_meta(*this);
 	}

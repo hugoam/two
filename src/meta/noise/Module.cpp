@@ -15,15 +15,8 @@ module mud.noise;
 namespace mud
 {
 	mud_noise::mud_noise()
-		: Module("mud::noise")
+		: Module("mud::noise", { &mud_infra::m(), &mud_type::m(), &mud_math::m(), &mud_geom::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_type::m();
-        mud_srlz::m();
-        mud_math::m();
-        mud_geom::m();
-
         // setup reflection meta data
 		mud_noise_meta(*this);
 	}

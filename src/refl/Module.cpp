@@ -12,8 +12,8 @@ module mud.refl;
 
 namespace mud
 {
-	Module::Module(cstring name)
-		//: m_type(type)
+	Module::Module(cstring name, std::vector<Module*> deps)
 		: m_name(name)
+		, m_deps(deps)
 	{}
 }

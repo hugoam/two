@@ -1,4 +1,9 @@
-#include <mud/mud.h>
+#include <mud/core.h>
+#include <refl/Api.h>
+#include <gfx-pbr/Api.h>
+#include <gfx-gltf/Api.h>
+#include <meta/gfx-gltf/Module.h>
+
 #include <07_gltf/07_gltf.h>
 
 using namespace mud;
@@ -17,7 +22,8 @@ void debug_normals(Gnode& parent, Mesh& mesh, const mat4& transform, float lengt
 
 void ex_07_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
 {
-	UNUSED(app);
+	static ImporterGltf gltf_importer(app.m_gfx_system);
+
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
@@ -32,14 +38,14 @@ void ex_07_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
 	//Model& model = *viewer.m_gfx_system.models().file("DamagedHelmet");
 	//debug_normals(scene, *model.m_meshes[0], model.m_items[0].m_transform, 0.2f);
 	
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
-		edit_viewer_filters(*dock, viewer);
+	//if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
+	//	edit_viewer_filters(*dock, viewer);
 }
 
 #ifdef _07_GLTF_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_07_gltf(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
@@ -47,6 +53,8 @@ int main(int argc, char *argv[])
 {
 	cstring example_path = MUD_RESOURCE_PATH "examples/07_gltf/";
 	Shell app(cstrarray(MUD_RESOURCE_PATH, example_path), argc, argv);
+	System::instance().load_modules({ &mud_gfx_gltf::m() });
+	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

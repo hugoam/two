@@ -14,7 +14,7 @@ module mud.uio;
 #include <uio/Edit/Inspector.h>
 #include <ui/Structs/Container.h>
 #include <uio/Edit/Value.h>
-#include <uio/Edit/Section.h>
+#include <ui/Section.h>
 #include <uio/Edit/Injector.h>
 #include <uio/Edit/Reflection.h>
 #endif

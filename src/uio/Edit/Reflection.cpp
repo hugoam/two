@@ -23,7 +23,7 @@ module mud.uio;
 #include <ui/Sequence.h>
 #include <uio/Types.h>
 #include <uio/Edit/Reflection.h>
-#include <uio/Edit/Section.h>
+#include <ui/Section.h>
 #include <uio/Edit/Method.h>
 #endif
 

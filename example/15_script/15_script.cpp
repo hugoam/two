@@ -1,9 +1,9 @@
-#include <mud/mud.h> // @ todo why doesn't compile without this ?
-#include <15_script/15_script.h>
+#include <mud/core.h>
 
+#include <15_script/15_script.h>
+#include <meta/15_script/Module.h>
 #include <01_shapes/01_shapes.h>
 #include <03_materials/03_materials.h>
-#include <meta/15_script/Module.h>
 
 GameObject::GameObject(const ShapeInstance* shape, Material* material, Colour colour)
 	: m_index(index(type<GameObject>(), Ref(this)))
@@ -108,17 +108,20 @@ void ex_15_script(Shell& app, Widget& parent, Dockbar& dockbar)
 #ifdef _15_SCRIPT_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_15_script(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])
 {
 	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
+	LuaInterpreter lua = { true };
 
 	system().load_module(_15_script::m());
 
-	app.m_lua.declare_types();
+	app.m_gfx_system.init_pipeline(pipeline_minimal);
+
+	lua.declare_types();
 	app.run(pump);
 }
 #endif

@@ -15,16 +15,8 @@ module mud.gfx-pbr;
 namespace mud
 {
 	mud_gfx_pbr::mud_gfx_pbr()
-		: Module("mud::gfx-pbr")
+		: Module("mud::gfx-pbr", { &mud_infra::m(), &mud_type::m(), &mud_srlz::m(), &mud_math::m(), &mud_geom::m(), &mud_gfx::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_type::m();
-        mud_srlz::m();
-        mud_math::m();
-        mud_geom::m();
-        mud_gfx::m();
-
         // setup reflection meta data
 		mud_gfx_pbr_meta(*this);
 	}

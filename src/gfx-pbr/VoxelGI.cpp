@@ -230,7 +230,7 @@ namespace gfx
 
 		Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
 		voxel_render.m_shot->m_lights = render.m_shot->m_lights;
-		render.m_scene.cull_items(planes, voxel_render.m_shot->m_items);
+		cull_items(render.m_scene, planes, voxel_render.m_shot->m_items);
 		m_gfx_system.renderer(Shading::Voxels).subrender(render, voxel_render);
 
 		if(m_block_light.m_direct_light)

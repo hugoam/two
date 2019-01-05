@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <mud/Forward.h>
-#include <mud/mud.h>
+#include <core/Forward.h>
+#include <mud/core.h>
 
 using namespace mud;
 

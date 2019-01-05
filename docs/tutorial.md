@@ -69,30 +69,30 @@ genie [options] action
 once the project is setup, let's write our first class to represent our app objects :  
 in this example, we define a simple c++ object with a `position`, a `colour`, and a `shape type`, which will allow us to show off some rendering features later
 ```c++
-enum class _refl_ ShapeType
+enum class refl_ ShapeType
 {
     Sphere,
     Cube
 };
 
-class _refl_ MyObject
+class refl_ MyObject
 {
 public:
-    _constr_ MyObject(int var, std::string field);
+    constr_ MyObject(int var, std::string field);
     
-    _meth_ int method();
+    meth_ int method();
 
-    _attr_ vec3 m_position;
-    _attr_ Colour m_colour;
-    _attr_ ShapeType m_shape;
+    attr_ vec3 m_position;
+    attr_ Colour m_colour;
+    attr_ ShapeType m_shape;
     
-    _attr_ bool m_visible;
+    attr_ bool m_visible;
 };
 
-_func_ void foo(int arg);
-_func_ void bar(MyObject& object);
+func_ void foo(int arg);
+func_ void bar(MyObject& object);
 ```
-notice how this is a standard c++ definition, with some added [reflection hints](reflection.md#hints) : `_refl_` to reflect a class, `_constr_` to reflect a constructor, `_meth_` for a reflected method, and `_attr_` for a reflected attribute.
+notice how this is a standard c++ definition, with some added [reflection hints](reflection.md#hints) : `refl_` to reflect a class, `constr_` to reflect a constructor, `meth_` for a reflected method, and `attr_` for a reflected attribute.
 
 this is all the [reflection generator](reflection.md#generator) needs to precompile the module reflection files.  
 it's a good moment to note that reflection is not **mandatory** in mud : [ui](ui.md) and [gfx](gfx.md) features can be used from a module that doesn't reflect anything.  

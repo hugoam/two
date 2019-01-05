@@ -98,7 +98,7 @@ namespace mud
 
 		ProgramBlockArray m_blocks;
 
-		cstring m_sources[size_t(ShaderType::Count)] = { nullptr, nullptr };
+		cstring m_sources[size_t(ShaderType::Count)] = {};
 
 		bool m_compute = false;
 		uint32_t m_update = 1;

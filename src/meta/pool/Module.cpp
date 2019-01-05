@@ -15,12 +15,8 @@ module mud.pool;
 namespace mud
 {
 	mud_pool::mud_pool()
-		: Module("mud::pool")
+		: Module("mud::pool", { &mud_infra::m(), &mud_type::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_type::m();
-
         // setup reflection meta data
 		mud_pool_meta(*this);
 	}

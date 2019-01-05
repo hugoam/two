@@ -1,19 +1,16 @@
-#include <math/Api.h>
-#include <ui/Api.h>
-#include <gfx/Api.h>
-#include <gfx-ui/Api.h>
-#include <mud/Shell.h>
+#include <mud/core.h>
+#include <gfx-pbr/Api.h>
 
 #include <04_lights/04_lights.h>
-
 #include <01_shapes/01_shapes.h>
 #include <03_materials/03_materials.h>
 
-#include <meta/gfx/Convert.h>
+//#include <meta/gfx/Convert.h>
 
 using namespace mud;
 
 #define CLUSTERED 1
+#define DEBUG_CLUSTERED 0
 #define OCCLUSION 0
 #define DOCKBAR 1
 
@@ -111,7 +108,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 	//gfx::shape(scene, Cylinder(20.f, 20.f, Axis::Y), Symbol::plain(Colour::AlphaWhite), ItemFlag::Render | ItemFlag::Occluder);
 #endif
 
-#if CLUSTERED 
+#if CLUSTERED
 	if(clustered && viewer.m_viewport.m_rect != uvec4(0) && !viewer.m_camera.m_clusters)
 	{
 		viewer.m_camera.m_clustered = true;
@@ -120,12 +117,14 @@ void ex_04_lights(Shell& app, Widget& parent)
 	}
 #endif
 
+#if DEBUG_CLUSTERED
 	if(debug)
 	{
 		Viewer& debug_viewer = ui::viewer(parent, *viewer.m_scene);
 		ui::free_orbit_controller(debug_viewer);
 		debug_draw_light_clusters(scene, viewer.m_camera);
 	}
+#endif
 
 	if(ground)
 	{
@@ -146,9 +145,9 @@ void ex_04_lights(Shell& app, Widget& parent)
 		ui::input_field<bool>(sheet, "Moving", moving_lights);
 
 		uint32_t light_type_index = UINT32_MAX;
-		carray<cstring, 2> light_types = { "Point", "Spot" };
+		carray<cstring, 3> light_types = { "Direct", "Point", "Spot" };
 		if(ui::radio_field(sheet, "Type", light_types, light_type_index))
-			light_type = from_string<LightType>(light_types[light_type_index]);
+			light_type = LightType(light_type_index);
 
 		ui::slider_field<float>(sheet, "Range", { light_range, { 0.f, 100.f, 0.01f } });
 		ui::slider_field<float>(sheet, "Attenuation", { light_attenuation, { 0.f, 4.f, 0.01f } });
@@ -162,7 +161,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 void pump(Shell& app)
 {
 #if DOCKBAR
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_04_lights(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 #else
 	ex_04_lights(app, app.m_ui->begin());
@@ -172,6 +171,7 @@ void pump(Shell& app)
 int main(int argc, char *argv[])
 {
 	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
+	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

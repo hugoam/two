@@ -14,7 +14,7 @@ module mud.wfc.gfx;
 #include <geom/Symbol.h>
 #include <geom/Primitive.h>
 #include <ui/Input.h>
-#include <uio/Edit/Section.h>
+#include <ui/Section.h>
 #include <gfx/Graph.h>
 #include <gfx/Scene.h>
 #include <gfx/Item.h>

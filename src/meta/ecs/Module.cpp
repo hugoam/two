@@ -14,14 +14,9 @@ module mud.proto;
 
 namespace mud
 {
-	mud_proto::mud_proto()
-		: Module("mud::proto")
+	mud_ecs::mud_ecs()
+		: Module("mud::proto", { &mud_infra::m(), &mud_type::m(), &mud_refl::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_type::m();
-        mud_refl::m();
-
         // setup reflection meta data
 		mud_proto_meta(*this);
 	}
@@ -31,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_proto::m();
+	return mud_ecs::m();
 }
 #endif

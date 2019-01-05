@@ -15,10 +15,8 @@ module mud.jobs;
 namespace mud
 {
 	mud_jobs::mud_jobs()
-		: Module("mud::jobs")
+		: Module("mud::jobs", {})
 	{
-        // ensure dependencies are instantiated
-
         // setup reflection meta data
 		mud_jobs_meta(*this);
 	}

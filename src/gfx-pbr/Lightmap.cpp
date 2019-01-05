@@ -29,6 +29,7 @@ module mud.gfx.pbr;
 #include <gfx-pbr/Light.h>
 #include <gfx-pbr/Shadow.h>
 #include <gfx-pbr/Lightmap.h>
+#include <gfx-pbr/Pipeline.h>
 #endif
 
 //#define LIGHTMAP_HDR
@@ -423,7 +424,7 @@ namespace mud
 		this->bake_geometry(items, atlas);
 
 		std::vector<GIProbe*> gi_probes;
-		scene.gather_gi_probes(gi_probes);
+		gather_gi_probes(scene, gi_probes);
 
 		Renderer& renderer = m_gfx_system.renderer(Shading::Lightmap);
 

@@ -15,13 +15,8 @@ module mud.srlz;
 namespace mud
 {
 	mud_srlz::mud_srlz()
-		: Module("mud::srlz")
+		: Module("mud::srlz", { &mud_infra::m(), &mud_type::m(), &mud_refl::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_type::m();
-        mud_refl::m();
-
         // setup reflection meta data
 		mud_srlz_meta(*this);
 	}

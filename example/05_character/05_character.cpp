@@ -1,6 +1,10 @@
-#include <mud/mud.h>
-#include <04_lights/04_lights.h>
+#include <mud/core.h>
+#include <refl/Api.h>
+#include <gfx-pbr/Api.h>
+#include <gfx-gltf/Api.h>
+#include <meta/gfx-gltf/Module.h>
 
+#include <04_lights/04_lights.h>
 #include <03_materials/03_materials.h>
 
 using namespace mud;
@@ -92,7 +96,8 @@ void human_controller_3rdperson(Viewer& viewer, Human& human)
 
 void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 {
-	UNUSED(app);
+	static ImporterGltf gltf_importer(app.m_gfx_system);
+
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	OrbitController& orbit = ui::orbit_controller(viewer);
 	viewer.take_focus();
@@ -165,7 +170,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
 		anim_editor = true;
-		animation_edit(*dock, *animated);
+		//animation_edit(*dock, *animated);
 	}
 	else
 	{
@@ -177,7 +182,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 #ifdef _05_CHARACTER_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_05_character(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
@@ -185,6 +190,8 @@ int main(int argc, char *argv[])
 {
 	cstring example_path = MUD_RESOURCE_PATH "examples/05_character/";
 	Shell app(carray<cstring, 2>{ MUD_RESOURCE_PATH, example_path }, argc, argv);
+	System::instance().load_modules({ &mud_gfx_gltf::m() });
+	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

@@ -15,12 +15,8 @@ module mud.geom;
 namespace mud
 {
 	mud_geom::mud_geom()
-		: Module("mud::geom")
+		: Module("mud::geom", { &mud_type::m(), &mud_math::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_type::m();
-        mud_math::m();
-
         // setup reflection meta data
 		mud_geom_meta(*this);
 	}

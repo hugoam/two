@@ -152,6 +152,8 @@ namespace mud
 					  || image->m_format == bimg::TextureFormat::RGB8
 					  || image->m_format == bimg::TextureFormat::RGBA8;
 
+		need_mips = false;
+
 		if(need_mips && generate_mips && image->m_numMips <= 1)
 		{
 			bimg::ImageContainer* rgba8 = bimg::imageConvert(&allocator, bimg::TextureFormat::RGBA8, *image);

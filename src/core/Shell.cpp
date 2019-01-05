@@ -1,14 +1,5 @@
-//#include <mud/mud.h>
-//#include <mud/Types.h>
-//#include <mud/Modules.h>
-
-#include <mud/Shell.h>
-
-#include <gfx-pbr/Api.h>
-#include <gfx-obj/Api.h>
-#include <gfx-gltf/Api.h>
-
-#include <gfx/GfxSystem.h>
+#include <mud/core.h>
+//#include <core/Types.h>
 
 #include <ui-vg/VgVg.h>
 
@@ -54,10 +45,7 @@ namespace mud
 		//, m_wren(false)
 		//, m_editor(m_gfx_system)
 	{
-		//System::instance().load_modules({ &mud_infra::m(), &mud_type::m(), &mud_pool::m(), &mud_refl::m(), &mud_proto::m(), &mud_tree::m() });
-		//System::instance().load_modules({ &mud_srlz::m(), &mud_math::m(), &mud_geom::m(), &mud_noise::m(), &mud_wfc::m(), &mud_fract::m(), &mud_lang::m() });
-		//System::instance().load_modules({ &mud_ctx::m(), &mud_ui::m(), &mud_gfx::m(), &mud_gfx_pbr::m(), &mud_gfx_obj::m(), &mud_gfx_gltf::m(), &mud_gfx_ui::m(), &mud_tool::m() });
-
+		
 		// @todo this should be automatically done by math module
 		register_math_conversions();
 
@@ -117,16 +105,6 @@ namespace mud
 		//m_ui_window = &m_gfx_system.create_window("mud EditorCore", 1280, 720, false);
 		m_ui = m_ui_window->m_root_sheet.get();
 
-#ifdef MUD_GFX_DEFERRED
-		pipeline_pbr(m_gfx_system, *m_gfx_system.m_pipeline, true);
-#else
-		pipeline_pbr(m_gfx_system, *m_gfx_system.m_pipeline);
-#endif
-		m_gfx_system.init_pipeline();
-
-		//static ImporterOBJ obj_importer(m_gfx_system);
-		//static ImporterGltf gltf_importer(m_gfx_system);
-
 		//string stylesheet = "minimal.yml";
 		//string stylesheet = "vector.yml";
 		//string stylesheet = "blendish_dark.yml";
@@ -137,8 +115,12 @@ namespace mud
 
 	void shell_context(Widget& parent, ShellContext& context)
 	{
+#if 0
+		edit_context(parent, context, true);
+#else
 		Widget& board = ui::board(parent);
 		context.m_screen = &ui::board(board);
 		context.m_dockbar = &ui::dockbar(board, context.m_docksystem);
+#endif
 	}
 }

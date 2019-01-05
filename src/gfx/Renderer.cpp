@@ -148,6 +148,11 @@ namespace mud
 		return *m_impl->m_render_passes.back();
 	}
 
+	void Renderer::gather(Render& render)
+	{
+		m_pipeline.m_gather_func(render.m_scene, render);
+	}
+
 	void Renderer::render(Render& render)
 	{
 		//render.m_needs_depth_prepass = true;

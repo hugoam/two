@@ -8,8 +8,6 @@
 #ifndef MUD_MODULES
 #include <meta/infra/Module.h>
 #include <meta/type/Module.h>
-#include <meta/refl/Module.h>
-#include <meta/srlz/Module.h>
 #endif
         
 #include <math/Forward.h>

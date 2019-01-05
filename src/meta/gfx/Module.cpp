@@ -15,20 +15,8 @@ module mud.gfx;
 namespace mud
 {
 	mud_gfx::mud_gfx()
-		: Module("mud::gfx")
+		: Module("mud::gfx", { &mud_infra::m(), &mud_type::m(),	&mud_pool::m(),	&mud_math::m(),	&mud_geom::m(),	&mud_ctx::m(), &mud_bgfx::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_type::m();
-        mud_pool::m();
-        mud_refl::m();
-        mud_srlz::m();
-        mud_math::m();
-        mud_geom::m();
-        mud_ctx::m();
-        //mud_ctx_glfw::m();
-        mud_bgfx::m();
-
         // setup reflection meta data
 		mud_gfx_meta(*this);
 	}

@@ -25,10 +25,6 @@ module mud.gfx;
 #include <gfx/Model.h>
 #include <gfx/Pipeline.h>
 #include <gfx/GfxSystem.h>
-// @kludge fix this dependency inversion
-#include <gfx-pbr/Types.h>
-#include <gfx-pbr/VoxelGI.h>
-#include <gfx-pbr/Lightmap.h>
 #endif
 
 //#define DEBUG_ITEMS
@@ -47,11 +43,6 @@ namespace mud
 		m_environment.m_radiance.m_ambient = 0.7f;
 
 		m_pool = make_object<ObjectPool>();
-		m_pool->create_pool<Node3>();
-		m_pool->create_pool<Item>();
-		m_pool->create_pool<Animated>();
-		m_pool->create_pool<Light>();
-		m_pool->create_pool<Camera>();
 		m_pool->create_pool<Particles>(1024);
 
 		m_particle_system = make_object<ParticleSystem>(gfx_system, m_pool->pool<Particles>());
@@ -86,10 +77,23 @@ namespace mud
 		return begin_node<Gnode>(m_graph, true);
 	}
 
-	void Scene::cull_items(const Plane6& planes, std::vector<Item*>& items)
+	void Scene::debug_items(Render& render)
+	{
+		mat4 identity = bxidentity();
+		bool debug = render.m_target != nullptr;
+		if(debug)
+			for(Item* item : render.m_shot->m_items)
+			{
+				Colour colour = { 1.f, 0.f, 1.f, 0.15f };
+				m_immediate->draw(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
+				//m_immediate->draw(item->m_node->m_transform, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
+			}
+	}
+
+	void cull_items(Scene& scene, const Plane6& planes, std::vector<Item*>& items)
 	{
 		//items.reserve(m_pool->pool<Item>().size());
-		m_pool->pool<Item>().iterate([&](Item& item)
+		scene.m_pool->pool<Item>().iterate([&](Item& item)
 		{
 			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0
 			&& frustum_aabb_intersection(planes, item.m_aabb))
@@ -99,7 +103,7 @@ namespace mud
 		});
 	}
 
-	void Scene::gather_items(const Camera& camera, std::vector<Item*>& items)
+	void gather_items(Scene& scene, const Camera& camera, std::vector<Item*>& items)
 	{
 		Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
 
@@ -108,7 +112,7 @@ namespace mud
 		vec4 lod_levels = camera.m_far * vec4{ 0.02f, 0.3f, 0.6f, 0.8f };
 
 		//items.reserve(m_pool->pool<Item>().size());
-		m_pool->pool<Item>().iterate([&](Item& item)
+		scene.m_pool->pool<Item>().iterate([&](Item& item)
 		{
 			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0)
 			{
@@ -131,12 +135,12 @@ namespace mud
 		});
 	}
 
-	void Scene::gather_occluders(const Camera& camera, std::vector<Item*>& occluders)
+	void gather_occluders(Scene& scene, const Camera& camera, std::vector<Item*>& occluders)
 	{
 		Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
 
 		//occluders.reserve(m_pool->pool<Item>().size());
-		m_pool->pool<Item>().iterate([&](Item& item)
+		scene.m_pool->pool<Item>().iterate([&](Item& item)
 		{
 			if(item.m_visible && (item.m_flags & ItemFlag::Occluder) != 0
 			&& frustum_aabb_intersection(planes, item.m_aabb))
@@ -145,10 +149,11 @@ namespace mud
 			}
 		});
 	}
-	void Scene::gather_lights(std::vector<Light*>& lights)
+
+	void gather_lights(Scene& scene, std::vector<Light*>& lights)
 	{
 		//lights.reserve(m_pool->pool<Light>().size());
-		m_pool->pool<Light>().iterate([&](Light& light)
+		scene.m_pool->pool<Light>().iterate([&](Light& light)
 		{
 			if(light.m_visible)
 			{
@@ -158,62 +163,15 @@ namespace mud
 		});
 	}
 
-	void Scene::gather_gi_probes(std::vector<GIProbe*>& gi_probes)
+	void gather_render(Scene& scene, Render& render)
 	{
-		//gi_probes.reserve(m_pool->pool<GIProbe>().size());
-		m_pool->pool<GIProbe>().iterate([&](GIProbe& gi_probe)
-		{
-			gi_probes.push_back(&gi_probe);
-		});
-	}
-
-	void Scene::gather_lightmaps(std::vector<LightmapAtlas*>& atlases)
-	{
-		//atlases.reserve(m_pool->pool<LightmapAtlas>().size());
-		m_pool->pool<LightmapAtlas>().iterate([&](LightmapAtlas& atlas)
-		{
-			atlases.push_back(&atlas);
-		});
-	}
-
-#if  0
-	void Scene::gather_reflection_probes(std::vector<ReflectionProbe*>& reflection_probes)
-	{
-		m_pool->pool<ReflectionProbe>().iterate([&](ReflectionProbe& probe)
-		{
-			if(probe.m_visible)
-			{
-				reflection_probes.push_back(probe);
-				probe.m_dirty = true; // force dirty for now
-			}
-		});
-	}
-#endif
-
-	void Scene::gather_render(Render& render)
-	{
-		this->gather_items(render.m_camera, render.m_shot->m_items);
-		this->gather_occluders(render.m_camera, render.m_shot->m_occluders);
-		this->gather_lights(render.m_shot->m_lights);
-		this->gather_gi_probes(render.m_shot->m_gi_probes);
-		this->gather_lightmaps(render.m_shot->m_lightmaps);
-		//this->gather_reflection_probes(render.m_shot->m_reflection_probes);
+		gather_items(scene, render.m_camera, render.m_shot->m_items);
+		gather_occluders(scene, render.m_camera, render.m_shot->m_occluders);
+		gather_lights(scene, render.m_shot->m_lights);
 
 		render.m_frustum = make_unique<Frustum>(optimized_frustum(render.m_camera, to_array(render.m_shot->m_items)));
 
-		render.m_environment = &m_environment;
-		render.m_shot->m_immediate = { m_immediate.get() };
-
-#ifdef DEBUG_ITEMS
-		mat4 identity = bxidentity();
-		bool debug = render.m_target != nullptr;
-		if(debug)
-			for(Item* item : render.m_shot->m_items)
-			{
-				Colour colour = { 1.f, 0.f, 1.f, 0.15f };
-				m_immediate->draw(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
-				//m_immediate->draw(item->m_node->m_transform, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
-			}
-#endif
+		render.m_environment = &scene.m_environment;
+		render.m_shot->m_immediate = { scene.m_immediate.get() };
 	}
 }

@@ -1,4 +1,5 @@
-#include <mud/mud.h>
+#include <mud/core.h>
+
 #include <09_live_shader/09_live_shader.h>
 
 using namespace mud;
@@ -60,14 +61,14 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
-	viewer.m_filters.m_tonemap.m_enabled = false;
+	//viewer.m_filters.m_tonemap.m_enabled = false;
 
 	Gnode& scene = viewer.m_scene->begin();
 	BlockFilter& filter = *scene.m_scene->m_gfx_system.m_pipeline->block<BlockFilter>();
 
 	static string source = create_shader();
 
-	static Program program = { "custom_program", {}, carray<cstring, 2>{ source.c_str(), nullptr } };
+	static Program program = { "custom_program", {}, carray<cstring, size_t(ShaderType::Count)>{ nullptr, source.c_str(), nullptr, nullptr } };
 	
 	//static Material material = { scene.m_scene->m_gfx_system, "custom_shader", program };
 	//material.m_pbr_block.m_enabled = true;
@@ -99,13 +100,14 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 #ifdef _09_LIVE_SHADER_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_09_live_shader(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])
 {
 	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
+	app.m_gfx_system.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }
 #endif

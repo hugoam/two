@@ -23,13 +23,13 @@
 
 namespace mud
 {
-	export_ class MUD_ECS_REFL_EXPORT mud_proto : public Module
+	export_ class MUD_ECS_REFL_EXPORT mud_ecs : public Module
 	{
 	private:
-		mud_proto();
+		mud_ecs();
 
 	public:
-		static mud_proto& m() { static mud_proto instance; return instance; }
+		static mud_ecs& m() { static mud_ecs instance; return instance; }
 	};
 }
 

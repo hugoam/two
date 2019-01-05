@@ -18,7 +18,7 @@ module mud.uio;
 #include <ui/Structs/Container.h>
 #include <uio/Edit/Structure.h>
 #include <uio/Unode.h>
-#include <uio/Edit/Section.h>
+#include <ui/Section.h>
 #include <uio/Object.h>
 #endif
 

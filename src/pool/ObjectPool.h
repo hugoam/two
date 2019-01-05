@@ -49,10 +49,4 @@ namespace mud
 			g_pools[type<T>().m_id] = make_unique<TPool<T>>();
 		return as<TPool<T>>(*g_pools[type<T>().m_id].get());
 	}
-
-	export_ template <class T>
-	class TGlobalPool
-	{
-		TGlobalPool() { global_pool<T>(); }
-	};
 }

@@ -15,23 +15,9 @@ module mud.gfx-edit;
 namespace mud
 {
 	mud_gfx_edit::mud_gfx_edit()
-		: Module("mud::gfx-edit")
+		: Module("mud::gfx-edit", { &mud_infra::m(), &mud_tree::m(), &mud_type::m(), &mud_refl::m(), &mud_srlz::m(), &mud_lang::m(), &mud_math::m(),
+									&mud_geom::m(), &mud_ctx::m(), &mud_ui::m(), &mud_uio::m(), &mud_gfx::m(), &mud_gfx_pbr::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_tree::m();
-        mud_type::m();
-        mud_refl::m();
-        mud_srlz::m();
-        mud_lang::m();
-        mud_math::m();
-        mud_geom::m();
-        mud_ctx::m();
-        mud_ui::m();
-        mud_uio::m();
-        mud_gfx::m();
-        mud_gfx_pbr::m();
-
         // setup reflection meta data
 		mud_gfx_edit_meta(*this);
 	}

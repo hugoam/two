@@ -106,17 +106,16 @@ namespace mud
 		meth_ Gnode& begin();
 		void update();
 
-		void cull_items(const Plane6& planes, std::vector<Item*>& items);
-
-		void gather_items(const Camera& camera, std::vector<Item*>& items);
-		void gather_occluders(const Camera& camera, std::vector<Item*>& occluders);
-		void gather_lights(std::vector<Light*>& lights);
-		void gather_gi_probes(std::vector<GIProbe*>& gi_probes);
-		void gather_lightmaps(std::vector<LightmapAtlas*>& atlases);
-		//void gather_reflection_probes(std::vector<ReflectionProbe*>& reflection_probes);
-
-		void gather_render(Render& render);
+		void debug_items(Render& render);
 
 		std::vector<Sound*> m_orphan_sounds;
 	};
+
+	export_ MUD_GFX_EXPORT void cull_items(Scene& scene, const Plane6& planes, std::vector<Item*>& items);
+
+	export_ MUD_GFX_EXPORT void gather_items(Scene& scene, const Camera& camera, std::vector<Item*>& items);
+	export_ MUD_GFX_EXPORT void gather_occluders(Scene& scene, const Camera& camera, std::vector<Item*>& occluders);
+	export_ MUD_GFX_EXPORT void gather_lights(Scene& scene, std::vector<Light*>& lights);
+
+	export_ MUD_GFX_EXPORT void gather_render(Scene& scene, Render& render);
 }

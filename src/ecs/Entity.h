@@ -34,7 +34,6 @@ namespace mud
 		attr_ Type& m_type;
 		attr_ Prototype& m_prototype;
 
-
 		attr_ std::vector<Ref> m_parts;
 
 		meth_ void setup(const std::vector<Ref>& parts);
@@ -43,9 +42,6 @@ namespace mud
 		meth_ bool has_part(Type& type) { return m_prototype.has_part(type); }
 		meth_ Ref part(Type& type) { return m_parts[m_prototype.part_index(type)]; }
 		meth_ Ref try_part(Type& type) { if(has_part(type)) return this->part(type); else return Ref(); }
-
-		template <class T>
-		T& component();
 	};
 
 	export_ template <class T>

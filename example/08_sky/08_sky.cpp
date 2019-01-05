@@ -1,6 +1,7 @@
-#include <mud/mud.h>
-#include <08_sky/08_sky.h>
+#include <mud/core.h>
+#include <gfx-pbr/Api.h>
 
+#include <08_sky/08_sky.h>
 #include <01_shapes/01_shapes.h>
 #include <03_materials/03_materials.h>
 
@@ -93,13 +94,14 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 #ifdef _08_SKY_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_08_sky(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])
 {
 	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
+	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

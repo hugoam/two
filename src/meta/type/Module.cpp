@@ -15,11 +15,8 @@ module mud.obj;
 namespace mud
 {
 	mud_type::mud_type()
-		: Module("mud::obj")
+		: Module("mud::obj", { &mud_infra::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-
         // setup reflection meta data
 		mud_type_meta(*this);
 	}

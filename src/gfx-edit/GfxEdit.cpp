@@ -25,7 +25,7 @@ module mud.gfx-edit;
 #include <ui/Sequence.h>
 #include <uio/Unode.h>
 #include <uio/Edit/Inspector.h>
-#include <uio/Edit/Section.h>
+#include <ui/Section.h>
 #include <uio/Edit/Value.h>
 #include <gfx/Gfx.h>
 #include <gfx/Animated.h>
@@ -36,6 +36,7 @@ module mud.gfx-edit;
 #include <gfx/Froxel.h>
 #include <gfx/Frustum.h>
 #include <gfx/GfxSystem.h>
+#include <gfx-pbr/Types.h>
 #include <gfx-pbr/Shadow.h>
 #include <gfx-ui/Types.h>
 #include <gfx-ui/Viewer.h>
@@ -368,11 +369,11 @@ namespace mud
 		ScrollSheet& scroll_sheet = ui::scroll_sheet(parent);
 		Widget& self = ui::sheet(*scroll_sheet.m_body);
 
-		RenderFilters& filters = viewer.m_filters;
-		object_edit_expandbox(self, Ref(&filters.m_dof_blur));
-		object_edit_expandbox(self, Ref(&filters.m_glow));
-		object_edit_expandbox(self, Ref(&filters.m_bcs));
-		object_edit_expandbox(self, Ref(&filters.m_tonemap));
+		//RenderFilters& filters = viewer.m_filters;
+		//object_edit_expandbox(self, Ref(&filters.m_dof_blur));
+		//object_edit_expandbox(self, Ref(&filters.m_glow));
+		//object_edit_expandbox(self, Ref(&filters.m_bcs));
+		//object_edit_expandbox(self, Ref(&filters.m_tonemap));
 	}
 
 #if 0

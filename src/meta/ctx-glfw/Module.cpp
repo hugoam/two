@@ -15,12 +15,8 @@ module mud.ctx-glfw;
 namespace mud
 {
 	mud_ctx_glfw::mud_ctx_glfw()
-		: Module("mud::ctx-glfw")
+		: Module("mud::ctx-glfw", { &mud_math::m(), &mud_ctx::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_math::m();
-        mud_ctx::m();
-
         // setup reflection meta data
 		mud_ctx_glfw_meta(*this);
 	}

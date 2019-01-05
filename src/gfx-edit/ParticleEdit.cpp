@@ -19,7 +19,7 @@ module mud.gfx-edit;
 #include <gfx/GfxSystem.h>
 #include <uio/Unode.h>
 #include <uio/Edit/Inspector.h>
-#include <uio/Edit/Section.h>
+#include <ui/Section.h>
 #include <uio/Edit/Value.h>
 #include <gfx-ui/Types.h>
 #include <gfx-ui/Viewer.h>

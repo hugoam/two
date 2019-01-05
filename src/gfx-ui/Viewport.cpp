@@ -8,7 +8,6 @@
 module mud.gfx.ui;
 #else
 #include <infra/Vector.h>
-#include <uio/Edit/Section.h>
 #include <gfx/Item.h>
 #include <gfx-ui/Types.h>
 #include <gfx-ui/Viewport.h>

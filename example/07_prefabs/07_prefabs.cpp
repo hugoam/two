@@ -1,4 +1,7 @@
-#include <mud/mud.h>
+#include <mud/core.h>
+#include <gfx-pbr/Api.h>
+#include <gfx-gltf/Api.h>
+
 #include <07_prefabs/07_prefabs.h>
 
 using namespace mud;
@@ -119,7 +122,7 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 #ifdef _07_PREFABS_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_07_prefabs(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
@@ -129,6 +132,7 @@ int main(int argc, char *argv[])
 	cstring gtlf_path		= MUD_RESOURCE_PATH "examples/07_gltf/";
 	//cstring character_path	= MUD_RESOURCE_PATH "examples/07_character/";
 	Shell app(cstrarray(MUD_RESOURCE_PATH, prefab_path, gtlf_path), argc, argv);
+	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

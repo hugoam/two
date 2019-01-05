@@ -1,6 +1,6 @@
-#include <mud/mud.h>
-#include <20_meta/20_meta.h>
+#include <mud/core.h>
 
+#include <20_meta/20_meta.h>
 #include <03_materials/03_materials.h>
 
 using namespace mud;
@@ -26,13 +26,14 @@ void ex_20_meta(Shell& app, Widget& parent, Dockbar& dockbar)
 #ifdef _20_META_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_20_meta(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])
 {
 	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
+	app.m_gfx_system.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }
 #endif

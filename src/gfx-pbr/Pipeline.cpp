@@ -9,6 +9,7 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
+#include <pool/ObjectPool.h>
 #include <gfx/Types.h>
 #include <gfx/Api.h>
 #include <gfx-pbr/Pipeline.h>
@@ -25,6 +26,51 @@ namespace mud
 
 #define MUD_GFX_STATE_DEFAULT_ALPHA 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LESS \
 									  | BGFX_STATE_MSAA | BGFX_STATE_BLEND_ALPHA
+
+	void gather_gi_probes(Scene& scene, std::vector<GIProbe*>& gi_probes)
+	{
+		//gi_probes.reserve(m_pool->pool<GIProbe>().size());
+		scene.m_pool->pool<GIProbe>().iterate([&](GIProbe& gi_probe)
+		{
+			gi_probes.push_back(&gi_probe);
+		});
+	}
+
+	void gather_lightmaps(Scene& scene, std::vector<LightmapAtlas*>& atlases)
+	{
+		//atlases.reserve(m_pool->pool<LightmapAtlas>().size());
+		scene.m_pool->pool<LightmapAtlas>().iterate([&](LightmapAtlas& atlas)
+		{
+			atlases.push_back(&atlas);
+		});
+	}
+
+	void gather_reflection_probes(Scene& scene, std::vector<ReflectionProbe*>& reflection_probes)
+	{
+		scene.m_pool->pool<ReflectionProbe>().iterate([&](ReflectionProbe& probe)
+		{
+			if(probe.m_visible)
+			{
+				reflection_probes.push_back(&probe);
+				probe.m_dirty = true; // force dirty for now
+			}
+		});
+	}
+
+	void gather_render_pbr(Scene& scene, Render& render)
+	{
+		gather_items(scene, render.m_camera, render.m_shot->m_items);
+		gather_occluders(scene, render.m_camera, render.m_shot->m_occluders);
+		gather_lights(scene, render.m_shot->m_lights);
+		gather_gi_probes(scene, render.m_shot->m_gi_probes);
+		gather_lightmaps(scene, render.m_shot->m_lightmaps);
+		gather_reflection_probes(scene, render.m_shot->m_reflection_probes);
+
+		render.m_frustum = make_unique<Frustum>(optimized_frustum(render.m_camera, to_array(render.m_shot->m_items)));
+
+		render.m_environment = &scene.m_environment;
+		render.m_shot->m_immediate = { scene.m_immediate.get() };
+	}
 
 	void pipeline_pbr(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred)
 	{
@@ -137,6 +183,8 @@ namespace mud
 		gfx_system.set_renderer(Shading::Voxels, voxel_renderer);
 
 		gfx_system.set_renderer(Shading::Lightmap, lightmap_renderer);
+
+		pipeline.m_gather_func = gather_render_pbr;
 	}
 
 	ForwardRenderer::ForwardRenderer(GfxSystem& gfx_system, Pipeline& pipeline)

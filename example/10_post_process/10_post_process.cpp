@@ -1,6 +1,7 @@
-#include <mud/mud.h>
-#include <10_post_process/10_post_process.h>
+#include <mud/core.h>
+#include <gfx-pbr/Api.h>
 
+#include <10_post_process/10_post_process.h>
 #include <01_shapes/01_shapes.h>
 #include <03_materials/03_materials.h>
 
@@ -12,8 +13,8 @@ void ex_10_post_process(Shell& app, Widget& parent, Dockbar& dockbar)//, Dockbar
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::orbit_controller(viewer);
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
-		edit_viewer_filters(*dock, viewer);
+	//if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
+	//	edit_viewer_filters(*dock, viewer);
 
 	Gnode& scene = viewer.m_scene->begin();
 
@@ -34,13 +35,14 @@ void ex_10_post_process(Shell& app, Widget& parent, Dockbar& dockbar)//, Dockbar
 #ifdef _10_POST_PROCESS_EXE
 void pump(Shell& app)
 {
-	edit_context(app.m_ui->begin(), app.m_editor, true);
+	shell_context(app.m_ui->begin(), app.m_editor);
 	ex_10_post_process(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])
 {
 	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
+	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
 #endif

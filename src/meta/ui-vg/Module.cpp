@@ -15,14 +15,8 @@ module mud.ui-vg;
 namespace mud
 {
 	mud_ui_vg::mud_ui_vg()
-		: Module("mud::ui-vg")
+		: Module("mud::ui-vg", { &mud_infra::m(), &mud_type::m(), &mud_math::m(), &mud_ui::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_type::m();
-        mud_math::m();
-        mud_ui::m();
-
         // setup reflection meta data
 		mud_ui_vg_meta(*this);
 	}

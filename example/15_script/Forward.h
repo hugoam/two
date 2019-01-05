@@ -10,27 +10,15 @@
 #include <refl/Forward.h>
 #include <ecs/Forward.h>
 #include <tree/Forward.h>
-#include <srlz/Forward.h>
 #include <math/Forward.h>
 #include <geom/Forward.h>
-#include <noise/Forward.h>
-#include <wfc/Forward.h>
-#include <fract/Forward.h>
 #include <lang/Forward.h>
 #include <ctx/Forward.h>
 #include <ui/Forward.h>
 #include <uio/Forward.h>
 #include <snd/Forward.h>
-#include <ctx-glfw/Forward.h>
-#include <ui-vg/Forward.h>
 #include <bgfx/Forward.h>
 #include <gfx/Forward.h>
-#include <gfx-pbr/Forward.h>
-#include <gfx-obj/Forward.h>
-#include <gfx-gltf/Forward.h>
-#include <gfx-ui/Forward.h>
-#include <tool/Forward.h>
-#include <wfc-gfx/Forward.h>
 
 #ifndef _15_SCRIPT_EXPORT
 #define _15_SCRIPT_EXPORT MUD_IMPORT

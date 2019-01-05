@@ -15,23 +15,9 @@ module mud.gfx-ui;
 namespace mud
 {
 	mud_gfx_ui::mud_gfx_ui()
-		: Module("mud::gfx-ui")
+		: Module("mud::gfx-ui", { &mud_infra::m(), &mud_tree::m(), &mud_type::m(), &mud_math::m(), &mud_geom::m(), &mud_ctx::m(), 
+								  &mud_ui::m(), &mud_gfx::m(), &mud_gfx_pbr::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-        mud_tree::m();
-        mud_type::m();
-        mud_refl::m();
-        mud_srlz::m();
-        mud_lang::m();
-        mud_math::m();
-        mud_geom::m();
-        mud_ctx::m();
-        mud_ui::m();
-        mud_uio::m();
-        mud_gfx::m();
-        mud_gfx_pbr::m();
-
         // setup reflection meta data
 		mud_gfx_ui_meta(*this);
 	}

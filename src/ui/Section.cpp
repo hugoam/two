@@ -5,13 +5,14 @@
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
-module mud.uio;
+module mud.ui;
 #else
 #include <ui/Style/Layout.h>
 #include <ui/Style/Skin.h>
 #include <ui/Structs/Container.h>
-#include <uio/Types.h>
-#include <uio/Edit/Section.h>
+#include <ui/Types.h>
+#include <ui/Section.h>
+#include <ui/Ui.h>
 #endif
 
 namespace mud

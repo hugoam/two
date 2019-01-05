@@ -15,11 +15,8 @@ module mud.tree;
 namespace mud
 {
 	mud_tree::mud_tree()
-		: Module("mud::tree")
+		: Module("mud::tree", { &mud_infra::m() })
 	{
-        // ensure dependencies are instantiated
-        mud_infra::m();
-
         // setup reflection meta data
 		mud_tree_meta(*this);
 	}

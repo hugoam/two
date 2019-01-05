@@ -21,8 +21,10 @@ namespace mud
 #define MUD_GFX_STATE_DEFAULT_ALPHA 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LESS \
 									  | BGFX_STATE_MSAA | BGFX_STATE_BLEND_ALPHA
 
-	void pipeline_minimal(GfxSystem& gfx_system, Pipeline& pipeline)
+	void pipeline_minimal(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred)
 	{
+		UNUSED(deferred);
+
 		// filters
 		BlockFilter& filter = pipeline.add_block<BlockFilter>(gfx_system);
 		BlockCopy& copy = pipeline.add_block<BlockCopy>(gfx_system, filter);
@@ -65,6 +67,8 @@ namespace mud
 
 		gfx_system.set_renderer(Shading::Shaded, main_renderer);
 		gfx_system.set_renderer(Shading::Volume, shadow_renderer);
+
+		pipeline.m_gather_func = gather_render;
 	}
 
 	Pipeline::Pipeline(GfxSystem& gfx_system)

@@ -13,7 +13,6 @@
 #include <gfx/Camera.h>
 #include <gfx/Scene.h>
 #include <gfx/Graph.h>
-#include <gfx-pbr/Filters/Tonemap.h>
 #endif
 #include <gfx-ui/Forward.h>
 
@@ -35,6 +34,12 @@ namespace mud
 		virtual void process(Viewer& viewer) = 0;
 	};
 
+	export_ class refl_ MUD_GFX_UI_EXPORT Object
+	{
+	public:
+		virtual ~Object() {}
+	};
+
 	export_ class refl_ MUD_GFX_UI_EXPORT Viewer : public Widget
 	{
 	public:
@@ -54,7 +59,7 @@ namespace mud
 
 		Item* m_hovered = nullptr;
 
-		RenderFilters m_filters;
+		unique_ptr<Object> m_filters;
 
 		unique_ptr<ViewerController> m_controller;
 

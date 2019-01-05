@@ -149,6 +149,11 @@ namespace mud
 			this->load_module(*m);
 	}
 
+	bool System::has_module(Module& m)
+	{
+		return vector_has(m_modules, &m);
+	}
+
 	Module* System::open_module(cstring path)
 	{
 		return mud::load_module(path);
@@ -156,23 +161,23 @@ namespace mud
 
 	void System::load_module(Module& m)
 	{
+		if(vector_has(m_modules, &m))
+			return;
+
 		m_modules.push_back(&m);
+
+		for(Module* dep : m.m_deps)
+			load_module(*dep);
 
 		for(Type* type : m.m_types)
 			m_types.push_back(type);
 
 		for(Function* function : m.m_functions)
 			m_functions.push_back(function);
-
-		//for(Module* depend : m_modules)
-		//	depend->handle_load(m);
 	}
 
 	void System::unload_module(Module& m)
 	{
-		//for(Module* depend : m_modules)
-		//	depend->handle_unload(m);
-
 		vector_remove(m_modules, &m);
 
 		for(Type* type : m.m_types)

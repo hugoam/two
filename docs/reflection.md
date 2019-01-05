@@ -41,7 +41,7 @@ Here are a few examples of problems that are typically best solved in a generic 
 The prerequisite to using generic [primitives](#primitives) and [operations](#operations) on any given c++ construct, is to produce the necessary reflection data, for this construct.  
 This is done by annotating the code in the following manner, which is then fed to a precompiler or reflection [generator](#generator) :
 ```c++
-enum class _refl_ ShapeType
+enum class refl_ ShapeType
 {
     Sphere,
     Cube
@@ -62,10 +62,10 @@ public:
     attr_ std::vector<float> m_floats;
 };
 
-_func_ void foo(int arg);
-_func_ void bar(MyObject& object);
+func_ void foo(int arg);
+func_ void bar(MyObject& object);
 ```
-Notice how this is a standard c++ definition, with some added [reflection hints](#hints): `refl_` to reflect a class, `_constr_` to reflect a constructor, `_meth_` for a reflected method, and `_attr_` for a reflected attribute.
+Notice how this is a standard c++ definition, with some added [reflection hints](#hints): `refl_` to reflect a class, `constr_` to reflect a constructor, `meth_` for a reflected method, and `attr_` for a reflected attribute.
 
 Using these annotations, the reflection [generator](#generator) produces a couple of reflection files, which declares and registers [constructs](#constructs) using mud corresponding types: [functions](../src/obj/Reflect/Method.h), [types](../src/obj/Reflect/Meta.h), [classes](../src/obj/Reflect/Class.h), [class members](../src/obj/Reflect/Member.h), [class methods](../src/obj/Reflect/Method.h), [enums](../src/obj/Reflect/Enum.h).  
 
@@ -88,7 +88,7 @@ public:
     Shape(Type& type) : m_type(type) {}
     virtual ~Shape() {}
     
-    _attr_ Type& m_type; // can be a pointer too
+    attr_ Type& m_type; // can be a pointer too
 }
 ```
 This allows to convert a pointer or reference to a `Shape` to an aptly typed generic `Ref` or `Var`. To get the real type of a potentially polymorphic object, the `typeof(object)` function ensures you always get the true type of a given object: it simply retrieves the `type` member if that type of object has one (= is polymorphic), or call `type<T>()` instead.
@@ -199,10 +199,10 @@ to_string(floats); // prints "3.03,0.45,0.1"
 ## Generator
 ### Hints
 The following hints are defined for reflecting c++ constructs:
-- `_refl_`: reflect a type
-- `_attr_`: reflect a class field (static or not)
-- `_meth_`: reflect a class method
-- `_func_`: reflect a function
+- `refl_`: reflect a type
+- `attr_`: reflect a class field (static or not)
+- `meth_`: reflect a class method
+- `func_`: reflect a function
 - `_array_`: specifies that a reflected type behaves like an array type (implements the [] operator)
 - `_struct_`: specifies that a reflected type has value semantic
 
@@ -235,12 +235,12 @@ Reflection of template classes is partially supported under certain conditions:
 
 ```c++
 template <class T>
-class _refl_ Foo // annotate the template so that the precompiler will pickup the reflected features
+class refl_ Foo // annotate the template so that the precompiler will pickup the reflected features
 {
-    _attr_ T m_attribute;
+    attr_ T m_attribute;
 };
 
-template class _refl_ Foo<int>; // fully reflects the explicit instantiation for type int
+template class refl_ Foo<int>; // fully reflects the explicit instantiation for type int
 ```
 
 ## Generic features
