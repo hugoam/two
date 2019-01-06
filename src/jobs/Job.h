@@ -4,6 +4,7 @@
 #include <infra/Pool.h>
 #include <infra/Vector.h>
 #include <infra/Thread.h>
+#include <jobs/Forward.h>
 #include <jobs/JobQueue.h>
 
 #include <cassert>
