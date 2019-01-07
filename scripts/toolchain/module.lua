@@ -92,9 +92,14 @@ function mud_links(lib, dep)
     table.insert(lib.links, dep)
     links(dep.name)
     
+    -- binaries don't export anything, and we only export from linked static libs
     if dep.kind == "StaticLib" then
         for _, m in ipairs(dep.modules or {}) do
-            defines { m.idname:upper() .. "_EXPORT=MUD_EXPORT" }
+            if lib.kind == "ConsoleApp" then
+                defines { m.idname:upper() .. "_EXPORT=" }
+            else
+                defines { m.idname:upper() .. "_EXPORT=MUD_EXPORT" }
+            end
         end
     end
     

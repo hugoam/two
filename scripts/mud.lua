@@ -140,6 +140,32 @@ function mud_db()
     }
 end
 
+function mud_clrefl()
+    includedirs {
+        path.join(MUD_3RDPARTY_DIR, "json11"),
+    }
+    
+    links { "libclang" }
+    
+    configuration { "windows" }
+        includedirs {
+            "C:/Program Files (x86)/LLVM/include",
+            "C:/Program Files/LLVM/include",
+        }
+
+    configuration { "windows", "x32" }
+        libdirs {
+            "C:/Program Files (x86)/LLVM/lib",
+        }
+
+    configuration { "windows", "x64" }
+        libdirs {
+            "C:/Program Files/LLVM/lib",
+        }
+        
+    configuration {}
+end
+
 --                       base   name        root path    sub path   decl        self decl       decl transitive     dependencies
 -- core
 mud.infra   = mud_module("mud", "infra",    MUD_SRC_DIR, "infra",   nil,        nil,            uses_mud,           { })
@@ -174,14 +200,16 @@ mud.uio     = mud_module("mud", "uio",      MUD_SRC_DIR, "uio",     nil,        
 -- snd
 mud.snd     = mud_module("mud", "snd",      MUD_SRC_DIR, "snd",     nil,        mud_snd,        uses_mud_snd,       { ogg, vorbis, vorbisfile, mud.type, mud.math })
 
+mud.clrefl  = mud_module("mud", "clrefl",   MUD_SRC_DIR, "clrefl",  nil,        mud_clrefl,     nil,                { json11, mud.infra, mud.type, mud.pool, mud.refl })
+
 --mud_sys(true)
 --mud_vec(true)
 --mud.db = mud_module(as_project, "mud", "db", MUD_SRC_DIR, "db", { mud.type, mud.util })
 
+mud.mud = { mud.infra, mud.jobs, mud.type, mud.tree, mud.pool, mud.refl, mud.clrefl, mud.ecs, mud.srlz, mud.math, mud.geom, mud.noise, mud.wfc, mud.fract, mud.lang, mud.ctx, mud.ui, mud.uio }
+
 if _OPTIONS["sound"] then
-    mud.mud = { mud.infra, mud.jobs, mud.type, mud.tree, mud.pool, mud.refl, mud.ecs, mud.srlz, mud.math, mud.geom, mud.noise, mud.wfc, mud.fract, mud.lang, mud.ctx, mud.ui, mud.uio, mud.snd }
-else
-    mud.mud = { mud.infra, mud.jobs, mud.type, mud.tree, mud.pool, mud.refl, mud.ecs, mud.srlz, mud.math, mud.geom, mud.noise, mud.wfc, mud.fract, mud.lang, mud.ctx, mud.ui, mud.uio }
+    table.insert(mud.mud, mud.snd)
 end
 
 --mud.usage_decl = uses_mud

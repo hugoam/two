@@ -42,6 +42,7 @@ namespace mud
 	export_ MUD_INFRA_EXPORT std::vector<string> split_string(const string& str, const string& separator);
 
 	export_ MUD_INFRA_EXPORT string replace_all(const string& original, const string& before, const string& after);
+	export_ inline string replace(const string& original, const string& before, const string& after) { return replace_all(original, before, after); }
 
 	export_ MUD_INFRA_EXPORT string to_lower(const string& original);
 	export_ MUD_INFRA_EXPORT string to_upper(const string& original);
