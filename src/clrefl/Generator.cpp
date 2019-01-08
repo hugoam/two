@@ -241,8 +241,10 @@ namespace mud
 	{
 		visit_children(cursor, [&](CXCursor c)
 		{
-			string location = file(c);
+			auto fix_path = [](const string& path) { return replace(path, "\\", "/"); };
+			string location = fix_path(file(c));
 			bool visit = location.find(module.m_path) == 0 && location.find("meta") == string::npos;
+			//if(!visit) printf("skipping file %s for module %s\n", location.c_str(), module.m_path.c_str());
 			if(visit)
 			{
 				std::vector<string> annotations = get_annotations(c);
@@ -279,9 +281,10 @@ namespace mud
 	{
 		visit_children(cursor, [&](CXCursor c)
 		{
-			// os.path.normpath the paths
-			string location = file(c);
+			auto fix_path = [](const string& path) { return replace(path, "\\", "/"); };
+			string location = fix_path(file(c));
 			bool visit = location.find(module.m_path) == 0 && location.find("meta") == string::npos;
+			//if(!visit) printf("skipping file %s for module %s\n", location.c_str(), module.m_path.c_str());
 			if(visit)
 			{
 				std::vector<string> annotations = get_annotations(c);
@@ -352,11 +355,11 @@ namespace mud
 				"-x",
 				"c++",
 				"-std=c++14",
-				//"-fdelayed-template-parsing",
-				//"-fms-compatibility",
-				//"-fms-extensions",
-				//"-fmsc-version=1900",
-				//"-Wmicrosoft",
+				"-fdelayed-template-parsing",
+				"-fms-compatibility",
+				"-fms-extensions",
+				"-fmsc-version=1900",
+				"-Wmicrosoft",
 				"-Drefl_=__attribute__((annotate(\"reflect\")))",
 				"-Dstruct_=__attribute__((annotate(\"struct\")))",
 				"-Dextern_=__attribute__((annotate(\"external\")))",
@@ -370,8 +373,8 @@ namespace mud
 				"-Dnomut_=__attribute__((annotate(\"nonmutable_attr\")))",
 				"-Dgraph_=__attribute__((annotate(\"structure_attr\")))",
 				"-Dlink_=__attribute__((annotate(\"link_attr\")))",
-				"-DMUD_META_GENERATOR"
-				//"-DMUD_GENERATOR_SKIP_INCLUDES"
+				"-DMUD_META_GENERATOR",
+				//"-DMUD_GENERATOR_SKIP_INCLUDES",
 			};
 
 			for(string dir : module.m_includedirs)
