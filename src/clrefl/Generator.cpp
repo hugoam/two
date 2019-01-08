@@ -139,7 +139,6 @@ namespace mud
 		m_annotations = get_annotations(cursor);
 
 		m_struct = has<string>(m_annotations, "struct") || cursor.kind == CXCursor_StructDecl;
-		m_serializable = has<string>(m_annotations, "serialize");
 		m_reflect = has<string>(m_annotations, "reflect");
 		m_extern = has<string>(m_annotations, "external");
 
@@ -163,17 +162,6 @@ namespace mud
 		visit_children(cursor, [&](CXCursor c) {
 			this->parse_child(c);
 		});
-
-		//if(m_isProto:
-		//    m_stem = m_module.type(m_members[0].clsname)
-
-		//if(m_serializable && ! m_constructors :
-		//    print "    ERROR : class ", m_name, " set to serializable without a constructor"
-
-		//if(m_isProto && m_constructors:
-		//    components = [part.constructors[0] for part in m_parts]
-		//    m_constructors[0].createAggregate(m_constructors, components)
-
 
 		if(has<string>(m_annotations, "array_object"))
 		{
@@ -265,7 +253,7 @@ namespace mud
 				}
 				else if(is_definition(c))
 				{
-					if(!has(annotations, "reflect")) return;
+					if(!has<string>(annotations, "reflect")) return;
 
 					if(c.kind == CXCursor_ClassDecl || c.kind == CXCursor_StructDecl)
 					{
@@ -302,7 +290,7 @@ namespace mud
 				}
 				else if(is_definition(c))
 				{
-					if(has(annotations, "reflect"))
+					if(has<string>(annotations, "reflect"))
 					{
 						if(c.kind == CXCursor_ClassDecl || c.kind == CXCursor_StructDecl) // || displayname(c).find("<") != string::npos
 						{
@@ -464,10 +452,6 @@ namespace mud
 				int bases = 0;// cmp(first.deep_bases, other.deep_bases)
 				if(false)
 					;
-				//if(other.m_isProto && ! first.m_isProto : 
-				//    return -1
-				//else if(first.isProto && ! other.isProto :
-				//    return 1
 				else if(other.m_deep_bases.size() > 0 && first.m_deep_bases.size() == 0)
 					return -1;
 				else if(first.m_deep_bases.size() > 0 && other.m_deep_bases.size() == 0)
@@ -497,13 +481,23 @@ namespace mud
             
 			printf("Generating output templates :");
 
-			string meta = clgen::meta_template(module);
-			write_file((module.m_refl_path + "\\" + "Meta.hpp").c_str(), meta.c_str());
+			string types_h = clgen::types_h_template(module);
+			write_file((module.m_path + "\\" + "Types.h").c_str(), types_h.c_str());
 
-			//for(string name : { "Types.h", "Types.cpp" })
-			//	this->render_mako(module, name, false);
-			//for(string name : { "Module.h", "Module.cpp", "Meta.h", "Convert.h" })
-			//    this->render_mako(module, name, true);
+			string types_cpp = clgen::types_cpp_template(module);
+			write_file((module.m_path + "\\" + "Types.cpp").c_str(), types_cpp.c_str());
+
+			string meta_h = clgen::meta_h_template(module);
+			write_file((module.m_refl_path + "\\" + "Meta.h").c_str(), meta_h.c_str());
+
+			string module_h = clgen::module_h_template(module);
+			write_file((module.m_refl_path + "\\" + "Module.h").c_str(), module_h.c_str());
+
+			string module_cpp = clgen::module_cpp_template(module);
+			write_file((module.m_refl_path + "\\" + "Module.cpp").c_str(), module_cpp.c_str());
+
+			//string convert_h = clgen::convert_h_template(module);
+			//write_file((module.m_refl_path + "\\" + "Convert.h").c_str(), convert_h.c_str());
 		}
 
 		void add_module(const Json& m)

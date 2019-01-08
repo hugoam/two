@@ -19,11 +19,12 @@ namespace clgen
 		return result;
 	}
 
-	string join(array<string> strings, string separator)
+	//string join(array<string> strings, string separator)
+	string join(const std::vector<string>& strings, string separator)
 	{
 		if(strings.size() == 0) return "";
 		string result;
-		for(string s : strings)
+		for(const string& s : strings)
 		{
 			result += s;
 			result += separator;
@@ -37,6 +38,20 @@ namespace clgen
 		if(e.m_parent->m_id == "") return {};
 		else return split_string(e.m_parent->m_id, "::");
 	}
+	
+#if 0
+def namespace_begin(n):
+    if n.name != '' :
+        return namespace_begin(n.parent) + 'namespace ' + n.name + ' {\n'
+    else:
+        return ''
+    
+def namespace_end(n):
+    if n.name != '' :
+        return namespace_end(n.parent) + '}\n'
+    else:
+        return ''
+#endif
 
 	string namespace_begin(const CLNamespace& e)
 	{
@@ -196,6 +211,7 @@ namespace clgen
 	
 	string member_flags(const CLType& c, const CLMember& member)
 	{
+		UNUSED(c);
 		std::vector<string> flags;
 		if(member.m_pointer) flags.push_back("Member::Pointer");
 		if(member.m_cls->m_struct && !member.m_pointer) flags.push_back("Member::Value");
@@ -260,6 +276,7 @@ namespace clgen
 
 	string member_default(const CLType& c, const CLMember& member)
 	{
+		UNUSED(c);
 		if(member.m_cls->m_struct && !member.m_pointer)
 			return "var(" + member_type(member) + "(" + member.m_default + "))";
 		else
@@ -306,18 +323,20 @@ namespace clgen
 		return "static Meta meta = { " + type_get(c) + ", " + clnamespace(c) + ", \"" + c.m_name + "\", " + size + ", " + type_class + " };";
 	}
 
-	string meta_template(CLModule& m)
+	void write_line(string& t, int& i, const string& s)
+	{
+		if(s[0] == '}') --i;
+		for(size_t c = 0; c < i; ++c) t += "\t";
+		t += s;
+		t += "\n";
+		for(size_t c = 1; c < s.size(); ++c) { if(s[c] == '{') ++i; if(s[c] == '}') --i; }
+		if(s[0] == '{') ++i;
+	}
+
+	string meta_h_template(CLModule& m)
 	{
 		string t;
-		auto p = [&](int& i, const string& s)
-		{
-			if(s[0] == '}') --i;
-			for(size_t c = 0; c < i; ++c) t += "\t";
-			t += s;
-			t += "\n";
-			for(size_t c = 1; c < s.size(); ++c) { if(s[c] == '{') ++i; if(s[c] == '}') --i; }
-			if(s[0] == '{') ++i;
-		};
+		auto p = [&](int& i, const string& s) {	write_line(t, i, s); };
 		int i = 0;
 
 		p(i, "#pragma once");
@@ -418,8 +437,6 @@ namespace clgen
 					p(i, "{ " + static_decl(c, m) + " }" + (&m == &c.m_statics.back() ? "" : ", "));
 				p(i, "}");
 				p(i, "};");
-				//if(c.m_isProto)
-				//p(i, "cls.m_root = &" + type_get(c.stem) + ";");
 				if(c.m_constructors.size() > 0 && !c.m_struct)
 					p(i, "init_pool<" + c.m_id + ">();");
 				if(c.m_array)
@@ -447,6 +464,228 @@ namespace clgen
 		}
 
 		p(i, "}");
+		p(i, "}");
+
+		return t;
+	}
+
+	string forward_h_template(CLModule& m)
+	{
+		string t;
+		auto p = [&](int& i, const string& s) {	write_line(t, i, s); };
+		int i = 0;
+
+		p(i, "#pragma once");
+
+		p(i, "#include <infra/Config.h>");
+
+		for(CLModule* d : m.m_dependencies)
+			p(i, "#include <" + d->m_subdir + "/Forward.h>");
+
+		p(i, "#ifndef " + m.m_export);
+		p(i, "#define " + m.m_export + " MUD_IMPORT");
+		p(i, "#endif");
+
+		for(auto& key_namespace : m.m_context.m_namespaces)
+		{
+			CLNamespace& n = key_namespace.second;
+			
+			p(i, namespace_begin(n));
+			for(auto& e : m.m_enums)
+				if(e->m_parent == &n)
+					p(i, "enum " + e->m_scoped ? "class " : "" + e->m_name + " : " + e->m_enum_type + ";");
+        
+			for(auto& c : m.m_class_templates)
+				if(c->m_parent == &n && c->m_template_used)
+					p(i, "template <class T> " + string(c->m_struct ? "struct" : "class") + " } " + c->m_template_name + ";");
+
+			for(auto& c : m.m_classes)
+				if(c->m_parent == &n && !c->m_nested && !c->m_is_templated && !c->m_extern)
+					p(i, string(c->m_struct ? "struct" : "class") + " " + c->m_name + ";");
+				else if(c->m_is_template)
+					p(i, "template <class T> " + string(c->m_struct ? "struct" : "class") + " " + c->m_id + ";");
+
+			p(i, namespace_end(n));
+		}
+
+		return t;
+	}
+
+	string module_h_template(CLModule& m)
+	{
+		string t;
+		auto p = [&](int& i, const string& s) {	write_line(t, i, s); };
+		int i = 0;
+
+		p(i, "#pragma once");
+		p(i, "");
+		p(i, "#if !defined MUD_MODULES || defined MUD_TYPE_LIB");
+		p(i, "#include <refl/Module.h>");
+		p(i, "#endif");
+		p(i, "");
+		p(i, "#ifndef MUD_MODULES");
+		for(CLModule* d : m.m_dependencies)
+			p(i, "#include <meta/" + d->m_subdir + "/Module.h>");
+		p(i, "#endif");
+		p(i, "");
+		p(i, "#include <" + m.m_subdir + "/Forward.h>");
+		p(i, "#include <" + m.m_subdir + "/Types.h>");
+		p(i, "#include <" + m.m_subdir + "/Api.h>");
+		p(i, "");
+		p(i, "#include <meta/" + m.m_subdir + "/Convert.h>");
+		p(i, "");
+		p(i, "#ifndef " + m.m_refl_export);
+		p(i, "#define " + m.m_refl_export + " MUD_IMPORT");
+		p(i, "#endif");
+		p(i, "");
+		if(m.m_namespace != "")
+		{
+			p(i, "namespace " + m.m_namespace);
+			p(i, "{");
+		}
+		p(i, "export_ class " + m.m_refl_export + " " + m.m_id + " : public Module");
+		p(i, "{");
+		p(i, "private:");
+		p(i, m.m_id + "();");
+		p(i, "");
+		p(i, "public:");
+		p(i, "static " + m.m_id + "& m() { static " + m.m_id + " instance; return instance; }");
+		p(i, "};");
+		if(m.m_namespace != "")
+			p(i, "}");
+		p(i, "");
+		p(i, "#ifdef " + m.m_preproc_name + "_MODULE");
+		p(i, "extern \"C\"");
+		p(i, m.m_refl_export + " Module& getModule();");
+		p(i, "#endif");
+
+		return t;
+	}
+
+	string module_cpp_template(CLModule& m)
+	{
+		string t;
+		auto p = [&](int& i, const string& s) {	write_line(t, i, s); };
+		int i = 0;
+
+		auto deps = [&](){ return join(transform<string>(m.m_dependencies, [](CLModule* d) { return "&" + d->m_name + "::m()"; }), ", "); };
+
+		p(i, "#include <infra/Cpp20.h>");
+		p(i, "");
+		p(i, "#ifdef MUD_MODULES");
+		p(i, "module " + m.m_namespace + "." + m.m_name + ";");
+		p(i, "#else");
+		p(i, "#include <meta/" + m.m_subdir + "/m.h>");
+		p(i, "#endif");
+		p(i, "");
+		p(i, "#ifndef MUD_MODULES");
+		p(i, "#include <meta/" + m.m_subdir + "/Convert.h>");
+		p(i, "#endif");
+		p(i, "#define " + m.m_preproc_name + "_REFLECTION_IMPL");
+		p(i, "#include <meta/" + m.m_subdir + "/Meta.h>");
+		p(i, "");
+		if(m.m_namespace != "")
+		{
+			p(i, "namespace " + m.m_namespace);
+			p(i, "{");
+		}
+		p(i, m.m_id + "::" + m.m_id + "()");
+		p(i, ": Module(\"" + string(m.m_namespace != "" ? m.m_namespace + "::" : "") + m.m_name + "\", {" + deps() + "})");
+		p(i, "{");
+		p(i, "// setup reflection meta data");
+		p(i, m.m_id + "_meta(*this);");
+		p(i, "}");
+		if(m.m_namespace != "")
+			p(i, "}");
+		p(i, "");
+		p(i, "#ifdef " + m.m_preproc_name + "_MODULE");
+		p(i, "extern \"C\"");
+		p(i, "Module& getModule()");
+		p(i, "{");
+		p(i, "	return " + m.m_id + "::m();");
+		p(i, "}");
+		p(i, "#endif");
+
+		return t;
+	}
+
+	string types_h_template(CLModule& m)
+	{
+		string t;
+		auto p = [&](int& i, const string& s) {	write_line(t, i, s); };
+		int i = 0;
+		#pragma once
+
+		p(i, "#include <" + m.m_subdir + "/Forward.h>");
+		p(i, "");
+		p(i, "#if !defined MUD_MODULES || defined MUD_TYPE_LIB");
+		p(i, "#include <type/Type.h>");
+		p(i, "#include <type/Vector.h>");
+		p(i, "#endif");
+		p(i, "");
+		p(i, "#ifndef MUD_MODULES");
+		for(auto& d : m.m_dependencies)
+			p(i, "#include <" + d->m_subdir + "/Types.h>");
+		p(i, "#endif");
+		p(i, "");
+		p(i, "#ifndef MUD_CPP_20");
+		p(i, "#include <string>");
+		p(i, "#include <cstdint>");
+		p(i, "#include <vector>");
+		p(i, "#endif");
+		p(i, "");
+		if(m.m_has_structs)
+			p(i, "#include <" + m.m_subdir + "/Structs.h>");
+		p(i, "");
+		p(i, "namespace mud");
+		p(i, "{");
+		p(i, "// Exported types");
+		for(auto& b : m.m_basetypes)
+			p(i, "export_ template <> " + m.m_export + " Type& type<" + b->m_name + ">();");
+		for(auto& e : m.m_enums)
+			if(!e->m_nested || e->m_reflect)
+				p(i, "export_ template <> " + m.m_export + " Type& type<" + e->m_id + ">();");
+		p(i, "");
+		for(auto& c : m.m_classes)
+			if(c->m_reflect && !c->m_nested && c->m_id != "mud::Type")
+				p(i, "export_ template <> " + m.m_export + " Type& type<" + c->m_id + ">();");
+		p(i, "");
+		for(auto& c : m.m_classes)
+			if(c->m_reflect && !c->m_nested && c->m_id != "mud::Type")
+				p(i, "export_ template struct " + m.m_export + " Typed<std::vector<" + c->m_id + "*>>;");
+		p(i, "}");
+
+		return t;
+	}
+
+	string types_cpp_template(CLModule& m)
+	{
+		string t;
+		auto p = [&](int& i, const string& s) {	write_line(t, i, s); };
+		int i = 0;
+
+		p(i, "#include <infra/Cpp20.h>");
+		p(i, "");
+		p(i, "#ifdef MUD_MODULES");
+		p(i, "module " + m.m_namespace + "." + m.m_name + ";");
+		p(i, "#else");
+		p(i, "#include <" + m.m_subdir + "/Types.h>");
+		p(i, "#include <" + m.m_subdir + "/Api.h>");
+		p(i, "#include <type/Vector.h>");
+		p(i, "//#include <ecs/Proto.h>");
+		p(i, "#endif");
+		p(i, "");
+		p(i, "namespace mud");
+		p(i, "{");
+		p(i, "// Exported types");
+		for(auto& b : m.m_basetypes)
+			p(i, "template <> " + m.m_export + " Type& type<" + b->m_name + ">() { static Type ty(\"" + b->m_name + "\"); return ty; }");
+		for(auto& e : m.m_enums)
+			p(i, "template <> " + m.m_export + " Type& type<" + e->m_id + ">() { static Type ty(\"" + e->m_id + "\"); return ty; }");
+		p(i, "");
+		for(auto& c : m.m_classes)
+			if(c->m_reflect && !c->m_nested && c->m_id != "mud::Type")
+				p(i, "template <> " + m.m_export + " Type& type<" + c->m_id + ">() { static Type ty(\"" + c->m_name + "\"" + (", " + c->m_bases.size() > 0 ? type_get(*c->m_bases[0]) : "") + "); return ty; }");
 		p(i, "}");
 
 		return t;

@@ -73,7 +73,9 @@ namespace mud
 
 	string displayname(CXCursor cursor) { return clang_getCString(clang_getCursorDisplayName(cursor)); }
 
+	CXType enum_type(CXCursor cursor) { return clang_getEnumDeclIntegerType(cursor); }
 	long long enum_value(CXCursor cursor) { return clang_getEnumConstantDeclValue(cursor); }
+	bool is_scoped(CXCursor cursor) { return false; } // clang_EnumDecl_isScoped(cursor); }
 
 	CXType type(CXCursor cursor) { return clang_getCursorType(cursor); }
 	CXType result_type(CXCursor cursor) { return clang_getCursorResultType(cursor); }
@@ -82,7 +84,6 @@ namespace mud
 
 	bool is_definition(CXCursor cursor) { return clang_isCursorDefinition(cursor); }
 
-	bool is_scoped(CXCursor cursor) { return false; } // clang_EnumDecl_isScoped(cursor); }
 
 	void visit_tokens(CXCursor cursor, std::function<void(CXToken&)> visitor)
 	{
@@ -306,8 +307,8 @@ namespace mud
 		CLEnum(CLModule& module, CXCursor cursor, CLPrimitive& parent)
 			: CLType(module, displayname(cursor), parent)
 		{
-			//m_scoped = cursor.is_scoped_enum()
-			//m_enum_type = cursor.enum_type.spelling
+			m_scoped = is_scoped(cursor);
+			m_enum_type = spelling(enum_type(cursor));
 			m_prefix = parent.m_prefix + (m_scoped ? m_id + "::" : "");
 			//m_reflect = "reflect" in get_annotations(cursor)
 
@@ -323,6 +324,7 @@ namespace mud
 		}
 
 		bool m_scoped = false;
+		string m_enum_type;
 		std::vector<string> m_ids;
 		std::vector<string> m_values;
 
@@ -497,7 +499,6 @@ namespace mud
 
 		std::vector<string> m_annotations;
 
-		bool m_serializable = false;
 		bool m_struct = false;
 		bool m_array = false;
 		size_t m_array_size = 0;
@@ -505,6 +506,7 @@ namespace mud
 		bool m_extern = false;
 
 		string m_template_name;
+		bool m_template_used = false;
 		CLClass* m_template;
 		std::vector<string> m_template_types;
 
