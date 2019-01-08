@@ -545,14 +545,14 @@ def namespace_end(n):
 		auto p = [&](int& i, const string& s) {	write_line(t, i, s); };
 		int i = 0;
 
-		auto deps = [&](){ return join(transform<string>(m.m_dependencies, [](CLModule* d) { return "&" + d->m_name + "::m()"; }), ", "); };
+		auto deps = [&](){ return join(transform<string>(m.m_dependencies, [](CLModule* d) { return "&" + d->m_id + "::m()"; }), ", "); };
 
 		p(i, "#include <infra/Cpp20.h>");
 		p(i, "");
 		p(i, "#ifdef MUD_MODULES");
 		p(i, "module " + m.m_namespace + "." + m.m_name + ";");
 		p(i, "#else");
-		p(i, "#include <meta/" + m.m_subdir + "/m.h>");
+		p(i, "#include <meta/" + m.m_subdir + "/Module.h>");
 		p(i, "#endif");
 		p(i, "");
 		p(i, "#ifndef MUD_MODULES");
@@ -567,7 +567,7 @@ def namespace_end(n):
 			p(i, "{");
 		}
 		p(i, m.m_id + "::" + m.m_id + "()");
-		p(i, ": Module(\"" + string(m.m_namespace != "" ? m.m_namespace + "::" : "") + m.m_name + "\", {" + deps() + "})");
+		p(i, "\t: Module(\"" + string(m.m_namespace != "" ? m.m_namespace + "::" : "") + m.m_name + "\", { " + deps() + " })");
 		p(i, "{");
 		p(i, "// setup reflection meta data");
 		p(i, m.m_id + "_meta(*this);");
@@ -662,7 +662,7 @@ def namespace_end(n):
 		p(i, "");
 		for(auto& c : m.m_classes)
 			if(c->m_reflect && !c->m_nested && c->m_id != "mud::Type")
-				p(i, "template <> " + m.m_export + " Type& type<" + c->m_id + ">() { static Type ty(\"" + c->m_name + "\"" + (", " + c->m_bases.size() > 0 ? type_get(*c->m_bases[0]) : "") + "); return ty; }");
+				p(i, "template <> " + m.m_export + " Type& type<" + c->m_id + ">() { static Type ty(\"" + c->m_name + "\"" + (c->m_bases.size() > 0 ? ", " + type_get(*c->m_bases[0]) : "") + "); return ty; }");
 		p(i, "}");
 
 		return t;
