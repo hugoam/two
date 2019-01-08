@@ -336,7 +336,7 @@ namespace mud
 					return *module;
 		}
 
-		void parse_through(CLModule& module, std::function<void(CXCursor, const string&, CLModule&, CLPrimitive&)> func)
+		void parse_through(CLModule& module, std::function<void(CXCursor, CLModule&, CLPrimitive&)> func)
 		{
 			printf("Module path : %s\n", module.m_path.c_str());
 
@@ -352,11 +352,11 @@ namespace mud
 				"-x",
 				"c++",
 				"-std=c++14",
-				"-fdelayed-template-parsing",
-				"-fms-compatibility",
-				"-fms-extensions",
-				"-fmsc-version=1900",
-				"-Wmicrosoft",
+				//"-fdelayed-template-parsing",
+				//"-fms-compatibility",
+				//"-fms-extensions",
+				//"-fmsc-version=1900",
+				//"-Wmicrosoft",
 				"-Drefl_=__attribute__((annotate(\"reflect\")))",
 				"-Dstruct_=__attribute__((annotate(\"struct\")))",
 				"-Dextern_=__attribute__((annotate(\"external\")))",
@@ -394,10 +394,11 @@ namespace mud
 				printf("Parsing %s\n", file.c_str());
 
 				// only for debugging : these two ways of parsing don"t give the correct output, but can give more diagnostics as to what might be wrong
-				// options = 0;
-				// options = CXTranslationUnit_SkipFunctionBodies;
+				// int options = 0;
+				// int options = CXTranslationUnit_SkipFunctionBodies;
 
-				int options = CXTranslationUnit_SkipFunctionBodies | CXTranslationUnit_Incomplete;
+				//int options = CXTranslationUnit_SkipFunctionBodies | CXTranslationUnit_Incomplete;
+				int options = CXTranslationUnit_SkipFunctionBodies | CXTranslationUnit_KeepGoing;
 				CXTranslationUnit translation_unit = clang_parseTranslationUnit(index, fullpath.c_str(), compiler_args.data(), int(compiler_args.size()), nullptr, 0, options);
 
 				if(debug)
@@ -424,7 +425,7 @@ namespace mud
 					}
 				}
 
-				func(cursor(translation_unit), fullpath, module, module.m_context.m_root_namespace);
+				func(cursor(translation_unit), module, module.m_context.m_root_namespace);
 			};
 
 			std::vector<cstring> compiler_cargs;

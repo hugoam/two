@@ -300,10 +300,10 @@ def namespace_end(n):
 		return "static Meta meta = { " + type_get(c) + ", " + clnamespace(c) + ", \"" + c.m_name + "\", " + size + ", " + type_class + " };";
 	}
 
-	void write_line(string& t, int& i, const string& s)
+	void write_line(string& t, int& i, const string& s, bool spaces = false)
 	{
 		if(s[0] == '}') --i;
-		for(size_t c = 0; c < i; ++c) t += "\t";
+		for(size_t c = 0; c < i; ++c) t += spaces ? "    " : "\t";
 		t += s;
 		t += "\n";
 		for(size_t c = 1; c < s.size(); ++c) { if(s[c] == '{') ++i; if(s[c] == '}') --i; }
@@ -313,7 +313,7 @@ def namespace_end(n):
 	string meta_h_template(CLModule& m)
 	{
 		string t;
-		auto p = [&](int& i, const string& s) {	write_line(t, i, s); };
+		auto p = [&](int& i, const string& s) {	write_line(t, i, s, true); };
 		int i = 0;
 
 		p(i, "#pragma once");
