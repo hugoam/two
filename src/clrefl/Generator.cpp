@@ -237,11 +237,12 @@ namespace mud
 			});
 		}
 	}
-	void register_classes(CXCursor cursor, const string& file, CLModule& module, CLPrimitive& parent)
+	void register_classes(CXCursor cursor, CLModule& module, CLPrimitive& parent)
 	{
 		visit_children(cursor, [&](CXCursor c)
 		{
-			bool visit = true; // os.path.normpath(c.location.file.name).find(os.path.normpath(module.path)) == 0 && c.location.file.name.find("Generated") == string::npos
+			string location = file(c);
+			bool visit = location.find(module.m_path) == 0 && location.find("meta") == string::npos;
 			if(visit)
 			{
 				std::vector<string> annotations = get_annotations(c);
@@ -249,7 +250,7 @@ namespace mud
 				if(c.kind == CXCursor_Namespace)
 				{
 					CLNamespace& ns = module.get_namespace(spelling(c), parent);
-					register_classes(c, file, module, ns);
+					register_classes(c, module, ns);
 				}
 				else if(is_definition(c))
 				{
@@ -258,12 +259,12 @@ namespace mud
 					if(c.kind == CXCursor_ClassDecl || c.kind == CXCursor_StructDecl)
 					{
 						CLClass& cl = module.class_type(c, parent);
-						register_classes(c, file, module, cl);
+						register_classes(c, module, cl);
 					}
 					else if(c.kind == CXCursor_ClassTemplate)
 					{
 						CLClass& cl = module.class_template(c, parent);
-						register_classes(c, file, module, cl);
+						register_classes(c, module, cl);
 					}
 					else if(c.kind == CXCursor_EnumDecl)
 					{
@@ -274,11 +275,13 @@ namespace mud
 		});
 	}
 
-	void build_classes(CXCursor cursor, const string& file, CLModule& module, CLPrimitive& parent)
+	void build_classes(CXCursor cursor, CLModule& module, CLPrimitive& parent)
 	{
 		visit_children(cursor, [&](CXCursor c)
 		{
-			bool visit = true; // os.path.normpath(c.location.file.name).find(os.path.normpath(module.path)) == 0 && c.location.file.name.find("Generated") == string::npos
+			// os.path.normpath the paths
+			string location = file(c);
+			bool visit = location.find(module.m_path) == 0 && location.find("meta") == string::npos;
 			if(visit)
 			{
 				std::vector<string> annotations = get_annotations(c);
@@ -286,7 +289,7 @@ namespace mud
 				if(c.kind == CXCursor_Namespace)
 				{
 					CLNamespace ns = module.get_namespace(spelling(c), parent);
-					build_classes(c, file, module, ns);
+					build_classes(c, module, ns);
 				}
 				else if(is_definition(c))
 				{
@@ -296,7 +299,7 @@ namespace mud
 						{
 							CLClass& cls = module.get_class(parent.m_prefix + clean_name(displayname(c)));
 							cls.parse_contents(c);
-							build_classes(c, file, module, cls);
+							build_classes(c, module, cls);
 						}
 						else if(c.kind == CXCursor_ClassTemplate)
 						{

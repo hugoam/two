@@ -67,6 +67,14 @@ namespace mud
 
 	CXCursor cursor(CXTranslationUnit tu) { return clang_getTranslationUnitCursor(tu); }
 
+	string file(CXCursor cursor)
+	{
+		CXSourceLocation location = clang_getCursorLocation(cursor);
+		CXFile file; unsigned line, column, offset;
+		clang_getFileLocation(location, &file, &line, &column, &offset);
+		return clang_getCString(clang_getFileName(file));
+	}
+
 	string spelling(CXToken token) { return clang_getCString(clang_getTokenSpelling(g_tu, token)); }
 	string spelling(CXCursor cursor) { return clang_getCString(clang_getCursorSpelling(cursor)); }
 	string spelling(CXType type) { return clang_getCString(clang_getTypeSpelling(type)); }
