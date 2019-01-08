@@ -38,11 +38,13 @@ namespace mud
 	export_ template <> inline void from_string<string>(const string& str, string& val) { val = str; }
 	export_ template <> inline void to_string<string>(const string& val, string& str){ str = val; }
 
-	export_ MUD_INFRA_EXPORT void split_string(const string& str, const string& separator, array<string> output);
-	export_ MUD_INFRA_EXPORT std::vector<string> split_string(const string& str, const string& separator);
+	export_ MUD_INFRA_EXPORT void split(const string& str, const string& separator, array<string> output);
+	export_ MUD_INFRA_EXPORT std::vector<string> split(const string& str, const string& separator);
 
-	export_ MUD_INFRA_EXPORT string replace_all(const string& original, const string& before, const string& after);
-	export_ inline string replace(const string& original, const string& before, const string& after) { return replace_all(original, before, after); }
+	//export_ MUD_INFRA_EXPORT string join(array<string> strings, string separator);
+	export_ MUD_INFRA_EXPORT string join(const std::vector<string>& strings, string separator);
+
+	export_ MUD_INFRA_EXPORT string replace(const string& original, const string& before, const string& after);
 
 	export_ MUD_INFRA_EXPORT string to_lower(const string& original);
 	export_ MUD_INFRA_EXPORT string to_upper(const string& original);

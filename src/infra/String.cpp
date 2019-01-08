@@ -24,7 +24,7 @@ namespace mud
 
 	const size_t g_num_precision = 3;
 
-	void split_string(const string& str, const string& separator, array<string> output)
+	void split(const string& str, const string& separator, array<string> output)
 	{
 		size_t start = 0;
 		size_t next = str.find(separator, start);
@@ -40,7 +40,7 @@ namespace mud
 			output[index++].assign(str.data() + start, str.size() - start);
 	}
 
-	std::vector<string> split_string(const string& str, const string& separator)
+	std::vector<string> split(const string& str, const string& separator)
 	{
 		std::vector<string> result;
 		
@@ -60,7 +60,21 @@ namespace mud
 		return result;
 	}
 
-	string replace_all(const string& original, const string& before, const string& after)
+	//string join(array<string> strings, string separator)
+	string join(const std::vector<string>& strings, string separator)
+	{
+		if(strings.size() == 0) return "";
+		string result;
+		for(const string& s : strings)
+		{
+			result += s;
+			result += separator;
+		}
+		result.erase(result.size() - separator.size(), separator.size());
+		return result;
+	}
+
+	string replace(const string& original, const string& before, const string& after)
 	{
 		string retval;
 		string::const_iterator end = original.end();

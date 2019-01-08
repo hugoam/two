@@ -186,14 +186,14 @@ namespace mud
 
 	std::vector<string> template_types(const string&name)
 	{
-		return split_string(name.substr(name.find("<") + 1), ",");
+		return split(name.substr(name.find("<") + 1), ",");
 	}
 
 	string substitute_template(const string& name, const std::vector<string>& template_types, const std::vector<string>& real_types)
 	{
 		string result = name;
 		for(size_t i = 0; i < template_types.size(); ++i)
-			result = replace_all(name, template_types[i], real_types[i]);
+			result = replace(name, template_types[i], real_types[i]);
 		return result;
 	}
 

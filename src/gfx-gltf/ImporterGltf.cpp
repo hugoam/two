@@ -182,7 +182,7 @@ namespace mud
 		if(uri.find("data:application/octet-stream;base64") == 0)
 			return read_base64_uri(uri);
 		else
-			return read_binary_file(base_path + replace_all(uri, "\\", "/"));
+			return read_binary_file(base_path + replace(uri, "\\", "/"));
 	}
 
 	void import_buffers(glTF& gltf, Import& state)

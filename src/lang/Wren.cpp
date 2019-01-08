@@ -1165,9 +1165,9 @@ namespace mud
 		string clean_name(cstring name)
 		{
 			if(name == string("Ui")) return "UiRoot";
-			string result = replace_all(replace_all(replace_all(name, "<", "_"), ">", ""), "*", "");
+			string result = replace(replace(replace(name, "<", "_"), ">", ""), "*", "");
 			for(auto& nemespace : m_namespaces)
-				result = replace_all(result, nemespace.first + "::", "");
+				result = replace(result, nemespace.first + "::", "");
 			result[0] = char(toupper(result[0]));
 			return result;
 		}

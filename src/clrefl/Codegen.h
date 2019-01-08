@@ -10,33 +10,10 @@ namespace mud
 {
 namespace clgen
 {
-	template <class U, class T, class F>
-	std::vector<U> transform(const std::vector<T>& vector, F func)
-	{
-		std::vector<U> result;
-		for(const T& value : vector)
-			result.push_back(func(value));
-		return result;
-	}
-
-	//string join(array<string> strings, string separator)
-	string join(const std::vector<string>& strings, string separator)
-	{
-		if(strings.size() == 0) return "";
-		string result;
-		for(const string& s : strings)
-		{
-			result += s;
-			result += separator;
-		}
-		result.erase(result.size() - separator.size(), separator.size());
-		return result;
-	}
-
 	std::vector<string> location(const CLPrimitive& e)
 	{
 		if(e.m_parent->m_id == "") return {};
-		else return split_string(e.m_parent->m_id, "::");
+		else return split(e.m_parent->m_id, "::");
 	}
 	
 #if 0

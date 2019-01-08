@@ -166,7 +166,7 @@ namespace mud
 
 	Widget* Dockbar::docksection(Dock& dock)
 	{
-		string icon = "(" + to_lower(replace_all(dock.m_name, " ", "")) + ")";
+		string icon = "(" + to_lower(replace(dock.m_name, " ", "")) + ")";
 		Widget& toggle = ui::button(*m_togglebar, ui::dock_styles().docktoggle, icon.c_str());
 		if(toggle.activated())
 			m_current_tab = m_current_tab == dock.m_dockid.back() ? SIZE_MAX : dock.m_dockid.back();

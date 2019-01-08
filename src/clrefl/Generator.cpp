@@ -542,12 +542,12 @@ int main(int argc, char *argv[])
 	
 	CLGenerator generator;
 
-	std::vector<string> locations = split_string(args, " ");
+	std::vector<string> locations = split(args, " ");
 
 	for(int i = 0; i < argc; ++i)
 		locations.push_back(argv[i]);
 
-	locations.resize(2);
+	locations.resize(5);
 
 	for(string loc : locations)
 	{

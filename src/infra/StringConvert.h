@@ -147,7 +147,7 @@ namespace mud
 	export_ template <class T_Enum>
 	inline void flags_from_string(const string& str, T_Enum& value)
 	{
-		std::vector<string> names = split_string(to_upper(str), "|");
+		std::vector<string> names = split(to_upper(str), "|");
 		for(const string& name : names)
 			value = static_cast<T_Enum>(value | from_string<T_Enum>(name));
 	}

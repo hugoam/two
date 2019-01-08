@@ -216,6 +216,15 @@ namespace mud
 
 	export_ template <class T>
 	inline bool vector_swap(std::vector<T>& vector, T value) { if(vector_has(vector, value)) { vector_remove(vector, value); return false; } else { vector_add(vector, value); return true; } }
+	
+	template <class U, class T, class F>
+	export_ std::vector<U> transform(const std::vector<T>& vector, F func)
+	{
+		std::vector<U> result;
+		for(const T& value : vector)
+			result.push_back(func(value));
+		return result;
+	}
 }
 
 #if defined(WIN32)

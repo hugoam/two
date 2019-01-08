@@ -326,7 +326,7 @@ namespace mud
 				line.pop_back();
 
 			string tokens[5];
-			split_string(line, " ", { tokens, 5 });
+			split(line, " ", { tokens, 5 });
 
 			const string& command = tokens[0];
 
@@ -385,7 +385,7 @@ namespace mud
 				for(size_t i = 0; i < num_vertices; ++i)
 				{
 					string ids[3];
-					split_string(tokens[i + 1], "/", { ids, 3 });
+					split(tokens[i + 1], "/", { ids, 3 });
 
 					int face[3] = { std::stoi(ids[0]), std::stoi(ids[1]), std::stoi(ids[2]) };
 

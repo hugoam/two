@@ -23,7 +23,7 @@ namespace mud
 		auto visit_file = [&](cstring path, cstring file)
 		{
 			string fullpath = string(path) + file;
-			string name = subfolder + replace_all(file, ".png", "");
+			string name = subfolder + replace(file, ".png", "");
 
 			int width, height, n;
 			unsigned char* img = stbi_load(fullpath.c_str(), &width, &height, &n, 4);
