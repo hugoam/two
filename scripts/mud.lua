@@ -181,9 +181,9 @@ mud.ecs     = mud_module("mud", "ecs",      MUD_SRC_DIR,    "ecs",      nil,    
 mud.srlz    = mud_module("mud", "srlz",     MUD_SRC_DIR,    "srlz",     mud_srlz,   nil,            true,       { json11, mud.infra, mud.type, mud.refl })
 -- math
 if MUD_STATIC then      
-    mud.math = mud_module("mud", "math",    MUD_SRC_DIR,    "math",     mud_math,   uses_mud_math,  true,       { json11, stb.rect_pack, mud.infra, mud.type })
+  mud.math  = mud_module("mud", "math",     MUD_SRC_DIR,    "math",     mud_math,   uses_mud_math,  true,       { json11, stb.rect_pack, mud.infra, mud.type })
 else        
-    mud.math = mud_module("mud", "math",    MUD_SRC_DIR,    "math",     mud_math,   uses_mud_math,  true,       { json11, stb.image, stb.rect_pack, mud.infra, mud.type })
+  mud.math  = mud_module("mud", "math",     MUD_SRC_DIR,    "math",     mud_math,   uses_mud_math,  true,       { json11, stb.image, stb.rect_pack, mud.infra, mud.type })
 end     
 -- geom
 mud.geom    = mud_module("mud", "geom",     MUD_SRC_DIR,    "geom",     mud_geom,   nil,            true,       { mud.type, mud.math })
@@ -199,14 +199,20 @@ mud.ui      = mud_module("mud", "ui",       MUD_SRC_DIR,    "ui",       mud_ui, 
 mud.uio     = mud_module("mud", "uio",      MUD_SRC_DIR,    "uio",      nil,        nil,            true,       { mud.infra, mud.tree, mud.type, mud.ecs, mud.pool, mud.refl, mud.math, mud.lang, mud.ctx, mud.ui })
 -- snd
 mud.snd     = mud_module("mud", "snd",      MUD_SRC_DIR,    "snd",      mud_snd,    uses_mud_snd,   true,       { ogg, vorbis, vorbisfile, mud.type, mud.math })
-        
-mud.clrefl  = mud_module("mud", "clrefl",   MUD_SRC_DIR,    "clrefl",   mud_clrefl, nil,            false,      { json11, mud.infra, mud.type, mud.pool, mud.refl })
+
+if _OPTIONS["metagen"] then
+  mud.clrefl = mud_module("mud", "clrefl",  MUD_SRC_DIR,    "clrefl",   mud_clrefl, nil,            false,      { json11, mud.infra, mud.type, mud.pool, mud.refl })
+end
 
 --mud_sys(true)
 --mud_vec(true)
 --mud.db = mud_module("mud", "db", MUD_SRC_DIR, "db", { mud.type, mud.util })
 
-mud.mud = { mud.infra, mud.jobs, mud.type, mud.tree, mud.pool, mud.refl, mud.clrefl, mud.ecs, mud.srlz, mud.math, mud.geom, mud.noise, mud.wfc, mud.fract, mud.lang, mud.ctx, mud.ui, mud.uio }
+mud.mud = { mud.infra, mud.jobs, mud.type, mud.tree, mud.pool, mud.refl, mud.ecs, mud.srlz, mud.math, mud.geom, mud.noise, mud.wfc, mud.fract, mud.lang, mud.ctx, mud.ui, mud.uio }
+
+if _OPTIONS["metagen"] then
+    table.insert(mud.mud, mud.clrefl)
+end
 
 if _OPTIONS["sound"] then
     table.insert(mud.mud, mud.snd)
