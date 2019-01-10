@@ -272,10 +272,10 @@ namespace mud
 		m_sun_luminance_xyz.SetMap(sunLuminanceXYZTable);
 		m_sky_luminance_xyz.SetMap(skyLuminanceXYZTable);
 
-		m_sky.init(gfx_system, { 32, 32 });
-		
 		u_uniform.createUniforms();
 
+		m_sky.init(gfx_system, { 32, 32 });
+		
 		m_sun.Update(0);
 
 		m_initialized = true;

@@ -18,11 +18,12 @@ namespace ui
 	template <class T>
 	inline bool enum_input(Widget& parent, T& value)
 	{
-		uint32_t index = enum_index(Ref(&value));
-		//ui::radio_switch(parent, meta(value).m_enum_names, index);
-		if(ui::dropdown_input(parent, to_array(enu<T>().m_names), index))
+		Enum& e = enu<T>();
+		uint32_t index = e.index(Ref(&value));
+		//ui::radio_switch(parent, to_array(e.m_names), index);
+		if(ui::dropdown_input(parent, to_array(e.m_names), index))
 		{
-			enum_set_index(Ref(&value), index);
+			e.varn(index, Ref(&value));
 			return true;
 		}
 		return false;

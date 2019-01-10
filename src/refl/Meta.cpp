@@ -76,14 +76,14 @@ namespace mud
 
 		for(size_t i = 0; i < m_names.size(); ++i)
 		{
-			size_t index = m_values[i];
-			if(index > size_t(1 << 16))
+			size_t value = m_values[i];
+			if(value > size_t(1 << 16))
 			{
-				printf("WARNING: enum index %s::%s above 2^16, something is fishy\n", type.m_name, m_names[i]);
+				printf("WARNING: enum value %s::%s above 2^16, something is fishy\n", type.m_name, m_names[i]);
 				continue;
 			}
-			m_map.resize(index + 1);
-			m_map[index] = m_names[i];
+			m_reverse.resize(value + 1);
+			m_reverse[value] = m_names[i];
 		}
 	}
 
@@ -112,6 +112,16 @@ namespace mud
 			if(strcmp(name, m_names[i]) == 0)
 				return i;
 		printf("WARNING: fetching unknown Enum %s index : %s\n", m_type.m_name, name);
+		return 0;
+	}
+
+	uint32_t Enum::index(const Var& value)
+	{
+		size_t size = meta(m_type).m_size;
+		for(uint32_t i = 0; i < uint32_t(m_vars.size()); ++i)
+			if(memcmp(value.m_ref.m_value, m_vars[i].m_ref.m_value, size) == 0)
+				return i;
+		printf("WARNING: fetching unknown Enum %s index : %s\n", m_type.m_name, to_string(value).c_str());
 		return 0;
 	}
 

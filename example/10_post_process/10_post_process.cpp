@@ -28,8 +28,9 @@ void ex_10_post_process(Shell& app, Widget& parent, Dockbar& dockbar)//, Dockbar
 
 	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
 	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
+	static Symbol symbol;
 
-	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(), shapes, true, &material);
+	shape_grid(scene, { shape_items.data(), 10U, 10U }, &symbol, true, &material);
 }
 
 #ifdef _10_POST_PROCESS_EXE

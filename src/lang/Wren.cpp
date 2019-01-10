@@ -894,7 +894,7 @@ namespace mud
 	inline void read_enum(WrenVM* vm, int slot, Ref result)
 	{
 		if(wrenGetSlotType(vm, slot) == WREN_TYPE_NUM)
-			enum_set_index(result, uint32_t(wrenGetSlotDouble(vm, slot)));
+			enu(result).varn(uint32_t(wrenGetSlotDouble(vm, slot)), result);
 	}
 
 	inline void read_sequence(WrenVM* vm, int slot, Type& sequence_type, Ref result)
@@ -983,8 +983,8 @@ namespace mud
 
 	inline void push_enum(WrenVM* vm, int slot, Ref value)
 	{
-		wrenSetSlotDouble(vm, slot, double(enum_index(value)));
-	};
+		wrenSetSlotDouble(vm, slot, double(enu(value).index(value)));
+	}
 
 	ToWren::ToWren()
 	{

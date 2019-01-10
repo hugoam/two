@@ -54,11 +54,11 @@ if not _OPTIONS["renderer-gl"] then
     mud_example("14_live_gfx",          { mud.core, mud.lang, mud.uio, mud.gfx.refl }, {})
     mud_example("14_live_gfx_visual",   { mud.core, mud.lang, mud.uio, mud.gfx.refl }, {})
 --  mud_example("15_script",            { mud.core, mud.lang, mud.uio },               { _G["01_shapes"], _G["03_materials"] }, true)
-    mud_example("16_visual_script",     { mud.core, mud.lang, mud.uio, mud.noise },    { _G["01_shapes"], _G["03_materials"] })
+--  mud_example("16_visual_script",     { mud.core, mud.lang, mud.uio, mud.noise },    { _G["01_shapes"], _G["03_materials"] })
     mud_example("17_wfc",               { mud.core, mud.gfx.pbr, mud.wfc.gfx },        {})
 --  mud_example("18_pathfinding",       { mud.core, mud.gfx.pbr },                     {})
     mud_example("19_multi_viewport",    { mud.core },                                  {})
-    mud_example("20_meta",              { mud.core, mud.gfx.pbr },                     { _G["01_shapes"], _G["03_materials"] })
+--  mud_example("20_meta",              { mud.core, mud.gfx.pbr },                     { _G["01_shapes"], _G["03_materials"] })
 --  mud_example("xx_three",             { mud.core, mud.gfx.pbr },                     {})
 end
 

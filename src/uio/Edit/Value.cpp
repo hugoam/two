@@ -165,20 +165,14 @@ namespace mud
 		return false;
 	}
 
-#if 0
-	inline size_t enum_index(Ref value)
-	{
-		
-	}
-#endif
-
 	bool enum_edit(Widget& parent, Ref& value)
 	{
-		uint32_t index = enum_index(value);
-		//ui::radio_switch(parent, meta(value).m_enum_names, index);
-		if(ui::dropdown_input(parent, to_array(enu(value).m_names), index))
+		Enum& e = enu(value);
+		uint32_t index = e.index(value);
+		//ui::radio_switch(parent, to_array(e.m_names), index);
+		if(ui::dropdown_input(parent, to_array(e.m_names), index))
 		{
-			enum_set_index(value, index);
+			e.varn(index, value);
 			return true;
 		}
 		return false;

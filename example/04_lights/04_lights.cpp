@@ -97,7 +97,9 @@ void ex_04_lights(Shell& app, Widget& parent)
 	static float spot_angle = 45.f;
 	static float spot_attenuation = 0.9f;
 
-	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(), shapes, true, &material);
+	static Symbol symbol;
+
+	shape_grid(scene, { shape_items.data(), 10U, 10U }, &symbol, true, &material);
 	light_grid(scene, { light_items.data(), 10U, 10U }, moving_lights, light_type, light_range, light_attenuation, spot_angle, spot_attenuation);
 
 #if OCCLUSION

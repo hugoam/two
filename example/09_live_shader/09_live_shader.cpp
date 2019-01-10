@@ -70,16 +70,12 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Program program = { "custom_program", {}, carray<cstring, size_t(ShaderType::Count)>{ nullptr, source.c_str(), nullptr, nullptr } };
 	
-	//static Material material = { scene.m_scene->m_gfx_system, "custom_shader", program };
-	//material.m_pbr_block.m_enabled = true;
-
 	auto draw_quad = [&](const Pass& render_pass)
 	{
 		filter.submit_quad(*render_pass.m_target, render_pass.m_index, render_pass.m_target->m_fbo, program.default_version(), { render_pass.m_viewport->m_rect });
 	};
 
-	//gfx::manual_job(scene, PassType::Background, draw_quad);
-	gfx::manual_job(scene, PassType::Opaque, draw_quad);
+	gfx::manual_job(scene, PassType::Unshaded, draw_quad);
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{

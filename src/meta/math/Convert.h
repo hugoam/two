@@ -10,26 +10,26 @@
 
 namespace mud
 {
-	export_ template <> inline void from_string(const string& str, mud::Axes& val) { val = static_cast<mud::Axes>(enu<mud::Axes>().value(str.c_str())); };
-	export_ template <> inline void to_string(const mud::Axes& val, string& str) { str = enu<mud::Axes>().m_map[size_t(val)]; };
+	export_ template <> inline void from_string(const string& str, mud::Axes& val) { val = mud::Axes(enu<mud::Axes>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::Axes& val, string& str) { str = enu<mud::Axes>().name(uint32_t(val)); };
 	
-	export_ template <> inline void from_string(const string& str, mud::Axis& val) { val = static_cast<mud::Axis>(enu<mud::Axis>().value(str.c_str())); };
-	export_ template <> inline void to_string(const mud::Axis& val, string& str) { str = enu<mud::Axis>().m_map[size_t(val)]; };
+	export_ template <> inline void from_string(const string& str, mud::Axis& val) { val = mud::Axis(enu<mud::Axis>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::Axis& val, string& str) { str = enu<mud::Axis>().name(uint32_t(val)); };
 	
-	export_ template <> inline void from_string(const string& str, mud::Clockwise& val) { val = static_cast<mud::Clockwise>(enu<mud::Clockwise>().value(str.c_str())); };
-	export_ template <> inline void to_string(const mud::Clockwise& val, string& str) { str = enu<mud::Clockwise>().m_map[size_t(val)]; };
+	export_ template <> inline void from_string(const string& str, mud::Clockwise& val) { val = mud::Clockwise(enu<mud::Clockwise>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::Clockwise& val, string& str) { str = enu<mud::Clockwise>().name(uint32_t(val)); };
 	
-	export_ template <> inline void from_string(const string& str, mud::Side& val) { val = static_cast<mud::Side>(enu<mud::Side>().value(str.c_str())); };
-	export_ template <> inline void to_string(const mud::Side& val, string& str) { str = enu<mud::Side>().m_map[size_t(val)]; };
+	export_ template <> inline void from_string(const string& str, mud::Side& val) { val = mud::Side(enu<mud::Side>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::Side& val, string& str) { str = enu<mud::Side>().name(uint32_t(val)); };
 	
-	export_ template <> inline void from_string(const string& str, mud::SignedAxis& val) { val = static_cast<mud::SignedAxis>(enu<mud::SignedAxis>().value(str.c_str())); };
-	export_ template <> inline void to_string(const mud::SignedAxis& val, string& str) { str = enu<mud::SignedAxis>().m_map[size_t(val)]; };
+	export_ template <> inline void from_string(const string& str, mud::SignedAxis& val) { val = mud::SignedAxis(enu<mud::SignedAxis>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::SignedAxis& val, string& str) { str = enu<mud::SignedAxis>().name(uint32_t(val)); };
 	
-	export_ template <> inline void from_string(const string& str, mud::Spectrum& val) { val = static_cast<mud::Spectrum>(enu<mud::Spectrum>().value(str.c_str())); };
-	export_ template <> inline void to_string(const mud::Spectrum& val, string& str) { str = enu<mud::Spectrum>().m_map[size_t(val)]; };
+	export_ template <> inline void from_string(const string& str, mud::Spectrum& val) { val = mud::Spectrum(enu<mud::Spectrum>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::Spectrum& val, string& str) { str = enu<mud::Spectrum>().name(uint32_t(val)); };
 	
-	export_ template <> inline void from_string(const string& str, mud::TrackMode& val) { val = static_cast<mud::TrackMode>(enu<mud::TrackMode>().value(str.c_str())); };
-	export_ template <> inline void to_string(const mud::TrackMode& val, string& str) { str = enu<mud::TrackMode>().m_map[size_t(val)]; };
+	export_ template <> inline void from_string(const string& str, mud::TrackMode& val) { val = mud::TrackMode(enu<mud::TrackMode>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::TrackMode& val, string& str) { str = enu<mud::TrackMode>().name(uint32_t(val)); };
 	
 	
 	export_ template <> inline void from_string(const string& str, mud::Colour& val) { string_to_fixed_vector<mud::Colour, float>(str, val); };

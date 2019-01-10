@@ -500,8 +500,8 @@ namespace clgen
 		for(auto& e : m.m_enums)
 		if(e->m_reflect)
 		{
-			p(i, "export_ template <> inline void from_string(const string& str, " + e->m_id + "& val) { val = static_cast<" + e->m_id + ">(enu<" + e->m_id + ">().value(str.c_str())); };");
-			p(i, "export_ template <> inline void to_string(const " + e->m_id + "& val, string& str) { str = enu<" + e->m_id + ">().m_map[size_t(val)]; };");
+			p(i, "export_ template <> inline void from_string(const string& str, " + e->m_id + "& val) { val = " + e->m_id + "(enu<" + e->m_id + ">().value(str.c_str())); };");
+			p(i, "export_ template <> inline void to_string(const " + e->m_id + "& val, string& str) { str = enu<" + e->m_id + ">().name(uint32_t(val)); };");
 			p(i, "");
 		}
 		p(i, "");

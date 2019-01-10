@@ -13,11 +13,14 @@
 
 namespace mud
 {
+	using ToStringFunc = void(*)(Ref, string&);
+	using FromStringFunc = void(*)(const string&, Ref);
+
 	export_ class refl_ MUD_REFL_EXPORT Convert
 	{
 	public:
-		std::function<void(const Var&, string&)> m_to_string;
-		std::function<void(const string&, Ref)> m_from_string;
+		ToStringFunc m_to_string;
+		FromStringFunc m_from_string;
 	};
 
 	export_ MUD_REFL_EXPORT string to_name(Type& type, Ref value);

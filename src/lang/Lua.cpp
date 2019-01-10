@@ -670,7 +670,7 @@ namespace mud
 	{
 		if(!lua_isnumber(state, index) || fmod(lua_tonumber(state, index), 1.) != 0)
 			return;
-		result = enum_value(type, uint32_t(lua_tointeger(state, index)));
+		result = enu(type).varn(uint32_t(lua_tointeger(state, index)));
 	}
 
 	inline void read_sequence(lua_State* state, int index, Type& sequence_type, Var& result)
@@ -761,8 +761,7 @@ namespace mud
 
 	inline Stack push_enum(lua_State* state, const Var& value)
 	{
-		UNUSED(state); UNUSED(value);
-		return push(state, var(enum_index(value.m_ref)));
+		return push_integer(state, enu(value).index(value));
 	};
 
 	inline Stack push_callable(lua_State* state, const Callable& callable)
@@ -845,16 +844,16 @@ namespace mud
 
 		void register_enum(Type& type)
 		{
-			Enum& enu = mud::enu(type);
+			Enum& e = enu(type);
 
 			Stack stack = lookup_table(m_state, namespace_path(*meta(type).m_namespace));
 				
-			if(enu.m_scoped)
+			if(e.m_scoped)
 				stack += get_table(m_state, type.m_name);
 
-			for(size_t i = 0; i < enu.m_names.size(); ++i)
+			for(size_t i = 0; i < e.m_names.size(); ++i)
 			{
-				set_table(m_state, enu.m_names[i], enu.m_vars[i]);
+				set_table(m_state, e.m_names[i], e.m_vars[i]);
 			}
 		}
 

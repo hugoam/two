@@ -29,8 +29,9 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
 	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
+	static Symbol symbol;
 
-	shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(), shapes, false, &material);
+	shape_grid(scene, { shape_items.data(), 10U, 10U }, &symbol, false, &material);
 
 	static std::vector<Item*> selected = {};
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))

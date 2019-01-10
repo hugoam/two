@@ -39,7 +39,7 @@ namespace mud
 						 cls<T>().m_sequence = [](Ref value) -> unique_ptr<Sequence> { return make_unique<VectorSequence<U>>(val<std::vector<U>>(value)); }; }
 		
 	export_ template <class T>
-	void init_string() { static Convert convert = { [](const Var& ref, string& str) { to_string<T>(val<T>(ref), str); },
+	void init_string() { static Convert convert = { [](Ref ref, string& str) { to_string<T>(val<T>(ref), str); },
 													[](const string& str, Ref ref) { from_string<T>(str, val<T>(ref)); } };
 						 g_convert[type<T>().m_id] = &convert; }
 

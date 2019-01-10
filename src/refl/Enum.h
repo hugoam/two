@@ -19,7 +19,7 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Enum
 	{
 	public:
-		Enum(Type& type, bool scoped, const std::vector<cstring>& names, const std::vector<uint32_t>& indices, const std::vector<Var>& values);
+		Enum(Type& type, bool scoped, const std::vector<cstring>& names, const std::vector<uint32_t>& values, const std::vector<Var>& vars);
 
 		Type& m_type;
 
@@ -27,25 +27,16 @@ namespace mud
 		std::vector<cstring> m_names;
 		std::vector<uint32_t> m_values;
 		std::vector<Var> m_vars;
-		std::vector<cstring> m_map;
+		std::vector<cstring> m_reverse;
 
 		uint32_t value(cstring name);
 		uint32_t value(const Var& value);
 		uint32_t index(cstring name);
+		uint32_t index(const Var& value);
+		cstring name(uint32_t value) { return m_reverse[value]; }
+		Var var(uint32_t value);
+		//Var varn(uint32_t index) { Var value = meta(m_type).m_empty_var; copy_construct(value, m_vars[index]); return value; }
+		Var varn(uint32_t index) { return m_vars[index]; }
+		void varn(uint32_t index, Ref value) { copy_construct(value, m_vars[index]); }
 	};
-
-	export_ inline uint32_t enum_index(Ref value)
-	{
-		return enu(value).index(to_string(value).c_str());
-	}
-
-	export_ inline void enum_set_index(Ref value, uint32_t index)
-	{
-		copy_construct(value, enu(value).m_vars[index]);
-	}
-
-	export_ inline Var enum_value(Type& type, uint32_t index)
-	{
-		Var value = meta(type).m_empty_var; enum_set_index(value, index); return value;
-	}
 }
