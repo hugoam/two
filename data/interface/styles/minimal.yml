@@ -37,7 +37,7 @@
         "skin_padding" : [4]
     },
     {   
-        "selector" : "Button, WrapButton, MultiButton, Toggle, ToolButton, TabHeader, DockToggle, RadioChoice, DropdownChoice, SliderKnob, ScrollerKnob, DragHandle, DropdownInput, DropdownInputCompact, TypedownInput, Menu, TypeIn, Input<string>, TreeNodeHeader",
+        "selector" : "Element, Button, WrapButton, MultiButton, Toggle, ToolButton, TabHeader, DockToggle, RadioChoice, DropdownChoice, SliderKnob, ScrollerKnob, DragHandle, DropdownInput, DropdownInputCompact, TypedownInput, Menu, TypeIn, Input<string>, TreeNodeHeader",
         "copy_skin" : "Label",
         "background_colour" : "Grey204",
         "skin_padding" : [4],
@@ -53,7 +53,7 @@
         "copy_skin" : "Button"
     },
     {
-        "selector" : "TreeNodeHeader",
+        "selector" : "Element, TreeNodeHeader",
         "background_colour" : "Grey86"
     },
     {   
@@ -107,7 +107,7 @@
         }
     },
     {
-        "selector" : "Element, Slider, Fillbar, TypeIn, Input<string>",
+        "selector" : "Slider, Fillbar, TypeIn, Input<string>",
         "background_colour" : "Grey145",
         "border_colour" : "Grey312",
         "border_width" : [1],
@@ -202,7 +202,7 @@
         "padding" : [32, 6, 8, 6]
     },
     {   
-        "selector" : "Element, Tooltip, ToolButton, ExpandboxBody",
+        "selector" : "Tooltip, ToolButton, ExpandboxBody",
         "padding" : [4]
     },
     {   
@@ -216,6 +216,10 @@
     {
         "selector" : "Dockbar, Toolbar, Menubar, Header",
         "spacing" : [6]
+    },
+    {
+        "selector" : "Modal",
+        "padding" : [12]
     }
 ]
 }

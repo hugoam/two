@@ -54,12 +54,7 @@ void main()
     fragment.coord.z = position.w;
 	fragment.normal = texture2DLod(s_gnormal, v_texcoord0.xy, 0.0).rgb;
 	fragment.view = normalize(-fragment.position);
-    
-#if BGFX_SHADER_LANGUAGE_HLSL
-    fragment.depth = gl_FragCoord.w;
-#else
     fragment.depth = -fragment.position.z;
-#endif
 
     Material material;
     vec4 surface = texture2DLod(s_gsurface, v_texcoord0.xy, 0.0).rgba;

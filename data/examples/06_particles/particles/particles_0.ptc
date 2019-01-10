@@ -1,10 +1,5 @@
 {
-	"direction": {
-		"x": 0.0,
-		"y": 0.0,
-		"z": -1.0
-	},
-	"angle": 
+	"angle": {
         "value": 0.0,
 		"curve": {
 			"keys": []
@@ -59,6 +54,11 @@
 		"mode": "Curve"
 	},
 	"flow": "Outward",
+	"direction": {
+		"x": 0.0,
+		"y": 0.0,
+		"z": -1.0
+	},
 	"duration": 1.0,
 	"gravity": {
         "value": 0.0,
@@ -86,9 +86,9 @@
 		},
 		"mode": "Constant"
 	},
-	"loop": false,
+	"loop": true,
 	"rate": {
-        "value": 40,
+        "value": 40.0,
 		"curve": {
 			"keys": []
 		},
@@ -99,12 +99,6 @@
 			"keys": null
 		},
 		"mode": "Constant"
-	},
-	"rotation": {
-            "w": 1.0,
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
 	},
 	"scale": {
 		"curve": {

@@ -49,7 +49,6 @@ void main()
 #ifdef RENDER_UV2
     vec2 uv2ndc = vec2(v_texcoord1.x, 1.0 - v_texcoord1.y) * 2.0 - 1.0; // uvs are relative to top-left, so we need to reverse y and to NDC for rendering
 	gl_Position = vec4(uv2ndc, 0.0, 1.0);
-	//gl_Position = vec4(uv2ndc, v_texcoord1.z, v_texcoord1.w);
 #else
 	gl_Position = v_position;
 #endif

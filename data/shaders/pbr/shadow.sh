@@ -120,7 +120,11 @@ vec3 debug_sample_cascade(int cascade_index, vec3 vertex, float bias, vec2 texel
     vec4 shadow_coord = mul(u_csm_matrix[cascade_index], vec4(vertex, 1.0));
 	vec2 pos = shadow_coord.xy / shadow_coord.w;
     float depth = (shadow_coord.z - bias) / shadow_coord.w;
+#if CSM_PCF_LEVEL == HARD_PCF
+    return vec3(pos, depth) * vec3_splat(sample_pcf(s_csm_atlas, vec4(pos, depth, 0.0), 0.0));
+#else
     return vec3(pos, depth) * vec3_splat(shadow2D(s_csm_atlas, vec3(pos, depth)));
+#endif
 }
 
 vec3 csm_shadow(Light light, vec3 vertex, vec3 normal, float frag_w)

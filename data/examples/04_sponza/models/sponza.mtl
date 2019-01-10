@@ -15,6 +15,7 @@ newmtl leaf
 	map_Ka sponza/thorn_diff.jpg
 	map_Kd sponza/thorn_diff.jpg	
 	map_Ks sponza/thorn_spec.jpg
+	map_Pr sponza/thorn_rough.jpg
 	map_d sponza/thorn_mask.jpg
 	map_bump sponza/thorn_ddn.jpg
 	bump sponza/thorn_ddn.jpg
@@ -33,6 +34,7 @@ newmtl vase_round
 	map_Ka sponza/vase_round.jpg
 	map_Kd sponza/vase_round.jpg
 	map_Ks sponza/vase_round_spec.jpg
+	map_Pr sponza/vase_round_rough.jpg
 	map_bump sponza/vase_round_ddn.jpg
 	bump sponza/vase_round_ddn.jpg
 
@@ -50,6 +52,7 @@ newmtl vase_plant
 	map_Ka sponza/vase_plant.jpg
 	map_Kd sponza/vase_plant.jpg
 	map_Ks sponza/vase_plant_spec.jpg
+	map_Pr sponza/vase_plant_rough.jpg
 	map_d sponza/vase_plant_mask.jpg
 
 newmtl background
@@ -96,6 +99,7 @@ newmtl bricks
 	map_Ka sponza/bricks_a_diff.jpg
 	map_Kd sponza/bricks_a_diff.jpg
 	map_Ks sponza/bricks_a_spec.jpg
+	map_Pr sponza/bricks_a_rough.jpg
 	map_bump sponza/bricks_a_ddn.jpg
 	bump sponza/bricks_a_ddn.jpg
 
@@ -113,6 +117,7 @@ newmtl arch
 	map_Ka sponza/arch_diff.jpg
 	map_Kd sponza/arch_diff.jpg
 	map_Ks sponza/arch_spec.jpg
+	map_Pr sponza/arch_rough.jpg
 	map_bump sponza/arch_ddn.jpg
 	bump sponza/arch_ddn.jpg
 
@@ -130,6 +135,7 @@ newmtl ceiling
 	map_Ka sponza/ceiling_a_diff.jpg
 	map_Kd sponza/ceiling_a_diff.jpg
 	map_Ks sponza/ceiling_a_spec.jpg
+	map_Pr sponza/ceiling_a_rough.jpg
 
 newmtl column_a
 	Ns 10.0000
@@ -145,6 +151,7 @@ newmtl column_a
 	map_Ka sponza/column_a_diff.jpg
 	map_Kd sponza/column_a_diff.jpg
 	map_Ks sponza/column_a_spec.jpg
+	map_Pr sponza/column_a_rough.jpg
 	map_bump sponza/column_a_ddn.jpg
 	bump sponza/column_a_ddn.jpg
 
@@ -162,6 +169,7 @@ newmtl floor
 	map_Ka sponza/floor_a_diff.jpg
 	map_Kd sponza/floor_a_diff.jpg
 	map_Ks sponza/floor_a_spec.jpg
+	map_Pr sponza/floor_a_rough.jpg
 
 newmtl column_c
 	Ns 10.0000
@@ -177,6 +185,7 @@ newmtl column_c
 	map_Ka sponza/column_c_diff.jpg
 	map_Kd sponza/column_c_diff.jpg
 	map_Ks sponza/column_c_spec.jpg
+	map_Pr sponza/column_c_rough.jpg
 	map_bump sponza/column_c_ddn.jpg
 	bump sponza/column_c_ddn.jpg
 
@@ -194,6 +203,7 @@ newmtl details
 	map_Ka sponza/details_diff.jpg
 	map_Kd sponza/details_diff.jpg
 	map_Ks sponza/details_spec.jpg
+	map_Pr sponza/details_rough.jpg
 
 newmtl column_b
 	Ns 10.0000
@@ -209,6 +219,7 @@ newmtl column_b
 	map_Ka sponza/column_b_diff.jpg
 	map_Kd sponza/column_b_diff.jpg
 	map_Ks sponza/column_b_spec.jpg
+	map_Pr sponza/column_b_rough.jpg
 	map_bump sponza/column_b_ddn.jpg
 	bump sponza/column_b_ddn.jpg
 
@@ -238,6 +249,7 @@ newmtl flagpole
 	map_Ka sponza/flagpole_diff.jpg
 	map_Kd sponza/flagpole_diff.jpg
 	map_Ks sponza/flagpole_spec.jpg
+	map_Pr sponza/flagpole_rough.jpg
 
 newmtl fabric_e
 	Ns 10.0000
@@ -253,6 +265,7 @@ newmtl fabric_e
 	map_Ka sponza/fabric_green_diff.jpg
 	map_Kd sponza/fabric_green_diff.jpg
 	map_Ks sponza/fabric_spec.jpg
+	map_Pr sponza/fabric_rough.jpg
 
 newmtl fabric_d
 	Ns 10.0000
@@ -268,6 +281,7 @@ newmtl fabric_d
 	map_Ka sponza/fabric_blue_diff.jpg
 	map_Kd sponza/fabric_blue_diff.jpg
 	map_Ks sponza/fabric_spec.jpg
+	map_Pr sponza/fabric_rough.jpg
 
 newmtl fabric_a
 	Ns 10.0000
@@ -283,6 +297,7 @@ newmtl fabric_a
 	map_Ka sponza/fabric_diff.jpg
 	map_Kd sponza/fabric_diff.jpg
 	map_Ks sponza/fabric_spec.jpg
+	map_Pr sponza/fabric_rough.jpg
 
 newmtl fabric_g
 	Ns 10.0000

@@ -61,6 +61,21 @@ vec3 cone_trace(sampler3D probe, vec3 inv_extents, vec3 pos, vec3 direction, flo
 	return color * alpha;
 }
 
+#if 0
+mat3 cone_normal_mat(vec3 n, vec3 t, vec3 b, mat4 probe)
+{
+    vec3 nloc = mul(probe, vec4(n, 0.0)).xyz;
+    vec3 bloc = mul(probe, vec4(b, 0.0)).xyz;
+    vec3 tloc = mul(probe, vec4(t, 0.0)).xyz;
+    mat3 normal_mat = mat3(tloc, bloc, nloc);
+#if BGFX_SHADER_LANGUAGE_HLSL
+    return normal_mat;
+#else
+    return transpose(normal_mat);
+#endif
+}
+#endif
+
 mat3 cone_normal_mat(vec3 normal)
 {
 	//find arbitrary tangent and bitangent, then build a matrix
@@ -190,9 +205,6 @@ ConeStart cone_start(vec3 pos, vec3 normal)
 	cone.refl = mul(u_gi_probe_transform, vec4(refl, 0.0)).xyz;
     
 #ifdef CONETRACE_MAT3
-    //vec3 bitangent_local = mul(u_gi_probe_transform, vec4(bitangent, 0.0)).xyz;
-    //vec3 tangent_local = mul(u_gi_probe_transform, vec4(tangent, 0.0)).xyz;
-    //mat3 normal_mat = mat3(tangent_local, bitangent_local, cone.normal);
     cone.normal_mat = cone_normal_mat(cone.normal);
 #endif
 

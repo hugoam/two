@@ -4,7 +4,7 @@ $input v_texcoord0
 #include <filter/filter.sh>
 
 #if defined SOURCE_DEPTH || defined UNPACK_DEPTH
-CONST(float) depth_value_pow = 1.0;
+CONST(float) depth_value_pow = 500.0;
 #endif
 
 void main()

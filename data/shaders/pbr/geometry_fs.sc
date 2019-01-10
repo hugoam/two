@@ -24,6 +24,7 @@ void main()
     material.specular = u_specular;
 	material.alpha = 1.0;
 
+	vec4 emission = vec4_splat(0.0);
 #include "fs_emission.sh"
 #include "fs_anisotropy.sh"
 #include "fs_ao.sh"

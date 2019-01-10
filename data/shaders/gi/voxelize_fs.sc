@@ -1,7 +1,5 @@
 $input v_position, v_normal, v_color, v_texcoord0
 
-// #extension GL_ARB_shader_image_load_store : enable
-
 #include <pbr/pbr.sh>
 #include <pbr/light.sh>
 
@@ -31,6 +29,7 @@ void main()
     
     vec3 albedo = u_albedo.rgb * sample_material_texture(s_albedo, fragment.uv).rgb;
 
+	vec4 emission = vec4_splat(0.0);
 #include <pbr/fs_emission.sh>
 
     fragment.color = vec4(albedo + emission.rgb, 1.0);
