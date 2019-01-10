@@ -17,7 +17,7 @@ namespace mud
 	mud_pool::mud_pool()
 		: Module("mud::pool", { &mud_infra::m(), &mud_type::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_pool_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_pool::m();
+		return mud_pool::m();
 }
 #endif

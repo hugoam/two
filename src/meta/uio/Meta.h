@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #ifndef MUD_MODULES
@@ -14,7 +12,8 @@
 namespace mud
 {
     void mud_uio_meta(Module& m)
-    {   
+    {
+    
     // Base Types
     
     // Enums
@@ -28,7 +27,6 @@ namespace mud
         };
         meta_enum<mud::EditNestMode>();
     }
-    
     {
         static Meta meta = { type<mud::EditorHint>(), &namspc({ "mud" }), "EditorHint", sizeof(mud::EditorHint), TypeClass::Enum };
         static Enum enu = { type<mud::EditorHint>(),
@@ -40,16 +38,8 @@ namespace mud
         meta_enum<mud::EditorHint>();
     }
     
-    
     // Sequences
     
-    
-    
-    
-    
-    
-    
-        
     // mud::ScriptEditor
     {
         static Meta meta = { type<mud::ScriptEditor>(), &namspc({ "mud" }), "ScriptEditor", sizeof(mud::ScriptEditor), TypeClass::Object };
@@ -73,22 +63,11 @@ namespace mud
             {
             }
         };
-        
-        
-        
-        
         meta_class<mud::ScriptEditor>();
     }
-    
-    
-    
-    
-
-    
         m.m_types.push_back(&type<mud::EditNestMode>());
         m.m_types.push_back(&type<mud::EditorHint>());
         m.m_types.push_back(&type<mud::ScriptEditor>());
-    
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::object_edit_inline(val<mud::Widget>(args[0]), args[1]); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "object", Ref(), Param::Nullable } };
@@ -121,14 +100,26 @@ namespace mud
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::object_edit(val<mud::Widget>(args[0]), args[1], val<mud::EditorHint>(args[2])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "object", Ref(), Param::Nullable }, { "hint", var(mud::EditorHint()), Param::Default } };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "object", Ref(), Param::Nullable }, { "hint", var(mud::EditorHint::Table), Param::Default } };
             static Function f = { &namspc({ "mud" }), "object_edit", function_id<bool(*)(mud::Widget&, mud::Ref, mud::EditorHint)>(&mud::object_edit), func, params, var(bool()) };
+            m.m_functions.push_back(&f);
+        }
+        {
+            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::entity_edit(val<mud::Widget>(args[0]), val<mud::Entity>(args[1]), val<mud::EditorHint>(args[2])); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "entity", var(mud::Entity()) }, { "hint", var(mud::EditorHint::Table), Param::Default } };
+            static Function f = { &namspc({ "mud" }), "entity_edit", function_id<bool(*)(mud::Widget&, mud::Entity, mud::EditorHint)>(&mud::entity_edit), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::inspector(val<mud::Widget>(args[0]), args[1]); };
             std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "object", Ref(), Param::Nullable } };
             static Function f = { &namspc({ "mud" }), "inspector", function_id<bool(*)(mud::Widget&, mud::Ref)>(&mud::inspector), func, params, var(bool()) };
+            m.m_functions.push_back(&f);
+        }
+        {
+            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::inspector(val<mud::Widget>(args[0]), val<mud::Entity>(args[1])); };
+            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "entity", var(mud::Entity()) } };
+            static Function f = { &namspc({ "mud" }), "inspector", function_id<bool(*)(mud::Widget&, mud::Entity)>(&mud::inspector), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {

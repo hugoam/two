@@ -1,7 +1,7 @@
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
-module mud.obj;
+module mud.type;
 #else
 #include <meta/type/Module.h>
 #endif
@@ -15,9 +15,9 @@ module mud.obj;
 namespace mud
 {
 	mud_type::mud_type()
-		: Module("mud::obj", { &mud_infra::m() })
+		: Module("mud::type", { &mud_infra::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_type_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_type::m();
+		return mud_type::m();
 }
 #endif

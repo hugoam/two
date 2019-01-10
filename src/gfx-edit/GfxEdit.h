@@ -4,6 +4,9 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
+#include <math/Vec.h>
+#endif
 #include <gfx-edit/Forward.h>
 
 namespace mud

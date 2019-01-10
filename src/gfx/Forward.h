@@ -17,44 +17,9 @@
 #define MUD_GFX_EXPORT MUD_IMPORT
 #endif
 
-
-    
-    
-
-namespace std {
-
-    
-    
-}
-
-namespace mud {
-namespace ui {
-
-    
-    
-}
-}
-
-namespace glm {
-
-    
-    
-}
-
-namespace bx {
-
-    
-    
-}
-
-namespace json11 {
-
-    
-    
-}
-
-namespace mud {
-
+namespace mud
+{
+	enum class AnimationTarget : unsigned int;
     enum class Interpolation : unsigned int;
     enum class TextureHint : unsigned int;
     enum class ShaderType : unsigned int;
@@ -67,6 +32,7 @@ namespace mud {
     enum class DepthTest : unsigned int;
     enum class MaterialFlag : unsigned int;
     enum class TextureChannel : unsigned int;
+	enum class Lighting : unsigned int;
     enum class PbrDiffuseMode : unsigned int;
     enum class PbrSpecularMode : unsigned int;
     enum PbrShaderOption : unsigned int;
@@ -159,6 +125,7 @@ namespace mud {
     class BlockCopy;
     class Frustum;
     struct FrustumSlice;
+	struct ClusteredFrustum;
     class Light;
     class Gnode;
     class Item;

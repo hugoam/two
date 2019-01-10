@@ -67,11 +67,11 @@ namespace mud
 
 	ScriptClass::ScriptClass(const string& name, const std::vector<Type*>& parts)
 		: m_name(name)
-		, m_type(m_name.c_str())
-		, m_class(m_type)
+		, m_class_type(m_name.c_str())
+		, m_class(m_class_type)
 	{
-		g_prototypes[m_type.m_id] = make_unique<Prototype>(m_class);
+		g_prototypes[m_class_type.m_id] = make_unique<Prototype>(m_class);
 		for(Type* type : parts)
-			g_prototypes[m_type.m_id]->add_part(*type);
+			g_prototypes[m_class_type.m_id]->add_part(*type);
 	}
 }

@@ -1,5 +1,3 @@
-
-
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
@@ -8,13 +6,11 @@ module mud.ctx;
 #include <ctx/Types.h>
 #include <ctx/Api.h>
 #include <type/Vector.h>
-//#include <ecs/Proto.h>
 #endif
 
 namespace mud
 {
     // Exported types
-    template <> MUD_CTX_EXPORT Type& type<mud::DeviceMask>() { static Type ty("mud::DeviceMask"); return ty; }
     template <> MUD_CTX_EXPORT Type& type<mud::DeviceType>() { static Type ty("mud::DeviceType"); return ty; }
     template <> MUD_CTX_EXPORT Type& type<mud::EventType>() { static Type ty("mud::EventType"); return ty; }
     template <> MUD_CTX_EXPORT Type& type<mud::InputMod>() { static Type ty("mud::InputMod"); return ty; }
@@ -24,6 +20,8 @@ namespace mud
     template <> MUD_CTX_EXPORT Type& type<mud::Context>() { static Type ty("Context"); return ty; }
     template <> MUD_CTX_EXPORT Type& type<mud::ControlNode>() { static Type ty("ControlNode"); return ty; }
     template <> MUD_CTX_EXPORT Type& type<mud::InputEvent>() { static Type ty("InputEvent"); return ty; }
+    template <> MUD_CTX_EXPORT Type& type<mud::Keyboard>() { static Type ty("Keyboard"); return ty; }
+    template <> MUD_CTX_EXPORT Type& type<mud::Mouse>() { static Type ty("Mouse"); return ty; }
     template <> MUD_CTX_EXPORT Type& type<mud::RenderSystem>() { static Type ty("RenderSystem"); return ty; }
     template <> MUD_CTX_EXPORT Type& type<mud::KeyEvent>() { static Type ty("KeyEvent", type<mud::InputEvent>()); return ty; }
     template <> MUD_CTX_EXPORT Type& type<mud::MouseEvent>() { static Type ty("MouseEvent", type<mud::InputEvent>()); return ty; }

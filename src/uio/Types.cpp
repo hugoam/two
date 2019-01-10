@@ -1,5 +1,3 @@
-
-
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
@@ -8,7 +6,6 @@ module mud.uio;
 #include <uio/Types.h>
 #include <uio/Api.h>
 #include <type/Vector.h>
-//#include <ecs/Proto.h>
 #endif
 
 namespace mud

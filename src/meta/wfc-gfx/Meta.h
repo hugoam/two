@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #ifndef MUD_MODULES
@@ -14,16 +12,14 @@
 namespace mud
 {
     void mud_wfc_gfx_meta(Module& m)
-    {   
+    {
+    
     // Base Types
     
     // Enums
     
     // Sequences
     
-    
-    
-        
     // mud::TileModel
     {
         static Meta meta = { type<mud::TileModel>(), &namspc({ "mud" }), "TileModel", sizeof(mud::TileModel), TypeClass::Struct };
@@ -48,17 +44,8 @@ namespace mud
             {
             }
         };
-        
-        
-        
-        
         meta_class<mud::TileModel>();
     }
-    
-    
-    
-    
-        
     // mud::WfcBlock
     {
         static Meta meta = { type<mud::WfcBlock>(), &namspc({ "mud" }), "WfcBlock", sizeof(mud::WfcBlock), TypeClass::Object };
@@ -68,6 +55,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::WfcBlock>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::WfcBlock>(ref)) mud::WfcBlock(  ); }, {} },
                 { type<mud::WfcBlock>(), [](Ref ref, array<Var> args) { new(&val<mud::WfcBlock>(ref)) mud::WfcBlock( val<mud::vec3>(args[0]), val<mud::uvec3>(args[1]), val<mud::vec3>(args[2]), val<mud::WaveTileset>(args[3]), val<bool>(args[4]) ); }, { { "position", var(mud::vec3()) }, { "size", var(mud::uvec3()) }, { "scale", var(mud::vec3()) }, { "tileset", var(mud::WaveTileset()) }, { "auto_solve", var(bool(false)), Param::Default } } }
             },
             // copy constructor
@@ -82,27 +70,20 @@ namespace mud
             },
             // methods
             {
-                { type<mud::WfcBlock>(), "reset", member_address(&mud::WfcBlock::reset), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args);val<mud::WfcBlock>(object).reset(); }, {}, Var() },
-                { type<mud::WfcBlock>(), "observe", member_address(&mud::WfcBlock::observe), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args);val<mud::WfcBlock>(object).observe(); }, {}, Var() },
-                { type<mud::WfcBlock>(), "propagate", member_address(&mud::WfcBlock::propagate), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args);val<mud::WfcBlock>(object).propagate(); }, {}, Var() },
-                { type<mud::WfcBlock>(), "solve", member_address(&mud::WfcBlock::solve), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::WfcBlock>(object).solve(val<size_t>(args[0])); }, { { "limit", var(size_t()), Param::Default } }, Var() },
-                { type<mud::WfcBlock>(), "update", member_address(&mud::WfcBlock::update), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::WfcBlock>(object).update(val<mud::Wave>(args[0])); }, { { "wave", var(mud::Wave()) } }, Var() }
+                { type<mud::WfcBlock>(), "reset", member_address<void(mud::WfcBlock::*)()>(&mud::WfcBlock::reset), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args); val<mud::WfcBlock>(object).reset(); }, {}, Var() },
+                { type<mud::WfcBlock>(), "observe", member_address<void(mud::WfcBlock::*)()>(&mud::WfcBlock::observe), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args); val<mud::WfcBlock>(object).observe(); }, {}, Var() },
+                { type<mud::WfcBlock>(), "propagate", member_address<void(mud::WfcBlock::*)()>(&mud::WfcBlock::propagate), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args); val<mud::WfcBlock>(object).propagate(); }, {}, Var() },
+                { type<mud::WfcBlock>(), "solve", member_address<void(mud::WfcBlock::*)(size_t)>(&mud::WfcBlock::solve), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::WfcBlock>(object).solve(val<size_t>(args[0])); }, { { "limit", var(size_t(0)), Param::Default } }, Var() },
+                { type<mud::WfcBlock>(), "update", member_address<void(mud::WfcBlock::*)(mud::Wave&)>(&mud::WfcBlock::update), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::WfcBlock>(object).update(val<mud::Wave>(args[0])); }, { { "wave", var(mud::Wave()) } }, Var() }
             },
             // static members
             {
             }
         };
-        
-        
-        init_pool<mud::WfcBlock>(); 
-        
+        init_pool<mud::WfcBlock>();
         meta_class<mud::WfcBlock>();
     }
-    
-
-    
         m.m_types.push_back(&type<mud::TileModel>());
         m.m_types.push_back(&type<mud::WfcBlock>());
-    
     }
 }

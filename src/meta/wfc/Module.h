@@ -1,4 +1,3 @@
-
 #pragma once
 
 #if !defined MUD_MODULES || defined MUD_TYPE_LIB
@@ -12,7 +11,7 @@
 #include <meta/math/Module.h>
 #include <meta/geom/Module.h>
 #endif
-        
+
 #include <wfc/Forward.h>
 #include <wfc/Types.h>
 #include <wfc/Api.h>
@@ -29,7 +28,7 @@ namespace mud
 	{
 	private:
 		mud_wfc();
-
+		
 	public:
 		static mud_wfc& m() { static mud_wfc instance; return instance; }
 	};

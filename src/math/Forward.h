@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include <infra/Config.h>
@@ -12,30 +10,10 @@
 #define MUD_MATH_EXPORT MUD_IMPORT
 #endif
 
+//#define MUD_NO_GLM
 
-    
-    
-
-namespace std {
-
-    
-    
-}
-
-namespace glm {
-
-    
-    
-}
-
-namespace json11 {
-
-    
-    
-}
-
-namespace mud {
-
+namespace mud
+{
     enum Clockwise : unsigned int;
     enum class Axis : unsigned int;
     enum class Axes : unsigned int;
@@ -61,6 +39,7 @@ namespace mud {
     class ImageAtlas;
     class Sprite;
     class SpriteAtlas;
+	class TextureAtlas;
     struct Ratio;
     struct Gauge;
     struct Time;
@@ -69,12 +48,3 @@ namespace mud {
     struct Anim;
     class Animator;
 }
-
-namespace mud {
-namespace detail {
-
-    
-    
-}
-}
-

@@ -11,22 +11,29 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
 #include <fstream>
 #include <functional>
 
-using std::string;
-using std::vector;
-using std::map;
-
-using json11::Json;
-
 namespace mud
 {
-	template <class T_Object, class... T_Args>
-	inline T_Object& vector_emplace(std::vector<unique_ptr<T_Object>>& vector, T_Args&&... args)
+	// @todo
+	// - add error/warning for member of non reflected type
+	// - toy::OCollider not declared
+	// - passing toy::OCollider (can't copy construct)
+	// - var(mud::Vg()) is abstract
+
+	using std::string;
+	using std::vector;
+	using std::map;
+
+	using json11::Json;
+
+	template <class T, class... T_Args>
+	inline T& vector_emplace(std::vector<unique_ptr<T>>& vector, T_Args&&... args)
 	{
-		vector.push_back(make_unique<T_Object>(std::forward<T_Args>(args)...));
-		return static_cast<T_Object&>(*vector.back());
+		vector.push_back(make_unique<T>(std::forward<T_Args>(args)...));
+		return static_cast<T&>(*vector.back());
 	}
 
 	template <class T_Value>
@@ -56,34 +63,33 @@ namespace mud
 	class CLClass;
 	class CLEnum;
 
-	void update_file(const string& path, const string& content)
-	{
-		string current = read_text_file(path.c_str());
-		if(content != current)
-			write_file(path.c_str(), content.c_str());
-	}
-
-	static CXTranslationUnit g_tu;
+	void visit_tokens(CXCursor cursor, const std::function<void(CXToken)>& visitor);
+	void visit_children(CXCursor cursor, const std::function<void(CXCursor)>& visitor);
+	void dump_ast(CXCursor cursor, int level = 0);
 
 	CXCursor cursor(CXTranslationUnit tu) { return clang_getTranslationUnitCursor(tu); }
+
+	string clang_string(CXString s) { string result = clang_getCString(s); clang_disposeString(s); return result; }
 
 	string file(CXCursor cursor)
 	{
 		CXSourceLocation location = clang_getCursorLocation(cursor);
 		CXFile file; unsigned line, column, offset;
 		clang_getFileLocation(location, &file, &line, &column, &offset);
-		return clang_getCString(clang_getFileName(file));
+		return clang_string(clang_getFileName(file));
 	}
 
-	string spelling(CXToken token) { return clang_getCString(clang_getTokenSpelling(g_tu, token)); }
-	string spelling(CXCursor cursor) { return clang_getCString(clang_getCursorSpelling(cursor)); }
-	string spelling(CXType type) { return clang_getCString(clang_getTypeSpelling(type)); }
+	CXTokenKind kind(CXToken token) { return clang_getTokenKind(token); }
 
-	string displayname(CXCursor cursor) { return clang_getCString(clang_getCursorDisplayName(cursor)); }
+	string spelling(CXCursor cursor, CXToken token) { CXTranslationUnit tu = clang_Cursor_getTranslationUnit(cursor); return clang_string(clang_getTokenSpelling(tu, token)); }
+	string spelling(CXCursor cursor) { return clang_string(clang_getCursorSpelling(cursor)); }
+	string spelling(CXType type) { return clang_string(clang_getTypeSpelling(type)); }
+
+	string displayname(CXCursor cursor) { return clang_string(clang_getCursorDisplayName(cursor)); }
 
 	CXType enum_type(CXCursor cursor) { return clang_getEnumDeclIntegerType(cursor); }
 	long long enum_value(CXCursor cursor) { return clang_getEnumConstantDeclValue(cursor); }
-	bool is_scoped(CXCursor cursor) { return false; } // clang_EnumDecl_isScoped(cursor); }
+	bool is_scoped(CXCursor cursor) { return clang_EnumDecl_isScoped(cursor); }
 
 	CXType type(CXCursor cursor) { return clang_getCursorType(cursor); }
 	CXType result_type(CXCursor cursor) { return clang_getCursorResultType(cursor); }
@@ -92,8 +98,18 @@ namespace mud
 
 	bool is_definition(CXCursor cursor) { return clang_isCursorDefinition(cursor); }
 
+	bool is_const_method(CXCursor cursor) { return clang_CXXMethod_isConst(cursor); }
 
-	void visit_tokens(CXCursor cursor, std::function<void(CXToken&)> visitor)
+	void dump_ast(CXCursor cursor, int level)
+	{
+		visit_children(cursor, [&](CXCursor c) {
+			for(int i = 0; i < level; ++i) printf("    ");
+			printf("+-- %s %s %s\n", clang_string(clang_getCursorKindSpelling(c.kind)).c_str(), spelling(c).c_str(), spelling(type(c)).c_str());
+			dump_ast(c, level + 1);
+		});
+	}
+
+	void visit_tokens(CXCursor cursor, const std::function<void(CXToken)>& visitor)
 	{
 		CXTranslationUnit tu = clang_Cursor_getTranslationUnit(cursor);
 		CXSourceRange extent = clang_getCursorExtent(cursor);
@@ -124,15 +140,15 @@ namespace mud
 		CXToken* tokens = nullptr;
 		unsigned int num_tokens = 0;
 		clang_tokenize(tu, extent, &tokens, &num_tokens);
-
 	}
 
 	string first_token(CXCursor cursor)
 	{
 		string result = "";
-		visit_tokens(cursor, [&](CXToken& token) {
+		visit_tokens(cursor, [&](CXToken token)
+		{
 			if(result == "")
-				result = spelling(token);
+				result = spelling(cursor, token);
 		});
 		return result;
 	}
@@ -140,51 +156,12 @@ namespace mud
 	std::vector<string> get_annotations(CXCursor cursor)
 	{
 		std::vector<string> annotations;
-		visit_children(cursor, [&](CXCursor c) {
+		visit_children(cursor, [&](CXCursor c)
+		{
 			if(c.kind == CXCursor_AnnotateAttr)
 				annotations.push_back(displayname(c));
 		});
 		return annotations;
-	}
-
-	string clean_name(const string& name)
-	{
-		string result = replace(name, "const char*", "cstring");
-		return replace(replace(replace(result, " *", "*"), " &", "&"), "> >", ">>");
-	}
-
-	string type_name(CXType type, bool is_template = false)
-	{
-		UNUSED(is_template);
-		return clean_name(spelling(type));
-	}
-
-	string class_name(CXType type, bool is_template = false)
-	{
-		if(type.kind == CXType_Pointer)
-			return type_name(get_pointee(type));
-		if(type.kind == CXType_LValueReference)
-			return replace(type_name(get_pointee(type)), "const ", "");
-    
-		return type_name(type, is_template);
-	}
-
-	string unqual_type_name(CXType type, bool is_template = false)
-	{
-		if(type.kind == CXType_LValueReference)
-			return replace(type_name(get_pointee(type)), "const ", "");
-        
-		return type_name(type, is_template);
-	}
-
-	bool is_template_decl(CXCursor cursor)
-	{
-		bool has_def = false;
-		visit_children(cursor, [&](CXCursor cursor) {
-			if(clang_getCursorKind(cursor) == CXCursor_CXXBaseSpecifier)
-				has_def = true;
-		});
-		return !has_def;
 	}
 
 	string template_name(const string& name)
@@ -192,9 +169,49 @@ namespace mud
 		return name.substr(0, name.find("<"));
 	}
 
-	std::vector<string> template_types(const string&name)
+	std::vector<string> template_types(const string& name)
 	{
-		return split(name.substr(name.find("<") + 1), ",");
+		return split(name.substr(name.find("<") + 1, name.rfind(">") - name.find("<") - 1), ",");
+	}
+
+	string clean_name(const string& name)
+	{
+		return replace(replace(replace(name, " *", "*"), " &", "&"), "> >", ">>");
+	}
+
+	string type_name(CXType type)
+	{
+		string name = clean_name(spelling(type));
+
+		if(name.find("<") != string::npos)
+		{
+			// only way to get fully qualified template arguments is through clang_Type_getNamedType
+			CXType named_type = clang_Type_getNamedType(type);
+			if(named_type.kind == CXType_Invalid)
+				return name;
+			std::vector<string> types = template_types(clean_name(spelling(named_type)));
+			return template_name(name) + "<" + join(types, ",") + ">";
+		}
+
+		return name;
+	}
+
+	string class_name(CXType type)
+	{
+		if(type.kind == CXType_Pointer)
+			return replace(type_name(get_pointee(type)), "const ", "");
+		if(type.kind == CXType_LValueReference)
+			return replace(type_name(get_pointee(type)), "const ", "");
+    
+		return replace(type_name(type), "const ", "");
+	}
+
+	string unqual_type_name(CXType type)
+	{
+		if(type.kind == CXType_LValueReference)
+			return replace(type_name(get_pointee(type)), "const ", "");
+        
+		return replace(type_name(type), "const ", "");
 	}
 
 	string substitute_template(const string& name, const std::vector<string>& template_types, const std::vector<string>& real_types)
@@ -204,36 +221,6 @@ namespace mud
 			result = replace(name, template_types[i], real_types[i]);
 		return result;
 	}
-
-	struct CLDefault
-	{
-		bool m_has_default;
-		string m_default;
-	};
-
-	CLDefault find_default_value(CXCursor cursor)//decl, cls, cursor)
-	{
-		CLDefault result;
-		visit_children(cursor, [&](CXCursor c) {
-			if(c.kind == CXCursor_CXXBoolLiteralExpr || c.kind == CXCursor_FloatingLiteral || c.kind == CXCursor_IntegerLiteral || c.kind == CXCursor_StringLiteral)
-				result = { true, first_token(c) };
-			else if(c.kind == CXCursor_CallExpr || c.kind == CXCursor_DeclRefExpr || c.kind == CXCursor_UnexposedExpr)
-				result = { true, "" };
-		});
-		return result;
-	}
-
-	class CLFile
-	{
-	public:
-		CLFile(const string& path) : m_path(path) {}
-
-		string m_path;
-		size_t m_depth = 0;
-        
-		//void __cmp__(other):
-		//    return m_depth < other.depth
-	};
 
 	class CLPrimitive
 	{
@@ -252,7 +239,7 @@ namespace mud
 		CLModule* m_module = nullptr;
 		string m_prefix;
 
-		bool m_reflect = true;
+		bool m_reflect = false;
 
 		bool m_is_template = false;
 		bool m_is_templated = false;
@@ -270,12 +257,29 @@ namespace mud
 		{}
 	};
 
+	struct CLQualType
+	{
+		CLType* m_type = nullptr;
+		string m_spelling;
+		string m_type_name;
+		string m_unqual_type_name;
+
+		bool pointer() const { return m_spelling.back() == '*'; }
+		bool reference() const { return m_spelling.back() == '&' && m_spelling.find("const") == string::npos; }
+		bool const_pointer() const { return m_spelling.substr(0, 5) == "const" && m_spelling.back() == '*'; }
+		bool const_reference() const { return m_spelling.substr(0, 5) == "const" && m_spelling.back() == '&'; }
+		bool value() const { return !this->pointer() && !this->reference(); }
+		bool nullable() const { return this->pointer() || m_type_name == "mud::Ref"; }
+
+		explicit operator CLType&() { return *m_type; }
+		explicit operator const CLType&() const { return *m_type; }
+	};
+
 	class CLType : public CLPrimitive
 	{
 	public:
-		CLType(CLModule& module, const string& name, CLPrimitive& parent, bool is_template = false)
+		CLType(CLModule& module, CLPrimitive& parent, const string& name)
 			: CLPrimitive(name, &parent)
-			, m_is_template(is_template)
 			//, m_nested(type(parent) == Class)
 		{
 			m_module = &module;
@@ -283,53 +287,32 @@ namespace mud
 
 		bool m_nested = false;
 		bool m_struct = true;
-		bool m_is_template = false;
+		bool m_move_only = false;
+		bool m_pointer = false;
+
 		std::vector<CLType*> m_bases;
 		std::vector<CLType*> m_deep_bases;
 		std::vector<string> m_aliases;
-
-		//bool m_isProto = false;
-	};
-
-	class CLTypeProxy
-	{
-	public:
-		CLTypeProxy(const string& name) : m_name(name), m_id(name) {}
-
-		string m_name;
-		string m_id;
-		bool m_struct = true;
 	};
 
 	class CLBaseType : public CLType
 	{
 	public:
-		CLBaseType(CLModule& module, const string& name, CLPrimitive& parent)
-			: CLType(module, name, parent)
-		{}
+		CLBaseType(CLModule& module, CLPrimitive& parent, const string& name)
+			: CLType(module, parent, name)
+		{
+			m_reflect = true;
+			if(name == "const char*")
+				m_pointer = true;
+		}
 	};
 
 	class CLEnum : public CLType
 	{
 	public:
-		CLEnum(CLModule& module, CXCursor cursor, CLPrimitive& parent)
-			: CLType(module, displayname(cursor), parent)
-		{
-			m_scoped = is_scoped(cursor);
-			m_enum_type = spelling(enum_type(cursor));
-			m_prefix = parent.m_prefix + (m_scoped ? m_id + "::" : "");
-			//m_reflect = "reflect" in get_annotations(cursor)
-
-			visit_children(cursor, [&](CXCursor c)
-			{
-				if(c.kind == CXCursor_EnumConstantDecl)
-				{
-					m_ids.push_back(displayname(c));
-					m_values.push_back(to_string(enum_value(c)));
-					m_scoped_ids.push_back(m_prefix + displayname(c));
-				}
-			});
-		}
+		CLEnum(CLModule& module, CLPrimitive& parent, const string& name)
+			: CLType(module, parent, name)
+		{}
 
 		bool m_scoped = false;
 		string m_enum_type;
@@ -343,130 +326,93 @@ namespace mud
 	{
 	public:
 		CLSequence(CLModule& module, const string& store, CLType& content_type, bool pointer, CLPrimitive& parent)
-			: CLType(module, store + "<" + content_type.m_id + (pointer ? "*" : "") + ">", parent)
+			: CLType(module, parent, store + "<" + content_type.m_id + (pointer ? "*" : "") + ">")
 		{
 			m_store = store;
 			m_contentcls = &content_type;
 			m_content = content_type.m_id + (pointer ? "*" : "");
-		};
+			m_reflect = true;
+		}
 
 		string m_store;
 		CLType* m_contentcls;
 		string m_content;
 	};
 	
-            
 	class CLParam
 	{
 	public:
-		CLParam(CLFunction& func, CXCursor cursor, size_t index, CLPrimitive& parent);
+		CLParam(CLFunction& func, size_t index)
+			: m_func(&func)
+			, m_index(index)
+		{}
 
 		CLFunction* m_func;
 		size_t m_index;
 		string m_name;
-		CLType* m_cls;
-		string m_type;
-		string m_clsname;
+		CLQualType m_type;
 
-		bool m_pointer;
-		bool m_reference;
-		bool m_const_pointer;
-		bool m_const_reference;
-
-		bool m_nullable;
 		bool m_output;
-		bool m_input;
 
-		bool m_has_default;
-		string m_default;
-
-		//CLParam copy(size_t index)
-		//{
-			//param = copy.copy(self)
-			//param.index = index
-			//return param
-		//}
-        
-		bool equals(const CLParam& param) const
-		{
-			return param.m_name == m_name && param.m_type == m_type;
-		}
+		bool m_has_default = false;
+		string m_default = "";
 	};
 
-	class CLFunction
+	class CLFunction : public CLPrimitive
 	{
 	public:
-		CLFunction(CLModule& module, CXCursor cursor, CLPrimitive& parent);
+		CLFunction(CLPrimitive& parent, const string& name)
+			: CLPrimitive(name, &parent)
+		{}
 
-		CLModule& m_module;
-		CLPrimitive& m_parent;
-		string m_name;
-		string m_id;
-		string m_idstr;
-
+		CLQualType m_return_type;
 		std::vector<CLParam> m_params;
-		string m_returnType;
-		bool m_returnPointer;
-		string m_returnClsName;
-		string m_unqualReturnType;
-		bool m_is_function;
-		bool m_is_template;
-
-		string m_signature;
-		CLType* m_returnCls;
 	};
 
 	class CLMethod : public CLFunction
 	{
 	public:
-		CLMethod(CLType& parent, CXCursor cursor);
+		CLMethod(CLType& parent, const string& name)
+			: CLFunction(parent, name)
+		{}
 
+		bool m_overloaded = false;
+		bool m_const = false;
 		std::vector<CLParam> m_expected_params;
 	};
 
 	class CLConstructor : public CLMethod
 	{
 	public:
-		CLConstructor(CLType& parent, CXCursor cursor)
-			: CLMethod(parent, cursor)
+		CLConstructor(CLType& parent, const string& name)
+			: CLMethod(parent, name)
 		{}
-
-		//void createAggregate(constructors, components) :
-		//	constructor = copy.copy(self)
-		//	constructor.expected_params = [param.copy(i) for i, param in enumerate([param for constr in components for param in constr.params])]
-		//	constructor.params = [param for param in constructor.expected_params if(next((p for p in m_params if(p.equals(param)), None)]
-		//		constructor.combined = true
-		//		if(len(constructor.params) == len(constructor.expected_params) :
-		//			constructors.push_back(constructor)
 	};
 	
 	class CLStatic
 	{
 	public:
-		CLStatic(CLClass& parent, CXCursor cursor)
+		CLStatic(CLClass& parent)
 			: m_parent(parent)
-		{
-			m_member = spelling(cursor);
-			m_name = replace(spelling(cursor), "m_", "");
-		}
+		{}
 
 		CLClass& m_parent;
 		string m_member;
 		string m_name;
 	};
 
-	class CLMember // : public CLPrimitive
+	class CLMember
 	{
 	public:
-		CLMember(CLClass& parent, CXCursor cursor);
+		CLMember(CLClass& parent)
+			: m_parent(parent)
+		{}
 
 		CLClass& m_parent;
+		CLQualType m_type;
 
-		CLType* m_cls = nullptr;
-		unique_ptr<CLMethod> m_function = nullptr;
-
-		string m_clsname;
-		string m_type;
+		unique_ptr<CLMethod> m_method = nullptr;
+		bool m_setter;
 
 		string m_member;
 		string m_name;
@@ -474,18 +420,10 @@ namespace mud
 
 		std::vector<string> m_annotations;
 
-		bool m_pointer;
-		bool m_reference;
-
 		bool m_nonmutable = false;
 		bool m_structure = false;
 		bool m_link = false;
-		//bool m_component = false;
-
-		bool m_output = false;
-		bool m_input = false;
-
-		bool m_setter;
+		bool m_component = false;
 
 		bool m_has_default = false;
 		string m_default = "";
@@ -494,9 +432,9 @@ namespace mud
 	class CLClass : public CLType
 	{
 	public:
-		CLClass(CLModule& module, CXCursor cursor, CLPrimitive& parent);
-
-		string m_idstr;
+		CLClass(CLModule& module, CLPrimitive& parent, const string& name)
+			: CLType(module, parent, name)
+		{}
 
 		CXCursor m_cursor;
 
@@ -507,7 +445,6 @@ namespace mud
 
 		std::vector<string> m_annotations;
 
-		bool m_struct = false;
 		bool m_array = false;
 		size_t m_array_size = 0;
 		CLType* m_array_type = nullptr;
@@ -515,33 +452,28 @@ namespace mud
 
 		string m_template_name;
 		bool m_template_used = false;
-		CLClass* m_template;
+		CLClass* m_template = nullptr;
 		std::vector<string> m_template_types;
 
-		//CLClass* m_stem = nullptr;
-		//m_parts = []
-		//m_isModular = false
-		//m_isProto = false
+		string fix_template_element(const string& name)
+		{
+			if(m_template && has(m_template->m_template_types, name))
+				return m_template_types[index_of(m_template->m_template_types, name)];
+			else
+				return name;
+		}
 
-		void parse_contents(CXCursor cursor);
-		void parse_child(CXCursor cursor);
-
-	#if 0
-		void fix_template_element(name):
-			if(m_template && name in m_template.template_types:
-				return m_template_types[m_template.template_types.index(name)]
-			else:
-				return name
-    
-		void fix_template(name):
-			# first fix nested template types
-			real_types = [m_fix_template_element(t) for t in template_types(name)]
-			name = substitute_template(name, template_types(name), real_types)
-			# then fix type itself in case it is a template parameter
-			return m_fix_template_element(name)
-			#print "substituted template base name: ", name
-    
-	#endif
+		virtual string fix_template(const string& name) override
+		{
+			// first fix nested template types
+			std::vector<string> real_types;
+			for(const string& t : template_types(name))
+				real_types.push_back(this->fix_template_element(t));
+			string result = substitute_template(name, template_types(name), real_types);
+			// then fix type itself in case it is a template parameter
+			return this->fix_template_element(result);
+			// printf("substituted template base name: %s\n", name.c_str);
+		}
 	};
 
 	class CLContext
@@ -550,9 +482,6 @@ namespace mud
 		CLContext()
 			: m_root_namespace("")
 		{
-			m_namespaces[""] = m_root_namespace;
-
-			m_base_types = { "void", "bool", "int", "float", "double", "char", "unsigned char", "short", "unsigned short", "int", "unsigned int", "long", "unsigned long", "long long", "unsigned long long", "std::string", "cstring" };
 			m_base_aliases = { "uint8_t", "uint16_t", "uint32_t", "uint64_t", "size_t", "mud::Id" };
 		}
 
@@ -562,17 +491,18 @@ namespace mud
 		std::map<string, CLClass*> m_class_templates;
 		std::map<string, CLFunction*> m_func_templates;
 
-		std::map<string, CLNamespace> m_namespaces;
+		std::map<string, unique_ptr<CLNamespace>> m_namespaces;
 
-		std::vector<string> m_base_types;
 		std::vector<string> m_base_aliases;
+
+		std::set<string> m_parsed_files;
 
 		CLNamespace& get_namespace(const string& name, CLPrimitive& parent)
 		{
 			string full_name = parent.m_prefix + name;
 			if(m_namespaces.find(full_name) == m_namespaces.end())
-				m_namespaces[full_name] = CLNamespace(name, &parent);
-			return m_namespaces[full_name];
+				m_namespaces[full_name] = make_unique<CLNamespace>(name, &parent);
+			return *m_namespaces[full_name];
 		}
 	};
 
@@ -596,7 +526,7 @@ namespace mud
 			m_has_structs = file_exists((m_path + "\\" + "Structs.h").c_str());
 		}
 
-		CLContext m_context;
+		CLContext& m_context;
 		string m_namespace;
 		string m_name;
 		string m_dotname;
@@ -618,9 +548,6 @@ namespace mud
 
 		bool m_has_structs;
 
-		std::vector<CLFile*> m_headers = {};
-		std::vector<CLFile*> m_sources = {};
-    
 		std::vector<unique_ptr<CLClass>> m_classes = {};
 		std::vector<unique_ptr<CLClass>> m_class_templates = {};
 		std::vector<unique_ptr<CLEnum>> m_enums = {};
@@ -633,8 +560,6 @@ namespace mud
 		std::vector<unique_ptr<CLFunction>> m_functions = {};
 		std::vector<unique_ptr<CLFunction>> m_func_templates = {};
 
-		//print m_path
-        
 		CLNamespace& get_namespace(const string& name, CLPrimitive& parent)
 		{
 			return m_context.get_namespace(name, parent);
@@ -655,19 +580,6 @@ namespace mud
 			return *m_context.m_types[name];
 		}
 
-		CLType* find_type_in(CLPrimitive* parent, const string& name, bool warn = true)
-		{
-			// stupid fix because clang FUCKING doesn"t always put the prefix in types ..............
-			if(has(m_context.m_types, name))
-				return m_context.m_types[name];
-			else if(parent && has(m_context.m_types, parent->m_prefix + name))
-				return m_context.m_types[parent->m_prefix + name];
-			else if(parent && parent->m_parent)
-				return this->find_type_in(parent->m_parent, name, warn);
-			else
-				return nullptr;
-		}
-
 		void register_type(CLType& type)
 		{
 			if(!type.m_is_template)
@@ -676,71 +588,34 @@ namespace mud
 				m_types.push_back(&type);
 				printf("Type %s\n", type.m_id.c_str());
 			}
-			else
-			{
-				//m_templates.push_back(&type);
-				printf("Template %s\n", type.m_id.c_str());
-			}
-		}
-
-		CLFunction& function(CXCursor cursor, CLPrimitive& parent)
-		{
-			//print "Function ", cursor.displayname
-			CLFunction& func = vector_emplace<CLFunction>(m_functions, *this, cursor, parent);
-			return func;
-		}
-
-		CLFunction& function_template(CXCursor cursor, CLPrimitive& parent)
-		{
-			//print "Function Template ", cursor.displayname
-			CLFunction& func = vector_emplace<CLFunction>(m_functions, *this, cursor, parent);
-			m_context.m_func_templates[func.m_name] = &func;
-			return func;
 		}
 
 		CLType& base_type(const string& name, CLPrimitive& parent)
 		{
-			CLType& type = vector_emplace<CLBaseType>(m_basetypes, *this, name, parent);
+			CLType& type = vector_emplace<CLBaseType>(m_basetypes, *this, parent, name);
 			register_type(type);
 			return type;
 		}
 
 		CLType& proxy_type(const string& name, CLPrimitive& parent)
 		{
-			//m_extern_types.push_back(make_unique<CLTypeProxy>(name));
-			CLType& type = vector_emplace<CLType>(m_extern_types, *this, name, parent);
+			CLType& type = vector_emplace<CLType>(m_extern_types, *this, parent, name);
 			register_type(type);
 			return type;
 		}
 
-		CLEnum& enum_type(CXCursor cursor, CLPrimitive& parent)
+		CLEnum& enum_type(CLPrimitive& parent, const string& name)
 		{
-			CLEnum& type = vector_emplace<CLEnum>(m_enums, *this, cursor, parent);
+			CLEnum& type = vector_emplace<CLEnum>(m_enums, *this, parent, name);
 			register_type(type);
 			return type;
 		}
 
 		CLSequence& sequence_type(const string& name, const string& content_name, CLType& content_type)
 		{
-			//#print ">>>>>>>>>>>> register_type Sequence", name, content_type.name, content_name
 			bool pointer = content_name.find("*") != string::npos;
 			CLSequence& cls = vector_emplace<CLSequence>(m_sequences, *this, name, content_type, pointer, m_context.m_root_namespace);
 			register_type(cls);
-			return cls;
-		}
-
-		CLClass& class_type(CXCursor cursor, CLPrimitive& parent)
-		{
-			CLClass& cls = vector_emplace<CLClass>(m_classes, *this, cursor, parent);
-			register_type(cls);
-			return cls;
-		}
-
-		CLClass& class_template(CXCursor cursor, CLPrimitive& parent)
-		{
-			CLClass& cls = vector_emplace<CLClass>(m_class_templates, *this, cursor, parent);
-			register_type(cls);
-			m_context.m_class_templates[cls.m_template_name] = &cls;
 			return cls;
 		}
 
@@ -749,7 +624,7 @@ namespace mud
 			for(const string& name : { "std::vector", "std::list", "mud::array", "array" })
 				if(clsname.find(name) == 0)
 				{
-					string content_name = clsname.substr(clsname.find("<") + 1);
+					string content_name = template_types(clsname)[0];
 					CLType* content_type = this->find_type(parent, replace(content_name, "*", ""));
 					if(content_type)
 						return sequence_type(name, content_name, *content_type);
@@ -757,25 +632,40 @@ namespace mud
 			for(const string& name : { "unique_ptr", "object_ptr" })
 				if(clsname.find(name) != string::npos)
 				{
-					return this->proxy_type(clsname, parent);
+					CLType& type = this->proxy_type(clsname, m_context.m_root_namespace);
+					type.m_move_only = true;
+					return type;
 				}
 			printf("WARNING: declaring empty type %s\n", clsname.c_str());
-			return this->proxy_type(clsname, parent);
+			return this->proxy_type(clsname, m_context.m_root_namespace);
+		}
+
+		CLType* find_type_in(CLPrimitive& parent, const string& name, bool warn = true)
+		{
+			// stupid fix because clang FUCKING doesn"t always put the prefix in types ..............
+			if(has(m_context.m_types, name))
+				return m_context.m_types[name];
+			else if(has(m_context.m_types, parent.m_prefix + name))
+				return m_context.m_types[parent.m_prefix + name];
+			else if(parent.m_parent)
+				return this->find_type_in(*parent.m_parent, name, warn);
+			else
+				return nullptr;
 		}
 
 		CLType* find_type(CLPrimitive& parent, const string& name, bool warn = true)
 		{
-			if(has(m_context.m_base_types, name) || has(m_context.m_base_aliases, name))
-				return &this->proxy_type(name, parent);
-			CLType* cls = this->find_type_in(&parent, name, warn);
+			CLType* cls = this->find_type_in(parent, name, warn);
 			if(!cls)
 			{
-				for(auto name_namespace : m_context.m_namespaces)
+				if(has(m_context.m_base_aliases, name))
+					return &this->proxy_type(name, m_context.m_root_namespace);
+				/*for(auto& name_namespace : m_context.m_namespaces)
 				{
-					cls = this->find_type_in(&name_namespace.second, name, warn);
+					cls = this->find_type_in(*name_namespace.second, name, warn);
 					if(cls)
 						break;
-				}
+				}*/
 			}
 			return cls;
 		}

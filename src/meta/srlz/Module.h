@@ -1,4 +1,3 @@
-
 #pragma once
 
 #if !defined MUD_MODULES || defined MUD_TYPE_LIB
@@ -10,7 +9,7 @@
 #include <meta/type/Module.h>
 #include <meta/refl/Module.h>
 #endif
-        
+
 #include <srlz/Forward.h>
 #include <srlz/Types.h>
 #include <srlz/Api.h>
@@ -27,7 +26,7 @@ namespace mud
 	{
 	private:
 		mud_srlz();
-
+		
 	public:
 		static mud_srlz& m() { static mud_srlz instance; return instance; }
 	};

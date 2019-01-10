@@ -11,10 +11,6 @@
 #include <cstdint>
 #endif
 
-#ifndef MUD_META_GENERATOR
-//#define MUD_NO_GLM
-#endif
-
 #include <math/VecMath.h>
 
 #ifdef MUD_NO_GLM
@@ -100,6 +96,9 @@ namespace mud
 	struct refl_ extern_ bvec4 {};
 	struct refl_ extern_ ivec2 {};
 	struct refl_ extern_ ivec4 {};
+
+	struct refl_ extern_ half3 {};
+	struct refl_ extern_ half2 {};
 }
 #endif
 

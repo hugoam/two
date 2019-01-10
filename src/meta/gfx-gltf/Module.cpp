@@ -15,9 +15,9 @@ module mud.gfx-gltf;
 namespace mud
 {
 	mud_gfx_gltf::mud_gfx_gltf()
-		: Module("mud::gfx-gltf", { &mud_infra::m(), &mud_type::m(), &mud_refl::m(), &mud_srlz::m(), &mud_math::m(), &mud_geom::m(), &mud_gfx::m() })
+		: Module("mud::gfx-gltf", { &mud_infra::m(), &mud_type::m(), &mud_refl::m(), &mud_srlz::m(), &mud_math::m(), &mud_geom::m(), &mud_gfx::m(), &mud_gltf::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_gfx_gltf_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_gfx_gltf::m();
+		return mud_gfx_gltf::m();
 }
 #endif

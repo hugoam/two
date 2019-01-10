@@ -17,7 +17,7 @@ namespace mud
 	mud_noise::mud_noise()
 		: Module("mud::noise", { &mud_infra::m(), &mud_type::m(), &mud_math::m(), &mud_geom::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_noise_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_noise::m();
+		return mud_noise::m();
 }
 #endif

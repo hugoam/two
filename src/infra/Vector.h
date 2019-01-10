@@ -63,10 +63,11 @@ namespace mud
 		std::vector<T> result; vector_extend(result, first); vector_extend(result, second); return result;
 	}
 
-	export_ template <class T>
-	inline void vector_push(std::vector<T>& vector, T value)
+	export_ template <class T, class... T_Args>
+	inline T& vector_push(std::vector<T>& vector, T_Args&&... args)
 	{
-		vector.insert(vector.begin(), value);
+		vector.push_back(T(std::forward<T_Args>(args)...));
+		return vector.back();
 	}
 
 	export_ template <class T>
@@ -156,7 +157,7 @@ namespace mud
 	}
 
 	export_ template <class T, class Pred>
-	inline T* vector_find(std::vector<T>& vector, Pred predicate)
+	inline const T* vector_find(const std::vector<T>& vector, Pred predicate)
 	{
 		auto it = std::find_if(vector.begin(), vector.end(), predicate);
 		return it != vector.end() ? &(*it) : nullptr;
@@ -217,6 +218,12 @@ namespace mud
 	export_ template <class T>
 	inline bool vector_swap(std::vector<T>& vector, T value) { if(vector_has(vector, value)) { vector_remove(vector, value); return false; } else { vector_add(vector, value); return true; } }
 	
+	export_ template <class T>
+	inline size_t index_of(const std::vector<T>& vector, const T& value)
+	{
+		return std::find(vector.begin(), vector.end(), value) - vector.begin();
+	}
+
 	template <class U, class T, class F>
 	export_ std::vector<U> transform(const std::vector<T>& vector, F func)
 	{

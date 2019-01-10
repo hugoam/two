@@ -1,4 +1,3 @@
-
 #pragma once
 
 #if !defined MUD_MODULES || defined MUD_TYPE_LIB
@@ -13,8 +12,9 @@
 #include <meta/math/Module.h>
 #include <meta/geom/Module.h>
 #include <meta/gfx/Module.h>
+#include <meta/gltf/Module.h>
 #endif
-        
+
 #include <gfx-gltf/Forward.h>
 #include <gfx-gltf/Types.h>
 #include <gfx-gltf/Api.h>
@@ -31,7 +31,7 @@ namespace mud
 	{
 	private:
 		mud_gfx_gltf();
-
+		
 	public:
 		static mud_gfx_gltf& m() { static mud_gfx_gltf instance; return instance; }
 	};

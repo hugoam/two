@@ -26,7 +26,7 @@ namespace mud
 		EventDispatcher& m_dispatcher;
 	};
 
-	export_ class MUD_CTX_EXPORT Keyboard : public InputDevice
+	export_ class refl_ MUD_CTX_EXPORT Keyboard : public InputDevice
 	{
 	public:
 		Keyboard(EventDispatcher& dispatcher);
@@ -74,7 +74,7 @@ namespace mud
 		MouseEvent m_pressed_event = {};
 	};
 
-	export_ class MUD_CTX_EXPORT Mouse : public InputDevice
+	export_ class refl_ MUD_CTX_EXPORT Mouse : public InputDevice
 	{
 	public:
 		Mouse(EventDispatcher& dispatcher, Keyboard& keyboard);

@@ -1,4 +1,3 @@
-
 #pragma once
 
 #if !defined MUD_MODULES || defined MUD_TYPE_LIB
@@ -10,9 +9,8 @@
 #include <meta/type/Module.h>
 #include <meta/math/Module.h>
 #include <meta/ctx/Module.h>
-#include <meta/ctx-glfw/Module.h>
 #endif
-        
+
 #include <bgfx/Forward.h>
 #include <bgfx/Types.h>
 #include <bgfx/Api.h>
@@ -29,7 +27,7 @@ namespace mud
 	{
 	private:
 		mud_bgfx();
-
+		
 	public:
 		static mud_bgfx& m() { static mud_bgfx instance; return instance; }
 	};

@@ -86,10 +86,6 @@ namespace mud
 	template <> func_ vec3 subtract<vec3>(vec3 a, vec3 b);
 	template <> func_ vec3 multiply<vec3>(vec3 a, vec3 b);
 	template <> func_ vec3 divide<vec3>(vec3 a, vec3 b);
-
-	export_ func_ float distance(const vec3& a, const vec3& b);
-	export_ func_ float length(const vec3& v);
-	export_ func_ float length2(const vec3& v);
 #endif
 
 	export_ template <class T>
@@ -108,3 +104,12 @@ namespace mud
 	export_ template struct refl_ struct_ Range<uint32_t>;
 	export_ template struct refl_ struct_ Range<Colour>;
 }
+
+#ifdef MUD_META_GENERATOR
+namespace glm
+{
+	export_ func_ float distance(const mud::vec3& a, const mud::vec3& b);
+	export_ func_ float length(const mud::vec3& v);
+	export_ func_ float length2(const mud::vec3& v);
+}
+#endif

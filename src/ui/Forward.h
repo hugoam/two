@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include <infra/Config.h>
@@ -13,19 +11,10 @@
 #define MUD_UI_EXPORT MUD_IMPORT
 #endif
 
-
-    
-    
-
-namespace std {
-
-    
-    
-}
-
-namespace mud {
-namespace ui {
-
+namespace mud
+{
+namespace ui
+{
     enum class PopupFlags : unsigned int;
     
     
@@ -50,26 +39,8 @@ namespace ui {
 }
 }
 
-namespace glm {
-
-    
-    
-}
-
-namespace bx {
-
-    
-    
-}
-
-namespace json11 {
-
-    
-    
-}
-
-namespace mud {
-
+namespace mud
+{
     enum Dim : unsigned int;
     enum FlowAxis : unsigned int;
     enum Pivot : unsigned int;
@@ -101,11 +72,13 @@ namespace mud {
     struct Shadow;
     struct Paint;
     struct TextPaint;
+	struct TextMarker;
     struct Gradient;
     struct TextCursor;
     struct TextSelection;
     class Text;
     class TextEdit;
+	struct Clipboard;
     struct NodeConnection;
     class Vg;
     class UiRenderer;
@@ -146,32 +119,3 @@ namespace mud {
     class Options;
     class Styler;
 }
-
-namespace mud {
-namespace detail {
-
-    
-    
-}
-}
-
-namespace mud {
-namespace gfx {
-
-    
-    
-}
-}
-
-namespace bimg {
-
-    
-    
-}
-
-namespace bgfx {
-
-    
-    
-}
-

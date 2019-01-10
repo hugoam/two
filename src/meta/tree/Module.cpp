@@ -17,7 +17,7 @@ namespace mud
 	mud_tree::mud_tree()
 		: Module("mud::tree", { &mud_infra::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_tree_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_tree::m();
+		return mud_tree::m();
 }
 #endif

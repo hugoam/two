@@ -164,13 +164,13 @@ namespace mud
 		edit.m_text.m_markers.clear();
 		for(const auto& line_error : script.m_compile_errors)
 		{
-			const Error& error = line_error.second;
+			const ScriptError& error = line_error.second;
 			edit.m_text.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
 		}
 
 		for(const auto& line_error : script.m_runtime_errors)
 		{
-			const Error& error = line_error.second;
+			const ScriptError& error = line_error.second;
 			edit.m_text.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
 		}
 

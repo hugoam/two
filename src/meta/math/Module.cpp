@@ -17,7 +17,7 @@ namespace mud
 	mud_math::mud_math()
 		: Module("mud::math", { &mud_infra::m(), &mud_type::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_math_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_math::m();
+		return mud_math::m();
 }
 #endif

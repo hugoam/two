@@ -17,7 +17,7 @@ namespace mud
 	mud_ctx::mud_ctx()
 		: Module("mud::ctx", { &mud_infra::m(), &mud_type::m(), &mud_math::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_ctx_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_ctx::m();
+		return mud_ctx::m();
 }
 #endif

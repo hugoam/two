@@ -17,7 +17,7 @@ namespace mud
 	mud_gfx_obj::mud_gfx_obj()
 		: Module("mud::gfx-obj", { &mud_infra::m(), &mud_type::m(), &mud_srlz::m(), &mud_math::m(), &mud_geom::m(), &mud_gfx::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_gfx_obj_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_gfx_obj::m();
+		return mud_gfx_obj::m();
 }
 #endif

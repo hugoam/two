@@ -15,7 +15,6 @@
 
 namespace mud
 {
-
 	export_ struct refl_ MUD_GFX_EXPORT AnimatedTrack
 	{
 		const AnimationTrack* m_track;
@@ -63,8 +62,8 @@ namespace mud
 		attr_ float m_speed_scale = 1.f;
 		attr_ float m_default_blend_time = 1.f;
 
+		meth_ void start(cstring animation, bool loop, float blend = 0.f, float speed = 1.f, bool transient = false);
 		meth_ void play(const Animation& animation, bool loop, float blend = 0.f, float speed = 1.f, bool transient = false);
-		meth_ void play(cstring animation, bool loop, float blend = 0.f, float speed = 1.f, bool transient = false);
 		meth_ void seek(float time);
 		meth_ void pause();
 		meth_ void stop();

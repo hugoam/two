@@ -33,7 +33,7 @@ function mud_dep(namespace, name, cppmodule, usage_decl, deps)
     return m
 end
 
-function mud_module(namespace, name, rootpath, subpath, decl, self_decl, usage_decl, deps, nomodule, noreflect)
+function mud_module(namespace, name, rootpath, subpath, self_decl, usage_decl, reflect, deps, nomodule)
     local m = {
         project = nil,
         cppmodule = true,
@@ -44,17 +44,13 @@ function mud_module(namespace, name, rootpath, subpath, decl, self_decl, usage_d
         root = rootpath,
         subdir = subpath,
         path = path.join(rootpath, subpath),
-        decl = decl,
+        decl = mud_module_decl,
         self_decl = self_decl,
         usage_decl = usage_decl,
+        reflect = reflect,
         deps = deps or {},
         nomodule = nomodule,
-        noreflect = noreflect,
     }
-    
-    if not m.decl then
-        m.decl = mud_module_decl
-    end
     
     if namespace then
         m.dotname = namespace .. "." .. m.dotname
@@ -65,7 +61,7 @@ function mud_module(namespace, name, rootpath, subpath, decl, self_decl, usage_d
         table.insert(MODULES, m)
     end
     
-    if not noreflect then
+    if reflect then
         m.refl = mud_refl(m)
     end
     
@@ -81,7 +77,8 @@ function mud_refl(m, force_project)
             table.insert(deps, m.refl)
         end
     end
-    m.refl = mud_module(m.namespace, m.name .. "-refl", m.root, path.join("meta", m.subdir), mud_refl_decl, nil, m.usage_decl, deps, true, true)
+    m.refl = mud_module(m.namespace, m.name .. "-refl", m.root, path.join("meta", m.subdir), nil, m.usage_decl, false, deps, true)
+    m.decl = mud_refl_decl
     m.refl.force_project = force_project
     m.refl.reflected = m
     return m.refl

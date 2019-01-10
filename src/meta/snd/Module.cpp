@@ -15,9 +15,9 @@ module mud.snd;
 namespace mud
 {
 	mud_snd::mud_snd()
-		: Module("mud::snd", {})
+		: Module("mud::snd", {  })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_snd_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_snd::m();
+		return mud_snd::m();
 }
 #endif

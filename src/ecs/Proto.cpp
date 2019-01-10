@@ -32,7 +32,6 @@ namespace mud
 			if(member.is_component())
 				this->add_part(*member.m_type);
 		this->add_part(m_type);
-
 	}
 
 	void Prototype::add_part(Type& type)

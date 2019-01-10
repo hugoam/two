@@ -1,4 +1,3 @@
-
 #pragma once
 
 #if !defined MUD_MODULES || defined MUD_TYPE_LIB
@@ -9,7 +8,7 @@
 #include <meta/type/Module.h>
 #include <meta/math/Module.h>
 #endif
-        
+
 #include <geom/Forward.h>
 #include <geom/Types.h>
 #include <geom/Api.h>
@@ -26,7 +25,7 @@ namespace mud
 	{
 	private:
 		mud_geom();
-
+		
 	public:
 		static mud_geom& m() { static mud_geom instance; return instance; }
 	};

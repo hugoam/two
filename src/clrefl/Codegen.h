@@ -16,42 +16,20 @@ namespace clgen
 		else return split(e.m_parent->m_id, "::");
 	}
 	
-#if 0
-def namespace_begin(n):
-    if n.name != '' :
-        return namespace_begin(n.parent) + 'namespace ' + n.name + ' {\n'
-    else:
-        return ''
-    
-def namespace_end(n):
-    if n.name != '' :
-        return namespace_end(n.parent) + '}\n'
-    else:
-        return ''
-#endif
-
-	string namespace_begin(const CLNamespace& e)
+	string namespace_begin(CLPrimitive& n)
 	{
-		string str = "";
-		const CLPrimitive* n = &e;
-		while(n->m_parent && n->m_parent->m_name != "")
-		{
-			str += "namespace {\n";
-			n = n->m_parent;
-		}
-		return str;
+		if(n.m_name != "")
+			return namespace_begin(*n.m_parent) + "namespace " + n.m_name + " {\n";
+		else
+			return "";
 	}
 
-	string namespace_end(const CLNamespace& e)
+	string namespace_end(CLPrimitive& n)
 	{
-		string str = "";
-		const CLPrimitive* n = &e;
-		while(n->m_parent && n->m_parent->m_name != "")
-		{
-			str += "}\n";
-			n = n->m_parent;
-		}
-		return str;
+		if(n.m_name != "")
+			return namespace_end(*n.m_parent) + "}\n";
+		else
+			return "";
 	}
 
 	string clnamespace(const CLPrimitive& e)
@@ -75,6 +53,12 @@ def namespace_end(n):
 			return "Ref()";
 		else if(pointer || !c.m_struct)
 			return "Ref(" + type_get(c) + ")";
+		else if(value == "")
+			return "var(" + c.m_id + "())";
+		else if(value[0] == '{')
+			return "var(" + c.m_id + value + ")";
+		else if(starts_with(value, c.m_id))
+			return "var(" + value + ")";
 		else
 			return "var(" + c.m_id + "(" + value + "))";
 	}
@@ -99,179 +83,181 @@ def namespace_end(n):
 			return var + " = Ref(" + string(pointer ? "" : "&") + value + ")";
 	}
    
-	string param_default(const CLParam& param)
+	string param_default(const CLParam& p)
 	{
-		return type_var(param.m_cls->m_id, *param.m_cls, param.m_pointer, param.m_default);
+		return type_var(p.m_type.m_type->m_id, *p.m_type.m_type, p.m_type.pointer(), p.m_default);
 	}
 
-	string param_refget(const CLParam& param, size_t index)
+	string param_refget(const CLParam& p, size_t index)
 	{
-		if(param.m_cls->m_id == "mud::Ref")
+		if(p.m_type.m_type->m_id == "mud::Ref")
 			return "args[" + to_string(index) + "]";
-		else if(param.m_pointer)
-			return "&val<" + param.m_cls->m_id + ">(args[" + to_string(index) + "])";
 		else
-			return "val<" + param.m_cls->m_id + ">(args[" + to_string(index) + "])";
+			return string(p.m_type.pointer() && !p.m_type.m_type->m_pointer ? "&" : "") + "val<" + p.m_type.m_type->m_id + ">(args[" + to_string(index) + "])";
 	}
 	
-	string param_forward(const CLParam& param, size_t index)
+	string param_forward(const CLParam& p, size_t index)
 	{
-		bool unique = param.m_type.find("unique_ptr") != string::npos || param.m_type.find("object_ptr") != string::npos;
-		return unique ? "std::move(" + param_refget(param, index) + ")" : param_refget(param, index);
+		if(p.m_type.m_type->m_id == "toy::OCollider")
+			int i = 0;
+		bool move = p.m_type.m_type->m_move_only && p.m_type.value();
+		return move ? "std::move(" + param_refget(p, index) + ")" : param_refget(p, index);
 	}
 
-	string param_flags(const CLParam& param)
+	string param_flags(const CLParam& p)
 	{
 		std::vector<string> flags;
-		if(param.m_nullable) flags.push_back("Param::Nullable");
-		if(param.m_output) flags.push_back("Param::Output");
-		if(param.m_has_default) flags.push_back("Param::Default");
+		if(p.m_type.nullable()) flags.push_back("Param::Nullable");
+		if(p.m_output) flags.push_back("Param::Output");
+		if(p.m_has_default) flags.push_back("Param::Default");
 		if(flags.size() == 0) return "";
 		else if(flags.size() == 1) return ", " + flags[0];
 		else return ", Param::Flags(" + join(flags, "|") + ")";
 	 }
 
-	string param_decl(const CLParam& param)
+	string param_decl(const CLParam& p)
 	{
-		return "{ "" + param.name + "", " + param_default(param) + param_flags(param) + " }";
+		return "{ \"" + p.m_name + "\", " + param_default(p) + param_flags(p) + " }";
 	}
 	
-	string function_signature(const CLFunction& func)
+	std::vector<string> function_args_types(const CLFunction& f)
 	{
-		std::vector<string> types;
-		for(const CLParam& param : func.m_params)
-			types.push_back(param.m_type);
-		return func.m_returnType + "(*)(" + join(types, ", ") + ")";
+		return transform<string>(f.m_params, [](const CLParam& p) { return p.m_type.m_spelling; });
 	}
 
-	string function_identity(const CLFunction& func)
+	string function_signature(const CLFunction& f)
 	{
-		return "function_id<" + function_signature(func) + ">(&" + func.m_id + ")";
+		return f.m_return_type.m_spelling + "(*)(" + join(function_args_types(f), ", ") + ")";
+	}
+
+	string method_signature(const CLMethod& m)
+	{
+		return m.m_return_type.m_spelling + "(" + m.m_parent->m_id + "::*)(" + join(function_args_types(m), ", ") + ")" + (m.m_const ? " const" : "");
+	}
+
+	string function_identity(const CLFunction& f)
+	{
+		return "function_id<" + function_signature(f) + ">(&" + f.m_id + ")";
 	}
 	
-	string function_return_def(const CLFunction& func)
+	string function_return_def(const CLFunction& f)
 	{
-		return type_var(func.m_returnType, *func.m_returnCls, func.m_returnPointer);
+		return type_var(f.m_return_type.m_spelling, *f.m_return_type.m_type, f.m_return_type.pointer());
 	}
 
 	string params_def(const std::vector<CLParam>& params)
 	{
-		// [param_decl(param) for param in params]
-		std::vector<string> decls;
-		for(const CLParam& param : params)
-			decls.push_back(param_decl(param));
+		std::vector<string> decls = transform<string>(params, [](const CLParam& p) { return param_decl(p); });
 		return params.size() > 0 ? "{ " + join(decls, ", ") + " }" : "{}";
 	}
 
 	string get_args(const std::vector<CLParam>& params)
 	{
-		std::vector<string> decls;
-		for(const CLParam& param : params)
-			decls.push_back(param_forward(param, param.m_index));
+		std::vector<string> decls = transform<string>(params, [](const CLParam& p) { return param_forward(p, p.m_index); });
 		return join(decls, ", ");
 	}
 
-	string method_identity(const CLType& c, const CLMethod& method)
+	string method_identity(const CLType& c, const CLMethod& m)
 	{
-		return "member_address(&" + c.m_id + "::" + method.m_name + ")";
+		string signature = m.m_overloaded || true ? "<" + method_signature(m) + ">" : "";
+		return "member_address" + signature + "(&" + c.m_id + "::" + m.m_name + ")";
 	}
 
-	string field_identity(const CLType& c, const CLMember& member)
+	string field_identity(const CLType& c, const CLMember& m)
 	{
-		return member.m_reference ? "Address()" : "member_address(&" + c.m_id + "::" + member.m_member;
+		return m.m_type.reference() ? "Address()" : "member_address(&" + c.m_id + "::" + m.m_member + ")";
 	}
 
-	string member_identity(const CLType& c, const CLMember& member)
+	string member_identity(const CLType& c, const CLMember& m)
 	{
-		return member.m_function ? method_identity(c, *member.m_function) : field_identity(c, member);
+		return m.m_method ? method_identity(c, *m.m_method) : field_identity(c, m);
 	}
 	
-	string member_flags(const CLType& c, const CLMember& member)
+	string member_flags(const CLType& c, const CLMember& m)
 	{
 		UNUSED(c);
 		std::vector<string> flags;
-		if(member.m_pointer) flags.push_back("Member::Pointer");
-		if(member.m_cls->m_struct && !member.m_pointer) flags.push_back("Member::Value");
-		if(member.m_nonmutable || member.m_reference) flags.push_back("Member::NonMutable");
-		if(member.m_structure) flags.push_back("Member::Structure");
-		//if(member.m_component) flags.push_back("Member::Component");
-		if(member.m_link || member.m_pointer || member.m_reference) flags.push_back("Member::Link");
+		if(m.m_type.pointer()) flags.push_back("Member::Pointer");
+		if(m.m_type.m_type->m_struct && !m.m_type.pointer()) flags.push_back("Member::Value");
+		if(m.m_nonmutable || m.m_type.reference()) flags.push_back("Member::NonMutable");
+		if(m.m_structure) flags.push_back("Member::Structure");
+		if(m.m_component) flags.push_back("Member::Component");
+		if(m.m_link || m.m_type.pointer() || m.m_type.reference()) flags.push_back("Member::Link");
 		if(flags.size() == 0) return "Member::None";
 		else if(flags.size() == 1) return flags[0];
 		else return "Member::Flags(" + join(flags, "|") + ")";
 	}
 	
-	string unused_args(const CLFunction& func)
+	string unused_args(const CLFunction& f)
 	{
-		return func.m_params.size() == 0 ? "UNUSED(args);" : "";
+		return f.m_params.size() == 0 ? "UNUSED(args); " : "";
 	}
 
 	string type_class(const CLType& c)
 	{
 		if(c.m_struct)
 			return "TypeClass::Struct";
-		//else if(c.isModular)
-		//	return "TypeClass::Complex";
 		else
 			return "TypeClass::Object";
 	}
 
-	string member_type(const CLMember& member)
+	string member_type(const CLMember& m)
 	{
-		return member.m_cls->m_id + (member.m_pointer ? "*" : "");
+		return m.m_type.m_type->m_id + (m.m_type.pointer() ? "*" : "");
 	}
 
-	string member_getter(const CLType& c, const CLMember& member)
+	string member_getter(const CLType& c, const CLMember& m)
 	{
-		if(member.m_function)
-			return "[](Ref object) { return Ref(" + string(!member.m_pointer ? "&" : "") + "val<" + c.m_id + ">(object)." + member.m_member + "()); }";
-		else if(member.m_reference)
-			return "[](Ref object) { return Ref(&val<" + c.m_id + ">(object)." + member.m_member + "); }";
+		if(m.m_method)
+			return "[](Ref object) { return Ref(" + string(!m.m_type.pointer() ? "&" : "") + "val<" + c.m_id + ">(object)." + m.m_member + "()); }";
+		else if(m.m_type.reference())
+			return "[](Ref object) { return Ref(&val<" + c.m_id + ">(object)." + m.m_member + "); }";
 		else
 			return "nullptr";
 	}
 
-	string member_setter_explicit(const CLType& c, const CLMember& member)
+	string member_setter_explicit(const CLType& c, const CLMember& m)
 	{
-		if(member.m_setter)
-			return "[](Ref object, const Var& v) { val<" + c.m_id + ">(object).set" + member.m_capname + "(val<" + member_type(member) + ">(v)); }";
-		else if(!member.m_nonmutable)
-			return "[](Ref object, const Var& v) { val<" + c.m_id + ">(object)." + member.m_member + " = val<" + member_type(member) + ">(v); }";
+		if(m.m_setter)
+			return "[](Ref object, const Var& v) { val<" + c.m_id + ">(object).set" + m.m_capname + "(val<" + member_type(m) + ">(v)); }";
+		else if(!m.m_nonmutable)
+			return "[](Ref object, const Var& v) { val<" + c.m_id + ">(object)." + m.m_member + " = val<" + member_type(m) + ">(v); }";
 		else
 			return "nullptr";
 	}
 
-	string member_setter(const CLType& c, const CLMember& member)
+	string member_setter(const CLType& c, const CLMember& m)
 	{
-		if(member.m_setter)
-			return "member_setter<" + member_type(member) + ">(&" + c.m_id + "::set" + member.m_capname + ")";
-		else if(!member.m_nonmutable)
-			return "member_setter<" + member_type(member) + ">(&" + c.m_id + "::" + member.m_member + ")";
+		if(m.m_setter)
+			return "member_setter<" + member_type(m) + ">(&" + c.m_id + "::set" + m.m_capname + ")";
+		else if(!m.m_nonmutable)
+			return "member_setter<" + member_type(m) + ">(&" + c.m_id + "::" + m.m_member + ")";
 		else
 			return "nullptr";
 	}
 
-	string member_default(const CLType& c, const CLMember& member)
+	string member_default(const CLType& c, const CLMember& m)
 	{
 		UNUSED(c);
-		if(member.m_cls->m_struct && !member.m_pointer)
-			return "var(" + member_type(member) + "(" + member.m_default + "))";
-		else
-			return "Ref(" + type_get(*member.m_cls) + ")";
+		return type_var(m.m_type.m_type->m_id, *m.m_type.m_type, m.m_type.pointer(), m.m_default);
+		//if(m.m_type.m_type->m_struct && !m.m_type.pointer())
+		//	return "var(" + member_type(m) + "(" + m.m_default + "))";
+		//else
+		//	return "Ref(" + type_get(*m.m_type.m_type) + ")";
 	}
 
-	string method_func(const CLType& c, const CLMethod& method)
+	string method_func(const CLType& c, const CLMethod& m)
 	{
-		string call = "val<" + c.m_id + ">(object)." + method.m_name + "(" + get_args(method.m_params) + ")";
-		if(method.m_returnType == "void")
-			return "[](Ref object, array<Var> args, Var& result) { UNUSED(result); " + unused_args(method) + call + "; }";
+		string call = "val<" + c.m_id + ">(object)." + m.m_name + "(" + get_args(m.m_params) + ")";
+		if(m.m_return_type.m_spelling == "void")
+			return "[](Ref object, array<Var> args, Var& result) { UNUSED(result); " + unused_args(m) + call + "; }";
 		else
-			return "[](Ref object, array<Var> args, Var& result) { " + unused_args(method) + value_assign(*method.m_returnCls, "result", method.m_returnPointer, call) + "; }";
+			return "[](Ref object, array<Var> args, Var& result) { " + unused_args(m) + value_assign(*m.m_return_type.m_type, "result", m.m_return_type.pointer(), call) + "; }";
 	}
 
 	string constructor_decl(const CLType& c, const CLConstructor& constr)
 	{
-		return type_get(c) + ", [](Ref ref, array<Var> args) { " + unused_args(constr) + "new(&val<" + c.m_id + ">(ref)) " + c.m_id + "( " + get_args(constr.m_params) + "); }, " + params_def(constr.m_expected_params);
+		return type_get(c) + ", [](Ref ref, array<Var> args) { " + unused_args(constr) + "new(&val<" + c.m_id + ">(ref)) " + c.m_id + "( " + get_args(constr.m_params) + " ); }, " + params_def(constr.m_expected_params);
 	}
 
 	string copy_constructor_decl(const CLType& c)
@@ -281,12 +267,12 @@ def namespace_end(n):
 
 	string member_decl(const CLType& c, const CLMember& m)
 	{
-		return type_get(c) + ", " + member_identity(c, m) + ", " + type_get(*m.m_cls) + ", \"" + m.m_name + "\", " + member_default(c, m) + ", " + member_flags(c, m) + ", " + member_getter(c, m);
+		return type_get(c) + ", " + member_identity(c, m) + ", " + type_get(*m.m_type.m_type) + ", \"" + m.m_name + "\", " + member_default(c, m) + ", " + member_flags(c, m) + ", " + member_getter(c, m);
 	}
 
 	string method_decl(const CLType& c, const CLMethod& m)
 	{
-		return type_get(c) + ", \"" + m.m_name + "\", " + method_identity(c, m) + ", " + method_func(c, m) = ", " + params_def(m.m_params) + ", " + function_return_def(m);
+		return type_get(c) + ", \"" + m.m_name + "\", " + method_identity(c, m) + ", " + method_func(c, m) + ", " + params_def(m.m_params) + ", " + function_return_def(m);
 	}
 
 	string static_decl(const CLType& c, const CLStatic& m)
@@ -332,6 +318,9 @@ def namespace_end(n):
 
 		p(i, "void " + m.m_id + "_meta(Module& m)");
 		p(i, "{");
+
+		i--;
+
 		p(i, "");
 
 		p(i, "// Base Types");
@@ -354,7 +343,7 @@ def namespace_end(n):
 				p(i, "{");
 				p(i, meta_decl(e, "TypeClass::Enum"));
 				p(i, "static Enum enu = { " + type_get(e) + ",");
-				p(i, e.m_scoped ? "true" : "false");
+				p(i, string(e.m_scoped ? "true" : "false") + ",");
 				p(i, "{ \"" + join(e.m_ids, "\", \"") + "\" },");
 				p(i, "{ " + join(e.m_values, ", ") + " },");
 				p(i, "{ var(" + join(e.m_scoped_ids, "), var(") + ") }");
@@ -395,23 +384,23 @@ def namespace_end(n):
 				p(i, "},");
 				p(i, "// copy constructor");
 				p(i, "{");
-				if(c.m_struct)
-					p(i, "{" + copy_constructor_decl(c) + "}");
+				if(c.m_struct && !c.m_move_only)
+					p(i, "{ " + copy_constructor_decl(c) + " }");
 				p(i, "},");
 				p(i, "// members");
 				p(i, "{");
 				for(CLMember& m : c.m_members)
-					p(i, "{ " + member_decl(c, m) + " }" + (&m == &c.m_members.back() ? "" : ", "));
+					p(i, "{ " + member_decl(c, m) + " }" + (&m == &c.m_members.back() ? "" : ","));
 				p(i, "},");
 				p(i, "// methods");
 				p(i, "{");
 				for(CLMethod& m : c.m_methods)
-					p(i, "{ " + method_decl(c, m) + " }" + (&m == &c.m_methods.back() ? "" : ", "));
+					p(i, "{ " + method_decl(c, m) + " }" + (&m == &c.m_methods.back() ? "" : ","));
 				p(i, "},");
 				p(i, "// static members");
 				p(i, "{");
 				for(CLStatic& m : c.m_statics)
-					p(i, "{ " + static_decl(c, m) + " }" + (&m == &c.m_statics.back() ? "" : ", "));
+					p(i, "{ " + static_decl(c, m) + " }" + (&m == &c.m_statics.back() ? "" : ","));
 				p(i, "}");
 				p(i, "};");
 				if(c.m_constructors.size() > 0 && !c.m_struct)
@@ -422,6 +411,8 @@ def namespace_end(n):
 				p(i, "}");
 			}
 
+		i++;
+
 		for(CLType* t : m.m_types)
 			if(t->m_reflect)
 				p(i, "m.m_types.push_back(&" + type_get(*t) + ");");
@@ -430,12 +421,12 @@ def namespace_end(n):
 		{
 			CLFunction& f = *pf;
 			p(i, "{");
-			if(f.m_returnType == "void")
+			if(f.m_return_type.m_spelling == "void")
 				p(i, "auto func = [](array<Var> args, Var& result) { UNUSED(result); " + unused_args(f) + " " + f.m_id + "(" + get_args(f.m_params) + "); };");
 			else
-				p(i, "auto func = [](array<Var> args, Var& result) { " + unused_args(f) + " " + value_assign(*f.m_returnCls, "result", f.m_returnPointer, f.m_id + "(" + get_args(f.m_params) + ")") + "; };");
+				p(i, "auto func = [](array<Var> args, Var& result) { " + unused_args(f) + " " + value_assign(*f.m_return_type.m_type, "result", f.m_return_type.pointer(), f.m_id + "(" + get_args(f.m_params) + ")") + "; };");
 			p(i, "std::vector<Param> params = " + params_def(f.m_params) + ";");
-			//p(i, "static Function f = { " + clnamespace(f) + ", \"" + f.m_name + "\", " + function_identity(f) + ", func, params, " + function_return_def(f) + " };");
+			p(i, "static Function f = { " + clnamespace(f) + ", \"" + f.m_name + "\", " + function_identity(f) + ", func, params, " + function_return_def(f) + " };");
 			p(i, "m.m_functions.push_back(&f);");
 			p(i, "}");
 		}
@@ -465,7 +456,7 @@ def namespace_end(n):
 
 		for(auto& key_namespace : m.m_context.m_namespaces)
 		{
-			CLNamespace& n = key_namespace.second;
+			CLNamespace& n = *key_namespace.second;
 			
 			p(i, namespace_begin(n));
 			for(auto& e : m.m_enums)
@@ -488,10 +479,49 @@ def namespace_end(n):
 		return t;
 	}
 
+	string convert_h_template(CLModule& m)
+	{
+		string t;
+		auto p = [&](int& i, const string& s) {	write_line(t, i, s); };
+		int i = 0;
+
+		p(i, "#pragma once");
+		p(i, "");
+		p(i, "#include <" + m.m_subdir + "/Types.h>");
+		p(i, "");
+		p(i, "#if !defined MUD_MODULES || defined MUD_TYPE_LIB");
+		p(i, "#include <refl/Meta.h>");
+		p(i, "#include <refl/Enum.h>");
+		p(i, "#include <infra/StringConvert.h>");
+		p(i, "#endif");
+		p(i, "");
+		p(i, "namespace mud");
+		p(i, "{");
+		for(auto& e : m.m_enums)
+		if(e->m_reflect)
+		{
+			p(i, "export_ template <> inline void from_string(const string& str, " + e->m_id + "& val) { val = static_cast<" + e->m_id + ">(enu<" + e->m_id + ">().value(str.c_str())); };");
+			p(i, "export_ template <> inline void to_string(const " + e->m_id + "& val, string& str) { str = enu<" + e->m_id + ">().m_map[size_t(val)]; };");
+			p(i, "");
+		}
+		p(i, "");
+		for(auto& c : m.m_classes)
+		if(c->m_array)
+		{
+			p(i, "export_ template <> inline void from_string(const string& str, " + c->m_id + "& val) { string_to_fixed_vector<" + c->m_id + ", " + c->m_array_type->m_id + ">(str, val); };");
+			p(i, "export_ template <> inline void to_string(const " + c->m_id + "& val, string& str) { fixed_vector_to_string<" + c->m_id + ", " + to_string(c->m_array_size) + ">(val, str); };");
+			p(i, "");
+		}
+		p(i, "}");
+
+		return t;
+	}
+
 	string module_h_template(CLModule& m)
 	{
 		string t;
 		auto p = [&](int& i, const string& s) {	write_line(t, i, s); };
+		auto s = [&](int& i, const string& s) { i--; write_line(t, i, s); i++; };
 		int i = 0;
 
 		p(i, "#pragma once");
@@ -522,10 +552,10 @@ def namespace_end(n):
 		}
 		p(i, "export_ class " + m.m_refl_export + " " + m.m_id + " : public Module");
 		p(i, "{");
-		p(i, "private:");
+		s(i, "private:");
 		p(i, m.m_id + "();");
 		p(i, "");
-		p(i, "public:");
+		s(i, "public:");
 		p(i, "static " + m.m_id + "& m() { static " + m.m_id + " instance; return instance; }");
 		p(i, "};");
 		if(m.m_namespace != "")
@@ -589,10 +619,11 @@ def namespace_end(n):
 	string types_h_template(CLModule& m)
 	{
 		string t;
-		auto p = [&](int& i, const string& s) {	write_line(t, i, s); };
+		auto p = [&](int& i, const string& s) {	write_line(t, i, s, true); };
 		int i = 0;
-		#pragma once
 
+		p(i, "#pragma once");
+		p(i, "");
 		p(i, "#include <" + m.m_subdir + "/Forward.h>");
 		p(i, "");
 		p(i, "#if !defined MUD_MODULES || defined MUD_TYPE_LIB");
@@ -638,7 +669,7 @@ def namespace_end(n):
 	string types_cpp_template(CLModule& m)
 	{
 		string t;
-		auto p = [&](int& i, const string& s) {	write_line(t, i, s); };
+		auto p = [&](int& i, const string& s) {	write_line(t, i, s, true); };
 		int i = 0;
 
 		p(i, "#include <infra/Cpp20.h>");
@@ -649,7 +680,6 @@ def namespace_end(n):
 		p(i, "#include <" + m.m_subdir + "/Types.h>");
 		p(i, "#include <" + m.m_subdir + "/Api.h>");
 		p(i, "#include <type/Vector.h>");
-		p(i, "//#include <ecs/Proto.h>");
 		p(i, "#endif");
 		p(i, "");
 		p(i, "namespace mud");
@@ -666,6 +696,68 @@ def namespace_end(n):
 		p(i, "}");
 
 		return t;
+	}
+
+	void amalgam_h_template(CLModule& m)
+	{
+#if 0
+{
+	"project": "${ module.namespace }${ module.name }.h",
+	"target": "${ module.namespace }${ module.name }.h",
+	"sources": [
+% for h in module.headers :
+		"${ module.subdir }/${ h }"${ "," if not loop.last else "" }
+% endfor
+	],
+	"include_paths": [
+		""
+	],
+	"includes_map": {
+% for m in module.dependencies :
+		"${ m.name }/": "${ m.namespace }${ m.name }.h"${ "," if not loop.last else "" }
+% endfor
+	},
+	"ignore": [
+		"Generated"
+	],
+	"clean_strings": [
+		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",
+		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
+		"//  This notice and the license may not be removed or altered from any source distribution.",
+		"/* mud */"
+	]
+}
+#endif
+	}
+
+	void amalgam_cpp_template(CLModule& m)
+	{
+#if 0
+{
+	"project": "${ module.namespace }${ module.name }.cpp",
+	"target": "${ module.namespace }${ module.name }.cpp",
+	"sources": [
+% for s in module.sources :
+		"${ module.subdir }/${ s }"${ "," if not loop.last else "" }
+% endfor
+	],
+	"include_paths": [
+        ""
+	],
+    "includes_map": {
+		"${ module.name }/": "${ module.namespace }${ module.name }.h"${ "," if len(module.dependencies) > 0 else "" }
+% for m in module.dependencies :
+		"${ m.name }/": "${ m.namespace }${ m.name }.h"${ "," if not loop.last else "" }
+% endfor
+    },
+	"clean_strings": [
+		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",
+		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
+		"//  This notice and the license may not be removed or altered from any source distribution.",
+		"/* mud */"
+	]
+}
+#endif
 	}
 }
 }

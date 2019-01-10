@@ -20,6 +20,7 @@
 #include <vector>
 #endif
 
+
 namespace mud
 {
     // Exported types
@@ -30,11 +31,10 @@ namespace mud
     export_ template <> MUD_FRACT_EXPORT Type& type<mud::FractSample>();
     export_ template <> MUD_FRACT_EXPORT Type& type<mud::FractTab>();
     export_ template <> MUD_FRACT_EXPORT Type& type<mud::Pattern>();
-    export_ template <> MUD_FRACT_EXPORT Type& type<mud::array_3d<float>>();
     
-	export_ template struct MUD_FRACT_EXPORT Typed<std::vector<mud::Circlifier*>>;
-	export_ template struct MUD_FRACT_EXPORT Typed<std::vector<mud::Fract*>>;
-	export_ template struct MUD_FRACT_EXPORT Typed<std::vector<mud::FractSample*>>;
-	export_ template struct MUD_FRACT_EXPORT Typed<std::vector<mud::FractTab*>>;
-	export_ template struct MUD_FRACT_EXPORT Typed<std::vector<mud::Pattern*>>;
+    export_ template struct MUD_FRACT_EXPORT Typed<std::vector<mud::Circlifier*>>;
+    export_ template struct MUD_FRACT_EXPORT Typed<std::vector<mud::Fract*>>;
+    export_ template struct MUD_FRACT_EXPORT Typed<std::vector<mud::FractSample*>>;
+    export_ template struct MUD_FRACT_EXPORT Typed<std::vector<mud::FractTab*>>;
+    export_ template struct MUD_FRACT_EXPORT Typed<std::vector<mud::Pattern*>>;
 }

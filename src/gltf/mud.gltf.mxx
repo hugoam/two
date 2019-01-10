@@ -2,17 +2,20 @@
 
 #include <obj/Config.h>
 
-export module mud.infra.refl;
+export module mud.gfx.gltf;
 export import std.core;
 export import std.io;
 export import std.threading;
 export import std.regex;
 
+export import json11;
 export import mud.infra;
 export import mud.obj;
-export import mud.pool;
 export import mud.refl;
-export import mud.infra;
+export import mud.srlz;
+export import mud.math;
+export import mud.geom;
+export import mud.gfx;
 
-#include <meta/infra/Api.h>
+#include <gfx-gltf/Api.h>
 

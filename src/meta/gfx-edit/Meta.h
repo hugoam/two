@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #ifndef MUD_MODULES
@@ -14,22 +12,13 @@
 namespace mud
 {
     void mud_gfx_edit_meta(Module& m)
-    {   
+    {
+    
     // Base Types
     
     // Enums
-
+    
     // Sequences
     
-    
-    
-    
-    
-    
-    
-    
-    
-        
-
     }
 }

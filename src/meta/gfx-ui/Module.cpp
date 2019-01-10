@@ -15,10 +15,9 @@ module mud.gfx-ui;
 namespace mud
 {
 	mud_gfx_ui::mud_gfx_ui()
-		: Module("mud::gfx-ui", { &mud_infra::m(), &mud_tree::m(), &mud_type::m(), &mud_math::m(), &mud_geom::m(), &mud_ctx::m(), 
-								  &mud_ui::m(), &mud_gfx::m(), &mud_gfx_pbr::m() })
+		: Module("mud::gfx-ui", { &mud_infra::m(), &mud_tree::m(), &mud_type::m(), &mud_math::m(), &mud_geom::m(), &mud_ctx::m(), &mud_ui::m(), &mud_gfx::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_gfx_ui_meta(*this);
 	}
 }
@@ -27,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_gfx_ui::m();
+		return mud_gfx_ui::m();
 }
 #endif

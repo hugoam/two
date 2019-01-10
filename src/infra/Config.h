@@ -9,6 +9,7 @@
 #ifndef MUD_META_GENERATOR
 #define refl_   // Reflect
 #define struct_ // Struct
+#define nocopy_ // Nocopy type
 #define array_	// Array type
 #define extern_ // Extern type
 #define comp_   // Component

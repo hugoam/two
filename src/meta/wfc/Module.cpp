@@ -17,7 +17,7 @@ namespace mud
 	mud_wfc::mud_wfc()
 		: Module("mud::wfc", { &mud_infra::m(), &mud_type::m(), &mud_srlz::m(), &mud_math::m(), &mud_geom::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_wfc_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_wfc::m();
+		return mud_wfc::m();
 }
 #endif

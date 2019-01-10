@@ -1,5 +1,3 @@
-
-
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
@@ -8,7 +6,6 @@ module mud.wfc-gfx;
 #include <wfc-gfx/Types.h>
 #include <wfc-gfx/Api.h>
 #include <type/Vector.h>
-//#include <ecs/Proto.h>
 #endif
 
 namespace mud

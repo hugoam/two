@@ -36,7 +36,7 @@ namespace mud
 		item.m_rig = &m_rig;
 	}
 
-	void Animated::play(cstring name, bool loop, float blend, float speed, bool transient)
+	void Animated::start(cstring name, bool loop, float blend, float speed, bool transient)
 	{
 		for(Animation* animation : m_rig.m_skeleton.m_animations)
 			if(animation->m_name == name)

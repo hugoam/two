@@ -15,7 +15,7 @@ namespace mud
 {
 	using cstring = const char*;
 
-	export_ class MUD_UI_EXPORT Vg
+	export_ class refl_ MUD_UI_EXPORT Vg
 	{
 	public:
 		Vg(cstring resource_path);

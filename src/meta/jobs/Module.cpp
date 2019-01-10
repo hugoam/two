@@ -15,9 +15,9 @@ module mud.jobs;
 namespace mud
 {
 	mud_jobs::mud_jobs()
-		: Module("mud::jobs", {})
+		: Module("mud::jobs", { &mud_infra::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_jobs_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_jobs::m();
+		return mud_jobs::m();
 }
 #endif

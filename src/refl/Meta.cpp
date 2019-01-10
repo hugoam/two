@@ -77,6 +77,11 @@ namespace mud
 		for(size_t i = 0; i < m_names.size(); ++i)
 		{
 			size_t index = m_values[i];
+			if(index > size_t(1 << 16))
+			{
+				printf("WARNING: enum index %s::%s above 2^16, something is fishy\n", type.m_name, m_names[i]);
+				continue;
+			}
 			m_map.resize(index + 1);
 			m_map[index] = m_names[i];
 		}

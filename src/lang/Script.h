@@ -43,7 +43,7 @@ namespace mud
 		Wren
 	};
 
-	export_ struct refl_ MUD_LANG_EXPORT Error
+	export_ struct refl_ MUD_LANG_EXPORT ScriptError
 	{
 		size_t m_line;
 		size_t m_column;
@@ -64,8 +64,8 @@ namespace mud
 		using Callable::operator();
 		virtual void operator()(array<Var> args, Var& result) const;
 
-		mutable std::map<int, Error> m_compile_errors;
-		mutable std::map<int, Error> m_runtime_errors;
+		mutable std::map<int, ScriptError> m_compile_errors;
+		mutable std::map<int, ScriptError> m_runtime_errors;
 	};
 
 	export_ class refl_ MUD_LANG_EXPORT Interpreter : public NonCopy
@@ -108,7 +108,7 @@ namespace mud
 		constr_ ScriptClass(const string& name, const std::vector<Type*>& parts);
 
 		attr_ string m_name;
-		attr_ Type m_type;
+		attr_ Type m_class_type;
 		attr_ Class m_class;
 	};
 }

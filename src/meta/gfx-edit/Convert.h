@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <gfx-edit/Types.h>
@@ -11,4 +10,5 @@
 
 namespace mud
 {
+	
 }

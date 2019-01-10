@@ -17,7 +17,7 @@ namespace mud
 	mud_lang::mud_lang()
 		: Module("mud::lang", { &mud_infra::m(), &mud_type::m(), &mud_pool::m(), &mud_refl::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_lang_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_lang::m();
+		return mud_lang::m();
 }
 #endif

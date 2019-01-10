@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include <infra/Config.h>
@@ -11,15 +9,9 @@
 #define MUD_POOL_EXPORT MUD_IMPORT
 #endif
 
-
-    
-    
-
-namespace mud {
-
-    
-    
+namespace mud
+{
+	class HandlePool;
     class Pool;
     class ObjectPool;
 }
-

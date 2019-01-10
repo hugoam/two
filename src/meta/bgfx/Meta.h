@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #ifndef MUD_MODULES
@@ -14,19 +12,13 @@
 namespace mud
 {
     void mud_bgfx_meta(Module& m)
-    {   
-		UNUSED(m);
+    {
+    
     // Base Types
     
     // Enums
     
     // Sequences
-    
-    
-    
-    
-
-    
     
     }
 }

@@ -32,7 +32,8 @@ namespace mud
     export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise::NoiseType>();
     
     export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise>();
-	export_ template <> MUD_NOISE_EXPORT Type& type<mud::array_3d<float>>();
+    export_ template <> MUD_NOISE_EXPORT Type& type<mud::array_3d<float>>();
     
-	export_ template struct MUD_NOISE_EXPORT Typed<std::vector<mud::Noise*>>;
+    export_ template struct MUD_NOISE_EXPORT Typed<std::vector<mud::Noise*>>;
+    export_ template struct MUD_NOISE_EXPORT Typed<std::vector<mud::array_3d<float>*>>;
 }

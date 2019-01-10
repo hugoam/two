@@ -12,7 +12,6 @@
 #include <type/Types.h>
 #include <math/Types.h>
 #include <ctx/Types.h>
-#include <ctx-glfw/Types.h>
 #endif
 
 #ifndef MUD_CPP_20

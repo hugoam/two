@@ -1,5 +1,3 @@
-
-
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
@@ -8,7 +6,6 @@ module mud.math;
 #include <math/Types.h>
 #include <math/Api.h>
 #include <type/Vector.h>
-//#include <ecs/Proto.h>
 #endif
 
 namespace mud
@@ -25,6 +22,7 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<float>>() { static Type ty("AutoStat<float>"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<int>>() { static Type ty("AutoStat<int>"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Colour>() { static Type ty("Colour"); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::Gauge>() { static Type ty("Gauge"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Image>() { static Type ty("Image"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Image256>() { static Type ty("Image256"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::ImageAtlas>() { static Type ty("ImageAtlas"); return ty; }
@@ -34,6 +32,7 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::Range<mud::quat>>() { static Type ty("Range<mud::quat>"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Range<mud::vec3>>() { static Type ty("Range<mud::vec3>"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Range<uint32_t>>() { static Type ty("Range<uint32_t>"); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::Ratio>() { static Type ty("Ratio"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Time>() { static Type ty("Time"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::TimeSpan>() { static Type ty("TimeSpan"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Transform>() { static Type ty("Transform"); return ty; }
@@ -49,6 +48,8 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::ValueTrack<uint32_t>>() { static Type ty("ValueTrack<uint32_t>"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::bvec3>() { static Type ty("bvec3"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::bvec4>() { static Type ty("bvec4"); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::half2>() { static Type ty("half2"); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::half3>() { static Type ty("half3"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::ivec2>() { static Type ty("ivec2"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::ivec3>() { static Type ty("ivec3"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::ivec4>() { static Type ty("ivec4"); return ty; }
@@ -60,8 +61,7 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::vec2>() { static Type ty("vec2"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::vec3>() { static Type ty("vec3"); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::vec4>() { static Type ty("vec4"); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::SpriteAtlas>() { static Type ty("SpriteAtlas", type<mud::ImageAtlas>()); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Sprite>() { static Type ty("Sprite", type<mud::Image>()); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::Ratio>() { static Type ty("Ratio"); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::Gauge>() { static Type ty("Gauge"); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::SpriteAtlas>() { static Type ty("SpriteAtlas", type<mud::ImageAtlas>()); return ty; }
+    template <> MUD_MATH_EXPORT Type& type<mud::TextureAtlas>() { static Type ty("TextureAtlas", type<mud::ImageAtlas>()); return ty; }
 }

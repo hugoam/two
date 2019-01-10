@@ -13,51 +13,15 @@
 #define MUD_LANG_EXPORT MUD_IMPORT
 #endif
 
-
-    
-    
-
-namespace std {
-
-    
-    
-}
-
-namespace mud {
-namespace ui {
-
-    
-    
-}
-}
-
-namespace glm {
-
-    
-    
-}
-
-namespace bgfx {
-
-    
-    
-}
-
-namespace json11 {
-
-    
-    
-}
-
-namespace mud {
-
+namespace mud
+{
     enum class Language : unsigned int;
     enum StreamModifier : unsigned int;
     enum ValveKind : unsigned int;
     
-    
     class Script;
     class TextScript;
+	struct ScriptError;
     class Interpreter;
     class ScriptClass;
     class LuaInterpreter;

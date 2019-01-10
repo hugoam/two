@@ -17,7 +17,7 @@ namespace mud
 	mud_geom::mud_geom()
 		: Module("mud::geom", { &mud_type::m(), &mud_math::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_geom_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_geom::m();
+		return mud_geom::m();
 }
 #endif

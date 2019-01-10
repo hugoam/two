@@ -17,7 +17,7 @@ namespace mud
 	mud_bgfx::mud_bgfx()
 		: Module("mud::bgfx", { &mud_infra::m(), &mud_type::m(), &mud_math::m(), &mud_ctx::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_bgfx_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_bgfx::m();
+		return mud_bgfx::m();
 }
 #endif

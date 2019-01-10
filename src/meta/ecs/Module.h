@@ -1,4 +1,3 @@
-
 #pragma once
 
 #if !defined MUD_MODULES || defined MUD_TYPE_LIB
@@ -10,7 +9,7 @@
 #include <meta/type/Module.h>
 #include <meta/refl/Module.h>
 #endif
-        
+
 #include <ecs/Forward.h>
 #include <ecs/Types.h>
 #include <ecs/Api.h>
@@ -27,7 +26,7 @@ namespace mud
 	{
 	private:
 		mud_ecs();
-
+		
 	public:
 		static mud_ecs& m() { static mud_ecs instance; return instance; }
 	};

@@ -385,7 +385,7 @@ namespace mud
 
 	export_ extern MUD_ECS_EXPORT ECS* s_ecs[256];
 
-	struct MUD_ECS_EXPORT Entity
+	struct refl_ struct_ MUD_ECS_EXPORT Entity
 	{
 		Entity() {}
 		Entity(uint32_t handle, uint32_t stream) : m_stream(stream), m_handle(handle){}
@@ -430,7 +430,7 @@ namespace mud
 	}
 
 	template <class T>
-	struct ComponentHandle : public Entity
+	struct refl_ struct_ ComponentHandle : public Entity
 	{
 		ComponentHandle() {}
 		ComponentHandle(uint32_t handle, uint32_t stream) : Entity(handle, stream) {}
@@ -445,7 +445,7 @@ namespace mud
 	};
 
 	template <class T>
-	struct EntityHandle : public ComponentHandle<T>
+	struct refl_ struct_ nocopy_ EntityHandle : public ComponentHandle<T>
 	{
 		EntityHandle() {}
 		EntityHandle(uint32_t handle, uint32_t stream) : ComponentHandle<T>(handle, stream) {}

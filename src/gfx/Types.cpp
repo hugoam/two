@@ -1,5 +1,3 @@
-
-
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
@@ -8,12 +6,12 @@ module mud.gfx;
 #include <gfx/Types.h>
 #include <gfx/Api.h>
 #include <type/Vector.h>
-//#include <ecs/Proto.h>
 #endif
 
 namespace mud
 {
     // Exported types
+    template <> MUD_GFX_EXPORT Type& type<mud::AnimationTarget>() { static Type ty("mud::AnimationTarget"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::BackgroundMode>() { static Type ty("mud::BackgroundMode"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::BlendMode>() { static Type ty("mud::BlendMode"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::CullMode>() { static Type ty("mud::CullMode"); return ty; }
@@ -24,18 +22,13 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::IsometricAngle>() { static Type ty("mud::IsometricAngle"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ItemShadow>() { static Type ty("mud::ItemShadow"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::LightType>() { static Type ty("mud::LightType"); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Lighting>() { static Type ty("mud::Lighting"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MSAA>() { static Type ty("mud::MSAA"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialFlag>() { static Type ty("mud::MaterialFlag"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ModelFormat>() { static Type ty("mud::ModelFormat"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Month>() { static Type ty("mud::Month"); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::PassType>() { static Type ty("mud::PassType"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::PbrDiffuseMode>() { static Type ty("mud::PbrDiffuseMode"); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::PbrShaderOption>() { static Type ty("mud::PbrShaderOption"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::PbrSpecularMode>() { static Type ty("mud::PbrSpecularMode"); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::PrefabType>() { static Type ty("mud::PrefabType"); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::ShaderOption>() { static Type ty("mud::ShaderOption"); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::ShaderOptionFilter>() { static Type ty("mud::ShaderOptionFilter"); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::ShaderOptionResolve>() { static Type ty("mud::ShaderOptionResolve"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ShaderType>() { static Type ty("mud::ShaderType"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Shading>() { static Type ty("mud::Shading"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ShadowFlags>() { static Type ty("mud::ShadowFlags"); return ty; }
@@ -69,7 +62,9 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::GfxBlock>() { static Type ty("GfxBlock"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::GfxContext>() { static Type ty("GfxContext"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::GfxSystem>() { static Type ty("GfxSystem"); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::Gnode>() { static Type ty("Gnode"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ImmediateDraw>() { static Type ty("ImmediateDraw"); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::ImportConfig>() { static Type ty("ImportConfig"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Item>() { static Type ty("Item"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Joint>() { static Type ty("Joint"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Light>() { static Type ty("Light"); return ty; }
@@ -78,13 +73,11 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::MaterialParam<mud::Colour>>() { static Type ty("MaterialParam<mud::Colour>"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Mesh>() { static Type ty("Mesh"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Model>() { static Type ty("Model"); return ty; }
-	template <> MUD_GFX_EXPORT Type& type<mud::ImportConfig>() { static Type ty("ImportConfig"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ModelItem>() { static Type ty("ModelItem"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Node3>() { static Type ty("Node3"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::ParticleGenerator>() { static Type ty("ParticleGenerator"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::PbrMaterialBlock>() { static Type ty("PbrMaterialBlock"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Prefab>() { static Type ty("Prefab"); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::PrefabNode>() { static Type ty("PrefabNode"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Program>() { static Type ty("Program"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Radiance>() { static Type ty("Radiance"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::RenderFrame>() { static Type ty("RenderFrame"); return ty; }
@@ -100,13 +93,13 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::UnshadedMaterialBlock>() { static Type ty("UnshadedMaterialBlock"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Viewport>() { static Type ty("Viewport"); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::BlockCopy>() { static Type ty("BlockCopy", type<mud::GfxBlock>()); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>() { static Type ty("DrawBlock", type<mud::GfxBlock>()); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::BlockDepth>() { static Type ty("BlockDepth", type<mud::DrawBlock>()); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::BlockFilter>() { static Type ty("BlockFilter", type<mud::GfxBlock>()); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::BlockParticles>() { static Type ty("BlockParticles", type<mud::GfxBlock>()); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::BlockResolve>() { static Type ty("BlockResolve", type<mud::GfxBlock>()); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::BlockSky>() { static Type ty("BlockSky", type<mud::GfxBlock>()); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::DrawBlock>() { static Type ty("DrawBlock", type<mud::GfxBlock>()); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::BlockDepth>() { static Type ty("BlockDepth", type<mud::DrawBlock>()); return ty; }
+    template <> MUD_GFX_EXPORT Type& type<mud::ClusteredFrustum>() { static Type ty("ClusteredFrustum", type<mud::Frustum>()); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::Particles>() { static Type ty("Particles", type<mud::ParticleGenerator>()); return ty; }
     template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>() { static Type ty("RenderTarget", type<mud::FrameBuffer>()); return ty; }
-    template <> MUD_GFX_EXPORT Type& type<mud::Gnode>() { static Type ty("Gnode"); return ty; }
 }

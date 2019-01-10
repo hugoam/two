@@ -17,7 +17,7 @@ namespace mud
 	mud_ui::mud_ui()
 		: Module("mud::ui", { &mud_infra::m(), &mud_type::m(), &mud_math::m(), &mud_ctx::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_ui_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_ui::m();
+		return mud_ui::m();
 }
 #endif

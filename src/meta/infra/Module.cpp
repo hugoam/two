@@ -15,9 +15,9 @@ module mud.infra;
 namespace mud
 {
 	mud_infra::mud_infra()
-		: Module("mud::infra", {})
+		: Module("mud::infra", {  })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_infra_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_infra::m();
+		return mud_infra::m();
 }
 #endif

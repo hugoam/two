@@ -1,4 +1,3 @@
-
 #pragma once
 
 #if !defined MUD_MODULES || defined MUD_TYPE_LIB
@@ -8,7 +7,7 @@
 #ifndef MUD_MODULES
 #include <meta/infra/Module.h>
 #endif
-        
+
 #include <tree/Forward.h>
 #include <tree/Types.h>
 #include <tree/Api.h>
@@ -25,7 +24,7 @@ namespace mud
 	{
 	private:
 		mud_tree();
-
+		
 	public:
 		static mud_tree& m() { static mud_tree instance; return instance; }
 	};

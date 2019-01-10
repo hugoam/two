@@ -11,33 +11,16 @@
 #ifdef MUD_NO_GLM
 #ifndef MUD_META_GENERATOR
 
-
-
-//
 // These are binary-exact approximations of pi/e constants
 // http://www.exploringbinary.com/pi-and-e-in-binary/
-//
+
 #define MATH_fPI 3.1415927410125732421875f
 #define MATH_dPI 3.141592653589793115997963468544185161590576171875
 #define MATH_fE 2.71828174591064453125f
 #define MATH_dE 2.718281828459045090795598298427648842334747314453125
 
-#define MUD_VEC_FUN export_ MUD_MATH_EXPORT
-
 namespace mud
 {
-	// float_types = "float,double"
-	// signed_types = "float,double,char,short,int"
-	// vector_types = signed_types + ",uchar,ushort,uint,bool"
-
-/*$pycgen
-	float_types = "float"
-	int_types = "int,uint"
-	signed_types = "float,int"
-	scalar_types = "float,int,uint"
-	vector_types = "float,int,uint,bool"
-*/
-
 	using std::sin;
 	using std::cos;
 
@@ -62,317 +45,102 @@ namespace mud
 		u16 x, y, z, w;
 	};
 
-/*$pycgen
-	tuple2 = """
-	export_ struct refl_ struct_ array_ T2
+	template <class T>
+	export_ struct refl_ struct_ array_ v2
 	{
 		typedef T type;
-		T2() { }
-		T2(T v) : x(v), y(v) {}
-		T2(T x, T y) : x(x), y(y) {}
+		v2() { }
+		v2(T v) : x(v), y(v) {}
+		v2(T x, T y) : x(x), y(y) {}
 		template <class V>
-		explicit T2(V v) : x(T(v.x)), y(T(v.y)) {}
+		explicit v2(V v) : x(T(v.x)), y(T(v.y)) {}
 		T operator[](uint index) const { return *((T*)&x + index); }
 		T& operator[](uint index) { return *((T*)&x + index); }
-		bool operator==(const T2& other) const { return x == other.x && y == other.y; }
-		bool operator!=(const T2& other) const { return x != other.x || y != other.y; }
+		bool operator==(const v2& other) const { return x == other.x && y == other.y; }
+		bool operator!=(const v2& other) const { return x != other.x || y != other.y; }
 		//T x, y;
 		union {
 			T f[2];
 			struct { attr_ T x; attr_ T y; };
 		};
 	};
-	"""
 
-	tuple3 = """
-	export_ struct refl_ struct_ array_ T3
+	template <class T>
+	export_ struct refl_ struct_ array_ v3
 	{
 		typedef T type;
-		typedef T2 type2;
-		T3() { }
-		T3(T v) : x(v), y(v), z(v) {}
-		T3(T x, T y, T z) : x(x), y(y), z(z) {}
+		typedef v2<T> type2;
+		v3() { }
+		v3(T v) : x(v), y(v), z(v) {}
+		v3(T x, T y, T z) : x(x), y(y), z(z) {}
 		template <class V>
-		explicit T3(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)) {}
+		explicit v3(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)) {}
 		T operator[](uint index) const { return *((T*)&x + index); }
 		T& operator[](uint index) { return *((T*)&x + index); }
-		bool operator==(const T3& other) const { return x == other.x && y == other.y && z == other.z; }
-		bool operator!=(const T3& other) const { return x != other.x || y == other.y || z != other.z; }
+		bool operator==(const v3& other) const { return x == other.x && y == other.y && z == other.z; }
+		bool operator!=(const v3& other) const { return x != other.x || y == other.y || z != other.z; }
 		//T x, y, z;
 		union {
 			T f[3];
 			struct { attr_ T x; attr_ T y; attr_ T z; };
 		};
 	};
-	"""
 
-	tuple4 = """
-	export_ struct refl_ struct_ array_ T4
+	template <class T>
+	export_ struct refl_ struct_ array_ v4
 	{
 		typedef T type;
-		typedef T2 type2;
-		typedef T3 type3;
-		T4() { }
-		T4(T v) : x(v), y(v), z(v), w(v) {}
-		T4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
-		T4(T3 a, T w) : x(a.x), y(a.y), z(a.z), w(w) {}
-		T4(T2 a, T2 b) : x(a.x), y(a.y), z(b.x), w(b.y) {}
+		typedef v2<T> type2;
+		typedef v3<T> type3;
+		v4() { }
+		v4(T v) : x(v), y(v), z(v), w(v) {}
+		v4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
+		v4(v3<T> a, T w) : x(a.x), y(a.y), z(a.z), w(w) {}
+		v4(v2<T> a, v2<T> b) : x(a.x), y(a.y), z(b.x), w(b.y) {}
 		template <class V>
-		explicit T4(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)), w(T(v.w)) {}
+		explicit v4(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)), w(T(v.w)) {}
 		T operator[](uint index) const { return *((T*)&x + index); }
 		T& operator[](uint index) { return *((T*)&x + index); }
-		bool operator==(const T4& other) const { return x == other.x && y == other.y && z == other.z && w == other.w; }
-		bool operator!=(const T4& other) const { return x != other.x || y == other.y || z != other.z || w != other.w; }
+		bool operator==(const v4& other) const { return x == other.x && y == other.y && z == other.z && w == other.w; }
+		bool operator!=(const v4& other) const { return x != other.x || y == other.y || z != other.z || w != other.w; }
 		//T x, y, z, w;
 		union {
 			T f[4];
 			struct { attr_ T x; attr_ T y; attr_ T z; attr_ T w; };
 		};
 	};
-	"""
 
-	EmitRepl(tuple2, "T:" + vector_types)
-	EmitRepl(tuple3, "T:" + vector_types)
-	EmitRepl(tuple4, "T:" + vector_types)
-*/
-//$pycgen-begin
-	export_ struct refl_ struct_ array_ float2
-	{
-		typedef float type;
-		float2() { }
-		float2(float v) : x(v), y(v) {}
-		float2(float x, float y) : x(x), y(y) {}
-		template <class V>
-		explicit float2(V v) : x(float(v.x)), y(float(v.y)) {}
-		float operator[](uint index) const { return *((float*)&x + index); }
-		float& operator[](uint index) { return *((float*)&x + index); }
-		bool operator==(const float2& other) const { return x == other.x && y == other.y; }
-		bool operator!=(const float2& other) const { return x != other.x || y != other.y; }
-		//float x, y;
-		union {
-			float f[2];
-			struct { attr_ float x; attr_ float y; };
-		};
-	};
-	export_ struct refl_ struct_ array_ int2
-	{
-		typedef int type;
-		int2() { }
-		int2(int v) : x(v), y(v) {}
-		int2(int x, int y) : x(x), y(y) {}
-		template <class V>
-		explicit int2(V v) : x(int(v.x)), y(int(v.y)) {}
-		int operator[](uint index) const { return *((int*)&x + index); }
-		int& operator[](uint index) { return *((int*)&x + index); }
-		bool operator==(const int2& other) const { return x == other.x && y == other.y; }
-		bool operator!=(const int2& other) const { return x != other.x || y != other.y; }
-		//int x, y;
-		union {
-			int f[2];
-			struct { attr_ int x; attr_ int y; };
-		};
-	};
-	export_ struct refl_ struct_ array_ uint2
-	{
-		typedef uint type;
-		uint2() { }
-		uint2(uint v) : x(v), y(v) {}
-		uint2(uint x, uint y) : x(x), y(y) {}
-		template <class V>
-		explicit uint2(V v) : x(uint(v.x)), y(uint(v.y)) {}
-		uint operator[](uint index) const { return *((uint*)&x + index); }
-		uint& operator[](uint index) { return *((uint*)&x + index); }
-		bool operator==(const uint2& other) const { return x == other.x && y == other.y; }
-		bool operator!=(const uint2& other) const { return x != other.x || y != other.y; }
-		//uint x, y;
-		union {
-			uint f[2];
-			struct { attr_ uint x; attr_ uint y; };
-		};
-	};
-	export_ struct refl_ struct_ array_ bool2
-	{
-		typedef bool type;
-		bool2() { }
-		bool2(bool v) : x(v), y(v) {}
-		bool2(bool x, bool y) : x(x), y(y) {}
-		template <class V>
-		explicit bool2(V v) : x(bool(v.x)), y(bool(v.y)) {}
-		bool operator[](uint index) const { return *((bool*)&x + index); }
-		bool& operator[](uint index) { return *((bool*)&x + index); }
-		bool operator==(const bool2& other) const { return x == other.x && y == other.y; }
-		bool operator!=(const bool2& other) const { return x != other.x || y != other.y; }
-		//bool x, y;
-		union {
-			bool f[2];
-			struct { attr_ bool x; attr_ bool y; };
-		};
-	};
-	export_ struct refl_ struct_ array_ float3
-	{
-		typedef float type;
-		typedef float2 type2;
-		float3() { }
-		float3(float v) : x(v), y(v), z(v) {}
-		float3(float x, float y, float z) : x(x), y(y), z(z) {}
-		template <class V>
-		explicit float3(V v) : x(float(v.x)), y(float(v.y)), z(float(v.z)) {}
-		float operator[](uint index) const { return *((float*)&x + index); }
-		float& operator[](uint index) { return *((float*)&x + index); }
-		bool operator==(const float3& other) const { return x == other.x && y == other.y && z == other.z; }
-		bool operator!=(const float3& other) const { return x != other.x || y == other.y || z != other.z; }
-		//float x, y, z;
-		union {
-			float f[3];
-			struct { attr_ float x; attr_ float y; attr_ float z; };
-		};
-	};
-	export_ struct refl_ struct_ array_ int3
-	{
-		typedef int type;
-		typedef int2 type2;
-		int3() { }
-		int3(int v) : x(v), y(v), z(v) {}
-		int3(int x, int y, int z) : x(x), y(y), z(z) {}
-		template <class V>
-		explicit int3(V v) : x(int(v.x)), y(int(v.y)), z(int(v.z)) {}
-		int operator[](uint index) const { return *((int*)&x + index); }
-		int& operator[](uint index) { return *((int*)&x + index); }
-		bool operator==(const int3& other) const { return x == other.x && y == other.y && z == other.z; }
-		bool operator!=(const int3& other) const { return x != other.x || y == other.y || z != other.z; }
-		//int x, y, z;
-		union {
-			int f[3];
-			struct { attr_ int x; attr_ int y; attr_ int z; };
-		};
-	};
-	export_ struct refl_ struct_ array_ uint3
-	{
-		typedef uint type;
-		typedef uint2 type2;
-		uint3() { }
-		uint3(uint v) : x(v), y(v), z(v) {}
-		uint3(uint x, uint y, uint z) : x(x), y(y), z(z) {}
-		template <class V>
-		explicit uint3(V v) : x(uint(v.x)), y(uint(v.y)), z(uint(v.z)) {}
-		uint operator[](uint index) const { return *((uint*)&x + index); }
-		uint& operator[](uint index) { return *((uint*)&x + index); }
-		bool operator==(const uint3& other) const { return x == other.x && y == other.y && z == other.z; }
-		bool operator!=(const uint3& other) const { return x != other.x || y == other.y || z != other.z; }
-		//uint x, y, z;
-		union {
-			uint f[3];
-			struct { attr_ uint x; attr_ uint y; attr_ uint z; };
-		};
-	};
-	export_ struct refl_ struct_ array_ bool3
-	{
-		typedef bool type;
-		typedef bool2 type2;
-		bool3() { }
-		bool3(bool v) : x(v), y(v), z(v) {}
-		bool3(bool x, bool y, bool z) : x(x), y(y), z(z) {}
-		template <class V>
-		explicit bool3(V v) : x(bool(v.x)), y(bool(v.y)), z(bool(v.z)) {}
-		bool operator[](uint index) const { return *((bool*)&x + index); }
-		bool& operator[](uint index) { return *((bool*)&x + index); }
-		bool operator==(const bool3& other) const { return x == other.x && y == other.y && z == other.z; }
-		bool operator!=(const bool3& other) const { return x != other.x || y == other.y || z != other.z; }
-		//bool x, y, z;
-		union {
-			bool f[3];
-			struct { attr_ bool x; attr_ bool y; attr_ bool z; };
-		};
-	};
-	export_ struct refl_ struct_ array_ float4
-	{
-		typedef float type;
-		typedef float2 type2;
-		typedef float3 type3;
-		float4() { }
-		float4(float v) : x(v), y(v), z(v), w(v) {}
-		float4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
-		float4(float3 a, float w) : x(a.x), y(a.y), z(a.z), w(w) {}
-		float4(float2 a, float2 b) : x(a.x), y(a.y), z(b.x), w(b.y) {}
-		template <class V>
-		explicit float4(V v) : x(float(v.x)), y(float(v.y)), z(float(v.z)), w(float(v.w)) {}
-		float operator[](uint index) const { return *((float*)&x + index); }
-		float& operator[](uint index) { return *((float*)&x + index); }
-		bool operator==(const float4& other) const { return x == other.x && y == other.y && z == other.z && w == other.w; }
-		bool operator!=(const float4& other) const { return x != other.x || y == other.y || z != other.z || w != other.w; }
-		//float x, y, z, w;
-		union {
-			float f[4];
-			struct { attr_ float x; attr_ float y; attr_ float z; attr_ float w; };
-		};
-	};
-	export_ struct refl_ struct_ array_ int4
-	{
-		typedef int type;
-		typedef int2 type2;
-		typedef int3 type3;
-		int4() { }
-		int4(int v) : x(v), y(v), z(v), w(v) {}
-		int4(int x, int y, int z, int w) : x(x), y(y), z(z), w(w) {}
-		int4(int3 a, int w) : x(a.x), y(a.y), z(a.z), w(w) {}
-		int4(int2 a, int2 b) : x(a.x), y(a.y), z(b.x), w(b.y) {}
-		template <class V>
-		explicit int4(V v) : x(int(v.x)), y(int(v.y)), z(int(v.z)), w(int(v.w)) {}
-		int operator[](uint index) const { return *((int*)&x + index); }
-		int& operator[](uint index) { return *((int*)&x + index); }
-		bool operator==(const int4& other) const { return x == other.x && y == other.y && z == other.z && w == other.w; }
-		bool operator!=(const int4& other) const { return x != other.x || y == other.y || z != other.z || w != other.w; }
-		//int x, y, z, w;
-		union {
-			int f[4];
-			struct { attr_ int x; attr_ int y; attr_ int z; attr_ int w; };
-		};
-	};
-	export_ struct refl_ struct_ array_ uint4
-	{
-		typedef uint type;
-		typedef uint2 type2;
-		typedef uint3 type3;
-		uint4() { }
-		uint4(uint v) : x(v), y(v), z(v), w(v) {}
-		uint4(uint x, uint y, uint z, uint w) : x(x), y(y), z(z), w(w) {}
-		uint4(uint3 a, uint w) : x(a.x), y(a.y), z(a.z), w(w) {}
-		uint4(uint2 a, uint2 b) : x(a.x), y(a.y), z(b.x), w(b.y) {}
-		template <class V>
-		explicit uint4(V v) : x(uint(v.x)), y(uint(v.y)), z(uint(v.z)), w(uint(v.w)) {}
-		uint operator[](uint index) const { return *((uint*)&x + index); }
-		uint& operator[](uint index) { return *((uint*)&x + index); }
-		bool operator==(const uint4& other) const { return x == other.x && y == other.y && z == other.z && w == other.w; }
-		bool operator!=(const uint4& other) const { return x != other.x || y == other.y || z != other.z || w != other.w; }
-		//uint x, y, z, w;
-		union {
-			uint f[4];
-			struct { attr_ uint x; attr_ uint y; attr_ uint z; attr_ uint w; };
-		};
-	};
-	export_ struct refl_ struct_ array_ bool4
-	{
-		typedef bool type;
-		typedef bool2 type2;
-		typedef bool3 type3;
-		bool4() { }
-		bool4(bool v) : x(v), y(v), z(v), w(v) {}
-		bool4(bool x, bool y, bool z, bool w) : x(x), y(y), z(z), w(w) {}
-		bool4(bool3 a, bool w) : x(a.x), y(a.y), z(a.z), w(w) {}
-		bool4(bool2 a, bool2 b) : x(a.x), y(a.y), z(b.x), w(b.y) {}
-		template <class V>
-		explicit bool4(V v) : x(bool(v.x)), y(bool(v.y)), z(bool(v.z)), w(bool(v.w)) {}
-		bool operator[](uint index) const { return *((bool*)&x + index); }
-		bool& operator[](uint index) { return *((bool*)&x + index); }
-		bool operator==(const bool4& other) const { return x == other.x && y == other.y && z == other.z && w == other.w; }
-		bool operator!=(const bool4& other) const { return x != other.x || y == other.y || z != other.z || w != other.w; }
-		//bool x, y, z, w;
-		union {
-			bool f[4];
-			struct { attr_ bool x; attr_ bool y; attr_ bool z; attr_ bool w; };
-		};
-	};
-//$pycgen-end
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT v2<float>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT v3<float>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT v4<float>;
+
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT v2<int>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT v3<int>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT v4<int>;
+
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT v2<uint>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT v3<uint>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT v4<uint>;
+
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT v2<bool>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT v3<bool>;
+	export_ template struct refl_ struct_ MUD_MATH_EXPORT v4<bool>;
+
+	export_ refl_ using float2 = v2<float>;
+	export_ refl_ using float3 = v3<float>;
+	export_ refl_ using float4 = v4<float>;
+
+	export_ refl_ using int2 = v2<int>;
+	export_ refl_ using int3 = v3<int>;
+	export_ refl_ using int4 = v4<int>;
+
+	export_ refl_ using uint2 = v2<uint>;
+	export_ refl_ using uint3 = v3<uint>;
+	export_ refl_ using uint4 = v4<uint>;
+
+	export_ refl_ using bool2 = v2<bool>;
+	export_ refl_ using bool3 = v3<bool>;
+	export_ refl_ using bool4 = v4<bool>;
 
 	export_ template <class T> inline typename T::type* value_ptr(T& v) { return &v[0]; }
 	export_ template <class T> inline const typename T::type* value_ptr(const T& v) { return &v.f[0]; }
@@ -395,852 +163,206 @@ namespace mud
 	{
 		return (typename T::type3&)v;
 	}
-
-
-/*$pycgen
-	code = """
-	MUD_VEC_FUN bool all(const T2& v);
-	MUD_VEC_FUN bool all(const T3& v);
-	MUD_VEC_FUN bool all(const T4& v);
-	"""
-	EmitRepl(code, "T:bool")
-*/
-//$pycgen-begin
-	MUD_VEC_FUN bool all(const bool2& v);
-	MUD_VEC_FUN bool all(const bool3& v);
-	MUD_VEC_FUN bool all(const bool4& v);
-//$pycgen-end
 	
+	template <class T> inline bool all(const v2<T>& v) { return v.x && v.y; }
+	template <class T> inline bool all(const v3<T>& v) { return v.x && v.y && v.z; }
+	template <class T> inline bool all(const v4<T>& v) { return v.x && v.y && v.z && v.w; }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN bool any(const T2& v);
-	MUD_VEC_FUN bool any(const T3& v);
-	MUD_VEC_FUN bool any(const T4& v);
-	"""
-	EmitRepl(code, "T:bool")
-*/
-//$pycgen-begin
-	MUD_VEC_FUN bool any(const bool2& v);
-	MUD_VEC_FUN bool any(const bool3& v);
-	MUD_VEC_FUN bool any(const bool4& v);
-//$pycgen-end
-	
+	template <class T> inline bool any(const v2<T>& v) { return v.x || v.y; }
+	template <class T> inline bool any(const v3<T>& v) { return v.x || v.y || v.z; }
+	template <class T> inline bool any(const v4<T>& v) { return v.x || v.y || v.z || v.w; }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN bool2 isinf(const T2& v);
-	MUD_VEC_FUN bool3 isinf(const T3& v);
-	MUD_VEC_FUN bool4 isinf(const T4& v);
-	"""
-	EmitRepl(code, "T:" + float_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN bool2 isinf(const float2& v);
-	MUD_VEC_FUN bool3 isinf(const float3& v);
-	MUD_VEC_FUN bool4 isinf(const float4& v);
-//$pycgen-end
+	template <class T> inline bool2 isinf(const v2<T>& v) { return bool2(isinf(v.x), isinf(v.y)); }
+	template <class T> inline bool3 isinf(const v3<T>& v) { return bool3(isinf(v.x), isinf(v.y), isinf(v.z)); }
+	template <class T> inline bool4 isinf(const v4<T>& v) { return bool4(isinf(v.x), isinf(v.y), isinf(v.z), isinf(v.w)); }
 
+	template <class T> inline bool2 isnan(const v2<T>& v) { return bool2(isnan(v.x), isnan(v.y)); }
+	template <class T> inline bool3 isnan(const v3<T>& v) { return bool3(isnan(v.x), isnan(v.y), isnan(v.z)); }
+	template <class T> inline bool4 isnan(const v4<T>& v) { return bool4(isnan(v.x), isnan(v.y), isnan(v.z), isnan(v.w)); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN bool2 isnan(const T2& v);
-	MUD_VEC_FUN bool3 isnan(const T3& v);
-	MUD_VEC_FUN bool4 isnan(const T4& v);
-	"""
-	EmitRepl(code, "T:" + float_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN bool2 isnan(const float2& v);
-	MUD_VEC_FUN bool3 isnan(const float3& v);
-	MUD_VEC_FUN bool4 isnan(const float4& v);
-//$pycgen-end
-	
-	
-/*$pycgen
-	code = """
-	MUD_VEC_FUN bool2 equal(const T2& a, const T2& b, float eps);
-	MUD_VEC_FUN bool3 equal(const T3& a, const T3& b, float eps);
-	MUD_VEC_FUN bool4 equal(const T4& a, const T4& b, float eps);
-	"""
-	EmitRepl(code, "T:" + vector_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN bool2 equal(const float2& a, const float2& b, float eps);
-	MUD_VEC_FUN bool3 equal(const float3& a, const float3& b, float eps);
-	MUD_VEC_FUN bool4 equal(const float4& a, const float4& b, float eps);
-	MUD_VEC_FUN bool2 equal(const int2& a, const int2& b, float eps);
-	MUD_VEC_FUN bool3 equal(const int3& a, const int3& b, float eps);
-	MUD_VEC_FUN bool4 equal(const int4& a, const int4& b, float eps);
-	MUD_VEC_FUN bool2 equal(const uint2& a, const uint2& b, float eps);
-	MUD_VEC_FUN bool3 equal(const uint3& a, const uint3& b, float eps);
-	MUD_VEC_FUN bool4 equal(const uint4& a, const uint4& b, float eps);
-	MUD_VEC_FUN bool2 equal(const bool2& a, const bool2& b, float eps);
-	MUD_VEC_FUN bool3 equal(const bool3& a, const bool3& b, float eps);
-	MUD_VEC_FUN bool4 equal(const bool4& a, const bool4& b, float eps);
-//$pycgen-end
+	template <class T> inline bool2 less(const v2<T>& a, const v2<T>& b) { return bool2(a.x < b.x, a.y < b.y); }
+	template <class T> inline bool3 less(const v3<T>& a, const v3<T>& b) { return bool3(a.x < b.x, a.y < b.y, a.z < b.z); }
+	template <class T> inline bool4 less(const v4<T>& a, const v4<T>& b) { return bool4(a.x < b.x, a.y < b.y, a.z < b.z, a.w < b.w); }
 
+	template <class T> inline bool2 less_equal(const v2<T>& a, const v2<T>& b) { return bool2(a.x <= b.x, a.y <= b.y); }
+	template <class T> inline bool3 less_equal(const v3<T>& a, const v3<T>& b) { return bool3(a.x <= b.x, a.y <= b.y, a.z <= b.z); }
+	template <class T> inline bool4 less_equal(const v4<T>& a, const v4<T>& b) { return bool4(a.x <= b.x, a.y <= b.y, a.z <= b.z, a.w <= b.w); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN bool2 equal(const T2& a, const T2& b);
-	MUD_VEC_FUN bool3 equal(const T3& a, const T3& b);
-	MUD_VEC_FUN bool4 equal(const T4& a, const T4& b);
-	"""
-	EmitRepl(code, "T:" + vector_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN bool2 equal(const float2& a, const float2& b);
-	MUD_VEC_FUN bool3 equal(const float3& a, const float3& b);
-	MUD_VEC_FUN bool4 equal(const float4& a, const float4& b);
-	MUD_VEC_FUN bool2 equal(const int2& a, const int2& b);
-	MUD_VEC_FUN bool3 equal(const int3& a, const int3& b);
-	MUD_VEC_FUN bool4 equal(const int4& a, const int4& b);
-	MUD_VEC_FUN bool2 equal(const uint2& a, const uint2& b);
-	MUD_VEC_FUN bool3 equal(const uint3& a, const uint3& b);
-	MUD_VEC_FUN bool4 equal(const uint4& a, const uint4& b);
-	MUD_VEC_FUN bool2 equal(const bool2& a, const bool2& b);
-	MUD_VEC_FUN bool3 equal(const bool3& a, const bool3& b);
-	MUD_VEC_FUN bool4 equal(const bool4& a, const bool4& b);
-//$pycgen-end
-	
+	template <class T> inline bool2 greater(const v2<T>& a, const v2<T>& b) { return bool2(a.x > b.x, a.y > b.y); }
+	template <class T> inline bool3 greater(const v3<T>& a, const v3<T>& b) { return bool3(a.x > b.x, a.y > b.y, a.z > b.z); }
+	template <class T> inline bool4 greater(const v4<T>& a, const v4<T>& b) { return bool4(a.x > b.x, a.y > b.y, a.z > b.z, a.w > b.w); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN bool2 not_equal(const T2& a, const T2& b);
-	MUD_VEC_FUN bool3 not_equal(const T3& a, const T3& b);
-	MUD_VEC_FUN bool4 not_equal(const T4& a, const T4& b);
-	"""
-	EmitRepl(code, "T:" + vector_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN bool2 not_equal(const float2& a, const float2& b);
-	MUD_VEC_FUN bool3 not_equal(const float3& a, const float3& b);
-	MUD_VEC_FUN bool4 not_equal(const float4& a, const float4& b);
-	MUD_VEC_FUN bool2 not_equal(const int2& a, const int2& b);
-	MUD_VEC_FUN bool3 not_equal(const int3& a, const int3& b);
-	MUD_VEC_FUN bool4 not_equal(const int4& a, const int4& b);
-	MUD_VEC_FUN bool2 not_equal(const uint2& a, const uint2& b);
-	MUD_VEC_FUN bool3 not_equal(const uint3& a, const uint3& b);
-	MUD_VEC_FUN bool4 not_equal(const uint4& a, const uint4& b);
-	MUD_VEC_FUN bool2 not_equal(const bool2& a, const bool2& b);
-	MUD_VEC_FUN bool3 not_equal(const bool3& a, const bool3& b);
-	MUD_VEC_FUN bool4 not_equal(const bool4& a, const bool4& b);
-//$pycgen-end
-	
+	template <class T> inline bool2 greater_equal(const v2<T>& a, const v2<T>& b) { return bool2(a.x >= b.x, a.y >= b.y); }
+	template <class T> inline bool3 greater_equal(const v3<T>& a, const v3<T>& b) { return bool3(a.x >= b.x, a.y >= b.y, a.z >= b.z); }
+	template <class T> inline bool4 greater_equal(const v4<T>& a, const v4<T>& b) { return bool4(a.x >= b.x, a.y >= b.y, a.z >= b.z, a.w >= b.w); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN bool2 less(const T2& a, const T2& b);
-	MUD_VEC_FUN bool3 less(const T3& a, const T3& b);
-	MUD_VEC_FUN bool4 less(const T4& a, const T4& b);
-	"""
-	EmitRepl(code, "T:" + vector_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN bool2 less(const float2& a, const float2& b);
-	MUD_VEC_FUN bool3 less(const float3& a, const float3& b);
-	MUD_VEC_FUN bool4 less(const float4& a, const float4& b);
-	MUD_VEC_FUN bool2 less(const int2& a, const int2& b);
-	MUD_VEC_FUN bool3 less(const int3& a, const int3& b);
-	MUD_VEC_FUN bool4 less(const int4& a, const int4& b);
-	MUD_VEC_FUN bool2 less(const uint2& a, const uint2& b);
-	MUD_VEC_FUN bool3 less(const uint3& a, const uint3& b);
-	MUD_VEC_FUN bool4 less(const uint4& a, const uint4& b);
-	MUD_VEC_FUN bool2 less(const bool2& a, const bool2& b);
-	MUD_VEC_FUN bool3 less(const bool3& a, const bool3& b);
-	MUD_VEC_FUN bool4 less(const bool4& a, const bool4& b);
-//$pycgen-end
-	
-	
-/*$pycgen
-	code = """
-	MUD_VEC_FUN bool2 less_equal(const T2& a, const T2& b);
-	MUD_VEC_FUN bool3 less_equal(const T3& a, const T3& b);
-	MUD_VEC_FUN bool4 less_equal(const T4& a, const T4& b);
-	"""
-	EmitRepl(code, "T:" + vector_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN bool2 less_equal(const float2& a, const float2& b);
-	MUD_VEC_FUN bool3 less_equal(const float3& a, const float3& b);
-	MUD_VEC_FUN bool4 less_equal(const float4& a, const float4& b);
-	MUD_VEC_FUN bool2 less_equal(const int2& a, const int2& b);
-	MUD_VEC_FUN bool3 less_equal(const int3& a, const int3& b);
-	MUD_VEC_FUN bool4 less_equal(const int4& a, const int4& b);
-	MUD_VEC_FUN bool2 less_equal(const uint2& a, const uint2& b);
-	MUD_VEC_FUN bool3 less_equal(const uint3& a, const uint3& b);
-	MUD_VEC_FUN bool4 less_equal(const uint4& a, const uint4& b);
-	MUD_VEC_FUN bool2 less_equal(const bool2& a, const bool2& b);
-	MUD_VEC_FUN bool3 less_equal(const bool3& a, const bool3& b);
-	MUD_VEC_FUN bool4 less_equal(const bool4& a, const bool4& b);
-//$pycgen-end
-	
+	template <class T> inline bool  equal(const T& a, const T& b, float eps) { return abs(b - a) < eps; }
+	template <class T> inline bool2 equal(const v2<T>& a, const v2<T>& b, float eps) { return less(abs(b - a), v2<T>(eps)); }
+	template <class T> inline bool3 equal(const v3<T>& a, const v3<T>& b, float eps) { return less(abs(b - a), v3<T>(eps)); }
+	template <class T> inline bool4 equal(const v4<T>& a, const v4<T>& b, float eps) { return less(abs(b - a), v4<T>(eps)); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN bool2 greater(const T2& a, const T2& b);
-	MUD_VEC_FUN bool3 greater(const T3& a, const T3& b);
-	MUD_VEC_FUN bool4 greater(const T4& a, const T4& b);
-	"""
-	EmitRepl(code, "T:" + vector_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN bool2 greater(const float2& a, const float2& b);
-	MUD_VEC_FUN bool3 greater(const float3& a, const float3& b);
-	MUD_VEC_FUN bool4 greater(const float4& a, const float4& b);
-	MUD_VEC_FUN bool2 greater(const int2& a, const int2& b);
-	MUD_VEC_FUN bool3 greater(const int3& a, const int3& b);
-	MUD_VEC_FUN bool4 greater(const int4& a, const int4& b);
-	MUD_VEC_FUN bool2 greater(const uint2& a, const uint2& b);
-	MUD_VEC_FUN bool3 greater(const uint3& a, const uint3& b);
-	MUD_VEC_FUN bool4 greater(const uint4& a, const uint4& b);
-	MUD_VEC_FUN bool2 greater(const bool2& a, const bool2& b);
-	MUD_VEC_FUN bool3 greater(const bool3& a, const bool3& b);
-	MUD_VEC_FUN bool4 greater(const bool4& a, const bool4& b);
-//$pycgen-end
-	
+	template <class T> inline bool2 equal(const v2<T>& a, const v2<T>& b) { return bool2(a.x == b.x, a.y == b.y); }
+	template <class T> inline bool3 equal(const v3<T>& a, const v3<T>& b) { return bool3(a.x == b.x, a.y == b.y, a.z == b.z); }
+	template <class T> inline bool4 equal(const v4<T>& a, const v4<T>& b) { return bool4(a.x == b.x, a.y == b.y, a.z == b.z, a.w == b.w); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN bool2 greater_equal(const T2& a, const T2& b);
-	MUD_VEC_FUN bool3 greater_equal(const T3& a, const T3& b);
-	MUD_VEC_FUN bool4 greater_equal(const T4& a, const T4& b);
-	"""
-	EmitRepl(code, "T:" + vector_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN bool2 greater_equal(const float2& a, const float2& b);
-	MUD_VEC_FUN bool3 greater_equal(const float3& a, const float3& b);
-	MUD_VEC_FUN bool4 greater_equal(const float4& a, const float4& b);
-	MUD_VEC_FUN bool2 greater_equal(const int2& a, const int2& b);
-	MUD_VEC_FUN bool3 greater_equal(const int3& a, const int3& b);
-	MUD_VEC_FUN bool4 greater_equal(const int4& a, const int4& b);
-	MUD_VEC_FUN bool2 greater_equal(const uint2& a, const uint2& b);
-	MUD_VEC_FUN bool3 greater_equal(const uint3& a, const uint3& b);
-	MUD_VEC_FUN bool4 greater_equal(const uint4& a, const uint4& b);
-	MUD_VEC_FUN bool2 greater_equal(const bool2& a, const bool2& b);
-	MUD_VEC_FUN bool3 greater_equal(const bool3& a, const bool3& b);
-	MUD_VEC_FUN bool4 greater_equal(const bool4& a, const bool4& b);
-//$pycgen-end
+	template <class T> inline bool2 not_equal(const v2<T>& a, const v2<T>& b) { return bool2(a.x != b.x, a.y != b.y); }
+	template <class T> inline bool3 not_equal(const v3<T>& a, const v3<T>& b) { return bool3(a.x != b.x, a.y != b.y, a.z != b.z); }
+	template <class T> inline bool4 not_equal(const v4<T>& a, const v4<T>& b) { return bool4(a.x != b.x, a.y != b.y, a.z != b.z, a.w != b.w); }
 
+	template <class T> inline T     sign(T v) { return T(T(0) < v) - T(v < T(0)); }
+	template <class T> inline v2<T> sign(const v2<T>& v) { return T2(less(v2<T>(T(0)), v)) - v2<T>(less(v, v2<T>(T(0)))); }
+	template <class T> inline v3<T> sign(const v3<T>& v) { return T3(less(v3<T>(T(0)), v)) - v3<T>(less(v, v3<T>(T(0)))); }
+	template <class T> inline v4<T> sign(const v4<T>& v) { return T4(less(v4<T>(T(0)), v)) - v4<T>(less(v, v4<T>(T(0)))); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T sign(T v);
-	MUD_VEC_FUN T2 sign(const T2& v);
-	MUD_VEC_FUN T3 sign(const T3& v);
-	MUD_VEC_FUN T4 sign(const T4& v);
-	"""
-	EmitRepl(code, "T:" + signed_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float sign(float v);
-	MUD_VEC_FUN float2 sign(const float2& v);
-	MUD_VEC_FUN float3 sign(const float3& v);
-	MUD_VEC_FUN float4 sign(const float4& v);
-	MUD_VEC_FUN int sign(int v);
-	MUD_VEC_FUN int2 sign(const int2& v);
-	MUD_VEC_FUN int3 sign(const int3& v);
-	MUD_VEC_FUN int4 sign(const int4& v);
-//$pycgen-end
+	template <class T> inline T dot(const v2<T>& a, const v2<T>& b) { v2<T> tmp = a * b; return tmp.x + tmp.y; }
+	template <class T> inline T dot(const v3<T>& a, const v3<T>& b) { v3<T> tmp = a * b; return tmp.x + tmp.y + tmp.z; }
+	template <class T> inline T dot(const v4<T>& a, const v4<T>& b) { v4<T> tmp = a * b; return tmp.x + tmp.y + tmp.z + tmp.w; }
 
+	template <class T> v3<T> cross(const v3<T>& a, const v3<T>& b)
+	{
+		return v3<T>(
+			a.y * b.z - b.y * a.z,
+			a.z * b.x - b.z * a.x,
+			a.x * b.y - b.x * a.y
+		);
+	}
 
+	template <class T> inline T length(const v2<T>& v) { return T(sqrt(dot(v, v))); }
+	template <class T> inline T length(const v3<T>& v) { return T(sqrt(dot(v, v))); }
+	template <class T> inline T length(const v4<T>& v) { return T(sqrt(dot(v, v))); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T dot(const T2& a, const T2& b);
-	MUD_VEC_FUN T dot(const T3& a, const T3& b);
-	MUD_VEC_FUN T dot(const T4& a, const T4& b);
-	"""
-	EmitRepl(code, "T:" + vector_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float dot(const float2& a, const float2& b);
-	MUD_VEC_FUN float dot(const float3& a, const float3& b);
-	MUD_VEC_FUN float dot(const float4& a, const float4& b);
-	MUD_VEC_FUN int dot(const int2& a, const int2& b);
-	MUD_VEC_FUN int dot(const int3& a, const int3& b);
-	MUD_VEC_FUN int dot(const int4& a, const int4& b);
-	MUD_VEC_FUN uint dot(const uint2& a, const uint2& b);
-	MUD_VEC_FUN uint dot(const uint3& a, const uint3& b);
-	MUD_VEC_FUN uint dot(const uint4& a, const uint4& b);
-	MUD_VEC_FUN bool dot(const bool2& a, const bool2& b);
-	MUD_VEC_FUN bool dot(const bool3& a, const bool3& b);
-	MUD_VEC_FUN bool dot(const bool4& a, const bool4& b);
-//$pycgen-end
+	template <class T> inline T length2(const v2<T>& v) { return dot(v, v); }
+	template <class T> inline T length2(const v3<T>& v) { return dot(v, v); }
+	template <class T> inline T length2(const v4<T>& v) { return dot(v, v); }
 
-	
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T3 cross(const T3& a, const T3& b);
-	"""
-	EmitRepl(code, "T:" + float_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float3 cross(const float3& a, const float3& b);
-//$pycgen-end
+	template <class T> inline T distance(const v2<T>& a, const v2<T>& b) { return length(b - a); }
+	template <class T> inline T distance(const v3<T>& a, const v3<T>& b) { return length(b - a); }
+	template <class T> inline T distance(const v4<T>& a, const v4<T>& b) { return length(b - a); }
 
+	template <class T> inline v2<T> normalize(const v2<T>& v) { return v * T(1) / sqrt(dot(v, v)); }
+	template <class T> inline v3<T> normalize(const v3<T>& v) { return v * T(1) / sqrt(dot(v, v)); }
+	template <class T> inline v4<T> normalize(const v4<T>& v) { return v * T(1) / sqrt(dot(v, v)); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T length(const T2& v);
-	MUD_VEC_FUN T length(const T3& v);
-	MUD_VEC_FUN T length(const T4& v);
-	"""
-	EmitRepl(code, "T:" + float_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float length(const float2& v);
-	MUD_VEC_FUN float length(const float3& v);
-	MUD_VEC_FUN float length(const float4& v);
-//$pycgen-end
+	template <class T> inline v2<T> abs(const v2<T>& v) { return v2<T>(abs(v.x), abs(v.y)); }
+	template <class T> inline v3<T> abs(const v3<T>& v) { return v3<T>(abs(v.x), abs(v.y), abs(v.z)); }
+	template <class T> inline v4<T> abs(const v4<T>& v) { return v4<T>(abs(v.x), abs(v.y), abs(v.z), abs(v.w)); }
 
+	template <class T> inline v2<T> mod(const v2<T>& a, const v2<T>& b) { return v2<T>(fmod(a.x, b.x), fmod(a.y, b.y)); }
+	template <class T> inline v3<T> mod(const v3<T>& a, const v3<T>& b) { return v3<T>(fmod(a.x, b.x), fmod(a.y, b.y), fmod(a.z, b.z)); }
+	template <class T> inline v4<T> mod(const v4<T>& a, const v4<T>& b) { return v4<T>(fmod(a.x, b.x), fmod(a.y, b.y), fmod(a.z, b.z), fmod(a.w, b.w)); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T length2(const T2& v);
-	MUD_VEC_FUN T length2(const T3& v);
-	MUD_VEC_FUN T length2(const T4& v);
-	"""
-	EmitRepl(code, "T:" + vector_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float length2(const float2& v);
-	MUD_VEC_FUN float length2(const float3& v);
-	MUD_VEC_FUN float length2(const float4& v);
-	MUD_VEC_FUN int length2(const int2& v);
-	MUD_VEC_FUN int length2(const int3& v);
-	MUD_VEC_FUN int length2(const int4& v);
-	MUD_VEC_FUN uint length2(const uint2& v);
-	MUD_VEC_FUN uint length2(const uint3& v);
-	MUD_VEC_FUN uint length2(const uint4& v);
-	MUD_VEC_FUN bool length2(const bool2& v);
-	MUD_VEC_FUN bool length2(const bool3& v);
-	MUD_VEC_FUN bool length2(const bool4& v);
-//$pycgen-end
-	
+	template <class T> inline T     mod(const T& a, const T& b) { return a % b; }
+	template <class T> inline v2<T> mod(const v2<T>& a, const v2<T>& b) { return v2<T>(a.x % b.x, a.y % b.y); }
+	template <class T> inline v3<T> mod(const v3<T>& a, const v3<T>& b) { return v3<T>(a.x % b.x, a.y % b.y, a.z % b.z); }
+	template <class T> inline v4<T> mod(const v4<T>& a, const v4<T>& b) { return v4<T>(a.x % b.x, a.y % b.y, a.z % b.z, a.w % b.w); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T distance(const T2& a, const T2& b);
-	MUD_VEC_FUN T distance(const T3& a, const T3& b);
-	MUD_VEC_FUN T distance(const T4& a, const T4& b);
-	"""
-	EmitRepl(code, "T:" + float_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float distance(const float2& a, const float2& b);
-	MUD_VEC_FUN float distance(const float3& a, const float3& b);
-	MUD_VEC_FUN float distance(const float4& a, const float4& b);
-//$pycgen-end
+	template <class T> inline v2<T> min(const v2<T>& a, const v2<T>& b) { return v2<T>(min(a.x, b.x), min(a.y, b.y)); }
+	template <class T> inline v3<T> min(const v3<T>& a, const v3<T>& b) { return v3<T>(min(a.x, b.x), min(a.y, b.y), min(a.z, b.z)); }
+	template <class T> inline v4<T> min(const v4<T>& a, const v4<T>& b) { return v4<T>(min(a.x, b.x), min(a.y, b.y), min(a.z, b.z), min(a.w, b.w)); }
 
+	template <class T> inline v2<T> max(const v2<T>& a, const v2<T>& b) { return v2<T>(max(a.x, b.x), max(a.y, b.y)); }
+	template <class T> inline v3<T> max(const v3<T>& a, const v3<T>& b) { return v3<T>(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z)); }
+	template <class T> inline v4<T> max(const v4<T>& a, const v4<T>& b) { return v4<T>(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z), max(a.w, b.w)); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T2 normalize(const T2& v);
-	MUD_VEC_FUN T3 normalize(const T3& v);
-	MUD_VEC_FUN T4 normalize(const T4& v);
-	"""
-	EmitRepl(code, "T:" + float_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float2 normalize(const float2& v);
-	MUD_VEC_FUN float3 normalize(const float3& v);
-	MUD_VEC_FUN float4 normalize(const float4& v);
-//$pycgen-end
+	//template <class T> T clamp(T v, T lo, T hi) { return min(max(v, lo), hi); }
 
+	template <class T> inline v2<T> clamp(const v2<T>& v, T lo, T hi) { return min(max(v, lo), hi); }
+	template <class T> inline v3<T> clamp(const v3<T>& v, T lo, T hi) { return min(max(v, lo), hi); }
+	template <class T> inline v4<T> clamp(const v4<T>& v, T lo, T hi) { return min(max(v, lo), hi); }
 
+	template <class T> inline v2<T> clamp(const v2<T>& v, const v2<T>& lo, const v2<T>& hi) { return min(max(v, lo), hi); }
+	template <class T> inline v3<T> clamp(const v3<T>& v, const v3<T>& lo, const v3<T>& hi) { return min(max(v, lo), hi); }
+	template <class T> inline v4<T> clamp(const v4<T>& v, const v4<T>& lo, const v4<T>& hi) { return min(max(v, lo), hi); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T2 abs(const T2& v);
-	MUD_VEC_FUN T3 abs(const T3& v);
-	MUD_VEC_FUN T4 abs(const T4& v);
-	"""
-	EmitRepl(code, "T:" + signed_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float2 abs(const float2& v);
-	MUD_VEC_FUN float3 abs(const float3& v);
-	MUD_VEC_FUN float4 abs(const float4& v);
-	MUD_VEC_FUN int2 abs(const int2& v);
-	MUD_VEC_FUN int3 abs(const int3& v);
-	MUD_VEC_FUN int4 abs(const int4& v);
-//$pycgen-end
+	template <class T> inline T     saturate(T v) { return clamp(v, T(0), T(1)); }
+	template <class T> inline v2<T> saturate(const v2<T>& v) { return clamp(v, T(0), T(1)); }
+	template <class T> inline v3<T> saturate(const v3<T>& v) { return clamp(v, T(0), T(1)); }
+	template <class T> inline v4<T> saturate(const v4<T>& v) { return clamp(v, T(0), T(1)); }
 
-	
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T2 mod(const T2& a, const T2& b);
-	MUD_VEC_FUN T3 mod(const T3& a, const T3& b);
-	MUD_VEC_FUN T4 mod(const T4& a, const T4& b);
-	"""
-	EmitRepl(code, "T:" + float_types)
-	EmitRepl(code, "T:" + int_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float2 mod(const float2& a, const float2& b);
-	MUD_VEC_FUN float3 mod(const float3& a, const float3& b);
-	MUD_VEC_FUN float4 mod(const float4& a, const float4& b);
-	MUD_VEC_FUN int2 mod(const int2& a, const int2& b);
-	MUD_VEC_FUN int3 mod(const int3& a, const int3& b);
-	MUD_VEC_FUN int4 mod(const int4& a, const int4& b);
-	MUD_VEC_FUN uint2 mod(const uint2& a, const uint2& b);
-	MUD_VEC_FUN uint3 mod(const uint3& a, const uint3& b);
-	MUD_VEC_FUN uint4 mod(const uint4& a, const uint4& b);
-//$pycgen-end
+	template <class T> inline v2<T> floor(const v2<T>& v) { return v2<T>(floor(v.x), floor(v.y)); }
+	template <class T> inline v3<T> floor(const v3<T>& v) { return v3<T>(floor(v.x), floor(v.y), floor(v.z)); }
+	template <class T> inline v4<T> floor(const v4<T>& v) { return v4<T>(floor(v.x), floor(v.y), floor(v.z), floor(v.w)); }
 
+	template <class T> inline v2<T> ceil(const v2<T>& v) { return v2<T>(ceil(v.x), ceil(v.y)); }
+	template <class T> inline v3<T> ceil(const v3<T>& v) { return v3<T>(ceil(v.x), ceil(v.y), ceil(v.z)); }
+	template <class T> inline v4<T> ceil(const v4<T>& v) { return v4<T>(ceil(v.x), ceil(v.y), ceil(v.z), ceil(v.w)); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T2 min(const T2& a, const T2& b);
-	MUD_VEC_FUN T3 min(const T3& a, const T3& b);
-	MUD_VEC_FUN T4 min(const T4& a, const T4& b);
-	"""
-	EmitRepl(code, "T:" + vector_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float2 min(const float2& a, const float2& b);
-	MUD_VEC_FUN float3 min(const float3& a, const float3& b);
-	MUD_VEC_FUN float4 min(const float4& a, const float4& b);
-	MUD_VEC_FUN int2 min(const int2& a, const int2& b);
-	MUD_VEC_FUN int3 min(const int3& a, const int3& b);
-	MUD_VEC_FUN int4 min(const int4& a, const int4& b);
-	MUD_VEC_FUN uint2 min(const uint2& a, const uint2& b);
-	MUD_VEC_FUN uint3 min(const uint3& a, const uint3& b);
-	MUD_VEC_FUN uint4 min(const uint4& a, const uint4& b);
-	MUD_VEC_FUN bool2 min(const bool2& a, const bool2& b);
-	MUD_VEC_FUN bool3 min(const bool3& a, const bool3& b);
-	MUD_VEC_FUN bool4 min(const bool4& a, const bool4& b);
-//$pycgen-end
+	template <class T> inline v2<T> cos(const v2<T>& v) { return v2<T>(cos(v.x), cos(v.y)); }
+	template <class T> inline v3<T> cos(const v3<T>& v) { return v3<T>(cos(v.x), cos(v.y), cos(v.z)); }
+	template <class T> inline v4<T> cos(const v4<T>& v) { return v4<T>(cos(v.x), cos(v.y), cos(v.z), cos(v.w)); }
 
+	template <class T> inline v2<T> sin(const v2<T>& v) { return v2<T>(sin(v.x), sin(v.y)); }
+	template <class T> inline v3<T> sin(const v3<T>& v) { return v3<T>(sin(v.x), sin(v.y), sin(v.z)); }
+	template <class T> inline v4<T> sin(const v4<T>& v) { return v4<T>(sin(v.x), sin(v.y), sin(v.z), sin(v.w)); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T2 max(const T2& a, const T2& b);
-	MUD_VEC_FUN T3 max(const T3& a, const T3& b);
-	MUD_VEC_FUN T4 max(const T4& a, const T4& b);
-	"""
-	EmitRepl(code, "T:" + vector_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float2 max(const float2& a, const float2& b);
-	MUD_VEC_FUN float3 max(const float3& a, const float3& b);
-	MUD_VEC_FUN float4 max(const float4& a, const float4& b);
-	MUD_VEC_FUN int2 max(const int2& a, const int2& b);
-	MUD_VEC_FUN int3 max(const int3& a, const int3& b);
-	MUD_VEC_FUN int4 max(const int4& a, const int4& b);
-	MUD_VEC_FUN uint2 max(const uint2& a, const uint2& b);
-	MUD_VEC_FUN uint3 max(const uint3& a, const uint3& b);
-	MUD_VEC_FUN uint4 max(const uint4& a, const uint4& b);
-	MUD_VEC_FUN bool2 max(const bool2& a, const bool2& b);
-	MUD_VEC_FUN bool3 max(const bool3& a, const bool3& b);
-	MUD_VEC_FUN bool4 max(const bool4& a, const bool4& b);
-//$pycgen-end
+	template <class T> inline T     lerp(T a, T b, T t) { return T(a) + t * T(b - a); }
+	template <class T> inline v2<T> lerp(const v2<T>& a, const v2<T>& b, T t) { return v2<T>(a) + t * v2<T>(b - a); }
+	template <class T> inline v3<T> lerp(const v3<T>& a, const v3<T>& b, T t) { return v3<T>(a) + t * v3<T>(b - a); }
+	template <class T> inline v4<T> lerp(const v4<T>& a, const v4<T>& b, T t) { return v4<T>(a) + t * v4<T>(b - a); }
 
+	template <class T> inline T     mix(T a, T b, T t) { return lerp(a, b, t); }
+	template <class T> inline v2<T> mix(const v2<T>& a, const v2<T>& b, T t) { return lerp(a, b, t); }
+	template <class T> inline v3<T> mix(const v3<T>& a, const v3<T>& b, T t) { return lerp(a, b, t); }
+	template <class T> inline v4<T> mix(const v4<T>& a, const v4<T>& b, T t) { return lerp(a, b, t); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T clamp(T v, T lo, T hi);
-	MUD_VEC_FUN T2 clamp(const T2& v, T lo, T hi);
-	MUD_VEC_FUN T2 clamp(const T2& v, const T2& lo, const T2& hi);
-	MUD_VEC_FUN T3 clamp(const T3& v, T lo, T hi);
-	MUD_VEC_FUN T3 clamp(const T3& v, const T3& lo, const T3& hi);
-	MUD_VEC_FUN T4 clamp(const T4& v, T lo, T hi);
-	MUD_VEC_FUN T4 clamp(const T4& v, const T4& lo, const T4& hi);
-	"""
-	EmitRepl(code, "T:" + scalar_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float clamp(float v, float lo, float hi);
-	MUD_VEC_FUN float2 clamp(const float2& v, float lo, float hi);
-	MUD_VEC_FUN float2 clamp(const float2& v, const float2& lo, const float2& hi);
-	MUD_VEC_FUN float3 clamp(const float3& v, float lo, float hi);
-	MUD_VEC_FUN float3 clamp(const float3& v, const float3& lo, const float3& hi);
-	MUD_VEC_FUN float4 clamp(const float4& v, float lo, float hi);
-	MUD_VEC_FUN float4 clamp(const float4& v, const float4& lo, const float4& hi);
-	MUD_VEC_FUN int clamp(int v, int lo, int hi);
-	MUD_VEC_FUN int2 clamp(const int2& v, int lo, int hi);
-	MUD_VEC_FUN int2 clamp(const int2& v, const int2& lo, const int2& hi);
-	MUD_VEC_FUN int3 clamp(const int3& v, int lo, int hi);
-	MUD_VEC_FUN int3 clamp(const int3& v, const int3& lo, const int3& hi);
-	MUD_VEC_FUN int4 clamp(const int4& v, int lo, int hi);
-	MUD_VEC_FUN int4 clamp(const int4& v, const int4& lo, const int4& hi);
-	MUD_VEC_FUN uint clamp(uint v, uint lo, uint hi);
-	MUD_VEC_FUN uint2 clamp(const uint2& v, uint lo, uint hi);
-	MUD_VEC_FUN uint2 clamp(const uint2& v, const uint2& lo, const uint2& hi);
-	MUD_VEC_FUN uint3 clamp(const uint3& v, uint lo, uint hi);
-	MUD_VEC_FUN uint3 clamp(const uint3& v, const uint3& lo, const uint3& hi);
-	MUD_VEC_FUN uint4 clamp(const uint4& v, uint lo, uint hi);
-	MUD_VEC_FUN uint4 clamp(const uint4& v, const uint4& lo, const uint4& hi);
-//$pycgen-end
+	template <class T> T     spline(T a, T b, T c, T d, T t);
+	template <class T> v2<T> spline(const v2<T>& a, const v2<T>& b, const v2<T>& c, const v2<T>& d, T t);
+	template <class T> v3<T> spline(const v3<T>& a, const v3<T>& b, const v3<T>& c, const v3<T>& d, T t);
+	template <class T> v4<T> spline(const v4<T>& a, const v4<T>& b, const v4<T>& c, const v4<T>& d, T t);
 
+	template <class T> inline T angle(T a, T b) { return acos(clamp(a * b, T(-1), T(1))); }
+	template <class T> inline T angle(const v2<T>& a, const v2<T>& b) { return acos(clamp(dot(a, b), T(-1), T(1))); }
+	template <class T> inline T angle(const v3<T>& a, const v3<T>& b) { return acos(clamp(dot(a, b), T(-1), T(1))); }
+	template <class T> inline T angle(const v4<T>& a, const v4<T>& b) { return acos(clamp(dot(a, b), T(-1), T(1))); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T saturate(T v);
-	MUD_VEC_FUN T2 saturate(const T2& v);
-	MUD_VEC_FUN T3 saturate(const T3& v);
-	MUD_VEC_FUN T4 saturate(const T4& v);
-	"""
-	EmitRepl(code, "T:" + float_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float saturate(float v);
-	MUD_VEC_FUN float2 saturate(const float2& v);
-	MUD_VEC_FUN float3 saturate(const float3& v);
-	MUD_VEC_FUN float4 saturate(const float4& v);
-//$pycgen-end
+	template <class T> inline v2<T> operator+(const v2<T>& a, const v2<T>& b) { return v2<T>(a.x + b.x, a.y + b.y); }
+	template <class T> inline v3<T> operator+(const v3<T>& a, const v3<T>& b) { return v3<T>(a.x + b.x, a.y + b.y, a.z + b.z); }
+	template <class T> inline v4<T> operator+(const v4<T>& a, const v4<T>& b) { return v4<T>(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w); }
 
+	template <class T> inline v2<T> operator+(const v2<T>& a, T b) { return v2<T>(a.x + b, a.y + b); }
+	template <class T> inline v3<T> operator+(const v3<T>& a, T b) { return v3<T>(a.x + b, a.y + b, a.z + b); }
+	template <class T> inline v4<T> operator+(const v4<T>& a, T b) { return v4<T>(a.x + b, a.y + b, a.z + b, a.w + b); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T2 floor(const T2& v);
-	MUD_VEC_FUN T3 floor(const T3& v);
-	MUD_VEC_FUN T4 floor(const T4& v);
-	"""
-	EmitRepl(code, "T:" + float_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float2 floor(const float2& v);
-	MUD_VEC_FUN float3 floor(const float3& v);
-	MUD_VEC_FUN float4 floor(const float4& v);
-//$pycgen-end
+	template <class T> inline v2<T> operator-(const v2<T>& a, const v2<T>& b) { return v2<T>(a.x - b.x, a.y - b.y); }
+	template <class T> inline v3<T> operator-(const v3<T>& a, const v3<T>& b) { return v3<T>(a.x - b.x, a.y - b.y, a.z - b.z); }
+	template <class T> inline v4<T> operator-(const v4<T>& a, const v4<T>& b) { return v4<T>(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w); }
 
+	template <class T> inline v2<T> operator-(const v2<T>& a, T b) { return v2<T>(a.x - b, a.y - b); }
+	template <class T> inline v3<T> operator-(const v3<T>& a, T b) { return v3<T>(a.x - b, a.y - b, a.z - b); }
+	template <class T> inline v4<T> operator-(const v4<T>& a, T b) { return v4<T>(a.x - b, a.y - b, a.z - b, a.w - b); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T2 ceil(const T2& v);
-	MUD_VEC_FUN T3 ceil(const T3& v);
-	MUD_VEC_FUN T4 ceil(const T4& v);
-	"""
-	EmitRepl(code, "T:" + float_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float2 ceil(const float2& v);
-	MUD_VEC_FUN float3 ceil(const float3& v);
-	MUD_VEC_FUN float4 ceil(const float4& v);
-//$pycgen-end
+	template <class T> inline v2<T> operator*(const v2<T>& a, const v2<T>& b) { return v2<T>(a.x * b.x, a.y * b.y); }
+	template <class T> inline v3<T> operator*(const v3<T>& a, const v3<T>& b) { return v3<T>(a.x * b.x, a.y * b.y, a.z * b.z); }
+	template <class T> inline v4<T> operator*(const v4<T>& a, const v4<T>& b) { return v4<T>(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w); }
+	template <class T> inline v2<T> operator*(const v2<T>& a, T b) { return v2<T>(a.x * b, a.y * b); }
+	template <class T> inline v3<T> operator*(const v3<T>& a, T b) { return v3<T>(a.x * b, a.y * b, a.z * b); }
+	template <class T> inline v4<T> operator*(const v4<T>& a, T b) { return v4<T>(a.x * b, a.y * b, a.z * b, a.w * b); }
+	template <class T> inline v2<T> operator*(T a, const v2<T>& b) { return v2<T>(a * b.x, a * b.y); }
+	template <class T> inline v3<T> operator*(T a, const v3<T>& b) { return v3<T>(a * b.x, a * b.y, a * b.z); }
+	template <class T> inline v4<T> operator*(T a, const v4<T>& b) { return v4<T>(a * b.x, a * b.y, a * b.z, a * b.w); }
 
-	
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T2 cos(const T2& v);
-	MUD_VEC_FUN T3 cos(const T3& v);
-	MUD_VEC_FUN T4 cos(const T4& v);
-	"""
-	EmitRepl(code, "T:" + float_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float2 cos(const float2& v);
-	MUD_VEC_FUN float3 cos(const float3& v);
-	MUD_VEC_FUN float4 cos(const float4& v);
-//$pycgen-end
-	
+	template <class T> inline v2<T> operator/(const v2<T>& a, const v2<T>& b) { return v2<T>(a.x / b.x, a.y / b.y); }
+	template <class T> inline v3<T> operator/(const v3<T>& a, const v3<T>& b) { return v3<T>(a.x / b.x, a.y / b.y, a.z / b.z); }
+	template <class T> inline v4<T> operator/(const v4<T>& a, const v4<T>& b) { return v4<T>(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w); }
+	template <class T> inline v2<T> operator/(const v2<T>& a, T b) { return v2<T>(a.x / b, a.y / b); }
+	template <class T> inline v3<T> operator/(const v3<T>& a, T b) { return v3<T>(a.x / b, a.y / b, a.z / b); }
+	template <class T> inline v4<T> operator/(const v4<T>& a, T b) { return v4<T>(a.x / b, a.y / b, a.z / b, a.w / b); }
+	template <class T> inline v2<T> operator/(T a, const v2<T>& b) { return v2<T>(a / b.x, a / b.y); }
+	template <class T> inline v3<T> operator/(T a, const v3<T>& b) { return v3<T>(a / b.x, a / b.y, a / b.z); }
+	template <class T> inline v4<T> operator/(T a, const v4<T>& b) { return v4<T>(a / b.x, a / b.y, a / b.z, a / b.w); }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T2 sin(const T2& v);
-	MUD_VEC_FUN T3 sin(const T3& v);
-	MUD_VEC_FUN T4 sin(const T4& v);
-	"""
-	EmitRepl(code, "T:" + float_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float2 sin(const float2& v);
-	MUD_VEC_FUN float3 sin(const float3& v);
-	MUD_VEC_FUN float4 sin(const float4& v);
-//$pycgen-end
+	template <class T> inline v2<T> operator-(const v2<T>& a) { return v2<T>(-a.x, -a.y); }
+	template <class T> inline v3<T> operator-(const v3<T>& a) { return v3<T>(-a.x, -a.y, -a.z); }
+	template <class T> inline v4<T> operator-(const v4<T>& a) { return v4<T>(-a.x, -a.y, -a.z, -a.w); }
 
+	template <class T> inline v2<T>& operator+=(v2<T>& a, const v2<T>& b) { a = a + b; return a; }
+	template <class T> inline v3<T>& operator+=(v3<T>& a, const v3<T>& b) { a = a + b; return a; }
+	template <class T> inline v4<T>& operator+=(v4<T>& a, const v4<T>& b) { a = a + b; return a; }
 
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T lerp(T a, T b, T t);
-	MUD_VEC_FUN T2 lerp(const T2& a, const T2& b, T t);
-	MUD_VEC_FUN T3 lerp(const T3& a, const T3& b, T t);
-	MUD_VEC_FUN T4 lerp(const T4& a, const T4& b, T t);
-	"""
-	EmitRepl(code, "T:" + float_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float lerp(float a, float b, float t);
-	MUD_VEC_FUN float2 lerp(const float2& a, const float2& b, float t);
-	MUD_VEC_FUN float3 lerp(const float3& a, const float3& b, float t);
-	MUD_VEC_FUN float4 lerp(const float4& a, const float4& b, float t);
-//$pycgen-end
-	
+	template <class T> inline v2<T>& operator*=(v2<T>& a, const v2<T>& b) { a = a * b; return a; }
+	template <class T> inline v3<T>& operator*=(v3<T>& a, const v3<T>& b) { a = a * b; return a; }
+	template <class T> inline v4<T>& operator*=(v4<T>& a, const v4<T>& b) { a = a * b; return a; }
 
-/*$pycgen
-	code = """
-	inline T mix(T a, T b, T t) { return lerp(a, b, t); }
-	inline T2 mix(const T2& a, const T2& b, T t) { return lerp(a, b, t); }
-	inline T3 mix(const T3& a, const T3& b, T t) { return lerp(a, b, t); }
-	inline T4 mix(const T4& a, const T4& b, T t) { return lerp(a, b, t); }
-	"""
-	EmitRepl(code, "T:" + float_types)
-*/
-//$pycgen-begin
-	inline float mix(float a, float b, float t) { return lerp(a, b, t); }
-	inline float2 mix(const float2& a, const float2& b, float t) { return lerp(a, b, t); }
-	inline float3 mix(const float3& a, const float3& b, float t) { return lerp(a, b, t); }
-	inline float4 mix(const float4& a, const float4& b, float t) { return lerp(a, b, t); }
-//$pycgen-end
-
-
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T spline(T a, T b, T c, T d, T t);
-	MUD_VEC_FUN T2 spline(const T2& a, const T2& b, const T2& c, const T2& d, T t);
-	MUD_VEC_FUN T3 spline(const T3& a, const T3& b, const T3& c, const T3& d, T t);
-	MUD_VEC_FUN T4 spline(const T4& a, const T4& b, const T4& c, const T4& d, T t);
-	"""
-	EmitRepl(code, "T:" + float_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float spline(float a, float b, float c, float d, float t);
-	MUD_VEC_FUN float2 spline(const float2& a, const float2& b, const float2& c, const float2& d, float t);
-	MUD_VEC_FUN float3 spline(const float3& a, const float3& b, const float3& c, const float3& d, float t);
-	MUD_VEC_FUN float4 spline(const float4& a, const float4& b, const float4& c, const float4& d, float t);
-//$pycgen-end
-
-	
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T angle(T a, T b);
-	MUD_VEC_FUN T angle(const T2& a, const T2& b);
-	MUD_VEC_FUN T angle(const T3& a, const T3& b);
-	MUD_VEC_FUN T angle(const T4& a, const T4& b);
-	"""
-	EmitRepl(code, "T:" + float_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float angle(float a, float b);
-	MUD_VEC_FUN float angle(const float2& a, const float2& b);
-	MUD_VEC_FUN float angle(const float3& a, const float3& b);
-	MUD_VEC_FUN float angle(const float4& a, const float4& b);
-//$pycgen-end
-
-
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T2 operator+(const T2& a, const T2& b);
-	MUD_VEC_FUN T3 operator+(const T3& a, const T3& b);
-	MUD_VEC_FUN T4 operator+(const T4& a, const T4& b);
-	MUD_VEC_FUN T2 operator+(const T2& a, T b);
-	MUD_VEC_FUN T3 operator+(const T3& a, T b);
-	MUD_VEC_FUN T4 operator+(const T4& a, T b);
-	"""
-	EmitRepl(code, "T:" + scalar_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float2 operator+(const float2& a, const float2& b);
-	MUD_VEC_FUN float3 operator+(const float3& a, const float3& b);
-	MUD_VEC_FUN float4 operator+(const float4& a, const float4& b);
-	MUD_VEC_FUN float2 operator+(const float2& a, float b);
-	MUD_VEC_FUN float3 operator+(const float3& a, float b);
-	MUD_VEC_FUN float4 operator+(const float4& a, float b);
-	MUD_VEC_FUN int2 operator+(const int2& a, const int2& b);
-	MUD_VEC_FUN int3 operator+(const int3& a, const int3& b);
-	MUD_VEC_FUN int4 operator+(const int4& a, const int4& b);
-	MUD_VEC_FUN int2 operator+(const int2& a, int b);
-	MUD_VEC_FUN int3 operator+(const int3& a, int b);
-	MUD_VEC_FUN int4 operator+(const int4& a, int b);
-	MUD_VEC_FUN uint2 operator+(const uint2& a, const uint2& b);
-	MUD_VEC_FUN uint3 operator+(const uint3& a, const uint3& b);
-	MUD_VEC_FUN uint4 operator+(const uint4& a, const uint4& b);
-	MUD_VEC_FUN uint2 operator+(const uint2& a, uint b);
-	MUD_VEC_FUN uint3 operator+(const uint3& a, uint b);
-	MUD_VEC_FUN uint4 operator+(const uint4& a, uint b);
-//$pycgen-end
-
-
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T2 operator-(const T2& a, const T2& b);
-	MUD_VEC_FUN T3 operator-(const T3& a, const T3& b);
-	MUD_VEC_FUN T4 operator-(const T4& a, const T4& b);
-	MUD_VEC_FUN T2 operator-(const T2& a, T b);
-	MUD_VEC_FUN T3 operator-(const T3& a, T b);
-	MUD_VEC_FUN T4 operator-(const T4& a, T b);
-	"""
-	EmitRepl(code, "T:" + scalar_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float2 operator-(const float2& a, const float2& b);
-	MUD_VEC_FUN float3 operator-(const float3& a, const float3& b);
-	MUD_VEC_FUN float4 operator-(const float4& a, const float4& b);
-	MUD_VEC_FUN float2 operator-(const float2& a, float b);
-	MUD_VEC_FUN float3 operator-(const float3& a, float b);
-	MUD_VEC_FUN float4 operator-(const float4& a, float b);
-	MUD_VEC_FUN int2 operator-(const int2& a, const int2& b);
-	MUD_VEC_FUN int3 operator-(const int3& a, const int3& b);
-	MUD_VEC_FUN int4 operator-(const int4& a, const int4& b);
-	MUD_VEC_FUN int2 operator-(const int2& a, int b);
-	MUD_VEC_FUN int3 operator-(const int3& a, int b);
-	MUD_VEC_FUN int4 operator-(const int4& a, int b);
-	MUD_VEC_FUN uint2 operator-(const uint2& a, const uint2& b);
-	MUD_VEC_FUN uint3 operator-(const uint3& a, const uint3& b);
-	MUD_VEC_FUN uint4 operator-(const uint4& a, const uint4& b);
-	MUD_VEC_FUN uint2 operator-(const uint2& a, uint b);
-	MUD_VEC_FUN uint3 operator-(const uint3& a, uint b);
-	MUD_VEC_FUN uint4 operator-(const uint4& a, uint b);
-//$pycgen-end
-
-
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T2 operator*(const T2& a, const T2& b);
-	MUD_VEC_FUN T3 operator*(const T3& a, const T3& b);
-	MUD_VEC_FUN T4 operator*(const T4& a, const T4& b);
-	MUD_VEC_FUN T2 operator*(const T2& a, T b);
-	MUD_VEC_FUN T3 operator*(const T3& a, T b);
-	MUD_VEC_FUN T4 operator*(const T4& a, T b);
-	MUD_VEC_FUN T2 operator*(T a, const T2& b);
-	MUD_VEC_FUN T3 operator*(T a, const T3& b);
-	MUD_VEC_FUN T4 operator*(T a, const T4& b);
-	"""
-	EmitRepl(code, "T:" + scalar_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float2 operator*(const float2& a, const float2& b);
-	MUD_VEC_FUN float3 operator*(const float3& a, const float3& b);
-	MUD_VEC_FUN float4 operator*(const float4& a, const float4& b);
-	MUD_VEC_FUN float2 operator*(const float2& a, float b);
-	MUD_VEC_FUN float3 operator*(const float3& a, float b);
-	MUD_VEC_FUN float4 operator*(const float4& a, float b);
-	MUD_VEC_FUN float2 operator*(float a, const float2& b);
-	MUD_VEC_FUN float3 operator*(float a, const float3& b);
-	MUD_VEC_FUN float4 operator*(float a, const float4& b);
-	MUD_VEC_FUN int2 operator*(const int2& a, const int2& b);
-	MUD_VEC_FUN int3 operator*(const int3& a, const int3& b);
-	MUD_VEC_FUN int4 operator*(const int4& a, const int4& b);
-	MUD_VEC_FUN int2 operator*(const int2& a, int b);
-	MUD_VEC_FUN int3 operator*(const int3& a, int b);
-	MUD_VEC_FUN int4 operator*(const int4& a, int b);
-	MUD_VEC_FUN int2 operator*(int a, const int2& b);
-	MUD_VEC_FUN int3 operator*(int a, const int3& b);
-	MUD_VEC_FUN int4 operator*(int a, const int4& b);
-	MUD_VEC_FUN uint2 operator*(const uint2& a, const uint2& b);
-	MUD_VEC_FUN uint3 operator*(const uint3& a, const uint3& b);
-	MUD_VEC_FUN uint4 operator*(const uint4& a, const uint4& b);
-	MUD_VEC_FUN uint2 operator*(const uint2& a, uint b);
-	MUD_VEC_FUN uint3 operator*(const uint3& a, uint b);
-	MUD_VEC_FUN uint4 operator*(const uint4& a, uint b);
-	MUD_VEC_FUN uint2 operator*(uint a, const uint2& b);
-	MUD_VEC_FUN uint3 operator*(uint a, const uint3& b);
-	MUD_VEC_FUN uint4 operator*(uint a, const uint4& b);
-//$pycgen-end
-
-
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T2 operator/(const T2& a, const T2& b);
-	MUD_VEC_FUN T3 operator/(const T3& a, const T3& b);
-	MUD_VEC_FUN T4 operator/(const T4& a, const T4& b);
-	MUD_VEC_FUN T2 operator/(const T2& a, T b);
-	MUD_VEC_FUN T3 operator/(const T3& a, T b);
-	MUD_VEC_FUN T4 operator/(const T4& a, T b);
-	MUD_VEC_FUN T2 operator/(T a, const T2& b);
-	MUD_VEC_FUN T3 operator/(T a, const T3& b);
-	MUD_VEC_FUN T4 operator/(T a, const T4& b);
-	"""
-	EmitRepl(code, "T:" + scalar_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float2 operator/(const float2& a, const float2& b);
-	MUD_VEC_FUN float3 operator/(const float3& a, const float3& b);
-	MUD_VEC_FUN float4 operator/(const float4& a, const float4& b);
-	MUD_VEC_FUN float2 operator/(const float2& a, float b);
-	MUD_VEC_FUN float3 operator/(const float3& a, float b);
-	MUD_VEC_FUN float4 operator/(const float4& a, float b);
-	MUD_VEC_FUN float2 operator/(float a, const float2& b);
-	MUD_VEC_FUN float3 operator/(float a, const float3& b);
-	MUD_VEC_FUN float4 operator/(float a, const float4& b);
-	MUD_VEC_FUN int2 operator/(const int2& a, const int2& b);
-	MUD_VEC_FUN int3 operator/(const int3& a, const int3& b);
-	MUD_VEC_FUN int4 operator/(const int4& a, const int4& b);
-	MUD_VEC_FUN int2 operator/(const int2& a, int b);
-	MUD_VEC_FUN int3 operator/(const int3& a, int b);
-	MUD_VEC_FUN int4 operator/(const int4& a, int b);
-	MUD_VEC_FUN int2 operator/(int a, const int2& b);
-	MUD_VEC_FUN int3 operator/(int a, const int3& b);
-	MUD_VEC_FUN int4 operator/(int a, const int4& b);
-	MUD_VEC_FUN uint2 operator/(const uint2& a, const uint2& b);
-	MUD_VEC_FUN uint3 operator/(const uint3& a, const uint3& b);
-	MUD_VEC_FUN uint4 operator/(const uint4& a, const uint4& b);
-	MUD_VEC_FUN uint2 operator/(const uint2& a, uint b);
-	MUD_VEC_FUN uint3 operator/(const uint3& a, uint b);
-	MUD_VEC_FUN uint4 operator/(const uint4& a, uint b);
-	MUD_VEC_FUN uint2 operator/(uint a, const uint2& b);
-	MUD_VEC_FUN uint3 operator/(uint a, const uint3& b);
-	MUD_VEC_FUN uint4 operator/(uint a, const uint4& b);
-//$pycgen-end
-
-
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T2 operator-(const T2& a);
-	MUD_VEC_FUN T3 operator-(const T3& a);
-	MUD_VEC_FUN T4 operator-(const T4& a);
-	"""
-	EmitRepl(code, "T:" + signed_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float2 operator-(const float2& a);
-	MUD_VEC_FUN float3 operator-(const float3& a);
-	MUD_VEC_FUN float4 operator-(const float4& a);
-	MUD_VEC_FUN int2 operator-(const int2& a);
-	MUD_VEC_FUN int3 operator-(const int3& a);
-	MUD_VEC_FUN int4 operator-(const int4& a);
-//$pycgen-end
-
-
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T2& operator+=(T2& a, const T2& b);
-	MUD_VEC_FUN T3& operator+=(T3& a, const T3& b);
-	MUD_VEC_FUN T4& operator+=(T4& a, const T4& b);
-	"""
-	EmitRepl(code, "T:" + scalar_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float2& operator+=(float2& a, const float2& b);
-	MUD_VEC_FUN float3& operator+=(float3& a, const float3& b);
-	MUD_VEC_FUN float4& operator+=(float4& a, const float4& b);
-	MUD_VEC_FUN int2& operator+=(int2& a, const int2& b);
-	MUD_VEC_FUN int3& operator+=(int3& a, const int3& b);
-	MUD_VEC_FUN int4& operator+=(int4& a, const int4& b);
-	MUD_VEC_FUN uint2& operator+=(uint2& a, const uint2& b);
-	MUD_VEC_FUN uint3& operator+=(uint3& a, const uint3& b);
-	MUD_VEC_FUN uint4& operator+=(uint4& a, const uint4& b);
-//$pycgen-end
-	
-
-/*$pycgen
-	code = """
-	MUD_VEC_FUN T2& operator*=(T2& a, const T2& b);
-	MUD_VEC_FUN T3& operator*=(T3& a, const T3& b);
-	MUD_VEC_FUN T4& operator*=(T4& a, const T4& b);
-	"""
-	EmitRepl(code, "T:" + scalar_types)
-*/
-//$pycgen-begin
-	MUD_VEC_FUN float2& operator*=(float2& a, const float2& b);
-	MUD_VEC_FUN float3& operator*=(float3& a, const float3& b);
-	MUD_VEC_FUN float4& operator*=(float4& a, const float4& b);
-	MUD_VEC_FUN int2& operator*=(int2& a, const int2& b);
-	MUD_VEC_FUN int3& operator*=(int3& a, const int3& b);
-	MUD_VEC_FUN int4& operator*=(int4& a, const int4& b);
-	MUD_VEC_FUN uint2& operator*=(uint2& a, const uint2& b);
-	MUD_VEC_FUN uint3& operator*=(uint3& a, const uint3& b);
-	MUD_VEC_FUN uint4& operator*=(uint4& a, const uint4& b);
-//$pycgen-end
-
-
-	//
-	// Single precision 3x3 matrix
-	//
 	export_ struct refl_ struct_ array_ mat3
 	{
 		typedef float type;
@@ -1342,10 +464,6 @@ namespace mud
 		};
 	};
 
-
-	//
-	// Single precision quaternion
-	//
 	export_ struct refl_ struct_ array_ quat : public float4
 	{
 		typedef float type;
@@ -1368,35 +486,32 @@ namespace mud
 	export_ template <> inline const float* value_ptr(const mat4& m) { return &m.f[0]; }
 	export_ template <> inline float* value_ptr(quat& q) { return &q[0]; }
 
-	//
-	// Quaternion functions
-	//
-	MUD_VEC_FUN quat operator*(const quat& a, const quat& b);
-	//MUD_VEC_FUN quat operator/(const quat& a, const quat& b);
-	MUD_VEC_FUN quat operator+(const quat& a, const quat& b);
-	MUD_VEC_FUN quat operator-(const quat& a, const quat& b);
+	export_ MUD_MATH_EXPORT quat operator*(const quat& a, const quat& b);
+	//export_ MUD_MATH_EXPORT quat operator/(const quat& a, const quat& b);
+	export_ MUD_MATH_EXPORT quat operator+(const quat& a, const quat& b);
+	export_ MUD_MATH_EXPORT quat operator-(const quat& a, const quat& b);
 
-	MUD_VEC_FUN quat operator*(const quat& a, float s);
-	MUD_VEC_FUN quat operator/(const quat& a, float s);
-	MUD_VEC_FUN quat operator*(float s, const quat& a);
-	MUD_VEC_FUN quat operator/(float s, const quat& a);
+	export_ MUD_MATH_EXPORT quat operator*(const quat& a, float s);
+	export_ MUD_MATH_EXPORT quat operator/(const quat& a, float s);
+	export_ MUD_MATH_EXPORT quat operator*(float s, const quat& a);
+	export_ MUD_MATH_EXPORT quat operator/(float s, const quat& a);
 
-	MUD_VEC_FUN quat operator+(const quat& v);
-	MUD_VEC_FUN quat operator-(const quat& v);
+	export_ MUD_MATH_EXPORT quat operator+(const quat& v);
+	export_ MUD_MATH_EXPORT quat operator-(const quat& v);
 
 	// transform position
-	MUD_VEC_FUN float3 operator*(const quat& q, const float3& v);
-	MUD_VEC_FUN float4 operator*(const quat& q, const float4& v);
+	export_ MUD_MATH_EXPORT float3 operator*(const quat& q, const float3& v);
+	export_ MUD_MATH_EXPORT float4 operator*(const quat& q, const float4& v);
 
-	MUD_VEC_FUN quat conjugate(const quat& q);
-	MUD_VEC_FUN quat inverse(const quat& q);
-	MUD_VEC_FUN quat negate(const quat& q);
+	export_ MUD_MATH_EXPORT quat conjugate(const quat& q);
+	export_ MUD_MATH_EXPORT quat inverse(const quat& q);
+	export_ MUD_MATH_EXPORT quat negate(const quat& q);
 
-	MUD_VEC_FUN float dot(const quat& a, const quat& b);
-	MUD_VEC_FUN quat normalize(const quat& q);
+	export_ MUD_MATH_EXPORT float dot(const quat& a, const quat& b);
+	export_ MUD_MATH_EXPORT quat normalize(const quat& q);
 
-	MUD_VEC_FUN quat lerp(const quat& a, const quat& b, float t);
-	MUD_VEC_FUN quat slerp(const quat& a, const quat& b, float t);
+	export_ MUD_MATH_EXPORT quat lerp(const quat& a, const quat& b, float t);
+	export_ MUD_MATH_EXPORT quat slerp(const quat& a, const quat& b, float t);
 
 	//quat qZero();
 	//quat qIdentity();
@@ -1425,13 +540,13 @@ namespace mud
 		return float2(v.x * c - v.y * s, v.x * s + v.y * c);
 	}
 
-	MUD_VEC_FUN float oriented_angle(const float3& a, const float3& b, const float3& ref);
-	MUD_VEC_FUN float oriented_angle(const float2& a, const float2& b);
+	export_ MUD_MATH_EXPORT float oriented_angle(const float3& a, const float3& b, const float3& ref);
+	export_ MUD_MATH_EXPORT float oriented_angle(const float2& a, const float2& b);
 
-	MUD_VEC_FUN mat4 inverse(const mat4& m);
-	MUD_VEC_FUN mat4 transpose(const mat4& m);
-	MUD_VEC_FUN mat4 operator*(const mat4& m0, const mat4& m1);
-	MUD_VEC_FUN float4 operator*(const mat4& m, const float4& v);
+	export_ MUD_MATH_EXPORT mat4 inverse(const mat4& m);
+	export_ MUD_MATH_EXPORT mat4 transpose(const mat4& m);
+	export_ MUD_MATH_EXPORT mat4 operator*(const mat4& m0, const mat4& m1);
+	export_ MUD_MATH_EXPORT float4 operator*(const mat4& m, const float4& v);
 
 #if 0 // not implemented
 	// For float->float16 conversion

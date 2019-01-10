@@ -1,5 +1,3 @@
-
-
 #include <infra/Cpp20.h>
 
 #ifdef MUD_MODULES
@@ -8,7 +6,6 @@ module mud.noise;
 #include <noise/Types.h>
 #include <noise/Api.h>
 #include <type/Vector.h>
-//#include <ecs/Proto.h>
 #endif
 
 namespace mud
@@ -21,5 +18,5 @@ namespace mud
     template <> MUD_NOISE_EXPORT Type& type<mud::Noise::NoiseType>() { static Type ty("mud::Noise::NoiseType"); return ty; }
     
     template <> MUD_NOISE_EXPORT Type& type<mud::Noise>() { static Type ty("Noise"); return ty; }
-	template <> MUD_NOISE_EXPORT Type& type<mud::array_3d<float>>() { static Type ty("array_3d<float>", type<std::vector<float>>()); return ty; }
+    template <> MUD_NOISE_EXPORT Type& type<mud::array_3d<float>>() { static Type ty("array_3d<float>", type<std::vector<float>>()); return ty; }
 }

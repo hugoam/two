@@ -17,7 +17,7 @@ namespace mud
 	mud_refl::mud_refl()
 		: Module("mud::refl", { &mud_infra::m(), &mud_type::m(), &mud_pool::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_refl_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_refl::m();
+		return mud_refl::m();
 }
 #endif

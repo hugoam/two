@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <wfc/Types.h>
@@ -11,8 +10,8 @@
 
 namespace mud
 {
-    export_ template <> inline void from_string(const string& str, mud::Result& val) { val = static_cast<mud::Result>(enu<mud::Result>().value(str.c_str())); };
-    export_ template <> inline void to_string(const mud::Result& val, string& str) { str = enu<mud::Result>().m_map[size_t(val)]; };
-    
-    
+	export_ template <> inline void from_string(const string& str, mud::Result& val) { val = static_cast<mud::Result>(enu<mud::Result>().value(str.c_str())); };
+	export_ template <> inline void to_string(const mud::Result& val, string& str) { str = enu<mud::Result>().m_map[size_t(val)]; };
+	
+	
 }

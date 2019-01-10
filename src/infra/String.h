@@ -51,6 +51,9 @@ namespace mud
 	export_ MUD_INFRA_EXPORT string to_pascalcase(const string& name);
 	export_ MUD_INFRA_EXPORT string to_camelcase(const string& name);
 
+	export_ inline bool starts_with(const string& s, const string& start) { return s.size() >= start.size() && (s.find(start) == 0); };
+	export_ inline bool ends_with(const string& s, const string& end) { return s.size() >= end.size() && (s.rfind(end) == (s.size() - end.size())); };
+
 	extern MUD_INFRA_EXPORT const size_t g_num_precision; // = 3;
 
 	export_ inline string truncate_number(const string& str)

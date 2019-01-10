@@ -44,7 +44,7 @@ namespace ui
 
 	export_ MUD_UI_EXPORT ToolbarStyles& toolbar_styles();
 
-	export_ enum class PopupFlags : unsigned int
+	export_ enum class refl_ PopupFlags : unsigned int
 	{
 		None = 0,
 		Modal = (1 << 0),

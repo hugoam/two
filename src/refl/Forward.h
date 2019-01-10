@@ -12,12 +12,8 @@
 #define MUD_REFL_EXPORT MUD_IMPORT
 #endif
 
-
-    
-    
-
-namespace mud {
-
+namespace mud
+{
     enum class ConstructorIndex : unsigned int;
     enum class TypeClass : unsigned int;
     
@@ -26,6 +22,7 @@ namespace mud {
     class Signature;
     class Callable;
     class Function;
+	struct Operator;
     class Method;
     class Constructor;
     class CopyConstructor;

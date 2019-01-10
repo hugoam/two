@@ -1,4 +1,3 @@
-
 #pragma once
 
 #if !defined MUD_MODULES || defined MUD_TYPE_LIB
@@ -20,8 +19,9 @@
 #include <meta/gfx/Module.h>
 #include <meta/gfx-pbr/Module.h>
 #include <meta/gfx-ui/Module.h>
+#include <meta/gfx-edit/Module.h>
 #endif
-        
+
 #include <tool/Forward.h>
 #include <tool/Types.h>
 #include <tool/Api.h>
@@ -38,7 +38,7 @@ namespace mud
 	{
 	private:
 		mud_tool();
-
+		
 	public:
 		static mud_tool& m() { static mud_tool instance; return instance; }
 	};

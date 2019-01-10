@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #ifndef MUD_MODULES
@@ -14,27 +12,39 @@
 namespace mud
 {
     void mud_jobs_meta(Module& m)
-    {   
-		UNUSED(m);
+    {
+    
     // Base Types
     
     // Enums
     
     // Sequences
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
+    // mud::JobSystem
+    {
+        static Meta meta = { type<mud::JobSystem>(), &namspc({ "mud" }), "JobSystem", sizeof(mud::JobSystem), TypeClass::Object };
+        static Class cls = { type<mud::JobSystem>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        meta_class<mud::JobSystem>();
+    }
+        m.m_types.push_back(&type<mud::JobSystem>());
     }
 }

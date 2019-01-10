@@ -8,7 +8,7 @@ function uses_examples()
 end
 
 mud.examples = {}
-mud.examples.all = mud_module(nil, "example", MUD_DIR, "example", nil, nil, uses_examples, {}, true)
+mud.examples.all = mud_module(nil, "example", MUD_DIR, "example", nil, uses_examples, false, {}, true)
         
 if _OPTIONS["renderer-bgfx"] then
     --mud_binary("mud_example", mud.examples.all, { mud })
@@ -25,7 +25,7 @@ function mud_example(name, deps, exdeps, ismodule)
         configuration {}
     end
 
-    _G[name] = mud_module(nil, "_" .. name, path.join(MUD_DIR, "example"), name, nil, nil, uses_example, deps, not ismodule)
+    _G[name] = mud_module(nil, "_" .. name, path.join(MUD_DIR, "example"), name, nil, uses_example, false, deps, not ismodule)
     
     mud_binary(name, table.union({ _G[name] }, exdeps), {})
 end

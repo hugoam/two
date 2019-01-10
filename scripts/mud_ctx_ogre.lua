@@ -28,7 +28,7 @@ function mud_ctx_ogre()
     configuration {}    
 end
 
-mud.ctx.ogre = mud_module("mud", "ctx-ogre", MUD_SRC_DIR, "ctx-ogre", nil, mud_ctx_ogre, nil, { mud.math, mud.ctx })
+mud.ctx.ogre = mud_module("mud", "ctx-ogre", MUD_SRC_DIR, "ctx-ogre", mud_ctx_ogre, nil, false, { mud.math, mud.ctx })
 
 function mud_ctx_backend()
     return mud.ctx.ogre

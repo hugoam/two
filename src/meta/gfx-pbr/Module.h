@@ -1,4 +1,3 @@
-
 #pragma once
 
 #if !defined MUD_MODULES || defined MUD_TYPE_LIB
@@ -8,12 +7,11 @@
 #ifndef MUD_MODULES
 #include <meta/infra/Module.h>
 #include <meta/type/Module.h>
-#include <meta/srlz/Module.h>
 #include <meta/math/Module.h>
 #include <meta/geom/Module.h>
 #include <meta/gfx/Module.h>
 #endif
-        
+
 #include <gfx-pbr/Forward.h>
 #include <gfx-pbr/Types.h>
 #include <gfx-pbr/Api.h>
@@ -30,7 +28,7 @@ namespace mud
 	{
 	private:
 		mud_gfx_pbr();
-
+		
 	public:
 		static mud_gfx_pbr& m() { static mud_gfx_pbr instance; return instance; }
 	};

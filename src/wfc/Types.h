@@ -21,6 +21,7 @@
 #include <vector>
 #endif
 
+
 namespace mud
 {
     // Exported types
@@ -31,11 +32,10 @@ namespace mud
     export_ template <> MUD_WFC_EXPORT Type& type<mud::Wave>();
     export_ template <> MUD_WFC_EXPORT Type& type<mud::TileWave>();
     export_ template <> MUD_WFC_EXPORT Type& type<mud::WaveTileset>();
-    export_ template <> MUD_WFC_EXPORT Type& type<mud::array_3d<float>>();
     
-	export_ template struct MUD_WFC_EXPORT Typed<std::vector<mud::Tile*>>;
-	export_ template struct MUD_WFC_EXPORT Typed<std::vector<mud::Tileset*>>;
-	export_ template struct MUD_WFC_EXPORT Typed<std::vector<mud::Wave*>>;
-	export_ template struct MUD_WFC_EXPORT Typed<std::vector<mud::TileWave*>>;
-	export_ template struct MUD_WFC_EXPORT Typed<std::vector<mud::WaveTileset*>>;
+    export_ template struct MUD_WFC_EXPORT Typed<std::vector<mud::Tile*>>;
+    export_ template struct MUD_WFC_EXPORT Typed<std::vector<mud::Tileset*>>;
+    export_ template struct MUD_WFC_EXPORT Typed<std::vector<mud::Wave*>>;
+    export_ template struct MUD_WFC_EXPORT Typed<std::vector<mud::TileWave*>>;
+    export_ template struct MUD_WFC_EXPORT Typed<std::vector<mud::WaveTileset*>>;
 }

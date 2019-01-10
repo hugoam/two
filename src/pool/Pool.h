@@ -91,7 +91,7 @@ namespace mud
 	class SparsePool;
 
 	template <class T>
-	struct SparseHandle
+	struct refl_ struct_ SparseHandle
 	{
 		SparseHandle() {}
 		SparseHandle(SparsePool<T>& pool, uint32_t handle) : m_pool(&pool), m_handle(handle) {}
@@ -119,7 +119,7 @@ namespace mud
 	};
 
 	template <class T>
-	struct OwnedHandle
+	struct refl_ struct_ nocopy_ OwnedHandle
 	{
 		OwnedHandle() {}
 		OwnedHandle(SparsePool<T>& pool, uint32_t handle) : m_pool(&pool), m_handle(handle) {}

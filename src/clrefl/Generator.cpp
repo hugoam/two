@@ -1,251 +1,343 @@
 #include <clrefl/Generator.h>
 #include <clrefl/Codegen.h>
 
+#define PARSE_EXTERNAL 0
+
 namespace mud
 {
-	CLMember::CLMember(CLClass& parent, CXCursor cursor)
-		: m_parent(parent)
+	void update_file(const string& path, const string& content)
 	{
+		string current = read_text_file(path.c_str());
+		if(content != current)
+			write_file(path.c_str(), content.c_str());
+	}
+
+	CLQualType qual_type(CLModule& module, CLPrimitive& parent, CXType type, bool real_type)
+	{
+		CLQualType qual;
+
+		qual.m_spelling = parent.fix_template(type_name(type));
+		qual.m_type_name = parent.fix_template(class_name(type));
+		qual.m_unqual_type_name = parent.fix_template(unqual_type_name(type));
+
+		if(real_type)
+		{
+			qual.m_type = module.get_type(parent, qual.m_type_name);
+			// fixing type because of FUCKING clang.....................
+			string spelling = qual.m_type->m_id;
+			if(qual.pointer())         spelling = spelling + "*";
+			if(qual.const_pointer())   spelling = "const " + spelling + "*";
+			if(qual.reference())       spelling = spelling + "&";
+			if(qual.const_reference()) spelling = "const " + spelling + "&";
+			qual.m_spelling = spelling;
+		}
+
+		return qual;
+	}
+
+	void parse_enum(CLModule& module, CLPrimitive& parent, CXCursor cursor)
+	{
+		CLEnum& e =	module.enum_type(parent, displayname(cursor));
+		e.m_scoped = is_scoped(cursor);
+		e.m_enum_type = spelling(enum_type(cursor));
+		e.m_prefix = e.m_scoped ? e.m_id + "::" : parent.m_prefix;
+
+		e.m_annotations = get_annotations(cursor);
+		e.m_reflect = has<string>(e.m_annotations, "reflect");
+
+		visit_children(cursor, [&](CXCursor c)
+		{
+			if(c.kind == CXCursor_EnumConstantDecl)
+			{
+				e.m_ids.push_back(displayname(c));
+				e.m_values.push_back(to_string(enum_value(c)));
+				e.m_scoped_ids.push_back(e.m_prefix + displayname(c));
+			}
+		});
+	}
+
+	void find_default_value(CXCursor cursor, const string& type, bool& has_default, string& default_value)
+	{
+		if(type == "")
+			int i = 0;
+
+		visit_children(cursor, [&](CXCursor c)
+		{
+			if(c.kind == CXCursor_CXXBoolLiteralExpr || c.kind == CXCursor_FloatingLiteral || c.kind == CXCursor_IntegerLiteral || c.kind == CXCursor_StringLiteral)
+			{
+				has_default = true;
+				default_value = first_token(c);
+			}
+			else if(c.kind == CXCursor_CallExpr || c.kind == CXCursor_DeclRefExpr || c.kind == CXCursor_UnexposedExpr)
+			{
+				has_default = true;
+				visit_tokens(c, [&](CXToken t) {
+					string token = spelling(c, t);
+					if(ends_with(default_value + token, type)) default_value += token;
+					else if(kind(t) == CXToken_Identifier && ends_with(type, token)) default_value += type;
+					else if(token != "=") default_value += token;
+				});
+			}
+		});
+	}
+
+	void parse_param(CLPrimitive& parent, CLFunction& func, CLParam& p, CXCursor cursor)
+	{
+		p.m_name = spelling(cursor);
+		p.m_type = qual_type(*func.m_module, parent, type(cursor), !parent.m_is_template);
+
+		p.m_output = p.m_name.substr(0, 6) == "output";
+
+		if(p.m_type.m_type)
+		{
+			find_default_value(cursor, p.m_type.m_type->m_id, p.m_has_default, p.m_default);
+			if(parent.m_is_templated)
+				p.m_default = parent.fix_template(p.m_default);
+		}
+	}
+
+	void parse_function(CLModule& module, CLPrimitive& parent, CLFunction& f, CXCursor cursor)
+	{
+		f.m_name = spelling(cursor);
+		f.m_module = &module;
+
+		if(has(module.m_context.m_func_templates, f.m_name))
+		{
+			string name = displayname(cursor);
+			string template_type = clean_name(split(name.substr(name.find("(") + 1), ",")[0]);
+			printf("Templated Function %s\n", template_type.c_str());
+			f.m_name += "<" + template_type + ">";
+			f.m_id += "<" + template_type + ">";
+		}
+
+		f.m_is_template = cursor.kind == CXCursor_FunctionTemplate || (parent.m_is_template);
+
+		f.m_return_type = qual_type(module, parent, result_type(cursor), !f.m_is_template);
+
+		if(!f.m_is_template)
+		{
+			visit_children(cursor, [&](CXCursor a)
+			{
+				if(a.kind == CXCursor_ParmDecl)
+				{
+					f.m_params.push_back(CLParam(f, f.m_params.size()));
+					parse_param(parent, f, f.m_params.back(), a);
+				}
+			});
+		}
+	}
+
+	void parse_function(CLModule& module, CLPrimitive& parent, CXCursor cursor)
+	{
+		//print "Function ", cursor.displayname
+		CLFunction& func = vector_emplace<CLFunction>(module.m_functions, parent, spelling(cursor));
+		parse_function(module, parent, func, cursor);
+	}
+
+	void parse_function_template(CLModule& module, CLPrimitive& parent, CXCursor cursor)
+	{
+		//print "Function Template ", cursor.displayname
+		CLFunction& func = vector_emplace<CLFunction>(module.m_func_templates, parent, spelling(cursor));
+		parse_function(module, parent, func, cursor);
+		module.m_context.m_func_templates[func.m_name] = &func;
+	}
+
+	void parse_static(CLClass& c, CXCursor cursor)
+	{
+		CLStatic& s = vector_push(c.m_statics, c);
+		s.m_member = spelling(cursor);
+		s.m_name = replace(spelling(cursor), "m_", "");
+	}
+
+	void parse_constructor(CLClass& c, CXCursor cursor)
+	{
+		CLConstructor& ctor = vector_push(c.m_constructors, c, spelling(cursor));
+		parse_function(*c.m_module, c, ctor, cursor);
+		ctor.m_expected_params = ctor.m_params;
+	}
+
+	void parse_method(CLClass& c, CLMethod& m, CXCursor cursor)
+	{
+		parse_function(*c.m_module, c, m, cursor);
+		m.m_expected_params = m.m_params;
+		m.m_const = is_const_method(cursor);
+	}
+
+	void parse_method(CLClass& c, CXCursor cursor)
+	{
+		CLMethod& m = vector_push(c.m_methods, c, spelling(cursor));
+		parse_method(c, m, cursor);
+	}
+
+	void parse_member(CLClass& c, CXCursor cursor)
+	{
+		CLMember& m = vector_push(c.m_members, c);
 		CXType member_type = type(cursor);
+
 		if(cursor.kind == CXCursor_CXXMethod)
 		{
-			m_function = make_unique<CLMethod>(parent, cursor);
+			m.m_method = make_unique<CLMethod>(c, spelling(cursor));
+			parse_method(c, *m.m_method, cursor);
 			member_type = result_type(cursor);
 		}
 
-		m_clsname = parent.fix_template(class_name(member_type, parent.m_is_template || parent.m_is_templated));
-		m_type = parent.fix_template(type_name(member_type, parent.m_is_template || parent.m_is_templated));
+		m.m_type = qual_type(*c.m_module, c, member_type, !c.m_is_template);
 
-		m_member = spelling(cursor);
-		m_name = replace(spelling(cursor), "m_", "");
-		m_capname = char(toupper(m_name[0])) + m_name.substr(1, string::npos);
+		m.m_member = spelling(cursor);
+		m.m_name = replace(spelling(cursor), "m_", "");
+		m.m_capname = char(toupper(m.m_name[0])) + m.m_name.substr(1, string::npos);
 
-		m_pointer = m_type.back() == '*';
-		m_reference = m_type.back() == '&' && m_type.find("const") != string::npos;
+		m.m_annotations = get_annotations(cursor);
+		m.m_nonmutable = has<string>(m.m_annotations, "nonmutable_attr");
+		m.m_structure = has<string>(m.m_annotations, "structure_attr");
+		m.m_link = has<string>(m.m_annotations, "link_attr");
+		m.m_component = has<string>(m.m_annotations, "component");
 
-		m_annotations = get_annotations(cursor);
-		m_nonmutable = has<string>(m_annotations, "nonmutable_attr");
-		m_structure = has<string>(m_annotations, "structure_attr");
-		m_link = has<string>(m_annotations, "link_attr");
-		//m_component = has<string>(m_annotations, "component");
-
-		if(!parent.m_is_template)
-			m_cls = m_parent.m_module->get_type(parent, m_clsname);
-
-		m_setter = !m_nonmutable && m_function;
+		m.m_setter = !m.m_nonmutable && m.m_method;
 
 		visit_children(cursor, [&](CXCursor c) {
-			if((c.kind == CXCursor_CXXMethod && spelling(c) == "set" + m_capname))
-				m_setter = true;
+			if((c.kind == CXCursor_CXXMethod && spelling(c) == "set" + m.m_capname))
+				m.m_setter = true;
 		});
 
-#if 0
-		#print "Member", m_name, m_type
-        
-		find_default_value(m_cls, cursor)
-#endif
-	}
-
-
-	CLParam::CLParam(CLFunction& func, CXCursor cursor, size_t index, CLPrimitive& parent)
-		: m_func(&func)
-		, m_index(index)
-	{
-		m_name = spelling(cursor);
-		m_type = type_name(type(cursor), parent.m_is_template || parent.m_is_templated);
-		m_clsname = class_name(type(cursor), parent.m_is_template || parent.m_is_templated);
-
-		m_type = parent.fix_template(m_type);
-		m_clsname = parent.fix_template(m_clsname);
-        
-		m_pointer = m_type.back() == '*';
-		m_reference = m_type.back() == '&' && m_type.find("const") == string::npos;
-		m_const_pointer = m_type.substr(0, 5) == "const" && m_type.back() == '*';
-		m_const_reference = m_type.substr(0, 5) == "const" && m_type.back() == '&';
-        
-		m_nullable = m_pointer || m_type == "mud::Ref";
-		m_output = m_name.substr(0, 6) == "output";
-		m_input = !m_output;
-        
-		m_has_default = false;
-		m_default = "";
-         
-		//if(! parent || ! parent.is_template:
-		if(!parent.m_is_template)
+		if(m.m_type.m_type)
 		{
-			m_cls = m_func->m_module.get_type(parent, m_clsname);
-				// fixing type because of FUCKING clang.....................
-			m_type = m_cls->m_id;
-			if(m_pointer)
-				m_type = m_type + "*";
-			if(m_reference)
-				m_type = m_type + "&";
-			if(m_const_pointer)
-				m_type = "const" + m_type + "*";
-			if(m_const_reference)
-				m_type = "const " + m_type + "&";
-		}
-
-		//find_default_value(m_cls, cursor)
-	}
-
-	CLFunction::CLFunction(CLModule& module, CXCursor cursor, CLPrimitive& parent)
-		: m_module(module)
-		, m_parent(parent)
-	{
-		m_name = spelling(cursor);
-		m_id = parent.m_prefix + m_name;
-		m_idstr = replace(m_id, "::", "_");
-
-		/*if(module.m_context.m_func_templates.find(m_name))
-		{
-			string dname = displayname(cursor);
-			string template_type = clean_name(split(dname.substr(dname.find("(") + 1), ",")[0])
-			print "Templated Function", template_type
-			m_name += "<" + template_type + ">"
-			m_id += "<" + template_type + ">"
-			m_idstr += "_" + template_type
-		 }*/
-
-		m_returnType = type_name(result_type(cursor));
-		m_returnPointer = m_returnType.back() == '*';
-		m_returnClsName = class_name(result_type(cursor));
-		m_unqualReturnType = unqual_type_name(result_type(cursor));
-		m_is_function = cursor.kind == CXCursor_FunctionDecl;
-		m_is_template = cursor.kind == CXCursor_FunctionTemplate || (parent.m_is_template);
-
-		if(!m_is_template)
-		{
-			visit_children(cursor, [&](CXCursor a) {
-				if(a.kind == CXCursor_ParmDecl)
-					m_params.push_back(CLParam(*this, a, m_params.size(), parent));
-			});
-
-			m_returnCls = m_module.get_type(parent, m_returnClsName);
+			find_default_value(cursor, m.m_type.m_type->m_id, m.m_has_default, m.m_default);
+			if(c.m_is_templated)
+				m.m_default = c.fix_template(m.m_default);
 		}
 	}
 
-	CLMethod::CLMethod(CLType& parent, CXCursor cursor)
-		: CLFunction(*parent.m_module, cursor, parent)
+	void parse_class(CLModule& module, CLPrimitive& parent, CLClass& c, CXCursor cursor)
 	{
-		m_expected_params = m_params;
-	}
+		c.m_name = clean_name(displayname(cursor));
+		c.m_is_template = cursor.kind == CXCursor_ClassTemplate;
 
-	CLClass::CLClass(CLModule& module, CXCursor cursor, CLPrimitive& parent)
-		: CLType(module, clean_name(displayname(cursor)), parent, cursor.kind == CXCursor_ClassTemplate)
-	{
-		m_idstr = replace(replace(m_name, "<", ""), ">", "");
+		c.m_annotations = get_annotations(cursor);
 
-		m_annotations = get_annotations(cursor);
+		if(c.m_name == "OCollider")
+			int i = 0;
+		c.m_struct = has<string>(c.m_annotations, "struct") || cursor.kind == CXCursor_StructDecl;
+		c.m_move_only = has<string>(c.m_annotations, "nocopy");
+		c.m_reflect = has<string>(c.m_annotations, "reflect");
+		c.m_extern = has<string>(c.m_annotations, "external");
 
-		m_struct = has<string>(m_annotations, "struct") || cursor.kind == CXCursor_StructDecl;
-		m_reflect = has<string>(m_annotations, "reflect");
-		m_extern = has<string>(m_annotations, "external");
-
-		m_template_name = template_name(m_name);
-		m_is_templated = m_name.find("<") != string::npos && !m_is_template;
-		m_template = m_is_templated ? module.m_context.m_class_templates[m_template_name] : nullptr;
-		m_template_types = template_types(m_name);
+		c.m_is_templated = c.m_name.find("<") != string::npos && !c.m_is_template;
+		if(c.m_is_template || c.m_is_templated)
+		{
+			c.m_template_types = template_types(c.m_name);
+			c.m_template_name = template_name(c.m_name);
+		}
+		if(c.m_is_templated)
+			c.m_template = module.m_context.m_class_templates[c.m_template_name];
 
 		//#if(m_is_templated && is_template_decl(cursor):
 		//#    m_template.template_used = true
 	}
 
-	void CLClass::parse_contents(CXCursor cursor)
+	CLClass& decl_class_type(CLModule& module, CLPrimitive& parent, CXCursor cursor)
 	{
-		printf("Parsing %s\n", m_id.c_str());
-		m_cursor = cursor;
-
-		if(m_is_templated && is_template_decl(cursor))
-			cursor = m_template->m_cursor;
-
-		visit_children(cursor, [&](CXCursor c) {
-			this->parse_child(c);
-		});
-
-		if(has<string>(m_annotations, "array_object"))
-		{
-			m_array = true;
-			m_array_size = m_members.size();
-			m_array_type = m_members[0].m_cls;
-		}
+		CLClass& cls = vector_emplace<CLClass>(module.m_classes, module, parent, clean_name(displayname(cursor)));
+		parse_class(module, parent, cls, cursor);
+		module.register_type(cls);
+		return cls;
 	}
 
-	void CLClass::parse_child(CXCursor cursor)
+	CLClass& decl_class_template(CLModule& module, CLPrimitive& parent, CXCursor cursor)
+	{
+		CLClass& cls = vector_emplace<CLClass>(module.m_class_templates, module, parent, clean_name(displayname(cursor)));
+		parse_class(module, parent, cls, cursor);
+		module.register_type(cls);
+		module.m_context.m_class_templates[cls.m_template_name] = &cls;
+		return cls;
+	}
+
+	void parse_class_child(CLClass& c, CXCursor cursor)
 	{
 		std::vector<string> annotations = get_annotations(cursor);
 
 		if(cursor.kind == CXCursor_TemplateTypeParameter)
-			m_template_types.push_back(spelling(cursor));
+			c.m_template_types.push_back(spelling(cursor));
 
 		if(cursor.kind == CXCursor_CXXBaseSpecifier)
 		{
 			string name = class_name(type(cursor));
 
 			if(name.find("<") != string::npos)
-				name = this->fix_template(name);
+				name = c.fix_template(name);
 
-			//else if(name == "mud::Complex")
-			//	m_isModular = true;
-			//else if(name == "mud::Construct")
-			//	m_isProto = true;
-
-			if(name == "array<T>")
-				int i = 0;
-
-			CLType* base = m_module->get_type(*m_parent, name, false);
+			//CLType* base = m_module->get_type(*m_parent, name, false);
+			CLType* base = c.m_module->m_context.m_types[name];
 			if(base && base->m_reflect)
 			{
-				m_bases.push_back(base);
-				m_deep_bases.push_back(base);
-				vector_extend(m_deep_bases, base->m_bases);
+				c.m_bases.push_back(base);
+				c.m_deep_bases.push_back(base);
+				vector_extend(c.m_deep_bases, base->m_bases);
 			}
 		}
 
-		else if(cursor.kind == CXCursor_Constructor)
+		else if(cursor.kind == CXCursor_Constructor && has<string>(annotations, "constructor"))
+			parse_constructor(c, cursor);
+		else if(cursor.kind == CXCursor_CXXMethod && has<string>(annotations, "attribute"))
+			parse_member(c, cursor);
+		else if(cursor.kind == CXCursor_CXXMethod && has<string>(annotations, "method"))
+			parse_method(c, cursor);
+		else if(cursor.kind == CXCursor_FieldDecl && has<string>(annotations, "attribute"))
+			parse_member(c, cursor);
+		else if(cursor.kind == CXCursor_VarDecl && has<string>(annotations, "attribute"))
+			parse_static(c, cursor);
+		else if(cursor.kind == CXCursor_UnionDecl || cursor.kind == CXCursor_StructDecl)
 		{
-			if(has<string>(annotations, "constructor"))
-				m_constructors.push_back(CLConstructor(*this, cursor));
-		}
-		else if(cursor.kind == CXCursor_CXXMethod)
-		{
-			if(has<string>(annotations, "attribute"))
-				m_members.push_back(CLMember(*this, cursor));
-			if(has<string>(annotations, "method"))
-				m_methods.push_back(CLMethod(*this, cursor));
-		}
-		else if(cursor.kind == CXCursor_FieldDecl)
-		{
-			if(has<string>(annotations, "attribute"))
-				m_members.push_back(CLMember(*this, cursor));
-			//if(has("component", annotations))
-			//{
-			//	m = Member(cursor);
-			//	m_parts.push_back(m.cls);
-			//}
-		}
-		else if(cursor.kind == CXCursor_VarDecl)
-		{
-			if(has<string>(annotations, "attribute"))
-				m_statics.push_back(CLStatic(*this, cursor));
-		}
-		else if(cursor.kind == CXCursor_UnionDecl
-			|| cursor.kind == CXCursor_StructDecl)
-		{
-			visit_children(cursor, [&](CXCursor c) {
-				this->parse_child(c);
+			visit_children(cursor, [&](CXCursor a) {
+				parse_class_child(c, a);
 			});
 		}
+
+		std::set<string> method_names;
+		for(CLMethod& method : c.m_methods)
+		{
+			if(method_names.find(method.m_name) != method_names.end())
+				method.m_overloaded = true;
+			method_names.insert(method.m_name);
+		}
 	}
+
+	void parse_class_contents(CLClass& c, CXCursor cursor)
+	{
+		printf("Parsing %s\n", c.m_id.c_str());
+		c.m_cursor = cursor;
+
+		if(c.m_is_templated) // && is_template_decl(cursor))
+			cursor = c.m_template->m_cursor;
+
+		visit_children(cursor, [&](CXCursor a) {
+			parse_class_child(c, a);
+		});
+
+		if(has<string>(c.m_annotations, "array_object"))
+		{
+			c.m_array = true;
+			c.m_array_size = c.m_members.size();
+			c.m_array_type = c.m_members[0].m_type.m_type;
+		}
+	}
+
+	bool should_visit(CXCursor cursor, CLModule& module)
+	{
+		auto fix_path = [](const string& path) { return replace(path, "\\", "/"); };
+		string location = fix_path(file(cursor));
+#if PARSE_EXTERNAL
+		return module.m_context.m_parsed_files.find(location) == module.m_context.m_parsed_files.end();
+#else
+		return location.find(module.m_path) == 0 && location.find("meta") == string::npos;
+#endif
+	}
+
 	void register_classes(CXCursor cursor, CLModule& module, CLPrimitive& parent)
 	{
 		visit_children(cursor, [&](CXCursor c)
 		{
-			auto fix_path = [](const string& path) { return replace(path, "\\", "/"); };
-			string location = fix_path(file(c));
-			bool visit = location.find(module.m_path) == 0 && location.find("meta") == string::npos;
-			//if(!visit) printf("skipping file %s for module %s\n", location.c_str(), module.m_path.c_str());
-			if(visit)
+			if(should_visit(c, module))
 			{
 				std::vector<string> annotations = get_annotations(c);
 
@@ -260,18 +352,16 @@ namespace mud
 
 					if(c.kind == CXCursor_ClassDecl || c.kind == CXCursor_StructDecl)
 					{
-						CLClass& cl = module.class_type(c, parent);
+						CLClass& cl = decl_class_type(module, parent, c);
 						register_classes(c, module, cl);
 					}
 					else if(c.kind == CXCursor_ClassTemplate)
 					{
-						CLClass& cl = module.class_template(c, parent);
+						CLClass& cl = decl_class_template(module, parent, c);
 						register_classes(c, module, cl);
 					}
 					else if(c.kind == CXCursor_EnumDecl)
-					{
-						module.enum_type(c, parent);
-					}
+						parse_enum(module, parent, c);
 				}
 			}
 		});
@@ -281,44 +371,33 @@ namespace mud
 	{
 		visit_children(cursor, [&](CXCursor c)
 		{
-			auto fix_path = [](const string& path) { return replace(path, "\\", "/"); };
-			string location = fix_path(file(c));
-			bool visit = location.find(module.m_path) == 0 && location.find("meta") == string::npos;
-			//if(!visit) printf("skipping file %s for module %s\n", location.c_str(), module.m_path.c_str());
-			if(visit)
+			if(should_visit(c, module))
 			{
 				std::vector<string> annotations = get_annotations(c);
 
 				if(c.kind == CXCursor_Namespace)
 				{
-					CLNamespace ns = module.get_namespace(spelling(c), parent);
+					CLNamespace& ns = module.get_namespace(spelling(c), parent);
 					build_classes(c, module, ns);
 				}
 				else if(is_definition(c))
 				{
-					if(has<string>(annotations, "reflect"))
+					if((c.kind == CXCursor_ClassDecl || c.kind == CXCursor_StructDecl) && has<string>(annotations, "reflect"))
 					{
-						if(c.kind == CXCursor_ClassDecl || c.kind == CXCursor_StructDecl) // || displayname(c).find("<") != string::npos
-						{
-							CLClass& cls = module.get_class(parent.m_prefix + clean_name(displayname(c)));
-							cls.parse_contents(c);
-							build_classes(c, module, cls);
-						}
-						else if(c.kind == CXCursor_ClassTemplate)
-						{
-							CLClass& cls = module.get_class_template(template_name(displayname(c)));
-							cls.parse_contents(c);
-						}
+						CLClass& cls = module.get_class(parent.m_prefix + clean_name(displayname(c)));
+						parse_class_contents(cls, c);
+						build_classes(c, module, cls);
+					}
+					else if(c.kind == CXCursor_ClassTemplate && has<string>(annotations, "reflect"))
+					{
+						CLClass& cls = module.get_class_template(template_name(displayname(c)));
+						parse_class_contents(cls, c);
 					}
 				}
 				else if(c.kind == CXCursor_FunctionDecl && has<string>(annotations, "function"))
-				{
-					module.function(c, parent);
-				}
+					parse_function(module, parent, c);
 				else if(c.kind == CXCursor_FunctionTemplate && has<string>(annotations, "function"))
-				{
-					module.function_template(c, parent);
-				}
+					parse_function_template(module, parent, c);
 			}
 		});
 	}
@@ -326,12 +405,12 @@ namespace mud
 	class CLGenerator
 	{
 	public:
-		CLGenerator() {}
+		CLGenerator() : m_context() {}
 
 		std::vector<unique_ptr<CLModule>> m_modules = {};
 		std::vector<CLModule*> m_generator_queue = {};
 		CLContext m_context;
-	
+
 		CLModule& module(const string& id)
 		{
 			for(auto& module : m_modules)
@@ -362,8 +441,8 @@ namespace mud
 				"-Wmicrosoft",
 				"-Drefl_=__attribute__((annotate(\"reflect\")))",
 				"-Dstruct_=__attribute__((annotate(\"struct\")))",
+				"-Dnocopy_=__attribute__((annotate(\"nocopy\")))",
 				"-Dextern_=__attribute__((annotate(\"external\")))",
-				"-Dserial_=__attribute__((annotate(\"serialize\")))",
 				"-Darray_=__attribute__((annotate(\"array_object\")))",
 				"-Dcomp_=__attribute__((annotate(\"component\")))",
 				"-Dconstr_=__attribute__((annotate(\"constructor\")))",
@@ -383,7 +462,7 @@ namespace mud
 			for(CLModule* m : module.m_modules)
 				compiler_args.push_back("-I" + m->m_rootdir);
 
-#if 0
+#ifdef DEBUG_CLANG_ARGS
 			printf("Parsing with compiler args: \n");
 			for(string arg : compiler_args)
 				printf("%s\n", arg.c_str());
@@ -420,8 +499,8 @@ namespace mud
 						clang_getPresumedLocation(location, &filename, &line, &column);
 
 						printf("severity: %i, ", int(severity));
-						printf("location: %s (%i, %i), ", clang_getCString(filename), line, column);
-						printf("%s\n", clang_getCString(clang_getDiagnosticSpelling(diagnostic)));
+						printf("location: %s (%i, %i), ", clang_string(filename).c_str(), line, column);
+						printf("%s\n", clang_string(clang_getDiagnosticSpelling(diagnostic)).c_str());
 						//print diag.option
 
 						clang_disposeString(filename);
@@ -449,62 +528,64 @@ namespace mud
 			this->parse_through(module, register_classes);
         
 			printf("NUM CLASSES : %i\n", int(module.m_classes.size()));
-			//this->render_mako(module, "Forward.h", false)
-        
+
+			//string forward_h = clgen::forward_h_template(module);
+			//update_file((module.m_path + "\\" + "Forward.h").c_str(), forward_h.c_str());
+
 			this->parse_through(module, build_classes);
         
-			auto cmp_types = [](CLType& first, CLType& other)
+			auto cmp_types = [](CLType& a, CLType& b) -> int
 			{
-				// negative means self before other, positive means self after other
+				// negative means a before b, positive means a after b
 				int bases = 0;// cmp(first.deep_bases, other.deep_bases)
 				if(false)
 					;
-				else if(other.m_deep_bases.size() > 0 && first.m_deep_bases.size() == 0)
+				else if(b.m_deep_bases.size() > 0 && a.m_deep_bases.size() == 0)
 					return -1;
-				else if(first.m_deep_bases.size() > 0 && other.m_deep_bases.size() == 0)
+				else if(a.m_deep_bases.size() > 0 && b.m_deep_bases.size() == 0)
 					return 1;
-				else if(other.m_deep_bases.size() > 0 && first.m_deep_bases.size() > 0 && bases != 0)
+				else if(b.m_deep_bases.size() > 0 && a.m_deep_bases.size() > 0 && bases != 0)
 					return bases;
-				else if(has(other.m_deep_bases, &first))
+				else if(has(b.m_deep_bases, &a))
 					return -1;
-				else if(has(first.m_deep_bases, &other))
+				else if(has(a.m_deep_bases, &b))
 					return 1;
 				else
-					return strcmp(first.m_name.c_str(), other.m_name.c_str());
+					return a.m_name.compare(b.m_name);
 			};
 
-			sort(module.m_types, [&](CLType* a, CLType* b) { return cmp_types(*a, *b); });
+			sort(module.m_types, [&](CLType* a, CLType* b) { return cmp_types(*a, *b) < 0; });
 
-			sort(module.m_classes, [&](const unique_ptr<CLClass>& a, const unique_ptr<CLClass>& b) { return cmp_types(*a, *b); });
-			sort(module.m_enums, [&](const unique_ptr<CLEnum>& a, const unique_ptr<CLEnum>& b) { return cmp_types(*a, *b); });
-			sort(module.m_sequences, [&](const unique_ptr<CLSequence>& a, const unique_ptr<CLSequence>& b) { return cmp_types(*a, *b); });
-			sort(module.m_basetypes, [&](const unique_ptr<CLBaseType>& a, const unique_ptr<CLBaseType>& b) { return cmp_types(*a, *b); });
+			sort(module.m_classes, [&](const unique_ptr<CLClass>& a, const unique_ptr<CLClass>& b) { return cmp_types(*a, *b) < 0; });
+			sort(module.m_enums, [&](const unique_ptr<CLEnum>& a, const unique_ptr<CLEnum>& b) { return cmp_types(*a, *b) < 0; });
+			sort(module.m_sequences, [&](const unique_ptr<CLSequence>& a, const unique_ptr<CLSequence>& b) { return cmp_types(*a, *b) < 0; });
+			sort(module.m_basetypes, [&](const unique_ptr<CLBaseType>& a, const unique_ptr<CLBaseType>& b) { return cmp_types(*a, *b) < 0; });
             
-			if(module.m_classes.size() == 0 && module.m_enums.size() == 0)
-				return;
+			//if(module.m_classes.size() == 0 && module.m_enums.size() == 0)
+			//	return;
 
 			if(!directory_exists(module.m_refl_path.c_str()))
 				create_file_tree(module.m_refl_path.c_str());
             
-			printf("Generating output templates :");
+			printf("Generating output templates :\n");
 
 			string types_h = clgen::types_h_template(module);
-			write_file((module.m_path + "\\" + "Types.h").c_str(), types_h.c_str());
+			update_file((module.m_path + "\\" + "Types.h").c_str(), types_h.c_str());
 
 			string types_cpp = clgen::types_cpp_template(module);
-			write_file((module.m_path + "\\" + "Types.cpp").c_str(), types_cpp.c_str());
+			update_file((module.m_path + "\\" + "Types.cpp").c_str(), types_cpp.c_str());
 
 			string meta_h = clgen::meta_h_template(module);
-			write_file((module.m_refl_path + "\\" + "Meta.h").c_str(), meta_h.c_str());
+			update_file((module.m_refl_path + "\\" + "Meta.h").c_str(), meta_h.c_str());
 
 			string module_h = clgen::module_h_template(module);
-			write_file((module.m_refl_path + "\\" + "Module.h").c_str(), module_h.c_str());
+			update_file((module.m_refl_path + "\\" + "Module.h").c_str(), module_h.c_str());
 
 			string module_cpp = clgen::module_cpp_template(module);
-			write_file((module.m_refl_path + "\\" + "Module.cpp").c_str(), module_cpp.c_str());
+			update_file((module.m_refl_path + "\\" + "Module.cpp").c_str(), module_cpp.c_str());
 
-			//string convert_h = clgen::convert_h_template(module);
-			//write_file((module.m_refl_path + "\\" + "Convert.h").c_str(), convert_h.c_str());
+			string convert_h = clgen::convert_h_template(module);
+			update_file((module.m_refl_path + "\\" + "Convert.h").c_str(), convert_h.c_str());
 		}
 
 		void add_module(const Json& m)
@@ -516,7 +597,7 @@ namespace mud
 			}
 
 			std::vector<string> includedirs = {};
-			for(const Json& inc : m["dependencies"].array_items())
+			for(const Json& inc : m["includedirs"].array_items())
 			{
 				includedirs.push_back(inc.string_value());
 			}
@@ -532,9 +613,15 @@ namespace mud
 				m_context.m_types[key_value.first] = m_context.m_types[key_value.second.string_value()];
 		}
 
+		void generate_module(const string& id)
+		{
+			CLModule& module = this->module(id);
+			this->generate_module(module);
+		}
+
 		void generate_all_modules()
 		{
-			for(CLModule* module : m_generator_queue )
+			for(CLModule* module : m_generator_queue)
 				this->generate_module(*module);
 		}
 	};
@@ -545,16 +632,14 @@ using namespace mud;
 
 int main(int argc, char *argv[])
 {
-	string args = "d:/Documents/Programmation/toy/build/refl/mud_infra_refl.json d:/Documents/Programmation/toy/build/refl/mud_jobs_refl.json d:/Documents/Programmation/toy/build/refl/mud_type_refl.json d:/Documents/Programmation/toy/build/refl/mud_tree_refl.json d:/Documents/Programmation/toy/build/refl/mud_pool_refl.json d:/Documents/Programmation/toy/build/refl/mud_refl_refl.json d:/Documents/Programmation/toy/build/refl/mud_ecs_refl.json d:/Documents/Programmation/toy/build/refl/mud_srlz_refl.json d:/Documents/Programmation/toy/build/refl/mud_math_refl.json d:/Documents/Programmation/toy/build/refl/mud_geom_refl.json d:/Documents/Programmation/toy/build/refl/mud_noise_refl.json d:/Documents/Programmation/toy/build/refl/mud_wfc_refl.json d:/Documents/Programmation/toy/build/refl/mud_fract_refl.json d:/Documents/Programmation/toy/build/refl/mud_lang_refl.json d:/Documents/Programmation/toy/build/refl/mud_ctx_refl.json d:/Documents/Programmation/toy/build/refl/mud_ui_refl.json d:/Documents/Programmation/toy/build/refl/mud_uio_refl.json d:/Documents/Programmation/toy/build/refl/mud_snd_refl.json d:/Documents/Programmation/toy/build/refl/mud_clrefl_refl.json d:/Documents/Programmation/toy/build/refl/mud_ctx_glfw_refl.json d:/Documents/Programmation/toy/build/refl/mud_ui_vg_refl.json d:/Documents/Programmation/toy/build/refl/mud_ui_nanovg_refl.json d:/Documents/Programmation/toy/build/refl/mud_ui_nanovg_bgfx_refl.json d:/Documents/Programmation/toy/build/refl/mud_bgfx_refl.json d:/Documents/Programmation/toy/build/refl/mud_gfx_refl.json d:/Documents/Programmation/toy/build/refl/mud_gfx_pbr_refl.json d:/Documents/Programmation/toy/build/refl/mud_gfx_obj_refl.json d:/Documents/Programmation/toy/build/refl/mud_gfx_gltf_refl.json d:/Documents/Programmation/toy/build/refl/mud_gfx_ui_refl.json d:/Documents/Programmation/toy/build/refl/mud_gfx_edit_refl.json d:/Documents/Programmation/toy/build/refl/mud_tool_refl.json d:/Documents/Programmation/toy/build/refl/mud_wfc_gfx_refl.json d:/Documents/Programmation/toy/build/refl/mud_core_refl.json d:/Documents/Programmation/toy/build/refl/toy_util_refl.json d:/Documents/Programmation/toy/build/refl/toy_core_refl.json d:/Documents/Programmation/toy/build/refl/toy_visu_refl.json d:/Documents/Programmation/toy/build/refl/toy_edit_refl.json d:/Documents/Programmation/toy/build/refl/toy_block_refl.json d:/Documents/Programmation/toy/build/refl/toy_shell_refl.json d:/Documents/Programmation/toy/build/refl/_test_refl.json d:/Documents/Programmation/toy/build/refl/_minimal_refl.json d:/Documents/Programmation/toy/build/refl/_boids_refl.json d:/Documents/Programmation/toy/build/refl/_space_refl.json d:/Documents/Programmation/toy/build/refl/_platform_refl.json d:/Documents/Programmation/toy/build/refl/_blocks_refl.json d:/Documents/Programmation/toy/build/refl/_wren_refl.json d:/Documents/Programmation/toy/build/refl/_godot_refl.json";
+	string args = "d:/Documents/Programmation/toy/build/refl/mud_infra_refl.json d:/Documents/Programmation/toy/build/refl/mud_jobs_refl.json d:/Documents/Programmation/toy/build/refl/mud_type_refl.json d:/Documents/Programmation/toy/build/refl/mud_tree_refl.json d:/Documents/Programmation/toy/build/refl/mud_pool_refl.json d:/Documents/Programmation/toy/build/refl/mud_refl_refl.json d:/Documents/Programmation/toy/build/refl/mud_ecs_refl.json d:/Documents/Programmation/toy/build/refl/mud_srlz_refl.json d:/Documents/Programmation/toy/build/refl/mud_math_refl.json d:/Documents/Programmation/toy/build/refl/mud_geom_refl.json d:/Documents/Programmation/toy/build/refl/mud_noise_refl.json d:/Documents/Programmation/toy/build/refl/mud_wfc_refl.json d:/Documents/Programmation/toy/build/refl/mud_fract_refl.json d:/Documents/Programmation/toy/build/refl/mud_lang_refl.json d:/Documents/Programmation/toy/build/refl/mud_ctx_refl.json d:/Documents/Programmation/toy/build/refl/mud_ui_refl.json d:/Documents/Programmation/toy/build/refl/mud_uio_refl.json d:/Documents/Programmation/toy/build/refl/mud_snd_refl.json d:/Documents/Programmation/toy/build/refl/mud_bgfx_refl.json d:/Documents/Programmation/toy/build/refl/mud_gfx_refl.json d:/Documents/Programmation/toy/build/refl/mud_gltf_refl.json d:/Documents/Programmation/toy/build/refl/mud_gfx_pbr_refl.json d:/Documents/Programmation/toy/build/refl/mud_gfx_obj_refl.json d:/Documents/Programmation/toy/build/refl/mud_gfx_gltf_refl.json d:/Documents/Programmation/toy/build/refl/mud_gfx_ui_refl.json d:/Documents/Programmation/toy/build/refl/mud_gfx_edit_refl.json d:/Documents/Programmation/toy/build/refl/mud_tool_refl.json d:/Documents/Programmation/toy/build/refl/mud_wfc_gfx_refl.json d:/Documents/Programmation/toy/build/refl/toy_util_refl.json d:/Documents/Programmation/toy/build/refl/toy_core_refl.json d:/Documents/Programmation/toy/build/refl/toy_visu_refl.json d:/Documents/Programmation/toy/build/refl/toy_edit_refl.json d:/Documents/Programmation/toy/build/refl/toy_block_refl.json d:/Documents/Programmation/toy/build/refl/toy_shell_refl.json d:/Documents/Programmation/toy/build/refl/_test_refl.json d:/Documents/Programmation/toy/build/refl/_minimal_refl.json d:/Documents/Programmation/toy/build/refl/_boids_refl.json d:/Documents/Programmation/toy/build/refl/_space_refl.json d:/Documents/Programmation/toy/build/refl/_platform_refl.json d:/Documents/Programmation/toy/build/refl/_blocks_refl.json d:/Documents/Programmation/toy/build/refl/_wren_refl.json d:/Documents/Programmation/toy/build/refl/_godot_refl.json";
 	
 	CLGenerator generator;
 
 	std::vector<string> locations = split(args, " ");
 
-	for(int i = 0; i < argc; ++i)
+	for(int i = 1; i < argc; ++i)
 		locations.push_back(argv[i]);
-
-	locations.resize(5);
 
 	for(string loc : locations)
 	{
@@ -564,6 +649,8 @@ int main(int argc, char *argv[])
 		generator.add_module(json_module);
 	}
 
+	//generator.generate_module("mud_geom");
+	//generator.generate_module("mud_gfx");
 	generator.generate_all_modules();
 	return 0;
 }

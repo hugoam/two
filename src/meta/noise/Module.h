@@ -1,4 +1,3 @@
-
 #pragma once
 
 #if !defined MUD_MODULES || defined MUD_TYPE_LIB
@@ -8,11 +7,10 @@
 #ifndef MUD_MODULES
 #include <meta/infra/Module.h>
 #include <meta/type/Module.h>
-#include <meta/srlz/Module.h>
 #include <meta/math/Module.h>
 #include <meta/geom/Module.h>
 #endif
-        
+
 #include <noise/Forward.h>
 #include <noise/Types.h>
 #include <noise/Api.h>
@@ -29,7 +27,7 @@ namespace mud
 	{
 	private:
 		mud_noise();
-
+		
 	public:
 		static mud_noise& m() { static mud_noise instance; return instance; }
 	};

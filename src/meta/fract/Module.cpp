@@ -17,7 +17,7 @@ namespace mud
 	mud_fract::mud_fract()
 		: Module("mud::fract", { &mud_infra::m(), &mud_type::m(), &mud_math::m(), &mud_geom::m() })
 	{
-        // setup reflection meta data
+		// setup reflection meta data
 		mud_fract_meta(*this);
 	}
 }
@@ -26,6 +26,6 @@ namespace mud
 extern "C"
 Module& getModule()
 {
-	return mud_fract::m();
+		return mud_fract::m();
 }
 #endif
