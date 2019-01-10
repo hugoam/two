@@ -318,7 +318,7 @@ namespace mud
 	{
 		json data;
 
-		bool glb = false; // to_lower(path).ends_with("glb")
+		bool glb = ends_with(to_lower(path), ".glb");
 		if(glb)
 		{
 			std::vector<uint8_t> buffer;

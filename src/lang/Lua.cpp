@@ -690,15 +690,18 @@ namespace mud
 
 	FromLua::FromLua()
 	{
-		function<int>([](Ref, lua_State* state, int index, Var& result) { read_integer<int>(state, index, result); });
-		function<uint32_t>([](Ref, lua_State* state, int index, Var& result) { read_integer<uint32_t>(state, index, result); });
-		function<float>([](Ref, lua_State* state, int index, Var& result) { read_number<float>(state, index, result); });
-		function<cstring>([](Ref, lua_State* state, int index, Var& result) { read_cstring(state, index, result); });
-		function<string>([](Ref, lua_State* state, int index, Var& result) { read_string(state, index, result); });
-		function<Id>([](Ref, lua_State* state, int index, Var& result) { read_integer<Id>(state, index, result); });
-		function<bool>([](Ref, lua_State* state, int index, Var& result) { val<bool>(result) = lua_toboolean(state, index) != 0; });
+		function<int>     ([](Ref, lua_State* state, int index, Var& result) { read_integer<int>(state, index, result); });
+		function<ushort>  ([](Ref, lua_State* state, int index, Var& result) { read_integer<ushort>(state, index, result); });
+		function<uint>    ([](Ref, lua_State* state, int index, Var& result) { read_integer<uint>(state, index, result); });
+		function<ulong>   ([](Ref, lua_State* state, int index, Var& result) { read_integer<ulong>(state, index, result); });
+		function<ulong2>  ([](Ref, lua_State* state, int index, Var& result) { read_integer<ulong2>(state, index, result); });
+		function<float>   ([](Ref, lua_State* state, int index, Var& result) { read_number<float>(state, index, result); });
+		function<double>  ([](Ref, lua_State* state, int index, Var& result) { read_number<double>(state, index, result); });
+		function<cstring> ([](Ref, lua_State* state, int index, Var& result) { read_cstring(state, index, result); });
+		function<string>  ([](Ref, lua_State* state, int index, Var& result) { read_string(state, index, result); });
+		function<bool>    ([](Ref, lua_State* state, int index, Var& result) { val<bool>(result) = lua_toboolean(state, index) != 0; });
 
-		function<Type>([](Ref, lua_State* state, int index, Var& result) { return read_type(state, index, result); });
+		function<Type>    ([](Ref, lua_State* state, int index, Var& result) { return read_type(state, index, result); });
 		//function<Prototype> ([](Ref, lua_State* state, int index) { return read_type(state, index); });
 	}
 

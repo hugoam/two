@@ -81,7 +81,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Animation
 	{
 	public:
-		Animation(cstring name);
+		explicit Animation(cstring name);
 
 		std::vector<AnimationTrack> tracks;
 

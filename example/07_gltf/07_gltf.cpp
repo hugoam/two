@@ -53,7 +53,6 @@ int main(int argc, char *argv[])
 {
 	cstring example_path = MUD_RESOURCE_PATH "examples/07_gltf/";
 	Shell app(cstrarray(MUD_RESOURCE_PATH, example_path), argc, argv);
-	System::instance().load_modules({ &mud_gfx_gltf::m() });
 	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }

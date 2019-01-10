@@ -146,8 +146,8 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 
 		if(animated->m_playing.empty() || animated->playing() != state)
 		{
-			Human::State& state = characters[i].m_states.back();
-			animated->play(state.m_action.c_str(), true, 0.f, state.m_action_speed);
+			const Human::State& state = characters[i].m_states.back();
+			animated->start(state.m_action.c_str(), true, 0.f, state.m_action_speed);
 		}
 	}
 
@@ -190,7 +190,6 @@ int main(int argc, char *argv[])
 {
 	cstring example_path = MUD_RESOURCE_PATH "examples/05_character/";
 	Shell app(carray<cstring, 2>{ MUD_RESOURCE_PATH, example_path }, argc, argv);
-	System::instance().load_modules({ &mud_gfx_gltf::m() });
 	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }
