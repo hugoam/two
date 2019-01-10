@@ -188,10 +188,10 @@ namespace mud
 		m.m_capname = char(toupper(m.m_name[0])) + m.m_name.substr(1, string::npos);
 
 		m.m_annotations = get_annotations(cursor);
-		m.m_nonmutable = has<string>(m.m_annotations, "nonmutable_attr");
-		m.m_structure = has<string>(m.m_annotations, "structure_attr");
-		m.m_link = has<string>(m.m_annotations, "link_attr");
-		m.m_component = has<string>(m.m_annotations, "component");
+		m.m_nonmutable = has<string>(m.m_annotations, "nomut");
+		m.m_structure = has<string>(m.m_annotations, "graph");
+		m.m_link = has<string>(m.m_annotations, "link");
+		m.m_component = has<string>(m.m_annotations, "comp");
 
 		m.m_setter = !m.m_nonmutable && m.m_method;
 
@@ -215,12 +215,10 @@ namespace mud
 
 		c.m_annotations = get_annotations(cursor);
 
-		if(c.m_name == "OCollider")
-			int i = 0;
 		c.m_struct = has<string>(c.m_annotations, "struct") || cursor.kind == CXCursor_StructDecl;
 		c.m_move_only = has<string>(c.m_annotations, "nocopy");
-		c.m_reflect = has<string>(c.m_annotations, "reflect");
-		c.m_extern = has<string>(c.m_annotations, "external");
+		c.m_reflect = has<string>(c.m_annotations, "refl");
+		c.m_extern = has<string>(c.m_annotations, "extern");
 
 		c.m_is_templated = c.m_name.find("<") != string::npos && !c.m_is_template;
 		if(c.m_is_template || c.m_is_templated)
@@ -276,15 +274,15 @@ namespace mud
 			}
 		}
 
-		else if(cursor.kind == CXCursor_Constructor && has<string>(annotations, "constructor"))
+		else if(cursor.kind == CXCursor_Constructor && has<string>(annotations, "constr"))
 			parse_constructor(c, cursor);
-		else if(cursor.kind == CXCursor_CXXMethod && has<string>(annotations, "attribute"))
+		else if(cursor.kind == CXCursor_CXXMethod && has<string>(annotations, "attr"))
 			parse_member(c, cursor);
-		else if(cursor.kind == CXCursor_CXXMethod && has<string>(annotations, "method"))
+		else if(cursor.kind == CXCursor_CXXMethod && has<string>(annotations, "meth"))
 			parse_method(c, cursor);
-		else if(cursor.kind == CXCursor_FieldDecl && has<string>(annotations, "attribute"))
+		else if(cursor.kind == CXCursor_FieldDecl && has<string>(annotations, "attr"))
 			parse_member(c, cursor);
-		else if(cursor.kind == CXCursor_VarDecl && has<string>(annotations, "attribute"))
+		else if(cursor.kind == CXCursor_VarDecl && has<string>(annotations, "attr"))
 			parse_static(c, cursor);
 		else if(cursor.kind == CXCursor_UnionDecl || cursor.kind == CXCursor_StructDecl)
 		{
@@ -314,7 +312,7 @@ namespace mud
 			parse_class_child(c, a);
 		});
 
-		if(has<string>(c.m_annotations, "array_object"))
+		if(has<string>(c.m_annotations, "array"))
 		{
 			c.m_array = true;
 			c.m_array_size = c.m_members.size();
@@ -348,7 +346,7 @@ namespace mud
 				}
 				else if(is_definition(c))
 				{
-					if(!has<string>(annotations, "reflect")) return;
+					if(!has<string>(annotations, "refl")) return;
 
 					if(c.kind == CXCursor_ClassDecl || c.kind == CXCursor_StructDecl)
 					{
@@ -382,21 +380,21 @@ namespace mud
 				}
 				else if(is_definition(c))
 				{
-					if((c.kind == CXCursor_ClassDecl || c.kind == CXCursor_StructDecl) && has<string>(annotations, "reflect"))
+					if((c.kind == CXCursor_ClassDecl || c.kind == CXCursor_StructDecl) && has<string>(annotations, "refl"))
 					{
 						CLClass& cls = module.get_class(parent.m_prefix + clean_name(displayname(c)));
 						parse_class_contents(cls, c);
 						build_classes(c, module, cls);
 					}
-					else if(c.kind == CXCursor_ClassTemplate && has<string>(annotations, "reflect"))
+					else if(c.kind == CXCursor_ClassTemplate && has<string>(annotations, "refl"))
 					{
 						CLClass& cls = module.get_class_template(template_name(displayname(c)));
 						parse_class_contents(cls, c);
 					}
 				}
-				else if(c.kind == CXCursor_FunctionDecl && has<string>(annotations, "function"))
+				else if(c.kind == CXCursor_FunctionDecl && has<string>(annotations, "func"))
 					parse_function(module, parent, c);
-				else if(c.kind == CXCursor_FunctionTemplate && has<string>(annotations, "function"))
+				else if(c.kind == CXCursor_FunctionTemplate && has<string>(annotations, "func"))
 					parse_function_template(module, parent, c);
 			}
 		});
@@ -422,12 +420,6 @@ namespace mud
 		{
 			printf("Module path : %s\n", module.m_path.c_str());
 
-			// the code generator can deal with the problem of the includes in two ways :
-			//   - forward-declare everything that can be && skip all the includes
-			//   - parse all the includes, which means also all the includes of the dependencies which then need to be passed to this generator
-
-			// for now we are doing a hybrid approach, just skipping the includes of the external dependencies by wrapping them in a ifdef MUD_GENERATOR_SKIP_INCLUDES block
-
 			bool debug_diagnostic = true;
 
 			std::vector<string> compiler_args = {
@@ -439,22 +431,11 @@ namespace mud
 				"-fms-extensions",
 				"-fmsc-version=1900",
 				"-Wmicrosoft",
-				"-Drefl_=__attribute__((annotate(\"reflect\")))",
-				"-Dstruct_=__attribute__((annotate(\"struct\")))",
-				"-Dnocopy_=__attribute__((annotate(\"nocopy\")))",
-				"-Dextern_=__attribute__((annotate(\"external\")))",
-				"-Darray_=__attribute__((annotate(\"array_object\")))",
-				"-Dcomp_=__attribute__((annotate(\"component\")))",
-				"-Dconstr_=__attribute__((annotate(\"constructor\")))",
-				"-Dmeth_=__attribute__((annotate(\"method\")))",
-				"-Dfunc_=__attribute__((annotate(\"function\")))",
-				"-Dattr_=__attribute__((annotate(\"attribute\")))",
-				"-Dnomut_=__attribute__((annotate(\"nonmutable_attr\")))",
-				"-Dgraph_=__attribute__((annotate(\"structure_attr\")))",
-				"-Dlink_=__attribute__((annotate(\"link_attr\")))",
 				"-DMUD_META_GENERATOR",
-				//"-DMUD_GENERATOR_SKIP_INCLUDES",
 			};
+
+			for(string attr : { "refl", "struct", "nocopy", "extern", "array", "comp", "constr", "meth", "func", "attr", "nomut", "graph", "link" })
+				compiler_args.push_back("-D" + attr + "_=__attribute__((annotate(\"" + attr + "\")))");
 
 			for(string dir : module.m_includedirs)
 				compiler_args.push_back("-I" + dir);

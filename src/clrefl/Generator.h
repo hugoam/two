@@ -17,11 +17,10 @@
 
 namespace mud
 {
-	// @todo
+	// todo:
 	// - add error/warning for member of non reflected type
-	// - toy::OCollider not declared
-	// - passing toy::OCollider (can't copy construct)
-	// - var(mud::Vg()) is abstract
+	// - handle aliases of known types (either by parsing using/typedef, or by checking canonical type always)
+	// - allow precompilation of separate modules
 
 	using std::string;
 	using std::vector;
@@ -660,12 +659,12 @@ namespace mud
 			{
 				if(has(m_context.m_base_aliases, name))
 					return &this->proxy_type(name, m_context.m_root_namespace);
-				/*for(auto& name_namespace : m_context.m_namespaces)
+				for(auto& name_namespace : m_context.m_namespaces)
 				{
 					cls = this->find_type_in(*name_namespace.second, name, warn);
 					if(cls)
 						break;
-				}*/
+				}
 			}
 			return cls;
 		}
