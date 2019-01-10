@@ -12,6 +12,6 @@ namespace mud
 {
     // Exported types
     
-    template <> MUD_WFC_GFX_EXPORT Type& type<mud::TileModel>() { static Type ty("TileModel"); return ty; }
-    template <> MUD_WFC_GFX_EXPORT Type& type<mud::WfcBlock>() { static Type ty("WfcBlock"); return ty; }
+    template <> MUD_WFC_GFX_EXPORT Type& type<mud::TileModel>() { static Type ty("TileModel", sizeof(mud::TileModel)); return ty; }
+    template <> MUD_WFC_GFX_EXPORT Type& type<mud::WfcBlock>() { static Type ty("WfcBlock", sizeof(mud::WfcBlock)); return ty; }
 }

@@ -686,13 +686,13 @@ namespace clgen
 		p(i, "{");
 		p(i, "// Exported types");
 		for(auto& b : m.m_basetypes)
-			p(i, "template <> " + m.m_export + " Type& type<" + b->m_name + ">() { static Type ty(\"" + b->m_name + "\"); return ty; }");
+			p(i, "template <> " + m.m_export + " Type& type<" + b->m_name + ">() { static Type ty(\"" + b->m_name + "\"" + (b->m_name == "void" ? "" : ", sizeof(" + b->m_name + ")") + "); return ty; }");
 		for(auto& e : m.m_enums)
-			p(i, "template <> " + m.m_export + " Type& type<" + e->m_id + ">() { static Type ty(\"" + e->m_id + "\"); return ty; }");
+			p(i, "template <> " + m.m_export + " Type& type<" + e->m_id + ">() { static Type ty(\"" + e->m_id + "\", sizeof(" + e->m_id + ")); return ty; }");
 		p(i, "");
 		for(auto& c : m.m_classes)
 			if(c->m_reflect && !c->m_nested && c->m_id != "mud::Type")
-				p(i, "template <> " + m.m_export + " Type& type<" + c->m_id + ">() { static Type ty(\"" + c->m_name + "\"" + (c->m_bases.size() > 0 ? ", " + type_get(*c->m_bases[0]) : "") + "); return ty; }");
+				p(i, "template <> " + m.m_export + " Type& type<" + c->m_id + ">() { static Type ty(\"" + c->m_name + "\"" + (c->m_bases.size() > 0 ? ", " + type_get(*c->m_bases[0]) : "") + ", sizeof(" + c->m_id + ")); return ty; }");
 		p(i, "}");
 
 		return t;

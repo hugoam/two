@@ -341,6 +341,10 @@ namespace mud
 					CLNamespace& ns = module.get_namespace(spelling(c), parent);
 					register_classes(c, module, ns);
 				}
+				else if(c.kind == CXCursor_UsingDeclaration)
+				{
+					// dump_ast(c);
+				}
 				else if(is_definition(c))
 				{
 					if(!has<string>(annotations, "refl")) return;

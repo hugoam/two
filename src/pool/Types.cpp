@@ -12,6 +12,6 @@ namespace mud
 {
     // Exported types
     
-    template <> MUD_POOL_EXPORT Type& type<mud::HandlePool>() { static Type ty("HandlePool"); return ty; }
-    template <> MUD_POOL_EXPORT Type& type<mud::Pool>() { static Type ty("Pool"); return ty; }
+    template <> MUD_POOL_EXPORT Type& type<mud::HandlePool>() { static Type ty("HandlePool", sizeof(mud::HandlePool)); return ty; }
+    template <> MUD_POOL_EXPORT Type& type<mud::Pool>() { static Type ty("Pool", sizeof(mud::Pool)); return ty; }
 }
