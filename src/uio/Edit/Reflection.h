@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <infra/Vector.h>
 #include <type/Ref.h>
 #include <refl/Enum.h>
 #include <ui/Ui.h>
