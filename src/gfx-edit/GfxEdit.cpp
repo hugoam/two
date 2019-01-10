@@ -59,7 +59,7 @@ namespace mud
 
 		static uint32_t animation = 0;
 		if(ui::radio_field(table, "animation", animations, animation))
-			animated.play(animations[animation], true, 0.f, 1.f);
+			animated.start(animations[animation], true, 0.f, 1.f);
 
 		if(!animated.m_playing.empty())
 		{
