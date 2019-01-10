@@ -43,7 +43,7 @@ namespace mud
 		e.m_prefix = e.m_scoped ? e.m_id + "::" : parent.m_prefix;
 
 		e.m_annotations = get_annotations(cursor);
-		e.m_reflect = has<string>(e.m_annotations, "reflect");
+		e.m_reflect = has<string>(e.m_annotations, "refl");
 
 		visit_children(cursor, [&](CXCursor c)
 		{
@@ -58,9 +58,6 @@ namespace mud
 
 	void find_default_value(CXCursor cursor, const string& type, bool& has_default, string& default_value)
 	{
-		if(type == "")
-			int i = 0;
-
 		visit_children(cursor, [&](CXCursor c)
 		{
 			if(c.kind == CXCursor_CXXBoolLiteralExpr || c.kind == CXCursor_FloatingLiteral || c.kind == CXCursor_IntegerLiteral || c.kind == CXCursor_StringLiteral)
