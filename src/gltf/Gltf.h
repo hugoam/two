@@ -12,6 +12,7 @@
 #include <vector>
 #include <map>
 #include <functional>
+#include <algorithm>
 #endif
 
 export_ struct refl_ glTFNodeExtras
