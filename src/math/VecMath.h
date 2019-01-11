@@ -110,21 +110,21 @@ namespace mud
 		};
 	};
 
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT v2<float>;
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT v3<float>;
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT v4<float>;
+	export_ template struct refl_ MUD_MATH_EXPORT v2<float>;
+	export_ template struct refl_ MUD_MATH_EXPORT v3<float>;
+	export_ template struct refl_ MUD_MATH_EXPORT v4<float>;
 
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT v2<int>;
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT v3<int>;
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT v4<int>;
+	export_ template struct refl_ MUD_MATH_EXPORT v2<int>;
+	export_ template struct refl_ MUD_MATH_EXPORT v3<int>;
+	export_ template struct refl_ MUD_MATH_EXPORT v4<int>;
 
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT v2<uint>;
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT v3<uint>;
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT v4<uint>;
+	export_ template struct refl_ MUD_MATH_EXPORT v2<uint>;
+	export_ template struct refl_ MUD_MATH_EXPORT v3<uint>;
+	export_ template struct refl_ MUD_MATH_EXPORT v4<uint>;
 
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT v2<bool>;
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT v3<bool>;
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT v4<bool>;
+	export_ template struct refl_ MUD_MATH_EXPORT v2<bool>;
+	export_ template struct refl_ MUD_MATH_EXPORT v3<bool>;
+	export_ template struct refl_ MUD_MATH_EXPORT v4<bool>;
 
 	export_ refl_ using float2 = v2<float>;
 	export_ refl_ using float3 = v3<float>;

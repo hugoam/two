@@ -40,11 +40,11 @@ namespace mud
 		attr_ std::vector<T> m_keys;
 	};
 
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueCurve<vec3>;
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueCurve<quat>;
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueCurve<float>;
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueCurve<uint32_t>;
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueCurve<Colour>;
+	export_ template struct refl_ MUD_MATH_EXPORT ValueCurve<vec3>;
+	export_ template struct refl_ MUD_MATH_EXPORT ValueCurve<quat>;
+	export_ template struct refl_ MUD_MATH_EXPORT ValueCurve<float>;
+	export_ template struct refl_ MUD_MATH_EXPORT ValueCurve<uint32_t>;
+	export_ template struct refl_ MUD_MATH_EXPORT ValueCurve<Colour>;
 
 	template <class T>
 	struct One { static T value() { return T(1); } };
@@ -96,9 +96,9 @@ namespace mud
 		attr_ ValueCurve<T> m_max_curve;
 	};
 
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueTrack<vec3>;
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueTrack<quat>;
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueTrack<float>;
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueTrack<uint32_t>;
-	export_ template struct refl_ struct_ MUD_MATH_EXPORT ValueTrack<Colour>;
+	export_ template struct refl_ MUD_MATH_EXPORT ValueTrack<vec3>;
+	export_ template struct refl_ MUD_MATH_EXPORT ValueTrack<quat>;
+	export_ template struct refl_ MUD_MATH_EXPORT ValueTrack<float>;
+	export_ template struct refl_ MUD_MATH_EXPORT ValueTrack<uint32_t>;
+	export_ template struct refl_ MUD_MATH_EXPORT ValueTrack<Colour>;
 }
