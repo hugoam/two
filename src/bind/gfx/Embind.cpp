@@ -1,0 +1,628 @@
+#include <gfx/Api.h>
+#include <emscripten/bind.h>
+
+using namespace emscripten;
+
+EMSCRIPTEN_BINDINGS(mud_gfx)
+{
+    
+    // Enums
+    enum_<mud::AnimationTarget>("mud::AnimationTarget")
+        .value("Position", mud::AnimationTarget::Position)
+        .value("Rotation", mud::AnimationTarget::Rotation)
+        .value("Scale", mud::AnimationTarget::Scale)
+        ;
+    enum_<mud::BackgroundMode>("mud::BackgroundMode")
+        .value("None", mud::BackgroundMode::None)
+        .value("Panorama", mud::BackgroundMode::Panorama)
+        .value("Radiance", mud::BackgroundMode::Radiance)
+        .value("Custom", mud::BackgroundMode::Custom)
+        ;
+    enum_<mud::BlendMode>("mud::BlendMode")
+        .value("Mix", mud::BlendMode::Mix)
+        .value("Add", mud::BlendMode::Add)
+        .value("Sub", mud::BlendMode::Sub)
+        .value("Mul", mud::BlendMode::Mul)
+        .value("Normal", mud::BlendMode::Normal)
+        .value("Alpha", mud::BlendMode::Alpha)
+        ;
+    enum_<mud::CullMode>("mud::CullMode")
+        .value("None", mud::CullMode::None)
+        .value("Front", mud::CullMode::Front)
+        .value("Back", mud::CullMode::Back)
+        ;
+    enum_<mud::DepthDraw>("mud::DepthDraw")
+        .value("Enabled", mud::DepthDraw::Enabled)
+        .value("Disabled", mud::DepthDraw::Disabled)
+        ;
+    enum_<mud::DepthTest>("mud::DepthTest")
+        .value("Enabled", mud::DepthTest::Enabled)
+        .value("Disabled", mud::DepthTest::Disabled)
+        ;
+    enum_<mud::EmitterFlow>("mud::EmitterFlow")
+        .value("Outward", mud::EmitterFlow::Outward)
+        .value("Absolute", mud::EmitterFlow::Absolute)
+        ;
+    enum_<mud::Interpolation>("mud::Interpolation")
+        .value("Nearest", mud::Interpolation::Nearest)
+        .value("Linear", mud::Interpolation::Linear)
+        .value("Cubic", mud::Interpolation::Cubic)
+        ;
+    enum_<mud::IsometricAngle>("mud::IsometricAngle")
+        .value("NORTH", mud::NORTH)
+        .value("SOUTH", mud::SOUTH)
+        .value("EAST", mud::EAST)
+        .value("WEST", mud::WEST)
+        ;
+    enum_<mud::ItemShadow>("mud::ItemShadow")
+        .value("Default", mud::ItemShadow::Default)
+        .value("DoubleSided", mud::ItemShadow::DoubleSided)
+        ;
+    enum_<mud::LightType>("mud::LightType")
+        .value("Direct", mud::LightType::Direct)
+        .value("Point", mud::LightType::Point)
+        .value("Spot", mud::LightType::Spot)
+        .value("Count", mud::LightType::Count)
+        ;
+    enum_<mud::Lighting>("mud::Lighting")
+        .value("None", mud::Lighting::None)
+        .value("Clustered", mud::Lighting::Clustered)
+        .value("Deferred", mud::Lighting::Deferred)
+        .value("VoxelGI", mud::Lighting::VoxelGI)
+        ;
+    enum_<mud::MSAA>("mud::MSAA")
+        .value("Disabled", mud::MSAA::Disabled)
+        .value("X2", mud::MSAA::X2)
+        .value("X4", mud::MSAA::X4)
+        .value("X8", mud::MSAA::X8)
+        .value("X16", mud::MSAA::X16)
+        ;
+    enum_<mud::MaterialFlag>("mud::MaterialFlag")
+        .value("TriplanarUV1", mud::MaterialFlag::TriplanarUV1)
+        .value("TriplanarUV2", mud::MaterialFlag::TriplanarUV2)
+        .value("Count", mud::MaterialFlag::Count)
+        ;
+    enum_<mud::ModelFormat>("mud::ModelFormat")
+        .value("obj", mud::ModelFormat::obj)
+        .value("gltf", mud::ModelFormat::gltf)
+        .value("Count", mud::ModelFormat::Count)
+        ;
+    enum_<mud::Month>("mud::Month")
+        .value("January", mud::Month::January)
+        .value("February", mud::Month::February)
+        .value("March", mud::Month::March)
+        .value("April", mud::Month::April)
+        .value("May", mud::Month::May)
+        .value("June", mud::Month::June)
+        .value("July", mud::Month::July)
+        .value("August", mud::Month::August)
+        .value("September", mud::Month::September)
+        .value("October", mud::Month::October)
+        .value("November", mud::Month::November)
+        .value("December", mud::Month::December)
+        ;
+    enum_<mud::PbrDiffuseMode>("mud::PbrDiffuseMode")
+        .value("Lambert", mud::PbrDiffuseMode::Lambert)
+        .value("LambertHalf", mud::PbrDiffuseMode::LambertHalf)
+        .value("OrenNayar", mud::PbrDiffuseMode::OrenNayar)
+        .value("Burley", mud::PbrDiffuseMode::Burley)
+        .value("Toon", mud::PbrDiffuseMode::Toon)
+        ;
+    enum_<mud::PbrSpecularMode>("mud::PbrSpecularMode")
+        .value("SchlickGGX", mud::PbrSpecularMode::SchlickGGX)
+        .value("Blinn", mud::PbrSpecularMode::Blinn)
+        .value("Phong", mud::PbrSpecularMode::Phong)
+        .value("Toon", mud::PbrSpecularMode::Toon)
+        .value("Disabled", mud::PbrSpecularMode::Disabled)
+        ;
+    enum_<mud::ShaderType>("mud::ShaderType")
+        .value("Compute", mud::ShaderType::Compute)
+        .value("Fragment", mud::ShaderType::Fragment)
+        .value("Geometry", mud::ShaderType::Geometry)
+        .value("Vertex", mud::ShaderType::Vertex)
+        .value("Count", mud::ShaderType::Count)
+        ;
+    enum_<mud::Shading>("mud::Shading")
+        .value("Wireframe", mud::Shading::Wireframe)
+        .value("Unshaded", mud::Shading::Unshaded)
+        .value("Shaded", mud::Shading::Shaded)
+        .value("Volume", mud::Shading::Volume)
+        .value("Voxels", mud::Shading::Voxels)
+        .value("Lightmap", mud::Shading::Lightmap)
+        .value("Clear", mud::Shading::Clear)
+        .value("Count", mud::Shading::Count)
+        ;
+    enum_<mud::ShadowFlags>("mud::ShadowFlags")
+        .value("CSM_Stabilize", mud::CSM_Stabilize)
+        .value("CSM_Optimize", mud::CSM_Optimize)
+        .value("CSM_BlendSplits", mud::CSM_BlendSplits)
+        ;
+    enum_<mud::TextureChannel>("mud::TextureChannel")
+        .value("Red", mud::TextureChannel::Red)
+        .value("Green", mud::TextureChannel::Green)
+        .value("Blue", mud::TextureChannel::Blue)
+        .value("Alpha", mud::TextureChannel::Alpha)
+        .value("All", mud::TextureChannel::All)
+        ;
+    enum_<mud::TextureHint>("mud::TextureHint")
+        .value("Black", mud::TextureHint::Black)
+        .value("White", mud::TextureHint::White)
+        .value("Normal", mud::TextureHint::Normal)
+        ;
+    enum_<mud::TextureSampler>("mud::TextureSampler")
+        .value("Source0", mud::TextureSampler::Source0)
+        .value("Source1", mud::TextureSampler::Source1)
+        .value("Source2", mud::TextureSampler::Source2)
+        .value("Source3", mud::TextureSampler::Source3)
+        .value("SourceDepth", mud::TextureSampler::SourceDepth)
+        .value("Color", mud::TextureSampler::Color)
+        .value("Albedo", mud::TextureSampler::Albedo)
+        .value("Metallic", mud::TextureSampler::Metallic)
+        .value("Roughness", mud::TextureSampler::Roughness)
+        .value("Emissive", mud::TextureSampler::Emissive)
+        .value("Normal", mud::TextureSampler::Normal)
+        .value("AO", mud::TextureSampler::AO)
+        .value("Depth", mud::TextureSampler::Depth)
+        .value("Skeleton", mud::TextureSampler::Skeleton)
+        .value("ShadowCSM", mud::TextureSampler::ShadowCSM)
+        .value("ShadowAtlas", mud::TextureSampler::ShadowAtlas)
+        .value("Radiance", mud::TextureSampler::Radiance)
+        .value("ReflectionProbe", mud::TextureSampler::ReflectionProbe)
+        .value("GIProbe", mud::TextureSampler::GIProbe)
+        .value("Lights", mud::TextureSampler::Lights)
+        .value("Clusters", mud::TextureSampler::Clusters)
+        .value("LightRecords", mud::TextureSampler::LightRecords)
+        .value("Lightmap", mud::TextureSampler::Lightmap)
+        ;
+    
+    // Sequences
+    
+    // Arrays
+    
+    // Structs
+    value_object<mud::AnimatedTrack>("AnimatedTrack")
+        ;
+    value_object<mud::AnimationPlay>("AnimationPlay")
+        .field("animation", &mud::AnimationPlay::animation)
+        .field("loop", &mud::AnimationPlay::loop)
+        .field("speed", &mud::AnimationPlay::speed)
+        .field("transient", &mud::AnimationPlay::transient)
+        .field("fadeout", &mud::AnimationPlay::fadeout)
+        .field("fadeout_left", &mud::AnimationPlay::fadeout_left)
+        .field("cursor", &mud::AnimationPlay::cursor)
+        .field("ended", &mud::AnimationPlay::ended)
+        ;
+    value_object<mud::Background>("Background")
+        .field("mode", &mud::Background::mode)
+        .field("colour", &mud::Background::colour)
+        .field("custoprogram", &mud::Background::custoprogram)
+        ;
+    value_object<mud::BaseMaterialBlock>("BaseMaterialBlock")
+        .field("blend_mode", &mud::BaseMaterialBlock::blend_mode)
+        .field("cull_mode", &mud::BaseMaterialBlock::cull_mode)
+        .field("depth_draw_mode", &mud::BaseMaterialBlock::depth_draw_mode)
+        .field("depth_test", &mud::BaseMaterialBlock::depth_test)
+        .field("uv0_scale", &mud::BaseMaterialBlock::uv0_scale)
+        .field("uv0_offset", &mud::BaseMaterialBlock::uv0_offset)
+        .field("uv1_scale", &mud::BaseMaterialBlock::uv1_scale)
+        .field("uv1_offset", &mud::BaseMaterialBlock::uv1_offset)
+        .field("is_alpha", &mud::BaseMaterialBlock::is_alpha)
+        .field("screen_filter", &mud::BaseMaterialBlock::screen_filter)
+        ;
+    value_object<mud::Bone>("Bone")
+        .field("position", &mud::Bone::position)
+        .field("rotation", &mud::Bone::rotation)
+        .field("scale", &mud::Bone::scale)
+        ;
+    value_object<mud::DepthParams>("DepthParams")
+        ;
+    value_object<mud::Environment>("Environment")
+        .field("background", &mud::Environment::background)
+        .field("radiance", &mud::Environment::radiance)
+        .field("sun", &mud::Environment::sun)
+        .field("fog", &mud::Environment::fog)
+        ;
+    value_object<mud::Fog>("Fog")
+        .field("enabled", &mud::Fog::enabled)
+        .field("density", &mud::Fog::density)
+        .field("colour", &mud::Fog::colour)
+        .field("depth", &mud::Fog::depth)
+        .field("depth_begin", &mud::Fog::depth_begin)
+        .field("depth_curve", &mud::Fog::depth_curve)
+        .field("height", &mud::Fog::height)
+        .field("height_min", &mud::Fog::height_min)
+        .field("height_max", &mud::Fog::height_max)
+        .field("height_curve", &mud::Fog::height_curve)
+        .field("transmit", &mud::Fog::transmit)
+        .field("transmit_curve", &mud::Fog::transmit_curve)
+        ;
+    value_object<mud::FresnelMaterialBlock>("FresnelMaterialBlock")
+        .field("enabled", &mud::FresnelMaterialBlock::enabled)
+        .field("value", &mud::FresnelMaterialBlock::value)
+        .field("fresnel_scale", &mud::FresnelMaterialBlock::fresnel_scale)
+        .field("fresnel_bias", &mud::FresnelMaterialBlock::fresnel_bias)
+        .field("fresnel_power", &mud::FresnelMaterialBlock::fresnel_power)
+        ;
+    value_object<mud::FrustumSlice>("FrustumSlice")
+        ;
+    value_object<mud::ImportConfig>("ImportConfig")
+        .field("format", &mud::ImportConfig::format)
+        .field("position", &mud::ImportConfig::position)
+        .field("rotation", &mud::ImportConfig::rotation)
+        .field("scale", &mud::ImportConfig::scale)
+        .field("transform", &mud::ImportConfig::transform)
+        .field("exclude_elements", &mud::ImportConfig::exclude_elements)
+        .field("exclude_materials", &mud::ImportConfig::exclude_materials)
+        .field("include_elements", &mud::ImportConfig::include_elements)
+        .field("include_materials", &mud::ImportConfig::include_materials)
+        .field("suffix", &mud::ImportConfig::suffix)
+        .field("force_reimport", &mud::ImportConfig::force_reimport)
+        .field("cache_geometry", &mud::ImportConfig::cache_geometry)
+        .field("optimize_geometry", &mud::ImportConfig::optimize_geometry)
+        .field("flags", &mud::ImportConfig::flags)
+        ;
+    value_object<mud::Joint>("Joint")
+        ;
+    value_object<mud::MaterialParam<float>>("MaterialParam<float>")
+        .field("value", &mud::MaterialParam<float>::value)
+        .field("texture", &mud::MaterialParam<float>::texture)
+        .field("channel", &mud::MaterialParam<float>::channel)
+        ;
+    value_object<mud::MaterialParam<mud::Colour>>("MaterialParam<mud::Colour>")
+        .field("value", &mud::MaterialParam<mud::Colour>::value)
+        .field("texture", &mud::MaterialParam<mud::Colour>::texture)
+        .field("channel", &mud::MaterialParam<mud::Colour>::channel)
+        ;
+    value_object<mud::ModelItem>("ModelItem")
+        .field("index", &mud::ModelItem::index)
+        .field("mesh", &mud::ModelItem::mesh)
+        .field("has_transform", &mud::ModelItem::has_transform)
+        .field("transform", &mud::ModelItem::transform)
+        .field("skin", &mud::ModelItem::skin)
+        .field("colour", &mud::ModelItem::colour)
+        .field("material", &mud::ModelItem::material)
+        ;
+    value_object<mud::ParticleGenerator>("ParticleGenerator")
+        .field("name", &mud::ParticleGenerator::name)
+        .field("duration", &mud::ParticleGenerator::duration)
+        .field("start_time", &mud::ParticleGenerator::start_time)
+        .field("loop", &mud::ParticleGenerator::loop)
+        .field("shape", &mud::ParticleGenerator::shape)
+        .field("flow", &mud::ParticleGenerator::flow)
+        .field("billboard", &mud::ParticleGenerator::billboard)
+        .field("direction", &mud::ParticleGenerator::direction)
+        .field("rotation", &mud::ParticleGenerator::rotation)
+        .field("blend_mode", &mud::ParticleGenerator::blend_mode)
+        .field("volume", &mud::ParticleGenerator::volume)
+        .field("rate", &mud::ParticleGenerator::rate)
+        .field("lifetime", &mud::ParticleGenerator::lifetime)
+        .field("gravity", &mud::ParticleGenerator::gravity)
+        .field("speed", &mud::ParticleGenerator::speed)
+        .field("angle", &mud::ParticleGenerator::angle)
+        .field("blend", &mud::ParticleGenerator::blend)
+        .field("colour", &mud::ParticleGenerator::colour)
+        .field("scale", &mud::ParticleGenerator::scale)
+        .field("sprite_frame", &mud::ParticleGenerator::sprite_frame)
+        .field("sprite_name", &mud::ParticleGenerator::sprite_name)
+        ;
+    value_object<mud::PbrMaterialBlock>("PbrMaterialBlock")
+        .field("enabled", &mud::PbrMaterialBlock::enabled)
+        .field("albedo", &mud::PbrMaterialBlock::albedo)
+        .field("specular", &mud::PbrMaterialBlock::specular)
+        .field("metallic", &mud::PbrMaterialBlock::metallic)
+        .field("roughness", &mud::PbrMaterialBlock::roughness)
+        .field("emissive", &mud::PbrMaterialBlock::emissive)
+        .field("emissive_energy", &mud::PbrMaterialBlock::emissive_energy)
+        .field("normal", &mud::PbrMaterialBlock::normal)
+        .field("rim", &mud::PbrMaterialBlock::rim)
+        .field("ritint", &mud::PbrMaterialBlock::ritint)
+        .field("clearcoat", &mud::PbrMaterialBlock::clearcoat)
+        .field("clearcoat_gloss", &mud::PbrMaterialBlock::clearcoat_gloss)
+        .field("anisotropy", &mud::PbrMaterialBlock::anisotropy)
+        .field("subsurface", &mud::PbrMaterialBlock::subsurface)
+        .field("transmission", &mud::PbrMaterialBlock::transmission)
+        .field("refraction", &mud::PbrMaterialBlock::refraction)
+        .field("ambient_occlusion", &mud::PbrMaterialBlock::ambient_occlusion)
+        .field("depth", &mud::PbrMaterialBlock::depth)
+        .field("deep_parallax", &mud::PbrMaterialBlock::deep_parallax)
+        .field("diffuse_mode", &mud::PbrMaterialBlock::diffuse_mode)
+        .field("specular_mode", &mud::PbrMaterialBlock::specular_mode)
+        ;
+    value_object<mud::Radiance>("Radiance")
+        .field("energy", &mud::Radiance::energy)
+        .field("ambient", &mud::Radiance::ambient)
+        .field("colour", &mud::Radiance::colour)
+        .field("texture", &mud::Radiance::texture)
+        ;
+    value_object<mud::RenderFrame>("RenderFrame")
+        ;
+    value_object<mud::RenderQuad>("RenderQuad")
+        ;
+    value_object<mud::Sun>("Sun")
+        .field("azimuth", &mud::Sun::azimuth)
+        .field("elevation", &mud::Sun::elevation)
+        .field("colour", &mud::Sun::colour)
+        .field("intensity", &mud::Sun::intensity)
+        ;
+    value_object<mud::UnshadedMaterialBlock>("UnshadedMaterialBlock")
+        .field("enabled", &mud::UnshadedMaterialBlock::enabled)
+        .field("colour", &mud::UnshadedMaterialBlock::colour)
+        ;
+    value_object<mud::ClusteredFrustum>("ClusteredFrustum")
+        ;
+    value_object<mud::Particles>("Particles")
+        .field("node", &mud::Particles::node)
+        ;
+    
+    // Classes
+    class_<mud::Animated>("Animated")
+        .property("playing", &mud::Animated::playing)
+        .property("queue", &mud::Animated::queue)
+        .property("active", &mud::Animated::active)
+        .property("speed_scale", &mud::Animated::speed_scale)
+        .property("default_blend_time", &mud::Animated::default_blend_time)
+        .function("start", &mud::Animated::start)
+        .function("play", &mud::Animated::play)
+        .function("seek", &mud::Animated::seek)
+        .function("pause", &mud::Animated::pause)
+        .function("stop", &mud::Animated::stop)
+        .function("advance", &mud::Animated::advance)
+        .function("next_animation", &mud::Animated::next_animation)
+        .function("playing", &mud::Animated::playing)
+        ;
+    class_<mud::Animation>("Animation")
+        .property("name", &mud::Animation::name)
+        .property("length", &mud::Animation::length)
+        .property("step", &mud::Animation::step)
+        ;
+    class_<mud::AnimationTrack>("AnimationTrack")
+        .property("animation", &mud::AnimationTrack::animation)
+        .property("node", &mud::AnimationTrack::node)
+        .property("node_name", &mud::AnimationTrack::node_name)
+        .property("target", &mud::AnimationTrack::target)
+        .property("value_type", &mud::AnimationTrack::value_type)
+        .property("length", &mud::AnimationTrack::length)
+        .property("interpolation", &mud::AnimationTrack::interpolation)
+        ;
+    class_<mud::AssetStore<mud::Material>>("AssetStore<mud::Material>")
+        .function("get", &mud::AssetStore<mud::Material>::get)
+        .function("create", &mud::AssetStore<mud::Material>::create)
+        .function("fetch", &mud::AssetStore<mud::Material>::fetch)
+        .function("file_at", &mud::AssetStore<mud::Material>::file_at)
+        .function("file", &mud::AssetStore<mud::Material>::file)
+        .function("destroy", &mud::AssetStore<mud::Material>::destroy)
+        ;
+    class_<mud::AssetStore<mud::Model>>("AssetStore<mud::Model>")
+        .function("get", &mud::AssetStore<mud::Model>::get)
+        .function("create", &mud::AssetStore<mud::Model>::create)
+        .function("fetch", &mud::AssetStore<mud::Model>::fetch)
+        .function("file_at", &mud::AssetStore<mud::Model>::file_at)
+        .function("file", &mud::AssetStore<mud::Model>::file)
+        .function("destroy", &mud::AssetStore<mud::Model>::destroy)
+        ;
+    class_<mud::AssetStore<mud::ParticleGenerator>>("AssetStore<mud::ParticleGenerator>")
+        .function("get", &mud::AssetStore<mud::ParticleGenerator>::get)
+        .function("create", &mud::AssetStore<mud::ParticleGenerator>::create)
+        .function("fetch", &mud::AssetStore<mud::ParticleGenerator>::fetch)
+        .function("file_at", &mud::AssetStore<mud::ParticleGenerator>::file_at)
+        .function("file", &mud::AssetStore<mud::ParticleGenerator>::file)
+        .function("destroy", &mud::AssetStore<mud::ParticleGenerator>::destroy)
+        ;
+    class_<mud::AssetStore<mud::Prefab>>("AssetStore<mud::Prefab>")
+        .function("get", &mud::AssetStore<mud::Prefab>::get)
+        .function("create", &mud::AssetStore<mud::Prefab>::create)
+        .function("fetch", &mud::AssetStore<mud::Prefab>::fetch)
+        .function("file_at", &mud::AssetStore<mud::Prefab>::file_at)
+        .function("file", &mud::AssetStore<mud::Prefab>::file)
+        .function("destroy", &mud::AssetStore<mud::Prefab>::destroy)
+        ;
+    class_<mud::AssetStore<mud::Program>>("AssetStore<mud::Program>")
+        .function("get", &mud::AssetStore<mud::Program>::get)
+        .function("create", &mud::AssetStore<mud::Program>::create)
+        .function("fetch", &mud::AssetStore<mud::Program>::fetch)
+        .function("file_at", &mud::AssetStore<mud::Program>::file_at)
+        .function("file", &mud::AssetStore<mud::Program>::file)
+        .function("destroy", &mud::AssetStore<mud::Program>::destroy)
+        ;
+    class_<mud::AssetStore<mud::Texture>>("AssetStore<mud::Texture>")
+        .function("get", &mud::AssetStore<mud::Texture>::get)
+        .function("create", &mud::AssetStore<mud::Texture>::create)
+        .function("fetch", &mud::AssetStore<mud::Texture>::fetch)
+        .function("file_at", &mud::AssetStore<mud::Texture>::file_at)
+        .function("file", &mud::AssetStore<mud::Texture>::file)
+        .function("destroy", &mud::AssetStore<mud::Texture>::destroy)
+        ;
+    class_<mud::Camera>("Camera")
+        .property("eye", &mud::Camera::eye)
+        .property("target", &mud::Camera::target)
+        .property("transform", &mud::Camera::transform)
+        .property("projection", &mud::Camera::projection)
+        .property("fov", &mud::Camera::fov)
+        .property("aspect", &mud::Camera::aspect)
+        .property("near", &mud::Camera::near)
+        .property("far", &mud::Camera::far)
+        .property("orthographic", &mud::Camera::orthographic)
+        .property("height", &mud::Camera::height)
+        .property("optimize_ends", &mud::Camera::optimize_ends)
+        .property("clustered", &mud::Camera::clustered)
+        .property("lod_offsets", &mud::Camera::lod_offsets)
+        ;
+    class_<mud::Filter>("Filter")
+        ;
+    class_<mud::FrameBuffer>("FrameBuffer")
+        ;
+    class_<mud::Frustum>("Frustum")
+        .property("fov", &mud::Frustum::fov)
+        .property("aspect", &mud::Frustum::aspect)
+        .property("near", &mud::Frustum::near)
+        .property("far", &mud::Frustum::far)
+        .property("center", &mud::Frustum::center)
+        .property("radius", &mud::Frustum::radius)
+        ;
+    class_<mud::GfxBlock>("GfxBlock")
+        .property("type", &mud::GfxBlock::type)
+        .property("index", &mud::GfxBlock::index)
+        ;
+    class_<mud::GfxContext>("GfxContext")
+        ;
+    class_<mud::GfxSystem>("GfxSystem")
+        .property("textures", &mud::GfxSystem::textures, &mud::GfxSystem::setTextures)
+        .property("programs", &mud::GfxSystem::programs, &mud::GfxSystem::setPrograms)
+        .property("materials", &mud::GfxSystem::materials, &mud::GfxSystem::setMaterials)
+        .property("models", &mud::GfxSystem::models, &mud::GfxSystem::setModels)
+        .property("particles", &mud::GfxSystem::particles, &mud::GfxSystem::setParticles)
+        .property("prefabs", &mud::GfxSystem::prefabs, &mud::GfxSystem::setPrefabs)
+        .function("add_resource_path", &mud::GfxSystem::add_resource_path)
+        .function("debug_material", &mud::GfxSystem::debug_material)
+        .function("fetch_material", &mud::GfxSystem::fetch_material)
+        .function("fetch_image256_material", &mud::GfxSystem::fetch_image256_material)
+        .function("fetch_symbol", &mud::GfxSystem::fetch_symbol)
+        .function("fetch_symbol_material", &mud::GfxSystem::fetch_symbol_material)
+        ;
+    class_<mud::Gnode>("Gnode")
+        ;
+    class_<mud::ImmediateDraw>("ImmediateDraw")
+        ;
+    class_<mud::Item>("Item")
+        .property("node", &mud::Item::node)
+        .property("model", &mud::Item::model)
+        .property("flags", &mud::Item::flags)
+        .property("colour", &mud::Item::colour)
+        .property("material", &mud::Item::material)
+        .property("visible", &mud::Item::visible)
+        .property("shadow", &mud::Item::shadow)
+        .property("rig", &mud::Item::rig)
+        ;
+    class_<mud::Light>("Light")
+        .property("node", &mud::Light::node)
+        .property("type", &mud::Light::type)
+        .property("visible", &mud::Light::visible)
+        .property("colour", &mud::Light::colour)
+        .property("range", &mud::Light::range)
+        .property("energy", &mud::Light::energy)
+        .property("specular", &mud::Light::specular)
+        .property("attenuation", &mud::Light::attenuation)
+        .property("shadows", &mud::Light::shadows)
+        .property("shadow_colour", &mud::Light::shadow_colour)
+        .property("shadow_range", &mud::Light::shadow_range)
+        .property("layers", &mud::Light::layers)
+        .property("last_render", &mud::Light::last_render)
+        .property("last_update", &mud::Light::last_update)
+        .property("spot_angle", &mud::Light::spot_angle)
+        .property("spot_attenuation", &mud::Light::spot_attenuation)
+        .property("shadow_flags", &mud::Light::shadow_flags)
+        .property("shadow_nusplits", &mud::Light::shadow_nusplits)
+        .property("shadow_split_distribution", &mud::Light::shadow_split_distribution)
+        .property("shadow_normal_bias", &mud::Light::shadow_normal_bias)
+        .property("shadow_bias", &mud::Light::shadow_bias)
+        ;
+    class_<mud::Material>("Material")
+        .property("index", &mud::Material::index)
+        .property("builtin", &mud::Material::builtin)
+        .property("program", &mud::Material::program)
+        .property("base_block", &mud::Material::base_block)
+        .property("unshaded_block", &mud::Material::unshaded_block)
+        .property("pbr_block", &mud::Material::pbr_block)
+        .property("fresnel_block", &mud::Material::fresnel_block)
+        ;
+    class_<mud::Mesh>("Mesh")
+        .property("name", &mud::Mesh::name)
+        .property("index", &mud::Mesh::index)
+        .property("draw_mode", &mud::Mesh::draw_mode)
+        .property("aabb", &mud::Mesh::aabb)
+        .property("radius", &mud::Mesh::radius)
+        .property("origin", &mud::Mesh::origin)
+        .property("readback", &mud::Mesh::readback)
+        .property("vertex_format", &mud::Mesh::vertex_format)
+        .property("qnormals", &mud::Mesh::qnormals)
+        .property("vertex_count", &mud::Mesh::vertex_count)
+        .property("index_count", &mud::Mesh::index_count)
+        .property("index32", &mud::Mesh::index32)
+        .property("material", &mud::Mesh::material)
+        ;
+    class_<mud::Model>("Model")
+        .property("name", &mud::Model::name)
+        .property("index", &mud::Model::index)
+        .property("aabb", &mud::Model::aabb)
+        .property("radius", &mud::Model::radius)
+        .property("origin", &mud::Model::origin)
+        ;
+    class_<mud::Node3>("Node3")
+        .property("scene", &mud::Node3::scene)
+        .property("index", &mud::Node3::index)
+        .property("transform", &mud::Node3::transform)
+        .property("visible", &mud::Node3::visible)
+        ;
+    class_<mud::Prefab>("Prefab")
+        .property("name", &mud::Prefab::name)
+        ;
+    class_<mud::Program>("Program")
+        .property("name", &mud::Program::name, &mud::Program::setName)
+        ;
+    class_<mud::Rig>("Rig")
+        ;
+    class_<mud::Scene>("Scene")
+        .property("graph", &mud::Scene::graph)
+        .property("root_node", &mud::Scene::root_node)
+        .property("environment", &mud::Scene::environment)
+        .property("user", &mud::Scene::user)
+        .function("begin", &mud::Scene::begin)
+        ;
+    class_<mud::Shot>("Shot")
+        ;
+    class_<mud::Skeleton>("Skeleton")
+        ;
+    class_<mud::Skin>("Skin")
+        ;
+    class_<mud::SymbolIndex>("SymbolIndex")
+        ;
+    class_<mud::Texture>("Texture")
+        .property("width", &mud::Texture::width)
+        .property("height", &mud::Texture::height)
+        .property("bits_per_pixel", &mud::Texture::bits_per_pixel)
+        ;
+    class_<mud::Viewport>("Viewport")
+        .property("camera", &mud::Viewport::camera)
+        .property("scene", &mud::Viewport::scene)
+        .property("index", &mud::Viewport::index)
+        .property("active", &mud::Viewport::active)
+        .property("rect", &mud::Viewport::rect)
+        .property("scissor", &mud::Viewport::scissor)
+        .property("clear_colour", &mud::Viewport::clear_colour)
+        .property("shading", &mud::Viewport::shading)
+        .property("lighting", &mud::Viewport::lighting)
+        ;
+    class_<mud::BlockCopy>("BlockCopy")
+        ;
+    class_<mud::DrawBlock>("DrawBlock")
+        ;
+    class_<mud::BlockDepth>("BlockDepth")
+        ;
+    class_<mud::BlockFilter>("BlockFilter")
+        ;
+    class_<mud::BlockParticles>("BlockParticles")
+        ;
+    class_<mud::BlockResolve>("BlockResolve")
+        ;
+    class_<mud::BlockSky>("BlockSky")
+        ;
+    class_<mud::RenderTarget>("RenderTarget")
+        ;
+    
+    // Functions
+    function("update_item_lights", &mud::gfx::update_item_lights);
+    function("update_item_aabb", &mud::gfx::update_item_aabb);
+    function("node", &mud::gfx::node);
+    function("shape", &mud::gfx::shape);
+    function("draw", &mud::gfx::draw);
+    function("sprite", &mud::gfx::sprite);
+    function("item", &mud::gfx::item);
+    function("prefab", &mud::gfx::prefab);
+    function("model", &mud::gfx::model);
+    function("animated", &mud::gfx::animated);
+    function("particles", &mud::gfx::particles);
+    function("light", &mud::gfx::light);
+    function("sun_light", &mud::gfx::sun_light);
+    function("radiance", &mud::gfx::radiance);
+    
+}

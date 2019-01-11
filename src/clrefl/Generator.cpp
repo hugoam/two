@@ -547,9 +547,9 @@ namespace mud
 			//	return;
 
 			if(!directory_exists(module.m_refl_path.c_str()))
-				create_file_tree(module.m_refl_path.c_str());
+				create_directory_tree(module.m_refl_path.c_str());
             
-			printf("Generating output templates :\n");
+			printf("Generating meta reflection files for %s:\n", module.m_name.c_str());
 
 			string types_h = clgen::types_h_template(module);
 			update_file((module.m_path + "\\" + "Types.h").c_str(), types_h.c_str());
@@ -568,6 +568,14 @@ namespace mud
 
 			string convert_h = clgen::convert_h_template(module);
 			update_file((module.m_refl_path + "\\" + "Convert.h").c_str(), convert_h.c_str());
+
+			printf("Generating bindings files for %s:\n", module.m_name.c_str());
+
+			if(!directory_exists(module.m_bind_path.c_str()))
+				create_directory_tree(module.m_bind_path.c_str());
+
+			string embind_h = clgen::bind_embind_h_template(module);
+			update_file((module.m_bind_path + "\\" + "Embind.cpp").c_str(), embind_h.c_str());
 		}
 
 		void add_module(const Json& m)

@@ -521,6 +521,7 @@ namespace mud
 			m_refl_export = m_preproc_name + "_REFL_EXPORT";
 
 			m_refl_path = m_rootdir + "\\" + "meta" + "\\" + m_subdir;
+			m_bind_path = m_rootdir + "\\" + "bind" + "\\" + m_subdir;
 
 			m_has_structs = file_exists((m_path + "\\" + "Structs.h").c_str());
 		}
@@ -544,6 +545,7 @@ namespace mud
 		std::vector<CLModule*> m_modules;
 
 		string m_refl_path;
+		string m_bind_path;
 
 		bool m_has_structs;
 

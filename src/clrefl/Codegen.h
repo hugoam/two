@@ -120,19 +120,25 @@ namespace clgen
 		return "{ \"" + p.m_name + "\", " + param_default(p) + param_flags(p) + " }";
 	}
 	
-	std::vector<string> function_args_types(const CLFunction& f)
+	std::vector<string> params_types(const CLFunction& f)
 	{
 		return transform<string>(f.m_params, [](const CLParam& p) { return p.m_type.m_spelling; });
 	}
 
+	string params_def(const std::vector<CLParam>& params)
+	{
+		std::vector<string> decls = transform<string>(params, [](const CLParam& p) { return param_decl(p); });
+		return params.size() > 0 ? "{ " + join(decls, ", ") + " }" : "{}";
+	}
+
 	string function_signature(const CLFunction& f)
 	{
-		return f.m_return_type.m_spelling + "(*)(" + join(function_args_types(f), ", ") + ")";
+		return f.m_return_type.m_spelling + "(*)(" + join(params_types(f), ", ") + ")";
 	}
 
 	string method_signature(const CLMethod& m)
 	{
-		return m.m_return_type.m_spelling + "(" + m.m_parent->m_id + "::*)(" + join(function_args_types(m), ", ") + ")" + (m.m_const ? " const" : "");
+		return m.m_return_type.m_spelling + "(" + m.m_parent->m_id + "::*)(" + join(params_types(m), ", ") + ")" + (m.m_const ? " const" : "");
 	}
 
 	string function_identity(const CLFunction& f)
@@ -143,12 +149,6 @@ namespace clgen
 	string function_return_def(const CLFunction& f)
 	{
 		return type_var(f.m_return_type.m_spelling, *f.m_return_type.m_type, f.m_return_type.pointer());
-	}
-
-	string params_def(const std::vector<CLParam>& params)
-	{
-		std::vector<string> decls = transform<string>(params, [](const CLParam& p) { return param_decl(p); });
-		return params.size() > 0 ? "{ " + join(decls, ", ") + " }" : "{}";
 	}
 
 	string get_args(const std::vector<CLParam>& params)
@@ -163,6 +163,12 @@ namespace clgen
 		return "member_address" + signature + "(&" + c.m_id + "::" + m.m_name + ")";
 	}
 
+	string method_pointer(const CLType& c, const CLMethod& m)
+	{
+		string pointer = "&" + c.m_id + "::" + m.m_name;
+		return m.m_overloaded ? "static_cast<" + method_signature(m) + ">(" + pointer + ")" : pointer;
+	}
+
 	string field_identity(const CLType& c, const CLMember& m)
 	{
 		return m.m_type.reference() ? "Address()" : "member_address(&" + c.m_id + "::" + m.m_member + ")";
@@ -172,7 +178,22 @@ namespace clgen
 	{
 		return m.m_method ? method_identity(c, *m.m_method) : field_identity(c, m);
 	}
-	
+
+	string member_pointer(const CLType& c, const CLMember& m)
+	{
+		return "&" + c.m_id + "::" + m.m_name;
+	}
+
+	string member_getter(const CLType& c, const CLMember& m)
+	{
+		return "&" + c.m_id + "::" + m.m_member;
+	}
+
+	string member_setter(const CLType& c, const CLMember& m)
+	{
+		return "&" + c.m_id + "::set" + m.m_capname;
+	}
+
 	string member_flags(const CLType& c, const CLMember& m)
 	{
 		UNUSED(c);
@@ -206,7 +227,7 @@ namespace clgen
 		return m.m_type.m_type->m_id + (m.m_type.pointer() ? "*" : "");
 	}
 
-	string member_getter(const CLType& c, const CLMember& m)
+	string member_getfunc(const CLType& c, const CLMember& m)
 	{
 		if(m.m_method)
 			return "[](Ref object) { return Ref(" + string(!m.m_type.pointer() ? "&" : "") + "val<" + c.m_id + ">(object)." + m.m_member + "()); }";
@@ -216,7 +237,7 @@ namespace clgen
 			return "nullptr";
 	}
 
-	string member_setter_explicit(const CLType& c, const CLMember& m)
+	string member_setfunc_explicit(const CLType& c, const CLMember& m)
 	{
 		if(m.m_setter)
 			return "[](Ref object, const Var& v) { val<" + c.m_id + ">(object).set" + m.m_capname + "(val<" + member_type(m) + ">(v)); }";
@@ -226,7 +247,7 @@ namespace clgen
 			return "nullptr";
 	}
 
-	string member_setter(const CLType& c, const CLMember& m)
+	string member_setfunc(const CLType& c, const CLMember& m)
 	{
 		if(m.m_setter)
 			return "member_setter<" + member_type(m) + ">(&" + c.m_id + "::set" + m.m_capname + ")";
@@ -267,7 +288,7 @@ namespace clgen
 
 	string member_decl(const CLType& c, const CLMember& m)
 	{
-		return type_get(c) + ", " + member_identity(c, m) + ", " + type_get(*m.m_type.m_type) + ", \"" + m.m_name + "\", " + member_default(c, m) + ", " + member_flags(c, m) + ", " + member_getter(c, m);
+		return type_get(c) + ", " + member_identity(c, m) + ", " + type_get(*m.m_type.m_type) + ", \"" + m.m_name + "\", " + member_default(c, m) + ", " + member_flags(c, m) + ", " + member_getfunc(c, m);
 	}
 
 	string method_decl(const CLType& c, const CLMethod& m)
@@ -698,8 +719,121 @@ namespace clgen
 		return t;
 	}
 
-	void amalgam_h_template(CLModule& m)
+	string bind_embind_h_template(CLModule& m)
 	{
+		string t;
+		auto p = [&](int& i, const string& s) {	write_line(t, i, s, true); };
+		int i = 0;
+
+		p(i, "#include <" + m.m_subdir + "/Api.h>");
+		p(i, "#include <emscripten/bind.h>");
+		p(i, "");
+		p(i, "using namespace emscripten;");
+		p(i, "");
+
+		p(i, "EMSCRIPTEN_BINDINGS(" + m.m_id + ")");
+		p(i, "{");
+		p(i, "");
+		p(i, "// Enums");
+		for(auto& pe : m.m_enums)
+			if(pe->m_reflect)
+			{
+				CLEnum& e = *pe;
+				p(i, "enum_<" + e.m_id + ">(\"" + e.m_id + "\")");
+				for(size_t j = 0; j < e.m_ids.size(); ++j)
+					p(i, "    .value(\"" + e.m_ids[j] + "\", " + e.m_scoped_ids[j] + ")");
+				p(i, "    ;");
+			}
+		p(i, "");
+
+		p(i, "// Sequences");
+		for(auto& ps : m.m_sequences)
+		{
+			CLSequence& s = *ps;
+		}
+		p(i, "");
+
+		p(i, "// Arrays");
+		for(auto& pc : m.m_classes)
+			if(pc->m_reflect && pc->m_array)
+			{
+				CLClass& c = *pc;
+				p(i, "value_array<" + c.m_id + ">(\"" + c.m_name + "\")");
+				for(CLMember& m : c.m_members)
+					p(i, "    .element(" + member_pointer(c, m) + ")");
+				p(i, "    ;");
+			}
+
+		p(i, "");
+
+		p(i, "// Structs");
+		for(auto& pc : m.m_classes)
+			if(pc->m_reflect && !pc->m_array && pc->m_struct)
+			{
+				CLClass& c = *pc;
+				p(i, "value_object<" + c.m_id + ">(\"" + c.m_name + "\")");
+				for(CLMember& m : c.m_members)
+					p(i, "    .field(\"" + m.m_name + "\", " + member_pointer(c, m) + ")");
+				p(i, "    ;");
+			}
+		p(i, "");
+
+		p(i, "// Classes");
+		for(auto& pc : m.m_classes)
+			if(pc->m_reflect && !pc->m_array && !pc->m_struct)
+			{
+				CLClass& c = *pc;
+				p(i, "class_<" + c.m_id + ">(\"" + c.m_name + "\")");
+
+				for(CLConstructor& ctor : c.m_constructors)
+					p(i, "    .constructor<" + join(params_types(ctor), ", ") + ">()");
+				for(CLMember& m : c.m_members)
+				{
+					if(m.m_method && m.m_setter)
+						p(i, "    .property(\"" + m.m_name + "\", " + member_getter(c, m) + ", " + member_setter(c, m) + ")");
+					else if(m.m_method)
+						p(i, "    .property(\"" + m.m_name + "\", " + member_getter(c, m) + ")");
+					else
+						p(i, "    .property(\"" + m.m_name + "\", " + member_pointer(c, m) + ")");
+				}
+				for(CLMethod& m : c.m_methods)
+					p(i, "    .function(\"" + m.m_name + "\", " + method_pointer(c, m) + ")");
+				for(CLStatic& m : c.m_statics)
+					p(i, "    .class_property(\"" + m.m_name + "\", " + "&" + c.m_id + "::" + m.m_name + ")");
+				//for(CLFunction& f : c.m_functions)
+				//    p(i, "    .class_function(\"" + m.m_name + "\", " + "&" + c.m_id + "::" + f.m_name + ")");
+
+				p(i, "    ;");
+			}
+		p(i, "");
+
+		p(i, "// Functions");
+		for(auto& pf : m.m_functions)
+		{
+			CLFunction& f = *pf;
+			p(i, "function(\"" + f.m_name + "\", " + "&" + f.m_id + ");");
+		}
+		p(i, "");
+
+		p(i, "}");
+
+		return t;
+	}
+
+	string bind_webidl_h_template(CLModule& m)
+	{
+		string t;
+		auto p = [&](int& i, const string& s) {	write_line(t, i, s, true); };
+		int i = 0;
+
+		return t;
+	}
+
+	string amalgam_h_template(CLModule& m)
+	{
+		string t;
+		auto p = [&](int& i, const string& s) {	write_line(t, i, s, true); };
+		int i = 0;
 #if 0
 {
 	"project": "${ module.namespace }${ module.name }.h",
@@ -728,10 +862,14 @@ namespace clgen
 	]
 }
 #endif
+		return t;
 	}
 
-	void amalgam_cpp_template(CLModule& m)
+	string amalgam_cpp_template(CLModule& m)
 	{
+		string t;
+		auto p = [&](int& i, const string& s) {	write_line(t, i, s, true); };
+		int i = 0;
 #if 0
 {
 	"project": "${ module.namespace }${ module.name }.cpp",
@@ -758,6 +896,7 @@ namespace clgen
 	]
 }
 #endif
+		return t;
 	}
 }
 }
