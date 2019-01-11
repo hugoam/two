@@ -388,7 +388,7 @@ namespace mud
 	struct refl_ struct_ MUD_ECS_EXPORT Entity
 	{
 		Entity() {}
-		Entity(uint32_t handle, uint32_t stream) : m_stream(stream), m_handle(handle){}
+		Entity(uint32_t handle, uint32_t ecs) : m_ecs(ecs), m_handle(handle){}
 
 		explicit operator bool() const { return m_handle != UINT32_MAX; }
 		operator uint32_t() const { return m_handle; }
@@ -396,19 +396,19 @@ namespace mud
 		bool operator==(const Entity& other) const { return m_handle == other.m_handle; };
 		bool operator!=(const Entity& other) const { return m_handle != other.m_handle; };
 
-		void destroy() { if(m_handle != UINT32_MAX) s_ecs[m_stream]->DeleteEntity(m_handle); }
+		void destroy() { if(m_handle != UINT32_MAX) s_ecs[m_ecs]->DeleteEntity(m_handle); }
 
-		void swap(Entity& other) { std::swap(m_handle, other.m_handle); std::swap(m_stream, other.m_stream); }
+		void swap(Entity& other) { std::swap(m_handle, other.m_handle); std::swap(m_ecs, other.m_ecs); }
 
-		uint32_t m_stream = UINT32_MAX;
+		uint32_t m_ecs = UINT32_MAX;
 		uint32_t m_handle = UINT32_MAX;
 	};
 
 	export_ template <class T>
-	inline bool isa(const Entity& entity) { return s_ecs[entity.m_stream]->HasComponent<T>(entity.m_handle); }
+	inline bool isa(const Entity& entity) { return s_ecs[entity.m_ecs]->HasComponent<T>(entity.m_handle); }
 
 	export_ template <class T>
-	inline T& asa(const Entity& entity) { return s_ecs[entity.m_stream]->GetComponent<T>(entity.m_handle); }
+	inline T& asa(const Entity& entity) { return s_ecs[entity.m_ecs]->GetComponent<T>(entity.m_handle); }
 
 	export_ template <class T>
 	inline T* try_asa(const Entity& entity) { if(entity && isa<T>(entity)) return &asa<T>(entity); else return nullptr; }
@@ -425,7 +425,7 @@ namespace mud
 
 	inline cstring entity_prototype(const Entity& entity)
 	{
-		ParallelBuffers& stream = s_ecs[entity.m_stream]->Stream(entity.m_handle);
+		ParallelBuffers& stream = s_ecs[entity.m_ecs]->Stream(entity.m_handle);
 		return stream.m_name;
 	}
 

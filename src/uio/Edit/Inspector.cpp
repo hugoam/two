@@ -216,7 +216,7 @@ namespace mud
 		static float spans[2] = { 0.4f, 0.6f };
 		Table& self = ui::table(parent, { columns, 2 }, { spans, 2 });
 
-		ParallelBuffers& stream = s_ecs[entity.m_stream]->Stream(entity);
+		ParallelBuffers& stream = s_ecs[entity.m_ecs]->Stream(entity);
 		uint32_t index = stream.m_indices[entity];
 		for(auto& buffer : stream.m_buffers)
 		{
