@@ -20,16 +20,16 @@ EMSCRIPTEN_BINDINGS(mud_type)
         .class_property("me", &mud::Index::me)
         ;
     class_<mud::Indexer>("Indexer")
-        .property("type", &mud::Indexer::type)
-        .property("objects", &mud::Indexer::objects)
+        .property("type", &mud::Indexer::m_type)
+        .property("objects", &mud::Indexer::m_objects)
         ;
     class_<mud::Ref>("Ref")
         ;
     class_<mud::Type>("Type")
-        .property("id", &mud::Type::id)
-        .property("name", &mud::Type::name)
-        .property("size", &mud::Type::size)
-        .property("base", &mud::Type::base)
+        .property("id", &mud::Type::m_id)
+        .property("name", &mud::Type::m_name)
+        .property("size", &mud::Type::m_size)
+        .property("base", &mud::Type::m_base)
         ;
     class_<mud::Var>("Var")
         ;

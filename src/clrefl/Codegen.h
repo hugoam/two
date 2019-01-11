@@ -181,7 +181,7 @@ namespace clgen
 
 	string member_pointer(const CLType& c, const CLMember& m)
 	{
-		return "&" + c.m_id + "::" + m.m_name;
+		return "&" + c.m_id + "::" + m.m_member;
 	}
 
 	string member_getter(const CLType& c, const CLMember& m)

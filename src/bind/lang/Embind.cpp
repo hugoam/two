@@ -27,13 +27,13 @@ EMSCRIPTEN_BINDINGS(mud_lang)
     class_<mud::Pipe>("Pipe")
         ;
     class_<mud::Process>("Process")
-        .property("type", &mud::Process::type)
+        .property("type", &mud::Process::m_type)
         ;
     class_<mud::ScriptClass>("ScriptClass")
         .constructor<const std::string&, const std::vector<mud::Type*>&>()
-        .property("name", &mud::ScriptClass::name)
-        .property("class_type", &mud::ScriptClass::class_type)
-        .property("class", &mud::ScriptClass::class)
+        .property("name", &mud::ScriptClass::m_name)
+        .property("class_type", &mud::ScriptClass::m_class_type)
+        .property("class", &mud::ScriptClass::m_class)
         ;
     class_<mud::StreamBranch>("StreamBranch")
         ;
@@ -72,18 +72,18 @@ EMSCRIPTEN_BINDINGS(mud_lang)
         .constructor<mud::VisualScript&, const mud::Var&>()
         ;
     class_<mud::Script>("Script")
-        .property("index", &mud::Script::index)
-        .property("type", &mud::Script::type)
-        .property("name", &mud::Script::name)
-        .property("locked", &mud::Script::locked)
+        .property("index", &mud::Script::m_index)
+        .property("type", &mud::Script::m_type)
+        .property("name", &mud::Script::m_name)
+        .property("locked", &mud::Script::m_locked)
         ;
     class_<mud::Stream>("Stream")
         ;
     class_<mud::TextScript>("TextScript")
         .constructor<const char*, mud::Language, const mud::Signature&>()
-        .property("language", &mud::TextScript::language)
-        .property("script", &mud::TextScript::script)
-        .property("dirty", &mud::TextScript::dirty)
+        .property("language", &mud::TextScript::m_language)
+        .property("script", &mud::TextScript::m_script)
+        .property("dirty", &mud::TextScript::m_dirty)
         ;
     class_<mud::VisualScript>("VisualScript")
         .constructor<const char*, const mud::Signature&>()

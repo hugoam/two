@@ -22,14 +22,14 @@ EMSCRIPTEN_BINDINGS(mud_refl)
     
     // Structs
     value_object<mud::Call>("Call")
-        .field("arguments", &mud::Call::arguments)
-        .field("result", &mud::Call::result)
+        .field("arguments", &mud::Call::m_arguments)
+        .field("result", &mud::Call::m_result)
         ;
     value_object<mud::Operator>("Operator")
-        .field("function", &mud::Operator::function)
-        .field("type", &mud::Operator::type)
-        .field("name", &mud::Operator::name)
-        .field("sign", &mud::Operator::sign)
+        .field("function", &mud::Operator::m_function)
+        .field("type", &mud::Operator::m_type)
+        .field("name", &mud::Operator::m_name)
+        .field("sign", &mud::Operator::m_sign)
         ;
     
     // Classes
@@ -40,9 +40,9 @@ EMSCRIPTEN_BINDINGS(mud_refl)
     class_<mud::Convert>("Convert")
         ;
     class_<mud::Creator>("Creator")
-        .property("type", &mud::Creator::type)
-        .property("construct", &mud::Creator::construct)
-        .property("prototype", &mud::Creator::prototype)
+        .property("type", &mud::Creator::m_type)
+        .property("construct", &mud::Creator::m_construct)
+        .property("prototype", &mud::Creator::m_prototype)
         .property("injector", &mud::Creator::injector, &mud::Creator::setInjector)
         ;
     class_<mud::Enum>("Enum")
@@ -52,11 +52,11 @@ EMSCRIPTEN_BINDINGS(mud_refl)
     class_<mud::Meta>("Meta")
         ;
     class_<mud::Module>("Module")
-        .property("name", &mud::Module::name)
-        .property("deps", &mud::Module::deps)
-        .property("types", &mud::Module::types)
-        .property("functions", &mud::Module::functions)
-        .property("path", &mud::Module::path)
+        .property("name", &mud::Module::m_name)
+        .property("deps", &mud::Module::m_deps)
+        .property("types", &mud::Module::m_types)
+        .property("functions", &mud::Module::m_functions)
+        .property("path", &mud::Module::m_path)
         ;
     class_<mud::Namespace>("Namespace")
         ;
@@ -67,9 +67,9 @@ EMSCRIPTEN_BINDINGS(mud_refl)
     class_<mud::Static>("Static")
         ;
     class_<mud::System>("System")
-        .property("modules", &mud::System::modules)
-        .property("types", &mud::System::types)
-        .property("functions", &mud::System::functions)
+        .property("modules", &mud::System::m_modules)
+        .property("types", &mud::System::m_types)
+        .property("functions", &mud::System::m_functions)
         ;
     class_<mud::Constructor>("Constructor")
         ;

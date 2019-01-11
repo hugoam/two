@@ -28,7 +28,7 @@ EMSCRIPTEN_BINDINGS(mud_fract)
     // Classes
     class_<mud::Fract>("Fract")
         .constructor<size_t>()
-        .property("nutabs", &mud::Fract::nutabs)
+        .property("nutabs", &mud::Fract::m_num_tabs)
         .function("generate", &mud::Fract::generate)
         .function("regen", &mud::Fract::regen)
         .function("render", &mud::Fract::render)
@@ -37,9 +37,9 @@ EMSCRIPTEN_BINDINGS(mud_fract)
         ;
     class_<mud::FractSample>("FractSample")
         .constructor<mud::Fract&, const mud::Rect&, mud::uvec2>()
-        .property("fract", &mud::FractSample::fract)
-        .property("rect", &mud::FractSample::rect)
-        .property("resolution", &mud::FractSample::resolution)
+        .property("fract", &mud::FractSample::m_fract)
+        .property("rect", &mud::FractSample::m_rect)
+        .property("resolution", &mud::FractSample::m_resolution)
         .function("render", &mud::FractSample::render)
         ;
     

@@ -25,24 +25,24 @@ EMSCRIPTEN_BINDINGS(mud_tool)
     
     // Classes
     class_<mud::EditContext>("EditContext")
-        .property("undo_tool", &mud::EditContext::undo_tool)
-        .property("redo_tool", &mud::EditContext::redo_tool)
-        .property("work_plane", &mud::EditContext::work_plane)
-        .property("translate_tool", &mud::EditContext::translate_tool)
-        .property("rotate_tool", &mud::EditContext::rotate_tool)
-        .property("scale_tool", &mud::EditContext::scale_tool)
-        .property("viewer", &mud::EditContext::viewer)
-        .property("tool", &mud::EditContext::tool)
-        .property("spatial_tool", &mud::EditContext::spatial_tool)
-        .property("brush", &mud::EditContext::brush)
+        .property("undo_tool", &mud::EditContext::m_undo_tool)
+        .property("redo_tool", &mud::EditContext::m_redo_tool)
+        .property("work_plane", &mud::EditContext::m_work_plane)
+        .property("translate_tool", &mud::EditContext::m_translate_tool)
+        .property("rotate_tool", &mud::EditContext::m_rotate_tool)
+        .property("scale_tool", &mud::EditContext::m_scale_tool)
+        .property("viewer", &mud::EditContext::m_viewer)
+        .property("tool", &mud::EditContext::m_tool)
+        .property("spatial_tool", &mud::EditContext::m_spatial_tool)
+        .property("brush", &mud::EditContext::m_brush)
         ;
     class_<mud::EditorAction>("EditorAction")
         ;
     class_<mud::Tool>("Tool")
-        .property("type", &mud::Tool::type)
-        .property("context", &mud::Tool::context)
-        .property("name", &mud::Tool::name)
-        .property("state", &mud::Tool::state)
+        .property("type", &mud::Tool::m_type)
+        .property("context", &mud::Tool::m_context)
+        .property("name", &mud::Tool::m_name)
+        .property("state", &mud::Tool::m_state)
         ;
     class_<mud::ToolOption>("ToolOption")
         ;
@@ -56,19 +56,19 @@ EMSCRIPTEN_BINDINGS(mud_tool)
         ;
     class_<mud::CircleBrush>("CircleBrush")
         .constructor<mud::ToolContext&>()
-        .property("creator", &mud::CircleBrush::creator)
-        .property("radius", &mud::CircleBrush::radius)
-        .property("maxSpotRadius", &mud::CircleBrush::maxSpotRadius)
+        .property("creator", &mud::CircleBrush::m_creator)
+        .property("radius", &mud::CircleBrush::m_radius)
+        .property("maxSpotRadius", &mud::CircleBrush::m_maxSpotRadius)
         ;
     class_<mud::PlaceBrush>("PlaceBrush")
         .constructor<mud::ToolContext&>()
-        .property("creator", &mud::PlaceBrush::creator)
+        .property("creator", &mud::PlaceBrush::m_creator)
         ;
     class_<mud::PlaneSnapOption>("PlaneSnapOption")
         ;
     class_<mud::ScriptedBrush>("ScriptedBrush")
         .constructor<mud::ToolContext&, mud::Script&>()
-        .property("call", &mud::ScriptedBrush::call)
+        .property("call", &mud::ScriptedBrush::m_call)
         ;
     class_<mud::TransformAction>("TransformAction")
         ;

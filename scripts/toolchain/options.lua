@@ -36,6 +36,11 @@ newoption {
     description = "Integrated profiling.",
 }
 
+newoption {
+    trigger = "embind",
+    description = "Include embind JS bindings",
+}
+
 --newoption {
 --    trigger = "renderer",
 --    --value = "toolset",
