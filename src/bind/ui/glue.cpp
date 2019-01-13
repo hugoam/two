@@ -516,14 +516,8 @@ extern "C" {
 	mud::Layout* EMSCRIPTEN_KEEPALIVE Style_get_layout(mud::Style* self) {
 		return &self->layout();
 	}
-	void EMSCRIPTEN_KEEPALIVE Style_set_layout(mud::Style* self, mud::Layout* layout) {
-		self->layout = *layout;
-	}
 	mud::InkStyle* EMSCRIPTEN_KEEPALIVE Style_get_skin(mud::Style* self) {
 		return &self->skin();
-	}
-	void EMSCRIPTEN_KEEPALIVE Style_set_skin(mud::Style* self, mud::InkStyle* skin) {
-		self->skin = *skin;
 	}
 	void EMSCRIPTEN_KEEPALIVE Style___destroy__(mud::Style* self) {
 		delete self;

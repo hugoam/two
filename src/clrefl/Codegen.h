@@ -201,7 +201,7 @@ namespace clgen
 		std::vector<string> flags;
 		if(m.m_type.pointer()) flags.push_back("Member::Pointer");
 		if(m.m_type.m_type->m_struct && !m.m_type.pointer()) flags.push_back("Member::Value");
-		if(m.m_nonmutable || m.m_type.reference()) flags.push_back("Member::NonMutable");
+		if(m.m_nonmutable) flags.push_back("Member::NonMutable");
 		if(m.m_structure) flags.push_back("Member::Structure");
 		if(m.m_component) flags.push_back("Member::Component");
 		if(m.m_link || m.m_type.pointer() || m.m_type.reference()) flags.push_back("Member::Link");
@@ -1530,13 +1530,13 @@ namespace clgen
 					}
 
 					c_getter(c, m);
-					if(m.m_setter || !m.m_type.isconst())
+					if(m.m_setter || !m.m_nonmutable)
 						c_setter(c, m);
 
 					jsw("Object.defineProperty(" + c.m_name + ".prototype, \"" + m.m_name + "\", {");
 					jsw("get: ", true);
 					js_getter(c, m);
-					if(m.m_setter || !m.m_type.isconst())
+					if(m.m_setter || !m.m_nonmutable)
 					{
 						jsw(",");
 						jsw("set: ", true);

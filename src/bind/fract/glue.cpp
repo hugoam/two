@@ -64,9 +64,6 @@ extern "C" {
 	mud::Fract* EMSCRIPTEN_KEEPALIVE FractSample_get_fract(mud::FractSample* self) {
 		return &self->m_fract;
 	}
-	void EMSCRIPTEN_KEEPALIVE FractSample_set_fract(mud::FractSample* self, mud::Fract* fract) {
-		self->m_fract = *fract;
-	}
 	mud::Rect* EMSCRIPTEN_KEEPALIVE FractSample_get_rect(mud::FractSample* self) {
 		static mud::Rect temp;
 		return (temp = self->m_rect, &temp);

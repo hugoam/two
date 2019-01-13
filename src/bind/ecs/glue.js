@@ -38,26 +38,12 @@ Object.defineProperty(Complex.prototype, "type", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Complex_get_type(self), mud::Type);
-    },
-    set: function(type) {
-        var self = this.ptr;
-        /* type <Type> [] */
-        type = type.ptr;
-        _Complex_set_type(self, type);
-    }
-});
+    }});
 Object.defineProperty(Complex.prototype, "prototype", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Complex_get_prototype(self), mud::Prototype);
-    },
-    set: function(prototype) {
-        var self = this.ptr;
-        /* prototype <Prototype> [] */
-        prototype = prototype.ptr;
-        _Complex_set_prototype(self, prototype);
-    }
-});
+    }});
 Complex.prototype["__destroy__"] = Complex.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Complex___destroy__(self);

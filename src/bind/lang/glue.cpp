@@ -28,9 +28,6 @@ extern "C" {
 	mud::Type* EMSCRIPTEN_KEEPALIVE Process_get_type(mud::Process* self) {
 		return &self->m_type;
 	}
-	void EMSCRIPTEN_KEEPALIVE Process_set_type(mud::Process* self, mud::Type* type) {
-		self->m_type = *type;
-	}
 	void EMSCRIPTEN_KEEPALIVE Process___destroy__(mud::Process* self) {
 		delete self;
 	}
@@ -155,9 +152,6 @@ extern "C" {
 	}
 	mud::Type* EMSCRIPTEN_KEEPALIVE Script_get_type(mud::Script* self) {
 		return &self->m_type;
-	}
-	void EMSCRIPTEN_KEEPALIVE Script_set_type(mud::Script* self, mud::Type* type) {
-		self->m_type = *type;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Script_get_name(mud::Script* self) {
 		return self->m_name.c_str();

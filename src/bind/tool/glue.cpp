@@ -107,14 +107,8 @@ extern "C" {
 	mud::Type* EMSCRIPTEN_KEEPALIVE Tool_get_type(mud::Tool* self) {
 		return &self->m_type;
 	}
-	void EMSCRIPTEN_KEEPALIVE Tool_set_type(mud::Tool* self, mud::Type* type) {
-		self->m_type = *type;
-	}
 	mud::ToolContext* EMSCRIPTEN_KEEPALIVE Tool_get_context(mud::Tool* self) {
 		return &self->m_context;
-	}
-	void EMSCRIPTEN_KEEPALIVE Tool_set_context(mud::Tool* self, mud::ToolContext* context) {
-		self->m_context = *context;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Tool_get_name(mud::Tool* self) {
 		return self->m_name.c_str();

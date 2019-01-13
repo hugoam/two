@@ -100,14 +100,7 @@ Object.defineProperty(FractSample.prototype, "fract", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_FractSample_get_fract(self), mud::Fract);
-    },
-    set: function(fract) {
-        var self = this.ptr;
-        /* fract <Fract> [] */
-        fract = fract.ptr;
-        _FractSample_set_fract(self, fract);
-    }
-});
+    }});
 Object.defineProperty(FractSample.prototype, "rect", {
     get: function() {
         var self = this.ptr;

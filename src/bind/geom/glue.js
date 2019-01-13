@@ -239,14 +239,7 @@ Object.defineProperty(Shape.prototype, "type", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Shape_get_type(self), mud::Type);
-    },
-    set: function(type) {
-        var self = this.ptr;
-        /* type <Type> [] */
-        type = type.ptr;
-        _Shape_set_type(self, type);
-    }
-});
+    }});
 Shape.prototype["__destroy__"] = Shape.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Shape___destroy__(self);
@@ -268,14 +261,7 @@ Object.defineProperty(ShapeVar.prototype, "shape", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_ShapeVar_get_shape(self), mud::Shape);
-    },
-    set: function(shape) {
-        var self = this.ptr;
-        /* shape <Shape> [] */
-        shape = shape.ptr;
-        _ShapeVar_set_shape(self, shape);
-    }
-});
+    }});
 ShapeVar.prototype["__destroy__"] = ShapeVar.prototype.__destroy__ = function() {
     var self = this.ptr;
     _ShapeVar___destroy__(self);

@@ -335,14 +335,7 @@ Object.defineProperty(ReflectionProbe.prototype, "node", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_ReflectionProbe_get_node(self), mud::Node3);
-    },
-    set: function(node) {
-        var self = this.ptr;
-        /* node <Node3> [] */
-        node = node.ptr;
-        _ReflectionProbe_set_node(self, node);
-    }
-});
+    }});
 Object.defineProperty(ReflectionProbe.prototype, "visible", {
     get: function() {
         var self = this.ptr;

@@ -24,9 +24,6 @@ extern "C" {
 	mud::Type* EMSCRIPTEN_KEEPALIVE Indexer_get_type(mud::Indexer* self) {
 		return &self->m_type;
 	}
-	void EMSCRIPTEN_KEEPALIVE Indexer_set_type(mud::Indexer* self, mud::Type* type) {
-		self->m_type = *type;
-	}
 	void EMSCRIPTEN_KEEPALIVE Indexer___destroy__(mud::Indexer* self) {
 		delete self;
 	}

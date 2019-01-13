@@ -1159,14 +1159,7 @@ Object.defineProperty(GfxBlock.prototype, "type", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_GfxBlock_get_type(self), mud::Type);
-    },
-    set: function(type) {
-        var self = this.ptr;
-        /* type <Type> [] */
-        type = type.ptr;
-        _GfxBlock_set_type(self, type);
-    }
-});
+    }});
 Object.defineProperty(GfxBlock.prototype, "index", {
     get: function() {
         var self = this.ptr;
@@ -1522,14 +1515,7 @@ Object.defineProperty(Light.prototype, "node", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Light_get_node(self), mud::Node3);
-    },
-    set: function(node) {
-        var self = this.ptr;
-        /* node <Node3> [] */
-        node = node.ptr;
-        _Light_set_node(self, node);
-    }
-});
+    }});
 Object.defineProperty(Light.prototype, "type", {
     get: function() {
         var self = this.ptr;

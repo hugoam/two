@@ -646,9 +646,6 @@ extern "C" {
 	mud::Type* EMSCRIPTEN_KEEPALIVE GfxBlock_get_type(mud::GfxBlock* self) {
 		return &self->m_type;
 	}
-	void EMSCRIPTEN_KEEPALIVE GfxBlock_set_type(mud::GfxBlock* self, mud::Type* type) {
-		self->m_type = *type;
-	}
 	uint8_t EMSCRIPTEN_KEEPALIVE GfxBlock_get_index(mud::GfxBlock* self) {
 		return self->m_index;
 	}
@@ -829,9 +826,6 @@ extern "C" {
 	// Light
 	mud::Node3* EMSCRIPTEN_KEEPALIVE Light_get_node(mud::Light* self) {
 		return &self->m_node;
-	}
-	void EMSCRIPTEN_KEEPALIVE Light_set_node(mud::Light* self, mud::Node3* node) {
-		self->m_node = *node;
 	}
 	mud::LightType EMSCRIPTEN_KEEPALIVE Light_get_type(mud::Light* self) {
 		return self->m_type;

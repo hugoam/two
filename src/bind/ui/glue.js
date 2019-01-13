@@ -944,26 +944,12 @@ Object.defineProperty(Style.prototype, "layout", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Style_get_layout(self), mud::Layout);
-    },
-    set: function(layout) {
-        var self = this.ptr;
-        /* layout <Layout> [] */
-        layout = layout.ptr;
-        _Style_set_layout(self, layout);
-    }
-});
+    }});
 Object.defineProperty(Style.prototype, "skin", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Style_get_skin(self), mud::InkStyle);
-    },
-    set: function(skin) {
-        var self = this.ptr;
-        /* skin <InkStyle> [] */
-        skin = skin.ptr;
-        _Style_set_skin(self, skin);
-    }
-});
+    }});
 Style.prototype["__destroy__"] = Style.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Style___destroy__(self);

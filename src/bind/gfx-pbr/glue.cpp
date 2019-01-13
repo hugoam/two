@@ -187,9 +187,6 @@ extern "C" {
 	mud::Node3* EMSCRIPTEN_KEEPALIVE ReflectionProbe_get_node(mud::ReflectionProbe* self) {
 		return &self->m_node;
 	}
-	void EMSCRIPTEN_KEEPALIVE ReflectionProbe_set_node(mud::ReflectionProbe* self, mud::Node3* node) {
-		self->m_node = *node;
-	}
 	bool EMSCRIPTEN_KEEPALIVE ReflectionProbe_get_visible(mud::ReflectionProbe* self) {
 		return self->m_visible;
 	}

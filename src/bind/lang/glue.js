@@ -35,14 +35,7 @@ Object.defineProperty(Process.prototype, "type", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Process_get_type(self), mud::Type);
-    },
-    set: function(type) {
-        var self = this.ptr;
-        /* type <Type> [] */
-        type = type.ptr;
-        _Process_set_type(self, type);
-    }
-});
+    }});
 Process.prototype["__destroy__"] = Process.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Process___destroy__(self);
@@ -352,14 +345,7 @@ Object.defineProperty(Script.prototype, "type", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Script_get_type(self), mud::Type);
-    },
-    set: function(type) {
-        var self = this.ptr;
-        /* type <Type> [] */
-        type = type.ptr;
-        _Script_set_type(self, type);
-    }
-});
+    }});
 Object.defineProperty(Script.prototype, "name", {
     get: function() {
         var self = this.ptr;

@@ -47,9 +47,6 @@ extern "C" {
 	mud::Type* EMSCRIPTEN_KEEPALIVE Creator_get_type(mud::Creator* self) {
 		return &self->m_type;
 	}
-	void EMSCRIPTEN_KEEPALIVE Creator_set_type(mud::Creator* self, mud::Type* type) {
-		self->m_type = *type;
-	}
 	bool EMSCRIPTEN_KEEPALIVE Creator_get_construct(mud::Creator* self) {
 		return self->m_construct;
 	}
@@ -64,9 +61,6 @@ extern "C" {
 	}
 	mud::Injector* EMSCRIPTEN_KEEPALIVE Creator_get_injector(mud::Creator* self) {
 		return &self->injector();
-	}
-	void EMSCRIPTEN_KEEPALIVE Creator_set_injector(mud::Creator* self, mud::Injector* injector) {
-		self->injector = *injector;
 	}
 	void EMSCRIPTEN_KEEPALIVE Creator___destroy__(mud::Creator* self) {
 		delete self;

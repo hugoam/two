@@ -169,26 +169,12 @@ Object.defineProperty(Tool.prototype, "type", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Tool_get_type(self), mud::Type);
-    },
-    set: function(type) {
-        var self = this.ptr;
-        /* type <Type> [] */
-        type = type.ptr;
-        _Tool_set_type(self, type);
-    }
-});
+    }});
 Object.defineProperty(Tool.prototype, "context", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Tool_get_context(self), mud::ToolContext);
-    },
-    set: function(context) {
-        var self = this.ptr;
-        /* context <ToolContext> [] */
-        context = context.ptr;
-        _Tool_set_context(self, context);
-    }
-});
+    }});
 Object.defineProperty(Tool.prototype, "name", {
     get: function() {
         var self = this.ptr;

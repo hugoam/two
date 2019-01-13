@@ -140,9 +140,6 @@ extern "C" {
 	mud::Type* EMSCRIPTEN_KEEPALIVE Shape_get_type(mud::Shape* self) {
 		return &self->m_type;
 	}
-	void EMSCRIPTEN_KEEPALIVE Shape_set_type(mud::Shape* self, mud::Type* type) {
-		self->m_type = *type;
-	}
 	void EMSCRIPTEN_KEEPALIVE Shape___destroy__(mud::Shape* self) {
 		delete self;
 	}
@@ -155,9 +152,6 @@ extern "C" {
 	}
 	mud::Shape* EMSCRIPTEN_KEEPALIVE ShapeVar_get_shape(mud::ShapeVar* self) {
 		return &self->shape();
-	}
-	void EMSCRIPTEN_KEEPALIVE ShapeVar_set_shape(mud::ShapeVar* self, mud::Shape* shape) {
-		self->shape = *shape;
 	}
 	void EMSCRIPTEN_KEEPALIVE ShapeVar___destroy__(mud::ShapeVar* self) {
 		delete self;

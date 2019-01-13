@@ -29,14 +29,7 @@ Object.defineProperty(Indexer.prototype, "type", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Indexer_get_type(self), mud::Type);
-    },
-    set: function(type) {
-        var self = this.ptr;
-        /* type <Type> [] */
-        type = type.ptr;
-        _Indexer_set_type(self, type);
-    }
-});
+    }});
 Indexer.prototype["__destroy__"] = Indexer.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Indexer___destroy__(self);

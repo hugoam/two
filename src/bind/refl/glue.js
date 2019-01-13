@@ -77,14 +77,7 @@ Object.defineProperty(Creator.prototype, "type", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Creator_get_type(self), mud::Type);
-    },
-    set: function(type) {
-        var self = this.ptr;
-        /* type <Type> [] */
-        type = type.ptr;
-        _Creator_set_type(self, type);
-    }
-});
+    }});
 Object.defineProperty(Creator.prototype, "construct", {
     get: function() {
         var self = this.ptr;
@@ -112,14 +105,7 @@ Object.defineProperty(Creator.prototype, "injector", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Creator_get_injector(self), mud::Injector);
-    },
-    set: function(injector) {
-        var self = this.ptr;
-        /* injector <Injector> [] */
-        injector = injector.ptr;
-        _Creator_set_injector(self, injector);
-    }
-});
+    }});
 Creator.prototype["__destroy__"] = Creator.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Creator___destroy__(self);
