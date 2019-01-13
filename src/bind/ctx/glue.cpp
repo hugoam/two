@@ -51,7 +51,7 @@ extern "C" {
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE Context_get_cursor(mud::Context* self) {
 		static mud::vec2 temp;
-		return (temp = &self->m_cursor, &temp);
+		return (temp = self->m_cursor, &temp);
 	}
 	bool EMSCRIPTEN_KEEPALIVE Context_get_mouse_lock(mud::Context* self) {
 		return self->m_mouse_lock;
@@ -75,11 +75,11 @@ extern "C" {
 	}
 	mud::DeviceType EMSCRIPTEN_KEEPALIVE InputEvent_get_deviceType(mud::InputEvent* self) {
 		static mud::DeviceType temp;
-		return (temp = &self->m_deviceType, &temp);
+		return (temp = self->m_deviceType, &temp);
 	}
 	mud::EventType EMSCRIPTEN_KEEPALIVE InputEvent_get_eventType(mud::InputEvent* self) {
 		static mud::EventType temp;
-		return (temp = &self->m_eventType, &temp);
+		return (temp = self->m_eventType, &temp);
 	}
 	mud::ControlNode* EMSCRIPTEN_KEEPALIVE InputEvent_get_receiver(mud::InputEvent* self) {
 		return self->m_receiver;
@@ -92,7 +92,7 @@ extern "C" {
 	}
 	mud::InputMod EMSCRIPTEN_KEEPALIVE InputEvent_get_modifiers(mud::InputEvent* self) {
 		static mud::InputMod temp;
-		return (temp = &self->m_modifiers, &temp);
+		return (temp = self->m_modifiers, &temp);
 	}
 	int EMSCRIPTEN_KEEPALIVE InputEvent_get_key(mud::InputEvent* self) {
 		return self->m_key;
@@ -118,7 +118,7 @@ extern "C" {
 	}
 	mud::Key EMSCRIPTEN_KEEPALIVE KeyEvent_get_code(mud::KeyEvent* self) {
 		static mud::Key temp;
-		return (temp = &self->m_code, &temp);
+		return (temp = self->m_code, &temp);
 	}
 	char EMSCRIPTEN_KEEPALIVE KeyEvent_get_char(mud::KeyEvent* self) {
 		return self->m_char;
@@ -132,26 +132,26 @@ extern "C" {
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE MouseEvent_get_pos(mud::MouseEvent* self) {
 		static mud::vec2 temp;
-		return (temp = &self->m_pos, &temp);
+		return (temp = self->m_pos, &temp);
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE MouseEvent_get_relative(mud::MouseEvent* self) {
 		static mud::vec2 temp;
-		return (temp = &self->m_relative, &temp);
+		return (temp = self->m_relative, &temp);
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE MouseEvent_get_delta(mud::MouseEvent* self) {
 		static mud::vec2 temp;
-		return (temp = &self->m_delta, &temp);
+		return (temp = self->m_delta, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE MouseEvent_get_deltaZ(mud::MouseEvent* self) {
 		return self->m_deltaZ;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE MouseEvent_get_pressed(mud::MouseEvent* self) {
 		static mud::vec2 temp;
-		return (temp = &self->m_pressed, &temp);
+		return (temp = self->m_pressed, &temp);
 	}
 	mud::MouseButtonCode EMSCRIPTEN_KEEPALIVE MouseEvent_get_button(mud::MouseEvent* self) {
 		static mud::MouseButtonCode temp;
-		return (temp = &self->m_button, &temp);
+		return (temp = self->m_button, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE MouseEvent___destroy__(mud::MouseEvent* self) {
 		delete self;

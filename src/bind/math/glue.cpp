@@ -86,7 +86,7 @@ extern "C" {
 	}
 	std::vector<uint32_t>* EMSCRIPTEN_KEEPALIVE Image256_get_pixels(mud::Image256* self) {
 		static std::vector<uint32_t> temp;
-		return (temp = &self->m_pixels, &temp);
+		return (temp = self->m_pixels, &temp);
 	}
 	uint16_t EMSCRIPTEN_KEEPALIVE Image256_get_width(mud::Image256* self) {
 		return self->m_width;
@@ -96,7 +96,7 @@ extern "C" {
 	}
 	mud::Palette* EMSCRIPTEN_KEEPALIVE Image256_get_palette(mud::Image256* self) {
 		static mud::Palette temp;
-		return (temp = &self->m_palette, &temp);
+		return (temp = self->m_palette, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Image256___destroy__(mud::Image256* self) {
 		delete self;
@@ -156,11 +156,11 @@ extern "C" {
 	}
 	mud::Time* EMSCRIPTEN_KEEPALIVE TimeSpan_get_start(mud::TimeSpan* self) {
 		static mud::Time temp;
-		return (temp = &self->start, &temp);
+		return (temp = self->start, &temp);
 	}
 	mud::Time* EMSCRIPTEN_KEEPALIVE TimeSpan_get_end(mud::TimeSpan* self) {
 		static mud::Time temp;
-		return (temp = &self->end, &temp);
+		return (temp = self->end, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE TimeSpan___destroy__(mud::TimeSpan* self) {
 		delete self;
@@ -177,15 +177,15 @@ extern "C" {
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE Transform_get_position(mud::Transform* self) {
 		static mud::vec3 temp;
-		return (temp = &self->m_position, &temp);
+		return (temp = self->m_position, &temp);
 	}
 	mud::quat* EMSCRIPTEN_KEEPALIVE Transform_get_rotation(mud::Transform* self) {
 		static mud::quat temp;
-		return (temp = &self->m_rotation, &temp);
+		return (temp = self->m_rotation, &temp);
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE Transform_get_scale(mud::Transform* self) {
 		static mud::vec3 temp;
-		return (temp = &self->m_scale, &temp);
+		return (temp = self->m_scale, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Transform___destroy__(mud::Transform* self) {
 		delete self;

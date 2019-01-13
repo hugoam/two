@@ -30,27 +30,27 @@ extern "C" {
 	// EditContext
 	mud::UndoTool* EMSCRIPTEN_KEEPALIVE EditContext_get_undo_tool(mud::EditContext* self) {
 		static mud::UndoTool temp;
-		return (temp = &self->m_undo_tool, &temp);
+		return (temp = self->m_undo_tool, &temp);
 	}
 	mud::RedoTool* EMSCRIPTEN_KEEPALIVE EditContext_get_redo_tool(mud::EditContext* self) {
 		static mud::RedoTool temp;
-		return (temp = &self->m_redo_tool, &temp);
+		return (temp = self->m_redo_tool, &temp);
 	}
 	mud::Plane* EMSCRIPTEN_KEEPALIVE EditContext_get_work_plane(mud::EditContext* self) {
 		static mud::Plane temp;
-		return (temp = &self->m_work_plane, &temp);
+		return (temp = self->m_work_plane, &temp);
 	}
 	mud::TranslateTool* EMSCRIPTEN_KEEPALIVE EditContext_get_translate_tool(mud::EditContext* self) {
 		static mud::TranslateTool temp;
-		return (temp = &self->m_translate_tool, &temp);
+		return (temp = self->m_translate_tool, &temp);
 	}
 	mud::RotateTool* EMSCRIPTEN_KEEPALIVE EditContext_get_rotate_tool(mud::EditContext* self) {
 		static mud::RotateTool temp;
-		return (temp = &self->m_rotate_tool, &temp);
+		return (temp = self->m_rotate_tool, &temp);
 	}
 	mud::ScaleTool* EMSCRIPTEN_KEEPALIVE EditContext_get_scale_tool(mud::EditContext* self) {
 		static mud::ScaleTool temp;
-		return (temp = &self->m_scale_tool, &temp);
+		return (temp = self->m_scale_tool, &temp);
 	}
 	mud::Viewer* EMSCRIPTEN_KEEPALIVE EditContext_get_viewer(mud::EditContext* self) {
 		return self->m_viewer;
@@ -80,17 +80,17 @@ extern "C" {
 	}
 	// Tool
 	mud::Type* EMSCRIPTEN_KEEPALIVE Tool_get_type(mud::Tool* self) {
-		return &&self->m_type;
+		return &self->m_type;
 	}
 	mud::ToolContext* EMSCRIPTEN_KEEPALIVE Tool_get_context(mud::Tool* self) {
-		return &&self->m_context;
+		return &self->m_context;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Tool_get_name(mud::Tool* self) {
 		return self->m_name.c_str();
 	}
 	mud::ToolState EMSCRIPTEN_KEEPALIVE Tool_get_state(mud::Tool* self) {
 		static mud::ToolState temp;
-		return (temp = &self->m_state, &temp);
+		return (temp = self->m_state, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Tool___destroy__(mud::Tool* self) {
 		delete self;
@@ -128,7 +128,7 @@ extern "C" {
 	}
 	mud::Creator* EMSCRIPTEN_KEEPALIVE CircleBrush_get_creator(mud::CircleBrush* self) {
 		static mud::Creator temp;
-		return (temp = &self->m_creator, &temp);
+		return (temp = self->m_creator, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE CircleBrush_get_radius(mud::CircleBrush* self) {
 		return self->m_radius;
@@ -145,7 +145,7 @@ extern "C" {
 	}
 	mud::Creator* EMSCRIPTEN_KEEPALIVE PlaceBrush_get_creator(mud::PlaceBrush* self) {
 		static mud::Creator temp;
-		return (temp = &self->m_creator, &temp);
+		return (temp = self->m_creator, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE PlaceBrush___destroy__(mud::PlaceBrush* self) {
 		delete self;
@@ -160,7 +160,7 @@ extern "C" {
 	}
 	mud::Call* EMSCRIPTEN_KEEPALIVE ScriptedBrush_get_call(mud::ScriptedBrush* self) {
 		static mud::Call temp;
-		return (temp = &self->m_call, &temp);
+		return (temp = self->m_call, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE ScriptedBrush___destroy__(mud::ScriptedBrush* self) {
 		delete self;

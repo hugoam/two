@@ -51,11 +51,11 @@ extern "C" {
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE Tileset_get_tile_size(mud::Tileset* self) {
 		static mud::vec3 temp;
-		return (temp = &self->m_tile_size, &temp);
+		return (temp = self->m_tile_size, &temp);
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE Tileset_get_tile_scale(mud::Tileset* self) {
 		static mud::vec3 temp;
-		return (temp = &self->m_tile_scale, &temp);
+		return (temp = self->m_tile_scale, &temp);
 	}
 	uint16_t EMSCRIPTEN_KEEPALIVE Tileset_get_nutiles(mud::Tileset* self) {
 		return self->m_num_tiles;

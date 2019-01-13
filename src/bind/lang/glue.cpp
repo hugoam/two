@@ -26,7 +26,7 @@ extern "C" {
 	}
 	// Process
 	mud::Type* EMSCRIPTEN_KEEPALIVE Process_get_type(mud::Process* self) {
-		return &&self->m_type;
+		return &self->m_type;
 	}
 	void EMSCRIPTEN_KEEPALIVE Process___destroy__(mud::Process* self) {
 		delete self;
@@ -40,11 +40,11 @@ extern "C" {
 	}
 	mud::Type* EMSCRIPTEN_KEEPALIVE ScriptClass_get_class_type(mud::ScriptClass* self) {
 		static mud::Type temp;
-		return (temp = &self->m_class_type, &temp);
+		return (temp = self->m_class_type, &temp);
 	}
 	mud::Class* EMSCRIPTEN_KEEPALIVE ScriptClass_get_class(mud::ScriptClass* self) {
 		static mud::Class temp;
-		return (temp = &self->m_class, &temp);
+		return (temp = self->m_class, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE ScriptClass___destroy__(mud::ScriptClass* self) {
 		delete self;
@@ -141,7 +141,7 @@ extern "C" {
 		return self->m_index;
 	}
 	mud::Type* EMSCRIPTEN_KEEPALIVE Script_get_type(mud::Script* self) {
-		return &&self->m_type;
+		return &self->m_type;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Script_get_name(mud::Script* self) {
 		return self->m_name.c_str();
@@ -165,7 +165,7 @@ extern "C" {
 	}
 	mud::Language EMSCRIPTEN_KEEPALIVE TextScript_get_language(mud::TextScript* self) {
 		static mud::Language temp;
-		return (temp = &self->m_language, &temp);
+		return (temp = self->m_language, &temp);
 	}
 	const char* EMSCRIPTEN_KEEPALIVE TextScript_get_script(mud::TextScript* self) {
 		return self->m_script.c_str();

@@ -73,15 +73,15 @@ extern "C" {
 		self->render(*pattern, *outputImage);
 	}
 	mud::Fract* EMSCRIPTEN_KEEPALIVE FractSample_get_fract(mud::FractSample* self) {
-		return &&self->m_fract;
+		return &self->m_fract;
 	}
 	mud::Rect* EMSCRIPTEN_KEEPALIVE FractSample_get_rect(mud::FractSample* self) {
 		static mud::Rect temp;
-		return (temp = &self->m_rect, &temp);
+		return (temp = self->m_rect, &temp);
 	}
 	mud::uvec2* EMSCRIPTEN_KEEPALIVE FractSample_get_resolution(mud::FractSample* self) {
 		static mud::uvec2 temp;
-		return (temp = &self->m_resolution, &temp);
+		return (temp = self->m_resolution, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE FractSample___destroy__(mud::FractSample* self) {
 		delete self;

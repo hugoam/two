@@ -61,19 +61,19 @@ extern "C" {
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE WfcBlock_get_position(mud::WfcBlock* self) {
 		static mud::vec3 temp;
-		return (temp = &self->m_position, &temp);
+		return (temp = self->m_position, &temp);
 	}
 	mud::uvec3* EMSCRIPTEN_KEEPALIVE WfcBlock_get_size(mud::WfcBlock* self) {
 		static mud::uvec3 temp;
-		return (temp = &self->m_size, &temp);
+		return (temp = self->m_size, &temp);
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE WfcBlock_get_scale(mud::WfcBlock* self) {
 		static mud::vec3 temp;
-		return (temp = &self->m_scale, &temp);
+		return (temp = self->m_scale, &temp);
 	}
 	mud::Aabb* EMSCRIPTEN_KEEPALIVE WfcBlock_get_aabb(mud::WfcBlock* self) {
 		static mud::Aabb temp;
-		return (temp = &self->m_aabb, &temp);
+		return (temp = self->m_aabb, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE WfcBlock___destroy__(mud::WfcBlock* self) {
 		delete self;

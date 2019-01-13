@@ -1421,7 +1421,7 @@ namespace clgen
 		auto c_getter = [&](const CLClass& c, const CLMember& m)
 		{
 			cw(type_to_c(m.m_type) + " EMSCRIPTEN_KEEPALIVE " + binding_name_str(c, "get_" + m.m_name) + "(" + c.m_id + "* self) {");
-			c_call_return_wrap(m.m_type, address(m.m_type) + "self->" + m.m_member);
+			c_call_return_wrap(m.m_type, "self->" + m.m_member);
 			cw("}");
 		};
 

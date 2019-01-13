@@ -23,55 +23,55 @@ extern "C" {
 	}
 	std::vector<glTFBuffer>* EMSCRIPTEN_KEEPALIVE glTF_get_buffers(glTF* self) {
 		static std::vector<glTFBuffer> temp;
-		return (temp = &self->m_buffers, &temp);
+		return (temp = self->m_buffers, &temp);
 	}
 	std::vector<glTFBufferView>* EMSCRIPTEN_KEEPALIVE glTF_get_buffer_views(glTF* self) {
 		static std::vector<glTFBufferView> temp;
-		return (temp = &self->m_buffer_views, &temp);
+		return (temp = self->m_buffer_views, &temp);
 	}
 	std::vector<glTFAccessor>* EMSCRIPTEN_KEEPALIVE glTF_get_accessors(glTF* self) {
 		static std::vector<glTFAccessor> temp;
-		return (temp = &self->m_accessors, &temp);
+		return (temp = self->m_accessors, &temp);
 	}
 	std::vector<glTFImage>* EMSCRIPTEN_KEEPALIVE glTF_get_images(glTF* self) {
 		static std::vector<glTFImage> temp;
-		return (temp = &self->m_images, &temp);
+		return (temp = self->m_images, &temp);
 	}
 	std::vector<glTFTexture>* EMSCRIPTEN_KEEPALIVE glTF_get_textures(glTF* self) {
 		static std::vector<glTFTexture> temp;
-		return (temp = &self->m_textures, &temp);
+		return (temp = self->m_textures, &temp);
 	}
 	std::vector<glTFMaterial>* EMSCRIPTEN_KEEPALIVE glTF_get_materials(glTF* self) {
 		static std::vector<glTFMaterial> temp;
-		return (temp = &self->m_materials, &temp);
+		return (temp = self->m_materials, &temp);
 	}
 	std::vector<glTFMesh>* EMSCRIPTEN_KEEPALIVE glTF_get_meshes(glTF* self) {
 		static std::vector<glTFMesh> temp;
-		return (temp = &self->m_meshes, &temp);
+		return (temp = self->m_meshes, &temp);
 	}
 	std::vector<glTFNode>* EMSCRIPTEN_KEEPALIVE glTF_get_nodes(glTF* self) {
 		static std::vector<glTFNode> temp;
-		return (temp = &self->m_nodes, &temp);
+		return (temp = self->m_nodes, &temp);
 	}
 	std::vector<glTFSkin>* EMSCRIPTEN_KEEPALIVE glTF_get_skins(glTF* self) {
 		static std::vector<glTFSkin> temp;
-		return (temp = &self->m_skins, &temp);
+		return (temp = self->m_skins, &temp);
 	}
 	std::vector<glTFAnimation>* EMSCRIPTEN_KEEPALIVE glTF_get_animations(glTF* self) {
 		static std::vector<glTFAnimation> temp;
-		return (temp = &self->m_animations, &temp);
+		return (temp = self->m_animations, &temp);
 	}
 	std::vector<glTFCamera>* EMSCRIPTEN_KEEPALIVE glTF_get_cameras(glTF* self) {
 		static std::vector<glTFCamera> temp;
-		return (temp = &self->m_cameras, &temp);
+		return (temp = self->m_cameras, &temp);
 	}
 	std::vector<glTFSampler>* EMSCRIPTEN_KEEPALIVE glTF_get_samplers(glTF* self) {
 		static std::vector<glTFSampler> temp;
-		return (temp = &self->m_samplers, &temp);
+		return (temp = self->m_samplers, &temp);
 	}
 	std::vector<glTFScene>* EMSCRIPTEN_KEEPALIVE glTF_get_scenes(glTF* self) {
 		static std::vector<glTFScene> temp;
-		return (temp = &self->m_scenes, &temp);
+		return (temp = self->m_scenes, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE glTF___destroy__(glTF* self) {
 		delete self;
@@ -91,7 +91,7 @@ extern "C" {
 	}
 	glTFComponentType EMSCRIPTEN_KEEPALIVE glTFAccessor_get_component_type(glTFAccessor* self) {
 		static glTFComponentType temp;
-		return (temp = &self->component_type, &temp);
+		return (temp = self->component_type, &temp);
 	}
 	bool EMSCRIPTEN_KEEPALIVE glTFAccessor_get_normalized(glTFAccessor* self) {
 		return self->normalized;
@@ -101,11 +101,11 @@ extern "C" {
 	}
 	glTFType EMSCRIPTEN_KEEPALIVE glTFAccessor_get_type(glTFAccessor* self) {
 		static glTFType temp;
-		return (temp = &self->type, &temp);
+		return (temp = self->type, &temp);
 	}
 	glTFSparse* EMSCRIPTEN_KEEPALIVE glTFAccessor_get_sparse(glTFAccessor* self) {
 		static glTFSparse temp;
-		return (temp = &self->sparse, &temp);
+		return (temp = self->sparse, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFAccessor___destroy__(glTFAccessor* self) {
 		delete self;
@@ -119,11 +119,11 @@ extern "C" {
 	}
 	std::vector<glTFAnimationSampler>* EMSCRIPTEN_KEEPALIVE glTFAnimation_get_samplers(glTFAnimation* self) {
 		static std::vector<glTFAnimationSampler> temp;
-		return (temp = &self->samplers, &temp);
+		return (temp = self->samplers, &temp);
 	}
 	std::vector<glTFAnimationChannel>* EMSCRIPTEN_KEEPALIVE glTFAnimation_get_channels(glTFAnimation* self) {
 		static std::vector<glTFAnimationChannel> temp;
-		return (temp = &self->channels, &temp);
+		return (temp = self->channels, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFAnimation___destroy__(glTFAnimation* self) {
 		delete self;
@@ -137,7 +137,7 @@ extern "C" {
 	}
 	glTFAnimationTarget* EMSCRIPTEN_KEEPALIVE glTFAnimationChannel_get_target(glTFAnimationChannel* self) {
 		static glTFAnimationTarget temp;
-		return (temp = &self->target, &temp);
+		return (temp = self->target, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFAnimationChannel___destroy__(glTFAnimationChannel* self) {
 		delete self;
@@ -148,7 +148,7 @@ extern "C" {
 	}
 	glTFInterpolation EMSCRIPTEN_KEEPALIVE glTFAnimationSampler_get_interpolation(glTFAnimationSampler* self) {
 		static glTFInterpolation temp;
-		return (temp = &self->interpolation, &temp);
+		return (temp = self->interpolation, &temp);
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFAnimationSampler_get_input(glTFAnimationSampler* self) {
 		return self->input;
@@ -259,11 +259,11 @@ extern "C" {
 	}
 	glTFOrthographic* EMSCRIPTEN_KEEPALIVE glTFCamera_get_orthographic(glTFCamera* self) {
 		static glTFOrthographic temp;
-		return (temp = &self->orthographic, &temp);
+		return (temp = self->orthographic, &temp);
 	}
 	glTFPerspective* EMSCRIPTEN_KEEPALIVE glTFCamera_get_perspective(glTFCamera* self) {
 		static glTFPerspective temp;
-		return (temp = &self->perspective, &temp);
+		return (temp = self->perspective, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFCamera___destroy__(glTFCamera* self) {
 		delete self;
@@ -296,30 +296,30 @@ extern "C" {
 	}
 	glTFTextureInfo* EMSCRIPTEN_KEEPALIVE glTFMaterial_get_normal_texture(glTFMaterial* self) {
 		static glTFTextureInfo temp;
-		return (temp = &self->normal_texture, &temp);
+		return (temp = self->normal_texture, &temp);
 	}
 	glTFTextureInfo* EMSCRIPTEN_KEEPALIVE glTFMaterial_get_occlusion_texture(glTFMaterial* self) {
 		static glTFTextureInfo temp;
-		return (temp = &self->occlusion_texture, &temp);
+		return (temp = self->occlusion_texture, &temp);
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE glTFMaterial_get_emissive_factor(glTFMaterial* self) {
 		static mud::vec3 temp;
-		return (temp = &self->emissive_factor, &temp);
+		return (temp = self->emissive_factor, &temp);
 	}
 	glTFTextureInfo* EMSCRIPTEN_KEEPALIVE glTFMaterial_get_emissive_texture(glTFMaterial* self) {
 		static glTFTextureInfo temp;
-		return (temp = &self->emissive_texture, &temp);
+		return (temp = self->emissive_texture, &temp);
 	}
 	bool EMSCRIPTEN_KEEPALIVE glTFMaterial_get_double_sided(glTFMaterial* self) {
 		return self->double_sided;
 	}
 	glTFAlphaMode EMSCRIPTEN_KEEPALIVE glTFMaterial_get_alpha_mode(glTFMaterial* self) {
 		static glTFAlphaMode temp;
-		return (temp = &self->alpha_mode, &temp);
+		return (temp = self->alpha_mode, &temp);
 	}
 	glTFMaterialPBR* EMSCRIPTEN_KEEPALIVE glTFMaterial_get_pbr_metallic_roughness(glTFMaterial* self) {
 		static glTFMaterialPBR temp;
-		return (temp = &self->pbr_metallic_roughness, &temp);
+		return (temp = self->pbr_metallic_roughness, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFMaterial___destroy__(glTFMaterial* self) {
 		delete self;
@@ -330,11 +330,11 @@ extern "C" {
 	}
 	mud::vec4* EMSCRIPTEN_KEEPALIVE glTFMaterialPBR_get_base_color_factor(glTFMaterialPBR* self) {
 		static mud::vec4 temp;
-		return (temp = &self->base_color_factor, &temp);
+		return (temp = self->base_color_factor, &temp);
 	}
 	glTFTextureInfo* EMSCRIPTEN_KEEPALIVE glTFMaterialPBR_get_base_color_texture(glTFMaterialPBR* self) {
 		static glTFTextureInfo temp;
-		return (temp = &self->base_color_texture, &temp);
+		return (temp = self->base_color_texture, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE glTFMaterialPBR_get_metallic_factor(glTFMaterialPBR* self) {
 		return self->metallic_factor;
@@ -344,7 +344,7 @@ extern "C" {
 	}
 	glTFTextureInfo* EMSCRIPTEN_KEEPALIVE glTFMaterialPBR_get_metallic_roughness_texture(glTFMaterialPBR* self) {
 		static glTFTextureInfo temp;
-		return (temp = &self->metallic_roughness_texture, &temp);
+		return (temp = self->metallic_roughness_texture, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFMaterialPBR___destroy__(glTFMaterialPBR* self) {
 		delete self;
@@ -358,11 +358,11 @@ extern "C" {
 	}
 	std::vector<glTFPrimitive>* EMSCRIPTEN_KEEPALIVE glTFMesh_get_primitives(glTFMesh* self) {
 		static std::vector<glTFPrimitive> temp;
-		return (temp = &self->primitives, &temp);
+		return (temp = self->primitives, &temp);
 	}
 	std::vector<float>* EMSCRIPTEN_KEEPALIVE glTFMesh_get_weights(glTFMesh* self) {
 		static std::vector<float> temp;
-		return (temp = &self->weights, &temp);
+		return (temp = self->weights, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFMesh___destroy__(glTFMesh* self) {
 		delete self;
@@ -401,23 +401,23 @@ extern "C" {
 	}
 	mud::mat4* EMSCRIPTEN_KEEPALIVE glTFNode_get_matrix(glTFNode* self) {
 		static mud::mat4 temp;
-		return (temp = &self->matrix, &temp);
+		return (temp = self->matrix, &temp);
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE glTFNode_get_translation(glTFNode* self) {
 		static mud::vec3 temp;
-		return (temp = &self->translation, &temp);
+		return (temp = self->translation, &temp);
 	}
 	mud::quat* EMSCRIPTEN_KEEPALIVE glTFNode_get_rotation(glTFNode* self) {
 		static mud::quat temp;
-		return (temp = &self->rotation, &temp);
+		return (temp = self->rotation, &temp);
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE glTFNode_get_scale(glTFNode* self) {
 		static mud::vec3 temp;
-		return (temp = &self->scale, &temp);
+		return (temp = self->scale, &temp);
 	}
 	std::vector<int>* EMSCRIPTEN_KEEPALIVE glTFNode_get_children(glTFNode* self) {
 		static std::vector<int> temp;
-		return (temp = &self->children, &temp);
+		return (temp = self->children, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFNode___destroy__(glTFNode* self) {
 		delete self;
@@ -473,7 +473,7 @@ extern "C" {
 	}
 	glTFAttributes* EMSCRIPTEN_KEEPALIVE glTFPrimitive_get_attributes(glTFPrimitive* self) {
 		static glTFAttributes temp;
-		return (temp = &self->attributes, &temp);
+		return (temp = self->attributes, &temp);
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFPrimitive_get_indices(glTFPrimitive* self) {
 		return self->indices;
@@ -483,11 +483,11 @@ extern "C" {
 	}
 	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE glTFPrimitive_get_mode(glTFPrimitive* self) {
 		static glTFPrimitiveType temp;
-		return (temp = &self->mode, &temp);
+		return (temp = self->mode, &temp);
 	}
 	std::vector<glTFMorphTarget>* EMSCRIPTEN_KEEPALIVE glTFPrimitive_get_targets(glTFPrimitive* self) {
 		static std::vector<glTFMorphTarget> temp;
-		return (temp = &self->targets, &temp);
+		return (temp = self->targets, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFPrimitive___destroy__(glTFPrimitive* self) {
 		delete self;
@@ -523,7 +523,7 @@ extern "C" {
 	}
 	std::vector<int>* EMSCRIPTEN_KEEPALIVE glTFScene_get_nodes(glTFScene* self) {
 		static std::vector<int> temp;
-		return (temp = &self->nodes, &temp);
+		return (temp = self->nodes, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFScene___destroy__(glTFScene* self) {
 		delete self;
@@ -540,7 +540,7 @@ extern "C" {
 	}
 	std::vector<int>* EMSCRIPTEN_KEEPALIVE glTFSkin_get_joints(glTFSkin* self) {
 		static std::vector<int> temp;
-		return (temp = &self->joints, &temp);
+		return (temp = self->joints, &temp);
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFSkin_get_inverse_bind_matrices(glTFSkin* self) {
 		return self->inverse_bind_matrices;
@@ -557,11 +557,11 @@ extern "C" {
 	}
 	glTFSparseIndices* EMSCRIPTEN_KEEPALIVE glTFSparse_get_indices(glTFSparse* self) {
 		static glTFSparseIndices temp;
-		return (temp = &self->indices, &temp);
+		return (temp = self->indices, &temp);
 	}
 	glTFSparseValues* EMSCRIPTEN_KEEPALIVE glTFSparse_get_values(glTFSparse* self) {
 		static glTFSparseValues temp;
-		return (temp = &self->values, &temp);
+		return (temp = self->values, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFSparse___destroy__(glTFSparse* self) {
 		delete self;
@@ -578,7 +578,7 @@ extern "C" {
 	}
 	glTFComponentType EMSCRIPTEN_KEEPALIVE glTFSparseIndices_get_component_type(glTFSparseIndices* self) {
 		static glTFComponentType temp;
-		return (temp = &self->component_type, &temp);
+		return (temp = self->component_type, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFSparseIndices___destroy__(glTFSparseIndices* self) {
 		delete self;

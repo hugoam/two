@@ -27,11 +27,11 @@ extern "C" {
 	}
 	std::vector<mud::Var>* EMSCRIPTEN_KEEPALIVE Call_get_arguments(mud::Call* self) {
 		static std::vector<mud::Var> temp;
-		return (temp = &self->m_arguments, &temp);
+		return (temp = self->m_arguments, &temp);
 	}
 	mud::Var* EMSCRIPTEN_KEEPALIVE Call_get_result(mud::Call* self) {
 		static mud::Var temp;
-		return (temp = &self->m_result, &temp);
+		return (temp = self->m_result, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Call___destroy__(mud::Call* self) {
 		delete self;
@@ -50,7 +50,7 @@ extern "C" {
 	}
 	// Creator
 	mud::Type* EMSCRIPTEN_KEEPALIVE Creator_get_type(mud::Creator* self) {
-		return &&self->m_type;
+		return &self->m_type;
 	}
 	bool EMSCRIPTEN_KEEPALIVE Creator_get_construct(mud::Creator* self) {
 		return self->m_construct;
@@ -59,7 +59,7 @@ extern "C" {
 		return self->m_prototype;
 	}
 	mud::Injector* EMSCRIPTEN_KEEPALIVE Creator_get_injector(mud::Creator* self) {
-		return &&self->injector;
+		return &self->injector;
 	}
 	void EMSCRIPTEN_KEEPALIVE Creator___destroy__(mud::Creator* self) {
 		delete self;
@@ -82,15 +82,15 @@ extern "C" {
 	}
 	std::vector<mud::Module*>* EMSCRIPTEN_KEEPALIVE Module_get_deps(mud::Module* self) {
 		static std::vector<mud::Module*> temp;
-		return (temp = &self->m_deps, &temp);
+		return (temp = self->m_deps, &temp);
 	}
 	std::vector<mud::Type*>* EMSCRIPTEN_KEEPALIVE Module_get_types(mud::Module* self) {
 		static std::vector<mud::Type*> temp;
-		return (temp = &self->m_types, &temp);
+		return (temp = self->m_types, &temp);
 	}
 	std::vector<mud::Function*>* EMSCRIPTEN_KEEPALIVE Module_get_functions(mud::Module* self) {
 		static std::vector<mud::Function*> temp;
-		return (temp = &self->m_functions, &temp);
+		return (temp = self->m_functions, &temp);
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Module_get_path(mud::Module* self) {
 		return self->m_path;
@@ -136,15 +136,15 @@ extern "C" {
 	// System
 	std::vector<mud::Module*>* EMSCRIPTEN_KEEPALIVE System_get_modules(mud::System* self) {
 		static std::vector<mud::Module*> temp;
-		return (temp = &self->m_modules, &temp);
+		return (temp = self->m_modules, &temp);
 	}
 	std::vector<mud::Type*>* EMSCRIPTEN_KEEPALIVE System_get_types(mud::System* self) {
 		static std::vector<mud::Type*> temp;
-		return (temp = &self->m_types, &temp);
+		return (temp = self->m_types, &temp);
 	}
 	std::vector<mud::Function*>* EMSCRIPTEN_KEEPALIVE System_get_functions(mud::System* self) {
 		static std::vector<mud::Function*> temp;
-		return (temp = &self->m_functions, &temp);
+		return (temp = self->m_functions, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE System___destroy__(mud::System* self) {
 		delete self;

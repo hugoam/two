@@ -22,11 +22,11 @@ extern "C" {
 	}
 	// Indexer
 	mud::Type* EMSCRIPTEN_KEEPALIVE Indexer_get_type(mud::Indexer* self) {
-		return &&self->m_type;
+		return &self->m_type;
 	}
 	std::vector<mud::Ref>* EMSCRIPTEN_KEEPALIVE Indexer_get_objects(mud::Indexer* self) {
 		static std::vector<mud::Ref> temp;
-		return (temp = &self->m_objects, &temp);
+		return (temp = self->m_objects, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Indexer___destroy__(mud::Indexer* self) {
 		delete self;

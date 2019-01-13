@@ -37,7 +37,7 @@ extern "C" {
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE OrbitController_get_position(mud::OrbitController* self) {
 		static mud::vec3 temp;
-		return (temp = &self->m_position, &temp);
+		return (temp = self->m_position, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE OrbitController_get_yaw(mud::OrbitController* self) {
 		return self->m_yaw;
@@ -65,15 +65,15 @@ extern "C" {
 	}
 	mud::Viewport* EMSCRIPTEN_KEEPALIVE Viewer_get_viewport(mud::Viewer* self) {
 		static mud::Viewport temp;
-		return (temp = &self->m_viewport, &temp);
+		return (temp = self->m_viewport, &temp);
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE Viewer_get_position(mud::Viewer* self) {
 		static mud::vec2 temp;
-		return (temp = &self->m_position, &temp);
+		return (temp = self->m_position, &temp);
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE Viewer_get_size(mud::Viewer* self) {
 		static mud::vec2 temp;
-		return (temp = &self->m_size, &temp);
+		return (temp = self->m_size, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Viewer___destroy__(mud::Viewer* self) {
 		delete self;
