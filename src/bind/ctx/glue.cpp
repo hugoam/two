@@ -74,12 +74,10 @@ extern "C" {
 		return self->valid();
 	}
 	mud::DeviceType EMSCRIPTEN_KEEPALIVE InputEvent_get_deviceType(mud::InputEvent* self) {
-		static mud::DeviceType temp;
-		return (temp = self->m_deviceType, &temp);
+		return self->m_deviceType;
 	}
 	mud::EventType EMSCRIPTEN_KEEPALIVE InputEvent_get_eventType(mud::InputEvent* self) {
-		static mud::EventType temp;
-		return (temp = self->m_eventType, &temp);
+		return self->m_eventType;
 	}
 	mud::ControlNode* EMSCRIPTEN_KEEPALIVE InputEvent_get_receiver(mud::InputEvent* self) {
 		return self->m_receiver;
@@ -91,8 +89,7 @@ extern "C" {
 		return self->m_abort;
 	}
 	mud::InputMod EMSCRIPTEN_KEEPALIVE InputEvent_get_modifiers(mud::InputEvent* self) {
-		static mud::InputMod temp;
-		return (temp = self->m_modifiers, &temp);
+		return self->m_modifiers;
 	}
 	int EMSCRIPTEN_KEEPALIVE InputEvent_get_key(mud::InputEvent* self) {
 		return self->m_key;
@@ -117,8 +114,7 @@ extern "C" {
 		return new mud::KeyEvent();
 	}
 	mud::Key EMSCRIPTEN_KEEPALIVE KeyEvent_get_code(mud::KeyEvent* self) {
-		static mud::Key temp;
-		return (temp = self->m_code, &temp);
+		return self->m_code;
 	}
 	char EMSCRIPTEN_KEEPALIVE KeyEvent_get_char(mud::KeyEvent* self) {
 		return self->m_char;
@@ -150,8 +146,7 @@ extern "C" {
 		return (temp = self->m_pressed, &temp);
 	}
 	mud::MouseButtonCode EMSCRIPTEN_KEEPALIVE MouseEvent_get_button(mud::MouseEvent* self) {
-		static mud::MouseButtonCode temp;
-		return (temp = self->m_button, &temp);
+		return self->m_button;
 	}
 	void EMSCRIPTEN_KEEPALIVE MouseEvent___destroy__(mud::MouseEvent* self) {
 		delete self;

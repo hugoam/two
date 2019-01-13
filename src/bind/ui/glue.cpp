@@ -102,8 +102,7 @@ extern "C" {
 		return self->m_margin;
 	}
 	mud::Dim EMSCRIPTEN_KEEPALIVE ImageSkin_get_d_stretch(mud::ImageSkin* self) {
-		static mud::Dim temp;
-		return (temp = self->d_stretch, &temp);
+		return self->d_stretch;
 	}
 	void EMSCRIPTEN_KEEPALIVE ImageSkin___destroy__(mud::ImageSkin* self) {
 		delete self;
@@ -176,8 +175,7 @@ extern "C" {
 		return (temp = self->m_linear_gradient, &temp);
 	}
 	mud::Dim EMSCRIPTEN_KEEPALIVE InkStyle_get_linear_gradient_dim(mud::InkStyle* self) {
-		static mud::Dim temp;
-		return (temp = self->m_linear_gradient_dim, &temp);
+		return self->m_linear_gradient_dim;
 	}
 	mud::Image* EMSCRIPTEN_KEEPALIVE InkStyle_get_image(mud::InkStyle* self) {
 		return self->m_image;
@@ -224,24 +222,20 @@ extern "C" {
 		return self->m_name.c_str();
 	}
 	mud::LayoutSolver EMSCRIPTEN_KEEPALIVE Layout_get_solver(mud::Layout* self) {
-		static mud::LayoutSolver temp;
-		return (temp = self->m_solver, &temp);
+		return self->m_solver;
 	}
 	mud::Flow EMSCRIPTEN_KEEPALIVE Layout_get_flow(mud::Layout* self) {
-		static mud::Flow temp;
-		return (temp = self->m_flow, &temp);
+		return self->m_flow;
 	}
 	mud::Space* EMSCRIPTEN_KEEPALIVE Layout_get_space(mud::Layout* self) {
 		static mud::Space temp;
 		return (temp = self->m_space, &temp);
 	}
 	mud::Clipping EMSCRIPTEN_KEEPALIVE Layout_get_clipping(mud::Layout* self) {
-		static mud::Clipping temp;
-		return (temp = self->m_clipping, &temp);
+		return self->m_clipping;
 	}
 	mud::Opacity EMSCRIPTEN_KEEPALIVE Layout_get_opacity(mud::Layout* self) {
-		static mud::Opacity temp;
-		return (temp = self->m_opacity, &temp);
+		return self->m_opacity;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE Layout_get_span(mud::Layout* self) {
 		static mud::vec2 temp;
@@ -345,16 +339,13 @@ extern "C" {
 		return new mud::Space();
 	}
 	mud::FlowAxis EMSCRIPTEN_KEEPALIVE Space_get_direction(mud::Space* self) {
-		static mud::FlowAxis temp;
-		return (temp = self->direction, &temp);
+		return self->direction;
 	}
 	mud::Sizing EMSCRIPTEN_KEEPALIVE Space_get_sizingLength(mud::Space* self) {
-		static mud::Sizing temp;
-		return (temp = self->sizingLength, &temp);
+		return self->sizingLength;
 	}
 	mud::Sizing EMSCRIPTEN_KEEPALIVE Space_get_sizingDepth(mud::Space* self) {
-		static mud::Sizing temp;
-		return (temp = self->sizingDepth, &temp);
+		return self->sizingDepth;
 	}
 	void EMSCRIPTEN_KEEPALIVE Space___destroy__(mud::Space* self) {
 		delete self;
@@ -576,8 +567,7 @@ extern "C" {
 		return (temp = self->m_frame, &temp);
 	}
 	mud::WidgetState EMSCRIPTEN_KEEPALIVE Widget_get_state(mud::Widget* self) {
-		static mud::WidgetState temp;
-		return (temp = self->m_state, &temp);
+		return self->m_state;
 	}
 	uint32_t EMSCRIPTEN_KEEPALIVE Widget_get_switch(mud::Widget* self) {
 		return self->m_switch;

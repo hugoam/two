@@ -90,8 +90,7 @@ extern "C" {
 		return self->byte_offset;
 	}
 	glTFComponentType EMSCRIPTEN_KEEPALIVE glTFAccessor_get_component_type(glTFAccessor* self) {
-		static glTFComponentType temp;
-		return (temp = self->component_type, &temp);
+		return self->component_type;
 	}
 	bool EMSCRIPTEN_KEEPALIVE glTFAccessor_get_normalized(glTFAccessor* self) {
 		return self->normalized;
@@ -100,8 +99,7 @@ extern "C" {
 		return self->count;
 	}
 	glTFType EMSCRIPTEN_KEEPALIVE glTFAccessor_get_type(glTFAccessor* self) {
-		static glTFType temp;
-		return (temp = self->type, &temp);
+		return self->type;
 	}
 	glTFSparse* EMSCRIPTEN_KEEPALIVE glTFAccessor_get_sparse(glTFAccessor* self) {
 		static glTFSparse temp;
@@ -147,8 +145,7 @@ extern "C" {
 		return new glTFAnimationSampler();
 	}
 	glTFInterpolation EMSCRIPTEN_KEEPALIVE glTFAnimationSampler_get_interpolation(glTFAnimationSampler* self) {
-		static glTFInterpolation temp;
-		return (temp = self->interpolation, &temp);
+		return self->interpolation;
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFAnimationSampler_get_input(glTFAnimationSampler* self) {
 		return self->input;
@@ -314,8 +311,7 @@ extern "C" {
 		return self->double_sided;
 	}
 	glTFAlphaMode EMSCRIPTEN_KEEPALIVE glTFMaterial_get_alpha_mode(glTFMaterial* self) {
-		static glTFAlphaMode temp;
-		return (temp = self->alpha_mode, &temp);
+		return self->alpha_mode;
 	}
 	glTFMaterialPBR* EMSCRIPTEN_KEEPALIVE glTFMaterial_get_pbr_metallic_roughness(glTFMaterial* self) {
 		static glTFMaterialPBR temp;
@@ -482,8 +478,7 @@ extern "C" {
 		return self->material;
 	}
 	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE glTFPrimitive_get_mode(glTFPrimitive* self) {
-		static glTFPrimitiveType temp;
-		return (temp = self->mode, &temp);
+		return self->mode;
 	}
 	std::vector<glTFMorphTarget>* EMSCRIPTEN_KEEPALIVE glTFPrimitive_get_targets(glTFPrimitive* self) {
 		static std::vector<glTFMorphTarget> temp;
@@ -577,8 +572,7 @@ extern "C" {
 		return self->byte_offset;
 	}
 	glTFComponentType EMSCRIPTEN_KEEPALIVE glTFSparseIndices_get_component_type(glTFSparseIndices* self) {
-		static glTFComponentType temp;
-		return (temp = self->component_type, &temp);
+		return self->component_type;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFSparseIndices___destroy__(glTFSparseIndices* self) {
 		delete self;

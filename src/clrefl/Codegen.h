@@ -1338,7 +1338,7 @@ namespace clgen
 				cw(call + ";");
 			else if(return_type.isstring())
 				cw("return " + call + ".c_str();");
-			else if(return_type.isbasetype())
+			else if(return_type.isbasetype() || return_type.isenum())
 				cw("return " + call + ";");
 			else if(!return_type.value())
 				cw("return " + address(return_type) + call + ";");

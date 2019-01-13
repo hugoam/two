@@ -166,8 +166,7 @@ extern "C" {
 		return self->m_double_sided;
 	}
 	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE Symbol_get_detail(mud::Symbol* self) {
-		static mud::SymbolDetail temp;
-		return (temp = self->m_detail, &temp);
+		return self->m_detail;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Symbol_get_image(mud::Symbol* self) {
 		return self->m_image;
@@ -251,8 +250,7 @@ extern "C" {
 		return self->m_height;
 	}
 	mud::Axis EMSCRIPTEN_KEEPALIVE Capsule_get_axis(mud::Capsule* self) {
-		static mud::Axis temp;
-		return (temp = self->m_axis, &temp);
+		return self->m_axis;
 	}
 	void EMSCRIPTEN_KEEPALIVE Capsule___destroy__(mud::Capsule* self) {
 		delete self;
@@ -326,8 +324,7 @@ extern "C" {
 		return self->m_radius;
 	}
 	mud::Axis EMSCRIPTEN_KEEPALIVE Circle_get_axis(mud::Circle* self) {
-		static mud::Axis temp;
-		return (temp = self->m_axis, &temp);
+		return self->m_axis;
 	}
 	void EMSCRIPTEN_KEEPALIVE Circle___destroy__(mud::Circle* self) {
 		delete self;
@@ -369,8 +366,7 @@ extern "C" {
 		return self->m_height;
 	}
 	mud::Axis EMSCRIPTEN_KEEPALIVE Cylinder_get_axis(mud::Cylinder* self) {
-		static mud::Axis temp;
-		return (temp = self->m_axis, &temp);
+		return self->m_axis;
 	}
 	void EMSCRIPTEN_KEEPALIVE Cylinder___destroy__(mud::Cylinder* self) {
 		delete self;
@@ -393,8 +389,7 @@ extern "C" {
 		return (temp = self->m_radius, &temp);
 	}
 	mud::Axis EMSCRIPTEN_KEEPALIVE Ellipsis_get_axis(mud::Ellipsis* self) {
-		static mud::Axis temp;
-		return (temp = self->m_axis, &temp);
+		return self->m_axis;
 	}
 	void EMSCRIPTEN_KEEPALIVE Ellipsis___destroy__(mud::Ellipsis* self) {
 		delete self;
@@ -668,8 +663,7 @@ extern "C" {
 		return self->m_solid_radius;
 	}
 	mud::Axis EMSCRIPTEN_KEEPALIVE Torus_get_axis(mud::Torus* self) {
-		static mud::Axis temp;
-		return (temp = self->m_axis, &temp);
+		return self->m_axis;
 	}
 	void EMSCRIPTEN_KEEPALIVE Torus___destroy__(mud::Torus* self) {
 		delete self;

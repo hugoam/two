@@ -174,8 +174,7 @@ extern "C" {
 		return new mud::Tonemap();
 	}
 	mud::TonemapMode EMSCRIPTEN_KEEPALIVE Tonemap_get_mode(mud::Tonemap* self) {
-		static mud::TonemapMode temp;
-		return (temp = self->m_mode, &temp);
+		return self->m_mode;
 	}
 	bool EMSCRIPTEN_KEEPALIVE Tonemap_get_enabled(mud::Tonemap* self) {
 		return self->m_enabled;

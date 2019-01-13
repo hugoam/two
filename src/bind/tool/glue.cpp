@@ -89,8 +89,7 @@ extern "C" {
 		return self->m_name.c_str();
 	}
 	mud::ToolState EMSCRIPTEN_KEEPALIVE Tool_get_state(mud::Tool* self) {
-		static mud::ToolState temp;
-		return (temp = self->m_state, &temp);
+		return self->m_state;
 	}
 	void EMSCRIPTEN_KEEPALIVE Tool___destroy__(mud::Tool* self) {
 		delete self;

@@ -68,8 +68,7 @@ extern "C" {
 		return new mud::Wave();
 	}
 	mud::Result EMSCRIPTEN_KEEPALIVE Wave_solve_1(mud::Wave* self, size_t limit) {
-		static mud::Result temp;
-		return (temp = self->solve(limit), &temp);
+		return self->solve(limit);
 	}
 	void EMSCRIPTEN_KEEPALIVE Wave___destroy__(mud::Wave* self) {
 		delete self;

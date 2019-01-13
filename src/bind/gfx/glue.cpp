@@ -145,8 +145,7 @@ extern "C" {
 		return self->m_node_name.c_str();
 	}
 	mud::AnimationTarget EMSCRIPTEN_KEEPALIVE AnimationTrack_get_target(mud::AnimationTrack* self) {
-		static mud::AnimationTarget temp;
-		return (temp = self->m_target, &temp);
+		return self->m_target;
 	}
 	mud::Type* EMSCRIPTEN_KEEPALIVE AnimationTrack_get_value_type(mud::AnimationTrack* self) {
 		return self->m_value_type;
@@ -155,8 +154,7 @@ extern "C" {
 		return self->m_length;
 	}
 	mud::Interpolation EMSCRIPTEN_KEEPALIVE AnimationTrack_get_interpolation(mud::AnimationTrack* self) {
-		static mud::Interpolation temp;
-		return (temp = self->m_interpolation, &temp);
+		return self->m_interpolation;
 	}
 	void EMSCRIPTEN_KEEPALIVE AnimationTrack___destroy__(mud::AnimationTrack* self) {
 		delete self;
@@ -166,8 +164,7 @@ extern "C" {
 		return new mud::Background();
 	}
 	mud::BackgroundMode EMSCRIPTEN_KEEPALIVE Background_get_mode(mud::Background* self) {
-		static mud::BackgroundMode temp;
-		return (temp = self->m_mode, &temp);
+		return self->m_mode;
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE Background_get_colour(mud::Background* self) {
 		static mud::Colour temp;
@@ -184,20 +181,16 @@ extern "C" {
 		return new mud::BaseMaterialBlock();
 	}
 	mud::BlendMode EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_blend_mode(mud::BaseMaterialBlock* self) {
-		static mud::BlendMode temp;
-		return (temp = self->m_blend_mode, &temp);
+		return self->m_blend_mode;
 	}
 	mud::CullMode EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_cull_mode(mud::BaseMaterialBlock* self) {
-		static mud::CullMode temp;
-		return (temp = self->m_cull_mode, &temp);
+		return self->m_cull_mode;
 	}
 	mud::DepthDraw EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_depth_draw_mode(mud::BaseMaterialBlock* self) {
-		static mud::DepthDraw temp;
-		return (temp = self->m_depth_draw_mode, &temp);
+		return self->m_depth_draw_mode;
 	}
 	mud::DepthTest EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_depth_test(mud::BaseMaterialBlock* self) {
-		static mud::DepthTest temp;
-		return (temp = self->m_depth_test, &temp);
+		return self->m_depth_test;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_uv0_scale(mud::BaseMaterialBlock* self) {
 		static mud::vec2 temp;
@@ -474,8 +467,7 @@ extern "C" {
 		return new mud::ImportConfig();
 	}
 	mud::ModelFormat EMSCRIPTEN_KEEPALIVE ImportConfig_get_format(mud::ImportConfig* self) {
-		static mud::ModelFormat temp;
-		return (temp = self->m_format, &temp);
+		return self->m_format;
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE ImportConfig_get_position(mud::ImportConfig* self) {
 		static mud::vec3 temp;
@@ -548,8 +540,7 @@ extern "C" {
 		return self->m_visible;
 	}
 	mud::ItemShadow EMSCRIPTEN_KEEPALIVE Item_get_shadow(mud::Item* self) {
-		static mud::ItemShadow temp;
-		return (temp = self->m_shadow, &temp);
+		return self->m_shadow;
 	}
 	mud::Rig* EMSCRIPTEN_KEEPALIVE Item_get_rig(mud::Item* self) {
 		return self->m_rig;
@@ -569,8 +560,7 @@ extern "C" {
 		return &self->m_node;
 	}
 	mud::LightType EMSCRIPTEN_KEEPALIVE Light_get_type(mud::Light* self) {
-		static mud::LightType temp;
-		return (temp = self->m_type, &temp);
+		return self->m_type;
 	}
 	bool EMSCRIPTEN_KEEPALIVE Light_get_visible(mud::Light* self) {
 		return self->m_visible;
@@ -617,8 +607,7 @@ extern "C" {
 		return self->m_spot_attenuation;
 	}
 	mud::ShadowFlags EMSCRIPTEN_KEEPALIVE Light_get_shadow_flags(mud::Light* self) {
-		static mud::ShadowFlags temp;
-		return (temp = self->m_shadow_flags, &temp);
+		return self->m_shadow_flags;
 	}
 	uint8_t EMSCRIPTEN_KEEPALIVE Light_get_shadow_nusplits(mud::Light* self) {
 		return self->m_shadow_num_splits;
@@ -672,8 +661,7 @@ extern "C" {
 		return self->m_index;
 	}
 	mud::DrawMode EMSCRIPTEN_KEEPALIVE Mesh_get_draw_mode(mud::Mesh* self) {
-		static mud::DrawMode temp;
-		return (temp = self->m_draw_mode, &temp);
+		return self->m_draw_mode;
 	}
 	mud::Aabb* EMSCRIPTEN_KEEPALIVE Mesh_get_aabb(mud::Mesh* self) {
 		static mud::Aabb temp;
@@ -799,8 +787,7 @@ extern "C" {
 		return (temp = self->m_shape, &temp);
 	}
 	mud::EmitterFlow EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_flow(mud::ParticleGenerator* self) {
-		static mud::EmitterFlow temp;
-		return (temp = self->m_flow, &temp);
+		return self->m_flow;
 	}
 	bool EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_billboard(mud::ParticleGenerator* self) {
 		return self->m_billboard;
@@ -814,8 +801,7 @@ extern "C" {
 		return (temp = self->m_rotation, &temp);
 	}
 	mud::BlendMode EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_blend_mode(mud::ParticleGenerator* self) {
-		static mud::BlendMode temp;
-		return (temp = self->m_blend_mode, &temp);
+		return self->m_blend_mode;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_sprite_name(mud::ParticleGenerator* self) {
 		return self->m_sprite_name.c_str();
@@ -858,12 +844,10 @@ extern "C" {
 		return self->m_deep_parallax;
 	}
 	mud::PbrDiffuseMode EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_get_diffuse_mode(mud::PbrMaterialBlock* self) {
-		static mud::PbrDiffuseMode temp;
-		return (temp = self->m_diffuse_mode, &temp);
+		return self->m_diffuse_mode;
 	}
 	mud::PbrSpecularMode EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_get_specular_mode(mud::PbrMaterialBlock* self) {
-		static mud::PbrSpecularMode temp;
-		return (temp = self->m_specular_mode, &temp);
+		return self->m_specular_mode;
 	}
 	void EMSCRIPTEN_KEEPALIVE PbrMaterialBlock___destroy__(mud::PbrMaterialBlock* self) {
 		delete self;
@@ -1027,12 +1011,10 @@ extern "C" {
 		return (temp = self->m_clear_colour, &temp);
 	}
 	mud::Shading EMSCRIPTEN_KEEPALIVE Viewport_get_shading(mud::Viewport* self) {
-		static mud::Shading temp;
-		return (temp = self->m_shading, &temp);
+		return self->m_shading;
 	}
 	mud::Lighting EMSCRIPTEN_KEEPALIVE Viewport_get_lighting(mud::Viewport* self) {
-		static mud::Lighting temp;
-		return (temp = self->m_lighting, &temp);
+		return self->m_lighting;
 	}
 	void EMSCRIPTEN_KEEPALIVE Viewport___destroy__(mud::Viewport* self) {
 		delete self;
