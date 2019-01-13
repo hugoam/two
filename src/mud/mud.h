@@ -25,7 +25,7 @@
 #include <gfx-edit/Api.h>
 #include <wfc-gfx/Api.h>
 #include <tool/Api.h>
-//#include <core/Api.h>
+//#include <frame/Api.h>
 #endif
 #endif
 

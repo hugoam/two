@@ -1,6 +1,6 @@
 #include <gfx/Api.h>
 #include <gfx-ui/Api.h>
-#include <core/Api.h>
+#include <frame/Api.h>
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>

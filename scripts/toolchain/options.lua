@@ -41,6 +41,11 @@ newoption {
     description = "Use JS bindings",
 }
 
+newoption {
+    trigger = "metagen",
+    description = "Build metagen",
+}
+
 --newoption {
 --    trigger = "renderer",
 --    --value = "toolset",

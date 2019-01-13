@@ -1,7 +1,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <meta/core/Module.h>
+#include <meta/frame/Module.h>
 
 #include <type/Any.h>
 #include <type/Vector.h>
@@ -11,7 +11,7 @@
 
 namespace mud
 {
-    void mud_core_meta(Module& m)
+    void mud_frame_meta(Module& m)
     {
     
     // Base Types

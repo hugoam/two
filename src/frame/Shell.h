@@ -1,6 +1,6 @@
 #pragma once
 
-#include <core/Forward.h>
+#include <frame/Forward.h>
 
 #include <ui/Api.h>
 #include <gfx/Api.h>

@@ -10,7 +10,7 @@
 #include <ui/Api.h>
 #include <gfx/Api.h>
 #include <gfx-ui/Api.h>
-#include <core/Api.h>
+#include <frame/Api.h>
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
 #define MUD_RESOURCE_PATH "/data/"

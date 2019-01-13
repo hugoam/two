@@ -6,8 +6,8 @@
 #include <gfx/Forward.h>
 #include <gfx-ui/Forward.h>
 
-#ifndef MUD_CORE_EXPORT
-#define MUD_CORE_EXPORT MUD_IMPORT
+#ifndef MUD_FRAME_EXPORT
+#define MUD_FRAME_EXPORT MUD_IMPORT
 #endif
 
 namespace mud
