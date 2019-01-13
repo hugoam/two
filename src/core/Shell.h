@@ -13,19 +13,19 @@ namespace mud
 	struct refl_ ShellContext
 	{
 		Docksystem m_docksystem;
-		attr_ Widget* m_screen;
-		attr_ Dockbar* m_dockbar;
+		attr_ Widget* m_screen = nullptr;
+		attr_ Dockbar* m_dockbar = nullptr;
 	};
 
 	class refl_ Shell : public NonCopy
 	{
 	public:
-		constr_ Shell(cstring resource_path, int argc, char *argv[]);
+		constr_ Shell(cstring resource_path, cstring exec_path = nullptr);
 		~Shell();
 
 		void init();
 		void run(const std::function<void(Shell&)>& func, size_t iterations = 0U);
-		bool pump();
+		meth_ bool pump();
 
 	public:
 		attr_ string m_exec_path;
@@ -38,6 +38,7 @@ namespace mud
 		unique_ptr<Context> m_context = nullptr;
 		unique_ptr<Vg> m_vg = nullptr;
 		unique_ptr<UiWindow> m_ui_window = nullptr;
+
 		attr_ Ui* m_ui = nullptr;
 
 		std::function<void(Shell&)> m_pump;

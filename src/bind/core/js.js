@@ -3,18 +3,21 @@
 function WrapperObject() {
 }
 // Shell
-function Shell(resource_path, argc, argv) {
+function Shell(resource_path, exec_path) {
     var self = this.ptr;
     /* resource_path <const char*> [] */
-    /* argc <int> [] */
-    /* argv <char*[]> [] */
-    this.ptr = _mud_Shell_Shell_3(self, resource_path, argc, argv); getCache(Shell)[this.ptr] = this;
+    /* exec_path <const char*> [] */
+    if (exec_path === undefined) { this.ptr = _mud_Shell_Shell_1(self, resource_path); getCache(Shell)[this.ptr] = this; return; }
+    this.ptr = _mud_Shell_Shell_2(self, resource_path, exec_path); getCache(Shell)[this.ptr] = this;
 };
 Shell.prototype = Object.create(WrapperObject.prototype);
 Shell.prototype.constructor = Shell;
 Shell.prototype.__class__ = Shell;
 Shell.__cache__ = {};
 Module['Shell'] = Shell;
+Shell.prototype["pump"] = Shell.prototype.pump = function() {
+    return !!(_mud_Shell_pump_0());
+};
 Object.defineProperty(Shell.prototype, "exec_path", {
     get: function() {
         var self = this.ptr;

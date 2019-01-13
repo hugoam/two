@@ -13,8 +13,14 @@
 extern "C" {
 	
 	// Shell
-	mud::Shell* DECL mud_Shell_Shell_3(const char* resource_path, int argc, char*[] argv) {
-		return new mud::Shell(resource_path, argc, argv);
+	mud::Shell* DECL mud_Shell_Shell_1(const char* resource_path) {
+		return new mud::Shell(resource_path);
+	}
+	mud::Shell* DECL mud_Shell_Shell_2(const char* resource_path, const char* exec_path) {
+		return new mud::Shell(resource_path, exec_path);
+	}
+	bool DECL mud_Shell_pump_0(mud::Shell* self) {
+		return self->pump();
 	}
 	const char* DECL mud_Shell__get_exec_path(mud::Shell* self) {
 		return self->m_exec_path.c_str();

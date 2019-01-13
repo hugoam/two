@@ -46,6 +46,19 @@ namespace mud
 		return result;
 	}
 
+	string exec_path(int argc, char* argv[])
+	{
+#ifdef _WIN32
+		UNUSED(argc);
+		string exec_path = argv[0];
+		string exec_dir(exec_path.begin(), exec_path.begin() + exec_path.rfind('\\'));
+#else
+		UNUSED(argc); UNUSED(argv);
+		string exec_dir = "./";
+#endif
+		return exec_dir;
+	}
+
 	bool file_exists(cstring path)
 	{
 		return std::fstream(path).good();

@@ -30,6 +30,7 @@ namespace mud
 
 	export_ MUD_INFRA_EXPORT void write_binary_file(const string& path, array<uint8_t> data);
 
+	export_ MUD_INFRA_EXPORT string exec_path(int argc, char* argv[]);
 
 	export_ MUD_INFRA_EXPORT bool file_exists(cstring path);
 	export_ MUD_INFRA_EXPORT bool directory_exists(cstring path);
