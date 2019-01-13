@@ -52,7 +52,7 @@ extern "C" {
 		return self->m_prototype;
 	}
 	mud::Injector* EMSCRIPTEN_KEEPALIVE Creator_get_injector(mud::Creator* self) {
-		return &self->injector;
+		return &self->injector();
 	}
 	void EMSCRIPTEN_KEEPALIVE Creator___destroy__(mud::Creator* self) {
 		delete self;

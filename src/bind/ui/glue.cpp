@@ -331,13 +331,13 @@ extern "C" {
 		return self->m_base;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Style_get_name(mud::Style* self) {
-		return self->name;
+		return self->name();
 	}
 	mud::Layout* EMSCRIPTEN_KEEPALIVE Style_get_layout(mud::Style* self) {
-		return &self->layout;
+		return &self->layout();
 	}
 	mud::InkStyle* EMSCRIPTEN_KEEPALIVE Style_get_skin(mud::Style* self) {
-		return &self->skin;
+		return &self->skin();
 	}
 	void EMSCRIPTEN_KEEPALIVE Style___destroy__(mud::Style* self) {
 		delete self;

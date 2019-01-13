@@ -1427,14 +1427,17 @@ namespace clgen
 		auto c_getter = [&](const CLClass& c, const CLMember& m)
 		{
 			cw(type_to_c(m.m_type) + " EMSCRIPTEN_KEEPALIVE " + binding_name_str(c, "get_" + m.m_name) + "(" + c.m_id + "* self) {");
-			c_call_return_wrap(m.m_type, "self->" + m.m_member);
+			c_call_return_wrap(m.m_type, "self->" + m.m_member + (m.m_method ? "()" : ""));
 			cw("}");
 		};
 
 		auto c_setter = [&](const CLClass& c, const CLMember& m)
 		{
 			cw("void EMSCRIPTEN_KEEPALIVE " + binding_name_str(c, "set_" + m.m_name) + "(" + c.m_id + "* self, " + type_to_c(m.m_type) + " " + m.m_name + ") {");
-			cw("self->" + m.m_member + " = " + value(m.m_type) + m.m_name + ";");
+			if(m.m_setter)
+				cw("self->" + m.m_member + "(" + value(m.m_type) + m.m_name + ");");
+			else
+				cw("self->" + m.m_member + " = " + value(m.m_type) + m.m_name + ";");
 			cw("}");
 		};
 

@@ -118,7 +118,7 @@ extern "C" {
 		return new mud::ShapeVar(*shape);
 	}
 	mud::Shape* EMSCRIPTEN_KEEPALIVE ShapeVar_get_shape(mud::ShapeVar* self) {
-		return &self->shape;
+		return &self->shape();
 	}
 	void EMSCRIPTEN_KEEPALIVE ShapeVar___destroy__(mud::ShapeVar* self) {
 		delete self;
