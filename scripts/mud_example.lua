@@ -62,6 +62,10 @@ if not _OPTIONS["renderer-gl"] then
 --  mud_example("xx_three",             { mud.frame, mud.gfx.pbr },                     {})
 end
 
+if _OPTIONS["jsbind"] then
+    mud_js("xx_js", { mud.frame })
+end
+
 if _OPTIONS["renderer-bgfx"] then
     project "09_live_shader"
         configuration { "asmjs" }

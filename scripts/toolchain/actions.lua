@@ -64,6 +64,28 @@ function mud_bootstrap(modules)
     end
 end
 
+function concat_files(files)
+    for _, filepath in ipairs(files) do
+        local js, jserr = io.open(filepath, "r")
+        local content = js:read("*a")
+        io.printf(content)
+        js:close()
+    end
+end
+
+function mud_glue_js(modules)
+    local glue_path = path.join(BUILD_DIR, "js", "glue.js")
+    local f, err = io.open(glue_path, "wb")
+    io.output(f)
+    local files = { path.join(MUD_DIR, "src/clrefl", "Module.js") }
+    for _, m in ipairs(modules) do
+        table.insert(files, path.join(m.root, "bind", m.subdir, "js.js"))
+    end
+    concat_files(files)
+    io.printf("")
+    f:close()
+end
+
 function mud_reflect(modules)
     local current = {}
     includedirs = function(dirs)
@@ -119,8 +141,8 @@ function mud_reflect(modules)
         end
     end
     
-    print(path.join(MUD_DIR, "src/refl/Metagen", "generator.py") .. " " .. table.concat(jsons, " "))
-    os.execute(path.join(MUD_DIR, "src/refl/Metagen", "generator.py") .. " " .. table.concat(jsons, " "))
+    print(path.join(MUD_DIR, "bin/metagen") .. " " .. table.concat(jsons, " "))
+    os.execute(path.join(MUD_DIR, "bin/metagen") .. " " .. table.concat(jsons, " "))
 end
 
 newaction {

@@ -255,3 +255,8 @@ function mud_binary(name, modules, deps)
     defines { "_" .. name:upper() .. "_EXE" }
     mud_binary_config()
 end
+
+function mud_js(name, modules)
+    mud_lib(name, {}, "ConsoleApp", modules)
+    mud_binary_config()
+end
