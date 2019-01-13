@@ -53,11 +53,12 @@ Object.defineProperty(Clipboard.prototype, "line_mode", {
 Object.defineProperty(Clipboard.prototype, "pasted", {
     get: function() {
         var self = this.ptr;
-        return _Clipboard_get_pasted(self);
+        return wrapPointer(_Clipboard_get_pasted(self), std::vector<mud::string>);
     },
     set: function(pasted) {
         var self = this.ptr;
         /* pasted <std::vector<std::string>> [] */
+        pasted = pasted.ptr;
         _Clipboard_set_pasted(self, pasted);
     }
 });
@@ -103,22 +104,24 @@ Module['Gradient'] = Gradient;
 Object.defineProperty(Gradient.prototype, "start", {
     get: function() {
         var self = this.ptr;
-        return _Gradient_get_start(self);
+        return wrapPointer(_Gradient_get_start(self), mud::Colour);
     },
     set: function(start) {
         var self = this.ptr;
         /* start <Colour> [] */
+        start = start.ptr;
         _Gradient_set_start(self, start);
     }
 });
 Object.defineProperty(Gradient.prototype, "end", {
     get: function() {
         var self = this.ptr;
-        return _Gradient_get_end(self);
+        return wrapPointer(_Gradient_get_end(self), mud::Colour);
     },
     set: function(end) {
         var self = this.ptr;
         /* end <Colour> [] */
+        end = end.ptr;
         _Gradient_set_end(self, end);
     }
 });
@@ -141,12 +144,14 @@ GridSolver.prototype["__destroy__"] = GridSolver.prototype.__destroy__ = functio
 function ImageSkin(image, left, top, right, bottom, margin, stretch) {
     var self = this.ptr;
     /* image <Image> [] */
+    image = image.ptr;
     /* left <int> [] */
     /* top <int> [] */
     /* right <int> [] */
     /* bottom <int> [] */
     /* margin <int> [] */
     /* stretch <Dim> [] */
+    if (stretch && typeof stretch === "object") stretch = stretch.ptr;
     if (image === undefined) { this.ptr = _ImageSkin_ImageSkin_0(self); getCache(ImageSkin)[this.ptr] = this; return; }
     if (margin === undefined) { this.ptr = _ImageSkin_ImageSkin_5(self, image, left, top, right, bottom); getCache(ImageSkin)[this.ptr] = this; return; }
     if (stretch === undefined) { this.ptr = _ImageSkin_ImageSkin_6(self, image, left, top, right, bottom, margin); getCache(ImageSkin)[this.ptr] = this; return; }
@@ -160,11 +165,12 @@ Module['ImageSkin'] = ImageSkin;
 Object.defineProperty(ImageSkin.prototype, "d_image", {
     get: function() {
         var self = this.ptr;
-        return _ImageSkin_get_d_image(self);
+        return wrapPointer(_ImageSkin_get_d_image(self), mud::Image);
     },
     set: function(d_image) {
         var self = this.ptr;
         /* d_image <Image> [] */
+        d_image = d_image.ptr;
         _ImageSkin_set_d_image(self, d_image);
     }
 });
@@ -231,6 +237,7 @@ Object.defineProperty(ImageSkin.prototype, "d_stretch", {
     set: function(d_stretch) {
         var self = this.ptr;
         /* d_stretch <Dim> [] */
+        if (d_stretch && typeof d_stretch === "object") d_stretch = d_stretch.ptr;
         _ImageSkin_set_d_stretch(self, d_stretch);
     }
 });
@@ -280,44 +287,48 @@ Object.defineProperty(InkStyle.prototype, "empty", {
 Object.defineProperty(InkStyle.prototype, "background_colour", {
     get: function() {
         var self = this.ptr;
-        return _InkStyle_get_background_colour(self);
+        return wrapPointer(_InkStyle_get_background_colour(self), mud::Colour);
     },
     set: function(background_colour) {
         var self = this.ptr;
         /* background_colour <Colour> [] */
+        background_colour = background_colour.ptr;
         _InkStyle_set_background_colour(self, background_colour);
     }
 });
 Object.defineProperty(InkStyle.prototype, "border_colour", {
     get: function() {
         var self = this.ptr;
-        return _InkStyle_get_border_colour(self);
+        return wrapPointer(_InkStyle_get_border_colour(self), mud::Colour);
     },
     set: function(border_colour) {
         var self = this.ptr;
         /* border_colour <Colour> [] */
+        border_colour = border_colour.ptr;
         _InkStyle_set_border_colour(self, border_colour);
     }
 });
 Object.defineProperty(InkStyle.prototype, "image_colour", {
     get: function() {
         var self = this.ptr;
-        return _InkStyle_get_image_colour(self);
+        return wrapPointer(_InkStyle_get_image_colour(self), mud::Colour);
     },
     set: function(image_colour) {
         var self = this.ptr;
         /* image_colour <Colour> [] */
+        image_colour = image_colour.ptr;
         _InkStyle_set_image_colour(self, image_colour);
     }
 });
 Object.defineProperty(InkStyle.prototype, "text_colour", {
     get: function() {
         var self = this.ptr;
-        return _InkStyle_get_text_colour(self);
+        return wrapPointer(_InkStyle_get_text_colour(self), mud::Colour);
     },
     set: function(text_colour) {
         var self = this.ptr;
         /* text_colour <Colour> [] */
+        text_colour = text_colour.ptr;
         _InkStyle_set_text_colour(self, text_colour);
     }
 });
@@ -370,22 +381,24 @@ Object.defineProperty(InkStyle.prototype, "text_wrap", {
 Object.defineProperty(InkStyle.prototype, "border_width", {
     get: function() {
         var self = this.ptr;
-        return _InkStyle_get_border_width(self);
+        return wrapPointer(_InkStyle_get_border_width(self), mud::vec4);
     },
     set: function(border_width) {
         var self = this.ptr;
         /* border_width <vec4> [] */
+        border_width = border_width.ptr;
         _InkStyle_set_border_width(self, border_width);
     }
 });
 Object.defineProperty(InkStyle.prototype, "corner_radius", {
     get: function() {
         var self = this.ptr;
-        return _InkStyle_get_corner_radius(self);
+        return wrapPointer(_InkStyle_get_corner_radius(self), mud::vec4);
     },
     set: function(corner_radius) {
         var self = this.ptr;
         /* corner_radius <vec4> [] */
+        corner_radius = corner_radius.ptr;
         _InkStyle_set_corner_radius(self, corner_radius);
     }
 });
@@ -403,33 +416,36 @@ Object.defineProperty(InkStyle.prototype, "weak_corners", {
 Object.defineProperty(InkStyle.prototype, "padding", {
     get: function() {
         var self = this.ptr;
-        return _InkStyle_get_padding(self);
+        return wrapPointer(_InkStyle_get_padding(self), mud::vec4);
     },
     set: function(padding) {
         var self = this.ptr;
         /* padding <vec4> [] */
+        padding = padding.ptr;
         _InkStyle_set_padding(self, padding);
     }
 });
 Object.defineProperty(InkStyle.prototype, "margin", {
     get: function() {
         var self = this.ptr;
-        return _InkStyle_get_margin(self);
+        return wrapPointer(_InkStyle_get_margin(self), mud::vec4);
     },
     set: function(margin) {
         var self = this.ptr;
         /* margin <vec4> [] */
+        margin = margin.ptr;
         _InkStyle_set_margin(self, margin);
     }
 });
 Object.defineProperty(InkStyle.prototype, "linear_gradient", {
     get: function() {
         var self = this.ptr;
-        return _InkStyle_get_linear_gradient(self);
+        return wrapPointer(_InkStyle_get_linear_gradient(self), mud::vec2);
     },
     set: function(linear_gradient) {
         var self = this.ptr;
         /* linear_gradient <vec2> [] */
+        linear_gradient = linear_gradient.ptr;
         _InkStyle_set_linear_gradient(self, linear_gradient);
     }
 });
@@ -441,83 +457,91 @@ Object.defineProperty(InkStyle.prototype, "linear_gradient_dim", {
     set: function(linear_gradient_dim) {
         var self = this.ptr;
         /* linear_gradient_dim <Dim> [] */
+        if (linear_gradient_dim && typeof linear_gradient_dim === "object") linear_gradient_dim = linear_gradient_dim.ptr;
         _InkStyle_set_linear_gradient_dim(self, linear_gradient_dim);
     }
 });
 Object.defineProperty(InkStyle.prototype, "image", {
     get: function() {
         var self = this.ptr;
-        return _InkStyle_get_image(self);
+        return wrapPointer(_InkStyle_get_image(self), mud::Image);
     },
     set: function(image) {
         var self = this.ptr;
         /* image <Image> [] */
+        image = image.ptr;
         _InkStyle_set_image(self, image);
     }
 });
 Object.defineProperty(InkStyle.prototype, "overlay", {
     get: function() {
         var self = this.ptr;
-        return _InkStyle_get_overlay(self);
+        return wrapPointer(_InkStyle_get_overlay(self), mud::Image);
     },
     set: function(overlay) {
         var self = this.ptr;
         /* overlay <Image> [] */
+        overlay = overlay.ptr;
         _InkStyle_set_overlay(self, overlay);
     }
 });
 Object.defineProperty(InkStyle.prototype, "tile", {
     get: function() {
         var self = this.ptr;
-        return _InkStyle_get_tile(self);
+        return wrapPointer(_InkStyle_get_tile(self), mud::Image);
     },
     set: function(tile) {
         var self = this.ptr;
         /* tile <Image> [] */
+        tile = tile.ptr;
         _InkStyle_set_tile(self, tile);
     }
 });
 Object.defineProperty(InkStyle.prototype, "image_skin", {
     get: function() {
         var self = this.ptr;
-        return _InkStyle_get_image_skin(self);
+        return wrapPointer(_InkStyle_get_image_skin(self), mud::ImageSkin);
     },
     set: function(image_skin) {
         var self = this.ptr;
         /* image_skin <ImageSkin> [] */
+        image_skin = image_skin.ptr;
         _InkStyle_set_image_skin(self, image_skin);
     }
 });
 Object.defineProperty(InkStyle.prototype, "shadow", {
     get: function() {
         var self = this.ptr;
-        return _InkStyle_get_shadow(self);
+        return wrapPointer(_InkStyle_get_shadow(self), mud::Shadow);
     },
     set: function(shadow) {
         var self = this.ptr;
         /* shadow <Shadow> [] */
+        shadow = shadow.ptr;
         _InkStyle_set_shadow(self, shadow);
     }
 });
 Object.defineProperty(InkStyle.prototype, "shadow_colour", {
     get: function() {
         var self = this.ptr;
-        return _InkStyle_get_shadow_colour(self);
+        return wrapPointer(_InkStyle_get_shadow_colour(self), mud::Colour);
     },
     set: function(shadow_colour) {
         var self = this.ptr;
         /* shadow_colour <Colour> [] */
+        shadow_colour = shadow_colour.ptr;
         _InkStyle_set_shadow_colour(self, shadow_colour);
     }
 });
 Object.defineProperty(InkStyle.prototype, "hover_cursor", {
     get: function() {
         var self = this.ptr;
-        return _InkStyle_get_hover_cursor(self);
+        return wrapPointer(_InkStyle_get_hover_cursor(self), mud::Style);
     },
     set: function(hover_cursor) {
         var self = this.ptr;
         /* hover_cursor <Style> [] */
+        hover_cursor = hover_cursor.ptr;
         _InkStyle_set_hover_cursor(self, hover_cursor);
     }
 });
@@ -572,6 +596,7 @@ Object.defineProperty(Layout.prototype, "solver", {
     set: function(solver) {
         var self = this.ptr;
         /* solver <LayoutSolver> [] */
+        if (solver && typeof solver === "object") solver = solver.ptr;
         _Layout_set_solver(self, solver);
     }
 });
@@ -583,17 +608,19 @@ Object.defineProperty(Layout.prototype, "flow", {
     set: function(flow) {
         var self = this.ptr;
         /* flow <Flow> [] */
+        if (flow && typeof flow === "object") flow = flow.ptr;
         _Layout_set_flow(self, flow);
     }
 });
 Object.defineProperty(Layout.prototype, "space", {
     get: function() {
         var self = this.ptr;
-        return _Layout_get_space(self);
+        return wrapPointer(_Layout_get_space(self), mud::Space);
     },
     set: function(space) {
         var self = this.ptr;
         /* space <Space> [] */
+        space = space.ptr;
         _Layout_set_space(self, space);
     }
 });
@@ -605,6 +632,7 @@ Object.defineProperty(Layout.prototype, "clipping", {
     set: function(clipping) {
         var self = this.ptr;
         /* clipping <Clipping> [] */
+        if (clipping && typeof clipping === "object") clipping = clipping.ptr;
         _Layout_set_clipping(self, clipping);
     }
 });
@@ -616,61 +644,67 @@ Object.defineProperty(Layout.prototype, "opacity", {
     set: function(opacity) {
         var self = this.ptr;
         /* opacity <Opacity> [] */
+        if (opacity && typeof opacity === "object") opacity = opacity.ptr;
         _Layout_set_opacity(self, opacity);
     }
 });
 Object.defineProperty(Layout.prototype, "span", {
     get: function() {
         var self = this.ptr;
-        return _Layout_get_span(self);
+        return wrapPointer(_Layout_get_span(self), mud::vec2);
     },
     set: function(span) {
         var self = this.ptr;
         /* span <vec2> [] */
+        span = span.ptr;
         _Layout_set_span(self, span);
     }
 });
 Object.defineProperty(Layout.prototype, "size", {
     get: function() {
         var self = this.ptr;
-        return _Layout_get_size(self);
+        return wrapPointer(_Layout_get_size(self), mud::vec2);
     },
     set: function(size) {
         var self = this.ptr;
         /* size <vec2> [] */
+        size = size.ptr;
         _Layout_set_size(self, size);
     }
 });
 Object.defineProperty(Layout.prototype, "padding", {
     get: function() {
         var self = this.ptr;
-        return _Layout_get_padding(self);
+        return wrapPointer(_Layout_get_padding(self), mud::vec4);
     },
     set: function(padding) {
         var self = this.ptr;
         /* padding <vec4> [] */
+        padding = padding.ptr;
         _Layout_set_padding(self, padding);
     }
 });
 Object.defineProperty(Layout.prototype, "margin", {
     get: function() {
         var self = this.ptr;
-        return _Layout_get_margin(self);
+        return wrapPointer(_Layout_get_margin(self), mud::vec2);
     },
     set: function(margin) {
         var self = this.ptr;
         /* margin <vec2> [] */
+        margin = margin.ptr;
         _Layout_set_margin(self, margin);
     }
 });
 Object.defineProperty(Layout.prototype, "spacing", {
     get: function() {
         var self = this.ptr;
-        return _Layout_get_spacing(self);
+        return wrapPointer(_Layout_get_spacing(self), mud::vec2);
     },
     set: function(spacing) {
         var self = this.ptr;
         /* spacing <vec2> [] */
+        spacing = spacing.ptr;
         _Layout_set_spacing(self, spacing);
     }
 });
@@ -699,22 +733,24 @@ Object.defineProperty(Layout.prototype, "no_grid", {
 Object.defineProperty(Layout.prototype, "grid_division", {
     get: function() {
         var self = this.ptr;
-        return _Layout_get_grid_division(self);
+        return wrapPointer(_Layout_get_grid_division(self), std::vector<mud::Space>);
     },
     set: function(grid_division) {
         var self = this.ptr;
         /* grid_division <std::vector<mud::Space>> [] */
+        grid_division = grid_division.ptr;
         _Layout_set_grid_division(self, grid_division);
     }
 });
 Object.defineProperty(Layout.prototype, "table_division", {
     get: function() {
         var self = this.ptr;
-        return _Layout_get_table_division(self);
+        return wrapPointer(_Layout_get_table_division(self), std::vector<float>);
     },
     set: function(table_division) {
         var self = this.ptr;
         /* table_division <std::vector<float>> [] */
+        table_division = table_division.ptr;
         _Layout_set_table_division(self, table_division);
     }
 });
@@ -760,22 +796,24 @@ Module['Paint'] = Paint;
 Object.defineProperty(Paint.prototype, "fill_colour", {
     get: function() {
         var self = this.ptr;
-        return _Paint_get_fill_colour(self);
+        return wrapPointer(_Paint_get_fill_colour(self), mud::Colour);
     },
     set: function(fill_colour) {
         var self = this.ptr;
         /* fill_colour <Colour> [] */
+        fill_colour = fill_colour.ptr;
         _Paint_set_fill_colour(self, fill_colour);
     }
 });
 Object.defineProperty(Paint.prototype, "stroke_colour", {
     get: function() {
         var self = this.ptr;
-        return _Paint_get_stroke_colour(self);
+        return wrapPointer(_Paint_get_stroke_colour(self), mud::Colour);
     },
     set: function(stroke_colour) {
         var self = this.ptr;
         /* stroke_colour <Colour> [] */
+        stroke_colour = stroke_colour.ptr;
         _Paint_set_stroke_colour(self, stroke_colour);
     }
 });
@@ -802,6 +840,7 @@ function Shadow(xpos, ypos, blur, spread, colour) {
     /* blur <float> [] */
     /* spread <float> [] */
     /* colour <Colour> [] */
+    colour = colour.ptr;
     if (xpos === undefined) { this.ptr = _Shadow_Shadow_0(self); getCache(Shadow)[this.ptr] = this; return; }
     if (colour === undefined) { this.ptr = _Shadow_Shadow_4(self, xpos, ypos, blur, spread); getCache(Shadow)[this.ptr] = this; return; }
     this.ptr = _Shadow_Shadow_5(self, xpos, ypos, blur, spread, colour); getCache(Shadow)[this.ptr] = this;
@@ -858,11 +897,12 @@ Object.defineProperty(Shadow.prototype, "d_spread", {
 Object.defineProperty(Shadow.prototype, "d_colour", {
     get: function() {
         var self = this.ptr;
-        return _Shadow_get_d_colour(self);
+        return wrapPointer(_Shadow_get_d_colour(self), mud::Colour);
     },
     set: function(d_colour) {
         var self = this.ptr;
         /* d_colour <Colour> [] */
+        d_colour = d_colour.ptr;
         _Shadow_set_d_colour(self, d_colour);
     }
 });
@@ -888,6 +928,7 @@ Object.defineProperty(Space.prototype, "direction", {
     set: function(direction) {
         var self = this.ptr;
         /* direction <FlowAxis> [] */
+        if (direction && typeof direction === "object") direction = direction.ptr;
         _Space_set_direction(self, direction);
     }
 });
@@ -899,6 +940,7 @@ Object.defineProperty(Space.prototype, "sizingLength", {
     set: function(sizingLength) {
         var self = this.ptr;
         /* sizingLength <Sizing> [] */
+        if (sizingLength && typeof sizingLength === "object") sizingLength = sizingLength.ptr;
         _Space_set_sizingLength(self, sizingLength);
     }
 });
@@ -910,6 +952,7 @@ Object.defineProperty(Space.prototype, "sizingDepth", {
     set: function(sizingDepth) {
         var self = this.ptr;
         /* sizingDepth <Sizing> [] */
+        if (sizingDepth && typeof sizingDepth === "object") sizingDepth = sizingDepth.ptr;
         _Space_set_sizingDepth(self, sizingDepth);
     }
 });
@@ -927,11 +970,12 @@ Module['Style'] = Style;
 Object.defineProperty(Style.prototype, "base", {
     get: function() {
         var self = this.ptr;
-        return _Style_get_base(self);
+        return wrapPointer(_Style_get_base(self), mud::Style);
     },
     set: function(base) {
         var self = this.ptr;
         /* base <Style> [] */
+        base = base.ptr;
         _Style_set_base(self, base);
     }
 });
@@ -943,22 +987,24 @@ Object.defineProperty(Style.prototype, "name", {
 Object.defineProperty(Style.prototype, "layout", {
     get: function() {
         var self = this.ptr;
-        return _Style_get_layout(self);
+        return wrapPointer(_Style_get_layout(self), mud::Layout);
     },
     set: function(layout) {
         var self = this.ptr;
         /* layout <Layout> [] */
+        layout = layout.ptr;
         _Style_set_layout(self, layout);
     }
 });
 Object.defineProperty(Style.prototype, "skin", {
     get: function() {
         var self = this.ptr;
-        return _Style_get_skin(self);
+        return wrapPointer(_Style_get_skin(self), mud::InkStyle);
     },
     set: function(skin) {
         var self = this.ptr;
         /* skin <InkStyle> [] */
+        skin = skin.ptr;
         _Style_set_skin(self, skin);
     }
 });
@@ -1034,11 +1080,12 @@ Object.defineProperty(TextPaint.prototype, "font", {
 Object.defineProperty(TextPaint.prototype, "colour", {
     get: function() {
         var self = this.ptr;
-        return _TextPaint_get_colour(self);
+        return wrapPointer(_TextPaint_get_colour(self), mud::Colour);
     },
     set: function(colour) {
         var self = this.ptr;
         /* colour <Colour> [] */
+        colour = colour.ptr;
         _TextPaint_set_colour(self, colour);
     }
 });
@@ -1106,44 +1153,48 @@ Module['UiRect'] = UiRect;
 Object.defineProperty(UiRect.prototype, "position", {
     get: function() {
         var self = this.ptr;
-        return _UiRect_get_position(self);
+        return wrapPointer(_UiRect_get_position(self), mud::vec2);
     },
     set: function(position) {
         var self = this.ptr;
         /* position <vec2> [] */
+        position = position.ptr;
         _UiRect_set_position(self, position);
     }
 });
 Object.defineProperty(UiRect.prototype, "size", {
     get: function() {
         var self = this.ptr;
-        return _UiRect_get_size(self);
+        return wrapPointer(_UiRect_get_size(self), mud::vec2);
     },
     set: function(size) {
         var self = this.ptr;
         /* size <vec2> [] */
+        size = size.ptr;
         _UiRect_set_size(self, size);
     }
 });
 Object.defineProperty(UiRect.prototype, "content", {
     get: function() {
         var self = this.ptr;
-        return _UiRect_get_content(self);
+        return wrapPointer(_UiRect_get_content(self), mud::vec2);
     },
     set: function(content) {
         var self = this.ptr;
         /* content <vec2> [] */
+        content = content.ptr;
         _UiRect_set_content(self, content);
     }
 });
 Object.defineProperty(UiRect.prototype, "span", {
     get: function() {
         var self = this.ptr;
-        return _UiRect_get_span(self);
+        return wrapPointer(_UiRect_get_span(self), mud::vec2);
     },
     set: function(span) {
         var self = this.ptr;
         /* span <vec2> [] */
+        span = span.ptr;
         _UiRect_set_span(self, span);
     }
 });
@@ -1240,9 +1291,11 @@ Widget.prototype["activated"] = Widget.prototype.activated = function() {
 };
 Widget.prototype["char_stroke"] = Widget.prototype.char_stroke = function(code, modifier) {
     /* code <Key> [] */
+    if (code && typeof code === "object") code = code.ptr;
     /* modifier <InputMod> [] */
-    if (modifier === undefined) { return _Widget_char_stroke_1(code); return; }
-    return _Widget_char_stroke_2(code, modifier);
+    if (modifier && typeof modifier === "object") modifier = modifier.ptr;
+    if (modifier === undefined) { return wrapPointer(_Widget_char_stroke_1(code), mud::KeyEvent); return; }
+    return wrapPointer(_Widget_char_stroke_2(code, modifier), mud::KeyEvent);
 };
 Widget.prototype["clear_focus"] = Widget.prototype.clear_focus = function() {
     _Widget_clear_focus_0();
@@ -1252,10 +1305,12 @@ Widget.prototype["closed"] = Widget.prototype.closed = function() {
 };
 Widget.prototype["disable_state"] = Widget.prototype.disable_state = function(state) {
     /* state <WidgetState> [] */
+    if (state && typeof state === "object") state = state.ptr;
     _Widget_disable_state_1(state);
 };
 Widget.prototype["enable_state"] = Widget.prototype.enable_state = function(state) {
     /* state <WidgetState> [] */
+    if (state && typeof state === "object") state = state.ptr;
     _Widget_enable_state_1(state);
 };
 Widget.prototype["focused"] = Widget.prototype.focused = function() {
@@ -1266,31 +1321,39 @@ Widget.prototype["hovered"] = Widget.prototype.hovered = function() {
 };
 Widget.prototype["key_event"] = Widget.prototype.key_event = function(code, event_type, modifier) {
     /* code <Key> [] */
+    if (code && typeof code === "object") code = code.ptr;
     /* event_type <EventType> [] */
+    if (event_type && typeof event_type === "object") event_type = event_type.ptr;
     /* modifier <InputMod> [] */
-    if (modifier === undefined) { return _Widget_key_event_2(code, event_type); return; }
-    return _Widget_key_event_3(code, event_type, modifier);
+    if (modifier && typeof modifier === "object") modifier = modifier.ptr;
+    if (modifier === undefined) { return wrapPointer(_Widget_key_event_2(code, event_type), mud::KeyEvent); return; }
+    return wrapPointer(_Widget_key_event_3(code, event_type, modifier), mud::KeyEvent);
 };
 Widget.prototype["key_stroke"] = Widget.prototype.key_stroke = function(code, modifier) {
     /* code <Key> [] */
+    if (code && typeof code === "object") code = code.ptr;
     /* modifier <InputMod> [] */
-    if (modifier === undefined) { return _Widget_key_stroke_1(code); return; }
-    return _Widget_key_stroke_2(code, modifier);
+    if (modifier && typeof modifier === "object") modifier = modifier.ptr;
+    if (modifier === undefined) { return wrapPointer(_Widget_key_stroke_1(code), mud::KeyEvent); return; }
+    return wrapPointer(_Widget_key_stroke_2(code, modifier), mud::KeyEvent);
 };
 Widget.prototype["modal"] = Widget.prototype.modal = function() {
     return !!(_Widget_modal_0());
 };
 Widget.prototype["mouse_event"] = Widget.prototype.mouse_event = function(device, event_type, modifier, consume) {
     /* device <DeviceType> [] */
+    if (device && typeof device === "object") device = device.ptr;
     /* event_type <EventType> [] */
+    if (event_type && typeof event_type === "object") event_type = event_type.ptr;
     /* modifier <InputMod> [] */
+    if (modifier && typeof modifier === "object") modifier = modifier.ptr;
     /* consume <bool> [] */
-    if (modifier === undefined) { return _Widget_mouse_event_2(device, event_type); return; }
-    if (consume === undefined) { return _Widget_mouse_event_3(device, event_type, modifier); return; }
-    return _Widget_mouse_event_4(device, event_type, modifier, consume);
+    if (modifier === undefined) { return wrapPointer(_Widget_mouse_event_2(device, event_type), mud::MouseEvent); return; }
+    if (consume === undefined) { return wrapPointer(_Widget_mouse_event_3(device, event_type, modifier), mud::MouseEvent); return; }
+    return wrapPointer(_Widget_mouse_event_4(device, event_type, modifier, consume), mud::MouseEvent);
 };
 Widget.prototype["parent_modal"] = Widget.prototype.parent_modal = function() {
-    return _Widget_parent_modal_0();
+    return wrapPointer(_Widget_parent_modal_0(), mud::Widget);
 };
 Widget.prototype["pressed"] = Widget.prototype.pressed = function() {
     return !!(_Widget_pressed_0());
@@ -1300,6 +1363,7 @@ Widget.prototype["selected"] = Widget.prototype.selected = function() {
 };
 Widget.prototype["set_state"] = Widget.prototype.set_state = function(state, enabled) {
     /* state <WidgetState> [] */
+    if (state && typeof state === "object") state = state.ptr;
     /* enabled <bool> [] */
     _Widget_set_state_2(state, enabled);
 };
@@ -1312,13 +1376,14 @@ Widget.prototype["take_modal"] = Widget.prototype.take_modal = function(device_f
 };
 Widget.prototype["toggle_state"] = Widget.prototype.toggle_state = function(state) {
     /* state <WidgetState> [] */
+    if (state && typeof state === "object") state = state.ptr;
     _Widget_toggle_state_1(state);
 };
 Widget.prototype["ui"] = Widget.prototype.ui = function() {
-    return _Widget_ui_0();
+    return wrapPointer(_Widget_ui_0(), mud::Ui);
 };
 Widget.prototype["ui_window"] = Widget.prototype.ui_window = function() {
-    return _Widget_ui_window_0();
+    return wrapPointer(_Widget_ui_window_0(), mud::UiWindow);
 };
 Widget.prototype["yield_focus"] = Widget.prototype.yield_focus = function() {
     _Widget_yield_focus_0();
@@ -1329,11 +1394,12 @@ Widget.prototype["yield_modal"] = Widget.prototype.yield_modal = function() {
 Object.defineProperty(Widget.prototype, "frame", {
     get: function() {
         var self = this.ptr;
-        return _Widget_get_frame(self);
+        return wrapPointer(_Widget_get_frame(self), mud::Frame);
     },
     set: function(frame) {
         var self = this.ptr;
         /* frame <Frame> [] */
+        frame = frame.ptr;
         _Widget_set_frame(self, frame);
     }
 });
@@ -1345,6 +1411,7 @@ Object.defineProperty(Widget.prototype, "state", {
     set: function(state) {
         var self = this.ptr;
         /* state <WidgetState> [] */
+        if (state && typeof state === "object") state = state.ptr;
         _Widget_set_state(self, state);
     }
 });
@@ -1384,11 +1451,12 @@ Object.defineProperty(Widget.prototype, "open", {
 Object.defineProperty(Widget.prototype, "body", {
     get: function() {
         var self = this.ptr;
-        return _Widget_get_body(self);
+        return wrapPointer(_Widget_get_body(self), mud::Widget);
     },
     set: function(body) {
         var self = this.ptr;
         /* body <Widget> [] */
+        body = body.ptr;
         _Widget_set_body(self, body);
     }
 });
@@ -1569,7 +1637,7 @@ Ui.prototype.__class__ = Ui;
 Ui.__cache__ = {};
 Module['Ui'] = Ui;
 Ui.prototype["begin"] = Ui.prototype.begin = function() {
-    return _Ui_begin_0();
+    return wrapPointer(_Ui_begin_0(), mud::Widget);
 };
 Ui.prototype["__destroy__"] = Ui.prototype.__destroy__ = function() {
     var self = this.ptr;

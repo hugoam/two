@@ -265,6 +265,7 @@ namespace mud
 		Integer,
 		Float,
 		String,
+		Enum,
 		Class,
 		Array
 	};
@@ -305,14 +306,16 @@ namespace mud
 		bool isconst() const { return m_spelling.substr(0, 5) == "const"; }
 		bool value() const { return !this->pointer() && !this->reference(); }
 		bool nullable() const { return this->pointer() || m_type_name == "mud::Ref"; }
+
 		bool isarray() const { return false; }
 		bool isvoid() const { return m_type->m_kind == CLTypeKind::Void; }
 		bool isboolean() const { return m_type->m_kind == CLTypeKind::Boolean; }
 		bool isinteger() const { return m_type->m_kind == CLTypeKind::Integer; }
 		bool isfloat() const { return m_type->m_kind == CLTypeKind::Float; }
 		bool isstring() const { return m_type->m_kind == CLTypeKind::String; }
+		bool isenum() const { return m_type->m_kind == CLTypeKind::Enum; }
 		bool isclass() const { return m_type->m_kind == CLTypeKind::Class; }
-		bool isbasetype() const { return m_type->m_kind != CLTypeKind::Class; }
+		bool isbasetype() const { return m_type->m_kind != CLTypeKind::Class && m_type->m_kind != CLTypeKind::Enum; }
 
 		//explicit operator CLType&() { return *m_type; }
 		//explicit operator const CLType&() const { return *m_type; }
@@ -342,8 +345,6 @@ namespace mud
 				m_kind = CLTypeKind::Float;
 			else if(vector_has({ "const char*", "std::string" }, name))
 				m_kind = CLTypeKind::String;
-			else
-				m_kind = CLTypeKind::Class;
 		}
 	};
 
@@ -352,7 +353,9 @@ namespace mud
 	public:
 		CLEnum(CLModule& module, CLPrimitive& parent, const string& name)
 			: CLType(module, parent, name)
-		{}
+		{
+			m_kind = CLTypeKind::Enum;
+		}
 
 		bool m_scoped = false;
 		string m_enum_type;
@@ -368,6 +371,7 @@ namespace mud
 		CLSequence(CLModule& module, const string& store, CLType& content_type, bool pointer, CLPrimitive& parent)
 			: CLType(module, parent, store + "<" + content_type.m_id + (pointer ? "*" : "") + ">")
 		{
+			m_kind = CLTypeKind::Class;
 			m_store = store;
 			m_contentcls = &content_type;
 			m_content = content_type.m_id + (pointer ? "*" : "");
@@ -475,7 +479,9 @@ namespace mud
 	public:
 		CLClass(CLModule& module, CLPrimitive& parent, const string& name)
 			: CLType(module, parent, name)
-		{}
+		{
+			m_kind = CLTypeKind::Class;
+		}
 
 		CXCursor m_cursor;
 

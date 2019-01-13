@@ -33,20 +33,23 @@ OrbitController.__cache__ = {};
 Module['OrbitController'] = OrbitController;
 OrbitController.prototype["set_eye"] = OrbitController.prototype.set_eye = function(rotation) {
     /* rotation <quat> [] */
+    rotation = rotation.ptr;
     _OrbitController_set_eye_1(rotation);
 };
 OrbitController.prototype["set_target"] = OrbitController.prototype.set_target = function(position) {
     /* position <vec3> [] */
+    position = position.ptr;
     _OrbitController_set_target_1(position);
 };
 Object.defineProperty(OrbitController.prototype, "position", {
     get: function() {
         var self = this.ptr;
-        return _OrbitController_get_position(self);
+        return wrapPointer(_OrbitController_get_position(self), mud::vec3);
     },
     set: function(position) {
         var self = this.ptr;
         /* position <vec3> [] */
+        position = position.ptr;
         _OrbitController_set_position(self, position);
     }
 });
@@ -119,44 +122,48 @@ Module['Viewer'] = Viewer;
 Object.defineProperty(Viewer.prototype, "scene", {
     get: function() {
         var self = this.ptr;
-        return _Viewer_get_scene(self);
+        return wrapPointer(_Viewer_get_scene(self), mud::Scene);
     },
     set: function(scene) {
         var self = this.ptr;
         /* scene <Scene> [] */
+        scene = scene.ptr;
         _Viewer_set_scene(self, scene);
     }
 });
 Object.defineProperty(Viewer.prototype, "viewport", {
     get: function() {
         var self = this.ptr;
-        return _Viewer_get_viewport(self);
+        return wrapPointer(_Viewer_get_viewport(self), mud::Viewport);
     },
     set: function(viewport) {
         var self = this.ptr;
         /* viewport <Viewport> [] */
+        viewport = viewport.ptr;
         _Viewer_set_viewport(self, viewport);
     }
 });
 Object.defineProperty(Viewer.prototype, "position", {
     get: function() {
         var self = this.ptr;
-        return _Viewer_get_position(self);
+        return wrapPointer(_Viewer_get_position(self), mud::vec2);
     },
     set: function(position) {
         var self = this.ptr;
         /* position <vec2> [] */
+        position = position.ptr;
         _Viewer_set_position(self, position);
     }
 });
 Object.defineProperty(Viewer.prototype, "size", {
     get: function() {
         var self = this.ptr;
-        return _Viewer_get_size(self);
+        return wrapPointer(_Viewer_get_size(self), mud::vec2);
     },
     set: function(size) {
         var self = this.ptr;
         /* size <vec2> [] */
+        size = size.ptr;
         _Viewer_set_size(self, size);
     }
 });

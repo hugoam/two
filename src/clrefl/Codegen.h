@@ -1045,7 +1045,8 @@ namespace clgen
 
 		auto type_to_c = [&](const CLQualType& t, bool non_pointing = false) -> string
 		{
-			string name = t.isclass() ? t.m_type->m_id + (non_pointing ? "" : "*") : t.m_type->m_name;
+			if(t.isenum()) return t.m_type->m_id;
+			string name = !t.isbasetype() ? t.m_type->m_id + (non_pointing ? "" : "*") : t.m_type->m_name;
 			return (t.isconst() && name != "const char*" ? "const " : "") + name + (t.isarray() ? "[]" : "");
 		};
 
@@ -1257,10 +1258,6 @@ namespace clgen
 
 		auto js_bind_callable = [&](const CLClass& c, const Overloads& o, bool ctor = false)
 		{
-			if(o.f->m_name == "Colour")
-				int i = 0;
-			if(o.f->m_name == "Radiance")
-				int i = 0;
 			const CLFunction& f = *o.f;
 			jsw(js_supress + "function" + (ctor ? " " + f.m_name : "") + "(" + join(call_args(f, f.m_params.size(), false), ", ") + ") {");
 			if(ctor) 

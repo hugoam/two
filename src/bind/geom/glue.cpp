@@ -39,8 +39,9 @@ extern "C" {
 	mud::Plane* EMSCRIPTEN_KEEPALIVE Plane_Plane_0() {
 		return new mud::Plane();
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Plane_get_normal(mud::Plane* self) {
-		return self->m_normal;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Plane_get_normal(mud::Plane* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_normal, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE Plane_get_distance(mud::Plane* self) {
 		return self->m_distance;
@@ -52,14 +53,17 @@ extern "C" {
 	mud::Plane3* EMSCRIPTEN_KEEPALIVE Plane3_Plane3_0() {
 		return new mud::Plane3();
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Plane3_get_origin(mud::Plane3* self) {
-		return self->m_origin;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Plane3_get_origin(mud::Plane3* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_origin, &temp);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Plane3_get_a(mud::Plane3* self) {
-		return self->m_a;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Plane3_get_a(mud::Plane3* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_a, &temp);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Plane3_get_b(mud::Plane3* self) {
-		return self->m_b;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Plane3_get_b(mud::Plane3* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_b, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Plane3___destroy__(mud::Plane3* self) {
 		delete self;
@@ -68,17 +72,21 @@ extern "C" {
 	mud::Ray* EMSCRIPTEN_KEEPALIVE Ray_Ray_0() {
 		return new mud::Ray();
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Ray_get_start(mud::Ray* self) {
-		return self->m_start;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Ray_get_start(mud::Ray* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_start, &temp);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Ray_get_end(mud::Ray* self) {
-		return self->m_end;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Ray_get_end(mud::Ray* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_end, &temp);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Ray_get_dir(mud::Ray* self) {
-		return self->m_dir;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Ray_get_dir(mud::Ray* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_dir, &temp);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Ray_get_inv_dir(mud::Ray* self) {
-		return self->m_inv_dir;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Ray_get_inv_dir(mud::Ray* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_inv_dir, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Ray___destroy__(mud::Ray* self) {
 		delete self;
@@ -87,18 +95,20 @@ extern "C" {
 	mud::Segment* EMSCRIPTEN_KEEPALIVE Segment_Segment_0() {
 		return new mud::Segment();
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Segment_get_start(mud::Segment* self) {
-		return self->m_start;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Segment_get_start(mud::Segment* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_start, &temp);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Segment_get_end(mud::Segment* self) {
-		return self->m_end;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Segment_get_end(mud::Segment* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_end, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Segment___destroy__(mud::Segment* self) {
 		delete self;
 	}
 	// Shape
-	Type EMSCRIPTEN_KEEPALIVE Shape_get_type(mud::Shape* self) {
-		return self->m_type;
+	mud::Type* EMSCRIPTEN_KEEPALIVE Shape_get_type(mud::Shape* self) {
+		return &&self->m_type;
 	}
 	void EMSCRIPTEN_KEEPALIVE Shape___destroy__(mud::Shape* self) {
 		delete self;
@@ -110,11 +120,11 @@ extern "C" {
 	mud::ShapeVar* EMSCRIPTEN_KEEPALIVE ShapeVar_ShapeVar_0() {
 		return new mud::ShapeVar();
 	}
-	mud::ShapeVar* EMSCRIPTEN_KEEPALIVE ShapeVar_ShapeVar_1(const Shape shape) {
+	mud::ShapeVar* EMSCRIPTEN_KEEPALIVE ShapeVar_ShapeVar_1(const mud::Shape* shape) {
 		return new mud::ShapeVar(*shape);
 	}
-	Shape EMSCRIPTEN_KEEPALIVE ShapeVar_get_shape(mud::ShapeVar* self) {
-		return self->shape;
+	mud::Shape* EMSCRIPTEN_KEEPALIVE ShapeVar_get_shape(mud::ShapeVar* self) {
+		return &&self->shape;
 	}
 	void EMSCRIPTEN_KEEPALIVE ShapeVar___destroy__(mud::ShapeVar* self) {
 		delete self;
@@ -126,26 +136,28 @@ extern "C" {
 	mud::Symbol* EMSCRIPTEN_KEEPALIVE Symbol_Symbol_0() {
 		return new mud::Symbol(fill, outline, overlay, double_sided, detail);
 	}
-	mud::Symbol* EMSCRIPTEN_KEEPALIVE Symbol_Symbol_1(Colour fill) {
+	mud::Symbol* EMSCRIPTEN_KEEPALIVE Symbol_Symbol_1(mud::Colour* fill) {
 		return new mud::Symbol(fill, outline, overlay, double_sided, detail);
 	}
-	mud::Symbol* EMSCRIPTEN_KEEPALIVE Symbol_Symbol_2(Colour fill, Colour outline) {
+	mud::Symbol* EMSCRIPTEN_KEEPALIVE Symbol_Symbol_2(mud::Colour* fill, mud::Colour* outline) {
 		return new mud::Symbol(fill, outline, overlay, double_sided, detail);
 	}
-	mud::Symbol* EMSCRIPTEN_KEEPALIVE Symbol_Symbol_3(Colour fill, Colour outline, bool overlay) {
+	mud::Symbol* EMSCRIPTEN_KEEPALIVE Symbol_Symbol_3(mud::Colour* fill, mud::Colour* outline, bool overlay) {
 		return new mud::Symbol(fill, outline, overlay, double_sided, detail);
 	}
-	mud::Symbol* EMSCRIPTEN_KEEPALIVE Symbol_Symbol_4(Colour fill, Colour outline, bool overlay, bool double_sided) {
+	mud::Symbol* EMSCRIPTEN_KEEPALIVE Symbol_Symbol_4(mud::Colour* fill, mud::Colour* outline, bool overlay, bool double_sided) {
 		return new mud::Symbol(fill, outline, overlay, double_sided, detail);
 	}
-	mud::Symbol* EMSCRIPTEN_KEEPALIVE Symbol_Symbol_5(Colour fill, Colour outline, bool overlay, bool double_sided, SymbolDetail detail) {
+	mud::Symbol* EMSCRIPTEN_KEEPALIVE Symbol_Symbol_5(mud::Colour* fill, mud::Colour* outline, bool overlay, bool double_sided, mud::SymbolDetail detail) {
 		return new mud::Symbol(fill, outline, overlay, double_sided, detail);
 	}
-	Colour EMSCRIPTEN_KEEPALIVE Symbol_get_outline(mud::Symbol* self) {
-		return self->m_outline;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Symbol_get_outline(mud::Symbol* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_outline, &temp);
 	}
-	Colour EMSCRIPTEN_KEEPALIVE Symbol_get_fill(mud::Symbol* self) {
-		return self->m_fill;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Symbol_get_fill(mud::Symbol* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_fill, &temp);
 	}
 	bool EMSCRIPTEN_KEEPALIVE Symbol_get_overlay(mud::Symbol* self) {
 		return self->m_overlay;
@@ -153,13 +165,14 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE Symbol_get_double_sided(mud::Symbol* self) {
 		return self->m_double_sided;
 	}
-	SymbolDetail EMSCRIPTEN_KEEPALIVE Symbol_get_detail(mud::Symbol* self) {
-		return self->m_detail;
+	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE Symbol_get_detail(mud::Symbol* self) {
+		static mud::SymbolDetail temp;
+		return (temp = &self->m_detail, &temp);
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Symbol_get_image(mud::Symbol* self) {
 		return self->m_image;
 	}
-	Image256 EMSCRIPTEN_KEEPALIVE Symbol_get_image256(mud::Symbol* self) {
+	mud::Image256* EMSCRIPTEN_KEEPALIVE Symbol_get_image256(mud::Symbol* self) {
 		return self->m_image256;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Symbol_get_program(mud::Symbol* self) {
@@ -197,20 +210,23 @@ extern "C" {
 	mud::ArcLine* EMSCRIPTEN_KEEPALIVE ArcLine_ArcLine_0() {
 		return new mud::ArcLine();
 	}
-	mud::ArcLine* EMSCRIPTEN_KEEPALIVE ArcLine_ArcLine_3(const vec3 start, const vec3 middle, const vec3 end) {
+	mud::ArcLine* EMSCRIPTEN_KEEPALIVE ArcLine_ArcLine_3(const mud::vec3* start, const mud::vec3* middle, const mud::vec3* end) {
 		return new mud::ArcLine(*start, *middle, *end);
 	}
-	mud::ArcLine* EMSCRIPTEN_KEEPALIVE ArcLine_ArcLine_4(const vec3 center, const vec3 start, const vec3 middle, const vec3 end) {
+	mud::ArcLine* EMSCRIPTEN_KEEPALIVE ArcLine_ArcLine_4(const mud::vec3* center, const mud::vec3* start, const mud::vec3* middle, const mud::vec3* end) {
 		return new mud::ArcLine(*center, *start, *middle, *end);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE ArcLine_get_start(mud::ArcLine* self) {
-		return self->m_start;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE ArcLine_get_start(mud::ArcLine* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_start, &temp);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE ArcLine_get_middle(mud::ArcLine* self) {
-		return self->m_middle;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE ArcLine_get_middle(mud::ArcLine* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_middle, &temp);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE ArcLine_get_end(mud::ArcLine* self) {
-		return self->m_end;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE ArcLine_get_end(mud::ArcLine* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_end, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE ArcLine___destroy__(mud::ArcLine* self) {
 		delete self;
@@ -225,7 +241,7 @@ extern "C" {
 	mud::Capsule* EMSCRIPTEN_KEEPALIVE Capsule_Capsule_2(float radius, float height) {
 		return new mud::Capsule(radius, height, axis);
 	}
-	mud::Capsule* EMSCRIPTEN_KEEPALIVE Capsule_Capsule_3(float radius, float height, Axis axis) {
+	mud::Capsule* EMSCRIPTEN_KEEPALIVE Capsule_Capsule_3(float radius, float height, mud::Axis axis) {
 		return new mud::Capsule(radius, height, axis);
 	}
 	float EMSCRIPTEN_KEEPALIVE Capsule_get_radius(mud::Capsule* self) {
@@ -234,8 +250,9 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE Capsule_get_height(mud::Capsule* self) {
 		return self->m_height;
 	}
-	Axis EMSCRIPTEN_KEEPALIVE Capsule_get_axis(mud::Capsule* self) {
-		return self->m_axis;
+	mud::Axis EMSCRIPTEN_KEEPALIVE Capsule_get_axis(mud::Capsule* self) {
+		static mud::Axis temp;
+		return (temp = &self->m_axis, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Capsule___destroy__(mud::Capsule* self) {
 		delete self;
@@ -247,14 +264,15 @@ extern "C" {
 	mud::Cube* EMSCRIPTEN_KEEPALIVE Cube_Cube_0() {
 		return new mud::Cube();
 	}
-	mud::Cube* EMSCRIPTEN_KEEPALIVE Cube_Cube_1(const vec3 extents) {
+	mud::Cube* EMSCRIPTEN_KEEPALIVE Cube_Cube_1(const mud::vec3* extents) {
 		return new mud::Cube(*extents);
 	}
-	mud::Cube* EMSCRIPTEN_KEEPALIVE Cube_Cube_2(const vec3 center, const vec3 extents) {
+	mud::Cube* EMSCRIPTEN_KEEPALIVE Cube_Cube_2(const mud::vec3* center, const mud::vec3* extents) {
 		return new mud::Cube(*center, *extents);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Cube_get_extents(mud::Cube* self) {
-		return self->m_extents;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Cube_get_extents(mud::Cube* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_extents, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Cube___destroy__(mud::Cube* self) {
 		delete self;
@@ -266,7 +284,7 @@ extern "C" {
 	mud::Aabb* EMSCRIPTEN_KEEPALIVE Aabb_Aabb_0() {
 		return new mud::Aabb();
 	}
-	mud::Aabb* EMSCRIPTEN_KEEPALIVE Aabb_Aabb_2(const vec3 center, const vec3 extents) {
+	mud::Aabb* EMSCRIPTEN_KEEPALIVE Aabb_Aabb_2(const mud::vec3* center, const mud::vec3* extents) {
 		return new mud::Aabb(*center, *extents);
 	}
 	bool EMSCRIPTEN_KEEPALIVE Aabb_get_empty(mud::Aabb* self) {
@@ -295,20 +313,21 @@ extern "C" {
 	mud::Circle* EMSCRIPTEN_KEEPALIVE Circle_Circle_1(float radius) {
 		return new mud::Circle(radius, axis);
 	}
-	mud::Circle* EMSCRIPTEN_KEEPALIVE Circle_Circle_2(float radius, Axis axis) {
+	mud::Circle* EMSCRIPTEN_KEEPALIVE Circle_Circle_2(float radius, mud::Axis axis) {
 		return new mud::Circle(radius, axis);
 	}
-	mud::Circle* EMSCRIPTEN_KEEPALIVE Circle_Circle_2(const vec3 center, float radius) {
+	mud::Circle* EMSCRIPTEN_KEEPALIVE Circle_Circle_2(const mud::vec3* center, float radius) {
 		return new mud::Circle(*center, radius, axis);
 	}
-	mud::Circle* EMSCRIPTEN_KEEPALIVE Circle_Circle_3(const vec3 center, float radius, Axis axis) {
+	mud::Circle* EMSCRIPTEN_KEEPALIVE Circle_Circle_3(const mud::vec3* center, float radius, mud::Axis axis) {
 		return new mud::Circle(*center, radius, axis);
 	}
 	float EMSCRIPTEN_KEEPALIVE Circle_get_radius(mud::Circle* self) {
 		return self->m_radius;
 	}
-	Axis EMSCRIPTEN_KEEPALIVE Circle_get_axis(mud::Circle* self) {
-		return self->m_axis;
+	mud::Axis EMSCRIPTEN_KEEPALIVE Circle_get_axis(mud::Circle* self) {
+		static mud::Axis temp;
+		return (temp = &self->m_axis, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Circle___destroy__(mud::Circle* self) {
 		delete self;
@@ -320,11 +339,12 @@ extern "C" {
 	mud::ConvexHull* EMSCRIPTEN_KEEPALIVE ConvexHull_ConvexHull_0() {
 		return new mud::ConvexHull();
 	}
-	mud::ConvexHull* EMSCRIPTEN_KEEPALIVE ConvexHull_ConvexHull_1(const std::vector<mud::vec3> vertices) {
+	mud::ConvexHull* EMSCRIPTEN_KEEPALIVE ConvexHull_ConvexHull_1(const std::vector<mud::vec3>* vertices) {
 		return new mud::ConvexHull(*vertices);
 	}
-	std::vector<mud::vec3> EMSCRIPTEN_KEEPALIVE ConvexHull_get_vertices(mud::ConvexHull* self) {
-		return self->m_vertices;
+	std::vector<mud::vec3>* EMSCRIPTEN_KEEPALIVE ConvexHull_get_vertices(mud::ConvexHull* self) {
+		static std::vector<mud::vec3> temp;
+		return (temp = &self->m_vertices, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE ConvexHull___destroy__(mud::ConvexHull* self) {
 		delete self;
@@ -339,7 +359,7 @@ extern "C" {
 	mud::Cylinder* EMSCRIPTEN_KEEPALIVE Cylinder_Cylinder_2(float radius, float height) {
 		return new mud::Cylinder(radius, height, axis);
 	}
-	mud::Cylinder* EMSCRIPTEN_KEEPALIVE Cylinder_Cylinder_3(float radius, float height, Axis axis) {
+	mud::Cylinder* EMSCRIPTEN_KEEPALIVE Cylinder_Cylinder_3(float radius, float height, mud::Axis axis) {
 		return new mud::Cylinder(radius, height, axis);
 	}
 	float EMSCRIPTEN_KEEPALIVE Cylinder_get_radius(mud::Cylinder* self) {
@@ -348,8 +368,9 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE Cylinder_get_height(mud::Cylinder* self) {
 		return self->m_height;
 	}
-	Axis EMSCRIPTEN_KEEPALIVE Cylinder_get_axis(mud::Cylinder* self) {
-		return self->m_axis;
+	mud::Axis EMSCRIPTEN_KEEPALIVE Cylinder_get_axis(mud::Cylinder* self) {
+		static mud::Axis temp;
+		return (temp = &self->m_axis, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Cylinder___destroy__(mud::Cylinder* self) {
 		delete self;
@@ -361,17 +382,19 @@ extern "C" {
 	mud::Ellipsis* EMSCRIPTEN_KEEPALIVE Ellipsis_Ellipsis_0() {
 		return new mud::Ellipsis();
 	}
-	mud::Ellipsis* EMSCRIPTEN_KEEPALIVE Ellipsis_Ellipsis_1(vec2 radius) {
+	mud::Ellipsis* EMSCRIPTEN_KEEPALIVE Ellipsis_Ellipsis_1(mud::vec2* radius) {
 		return new mud::Ellipsis(radius, axis);
 	}
-	mud::Ellipsis* EMSCRIPTEN_KEEPALIVE Ellipsis_Ellipsis_2(vec2 radius, Axis axis) {
+	mud::Ellipsis* EMSCRIPTEN_KEEPALIVE Ellipsis_Ellipsis_2(mud::vec2* radius, mud::Axis axis) {
 		return new mud::Ellipsis(radius, axis);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE Ellipsis_get_radius(mud::Ellipsis* self) {
-		return self->m_radius;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE Ellipsis_get_radius(mud::Ellipsis* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_radius, &temp);
 	}
-	Axis EMSCRIPTEN_KEEPALIVE Ellipsis_get_axis(mud::Ellipsis* self) {
-		return self->m_axis;
+	mud::Axis EMSCRIPTEN_KEEPALIVE Ellipsis_get_axis(mud::Ellipsis* self) {
+		static mud::Axis temp;
+		return (temp = &self->m_axis, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Ellipsis___destroy__(mud::Ellipsis* self) {
 		delete self;
@@ -390,17 +413,19 @@ extern "C" {
 	mud::Grid2* EMSCRIPTEN_KEEPALIVE Grid2_Grid2_0() {
 		return new mud::Grid2();
 	}
-	mud::Grid2* EMSCRIPTEN_KEEPALIVE Grid2_Grid2_1(const vec2 size) {
+	mud::Grid2* EMSCRIPTEN_KEEPALIVE Grid2_Grid2_1(const mud::vec2* size) {
 		return new mud::Grid2(*size, *space);
 	}
-	mud::Grid2* EMSCRIPTEN_KEEPALIVE Grid2_Grid2_2(const vec2 size, const vec2 space) {
+	mud::Grid2* EMSCRIPTEN_KEEPALIVE Grid2_Grid2_2(const mud::vec2* size, const mud::vec2* space) {
 		return new mud::Grid2(*size, *space);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE Grid2_get_size(mud::Grid2* self) {
-		return self->m_size;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE Grid2_get_size(mud::Grid2* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_size, &temp);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE Grid2_get_space(mud::Grid2* self) {
-		return self->m_space;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE Grid2_get_space(mud::Grid2* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_space, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Grid2___destroy__(mud::Grid2* self) {
 		delete self;
@@ -412,17 +437,19 @@ extern "C" {
 	mud::Grid3* EMSCRIPTEN_KEEPALIVE Grid3_Grid3_0() {
 		return new mud::Grid3();
 	}
-	mud::Grid3* EMSCRIPTEN_KEEPALIVE Grid3_Grid3_1(const uvec2 size) {
+	mud::Grid3* EMSCRIPTEN_KEEPALIVE Grid3_Grid3_1(const mud::uvec2* size) {
 		return new mud::Grid3(*size, *points);
 	}
-	mud::Grid3* EMSCRIPTEN_KEEPALIVE Grid3_Grid3_2(const uvec2 size, const std::vector<mud::vec3> points) {
+	mud::Grid3* EMSCRIPTEN_KEEPALIVE Grid3_Grid3_2(const mud::uvec2* size, const std::vector<mud::vec3>* points) {
 		return new mud::Grid3(*size, *points);
 	}
-	uvec2 EMSCRIPTEN_KEEPALIVE Grid3_get_size(mud::Grid3* self) {
-		return self->m_size;
+	mud::uvec2* EMSCRIPTEN_KEEPALIVE Grid3_get_size(mud::Grid3* self) {
+		static mud::uvec2 temp;
+		return (temp = &self->m_size, &temp);
 	}
-	std::vector<mud::vec3> EMSCRIPTEN_KEEPALIVE Grid3_get_points(mud::Grid3* self) {
-		return self->m_points;
+	std::vector<mud::vec3>* EMSCRIPTEN_KEEPALIVE Grid3_get_points(mud::Grid3* self) {
+		static std::vector<mud::vec3> temp;
+		return (temp = &self->m_points, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Grid3___destroy__(mud::Grid3* self) {
 		delete self;
@@ -434,14 +461,16 @@ extern "C" {
 	mud::Line* EMSCRIPTEN_KEEPALIVE Line_Line_0() {
 		return new mud::Line();
 	}
-	mud::Line* EMSCRIPTEN_KEEPALIVE Line_Line_2(const vec3 start, const vec3 end) {
+	mud::Line* EMSCRIPTEN_KEEPALIVE Line_Line_2(const mud::vec3* start, const mud::vec3* end) {
 		return new mud::Line(*start, *end);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Line_get_start(mud::Line* self) {
-		return self->m_start;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Line_get_start(mud::Line* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_start, &temp);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Line_get_end(mud::Line* self) {
-		return self->m_end;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Line_get_end(mud::Line* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_end, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Line___destroy__(mud::Line* self) {
 		delete self;
@@ -453,26 +482,29 @@ extern "C" {
 	mud::Points* EMSCRIPTEN_KEEPALIVE Points_Points_0() {
 		return new mud::Points();
 	}
-	mud::Points* EMSCRIPTEN_KEEPALIVE Points_Points_1(const std::vector<mud::vec3> points) {
+	mud::Points* EMSCRIPTEN_KEEPALIVE Points_Points_1(const std::vector<mud::vec3>* points) {
 		return new mud::Points(*points);
 	}
-	std::vector<mud::vec3> EMSCRIPTEN_KEEPALIVE Points_get_points(mud::Points* self) {
-		return self->m_points;
+	std::vector<mud::vec3>* EMSCRIPTEN_KEEPALIVE Points_get_points(mud::Points* self) {
+		static std::vector<mud::vec3> temp;
+		return (temp = &self->m_points, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Points___destroy__(mud::Points* self) {
 		delete self;
 	}
 	// Poisson
-	mud::Poisson* EMSCRIPTEN_KEEPALIVE Poisson_Poisson_2(vec2 size, float maxRadius) {
+	mud::Poisson* EMSCRIPTEN_KEEPALIVE Poisson_Poisson_2(mud::vec2* size, float maxRadius) {
 		return new mud::Poisson(size, maxRadius);
 	}
-	std::vector<mud::vec3> EMSCRIPTEN_KEEPALIVE Poisson_distribute_1(mud::Poisson* self, float radius) {
-		return self->distribute(radius);
+	std::vector<mud::vec3>* EMSCRIPTEN_KEEPALIVE Poisson_distribute_1(mud::Poisson* self, float radius) {
+		static std::vector<mud::vec3> temp;
+		return (temp = self->distribute(radius), &temp);
 	}
-	std::vector<mud::Circle> EMSCRIPTEN_KEEPALIVE Poisson_distribute_circles_1(mud::Poisson* self, float radius) {
-		return self->distribute_circles(radius);
+	std::vector<mud::Circle>* EMSCRIPTEN_KEEPALIVE Poisson_distribute_circles_1(mud::Poisson* self, float radius) {
+		static std::vector<mud::Circle> temp;
+		return (temp = self->distribute_circles(radius), &temp);
 	}
-	bool EMSCRIPTEN_KEEPALIVE Poisson_addPoint_2(mud::Poisson* self, float radius, vec3 point) {
+	bool EMSCRIPTEN_KEEPALIVE Poisson_addPoint_2(mud::Poisson* self, float radius, mud::vec3* point) {
 		return self->addPoint(radius, *point);
 	}
 	void EMSCRIPTEN_KEEPALIVE Poisson___destroy__(mud::Poisson* self) {
@@ -485,7 +517,7 @@ extern "C" {
 	mud::Polygon* EMSCRIPTEN_KEEPALIVE Polygon_Polygon_0() {
 		return new mud::Polygon();
 	}
-	mud::Polygon* EMSCRIPTEN_KEEPALIVE Polygon_Polygon_1(std::vector<mud::vec3> vertices) {
+	mud::Polygon* EMSCRIPTEN_KEEPALIVE Polygon_Polygon_1(std::vector<mud::vec3>* vertices) {
 		return new mud::Polygon(vertices);
 	}
 	void EMSCRIPTEN_KEEPALIVE Polygon___destroy__(mud::Polygon* self) {
@@ -498,7 +530,7 @@ extern "C" {
 	mud::Quad* EMSCRIPTEN_KEEPALIVE Quad_Quad_0() {
 		return new mud::Quad();
 	}
-	mud::Quad* EMSCRIPTEN_KEEPALIVE Quad_Quad_4(const vec3 a, const vec3 b, const vec3 c, const vec3 d) {
+	mud::Quad* EMSCRIPTEN_KEEPALIVE Quad_Quad_4(const mud::vec3* a, const mud::vec3* b, const mud::vec3* c, const mud::vec3* d) {
 		return new mud::Quad(*a, *b, *c, *d);
 	}
 	void EMSCRIPTEN_KEEPALIVE Quad___destroy__(mud::Quad* self) {
@@ -511,17 +543,19 @@ extern "C" {
 	mud::Rect* EMSCRIPTEN_KEEPALIVE Rect_Rect_0() {
 		return new mud::Rect();
 	}
-	mud::Rect* EMSCRIPTEN_KEEPALIVE Rect_Rect_2(const vec2 position, const vec2 size) {
+	mud::Rect* EMSCRIPTEN_KEEPALIVE Rect_Rect_2(const mud::vec2* position, const mud::vec2* size) {
 		return new mud::Rect(*position, *size);
 	}
 	mud::Rect* EMSCRIPTEN_KEEPALIVE Rect_Rect_4(float x, float y, float w, float h) {
 		return new mud::Rect(x, y, w, h);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE Rect_get_position(mud::Rect* self) {
-		return self->m_position;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE Rect_get_position(mud::Rect* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_position, &temp);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE Rect_get_size(mud::Rect* self) {
-		return self->m_size;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE Rect_get_size(mud::Rect* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_size, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Rect___destroy__(mud::Rect* self) {
 		delete self;
@@ -558,7 +592,7 @@ extern "C" {
 	mud::Sphere* EMSCRIPTEN_KEEPALIVE Sphere_Sphere_1(float radius) {
 		return new mud::Sphere(radius);
 	}
-	mud::Sphere* EMSCRIPTEN_KEEPALIVE Sphere_Sphere_2(const vec3 center, float radius) {
+	mud::Sphere* EMSCRIPTEN_KEEPALIVE Sphere_Sphere_2(const mud::vec3* center, float radius) {
 		return new mud::Sphere(*center, radius);
 	}
 	float EMSCRIPTEN_KEEPALIVE Sphere_get_radius(mud::Sphere* self) {
@@ -599,7 +633,7 @@ extern "C" {
 	mud::Spheroid* EMSCRIPTEN_KEEPALIVE Spheroid_Spheroid_1(float radius) {
 		return new mud::Spheroid(radius);
 	}
-	mud::Spheroid* EMSCRIPTEN_KEEPALIVE Spheroid_Spheroid_2(const vec3 center, float radius) {
+	mud::Spheroid* EMSCRIPTEN_KEEPALIVE Spheroid_Spheroid_2(const mud::vec3* center, float radius) {
 		return new mud::Spheroid(*center, radius);
 	}
 	float EMSCRIPTEN_KEEPALIVE Spheroid_get_radius(mud::Spheroid* self) {
@@ -618,13 +652,13 @@ extern "C" {
 	mud::Torus* EMSCRIPTEN_KEEPALIVE Torus_Torus_2(float radius, float solid_radius) {
 		return new mud::Torus(radius, solid_radius, axis);
 	}
-	mud::Torus* EMSCRIPTEN_KEEPALIVE Torus_Torus_3(float radius, float solid_radius, Axis axis) {
+	mud::Torus* EMSCRIPTEN_KEEPALIVE Torus_Torus_3(float radius, float solid_radius, mud::Axis axis) {
 		return new mud::Torus(radius, solid_radius, axis);
 	}
-	mud::Torus* EMSCRIPTEN_KEEPALIVE Torus_Torus_3(const vec3 center, float radius, float solid_radius) {
+	mud::Torus* EMSCRIPTEN_KEEPALIVE Torus_Torus_3(const mud::vec3* center, float radius, float solid_radius) {
 		return new mud::Torus(*center, radius, solid_radius, axis);
 	}
-	mud::Torus* EMSCRIPTEN_KEEPALIVE Torus_Torus_4(const vec3 center, float radius, float solid_radius, Axis axis) {
+	mud::Torus* EMSCRIPTEN_KEEPALIVE Torus_Torus_4(const mud::vec3* center, float radius, float solid_radius, mud::Axis axis) {
 		return new mud::Torus(*center, radius, solid_radius, axis);
 	}
 	float EMSCRIPTEN_KEEPALIVE Torus_get_radius(mud::Torus* self) {
@@ -633,8 +667,9 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE Torus_get_solid_radius(mud::Torus* self) {
 		return self->m_solid_radius;
 	}
-	Axis EMSCRIPTEN_KEEPALIVE Torus_get_axis(mud::Torus* self) {
-		return self->m_axis;
+	mud::Axis EMSCRIPTEN_KEEPALIVE Torus_get_axis(mud::Torus* self) {
+		static mud::Axis temp;
+		return (temp = &self->m_axis, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Torus___destroy__(mud::Torus* self) {
 		delete self;
@@ -646,11 +681,12 @@ extern "C" {
 	mud::Triangle* EMSCRIPTEN_KEEPALIVE Triangle_Triangle_0() {
 		return new mud::Triangle();
 	}
-	mud::Triangle* EMSCRIPTEN_KEEPALIVE Triangle_Triangle_1(const vec2 size) {
+	mud::Triangle* EMSCRIPTEN_KEEPALIVE Triangle_Triangle_1(const mud::vec2* size) {
 		return new mud::Triangle(*size);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE Triangle_get_size(mud::Triangle* self) {
-		return self->m_size;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE Triangle_get_size(mud::Triangle* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_size, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Triangle___destroy__(mud::Triangle* self) {
 		delete self;

@@ -35,10 +35,10 @@ extern "C" {
 	mud::WfcBlock* EMSCRIPTEN_KEEPALIVE WfcBlock_WfcBlock_0() {
 		return new mud::WfcBlock();
 	}
-	mud::WfcBlock* EMSCRIPTEN_KEEPALIVE WfcBlock_WfcBlock_4(const vec3 position, const uvec3 size, const vec3 scale, WaveTileset tileset) {
+	mud::WfcBlock* EMSCRIPTEN_KEEPALIVE WfcBlock_WfcBlock_4(const mud::vec3* position, const mud::uvec3* size, const mud::vec3* scale, mud::WaveTileset* tileset) {
 		return new mud::WfcBlock(*position, *size, *scale, *tileset, auto_solve);
 	}
-	mud::WfcBlock* EMSCRIPTEN_KEEPALIVE WfcBlock_WfcBlock_5(const vec3 position, const uvec3 size, const vec3 scale, WaveTileset tileset, bool auto_solve) {
+	mud::WfcBlock* EMSCRIPTEN_KEEPALIVE WfcBlock_WfcBlock_5(const mud::vec3* position, const mud::uvec3* size, const mud::vec3* scale, mud::WaveTileset* tileset, bool auto_solve) {
 		return new mud::WfcBlock(*position, *size, *scale, *tileset, auto_solve);
 	}
 	void EMSCRIPTEN_KEEPALIVE WfcBlock_reset_0(mud::WfcBlock* self) {
@@ -56,20 +56,24 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE WfcBlock_solve_1(mud::WfcBlock* self, size_t limit) {
 		self->solve(limit);
 	}
-	void EMSCRIPTEN_KEEPALIVE WfcBlock_update_1(mud::WfcBlock* self, Wave wave) {
+	void EMSCRIPTEN_KEEPALIVE WfcBlock_update_1(mud::WfcBlock* self, mud::Wave* wave) {
 		self->update(*wave);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE WfcBlock_get_position(mud::WfcBlock* self) {
-		return self->m_position;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE WfcBlock_get_position(mud::WfcBlock* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_position, &temp);
 	}
-	uvec3 EMSCRIPTEN_KEEPALIVE WfcBlock_get_size(mud::WfcBlock* self) {
-		return self->m_size;
+	mud::uvec3* EMSCRIPTEN_KEEPALIVE WfcBlock_get_size(mud::WfcBlock* self) {
+		static mud::uvec3 temp;
+		return (temp = &self->m_size, &temp);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE WfcBlock_get_scale(mud::WfcBlock* self) {
-		return self->m_scale;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE WfcBlock_get_scale(mud::WfcBlock* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_scale, &temp);
 	}
-	Aabb EMSCRIPTEN_KEEPALIVE WfcBlock_get_aabb(mud::WfcBlock* self) {
-		return self->m_aabb;
+	mud::Aabb* EMSCRIPTEN_KEEPALIVE WfcBlock_get_aabb(mud::WfcBlock* self) {
+		static mud::Aabb temp;
+		return (temp = &self->m_aabb, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE WfcBlock___destroy__(mud::WfcBlock* self) {
 		delete self;

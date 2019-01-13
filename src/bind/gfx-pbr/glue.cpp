@@ -78,11 +78,13 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE Glow_get_enabled(mud::Glow* self) {
 		return self->m_enabled;
 	}
-	vec4 EMSCRIPTEN_KEEPALIVE Glow_get_levels_1_4(mud::Glow* self) {
-		return self->m_levels_1_4;
+	mud::vec4* EMSCRIPTEN_KEEPALIVE Glow_get_levels_1_4(mud::Glow* self) {
+		static mud::vec4 temp;
+		return (temp = &self->m_levels_1_4, &temp);
 	}
-	vec4 EMSCRIPTEN_KEEPALIVE Glow_get_levels_5_8(mud::Glow* self) {
-		return self->m_levels_5_8;
+	mud::vec4* EMSCRIPTEN_KEEPALIVE Glow_get_levels_5_8(mud::Glow* self) {
+		static mud::vec4 temp;
+		return (temp = &self->m_levels_5_8, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE Glow_get_intensity(mud::Glow* self) {
 		return self->m_intensity;
@@ -122,8 +124,8 @@ extern "C" {
 		delete self;
 	}
 	// ReflectionProbe
-	Node3 EMSCRIPTEN_KEEPALIVE ReflectionProbe_get_node(mud::ReflectionProbe* self) {
-		return self->m_node;
+	mud::Node3* EMSCRIPTEN_KEEPALIVE ReflectionProbe_get_node(mud::ReflectionProbe* self) {
+		return &&self->m_node;
 	}
 	bool EMSCRIPTEN_KEEPALIVE ReflectionProbe_get_visible(mud::ReflectionProbe* self) {
 		return self->m_visible;
@@ -131,8 +133,9 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE ReflectionProbe_get_intensity(mud::ReflectionProbe* self) {
 		return self->m_intensity;
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE ReflectionProbe_get_extents(mud::ReflectionProbe* self) {
-		return self->m_extents;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE ReflectionProbe_get_extents(mud::ReflectionProbe* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_extents, &temp);
 	}
 	bool EMSCRIPTEN_KEEPALIVE ReflectionProbe_get_shadows(mud::ReflectionProbe* self) {
 		return self->m_shadows;
@@ -147,17 +150,21 @@ extern "C" {
 	mud::RenderFilters* EMSCRIPTEN_KEEPALIVE RenderFilters_RenderFilters_0() {
 		return new mud::RenderFilters();
 	}
-	DofBlur EMSCRIPTEN_KEEPALIVE RenderFilters_get_dof_blur(mud::RenderFilters* self) {
-		return self->m_dof_blur;
+	mud::DofBlur* EMSCRIPTEN_KEEPALIVE RenderFilters_get_dof_blur(mud::RenderFilters* self) {
+		static mud::DofBlur temp;
+		return (temp = &self->m_dof_blur, &temp);
 	}
-	Glow EMSCRIPTEN_KEEPALIVE RenderFilters_get_glow(mud::RenderFilters* self) {
-		return self->m_glow;
+	mud::Glow* EMSCRIPTEN_KEEPALIVE RenderFilters_get_glow(mud::RenderFilters* self) {
+		static mud::Glow temp;
+		return (temp = &self->m_glow, &temp);
 	}
-	BCS EMSCRIPTEN_KEEPALIVE RenderFilters_get_bcs(mud::RenderFilters* self) {
-		return self->m_bcs;
+	mud::BCS* EMSCRIPTEN_KEEPALIVE RenderFilters_get_bcs(mud::RenderFilters* self) {
+		static mud::BCS temp;
+		return (temp = &self->m_bcs, &temp);
 	}
-	Tonemap EMSCRIPTEN_KEEPALIVE RenderFilters_get_tonemap(mud::RenderFilters* self) {
-		return self->m_tonemap;
+	mud::Tonemap* EMSCRIPTEN_KEEPALIVE RenderFilters_get_tonemap(mud::RenderFilters* self) {
+		static mud::Tonemap temp;
+		return (temp = &self->m_tonemap, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE RenderFilters___destroy__(mud::RenderFilters* self) {
 		delete self;
@@ -166,8 +173,9 @@ extern "C" {
 	mud::Tonemap* EMSCRIPTEN_KEEPALIVE Tonemap_Tonemap_0() {
 		return new mud::Tonemap();
 	}
-	TonemapMode EMSCRIPTEN_KEEPALIVE Tonemap_get_mode(mud::Tonemap* self) {
-		return self->m_mode;
+	mud::TonemapMode EMSCRIPTEN_KEEPALIVE Tonemap_get_mode(mud::Tonemap* self) {
+		static mud::TonemapMode temp;
+		return (temp = &self->m_mode, &temp);
 	}
 	bool EMSCRIPTEN_KEEPALIVE Tonemap_get_enabled(mud::Tonemap* self) {
 		return self->m_enabled;

@@ -15,143 +15,156 @@ Module['glTF'] = glTF;
 Object.defineProperty(glTF.prototype, "buffers", {
     get: function() {
         var self = this.ptr;
-        return _glTF_get_buffers(self);
+        return wrapPointer(_glTF_get_buffers(self), std::vector<glTFBuffer>);
     },
     set: function(buffers) {
         var self = this.ptr;
         /* buffers <std::vector<glTFBuffer>> [] */
+        buffers = buffers.ptr;
         _glTF_set_buffers(self, buffers);
     }
 });
 Object.defineProperty(glTF.prototype, "buffer_views", {
     get: function() {
         var self = this.ptr;
-        return _glTF_get_buffer_views(self);
+        return wrapPointer(_glTF_get_buffer_views(self), std::vector<glTFBufferView>);
     },
     set: function(buffer_views) {
         var self = this.ptr;
         /* buffer_views <std::vector<glTFBufferView>> [] */
+        buffer_views = buffer_views.ptr;
         _glTF_set_buffer_views(self, buffer_views);
     }
 });
 Object.defineProperty(glTF.prototype, "accessors", {
     get: function() {
         var self = this.ptr;
-        return _glTF_get_accessors(self);
+        return wrapPointer(_glTF_get_accessors(self), std::vector<glTFAccessor>);
     },
     set: function(accessors) {
         var self = this.ptr;
         /* accessors <std::vector<glTFAccessor>> [] */
+        accessors = accessors.ptr;
         _glTF_set_accessors(self, accessors);
     }
 });
 Object.defineProperty(glTF.prototype, "images", {
     get: function() {
         var self = this.ptr;
-        return _glTF_get_images(self);
+        return wrapPointer(_glTF_get_images(self), std::vector<glTFImage>);
     },
     set: function(images) {
         var self = this.ptr;
         /* images <std::vector<glTFImage>> [] */
+        images = images.ptr;
         _glTF_set_images(self, images);
     }
 });
 Object.defineProperty(glTF.prototype, "textures", {
     get: function() {
         var self = this.ptr;
-        return _glTF_get_textures(self);
+        return wrapPointer(_glTF_get_textures(self), std::vector<glTFTexture>);
     },
     set: function(textures) {
         var self = this.ptr;
         /* textures <std::vector<glTFTexture>> [] */
+        textures = textures.ptr;
         _glTF_set_textures(self, textures);
     }
 });
 Object.defineProperty(glTF.prototype, "materials", {
     get: function() {
         var self = this.ptr;
-        return _glTF_get_materials(self);
+        return wrapPointer(_glTF_get_materials(self), std::vector<glTFMaterial>);
     },
     set: function(materials) {
         var self = this.ptr;
         /* materials <std::vector<glTFMaterial>> [] */
+        materials = materials.ptr;
         _glTF_set_materials(self, materials);
     }
 });
 Object.defineProperty(glTF.prototype, "meshes", {
     get: function() {
         var self = this.ptr;
-        return _glTF_get_meshes(self);
+        return wrapPointer(_glTF_get_meshes(self), std::vector<glTFMesh>);
     },
     set: function(meshes) {
         var self = this.ptr;
         /* meshes <std::vector<glTFMesh>> [] */
+        meshes = meshes.ptr;
         _glTF_set_meshes(self, meshes);
     }
 });
 Object.defineProperty(glTF.prototype, "nodes", {
     get: function() {
         var self = this.ptr;
-        return _glTF_get_nodes(self);
+        return wrapPointer(_glTF_get_nodes(self), std::vector<glTFNode>);
     },
     set: function(nodes) {
         var self = this.ptr;
         /* nodes <std::vector<glTFNode>> [] */
+        nodes = nodes.ptr;
         _glTF_set_nodes(self, nodes);
     }
 });
 Object.defineProperty(glTF.prototype, "skins", {
     get: function() {
         var self = this.ptr;
-        return _glTF_get_skins(self);
+        return wrapPointer(_glTF_get_skins(self), std::vector<glTFSkin>);
     },
     set: function(skins) {
         var self = this.ptr;
         /* skins <std::vector<glTFSkin>> [] */
+        skins = skins.ptr;
         _glTF_set_skins(self, skins);
     }
 });
 Object.defineProperty(glTF.prototype, "animations", {
     get: function() {
         var self = this.ptr;
-        return _glTF_get_animations(self);
+        return wrapPointer(_glTF_get_animations(self), std::vector<glTFAnimation>);
     },
     set: function(animations) {
         var self = this.ptr;
         /* animations <std::vector<glTFAnimation>> [] */
+        animations = animations.ptr;
         _glTF_set_animations(self, animations);
     }
 });
 Object.defineProperty(glTF.prototype, "cameras", {
     get: function() {
         var self = this.ptr;
-        return _glTF_get_cameras(self);
+        return wrapPointer(_glTF_get_cameras(self), std::vector<glTFCamera>);
     },
     set: function(cameras) {
         var self = this.ptr;
         /* cameras <std::vector<glTFCamera>> [] */
+        cameras = cameras.ptr;
         _glTF_set_cameras(self, cameras);
     }
 });
 Object.defineProperty(glTF.prototype, "samplers", {
     get: function() {
         var self = this.ptr;
-        return _glTF_get_samplers(self);
+        return wrapPointer(_glTF_get_samplers(self), std::vector<glTFSampler>);
     },
     set: function(samplers) {
         var self = this.ptr;
         /* samplers <std::vector<glTFSampler>> [] */
+        samplers = samplers.ptr;
         _glTF_set_samplers(self, samplers);
     }
 });
 Object.defineProperty(glTF.prototype, "scenes", {
     get: function() {
         var self = this.ptr;
-        return _glTF_get_scenes(self);
+        return wrapPointer(_glTF_get_scenes(self), std::vector<glTFScene>);
     },
     set: function(scenes) {
         var self = this.ptr;
         /* scenes <std::vector<glTFScene>> [] */
+        scenes = scenes.ptr;
         _glTF_set_scenes(self, scenes);
     }
 });
@@ -212,6 +225,7 @@ Object.defineProperty(glTFAccessor.prototype, "component_type", {
     set: function(component_type) {
         var self = this.ptr;
         /* component_type <glTFComponentType> [] */
+        if (component_type && typeof component_type === "object") component_type = component_type.ptr;
         _glTFAccessor_set_component_type(self, component_type);
     }
 });
@@ -245,17 +259,19 @@ Object.defineProperty(glTFAccessor.prototype, "type", {
     set: function(type) {
         var self = this.ptr;
         /* type <glTFType> [] */
+        if (type && typeof type === "object") type = type.ptr;
         _glTFAccessor_set_type(self, type);
     }
 });
 Object.defineProperty(glTFAccessor.prototype, "sparse", {
     get: function() {
         var self = this.ptr;
-        return _glTFAccessor_get_sparse(self);
+        return wrapPointer(_glTFAccessor_get_sparse(self), glTFSparse);
     },
     set: function(sparse) {
         var self = this.ptr;
         /* sparse <glTFSparse> [] */
+        sparse = sparse.ptr;
         _glTFAccessor_set_sparse(self, sparse);
     }
 });
@@ -289,22 +305,24 @@ Object.defineProperty(glTFAnimation.prototype, "name", {
 Object.defineProperty(glTFAnimation.prototype, "samplers", {
     get: function() {
         var self = this.ptr;
-        return _glTFAnimation_get_samplers(self);
+        return wrapPointer(_glTFAnimation_get_samplers(self), std::vector<glTFAnimationSampler>);
     },
     set: function(samplers) {
         var self = this.ptr;
         /* samplers <std::vector<glTFAnimationSampler>> [] */
+        samplers = samplers.ptr;
         _glTFAnimation_set_samplers(self, samplers);
     }
 });
 Object.defineProperty(glTFAnimation.prototype, "channels", {
     get: function() {
         var self = this.ptr;
-        return _glTFAnimation_get_channels(self);
+        return wrapPointer(_glTFAnimation_get_channels(self), std::vector<glTFAnimationChannel>);
     },
     set: function(channels) {
         var self = this.ptr;
         /* channels <std::vector<glTFAnimationChannel>> [] */
+        channels = channels.ptr;
         _glTFAnimation_set_channels(self, channels);
     }
 });
@@ -336,11 +354,12 @@ Object.defineProperty(glTFAnimationChannel.prototype, "sampler", {
 Object.defineProperty(glTFAnimationChannel.prototype, "target", {
     get: function() {
         var self = this.ptr;
-        return _glTFAnimationChannel_get_target(self);
+        return wrapPointer(_glTFAnimationChannel_get_target(self), glTFAnimationTarget);
     },
     set: function(target) {
         var self = this.ptr;
         /* target <glTFAnimationTarget> [] */
+        target = target.ptr;
         _glTFAnimationChannel_set_target(self, target);
     }
 });
@@ -366,6 +385,7 @@ Object.defineProperty(glTFAnimationSampler.prototype, "interpolation", {
     set: function(interpolation) {
         var self = this.ptr;
         /* interpolation <glTFInterpolation> [] */
+        if (interpolation && typeof interpolation === "object") interpolation = interpolation.ptr;
         _glTFAnimationSampler_set_interpolation(self, interpolation);
     }
 });
@@ -720,22 +740,24 @@ Object.defineProperty(glTFCamera.prototype, "type", {
 Object.defineProperty(glTFCamera.prototype, "orthographic", {
     get: function() {
         var self = this.ptr;
-        return _glTFCamera_get_orthographic(self);
+        return wrapPointer(_glTFCamera_get_orthographic(self), glTFOrthographic);
     },
     set: function(orthographic) {
         var self = this.ptr;
         /* orthographic <glTFOrthographic> [] */
+        orthographic = orthographic.ptr;
         _glTFCamera_set_orthographic(self, orthographic);
     }
 });
 Object.defineProperty(glTFCamera.prototype, "perspective", {
     get: function() {
         var self = this.ptr;
-        return _glTFCamera_get_perspective(self);
+        return wrapPointer(_glTFCamera_get_perspective(self), glTFPerspective);
     },
     set: function(perspective) {
         var self = this.ptr;
         /* perspective <glTFPerspective> [] */
+        perspective = perspective.ptr;
         _glTFCamera_set_perspective(self, perspective);
     }
 });
@@ -833,44 +855,48 @@ Object.defineProperty(glTFMaterial.prototype, "name", {
 Object.defineProperty(glTFMaterial.prototype, "normal_texture", {
     get: function() {
         var self = this.ptr;
-        return _glTFMaterial_get_normal_texture(self);
+        return wrapPointer(_glTFMaterial_get_normal_texture(self), glTFTextureInfo);
     },
     set: function(normal_texture) {
         var self = this.ptr;
         /* normal_texture <glTFTextureInfo> [] */
+        normal_texture = normal_texture.ptr;
         _glTFMaterial_set_normal_texture(self, normal_texture);
     }
 });
 Object.defineProperty(glTFMaterial.prototype, "occlusion_texture", {
     get: function() {
         var self = this.ptr;
-        return _glTFMaterial_get_occlusion_texture(self);
+        return wrapPointer(_glTFMaterial_get_occlusion_texture(self), glTFTextureInfo);
     },
     set: function(occlusion_texture) {
         var self = this.ptr;
         /* occlusion_texture <glTFTextureInfo> [] */
+        occlusion_texture = occlusion_texture.ptr;
         _glTFMaterial_set_occlusion_texture(self, occlusion_texture);
     }
 });
 Object.defineProperty(glTFMaterial.prototype, "emissive_factor", {
     get: function() {
         var self = this.ptr;
-        return _glTFMaterial_get_emissive_factor(self);
+        return wrapPointer(_glTFMaterial_get_emissive_factor(self), mud::vec3);
     },
     set: function(emissive_factor) {
         var self = this.ptr;
         /* emissive_factor <vec3> [] */
+        emissive_factor = emissive_factor.ptr;
         _glTFMaterial_set_emissive_factor(self, emissive_factor);
     }
 });
 Object.defineProperty(glTFMaterial.prototype, "emissive_texture", {
     get: function() {
         var self = this.ptr;
-        return _glTFMaterial_get_emissive_texture(self);
+        return wrapPointer(_glTFMaterial_get_emissive_texture(self), glTFTextureInfo);
     },
     set: function(emissive_texture) {
         var self = this.ptr;
         /* emissive_texture <glTFTextureInfo> [] */
+        emissive_texture = emissive_texture.ptr;
         _glTFMaterial_set_emissive_texture(self, emissive_texture);
     }
 });
@@ -893,17 +919,19 @@ Object.defineProperty(glTFMaterial.prototype, "alpha_mode", {
     set: function(alpha_mode) {
         var self = this.ptr;
         /* alpha_mode <glTFAlphaMode> [] */
+        if (alpha_mode && typeof alpha_mode === "object") alpha_mode = alpha_mode.ptr;
         _glTFMaterial_set_alpha_mode(self, alpha_mode);
     }
 });
 Object.defineProperty(glTFMaterial.prototype, "pbr_metallic_roughness", {
     get: function() {
         var self = this.ptr;
-        return _glTFMaterial_get_pbr_metallic_roughness(self);
+        return wrapPointer(_glTFMaterial_get_pbr_metallic_roughness(self), glTFMaterialPBR);
     },
     set: function(pbr_metallic_roughness) {
         var self = this.ptr;
         /* pbr_metallic_roughness <glTFMaterialPBR> [] */
+        pbr_metallic_roughness = pbr_metallic_roughness.ptr;
         _glTFMaterial_set_pbr_metallic_roughness(self, pbr_metallic_roughness);
     }
 });
@@ -924,22 +952,24 @@ Module['glTFMaterialPBR'] = glTFMaterialPBR;
 Object.defineProperty(glTFMaterialPBR.prototype, "base_color_factor", {
     get: function() {
         var self = this.ptr;
-        return _glTFMaterialPBR_get_base_color_factor(self);
+        return wrapPointer(_glTFMaterialPBR_get_base_color_factor(self), mud::vec4);
     },
     set: function(base_color_factor) {
         var self = this.ptr;
         /* base_color_factor <vec4> [] */
+        base_color_factor = base_color_factor.ptr;
         _glTFMaterialPBR_set_base_color_factor(self, base_color_factor);
     }
 });
 Object.defineProperty(glTFMaterialPBR.prototype, "base_color_texture", {
     get: function() {
         var self = this.ptr;
-        return _glTFMaterialPBR_get_base_color_texture(self);
+        return wrapPointer(_glTFMaterialPBR_get_base_color_texture(self), glTFTextureInfo);
     },
     set: function(base_color_texture) {
         var self = this.ptr;
         /* base_color_texture <glTFTextureInfo> [] */
+        base_color_texture = base_color_texture.ptr;
         _glTFMaterialPBR_set_base_color_texture(self, base_color_texture);
     }
 });
@@ -968,11 +998,12 @@ Object.defineProperty(glTFMaterialPBR.prototype, "roughness_factor", {
 Object.defineProperty(glTFMaterialPBR.prototype, "metallic_roughness_texture", {
     get: function() {
         var self = this.ptr;
-        return _glTFMaterialPBR_get_metallic_roughness_texture(self);
+        return wrapPointer(_glTFMaterialPBR_get_metallic_roughness_texture(self), glTFTextureInfo);
     },
     set: function(metallic_roughness_texture) {
         var self = this.ptr;
         /* metallic_roughness_texture <glTFTextureInfo> [] */
+        metallic_roughness_texture = metallic_roughness_texture.ptr;
         _glTFMaterialPBR_set_metallic_roughness_texture(self, metallic_roughness_texture);
     }
 });
@@ -1006,22 +1037,24 @@ Object.defineProperty(glTFMesh.prototype, "name", {
 Object.defineProperty(glTFMesh.prototype, "primitives", {
     get: function() {
         var self = this.ptr;
-        return _glTFMesh_get_primitives(self);
+        return wrapPointer(_glTFMesh_get_primitives(self), std::vector<glTFPrimitive>);
     },
     set: function(primitives) {
         var self = this.ptr;
         /* primitives <std::vector<glTFPrimitive>> [] */
+        primitives = primitives.ptr;
         _glTFMesh_set_primitives(self, primitives);
     }
 });
 Object.defineProperty(glTFMesh.prototype, "weights", {
     get: function() {
         var self = this.ptr;
-        return _glTFMesh_get_weights(self);
+        return wrapPointer(_glTFMesh_get_weights(self), std::vector<float>);
     },
     set: function(weights) {
         var self = this.ptr;
         /* weights <std::vector<float>> [] */
+        weights = weights.ptr;
         _glTFMesh_set_weights(self, weights);
     }
 });
@@ -1135,55 +1168,60 @@ Object.defineProperty(glTFNode.prototype, "skin", {
 Object.defineProperty(glTFNode.prototype, "matrix", {
     get: function() {
         var self = this.ptr;
-        return _glTFNode_get_matrix(self);
+        return wrapPointer(_glTFNode_get_matrix(self), mud::mat4);
     },
     set: function(matrix) {
         var self = this.ptr;
         /* matrix <mat4> [] */
+        matrix = matrix.ptr;
         _glTFNode_set_matrix(self, matrix);
     }
 });
 Object.defineProperty(glTFNode.prototype, "translation", {
     get: function() {
         var self = this.ptr;
-        return _glTFNode_get_translation(self);
+        return wrapPointer(_glTFNode_get_translation(self), mud::vec3);
     },
     set: function(translation) {
         var self = this.ptr;
         /* translation <vec3> [] */
+        translation = translation.ptr;
         _glTFNode_set_translation(self, translation);
     }
 });
 Object.defineProperty(glTFNode.prototype, "rotation", {
     get: function() {
         var self = this.ptr;
-        return _glTFNode_get_rotation(self);
+        return wrapPointer(_glTFNode_get_rotation(self), mud::quat);
     },
     set: function(rotation) {
         var self = this.ptr;
         /* rotation <quat> [] */
+        rotation = rotation.ptr;
         _glTFNode_set_rotation(self, rotation);
     }
 });
 Object.defineProperty(glTFNode.prototype, "scale", {
     get: function() {
         var self = this.ptr;
-        return _glTFNode_get_scale(self);
+        return wrapPointer(_glTFNode_get_scale(self), mud::vec3);
     },
     set: function(scale) {
         var self = this.ptr;
         /* scale <vec3> [] */
+        scale = scale.ptr;
         _glTFNode_set_scale(self, scale);
     }
 });
 Object.defineProperty(glTFNode.prototype, "children", {
     get: function() {
         var self = this.ptr;
-        return _glTFNode_get_children(self);
+        return wrapPointer(_glTFNode_get_children(self), std::vector<int>);
     },
     set: function(children) {
         var self = this.ptr;
         /* children <std::vector<int>> [] */
+        children = children.ptr;
         _glTFNode_set_children(self, children);
     }
 });
@@ -1334,11 +1372,12 @@ Module['glTFPrimitive'] = glTFPrimitive;
 Object.defineProperty(glTFPrimitive.prototype, "attributes", {
     get: function() {
         var self = this.ptr;
-        return _glTFPrimitive_get_attributes(self);
+        return wrapPointer(_glTFPrimitive_get_attributes(self), glTFAttributes);
     },
     set: function(attributes) {
         var self = this.ptr;
         /* attributes <glTFAttributes> [] */
+        attributes = attributes.ptr;
         _glTFPrimitive_set_attributes(self, attributes);
     }
 });
@@ -1372,17 +1411,19 @@ Object.defineProperty(glTFPrimitive.prototype, "mode", {
     set: function(mode) {
         var self = this.ptr;
         /* mode <glTFPrimitiveType> [] */
+        if (mode && typeof mode === "object") mode = mode.ptr;
         _glTFPrimitive_set_mode(self, mode);
     }
 });
 Object.defineProperty(glTFPrimitive.prototype, "targets", {
     get: function() {
         var self = this.ptr;
-        return _glTFPrimitive_get_targets(self);
+        return wrapPointer(_glTFPrimitive_get_targets(self), std::vector<glTFMorphTarget>);
     },
     set: function(targets) {
         var self = this.ptr;
         /* targets <std::vector<glTFMorphTarget>> [] */
+        targets = targets.ptr;
         _glTFPrimitive_set_targets(self, targets);
     }
 });
@@ -1487,11 +1528,12 @@ Object.defineProperty(glTFScene.prototype, "name", {
 Object.defineProperty(glTFScene.prototype, "nodes", {
     get: function() {
         var self = this.ptr;
-        return _glTFScene_get_nodes(self);
+        return wrapPointer(_glTFScene_get_nodes(self), std::vector<int>);
     },
     set: function(nodes) {
         var self = this.ptr;
         /* nodes <std::vector<int>> [] */
+        nodes = nodes.ptr;
         _glTFScene_set_nodes(self, nodes);
     }
 });
@@ -1536,11 +1578,12 @@ Object.defineProperty(glTFSkin.prototype, "skeleton", {
 Object.defineProperty(glTFSkin.prototype, "joints", {
     get: function() {
         var self = this.ptr;
-        return _glTFSkin_get_joints(self);
+        return wrapPointer(_glTFSkin_get_joints(self), std::vector<int>);
     },
     set: function(joints) {
         var self = this.ptr;
         /* joints <std::vector<int>> [] */
+        joints = joints.ptr;
         _glTFSkin_set_joints(self, joints);
     }
 });
@@ -1583,22 +1626,24 @@ Object.defineProperty(glTFSparse.prototype, "count", {
 Object.defineProperty(glTFSparse.prototype, "indices", {
     get: function() {
         var self = this.ptr;
-        return _glTFSparse_get_indices(self);
+        return wrapPointer(_glTFSparse_get_indices(self), glTFSparseIndices);
     },
     set: function(indices) {
         var self = this.ptr;
         /* indices <glTFSparseIndices> [] */
+        indices = indices.ptr;
         _glTFSparse_set_indices(self, indices);
     }
 });
 Object.defineProperty(glTFSparse.prototype, "values", {
     get: function() {
         var self = this.ptr;
-        return _glTFSparse_get_values(self);
+        return wrapPointer(_glTFSparse_get_values(self), glTFSparseValues);
     },
     set: function(values) {
         var self = this.ptr;
         /* values <glTFSparseValues> [] */
+        values = values.ptr;
         _glTFSparse_set_values(self, values);
     }
 });
@@ -1646,6 +1691,7 @@ Object.defineProperty(glTFSparseIndices.prototype, "component_type", {
     set: function(component_type) {
         var self = this.ptr;
         /* component_type <glTFComponentType> [] */
+        if (component_type && typeof component_type === "object") component_type = component_type.ptr;
         _glTFSparseIndices_set_component_type(self, component_type);
     }
 });

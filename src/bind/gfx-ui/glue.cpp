@@ -29,14 +29,15 @@ extern "C" {
 		delete self;
 	}
 	// OrbitController
-	void EMSCRIPTEN_KEEPALIVE OrbitController_set_eye_1(mud::OrbitController* self, const quat rotation) {
+	void EMSCRIPTEN_KEEPALIVE OrbitController_set_eye_1(mud::OrbitController* self, const mud::quat* rotation) {
 		self->set_eye(*rotation);
 	}
-	void EMSCRIPTEN_KEEPALIVE OrbitController_set_target_1(mud::OrbitController* self, const vec3 position) {
+	void EMSCRIPTEN_KEEPALIVE OrbitController_set_target_1(mud::OrbitController* self, const mud::vec3* position) {
 		self->set_target(*position);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE OrbitController_get_position(mud::OrbitController* self) {
-		return self->m_position;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE OrbitController_get_position(mud::OrbitController* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_position, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE OrbitController_get_yaw(mud::OrbitController* self) {
 		return self->m_yaw;
@@ -59,17 +60,20 @@ extern "C" {
 		delete self;
 	}
 	// Viewer
-	Scene EMSCRIPTEN_KEEPALIVE Viewer_get_scene(mud::Viewer* self) {
+	mud::Scene* EMSCRIPTEN_KEEPALIVE Viewer_get_scene(mud::Viewer* self) {
 		return self->m_scene;
 	}
-	Viewport EMSCRIPTEN_KEEPALIVE Viewer_get_viewport(mud::Viewer* self) {
-		return self->m_viewport;
+	mud::Viewport* EMSCRIPTEN_KEEPALIVE Viewer_get_viewport(mud::Viewer* self) {
+		static mud::Viewport temp;
+		return (temp = &self->m_viewport, &temp);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE Viewer_get_position(mud::Viewer* self) {
-		return self->m_position;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE Viewer_get_position(mud::Viewer* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_position, &temp);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE Viewer_get_size(mud::Viewer* self) {
-		return self->m_size;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE Viewer_get_size(mud::Viewer* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_size, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Viewer___destroy__(mud::Viewer* self) {
 		delete self;

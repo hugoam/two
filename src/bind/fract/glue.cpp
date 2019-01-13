@@ -20,14 +20,16 @@ extern "C" {
 	mud::Circlifier* EMSCRIPTEN_KEEPALIVE Circlifier_Circlifier_0() {
 		return new mud::Circlifier();
 	}
-	mud::Circlifier* EMSCRIPTEN_KEEPALIVE Circlifier_Circlifier_1(Image256 image) {
+	mud::Circlifier* EMSCRIPTEN_KEEPALIVE Circlifier_Circlifier_1(mud::Image256* image) {
 		return new mud::Circlifier(*image);
 	}
-	std::vector<mud::Circle> EMSCRIPTEN_KEEPALIVE Circlifier_compute_1(mud::Circlifier* self, const Colour colour) {
-		return self->compute(*colour, scale);
+	std::vector<mud::Circle>* EMSCRIPTEN_KEEPALIVE Circlifier_compute_1(mud::Circlifier* self, const mud::Colour* colour) {
+		static std::vector<mud::Circle> temp;
+		return (temp = self->compute(*colour, scale), &temp);
 	}
-	std::vector<mud::Circle> EMSCRIPTEN_KEEPALIVE Circlifier_compute_2(mud::Circlifier* self, const Colour colour, float scale) {
-		return self->compute(*colour, scale);
+	std::vector<mud::Circle>* EMSCRIPTEN_KEEPALIVE Circlifier_compute_2(mud::Circlifier* self, const mud::Colour* colour, float scale) {
+		static std::vector<mud::Circle> temp;
+		return (temp = self->compute(*colour, scale), &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Circlifier___destroy__(mud::Circlifier* self) {
 		delete self;
@@ -48,13 +50,13 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE Fract_regen_0(mud::Fract* self) {
 		self->regen();
 	}
-	void EMSCRIPTEN_KEEPALIVE Fract_render_4(mud::Fract* self, const Rect rect, const Pattern pattern, uvec2 resolution, Image256 output_image) {
+	void EMSCRIPTEN_KEEPALIVE Fract_render_4(mud::Fract* self, const mud::Rect* rect, const mud::Pattern* pattern, mud::uvec2* resolution, mud::Image256* output_image) {
 		self->render(*rect, *pattern, resolution, *output_image);
 	}
-	void EMSCRIPTEN_KEEPALIVE Fract_render_whole_3(mud::Fract* self, const Pattern pattern, uvec2 resolution, Image256 output_image) {
+	void EMSCRIPTEN_KEEPALIVE Fract_render_whole_3(mud::Fract* self, const mud::Pattern* pattern, mud::uvec2* resolution, mud::Image256* output_image) {
 		self->render_whole(*pattern, resolution, *output_image);
 	}
-	void EMSCRIPTEN_KEEPALIVE Fract_render_grid_4(mud::Fract* self, uvec2 size, const Pattern pattern, uvec2 resolution, std::vector<mud::Image256> output_images) {
+	void EMSCRIPTEN_KEEPALIVE Fract_render_grid_4(mud::Fract* self, mud::uvec2* size, const mud::Pattern* pattern, mud::uvec2* resolution, std::vector<mud::Image256>* output_images) {
 		self->render_grid(size, *pattern, resolution, *output_images);
 	}
 	size_t EMSCRIPTEN_KEEPALIVE Fract_get_nutabs(mud::Fract* self) {
@@ -64,20 +66,22 @@ extern "C" {
 		delete self;
 	}
 	// FractSample
-	mud::FractSample* EMSCRIPTEN_KEEPALIVE FractSample_FractSample_3(Fract fract, const Rect rect, uvec2 resolution) {
+	mud::FractSample* EMSCRIPTEN_KEEPALIVE FractSample_FractSample_3(mud::Fract* fract, const mud::Rect* rect, mud::uvec2* resolution) {
 		return new mud::FractSample(*fract, *rect, resolution);
 	}
-	void EMSCRIPTEN_KEEPALIVE FractSample_render_2(mud::FractSample* self, const Pattern pattern, Image256 outputImage) {
+	void EMSCRIPTEN_KEEPALIVE FractSample_render_2(mud::FractSample* self, const mud::Pattern* pattern, mud::Image256* outputImage) {
 		self->render(*pattern, *outputImage);
 	}
-	Fract EMSCRIPTEN_KEEPALIVE FractSample_get_fract(mud::FractSample* self) {
-		return self->m_fract;
+	mud::Fract* EMSCRIPTEN_KEEPALIVE FractSample_get_fract(mud::FractSample* self) {
+		return &&self->m_fract;
 	}
-	Rect EMSCRIPTEN_KEEPALIVE FractSample_get_rect(mud::FractSample* self) {
-		return self->m_rect;
+	mud::Rect* EMSCRIPTEN_KEEPALIVE FractSample_get_rect(mud::FractSample* self) {
+		static mud::Rect temp;
+		return (temp = &self->m_rect, &temp);
 	}
-	uvec2 EMSCRIPTEN_KEEPALIVE FractSample_get_resolution(mud::FractSample* self) {
-		return self->m_resolution;
+	mud::uvec2* EMSCRIPTEN_KEEPALIVE FractSample_get_resolution(mud::FractSample* self) {
+		static mud::uvec2 temp;
+		return (temp = &self->m_resolution, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE FractSample___destroy__(mud::FractSample* self) {
 		delete self;
@@ -93,13 +97,13 @@ extern "C" {
 	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_0() {
 		return new mud::Pattern();
 	}
-	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_2(Palette palette, PatternSampling sampling) {
+	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_2(mud::Palette* palette, mud::PatternSampling sampling) {
 		return new mud::Pattern(palette, sampling, precision, step);
 	}
-	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_3(Palette palette, PatternSampling sampling, float precision) {
+	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_3(mud::Palette* palette, mud::PatternSampling sampling, float precision) {
 		return new mud::Pattern(palette, sampling, precision, step);
 	}
-	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_4(Palette palette, PatternSampling sampling, float precision, size_t step) {
+	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_4(mud::Palette* palette, mud::PatternSampling sampling, float precision, size_t step) {
 		return new mud::Pattern(palette, sampling, precision, step);
 	}
 	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_0() {

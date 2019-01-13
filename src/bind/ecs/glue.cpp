@@ -16,38 +16,41 @@ extern "C" {
 			  }
 	}
 	// Complex
-	mud::Complex* EMSCRIPTEN_KEEPALIVE Complex_Complex_2(mud::Id id, Type type) {
+	mud::Complex* EMSCRIPTEN_KEEPALIVE Complex_Complex_2(mud::Id id, mud::Type* type) {
 		return new mud::Complex(id, *type);
 	}
-	mud::Complex* EMSCRIPTEN_KEEPALIVE Complex_Complex_3(mud::Id id, Type type, const std::vector<mud::Ref> parts) {
+	mud::Complex* EMSCRIPTEN_KEEPALIVE Complex_Complex_3(mud::Id id, mud::Type* type, const std::vector<mud::Ref>* parts) {
 		return new mud::Complex(id, *type, *parts);
 	}
-	void EMSCRIPTEN_KEEPALIVE Complex_setup_1(mud::Complex* self, const std::vector<mud::Ref> parts) {
+	void EMSCRIPTEN_KEEPALIVE Complex_setup_1(mud::Complex* self, const std::vector<mud::Ref>* parts) {
 		self->setup(*parts);
 	}
-	void EMSCRIPTEN_KEEPALIVE Complex_add_part_1(mud::Complex* self, Ref part) {
+	void EMSCRIPTEN_KEEPALIVE Complex_add_part_1(mud::Complex* self, mud::Ref* part) {
 		self->add_part(part);
 	}
-	bool EMSCRIPTEN_KEEPALIVE Complex_has_part_1(mud::Complex* self, Type type) {
+	bool EMSCRIPTEN_KEEPALIVE Complex_has_part_1(mud::Complex* self, mud::Type* type) {
 		return self->has_part(*type);
 	}
-	Ref EMSCRIPTEN_KEEPALIVE Complex_part_1(mud::Complex* self, Type type) {
-		return self->part(*type);
+	mud::Ref* EMSCRIPTEN_KEEPALIVE Complex_part_1(mud::Complex* self, mud::Type* type) {
+		static mud::Ref temp;
+		return (temp = self->part(*type), &temp);
 	}
-	Ref EMSCRIPTEN_KEEPALIVE Complex_try_part_1(mud::Complex* self, Type type) {
-		return self->try_part(*type);
+	mud::Ref* EMSCRIPTEN_KEEPALIVE Complex_try_part_1(mud::Complex* self, mud::Type* type) {
+		static mud::Ref temp;
+		return (temp = self->try_part(*type), &temp);
 	}
 	mud::Id EMSCRIPTEN_KEEPALIVE Complex_get_id(mud::Complex* self) {
 		return self->m_id;
 	}
-	Type EMSCRIPTEN_KEEPALIVE Complex_get_type(mud::Complex* self) {
-		return self->m_type;
+	mud::Type* EMSCRIPTEN_KEEPALIVE Complex_get_type(mud::Complex* self) {
+		return &&self->m_type;
 	}
-	Prototype EMSCRIPTEN_KEEPALIVE Complex_get_prototype(mud::Complex* self) {
-		return self->m_prototype;
+	mud::Prototype* EMSCRIPTEN_KEEPALIVE Complex_get_prototype(mud::Complex* self) {
+		return &&self->m_prototype;
 	}
-	std::vector<mud::Ref> EMSCRIPTEN_KEEPALIVE Complex_get_parts(mud::Complex* self) {
-		return self->m_parts;
+	std::vector<mud::Ref>* EMSCRIPTEN_KEEPALIVE Complex_get_parts(mud::Complex* self) {
+		static std::vector<mud::Ref> temp;
+		return (temp = &self->m_parts, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Complex___destroy__(mud::Complex* self) {
 		delete self;

@@ -49,11 +49,13 @@ extern "C" {
 	std::string EMSCRIPTEN_KEEPALIVE Tileset_get_name(mud::Tileset* self) {
 		return self->m_name;
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Tileset_get_tile_size(mud::Tileset* self) {
-		return self->m_tile_size;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Tileset_get_tile_size(mud::Tileset* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_tile_size, &temp);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Tileset_get_tile_scale(mud::Tileset* self) {
-		return self->m_tile_scale;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Tileset_get_tile_scale(mud::Tileset* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_tile_scale, &temp);
 	}
 	uint16_t EMSCRIPTEN_KEEPALIVE Tileset_get_nutiles(mud::Tileset* self) {
 		return self->m_num_tiles;
@@ -65,8 +67,9 @@ extern "C" {
 	mud::Wave* EMSCRIPTEN_KEEPALIVE Wave_Wave_0() {
 		return new mud::Wave();
 	}
-	Result EMSCRIPTEN_KEEPALIVE Wave_solve_1(mud::Wave* self, size_t limit) {
-		return self->solve(limit);
+	mud::Result EMSCRIPTEN_KEEPALIVE Wave_solve_1(mud::Wave* self, size_t limit) {
+		static mud::Result temp;
+		return (temp = self->solve(limit), &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Wave___destroy__(mud::Wave* self) {
 		delete self;
@@ -75,7 +78,7 @@ extern "C" {
 	mud::TileWave* EMSCRIPTEN_KEEPALIVE TileWave_TileWave_0() {
 		return new mud::TileWave();
 	}
-	mud::TileWave* EMSCRIPTEN_KEEPALIVE TileWave_TileWave_5(WaveTileset tileset, uint16_t width, uint16_t height, uint16_t depth, bool periodic) {
+	mud::TileWave* EMSCRIPTEN_KEEPALIVE TileWave_TileWave_5(mud::WaveTileset* tileset, uint16_t width, uint16_t height, uint16_t depth, bool periodic) {
 		return new mud::TileWave(*tileset, width, height, depth, periodic);
 	}
 	void EMSCRIPTEN_KEEPALIVE TileWave___destroy__(mud::TileWave* self) {

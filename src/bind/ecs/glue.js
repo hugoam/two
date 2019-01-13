@@ -7,7 +7,9 @@ function Complex(id, type, parts) {
     var self = this.ptr;
     /* id <mud::Id> [] */
     /* type <Type> [] */
+    type = type.ptr;
     /* parts <std::vector<mud::Ref>> [] */
+    parts = parts.ptr;
     if (parts === undefined) { this.ptr = _Complex_Complex_2(self, id, type); getCache(Complex)[this.ptr] = this; return; }
     this.ptr = _Complex_Complex_3(self, id, type, parts); getCache(Complex)[this.ptr] = this;
 };
@@ -18,23 +20,28 @@ Complex.__cache__ = {};
 Module['Complex'] = Complex;
 Complex.prototype["add_part"] = Complex.prototype.add_part = function(part) {
     /* part <Ref> [] */
+    part = part.ptr;
     _Complex_add_part_1(part);
 };
 Complex.prototype["has_part"] = Complex.prototype.has_part = function(type) {
     /* type <Type> [] */
+    type = type.ptr;
     return !!(_Complex_has_part_1(type));
 };
 Complex.prototype["part"] = Complex.prototype.part = function(type) {
     /* type <Type> [] */
-    return _Complex_part_1(type);
+    type = type.ptr;
+    return wrapPointer(_Complex_part_1(type), mud::Ref);
 };
 Complex.prototype["setup"] = Complex.prototype.setup = function(parts) {
     /* parts <std::vector<mud::Ref>> [] */
+    parts = parts.ptr;
     _Complex_setup_1(parts);
 };
 Complex.prototype["try_part"] = Complex.prototype.try_part = function(type) {
     /* type <Type> [] */
-    return _Complex_try_part_1(type);
+    type = type.ptr;
+    return wrapPointer(_Complex_try_part_1(type), mud::Ref);
 };
 Object.defineProperty(Complex.prototype, "id", {
     get: function() {
@@ -50,33 +57,36 @@ Object.defineProperty(Complex.prototype, "id", {
 Object.defineProperty(Complex.prototype, "type", {
     get: function() {
         var self = this.ptr;
-        return _Complex_get_type(self);
+        return wrapPointer(_Complex_get_type(self), mud::Type);
     },
     set: function(type) {
         var self = this.ptr;
         /* type <Type> [] */
+        type = type.ptr;
         _Complex_set_type(self, type);
     }
 });
 Object.defineProperty(Complex.prototype, "prototype", {
     get: function() {
         var self = this.ptr;
-        return _Complex_get_prototype(self);
+        return wrapPointer(_Complex_get_prototype(self), mud::Prototype);
     },
     set: function(prototype) {
         var self = this.ptr;
         /* prototype <Prototype> [] */
+        prototype = prototype.ptr;
         _Complex_set_prototype(self, prototype);
     }
 });
 Object.defineProperty(Complex.prototype, "parts", {
     get: function() {
         var self = this.ptr;
-        return _Complex_get_parts(self);
+        return wrapPointer(_Complex_get_parts(self), std::vector<mud::Ref>);
     },
     set: function(parts) {
         var self = this.ptr;
         /* parts <std::vector<mud::Ref>> [] */
+        parts = parts.ptr;
         _Complex_set_parts(self, parts);
     }
 });

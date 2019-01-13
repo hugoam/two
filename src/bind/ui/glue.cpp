@@ -33,8 +33,9 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE Clipboard_get_line_mode(mud::Clipboard* self) {
 		return self->m_line_mode;
 	}
-	std::vector<std::string> EMSCRIPTEN_KEEPALIVE Clipboard_get_pasted(mud::Clipboard* self) {
-		return self->m_pasted;
+	std::vector<std::string>* EMSCRIPTEN_KEEPALIVE Clipboard_get_pasted(mud::Clipboard* self) {
+		static std::vector<std::string> temp;
+		return (temp = &self->m_pasted, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Clipboard___destroy__(mud::Clipboard* self) {
 		delete self;
@@ -54,11 +55,13 @@ extern "C" {
 	mud::Gradient* EMSCRIPTEN_KEEPALIVE Gradient_Gradient_0() {
 		return new mud::Gradient();
 	}
-	Colour EMSCRIPTEN_KEEPALIVE Gradient_get_start(mud::Gradient* self) {
-		return self->m_start;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Gradient_get_start(mud::Gradient* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_start, &temp);
 	}
-	Colour EMSCRIPTEN_KEEPALIVE Gradient_get_end(mud::Gradient* self) {
-		return self->m_end;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Gradient_get_end(mud::Gradient* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_end, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Gradient___destroy__(mud::Gradient* self) {
 		delete self;
@@ -71,16 +74,16 @@ extern "C" {
 	mud::ImageSkin* EMSCRIPTEN_KEEPALIVE ImageSkin_ImageSkin_0() {
 		return new mud::ImageSkin();
 	}
-	mud::ImageSkin* EMSCRIPTEN_KEEPALIVE ImageSkin_ImageSkin_5(Image image, int left, int top, int right, int bottom) {
+	mud::ImageSkin* EMSCRIPTEN_KEEPALIVE ImageSkin_ImageSkin_5(mud::Image* image, int left, int top, int right, int bottom) {
 		return new mud::ImageSkin(*image, left, top, right, bottom, margin, stretch);
 	}
-	mud::ImageSkin* EMSCRIPTEN_KEEPALIVE ImageSkin_ImageSkin_6(Image image, int left, int top, int right, int bottom, int margin) {
+	mud::ImageSkin* EMSCRIPTEN_KEEPALIVE ImageSkin_ImageSkin_6(mud::Image* image, int left, int top, int right, int bottom, int margin) {
 		return new mud::ImageSkin(*image, left, top, right, bottom, margin, stretch);
 	}
-	mud::ImageSkin* EMSCRIPTEN_KEEPALIVE ImageSkin_ImageSkin_7(Image image, int left, int top, int right, int bottom, int margin, Dim stretch) {
+	mud::ImageSkin* EMSCRIPTEN_KEEPALIVE ImageSkin_ImageSkin_7(mud::Image* image, int left, int top, int right, int bottom, int margin, mud::Dim stretch) {
 		return new mud::ImageSkin(*image, left, top, right, bottom, margin, stretch);
 	}
-	Image EMSCRIPTEN_KEEPALIVE ImageSkin_get_d_image(mud::ImageSkin* self) {
+	mud::Image* EMSCRIPTEN_KEEPALIVE ImageSkin_get_d_image(mud::ImageSkin* self) {
 		return self->d_image;
 	}
 	int EMSCRIPTEN_KEEPALIVE ImageSkin_get_d_left(mud::ImageSkin* self) {
@@ -98,8 +101,9 @@ extern "C" {
 	int EMSCRIPTEN_KEEPALIVE ImageSkin_get_margin(mud::ImageSkin* self) {
 		return self->m_margin;
 	}
-	Dim EMSCRIPTEN_KEEPALIVE ImageSkin_get_d_stretch(mud::ImageSkin* self) {
-		return self->d_stretch;
+	mud::Dim EMSCRIPTEN_KEEPALIVE ImageSkin_get_d_stretch(mud::ImageSkin* self) {
+		static mud::Dim temp;
+		return (temp = &self->d_stretch, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE ImageSkin___destroy__(mud::ImageSkin* self) {
 		delete self;
@@ -120,17 +124,21 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE InkStyle_get_empty(mud::InkStyle* self) {
 		return self->m_empty;
 	}
-	Colour EMSCRIPTEN_KEEPALIVE InkStyle_get_background_colour(mud::InkStyle* self) {
-		return self->m_background_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE InkStyle_get_background_colour(mud::InkStyle* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_background_colour, &temp);
 	}
-	Colour EMSCRIPTEN_KEEPALIVE InkStyle_get_border_colour(mud::InkStyle* self) {
-		return self->m_border_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE InkStyle_get_border_colour(mud::InkStyle* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_border_colour, &temp);
 	}
-	Colour EMSCRIPTEN_KEEPALIVE InkStyle_get_image_colour(mud::InkStyle* self) {
-		return self->m_image_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE InkStyle_get_image_colour(mud::InkStyle* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_image_colour, &temp);
 	}
-	Colour EMSCRIPTEN_KEEPALIVE InkStyle_get_text_colour(mud::InkStyle* self) {
-		return self->m_text_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE InkStyle_get_text_colour(mud::InkStyle* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_text_colour, &temp);
 	}
 	std::string EMSCRIPTEN_KEEPALIVE InkStyle_get_text_font(mud::InkStyle* self) {
 		return self->m_text_font;
@@ -144,46 +152,55 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE InkStyle_get_text_wrap(mud::InkStyle* self) {
 		return self->m_text_wrap;
 	}
-	vec4 EMSCRIPTEN_KEEPALIVE InkStyle_get_border_width(mud::InkStyle* self) {
-		return self->m_border_width;
+	mud::vec4* EMSCRIPTEN_KEEPALIVE InkStyle_get_border_width(mud::InkStyle* self) {
+		static mud::vec4 temp;
+		return (temp = &self->m_border_width, &temp);
 	}
-	vec4 EMSCRIPTEN_KEEPALIVE InkStyle_get_corner_radius(mud::InkStyle* self) {
-		return self->m_corner_radius;
+	mud::vec4* EMSCRIPTEN_KEEPALIVE InkStyle_get_corner_radius(mud::InkStyle* self) {
+		static mud::vec4 temp;
+		return (temp = &self->m_corner_radius, &temp);
 	}
 	bool EMSCRIPTEN_KEEPALIVE InkStyle_get_weak_corners(mud::InkStyle* self) {
 		return self->m_weak_corners;
 	}
-	vec4 EMSCRIPTEN_KEEPALIVE InkStyle_get_padding(mud::InkStyle* self) {
-		return self->m_padding;
+	mud::vec4* EMSCRIPTEN_KEEPALIVE InkStyle_get_padding(mud::InkStyle* self) {
+		static mud::vec4 temp;
+		return (temp = &self->m_padding, &temp);
 	}
-	vec4 EMSCRIPTEN_KEEPALIVE InkStyle_get_margin(mud::InkStyle* self) {
-		return self->m_margin;
+	mud::vec4* EMSCRIPTEN_KEEPALIVE InkStyle_get_margin(mud::InkStyle* self) {
+		static mud::vec4 temp;
+		return (temp = &self->m_margin, &temp);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE InkStyle_get_linear_gradient(mud::InkStyle* self) {
-		return self->m_linear_gradient;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE InkStyle_get_linear_gradient(mud::InkStyle* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_linear_gradient, &temp);
 	}
-	Dim EMSCRIPTEN_KEEPALIVE InkStyle_get_linear_gradient_dim(mud::InkStyle* self) {
-		return self->m_linear_gradient_dim;
+	mud::Dim EMSCRIPTEN_KEEPALIVE InkStyle_get_linear_gradient_dim(mud::InkStyle* self) {
+		static mud::Dim temp;
+		return (temp = &self->m_linear_gradient_dim, &temp);
 	}
-	Image EMSCRIPTEN_KEEPALIVE InkStyle_get_image(mud::InkStyle* self) {
+	mud::Image* EMSCRIPTEN_KEEPALIVE InkStyle_get_image(mud::InkStyle* self) {
 		return self->m_image;
 	}
-	Image EMSCRIPTEN_KEEPALIVE InkStyle_get_overlay(mud::InkStyle* self) {
+	mud::Image* EMSCRIPTEN_KEEPALIVE InkStyle_get_overlay(mud::InkStyle* self) {
 		return self->m_overlay;
 	}
-	Image EMSCRIPTEN_KEEPALIVE InkStyle_get_tile(mud::InkStyle* self) {
+	mud::Image* EMSCRIPTEN_KEEPALIVE InkStyle_get_tile(mud::InkStyle* self) {
 		return self->m_tile;
 	}
-	ImageSkin EMSCRIPTEN_KEEPALIVE InkStyle_get_image_skin(mud::InkStyle* self) {
-		return self->m_image_skin;
+	mud::ImageSkin* EMSCRIPTEN_KEEPALIVE InkStyle_get_image_skin(mud::InkStyle* self) {
+		static mud::ImageSkin temp;
+		return (temp = &self->m_image_skin, &temp);
 	}
-	Shadow EMSCRIPTEN_KEEPALIVE InkStyle_get_shadow(mud::InkStyle* self) {
-		return self->m_shadow;
+	mud::Shadow* EMSCRIPTEN_KEEPALIVE InkStyle_get_shadow(mud::InkStyle* self) {
+		static mud::Shadow temp;
+		return (temp = &self->m_shadow, &temp);
 	}
-	Colour EMSCRIPTEN_KEEPALIVE InkStyle_get_shadow_colour(mud::InkStyle* self) {
-		return self->m_shadow_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE InkStyle_get_shadow_colour(mud::InkStyle* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_shadow_colour, &temp);
 	}
-	Style EMSCRIPTEN_KEEPALIVE InkStyle_get_hover_cursor(mud::InkStyle* self) {
+	mud::Style* EMSCRIPTEN_KEEPALIVE InkStyle_get_hover_cursor(mud::InkStyle* self) {
 		return self->m_hover_cursor;
 	}
 	void EMSCRIPTEN_KEEPALIVE InkStyle___destroy__(mud::InkStyle* self) {
@@ -206,35 +223,45 @@ extern "C" {
 	std::string EMSCRIPTEN_KEEPALIVE Layout_get_name(mud::Layout* self) {
 		return self->m_name;
 	}
-	LayoutSolver EMSCRIPTEN_KEEPALIVE Layout_get_solver(mud::Layout* self) {
-		return self->m_solver;
+	mud::LayoutSolver EMSCRIPTEN_KEEPALIVE Layout_get_solver(mud::Layout* self) {
+		static mud::LayoutSolver temp;
+		return (temp = &self->m_solver, &temp);
 	}
-	Flow EMSCRIPTEN_KEEPALIVE Layout_get_flow(mud::Layout* self) {
-		return self->m_flow;
+	mud::Flow EMSCRIPTEN_KEEPALIVE Layout_get_flow(mud::Layout* self) {
+		static mud::Flow temp;
+		return (temp = &self->m_flow, &temp);
 	}
-	Space EMSCRIPTEN_KEEPALIVE Layout_get_space(mud::Layout* self) {
-		return self->m_space;
+	mud::Space* EMSCRIPTEN_KEEPALIVE Layout_get_space(mud::Layout* self) {
+		static mud::Space temp;
+		return (temp = &self->m_space, &temp);
 	}
-	Clipping EMSCRIPTEN_KEEPALIVE Layout_get_clipping(mud::Layout* self) {
-		return self->m_clipping;
+	mud::Clipping EMSCRIPTEN_KEEPALIVE Layout_get_clipping(mud::Layout* self) {
+		static mud::Clipping temp;
+		return (temp = &self->m_clipping, &temp);
 	}
-	Opacity EMSCRIPTEN_KEEPALIVE Layout_get_opacity(mud::Layout* self) {
-		return self->m_opacity;
+	mud::Opacity EMSCRIPTEN_KEEPALIVE Layout_get_opacity(mud::Layout* self) {
+		static mud::Opacity temp;
+		return (temp = &self->m_opacity, &temp);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE Layout_get_span(mud::Layout* self) {
-		return self->m_span;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE Layout_get_span(mud::Layout* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_span, &temp);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE Layout_get_size(mud::Layout* self) {
-		return self->m_size;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE Layout_get_size(mud::Layout* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_size, &temp);
 	}
-	vec4 EMSCRIPTEN_KEEPALIVE Layout_get_padding(mud::Layout* self) {
-		return self->m_padding;
+	mud::vec4* EMSCRIPTEN_KEEPALIVE Layout_get_padding(mud::Layout* self) {
+		static mud::vec4 temp;
+		return (temp = &self->m_padding, &temp);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE Layout_get_margin(mud::Layout* self) {
-		return self->m_margin;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE Layout_get_margin(mud::Layout* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_margin, &temp);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE Layout_get_spacing(mud::Layout* self) {
-		return self->m_spacing;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE Layout_get_spacing(mud::Layout* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_spacing, &temp);
 	}
 	int EMSCRIPTEN_KEEPALIVE Layout_get_zorder(mud::Layout* self) {
 		return self->m_zorder;
@@ -242,11 +269,13 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE Layout_get_no_grid(mud::Layout* self) {
 		return self->m_no_grid;
 	}
-	std::vector<mud::Space> EMSCRIPTEN_KEEPALIVE Layout_get_grid_division(mud::Layout* self) {
-		return self->m_grid_division;
+	std::vector<mud::Space>* EMSCRIPTEN_KEEPALIVE Layout_get_grid_division(mud::Layout* self) {
+		static std::vector<mud::Space> temp;
+		return (temp = &self->m_grid_division, &temp);
 	}
-	std::vector<float> EMSCRIPTEN_KEEPALIVE Layout_get_table_division(mud::Layout* self) {
-		return self->m_table_division;
+	std::vector<float>* EMSCRIPTEN_KEEPALIVE Layout_get_table_division(mud::Layout* self) {
+		static std::vector<float> temp;
+		return (temp = &self->m_table_division, &temp);
 	}
 	size_t EMSCRIPTEN_KEEPALIVE Layout_get_updated(mud::Layout* self) {
 		return self->m_updated;
@@ -265,11 +294,13 @@ extern "C" {
 	mud::Paint* EMSCRIPTEN_KEEPALIVE Paint_Paint_0() {
 		return new mud::Paint();
 	}
-	Colour EMSCRIPTEN_KEEPALIVE Paint_get_fill_colour(mud::Paint* self) {
-		return self->m_fill_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Paint_get_fill_colour(mud::Paint* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_fill_colour, &temp);
 	}
-	Colour EMSCRIPTEN_KEEPALIVE Paint_get_stroke_colour(mud::Paint* self) {
-		return self->m_stroke_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Paint_get_stroke_colour(mud::Paint* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_stroke_colour, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE Paint_get_stroke_width(mud::Paint* self) {
 		return self->m_stroke_width;
@@ -284,7 +315,7 @@ extern "C" {
 	mud::Shadow* EMSCRIPTEN_KEEPALIVE Shadow_Shadow_4(float xpos, float ypos, float blur, float spread) {
 		return new mud::Shadow(xpos, ypos, blur, spread, colour);
 	}
-	mud::Shadow* EMSCRIPTEN_KEEPALIVE Shadow_Shadow_5(float xpos, float ypos, float blur, float spread, Colour colour) {
+	mud::Shadow* EMSCRIPTEN_KEEPALIVE Shadow_Shadow_5(float xpos, float ypos, float blur, float spread, mud::Colour* colour) {
 		return new mud::Shadow(xpos, ypos, blur, spread, colour);
 	}
 	mud::Shadow* EMSCRIPTEN_KEEPALIVE Shadow_Shadow_0() {
@@ -302,8 +333,9 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE Shadow_get_d_spread(mud::Shadow* self) {
 		return self->d_spread;
 	}
-	Colour EMSCRIPTEN_KEEPALIVE Shadow_get_d_colour(mud::Shadow* self) {
-		return self->d_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Shadow_get_d_colour(mud::Shadow* self) {
+		static mud::Colour temp;
+		return (temp = &self->d_colour, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Shadow___destroy__(mud::Shadow* self) {
 		delete self;
@@ -312,30 +344,33 @@ extern "C" {
 	mud::Space* EMSCRIPTEN_KEEPALIVE Space_Space_0() {
 		return new mud::Space();
 	}
-	FlowAxis EMSCRIPTEN_KEEPALIVE Space_get_direction(mud::Space* self) {
-		return self->direction;
+	mud::FlowAxis EMSCRIPTEN_KEEPALIVE Space_get_direction(mud::Space* self) {
+		static mud::FlowAxis temp;
+		return (temp = &self->direction, &temp);
 	}
-	Sizing EMSCRIPTEN_KEEPALIVE Space_get_sizingLength(mud::Space* self) {
-		return self->sizingLength;
+	mud::Sizing EMSCRIPTEN_KEEPALIVE Space_get_sizingLength(mud::Space* self) {
+		static mud::Sizing temp;
+		return (temp = &self->sizingLength, &temp);
 	}
-	Sizing EMSCRIPTEN_KEEPALIVE Space_get_sizingDepth(mud::Space* self) {
-		return self->sizingDepth;
+	mud::Sizing EMSCRIPTEN_KEEPALIVE Space_get_sizingDepth(mud::Space* self) {
+		static mud::Sizing temp;
+		return (temp = &self->sizingDepth, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Space___destroy__(mud::Space* self) {
 		delete self;
 	}
 	// Style
-	Style EMSCRIPTEN_KEEPALIVE Style_get_base(mud::Style* self) {
+	mud::Style* EMSCRIPTEN_KEEPALIVE Style_get_base(mud::Style* self) {
 		return self->m_base;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Style_get_name(mud::Style* self) {
 		return self->name;
 	}
-	Layout EMSCRIPTEN_KEEPALIVE Style_get_layout(mud::Style* self) {
-		return self->layout;
+	mud::Layout* EMSCRIPTEN_KEEPALIVE Style_get_layout(mud::Style* self) {
+		return &&self->layout;
 	}
-	InkStyle EMSCRIPTEN_KEEPALIVE Style_get_skin(mud::Style* self) {
-		return self->skin;
+	mud::InkStyle* EMSCRIPTEN_KEEPALIVE Style_get_skin(mud::Style* self) {
+		return &&self->skin;
 	}
 	void EMSCRIPTEN_KEEPALIVE Style___destroy__(mud::Style* self) {
 		delete self;
@@ -369,8 +404,9 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE TextPaint_get_font(mud::TextPaint* self) {
 		return self->m_font;
 	}
-	Colour EMSCRIPTEN_KEEPALIVE TextPaint_get_colour(mud::TextPaint* self) {
-		return self->m_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE TextPaint_get_colour(mud::TextPaint* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_colour, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE TextPaint_get_size(mud::TextPaint* self) {
 		return self->m_size;
@@ -395,17 +431,21 @@ extern "C" {
 	mud::UiRect* EMSCRIPTEN_KEEPALIVE UiRect_UiRect_0() {
 		return new mud::UiRect();
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE UiRect_get_position(mud::UiRect* self) {
-		return self->m_position;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE UiRect_get_position(mud::UiRect* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_position, &temp);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE UiRect_get_size(mud::UiRect* self) {
-		return self->m_size;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE UiRect_get_size(mud::UiRect* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_size, &temp);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE UiRect_get_content(mud::UiRect* self) {
-		return self->m_content;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE UiRect_get_content(mud::UiRect* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_content, &temp);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE UiRect_get_span(mud::UiRect* self) {
-		return self->m_span;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE UiRect_get_span(mud::UiRect* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_span, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE UiRect_get_scale(mud::UiRect* self) {
 		return self->m_scale;
@@ -459,25 +499,25 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE Widget_closed_0(mud::Widget* self) {
 		return self->closed();
 	}
-	UiWindow EMSCRIPTEN_KEEPALIVE Widget_ui_window_0(mud::Widget* self) {
-		return self->ui_window();
+	mud::UiWindow* EMSCRIPTEN_KEEPALIVE Widget_ui_window_0(mud::Widget* self) {
+		return &self->ui_window();
 	}
-	Ui EMSCRIPTEN_KEEPALIVE Widget_ui_0(mud::Widget* self) {
-		return self->ui();
+	mud::Ui* EMSCRIPTEN_KEEPALIVE Widget_ui_0(mud::Widget* self) {
+		return &self->ui();
 	}
-	Widget EMSCRIPTEN_KEEPALIVE Widget_parent_modal_0(mud::Widget* self) {
-		return self->parent_modal();
+	mud::Widget* EMSCRIPTEN_KEEPALIVE Widget_parent_modal_0(mud::Widget* self) {
+		return &self->parent_modal();
 	}
-	void EMSCRIPTEN_KEEPALIVE Widget_toggle_state_1(mud::Widget* self, WidgetState state) {
+	void EMSCRIPTEN_KEEPALIVE Widget_toggle_state_1(mud::Widget* self, mud::WidgetState state) {
 		self->toggle_state(state);
 	}
-	void EMSCRIPTEN_KEEPALIVE Widget_disable_state_1(mud::Widget* self, WidgetState state) {
+	void EMSCRIPTEN_KEEPALIVE Widget_disable_state_1(mud::Widget* self, mud::WidgetState state) {
 		self->disable_state(state);
 	}
-	void EMSCRIPTEN_KEEPALIVE Widget_set_state_2(mud::Widget* self, WidgetState state, bool enabled) {
+	void EMSCRIPTEN_KEEPALIVE Widget_set_state_2(mud::Widget* self, mud::WidgetState state, bool enabled) {
 		self->set_state(state, enabled);
 	}
-	void EMSCRIPTEN_KEEPALIVE Widget_enable_state_1(mud::Widget* self, WidgetState state) {
+	void EMSCRIPTEN_KEEPALIVE Widget_enable_state_1(mud::Widget* self, mud::WidgetState state) {
 		self->enable_state(state);
 	}
 	void EMSCRIPTEN_KEEPALIVE Widget_clear_focus_0(mud::Widget* self) {
@@ -495,38 +535,49 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE Widget_yield_modal_0(mud::Widget* self) {
 		self->yield_modal();
 	}
-	KeyEvent EMSCRIPTEN_KEEPALIVE Widget_key_event_2(mud::Widget* self, Key code, EventType event_type) {
-		return self->key_event(code, event_type, modifier);
+	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_key_event_2(mud::Widget* self, mud::Key code, mud::EventType event_type) {
+		static mud::KeyEvent temp;
+		return (temp = self->key_event(code, event_type, modifier), &temp);
 	}
-	KeyEvent EMSCRIPTEN_KEEPALIVE Widget_key_event_3(mud::Widget* self, Key code, EventType event_type, InputMod modifier) {
-		return self->key_event(code, event_type, modifier);
+	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_key_event_3(mud::Widget* self, mud::Key code, mud::EventType event_type, mud::InputMod modifier) {
+		static mud::KeyEvent temp;
+		return (temp = self->key_event(code, event_type, modifier), &temp);
 	}
-	KeyEvent EMSCRIPTEN_KEEPALIVE Widget_key_stroke_1(mud::Widget* self, Key code) {
-		return self->key_stroke(code, modifier);
+	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_key_stroke_1(mud::Widget* self, mud::Key code) {
+		static mud::KeyEvent temp;
+		return (temp = self->key_stroke(code, modifier), &temp);
 	}
-	KeyEvent EMSCRIPTEN_KEEPALIVE Widget_key_stroke_2(mud::Widget* self, Key code, InputMod modifier) {
-		return self->key_stroke(code, modifier);
+	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_key_stroke_2(mud::Widget* self, mud::Key code, mud::InputMod modifier) {
+		static mud::KeyEvent temp;
+		return (temp = self->key_stroke(code, modifier), &temp);
 	}
-	KeyEvent EMSCRIPTEN_KEEPALIVE Widget_char_stroke_1(mud::Widget* self, Key code) {
-		return self->char_stroke(code, modifier);
+	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_char_stroke_1(mud::Widget* self, mud::Key code) {
+		static mud::KeyEvent temp;
+		return (temp = self->char_stroke(code, modifier), &temp);
 	}
-	KeyEvent EMSCRIPTEN_KEEPALIVE Widget_char_stroke_2(mud::Widget* self, Key code, InputMod modifier) {
-		return self->char_stroke(code, modifier);
+	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_char_stroke_2(mud::Widget* self, mud::Key code, mud::InputMod modifier) {
+		static mud::KeyEvent temp;
+		return (temp = self->char_stroke(code, modifier), &temp);
 	}
-	MouseEvent EMSCRIPTEN_KEEPALIVE Widget_mouse_event_2(mud::Widget* self, DeviceType device, EventType event_type) {
-		return self->mouse_event(device, event_type, modifier, consume);
+	mud::MouseEvent* EMSCRIPTEN_KEEPALIVE Widget_mouse_event_2(mud::Widget* self, mud::DeviceType device, mud::EventType event_type) {
+		static mud::MouseEvent temp;
+		return (temp = self->mouse_event(device, event_type, modifier, consume), &temp);
 	}
-	MouseEvent EMSCRIPTEN_KEEPALIVE Widget_mouse_event_3(mud::Widget* self, DeviceType device, EventType event_type, InputMod modifier) {
-		return self->mouse_event(device, event_type, modifier, consume);
+	mud::MouseEvent* EMSCRIPTEN_KEEPALIVE Widget_mouse_event_3(mud::Widget* self, mud::DeviceType device, mud::EventType event_type, mud::InputMod modifier) {
+		static mud::MouseEvent temp;
+		return (temp = self->mouse_event(device, event_type, modifier, consume), &temp);
 	}
-	MouseEvent EMSCRIPTEN_KEEPALIVE Widget_mouse_event_4(mud::Widget* self, DeviceType device, EventType event_type, InputMod modifier, bool consume) {
-		return self->mouse_event(device, event_type, modifier, consume);
+	mud::MouseEvent* EMSCRIPTEN_KEEPALIVE Widget_mouse_event_4(mud::Widget* self, mud::DeviceType device, mud::EventType event_type, mud::InputMod modifier, bool consume) {
+		static mud::MouseEvent temp;
+		return (temp = self->mouse_event(device, event_type, modifier, consume), &temp);
 	}
-	Frame EMSCRIPTEN_KEEPALIVE Widget_get_frame(mud::Widget* self) {
-		return self->m_frame;
+	mud::Frame* EMSCRIPTEN_KEEPALIVE Widget_get_frame(mud::Widget* self) {
+		static mud::Frame temp;
+		return (temp = &self->m_frame, &temp);
 	}
-	WidgetState EMSCRIPTEN_KEEPALIVE Widget_get_state(mud::Widget* self) {
-		return self->m_state;
+	mud::WidgetState EMSCRIPTEN_KEEPALIVE Widget_get_state(mud::Widget* self) {
+		static mud::WidgetState temp;
+		return (temp = &self->m_state, &temp);
 	}
 	uint32_t EMSCRIPTEN_KEEPALIVE Widget_get_switch(mud::Widget* self) {
 		return self->m_switch;
@@ -537,7 +588,7 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE Widget_get_open(mud::Widget* self) {
 		return self->m_open;
 	}
-	Widget EMSCRIPTEN_KEEPALIVE Widget_get_body(mud::Widget* self) {
+	mud::Widget* EMSCRIPTEN_KEEPALIVE Widget_get_body(mud::Widget* self) {
 		return self->m_body;
 	}
 	void EMSCRIPTEN_KEEPALIVE Widget___destroy__(mud::Widget* self) {
@@ -604,8 +655,8 @@ extern "C" {
 		delete self;
 	}
 	// Ui
-	Widget EMSCRIPTEN_KEEPALIVE Ui_begin_0(mud::Ui* self) {
-		return self->begin();
+	mud::Widget* EMSCRIPTEN_KEEPALIVE Ui_begin_0(mud::Ui* self) {
+		return &self->begin();
 	}
 	void EMSCRIPTEN_KEEPALIVE Ui___destroy__(mud::Ui* self) {
 		delete self;

@@ -81,11 +81,12 @@ extern "C" {
 	mud::Image256* EMSCRIPTEN_KEEPALIVE Image256_Image256_2(uint16_t width, uint16_t height) {
 		return new mud::Image256(width, height, *palette);
 	}
-	mud::Image256* EMSCRIPTEN_KEEPALIVE Image256_Image256_3(uint16_t width, uint16_t height, const Palette palette) {
+	mud::Image256* EMSCRIPTEN_KEEPALIVE Image256_Image256_3(uint16_t width, uint16_t height, const mud::Palette* palette) {
 		return new mud::Image256(width, height, *palette);
 	}
-	std::vector<uint32_t> EMSCRIPTEN_KEEPALIVE Image256_get_pixels(mud::Image256* self) {
-		return self->m_pixels;
+	std::vector<uint32_t>* EMSCRIPTEN_KEEPALIVE Image256_get_pixels(mud::Image256* self) {
+		static std::vector<uint32_t> temp;
+		return (temp = &self->m_pixels, &temp);
 	}
 	uint16_t EMSCRIPTEN_KEEPALIVE Image256_get_width(mud::Image256* self) {
 		return self->m_width;
@@ -93,8 +94,9 @@ extern "C" {
 	uint16_t EMSCRIPTEN_KEEPALIVE Image256_get_height(mud::Image256* self) {
 		return self->m_height;
 	}
-	Palette EMSCRIPTEN_KEEPALIVE Image256_get_palette(mud::Image256* self) {
-		return self->m_palette;
+	mud::Palette* EMSCRIPTEN_KEEPALIVE Image256_get_palette(mud::Image256* self) {
+		static mud::Palette temp;
+		return (temp = &self->m_palette, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Image256___destroy__(mud::Image256* self) {
 		delete self;
@@ -107,10 +109,10 @@ extern "C" {
 	mud::Palette* EMSCRIPTEN_KEEPALIVE Palette_Palette_0() {
 		return new mud::Palette();
 	}
-	mud::Palette* EMSCRIPTEN_KEEPALIVE Palette_Palette_2(Spectrum spectrum, size_t steps) {
+	mud::Palette* EMSCRIPTEN_KEEPALIVE Palette_Palette_2(mud::Spectrum spectrum, size_t steps) {
 		return new mud::Palette(spectrum, steps);
 	}
-	mud::Palette* EMSCRIPTEN_KEEPALIVE Palette_Palette_1(std::vector<mud::Colour> colours) {
+	mud::Palette* EMSCRIPTEN_KEEPALIVE Palette_Palette_1(std::vector<mud::Colour>* colours) {
 		return new mud::Palette(colours);
 	}
 	mud::Palette* EMSCRIPTEN_KEEPALIVE Palette_Palette_0() {
@@ -149,14 +151,16 @@ extern "C" {
 	mud::TimeSpan* EMSCRIPTEN_KEEPALIVE TimeSpan_TimeSpan_0() {
 		return new mud::TimeSpan();
 	}
-	mud::TimeSpan* EMSCRIPTEN_KEEPALIVE TimeSpan_TimeSpan_2(Time s, Time e) {
+	mud::TimeSpan* EMSCRIPTEN_KEEPALIVE TimeSpan_TimeSpan_2(mud::Time* s, mud::Time* e) {
 		return new mud::TimeSpan(s, e);
 	}
-	Time EMSCRIPTEN_KEEPALIVE TimeSpan_get_start(mud::TimeSpan* self) {
-		return self->start;
+	mud::Time* EMSCRIPTEN_KEEPALIVE TimeSpan_get_start(mud::TimeSpan* self) {
+		static mud::Time temp;
+		return (temp = &self->start, &temp);
 	}
-	Time EMSCRIPTEN_KEEPALIVE TimeSpan_get_end(mud::TimeSpan* self) {
-		return self->end;
+	mud::Time* EMSCRIPTEN_KEEPALIVE TimeSpan_get_end(mud::TimeSpan* self) {
+		static mud::Time temp;
+		return (temp = &self->end, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE TimeSpan___destroy__(mud::TimeSpan* self) {
 		delete self;
@@ -168,17 +172,20 @@ extern "C" {
 	mud::Transform* EMSCRIPTEN_KEEPALIVE Transform_Transform_0() {
 		return new mud::Transform();
 	}
-	mud::Transform* EMSCRIPTEN_KEEPALIVE Transform_Transform_3(const vec3 position, const quat rotation, const vec3 scale) {
+	mud::Transform* EMSCRIPTEN_KEEPALIVE Transform_Transform_3(const mud::vec3* position, const mud::quat* rotation, const mud::vec3* scale) {
 		return new mud::Transform(*position, *rotation, *scale);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Transform_get_position(mud::Transform* self) {
-		return self->m_position;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Transform_get_position(mud::Transform* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_position, &temp);
 	}
-	quat EMSCRIPTEN_KEEPALIVE Transform_get_rotation(mud::Transform* self) {
-		return self->m_rotation;
+	mud::quat* EMSCRIPTEN_KEEPALIVE Transform_get_rotation(mud::Transform* self) {
+		static mud::quat temp;
+		return (temp = &self->m_rotation, &temp);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Transform_get_scale(mud::Transform* self) {
-		return self->m_scale;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Transform_get_scale(mud::Transform* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_scale, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Transform___destroy__(mud::Transform* self) {
 		delete self;
@@ -267,7 +274,7 @@ extern "C" {
 	mud::quat* EMSCRIPTEN_KEEPALIVE quat_quat_4(float w, float x, float y, float z) {
 		return new mud::quat(w, x, y, z);
 	}
-	mud::quat* EMSCRIPTEN_KEEPALIVE quat_quat_1(vec3 euler_angles) {
+	mud::quat* EMSCRIPTEN_KEEPALIVE quat_quat_1(mud::vec3* euler_angles) {
 		return new mud::quat(euler_angles);
 	}
 	float EMSCRIPTEN_KEEPALIVE quat_get_x(mud::quat* self) {

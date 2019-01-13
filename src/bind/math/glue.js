@@ -109,11 +109,12 @@ Module['Image256'] = Image256;
 Object.defineProperty(Image256.prototype, "pixels", {
     get: function() {
         var self = this.ptr;
-        return _Image256_get_pixels(self);
+        return wrapPointer(_Image256_get_pixels(self), std::vector<uint32_t>);
     },
     set: function(pixels) {
         var self = this.ptr;
         /* pixels <std::vector<uint32_t>> [] */
+        pixels = pixels.ptr;
         _Image256_set_pixels(self, pixels);
     }
 });
@@ -142,11 +143,12 @@ Object.defineProperty(Image256.prototype, "height", {
 Object.defineProperty(Image256.prototype, "palette", {
     get: function() {
         var self = this.ptr;
-        return _Image256_get_palette(self);
+        return wrapPointer(_Image256_get_palette(self), mud::Palette);
     },
     set: function(palette) {
         var self = this.ptr;
         /* palette <Palette> [] */
+        palette = palette.ptr;
         _Image256_set_palette(self, palette);
     }
 });
@@ -169,6 +171,7 @@ ImageAtlas.prototype["__destroy__"] = ImageAtlas.prototype.__destroy__ = functio
 function Palette(spectrum, steps) {
     var self = this.ptr;
     /* spectrum <Spectrum> [] */
+    if (spectrum && typeof spectrum === "object") spectrum = spectrum.ptr;
     /* steps <size_t> [] */
     if (spectrum === undefined) { this.ptr = _Palette_Palette_0(self); getCache(Palette)[this.ptr] = this; return; }
     this.ptr = _Palette_Palette_2(self, spectrum, steps); getCache(Palette)[this.ptr] = this;
@@ -227,7 +230,9 @@ Time.prototype["__destroy__"] = Time.prototype.__destroy__ = function() {
 function TimeSpan(s, e) {
     var self = this.ptr;
     /* s <Time> [] */
+    s = s.ptr;
     /* e <Time> [] */
+    e = e.ptr;
     if (s === undefined) { this.ptr = _TimeSpan_TimeSpan_0(self); getCache(TimeSpan)[this.ptr] = this; return; }
     this.ptr = _TimeSpan_TimeSpan_2(self, s, e); getCache(TimeSpan)[this.ptr] = this;
 };
@@ -239,22 +244,24 @@ Module['TimeSpan'] = TimeSpan;
 Object.defineProperty(TimeSpan.prototype, "start", {
     get: function() {
         var self = this.ptr;
-        return _TimeSpan_get_start(self);
+        return wrapPointer(_TimeSpan_get_start(self), mud::Time);
     },
     set: function(start) {
         var self = this.ptr;
         /* start <Time> [] */
+        start = start.ptr;
         _TimeSpan_set_start(self, start);
     }
 });
 Object.defineProperty(TimeSpan.prototype, "end", {
     get: function() {
         var self = this.ptr;
-        return _TimeSpan_get_end(self);
+        return wrapPointer(_TimeSpan_get_end(self), mud::Time);
     },
     set: function(end) {
         var self = this.ptr;
         /* end <Time> [] */
+        end = end.ptr;
         _TimeSpan_set_end(self, end);
     }
 });
@@ -266,8 +273,11 @@ TimeSpan.prototype["__destroy__"] = TimeSpan.prototype.__destroy__ = function() 
 function Transform(position, rotation, scale) {
     var self = this.ptr;
     /* position <vec3> [] */
+    position = position.ptr;
     /* rotation <quat> [] */
+    rotation = rotation.ptr;
     /* scale <vec3> [] */
+    scale = scale.ptr;
     if (position === undefined) { this.ptr = _Transform_Transform_0(self); getCache(Transform)[this.ptr] = this; return; }
     this.ptr = _Transform_Transform_3(self, position, rotation, scale); getCache(Transform)[this.ptr] = this;
 };
@@ -279,33 +289,36 @@ Module['Transform'] = Transform;
 Object.defineProperty(Transform.prototype, "position", {
     get: function() {
         var self = this.ptr;
-        return _Transform_get_position(self);
+        return wrapPointer(_Transform_get_position(self), mud::vec3);
     },
     set: function(position) {
         var self = this.ptr;
         /* position <vec3> [] */
+        position = position.ptr;
         _Transform_set_position(self, position);
     }
 });
 Object.defineProperty(Transform.prototype, "rotation", {
     get: function() {
         var self = this.ptr;
-        return _Transform_get_rotation(self);
+        return wrapPointer(_Transform_get_rotation(self), mud::quat);
     },
     set: function(rotation) {
         var self = this.ptr;
         /* rotation <quat> [] */
+        rotation = rotation.ptr;
         _Transform_set_rotation(self, rotation);
     }
 });
 Object.defineProperty(Transform.prototype, "scale", {
     get: function() {
         var self = this.ptr;
-        return _Transform_get_scale(self);
+        return wrapPointer(_Transform_get_scale(self), mud::vec3);
     },
     set: function(scale) {
         var self = this.ptr;
         /* scale <vec3> [] */
+        scale = scale.ptr;
         _Transform_set_scale(self, scale);
     }
 });

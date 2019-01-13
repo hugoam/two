@@ -197,22 +197,24 @@ Object.defineProperty(Glow.prototype, "enabled", {
 Object.defineProperty(Glow.prototype, "levels_1_4", {
     get: function() {
         var self = this.ptr;
-        return _Glow_get_levels_1_4(self);
+        return wrapPointer(_Glow_get_levels_1_4(self), mud::vec4);
     },
     set: function(levels_1_4) {
         var self = this.ptr;
         /* levels_1_4 <vec4> [] */
+        levels_1_4 = levels_1_4.ptr;
         _Glow_set_levels_1_4(self, levels_1_4);
     }
 });
 Object.defineProperty(Glow.prototype, "levels_5_8", {
     get: function() {
         var self = this.ptr;
-        return _Glow_get_levels_5_8(self);
+        return wrapPointer(_Glow_get_levels_5_8(self), mud::vec4);
     },
     set: function(levels_5_8) {
         var self = this.ptr;
         /* levels_5_8 <vec4> [] */
+        levels_5_8 = levels_5_8.ptr;
         _Glow_set_levels_5_8(self, levels_5_8);
     }
 });
@@ -332,11 +334,12 @@ Module['ReflectionProbe'] = ReflectionProbe;
 Object.defineProperty(ReflectionProbe.prototype, "node", {
     get: function() {
         var self = this.ptr;
-        return _ReflectionProbe_get_node(self);
+        return wrapPointer(_ReflectionProbe_get_node(self), mud::Node3);
     },
     set: function(node) {
         var self = this.ptr;
         /* node <Node3> [] */
+        node = node.ptr;
         _ReflectionProbe_set_node(self, node);
     }
 });
@@ -365,11 +368,12 @@ Object.defineProperty(ReflectionProbe.prototype, "intensity", {
 Object.defineProperty(ReflectionProbe.prototype, "extents", {
     get: function() {
         var self = this.ptr;
-        return _ReflectionProbe_get_extents(self);
+        return wrapPointer(_ReflectionProbe_get_extents(self), mud::vec3);
     },
     set: function(extents) {
         var self = this.ptr;
         /* extents <vec3> [] */
+        extents = extents.ptr;
         _ReflectionProbe_set_extents(self, extents);
     }
 });
@@ -412,44 +416,48 @@ Module['RenderFilters'] = RenderFilters;
 Object.defineProperty(RenderFilters.prototype, "dof_blur", {
     get: function() {
         var self = this.ptr;
-        return _RenderFilters_get_dof_blur(self);
+        return wrapPointer(_RenderFilters_get_dof_blur(self), mud::DofBlur);
     },
     set: function(dof_blur) {
         var self = this.ptr;
         /* dof_blur <DofBlur> [] */
+        dof_blur = dof_blur.ptr;
         _RenderFilters_set_dof_blur(self, dof_blur);
     }
 });
 Object.defineProperty(RenderFilters.prototype, "glow", {
     get: function() {
         var self = this.ptr;
-        return _RenderFilters_get_glow(self);
+        return wrapPointer(_RenderFilters_get_glow(self), mud::Glow);
     },
     set: function(glow) {
         var self = this.ptr;
         /* glow <Glow> [] */
+        glow = glow.ptr;
         _RenderFilters_set_glow(self, glow);
     }
 });
 Object.defineProperty(RenderFilters.prototype, "bcs", {
     get: function() {
         var self = this.ptr;
-        return _RenderFilters_get_bcs(self);
+        return wrapPointer(_RenderFilters_get_bcs(self), mud::BCS);
     },
     set: function(bcs) {
         var self = this.ptr;
         /* bcs <BCS> [] */
+        bcs = bcs.ptr;
         _RenderFilters_set_bcs(self, bcs);
     }
 });
 Object.defineProperty(RenderFilters.prototype, "tonemap", {
     get: function() {
         var self = this.ptr;
-        return _RenderFilters_get_tonemap(self);
+        return wrapPointer(_RenderFilters_get_tonemap(self), mud::Tonemap);
     },
     set: function(tonemap) {
         var self = this.ptr;
         /* tonemap <Tonemap> [] */
+        tonemap = tonemap.ptr;
         _RenderFilters_set_tonemap(self, tonemap);
     }
 });
@@ -475,6 +483,7 @@ Object.defineProperty(Tonemap.prototype, "mode", {
     set: function(mode) {
         var self = this.ptr;
         /* mode <TonemapMode> [] */
+        if (mode && typeof mode === "object") mode = mode.ptr;
         _Tonemap_set_mode(self, mode);
     }
 });

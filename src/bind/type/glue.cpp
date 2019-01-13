@@ -14,18 +14,19 @@ extern "C" {
 			  }
 	}
 	// Index
-	Indexer EMSCRIPTEN_KEEPALIVE Index_indexer_1(mud::Index* self, Type type) {
-		return self->indexer(*type);
+	mud::Indexer* EMSCRIPTEN_KEEPALIVE Index_indexer_1(mud::Index* self, mud::Type* type) {
+		return &self->indexer(*type);
 	}
 	void EMSCRIPTEN_KEEPALIVE Index___destroy__(mud::Index* self) {
 		delete self;
 	}
 	// Indexer
-	Type EMSCRIPTEN_KEEPALIVE Indexer_get_type(mud::Indexer* self) {
-		return self->m_type;
+	mud::Type* EMSCRIPTEN_KEEPALIVE Indexer_get_type(mud::Indexer* self) {
+		return &&self->m_type;
 	}
-	std::vector<mud::Ref> EMSCRIPTEN_KEEPALIVE Indexer_get_objects(mud::Indexer* self) {
-		return self->m_objects;
+	std::vector<mud::Ref>* EMSCRIPTEN_KEEPALIVE Indexer_get_objects(mud::Indexer* self) {
+		static std::vector<mud::Ref> temp;
+		return (temp = &self->m_objects, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Indexer___destroy__(mud::Indexer* self) {
 		delete self;
@@ -44,7 +45,7 @@ extern "C" {
 	size_t EMSCRIPTEN_KEEPALIVE Type_get_size(mud::Type* self) {
 		return self->m_size;
 	}
-	Type EMSCRIPTEN_KEEPALIVE Type_get_base(mud::Type* self) {
+	mud::Type* EMSCRIPTEN_KEEPALIVE Type_get_base(mud::Type* self) {
 		return self->m_base;
 	}
 	void EMSCRIPTEN_KEEPALIVE Type___destroy__(mud::Type* self) {

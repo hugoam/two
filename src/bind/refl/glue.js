@@ -6,7 +6,9 @@ function WrapperObject() {
 function Call(callable, arguments) {
     var self = this.ptr;
     /* callable <Callable> [] */
+    callable = callable.ptr;
     /* arguments <std::vector<mud::Var>> [] */
+    arguments = arguments.ptr;
     if (callable === undefined) { this.ptr = _Call_Call_0(self); getCache(Call)[this.ptr] = this; return; }
     this.ptr = _Call_Call_2(self, callable, arguments); getCache(Call)[this.ptr] = this;
 };
@@ -18,22 +20,24 @@ Module['Call'] = Call;
 Object.defineProperty(Call.prototype, "arguments", {
     get: function() {
         var self = this.ptr;
-        return _Call_get_arguments(self);
+        return wrapPointer(_Call_get_arguments(self), std::vector<mud::Var>);
     },
     set: function(arguments) {
         var self = this.ptr;
         /* arguments <std::vector<mud::Var>> [] */
+        arguments = arguments.ptr;
         _Call_set_arguments(self, arguments);
     }
 });
 Object.defineProperty(Call.prototype, "result", {
     get: function() {
         var self = this.ptr;
-        return _Call_get_result(self);
+        return wrapPointer(_Call_get_result(self), mud::Var);
     },
     set: function(result) {
         var self = this.ptr;
         /* result <Var> [] */
+        result = result.ptr;
         _Call_set_result(self, result);
     }
 });
@@ -84,11 +88,12 @@ Module['Creator'] = Creator;
 Object.defineProperty(Creator.prototype, "type", {
     get: function() {
         var self = this.ptr;
-        return _Creator_get_type(self);
+        return wrapPointer(_Creator_get_type(self), mud::Type);
     },
     set: function(type) {
         var self = this.ptr;
         /* type <Type> [] */
+        type = type.ptr;
         _Creator_set_type(self, type);
     }
 });
@@ -106,22 +111,24 @@ Object.defineProperty(Creator.prototype, "construct", {
 Object.defineProperty(Creator.prototype, "prototype", {
     get: function() {
         var self = this.ptr;
-        return _Creator_get_prototype(self);
+        return wrapPointer(_Creator_get_prototype(self), mud::Type);
     },
     set: function(prototype) {
         var self = this.ptr;
         /* prototype <Type> [] */
+        prototype = prototype.ptr;
         _Creator_set_prototype(self, prototype);
     }
 });
 Object.defineProperty(Creator.prototype, "injector", {
     get: function() {
         var self = this.ptr;
-        return _Creator_get_injector(self);
+        return wrapPointer(_Creator_get_injector(self), mud::Injector);
     },
     set: function(injector) {
         var self = this.ptr;
         /* injector <Injector> [] */
+        injector = injector.ptr;
         _Creator_set_injector(self, injector);
     }
 });
@@ -177,33 +184,36 @@ Object.defineProperty(Module.prototype, "name", {
 Object.defineProperty(Module.prototype, "deps", {
     get: function() {
         var self = this.ptr;
-        return _Module_get_deps(self);
+        return wrapPointer(_Module_get_deps(self), std::vector<mud::Module*>);
     },
     set: function(deps) {
         var self = this.ptr;
         /* deps <std::vector<mud::Module*>> [] */
+        deps = deps.ptr;
         _Module_set_deps(self, deps);
     }
 });
 Object.defineProperty(Module.prototype, "types", {
     get: function() {
         var self = this.ptr;
-        return _Module_get_types(self);
+        return wrapPointer(_Module_get_types(self), std::vector<mud::Type*>);
     },
     set: function(types) {
         var self = this.ptr;
         /* types <std::vector<mud::Type*>> [] */
+        types = types.ptr;
         _Module_set_types(self, types);
     }
 });
 Object.defineProperty(Module.prototype, "functions", {
     get: function() {
         var self = this.ptr;
-        return _Module_get_functions(self);
+        return wrapPointer(_Module_get_functions(self), std::vector<mud::Function*>);
     },
     set: function(functions) {
         var self = this.ptr;
         /* functions <std::vector<mud::Function*>> [] */
+        functions = functions.ptr;
         _Module_set_functions(self, functions);
     }
 });
@@ -240,22 +250,24 @@ Module['Operator'] = Operator;
 Object.defineProperty(Operator.prototype, "function", {
     get: function() {
         var self = this.ptr;
-        return _Operator_get_function(self);
+        return wrapPointer(_Operator_get_function(self), mud::Function);
     },
     set: function(function) {
         var self = this.ptr;
         /* function <Function> [] */
+        function = function.ptr;
         _Operator_set_function(self, function);
     }
 });
 Object.defineProperty(Operator.prototype, "type", {
     get: function() {
         var self = this.ptr;
-        return _Operator_get_type(self);
+        return wrapPointer(_Operator_get_type(self), mud::Type);
     },
     set: function(type) {
         var self = this.ptr;
         /* type <Type> [] */
+        type = type.ptr;
         _Operator_set_type(self, type);
     }
 });
@@ -316,33 +328,36 @@ Module['System'] = System;
 Object.defineProperty(System.prototype, "modules", {
     get: function() {
         var self = this.ptr;
-        return _System_get_modules(self);
+        return wrapPointer(_System_get_modules(self), std::vector<mud::Module*>);
     },
     set: function(modules) {
         var self = this.ptr;
         /* modules <std::vector<mud::Module*>> [] */
+        modules = modules.ptr;
         _System_set_modules(self, modules);
     }
 });
 Object.defineProperty(System.prototype, "types", {
     get: function() {
         var self = this.ptr;
-        return _System_get_types(self);
+        return wrapPointer(_System_get_types(self), std::vector<mud::Type*>);
     },
     set: function(types) {
         var self = this.ptr;
         /* types <std::vector<mud::Type*>> [] */
+        types = types.ptr;
         _System_set_types(self, types);
     }
 });
 Object.defineProperty(System.prototype, "functions", {
     get: function() {
         var self = this.ptr;
-        return _System_get_functions(self);
+        return wrapPointer(_System_get_functions(self), std::vector<mud::Function*>);
     },
     set: function(functions) {
         var self = this.ptr;
         /* functions <std::vector<mud::Function*>> [] */
+        functions = functions.ptr;
         _System_set_functions(self, functions);
     }
 });

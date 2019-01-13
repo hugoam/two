@@ -11,7 +11,8 @@ Index.__cache__ = {};
 Module['Index'] = Index;
 Index.prototype["indexer"] = Index.prototype.indexer = function(type) {
     /* type <Type> [] */
-    return _Index_indexer_1(type);
+    type = type.ptr;
+    return wrapPointer(_Index_indexer_1(type), mud::Indexer);
 };
 Index.prototype["__destroy__"] = Index.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -27,22 +28,24 @@ Module['Indexer'] = Indexer;
 Object.defineProperty(Indexer.prototype, "type", {
     get: function() {
         var self = this.ptr;
-        return _Indexer_get_type(self);
+        return wrapPointer(_Indexer_get_type(self), mud::Type);
     },
     set: function(type) {
         var self = this.ptr;
         /* type <Type> [] */
+        type = type.ptr;
         _Indexer_set_type(self, type);
     }
 });
 Object.defineProperty(Indexer.prototype, "objects", {
     get: function() {
         var self = this.ptr;
-        return _Indexer_get_objects(self);
+        return wrapPointer(_Indexer_get_objects(self), std::vector<mud::Ref>);
     },
     set: function(objects) {
         var self = this.ptr;
         /* objects <std::vector<mud::Ref>> [] */
+        objects = objects.ptr;
         _Indexer_set_objects(self, objects);
     }
 });
@@ -98,11 +101,12 @@ Object.defineProperty(Type.prototype, "size", {
 Object.defineProperty(Type.prototype, "base", {
     get: function() {
         var self = this.ptr;
-        return _Type_get_base(self);
+        return wrapPointer(_Type_get_base(self), mud::Type);
     },
     set: function(base) {
         var self = this.ptr;
         /* base <Type> [] */
+        base = base.ptr;
         _Type_set_base(self, base);
     }
 });

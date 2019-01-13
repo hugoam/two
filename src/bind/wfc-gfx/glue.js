@@ -20,9 +20,13 @@ TileModel.prototype["__destroy__"] = TileModel.prototype.__destroy__ = function(
 function WfcBlock(position, size, scale, tileset, auto_solve) {
     var self = this.ptr;
     /* position <vec3> [] */
+    position = position.ptr;
     /* size <uvec3> [] */
+    size = size.ptr;
     /* scale <vec3> [] */
+    scale = scale.ptr;
     /* tileset <WaveTileset> [] */
+    tileset = tileset.ptr;
     /* auto_solve <bool> [] */
     if (position === undefined) { this.ptr = _WfcBlock_WfcBlock_0(self); getCache(WfcBlock)[this.ptr] = this; return; }
     if (auto_solve === undefined) { this.ptr = _WfcBlock_WfcBlock_4(self, position, size, scale, tileset); getCache(WfcBlock)[this.ptr] = this; return; }
@@ -49,49 +53,54 @@ WfcBlock.prototype["solve"] = WfcBlock.prototype.solve = function(limit) {
 };
 WfcBlock.prototype["update"] = WfcBlock.prototype.update = function(wave) {
     /* wave <Wave> [] */
+    wave = wave.ptr;
     _WfcBlock_update_1(wave);
 };
 Object.defineProperty(WfcBlock.prototype, "position", {
     get: function() {
         var self = this.ptr;
-        return _WfcBlock_get_position(self);
+        return wrapPointer(_WfcBlock_get_position(self), mud::vec3);
     },
     set: function(position) {
         var self = this.ptr;
         /* position <vec3> [] */
+        position = position.ptr;
         _WfcBlock_set_position(self, position);
     }
 });
 Object.defineProperty(WfcBlock.prototype, "size", {
     get: function() {
         var self = this.ptr;
-        return _WfcBlock_get_size(self);
+        return wrapPointer(_WfcBlock_get_size(self), mud::uvec3);
     },
     set: function(size) {
         var self = this.ptr;
         /* size <uvec3> [] */
+        size = size.ptr;
         _WfcBlock_set_size(self, size);
     }
 });
 Object.defineProperty(WfcBlock.prototype, "scale", {
     get: function() {
         var self = this.ptr;
-        return _WfcBlock_get_scale(self);
+        return wrapPointer(_WfcBlock_get_scale(self), mud::vec3);
     },
     set: function(scale) {
         var self = this.ptr;
         /* scale <vec3> [] */
+        scale = scale.ptr;
         _WfcBlock_set_scale(self, scale);
     }
 });
 Object.defineProperty(WfcBlock.prototype, "aabb", {
     get: function() {
         var self = this.ptr;
-        return _WfcBlock_get_aabb(self);
+        return wrapPointer(_WfcBlock_get_aabb(self), mud::Aabb);
     },
     set: function(aabb) {
         var self = this.ptr;
         /* aabb <Aabb> [] */
+        aabb = aabb.ptr;
         _WfcBlock_set_aabb(self, aabb);
     }
 });

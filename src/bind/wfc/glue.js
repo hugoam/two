@@ -99,22 +99,24 @@ Object.defineProperty(Tileset.prototype, "name", {
 Object.defineProperty(Tileset.prototype, "tile_size", {
     get: function() {
         var self = this.ptr;
-        return _Tileset_get_tile_size(self);
+        return wrapPointer(_Tileset_get_tile_size(self), mud::vec3);
     },
     set: function(tile_size) {
         var self = this.ptr;
         /* tile_size <vec3> [] */
+        tile_size = tile_size.ptr;
         _Tileset_set_tile_size(self, tile_size);
     }
 });
 Object.defineProperty(Tileset.prototype, "tile_scale", {
     get: function() {
         var self = this.ptr;
-        return _Tileset_get_tile_scale(self);
+        return wrapPointer(_Tileset_get_tile_scale(self), mud::vec3);
     },
     set: function(tile_scale) {
         var self = this.ptr;
         /* tile_scale <vec3> [] */
+        tile_scale = tile_scale.ptr;
         _Tileset_set_tile_scale(self, tile_scale);
     }
 });
@@ -155,6 +157,7 @@ Wave.prototype["__destroy__"] = Wave.prototype.__destroy__ = function() {
 function TileWave(tileset, width, height, depth, periodic) {
     var self = this.ptr;
     /* tileset <WaveTileset> [] */
+    tileset = tileset.ptr;
     /* width <uint16_t> [] */
     /* height <uint16_t> [] */
     /* depth <uint16_t> [] */

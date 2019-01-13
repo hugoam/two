@@ -21,6 +21,7 @@ Animated.prototype["pause"] = Animated.prototype.pause = function() {
 };
 Animated.prototype["play"] = Animated.prototype.play = function(animation, loop, blend, speed, transient) {
     /* animation <Animation> [] */
+    animation = animation.ptr;
     /* loop <bool> [] */
     /* blend <float> [] */
     /* speed <float> [] */
@@ -57,22 +58,24 @@ Animated.prototype["stop"] = Animated.prototype.stop = function() {
 Object.defineProperty(Animated.prototype, "playing", {
     get: function() {
         var self = this.ptr;
-        return _Animated_get_playing(self);
+        return wrapPointer(_Animated_get_playing(self), std::vector<mud::AnimationPlay>);
     },
     set: function(playing) {
         var self = this.ptr;
         /* playing <std::vector<mud::AnimationPlay>> [] */
+        playing = playing.ptr;
         _Animated_set_playing(self, playing);
     }
 });
 Object.defineProperty(Animated.prototype, "queue", {
     get: function() {
         var self = this.ptr;
-        return _Animated_get_queue(self);
+        return wrapPointer(_Animated_get_queue(self), std::vector<mud::Animation*>);
     },
     set: function(queue) {
         var self = this.ptr;
         /* queue <std::vector<mud::Animation*>> [] */
+        queue = queue.ptr;
         _Animated_set_queue(self, queue);
     }
 });
@@ -186,7 +189,7 @@ Module['AnimationPlay'] = AnimationPlay;
 Object.defineProperty(AnimationPlay.prototype, "animation", {
     get: function() {
         var self = this.ptr;
-        return _AnimationPlay_get_animation(self);
+        return wrapPointer(_AnimationPlay_get_animation(self), mud::Animation);
     }});
 Object.defineProperty(AnimationPlay.prototype, "loop", {
     get: function() {
@@ -279,11 +282,12 @@ Module['AnimationTrack'] = AnimationTrack;
 Object.defineProperty(AnimationTrack.prototype, "animation", {
     get: function() {
         var self = this.ptr;
-        return _AnimationTrack_get_animation(self);
+        return wrapPointer(_AnimationTrack_get_animation(self), mud::Animation);
     },
     set: function(animation) {
         var self = this.ptr;
         /* animation <Animation> [] */
+        animation = animation.ptr;
         _AnimationTrack_set_animation(self, animation);
     }
 });
@@ -319,17 +323,19 @@ Object.defineProperty(AnimationTrack.prototype, "target", {
     set: function(target) {
         var self = this.ptr;
         /* target <AnimationTarget> [] */
+        if (target && typeof target === "object") target = target.ptr;
         _AnimationTrack_set_target(self, target);
     }
 });
 Object.defineProperty(AnimationTrack.prototype, "value_type", {
     get: function() {
         var self = this.ptr;
-        return _AnimationTrack_get_value_type(self);
+        return wrapPointer(_AnimationTrack_get_value_type(self), mud::Type);
     },
     set: function(value_type) {
         var self = this.ptr;
         /* value_type <Type> [] */
+        value_type = value_type.ptr;
         _AnimationTrack_set_value_type(self, value_type);
     }
 });
@@ -352,6 +358,7 @@ Object.defineProperty(AnimationTrack.prototype, "interpolation", {
     set: function(interpolation) {
         var self = this.ptr;
         /* interpolation <Interpolation> [] */
+        if (interpolation && typeof interpolation === "object") interpolation = interpolation.ptr;
         _AnimationTrack_set_interpolation(self, interpolation);
     }
 });
@@ -377,28 +384,31 @@ Object.defineProperty(Background.prototype, "mode", {
     set: function(mode) {
         var self = this.ptr;
         /* mode <BackgroundMode> [] */
+        if (mode && typeof mode === "object") mode = mode.ptr;
         _Background_set_mode(self, mode);
     }
 });
 Object.defineProperty(Background.prototype, "colour", {
     get: function() {
         var self = this.ptr;
-        return _Background_get_colour(self);
+        return wrapPointer(_Background_get_colour(self), mud::Colour);
     },
     set: function(colour) {
         var self = this.ptr;
         /* colour <Colour> [] */
+        colour = colour.ptr;
         _Background_set_colour(self, colour);
     }
 });
 Object.defineProperty(Background.prototype, "custoprogram", {
     get: function() {
         var self = this.ptr;
-        return _Background_get_custoprogram(self);
+        return wrapPointer(_Background_get_custoprogram(self), mud::Program);
     },
     set: function(custoprogram) {
         var self = this.ptr;
         /* custoprogram <Program> [] */
+        custoprogram = custoprogram.ptr;
         _Background_set_custoprogram(self, custoprogram);
     }
 });
@@ -424,6 +434,7 @@ Object.defineProperty(BaseMaterialBlock.prototype, "blend_mode", {
     set: function(blend_mode) {
         var self = this.ptr;
         /* blend_mode <BlendMode> [] */
+        if (blend_mode && typeof blend_mode === "object") blend_mode = blend_mode.ptr;
         _BaseMaterialBlock_set_blend_mode(self, blend_mode);
     }
 });
@@ -435,6 +446,7 @@ Object.defineProperty(BaseMaterialBlock.prototype, "cull_mode", {
     set: function(cull_mode) {
         var self = this.ptr;
         /* cull_mode <CullMode> [] */
+        if (cull_mode && typeof cull_mode === "object") cull_mode = cull_mode.ptr;
         _BaseMaterialBlock_set_cull_mode(self, cull_mode);
     }
 });
@@ -446,6 +458,7 @@ Object.defineProperty(BaseMaterialBlock.prototype, "depth_draw_mode", {
     set: function(depth_draw_mode) {
         var self = this.ptr;
         /* depth_draw_mode <DepthDraw> [] */
+        if (depth_draw_mode && typeof depth_draw_mode === "object") depth_draw_mode = depth_draw_mode.ptr;
         _BaseMaterialBlock_set_depth_draw_mode(self, depth_draw_mode);
     }
 });
@@ -457,50 +470,55 @@ Object.defineProperty(BaseMaterialBlock.prototype, "depth_test", {
     set: function(depth_test) {
         var self = this.ptr;
         /* depth_test <DepthTest> [] */
+        if (depth_test && typeof depth_test === "object") depth_test = depth_test.ptr;
         _BaseMaterialBlock_set_depth_test(self, depth_test);
     }
 });
 Object.defineProperty(BaseMaterialBlock.prototype, "uv0_scale", {
     get: function() {
         var self = this.ptr;
-        return _BaseMaterialBlock_get_uv0_scale(self);
+        return wrapPointer(_BaseMaterialBlock_get_uv0_scale(self), mud::vec2);
     },
     set: function(uv0_scale) {
         var self = this.ptr;
         /* uv0_scale <vec2> [] */
+        uv0_scale = uv0_scale.ptr;
         _BaseMaterialBlock_set_uv0_scale(self, uv0_scale);
     }
 });
 Object.defineProperty(BaseMaterialBlock.prototype, "uv0_offset", {
     get: function() {
         var self = this.ptr;
-        return _BaseMaterialBlock_get_uv0_offset(self);
+        return wrapPointer(_BaseMaterialBlock_get_uv0_offset(self), mud::vec2);
     },
     set: function(uv0_offset) {
         var self = this.ptr;
         /* uv0_offset <vec2> [] */
+        uv0_offset = uv0_offset.ptr;
         _BaseMaterialBlock_set_uv0_offset(self, uv0_offset);
     }
 });
 Object.defineProperty(BaseMaterialBlock.prototype, "uv1_scale", {
     get: function() {
         var self = this.ptr;
-        return _BaseMaterialBlock_get_uv1_scale(self);
+        return wrapPointer(_BaseMaterialBlock_get_uv1_scale(self), mud::vec2);
     },
     set: function(uv1_scale) {
         var self = this.ptr;
         /* uv1_scale <vec2> [] */
+        uv1_scale = uv1_scale.ptr;
         _BaseMaterialBlock_set_uv1_scale(self, uv1_scale);
     }
 });
 Object.defineProperty(BaseMaterialBlock.prototype, "uv1_offset", {
     get: function() {
         var self = this.ptr;
-        return _BaseMaterialBlock_get_uv1_offset(self);
+        return wrapPointer(_BaseMaterialBlock_get_uv1_offset(self), mud::vec2);
     },
     set: function(uv1_offset) {
         var self = this.ptr;
         /* uv1_offset <vec2> [] */
+        uv1_offset = uv1_offset.ptr;
         _BaseMaterialBlock_set_uv1_offset(self, uv1_offset);
     }
 });
@@ -543,33 +561,36 @@ Module['Bone'] = Bone;
 Object.defineProperty(Bone.prototype, "position", {
     get: function() {
         var self = this.ptr;
-        return _Bone_get_position(self);
+        return wrapPointer(_Bone_get_position(self), mud::vec3);
     },
     set: function(position) {
         var self = this.ptr;
         /* position <vec3> [] */
+        position = position.ptr;
         _Bone_set_position(self, position);
     }
 });
 Object.defineProperty(Bone.prototype, "rotation", {
     get: function() {
         var self = this.ptr;
-        return _Bone_get_rotation(self);
+        return wrapPointer(_Bone_get_rotation(self), mud::quat);
     },
     set: function(rotation) {
         var self = this.ptr;
         /* rotation <quat> [] */
+        rotation = rotation.ptr;
         _Bone_set_rotation(self, rotation);
     }
 });
 Object.defineProperty(Bone.prototype, "scale", {
     get: function() {
         var self = this.ptr;
-        return _Bone_get_scale(self);
+        return wrapPointer(_Bone_get_scale(self), mud::vec3);
     },
     set: function(scale) {
         var self = this.ptr;
         /* scale <vec3> [] */
+        scale = scale.ptr;
         _Bone_set_scale(self, scale);
     }
 });
@@ -587,44 +608,48 @@ Module['Camera'] = Camera;
 Object.defineProperty(Camera.prototype, "eye", {
     get: function() {
         var self = this.ptr;
-        return _Camera_get_eye(self);
+        return wrapPointer(_Camera_get_eye(self), mud::vec3);
     },
     set: function(eye) {
         var self = this.ptr;
         /* eye <vec3> [] */
+        eye = eye.ptr;
         _Camera_set_eye(self, eye);
     }
 });
 Object.defineProperty(Camera.prototype, "target", {
     get: function() {
         var self = this.ptr;
-        return _Camera_get_target(self);
+        return wrapPointer(_Camera_get_target(self), mud::vec3);
     },
     set: function(target) {
         var self = this.ptr;
         /* target <vec3> [] */
+        target = target.ptr;
         _Camera_set_target(self, target);
     }
 });
 Object.defineProperty(Camera.prototype, "transform", {
     get: function() {
         var self = this.ptr;
-        return _Camera_get_transform(self);
+        return wrapPointer(_Camera_get_transform(self), mud::mat4);
     },
     set: function(transform) {
         var self = this.ptr;
         /* transform <mat4> [] */
+        transform = transform.ptr;
         _Camera_set_transform(self, transform);
     }
 });
 Object.defineProperty(Camera.prototype, "projection", {
     get: function() {
         var self = this.ptr;
-        return _Camera_get_projection(self);
+        return wrapPointer(_Camera_get_projection(self), mud::mat4);
     },
     set: function(projection) {
         var self = this.ptr;
         /* projection <mat4> [] */
+        projection = projection.ptr;
         _Camera_set_projection(self, projection);
     }
 });
@@ -719,11 +744,12 @@ Object.defineProperty(Camera.prototype, "clustered", {
 Object.defineProperty(Camera.prototype, "lod_offsets", {
     get: function() {
         var self = this.ptr;
-        return _Camera_get_lod_offsets(self);
+        return wrapPointer(_Camera_get_lod_offsets(self), mud::vec4);
     },
     set: function(lod_offsets) {
         var self = this.ptr;
         /* lod_offsets <vec4> [] */
+        lod_offsets = lod_offsets.ptr;
         _Camera_set_lod_offsets(self, lod_offsets);
     }
 });
@@ -758,44 +784,48 @@ Module['Environment'] = Environment;
 Object.defineProperty(Environment.prototype, "background", {
     get: function() {
         var self = this.ptr;
-        return _Environment_get_background(self);
+        return wrapPointer(_Environment_get_background(self), mud::Background);
     },
     set: function(background) {
         var self = this.ptr;
         /* background <Background> [] */
+        background = background.ptr;
         _Environment_set_background(self, background);
     }
 });
 Object.defineProperty(Environment.prototype, "radiance", {
     get: function() {
         var self = this.ptr;
-        return _Environment_get_radiance(self);
+        return wrapPointer(_Environment_get_radiance(self), mud::Radiance);
     },
     set: function(radiance) {
         var self = this.ptr;
         /* radiance <Radiance> [] */
+        radiance = radiance.ptr;
         _Environment_set_radiance(self, radiance);
     }
 });
 Object.defineProperty(Environment.prototype, "sun", {
     get: function() {
         var self = this.ptr;
-        return _Environment_get_sun(self);
+        return wrapPointer(_Environment_get_sun(self), mud::Sun);
     },
     set: function(sun) {
         var self = this.ptr;
         /* sun <Sun> [] */
+        sun = sun.ptr;
         _Environment_set_sun(self, sun);
     }
 });
 Object.defineProperty(Environment.prototype, "fog", {
     get: function() {
         var self = this.ptr;
-        return _Environment_get_fog(self);
+        return wrapPointer(_Environment_get_fog(self), mud::Fog);
     },
     set: function(fog) {
         var self = this.ptr;
         /* fog <Fog> [] */
+        fog = fog.ptr;
         _Environment_set_fog(self, fog);
     }
 });
@@ -849,11 +879,12 @@ Object.defineProperty(Fog.prototype, "density", {
 Object.defineProperty(Fog.prototype, "colour", {
     get: function() {
         var self = this.ptr;
-        return _Fog_get_colour(self);
+        return wrapPointer(_Fog_get_colour(self), mud::Colour);
     },
     set: function(colour) {
         var self = this.ptr;
         /* colour <Colour> [] */
+        colour = colour.ptr;
         _Fog_set_colour(self, colour);
     }
 });
@@ -1083,11 +1114,12 @@ Object.defineProperty(Frustum.prototype, "far", {
 Object.defineProperty(Frustum.prototype, "center", {
     get: function() {
         var self = this.ptr;
-        return _Frustum_get_center(self);
+        return wrapPointer(_Frustum_get_center(self), mud::vec3);
     },
     set: function(center) {
         var self = this.ptr;
         /* center <vec3> [] */
+        center = center.ptr;
         _Frustum_set_center(self, center);
     }
 });
@@ -1130,11 +1162,12 @@ Module['GfxBlock'] = GfxBlock;
 Object.defineProperty(GfxBlock.prototype, "type", {
     get: function() {
         var self = this.ptr;
-        return _GfxBlock_get_type(self);
+        return wrapPointer(_GfxBlock_get_type(self), mud::Type);
     },
     set: function(type) {
         var self = this.ptr;
         /* type <Type> [] */
+        type = type.ptr;
         _GfxBlock_set_type(self, type);
     }
 });
@@ -1179,11 +1212,12 @@ GfxSystem.prototype["add_resource_path"] = GfxSystem.prototype.add_resource_path
     _GfxSystem_add_resource_path_1(path);
 };
 GfxSystem.prototype["debug_material"] = GfxSystem.prototype.debug_material = function() {
-    return _GfxSystem_debug_material_0();
+    return wrapPointer(_GfxSystem_debug_material_0(), mud::Material);
 };
 GfxSystem.prototype["fetch_image256_material"] = GfxSystem.prototype.fetch_image256_material = function(image) {
     /* image <Image256> [] */
-    return _GfxSystem_fetch_image256_material_1(image);
+    image = image.ptr;
+    return wrapPointer(_GfxSystem_fetch_image256_material_1(image), mud::Material);
 };
 GfxSystem.prototype["fetch_material"] = GfxSystem.prototype.fetch_material = function(name, shader, builtin) {
     ensureCache.prepare();
@@ -1194,19 +1228,24 @@ GfxSystem.prototype["fetch_material"] = GfxSystem.prototype.fetch_material = fun
     if (shader && typeof shader === "object") shader = shader.ptr;
     else shader = ensureString(shader);
     /* builtin <bool> [] */
-    if (builtin === undefined) { return _GfxSystem_fetch_material_2(name, shader); return; }
-    return _GfxSystem_fetch_material_3(name, shader, builtin);
+    if (builtin === undefined) { return wrapPointer(_GfxSystem_fetch_material_2(name, shader), mud::Material); return; }
+    return wrapPointer(_GfxSystem_fetch_material_3(name, shader, builtin), mud::Material);
 };
 GfxSystem.prototype["fetch_symbol"] = GfxSystem.prototype.fetch_symbol = function(symbol, shape, draw_mode) {
     /* symbol <Symbol> [] */
+    symbol = symbol.ptr;
     /* shape <Shape> [] */
+    shape = shape.ptr;
     /* draw_mode <DrawMode> [] */
-    return _GfxSystem_fetch_symbol_3(symbol, shape, draw_mode);
+    if (draw_mode && typeof draw_mode === "object") draw_mode = draw_mode.ptr;
+    return wrapPointer(_GfxSystem_fetch_symbol_3(symbol, shape, draw_mode), mud::Model);
 };
 GfxSystem.prototype["fetch_symbol_material"] = GfxSystem.prototype.fetch_symbol_material = function(symbol, draw_mode) {
     /* symbol <Symbol> [] */
+    symbol = symbol.ptr;
     /* draw_mode <DrawMode> [] */
-    return _GfxSystem_fetch_symbol_material_2(symbol, draw_mode);
+    if (draw_mode && typeof draw_mode === "object") draw_mode = draw_mode.ptr;
+    return wrapPointer(_GfxSystem_fetch_symbol_material_2(symbol, draw_mode), mud::Material);
 };
 GfxSystem.prototype["__destroy__"] = GfxSystem.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1252,94 +1291,103 @@ Object.defineProperty(ImportConfig.prototype, "format", {
     set: function(format) {
         var self = this.ptr;
         /* format <ModelFormat> [] */
+        if (format && typeof format === "object") format = format.ptr;
         _ImportConfig_set_format(self, format);
     }
 });
 Object.defineProperty(ImportConfig.prototype, "position", {
     get: function() {
         var self = this.ptr;
-        return _ImportConfig_get_position(self);
+        return wrapPointer(_ImportConfig_get_position(self), mud::vec3);
     },
     set: function(position) {
         var self = this.ptr;
         /* position <vec3> [] */
+        position = position.ptr;
         _ImportConfig_set_position(self, position);
     }
 });
 Object.defineProperty(ImportConfig.prototype, "rotation", {
     get: function() {
         var self = this.ptr;
-        return _ImportConfig_get_rotation(self);
+        return wrapPointer(_ImportConfig_get_rotation(self), mud::quat);
     },
     set: function(rotation) {
         var self = this.ptr;
         /* rotation <quat> [] */
+        rotation = rotation.ptr;
         _ImportConfig_set_rotation(self, rotation);
     }
 });
 Object.defineProperty(ImportConfig.prototype, "scale", {
     get: function() {
         var self = this.ptr;
-        return _ImportConfig_get_scale(self);
+        return wrapPointer(_ImportConfig_get_scale(self), mud::vec3);
     },
     set: function(scale) {
         var self = this.ptr;
         /* scale <vec3> [] */
+        scale = scale.ptr;
         _ImportConfig_set_scale(self, scale);
     }
 });
 Object.defineProperty(ImportConfig.prototype, "transform", {
     get: function() {
         var self = this.ptr;
-        return _ImportConfig_get_transform(self);
+        return wrapPointer(_ImportConfig_get_transform(self), mud::mat4);
     },
     set: function(transform) {
         var self = this.ptr;
         /* transform <mat4> [] */
+        transform = transform.ptr;
         _ImportConfig_set_transform(self, transform);
     }
 });
 Object.defineProperty(ImportConfig.prototype, "exclude_elements", {
     get: function() {
         var self = this.ptr;
-        return _ImportConfig_get_exclude_elements(self);
+        return wrapPointer(_ImportConfig_get_exclude_elements(self), std::vector<mud::string>);
     },
     set: function(exclude_elements) {
         var self = this.ptr;
         /* exclude_elements <std::vector<std::string>> [] */
+        exclude_elements = exclude_elements.ptr;
         _ImportConfig_set_exclude_elements(self, exclude_elements);
     }
 });
 Object.defineProperty(ImportConfig.prototype, "exclude_materials", {
     get: function() {
         var self = this.ptr;
-        return _ImportConfig_get_exclude_materials(self);
+        return wrapPointer(_ImportConfig_get_exclude_materials(self), std::vector<mud::string>);
     },
     set: function(exclude_materials) {
         var self = this.ptr;
         /* exclude_materials <std::vector<std::string>> [] */
+        exclude_materials = exclude_materials.ptr;
         _ImportConfig_set_exclude_materials(self, exclude_materials);
     }
 });
 Object.defineProperty(ImportConfig.prototype, "include_elements", {
     get: function() {
         var self = this.ptr;
-        return _ImportConfig_get_include_elements(self);
+        return wrapPointer(_ImportConfig_get_include_elements(self), std::vector<mud::string>);
     },
     set: function(include_elements) {
         var self = this.ptr;
         /* include_elements <std::vector<std::string>> [] */
+        include_elements = include_elements.ptr;
         _ImportConfig_set_include_elements(self, include_elements);
     }
 });
 Object.defineProperty(ImportConfig.prototype, "include_materials", {
     get: function() {
         var self = this.ptr;
-        return _ImportConfig_get_include_materials(self);
+        return wrapPointer(_ImportConfig_get_include_materials(self), std::vector<mud::string>);
     },
     set: function(include_materials) {
         var self = this.ptr;
         /* include_materials <std::vector<std::string>> [] */
+        include_materials = include_materials.ptr;
         _ImportConfig_set_include_materials(self, include_materials);
     }
 });
@@ -1414,22 +1462,24 @@ Module['Item'] = Item;
 Object.defineProperty(Item.prototype, "node", {
     get: function() {
         var self = this.ptr;
-        return _Item_get_node(self);
+        return wrapPointer(_Item_get_node(self), mud::Node3);
     },
     set: function(node) {
         var self = this.ptr;
         /* node <Node3> [] */
+        node = node.ptr;
         _Item_set_node(self, node);
     }
 });
 Object.defineProperty(Item.prototype, "model", {
     get: function() {
         var self = this.ptr;
-        return _Item_get_model(self);
+        return wrapPointer(_Item_get_model(self), mud::Model);
     },
     set: function(model) {
         var self = this.ptr;
         /* model <Model> [] */
+        model = model.ptr;
         _Item_set_model(self, model);
     }
 });
@@ -1447,22 +1497,24 @@ Object.defineProperty(Item.prototype, "flags", {
 Object.defineProperty(Item.prototype, "colour", {
     get: function() {
         var self = this.ptr;
-        return _Item_get_colour(self);
+        return wrapPointer(_Item_get_colour(self), mud::Colour);
     },
     set: function(colour) {
         var self = this.ptr;
         /* colour <Colour> [] */
+        colour = colour.ptr;
         _Item_set_colour(self, colour);
     }
 });
 Object.defineProperty(Item.prototype, "material", {
     get: function() {
         var self = this.ptr;
-        return _Item_get_material(self);
+        return wrapPointer(_Item_get_material(self), mud::Material);
     },
     set: function(material) {
         var self = this.ptr;
         /* material <Material> [] */
+        material = material.ptr;
         _Item_set_material(self, material);
     }
 });
@@ -1485,17 +1537,19 @@ Object.defineProperty(Item.prototype, "shadow", {
     set: function(shadow) {
         var self = this.ptr;
         /* shadow <ItemShadow> [] */
+        if (shadow && typeof shadow === "object") shadow = shadow.ptr;
         _Item_set_shadow(self, shadow);
     }
 });
 Object.defineProperty(Item.prototype, "rig", {
     get: function() {
         var self = this.ptr;
-        return _Item_get_rig(self);
+        return wrapPointer(_Item_get_rig(self), mud::Rig);
     },
     set: function(rig) {
         var self = this.ptr;
         /* rig <Rig> [] */
+        rig = rig.ptr;
         _Item_set_rig(self, rig);
     }
 });
@@ -1527,11 +1581,12 @@ Module['Light'] = Light;
 Object.defineProperty(Light.prototype, "node", {
     get: function() {
         var self = this.ptr;
-        return _Light_get_node(self);
+        return wrapPointer(_Light_get_node(self), mud::Node3);
     },
     set: function(node) {
         var self = this.ptr;
         /* node <Node3> [] */
+        node = node.ptr;
         _Light_set_node(self, node);
     }
 });
@@ -1543,6 +1598,7 @@ Object.defineProperty(Light.prototype, "type", {
     set: function(type) {
         var self = this.ptr;
         /* type <LightType> [] */
+        if (type && typeof type === "object") type = type.ptr;
         _Light_set_type(self, type);
     }
 });
@@ -1560,11 +1616,12 @@ Object.defineProperty(Light.prototype, "visible", {
 Object.defineProperty(Light.prototype, "colour", {
     get: function() {
         var self = this.ptr;
-        return _Light_get_colour(self);
+        return wrapPointer(_Light_get_colour(self), mud::Colour);
     },
     set: function(colour) {
         var self = this.ptr;
         /* colour <Colour> [] */
+        colour = colour.ptr;
         _Light_set_colour(self, colour);
     }
 });
@@ -1626,11 +1683,12 @@ Object.defineProperty(Light.prototype, "shadows", {
 Object.defineProperty(Light.prototype, "shadow_colour", {
     get: function() {
         var self = this.ptr;
-        return _Light_get_shadow_colour(self);
+        return wrapPointer(_Light_get_shadow_colour(self), mud::Colour);
     },
     set: function(shadow_colour) {
         var self = this.ptr;
         /* shadow_colour <Colour> [] */
+        shadow_colour = shadow_colour.ptr;
         _Light_set_shadow_colour(self, shadow_colour);
     }
 });
@@ -1708,6 +1766,7 @@ Object.defineProperty(Light.prototype, "shadow_flags", {
     set: function(shadow_flags) {
         var self = this.ptr;
         /* shadow_flags <ShadowFlags> [] */
+        if (shadow_flags && typeof shadow_flags === "object") shadow_flags = shadow_flags.ptr;
         _Light_set_shadow_flags(self, shadow_flags);
     }
 });
@@ -1791,55 +1850,60 @@ Object.defineProperty(Material.prototype, "builtin", {
 Object.defineProperty(Material.prototype, "program", {
     get: function() {
         var self = this.ptr;
-        return _Material_get_program(self);
+        return wrapPointer(_Material_get_program(self), mud::Program);
     },
     set: function(program) {
         var self = this.ptr;
         /* program <Program> [] */
+        program = program.ptr;
         _Material_set_program(self, program);
     }
 });
 Object.defineProperty(Material.prototype, "base_block", {
     get: function() {
         var self = this.ptr;
-        return _Material_get_base_block(self);
+        return wrapPointer(_Material_get_base_block(self), mud::BaseMaterialBlock);
     },
     set: function(base_block) {
         var self = this.ptr;
         /* base_block <BaseMaterialBlock> [] */
+        base_block = base_block.ptr;
         _Material_set_base_block(self, base_block);
     }
 });
 Object.defineProperty(Material.prototype, "unshaded_block", {
     get: function() {
         var self = this.ptr;
-        return _Material_get_unshaded_block(self);
+        return wrapPointer(_Material_get_unshaded_block(self), mud::UnshadedMaterialBlock);
     },
     set: function(unshaded_block) {
         var self = this.ptr;
         /* unshaded_block <UnshadedMaterialBlock> [] */
+        unshaded_block = unshaded_block.ptr;
         _Material_set_unshaded_block(self, unshaded_block);
     }
 });
 Object.defineProperty(Material.prototype, "pbr_block", {
     get: function() {
         var self = this.ptr;
-        return _Material_get_pbr_block(self);
+        return wrapPointer(_Material_get_pbr_block(self), mud::PbrMaterialBlock);
     },
     set: function(pbr_block) {
         var self = this.ptr;
         /* pbr_block <PbrMaterialBlock> [] */
+        pbr_block = pbr_block.ptr;
         _Material_set_pbr_block(self, pbr_block);
     }
 });
 Object.defineProperty(Material.prototype, "fresnel_block", {
     get: function() {
         var self = this.ptr;
-        return _Material_get_fresnel_block(self);
+        return wrapPointer(_Material_get_fresnel_block(self), mud::FresnelMaterialBlock);
     },
     set: function(fresnel_block) {
         var self = this.ptr;
         /* fresnel_block <FresnelMaterialBlock> [] */
+        fresnel_block = fresnel_block.ptr;
         _Material_set_fresnel_block(self, fresnel_block);
     }
 });
@@ -1886,17 +1950,19 @@ Object.defineProperty(Mesh.prototype, "draw_mode", {
     set: function(draw_mode) {
         var self = this.ptr;
         /* draw_mode <DrawMode> [] */
+        if (draw_mode && typeof draw_mode === "object") draw_mode = draw_mode.ptr;
         _Mesh_set_draw_mode(self, draw_mode);
     }
 });
 Object.defineProperty(Mesh.prototype, "aabb", {
     get: function() {
         var self = this.ptr;
-        return _Mesh_get_aabb(self);
+        return wrapPointer(_Mesh_get_aabb(self), mud::Aabb);
     },
     set: function(aabb) {
         var self = this.ptr;
         /* aabb <Aabb> [] */
+        aabb = aabb.ptr;
         _Mesh_set_aabb(self, aabb);
     }
 });
@@ -1914,11 +1980,12 @@ Object.defineProperty(Mesh.prototype, "radius", {
 Object.defineProperty(Mesh.prototype, "origin", {
     get: function() {
         var self = this.ptr;
-        return _Mesh_get_origin(self);
+        return wrapPointer(_Mesh_get_origin(self), mud::vec3);
     },
     set: function(origin) {
         var self = this.ptr;
         /* origin <vec3> [] */
+        origin = origin.ptr;
         _Mesh_set_origin(self, origin);
     }
 });
@@ -1991,11 +2058,12 @@ Object.defineProperty(Mesh.prototype, "index32", {
 Object.defineProperty(Mesh.prototype, "material", {
     get: function() {
         var self = this.ptr;
-        return _Mesh_get_material(self);
+        return wrapPointer(_Mesh_get_material(self), mud::Material);
     },
     set: function(material) {
         var self = this.ptr;
         /* material <Material> [] */
+        material = material.ptr;
         _Mesh_set_material(self, material);
     }
 });
@@ -2037,11 +2105,12 @@ Object.defineProperty(Model.prototype, "index", {
 Object.defineProperty(Model.prototype, "aabb", {
     get: function() {
         var self = this.ptr;
-        return _Model_get_aabb(self);
+        return wrapPointer(_Model_get_aabb(self), mud::Aabb);
     },
     set: function(aabb) {
         var self = this.ptr;
         /* aabb <Aabb> [] */
+        aabb = aabb.ptr;
         _Model_set_aabb(self, aabb);
     }
 });
@@ -2059,11 +2128,12 @@ Object.defineProperty(Model.prototype, "radius", {
 Object.defineProperty(Model.prototype, "origin", {
     get: function() {
         var self = this.ptr;
-        return _Model_get_origin(self);
+        return wrapPointer(_Model_get_origin(self), mud::vec3);
     },
     set: function(origin) {
         var self = this.ptr;
         /* origin <vec3> [] */
+        origin = origin.ptr;
         _Model_set_origin(self, origin);
     }
 });
@@ -2095,11 +2165,12 @@ Object.defineProperty(ModelItem.prototype, "index", {
 Object.defineProperty(ModelItem.prototype, "mesh", {
     get: function() {
         var self = this.ptr;
-        return _ModelItem_get_mesh(self);
+        return wrapPointer(_ModelItem_get_mesh(self), mud::Mesh);
     },
     set: function(mesh) {
         var self = this.ptr;
         /* mesh <Mesh> [] */
+        mesh = mesh.ptr;
         _ModelItem_set_mesh(self, mesh);
     }
 });
@@ -2117,11 +2188,12 @@ Object.defineProperty(ModelItem.prototype, "has_transform", {
 Object.defineProperty(ModelItem.prototype, "transform", {
     get: function() {
         var self = this.ptr;
-        return _ModelItem_get_transform(self);
+        return wrapPointer(_ModelItem_get_transform(self), mud::mat4);
     },
     set: function(transform) {
         var self = this.ptr;
         /* transform <mat4> [] */
+        transform = transform.ptr;
         _ModelItem_set_transform(self, transform);
     }
 });
@@ -2139,22 +2211,24 @@ Object.defineProperty(ModelItem.prototype, "skin", {
 Object.defineProperty(ModelItem.prototype, "colour", {
     get: function() {
         var self = this.ptr;
-        return _ModelItem_get_colour(self);
+        return wrapPointer(_ModelItem_get_colour(self), mud::Colour);
     },
     set: function(colour) {
         var self = this.ptr;
         /* colour <Colour> [] */
+        colour = colour.ptr;
         _ModelItem_set_colour(self, colour);
     }
 });
 Object.defineProperty(ModelItem.prototype, "material", {
     get: function() {
         var self = this.ptr;
-        return _ModelItem_get_material(self);
+        return wrapPointer(_ModelItem_get_material(self), mud::Material);
     },
     set: function(material) {
         var self = this.ptr;
         /* material <Material> [] */
+        material = material.ptr;
         _ModelItem_set_material(self, material);
     }
 });
@@ -2172,11 +2246,12 @@ Module['Node3'] = Node3;
 Object.defineProperty(Node3.prototype, "scene", {
     get: function() {
         var self = this.ptr;
-        return _Node3_get_scene(self);
+        return wrapPointer(_Node3_get_scene(self), mud::Scene);
     },
     set: function(scene) {
         var self = this.ptr;
         /* scene <Scene> [] */
+        scene = scene.ptr;
         _Node3_set_scene(self, scene);
     }
 });
@@ -2194,11 +2269,12 @@ Object.defineProperty(Node3.prototype, "index", {
 Object.defineProperty(Node3.prototype, "transform", {
     get: function() {
         var self = this.ptr;
-        return _Node3_get_transform(self);
+        return wrapPointer(_Node3_get_transform(self), mud::mat4);
     },
     set: function(transform) {
         var self = this.ptr;
         /* transform <mat4> [] */
+        transform = transform.ptr;
         _Node3_set_transform(self, transform);
     }
 });
@@ -2276,11 +2352,12 @@ Object.defineProperty(ParticleGenerator.prototype, "loop", {
 Object.defineProperty(ParticleGenerator.prototype, "shape", {
     get: function() {
         var self = this.ptr;
-        return _ParticleGenerator_get_shape(self);
+        return wrapPointer(_ParticleGenerator_get_shape(self), mud::ShapeVar);
     },
     set: function(shape) {
         var self = this.ptr;
         /* shape <ShapeVar> [] */
+        shape = shape.ptr;
         _ParticleGenerator_set_shape(self, shape);
     }
 });
@@ -2292,6 +2369,7 @@ Object.defineProperty(ParticleGenerator.prototype, "flow", {
     set: function(flow) {
         var self = this.ptr;
         /* flow <EmitterFlow> [] */
+        if (flow && typeof flow === "object") flow = flow.ptr;
         _ParticleGenerator_set_flow(self, flow);
     }
 });
@@ -2309,22 +2387,24 @@ Object.defineProperty(ParticleGenerator.prototype, "billboard", {
 Object.defineProperty(ParticleGenerator.prototype, "direction", {
     get: function() {
         var self = this.ptr;
-        return _ParticleGenerator_get_direction(self);
+        return wrapPointer(_ParticleGenerator_get_direction(self), mud::vec3);
     },
     set: function(direction) {
         var self = this.ptr;
         /* direction <vec3> [] */
+        direction = direction.ptr;
         _ParticleGenerator_set_direction(self, direction);
     }
 });
 Object.defineProperty(ParticleGenerator.prototype, "rotation", {
     get: function() {
         var self = this.ptr;
-        return _ParticleGenerator_get_rotation(self);
+        return wrapPointer(_ParticleGenerator_get_rotation(self), mud::quat);
     },
     set: function(rotation) {
         var self = this.ptr;
         /* rotation <quat> [] */
+        rotation = rotation.ptr;
         _ParticleGenerator_set_rotation(self, rotation);
     }
 });
@@ -2336,6 +2416,7 @@ Object.defineProperty(ParticleGenerator.prototype, "blend_mode", {
     set: function(blend_mode) {
         var self = this.ptr;
         /* blend_mode <BlendMode> [] */
+        if (blend_mode && typeof blend_mode === "object") blend_mode = blend_mode.ptr;
         _ParticleGenerator_set_blend_mode(self, blend_mode);
     }
 });
@@ -2360,6 +2441,7 @@ ParticleGenerator.prototype["__destroy__"] = ParticleGenerator.prototype.__destr
 function PbrMaterialBlock(albedo, metallic, roughness) {
     var self = this.ptr;
     /* albedo <Colour> [] */
+    albedo = albedo.ptr;
     /* metallic <float> [] */
     /* roughness <float> [] */
     if (albedo === undefined) { this.ptr = _PbrMaterialBlock_PbrMaterialBlock_0(self); getCache(PbrMaterialBlock)[this.ptr] = this; return; }
@@ -2446,6 +2528,7 @@ Object.defineProperty(PbrMaterialBlock.prototype, "diffuse_mode", {
     set: function(diffuse_mode) {
         var self = this.ptr;
         /* diffuse_mode <PbrDiffuseMode> [] */
+        if (diffuse_mode && typeof diffuse_mode === "object") diffuse_mode = diffuse_mode.ptr;
         _PbrMaterialBlock_set_diffuse_mode(self, diffuse_mode);
     }
 });
@@ -2457,6 +2540,7 @@ Object.defineProperty(PbrMaterialBlock.prototype, "specular_mode", {
     set: function(specular_mode) {
         var self = this.ptr;
         /* specular_mode <PbrSpecularMode> [] */
+        if (specular_mode && typeof specular_mode === "object") specular_mode = specular_mode.ptr;
         _PbrMaterialBlock_set_specular_mode(self, specular_mode);
     }
 });
@@ -2539,22 +2623,24 @@ Object.defineProperty(Radiance.prototype, "ambient", {
 Object.defineProperty(Radiance.prototype, "colour", {
     get: function() {
         var self = this.ptr;
-        return _Radiance_get_colour(self);
+        return wrapPointer(_Radiance_get_colour(self), mud::Colour);
     },
     set: function(colour) {
         var self = this.ptr;
         /* colour <Colour> [] */
+        colour = colour.ptr;
         _Radiance_set_colour(self, colour);
     }
 });
 Object.defineProperty(Radiance.prototype, "texture", {
     get: function() {
         var self = this.ptr;
-        return _Radiance_get_texture(self);
+        return wrapPointer(_Radiance_get_texture(self), mud::Texture);
     },
     set: function(texture) {
         var self = this.ptr;
         /* texture <Texture> [] */
+        texture = texture.ptr;
         _Radiance_set_texture(self, texture);
     }
 });
@@ -2609,49 +2695,53 @@ Scene.prototype.__class__ = Scene;
 Scene.__cache__ = {};
 Module['Scene'] = Scene;
 Scene.prototype["begin"] = Scene.prototype.begin = function() {
-    return _Scene_begin_0();
+    return wrapPointer(_Scene_begin_0(), mud::Gnode);
 };
 Object.defineProperty(Scene.prototype, "graph", {
     get: function() {
         var self = this.ptr;
-        return _Scene_get_graph(self);
+        return wrapPointer(_Scene_get_graph(self), mud::Gnode);
     },
     set: function(graph) {
         var self = this.ptr;
         /* graph <Gnode> [] */
+        graph = graph.ptr;
         _Scene_set_graph(self, graph);
     }
 });
 Object.defineProperty(Scene.prototype, "root_node", {
     get: function() {
         var self = this.ptr;
-        return _Scene_get_root_node(self);
+        return wrapPointer(_Scene_get_root_node(self), mud::Node3);
     },
     set: function(root_node) {
         var self = this.ptr;
         /* root_node <Node3> [] */
+        root_node = root_node.ptr;
         _Scene_set_root_node(self, root_node);
     }
 });
 Object.defineProperty(Scene.prototype, "environment", {
     get: function() {
         var self = this.ptr;
-        return _Scene_get_environment(self);
+        return wrapPointer(_Scene_get_environment(self), mud::Environment);
     },
     set: function(environment) {
         var self = this.ptr;
         /* environment <Environment> [] */
+        environment = environment.ptr;
         _Scene_set_environment(self, environment);
     }
 });
 Object.defineProperty(Scene.prototype, "user", {
     get: function() {
         var self = this.ptr;
-        return _Scene_get_user(self);
+        return wrapPointer(_Scene_get_user(self), mud::Ref);
     },
     set: function(user) {
         var self = this.ptr;
         /* user <Ref> [] */
+        user = user.ptr;
         _Scene_set_user(self, user);
     }
 });
@@ -2727,11 +2817,12 @@ Object.defineProperty(Sun.prototype, "elevation", {
 Object.defineProperty(Sun.prototype, "colour", {
     get: function() {
         var self = this.ptr;
-        return _Sun_get_colour(self);
+        return wrapPointer(_Sun_get_colour(self), mud::Colour);
     },
     set: function(colour) {
         var self = this.ptr;
         /* colour <Colour> [] */
+        colour = colour.ptr;
         _Sun_set_colour(self, colour);
     }
 });
@@ -2840,22 +2931,24 @@ Module['Viewport'] = Viewport;
 Object.defineProperty(Viewport.prototype, "camera", {
     get: function() {
         var self = this.ptr;
-        return _Viewport_get_camera(self);
+        return wrapPointer(_Viewport_get_camera(self), mud::Camera);
     },
     set: function(camera) {
         var self = this.ptr;
         /* camera <Camera> [] */
+        camera = camera.ptr;
         _Viewport_set_camera(self, camera);
     }
 });
 Object.defineProperty(Viewport.prototype, "scene", {
     get: function() {
         var self = this.ptr;
-        return _Viewport_get_scene(self);
+        return wrapPointer(_Viewport_get_scene(self), mud::Scene);
     },
     set: function(scene) {
         var self = this.ptr;
         /* scene <Scene> [] */
+        scene = scene.ptr;
         _Viewport_set_scene(self, scene);
     }
 });
@@ -2884,11 +2977,12 @@ Object.defineProperty(Viewport.prototype, "active", {
 Object.defineProperty(Viewport.prototype, "rect", {
     get: function() {
         var self = this.ptr;
-        return _Viewport_get_rect(self);
+        return wrapPointer(_Viewport_get_rect(self), mud::uvec4);
     },
     set: function(rect) {
         var self = this.ptr;
         /* rect <uvec4> [] */
+        rect = rect.ptr;
         _Viewport_set_rect(self, rect);
     }
 });
@@ -2906,11 +3000,12 @@ Object.defineProperty(Viewport.prototype, "scissor", {
 Object.defineProperty(Viewport.prototype, "clear_colour", {
     get: function() {
         var self = this.ptr;
-        return _Viewport_get_clear_colour(self);
+        return wrapPointer(_Viewport_get_clear_colour(self), mud::Colour);
     },
     set: function(clear_colour) {
         var self = this.ptr;
         /* clear_colour <Colour> [] */
+        clear_colour = clear_colour.ptr;
         _Viewport_set_clear_colour(self, clear_colour);
     }
 });
@@ -2922,6 +3017,7 @@ Object.defineProperty(Viewport.prototype, "shading", {
     set: function(shading) {
         var self = this.ptr;
         /* shading <Shading> [] */
+        if (shading && typeof shading === "object") shading = shading.ptr;
         _Viewport_set_shading(self, shading);
     }
 });
@@ -2933,6 +3029,7 @@ Object.defineProperty(Viewport.prototype, "lighting", {
     set: function(lighting) {
         var self = this.ptr;
         /* lighting <Lighting> [] */
+        if (lighting && typeof lighting === "object") lighting = lighting.ptr;
         _Viewport_set_lighting(self, lighting);
     }
 });
@@ -3044,11 +3141,12 @@ Module['Particles'] = Particles;
 Object.defineProperty(Particles.prototype, "node", {
     get: function() {
         var self = this.ptr;
-        return _Particles_get_node(self);
+        return wrapPointer(_Particles_get_node(self), mud::Node3);
     },
     set: function(node) {
         var self = this.ptr;
         /* node <Node3> [] */
+        node = node.ptr;
         _Particles_set_node(self, node);
     }
 });

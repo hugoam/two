@@ -25,24 +25,26 @@ extern "C" {
 		delete self;
 	}
 	// Process
-	Type EMSCRIPTEN_KEEPALIVE Process_get_type(mud::Process* self) {
-		return self->m_type;
+	mud::Type* EMSCRIPTEN_KEEPALIVE Process_get_type(mud::Process* self) {
+		return &&self->m_type;
 	}
 	void EMSCRIPTEN_KEEPALIVE Process___destroy__(mud::Process* self) {
 		delete self;
 	}
 	// ScriptClass
-	mud::ScriptClass* EMSCRIPTEN_KEEPALIVE ScriptClass_ScriptClass_2(const std::string name, const std::vector<mud::Type*> parts) {
+	mud::ScriptClass* EMSCRIPTEN_KEEPALIVE ScriptClass_ScriptClass_2(const std::string name, const std::vector<mud::Type*>* parts) {
 		return new mud::ScriptClass(*name, *parts);
 	}
 	std::string EMSCRIPTEN_KEEPALIVE ScriptClass_get_name(mud::ScriptClass* self) {
 		return self->m_name;
 	}
-	Type EMSCRIPTEN_KEEPALIVE ScriptClass_get_class_type(mud::ScriptClass* self) {
-		return self->m_class_type;
+	mud::Type* EMSCRIPTEN_KEEPALIVE ScriptClass_get_class_type(mud::ScriptClass* self) {
+		static mud::Type temp;
+		return (temp = &self->m_class_type, &temp);
 	}
-	Class EMSCRIPTEN_KEEPALIVE ScriptClass_get_class(mud::ScriptClass* self) {
-		return self->m_class;
+	mud::Class* EMSCRIPTEN_KEEPALIVE ScriptClass_get_class(mud::ScriptClass* self) {
+		static mud::Class temp;
+		return (temp = &self->m_class, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE ScriptClass___destroy__(mud::ScriptClass* self) {
 		delete self;
@@ -67,14 +69,14 @@ extern "C" {
 		delete self;
 	}
 	// ProcessCallable
-	mud::ProcessCallable* EMSCRIPTEN_KEEPALIVE ProcessCallable_ProcessCallable_2(VisualScript script, Callable callable) {
+	mud::ProcessCallable* EMSCRIPTEN_KEEPALIVE ProcessCallable_ProcessCallable_2(mud::VisualScript* script, mud::Callable* callable) {
 		return new mud::ProcessCallable(*script, *callable);
 	}
 	void EMSCRIPTEN_KEEPALIVE ProcessCallable___destroy__(mud::ProcessCallable* self) {
 		delete self;
 	}
 	// ProcessCreate
-	mud::ProcessCreate* EMSCRIPTEN_KEEPALIVE ProcessCreate_ProcessCreate_3(VisualScript script, Type type, const Constructor constructor) {
+	mud::ProcessCreate* EMSCRIPTEN_KEEPALIVE ProcessCreate_ProcessCreate_3(mud::VisualScript* script, mud::Type* type, const mud::Constructor* constructor) {
 		return new mud::ProcessCreate(*script, *type, *constructor);
 	}
 	void EMSCRIPTEN_KEEPALIVE ProcessCreate___destroy__(mud::ProcessCreate* self) {
@@ -85,14 +87,14 @@ extern "C" {
 		delete self;
 	}
 	// ProcessFunction
-	mud::ProcessFunction* EMSCRIPTEN_KEEPALIVE ProcessFunction_ProcessFunction_2(VisualScript script, Function function) {
+	mud::ProcessFunction* EMSCRIPTEN_KEEPALIVE ProcessFunction_ProcessFunction_2(mud::VisualScript* script, mud::Function* function) {
 		return new mud::ProcessFunction(*script, *function);
 	}
 	void EMSCRIPTEN_KEEPALIVE ProcessFunction___destroy__(mud::ProcessFunction* self) {
 		delete self;
 	}
 	// ProcessGetMember
-	mud::ProcessGetMember* EMSCRIPTEN_KEEPALIVE ProcessGetMember_ProcessGetMember_2(VisualScript script, Member member) {
+	mud::ProcessGetMember* EMSCRIPTEN_KEEPALIVE ProcessGetMember_ProcessGetMember_2(mud::VisualScript* script, mud::Member* member) {
 		return new mud::ProcessGetMember(*script, *member);
 	}
 	void EMSCRIPTEN_KEEPALIVE ProcessGetMember___destroy__(mud::ProcessGetMember* self) {
@@ -103,7 +105,7 @@ extern "C" {
 		delete self;
 	}
 	// ProcessMethod
-	mud::ProcessMethod* EMSCRIPTEN_KEEPALIVE ProcessMethod_ProcessMethod_2(VisualScript script, Method method) {
+	mud::ProcessMethod* EMSCRIPTEN_KEEPALIVE ProcessMethod_ProcessMethod_2(mud::VisualScript* script, mud::Method* method) {
 		return new mud::ProcessMethod(*script, *method);
 	}
 	void EMSCRIPTEN_KEEPALIVE ProcessMethod___destroy__(mud::ProcessMethod* self) {
@@ -114,21 +116,21 @@ extern "C" {
 		delete self;
 	}
 	// ProcessScript
-	mud::ProcessScript* EMSCRIPTEN_KEEPALIVE ProcessScript_ProcessScript_2(VisualScript script, VisualScript target) {
+	mud::ProcessScript* EMSCRIPTEN_KEEPALIVE ProcessScript_ProcessScript_2(mud::VisualScript* script, mud::VisualScript* target) {
 		return new mud::ProcessScript(*script, *target);
 	}
 	void EMSCRIPTEN_KEEPALIVE ProcessScript___destroy__(mud::ProcessScript* self) {
 		delete self;
 	}
 	// ProcessSetMember
-	mud::ProcessSetMember* EMSCRIPTEN_KEEPALIVE ProcessSetMember_ProcessSetMember_2(VisualScript script, Member member) {
+	mud::ProcessSetMember* EMSCRIPTEN_KEEPALIVE ProcessSetMember_ProcessSetMember_2(mud::VisualScript* script, mud::Member* member) {
 		return new mud::ProcessSetMember(*script, *member);
 	}
 	void EMSCRIPTEN_KEEPALIVE ProcessSetMember___destroy__(mud::ProcessSetMember* self) {
 		delete self;
 	}
 	// ProcessValue
-	mud::ProcessValue* EMSCRIPTEN_KEEPALIVE ProcessValue_ProcessValue_2(VisualScript script, const Var value) {
+	mud::ProcessValue* EMSCRIPTEN_KEEPALIVE ProcessValue_ProcessValue_2(mud::VisualScript* script, const mud::Var* value) {
 		return new mud::ProcessValue(*script, *value);
 	}
 	void EMSCRIPTEN_KEEPALIVE ProcessValue___destroy__(mud::ProcessValue* self) {
@@ -138,8 +140,8 @@ extern "C" {
 	uint32_t EMSCRIPTEN_KEEPALIVE Script_get_index(mud::Script* self) {
 		return self->m_index;
 	}
-	Type EMSCRIPTEN_KEEPALIVE Script_get_type(mud::Script* self) {
-		return self->m_type;
+	mud::Type* EMSCRIPTEN_KEEPALIVE Script_get_type(mud::Script* self) {
+		return &&self->m_type;
 	}
 	std::string EMSCRIPTEN_KEEPALIVE Script_get_name(mud::Script* self) {
 		return self->m_name;
@@ -155,14 +157,15 @@ extern "C" {
 		delete self;
 	}
 	// TextScript
-	mud::TextScript* EMSCRIPTEN_KEEPALIVE TextScript_TextScript_2(const char* name, Language language) {
+	mud::TextScript* EMSCRIPTEN_KEEPALIVE TextScript_TextScript_2(const char* name, mud::Language language) {
 		return new mud::TextScript(name, language, *signature);
 	}
-	mud::TextScript* EMSCRIPTEN_KEEPALIVE TextScript_TextScript_3(const char* name, Language language, const Signature signature) {
+	mud::TextScript* EMSCRIPTEN_KEEPALIVE TextScript_TextScript_3(const char* name, mud::Language language, const mud::Signature* signature) {
 		return new mud::TextScript(name, language, *signature);
 	}
-	Language EMSCRIPTEN_KEEPALIVE TextScript_get_language(mud::TextScript* self) {
-		return self->m_language;
+	mud::Language EMSCRIPTEN_KEEPALIVE TextScript_get_language(mud::TextScript* self) {
+		static mud::Language temp;
+		return (temp = &self->m_language, &temp);
 	}
 	std::string EMSCRIPTEN_KEEPALIVE TextScript_get_script(mud::TextScript* self) {
 		return self->m_script;
@@ -177,7 +180,7 @@ extern "C" {
 	mud::VisualScript* EMSCRIPTEN_KEEPALIVE VisualScript_VisualScript_1(const char* name) {
 		return new mud::VisualScript(name, *signature);
 	}
-	mud::VisualScript* EMSCRIPTEN_KEEPALIVE VisualScript_VisualScript_2(const char* name, const Signature signature) {
+	mud::VisualScript* EMSCRIPTEN_KEEPALIVE VisualScript_VisualScript_2(const char* name, const mud::Signature* signature) {
 		return new mud::VisualScript(name, *signature);
 	}
 	void EMSCRIPTEN_KEEPALIVE VisualScript___destroy__(mud::VisualScript* self) {

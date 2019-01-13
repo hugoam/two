@@ -33,16 +33,16 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE Animated_start_5(mud::Animated* self, const char* animation, bool loop, float blend, float speed, bool transient) {
 		self->start(animation, loop, blend, speed, transient);
 	}
-	void EMSCRIPTEN_KEEPALIVE Animated_play_2(mud::Animated* self, const Animation animation, bool loop) {
+	void EMSCRIPTEN_KEEPALIVE Animated_play_2(mud::Animated* self, const mud::Animation* animation, bool loop) {
 		self->play(*animation, loop, blend, speed, transient);
 	}
-	void EMSCRIPTEN_KEEPALIVE Animated_play_3(mud::Animated* self, const Animation animation, bool loop, float blend) {
+	void EMSCRIPTEN_KEEPALIVE Animated_play_3(mud::Animated* self, const mud::Animation* animation, bool loop, float blend) {
 		self->play(*animation, loop, blend, speed, transient);
 	}
-	void EMSCRIPTEN_KEEPALIVE Animated_play_4(mud::Animated* self, const Animation animation, bool loop, float blend, float speed) {
+	void EMSCRIPTEN_KEEPALIVE Animated_play_4(mud::Animated* self, const mud::Animation* animation, bool loop, float blend, float speed) {
 		self->play(*animation, loop, blend, speed, transient);
 	}
-	void EMSCRIPTEN_KEEPALIVE Animated_play_5(mud::Animated* self, const Animation animation, bool loop, float blend, float speed, bool transient) {
+	void EMSCRIPTEN_KEEPALIVE Animated_play_5(mud::Animated* self, const mud::Animation* animation, bool loop, float blend, float speed, bool transient) {
 		self->play(*animation, loop, blend, speed, transient);
 	}
 	void EMSCRIPTEN_KEEPALIVE Animated_seek_1(mud::Animated* self, float time) {
@@ -63,11 +63,13 @@ extern "C" {
 	std::string EMSCRIPTEN_KEEPALIVE Animated_playing_0(mud::Animated* self) {
 		return self->playing();
 	}
-	std::vector<mud::AnimationPlay> EMSCRIPTEN_KEEPALIVE Animated_get_playing(mud::Animated* self) {
-		return self->m_playing;
+	std::vector<mud::AnimationPlay>* EMSCRIPTEN_KEEPALIVE Animated_get_playing(mud::Animated* self) {
+		static std::vector<mud::AnimationPlay> temp;
+		return (temp = &self->m_playing, &temp);
 	}
-	std::vector<mud::Animation*> EMSCRIPTEN_KEEPALIVE Animated_get_queue(mud::Animated* self) {
-		return self->m_queue;
+	std::vector<mud::Animation*>* EMSCRIPTEN_KEEPALIVE Animated_get_queue(mud::Animated* self) {
+		static std::vector<mud::Animation*> temp;
+		return (temp = &self->m_queue, &temp);
 	}
 	bool EMSCRIPTEN_KEEPALIVE Animated_get_active(mud::Animated* self) {
 		return self->m_active;
@@ -105,7 +107,7 @@ extern "C" {
 	mud::AnimationPlay* EMSCRIPTEN_KEEPALIVE AnimationPlay_AnimationPlay_0() {
 		return new mud::AnimationPlay();
 	}
-	const Animation EMSCRIPTEN_KEEPALIVE AnimationPlay_get_animation(mud::AnimationPlay* self) {
+	const mud::Animation* EMSCRIPTEN_KEEPALIVE AnimationPlay_get_animation(mud::AnimationPlay* self) {
 		return self->m_animation;
 	}
 	bool EMSCRIPTEN_KEEPALIVE AnimationPlay_get_loop(mud::AnimationPlay* self) {
@@ -133,7 +135,7 @@ extern "C" {
 		delete self;
 	}
 	// AnimationTrack
-	Animation EMSCRIPTEN_KEEPALIVE AnimationTrack_get_animation(mud::AnimationTrack* self) {
+	mud::Animation* EMSCRIPTEN_KEEPALIVE AnimationTrack_get_animation(mud::AnimationTrack* self) {
 		return self->m_animation;
 	}
 	size_t EMSCRIPTEN_KEEPALIVE AnimationTrack_get_node(mud::AnimationTrack* self) {
@@ -142,17 +144,19 @@ extern "C" {
 	std::string EMSCRIPTEN_KEEPALIVE AnimationTrack_get_node_name(mud::AnimationTrack* self) {
 		return self->m_node_name;
 	}
-	AnimationTarget EMSCRIPTEN_KEEPALIVE AnimationTrack_get_target(mud::AnimationTrack* self) {
-		return self->m_target;
+	mud::AnimationTarget EMSCRIPTEN_KEEPALIVE AnimationTrack_get_target(mud::AnimationTrack* self) {
+		static mud::AnimationTarget temp;
+		return (temp = &self->m_target, &temp);
 	}
-	Type EMSCRIPTEN_KEEPALIVE AnimationTrack_get_value_type(mud::AnimationTrack* self) {
+	mud::Type* EMSCRIPTEN_KEEPALIVE AnimationTrack_get_value_type(mud::AnimationTrack* self) {
 		return self->m_value_type;
 	}
 	float EMSCRIPTEN_KEEPALIVE AnimationTrack_get_length(mud::AnimationTrack* self) {
 		return self->m_length;
 	}
-	Interpolation EMSCRIPTEN_KEEPALIVE AnimationTrack_get_interpolation(mud::AnimationTrack* self) {
-		return self->m_interpolation;
+	mud::Interpolation EMSCRIPTEN_KEEPALIVE AnimationTrack_get_interpolation(mud::AnimationTrack* self) {
+		static mud::Interpolation temp;
+		return (temp = &self->m_interpolation, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE AnimationTrack___destroy__(mud::AnimationTrack* self) {
 		delete self;
@@ -161,13 +165,15 @@ extern "C" {
 	mud::Background* EMSCRIPTEN_KEEPALIVE Background_Background_0() {
 		return new mud::Background();
 	}
-	BackgroundMode EMSCRIPTEN_KEEPALIVE Background_get_mode(mud::Background* self) {
-		return self->m_mode;
+	mud::BackgroundMode EMSCRIPTEN_KEEPALIVE Background_get_mode(mud::Background* self) {
+		static mud::BackgroundMode temp;
+		return (temp = &self->m_mode, &temp);
 	}
-	Colour EMSCRIPTEN_KEEPALIVE Background_get_colour(mud::Background* self) {
-		return self->m_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Background_get_colour(mud::Background* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_colour, &temp);
 	}
-	Program EMSCRIPTEN_KEEPALIVE Background_get_custoprogram(mud::Background* self) {
+	mud::Program* EMSCRIPTEN_KEEPALIVE Background_get_custoprogram(mud::Background* self) {
 		return self->m_custom_program;
 	}
 	void EMSCRIPTEN_KEEPALIVE Background___destroy__(mud::Background* self) {
@@ -177,29 +183,37 @@ extern "C" {
 	mud::BaseMaterialBlock* EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_BaseMaterialBlock_0() {
 		return new mud::BaseMaterialBlock();
 	}
-	BlendMode EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_blend_mode(mud::BaseMaterialBlock* self) {
-		return self->m_blend_mode;
+	mud::BlendMode EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_blend_mode(mud::BaseMaterialBlock* self) {
+		static mud::BlendMode temp;
+		return (temp = &self->m_blend_mode, &temp);
 	}
-	CullMode EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_cull_mode(mud::BaseMaterialBlock* self) {
-		return self->m_cull_mode;
+	mud::CullMode EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_cull_mode(mud::BaseMaterialBlock* self) {
+		static mud::CullMode temp;
+		return (temp = &self->m_cull_mode, &temp);
 	}
-	DepthDraw EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_depth_draw_mode(mud::BaseMaterialBlock* self) {
-		return self->m_depth_draw_mode;
+	mud::DepthDraw EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_depth_draw_mode(mud::BaseMaterialBlock* self) {
+		static mud::DepthDraw temp;
+		return (temp = &self->m_depth_draw_mode, &temp);
 	}
-	DepthTest EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_depth_test(mud::BaseMaterialBlock* self) {
-		return self->m_depth_test;
+	mud::DepthTest EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_depth_test(mud::BaseMaterialBlock* self) {
+		static mud::DepthTest temp;
+		return (temp = &self->m_depth_test, &temp);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_uv0_scale(mud::BaseMaterialBlock* self) {
-		return self->m_uv0_scale;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_uv0_scale(mud::BaseMaterialBlock* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_uv0_scale, &temp);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_uv0_offset(mud::BaseMaterialBlock* self) {
-		return self->m_uv0_offset;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_uv0_offset(mud::BaseMaterialBlock* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_uv0_offset, &temp);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_uv1_scale(mud::BaseMaterialBlock* self) {
-		return self->m_uv1_scale;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_uv1_scale(mud::BaseMaterialBlock* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_uv1_scale, &temp);
 	}
-	vec2 EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_uv1_offset(mud::BaseMaterialBlock* self) {
-		return self->m_uv1_offset;
+	mud::vec2* EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_uv1_offset(mud::BaseMaterialBlock* self) {
+		static mud::vec2 temp;
+		return (temp = &self->m_uv1_offset, &temp);
 	}
 	bool EMSCRIPTEN_KEEPALIVE BaseMaterialBlock_get_is_alpha(mud::BaseMaterialBlock* self) {
 		return self->m_is_alpha;
@@ -214,30 +228,37 @@ extern "C" {
 	mud::Bone* EMSCRIPTEN_KEEPALIVE Bone_Bone_0() {
 		return new mud::Bone();
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Bone_get_position(mud::Bone* self) {
-		return self->m_position;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Bone_get_position(mud::Bone* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_position, &temp);
 	}
-	quat EMSCRIPTEN_KEEPALIVE Bone_get_rotation(mud::Bone* self) {
-		return self->m_rotation;
+	mud::quat* EMSCRIPTEN_KEEPALIVE Bone_get_rotation(mud::Bone* self) {
+		static mud::quat temp;
+		return (temp = &self->m_rotation, &temp);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Bone_get_scale(mud::Bone* self) {
-		return self->m_scale;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Bone_get_scale(mud::Bone* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_scale, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Bone___destroy__(mud::Bone* self) {
 		delete self;
 	}
 	// Camera
-	vec3 EMSCRIPTEN_KEEPALIVE Camera_get_eye(mud::Camera* self) {
-		return self->m_eye;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Camera_get_eye(mud::Camera* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_eye, &temp);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Camera_get_target(mud::Camera* self) {
-		return self->m_target;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Camera_get_target(mud::Camera* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_target, &temp);
 	}
-	mat4 EMSCRIPTEN_KEEPALIVE Camera_get_transform(mud::Camera* self) {
-		return self->m_transform;
+	mud::mat4* EMSCRIPTEN_KEEPALIVE Camera_get_transform(mud::Camera* self) {
+		static mud::mat4 temp;
+		return (temp = &self->m_transform, &temp);
 	}
-	mat4 EMSCRIPTEN_KEEPALIVE Camera_get_projection(mud::Camera* self) {
-		return self->m_projection;
+	mud::mat4* EMSCRIPTEN_KEEPALIVE Camera_get_projection(mud::Camera* self) {
+		static mud::mat4 temp;
+		return (temp = &self->m_projection, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE Camera_get_fov(mud::Camera* self) {
 		return self->m_fov;
@@ -263,8 +284,9 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE Camera_get_clustered(mud::Camera* self) {
 		return self->m_clustered;
 	}
-	vec4 EMSCRIPTEN_KEEPALIVE Camera_get_lod_offsets(mud::Camera* self) {
-		return self->m_lod_offsets;
+	mud::vec4* EMSCRIPTEN_KEEPALIVE Camera_get_lod_offsets(mud::Camera* self) {
+		static mud::vec4 temp;
+		return (temp = &self->m_lod_offsets, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Camera___destroy__(mud::Camera* self) {
 		delete self;
@@ -280,17 +302,21 @@ extern "C" {
 	mud::Environment* EMSCRIPTEN_KEEPALIVE Environment_Environment_0() {
 		return new mud::Environment();
 	}
-	Background EMSCRIPTEN_KEEPALIVE Environment_get_background(mud::Environment* self) {
-		return self->m_background;
+	mud::Background* EMSCRIPTEN_KEEPALIVE Environment_get_background(mud::Environment* self) {
+		static mud::Background temp;
+		return (temp = &self->m_background, &temp);
 	}
-	Radiance EMSCRIPTEN_KEEPALIVE Environment_get_radiance(mud::Environment* self) {
-		return self->m_radiance;
+	mud::Radiance* EMSCRIPTEN_KEEPALIVE Environment_get_radiance(mud::Environment* self) {
+		static mud::Radiance temp;
+		return (temp = &self->m_radiance, &temp);
 	}
-	Sun EMSCRIPTEN_KEEPALIVE Environment_get_sun(mud::Environment* self) {
-		return self->m_sun;
+	mud::Sun* EMSCRIPTEN_KEEPALIVE Environment_get_sun(mud::Environment* self) {
+		static mud::Sun temp;
+		return (temp = &self->m_sun, &temp);
 	}
-	Fog EMSCRIPTEN_KEEPALIVE Environment_get_fog(mud::Environment* self) {
-		return self->m_fog;
+	mud::Fog* EMSCRIPTEN_KEEPALIVE Environment_get_fog(mud::Environment* self) {
+		static mud::Fog temp;
+		return (temp = &self->m_fog, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Environment___destroy__(mud::Environment* self) {
 		delete self;
@@ -309,8 +335,9 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE Fog_get_density(mud::Fog* self) {
 		return self->m_density;
 	}
-	Colour EMSCRIPTEN_KEEPALIVE Fog_get_colour(mud::Fog* self) {
-		return self->m_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Fog_get_colour(mud::Fog* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_colour, &temp);
 	}
 	bool EMSCRIPTEN_KEEPALIVE Fog_get_depth(mud::Fog* self) {
 		return self->m_depth;
@@ -378,8 +405,9 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE Frustum_get_far(mud::Frustum* self) {
 		return self->m_far;
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Frustum_get_center(mud::Frustum* self) {
-		return self->m_center;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Frustum_get_center(mud::Frustum* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_center, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE Frustum_get_radius(mud::Frustum* self) {
 		return self->m_radius;
@@ -395,8 +423,8 @@ extern "C" {
 		delete self;
 	}
 	// GfxBlock
-	Type EMSCRIPTEN_KEEPALIVE GfxBlock_get_type(mud::GfxBlock* self) {
-		return self->m_type;
+	mud::Type* EMSCRIPTEN_KEEPALIVE GfxBlock_get_type(mud::GfxBlock* self) {
+		return &&self->m_type;
 	}
 	uint8_t EMSCRIPTEN_KEEPALIVE GfxBlock_get_index(mud::GfxBlock* self) {
 		return self->m_index;
@@ -412,23 +440,23 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE GfxSystem_add_resource_path_1(mud::GfxSystem* self, const char* path) {
 		self->add_resource_path(path);
 	}
-	Material EMSCRIPTEN_KEEPALIVE GfxSystem_debug_material_0(mud::GfxSystem* self) {
-		return self->debug_material();
+	mud::Material* EMSCRIPTEN_KEEPALIVE GfxSystem_debug_material_0(mud::GfxSystem* self) {
+		return &self->debug_material();
 	}
-	Material EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_material_2(mud::GfxSystem* self, const char* name, const char* shader) {
-		return self->fetch_material(name, shader, builtin);
+	mud::Material* EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_material_2(mud::GfxSystem* self, const char* name, const char* shader) {
+		return &self->fetch_material(name, shader, builtin);
 	}
-	Material EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_material_3(mud::GfxSystem* self, const char* name, const char* shader, bool builtin) {
-		return self->fetch_material(name, shader, builtin);
+	mud::Material* EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_material_3(mud::GfxSystem* self, const char* name, const char* shader, bool builtin) {
+		return &self->fetch_material(name, shader, builtin);
 	}
-	Material EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_image256_material_1(mud::GfxSystem* self, const Image256 image) {
-		return self->fetch_image256_material(*image);
+	mud::Material* EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_image256_material_1(mud::GfxSystem* self, const mud::Image256* image) {
+		return &self->fetch_image256_material(*image);
 	}
-	Model EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_symbol_3(mud::GfxSystem* self, const Symbol symbol, const Shape shape, DrawMode draw_mode) {
-		return self->fetch_symbol(*symbol, *shape, draw_mode);
+	mud::Model* EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_symbol_3(mud::GfxSystem* self, const mud::Symbol* symbol, const mud::Shape* shape, mud::DrawMode draw_mode) {
+		return &self->fetch_symbol(*symbol, *shape, draw_mode);
 	}
-	Material EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_symbol_material_2(mud::GfxSystem* self, const Symbol symbol, DrawMode draw_mode) {
-		return self->fetch_symbol_material(*symbol, draw_mode);
+	mud::Material* EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_symbol_material_2(mud::GfxSystem* self, const mud::Symbol* symbol, mud::DrawMode draw_mode) {
+		return &self->fetch_symbol_material(*symbol, draw_mode);
 	}
 	void EMSCRIPTEN_KEEPALIVE GfxSystem___destroy__(mud::GfxSystem* self) {
 		delete self;
@@ -445,32 +473,41 @@ extern "C" {
 	mud::ImportConfig* EMSCRIPTEN_KEEPALIVE ImportConfig_ImportConfig_0() {
 		return new mud::ImportConfig();
 	}
-	ModelFormat EMSCRIPTEN_KEEPALIVE ImportConfig_get_format(mud::ImportConfig* self) {
-		return self->m_format;
+	mud::ModelFormat EMSCRIPTEN_KEEPALIVE ImportConfig_get_format(mud::ImportConfig* self) {
+		static mud::ModelFormat temp;
+		return (temp = &self->m_format, &temp);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE ImportConfig_get_position(mud::ImportConfig* self) {
-		return self->m_position;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE ImportConfig_get_position(mud::ImportConfig* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_position, &temp);
 	}
-	quat EMSCRIPTEN_KEEPALIVE ImportConfig_get_rotation(mud::ImportConfig* self) {
-		return self->m_rotation;
+	mud::quat* EMSCRIPTEN_KEEPALIVE ImportConfig_get_rotation(mud::ImportConfig* self) {
+		static mud::quat temp;
+		return (temp = &self->m_rotation, &temp);
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE ImportConfig_get_scale(mud::ImportConfig* self) {
-		return self->m_scale;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE ImportConfig_get_scale(mud::ImportConfig* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_scale, &temp);
 	}
-	mat4 EMSCRIPTEN_KEEPALIVE ImportConfig_get_transform(mud::ImportConfig* self) {
-		return self->m_transform;
+	mud::mat4* EMSCRIPTEN_KEEPALIVE ImportConfig_get_transform(mud::ImportConfig* self) {
+		static mud::mat4 temp;
+		return (temp = &self->m_transform, &temp);
 	}
-	std::vector<std::string> EMSCRIPTEN_KEEPALIVE ImportConfig_get_exclude_elements(mud::ImportConfig* self) {
-		return self->m_exclude_elements;
+	std::vector<std::string>* EMSCRIPTEN_KEEPALIVE ImportConfig_get_exclude_elements(mud::ImportConfig* self) {
+		static std::vector<std::string> temp;
+		return (temp = &self->m_exclude_elements, &temp);
 	}
-	std::vector<std::string> EMSCRIPTEN_KEEPALIVE ImportConfig_get_exclude_materials(mud::ImportConfig* self) {
-		return self->m_exclude_materials;
+	std::vector<std::string>* EMSCRIPTEN_KEEPALIVE ImportConfig_get_exclude_materials(mud::ImportConfig* self) {
+		static std::vector<std::string> temp;
+		return (temp = &self->m_exclude_materials, &temp);
 	}
-	std::vector<std::string> EMSCRIPTEN_KEEPALIVE ImportConfig_get_include_elements(mud::ImportConfig* self) {
-		return self->m_include_elements;
+	std::vector<std::string>* EMSCRIPTEN_KEEPALIVE ImportConfig_get_include_elements(mud::ImportConfig* self) {
+		static std::vector<std::string> temp;
+		return (temp = &self->m_include_elements, &temp);
 	}
-	std::vector<std::string> EMSCRIPTEN_KEEPALIVE ImportConfig_get_include_materials(mud::ImportConfig* self) {
-		return self->m_include_materials;
+	std::vector<std::string>* EMSCRIPTEN_KEEPALIVE ImportConfig_get_include_materials(mud::ImportConfig* self) {
+		static std::vector<std::string> temp;
+		return (temp = &self->m_include_materials, &temp);
 	}
 	std::string EMSCRIPTEN_KEEPALIVE ImportConfig_get_suffix(mud::ImportConfig* self) {
 		return self->m_suffix;
@@ -491,28 +528,30 @@ extern "C" {
 		delete self;
 	}
 	// Item
-	Node3 EMSCRIPTEN_KEEPALIVE Item_get_node(mud::Item* self) {
+	mud::Node3* EMSCRIPTEN_KEEPALIVE Item_get_node(mud::Item* self) {
 		return self->m_node;
 	}
-	Model EMSCRIPTEN_KEEPALIVE Item_get_model(mud::Item* self) {
+	mud::Model* EMSCRIPTEN_KEEPALIVE Item_get_model(mud::Item* self) {
 		return self->m_model;
 	}
 	uint32_t EMSCRIPTEN_KEEPALIVE Item_get_flags(mud::Item* self) {
 		return self->m_flags;
 	}
-	Colour EMSCRIPTEN_KEEPALIVE Item_get_colour(mud::Item* self) {
-		return self->m_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Item_get_colour(mud::Item* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_colour, &temp);
 	}
-	Material EMSCRIPTEN_KEEPALIVE Item_get_material(mud::Item* self) {
+	mud::Material* EMSCRIPTEN_KEEPALIVE Item_get_material(mud::Item* self) {
 		return self->m_material;
 	}
 	bool EMSCRIPTEN_KEEPALIVE Item_get_visible(mud::Item* self) {
 		return self->m_visible;
 	}
-	ItemShadow EMSCRIPTEN_KEEPALIVE Item_get_shadow(mud::Item* self) {
-		return self->m_shadow;
+	mud::ItemShadow EMSCRIPTEN_KEEPALIVE Item_get_shadow(mud::Item* self) {
+		static mud::ItemShadow temp;
+		return (temp = &self->m_shadow, &temp);
 	}
-	Rig EMSCRIPTEN_KEEPALIVE Item_get_rig(mud::Item* self) {
+	mud::Rig* EMSCRIPTEN_KEEPALIVE Item_get_rig(mud::Item* self) {
 		return self->m_rig;
 	}
 	void EMSCRIPTEN_KEEPALIVE Item___destroy__(mud::Item* self) {
@@ -526,17 +565,19 @@ extern "C" {
 		delete self;
 	}
 	// Light
-	Node3 EMSCRIPTEN_KEEPALIVE Light_get_node(mud::Light* self) {
-		return self->m_node;
+	mud::Node3* EMSCRIPTEN_KEEPALIVE Light_get_node(mud::Light* self) {
+		return &&self->m_node;
 	}
-	LightType EMSCRIPTEN_KEEPALIVE Light_get_type(mud::Light* self) {
-		return self->m_type;
+	mud::LightType EMSCRIPTEN_KEEPALIVE Light_get_type(mud::Light* self) {
+		static mud::LightType temp;
+		return (temp = &self->m_type, &temp);
 	}
 	bool EMSCRIPTEN_KEEPALIVE Light_get_visible(mud::Light* self) {
 		return self->m_visible;
 	}
-	Colour EMSCRIPTEN_KEEPALIVE Light_get_colour(mud::Light* self) {
-		return self->m_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Light_get_colour(mud::Light* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_colour, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE Light_get_range(mud::Light* self) {
 		return self->m_range;
@@ -553,8 +594,9 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE Light_get_shadows(mud::Light* self) {
 		return self->m_shadows;
 	}
-	Colour EMSCRIPTEN_KEEPALIVE Light_get_shadow_colour(mud::Light* self) {
-		return self->m_shadow_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Light_get_shadow_colour(mud::Light* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_shadow_colour, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE Light_get_shadow_range(mud::Light* self) {
 		return self->m_shadow_range;
@@ -574,8 +616,9 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE Light_get_spot_attenuation(mud::Light* self) {
 		return self->m_spot_attenuation;
 	}
-	ShadowFlags EMSCRIPTEN_KEEPALIVE Light_get_shadow_flags(mud::Light* self) {
-		return self->m_shadow_flags;
+	mud::ShadowFlags EMSCRIPTEN_KEEPALIVE Light_get_shadow_flags(mud::Light* self) {
+		static mud::ShadowFlags temp;
+		return (temp = &self->m_shadow_flags, &temp);
 	}
 	uint8_t EMSCRIPTEN_KEEPALIVE Light_get_shadow_nusplits(mud::Light* self) {
 		return self->m_shadow_num_splits;
@@ -599,20 +642,24 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE Material_get_builtin(mud::Material* self) {
 		return self->m_builtin;
 	}
-	Program EMSCRIPTEN_KEEPALIVE Material_get_program(mud::Material* self) {
+	mud::Program* EMSCRIPTEN_KEEPALIVE Material_get_program(mud::Material* self) {
 		return self->m_program;
 	}
-	BaseMaterialBlock EMSCRIPTEN_KEEPALIVE Material_get_base_block(mud::Material* self) {
-		return self->m_base_block;
+	mud::BaseMaterialBlock* EMSCRIPTEN_KEEPALIVE Material_get_base_block(mud::Material* self) {
+		static mud::BaseMaterialBlock temp;
+		return (temp = &self->m_base_block, &temp);
 	}
-	UnshadedMaterialBlock EMSCRIPTEN_KEEPALIVE Material_get_unshaded_block(mud::Material* self) {
-		return self->m_unshaded_block;
+	mud::UnshadedMaterialBlock* EMSCRIPTEN_KEEPALIVE Material_get_unshaded_block(mud::Material* self) {
+		static mud::UnshadedMaterialBlock temp;
+		return (temp = &self->m_unshaded_block, &temp);
 	}
-	PbrMaterialBlock EMSCRIPTEN_KEEPALIVE Material_get_pbr_block(mud::Material* self) {
-		return self->m_pbr_block;
+	mud::PbrMaterialBlock* EMSCRIPTEN_KEEPALIVE Material_get_pbr_block(mud::Material* self) {
+		static mud::PbrMaterialBlock temp;
+		return (temp = &self->m_pbr_block, &temp);
 	}
-	FresnelMaterialBlock EMSCRIPTEN_KEEPALIVE Material_get_fresnel_block(mud::Material* self) {
-		return self->m_fresnel_block;
+	mud::FresnelMaterialBlock* EMSCRIPTEN_KEEPALIVE Material_get_fresnel_block(mud::Material* self) {
+		static mud::FresnelMaterialBlock temp;
+		return (temp = &self->m_fresnel_block, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Material___destroy__(mud::Material* self) {
 		delete self;
@@ -624,17 +671,20 @@ extern "C" {
 	uint16_t EMSCRIPTEN_KEEPALIVE Mesh_get_index(mud::Mesh* self) {
 		return self->m_index;
 	}
-	DrawMode EMSCRIPTEN_KEEPALIVE Mesh_get_draw_mode(mud::Mesh* self) {
-		return self->m_draw_mode;
+	mud::DrawMode EMSCRIPTEN_KEEPALIVE Mesh_get_draw_mode(mud::Mesh* self) {
+		static mud::DrawMode temp;
+		return (temp = &self->m_draw_mode, &temp);
 	}
-	Aabb EMSCRIPTEN_KEEPALIVE Mesh_get_aabb(mud::Mesh* self) {
-		return self->m_aabb;
+	mud::Aabb* EMSCRIPTEN_KEEPALIVE Mesh_get_aabb(mud::Mesh* self) {
+		static mud::Aabb temp;
+		return (temp = &self->m_aabb, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE Mesh_get_radius(mud::Mesh* self) {
 		return self->m_radius;
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Mesh_get_origin(mud::Mesh* self) {
-		return self->m_origin;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Mesh_get_origin(mud::Mesh* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_origin, &temp);
 	}
 	bool EMSCRIPTEN_KEEPALIVE Mesh_get_readback(mud::Mesh* self) {
 		return self->m_readback;
@@ -654,7 +704,7 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE Mesh_get_index32(mud::Mesh* self) {
 		return self->m_index32;
 	}
-	Material EMSCRIPTEN_KEEPALIVE Mesh_get_material(mud::Mesh* self) {
+	mud::Material* EMSCRIPTEN_KEEPALIVE Mesh_get_material(mud::Mesh* self) {
 		return self->m_material;
 	}
 	void EMSCRIPTEN_KEEPALIVE Mesh___destroy__(mud::Mesh* self) {
@@ -667,14 +717,16 @@ extern "C" {
 	uint16_t EMSCRIPTEN_KEEPALIVE Model_get_index(mud::Model* self) {
 		return self->m_index;
 	}
-	Aabb EMSCRIPTEN_KEEPALIVE Model_get_aabb(mud::Model* self) {
-		return self->m_aabb;
+	mud::Aabb* EMSCRIPTEN_KEEPALIVE Model_get_aabb(mud::Model* self) {
+		static mud::Aabb temp;
+		return (temp = &self->m_aabb, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE Model_get_radius(mud::Model* self) {
 		return self->m_radius;
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE Model_get_origin(mud::Model* self) {
-		return self->m_origin;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE Model_get_origin(mud::Model* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_origin, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Model___destroy__(mud::Model* self) {
 		delete self;
@@ -686,36 +738,39 @@ extern "C" {
 	size_t EMSCRIPTEN_KEEPALIVE ModelItem_get_index(mud::ModelItem* self) {
 		return self->m_index;
 	}
-	Mesh EMSCRIPTEN_KEEPALIVE ModelItem_get_mesh(mud::ModelItem* self) {
+	mud::Mesh* EMSCRIPTEN_KEEPALIVE ModelItem_get_mesh(mud::ModelItem* self) {
 		return self->m_mesh;
 	}
 	bool EMSCRIPTEN_KEEPALIVE ModelItem_get_has_transform(mud::ModelItem* self) {
 		return self->m_has_transform;
 	}
-	mat4 EMSCRIPTEN_KEEPALIVE ModelItem_get_transform(mud::ModelItem* self) {
-		return self->m_transform;
+	mud::mat4* EMSCRIPTEN_KEEPALIVE ModelItem_get_transform(mud::ModelItem* self) {
+		static mud::mat4 temp;
+		return (temp = &self->m_transform, &temp);
 	}
 	int EMSCRIPTEN_KEEPALIVE ModelItem_get_skin(mud::ModelItem* self) {
 		return self->m_skin;
 	}
-	Colour EMSCRIPTEN_KEEPALIVE ModelItem_get_colour(mud::ModelItem* self) {
-		return self->m_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE ModelItem_get_colour(mud::ModelItem* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_colour, &temp);
 	}
-	Material EMSCRIPTEN_KEEPALIVE ModelItem_get_material(mud::ModelItem* self) {
+	mud::Material* EMSCRIPTEN_KEEPALIVE ModelItem_get_material(mud::ModelItem* self) {
 		return self->m_material;
 	}
 	void EMSCRIPTEN_KEEPALIVE ModelItem___destroy__(mud::ModelItem* self) {
 		delete self;
 	}
 	// Node3
-	Scene EMSCRIPTEN_KEEPALIVE Node3_get_scene(mud::Node3* self) {
+	mud::Scene* EMSCRIPTEN_KEEPALIVE Node3_get_scene(mud::Node3* self) {
 		return self->m_scene;
 	}
 	uint16_t EMSCRIPTEN_KEEPALIVE Node3_get_index(mud::Node3* self) {
 		return self->m_index;
 	}
-	mat4 EMSCRIPTEN_KEEPALIVE Node3_get_transform(mud::Node3* self) {
-		return self->m_transform;
+	mud::mat4* EMSCRIPTEN_KEEPALIVE Node3_get_transform(mud::Node3* self) {
+		static mud::mat4 temp;
+		return (temp = &self->m_transform, &temp);
 	}
 	bool EMSCRIPTEN_KEEPALIVE Node3_get_visible(mud::Node3* self) {
 		return self->m_visible;
@@ -739,23 +794,28 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_loop(mud::ParticleGenerator* self) {
 		return self->m_loop;
 	}
-	ShapeVar EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_shape(mud::ParticleGenerator* self) {
-		return self->m_shape;
+	mud::ShapeVar* EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_shape(mud::ParticleGenerator* self) {
+		static mud::ShapeVar temp;
+		return (temp = &self->m_shape, &temp);
 	}
-	EmitterFlow EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_flow(mud::ParticleGenerator* self) {
-		return self->m_flow;
+	mud::EmitterFlow EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_flow(mud::ParticleGenerator* self) {
+		static mud::EmitterFlow temp;
+		return (temp = &self->m_flow, &temp);
 	}
 	bool EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_billboard(mud::ParticleGenerator* self) {
 		return self->m_billboard;
 	}
-	vec3 EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_direction(mud::ParticleGenerator* self) {
-		return self->m_direction;
+	mud::vec3* EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_direction(mud::ParticleGenerator* self) {
+		static mud::vec3 temp;
+		return (temp = &self->m_direction, &temp);
 	}
-	quat EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_rotation(mud::ParticleGenerator* self) {
-		return self->m_rotation;
+	mud::quat* EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_rotation(mud::ParticleGenerator* self) {
+		static mud::quat temp;
+		return (temp = &self->m_rotation, &temp);
 	}
-	BlendMode EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_blend_mode(mud::ParticleGenerator* self) {
-		return self->m_blend_mode;
+	mud::BlendMode EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_blend_mode(mud::ParticleGenerator* self) {
+		static mud::BlendMode temp;
+		return (temp = &self->m_blend_mode, &temp);
 	}
 	std::string EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_sprite_name(mud::ParticleGenerator* self) {
 		return self->m_sprite_name;
@@ -770,13 +830,13 @@ extern "C" {
 	mud::PbrMaterialBlock* EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_PbrMaterialBlock_0() {
 		return new mud::PbrMaterialBlock();
 	}
-	mud::PbrMaterialBlock* EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_PbrMaterialBlock_1(const Colour albedo) {
+	mud::PbrMaterialBlock* EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_PbrMaterialBlock_1(const mud::Colour* albedo) {
 		return new mud::PbrMaterialBlock(*albedo, metallic, roughness);
 	}
-	mud::PbrMaterialBlock* EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_PbrMaterialBlock_2(const Colour albedo, float metallic) {
+	mud::PbrMaterialBlock* EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_PbrMaterialBlock_2(const mud::Colour* albedo, float metallic) {
 		return new mud::PbrMaterialBlock(*albedo, metallic, roughness);
 	}
-	mud::PbrMaterialBlock* EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_PbrMaterialBlock_3(const Colour albedo, float metallic, float roughness) {
+	mud::PbrMaterialBlock* EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_PbrMaterialBlock_3(const mud::Colour* albedo, float metallic, float roughness) {
 		return new mud::PbrMaterialBlock(*albedo, metallic, roughness);
 	}
 	bool EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_get_enabled(mud::PbrMaterialBlock* self) {
@@ -797,11 +857,13 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_get_deep_parallax(mud::PbrMaterialBlock* self) {
 		return self->m_deep_parallax;
 	}
-	PbrDiffuseMode EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_get_diffuse_mode(mud::PbrMaterialBlock* self) {
-		return self->m_diffuse_mode;
+	mud::PbrDiffuseMode EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_get_diffuse_mode(mud::PbrMaterialBlock* self) {
+		static mud::PbrDiffuseMode temp;
+		return (temp = &self->m_diffuse_mode, &temp);
 	}
-	PbrSpecularMode EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_get_specular_mode(mud::PbrMaterialBlock* self) {
-		return self->m_specular_mode;
+	mud::PbrSpecularMode EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_get_specular_mode(mud::PbrMaterialBlock* self) {
+		static mud::PbrSpecularMode temp;
+		return (temp = &self->m_specular_mode, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE PbrMaterialBlock___destroy__(mud::PbrMaterialBlock* self) {
 		delete self;
@@ -830,10 +892,11 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE Radiance_get_ambient(mud::Radiance* self) {
 		return self->m_ambient;
 	}
-	Colour EMSCRIPTEN_KEEPALIVE Radiance_get_colour(mud::Radiance* self) {
-		return self->m_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Radiance_get_colour(mud::Radiance* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_colour, &temp);
 	}
-	Texture EMSCRIPTEN_KEEPALIVE Radiance_get_texture(mud::Radiance* self) {
+	mud::Texture* EMSCRIPTEN_KEEPALIVE Radiance_get_texture(mud::Radiance* self) {
 		return self->m_texture;
 	}
 	void EMSCRIPTEN_KEEPALIVE Radiance___destroy__(mud::Radiance* self) {
@@ -858,20 +921,24 @@ extern "C" {
 		delete self;
 	}
 	// Scene
-	Gnode EMSCRIPTEN_KEEPALIVE Scene_begin_0(mud::Scene* self) {
-		return self->begin();
+	mud::Gnode* EMSCRIPTEN_KEEPALIVE Scene_begin_0(mud::Scene* self) {
+		return &self->begin();
 	}
-	Gnode EMSCRIPTEN_KEEPALIVE Scene_get_graph(mud::Scene* self) {
-		return self->m_graph;
+	mud::Gnode* EMSCRIPTEN_KEEPALIVE Scene_get_graph(mud::Scene* self) {
+		static mud::Gnode temp;
+		return (temp = &self->m_graph, &temp);
 	}
-	Node3 EMSCRIPTEN_KEEPALIVE Scene_get_root_node(mud::Scene* self) {
-		return self->m_root_node;
+	mud::Node3* EMSCRIPTEN_KEEPALIVE Scene_get_root_node(mud::Scene* self) {
+		static mud::Node3 temp;
+		return (temp = &self->m_root_node, &temp);
 	}
-	Environment EMSCRIPTEN_KEEPALIVE Scene_get_environment(mud::Scene* self) {
-		return self->m_environment;
+	mud::Environment* EMSCRIPTEN_KEEPALIVE Scene_get_environment(mud::Scene* self) {
+		static mud::Environment temp;
+		return (temp = &self->m_environment, &temp);
 	}
-	Ref EMSCRIPTEN_KEEPALIVE Scene_get_user(mud::Scene* self) {
-		return self->m_user;
+	mud::Ref* EMSCRIPTEN_KEEPALIVE Scene_get_user(mud::Scene* self) {
+		static mud::Ref temp;
+		return (temp = &self->m_user, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Scene___destroy__(mud::Scene* self) {
 		delete self;
@@ -898,8 +965,9 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE Sun_get_elevation(mud::Sun* self) {
 		return self->elevation;
 	}
-	Colour EMSCRIPTEN_KEEPALIVE Sun_get_colour(mud::Sun* self) {
-		return self->m_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Sun_get_colour(mud::Sun* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_colour, &temp);
 	}
 	float EMSCRIPTEN_KEEPALIVE Sun_get_intensity(mud::Sun* self) {
 		return self->m_intensity;
@@ -935,10 +1003,10 @@ extern "C" {
 		delete self;
 	}
 	// Viewport
-	Camera EMSCRIPTEN_KEEPALIVE Viewport_get_camera(mud::Viewport* self) {
+	mud::Camera* EMSCRIPTEN_KEEPALIVE Viewport_get_camera(mud::Viewport* self) {
 		return self->m_camera;
 	}
-	Scene EMSCRIPTEN_KEEPALIVE Viewport_get_scene(mud::Viewport* self) {
+	mud::Scene* EMSCRIPTEN_KEEPALIVE Viewport_get_scene(mud::Viewport* self) {
 		return self->m_scene;
 	}
 	uint16_t EMSCRIPTEN_KEEPALIVE Viewport_get_index(mud::Viewport* self) {
@@ -947,20 +1015,24 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE Viewport_get_active(mud::Viewport* self) {
 		return self->m_active;
 	}
-	uvec4 EMSCRIPTEN_KEEPALIVE Viewport_get_rect(mud::Viewport* self) {
-		return self->m_rect;
+	mud::uvec4* EMSCRIPTEN_KEEPALIVE Viewport_get_rect(mud::Viewport* self) {
+		static mud::uvec4 temp;
+		return (temp = &self->m_rect, &temp);
 	}
 	bool EMSCRIPTEN_KEEPALIVE Viewport_get_scissor(mud::Viewport* self) {
 		return self->m_scissor;
 	}
-	Colour EMSCRIPTEN_KEEPALIVE Viewport_get_clear_colour(mud::Viewport* self) {
-		return self->m_clear_colour;
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Viewport_get_clear_colour(mud::Viewport* self) {
+		static mud::Colour temp;
+		return (temp = &self->m_clear_colour, &temp);
 	}
-	Shading EMSCRIPTEN_KEEPALIVE Viewport_get_shading(mud::Viewport* self) {
-		return self->m_shading;
+	mud::Shading EMSCRIPTEN_KEEPALIVE Viewport_get_shading(mud::Viewport* self) {
+		static mud::Shading temp;
+		return (temp = &self->m_shading, &temp);
 	}
-	Lighting EMSCRIPTEN_KEEPALIVE Viewport_get_lighting(mud::Viewport* self) {
-		return self->m_lighting;
+	mud::Lighting EMSCRIPTEN_KEEPALIVE Viewport_get_lighting(mud::Viewport* self) {
+		static mud::Lighting temp;
+		return (temp = &self->m_lighting, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Viewport___destroy__(mud::Viewport* self) {
 		delete self;
@@ -1004,7 +1076,7 @@ extern "C" {
 	mud::Particles* EMSCRIPTEN_KEEPALIVE Particles_Particles_0() {
 		return new mud::Particles();
 	}
-	Node3 EMSCRIPTEN_KEEPALIVE Particles_get_node(mud::Particles* self) {
+	mud::Node3* EMSCRIPTEN_KEEPALIVE Particles_get_node(mud::Particles* self) {
 		return self->m_node;
 	}
 	void EMSCRIPTEN_KEEPALIVE Particles___destroy__(mud::Particles* self) {
