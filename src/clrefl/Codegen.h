@@ -999,6 +999,13 @@ namespace clgen
 
 	void bind_javascript(CLModule& m)
 	{
+		// @todo:
+		// - vectors
+		// - array types
+		// - noncopy types
+		// - pointer types (mud::Ref)
+		// - handle types
+
 		// not implemented yet
 		std::vector<string> blacklist = { "std::vector", "mud::Ref" };
 
@@ -1520,6 +1527,7 @@ namespace clgen
 				{
 					if(blacklist_member(m)) continue;
 					if(m.m_type.m_type->m_is_templated) continue;
+					if(m.m_type.value() && m.m_type.m_type->m_move_only) continue;
 
 					if(m.m_type.isarray()) continue;
 					{
