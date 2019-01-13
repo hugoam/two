@@ -3,6 +3,7 @@
 #include <clrefl/Generator.h>
 
 #include <string>
+#include <set>
 
 using std::string;
 
@@ -261,10 +262,6 @@ namespace clgen
 	{
 		UNUSED(c);
 		return type_var(m.m_type.m_type->m_id, *m.m_type.m_type, m.m_type.pointer(), m.m_default);
-		//if(m.m_type.m_type->m_struct && !m.m_type.pointer())
-		//	return "var(" + member_type(m) + "(" + m.m_default + "))";
-		//else
-		//	return "Ref(" + type_get(*m.m_type.m_type) + ")";
 	}
 
 	string method_func(const CLType& c, const CLMethod& m)
@@ -307,12 +304,13 @@ namespace clgen
 		return "static Meta meta = { " + type_get(c) + ", " + clnamespace(c) + ", \"" + c.m_name + "\", " + size + ", " + type_class + " };";
 	}
 
-	void write_line(string& t, int& i, const string& s, bool spaces = false)
+	void write_line(string& t, int& i, const string& s, bool spaces = false, bool noendl = false)
 	{
 		if(s[0] == '}') --i;
-		for(size_t c = 0; c < i; ++c) t += spaces ? "    " : "\t";
+		if(t.back() == '\n')
+			for(size_t c = 0; c < i; ++c) t += spaces ? "    " : "\t";
 		t += s;
-		t += "\n";
+		if(!noendl) t += "\n";
 		for(size_t c = 1; c < s.size(); ++c) { if(s[c] == '{') ++i; if(s[c] == '}') --i; }
 		if(s[0] == '{') ++i;
 	}
@@ -826,6 +824,97 @@ namespace clgen
 		auto p = [&](int& i, const string& s) {	write_line(t, i, s, true); };
 		int i = 0;
 
+		auto idl_quals = [](const CLQualType& type) -> string
+		{
+			std::vector<string> quals;
+			if(type.m_type->m_is_basetype) return "";
+			if(type.isconst()) quals.push_back("Const");
+			if(type.reference()) quals.push_back("Ref");
+			else if(!type.pointer()) quals.push_back("Value");
+			return quals.size() > 0 ? "[" + join(quals, ", ") + "] " : "";
+		};
+
+		struct CppToIdl { string cpp; string idl; };
+		std::vector<CppToIdl> cpp_to_idl;
+
+		auto map = [&](string cpp, string idl) { cpp_to_idl.push_back({ cpp, idl }); };
+		map("bool", "boolean");
+		map("float", "float");
+		map("double", "double");
+		map("short", "short");
+		map("unsigned short", "short");
+		map("uint16_t", "short");
+		map("const char*", "DOMString");
+		map("std::string", "DOMString");
+		for(string cpp : { "int", "long", "long long" })
+			map(cpp, "long");
+		for(string cpp : { "unsigned int", "unsigned long", "unsigned long long"  })
+			map(cpp, "long");
+		for(string cpp : { "uint32_t", "size_t" })
+			map(cpp, "long");
+
+		auto idl_type = [&](const CLQualType& type) -> string { for(auto& ctoi : cpp_to_idl) { if(type.m_spelling == ctoi.cpp) return ctoi.idl; } return type.m_type->m_name;  };
+		auto idl_qual_type = [&](const CLQualType& type) -> string { return idl_quals(type) + type.m_type->m_name;  };
+		auto params_types_idl = [&](const CLFunction& f) -> std::vector<string> { return transform<string>(f.m_params, [&](const CLParam& p) { return idl_qual_type(p.m_type); }); };
+
+		p(i, "// Enums");
+		for(auto& pe : m.m_enums)
+			if(pe->m_reflect)
+			{
+				CLEnum& e = *pe;
+				p(i, "enum " + replace(e.m_id, "::", "_") + "{");
+				for(size_t j = 0; j < e.m_ids.size(); ++j)
+					p(i, "\"" + replace(e.m_scoped_ids[j], "::", "_") + "\"");
+				p(i, "};");
+			}
+		p(i, "");
+
+		p(i, "// Sequences");
+		for(auto& ps : m.m_sequences)
+		{
+			CLSequence& s = *ps;
+		}
+		p(i, "");
+
+		p(i, "// Classes");
+		for(auto& pc : m.m_classes)
+			if(pc->m_reflect && !pc->m_is_templated)
+			{
+				CLClass& c = *pc;
+				if(c.m_parent->m_prefix != "")
+					p(i, "[Prefix=\"" + c.m_parent->m_prefix + "\"]");
+				p(i, "interface " + c.m_name + " {");
+
+				for(CLConstructor& ctor : c.m_constructors)
+					p(i, "void " + c.m_name + "(" + join(params_types_idl(ctor), ", ") + ");");
+				for(CLMember& m : c.m_members)
+				{
+					if(!m.m_method)
+						p(i, idl_quals(m.m_type) + "attribute " + idl_type(m.m_type) + " " + m.m_name + ";");
+					else
+						p(i, idl_type(m.m_type) + " " + m.m_name + "();");
+					if(m.m_setter)
+						p(i, "void set" + m.m_capname + "(" + idl_type(m.m_type) + ");");
+				}
+				for(CLMethod& m : c.m_methods)
+					p(i, idl_type(m.m_return_type) + " " + m.m_name + "(" + join(params_types_idl(m), ", ") + ");");
+				for(CLStatic& m : c.m_statics)
+					;
+				//for(CLFunction& f : c.m_functions)
+				//    ;
+
+				p(i, "};");
+			}
+		p(i, "");
+
+		p(i, "// Functions");
+		for(auto& pf : m.m_functions)
+		{
+			CLFunction& f = *pf;
+			p(i, "void " + f.m_name + "(" + join(params_types_idl(f), ", ") + ");");
+		}
+		p(i, "");
+
 		return t;
 	}
 
@@ -865,6 +954,15 @@ namespace clgen
 		return t;
 	}
 
+	export_ template <class T>
+	inline std::vector<T> vector_slice(const std::vector<T>& vector, size_t begin, size_t end)
+	{
+		std::vector<T> result;
+		for(size_t i = begin; i < end; ++i)
+			result.push_back(vector[i]);
+		return result;
+	}
+
 	string amalgam_cpp_template(CLModule& m)
 	{
 		string t;
@@ -897,6 +995,592 @@ namespace clgen
 }
 #endif
 		return t;
+	}
+
+	void bind_javascript(CLModule& m)
+	{
+		string module_js;
+
+		string ct;
+		string jst;
+
+		int ci = 0;
+		int jsi = 0;
+
+		auto cw = [&](const string& s) { write_line(ct, ci, s); };
+		auto jsw = [&](const string& s, bool noendl = false) { write_line(jst, jsi, s, true, noendl); };
+
+		for(CLModule* d : m.m_dependencies)
+			cw("#include <" + d->m_subdir + "/Api.h>");
+		cw("#include <emscripten.h>");
+		cw("");
+		cw("");
+		cw("extern \"C\" {");
+		cw("");
+		cw("// Not using size_t for array indices as the values used by the javascript code are signed.");
+		cw("void array_bounds_check(const int array_size, const int array_idx) {");
+		cw("  if (array_idx < 0 || array_idx >= array_size) {");
+		cw("    EM_ASM({");
+		cw("      throw 'Array index ' + $0 + ' out of bounds: [0,' + $1 + ')';");
+		cw("    }, array_idx, array_size);");
+		cw("  }");
+		cw("}");
+
+		jsw("");
+		jsw("// Bindings utilities");
+		jsw("function WrapperObject() {");
+		jsw("}");
+
+		//js_constructor("WrapperObject");
+
+		//jsw(module_js);
+
+		auto address = [](const CLQualType& t) -> string {
+			return !t.isbasetype() && (t.reference() || t.value()) ? "&" : "";
+		};
+
+		auto value = [](const CLQualType& t) -> string {
+			return !t.isbasetype() && (t.reference() || t.value()) ? "*" : "";
+		};
+
+		auto type_to_c = [&](const CLQualType& t, bool non_pointing = false) -> string
+		{
+			string name = t.isclass() ? t.m_type->m_id + (non_pointing ? "" : "*") : t.m_type->m_name;
+			return (t.isconst() && name != "const char*" ? "const " : "") + name + (t.isarray() ? "[]" : "");
+		};
+
+		/*auto type_to_cdec = [&](const CLQualType& raw)
+		{
+			string ret;
+			string name = ret = type_to_c(raw.m_type->m_name, true);
+			if(raw.isconst()) ret = "const " + ret;
+			//if name not in interfaces: return ret
+			if(raw.reference()) return ret + "&";
+			if(raw.value()) return ret;
+			return ret + "*";
+		};*/
+
+		string js_impl_methods;
+
+		//string bind_prefix = "emscripten_bind_";
+		string bind_prefix = "";
+
+		auto binding_name_str = [&](const CLClass& c, const string& name) { return bind_prefix + c.m_name + "_" + name; };
+		auto binding_name = [&](const CLClass& c, const CLFunction& f) { return bind_prefix + c.m_name + "_" + f.m_name; };
+		auto binding_name_n = [&](const CLClass& c, const CLFunction& f, size_t i) { return  binding_name(c, f) + "_" + to_string(i); };
+
+		struct Overloads { const CLFunction* f; std::set<size_t> lengths; };
+		using OverloadMap = std::map<string, Overloads>;
+
+		auto cramfunc = [](Overloads& o, const CLFunction& f)
+		{
+			if(f.m_name == "Colour")
+				int i = 0;
+			o.f = &f;
+			for(size_t i = f.m_min_args; i <= f.m_params.size(); ++i)
+				o.lengths.insert(i);
+		};
+
+		auto overload = [&](OverloadMap& overloads, const CLClass& c, const CLFunction& f)
+		{
+			if(overloads.find(f.m_name) == overloads.end())
+			{
+				cramfunc(overloads[f.m_name], f);
+				return;
+			}
+
+			Overloads& o = overloads[f.m_name];
+			bool clashes = false;
+			for(size_t i = 0; i < o.f->m_params.size(); ++i)
+				if(i < f.m_params.size() && f.m_params[i].m_type != o.f->m_params[i].m_type)
+					clashes = true;
+			for(size_t i = f.m_min_args; i < f.m_params.size(); ++i)
+				if(o.lengths.find(i) != o.lengths.end())
+					clashes = true;
+			if(!clashes && f.m_params.size() > o.f->m_params.size())
+				cramfunc(o, f);
+			else
+				printf("WARNING: can't bind %s::%s (can only overload signatures of same types and different lengths)", c.m_name.c_str(), f.m_name.c_str());
+		};
+
+		auto call_args = [](const CLFunction& f, size_t n, bool ctor)
+		{
+			std::vector<string> params = transform<string>(0, n, [&](size_t i) { return f.m_params[i].m_name; });
+			return vector_union((ctor ? std::vector<string>{ "self" } : std::vector<string>()), params);
+		};
+
+		auto js_call_inner = [&](const CLClass& c, const CLFunction& f, size_t n, bool ctor)
+		{
+			return "_" + binding_name_n(c, f, n) + "(" + join(call_args(f, n, ctor), ", ") + ")";
+		};
+
+		auto js_call_return_wrap = [&](const CLQualType& return_type, const string& call)
+		{
+			if(return_type.isclass())
+				return "return wrapPointer(" + call + ", " + return_type.m_type_name + ");";
+			else if(return_type.isstring())
+				return "return Pointer_stringify(" + call + ");";
+			else if(return_type.isboolean())
+				return "return !!(" + call + ");";
+			else if(!return_type.isvoid())
+				return "return " + call + ";";
+			else
+				return call + ";";
+		};
+
+		auto js_call_statement = [&](const CLClass& c, const CLFunction& f, size_t n, bool ctor)
+		{
+			string call = js_call_inner(c, f, n, ctor);
+			return ctor ? call + ";" : js_call_return_wrap(f.m_return_type, call);
+		};
+
+		auto js_wrap_optional_call = [&](const CLClass& c, const CLFunction& f, size_t n, const string& call)
+		{
+			if(n < f.m_params.size())
+				jsw("if (" + f.m_params[n].m_name + " === undefined) { " + call + " return; }");
+			else
+				jsw(call);
+		};
+
+		auto js_call_n = [&](const CLClass& c, const CLFunction& f, size_t n, bool ctor)
+		{
+			string call = ctor
+				? "this.ptr = " + js_call_statement(c, f, n, true) + " getCache(" + c.m_name + ")[this.ptr] = this;"
+				: js_call_statement(c, f, n, false);
+			return js_wrap_optional_call(c, f, n, call);
+
+		};
+
+		auto js_call = [&](const CLClass& c, const Overloads& o, bool ctor)
+		{
+			for(size_t i : o.lengths)
+				js_call_n(c, *o.f, i, ctor);
+		};
+
+		auto js_call_prepare = [&](const CLClass& c, const CLFunction& f)
+		{
+			bool prepare = false;
+			for(const CLParam& p : f.m_params)
+				if(p.m_type.isstring() || p.m_type.isarray())
+					prepare = true;
+			if(prepare)
+				jsw("ensureCache.prepare();");
+
+		};
+
+		auto js_check_msg = [](const CLClass& c, const CLFunction& f, const CLParam& p)
+		{
+			return "[CHECK FAILED] " + c.m_name + "::" + f.m_name + "(arg" + to_string(p.m_index) + ":" + p.m_name + "): ";
+		};
+
+		auto js_call_check_arg = [&](const CLQualType& t, const string& a)
+		{
+			string msg = "";// js_check_msg(c, f, p);
+			bool optional = false;
+			if(optional) jsw("if(typeof " + a + " !== \"undefined\" && " + a + " !== null) {");
+
+			if(t.isinteger())
+				jsw("assert(typeof " + a + " === \"number\" && !isNaN(" + a + "), \"" + msg + "Expecting <integer>\");");
+			else if(t.isfloat())
+				jsw("assert(typeof " + a + " === \"number\", \"" + msg + "Expecting <number>\");");
+			else if(t.isboolean())
+				jsw("assert(typeof " + a + " === \"boolean\" || (typeof " + a + " === \"number\" && !isNaN(" + a + ")), \"" + msg + "Expecting <boolean>\");");
+			else if(t.isstring())
+				jsw("assert(typeof " + a + " === \"string\" || (" + a + " && typeof " + a + " === \"object\" && typeof " + a + ".ptr === \"number\"), \"" + msg + "Expecting <string>\");");
+			else if(t.isclass())
+				jsw("assert(typeof " + a + " === \"object\" && typeof " + a + ".ptr === \"number\", \"" + msg + "Expecting <pointer>\");");
+
+			if(optional) jsw("}");
+		};
+
+		auto js_convert_arg_default = [&](const CLQualType& t, const string& a)
+		{
+			bool array_attribute = false;
+			if(!(t.isarray() && !array_attribute))
+			{
+				jsw("if (" + a + " && typeof " + a + " === \"object\") " + a + " = " + a + ".ptr;");
+				if(t.isstring())
+					jsw("else " + a + " = ensureString(" + a + ");");
+			}
+			else
+			{
+				// an array can be received here
+				string arg_type = t.m_type->m_name;
+				if(arg_type == "char" || arg_type == "unsigned char")
+					jsw("if (typeof " + a + " == \"object\") {{ " + a + " = ensureInt8(" + a + "); }}");
+				else if(arg_type == "short" || arg_type == "unsigned short")
+					jsw("if (typeof " + a + " == \"object\") {{ " + a + " = ensureInt16(" + a + "); }}");
+				else if(arg_type == "int", "unsigned int")
+					jsw("if (typeof " + a + " == \"object\") {{ " + a + " = ensureInt32(" + a + "); }}");
+				else if(arg_type == "float")
+					jsw("if (typeof " + a + " == \"object\") {{ " + a + " = ensureFloat32(" + a + "); }}");
+				else if(arg_type == "double")
+					jsw("if (typeof " + a + " == \"object\") {{ " + a + " = ensureFloat64(" + a + "); }}");
+			}
+		};
+
+		auto js_call_convert_arg = [&](const CLQualType& t, const string& a, bool optional = false)
+		{
+			string inner = "";
+
+			jsw("/* " + a + " <" + t.m_type->m_name + "> [" + inner + "] */");
+
+			if(bool checks = false)
+				js_call_check_arg(t, a);
+
+			if(t.isstring())
+			{	
+				js_convert_arg_default(t, a); // legacy path is fast enough for strings.
+			}
+			else if(t.isclass())
+			{
+				if(optional)
+					jsw("if(typeof " + a + " !== \"undefined\" && " + a + " !== null) {{ " + a + " = " + a + ".ptr }};");
+				else
+					jsw(a + " = " + a + ".ptr;"); // No checks in fast mode when the arg is required
+			}
+			else if(!t.isbasetype())
+			{
+				js_convert_arg_default(t, a);
+			}
+		};
+
+		auto js_call_convert_args = [&](const CLClass& c, const CLFunction& f, bool ctor)
+		{
+			for(const CLParam& p : f.m_params)
+				js_call_convert_arg(p.m_type, p.m_name, p.m_index > f.m_min_args);
+		};
+
+		// We need to avoid some closure errors on the constructors we define here.
+		//string js_supress = "/** @suppress {undefinedVars, duplicate} */ ";
+		string js_supress = "";
+
+		auto js_bind_callable = [&](const CLClass& c, const Overloads& o, bool ctor = false)
+		{
+			if(o.f->m_name == "Colour")
+				int i = 0;
+			if(o.f->m_name == "Radiance")
+				int i = 0;
+			const CLFunction& f = *o.f;
+			jsw(js_supress + "function" + (ctor ? " " + f.m_name : "") + "(" + join(call_args(f, f.m_params.size(), false), ", ") + ") {");
+			if(ctor) 
+				jsw("var self = this.ptr;");
+			js_call_prepare(c, f);
+			js_call_convert_args(c, f, ctor);
+			js_call(c, o, ctor);
+			jsw("};");
+		};
+
+		auto js_getter = [&](const CLClass& c, const CLMember& m)
+		{
+			jsw("function() {");
+			jsw("var self = this.ptr;");
+			jsw(js_call_return_wrap(m.m_type, "_" + binding_name_str(c, "get_" + m.m_name) + "(self)"));
+			jsw("}", true);
+		};
+
+		auto js_setter_array = [&]()
+		{};
+
+		auto js_setter = [&](const CLClass& c, const CLMember& m)
+		{
+			jsw("function(" + m.m_name + ") {");
+			jsw("var self = this.ptr;");
+			js_call_convert_arg(m.m_type, m.m_name, false);
+			jsw("_" + binding_name_str(c, "set_" + m.m_name) + "(self, " + m.m_name + ");");
+			jsw("}");
+		};
+
+		auto js_destructor = [&](const CLClass& c)
+		{
+			jsw("function() {");
+			jsw("var self = this.ptr;");
+			jsw("_" + binding_name_str(c, "__destroy__") + "(self);");
+			jsw("};");
+		};
+
+		auto js_constructor = [&](const CLClass& c)
+		{
+			string implementing = "WrapperObject"; // = implements[name][0] if implements.get(name) else 'WrapperObject'
+			jsw(c.m_name + ".prototype = Object.create(" + implementing + ".prototype);");
+			jsw(c.m_name + ".prototype.constructor = " + c.m_name + ";");
+			jsw(c.m_name + ".prototype.__class__ = " + c.m_name + ";");
+			jsw(c.m_name + ".__cache__ = {};");
+			jsw("Module['" + c.m_name + "'] = " + c.m_name + ";");
+		};
+
+		auto c_call_args_n = [&](const CLClass& c, const CLFunction& f, size_t i, bool ctor)
+		{
+			return transform<string>(f.m_params, [](const CLParam& p) { return (p.m_type.reference() ? "*" : "") + p.m_name; });
+		};
+
+		auto c_call_n = [&](const CLClass& c, const CLFunction& f, size_t i, bool ctor)
+		{
+			if(ctor)
+				return "new " + c.m_id + "(" + join(c_call_args_n(c, f, i, true), ", ") + ")";
+			else
+				return "self->" + f.m_name + "(" + join(c_call_args_n(c, f, i, false), ", ") + ")";
+		};
+
+		auto c_call_operator_n = [&](const CLClass& c, const CLFunction& f, size_t i, const string& op)
+		{
+			string cast_self = "self";
+			string maybe_deref = value(f.m_params[0].m_type);
+			if(op.find("=") != string::npos)
+				cw("(*" + cast_self + ") " + op + " " + maybe_deref + f.m_params[0].m_name);
+			else if(op == "[]")
+				cw("((*" + cast_self + ")[" + maybe_deref + f.m_params[0].m_name + "])");
+			else
+				printf("ERROR: unfamiliar operator %s\n", op.c_str());
+		};
+
+		auto c_call_return_wrap = [&](const CLQualType& return_type, const string& call, bool ctor = false)
+		{
+			if(ctor)
+				cw("return " + call + ";");
+			else if(return_type.isvoid())
+				cw(call + ";");
+			else if(return_type.isbasetype())
+				cw("return " + call + ";");
+			else if(!return_type.value())
+				cw("return " + address(return_type) + call + ";");
+			else
+			{
+				cw("static " + return_type.m_type->m_id + " temp;");
+				cw("return (temp = " + call + ", &temp);");
+			}
+		};
+
+		auto c_call_wrapped_n = [&](const CLClass& c, const CLFunction& f, size_t i, bool ctor)
+		{
+			c_call_return_wrap(f.m_return_type, c_call_n(c, f, i, ctor), ctor);
+		};
+
+		auto c_function_args = [&](const CLClass& c, const CLFunction& f, size_t i)
+		{
+			std::vector<string> c_arg_types = transform<string>(f.m_params, [&](const CLParam& p) { return type_to_c(p.m_type); });
+			return join(transform<string>(0, i, [&](size_t i) { return c_arg_types[i] + " " + f.m_params[i].m_name; }), ", ");
+		};
+
+		auto c_method_args = [&](const CLClass& c, const CLFunction& f, size_t i)
+		{
+			string args = c_function_args(c, f, i);
+			return c.m_id + "* self" + (args.size() > 0 ? ", " + args : "");
+		};
+
+		auto c_binding_body = [&]()
+		{
+
+		};
+
+		auto c_bind_callable_n = [&](const CLClass& c, const CLFunction& f, size_t i, bool ctor)
+		{
+			//if(array_attribute)
+			//  sig = [x.replace("[]", "") for x in sig] // for arrays, ignore that this is an array - our get/set methods operate on the elements
+
+			string maybe_const = f.m_return_type.isconst() ? "const " : "";
+			if(!ctor)
+				cw(maybe_const + type_to_c(f.m_return_type) + " EMSCRIPTEN_KEEPALIVE " + binding_name_n(c, f, i) + "(" + c_method_args(c, f, i) + ") {");
+			else
+				cw(c.m_id + "* EMSCRIPTEN_KEEPALIVE " + binding_name_n(c, f, i) + "(" + c_function_args(c, f, i) + ") {");
+
+			c_call_wrapped_n(c, f, i, ctor);
+			cw("}");
+
+			/*if(!ctor)
+				if(i == max_args)
+				{
+					std::vector<string> C_FLOATS = { "float", "double" };
+
+					string dec_args = join(transform<string>(0, i, [&](size_t j) { return type_to_cdec(raw[j]->m_type) + ' ' + args[j]; }), ", "); ;
+					string js_call_args = join(transform<string>(0, i, [&](size_t j) { return (is_interface(sig[j]) ? "(int)" : "") + take_addr_if_nonpointer(raw[j]->m_type) + args[j]; }), ", ");
+
+					js_impl_methods += "  " + c_return_type + " " + func_name + "(" + dec_args + ") " + maybe_const + " {";
+					js_impl_methods += basic_return + "EM_ASM_" + (!vector_has(C_FLOATS, c_return_type) ? "INT" : "DOUBLE") + "({";
+					js_impl_methods += "var self = Module['getCache'](Module['" + class_name + "'])[$0];";
+					js_impl_methods += "if (!self.hasOwnProperty('" + func_name + "')) throw 'a JSImplementation must implement all functions, you forgot " + class_name + "::" + func_name + ".';";
+					js_impl_methods += "return " + return_prefix + "self['" + func_name + "'](" + join(transform<string>(1, max_args + 1, [](size_t i) { return "$" + to_string(i); }), ", ") + ")" + return_postfix + ";";
+					js_impl_methods += "}, (int)this" + string(js_call_args.size() > 0 ? ", " : "") + js_call_args + ");";
+				}*/
+		};
+
+		auto c_bind_callable = [&](const CLClass& c, const CLFunction& f, bool ctor = false)
+		{
+			for(size_t i = f.m_min_args; i <= f.m_params.size(); ++i)
+				c_bind_callable_n(c, f, i, ctor);
+		};
+
+		auto c_getter_array = [&](const CLClass& c, const CLMember& m)
+		{
+			return address(m.m_type) + "self->" + m.m_member + "[index];";
+		};
+
+		auto c_setter_array = [&](const CLClass& c, const CLMember& m)
+		{
+			return "self->" + m.m_member + "[index] = " + value(m.m_type) + "value;";
+		};
+
+		auto c_getter = [&](const CLClass& c, const CLMember& m)
+		{
+			cw(type_to_c(m.m_type) + " EMSCRIPTEN_KEEPALIVE " + binding_name_str(c, "get_" + m.m_name) + "(" + c.m_id + "* self) {");
+			c_call_return_wrap(m.m_type, address(m.m_type) + "self->" + m.m_member);
+			cw("}");
+		};
+
+		auto c_setter = [&](const CLClass& c, const CLMember& m)
+		{
+			cw("void EMSCRIPTEN_KEEPALIVE " + binding_name_str(c, "set_" + m.m_name) + "(" + c.m_id + "* self, " + type_to_c(m.m_type) + " " + m.m_name + ") {");
+			cw("self->" + m.m_member + " = " + value(m.m_type) + m.m_name + ";");
+			cw("}");
+		};
+
+		auto c_destructor = [&](const CLClass& c)
+		{
+			cw("void EMSCRIPTEN_KEEPALIVE " + binding_name_str(c, "__destroy__") + "(" + c.m_id + "* self) {");
+			cw("delete self;");
+			cw("}");
+		};
+
+
+/*for name, interface in interfaces.items():
+  js_impl = interface.getExtendedAttribute('JSImplementation')
+  if not js_impl: continue
+  implements[name] = [js_impl[0]]*/
+
+		for(auto& pc : m.m_classes)
+			if(pc->m_reflect && !pc->m_is_templated)
+			{
+				CLClass& c = *pc;
+				string interface = c.m_name;
+
+				jsw("// " + c.m_name);
+				cw("// " + c.m_name);
+
+				//js_impl_methods = "";
+				
+				//js_impl = interface.getExtendedAttribute('JSImplementation')
+				//if js_impl:
+				//  js_impl = js_impl[0]
+
+				OverloadMap constructors;
+
+				for(CLConstructor& ctor : c.m_constructors)
+					c_bind_callable(c, ctor, true);
+
+				for(CLConstructor& ctor : c.m_constructors)
+					overload(constructors, c, ctor);
+
+				for(auto& pairs : constructors)
+				{
+					Overloads& o = pairs.second;
+					js_bind_callable(c, o, true);
+				}
+
+				if(c.m_constructors.empty())
+				{
+					// Ensure a constructor even if one is not specified.
+					jsw(js_supress + "function " + c.m_name + "() { throw \"cannot construct a " + c.m_name + ", no constructor in IDL\" }");
+				}
+
+				js_constructor(c);
+
+				OverloadMap methods;
+
+				for(CLMethod& m : c.m_methods)
+					c_bind_callable(c, m);
+
+				for(CLMethod& m : c.m_methods)
+					overload(methods, c, m);
+
+				for(auto& pairs : methods)
+				{
+					Overloads& o = pairs.second;
+					jsw(c.m_name + ".prototype[\"" + o.f->m_name + "\"] = " + c.m_name + ".prototype." + o.f->m_name + " = ", true);
+					js_bind_callable(c, o, false);
+				}
+
+				for(CLMember& m : c.m_members)
+				{
+					if(m.m_type.m_type->m_is_templated) continue;
+
+					if(m.m_type.isarray()) continue;
+					{
+						//get_sigs[1] = [Dummy({ "type": WebIDL.BuiltinTypes[WebIDL.IDLBuiltinType.Types.long] })];
+						//set_sigs[2] = [Dummy({ "type": WebIDL.BuiltinTypes[WebIDL.IDLBuiltinType.Types.long] }),
+						//               Dummy({ "type": m.type })];
+
+						//if m.getExtendedAttribute("BoundsChecked"):
+						//  bounds_check = "array_bounds_check(sizeof(self->%s) / sizeof(self->%s[0]), arg0)" % (attr, attr)
+						//  get_call_content = "(%s, %s)" % (bounds_check, get_call_content)
+						//  set_call_content = "(%s, %s)" % (bounds_check, set_call_content)
+					}
+
+					c_getter(c, m);
+
+					jsw("Object.defineProperty(" + c.m_name + ".prototype, \"" + m.m_name + "\", {");
+					jsw("get: ", true);
+					js_getter(c, m);
+					if(m.m_setter || !m.m_type.isconst())
+					{
+						jsw(",");
+						jsw("set: ", true);
+						js_setter(c, m);
+					}
+					jsw("});");
+				}
+
+
+				if(true) //not interface.getExtendedAttribute("NoDelete"):
+				{
+					c_destructor(c);
+					jsw(c.m_name + ".prototype[\"__destroy__\"] = " + c.m_name + ".prototype.__destroy__ = ", true);
+					js_destructor(c);
+				}
+				
+				// Emit C++ class implementation that calls into JS implementation
+
+				/*if(js_impl != "")
+				{
+					pre_c += "\n";
+					pre_c += "class " + c.m_name + " : public " + type_to_c(js_impl, true) + " {";
+					pre_c += "public:";
+					pre_c += join(js_impl_methods, "\n");
+					pre_c += "};";
+				}*/
+			}
+
+			cw("\n}\n\n");
+			jsw("");
+			jsw("(function() {");
+			jsw("function setupEnums() {");
+			
+			for(auto& pe : m.m_enums)
+			{
+				CLEnum& e = *pe;
+				cw("// '" + e.m_name + "'");
+				jsw("");
+				jsw("// '" + e.m_name + "'");
+				for(size_t i = 0; i < e.m_ids.size(); ++i)
+				{
+					string f = "emscripten_enum_" + e.m_name + "_" + e.m_ids[i];
+					cw(e.m_name + " EMSCRIPTEN_KEEPALIVE " + f + "() {");
+					cw("return " + e.m_scoped_ids[i] + ";");
+					cw("}");
+
+					if(e.m_scoped)
+						jsw("Module['" + e.m_name + "']['" + e.m_ids[i] + "'] = _" + f + "();");
+					else
+						jsw("Module['" + e.m_ids[i] + "'] = _" + f + "();");
+				}
+			}
+
+			jsw("}");
+			jsw("if (Module['calledRun']) setupEnums();");
+			jsw("else addOnPreMain(setupEnums);");
+			jsw("})();");
+
+			write_file((m.m_bind_path + "\\" + "glue.cpp").c_str(), ct.c_str());
+			write_file((m.m_bind_path + "\\" + "glue.js").c_str(), jst.c_str());
 	}
 }
 }

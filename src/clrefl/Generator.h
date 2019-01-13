@@ -240,6 +240,7 @@ namespace mud
 
 		bool m_reflect = false;
 
+		bool m_is_basetype = false;
 		bool m_is_template = false;
 		bool m_is_templated = false;
 
@@ -256,22 +257,16 @@ namespace mud
 		{}
 	};
 
-	struct CLQualType
+	enum class CLTypeKind
 	{
-		CLType* m_type = nullptr;
-		string m_spelling;
-		string m_type_name;
-		string m_unqual_type_name;
-
-		bool pointer() const { return m_spelling.back() == '*'; }
-		bool reference() const { return m_spelling.back() == '&' && m_spelling.find("const") == string::npos; }
-		bool const_pointer() const { return m_spelling.substr(0, 5) == "const" && m_spelling.back() == '*'; }
-		bool const_reference() const { return m_spelling.substr(0, 5) == "const" && m_spelling.back() == '&'; }
-		bool value() const { return !this->pointer() && !this->reference(); }
-		bool nullable() const { return this->pointer() || m_type_name == "mud::Ref"; }
-
-		explicit operator CLType&() { return *m_type; }
-		explicit operator const CLType&() const { return *m_type; }
+		Void,
+		Boolean,
+		Char,
+		Integer,
+		Float,
+		String,
+		Class,
+		Array
 	};
 
 	class CLType : public CLPrimitive
@@ -284,6 +279,7 @@ namespace mud
 			m_module = &module;
 		}
 
+		CLTypeKind m_kind;
 		bool m_nested = false;
 		bool m_struct = true;
 		bool m_move_only = false;
@@ -294,6 +290,34 @@ namespace mud
 		std::vector<string> m_aliases;
 	};
 
+	struct CLQualType
+	{
+		CLType* m_type = nullptr;
+		string m_spelling;
+		string m_type_name;
+		string m_unqual_type_name;
+
+		bool operator==(const CLQualType& o) const { return m_type == o.m_type && m_spelling == o.m_spelling; }
+		bool operator!=(const CLQualType& o) const { return !(*this == o); }
+
+		bool pointer() const { return m_spelling.back() == '*'; }
+		bool reference() const { return m_spelling.back() == '&'; }
+		bool isconst() const { return m_spelling.substr(0, 5) == "const"; }
+		bool value() const { return !this->pointer() && !this->reference(); }
+		bool nullable() const { return this->pointer() || m_type_name == "mud::Ref"; }
+		bool isarray() const { return false; }
+		bool isvoid() const { return m_type->m_kind == CLTypeKind::Void; }
+		bool isboolean() const { return m_type->m_kind == CLTypeKind::Boolean; }
+		bool isinteger() const { return m_type->m_kind == CLTypeKind::Integer; }
+		bool isfloat() const { return m_type->m_kind == CLTypeKind::Float; }
+		bool isstring() const { return m_type->m_kind == CLTypeKind::String; }
+		bool isclass() const { return m_type->m_kind == CLTypeKind::Class; }
+		bool isbasetype() const { return m_type->m_kind != CLTypeKind::Class; }
+
+		//explicit operator CLType&() { return *m_type; }
+		//explicit operator const CLType&() const { return *m_type; }
+	};
+
 	class CLBaseType : public CLType
 	{
 	public:
@@ -301,8 +325,25 @@ namespace mud
 			: CLType(module, parent, name)
 		{
 			m_reflect = true;
+			m_is_basetype = true;
+
 			if(name == "const char*")
 				m_pointer = true;
+
+			if(vector_has({ "void" }, name))
+				m_kind = CLTypeKind::Void;
+			else if(vector_has({ "bool" }, name))
+				m_kind = CLTypeKind::Boolean;
+			else if(vector_has({ "char", "signed char", "unsigned char" }, name))
+				m_kind = CLTypeKind::Char;
+			else if(vector_has({ "short", "int", "long", "long long", "unsigned short", "unsigned int", "unsigned long", "unsigned long long" }, name))
+				m_kind = CLTypeKind::Integer;
+			else if(vector_has({ "float", "double" }, name))
+				m_kind = CLTypeKind::Float;
+			else if(vector_has({ "const char*", "std::string" }, name))
+				m_kind = CLTypeKind::String;
+			else
+				m_kind = CLTypeKind::Class;
 		}
 	};
 
@@ -366,6 +407,7 @@ namespace mud
 
 		CLQualType m_return_type;
 		std::vector<CLParam> m_params;
+		size_t m_min_args = 0;
 	};
 
 	class CLMethod : public CLFunction
@@ -410,8 +452,8 @@ namespace mud
 		CLClass& m_parent;
 		CLQualType m_type;
 
-		unique_ptr<CLMethod> m_method = nullptr;
-		bool m_setter;
+		unique_ptr<CLMethod> m_method = {};
+		unique_ptr<CLMethod> m_setter = {};
 
 		string m_member;
 		string m_name;

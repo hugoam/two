@@ -1,0 +1,79 @@
+#include <infra/Api.h>
+#include <tree/Api.h>
+#include <type/Api.h>
+#include <srlz/Api.h>
+#include <math/Api.h>
+#include <geom/Api.h>
+#include <wfc/Api.h>
+#include <ctx/Api.h>
+#include <ui/Api.h>
+#include <uio/Api.h>
+#include <gfx/Api.h>
+#include <gfx-ui/Api.h>
+#include <emscripten.h>
+
+
+extern "C" {
+	
+	// Not using size_t for array indices as the values used by the javascript code are signed.
+	void array_bounds_check(const int array_size, const int array_idx) {
+		  if (array_idx < 0 || array_idx >= array_size) {
+			    EM_ASM({
+				      throw 'Array index ' + $0 + ' out of bounds: [0,' + $1 + ')';
+				    }, array_idx, array_size);
+			  }
+	}
+	// TileModel
+	mud::TileModel* EMSCRIPTEN_KEEPALIVE TileModel_TileModel_0() {
+		return new mud::TileModel();
+	}
+	void EMSCRIPTEN_KEEPALIVE TileModel___destroy__(mud::TileModel* self) {
+		delete self;
+	}
+	// WfcBlock
+	mud::WfcBlock* EMSCRIPTEN_KEEPALIVE WfcBlock_WfcBlock_0() {
+		return new mud::WfcBlock();
+	}
+	mud::WfcBlock* EMSCRIPTEN_KEEPALIVE WfcBlock_WfcBlock_4(const vec3 position, const uvec3 size, const vec3 scale, WaveTileset tileset) {
+		return new mud::WfcBlock(*position, *size, *scale, *tileset, auto_solve);
+	}
+	mud::WfcBlock* EMSCRIPTEN_KEEPALIVE WfcBlock_WfcBlock_5(const vec3 position, const uvec3 size, const vec3 scale, WaveTileset tileset, bool auto_solve) {
+		return new mud::WfcBlock(*position, *size, *scale, *tileset, auto_solve);
+	}
+	void EMSCRIPTEN_KEEPALIVE WfcBlock_reset_0(mud::WfcBlock* self) {
+		self->reset();
+	}
+	void EMSCRIPTEN_KEEPALIVE WfcBlock_observe_0(mud::WfcBlock* self) {
+		self->observe();
+	}
+	void EMSCRIPTEN_KEEPALIVE WfcBlock_propagate_0(mud::WfcBlock* self) {
+		self->propagate();
+	}
+	void EMSCRIPTEN_KEEPALIVE WfcBlock_solve_0(mud::WfcBlock* self) {
+		self->solve(limit);
+	}
+	void EMSCRIPTEN_KEEPALIVE WfcBlock_solve_1(mud::WfcBlock* self, size_t limit) {
+		self->solve(limit);
+	}
+	void EMSCRIPTEN_KEEPALIVE WfcBlock_update_1(mud::WfcBlock* self, Wave wave) {
+		self->update(*wave);
+	}
+	vec3 EMSCRIPTEN_KEEPALIVE WfcBlock_get_position(mud::WfcBlock* self) {
+		return self->m_position;
+	}
+	uvec3 EMSCRIPTEN_KEEPALIVE WfcBlock_get_size(mud::WfcBlock* self) {
+		return self->m_size;
+	}
+	vec3 EMSCRIPTEN_KEEPALIVE WfcBlock_get_scale(mud::WfcBlock* self) {
+		return self->m_scale;
+	}
+	Aabb EMSCRIPTEN_KEEPALIVE WfcBlock_get_aabb(mud::WfcBlock* self) {
+		return self->m_aabb;
+	}
+	void EMSCRIPTEN_KEEPALIVE WfcBlock___destroy__(mud::WfcBlock* self) {
+		delete self;
+	}
+	
+}
+
+

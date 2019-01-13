@@ -25,10 +25,9 @@ namespace mud
 			qual.m_type = module.get_type(parent, qual.m_type_name);
 			// fixing type because of FUCKING clang.....................
 			string spelling = qual.m_type->m_id;
-			if(qual.pointer())         spelling = spelling + "*";
-			if(qual.const_pointer())   spelling = "const " + spelling + "*";
-			if(qual.reference())       spelling = spelling + "&";
-			if(qual.const_reference()) spelling = "const " + spelling + "&";
+			if(qual.pointer())   spelling = spelling + "*";
+			if(qual.reference()) spelling = spelling + "&";
+			if(qual.isconst())   spelling = "const " + spelling;
 			qual.m_spelling = spelling;
 		}
 
@@ -122,6 +121,10 @@ namespace mud
 				}
 			});
 		}
+
+		for(size_t i = 0; i < f.m_params.size(); ++i)
+			if(!f.m_params[i].m_has_default)
+				f.m_min_args = i+1;
 	}
 
 	void parse_function(CLModule& module, CLPrimitive& parent, CXCursor cursor)
@@ -190,11 +193,13 @@ namespace mud
 		m.m_link = has<string>(m.m_annotations, "link");
 		m.m_component = has<string>(m.m_annotations, "comp");
 
-		m.m_setter = !m.m_nonmutable && m.m_method;
-
-		visit_children(cursor, [&](CXCursor c) {
-			if((c.kind == CXCursor_CXXMethod && spelling(c) == "set" + m.m_capname))
-				m.m_setter = true;
+		visit_children(cursor, [&](CXCursor s)
+		{
+			if((s.kind == CXCursor_CXXMethod && spelling(s) == "set" + m.m_capname || spelling(s) == "set_" + m.m_name))
+			{
+				m.m_setter = make_unique<CLMethod>(c, spelling(s));
+				parse_method(c, *m.m_setter, s);
+			}
 		});
 
 		if(m.m_type.m_type)
@@ -294,6 +299,12 @@ namespace mud
 			if(method_names.find(method.m_name) != method_names.end())
 				method.m_overloaded = true;
 			method_names.insert(method.m_name);
+		}
+
+		if(c.m_struct && c.m_constructors.empty())
+		{
+			CLConstructor& ctor = vector_push(c.m_constructors, c, c.m_name);
+			ctor.m_module = c.m_module;
 		}
 	}
 
@@ -574,8 +585,13 @@ namespace mud
 			if(!directory_exists(module.m_bind_path.c_str()))
 				create_directory_tree(module.m_bind_path.c_str());
 
-			string embind_h = clgen::bind_embind_h_template(module);
-			update_file((module.m_bind_path + "\\" + "Embind.cpp").c_str(), embind_h.c_str());
+			string embind_cpp = clgen::bind_embind_h_template(module);
+			update_file((module.m_bind_path + "\\" + "Embind.cpp").c_str(), embind_cpp.c_str());
+
+			string module_idl = clgen::bind_webidl_h_template(module);
+			update_file((module.m_bind_path + "\\" + "Module.idl").c_str(), module_idl.c_str());
+
+			clgen::bind_javascript(module);
 		}
 
 		void add_module(const Json& m)

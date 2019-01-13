@@ -232,6 +232,24 @@ namespace mud
 			result.push_back(func(value));
 		return result;
 	}
+
+	template <class V, class T, class U, class F>
+	export_ std::vector<V> transform(const std::vector<T>& a, const std::vector<U>& b, F func)
+	{
+		std::vector<V> result;
+		for(size_t i = 0; i < a.size(); ++i)
+			result.push_back(func(a[i], b[i]));
+		return result;
+	}
+
+	template <class T, class F>
+	export_ std::vector<T> transform(size_t begin, size_t end, F func)
+	{
+		std::vector<T> result;
+		for(size_t i = begin; i < end; ++i)
+			result.push_back(func(i));
+		return result;
+	}
 }
 
 #if defined(WIN32)

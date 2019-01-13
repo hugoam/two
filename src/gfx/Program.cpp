@@ -159,17 +159,17 @@ namespace mud
 			defines += "NO_TEXEL_FETCH;";
 
 		std::vector<cstring> args;
-		auto push_arg = [](std::vector<cstring>& args, cstring name, cstring arg) { args.push_back(name); args.push_back(arg); };
+		auto push_arg = [&args](cstring name, cstring arg) { args.push_back(name); args.push_back(arg); };
 
 		static cstring types[] = { "compute", "fragment", "geometry", "vertex" };
 
-		push_arg(args, "-f", source_path.c_str());
-		push_arg(args, "-o", output_path.c_str());
-		push_arg(args, "-i", include.c_str());
+		push_arg("-f", source_path.c_str());
+		push_arg("-o", output_path.c_str());
+		push_arg("-i", include.c_str());
 		args.push_back("--depends");
-		push_arg(args, "--varyingdef", varying_path.c_str());
-		push_arg(args, "--define", defines.c_str());
-		push_arg(args, "--type", types[size_t(shader_type)]);
+		push_arg("--varyingdef", varying_path.c_str());
+		push_arg("--define", defines.c_str());
+		push_arg("--type", types[size_t(shader_type)]);
 
 		//if(debug)
 			//args.push_back("--debug");
@@ -180,25 +180,25 @@ namespace mud
 
 		if (target == GLSL)
 		{
-			push_arg(args, "--platform", "linux");
-			//push_arg(args, "--profile", "120");
-			//push_arg(args, "--profile", "130");
-			push_arg(args, "--profile", "430");
+			push_arg("--platform", "linux");
+			//push_arg("--profile", "120");
+			//push_arg("--profile", "130");
+			push_arg("--profile", "430");
 		}
 		else if(target == ESSL)
 		{
-			push_arg(args, "--platform", "android");
+			push_arg("--platform", "android");
 		}
 		else if(target == HLSL)
 		{
 			static cstring profiles[] = { "cs_5_0", "ps_5_0", "gs_5_0", "vs_5_0" };
-			push_arg(args, "--platform", "windows");
-			push_arg(args, "--profile", profiles[size_t(shader_type)]);
+			push_arg("--platform", "windows");
+			push_arg("--profile", profiles[size_t(shader_type)]);
 		}
 		else if (target == Metal)
 		{
-			push_arg(args, "--platform", "osx");
-			push_arg(args, "--profile", "metal");
+			push_arg("--platform", "osx");
+			push_arg("--profile", "metal");
 		}
 
 		int result = bgfx::compileShader(uint32_t(args.size()), args.data());
