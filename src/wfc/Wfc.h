@@ -32,6 +32,7 @@ namespace mud
 
 	export_ struct refl_ MUD_WFC_EXPORT Tile
 	{
+		Tile() {}
 		Tile(uint32_t index, string name, char symmetry, int cardinality, int profile) : m_index(index), m_name(name), m_symmetry(symmetry), m_cardinality(cardinality), m_profile(profile) {}
 		attr_ uint32_t m_index;
 		attr_ string m_name;
