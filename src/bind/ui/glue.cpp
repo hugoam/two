@@ -513,9 +513,6 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Style_get_name(mud::Style* self) {
 		return self->name();
 	}
-	void EMSCRIPTEN_KEEPALIVE Style_set_name(mud::Style* self, const char* name) {
-		self->name = name;
-	}
 	mud::Layout* EMSCRIPTEN_KEEPALIVE Style_get_layout(mud::Style* self) {
 		return &self->layout();
 	}

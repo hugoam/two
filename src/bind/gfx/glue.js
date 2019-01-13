@@ -2516,13 +2516,7 @@ Object.defineProperty(Program.prototype, "name", {
     get: function() {
         var self = this.ptr;
         return _Program_get_name(self);
-    },
-    set: function(name) {
-        var self = this.ptr;
-        /* name <const char*> [] */
-        _Program_set_name(self, name);
-    }
-});
+    }});
 Program.prototype["__destroy__"] = Program.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Program___destroy__(self);

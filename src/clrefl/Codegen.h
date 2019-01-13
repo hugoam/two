@@ -1530,13 +1530,13 @@ namespace clgen
 					}
 
 					c_getter(c, m);
-					if(m.m_setter || !m.m_nonmutable)
+					if(!m.m_nonmutable)
 						c_setter(c, m);
 
 					jsw("Object.defineProperty(" + c.m_name + ".prototype, \"" + m.m_name + "\", {");
 					jsw("get: ", true);
 					js_getter(c, m);
-					if(m.m_setter || !m.m_nonmutable)
+					if(!m.m_nonmutable)
 					{
 						jsw(",");
 						jsw("set: ", true);

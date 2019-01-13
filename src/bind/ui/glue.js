@@ -939,13 +939,7 @@ Object.defineProperty(Style.prototype, "name", {
     get: function() {
         var self = this.ptr;
         return _Style_get_name(self);
-    },
-    set: function(name) {
-        var self = this.ptr;
-        /* name <const char*> [] */
-        _Style_set_name(self, name);
-    }
-});
+    }});
 Object.defineProperty(Style.prototype, "layout", {
     get: function() {
         var self = this.ptr;

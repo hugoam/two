@@ -194,7 +194,11 @@ namespace mud
 		m.m_component = has<string>(m.m_annotations, "comp");
 
 		if(!c.m_is_template)
-			m.m_nonmutable = m.m_nonmutable || m.m_type.reference() || (!m.m_type.pointer() && (m.m_type.isconst() || !m.m_type.copyable()));
+		{
+			m.m_nonmutable |= m.m_type.reference();
+			m.m_nonmutable |= !m.m_type.pointer() && (m.m_type.isconst() || !m.m_type.copyable());
+			m.m_nonmutable |= !m.m_setter && m.m_method;
+		}
 
 		visit_children(cursor, [&](CXCursor s)
 		{

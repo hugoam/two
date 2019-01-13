@@ -1359,9 +1359,6 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Program_get_name(mud::Program* self) {
 		return self->name();
 	}
-	void EMSCRIPTEN_KEEPALIVE Program_set_name(mud::Program* self, const char* name) {
-		self->name = name;
-	}
 	void EMSCRIPTEN_KEEPALIVE Program___destroy__(mud::Program* self) {
 		delete self;
 	}
