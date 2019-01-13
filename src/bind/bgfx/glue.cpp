@@ -3,7 +3,13 @@
 #include <math/Api.h>
 #include <ctx/Api.h>
 #include <bgfx/Api.h>
+
+#ifdef MUD_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
+#define DECL EMSCRIPTEN_KEEPALIVE
+#else
+#define DECL
+#endif
 #include <cstdint>
 
 

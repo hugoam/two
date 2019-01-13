@@ -31,102 +31,102 @@ Context.prototype["reset"] = Context.prototype.reset = function(width, height) {
 Object.defineProperty(Context.prototype, "resource_path", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_mud_Context_get_resource_path(self));
+        return Pointer_stringify(_mud_Context__get_resource_path(self));
     }});
 Object.defineProperty(Context.prototype, "title", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_mud_Context_get_title(self));
+        return Pointer_stringify(_mud_Context__get_title(self));
     },
     set: function(title) {
         var self = this.ptr;
         /* title <std::string> [] */
         if (title && typeof title === "object") title = title.ptr;
         else title = ensureString(title);
-        _mud_Context_set_title(self, title);
+        _mud_Context__set_title(self, title);
     }
 });
 Object.defineProperty(Context.prototype, "width", {
     get: function() {
         var self = this.ptr;
-        return _mud_Context_get_width(self);
+        return _mud_Context__get_width(self);
     },
     set: function(width) {
         var self = this.ptr;
         /* width <unsigned int> [] */
-        _mud_Context_set_width(self, width);
+        _mud_Context__set_width(self, width);
     }
 });
 Object.defineProperty(Context.prototype, "height", {
     get: function() {
         var self = this.ptr;
-        return _mud_Context_get_height(self);
+        return _mud_Context__get_height(self);
     },
     set: function(height) {
         var self = this.ptr;
         /* height <unsigned int> [] */
-        _mud_Context_set_height(self, height);
+        _mud_Context__set_height(self, height);
     }
 });
 Object.defineProperty(Context.prototype, "full_screen", {
     get: function() {
         var self = this.ptr;
-        return !!(_mud_Context_get_full_screen(self));
+        return !!(_mud_Context__get_full_screen(self));
     },
     set: function(full_screen) {
         var self = this.ptr;
         /* full_screen <bool> [] */
-        _mud_Context_set_full_screen(self, full_screen);
+        _mud_Context__set_full_screen(self, full_screen);
     }
 });
 Object.defineProperty(Context.prototype, "active", {
     get: function() {
         var self = this.ptr;
-        return !!(_mud_Context_get_active(self));
+        return !!(_mud_Context__get_active(self));
     },
     set: function(active) {
         var self = this.ptr;
         /* active <bool> [] */
-        _mud_Context_set_active(self, active);
+        _mud_Context__set_active(self, active);
     }
 });
 Object.defineProperty(Context.prototype, "shutdown", {
     get: function() {
         var self = this.ptr;
-        return !!(_mud_Context_get_shutdown(self));
+        return !!(_mud_Context__get_shutdown(self));
     },
     set: function(shutdown) {
         var self = this.ptr;
         /* shutdown <bool> [] */
-        _mud_Context_set_shutdown(self, shutdown);
+        _mud_Context__set_shutdown(self, shutdown);
     }
 });
 Object.defineProperty(Context.prototype, "cursor", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Context_get_cursor(self), mud::vec2);
+        return wrapPointer(_mud_Context__get_cursor(self), mud::vec2);
     },
     set: function(cursor) {
         var self = this.ptr;
         /* cursor <vec2> [] */
         cursor = cursor.ptr;
-        _mud_Context_set_cursor(self, cursor);
+        _mud_Context__set_cursor(self, cursor);
     }
 });
 Object.defineProperty(Context.prototype, "mouse_lock", {
     get: function() {
         var self = this.ptr;
-        return !!(_mud_Context_get_mouse_lock(self));
+        return !!(_mud_Context__get_mouse_lock(self));
     },
     set: function(mouse_lock) {
         var self = this.ptr;
         /* mouse_lock <bool> [] */
-        _mud_Context_set_mouse_lock(self, mouse_lock);
+        _mud_Context__set_mouse_lock(self, mouse_lock);
     }
 });
 Context.prototype["__destroy__"] = Context.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Context___destroy__(self);
+    _mud_Context__destroy(self);
 };
 // ControlNode
 function ControlNode() { throw "cannot construct a ControlNode, no constructor in IDL" }
@@ -137,7 +137,7 @@ ControlNode.__cache__ = {};
 Module['ControlNode'] = ControlNode;
 ControlNode.prototype["__destroy__"] = ControlNode.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ControlNode___destroy__(self);
+    _mud_ControlNode__destroy(self);
 };
 // InputEvent
 function InputEvent() {
@@ -160,88 +160,88 @@ InputEvent.prototype["valid"] = InputEvent.prototype.valid = function() {
 Object.defineProperty(InputEvent.prototype, "deviceType", {
     get: function() {
         var self = this.ptr;
-        return _mud_InputEvent_get_deviceType(self);
+        return _mud_InputEvent__get_deviceType(self);
     },
     set: function(deviceType) {
         var self = this.ptr;
         /* deviceType <DeviceType> [] */
         if (deviceType && typeof deviceType === "object") deviceType = deviceType.ptr;
-        _mud_InputEvent_set_deviceType(self, deviceType);
+        _mud_InputEvent__set_deviceType(self, deviceType);
     }
 });
 Object.defineProperty(InputEvent.prototype, "eventType", {
     get: function() {
         var self = this.ptr;
-        return _mud_InputEvent_get_eventType(self);
+        return _mud_InputEvent__get_eventType(self);
     },
     set: function(eventType) {
         var self = this.ptr;
         /* eventType <EventType> [] */
         if (eventType && typeof eventType === "object") eventType = eventType.ptr;
-        _mud_InputEvent_set_eventType(self, eventType);
+        _mud_InputEvent__set_eventType(self, eventType);
     }
 });
 Object.defineProperty(InputEvent.prototype, "receiver", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_InputEvent_get_receiver(self), mud::ControlNode);
+        return wrapPointer(_mud_InputEvent__get_receiver(self), mud::ControlNode);
     },
     set: function(receiver) {
         var self = this.ptr;
         /* receiver <ControlNode> [] */
         receiver = receiver.ptr;
-        _mud_InputEvent_set_receiver(self, receiver);
+        _mud_InputEvent__set_receiver(self, receiver);
     }
 });
 Object.defineProperty(InputEvent.prototype, "consumer", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_InputEvent_get_consumer(self), mud::ControlNode);
+        return wrapPointer(_mud_InputEvent__get_consumer(self), mud::ControlNode);
     },
     set: function(consumer) {
         var self = this.ptr;
         /* consumer <ControlNode> [] */
         consumer = consumer.ptr;
-        _mud_InputEvent_set_consumer(self, consumer);
+        _mud_InputEvent__set_consumer(self, consumer);
     }
 });
 Object.defineProperty(InputEvent.prototype, "abort", {
     get: function() {
         var self = this.ptr;
-        return !!(_mud_InputEvent_get_abort(self));
+        return !!(_mud_InputEvent__get_abort(self));
     },
     set: function(abort) {
         var self = this.ptr;
         /* abort <bool> [] */
-        _mud_InputEvent_set_abort(self, abort);
+        _mud_InputEvent__set_abort(self, abort);
     }
 });
 Object.defineProperty(InputEvent.prototype, "modifiers", {
     get: function() {
         var self = this.ptr;
-        return _mud_InputEvent_get_modifiers(self);
+        return _mud_InputEvent__get_modifiers(self);
     },
     set: function(modifiers) {
         var self = this.ptr;
         /* modifiers <InputMod> [] */
         if (modifiers && typeof modifiers === "object") modifiers = modifiers.ptr;
-        _mud_InputEvent_set_modifiers(self, modifiers);
+        _mud_InputEvent__set_modifiers(self, modifiers);
     }
 });
 Object.defineProperty(InputEvent.prototype, "key", {
     get: function() {
         var self = this.ptr;
-        return _mud_InputEvent_get_key(self);
+        return _mud_InputEvent__get_key(self);
     },
     set: function(key) {
         var self = this.ptr;
         /* key <int> [] */
-        _mud_InputEvent_set_key(self, key);
+        _mud_InputEvent__set_key(self, key);
     }
 });
 InputEvent.prototype["__destroy__"] = InputEvent.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_InputEvent___destroy__(self);
+    _mud_InputEvent__destroy(self);
 };
 // Keyboard
 function Keyboard() { throw "cannot construct a Keyboard, no constructor in IDL" }
@@ -252,7 +252,7 @@ Keyboard.__cache__ = {};
 Module['Keyboard'] = Keyboard;
 Keyboard.prototype["__destroy__"] = Keyboard.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Keyboard___destroy__(self);
+    _mud_Keyboard__destroy(self);
 };
 // Mouse
 function Mouse() { throw "cannot construct a Mouse, no constructor in IDL" }
@@ -263,7 +263,7 @@ Mouse.__cache__ = {};
 Module['Mouse'] = Mouse;
 Mouse.prototype["__destroy__"] = Mouse.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Mouse___destroy__(self);
+    _mud_Mouse__destroy(self);
 };
 // RenderSystem
 function RenderSystem() { throw "cannot construct a RenderSystem, no constructor in IDL" }
@@ -274,7 +274,7 @@ RenderSystem.__cache__ = {};
 Module['RenderSystem'] = RenderSystem;
 RenderSystem.prototype["__destroy__"] = RenderSystem.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_RenderSystem___destroy__(self);
+    _mud_RenderSystem__destroy(self);
 };
 // KeyEvent
 function KeyEvent() {
@@ -289,29 +289,29 @@ Module['KeyEvent'] = KeyEvent;
 Object.defineProperty(KeyEvent.prototype, "code", {
     get: function() {
         var self = this.ptr;
-        return _mud_KeyEvent_get_code(self);
+        return _mud_KeyEvent__get_code(self);
     },
     set: function(code) {
         var self = this.ptr;
         /* code <Key> [] */
         if (code && typeof code === "object") code = code.ptr;
-        _mud_KeyEvent_set_code(self, code);
+        _mud_KeyEvent__set_code(self, code);
     }
 });
 Object.defineProperty(KeyEvent.prototype, "char", {
     get: function() {
         var self = this.ptr;
-        return _mud_KeyEvent_get_char(self);
+        return _mud_KeyEvent__get_char(self);
     },
     set: function(char) {
         var self = this.ptr;
         /* char <char> [] */
-        _mud_KeyEvent_set_char(self, char);
+        _mud_KeyEvent__set_char(self, char);
     }
 });
 KeyEvent.prototype["__destroy__"] = KeyEvent.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_KeyEvent___destroy__(self);
+    _mud_KeyEvent__destroy(self);
 };
 // MouseEvent
 function MouseEvent() {
@@ -326,77 +326,77 @@ Module['MouseEvent'] = MouseEvent;
 Object.defineProperty(MouseEvent.prototype, "pos", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_MouseEvent_get_pos(self), mud::vec2);
+        return wrapPointer(_mud_MouseEvent__get_pos(self), mud::vec2);
     },
     set: function(pos) {
         var self = this.ptr;
         /* pos <vec2> [] */
         pos = pos.ptr;
-        _mud_MouseEvent_set_pos(self, pos);
+        _mud_MouseEvent__set_pos(self, pos);
     }
 });
 Object.defineProperty(MouseEvent.prototype, "relative", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_MouseEvent_get_relative(self), mud::vec2);
+        return wrapPointer(_mud_MouseEvent__get_relative(self), mud::vec2);
     },
     set: function(relative) {
         var self = this.ptr;
         /* relative <vec2> [] */
         relative = relative.ptr;
-        _mud_MouseEvent_set_relative(self, relative);
+        _mud_MouseEvent__set_relative(self, relative);
     }
 });
 Object.defineProperty(MouseEvent.prototype, "delta", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_MouseEvent_get_delta(self), mud::vec2);
+        return wrapPointer(_mud_MouseEvent__get_delta(self), mud::vec2);
     },
     set: function(delta) {
         var self = this.ptr;
         /* delta <vec2> [] */
         delta = delta.ptr;
-        _mud_MouseEvent_set_delta(self, delta);
+        _mud_MouseEvent__set_delta(self, delta);
     }
 });
 Object.defineProperty(MouseEvent.prototype, "deltaZ", {
     get: function() {
         var self = this.ptr;
-        return _mud_MouseEvent_get_deltaZ(self);
+        return _mud_MouseEvent__get_deltaZ(self);
     },
     set: function(deltaZ) {
         var self = this.ptr;
         /* deltaZ <float> [] */
-        _mud_MouseEvent_set_deltaZ(self, deltaZ);
+        _mud_MouseEvent__set_deltaZ(self, deltaZ);
     }
 });
 Object.defineProperty(MouseEvent.prototype, "pressed", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_MouseEvent_get_pressed(self), mud::vec2);
+        return wrapPointer(_mud_MouseEvent__get_pressed(self), mud::vec2);
     },
     set: function(pressed) {
         var self = this.ptr;
         /* pressed <vec2> [] */
         pressed = pressed.ptr;
-        _mud_MouseEvent_set_pressed(self, pressed);
+        _mud_MouseEvent__set_pressed(self, pressed);
     }
 });
 Object.defineProperty(MouseEvent.prototype, "button", {
     get: function() {
         var self = this.ptr;
-        return _mud_MouseEvent_get_button(self);
+        return _mud_MouseEvent__get_button(self);
     },
     set: function(button) {
         var self = this.ptr;
         /* button <MouseButtonCode> [] */
         if (button && typeof button === "object") button = button.ptr;
-        _mud_MouseEvent_set_button(self, button);
+        _mud_MouseEvent__set_button(self, button);
     }
 });
 MouseEvent.prototype["__destroy__"] = MouseEvent.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_MouseEvent___destroy__(self);
+    _mud_MouseEvent__destroy(self);
 };
 
 (function() {

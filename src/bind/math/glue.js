@@ -23,50 +23,50 @@ Module['Colour'] = Colour;
 Object.defineProperty(Colour.prototype, "r", {
     get: function() {
         var self = this.ptr;
-        return _mud_Colour_get_r(self);
+        return _mud_Colour__get_r(self);
     },
     set: function(r) {
         var self = this.ptr;
         /* r <float> [] */
-        _mud_Colour_set_r(self, r);
+        _mud_Colour__set_r(self, r);
     }
 });
 Object.defineProperty(Colour.prototype, "g", {
     get: function() {
         var self = this.ptr;
-        return _mud_Colour_get_g(self);
+        return _mud_Colour__get_g(self);
     },
     set: function(g) {
         var self = this.ptr;
         /* g <float> [] */
-        _mud_Colour_set_g(self, g);
+        _mud_Colour__set_g(self, g);
     }
 });
 Object.defineProperty(Colour.prototype, "b", {
     get: function() {
         var self = this.ptr;
-        return _mud_Colour_get_b(self);
+        return _mud_Colour__get_b(self);
     },
     set: function(b) {
         var self = this.ptr;
         /* b <float> [] */
-        _mud_Colour_set_b(self, b);
+        _mud_Colour__set_b(self, b);
     }
 });
 Object.defineProperty(Colour.prototype, "a", {
     get: function() {
         var self = this.ptr;
-        return _mud_Colour_get_a(self);
+        return _mud_Colour__get_a(self);
     },
     set: function(a) {
         var self = this.ptr;
         /* a <float> [] */
-        _mud_Colour_set_a(self, a);
+        _mud_Colour__set_a(self, a);
     }
 });
 Colour.prototype["__destroy__"] = Colour.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Colour___destroy__(self);
+    _mud_Colour__destroy(self);
 };
 // Gauge
 function Gauge(value) {
@@ -82,7 +82,7 @@ Gauge.__cache__ = {};
 Module['Gauge'] = Gauge;
 Gauge.prototype["__destroy__"] = Gauge.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Gauge___destroy__(self);
+    _mud_Gauge__destroy(self);
 };
 // Image
 function Image() {
@@ -96,7 +96,7 @@ Image.__cache__ = {};
 Module['Image'] = Image;
 Image.prototype["__destroy__"] = Image.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Image___destroy__(self);
+    _mud_Image__destroy(self);
 };
 // Image256
 function Image256(width, height, palette) {
@@ -118,40 +118,40 @@ Module['Image256'] = Image256;
 Object.defineProperty(Image256.prototype, "width", {
     get: function() {
         var self = this.ptr;
-        return _mud_Image256_get_width(self);
+        return _mud_Image256__get_width(self);
     },
     set: function(width) {
         var self = this.ptr;
         /* width <uint16_t> [] */
-        _mud_Image256_set_width(self, width);
+        _mud_Image256__set_width(self, width);
     }
 });
 Object.defineProperty(Image256.prototype, "height", {
     get: function() {
         var self = this.ptr;
-        return _mud_Image256_get_height(self);
+        return _mud_Image256__get_height(self);
     },
     set: function(height) {
         var self = this.ptr;
         /* height <uint16_t> [] */
-        _mud_Image256_set_height(self, height);
+        _mud_Image256__set_height(self, height);
     }
 });
 Object.defineProperty(Image256.prototype, "palette", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Image256_get_palette(self), mud::Palette);
+        return wrapPointer(_mud_Image256__get_palette(self), mud::Palette);
     },
     set: function(palette) {
         var self = this.ptr;
         /* palette <Palette> [] */
         palette = palette.ptr;
-        _mud_Image256_set_palette(self, palette);
+        _mud_Image256__set_palette(self, palette);
     }
 });
 Image256.prototype["__destroy__"] = Image256.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Image256___destroy__(self);
+    _mud_Image256__destroy(self);
 };
 // ImageAtlas
 function ImageAtlas() { throw "cannot construct a ImageAtlas, no constructor in IDL" }
@@ -162,7 +162,7 @@ ImageAtlas.__cache__ = {};
 Module['ImageAtlas'] = ImageAtlas;
 ImageAtlas.prototype["__destroy__"] = ImageAtlas.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ImageAtlas___destroy__(self);
+    _mud_ImageAtlas__destroy(self);
 };
 // Palette
 function Palette(spectrum, steps) {
@@ -179,7 +179,7 @@ Palette.__cache__ = {};
 Module['Palette'] = Palette;
 Palette.prototype["__destroy__"] = Palette.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Palette___destroy__(self);
+    _mud_Palette__destroy(self);
 };
 // Ratio
 function Ratio(value) {
@@ -195,7 +195,7 @@ Ratio.__cache__ = {};
 Module['Ratio'] = Ratio;
 Ratio.prototype["__destroy__"] = Ratio.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Ratio___destroy__(self);
+    _mud_Ratio__destroy(self);
 };
 // Time
 function Time(value) {
@@ -211,17 +211,17 @@ Module['Time'] = Time;
 Object.defineProperty(Time.prototype, "value", {
     get: function() {
         var self = this.ptr;
-        return _mud_Time_get_value(self);
+        return _mud_Time__get_value(self);
     },
     set: function(value) {
         var self = this.ptr;
         /* value <double> [] */
-        _mud_Time_set_value(self, value);
+        _mud_Time__set_value(self, value);
     }
 });
 Time.prototype["__destroy__"] = Time.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Time___destroy__(self);
+    _mud_Time__destroy(self);
 };
 // TimeSpan
 function TimeSpan(s, e) {
@@ -240,30 +240,30 @@ Module['TimeSpan'] = TimeSpan;
 Object.defineProperty(TimeSpan.prototype, "start", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_TimeSpan_get_start(self), mud::Time);
+        return wrapPointer(_mud_TimeSpan__get_start(self), mud::Time);
     },
     set: function(start) {
         var self = this.ptr;
         /* start <Time> [] */
         start = start.ptr;
-        _mud_TimeSpan_set_start(self, start);
+        _mud_TimeSpan__set_start(self, start);
     }
 });
 Object.defineProperty(TimeSpan.prototype, "end", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_TimeSpan_get_end(self), mud::Time);
+        return wrapPointer(_mud_TimeSpan__get_end(self), mud::Time);
     },
     set: function(end) {
         var self = this.ptr;
         /* end <Time> [] */
         end = end.ptr;
-        _mud_TimeSpan_set_end(self, end);
+        _mud_TimeSpan__set_end(self, end);
     }
 });
 TimeSpan.prototype["__destroy__"] = TimeSpan.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_TimeSpan___destroy__(self);
+    _mud_TimeSpan__destroy(self);
 };
 // Transform
 function Transform(position, rotation, scale) {
@@ -285,42 +285,42 @@ Module['Transform'] = Transform;
 Object.defineProperty(Transform.prototype, "position", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Transform_get_position(self), mud::vec3);
+        return wrapPointer(_mud_Transform__get_position(self), mud::vec3);
     },
     set: function(position) {
         var self = this.ptr;
         /* position <vec3> [] */
         position = position.ptr;
-        _mud_Transform_set_position(self, position);
+        _mud_Transform__set_position(self, position);
     }
 });
 Object.defineProperty(Transform.prototype, "rotation", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Transform_get_rotation(self), mud::quat);
+        return wrapPointer(_mud_Transform__get_rotation(self), mud::quat);
     },
     set: function(rotation) {
         var self = this.ptr;
         /* rotation <quat> [] */
         rotation = rotation.ptr;
-        _mud_Transform_set_rotation(self, rotation);
+        _mud_Transform__set_rotation(self, rotation);
     }
 });
 Object.defineProperty(Transform.prototype, "scale", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Transform_get_scale(self), mud::vec3);
+        return wrapPointer(_mud_Transform__get_scale(self), mud::vec3);
     },
     set: function(scale) {
         var self = this.ptr;
         /* scale <vec3> [] */
         scale = scale.ptr;
-        _mud_Transform_set_scale(self, scale);
+        _mud_Transform__set_scale(self, scale);
     }
 });
 Transform.prototype["__destroy__"] = Transform.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Transform___destroy__(self);
+    _mud_Transform__destroy(self);
 };
 // bvec3
 function bvec3() {
@@ -334,7 +334,7 @@ bvec3.__cache__ = {};
 Module['bvec3'] = bvec3;
 bvec3.prototype["__destroy__"] = bvec3.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_bvec3___destroy__(self);
+    _mud_bvec3__destroy(self);
 };
 // bvec4
 function bvec4() {
@@ -348,7 +348,7 @@ bvec4.__cache__ = {};
 Module['bvec4'] = bvec4;
 bvec4.prototype["__destroy__"] = bvec4.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_bvec4___destroy__(self);
+    _mud_bvec4__destroy(self);
 };
 // half2
 function half2() {
@@ -362,7 +362,7 @@ half2.__cache__ = {};
 Module['half2'] = half2;
 half2.prototype["__destroy__"] = half2.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_half2___destroy__(self);
+    _mud_half2__destroy(self);
 };
 // half3
 function half3() {
@@ -376,7 +376,7 @@ half3.__cache__ = {};
 Module['half3'] = half3;
 half3.prototype["__destroy__"] = half3.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_half3___destroy__(self);
+    _mud_half3__destroy(self);
 };
 // ivec2
 function ivec2() {
@@ -390,7 +390,7 @@ ivec2.__cache__ = {};
 Module['ivec2'] = ivec2;
 ivec2.prototype["__destroy__"] = ivec2.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ivec2___destroy__(self);
+    _mud_ivec2__destroy(self);
 };
 // ivec3
 function ivec3(x, y, z) {
@@ -410,39 +410,39 @@ Module['ivec3'] = ivec3;
 Object.defineProperty(ivec3.prototype, "x", {
     get: function() {
         var self = this.ptr;
-        return _mud_ivec3_get_x(self);
+        return _mud_ivec3__get_x(self);
     },
     set: function(x) {
         var self = this.ptr;
         /* x <int> [] */
-        _mud_ivec3_set_x(self, x);
+        _mud_ivec3__set_x(self, x);
     }
 });
 Object.defineProperty(ivec3.prototype, "y", {
     get: function() {
         var self = this.ptr;
-        return _mud_ivec3_get_y(self);
+        return _mud_ivec3__get_y(self);
     },
     set: function(y) {
         var self = this.ptr;
         /* y <int> [] */
-        _mud_ivec3_set_y(self, y);
+        _mud_ivec3__set_y(self, y);
     }
 });
 Object.defineProperty(ivec3.prototype, "z", {
     get: function() {
         var self = this.ptr;
-        return _mud_ivec3_get_z(self);
+        return _mud_ivec3__get_z(self);
     },
     set: function(z) {
         var self = this.ptr;
         /* z <int> [] */
-        _mud_ivec3_set_z(self, z);
+        _mud_ivec3__set_z(self, z);
     }
 });
 ivec3.prototype["__destroy__"] = ivec3.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ivec3___destroy__(self);
+    _mud_ivec3__destroy(self);
 };
 // ivec4
 function ivec4() {
@@ -456,7 +456,7 @@ ivec4.__cache__ = {};
 Module['ivec4'] = ivec4;
 ivec4.prototype["__destroy__"] = ivec4.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ivec4___destroy__(self);
+    _mud_ivec4__destroy(self);
 };
 // mat4
 function mat4() {
@@ -470,7 +470,7 @@ mat4.__cache__ = {};
 Module['mat4'] = mat4;
 mat4.prototype["__destroy__"] = mat4.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_mat4___destroy__(self);
+    _mud_mat4__destroy(self);
 };
 // quat
 function quat(w, x, y, z) {
@@ -490,50 +490,50 @@ Module['quat'] = quat;
 Object.defineProperty(quat.prototype, "x", {
     get: function() {
         var self = this.ptr;
-        return _mud_quat_get_x(self);
+        return _mud_quat__get_x(self);
     },
     set: function(x) {
         var self = this.ptr;
         /* x <float> [] */
-        _mud_quat_set_x(self, x);
+        _mud_quat__set_x(self, x);
     }
 });
 Object.defineProperty(quat.prototype, "y", {
     get: function() {
         var self = this.ptr;
-        return _mud_quat_get_y(self);
+        return _mud_quat__get_y(self);
     },
     set: function(y) {
         var self = this.ptr;
         /* y <float> [] */
-        _mud_quat_set_y(self, y);
+        _mud_quat__set_y(self, y);
     }
 });
 Object.defineProperty(quat.prototype, "z", {
     get: function() {
         var self = this.ptr;
-        return _mud_quat_get_z(self);
+        return _mud_quat__get_z(self);
     },
     set: function(z) {
         var self = this.ptr;
         /* z <float> [] */
-        _mud_quat_set_z(self, z);
+        _mud_quat__set_z(self, z);
     }
 });
 Object.defineProperty(quat.prototype, "w", {
     get: function() {
         var self = this.ptr;
-        return _mud_quat_get_w(self);
+        return _mud_quat__get_w(self);
     },
     set: function(w) {
         var self = this.ptr;
         /* w <float> [] */
-        _mud_quat_set_w(self, w);
+        _mud_quat__set_w(self, w);
     }
 });
 quat.prototype["__destroy__"] = quat.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_quat___destroy__(self);
+    _mud_quat__destroy(self);
 };
 // uvec2
 function uvec2(x, y) {
@@ -552,28 +552,28 @@ Module['uvec2'] = uvec2;
 Object.defineProperty(uvec2.prototype, "x", {
     get: function() {
         var self = this.ptr;
-        return _mud_uvec2_get_x(self);
+        return _mud_uvec2__get_x(self);
     },
     set: function(x) {
         var self = this.ptr;
         /* x <uint32_t> [] */
-        _mud_uvec2_set_x(self, x);
+        _mud_uvec2__set_x(self, x);
     }
 });
 Object.defineProperty(uvec2.prototype, "y", {
     get: function() {
         var self = this.ptr;
-        return _mud_uvec2_get_y(self);
+        return _mud_uvec2__get_y(self);
     },
     set: function(y) {
         var self = this.ptr;
         /* y <uint32_t> [] */
-        _mud_uvec2_set_y(self, y);
+        _mud_uvec2__set_y(self, y);
     }
 });
 uvec2.prototype["__destroy__"] = uvec2.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_uvec2___destroy__(self);
+    _mud_uvec2__destroy(self);
 };
 // uvec3
 function uvec3(x, y, z) {
@@ -593,39 +593,39 @@ Module['uvec3'] = uvec3;
 Object.defineProperty(uvec3.prototype, "x", {
     get: function() {
         var self = this.ptr;
-        return _mud_uvec3_get_x(self);
+        return _mud_uvec3__get_x(self);
     },
     set: function(x) {
         var self = this.ptr;
         /* x <uint32_t> [] */
-        _mud_uvec3_set_x(self, x);
+        _mud_uvec3__set_x(self, x);
     }
 });
 Object.defineProperty(uvec3.prototype, "y", {
     get: function() {
         var self = this.ptr;
-        return _mud_uvec3_get_y(self);
+        return _mud_uvec3__get_y(self);
     },
     set: function(y) {
         var self = this.ptr;
         /* y <uint32_t> [] */
-        _mud_uvec3_set_y(self, y);
+        _mud_uvec3__set_y(self, y);
     }
 });
 Object.defineProperty(uvec3.prototype, "z", {
     get: function() {
         var self = this.ptr;
-        return _mud_uvec3_get_z(self);
+        return _mud_uvec3__get_z(self);
     },
     set: function(z) {
         var self = this.ptr;
         /* z <uint32_t> [] */
-        _mud_uvec3_set_z(self, z);
+        _mud_uvec3__set_z(self, z);
     }
 });
 uvec3.prototype["__destroy__"] = uvec3.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_uvec3___destroy__(self);
+    _mud_uvec3__destroy(self);
 };
 // uvec4
 function uvec4(w, x, y, z) {
@@ -646,50 +646,50 @@ Module['uvec4'] = uvec4;
 Object.defineProperty(uvec4.prototype, "x", {
     get: function() {
         var self = this.ptr;
-        return _mud_uvec4_get_x(self);
+        return _mud_uvec4__get_x(self);
     },
     set: function(x) {
         var self = this.ptr;
         /* x <uint32_t> [] */
-        _mud_uvec4_set_x(self, x);
+        _mud_uvec4__set_x(self, x);
     }
 });
 Object.defineProperty(uvec4.prototype, "y", {
     get: function() {
         var self = this.ptr;
-        return _mud_uvec4_get_y(self);
+        return _mud_uvec4__get_y(self);
     },
     set: function(y) {
         var self = this.ptr;
         /* y <uint32_t> [] */
-        _mud_uvec4_set_y(self, y);
+        _mud_uvec4__set_y(self, y);
     }
 });
 Object.defineProperty(uvec4.prototype, "z", {
     get: function() {
         var self = this.ptr;
-        return _mud_uvec4_get_z(self);
+        return _mud_uvec4__get_z(self);
     },
     set: function(z) {
         var self = this.ptr;
         /* z <uint32_t> [] */
-        _mud_uvec4_set_z(self, z);
+        _mud_uvec4__set_z(self, z);
     }
 });
 Object.defineProperty(uvec4.prototype, "w", {
     get: function() {
         var self = this.ptr;
-        return _mud_uvec4_get_w(self);
+        return _mud_uvec4__get_w(self);
     },
     set: function(w) {
         var self = this.ptr;
         /* w <uint32_t> [] */
-        _mud_uvec4_set_w(self, w);
+        _mud_uvec4__set_w(self, w);
     }
 });
 uvec4.prototype["__destroy__"] = uvec4.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_uvec4___destroy__(self);
+    _mud_uvec4__destroy(self);
 };
 // vec2
 function vec2(x, y) {
@@ -708,28 +708,28 @@ Module['vec2'] = vec2;
 Object.defineProperty(vec2.prototype, "x", {
     get: function() {
         var self = this.ptr;
-        return _mud_vec2_get_x(self);
+        return _mud_vec2__get_x(self);
     },
     set: function(x) {
         var self = this.ptr;
         /* x <float> [] */
-        _mud_vec2_set_x(self, x);
+        _mud_vec2__set_x(self, x);
     }
 });
 Object.defineProperty(vec2.prototype, "y", {
     get: function() {
         var self = this.ptr;
-        return _mud_vec2_get_y(self);
+        return _mud_vec2__get_y(self);
     },
     set: function(y) {
         var self = this.ptr;
         /* y <float> [] */
-        _mud_vec2_set_y(self, y);
+        _mud_vec2__set_y(self, y);
     }
 });
 vec2.prototype["__destroy__"] = vec2.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_vec2___destroy__(self);
+    _mud_vec2__destroy(self);
 };
 // vec3
 function vec3(x, y, z) {
@@ -749,39 +749,39 @@ Module['vec3'] = vec3;
 Object.defineProperty(vec3.prototype, "x", {
     get: function() {
         var self = this.ptr;
-        return _mud_vec3_get_x(self);
+        return _mud_vec3__get_x(self);
     },
     set: function(x) {
         var self = this.ptr;
         /* x <float> [] */
-        _mud_vec3_set_x(self, x);
+        _mud_vec3__set_x(self, x);
     }
 });
 Object.defineProperty(vec3.prototype, "y", {
     get: function() {
         var self = this.ptr;
-        return _mud_vec3_get_y(self);
+        return _mud_vec3__get_y(self);
     },
     set: function(y) {
         var self = this.ptr;
         /* y <float> [] */
-        _mud_vec3_set_y(self, y);
+        _mud_vec3__set_y(self, y);
     }
 });
 Object.defineProperty(vec3.prototype, "z", {
     get: function() {
         var self = this.ptr;
-        return _mud_vec3_get_z(self);
+        return _mud_vec3__get_z(self);
     },
     set: function(z) {
         var self = this.ptr;
         /* z <float> [] */
-        _mud_vec3_set_z(self, z);
+        _mud_vec3__set_z(self, z);
     }
 });
 vec3.prototype["__destroy__"] = vec3.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_vec3___destroy__(self);
+    _mud_vec3__destroy(self);
 };
 // vec4
 function vec4(w, x, y, z) {
@@ -802,50 +802,50 @@ Module['vec4'] = vec4;
 Object.defineProperty(vec4.prototype, "x", {
     get: function() {
         var self = this.ptr;
-        return _mud_vec4_get_x(self);
+        return _mud_vec4__get_x(self);
     },
     set: function(x) {
         var self = this.ptr;
         /* x <float> [] */
-        _mud_vec4_set_x(self, x);
+        _mud_vec4__set_x(self, x);
     }
 });
 Object.defineProperty(vec4.prototype, "y", {
     get: function() {
         var self = this.ptr;
-        return _mud_vec4_get_y(self);
+        return _mud_vec4__get_y(self);
     },
     set: function(y) {
         var self = this.ptr;
         /* y <float> [] */
-        _mud_vec4_set_y(self, y);
+        _mud_vec4__set_y(self, y);
     }
 });
 Object.defineProperty(vec4.prototype, "z", {
     get: function() {
         var self = this.ptr;
-        return _mud_vec4_get_z(self);
+        return _mud_vec4__get_z(self);
     },
     set: function(z) {
         var self = this.ptr;
         /* z <float> [] */
-        _mud_vec4_set_z(self, z);
+        _mud_vec4__set_z(self, z);
     }
 });
 Object.defineProperty(vec4.prototype, "w", {
     get: function() {
         var self = this.ptr;
-        return _mud_vec4_get_w(self);
+        return _mud_vec4__get_w(self);
     },
     set: function(w) {
         var self = this.ptr;
         /* w <float> [] */
-        _mud_vec4_set_w(self, w);
+        _mud_vec4__set_w(self, w);
     }
 });
 vec4.prototype["__destroy__"] = vec4.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_vec4___destroy__(self);
+    _mud_vec4__destroy(self);
 };
 // Sprite
 function Sprite() { throw "cannot construct a Sprite, no constructor in IDL" }
@@ -856,7 +856,7 @@ Sprite.__cache__ = {};
 Module['Sprite'] = Sprite;
 Sprite.prototype["__destroy__"] = Sprite.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Sprite___destroy__(self);
+    _mud_Sprite__destroy(self);
 };
 // SpriteAtlas
 function SpriteAtlas() { throw "cannot construct a SpriteAtlas, no constructor in IDL" }
@@ -867,7 +867,7 @@ SpriteAtlas.__cache__ = {};
 Module['SpriteAtlas'] = SpriteAtlas;
 SpriteAtlas.prototype["__destroy__"] = SpriteAtlas.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_SpriteAtlas___destroy__(self);
+    _mud_SpriteAtlas__destroy(self);
 };
 // TextureAtlas
 function TextureAtlas() { throw "cannot construct a TextureAtlas, no constructor in IDL" }
@@ -878,7 +878,7 @@ TextureAtlas.__cache__ = {};
 Module['TextureAtlas'] = TextureAtlas;
 TextureAtlas.prototype["__destroy__"] = TextureAtlas.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_TextureAtlas___destroy__(self);
+    _mud_TextureAtlas__destroy(self);
 };
 
 (function() {

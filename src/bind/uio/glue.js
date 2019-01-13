@@ -11,7 +11,7 @@ ScriptEditor.__cache__ = {};
 Module['ScriptEditor'] = ScriptEditor;
 ScriptEditor.prototype["__destroy__"] = ScriptEditor.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ScriptEditor___destroy__(self);
+    _mud_ScriptEditor__destroy(self);
 };
 
 (function() {

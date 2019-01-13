@@ -11,7 +11,7 @@ Noise.__cache__ = {};
 Module['Noise'] = Noise;
 Noise.prototype["__destroy__"] = Noise.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Noise___destroy__(self);
+    _mud_Noise__destroy(self);
 };
 
 (function() {

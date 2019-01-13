@@ -1,13 +1,19 @@
 #include <infra/Api.h>
 #include <jobs/Api.h>
+
+#ifdef MUD_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
+#define DECL EMSCRIPTEN_KEEPALIVE
+#else
+#define DECL
+#endif
 #include <cstdint>
 
 
 extern "C" {
 	
 	// JobSystem
-	void EMSCRIPTEN_KEEPALIVE mud_JobSystem___destroy__(mud::JobSystem* self) {
+	void DECL mud_JobSystem__destroy(mud::JobSystem* self) {
 		delete self;
 	}
 	

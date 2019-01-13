@@ -14,7 +14,7 @@ TileModel.__cache__ = {};
 Module['TileModel'] = TileModel;
 TileModel.prototype["__destroy__"] = TileModel.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_TileModel___destroy__(self);
+    _mud_TileModel__destroy(self);
 };
 // WfcBlock
 function WfcBlock(position, size, scale, tileset, auto_solve) {
@@ -59,54 +59,54 @@ WfcBlock.prototype["update"] = WfcBlock.prototype.update = function(wave) {
 Object.defineProperty(WfcBlock.prototype, "position", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_WfcBlock_get_position(self), mud::vec3);
+        return wrapPointer(_mud_WfcBlock__get_position(self), mud::vec3);
     },
     set: function(position) {
         var self = this.ptr;
         /* position <vec3> [] */
         position = position.ptr;
-        _mud_WfcBlock_set_position(self, position);
+        _mud_WfcBlock__set_position(self, position);
     }
 });
 Object.defineProperty(WfcBlock.prototype, "size", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_WfcBlock_get_size(self), mud::uvec3);
+        return wrapPointer(_mud_WfcBlock__get_size(self), mud::uvec3);
     },
     set: function(size) {
         var self = this.ptr;
         /* size <uvec3> [] */
         size = size.ptr;
-        _mud_WfcBlock_set_size(self, size);
+        _mud_WfcBlock__set_size(self, size);
     }
 });
 Object.defineProperty(WfcBlock.prototype, "scale", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_WfcBlock_get_scale(self), mud::vec3);
+        return wrapPointer(_mud_WfcBlock__get_scale(self), mud::vec3);
     },
     set: function(scale) {
         var self = this.ptr;
         /* scale <vec3> [] */
         scale = scale.ptr;
-        _mud_WfcBlock_set_scale(self, scale);
+        _mud_WfcBlock__set_scale(self, scale);
     }
 });
 Object.defineProperty(WfcBlock.prototype, "aabb", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_WfcBlock_get_aabb(self), mud::Aabb);
+        return wrapPointer(_mud_WfcBlock__get_aabb(self), mud::Aabb);
     },
     set: function(aabb) {
         var self = this.ptr;
         /* aabb <Aabb> [] */
         aabb = aabb.ptr;
-        _mud_WfcBlock_set_aabb(self, aabb);
+        _mud_WfcBlock__set_aabb(self, aabb);
     }
 });
 WfcBlock.prototype["__destroy__"] = WfcBlock.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_WfcBlock___destroy__(self);
+    _mud_WfcBlock__destroy(self);
 };
 
 (function() {

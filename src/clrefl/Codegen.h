@@ -1025,8 +1025,13 @@ namespace clgen
 
 		for(CLModule* d : m.m_modules)
 			cw("#include <" + d->m_subdir + "/Api.h>");
+		cw("");
+		cw("#ifdef MUD_PLATFORM_EMSCRIPTEN");
 		cw("#include <emscripten.h>");
-		cw("#include <cstdint>");
+		cw("#define DECL EMSCRIPTEN_KEEPALIVE");
+		cw("#else");
+		cw("#define DECL");
+		cw("#endif");
 		cw("");
 		cw("");
 		cw("extern \"C\" {");
@@ -1293,7 +1298,7 @@ namespace clgen
 		{
 			jsw("function() {");
 			jsw("var self = this.ptr;");
-			jsw(js_call_return_wrap(m.m_type, "_" + binding_name_str(c, "get_" + m.m_name) + "(self)"));
+			jsw(js_call_return_wrap(m.m_type, "_" + binding_name_str(c, "_get_" + m.m_name) + "(self)"));
 			jsw("}", true);
 		};
 
@@ -1305,7 +1310,7 @@ namespace clgen
 			jsw("function(" + m.m_name + ") {");
 			jsw("var self = this.ptr;");
 			js_call_convert_arg(m.m_type, m.m_name, false);
-			jsw("_" + binding_name_str(c, "set_" + m.m_name) + "(self, " + m.m_name + ");");
+			jsw("_" + binding_name_str(c, "_set_" + m.m_name) + "(self, " + m.m_name + ");");
 			jsw("}");
 		};
 
@@ -1313,7 +1318,7 @@ namespace clgen
 		{
 			jsw("function() {");
 			jsw("var self = this.ptr;");
-			jsw("_" + binding_name_str(c, "__destroy__") + "(self);");
+			jsw("_" + binding_name_str(c, "_destroy") + "(self);");
 			jsw("};");
 		};
 
@@ -1400,9 +1405,9 @@ namespace clgen
 
 			string maybe_const = f.m_return_type.isconst() ? "const " : "";
 			if(!ctor)
-				cw(maybe_const + type_to_c(f.m_return_type) + " EMSCRIPTEN_KEEPALIVE " + binding_name_n(c, f, i) + "(" + c_method_args(c, f, i) + ") {");
+				cw(maybe_const + type_to_c(f.m_return_type) + " DECL " + binding_name_n(c, f, i) + "(" + c_method_args(c, f, i) + ") {");
 			else
-				cw(c.m_id + "* EMSCRIPTEN_KEEPALIVE " + binding_name_n(c, f, i) + "(" + c_function_args(c, f, i) + ") {");
+				cw(c.m_id + "* DECL " + binding_name_n(c, f, i) + "(" + c_function_args(c, f, i) + ") {");
 
 			c_call_wrapped_n(c, f, i, ctor);
 			cw("}");
@@ -1443,14 +1448,14 @@ namespace clgen
 
 		auto c_getter = [&](const CLClass& c, const CLMember& m)
 		{
-			cw(type_to_c(m.m_type) + " EMSCRIPTEN_KEEPALIVE " + binding_name_str(c, "get_" + m.m_name) + "(" + c.m_id + "* self) {");
+			cw(type_to_c(m.m_type) + " DECL " + binding_name_str(c, "_get_" + m.m_name) + "(" + c.m_id + "* self) {");
 			c_call_return_wrap(m.m_type, "self->" + m.m_member + (m.m_method ? "()" : ""));
 			cw("}");
 		};
 
 		auto c_setter = [&](const CLClass& c, const CLMember& m)
 		{
-			cw("void EMSCRIPTEN_KEEPALIVE " + binding_name_str(c, "set_" + m.m_name) + "(" + c.m_id + "* self, " + type_to_c(m.m_type) + " value) {");
+			cw("void DECL " + binding_name_str(c, "_set_" + m.m_name) + "(" + c.m_id + "* self, " + type_to_c(m.m_type) + " value) {");
 			if(m.m_setter)
 				cw("self->" + m.m_member + "(" + value(m.m_type) + "value);");
 			else
@@ -1460,7 +1465,7 @@ namespace clgen
 
 		auto c_destructor = [&](const CLClass& c)
 		{
-			cw("void EMSCRIPTEN_KEEPALIVE " + binding_name_str(c, "__destroy__") + "(" + c.m_id + "* self) {");
+			cw("void DECL " + binding_name_str(c, "_destroy") + "(" + c.m_id + "* self) {");
 			cw("delete self;");
 			cw("}");
 		};
@@ -1592,7 +1597,7 @@ namespace clgen
 				for(size_t i = 0; i < e.m_ids.size(); ++i)
 				{
 					string f = enum_prefix + replace(e.m_id, "::", "_") + "_" + e.m_ids[i];
-					cw(e.m_id + " EMSCRIPTEN_KEEPALIVE " + f + "() {");
+					cw(e.m_id + " DECL " + f + "() {");
 					cw("return " + e.m_scoped_ids[i] + ";");
 					cw("}");
 

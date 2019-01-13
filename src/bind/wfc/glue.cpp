@@ -4,114 +4,120 @@
 #include <math/Api.h>
 #include <geom/Api.h>
 #include <wfc/Api.h>
+
+#ifdef MUD_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
+#define DECL EMSCRIPTEN_KEEPALIVE
+#else
+#define DECL
+#endif
 #include <cstdint>
 
 
 extern "C" {
 	
 	// Tile
-	mud::Tile* EMSCRIPTEN_KEEPALIVE mud_Tile_Tile_0() {
+	mud::Tile* DECL mud_Tile_Tile_0() {
 		return new mud::Tile();
 	}
-	uint32_t EMSCRIPTEN_KEEPALIVE mud_Tile_get_index(mud::Tile* self) {
+	uint32_t DECL mud_Tile__get_index(mud::Tile* self) {
 		return self->m_index;
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_Tile_set_index(mud::Tile* self, uint32_t value) {
+	void DECL mud_Tile__set_index(mud::Tile* self, uint32_t value) {
 		self->m_index = value;
 	}
-	const char* EMSCRIPTEN_KEEPALIVE mud_Tile_get_name(mud::Tile* self) {
+	const char* DECL mud_Tile__get_name(mud::Tile* self) {
 		return self->m_name.c_str();
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_Tile_set_name(mud::Tile* self, const char* value) {
+	void DECL mud_Tile__set_name(mud::Tile* self, const char* value) {
 		self->m_name = value;
 	}
-	char EMSCRIPTEN_KEEPALIVE mud_Tile_get_symmetry(mud::Tile* self) {
+	char DECL mud_Tile__get_symmetry(mud::Tile* self) {
 		return self->m_symmetry;
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_Tile_set_symmetry(mud::Tile* self, char value) {
+	void DECL mud_Tile__set_symmetry(mud::Tile* self, char value) {
 		self->m_symmetry = value;
 	}
-	int EMSCRIPTEN_KEEPALIVE mud_Tile_get_cardinality(mud::Tile* self) {
+	int DECL mud_Tile__get_cardinality(mud::Tile* self) {
 		return self->m_cardinality;
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_Tile_set_cardinality(mud::Tile* self, int value) {
+	void DECL mud_Tile__set_cardinality(mud::Tile* self, int value) {
 		self->m_cardinality = value;
 	}
-	int EMSCRIPTEN_KEEPALIVE mud_Tile_get_profile(mud::Tile* self) {
+	int DECL mud_Tile__get_profile(mud::Tile* self) {
 		return self->m_profile;
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_Tile_set_profile(mud::Tile* self, int value) {
+	void DECL mud_Tile__set_profile(mud::Tile* self, int value) {
 		self->m_profile = value;
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_Tile___destroy__(mud::Tile* self) {
+	void DECL mud_Tile__destroy(mud::Tile* self) {
 		delete self;
 	}
 	// Tileset
-	mud::Tileset* EMSCRIPTEN_KEEPALIVE mud_Tileset_Tileset_0() {
+	mud::Tileset* DECL mud_Tileset_Tileset_0() {
 		return new mud::Tileset();
 	}
-	const char* EMSCRIPTEN_KEEPALIVE mud_Tileset_get_name(mud::Tileset* self) {
+	const char* DECL mud_Tileset__get_name(mud::Tileset* self) {
 		return self->m_name.c_str();
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_Tileset_set_name(mud::Tileset* self, const char* value) {
+	void DECL mud_Tileset__set_name(mud::Tileset* self, const char* value) {
 		self->m_name = value;
 	}
-	mud::vec3* EMSCRIPTEN_KEEPALIVE mud_Tileset_get_tile_size(mud::Tileset* self) {
+	mud::vec3* DECL mud_Tileset__get_tile_size(mud::Tileset* self) {
 		static mud::vec3 temp;
 		return (temp = self->m_tile_size, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_Tileset_set_tile_size(mud::Tileset* self, mud::vec3* value) {
+	void DECL mud_Tileset__set_tile_size(mud::Tileset* self, mud::vec3* value) {
 		self->m_tile_size = *value;
 	}
-	mud::vec3* EMSCRIPTEN_KEEPALIVE mud_Tileset_get_tile_scale(mud::Tileset* self) {
+	mud::vec3* DECL mud_Tileset__get_tile_scale(mud::Tileset* self) {
 		static mud::vec3 temp;
 		return (temp = self->m_tile_scale, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_Tileset_set_tile_scale(mud::Tileset* self, mud::vec3* value) {
+	void DECL mud_Tileset__set_tile_scale(mud::Tileset* self, mud::vec3* value) {
 		self->m_tile_scale = *value;
 	}
-	uint16_t EMSCRIPTEN_KEEPALIVE mud_Tileset_get_nutiles(mud::Tileset* self) {
+	uint16_t DECL mud_Tileset__get_nutiles(mud::Tileset* self) {
 		return self->m_num_tiles;
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_Tileset_set_nutiles(mud::Tileset* self, uint16_t value) {
+	void DECL mud_Tileset__set_nutiles(mud::Tileset* self, uint16_t value) {
 		self->m_num_tiles = value;
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_Tileset___destroy__(mud::Tileset* self) {
+	void DECL mud_Tileset__destroy(mud::Tileset* self) {
 		delete self;
 	}
 	// Wave
-	mud::Wave* EMSCRIPTEN_KEEPALIVE mud_Wave_Wave_0() {
+	mud::Wave* DECL mud_Wave_Wave_0() {
 		return new mud::Wave();
 	}
-	mud::Result EMSCRIPTEN_KEEPALIVE mud_Wave_solve_1(mud::Wave* self, size_t limit) {
+	mud::Result DECL mud_Wave_solve_1(mud::Wave* self, size_t limit) {
 		return self->solve(limit);
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_Wave___destroy__(mud::Wave* self) {
+	void DECL mud_Wave__destroy(mud::Wave* self) {
 		delete self;
 	}
 	// TileWave
-	mud::TileWave* EMSCRIPTEN_KEEPALIVE mud_TileWave_TileWave_5(mud::WaveTileset* tileset, uint16_t width, uint16_t height, uint16_t depth, bool periodic) {
+	mud::TileWave* DECL mud_TileWave_TileWave_5(mud::WaveTileset* tileset, uint16_t width, uint16_t height, uint16_t depth, bool periodic) {
 		return new mud::TileWave(*tileset, width, height, depth, periodic);
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_TileWave___destroy__(mud::TileWave* self) {
+	void DECL mud_TileWave__destroy(mud::TileWave* self) {
 		delete self;
 	}
 	// WaveTileset
-	mud::WaveTileset* EMSCRIPTEN_KEEPALIVE mud_WaveTileset_WaveTileset_0() {
+	mud::WaveTileset* DECL mud_WaveTileset_WaveTileset_0() {
 		return new mud::WaveTileset();
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_WaveTileset___destroy__(mud::WaveTileset* self) {
+	void DECL mud_WaveTileset__destroy(mud::WaveTileset* self) {
 		delete self;
 	}
 	// Result
-	mud::Result EMSCRIPTEN_KEEPALIVE mud_Result_kSuccess() {
+	mud::Result DECL mud_Result_kSuccess() {
 		return mud::kSuccess;
 	}
-	mud::Result EMSCRIPTEN_KEEPALIVE mud_Result_kFail() {
+	mud::Result DECL mud_Result_kFail() {
 		return mud::kFail;
 	}
-	mud::Result EMSCRIPTEN_KEEPALIVE mud_Result_kUnfinished() {
+	mud::Result DECL mud_Result_kUnfinished() {
 		return mud::kUnfinished;
 	}
 	

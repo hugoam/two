@@ -16,7 +16,7 @@ Circlifier.__cache__ = {};
 Module['Circlifier'] = Circlifier;
 Circlifier.prototype["__destroy__"] = Circlifier.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Circlifier___destroy__(self);
+    _mud_Circlifier__destroy(self);
 };
 // Fract
 function Fract(num_tabs) {
@@ -61,17 +61,17 @@ Fract.prototype["render_whole"] = Fract.prototype.render_whole = function(patter
 Object.defineProperty(Fract.prototype, "nutabs", {
     get: function() {
         var self = this.ptr;
-        return _mud_Fract_get_nutabs(self);
+        return _mud_Fract__get_nutabs(self);
     },
     set: function(nutabs) {
         var self = this.ptr;
         /* nutabs <size_t> [] */
-        _mud_Fract_set_nutabs(self, nutabs);
+        _mud_Fract__set_nutabs(self, nutabs);
     }
 });
 Fract.prototype["__destroy__"] = Fract.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Fract___destroy__(self);
+    _mud_Fract__destroy(self);
 };
 // FractSample
 function FractSample(fract, rect, resolution) {
@@ -99,35 +99,35 @@ FractSample.prototype["render"] = FractSample.prototype.render = function(patter
 Object.defineProperty(FractSample.prototype, "fract", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_FractSample_get_fract(self), mud::Fract);
+        return wrapPointer(_mud_FractSample__get_fract(self), mud::Fract);
     }});
 Object.defineProperty(FractSample.prototype, "rect", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_FractSample_get_rect(self), mud::Rect);
+        return wrapPointer(_mud_FractSample__get_rect(self), mud::Rect);
     },
     set: function(rect) {
         var self = this.ptr;
         /* rect <Rect> [] */
         rect = rect.ptr;
-        _mud_FractSample_set_rect(self, rect);
+        _mud_FractSample__set_rect(self, rect);
     }
 });
 Object.defineProperty(FractSample.prototype, "resolution", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_FractSample_get_resolution(self), mud::uvec2);
+        return wrapPointer(_mud_FractSample__get_resolution(self), mud::uvec2);
     },
     set: function(resolution) {
         var self = this.ptr;
         /* resolution <uvec2> [] */
         resolution = resolution.ptr;
-        _mud_FractSample_set_resolution(self, resolution);
+        _mud_FractSample__set_resolution(self, resolution);
     }
 });
 FractSample.prototype["__destroy__"] = FractSample.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_FractSample___destroy__(self);
+    _mud_FractSample__destroy(self);
 };
 // FractTab
 function FractTab() {
@@ -141,7 +141,7 @@ FractTab.__cache__ = {};
 Module['FractTab'] = FractTab;
 FractTab.prototype["__destroy__"] = FractTab.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_FractTab___destroy__(self);
+    _mud_FractTab__destroy(self);
 };
 // Pattern
 function Pattern(palette, sampling, precision, step) {
@@ -163,7 +163,7 @@ Pattern.__cache__ = {};
 Module['Pattern'] = Pattern;
 Pattern.prototype["__destroy__"] = Pattern.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Pattern___destroy__(self);
+    _mud_Pattern__destroy(self);
 };
 
 (function() {

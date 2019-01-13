@@ -9,34 +9,40 @@
 #include <ctx/Api.h>
 #include <ui/Api.h>
 #include <uio/Api.h>
+
+#ifdef MUD_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
+#define DECL EMSCRIPTEN_KEEPALIVE
+#else
+#define DECL
+#endif
 #include <cstdint>
 
 
 extern "C" {
 	
 	// ScriptEditor
-	void EMSCRIPTEN_KEEPALIVE mud_ScriptEditor___destroy__(mud::ScriptEditor* self) {
+	void DECL mud_ScriptEditor__destroy(mud::ScriptEditor* self) {
 		delete self;
 	}
 	// EditNestMode
-	mud::EditNestMode EMSCRIPTEN_KEEPALIVE mud_EditNestMode_Inline() {
+	mud::EditNestMode DECL mud_EditNestMode_Inline() {
 		return mud::EditNestMode::Inline;
 	}
-	mud::EditNestMode EMSCRIPTEN_KEEPALIVE mud_EditNestMode_Modal() {
+	mud::EditNestMode DECL mud_EditNestMode_Modal() {
 		return mud::EditNestMode::Modal;
 	}
-	mud::EditNestMode EMSCRIPTEN_KEEPALIVE mud_EditNestMode_Embed() {
+	mud::EditNestMode DECL mud_EditNestMode_Embed() {
 		return mud::EditNestMode::Embed;
 	}
 	// EditorHint
-	mud::EditorHint EMSCRIPTEN_KEEPALIVE mud_EditorHint_Table() {
+	mud::EditorHint DECL mud_EditorHint_Table() {
 		return mud::EditorHint::Table;
 	}
-	mud::EditorHint EMSCRIPTEN_KEEPALIVE mud_EditorHint_Rows() {
+	mud::EditorHint DECL mud_EditorHint_Rows() {
 		return mud::EditorHint::Rows;
 	}
-	mud::EditorHint EMSCRIPTEN_KEEPALIVE mud_EditorHint_Inline() {
+	mud::EditorHint DECL mud_EditorHint_Inline() {
 		return mud::EditorHint::Inline;
 	}
 	

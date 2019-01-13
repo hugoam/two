@@ -26,27 +26,27 @@ Complex.prototype["has_part"] = Complex.prototype.has_part = function(type) {
 Object.defineProperty(Complex.prototype, "id", {
     get: function() {
         var self = this.ptr;
-        return _mud_Complex_get_id(self);
+        return _mud_Complex__get_id(self);
     },
     set: function(id) {
         var self = this.ptr;
         /* id <mud::Id> [] */
-        _mud_Complex_set_id(self, id);
+        _mud_Complex__set_id(self, id);
     }
 });
 Object.defineProperty(Complex.prototype, "type", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Complex_get_type(self), mud::Type);
+        return wrapPointer(_mud_Complex__get_type(self), mud::Type);
     }});
 Object.defineProperty(Complex.prototype, "prototype", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Complex_get_prototype(self), mud::Prototype);
+        return wrapPointer(_mud_Complex__get_prototype(self), mud::Prototype);
     }});
 Complex.prototype["__destroy__"] = Complex.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Complex___destroy__(self);
+    _mud_Complex__destroy(self);
 };
 // Entity
 function Entity() {
@@ -60,7 +60,7 @@ Entity.__cache__ = {};
 Module['Entity'] = Entity;
 Entity.prototype["__destroy__"] = Entity.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Entity___destroy__(self);
+    _mud_Entity__destroy(self);
 };
 // Prototype
 function Prototype() { throw "cannot construct a Prototype, no constructor in IDL" }
@@ -71,7 +71,7 @@ Prototype.__cache__ = {};
 Module['Prototype'] = Prototype;
 Prototype.prototype["__destroy__"] = Prototype.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Prototype___destroy__(self);
+    _mud_Prototype__destroy(self);
 };
 
 (function() {

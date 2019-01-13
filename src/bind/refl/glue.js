@@ -20,11 +20,11 @@ Module['Call'] = Call;
 Object.defineProperty(Call.prototype, "result", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Call_get_result(self), mud::Var);
+        return wrapPointer(_mud_Call__get_result(self), mud::Var);
     }});
 Call.prototype["__destroy__"] = Call.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Call___destroy__(self);
+    _mud_Call__destroy(self);
 };
 // Callable
 function Callable() { throw "cannot construct a Callable, no constructor in IDL" }
@@ -35,7 +35,7 @@ Callable.__cache__ = {};
 Module['Callable'] = Callable;
 Callable.prototype["__destroy__"] = Callable.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Callable___destroy__(self);
+    _mud_Callable__destroy(self);
 };
 // Class
 function Class() { throw "cannot construct a Class, no constructor in IDL" }
@@ -46,7 +46,7 @@ Class.__cache__ = {};
 Module['Class'] = Class;
 Class.prototype["__destroy__"] = Class.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Class___destroy__(self);
+    _mud_Class__destroy(self);
 };
 // Convert
 function Convert() { throw "cannot construct a Convert, no constructor in IDL" }
@@ -57,7 +57,7 @@ Convert.__cache__ = {};
 Module['Convert'] = Convert;
 Convert.prototype["__destroy__"] = Convert.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Convert___destroy__(self);
+    _mud_Convert__destroy(self);
 };
 // Creator
 function Creator() { throw "cannot construct a Creator, no constructor in IDL" }
@@ -69,39 +69,39 @@ Module['Creator'] = Creator;
 Object.defineProperty(Creator.prototype, "type", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Creator_get_type(self), mud::Type);
+        return wrapPointer(_mud_Creator__get_type(self), mud::Type);
     }});
 Object.defineProperty(Creator.prototype, "construct", {
     get: function() {
         var self = this.ptr;
-        return !!(_mud_Creator_get_construct(self));
+        return !!(_mud_Creator__get_construct(self));
     },
     set: function(construct) {
         var self = this.ptr;
         /* construct <bool> [] */
-        _mud_Creator_set_construct(self, construct);
+        _mud_Creator__set_construct(self, construct);
     }
 });
 Object.defineProperty(Creator.prototype, "prototype", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Creator_get_prototype(self), mud::Type);
+        return wrapPointer(_mud_Creator__get_prototype(self), mud::Type);
     },
     set: function(prototype) {
         var self = this.ptr;
         /* prototype <Type> [] */
         prototype = prototype.ptr;
-        _mud_Creator_set_prototype(self, prototype);
+        _mud_Creator__set_prototype(self, prototype);
     }
 });
 Object.defineProperty(Creator.prototype, "injector", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Creator_get_injector(self), mud::Injector);
+        return wrapPointer(_mud_Creator__get_injector(self), mud::Injector);
     }});
 Creator.prototype["__destroy__"] = Creator.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Creator___destroy__(self);
+    _mud_Creator__destroy(self);
 };
 // Enum
 function Enum() { throw "cannot construct a Enum, no constructor in IDL" }
@@ -112,7 +112,7 @@ Enum.__cache__ = {};
 Module['Enum'] = Enum;
 Enum.prototype["__destroy__"] = Enum.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Enum___destroy__(self);
+    _mud_Enum__destroy(self);
 };
 // Member
 function Member() { throw "cannot construct a Member, no constructor in IDL" }
@@ -123,7 +123,7 @@ Member.__cache__ = {};
 Module['Member'] = Member;
 Member.prototype["__destroy__"] = Member.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Member___destroy__(self);
+    _mud_Member__destroy(self);
 };
 // Meta
 function Meta() { throw "cannot construct a Meta, no constructor in IDL" }
@@ -134,7 +134,7 @@ Meta.__cache__ = {};
 Module['Meta'] = Meta;
 Meta.prototype["__destroy__"] = Meta.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Meta___destroy__(self);
+    _mud_Meta__destroy(self);
 };
 // Module
 function Module() { throw "cannot construct a Module, no constructor in IDL" }
@@ -146,28 +146,28 @@ Module['Module'] = Module;
 Object.defineProperty(Module.prototype, "name", {
     get: function() {
         var self = this.ptr;
-        return _mud_Module_get_name(self);
+        return _mud_Module__get_name(self);
     },
     set: function(name) {
         var self = this.ptr;
         /* name <const char*> [] */
-        _mud_Module_set_name(self, name);
+        _mud_Module__set_name(self, name);
     }
 });
 Object.defineProperty(Module.prototype, "path", {
     get: function() {
         var self = this.ptr;
-        return _mud_Module_get_path(self);
+        return _mud_Module__get_path(self);
     },
     set: function(path) {
         var self = this.ptr;
         /* path <const char*> [] */
-        _mud_Module_set_path(self, path);
+        _mud_Module__set_path(self, path);
     }
 });
 Module.prototype["__destroy__"] = Module.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Module___destroy__(self);
+    _mud_Module__destroy(self);
 };
 // Namespace
 function Namespace() { throw "cannot construct a Namespace, no constructor in IDL" }
@@ -178,7 +178,7 @@ Namespace.__cache__ = {};
 Module['Namespace'] = Namespace;
 Namespace.prototype["__destroy__"] = Namespace.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Namespace___destroy__(self);
+    _mud_Namespace__destroy(self);
 };
 // Operator
 function Operator() {
@@ -193,52 +193,52 @@ Module['Operator'] = Operator;
 Object.defineProperty(Operator.prototype, "function", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Operator_get_function(self), mud::Function);
+        return wrapPointer(_mud_Operator__get_function(self), mud::Function);
     },
     set: function(function) {
         var self = this.ptr;
         /* function <Function> [] */
         function = function.ptr;
-        _mud_Operator_set_function(self, function);
+        _mud_Operator__set_function(self, function);
     }
 });
 Object.defineProperty(Operator.prototype, "type", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Operator_get_type(self), mud::Type);
+        return wrapPointer(_mud_Operator__get_type(self), mud::Type);
     },
     set: function(type) {
         var self = this.ptr;
         /* type <Type> [] */
         type = type.ptr;
-        _mud_Operator_set_type(self, type);
+        _mud_Operator__set_type(self, type);
     }
 });
 Object.defineProperty(Operator.prototype, "name", {
     get: function() {
         var self = this.ptr;
-        return _mud_Operator_get_name(self);
+        return _mud_Operator__get_name(self);
     },
     set: function(name) {
         var self = this.ptr;
         /* name <const char*> [] */
-        _mud_Operator_set_name(self, name);
+        _mud_Operator__set_name(self, name);
     }
 });
 Object.defineProperty(Operator.prototype, "sign", {
     get: function() {
         var self = this.ptr;
-        return _mud_Operator_get_sign(self);
+        return _mud_Operator__get_sign(self);
     },
     set: function(sign) {
         var self = this.ptr;
         /* sign <const char*> [] */
-        _mud_Operator_set_sign(self, sign);
+        _mud_Operator__set_sign(self, sign);
     }
 });
 Operator.prototype["__destroy__"] = Operator.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Operator___destroy__(self);
+    _mud_Operator__destroy(self);
 };
 // Param
 function Param() { throw "cannot construct a Param, no constructor in IDL" }
@@ -249,7 +249,7 @@ Param.__cache__ = {};
 Module['Param'] = Param;
 Param.prototype["__destroy__"] = Param.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Param___destroy__(self);
+    _mud_Param__destroy(self);
 };
 // Signature
 function Signature() { throw "cannot construct a Signature, no constructor in IDL" }
@@ -260,7 +260,7 @@ Signature.__cache__ = {};
 Module['Signature'] = Signature;
 Signature.prototype["__destroy__"] = Signature.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Signature___destroy__(self);
+    _mud_Signature__destroy(self);
 };
 // Static
 function Static() { throw "cannot construct a Static, no constructor in IDL" }
@@ -271,7 +271,7 @@ Static.__cache__ = {};
 Module['Static'] = Static;
 Static.prototype["__destroy__"] = Static.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Static___destroy__(self);
+    _mud_Static__destroy(self);
 };
 // System
 function System() { throw "cannot construct a System, no constructor in IDL" }
@@ -282,7 +282,7 @@ System.__cache__ = {};
 Module['System'] = System;
 System.prototype["__destroy__"] = System.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_System___destroy__(self);
+    _mud_System__destroy(self);
 };
 // Constructor
 function Constructor() { throw "cannot construct a Constructor, no constructor in IDL" }
@@ -293,7 +293,7 @@ Constructor.__cache__ = {};
 Module['Constructor'] = Constructor;
 Constructor.prototype["__destroy__"] = Constructor.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Constructor___destroy__(self);
+    _mud_Constructor__destroy(self);
 };
 // CopyConstructor
 function CopyConstructor() { throw "cannot construct a CopyConstructor, no constructor in IDL" }
@@ -304,7 +304,7 @@ CopyConstructor.__cache__ = {};
 Module['CopyConstructor'] = CopyConstructor;
 CopyConstructor.prototype["__destroy__"] = CopyConstructor.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_CopyConstructor___destroy__(self);
+    _mud_CopyConstructor__destroy(self);
 };
 // Destructor
 function Destructor() { throw "cannot construct a Destructor, no constructor in IDL" }
@@ -315,7 +315,7 @@ Destructor.__cache__ = {};
 Module['Destructor'] = Destructor;
 Destructor.prototype["__destroy__"] = Destructor.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Destructor___destroy__(self);
+    _mud_Destructor__destroy(self);
 };
 // Function
 function Function() { throw "cannot construct a Function, no constructor in IDL" }
@@ -326,7 +326,7 @@ Function.__cache__ = {};
 Module['Function'] = Function;
 Function.prototype["__destroy__"] = Function.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Function___destroy__(self);
+    _mud_Function__destroy(self);
 };
 // Injector
 function Injector() { throw "cannot construct a Injector, no constructor in IDL" }
@@ -337,7 +337,7 @@ Injector.__cache__ = {};
 Module['Injector'] = Injector;
 Injector.prototype["__destroy__"] = Injector.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Injector___destroy__(self);
+    _mud_Injector__destroy(self);
 };
 // Method
 function Method() { throw "cannot construct a Method, no constructor in IDL" }
@@ -348,7 +348,7 @@ Method.__cache__ = {};
 Module['Method'] = Method;
 Method.prototype["__destroy__"] = Method.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Method___destroy__(self);
+    _mud_Method__destroy(self);
 };
 
 (function() {

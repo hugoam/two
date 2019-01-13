@@ -7,102 +7,108 @@
 #include <ui/Api.h>
 #include <gfx/Api.h>
 #include <gfx-ui/Api.h>
+
+#ifdef MUD_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
+#define DECL EMSCRIPTEN_KEEPALIVE
+#else
+#define DECL
+#endif
 #include <cstdint>
 
 
 extern "C" {
 	
 	// Object
-	void EMSCRIPTEN_KEEPALIVE mud_Object___destroy__(mud::Object* self) {
+	void DECL mud_Object__destroy(mud::Object* self) {
 		delete self;
 	}
 	// ViewerController
-	void EMSCRIPTEN_KEEPALIVE mud_ViewerController___destroy__(mud::ViewerController* self) {
+	void DECL mud_ViewerController__destroy(mud::ViewerController* self) {
 		delete self;
 	}
 	// OrbitController
-	void EMSCRIPTEN_KEEPALIVE mud_OrbitController_set_eye_1(mud::OrbitController* self, const mud::quat* rotation) {
+	void DECL mud_OrbitController_set_eye_1(mud::OrbitController* self, const mud::quat* rotation) {
 		self->set_eye(*rotation);
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_OrbitController_set_target_1(mud::OrbitController* self, const mud::vec3* position) {
+	void DECL mud_OrbitController_set_target_1(mud::OrbitController* self, const mud::vec3* position) {
 		self->set_target(*position);
 	}
-	mud::vec3* EMSCRIPTEN_KEEPALIVE mud_OrbitController_get_position(mud::OrbitController* self) {
+	mud::vec3* DECL mud_OrbitController__get_position(mud::OrbitController* self) {
 		static mud::vec3 temp;
 		return (temp = self->m_position, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_OrbitController_set_position(mud::OrbitController* self, mud::vec3* value) {
+	void DECL mud_OrbitController__set_position(mud::OrbitController* self, mud::vec3* value) {
 		self->m_position = *value;
 	}
-	float EMSCRIPTEN_KEEPALIVE mud_OrbitController_get_yaw(mud::OrbitController* self) {
+	float DECL mud_OrbitController__get_yaw(mud::OrbitController* self) {
 		return self->m_yaw;
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_OrbitController_set_yaw(mud::OrbitController* self, float value) {
+	void DECL mud_OrbitController__set_yaw(mud::OrbitController* self, float value) {
 		self->m_yaw = value;
 	}
-	float EMSCRIPTEN_KEEPALIVE mud_OrbitController_get_pitch(mud::OrbitController* self) {
+	float DECL mud_OrbitController__get_pitch(mud::OrbitController* self) {
 		return self->m_pitch;
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_OrbitController_set_pitch(mud::OrbitController* self, float value) {
+	void DECL mud_OrbitController__set_pitch(mud::OrbitController* self, float value) {
 		self->m_pitch = value;
 	}
-	float EMSCRIPTEN_KEEPALIVE mud_OrbitController_get_distance(mud::OrbitController* self) {
+	float DECL mud_OrbitController__get_distance(mud::OrbitController* self) {
 		return self->m_distance;
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_OrbitController_set_distance(mud::OrbitController* self, float value) {
+	void DECL mud_OrbitController__set_distance(mud::OrbitController* self, float value) {
 		self->m_distance = value;
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_OrbitController___destroy__(mud::OrbitController* self) {
+	void DECL mud_OrbitController__destroy(mud::OrbitController* self) {
 		delete self;
 	}
 	// FreeOrbitController
-	void EMSCRIPTEN_KEEPALIVE mud_FreeOrbitController___destroy__(mud::FreeOrbitController* self) {
+	void DECL mud_FreeOrbitController__destroy(mud::FreeOrbitController* self) {
 		delete self;
 	}
 	// SpaceSheet
-	void EMSCRIPTEN_KEEPALIVE mud_SpaceSheet___destroy__(mud::SpaceSheet* self) {
+	void DECL mud_SpaceSheet__destroy(mud::SpaceSheet* self) {
 		delete self;
 	}
 	// Viewer
-	mud::Scene* EMSCRIPTEN_KEEPALIVE mud_Viewer_get_scene(mud::Viewer* self) {
+	mud::Scene* DECL mud_Viewer__get_scene(mud::Viewer* self) {
 		return self->m_scene;
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_Viewer_set_scene(mud::Viewer* self, mud::Scene* value) {
+	void DECL mud_Viewer__set_scene(mud::Viewer* self, mud::Scene* value) {
 		self->m_scene = value;
 	}
-	mud::Viewport* EMSCRIPTEN_KEEPALIVE mud_Viewer_get_viewport(mud::Viewer* self) {
+	mud::Viewport* DECL mud_Viewer__get_viewport(mud::Viewer* self) {
 		return &self->m_viewport;
 	}
-	mud::vec2* EMSCRIPTEN_KEEPALIVE mud_Viewer_get_position(mud::Viewer* self) {
+	mud::vec2* DECL mud_Viewer__get_position(mud::Viewer* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_position, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_Viewer_set_position(mud::Viewer* self, mud::vec2* value) {
+	void DECL mud_Viewer__set_position(mud::Viewer* self, mud::vec2* value) {
 		self->m_position = *value;
 	}
-	mud::vec2* EMSCRIPTEN_KEEPALIVE mud_Viewer_get_size(mud::Viewer* self) {
+	mud::vec2* DECL mud_Viewer__get_size(mud::Viewer* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_size, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_Viewer_set_size(mud::Viewer* self, mud::vec2* value) {
+	void DECL mud_Viewer__set_size(mud::Viewer* self, mud::vec2* value) {
 		self->m_size = *value;
 	}
-	void EMSCRIPTEN_KEEPALIVE mud_Viewer___destroy__(mud::Viewer* self) {
+	void DECL mud_Viewer__destroy(mud::Viewer* self) {
 		delete self;
 	}
 	// SceneViewer
-	void EMSCRIPTEN_KEEPALIVE mud_SceneViewer___destroy__(mud::SceneViewer* self) {
+	void DECL mud_SceneViewer__destroy(mud::SceneViewer* self) {
 		delete self;
 	}
 	// OrbitMode
-	mud::ui::OrbitMode EMSCRIPTEN_KEEPALIVE mud_ui_OrbitMode_ThirdPerson() {
+	mud::ui::OrbitMode DECL mud_ui_OrbitMode_ThirdPerson() {
 		return mud::ui::OrbitMode::ThirdPerson;
 	}
-	mud::ui::OrbitMode EMSCRIPTEN_KEEPALIVE mud_ui_OrbitMode_Isometric() {
+	mud::ui::OrbitMode DECL mud_ui_OrbitMode_Isometric() {
 		return mud::ui::OrbitMode::Isometric;
 	}
-	mud::ui::OrbitMode EMSCRIPTEN_KEEPALIVE mud_ui_OrbitMode_PseudoIsometric() {
+	mud::ui::OrbitMode DECL mud_ui_OrbitMode_PseudoIsometric() {
 		return mud::ui::OrbitMode::PseudoIsometric;
 	}
 	

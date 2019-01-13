@@ -11,7 +11,7 @@ HandlePool.__cache__ = {};
 Module['HandlePool'] = HandlePool;
 HandlePool.prototype["__destroy__"] = HandlePool.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_HandlePool___destroy__(self);
+    _mud_HandlePool__destroy(self);
 };
 // Pool
 function Pool() { throw "cannot construct a Pool, no constructor in IDL" }
@@ -22,7 +22,7 @@ Pool.__cache__ = {};
 Module['Pool'] = Pool;
 Pool.prototype["__destroy__"] = Pool.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Pool___destroy__(self);
+    _mud_Pool__destroy(self);
 };
 
 (function() {

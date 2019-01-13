@@ -11,7 +11,7 @@ Object.__cache__ = {};
 Module['Object'] = Object;
 Object.prototype["__destroy__"] = Object.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Object___destroy__(self);
+    _mud_Object__destroy(self);
 };
 // ViewerController
 function ViewerController() { throw "cannot construct a ViewerController, no constructor in IDL" }
@@ -22,7 +22,7 @@ ViewerController.__cache__ = {};
 Module['ViewerController'] = ViewerController;
 ViewerController.prototype["__destroy__"] = ViewerController.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ViewerController___destroy__(self);
+    _mud_ViewerController__destroy(self);
 };
 // OrbitController
 function OrbitController() { throw "cannot construct a OrbitController, no constructor in IDL" }
@@ -44,51 +44,51 @@ OrbitController.prototype["set_target"] = OrbitController.prototype.set_target =
 Object.defineProperty(OrbitController.prototype, "position", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_OrbitController_get_position(self), mud::vec3);
+        return wrapPointer(_mud_OrbitController__get_position(self), mud::vec3);
     },
     set: function(position) {
         var self = this.ptr;
         /* position <vec3> [] */
         position = position.ptr;
-        _mud_OrbitController_set_position(self, position);
+        _mud_OrbitController__set_position(self, position);
     }
 });
 Object.defineProperty(OrbitController.prototype, "yaw", {
     get: function() {
         var self = this.ptr;
-        return _mud_OrbitController_get_yaw(self);
+        return _mud_OrbitController__get_yaw(self);
     },
     set: function(yaw) {
         var self = this.ptr;
         /* yaw <float> [] */
-        _mud_OrbitController_set_yaw(self, yaw);
+        _mud_OrbitController__set_yaw(self, yaw);
     }
 });
 Object.defineProperty(OrbitController.prototype, "pitch", {
     get: function() {
         var self = this.ptr;
-        return _mud_OrbitController_get_pitch(self);
+        return _mud_OrbitController__get_pitch(self);
     },
     set: function(pitch) {
         var self = this.ptr;
         /* pitch <float> [] */
-        _mud_OrbitController_set_pitch(self, pitch);
+        _mud_OrbitController__set_pitch(self, pitch);
     }
 });
 Object.defineProperty(OrbitController.prototype, "distance", {
     get: function() {
         var self = this.ptr;
-        return _mud_OrbitController_get_distance(self);
+        return _mud_OrbitController__get_distance(self);
     },
     set: function(distance) {
         var self = this.ptr;
         /* distance <float> [] */
-        _mud_OrbitController_set_distance(self, distance);
+        _mud_OrbitController__set_distance(self, distance);
     }
 });
 OrbitController.prototype["__destroy__"] = OrbitController.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_OrbitController___destroy__(self);
+    _mud_OrbitController__destroy(self);
 };
 // FreeOrbitController
 function FreeOrbitController() { throw "cannot construct a FreeOrbitController, no constructor in IDL" }
@@ -99,7 +99,7 @@ FreeOrbitController.__cache__ = {};
 Module['FreeOrbitController'] = FreeOrbitController;
 FreeOrbitController.prototype["__destroy__"] = FreeOrbitController.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_FreeOrbitController___destroy__(self);
+    _mud_FreeOrbitController__destroy(self);
 };
 // SpaceSheet
 function SpaceSheet() { throw "cannot construct a SpaceSheet, no constructor in IDL" }
@@ -110,7 +110,7 @@ SpaceSheet.__cache__ = {};
 Module['SpaceSheet'] = SpaceSheet;
 SpaceSheet.prototype["__destroy__"] = SpaceSheet.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_SpaceSheet___destroy__(self);
+    _mud_SpaceSheet__destroy(self);
 };
 // Viewer
 function Viewer() { throw "cannot construct a Viewer, no constructor in IDL" }
@@ -122,47 +122,47 @@ Module['Viewer'] = Viewer;
 Object.defineProperty(Viewer.prototype, "scene", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Viewer_get_scene(self), mud::Scene);
+        return wrapPointer(_mud_Viewer__get_scene(self), mud::Scene);
     },
     set: function(scene) {
         var self = this.ptr;
         /* scene <Scene> [] */
         scene = scene.ptr;
-        _mud_Viewer_set_scene(self, scene);
+        _mud_Viewer__set_scene(self, scene);
     }
 });
 Object.defineProperty(Viewer.prototype, "viewport", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Viewer_get_viewport(self), mud::Viewport);
+        return wrapPointer(_mud_Viewer__get_viewport(self), mud::Viewport);
     }});
 Object.defineProperty(Viewer.prototype, "position", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Viewer_get_position(self), mud::vec2);
+        return wrapPointer(_mud_Viewer__get_position(self), mud::vec2);
     },
     set: function(position) {
         var self = this.ptr;
         /* position <vec2> [] */
         position = position.ptr;
-        _mud_Viewer_set_position(self, position);
+        _mud_Viewer__set_position(self, position);
     }
 });
 Object.defineProperty(Viewer.prototype, "size", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Viewer_get_size(self), mud::vec2);
+        return wrapPointer(_mud_Viewer__get_size(self), mud::vec2);
     },
     set: function(size) {
         var self = this.ptr;
         /* size <vec2> [] */
         size = size.ptr;
-        _mud_Viewer_set_size(self, size);
+        _mud_Viewer__set_size(self, size);
     }
 });
 Viewer.prototype["__destroy__"] = Viewer.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Viewer___destroy__(self);
+    _mud_Viewer__destroy(self);
 };
 // SceneViewer
 function SceneViewer() { throw "cannot construct a SceneViewer, no constructor in IDL" }
@@ -173,7 +173,7 @@ SceneViewer.__cache__ = {};
 Module['SceneViewer'] = SceneViewer;
 SceneViewer.prototype["__destroy__"] = SceneViewer.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_SceneViewer___destroy__(self);
+    _mud_SceneViewer__destroy(self);
 };
 
 (function() {

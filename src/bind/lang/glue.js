@@ -11,7 +11,7 @@ Interpreter.__cache__ = {};
 Module['Interpreter'] = Interpreter;
 Interpreter.prototype["__destroy__"] = Interpreter.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Interpreter___destroy__(self);
+    _mud_Interpreter__destroy(self);
 };
 // Pipe
 function Pipe() { throw "cannot construct a Pipe, no constructor in IDL" }
@@ -22,7 +22,7 @@ Pipe.__cache__ = {};
 Module['Pipe'] = Pipe;
 Pipe.prototype["__destroy__"] = Pipe.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Pipe___destroy__(self);
+    _mud_Pipe__destroy(self);
 };
 // Process
 function Process() { throw "cannot construct a Process, no constructor in IDL" }
@@ -34,11 +34,11 @@ Module['Process'] = Process;
 Object.defineProperty(Process.prototype, "type", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Process_get_type(self), mud::Type);
+        return wrapPointer(_mud_Process__get_type(self), mud::Type);
     }});
 Process.prototype["__destroy__"] = Process.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Process___destroy__(self);
+    _mud_Process__destroy(self);
 };
 // ScriptClass
 function ScriptClass(name, parts) {
@@ -59,29 +59,29 @@ Module['ScriptClass'] = ScriptClass;
 Object.defineProperty(ScriptClass.prototype, "name", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_mud_ScriptClass_get_name(self));
+        return Pointer_stringify(_mud_ScriptClass__get_name(self));
     },
     set: function(name) {
         var self = this.ptr;
         /* name <std::string> [] */
         if (name && typeof name === "object") name = name.ptr;
         else name = ensureString(name);
-        _mud_ScriptClass_set_name(self, name);
+        _mud_ScriptClass__set_name(self, name);
     }
 });
 Object.defineProperty(ScriptClass.prototype, "class_type", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_ScriptClass_get_class_type(self), mud::Type);
+        return wrapPointer(_mud_ScriptClass__get_class_type(self), mud::Type);
     }});
 Object.defineProperty(ScriptClass.prototype, "class", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_ScriptClass_get_class(self), mud::Class);
+        return wrapPointer(_mud_ScriptClass__get_class(self), mud::Class);
     }});
 ScriptClass.prototype["__destroy__"] = ScriptClass.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ScriptClass___destroy__(self);
+    _mud_ScriptClass__destroy(self);
 };
 // ScriptError
 function ScriptError() {
@@ -95,7 +95,7 @@ ScriptError.__cache__ = {};
 Module['ScriptError'] = ScriptError;
 ScriptError.prototype["__destroy__"] = ScriptError.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ScriptError___destroy__(self);
+    _mud_ScriptError__destroy(self);
 };
 // StreamBranch
 function StreamBranch() { throw "cannot construct a StreamBranch, no constructor in IDL" }
@@ -106,7 +106,7 @@ StreamBranch.__cache__ = {};
 Module['StreamBranch'] = StreamBranch;
 StreamBranch.prototype["__destroy__"] = StreamBranch.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_StreamBranch___destroy__(self);
+    _mud_StreamBranch__destroy(self);
 };
 // Valve
 function Valve() { throw "cannot construct a Valve, no constructor in IDL" }
@@ -117,7 +117,7 @@ Valve.__cache__ = {};
 Module['Valve'] = Valve;
 Valve.prototype["__destroy__"] = Valve.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Valve___destroy__(self);
+    _mud_Valve__destroy(self);
 };
 // LuaInterpreter
 function LuaInterpreter() { throw "cannot construct a LuaInterpreter, no constructor in IDL" }
@@ -128,7 +128,7 @@ LuaInterpreter.__cache__ = {};
 Module['LuaInterpreter'] = LuaInterpreter;
 LuaInterpreter.prototype["__destroy__"] = LuaInterpreter.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_LuaInterpreter___destroy__(self);
+    _mud_LuaInterpreter__destroy(self);
 };
 // ProcessCallable
 function ProcessCallable(script, callable) {
@@ -146,7 +146,7 @@ ProcessCallable.__cache__ = {};
 Module['ProcessCallable'] = ProcessCallable;
 ProcessCallable.prototype["__destroy__"] = ProcessCallable.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ProcessCallable___destroy__(self);
+    _mud_ProcessCallable__destroy(self);
 };
 // ProcessCreate
 function ProcessCreate(script, type, constructor) {
@@ -166,7 +166,7 @@ ProcessCreate.__cache__ = {};
 Module['ProcessCreate'] = ProcessCreate;
 ProcessCreate.prototype["__destroy__"] = ProcessCreate.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ProcessCreate___destroy__(self);
+    _mud_ProcessCreate__destroy(self);
 };
 // ProcessDisplay
 function ProcessDisplay() { throw "cannot construct a ProcessDisplay, no constructor in IDL" }
@@ -177,7 +177,7 @@ ProcessDisplay.__cache__ = {};
 Module['ProcessDisplay'] = ProcessDisplay;
 ProcessDisplay.prototype["__destroy__"] = ProcessDisplay.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ProcessDisplay___destroy__(self);
+    _mud_ProcessDisplay__destroy(self);
 };
 // ProcessFunction
 function ProcessFunction(script, function) {
@@ -195,7 +195,7 @@ ProcessFunction.__cache__ = {};
 Module['ProcessFunction'] = ProcessFunction;
 ProcessFunction.prototype["__destroy__"] = ProcessFunction.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ProcessFunction___destroy__(self);
+    _mud_ProcessFunction__destroy(self);
 };
 // ProcessGetMember
 function ProcessGetMember(script, member) {
@@ -213,7 +213,7 @@ ProcessGetMember.__cache__ = {};
 Module['ProcessGetMember'] = ProcessGetMember;
 ProcessGetMember.prototype["__destroy__"] = ProcessGetMember.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ProcessGetMember___destroy__(self);
+    _mud_ProcessGetMember__destroy(self);
 };
 // ProcessInput
 function ProcessInput() { throw "cannot construct a ProcessInput, no constructor in IDL" }
@@ -224,7 +224,7 @@ ProcessInput.__cache__ = {};
 Module['ProcessInput'] = ProcessInput;
 ProcessInput.prototype["__destroy__"] = ProcessInput.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ProcessInput___destroy__(self);
+    _mud_ProcessInput__destroy(self);
 };
 // ProcessMethod
 function ProcessMethod(script, method) {
@@ -242,7 +242,7 @@ ProcessMethod.__cache__ = {};
 Module['ProcessMethod'] = ProcessMethod;
 ProcessMethod.prototype["__destroy__"] = ProcessMethod.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ProcessMethod___destroy__(self);
+    _mud_ProcessMethod__destroy(self);
 };
 // ProcessOutput
 function ProcessOutput() { throw "cannot construct a ProcessOutput, no constructor in IDL" }
@@ -253,7 +253,7 @@ ProcessOutput.__cache__ = {};
 Module['ProcessOutput'] = ProcessOutput;
 ProcessOutput.prototype["__destroy__"] = ProcessOutput.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ProcessOutput___destroy__(self);
+    _mud_ProcessOutput__destroy(self);
 };
 // ProcessScript
 function ProcessScript(script, target) {
@@ -271,7 +271,7 @@ ProcessScript.__cache__ = {};
 Module['ProcessScript'] = ProcessScript;
 ProcessScript.prototype["__destroy__"] = ProcessScript.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ProcessScript___destroy__(self);
+    _mud_ProcessScript__destroy(self);
 };
 // ProcessSetMember
 function ProcessSetMember(script, member) {
@@ -289,7 +289,7 @@ ProcessSetMember.__cache__ = {};
 Module['ProcessSetMember'] = ProcessSetMember;
 ProcessSetMember.prototype["__destroy__"] = ProcessSetMember.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ProcessSetMember___destroy__(self);
+    _mud_ProcessSetMember__destroy(self);
 };
 // ProcessValue
 function ProcessValue(script, value) {
@@ -307,7 +307,7 @@ ProcessValue.__cache__ = {};
 Module['ProcessValue'] = ProcessValue;
 ProcessValue.prototype["__destroy__"] = ProcessValue.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ProcessValue___destroy__(self);
+    _mud_ProcessValue__destroy(self);
 };
 // Script
 function Script() { throw "cannot construct a Script, no constructor in IDL" }
@@ -319,46 +319,46 @@ Module['Script'] = Script;
 Object.defineProperty(Script.prototype, "index", {
     get: function() {
         var self = this.ptr;
-        return _mud_Script_get_index(self);
+        return _mud_Script__get_index(self);
     },
     set: function(index) {
         var self = this.ptr;
         /* index <uint32_t> [] */
-        _mud_Script_set_index(self, index);
+        _mud_Script__set_index(self, index);
     }
 });
 Object.defineProperty(Script.prototype, "type", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Script_get_type(self), mud::Type);
+        return wrapPointer(_mud_Script__get_type(self), mud::Type);
     }});
 Object.defineProperty(Script.prototype, "name", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_mud_Script_get_name(self));
+        return Pointer_stringify(_mud_Script__get_name(self));
     },
     set: function(name) {
         var self = this.ptr;
         /* name <std::string> [] */
         if (name && typeof name === "object") name = name.ptr;
         else name = ensureString(name);
-        _mud_Script_set_name(self, name);
+        _mud_Script__set_name(self, name);
     }
 });
 Object.defineProperty(Script.prototype, "locked", {
     get: function() {
         var self = this.ptr;
-        return !!(_mud_Script_get_locked(self));
+        return !!(_mud_Script__get_locked(self));
     },
     set: function(locked) {
         var self = this.ptr;
         /* locked <bool> [] */
-        _mud_Script_set_locked(self, locked);
+        _mud_Script__set_locked(self, locked);
     }
 });
 Script.prototype["__destroy__"] = Script.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Script___destroy__(self);
+    _mud_Script__destroy(self);
 };
 // Stream
 function Stream() { throw "cannot construct a Stream, no constructor in IDL" }
@@ -369,7 +369,7 @@ Stream.__cache__ = {};
 Module['Stream'] = Stream;
 Stream.prototype["__destroy__"] = Stream.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_Stream___destroy__(self);
+    _mud_Stream__destroy(self);
 };
 // TextScript
 function TextScript(name, language, signature) {
@@ -390,42 +390,42 @@ Module['TextScript'] = TextScript;
 Object.defineProperty(TextScript.prototype, "language", {
     get: function() {
         var self = this.ptr;
-        return _mud_TextScript_get_language(self);
+        return _mud_TextScript__get_language(self);
     },
     set: function(language) {
         var self = this.ptr;
         /* language <Language> [] */
         if (language && typeof language === "object") language = language.ptr;
-        _mud_TextScript_set_language(self, language);
+        _mud_TextScript__set_language(self, language);
     }
 });
 Object.defineProperty(TextScript.prototype, "script", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_mud_TextScript_get_script(self));
+        return Pointer_stringify(_mud_TextScript__get_script(self));
     },
     set: function(script) {
         var self = this.ptr;
         /* script <std::string> [] */
         if (script && typeof script === "object") script = script.ptr;
         else script = ensureString(script);
-        _mud_TextScript_set_script(self, script);
+        _mud_TextScript__set_script(self, script);
     }
 });
 Object.defineProperty(TextScript.prototype, "dirty", {
     get: function() {
         var self = this.ptr;
-        return !!(_mud_TextScript_get_dirty(self));
+        return !!(_mud_TextScript__get_dirty(self));
     },
     set: function(dirty) {
         var self = this.ptr;
         /* dirty <bool> [] */
-        _mud_TextScript_set_dirty(self, dirty);
+        _mud_TextScript__set_dirty(self, dirty);
     }
 });
 TextScript.prototype["__destroy__"] = TextScript.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_TextScript___destroy__(self);
+    _mud_TextScript__destroy(self);
 };
 // VisualScript
 function VisualScript(name, signature) {
@@ -443,7 +443,7 @@ VisualScript.__cache__ = {};
 Module['VisualScript'] = VisualScript;
 VisualScript.prototype["__destroy__"] = VisualScript.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_VisualScript___destroy__(self);
+    _mud_VisualScript__destroy(self);
 };
 // WrenInterpreter
 function WrenInterpreter() { throw "cannot construct a WrenInterpreter, no constructor in IDL" }
@@ -454,7 +454,7 @@ WrenInterpreter.__cache__ = {};
 Module['WrenInterpreter'] = WrenInterpreter;
 WrenInterpreter.prototype["__destroy__"] = WrenInterpreter.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_WrenInterpreter___destroy__(self);
+    _mud_WrenInterpreter__destroy(self);
 };
 
 (function() {
