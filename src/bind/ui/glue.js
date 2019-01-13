@@ -140,7 +140,6 @@ function ImageSkin(image, left, top, right, bottom, margin, stretch) {
     /* margin <int> [] */
     /* stretch <Dim> [] */
     if (stretch && typeof stretch === "object") stretch = stretch.ptr;
-    if (image === undefined) { this.ptr = _ImageSkin_ImageSkin_0(self); getCache(ImageSkin)[this.ptr] = this; return; }
     if (margin === undefined) { this.ptr = _ImageSkin_ImageSkin_5(self, image, left, top, right, bottom); getCache(ImageSkin)[this.ptr] = this; return; }
     if (stretch === undefined) { this.ptr = _ImageSkin_ImageSkin_6(self, image, left, top, right, bottom, margin); getCache(ImageSkin)[this.ptr] = this; return; }
     this.ptr = _ImageSkin_ImageSkin_7(self, image, left, top, right, bottom, margin, stretch); getCache(ImageSkin)[this.ptr] = this;
@@ -799,7 +798,6 @@ function Shadow(xpos, ypos, blur, spread, colour) {
     /* spread <float> [] */
     /* colour <Colour> [] */
     colour = colour.ptr;
-    if (xpos === undefined) { this.ptr = _Shadow_Shadow_0(self); getCache(Shadow)[this.ptr] = this; return; }
     if (colour === undefined) { this.ptr = _Shadow_Shadow_4(self, xpos, ypos, blur, spread); getCache(Shadow)[this.ptr] = this; return; }
     this.ptr = _Shadow_Shadow_5(self, xpos, ypos, blur, spread, colour); getCache(Shadow)[this.ptr] = this;
 };

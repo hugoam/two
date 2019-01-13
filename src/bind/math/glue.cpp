@@ -18,9 +18,6 @@ extern "C" {
 	mud::Colour* EMSCRIPTEN_KEEPALIVE Colour_Colour_0() {
 		return new mud::Colour();
 	}
-	mud::Colour* EMSCRIPTEN_KEEPALIVE Colour_Colour_0() {
-		return new mud::Colour();
-	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE Colour_Colour_1(float v) {
 		return new mud::Colour(v);
 	}
@@ -52,9 +49,6 @@ extern "C" {
 	mud::Gauge* EMSCRIPTEN_KEEPALIVE Gauge_Gauge_0() {
 		return new mud::Gauge();
 	}
-	mud::Gauge* EMSCRIPTEN_KEEPALIVE Gauge_Gauge_0() {
-		return new mud::Gauge();
-	}
 	mud::Gauge* EMSCRIPTEN_KEEPALIVE Gauge_Gauge_1(float value) {
 		return new mud::Gauge(value);
 	}
@@ -69,9 +63,6 @@ extern "C" {
 		delete self;
 	}
 	// Image256
-	mud::Image256* EMSCRIPTEN_KEEPALIVE Image256_Image256_0() {
-		return new mud::Image256();
-	}
 	mud::Image256* EMSCRIPTEN_KEEPALIVE Image256_Image256_0() {
 		return new mud::Image256();
 	}
@@ -102,9 +93,6 @@ extern "C" {
 		delete self;
 	}
 	// Palette
-	mud::Palette* EMSCRIPTEN_KEEPALIVE Palette_Palette_0() {
-		return new mud::Palette();
-	}
 	mud::Palette* EMSCRIPTEN_KEEPALIVE Palette_Palette_2(mud::Spectrum spectrum, size_t steps) {
 		return new mud::Palette(spectrum, steps);
 	}
@@ -121,9 +109,6 @@ extern "C" {
 	mud::Ratio* EMSCRIPTEN_KEEPALIVE Ratio_Ratio_0() {
 		return new mud::Ratio();
 	}
-	mud::Ratio* EMSCRIPTEN_KEEPALIVE Ratio_Ratio_0() {
-		return new mud::Ratio();
-	}
 	mud::Ratio* EMSCRIPTEN_KEEPALIVE Ratio_Ratio_1(float value) {
 		return new mud::Ratio(value);
 	}
@@ -131,9 +116,6 @@ extern "C" {
 		delete self;
 	}
 	// Time
-	mud::Time* EMSCRIPTEN_KEEPALIVE Time_Time_0() {
-		return new mud::Time();
-	}
 	mud::Time* EMSCRIPTEN_KEEPALIVE Time_Time_1(double value) {
 		return new mud::Time(value);
 	}
@@ -144,9 +126,6 @@ extern "C" {
 		delete self;
 	}
 	// TimeSpan
-	mud::TimeSpan* EMSCRIPTEN_KEEPALIVE TimeSpan_TimeSpan_0() {
-		return new mud::TimeSpan();
-	}
 	mud::TimeSpan* EMSCRIPTEN_KEEPALIVE TimeSpan_TimeSpan_2(mud::Time* s, mud::Time* e) {
 		return new mud::TimeSpan(*s, *e);
 	}
@@ -162,9 +141,6 @@ extern "C" {
 		delete self;
 	}
 	// Transform
-	mud::Transform* EMSCRIPTEN_KEEPALIVE Transform_Transform_0() {
-		return new mud::Transform();
-	}
 	mud::Transform* EMSCRIPTEN_KEEPALIVE Transform_Transform_0() {
 		return new mud::Transform();
 	}
@@ -225,9 +201,6 @@ extern "C" {
 	mud::ivec3* EMSCRIPTEN_KEEPALIVE ivec3_ivec3_0() {
 		return new mud::ivec3();
 	}
-	mud::ivec3* EMSCRIPTEN_KEEPALIVE ivec3_ivec3_0() {
-		return new mud::ivec3();
-	}
 	mud::ivec3* EMSCRIPTEN_KEEPALIVE ivec3_ivec3_1(int a) {
 		return new mud::ivec3(a);
 	}
@@ -264,9 +237,6 @@ extern "C" {
 	mud::quat* EMSCRIPTEN_KEEPALIVE quat_quat_0() {
 		return new mud::quat();
 	}
-	mud::quat* EMSCRIPTEN_KEEPALIVE quat_quat_0() {
-		return new mud::quat();
-	}
 	mud::quat* EMSCRIPTEN_KEEPALIVE quat_quat_4(float w, float x, float y, float z) {
 		return new mud::quat(w, x, y, z);
 	}
@@ -292,9 +262,6 @@ extern "C" {
 	mud::uvec2* EMSCRIPTEN_KEEPALIVE uvec2_uvec2_0() {
 		return new mud::uvec2();
 	}
-	mud::uvec2* EMSCRIPTEN_KEEPALIVE uvec2_uvec2_0() {
-		return new mud::uvec2();
-	}
 	mud::uvec2* EMSCRIPTEN_KEEPALIVE uvec2_uvec2_1(uint32_t a) {
 		return new mud::uvec2(a);
 	}
@@ -311,9 +278,6 @@ extern "C" {
 		delete self;
 	}
 	// uvec3
-	mud::uvec3* EMSCRIPTEN_KEEPALIVE uvec3_uvec3_0() {
-		return new mud::uvec3();
-	}
 	mud::uvec3* EMSCRIPTEN_KEEPALIVE uvec3_uvec3_0() {
 		return new mud::uvec3();
 	}
@@ -336,9 +300,6 @@ extern "C" {
 		delete self;
 	}
 	// uvec4
-	mud::uvec4* EMSCRIPTEN_KEEPALIVE uvec4_uvec4_0() {
-		return new mud::uvec4();
-	}
 	mud::uvec4* EMSCRIPTEN_KEEPALIVE uvec4_uvec4_0() {
 		return new mud::uvec4();
 	}
@@ -367,9 +328,6 @@ extern "C" {
 	mud::vec2* EMSCRIPTEN_KEEPALIVE vec2_vec2_0() {
 		return new mud::vec2();
 	}
-	mud::vec2* EMSCRIPTEN_KEEPALIVE vec2_vec2_0() {
-		return new mud::vec2();
-	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE vec2_vec2_1(float a) {
 		return new mud::vec2(a);
 	}
@@ -386,9 +344,6 @@ extern "C" {
 		delete self;
 	}
 	// vec3
-	mud::vec3* EMSCRIPTEN_KEEPALIVE vec3_vec3_0() {
-		return new mud::vec3();
-	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE vec3_vec3_0() {
 		return new mud::vec3();
 	}
@@ -411,9 +366,6 @@ extern "C" {
 		delete self;
 	}
 	// vec4
-	mud::vec4* EMSCRIPTEN_KEEPALIVE vec4_vec4_0() {
-		return new mud::vec4();
-	}
 	mud::vec4* EMSCRIPTEN_KEEPALIVE vec4_vec4_0() {
 		return new mud::vec4();
 	}

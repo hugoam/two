@@ -69,9 +69,11 @@ Colour.prototype["__destroy__"] = Colour.prototype.__destroy__ = function() {
     _Colour___destroy__(self);
 };
 // Gauge
-function Gauge() {
+function Gauge(value) {
     var self = this.ptr;
-    this.ptr = _Gauge_Gauge_0(self); getCache(Gauge)[this.ptr] = this;
+    /* value <float> [] */
+    if (value === undefined) { this.ptr = _Gauge_Gauge_0(self); getCache(Gauge)[this.ptr] = this; return; }
+    this.ptr = _Gauge_Gauge_1(self, value); getCache(Gauge)[this.ptr] = this;
 };
 Gauge.prototype = Object.create(WrapperObject.prototype);
 Gauge.prototype.constructor = Gauge;
@@ -97,9 +99,16 @@ Image.prototype["__destroy__"] = Image.prototype.__destroy__ = function() {
     _Image___destroy__(self);
 };
 // Image256
-function Image256() {
+function Image256(width, height, palette) {
     var self = this.ptr;
-    this.ptr = _Image256_Image256_0(self); getCache(Image256)[this.ptr] = this;
+    /* width <uint16_t> [] */
+    /* height <uint16_t> [] */
+    /* palette <Palette> [] */
+    if(typeof palette !== "undefined" && palette !== null) {{ palette = palette.ptr }};
+    if (width === undefined) { this.ptr = _Image256_Image256_0(self); getCache(Image256)[this.ptr] = this; return; }
+    if (height === undefined) { this.ptr = _Image256_Image256_1(self, width); getCache(Image256)[this.ptr] = this; return; }
+    if (palette === undefined) { this.ptr = _Image256_Image256_2(self, width, height); getCache(Image256)[this.ptr] = this; return; }
+    this.ptr = _Image256_Image256_3(self, width, height, palette); getCache(Image256)[this.ptr] = this;
 };
 Image256.prototype = Object.create(WrapperObject.prototype);
 Image256.prototype.constructor = Image256;
@@ -161,7 +170,6 @@ function Palette(spectrum, steps) {
     /* spectrum <Spectrum> [] */
     if (spectrum && typeof spectrum === "object") spectrum = spectrum.ptr;
     /* steps <size_t> [] */
-    if (spectrum === undefined) { this.ptr = _Palette_Palette_0(self); getCache(Palette)[this.ptr] = this; return; }
     this.ptr = _Palette_Palette_2(self, spectrum, steps); getCache(Palette)[this.ptr] = this;
 };
 Palette.prototype = Object.create(WrapperObject.prototype);
@@ -174,9 +182,11 @@ Palette.prototype["__destroy__"] = Palette.prototype.__destroy__ = function() {
     _Palette___destroy__(self);
 };
 // Ratio
-function Ratio() {
+function Ratio(value) {
     var self = this.ptr;
-    this.ptr = _Ratio_Ratio_0(self); getCache(Ratio)[this.ptr] = this;
+    /* value <float> [] */
+    if (value === undefined) { this.ptr = _Ratio_Ratio_0(self); getCache(Ratio)[this.ptr] = this; return; }
+    this.ptr = _Ratio_Ratio_1(self, value); getCache(Ratio)[this.ptr] = this;
 };
 Ratio.prototype = Object.create(WrapperObject.prototype);
 Ratio.prototype.constructor = Ratio;
@@ -191,7 +201,6 @@ Ratio.prototype["__destroy__"] = Ratio.prototype.__destroy__ = function() {
 function Time(value) {
     var self = this.ptr;
     /* value <double> [] */
-    if (value === undefined) { this.ptr = _Time_Time_0(self); getCache(Time)[this.ptr] = this; return; }
     this.ptr = _Time_Time_1(self, value); getCache(Time)[this.ptr] = this;
 };
 Time.prototype = Object.create(WrapperObject.prototype);
@@ -221,7 +230,6 @@ function TimeSpan(s, e) {
     s = s.ptr;
     /* e <Time> [] */
     e = e.ptr;
-    if (s === undefined) { this.ptr = _TimeSpan_TimeSpan_0(self); getCache(TimeSpan)[this.ptr] = this; return; }
     this.ptr = _TimeSpan_TimeSpan_2(self, s, e); getCache(TimeSpan)[this.ptr] = this;
 };
 TimeSpan.prototype = Object.create(WrapperObject.prototype);

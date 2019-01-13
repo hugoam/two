@@ -67,9 +67,6 @@ extern "C" {
 		delete self;
 	}
 	// ImageSkin
-	mud::ImageSkin* EMSCRIPTEN_KEEPALIVE ImageSkin_ImageSkin_0() {
-		return new mud::ImageSkin();
-	}
 	mud::ImageSkin* EMSCRIPTEN_KEEPALIVE ImageSkin_ImageSkin_5(mud::Image* image, int left, int top, int right, int bottom) {
 		return new mud::ImageSkin(*image, left, top, right, bottom);
 	}
@@ -104,9 +101,6 @@ extern "C" {
 		delete self;
 	}
 	// InkStyle
-	mud::InkStyle* EMSCRIPTEN_KEEPALIVE InkStyle_InkStyle_0() {
-		return new mud::InkStyle();
-	}
 	mud::InkStyle* EMSCRIPTEN_KEEPALIVE InkStyle_InkStyle_0() {
 		return new mud::InkStyle();
 	}
@@ -208,9 +202,6 @@ extern "C" {
 	mud::Layout* EMSCRIPTEN_KEEPALIVE Layout_Layout_0() {
 		return new mud::Layout();
 	}
-	mud::Layout* EMSCRIPTEN_KEEPALIVE Layout_Layout_0() {
-		return new mud::Layout();
-	}
 	mud::Layout* EMSCRIPTEN_KEEPALIVE Layout_Layout_1(const char* name) {
 		return new mud::Layout(name);
 	}
@@ -291,9 +282,6 @@ extern "C" {
 		delete self;
 	}
 	// Shadow
-	mud::Shadow* EMSCRIPTEN_KEEPALIVE Shadow_Shadow_0() {
-		return new mud::Shadow();
-	}
 	mud::Shadow* EMSCRIPTEN_KEEPALIVE Shadow_Shadow_4(float xpos, float ypos, float blur, float spread) {
 		return new mud::Shadow(xpos, ypos, blur, spread);
 	}

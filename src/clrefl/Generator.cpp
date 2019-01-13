@@ -259,7 +259,7 @@ namespace mud
 		if(cursor.kind == CXCursor_TemplateTypeParameter)
 			c.m_template_types.push_back(spelling(cursor));
 
-		if(cursor.kind == CXCursor_CXXBaseSpecifier)
+		else if(cursor.kind == CXCursor_CXXBaseSpecifier)
 		{
 			string name = class_name(type(cursor));
 
@@ -292,20 +292,6 @@ namespace mud
 				parse_class_child(c, a);
 			});
 		}
-
-		std::set<string> method_names;
-		for(CLMethod& method : c.m_methods)
-		{
-			if(method_names.find(method.m_name) != method_names.end())
-				method.m_overloaded = true;
-			method_names.insert(method.m_name);
-		}
-
-		if(c.m_struct && c.m_constructors.empty())
-		{
-			CLConstructor& ctor = vector_push(c.m_constructors, c, c.m_name);
-			ctor.m_module = c.m_module;
-		}
 	}
 
 	void parse_class_contents(CLClass& c, CXCursor cursor)
@@ -325,6 +311,20 @@ namespace mud
 			c.m_array = true;
 			c.m_array_size = c.m_members.size();
 			c.m_array_type = c.m_members[0].m_type.m_type;
+		}
+
+		std::set<string> method_names;
+		for(CLMethod& method : c.m_methods)
+		{
+			if(method_names.find(method.m_name) != method_names.end())
+				method.m_overloaded = true;
+			method_names.insert(method.m_name);
+		}
+
+		if(c.m_struct && c.m_constructors.empty())
+		{
+			CLConstructor& ctor = vector_push(c.m_constructors, c, c.m_name);
+			ctor.m_module = c.m_module;
 		}
 	}
 

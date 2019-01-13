@@ -789,9 +789,6 @@ extern "C" {
 	mud::PbrMaterialBlock* EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_PbrMaterialBlock_0() {
 		return new mud::PbrMaterialBlock();
 	}
-	mud::PbrMaterialBlock* EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_PbrMaterialBlock_0() {
-		return new mud::PbrMaterialBlock();
-	}
 	mud::PbrMaterialBlock* EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_PbrMaterialBlock_1(const mud::Colour* albedo) {
 		return new mud::PbrMaterialBlock(*albedo);
 	}

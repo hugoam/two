@@ -281,9 +281,22 @@ ShapeVar.prototype["__destroy__"] = ShapeVar.prototype.__destroy__ = function() 
     _ShapeVar___destroy__(self);
 };
 // Symbol
-function Symbol() {
+function Symbol(fill, outline, overlay, double_sided, detail) {
     var self = this.ptr;
-    this.ptr = _Symbol_Symbol_0(self); getCache(Symbol)[this.ptr] = this;
+    /* fill <Colour> [] */
+    fill = fill.ptr;
+    /* outline <Colour> [] */
+    if(typeof outline !== "undefined" && outline !== null) {{ outline = outline.ptr }};
+    /* overlay <bool> [] */
+    /* double_sided <bool> [] */
+    /* detail <SymbolDetail> [] */
+    if (detail && typeof detail === "object") detail = detail.ptr;
+    if (fill === undefined) { this.ptr = _Symbol_Symbol_0(self); getCache(Symbol)[this.ptr] = this; return; }
+    if (outline === undefined) { this.ptr = _Symbol_Symbol_1(self, fill); getCache(Symbol)[this.ptr] = this; return; }
+    if (overlay === undefined) { this.ptr = _Symbol_Symbol_2(self, fill, outline); getCache(Symbol)[this.ptr] = this; return; }
+    if (double_sided === undefined) { this.ptr = _Symbol_Symbol_3(self, fill, outline, overlay); getCache(Symbol)[this.ptr] = this; return; }
+    if (detail === undefined) { this.ptr = _Symbol_Symbol_4(self, fill, outline, overlay, double_sided); getCache(Symbol)[this.ptr] = this; return; }
+    this.ptr = _Symbol_Symbol_5(self, fill, outline, overlay, double_sided, detail); getCache(Symbol)[this.ptr] = this;
 };
 Symbol.prototype = Object.create(WrapperObject.prototype);
 Symbol.prototype.constructor = Symbol;

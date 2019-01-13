@@ -29,9 +29,6 @@ extern "C" {
 	mud::MeshPacker* EMSCRIPTEN_KEEPALIVE MeshPacker_MeshPacker_0() {
 		return new mud::MeshPacker();
 	}
-	mud::MeshPacker* EMSCRIPTEN_KEEPALIVE MeshPacker_MeshPacker_0() {
-		return new mud::MeshPacker();
-	}
 	void EMSCRIPTEN_KEEPALIVE MeshPacker___destroy__(mud::MeshPacker* self) {
 		delete self;
 	}
@@ -117,9 +114,6 @@ extern "C" {
 	mud::ShapeVar* EMSCRIPTEN_KEEPALIVE ShapeVar_ShapeVar_0() {
 		return new mud::ShapeVar();
 	}
-	mud::ShapeVar* EMSCRIPTEN_KEEPALIVE ShapeVar_ShapeVar_0() {
-		return new mud::ShapeVar();
-	}
 	mud::ShapeVar* EMSCRIPTEN_KEEPALIVE ShapeVar_ShapeVar_1(const mud::Shape* shape) {
 		return new mud::ShapeVar(*shape);
 	}
@@ -130,9 +124,6 @@ extern "C" {
 		delete self;
 	}
 	// Symbol
-	mud::Symbol* EMSCRIPTEN_KEEPALIVE Symbol_Symbol_0() {
-		return new mud::Symbol();
-	}
 	mud::Symbol* EMSCRIPTEN_KEEPALIVE Symbol_Symbol_0() {
 		return new mud::Symbol();
 	}
@@ -184,9 +175,6 @@ extern "C" {
 	mud::Arc* EMSCRIPTEN_KEEPALIVE Arc_Arc_0() {
 		return new mud::Arc();
 	}
-	mud::Arc* EMSCRIPTEN_KEEPALIVE Arc_Arc_0() {
-		return new mud::Arc();
-	}
 	mud::Arc* EMSCRIPTEN_KEEPALIVE Arc_Arc_3(float radius, float start, float end) {
 		return new mud::Arc(radius, start, end);
 	}
@@ -203,9 +191,6 @@ extern "C" {
 		delete self;
 	}
 	// ArcLine
-	mud::ArcLine* EMSCRIPTEN_KEEPALIVE ArcLine_ArcLine_0() {
-		return new mud::ArcLine();
-	}
 	mud::ArcLine* EMSCRIPTEN_KEEPALIVE ArcLine_ArcLine_0() {
 		return new mud::ArcLine();
 	}
@@ -234,9 +219,6 @@ extern "C" {
 	mud::Capsule* EMSCRIPTEN_KEEPALIVE Capsule_Capsule_0() {
 		return new mud::Capsule();
 	}
-	mud::Capsule* EMSCRIPTEN_KEEPALIVE Capsule_Capsule_0() {
-		return new mud::Capsule();
-	}
 	mud::Capsule* EMSCRIPTEN_KEEPALIVE Capsule_Capsule_2(float radius, float height) {
 		return new mud::Capsule(radius, height);
 	}
@@ -259,9 +241,6 @@ extern "C" {
 	mud::Cube* EMSCRIPTEN_KEEPALIVE Cube_Cube_0() {
 		return new mud::Cube();
 	}
-	mud::Cube* EMSCRIPTEN_KEEPALIVE Cube_Cube_0() {
-		return new mud::Cube();
-	}
 	mud::Cube* EMSCRIPTEN_KEEPALIVE Cube_Cube_1(const mud::vec3* extents) {
 		return new mud::Cube(*extents);
 	}
@@ -279,9 +258,6 @@ extern "C" {
 	mud::Aabb* EMSCRIPTEN_KEEPALIVE Aabb_Aabb_0() {
 		return new mud::Aabb();
 	}
-	mud::Aabb* EMSCRIPTEN_KEEPALIVE Aabb_Aabb_0() {
-		return new mud::Aabb();
-	}
 	mud::Aabb* EMSCRIPTEN_KEEPALIVE Aabb_Aabb_2(const mud::vec3* center, const mud::vec3* extents) {
 		return new mud::Aabb(*center, *extents);
 	}
@@ -295,16 +271,10 @@ extern "C" {
 	mud::Box* EMSCRIPTEN_KEEPALIVE Box_Box_0() {
 		return new mud::Box();
 	}
-	mud::Box* EMSCRIPTEN_KEEPALIVE Box_Box_0() {
-		return new mud::Box();
-	}
 	void EMSCRIPTEN_KEEPALIVE Box___destroy__(mud::Box* self) {
 		delete self;
 	}
 	// Circle
-	mud::Circle* EMSCRIPTEN_KEEPALIVE Circle_Circle_0() {
-		return new mud::Circle();
-	}
 	mud::Circle* EMSCRIPTEN_KEEPALIVE Circle_Circle_0() {
 		return new mud::Circle();
 	}
@@ -333,9 +303,6 @@ extern "C" {
 	mud::ConvexHull* EMSCRIPTEN_KEEPALIVE ConvexHull_ConvexHull_0() {
 		return new mud::ConvexHull();
 	}
-	mud::ConvexHull* EMSCRIPTEN_KEEPALIVE ConvexHull_ConvexHull_0() {
-		return new mud::ConvexHull();
-	}
 	mud::ConvexHull* EMSCRIPTEN_KEEPALIVE ConvexHull_ConvexHull_1(const std::vector<mud::vec3>* vertices) {
 		return new mud::ConvexHull(*vertices);
 	}
@@ -343,9 +310,6 @@ extern "C" {
 		delete self;
 	}
 	// Cylinder
-	mud::Cylinder* EMSCRIPTEN_KEEPALIVE Cylinder_Cylinder_0() {
-		return new mud::Cylinder();
-	}
 	mud::Cylinder* EMSCRIPTEN_KEEPALIVE Cylinder_Cylinder_0() {
 		return new mud::Cylinder();
 	}
@@ -368,9 +332,6 @@ extern "C" {
 		delete self;
 	}
 	// Ellipsis
-	mud::Ellipsis* EMSCRIPTEN_KEEPALIVE Ellipsis_Ellipsis_0() {
-		return new mud::Ellipsis();
-	}
 	mud::Ellipsis* EMSCRIPTEN_KEEPALIVE Ellipsis_Ellipsis_0() {
 		return new mud::Ellipsis();
 	}
@@ -401,9 +362,6 @@ extern "C" {
 	mud::Grid2* EMSCRIPTEN_KEEPALIVE Grid2_Grid2_0() {
 		return new mud::Grid2();
 	}
-	mud::Grid2* EMSCRIPTEN_KEEPALIVE Grid2_Grid2_0() {
-		return new mud::Grid2();
-	}
 	mud::Grid2* EMSCRIPTEN_KEEPALIVE Grid2_Grid2_1(const mud::vec2* size) {
 		return new mud::Grid2(*size);
 	}
@@ -425,9 +383,6 @@ extern "C" {
 	mud::Grid3* EMSCRIPTEN_KEEPALIVE Grid3_Grid3_0() {
 		return new mud::Grid3();
 	}
-	mud::Grid3* EMSCRIPTEN_KEEPALIVE Grid3_Grid3_0() {
-		return new mud::Grid3();
-	}
 	mud::Grid3* EMSCRIPTEN_KEEPALIVE Grid3_Grid3_1(const mud::uvec2* size) {
 		return new mud::Grid3(*size);
 	}
@@ -442,9 +397,6 @@ extern "C" {
 		delete self;
 	}
 	// Line
-	mud::Line* EMSCRIPTEN_KEEPALIVE Line_Line_0() {
-		return new mud::Line();
-	}
 	mud::Line* EMSCRIPTEN_KEEPALIVE Line_Line_0() {
 		return new mud::Line();
 	}
@@ -463,9 +415,6 @@ extern "C" {
 		delete self;
 	}
 	// Points
-	mud::Points* EMSCRIPTEN_KEEPALIVE Points_Points_0() {
-		return new mud::Points();
-	}
 	mud::Points* EMSCRIPTEN_KEEPALIVE Points_Points_0() {
 		return new mud::Points();
 	}
@@ -489,9 +438,6 @@ extern "C" {
 	mud::Polygon* EMSCRIPTEN_KEEPALIVE Polygon_Polygon_0() {
 		return new mud::Polygon();
 	}
-	mud::Polygon* EMSCRIPTEN_KEEPALIVE Polygon_Polygon_0() {
-		return new mud::Polygon();
-	}
 	mud::Polygon* EMSCRIPTEN_KEEPALIVE Polygon_Polygon_1(std::vector<mud::vec3>* vertices) {
 		return new mud::Polygon(*vertices);
 	}
@@ -502,9 +448,6 @@ extern "C" {
 	mud::Quad* EMSCRIPTEN_KEEPALIVE Quad_Quad_0() {
 		return new mud::Quad();
 	}
-	mud::Quad* EMSCRIPTEN_KEEPALIVE Quad_Quad_0() {
-		return new mud::Quad();
-	}
 	mud::Quad* EMSCRIPTEN_KEEPALIVE Quad_Quad_4(const mud::vec3* a, const mud::vec3* b, const mud::vec3* c, const mud::vec3* d) {
 		return new mud::Quad(*a, *b, *c, *d);
 	}
@@ -512,9 +455,6 @@ extern "C" {
 		delete self;
 	}
 	// Rect
-	mud::Rect* EMSCRIPTEN_KEEPALIVE Rect_Rect_0() {
-		return new mud::Rect();
-	}
 	mud::Rect* EMSCRIPTEN_KEEPALIVE Rect_Rect_0() {
 		return new mud::Rect();
 	}
@@ -539,9 +479,6 @@ extern "C" {
 	mud::Ring* EMSCRIPTEN_KEEPALIVE Ring_Ring_0() {
 		return new mud::Ring();
 	}
-	mud::Ring* EMSCRIPTEN_KEEPALIVE Ring_Ring_0() {
-		return new mud::Ring();
-	}
 	mud::Ring* EMSCRIPTEN_KEEPALIVE Ring_Ring_3(float radius, float min, float max) {
 		return new mud::Ring(radius, min, max);
 	}
@@ -561,9 +498,6 @@ extern "C" {
 	mud::Sphere* EMSCRIPTEN_KEEPALIVE Sphere_Sphere_0() {
 		return new mud::Sphere();
 	}
-	mud::Sphere* EMSCRIPTEN_KEEPALIVE Sphere_Sphere_0() {
-		return new mud::Sphere();
-	}
 	mud::Sphere* EMSCRIPTEN_KEEPALIVE Sphere_Sphere_1(float radius) {
 		return new mud::Sphere(radius);
 	}
@@ -577,9 +511,6 @@ extern "C" {
 		delete self;
 	}
 	// SphereRing
-	mud::SphereRing* EMSCRIPTEN_KEEPALIVE SphereRing_SphereRing_0() {
-		return new mud::SphereRing();
-	}
 	mud::SphereRing* EMSCRIPTEN_KEEPALIVE SphereRing_SphereRing_0() {
 		return new mud::SphereRing();
 	}
@@ -602,9 +533,6 @@ extern "C" {
 	mud::Spheroid* EMSCRIPTEN_KEEPALIVE Spheroid_Spheroid_0() {
 		return new mud::Spheroid();
 	}
-	mud::Spheroid* EMSCRIPTEN_KEEPALIVE Spheroid_Spheroid_0() {
-		return new mud::Spheroid();
-	}
 	mud::Spheroid* EMSCRIPTEN_KEEPALIVE Spheroid_Spheroid_1(float radius) {
 		return new mud::Spheroid(radius);
 	}
@@ -618,9 +546,6 @@ extern "C" {
 		delete self;
 	}
 	// Torus
-	mud::Torus* EMSCRIPTEN_KEEPALIVE Torus_Torus_0() {
-		return new mud::Torus();
-	}
 	mud::Torus* EMSCRIPTEN_KEEPALIVE Torus_Torus_0() {
 		return new mud::Torus();
 	}
@@ -649,9 +574,6 @@ extern "C" {
 		delete self;
 	}
 	// Triangle
-	mud::Triangle* EMSCRIPTEN_KEEPALIVE Triangle_Triangle_0() {
-		return new mud::Triangle();
-	}
 	mud::Triangle* EMSCRIPTEN_KEEPALIVE Triangle_Triangle_0() {
 		return new mud::Triangle();
 	}

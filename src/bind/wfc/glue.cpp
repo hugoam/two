@@ -43,9 +43,6 @@ extern "C" {
 	mud::Tileset* EMSCRIPTEN_KEEPALIVE Tileset_Tileset_0() {
 		return new mud::Tileset();
 	}
-	mud::Tileset* EMSCRIPTEN_KEEPALIVE Tileset_Tileset_0() {
-		return new mud::Tileset();
-	}
 	const char* EMSCRIPTEN_KEEPALIVE Tileset_get_name(mud::Tileset* self) {
 		return self->m_name.c_str();
 	}
@@ -74,9 +71,6 @@ extern "C" {
 		delete self;
 	}
 	// TileWave
-	mud::TileWave* EMSCRIPTEN_KEEPALIVE TileWave_TileWave_0() {
-		return new mud::TileWave();
-	}
 	mud::TileWave* EMSCRIPTEN_KEEPALIVE TileWave_TileWave_5(mud::WaveTileset* tileset, uint16_t width, uint16_t height, uint16_t depth, bool periodic) {
 		return new mud::TileWave(*tileset, width, height, depth, periodic);
 	}
@@ -84,9 +78,6 @@ extern "C" {
 		delete self;
 	}
 	// WaveTileset
-	mud::WaveTileset* EMSCRIPTEN_KEEPALIVE WaveTileset_WaveTileset_0() {
-		return new mud::WaveTileset();
-	}
 	mud::WaveTileset* EMSCRIPTEN_KEEPALIVE WaveTileset_WaveTileset_0() {
 		return new mud::WaveTileset();
 	}

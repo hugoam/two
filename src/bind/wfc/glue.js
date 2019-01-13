@@ -162,7 +162,6 @@ function TileWave(tileset, width, height, depth, periodic) {
     /* height <uint16_t> [] */
     /* depth <uint16_t> [] */
     /* periodic <bool> [] */
-    if (tileset === undefined) { this.ptr = _TileWave_TileWave_0(self); getCache(TileWave)[this.ptr] = this; return; }
     this.ptr = _TileWave_TileWave_5(self, tileset, width, height, depth, periodic); getCache(TileWave)[this.ptr] = this;
 };
 TileWave.prototype = Object.create(WrapperObject.prototype);

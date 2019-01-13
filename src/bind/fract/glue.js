@@ -159,7 +159,6 @@ function Pattern(palette, sampling, precision, step) {
     if (sampling && typeof sampling === "object") sampling = sampling.ptr;
     /* precision <float> [] */
     /* step <size_t> [] */
-    if (palette === undefined) { this.ptr = _Pattern_Pattern_0(self); getCache(Pattern)[this.ptr] = this; return; }
     if (precision === undefined) { this.ptr = _Pattern_Pattern_2(self, palette, sampling); getCache(Pattern)[this.ptr] = this; return; }
     if (step === undefined) { this.ptr = _Pattern_Pattern_3(self, palette, sampling, precision); getCache(Pattern)[this.ptr] = this; return; }
     this.ptr = _Pattern_Pattern_4(self, palette, sampling, precision, step); getCache(Pattern)[this.ptr] = this;
