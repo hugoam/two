@@ -37,8 +37,8 @@ newoption {
 }
 
 newoption {
-    trigger = "embind",
-    description = "Include embind JS bindings",
+    trigger = "jsbind",
+    description = "Use JS bindings",
 }
 
 --newoption {
