@@ -4,13 +4,12 @@ function WrapperObject() {
 }
 // Call
 function Call(callable, arguments) {
-    var self = this.ptr;
     /* callable <Callable> [] */
     callable = callable.ptr;
     /* arguments <std::vector<mud::Var>> [] */
     arguments = arguments.ptr;
-    if (callable === undefined) { this.ptr = _mud_Call_Call_0(self); getCache(Call)[this.ptr] = this; return; }
-    this.ptr = _mud_Call_Call_2(self, callable, arguments); getCache(Call)[this.ptr] = this;
+    if (callable === undefined) { this.ptr = _mud_Call_Call_0(); getCache(Call)[this.ptr] = this; return; }
+    this.ptr = _mud_Call_Call_2(callable, arguments); getCache(Call)[this.ptr] = this;
 };
 Call.prototype = Object.create(WrapperObject.prototype);
 Call.prototype.constructor = Call;
@@ -20,7 +19,7 @@ Module['Call'] = Call;
 Object.defineProperty(Call.prototype, "result", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Call__get_result(self), mud::Var);
+        return wrapPointer(_mud_Call__get_result(self), Var);
     }});
 Call.prototype["__destroy__"] = Call.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -69,35 +68,35 @@ Module['Creator'] = Creator;
 Object.defineProperty(Creator.prototype, "type", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Creator__get_type(self), mud::Type);
+        return wrapPointer(_mud_Creator__get_type(self), Type);
     }});
 Object.defineProperty(Creator.prototype, "construct", {
     get: function() {
         var self = this.ptr;
         return !!(_mud_Creator__get_construct(self));
     },
-    set: function(construct) {
+    set: function(value) {
         var self = this.ptr;
-        /* construct <bool> [] */
-        _mud_Creator__set_construct(self, construct);
+        /* value <bool> [] */
+        _mud_Creator__set_construct(self, value);
     }
 });
 Object.defineProperty(Creator.prototype, "prototype", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Creator__get_prototype(self), mud::Type);
+        return wrapPointer(_mud_Creator__get_prototype(self), Type);
     },
-    set: function(prototype) {
+    set: function(value) {
         var self = this.ptr;
-        /* prototype <Type> [] */
-        prototype = prototype.ptr;
-        _mud_Creator__set_prototype(self, prototype);
+        /* value <Type> [] */
+        value = value.ptr;
+        _mud_Creator__set_prototype(self, value);
     }
 });
 Object.defineProperty(Creator.prototype, "injector", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Creator__get_injector(self), mud::Injector);
+        return wrapPointer(_mud_Creator__get_injector(self), Injector);
     }});
 Creator.prototype["__destroy__"] = Creator.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -148,10 +147,10 @@ Object.defineProperty(Module.prototype, "name", {
         var self = this.ptr;
         return _mud_Module__get_name(self);
     },
-    set: function(name) {
+    set: function(value) {
         var self = this.ptr;
-        /* name <const char*> [] */
-        _mud_Module__set_name(self, name);
+        /* value <const char*> [] */
+        _mud_Module__set_name(self, value);
     }
 });
 Object.defineProperty(Module.prototype, "path", {
@@ -159,10 +158,10 @@ Object.defineProperty(Module.prototype, "path", {
         var self = this.ptr;
         return _mud_Module__get_path(self);
     },
-    set: function(path) {
+    set: function(value) {
         var self = this.ptr;
-        /* path <const char*> [] */
-        _mud_Module__set_path(self, path);
+        /* value <const char*> [] */
+        _mud_Module__set_path(self, value);
     }
 });
 Module.prototype["__destroy__"] = Module.prototype.__destroy__ = function() {
@@ -182,8 +181,7 @@ Namespace.prototype["__destroy__"] = Namespace.prototype.__destroy__ = function(
 };
 // Operator
 function Operator() {
-    var self = this.ptr;
-    this.ptr = _mud_Operator_Operator_0(self); getCache(Operator)[this.ptr] = this;
+    this.ptr = _mud_Operator_Operator_0(); getCache(Operator)[this.ptr] = this;
 };
 Operator.prototype = Object.create(WrapperObject.prototype);
 Operator.prototype.constructor = Operator;
@@ -193,25 +191,25 @@ Module['Operator'] = Operator;
 Object.defineProperty(Operator.prototype, "function", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Operator__get_function(self), mud::Function);
+        return wrapPointer(_mud_Operator__get_function(self), Function);
     },
-    set: function(function) {
+    set: function(value) {
         var self = this.ptr;
-        /* function <Function> [] */
-        function = function.ptr;
-        _mud_Operator__set_function(self, function);
+        /* value <Function> [] */
+        value = value.ptr;
+        _mud_Operator__set_function(self, value);
     }
 });
 Object.defineProperty(Operator.prototype, "type", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Operator__get_type(self), mud::Type);
+        return wrapPointer(_mud_Operator__get_type(self), Type);
     },
-    set: function(type) {
+    set: function(value) {
         var self = this.ptr;
-        /* type <Type> [] */
-        type = type.ptr;
-        _mud_Operator__set_type(self, type);
+        /* value <Type> [] */
+        value = value.ptr;
+        _mud_Operator__set_type(self, value);
     }
 });
 Object.defineProperty(Operator.prototype, "name", {
@@ -219,10 +217,10 @@ Object.defineProperty(Operator.prototype, "name", {
         var self = this.ptr;
         return _mud_Operator__get_name(self);
     },
-    set: function(name) {
+    set: function(value) {
         var self = this.ptr;
-        /* name <const char*> [] */
-        _mud_Operator__set_name(self, name);
+        /* value <const char*> [] */
+        _mud_Operator__set_name(self, value);
     }
 });
 Object.defineProperty(Operator.prototype, "sign", {
@@ -230,10 +228,10 @@ Object.defineProperty(Operator.prototype, "sign", {
         var self = this.ptr;
         return _mud_Operator__get_sign(self);
     },
-    set: function(sign) {
+    set: function(value) {
         var self = this.ptr;
-        /* sign <const char*> [] */
-        _mud_Operator__set_sign(self, sign);
+        /* value <const char*> [] */
+        _mud_Operator__set_sign(self, value);
     }
 });
 Operator.prototype["__destroy__"] = Operator.prototype.__destroy__ = function() {
@@ -349,6 +347,10 @@ Module['Method'] = Method;
 Method.prototype["__destroy__"] = Method.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Method__destroy(self);
+};
+Module['system'] = function() {
+    var self = this.ptr;
+    return wrapPointer(_mud_system_0(), System);
 };
 
 (function() {

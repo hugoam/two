@@ -28,7 +28,7 @@ extern "C" {
 	mud::Fract* DECL mud_Fract_Fract_1(size_t num_tabs) {
 		return new mud::Fract(num_tabs);
 	}
-	void DECL mud_Fract_generate_0(mud::Fract* self) {
+	void DECL mud_Fract_generate_0(mud::Fract* self, ) {
 		self->generate();
 	}
 	void DECL mud_Fract_generate_1(mud::Fract* self, size_t num_tabs) {
@@ -98,6 +98,9 @@ extern "C" {
 	}
 	void DECL mud_Pattern__destroy(mud::Pattern* self) {
 		delete self;
+	}
+	void DECL mud_generate_fract_3(mud::uvec2* resolution, const mud::Pattern* pattern, mud::Image256* output_image) {
+		mud::generate_fract(*resolution, *pattern, *output_image);
 	}
 	// PatternSampling
 	mud::PatternSampling DECL mud_PatternSampling_X() {

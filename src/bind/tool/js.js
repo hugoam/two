@@ -12,86 +12,86 @@ Module['EditContext'] = EditContext;
 Object.defineProperty(EditContext.prototype, "undo_tool", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_EditContext__get_undo_tool(self), mud::UndoTool);
+        return wrapPointer(_mud_EditContext__get_undo_tool(self), UndoTool);
     }});
 Object.defineProperty(EditContext.prototype, "redo_tool", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_EditContext__get_redo_tool(self), mud::RedoTool);
+        return wrapPointer(_mud_EditContext__get_redo_tool(self), RedoTool);
     }});
 Object.defineProperty(EditContext.prototype, "work_plane", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_EditContext__get_work_plane(self), mud::Plane);
+        return wrapPointer(_mud_EditContext__get_work_plane(self), Plane);
     },
-    set: function(work_plane) {
+    set: function(value) {
         var self = this.ptr;
-        /* work_plane <Plane> [] */
-        work_plane = work_plane.ptr;
-        _mud_EditContext__set_work_plane(self, work_plane);
+        /* value <Plane> [] */
+        value = value.ptr;
+        _mud_EditContext__set_work_plane(self, value);
     }
 });
 Object.defineProperty(EditContext.prototype, "translate_tool", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_EditContext__get_translate_tool(self), mud::TranslateTool);
+        return wrapPointer(_mud_EditContext__get_translate_tool(self), TranslateTool);
     }});
 Object.defineProperty(EditContext.prototype, "rotate_tool", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_EditContext__get_rotate_tool(self), mud::RotateTool);
+        return wrapPointer(_mud_EditContext__get_rotate_tool(self), RotateTool);
     }});
 Object.defineProperty(EditContext.prototype, "scale_tool", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_EditContext__get_scale_tool(self), mud::ScaleTool);
+        return wrapPointer(_mud_EditContext__get_scale_tool(self), ScaleTool);
     }});
 Object.defineProperty(EditContext.prototype, "viewer", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_EditContext__get_viewer(self), mud::Viewer);
+        return wrapPointer(_mud_EditContext__get_viewer(self), Viewer);
     },
-    set: function(viewer) {
+    set: function(value) {
         var self = this.ptr;
-        /* viewer <Viewer> [] */
-        viewer = viewer.ptr;
-        _mud_EditContext__set_viewer(self, viewer);
+        /* value <Viewer> [] */
+        value = value.ptr;
+        _mud_EditContext__set_viewer(self, value);
     }
 });
 Object.defineProperty(EditContext.prototype, "tool", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_EditContext__get_tool(self), mud::ViewportTool);
+        return wrapPointer(_mud_EditContext__get_tool(self), ViewportTool);
     },
-    set: function(tool) {
+    set: function(value) {
         var self = this.ptr;
-        /* tool <ViewportTool> [] */
-        tool = tool.ptr;
-        _mud_EditContext__set_tool(self, tool);
+        /* value <ViewportTool> [] */
+        value = value.ptr;
+        _mud_EditContext__set_tool(self, value);
     }
 });
 Object.defineProperty(EditContext.prototype, "spatial_tool", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_EditContext__get_spatial_tool(self), mud::SpatialTool);
+        return wrapPointer(_mud_EditContext__get_spatial_tool(self), SpatialTool);
     },
-    set: function(spatial_tool) {
+    set: function(value) {
         var self = this.ptr;
-        /* spatial_tool <SpatialTool> [] */
-        spatial_tool = spatial_tool.ptr;
-        _mud_EditContext__set_spatial_tool(self, spatial_tool);
+        /* value <SpatialTool> [] */
+        value = value.ptr;
+        _mud_EditContext__set_spatial_tool(self, value);
     }
 });
 Object.defineProperty(EditContext.prototype, "brush", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_EditContext__get_brush(self), mud::Brush);
+        return wrapPointer(_mud_EditContext__get_brush(self), Brush);
     },
-    set: function(brush) {
+    set: function(value) {
         var self = this.ptr;
-        /* brush <Brush> [] */
-        brush = brush.ptr;
-        _mud_EditContext__set_brush(self, brush);
+        /* value <Brush> [] */
+        value = value.ptr;
+        _mud_EditContext__set_brush(self, value);
     }
 });
 EditContext.prototype["__destroy__"] = EditContext.prototype.__destroy__ = function() {
@@ -111,8 +111,7 @@ EditorAction.prototype["__destroy__"] = EditorAction.prototype.__destroy__ = fun
 };
 // Gizmo
 function Gizmo() {
-    var self = this.ptr;
-    this.ptr = _mud_Gizmo_Gizmo_0(self); getCache(Gizmo)[this.ptr] = this;
+    this.ptr = _mud_Gizmo_Gizmo_0(); getCache(Gizmo)[this.ptr] = this;
 };
 Gizmo.prototype = Object.create(WrapperObject.prototype);
 Gizmo.prototype.constructor = Gizmo;
@@ -133,24 +132,24 @@ Module['Tool'] = Tool;
 Object.defineProperty(Tool.prototype, "type", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Tool__get_type(self), mud::Type);
+        return wrapPointer(_mud_Tool__get_type(self), Type);
     }});
 Object.defineProperty(Tool.prototype, "context", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Tool__get_context(self), mud::ToolContext);
+        return wrapPointer(_mud_Tool__get_context(self), ToolContext);
     }});
 Object.defineProperty(Tool.prototype, "name", {
     get: function() {
         var self = this.ptr;
         return Pointer_stringify(_mud_Tool__get_name(self));
     },
-    set: function(name) {
+    set: function(value) {
         var self = this.ptr;
-        /* name <std::string> [] */
-        if (name && typeof name === "object") name = name.ptr;
-        else name = ensureString(name);
-        _mud_Tool__set_name(self, name);
+        /* value <std::string> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        else value = ensureString(value);
+        _mud_Tool__set_name(self, value);
     }
 });
 Object.defineProperty(Tool.prototype, "state", {
@@ -158,11 +157,11 @@ Object.defineProperty(Tool.prototype, "state", {
         var self = this.ptr;
         return _mud_Tool__get_state(self);
     },
-    set: function(state) {
+    set: function(value) {
         var self = this.ptr;
-        /* state <ToolState> [] */
-        if (state && typeof state === "object") state = state.ptr;
-        _mud_Tool__set_state(self, state);
+        /* value <ToolState> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        _mud_Tool__set_state(self, value);
     }
 });
 Tool.prototype["__destroy__"] = Tool.prototype.__destroy__ = function() {
@@ -171,8 +170,7 @@ Tool.prototype["__destroy__"] = Tool.prototype.__destroy__ = function() {
 };
 // ToolContext
 function ToolContext() {
-    var self = this.ptr;
-    this.ptr = _mud_ToolContext_ToolContext_0(self); getCache(ToolContext)[this.ptr] = this;
+    this.ptr = _mud_ToolContext_ToolContext_0(); getCache(ToolContext)[this.ptr] = this;
 };
 ToolContext.prototype = Object.create(WrapperObject.prototype);
 ToolContext.prototype.constructor = ToolContext;
@@ -240,10 +238,9 @@ Brush.prototype["__destroy__"] = Brush.prototype.__destroy__ = function() {
 };
 // CircleBrush
 function CircleBrush(context) {
-    var self = this.ptr;
     /* context <ToolContext> [] */
     context = context.ptr;
-    this.ptr = _mud_CircleBrush_CircleBrush_1(self, context); getCache(CircleBrush)[this.ptr] = this;
+    this.ptr = _mud_CircleBrush_CircleBrush_1(context); getCache(CircleBrush)[this.ptr] = this;
 };
 CircleBrush.prototype = Object.create(WrapperObject.prototype);
 CircleBrush.prototype.constructor = CircleBrush;
@@ -253,17 +250,17 @@ Module['CircleBrush'] = CircleBrush;
 Object.defineProperty(CircleBrush.prototype, "creator", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_CircleBrush__get_creator(self), mud::Creator);
+        return wrapPointer(_mud_CircleBrush__get_creator(self), Creator);
     }});
 Object.defineProperty(CircleBrush.prototype, "radius", {
     get: function() {
         var self = this.ptr;
         return _mud_CircleBrush__get_radius(self);
     },
-    set: function(radius) {
+    set: function(value) {
         var self = this.ptr;
-        /* radius <float> [] */
-        _mud_CircleBrush__set_radius(self, radius);
+        /* value <float> [] */
+        _mud_CircleBrush__set_radius(self, value);
     }
 });
 Object.defineProperty(CircleBrush.prototype, "maxSpotRadius", {
@@ -271,10 +268,10 @@ Object.defineProperty(CircleBrush.prototype, "maxSpotRadius", {
         var self = this.ptr;
         return _mud_CircleBrush__get_maxSpotRadius(self);
     },
-    set: function(maxSpotRadius) {
+    set: function(value) {
         var self = this.ptr;
-        /* maxSpotRadius <float> [] */
-        _mud_CircleBrush__set_maxSpotRadius(self, maxSpotRadius);
+        /* value <float> [] */
+        _mud_CircleBrush__set_maxSpotRadius(self, value);
     }
 });
 CircleBrush.prototype["__destroy__"] = CircleBrush.prototype.__destroy__ = function() {
@@ -283,10 +280,9 @@ CircleBrush.prototype["__destroy__"] = CircleBrush.prototype.__destroy__ = funct
 };
 // PlaceBrush
 function PlaceBrush(context) {
-    var self = this.ptr;
     /* context <ToolContext> [] */
     context = context.ptr;
-    this.ptr = _mud_PlaceBrush_PlaceBrush_1(self, context); getCache(PlaceBrush)[this.ptr] = this;
+    this.ptr = _mud_PlaceBrush_PlaceBrush_1(context); getCache(PlaceBrush)[this.ptr] = this;
 };
 PlaceBrush.prototype = Object.create(WrapperObject.prototype);
 PlaceBrush.prototype.constructor = PlaceBrush;
@@ -296,7 +292,7 @@ Module['PlaceBrush'] = PlaceBrush;
 Object.defineProperty(PlaceBrush.prototype, "creator", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_PlaceBrush__get_creator(self), mud::Creator);
+        return wrapPointer(_mud_PlaceBrush__get_creator(self), Creator);
     }});
 PlaceBrush.prototype["__destroy__"] = PlaceBrush.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -315,12 +311,11 @@ PlaneSnapOption.prototype["__destroy__"] = PlaneSnapOption.prototype.__destroy__
 };
 // ScriptedBrush
 function ScriptedBrush(context, script) {
-    var self = this.ptr;
     /* context <ToolContext> [] */
     context = context.ptr;
     /* script <Script> [] */
     script = script.ptr;
-    this.ptr = _mud_ScriptedBrush_ScriptedBrush_2(self, context, script); getCache(ScriptedBrush)[this.ptr] = this;
+    this.ptr = _mud_ScriptedBrush_ScriptedBrush_2(context, script); getCache(ScriptedBrush)[this.ptr] = this;
 };
 ScriptedBrush.prototype = Object.create(WrapperObject.prototype);
 ScriptedBrush.prototype.constructor = ScriptedBrush;
@@ -330,13 +325,13 @@ Module['ScriptedBrush'] = ScriptedBrush;
 Object.defineProperty(ScriptedBrush.prototype, "call", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_ScriptedBrush__get_call(self), mud::Call);
+        return wrapPointer(_mud_ScriptedBrush__get_call(self), Call);
     },
-    set: function(call) {
+    set: function(value) {
         var self = this.ptr;
-        /* call <Call> [] */
-        call = call.ptr;
-        _mud_ScriptedBrush__set_call(self, call);
+        /* value <Call> [] */
+        value = value.ptr;
+        _mud_ScriptedBrush__set_call(self, value);
     }
 });
 ScriptedBrush.prototype["__destroy__"] = ScriptedBrush.prototype.__destroy__ = function() {

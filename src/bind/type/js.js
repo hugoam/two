@@ -9,10 +9,11 @@ Index.prototype.constructor = Index;
 Index.prototype.__class__ = Index;
 Index.__cache__ = {};
 Module['Index'] = Index;
-Index.prototype["indexer"] = Index.prototype.indexer = function(type) {
+Index.prototype["indexer"] = Index.prototype.indexer = function(self, type) {
+    var self = this.ptr;
     /* type <Type> [] */
     type = type.ptr;
-    return wrapPointer(_mud_Index_indexer_1(type), mud::Indexer);
+    return wrapPointer(_mud_Index_indexer_1(self, type), Indexer);
 };
 Index.prototype["__destroy__"] = Index.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -28,7 +29,7 @@ Module['Indexer'] = Indexer;
 Object.defineProperty(Indexer.prototype, "type", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Indexer__get_type(self), mud::Type);
+        return wrapPointer(_mud_Indexer__get_type(self), Type);
     }});
 Indexer.prototype["__destroy__"] = Indexer.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -57,10 +58,10 @@ Object.defineProperty(Type.prototype, "id", {
         var self = this.ptr;
         return _mud_Type__get_id(self);
     },
-    set: function(id) {
+    set: function(value) {
         var self = this.ptr;
-        /* id <mud::Id> [] */
-        _mud_Type__set_id(self, id);
+        /* value <mud::Id> [] */
+        _mud_Type__set_id(self, value);
     }
 });
 Object.defineProperty(Type.prototype, "name", {
@@ -68,10 +69,10 @@ Object.defineProperty(Type.prototype, "name", {
         var self = this.ptr;
         return _mud_Type__get_name(self);
     },
-    set: function(name) {
+    set: function(value) {
         var self = this.ptr;
-        /* name <const char*> [] */
-        _mud_Type__set_name(self, name);
+        /* value <const char*> [] */
+        _mud_Type__set_name(self, value);
     }
 });
 Object.defineProperty(Type.prototype, "size", {
@@ -79,22 +80,22 @@ Object.defineProperty(Type.prototype, "size", {
         var self = this.ptr;
         return _mud_Type__get_size(self);
     },
-    set: function(size) {
+    set: function(value) {
         var self = this.ptr;
-        /* size <size_t> [] */
-        _mud_Type__set_size(self, size);
+        /* value <size_t> [] */
+        _mud_Type__set_size(self, value);
     }
 });
 Object.defineProperty(Type.prototype, "base", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Type__get_base(self), mud::Type);
+        return wrapPointer(_mud_Type__get_base(self), Type);
     },
-    set: function(base) {
+    set: function(value) {
         var self = this.ptr;
-        /* base <Type> [] */
-        base = base.ptr;
-        _mud_Type__set_base(self, base);
+        /* value <Type> [] */
+        value = value.ptr;
+        _mud_Type__set_base(self, value);
     }
 });
 Type.prototype["__destroy__"] = Type.prototype.__destroy__ = function() {

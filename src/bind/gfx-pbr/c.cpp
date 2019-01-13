@@ -333,6 +333,18 @@ extern "C" {
 	void DECL mud_BlockTonemap__destroy(mud::BlockTonemap* self) {
 		delete self;
 	}
+	mud::GIProbe* DECL mud_gfx_gi_probe_3(mud::Gnode* parent, uint16_t subdiv, const mud::vec3* extents) {
+		return &mud::gfx::gi_probe(*parent, subdiv, *extents);
+	}
+	mud::LightmapAtlas* DECL mud_gfx_lightmap_2(mud::Gnode* parent, uint32_t resolution) {
+		return &mud::gfx::lightmap(*parent, resolution);
+	}
+	mud::LightmapAtlas* DECL mud_gfx_lightmap_3(mud::Gnode* parent, uint32_t resolution, float density) {
+		return &mud::gfx::lightmap(*parent, resolution, density);
+	}
+	mud::LightmapAtlas* DECL mud_gfx_lightmap_4(mud::Gnode* parent, uint32_t resolution, float density, const char* save_path) {
+		return &mud::gfx::lightmap(*parent, resolution, density, save_path);
+	}
 	// TonemapMode
 	mud::TonemapMode DECL mud_TonemapMode_Linear() {
 		return mud::TonemapMode::Linear;

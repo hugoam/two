@@ -24,6 +24,15 @@ extern "C" {
 	void DECL mud_ScriptEditor__destroy(mud::ScriptEditor* self) {
 		delete self;
 	}
+	bool DECL mud_entity_edit_2(mud::Widget* parent, mud::Entity* entity) {
+		return mud::entity_edit(*parent, *entity);
+	}
+	bool DECL mud_entity_edit_3(mud::Widget* parent, mud::Entity* entity, mud::EditorHint hint) {
+		return mud::entity_edit(*parent, *entity, hint);
+	}
+	bool DECL mud_inspector_2(mud::Widget* parent, mud::Entity* entity) {
+		return mud::inspector(*parent, *entity);
+	}
 	// EditNestMode
 	mud::EditNestMode DECL mud_EditNestMode_Inline() {
 		return mud::EditNestMode::Inline;

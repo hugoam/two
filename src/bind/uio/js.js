@@ -13,6 +13,25 @@ ScriptEditor.prototype["__destroy__"] = ScriptEditor.prototype.__destroy__ = fun
     var self = this.ptr;
     _mud_ScriptEditor__destroy(self);
 };
+Module['entity_edit'] = function(parent, entity, hint) {
+    var self = this.ptr;
+    /* parent <Widget> [] */
+    parent = parent.ptr;
+    /* entity <Entity> [] */
+    entity = entity.ptr;
+    /* hint <EditorHint> [] */
+    if (hint && typeof hint === "object") hint = hint.ptr;
+    if (hint === undefined) { return !!(_mud_entity_edit_2(parent, entity)); return; }
+    return !!(_mud_entity_edit_3(parent, entity, hint));
+};
+Module['inspector'] = function(parent, entity) {
+    var self = this.ptr;
+    /* parent <Widget> [] */
+    parent = parent.ptr;
+    /* entity <Entity> [] */
+    entity = entity.ptr;
+    return !!(_mud_inspector_2(parent, entity));
+};
 
 (function() {
     function setupEnums() {

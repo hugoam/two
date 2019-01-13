@@ -15,8 +15,7 @@ Distribution.prototype["__destroy__"] = Distribution.prototype.__destroy__ = fun
 };
 // Face3
 function Face3() {
-    var self = this.ptr;
-    this.ptr = _mud_Face3_Face3_0(self); getCache(Face3)[this.ptr] = this;
+    this.ptr = _mud_Face3_Face3_0(); getCache(Face3)[this.ptr] = this;
 };
 Face3.prototype = Object.create(WrapperObject.prototype);
 Face3.prototype.constructor = Face3;
@@ -29,8 +28,7 @@ Face3.prototype["__destroy__"] = Face3.prototype.__destroy__ = function() {
 };
 // MeshPacker
 function MeshPacker() {
-    var self = this.ptr;
-    this.ptr = _mud_MeshPacker_MeshPacker_0(self); getCache(MeshPacker)[this.ptr] = this;
+    this.ptr = _mud_MeshPacker_MeshPacker_0(); getCache(MeshPacker)[this.ptr] = this;
 };
 MeshPacker.prototype = Object.create(WrapperObject.prototype);
 MeshPacker.prototype.constructor = MeshPacker;
@@ -43,8 +41,7 @@ MeshPacker.prototype["__destroy__"] = MeshPacker.prototype.__destroy__ = functio
 };
 // Plane
 function Plane() {
-    var self = this.ptr;
-    this.ptr = _mud_Plane_Plane_0(self); getCache(Plane)[this.ptr] = this;
+    this.ptr = _mud_Plane_Plane_0(); getCache(Plane)[this.ptr] = this;
 };
 Plane.prototype = Object.create(WrapperObject.prototype);
 Plane.prototype.constructor = Plane;
@@ -54,13 +51,13 @@ Module['Plane'] = Plane;
 Object.defineProperty(Plane.prototype, "normal", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Plane__get_normal(self), mud::vec3);
+        return wrapPointer(_mud_Plane__get_normal(self), vec3);
     },
-    set: function(normal) {
+    set: function(value) {
         var self = this.ptr;
-        /* normal <vec3> [] */
-        normal = normal.ptr;
-        _mud_Plane__set_normal(self, normal);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_Plane__set_normal(self, value);
     }
 });
 Object.defineProperty(Plane.prototype, "distance", {
@@ -68,10 +65,10 @@ Object.defineProperty(Plane.prototype, "distance", {
         var self = this.ptr;
         return _mud_Plane__get_distance(self);
     },
-    set: function(distance) {
+    set: function(value) {
         var self = this.ptr;
-        /* distance <float> [] */
-        _mud_Plane__set_distance(self, distance);
+        /* value <float> [] */
+        _mud_Plane__set_distance(self, value);
     }
 });
 Plane.prototype["__destroy__"] = Plane.prototype.__destroy__ = function() {
@@ -80,8 +77,7 @@ Plane.prototype["__destroy__"] = Plane.prototype.__destroy__ = function() {
 };
 // Plane3
 function Plane3() {
-    var self = this.ptr;
-    this.ptr = _mud_Plane3_Plane3_0(self); getCache(Plane3)[this.ptr] = this;
+    this.ptr = _mud_Plane3_Plane3_0(); getCache(Plane3)[this.ptr] = this;
 };
 Plane3.prototype = Object.create(WrapperObject.prototype);
 Plane3.prototype.constructor = Plane3;
@@ -91,37 +87,37 @@ Module['Plane3'] = Plane3;
 Object.defineProperty(Plane3.prototype, "origin", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Plane3__get_origin(self), mud::vec3);
+        return wrapPointer(_mud_Plane3__get_origin(self), vec3);
     },
-    set: function(origin) {
+    set: function(value) {
         var self = this.ptr;
-        /* origin <vec3> [] */
-        origin = origin.ptr;
-        _mud_Plane3__set_origin(self, origin);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_Plane3__set_origin(self, value);
     }
 });
 Object.defineProperty(Plane3.prototype, "a", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Plane3__get_a(self), mud::vec3);
+        return wrapPointer(_mud_Plane3__get_a(self), vec3);
     },
-    set: function(a) {
+    set: function(value) {
         var self = this.ptr;
-        /* a <vec3> [] */
-        a = a.ptr;
-        _mud_Plane3__set_a(self, a);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_Plane3__set_a(self, value);
     }
 });
 Object.defineProperty(Plane3.prototype, "b", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Plane3__get_b(self), mud::vec3);
+        return wrapPointer(_mud_Plane3__get_b(self), vec3);
     },
-    set: function(b) {
+    set: function(value) {
         var self = this.ptr;
-        /* b <vec3> [] */
-        b = b.ptr;
-        _mud_Plane3__set_b(self, b);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_Plane3__set_b(self, value);
     }
 });
 Plane3.prototype["__destroy__"] = Plane3.prototype.__destroy__ = function() {
@@ -130,8 +126,7 @@ Plane3.prototype["__destroy__"] = Plane3.prototype.__destroy__ = function() {
 };
 // Ray
 function Ray() {
-    var self = this.ptr;
-    this.ptr = _mud_Ray_Ray_0(self); getCache(Ray)[this.ptr] = this;
+    this.ptr = _mud_Ray_Ray_0(); getCache(Ray)[this.ptr] = this;
 };
 Ray.prototype = Object.create(WrapperObject.prototype);
 Ray.prototype.constructor = Ray;
@@ -141,49 +136,49 @@ Module['Ray'] = Ray;
 Object.defineProperty(Ray.prototype, "start", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Ray__get_start(self), mud::vec3);
+        return wrapPointer(_mud_Ray__get_start(self), vec3);
     },
-    set: function(start) {
+    set: function(value) {
         var self = this.ptr;
-        /* start <vec3> [] */
-        start = start.ptr;
-        _mud_Ray__set_start(self, start);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_Ray__set_start(self, value);
     }
 });
 Object.defineProperty(Ray.prototype, "end", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Ray__get_end(self), mud::vec3);
+        return wrapPointer(_mud_Ray__get_end(self), vec3);
     },
-    set: function(end) {
+    set: function(value) {
         var self = this.ptr;
-        /* end <vec3> [] */
-        end = end.ptr;
-        _mud_Ray__set_end(self, end);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_Ray__set_end(self, value);
     }
 });
 Object.defineProperty(Ray.prototype, "dir", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Ray__get_dir(self), mud::vec3);
+        return wrapPointer(_mud_Ray__get_dir(self), vec3);
     },
-    set: function(dir) {
+    set: function(value) {
         var self = this.ptr;
-        /* dir <vec3> [] */
-        dir = dir.ptr;
-        _mud_Ray__set_dir(self, dir);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_Ray__set_dir(self, value);
     }
 });
 Object.defineProperty(Ray.prototype, "inv_dir", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Ray__get_inv_dir(self), mud::vec3);
+        return wrapPointer(_mud_Ray__get_inv_dir(self), vec3);
     },
-    set: function(inv_dir) {
+    set: function(value) {
         var self = this.ptr;
-        /* inv_dir <vec3> [] */
-        inv_dir = inv_dir.ptr;
-        _mud_Ray__set_inv_dir(self, inv_dir);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_Ray__set_inv_dir(self, value);
     }
 });
 Ray.prototype["__destroy__"] = Ray.prototype.__destroy__ = function() {
@@ -192,8 +187,7 @@ Ray.prototype["__destroy__"] = Ray.prototype.__destroy__ = function() {
 };
 // Segment
 function Segment() {
-    var self = this.ptr;
-    this.ptr = _mud_Segment_Segment_0(self); getCache(Segment)[this.ptr] = this;
+    this.ptr = _mud_Segment_Segment_0(); getCache(Segment)[this.ptr] = this;
 };
 Segment.prototype = Object.create(WrapperObject.prototype);
 Segment.prototype.constructor = Segment;
@@ -203,25 +197,25 @@ Module['Segment'] = Segment;
 Object.defineProperty(Segment.prototype, "start", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Segment__get_start(self), mud::vec3);
+        return wrapPointer(_mud_Segment__get_start(self), vec3);
     },
-    set: function(start) {
+    set: function(value) {
         var self = this.ptr;
-        /* start <vec3> [] */
-        start = start.ptr;
-        _mud_Segment__set_start(self, start);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_Segment__set_start(self, value);
     }
 });
 Object.defineProperty(Segment.prototype, "end", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Segment__get_end(self), mud::vec3);
+        return wrapPointer(_mud_Segment__get_end(self), vec3);
     },
-    set: function(end) {
+    set: function(value) {
         var self = this.ptr;
-        /* end <vec3> [] */
-        end = end.ptr;
-        _mud_Segment__set_end(self, end);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_Segment__set_end(self, value);
     }
 });
 Segment.prototype["__destroy__"] = Segment.prototype.__destroy__ = function() {
@@ -238,7 +232,7 @@ Module['Shape'] = Shape;
 Object.defineProperty(Shape.prototype, "type", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Shape__get_type(self), mud::Type);
+        return wrapPointer(_mud_Shape__get_type(self), Type);
     }});
 Shape.prototype["__destroy__"] = Shape.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -246,11 +240,10 @@ Shape.prototype["__destroy__"] = Shape.prototype.__destroy__ = function() {
 };
 // ShapeVar
 function ShapeVar(shape) {
-    var self = this.ptr;
     /* shape <Shape> [] */
     shape = shape.ptr;
-    if (shape === undefined) { this.ptr = _mud_ShapeVar_ShapeVar_0(self); getCache(ShapeVar)[this.ptr] = this; return; }
-    this.ptr = _mud_ShapeVar_ShapeVar_1(self, shape); getCache(ShapeVar)[this.ptr] = this;
+    if (shape === undefined) { this.ptr = _mud_ShapeVar_ShapeVar_0(); getCache(ShapeVar)[this.ptr] = this; return; }
+    this.ptr = _mud_ShapeVar_ShapeVar_1(shape); getCache(ShapeVar)[this.ptr] = this;
 };
 ShapeVar.prototype = Object.create(WrapperObject.prototype);
 ShapeVar.prototype.constructor = ShapeVar;
@@ -260,7 +253,7 @@ Module['ShapeVar'] = ShapeVar;
 Object.defineProperty(ShapeVar.prototype, "shape", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_ShapeVar__get_shape(self), mud::Shape);
+        return wrapPointer(_mud_ShapeVar__get_shape(self), Shape);
     }});
 ShapeVar.prototype["__destroy__"] = ShapeVar.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -268,7 +261,6 @@ ShapeVar.prototype["__destroy__"] = ShapeVar.prototype.__destroy__ = function() 
 };
 // Symbol
 function Symbol(fill, outline, overlay, double_sided, detail) {
-    var self = this.ptr;
     /* fill <Colour> [] */
     fill = fill.ptr;
     /* outline <Colour> [] */
@@ -277,12 +269,12 @@ function Symbol(fill, outline, overlay, double_sided, detail) {
     /* double_sided <bool> [] */
     /* detail <SymbolDetail> [] */
     if (detail && typeof detail === "object") detail = detail.ptr;
-    if (fill === undefined) { this.ptr = _mud_Symbol_Symbol_0(self); getCache(Symbol)[this.ptr] = this; return; }
-    if (outline === undefined) { this.ptr = _mud_Symbol_Symbol_1(self, fill); getCache(Symbol)[this.ptr] = this; return; }
-    if (overlay === undefined) { this.ptr = _mud_Symbol_Symbol_2(self, fill, outline); getCache(Symbol)[this.ptr] = this; return; }
-    if (double_sided === undefined) { this.ptr = _mud_Symbol_Symbol_3(self, fill, outline, overlay); getCache(Symbol)[this.ptr] = this; return; }
-    if (detail === undefined) { this.ptr = _mud_Symbol_Symbol_4(self, fill, outline, overlay, double_sided); getCache(Symbol)[this.ptr] = this; return; }
-    this.ptr = _mud_Symbol_Symbol_5(self, fill, outline, overlay, double_sided, detail); getCache(Symbol)[this.ptr] = this;
+    if (fill === undefined) { this.ptr = _mud_Symbol_Symbol_0(); getCache(Symbol)[this.ptr] = this; return; }
+    if (outline === undefined) { this.ptr = _mud_Symbol_Symbol_1(fill); getCache(Symbol)[this.ptr] = this; return; }
+    if (overlay === undefined) { this.ptr = _mud_Symbol_Symbol_2(fill, outline); getCache(Symbol)[this.ptr] = this; return; }
+    if (double_sided === undefined) { this.ptr = _mud_Symbol_Symbol_3(fill, outline, overlay); getCache(Symbol)[this.ptr] = this; return; }
+    if (detail === undefined) { this.ptr = _mud_Symbol_Symbol_4(fill, outline, overlay, double_sided); getCache(Symbol)[this.ptr] = this; return; }
+    this.ptr = _mud_Symbol_Symbol_5(fill, outline, overlay, double_sided, detail); getCache(Symbol)[this.ptr] = this;
 };
 Symbol.prototype = Object.create(WrapperObject.prototype);
 Symbol.prototype.constructor = Symbol;
@@ -292,25 +284,25 @@ Module['Symbol'] = Symbol;
 Object.defineProperty(Symbol.prototype, "outline", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Symbol__get_outline(self), mud::Colour);
+        return wrapPointer(_mud_Symbol__get_outline(self), Colour);
     },
-    set: function(outline) {
+    set: function(value) {
         var self = this.ptr;
-        /* outline <Colour> [] */
-        outline = outline.ptr;
-        _mud_Symbol__set_outline(self, outline);
+        /* value <Colour> [] */
+        value = value.ptr;
+        _mud_Symbol__set_outline(self, value);
     }
 });
 Object.defineProperty(Symbol.prototype, "fill", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Symbol__get_fill(self), mud::Colour);
+        return wrapPointer(_mud_Symbol__get_fill(self), Colour);
     },
-    set: function(fill) {
+    set: function(value) {
         var self = this.ptr;
-        /* fill <Colour> [] */
-        fill = fill.ptr;
-        _mud_Symbol__set_fill(self, fill);
+        /* value <Colour> [] */
+        value = value.ptr;
+        _mud_Symbol__set_fill(self, value);
     }
 });
 Object.defineProperty(Symbol.prototype, "overlay", {
@@ -318,10 +310,10 @@ Object.defineProperty(Symbol.prototype, "overlay", {
         var self = this.ptr;
         return !!(_mud_Symbol__get_overlay(self));
     },
-    set: function(overlay) {
+    set: function(value) {
         var self = this.ptr;
-        /* overlay <bool> [] */
-        _mud_Symbol__set_overlay(self, overlay);
+        /* value <bool> [] */
+        _mud_Symbol__set_overlay(self, value);
     }
 });
 Object.defineProperty(Symbol.prototype, "double_sided", {
@@ -329,10 +321,10 @@ Object.defineProperty(Symbol.prototype, "double_sided", {
         var self = this.ptr;
         return !!(_mud_Symbol__get_double_sided(self));
     },
-    set: function(double_sided) {
+    set: function(value) {
         var self = this.ptr;
-        /* double_sided <bool> [] */
-        _mud_Symbol__set_double_sided(self, double_sided);
+        /* value <bool> [] */
+        _mud_Symbol__set_double_sided(self, value);
     }
 });
 Object.defineProperty(Symbol.prototype, "detail", {
@@ -340,11 +332,11 @@ Object.defineProperty(Symbol.prototype, "detail", {
         var self = this.ptr;
         return _mud_Symbol__get_detail(self);
     },
-    set: function(detail) {
+    set: function(value) {
         var self = this.ptr;
-        /* detail <SymbolDetail> [] */
-        if (detail && typeof detail === "object") detail = detail.ptr;
-        _mud_Symbol__set_detail(self, detail);
+        /* value <SymbolDetail> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        _mud_Symbol__set_detail(self, value);
     }
 });
 Object.defineProperty(Symbol.prototype, "image", {
@@ -352,22 +344,22 @@ Object.defineProperty(Symbol.prototype, "image", {
         var self = this.ptr;
         return _mud_Symbol__get_image(self);
     },
-    set: function(image) {
+    set: function(value) {
         var self = this.ptr;
-        /* image <const char*> [] */
-        _mud_Symbol__set_image(self, image);
+        /* value <const char*> [] */
+        _mud_Symbol__set_image(self, value);
     }
 });
 Object.defineProperty(Symbol.prototype, "image256", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Symbol__get_image256(self), mud::Image256);
+        return wrapPointer(_mud_Symbol__get_image256(self), Image256);
     },
-    set: function(image256) {
+    set: function(value) {
         var self = this.ptr;
-        /* image256 <Image256> [] */
-        image256 = image256.ptr;
-        _mud_Symbol__set_image256(self, image256);
+        /* value <Image256> [] */
+        value = value.ptr;
+        _mud_Symbol__set_image256(self, value);
     }
 });
 Object.defineProperty(Symbol.prototype, "program", {
@@ -375,10 +367,10 @@ Object.defineProperty(Symbol.prototype, "program", {
         var self = this.ptr;
         return _mud_Symbol__get_program(self);
     },
-    set: function(program) {
+    set: function(value) {
         var self = this.ptr;
-        /* program <const char*> [] */
-        _mud_Symbol__set_program(self, program);
+        /* value <const char*> [] */
+        _mud_Symbol__set_program(self, value);
     }
 });
 Symbol.prototype["__destroy__"] = Symbol.prototype.__destroy__ = function() {
@@ -387,12 +379,11 @@ Symbol.prototype["__destroy__"] = Symbol.prototype.__destroy__ = function() {
 };
 // Arc
 function Arc(radius, start, end) {
-    var self = this.ptr;
     /* radius <float> [] */
     /* start <float> [] */
     /* end <float> [] */
-    if (radius === undefined) { this.ptr = _mud_Arc_Arc_0(self); getCache(Arc)[this.ptr] = this; return; }
-    this.ptr = _mud_Arc_Arc_3(self, radius, start, end); getCache(Arc)[this.ptr] = this;
+    if (radius === undefined) { this.ptr = _mud_Arc_Arc_0(); getCache(Arc)[this.ptr] = this; return; }
+    this.ptr = _mud_Arc_Arc_3(radius, start, end); getCache(Arc)[this.ptr] = this;
 };
 Arc.prototype = Object.create(WrapperObject.prototype);
 Arc.prototype.constructor = Arc;
@@ -404,10 +395,10 @@ Object.defineProperty(Arc.prototype, "radius", {
         var self = this.ptr;
         return _mud_Arc__get_radius(self);
     },
-    set: function(radius) {
+    set: function(value) {
         var self = this.ptr;
-        /* radius <float> [] */
-        _mud_Arc__set_radius(self, radius);
+        /* value <float> [] */
+        _mud_Arc__set_radius(self, value);
     }
 });
 Object.defineProperty(Arc.prototype, "start", {
@@ -415,10 +406,10 @@ Object.defineProperty(Arc.prototype, "start", {
         var self = this.ptr;
         return _mud_Arc__get_start(self);
     },
-    set: function(start) {
+    set: function(value) {
         var self = this.ptr;
-        /* start <float> [] */
-        _mud_Arc__set_start(self, start);
+        /* value <float> [] */
+        _mud_Arc__set_start(self, value);
     }
 });
 Object.defineProperty(Arc.prototype, "end", {
@@ -426,10 +417,10 @@ Object.defineProperty(Arc.prototype, "end", {
         var self = this.ptr;
         return _mud_Arc__get_end(self);
     },
-    set: function(end) {
+    set: function(value) {
         var self = this.ptr;
-        /* end <float> [] */
-        _mud_Arc__set_end(self, end);
+        /* value <float> [] */
+        _mud_Arc__set_end(self, value);
     }
 });
 Arc.prototype["__destroy__"] = Arc.prototype.__destroy__ = function() {
@@ -438,7 +429,6 @@ Arc.prototype["__destroy__"] = Arc.prototype.__destroy__ = function() {
 };
 // ArcLine
 function ArcLine(center, start, middle, end) {
-    var self = this.ptr;
     /* center <vec3> [] */
     center = center.ptr;
     /* start <vec3> [] */
@@ -447,9 +437,9 @@ function ArcLine(center, start, middle, end) {
     middle = middle.ptr;
     /* end <vec3> [] */
     end = end.ptr;
-    if (center === undefined) { this.ptr = _mud_ArcLine_ArcLine_0(self); getCache(ArcLine)[this.ptr] = this; return; }
-    if (end === undefined) { this.ptr = _mud_ArcLine_ArcLine_3(self, center, start, middle); getCache(ArcLine)[this.ptr] = this; return; }
-    this.ptr = _mud_ArcLine_ArcLine_4(self, center, start, middle, end); getCache(ArcLine)[this.ptr] = this;
+    if (center === undefined) { this.ptr = _mud_ArcLine_ArcLine_0(); getCache(ArcLine)[this.ptr] = this; return; }
+    if (end === undefined) { this.ptr = _mud_ArcLine_ArcLine_3(center, start, middle); getCache(ArcLine)[this.ptr] = this; return; }
+    this.ptr = _mud_ArcLine_ArcLine_4(center, start, middle, end); getCache(ArcLine)[this.ptr] = this;
 };
 ArcLine.prototype = Object.create(WrapperObject.prototype);
 ArcLine.prototype.constructor = ArcLine;
@@ -459,37 +449,37 @@ Module['ArcLine'] = ArcLine;
 Object.defineProperty(ArcLine.prototype, "start", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_ArcLine__get_start(self), mud::vec3);
+        return wrapPointer(_mud_ArcLine__get_start(self), vec3);
     },
-    set: function(start) {
+    set: function(value) {
         var self = this.ptr;
-        /* start <vec3> [] */
-        start = start.ptr;
-        _mud_ArcLine__set_start(self, start);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_ArcLine__set_start(self, value);
     }
 });
 Object.defineProperty(ArcLine.prototype, "middle", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_ArcLine__get_middle(self), mud::vec3);
+        return wrapPointer(_mud_ArcLine__get_middle(self), vec3);
     },
-    set: function(middle) {
+    set: function(value) {
         var self = this.ptr;
-        /* middle <vec3> [] */
-        middle = middle.ptr;
-        _mud_ArcLine__set_middle(self, middle);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_ArcLine__set_middle(self, value);
     }
 });
 Object.defineProperty(ArcLine.prototype, "end", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_ArcLine__get_end(self), mud::vec3);
+        return wrapPointer(_mud_ArcLine__get_end(self), vec3);
     },
-    set: function(end) {
+    set: function(value) {
         var self = this.ptr;
-        /* end <vec3> [] */
-        end = end.ptr;
-        _mud_ArcLine__set_end(self, end);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_ArcLine__set_end(self, value);
     }
 });
 ArcLine.prototype["__destroy__"] = ArcLine.prototype.__destroy__ = function() {
@@ -498,14 +488,13 @@ ArcLine.prototype["__destroy__"] = ArcLine.prototype.__destroy__ = function() {
 };
 // Capsule
 function Capsule(radius, height, axis) {
-    var self = this.ptr;
     /* radius <float> [] */
     /* height <float> [] */
     /* axis <Axis> [] */
     if (axis && typeof axis === "object") axis = axis.ptr;
-    if (radius === undefined) { this.ptr = _mud_Capsule_Capsule_0(self); getCache(Capsule)[this.ptr] = this; return; }
-    if (axis === undefined) { this.ptr = _mud_Capsule_Capsule_2(self, radius, height); getCache(Capsule)[this.ptr] = this; return; }
-    this.ptr = _mud_Capsule_Capsule_3(self, radius, height, axis); getCache(Capsule)[this.ptr] = this;
+    if (radius === undefined) { this.ptr = _mud_Capsule_Capsule_0(); getCache(Capsule)[this.ptr] = this; return; }
+    if (axis === undefined) { this.ptr = _mud_Capsule_Capsule_2(radius, height); getCache(Capsule)[this.ptr] = this; return; }
+    this.ptr = _mud_Capsule_Capsule_3(radius, height, axis); getCache(Capsule)[this.ptr] = this;
 };
 Capsule.prototype = Object.create(WrapperObject.prototype);
 Capsule.prototype.constructor = Capsule;
@@ -517,10 +506,10 @@ Object.defineProperty(Capsule.prototype, "radius", {
         var self = this.ptr;
         return _mud_Capsule__get_radius(self);
     },
-    set: function(radius) {
+    set: function(value) {
         var self = this.ptr;
-        /* radius <float> [] */
-        _mud_Capsule__set_radius(self, radius);
+        /* value <float> [] */
+        _mud_Capsule__set_radius(self, value);
     }
 });
 Object.defineProperty(Capsule.prototype, "height", {
@@ -528,10 +517,10 @@ Object.defineProperty(Capsule.prototype, "height", {
         var self = this.ptr;
         return _mud_Capsule__get_height(self);
     },
-    set: function(height) {
+    set: function(value) {
         var self = this.ptr;
-        /* height <float> [] */
-        _mud_Capsule__set_height(self, height);
+        /* value <float> [] */
+        _mud_Capsule__set_height(self, value);
     }
 });
 Object.defineProperty(Capsule.prototype, "axis", {
@@ -539,11 +528,11 @@ Object.defineProperty(Capsule.prototype, "axis", {
         var self = this.ptr;
         return _mud_Capsule__get_axis(self);
     },
-    set: function(axis) {
+    set: function(value) {
         var self = this.ptr;
-        /* axis <Axis> [] */
-        if (axis && typeof axis === "object") axis = axis.ptr;
-        _mud_Capsule__set_axis(self, axis);
+        /* value <Axis> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        _mud_Capsule__set_axis(self, value);
     }
 });
 Capsule.prototype["__destroy__"] = Capsule.prototype.__destroy__ = function() {
@@ -552,14 +541,13 @@ Capsule.prototype["__destroy__"] = Capsule.prototype.__destroy__ = function() {
 };
 // Cube
 function Cube(center, extents) {
-    var self = this.ptr;
     /* center <vec3> [] */
     center = center.ptr;
     /* extents <vec3> [] */
     extents = extents.ptr;
-    if (center === undefined) { this.ptr = _mud_Cube_Cube_0(self); getCache(Cube)[this.ptr] = this; return; }
-    if (extents === undefined) { this.ptr = _mud_Cube_Cube_1(self, center); getCache(Cube)[this.ptr] = this; return; }
-    this.ptr = _mud_Cube_Cube_2(self, center, extents); getCache(Cube)[this.ptr] = this;
+    if (center === undefined) { this.ptr = _mud_Cube_Cube_0(); getCache(Cube)[this.ptr] = this; return; }
+    if (extents === undefined) { this.ptr = _mud_Cube_Cube_1(center); getCache(Cube)[this.ptr] = this; return; }
+    this.ptr = _mud_Cube_Cube_2(center, extents); getCache(Cube)[this.ptr] = this;
 };
 Cube.prototype = Object.create(WrapperObject.prototype);
 Cube.prototype.constructor = Cube;
@@ -569,13 +557,13 @@ Module['Cube'] = Cube;
 Object.defineProperty(Cube.prototype, "extents", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Cube__get_extents(self), mud::vec3);
+        return wrapPointer(_mud_Cube__get_extents(self), vec3);
     },
-    set: function(extents) {
+    set: function(value) {
         var self = this.ptr;
-        /* extents <vec3> [] */
-        extents = extents.ptr;
-        _mud_Cube__set_extents(self, extents);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_Cube__set_extents(self, value);
     }
 });
 Cube.prototype["__destroy__"] = Cube.prototype.__destroy__ = function() {
@@ -584,13 +572,12 @@ Cube.prototype["__destroy__"] = Cube.prototype.__destroy__ = function() {
 };
 // Aabb
 function Aabb(center, extents) {
-    var self = this.ptr;
     /* center <vec3> [] */
     center = center.ptr;
     /* extents <vec3> [] */
     extents = extents.ptr;
-    if (center === undefined) { this.ptr = _mud_Aabb_Aabb_0(self); getCache(Aabb)[this.ptr] = this; return; }
-    this.ptr = _mud_Aabb_Aabb_2(self, center, extents); getCache(Aabb)[this.ptr] = this;
+    if (center === undefined) { this.ptr = _mud_Aabb_Aabb_0(); getCache(Aabb)[this.ptr] = this; return; }
+    this.ptr = _mud_Aabb_Aabb_2(center, extents); getCache(Aabb)[this.ptr] = this;
 };
 Aabb.prototype = Object.create(WrapperObject.prototype);
 Aabb.prototype.constructor = Aabb;
@@ -602,10 +589,10 @@ Object.defineProperty(Aabb.prototype, "empty", {
         var self = this.ptr;
         return !!(_mud_Aabb__get_empty(self));
     },
-    set: function(empty) {
+    set: function(value) {
         var self = this.ptr;
-        /* empty <bool> [] */
-        _mud_Aabb__set_empty(self, empty);
+        /* value <bool> [] */
+        _mud_Aabb__set_empty(self, value);
     }
 });
 Aabb.prototype["__destroy__"] = Aabb.prototype.__destroy__ = function() {
@@ -614,8 +601,7 @@ Aabb.prototype["__destroy__"] = Aabb.prototype.__destroy__ = function() {
 };
 // Box
 function Box() {
-    var self = this.ptr;
-    this.ptr = _mud_Box_Box_0(self); getCache(Box)[this.ptr] = this;
+    this.ptr = _mud_Box_Box_0(); getCache(Box)[this.ptr] = this;
 };
 Box.prototype = Object.create(WrapperObject.prototype);
 Box.prototype.constructor = Box;
@@ -628,13 +614,12 @@ Box.prototype["__destroy__"] = Box.prototype.__destroy__ = function() {
 };
 // Circle
 function Circle(radius, axis) {
-    var self = this.ptr;
     /* radius <float> [] */
     /* axis <Axis> [] */
     if (axis && typeof axis === "object") axis = axis.ptr;
-    if (radius === undefined) { this.ptr = _mud_Circle_Circle_0(self); getCache(Circle)[this.ptr] = this; return; }
-    if (axis === undefined) { this.ptr = _mud_Circle_Circle_1(self, radius); getCache(Circle)[this.ptr] = this; return; }
-    this.ptr = _mud_Circle_Circle_2(self, radius, axis); getCache(Circle)[this.ptr] = this;
+    if (radius === undefined) { this.ptr = _mud_Circle_Circle_0(); getCache(Circle)[this.ptr] = this; return; }
+    if (axis === undefined) { this.ptr = _mud_Circle_Circle_1(radius); getCache(Circle)[this.ptr] = this; return; }
+    this.ptr = _mud_Circle_Circle_2(radius, axis); getCache(Circle)[this.ptr] = this;
 };
 Circle.prototype = Object.create(WrapperObject.prototype);
 Circle.prototype.constructor = Circle;
@@ -646,10 +631,10 @@ Object.defineProperty(Circle.prototype, "radius", {
         var self = this.ptr;
         return _mud_Circle__get_radius(self);
     },
-    set: function(radius) {
+    set: function(value) {
         var self = this.ptr;
-        /* radius <float> [] */
-        _mud_Circle__set_radius(self, radius);
+        /* value <float> [] */
+        _mud_Circle__set_radius(self, value);
     }
 });
 Object.defineProperty(Circle.prototype, "axis", {
@@ -657,11 +642,11 @@ Object.defineProperty(Circle.prototype, "axis", {
         var self = this.ptr;
         return _mud_Circle__get_axis(self);
     },
-    set: function(axis) {
+    set: function(value) {
         var self = this.ptr;
-        /* axis <Axis> [] */
-        if (axis && typeof axis === "object") axis = axis.ptr;
-        _mud_Circle__set_axis(self, axis);
+        /* value <Axis> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        _mud_Circle__set_axis(self, value);
     }
 });
 Circle.prototype["__destroy__"] = Circle.prototype.__destroy__ = function() {
@@ -670,11 +655,10 @@ Circle.prototype["__destroy__"] = Circle.prototype.__destroy__ = function() {
 };
 // ConvexHull
 function ConvexHull(vertices) {
-    var self = this.ptr;
     /* vertices <std::vector<mud::vec3>> [] */
     vertices = vertices.ptr;
-    if (vertices === undefined) { this.ptr = _mud_ConvexHull_ConvexHull_0(self); getCache(ConvexHull)[this.ptr] = this; return; }
-    this.ptr = _mud_ConvexHull_ConvexHull_1(self, vertices); getCache(ConvexHull)[this.ptr] = this;
+    if (vertices === undefined) { this.ptr = _mud_ConvexHull_ConvexHull_0(); getCache(ConvexHull)[this.ptr] = this; return; }
+    this.ptr = _mud_ConvexHull_ConvexHull_1(vertices); getCache(ConvexHull)[this.ptr] = this;
 };
 ConvexHull.prototype = Object.create(WrapperObject.prototype);
 ConvexHull.prototype.constructor = ConvexHull;
@@ -687,14 +671,13 @@ ConvexHull.prototype["__destroy__"] = ConvexHull.prototype.__destroy__ = functio
 };
 // Cylinder
 function Cylinder(radius, height, axis) {
-    var self = this.ptr;
     /* radius <float> [] */
     /* height <float> [] */
     /* axis <Axis> [] */
     if (axis && typeof axis === "object") axis = axis.ptr;
-    if (radius === undefined) { this.ptr = _mud_Cylinder_Cylinder_0(self); getCache(Cylinder)[this.ptr] = this; return; }
-    if (axis === undefined) { this.ptr = _mud_Cylinder_Cylinder_2(self, radius, height); getCache(Cylinder)[this.ptr] = this; return; }
-    this.ptr = _mud_Cylinder_Cylinder_3(self, radius, height, axis); getCache(Cylinder)[this.ptr] = this;
+    if (radius === undefined) { this.ptr = _mud_Cylinder_Cylinder_0(); getCache(Cylinder)[this.ptr] = this; return; }
+    if (axis === undefined) { this.ptr = _mud_Cylinder_Cylinder_2(radius, height); getCache(Cylinder)[this.ptr] = this; return; }
+    this.ptr = _mud_Cylinder_Cylinder_3(radius, height, axis); getCache(Cylinder)[this.ptr] = this;
 };
 Cylinder.prototype = Object.create(WrapperObject.prototype);
 Cylinder.prototype.constructor = Cylinder;
@@ -706,10 +689,10 @@ Object.defineProperty(Cylinder.prototype, "radius", {
         var self = this.ptr;
         return _mud_Cylinder__get_radius(self);
     },
-    set: function(radius) {
+    set: function(value) {
         var self = this.ptr;
-        /* radius <float> [] */
-        _mud_Cylinder__set_radius(self, radius);
+        /* value <float> [] */
+        _mud_Cylinder__set_radius(self, value);
     }
 });
 Object.defineProperty(Cylinder.prototype, "height", {
@@ -717,10 +700,10 @@ Object.defineProperty(Cylinder.prototype, "height", {
         var self = this.ptr;
         return _mud_Cylinder__get_height(self);
     },
-    set: function(height) {
+    set: function(value) {
         var self = this.ptr;
-        /* height <float> [] */
-        _mud_Cylinder__set_height(self, height);
+        /* value <float> [] */
+        _mud_Cylinder__set_height(self, value);
     }
 });
 Object.defineProperty(Cylinder.prototype, "axis", {
@@ -728,11 +711,11 @@ Object.defineProperty(Cylinder.prototype, "axis", {
         var self = this.ptr;
         return _mud_Cylinder__get_axis(self);
     },
-    set: function(axis) {
+    set: function(value) {
         var self = this.ptr;
-        /* axis <Axis> [] */
-        if (axis && typeof axis === "object") axis = axis.ptr;
-        _mud_Cylinder__set_axis(self, axis);
+        /* value <Axis> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        _mud_Cylinder__set_axis(self, value);
     }
 });
 Cylinder.prototype["__destroy__"] = Cylinder.prototype.__destroy__ = function() {
@@ -741,14 +724,13 @@ Cylinder.prototype["__destroy__"] = Cylinder.prototype.__destroy__ = function() 
 };
 // Ellipsis
 function Ellipsis(radius, axis) {
-    var self = this.ptr;
     /* radius <vec2> [] */
     radius = radius.ptr;
     /* axis <Axis> [] */
     if (axis && typeof axis === "object") axis = axis.ptr;
-    if (radius === undefined) { this.ptr = _mud_Ellipsis_Ellipsis_0(self); getCache(Ellipsis)[this.ptr] = this; return; }
-    if (axis === undefined) { this.ptr = _mud_Ellipsis_Ellipsis_1(self, radius); getCache(Ellipsis)[this.ptr] = this; return; }
-    this.ptr = _mud_Ellipsis_Ellipsis_2(self, radius, axis); getCache(Ellipsis)[this.ptr] = this;
+    if (radius === undefined) { this.ptr = _mud_Ellipsis_Ellipsis_0(); getCache(Ellipsis)[this.ptr] = this; return; }
+    if (axis === undefined) { this.ptr = _mud_Ellipsis_Ellipsis_1(radius); getCache(Ellipsis)[this.ptr] = this; return; }
+    this.ptr = _mud_Ellipsis_Ellipsis_2(radius, axis); getCache(Ellipsis)[this.ptr] = this;
 };
 Ellipsis.prototype = Object.create(WrapperObject.prototype);
 Ellipsis.prototype.constructor = Ellipsis;
@@ -758,13 +740,13 @@ Module['Ellipsis'] = Ellipsis;
 Object.defineProperty(Ellipsis.prototype, "radius", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Ellipsis__get_radius(self), mud::vec2);
+        return wrapPointer(_mud_Ellipsis__get_radius(self), vec2);
     },
-    set: function(radius) {
+    set: function(value) {
         var self = this.ptr;
-        /* radius <vec2> [] */
-        radius = radius.ptr;
-        _mud_Ellipsis__set_radius(self, radius);
+        /* value <vec2> [] */
+        value = value.ptr;
+        _mud_Ellipsis__set_radius(self, value);
     }
 });
 Object.defineProperty(Ellipsis.prototype, "axis", {
@@ -772,11 +754,11 @@ Object.defineProperty(Ellipsis.prototype, "axis", {
         var self = this.ptr;
         return _mud_Ellipsis__get_axis(self);
     },
-    set: function(axis) {
+    set: function(value) {
         var self = this.ptr;
-        /* axis <Axis> [] */
-        if (axis && typeof axis === "object") axis = axis.ptr;
-        _mud_Ellipsis__set_axis(self, axis);
+        /* value <Axis> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        _mud_Ellipsis__set_axis(self, value);
     }
 });
 Ellipsis.prototype["__destroy__"] = Ellipsis.prototype.__destroy__ = function() {
@@ -785,8 +767,7 @@ Ellipsis.prototype["__destroy__"] = Ellipsis.prototype.__destroy__ = function() 
 };
 // Geometry
 function Geometry() {
-    var self = this.ptr;
-    this.ptr = _mud_Geometry_Geometry_0(self); getCache(Geometry)[this.ptr] = this;
+    this.ptr = _mud_Geometry_Geometry_0(); getCache(Geometry)[this.ptr] = this;
 };
 Geometry.prototype = Object.create(WrapperObject.prototype);
 Geometry.prototype.constructor = Geometry;
@@ -799,14 +780,13 @@ Geometry.prototype["__destroy__"] = Geometry.prototype.__destroy__ = function() 
 };
 // Grid2
 function Grid2(size, space) {
-    var self = this.ptr;
     /* size <vec2> [] */
     size = size.ptr;
     /* space <vec2> [] */
     space = space.ptr;
-    if (size === undefined) { this.ptr = _mud_Grid2_Grid2_0(self); getCache(Grid2)[this.ptr] = this; return; }
-    if (space === undefined) { this.ptr = _mud_Grid2_Grid2_1(self, size); getCache(Grid2)[this.ptr] = this; return; }
-    this.ptr = _mud_Grid2_Grid2_2(self, size, space); getCache(Grid2)[this.ptr] = this;
+    if (size === undefined) { this.ptr = _mud_Grid2_Grid2_0(); getCache(Grid2)[this.ptr] = this; return; }
+    if (space === undefined) { this.ptr = _mud_Grid2_Grid2_1(size); getCache(Grid2)[this.ptr] = this; return; }
+    this.ptr = _mud_Grid2_Grid2_2(size, space); getCache(Grid2)[this.ptr] = this;
 };
 Grid2.prototype = Object.create(WrapperObject.prototype);
 Grid2.prototype.constructor = Grid2;
@@ -816,25 +796,25 @@ Module['Grid2'] = Grid2;
 Object.defineProperty(Grid2.prototype, "size", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Grid2__get_size(self), mud::vec2);
+        return wrapPointer(_mud_Grid2__get_size(self), vec2);
     },
-    set: function(size) {
+    set: function(value) {
         var self = this.ptr;
-        /* size <vec2> [] */
-        size = size.ptr;
-        _mud_Grid2__set_size(self, size);
+        /* value <vec2> [] */
+        value = value.ptr;
+        _mud_Grid2__set_size(self, value);
     }
 });
 Object.defineProperty(Grid2.prototype, "space", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Grid2__get_space(self), mud::vec2);
+        return wrapPointer(_mud_Grid2__get_space(self), vec2);
     },
-    set: function(space) {
+    set: function(value) {
         var self = this.ptr;
-        /* space <vec2> [] */
-        space = space.ptr;
-        _mud_Grid2__set_space(self, space);
+        /* value <vec2> [] */
+        value = value.ptr;
+        _mud_Grid2__set_space(self, value);
     }
 });
 Grid2.prototype["__destroy__"] = Grid2.prototype.__destroy__ = function() {
@@ -843,14 +823,13 @@ Grid2.prototype["__destroy__"] = Grid2.prototype.__destroy__ = function() {
 };
 // Grid3
 function Grid3(size, points) {
-    var self = this.ptr;
     /* size <uvec2> [] */
     size = size.ptr;
     /* points <std::vector<mud::vec3>> [] */
     points = points.ptr;
-    if (size === undefined) { this.ptr = _mud_Grid3_Grid3_0(self); getCache(Grid3)[this.ptr] = this; return; }
-    if (points === undefined) { this.ptr = _mud_Grid3_Grid3_1(self, size); getCache(Grid3)[this.ptr] = this; return; }
-    this.ptr = _mud_Grid3_Grid3_2(self, size, points); getCache(Grid3)[this.ptr] = this;
+    if (size === undefined) { this.ptr = _mud_Grid3_Grid3_0(); getCache(Grid3)[this.ptr] = this; return; }
+    if (points === undefined) { this.ptr = _mud_Grid3_Grid3_1(size); getCache(Grid3)[this.ptr] = this; return; }
+    this.ptr = _mud_Grid3_Grid3_2(size, points); getCache(Grid3)[this.ptr] = this;
 };
 Grid3.prototype = Object.create(WrapperObject.prototype);
 Grid3.prototype.constructor = Grid3;
@@ -860,13 +839,13 @@ Module['Grid3'] = Grid3;
 Object.defineProperty(Grid3.prototype, "size", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Grid3__get_size(self), mud::uvec2);
+        return wrapPointer(_mud_Grid3__get_size(self), uvec2);
     },
-    set: function(size) {
+    set: function(value) {
         var self = this.ptr;
-        /* size <uvec2> [] */
-        size = size.ptr;
-        _mud_Grid3__set_size(self, size);
+        /* value <uvec2> [] */
+        value = value.ptr;
+        _mud_Grid3__set_size(self, value);
     }
 });
 Grid3.prototype["__destroy__"] = Grid3.prototype.__destroy__ = function() {
@@ -875,13 +854,12 @@ Grid3.prototype["__destroy__"] = Grid3.prototype.__destroy__ = function() {
 };
 // Line
 function Line(start, end) {
-    var self = this.ptr;
     /* start <vec3> [] */
     start = start.ptr;
     /* end <vec3> [] */
     end = end.ptr;
-    if (start === undefined) { this.ptr = _mud_Line_Line_0(self); getCache(Line)[this.ptr] = this; return; }
-    this.ptr = _mud_Line_Line_2(self, start, end); getCache(Line)[this.ptr] = this;
+    if (start === undefined) { this.ptr = _mud_Line_Line_0(); getCache(Line)[this.ptr] = this; return; }
+    this.ptr = _mud_Line_Line_2(start, end); getCache(Line)[this.ptr] = this;
 };
 Line.prototype = Object.create(WrapperObject.prototype);
 Line.prototype.constructor = Line;
@@ -891,25 +869,25 @@ Module['Line'] = Line;
 Object.defineProperty(Line.prototype, "start", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Line__get_start(self), mud::vec3);
+        return wrapPointer(_mud_Line__get_start(self), vec3);
     },
-    set: function(start) {
+    set: function(value) {
         var self = this.ptr;
-        /* start <vec3> [] */
-        start = start.ptr;
-        _mud_Line__set_start(self, start);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_Line__set_start(self, value);
     }
 });
 Object.defineProperty(Line.prototype, "end", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Line__get_end(self), mud::vec3);
+        return wrapPointer(_mud_Line__get_end(self), vec3);
     },
-    set: function(end) {
+    set: function(value) {
         var self = this.ptr;
-        /* end <vec3> [] */
-        end = end.ptr;
-        _mud_Line__set_end(self, end);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_Line__set_end(self, value);
     }
 });
 Line.prototype["__destroy__"] = Line.prototype.__destroy__ = function() {
@@ -918,11 +896,10 @@ Line.prototype["__destroy__"] = Line.prototype.__destroy__ = function() {
 };
 // Points
 function Points(points) {
-    var self = this.ptr;
     /* points <std::vector<mud::vec3>> [] */
     points = points.ptr;
-    if (points === undefined) { this.ptr = _mud_Points_Points_0(self); getCache(Points)[this.ptr] = this; return; }
-    this.ptr = _mud_Points_Points_1(self, points); getCache(Points)[this.ptr] = this;
+    if (points === undefined) { this.ptr = _mud_Points_Points_0(); getCache(Points)[this.ptr] = this; return; }
+    this.ptr = _mud_Points_Points_1(points); getCache(Points)[this.ptr] = this;
 };
 Points.prototype = Object.create(WrapperObject.prototype);
 Points.prototype.constructor = Points;
@@ -935,22 +912,22 @@ Points.prototype["__destroy__"] = Points.prototype.__destroy__ = function() {
 };
 // Poisson
 function Poisson(size, maxRadius) {
-    var self = this.ptr;
     /* size <vec2> [] */
     size = size.ptr;
     /* maxRadius <float> [] */
-    this.ptr = _mud_Poisson_Poisson_2(self, size, maxRadius); getCache(Poisson)[this.ptr] = this;
+    this.ptr = _mud_Poisson_Poisson_2(size, maxRadius); getCache(Poisson)[this.ptr] = this;
 };
 Poisson.prototype = Object.create(WrapperObject.prototype);
 Poisson.prototype.constructor = Poisson;
 Poisson.prototype.__class__ = Poisson;
 Poisson.__cache__ = {};
 Module['Poisson'] = Poisson;
-Poisson.prototype["addPoint"] = Poisson.prototype.addPoint = function(radius, point) {
+Poisson.prototype["addPoint"] = Poisson.prototype.addPoint = function(self, radius, point) {
+    var self = this.ptr;
     /* radius <float> [] */
     /* point <vec3> [] */
     point = point.ptr;
-    return !!(_mud_Poisson_addPoint_2(radius, point));
+    return !!(_mud_Poisson_addPoint_2(self, radius, point));
 };
 Poisson.prototype["__destroy__"] = Poisson.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -958,11 +935,10 @@ Poisson.prototype["__destroy__"] = Poisson.prototype.__destroy__ = function() {
 };
 // Polygon
 function Polygon(vertices) {
-    var self = this.ptr;
     /* vertices <std::vector<mud::vec3>> [] */
     vertices = vertices.ptr;
-    if (vertices === undefined) { this.ptr = _mud_Polygon_Polygon_0(self); getCache(Polygon)[this.ptr] = this; return; }
-    this.ptr = _mud_Polygon_Polygon_1(self, vertices); getCache(Polygon)[this.ptr] = this;
+    if (vertices === undefined) { this.ptr = _mud_Polygon_Polygon_0(); getCache(Polygon)[this.ptr] = this; return; }
+    this.ptr = _mud_Polygon_Polygon_1(vertices); getCache(Polygon)[this.ptr] = this;
 };
 Polygon.prototype = Object.create(WrapperObject.prototype);
 Polygon.prototype.constructor = Polygon;
@@ -975,7 +951,6 @@ Polygon.prototype["__destroy__"] = Polygon.prototype.__destroy__ = function() {
 };
 // Quad
 function Quad(a, b, c, d) {
-    var self = this.ptr;
     /* a <vec3> [] */
     a = a.ptr;
     /* b <vec3> [] */
@@ -984,8 +959,8 @@ function Quad(a, b, c, d) {
     c = c.ptr;
     /* d <vec3> [] */
     d = d.ptr;
-    if (a === undefined) { this.ptr = _mud_Quad_Quad_0(self); getCache(Quad)[this.ptr] = this; return; }
-    this.ptr = _mud_Quad_Quad_4(self, a, b, c, d); getCache(Quad)[this.ptr] = this;
+    if (a === undefined) { this.ptr = _mud_Quad_Quad_0(); getCache(Quad)[this.ptr] = this; return; }
+    this.ptr = _mud_Quad_Quad_4(a, b, c, d); getCache(Quad)[this.ptr] = this;
 };
 Quad.prototype = Object.create(WrapperObject.prototype);
 Quad.prototype.constructor = Quad;
@@ -998,13 +973,12 @@ Quad.prototype["__destroy__"] = Quad.prototype.__destroy__ = function() {
 };
 // Rect
 function Rect(position, size) {
-    var self = this.ptr;
     /* position <vec2> [] */
     position = position.ptr;
     /* size <vec2> [] */
     size = size.ptr;
-    if (position === undefined) { this.ptr = _mud_Rect_Rect_0(self); getCache(Rect)[this.ptr] = this; return; }
-    this.ptr = _mud_Rect_Rect_2(self, position, size); getCache(Rect)[this.ptr] = this;
+    if (position === undefined) { this.ptr = _mud_Rect_Rect_0(); getCache(Rect)[this.ptr] = this; return; }
+    this.ptr = _mud_Rect_Rect_2(position, size); getCache(Rect)[this.ptr] = this;
 };
 Rect.prototype = Object.create(WrapperObject.prototype);
 Rect.prototype.constructor = Rect;
@@ -1014,25 +988,25 @@ Module['Rect'] = Rect;
 Object.defineProperty(Rect.prototype, "position", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Rect__get_position(self), mud::vec2);
+        return wrapPointer(_mud_Rect__get_position(self), vec2);
     },
-    set: function(position) {
+    set: function(value) {
         var self = this.ptr;
-        /* position <vec2> [] */
-        position = position.ptr;
-        _mud_Rect__set_position(self, position);
+        /* value <vec2> [] */
+        value = value.ptr;
+        _mud_Rect__set_position(self, value);
     }
 });
 Object.defineProperty(Rect.prototype, "size", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Rect__get_size(self), mud::vec2);
+        return wrapPointer(_mud_Rect__get_size(self), vec2);
     },
-    set: function(size) {
+    set: function(value) {
         var self = this.ptr;
-        /* size <vec2> [] */
-        size = size.ptr;
-        _mud_Rect__set_size(self, size);
+        /* value <vec2> [] */
+        value = value.ptr;
+        _mud_Rect__set_size(self, value);
     }
 });
 Rect.prototype["__destroy__"] = Rect.prototype.__destroy__ = function() {
@@ -1041,12 +1015,11 @@ Rect.prototype["__destroy__"] = Rect.prototype.__destroy__ = function() {
 };
 // Ring
 function Ring(radius, min, max) {
-    var self = this.ptr;
     /* radius <float> [] */
     /* min <float> [] */
     /* max <float> [] */
-    if (radius === undefined) { this.ptr = _mud_Ring_Ring_0(self); getCache(Ring)[this.ptr] = this; return; }
-    this.ptr = _mud_Ring_Ring_3(self, radius, min, max); getCache(Ring)[this.ptr] = this;
+    if (radius === undefined) { this.ptr = _mud_Ring_Ring_0(); getCache(Ring)[this.ptr] = this; return; }
+    this.ptr = _mud_Ring_Ring_3(radius, min, max); getCache(Ring)[this.ptr] = this;
 };
 Ring.prototype = Object.create(WrapperObject.prototype);
 Ring.prototype.constructor = Ring;
@@ -1058,10 +1031,10 @@ Object.defineProperty(Ring.prototype, "radius", {
         var self = this.ptr;
         return _mud_Ring__get_radius(self);
     },
-    set: function(radius) {
+    set: function(value) {
         var self = this.ptr;
-        /* radius <float> [] */
-        _mud_Ring__set_radius(self, radius);
+        /* value <float> [] */
+        _mud_Ring__set_radius(self, value);
     }
 });
 Object.defineProperty(Ring.prototype, "min", {
@@ -1069,10 +1042,10 @@ Object.defineProperty(Ring.prototype, "min", {
         var self = this.ptr;
         return _mud_Ring__get_min(self);
     },
-    set: function(min) {
+    set: function(value) {
         var self = this.ptr;
-        /* min <float> [] */
-        _mud_Ring__set_min(self, min);
+        /* value <float> [] */
+        _mud_Ring__set_min(self, value);
     }
 });
 Object.defineProperty(Ring.prototype, "max", {
@@ -1080,10 +1053,10 @@ Object.defineProperty(Ring.prototype, "max", {
         var self = this.ptr;
         return _mud_Ring__get_max(self);
     },
-    set: function(max) {
+    set: function(value) {
         var self = this.ptr;
-        /* max <float> [] */
-        _mud_Ring__set_max(self, max);
+        /* value <float> [] */
+        _mud_Ring__set_max(self, value);
     }
 });
 Ring.prototype["__destroy__"] = Ring.prototype.__destroy__ = function() {
@@ -1092,10 +1065,9 @@ Ring.prototype["__destroy__"] = Ring.prototype.__destroy__ = function() {
 };
 // Sphere
 function Sphere(radius) {
-    var self = this.ptr;
     /* radius <float> [] */
-    if (radius === undefined) { this.ptr = _mud_Sphere_Sphere_0(self); getCache(Sphere)[this.ptr] = this; return; }
-    this.ptr = _mud_Sphere_Sphere_1(self, radius); getCache(Sphere)[this.ptr] = this;
+    if (radius === undefined) { this.ptr = _mud_Sphere_Sphere_0(); getCache(Sphere)[this.ptr] = this; return; }
+    this.ptr = _mud_Sphere_Sphere_1(radius); getCache(Sphere)[this.ptr] = this;
 };
 Sphere.prototype = Object.create(WrapperObject.prototype);
 Sphere.prototype.constructor = Sphere;
@@ -1107,10 +1079,10 @@ Object.defineProperty(Sphere.prototype, "radius", {
         var self = this.ptr;
         return _mud_Sphere__get_radius(self);
     },
-    set: function(radius) {
+    set: function(value) {
         var self = this.ptr;
-        /* radius <float> [] */
-        _mud_Sphere__set_radius(self, radius);
+        /* value <float> [] */
+        _mud_Sphere__set_radius(self, value);
     }
 });
 Sphere.prototype["__destroy__"] = Sphere.prototype.__destroy__ = function() {
@@ -1119,12 +1091,11 @@ Sphere.prototype["__destroy__"] = Sphere.prototype.__destroy__ = function() {
 };
 // SphereRing
 function SphereRing(radius, min, max) {
-    var self = this.ptr;
     /* radius <float> [] */
     /* min <float> [] */
     /* max <float> [] */
-    if (radius === undefined) { this.ptr = _mud_SphereRing_SphereRing_0(self); getCache(SphereRing)[this.ptr] = this; return; }
-    this.ptr = _mud_SphereRing_SphereRing_3(self, radius, min, max); getCache(SphereRing)[this.ptr] = this;
+    if (radius === undefined) { this.ptr = _mud_SphereRing_SphereRing_0(); getCache(SphereRing)[this.ptr] = this; return; }
+    this.ptr = _mud_SphereRing_SphereRing_3(radius, min, max); getCache(SphereRing)[this.ptr] = this;
 };
 SphereRing.prototype = Object.create(WrapperObject.prototype);
 SphereRing.prototype.constructor = SphereRing;
@@ -1136,10 +1107,10 @@ Object.defineProperty(SphereRing.prototype, "radius", {
         var self = this.ptr;
         return _mud_SphereRing__get_radius(self);
     },
-    set: function(radius) {
+    set: function(value) {
         var self = this.ptr;
-        /* radius <float> [] */
-        _mud_SphereRing__set_radius(self, radius);
+        /* value <float> [] */
+        _mud_SphereRing__set_radius(self, value);
     }
 });
 Object.defineProperty(SphereRing.prototype, "min", {
@@ -1147,10 +1118,10 @@ Object.defineProperty(SphereRing.prototype, "min", {
         var self = this.ptr;
         return _mud_SphereRing__get_min(self);
     },
-    set: function(min) {
+    set: function(value) {
         var self = this.ptr;
-        /* min <float> [] */
-        _mud_SphereRing__set_min(self, min);
+        /* value <float> [] */
+        _mud_SphereRing__set_min(self, value);
     }
 });
 Object.defineProperty(SphereRing.prototype, "max", {
@@ -1158,10 +1129,10 @@ Object.defineProperty(SphereRing.prototype, "max", {
         var self = this.ptr;
         return _mud_SphereRing__get_max(self);
     },
-    set: function(max) {
+    set: function(value) {
         var self = this.ptr;
-        /* max <float> [] */
-        _mud_SphereRing__set_max(self, max);
+        /* value <float> [] */
+        _mud_SphereRing__set_max(self, value);
     }
 });
 SphereRing.prototype["__destroy__"] = SphereRing.prototype.__destroy__ = function() {
@@ -1170,10 +1141,9 @@ SphereRing.prototype["__destroy__"] = SphereRing.prototype.__destroy__ = functio
 };
 // Spheroid
 function Spheroid(radius) {
-    var self = this.ptr;
     /* radius <float> [] */
-    if (radius === undefined) { this.ptr = _mud_Spheroid_Spheroid_0(self); getCache(Spheroid)[this.ptr] = this; return; }
-    this.ptr = _mud_Spheroid_Spheroid_1(self, radius); getCache(Spheroid)[this.ptr] = this;
+    if (radius === undefined) { this.ptr = _mud_Spheroid_Spheroid_0(); getCache(Spheroid)[this.ptr] = this; return; }
+    this.ptr = _mud_Spheroid_Spheroid_1(radius); getCache(Spheroid)[this.ptr] = this;
 };
 Spheroid.prototype = Object.create(WrapperObject.prototype);
 Spheroid.prototype.constructor = Spheroid;
@@ -1185,10 +1155,10 @@ Object.defineProperty(Spheroid.prototype, "radius", {
         var self = this.ptr;
         return _mud_Spheroid__get_radius(self);
     },
-    set: function(radius) {
+    set: function(value) {
         var self = this.ptr;
-        /* radius <float> [] */
-        _mud_Spheroid__set_radius(self, radius);
+        /* value <float> [] */
+        _mud_Spheroid__set_radius(self, value);
     }
 });
 Spheroid.prototype["__destroy__"] = Spheroid.prototype.__destroy__ = function() {
@@ -1197,14 +1167,13 @@ Spheroid.prototype["__destroy__"] = Spheroid.prototype.__destroy__ = function() 
 };
 // Torus
 function Torus(radius, solid_radius, axis) {
-    var self = this.ptr;
     /* radius <float> [] */
     /* solid_radius <float> [] */
     /* axis <Axis> [] */
     if (axis && typeof axis === "object") axis = axis.ptr;
-    if (radius === undefined) { this.ptr = _mud_Torus_Torus_0(self); getCache(Torus)[this.ptr] = this; return; }
-    if (axis === undefined) { this.ptr = _mud_Torus_Torus_2(self, radius, solid_radius); getCache(Torus)[this.ptr] = this; return; }
-    this.ptr = _mud_Torus_Torus_3(self, radius, solid_radius, axis); getCache(Torus)[this.ptr] = this;
+    if (radius === undefined) { this.ptr = _mud_Torus_Torus_0(); getCache(Torus)[this.ptr] = this; return; }
+    if (axis === undefined) { this.ptr = _mud_Torus_Torus_2(radius, solid_radius); getCache(Torus)[this.ptr] = this; return; }
+    this.ptr = _mud_Torus_Torus_3(radius, solid_radius, axis); getCache(Torus)[this.ptr] = this;
 };
 Torus.prototype = Object.create(WrapperObject.prototype);
 Torus.prototype.constructor = Torus;
@@ -1216,10 +1185,10 @@ Object.defineProperty(Torus.prototype, "radius", {
         var self = this.ptr;
         return _mud_Torus__get_radius(self);
     },
-    set: function(radius) {
+    set: function(value) {
         var self = this.ptr;
-        /* radius <float> [] */
-        _mud_Torus__set_radius(self, radius);
+        /* value <float> [] */
+        _mud_Torus__set_radius(self, value);
     }
 });
 Object.defineProperty(Torus.prototype, "solid_radius", {
@@ -1227,10 +1196,10 @@ Object.defineProperty(Torus.prototype, "solid_radius", {
         var self = this.ptr;
         return _mud_Torus__get_solid_radius(self);
     },
-    set: function(solid_radius) {
+    set: function(value) {
         var self = this.ptr;
-        /* solid_radius <float> [] */
-        _mud_Torus__set_solid_radius(self, solid_radius);
+        /* value <float> [] */
+        _mud_Torus__set_solid_radius(self, value);
     }
 });
 Object.defineProperty(Torus.prototype, "axis", {
@@ -1238,11 +1207,11 @@ Object.defineProperty(Torus.prototype, "axis", {
         var self = this.ptr;
         return _mud_Torus__get_axis(self);
     },
-    set: function(axis) {
+    set: function(value) {
         var self = this.ptr;
-        /* axis <Axis> [] */
-        if (axis && typeof axis === "object") axis = axis.ptr;
-        _mud_Torus__set_axis(self, axis);
+        /* value <Axis> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        _mud_Torus__set_axis(self, value);
     }
 });
 Torus.prototype["__destroy__"] = Torus.prototype.__destroy__ = function() {
@@ -1251,11 +1220,10 @@ Torus.prototype["__destroy__"] = Torus.prototype.__destroy__ = function() {
 };
 // Triangle
 function Triangle(size) {
-    var self = this.ptr;
     /* size <vec2> [] */
     size = size.ptr;
-    if (size === undefined) { this.ptr = _mud_Triangle_Triangle_0(self); getCache(Triangle)[this.ptr] = this; return; }
-    this.ptr = _mud_Triangle_Triangle_1(self, size); getCache(Triangle)[this.ptr] = this;
+    if (size === undefined) { this.ptr = _mud_Triangle_Triangle_0(); getCache(Triangle)[this.ptr] = this; return; }
+    this.ptr = _mud_Triangle_Triangle_1(size); getCache(Triangle)[this.ptr] = this;
 };
 Triangle.prototype = Object.create(WrapperObject.prototype);
 Triangle.prototype.constructor = Triangle;
@@ -1265,18 +1233,34 @@ Module['Triangle'] = Triangle;
 Object.defineProperty(Triangle.prototype, "size", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Triangle__get_size(self), mud::vec2);
+        return wrapPointer(_mud_Triangle__get_size(self), vec2);
     },
-    set: function(size) {
+    set: function(value) {
         var self = this.ptr;
-        /* size <vec2> [] */
-        size = size.ptr;
-        _mud_Triangle__set_size(self, size);
+        /* value <vec2> [] */
+        value = value.ptr;
+        _mud_Triangle__set_size(self, value);
     }
 });
 Triangle.prototype["__destroy__"] = Triangle.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Triangle__destroy(self);
+};
+Module['to_ray'] = function(pos, dir, distance) {
+    var self = this.ptr;
+    /* pos <vec3> [] */
+    pos = pos.ptr;
+    /* dir <vec3> [] */
+    dir = dir.ptr;
+    /* distance <float> [] */
+    if (distance === undefined) { return wrapPointer(_mud_to_ray_2(pos, dir), Ray); return; }
+    return wrapPointer(_mud_to_ray_3(pos, dir, distance), Ray);
+};
+Module['to_segment'] = function(ray) {
+    var self = this.ptr;
+    /* ray <Ray> [] */
+    ray = ray.ptr;
+    return wrapPointer(_mud_to_segment_1(ray), Segment);
 };
 
 (function() {

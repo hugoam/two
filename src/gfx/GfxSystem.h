@@ -88,6 +88,8 @@ namespace mud
 		using PipelineDecl = void(*)(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred);
 		void init_pipeline(PipelineDecl pipeline);
 
+		meth_ void default_pipeline();
+
 		meth_ void add_resource_path(cstring path, bool relative = true);
 
 		void set_renderer(Shading shading, Renderer& renderer);

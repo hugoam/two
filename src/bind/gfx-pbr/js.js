@@ -4,8 +4,7 @@ function WrapperObject() {
 }
 // BCS
 function BCS() {
-    var self = this.ptr;
-    this.ptr = _mud_BCS_BCS_0(self); getCache(BCS)[this.ptr] = this;
+    this.ptr = _mud_BCS_BCS_0(); getCache(BCS)[this.ptr] = this;
 };
 BCS.prototype = Object.create(WrapperObject.prototype);
 BCS.prototype.constructor = BCS;
@@ -17,10 +16,10 @@ Object.defineProperty(BCS.prototype, "enabled", {
         var self = this.ptr;
         return !!(_mud_BCS__get_enabled(self));
     },
-    set: function(enabled) {
+    set: function(value) {
         var self = this.ptr;
-        /* enabled <bool> [] */
-        _mud_BCS__set_enabled(self, enabled);
+        /* value <bool> [] */
+        _mud_BCS__set_enabled(self, value);
     }
 });
 Object.defineProperty(BCS.prototype, "brightness", {
@@ -28,10 +27,10 @@ Object.defineProperty(BCS.prototype, "brightness", {
         var self = this.ptr;
         return _mud_BCS__get_brightness(self);
     },
-    set: function(brightness) {
+    set: function(value) {
         var self = this.ptr;
-        /* brightness <float> [] */
-        _mud_BCS__set_brightness(self, brightness);
+        /* value <float> [] */
+        _mud_BCS__set_brightness(self, value);
     }
 });
 Object.defineProperty(BCS.prototype, "contrast", {
@@ -39,10 +38,10 @@ Object.defineProperty(BCS.prototype, "contrast", {
         var self = this.ptr;
         return _mud_BCS__get_contrast(self);
     },
-    set: function(contrast) {
+    set: function(value) {
         var self = this.ptr;
-        /* contrast <float> [] */
-        _mud_BCS__set_contrast(self, contrast);
+        /* value <float> [] */
+        _mud_BCS__set_contrast(self, value);
     }
 });
 Object.defineProperty(BCS.prototype, "saturation", {
@@ -50,10 +49,10 @@ Object.defineProperty(BCS.prototype, "saturation", {
         var self = this.ptr;
         return _mud_BCS__get_saturation(self);
     },
-    set: function(saturation) {
+    set: function(value) {
         var self = this.ptr;
-        /* saturation <float> [] */
-        _mud_BCS__set_saturation(self, saturation);
+        /* value <float> [] */
+        _mud_BCS__set_saturation(self, value);
     }
 });
 BCS.prototype["__destroy__"] = BCS.prototype.__destroy__ = function() {
@@ -62,8 +61,7 @@ BCS.prototype["__destroy__"] = BCS.prototype.__destroy__ = function() {
 };
 // DofBlur
 function DofBlur() {
-    var self = this.ptr;
-    this.ptr = _mud_DofBlur_DofBlur_0(self); getCache(DofBlur)[this.ptr] = this;
+    this.ptr = _mud_DofBlur_DofBlur_0(); getCache(DofBlur)[this.ptr] = this;
 };
 DofBlur.prototype = Object.create(WrapperObject.prototype);
 DofBlur.prototype.constructor = DofBlur;
@@ -75,10 +73,10 @@ Object.defineProperty(DofBlur.prototype, "enabled", {
         var self = this.ptr;
         return !!(_mud_DofBlur__get_enabled(self));
     },
-    set: function(enabled) {
+    set: function(value) {
         var self = this.ptr;
-        /* enabled <bool> [] */
-        _mud_DofBlur__set_enabled(self, enabled);
+        /* value <bool> [] */
+        _mud_DofBlur__set_enabled(self, value);
     }
 });
 Object.defineProperty(DofBlur.prototype, "far_distance", {
@@ -86,10 +84,10 @@ Object.defineProperty(DofBlur.prototype, "far_distance", {
         var self = this.ptr;
         return _mud_DofBlur__get_far_distance(self);
     },
-    set: function(far_distance) {
+    set: function(value) {
         var self = this.ptr;
-        /* far_distance <float> [] */
-        _mud_DofBlur__set_far_distance(self, far_distance);
+        /* value <float> [] */
+        _mud_DofBlur__set_far_distance(self, value);
     }
 });
 Object.defineProperty(DofBlur.prototype, "far_transition", {
@@ -97,10 +95,10 @@ Object.defineProperty(DofBlur.prototype, "far_transition", {
         var self = this.ptr;
         return _mud_DofBlur__get_far_transition(self);
     },
-    set: function(far_transition) {
+    set: function(value) {
         var self = this.ptr;
-        /* far_transition <float> [] */
-        _mud_DofBlur__set_far_transition(self, far_transition);
+        /* value <float> [] */
+        _mud_DofBlur__set_far_transition(self, value);
     }
 });
 Object.defineProperty(DofBlur.prototype, "far_radius", {
@@ -108,10 +106,10 @@ Object.defineProperty(DofBlur.prototype, "far_radius", {
         var self = this.ptr;
         return _mud_DofBlur__get_far_radius(self);
     },
-    set: function(far_radius) {
+    set: function(value) {
         var self = this.ptr;
-        /* far_radius <float> [] */
-        _mud_DofBlur__set_far_radius(self, far_radius);
+        /* value <float> [] */
+        _mud_DofBlur__set_far_radius(self, value);
     }
 });
 Object.defineProperty(DofBlur.prototype, "near_distance", {
@@ -119,10 +117,10 @@ Object.defineProperty(DofBlur.prototype, "near_distance", {
         var self = this.ptr;
         return _mud_DofBlur__get_near_distance(self);
     },
-    set: function(near_distance) {
+    set: function(value) {
         var self = this.ptr;
-        /* near_distance <float> [] */
-        _mud_DofBlur__set_near_distance(self, near_distance);
+        /* value <float> [] */
+        _mud_DofBlur__set_near_distance(self, value);
     }
 });
 Object.defineProperty(DofBlur.prototype, "near_transition", {
@@ -130,10 +128,10 @@ Object.defineProperty(DofBlur.prototype, "near_transition", {
         var self = this.ptr;
         return _mud_DofBlur__get_near_transition(self);
     },
-    set: function(near_transition) {
+    set: function(value) {
         var self = this.ptr;
-        /* near_transition <float> [] */
-        _mud_DofBlur__set_near_transition(self, near_transition);
+        /* value <float> [] */
+        _mud_DofBlur__set_near_transition(self, value);
     }
 });
 Object.defineProperty(DofBlur.prototype, "near_radius", {
@@ -141,10 +139,10 @@ Object.defineProperty(DofBlur.prototype, "near_radius", {
         var self = this.ptr;
         return _mud_DofBlur__get_near_radius(self);
     },
-    set: function(near_radius) {
+    set: function(value) {
         var self = this.ptr;
-        /* near_radius <float> [] */
-        _mud_DofBlur__set_near_radius(self, near_radius);
+        /* value <float> [] */
+        _mud_DofBlur__set_near_radius(self, value);
     }
 });
 Object.defineProperty(DofBlur.prototype, "max_coc_radius", {
@@ -152,10 +150,10 @@ Object.defineProperty(DofBlur.prototype, "max_coc_radius", {
         var self = this.ptr;
         return _mud_DofBlur__get_max_coc_radius(self);
     },
-    set: function(max_coc_radius) {
+    set: function(value) {
         var self = this.ptr;
-        /* max_coc_radius <float> [] */
-        _mud_DofBlur__set_max_coc_radius(self, max_coc_radius);
+        /* value <float> [] */
+        _mud_DofBlur__set_max_coc_radius(self, value);
     }
 });
 DofBlur.prototype["__destroy__"] = DofBlur.prototype.__destroy__ = function() {
@@ -175,8 +173,7 @@ GIProbe.prototype["__destroy__"] = GIProbe.prototype.__destroy__ = function() {
 };
 // Glow
 function Glow() {
-    var self = this.ptr;
-    this.ptr = _mud_Glow_Glow_0(self); getCache(Glow)[this.ptr] = this;
+    this.ptr = _mud_Glow_Glow_0(); getCache(Glow)[this.ptr] = this;
 };
 Glow.prototype = Object.create(WrapperObject.prototype);
 Glow.prototype.constructor = Glow;
@@ -188,34 +185,34 @@ Object.defineProperty(Glow.prototype, "enabled", {
         var self = this.ptr;
         return !!(_mud_Glow__get_enabled(self));
     },
-    set: function(enabled) {
+    set: function(value) {
         var self = this.ptr;
-        /* enabled <bool> [] */
-        _mud_Glow__set_enabled(self, enabled);
+        /* value <bool> [] */
+        _mud_Glow__set_enabled(self, value);
     }
 });
 Object.defineProperty(Glow.prototype, "levels_1_4", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Glow__get_levels_1_4(self), mud::vec4);
+        return wrapPointer(_mud_Glow__get_levels_1_4(self), vec4);
     },
-    set: function(levels_1_4) {
+    set: function(value) {
         var self = this.ptr;
-        /* levels_1_4 <vec4> [] */
-        levels_1_4 = levels_1_4.ptr;
-        _mud_Glow__set_levels_1_4(self, levels_1_4);
+        /* value <vec4> [] */
+        value = value.ptr;
+        _mud_Glow__set_levels_1_4(self, value);
     }
 });
 Object.defineProperty(Glow.prototype, "levels_5_8", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Glow__get_levels_5_8(self), mud::vec4);
+        return wrapPointer(_mud_Glow__get_levels_5_8(self), vec4);
     },
-    set: function(levels_5_8) {
+    set: function(value) {
         var self = this.ptr;
-        /* levels_5_8 <vec4> [] */
-        levels_5_8 = levels_5_8.ptr;
-        _mud_Glow__set_levels_5_8(self, levels_5_8);
+        /* value <vec4> [] */
+        value = value.ptr;
+        _mud_Glow__set_levels_5_8(self, value);
     }
 });
 Object.defineProperty(Glow.prototype, "intensity", {
@@ -223,10 +220,10 @@ Object.defineProperty(Glow.prototype, "intensity", {
         var self = this.ptr;
         return _mud_Glow__get_intensity(self);
     },
-    set: function(intensity) {
+    set: function(value) {
         var self = this.ptr;
-        /* intensity <float> [] */
-        _mud_Glow__set_intensity(self, intensity);
+        /* value <float> [] */
+        _mud_Glow__set_intensity(self, value);
     }
 });
 Object.defineProperty(Glow.prototype, "bloom", {
@@ -234,10 +231,10 @@ Object.defineProperty(Glow.prototype, "bloom", {
         var self = this.ptr;
         return _mud_Glow__get_bloom(self);
     },
-    set: function(bloom) {
+    set: function(value) {
         var self = this.ptr;
-        /* bloom <float> [] */
-        _mud_Glow__set_bloom(self, bloom);
+        /* value <float> [] */
+        _mud_Glow__set_bloom(self, value);
     }
 });
 Object.defineProperty(Glow.prototype, "bleed_threshold", {
@@ -245,10 +242,10 @@ Object.defineProperty(Glow.prototype, "bleed_threshold", {
         var self = this.ptr;
         return _mud_Glow__get_bleed_threshold(self);
     },
-    set: function(bleed_threshold) {
+    set: function(value) {
         var self = this.ptr;
-        /* bleed_threshold <float> [] */
-        _mud_Glow__set_bleed_threshold(self, bleed_threshold);
+        /* value <float> [] */
+        _mud_Glow__set_bleed_threshold(self, value);
     }
 });
 Object.defineProperty(Glow.prototype, "bleed_scale", {
@@ -256,10 +253,10 @@ Object.defineProperty(Glow.prototype, "bleed_scale", {
         var self = this.ptr;
         return _mud_Glow__get_bleed_scale(self);
     },
-    set: function(bleed_scale) {
+    set: function(value) {
         var self = this.ptr;
-        /* bleed_scale <float> [] */
-        _mud_Glow__set_bleed_scale(self, bleed_scale);
+        /* value <float> [] */
+        _mud_Glow__set_bleed_scale(self, value);
     }
 });
 Object.defineProperty(Glow.prototype, "bicubic_filter", {
@@ -267,10 +264,10 @@ Object.defineProperty(Glow.prototype, "bicubic_filter", {
         var self = this.ptr;
         return !!(_mud_Glow__get_bicubic_filter(self));
     },
-    set: function(bicubic_filter) {
+    set: function(value) {
         var self = this.ptr;
-        /* bicubic_filter <bool> [] */
-        _mud_Glow__set_bicubic_filter(self, bicubic_filter);
+        /* value <bool> [] */
+        _mud_Glow__set_bicubic_filter(self, value);
     }
 });
 Glow.prototype["__destroy__"] = Glow.prototype.__destroy__ = function() {
@@ -279,8 +276,7 @@ Glow.prototype["__destroy__"] = Glow.prototype.__destroy__ = function() {
 };
 // LightShadow
 function LightShadow() {
-    var self = this.ptr;
-    this.ptr = _mud_LightShadow_LightShadow_0(self); getCache(LightShadow)[this.ptr] = this;
+    this.ptr = _mud_LightShadow_LightShadow_0(); getCache(LightShadow)[this.ptr] = this;
 };
 LightShadow.prototype = Object.create(WrapperObject.prototype);
 LightShadow.prototype.constructor = LightShadow;
@@ -334,17 +330,17 @@ Module['ReflectionProbe'] = ReflectionProbe;
 Object.defineProperty(ReflectionProbe.prototype, "node", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_ReflectionProbe__get_node(self), mud::Node3);
+        return wrapPointer(_mud_ReflectionProbe__get_node(self), Node3);
     }});
 Object.defineProperty(ReflectionProbe.prototype, "visible", {
     get: function() {
         var self = this.ptr;
         return !!(_mud_ReflectionProbe__get_visible(self));
     },
-    set: function(visible) {
+    set: function(value) {
         var self = this.ptr;
-        /* visible <bool> [] */
-        _mud_ReflectionProbe__set_visible(self, visible);
+        /* value <bool> [] */
+        _mud_ReflectionProbe__set_visible(self, value);
     }
 });
 Object.defineProperty(ReflectionProbe.prototype, "intensity", {
@@ -352,22 +348,22 @@ Object.defineProperty(ReflectionProbe.prototype, "intensity", {
         var self = this.ptr;
         return _mud_ReflectionProbe__get_intensity(self);
     },
-    set: function(intensity) {
+    set: function(value) {
         var self = this.ptr;
-        /* intensity <float> [] */
-        _mud_ReflectionProbe__set_intensity(self, intensity);
+        /* value <float> [] */
+        _mud_ReflectionProbe__set_intensity(self, value);
     }
 });
 Object.defineProperty(ReflectionProbe.prototype, "extents", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_ReflectionProbe__get_extents(self), mud::vec3);
+        return wrapPointer(_mud_ReflectionProbe__get_extents(self), vec3);
     },
-    set: function(extents) {
+    set: function(value) {
         var self = this.ptr;
-        /* extents <vec3> [] */
-        extents = extents.ptr;
-        _mud_ReflectionProbe__set_extents(self, extents);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_ReflectionProbe__set_extents(self, value);
     }
 });
 Object.defineProperty(ReflectionProbe.prototype, "shadows", {
@@ -375,10 +371,10 @@ Object.defineProperty(ReflectionProbe.prototype, "shadows", {
         var self = this.ptr;
         return !!(_mud_ReflectionProbe__get_shadows(self));
     },
-    set: function(shadows) {
+    set: function(value) {
         var self = this.ptr;
-        /* shadows <bool> [] */
-        _mud_ReflectionProbe__set_shadows(self, shadows);
+        /* value <bool> [] */
+        _mud_ReflectionProbe__set_shadows(self, value);
     }
 });
 Object.defineProperty(ReflectionProbe.prototype, "dirty", {
@@ -386,10 +382,10 @@ Object.defineProperty(ReflectionProbe.prototype, "dirty", {
         var self = this.ptr;
         return !!(_mud_ReflectionProbe__get_dirty(self));
     },
-    set: function(dirty) {
+    set: function(value) {
         var self = this.ptr;
-        /* dirty <bool> [] */
-        _mud_ReflectionProbe__set_dirty(self, dirty);
+        /* value <bool> [] */
+        _mud_ReflectionProbe__set_dirty(self, value);
     }
 });
 ReflectionProbe.prototype["__destroy__"] = ReflectionProbe.prototype.__destroy__ = function() {
@@ -398,8 +394,7 @@ ReflectionProbe.prototype["__destroy__"] = ReflectionProbe.prototype.__destroy__
 };
 // RenderFilters
 function RenderFilters() {
-    var self = this.ptr;
-    this.ptr = _mud_RenderFilters_RenderFilters_0(self); getCache(RenderFilters)[this.ptr] = this;
+    this.ptr = _mud_RenderFilters_RenderFilters_0(); getCache(RenderFilters)[this.ptr] = this;
 };
 RenderFilters.prototype = Object.create(WrapperObject.prototype);
 RenderFilters.prototype.constructor = RenderFilters;
@@ -409,49 +404,49 @@ Module['RenderFilters'] = RenderFilters;
 Object.defineProperty(RenderFilters.prototype, "dof_blur", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_RenderFilters__get_dof_blur(self), mud::DofBlur);
+        return wrapPointer(_mud_RenderFilters__get_dof_blur(self), DofBlur);
     },
-    set: function(dof_blur) {
+    set: function(value) {
         var self = this.ptr;
-        /* dof_blur <DofBlur> [] */
-        dof_blur = dof_blur.ptr;
-        _mud_RenderFilters__set_dof_blur(self, dof_blur);
+        /* value <DofBlur> [] */
+        value = value.ptr;
+        _mud_RenderFilters__set_dof_blur(self, value);
     }
 });
 Object.defineProperty(RenderFilters.prototype, "glow", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_RenderFilters__get_glow(self), mud::Glow);
+        return wrapPointer(_mud_RenderFilters__get_glow(self), Glow);
     },
-    set: function(glow) {
+    set: function(value) {
         var self = this.ptr;
-        /* glow <Glow> [] */
-        glow = glow.ptr;
-        _mud_RenderFilters__set_glow(self, glow);
+        /* value <Glow> [] */
+        value = value.ptr;
+        _mud_RenderFilters__set_glow(self, value);
     }
 });
 Object.defineProperty(RenderFilters.prototype, "bcs", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_RenderFilters__get_bcs(self), mud::BCS);
+        return wrapPointer(_mud_RenderFilters__get_bcs(self), BCS);
     },
-    set: function(bcs) {
+    set: function(value) {
         var self = this.ptr;
-        /* bcs <BCS> [] */
-        bcs = bcs.ptr;
-        _mud_RenderFilters__set_bcs(self, bcs);
+        /* value <BCS> [] */
+        value = value.ptr;
+        _mud_RenderFilters__set_bcs(self, value);
     }
 });
 Object.defineProperty(RenderFilters.prototype, "tonemap", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_RenderFilters__get_tonemap(self), mud::Tonemap);
+        return wrapPointer(_mud_RenderFilters__get_tonemap(self), Tonemap);
     },
-    set: function(tonemap) {
+    set: function(value) {
         var self = this.ptr;
-        /* tonemap <Tonemap> [] */
-        tonemap = tonemap.ptr;
-        _mud_RenderFilters__set_tonemap(self, tonemap);
+        /* value <Tonemap> [] */
+        value = value.ptr;
+        _mud_RenderFilters__set_tonemap(self, value);
     }
 });
 RenderFilters.prototype["__destroy__"] = RenderFilters.prototype.__destroy__ = function() {
@@ -460,8 +455,7 @@ RenderFilters.prototype["__destroy__"] = RenderFilters.prototype.__destroy__ = f
 };
 // Tonemap
 function Tonemap() {
-    var self = this.ptr;
-    this.ptr = _mud_Tonemap_Tonemap_0(self); getCache(Tonemap)[this.ptr] = this;
+    this.ptr = _mud_Tonemap_Tonemap_0(); getCache(Tonemap)[this.ptr] = this;
 };
 Tonemap.prototype = Object.create(WrapperObject.prototype);
 Tonemap.prototype.constructor = Tonemap;
@@ -473,11 +467,11 @@ Object.defineProperty(Tonemap.prototype, "mode", {
         var self = this.ptr;
         return _mud_Tonemap__get_mode(self);
     },
-    set: function(mode) {
+    set: function(value) {
         var self = this.ptr;
-        /* mode <TonemapMode> [] */
-        if (mode && typeof mode === "object") mode = mode.ptr;
-        _mud_Tonemap__set_mode(self, mode);
+        /* value <TonemapMode> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        _mud_Tonemap__set_mode(self, value);
     }
 });
 Object.defineProperty(Tonemap.prototype, "enabled", {
@@ -485,10 +479,10 @@ Object.defineProperty(Tonemap.prototype, "enabled", {
         var self = this.ptr;
         return !!(_mud_Tonemap__get_enabled(self));
     },
-    set: function(enabled) {
+    set: function(value) {
         var self = this.ptr;
-        /* enabled <bool> [] */
-        _mud_Tonemap__set_enabled(self, enabled);
+        /* value <bool> [] */
+        _mud_Tonemap__set_enabled(self, value);
     }
 });
 Object.defineProperty(Tonemap.prototype, "exposure", {
@@ -496,10 +490,10 @@ Object.defineProperty(Tonemap.prototype, "exposure", {
         var self = this.ptr;
         return _mud_Tonemap__get_exposure(self);
     },
-    set: function(exposure) {
+    set: function(value) {
         var self = this.ptr;
-        /* exposure <float> [] */
-        _mud_Tonemap__set_exposure(self, exposure);
+        /* value <float> [] */
+        _mud_Tonemap__set_exposure(self, value);
     }
 });
 Object.defineProperty(Tonemap.prototype, "white_point", {
@@ -507,10 +501,10 @@ Object.defineProperty(Tonemap.prototype, "white_point", {
         var self = this.ptr;
         return _mud_Tonemap__get_white_point(self);
     },
-    set: function(white_point) {
+    set: function(value) {
         var self = this.ptr;
-        /* white_point <float> [] */
-        _mud_Tonemap__set_white_point(self, white_point);
+        /* value <float> [] */
+        _mud_Tonemap__set_white_point(self, value);
     }
 });
 Tonemap.prototype["__destroy__"] = Tonemap.prototype.__destroy__ = function() {
@@ -648,6 +642,29 @@ Module['BlockTonemap'] = BlockTonemap;
 BlockTonemap.prototype["__destroy__"] = BlockTonemap.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_BlockTonemap__destroy(self);
+};
+Module['gi_probe'] = function(parent, subdiv, extents) {
+    var self = this.ptr;
+    /* parent <Gnode> [] */
+    parent = parent.ptr;
+    /* subdiv <uint16_t> [] */
+    /* extents <vec3> [] */
+    extents = extents.ptr;
+    return wrapPointer(_mud_gfx_gi_probe_3(parent, subdiv, extents), GIProbe);
+};
+Module['lightmap'] = function(parent, resolution, density, save_path) {
+    var self = this.ptr;
+    ensureCache.prepare();
+    /* parent <Gnode> [] */
+    parent = parent.ptr;
+    /* resolution <uint32_t> [] */
+    /* density <float> [] */
+    /* save_path <std::string> [] */
+    if (save_path && typeof save_path === "object") save_path = save_path.ptr;
+    else save_path = ensureString(save_path);
+    if (density === undefined) { return wrapPointer(_mud_gfx_lightmap_2(parent, resolution), LightmapAtlas); return; }
+    if (save_path === undefined) { return wrapPointer(_mud_gfx_lightmap_3(parent, resolution, density), LightmapAtlas); return; }
+    return wrapPointer(_mud_gfx_lightmap_4(parent, resolution, density, save_path), LightmapAtlas);
 };
 
 (function() {

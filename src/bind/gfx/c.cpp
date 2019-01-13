@@ -673,6 +673,9 @@ extern "C" {
 	mud::Material* DECL mud_GfxSystem_debug_material_0(mud::GfxSystem* self) {
 		return &self->debug_material();
 	}
+	void DECL mud_GfxSystem_default_pipeline_0(mud::GfxSystem* self) {
+		self->default_pipeline();
+	}
 	mud::Material* DECL mud_GfxSystem_fetch_image256_material_1(mud::GfxSystem* self, const mud::Image256* image) {
 		return &self->fetch_image256_material(*image);
 	}
@@ -1630,6 +1633,114 @@ extern "C" {
 	// RenderTarget
 	void DECL mud_RenderTarget__destroy(mud::RenderTarget* self) {
 		delete self;
+	}
+	mud::Animated* DECL mud_gfx_animated_2(mud::Gnode* parent, mud::Item* item) {
+		return &mud::gfx::animated(*parent, *item);
+	}
+	void DECL mud_gfx_draw_3(mud::Gnode* parent, const mud::Shape* shape, const mud::Symbol* symbol) {
+		mud::gfx::draw(*parent, *shape, *symbol);
+	}
+	void DECL mud_gfx_draw_4(mud::Gnode* parent, const mud::Shape* shape, const mud::Symbol* symbol, uint32_t flags) {
+		mud::gfx::draw(*parent, *shape, *symbol, flags);
+	}
+	mud::Item* DECL mud_gfx_item_2(mud::Gnode* parent, const mud::Model* model) {
+		return &mud::gfx::item(*parent, *model);
+	}
+	mud::Item* DECL mud_gfx_item_3(mud::Gnode* parent, const mud::Model* model, uint32_t flags) {
+		return &mud::gfx::item(*parent, *model, flags);
+	}
+	mud::Item* DECL mud_gfx_item_4(mud::Gnode* parent, const mud::Model* model, uint32_t flags, mud::Material* material) {
+		return &mud::gfx::item(*parent, *model, flags, material);
+	}
+	mud::Item* DECL mud_gfx_item_5(mud::Gnode* parent, const mud::Model* model, uint32_t flags, mud::Material* material, size_t instances) {
+		return &mud::gfx::item(*parent, *model, flags, material, instances);
+	}
+	mud::Item* DECL mud_gfx_item_6(mud::Gnode* parent, const mud::Model* model, uint32_t flags, mud::Material* material, size_t instances, array<mud::mat4>* transforms) {
+		return &mud::gfx::item(*parent, *model, flags, material, instances, *transforms);
+	}
+	mud::Light* DECL mud_gfx_light_4(mud::Gnode* parent, mud::LightType type, bool shadows, mud::Colour* colour) {
+		return &mud::gfx::light(*parent, type, shadows, *colour);
+	}
+	mud::Light* DECL mud_gfx_light_5(mud::Gnode* parent, mud::LightType type, bool shadows, mud::Colour* colour, float range) {
+		return &mud::gfx::light(*parent, type, shadows, *colour, range);
+	}
+	mud::Light* DECL mud_gfx_light_6(mud::Gnode* parent, mud::LightType type, bool shadows, mud::Colour* colour, float range, float attenuation) {
+		return &mud::gfx::light(*parent, type, shadows, *colour, range, attenuation);
+	}
+	mud::Item* DECL mud_gfx_model_2(mud::Gnode* parent, const char* name) {
+		return mud::gfx::model(*parent, name);
+	}
+	mud::Item* DECL mud_gfx_model_3(mud::Gnode* parent, const char* name, uint32_t flags) {
+		return mud::gfx::model(*parent, name, flags);
+	}
+	mud::Item* DECL mud_gfx_model_4(mud::Gnode* parent, const char* name, uint32_t flags, mud::Material* material) {
+		return mud::gfx::model(*parent, name, flags, material);
+	}
+	mud::Item* DECL mud_gfx_model_5(mud::Gnode* parent, const char* name, uint32_t flags, mud::Material* material, size_t instances) {
+		return mud::gfx::model(*parent, name, flags, material, instances);
+	}
+	mud::Particles* DECL mud_gfx_particles_2(mud::Gnode* parent, const mud::ParticleGenerator* emitter) {
+		return &mud::gfx::particles(*parent, *emitter);
+	}
+	mud::Particles* DECL mud_gfx_particles_3(mud::Gnode* parent, const mud::ParticleGenerator* emitter, uint32_t flags) {
+		return &mud::gfx::particles(*parent, *emitter, flags);
+	}
+	mud::Particles* DECL mud_gfx_particles_4(mud::Gnode* parent, const mud::ParticleGenerator* emitter, uint32_t flags, size_t instances) {
+		return &mud::gfx::particles(*parent, *emitter, flags, instances);
+	}
+	void DECL mud_gfx_prefab_2(mud::Gnode* parent, const mud::Prefab* prefab) {
+		mud::gfx::prefab(*parent, *prefab);
+	}
+	void DECL mud_gfx_prefab_3(mud::Gnode* parent, const mud::Prefab* prefab, bool transform) {
+		mud::gfx::prefab(*parent, *prefab, transform);
+	}
+	void DECL mud_gfx_prefab_4(mud::Gnode* parent, const mud::Prefab* prefab, bool transform, uint32_t flags) {
+		mud::gfx::prefab(*parent, *prefab, transform, flags);
+	}
+	void DECL mud_gfx_prefab_5(mud::Gnode* parent, const mud::Prefab* prefab, bool transform, uint32_t flags, mud::Material* material) {
+		mud::gfx::prefab(*parent, *prefab, transform, flags, material);
+	}
+	void DECL mud_gfx_prefab_6(mud::Gnode* parent, const mud::Prefab* prefab, bool transform, uint32_t flags, mud::Material* material, size_t instances) {
+		mud::gfx::prefab(*parent, *prefab, transform, flags, material, instances);
+	}
+	void DECL mud_gfx_prefab_7(mud::Gnode* parent, const mud::Prefab* prefab, bool transform, uint32_t flags, mud::Material* material, size_t instances, array<mud::mat4>* transforms) {
+		mud::gfx::prefab(*parent, *prefab, transform, flags, material, instances, *transforms);
+	}
+	void DECL mud_gfx_radiance_3(mud::Gnode* parent, const char* texture, mud::BackgroundMode background) {
+		mud::gfx::radiance(*parent, texture, background);
+	}
+	mud::Item* DECL mud_gfx_shape_3(mud::Gnode* parent, const mud::Shape* shape, const mud::Symbol* symbol) {
+		return &mud::gfx::shape(*parent, *shape, *symbol);
+	}
+	mud::Item* DECL mud_gfx_shape_4(mud::Gnode* parent, const mud::Shape* shape, const mud::Symbol* symbol, uint32_t flags) {
+		return &mud::gfx::shape(*parent, *shape, *symbol, flags);
+	}
+	mud::Item* DECL mud_gfx_shape_5(mud::Gnode* parent, const mud::Shape* shape, const mud::Symbol* symbol, uint32_t flags, mud::Material* material) {
+		return &mud::gfx::shape(*parent, *shape, *symbol, flags, material);
+	}
+	mud::Item* DECL mud_gfx_shape_6(mud::Gnode* parent, const mud::Shape* shape, const mud::Symbol* symbol, uint32_t flags, mud::Material* material, size_t instances) {
+		return &mud::gfx::shape(*parent, *shape, *symbol, flags, material, instances);
+	}
+	mud::Item* DECL mud_gfx_sprite_3(mud::Gnode* parent, const mud::Image256* image, const mud::vec2* size) {
+		return &mud::gfx::sprite(*parent, *image, *size);
+	}
+	mud::Item* DECL mud_gfx_sprite_4(mud::Gnode* parent, const mud::Image256* image, const mud::vec2* size, uint32_t flags) {
+		return &mud::gfx::sprite(*parent, *image, *size, flags);
+	}
+	mud::Item* DECL mud_gfx_sprite_5(mud::Gnode* parent, const mud::Image256* image, const mud::vec2* size, uint32_t flags, mud::Material* material) {
+		return &mud::gfx::sprite(*parent, *image, *size, flags, material);
+	}
+	mud::Item* DECL mud_gfx_sprite_6(mud::Gnode* parent, const mud::Image256* image, const mud::vec2* size, uint32_t flags, mud::Material* material, size_t instances) {
+		return &mud::gfx::sprite(*parent, *image, *size, flags, material, instances);
+	}
+	mud::Light* DECL mud_gfx_sun_light_3(mud::Gnode* parent, float azimuth, float elevation) {
+		return &mud::gfx::sun_light(*parent, azimuth, elevation);
+	}
+	void DECL mud_gfx_update_item_aabb_1(mud::Item* item) {
+		mud::gfx::update_item_aabb(*item);
+	}
+	void DECL mud_gfx_update_item_lights_1(mud::Item* item) {
+		mud::gfx::update_item_lights(*item);
 	}
 	// AnimationTarget
 	mud::AnimationTarget DECL mud_AnimationTarget_Position() {

@@ -732,6 +732,18 @@ extern "C" {
 	void DECL mud_Triangle__destroy(mud::Triangle* self) {
 		delete self;
 	}
+	mud::Ray* DECL mud_to_ray_2(const mud::vec3* pos, const mud::vec3* dir) {
+		static mud::Ray temp;
+		return (temp = mud::to_ray(*pos, *dir), &temp);
+	}
+	mud::Ray* DECL mud_to_ray_3(const mud::vec3* pos, const mud::vec3* dir, float distance) {
+		static mud::Ray temp;
+		return (temp = mud::to_ray(*pos, *dir, distance), &temp);
+	}
+	mud::Segment* DECL mud_to_segment_1(const mud::Ray* ray) {
+		static mud::Segment temp;
+		return (temp = mud::to_segment(*ray), &temp);
+	}
 	// DrawMode
 	mud::DrawMode DECL mud_DrawMode_OUTLINE() {
 		return mud::OUTLINE;

@@ -54,6 +54,7 @@ namespace mud
 	}
 
 	class CLModule;
+	class CLCallable;
 	class CLFunction;
 	class CLPrimitive;
 	class CLType;
@@ -221,17 +222,29 @@ namespace mud
 		return result;
 	}
 
+	enum class CLPrimitiveKind
+	{
+		Namespace,
+		Type,
+		Class,
+		Function,
+		Constructor,
+		Method
+	};
+
 	class CLPrimitive
 	{
 	public:
-		CLPrimitive(const string& name, CLPrimitive* parent = nullptr)
-			: m_name(name)
+		CLPrimitive(CLPrimitiveKind kind, const string& name, CLPrimitive* parent = nullptr)
+			: m_kind(kind)
+			, m_name(name)
 			, m_id(parent ? parent->m_prefix + name : name)
 			, m_parent(parent)
 			, m_module(parent ? parent->m_module : nullptr)
 			, m_prefix(m_id == "" ? "" : m_id + "::")
 		{}
 
+		CLPrimitiveKind m_kind;
 		string m_name;
 		string m_id;
 		CLPrimitive* m_parent = nullptr;
@@ -253,7 +266,7 @@ namespace mud
 	{
 	public:
 		CLNamespace(const string& name = "", CLPrimitive* parent = nullptr)
-			: CLPrimitive(name, parent)
+			: CLPrimitive(CLPrimitiveKind::Namespace, name, parent)
 		{}
 	};
 
@@ -275,31 +288,31 @@ namespace mud
 	{
 	public:
 		CLType(CLModule& module, CLPrimitive& parent, const string& name)
-			: CLPrimitive(name, &parent)
-			//, m_nested(type(parent) == Class)
+			: CLPrimitive(CLPrimitiveKind::Type, name, &parent)
 		{
 			m_module = &module;
+			//m_nested = parent.m_kind == CLPrimitiveKind::Class;
 
 			if(name == "const char*")
 				m_pointer = true;
 
 			if(vector_has({ "void" }, name))
-				m_kind = CLTypeKind::Void;
+				m_type_kind = CLTypeKind::Void;
 			else if(vector_has({ "bool" }, name))
-				m_kind = CLTypeKind::Boolean;
+				m_type_kind = CLTypeKind::Boolean;
 			else if(vector_has({ "char", "signed char", "unsigned char" }, name))
-				m_kind = CLTypeKind::Char;
+				m_type_kind = CLTypeKind::Char;
 			else if(vector_has({ "short", "int", "long", "long long", "unsigned short", "unsigned int", "unsigned long", "unsigned long long" }, name))
-				m_kind = CLTypeKind::Integer;
+				m_type_kind = CLTypeKind::Integer;
 			else if(vector_has({ "float", "double" }, name))
-				m_kind = CLTypeKind::Float;
+				m_type_kind = CLTypeKind::Float;
 			else if(vector_has({ "char*", "const char*" }, name))
-				m_kind = CLTypeKind::CString;
+				m_type_kind = CLTypeKind::CString;
 			else if(vector_has({ "std::string" }, name))
-				m_kind = CLTypeKind::String;
+				m_type_kind = CLTypeKind::String;
 		}
 
-		CLTypeKind m_kind;
+		CLTypeKind m_type_kind;
 		bool m_nested = false;
 		bool m_struct = true;
 		bool m_move_only = false;
@@ -328,15 +341,15 @@ namespace mud
 		bool copyable() const { return this->isbasetype() || this->isenum() || m_type->m_struct; }
 
 		bool isarray() const { return false; }
-		bool isvoid() const { return m_type->m_kind == CLTypeKind::Void; }
-		bool isboolean() const { return m_type->m_kind == CLTypeKind::Boolean; }
-		bool isinteger() const { return m_type->m_kind == CLTypeKind::Integer; }
-		bool isfloat() const { return m_type->m_kind == CLTypeKind::Float; }
-		bool iscstring() const { return m_type->m_kind == CLTypeKind::CString; }
-		bool isstring() const { return m_type->m_kind == CLTypeKind::String; }
-		bool isenum() const { return m_type->m_kind == CLTypeKind::Enum; }
-		bool isclass() const { return m_type->m_kind == CLTypeKind::Class; }
-		bool isbasetype() const { return m_type->m_kind != CLTypeKind::Class && m_type->m_kind != CLTypeKind::Enum; }
+		bool isvoid() const { return m_type->m_type_kind == CLTypeKind::Void; }
+		bool isboolean() const { return m_type->m_type_kind == CLTypeKind::Boolean; }
+		bool isinteger() const { return m_type->m_type_kind == CLTypeKind::Integer; }
+		bool isfloat() const { return m_type->m_type_kind == CLTypeKind::Float; }
+		bool iscstring() const { return m_type->m_type_kind == CLTypeKind::CString; }
+		bool isstring() const { return m_type->m_type_kind == CLTypeKind::String; }
+		bool isenum() const { return m_type->m_type_kind == CLTypeKind::Enum; }
+		bool isclass() const { return m_type->m_type_kind == CLTypeKind::Class; }
+		bool isbasetype() const { return m_type->m_type_kind != CLTypeKind::Class && m_type->m_type_kind != CLTypeKind::Enum; }
 
 		//explicit operator CLType&() { return *m_type; }
 		//explicit operator const CLType&() const { return *m_type; }
@@ -359,7 +372,7 @@ namespace mud
 		CLEnum(CLModule& module, CLPrimitive& parent, const string& name)
 			: CLType(module, parent, name)
 		{
-			m_kind = CLTypeKind::Enum;
+			m_type_kind = CLTypeKind::Enum;
 		}
 
 		bool m_scoped = false;
@@ -376,7 +389,7 @@ namespace mud
 		CLSequence(CLModule& module, const string& store, CLType& content_type, bool pointer, CLPrimitive& parent)
 			: CLType(module, parent, store + "<" + content_type.m_id + (pointer ? "*" : "") + ">")
 		{
-			m_kind = CLTypeKind::Class;
+			m_type_kind = CLTypeKind::Class;
 			m_store = store;
 			m_contentcls = &content_type;
 			m_content = content_type.m_id + (pointer ? "*" : "");
@@ -391,12 +404,12 @@ namespace mud
 	class CLParam
 	{
 	public:
-		CLParam(CLFunction& func, size_t index)
+		CLParam(CLCallable& func, size_t index)
 			: m_func(&func)
 			, m_index(index)
 		{}
 
-		CLFunction* m_func;
+		CLCallable* m_func;
 		size_t m_index;
 		string m_name;
 		CLQualType m_type;
@@ -407,35 +420,42 @@ namespace mud
 		string m_default = "";
 	};
 
-	class CLFunction : public CLPrimitive
+	class CLCallable : public CLPrimitive
 	{
 	public:
-		CLFunction(CLPrimitive& parent, const string& name)
-			: CLPrimitive(name, &parent)
+		CLCallable(CLPrimitiveKind kind, CLPrimitive& parent, const string& name)
+			: CLPrimitive(kind, name, &parent)
 		{}
 
 		CLQualType m_return_type;
 		std::vector<CLParam> m_params;
 		size_t m_min_args = 0;
+		bool m_overloaded = false;
 	};
 
-	class CLMethod : public CLFunction
+	class CLFunction : public CLCallable
+	{
+	public:
+		CLFunction(CLPrimitive& parent, const string& name)
+			: CLCallable(CLPrimitiveKind::Function, parent, name)
+		{}
+	};
+
+	class CLMethod : public CLCallable
 	{
 	public:
 		CLMethod(CLType& parent, const string& name)
-			: CLFunction(parent, name)
+			: CLCallable(CLPrimitiveKind::Method, parent, name)
 		{}
 
-		bool m_overloaded = false;
 		bool m_const = false;
-		std::vector<CLParam> m_expected_params;
 	};
 
-	class CLConstructor : public CLMethod
+	class CLConstructor : public CLCallable
 	{
 	public:
 		CLConstructor(CLType& parent, const string& name)
-			: CLMethod(parent, name)
+			: CLCallable(CLPrimitiveKind::Constructor, parent, name)
 		{}
 	};
 	
@@ -485,7 +505,7 @@ namespace mud
 		CLClass(CLModule& module, CLPrimitive& parent, const string& name)
 			: CLType(module, parent, name)
 		{
-			m_kind = CLTypeKind::Class;
+			m_type_kind = CLTypeKind::Class;
 		}
 
 		CXCursor m_cursor;

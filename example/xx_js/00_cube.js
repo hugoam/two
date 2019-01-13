@@ -1,21 +1,25 @@
+mud = Module.mud;
+ui = Module.mud.ui;
+gfx = Module.mud.gfx;
 
-ex_00_cube = function (app, parent, dockbar) {
-	var viewer = ui.scene_viewer(parent);
-	ui.orbit_controller(viewer);
-	viewer.take_focus();
-    
-	var scene = viewer.scene.begin();
-    var node = gfx.node(scene, null, position);
-	gfx.shape(node, new Cube(), Symbol.wire(Colour.Red));
-}
+render = function (app) {
+    var board = ui.board(app.ui.begin());
+    var screen = ui.board(board);
 
-pump = function(app) {
-	shell_context(app.ui.begin(), app.editor);
-	ex_00_cube(app, app.editor.screen, app.editor.dockbar);
+    var viewer = ui.scene_viewer(screen);
+    ui.orbit_controller(viewer);
+    viewer.take_focus();
+
+    var scene = viewer.scene.begin();
+    var node = gfx.node(scene, null, new vec3(0));
+    gfx.shape(node, new Cube(), Symbol.wire(Colour.Red));
 }
 
 main = function() {
-	Shell app("/data/");
-	app.gfx_system.init_pipeline(pipeline_minimal);
-	app.run(pump);
+	var app = new mud.Shell("/data/");
+    app.gfx_system.default_pipeline();
+    while (true) {
+        app.frame();
+        render(app);
+    }
 }

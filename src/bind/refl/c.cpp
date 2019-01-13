@@ -163,6 +163,9 @@ extern "C" {
 	void DECL mud_Method__destroy(mud::Method* self) {
 		delete self;
 	}
+	mud::System* DECL mud_system_0() {
+		return &mud::system();
+	}
 	// TypeClass
 	mud::TypeClass DECL mud_TypeClass_None() {
 		return mud::TypeClass::None;

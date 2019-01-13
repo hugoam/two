@@ -121,7 +121,7 @@ namespace clgen
 		return "{ \"" + p.m_name + "\", " + param_default(p) + param_flags(p) + " }";
 	}
 	
-	std::vector<string> params_types(const CLFunction& f)
+	std::vector<string> params_types(const CLCallable& f)
 	{
 		return transform<string>(f.m_params, [](const CLParam& p) { return p.m_type.m_spelling; });
 	}
@@ -132,7 +132,7 @@ namespace clgen
 		return params.size() > 0 ? "{ " + join(decls, ", ") + " }" : "{}";
 	}
 
-	string function_signature(const CLFunction& f)
+	string function_signature(const CLCallable& f)
 	{
 		return f.m_return_type.m_spelling + "(*)(" + join(params_types(f), ", ") + ")";
 	}
@@ -142,12 +142,12 @@ namespace clgen
 		return m.m_return_type.m_spelling + "(" + m.m_parent->m_id + "::*)(" + join(params_types(m), ", ") + ")" + (m.m_const ? " const" : "");
 	}
 
-	string function_identity(const CLFunction& f)
+	string function_identity(const CLCallable& f)
 	{
 		return "function_id<" + function_signature(f) + ">(&" + f.m_id + ")";
 	}
 	
-	string function_return_def(const CLFunction& f)
+	string function_return_def(const CLCallable& f)
 	{
 		return type_var(f.m_return_type.m_spelling, *f.m_return_type.m_type, f.m_return_type.pointer());
 	}
@@ -210,7 +210,7 @@ namespace clgen
 		else return "Member::Flags(" + join(flags, "|") + ")";
 	}
 	
-	string unused_args(const CLFunction& f)
+	string unused_args(const CLCallable& f)
 	{
 		return f.m_params.size() == 0 ? "UNUSED(args); " : "";
 	}
@@ -275,7 +275,7 @@ namespace clgen
 
 	string constructor_decl(const CLType& c, const CLConstructor& constr)
 	{
-		return type_get(c) + ", [](Ref ref, array<Var> args) { " + unused_args(constr) + "new(&val<" + c.m_id + ">(ref)) " + c.m_id + "( " + get_args(constr.m_params) + " ); }, " + params_def(constr.m_expected_params);
+		return type_get(c) + ", [](Ref ref, array<Var> args) { " + unused_args(constr) + "new(&val<" + c.m_id + ">(ref)) " + c.m_id + "( " + get_args(constr.m_params) + " ); }, " + params_def(constr.m_params);
 	}
 
 	string copy_constructor_decl(const CLType& c)
@@ -855,7 +855,7 @@ namespace clgen
 
 		auto idl_type = [&](const CLQualType& type) -> string { for(auto& ctoi : cpp_to_idl) { if(type.m_spelling == ctoi.cpp) return ctoi.idl; } return type.m_type->m_name;  };
 		auto idl_qual_type = [&](const CLQualType& type) -> string { return idl_quals(type) + type.m_type->m_name;  };
-		auto params_types_idl = [&](const CLFunction& f) -> std::vector<string> { return transform<string>(f.m_params, [&](const CLParam& p) { return idl_qual_type(p.m_type); }); };
+		auto params_types_idl = [&](const CLCallable& f) -> std::vector<string> { return transform<string>(f.m_params, [&](const CLParam& p) { return idl_qual_type(p.m_type); }); };
 
 		p(i, "// Enums");
 		for(auto& pe : m.m_enums)
@@ -1009,7 +1009,7 @@ namespace clgen
 		// not implemented yet
 		std::vector<string> blacklist = { "std::vector", "mud::Ref" };
 
-		auto blacklist_method = [&](const CLMethod& m) { for(const string& n : blacklist) { for(const CLParam& p : m.m_params) if(p.m_type.m_type->m_id.find(n) != string::npos) return true; if(m.m_return_type.m_type->m_id.find(n) != string::npos) return true; } return false; };
+		auto blacklist_callable = [&](const CLCallable& f) { for(const string& n : blacklist) { for(const CLParam& p : f.m_params) if(p.m_type.m_type->m_id.find(n) != string::npos) return true; if(f.m_return_type.m_type->m_id.find(n) != string::npos) return true; } return false; };
 		auto blacklist_member = [&](const CLMember& m) { for(const string& n : blacklist) { if(m.m_type.m_type->m_id.find(n) != string::npos) return true; } return false; };
 
 		string module_js;
@@ -1089,21 +1089,21 @@ namespace clgen
 		//string bind_prefix = "emscripten_bind_";
 		string bind_prefix = "";
 
-		auto binding_name_str = [&](const CLClass& c, const string& name) { return bind_prefix + replace(c.m_id, "::", "_") + "_" + name; };
-		auto binding_name = [&](const CLClass& c, const CLFunction& f) { return binding_name_str(c, f.m_name); };
-		auto binding_name_n = [&](const CLClass& c, const CLFunction& f, size_t i) { return  binding_name(c, f) + "_" + to_string(i); };
+		auto binding_name_str = [&](const CLPrimitive& parent, const string& name) { return bind_prefix + replace(parent.m_id, "::", "_") + "_" + name; };
+		auto binding_name = [&](const CLCallable& f) { return binding_name_str(*f.m_parent, f.m_name); };
+		auto binding_name_n = [&](const CLCallable& f, size_t i) { return  binding_name(f) + "_" + to_string(i); };
 
-		struct Overloads { const CLFunction* f; std::set<size_t> lengths; };
+		struct Overloads { const CLCallable* f; std::set<size_t> lengths; };
 		using OverloadMap = std::map<string, Overloads>;
 
-		auto cramfunc = [](Overloads& o, const CLFunction& f)
+		auto cramfunc = [](Overloads& o, const CLCallable& f)
 		{
 			o.f = &f;
 			for(size_t i = f.m_min_args; i <= f.m_params.size(); ++i)
 				o.lengths.insert(i);
 		};
 
-		auto overload = [&](OverloadMap& overloads, const CLClass& c, const CLFunction& f)
+		auto overload = [&](OverloadMap& overloads, const CLCallable& f)
 		{
 			if(overloads.find(f.m_name) == overloads.end())
 			{
@@ -1125,24 +1125,25 @@ namespace clgen
 			if(!clashes && f.m_params.size() > o.f->m_params.size())
 				cramfunc(o, f);
 			else
-				printf("WARNING: can't bind %s::%s (can only overload signatures of same types and different lengths)\n", c.m_name.c_str(), f.m_name.c_str());
+				printf("WARNING: can't bind %s%s (can only overload signatures of same types and different lengths)\n", f.m_parent->m_id.c_str(), f.m_name.c_str());
 		};
 
-		auto call_args = [](const CLFunction& f, size_t n, bool ctor)
+		auto call_args = [](const CLCallable& f, size_t n)
 		{
 			std::vector<string> params = transform<string>(0, n, [&](size_t i) { return f.m_params[i].m_name; });
-			return vector_union((ctor ? std::vector<string>{ "self" } : std::vector<string>()), params);
+			bool method = f.m_kind == CLPrimitiveKind::Method;
+			return vector_union((method ? std::vector<string>{ "self" } : std::vector<string>()), params);
 		};
 
-		auto js_call_inner = [&](const CLClass& c, const CLFunction& f, size_t n, bool ctor)
+		auto js_call_inner = [&](const CLCallable& f, size_t n)
 		{
-			return "_" + binding_name_n(c, f, n) + "(" + join(call_args(f, n, ctor), ", ") + ")";
+			return "_" + binding_name_n(f, n) + "(" + join(call_args(f, n), ", ") + ")";
 		};
 
 		auto js_call_return_wrap = [&](const CLQualType& return_type, const string& call)
 		{
 			if(return_type.isclass())
-				return "return wrapPointer(" + call + ", " + return_type.m_type_name + ");";
+				return "return wrapPointer(" + call + ", " + return_type.m_type->m_name + ");";
 			else if(return_type.isstring())
 				return "return Pointer_stringify(" + call + ");";
 			else if(return_type.isboolean())
@@ -1153,13 +1154,15 @@ namespace clgen
 				return call + ";";
 		};
 
-		auto js_call_statement = [&](const CLClass& c, const CLFunction& f, size_t n, bool ctor)
+		auto js_call_statement = [&](const CLCallable& f, size_t n)
 		{
-			string call = js_call_inner(c, f, n, ctor);
-			return ctor ? call + ";" : js_call_return_wrap(f.m_return_type, call);
+			if(f.m_kind == CLPrimitiveKind::Constructor)
+				return js_call_inner(f, n) + ";";
+			else
+				return js_call_return_wrap(f.m_return_type, js_call_inner(f, n));
 		};
 
-		auto js_wrap_optional_call = [&](const CLClass& c, const CLFunction& f, size_t n, const string& call)
+		auto js_wrap_optional_call = [&](const CLCallable& f, size_t n, const string& call)
 		{
 			if(n < f.m_params.size())
 				jsw("if (" + f.m_params[n].m_name + " === undefined) { " + call + " return; }");
@@ -1167,22 +1170,22 @@ namespace clgen
 				jsw(call);
 		};
 
-		auto js_call_n = [&](const CLClass& c, const CLFunction& f, size_t n, bool ctor)
+		auto js_call_n = [&](const CLCallable& f, size_t n)
 		{
-			string call = ctor
-				? "this.ptr = " + js_call_statement(c, f, n, true) + " getCache(" + c.m_name + ")[this.ptr] = this;"
-				: js_call_statement(c, f, n, false);
-			return js_wrap_optional_call(c, f, n, call);
+			string call = f.m_kind == CLPrimitiveKind::Constructor
+				? "this.ptr = " + js_call_statement(f, n) + " getCache(" + f.m_parent->m_name + ")[this.ptr] = this;"
+				: js_call_statement(f, n);
+			return js_wrap_optional_call(f, n, call);
 
 		};
 
-		auto js_call = [&](const CLClass& c, const Overloads& o, bool ctor)
+		auto js_call = [&](const Overloads& o)
 		{
 			for(size_t i : o.lengths)
-				js_call_n(c, *o.f, i, ctor);
+				js_call_n(*o.f, i);
 		};
 
-		auto js_call_prepare = [&](const CLClass& c, const CLFunction& f)
+		auto js_call_prepare = [&](const CLCallable& f)
 		{
 			bool prepare = false;
 			for(const CLParam& p : f.m_params)
@@ -1193,7 +1196,7 @@ namespace clgen
 
 		};
 
-		auto js_check_msg = [](const CLClass& c, const CLFunction& f, const CLParam& p)
+		auto js_check_msg = [](const CLClass& c, const CLCallable& f, const CLParam& p)
 		{
 			return "[CHECK FAILED] " + c.m_name + "::" + f.m_name + "(arg" + to_string(p.m_index) + ":" + p.m_name + "): ";
 		};
@@ -1270,7 +1273,7 @@ namespace clgen
 			}
 		};
 
-		auto js_call_convert_args = [&](const CLClass& c, const CLFunction& f, bool ctor)
+		auto js_call_convert_args = [&](const CLCallable& f)
 		{
 			for(const CLParam& p : f.m_params)
 				js_call_convert_arg(p.m_type, p.m_name, p.m_index > f.m_min_args);
@@ -1280,17 +1283,20 @@ namespace clgen
 		//string js_supress = "/** @suppress {undefinedVars, duplicate} */ ";
 		string js_supress = "";
 
-		auto js_bind_callable = [&](const CLClass& c, const Overloads& o, bool ctor = false)
+		auto js_bind_callable = [&](const Overloads& o)
 		{
-			const CLFunction& f = *o.f;
-			if(!ctor)
-				jsw(c.m_name + ".prototype[\"" + f.m_name + "\"] = " + c.m_name + ".prototype." + f.m_name + " = ", true);
-			jsw(js_supress + "function" + (ctor ? " " + f.m_name : "") + "(" + join(call_args(f, f.m_params.size(), false), ", ") + ") {");
-			if(ctor) 
+			const CLCallable& f = *o.f;
+			bool ctor = f.m_kind == CLPrimitiveKind::Constructor;
+			if(f.m_kind == CLPrimitiveKind::Method)
+				jsw(f.m_parent->m_name + ".prototype[\"" + f.m_name + "\"] = " + f.m_parent->m_name + ".prototype." + f.m_name + " = ", true);
+			else if(f.m_kind == CLPrimitiveKind::Function)
+				jsw("Module['" + f.m_name + "'] = ", true);
+			jsw(js_supress + "function" + (ctor ? " " + f.m_name : "") + "(" + join(call_args(f, f.m_params.size()), ", ") + ") {");
+			if(!ctor) 
 				jsw("var self = this.ptr;");
-			js_call_prepare(c, f);
-			js_call_convert_args(c, f, ctor);
-			js_call(c, o, ctor);
+			js_call_prepare(f);
+			js_call_convert_args(f);
+			js_call(o);
 			jsw("};");
 		};
 
@@ -1307,10 +1313,10 @@ namespace clgen
 
 		auto js_setter = [&](const CLClass& c, const CLMember& m)
 		{
-			jsw("function(" + m.m_name + ") {");
+			jsw("function(value) {");
 			jsw("var self = this.ptr;");
-			js_call_convert_arg(m.m_type, m.m_name, false);
-			jsw("_" + binding_name_str(c, "_set_" + m.m_name) + "(self, " + m.m_name + ");");
+			js_call_convert_arg(m.m_type, "value", false);
+			jsw("_" + binding_name_str(c, "_set_" + m.m_name) + "(self, value);");
 			jsw("}");
 		};
 
@@ -1332,20 +1338,27 @@ namespace clgen
 			jsw("Module['" + c.m_name + "'] = " + c.m_name + ";");
 		};
 
-		auto c_call_args_n = [&](const CLClass& c, const CLFunction& f, size_t i, bool ctor)
+		auto js_function = [&](const Overloads& o)
+		{
+			js_bind_callable(o);
+		};
+
+		auto c_call_args_n = [&](const CLCallable& f, size_t i)
 		{
 			return transform<string>(0, i, [&](size_t i) { return value(f.m_params[i].m_type) + f.m_params[i].m_name; });
 		};
 
-		auto c_call_n = [&](const CLClass& c, const CLFunction& f, size_t i, bool ctor)
+		auto c_call_n = [&](const CLCallable& f, size_t i)
 		{
-			if(ctor)
-				return "new " + c.m_id + "(" + join(c_call_args_n(c, f, i, true), ", ") + ")";
-			else
-				return "self->" + f.m_name + "(" + join(c_call_args_n(c, f, i, false), ", ") + ")";
+			if(f.m_kind == CLPrimitiveKind::Constructor)
+				return "new " + f.m_parent->m_id + "(" + join(c_call_args_n(f, i), ", ") + ")";
+			else if(f.m_kind == CLPrimitiveKind::Method)
+				return "self->" + f.m_name + "(" + join(c_call_args_n(f, i), ", ") + ")";
+			else if(f.m_kind == CLPrimitiveKind::Function)
+				return f.m_id + "(" + join(c_call_args_n(f, i), ", ") + ")";
 		};
 
-		auto c_call_operator_n = [&](const CLClass& c, const CLFunction& f, size_t i, const string& op)
+		auto c_call_operator_n = [&](const CLCallable& f, size_t i, const string& op)
 		{
 			string cast_self = "self";
 			string maybe_deref = value(f.m_params[0].m_type);
@@ -1376,21 +1389,23 @@ namespace clgen
 			}
 		};
 
-		auto c_call_wrapped_n = [&](const CLClass& c, const CLFunction& f, size_t i, bool ctor)
+		auto c_call_wrapped_n = [&](const CLCallable& f, size_t i)
 		{
-			c_call_return_wrap(f.m_return_type, c_call_n(c, f, i, ctor), ctor);
+			c_call_return_wrap(f.m_return_type, c_call_n(f, i), f.m_kind == CLPrimitiveKind::Constructor);
 		};
 
-		auto c_function_args = [&](const CLClass& c, const CLFunction& f, size_t i)
+		auto c_binding_args = [&](const CLCallable& f, size_t i)
 		{
 			std::vector<string> c_arg_types = transform<string>(f.m_params, [&](const CLParam& p) { return type_to_c(p.m_type); });
 			return join(transform<string>(0, i, [&](size_t i) { return c_arg_types[i] + " " + f.m_params[i].m_name; }), ", ");
 		};
 
-		auto c_method_args = [&](const CLClass& c, const CLFunction& f, size_t i)
+		auto c_callable_args = [&](const CLCallable& f, size_t i)
 		{
-			string args = c_function_args(c, f, i);
-			return c.m_id + "* self" + (args.size() > 0 ? ", " + args : "");
+			if(f.m_kind == CLPrimitiveKind::Constructor || f.m_kind == CLPrimitiveKind::Function)
+				return c_binding_args(f, i);
+			else if(f.m_kind == CLPrimitiveKind::Method)
+				return f.m_parent->m_id + "* self" + (f.m_params.size() > 0 ? ", " + c_binding_args(f, i) : "");
 		};
 
 		auto c_binding_body = [&]()
@@ -1398,18 +1413,18 @@ namespace clgen
 
 		};
 
-		auto c_bind_callable_n = [&](const CLClass& c, const CLFunction& f, size_t i, bool ctor)
+		auto c_bind_callable_n = [&](const CLCallable& f, size_t i)
 		{
 			//if(array_attribute)
 			//  sig = [x.replace("[]", "") for x in sig] // for arrays, ignore that this is an array - our get/set methods operate on the elements
 
 			string maybe_const = f.m_return_type.isconst() ? "const " : "";
-			if(!ctor)
-				cw(maybe_const + type_to_c(f.m_return_type) + " DECL " + binding_name_n(c, f, i) + "(" + c_method_args(c, f, i) + ") {");
+			if(f.m_kind != CLPrimitiveKind::Constructor)
+				cw(maybe_const + type_to_c(f.m_return_type) + " DECL " + binding_name_n(f, i) + "(" + c_callable_args(f, i) + ") {");
 			else
-				cw(c.m_id + "* DECL " + binding_name_n(c, f, i) + "(" + c_function_args(c, f, i) + ") {");
+				cw(f.m_parent->m_id + "* DECL " + binding_name_n(f, i) + "(" + c_callable_args(f, i) + ") {");
 
-			c_call_wrapped_n(c, f, i, ctor);
+			c_call_wrapped_n(f, i);
 			cw("}");
 
 			/*if(!ctor)
@@ -1429,11 +1444,11 @@ namespace clgen
 				}*/
 		};
 
-		auto c_bind_callable = [&](const CLClass& c, const Overloads& o, bool ctor = false)
+		auto c_bind_callable = [&](const Overloads& o)
 		{
-			const CLFunction& f = *o.f;
+			const CLCallable& f = *o.f;
 			for(size_t i : o.lengths)
-				c_bind_callable_n(c, f, i, ctor);
+				c_bind_callable_n(f, i);
 		};
 
 		auto c_getter_array = [&](const CLClass& c, const CLMember& m)
@@ -1495,14 +1510,14 @@ namespace clgen
 
 				for(CLConstructor& ctor : c.m_constructors)
 				{
-					overload(constructors, c, ctor);
+					overload(constructors, ctor);
 				}
 
 				for(auto& pairs : constructors)
 				{
 					Overloads& o = pairs.second;
-					c_bind_callable(c, o, true);
-					js_bind_callable(c, o, true);
+					c_bind_callable(o);
+					js_bind_callable(o);
 				}
 
 				if(c.m_constructors.empty())
@@ -1517,15 +1532,15 @@ namespace clgen
 
 				for(CLMethod& m : c.m_methods)
 				{
-					if(blacklist_method(m)) continue;
-					overload(methods, c, m);
+					if(blacklist_callable(m)) continue;
+					overload(methods, m);
 				}
 
 				for(auto& pairs : methods)
 				{
 					Overloads& o = pairs.second;
-					c_bind_callable(c, o);
-					js_bind_callable(c, o, false);
+					c_bind_callable(o);
+					js_bind_callable(o);
 				}
 
 				for(CLMember& m : c.m_members)
@@ -1580,6 +1595,21 @@ namespace clgen
 					pre_c += join(js_impl_methods, "\n");
 					pre_c += "};";
 				}*/
+			}
+
+			OverloadMap functions;
+
+			for(auto& pf : m.m_functions)
+			{
+				if(blacklist_callable(*pf)) continue;
+				overload(functions, *pf);
+			}
+
+			for(auto& pairs : functions)
+			{
+				Overloads& o = pairs.second;
+				c_bind_callable(o);
+				js_bind_callable(o);
 			}
 
 			jsw("");

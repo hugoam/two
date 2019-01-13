@@ -4,16 +4,15 @@ function WrapperObject() {
 }
 // Colour
 function Colour(r, g, b, a) {
-    var self = this.ptr;
     /* r <float> [] */
     /* g <float> [] */
     /* b <float> [] */
     /* a <float> [] */
-    if (r === undefined) { this.ptr = _mud_Colour_Colour_0(self); getCache(Colour)[this.ptr] = this; return; }
-    if (g === undefined) { this.ptr = _mud_Colour_Colour_1(self, r); getCache(Colour)[this.ptr] = this; return; }
-    if (b === undefined) { this.ptr = _mud_Colour_Colour_2(self, r, g); getCache(Colour)[this.ptr] = this; return; }
-    if (a === undefined) { this.ptr = _mud_Colour_Colour_3(self, r, g, b); getCache(Colour)[this.ptr] = this; return; }
-    this.ptr = _mud_Colour_Colour_4(self, r, g, b, a); getCache(Colour)[this.ptr] = this;
+    if (r === undefined) { this.ptr = _mud_Colour_Colour_0(); getCache(Colour)[this.ptr] = this; return; }
+    if (g === undefined) { this.ptr = _mud_Colour_Colour_1(r); getCache(Colour)[this.ptr] = this; return; }
+    if (b === undefined) { this.ptr = _mud_Colour_Colour_2(r, g); getCache(Colour)[this.ptr] = this; return; }
+    if (a === undefined) { this.ptr = _mud_Colour_Colour_3(r, g, b); getCache(Colour)[this.ptr] = this; return; }
+    this.ptr = _mud_Colour_Colour_4(r, g, b, a); getCache(Colour)[this.ptr] = this;
 };
 Colour.prototype = Object.create(WrapperObject.prototype);
 Colour.prototype.constructor = Colour;
@@ -25,10 +24,10 @@ Object.defineProperty(Colour.prototype, "r", {
         var self = this.ptr;
         return _mud_Colour__get_r(self);
     },
-    set: function(r) {
+    set: function(value) {
         var self = this.ptr;
-        /* r <float> [] */
-        _mud_Colour__set_r(self, r);
+        /* value <float> [] */
+        _mud_Colour__set_r(self, value);
     }
 });
 Object.defineProperty(Colour.prototype, "g", {
@@ -36,10 +35,10 @@ Object.defineProperty(Colour.prototype, "g", {
         var self = this.ptr;
         return _mud_Colour__get_g(self);
     },
-    set: function(g) {
+    set: function(value) {
         var self = this.ptr;
-        /* g <float> [] */
-        _mud_Colour__set_g(self, g);
+        /* value <float> [] */
+        _mud_Colour__set_g(self, value);
     }
 });
 Object.defineProperty(Colour.prototype, "b", {
@@ -47,10 +46,10 @@ Object.defineProperty(Colour.prototype, "b", {
         var self = this.ptr;
         return _mud_Colour__get_b(self);
     },
-    set: function(b) {
+    set: function(value) {
         var self = this.ptr;
-        /* b <float> [] */
-        _mud_Colour__set_b(self, b);
+        /* value <float> [] */
+        _mud_Colour__set_b(self, value);
     }
 });
 Object.defineProperty(Colour.prototype, "a", {
@@ -58,10 +57,10 @@ Object.defineProperty(Colour.prototype, "a", {
         var self = this.ptr;
         return _mud_Colour__get_a(self);
     },
-    set: function(a) {
+    set: function(value) {
         var self = this.ptr;
-        /* a <float> [] */
-        _mud_Colour__set_a(self, a);
+        /* value <float> [] */
+        _mud_Colour__set_a(self, value);
     }
 });
 Colour.prototype["__destroy__"] = Colour.prototype.__destroy__ = function() {
@@ -70,10 +69,9 @@ Colour.prototype["__destroy__"] = Colour.prototype.__destroy__ = function() {
 };
 // Gauge
 function Gauge(value) {
-    var self = this.ptr;
     /* value <float> [] */
-    if (value === undefined) { this.ptr = _mud_Gauge_Gauge_0(self); getCache(Gauge)[this.ptr] = this; return; }
-    this.ptr = _mud_Gauge_Gauge_1(self, value); getCache(Gauge)[this.ptr] = this;
+    if (value === undefined) { this.ptr = _mud_Gauge_Gauge_0(); getCache(Gauge)[this.ptr] = this; return; }
+    this.ptr = _mud_Gauge_Gauge_1(value); getCache(Gauge)[this.ptr] = this;
 };
 Gauge.prototype = Object.create(WrapperObject.prototype);
 Gauge.prototype.constructor = Gauge;
@@ -86,8 +84,7 @@ Gauge.prototype["__destroy__"] = Gauge.prototype.__destroy__ = function() {
 };
 // Image
 function Image() {
-    var self = this.ptr;
-    this.ptr = _mud_Image_Image_0(self); getCache(Image)[this.ptr] = this;
+    this.ptr = _mud_Image_Image_0(); getCache(Image)[this.ptr] = this;
 };
 Image.prototype = Object.create(WrapperObject.prototype);
 Image.prototype.constructor = Image;
@@ -100,15 +97,14 @@ Image.prototype["__destroy__"] = Image.prototype.__destroy__ = function() {
 };
 // Image256
 function Image256(width, height, palette) {
-    var self = this.ptr;
     /* width <uint16_t> [] */
     /* height <uint16_t> [] */
     /* palette <Palette> [] */
     if(typeof palette !== "undefined" && palette !== null) {{ palette = palette.ptr }};
-    if (width === undefined) { this.ptr = _mud_Image256_Image256_0(self); getCache(Image256)[this.ptr] = this; return; }
-    if (height === undefined) { this.ptr = _mud_Image256_Image256_1(self, width); getCache(Image256)[this.ptr] = this; return; }
-    if (palette === undefined) { this.ptr = _mud_Image256_Image256_2(self, width, height); getCache(Image256)[this.ptr] = this; return; }
-    this.ptr = _mud_Image256_Image256_3(self, width, height, palette); getCache(Image256)[this.ptr] = this;
+    if (width === undefined) { this.ptr = _mud_Image256_Image256_0(); getCache(Image256)[this.ptr] = this; return; }
+    if (height === undefined) { this.ptr = _mud_Image256_Image256_1(width); getCache(Image256)[this.ptr] = this; return; }
+    if (palette === undefined) { this.ptr = _mud_Image256_Image256_2(width, height); getCache(Image256)[this.ptr] = this; return; }
+    this.ptr = _mud_Image256_Image256_3(width, height, palette); getCache(Image256)[this.ptr] = this;
 };
 Image256.prototype = Object.create(WrapperObject.prototype);
 Image256.prototype.constructor = Image256;
@@ -120,10 +116,10 @@ Object.defineProperty(Image256.prototype, "width", {
         var self = this.ptr;
         return _mud_Image256__get_width(self);
     },
-    set: function(width) {
+    set: function(value) {
         var self = this.ptr;
-        /* width <uint16_t> [] */
-        _mud_Image256__set_width(self, width);
+        /* value <uint16_t> [] */
+        _mud_Image256__set_width(self, value);
     }
 });
 Object.defineProperty(Image256.prototype, "height", {
@@ -131,22 +127,22 @@ Object.defineProperty(Image256.prototype, "height", {
         var self = this.ptr;
         return _mud_Image256__get_height(self);
     },
-    set: function(height) {
+    set: function(value) {
         var self = this.ptr;
-        /* height <uint16_t> [] */
-        _mud_Image256__set_height(self, height);
+        /* value <uint16_t> [] */
+        _mud_Image256__set_height(self, value);
     }
 });
 Object.defineProperty(Image256.prototype, "palette", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Image256__get_palette(self), mud::Palette);
+        return wrapPointer(_mud_Image256__get_palette(self), Palette);
     },
-    set: function(palette) {
+    set: function(value) {
         var self = this.ptr;
-        /* palette <Palette> [] */
-        palette = palette.ptr;
-        _mud_Image256__set_palette(self, palette);
+        /* value <Palette> [] */
+        value = value.ptr;
+        _mud_Image256__set_palette(self, value);
     }
 });
 Image256.prototype["__destroy__"] = Image256.prototype.__destroy__ = function() {
@@ -166,11 +162,10 @@ ImageAtlas.prototype["__destroy__"] = ImageAtlas.prototype.__destroy__ = functio
 };
 // Palette
 function Palette(spectrum, steps) {
-    var self = this.ptr;
     /* spectrum <Spectrum> [] */
     if (spectrum && typeof spectrum === "object") spectrum = spectrum.ptr;
     /* steps <size_t> [] */
-    this.ptr = _mud_Palette_Palette_2(self, spectrum, steps); getCache(Palette)[this.ptr] = this;
+    this.ptr = _mud_Palette_Palette_2(spectrum, steps); getCache(Palette)[this.ptr] = this;
 };
 Palette.prototype = Object.create(WrapperObject.prototype);
 Palette.prototype.constructor = Palette;
@@ -183,10 +178,9 @@ Palette.prototype["__destroy__"] = Palette.prototype.__destroy__ = function() {
 };
 // Ratio
 function Ratio(value) {
-    var self = this.ptr;
     /* value <float> [] */
-    if (value === undefined) { this.ptr = _mud_Ratio_Ratio_0(self); getCache(Ratio)[this.ptr] = this; return; }
-    this.ptr = _mud_Ratio_Ratio_1(self, value); getCache(Ratio)[this.ptr] = this;
+    if (value === undefined) { this.ptr = _mud_Ratio_Ratio_0(); getCache(Ratio)[this.ptr] = this; return; }
+    this.ptr = _mud_Ratio_Ratio_1(value); getCache(Ratio)[this.ptr] = this;
 };
 Ratio.prototype = Object.create(WrapperObject.prototype);
 Ratio.prototype.constructor = Ratio;
@@ -199,9 +193,8 @@ Ratio.prototype["__destroy__"] = Ratio.prototype.__destroy__ = function() {
 };
 // Time
 function Time(value) {
-    var self = this.ptr;
     /* value <double> [] */
-    this.ptr = _mud_Time_Time_1(self, value); getCache(Time)[this.ptr] = this;
+    this.ptr = _mud_Time_Time_1(value); getCache(Time)[this.ptr] = this;
 };
 Time.prototype = Object.create(WrapperObject.prototype);
 Time.prototype.constructor = Time;
@@ -225,12 +218,11 @@ Time.prototype["__destroy__"] = Time.prototype.__destroy__ = function() {
 };
 // TimeSpan
 function TimeSpan(s, e) {
-    var self = this.ptr;
     /* s <Time> [] */
     s = s.ptr;
     /* e <Time> [] */
     e = e.ptr;
-    this.ptr = _mud_TimeSpan_TimeSpan_2(self, s, e); getCache(TimeSpan)[this.ptr] = this;
+    this.ptr = _mud_TimeSpan_TimeSpan_2(s, e); getCache(TimeSpan)[this.ptr] = this;
 };
 TimeSpan.prototype = Object.create(WrapperObject.prototype);
 TimeSpan.prototype.constructor = TimeSpan;
@@ -240,25 +232,25 @@ Module['TimeSpan'] = TimeSpan;
 Object.defineProperty(TimeSpan.prototype, "start", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_TimeSpan__get_start(self), mud::Time);
+        return wrapPointer(_mud_TimeSpan__get_start(self), Time);
     },
-    set: function(start) {
+    set: function(value) {
         var self = this.ptr;
-        /* start <Time> [] */
-        start = start.ptr;
-        _mud_TimeSpan__set_start(self, start);
+        /* value <Time> [] */
+        value = value.ptr;
+        _mud_TimeSpan__set_start(self, value);
     }
 });
 Object.defineProperty(TimeSpan.prototype, "end", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_TimeSpan__get_end(self), mud::Time);
+        return wrapPointer(_mud_TimeSpan__get_end(self), Time);
     },
-    set: function(end) {
+    set: function(value) {
         var self = this.ptr;
-        /* end <Time> [] */
-        end = end.ptr;
-        _mud_TimeSpan__set_end(self, end);
+        /* value <Time> [] */
+        value = value.ptr;
+        _mud_TimeSpan__set_end(self, value);
     }
 });
 TimeSpan.prototype["__destroy__"] = TimeSpan.prototype.__destroy__ = function() {
@@ -267,15 +259,14 @@ TimeSpan.prototype["__destroy__"] = TimeSpan.prototype.__destroy__ = function() 
 };
 // Transform
 function Transform(position, rotation, scale) {
-    var self = this.ptr;
     /* position <vec3> [] */
     position = position.ptr;
     /* rotation <quat> [] */
     rotation = rotation.ptr;
     /* scale <vec3> [] */
     scale = scale.ptr;
-    if (position === undefined) { this.ptr = _mud_Transform_Transform_0(self); getCache(Transform)[this.ptr] = this; return; }
-    this.ptr = _mud_Transform_Transform_3(self, position, rotation, scale); getCache(Transform)[this.ptr] = this;
+    if (position === undefined) { this.ptr = _mud_Transform_Transform_0(); getCache(Transform)[this.ptr] = this; return; }
+    this.ptr = _mud_Transform_Transform_3(position, rotation, scale); getCache(Transform)[this.ptr] = this;
 };
 Transform.prototype = Object.create(WrapperObject.prototype);
 Transform.prototype.constructor = Transform;
@@ -285,37 +276,37 @@ Module['Transform'] = Transform;
 Object.defineProperty(Transform.prototype, "position", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Transform__get_position(self), mud::vec3);
+        return wrapPointer(_mud_Transform__get_position(self), vec3);
     },
-    set: function(position) {
+    set: function(value) {
         var self = this.ptr;
-        /* position <vec3> [] */
-        position = position.ptr;
-        _mud_Transform__set_position(self, position);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_Transform__set_position(self, value);
     }
 });
 Object.defineProperty(Transform.prototype, "rotation", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Transform__get_rotation(self), mud::quat);
+        return wrapPointer(_mud_Transform__get_rotation(self), quat);
     },
-    set: function(rotation) {
+    set: function(value) {
         var self = this.ptr;
-        /* rotation <quat> [] */
-        rotation = rotation.ptr;
-        _mud_Transform__set_rotation(self, rotation);
+        /* value <quat> [] */
+        value = value.ptr;
+        _mud_Transform__set_rotation(self, value);
     }
 });
 Object.defineProperty(Transform.prototype, "scale", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_Transform__get_scale(self), mud::vec3);
+        return wrapPointer(_mud_Transform__get_scale(self), vec3);
     },
-    set: function(scale) {
+    set: function(value) {
         var self = this.ptr;
-        /* scale <vec3> [] */
-        scale = scale.ptr;
-        _mud_Transform__set_scale(self, scale);
+        /* value <vec3> [] */
+        value = value.ptr;
+        _mud_Transform__set_scale(self, value);
     }
 });
 Transform.prototype["__destroy__"] = Transform.prototype.__destroy__ = function() {
@@ -324,8 +315,7 @@ Transform.prototype["__destroy__"] = Transform.prototype.__destroy__ = function(
 };
 // bvec3
 function bvec3() {
-    var self = this.ptr;
-    this.ptr = _mud_bvec3_bvec3_0(self); getCache(bvec3)[this.ptr] = this;
+    this.ptr = _mud_bvec3_bvec3_0(); getCache(bvec3)[this.ptr] = this;
 };
 bvec3.prototype = Object.create(WrapperObject.prototype);
 bvec3.prototype.constructor = bvec3;
@@ -338,8 +328,7 @@ bvec3.prototype["__destroy__"] = bvec3.prototype.__destroy__ = function() {
 };
 // bvec4
 function bvec4() {
-    var self = this.ptr;
-    this.ptr = _mud_bvec4_bvec4_0(self); getCache(bvec4)[this.ptr] = this;
+    this.ptr = _mud_bvec4_bvec4_0(); getCache(bvec4)[this.ptr] = this;
 };
 bvec4.prototype = Object.create(WrapperObject.prototype);
 bvec4.prototype.constructor = bvec4;
@@ -352,8 +341,7 @@ bvec4.prototype["__destroy__"] = bvec4.prototype.__destroy__ = function() {
 };
 // half2
 function half2() {
-    var self = this.ptr;
-    this.ptr = _mud_half2_half2_0(self); getCache(half2)[this.ptr] = this;
+    this.ptr = _mud_half2_half2_0(); getCache(half2)[this.ptr] = this;
 };
 half2.prototype = Object.create(WrapperObject.prototype);
 half2.prototype.constructor = half2;
@@ -366,8 +354,7 @@ half2.prototype["__destroy__"] = half2.prototype.__destroy__ = function() {
 };
 // half3
 function half3() {
-    var self = this.ptr;
-    this.ptr = _mud_half3_half3_0(self); getCache(half3)[this.ptr] = this;
+    this.ptr = _mud_half3_half3_0(); getCache(half3)[this.ptr] = this;
 };
 half3.prototype = Object.create(WrapperObject.prototype);
 half3.prototype.constructor = half3;
@@ -380,8 +367,7 @@ half3.prototype["__destroy__"] = half3.prototype.__destroy__ = function() {
 };
 // ivec2
 function ivec2() {
-    var self = this.ptr;
-    this.ptr = _mud_ivec2_ivec2_0(self); getCache(ivec2)[this.ptr] = this;
+    this.ptr = _mud_ivec2_ivec2_0(); getCache(ivec2)[this.ptr] = this;
 };
 ivec2.prototype = Object.create(WrapperObject.prototype);
 ivec2.prototype.constructor = ivec2;
@@ -394,13 +380,12 @@ ivec2.prototype["__destroy__"] = ivec2.prototype.__destroy__ = function() {
 };
 // ivec3
 function ivec3(x, y, z) {
-    var self = this.ptr;
     /* x <int> [] */
     /* y <int> [] */
     /* z <int> [] */
-    if (x === undefined) { this.ptr = _mud_ivec3_ivec3_0(self); getCache(ivec3)[this.ptr] = this; return; }
-    if (y === undefined) { this.ptr = _mud_ivec3_ivec3_1(self, x); getCache(ivec3)[this.ptr] = this; return; }
-    this.ptr = _mud_ivec3_ivec3_3(self, x, y, z); getCache(ivec3)[this.ptr] = this;
+    if (x === undefined) { this.ptr = _mud_ivec3_ivec3_0(); getCache(ivec3)[this.ptr] = this; return; }
+    if (y === undefined) { this.ptr = _mud_ivec3_ivec3_1(x); getCache(ivec3)[this.ptr] = this; return; }
+    this.ptr = _mud_ivec3_ivec3_3(x, y, z); getCache(ivec3)[this.ptr] = this;
 };
 ivec3.prototype = Object.create(WrapperObject.prototype);
 ivec3.prototype.constructor = ivec3;
@@ -412,10 +397,10 @@ Object.defineProperty(ivec3.prototype, "x", {
         var self = this.ptr;
         return _mud_ivec3__get_x(self);
     },
-    set: function(x) {
+    set: function(value) {
         var self = this.ptr;
-        /* x <int> [] */
-        _mud_ivec3__set_x(self, x);
+        /* value <int> [] */
+        _mud_ivec3__set_x(self, value);
     }
 });
 Object.defineProperty(ivec3.prototype, "y", {
@@ -423,10 +408,10 @@ Object.defineProperty(ivec3.prototype, "y", {
         var self = this.ptr;
         return _mud_ivec3__get_y(self);
     },
-    set: function(y) {
+    set: function(value) {
         var self = this.ptr;
-        /* y <int> [] */
-        _mud_ivec3__set_y(self, y);
+        /* value <int> [] */
+        _mud_ivec3__set_y(self, value);
     }
 });
 Object.defineProperty(ivec3.prototype, "z", {
@@ -434,10 +419,10 @@ Object.defineProperty(ivec3.prototype, "z", {
         var self = this.ptr;
         return _mud_ivec3__get_z(self);
     },
-    set: function(z) {
+    set: function(value) {
         var self = this.ptr;
-        /* z <int> [] */
-        _mud_ivec3__set_z(self, z);
+        /* value <int> [] */
+        _mud_ivec3__set_z(self, value);
     }
 });
 ivec3.prototype["__destroy__"] = ivec3.prototype.__destroy__ = function() {
@@ -446,8 +431,7 @@ ivec3.prototype["__destroy__"] = ivec3.prototype.__destroy__ = function() {
 };
 // ivec4
 function ivec4() {
-    var self = this.ptr;
-    this.ptr = _mud_ivec4_ivec4_0(self); getCache(ivec4)[this.ptr] = this;
+    this.ptr = _mud_ivec4_ivec4_0(); getCache(ivec4)[this.ptr] = this;
 };
 ivec4.prototype = Object.create(WrapperObject.prototype);
 ivec4.prototype.constructor = ivec4;
@@ -460,8 +444,7 @@ ivec4.prototype["__destroy__"] = ivec4.prototype.__destroy__ = function() {
 };
 // mat4
 function mat4() {
-    var self = this.ptr;
-    this.ptr = _mud_mat4_mat4_0(self); getCache(mat4)[this.ptr] = this;
+    this.ptr = _mud_mat4_mat4_0(); getCache(mat4)[this.ptr] = this;
 };
 mat4.prototype = Object.create(WrapperObject.prototype);
 mat4.prototype.constructor = mat4;
@@ -474,13 +457,12 @@ mat4.prototype["__destroy__"] = mat4.prototype.__destroy__ = function() {
 };
 // quat
 function quat(w, x, y, z) {
-    var self = this.ptr;
     /* w <float> [] */
     /* x <float> [] */
     /* y <float> [] */
     /* z <float> [] */
-    if (w === undefined) { this.ptr = _mud_quat_quat_0(self); getCache(quat)[this.ptr] = this; return; }
-    this.ptr = _mud_quat_quat_4(self, w, x, y, z); getCache(quat)[this.ptr] = this;
+    if (w === undefined) { this.ptr = _mud_quat_quat_0(); getCache(quat)[this.ptr] = this; return; }
+    this.ptr = _mud_quat_quat_4(w, x, y, z); getCache(quat)[this.ptr] = this;
 };
 quat.prototype = Object.create(WrapperObject.prototype);
 quat.prototype.constructor = quat;
@@ -492,10 +474,10 @@ Object.defineProperty(quat.prototype, "x", {
         var self = this.ptr;
         return _mud_quat__get_x(self);
     },
-    set: function(x) {
+    set: function(value) {
         var self = this.ptr;
-        /* x <float> [] */
-        _mud_quat__set_x(self, x);
+        /* value <float> [] */
+        _mud_quat__set_x(self, value);
     }
 });
 Object.defineProperty(quat.prototype, "y", {
@@ -503,10 +485,10 @@ Object.defineProperty(quat.prototype, "y", {
         var self = this.ptr;
         return _mud_quat__get_y(self);
     },
-    set: function(y) {
+    set: function(value) {
         var self = this.ptr;
-        /* y <float> [] */
-        _mud_quat__set_y(self, y);
+        /* value <float> [] */
+        _mud_quat__set_y(self, value);
     }
 });
 Object.defineProperty(quat.prototype, "z", {
@@ -514,10 +496,10 @@ Object.defineProperty(quat.prototype, "z", {
         var self = this.ptr;
         return _mud_quat__get_z(self);
     },
-    set: function(z) {
+    set: function(value) {
         var self = this.ptr;
-        /* z <float> [] */
-        _mud_quat__set_z(self, z);
+        /* value <float> [] */
+        _mud_quat__set_z(self, value);
     }
 });
 Object.defineProperty(quat.prototype, "w", {
@@ -525,10 +507,10 @@ Object.defineProperty(quat.prototype, "w", {
         var self = this.ptr;
         return _mud_quat__get_w(self);
     },
-    set: function(w) {
+    set: function(value) {
         var self = this.ptr;
-        /* w <float> [] */
-        _mud_quat__set_w(self, w);
+        /* value <float> [] */
+        _mud_quat__set_w(self, value);
     }
 });
 quat.prototype["__destroy__"] = quat.prototype.__destroy__ = function() {
@@ -537,12 +519,11 @@ quat.prototype["__destroy__"] = quat.prototype.__destroy__ = function() {
 };
 // uvec2
 function uvec2(x, y) {
-    var self = this.ptr;
     /* x <uint32_t> [] */
     /* y <uint32_t> [] */
-    if (x === undefined) { this.ptr = _mud_uvec2_uvec2_0(self); getCache(uvec2)[this.ptr] = this; return; }
-    if (y === undefined) { this.ptr = _mud_uvec2_uvec2_1(self, x); getCache(uvec2)[this.ptr] = this; return; }
-    this.ptr = _mud_uvec2_uvec2_2(self, x, y); getCache(uvec2)[this.ptr] = this;
+    if (x === undefined) { this.ptr = _mud_uvec2_uvec2_0(); getCache(uvec2)[this.ptr] = this; return; }
+    if (y === undefined) { this.ptr = _mud_uvec2_uvec2_1(x); getCache(uvec2)[this.ptr] = this; return; }
+    this.ptr = _mud_uvec2_uvec2_2(x, y); getCache(uvec2)[this.ptr] = this;
 };
 uvec2.prototype = Object.create(WrapperObject.prototype);
 uvec2.prototype.constructor = uvec2;
@@ -554,10 +535,10 @@ Object.defineProperty(uvec2.prototype, "x", {
         var self = this.ptr;
         return _mud_uvec2__get_x(self);
     },
-    set: function(x) {
+    set: function(value) {
         var self = this.ptr;
-        /* x <uint32_t> [] */
-        _mud_uvec2__set_x(self, x);
+        /* value <uint32_t> [] */
+        _mud_uvec2__set_x(self, value);
     }
 });
 Object.defineProperty(uvec2.prototype, "y", {
@@ -565,10 +546,10 @@ Object.defineProperty(uvec2.prototype, "y", {
         var self = this.ptr;
         return _mud_uvec2__get_y(self);
     },
-    set: function(y) {
+    set: function(value) {
         var self = this.ptr;
-        /* y <uint32_t> [] */
-        _mud_uvec2__set_y(self, y);
+        /* value <uint32_t> [] */
+        _mud_uvec2__set_y(self, value);
     }
 });
 uvec2.prototype["__destroy__"] = uvec2.prototype.__destroy__ = function() {
@@ -577,13 +558,12 @@ uvec2.prototype["__destroy__"] = uvec2.prototype.__destroy__ = function() {
 };
 // uvec3
 function uvec3(x, y, z) {
-    var self = this.ptr;
     /* x <uint32_t> [] */
     /* y <uint32_t> [] */
     /* z <uint32_t> [] */
-    if (x === undefined) { this.ptr = _mud_uvec3_uvec3_0(self); getCache(uvec3)[this.ptr] = this; return; }
-    if (y === undefined) { this.ptr = _mud_uvec3_uvec3_1(self, x); getCache(uvec3)[this.ptr] = this; return; }
-    this.ptr = _mud_uvec3_uvec3_3(self, x, y, z); getCache(uvec3)[this.ptr] = this;
+    if (x === undefined) { this.ptr = _mud_uvec3_uvec3_0(); getCache(uvec3)[this.ptr] = this; return; }
+    if (y === undefined) { this.ptr = _mud_uvec3_uvec3_1(x); getCache(uvec3)[this.ptr] = this; return; }
+    this.ptr = _mud_uvec3_uvec3_3(x, y, z); getCache(uvec3)[this.ptr] = this;
 };
 uvec3.prototype = Object.create(WrapperObject.prototype);
 uvec3.prototype.constructor = uvec3;
@@ -595,10 +575,10 @@ Object.defineProperty(uvec3.prototype, "x", {
         var self = this.ptr;
         return _mud_uvec3__get_x(self);
     },
-    set: function(x) {
+    set: function(value) {
         var self = this.ptr;
-        /* x <uint32_t> [] */
-        _mud_uvec3__set_x(self, x);
+        /* value <uint32_t> [] */
+        _mud_uvec3__set_x(self, value);
     }
 });
 Object.defineProperty(uvec3.prototype, "y", {
@@ -606,10 +586,10 @@ Object.defineProperty(uvec3.prototype, "y", {
         var self = this.ptr;
         return _mud_uvec3__get_y(self);
     },
-    set: function(y) {
+    set: function(value) {
         var self = this.ptr;
-        /* y <uint32_t> [] */
-        _mud_uvec3__set_y(self, y);
+        /* value <uint32_t> [] */
+        _mud_uvec3__set_y(self, value);
     }
 });
 Object.defineProperty(uvec3.prototype, "z", {
@@ -617,10 +597,10 @@ Object.defineProperty(uvec3.prototype, "z", {
         var self = this.ptr;
         return _mud_uvec3__get_z(self);
     },
-    set: function(z) {
+    set: function(value) {
         var self = this.ptr;
-        /* z <uint32_t> [] */
-        _mud_uvec3__set_z(self, z);
+        /* value <uint32_t> [] */
+        _mud_uvec3__set_z(self, value);
     }
 });
 uvec3.prototype["__destroy__"] = uvec3.prototype.__destroy__ = function() {
@@ -629,14 +609,13 @@ uvec3.prototype["__destroy__"] = uvec3.prototype.__destroy__ = function() {
 };
 // uvec4
 function uvec4(w, x, y, z) {
-    var self = this.ptr;
     /* w <uint32_t> [] */
     /* x <uint32_t> [] */
     /* y <uint32_t> [] */
     /* z <uint32_t> [] */
-    if (w === undefined) { this.ptr = _mud_uvec4_uvec4_0(self); getCache(uvec4)[this.ptr] = this; return; }
-    if (x === undefined) { this.ptr = _mud_uvec4_uvec4_1(self, w); getCache(uvec4)[this.ptr] = this; return; }
-    this.ptr = _mud_uvec4_uvec4_4(self, w, x, y, z); getCache(uvec4)[this.ptr] = this;
+    if (w === undefined) { this.ptr = _mud_uvec4_uvec4_0(); getCache(uvec4)[this.ptr] = this; return; }
+    if (x === undefined) { this.ptr = _mud_uvec4_uvec4_1(w); getCache(uvec4)[this.ptr] = this; return; }
+    this.ptr = _mud_uvec4_uvec4_4(w, x, y, z); getCache(uvec4)[this.ptr] = this;
 };
 uvec4.prototype = Object.create(WrapperObject.prototype);
 uvec4.prototype.constructor = uvec4;
@@ -648,10 +627,10 @@ Object.defineProperty(uvec4.prototype, "x", {
         var self = this.ptr;
         return _mud_uvec4__get_x(self);
     },
-    set: function(x) {
+    set: function(value) {
         var self = this.ptr;
-        /* x <uint32_t> [] */
-        _mud_uvec4__set_x(self, x);
+        /* value <uint32_t> [] */
+        _mud_uvec4__set_x(self, value);
     }
 });
 Object.defineProperty(uvec4.prototype, "y", {
@@ -659,10 +638,10 @@ Object.defineProperty(uvec4.prototype, "y", {
         var self = this.ptr;
         return _mud_uvec4__get_y(self);
     },
-    set: function(y) {
+    set: function(value) {
         var self = this.ptr;
-        /* y <uint32_t> [] */
-        _mud_uvec4__set_y(self, y);
+        /* value <uint32_t> [] */
+        _mud_uvec4__set_y(self, value);
     }
 });
 Object.defineProperty(uvec4.prototype, "z", {
@@ -670,10 +649,10 @@ Object.defineProperty(uvec4.prototype, "z", {
         var self = this.ptr;
         return _mud_uvec4__get_z(self);
     },
-    set: function(z) {
+    set: function(value) {
         var self = this.ptr;
-        /* z <uint32_t> [] */
-        _mud_uvec4__set_z(self, z);
+        /* value <uint32_t> [] */
+        _mud_uvec4__set_z(self, value);
     }
 });
 Object.defineProperty(uvec4.prototype, "w", {
@@ -681,10 +660,10 @@ Object.defineProperty(uvec4.prototype, "w", {
         var self = this.ptr;
         return _mud_uvec4__get_w(self);
     },
-    set: function(w) {
+    set: function(value) {
         var self = this.ptr;
-        /* w <uint32_t> [] */
-        _mud_uvec4__set_w(self, w);
+        /* value <uint32_t> [] */
+        _mud_uvec4__set_w(self, value);
     }
 });
 uvec4.prototype["__destroy__"] = uvec4.prototype.__destroy__ = function() {
@@ -693,12 +672,11 @@ uvec4.prototype["__destroy__"] = uvec4.prototype.__destroy__ = function() {
 };
 // vec2
 function vec2(x, y) {
-    var self = this.ptr;
     /* x <float> [] */
     /* y <float> [] */
-    if (x === undefined) { this.ptr = _mud_vec2_vec2_0(self); getCache(vec2)[this.ptr] = this; return; }
-    if (y === undefined) { this.ptr = _mud_vec2_vec2_1(self, x); getCache(vec2)[this.ptr] = this; return; }
-    this.ptr = _mud_vec2_vec2_2(self, x, y); getCache(vec2)[this.ptr] = this;
+    if (x === undefined) { this.ptr = _mud_vec2_vec2_0(); getCache(vec2)[this.ptr] = this; return; }
+    if (y === undefined) { this.ptr = _mud_vec2_vec2_1(x); getCache(vec2)[this.ptr] = this; return; }
+    this.ptr = _mud_vec2_vec2_2(x, y); getCache(vec2)[this.ptr] = this;
 };
 vec2.prototype = Object.create(WrapperObject.prototype);
 vec2.prototype.constructor = vec2;
@@ -710,10 +688,10 @@ Object.defineProperty(vec2.prototype, "x", {
         var self = this.ptr;
         return _mud_vec2__get_x(self);
     },
-    set: function(x) {
+    set: function(value) {
         var self = this.ptr;
-        /* x <float> [] */
-        _mud_vec2__set_x(self, x);
+        /* value <float> [] */
+        _mud_vec2__set_x(self, value);
     }
 });
 Object.defineProperty(vec2.prototype, "y", {
@@ -721,10 +699,10 @@ Object.defineProperty(vec2.prototype, "y", {
         var self = this.ptr;
         return _mud_vec2__get_y(self);
     },
-    set: function(y) {
+    set: function(value) {
         var self = this.ptr;
-        /* y <float> [] */
-        _mud_vec2__set_y(self, y);
+        /* value <float> [] */
+        _mud_vec2__set_y(self, value);
     }
 });
 vec2.prototype["__destroy__"] = vec2.prototype.__destroy__ = function() {
@@ -733,13 +711,12 @@ vec2.prototype["__destroy__"] = vec2.prototype.__destroy__ = function() {
 };
 // vec3
 function vec3(x, y, z) {
-    var self = this.ptr;
     /* x <float> [] */
     /* y <float> [] */
     /* z <float> [] */
-    if (x === undefined) { this.ptr = _mud_vec3_vec3_0(self); getCache(vec3)[this.ptr] = this; return; }
-    if (y === undefined) { this.ptr = _mud_vec3_vec3_1(self, x); getCache(vec3)[this.ptr] = this; return; }
-    this.ptr = _mud_vec3_vec3_3(self, x, y, z); getCache(vec3)[this.ptr] = this;
+    if (x === undefined) { this.ptr = _mud_vec3_vec3_0(); getCache(vec3)[this.ptr] = this; return; }
+    if (y === undefined) { this.ptr = _mud_vec3_vec3_1(x); getCache(vec3)[this.ptr] = this; return; }
+    this.ptr = _mud_vec3_vec3_3(x, y, z); getCache(vec3)[this.ptr] = this;
 };
 vec3.prototype = Object.create(WrapperObject.prototype);
 vec3.prototype.constructor = vec3;
@@ -751,10 +728,10 @@ Object.defineProperty(vec3.prototype, "x", {
         var self = this.ptr;
         return _mud_vec3__get_x(self);
     },
-    set: function(x) {
+    set: function(value) {
         var self = this.ptr;
-        /* x <float> [] */
-        _mud_vec3__set_x(self, x);
+        /* value <float> [] */
+        _mud_vec3__set_x(self, value);
     }
 });
 Object.defineProperty(vec3.prototype, "y", {
@@ -762,10 +739,10 @@ Object.defineProperty(vec3.prototype, "y", {
         var self = this.ptr;
         return _mud_vec3__get_y(self);
     },
-    set: function(y) {
+    set: function(value) {
         var self = this.ptr;
-        /* y <float> [] */
-        _mud_vec3__set_y(self, y);
+        /* value <float> [] */
+        _mud_vec3__set_y(self, value);
     }
 });
 Object.defineProperty(vec3.prototype, "z", {
@@ -773,10 +750,10 @@ Object.defineProperty(vec3.prototype, "z", {
         var self = this.ptr;
         return _mud_vec3__get_z(self);
     },
-    set: function(z) {
+    set: function(value) {
         var self = this.ptr;
-        /* z <float> [] */
-        _mud_vec3__set_z(self, z);
+        /* value <float> [] */
+        _mud_vec3__set_z(self, value);
     }
 });
 vec3.prototype["__destroy__"] = vec3.prototype.__destroy__ = function() {
@@ -785,14 +762,13 @@ vec3.prototype["__destroy__"] = vec3.prototype.__destroy__ = function() {
 };
 // vec4
 function vec4(w, x, y, z) {
-    var self = this.ptr;
     /* w <float> [] */
     /* x <float> [] */
     /* y <float> [] */
     /* z <float> [] */
-    if (w === undefined) { this.ptr = _mud_vec4_vec4_0(self); getCache(vec4)[this.ptr] = this; return; }
-    if (x === undefined) { this.ptr = _mud_vec4_vec4_1(self, w); getCache(vec4)[this.ptr] = this; return; }
-    this.ptr = _mud_vec4_vec4_4(self, w, x, y, z); getCache(vec4)[this.ptr] = this;
+    if (w === undefined) { this.ptr = _mud_vec4_vec4_0(); getCache(vec4)[this.ptr] = this; return; }
+    if (x === undefined) { this.ptr = _mud_vec4_vec4_1(w); getCache(vec4)[this.ptr] = this; return; }
+    this.ptr = _mud_vec4_vec4_4(w, x, y, z); getCache(vec4)[this.ptr] = this;
 };
 vec4.prototype = Object.create(WrapperObject.prototype);
 vec4.prototype.constructor = vec4;
@@ -804,10 +780,10 @@ Object.defineProperty(vec4.prototype, "x", {
         var self = this.ptr;
         return _mud_vec4__get_x(self);
     },
-    set: function(x) {
+    set: function(value) {
         var self = this.ptr;
-        /* x <float> [] */
-        _mud_vec4__set_x(self, x);
+        /* value <float> [] */
+        _mud_vec4__set_x(self, value);
     }
 });
 Object.defineProperty(vec4.prototype, "y", {
@@ -815,10 +791,10 @@ Object.defineProperty(vec4.prototype, "y", {
         var self = this.ptr;
         return _mud_vec4__get_y(self);
     },
-    set: function(y) {
+    set: function(value) {
         var self = this.ptr;
-        /* y <float> [] */
-        _mud_vec4__set_y(self, y);
+        /* value <float> [] */
+        _mud_vec4__set_y(self, value);
     }
 });
 Object.defineProperty(vec4.prototype, "z", {
@@ -826,10 +802,10 @@ Object.defineProperty(vec4.prototype, "z", {
         var self = this.ptr;
         return _mud_vec4__get_z(self);
     },
-    set: function(z) {
+    set: function(value) {
         var self = this.ptr;
-        /* z <float> [] */
-        _mud_vec4__set_z(self, z);
+        /* value <float> [] */
+        _mud_vec4__set_z(self, value);
     }
 });
 Object.defineProperty(vec4.prototype, "w", {
@@ -837,10 +813,10 @@ Object.defineProperty(vec4.prototype, "w", {
         var self = this.ptr;
         return _mud_vec4__get_w(self);
     },
-    set: function(w) {
+    set: function(value) {
         var self = this.ptr;
-        /* w <float> [] */
-        _mud_vec4__set_w(self, w);
+        /* value <float> [] */
+        _mud_vec4__set_w(self, value);
     }
 });
 vec4.prototype["__destroy__"] = vec4.prototype.__destroy__ = function() {
@@ -879,6 +855,257 @@ Module['TextureAtlas'] = TextureAtlas;
 TextureAtlas.prototype["__destroy__"] = TextureAtlas.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_TextureAtlas__destroy(self);
+};
+Module['add<float>'] = function(a, b) {
+    var self = this.ptr;
+    /* a <float> [] */
+    /* b <float> [] */
+    return _mud_add<float>_2(a, b);
+};
+Module['add<mud::vec3>'] = function(a, b) {
+    var self = this.ptr;
+    /* a <vec3> [] */
+    a = a.ptr;
+    /* b <vec3> [] */
+    b = b.ptr;
+    return wrapPointer(_mud_add<mud::vec3>_2(a, b), vec3);
+};
+Module['angle_axis'] = function(angle, axis) {
+    var self = this.ptr;
+    /* angle <float> [] */
+    /* axis <vec3> [] */
+    axis = axis.ptr;
+    return wrapPointer(_mud_angle_axis_2(angle, axis), quat);
+};
+Module['axis_angle'] = function(axis, angle) {
+    var self = this.ptr;
+    /* axis <vec3> [] */
+    axis = axis.ptr;
+    /* angle <float> [] */
+    return wrapPointer(_mud_axis_angle_2(axis, angle), quat);
+};
+Module['cos'] = function(a) {
+    var self = this.ptr;
+    /* a <double> [] */
+    return __cos_1(a);
+};
+Module['cosf'] = function(a) {
+    var self = this.ptr;
+    /* a <float> [] */
+    return __cosf_1(a);
+};
+Module['distance'] = function(a, b) {
+    var self = this.ptr;
+    /* a <vec3> [] */
+    a = a.ptr;
+    /* b <vec3> [] */
+    b = b.ptr;
+    return _glm_distance_2(a, b);
+};
+Module['divide<float>'] = function(a, b) {
+    var self = this.ptr;
+    /* a <float> [] */
+    /* b <float> [] */
+    return _mud_divide<float>_2(a, b);
+};
+Module['divide<mud::vec3>'] = function(a, b) {
+    var self = this.ptr;
+    /* a <vec3> [] */
+    a = a.ptr;
+    /* b <vec3> [] */
+    b = b.ptr;
+    return wrapPointer(_mud_divide<mud::vec3>_2(a, b), vec3);
+};
+Module['from_abgr'] = function(colour) {
+    var self = this.ptr;
+    /* colour <uint32_t> [] */
+    return wrapPointer(_mud_from_abgr_1(colour), Colour);
+};
+Module['from_rgba'] = function(colour) {
+    var self = this.ptr;
+    /* colour <uint32_t> [] */
+    return wrapPointer(_mud_from_rgba_1(colour), Colour);
+};
+Module['grid_center'] = function(coord, cell_size) {
+    var self = this.ptr;
+    /* coord <uvec3> [] */
+    coord = coord.ptr;
+    /* cell_size <vec3> [] */
+    cell_size = cell_size.ptr;
+    return wrapPointer(_mud_grid_center_2(coord, cell_size), vec3);
+};
+Module['hsl_to_rgb'] = function(h, s, l) {
+    var self = this.ptr;
+    /* h <float> [] */
+    /* s <float> [] */
+    /* l <float> [] */
+    return wrapPointer(_mud_hsl_to_rgb_3(h, s, l), Colour);
+};
+Module['hsla_to_rgba'] = function(colour) {
+    var self = this.ptr;
+    /* colour <Colour> [] */
+    colour = colour.ptr;
+    return wrapPointer(_mud_hsla_to_rgba_1(colour), Colour);
+};
+Module['length'] = function(v) {
+    var self = this.ptr;
+    /* v <vec3> [] */
+    v = v.ptr;
+    return _glm_length_1(v);
+};
+Module['length2'] = function(v) {
+    var self = this.ptr;
+    /* v <vec3> [] */
+    v = v.ptr;
+    return _glm_length2_1(v);
+};
+Module['look_at'] = function(eye, target, forward) {
+    var self = this.ptr;
+    /* eye <vec3> [] */
+    eye = eye.ptr;
+    /* target <vec3> [] */
+    target = target.ptr;
+    /* forward <vec3> [] */
+    forward = forward.ptr;
+    if (forward === undefined) { return wrapPointer(_mud_look_at_2(eye, target), quat); return; }
+    return wrapPointer(_mud_look_at_3(eye, target, forward), quat);
+};
+Module['look_dir'] = function(direction, forward) {
+    var self = this.ptr;
+    /* direction <vec3> [] */
+    direction = direction.ptr;
+    /* forward <vec3> [] */
+    forward = forward.ptr;
+    if (forward === undefined) { return wrapPointer(_mud_look_dir_1(direction), quat); return; }
+    return wrapPointer(_mud_look_dir_2(direction, forward), quat);
+};
+Module['multiply<float>'] = function(a, b) {
+    var self = this.ptr;
+    /* a <float> [] */
+    /* b <float> [] */
+    return _mud_multiply<float>_2(a, b);
+};
+Module['multiply<mud::vec3>'] = function(a, b) {
+    var self = this.ptr;
+    /* a <vec3> [] */
+    a = a.ptr;
+    /* b <vec3> [] */
+    b = b.ptr;
+    return wrapPointer(_mud_multiply<mud::vec3>_2(a, b), vec3);
+};
+Module['ncos'] = function(a) {
+    var self = this.ptr;
+    /* a <double> [] */
+    return _mud_ncos_1(a);
+};
+Module['ncosf'] = function(a) {
+    var self = this.ptr;
+    /* a <float> [] */
+    return _mud_ncosf_1(a);
+};
+Module['nsin'] = function(a) {
+    var self = this.ptr;
+    /* a <double> [] */
+    return _mud_nsin_1(a);
+};
+Module['nsinf'] = function(a) {
+    var self = this.ptr;
+    /* a <float> [] */
+    return _mud_nsinf_1(a);
+};
+Module['oriented_angle'] = function(lhs, rhs, ref) {
+    var self = this.ptr;
+    /* lhs <vec3> [] */
+    lhs = lhs.ptr;
+    /* rhs <vec3> [] */
+    rhs = rhs.ptr;
+    /* ref <vec3> [] */
+    ref = ref.ptr;
+    return _mud_oriented_angle_3(lhs, rhs, ref);
+};
+Module['oriented_angle_2d'] = function(lhs, rhs) {
+    var self = this.ptr;
+    /* lhs <vec2> [] */
+    lhs = lhs.ptr;
+    /* rhs <vec2> [] */
+    rhs = rhs.ptr;
+    return _mud_oriented_angle_2d_2(lhs, rhs);
+};
+Module['rgb_to_hsl'] = function(r, g, b) {
+    var self = this.ptr;
+    /* r <float> [] */
+    /* g <float> [] */
+    /* b <float> [] */
+    return wrapPointer(_mud_rgb_to_hsl_3(r, g, b), Colour);
+};
+Module['rgba_to_hsla'] = function(colour) {
+    var self = this.ptr;
+    /* colour <Colour> [] */
+    colour = colour.ptr;
+    return wrapPointer(_mud_rgba_to_hsla_1(colour), Colour);
+};
+Module['rotate'] = function(q, axis, angle) {
+    var self = this.ptr;
+    /* q <quat> [] */
+    q = q.ptr;
+    /* axis <vec3> [] */
+    axis = axis.ptr;
+    /* angle <float> [] */
+    return wrapPointer(_mud_rotate_3(q, axis, angle), quat);
+};
+Module['sin'] = function(a) {
+    var self = this.ptr;
+    /* a <double> [] */
+    return __sin_1(a);
+};
+Module['sinf'] = function(a) {
+    var self = this.ptr;
+    /* a <float> [] */
+    return __sinf_1(a);
+};
+Module['subtract<float>'] = function(a, b) {
+    var self = this.ptr;
+    /* a <float> [] */
+    /* b <float> [] */
+    return _mud_subtract<float>_2(a, b);
+};
+Module['subtract<mud::vec3>'] = function(a, b) {
+    var self = this.ptr;
+    /* a <vec3> [] */
+    a = a.ptr;
+    /* b <vec3> [] */
+    b = b.ptr;
+    return wrapPointer(_mud_subtract<mud::vec3>_2(a, b), vec3);
+};
+Module['to_abgr'] = function(colour) {
+    var self = this.ptr;
+    /* colour <Colour> [] */
+    colour = colour.ptr;
+    return _mud_to_abgr_1(colour);
+};
+Module['to_gamma'] = function(colour) {
+    var self = this.ptr;
+    /* colour <Colour> [] */
+    colour = colour.ptr;
+    return wrapPointer(_mud_to_gamma_1(colour), Colour);
+};
+Module['to_linear'] = function(colour) {
+    var self = this.ptr;
+    /* colour <Colour> [] */
+    colour = colour.ptr;
+    return wrapPointer(_mud_to_linear_1(colour), Colour);
+};
+Module['to_rgba'] = function(colour) {
+    var self = this.ptr;
+    /* colour <Colour> [] */
+    colour = colour.ptr;
+    return _mud_to_rgba_1(colour);
+};
+Module['to_srgb'] = function(colour) {
+    var self = this.ptr;
+    /* colour <Colour> [] */
+    colour = colour.ptr;
+    return wrapPointer(_mud_to_srgb_1(colour), Colour);
 };
 
 (function() {

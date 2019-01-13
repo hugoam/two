@@ -77,10 +77,10 @@ namespace mud
 		});
 	}
 
-	void parse_param(CLPrimitive& parent, CLFunction& func, CLParam& p, CXCursor cursor)
+	void parse_param(CLPrimitive& parent, CLCallable& f, CLParam& p, CXCursor cursor)
 	{
 		p.m_name = spelling(cursor);
-		p.m_type = qual_type(*func.m_module, parent, type(cursor), !parent.m_is_template);
+		p.m_type = qual_type(*f.m_module, parent, type(cursor), !parent.m_is_template);
 
 		p.m_output = p.m_name.substr(0, 6) == "output";
 
@@ -92,7 +92,7 @@ namespace mud
 		}
 	}
 
-	void parse_function(CLModule& module, CLPrimitive& parent, CLFunction& f, CXCursor cursor)
+	void parse_callable(CLModule& module, CLPrimitive& parent, CLCallable& f, CXCursor cursor)
 	{
 		f.m_name = spelling(cursor);
 		f.m_module = &module;
@@ -130,16 +130,16 @@ namespace mud
 	void parse_function(CLModule& module, CLPrimitive& parent, CXCursor cursor)
 	{
 		//print "Function ", cursor.displayname
-		CLFunction& func = vector_emplace<CLFunction>(module.m_functions, parent, spelling(cursor));
-		parse_function(module, parent, func, cursor);
+		CLFunction& f = vector_emplace<CLFunction>(module.m_functions, parent, spelling(cursor));
+		parse_callable(module, parent, f, cursor);
 	}
 
 	void parse_function_template(CLModule& module, CLPrimitive& parent, CXCursor cursor)
 	{
 		//print "Function Template ", cursor.displayname
-		CLFunction& func = vector_emplace<CLFunction>(module.m_func_templates, parent, spelling(cursor));
-		parse_function(module, parent, func, cursor);
-		module.m_context.m_func_templates[func.m_name] = &func;
+		CLFunction& f = vector_emplace<CLFunction>(module.m_func_templates, parent, spelling(cursor));
+		parse_callable(module, parent, f, cursor);
+		module.m_context.m_func_templates[f.m_name] = &f;
 	}
 
 	void parse_static(CLClass& c, CXCursor cursor)
@@ -152,14 +152,12 @@ namespace mud
 	void parse_constructor(CLClass& c, CXCursor cursor)
 	{
 		CLConstructor& ctor = vector_push(c.m_constructors, c, spelling(cursor));
-		parse_function(*c.m_module, c, ctor, cursor);
-		ctor.m_expected_params = ctor.m_params;
+		parse_callable(*c.m_module, c, ctor, cursor);
 	}
 
 	void parse_method(CLClass& c, CLMethod& m, CXCursor cursor)
 	{
-		parse_function(*c.m_module, c, m, cursor);
-		m.m_expected_params = m.m_params;
+		parse_callable(*c.m_module, c, m, cursor);
 		m.m_const = is_const_method(cursor);
 	}
 

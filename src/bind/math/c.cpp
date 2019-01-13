@@ -505,6 +505,147 @@ extern "C" {
 	void DECL mud_TextureAtlas__destroy(mud::TextureAtlas* self) {
 		delete self;
 	}
+	float DECL mud_add<float>_2(float a, float b) {
+		return mud::add<float>(a, b);
+	}
+	mud::vec3* DECL mud_add<mud::vec3>_2(mud::vec3* a, mud::vec3* b) {
+		static mud::vec3 temp;
+		return (temp = mud::add<mud::vec3>(*a, *b), &temp);
+	}
+	mud::quat* DECL mud_angle_axis_2(float angle, const mud::vec3* axis) {
+		static mud::quat temp;
+		return (temp = mud::angle_axis(angle, *axis), &temp);
+	}
+	mud::quat* DECL mud_axis_angle_2(const mud::vec3* axis, float angle) {
+		static mud::quat temp;
+		return (temp = mud::axis_angle(*axis, angle), &temp);
+	}
+	double DECL _cos_1(double a) {
+		return cos(a);
+	}
+	float DECL _cosf_1(float a) {
+		return cosf(a);
+	}
+	float DECL glm_distance_2(const mud::vec3* a, const mud::vec3* b) {
+		return glm::distance(*a, *b);
+	}
+	float DECL mud_divide<float>_2(float a, float b) {
+		return mud::divide<float>(a, b);
+	}
+	mud::vec3* DECL mud_divide<mud::vec3>_2(mud::vec3* a, mud::vec3* b) {
+		static mud::vec3 temp;
+		return (temp = mud::divide<mud::vec3>(*a, *b), &temp);
+	}
+	mud::Colour* DECL mud_from_abgr_1(uint32_t colour) {
+		static mud::Colour temp;
+		return (temp = mud::from_abgr(colour), &temp);
+	}
+	mud::Colour* DECL mud_from_rgba_1(uint32_t colour) {
+		static mud::Colour temp;
+		return (temp = mud::from_rgba(colour), &temp);
+	}
+	mud::vec3* DECL mud_grid_center_2(const mud::uvec3* coord, const mud::vec3* cell_size) {
+		static mud::vec3 temp;
+		return (temp = mud::grid_center(*coord, *cell_size), &temp);
+	}
+	mud::Colour* DECL mud_hsl_to_rgb_3(float h, float s, float l) {
+		static mud::Colour temp;
+		return (temp = mud::hsl_to_rgb(h, s, l), &temp);
+	}
+	mud::Colour* DECL mud_hsla_to_rgba_1(const mud::Colour* colour) {
+		static mud::Colour temp;
+		return (temp = mud::hsla_to_rgba(*colour), &temp);
+	}
+	float DECL glm_length_1(const mud::vec3* v) {
+		return glm::length(*v);
+	}
+	float DECL glm_length2_1(const mud::vec3* v) {
+		return glm::length2(*v);
+	}
+	mud::quat* DECL mud_look_at_2(const mud::vec3* eye, const mud::vec3* target) {
+		static mud::quat temp;
+		return (temp = mud::look_at(*eye, *target), &temp);
+	}
+	mud::quat* DECL mud_look_at_3(const mud::vec3* eye, const mud::vec3* target, const mud::vec3* forward) {
+		static mud::quat temp;
+		return (temp = mud::look_at(*eye, *target, *forward), &temp);
+	}
+	mud::quat* DECL mud_look_dir_1(const mud::vec3* direction) {
+		static mud::quat temp;
+		return (temp = mud::look_dir(*direction), &temp);
+	}
+	mud::quat* DECL mud_look_dir_2(const mud::vec3* direction, const mud::vec3* forward) {
+		static mud::quat temp;
+		return (temp = mud::look_dir(*direction, *forward), &temp);
+	}
+	float DECL mud_multiply<float>_2(float a, float b) {
+		return mud::multiply<float>(a, b);
+	}
+	mud::vec3* DECL mud_multiply<mud::vec3>_2(mud::vec3* a, mud::vec3* b) {
+		static mud::vec3 temp;
+		return (temp = mud::multiply<mud::vec3>(*a, *b), &temp);
+	}
+	double DECL mud_ncos_1(double a) {
+		return mud::ncos(a);
+	}
+	float DECL mud_ncosf_1(float a) {
+		return mud::ncosf(a);
+	}
+	double DECL mud_nsin_1(double a) {
+		return mud::nsin(a);
+	}
+	float DECL mud_nsinf_1(float a) {
+		return mud::nsinf(a);
+	}
+	float DECL mud_oriented_angle_3(const mud::vec3* lhs, const mud::vec3* rhs, const mud::vec3* ref) {
+		return mud::oriented_angle(*lhs, *rhs, *ref);
+	}
+	float DECL mud_oriented_angle_2d_2(const mud::vec2* lhs, const mud::vec2* rhs) {
+		return mud::oriented_angle_2d(*lhs, *rhs);
+	}
+	mud::Colour* DECL mud_rgb_to_hsl_3(float r, float g, float b) {
+		static mud::Colour temp;
+		return (temp = mud::rgb_to_hsl(r, g, b), &temp);
+	}
+	mud::Colour* DECL mud_rgba_to_hsla_1(const mud::Colour* colour) {
+		static mud::Colour temp;
+		return (temp = mud::rgba_to_hsla(*colour), &temp);
+	}
+	mud::quat* DECL mud_rotate_3(const mud::quat* q, const mud::vec3* axis, float angle) {
+		static mud::quat temp;
+		return (temp = mud::rotate(*q, *axis, angle), &temp);
+	}
+	double DECL _sin_1(double a) {
+		return sin(a);
+	}
+	float DECL _sinf_1(float a) {
+		return sinf(a);
+	}
+	float DECL mud_subtract<float>_2(float a, float b) {
+		return mud::subtract<float>(a, b);
+	}
+	mud::vec3* DECL mud_subtract<mud::vec3>_2(mud::vec3* a, mud::vec3* b) {
+		static mud::vec3 temp;
+		return (temp = mud::subtract<mud::vec3>(*a, *b), &temp);
+	}
+	uint32_t DECL mud_to_abgr_1(const mud::Colour* colour) {
+		return mud::to_abgr(*colour);
+	}
+	mud::Colour* DECL mud_to_gamma_1(const mud::Colour* colour) {
+		static mud::Colour temp;
+		return (temp = mud::to_gamma(*colour), &temp);
+	}
+	mud::Colour* DECL mud_to_linear_1(const mud::Colour* colour) {
+		static mud::Colour temp;
+		return (temp = mud::to_linear(*colour), &temp);
+	}
+	uint32_t DECL mud_to_rgba_1(const mud::Colour* colour) {
+		return mud::to_rgba(*colour);
+	}
+	mud::Colour* DECL mud_to_srgb_1(const mud::Colour* colour) {
+		static mud::Colour temp;
+		return (temp = mud::to_srgb(*colour), &temp);
+	}
 	// Axes
 	mud::Axes DECL mud_Axes_None() {
 		return mud::Axes::None;

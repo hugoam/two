@@ -70,7 +70,7 @@ namespace mud
 			m_target = nullptr;
 		else
 		{
-			if(!m_target ||	width != m_target->m_size.x || height != m_target->m_size.y)
+			if(!m_target || width != m_target->m_size.x || height != m_target->m_size.y)
 				m_target = make_object<RenderTarget>(uvec2(width, height));
 		}
 		m_vg_handle = m_reset_vg();
@@ -189,6 +189,11 @@ namespace mud
 		m_impl->m_normal_texture = this->textures().file("normal.png");
 
 		m_pipeline = make_unique<Pipeline>(*this);
+	}
+
+	void GfxSystem::default_pipeline()
+	{
+		this->init_pipeline(pipeline_minimal);
 	}
 
 	void GfxSystem::init_pipeline(PipelineDecl decl)

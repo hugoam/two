@@ -109,6 +109,12 @@ extern "C" {
 	void DECL mud_WaveTileset__destroy(mud::WaveTileset* self) {
 		delete self;
 	}
+	void DECL mud_parse_json_tileset_3(const char* path, const char* subset, mud::Tileset* outputTileset) {
+		mud::parse_json_tileset(path, subset, *outputTileset);
+	}
+	void DECL mud_parse_json_wave_tileset_3(const char* path, const char* subset, mud::WaveTileset* outputTileset) {
+		mud::parse_json_wave_tileset(path, subset, *outputTileset);
+	}
 	// Result
 	mud::Result DECL mud_Result_kSuccess() {
 		return mud::kSuccess;

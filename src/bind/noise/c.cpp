@@ -18,6 +18,78 @@ extern "C" {
 	void DECL mud_Noise__destroy(mud::Noise* self) {
 		delete self;
 	}
+	float DECL mud_noise_2d_3(float x, float y, mud::Noise::NoiseType noise_type) {
+		return mud::noise_2d(x, y, noise_type);
+	}
+	float DECL mud_noise_2d_4(float x, float y, mud::Noise::NoiseType noise_type, float frequency) {
+		return mud::noise_2d(x, y, noise_type, frequency);
+	}
+	float DECL mud_noise_2d_5(float x, float y, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp) {
+		return mud::noise_2d(x, y, noise_type, frequency, interp);
+	}
+	float DECL mud_noise_3d_4(float x, float y, float z, mud::Noise::NoiseType noise_type) {
+		return mud::noise_3d(x, y, z, noise_type);
+	}
+	float DECL mud_noise_3d_5(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency) {
+		return mud::noise_3d(x, y, z, noise_type, frequency);
+	}
+	float DECL mud_noise_3d_6(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp) {
+		return mud::noise_3d(x, y, z, noise_type, frequency, interp);
+	}
+	void DECL mud_noise_field_2d_2(mud::array_3d<float>* output_values, mud::Noise::NoiseType noise_type) {
+		mud::noise_field_2d(*output_values, noise_type);
+	}
+	void DECL mud_noise_field_2d_3(mud::array_3d<float>* output_values, mud::Noise::NoiseType noise_type, float frequency) {
+		mud::noise_field_2d(*output_values, noise_type, frequency);
+	}
+	void DECL mud_noise_field_2d_4(mud::array_3d<float>* output_values, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp) {
+		mud::noise_field_2d(*output_values, noise_type, frequency, interp);
+	}
+	void DECL mud_noise_field_3d_2(mud::array_3d<float>* output_values, mud::Noise::NoiseType noise_type) {
+		mud::noise_field_3d(*output_values, noise_type);
+	}
+	void DECL mud_noise_field_3d_3(mud::array_3d<float>* output_values, mud::Noise::NoiseType noise_type, float frequency) {
+		mud::noise_field_3d(*output_values, noise_type, frequency);
+	}
+	void DECL mud_noise_field_3d_4(mud::array_3d<float>* output_values, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp) {
+		mud::noise_field_3d(*output_values, noise_type, frequency, interp);
+	}
+	float DECL mud_noise_fract_2d_4(float x, float y, mud::Noise::NoiseType noise_type, float frequency) {
+		return mud::noise_fract_2d(x, y, noise_type, frequency);
+	}
+	float DECL mud_noise_fract_2d_5(float x, float y, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp) {
+		return mud::noise_fract_2d(x, y, noise_type, frequency, interp);
+	}
+	float DECL mud_noise_fract_2d_6(float x, float y, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type) {
+		return mud::noise_fract_2d(x, y, noise_type, frequency, interp, fractal_type);
+	}
+	float DECL mud_noise_fract_2d_7(float x, float y, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type, int octaves) {
+		return mud::noise_fract_2d(x, y, noise_type, frequency, interp, fractal_type, octaves);
+	}
+	float DECL mud_noise_fract_2d_8(float x, float y, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type, int octaves, float lacunarity) {
+		return mud::noise_fract_2d(x, y, noise_type, frequency, interp, fractal_type, octaves, lacunarity);
+	}
+	float DECL mud_noise_fract_2d_9(float x, float y, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type, int octaves, float lacunarity, float gain) {
+		return mud::noise_fract_2d(x, y, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain);
+	}
+	float DECL mud_noise_fract_3d_5(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency) {
+		return mud::noise_fract_3d(x, y, z, noise_type, frequency);
+	}
+	float DECL mud_noise_fract_3d_6(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp) {
+		return mud::noise_fract_3d(x, y, z, noise_type, frequency, interp);
+	}
+	float DECL mud_noise_fract_3d_7(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type) {
+		return mud::noise_fract_3d(x, y, z, noise_type, frequency, interp, fractal_type);
+	}
+	float DECL mud_noise_fract_3d_8(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type, int octaves) {
+		return mud::noise_fract_3d(x, y, z, noise_type, frequency, interp, fractal_type, octaves);
+	}
+	float DECL mud_noise_fract_3d_9(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type, int octaves, float lacunarity) {
+		return mud::noise_fract_3d(x, y, z, noise_type, frequency, interp, fractal_type, octaves, lacunarity);
+	}
+	float DECL mud_noise_fract_3d_10(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type, int octaves, float lacunarity, float gain) {
+		return mud::noise_fract_3d(x, y, z, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain);
+	}
 	// CellularDistanceFunction
 	mud::Noise::CellularDistanceFunction DECL mud_Noise_CellularDistanceFunction_Euclidean() {
 		return mud::Noise::Euclidean;
