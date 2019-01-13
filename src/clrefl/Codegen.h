@@ -1007,7 +1007,7 @@ namespace clgen
 		// - handle types
 
 		// not implemented yet
-		std::vector<string> blacklist = { "std::vector", "mud::Ref" };
+		std::vector<string> blacklist = { "std::vector", "array", "mud::Ref" };
 
 		auto blacklist_callable = [&](const CLCallable& f) { for(const string& n : blacklist) { for(const CLParam& p : f.m_params) if(p.m_type.m_type->m_id.find(n) != string::npos) return true; if(f.m_return_type.m_type->m_id.find(n) != string::npos) return true; } return false; };
 		auto blacklist_member = [&](const CLMember& m) { for(const string& n : blacklist) { if(m.m_type.m_type->m_id.find(n) != string::npos) return true; } return false; };

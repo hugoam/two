@@ -1706,14 +1706,6 @@ Module['color_toggle_edit'] = function(parent, value) {
     value = value.ptr;
     return !!(_mud_ui_color_toggle_edit_2(parent, value));
 };
-Module['columns'] = function(parent, weights) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* weights <array<float>> [] */
-    weights = weights.ptr;
-    return wrapPointer(_mud_ui_columns_2(parent, weights), Table);
-};
 Module['command_line'] = function(parent, text, command) {
     var self = this.ptr;
     ensureCache.prepare();
@@ -1766,28 +1758,6 @@ Module['cursor'] = function(parent, position, hovered, locked) {
     /* locked <bool> [] */
     if (locked === undefined) { return wrapPointer(_mud_ui_cursor_3(parent, position, hovered), Widget); return; }
     return wrapPointer(_mud_ui_cursor_4(parent, position, hovered, locked), Widget);
-};
-Module['curve_edit'] = function(parent, values, points) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* values <array<float>> [] */
-    values = values.ptr;
-    /* points <array<float>> [] */
-    points = points.ptr;
-    if (points === undefined) { return !!(_mud_ui_curve_edit_2(parent, values)); return; }
-    return !!(_mud_ui_curve_edit_3(parent, values, points));
-};
-Module['curve_graph'] = function(parent, values, points) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* values <array<float>> [] */
-    values = values.ptr;
-    /* points <array<float>> [] */
-    points = points.ptr;
-    if (points === undefined) { return !!(_mud_ui_curve_graph_2(parent, values)); return; }
-    return !!(_mud_ui_curve_graph_3(parent, values, points));
 };
 Module['decal'] = function(parent) {
     var self = this.ptr;
@@ -1865,29 +1835,6 @@ Module['dropdown'] = function(parent, style, value, flags, list_style) {
     list_style = list_style.ptr;
     if (list_style === undefined) { return wrapPointer(_mud_ui_dropdown_4(parent, style, value, flags), Widget); return; }
     return wrapPointer(_mud_ui_dropdown_5(parent, style, value, flags, list_style), Widget);
-};
-Module['dropdown_field'] = function(parent, name, choices, value, reverse) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* name <const char*> [] */
-    /* choices <array<const char*>> [] */
-    choices = choices.ptr;
-    /* value <uint32_t> [] */
-    /* reverse <bool> [] */
-    if (reverse === undefined) { return !!(_mud_ui_dropdown_field_4(parent, name, choices, value)); return; }
-    return !!(_mud_ui_dropdown_field_5(parent, name, choices, value, reverse));
-};
-Module['dropdown_input'] = function(parent, choices, value, compact) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* choices <array<const char*>> [] */
-    choices = choices.ptr;
-    /* value <uint32_t> [] */
-    /* compact <bool> [] */
-    if (compact === undefined) { return !!(_mud_ui_dropdown_input_3(parent, choices, value)); return; }
-    return !!(_mud_ui_dropdown_input_4(parent, choices, value, compact));
 };
 Module['dummy'] = function(parent, size) {
     var self = this.ptr;
@@ -2072,53 +2019,6 @@ Module['modal_button'] = function(screen, parent, content, mode) {
     /* mode <uint32_t> [] */
     return !!(_mud_ui_modal_button_4(screen, parent, content, mode));
 };
-Module['modal_multi_button'] = function(screen, parent, elements, mode) {
-    var self = this.ptr;
-    /* screen <Widget> [] */
-    screen = screen.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* elements <array<const char*>> [] */
-    elements = elements.ptr;
-    /* mode <uint32_t> [] */
-    return !!(_mud_ui_modal_multi_button_4(screen, parent, elements, mode));
-};
-Module['multi_button'] = function(parent, elements, element_style) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* elements <array<const char*>> [] */
-    elements = elements.ptr;
-    /* element_style <Style> [] */
-    element_style = element_style.ptr;
-    if (element_style === undefined) { return wrapPointer(_mud_ui_multi_button_2(parent, elements), Widget); return; }
-    return wrapPointer(_mud_ui_multi_button_3(parent, elements, element_style), Widget);
-};
-Module['multi_item'] = function(parent, style, elements, element_style) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* style <Style> [] */
-    style = style.ptr;
-    /* elements <array<const char*>> [] */
-    elements = elements.ptr;
-    /* element_style <Style> [] */
-    element_style = element_style.ptr;
-    if (element_style === undefined) { return wrapPointer(_mud_ui_multi_item_3(parent, style, elements), Widget); return; }
-    return wrapPointer(_mud_ui_multi_item_4(parent, style, elements, element_style), Widget);
-};
-Module['multi_toggle'] = function(parent, on, elements, element_style) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* on <bool> [] */
-    /* elements <array<const char*>> [] */
-    elements = elements.ptr;
-    /* element_style <Style> [] */
-    element_style = element_style.ptr;
-    if (element_style === undefined) { return wrapPointer(_mud_ui_multi_toggle_3(parent, on, elements), Widget); return; }
-    return wrapPointer(_mud_ui_multi_toggle_4(parent, on, elements, element_style), Widget);
-};
 Module['node_cable'] = function(canvas, plug_out, plug_in) {
     var self = this.ptr;
     /* canvas <Canvas> [] */
@@ -2167,19 +2067,6 @@ Module['overlay'] = function(parent) {
     parent = parent.ptr;
     return wrapPointer(_mud_ui_overlay_1(parent), Widget);
 };
-Module['popdown'] = function(parent, choices, value, position, flags) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* choices <array<const char*>> [] */
-    choices = choices.ptr;
-    /* value <uint32_t> [] */
-    /* position <vec2> [] */
-    position = position.ptr;
-    /* flags <PopupFlags> [] */
-    if (flags && typeof flags === "object") flags = flags.ptr;
-    return !!(_mud_ui_popdown_5(parent, choices, value, position, flags));
-};
 Module['popup'] = function(parent, flags) {
     var self = this.ptr;
     /* parent <Widget> [] */
@@ -2214,30 +2101,6 @@ Module['radio_choice'] = function(parent, value, active) {
     /* value <const char*> [] */
     /* active <bool> [] */
     return wrapPointer(_mud_ui_radio_choice_3(parent, value, active), Widget);
-};
-Module['radio_field'] = function(parent, name, choices, value, reverse) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* name <const char*> [] */
-    /* choices <array<const char*>> [] */
-    choices = choices.ptr;
-    /* value <uint32_t> [] */
-    /* reverse <bool> [] */
-    if (reverse === undefined) { return !!(_mud_ui_radio_field_4(parent, name, choices, value)); return; }
-    return !!(_mud_ui_radio_field_5(parent, name, choices, value, reverse));
-};
-Module['radio_switch'] = function(parent, labels, value, dim) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* labels <array<const char*>> [] */
-    labels = labels.ptr;
-    /* value <uint32_t> [] */
-    /* dim <Dim> [] */
-    if (dim && typeof dim === "object") dim = dim.ptr;
-    if (dim === undefined) { return !!(_mud_ui_radio_switch_3(parent, labels, value)); return; }
-    return !!(_mud_ui_radio_switch_4(parent, labels, value, dim));
 };
 Module['rectangle'] = function(parent, rect) {
     var self = this.ptr;
@@ -2324,16 +2187,6 @@ Module['tabber'] = function(parent) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_tabber_1(parent), Tabber);
-};
-Module['table'] = function(parent, columns, weights) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* columns <array<const char*>> [] */
-    columns = columns.ptr;
-    /* weights <array<float>> [] */
-    weights = weights.ptr;
-    return wrapPointer(_mud_ui_table_3(parent, columns, weights), Table);
 };
 Module['table_row'] = function(parent) {
     var self = this.ptr;
@@ -2459,27 +2312,6 @@ Module['type_in'] = function(parent, text, lines, allowed_chars) {
     if (lines === undefined) { return wrapPointer(_mud_ui_type_in_2(parent, text), TextEdit); return; }
     if (allowed_chars === undefined) { return wrapPointer(_mud_ui_type_in_3(parent, text, lines), TextEdit); return; }
     return wrapPointer(_mud_ui_type_in_4(parent, text, lines, allowed_chars), TextEdit);
-};
-Module['typedown_field'] = function(parent, name, choices, value, reverse) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* name <const char*> [] */
-    /* choices <array<const char*>> [] */
-    choices = choices.ptr;
-    /* value <uint32_t> [] */
-    /* reverse <bool> [] */
-    if (reverse === undefined) { return !!(_mud_ui_typedown_field_4(parent, name, choices, value)); return; }
-    return !!(_mud_ui_typedown_field_5(parent, name, choices, value, reverse));
-};
-Module['typedown_input'] = function(parent, choices, value) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* choices <array<const char*>> [] */
-    choices = choices.ptr;
-    /* value <uint32_t> [] */
-    return !!(_mud_ui_typedown_input_3(parent, choices, value));
 };
 Module['vec2_edit'] = function(parent, vec) {
     var self = this.ptr;

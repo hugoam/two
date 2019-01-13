@@ -40,32 +40,6 @@ Module['noise_3d'] = function(x, y, z, noise_type, frequency, interp) {
     if (interp === undefined) { return _mud_noise_3d_5(x, y, z, noise_type, frequency); return; }
     return _mud_noise_3d_6(x, y, z, noise_type, frequency, interp);
 };
-Module['noise_field_2d'] = function(output_values, noise_type, frequency, interp) {
-    var self = this.ptr;
-    /* output_values <array_3d<float>> [] */
-    output_values = output_values.ptr;
-    /* noise_type <NoiseType> [] */
-    if (noise_type && typeof noise_type === "object") noise_type = noise_type.ptr;
-    /* frequency <float> [] */
-    /* interp <Interp> [] */
-    if (interp && typeof interp === "object") interp = interp.ptr;
-    if (frequency === undefined) { _mud_noise_field_2d_2(output_values, noise_type); return; }
-    if (interp === undefined) { _mud_noise_field_2d_3(output_values, noise_type, frequency); return; }
-    _mud_noise_field_2d_4(output_values, noise_type, frequency, interp);
-};
-Module['noise_field_3d'] = function(output_values, noise_type, frequency, interp) {
-    var self = this.ptr;
-    /* output_values <array_3d<float>> [] */
-    output_values = output_values.ptr;
-    /* noise_type <NoiseType> [] */
-    if (noise_type && typeof noise_type === "object") noise_type = noise_type.ptr;
-    /* frequency <float> [] */
-    /* interp <Interp> [] */
-    if (interp && typeof interp === "object") interp = interp.ptr;
-    if (frequency === undefined) { _mud_noise_field_3d_2(output_values, noise_type); return; }
-    if (interp === undefined) { _mud_noise_field_3d_3(output_values, noise_type, frequency); return; }
-    _mud_noise_field_3d_4(output_values, noise_type, frequency, interp);
-};
 Module['noise_fract_2d'] = function(x, y, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain) {
     var self = this.ptr;
     /* x <float> [] */

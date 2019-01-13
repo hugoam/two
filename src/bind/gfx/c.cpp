@@ -1643,21 +1643,6 @@ extern "C" {
 	void DECL mud_gfx_draw_4(mud::Gnode* parent, const mud::Shape* shape, const mud::Symbol* symbol, uint32_t flags) {
 		mud::gfx::draw(*parent, *shape, *symbol, flags);
 	}
-	mud::Item* DECL mud_gfx_item_2(mud::Gnode* parent, const mud::Model* model) {
-		return &mud::gfx::item(*parent, *model);
-	}
-	mud::Item* DECL mud_gfx_item_3(mud::Gnode* parent, const mud::Model* model, uint32_t flags) {
-		return &mud::gfx::item(*parent, *model, flags);
-	}
-	mud::Item* DECL mud_gfx_item_4(mud::Gnode* parent, const mud::Model* model, uint32_t flags, mud::Material* material) {
-		return &mud::gfx::item(*parent, *model, flags, material);
-	}
-	mud::Item* DECL mud_gfx_item_5(mud::Gnode* parent, const mud::Model* model, uint32_t flags, mud::Material* material, size_t instances) {
-		return &mud::gfx::item(*parent, *model, flags, material, instances);
-	}
-	mud::Item* DECL mud_gfx_item_6(mud::Gnode* parent, const mud::Model* model, uint32_t flags, mud::Material* material, size_t instances, array<mud::mat4>* transforms) {
-		return &mud::gfx::item(*parent, *model, flags, material, instances, *transforms);
-	}
 	mud::Light* DECL mud_gfx_light_4(mud::Gnode* parent, mud::LightType type, bool shadows, mud::Colour* colour) {
 		return &mud::gfx::light(*parent, type, shadows, *colour);
 	}
@@ -1687,24 +1672,6 @@ extern "C" {
 	}
 	mud::Particles* DECL mud_gfx_particles_4(mud::Gnode* parent, const mud::ParticleGenerator* emitter, uint32_t flags, size_t instances) {
 		return &mud::gfx::particles(*parent, *emitter, flags, instances);
-	}
-	void DECL mud_gfx_prefab_2(mud::Gnode* parent, const mud::Prefab* prefab) {
-		mud::gfx::prefab(*parent, *prefab);
-	}
-	void DECL mud_gfx_prefab_3(mud::Gnode* parent, const mud::Prefab* prefab, bool transform) {
-		mud::gfx::prefab(*parent, *prefab, transform);
-	}
-	void DECL mud_gfx_prefab_4(mud::Gnode* parent, const mud::Prefab* prefab, bool transform, uint32_t flags) {
-		mud::gfx::prefab(*parent, *prefab, transform, flags);
-	}
-	void DECL mud_gfx_prefab_5(mud::Gnode* parent, const mud::Prefab* prefab, bool transform, uint32_t flags, mud::Material* material) {
-		mud::gfx::prefab(*parent, *prefab, transform, flags, material);
-	}
-	void DECL mud_gfx_prefab_6(mud::Gnode* parent, const mud::Prefab* prefab, bool transform, uint32_t flags, mud::Material* material, size_t instances) {
-		mud::gfx::prefab(*parent, *prefab, transform, flags, material, instances);
-	}
-	void DECL mud_gfx_prefab_7(mud::Gnode* parent, const mud::Prefab* prefab, bool transform, uint32_t flags, mud::Material* material, size_t instances, array<mud::mat4>* transforms) {
-		mud::gfx::prefab(*parent, *prefab, transform, flags, material, instances, *transforms);
 	}
 	void DECL mud_gfx_radiance_3(mud::Gnode* parent, const char* texture, mud::BackgroundMode background) {
 		mud::gfx::radiance(*parent, texture, background);

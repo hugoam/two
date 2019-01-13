@@ -904,9 +904,6 @@ extern "C" {
 	bool DECL mud_ui_color_toggle_edit_2(mud::Widget* parent, mud::Colour* value) {
 		return mud::ui::color_toggle_edit(*parent, *value);
 	}
-	mud::Table* DECL mud_ui_columns_2(mud::Widget* parent, array<float>* weights) {
-		return &mud::ui::columns(*parent, *weights);
-	}
 	mud::Widget* DECL mud_ui_command_line_3(mud::Widget* parent, const char* text, const char* command) {
 		return &mud::ui::command_line(*parent, text, command);
 	}
@@ -927,18 +924,6 @@ extern "C" {
 	}
 	mud::Widget* DECL mud_ui_cursor_4(mud::Widget* parent, const mud::vec2* position, mud::Widget* hovered, bool locked) {
 		return &mud::ui::cursor(*parent, *position, *hovered, locked);
-	}
-	bool DECL mud_ui_curve_edit_2(mud::Widget* parent, array<float>* values) {
-		return mud::ui::curve_edit(*parent, *values);
-	}
-	bool DECL mud_ui_curve_edit_3(mud::Widget* parent, array<float>* values, array<float>* points) {
-		return mud::ui::curve_edit(*parent, *values, *points);
-	}
-	bool DECL mud_ui_curve_graph_2(mud::Widget* parent, array<float>* values) {
-		return mud::ui::curve_graph(*parent, *values);
-	}
-	bool DECL mud_ui_curve_graph_3(mud::Widget* parent, array<float>* values, array<float>* points) {
-		return mud::ui::curve_graph(*parent, *values, *points);
 	}
 	mud::Widget* DECL mud_ui_decal_1(mud::Widget* parent) {
 		return &mud::ui::decal(*parent);
@@ -972,18 +957,6 @@ extern "C" {
 	}
 	mud::Widget* DECL mud_ui_dropdown_5(mud::Widget* parent, mud::Style* style, const char* value, mud::ui::PopupFlags flags, mud::Style* list_style) {
 		return &mud::ui::dropdown(*parent, *style, value, flags, list_style);
-	}
-	bool DECL mud_ui_dropdown_field_4(mud::Widget* parent, const char* name, array<const char*>* choices, uint32_t value) {
-		return mud::ui::dropdown_field(*parent, name, *choices, value);
-	}
-	bool DECL mud_ui_dropdown_field_5(mud::Widget* parent, const char* name, array<const char*>* choices, uint32_t value, bool reverse) {
-		return mud::ui::dropdown_field(*parent, name, *choices, value, reverse);
-	}
-	bool DECL mud_ui_dropdown_input_3(mud::Widget* parent, array<const char*>* choices, uint32_t value) {
-		return mud::ui::dropdown_input(*parent, *choices, value);
-	}
-	bool DECL mud_ui_dropdown_input_4(mud::Widget* parent, array<const char*>* choices, uint32_t value, bool compact) {
-		return mud::ui::dropdown_input(*parent, *choices, value, compact);
 	}
 	mud::Widget* DECL mud_ui_dummy_2(mud::Widget* parent, const mud::vec2* size) {
 		return &mud::ui::dummy(*parent, *size);
@@ -1075,27 +1048,6 @@ extern "C" {
 	bool DECL mud_ui_modal_button_4(mud::Widget* screen, mud::Widget* parent, const char* content, uint32_t mode) {
 		return mud::ui::modal_button(*screen, *parent, content, mode);
 	}
-	bool DECL mud_ui_modal_multi_button_4(mud::Widget* screen, mud::Widget* parent, array<const char*>* elements, uint32_t mode) {
-		return mud::ui::modal_multi_button(*screen, *parent, *elements, mode);
-	}
-	mud::Widget* DECL mud_ui_multi_button_2(mud::Widget* parent, array<const char*>* elements) {
-		return &mud::ui::multi_button(*parent, *elements);
-	}
-	mud::Widget* DECL mud_ui_multi_button_3(mud::Widget* parent, array<const char*>* elements, mud::Style* element_style) {
-		return &mud::ui::multi_button(*parent, *elements, element_style);
-	}
-	mud::Widget* DECL mud_ui_multi_item_3(mud::Widget* parent, mud::Style* style, array<const char*>* elements) {
-		return &mud::ui::multi_item(*parent, *style, *elements);
-	}
-	mud::Widget* DECL mud_ui_multi_item_4(mud::Widget* parent, mud::Style* style, array<const char*>* elements, mud::Style* element_style) {
-		return &mud::ui::multi_item(*parent, *style, *elements, element_style);
-	}
-	mud::Widget* DECL mud_ui_multi_toggle_3(mud::Widget* parent, bool on, array<const char*>* elements) {
-		return &mud::ui::multi_toggle(*parent, on, *elements);
-	}
-	mud::Widget* DECL mud_ui_multi_toggle_4(mud::Widget* parent, bool on, array<const char*>* elements, mud::Style* element_style) {
-		return &mud::ui::multi_toggle(*parent, on, *elements, element_style);
-	}
 	mud::Widget* DECL mud_ui_node_cable_3(mud::Canvas* canvas, mud::NodePlug* plug_out, mud::NodePlug* plug_in) {
 		return &mud::ui::node_cable(*canvas, *plug_out, *plug_in);
 	}
@@ -1132,9 +1084,6 @@ extern "C" {
 	mud::Widget* DECL mud_ui_overlay_1(mud::Widget* parent) {
 		return &mud::ui::overlay(*parent);
 	}
-	bool DECL mud_ui_popdown_5(mud::Widget* parent, array<const char*>* choices, uint32_t value, mud::vec2* position, mud::ui::PopupFlags flags) {
-		return mud::ui::popdown(*parent, *choices, value, *position, flags);
-	}
 	mud::Widget* DECL mud_ui_popup_2(mud::Widget* parent, mud::ui::PopupFlags flags) {
 		return &mud::ui::popup(*parent, flags);
 	}
@@ -1149,18 +1098,6 @@ extern "C" {
 	}
 	mud::Widget* DECL mud_ui_radio_choice_3(mud::Widget* parent, const char* value, bool active) {
 		return &mud::ui::radio_choice(*parent, value, active);
-	}
-	bool DECL mud_ui_radio_field_4(mud::Widget* parent, const char* name, array<const char*>* choices, uint32_t value) {
-		return mud::ui::radio_field(*parent, name, *choices, value);
-	}
-	bool DECL mud_ui_radio_field_5(mud::Widget* parent, const char* name, array<const char*>* choices, uint32_t value, bool reverse) {
-		return mud::ui::radio_field(*parent, name, *choices, value, reverse);
-	}
-	bool DECL mud_ui_radio_switch_3(mud::Widget* parent, array<const char*>* labels, uint32_t value) {
-		return mud::ui::radio_switch(*parent, *labels, value);
-	}
-	bool DECL mud_ui_radio_switch_4(mud::Widget* parent, array<const char*>* labels, uint32_t value, mud::Dim dim) {
-		return mud::ui::radio_switch(*parent, *labels, value, dim);
 	}
 	mud::Widget* DECL mud_ui_rectangle_2(mud::Widget* parent, const mud::vec4* rect) {
 		return &mud::ui::rectangle(*parent, *rect);
@@ -1200,9 +1137,6 @@ extern "C" {
 	}
 	mud::Tabber* DECL mud_ui_tabber_1(mud::Widget* parent) {
 		return &mud::ui::tabber(*parent);
-	}
-	mud::Table* DECL mud_ui_table_3(mud::Widget* parent, array<const char*>* columns, array<float>* weights) {
-		return &mud::ui::table(*parent, *columns, *weights);
 	}
 	mud::Widget* DECL mud_ui_table_row_1(mud::Widget* parent) {
 		return &mud::ui::table_row(*parent);
@@ -1272,15 +1206,6 @@ extern "C" {
 	}
 	mud::TextEdit* DECL mud_ui_type_in_4(mud::Widget* parent, const char* text, size_t lines, const char* allowed_chars) {
 		return &mud::ui::type_in(*parent, text, lines, allowed_chars);
-	}
-	bool DECL mud_ui_typedown_field_4(mud::Widget* parent, const char* name, array<const char*>* choices, uint32_t value) {
-		return mud::ui::typedown_field(*parent, name, *choices, value);
-	}
-	bool DECL mud_ui_typedown_field_5(mud::Widget* parent, const char* name, array<const char*>* choices, uint32_t value, bool reverse) {
-		return mud::ui::typedown_field(*parent, name, *choices, value, reverse);
-	}
-	bool DECL mud_ui_typedown_input_3(mud::Widget* parent, array<const char*>* choices, uint32_t value) {
-		return mud::ui::typedown_input(*parent, *choices, value);
 	}
 	bool DECL mud_ui_vec2_edit_2(mud::Widget* parent, mud::vec2* vec) {
 		return mud::ui::vec2_edit(*parent, *vec);

@@ -3094,24 +3094,6 @@ Module['draw'] = function(parent, shape, symbol, flags) {
     if (flags === undefined) { _mud_gfx_draw_3(parent, shape, symbol); return; }
     _mud_gfx_draw_4(parent, shape, symbol, flags);
 };
-Module['item'] = function(parent, model, flags, material, instances, transforms) {
-    var self = this.ptr;
-    /* parent <Gnode> [] */
-    parent = parent.ptr;
-    /* model <Model> [] */
-    model = model.ptr;
-    /* flags <uint32_t> [] */
-    /* material <Material> [] */
-    if(typeof material !== "undefined" && material !== null) {{ material = material.ptr }};
-    /* instances <size_t> [] */
-    /* transforms <array<mud::mat4>> [] */
-    if(typeof transforms !== "undefined" && transforms !== null) {{ transforms = transforms.ptr }};
-    if (flags === undefined) { return wrapPointer(_mud_gfx_item_2(parent, model), Item); return; }
-    if (material === undefined) { return wrapPointer(_mud_gfx_item_3(parent, model, flags), Item); return; }
-    if (instances === undefined) { return wrapPointer(_mud_gfx_item_4(parent, model, flags, material), Item); return; }
-    if (transforms === undefined) { return wrapPointer(_mud_gfx_item_5(parent, model, flags, material, instances), Item); return; }
-    return wrapPointer(_mud_gfx_item_6(parent, model, flags, material, instances, transforms), Item);
-};
 Module['light'] = function(parent, type, shadows, colour, range, attenuation) {
     var self = this.ptr;
     /* parent <Gnode> [] */
@@ -3155,26 +3137,6 @@ Module['particles'] = function(parent, emitter, flags, instances) {
     if (flags === undefined) { return wrapPointer(_mud_gfx_particles_2(parent, emitter), Particles); return; }
     if (instances === undefined) { return wrapPointer(_mud_gfx_particles_3(parent, emitter, flags), Particles); return; }
     return wrapPointer(_mud_gfx_particles_4(parent, emitter, flags, instances), Particles);
-};
-Module['prefab'] = function(parent, prefab, transform, flags, material, instances, transforms) {
-    var self = this.ptr;
-    /* parent <Gnode> [] */
-    parent = parent.ptr;
-    /* prefab <Prefab> [] */
-    prefab = prefab.ptr;
-    /* transform <bool> [] */
-    /* flags <uint32_t> [] */
-    /* material <Material> [] */
-    if(typeof material !== "undefined" && material !== null) {{ material = material.ptr }};
-    /* instances <size_t> [] */
-    /* transforms <array<mud::mat4>> [] */
-    if(typeof transforms !== "undefined" && transforms !== null) {{ transforms = transforms.ptr }};
-    if (transform === undefined) { _mud_gfx_prefab_2(parent, prefab); return; }
-    if (flags === undefined) { _mud_gfx_prefab_3(parent, prefab, transform); return; }
-    if (material === undefined) { _mud_gfx_prefab_4(parent, prefab, transform, flags); return; }
-    if (instances === undefined) { _mud_gfx_prefab_5(parent, prefab, transform, flags, material); return; }
-    if (transforms === undefined) { _mud_gfx_prefab_6(parent, prefab, transform, flags, material, instances); return; }
-    _mud_gfx_prefab_7(parent, prefab, transform, flags, material, instances, transforms);
 };
 Module['radiance'] = function(parent, texture, background) {
     var self = this.ptr;
