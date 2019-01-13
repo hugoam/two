@@ -585,11 +585,11 @@ namespace mud
 			if(!directory_exists(module.m_bind_path.c_str()))
 				create_directory_tree(module.m_bind_path.c_str());
 
-			string embind_cpp = clgen::bind_embind_h_template(module);
-			update_file((module.m_bind_path + "\\" + "Embind.cpp").c_str(), embind_cpp.c_str());
+			//string embind_cpp = clgen::bind_embind_h_template(module);
+			//update_file((module.m_bind_path + "\\" + "Embind.cpp").c_str(), embind_cpp.c_str());
 
-			string module_idl = clgen::bind_webidl_h_template(module);
-			update_file((module.m_bind_path + "\\" + "Module.idl").c_str(), module_idl.c_str());
+			//string module_idl = clgen::bind_webidl_h_template(module);
+			//update_file((module.m_bind_path + "\\" + "Module.idl").c_str(), module_idl.c_str());
 
 			clgen::bind_javascript(module);
 		}

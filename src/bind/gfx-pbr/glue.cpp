@@ -3,6 +3,7 @@
 #include <math/Api.h>
 #include <geom/Api.h>
 #include <gfx/Api.h>
+#include <gfx-pbr/Api.h>
 #include <emscripten.h>
 
 
@@ -228,20 +229,20 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE BlockTonemap___destroy__(mud::BlockTonemap* self) {
 		delete self;
 	}
+	// TonemapMode
+	mud::TonemapMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TonemapMode_Linear() {
+		return mud::TonemapMode::Linear;
+	}
+	mud::TonemapMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TonemapMode_Reinhardt() {
+		return mud::TonemapMode::Reinhardt;
+	}
+	mud::TonemapMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TonemapMode_Filmic() {
+		return mud::TonemapMode::Filmic;
+	}
+	mud::TonemapMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TonemapMode_ACES() {
+		return mud::TonemapMode::ACES;
+	}
 	
 }
 
 
-// 'TonemapMode'
-TonemapMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TonemapMode_Linear() {
-	return mud::TonemapMode::Linear;
-}
-TonemapMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TonemapMode_Reinhardt() {
-	return mud::TonemapMode::Reinhardt;
-}
-TonemapMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TonemapMode_Filmic() {
-	return mud::TonemapMode::Filmic;
-}
-TonemapMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TonemapMode_ACES() {
-	return mud::TonemapMode::ACES;
-}

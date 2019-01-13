@@ -576,8 +576,7 @@ WorldSnapOption.prototype["__destroy__"] = WorldSnapOption.prototype.__destroy__
 
 (function() {
     function setupEnums() {
-        
-        // 'ToolState'
+        // ToolState
         Module['ToolState']['Inactive'] = _emscripten_enum_ToolState_Inactive();
         Module['ToolState']['Done'] = _emscripten_enum_ToolState_Done();
         Module['ToolState']['Active'] = _emscripten_enum_ToolState_Active();

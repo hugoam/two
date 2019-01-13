@@ -188,8 +188,7 @@ WaveTileset.prototype["__destroy__"] = WaveTileset.prototype.__destroy__ = funct
 
 (function() {
     function setupEnums() {
-        
-        // 'Result'
+        // Result
         Module['kSuccess'] = _emscripten_enum_Result_kSuccess();
         Module['kFail'] = _emscripten_enum_Result_kFail();
         Module['kUnfinished'] = _emscripten_enum_Result_kUnfinished();

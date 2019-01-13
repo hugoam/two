@@ -1777,27 +1777,23 @@ glTFTextureInfo.prototype["__destroy__"] = glTFTextureInfo.prototype.__destroy__
 
 (function() {
     function setupEnums() {
-        
-        // 'glTFAlphaMode'
+        // glTFAlphaMode
         Module['glTFAlphaMode']['OPAQUE'] = _emscripten_enum_glTFAlphaMode_OPAQUE();
         Module['glTFAlphaMode']['MASK'] = _emscripten_enum_glTFAlphaMode_MASK();
         Module['glTFAlphaMode']['BLEND'] = _emscripten_enum_glTFAlphaMode_BLEND();
-        
-        // 'glTFComponentType'
+        // glTFComponentType
         Module['glTFComponentType']['BYTE'] = _emscripten_enum_glTFComponentType_BYTE();
         Module['glTFComponentType']['UNSIGNED_BYTE'] = _emscripten_enum_glTFComponentType_UNSIGNED_BYTE();
         Module['glTFComponentType']['SHORT'] = _emscripten_enum_glTFComponentType_SHORT();
         Module['glTFComponentType']['UNSIGNED_SHORT'] = _emscripten_enum_glTFComponentType_UNSIGNED_SHORT();
         Module['glTFComponentType']['INT'] = _emscripten_enum_glTFComponentType_INT();
         Module['glTFComponentType']['FLOAT'] = _emscripten_enum_glTFComponentType_FLOAT();
-        
-        // 'glTFInterpolation'
+        // glTFInterpolation
         Module['glTFInterpolation']['LINEAR'] = _emscripten_enum_glTFInterpolation_LINEAR();
         Module['glTFInterpolation']['STEP'] = _emscripten_enum_glTFInterpolation_STEP();
         Module['glTFInterpolation']['CATMULLROMSPLINE'] = _emscripten_enum_glTFInterpolation_CATMULLROMSPLINE();
         Module['glTFInterpolation']['CUBIC_SPLINE'] = _emscripten_enum_glTFInterpolation_CUBIC_SPLINE();
-        
-        // 'glTFPrimitiveType'
+        // glTFPrimitiveType
         Module['glTFPrimitiveType']['POINTS'] = _emscripten_enum_glTFPrimitiveType_POINTS();
         Module['glTFPrimitiveType']['LINES'] = _emscripten_enum_glTFPrimitiveType_LINES();
         Module['glTFPrimitiveType']['LINE_LOOP'] = _emscripten_enum_glTFPrimitiveType_LINE_LOOP();
@@ -1805,8 +1801,7 @@ glTFTextureInfo.prototype["__destroy__"] = glTFTextureInfo.prototype.__destroy__
         Module['glTFPrimitiveType']['TRIANGLES'] = _emscripten_enum_glTFPrimitiveType_TRIANGLES();
         Module['glTFPrimitiveType']['TRIANGLE_STRIP'] = _emscripten_enum_glTFPrimitiveType_TRIANGLE_STRIP();
         Module['glTFPrimitiveType']['TRIANGLE_FAN'] = _emscripten_enum_glTFPrimitiveType_TRIANGLE_FAN();
-        
-        // 'glTFType'
+        // glTFType
         Module['glTFType']['SCALAR'] = _emscripten_enum_glTFType_SCALAR();
         Module['glTFType']['VEC2'] = _emscripten_enum_glTFType_VEC2();
         Module['glTFType']['VEC3'] = _emscripten_enum_glTFType_VEC3();

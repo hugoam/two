@@ -16,13 +16,11 @@ Noise.prototype["__destroy__"] = Noise.prototype.__destroy__ = function() {
 
 (function() {
     function setupEnums() {
-        
-        // 'CellularDistanceFunction'
+        // CellularDistanceFunction
         Module['Euclidean'] = _emscripten_enum_CellularDistanceFunction_Euclidean();
         Module['Manhattan'] = _emscripten_enum_CellularDistanceFunction_Manhattan();
         Module['Natural'] = _emscripten_enum_CellularDistanceFunction_Natural();
-        
-        // 'CellularReturnType'
+        // CellularReturnType
         Module['CellValue'] = _emscripten_enum_CellularReturnType_CellValue();
         Module['NoiseLookup'] = _emscripten_enum_CellularReturnType_NoiseLookup();
         Module['Distance'] = _emscripten_enum_CellularReturnType_Distance();
@@ -31,18 +29,15 @@ Noise.prototype["__destroy__"] = Noise.prototype.__destroy__ = function() {
         Module['Distance2Sub'] = _emscripten_enum_CellularReturnType_Distance2Sub();
         Module['Distance2Mul'] = _emscripten_enum_CellularReturnType_Distance2Mul();
         Module['Distance2Div'] = _emscripten_enum_CellularReturnType_Distance2Div();
-        
-        // 'FractalType'
+        // FractalType
         Module['FBM'] = _emscripten_enum_FractalType_FBM();
         Module['Billow'] = _emscripten_enum_FractalType_Billow();
         Module['RigidMulti'] = _emscripten_enum_FractalType_RigidMulti();
-        
-        // 'Interp'
+        // Interp
         Module['Linear'] = _emscripten_enum_Interp_Linear();
         Module['Hermite'] = _emscripten_enum_Interp_Hermite();
         Module['Quintic'] = _emscripten_enum_Interp_Quintic();
-        
-        // 'NoiseType'
+        // NoiseType
         Module['Value'] = _emscripten_enum_NoiseType_Value();
         Module['ValueFractal'] = _emscripten_enum_NoiseType_ValueFractal();
         Module['Perlin'] = _emscripten_enum_NoiseType_Perlin();

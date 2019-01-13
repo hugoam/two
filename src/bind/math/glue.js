@@ -874,43 +874,36 @@ TextureAtlas.prototype["__destroy__"] = TextureAtlas.prototype.__destroy__ = fun
 
 (function() {
     function setupEnums() {
-        
-        // 'Axes'
+        // Axes
         Module['Axes']['None'] = _emscripten_enum_Axes_None();
         Module['Axes']['X'] = _emscripten_enum_Axes_X();
         Module['Axes']['Y'] = _emscripten_enum_Axes_Y();
         Module['Axes']['Z'] = _emscripten_enum_Axes_Z();
-        
-        // 'Axis'
+        // Axis
         Module['Axis']['X'] = _emscripten_enum_Axis_X();
         Module['Axis']['Y'] = _emscripten_enum_Axis_Y();
         Module['Axis']['Z'] = _emscripten_enum_Axis_Z();
-        
-        // 'Clockwise'
+        // Clockwise
         Module['CLOCKWISE'] = _emscripten_enum_Clockwise_CLOCKWISE();
         Module['ANTI_CLOCKWISE'] = _emscripten_enum_Clockwise_ANTI_CLOCKWISE();
-        
-        // 'Side'
+        // Side
         Module['Side']['Right'] = _emscripten_enum_Side_Right();
         Module['Side']['Left'] = _emscripten_enum_Side_Left();
         Module['Side']['Up'] = _emscripten_enum_Side_Up();
         Module['Side']['Down'] = _emscripten_enum_Side_Down();
         Module['Side']['Back'] = _emscripten_enum_Side_Back();
         Module['Side']['Front'] = _emscripten_enum_Side_Front();
-        
-        // 'SignedAxis'
+        // SignedAxis
         Module['SignedAxis']['PlusX'] = _emscripten_enum_SignedAxis_PlusX();
         Module['SignedAxis']['MinusX'] = _emscripten_enum_SignedAxis_MinusX();
         Module['SignedAxis']['PlusY'] = _emscripten_enum_SignedAxis_PlusY();
         Module['SignedAxis']['MinusY'] = _emscripten_enum_SignedAxis_MinusY();
         Module['SignedAxis']['PlusZ'] = _emscripten_enum_SignedAxis_PlusZ();
         Module['SignedAxis']['MinusZ'] = _emscripten_enum_SignedAxis_MinusZ();
-        
-        // 'Spectrum'
+        // Spectrum
         Module['Spectrum']['Value'] = _emscripten_enum_Spectrum_Value();
         Module['Spectrum']['Hue'] = _emscripten_enum_Spectrum_Hue();
-        
-        // 'TrackMode'
+        // TrackMode
         Module['TrackMode']['Constant'] = _emscripten_enum_TrackMode_Constant();
         Module['TrackMode']['ConstantRandom'] = _emscripten_enum_TrackMode_ConstantRandom();
         Module['TrackMode']['Curve'] = _emscripten_enum_TrackMode_Curve();

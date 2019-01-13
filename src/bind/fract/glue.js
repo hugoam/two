@@ -172,8 +172,7 @@ Pattern.prototype["__destroy__"] = Pattern.prototype.__destroy__ = function() {
 
 (function() {
     function setupEnums() {
-        
-        // 'PatternSampling'
+        // PatternSampling
         Module['PatternSampling']['X'] = _emscripten_enum_PatternSampling_X();
         Module['PatternSampling']['XY'] = _emscripten_enum_PatternSampling_XY();
         Module['PatternSampling']['Depth'] = _emscripten_enum_PatternSampling_Depth();

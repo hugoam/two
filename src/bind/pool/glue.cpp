@@ -1,5 +1,6 @@
 #include <infra/Api.h>
 #include <type/Api.h>
+#include <pool/Api.h>
 #include <emscripten.h>
 
 

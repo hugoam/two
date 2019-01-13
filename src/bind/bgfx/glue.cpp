@@ -2,6 +2,7 @@
 #include <type/Api.h>
 #include <math/Api.h>
 #include <ctx/Api.h>
+#include <bgfx/Api.h>
 #include <emscripten.h>
 
 

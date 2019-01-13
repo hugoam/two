@@ -2,6 +2,7 @@
 #include <type/Api.h>
 #include <pool/Api.h>
 #include <refl/Api.h>
+#include <lang/Api.h>
 #include <emscripten.h>
 
 
@@ -186,17 +187,17 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE WrenInterpreter___destroy__(mud::WrenInterpreter* self) {
 		delete self;
 	}
+	// Language
+	mud::Language EMSCRIPTEN_KEEPALIVE emscripten_enum_Language_Cpp() {
+		return mud::Language::Cpp;
+	}
+	mud::Language EMSCRIPTEN_KEEPALIVE emscripten_enum_Language_Lua() {
+		return mud::Language::Lua;
+	}
+	mud::Language EMSCRIPTEN_KEEPALIVE emscripten_enum_Language_Wren() {
+		return mud::Language::Wren;
+	}
 	
 }
 
 
-// 'Language'
-Language EMSCRIPTEN_KEEPALIVE emscripten_enum_Language_Cpp() {
-	return mud::Language::Cpp;
-}
-Language EMSCRIPTEN_KEEPALIVE emscripten_enum_Language_Lua() {
-	return mud::Language::Lua;
-}
-Language EMSCRIPTEN_KEEPALIVE emscripten_enum_Language_Wren() {
-	return mud::Language::Wren;
-}

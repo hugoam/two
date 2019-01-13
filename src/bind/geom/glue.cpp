@@ -1,5 +1,6 @@
 #include <type/Api.h>
 #include <math/Api.h>
+#include <geom/Api.h>
 #include <emscripten.h>
 
 
@@ -654,52 +655,52 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE Triangle___destroy__(mud::Triangle* self) {
 		delete self;
 	}
+	// DrawMode
+	mud::DrawMode EMSCRIPTEN_KEEPALIVE emscripten_enum_DrawMode_OUTLINE() {
+		return mud::OUTLINE;
+	}
+	mud::DrawMode EMSCRIPTEN_KEEPALIVE emscripten_enum_DrawMode_PLAIN() {
+		return mud::PLAIN;
+	}
+	// PrimitiveType
+	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_Points() {
+		return mud::PrimitiveType::Points;
+	}
+	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_Lines() {
+		return mud::PrimitiveType::Lines;
+	}
+	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_LineLoop() {
+		return mud::PrimitiveType::LineLoop;
+	}
+	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_LineStrip() {
+		return mud::PrimitiveType::LineStrip;
+	}
+	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_Triangles() {
+		return mud::PrimitiveType::Triangles;
+	}
+	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_TriangleStrip() {
+		return mud::PrimitiveType::TriangleStrip;
+	}
+	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_TriangleFan() {
+		return mud::PrimitiveType::TriangleFan;
+	}
+	// SymbolDetail
+	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE emscripten_enum_SymbolDetail_Lowest() {
+		return mud::SymbolDetail::Lowest;
+	}
+	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE emscripten_enum_SymbolDetail_Low() {
+		return mud::SymbolDetail::Low;
+	}
+	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE emscripten_enum_SymbolDetail_Medium() {
+		return mud::SymbolDetail::Medium;
+	}
+	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE emscripten_enum_SymbolDetail_High() {
+		return mud::SymbolDetail::High;
+	}
+	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE emscripten_enum_SymbolDetail_Highest() {
+		return mud::SymbolDetail::Highest;
+	}
 	
 }
 
 
-// 'DrawMode'
-DrawMode EMSCRIPTEN_KEEPALIVE emscripten_enum_DrawMode_OUTLINE() {
-	return mud::OUTLINE;
-}
-DrawMode EMSCRIPTEN_KEEPALIVE emscripten_enum_DrawMode_PLAIN() {
-	return mud::PLAIN;
-}
-// 'PrimitiveType'
-PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_Points() {
-	return mud::PrimitiveType::Points;
-}
-PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_Lines() {
-	return mud::PrimitiveType::Lines;
-}
-PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_LineLoop() {
-	return mud::PrimitiveType::LineLoop;
-}
-PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_LineStrip() {
-	return mud::PrimitiveType::LineStrip;
-}
-PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_Triangles() {
-	return mud::PrimitiveType::Triangles;
-}
-PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_TriangleStrip() {
-	return mud::PrimitiveType::TriangleStrip;
-}
-PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_TriangleFan() {
-	return mud::PrimitiveType::TriangleFan;
-}
-// 'SymbolDetail'
-SymbolDetail EMSCRIPTEN_KEEPALIVE emscripten_enum_SymbolDetail_Lowest() {
-	return mud::SymbolDetail::Lowest;
-}
-SymbolDetail EMSCRIPTEN_KEEPALIVE emscripten_enum_SymbolDetail_Low() {
-	return mud::SymbolDetail::Low;
-}
-SymbolDetail EMSCRIPTEN_KEEPALIVE emscripten_enum_SymbolDetail_Medium() {
-	return mud::SymbolDetail::Medium;
-}
-SymbolDetail EMSCRIPTEN_KEEPALIVE emscripten_enum_SymbolDetail_High() {
-	return mud::SymbolDetail::High;
-}
-SymbolDetail EMSCRIPTEN_KEEPALIVE emscripten_enum_SymbolDetail_Highest() {
-	return mud::SymbolDetail::Highest;
-}

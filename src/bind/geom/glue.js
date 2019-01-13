@@ -1244,12 +1244,10 @@ Triangle.prototype["__destroy__"] = Triangle.prototype.__destroy__ = function() 
 
 (function() {
     function setupEnums() {
-        
-        // 'DrawMode'
+        // DrawMode
         Module['OUTLINE'] = _emscripten_enum_DrawMode_OUTLINE();
         Module['PLAIN'] = _emscripten_enum_DrawMode_PLAIN();
-        
-        // 'PrimitiveType'
+        // PrimitiveType
         Module['PrimitiveType']['Points'] = _emscripten_enum_PrimitiveType_Points();
         Module['PrimitiveType']['Lines'] = _emscripten_enum_PrimitiveType_Lines();
         Module['PrimitiveType']['LineLoop'] = _emscripten_enum_PrimitiveType_LineLoop();
@@ -1257,8 +1255,7 @@ Triangle.prototype["__destroy__"] = Triangle.prototype.__destroy__ = function() 
         Module['PrimitiveType']['Triangles'] = _emscripten_enum_PrimitiveType_Triangles();
         Module['PrimitiveType']['TriangleStrip'] = _emscripten_enum_PrimitiveType_TriangleStrip();
         Module['PrimitiveType']['TriangleFan'] = _emscripten_enum_PrimitiveType_TriangleFan();
-        
-        // 'SymbolDetail'
+        // SymbolDetail
         Module['SymbolDetail']['Lowest'] = _emscripten_enum_SymbolDetail_Lowest();
         Module['SymbolDetail']['Low'] = _emscripten_enum_SymbolDetail_Low();
         Module['SymbolDetail']['Medium'] = _emscripten_enum_SymbolDetail_Medium();

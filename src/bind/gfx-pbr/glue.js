@@ -650,8 +650,7 @@ BlockTonemap.prototype["__destroy__"] = BlockTonemap.prototype.__destroy__ = fun
 
 (function() {
     function setupEnums() {
-        
-        // 'TonemapMode'
+        // TonemapMode
         Module['TonemapMode']['Linear'] = _emscripten_enum_TonemapMode_Linear();
         Module['TonemapMode']['Reinhardt'] = _emscripten_enum_TonemapMode_Reinhardt();
         Module['TonemapMode']['Filmic'] = _emscripten_enum_TonemapMode_Filmic();

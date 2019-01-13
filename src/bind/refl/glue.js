@@ -419,8 +419,7 @@ Method.prototype["__destroy__"] = Method.prototype.__destroy__ = function() {
 
 (function() {
     function setupEnums() {
-        
-        // 'TypeClass'
+        // TypeClass
         Module['TypeClass']['None'] = _emscripten_enum_TypeClass_None();
         Module['TypeClass']['Object'] = _emscripten_enum_TypeClass_Object();
         Module['TypeClass']['Struct'] = _emscripten_enum_TypeClass_Struct();

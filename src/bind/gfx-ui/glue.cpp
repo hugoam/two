@@ -6,6 +6,7 @@
 #include <ctx/Api.h>
 #include <ui/Api.h>
 #include <gfx/Api.h>
+#include <gfx-ui/Api.h>
 #include <emscripten.h>
 
 
@@ -77,17 +78,17 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE SceneViewer___destroy__(mud::SceneViewer* self) {
 		delete self;
 	}
+	// OrbitMode
+	mud::ui::OrbitMode EMSCRIPTEN_KEEPALIVE emscripten_enum_OrbitMode_ThirdPerson() {
+		return mud::ui::OrbitMode::ThirdPerson;
+	}
+	mud::ui::OrbitMode EMSCRIPTEN_KEEPALIVE emscripten_enum_OrbitMode_Isometric() {
+		return mud::ui::OrbitMode::Isometric;
+	}
+	mud::ui::OrbitMode EMSCRIPTEN_KEEPALIVE emscripten_enum_OrbitMode_PseudoIsometric() {
+		return mud::ui::OrbitMode::PseudoIsometric;
+	}
 	
 }
 
 
-// 'OrbitMode'
-OrbitMode EMSCRIPTEN_KEEPALIVE emscripten_enum_OrbitMode_ThirdPerson() {
-	return mud::ui::OrbitMode::ThirdPerson;
-}
-OrbitMode EMSCRIPTEN_KEEPALIVE emscripten_enum_OrbitMode_Isometric() {
-	return mud::ui::OrbitMode::Isometric;
-}
-OrbitMode EMSCRIPTEN_KEEPALIVE emscripten_enum_OrbitMode_PseudoIsometric() {
-	return mud::ui::OrbitMode::PseudoIsometric;
-}

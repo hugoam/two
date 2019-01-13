@@ -1010,7 +1010,7 @@ namespace clgen
 		auto cw = [&](const string& s) { write_line(ct, ci, s); };
 		auto jsw = [&](const string& s, bool noendl = false) { write_line(jst, jsi, s, true, noendl); };
 
-		for(CLModule* d : m.m_dependencies)
+		for(CLModule* d : m.m_modules)
 			cw("#include <" + d->m_subdir + "/Api.h>");
 		cw("#include <emscripten.h>");
 		cw("");
@@ -1549,7 +1549,6 @@ namespace clgen
 				}*/
 			}
 
-			cw("\n}\n\n");
 			jsw("");
 			jsw("(function() {");
 			jsw("function setupEnums() {");
@@ -1557,13 +1556,12 @@ namespace clgen
 			for(auto& pe : m.m_enums)
 			{
 				CLEnum& e = *pe;
-				cw("// '" + e.m_name + "'");
-				jsw("");
-				jsw("// '" + e.m_name + "'");
+				cw("// " + e.m_name);
+				jsw("// " + e.m_name);
 				for(size_t i = 0; i < e.m_ids.size(); ++i)
 				{
 					string f = "emscripten_enum_" + e.m_name + "_" + e.m_ids[i];
-					cw(e.m_name + " EMSCRIPTEN_KEEPALIVE " + f + "() {");
+					cw(e.m_id + " EMSCRIPTEN_KEEPALIVE " + f + "() {");
 					cw("return " + e.m_scoped_ids[i] + ";");
 					cw("}");
 
@@ -1578,6 +1576,8 @@ namespace clgen
 			jsw("if (Module['calledRun']) setupEnums();");
 			jsw("else addOnPreMain(setupEnums);");
 			jsw("})();");
+
+			cw("\n}\n\n");
 
 			write_file((m.m_bind_path + "\\" + "glue.cpp").c_str(), ct.c_str());
 			write_file((m.m_bind_path + "\\" + "glue.js").c_str(), jst.c_str());

@@ -2,6 +2,7 @@
 #include <type/Api.h>
 #include <math/Api.h>
 #include <geom/Api.h>
+#include <fract/Api.h>
 #include <emscripten.h>
 
 
@@ -107,17 +108,17 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE Pattern___destroy__(mud::Pattern* self) {
 		delete self;
 	}
+	// PatternSampling
+	mud::PatternSampling EMSCRIPTEN_KEEPALIVE emscripten_enum_PatternSampling_X() {
+		return mud::PatternSampling::X;
+	}
+	mud::PatternSampling EMSCRIPTEN_KEEPALIVE emscripten_enum_PatternSampling_XY() {
+		return mud::PatternSampling::XY;
+	}
+	mud::PatternSampling EMSCRIPTEN_KEEPALIVE emscripten_enum_PatternSampling_Depth() {
+		return mud::PatternSampling::Depth;
+	}
 	
 }
 
 
-// 'PatternSampling'
-PatternSampling EMSCRIPTEN_KEEPALIVE emscripten_enum_PatternSampling_X() {
-	return mud::PatternSampling::X;
-}
-PatternSampling EMSCRIPTEN_KEEPALIVE emscripten_enum_PatternSampling_XY() {
-	return mud::PatternSampling::XY;
-}
-PatternSampling EMSCRIPTEN_KEEPALIVE emscripten_enum_PatternSampling_Depth() {
-	return mud::PatternSampling::Depth;
-}

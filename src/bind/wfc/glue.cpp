@@ -3,6 +3,7 @@
 #include <srlz/Api.h>
 #include <math/Api.h>
 #include <geom/Api.h>
+#include <wfc/Api.h>
 #include <emscripten.h>
 
 
@@ -90,17 +91,17 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE WaveTileset___destroy__(mud::WaveTileset* self) {
 		delete self;
 	}
+	// Result
+	mud::Result EMSCRIPTEN_KEEPALIVE emscripten_enum_Result_kSuccess() {
+		return mud::kSuccess;
+	}
+	mud::Result EMSCRIPTEN_KEEPALIVE emscripten_enum_Result_kFail() {
+		return mud::kFail;
+	}
+	mud::Result EMSCRIPTEN_KEEPALIVE emscripten_enum_Result_kUnfinished() {
+		return mud::kUnfinished;
+	}
 	
 }
 
 
-// 'Result'
-Result EMSCRIPTEN_KEEPALIVE emscripten_enum_Result_kSuccess() {
-	return mud::kSuccess;
-}
-Result EMSCRIPTEN_KEEPALIVE emscripten_enum_Result_kFail() {
-	return mud::kFail;
-}
-Result EMSCRIPTEN_KEEPALIVE emscripten_enum_Result_kUnfinished() {
-	return mud::kUnfinished;
-}

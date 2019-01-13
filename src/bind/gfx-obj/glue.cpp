@@ -4,6 +4,7 @@
 #include <math/Api.h>
 #include <geom/Api.h>
 #include <gfx/Api.h>
+#include <gfx-obj/Api.h>
 #include <emscripten.h>
 
 

@@ -386,8 +386,7 @@ MouseEvent.prototype["__destroy__"] = MouseEvent.prototype.__destroy__ = functio
 
 (function() {
     function setupEnums() {
-        
-        // 'DeviceType'
+        // DeviceType
         Module['DeviceType']['None'] = _emscripten_enum_DeviceType_None();
         Module['DeviceType']['Keyboard'] = _emscripten_enum_DeviceType_Keyboard();
         Module['DeviceType']['Mouse'] = _emscripten_enum_DeviceType_Mouse();
@@ -396,8 +395,7 @@ MouseEvent.prototype["__destroy__"] = MouseEvent.prototype.__destroy__ = functio
         Module['DeviceType']['MouseMiddle'] = _emscripten_enum_DeviceType_MouseMiddle();
         Module['DeviceType']['Touch'] = _emscripten_enum_DeviceType_Touch();
         Module['DeviceType']['Count'] = _emscripten_enum_DeviceType_Count();
-        
-        // 'EventType'
+        // EventType
         Module['EventType']['None'] = _emscripten_enum_EventType_None();
         Module['EventType']['Heartbeat'] = _emscripten_enum_EventType_Heartbeat();
         Module['EventType']['Moved'] = _emscripten_enum_EventType_Moved();
@@ -411,15 +409,13 @@ MouseEvent.prototype["__destroy__"] = MouseEvent.prototype.__destroy__ = functio
         Module['EventType']['DragEnded'] = _emscripten_enum_EventType_DragEnded();
         Module['EventType']['Dropped'] = _emscripten_enum_EventType_Dropped();
         Module['EventType']['Count'] = _emscripten_enum_EventType_Count();
-        
-        // 'InputMod'
+        // InputMod
         Module['InputMod']['None'] = _emscripten_enum_InputMod_None();
         Module['InputMod']['Shift'] = _emscripten_enum_InputMod_Shift();
         Module['InputMod']['Ctrl'] = _emscripten_enum_InputMod_Ctrl();
         Module['InputMod']['Alt'] = _emscripten_enum_InputMod_Alt();
         Module['InputMod']['Any'] = _emscripten_enum_InputMod_Any();
-        
-        // 'Key'
+        // Key
         Module['Key']['Unassigned'] = _emscripten_enum_Key_Unassigned();
         Module['Key']['Escape'] = _emscripten_enum_Key_Escape();
         Module['Key']['Num1'] = _emscripten_enum_Key_Num1();
@@ -530,8 +526,7 @@ MouseEvent.prototype["__destroy__"] = MouseEvent.prototype.__destroy__ = functio
         Module['Key']['LeftWin'] = _emscripten_enum_Key_LeftWin();
         Module['Key']['RightWin'] = _emscripten_enum_Key_RightWin();
         Module['Key']['Translated'] = _emscripten_enum_Key_Translated();
-        
-        // 'MouseButtonCode'
+        // MouseButtonCode
         Module['LEFT_BUTTON'] = _emscripten_enum_MouseButtonCode_LEFT_BUTTON();
         Module['RIGHT_BUTTON'] = _emscripten_enum_MouseButtonCode_RIGHT_BUTTON();
         Module['MIDDLE_BUTTON'] = _emscripten_enum_MouseButtonCode_MIDDLE_BUTTON();

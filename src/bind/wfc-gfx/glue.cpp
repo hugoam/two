@@ -10,6 +10,7 @@
 #include <uio/Api.h>
 #include <gfx/Api.h>
 #include <gfx-ui/Api.h>
+#include <wfc-gfx/Api.h>
 #include <emscripten.h>
 
 

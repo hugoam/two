@@ -8,6 +8,7 @@
 #include <uio/Api.h>
 #include <gfx/Api.h>
 #include <gfx-pbr/Api.h>
+#include <gfx-edit/Api.h>
 #include <emscripten.h>
 
 

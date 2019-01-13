@@ -1,6 +1,7 @@
 #include <infra/Api.h>
 #include <type/Api.h>
 #include <refl/Api.h>
+#include <ecs/Api.h>
 #include <emscripten.h>
 
 

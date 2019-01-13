@@ -13,6 +13,7 @@
 #include <gfx-pbr/Api.h>
 #include <gfx-ui/Api.h>
 #include <gfx-edit/Api.h>
+#include <tool/Api.h>
 #include <emscripten.h>
 
 
@@ -222,17 +223,17 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE WorldSnapOption___destroy__(mud::WorldSnapOption* self) {
 		delete self;
 	}
+	// ToolState
+	mud::ToolState EMSCRIPTEN_KEEPALIVE emscripten_enum_ToolState_Inactive() {
+		return mud::ToolState::Inactive;
+	}
+	mud::ToolState EMSCRIPTEN_KEEPALIVE emscripten_enum_ToolState_Done() {
+		return mud::ToolState::Done;
+	}
+	mud::ToolState EMSCRIPTEN_KEEPALIVE emscripten_enum_ToolState_Active() {
+		return mud::ToolState::Active;
+	}
 	
 }
 
 
-// 'ToolState'
-ToolState EMSCRIPTEN_KEEPALIVE emscripten_enum_ToolState_Inactive() {
-	return mud::ToolState::Inactive;
-}
-ToolState EMSCRIPTEN_KEEPALIVE emscripten_enum_ToolState_Done() {
-	return mud::ToolState::Done;
-}
-ToolState EMSCRIPTEN_KEEPALIVE emscripten_enum_ToolState_Active() {
-	return mud::ToolState::Active;
-}

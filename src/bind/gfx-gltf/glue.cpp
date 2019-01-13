@@ -6,6 +6,7 @@
 #include <geom/Api.h>
 #include <gfx/Api.h>
 #include <gltf/Api.h>
+#include <gfx-gltf/Api.h>
 #include <emscripten.h>
 
 

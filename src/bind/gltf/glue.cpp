@@ -3,6 +3,7 @@
 #include <refl/Api.h>
 #include <srlz/Api.h>
 #include <math/Api.h>
+#include <gltf/Api.h>
 #include <emscripten.h>
 
 
@@ -578,96 +579,96 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE glTFTextureInfo___destroy__(glTFTextureInfo* self) {
 		delete self;
 	}
+	// glTFAlphaMode
+	glTFAlphaMode EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFAlphaMode_OPAQUE() {
+		return glTFAlphaMode::OPAQUE;
+	}
+	glTFAlphaMode EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFAlphaMode_MASK() {
+		return glTFAlphaMode::MASK;
+	}
+	glTFAlphaMode EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFAlphaMode_BLEND() {
+		return glTFAlphaMode::BLEND;
+	}
+	// glTFComponentType
+	glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_BYTE() {
+		return glTFComponentType::BYTE;
+	}
+	glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_UNSIGNED_BYTE() {
+		return glTFComponentType::UNSIGNED_BYTE;
+	}
+	glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_SHORT() {
+		return glTFComponentType::SHORT;
+	}
+	glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_UNSIGNED_SHORT() {
+		return glTFComponentType::UNSIGNED_SHORT;
+	}
+	glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_INT() {
+		return glTFComponentType::INT;
+	}
+	glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_FLOAT() {
+		return glTFComponentType::FLOAT;
+	}
+	// glTFInterpolation
+	glTFInterpolation EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFInterpolation_LINEAR() {
+		return glTFInterpolation::LINEAR;
+	}
+	glTFInterpolation EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFInterpolation_STEP() {
+		return glTFInterpolation::STEP;
+	}
+	glTFInterpolation EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFInterpolation_CATMULLROMSPLINE() {
+		return glTFInterpolation::CATMULLROMSPLINE;
+	}
+	glTFInterpolation EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFInterpolation_CUBIC_SPLINE() {
+		return glTFInterpolation::CUBIC_SPLINE;
+	}
+	// glTFPrimitiveType
+	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_POINTS() {
+		return glTFPrimitiveType::POINTS;
+	}
+	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_LINES() {
+		return glTFPrimitiveType::LINES;
+	}
+	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_LINE_LOOP() {
+		return glTFPrimitiveType::LINE_LOOP;
+	}
+	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_LINE_STRIP() {
+		return glTFPrimitiveType::LINE_STRIP;
+	}
+	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_TRIANGLES() {
+		return glTFPrimitiveType::TRIANGLES;
+	}
+	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_TRIANGLE_STRIP() {
+		return glTFPrimitiveType::TRIANGLE_STRIP;
+	}
+	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_TRIANGLE_FAN() {
+		return glTFPrimitiveType::TRIANGLE_FAN;
+	}
+	// glTFType
+	glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_SCALAR() {
+		return glTFType::SCALAR;
+	}
+	glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_VEC2() {
+		return glTFType::VEC2;
+	}
+	glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_VEC3() {
+		return glTFType::VEC3;
+	}
+	glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_VEC4() {
+		return glTFType::VEC4;
+	}
+	glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_MAT2() {
+		return glTFType::MAT2;
+	}
+	glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_MAT3() {
+		return glTFType::MAT3;
+	}
+	glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_MAT4() {
+		return glTFType::MAT4;
+	}
+	glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_INVALID() {
+		return glTFType::INVALID;
+	}
 	
 }
 
 
-// 'glTFAlphaMode'
-glTFAlphaMode EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFAlphaMode_OPAQUE() {
-	return glTFAlphaMode::OPAQUE;
-}
-glTFAlphaMode EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFAlphaMode_MASK() {
-	return glTFAlphaMode::MASK;
-}
-glTFAlphaMode EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFAlphaMode_BLEND() {
-	return glTFAlphaMode::BLEND;
-}
-// 'glTFComponentType'
-glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_BYTE() {
-	return glTFComponentType::BYTE;
-}
-glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_UNSIGNED_BYTE() {
-	return glTFComponentType::UNSIGNED_BYTE;
-}
-glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_SHORT() {
-	return glTFComponentType::SHORT;
-}
-glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_UNSIGNED_SHORT() {
-	return glTFComponentType::UNSIGNED_SHORT;
-}
-glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_INT() {
-	return glTFComponentType::INT;
-}
-glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_FLOAT() {
-	return glTFComponentType::FLOAT;
-}
-// 'glTFInterpolation'
-glTFInterpolation EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFInterpolation_LINEAR() {
-	return glTFInterpolation::LINEAR;
-}
-glTFInterpolation EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFInterpolation_STEP() {
-	return glTFInterpolation::STEP;
-}
-glTFInterpolation EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFInterpolation_CATMULLROMSPLINE() {
-	return glTFInterpolation::CATMULLROMSPLINE;
-}
-glTFInterpolation EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFInterpolation_CUBIC_SPLINE() {
-	return glTFInterpolation::CUBIC_SPLINE;
-}
-// 'glTFPrimitiveType'
-glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_POINTS() {
-	return glTFPrimitiveType::POINTS;
-}
-glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_LINES() {
-	return glTFPrimitiveType::LINES;
-}
-glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_LINE_LOOP() {
-	return glTFPrimitiveType::LINE_LOOP;
-}
-glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_LINE_STRIP() {
-	return glTFPrimitiveType::LINE_STRIP;
-}
-glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_TRIANGLES() {
-	return glTFPrimitiveType::TRIANGLES;
-}
-glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_TRIANGLE_STRIP() {
-	return glTFPrimitiveType::TRIANGLE_STRIP;
-}
-glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_TRIANGLE_FAN() {
-	return glTFPrimitiveType::TRIANGLE_FAN;
-}
-// 'glTFType'
-glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_SCALAR() {
-	return glTFType::SCALAR;
-}
-glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_VEC2() {
-	return glTFType::VEC2;
-}
-glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_VEC3() {
-	return glTFType::VEC3;
-}
-glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_VEC4() {
-	return glTFType::VEC4;
-}
-glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_MAT2() {
-	return glTFType::MAT2;
-}
-glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_MAT3() {
-	return glTFType::MAT3;
-}
-glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_MAT4() {
-	return glTFType::MAT4;
-}
-glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_INVALID() {
-	return glTFType::INVALID;
-}

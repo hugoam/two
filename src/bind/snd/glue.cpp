@@ -1,3 +1,4 @@
+#include <snd/Api.h>
 #include <emscripten.h>
 
 

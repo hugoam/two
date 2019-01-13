@@ -1,5 +1,6 @@
 #include <infra/Api.h>
 #include <type/Api.h>
+#include <math/Api.h>
 #include <emscripten.h>
 
 
@@ -446,95 +447,95 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE TextureAtlas___destroy__(mud::TextureAtlas* self) {
 		delete self;
 	}
+	// Axes
+	mud::Axes EMSCRIPTEN_KEEPALIVE emscripten_enum_Axes_None() {
+		return mud::Axes::None;
+	}
+	mud::Axes EMSCRIPTEN_KEEPALIVE emscripten_enum_Axes_X() {
+		return mud::Axes::X;
+	}
+	mud::Axes EMSCRIPTEN_KEEPALIVE emscripten_enum_Axes_Y() {
+		return mud::Axes::Y;
+	}
+	mud::Axes EMSCRIPTEN_KEEPALIVE emscripten_enum_Axes_Z() {
+		return mud::Axes::Z;
+	}
+	// Axis
+	mud::Axis EMSCRIPTEN_KEEPALIVE emscripten_enum_Axis_X() {
+		return mud::Axis::X;
+	}
+	mud::Axis EMSCRIPTEN_KEEPALIVE emscripten_enum_Axis_Y() {
+		return mud::Axis::Y;
+	}
+	mud::Axis EMSCRIPTEN_KEEPALIVE emscripten_enum_Axis_Z() {
+		return mud::Axis::Z;
+	}
+	// Clockwise
+	mud::Clockwise EMSCRIPTEN_KEEPALIVE emscripten_enum_Clockwise_CLOCKWISE() {
+		return mud::CLOCKWISE;
+	}
+	mud::Clockwise EMSCRIPTEN_KEEPALIVE emscripten_enum_Clockwise_ANTI_CLOCKWISE() {
+		return mud::ANTI_CLOCKWISE;
+	}
+	// Side
+	mud::Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Right() {
+		return mud::Side::Right;
+	}
+	mud::Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Left() {
+		return mud::Side::Left;
+	}
+	mud::Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Up() {
+		return mud::Side::Up;
+	}
+	mud::Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Down() {
+		return mud::Side::Down;
+	}
+	mud::Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Back() {
+		return mud::Side::Back;
+	}
+	mud::Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Front() {
+		return mud::Side::Front;
+	}
+	// SignedAxis
+	mud::SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_PlusX() {
+		return mud::SignedAxis::PlusX;
+	}
+	mud::SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_MinusX() {
+		return mud::SignedAxis::MinusX;
+	}
+	mud::SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_PlusY() {
+		return mud::SignedAxis::PlusY;
+	}
+	mud::SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_MinusY() {
+		return mud::SignedAxis::MinusY;
+	}
+	mud::SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_PlusZ() {
+		return mud::SignedAxis::PlusZ;
+	}
+	mud::SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_MinusZ() {
+		return mud::SignedAxis::MinusZ;
+	}
+	// Spectrum
+	mud::Spectrum EMSCRIPTEN_KEEPALIVE emscripten_enum_Spectrum_Value() {
+		return mud::Spectrum::Value;
+	}
+	mud::Spectrum EMSCRIPTEN_KEEPALIVE emscripten_enum_Spectrum_Hue() {
+		return mud::Spectrum::Hue;
+	}
+	// TrackMode
+	mud::TrackMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TrackMode_Constant() {
+		return mud::TrackMode::Constant;
+	}
+	mud::TrackMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TrackMode_ConstantRandom() {
+		return mud::TrackMode::ConstantRandom;
+	}
+	mud::TrackMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TrackMode_Curve() {
+		return mud::TrackMode::Curve;
+	}
+	mud::TrackMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TrackMode_CurveRandom() {
+		return mud::TrackMode::CurveRandom;
+	}
 	
 }
 
 
-// 'Axes'
-Axes EMSCRIPTEN_KEEPALIVE emscripten_enum_Axes_None() {
-	return mud::Axes::None;
-}
-Axes EMSCRIPTEN_KEEPALIVE emscripten_enum_Axes_X() {
-	return mud::Axes::X;
-}
-Axes EMSCRIPTEN_KEEPALIVE emscripten_enum_Axes_Y() {
-	return mud::Axes::Y;
-}
-Axes EMSCRIPTEN_KEEPALIVE emscripten_enum_Axes_Z() {
-	return mud::Axes::Z;
-}
-// 'Axis'
-Axis EMSCRIPTEN_KEEPALIVE emscripten_enum_Axis_X() {
-	return mud::Axis::X;
-}
-Axis EMSCRIPTEN_KEEPALIVE emscripten_enum_Axis_Y() {
-	return mud::Axis::Y;
-}
-Axis EMSCRIPTEN_KEEPALIVE emscripten_enum_Axis_Z() {
-	return mud::Axis::Z;
-}
-// 'Clockwise'
-Clockwise EMSCRIPTEN_KEEPALIVE emscripten_enum_Clockwise_CLOCKWISE() {
-	return mud::CLOCKWISE;
-}
-Clockwise EMSCRIPTEN_KEEPALIVE emscripten_enum_Clockwise_ANTI_CLOCKWISE() {
-	return mud::ANTI_CLOCKWISE;
-}
-// 'Side'
-Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Right() {
-	return mud::Side::Right;
-}
-Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Left() {
-	return mud::Side::Left;
-}
-Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Up() {
-	return mud::Side::Up;
-}
-Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Down() {
-	return mud::Side::Down;
-}
-Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Back() {
-	return mud::Side::Back;
-}
-Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Front() {
-	return mud::Side::Front;
-}
-// 'SignedAxis'
-SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_PlusX() {
-	return mud::SignedAxis::PlusX;
-}
-SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_MinusX() {
-	return mud::SignedAxis::MinusX;
-}
-SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_PlusY() {
-	return mud::SignedAxis::PlusY;
-}
-SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_MinusY() {
-	return mud::SignedAxis::MinusY;
-}
-SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_PlusZ() {
-	return mud::SignedAxis::PlusZ;
-}
-SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_MinusZ() {
-	return mud::SignedAxis::MinusZ;
-}
-// 'Spectrum'
-Spectrum EMSCRIPTEN_KEEPALIVE emscripten_enum_Spectrum_Value() {
-	return mud::Spectrum::Value;
-}
-Spectrum EMSCRIPTEN_KEEPALIVE emscripten_enum_Spectrum_Hue() {
-	return mud::Spectrum::Hue;
-}
-// 'TrackMode'
-TrackMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TrackMode_Constant() {
-	return mud::TrackMode::Constant;
-}
-TrackMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TrackMode_ConstantRandom() {
-	return mud::TrackMode::ConstantRandom;
-}
-TrackMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TrackMode_Curve() {
-	return mud::TrackMode::Curve;
-}
-TrackMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TrackMode_CurveRandom() {
-	return mud::TrackMode::CurveRandom;
-}

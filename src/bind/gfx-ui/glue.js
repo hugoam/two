@@ -178,8 +178,7 @@ SceneViewer.prototype["__destroy__"] = SceneViewer.prototype.__destroy__ = funct
 
 (function() {
     function setupEnums() {
-        
-        // 'OrbitMode'
+        // OrbitMode
         Module['OrbitMode']['ThirdPerson'] = _emscripten_enum_OrbitMode_ThirdPerson();
         Module['OrbitMode']['Isometric'] = _emscripten_enum_OrbitMode_Isometric();
         Module['OrbitMode']['PseudoIsometric'] = _emscripten_enum_OrbitMode_PseudoIsometric();

@@ -16,13 +16,11 @@ ScriptEditor.prototype["__destroy__"] = ScriptEditor.prototype.__destroy__ = fun
 
 (function() {
     function setupEnums() {
-        
-        // 'EditNestMode'
+        // EditNestMode
         Module['EditNestMode']['Inline'] = _emscripten_enum_EditNestMode_Inline();
         Module['EditNestMode']['Modal'] = _emscripten_enum_EditNestMode_Modal();
         Module['EditNestMode']['Embed'] = _emscripten_enum_EditNestMode_Embed();
-        
-        // 'EditorHint'
+        // EditorHint
         Module['EditorHint']['Table'] = _emscripten_enum_EditorHint_Table();
         Module['EditorHint']['Rows'] = _emscripten_enum_EditorHint_Rows();
         Module['EditorHint']['Inline'] = _emscripten_enum_EditorHint_Inline();
