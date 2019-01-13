@@ -22,13 +22,13 @@ extern "C" {
 		return new mud::Colour();
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE Colour_Colour_1(float v) {
-		return new mud::Colour(v, a);
+		return new mud::Colour(v);
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE Colour_Colour_2(float v, float a) {
 		return new mud::Colour(v, a);
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE Colour_Colour_3(float r, float g, float b) {
-		return new mud::Colour(r, g, b, a);
+		return new mud::Colour(r, g, b);
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE Colour_Colour_4(float r, float g, float b, float a) {
 		return new mud::Colour(r, g, b, a);
@@ -53,7 +53,7 @@ extern "C" {
 		return new mud::Gauge();
 	}
 	mud::Gauge* EMSCRIPTEN_KEEPALIVE Gauge_Gauge_0() {
-		return new mud::Gauge(value);
+		return new mud::Gauge();
 	}
 	mud::Gauge* EMSCRIPTEN_KEEPALIVE Gauge_Gauge_1(float value) {
 		return new mud::Gauge(value);
@@ -73,13 +73,13 @@ extern "C" {
 		return new mud::Image256();
 	}
 	mud::Image256* EMSCRIPTEN_KEEPALIVE Image256_Image256_0() {
-		return new mud::Image256(width, height, *palette);
+		return new mud::Image256();
 	}
 	mud::Image256* EMSCRIPTEN_KEEPALIVE Image256_Image256_1(uint16_t width) {
-		return new mud::Image256(width, height, *palette);
+		return new mud::Image256(width);
 	}
 	mud::Image256* EMSCRIPTEN_KEEPALIVE Image256_Image256_2(uint16_t width, uint16_t height) {
-		return new mud::Image256(width, height, *palette);
+		return new mud::Image256(width, height);
 	}
 	mud::Image256* EMSCRIPTEN_KEEPALIVE Image256_Image256_3(uint16_t width, uint16_t height, const mud::Palette* palette) {
 		return new mud::Image256(width, height, *palette);
@@ -122,7 +122,7 @@ extern "C" {
 		return new mud::Ratio();
 	}
 	mud::Ratio* EMSCRIPTEN_KEEPALIVE Ratio_Ratio_0() {
-		return new mud::Ratio(value);
+		return new mud::Ratio();
 	}
 	mud::Ratio* EMSCRIPTEN_KEEPALIVE Ratio_Ratio_1(float value) {
 		return new mud::Ratio(value);

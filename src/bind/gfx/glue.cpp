@@ -22,25 +22,25 @@ extern "C" {
 	}
 	// Animated
 	void EMSCRIPTEN_KEEPALIVE Animated_start_2(mud::Animated* self, const char* animation, bool loop) {
-		self->start(animation, loop, blend, speed, transient);
+		self->start(animation, loop);
 	}
 	void EMSCRIPTEN_KEEPALIVE Animated_start_3(mud::Animated* self, const char* animation, bool loop, float blend) {
-		self->start(animation, loop, blend, speed, transient);
+		self->start(animation, loop, blend);
 	}
 	void EMSCRIPTEN_KEEPALIVE Animated_start_4(mud::Animated* self, const char* animation, bool loop, float blend, float speed) {
-		self->start(animation, loop, blend, speed, transient);
+		self->start(animation, loop, blend, speed);
 	}
 	void EMSCRIPTEN_KEEPALIVE Animated_start_5(mud::Animated* self, const char* animation, bool loop, float blend, float speed, bool transient) {
 		self->start(animation, loop, blend, speed, transient);
 	}
 	void EMSCRIPTEN_KEEPALIVE Animated_play_2(mud::Animated* self, const mud::Animation* animation, bool loop) {
-		self->play(*animation, loop, blend, speed, transient);
+		self->play(*animation, loop);
 	}
 	void EMSCRIPTEN_KEEPALIVE Animated_play_3(mud::Animated* self, const mud::Animation* animation, bool loop, float blend) {
-		self->play(*animation, loop, blend, speed, transient);
+		self->play(*animation, loop, blend);
 	}
 	void EMSCRIPTEN_KEEPALIVE Animated_play_4(mud::Animated* self, const mud::Animation* animation, bool loop, float blend, float speed) {
-		self->play(*animation, loop, blend, speed, transient);
+		self->play(*animation, loop, blend, speed);
 	}
 	void EMSCRIPTEN_KEEPALIVE Animated_play_5(mud::Animated* self, const mud::Animation* animation, bool loop, float blend, float speed, bool transient) {
 		self->play(*animation, loop, blend, speed, transient);
@@ -429,7 +429,7 @@ extern "C" {
 		return &self->debug_material();
 	}
 	mud::Material* EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_material_2(mud::GfxSystem* self, const char* name, const char* shader) {
-		return &self->fetch_material(name, shader, builtin);
+		return &self->fetch_material(name, shader);
 	}
 	mud::Material* EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_material_3(mud::GfxSystem* self, const char* name, const char* shader, bool builtin) {
 		return &self->fetch_material(name, shader, builtin);
@@ -793,10 +793,10 @@ extern "C" {
 		return new mud::PbrMaterialBlock();
 	}
 	mud::PbrMaterialBlock* EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_PbrMaterialBlock_1(const mud::Colour* albedo) {
-		return new mud::PbrMaterialBlock(*albedo, metallic, roughness);
+		return new mud::PbrMaterialBlock(*albedo);
 	}
 	mud::PbrMaterialBlock* EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_PbrMaterialBlock_2(const mud::Colour* albedo, float metallic) {
-		return new mud::PbrMaterialBlock(*albedo, metallic, roughness);
+		return new mud::PbrMaterialBlock(*albedo, metallic);
 	}
 	mud::PbrMaterialBlock* EMSCRIPTEN_KEEPALIVE PbrMaterialBlock_PbrMaterialBlock_3(const mud::Colour* albedo, float metallic, float roughness) {
 		return new mud::PbrMaterialBlock(*albedo, metallic, roughness);

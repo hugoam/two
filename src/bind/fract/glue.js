@@ -7,7 +7,6 @@ function Circlifier(image) {
     var self = this.ptr;
     /* image <Image256> [] */
     image = image.ptr;
-    if (image === undefined) { this.ptr = _Circlifier_Circlifier_0(self); getCache(Circlifier)[this.ptr] = this; return; }
     this.ptr = _Circlifier_Circlifier_1(self, image); getCache(Circlifier)[this.ptr] = this;
 };
 Circlifier.prototype = Object.create(WrapperObject.prototype);

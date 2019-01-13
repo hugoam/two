@@ -1313,7 +1313,7 @@ namespace clgen
 
 		auto c_call_args_n = [&](const CLClass& c, const CLFunction& f, size_t i, bool ctor)
 		{
-			return transform<string>(f.m_params, [](const CLParam& p) { return (p.m_type.reference() ? "*" : "") + p.m_name; });
+			return transform<string>(0, i, [&](size_t i) { return (f.m_params[i].m_type.reference() ? "*" : "") + f.m_params[i].m_name; });
 		};
 
 		auto c_call_n = [&](const CLClass& c, const CLFunction& f, size_t i, bool ctor)

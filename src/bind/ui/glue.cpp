@@ -71,10 +71,10 @@ extern "C" {
 		return new mud::ImageSkin();
 	}
 	mud::ImageSkin* EMSCRIPTEN_KEEPALIVE ImageSkin_ImageSkin_5(mud::Image* image, int left, int top, int right, int bottom) {
-		return new mud::ImageSkin(*image, left, top, right, bottom, margin, stretch);
+		return new mud::ImageSkin(*image, left, top, right, bottom);
 	}
 	mud::ImageSkin* EMSCRIPTEN_KEEPALIVE ImageSkin_ImageSkin_6(mud::Image* image, int left, int top, int right, int bottom, int margin) {
-		return new mud::ImageSkin(*image, left, top, right, bottom, margin, stretch);
+		return new mud::ImageSkin(*image, left, top, right, bottom, margin);
 	}
 	mud::ImageSkin* EMSCRIPTEN_KEEPALIVE ImageSkin_ImageSkin_7(mud::Image* image, int left, int top, int right, int bottom, int margin, mud::Dim stretch) {
 		return new mud::ImageSkin(*image, left, top, right, bottom, margin, stretch);
@@ -295,7 +295,7 @@ extern "C" {
 		return new mud::Shadow();
 	}
 	mud::Shadow* EMSCRIPTEN_KEEPALIVE Shadow_Shadow_4(float xpos, float ypos, float blur, float spread) {
-		return new mud::Shadow(xpos, ypos, blur, spread, colour);
+		return new mud::Shadow(xpos, ypos, blur, spread);
 	}
 	mud::Shadow* EMSCRIPTEN_KEEPALIVE Shadow_Shadow_5(float xpos, float ypos, float blur, float spread, mud::Colour* colour) {
 		return new mud::Shadow(xpos, ypos, blur, spread, colour);
@@ -516,7 +516,7 @@ extern "C" {
 	}
 	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_key_event_2(mud::Widget* self, mud::Key code, mud::EventType event_type) {
 		static mud::KeyEvent temp;
-		return (temp = self->key_event(code, event_type, modifier), &temp);
+		return (temp = self->key_event(code, event_type), &temp);
 	}
 	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_key_event_3(mud::Widget* self, mud::Key code, mud::EventType event_type, mud::InputMod modifier) {
 		static mud::KeyEvent temp;
@@ -524,7 +524,7 @@ extern "C" {
 	}
 	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_key_stroke_1(mud::Widget* self, mud::Key code) {
 		static mud::KeyEvent temp;
-		return (temp = self->key_stroke(code, modifier), &temp);
+		return (temp = self->key_stroke(code), &temp);
 	}
 	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_key_stroke_2(mud::Widget* self, mud::Key code, mud::InputMod modifier) {
 		static mud::KeyEvent temp;
@@ -532,7 +532,7 @@ extern "C" {
 	}
 	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_char_stroke_1(mud::Widget* self, mud::Key code) {
 		static mud::KeyEvent temp;
-		return (temp = self->char_stroke(code, modifier), &temp);
+		return (temp = self->char_stroke(code), &temp);
 	}
 	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_char_stroke_2(mud::Widget* self, mud::Key code, mud::InputMod modifier) {
 		static mud::KeyEvent temp;
@@ -540,11 +540,11 @@ extern "C" {
 	}
 	mud::MouseEvent* EMSCRIPTEN_KEEPALIVE Widget_mouse_event_2(mud::Widget* self, mud::DeviceType device, mud::EventType event_type) {
 		static mud::MouseEvent temp;
-		return (temp = self->mouse_event(device, event_type, modifier, consume), &temp);
+		return (temp = self->mouse_event(device, event_type), &temp);
 	}
 	mud::MouseEvent* EMSCRIPTEN_KEEPALIVE Widget_mouse_event_3(mud::Widget* self, mud::DeviceType device, mud::EventType event_type, mud::InputMod modifier) {
 		static mud::MouseEvent temp;
-		return (temp = self->mouse_event(device, event_type, modifier, consume), &temp);
+		return (temp = self->mouse_event(device, event_type, modifier), &temp);
 	}
 	mud::MouseEvent* EMSCRIPTEN_KEEPALIVE Widget_mouse_event_4(mud::Widget* self, mud::DeviceType device, mud::EventType event_type, mud::InputMod modifier, bool consume) {
 		static mud::MouseEvent temp;

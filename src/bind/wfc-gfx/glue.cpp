@@ -36,7 +36,7 @@ extern "C" {
 		return new mud::WfcBlock();
 	}
 	mud::WfcBlock* EMSCRIPTEN_KEEPALIVE WfcBlock_WfcBlock_4(const mud::vec3* position, const mud::uvec3* size, const mud::vec3* scale, mud::WaveTileset* tileset) {
-		return new mud::WfcBlock(*position, *size, *scale, *tileset, auto_solve);
+		return new mud::WfcBlock(*position, *size, *scale, *tileset);
 	}
 	mud::WfcBlock* EMSCRIPTEN_KEEPALIVE WfcBlock_WfcBlock_5(const mud::vec3* position, const mud::uvec3* size, const mud::vec3* scale, mud::WaveTileset* tileset, bool auto_solve) {
 		return new mud::WfcBlock(*position, *size, *scale, *tileset, auto_solve);
@@ -51,7 +51,7 @@ extern "C" {
 		self->propagate();
 	}
 	void EMSCRIPTEN_KEEPALIVE WfcBlock_solve_0(mud::WfcBlock* self) {
-		self->solve(limit);
+		self->solve();
 	}
 	void EMSCRIPTEN_KEEPALIVE WfcBlock_solve_1(mud::WfcBlock* self, size_t limit) {
 		self->solve(limit);

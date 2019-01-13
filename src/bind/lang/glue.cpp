@@ -158,7 +158,7 @@ extern "C" {
 	}
 	// TextScript
 	mud::TextScript* EMSCRIPTEN_KEEPALIVE TextScript_TextScript_2(const char* name, mud::Language language) {
-		return new mud::TextScript(name, language, *signature);
+		return new mud::TextScript(name, language);
 	}
 	mud::TextScript* EMSCRIPTEN_KEEPALIVE TextScript_TextScript_3(const char* name, mud::Language language, const mud::Signature* signature) {
 		return new mud::TextScript(name, language, *signature);
@@ -177,7 +177,7 @@ extern "C" {
 	}
 	// VisualScript
 	mud::VisualScript* EMSCRIPTEN_KEEPALIVE VisualScript_VisualScript_1(const char* name) {
-		return new mud::VisualScript(name, *signature);
+		return new mud::VisualScript(name);
 	}
 	mud::VisualScript* EMSCRIPTEN_KEEPALIVE VisualScript_VisualScript_2(const char* name, const mud::Signature* signature) {
 		return new mud::VisualScript(name, *signature);

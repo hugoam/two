@@ -17,9 +17,6 @@ extern "C" {
 			  }
 	}
 	// Circlifier
-	mud::Circlifier* EMSCRIPTEN_KEEPALIVE Circlifier_Circlifier_0() {
-		return new mud::Circlifier();
-	}
 	mud::Circlifier* EMSCRIPTEN_KEEPALIVE Circlifier_Circlifier_1(mud::Image256* image) {
 		return new mud::Circlifier(*image);
 	}
@@ -28,13 +25,13 @@ extern "C" {
 	}
 	// Fract
 	mud::Fract* EMSCRIPTEN_KEEPALIVE Fract_Fract_0() {
-		return new mud::Fract(num_tabs);
+		return new mud::Fract();
 	}
 	mud::Fract* EMSCRIPTEN_KEEPALIVE Fract_Fract_1(size_t num_tabs) {
 		return new mud::Fract(num_tabs);
 	}
 	void EMSCRIPTEN_KEEPALIVE Fract_generate_0(mud::Fract* self) {
-		self->generate(num_tabs);
+		self->generate();
 	}
 	void EMSCRIPTEN_KEEPALIVE Fract_generate_1(mud::Fract* self, size_t num_tabs) {
 		self->generate(num_tabs);
@@ -87,10 +84,10 @@ extern "C" {
 		return new mud::Pattern();
 	}
 	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_2(mud::Palette* palette, mud::PatternSampling sampling) {
-		return new mud::Pattern(palette, sampling, precision, step);
+		return new mud::Pattern(palette, sampling);
 	}
 	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_3(mud::Palette* palette, mud::PatternSampling sampling, float precision) {
-		return new mud::Pattern(palette, sampling, precision, step);
+		return new mud::Pattern(palette, sampling, precision);
 	}
 	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_4(mud::Palette* palette, mud::PatternSampling sampling, float precision, size_t step) {
 		return new mud::Pattern(palette, sampling, precision, step);
