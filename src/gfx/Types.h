@@ -68,6 +68,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::BaseMaterialBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Bone>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Camera>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::Culler>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::DepthParams>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Environment>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Filter>();
@@ -135,6 +136,7 @@ namespace mud
     export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::BaseMaterialBlock*>>;
     export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Bone*>>;
     export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Camera*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Culler*>>;
     export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::DepthParams*>>;
     export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Environment*>>;
     export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Filter*>>;

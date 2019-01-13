@@ -150,7 +150,7 @@ function mud_module_decl(m)
     if _OPTIONS["gcc"] == "asmjs" and _OPTIONS["embind"] and m.reflect then
         removeflags { "NoRTTI" }
         files {
-            path.join(m.root, "bind", m.subdir, "Embind.cpp")
+            path.join(m.root, "bind", m.subdir, "glue.cpp")
         }
     end
 end

@@ -25,7 +25,7 @@ namespace mud
 		bool culled;
 	};
 
-	export_ struct refl_ MUD_FRACT_EXPORT Circlifier
+	export_ class refl_ MUD_FRACT_EXPORT Circlifier
 	{
 	public:
 		constr_ Circlifier(Image256& image);

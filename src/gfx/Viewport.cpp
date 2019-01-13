@@ -17,7 +17,6 @@ module mud.gfx;
 #include <gfx/Renderer.h>
 #include <gfx/Froxel.h>
 #include <gfx/Shot.h>
-#include <gfx/Culling.h>
 #endif
 
 //#define NO_OCCLUSION_CULLING
@@ -32,6 +31,7 @@ namespace mud
 		, m_index(viewportIndex++)
 		, m_rect(rect)
 		, m_scissor(scissor)
+		, m_culler(*this)
 	{}
 
 	Viewport::~Viewport()
@@ -54,10 +54,7 @@ namespace mud
 	void Viewport::cull(Render& render)
 	{
 #ifndef NO_OCCLUSION_CULLING
-		if(!m_culler)
-			m_culler = make_unique<Culler>(*this);
-		if(m_culler)
-			m_culler->render(render);
+		m_culler.render(render);
 #else
 		UNUSED(render);
 #endif

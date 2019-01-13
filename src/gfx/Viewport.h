@@ -10,6 +10,7 @@
 #endif
 #include <gfx/Forward.h>
 #include <gfx/Renderer.h>
+#include <gfx/Culling.h>
 
 #ifndef MUD_CPP_20
 #include <functional>
@@ -64,7 +65,7 @@ namespace mud
 		std::function<uvec4()> m_get_size;
 		std::function<void(Render&)> m_render;
 
-		unique_ptr<Culler> m_culler;
+		Culler m_culler;
 
 		void render_pass(cstring name, const Pass& render_pass);
 
