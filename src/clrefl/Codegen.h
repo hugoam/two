@@ -1405,7 +1405,7 @@ namespace clgen
 			if(f.m_kind == CLPrimitiveKind::Constructor || f.m_kind == CLPrimitiveKind::Function)
 				return c_binding_args(f, i);
 			else if(f.m_kind == CLPrimitiveKind::Method)
-				return f.m_parent->m_id + "* self" + (f.m_params.size() > 0 ? ", " + c_binding_args(f, i) : "");
+				return f.m_parent->m_id + "* self" + (i > 0 ? ", " + c_binding_args(f, i) : "");
 		};
 
 		auto c_binding_body = [&]()

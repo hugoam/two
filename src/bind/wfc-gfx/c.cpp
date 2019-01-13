@@ -48,7 +48,7 @@ extern "C" {
 	void DECL mud_WfcBlock_reset_0(mud::WfcBlock* self) {
 		self->reset();
 	}
-	void DECL mud_WfcBlock_solve_0(mud::WfcBlock* self, ) {
+	void DECL mud_WfcBlock_solve_0(mud::WfcBlock* self) {
 		self->solve();
 	}
 	void DECL mud_WfcBlock_solve_1(mud::WfcBlock* self, size_t limit) {
