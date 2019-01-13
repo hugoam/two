@@ -28,11 +28,11 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE Context_lock_mouse_1(mud::Context* self, bool locked) {
 		self->lock_mouse(locked);
 	}
-	const std::string EMSCRIPTEN_KEEPALIVE Context_get_resource_path(mud::Context* self) {
-		return self->m_resource_path;
+	const char* EMSCRIPTEN_KEEPALIVE Context_get_resource_path(mud::Context* self) {
+		return self->m_resource_path.c_str();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE Context_get_title(mud::Context* self) {
-		return self->m_title;
+	const char* EMSCRIPTEN_KEEPALIVE Context_get_title(mud::Context* self) {
+		return self->m_title.c_str();
 	}
 	unsigned int EMSCRIPTEN_KEEPALIVE Context_get_width(mud::Context* self) {
 		return self->m_width;
@@ -157,428 +157,428 @@ extern "C" {
 		delete self;
 	}
 	// DeviceType
-	mud::DeviceType EMSCRIPTEN_KEEPALIVE emscripten_enum_DeviceType_None() {
+	mud::DeviceType EMSCRIPTEN_KEEPALIVE DeviceType_None() {
 		return mud::DeviceType::None;
 	}
-	mud::DeviceType EMSCRIPTEN_KEEPALIVE emscripten_enum_DeviceType_Keyboard() {
+	mud::DeviceType EMSCRIPTEN_KEEPALIVE DeviceType_Keyboard() {
 		return mud::DeviceType::Keyboard;
 	}
-	mud::DeviceType EMSCRIPTEN_KEEPALIVE emscripten_enum_DeviceType_Mouse() {
+	mud::DeviceType EMSCRIPTEN_KEEPALIVE DeviceType_Mouse() {
 		return mud::DeviceType::Mouse;
 	}
-	mud::DeviceType EMSCRIPTEN_KEEPALIVE emscripten_enum_DeviceType_MouseLeft() {
+	mud::DeviceType EMSCRIPTEN_KEEPALIVE DeviceType_MouseLeft() {
 		return mud::DeviceType::MouseLeft;
 	}
-	mud::DeviceType EMSCRIPTEN_KEEPALIVE emscripten_enum_DeviceType_MouseRight() {
+	mud::DeviceType EMSCRIPTEN_KEEPALIVE DeviceType_MouseRight() {
 		return mud::DeviceType::MouseRight;
 	}
-	mud::DeviceType EMSCRIPTEN_KEEPALIVE emscripten_enum_DeviceType_MouseMiddle() {
+	mud::DeviceType EMSCRIPTEN_KEEPALIVE DeviceType_MouseMiddle() {
 		return mud::DeviceType::MouseMiddle;
 	}
-	mud::DeviceType EMSCRIPTEN_KEEPALIVE emscripten_enum_DeviceType_Touch() {
+	mud::DeviceType EMSCRIPTEN_KEEPALIVE DeviceType_Touch() {
 		return mud::DeviceType::Touch;
 	}
-	mud::DeviceType EMSCRIPTEN_KEEPALIVE emscripten_enum_DeviceType_Count() {
+	mud::DeviceType EMSCRIPTEN_KEEPALIVE DeviceType_Count() {
 		return mud::DeviceType::Count;
 	}
 	// EventType
-	mud::EventType EMSCRIPTEN_KEEPALIVE emscripten_enum_EventType_None() {
+	mud::EventType EMSCRIPTEN_KEEPALIVE EventType_None() {
 		return mud::EventType::None;
 	}
-	mud::EventType EMSCRIPTEN_KEEPALIVE emscripten_enum_EventType_Heartbeat() {
+	mud::EventType EMSCRIPTEN_KEEPALIVE EventType_Heartbeat() {
 		return mud::EventType::Heartbeat;
 	}
-	mud::EventType EMSCRIPTEN_KEEPALIVE emscripten_enum_EventType_Moved() {
+	mud::EventType EMSCRIPTEN_KEEPALIVE EventType_Moved() {
 		return mud::EventType::Moved;
 	}
-	mud::EventType EMSCRIPTEN_KEEPALIVE emscripten_enum_EventType_Pressed() {
+	mud::EventType EMSCRIPTEN_KEEPALIVE EventType_Pressed() {
 		return mud::EventType::Pressed;
 	}
-	mud::EventType EMSCRIPTEN_KEEPALIVE emscripten_enum_EventType_Released() {
+	mud::EventType EMSCRIPTEN_KEEPALIVE EventType_Released() {
 		return mud::EventType::Released;
 	}
-	mud::EventType EMSCRIPTEN_KEEPALIVE emscripten_enum_EventType_Stroked() {
+	mud::EventType EMSCRIPTEN_KEEPALIVE EventType_Stroked() {
 		return mud::EventType::Stroked;
 	}
-	mud::EventType EMSCRIPTEN_KEEPALIVE emscripten_enum_EventType_DoubleStroked() {
+	mud::EventType EMSCRIPTEN_KEEPALIVE EventType_DoubleStroked() {
 		return mud::EventType::DoubleStroked;
 	}
-	mud::EventType EMSCRIPTEN_KEEPALIVE emscripten_enum_EventType_Dragged() {
+	mud::EventType EMSCRIPTEN_KEEPALIVE EventType_Dragged() {
 		return mud::EventType::Dragged;
 	}
-	mud::EventType EMSCRIPTEN_KEEPALIVE emscripten_enum_EventType_DraggedTarget() {
+	mud::EventType EMSCRIPTEN_KEEPALIVE EventType_DraggedTarget() {
 		return mud::EventType::DraggedTarget;
 	}
-	mud::EventType EMSCRIPTEN_KEEPALIVE emscripten_enum_EventType_DragStarted() {
+	mud::EventType EMSCRIPTEN_KEEPALIVE EventType_DragStarted() {
 		return mud::EventType::DragStarted;
 	}
-	mud::EventType EMSCRIPTEN_KEEPALIVE emscripten_enum_EventType_DragEnded() {
+	mud::EventType EMSCRIPTEN_KEEPALIVE EventType_DragEnded() {
 		return mud::EventType::DragEnded;
 	}
-	mud::EventType EMSCRIPTEN_KEEPALIVE emscripten_enum_EventType_Dropped() {
+	mud::EventType EMSCRIPTEN_KEEPALIVE EventType_Dropped() {
 		return mud::EventType::Dropped;
 	}
-	mud::EventType EMSCRIPTEN_KEEPALIVE emscripten_enum_EventType_Count() {
+	mud::EventType EMSCRIPTEN_KEEPALIVE EventType_Count() {
 		return mud::EventType::Count;
 	}
 	// InputMod
-	mud::InputMod EMSCRIPTEN_KEEPALIVE emscripten_enum_InputMod_None() {
+	mud::InputMod EMSCRIPTEN_KEEPALIVE InputMod_None() {
 		return mud::InputMod::None;
 	}
-	mud::InputMod EMSCRIPTEN_KEEPALIVE emscripten_enum_InputMod_Shift() {
+	mud::InputMod EMSCRIPTEN_KEEPALIVE InputMod_Shift() {
 		return mud::InputMod::Shift;
 	}
-	mud::InputMod EMSCRIPTEN_KEEPALIVE emscripten_enum_InputMod_Ctrl() {
+	mud::InputMod EMSCRIPTEN_KEEPALIVE InputMod_Ctrl() {
 		return mud::InputMod::Ctrl;
 	}
-	mud::InputMod EMSCRIPTEN_KEEPALIVE emscripten_enum_InputMod_Alt() {
+	mud::InputMod EMSCRIPTEN_KEEPALIVE InputMod_Alt() {
 		return mud::InputMod::Alt;
 	}
-	mud::InputMod EMSCRIPTEN_KEEPALIVE emscripten_enum_InputMod_Any() {
+	mud::InputMod EMSCRIPTEN_KEEPALIVE InputMod_Any() {
 		return mud::InputMod::Any;
 	}
 	// Key
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Unassigned() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Unassigned() {
 		return mud::Key::Unassigned;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Escape() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Escape() {
 		return mud::Key::Escape;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Num1() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Num1() {
 		return mud::Key::Num1;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Num2() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Num2() {
 		return mud::Key::Num2;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Num3() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Num3() {
 		return mud::Key::Num3;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Num4() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Num4() {
 		return mud::Key::Num4;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Num5() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Num5() {
 		return mud::Key::Num5;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Num6() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Num6() {
 		return mud::Key::Num6;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Num7() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Num7() {
 		return mud::Key::Num7;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Num8() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Num8() {
 		return mud::Key::Num8;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Num9() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Num9() {
 		return mud::Key::Num9;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Num0() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Num0() {
 		return mud::Key::Num0;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Minus() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Minus() {
 		return mud::Key::Minus;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Equals() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Equals() {
 		return mud::Key::Equals;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Back() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Back() {
 		return mud::Key::Back;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Tab() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Tab() {
 		return mud::Key::Tab;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Q() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Q() {
 		return mud::Key::Q;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_W() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_W() {
 		return mud::Key::W;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_E() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_E() {
 		return mud::Key::E;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_R() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_R() {
 		return mud::Key::R;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_T() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_T() {
 		return mud::Key::T;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Y() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Y() {
 		return mud::Key::Y;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_U() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_U() {
 		return mud::Key::U;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_I() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_I() {
 		return mud::Key::I;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_O() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_O() {
 		return mud::Key::O;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_P() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_P() {
 		return mud::Key::P;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_LeftBracket() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_LeftBracket() {
 		return mud::Key::LeftBracket;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_RightBracket() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_RightBracket() {
 		return mud::Key::RightBracket;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Return() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Return() {
 		return mud::Key::Return;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_LeftControl() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_LeftControl() {
 		return mud::Key::LeftControl;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_A() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_A() {
 		return mud::Key::A;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_S() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_S() {
 		return mud::Key::S;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_D() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_D() {
 		return mud::Key::D;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_F() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_F() {
 		return mud::Key::F;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_G() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_G() {
 		return mud::Key::G;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_H() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_H() {
 		return mud::Key::H;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_J() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_J() {
 		return mud::Key::J;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_K() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_K() {
 		return mud::Key::K;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_L() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_L() {
 		return mud::Key::L;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Semicolon() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Semicolon() {
 		return mud::Key::Semicolon;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Apostrophe() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Apostrophe() {
 		return mud::Key::Apostrophe;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Grave() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Grave() {
 		return mud::Key::Grave;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_LeftShift() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_LeftShift() {
 		return mud::Key::LeftShift;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Backslash() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Backslash() {
 		return mud::Key::Backslash;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Z() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Z() {
 		return mud::Key::Z;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_X() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_X() {
 		return mud::Key::X;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_C() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_C() {
 		return mud::Key::C;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_V() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_V() {
 		return mud::Key::V;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_B() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_B() {
 		return mud::Key::B;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_N() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_N() {
 		return mud::Key::N;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_M() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_M() {
 		return mud::Key::M;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Comma() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Comma() {
 		return mud::Key::Comma;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Period() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Period() {
 		return mud::Key::Period;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Slash() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Slash() {
 		return mud::Key::Slash;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_RightShift() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_RightShift() {
 		return mud::Key::RightShift;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Multiply() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Multiply() {
 		return mud::Key::Multiply;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_LeftAlt() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_LeftAlt() {
 		return mud::Key::LeftAlt;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Space() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Space() {
 		return mud::Key::Space;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Capital() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Capital() {
 		return mud::Key::Capital;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_F1() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_F1() {
 		return mud::Key::F1;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_F2() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_F2() {
 		return mud::Key::F2;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_F3() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_F3() {
 		return mud::Key::F3;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_F4() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_F4() {
 		return mud::Key::F4;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_F5() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_F5() {
 		return mud::Key::F5;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_F6() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_F6() {
 		return mud::Key::F6;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_F7() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_F7() {
 		return mud::Key::F7;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_F8() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_F8() {
 		return mud::Key::F8;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_F9() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_F9() {
 		return mud::Key::F9;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_F10() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_F10() {
 		return mud::Key::F10;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Numlock() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Numlock() {
 		return mud::Key::Numlock;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_ScrollLock() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_ScrollLock() {
 		return mud::Key::ScrollLock;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Numpad7() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Numpad7() {
 		return mud::Key::Numpad7;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Numpad8() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Numpad8() {
 		return mud::Key::Numpad8;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Numpad9() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Numpad9() {
 		return mud::Key::Numpad9;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Subtract() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Subtract() {
 		return mud::Key::Subtract;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Numpad4() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Numpad4() {
 		return mud::Key::Numpad4;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Numpad5() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Numpad5() {
 		return mud::Key::Numpad5;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Numpad6() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Numpad6() {
 		return mud::Key::Numpad6;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Add() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Add() {
 		return mud::Key::Add;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Numpad1() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Numpad1() {
 		return mud::Key::Numpad1;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Numpad2() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Numpad2() {
 		return mud::Key::Numpad2;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Numpad3() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Numpad3() {
 		return mud::Key::Numpad3;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Numpad0() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Numpad0() {
 		return mud::Key::Numpad0;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Decimal() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Decimal() {
 		return mud::Key::Decimal;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_F11() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_F11() {
 		return mud::Key::F11;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_F12() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_F12() {
 		return mud::Key::F12;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_F13() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_F13() {
 		return mud::Key::F13;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_F14() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_F14() {
 		return mud::Key::F14;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_F15() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_F15() {
 		return mud::Key::F15;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_NumpadEquals() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_NumpadEquals() {
 		return mud::Key::NumpadEquals;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_NumpadEnter() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_NumpadEnter() {
 		return mud::Key::NumpadEnter;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_RightControl() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_RightControl() {
 		return mud::Key::RightControl;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Mute() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Mute() {
 		return mud::Key::Mute;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_NumpadComma() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_NumpadComma() {
 		return mud::Key::NumpadComma;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Divide() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Divide() {
 		return mud::Key::Divide;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_RightAlt() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_RightAlt() {
 		return mud::Key::RightAlt;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Pause() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Pause() {
 		return mud::Key::Pause;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Home() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Home() {
 		return mud::Key::Home;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Up() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Up() {
 		return mud::Key::Up;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_PageUp() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_PageUp() {
 		return mud::Key::PageUp;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Left() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Left() {
 		return mud::Key::Left;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Right() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Right() {
 		return mud::Key::Right;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_End() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_End() {
 		return mud::Key::End;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Down() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Down() {
 		return mud::Key::Down;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_PageDown() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_PageDown() {
 		return mud::Key::PageDown;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Insert() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Insert() {
 		return mud::Key::Insert;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Delete() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Delete() {
 		return mud::Key::Delete;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_LeftWin() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_LeftWin() {
 		return mud::Key::LeftWin;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_RightWin() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_RightWin() {
 		return mud::Key::RightWin;
 	}
-	mud::Key EMSCRIPTEN_KEEPALIVE emscripten_enum_Key_Translated() {
+	mud::Key EMSCRIPTEN_KEEPALIVE Key_Translated() {
 		return mud::Key::Translated;
 	}
 	// MouseButtonCode
-	mud::MouseButtonCode EMSCRIPTEN_KEEPALIVE emscripten_enum_MouseButtonCode_LEFT_BUTTON() {
+	mud::MouseButtonCode EMSCRIPTEN_KEEPALIVE MouseButtonCode_LEFT_BUTTON() {
 		return mud::LEFT_BUTTON;
 	}
-	mud::MouseButtonCode EMSCRIPTEN_KEEPALIVE emscripten_enum_MouseButtonCode_RIGHT_BUTTON() {
+	mud::MouseButtonCode EMSCRIPTEN_KEEPALIVE MouseButtonCode_RIGHT_BUTTON() {
 		return mud::RIGHT_BUTTON;
 	}
-	mud::MouseButtonCode EMSCRIPTEN_KEEPALIVE emscripten_enum_MouseButtonCode_MIDDLE_BUTTON() {
+	mud::MouseButtonCode EMSCRIPTEN_KEEPALIVE MouseButtonCode_MIDDLE_BUTTON() {
 		return mud::MIDDLE_BUTTON;
 	}
-	mud::MouseButtonCode EMSCRIPTEN_KEEPALIVE emscripten_enum_MouseButtonCode_NO_BUTTON() {
+	mud::MouseButtonCode EMSCRIPTEN_KEEPALIVE MouseButtonCode_NO_BUTTON() {
 		return mud::NO_BUTTON;
 	}
 	

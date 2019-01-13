@@ -80,8 +80,8 @@ extern "C" {
 	glTFAccessor* EMSCRIPTEN_KEEPALIVE glTFAccessor_glTFAccessor_0() {
 		return new glTFAccessor();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFAccessor_get_name(glTFAccessor* self) {
-		return self->name;
+	const char* EMSCRIPTEN_KEEPALIVE glTFAccessor_get_name(glTFAccessor* self) {
+		return self->name.c_str();
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFAccessor_get_buffer_view(glTFAccessor* self) {
 		return self->buffer_view;
@@ -114,8 +114,8 @@ extern "C" {
 	glTFAnimation* EMSCRIPTEN_KEEPALIVE glTFAnimation_glTFAnimation_0() {
 		return new glTFAnimation();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFAnimation_get_name(glTFAnimation* self) {
-		return self->name;
+	const char* EMSCRIPTEN_KEEPALIVE glTFAnimation_get_name(glTFAnimation* self) {
+		return self->name.c_str();
 	}
 	std::vector<glTFAnimationSampler>* EMSCRIPTEN_KEEPALIVE glTFAnimation_get_samplers(glTFAnimation* self) {
 		static std::vector<glTFAnimationSampler> temp;
@@ -166,8 +166,8 @@ extern "C" {
 	int EMSCRIPTEN_KEEPALIVE glTFAnimationTarget_get_node(glTFAnimationTarget* self) {
 		return self->node;
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFAnimationTarget_get_path(glTFAnimationTarget* self) {
-		return self->path;
+	const char* EMSCRIPTEN_KEEPALIVE glTFAnimationTarget_get_path(glTFAnimationTarget* self) {
+		return self->path.c_str();
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFAnimationTarget___destroy__(glTFAnimationTarget* self) {
 		delete self;
@@ -207,14 +207,14 @@ extern "C" {
 	glTFBuffer* EMSCRIPTEN_KEEPALIVE glTFBuffer_glTFBuffer_0() {
 		return new glTFBuffer();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFBuffer_get_name(glTFBuffer* self) {
-		return self->name;
+	const char* EMSCRIPTEN_KEEPALIVE glTFBuffer_get_name(glTFBuffer* self) {
+		return self->name.c_str();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFBuffer_get_mime_type(glTFBuffer* self) {
-		return self->mime_type;
+	const char* EMSCRIPTEN_KEEPALIVE glTFBuffer_get_mime_type(glTFBuffer* self) {
+		return self->mime_type.c_str();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFBuffer_get_uri(glTFBuffer* self) {
-		return self->uri;
+	const char* EMSCRIPTEN_KEEPALIVE glTFBuffer_get_uri(glTFBuffer* self) {
+		return self->uri.c_str();
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFBuffer_get_byte_length(glTFBuffer* self) {
 		return self->byte_length;
@@ -226,8 +226,8 @@ extern "C" {
 	glTFBufferView* EMSCRIPTEN_KEEPALIVE glTFBufferView_glTFBufferView_0() {
 		return new glTFBufferView();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFBufferView_get_name(glTFBufferView* self) {
-		return self->name;
+	const char* EMSCRIPTEN_KEEPALIVE glTFBufferView_get_name(glTFBufferView* self) {
+		return self->name.c_str();
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFBufferView_get_buffer(glTFBufferView* self) {
 		return self->buffer;
@@ -251,11 +251,11 @@ extern "C" {
 	glTFCamera* EMSCRIPTEN_KEEPALIVE glTFCamera_glTFCamera_0() {
 		return new glTFCamera();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFCamera_get_name(glTFCamera* self) {
-		return self->name;
+	const char* EMSCRIPTEN_KEEPALIVE glTFCamera_get_name(glTFCamera* self) {
+		return self->name.c_str();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFCamera_get_type(glTFCamera* self) {
-		return self->type;
+	const char* EMSCRIPTEN_KEEPALIVE glTFCamera_get_type(glTFCamera* self) {
+		return self->type.c_str();
 	}
 	glTFOrthographic* EMSCRIPTEN_KEEPALIVE glTFCamera_get_orthographic(glTFCamera* self) {
 		static glTFOrthographic temp;
@@ -272,14 +272,14 @@ extern "C" {
 	glTFImage* EMSCRIPTEN_KEEPALIVE glTFImage_glTFImage_0() {
 		return new glTFImage();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFImage_get_name(glTFImage* self) {
-		return self->name;
+	const char* EMSCRIPTEN_KEEPALIVE glTFImage_get_name(glTFImage* self) {
+		return self->name.c_str();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFImage_get_mime_type(glTFImage* self) {
-		return self->mime_type;
+	const char* EMSCRIPTEN_KEEPALIVE glTFImage_get_mime_type(glTFImage* self) {
+		return self->mime_type.c_str();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFImage_get_uri(glTFImage* self) {
-		return self->uri;
+	const char* EMSCRIPTEN_KEEPALIVE glTFImage_get_uri(glTFImage* self) {
+		return self->uri.c_str();
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFImage_get_buffer_view(glTFImage* self) {
 		return self->buffer_view;
@@ -291,8 +291,8 @@ extern "C" {
 	glTFMaterial* EMSCRIPTEN_KEEPALIVE glTFMaterial_glTFMaterial_0() {
 		return new glTFMaterial();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFMaterial_get_name(glTFMaterial* self) {
-		return self->name;
+	const char* EMSCRIPTEN_KEEPALIVE glTFMaterial_get_name(glTFMaterial* self) {
+		return self->name.c_str();
 	}
 	glTFTextureInfo* EMSCRIPTEN_KEEPALIVE glTFMaterial_get_normal_texture(glTFMaterial* self) {
 		static glTFTextureInfo temp;
@@ -353,8 +353,8 @@ extern "C" {
 	glTFMesh* EMSCRIPTEN_KEEPALIVE glTFMesh_glTFMesh_0() {
 		return new glTFMesh();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFMesh_get_name(glTFMesh* self) {
-		return self->name;
+	const char* EMSCRIPTEN_KEEPALIVE glTFMesh_get_name(glTFMesh* self) {
+		return self->name.c_str();
 	}
 	std::vector<glTFPrimitive>* EMSCRIPTEN_KEEPALIVE glTFMesh_get_primitives(glTFMesh* self) {
 		static std::vector<glTFPrimitive> temp;
@@ -387,8 +387,8 @@ extern "C" {
 	glTFNode* EMSCRIPTEN_KEEPALIVE glTFNode_glTFNode_0() {
 		return new glTFNode();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFNode_get_name(glTFNode* self) {
-		return self->name;
+	const char* EMSCRIPTEN_KEEPALIVE glTFNode_get_name(glTFNode* self) {
+		return self->name.c_str();
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFNode_get_mesh(glTFNode* self) {
 		return self->mesh;
@@ -508,8 +508,8 @@ extern "C" {
 	int EMSCRIPTEN_KEEPALIVE glTFSampler_get_wrap_t(glTFSampler* self) {
 		return self->wrap_t;
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFSampler_get_name(glTFSampler* self) {
-		return self->name;
+	const char* EMSCRIPTEN_KEEPALIVE glTFSampler_get_name(glTFSampler* self) {
+		return self->name.c_str();
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFSampler___destroy__(glTFSampler* self) {
 		delete self;
@@ -518,8 +518,8 @@ extern "C" {
 	glTFScene* EMSCRIPTEN_KEEPALIVE glTFScene_glTFScene_0() {
 		return new glTFScene();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFScene_get_name(glTFScene* self) {
-		return self->name;
+	const char* EMSCRIPTEN_KEEPALIVE glTFScene_get_name(glTFScene* self) {
+		return self->name.c_str();
 	}
 	std::vector<int>* EMSCRIPTEN_KEEPALIVE glTFScene_get_nodes(glTFScene* self) {
 		static std::vector<int> temp;
@@ -532,8 +532,8 @@ extern "C" {
 	glTFSkin* EMSCRIPTEN_KEEPALIVE glTFSkin_glTFSkin_0() {
 		return new glTFSkin();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFSkin_get_name(glTFSkin* self) {
-		return self->name;
+	const char* EMSCRIPTEN_KEEPALIVE glTFSkin_get_name(glTFSkin* self) {
+		return self->name.c_str();
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFSkin_get_skeleton(glTFSkin* self) {
 		return self->skeleton;
@@ -600,8 +600,8 @@ extern "C" {
 	glTFTexture* EMSCRIPTEN_KEEPALIVE glTFTexture_glTFTexture_0() {
 		return new glTFTexture();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE glTFTexture_get_name(glTFTexture* self) {
-		return self->name;
+	const char* EMSCRIPTEN_KEEPALIVE glTFTexture_get_name(glTFTexture* self) {
+		return self->name.c_str();
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFTexture_get_sampler(glTFTexture* self) {
 		return self->sampler;
@@ -626,92 +626,92 @@ extern "C" {
 		delete self;
 	}
 	// glTFAlphaMode
-	glTFAlphaMode EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFAlphaMode_OPAQUE() {
+	glTFAlphaMode EMSCRIPTEN_KEEPALIVE glTFAlphaMode_OPAQUE() {
 		return glTFAlphaMode::OPAQUE;
 	}
-	glTFAlphaMode EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFAlphaMode_MASK() {
+	glTFAlphaMode EMSCRIPTEN_KEEPALIVE glTFAlphaMode_MASK() {
 		return glTFAlphaMode::MASK;
 	}
-	glTFAlphaMode EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFAlphaMode_BLEND() {
+	glTFAlphaMode EMSCRIPTEN_KEEPALIVE glTFAlphaMode_BLEND() {
 		return glTFAlphaMode::BLEND;
 	}
 	// glTFComponentType
-	glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_BYTE() {
+	glTFComponentType EMSCRIPTEN_KEEPALIVE glTFComponentType_BYTE() {
 		return glTFComponentType::BYTE;
 	}
-	glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_UNSIGNED_BYTE() {
+	glTFComponentType EMSCRIPTEN_KEEPALIVE glTFComponentType_UNSIGNED_BYTE() {
 		return glTFComponentType::UNSIGNED_BYTE;
 	}
-	glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_SHORT() {
+	glTFComponentType EMSCRIPTEN_KEEPALIVE glTFComponentType_SHORT() {
 		return glTFComponentType::SHORT;
 	}
-	glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_UNSIGNED_SHORT() {
+	glTFComponentType EMSCRIPTEN_KEEPALIVE glTFComponentType_UNSIGNED_SHORT() {
 		return glTFComponentType::UNSIGNED_SHORT;
 	}
-	glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_INT() {
+	glTFComponentType EMSCRIPTEN_KEEPALIVE glTFComponentType_INT() {
 		return glTFComponentType::INT;
 	}
-	glTFComponentType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFComponentType_FLOAT() {
+	glTFComponentType EMSCRIPTEN_KEEPALIVE glTFComponentType_FLOAT() {
 		return glTFComponentType::FLOAT;
 	}
 	// glTFInterpolation
-	glTFInterpolation EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFInterpolation_LINEAR() {
+	glTFInterpolation EMSCRIPTEN_KEEPALIVE glTFInterpolation_LINEAR() {
 		return glTFInterpolation::LINEAR;
 	}
-	glTFInterpolation EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFInterpolation_STEP() {
+	glTFInterpolation EMSCRIPTEN_KEEPALIVE glTFInterpolation_STEP() {
 		return glTFInterpolation::STEP;
 	}
-	glTFInterpolation EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFInterpolation_CATMULLROMSPLINE() {
+	glTFInterpolation EMSCRIPTEN_KEEPALIVE glTFInterpolation_CATMULLROMSPLINE() {
 		return glTFInterpolation::CATMULLROMSPLINE;
 	}
-	glTFInterpolation EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFInterpolation_CUBIC_SPLINE() {
+	glTFInterpolation EMSCRIPTEN_KEEPALIVE glTFInterpolation_CUBIC_SPLINE() {
 		return glTFInterpolation::CUBIC_SPLINE;
 	}
 	// glTFPrimitiveType
-	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_POINTS() {
+	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE glTFPrimitiveType_POINTS() {
 		return glTFPrimitiveType::POINTS;
 	}
-	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_LINES() {
+	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE glTFPrimitiveType_LINES() {
 		return glTFPrimitiveType::LINES;
 	}
-	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_LINE_LOOP() {
+	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE glTFPrimitiveType_LINE_LOOP() {
 		return glTFPrimitiveType::LINE_LOOP;
 	}
-	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_LINE_STRIP() {
+	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE glTFPrimitiveType_LINE_STRIP() {
 		return glTFPrimitiveType::LINE_STRIP;
 	}
-	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_TRIANGLES() {
+	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE glTFPrimitiveType_TRIANGLES() {
 		return glTFPrimitiveType::TRIANGLES;
 	}
-	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_TRIANGLE_STRIP() {
+	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE glTFPrimitiveType_TRIANGLE_STRIP() {
 		return glTFPrimitiveType::TRIANGLE_STRIP;
 	}
-	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFPrimitiveType_TRIANGLE_FAN() {
+	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE glTFPrimitiveType_TRIANGLE_FAN() {
 		return glTFPrimitiveType::TRIANGLE_FAN;
 	}
 	// glTFType
-	glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_SCALAR() {
+	glTFType EMSCRIPTEN_KEEPALIVE glTFType_SCALAR() {
 		return glTFType::SCALAR;
 	}
-	glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_VEC2() {
+	glTFType EMSCRIPTEN_KEEPALIVE glTFType_VEC2() {
 		return glTFType::VEC2;
 	}
-	glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_VEC3() {
+	glTFType EMSCRIPTEN_KEEPALIVE glTFType_VEC3() {
 		return glTFType::VEC3;
 	}
-	glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_VEC4() {
+	glTFType EMSCRIPTEN_KEEPALIVE glTFType_VEC4() {
 		return glTFType::VEC4;
 	}
-	glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_MAT2() {
+	glTFType EMSCRIPTEN_KEEPALIVE glTFType_MAT2() {
 		return glTFType::MAT2;
 	}
-	glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_MAT3() {
+	glTFType EMSCRIPTEN_KEEPALIVE glTFType_MAT3() {
 		return glTFType::MAT3;
 	}
-	glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_MAT4() {
+	glTFType EMSCRIPTEN_KEEPALIVE glTFType_MAT4() {
 		return glTFType::MAT4;
 	}
-	glTFType EMSCRIPTEN_KEEPALIVE emscripten_enum_glTFType_INVALID() {
+	glTFType EMSCRIPTEN_KEEPALIVE glTFType_INVALID() {
 		return glTFType::INVALID;
 	}
 	

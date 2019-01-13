@@ -351,7 +351,7 @@ Object.defineProperty(Symbol.prototype, "detail", {
 Object.defineProperty(Symbol.prototype, "image", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_Symbol_get_image(self));
+        return _Symbol_get_image(self);
     }});
 Object.defineProperty(Symbol.prototype, "image256", {
     get: function() {
@@ -368,7 +368,7 @@ Object.defineProperty(Symbol.prototype, "image256", {
 Object.defineProperty(Symbol.prototype, "program", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_Symbol_get_program(self));
+        return _Symbol_get_program(self);
     }});
 Symbol.prototype["__destroy__"] = Symbol.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1315,22 +1315,22 @@ Triangle.prototype["__destroy__"] = Triangle.prototype.__destroy__ = function() 
 (function() {
     function setupEnums() {
         // DrawMode
-        Module['OUTLINE'] = _emscripten_enum_DrawMode_OUTLINE();
-        Module['PLAIN'] = _emscripten_enum_DrawMode_PLAIN();
+        Module['OUTLINE'] = _DrawMode_OUTLINE();
+        Module['PLAIN'] = _DrawMode_PLAIN();
         // PrimitiveType
-        Module['PrimitiveType']['Points'] = _emscripten_enum_PrimitiveType_Points();
-        Module['PrimitiveType']['Lines'] = _emscripten_enum_PrimitiveType_Lines();
-        Module['PrimitiveType']['LineLoop'] = _emscripten_enum_PrimitiveType_LineLoop();
-        Module['PrimitiveType']['LineStrip'] = _emscripten_enum_PrimitiveType_LineStrip();
-        Module['PrimitiveType']['Triangles'] = _emscripten_enum_PrimitiveType_Triangles();
-        Module['PrimitiveType']['TriangleStrip'] = _emscripten_enum_PrimitiveType_TriangleStrip();
-        Module['PrimitiveType']['TriangleFan'] = _emscripten_enum_PrimitiveType_TriangleFan();
+        Module['PrimitiveType']['Points'] = _PrimitiveType_Points();
+        Module['PrimitiveType']['Lines'] = _PrimitiveType_Lines();
+        Module['PrimitiveType']['LineLoop'] = _PrimitiveType_LineLoop();
+        Module['PrimitiveType']['LineStrip'] = _PrimitiveType_LineStrip();
+        Module['PrimitiveType']['Triangles'] = _PrimitiveType_Triangles();
+        Module['PrimitiveType']['TriangleStrip'] = _PrimitiveType_TriangleStrip();
+        Module['PrimitiveType']['TriangleFan'] = _PrimitiveType_TriangleFan();
         // SymbolDetail
-        Module['SymbolDetail']['Lowest'] = _emscripten_enum_SymbolDetail_Lowest();
-        Module['SymbolDetail']['Low'] = _emscripten_enum_SymbolDetail_Low();
-        Module['SymbolDetail']['Medium'] = _emscripten_enum_SymbolDetail_Medium();
-        Module['SymbolDetail']['High'] = _emscripten_enum_SymbolDetail_High();
-        Module['SymbolDetail']['Highest'] = _emscripten_enum_SymbolDetail_Highest();
+        Module['SymbolDetail']['Lowest'] = _SymbolDetail_Lowest();
+        Module['SymbolDetail']['Low'] = _SymbolDetail_Low();
+        Module['SymbolDetail']['Medium'] = _SymbolDetail_Medium();
+        Module['SymbolDetail']['High'] = _SymbolDetail_High();
+        Module['SymbolDetail']['Highest'] = _SymbolDetail_Highest();
     }
     if (Module['calledRun']) setupEnums();
     else addOnPreMain(setupEnums);

@@ -238,16 +238,16 @@ extern "C" {
 		delete self;
 	}
 	// TonemapMode
-	mud::TonemapMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TonemapMode_Linear() {
+	mud::TonemapMode EMSCRIPTEN_KEEPALIVE TonemapMode_Linear() {
 		return mud::TonemapMode::Linear;
 	}
-	mud::TonemapMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TonemapMode_Reinhardt() {
+	mud::TonemapMode EMSCRIPTEN_KEEPALIVE TonemapMode_Reinhardt() {
 		return mud::TonemapMode::Reinhardt;
 	}
-	mud::TonemapMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TonemapMode_Filmic() {
+	mud::TonemapMode EMSCRIPTEN_KEEPALIVE TonemapMode_Filmic() {
 		return mud::TonemapMode::Filmic;
 	}
-	mud::TonemapMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TonemapMode_ACES() {
+	mud::TonemapMode EMSCRIPTEN_KEEPALIVE TonemapMode_ACES() {
 		return mud::TonemapMode::ACES;
 	}
 	

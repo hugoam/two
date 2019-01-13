@@ -888,39 +888,39 @@ TextureAtlas.prototype["__destroy__"] = TextureAtlas.prototype.__destroy__ = fun
 (function() {
     function setupEnums() {
         // Axes
-        Module['Axes']['None'] = _emscripten_enum_Axes_None();
-        Module['Axes']['X'] = _emscripten_enum_Axes_X();
-        Module['Axes']['Y'] = _emscripten_enum_Axes_Y();
-        Module['Axes']['Z'] = _emscripten_enum_Axes_Z();
+        Module['Axes']['None'] = _Axes_None();
+        Module['Axes']['X'] = _Axes_X();
+        Module['Axes']['Y'] = _Axes_Y();
+        Module['Axes']['Z'] = _Axes_Z();
         // Axis
-        Module['Axis']['X'] = _emscripten_enum_Axis_X();
-        Module['Axis']['Y'] = _emscripten_enum_Axis_Y();
-        Module['Axis']['Z'] = _emscripten_enum_Axis_Z();
+        Module['Axis']['X'] = _Axis_X();
+        Module['Axis']['Y'] = _Axis_Y();
+        Module['Axis']['Z'] = _Axis_Z();
         // Clockwise
-        Module['CLOCKWISE'] = _emscripten_enum_Clockwise_CLOCKWISE();
-        Module['ANTI_CLOCKWISE'] = _emscripten_enum_Clockwise_ANTI_CLOCKWISE();
+        Module['CLOCKWISE'] = _Clockwise_CLOCKWISE();
+        Module['ANTI_CLOCKWISE'] = _Clockwise_ANTI_CLOCKWISE();
         // Side
-        Module['Side']['Right'] = _emscripten_enum_Side_Right();
-        Module['Side']['Left'] = _emscripten_enum_Side_Left();
-        Module['Side']['Up'] = _emscripten_enum_Side_Up();
-        Module['Side']['Down'] = _emscripten_enum_Side_Down();
-        Module['Side']['Back'] = _emscripten_enum_Side_Back();
-        Module['Side']['Front'] = _emscripten_enum_Side_Front();
+        Module['Side']['Right'] = _Side_Right();
+        Module['Side']['Left'] = _Side_Left();
+        Module['Side']['Up'] = _Side_Up();
+        Module['Side']['Down'] = _Side_Down();
+        Module['Side']['Back'] = _Side_Back();
+        Module['Side']['Front'] = _Side_Front();
         // SignedAxis
-        Module['SignedAxis']['PlusX'] = _emscripten_enum_SignedAxis_PlusX();
-        Module['SignedAxis']['MinusX'] = _emscripten_enum_SignedAxis_MinusX();
-        Module['SignedAxis']['PlusY'] = _emscripten_enum_SignedAxis_PlusY();
-        Module['SignedAxis']['MinusY'] = _emscripten_enum_SignedAxis_MinusY();
-        Module['SignedAxis']['PlusZ'] = _emscripten_enum_SignedAxis_PlusZ();
-        Module['SignedAxis']['MinusZ'] = _emscripten_enum_SignedAxis_MinusZ();
+        Module['SignedAxis']['PlusX'] = _SignedAxis_PlusX();
+        Module['SignedAxis']['MinusX'] = _SignedAxis_MinusX();
+        Module['SignedAxis']['PlusY'] = _SignedAxis_PlusY();
+        Module['SignedAxis']['MinusY'] = _SignedAxis_MinusY();
+        Module['SignedAxis']['PlusZ'] = _SignedAxis_PlusZ();
+        Module['SignedAxis']['MinusZ'] = _SignedAxis_MinusZ();
         // Spectrum
-        Module['Spectrum']['Value'] = _emscripten_enum_Spectrum_Value();
-        Module['Spectrum']['Hue'] = _emscripten_enum_Spectrum_Hue();
+        Module['Spectrum']['Value'] = _Spectrum_Value();
+        Module['Spectrum']['Hue'] = _Spectrum_Hue();
         // TrackMode
-        Module['TrackMode']['Constant'] = _emscripten_enum_TrackMode_Constant();
-        Module['TrackMode']['ConstantRandom'] = _emscripten_enum_TrackMode_ConstantRandom();
-        Module['TrackMode']['Curve'] = _emscripten_enum_TrackMode_Curve();
-        Module['TrackMode']['CurveRandom'] = _emscripten_enum_TrackMode_CurveRandom();
+        Module['TrackMode']['Constant'] = _TrackMode_Constant();
+        Module['TrackMode']['ConstantRandom'] = _TrackMode_ConstantRandom();
+        Module['TrackMode']['Curve'] = _TrackMode_Curve();
+        Module['TrackMode']['CurveRandom'] = _TrackMode_CurveRandom();
     }
     if (Module['calledRun']) setupEnums();
     else addOnPreMain(setupEnums);

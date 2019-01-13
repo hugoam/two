@@ -264,6 +264,7 @@ namespace mud
 		Char,
 		Integer,
 		Float,
+		CString,
 		String,
 		Enum,
 		Class,
@@ -278,6 +279,24 @@ namespace mud
 			//, m_nested(type(parent) == Class)
 		{
 			m_module = &module;
+
+			if(name == "const char*")
+				m_pointer = true;
+
+			if(vector_has({ "void" }, name))
+				m_kind = CLTypeKind::Void;
+			else if(vector_has({ "bool" }, name))
+				m_kind = CLTypeKind::Boolean;
+			else if(vector_has({ "char", "signed char", "unsigned char" }, name))
+				m_kind = CLTypeKind::Char;
+			else if(vector_has({ "short", "int", "long", "long long", "unsigned short", "unsigned int", "unsigned long", "unsigned long long" }, name))
+				m_kind = CLTypeKind::Integer;
+			else if(vector_has({ "float", "double" }, name))
+				m_kind = CLTypeKind::Float;
+			else if(vector_has({ "char*", "const char*" }, name))
+				m_kind = CLTypeKind::CString;
+			else if(vector_has({ "std::string" }, name))
+				m_kind = CLTypeKind::String;
 		}
 
 		CLTypeKind m_kind;
@@ -312,6 +331,7 @@ namespace mud
 		bool isboolean() const { return m_type->m_kind == CLTypeKind::Boolean; }
 		bool isinteger() const { return m_type->m_kind == CLTypeKind::Integer; }
 		bool isfloat() const { return m_type->m_kind == CLTypeKind::Float; }
+		bool iscstring() const { return m_type->m_kind == CLTypeKind::CString; }
 		bool isstring() const { return m_type->m_kind == CLTypeKind::String; }
 		bool isenum() const { return m_type->m_kind == CLTypeKind::Enum; }
 		bool isclass() const { return m_type->m_kind == CLTypeKind::Class; }
@@ -329,22 +349,6 @@ namespace mud
 		{
 			m_reflect = true;
 			m_is_basetype = true;
-
-			if(name == "const char*")
-				m_pointer = true;
-
-			if(vector_has({ "void" }, name))
-				m_kind = CLTypeKind::Void;
-			else if(vector_has({ "bool" }, name))
-				m_kind = CLTypeKind::Boolean;
-			else if(vector_has({ "char", "signed char", "unsigned char" }, name))
-				m_kind = CLTypeKind::Char;
-			else if(vector_has({ "short", "int", "long", "long long", "unsigned short", "unsigned int", "unsigned long", "unsigned long long" }, name))
-				m_kind = CLTypeKind::Integer;
-			else if(vector_has({ "float", "double" }, name))
-				m_kind = CLTypeKind::Float;
-			else if(vector_has({ "const char*", "std::string" }, name))
-				m_kind = CLTypeKind::String;
 		}
 	};
 

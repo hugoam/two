@@ -597,9 +597,9 @@ WorldSnapOption.prototype["__destroy__"] = WorldSnapOption.prototype.__destroy__
 (function() {
     function setupEnums() {
         // ToolState
-        Module['ToolState']['Inactive'] = _emscripten_enum_ToolState_Inactive();
-        Module['ToolState']['Done'] = _emscripten_enum_ToolState_Done();
-        Module['ToolState']['Active'] = _emscripten_enum_ToolState_Active();
+        Module['ToolState']['Inactive'] = _ToolState_Inactive();
+        Module['ToolState']['Done'] = _ToolState_Done();
+        Module['ToolState']['Active'] = _ToolState_Active();
     }
     if (Module['calledRun']) setupEnums();
     else addOnPreMain(setupEnums);

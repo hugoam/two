@@ -85,8 +85,8 @@ extern "C" {
 	mud::ToolContext* EMSCRIPTEN_KEEPALIVE Tool_get_context(mud::Tool* self) {
 		return &&self->m_context;
 	}
-	std::string EMSCRIPTEN_KEEPALIVE Tool_get_name(mud::Tool* self) {
-		return self->m_name;
+	const char* EMSCRIPTEN_KEEPALIVE Tool_get_name(mud::Tool* self) {
+		return self->m_name.c_str();
 	}
 	mud::ToolState EMSCRIPTEN_KEEPALIVE Tool_get_state(mud::Tool* self) {
 		static mud::ToolState temp;
@@ -234,13 +234,13 @@ extern "C" {
 		delete self;
 	}
 	// ToolState
-	mud::ToolState EMSCRIPTEN_KEEPALIVE emscripten_enum_ToolState_Inactive() {
+	mud::ToolState EMSCRIPTEN_KEEPALIVE ToolState_Inactive() {
 		return mud::ToolState::Inactive;
 	}
-	mud::ToolState EMSCRIPTEN_KEEPALIVE emscripten_enum_ToolState_Done() {
+	mud::ToolState EMSCRIPTEN_KEEPALIVE ToolState_Done() {
 		return mud::ToolState::Done;
 	}
-	mud::ToolState EMSCRIPTEN_KEEPALIVE emscripten_enum_ToolState_Active() {
+	mud::ToolState EMSCRIPTEN_KEEPALIVE ToolState_Active() {
 		return mud::ToolState::Active;
 	}
 	

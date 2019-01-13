@@ -85,7 +85,7 @@ Object.defineProperty(Type.prototype, "id", {
 Object.defineProperty(Type.prototype, "name", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_Type_get_name(self));
+        return _Type_get_name(self);
     }});
 Object.defineProperty(Type.prototype, "size", {
     get: function() {

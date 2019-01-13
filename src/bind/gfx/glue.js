@@ -39,10 +39,7 @@ Animated.prototype["seek"] = Animated.prototype.seek = function(time) {
     _Animated_seek_1(time);
 };
 Animated.prototype["start"] = Animated.prototype.start = function(animation, loop, blend, speed, transient) {
-    ensureCache.prepare();
     /* animation <const char*> [] */
-    if (animation && typeof animation === "object") animation = animation.ptr;
-    else animation = ensureString(animation);
     /* loop <bool> [] */
     /* blend <float> [] */
     /* speed <float> [] */
@@ -1205,10 +1202,7 @@ GfxSystem.prototype.__class__ = GfxSystem;
 GfxSystem.__cache__ = {};
 Module['GfxSystem'] = GfxSystem;
 GfxSystem.prototype["add_resource_path"] = GfxSystem.prototype.add_resource_path = function(path) {
-    ensureCache.prepare();
     /* path <const char*> [] */
-    if (path && typeof path === "object") path = path.ptr;
-    else path = ensureString(path);
     _GfxSystem_add_resource_path_1(path);
 };
 GfxSystem.prototype["debug_material"] = GfxSystem.prototype.debug_material = function() {
@@ -1220,13 +1214,8 @@ GfxSystem.prototype["fetch_image256_material"] = GfxSystem.prototype.fetch_image
     return wrapPointer(_GfxSystem_fetch_image256_material_1(image), mud::Material);
 };
 GfxSystem.prototype["fetch_material"] = GfxSystem.prototype.fetch_material = function(name, shader, builtin) {
-    ensureCache.prepare();
     /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
     /* shader <const char*> [] */
-    if (shader && typeof shader === "object") shader = shader.ptr;
-    else shader = ensureString(shader);
     /* builtin <bool> [] */
     if (builtin === undefined) { return wrapPointer(_GfxSystem_fetch_material_2(name, shader), mud::Material); return; }
     return wrapPointer(_GfxSystem_fetch_material_3(name, shader, builtin), mud::Material);
@@ -2582,7 +2571,7 @@ Module['Program'] = Program;
 Object.defineProperty(Program.prototype, "name", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_Program_get_name(self));
+        return _Program_get_name(self);
     }});
 Program.prototype["__destroy__"] = Program.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -3169,148 +3158,148 @@ RenderTarget.prototype["__destroy__"] = RenderTarget.prototype.__destroy__ = fun
 (function() {
     function setupEnums() {
         // AnimationTarget
-        Module['AnimationTarget']['Position'] = _emscripten_enum_AnimationTarget_Position();
-        Module['AnimationTarget']['Rotation'] = _emscripten_enum_AnimationTarget_Rotation();
-        Module['AnimationTarget']['Scale'] = _emscripten_enum_AnimationTarget_Scale();
+        Module['AnimationTarget']['Position'] = _AnimationTarget_Position();
+        Module['AnimationTarget']['Rotation'] = _AnimationTarget_Rotation();
+        Module['AnimationTarget']['Scale'] = _AnimationTarget_Scale();
         // BackgroundMode
-        Module['BackgroundMode']['None'] = _emscripten_enum_BackgroundMode_None();
-        Module['BackgroundMode']['Panorama'] = _emscripten_enum_BackgroundMode_Panorama();
-        Module['BackgroundMode']['Radiance'] = _emscripten_enum_BackgroundMode_Radiance();
-        Module['BackgroundMode']['Custom'] = _emscripten_enum_BackgroundMode_Custom();
+        Module['BackgroundMode']['None'] = _BackgroundMode_None();
+        Module['BackgroundMode']['Panorama'] = _BackgroundMode_Panorama();
+        Module['BackgroundMode']['Radiance'] = _BackgroundMode_Radiance();
+        Module['BackgroundMode']['Custom'] = _BackgroundMode_Custom();
         // BlendMode
-        Module['BlendMode']['Mix'] = _emscripten_enum_BlendMode_Mix();
-        Module['BlendMode']['Add'] = _emscripten_enum_BlendMode_Add();
-        Module['BlendMode']['Sub'] = _emscripten_enum_BlendMode_Sub();
-        Module['BlendMode']['Mul'] = _emscripten_enum_BlendMode_Mul();
-        Module['BlendMode']['Normal'] = _emscripten_enum_BlendMode_Normal();
-        Module['BlendMode']['Alpha'] = _emscripten_enum_BlendMode_Alpha();
+        Module['BlendMode']['Mix'] = _BlendMode_Mix();
+        Module['BlendMode']['Add'] = _BlendMode_Add();
+        Module['BlendMode']['Sub'] = _BlendMode_Sub();
+        Module['BlendMode']['Mul'] = _BlendMode_Mul();
+        Module['BlendMode']['Normal'] = _BlendMode_Normal();
+        Module['BlendMode']['Alpha'] = _BlendMode_Alpha();
         // CullMode
-        Module['CullMode']['None'] = _emscripten_enum_CullMode_None();
-        Module['CullMode']['Front'] = _emscripten_enum_CullMode_Front();
-        Module['CullMode']['Back'] = _emscripten_enum_CullMode_Back();
+        Module['CullMode']['None'] = _CullMode_None();
+        Module['CullMode']['Front'] = _CullMode_Front();
+        Module['CullMode']['Back'] = _CullMode_Back();
         // DepthDraw
-        Module['DepthDraw']['Enabled'] = _emscripten_enum_DepthDraw_Enabled();
-        Module['DepthDraw']['Disabled'] = _emscripten_enum_DepthDraw_Disabled();
+        Module['DepthDraw']['Enabled'] = _DepthDraw_Enabled();
+        Module['DepthDraw']['Disabled'] = _DepthDraw_Disabled();
         // DepthTest
-        Module['DepthTest']['Enabled'] = _emscripten_enum_DepthTest_Enabled();
-        Module['DepthTest']['Disabled'] = _emscripten_enum_DepthTest_Disabled();
+        Module['DepthTest']['Enabled'] = _DepthTest_Enabled();
+        Module['DepthTest']['Disabled'] = _DepthTest_Disabled();
         // EmitterFlow
-        Module['EmitterFlow']['Outward'] = _emscripten_enum_EmitterFlow_Outward();
-        Module['EmitterFlow']['Absolute'] = _emscripten_enum_EmitterFlow_Absolute();
+        Module['EmitterFlow']['Outward'] = _EmitterFlow_Outward();
+        Module['EmitterFlow']['Absolute'] = _EmitterFlow_Absolute();
         // Interpolation
-        Module['Interpolation']['Nearest'] = _emscripten_enum_Interpolation_Nearest();
-        Module['Interpolation']['Linear'] = _emscripten_enum_Interpolation_Linear();
-        Module['Interpolation']['Cubic'] = _emscripten_enum_Interpolation_Cubic();
+        Module['Interpolation']['Nearest'] = _Interpolation_Nearest();
+        Module['Interpolation']['Linear'] = _Interpolation_Linear();
+        Module['Interpolation']['Cubic'] = _Interpolation_Cubic();
         // IsometricAngle
-        Module['NORTH'] = _emscripten_enum_IsometricAngle_NORTH();
-        Module['SOUTH'] = _emscripten_enum_IsometricAngle_SOUTH();
-        Module['EAST'] = _emscripten_enum_IsometricAngle_EAST();
-        Module['WEST'] = _emscripten_enum_IsometricAngle_WEST();
+        Module['NORTH'] = _IsometricAngle_NORTH();
+        Module['SOUTH'] = _IsometricAngle_SOUTH();
+        Module['EAST'] = _IsometricAngle_EAST();
+        Module['WEST'] = _IsometricAngle_WEST();
         // ItemShadow
-        Module['ItemShadow']['Default'] = _emscripten_enum_ItemShadow_Default();
-        Module['ItemShadow']['DoubleSided'] = _emscripten_enum_ItemShadow_DoubleSided();
+        Module['ItemShadow']['Default'] = _ItemShadow_Default();
+        Module['ItemShadow']['DoubleSided'] = _ItemShadow_DoubleSided();
         // LightType
-        Module['LightType']['Direct'] = _emscripten_enum_LightType_Direct();
-        Module['LightType']['Point'] = _emscripten_enum_LightType_Point();
-        Module['LightType']['Spot'] = _emscripten_enum_LightType_Spot();
-        Module['LightType']['Count'] = _emscripten_enum_LightType_Count();
+        Module['LightType']['Direct'] = _LightType_Direct();
+        Module['LightType']['Point'] = _LightType_Point();
+        Module['LightType']['Spot'] = _LightType_Spot();
+        Module['LightType']['Count'] = _LightType_Count();
         // Lighting
-        Module['Lighting']['None'] = _emscripten_enum_Lighting_None();
-        Module['Lighting']['Clustered'] = _emscripten_enum_Lighting_Clustered();
-        Module['Lighting']['Deferred'] = _emscripten_enum_Lighting_Deferred();
-        Module['Lighting']['VoxelGI'] = _emscripten_enum_Lighting_VoxelGI();
+        Module['Lighting']['None'] = _Lighting_None();
+        Module['Lighting']['Clustered'] = _Lighting_Clustered();
+        Module['Lighting']['Deferred'] = _Lighting_Deferred();
+        Module['Lighting']['VoxelGI'] = _Lighting_VoxelGI();
         // MSAA
-        Module['MSAA']['Disabled'] = _emscripten_enum_MSAA_Disabled();
-        Module['MSAA']['X2'] = _emscripten_enum_MSAA_X2();
-        Module['MSAA']['X4'] = _emscripten_enum_MSAA_X4();
-        Module['MSAA']['X8'] = _emscripten_enum_MSAA_X8();
-        Module['MSAA']['X16'] = _emscripten_enum_MSAA_X16();
+        Module['MSAA']['Disabled'] = _MSAA_Disabled();
+        Module['MSAA']['X2'] = _MSAA_X2();
+        Module['MSAA']['X4'] = _MSAA_X4();
+        Module['MSAA']['X8'] = _MSAA_X8();
+        Module['MSAA']['X16'] = _MSAA_X16();
         // MaterialFlag
-        Module['MaterialFlag']['TriplanarUV1'] = _emscripten_enum_MaterialFlag_TriplanarUV1();
-        Module['MaterialFlag']['TriplanarUV2'] = _emscripten_enum_MaterialFlag_TriplanarUV2();
-        Module['MaterialFlag']['Count'] = _emscripten_enum_MaterialFlag_Count();
+        Module['MaterialFlag']['TriplanarUV1'] = _MaterialFlag_TriplanarUV1();
+        Module['MaterialFlag']['TriplanarUV2'] = _MaterialFlag_TriplanarUV2();
+        Module['MaterialFlag']['Count'] = _MaterialFlag_Count();
         // ModelFormat
-        Module['ModelFormat']['obj'] = _emscripten_enum_ModelFormat_obj();
-        Module['ModelFormat']['gltf'] = _emscripten_enum_ModelFormat_gltf();
-        Module['ModelFormat']['Count'] = _emscripten_enum_ModelFormat_Count();
+        Module['ModelFormat']['obj'] = _ModelFormat_obj();
+        Module['ModelFormat']['gltf'] = _ModelFormat_gltf();
+        Module['ModelFormat']['Count'] = _ModelFormat_Count();
         // Month
-        Module['Month']['January'] = _emscripten_enum_Month_January();
-        Module['Month']['February'] = _emscripten_enum_Month_February();
-        Module['Month']['March'] = _emscripten_enum_Month_March();
-        Module['Month']['April'] = _emscripten_enum_Month_April();
-        Module['Month']['May'] = _emscripten_enum_Month_May();
-        Module['Month']['June'] = _emscripten_enum_Month_June();
-        Module['Month']['July'] = _emscripten_enum_Month_July();
-        Module['Month']['August'] = _emscripten_enum_Month_August();
-        Module['Month']['September'] = _emscripten_enum_Month_September();
-        Module['Month']['October'] = _emscripten_enum_Month_October();
-        Module['Month']['November'] = _emscripten_enum_Month_November();
-        Module['Month']['December'] = _emscripten_enum_Month_December();
+        Module['Month']['January'] = _Month_January();
+        Module['Month']['February'] = _Month_February();
+        Module['Month']['March'] = _Month_March();
+        Module['Month']['April'] = _Month_April();
+        Module['Month']['May'] = _Month_May();
+        Module['Month']['June'] = _Month_June();
+        Module['Month']['July'] = _Month_July();
+        Module['Month']['August'] = _Month_August();
+        Module['Month']['September'] = _Month_September();
+        Module['Month']['October'] = _Month_October();
+        Module['Month']['November'] = _Month_November();
+        Module['Month']['December'] = _Month_December();
         // PbrDiffuseMode
-        Module['PbrDiffuseMode']['Lambert'] = _emscripten_enum_PbrDiffuseMode_Lambert();
-        Module['PbrDiffuseMode']['LambertHalf'] = _emscripten_enum_PbrDiffuseMode_LambertHalf();
-        Module['PbrDiffuseMode']['OrenNayar'] = _emscripten_enum_PbrDiffuseMode_OrenNayar();
-        Module['PbrDiffuseMode']['Burley'] = _emscripten_enum_PbrDiffuseMode_Burley();
-        Module['PbrDiffuseMode']['Toon'] = _emscripten_enum_PbrDiffuseMode_Toon();
+        Module['PbrDiffuseMode']['Lambert'] = _PbrDiffuseMode_Lambert();
+        Module['PbrDiffuseMode']['LambertHalf'] = _PbrDiffuseMode_LambertHalf();
+        Module['PbrDiffuseMode']['OrenNayar'] = _PbrDiffuseMode_OrenNayar();
+        Module['PbrDiffuseMode']['Burley'] = _PbrDiffuseMode_Burley();
+        Module['PbrDiffuseMode']['Toon'] = _PbrDiffuseMode_Toon();
         // PbrSpecularMode
-        Module['PbrSpecularMode']['SchlickGGX'] = _emscripten_enum_PbrSpecularMode_SchlickGGX();
-        Module['PbrSpecularMode']['Blinn'] = _emscripten_enum_PbrSpecularMode_Blinn();
-        Module['PbrSpecularMode']['Phong'] = _emscripten_enum_PbrSpecularMode_Phong();
-        Module['PbrSpecularMode']['Toon'] = _emscripten_enum_PbrSpecularMode_Toon();
-        Module['PbrSpecularMode']['Disabled'] = _emscripten_enum_PbrSpecularMode_Disabled();
+        Module['PbrSpecularMode']['SchlickGGX'] = _PbrSpecularMode_SchlickGGX();
+        Module['PbrSpecularMode']['Blinn'] = _PbrSpecularMode_Blinn();
+        Module['PbrSpecularMode']['Phong'] = _PbrSpecularMode_Phong();
+        Module['PbrSpecularMode']['Toon'] = _PbrSpecularMode_Toon();
+        Module['PbrSpecularMode']['Disabled'] = _PbrSpecularMode_Disabled();
         // ShaderType
-        Module['ShaderType']['Compute'] = _emscripten_enum_ShaderType_Compute();
-        Module['ShaderType']['Fragment'] = _emscripten_enum_ShaderType_Fragment();
-        Module['ShaderType']['Geometry'] = _emscripten_enum_ShaderType_Geometry();
-        Module['ShaderType']['Vertex'] = _emscripten_enum_ShaderType_Vertex();
-        Module['ShaderType']['Count'] = _emscripten_enum_ShaderType_Count();
+        Module['ShaderType']['Compute'] = _ShaderType_Compute();
+        Module['ShaderType']['Fragment'] = _ShaderType_Fragment();
+        Module['ShaderType']['Geometry'] = _ShaderType_Geometry();
+        Module['ShaderType']['Vertex'] = _ShaderType_Vertex();
+        Module['ShaderType']['Count'] = _ShaderType_Count();
         // Shading
-        Module['Shading']['Wireframe'] = _emscripten_enum_Shading_Wireframe();
-        Module['Shading']['Unshaded'] = _emscripten_enum_Shading_Unshaded();
-        Module['Shading']['Shaded'] = _emscripten_enum_Shading_Shaded();
-        Module['Shading']['Volume'] = _emscripten_enum_Shading_Volume();
-        Module['Shading']['Voxels'] = _emscripten_enum_Shading_Voxels();
-        Module['Shading']['Lightmap'] = _emscripten_enum_Shading_Lightmap();
-        Module['Shading']['Clear'] = _emscripten_enum_Shading_Clear();
-        Module['Shading']['Count'] = _emscripten_enum_Shading_Count();
+        Module['Shading']['Wireframe'] = _Shading_Wireframe();
+        Module['Shading']['Unshaded'] = _Shading_Unshaded();
+        Module['Shading']['Shaded'] = _Shading_Shaded();
+        Module['Shading']['Volume'] = _Shading_Volume();
+        Module['Shading']['Voxels'] = _Shading_Voxels();
+        Module['Shading']['Lightmap'] = _Shading_Lightmap();
+        Module['Shading']['Clear'] = _Shading_Clear();
+        Module['Shading']['Count'] = _Shading_Count();
         // ShadowFlags
-        Module['CSM_Stabilize'] = _emscripten_enum_ShadowFlags_CSM_Stabilize();
-        Module['CSM_Optimize'] = _emscripten_enum_ShadowFlags_CSM_Optimize();
-        Module['CSM_BlendSplits'] = _emscripten_enum_ShadowFlags_CSM_BlendSplits();
+        Module['CSM_Stabilize'] = _ShadowFlags_CSM_Stabilize();
+        Module['CSM_Optimize'] = _ShadowFlags_CSM_Optimize();
+        Module['CSM_BlendSplits'] = _ShadowFlags_CSM_BlendSplits();
         // TextureChannel
-        Module['TextureChannel']['Red'] = _emscripten_enum_TextureChannel_Red();
-        Module['TextureChannel']['Green'] = _emscripten_enum_TextureChannel_Green();
-        Module['TextureChannel']['Blue'] = _emscripten_enum_TextureChannel_Blue();
-        Module['TextureChannel']['Alpha'] = _emscripten_enum_TextureChannel_Alpha();
-        Module['TextureChannel']['All'] = _emscripten_enum_TextureChannel_All();
+        Module['TextureChannel']['Red'] = _TextureChannel_Red();
+        Module['TextureChannel']['Green'] = _TextureChannel_Green();
+        Module['TextureChannel']['Blue'] = _TextureChannel_Blue();
+        Module['TextureChannel']['Alpha'] = _TextureChannel_Alpha();
+        Module['TextureChannel']['All'] = _TextureChannel_All();
         // TextureHint
-        Module['TextureHint']['Black'] = _emscripten_enum_TextureHint_Black();
-        Module['TextureHint']['White'] = _emscripten_enum_TextureHint_White();
-        Module['TextureHint']['Normal'] = _emscripten_enum_TextureHint_Normal();
+        Module['TextureHint']['Black'] = _TextureHint_Black();
+        Module['TextureHint']['White'] = _TextureHint_White();
+        Module['TextureHint']['Normal'] = _TextureHint_Normal();
         // TextureSampler
-        Module['TextureSampler']['Source0'] = _emscripten_enum_TextureSampler_Source0();
-        Module['TextureSampler']['Source1'] = _emscripten_enum_TextureSampler_Source1();
-        Module['TextureSampler']['Source2'] = _emscripten_enum_TextureSampler_Source2();
-        Module['TextureSampler']['Source3'] = _emscripten_enum_TextureSampler_Source3();
-        Module['TextureSampler']['SourceDepth'] = _emscripten_enum_TextureSampler_SourceDepth();
-        Module['TextureSampler']['Color'] = _emscripten_enum_TextureSampler_Color();
-        Module['TextureSampler']['Albedo'] = _emscripten_enum_TextureSampler_Albedo();
-        Module['TextureSampler']['Metallic'] = _emscripten_enum_TextureSampler_Metallic();
-        Module['TextureSampler']['Roughness'] = _emscripten_enum_TextureSampler_Roughness();
-        Module['TextureSampler']['Emissive'] = _emscripten_enum_TextureSampler_Emissive();
-        Module['TextureSampler']['Normal'] = _emscripten_enum_TextureSampler_Normal();
-        Module['TextureSampler']['AO'] = _emscripten_enum_TextureSampler_AO();
-        Module['TextureSampler']['Depth'] = _emscripten_enum_TextureSampler_Depth();
-        Module['TextureSampler']['Skeleton'] = _emscripten_enum_TextureSampler_Skeleton();
-        Module['TextureSampler']['ShadowCSM'] = _emscripten_enum_TextureSampler_ShadowCSM();
-        Module['TextureSampler']['ShadowAtlas'] = _emscripten_enum_TextureSampler_ShadowAtlas();
-        Module['TextureSampler']['Radiance'] = _emscripten_enum_TextureSampler_Radiance();
-        Module['TextureSampler']['ReflectionProbe'] = _emscripten_enum_TextureSampler_ReflectionProbe();
-        Module['TextureSampler']['GIProbe'] = _emscripten_enum_TextureSampler_GIProbe();
-        Module['TextureSampler']['Lights'] = _emscripten_enum_TextureSampler_Lights();
-        Module['TextureSampler']['Clusters'] = _emscripten_enum_TextureSampler_Clusters();
-        Module['TextureSampler']['LightRecords'] = _emscripten_enum_TextureSampler_LightRecords();
-        Module['TextureSampler']['Lightmap'] = _emscripten_enum_TextureSampler_Lightmap();
+        Module['TextureSampler']['Source0'] = _TextureSampler_Source0();
+        Module['TextureSampler']['Source1'] = _TextureSampler_Source1();
+        Module['TextureSampler']['Source2'] = _TextureSampler_Source2();
+        Module['TextureSampler']['Source3'] = _TextureSampler_Source3();
+        Module['TextureSampler']['SourceDepth'] = _TextureSampler_SourceDepth();
+        Module['TextureSampler']['Color'] = _TextureSampler_Color();
+        Module['TextureSampler']['Albedo'] = _TextureSampler_Albedo();
+        Module['TextureSampler']['Metallic'] = _TextureSampler_Metallic();
+        Module['TextureSampler']['Roughness'] = _TextureSampler_Roughness();
+        Module['TextureSampler']['Emissive'] = _TextureSampler_Emissive();
+        Module['TextureSampler']['Normal'] = _TextureSampler_Normal();
+        Module['TextureSampler']['AO'] = _TextureSampler_AO();
+        Module['TextureSampler']['Depth'] = _TextureSampler_Depth();
+        Module['TextureSampler']['Skeleton'] = _TextureSampler_Skeleton();
+        Module['TextureSampler']['ShadowCSM'] = _TextureSampler_ShadowCSM();
+        Module['TextureSampler']['ShadowAtlas'] = _TextureSampler_ShadowAtlas();
+        Module['TextureSampler']['Radiance'] = _TextureSampler_Radiance();
+        Module['TextureSampler']['ReflectionProbe'] = _TextureSampler_ReflectionProbe();
+        Module['TextureSampler']['GIProbe'] = _TextureSampler_GIProbe();
+        Module['TextureSampler']['Lights'] = _TextureSampler_Lights();
+        Module['TextureSampler']['Clusters'] = _TextureSampler_Clusters();
+        Module['TextureSampler']['LightRecords'] = _TextureSampler_LightRecords();
+        Module['TextureSampler']['Lightmap'] = _TextureSampler_Lightmap();
     }
     if (Module['calledRun']) setupEnums();
     else addOnPreMain(setupEnums);

@@ -692,48 +692,48 @@ extern "C" {
 		delete self;
 	}
 	// DrawMode
-	mud::DrawMode EMSCRIPTEN_KEEPALIVE emscripten_enum_DrawMode_OUTLINE() {
+	mud::DrawMode EMSCRIPTEN_KEEPALIVE DrawMode_OUTLINE() {
 		return mud::OUTLINE;
 	}
-	mud::DrawMode EMSCRIPTEN_KEEPALIVE emscripten_enum_DrawMode_PLAIN() {
+	mud::DrawMode EMSCRIPTEN_KEEPALIVE DrawMode_PLAIN() {
 		return mud::PLAIN;
 	}
 	// PrimitiveType
-	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_Points() {
+	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE PrimitiveType_Points() {
 		return mud::PrimitiveType::Points;
 	}
-	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_Lines() {
+	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE PrimitiveType_Lines() {
 		return mud::PrimitiveType::Lines;
 	}
-	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_LineLoop() {
+	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE PrimitiveType_LineLoop() {
 		return mud::PrimitiveType::LineLoop;
 	}
-	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_LineStrip() {
+	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE PrimitiveType_LineStrip() {
 		return mud::PrimitiveType::LineStrip;
 	}
-	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_Triangles() {
+	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE PrimitiveType_Triangles() {
 		return mud::PrimitiveType::Triangles;
 	}
-	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_TriangleStrip() {
+	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE PrimitiveType_TriangleStrip() {
 		return mud::PrimitiveType::TriangleStrip;
 	}
-	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE emscripten_enum_PrimitiveType_TriangleFan() {
+	mud::PrimitiveType EMSCRIPTEN_KEEPALIVE PrimitiveType_TriangleFan() {
 		return mud::PrimitiveType::TriangleFan;
 	}
 	// SymbolDetail
-	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE emscripten_enum_SymbolDetail_Lowest() {
+	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE SymbolDetail_Lowest() {
 		return mud::SymbolDetail::Lowest;
 	}
-	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE emscripten_enum_SymbolDetail_Low() {
+	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE SymbolDetail_Low() {
 		return mud::SymbolDetail::Low;
 	}
-	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE emscripten_enum_SymbolDetail_Medium() {
+	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE SymbolDetail_Medium() {
 		return mud::SymbolDetail::Medium;
 	}
-	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE emscripten_enum_SymbolDetail_High() {
+	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE SymbolDetail_High() {
 		return mud::SymbolDetail::High;
 	}
-	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE emscripten_enum_SymbolDetail_Highest() {
+	mud::SymbolDetail EMSCRIPTEN_KEEPALIVE SymbolDetail_Highest() {
 		return mud::SymbolDetail::Highest;
 	}
 	

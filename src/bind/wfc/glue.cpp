@@ -24,8 +24,8 @@ extern "C" {
 	uint32_t EMSCRIPTEN_KEEPALIVE Tile_get_index(mud::Tile* self) {
 		return self->m_index;
 	}
-	std::string EMSCRIPTEN_KEEPALIVE Tile_get_name(mud::Tile* self) {
-		return self->m_name;
+	const char* EMSCRIPTEN_KEEPALIVE Tile_get_name(mud::Tile* self) {
+		return self->m_name.c_str();
 	}
 	char EMSCRIPTEN_KEEPALIVE Tile_get_symmetry(mud::Tile* self) {
 		return self->m_symmetry;
@@ -46,8 +46,8 @@ extern "C" {
 	mud::Tileset* EMSCRIPTEN_KEEPALIVE Tileset_Tileset_0() {
 		return new mud::Tileset();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE Tileset_get_name(mud::Tileset* self) {
-		return self->m_name;
+	const char* EMSCRIPTEN_KEEPALIVE Tileset_get_name(mud::Tileset* self) {
+		return self->m_name.c_str();
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE Tileset_get_tile_size(mud::Tileset* self) {
 		static mud::vec3 temp;
@@ -95,13 +95,13 @@ extern "C" {
 		delete self;
 	}
 	// Result
-	mud::Result EMSCRIPTEN_KEEPALIVE emscripten_enum_Result_kSuccess() {
+	mud::Result EMSCRIPTEN_KEEPALIVE Result_kSuccess() {
 		return mud::kSuccess;
 	}
-	mud::Result EMSCRIPTEN_KEEPALIVE emscripten_enum_Result_kFail() {
+	mud::Result EMSCRIPTEN_KEEPALIVE Result_kFail() {
 		return mud::kFail;
 	}
-	mud::Result EMSCRIPTEN_KEEPALIVE emscripten_enum_Result_kUnfinished() {
+	mud::Result EMSCRIPTEN_KEEPALIVE Result_kUnfinished() {
 		return mud::kUnfinished;
 	}
 	

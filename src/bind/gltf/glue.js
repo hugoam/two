@@ -1824,38 +1824,38 @@ glTFTextureInfo.prototype["__destroy__"] = glTFTextureInfo.prototype.__destroy__
 (function() {
     function setupEnums() {
         // glTFAlphaMode
-        Module['glTFAlphaMode']['OPAQUE'] = _emscripten_enum_glTFAlphaMode_OPAQUE();
-        Module['glTFAlphaMode']['MASK'] = _emscripten_enum_glTFAlphaMode_MASK();
-        Module['glTFAlphaMode']['BLEND'] = _emscripten_enum_glTFAlphaMode_BLEND();
+        Module['glTFAlphaMode']['OPAQUE'] = _glTFAlphaMode_OPAQUE();
+        Module['glTFAlphaMode']['MASK'] = _glTFAlphaMode_MASK();
+        Module['glTFAlphaMode']['BLEND'] = _glTFAlphaMode_BLEND();
         // glTFComponentType
-        Module['glTFComponentType']['BYTE'] = _emscripten_enum_glTFComponentType_BYTE();
-        Module['glTFComponentType']['UNSIGNED_BYTE'] = _emscripten_enum_glTFComponentType_UNSIGNED_BYTE();
-        Module['glTFComponentType']['SHORT'] = _emscripten_enum_glTFComponentType_SHORT();
-        Module['glTFComponentType']['UNSIGNED_SHORT'] = _emscripten_enum_glTFComponentType_UNSIGNED_SHORT();
-        Module['glTFComponentType']['INT'] = _emscripten_enum_glTFComponentType_INT();
-        Module['glTFComponentType']['FLOAT'] = _emscripten_enum_glTFComponentType_FLOAT();
+        Module['glTFComponentType']['BYTE'] = _glTFComponentType_BYTE();
+        Module['glTFComponentType']['UNSIGNED_BYTE'] = _glTFComponentType_UNSIGNED_BYTE();
+        Module['glTFComponentType']['SHORT'] = _glTFComponentType_SHORT();
+        Module['glTFComponentType']['UNSIGNED_SHORT'] = _glTFComponentType_UNSIGNED_SHORT();
+        Module['glTFComponentType']['INT'] = _glTFComponentType_INT();
+        Module['glTFComponentType']['FLOAT'] = _glTFComponentType_FLOAT();
         // glTFInterpolation
-        Module['glTFInterpolation']['LINEAR'] = _emscripten_enum_glTFInterpolation_LINEAR();
-        Module['glTFInterpolation']['STEP'] = _emscripten_enum_glTFInterpolation_STEP();
-        Module['glTFInterpolation']['CATMULLROMSPLINE'] = _emscripten_enum_glTFInterpolation_CATMULLROMSPLINE();
-        Module['glTFInterpolation']['CUBIC_SPLINE'] = _emscripten_enum_glTFInterpolation_CUBIC_SPLINE();
+        Module['glTFInterpolation']['LINEAR'] = _glTFInterpolation_LINEAR();
+        Module['glTFInterpolation']['STEP'] = _glTFInterpolation_STEP();
+        Module['glTFInterpolation']['CATMULLROMSPLINE'] = _glTFInterpolation_CATMULLROMSPLINE();
+        Module['glTFInterpolation']['CUBIC_SPLINE'] = _glTFInterpolation_CUBIC_SPLINE();
         // glTFPrimitiveType
-        Module['glTFPrimitiveType']['POINTS'] = _emscripten_enum_glTFPrimitiveType_POINTS();
-        Module['glTFPrimitiveType']['LINES'] = _emscripten_enum_glTFPrimitiveType_LINES();
-        Module['glTFPrimitiveType']['LINE_LOOP'] = _emscripten_enum_glTFPrimitiveType_LINE_LOOP();
-        Module['glTFPrimitiveType']['LINE_STRIP'] = _emscripten_enum_glTFPrimitiveType_LINE_STRIP();
-        Module['glTFPrimitiveType']['TRIANGLES'] = _emscripten_enum_glTFPrimitiveType_TRIANGLES();
-        Module['glTFPrimitiveType']['TRIANGLE_STRIP'] = _emscripten_enum_glTFPrimitiveType_TRIANGLE_STRIP();
-        Module['glTFPrimitiveType']['TRIANGLE_FAN'] = _emscripten_enum_glTFPrimitiveType_TRIANGLE_FAN();
+        Module['glTFPrimitiveType']['POINTS'] = _glTFPrimitiveType_POINTS();
+        Module['glTFPrimitiveType']['LINES'] = _glTFPrimitiveType_LINES();
+        Module['glTFPrimitiveType']['LINE_LOOP'] = _glTFPrimitiveType_LINE_LOOP();
+        Module['glTFPrimitiveType']['LINE_STRIP'] = _glTFPrimitiveType_LINE_STRIP();
+        Module['glTFPrimitiveType']['TRIANGLES'] = _glTFPrimitiveType_TRIANGLES();
+        Module['glTFPrimitiveType']['TRIANGLE_STRIP'] = _glTFPrimitiveType_TRIANGLE_STRIP();
+        Module['glTFPrimitiveType']['TRIANGLE_FAN'] = _glTFPrimitiveType_TRIANGLE_FAN();
         // glTFType
-        Module['glTFType']['SCALAR'] = _emscripten_enum_glTFType_SCALAR();
-        Module['glTFType']['VEC2'] = _emscripten_enum_glTFType_VEC2();
-        Module['glTFType']['VEC3'] = _emscripten_enum_glTFType_VEC3();
-        Module['glTFType']['VEC4'] = _emscripten_enum_glTFType_VEC4();
-        Module['glTFType']['MAT2'] = _emscripten_enum_glTFType_MAT2();
-        Module['glTFType']['MAT3'] = _emscripten_enum_glTFType_MAT3();
-        Module['glTFType']['MAT4'] = _emscripten_enum_glTFType_MAT4();
-        Module['glTFType']['INVALID'] = _emscripten_enum_glTFType_INVALID();
+        Module['glTFType']['SCALAR'] = _glTFType_SCALAR();
+        Module['glTFType']['VEC2'] = _glTFType_VEC2();
+        Module['glTFType']['VEC3'] = _glTFType_VEC3();
+        Module['glTFType']['VEC4'] = _glTFType_VEC4();
+        Module['glTFType']['MAT2'] = _glTFType_MAT2();
+        Module['glTFType']['MAT3'] = _glTFType_MAT3();
+        Module['glTFType']['MAT4'] = _glTFType_MAT4();
+        Module['glTFType']['INVALID'] = _glTFType_INVALID();
     }
     if (Module['calledRun']) setupEnums();
     else addOnPreMain(setupEnums);

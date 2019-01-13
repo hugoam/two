@@ -174,22 +174,22 @@ extern "C" {
 		delete self;
 	}
 	// TypeClass
-	mud::TypeClass EMSCRIPTEN_KEEPALIVE emscripten_enum_TypeClass_None() {
+	mud::TypeClass EMSCRIPTEN_KEEPALIVE TypeClass_None() {
 		return mud::TypeClass::None;
 	}
-	mud::TypeClass EMSCRIPTEN_KEEPALIVE emscripten_enum_TypeClass_Object() {
+	mud::TypeClass EMSCRIPTEN_KEEPALIVE TypeClass_Object() {
 		return mud::TypeClass::Object;
 	}
-	mud::TypeClass EMSCRIPTEN_KEEPALIVE emscripten_enum_TypeClass_Struct() {
+	mud::TypeClass EMSCRIPTEN_KEEPALIVE TypeClass_Struct() {
 		return mud::TypeClass::Struct;
 	}
-	mud::TypeClass EMSCRIPTEN_KEEPALIVE emscripten_enum_TypeClass_Sequence() {
+	mud::TypeClass EMSCRIPTEN_KEEPALIVE TypeClass_Sequence() {
 		return mud::TypeClass::Sequence;
 	}
-	mud::TypeClass EMSCRIPTEN_KEEPALIVE emscripten_enum_TypeClass_BaseType() {
+	mud::TypeClass EMSCRIPTEN_KEEPALIVE TypeClass_BaseType() {
 		return mud::TypeClass::BaseType;
 	}
-	mud::TypeClass EMSCRIPTEN_KEEPALIVE emscripten_enum_TypeClass_Enum() {
+	mud::TypeClass EMSCRIPTEN_KEEPALIVE TypeClass_Enum() {
 		return mud::TypeClass::Enum;
 	}
 	

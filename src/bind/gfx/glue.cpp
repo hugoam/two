@@ -60,8 +60,8 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE Animated_next_animation_0(mud::Animated* self) {
 		self->next_animation();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE Animated_playing_0(mud::Animated* self) {
-		return self->playing();
+	const char* EMSCRIPTEN_KEEPALIVE Animated_playing_0(mud::Animated* self) {
+		return self->playing().c_str();
 	}
 	std::vector<mud::AnimationPlay>* EMSCRIPTEN_KEEPALIVE Animated_get_playing(mud::Animated* self) {
 		static std::vector<mud::AnimationPlay> temp;
@@ -91,8 +91,8 @@ extern "C" {
 		delete self;
 	}
 	// Animation
-	std::string EMSCRIPTEN_KEEPALIVE Animation_get_name(mud::Animation* self) {
-		return self->m_name;
+	const char* EMSCRIPTEN_KEEPALIVE Animation_get_name(mud::Animation* self) {
+		return self->m_name.c_str();
 	}
 	float EMSCRIPTEN_KEEPALIVE Animation_get_length(mud::Animation* self) {
 		return self->m_length;
@@ -141,8 +141,8 @@ extern "C" {
 	size_t EMSCRIPTEN_KEEPALIVE AnimationTrack_get_node(mud::AnimationTrack* self) {
 		return self->m_node;
 	}
-	std::string EMSCRIPTEN_KEEPALIVE AnimationTrack_get_node_name(mud::AnimationTrack* self) {
-		return self->m_node_name;
+	const char* EMSCRIPTEN_KEEPALIVE AnimationTrack_get_node_name(mud::AnimationTrack* self) {
+		return self->m_node_name.c_str();
 	}
 	mud::AnimationTarget EMSCRIPTEN_KEEPALIVE AnimationTrack_get_target(mud::AnimationTrack* self) {
 		static mud::AnimationTarget temp;
@@ -509,8 +509,8 @@ extern "C" {
 		static std::vector<std::string> temp;
 		return (temp = &self->m_include_materials, &temp);
 	}
-	std::string EMSCRIPTEN_KEEPALIVE ImportConfig_get_suffix(mud::ImportConfig* self) {
-		return self->m_suffix;
+	const char* EMSCRIPTEN_KEEPALIVE ImportConfig_get_suffix(mud::ImportConfig* self) {
+		return self->m_suffix.c_str();
 	}
 	bool EMSCRIPTEN_KEEPALIVE ImportConfig_get_force_reimport(mud::ImportConfig* self) {
 		return self->m_force_reimport;
@@ -665,8 +665,8 @@ extern "C" {
 		delete self;
 	}
 	// Mesh
-	std::string EMSCRIPTEN_KEEPALIVE Mesh_get_name(mud::Mesh* self) {
-		return self->m_name;
+	const char* EMSCRIPTEN_KEEPALIVE Mesh_get_name(mud::Mesh* self) {
+		return self->m_name.c_str();
 	}
 	uint16_t EMSCRIPTEN_KEEPALIVE Mesh_get_index(mud::Mesh* self) {
 		return self->m_index;
@@ -711,8 +711,8 @@ extern "C" {
 		delete self;
 	}
 	// Model
-	std::string EMSCRIPTEN_KEEPALIVE Model_get_name(mud::Model* self) {
-		return self->m_name;
+	const char* EMSCRIPTEN_KEEPALIVE Model_get_name(mud::Model* self) {
+		return self->m_name.c_str();
 	}
 	uint16_t EMSCRIPTEN_KEEPALIVE Model_get_index(mud::Model* self) {
 		return self->m_index;
@@ -782,8 +782,8 @@ extern "C" {
 	mud::ParticleGenerator* EMSCRIPTEN_KEEPALIVE ParticleGenerator_ParticleGenerator_0() {
 		return new mud::ParticleGenerator();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_name(mud::ParticleGenerator* self) {
-		return self->m_name;
+	const char* EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_name(mud::ParticleGenerator* self) {
+		return self->m_name.c_str();
 	}
 	float EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_duration(mud::ParticleGenerator* self) {
 		return self->m_duration;
@@ -817,8 +817,8 @@ extern "C" {
 		static mud::BlendMode temp;
 		return (temp = &self->m_blend_mode, &temp);
 	}
-	std::string EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_sprite_name(mud::ParticleGenerator* self) {
-		return self->m_sprite_name;
+	const char* EMSCRIPTEN_KEEPALIVE ParticleGenerator_get_sprite_name(mud::ParticleGenerator* self) {
+		return self->m_sprite_name.c_str();
 	}
 	void EMSCRIPTEN_KEEPALIVE ParticleGenerator___destroy__(mud::ParticleGenerator* self) {
 		delete self;
@@ -869,8 +869,8 @@ extern "C" {
 		delete self;
 	}
 	// Prefab
-	std::string EMSCRIPTEN_KEEPALIVE Prefab_get_name(mud::Prefab* self) {
-		return self->m_name;
+	const char* EMSCRIPTEN_KEEPALIVE Prefab_get_name(mud::Prefab* self) {
+		return self->m_name.c_str();
 	}
 	void EMSCRIPTEN_KEEPALIVE Prefab___destroy__(mud::Prefab* self) {
 		delete self;
@@ -1087,384 +1087,384 @@ extern "C" {
 		delete self;
 	}
 	// AnimationTarget
-	mud::AnimationTarget EMSCRIPTEN_KEEPALIVE emscripten_enum_AnimationTarget_Position() {
+	mud::AnimationTarget EMSCRIPTEN_KEEPALIVE AnimationTarget_Position() {
 		return mud::AnimationTarget::Position;
 	}
-	mud::AnimationTarget EMSCRIPTEN_KEEPALIVE emscripten_enum_AnimationTarget_Rotation() {
+	mud::AnimationTarget EMSCRIPTEN_KEEPALIVE AnimationTarget_Rotation() {
 		return mud::AnimationTarget::Rotation;
 	}
-	mud::AnimationTarget EMSCRIPTEN_KEEPALIVE emscripten_enum_AnimationTarget_Scale() {
+	mud::AnimationTarget EMSCRIPTEN_KEEPALIVE AnimationTarget_Scale() {
 		return mud::AnimationTarget::Scale;
 	}
 	// BackgroundMode
-	mud::BackgroundMode EMSCRIPTEN_KEEPALIVE emscripten_enum_BackgroundMode_None() {
+	mud::BackgroundMode EMSCRIPTEN_KEEPALIVE BackgroundMode_None() {
 		return mud::BackgroundMode::None;
 	}
-	mud::BackgroundMode EMSCRIPTEN_KEEPALIVE emscripten_enum_BackgroundMode_Panorama() {
+	mud::BackgroundMode EMSCRIPTEN_KEEPALIVE BackgroundMode_Panorama() {
 		return mud::BackgroundMode::Panorama;
 	}
-	mud::BackgroundMode EMSCRIPTEN_KEEPALIVE emscripten_enum_BackgroundMode_Radiance() {
+	mud::BackgroundMode EMSCRIPTEN_KEEPALIVE BackgroundMode_Radiance() {
 		return mud::BackgroundMode::Radiance;
 	}
-	mud::BackgroundMode EMSCRIPTEN_KEEPALIVE emscripten_enum_BackgroundMode_Custom() {
+	mud::BackgroundMode EMSCRIPTEN_KEEPALIVE BackgroundMode_Custom() {
 		return mud::BackgroundMode::Custom;
 	}
 	// BlendMode
-	mud::BlendMode EMSCRIPTEN_KEEPALIVE emscripten_enum_BlendMode_Mix() {
+	mud::BlendMode EMSCRIPTEN_KEEPALIVE BlendMode_Mix() {
 		return mud::BlendMode::Mix;
 	}
-	mud::BlendMode EMSCRIPTEN_KEEPALIVE emscripten_enum_BlendMode_Add() {
+	mud::BlendMode EMSCRIPTEN_KEEPALIVE BlendMode_Add() {
 		return mud::BlendMode::Add;
 	}
-	mud::BlendMode EMSCRIPTEN_KEEPALIVE emscripten_enum_BlendMode_Sub() {
+	mud::BlendMode EMSCRIPTEN_KEEPALIVE BlendMode_Sub() {
 		return mud::BlendMode::Sub;
 	}
-	mud::BlendMode EMSCRIPTEN_KEEPALIVE emscripten_enum_BlendMode_Mul() {
+	mud::BlendMode EMSCRIPTEN_KEEPALIVE BlendMode_Mul() {
 		return mud::BlendMode::Mul;
 	}
-	mud::BlendMode EMSCRIPTEN_KEEPALIVE emscripten_enum_BlendMode_Normal() {
+	mud::BlendMode EMSCRIPTEN_KEEPALIVE BlendMode_Normal() {
 		return mud::BlendMode::Normal;
 	}
-	mud::BlendMode EMSCRIPTEN_KEEPALIVE emscripten_enum_BlendMode_Alpha() {
+	mud::BlendMode EMSCRIPTEN_KEEPALIVE BlendMode_Alpha() {
 		return mud::BlendMode::Alpha;
 	}
 	// CullMode
-	mud::CullMode EMSCRIPTEN_KEEPALIVE emscripten_enum_CullMode_None() {
+	mud::CullMode EMSCRIPTEN_KEEPALIVE CullMode_None() {
 		return mud::CullMode::None;
 	}
-	mud::CullMode EMSCRIPTEN_KEEPALIVE emscripten_enum_CullMode_Front() {
+	mud::CullMode EMSCRIPTEN_KEEPALIVE CullMode_Front() {
 		return mud::CullMode::Front;
 	}
-	mud::CullMode EMSCRIPTEN_KEEPALIVE emscripten_enum_CullMode_Back() {
+	mud::CullMode EMSCRIPTEN_KEEPALIVE CullMode_Back() {
 		return mud::CullMode::Back;
 	}
 	// DepthDraw
-	mud::DepthDraw EMSCRIPTEN_KEEPALIVE emscripten_enum_DepthDraw_Enabled() {
+	mud::DepthDraw EMSCRIPTEN_KEEPALIVE DepthDraw_Enabled() {
 		return mud::DepthDraw::Enabled;
 	}
-	mud::DepthDraw EMSCRIPTEN_KEEPALIVE emscripten_enum_DepthDraw_Disabled() {
+	mud::DepthDraw EMSCRIPTEN_KEEPALIVE DepthDraw_Disabled() {
 		return mud::DepthDraw::Disabled;
 	}
 	// DepthTest
-	mud::DepthTest EMSCRIPTEN_KEEPALIVE emscripten_enum_DepthTest_Enabled() {
+	mud::DepthTest EMSCRIPTEN_KEEPALIVE DepthTest_Enabled() {
 		return mud::DepthTest::Enabled;
 	}
-	mud::DepthTest EMSCRIPTEN_KEEPALIVE emscripten_enum_DepthTest_Disabled() {
+	mud::DepthTest EMSCRIPTEN_KEEPALIVE DepthTest_Disabled() {
 		return mud::DepthTest::Disabled;
 	}
 	// EmitterFlow
-	mud::EmitterFlow EMSCRIPTEN_KEEPALIVE emscripten_enum_EmitterFlow_Outward() {
+	mud::EmitterFlow EMSCRIPTEN_KEEPALIVE EmitterFlow_Outward() {
 		return mud::EmitterFlow::Outward;
 	}
-	mud::EmitterFlow EMSCRIPTEN_KEEPALIVE emscripten_enum_EmitterFlow_Absolute() {
+	mud::EmitterFlow EMSCRIPTEN_KEEPALIVE EmitterFlow_Absolute() {
 		return mud::EmitterFlow::Absolute;
 	}
 	// Interpolation
-	mud::Interpolation EMSCRIPTEN_KEEPALIVE emscripten_enum_Interpolation_Nearest() {
+	mud::Interpolation EMSCRIPTEN_KEEPALIVE Interpolation_Nearest() {
 		return mud::Interpolation::Nearest;
 	}
-	mud::Interpolation EMSCRIPTEN_KEEPALIVE emscripten_enum_Interpolation_Linear() {
+	mud::Interpolation EMSCRIPTEN_KEEPALIVE Interpolation_Linear() {
 		return mud::Interpolation::Linear;
 	}
-	mud::Interpolation EMSCRIPTEN_KEEPALIVE emscripten_enum_Interpolation_Cubic() {
+	mud::Interpolation EMSCRIPTEN_KEEPALIVE Interpolation_Cubic() {
 		return mud::Interpolation::Cubic;
 	}
 	// IsometricAngle
-	mud::IsometricAngle EMSCRIPTEN_KEEPALIVE emscripten_enum_IsometricAngle_NORTH() {
+	mud::IsometricAngle EMSCRIPTEN_KEEPALIVE IsometricAngle_NORTH() {
 		return mud::NORTH;
 	}
-	mud::IsometricAngle EMSCRIPTEN_KEEPALIVE emscripten_enum_IsometricAngle_SOUTH() {
+	mud::IsometricAngle EMSCRIPTEN_KEEPALIVE IsometricAngle_SOUTH() {
 		return mud::SOUTH;
 	}
-	mud::IsometricAngle EMSCRIPTEN_KEEPALIVE emscripten_enum_IsometricAngle_EAST() {
+	mud::IsometricAngle EMSCRIPTEN_KEEPALIVE IsometricAngle_EAST() {
 		return mud::EAST;
 	}
-	mud::IsometricAngle EMSCRIPTEN_KEEPALIVE emscripten_enum_IsometricAngle_WEST() {
+	mud::IsometricAngle EMSCRIPTEN_KEEPALIVE IsometricAngle_WEST() {
 		return mud::WEST;
 	}
 	// ItemShadow
-	mud::ItemShadow EMSCRIPTEN_KEEPALIVE emscripten_enum_ItemShadow_Default() {
+	mud::ItemShadow EMSCRIPTEN_KEEPALIVE ItemShadow_Default() {
 		return mud::ItemShadow::Default;
 	}
-	mud::ItemShadow EMSCRIPTEN_KEEPALIVE emscripten_enum_ItemShadow_DoubleSided() {
+	mud::ItemShadow EMSCRIPTEN_KEEPALIVE ItemShadow_DoubleSided() {
 		return mud::ItemShadow::DoubleSided;
 	}
 	// LightType
-	mud::LightType EMSCRIPTEN_KEEPALIVE emscripten_enum_LightType_Direct() {
+	mud::LightType EMSCRIPTEN_KEEPALIVE LightType_Direct() {
 		return mud::LightType::Direct;
 	}
-	mud::LightType EMSCRIPTEN_KEEPALIVE emscripten_enum_LightType_Point() {
+	mud::LightType EMSCRIPTEN_KEEPALIVE LightType_Point() {
 		return mud::LightType::Point;
 	}
-	mud::LightType EMSCRIPTEN_KEEPALIVE emscripten_enum_LightType_Spot() {
+	mud::LightType EMSCRIPTEN_KEEPALIVE LightType_Spot() {
 		return mud::LightType::Spot;
 	}
-	mud::LightType EMSCRIPTEN_KEEPALIVE emscripten_enum_LightType_Count() {
+	mud::LightType EMSCRIPTEN_KEEPALIVE LightType_Count() {
 		return mud::LightType::Count;
 	}
 	// Lighting
-	mud::Lighting EMSCRIPTEN_KEEPALIVE emscripten_enum_Lighting_None() {
+	mud::Lighting EMSCRIPTEN_KEEPALIVE Lighting_None() {
 		return mud::Lighting::None;
 	}
-	mud::Lighting EMSCRIPTEN_KEEPALIVE emscripten_enum_Lighting_Clustered() {
+	mud::Lighting EMSCRIPTEN_KEEPALIVE Lighting_Clustered() {
 		return mud::Lighting::Clustered;
 	}
-	mud::Lighting EMSCRIPTEN_KEEPALIVE emscripten_enum_Lighting_Deferred() {
+	mud::Lighting EMSCRIPTEN_KEEPALIVE Lighting_Deferred() {
 		return mud::Lighting::Deferred;
 	}
-	mud::Lighting EMSCRIPTEN_KEEPALIVE emscripten_enum_Lighting_VoxelGI() {
+	mud::Lighting EMSCRIPTEN_KEEPALIVE Lighting_VoxelGI() {
 		return mud::Lighting::VoxelGI;
 	}
 	// MSAA
-	mud::MSAA EMSCRIPTEN_KEEPALIVE emscripten_enum_MSAA_Disabled() {
+	mud::MSAA EMSCRIPTEN_KEEPALIVE MSAA_Disabled() {
 		return mud::MSAA::Disabled;
 	}
-	mud::MSAA EMSCRIPTEN_KEEPALIVE emscripten_enum_MSAA_X2() {
+	mud::MSAA EMSCRIPTEN_KEEPALIVE MSAA_X2() {
 		return mud::MSAA::X2;
 	}
-	mud::MSAA EMSCRIPTEN_KEEPALIVE emscripten_enum_MSAA_X4() {
+	mud::MSAA EMSCRIPTEN_KEEPALIVE MSAA_X4() {
 		return mud::MSAA::X4;
 	}
-	mud::MSAA EMSCRIPTEN_KEEPALIVE emscripten_enum_MSAA_X8() {
+	mud::MSAA EMSCRIPTEN_KEEPALIVE MSAA_X8() {
 		return mud::MSAA::X8;
 	}
-	mud::MSAA EMSCRIPTEN_KEEPALIVE emscripten_enum_MSAA_X16() {
+	mud::MSAA EMSCRIPTEN_KEEPALIVE MSAA_X16() {
 		return mud::MSAA::X16;
 	}
 	// MaterialFlag
-	mud::MaterialFlag EMSCRIPTEN_KEEPALIVE emscripten_enum_MaterialFlag_TriplanarUV1() {
+	mud::MaterialFlag EMSCRIPTEN_KEEPALIVE MaterialFlag_TriplanarUV1() {
 		return mud::MaterialFlag::TriplanarUV1;
 	}
-	mud::MaterialFlag EMSCRIPTEN_KEEPALIVE emscripten_enum_MaterialFlag_TriplanarUV2() {
+	mud::MaterialFlag EMSCRIPTEN_KEEPALIVE MaterialFlag_TriplanarUV2() {
 		return mud::MaterialFlag::TriplanarUV2;
 	}
-	mud::MaterialFlag EMSCRIPTEN_KEEPALIVE emscripten_enum_MaterialFlag_Count() {
+	mud::MaterialFlag EMSCRIPTEN_KEEPALIVE MaterialFlag_Count() {
 		return mud::MaterialFlag::Count;
 	}
 	// ModelFormat
-	mud::ModelFormat EMSCRIPTEN_KEEPALIVE emscripten_enum_ModelFormat_obj() {
+	mud::ModelFormat EMSCRIPTEN_KEEPALIVE ModelFormat_obj() {
 		return mud::ModelFormat::obj;
 	}
-	mud::ModelFormat EMSCRIPTEN_KEEPALIVE emscripten_enum_ModelFormat_gltf() {
+	mud::ModelFormat EMSCRIPTEN_KEEPALIVE ModelFormat_gltf() {
 		return mud::ModelFormat::gltf;
 	}
-	mud::ModelFormat EMSCRIPTEN_KEEPALIVE emscripten_enum_ModelFormat_Count() {
+	mud::ModelFormat EMSCRIPTEN_KEEPALIVE ModelFormat_Count() {
 		return mud::ModelFormat::Count;
 	}
 	// Month
-	mud::Month EMSCRIPTEN_KEEPALIVE emscripten_enum_Month_January() {
+	mud::Month EMSCRIPTEN_KEEPALIVE Month_January() {
 		return mud::Month::January;
 	}
-	mud::Month EMSCRIPTEN_KEEPALIVE emscripten_enum_Month_February() {
+	mud::Month EMSCRIPTEN_KEEPALIVE Month_February() {
 		return mud::Month::February;
 	}
-	mud::Month EMSCRIPTEN_KEEPALIVE emscripten_enum_Month_March() {
+	mud::Month EMSCRIPTEN_KEEPALIVE Month_March() {
 		return mud::Month::March;
 	}
-	mud::Month EMSCRIPTEN_KEEPALIVE emscripten_enum_Month_April() {
+	mud::Month EMSCRIPTEN_KEEPALIVE Month_April() {
 		return mud::Month::April;
 	}
-	mud::Month EMSCRIPTEN_KEEPALIVE emscripten_enum_Month_May() {
+	mud::Month EMSCRIPTEN_KEEPALIVE Month_May() {
 		return mud::Month::May;
 	}
-	mud::Month EMSCRIPTEN_KEEPALIVE emscripten_enum_Month_June() {
+	mud::Month EMSCRIPTEN_KEEPALIVE Month_June() {
 		return mud::Month::June;
 	}
-	mud::Month EMSCRIPTEN_KEEPALIVE emscripten_enum_Month_July() {
+	mud::Month EMSCRIPTEN_KEEPALIVE Month_July() {
 		return mud::Month::July;
 	}
-	mud::Month EMSCRIPTEN_KEEPALIVE emscripten_enum_Month_August() {
+	mud::Month EMSCRIPTEN_KEEPALIVE Month_August() {
 		return mud::Month::August;
 	}
-	mud::Month EMSCRIPTEN_KEEPALIVE emscripten_enum_Month_September() {
+	mud::Month EMSCRIPTEN_KEEPALIVE Month_September() {
 		return mud::Month::September;
 	}
-	mud::Month EMSCRIPTEN_KEEPALIVE emscripten_enum_Month_October() {
+	mud::Month EMSCRIPTEN_KEEPALIVE Month_October() {
 		return mud::Month::October;
 	}
-	mud::Month EMSCRIPTEN_KEEPALIVE emscripten_enum_Month_November() {
+	mud::Month EMSCRIPTEN_KEEPALIVE Month_November() {
 		return mud::Month::November;
 	}
-	mud::Month EMSCRIPTEN_KEEPALIVE emscripten_enum_Month_December() {
+	mud::Month EMSCRIPTEN_KEEPALIVE Month_December() {
 		return mud::Month::December;
 	}
 	// PbrDiffuseMode
-	mud::PbrDiffuseMode EMSCRIPTEN_KEEPALIVE emscripten_enum_PbrDiffuseMode_Lambert() {
+	mud::PbrDiffuseMode EMSCRIPTEN_KEEPALIVE PbrDiffuseMode_Lambert() {
 		return mud::PbrDiffuseMode::Lambert;
 	}
-	mud::PbrDiffuseMode EMSCRIPTEN_KEEPALIVE emscripten_enum_PbrDiffuseMode_LambertHalf() {
+	mud::PbrDiffuseMode EMSCRIPTEN_KEEPALIVE PbrDiffuseMode_LambertHalf() {
 		return mud::PbrDiffuseMode::LambertHalf;
 	}
-	mud::PbrDiffuseMode EMSCRIPTEN_KEEPALIVE emscripten_enum_PbrDiffuseMode_OrenNayar() {
+	mud::PbrDiffuseMode EMSCRIPTEN_KEEPALIVE PbrDiffuseMode_OrenNayar() {
 		return mud::PbrDiffuseMode::OrenNayar;
 	}
-	mud::PbrDiffuseMode EMSCRIPTEN_KEEPALIVE emscripten_enum_PbrDiffuseMode_Burley() {
+	mud::PbrDiffuseMode EMSCRIPTEN_KEEPALIVE PbrDiffuseMode_Burley() {
 		return mud::PbrDiffuseMode::Burley;
 	}
-	mud::PbrDiffuseMode EMSCRIPTEN_KEEPALIVE emscripten_enum_PbrDiffuseMode_Toon() {
+	mud::PbrDiffuseMode EMSCRIPTEN_KEEPALIVE PbrDiffuseMode_Toon() {
 		return mud::PbrDiffuseMode::Toon;
 	}
 	// PbrSpecularMode
-	mud::PbrSpecularMode EMSCRIPTEN_KEEPALIVE emscripten_enum_PbrSpecularMode_SchlickGGX() {
+	mud::PbrSpecularMode EMSCRIPTEN_KEEPALIVE PbrSpecularMode_SchlickGGX() {
 		return mud::PbrSpecularMode::SchlickGGX;
 	}
-	mud::PbrSpecularMode EMSCRIPTEN_KEEPALIVE emscripten_enum_PbrSpecularMode_Blinn() {
+	mud::PbrSpecularMode EMSCRIPTEN_KEEPALIVE PbrSpecularMode_Blinn() {
 		return mud::PbrSpecularMode::Blinn;
 	}
-	mud::PbrSpecularMode EMSCRIPTEN_KEEPALIVE emscripten_enum_PbrSpecularMode_Phong() {
+	mud::PbrSpecularMode EMSCRIPTEN_KEEPALIVE PbrSpecularMode_Phong() {
 		return mud::PbrSpecularMode::Phong;
 	}
-	mud::PbrSpecularMode EMSCRIPTEN_KEEPALIVE emscripten_enum_PbrSpecularMode_Toon() {
+	mud::PbrSpecularMode EMSCRIPTEN_KEEPALIVE PbrSpecularMode_Toon() {
 		return mud::PbrSpecularMode::Toon;
 	}
-	mud::PbrSpecularMode EMSCRIPTEN_KEEPALIVE emscripten_enum_PbrSpecularMode_Disabled() {
+	mud::PbrSpecularMode EMSCRIPTEN_KEEPALIVE PbrSpecularMode_Disabled() {
 		return mud::PbrSpecularMode::Disabled;
 	}
 	// ShaderType
-	mud::ShaderType EMSCRIPTEN_KEEPALIVE emscripten_enum_ShaderType_Compute() {
+	mud::ShaderType EMSCRIPTEN_KEEPALIVE ShaderType_Compute() {
 		return mud::ShaderType::Compute;
 	}
-	mud::ShaderType EMSCRIPTEN_KEEPALIVE emscripten_enum_ShaderType_Fragment() {
+	mud::ShaderType EMSCRIPTEN_KEEPALIVE ShaderType_Fragment() {
 		return mud::ShaderType::Fragment;
 	}
-	mud::ShaderType EMSCRIPTEN_KEEPALIVE emscripten_enum_ShaderType_Geometry() {
+	mud::ShaderType EMSCRIPTEN_KEEPALIVE ShaderType_Geometry() {
 		return mud::ShaderType::Geometry;
 	}
-	mud::ShaderType EMSCRIPTEN_KEEPALIVE emscripten_enum_ShaderType_Vertex() {
+	mud::ShaderType EMSCRIPTEN_KEEPALIVE ShaderType_Vertex() {
 		return mud::ShaderType::Vertex;
 	}
-	mud::ShaderType EMSCRIPTEN_KEEPALIVE emscripten_enum_ShaderType_Count() {
+	mud::ShaderType EMSCRIPTEN_KEEPALIVE ShaderType_Count() {
 		return mud::ShaderType::Count;
 	}
 	// Shading
-	mud::Shading EMSCRIPTEN_KEEPALIVE emscripten_enum_Shading_Wireframe() {
+	mud::Shading EMSCRIPTEN_KEEPALIVE Shading_Wireframe() {
 		return mud::Shading::Wireframe;
 	}
-	mud::Shading EMSCRIPTEN_KEEPALIVE emscripten_enum_Shading_Unshaded() {
+	mud::Shading EMSCRIPTEN_KEEPALIVE Shading_Unshaded() {
 		return mud::Shading::Unshaded;
 	}
-	mud::Shading EMSCRIPTEN_KEEPALIVE emscripten_enum_Shading_Shaded() {
+	mud::Shading EMSCRIPTEN_KEEPALIVE Shading_Shaded() {
 		return mud::Shading::Shaded;
 	}
-	mud::Shading EMSCRIPTEN_KEEPALIVE emscripten_enum_Shading_Volume() {
+	mud::Shading EMSCRIPTEN_KEEPALIVE Shading_Volume() {
 		return mud::Shading::Volume;
 	}
-	mud::Shading EMSCRIPTEN_KEEPALIVE emscripten_enum_Shading_Voxels() {
+	mud::Shading EMSCRIPTEN_KEEPALIVE Shading_Voxels() {
 		return mud::Shading::Voxels;
 	}
-	mud::Shading EMSCRIPTEN_KEEPALIVE emscripten_enum_Shading_Lightmap() {
+	mud::Shading EMSCRIPTEN_KEEPALIVE Shading_Lightmap() {
 		return mud::Shading::Lightmap;
 	}
-	mud::Shading EMSCRIPTEN_KEEPALIVE emscripten_enum_Shading_Clear() {
+	mud::Shading EMSCRIPTEN_KEEPALIVE Shading_Clear() {
 		return mud::Shading::Clear;
 	}
-	mud::Shading EMSCRIPTEN_KEEPALIVE emscripten_enum_Shading_Count() {
+	mud::Shading EMSCRIPTEN_KEEPALIVE Shading_Count() {
 		return mud::Shading::Count;
 	}
 	// ShadowFlags
-	mud::ShadowFlags EMSCRIPTEN_KEEPALIVE emscripten_enum_ShadowFlags_CSM_Stabilize() {
+	mud::ShadowFlags EMSCRIPTEN_KEEPALIVE ShadowFlags_CSM_Stabilize() {
 		return mud::CSM_Stabilize;
 	}
-	mud::ShadowFlags EMSCRIPTEN_KEEPALIVE emscripten_enum_ShadowFlags_CSM_Optimize() {
+	mud::ShadowFlags EMSCRIPTEN_KEEPALIVE ShadowFlags_CSM_Optimize() {
 		return mud::CSM_Optimize;
 	}
-	mud::ShadowFlags EMSCRIPTEN_KEEPALIVE emscripten_enum_ShadowFlags_CSM_BlendSplits() {
+	mud::ShadowFlags EMSCRIPTEN_KEEPALIVE ShadowFlags_CSM_BlendSplits() {
 		return mud::CSM_BlendSplits;
 	}
 	// TextureChannel
-	mud::TextureChannel EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureChannel_Red() {
+	mud::TextureChannel EMSCRIPTEN_KEEPALIVE TextureChannel_Red() {
 		return mud::TextureChannel::Red;
 	}
-	mud::TextureChannel EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureChannel_Green() {
+	mud::TextureChannel EMSCRIPTEN_KEEPALIVE TextureChannel_Green() {
 		return mud::TextureChannel::Green;
 	}
-	mud::TextureChannel EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureChannel_Blue() {
+	mud::TextureChannel EMSCRIPTEN_KEEPALIVE TextureChannel_Blue() {
 		return mud::TextureChannel::Blue;
 	}
-	mud::TextureChannel EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureChannel_Alpha() {
+	mud::TextureChannel EMSCRIPTEN_KEEPALIVE TextureChannel_Alpha() {
 		return mud::TextureChannel::Alpha;
 	}
-	mud::TextureChannel EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureChannel_All() {
+	mud::TextureChannel EMSCRIPTEN_KEEPALIVE TextureChannel_All() {
 		return mud::TextureChannel::All;
 	}
 	// TextureHint
-	mud::TextureHint EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureHint_Black() {
+	mud::TextureHint EMSCRIPTEN_KEEPALIVE TextureHint_Black() {
 		return mud::TextureHint::Black;
 	}
-	mud::TextureHint EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureHint_White() {
+	mud::TextureHint EMSCRIPTEN_KEEPALIVE TextureHint_White() {
 		return mud::TextureHint::White;
 	}
-	mud::TextureHint EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureHint_Normal() {
+	mud::TextureHint EMSCRIPTEN_KEEPALIVE TextureHint_Normal() {
 		return mud::TextureHint::Normal;
 	}
 	// TextureSampler
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_Source0() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_Source0() {
 		return mud::TextureSampler::Source0;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_Source1() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_Source1() {
 		return mud::TextureSampler::Source1;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_Source2() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_Source2() {
 		return mud::TextureSampler::Source2;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_Source3() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_Source3() {
 		return mud::TextureSampler::Source3;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_SourceDepth() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_SourceDepth() {
 		return mud::TextureSampler::SourceDepth;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_Color() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_Color() {
 		return mud::TextureSampler::Color;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_Albedo() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_Albedo() {
 		return mud::TextureSampler::Albedo;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_Metallic() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_Metallic() {
 		return mud::TextureSampler::Metallic;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_Roughness() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_Roughness() {
 		return mud::TextureSampler::Roughness;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_Emissive() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_Emissive() {
 		return mud::TextureSampler::Emissive;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_Normal() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_Normal() {
 		return mud::TextureSampler::Normal;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_AO() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_AO() {
 		return mud::TextureSampler::AO;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_Depth() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_Depth() {
 		return mud::TextureSampler::Depth;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_Skeleton() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_Skeleton() {
 		return mud::TextureSampler::Skeleton;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_ShadowCSM() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_ShadowCSM() {
 		return mud::TextureSampler::ShadowCSM;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_ShadowAtlas() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_ShadowAtlas() {
 		return mud::TextureSampler::ShadowAtlas;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_Radiance() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_Radiance() {
 		return mud::TextureSampler::Radiance;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_ReflectionProbe() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_ReflectionProbe() {
 		return mud::TextureSampler::ReflectionProbe;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_GIProbe() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_GIProbe() {
 		return mud::TextureSampler::GIProbe;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_Lights() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_Lights() {
 		return mud::TextureSampler::Lights;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_Clusters() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_Clusters() {
 		return mud::TextureSampler::Clusters;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_LightRecords() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_LightRecords() {
 		return mud::TextureSampler::LightRecords;
 	}
-	mud::TextureSampler EMSCRIPTEN_KEEPALIVE emscripten_enum_TextureSampler_Lightmap() {
+	mud::TextureSampler EMSCRIPTEN_KEEPALIVE TextureSampler_Lightmap() {
 		return mud::TextureSampler::Lightmap;
 	}
 	

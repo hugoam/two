@@ -83,13 +83,13 @@ extern "C" {
 		delete self;
 	}
 	// OrbitMode
-	mud::ui::OrbitMode EMSCRIPTEN_KEEPALIVE emscripten_enum_OrbitMode_ThirdPerson() {
+	mud::ui::OrbitMode EMSCRIPTEN_KEEPALIVE OrbitMode_ThirdPerson() {
 		return mud::ui::OrbitMode::ThirdPerson;
 	}
-	mud::ui::OrbitMode EMSCRIPTEN_KEEPALIVE emscripten_enum_OrbitMode_Isometric() {
+	mud::ui::OrbitMode EMSCRIPTEN_KEEPALIVE OrbitMode_Isometric() {
 		return mud::ui::OrbitMode::Isometric;
 	}
-	mud::ui::OrbitMode EMSCRIPTEN_KEEPALIVE emscripten_enum_OrbitMode_PseudoIsometric() {
+	mud::ui::OrbitMode EMSCRIPTEN_KEEPALIVE OrbitMode_PseudoIsometric() {
 		return mud::ui::OrbitMode::PseudoIsometric;
 	}
 	

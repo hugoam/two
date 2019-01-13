@@ -455,91 +455,91 @@ extern "C" {
 		delete self;
 	}
 	// Axes
-	mud::Axes EMSCRIPTEN_KEEPALIVE emscripten_enum_Axes_None() {
+	mud::Axes EMSCRIPTEN_KEEPALIVE Axes_None() {
 		return mud::Axes::None;
 	}
-	mud::Axes EMSCRIPTEN_KEEPALIVE emscripten_enum_Axes_X() {
+	mud::Axes EMSCRIPTEN_KEEPALIVE Axes_X() {
 		return mud::Axes::X;
 	}
-	mud::Axes EMSCRIPTEN_KEEPALIVE emscripten_enum_Axes_Y() {
+	mud::Axes EMSCRIPTEN_KEEPALIVE Axes_Y() {
 		return mud::Axes::Y;
 	}
-	mud::Axes EMSCRIPTEN_KEEPALIVE emscripten_enum_Axes_Z() {
+	mud::Axes EMSCRIPTEN_KEEPALIVE Axes_Z() {
 		return mud::Axes::Z;
 	}
 	// Axis
-	mud::Axis EMSCRIPTEN_KEEPALIVE emscripten_enum_Axis_X() {
+	mud::Axis EMSCRIPTEN_KEEPALIVE Axis_X() {
 		return mud::Axis::X;
 	}
-	mud::Axis EMSCRIPTEN_KEEPALIVE emscripten_enum_Axis_Y() {
+	mud::Axis EMSCRIPTEN_KEEPALIVE Axis_Y() {
 		return mud::Axis::Y;
 	}
-	mud::Axis EMSCRIPTEN_KEEPALIVE emscripten_enum_Axis_Z() {
+	mud::Axis EMSCRIPTEN_KEEPALIVE Axis_Z() {
 		return mud::Axis::Z;
 	}
 	// Clockwise
-	mud::Clockwise EMSCRIPTEN_KEEPALIVE emscripten_enum_Clockwise_CLOCKWISE() {
+	mud::Clockwise EMSCRIPTEN_KEEPALIVE Clockwise_CLOCKWISE() {
 		return mud::CLOCKWISE;
 	}
-	mud::Clockwise EMSCRIPTEN_KEEPALIVE emscripten_enum_Clockwise_ANTI_CLOCKWISE() {
+	mud::Clockwise EMSCRIPTEN_KEEPALIVE Clockwise_ANTI_CLOCKWISE() {
 		return mud::ANTI_CLOCKWISE;
 	}
 	// Side
-	mud::Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Right() {
+	mud::Side EMSCRIPTEN_KEEPALIVE Side_Right() {
 		return mud::Side::Right;
 	}
-	mud::Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Left() {
+	mud::Side EMSCRIPTEN_KEEPALIVE Side_Left() {
 		return mud::Side::Left;
 	}
-	mud::Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Up() {
+	mud::Side EMSCRIPTEN_KEEPALIVE Side_Up() {
 		return mud::Side::Up;
 	}
-	mud::Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Down() {
+	mud::Side EMSCRIPTEN_KEEPALIVE Side_Down() {
 		return mud::Side::Down;
 	}
-	mud::Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Back() {
+	mud::Side EMSCRIPTEN_KEEPALIVE Side_Back() {
 		return mud::Side::Back;
 	}
-	mud::Side EMSCRIPTEN_KEEPALIVE emscripten_enum_Side_Front() {
+	mud::Side EMSCRIPTEN_KEEPALIVE Side_Front() {
 		return mud::Side::Front;
 	}
 	// SignedAxis
-	mud::SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_PlusX() {
+	mud::SignedAxis EMSCRIPTEN_KEEPALIVE SignedAxis_PlusX() {
 		return mud::SignedAxis::PlusX;
 	}
-	mud::SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_MinusX() {
+	mud::SignedAxis EMSCRIPTEN_KEEPALIVE SignedAxis_MinusX() {
 		return mud::SignedAxis::MinusX;
 	}
-	mud::SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_PlusY() {
+	mud::SignedAxis EMSCRIPTEN_KEEPALIVE SignedAxis_PlusY() {
 		return mud::SignedAxis::PlusY;
 	}
-	mud::SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_MinusY() {
+	mud::SignedAxis EMSCRIPTEN_KEEPALIVE SignedAxis_MinusY() {
 		return mud::SignedAxis::MinusY;
 	}
-	mud::SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_PlusZ() {
+	mud::SignedAxis EMSCRIPTEN_KEEPALIVE SignedAxis_PlusZ() {
 		return mud::SignedAxis::PlusZ;
 	}
-	mud::SignedAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_SignedAxis_MinusZ() {
+	mud::SignedAxis EMSCRIPTEN_KEEPALIVE SignedAxis_MinusZ() {
 		return mud::SignedAxis::MinusZ;
 	}
 	// Spectrum
-	mud::Spectrum EMSCRIPTEN_KEEPALIVE emscripten_enum_Spectrum_Value() {
+	mud::Spectrum EMSCRIPTEN_KEEPALIVE Spectrum_Value() {
 		return mud::Spectrum::Value;
 	}
-	mud::Spectrum EMSCRIPTEN_KEEPALIVE emscripten_enum_Spectrum_Hue() {
+	mud::Spectrum EMSCRIPTEN_KEEPALIVE Spectrum_Hue() {
 		return mud::Spectrum::Hue;
 	}
 	// TrackMode
-	mud::TrackMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TrackMode_Constant() {
+	mud::TrackMode EMSCRIPTEN_KEEPALIVE TrackMode_Constant() {
 		return mud::TrackMode::Constant;
 	}
-	mud::TrackMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TrackMode_ConstantRandom() {
+	mud::TrackMode EMSCRIPTEN_KEEPALIVE TrackMode_ConstantRandom() {
 		return mud::TrackMode::ConstantRandom;
 	}
-	mud::TrackMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TrackMode_Curve() {
+	mud::TrackMode EMSCRIPTEN_KEEPALIVE TrackMode_Curve() {
 		return mud::TrackMode::Curve;
 	}
-	mud::TrackMode EMSCRIPTEN_KEEPALIVE emscripten_enum_TrackMode_CurveRandom() {
+	mud::TrackMode EMSCRIPTEN_KEEPALIVE TrackMode_CurveRandom() {
 		return mud::TrackMode::CurveRandom;
 	}
 	

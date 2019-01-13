@@ -32,11 +32,11 @@ extern "C" {
 		delete self;
 	}
 	// ScriptClass
-	mud::ScriptClass* EMSCRIPTEN_KEEPALIVE ScriptClass_ScriptClass_2(const std::string name, const std::vector<mud::Type*>* parts) {
+	mud::ScriptClass* EMSCRIPTEN_KEEPALIVE ScriptClass_ScriptClass_2(const char* name, const std::vector<mud::Type*>* parts) {
 		return new mud::ScriptClass(*name, *parts);
 	}
-	std::string EMSCRIPTEN_KEEPALIVE ScriptClass_get_name(mud::ScriptClass* self) {
-		return self->m_name;
+	const char* EMSCRIPTEN_KEEPALIVE ScriptClass_get_name(mud::ScriptClass* self) {
+		return self->m_name.c_str();
 	}
 	mud::Type* EMSCRIPTEN_KEEPALIVE ScriptClass_get_class_type(mud::ScriptClass* self) {
 		static mud::Type temp;
@@ -143,8 +143,8 @@ extern "C" {
 	mud::Type* EMSCRIPTEN_KEEPALIVE Script_get_type(mud::Script* self) {
 		return &&self->m_type;
 	}
-	std::string EMSCRIPTEN_KEEPALIVE Script_get_name(mud::Script* self) {
-		return self->m_name;
+	const char* EMSCRIPTEN_KEEPALIVE Script_get_name(mud::Script* self) {
+		return self->m_name.c_str();
 	}
 	bool EMSCRIPTEN_KEEPALIVE Script_get_locked(mud::Script* self) {
 		return self->m_locked;
@@ -167,8 +167,8 @@ extern "C" {
 		static mud::Language temp;
 		return (temp = &self->m_language, &temp);
 	}
-	std::string EMSCRIPTEN_KEEPALIVE TextScript_get_script(mud::TextScript* self) {
-		return self->m_script;
+	const char* EMSCRIPTEN_KEEPALIVE TextScript_get_script(mud::TextScript* self) {
+		return self->m_script.c_str();
 	}
 	bool EMSCRIPTEN_KEEPALIVE TextScript_get_dirty(mud::TextScript* self) {
 		return self->m_dirty;
@@ -191,13 +191,13 @@ extern "C" {
 		delete self;
 	}
 	// Language
-	mud::Language EMSCRIPTEN_KEEPALIVE emscripten_enum_Language_Cpp() {
+	mud::Language EMSCRIPTEN_KEEPALIVE Language_Cpp() {
 		return mud::Language::Cpp;
 	}
-	mud::Language EMSCRIPTEN_KEEPALIVE emscripten_enum_Language_Lua() {
+	mud::Language EMSCRIPTEN_KEEPALIVE Language_Lua() {
 		return mud::Language::Lua;
 	}
-	mud::Language EMSCRIPTEN_KEEPALIVE emscripten_enum_Language_Wren() {
+	mud::Language EMSCRIPTEN_KEEPALIVE Language_Wren() {
 		return mud::Language::Wren;
 	}
 	

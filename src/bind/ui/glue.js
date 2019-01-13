@@ -248,10 +248,7 @@ ImageSkin.prototype["__destroy__"] = ImageSkin.prototype.__destroy__ = function(
 // InkStyle
 function InkStyle(name) {
     var self = this.ptr;
-    ensureCache.prepare();
     /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
     if (name === undefined) { this.ptr = _InkStyle_InkStyle_0(self); getCache(InkStyle)[this.ptr] = this; return; }
     this.ptr = _InkStyle_InkStyle_1(self, name); getCache(InkStyle)[this.ptr] = this;
 };
@@ -563,10 +560,7 @@ Layer.prototype["__destroy__"] = Layer.prototype.__destroy__ = function() {
 // Layout
 function Layout(name) {
     var self = this.ptr;
-    ensureCache.prepare();
     /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
     if (name === undefined) { this.ptr = _Layout_Layout_0(self); getCache(Layout)[this.ptr] = this; return; }
     this.ptr = _Layout_Layout_1(self, name); getCache(Layout)[this.ptr] = this;
 };
@@ -982,7 +976,7 @@ Object.defineProperty(Style.prototype, "base", {
 Object.defineProperty(Style.prototype, "name", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_Style_get_name(self));
+        return _Style_get_name(self);
     }});
 Object.defineProperty(Style.prototype, "layout", {
     get: function() {
@@ -1075,7 +1069,7 @@ Module['TextPaint'] = TextPaint;
 Object.defineProperty(TextPaint.prototype, "font", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_TextPaint_get_font(self));
+        return _TextPaint_get_font(self);
     }});
 Object.defineProperty(TextPaint.prototype, "colour", {
     get: function() {
@@ -1658,89 +1652,89 @@ Window.prototype["__destroy__"] = Window.prototype.__destroy__ = function() {
 (function() {
     function setupEnums() {
         // Align
-        Module['Left'] = _emscripten_enum_Align_Left();
-        Module['CENTER'] = _emscripten_enum_Align_CENTER();
-        Module['Right'] = _emscripten_enum_Align_Right();
-        Module['OUT_LEFT'] = _emscripten_enum_Align_OUT_LEFT();
-        Module['OUT_RIGHT'] = _emscripten_enum_Align_OUT_RIGHT();
+        Module['Left'] = _Align_Left();
+        Module['CENTER'] = _Align_CENTER();
+        Module['Right'] = _Align_Right();
+        Module['OUT_LEFT'] = _Align_OUT_LEFT();
+        Module['OUT_RIGHT'] = _Align_OUT_RIGHT();
         // AutoLayout
-        Module['NO_LAYOUT'] = _emscripten_enum_AutoLayout_NO_LAYOUT();
-        Module['AUTO_SIZE'] = _emscripten_enum_AutoLayout_AUTO_SIZE();
-        Module['AUTO_LAYOUT'] = _emscripten_enum_AutoLayout_AUTO_LAYOUT();
+        Module['NO_LAYOUT'] = _AutoLayout_NO_LAYOUT();
+        Module['AUTO_SIZE'] = _AutoLayout_AUTO_SIZE();
+        Module['AUTO_LAYOUT'] = _AutoLayout_AUTO_LAYOUT();
         // Clipping
-        Module['NOCLIP'] = _emscripten_enum_Clipping_NOCLIP();
-        Module['CLIP'] = _emscripten_enum_Clipping_CLIP();
-        Module['UNCLIP'] = _emscripten_enum_Clipping_UNCLIP();
+        Module['NOCLIP'] = _Clipping_NOCLIP();
+        Module['CLIP'] = _Clipping_CLIP();
+        Module['UNCLIP'] = _Clipping_UNCLIP();
         // Dim
-        Module['DIM_X'] = _emscripten_enum_Dim_DIM_X();
-        Module['DIM_Y'] = _emscripten_enum_Dim_DIM_Y();
-        Module['DIM_NONE'] = _emscripten_enum_Dim_DIM_NONE();
+        Module['DIM_X'] = _Dim_DIM_X();
+        Module['DIM_Y'] = _Dim_DIM_Y();
+        Module['DIM_NONE'] = _Dim_DIM_NONE();
         // Flow
-        Module['FLOW'] = _emscripten_enum_Flow_FLOW();
-        Module['OVERLAY'] = _emscripten_enum_Flow_OVERLAY();
-        Module['ALIGN'] = _emscripten_enum_Flow_ALIGN();
-        Module['FREE'] = _emscripten_enum_Flow_FREE();
+        Module['FLOW'] = _Flow_FLOW();
+        Module['OVERLAY'] = _Flow_OVERLAY();
+        Module['ALIGN'] = _Flow_ALIGN();
+        Module['FREE'] = _Flow_FREE();
         // FlowAxis
-        Module['READING'] = _emscripten_enum_FlowAxis_READING();
-        Module['PARAGRAPH'] = _emscripten_enum_FlowAxis_PARAGRAPH();
-        Module['PARALLEL'] = _emscripten_enum_FlowAxis_PARALLEL();
-        Module['ORTHOGONAL'] = _emscripten_enum_FlowAxis_ORTHOGONAL();
-        Module['AXIS_NONE'] = _emscripten_enum_FlowAxis_AXIS_NONE();
+        Module['READING'] = _FlowAxis_READING();
+        Module['PARAGRAPH'] = _FlowAxis_PARAGRAPH();
+        Module['PARALLEL'] = _FlowAxis_PARALLEL();
+        Module['ORTHOGONAL'] = _FlowAxis_ORTHOGONAL();
+        Module['AXIS_NONE'] = _FlowAxis_AXIS_NONE();
         // LayoutSolver
-        Module['FRAME_SOLVER'] = _emscripten_enum_LayoutSolver_FRAME_SOLVER();
-        Module['ROW_SOLVER'] = _emscripten_enum_LayoutSolver_ROW_SOLVER();
-        Module['GRID_SOLVER'] = _emscripten_enum_LayoutSolver_GRID_SOLVER();
-        Module['TABLE_SOLVER'] = _emscripten_enum_LayoutSolver_TABLE_SOLVER();
+        Module['FRAME_SOLVER'] = _LayoutSolver_FRAME_SOLVER();
+        Module['ROW_SOLVER'] = _LayoutSolver_ROW_SOLVER();
+        Module['GRID_SOLVER'] = _LayoutSolver_GRID_SOLVER();
+        Module['TABLE_SOLVER'] = _LayoutSolver_TABLE_SOLVER();
         // Opacity
-        Module['OPAQUE'] = _emscripten_enum_Opacity_OPAQUE();
-        Module['CLEAR'] = _emscripten_enum_Opacity_CLEAR();
-        Module['HOLLOW'] = _emscripten_enum_Opacity_HOLLOW();
+        Module['OPAQUE'] = _Opacity_OPAQUE();
+        Module['CLEAR'] = _Opacity_CLEAR();
+        Module['HOLLOW'] = _Opacity_HOLLOW();
         // Pivot
-        Module['FORWARD'] = _emscripten_enum_Pivot_FORWARD();
-        Module['REVERSE'] = _emscripten_enum_Pivot_REVERSE();
+        Module['FORWARD'] = _Pivot_FORWARD();
+        Module['REVERSE'] = _Pivot_REVERSE();
         // PopupFlags
-        Module['PopupFlags']['None'] = _emscripten_enum_PopupFlags_None();
-        Module['PopupFlags']['Modal'] = _emscripten_enum_PopupFlags_Modal();
-        Module['PopupFlags']['Clamp'] = _emscripten_enum_PopupFlags_Clamp();
-        Module['PopupFlags']['AutoClose'] = _emscripten_enum_PopupFlags_AutoClose();
-        Module['PopupFlags']['AutoModal'] = _emscripten_enum_PopupFlags_AutoModal();
+        Module['PopupFlags']['None'] = _PopupFlags_None();
+        Module['PopupFlags']['Modal'] = _PopupFlags_Modal();
+        Module['PopupFlags']['Clamp'] = _PopupFlags_Clamp();
+        Module['PopupFlags']['AutoClose'] = _PopupFlags_AutoClose();
+        Module['PopupFlags']['AutoModal'] = _PopupFlags_AutoModal();
         // Sizing
-        Module['FIXED'] = _emscripten_enum_Sizing_FIXED();
-        Module['SHRINK'] = _emscripten_enum_Sizing_SHRINK();
-        Module['WRAP'] = _emscripten_enum_Sizing_WRAP();
-        Module['EXPAND'] = _emscripten_enum_Sizing_EXPAND();
+        Module['FIXED'] = _Sizing_FIXED();
+        Module['SHRINK'] = _Sizing_SHRINK();
+        Module['WRAP'] = _Sizing_WRAP();
+        Module['EXPAND'] = _Sizing_EXPAND();
         // SpacePreset
-        Module['SHEET'] = _emscripten_enum_SpacePreset_SHEET();
-        Module['FLEX'] = _emscripten_enum_SpacePreset_FLEX();
-        Module['ITEM'] = _emscripten_enum_SpacePreset_ITEM();
-        Module['UNIT'] = _emscripten_enum_SpacePreset_UNIT();
-        Module['BLOCK'] = _emscripten_enum_SpacePreset_BLOCK();
-        Module['LINE'] = _emscripten_enum_SpacePreset_LINE();
-        Module['STACK'] = _emscripten_enum_SpacePreset_STACK();
-        Module['DIV'] = _emscripten_enum_SpacePreset_DIV();
-        Module['SPACER'] = _emscripten_enum_SpacePreset_SPACER();
-        Module['BOARD'] = _emscripten_enum_SpacePreset_BOARD();
-        Module['LAYOUT'] = _emscripten_enum_SpacePreset_LAYOUT();
+        Module['SHEET'] = _SpacePreset_SHEET();
+        Module['FLEX'] = _SpacePreset_FLEX();
+        Module['ITEM'] = _SpacePreset_ITEM();
+        Module['UNIT'] = _SpacePreset_UNIT();
+        Module['BLOCK'] = _SpacePreset_BLOCK();
+        Module['LINE'] = _SpacePreset_LINE();
+        Module['STACK'] = _SpacePreset_STACK();
+        Module['DIV'] = _SpacePreset_DIV();
+        Module['SPACER'] = _SpacePreset_SPACER();
+        Module['BOARD'] = _SpacePreset_BOARD();
+        Module['LAYOUT'] = _SpacePreset_LAYOUT();
         // WidgetState
-        Module['NOSTATE'] = _emscripten_enum_WidgetState_NOSTATE();
-        Module['CREATED'] = _emscripten_enum_WidgetState_CREATED();
-        Module['HOVERED'] = _emscripten_enum_WidgetState_HOVERED();
-        Module['PRESSED'] = _emscripten_enum_WidgetState_PRESSED();
-        Module['ACTIVATED'] = _emscripten_enum_WidgetState_ACTIVATED();
-        Module['ACTIVE'] = _emscripten_enum_WidgetState_ACTIVE();
-        Module['SELECTED'] = _emscripten_enum_WidgetState_SELECTED();
-        Module['DISABLED'] = _emscripten_enum_WidgetState_DISABLED();
-        Module['DRAGGED'] = _emscripten_enum_WidgetState_DRAGGED();
-        Module['FOCUSED'] = _emscripten_enum_WidgetState_FOCUSED();
-        Module['CLOSED'] = _emscripten_enum_WidgetState_CLOSED();
+        Module['NOSTATE'] = _WidgetState_NOSTATE();
+        Module['CREATED'] = _WidgetState_CREATED();
+        Module['HOVERED'] = _WidgetState_HOVERED();
+        Module['PRESSED'] = _WidgetState_PRESSED();
+        Module['ACTIVATED'] = _WidgetState_ACTIVATED();
+        Module['ACTIVE'] = _WidgetState_ACTIVE();
+        Module['SELECTED'] = _WidgetState_SELECTED();
+        Module['DISABLED'] = _WidgetState_DISABLED();
+        Module['DRAGGED'] = _WidgetState_DRAGGED();
+        Module['FOCUSED'] = _WidgetState_FOCUSED();
+        Module['CLOSED'] = _WidgetState_CLOSED();
         // WindowState
-        Module['WINDOW_NOSTATE'] = _emscripten_enum_WindowState_WINDOW_NOSTATE();
-        Module['WINDOW_HEADER'] = _emscripten_enum_WindowState_WINDOW_HEADER();
-        Module['WINDOW_DOCKABLE'] = _emscripten_enum_WindowState_WINDOW_DOCKABLE();
-        Module['WINDOW_CLOSABLE'] = _emscripten_enum_WindowState_WINDOW_CLOSABLE();
-        Module['WINDOW_MOVABLE'] = _emscripten_enum_WindowState_WINDOW_MOVABLE();
-        Module['WINDOW_SIZABLE'] = _emscripten_enum_WindowState_WINDOW_SIZABLE();
-        Module['WINDOW_DEFAULT'] = _emscripten_enum_WindowState_WINDOW_DEFAULT();
+        Module['WINDOW_NOSTATE'] = _WindowState_WINDOW_NOSTATE();
+        Module['WINDOW_HEADER'] = _WindowState_WINDOW_HEADER();
+        Module['WINDOW_DOCKABLE'] = _WindowState_WINDOW_DOCKABLE();
+        Module['WINDOW_CLOSABLE'] = _WindowState_WINDOW_CLOSABLE();
+        Module['WINDOW_MOVABLE'] = _WindowState_WINDOW_MOVABLE();
+        Module['WINDOW_SIZABLE'] = _WindowState_WINDOW_SIZABLE();
+        Module['WINDOW_DEFAULT'] = _WindowState_WINDOW_DEFAULT();
     }
     if (Module['calledRun']) setupEnums();
     else addOnPreMain(setupEnums);

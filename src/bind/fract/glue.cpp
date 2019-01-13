@@ -113,13 +113,13 @@ extern "C" {
 		delete self;
 	}
 	// PatternSampling
-	mud::PatternSampling EMSCRIPTEN_KEEPALIVE emscripten_enum_PatternSampling_X() {
+	mud::PatternSampling EMSCRIPTEN_KEEPALIVE PatternSampling_X() {
 		return mud::PatternSampling::X;
 	}
-	mud::PatternSampling EMSCRIPTEN_KEEPALIVE emscripten_enum_PatternSampling_XY() {
+	mud::PatternSampling EMSCRIPTEN_KEEPALIVE PatternSampling_XY() {
 		return mud::PatternSampling::XY;
 	}
-	mud::PatternSampling EMSCRIPTEN_KEEPALIVE emscripten_enum_PatternSampling_Depth() {
+	mud::PatternSampling EMSCRIPTEN_KEEPALIVE PatternSampling_Depth() {
 		return mud::PatternSampling::Depth;
 	}
 	

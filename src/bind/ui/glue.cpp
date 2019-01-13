@@ -27,8 +27,8 @@ extern "C" {
 	mud::Clipboard* EMSCRIPTEN_KEEPALIVE Clipboard_Clipboard_0() {
 		return new mud::Clipboard();
 	}
-	std::string EMSCRIPTEN_KEEPALIVE Clipboard_get_text(mud::Clipboard* self) {
-		return self->m_text;
+	const char* EMSCRIPTEN_KEEPALIVE Clipboard_get_text(mud::Clipboard* self) {
+		return self->m_text.c_str();
 	}
 	bool EMSCRIPTEN_KEEPALIVE Clipboard_get_line_mode(mud::Clipboard* self) {
 		return self->m_line_mode;
@@ -118,8 +118,8 @@ extern "C" {
 	mud::InkStyle* EMSCRIPTEN_KEEPALIVE InkStyle_InkStyle_1(const char* name) {
 		return new mud::InkStyle(name);
 	}
-	std::string EMSCRIPTEN_KEEPALIVE InkStyle_get_name(mud::InkStyle* self) {
-		return self->m_name;
+	const char* EMSCRIPTEN_KEEPALIVE InkStyle_get_name(mud::InkStyle* self) {
+		return self->m_name.c_str();
 	}
 	bool EMSCRIPTEN_KEEPALIVE InkStyle_get_empty(mud::InkStyle* self) {
 		return self->m_empty;
@@ -140,8 +140,8 @@ extern "C" {
 		static mud::Colour temp;
 		return (temp = &self->m_text_colour, &temp);
 	}
-	std::string EMSCRIPTEN_KEEPALIVE InkStyle_get_text_font(mud::InkStyle* self) {
-		return self->m_text_font;
+	const char* EMSCRIPTEN_KEEPALIVE InkStyle_get_text_font(mud::InkStyle* self) {
+		return self->m_text_font.c_str();
 	}
 	float EMSCRIPTEN_KEEPALIVE InkStyle_get_text_size(mud::InkStyle* self) {
 		return self->m_text_size;
@@ -220,8 +220,8 @@ extern "C" {
 	mud::Layout* EMSCRIPTEN_KEEPALIVE Layout_Layout_1(const char* name) {
 		return new mud::Layout(name);
 	}
-	std::string EMSCRIPTEN_KEEPALIVE Layout_get_name(mud::Layout* self) {
-		return self->m_name;
+	const char* EMSCRIPTEN_KEEPALIVE Layout_get_name(mud::Layout* self) {
+		return self->m_name.c_str();
 	}
 	mud::LayoutSolver EMSCRIPTEN_KEEPALIVE Layout_get_solver(mud::Layout* self) {
 		static mud::LayoutSolver temp;
@@ -666,227 +666,227 @@ extern "C" {
 		delete self;
 	}
 	// Align
-	mud::Align EMSCRIPTEN_KEEPALIVE emscripten_enum_Align_Left() {
+	mud::Align EMSCRIPTEN_KEEPALIVE Align_Left() {
 		return mud::Left;
 	}
-	mud::Align EMSCRIPTEN_KEEPALIVE emscripten_enum_Align_CENTER() {
+	mud::Align EMSCRIPTEN_KEEPALIVE Align_CENTER() {
 		return mud::CENTER;
 	}
-	mud::Align EMSCRIPTEN_KEEPALIVE emscripten_enum_Align_Right() {
+	mud::Align EMSCRIPTEN_KEEPALIVE Align_Right() {
 		return mud::Right;
 	}
-	mud::Align EMSCRIPTEN_KEEPALIVE emscripten_enum_Align_OUT_LEFT() {
+	mud::Align EMSCRIPTEN_KEEPALIVE Align_OUT_LEFT() {
 		return mud::OUT_LEFT;
 	}
-	mud::Align EMSCRIPTEN_KEEPALIVE emscripten_enum_Align_OUT_RIGHT() {
+	mud::Align EMSCRIPTEN_KEEPALIVE Align_OUT_RIGHT() {
 		return mud::OUT_RIGHT;
 	}
 	// AutoLayout
-	mud::AutoLayout EMSCRIPTEN_KEEPALIVE emscripten_enum_AutoLayout_NO_LAYOUT() {
+	mud::AutoLayout EMSCRIPTEN_KEEPALIVE AutoLayout_NO_LAYOUT() {
 		return mud::NO_LAYOUT;
 	}
-	mud::AutoLayout EMSCRIPTEN_KEEPALIVE emscripten_enum_AutoLayout_AUTO_SIZE() {
+	mud::AutoLayout EMSCRIPTEN_KEEPALIVE AutoLayout_AUTO_SIZE() {
 		return mud::AUTO_SIZE;
 	}
-	mud::AutoLayout EMSCRIPTEN_KEEPALIVE emscripten_enum_AutoLayout_AUTO_LAYOUT() {
+	mud::AutoLayout EMSCRIPTEN_KEEPALIVE AutoLayout_AUTO_LAYOUT() {
 		return mud::AUTO_LAYOUT;
 	}
 	// Clipping
-	mud::Clipping EMSCRIPTEN_KEEPALIVE emscripten_enum_Clipping_NOCLIP() {
+	mud::Clipping EMSCRIPTEN_KEEPALIVE Clipping_NOCLIP() {
 		return mud::NOCLIP;
 	}
-	mud::Clipping EMSCRIPTEN_KEEPALIVE emscripten_enum_Clipping_CLIP() {
+	mud::Clipping EMSCRIPTEN_KEEPALIVE Clipping_CLIP() {
 		return mud::CLIP;
 	}
-	mud::Clipping EMSCRIPTEN_KEEPALIVE emscripten_enum_Clipping_UNCLIP() {
+	mud::Clipping EMSCRIPTEN_KEEPALIVE Clipping_UNCLIP() {
 		return mud::UNCLIP;
 	}
 	// Dim
-	mud::Dim EMSCRIPTEN_KEEPALIVE emscripten_enum_Dim_DIM_X() {
+	mud::Dim EMSCRIPTEN_KEEPALIVE Dim_DIM_X() {
 		return mud::DIM_X;
 	}
-	mud::Dim EMSCRIPTEN_KEEPALIVE emscripten_enum_Dim_DIM_Y() {
+	mud::Dim EMSCRIPTEN_KEEPALIVE Dim_DIM_Y() {
 		return mud::DIM_Y;
 	}
-	mud::Dim EMSCRIPTEN_KEEPALIVE emscripten_enum_Dim_DIM_NONE() {
+	mud::Dim EMSCRIPTEN_KEEPALIVE Dim_DIM_NONE() {
 		return mud::DIM_NONE;
 	}
 	// Flow
-	mud::Flow EMSCRIPTEN_KEEPALIVE emscripten_enum_Flow_FLOW() {
+	mud::Flow EMSCRIPTEN_KEEPALIVE Flow_FLOW() {
 		return mud::FLOW;
 	}
-	mud::Flow EMSCRIPTEN_KEEPALIVE emscripten_enum_Flow_OVERLAY() {
+	mud::Flow EMSCRIPTEN_KEEPALIVE Flow_OVERLAY() {
 		return mud::OVERLAY;
 	}
-	mud::Flow EMSCRIPTEN_KEEPALIVE emscripten_enum_Flow_ALIGN() {
+	mud::Flow EMSCRIPTEN_KEEPALIVE Flow_ALIGN() {
 		return mud::ALIGN;
 	}
-	mud::Flow EMSCRIPTEN_KEEPALIVE emscripten_enum_Flow_FREE() {
+	mud::Flow EMSCRIPTEN_KEEPALIVE Flow_FREE() {
 		return mud::FREE;
 	}
 	// FlowAxis
-	mud::FlowAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_FlowAxis_READING() {
+	mud::FlowAxis EMSCRIPTEN_KEEPALIVE FlowAxis_READING() {
 		return mud::READING;
 	}
-	mud::FlowAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_FlowAxis_PARAGRAPH() {
+	mud::FlowAxis EMSCRIPTEN_KEEPALIVE FlowAxis_PARAGRAPH() {
 		return mud::PARAGRAPH;
 	}
-	mud::FlowAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_FlowAxis_PARALLEL() {
+	mud::FlowAxis EMSCRIPTEN_KEEPALIVE FlowAxis_PARALLEL() {
 		return mud::PARALLEL;
 	}
-	mud::FlowAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_FlowAxis_ORTHOGONAL() {
+	mud::FlowAxis EMSCRIPTEN_KEEPALIVE FlowAxis_ORTHOGONAL() {
 		return mud::ORTHOGONAL;
 	}
-	mud::FlowAxis EMSCRIPTEN_KEEPALIVE emscripten_enum_FlowAxis_AXIS_NONE() {
+	mud::FlowAxis EMSCRIPTEN_KEEPALIVE FlowAxis_AXIS_NONE() {
 		return mud::AXIS_NONE;
 	}
 	// LayoutSolver
-	mud::LayoutSolver EMSCRIPTEN_KEEPALIVE emscripten_enum_LayoutSolver_FRAME_SOLVER() {
+	mud::LayoutSolver EMSCRIPTEN_KEEPALIVE LayoutSolver_FRAME_SOLVER() {
 		return mud::FRAME_SOLVER;
 	}
-	mud::LayoutSolver EMSCRIPTEN_KEEPALIVE emscripten_enum_LayoutSolver_ROW_SOLVER() {
+	mud::LayoutSolver EMSCRIPTEN_KEEPALIVE LayoutSolver_ROW_SOLVER() {
 		return mud::ROW_SOLVER;
 	}
-	mud::LayoutSolver EMSCRIPTEN_KEEPALIVE emscripten_enum_LayoutSolver_GRID_SOLVER() {
+	mud::LayoutSolver EMSCRIPTEN_KEEPALIVE LayoutSolver_GRID_SOLVER() {
 		return mud::GRID_SOLVER;
 	}
-	mud::LayoutSolver EMSCRIPTEN_KEEPALIVE emscripten_enum_LayoutSolver_TABLE_SOLVER() {
+	mud::LayoutSolver EMSCRIPTEN_KEEPALIVE LayoutSolver_TABLE_SOLVER() {
 		return mud::TABLE_SOLVER;
 	}
 	// Opacity
-	mud::Opacity EMSCRIPTEN_KEEPALIVE emscripten_enum_Opacity_OPAQUE() {
+	mud::Opacity EMSCRIPTEN_KEEPALIVE Opacity_OPAQUE() {
 		return mud::OPAQUE;
 	}
-	mud::Opacity EMSCRIPTEN_KEEPALIVE emscripten_enum_Opacity_CLEAR() {
+	mud::Opacity EMSCRIPTEN_KEEPALIVE Opacity_CLEAR() {
 		return mud::CLEAR;
 	}
-	mud::Opacity EMSCRIPTEN_KEEPALIVE emscripten_enum_Opacity_HOLLOW() {
+	mud::Opacity EMSCRIPTEN_KEEPALIVE Opacity_HOLLOW() {
 		return mud::HOLLOW;
 	}
 	// Pivot
-	mud::Pivot EMSCRIPTEN_KEEPALIVE emscripten_enum_Pivot_FORWARD() {
+	mud::Pivot EMSCRIPTEN_KEEPALIVE Pivot_FORWARD() {
 		return mud::FORWARD;
 	}
-	mud::Pivot EMSCRIPTEN_KEEPALIVE emscripten_enum_Pivot_REVERSE() {
+	mud::Pivot EMSCRIPTEN_KEEPALIVE Pivot_REVERSE() {
 		return mud::REVERSE;
 	}
 	// PopupFlags
-	mud::ui::PopupFlags EMSCRIPTEN_KEEPALIVE emscripten_enum_PopupFlags_None() {
+	mud::ui::PopupFlags EMSCRIPTEN_KEEPALIVE PopupFlags_None() {
 		return mud::ui::PopupFlags::None;
 	}
-	mud::ui::PopupFlags EMSCRIPTEN_KEEPALIVE emscripten_enum_PopupFlags_Modal() {
+	mud::ui::PopupFlags EMSCRIPTEN_KEEPALIVE PopupFlags_Modal() {
 		return mud::ui::PopupFlags::Modal;
 	}
-	mud::ui::PopupFlags EMSCRIPTEN_KEEPALIVE emscripten_enum_PopupFlags_Clamp() {
+	mud::ui::PopupFlags EMSCRIPTEN_KEEPALIVE PopupFlags_Clamp() {
 		return mud::ui::PopupFlags::Clamp;
 	}
-	mud::ui::PopupFlags EMSCRIPTEN_KEEPALIVE emscripten_enum_PopupFlags_AutoClose() {
+	mud::ui::PopupFlags EMSCRIPTEN_KEEPALIVE PopupFlags_AutoClose() {
 		return mud::ui::PopupFlags::AutoClose;
 	}
-	mud::ui::PopupFlags EMSCRIPTEN_KEEPALIVE emscripten_enum_PopupFlags_AutoModal() {
+	mud::ui::PopupFlags EMSCRIPTEN_KEEPALIVE PopupFlags_AutoModal() {
 		return mud::ui::PopupFlags::AutoModal;
 	}
 	// Sizing
-	mud::Sizing EMSCRIPTEN_KEEPALIVE emscripten_enum_Sizing_FIXED() {
+	mud::Sizing EMSCRIPTEN_KEEPALIVE Sizing_FIXED() {
 		return mud::FIXED;
 	}
-	mud::Sizing EMSCRIPTEN_KEEPALIVE emscripten_enum_Sizing_SHRINK() {
+	mud::Sizing EMSCRIPTEN_KEEPALIVE Sizing_SHRINK() {
 		return mud::SHRINK;
 	}
-	mud::Sizing EMSCRIPTEN_KEEPALIVE emscripten_enum_Sizing_WRAP() {
+	mud::Sizing EMSCRIPTEN_KEEPALIVE Sizing_WRAP() {
 		return mud::WRAP;
 	}
-	mud::Sizing EMSCRIPTEN_KEEPALIVE emscripten_enum_Sizing_EXPAND() {
+	mud::Sizing EMSCRIPTEN_KEEPALIVE Sizing_EXPAND() {
 		return mud::EXPAND;
 	}
 	// SpacePreset
-	mud::SpacePreset EMSCRIPTEN_KEEPALIVE emscripten_enum_SpacePreset_SHEET() {
+	mud::SpacePreset EMSCRIPTEN_KEEPALIVE SpacePreset_SHEET() {
 		return mud::SHEET;
 	}
-	mud::SpacePreset EMSCRIPTEN_KEEPALIVE emscripten_enum_SpacePreset_FLEX() {
+	mud::SpacePreset EMSCRIPTEN_KEEPALIVE SpacePreset_FLEX() {
 		return mud::FLEX;
 	}
-	mud::SpacePreset EMSCRIPTEN_KEEPALIVE emscripten_enum_SpacePreset_ITEM() {
+	mud::SpacePreset EMSCRIPTEN_KEEPALIVE SpacePreset_ITEM() {
 		return mud::ITEM;
 	}
-	mud::SpacePreset EMSCRIPTEN_KEEPALIVE emscripten_enum_SpacePreset_UNIT() {
+	mud::SpacePreset EMSCRIPTEN_KEEPALIVE SpacePreset_UNIT() {
 		return mud::UNIT;
 	}
-	mud::SpacePreset EMSCRIPTEN_KEEPALIVE emscripten_enum_SpacePreset_BLOCK() {
+	mud::SpacePreset EMSCRIPTEN_KEEPALIVE SpacePreset_BLOCK() {
 		return mud::BLOCK;
 	}
-	mud::SpacePreset EMSCRIPTEN_KEEPALIVE emscripten_enum_SpacePreset_LINE() {
+	mud::SpacePreset EMSCRIPTEN_KEEPALIVE SpacePreset_LINE() {
 		return mud::LINE;
 	}
-	mud::SpacePreset EMSCRIPTEN_KEEPALIVE emscripten_enum_SpacePreset_STACK() {
+	mud::SpacePreset EMSCRIPTEN_KEEPALIVE SpacePreset_STACK() {
 		return mud::STACK;
 	}
-	mud::SpacePreset EMSCRIPTEN_KEEPALIVE emscripten_enum_SpacePreset_DIV() {
+	mud::SpacePreset EMSCRIPTEN_KEEPALIVE SpacePreset_DIV() {
 		return mud::DIV;
 	}
-	mud::SpacePreset EMSCRIPTEN_KEEPALIVE emscripten_enum_SpacePreset_SPACER() {
+	mud::SpacePreset EMSCRIPTEN_KEEPALIVE SpacePreset_SPACER() {
 		return mud::SPACER;
 	}
-	mud::SpacePreset EMSCRIPTEN_KEEPALIVE emscripten_enum_SpacePreset_BOARD() {
+	mud::SpacePreset EMSCRIPTEN_KEEPALIVE SpacePreset_BOARD() {
 		return mud::BOARD;
 	}
-	mud::SpacePreset EMSCRIPTEN_KEEPALIVE emscripten_enum_SpacePreset_LAYOUT() {
+	mud::SpacePreset EMSCRIPTEN_KEEPALIVE SpacePreset_LAYOUT() {
 		return mud::LAYOUT;
 	}
 	// WidgetState
-	mud::WidgetState EMSCRIPTEN_KEEPALIVE emscripten_enum_WidgetState_NOSTATE() {
+	mud::WidgetState EMSCRIPTEN_KEEPALIVE WidgetState_NOSTATE() {
 		return mud::NOSTATE;
 	}
-	mud::WidgetState EMSCRIPTEN_KEEPALIVE emscripten_enum_WidgetState_CREATED() {
+	mud::WidgetState EMSCRIPTEN_KEEPALIVE WidgetState_CREATED() {
 		return mud::CREATED;
 	}
-	mud::WidgetState EMSCRIPTEN_KEEPALIVE emscripten_enum_WidgetState_HOVERED() {
+	mud::WidgetState EMSCRIPTEN_KEEPALIVE WidgetState_HOVERED() {
 		return mud::HOVERED;
 	}
-	mud::WidgetState EMSCRIPTEN_KEEPALIVE emscripten_enum_WidgetState_PRESSED() {
+	mud::WidgetState EMSCRIPTEN_KEEPALIVE WidgetState_PRESSED() {
 		return mud::PRESSED;
 	}
-	mud::WidgetState EMSCRIPTEN_KEEPALIVE emscripten_enum_WidgetState_ACTIVATED() {
+	mud::WidgetState EMSCRIPTEN_KEEPALIVE WidgetState_ACTIVATED() {
 		return mud::ACTIVATED;
 	}
-	mud::WidgetState EMSCRIPTEN_KEEPALIVE emscripten_enum_WidgetState_ACTIVE() {
+	mud::WidgetState EMSCRIPTEN_KEEPALIVE WidgetState_ACTIVE() {
 		return mud::ACTIVE;
 	}
-	mud::WidgetState EMSCRIPTEN_KEEPALIVE emscripten_enum_WidgetState_SELECTED() {
+	mud::WidgetState EMSCRIPTEN_KEEPALIVE WidgetState_SELECTED() {
 		return mud::SELECTED;
 	}
-	mud::WidgetState EMSCRIPTEN_KEEPALIVE emscripten_enum_WidgetState_DISABLED() {
+	mud::WidgetState EMSCRIPTEN_KEEPALIVE WidgetState_DISABLED() {
 		return mud::DISABLED;
 	}
-	mud::WidgetState EMSCRIPTEN_KEEPALIVE emscripten_enum_WidgetState_DRAGGED() {
+	mud::WidgetState EMSCRIPTEN_KEEPALIVE WidgetState_DRAGGED() {
 		return mud::DRAGGED;
 	}
-	mud::WidgetState EMSCRIPTEN_KEEPALIVE emscripten_enum_WidgetState_FOCUSED() {
+	mud::WidgetState EMSCRIPTEN_KEEPALIVE WidgetState_FOCUSED() {
 		return mud::FOCUSED;
 	}
-	mud::WidgetState EMSCRIPTEN_KEEPALIVE emscripten_enum_WidgetState_CLOSED() {
+	mud::WidgetState EMSCRIPTEN_KEEPALIVE WidgetState_CLOSED() {
 		return mud::CLOSED;
 	}
 	// WindowState
-	mud::WindowState EMSCRIPTEN_KEEPALIVE emscripten_enum_WindowState_WINDOW_NOSTATE() {
+	mud::WindowState EMSCRIPTEN_KEEPALIVE WindowState_WINDOW_NOSTATE() {
 		return mud::WINDOW_NOSTATE;
 	}
-	mud::WindowState EMSCRIPTEN_KEEPALIVE emscripten_enum_WindowState_WINDOW_HEADER() {
+	mud::WindowState EMSCRIPTEN_KEEPALIVE WindowState_WINDOW_HEADER() {
 		return mud::WINDOW_HEADER;
 	}
-	mud::WindowState EMSCRIPTEN_KEEPALIVE emscripten_enum_WindowState_WINDOW_DOCKABLE() {
+	mud::WindowState EMSCRIPTEN_KEEPALIVE WindowState_WINDOW_DOCKABLE() {
 		return mud::WINDOW_DOCKABLE;
 	}
-	mud::WindowState EMSCRIPTEN_KEEPALIVE emscripten_enum_WindowState_WINDOW_CLOSABLE() {
+	mud::WindowState EMSCRIPTEN_KEEPALIVE WindowState_WINDOW_CLOSABLE() {
 		return mud::WINDOW_CLOSABLE;
 	}
-	mud::WindowState EMSCRIPTEN_KEEPALIVE emscripten_enum_WindowState_WINDOW_MOVABLE() {
+	mud::WindowState EMSCRIPTEN_KEEPALIVE WindowState_WINDOW_MOVABLE() {
 		return mud::WINDOW_MOVABLE;
 	}
-	mud::WindowState EMSCRIPTEN_KEEPALIVE emscripten_enum_WindowState_WINDOW_SIZABLE() {
+	mud::WindowState EMSCRIPTEN_KEEPALIVE WindowState_WINDOW_SIZABLE() {
 		return mud::WINDOW_SIZABLE;
 	}
-	mud::WindowState EMSCRIPTEN_KEEPALIVE emscripten_enum_WindowState_WINDOW_DEFAULT() {
+	mud::WindowState EMSCRIPTEN_KEEPALIVE WindowState_WINDOW_DEFAULT() {
 		return mud::WINDOW_DEFAULT;
 	}
 	

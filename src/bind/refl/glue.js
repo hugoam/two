@@ -179,7 +179,7 @@ Module['Module'] = Module;
 Object.defineProperty(Module.prototype, "name", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_Module_get_name(self));
+        return _Module_get_name(self);
     }});
 Object.defineProperty(Module.prototype, "deps", {
     get: function() {
@@ -220,7 +220,7 @@ Object.defineProperty(Module.prototype, "functions", {
 Object.defineProperty(Module.prototype, "path", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_Module_get_path(self));
+        return _Module_get_path(self);
     }});
 Module.prototype["__destroy__"] = Module.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -274,12 +274,12 @@ Object.defineProperty(Operator.prototype, "type", {
 Object.defineProperty(Operator.prototype, "name", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_Operator_get_name(self));
+        return _Operator_get_name(self);
     }});
 Object.defineProperty(Operator.prototype, "sign", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_Operator_get_sign(self));
+        return _Operator_get_sign(self);
     }});
 Operator.prototype["__destroy__"] = Operator.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -435,12 +435,12 @@ Method.prototype["__destroy__"] = Method.prototype.__destroy__ = function() {
 (function() {
     function setupEnums() {
         // TypeClass
-        Module['TypeClass']['None'] = _emscripten_enum_TypeClass_None();
-        Module['TypeClass']['Object'] = _emscripten_enum_TypeClass_Object();
-        Module['TypeClass']['Struct'] = _emscripten_enum_TypeClass_Struct();
-        Module['TypeClass']['Sequence'] = _emscripten_enum_TypeClass_Sequence();
-        Module['TypeClass']['BaseType'] = _emscripten_enum_TypeClass_BaseType();
-        Module['TypeClass']['Enum'] = _emscripten_enum_TypeClass_Enum();
+        Module['TypeClass']['None'] = _TypeClass_None();
+        Module['TypeClass']['Object'] = _TypeClass_Object();
+        Module['TypeClass']['Struct'] = _TypeClass_Struct();
+        Module['TypeClass']['Sequence'] = _TypeClass_Sequence();
+        Module['TypeClass']['BaseType'] = _TypeClass_BaseType();
+        Module['TypeClass']['Enum'] = _TypeClass_Enum();
     }
     if (Module['calledRun']) setupEnums();
     else addOnPreMain(setupEnums);

@@ -27,23 +27,23 @@ extern "C" {
 		delete self;
 	}
 	// EditNestMode
-	mud::EditNestMode EMSCRIPTEN_KEEPALIVE emscripten_enum_EditNestMode_Inline() {
+	mud::EditNestMode EMSCRIPTEN_KEEPALIVE EditNestMode_Inline() {
 		return mud::EditNestMode::Inline;
 	}
-	mud::EditNestMode EMSCRIPTEN_KEEPALIVE emscripten_enum_EditNestMode_Modal() {
+	mud::EditNestMode EMSCRIPTEN_KEEPALIVE EditNestMode_Modal() {
 		return mud::EditNestMode::Modal;
 	}
-	mud::EditNestMode EMSCRIPTEN_KEEPALIVE emscripten_enum_EditNestMode_Embed() {
+	mud::EditNestMode EMSCRIPTEN_KEEPALIVE EditNestMode_Embed() {
 		return mud::EditNestMode::Embed;
 	}
 	// EditorHint
-	mud::EditorHint EMSCRIPTEN_KEEPALIVE emscripten_enum_EditorHint_Table() {
+	mud::EditorHint EMSCRIPTEN_KEEPALIVE EditorHint_Table() {
 		return mud::EditorHint::Table;
 	}
-	mud::EditorHint EMSCRIPTEN_KEEPALIVE emscripten_enum_EditorHint_Rows() {
+	mud::EditorHint EMSCRIPTEN_KEEPALIVE EditorHint_Rows() {
 		return mud::EditorHint::Rows;
 	}
-	mud::EditorHint EMSCRIPTEN_KEEPALIVE emscripten_enum_EditorHint_Inline() {
+	mud::EditorHint EMSCRIPTEN_KEEPALIVE EditorHint_Inline() {
 		return mud::EditorHint::Inline;
 	}
 	

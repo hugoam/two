@@ -1045,6 +1045,7 @@ namespace clgen
 
 		auto type_to_c = [&](const CLQualType& t, bool non_pointing = false) -> string
 		{
+			if(t.isstring()) return "const char*";
 			if(t.isenum()) return t.m_type->m_id;
 			string name = !t.isbasetype() ? t.m_type->m_id + (non_pointing ? "" : "*") : t.m_type->m_name;
 			return (t.isconst() && name != "const char*" ? "const " : "") + name + (t.isarray() ? "[]" : "");
@@ -1075,8 +1076,6 @@ namespace clgen
 
 		auto cramfunc = [](Overloads& o, const CLFunction& f)
 		{
-			if(f.m_name == "Colour")
-				int i = 0;
 			o.f = &f;
 			for(size_t i = f.m_min_args; i <= f.m_params.size(); ++i)
 				o.lengths.insert(i);
@@ -1337,6 +1336,8 @@ namespace clgen
 				cw("return " + call + ";");
 			else if(return_type.isvoid())
 				cw(call + ";");
+			else if(return_type.isstring())
+				cw("return " + call + ".c_str();");
 			else if(return_type.isbasetype())
 				cw("return " + call + ";");
 			else if(!return_type.value())
@@ -1550,6 +1551,9 @@ namespace clgen
 			jsw("(function() {");
 			jsw("function setupEnums() {");
 			
+			//string enum_prefix = "emscripten_enum_";
+			string enum_prefix = "";
+
 			for(auto& pe : m.m_enums)
 			{
 				CLEnum& e = *pe;
@@ -1557,7 +1561,7 @@ namespace clgen
 				jsw("// " + e.m_name);
 				for(size_t i = 0; i < e.m_ids.size(); ++i)
 				{
-					string f = "emscripten_enum_" + e.m_name + "_" + e.m_ids[i];
+					string f = enum_prefix + e.m_name + "_" + e.m_ids[i];
 					cw(e.m_id + " EMSCRIPTEN_KEEPALIVE " + f + "() {");
 					cw("return " + e.m_scoped_ids[i] + ";");
 					cw("}");

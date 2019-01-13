@@ -402,10 +402,7 @@ Stream.prototype["__destroy__"] = Stream.prototype.__destroy__ = function() {
 // TextScript
 function TextScript(name, language, signature) {
     var self = this.ptr;
-    ensureCache.prepare();
     /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
     /* language <Language> [] */
     if (language && typeof language === "object") language = language.ptr;
     /* signature <Signature> [] */
@@ -461,10 +458,7 @@ TextScript.prototype["__destroy__"] = TextScript.prototype.__destroy__ = functio
 // VisualScript
 function VisualScript(name, signature) {
     var self = this.ptr;
-    ensureCache.prepare();
     /* name <const char*> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
     /* signature <Signature> [] */
     signature = signature.ptr;
     if (signature === undefined) { this.ptr = _VisualScript_VisualScript_1(self, name); getCache(VisualScript)[this.ptr] = this; return; }
@@ -494,9 +488,9 @@ WrenInterpreter.prototype["__destroy__"] = WrenInterpreter.prototype.__destroy__
 (function() {
     function setupEnums() {
         // Language
-        Module['Language']['Cpp'] = _emscripten_enum_Language_Cpp();
-        Module['Language']['Lua'] = _emscripten_enum_Language_Lua();
-        Module['Language']['Wren'] = _emscripten_enum_Language_Wren();
+        Module['Language']['Cpp'] = _Language_Cpp();
+        Module['Language']['Lua'] = _Language_Lua();
+        Module['Language']['Wren'] = _Language_Wren();
     }
     if (Module['calledRun']) setupEnums();
     else addOnPreMain(setupEnums);

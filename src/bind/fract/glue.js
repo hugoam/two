@@ -196,9 +196,9 @@ Pattern.prototype["__destroy__"] = Pattern.prototype.__destroy__ = function() {
 (function() {
     function setupEnums() {
         // PatternSampling
-        Module['PatternSampling']['X'] = _emscripten_enum_PatternSampling_X();
-        Module['PatternSampling']['XY'] = _emscripten_enum_PatternSampling_XY();
-        Module['PatternSampling']['Depth'] = _emscripten_enum_PatternSampling_Depth();
+        Module['PatternSampling']['X'] = _PatternSampling_X();
+        Module['PatternSampling']['XY'] = _PatternSampling_XY();
+        Module['PatternSampling']['Depth'] = _PatternSampling_Depth();
     }
     if (Module['calledRun']) setupEnums();
     else addOnPreMain(setupEnums);
