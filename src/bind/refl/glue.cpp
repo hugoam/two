@@ -23,7 +23,7 @@ extern "C" {
 		return new mud::Call();
 	}
 	mud::Call* EMSCRIPTEN_KEEPALIVE Call_Call_2(const mud::Callable* callable, std::vector<mud::Var>* arguments) {
-		return new mud::Call(*callable, arguments);
+		return new mud::Call(*callable, *arguments);
 	}
 	mud::Var* EMSCRIPTEN_KEEPALIVE Call_get_result(mud::Call* self) {
 		static mud::Var temp;

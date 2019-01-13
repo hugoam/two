@@ -40,10 +40,10 @@ extern "C" {
 		self->regen();
 	}
 	void EMSCRIPTEN_KEEPALIVE Fract_render_4(mud::Fract* self, const mud::Rect* rect, const mud::Pattern* pattern, mud::uvec2* resolution, mud::Image256* output_image) {
-		self->render(*rect, *pattern, resolution, *output_image);
+		self->render(*rect, *pattern, *resolution, *output_image);
 	}
 	void EMSCRIPTEN_KEEPALIVE Fract_render_whole_3(mud::Fract* self, const mud::Pattern* pattern, mud::uvec2* resolution, mud::Image256* output_image) {
-		self->render_whole(*pattern, resolution, *output_image);
+		self->render_whole(*pattern, *resolution, *output_image);
 	}
 	size_t EMSCRIPTEN_KEEPALIVE Fract_get_nutabs(mud::Fract* self) {
 		return self->m_num_tabs;
@@ -53,7 +53,7 @@ extern "C" {
 	}
 	// FractSample
 	mud::FractSample* EMSCRIPTEN_KEEPALIVE FractSample_FractSample_3(mud::Fract* fract, const mud::Rect* rect, mud::uvec2* resolution) {
-		return new mud::FractSample(*fract, *rect, resolution);
+		return new mud::FractSample(*fract, *rect, *resolution);
 	}
 	void EMSCRIPTEN_KEEPALIVE FractSample_render_2(mud::FractSample* self, const mud::Pattern* pattern, mud::Image256* outputImage) {
 		self->render(*pattern, *outputImage);
@@ -84,13 +84,13 @@ extern "C" {
 		return new mud::Pattern();
 	}
 	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_2(mud::Palette* palette, mud::PatternSampling sampling) {
-		return new mud::Pattern(palette, sampling);
+		return new mud::Pattern(*palette, *sampling);
 	}
 	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_3(mud::Palette* palette, mud::PatternSampling sampling, float precision) {
-		return new mud::Pattern(palette, sampling, precision);
+		return new mud::Pattern(*palette, *sampling, precision);
 	}
 	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_4(mud::Palette* palette, mud::PatternSampling sampling, float precision, size_t step) {
-		return new mud::Pattern(palette, sampling, precision, step);
+		return new mud::Pattern(*palette, *sampling, precision, step);
 	}
 	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_0() {
 		return new mud::Pattern();

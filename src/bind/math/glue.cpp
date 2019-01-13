@@ -106,10 +106,10 @@ extern "C" {
 		return new mud::Palette();
 	}
 	mud::Palette* EMSCRIPTEN_KEEPALIVE Palette_Palette_2(mud::Spectrum spectrum, size_t steps) {
-		return new mud::Palette(spectrum, steps);
+		return new mud::Palette(*spectrum, steps);
 	}
 	mud::Palette* EMSCRIPTEN_KEEPALIVE Palette_Palette_1(std::vector<mud::Colour>* colours) {
-		return new mud::Palette(colours);
+		return new mud::Palette(*colours);
 	}
 	mud::Palette* EMSCRIPTEN_KEEPALIVE Palette_Palette_0() {
 		return new mud::Palette();
@@ -148,7 +148,7 @@ extern "C" {
 		return new mud::TimeSpan();
 	}
 	mud::TimeSpan* EMSCRIPTEN_KEEPALIVE TimeSpan_TimeSpan_2(mud::Time* s, mud::Time* e) {
-		return new mud::TimeSpan(s, e);
+		return new mud::TimeSpan(*s, *e);
 	}
 	mud::Time* EMSCRIPTEN_KEEPALIVE TimeSpan_get_start(mud::TimeSpan* self) {
 		static mud::Time temp;
@@ -271,7 +271,7 @@ extern "C" {
 		return new mud::quat(w, x, y, z);
 	}
 	mud::quat* EMSCRIPTEN_KEEPALIVE quat_quat_1(mud::vec3* euler_angles) {
-		return new mud::quat(euler_angles);
+		return new mud::quat(*euler_angles);
 	}
 	float EMSCRIPTEN_KEEPALIVE quat_get_x(mud::quat* self) {
 		return self->x;
