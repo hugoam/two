@@ -24,6 +24,9 @@ extern "C" {
 	mud::Type* EMSCRIPTEN_KEEPALIVE Indexer_get_type(mud::Indexer* self) {
 		return &self->m_type;
 	}
+	void EMSCRIPTEN_KEEPALIVE Indexer_set_type(mud::Indexer* self, mud::Type* type) {
+		self->m_type = *type;
+	}
 	void EMSCRIPTEN_KEEPALIVE Indexer___destroy__(mud::Indexer* self) {
 		delete self;
 	}
@@ -35,14 +38,23 @@ extern "C" {
 	mud::Id EMSCRIPTEN_KEEPALIVE Type_get_id(mud::Type* self) {
 		return self->m_id;
 	}
+	void EMSCRIPTEN_KEEPALIVE Type_set_id(mud::Type* self, mud::Id id) {
+		self->m_id = id;
+	}
 	const char* EMSCRIPTEN_KEEPALIVE Type_get_name(mud::Type* self) {
 		return self->m_name;
 	}
 	size_t EMSCRIPTEN_KEEPALIVE Type_get_size(mud::Type* self) {
 		return self->m_size;
 	}
+	void EMSCRIPTEN_KEEPALIVE Type_set_size(mud::Type* self, size_t size) {
+		self->m_size = size;
+	}
 	mud::Type* EMSCRIPTEN_KEEPALIVE Type_get_base(mud::Type* self) {
 		return self->m_base;
+	}
+	void EMSCRIPTEN_KEEPALIVE Type_set_base(mud::Type* self, mud::Type* base) {
+		self->m_base = base;
 	}
 	void EMSCRIPTEN_KEEPALIVE Type___destroy__(mud::Type* self) {
 		delete self;

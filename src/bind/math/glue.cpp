@@ -33,14 +33,26 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE Colour_get_r(mud::Colour* self) {
 		return self->m_r;
 	}
+	void EMSCRIPTEN_KEEPALIVE Colour_set_r(mud::Colour* self, float r) {
+		self->m_r = r;
+	}
 	float EMSCRIPTEN_KEEPALIVE Colour_get_g(mud::Colour* self) {
 		return self->m_g;
+	}
+	void EMSCRIPTEN_KEEPALIVE Colour_set_g(mud::Colour* self, float g) {
+		self->m_g = g;
 	}
 	float EMSCRIPTEN_KEEPALIVE Colour_get_b(mud::Colour* self) {
 		return self->m_b;
 	}
+	void EMSCRIPTEN_KEEPALIVE Colour_set_b(mud::Colour* self, float b) {
+		self->m_b = b;
+	}
 	float EMSCRIPTEN_KEEPALIVE Colour_get_a(mud::Colour* self) {
 		return self->m_a;
+	}
+	void EMSCRIPTEN_KEEPALIVE Colour_set_a(mud::Colour* self, float a) {
+		self->m_a = a;
 	}
 	void EMSCRIPTEN_KEEPALIVE Colour___destroy__(mud::Colour* self) {
 		delete self;
@@ -78,12 +90,21 @@ extern "C" {
 	uint16_t EMSCRIPTEN_KEEPALIVE Image256_get_width(mud::Image256* self) {
 		return self->m_width;
 	}
+	void EMSCRIPTEN_KEEPALIVE Image256_set_width(mud::Image256* self, uint16_t width) {
+		self->m_width = width;
+	}
 	uint16_t EMSCRIPTEN_KEEPALIVE Image256_get_height(mud::Image256* self) {
 		return self->m_height;
+	}
+	void EMSCRIPTEN_KEEPALIVE Image256_set_height(mud::Image256* self, uint16_t height) {
+		self->m_height = height;
 	}
 	mud::Palette* EMSCRIPTEN_KEEPALIVE Image256_get_palette(mud::Image256* self) {
 		static mud::Palette temp;
 		return (temp = self->m_palette, &temp);
+	}
+	void EMSCRIPTEN_KEEPALIVE Image256_set_palette(mud::Image256* self, mud::Palette* palette) {
+		self->m_palette = *palette;
 	}
 	void EMSCRIPTEN_KEEPALIVE Image256___destroy__(mud::Image256* self) {
 		delete self;
@@ -116,6 +137,9 @@ extern "C" {
 	double EMSCRIPTEN_KEEPALIVE Time_get_value(mud::Time* self) {
 		return self->m_value;
 	}
+	void EMSCRIPTEN_KEEPALIVE Time_set_value(mud::Time* self, double value) {
+		self->m_value = value;
+	}
 	void EMSCRIPTEN_KEEPALIVE Time___destroy__(mud::Time* self) {
 		delete self;
 	}
@@ -127,9 +151,15 @@ extern "C" {
 		static mud::Time temp;
 		return (temp = self->start, &temp);
 	}
+	void EMSCRIPTEN_KEEPALIVE TimeSpan_set_start(mud::TimeSpan* self, mud::Time* start) {
+		self->start = *start;
+	}
 	mud::Time* EMSCRIPTEN_KEEPALIVE TimeSpan_get_end(mud::TimeSpan* self) {
 		static mud::Time temp;
 		return (temp = self->end, &temp);
+	}
+	void EMSCRIPTEN_KEEPALIVE TimeSpan_set_end(mud::TimeSpan* self, mud::Time* end) {
+		self->end = *end;
 	}
 	void EMSCRIPTEN_KEEPALIVE TimeSpan___destroy__(mud::TimeSpan* self) {
 		delete self;
@@ -145,13 +175,22 @@ extern "C" {
 		static mud::vec3 temp;
 		return (temp = self->m_position, &temp);
 	}
+	void EMSCRIPTEN_KEEPALIVE Transform_set_position(mud::Transform* self, mud::vec3* position) {
+		self->m_position = *position;
+	}
 	mud::quat* EMSCRIPTEN_KEEPALIVE Transform_get_rotation(mud::Transform* self) {
 		static mud::quat temp;
 		return (temp = self->m_rotation, &temp);
 	}
+	void EMSCRIPTEN_KEEPALIVE Transform_set_rotation(mud::Transform* self, mud::quat* rotation) {
+		self->m_rotation = *rotation;
+	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE Transform_get_scale(mud::Transform* self) {
 		static mud::vec3 temp;
 		return (temp = self->m_scale, &temp);
+	}
+	void EMSCRIPTEN_KEEPALIVE Transform_set_scale(mud::Transform* self, mud::vec3* scale) {
+		self->m_scale = *scale;
 	}
 	void EMSCRIPTEN_KEEPALIVE Transform___destroy__(mud::Transform* self) {
 		delete self;
@@ -204,11 +243,20 @@ extern "C" {
 	int EMSCRIPTEN_KEEPALIVE ivec3_get_x(mud::ivec3* self) {
 		return self->x;
 	}
+	void EMSCRIPTEN_KEEPALIVE ivec3_set_x(mud::ivec3* self, int x) {
+		self->x = x;
+	}
 	int EMSCRIPTEN_KEEPALIVE ivec3_get_y(mud::ivec3* self) {
 		return self->y;
 	}
+	void EMSCRIPTEN_KEEPALIVE ivec3_set_y(mud::ivec3* self, int y) {
+		self->y = y;
+	}
 	int EMSCRIPTEN_KEEPALIVE ivec3_get_z(mud::ivec3* self) {
 		return self->z;
+	}
+	void EMSCRIPTEN_KEEPALIVE ivec3_set_z(mud::ivec3* self, int z) {
+		self->z = z;
 	}
 	void EMSCRIPTEN_KEEPALIVE ivec3___destroy__(mud::ivec3* self) {
 		delete self;
@@ -237,14 +285,26 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE quat_get_x(mud::quat* self) {
 		return self->x;
 	}
+	void EMSCRIPTEN_KEEPALIVE quat_set_x(mud::quat* self, float x) {
+		self->x = x;
+	}
 	float EMSCRIPTEN_KEEPALIVE quat_get_y(mud::quat* self) {
 		return self->y;
+	}
+	void EMSCRIPTEN_KEEPALIVE quat_set_y(mud::quat* self, float y) {
+		self->y = y;
 	}
 	float EMSCRIPTEN_KEEPALIVE quat_get_z(mud::quat* self) {
 		return self->z;
 	}
+	void EMSCRIPTEN_KEEPALIVE quat_set_z(mud::quat* self, float z) {
+		self->z = z;
+	}
 	float EMSCRIPTEN_KEEPALIVE quat_get_w(mud::quat* self) {
 		return self->w;
+	}
+	void EMSCRIPTEN_KEEPALIVE quat_set_w(mud::quat* self, float w) {
+		self->w = w;
 	}
 	void EMSCRIPTEN_KEEPALIVE quat___destroy__(mud::quat* self) {
 		delete self;
@@ -262,8 +322,14 @@ extern "C" {
 	uint32_t EMSCRIPTEN_KEEPALIVE uvec2_get_x(mud::uvec2* self) {
 		return self->x;
 	}
+	void EMSCRIPTEN_KEEPALIVE uvec2_set_x(mud::uvec2* self, uint32_t x) {
+		self->x = x;
+	}
 	uint32_t EMSCRIPTEN_KEEPALIVE uvec2_get_y(mud::uvec2* self) {
 		return self->y;
+	}
+	void EMSCRIPTEN_KEEPALIVE uvec2_set_y(mud::uvec2* self, uint32_t y) {
+		self->y = y;
 	}
 	void EMSCRIPTEN_KEEPALIVE uvec2___destroy__(mud::uvec2* self) {
 		delete self;
@@ -281,11 +347,20 @@ extern "C" {
 	uint32_t EMSCRIPTEN_KEEPALIVE uvec3_get_x(mud::uvec3* self) {
 		return self->x;
 	}
+	void EMSCRIPTEN_KEEPALIVE uvec3_set_x(mud::uvec3* self, uint32_t x) {
+		self->x = x;
+	}
 	uint32_t EMSCRIPTEN_KEEPALIVE uvec3_get_y(mud::uvec3* self) {
 		return self->y;
 	}
+	void EMSCRIPTEN_KEEPALIVE uvec3_set_y(mud::uvec3* self, uint32_t y) {
+		self->y = y;
+	}
 	uint32_t EMSCRIPTEN_KEEPALIVE uvec3_get_z(mud::uvec3* self) {
 		return self->z;
+	}
+	void EMSCRIPTEN_KEEPALIVE uvec3_set_z(mud::uvec3* self, uint32_t z) {
+		self->z = z;
 	}
 	void EMSCRIPTEN_KEEPALIVE uvec3___destroy__(mud::uvec3* self) {
 		delete self;
@@ -303,14 +378,26 @@ extern "C" {
 	uint32_t EMSCRIPTEN_KEEPALIVE uvec4_get_x(mud::uvec4* self) {
 		return self->x;
 	}
+	void EMSCRIPTEN_KEEPALIVE uvec4_set_x(mud::uvec4* self, uint32_t x) {
+		self->x = x;
+	}
 	uint32_t EMSCRIPTEN_KEEPALIVE uvec4_get_y(mud::uvec4* self) {
 		return self->y;
+	}
+	void EMSCRIPTEN_KEEPALIVE uvec4_set_y(mud::uvec4* self, uint32_t y) {
+		self->y = y;
 	}
 	uint32_t EMSCRIPTEN_KEEPALIVE uvec4_get_z(mud::uvec4* self) {
 		return self->z;
 	}
+	void EMSCRIPTEN_KEEPALIVE uvec4_set_z(mud::uvec4* self, uint32_t z) {
+		self->z = z;
+	}
 	uint32_t EMSCRIPTEN_KEEPALIVE uvec4_get_w(mud::uvec4* self) {
 		return self->w;
+	}
+	void EMSCRIPTEN_KEEPALIVE uvec4_set_w(mud::uvec4* self, uint32_t w) {
+		self->w = w;
 	}
 	void EMSCRIPTEN_KEEPALIVE uvec4___destroy__(mud::uvec4* self) {
 		delete self;
@@ -328,8 +415,14 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE vec2_get_x(mud::vec2* self) {
 		return self->x;
 	}
+	void EMSCRIPTEN_KEEPALIVE vec2_set_x(mud::vec2* self, float x) {
+		self->x = x;
+	}
 	float EMSCRIPTEN_KEEPALIVE vec2_get_y(mud::vec2* self) {
 		return self->y;
+	}
+	void EMSCRIPTEN_KEEPALIVE vec2_set_y(mud::vec2* self, float y) {
+		self->y = y;
 	}
 	void EMSCRIPTEN_KEEPALIVE vec2___destroy__(mud::vec2* self) {
 		delete self;
@@ -347,11 +440,20 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE vec3_get_x(mud::vec3* self) {
 		return self->x;
 	}
+	void EMSCRIPTEN_KEEPALIVE vec3_set_x(mud::vec3* self, float x) {
+		self->x = x;
+	}
 	float EMSCRIPTEN_KEEPALIVE vec3_get_y(mud::vec3* self) {
 		return self->y;
 	}
+	void EMSCRIPTEN_KEEPALIVE vec3_set_y(mud::vec3* self, float y) {
+		self->y = y;
+	}
 	float EMSCRIPTEN_KEEPALIVE vec3_get_z(mud::vec3* self) {
 		return self->z;
+	}
+	void EMSCRIPTEN_KEEPALIVE vec3_set_z(mud::vec3* self, float z) {
+		self->z = z;
 	}
 	void EMSCRIPTEN_KEEPALIVE vec3___destroy__(mud::vec3* self) {
 		delete self;
@@ -369,14 +471,26 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE vec4_get_x(mud::vec4* self) {
 		return self->x;
 	}
+	void EMSCRIPTEN_KEEPALIVE vec4_set_x(mud::vec4* self, float x) {
+		self->x = x;
+	}
 	float EMSCRIPTEN_KEEPALIVE vec4_get_y(mud::vec4* self) {
 		return self->y;
+	}
+	void EMSCRIPTEN_KEEPALIVE vec4_set_y(mud::vec4* self, float y) {
+		self->y = y;
 	}
 	float EMSCRIPTEN_KEEPALIVE vec4_get_z(mud::vec4* self) {
 		return self->z;
 	}
+	void EMSCRIPTEN_KEEPALIVE vec4_set_z(mud::vec4* self, float z) {
+		self->z = z;
+	}
 	float EMSCRIPTEN_KEEPALIVE vec4_get_w(mud::vec4* self) {
 		return self->w;
+	}
+	void EMSCRIPTEN_KEEPALIVE vec4_set_w(mud::vec4* self, float w) {
+		self->w = w;
 	}
 	void EMSCRIPTEN_KEEPALIVE vec4___destroy__(mud::vec4* self) {
 		delete self;

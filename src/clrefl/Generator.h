@@ -325,6 +325,7 @@ namespace mud
 		bool isconst() const { return m_spelling.substr(0, 5) == "const"; }
 		bool value() const { return !this->pointer() && !this->reference(); }
 		bool nullable() const { return this->pointer() || m_type_name == "mud::Ref"; }
+		bool copyable() const { return this->isbasetype() || this->isenum() || m_type->m_struct; }
 
 		bool isarray() const { return false; }
 		bool isvoid() const { return m_type->m_kind == CLTypeKind::Void; }

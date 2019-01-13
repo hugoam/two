@@ -28,6 +28,9 @@ extern "C" {
 	mud::Type* EMSCRIPTEN_KEEPALIVE Process_get_type(mud::Process* self) {
 		return &self->m_type;
 	}
+	void EMSCRIPTEN_KEEPALIVE Process_set_type(mud::Process* self, mud::Type* type) {
+		self->m_type = *type;
+	}
 	void EMSCRIPTEN_KEEPALIVE Process___destroy__(mud::Process* self) {
 		delete self;
 	}
@@ -38,13 +41,20 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE ScriptClass_get_name(mud::ScriptClass* self) {
 		return self->m_name.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE ScriptClass_set_name(mud::ScriptClass* self, const char* name) {
+		self->m_name = name;
+	}
 	mud::Type* EMSCRIPTEN_KEEPALIVE ScriptClass_get_class_type(mud::ScriptClass* self) {
-		static mud::Type temp;
-		return (temp = self->m_class_type, &temp);
+		return &self->m_class_type;
+	}
+	void EMSCRIPTEN_KEEPALIVE ScriptClass_set_class_type(mud::ScriptClass* self, mud::Type* class_type) {
+		self->m_class_type = *class_type;
 	}
 	mud::Class* EMSCRIPTEN_KEEPALIVE ScriptClass_get_class(mud::ScriptClass* self) {
-		static mud::Class temp;
-		return (temp = self->m_class, &temp);
+		return &self->m_class;
+	}
+	void EMSCRIPTEN_KEEPALIVE ScriptClass_set_class(mud::ScriptClass* self, mud::Class* class) {
+		self->m_class = *class;
 	}
 	void EMSCRIPTEN_KEEPALIVE ScriptClass___destroy__(mud::ScriptClass* self) {
 		delete self;
@@ -140,14 +150,26 @@ extern "C" {
 	uint32_t EMSCRIPTEN_KEEPALIVE Script_get_index(mud::Script* self) {
 		return self->m_index;
 	}
+	void EMSCRIPTEN_KEEPALIVE Script_set_index(mud::Script* self, uint32_t index) {
+		self->m_index = index;
+	}
 	mud::Type* EMSCRIPTEN_KEEPALIVE Script_get_type(mud::Script* self) {
 		return &self->m_type;
+	}
+	void EMSCRIPTEN_KEEPALIVE Script_set_type(mud::Script* self, mud::Type* type) {
+		self->m_type = *type;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Script_get_name(mud::Script* self) {
 		return self->m_name.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE Script_set_name(mud::Script* self, const char* name) {
+		self->m_name = name;
+	}
 	bool EMSCRIPTEN_KEEPALIVE Script_get_locked(mud::Script* self) {
 		return self->m_locked;
+	}
+	void EMSCRIPTEN_KEEPALIVE Script_set_locked(mud::Script* self, bool locked) {
+		self->m_locked = locked;
 	}
 	void EMSCRIPTEN_KEEPALIVE Script___destroy__(mud::Script* self) {
 		delete self;
@@ -166,11 +188,20 @@ extern "C" {
 	mud::Language EMSCRIPTEN_KEEPALIVE TextScript_get_language(mud::TextScript* self) {
 		return self->m_language;
 	}
+	void EMSCRIPTEN_KEEPALIVE TextScript_set_language(mud::TextScript* self, mud::Language language) {
+		self->m_language = language;
+	}
 	const char* EMSCRIPTEN_KEEPALIVE TextScript_get_script(mud::TextScript* self) {
 		return self->m_script.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE TextScript_set_script(mud::TextScript* self, const char* script) {
+		self->m_script = script;
+	}
 	bool EMSCRIPTEN_KEEPALIVE TextScript_get_dirty(mud::TextScript* self) {
 		return self->m_dirty;
+	}
+	void EMSCRIPTEN_KEEPALIVE TextScript_set_dirty(mud::TextScript* self, bool dirty) {
+		self->m_dirty = dirty;
 	}
 	void EMSCRIPTEN_KEEPALIVE TextScript___destroy__(mud::TextScript* self) {
 		delete self;

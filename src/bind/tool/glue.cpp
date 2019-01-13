@@ -29,40 +29,65 @@ extern "C" {
 	}
 	// EditContext
 	mud::UndoTool* EMSCRIPTEN_KEEPALIVE EditContext_get_undo_tool(mud::EditContext* self) {
-		static mud::UndoTool temp;
-		return (temp = self->m_undo_tool, &temp);
+		return &self->m_undo_tool;
+	}
+	void EMSCRIPTEN_KEEPALIVE EditContext_set_undo_tool(mud::EditContext* self, mud::UndoTool* undo_tool) {
+		self->m_undo_tool = *undo_tool;
 	}
 	mud::RedoTool* EMSCRIPTEN_KEEPALIVE EditContext_get_redo_tool(mud::EditContext* self) {
-		static mud::RedoTool temp;
-		return (temp = self->m_redo_tool, &temp);
+		return &self->m_redo_tool;
+	}
+	void EMSCRIPTEN_KEEPALIVE EditContext_set_redo_tool(mud::EditContext* self, mud::RedoTool* redo_tool) {
+		self->m_redo_tool = *redo_tool;
 	}
 	mud::Plane* EMSCRIPTEN_KEEPALIVE EditContext_get_work_plane(mud::EditContext* self) {
 		static mud::Plane temp;
 		return (temp = self->m_work_plane, &temp);
 	}
+	void EMSCRIPTEN_KEEPALIVE EditContext_set_work_plane(mud::EditContext* self, mud::Plane* work_plane) {
+		self->m_work_plane = *work_plane;
+	}
 	mud::TranslateTool* EMSCRIPTEN_KEEPALIVE EditContext_get_translate_tool(mud::EditContext* self) {
-		static mud::TranslateTool temp;
-		return (temp = self->m_translate_tool, &temp);
+		return &self->m_translate_tool;
+	}
+	void EMSCRIPTEN_KEEPALIVE EditContext_set_translate_tool(mud::EditContext* self, mud::TranslateTool* translate_tool) {
+		self->m_translate_tool = *translate_tool;
 	}
 	mud::RotateTool* EMSCRIPTEN_KEEPALIVE EditContext_get_rotate_tool(mud::EditContext* self) {
-		static mud::RotateTool temp;
-		return (temp = self->m_rotate_tool, &temp);
+		return &self->m_rotate_tool;
+	}
+	void EMSCRIPTEN_KEEPALIVE EditContext_set_rotate_tool(mud::EditContext* self, mud::RotateTool* rotate_tool) {
+		self->m_rotate_tool = *rotate_tool;
 	}
 	mud::ScaleTool* EMSCRIPTEN_KEEPALIVE EditContext_get_scale_tool(mud::EditContext* self) {
-		static mud::ScaleTool temp;
-		return (temp = self->m_scale_tool, &temp);
+		return &self->m_scale_tool;
+	}
+	void EMSCRIPTEN_KEEPALIVE EditContext_set_scale_tool(mud::EditContext* self, mud::ScaleTool* scale_tool) {
+		self->m_scale_tool = *scale_tool;
 	}
 	mud::Viewer* EMSCRIPTEN_KEEPALIVE EditContext_get_viewer(mud::EditContext* self) {
 		return self->m_viewer;
 	}
+	void EMSCRIPTEN_KEEPALIVE EditContext_set_viewer(mud::EditContext* self, mud::Viewer* viewer) {
+		self->m_viewer = viewer;
+	}
 	mud::ViewportTool* EMSCRIPTEN_KEEPALIVE EditContext_get_tool(mud::EditContext* self) {
 		return self->m_tool;
+	}
+	void EMSCRIPTEN_KEEPALIVE EditContext_set_tool(mud::EditContext* self, mud::ViewportTool* tool) {
+		self->m_tool = tool;
 	}
 	mud::SpatialTool* EMSCRIPTEN_KEEPALIVE EditContext_get_spatial_tool(mud::EditContext* self) {
 		return self->m_spatial_tool;
 	}
+	void EMSCRIPTEN_KEEPALIVE EditContext_set_spatial_tool(mud::EditContext* self, mud::SpatialTool* spatial_tool) {
+		self->m_spatial_tool = spatial_tool;
+	}
 	mud::Brush* EMSCRIPTEN_KEEPALIVE EditContext_get_brush(mud::EditContext* self) {
 		return self->m_brush;
+	}
+	void EMSCRIPTEN_KEEPALIVE EditContext_set_brush(mud::EditContext* self, mud::Brush* brush) {
+		self->m_brush = brush;
 	}
 	void EMSCRIPTEN_KEEPALIVE EditContext___destroy__(mud::EditContext* self) {
 		delete self;
@@ -82,14 +107,26 @@ extern "C" {
 	mud::Type* EMSCRIPTEN_KEEPALIVE Tool_get_type(mud::Tool* self) {
 		return &self->m_type;
 	}
+	void EMSCRIPTEN_KEEPALIVE Tool_set_type(mud::Tool* self, mud::Type* type) {
+		self->m_type = *type;
+	}
 	mud::ToolContext* EMSCRIPTEN_KEEPALIVE Tool_get_context(mud::Tool* self) {
 		return &self->m_context;
+	}
+	void EMSCRIPTEN_KEEPALIVE Tool_set_context(mud::Tool* self, mud::ToolContext* context) {
+		self->m_context = *context;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Tool_get_name(mud::Tool* self) {
 		return self->m_name.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE Tool_set_name(mud::Tool* self, const char* name) {
+		self->m_name = name;
+	}
 	mud::ToolState EMSCRIPTEN_KEEPALIVE Tool_get_state(mud::Tool* self) {
 		return self->m_state;
+	}
+	void EMSCRIPTEN_KEEPALIVE Tool_set_state(mud::Tool* self, mud::ToolState state) {
+		self->m_state = state;
 	}
 	void EMSCRIPTEN_KEEPALIVE Tool___destroy__(mud::Tool* self) {
 		delete self;
@@ -126,14 +163,22 @@ extern "C" {
 		return new mud::CircleBrush(*context);
 	}
 	mud::Creator* EMSCRIPTEN_KEEPALIVE CircleBrush_get_creator(mud::CircleBrush* self) {
-		static mud::Creator temp;
-		return (temp = self->m_creator, &temp);
+		return &self->m_creator;
+	}
+	void EMSCRIPTEN_KEEPALIVE CircleBrush_set_creator(mud::CircleBrush* self, mud::Creator* creator) {
+		self->m_creator = *creator;
 	}
 	float EMSCRIPTEN_KEEPALIVE CircleBrush_get_radius(mud::CircleBrush* self) {
 		return self->m_radius;
 	}
+	void EMSCRIPTEN_KEEPALIVE CircleBrush_set_radius(mud::CircleBrush* self, float radius) {
+		self->m_radius = radius;
+	}
 	float EMSCRIPTEN_KEEPALIVE CircleBrush_get_maxSpotRadius(mud::CircleBrush* self) {
 		return self->m_maxSpotRadius;
+	}
+	void EMSCRIPTEN_KEEPALIVE CircleBrush_set_maxSpotRadius(mud::CircleBrush* self, float maxSpotRadius) {
+		self->m_maxSpotRadius = maxSpotRadius;
 	}
 	void EMSCRIPTEN_KEEPALIVE CircleBrush___destroy__(mud::CircleBrush* self) {
 		delete self;
@@ -143,8 +188,10 @@ extern "C" {
 		return new mud::PlaceBrush(*context);
 	}
 	mud::Creator* EMSCRIPTEN_KEEPALIVE PlaceBrush_get_creator(mud::PlaceBrush* self) {
-		static mud::Creator temp;
-		return (temp = self->m_creator, &temp);
+		return &self->m_creator;
+	}
+	void EMSCRIPTEN_KEEPALIVE PlaceBrush_set_creator(mud::PlaceBrush* self, mud::Creator* creator) {
+		self->m_creator = *creator;
 	}
 	void EMSCRIPTEN_KEEPALIVE PlaceBrush___destroy__(mud::PlaceBrush* self) {
 		delete self;
@@ -160,6 +207,9 @@ extern "C" {
 	mud::Call* EMSCRIPTEN_KEEPALIVE ScriptedBrush_get_call(mud::ScriptedBrush* self) {
 		static mud::Call temp;
 		return (temp = self->m_call, &temp);
+	}
+	void EMSCRIPTEN_KEEPALIVE ScriptedBrush_set_call(mud::ScriptedBrush* self, mud::Call* call) {
+		self->m_call = *call;
 	}
 	void EMSCRIPTEN_KEEPALIVE ScriptedBrush___destroy__(mud::ScriptedBrush* self) {
 		delete self;

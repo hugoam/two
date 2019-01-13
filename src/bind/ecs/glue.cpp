@@ -28,11 +28,20 @@ extern "C" {
 	mud::Id EMSCRIPTEN_KEEPALIVE Complex_get_id(mud::Complex* self) {
 		return self->m_id;
 	}
+	void EMSCRIPTEN_KEEPALIVE Complex_set_id(mud::Complex* self, mud::Id id) {
+		self->m_id = id;
+	}
 	mud::Type* EMSCRIPTEN_KEEPALIVE Complex_get_type(mud::Complex* self) {
 		return &self->m_type;
 	}
+	void EMSCRIPTEN_KEEPALIVE Complex_set_type(mud::Complex* self, mud::Type* type) {
+		self->m_type = *type;
+	}
 	mud::Prototype* EMSCRIPTEN_KEEPALIVE Complex_get_prototype(mud::Complex* self) {
 		return &self->m_prototype;
+	}
+	void EMSCRIPTEN_KEEPALIVE Complex_set_prototype(mud::Complex* self, mud::Prototype* prototype) {
+		self->m_prototype = *prototype;
 	}
 	void EMSCRIPTEN_KEEPALIVE Complex___destroy__(mud::Complex* self) {
 		delete self;

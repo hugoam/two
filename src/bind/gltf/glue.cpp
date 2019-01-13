@@ -31,27 +31,51 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE glTFAccessor_get_name(glTFAccessor* self) {
 		return self->name.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFAccessor_set_name(glTFAccessor* self, const char* name) {
+		self->name = name;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFAccessor_get_buffer_view(glTFAccessor* self) {
 		return self->buffer_view;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFAccessor_set_buffer_view(glTFAccessor* self, int buffer_view) {
+		self->buffer_view = buffer_view;
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFAccessor_get_byte_offset(glTFAccessor* self) {
 		return self->byte_offset;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFAccessor_set_byte_offset(glTFAccessor* self, int byte_offset) {
+		self->byte_offset = byte_offset;
+	}
 	glTFComponentType EMSCRIPTEN_KEEPALIVE glTFAccessor_get_component_type(glTFAccessor* self) {
 		return self->component_type;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFAccessor_set_component_type(glTFAccessor* self, glTFComponentType component_type) {
+		self->component_type = component_type;
 	}
 	bool EMSCRIPTEN_KEEPALIVE glTFAccessor_get_normalized(glTFAccessor* self) {
 		return self->normalized;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFAccessor_set_normalized(glTFAccessor* self, bool normalized) {
+		self->normalized = normalized;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFAccessor_get_count(glTFAccessor* self) {
 		return self->count;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFAccessor_set_count(glTFAccessor* self, int count) {
+		self->count = count;
 	}
 	glTFType EMSCRIPTEN_KEEPALIVE glTFAccessor_get_type(glTFAccessor* self) {
 		return self->type;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFAccessor_set_type(glTFAccessor* self, glTFType type) {
+		self->type = type;
+	}
 	glTFSparse* EMSCRIPTEN_KEEPALIVE glTFAccessor_get_sparse(glTFAccessor* self) {
 		static glTFSparse temp;
 		return (temp = self->sparse, &temp);
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFAccessor_set_sparse(glTFAccessor* self, glTFSparse* sparse) {
+		self->sparse = *sparse;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFAccessor___destroy__(glTFAccessor* self) {
 		delete self;
@@ -63,6 +87,9 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE glTFAnimation_get_name(glTFAnimation* self) {
 		return self->name.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFAnimation_set_name(glTFAnimation* self, const char* name) {
+		self->name = name;
+	}
 	void EMSCRIPTEN_KEEPALIVE glTFAnimation___destroy__(glTFAnimation* self) {
 		delete self;
 	}
@@ -73,9 +100,15 @@ extern "C" {
 	int EMSCRIPTEN_KEEPALIVE glTFAnimationChannel_get_sampler(glTFAnimationChannel* self) {
 		return self->sampler;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFAnimationChannel_set_sampler(glTFAnimationChannel* self, int sampler) {
+		self->sampler = sampler;
+	}
 	glTFAnimationTarget* EMSCRIPTEN_KEEPALIVE glTFAnimationChannel_get_target(glTFAnimationChannel* self) {
 		static glTFAnimationTarget temp;
 		return (temp = self->target, &temp);
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFAnimationChannel_set_target(glTFAnimationChannel* self, glTFAnimationTarget* target) {
+		self->target = *target;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFAnimationChannel___destroy__(glTFAnimationChannel* self) {
 		delete self;
@@ -87,11 +120,20 @@ extern "C" {
 	glTFInterpolation EMSCRIPTEN_KEEPALIVE glTFAnimationSampler_get_interpolation(glTFAnimationSampler* self) {
 		return self->interpolation;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFAnimationSampler_set_interpolation(glTFAnimationSampler* self, glTFInterpolation interpolation) {
+		self->interpolation = interpolation;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFAnimationSampler_get_input(glTFAnimationSampler* self) {
 		return self->input;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFAnimationSampler_set_input(glTFAnimationSampler* self, int input) {
+		self->input = input;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFAnimationSampler_get_output(glTFAnimationSampler* self) {
 		return self->output;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFAnimationSampler_set_output(glTFAnimationSampler* self, int output) {
+		self->output = output;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFAnimationSampler___destroy__(glTFAnimationSampler* self) {
 		delete self;
@@ -103,8 +145,14 @@ extern "C" {
 	int EMSCRIPTEN_KEEPALIVE glTFAnimationTarget_get_node(glTFAnimationTarget* self) {
 		return self->node;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFAnimationTarget_set_node(glTFAnimationTarget* self, int node) {
+		self->node = node;
+	}
 	const char* EMSCRIPTEN_KEEPALIVE glTFAnimationTarget_get_path(glTFAnimationTarget* self) {
 		return self->path.c_str();
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFAnimationTarget_set_path(glTFAnimationTarget* self, const char* path) {
+		self->path = path;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFAnimationTarget___destroy__(glTFAnimationTarget* self) {
 		delete self;
@@ -116,26 +164,50 @@ extern "C" {
 	int EMSCRIPTEN_KEEPALIVE glTFAttributes_get_POSITION(glTFAttributes* self) {
 		return self->POSITION;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFAttributes_set_POSITION(glTFAttributes* self, int POSITION) {
+		self->POSITION = POSITION;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFAttributes_get_NORMAL(glTFAttributes* self) {
 		return self->NORMAL;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFAttributes_set_NORMAL(glTFAttributes* self, int NORMAL) {
+		self->NORMAL = NORMAL;
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFAttributes_get_TANGENT(glTFAttributes* self) {
 		return self->TANGENT;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFAttributes_set_TANGENT(glTFAttributes* self, int TANGENT) {
+		self->TANGENT = TANGENT;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFAttributes_get_TEXCOORD_0(glTFAttributes* self) {
 		return self->TEXCOORD_0;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFAttributes_set_TEXCOORD_0(glTFAttributes* self, int TEXCOORD_0) {
+		self->TEXCOORD_0 = TEXCOORD_0;
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFAttributes_get_TEXCOORD_1(glTFAttributes* self) {
 		return self->TEXCOORD_1;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFAttributes_set_TEXCOORD_1(glTFAttributes* self, int TEXCOORD_1) {
+		self->TEXCOORD_1 = TEXCOORD_1;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFAttributes_get_COLOR_0(glTFAttributes* self) {
 		return self->COLOR_0;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFAttributes_set_COLOR_0(glTFAttributes* self, int COLOR_0) {
+		self->COLOR_0 = COLOR_0;
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFAttributes_get_JOINTS_0(glTFAttributes* self) {
 		return self->JOINTS_0;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFAttributes_set_JOINTS_0(glTFAttributes* self, int JOINTS_0) {
+		self->JOINTS_0 = JOINTS_0;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFAttributes_get_WEIGHTS_0(glTFAttributes* self) {
 		return self->WEIGHTS_0;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFAttributes_set_WEIGHTS_0(glTFAttributes* self, int WEIGHTS_0) {
+		self->WEIGHTS_0 = WEIGHTS_0;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFAttributes___destroy__(glTFAttributes* self) {
 		delete self;
@@ -147,14 +219,26 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE glTFBuffer_get_name(glTFBuffer* self) {
 		return self->name.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFBuffer_set_name(glTFBuffer* self, const char* name) {
+		self->name = name;
+	}
 	const char* EMSCRIPTEN_KEEPALIVE glTFBuffer_get_mime_type(glTFBuffer* self) {
 		return self->mime_type.c_str();
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFBuffer_set_mime_type(glTFBuffer* self, const char* mime_type) {
+		self->mime_type = mime_type;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE glTFBuffer_get_uri(glTFBuffer* self) {
 		return self->uri.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFBuffer_set_uri(glTFBuffer* self, const char* uri) {
+		self->uri = uri;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFBuffer_get_byte_length(glTFBuffer* self) {
 		return self->byte_length;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFBuffer_set_byte_length(glTFBuffer* self, int byte_length) {
+		self->byte_length = byte_length;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFBuffer___destroy__(glTFBuffer* self) {
 		delete self;
@@ -166,20 +250,38 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE glTFBufferView_get_name(glTFBufferView* self) {
 		return self->name.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFBufferView_set_name(glTFBufferView* self, const char* name) {
+		self->name = name;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFBufferView_get_buffer(glTFBufferView* self) {
 		return self->buffer;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFBufferView_set_buffer(glTFBufferView* self, int buffer) {
+		self->buffer = buffer;
 	}
 	size_t EMSCRIPTEN_KEEPALIVE glTFBufferView_get_byte_offset(glTFBufferView* self) {
 		return self->byte_offset;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFBufferView_set_byte_offset(glTFBufferView* self, size_t byte_offset) {
+		self->byte_offset = byte_offset;
+	}
 	size_t EMSCRIPTEN_KEEPALIVE glTFBufferView_get_byte_length(glTFBufferView* self) {
 		return self->byte_length;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFBufferView_set_byte_length(glTFBufferView* self, size_t byte_length) {
+		self->byte_length = byte_length;
 	}
 	size_t EMSCRIPTEN_KEEPALIVE glTFBufferView_get_byte_stride(glTFBufferView* self) {
 		return self->byte_stride;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFBufferView_set_byte_stride(glTFBufferView* self, size_t byte_stride) {
+		self->byte_stride = byte_stride;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFBufferView_get_target(glTFBufferView* self) {
 		return self->target;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFBufferView_set_target(glTFBufferView* self, int target) {
+		self->target = target;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFBufferView___destroy__(glTFBufferView* self) {
 		delete self;
@@ -191,16 +293,28 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE glTFCamera_get_name(glTFCamera* self) {
 		return self->name.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFCamera_set_name(glTFCamera* self, const char* name) {
+		self->name = name;
+	}
 	const char* EMSCRIPTEN_KEEPALIVE glTFCamera_get_type(glTFCamera* self) {
 		return self->type.c_str();
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFCamera_set_type(glTFCamera* self, const char* type) {
+		self->type = type;
 	}
 	glTFOrthographic* EMSCRIPTEN_KEEPALIVE glTFCamera_get_orthographic(glTFCamera* self) {
 		static glTFOrthographic temp;
 		return (temp = self->orthographic, &temp);
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFCamera_set_orthographic(glTFCamera* self, glTFOrthographic* orthographic) {
+		self->orthographic = *orthographic;
+	}
 	glTFPerspective* EMSCRIPTEN_KEEPALIVE glTFCamera_get_perspective(glTFCamera* self) {
 		static glTFPerspective temp;
 		return (temp = self->perspective, &temp);
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFCamera_set_perspective(glTFCamera* self, glTFPerspective* perspective) {
+		self->perspective = *perspective;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFCamera___destroy__(glTFCamera* self) {
 		delete self;
@@ -212,14 +326,26 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE glTFImage_get_name(glTFImage* self) {
 		return self->name.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFImage_set_name(glTFImage* self, const char* name) {
+		self->name = name;
+	}
 	const char* EMSCRIPTEN_KEEPALIVE glTFImage_get_mime_type(glTFImage* self) {
 		return self->mime_type.c_str();
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFImage_set_mime_type(glTFImage* self, const char* mime_type) {
+		self->mime_type = mime_type;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE glTFImage_get_uri(glTFImage* self) {
 		return self->uri.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFImage_set_uri(glTFImage* self, const char* uri) {
+		self->uri = uri;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFImage_get_buffer_view(glTFImage* self) {
 		return self->buffer_view;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFImage_set_buffer_view(glTFImage* self, int buffer_view) {
+		self->buffer_view = buffer_view;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFImage___destroy__(glTFImage* self) {
 		delete self;
@@ -231,31 +357,55 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE glTFMaterial_get_name(glTFMaterial* self) {
 		return self->name.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFMaterial_set_name(glTFMaterial* self, const char* name) {
+		self->name = name;
+	}
 	glTFTextureInfo* EMSCRIPTEN_KEEPALIVE glTFMaterial_get_normal_texture(glTFMaterial* self) {
 		static glTFTextureInfo temp;
 		return (temp = self->normal_texture, &temp);
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFMaterial_set_normal_texture(glTFMaterial* self, glTFTextureInfo* normal_texture) {
+		self->normal_texture = *normal_texture;
 	}
 	glTFTextureInfo* EMSCRIPTEN_KEEPALIVE glTFMaterial_get_occlusion_texture(glTFMaterial* self) {
 		static glTFTextureInfo temp;
 		return (temp = self->occlusion_texture, &temp);
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFMaterial_set_occlusion_texture(glTFMaterial* self, glTFTextureInfo* occlusion_texture) {
+		self->occlusion_texture = *occlusion_texture;
+	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE glTFMaterial_get_emissive_factor(glTFMaterial* self) {
 		static mud::vec3 temp;
 		return (temp = self->emissive_factor, &temp);
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFMaterial_set_emissive_factor(glTFMaterial* self, mud::vec3* emissive_factor) {
+		self->emissive_factor = *emissive_factor;
 	}
 	glTFTextureInfo* EMSCRIPTEN_KEEPALIVE glTFMaterial_get_emissive_texture(glTFMaterial* self) {
 		static glTFTextureInfo temp;
 		return (temp = self->emissive_texture, &temp);
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFMaterial_set_emissive_texture(glTFMaterial* self, glTFTextureInfo* emissive_texture) {
+		self->emissive_texture = *emissive_texture;
+	}
 	bool EMSCRIPTEN_KEEPALIVE glTFMaterial_get_double_sided(glTFMaterial* self) {
 		return self->double_sided;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFMaterial_set_double_sided(glTFMaterial* self, bool double_sided) {
+		self->double_sided = double_sided;
 	}
 	glTFAlphaMode EMSCRIPTEN_KEEPALIVE glTFMaterial_get_alpha_mode(glTFMaterial* self) {
 		return self->alpha_mode;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFMaterial_set_alpha_mode(glTFMaterial* self, glTFAlphaMode alpha_mode) {
+		self->alpha_mode = alpha_mode;
+	}
 	glTFMaterialPBR* EMSCRIPTEN_KEEPALIVE glTFMaterial_get_pbr_metallic_roughness(glTFMaterial* self) {
 		static glTFMaterialPBR temp;
 		return (temp = self->pbr_metallic_roughness, &temp);
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFMaterial_set_pbr_metallic_roughness(glTFMaterial* self, glTFMaterialPBR* pbr_metallic_roughness) {
+		self->pbr_metallic_roughness = *pbr_metallic_roughness;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFMaterial___destroy__(glTFMaterial* self) {
 		delete self;
@@ -268,19 +418,34 @@ extern "C" {
 		static mud::vec4 temp;
 		return (temp = self->base_color_factor, &temp);
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFMaterialPBR_set_base_color_factor(glTFMaterialPBR* self, mud::vec4* base_color_factor) {
+		self->base_color_factor = *base_color_factor;
+	}
 	glTFTextureInfo* EMSCRIPTEN_KEEPALIVE glTFMaterialPBR_get_base_color_texture(glTFMaterialPBR* self) {
 		static glTFTextureInfo temp;
 		return (temp = self->base_color_texture, &temp);
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFMaterialPBR_set_base_color_texture(glTFMaterialPBR* self, glTFTextureInfo* base_color_texture) {
+		self->base_color_texture = *base_color_texture;
+	}
 	float EMSCRIPTEN_KEEPALIVE glTFMaterialPBR_get_metallic_factor(glTFMaterialPBR* self) {
 		return self->metallic_factor;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFMaterialPBR_set_metallic_factor(glTFMaterialPBR* self, float metallic_factor) {
+		self->metallic_factor = metallic_factor;
 	}
 	float EMSCRIPTEN_KEEPALIVE glTFMaterialPBR_get_roughness_factor(glTFMaterialPBR* self) {
 		return self->roughness_factor;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFMaterialPBR_set_roughness_factor(glTFMaterialPBR* self, float roughness_factor) {
+		self->roughness_factor = roughness_factor;
+	}
 	glTFTextureInfo* EMSCRIPTEN_KEEPALIVE glTFMaterialPBR_get_metallic_roughness_texture(glTFMaterialPBR* self) {
 		static glTFTextureInfo temp;
 		return (temp = self->metallic_roughness_texture, &temp);
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFMaterialPBR_set_metallic_roughness_texture(glTFMaterialPBR* self, glTFTextureInfo* metallic_roughness_texture) {
+		self->metallic_roughness_texture = *metallic_roughness_texture;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFMaterialPBR___destroy__(glTFMaterialPBR* self) {
 		delete self;
@@ -292,6 +457,9 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE glTFMesh_get_name(glTFMesh* self) {
 		return self->name.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFMesh_set_name(glTFMesh* self, const char* name) {
+		self->name = name;
+	}
 	void EMSCRIPTEN_KEEPALIVE glTFMesh___destroy__(glTFMesh* self) {
 		delete self;
 	}
@@ -302,11 +470,20 @@ extern "C" {
 	int EMSCRIPTEN_KEEPALIVE glTFMorphTarget_get_POSITION(glTFMorphTarget* self) {
 		return self->POSITION;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFMorphTarget_set_POSITION(glTFMorphTarget* self, int POSITION) {
+		self->POSITION = POSITION;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFMorphTarget_get_NORMAL(glTFMorphTarget* self) {
 		return self->NORMAL;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFMorphTarget_set_NORMAL(glTFMorphTarget* self, int NORMAL) {
+		self->NORMAL = NORMAL;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFMorphTarget_get_TANGENT(glTFMorphTarget* self) {
 		return self->TANGENT;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFMorphTarget_set_TANGENT(glTFMorphTarget* self, int TANGENT) {
+		self->TANGENT = TANGENT;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFMorphTarget___destroy__(glTFMorphTarget* self) {
 		delete self;
@@ -318,30 +495,54 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE glTFNode_get_name(glTFNode* self) {
 		return self->name.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFNode_set_name(glTFNode* self, const char* name) {
+		self->name = name;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFNode_get_mesh(glTFNode* self) {
 		return self->mesh;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFNode_set_mesh(glTFNode* self, int mesh) {
+		self->mesh = mesh;
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFNode_get_camera(glTFNode* self) {
 		return self->camera;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFNode_set_camera(glTFNode* self, int camera) {
+		self->camera = camera;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFNode_get_skin(glTFNode* self) {
 		return self->skin;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFNode_set_skin(glTFNode* self, int skin) {
+		self->skin = skin;
 	}
 	mud::mat4* EMSCRIPTEN_KEEPALIVE glTFNode_get_matrix(glTFNode* self) {
 		static mud::mat4 temp;
 		return (temp = self->matrix, &temp);
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFNode_set_matrix(glTFNode* self, mud::mat4* matrix) {
+		self->matrix = *matrix;
+	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE glTFNode_get_translation(glTFNode* self) {
 		static mud::vec3 temp;
 		return (temp = self->translation, &temp);
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFNode_set_translation(glTFNode* self, mud::vec3* translation) {
+		self->translation = *translation;
 	}
 	mud::quat* EMSCRIPTEN_KEEPALIVE glTFNode_get_rotation(glTFNode* self) {
 		static mud::quat temp;
 		return (temp = self->rotation, &temp);
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFNode_set_rotation(glTFNode* self, mud::quat* rotation) {
+		self->rotation = *rotation;
+	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE glTFNode_get_scale(glTFNode* self) {
 		static mud::vec3 temp;
 		return (temp = self->scale, &temp);
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFNode_set_scale(glTFNode* self, mud::vec3* scale) {
+		self->scale = *scale;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFNode___destroy__(glTFNode* self) {
 		delete self;
@@ -360,14 +561,26 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE glTFOrthographic_get_xmag(glTFOrthographic* self) {
 		return self->xmag;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFOrthographic_set_xmag(glTFOrthographic* self, float xmag) {
+		self->xmag = xmag;
+	}
 	float EMSCRIPTEN_KEEPALIVE glTFOrthographic_get_ymag(glTFOrthographic* self) {
 		return self->ymag;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFOrthographic_set_ymag(glTFOrthographic* self, float ymag) {
+		self->ymag = ymag;
 	}
 	float EMSCRIPTEN_KEEPALIVE glTFOrthographic_get_zfar(glTFOrthographic* self) {
 		return self->zfar;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFOrthographic_set_zfar(glTFOrthographic* self, float zfar) {
+		self->zfar = zfar;
+	}
 	float EMSCRIPTEN_KEEPALIVE glTFOrthographic_get_znear(glTFOrthographic* self) {
 		return self->znear;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFOrthographic_set_znear(glTFOrthographic* self, float znear) {
+		self->znear = znear;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFOrthographic___destroy__(glTFOrthographic* self) {
 		delete self;
@@ -379,14 +592,26 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE glTFPerspective_get_yfov(glTFPerspective* self) {
 		return self->yfov;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFPerspective_set_yfov(glTFPerspective* self, float yfov) {
+		self->yfov = yfov;
+	}
 	float EMSCRIPTEN_KEEPALIVE glTFPerspective_get_zfar(glTFPerspective* self) {
 		return self->zfar;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFPerspective_set_zfar(glTFPerspective* self, float zfar) {
+		self->zfar = zfar;
 	}
 	float EMSCRIPTEN_KEEPALIVE glTFPerspective_get_znear(glTFPerspective* self) {
 		return self->znear;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFPerspective_set_znear(glTFPerspective* self, float znear) {
+		self->znear = znear;
+	}
 	float EMSCRIPTEN_KEEPALIVE glTFPerspective_get_aspect_ration(glTFPerspective* self) {
 		return self->aspect_ration;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFPerspective_set_aspect_ration(glTFPerspective* self, float aspect_ration) {
+		self->aspect_ration = aspect_ration;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFPerspective___destroy__(glTFPerspective* self) {
 		delete self;
@@ -399,14 +624,26 @@ extern "C" {
 		static glTFAttributes temp;
 		return (temp = self->attributes, &temp);
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFPrimitive_set_attributes(glTFPrimitive* self, glTFAttributes* attributes) {
+		self->attributes = *attributes;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFPrimitive_get_indices(glTFPrimitive* self) {
 		return self->indices;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFPrimitive_set_indices(glTFPrimitive* self, int indices) {
+		self->indices = indices;
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFPrimitive_get_material(glTFPrimitive* self) {
 		return self->material;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFPrimitive_set_material(glTFPrimitive* self, int material) {
+		self->material = material;
+	}
 	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE glTFPrimitive_get_mode(glTFPrimitive* self) {
 		return self->mode;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFPrimitive_set_mode(glTFPrimitive* self, glTFPrimitiveType mode) {
+		self->mode = mode;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFPrimitive___destroy__(glTFPrimitive* self) {
 		delete self;
@@ -418,17 +655,32 @@ extern "C" {
 	int EMSCRIPTEN_KEEPALIVE glTFSampler_get_mag_filter(glTFSampler* self) {
 		return self->mag_filter;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFSampler_set_mag_filter(glTFSampler* self, int mag_filter) {
+		self->mag_filter = mag_filter;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFSampler_get_min_filter(glTFSampler* self) {
 		return self->min_filter;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFSampler_set_min_filter(glTFSampler* self, int min_filter) {
+		self->min_filter = min_filter;
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFSampler_get_wrap_s(glTFSampler* self) {
 		return self->wrap_s;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFSampler_set_wrap_s(glTFSampler* self, int wrap_s) {
+		self->wrap_s = wrap_s;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFSampler_get_wrap_t(glTFSampler* self) {
 		return self->wrap_t;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFSampler_set_wrap_t(glTFSampler* self, int wrap_t) {
+		self->wrap_t = wrap_t;
+	}
 	const char* EMSCRIPTEN_KEEPALIVE glTFSampler_get_name(glTFSampler* self) {
 		return self->name.c_str();
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFSampler_set_name(glTFSampler* self, const char* name) {
+		self->name = name;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFSampler___destroy__(glTFSampler* self) {
 		delete self;
@@ -440,6 +692,9 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE glTFScene_get_name(glTFScene* self) {
 		return self->name.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFScene_set_name(glTFScene* self, const char* name) {
+		self->name = name;
+	}
 	void EMSCRIPTEN_KEEPALIVE glTFScene___destroy__(glTFScene* self) {
 		delete self;
 	}
@@ -450,11 +705,20 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE glTFSkin_get_name(glTFSkin* self) {
 		return self->name.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFSkin_set_name(glTFSkin* self, const char* name) {
+		self->name = name;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFSkin_get_skeleton(glTFSkin* self) {
 		return self->skeleton;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFSkin_set_skeleton(glTFSkin* self, int skeleton) {
+		self->skeleton = skeleton;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFSkin_get_inverse_bind_matrices(glTFSkin* self) {
 		return self->inverse_bind_matrices;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFSkin_set_inverse_bind_matrices(glTFSkin* self, int inverse_bind_matrices) {
+		self->inverse_bind_matrices = inverse_bind_matrices;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFSkin___destroy__(glTFSkin* self) {
 		delete self;
@@ -466,13 +730,22 @@ extern "C" {
 	int EMSCRIPTEN_KEEPALIVE glTFSparse_get_count(glTFSparse* self) {
 		return self->count;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFSparse_set_count(glTFSparse* self, int count) {
+		self->count = count;
+	}
 	glTFSparseIndices* EMSCRIPTEN_KEEPALIVE glTFSparse_get_indices(glTFSparse* self) {
 		static glTFSparseIndices temp;
 		return (temp = self->indices, &temp);
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFSparse_set_indices(glTFSparse* self, glTFSparseIndices* indices) {
+		self->indices = *indices;
+	}
 	glTFSparseValues* EMSCRIPTEN_KEEPALIVE glTFSparse_get_values(glTFSparse* self) {
 		static glTFSparseValues temp;
 		return (temp = self->values, &temp);
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFSparse_set_values(glTFSparse* self, glTFSparseValues* values) {
+		self->values = *values;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFSparse___destroy__(glTFSparse* self) {
 		delete self;
@@ -484,11 +757,20 @@ extern "C" {
 	int EMSCRIPTEN_KEEPALIVE glTFSparseIndices_get_buffer_view(glTFSparseIndices* self) {
 		return self->buffer_view;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFSparseIndices_set_buffer_view(glTFSparseIndices* self, int buffer_view) {
+		self->buffer_view = buffer_view;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFSparseIndices_get_byte_offset(glTFSparseIndices* self) {
 		return self->byte_offset;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFSparseIndices_set_byte_offset(glTFSparseIndices* self, int byte_offset) {
+		self->byte_offset = byte_offset;
+	}
 	glTFComponentType EMSCRIPTEN_KEEPALIVE glTFSparseIndices_get_component_type(glTFSparseIndices* self) {
 		return self->component_type;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFSparseIndices_set_component_type(glTFSparseIndices* self, glTFComponentType component_type) {
+		self->component_type = component_type;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFSparseIndices___destroy__(glTFSparseIndices* self) {
 		delete self;
@@ -500,8 +782,14 @@ extern "C" {
 	int EMSCRIPTEN_KEEPALIVE glTFSparseValues_get_buffer_view(glTFSparseValues* self) {
 		return self->buffer_view;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFSparseValues_set_buffer_view(glTFSparseValues* self, int buffer_view) {
+		self->buffer_view = buffer_view;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFSparseValues_get_byte_offset(glTFSparseValues* self) {
 		return self->byte_offset;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFSparseValues_set_byte_offset(glTFSparseValues* self, int byte_offset) {
+		self->byte_offset = byte_offset;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFSparseValues___destroy__(glTFSparseValues* self) {
 		delete self;
@@ -513,11 +801,20 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE glTFTexture_get_name(glTFTexture* self) {
 		return self->name.c_str();
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFTexture_set_name(glTFTexture* self, const char* name) {
+		self->name = name;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFTexture_get_sampler(glTFTexture* self) {
 		return self->sampler;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFTexture_set_sampler(glTFTexture* self, int sampler) {
+		self->sampler = sampler;
+	}
 	int EMSCRIPTEN_KEEPALIVE glTFTexture_get_source(glTFTexture* self) {
 		return self->source;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFTexture_set_source(glTFTexture* self, int source) {
+		self->source = source;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFTexture___destroy__(glTFTexture* self) {
 		delete self;
@@ -529,8 +826,14 @@ extern "C" {
 	int EMSCRIPTEN_KEEPALIVE glTFTextureInfo_get_index(glTFTextureInfo* self) {
 		return self->index;
 	}
+	void EMSCRIPTEN_KEEPALIVE glTFTextureInfo_set_index(glTFTextureInfo* self, int index) {
+		self->index = index;
+	}
 	float EMSCRIPTEN_KEEPALIVE glTFTextureInfo_get_scale(glTFTextureInfo* self) {
 		return self->scale;
+	}
+	void EMSCRIPTEN_KEEPALIVE glTFTextureInfo_set_scale(glTFTextureInfo* self, float scale) {
+		self->scale = scale;
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFTextureInfo___destroy__(glTFTextureInfo* self) {
 		delete self;

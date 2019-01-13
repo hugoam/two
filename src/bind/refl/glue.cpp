@@ -23,8 +23,10 @@ extern "C" {
 		return new mud::Call(*callable, *arguments);
 	}
 	mud::Var* EMSCRIPTEN_KEEPALIVE Call_get_result(mud::Call* self) {
-		static mud::Var temp;
-		return (temp = self->m_result, &temp);
+		return &self->m_result;
+	}
+	void EMSCRIPTEN_KEEPALIVE Call_set_result(mud::Call* self, mud::Var* result) {
+		self->m_result = *result;
 	}
 	void EMSCRIPTEN_KEEPALIVE Call___destroy__(mud::Call* self) {
 		delete self;
@@ -45,14 +47,26 @@ extern "C" {
 	mud::Type* EMSCRIPTEN_KEEPALIVE Creator_get_type(mud::Creator* self) {
 		return &self->m_type;
 	}
+	void EMSCRIPTEN_KEEPALIVE Creator_set_type(mud::Creator* self, mud::Type* type) {
+		self->m_type = *type;
+	}
 	bool EMSCRIPTEN_KEEPALIVE Creator_get_construct(mud::Creator* self) {
 		return self->m_construct;
+	}
+	void EMSCRIPTEN_KEEPALIVE Creator_set_construct(mud::Creator* self, bool construct) {
+		self->m_construct = construct;
 	}
 	mud::Type* EMSCRIPTEN_KEEPALIVE Creator_get_prototype(mud::Creator* self) {
 		return self->m_prototype;
 	}
+	void EMSCRIPTEN_KEEPALIVE Creator_set_prototype(mud::Creator* self, mud::Type* prototype) {
+		self->m_prototype = prototype;
+	}
 	mud::Injector* EMSCRIPTEN_KEEPALIVE Creator_get_injector(mud::Creator* self) {
 		return &self->injector();
+	}
+	void EMSCRIPTEN_KEEPALIVE Creator_set_injector(mud::Creator* self, mud::Injector* injector) {
+		self->injector = *injector;
 	}
 	void EMSCRIPTEN_KEEPALIVE Creator___destroy__(mud::Creator* self) {
 		delete self;
@@ -90,8 +104,14 @@ extern "C" {
 	mud::Function* EMSCRIPTEN_KEEPALIVE Operator_get_function(mud::Operator* self) {
 		return self->m_function;
 	}
+	void EMSCRIPTEN_KEEPALIVE Operator_set_function(mud::Operator* self, mud::Function* function) {
+		self->m_function = function;
+	}
 	mud::Type* EMSCRIPTEN_KEEPALIVE Operator_get_type(mud::Operator* self) {
 		return self->m_type;
+	}
+	void EMSCRIPTEN_KEEPALIVE Operator_set_type(mud::Operator* self, mud::Type* type) {
+		self->m_type = type;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Operator_get_name(mud::Operator* self) {
 		return self->m_name;

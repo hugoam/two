@@ -1267,6 +1267,8 @@ namespace clgen
 		auto js_bind_callable = [&](const CLClass& c, const Overloads& o, bool ctor = false)
 		{
 			const CLFunction& f = *o.f;
+			if(!ctor)
+				jsw(c.m_name + ".prototype[\"" + f.m_name + "\"] = " + c.m_name + ".prototype." + f.m_name + " = ", true);
 			jsw(js_supress + "function" + (ctor ? " " + f.m_name : "") + "(" + join(call_args(f, f.m_params.size(), false), ", ") + ") {");
 			if(ctor) 
 				jsw("var self = this.ptr;");
@@ -1321,8 +1323,6 @@ namespace clgen
 
 		auto c_call_n = [&](const CLClass& c, const CLFunction& f, size_t i, bool ctor)
 		{
-			if(f.m_name == "Circle")
-				int i = 0;
 			if(ctor)
 				return "new " + c.m_id + "(" + join(c_call_args_n(c, f, i, true), ", ") + ")";
 			else
@@ -1351,7 +1351,7 @@ namespace clgen
 				cw("return " + call + ".c_str();");
 			else if(return_type.isbasetype() || return_type.isenum())
 				cw("return " + call + ";");
-			else if(!return_type.value())
+			else if(!return_type.value() || !return_type.copyable())
 				cw("return " + address(return_type) + call + ";");
 			else
 			{
@@ -1509,7 +1509,6 @@ namespace clgen
 				{
 					Overloads& o = pairs.second;
 					c_bind_callable(c, o);
-					jsw(c.m_name + ".prototype[\"" + o.f->m_name + "\"] = " + c.m_name + ".prototype." + o.f->m_name + " = ", true);
 					js_bind_callable(c, o, false);
 				}
 
@@ -1531,6 +1530,8 @@ namespace clgen
 					}
 
 					c_getter(c, m);
+					if(m.m_setter || !m.m_type.isconst())
+						c_setter(c, m);
 
 					jsw("Object.defineProperty(" + c.m_name + ".prototype, \"" + m.m_name + "\", {");
 					jsw("get: ", true);

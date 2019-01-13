@@ -39,14 +39,26 @@ extern "C" {
 		static mud::vec3 temp;
 		return (temp = self->m_position, &temp);
 	}
+	void EMSCRIPTEN_KEEPALIVE OrbitController_set_position(mud::OrbitController* self, mud::vec3* position) {
+		self->m_position = *position;
+	}
 	float EMSCRIPTEN_KEEPALIVE OrbitController_get_yaw(mud::OrbitController* self) {
 		return self->m_yaw;
+	}
+	void EMSCRIPTEN_KEEPALIVE OrbitController_set_yaw(mud::OrbitController* self, float yaw) {
+		self->m_yaw = yaw;
 	}
 	float EMSCRIPTEN_KEEPALIVE OrbitController_get_pitch(mud::OrbitController* self) {
 		return self->m_pitch;
 	}
+	void EMSCRIPTEN_KEEPALIVE OrbitController_set_pitch(mud::OrbitController* self, float pitch) {
+		self->m_pitch = pitch;
+	}
 	float EMSCRIPTEN_KEEPALIVE OrbitController_get_distance(mud::OrbitController* self) {
 		return self->m_distance;
+	}
+	void EMSCRIPTEN_KEEPALIVE OrbitController_set_distance(mud::OrbitController* self, float distance) {
+		self->m_distance = distance;
 	}
 	void EMSCRIPTEN_KEEPALIVE OrbitController___destroy__(mud::OrbitController* self) {
 		delete self;
@@ -63,17 +75,28 @@ extern "C" {
 	mud::Scene* EMSCRIPTEN_KEEPALIVE Viewer_get_scene(mud::Viewer* self) {
 		return self->m_scene;
 	}
+	void EMSCRIPTEN_KEEPALIVE Viewer_set_scene(mud::Viewer* self, mud::Scene* scene) {
+		self->m_scene = scene;
+	}
 	mud::Viewport* EMSCRIPTEN_KEEPALIVE Viewer_get_viewport(mud::Viewer* self) {
-		static mud::Viewport temp;
-		return (temp = self->m_viewport, &temp);
+		return &self->m_viewport;
+	}
+	void EMSCRIPTEN_KEEPALIVE Viewer_set_viewport(mud::Viewer* self, mud::Viewport* viewport) {
+		self->m_viewport = *viewport;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE Viewer_get_position(mud::Viewer* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_position, &temp);
 	}
+	void EMSCRIPTEN_KEEPALIVE Viewer_set_position(mud::Viewer* self, mud::vec2* position) {
+		self->m_position = *position;
+	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE Viewer_get_size(mud::Viewer* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_size, &temp);
+	}
+	void EMSCRIPTEN_KEEPALIVE Viewer_set_size(mud::Viewer* self, mud::vec2* size) {
+		self->m_size = *size;
 	}
 	void EMSCRIPTEN_KEEPALIVE Viewer___destroy__(mud::Viewer* self) {
 		delete self;

@@ -730,6 +730,29 @@ Camera.prototype["__destroy__"] = Camera.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Camera___destroy__(self);
 };
+// Culler
+function Culler() { throw "cannot construct a Culler, no constructor in IDL" }
+Culler.prototype = Object.create(WrapperObject.prototype);
+Culler.prototype.constructor = Culler;
+Culler.prototype.__class__ = Culler;
+Culler.__cache__ = {};
+Module['Culler'] = Culler;
+Object.defineProperty(Culler.prototype, "viewport", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_Culler_get_viewport(self), mud::Viewport);
+    },
+    set: function(viewport) {
+        var self = this.ptr;
+        /* viewport <Viewport> [] */
+        viewport = viewport.ptr;
+        _Culler_set_viewport(self, viewport);
+    }
+});
+Culler.prototype["__destroy__"] = Culler.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _Culler___destroy__(self);
+};
 // DepthParams
 function DepthParams() {
     var self = this.ptr;
