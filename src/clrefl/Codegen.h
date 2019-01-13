@@ -1615,8 +1615,8 @@ namespace clgen
 
 			cw("\n}\n\n");
 
-			write_file((m.m_bind_path + "\\" + "glue.cpp").c_str(), ct.c_str());
-			write_file((m.m_bind_path + "\\" + "glue.js").c_str(), jst.c_str());
+			write_file((m.m_bind_path + "\\" + "c.cpp").c_str(), ct.c_str());
+			write_file((m.m_bind_path + "\\" + "js.js").c_str(), jst.c_str());
 	}
 }
 }
