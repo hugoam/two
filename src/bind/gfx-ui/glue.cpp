@@ -81,9 +81,6 @@ extern "C" {
 	mud::Viewport* EMSCRIPTEN_KEEPALIVE Viewer_get_viewport(mud::Viewer* self) {
 		return &self->m_viewport;
 	}
-	void EMSCRIPTEN_KEEPALIVE Viewer_set_viewport(mud::Viewer* self, mud::Viewport* viewport) {
-		self->m_viewport = *viewport;
-	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE Viewer_get_position(mud::Viewer* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_position, &temp);

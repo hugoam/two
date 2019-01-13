@@ -67,7 +67,13 @@ Object.defineProperty(Type.prototype, "name", {
     get: function() {
         var self = this.ptr;
         return _Type_get_name(self);
-    }});
+    },
+    set: function(name) {
+        var self = this.ptr;
+        /* name <const char*> [] */
+        _Type_set_name(self, name);
+    }
+});
 Object.defineProperty(Type.prototype, "size", {
     get: function() {
         var self = this.ptr;

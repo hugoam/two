@@ -41,6 +41,9 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Type_get_name(mud::Type* self) {
 		return self->m_name;
 	}
+	void EMSCRIPTEN_KEEPALIVE Type_set_name(mud::Type* self, const char* name) {
+		self->m_name = name;
+	}
 	size_t EMSCRIPTEN_KEEPALIVE Type_get_size(mud::Type* self) {
 		return self->m_size;
 	}

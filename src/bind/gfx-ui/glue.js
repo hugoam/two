@@ -135,14 +135,7 @@ Object.defineProperty(Viewer.prototype, "viewport", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Viewer_get_viewport(self), mud::Viewport);
-    },
-    set: function(viewport) {
-        var self = this.ptr;
-        /* viewport <Viewport> [] */
-        viewport = viewport.ptr;
-        _Viewer_set_viewport(self, viewport);
-    }
-});
+    }});
 Object.defineProperty(Viewer.prototype, "position", {
     get: function() {
         var self = this.ptr;

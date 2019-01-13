@@ -31,14 +31,8 @@ extern "C" {
 	mud::UndoTool* EMSCRIPTEN_KEEPALIVE EditContext_get_undo_tool(mud::EditContext* self) {
 		return &self->m_undo_tool;
 	}
-	void EMSCRIPTEN_KEEPALIVE EditContext_set_undo_tool(mud::EditContext* self, mud::UndoTool* undo_tool) {
-		self->m_undo_tool = *undo_tool;
-	}
 	mud::RedoTool* EMSCRIPTEN_KEEPALIVE EditContext_get_redo_tool(mud::EditContext* self) {
 		return &self->m_redo_tool;
-	}
-	void EMSCRIPTEN_KEEPALIVE EditContext_set_redo_tool(mud::EditContext* self, mud::RedoTool* redo_tool) {
-		self->m_redo_tool = *redo_tool;
 	}
 	mud::Plane* EMSCRIPTEN_KEEPALIVE EditContext_get_work_plane(mud::EditContext* self) {
 		static mud::Plane temp;
@@ -50,20 +44,11 @@ extern "C" {
 	mud::TranslateTool* EMSCRIPTEN_KEEPALIVE EditContext_get_translate_tool(mud::EditContext* self) {
 		return &self->m_translate_tool;
 	}
-	void EMSCRIPTEN_KEEPALIVE EditContext_set_translate_tool(mud::EditContext* self, mud::TranslateTool* translate_tool) {
-		self->m_translate_tool = *translate_tool;
-	}
 	mud::RotateTool* EMSCRIPTEN_KEEPALIVE EditContext_get_rotate_tool(mud::EditContext* self) {
 		return &self->m_rotate_tool;
 	}
-	void EMSCRIPTEN_KEEPALIVE EditContext_set_rotate_tool(mud::EditContext* self, mud::RotateTool* rotate_tool) {
-		self->m_rotate_tool = *rotate_tool;
-	}
 	mud::ScaleTool* EMSCRIPTEN_KEEPALIVE EditContext_get_scale_tool(mud::EditContext* self) {
 		return &self->m_scale_tool;
-	}
-	void EMSCRIPTEN_KEEPALIVE EditContext_set_scale_tool(mud::EditContext* self, mud::ScaleTool* scale_tool) {
-		self->m_scale_tool = *scale_tool;
 	}
 	mud::Viewer* EMSCRIPTEN_KEEPALIVE EditContext_get_viewer(mud::EditContext* self) {
 		return self->m_viewer;
@@ -159,9 +144,6 @@ extern "C" {
 	mud::Creator* EMSCRIPTEN_KEEPALIVE CircleBrush_get_creator(mud::CircleBrush* self) {
 		return &self->m_creator;
 	}
-	void EMSCRIPTEN_KEEPALIVE CircleBrush_set_creator(mud::CircleBrush* self, mud::Creator* creator) {
-		self->m_creator = *creator;
-	}
 	float EMSCRIPTEN_KEEPALIVE CircleBrush_get_radius(mud::CircleBrush* self) {
 		return self->m_radius;
 	}
@@ -183,9 +165,6 @@ extern "C" {
 	}
 	mud::Creator* EMSCRIPTEN_KEEPALIVE PlaceBrush_get_creator(mud::PlaceBrush* self) {
 		return &self->m_creator;
-	}
-	void EMSCRIPTEN_KEEPALIVE PlaceBrush_set_creator(mud::PlaceBrush* self, mud::Creator* creator) {
-		self->m_creator = *creator;
 	}
 	void EMSCRIPTEN_KEEPALIVE PlaceBrush___destroy__(mud::PlaceBrush* self) {
 		delete self;

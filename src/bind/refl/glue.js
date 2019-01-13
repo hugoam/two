@@ -21,14 +21,7 @@ Object.defineProperty(Call.prototype, "result", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Call_get_result(self), mud::Var);
-    },
-    set: function(result) {
-        var self = this.ptr;
-        /* result <Var> [] */
-        result = result.ptr;
-        _Call_set_result(self, result);
-    }
-});
+    }});
 Call.prototype["__destroy__"] = Call.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Call___destroy__(self);
@@ -154,12 +147,24 @@ Object.defineProperty(Module.prototype, "name", {
     get: function() {
         var self = this.ptr;
         return _Module_get_name(self);
-    }});
+    },
+    set: function(name) {
+        var self = this.ptr;
+        /* name <const char*> [] */
+        _Module_set_name(self, name);
+    }
+});
 Object.defineProperty(Module.prototype, "path", {
     get: function() {
         var self = this.ptr;
         return _Module_get_path(self);
-    }});
+    },
+    set: function(path) {
+        var self = this.ptr;
+        /* path <const char*> [] */
+        _Module_set_path(self, path);
+    }
+});
 Module.prototype["__destroy__"] = Module.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Module___destroy__(self);
@@ -213,12 +218,24 @@ Object.defineProperty(Operator.prototype, "name", {
     get: function() {
         var self = this.ptr;
         return _Operator_get_name(self);
-    }});
+    },
+    set: function(name) {
+        var self = this.ptr;
+        /* name <const char*> [] */
+        _Operator_set_name(self, name);
+    }
+});
 Object.defineProperty(Operator.prototype, "sign", {
     get: function() {
         var self = this.ptr;
         return _Operator_get_sign(self);
-    }});
+    },
+    set: function(sign) {
+        var self = this.ptr;
+        /* sign <const char*> [] */
+        _Operator_set_sign(self, sign);
+    }
+});
 Operator.prototype["__destroy__"] = Operator.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Operator___destroy__(self);

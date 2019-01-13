@@ -13,26 +13,12 @@ Object.defineProperty(EditContext.prototype, "undo_tool", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_EditContext_get_undo_tool(self), mud::UndoTool);
-    },
-    set: function(undo_tool) {
-        var self = this.ptr;
-        /* undo_tool <UndoTool> [] */
-        undo_tool = undo_tool.ptr;
-        _EditContext_set_undo_tool(self, undo_tool);
-    }
-});
+    }});
 Object.defineProperty(EditContext.prototype, "redo_tool", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_EditContext_get_redo_tool(self), mud::RedoTool);
-    },
-    set: function(redo_tool) {
-        var self = this.ptr;
-        /* redo_tool <RedoTool> [] */
-        redo_tool = redo_tool.ptr;
-        _EditContext_set_redo_tool(self, redo_tool);
-    }
-});
+    }});
 Object.defineProperty(EditContext.prototype, "work_plane", {
     get: function() {
         var self = this.ptr;
@@ -49,38 +35,17 @@ Object.defineProperty(EditContext.prototype, "translate_tool", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_EditContext_get_translate_tool(self), mud::TranslateTool);
-    },
-    set: function(translate_tool) {
-        var self = this.ptr;
-        /* translate_tool <TranslateTool> [] */
-        translate_tool = translate_tool.ptr;
-        _EditContext_set_translate_tool(self, translate_tool);
-    }
-});
+    }});
 Object.defineProperty(EditContext.prototype, "rotate_tool", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_EditContext_get_rotate_tool(self), mud::RotateTool);
-    },
-    set: function(rotate_tool) {
-        var self = this.ptr;
-        /* rotate_tool <RotateTool> [] */
-        rotate_tool = rotate_tool.ptr;
-        _EditContext_set_rotate_tool(self, rotate_tool);
-    }
-});
+    }});
 Object.defineProperty(EditContext.prototype, "scale_tool", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_EditContext_get_scale_tool(self), mud::ScaleTool);
-    },
-    set: function(scale_tool) {
-        var self = this.ptr;
-        /* scale_tool <ScaleTool> [] */
-        scale_tool = scale_tool.ptr;
-        _EditContext_set_scale_tool(self, scale_tool);
-    }
-});
+    }});
 Object.defineProperty(EditContext.prototype, "viewer", {
     get: function() {
         var self = this.ptr;
@@ -289,14 +254,7 @@ Object.defineProperty(CircleBrush.prototype, "creator", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_CircleBrush_get_creator(self), mud::Creator);
-    },
-    set: function(creator) {
-        var self = this.ptr;
-        /* creator <Creator> [] */
-        creator = creator.ptr;
-        _CircleBrush_set_creator(self, creator);
-    }
-});
+    }});
 Object.defineProperty(CircleBrush.prototype, "radius", {
     get: function() {
         var self = this.ptr;
@@ -339,14 +297,7 @@ Object.defineProperty(PlaceBrush.prototype, "creator", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_PlaceBrush_get_creator(self), mud::Creator);
-    },
-    set: function(creator) {
-        var self = this.ptr;
-        /* creator <Creator> [] */
-        creator = creator.ptr;
-        _PlaceBrush_set_creator(self, creator);
-    }
-});
+    }});
 PlaceBrush.prototype["__destroy__"] = PlaceBrush.prototype.__destroy__ = function() {
     var self = this.ptr;
     _PlaceBrush___destroy__(self);

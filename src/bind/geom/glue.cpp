@@ -210,6 +210,9 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Symbol_get_image(mud::Symbol* self) {
 		return self->m_image;
 	}
+	void EMSCRIPTEN_KEEPALIVE Symbol_set_image(mud::Symbol* self, const char* image) {
+		self->m_image = image;
+	}
 	mud::Image256* EMSCRIPTEN_KEEPALIVE Symbol_get_image256(mud::Symbol* self) {
 		return self->m_image256;
 	}
@@ -218,6 +221,9 @@ extern "C" {
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Symbol_get_program(mud::Symbol* self) {
 		return self->m_program;
+	}
+	void EMSCRIPTEN_KEEPALIVE Symbol_set_program(mud::Symbol* self, const char* program) {
+		self->m_program = program;
 	}
 	void EMSCRIPTEN_KEEPALIVE Symbol___destroy__(mud::Symbol* self) {
 		delete self;

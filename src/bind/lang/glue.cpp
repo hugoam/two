@@ -44,14 +44,8 @@ extern "C" {
 	mud::Type* EMSCRIPTEN_KEEPALIVE ScriptClass_get_class_type(mud::ScriptClass* self) {
 		return &self->m_class_type;
 	}
-	void EMSCRIPTEN_KEEPALIVE ScriptClass_set_class_type(mud::ScriptClass* self, mud::Type* class_type) {
-		self->m_class_type = *class_type;
-	}
 	mud::Class* EMSCRIPTEN_KEEPALIVE ScriptClass_get_class(mud::ScriptClass* self) {
 		return &self->m_class;
-	}
-	void EMSCRIPTEN_KEEPALIVE ScriptClass_set_class(mud::ScriptClass* self, mud::Class* class) {
-		self->m_class = *class;
 	}
 	void EMSCRIPTEN_KEEPALIVE ScriptClass___destroy__(mud::ScriptClass* self) {
 		delete self;

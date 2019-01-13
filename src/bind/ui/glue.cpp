@@ -513,6 +513,9 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Style_get_name(mud::Style* self) {
 		return self->name();
 	}
+	void EMSCRIPTEN_KEEPALIVE Style_set_name(mud::Style* self, const char* name) {
+		self->name = name;
+	}
 	mud::Layout* EMSCRIPTEN_KEEPALIVE Style_get_layout(mud::Style* self) {
 		return &self->layout();
 	}
@@ -550,6 +553,9 @@ extern "C" {
 	}
 	const char* EMSCRIPTEN_KEEPALIVE TextPaint_get_font(mud::TextPaint* self) {
 		return self->m_font;
+	}
+	void EMSCRIPTEN_KEEPALIVE TextPaint_set_font(mud::TextPaint* self, const char* font) {
+		self->m_font = font;
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE TextPaint_get_colour(mud::TextPaint* self) {
 		static mud::Colour temp;
@@ -747,9 +753,6 @@ extern "C" {
 	}
 	mud::Frame* EMSCRIPTEN_KEEPALIVE Widget_get_frame(mud::Widget* self) {
 		return &self->m_frame;
-	}
-	void EMSCRIPTEN_KEEPALIVE Widget_set_frame(mud::Widget* self, mud::Frame* frame) {
-		self->m_frame = *frame;
 	}
 	mud::WidgetState EMSCRIPTEN_KEEPALIVE Widget_get_state(mud::Widget* self) {
 		return self->m_state;

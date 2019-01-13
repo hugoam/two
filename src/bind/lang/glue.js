@@ -73,26 +73,12 @@ Object.defineProperty(ScriptClass.prototype, "class_type", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_ScriptClass_get_class_type(self), mud::Type);
-    },
-    set: function(class_type) {
-        var self = this.ptr;
-        /* class_type <Type> [] */
-        class_type = class_type.ptr;
-        _ScriptClass_set_class_type(self, class_type);
-    }
-});
+    }});
 Object.defineProperty(ScriptClass.prototype, "class", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_ScriptClass_get_class(self), mud::Class);
-    },
-    set: function(class) {
-        var self = this.ptr;
-        /* class <Class> [] */
-        class = class.ptr;
-        _ScriptClass_set_class(self, class);
-    }
-});
+    }});
 ScriptClass.prototype["__destroy__"] = ScriptClass.prototype.__destroy__ = function() {
     var self = this.ptr;
     _ScriptClass___destroy__(self);

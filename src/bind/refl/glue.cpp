@@ -25,9 +25,6 @@ extern "C" {
 	mud::Var* EMSCRIPTEN_KEEPALIVE Call_get_result(mud::Call* self) {
 		return &self->m_result;
 	}
-	void EMSCRIPTEN_KEEPALIVE Call_set_result(mud::Call* self, mud::Var* result) {
-		self->m_result = *result;
-	}
 	void EMSCRIPTEN_KEEPALIVE Call___destroy__(mud::Call* self) {
 		delete self;
 	}
@@ -81,8 +78,14 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Module_get_name(mud::Module* self) {
 		return self->m_name;
 	}
+	void EMSCRIPTEN_KEEPALIVE Module_set_name(mud::Module* self, const char* name) {
+		self->m_name = name;
+	}
 	const char* EMSCRIPTEN_KEEPALIVE Module_get_path(mud::Module* self) {
 		return self->m_path;
+	}
+	void EMSCRIPTEN_KEEPALIVE Module_set_path(mud::Module* self, const char* path) {
+		self->m_path = path;
 	}
 	void EMSCRIPTEN_KEEPALIVE Module___destroy__(mud::Module* self) {
 		delete self;
@@ -110,8 +113,14 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Operator_get_name(mud::Operator* self) {
 		return self->m_name;
 	}
+	void EMSCRIPTEN_KEEPALIVE Operator_set_name(mud::Operator* self, const char* name) {
+		self->m_name = name;
+	}
 	const char* EMSCRIPTEN_KEEPALIVE Operator_get_sign(mud::Operator* self) {
 		return self->m_sign;
+	}
+	void EMSCRIPTEN_KEEPALIVE Operator_set_sign(mud::Operator* self, const char* sign) {
+		self->m_sign = sign;
 	}
 	void EMSCRIPTEN_KEEPALIVE Operator___destroy__(mud::Operator* self) {
 		delete self;

@@ -188,10 +188,13 @@ namespace mud
 		m.m_capname = char(toupper(m.m_name[0])) + m.m_name.substr(1, string::npos);
 
 		m.m_annotations = get_annotations(cursor);
-		m.m_nonmutable = has<string>(m.m_annotations, "nomut") || m.m_type.reference() || m.m_type.isconst();
+		m.m_nonmutable = has<string>(m.m_annotations, "nomut");
 		m.m_structure = has<string>(m.m_annotations, "graph");
 		m.m_link = has<string>(m.m_annotations, "link");
 		m.m_component = has<string>(m.m_annotations, "comp");
+
+		if(!c.m_is_template)
+			m.m_nonmutable = m.m_nonmutable || m.m_type.reference() || (!m.m_type.pointer() && (m.m_type.isconst() || !m.m_type.copyable()));
 
 		visit_children(cursor, [&](CXCursor s)
 		{

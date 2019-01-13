@@ -163,7 +163,14 @@ Object.defineProperty(AnimationPlay.prototype, "animation", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_AnimationPlay_get_animation(self), mud::Animation);
-    }});
+    },
+    set: function(animation) {
+        var self = this.ptr;
+        /* animation <Animation> [] */
+        animation = animation.ptr;
+        _AnimationPlay_set_animation(self, animation);
+    }
+});
 Object.defineProperty(AnimationPlay.prototype, "loop", {
     get: function() {
         var self = this.ptr;
@@ -2509,7 +2516,13 @@ Object.defineProperty(Program.prototype, "name", {
     get: function() {
         var self = this.ptr;
         return _Program_get_name(self);
-    }});
+    },
+    set: function(name) {
+        var self = this.ptr;
+        /* name <const char*> [] */
+        _Program_set_name(self, name);
+    }
+});
 Program.prototype["__destroy__"] = Program.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Program___destroy__(self);
@@ -2627,26 +2640,12 @@ Object.defineProperty(Scene.prototype, "graph", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Scene_get_graph(self), mud::Gnode);
-    },
-    set: function(graph) {
-        var self = this.ptr;
-        /* graph <Gnode> [] */
-        graph = graph.ptr;
-        _Scene_set_graph(self, graph);
-    }
-});
+    }});
 Object.defineProperty(Scene.prototype, "root_node", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Scene_get_root_node(self), mud::Node3);
-    },
-    set: function(root_node) {
-        var self = this.ptr;
-        /* root_node <Node3> [] */
-        root_node = root_node.ptr;
-        _Scene_set_root_node(self, root_node);
-    }
-});
+    }});
 Object.defineProperty(Scene.prototype, "environment", {
     get: function() {
         var self = this.ptr;

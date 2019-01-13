@@ -351,7 +351,13 @@ Object.defineProperty(Symbol.prototype, "image", {
     get: function() {
         var self = this.ptr;
         return _Symbol_get_image(self);
-    }});
+    },
+    set: function(image) {
+        var self = this.ptr;
+        /* image <const char*> [] */
+        _Symbol_set_image(self, image);
+    }
+});
 Object.defineProperty(Symbol.prototype, "image256", {
     get: function() {
         var self = this.ptr;
@@ -368,7 +374,13 @@ Object.defineProperty(Symbol.prototype, "program", {
     get: function() {
         var self = this.ptr;
         return _Symbol_get_program(self);
-    }});
+    },
+    set: function(program) {
+        var self = this.ptr;
+        /* program <const char*> [] */
+        _Symbol_set_program(self, program);
+    }
+});
 Symbol.prototype["__destroy__"] = Symbol.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Symbol___destroy__(self);

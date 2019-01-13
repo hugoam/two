@@ -120,6 +120,9 @@ extern "C" {
 	const mud::Animation* EMSCRIPTEN_KEEPALIVE AnimationPlay_get_animation(mud::AnimationPlay* self) {
 		return self->m_animation;
 	}
+	void EMSCRIPTEN_KEEPALIVE AnimationPlay_set_animation(mud::AnimationPlay* self, const mud::Animation* animation) {
+		self->m_animation = animation;
+	}
 	bool EMSCRIPTEN_KEEPALIVE AnimationPlay_get_loop(mud::AnimationPlay* self) {
 		return self->m_loop;
 	}
@@ -1356,6 +1359,9 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Program_get_name(mud::Program* self) {
 		return self->name();
 	}
+	void EMSCRIPTEN_KEEPALIVE Program_set_name(mud::Program* self, const char* name) {
+		self->name = name;
+	}
 	void EMSCRIPTEN_KEEPALIVE Program___destroy__(mud::Program* self) {
 		delete self;
 	}
@@ -1416,14 +1422,8 @@ extern "C" {
 	mud::Gnode* EMSCRIPTEN_KEEPALIVE Scene_get_graph(mud::Scene* self) {
 		return &self->m_graph;
 	}
-	void EMSCRIPTEN_KEEPALIVE Scene_set_graph(mud::Scene* self, mud::Gnode* graph) {
-		self->m_graph = *graph;
-	}
 	mud::Node3* EMSCRIPTEN_KEEPALIVE Scene_get_root_node(mud::Scene* self) {
 		return &self->m_root_node;
-	}
-	void EMSCRIPTEN_KEEPALIVE Scene_set_root_node(mud::Scene* self, mud::Node3* root_node) {
-		self->m_root_node = *root_node;
 	}
 	mud::Environment* EMSCRIPTEN_KEEPALIVE Scene_get_environment(mud::Scene* self) {
 		static mud::Environment temp;

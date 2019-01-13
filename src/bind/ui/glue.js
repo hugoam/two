@@ -939,7 +939,13 @@ Object.defineProperty(Style.prototype, "name", {
     get: function() {
         var self = this.ptr;
         return _Style_get_name(self);
-    }});
+    },
+    set: function(name) {
+        var self = this.ptr;
+        /* name <const char*> [] */
+        _Style_set_name(self, name);
+    }
+});
 Object.defineProperty(Style.prototype, "layout", {
     get: function() {
         var self = this.ptr;
@@ -1018,7 +1024,13 @@ Object.defineProperty(TextPaint.prototype, "font", {
     get: function() {
         var self = this.ptr;
         return _TextPaint_get_font(self);
-    }});
+    },
+    set: function(font) {
+        var self = this.ptr;
+        /* font <const char*> [] */
+        _TextPaint_set_font(self, font);
+    }
+});
 Object.defineProperty(TextPaint.prototype, "colour", {
     get: function() {
         var self = this.ptr;
@@ -1337,14 +1349,7 @@ Object.defineProperty(Widget.prototype, "frame", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_Widget_get_frame(self), mud::Frame);
-    },
-    set: function(frame) {
-        var self = this.ptr;
-        /* frame <Frame> [] */
-        frame = frame.ptr;
-        _Widget_set_frame(self, frame);
-    }
-});
+    }});
 Object.defineProperty(Widget.prototype, "state", {
     get: function() {
         var self = this.ptr;
