@@ -194,8 +194,8 @@ extern "C" {
 	mud::ArcLine* EMSCRIPTEN_KEEPALIVE ArcLine_ArcLine_0() {
 		return new mud::ArcLine();
 	}
-	mud::ArcLine* EMSCRIPTEN_KEEPALIVE ArcLine_ArcLine_3(const mud::vec3* start, const mud::vec3* middle, const mud::vec3* end) {
-		return new mud::ArcLine(*start, *middle, *end);
+	mud::ArcLine* EMSCRIPTEN_KEEPALIVE ArcLine_ArcLine_3(const mud::vec3* center, const mud::vec3* start, const mud::vec3* middle) {
+		return new mud::ArcLine(*center, *start, *middle);
 	}
 	mud::ArcLine* EMSCRIPTEN_KEEPALIVE ArcLine_ArcLine_4(const mud::vec3* center, const mud::vec3* start, const mud::vec3* middle, const mud::vec3* end) {
 		return new mud::ArcLine(*center, *start, *middle, *end);
@@ -241,8 +241,8 @@ extern "C" {
 	mud::Cube* EMSCRIPTEN_KEEPALIVE Cube_Cube_0() {
 		return new mud::Cube();
 	}
-	mud::Cube* EMSCRIPTEN_KEEPALIVE Cube_Cube_1(const mud::vec3* extents) {
-		return new mud::Cube(*extents);
+	mud::Cube* EMSCRIPTEN_KEEPALIVE Cube_Cube_1(const mud::vec3* center) {
+		return new mud::Cube(*center);
 	}
 	mud::Cube* EMSCRIPTEN_KEEPALIVE Cube_Cube_2(const mud::vec3* center, const mud::vec3* extents) {
 		return new mud::Cube(*center, *extents);
@@ -283,12 +283,6 @@ extern "C" {
 	}
 	mud::Circle* EMSCRIPTEN_KEEPALIVE Circle_Circle_2(float radius, mud::Axis axis) {
 		return new mud::Circle(radius, axis);
-	}
-	mud::Circle* EMSCRIPTEN_KEEPALIVE Circle_Circle_2(const mud::vec3* center, float radius) {
-		return new mud::Circle(*center, radius);
-	}
-	mud::Circle* EMSCRIPTEN_KEEPALIVE Circle_Circle_3(const mud::vec3* center, float radius, mud::Axis axis) {
-		return new mud::Circle(*center, radius, axis);
 	}
 	float EMSCRIPTEN_KEEPALIVE Circle_get_radius(mud::Circle* self) {
 		return self->m_radius;
@@ -461,9 +455,6 @@ extern "C" {
 	mud::Rect* EMSCRIPTEN_KEEPALIVE Rect_Rect_2(const mud::vec2* position, const mud::vec2* size) {
 		return new mud::Rect(*position, *size);
 	}
-	mud::Rect* EMSCRIPTEN_KEEPALIVE Rect_Rect_4(float x, float y, float w, float h) {
-		return new mud::Rect(x, y, w, h);
-	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE Rect_get_position(mud::Rect* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_position, &temp);
@@ -501,9 +492,6 @@ extern "C" {
 	mud::Sphere* EMSCRIPTEN_KEEPALIVE Sphere_Sphere_1(float radius) {
 		return new mud::Sphere(radius);
 	}
-	mud::Sphere* EMSCRIPTEN_KEEPALIVE Sphere_Sphere_2(const mud::vec3* center, float radius) {
-		return new mud::Sphere(*center, radius);
-	}
 	float EMSCRIPTEN_KEEPALIVE Sphere_get_radius(mud::Sphere* self) {
 		return self->m_radius;
 	}
@@ -536,9 +524,6 @@ extern "C" {
 	mud::Spheroid* EMSCRIPTEN_KEEPALIVE Spheroid_Spheroid_1(float radius) {
 		return new mud::Spheroid(radius);
 	}
-	mud::Spheroid* EMSCRIPTEN_KEEPALIVE Spheroid_Spheroid_2(const mud::vec3* center, float radius) {
-		return new mud::Spheroid(*center, radius);
-	}
 	float EMSCRIPTEN_KEEPALIVE Spheroid_get_radius(mud::Spheroid* self) {
 		return self->m_radius;
 	}
@@ -554,12 +539,6 @@ extern "C" {
 	}
 	mud::Torus* EMSCRIPTEN_KEEPALIVE Torus_Torus_3(float radius, float solid_radius, mud::Axis axis) {
 		return new mud::Torus(radius, solid_radius, axis);
-	}
-	mud::Torus* EMSCRIPTEN_KEEPALIVE Torus_Torus_3(const mud::vec3* center, float radius, float solid_radius) {
-		return new mud::Torus(*center, radius, solid_radius);
-	}
-	mud::Torus* EMSCRIPTEN_KEEPALIVE Torus_Torus_4(const mud::vec3* center, float radius, float solid_radius, mud::Axis axis) {
-		return new mud::Torus(*center, radius, solid_radius, axis);
 	}
 	float EMSCRIPTEN_KEEPALIVE Torus_get_radius(mud::Torus* self) {
 		return self->m_radius;

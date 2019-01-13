@@ -288,9 +288,6 @@ extern "C" {
 	mud::Shadow* EMSCRIPTEN_KEEPALIVE Shadow_Shadow_5(float xpos, float ypos, float blur, float spread, mud::Colour* colour) {
 		return new mud::Shadow(xpos, ypos, blur, spread, *colour);
 	}
-	mud::Shadow* EMSCRIPTEN_KEEPALIVE Shadow_Shadow_0() {
-		return new mud::Shadow();
-	}
 	float EMSCRIPTEN_KEEPALIVE Shadow_get_d_xpos(mud::Shadow* self) {
 		return self->d_xpos;
 	}
@@ -445,62 +442,34 @@ extern "C" {
 		delete self;
 	}
 	// Widget
+	bool EMSCRIPTEN_KEEPALIVE Widget_activated_0(mud::Widget* self) {
+		return self->activated();
+	}
+	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_char_stroke_1(mud::Widget* self, mud::Key code) {
+		static mud::KeyEvent temp;
+		return (temp = self->char_stroke(code), &temp);
+	}
+	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_char_stroke_2(mud::Widget* self, mud::Key code, mud::InputMod modifier) {
+		static mud::KeyEvent temp;
+		return (temp = self->char_stroke(code, modifier), &temp);
+	}
+	void EMSCRIPTEN_KEEPALIVE Widget_clear_focus_0(mud::Widget* self) {
+		self->clear_focus();
+	}
+	bool EMSCRIPTEN_KEEPALIVE Widget_closed_0(mud::Widget* self) {
+		return self->closed();
+	}
+	void EMSCRIPTEN_KEEPALIVE Widget_disable_state_1(mud::Widget* self, mud::WidgetState state) {
+		self->disable_state(state);
+	}
+	void EMSCRIPTEN_KEEPALIVE Widget_enable_state_1(mud::Widget* self, mud::WidgetState state) {
+		self->enable_state(state);
+	}
 	bool EMSCRIPTEN_KEEPALIVE Widget_focused_0(mud::Widget* self) {
 		return self->focused();
 	}
 	bool EMSCRIPTEN_KEEPALIVE Widget_hovered_0(mud::Widget* self) {
 		return self->hovered();
-	}
-	bool EMSCRIPTEN_KEEPALIVE Widget_pressed_0(mud::Widget* self) {
-		return self->pressed();
-	}
-	bool EMSCRIPTEN_KEEPALIVE Widget_activated_0(mud::Widget* self) {
-		return self->activated();
-	}
-	bool EMSCRIPTEN_KEEPALIVE Widget_selected_0(mud::Widget* self) {
-		return self->selected();
-	}
-	bool EMSCRIPTEN_KEEPALIVE Widget_modal_0(mud::Widget* self) {
-		return self->modal();
-	}
-	bool EMSCRIPTEN_KEEPALIVE Widget_closed_0(mud::Widget* self) {
-		return self->closed();
-	}
-	mud::UiWindow* EMSCRIPTEN_KEEPALIVE Widget_ui_window_0(mud::Widget* self) {
-		return &self->ui_window();
-	}
-	mud::Ui* EMSCRIPTEN_KEEPALIVE Widget_ui_0(mud::Widget* self) {
-		return &self->ui();
-	}
-	mud::Widget* EMSCRIPTEN_KEEPALIVE Widget_parent_modal_0(mud::Widget* self) {
-		return &self->parent_modal();
-	}
-	void EMSCRIPTEN_KEEPALIVE Widget_toggle_state_1(mud::Widget* self, mud::WidgetState state) {
-		self->toggle_state(state);
-	}
-	void EMSCRIPTEN_KEEPALIVE Widget_disable_state_1(mud::Widget* self, mud::WidgetState state) {
-		self->disable_state(state);
-	}
-	void EMSCRIPTEN_KEEPALIVE Widget_set_state_2(mud::Widget* self, mud::WidgetState state, bool enabled) {
-		self->set_state(state, enabled);
-	}
-	void EMSCRIPTEN_KEEPALIVE Widget_enable_state_1(mud::Widget* self, mud::WidgetState state) {
-		self->enable_state(state);
-	}
-	void EMSCRIPTEN_KEEPALIVE Widget_clear_focus_0(mud::Widget* self) {
-		self->clear_focus();
-	}
-	void EMSCRIPTEN_KEEPALIVE Widget_take_focus_0(mud::Widget* self) {
-		self->take_focus();
-	}
-	void EMSCRIPTEN_KEEPALIVE Widget_yield_focus_0(mud::Widget* self) {
-		self->yield_focus();
-	}
-	void EMSCRIPTEN_KEEPALIVE Widget_take_modal_1(mud::Widget* self, uint32_t device_filter) {
-		self->take_modal(device_filter);
-	}
-	void EMSCRIPTEN_KEEPALIVE Widget_yield_modal_0(mud::Widget* self) {
-		self->yield_modal();
 	}
 	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_key_event_2(mud::Widget* self, mud::Key code, mud::EventType event_type) {
 		static mud::KeyEvent temp;
@@ -518,13 +487,8 @@ extern "C" {
 		static mud::KeyEvent temp;
 		return (temp = self->key_stroke(code, modifier), &temp);
 	}
-	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_char_stroke_1(mud::Widget* self, mud::Key code) {
-		static mud::KeyEvent temp;
-		return (temp = self->char_stroke(code), &temp);
-	}
-	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_char_stroke_2(mud::Widget* self, mud::Key code, mud::InputMod modifier) {
-		static mud::KeyEvent temp;
-		return (temp = self->char_stroke(code, modifier), &temp);
+	bool EMSCRIPTEN_KEEPALIVE Widget_modal_0(mud::Widget* self) {
+		return self->modal();
 	}
 	mud::MouseEvent* EMSCRIPTEN_KEEPALIVE Widget_mouse_event_2(mud::Widget* self, mud::DeviceType device, mud::EventType event_type) {
 		static mud::MouseEvent temp;
@@ -537,6 +501,39 @@ extern "C" {
 	mud::MouseEvent* EMSCRIPTEN_KEEPALIVE Widget_mouse_event_4(mud::Widget* self, mud::DeviceType device, mud::EventType event_type, mud::InputMod modifier, bool consume) {
 		static mud::MouseEvent temp;
 		return (temp = self->mouse_event(device, event_type, modifier, consume), &temp);
+	}
+	mud::Widget* EMSCRIPTEN_KEEPALIVE Widget_parent_modal_0(mud::Widget* self) {
+		return &self->parent_modal();
+	}
+	bool EMSCRIPTEN_KEEPALIVE Widget_pressed_0(mud::Widget* self) {
+		return self->pressed();
+	}
+	bool EMSCRIPTEN_KEEPALIVE Widget_selected_0(mud::Widget* self) {
+		return self->selected();
+	}
+	void EMSCRIPTEN_KEEPALIVE Widget_set_state_2(mud::Widget* self, mud::WidgetState state, bool enabled) {
+		self->set_state(state, enabled);
+	}
+	void EMSCRIPTEN_KEEPALIVE Widget_take_focus_0(mud::Widget* self) {
+		self->take_focus();
+	}
+	void EMSCRIPTEN_KEEPALIVE Widget_take_modal_1(mud::Widget* self, uint32_t device_filter) {
+		self->take_modal(device_filter);
+	}
+	void EMSCRIPTEN_KEEPALIVE Widget_toggle_state_1(mud::Widget* self, mud::WidgetState state) {
+		self->toggle_state(state);
+	}
+	mud::Ui* EMSCRIPTEN_KEEPALIVE Widget_ui_0(mud::Widget* self) {
+		return &self->ui();
+	}
+	mud::UiWindow* EMSCRIPTEN_KEEPALIVE Widget_ui_window_0(mud::Widget* self) {
+		return &self->ui_window();
+	}
+	void EMSCRIPTEN_KEEPALIVE Widget_yield_focus_0(mud::Widget* self) {
+		self->yield_focus();
+	}
+	void EMSCRIPTEN_KEEPALIVE Widget_yield_modal_0(mud::Widget* self) {
+		self->yield_modal();
 	}
 	mud::Frame* EMSCRIPTEN_KEEPALIVE Widget_get_frame(mud::Widget* self) {
 		static mud::Frame temp;

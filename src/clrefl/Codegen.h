@@ -1095,6 +1095,9 @@ namespace clgen
 				return;
 			}
 
+			if(f.m_name == "Circle")
+				int i = 0;
+
 			Overloads& o = overloads[f.m_name];
 			bool clashes = false;
 			for(size_t i = 0; i < o.f->m_params.size(); ++i)
@@ -1106,7 +1109,7 @@ namespace clgen
 			if(!clashes && f.m_params.size() > o.f->m_params.size())
 				cramfunc(o, f);
 			else
-				printf("WARNING: can't bind %s::%s (can only overload signatures of same types and different lengths)", c.m_name.c_str(), f.m_name.c_str());
+				printf("WARNING: can't bind %s::%s (can only overload signatures of same types and different lengths)\n", c.m_name.c_str(), f.m_name.c_str());
 		};
 
 		auto call_args = [](const CLFunction& f, size_t n, bool ctor)
@@ -1318,6 +1321,8 @@ namespace clgen
 
 		auto c_call_n = [&](const CLClass& c, const CLFunction& f, size_t i, bool ctor)
 		{
+			if(f.m_name == "Circle")
+				int i = 0;
 			if(ctor)
 				return "new " + c.m_id + "(" + join(c_call_args_n(c, f, i, true), ", ") + ")";
 			else
@@ -1408,9 +1413,10 @@ namespace clgen
 				}*/
 		};
 
-		auto c_bind_callable = [&](const CLClass& c, const CLFunction& f, bool ctor = false)
+		auto c_bind_callable = [&](const CLClass& c, const Overloads& o, bool ctor = false)
 		{
-			for(size_t i = f.m_min_args; i <= f.m_params.size(); ++i)
+			const CLFunction& f = *o.f;
+			for(size_t i : o.lengths)
 				c_bind_callable_n(c, f, i, ctor);
 		};
 
@@ -1473,13 +1479,13 @@ namespace clgen
 
 				for(CLConstructor& ctor : c.m_constructors)
 				{
-					c_bind_callable(c, ctor, true);
 					overload(constructors, c, ctor);
 				}
 
 				for(auto& pairs : constructors)
 				{
 					Overloads& o = pairs.second;
+					c_bind_callable(c, o, true);
 					js_bind_callable(c, o, true);
 				}
 
@@ -1496,13 +1502,13 @@ namespace clgen
 				for(CLMethod& m : c.m_methods)
 				{
 					if(blacklist_method(m)) continue;
-					c_bind_callable(c, m);
 					overload(methods, c, m);
 				}
 
 				for(auto& pairs : methods)
 				{
 					Overloads& o = pairs.second;
+					c_bind_callable(c, o);
 					jsw(c.m_name + ".prototype[\"" + o.f->m_name + "\"] = " + c.m_name + ".prototype." + o.f->m_name + " = ", true);
 					js_bind_callable(c, o, false);
 				}

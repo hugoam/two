@@ -18,11 +18,11 @@ extern "C" {
 	mud::Colour* EMSCRIPTEN_KEEPALIVE Colour_Colour_0() {
 		return new mud::Colour();
 	}
-	mud::Colour* EMSCRIPTEN_KEEPALIVE Colour_Colour_1(float v) {
-		return new mud::Colour(v);
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Colour_Colour_1(float r) {
+		return new mud::Colour(r);
 	}
-	mud::Colour* EMSCRIPTEN_KEEPALIVE Colour_Colour_2(float v, float a) {
-		return new mud::Colour(v, a);
+	mud::Colour* EMSCRIPTEN_KEEPALIVE Colour_Colour_2(float r, float g) {
+		return new mud::Colour(r, g);
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE Colour_Colour_3(float r, float g, float b) {
 		return new mud::Colour(r, g, b);
@@ -95,12 +95,6 @@ extern "C" {
 	// Palette
 	mud::Palette* EMSCRIPTEN_KEEPALIVE Palette_Palette_2(mud::Spectrum spectrum, size_t steps) {
 		return new mud::Palette(spectrum, steps);
-	}
-	mud::Palette* EMSCRIPTEN_KEEPALIVE Palette_Palette_1(std::vector<mud::Colour>* colours) {
-		return new mud::Palette(*colours);
-	}
-	mud::Palette* EMSCRIPTEN_KEEPALIVE Palette_Palette_0() {
-		return new mud::Palette();
 	}
 	void EMSCRIPTEN_KEEPALIVE Palette___destroy__(mud::Palette* self) {
 		delete self;
@@ -201,8 +195,8 @@ extern "C" {
 	mud::ivec3* EMSCRIPTEN_KEEPALIVE ivec3_ivec3_0() {
 		return new mud::ivec3();
 	}
-	mud::ivec3* EMSCRIPTEN_KEEPALIVE ivec3_ivec3_1(int a) {
-		return new mud::ivec3(a);
+	mud::ivec3* EMSCRIPTEN_KEEPALIVE ivec3_ivec3_1(int x) {
+		return new mud::ivec3(x);
 	}
 	mud::ivec3* EMSCRIPTEN_KEEPALIVE ivec3_ivec3_3(int x, int y, int z) {
 		return new mud::ivec3(x, y, z);
@@ -240,9 +234,6 @@ extern "C" {
 	mud::quat* EMSCRIPTEN_KEEPALIVE quat_quat_4(float w, float x, float y, float z) {
 		return new mud::quat(w, x, y, z);
 	}
-	mud::quat* EMSCRIPTEN_KEEPALIVE quat_quat_1(mud::vec3* euler_angles) {
-		return new mud::quat(*euler_angles);
-	}
 	float EMSCRIPTEN_KEEPALIVE quat_get_x(mud::quat* self) {
 		return self->x;
 	}
@@ -262,8 +253,8 @@ extern "C" {
 	mud::uvec2* EMSCRIPTEN_KEEPALIVE uvec2_uvec2_0() {
 		return new mud::uvec2();
 	}
-	mud::uvec2* EMSCRIPTEN_KEEPALIVE uvec2_uvec2_1(uint32_t a) {
-		return new mud::uvec2(a);
+	mud::uvec2* EMSCRIPTEN_KEEPALIVE uvec2_uvec2_1(uint32_t x) {
+		return new mud::uvec2(x);
 	}
 	mud::uvec2* EMSCRIPTEN_KEEPALIVE uvec2_uvec2_2(uint32_t x, uint32_t y) {
 		return new mud::uvec2(x, y);
@@ -281,8 +272,8 @@ extern "C" {
 	mud::uvec3* EMSCRIPTEN_KEEPALIVE uvec3_uvec3_0() {
 		return new mud::uvec3();
 	}
-	mud::uvec3* EMSCRIPTEN_KEEPALIVE uvec3_uvec3_1(uint32_t a) {
-		return new mud::uvec3(a);
+	mud::uvec3* EMSCRIPTEN_KEEPALIVE uvec3_uvec3_1(uint32_t x) {
+		return new mud::uvec3(x);
 	}
 	mud::uvec3* EMSCRIPTEN_KEEPALIVE uvec3_uvec3_3(uint32_t x, uint32_t y, uint32_t z) {
 		return new mud::uvec3(x, y, z);
@@ -303,8 +294,8 @@ extern "C" {
 	mud::uvec4* EMSCRIPTEN_KEEPALIVE uvec4_uvec4_0() {
 		return new mud::uvec4();
 	}
-	mud::uvec4* EMSCRIPTEN_KEEPALIVE uvec4_uvec4_1(uint32_t a) {
-		return new mud::uvec4(a);
+	mud::uvec4* EMSCRIPTEN_KEEPALIVE uvec4_uvec4_1(uint32_t w) {
+		return new mud::uvec4(w);
 	}
 	mud::uvec4* EMSCRIPTEN_KEEPALIVE uvec4_uvec4_4(uint32_t w, uint32_t x, uint32_t y, uint32_t z) {
 		return new mud::uvec4(w, x, y, z);
@@ -328,8 +319,8 @@ extern "C" {
 	mud::vec2* EMSCRIPTEN_KEEPALIVE vec2_vec2_0() {
 		return new mud::vec2();
 	}
-	mud::vec2* EMSCRIPTEN_KEEPALIVE vec2_vec2_1(float a) {
-		return new mud::vec2(a);
+	mud::vec2* EMSCRIPTEN_KEEPALIVE vec2_vec2_1(float x) {
+		return new mud::vec2(x);
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE vec2_vec2_2(float x, float y) {
 		return new mud::vec2(x, y);
@@ -347,8 +338,8 @@ extern "C" {
 	mud::vec3* EMSCRIPTEN_KEEPALIVE vec3_vec3_0() {
 		return new mud::vec3();
 	}
-	mud::vec3* EMSCRIPTEN_KEEPALIVE vec3_vec3_1(float a) {
-		return new mud::vec3(a);
+	mud::vec3* EMSCRIPTEN_KEEPALIVE vec3_vec3_1(float x) {
+		return new mud::vec3(x);
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE vec3_vec3_3(float x, float y, float z) {
 		return new mud::vec3(x, y, z);
@@ -369,8 +360,8 @@ extern "C" {
 	mud::vec4* EMSCRIPTEN_KEEPALIVE vec4_vec4_0() {
 		return new mud::vec4();
 	}
-	mud::vec4* EMSCRIPTEN_KEEPALIVE vec4_vec4_1(float a) {
-		return new mud::vec4(a);
+	mud::vec4* EMSCRIPTEN_KEEPALIVE vec4_vec4_1(float w) {
+		return new mud::vec4(w);
 	}
 	mud::vec4* EMSCRIPTEN_KEEPALIVE vec4_vec4_4(float w, float x, float y, float z) {
 		return new mud::vec4(w, x, y, z);

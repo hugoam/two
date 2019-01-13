@@ -89,9 +89,6 @@ extern "C" {
 	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_4(mud::Palette* palette, mud::PatternSampling sampling, float precision, size_t step) {
 		return new mud::Pattern(*palette, sampling, precision, step);
 	}
-	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_0() {
-		return new mud::Pattern();
-	}
 	void EMSCRIPTEN_KEEPALIVE Pattern___destroy__(mud::Pattern* self) {
 		delete self;
 	}

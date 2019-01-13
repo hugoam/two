@@ -16,17 +16,17 @@ extern "C" {
 			  }
 	}
 	// Context
-	void EMSCRIPTEN_KEEPALIVE Context_reset_2(mud::Context* self, uint16_t width, uint16_t height) {
-		self->reset(width, height);
-	}
 	void EMSCRIPTEN_KEEPALIVE Context_init_input_2(mud::Context* self, mud::Mouse* mouse, mud::Keyboard* keyboard) {
 		self->init_input(*mouse, *keyboard);
+	}
+	void EMSCRIPTEN_KEEPALIVE Context_lock_mouse_1(mud::Context* self, bool locked) {
+		self->lock_mouse(locked);
 	}
 	bool EMSCRIPTEN_KEEPALIVE Context_next_frame_0(mud::Context* self) {
 		return self->next_frame();
 	}
-	void EMSCRIPTEN_KEEPALIVE Context_lock_mouse_1(mud::Context* self, bool locked) {
-		self->lock_mouse(locked);
+	void EMSCRIPTEN_KEEPALIVE Context_reset_2(mud::Context* self, uint16_t width, uint16_t height) {
+		self->reset(width, height);
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Context_get_resource_path(mud::Context* self) {
 		return self->m_resource_path.c_str();

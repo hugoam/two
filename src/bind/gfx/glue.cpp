@@ -21,17 +21,14 @@ extern "C" {
 			  }
 	}
 	// Animated
-	void EMSCRIPTEN_KEEPALIVE Animated_start_2(mud::Animated* self, const char* animation, bool loop) {
-		self->start(animation, loop);
+	void EMSCRIPTEN_KEEPALIVE Animated_advance_1(mud::Animated* self, float time) {
+		self->advance(time);
 	}
-	void EMSCRIPTEN_KEEPALIVE Animated_start_3(mud::Animated* self, const char* animation, bool loop, float blend) {
-		self->start(animation, loop, blend);
+	void EMSCRIPTEN_KEEPALIVE Animated_next_animation_0(mud::Animated* self) {
+		self->next_animation();
 	}
-	void EMSCRIPTEN_KEEPALIVE Animated_start_4(mud::Animated* self, const char* animation, bool loop, float blend, float speed) {
-		self->start(animation, loop, blend, speed);
-	}
-	void EMSCRIPTEN_KEEPALIVE Animated_start_5(mud::Animated* self, const char* animation, bool loop, float blend, float speed, bool transient) {
-		self->start(animation, loop, blend, speed, transient);
+	void EMSCRIPTEN_KEEPALIVE Animated_pause_0(mud::Animated* self) {
+		self->pause();
 	}
 	void EMSCRIPTEN_KEEPALIVE Animated_play_2(mud::Animated* self, const mud::Animation* animation, bool loop) {
 		self->play(*animation, loop);
@@ -45,23 +42,26 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE Animated_play_5(mud::Animated* self, const mud::Animation* animation, bool loop, float blend, float speed, bool transient) {
 		self->play(*animation, loop, blend, speed, transient);
 	}
+	const char* EMSCRIPTEN_KEEPALIVE Animated_playing_0(mud::Animated* self) {
+		return self->playing().c_str();
+	}
 	void EMSCRIPTEN_KEEPALIVE Animated_seek_1(mud::Animated* self, float time) {
 		self->seek(time);
 	}
-	void EMSCRIPTEN_KEEPALIVE Animated_pause_0(mud::Animated* self) {
-		self->pause();
+	void EMSCRIPTEN_KEEPALIVE Animated_start_2(mud::Animated* self, const char* animation, bool loop) {
+		self->start(animation, loop);
+	}
+	void EMSCRIPTEN_KEEPALIVE Animated_start_3(mud::Animated* self, const char* animation, bool loop, float blend) {
+		self->start(animation, loop, blend);
+	}
+	void EMSCRIPTEN_KEEPALIVE Animated_start_4(mud::Animated* self, const char* animation, bool loop, float blend, float speed) {
+		self->start(animation, loop, blend, speed);
+	}
+	void EMSCRIPTEN_KEEPALIVE Animated_start_5(mud::Animated* self, const char* animation, bool loop, float blend, float speed, bool transient) {
+		self->start(animation, loop, blend, speed, transient);
 	}
 	void EMSCRIPTEN_KEEPALIVE Animated_stop_0(mud::Animated* self) {
 		self->stop();
-	}
-	void EMSCRIPTEN_KEEPALIVE Animated_advance_1(mud::Animated* self, float time) {
-		self->advance(time);
-	}
-	void EMSCRIPTEN_KEEPALIVE Animated_next_animation_0(mud::Animated* self) {
-		self->next_animation();
-	}
-	const char* EMSCRIPTEN_KEEPALIVE Animated_playing_0(mud::Animated* self) {
-		return self->playing().c_str();
 	}
 	bool EMSCRIPTEN_KEEPALIVE Animated_get_active(mud::Animated* self) {
 		return self->m_active;
@@ -428,14 +428,14 @@ extern "C" {
 	mud::Material* EMSCRIPTEN_KEEPALIVE GfxSystem_debug_material_0(mud::GfxSystem* self) {
 		return &self->debug_material();
 	}
+	mud::Material* EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_image256_material_1(mud::GfxSystem* self, const mud::Image256* image) {
+		return &self->fetch_image256_material(*image);
+	}
 	mud::Material* EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_material_2(mud::GfxSystem* self, const char* name, const char* shader) {
 		return &self->fetch_material(name, shader);
 	}
 	mud::Material* EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_material_3(mud::GfxSystem* self, const char* name, const char* shader, bool builtin) {
 		return &self->fetch_material(name, shader, builtin);
-	}
-	mud::Material* EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_image256_material_1(mud::GfxSystem* self, const mud::Image256* image) {
-		return &self->fetch_image256_material(*image);
 	}
 	mud::Model* EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_symbol_3(mud::GfxSystem* self, const mud::Symbol* symbol, const mud::Shape* shape, mud::DrawMode draw_mode) {
 		return &self->fetch_symbol(*symbol, *shape, draw_mode);
