@@ -6,6 +6,7 @@
 #include <gfx/Api.h>
 #include <gfx-obj/Api.h>
 #include <emscripten.h>
+#include <cstdint>
 
 
 extern "C" {

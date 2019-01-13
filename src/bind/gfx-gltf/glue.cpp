@@ -8,6 +8,7 @@
 #include <gltf/Api.h>
 #include <gfx-gltf/Api.h>
 #include <emscripten.h>
+#include <cstdint>
 
 
 extern "C" {

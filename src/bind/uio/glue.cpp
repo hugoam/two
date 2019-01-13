@@ -10,6 +10,7 @@
 #include <ui/Api.h>
 #include <uio/Api.h>
 #include <emscripten.h>
+#include <cstdint>
 
 
 extern "C" {

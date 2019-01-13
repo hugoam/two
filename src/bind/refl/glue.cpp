@@ -3,6 +3,7 @@
 #include <pool/Api.h>
 #include <refl/Api.h>
 #include <emscripten.h>
+#include <cstdint>
 
 
 extern "C" {
@@ -47,14 +48,14 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE Creator_get_construct(mud::Creator* self) {
 		return self->m_construct;
 	}
-	void EMSCRIPTEN_KEEPALIVE Creator_set_construct(mud::Creator* self, bool construct) {
-		self->m_construct = construct;
+	void EMSCRIPTEN_KEEPALIVE Creator_set_construct(mud::Creator* self, bool value) {
+		self->m_construct = value;
 	}
 	mud::Type* EMSCRIPTEN_KEEPALIVE Creator_get_prototype(mud::Creator* self) {
 		return self->m_prototype;
 	}
-	void EMSCRIPTEN_KEEPALIVE Creator_set_prototype(mud::Creator* self, mud::Type* prototype) {
-		self->m_prototype = prototype;
+	void EMSCRIPTEN_KEEPALIVE Creator_set_prototype(mud::Creator* self, mud::Type* value) {
+		self->m_prototype = value;
 	}
 	mud::Injector* EMSCRIPTEN_KEEPALIVE Creator_get_injector(mud::Creator* self) {
 		return &self->injector();
@@ -78,14 +79,14 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Module_get_name(mud::Module* self) {
 		return self->m_name;
 	}
-	void EMSCRIPTEN_KEEPALIVE Module_set_name(mud::Module* self, const char* name) {
-		self->m_name = name;
+	void EMSCRIPTEN_KEEPALIVE Module_set_name(mud::Module* self, const char* value) {
+		self->m_name = value;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Module_get_path(mud::Module* self) {
 		return self->m_path;
 	}
-	void EMSCRIPTEN_KEEPALIVE Module_set_path(mud::Module* self, const char* path) {
-		self->m_path = path;
+	void EMSCRIPTEN_KEEPALIVE Module_set_path(mud::Module* self, const char* value) {
+		self->m_path = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Module___destroy__(mud::Module* self) {
 		delete self;
@@ -101,26 +102,26 @@ extern "C" {
 	mud::Function* EMSCRIPTEN_KEEPALIVE Operator_get_function(mud::Operator* self) {
 		return self->m_function;
 	}
-	void EMSCRIPTEN_KEEPALIVE Operator_set_function(mud::Operator* self, mud::Function* function) {
-		self->m_function = function;
+	void EMSCRIPTEN_KEEPALIVE Operator_set_function(mud::Operator* self, mud::Function* value) {
+		self->m_function = value;
 	}
 	mud::Type* EMSCRIPTEN_KEEPALIVE Operator_get_type(mud::Operator* self) {
 		return self->m_type;
 	}
-	void EMSCRIPTEN_KEEPALIVE Operator_set_type(mud::Operator* self, mud::Type* type) {
-		self->m_type = type;
+	void EMSCRIPTEN_KEEPALIVE Operator_set_type(mud::Operator* self, mud::Type* value) {
+		self->m_type = value;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Operator_get_name(mud::Operator* self) {
 		return self->m_name;
 	}
-	void EMSCRIPTEN_KEEPALIVE Operator_set_name(mud::Operator* self, const char* name) {
-		self->m_name = name;
+	void EMSCRIPTEN_KEEPALIVE Operator_set_name(mud::Operator* self, const char* value) {
+		self->m_name = value;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Operator_get_sign(mud::Operator* self) {
 		return self->m_sign;
 	}
-	void EMSCRIPTEN_KEEPALIVE Operator_set_sign(mud::Operator* self, const char* sign) {
-		self->m_sign = sign;
+	void EMSCRIPTEN_KEEPALIVE Operator_set_sign(mud::Operator* self, const char* value) {
+		self->m_sign = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Operator___destroy__(mud::Operator* self) {
 		delete self;

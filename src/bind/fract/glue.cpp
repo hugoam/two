@@ -4,6 +4,7 @@
 #include <geom/Api.h>
 #include <fract/Api.h>
 #include <emscripten.h>
+#include <cstdint>
 
 
 extern "C" {
@@ -48,8 +49,8 @@ extern "C" {
 	size_t EMSCRIPTEN_KEEPALIVE Fract_get_nutabs(mud::Fract* self) {
 		return self->m_num_tabs;
 	}
-	void EMSCRIPTEN_KEEPALIVE Fract_set_nutabs(mud::Fract* self, size_t nutabs) {
-		self->m_num_tabs = nutabs;
+	void EMSCRIPTEN_KEEPALIVE Fract_set_nutabs(mud::Fract* self, size_t value) {
+		self->m_num_tabs = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Fract___destroy__(mud::Fract* self) {
 		delete self;
@@ -68,15 +69,15 @@ extern "C" {
 		static mud::Rect temp;
 		return (temp = self->m_rect, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE FractSample_set_rect(mud::FractSample* self, mud::Rect* rect) {
-		self->m_rect = *rect;
+	void EMSCRIPTEN_KEEPALIVE FractSample_set_rect(mud::FractSample* self, mud::Rect* value) {
+		self->m_rect = *value;
 	}
 	mud::uvec2* EMSCRIPTEN_KEEPALIVE FractSample_get_resolution(mud::FractSample* self) {
 		static mud::uvec2 temp;
 		return (temp = self->m_resolution, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE FractSample_set_resolution(mud::FractSample* self, mud::uvec2* resolution) {
-		self->m_resolution = *resolution;
+	void EMSCRIPTEN_KEEPALIVE FractSample_set_resolution(mud::FractSample* self, mud::uvec2* value) {
+		self->m_resolution = *value;
 	}
 	void EMSCRIPTEN_KEEPALIVE FractSample___destroy__(mud::FractSample* self) {
 		delete self;

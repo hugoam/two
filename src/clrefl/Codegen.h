@@ -1019,6 +1019,7 @@ namespace clgen
 		for(CLModule* d : m.m_modules)
 			cw("#include <" + d->m_subdir + "/Api.h>");
 		cw("#include <emscripten.h>");
+		cw("#include <cstdint>");
 		cw("");
 		cw("");
 		cw("extern \"C\" {");
@@ -1439,11 +1440,11 @@ namespace clgen
 
 		auto c_setter = [&](const CLClass& c, const CLMember& m)
 		{
-			cw("void EMSCRIPTEN_KEEPALIVE " + binding_name_str(c, "set_" + m.m_name) + "(" + c.m_id + "* self, " + type_to_c(m.m_type) + " " + m.m_name + ") {");
+			cw("void EMSCRIPTEN_KEEPALIVE " + binding_name_str(c, "set_" + m.m_name) + "(" + c.m_id + "* self, " + type_to_c(m.m_type) + " value) {");
 			if(m.m_setter)
-				cw("self->" + m.m_member + "(" + value(m.m_type) + m.m_name + ");");
+				cw("self->" + m.m_member + "(" + value(m.m_type) + "value);");
 			else
-				cw("self->" + m.m_member + " = " + value(m.m_type) + m.m_name + ";");
+				cw("self->" + m.m_member + " = " + value(m.m_type) + "value;");
 			cw("}");
 		};
 

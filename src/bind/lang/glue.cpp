@@ -4,6 +4,7 @@
 #include <refl/Api.h>
 #include <lang/Api.h>
 #include <emscripten.h>
+#include <cstdint>
 
 
 extern "C" {
@@ -38,8 +39,8 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE ScriptClass_get_name(mud::ScriptClass* self) {
 		return self->m_name.c_str();
 	}
-	void EMSCRIPTEN_KEEPALIVE ScriptClass_set_name(mud::ScriptClass* self, const char* name) {
-		self->m_name = name;
+	void EMSCRIPTEN_KEEPALIVE ScriptClass_set_name(mud::ScriptClass* self, const char* value) {
+		self->m_name = value;
 	}
 	mud::Type* EMSCRIPTEN_KEEPALIVE ScriptClass_get_class_type(mud::ScriptClass* self) {
 		return &self->m_class_type;
@@ -141,8 +142,8 @@ extern "C" {
 	uint32_t EMSCRIPTEN_KEEPALIVE Script_get_index(mud::Script* self) {
 		return self->m_index;
 	}
-	void EMSCRIPTEN_KEEPALIVE Script_set_index(mud::Script* self, uint32_t index) {
-		self->m_index = index;
+	void EMSCRIPTEN_KEEPALIVE Script_set_index(mud::Script* self, uint32_t value) {
+		self->m_index = value;
 	}
 	mud::Type* EMSCRIPTEN_KEEPALIVE Script_get_type(mud::Script* self) {
 		return &self->m_type;
@@ -150,14 +151,14 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Script_get_name(mud::Script* self) {
 		return self->m_name.c_str();
 	}
-	void EMSCRIPTEN_KEEPALIVE Script_set_name(mud::Script* self, const char* name) {
-		self->m_name = name;
+	void EMSCRIPTEN_KEEPALIVE Script_set_name(mud::Script* self, const char* value) {
+		self->m_name = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE Script_get_locked(mud::Script* self) {
 		return self->m_locked;
 	}
-	void EMSCRIPTEN_KEEPALIVE Script_set_locked(mud::Script* self, bool locked) {
-		self->m_locked = locked;
+	void EMSCRIPTEN_KEEPALIVE Script_set_locked(mud::Script* self, bool value) {
+		self->m_locked = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Script___destroy__(mud::Script* self) {
 		delete self;
@@ -176,20 +177,20 @@ extern "C" {
 	mud::Language EMSCRIPTEN_KEEPALIVE TextScript_get_language(mud::TextScript* self) {
 		return self->m_language;
 	}
-	void EMSCRIPTEN_KEEPALIVE TextScript_set_language(mud::TextScript* self, mud::Language language) {
-		self->m_language = language;
+	void EMSCRIPTEN_KEEPALIVE TextScript_set_language(mud::TextScript* self, mud::Language value) {
+		self->m_language = value;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE TextScript_get_script(mud::TextScript* self) {
 		return self->m_script.c_str();
 	}
-	void EMSCRIPTEN_KEEPALIVE TextScript_set_script(mud::TextScript* self, const char* script) {
-		self->m_script = script;
+	void EMSCRIPTEN_KEEPALIVE TextScript_set_script(mud::TextScript* self, const char* value) {
+		self->m_script = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE TextScript_get_dirty(mud::TextScript* self) {
 		return self->m_dirty;
 	}
-	void EMSCRIPTEN_KEEPALIVE TextScript_set_dirty(mud::TextScript* self, bool dirty) {
-		self->m_dirty = dirty;
+	void EMSCRIPTEN_KEEPALIVE TextScript_set_dirty(mud::TextScript* self, bool value) {
+		self->m_dirty = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE TextScript___destroy__(mud::TextScript* self) {
 		delete self;

@@ -15,6 +15,7 @@
 #include <gfx-edit/Api.h>
 #include <tool/Api.h>
 #include <emscripten.h>
+#include <cstdint>
 
 
 extern "C" {
@@ -38,8 +39,8 @@ extern "C" {
 		static mud::Plane temp;
 		return (temp = self->m_work_plane, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE EditContext_set_work_plane(mud::EditContext* self, mud::Plane* work_plane) {
-		self->m_work_plane = *work_plane;
+	void EMSCRIPTEN_KEEPALIVE EditContext_set_work_plane(mud::EditContext* self, mud::Plane* value) {
+		self->m_work_plane = *value;
 	}
 	mud::TranslateTool* EMSCRIPTEN_KEEPALIVE EditContext_get_translate_tool(mud::EditContext* self) {
 		return &self->m_translate_tool;
@@ -53,26 +54,26 @@ extern "C" {
 	mud::Viewer* EMSCRIPTEN_KEEPALIVE EditContext_get_viewer(mud::EditContext* self) {
 		return self->m_viewer;
 	}
-	void EMSCRIPTEN_KEEPALIVE EditContext_set_viewer(mud::EditContext* self, mud::Viewer* viewer) {
-		self->m_viewer = viewer;
+	void EMSCRIPTEN_KEEPALIVE EditContext_set_viewer(mud::EditContext* self, mud::Viewer* value) {
+		self->m_viewer = value;
 	}
 	mud::ViewportTool* EMSCRIPTEN_KEEPALIVE EditContext_get_tool(mud::EditContext* self) {
 		return self->m_tool;
 	}
-	void EMSCRIPTEN_KEEPALIVE EditContext_set_tool(mud::EditContext* self, mud::ViewportTool* tool) {
-		self->m_tool = tool;
+	void EMSCRIPTEN_KEEPALIVE EditContext_set_tool(mud::EditContext* self, mud::ViewportTool* value) {
+		self->m_tool = value;
 	}
 	mud::SpatialTool* EMSCRIPTEN_KEEPALIVE EditContext_get_spatial_tool(mud::EditContext* self) {
 		return self->m_spatial_tool;
 	}
-	void EMSCRIPTEN_KEEPALIVE EditContext_set_spatial_tool(mud::EditContext* self, mud::SpatialTool* spatial_tool) {
-		self->m_spatial_tool = spatial_tool;
+	void EMSCRIPTEN_KEEPALIVE EditContext_set_spatial_tool(mud::EditContext* self, mud::SpatialTool* value) {
+		self->m_spatial_tool = value;
 	}
 	mud::Brush* EMSCRIPTEN_KEEPALIVE EditContext_get_brush(mud::EditContext* self) {
 		return self->m_brush;
 	}
-	void EMSCRIPTEN_KEEPALIVE EditContext_set_brush(mud::EditContext* self, mud::Brush* brush) {
-		self->m_brush = brush;
+	void EMSCRIPTEN_KEEPALIVE EditContext_set_brush(mud::EditContext* self, mud::Brush* value) {
+		self->m_brush = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE EditContext___destroy__(mud::EditContext* self) {
 		delete self;
@@ -98,14 +99,14 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Tool_get_name(mud::Tool* self) {
 		return self->m_name.c_str();
 	}
-	void EMSCRIPTEN_KEEPALIVE Tool_set_name(mud::Tool* self, const char* name) {
-		self->m_name = name;
+	void EMSCRIPTEN_KEEPALIVE Tool_set_name(mud::Tool* self, const char* value) {
+		self->m_name = value;
 	}
 	mud::ToolState EMSCRIPTEN_KEEPALIVE Tool_get_state(mud::Tool* self) {
 		return self->m_state;
 	}
-	void EMSCRIPTEN_KEEPALIVE Tool_set_state(mud::Tool* self, mud::ToolState state) {
-		self->m_state = state;
+	void EMSCRIPTEN_KEEPALIVE Tool_set_state(mud::Tool* self, mud::ToolState value) {
+		self->m_state = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Tool___destroy__(mud::Tool* self) {
 		delete self;
@@ -147,14 +148,14 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE CircleBrush_get_radius(mud::CircleBrush* self) {
 		return self->m_radius;
 	}
-	void EMSCRIPTEN_KEEPALIVE CircleBrush_set_radius(mud::CircleBrush* self, float radius) {
-		self->m_radius = radius;
+	void EMSCRIPTEN_KEEPALIVE CircleBrush_set_radius(mud::CircleBrush* self, float value) {
+		self->m_radius = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE CircleBrush_get_maxSpotRadius(mud::CircleBrush* self) {
 		return self->m_maxSpotRadius;
 	}
-	void EMSCRIPTEN_KEEPALIVE CircleBrush_set_maxSpotRadius(mud::CircleBrush* self, float maxSpotRadius) {
-		self->m_maxSpotRadius = maxSpotRadius;
+	void EMSCRIPTEN_KEEPALIVE CircleBrush_set_maxSpotRadius(mud::CircleBrush* self, float value) {
+		self->m_maxSpotRadius = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE CircleBrush___destroy__(mud::CircleBrush* self) {
 		delete self;
@@ -181,8 +182,8 @@ extern "C" {
 		static mud::Call temp;
 		return (temp = self->m_call, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE ScriptedBrush_set_call(mud::ScriptedBrush* self, mud::Call* call) {
-		self->m_call = *call;
+	void EMSCRIPTEN_KEEPALIVE ScriptedBrush_set_call(mud::ScriptedBrush* self, mud::Call* value) {
+		self->m_call = *value;
 	}
 	void EMSCRIPTEN_KEEPALIVE ScriptedBrush___destroy__(mud::ScriptedBrush* self) {
 		delete self;

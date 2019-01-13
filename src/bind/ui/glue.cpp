@@ -4,6 +4,7 @@
 #include <ctx/Api.h>
 #include <ui/Api.h>
 #include <emscripten.h>
+#include <cstdint>
 
 
 extern "C" {
@@ -30,14 +31,14 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Clipboard_get_text(mud::Clipboard* self) {
 		return self->m_text.c_str();
 	}
-	void EMSCRIPTEN_KEEPALIVE Clipboard_set_text(mud::Clipboard* self, const char* text) {
-		self->m_text = text;
+	void EMSCRIPTEN_KEEPALIVE Clipboard_set_text(mud::Clipboard* self, const char* value) {
+		self->m_text = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE Clipboard_get_line_mode(mud::Clipboard* self) {
 		return self->m_line_mode;
 	}
-	void EMSCRIPTEN_KEEPALIVE Clipboard_set_line_mode(mud::Clipboard* self, bool line_mode) {
-		self->m_line_mode = line_mode;
+	void EMSCRIPTEN_KEEPALIVE Clipboard_set_line_mode(mud::Clipboard* self, bool value) {
+		self->m_line_mode = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Clipboard___destroy__(mud::Clipboard* self) {
 		delete self;
@@ -61,15 +62,15 @@ extern "C" {
 		static mud::Colour temp;
 		return (temp = self->m_start, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Gradient_set_start(mud::Gradient* self, mud::Colour* start) {
-		self->m_start = *start;
+	void EMSCRIPTEN_KEEPALIVE Gradient_set_start(mud::Gradient* self, mud::Colour* value) {
+		self->m_start = *value;
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE Gradient_get_end(mud::Gradient* self) {
 		static mud::Colour temp;
 		return (temp = self->m_end, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Gradient_set_end(mud::Gradient* self, mud::Colour* end) {
-		self->m_end = *end;
+	void EMSCRIPTEN_KEEPALIVE Gradient_set_end(mud::Gradient* self, mud::Colour* value) {
+		self->m_end = *value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Gradient___destroy__(mud::Gradient* self) {
 		delete self;
@@ -91,44 +92,44 @@ extern "C" {
 	mud::Image* EMSCRIPTEN_KEEPALIVE ImageSkin_get_d_image(mud::ImageSkin* self) {
 		return self->d_image;
 	}
-	void EMSCRIPTEN_KEEPALIVE ImageSkin_set_d_image(mud::ImageSkin* self, mud::Image* d_image) {
-		self->d_image = d_image;
+	void EMSCRIPTEN_KEEPALIVE ImageSkin_set_d_image(mud::ImageSkin* self, mud::Image* value) {
+		self->d_image = value;
 	}
 	int EMSCRIPTEN_KEEPALIVE ImageSkin_get_d_left(mud::ImageSkin* self) {
 		return self->d_left;
 	}
-	void EMSCRIPTEN_KEEPALIVE ImageSkin_set_d_left(mud::ImageSkin* self, int d_left) {
-		self->d_left = d_left;
+	void EMSCRIPTEN_KEEPALIVE ImageSkin_set_d_left(mud::ImageSkin* self, int value) {
+		self->d_left = value;
 	}
 	int EMSCRIPTEN_KEEPALIVE ImageSkin_get_d_top(mud::ImageSkin* self) {
 		return self->d_top;
 	}
-	void EMSCRIPTEN_KEEPALIVE ImageSkin_set_d_top(mud::ImageSkin* self, int d_top) {
-		self->d_top = d_top;
+	void EMSCRIPTEN_KEEPALIVE ImageSkin_set_d_top(mud::ImageSkin* self, int value) {
+		self->d_top = value;
 	}
 	int EMSCRIPTEN_KEEPALIVE ImageSkin_get_d_right(mud::ImageSkin* self) {
 		return self->d_right;
 	}
-	void EMSCRIPTEN_KEEPALIVE ImageSkin_set_d_right(mud::ImageSkin* self, int d_right) {
-		self->d_right = d_right;
+	void EMSCRIPTEN_KEEPALIVE ImageSkin_set_d_right(mud::ImageSkin* self, int value) {
+		self->d_right = value;
 	}
 	int EMSCRIPTEN_KEEPALIVE ImageSkin_get_d_bottom(mud::ImageSkin* self) {
 		return self->d_bottom;
 	}
-	void EMSCRIPTEN_KEEPALIVE ImageSkin_set_d_bottom(mud::ImageSkin* self, int d_bottom) {
-		self->d_bottom = d_bottom;
+	void EMSCRIPTEN_KEEPALIVE ImageSkin_set_d_bottom(mud::ImageSkin* self, int value) {
+		self->d_bottom = value;
 	}
 	int EMSCRIPTEN_KEEPALIVE ImageSkin_get_margin(mud::ImageSkin* self) {
 		return self->m_margin;
 	}
-	void EMSCRIPTEN_KEEPALIVE ImageSkin_set_margin(mud::ImageSkin* self, int margin) {
-		self->m_margin = margin;
+	void EMSCRIPTEN_KEEPALIVE ImageSkin_set_margin(mud::ImageSkin* self, int value) {
+		self->m_margin = value;
 	}
 	mud::Dim EMSCRIPTEN_KEEPALIVE ImageSkin_get_d_stretch(mud::ImageSkin* self) {
 		return self->d_stretch;
 	}
-	void EMSCRIPTEN_KEEPALIVE ImageSkin_set_d_stretch(mud::ImageSkin* self, mud::Dim d_stretch) {
-		self->d_stretch = d_stretch;
+	void EMSCRIPTEN_KEEPALIVE ImageSkin_set_d_stretch(mud::ImageSkin* self, mud::Dim value) {
+		self->d_stretch = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE ImageSkin___destroy__(mud::ImageSkin* self) {
 		delete self;
@@ -143,158 +144,158 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE InkStyle_get_name(mud::InkStyle* self) {
 		return self->m_name.c_str();
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_name(mud::InkStyle* self, const char* name) {
-		self->m_name = name;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_name(mud::InkStyle* self, const char* value) {
+		self->m_name = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE InkStyle_get_empty(mud::InkStyle* self) {
 		return self->m_empty;
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_empty(mud::InkStyle* self, bool empty) {
-		self->m_empty = empty;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_empty(mud::InkStyle* self, bool value) {
+		self->m_empty = value;
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE InkStyle_get_background_colour(mud::InkStyle* self) {
 		static mud::Colour temp;
 		return (temp = self->m_background_colour, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_background_colour(mud::InkStyle* self, mud::Colour* background_colour) {
-		self->m_background_colour = *background_colour;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_background_colour(mud::InkStyle* self, mud::Colour* value) {
+		self->m_background_colour = *value;
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE InkStyle_get_border_colour(mud::InkStyle* self) {
 		static mud::Colour temp;
 		return (temp = self->m_border_colour, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_border_colour(mud::InkStyle* self, mud::Colour* border_colour) {
-		self->m_border_colour = *border_colour;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_border_colour(mud::InkStyle* self, mud::Colour* value) {
+		self->m_border_colour = *value;
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE InkStyle_get_image_colour(mud::InkStyle* self) {
 		static mud::Colour temp;
 		return (temp = self->m_image_colour, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_image_colour(mud::InkStyle* self, mud::Colour* image_colour) {
-		self->m_image_colour = *image_colour;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_image_colour(mud::InkStyle* self, mud::Colour* value) {
+		self->m_image_colour = *value;
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE InkStyle_get_text_colour(mud::InkStyle* self) {
 		static mud::Colour temp;
 		return (temp = self->m_text_colour, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_text_colour(mud::InkStyle* self, mud::Colour* text_colour) {
-		self->m_text_colour = *text_colour;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_text_colour(mud::InkStyle* self, mud::Colour* value) {
+		self->m_text_colour = *value;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE InkStyle_get_text_font(mud::InkStyle* self) {
 		return self->m_text_font.c_str();
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_text_font(mud::InkStyle* self, const char* text_font) {
-		self->m_text_font = text_font;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_text_font(mud::InkStyle* self, const char* value) {
+		self->m_text_font = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE InkStyle_get_text_size(mud::InkStyle* self) {
 		return self->m_text_size;
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_text_size(mud::InkStyle* self, float text_size) {
-		self->m_text_size = text_size;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_text_size(mud::InkStyle* self, float value) {
+		self->m_text_size = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE InkStyle_get_text_break(mud::InkStyle* self) {
 		return self->m_text_break;
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_text_break(mud::InkStyle* self, bool text_break) {
-		self->m_text_break = text_break;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_text_break(mud::InkStyle* self, bool value) {
+		self->m_text_break = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE InkStyle_get_text_wrap(mud::InkStyle* self) {
 		return self->m_text_wrap;
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_text_wrap(mud::InkStyle* self, bool text_wrap) {
-		self->m_text_wrap = text_wrap;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_text_wrap(mud::InkStyle* self, bool value) {
+		self->m_text_wrap = value;
 	}
 	mud::vec4* EMSCRIPTEN_KEEPALIVE InkStyle_get_border_width(mud::InkStyle* self) {
 		static mud::vec4 temp;
 		return (temp = self->m_border_width, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_border_width(mud::InkStyle* self, mud::vec4* border_width) {
-		self->m_border_width = *border_width;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_border_width(mud::InkStyle* self, mud::vec4* value) {
+		self->m_border_width = *value;
 	}
 	mud::vec4* EMSCRIPTEN_KEEPALIVE InkStyle_get_corner_radius(mud::InkStyle* self) {
 		static mud::vec4 temp;
 		return (temp = self->m_corner_radius, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_corner_radius(mud::InkStyle* self, mud::vec4* corner_radius) {
-		self->m_corner_radius = *corner_radius;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_corner_radius(mud::InkStyle* self, mud::vec4* value) {
+		self->m_corner_radius = *value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE InkStyle_get_weak_corners(mud::InkStyle* self) {
 		return self->m_weak_corners;
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_weak_corners(mud::InkStyle* self, bool weak_corners) {
-		self->m_weak_corners = weak_corners;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_weak_corners(mud::InkStyle* self, bool value) {
+		self->m_weak_corners = value;
 	}
 	mud::vec4* EMSCRIPTEN_KEEPALIVE InkStyle_get_padding(mud::InkStyle* self) {
 		static mud::vec4 temp;
 		return (temp = self->m_padding, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_padding(mud::InkStyle* self, mud::vec4* padding) {
-		self->m_padding = *padding;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_padding(mud::InkStyle* self, mud::vec4* value) {
+		self->m_padding = *value;
 	}
 	mud::vec4* EMSCRIPTEN_KEEPALIVE InkStyle_get_margin(mud::InkStyle* self) {
 		static mud::vec4 temp;
 		return (temp = self->m_margin, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_margin(mud::InkStyle* self, mud::vec4* margin) {
-		self->m_margin = *margin;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_margin(mud::InkStyle* self, mud::vec4* value) {
+		self->m_margin = *value;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE InkStyle_get_linear_gradient(mud::InkStyle* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_linear_gradient, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_linear_gradient(mud::InkStyle* self, mud::vec2* linear_gradient) {
-		self->m_linear_gradient = *linear_gradient;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_linear_gradient(mud::InkStyle* self, mud::vec2* value) {
+		self->m_linear_gradient = *value;
 	}
 	mud::Dim EMSCRIPTEN_KEEPALIVE InkStyle_get_linear_gradient_dim(mud::InkStyle* self) {
 		return self->m_linear_gradient_dim;
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_linear_gradient_dim(mud::InkStyle* self, mud::Dim linear_gradient_dim) {
-		self->m_linear_gradient_dim = linear_gradient_dim;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_linear_gradient_dim(mud::InkStyle* self, mud::Dim value) {
+		self->m_linear_gradient_dim = value;
 	}
 	mud::Image* EMSCRIPTEN_KEEPALIVE InkStyle_get_image(mud::InkStyle* self) {
 		return self->m_image;
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_image(mud::InkStyle* self, mud::Image* image) {
-		self->m_image = image;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_image(mud::InkStyle* self, mud::Image* value) {
+		self->m_image = value;
 	}
 	mud::Image* EMSCRIPTEN_KEEPALIVE InkStyle_get_overlay(mud::InkStyle* self) {
 		return self->m_overlay;
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_overlay(mud::InkStyle* self, mud::Image* overlay) {
-		self->m_overlay = overlay;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_overlay(mud::InkStyle* self, mud::Image* value) {
+		self->m_overlay = value;
 	}
 	mud::Image* EMSCRIPTEN_KEEPALIVE InkStyle_get_tile(mud::InkStyle* self) {
 		return self->m_tile;
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_tile(mud::InkStyle* self, mud::Image* tile) {
-		self->m_tile = tile;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_tile(mud::InkStyle* self, mud::Image* value) {
+		self->m_tile = value;
 	}
 	mud::ImageSkin* EMSCRIPTEN_KEEPALIVE InkStyle_get_image_skin(mud::InkStyle* self) {
 		static mud::ImageSkin temp;
 		return (temp = self->m_image_skin, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_image_skin(mud::InkStyle* self, mud::ImageSkin* image_skin) {
-		self->m_image_skin = *image_skin;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_image_skin(mud::InkStyle* self, mud::ImageSkin* value) {
+		self->m_image_skin = *value;
 	}
 	mud::Shadow* EMSCRIPTEN_KEEPALIVE InkStyle_get_shadow(mud::InkStyle* self) {
 		static mud::Shadow temp;
 		return (temp = self->m_shadow, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_shadow(mud::InkStyle* self, mud::Shadow* shadow) {
-		self->m_shadow = *shadow;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_shadow(mud::InkStyle* self, mud::Shadow* value) {
+		self->m_shadow = *value;
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE InkStyle_get_shadow_colour(mud::InkStyle* self) {
 		static mud::Colour temp;
 		return (temp = self->m_shadow_colour, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_shadow_colour(mud::InkStyle* self, mud::Colour* shadow_colour) {
-		self->m_shadow_colour = *shadow_colour;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_shadow_colour(mud::InkStyle* self, mud::Colour* value) {
+		self->m_shadow_colour = *value;
 	}
 	mud::Style* EMSCRIPTEN_KEEPALIVE InkStyle_get_hover_cursor(mud::InkStyle* self) {
 		return self->m_hover_cursor;
 	}
-	void EMSCRIPTEN_KEEPALIVE InkStyle_set_hover_cursor(mud::InkStyle* self, mud::Style* hover_cursor) {
-		self->m_hover_cursor = hover_cursor;
+	void EMSCRIPTEN_KEEPALIVE InkStyle_set_hover_cursor(mud::InkStyle* self, mud::Style* value) {
+		self->m_hover_cursor = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE InkStyle___destroy__(mud::InkStyle* self) {
 		delete self;
@@ -313,92 +314,92 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Layout_get_name(mud::Layout* self) {
 		return self->m_name.c_str();
 	}
-	void EMSCRIPTEN_KEEPALIVE Layout_set_name(mud::Layout* self, const char* name) {
-		self->m_name = name;
+	void EMSCRIPTEN_KEEPALIVE Layout_set_name(mud::Layout* self, const char* value) {
+		self->m_name = value;
 	}
 	mud::LayoutSolver EMSCRIPTEN_KEEPALIVE Layout_get_solver(mud::Layout* self) {
 		return self->m_solver;
 	}
-	void EMSCRIPTEN_KEEPALIVE Layout_set_solver(mud::Layout* self, mud::LayoutSolver solver) {
-		self->m_solver = solver;
+	void EMSCRIPTEN_KEEPALIVE Layout_set_solver(mud::Layout* self, mud::LayoutSolver value) {
+		self->m_solver = value;
 	}
 	mud::Flow EMSCRIPTEN_KEEPALIVE Layout_get_flow(mud::Layout* self) {
 		return self->m_flow;
 	}
-	void EMSCRIPTEN_KEEPALIVE Layout_set_flow(mud::Layout* self, mud::Flow flow) {
-		self->m_flow = flow;
+	void EMSCRIPTEN_KEEPALIVE Layout_set_flow(mud::Layout* self, mud::Flow value) {
+		self->m_flow = value;
 	}
 	mud::Space* EMSCRIPTEN_KEEPALIVE Layout_get_space(mud::Layout* self) {
 		static mud::Space temp;
 		return (temp = self->m_space, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Layout_set_space(mud::Layout* self, mud::Space* space) {
-		self->m_space = *space;
+	void EMSCRIPTEN_KEEPALIVE Layout_set_space(mud::Layout* self, mud::Space* value) {
+		self->m_space = *value;
 	}
 	mud::Clipping EMSCRIPTEN_KEEPALIVE Layout_get_clipping(mud::Layout* self) {
 		return self->m_clipping;
 	}
-	void EMSCRIPTEN_KEEPALIVE Layout_set_clipping(mud::Layout* self, mud::Clipping clipping) {
-		self->m_clipping = clipping;
+	void EMSCRIPTEN_KEEPALIVE Layout_set_clipping(mud::Layout* self, mud::Clipping value) {
+		self->m_clipping = value;
 	}
 	mud::Opacity EMSCRIPTEN_KEEPALIVE Layout_get_opacity(mud::Layout* self) {
 		return self->m_opacity;
 	}
-	void EMSCRIPTEN_KEEPALIVE Layout_set_opacity(mud::Layout* self, mud::Opacity opacity) {
-		self->m_opacity = opacity;
+	void EMSCRIPTEN_KEEPALIVE Layout_set_opacity(mud::Layout* self, mud::Opacity value) {
+		self->m_opacity = value;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE Layout_get_span(mud::Layout* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_span, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Layout_set_span(mud::Layout* self, mud::vec2* span) {
-		self->m_span = *span;
+	void EMSCRIPTEN_KEEPALIVE Layout_set_span(mud::Layout* self, mud::vec2* value) {
+		self->m_span = *value;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE Layout_get_size(mud::Layout* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_size, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Layout_set_size(mud::Layout* self, mud::vec2* size) {
-		self->m_size = *size;
+	void EMSCRIPTEN_KEEPALIVE Layout_set_size(mud::Layout* self, mud::vec2* value) {
+		self->m_size = *value;
 	}
 	mud::vec4* EMSCRIPTEN_KEEPALIVE Layout_get_padding(mud::Layout* self) {
 		static mud::vec4 temp;
 		return (temp = self->m_padding, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Layout_set_padding(mud::Layout* self, mud::vec4* padding) {
-		self->m_padding = *padding;
+	void EMSCRIPTEN_KEEPALIVE Layout_set_padding(mud::Layout* self, mud::vec4* value) {
+		self->m_padding = *value;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE Layout_get_margin(mud::Layout* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_margin, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Layout_set_margin(mud::Layout* self, mud::vec2* margin) {
-		self->m_margin = *margin;
+	void EMSCRIPTEN_KEEPALIVE Layout_set_margin(mud::Layout* self, mud::vec2* value) {
+		self->m_margin = *value;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE Layout_get_spacing(mud::Layout* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_spacing, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Layout_set_spacing(mud::Layout* self, mud::vec2* spacing) {
-		self->m_spacing = *spacing;
+	void EMSCRIPTEN_KEEPALIVE Layout_set_spacing(mud::Layout* self, mud::vec2* value) {
+		self->m_spacing = *value;
 	}
 	int EMSCRIPTEN_KEEPALIVE Layout_get_zorder(mud::Layout* self) {
 		return self->m_zorder;
 	}
-	void EMSCRIPTEN_KEEPALIVE Layout_set_zorder(mud::Layout* self, int zorder) {
-		self->m_zorder = zorder;
+	void EMSCRIPTEN_KEEPALIVE Layout_set_zorder(mud::Layout* self, int value) {
+		self->m_zorder = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE Layout_get_no_grid(mud::Layout* self) {
 		return self->m_no_grid;
 	}
-	void EMSCRIPTEN_KEEPALIVE Layout_set_no_grid(mud::Layout* self, bool no_grid) {
-		self->m_no_grid = no_grid;
+	void EMSCRIPTEN_KEEPALIVE Layout_set_no_grid(mud::Layout* self, bool value) {
+		self->m_no_grid = value;
 	}
 	size_t EMSCRIPTEN_KEEPALIVE Layout_get_updated(mud::Layout* self) {
 		return self->m_updated;
 	}
-	void EMSCRIPTEN_KEEPALIVE Layout_set_updated(mud::Layout* self, size_t updated) {
-		self->m_updated = updated;
+	void EMSCRIPTEN_KEEPALIVE Layout_set_updated(mud::Layout* self, size_t value) {
+		self->m_updated = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Layout___destroy__(mud::Layout* self) {
 		delete self;
@@ -418,21 +419,21 @@ extern "C" {
 		static mud::Colour temp;
 		return (temp = self->m_fill_colour, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Paint_set_fill_colour(mud::Paint* self, mud::Colour* fill_colour) {
-		self->m_fill_colour = *fill_colour;
+	void EMSCRIPTEN_KEEPALIVE Paint_set_fill_colour(mud::Paint* self, mud::Colour* value) {
+		self->m_fill_colour = *value;
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE Paint_get_stroke_colour(mud::Paint* self) {
 		static mud::Colour temp;
 		return (temp = self->m_stroke_colour, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Paint_set_stroke_colour(mud::Paint* self, mud::Colour* stroke_colour) {
-		self->m_stroke_colour = *stroke_colour;
+	void EMSCRIPTEN_KEEPALIVE Paint_set_stroke_colour(mud::Paint* self, mud::Colour* value) {
+		self->m_stroke_colour = *value;
 	}
 	float EMSCRIPTEN_KEEPALIVE Paint_get_stroke_width(mud::Paint* self) {
 		return self->m_stroke_width;
 	}
-	void EMSCRIPTEN_KEEPALIVE Paint_set_stroke_width(mud::Paint* self, float stroke_width) {
-		self->m_stroke_width = stroke_width;
+	void EMSCRIPTEN_KEEPALIVE Paint_set_stroke_width(mud::Paint* self, float value) {
+		self->m_stroke_width = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Paint___destroy__(mud::Paint* self) {
 		delete self;
@@ -447,33 +448,33 @@ extern "C" {
 	float EMSCRIPTEN_KEEPALIVE Shadow_get_d_xpos(mud::Shadow* self) {
 		return self->d_xpos;
 	}
-	void EMSCRIPTEN_KEEPALIVE Shadow_set_d_xpos(mud::Shadow* self, float d_xpos) {
-		self->d_xpos = d_xpos;
+	void EMSCRIPTEN_KEEPALIVE Shadow_set_d_xpos(mud::Shadow* self, float value) {
+		self->d_xpos = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE Shadow_get_d_ypos(mud::Shadow* self) {
 		return self->d_ypos;
 	}
-	void EMSCRIPTEN_KEEPALIVE Shadow_set_d_ypos(mud::Shadow* self, float d_ypos) {
-		self->d_ypos = d_ypos;
+	void EMSCRIPTEN_KEEPALIVE Shadow_set_d_ypos(mud::Shadow* self, float value) {
+		self->d_ypos = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE Shadow_get_d_blur(mud::Shadow* self) {
 		return self->d_blur;
 	}
-	void EMSCRIPTEN_KEEPALIVE Shadow_set_d_blur(mud::Shadow* self, float d_blur) {
-		self->d_blur = d_blur;
+	void EMSCRIPTEN_KEEPALIVE Shadow_set_d_blur(mud::Shadow* self, float value) {
+		self->d_blur = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE Shadow_get_d_spread(mud::Shadow* self) {
 		return self->d_spread;
 	}
-	void EMSCRIPTEN_KEEPALIVE Shadow_set_d_spread(mud::Shadow* self, float d_spread) {
-		self->d_spread = d_spread;
+	void EMSCRIPTEN_KEEPALIVE Shadow_set_d_spread(mud::Shadow* self, float value) {
+		self->d_spread = value;
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE Shadow_get_d_colour(mud::Shadow* self) {
 		static mud::Colour temp;
 		return (temp = self->d_colour, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Shadow_set_d_colour(mud::Shadow* self, mud::Colour* d_colour) {
-		self->d_colour = *d_colour;
+	void EMSCRIPTEN_KEEPALIVE Shadow_set_d_colour(mud::Shadow* self, mud::Colour* value) {
+		self->d_colour = *value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Shadow___destroy__(mud::Shadow* self) {
 		delete self;
@@ -485,20 +486,20 @@ extern "C" {
 	mud::FlowAxis EMSCRIPTEN_KEEPALIVE Space_get_direction(mud::Space* self) {
 		return self->direction;
 	}
-	void EMSCRIPTEN_KEEPALIVE Space_set_direction(mud::Space* self, mud::FlowAxis direction) {
-		self->direction = direction;
+	void EMSCRIPTEN_KEEPALIVE Space_set_direction(mud::Space* self, mud::FlowAxis value) {
+		self->direction = value;
 	}
 	mud::Sizing EMSCRIPTEN_KEEPALIVE Space_get_sizingLength(mud::Space* self) {
 		return self->sizingLength;
 	}
-	void EMSCRIPTEN_KEEPALIVE Space_set_sizingLength(mud::Space* self, mud::Sizing sizingLength) {
-		self->sizingLength = sizingLength;
+	void EMSCRIPTEN_KEEPALIVE Space_set_sizingLength(mud::Space* self, mud::Sizing value) {
+		self->sizingLength = value;
 	}
 	mud::Sizing EMSCRIPTEN_KEEPALIVE Space_get_sizingDepth(mud::Space* self) {
 		return self->sizingDepth;
 	}
-	void EMSCRIPTEN_KEEPALIVE Space_set_sizingDepth(mud::Space* self, mud::Sizing sizingDepth) {
-		self->sizingDepth = sizingDepth;
+	void EMSCRIPTEN_KEEPALIVE Space_set_sizingDepth(mud::Space* self, mud::Sizing value) {
+		self->sizingDepth = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Space___destroy__(mud::Space* self) {
 		delete self;
@@ -507,8 +508,8 @@ extern "C" {
 	mud::Style* EMSCRIPTEN_KEEPALIVE Style_get_base(mud::Style* self) {
 		return self->m_base;
 	}
-	void EMSCRIPTEN_KEEPALIVE Style_set_base(mud::Style* self, mud::Style* base) {
-		self->m_base = base;
+	void EMSCRIPTEN_KEEPALIVE Style_set_base(mud::Style* self, mud::Style* value) {
+		self->m_base = value;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Style_get_name(mud::Style* self) {
 		return self->name();
@@ -551,33 +552,33 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE TextPaint_get_font(mud::TextPaint* self) {
 		return self->m_font;
 	}
-	void EMSCRIPTEN_KEEPALIVE TextPaint_set_font(mud::TextPaint* self, const char* font) {
-		self->m_font = font;
+	void EMSCRIPTEN_KEEPALIVE TextPaint_set_font(mud::TextPaint* self, const char* value) {
+		self->m_font = value;
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE TextPaint_get_colour(mud::TextPaint* self) {
 		static mud::Colour temp;
 		return (temp = self->m_colour, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE TextPaint_set_colour(mud::TextPaint* self, mud::Colour* colour) {
-		self->m_colour = *colour;
+	void EMSCRIPTEN_KEEPALIVE TextPaint_set_colour(mud::TextPaint* self, mud::Colour* value) {
+		self->m_colour = *value;
 	}
 	float EMSCRIPTEN_KEEPALIVE TextPaint_get_size(mud::TextPaint* self) {
 		return self->m_size;
 	}
-	void EMSCRIPTEN_KEEPALIVE TextPaint_set_size(mud::TextPaint* self, float size) {
-		self->m_size = size;
+	void EMSCRIPTEN_KEEPALIVE TextPaint_set_size(mud::TextPaint* self, float value) {
+		self->m_size = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE TextPaint_get_text_break(mud::TextPaint* self) {
 		return self->m_text_break;
 	}
-	void EMSCRIPTEN_KEEPALIVE TextPaint_set_text_break(mud::TextPaint* self, bool text_break) {
-		self->m_text_break = text_break;
+	void EMSCRIPTEN_KEEPALIVE TextPaint_set_text_break(mud::TextPaint* self, bool value) {
+		self->m_text_break = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE TextPaint_get_text_wrap(mud::TextPaint* self) {
 		return self->m_text_wrap;
 	}
-	void EMSCRIPTEN_KEEPALIVE TextPaint_set_text_wrap(mud::TextPaint* self, bool text_wrap) {
-		self->m_text_wrap = text_wrap;
+	void EMSCRIPTEN_KEEPALIVE TextPaint_set_text_wrap(mud::TextPaint* self, bool value) {
+		self->m_text_wrap = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE TextPaint___destroy__(mud::TextPaint* self) {
 		delete self;
@@ -597,35 +598,35 @@ extern "C" {
 		static mud::vec2 temp;
 		return (temp = self->m_position, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE UiRect_set_position(mud::UiRect* self, mud::vec2* position) {
-		self->m_position = *position;
+	void EMSCRIPTEN_KEEPALIVE UiRect_set_position(mud::UiRect* self, mud::vec2* value) {
+		self->m_position = *value;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE UiRect_get_size(mud::UiRect* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_size, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE UiRect_set_size(mud::UiRect* self, mud::vec2* size) {
-		self->m_size = *size;
+	void EMSCRIPTEN_KEEPALIVE UiRect_set_size(mud::UiRect* self, mud::vec2* value) {
+		self->m_size = *value;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE UiRect_get_content(mud::UiRect* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_content, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE UiRect_set_content(mud::UiRect* self, mud::vec2* content) {
-		self->m_content = *content;
+	void EMSCRIPTEN_KEEPALIVE UiRect_set_content(mud::UiRect* self, mud::vec2* value) {
+		self->m_content = *value;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE UiRect_get_span(mud::UiRect* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_span, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE UiRect_set_span(mud::UiRect* self, mud::vec2* span) {
-		self->m_span = *span;
+	void EMSCRIPTEN_KEEPALIVE UiRect_set_span(mud::UiRect* self, mud::vec2* value) {
+		self->m_span = *value;
 	}
 	float EMSCRIPTEN_KEEPALIVE UiRect_get_scale(mud::UiRect* self) {
 		return self->m_scale;
 	}
-	void EMSCRIPTEN_KEEPALIVE UiRect_set_scale(mud::UiRect* self, float scale) {
-		self->m_scale = scale;
+	void EMSCRIPTEN_KEEPALIVE UiRect_set_scale(mud::UiRect* self, float value) {
+		self->m_scale = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE UiRect___destroy__(mud::UiRect* self) {
 		delete self;
@@ -754,32 +755,32 @@ extern "C" {
 	mud::WidgetState EMSCRIPTEN_KEEPALIVE Widget_get_state(mud::Widget* self) {
 		return self->m_state;
 	}
-	void EMSCRIPTEN_KEEPALIVE Widget_set_state(mud::Widget* self, mud::WidgetState state) {
-		self->m_state = state;
+	void EMSCRIPTEN_KEEPALIVE Widget_set_state(mud::Widget* self, mud::WidgetState value) {
+		self->m_state = value;
 	}
 	uint32_t EMSCRIPTEN_KEEPALIVE Widget_get_switch(mud::Widget* self) {
 		return self->m_switch;
 	}
-	void EMSCRIPTEN_KEEPALIVE Widget_set_switch(mud::Widget* self, uint32_t switch) {
-		self->m_switch = switch;
+	void EMSCRIPTEN_KEEPALIVE Widget_set_switch(mud::Widget* self, uint32_t value) {
+		self->m_switch = value;
 	}
 	size_t EMSCRIPTEN_KEEPALIVE Widget_get_index(mud::Widget* self) {
 		return self->m_index;
 	}
-	void EMSCRIPTEN_KEEPALIVE Widget_set_index(mud::Widget* self, size_t index) {
-		self->m_index = index;
+	void EMSCRIPTEN_KEEPALIVE Widget_set_index(mud::Widget* self, size_t value) {
+		self->m_index = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE Widget_get_open(mud::Widget* self) {
 		return self->m_open;
 	}
-	void EMSCRIPTEN_KEEPALIVE Widget_set_open(mud::Widget* self, bool open) {
-		self->m_open = open;
+	void EMSCRIPTEN_KEEPALIVE Widget_set_open(mud::Widget* self, bool value) {
+		self->m_open = value;
 	}
 	mud::Widget* EMSCRIPTEN_KEEPALIVE Widget_get_body(mud::Widget* self) {
 		return self->m_body;
 	}
-	void EMSCRIPTEN_KEEPALIVE Widget_set_body(mud::Widget* self, mud::Widget* body) {
-		self->m_body = body;
+	void EMSCRIPTEN_KEEPALIVE Widget_set_body(mud::Widget* self, mud::Widget* value) {
+		self->m_body = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Widget___destroy__(mud::Widget* self) {
 		delete self;

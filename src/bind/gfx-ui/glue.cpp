@@ -8,6 +8,7 @@
 #include <gfx/Api.h>
 #include <gfx-ui/Api.h>
 #include <emscripten.h>
+#include <cstdint>
 
 
 extern "C" {
@@ -39,26 +40,26 @@ extern "C" {
 		static mud::vec3 temp;
 		return (temp = self->m_position, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE OrbitController_set_position(mud::OrbitController* self, mud::vec3* position) {
-		self->m_position = *position;
+	void EMSCRIPTEN_KEEPALIVE OrbitController_set_position(mud::OrbitController* self, mud::vec3* value) {
+		self->m_position = *value;
 	}
 	float EMSCRIPTEN_KEEPALIVE OrbitController_get_yaw(mud::OrbitController* self) {
 		return self->m_yaw;
 	}
-	void EMSCRIPTEN_KEEPALIVE OrbitController_set_yaw(mud::OrbitController* self, float yaw) {
-		self->m_yaw = yaw;
+	void EMSCRIPTEN_KEEPALIVE OrbitController_set_yaw(mud::OrbitController* self, float value) {
+		self->m_yaw = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE OrbitController_get_pitch(mud::OrbitController* self) {
 		return self->m_pitch;
 	}
-	void EMSCRIPTEN_KEEPALIVE OrbitController_set_pitch(mud::OrbitController* self, float pitch) {
-		self->m_pitch = pitch;
+	void EMSCRIPTEN_KEEPALIVE OrbitController_set_pitch(mud::OrbitController* self, float value) {
+		self->m_pitch = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE OrbitController_get_distance(mud::OrbitController* self) {
 		return self->m_distance;
 	}
-	void EMSCRIPTEN_KEEPALIVE OrbitController_set_distance(mud::OrbitController* self, float distance) {
-		self->m_distance = distance;
+	void EMSCRIPTEN_KEEPALIVE OrbitController_set_distance(mud::OrbitController* self, float value) {
+		self->m_distance = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE OrbitController___destroy__(mud::OrbitController* self) {
 		delete self;
@@ -75,8 +76,8 @@ extern "C" {
 	mud::Scene* EMSCRIPTEN_KEEPALIVE Viewer_get_scene(mud::Viewer* self) {
 		return self->m_scene;
 	}
-	void EMSCRIPTEN_KEEPALIVE Viewer_set_scene(mud::Viewer* self, mud::Scene* scene) {
-		self->m_scene = scene;
+	void EMSCRIPTEN_KEEPALIVE Viewer_set_scene(mud::Viewer* self, mud::Scene* value) {
+		self->m_scene = value;
 	}
 	mud::Viewport* EMSCRIPTEN_KEEPALIVE Viewer_get_viewport(mud::Viewer* self) {
 		return &self->m_viewport;
@@ -85,15 +86,15 @@ extern "C" {
 		static mud::vec2 temp;
 		return (temp = self->m_position, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Viewer_set_position(mud::Viewer* self, mud::vec2* position) {
-		self->m_position = *position;
+	void EMSCRIPTEN_KEEPALIVE Viewer_set_position(mud::Viewer* self, mud::vec2* value) {
+		self->m_position = *value;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE Viewer_get_size(mud::Viewer* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_size, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Viewer_set_size(mud::Viewer* self, mud::vec2* size) {
-		self->m_size = *size;
+	void EMSCRIPTEN_KEEPALIVE Viewer_set_size(mud::Viewer* self, mud::vec2* value) {
+		self->m_size = *value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Viewer___destroy__(mud::Viewer* self) {
 		delete self;

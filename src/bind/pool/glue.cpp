@@ -2,6 +2,7 @@
 #include <type/Api.h>
 #include <pool/Api.h>
 #include <emscripten.h>
+#include <cstdint>
 
 
 extern "C" {

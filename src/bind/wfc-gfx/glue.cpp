@@ -12,6 +12,7 @@
 #include <gfx-ui/Api.h>
 #include <wfc-gfx/Api.h>
 #include <emscripten.h>
+#include <cstdint>
 
 
 extern "C" {
@@ -63,29 +64,29 @@ extern "C" {
 		static mud::vec3 temp;
 		return (temp = self->m_position, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE WfcBlock_set_position(mud::WfcBlock* self, mud::vec3* position) {
-		self->m_position = *position;
+	void EMSCRIPTEN_KEEPALIVE WfcBlock_set_position(mud::WfcBlock* self, mud::vec3* value) {
+		self->m_position = *value;
 	}
 	mud::uvec3* EMSCRIPTEN_KEEPALIVE WfcBlock_get_size(mud::WfcBlock* self) {
 		static mud::uvec3 temp;
 		return (temp = self->m_size, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE WfcBlock_set_size(mud::WfcBlock* self, mud::uvec3* size) {
-		self->m_size = *size;
+	void EMSCRIPTEN_KEEPALIVE WfcBlock_set_size(mud::WfcBlock* self, mud::uvec3* value) {
+		self->m_size = *value;
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE WfcBlock_get_scale(mud::WfcBlock* self) {
 		static mud::vec3 temp;
 		return (temp = self->m_scale, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE WfcBlock_set_scale(mud::WfcBlock* self, mud::vec3* scale) {
-		self->m_scale = *scale;
+	void EMSCRIPTEN_KEEPALIVE WfcBlock_set_scale(mud::WfcBlock* self, mud::vec3* value) {
+		self->m_scale = *value;
 	}
 	mud::Aabb* EMSCRIPTEN_KEEPALIVE WfcBlock_get_aabb(mud::WfcBlock* self) {
 		static mud::Aabb temp;
 		return (temp = self->m_aabb, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE WfcBlock_set_aabb(mud::WfcBlock* self, mud::Aabb* aabb) {
-		self->m_aabb = *aabb;
+	void EMSCRIPTEN_KEEPALIVE WfcBlock_set_aabb(mud::WfcBlock* self, mud::Aabb* value) {
+		self->m_aabb = *value;
 	}
 	void EMSCRIPTEN_KEEPALIVE WfcBlock___destroy__(mud::WfcBlock* self) {
 		delete self;

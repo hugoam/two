@@ -3,6 +3,7 @@
 #include <refl/Api.h>
 #include <ecs/Api.h>
 #include <emscripten.h>
+#include <cstdint>
 
 
 extern "C" {
@@ -28,8 +29,8 @@ extern "C" {
 	mud::Id EMSCRIPTEN_KEEPALIVE Complex_get_id(mud::Complex* self) {
 		return self->m_id;
 	}
-	void EMSCRIPTEN_KEEPALIVE Complex_set_id(mud::Complex* self, mud::Id id) {
-		self->m_id = id;
+	void EMSCRIPTEN_KEEPALIVE Complex_set_id(mud::Complex* self, mud::Id value) {
+		self->m_id = value;
 	}
 	mud::Type* EMSCRIPTEN_KEEPALIVE Complex_get_type(mud::Complex* self) {
 		return &self->m_type;

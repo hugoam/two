@@ -5,6 +5,7 @@
 #include <gfx/Api.h>
 #include <gfx-pbr/Api.h>
 #include <emscripten.h>
+#include <cstdint>
 
 
 extern "C" {
@@ -24,26 +25,26 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE BCS_get_enabled(mud::BCS* self) {
 		return self->m_enabled;
 	}
-	void EMSCRIPTEN_KEEPALIVE BCS_set_enabled(mud::BCS* self, bool enabled) {
-		self->m_enabled = enabled;
+	void EMSCRIPTEN_KEEPALIVE BCS_set_enabled(mud::BCS* self, bool value) {
+		self->m_enabled = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE BCS_get_brightness(mud::BCS* self) {
 		return self->m_brightness;
 	}
-	void EMSCRIPTEN_KEEPALIVE BCS_set_brightness(mud::BCS* self, float brightness) {
-		self->m_brightness = brightness;
+	void EMSCRIPTEN_KEEPALIVE BCS_set_brightness(mud::BCS* self, float value) {
+		self->m_brightness = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE BCS_get_contrast(mud::BCS* self) {
 		return self->m_contrast;
 	}
-	void EMSCRIPTEN_KEEPALIVE BCS_set_contrast(mud::BCS* self, float contrast) {
-		self->m_contrast = contrast;
+	void EMSCRIPTEN_KEEPALIVE BCS_set_contrast(mud::BCS* self, float value) {
+		self->m_contrast = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE BCS_get_saturation(mud::BCS* self) {
 		return self->m_saturation;
 	}
-	void EMSCRIPTEN_KEEPALIVE BCS_set_saturation(mud::BCS* self, float saturation) {
-		self->m_saturation = saturation;
+	void EMSCRIPTEN_KEEPALIVE BCS_set_saturation(mud::BCS* self, float value) {
+		self->m_saturation = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE BCS___destroy__(mud::BCS* self) {
 		delete self;
@@ -55,50 +56,50 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE DofBlur_get_enabled(mud::DofBlur* self) {
 		return self->m_enabled;
 	}
-	void EMSCRIPTEN_KEEPALIVE DofBlur_set_enabled(mud::DofBlur* self, bool enabled) {
-		self->m_enabled = enabled;
+	void EMSCRIPTEN_KEEPALIVE DofBlur_set_enabled(mud::DofBlur* self, bool value) {
+		self->m_enabled = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE DofBlur_get_far_distance(mud::DofBlur* self) {
 		return self->m_far_distance;
 	}
-	void EMSCRIPTEN_KEEPALIVE DofBlur_set_far_distance(mud::DofBlur* self, float far_distance) {
-		self->m_far_distance = far_distance;
+	void EMSCRIPTEN_KEEPALIVE DofBlur_set_far_distance(mud::DofBlur* self, float value) {
+		self->m_far_distance = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE DofBlur_get_far_transition(mud::DofBlur* self) {
 		return self->m_far_transition;
 	}
-	void EMSCRIPTEN_KEEPALIVE DofBlur_set_far_transition(mud::DofBlur* self, float far_transition) {
-		self->m_far_transition = far_transition;
+	void EMSCRIPTEN_KEEPALIVE DofBlur_set_far_transition(mud::DofBlur* self, float value) {
+		self->m_far_transition = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE DofBlur_get_far_radius(mud::DofBlur* self) {
 		return self->m_far_radius;
 	}
-	void EMSCRIPTEN_KEEPALIVE DofBlur_set_far_radius(mud::DofBlur* self, float far_radius) {
-		self->m_far_radius = far_radius;
+	void EMSCRIPTEN_KEEPALIVE DofBlur_set_far_radius(mud::DofBlur* self, float value) {
+		self->m_far_radius = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE DofBlur_get_near_distance(mud::DofBlur* self) {
 		return self->m_near_distance;
 	}
-	void EMSCRIPTEN_KEEPALIVE DofBlur_set_near_distance(mud::DofBlur* self, float near_distance) {
-		self->m_near_distance = near_distance;
+	void EMSCRIPTEN_KEEPALIVE DofBlur_set_near_distance(mud::DofBlur* self, float value) {
+		self->m_near_distance = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE DofBlur_get_near_transition(mud::DofBlur* self) {
 		return self->m_near_transition;
 	}
-	void EMSCRIPTEN_KEEPALIVE DofBlur_set_near_transition(mud::DofBlur* self, float near_transition) {
-		self->m_near_transition = near_transition;
+	void EMSCRIPTEN_KEEPALIVE DofBlur_set_near_transition(mud::DofBlur* self, float value) {
+		self->m_near_transition = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE DofBlur_get_near_radius(mud::DofBlur* self) {
 		return self->m_near_radius;
 	}
-	void EMSCRIPTEN_KEEPALIVE DofBlur_set_near_radius(mud::DofBlur* self, float near_radius) {
-		self->m_near_radius = near_radius;
+	void EMSCRIPTEN_KEEPALIVE DofBlur_set_near_radius(mud::DofBlur* self, float value) {
+		self->m_near_radius = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE DofBlur_get_max_coc_radius(mud::DofBlur* self) {
 		return self->m_max_coc_radius;
 	}
-	void EMSCRIPTEN_KEEPALIVE DofBlur_set_max_coc_radius(mud::DofBlur* self, float max_coc_radius) {
-		self->m_max_coc_radius = max_coc_radius;
+	void EMSCRIPTEN_KEEPALIVE DofBlur_set_max_coc_radius(mud::DofBlur* self, float value) {
+		self->m_max_coc_radius = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE DofBlur___destroy__(mud::DofBlur* self) {
 		delete self;
@@ -114,52 +115,52 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE Glow_get_enabled(mud::Glow* self) {
 		return self->m_enabled;
 	}
-	void EMSCRIPTEN_KEEPALIVE Glow_set_enabled(mud::Glow* self, bool enabled) {
-		self->m_enabled = enabled;
+	void EMSCRIPTEN_KEEPALIVE Glow_set_enabled(mud::Glow* self, bool value) {
+		self->m_enabled = value;
 	}
 	mud::vec4* EMSCRIPTEN_KEEPALIVE Glow_get_levels_1_4(mud::Glow* self) {
 		static mud::vec4 temp;
 		return (temp = self->m_levels_1_4, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Glow_set_levels_1_4(mud::Glow* self, mud::vec4* levels_1_4) {
-		self->m_levels_1_4 = *levels_1_4;
+	void EMSCRIPTEN_KEEPALIVE Glow_set_levels_1_4(mud::Glow* self, mud::vec4* value) {
+		self->m_levels_1_4 = *value;
 	}
 	mud::vec4* EMSCRIPTEN_KEEPALIVE Glow_get_levels_5_8(mud::Glow* self) {
 		static mud::vec4 temp;
 		return (temp = self->m_levels_5_8, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Glow_set_levels_5_8(mud::Glow* self, mud::vec4* levels_5_8) {
-		self->m_levels_5_8 = *levels_5_8;
+	void EMSCRIPTEN_KEEPALIVE Glow_set_levels_5_8(mud::Glow* self, mud::vec4* value) {
+		self->m_levels_5_8 = *value;
 	}
 	float EMSCRIPTEN_KEEPALIVE Glow_get_intensity(mud::Glow* self) {
 		return self->m_intensity;
 	}
-	void EMSCRIPTEN_KEEPALIVE Glow_set_intensity(mud::Glow* self, float intensity) {
-		self->m_intensity = intensity;
+	void EMSCRIPTEN_KEEPALIVE Glow_set_intensity(mud::Glow* self, float value) {
+		self->m_intensity = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE Glow_get_bloom(mud::Glow* self) {
 		return self->m_bloom;
 	}
-	void EMSCRIPTEN_KEEPALIVE Glow_set_bloom(mud::Glow* self, float bloom) {
-		self->m_bloom = bloom;
+	void EMSCRIPTEN_KEEPALIVE Glow_set_bloom(mud::Glow* self, float value) {
+		self->m_bloom = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE Glow_get_bleed_threshold(mud::Glow* self) {
 		return self->m_bleed_threshold;
 	}
-	void EMSCRIPTEN_KEEPALIVE Glow_set_bleed_threshold(mud::Glow* self, float bleed_threshold) {
-		self->m_bleed_threshold = bleed_threshold;
+	void EMSCRIPTEN_KEEPALIVE Glow_set_bleed_threshold(mud::Glow* self, float value) {
+		self->m_bleed_threshold = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE Glow_get_bleed_scale(mud::Glow* self) {
 		return self->m_bleed_scale;
 	}
-	void EMSCRIPTEN_KEEPALIVE Glow_set_bleed_scale(mud::Glow* self, float bleed_scale) {
-		self->m_bleed_scale = bleed_scale;
+	void EMSCRIPTEN_KEEPALIVE Glow_set_bleed_scale(mud::Glow* self, float value) {
+		self->m_bleed_scale = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE Glow_get_bicubic_filter(mud::Glow* self) {
 		return self->m_bicubic_filter;
 	}
-	void EMSCRIPTEN_KEEPALIVE Glow_set_bicubic_filter(mud::Glow* self, bool bicubic_filter) {
-		self->m_bicubic_filter = bicubic_filter;
+	void EMSCRIPTEN_KEEPALIVE Glow_set_bicubic_filter(mud::Glow* self, bool value) {
+		self->m_bicubic_filter = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Glow___destroy__(mud::Glow* self) {
 		delete self;
@@ -190,33 +191,33 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE ReflectionProbe_get_visible(mud::ReflectionProbe* self) {
 		return self->m_visible;
 	}
-	void EMSCRIPTEN_KEEPALIVE ReflectionProbe_set_visible(mud::ReflectionProbe* self, bool visible) {
-		self->m_visible = visible;
+	void EMSCRIPTEN_KEEPALIVE ReflectionProbe_set_visible(mud::ReflectionProbe* self, bool value) {
+		self->m_visible = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE ReflectionProbe_get_intensity(mud::ReflectionProbe* self) {
 		return self->m_intensity;
 	}
-	void EMSCRIPTEN_KEEPALIVE ReflectionProbe_set_intensity(mud::ReflectionProbe* self, float intensity) {
-		self->m_intensity = intensity;
+	void EMSCRIPTEN_KEEPALIVE ReflectionProbe_set_intensity(mud::ReflectionProbe* self, float value) {
+		self->m_intensity = value;
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE ReflectionProbe_get_extents(mud::ReflectionProbe* self) {
 		static mud::vec3 temp;
 		return (temp = self->m_extents, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE ReflectionProbe_set_extents(mud::ReflectionProbe* self, mud::vec3* extents) {
-		self->m_extents = *extents;
+	void EMSCRIPTEN_KEEPALIVE ReflectionProbe_set_extents(mud::ReflectionProbe* self, mud::vec3* value) {
+		self->m_extents = *value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE ReflectionProbe_get_shadows(mud::ReflectionProbe* self) {
 		return self->m_shadows;
 	}
-	void EMSCRIPTEN_KEEPALIVE ReflectionProbe_set_shadows(mud::ReflectionProbe* self, bool shadows) {
-		self->m_shadows = shadows;
+	void EMSCRIPTEN_KEEPALIVE ReflectionProbe_set_shadows(mud::ReflectionProbe* self, bool value) {
+		self->m_shadows = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE ReflectionProbe_get_dirty(mud::ReflectionProbe* self) {
 		return self->m_dirty;
 	}
-	void EMSCRIPTEN_KEEPALIVE ReflectionProbe_set_dirty(mud::ReflectionProbe* self, bool dirty) {
-		self->m_dirty = dirty;
+	void EMSCRIPTEN_KEEPALIVE ReflectionProbe_set_dirty(mud::ReflectionProbe* self, bool value) {
+		self->m_dirty = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE ReflectionProbe___destroy__(mud::ReflectionProbe* self) {
 		delete self;
@@ -229,29 +230,29 @@ extern "C" {
 		static mud::DofBlur temp;
 		return (temp = self->m_dof_blur, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE RenderFilters_set_dof_blur(mud::RenderFilters* self, mud::DofBlur* dof_blur) {
-		self->m_dof_blur = *dof_blur;
+	void EMSCRIPTEN_KEEPALIVE RenderFilters_set_dof_blur(mud::RenderFilters* self, mud::DofBlur* value) {
+		self->m_dof_blur = *value;
 	}
 	mud::Glow* EMSCRIPTEN_KEEPALIVE RenderFilters_get_glow(mud::RenderFilters* self) {
 		static mud::Glow temp;
 		return (temp = self->m_glow, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE RenderFilters_set_glow(mud::RenderFilters* self, mud::Glow* glow) {
-		self->m_glow = *glow;
+	void EMSCRIPTEN_KEEPALIVE RenderFilters_set_glow(mud::RenderFilters* self, mud::Glow* value) {
+		self->m_glow = *value;
 	}
 	mud::BCS* EMSCRIPTEN_KEEPALIVE RenderFilters_get_bcs(mud::RenderFilters* self) {
 		static mud::BCS temp;
 		return (temp = self->m_bcs, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE RenderFilters_set_bcs(mud::RenderFilters* self, mud::BCS* bcs) {
-		self->m_bcs = *bcs;
+	void EMSCRIPTEN_KEEPALIVE RenderFilters_set_bcs(mud::RenderFilters* self, mud::BCS* value) {
+		self->m_bcs = *value;
 	}
 	mud::Tonemap* EMSCRIPTEN_KEEPALIVE RenderFilters_get_tonemap(mud::RenderFilters* self) {
 		static mud::Tonemap temp;
 		return (temp = self->m_tonemap, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE RenderFilters_set_tonemap(mud::RenderFilters* self, mud::Tonemap* tonemap) {
-		self->m_tonemap = *tonemap;
+	void EMSCRIPTEN_KEEPALIVE RenderFilters_set_tonemap(mud::RenderFilters* self, mud::Tonemap* value) {
+		self->m_tonemap = *value;
 	}
 	void EMSCRIPTEN_KEEPALIVE RenderFilters___destroy__(mud::RenderFilters* self) {
 		delete self;
@@ -263,26 +264,26 @@ extern "C" {
 	mud::TonemapMode EMSCRIPTEN_KEEPALIVE Tonemap_get_mode(mud::Tonemap* self) {
 		return self->m_mode;
 	}
-	void EMSCRIPTEN_KEEPALIVE Tonemap_set_mode(mud::Tonemap* self, mud::TonemapMode mode) {
-		self->m_mode = mode;
+	void EMSCRIPTEN_KEEPALIVE Tonemap_set_mode(mud::Tonemap* self, mud::TonemapMode value) {
+		self->m_mode = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE Tonemap_get_enabled(mud::Tonemap* self) {
 		return self->m_enabled;
 	}
-	void EMSCRIPTEN_KEEPALIVE Tonemap_set_enabled(mud::Tonemap* self, bool enabled) {
-		self->m_enabled = enabled;
+	void EMSCRIPTEN_KEEPALIVE Tonemap_set_enabled(mud::Tonemap* self, bool value) {
+		self->m_enabled = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE Tonemap_get_exposure(mud::Tonemap* self) {
 		return self->m_exposure;
 	}
-	void EMSCRIPTEN_KEEPALIVE Tonemap_set_exposure(mud::Tonemap* self, float exposure) {
-		self->m_exposure = exposure;
+	void EMSCRIPTEN_KEEPALIVE Tonemap_set_exposure(mud::Tonemap* self, float value) {
+		self->m_exposure = value;
 	}
 	float EMSCRIPTEN_KEEPALIVE Tonemap_get_white_point(mud::Tonemap* self) {
 		return self->m_white_point;
 	}
-	void EMSCRIPTEN_KEEPALIVE Tonemap_set_white_point(mud::Tonemap* self, float white_point) {
-		self->m_white_point = white_point;
+	void EMSCRIPTEN_KEEPALIVE Tonemap_set_white_point(mud::Tonemap* self, float value) {
+		self->m_white_point = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Tonemap___destroy__(mud::Tonemap* self) {
 		delete self;

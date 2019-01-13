@@ -3,6 +3,7 @@
 #include <math/Api.h>
 #include <ctx/Api.h>
 #include <emscripten.h>
+#include <cstdint>
 
 
 extern "C" {
@@ -34,51 +35,51 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Context_get_title(mud::Context* self) {
 		return self->m_title.c_str();
 	}
-	void EMSCRIPTEN_KEEPALIVE Context_set_title(mud::Context* self, const char* title) {
-		self->m_title = title;
+	void EMSCRIPTEN_KEEPALIVE Context_set_title(mud::Context* self, const char* value) {
+		self->m_title = value;
 	}
 	unsigned int EMSCRIPTEN_KEEPALIVE Context_get_width(mud::Context* self) {
 		return self->m_width;
 	}
-	void EMSCRIPTEN_KEEPALIVE Context_set_width(mud::Context* self, unsigned int width) {
-		self->m_width = width;
+	void EMSCRIPTEN_KEEPALIVE Context_set_width(mud::Context* self, unsigned int value) {
+		self->m_width = value;
 	}
 	unsigned int EMSCRIPTEN_KEEPALIVE Context_get_height(mud::Context* self) {
 		return self->m_height;
 	}
-	void EMSCRIPTEN_KEEPALIVE Context_set_height(mud::Context* self, unsigned int height) {
-		self->m_height = height;
+	void EMSCRIPTEN_KEEPALIVE Context_set_height(mud::Context* self, unsigned int value) {
+		self->m_height = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE Context_get_full_screen(mud::Context* self) {
 		return self->m_full_screen;
 	}
-	void EMSCRIPTEN_KEEPALIVE Context_set_full_screen(mud::Context* self, bool full_screen) {
-		self->m_full_screen = full_screen;
+	void EMSCRIPTEN_KEEPALIVE Context_set_full_screen(mud::Context* self, bool value) {
+		self->m_full_screen = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE Context_get_active(mud::Context* self) {
 		return self->m_active;
 	}
-	void EMSCRIPTEN_KEEPALIVE Context_set_active(mud::Context* self, bool active) {
-		self->m_active = active;
+	void EMSCRIPTEN_KEEPALIVE Context_set_active(mud::Context* self, bool value) {
+		self->m_active = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE Context_get_shutdown(mud::Context* self) {
 		return self->m_shutdown;
 	}
-	void EMSCRIPTEN_KEEPALIVE Context_set_shutdown(mud::Context* self, bool shutdown) {
-		self->m_shutdown = shutdown;
+	void EMSCRIPTEN_KEEPALIVE Context_set_shutdown(mud::Context* self, bool value) {
+		self->m_shutdown = value;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE Context_get_cursor(mud::Context* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_cursor, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Context_set_cursor(mud::Context* self, mud::vec2* cursor) {
-		self->m_cursor = *cursor;
+	void EMSCRIPTEN_KEEPALIVE Context_set_cursor(mud::Context* self, mud::vec2* value) {
+		self->m_cursor = *value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE Context_get_mouse_lock(mud::Context* self) {
 		return self->m_mouse_lock;
 	}
-	void EMSCRIPTEN_KEEPALIVE Context_set_mouse_lock(mud::Context* self, bool mouse_lock) {
-		self->m_mouse_lock = mouse_lock;
+	void EMSCRIPTEN_KEEPALIVE Context_set_mouse_lock(mud::Context* self, bool value) {
+		self->m_mouse_lock = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Context___destroy__(mud::Context* self) {
 		delete self;
@@ -100,44 +101,44 @@ extern "C" {
 	mud::DeviceType EMSCRIPTEN_KEEPALIVE InputEvent_get_deviceType(mud::InputEvent* self) {
 		return self->m_deviceType;
 	}
-	void EMSCRIPTEN_KEEPALIVE InputEvent_set_deviceType(mud::InputEvent* self, mud::DeviceType deviceType) {
-		self->m_deviceType = deviceType;
+	void EMSCRIPTEN_KEEPALIVE InputEvent_set_deviceType(mud::InputEvent* self, mud::DeviceType value) {
+		self->m_deviceType = value;
 	}
 	mud::EventType EMSCRIPTEN_KEEPALIVE InputEvent_get_eventType(mud::InputEvent* self) {
 		return self->m_eventType;
 	}
-	void EMSCRIPTEN_KEEPALIVE InputEvent_set_eventType(mud::InputEvent* self, mud::EventType eventType) {
-		self->m_eventType = eventType;
+	void EMSCRIPTEN_KEEPALIVE InputEvent_set_eventType(mud::InputEvent* self, mud::EventType value) {
+		self->m_eventType = value;
 	}
 	mud::ControlNode* EMSCRIPTEN_KEEPALIVE InputEvent_get_receiver(mud::InputEvent* self) {
 		return self->m_receiver;
 	}
-	void EMSCRIPTEN_KEEPALIVE InputEvent_set_receiver(mud::InputEvent* self, mud::ControlNode* receiver) {
-		self->m_receiver = receiver;
+	void EMSCRIPTEN_KEEPALIVE InputEvent_set_receiver(mud::InputEvent* self, mud::ControlNode* value) {
+		self->m_receiver = value;
 	}
 	mud::ControlNode* EMSCRIPTEN_KEEPALIVE InputEvent_get_consumer(mud::InputEvent* self) {
 		return self->m_consumer;
 	}
-	void EMSCRIPTEN_KEEPALIVE InputEvent_set_consumer(mud::InputEvent* self, mud::ControlNode* consumer) {
-		self->m_consumer = consumer;
+	void EMSCRIPTEN_KEEPALIVE InputEvent_set_consumer(mud::InputEvent* self, mud::ControlNode* value) {
+		self->m_consumer = value;
 	}
 	bool EMSCRIPTEN_KEEPALIVE InputEvent_get_abort(mud::InputEvent* self) {
 		return self->m_abort;
 	}
-	void EMSCRIPTEN_KEEPALIVE InputEvent_set_abort(mud::InputEvent* self, bool abort) {
-		self->m_abort = abort;
+	void EMSCRIPTEN_KEEPALIVE InputEvent_set_abort(mud::InputEvent* self, bool value) {
+		self->m_abort = value;
 	}
 	mud::InputMod EMSCRIPTEN_KEEPALIVE InputEvent_get_modifiers(mud::InputEvent* self) {
 		return self->m_modifiers;
 	}
-	void EMSCRIPTEN_KEEPALIVE InputEvent_set_modifiers(mud::InputEvent* self, mud::InputMod modifiers) {
-		self->m_modifiers = modifiers;
+	void EMSCRIPTEN_KEEPALIVE InputEvent_set_modifiers(mud::InputEvent* self, mud::InputMod value) {
+		self->m_modifiers = value;
 	}
 	int EMSCRIPTEN_KEEPALIVE InputEvent_get_key(mud::InputEvent* self) {
 		return self->m_key;
 	}
-	void EMSCRIPTEN_KEEPALIVE InputEvent_set_key(mud::InputEvent* self, int key) {
-		self->m_key = key;
+	void EMSCRIPTEN_KEEPALIVE InputEvent_set_key(mud::InputEvent* self, int value) {
+		self->m_key = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE InputEvent___destroy__(mud::InputEvent* self) {
 		delete self;
@@ -161,14 +162,14 @@ extern "C" {
 	mud::Key EMSCRIPTEN_KEEPALIVE KeyEvent_get_code(mud::KeyEvent* self) {
 		return self->m_code;
 	}
-	void EMSCRIPTEN_KEEPALIVE KeyEvent_set_code(mud::KeyEvent* self, mud::Key code) {
-		self->m_code = code;
+	void EMSCRIPTEN_KEEPALIVE KeyEvent_set_code(mud::KeyEvent* self, mud::Key value) {
+		self->m_code = value;
 	}
 	char EMSCRIPTEN_KEEPALIVE KeyEvent_get_char(mud::KeyEvent* self) {
 		return self->m_char;
 	}
-	void EMSCRIPTEN_KEEPALIVE KeyEvent_set_char(mud::KeyEvent* self, char char) {
-		self->m_char = char;
+	void EMSCRIPTEN_KEEPALIVE KeyEvent_set_char(mud::KeyEvent* self, char value) {
+		self->m_char = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE KeyEvent___destroy__(mud::KeyEvent* self) {
 		delete self;
@@ -181,41 +182,41 @@ extern "C" {
 		static mud::vec2 temp;
 		return (temp = self->m_pos, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE MouseEvent_set_pos(mud::MouseEvent* self, mud::vec2* pos) {
-		self->m_pos = *pos;
+	void EMSCRIPTEN_KEEPALIVE MouseEvent_set_pos(mud::MouseEvent* self, mud::vec2* value) {
+		self->m_pos = *value;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE MouseEvent_get_relative(mud::MouseEvent* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_relative, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE MouseEvent_set_relative(mud::MouseEvent* self, mud::vec2* relative) {
-		self->m_relative = *relative;
+	void EMSCRIPTEN_KEEPALIVE MouseEvent_set_relative(mud::MouseEvent* self, mud::vec2* value) {
+		self->m_relative = *value;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE MouseEvent_get_delta(mud::MouseEvent* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_delta, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE MouseEvent_set_delta(mud::MouseEvent* self, mud::vec2* delta) {
-		self->m_delta = *delta;
+	void EMSCRIPTEN_KEEPALIVE MouseEvent_set_delta(mud::MouseEvent* self, mud::vec2* value) {
+		self->m_delta = *value;
 	}
 	float EMSCRIPTEN_KEEPALIVE MouseEvent_get_deltaZ(mud::MouseEvent* self) {
 		return self->m_deltaZ;
 	}
-	void EMSCRIPTEN_KEEPALIVE MouseEvent_set_deltaZ(mud::MouseEvent* self, float deltaZ) {
-		self->m_deltaZ = deltaZ;
+	void EMSCRIPTEN_KEEPALIVE MouseEvent_set_deltaZ(mud::MouseEvent* self, float value) {
+		self->m_deltaZ = value;
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE MouseEvent_get_pressed(mud::MouseEvent* self) {
 		static mud::vec2 temp;
 		return (temp = self->m_pressed, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE MouseEvent_set_pressed(mud::MouseEvent* self, mud::vec2* pressed) {
-		self->m_pressed = *pressed;
+	void EMSCRIPTEN_KEEPALIVE MouseEvent_set_pressed(mud::MouseEvent* self, mud::vec2* value) {
+		self->m_pressed = *value;
 	}
 	mud::MouseButtonCode EMSCRIPTEN_KEEPALIVE MouseEvent_get_button(mud::MouseEvent* self) {
 		return self->m_button;
 	}
-	void EMSCRIPTEN_KEEPALIVE MouseEvent_set_button(mud::MouseEvent* self, mud::MouseButtonCode button) {
-		self->m_button = button;
+	void EMSCRIPTEN_KEEPALIVE MouseEvent_set_button(mud::MouseEvent* self, mud::MouseButtonCode value) {
+		self->m_button = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE MouseEvent___destroy__(mud::MouseEvent* self) {
 		delete self;

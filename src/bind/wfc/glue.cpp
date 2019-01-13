@@ -5,6 +5,7 @@
 #include <geom/Api.h>
 #include <wfc/Api.h>
 #include <emscripten.h>
+#include <cstdint>
 
 
 extern "C" {
@@ -24,32 +25,32 @@ extern "C" {
 	uint32_t EMSCRIPTEN_KEEPALIVE Tile_get_index(mud::Tile* self) {
 		return self->m_index;
 	}
-	void EMSCRIPTEN_KEEPALIVE Tile_set_index(mud::Tile* self, uint32_t index) {
-		self->m_index = index;
+	void EMSCRIPTEN_KEEPALIVE Tile_set_index(mud::Tile* self, uint32_t value) {
+		self->m_index = value;
 	}
 	const char* EMSCRIPTEN_KEEPALIVE Tile_get_name(mud::Tile* self) {
 		return self->m_name.c_str();
 	}
-	void EMSCRIPTEN_KEEPALIVE Tile_set_name(mud::Tile* self, const char* name) {
-		self->m_name = name;
+	void EMSCRIPTEN_KEEPALIVE Tile_set_name(mud::Tile* self, const char* value) {
+		self->m_name = value;
 	}
 	char EMSCRIPTEN_KEEPALIVE Tile_get_symmetry(mud::Tile* self) {
 		return self->m_symmetry;
 	}
-	void EMSCRIPTEN_KEEPALIVE Tile_set_symmetry(mud::Tile* self, char symmetry) {
-		self->m_symmetry = symmetry;
+	void EMSCRIPTEN_KEEPALIVE Tile_set_symmetry(mud::Tile* self, char value) {
+		self->m_symmetry = value;
 	}
 	int EMSCRIPTEN_KEEPALIVE Tile_get_cardinality(mud::Tile* self) {
 		return self->m_cardinality;
 	}
-	void EMSCRIPTEN_KEEPALIVE Tile_set_cardinality(mud::Tile* self, int cardinality) {
-		self->m_cardinality = cardinality;
+	void EMSCRIPTEN_KEEPALIVE Tile_set_cardinality(mud::Tile* self, int value) {
+		self->m_cardinality = value;
 	}
 	int EMSCRIPTEN_KEEPALIVE Tile_get_profile(mud::Tile* self) {
 		return self->m_profile;
 	}
-	void EMSCRIPTEN_KEEPALIVE Tile_set_profile(mud::Tile* self, int profile) {
-		self->m_profile = profile;
+	void EMSCRIPTEN_KEEPALIVE Tile_set_profile(mud::Tile* self, int value) {
+		self->m_profile = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Tile___destroy__(mud::Tile* self) {
 		delete self;
@@ -61,28 +62,28 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Tileset_get_name(mud::Tileset* self) {
 		return self->m_name.c_str();
 	}
-	void EMSCRIPTEN_KEEPALIVE Tileset_set_name(mud::Tileset* self, const char* name) {
-		self->m_name = name;
+	void EMSCRIPTEN_KEEPALIVE Tileset_set_name(mud::Tileset* self, const char* value) {
+		self->m_name = value;
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE Tileset_get_tile_size(mud::Tileset* self) {
 		static mud::vec3 temp;
 		return (temp = self->m_tile_size, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Tileset_set_tile_size(mud::Tileset* self, mud::vec3* tile_size) {
-		self->m_tile_size = *tile_size;
+	void EMSCRIPTEN_KEEPALIVE Tileset_set_tile_size(mud::Tileset* self, mud::vec3* value) {
+		self->m_tile_size = *value;
 	}
 	mud::vec3* EMSCRIPTEN_KEEPALIVE Tileset_get_tile_scale(mud::Tileset* self) {
 		static mud::vec3 temp;
 		return (temp = self->m_tile_scale, &temp);
 	}
-	void EMSCRIPTEN_KEEPALIVE Tileset_set_tile_scale(mud::Tileset* self, mud::vec3* tile_scale) {
-		self->m_tile_scale = *tile_scale;
+	void EMSCRIPTEN_KEEPALIVE Tileset_set_tile_scale(mud::Tileset* self, mud::vec3* value) {
+		self->m_tile_scale = *value;
 	}
 	uint16_t EMSCRIPTEN_KEEPALIVE Tileset_get_nutiles(mud::Tileset* self) {
 		return self->m_num_tiles;
 	}
-	void EMSCRIPTEN_KEEPALIVE Tileset_set_nutiles(mud::Tileset* self, uint16_t nutiles) {
-		self->m_num_tiles = nutiles;
+	void EMSCRIPTEN_KEEPALIVE Tileset_set_nutiles(mud::Tileset* self, uint16_t value) {
+		self->m_num_tiles = value;
 	}
 	void EMSCRIPTEN_KEEPALIVE Tileset___destroy__(mud::Tileset* self) {
 		delete self;

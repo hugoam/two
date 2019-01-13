@@ -4,6 +4,7 @@
 #include <geom/Api.h>
 #include <noise/Api.h>
 #include <emscripten.h>
+#include <cstdint>
 
 
 extern "C" {
