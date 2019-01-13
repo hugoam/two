@@ -1706,37 +1706,6 @@ Module['color_toggle_edit'] = function(parent, value) {
     value = value.ptr;
     return !!(_mud_ui_color_toggle_edit_2(parent, value));
 };
-Module['command_line'] = function(parent, text, command) {
-    var self = this.ptr;
-    ensureCache.prepare();
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* text <std::string> [] */
-    if (text && typeof text === "object") text = text.ptr;
-    else text = ensureString(text);
-    /* command <std::string> [] */
-    if (command && typeof command === "object") command = command.ptr;
-    else command = ensureString(command);
-    return wrapPointer(_mud_ui_command_line_3(parent, text, command), Widget);
-};
-Module['console'] = function(parent, feed, line, command, num_lines) {
-    var self = this.ptr;
-    ensureCache.prepare();
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* feed <std::string> [] */
-    if (feed && typeof feed === "object") feed = feed.ptr;
-    else feed = ensureString(feed);
-    /* line <std::string> [] */
-    if (line && typeof line === "object") line = line.ptr;
-    else line = ensureString(line);
-    /* command <std::string> [] */
-    if (command && typeof command === "object") command = command.ptr;
-    else command = ensureString(command);
-    /* num_lines <size_t> [] */
-    if (num_lines === undefined) { return wrapPointer(_mud_ui_console_4(parent, feed, line, command), Widget); return; }
-    return wrapPointer(_mud_ui_console_5(parent, feed, line, command, num_lines), Widget);
-};
 Module['context'] = function(parent, mode, flags) {
     var self = this.ptr;
     /* parent <Widget> [] */
@@ -1853,32 +1822,12 @@ Module['expandbox'] = function(parent, name, open) {
     if (open === undefined) { return wrapPointer(_mud_ui_expandbox_2(parent, name), Expandbox); return; }
     return wrapPointer(_mud_ui_expandbox_3(parent, name, open), Expandbox);
 };
-Module['file_browser'] = function(parent, path) {
-    var self = this.ptr;
-    ensureCache.prepare();
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* path <std::string> [] */
-    if (path && typeof path === "object") path = path.ptr;
-    else path = ensureString(path);
-    return wrapPointer(_mud_ui_file_browser_2(parent, path), Widget);
-};
 Module['file_item'] = function(parent, name) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
     return wrapPointer(_mud_ui_file_item_2(parent, name), Widget);
-};
-Module['file_list'] = function(parent, path) {
-    var self = this.ptr;
-    ensureCache.prepare();
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* path <std::string> [] */
-    if (path && typeof path === "object") path = path.ptr;
-    else path = ensureString(path);
-    return wrapPointer(_mud_ui_file_list_2(parent, path), Widget);
 };
 Module['file_node'] = function(parent, name) {
     var self = this.ptr;
@@ -2207,26 +2156,6 @@ Module['text'] = function(parent, label) {
     /* label <const char*> [] */
     return wrapPointer(_mud_ui_text_2(parent, label), Widget);
 };
-Module['text_box'] = function(parent, style, text, editor, lines, allowed_chars) {
-    var self = this.ptr;
-    ensureCache.prepare();
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* style <Style> [] */
-    style = style.ptr;
-    /* text <std::string> [] */
-    if (text && typeof text === "object") text = text.ptr;
-    else text = ensureString(text);
-    /* editor <bool> [] */
-    /* lines <size_t> [] */
-    /* allowed_chars <std::string> [] */
-    if (allowed_chars && typeof allowed_chars === "object") allowed_chars = allowed_chars.ptr;
-    else allowed_chars = ensureString(allowed_chars);
-    if (editor === undefined) { return wrapPointer(_mud_ui_text_box_3(parent, style, text), TextEdit); return; }
-    if (lines === undefined) { return wrapPointer(_mud_ui_text_box_4(parent, style, text, editor), TextEdit); return; }
-    if (allowed_chars === undefined) { return wrapPointer(_mud_ui_text_box_5(parent, style, text, editor, lines), TextEdit); return; }
-    return wrapPointer(_mud_ui_text_box_6(parent, style, text, editor, lines, allowed_chars), TextEdit);
-};
 Module['title'] = function(parent, label) {
     var self = this.ptr;
     /* parent <Widget> [] */
@@ -2296,22 +2225,6 @@ Module['tree_node'] = function(parent, name, leaf, open) {
     if (leaf === undefined) { return wrapPointer(_mud_ui_tree_node_2(parent, name), TreeNode); return; }
     if (open === undefined) { return wrapPointer(_mud_ui_tree_node_3(parent, name, leaf), TreeNode); return; }
     return wrapPointer(_mud_ui_tree_node_4(parent, name, leaf, open), TreeNode);
-};
-Module['type_in'] = function(parent, text, lines, allowed_chars) {
-    var self = this.ptr;
-    ensureCache.prepare();
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* text <std::string> [] */
-    if (text && typeof text === "object") text = text.ptr;
-    else text = ensureString(text);
-    /* lines <size_t> [] */
-    /* allowed_chars <std::string> [] */
-    if (allowed_chars && typeof allowed_chars === "object") allowed_chars = allowed_chars.ptr;
-    else allowed_chars = ensureString(allowed_chars);
-    if (lines === undefined) { return wrapPointer(_mud_ui_type_in_2(parent, text), TextEdit); return; }
-    if (allowed_chars === undefined) { return wrapPointer(_mud_ui_type_in_3(parent, text, lines), TextEdit); return; }
-    return wrapPointer(_mud_ui_type_in_4(parent, text, lines, allowed_chars), TextEdit);
 };
 Module['vec2_edit'] = function(parent, vec) {
     var self = this.ptr;

@@ -904,15 +904,6 @@ extern "C" {
 	bool DECL mud_ui_color_toggle_edit_2(mud::Widget* parent, mud::Colour* value) {
 		return mud::ui::color_toggle_edit(*parent, *value);
 	}
-	mud::Widget* DECL mud_ui_command_line_3(mud::Widget* parent, const char* text, const char* command) {
-		return &mud::ui::command_line(*parent, text, command);
-	}
-	mud::Widget* DECL mud_ui_console_4(mud::Widget* parent, const char* feed, const char* line, const char* command) {
-		return &mud::ui::console(*parent, feed, line, command);
-	}
-	mud::Widget* DECL mud_ui_console_5(mud::Widget* parent, const char* feed, const char* line, const char* command, size_t num_lines) {
-		return &mud::ui::console(*parent, feed, line, command, num_lines);
-	}
 	mud::Widget* DECL mud_ui_context_2(mud::Widget* parent, uint32_t mode) {
 		return mud::ui::context(*parent, mode);
 	}
@@ -967,14 +958,8 @@ extern "C" {
 	mud::Expandbox* DECL mud_ui_expandbox_3(mud::Widget* parent, const char* name, bool open) {
 		return &mud::ui::expandbox(*parent, name, open);
 	}
-	mud::Widget* DECL mud_ui_file_browser_2(mud::Widget* parent, const char* path) {
-		return &mud::ui::file_browser(*parent, path);
-	}
 	mud::Widget* DECL mud_ui_file_item_2(mud::Widget* parent, const char* name) {
 		return &mud::ui::file_item(*parent, name);
-	}
-	mud::Widget* DECL mud_ui_file_list_2(mud::Widget* parent, const char* path) {
-		return &mud::ui::file_list(*parent, path);
 	}
 	mud::Widget* DECL mud_ui_file_node_2(mud::Widget* parent, const char* name) {
 		return &mud::ui::file_node(*parent, name);
@@ -1147,18 +1132,6 @@ extern "C" {
 	mud::Widget* DECL mud_ui_text_2(mud::Widget* parent, const char* label) {
 		return &mud::ui::text(*parent, label);
 	}
-	mud::TextEdit* DECL mud_ui_text_box_3(mud::Widget* parent, mud::Style* style, const char* text) {
-		return &mud::ui::text_box(*parent, *style, text);
-	}
-	mud::TextEdit* DECL mud_ui_text_box_4(mud::Widget* parent, mud::Style* style, const char* text, bool editor) {
-		return &mud::ui::text_box(*parent, *style, text, editor);
-	}
-	mud::TextEdit* DECL mud_ui_text_box_5(mud::Widget* parent, mud::Style* style, const char* text, bool editor, size_t lines) {
-		return &mud::ui::text_box(*parent, *style, text, editor, lines);
-	}
-	mud::TextEdit* DECL mud_ui_text_box_6(mud::Widget* parent, mud::Style* style, const char* text, bool editor, size_t lines, const char* allowed_chars) {
-		return &mud::ui::text_box(*parent, *style, text, editor, lines, allowed_chars);
-	}
 	mud::Widget* DECL mud_ui_title_2(mud::Widget* parent, const char* label) {
 		return &mud::ui::title(*parent, label);
 	}
@@ -1197,15 +1170,6 @@ extern "C" {
 	}
 	mud::TreeNode* DECL mud_ui_tree_node_4(mud::Widget* parent, const char* name, bool leaf, bool open) {
 		return &mud::ui::tree_node(*parent, name, leaf, open);
-	}
-	mud::TextEdit* DECL mud_ui_type_in_2(mud::Widget* parent, const char* text) {
-		return &mud::ui::type_in(*parent, text);
-	}
-	mud::TextEdit* DECL mud_ui_type_in_3(mud::Widget* parent, const char* text, size_t lines) {
-		return &mud::ui::type_in(*parent, text, lines);
-	}
-	mud::TextEdit* DECL mud_ui_type_in_4(mud::Widget* parent, const char* text, size_t lines, const char* allowed_chars) {
-		return &mud::ui::type_in(*parent, text, lines, allowed_chars);
 	}
 	bool DECL mud_ui_vec2_edit_2(mud::Widget* parent, mud::vec2* vec) {
 		return mud::ui::vec2_edit(*parent, *vec);

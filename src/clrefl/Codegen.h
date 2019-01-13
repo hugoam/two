@@ -1005,12 +1005,14 @@ namespace clgen
 		// - noncopy types
 		// - pointer types (mud::Ref)
 		// - handle types
+		// - references to strings
 
 		// not implemented yet
 		std::vector<string> blacklist = { "std::vector", "array", "mud::Ref" };
 
-		auto blacklist_callable = [&](const CLCallable& f) { for(const string& n : blacklist) { for(const CLParam& p : f.m_params) if(p.m_type.m_type->m_id.find(n) != string::npos) return true; if(f.m_return_type.m_type->m_id.find(n) != string::npos) return true; } return false; };
-		auto blacklist_member = [&](const CLMember& m) { for(const string& n : blacklist) { if(m.m_type.m_type->m_id.find(n) != string::npos) return true; } return false; };
+		auto blacklist_type = [&](const CLQualType& t) { for(const string& n : blacklist) { if(t.m_spelling.find(n) != string::npos) return true; } if(t.isstring() && t.reference() && !t.isconst()) return true; return false; };
+		auto blacklist_callable = [&](const CLCallable& f) { for(const CLParam& p : f.m_params) if(blacklist_type(p.m_type)) return true; if(blacklist_type(f.m_return_type)) return true; return false; };
+		auto blacklist_member = [&](const CLMember& m) { if(blacklist_type(m.m_type)) return true; return false; };
 
 		string module_js;
 
@@ -1111,9 +1113,6 @@ namespace clgen
 				cramfunc(overloads[f.m_name], f);
 				return;
 			}
-
-			if(f.m_name == "Circle")
-				int i = 0;
 
 			Overloads& o = overloads[f.m_name];
 			bool clashes = false;
