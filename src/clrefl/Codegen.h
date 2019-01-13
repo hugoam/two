@@ -1024,6 +1024,8 @@ namespace clgen
 		cw("");
 		cw("extern \"C\" {");
 		cw("");
+
+#if 0
 		cw("// Not using size_t for array indices as the values used by the javascript code are signed.");
 		cw("void array_bounds_check(const int array_size, const int array_idx) {");
 		cw("  if (array_idx < 0 || array_idx >= array_size) {");
@@ -1032,6 +1034,7 @@ namespace clgen
 		cw("    }, array_idx, array_size);");
 		cw("  }");
 		cw("}");
+#endif
 
 		jsw("");
 		jsw("// Bindings utilities");
