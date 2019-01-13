@@ -252,6 +252,7 @@ namespace mud
 		string m_prefix;
 
 		bool m_reflect = false;
+		bool m_reflect_content = false;
 
 		bool m_is_basetype = false;
 		bool m_is_template = false;

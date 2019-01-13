@@ -1,7 +1,5 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
+Module['glm'] = Module['glm'] || {};
+Module['ui'] = Module['ui'] || {};
 // CanvasConnect
 function CanvasConnect() {
     this.ptr = _mud_CanvasConnect_CanvasConnect_0(); getCache(CanvasConnect)[this.ptr] = this;
@@ -1228,7 +1226,7 @@ Widget.prototype["char_stroke"] = Widget.prototype.char_stroke = function(self, 
     if (code && typeof code === "object") code = code.ptr;
     /* modifier <InputMod> [] */
     if (modifier && typeof modifier === "object") modifier = modifier.ptr;
-    if (modifier === undefined) { return wrapPointer(_mud_Widget_char_stroke_1(self, code), KeyEvent); return; }
+    if (modifier === undefined) { return wrapPointer(_mud_Widget_char_stroke_1(self, code), KeyEvent); }
     return wrapPointer(_mud_Widget_char_stroke_2(self, code, modifier), KeyEvent);
 };
 Widget.prototype["clear_focus"] = Widget.prototype.clear_focus = function(self) {
@@ -1267,7 +1265,7 @@ Widget.prototype["key_event"] = Widget.prototype.key_event = function(self, code
     if (event_type && typeof event_type === "object") event_type = event_type.ptr;
     /* modifier <InputMod> [] */
     if (modifier && typeof modifier === "object") modifier = modifier.ptr;
-    if (modifier === undefined) { return wrapPointer(_mud_Widget_key_event_2(self, code, event_type), KeyEvent); return; }
+    if (modifier === undefined) { return wrapPointer(_mud_Widget_key_event_2(self, code, event_type), KeyEvent); }
     return wrapPointer(_mud_Widget_key_event_3(self, code, event_type, modifier), KeyEvent);
 };
 Widget.prototype["key_stroke"] = Widget.prototype.key_stroke = function(self, code, modifier) {
@@ -1276,7 +1274,7 @@ Widget.prototype["key_stroke"] = Widget.prototype.key_stroke = function(self, co
     if (code && typeof code === "object") code = code.ptr;
     /* modifier <InputMod> [] */
     if (modifier && typeof modifier === "object") modifier = modifier.ptr;
-    if (modifier === undefined) { return wrapPointer(_mud_Widget_key_stroke_1(self, code), KeyEvent); return; }
+    if (modifier === undefined) { return wrapPointer(_mud_Widget_key_stroke_1(self, code), KeyEvent); }
     return wrapPointer(_mud_Widget_key_stroke_2(self, code, modifier), KeyEvent);
 };
 Widget.prototype["modal"] = Widget.prototype.modal = function(self) {
@@ -1292,8 +1290,8 @@ Widget.prototype["mouse_event"] = Widget.prototype.mouse_event = function(self, 
     /* modifier <InputMod> [] */
     if (modifier && typeof modifier === "object") modifier = modifier.ptr;
     /* consume <bool> [] */
-    if (modifier === undefined) { return wrapPointer(_mud_Widget_mouse_event_2(self, device, event_type), MouseEvent); return; }
-    if (consume === undefined) { return wrapPointer(_mud_Widget_mouse_event_3(self, device, event_type, modifier), MouseEvent); return; }
+    if (modifier === undefined) { return wrapPointer(_mud_Widget_mouse_event_2(self, device, event_type), MouseEvent); }
+    if (consume === undefined) { return wrapPointer(_mud_Widget_mouse_event_3(self, device, event_type, modifier), MouseEvent); }
     return wrapPointer(_mud_Widget_mouse_event_4(self, device, event_type, modifier, consume), MouseEvent);
 };
 Widget.prototype["parent_modal"] = Widget.prototype.parent_modal = function(self) {
@@ -1528,7 +1526,7 @@ Sequence.prototype = Object.create(WrapperObject.prototype);
 Sequence.prototype.constructor = Sequence;
 Sequence.prototype.__class__ = Sequence;
 Sequence.__cache__ = {};
-Module['Sequence'] = Sequence;
+Module['ui']['Sequence'] = Sequence;
 Sequence.prototype["__destroy__"] = Sequence.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_ui_Sequence__destroy(self);
@@ -1603,46 +1601,46 @@ Window.prototype["__destroy__"] = Window.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Window__destroy(self);
 };
-Module['auto_modal'] = function(parent, mode, size) {
+Module['ui']['auto_modal'] = function(parent, mode, size) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* mode <uint32_t> [] */
     /* size <vec2> [] */
     size = size.ptr;
-    if (size === undefined) { return wrapPointer(_mud_ui_auto_modal_2(parent, mode), Widget); return; }
+    if (size === undefined) { return wrapPointer(_mud_ui_auto_modal_2(parent, mode), Widget); }
     return wrapPointer(_mud_ui_auto_modal_3(parent, mode, size), Widget);
 };
-Module['board'] = function(parent) {
+Module['ui']['board'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_board_1(parent), Widget);
 };
-Module['button'] = function(parent, content) {
+Module['ui']['button'] = function(parent, content) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* content <const char*> [] */
-    if (content === undefined) { return wrapPointer(_mud_ui_button_1(parent), Widget); return; }
+    if (content === undefined) { return wrapPointer(_mud_ui_button_1(parent), Widget); }
     return wrapPointer(_mud_ui_button_2(parent, content), Widget);
 };
-Module['canvas'] = function(parent, num_nodes) {
+Module['ui']['canvas'] = function(parent, num_nodes) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* num_nodes <size_t> [] */
-    if (num_nodes === undefined) { return wrapPointer(_mud_ui_canvas_1(parent), Canvas); return; }
+    if (num_nodes === undefined) { return wrapPointer(_mud_ui_canvas_1(parent), Canvas); }
     return wrapPointer(_mud_ui_canvas_2(parent, num_nodes), Canvas);
 };
-Module['checkbox'] = function(parent, on) {
+Module['ui']['checkbox'] = function(parent, on) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* on <bool> [] */
     return wrapPointer(_mud_ui_checkbox_2(parent, on), Widget);
 };
-Module['color_display'] = function(parent, value) {
+Module['ui']['color_display'] = function(parent, value) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -1650,7 +1648,7 @@ Module['color_display'] = function(parent, value) {
     value = value.ptr;
     return wrapPointer(_mud_ui_color_display_2(parent, value), Widget);
 };
-Module['color_display_field'] = function(parent, name, value, reverse) {
+Module['ui']['color_display_field'] = function(parent, name, value, reverse) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -1661,7 +1659,7 @@ Module['color_display_field'] = function(parent, name, value, reverse) {
     if (reverse === undefined) { _mud_ui_color_display_field_3(parent, name, value); return; }
     _mud_ui_color_display_field_4(parent, name, value, reverse);
 };
-Module['color_edit'] = function(parent, value) {
+Module['ui']['color_edit'] = function(parent, value) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -1669,7 +1667,7 @@ Module['color_edit'] = function(parent, value) {
     value = value.ptr;
     return !!(_mud_ui_color_edit_2(parent, value));
 };
-Module['color_edit_hsl'] = function(parent, colour, value) {
+Module['ui']['color_edit_hsl'] = function(parent, colour, value) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -1679,7 +1677,7 @@ Module['color_edit_hsl'] = function(parent, colour, value) {
     value = value.ptr;
     return !!(_mud_ui_color_edit_hsl_3(parent, colour, value));
 };
-Module['color_edit_simple'] = function(parent, value) {
+Module['ui']['color_edit_simple'] = function(parent, value) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -1687,7 +1685,7 @@ Module['color_edit_simple'] = function(parent, value) {
     value = value.ptr;
     return !!(_mud_ui_color_edit_simple_2(parent, value));
 };
-Module['color_field'] = function(parent, name, value, reverse) {
+Module['ui']['color_field'] = function(parent, name, value, reverse) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -1695,10 +1693,10 @@ Module['color_field'] = function(parent, name, value, reverse) {
     /* value <Colour> [] */
     value = value.ptr;
     /* reverse <bool> [] */
-    if (reverse === undefined) { return !!(_mud_ui_color_field_3(parent, name, value)); return; }
+    if (reverse === undefined) { return !!(_mud_ui_color_field_3(parent, name, value)); }
     return !!(_mud_ui_color_field_4(parent, name, value, reverse));
 };
-Module['color_toggle_edit'] = function(parent, value) {
+Module['ui']['color_toggle_edit'] = function(parent, value) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -1706,17 +1704,17 @@ Module['color_toggle_edit'] = function(parent, value) {
     value = value.ptr;
     return !!(_mud_ui_color_toggle_edit_2(parent, value));
 };
-Module['context'] = function(parent, mode, flags) {
+Module['ui']['context'] = function(parent, mode, flags) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* mode <uint32_t> [] */
     /* flags <PopupFlags> [] */
     if (flags && typeof flags === "object") flags = flags.ptr;
-    if (flags === undefined) { return wrapPointer(_mud_ui_context_2(parent, mode), Widget); return; }
+    if (flags === undefined) { return wrapPointer(_mud_ui_context_2(parent, mode), Widget); }
     return wrapPointer(_mud_ui_context_3(parent, mode, flags), Widget);
 };
-Module['cursor'] = function(parent, position, hovered, locked) {
+Module['ui']['cursor'] = function(parent, position, hovered, locked) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -1725,23 +1723,23 @@ Module['cursor'] = function(parent, position, hovered, locked) {
     /* hovered <Widget> [] */
     hovered = hovered.ptr;
     /* locked <bool> [] */
-    if (locked === undefined) { return wrapPointer(_mud_ui_cursor_3(parent, position, hovered), Widget); return; }
+    if (locked === undefined) { return wrapPointer(_mud_ui_cursor_3(parent, position, hovered), Widget); }
     return wrapPointer(_mud_ui_cursor_4(parent, position, hovered, locked), Widget);
 };
-Module['decal'] = function(parent) {
+Module['ui']['decal'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_decal_1(parent), Widget);
 };
-Module['dir_item'] = function(parent, name) {
+Module['ui']['dir_item'] = function(parent, name) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
     return wrapPointer(_mud_ui_dir_item_2(parent, name), Widget);
 };
-Module['dir_node'] = function(parent, path, name, collapsed) {
+Module['ui']['dir_node'] = function(parent, path, name, collapsed) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -1750,13 +1748,13 @@ Module['dir_node'] = function(parent, path, name, collapsed) {
     /* collapsed <bool> [] */
     return wrapPointer(_mud_ui_dir_node_4(parent, path, name, collapsed), Widget);
 };
-Module['div'] = function(parent) {
+Module['ui']['div'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_div_1(parent), Widget);
 };
-Module['dockbar'] = function(parent, docksystem) {
+Module['ui']['dockbar'] = function(parent, docksystem) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -1764,7 +1762,7 @@ Module['dockbar'] = function(parent, docksystem) {
     docksystem = docksystem.ptr;
     return wrapPointer(_mud_ui_dockbar_2(parent, docksystem), Dockbar);
 };
-Module['dockitem'] = function(parent, docksystem, dock) {
+Module['ui']['dockitem'] = function(parent, docksystem, dock) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -1774,7 +1772,7 @@ Module['dockitem'] = function(parent, docksystem, dock) {
     dock = dock.ptr;
     return wrapPointer(_mud_ui_dockitem_3(parent, docksystem, dock), Widget);
 };
-Module['dockspace'] = function(parent, docksystem) {
+Module['ui']['dockspace'] = function(parent, docksystem) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -1782,16 +1780,16 @@ Module['dockspace'] = function(parent, docksystem) {
     docksystem = docksystem.ptr;
     return wrapPointer(_mud_ui_dockspace_2(parent, docksystem), Dockspace);
 };
-Module['drag_float'] = function(parent, value, step) {
+Module['ui']['drag_float'] = function(parent, value, step) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* value <float> [] */
     /* step <float> [] */
-    if (step === undefined) { return !!(_mud_ui_drag_float_2(parent, value)); return; }
+    if (step === undefined) { return !!(_mud_ui_drag_float_2(parent, value)); }
     return !!(_mud_ui_drag_float_3(parent, value, step));
 };
-Module['dropdown'] = function(parent, style, value, flags, list_style) {
+Module['ui']['dropdown'] = function(parent, style, value, flags, list_style) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -1802,10 +1800,10 @@ Module['dropdown'] = function(parent, style, value, flags, list_style) {
     if (flags && typeof flags === "object") flags = flags.ptr;
     /* list_style <Style> [] */
     list_style = list_style.ptr;
-    if (list_style === undefined) { return wrapPointer(_mud_ui_dropdown_4(parent, style, value, flags), Widget); return; }
+    if (list_style === undefined) { return wrapPointer(_mud_ui_dropdown_4(parent, style, value, flags), Widget); }
     return wrapPointer(_mud_ui_dropdown_5(parent, style, value, flags, list_style), Widget);
 };
-Module['dummy'] = function(parent, size) {
+Module['ui']['dummy'] = function(parent, size) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -1813,47 +1811,47 @@ Module['dummy'] = function(parent, size) {
     size = size.ptr;
     return wrapPointer(_mud_ui_dummy_2(parent, size), Widget);
 };
-Module['expandbox'] = function(parent, name, open) {
+Module['ui']['expandbox'] = function(parent, name, open) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
     /* open <bool> [] */
-    if (open === undefined) { return wrapPointer(_mud_ui_expandbox_2(parent, name), Expandbox); return; }
+    if (open === undefined) { return wrapPointer(_mud_ui_expandbox_2(parent, name), Expandbox); }
     return wrapPointer(_mud_ui_expandbox_3(parent, name, open), Expandbox);
 };
-Module['file_item'] = function(parent, name) {
+Module['ui']['file_item'] = function(parent, name) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
     return wrapPointer(_mud_ui_file_item_2(parent, name), Widget);
 };
-Module['file_node'] = function(parent, name) {
+Module['ui']['file_node'] = function(parent, name) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
     return wrapPointer(_mud_ui_file_node_2(parent, name), Widget);
 };
-Module['file_tree'] = function(parent, path) {
+Module['ui']['file_tree'] = function(parent, path) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* path <const char*> [] */
     return wrapPointer(_mud_ui_file_tree_2(parent, path), Widget);
 };
-Module['fill_bar'] = function(parent, percentage, dim) {
+Module['ui']['fill_bar'] = function(parent, percentage, dim) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* percentage <float> [] */
     /* dim <Dim> [] */
     if (dim && typeof dim === "object") dim = dim.ptr;
-    if (dim === undefined) { return wrapPointer(_mud_ui_fill_bar_2(parent, percentage), Widget); return; }
+    if (dim === undefined) { return wrapPointer(_mud_ui_fill_bar_2(parent, percentage), Widget); }
     return wrapPointer(_mud_ui_fill_bar_3(parent, percentage, dim), Widget);
 };
-Module['flag_field'] = function(parent, name, value, shift, reverse) {
+Module['ui']['flag_field'] = function(parent, name, value, shift, reverse) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -1861,31 +1859,31 @@ Module['flag_field'] = function(parent, name, value, shift, reverse) {
     /* value <uint32_t> [] */
     /* shift <uint8_t> [] */
     /* reverse <bool> [] */
-    if (reverse === undefined) { return !!(_mud_ui_flag_field_4(parent, name, value, shift)); return; }
+    if (reverse === undefined) { return !!(_mud_ui_flag_field_4(parent, name, value, shift)); }
     return !!(_mud_ui_flag_field_5(parent, name, value, shift, reverse));
 };
-Module['header'] = function(parent) {
+Module['ui']['header'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_header_1(parent), Widget);
 };
-Module['hoverbox'] = function(parent, delay) {
+Module['ui']['hoverbox'] = function(parent, delay) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* delay <float> [] */
-    if (delay === undefined) { return wrapPointer(_mud_ui_hoverbox_1(parent), Widget); return; }
+    if (delay === undefined) { return wrapPointer(_mud_ui_hoverbox_1(parent), Widget); }
     return wrapPointer(_mud_ui_hoverbox_2(parent, delay), Widget);
 };
-Module['icon'] = function(parent, icon) {
+Module['ui']['icon'] = function(parent, icon) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* icon <const char*> [] */
     return wrapPointer(_mud_ui_icon_2(parent, icon), Widget);
 };
-Module['image256'] = function(parent, name, source, size) {
+Module['ui']['image256'] = function(parent, name, source, size) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -1894,71 +1892,71 @@ Module['image256'] = function(parent, name, source, size) {
     source = source.ptr;
     /* size <vec2> [] */
     size = size.ptr;
-    if (size === undefined) { return wrapPointer(_mud_ui_image256_3(parent, name, source), Widget); return; }
+    if (size === undefined) { return wrapPointer(_mud_ui_image256_3(parent, name, source), Widget); }
     return wrapPointer(_mud_ui_image256_4(parent, name, source, size), Widget);
 };
-Module['item'] = function(parent, style, content) {
+Module['ui']['item'] = function(parent, style, content) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* style <Style> [] */
     style = style.ptr;
     /* content <const char*> [] */
-    if (content === undefined) { return wrapPointer(_mud_ui_item_2(parent, style), Widget); return; }
+    if (content === undefined) { return wrapPointer(_mud_ui_item_2(parent, style), Widget); }
     return wrapPointer(_mud_ui_item_3(parent, style, content), Widget);
 };
-Module['label'] = function(parent, label) {
+Module['ui']['label'] = function(parent, label) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* label <const char*> [] */
     return wrapPointer(_mud_ui_label_2(parent, label), Widget);
 };
-Module['layout'] = function(parent) {
+Module['ui']['layout'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_layout_1(parent), Widget);
 };
-Module['menu'] = function(parent, label, submenu) {
+Module['ui']['menu'] = function(parent, label, submenu) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* label <const char*> [] */
     /* submenu <bool> [] */
-    if (submenu === undefined) { return wrapPointer(_mud_ui_menu_2(parent, label), Widget); return; }
+    if (submenu === undefined) { return wrapPointer(_mud_ui_menu_2(parent, label), Widget); }
     return wrapPointer(_mud_ui_menu_3(parent, label, submenu), Widget);
 };
-Module['menu_choice'] = function(parent, content) {
+Module['ui']['menu_choice'] = function(parent, content) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* content <const char*> [] */
     return wrapPointer(_mud_ui_menu_choice_2(parent, content), Widget);
 };
-Module['menubar'] = function(parent) {
+Module['ui']['menubar'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_menubar_1(parent), Widget);
 };
-Module['message'] = function(parent, label) {
+Module['ui']['message'] = function(parent, label) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* label <const char*> [] */
     return wrapPointer(_mud_ui_message_2(parent, label), Widget);
 };
-Module['modal'] = function(parent, size) {
+Module['ui']['modal'] = function(parent, size) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* size <vec2> [] */
     size = size.ptr;
-    if (size === undefined) { return wrapPointer(_mud_ui_modal_1(parent), Widget); return; }
+    if (size === undefined) { return wrapPointer(_mud_ui_modal_1(parent), Widget); }
     return wrapPointer(_mud_ui_modal_2(parent, size), Widget);
 };
-Module['modal_button'] = function(screen, parent, content, mode) {
+Module['ui']['modal_button'] = function(screen, parent, content, mode) {
     var self = this.ptr;
     /* screen <Widget> [] */
     screen = screen.ptr;
@@ -1968,7 +1966,7 @@ Module['modal_button'] = function(screen, parent, content, mode) {
     /* mode <uint32_t> [] */
     return !!(_mud_ui_modal_button_4(screen, parent, content, mode));
 };
-Module['node_cable'] = function(canvas, plug_out, plug_in) {
+Module['ui']['node_cable'] = function(canvas, plug_out, plug_in) {
     var self = this.ptr;
     /* canvas <Canvas> [] */
     canvas = canvas.ptr;
@@ -1978,7 +1976,7 @@ Module['node_cable'] = function(canvas, plug_out, plug_in) {
     plug_in = plug_in.ptr;
     return wrapPointer(_mud_ui_node_cable_3(canvas, plug_out, plug_in), Widget);
 };
-Module['node_input'] = function(node, name, icon, colour, active, connected) {
+Module['ui']['node_input'] = function(node, name, icon, colour, active, connected) {
     var self = this.ptr;
     /* node <Node> [] */
     node = node.ptr;
@@ -1988,13 +1986,13 @@ Module['node_input'] = function(node, name, icon, colour, active, connected) {
     if(typeof colour !== "undefined" && colour !== null) {{ colour = colour.ptr }};
     /* active <bool> [] */
     /* connected <bool> [] */
-    if (icon === undefined) { return wrapPointer(_mud_ui_node_input_2(node, name), NodePlug); return; }
-    if (colour === undefined) { return wrapPointer(_mud_ui_node_input_3(node, name, icon), NodePlug); return; }
-    if (active === undefined) { return wrapPointer(_mud_ui_node_input_4(node, name, icon, colour), NodePlug); return; }
-    if (connected === undefined) { return wrapPointer(_mud_ui_node_input_5(node, name, icon, colour, active), NodePlug); return; }
+    if (icon === undefined) { return wrapPointer(_mud_ui_node_input_2(node, name), NodePlug); }
+    if (colour === undefined) { return wrapPointer(_mud_ui_node_input_3(node, name, icon), NodePlug); }
+    if (active === undefined) { return wrapPointer(_mud_ui_node_input_4(node, name, icon, colour), NodePlug); }
+    if (connected === undefined) { return wrapPointer(_mud_ui_node_input_5(node, name, icon, colour, active), NodePlug); }
     return wrapPointer(_mud_ui_node_input_6(node, name, icon, colour, active, connected), NodePlug);
 };
-Module['node_output'] = function(node, name, icon, colour, active, connected) {
+Module['ui']['node_output'] = function(node, name, icon, colour, active, connected) {
     var self = this.ptr;
     /* node <Node> [] */
     node = node.ptr;
@@ -2004,19 +2002,19 @@ Module['node_output'] = function(node, name, icon, colour, active, connected) {
     if(typeof colour !== "undefined" && colour !== null) {{ colour = colour.ptr }};
     /* active <bool> [] */
     /* connected <bool> [] */
-    if (icon === undefined) { return wrapPointer(_mud_ui_node_output_2(node, name), NodePlug); return; }
-    if (colour === undefined) { return wrapPointer(_mud_ui_node_output_3(node, name, icon), NodePlug); return; }
-    if (active === undefined) { return wrapPointer(_mud_ui_node_output_4(node, name, icon, colour), NodePlug); return; }
-    if (connected === undefined) { return wrapPointer(_mud_ui_node_output_5(node, name, icon, colour, active), NodePlug); return; }
+    if (icon === undefined) { return wrapPointer(_mud_ui_node_output_2(node, name), NodePlug); }
+    if (colour === undefined) { return wrapPointer(_mud_ui_node_output_3(node, name, icon), NodePlug); }
+    if (active === undefined) { return wrapPointer(_mud_ui_node_output_4(node, name, icon, colour), NodePlug); }
+    if (connected === undefined) { return wrapPointer(_mud_ui_node_output_5(node, name, icon, colour, active), NodePlug); }
     return wrapPointer(_mud_ui_node_output_6(node, name, icon, colour, active, connected), NodePlug);
 };
-Module['overlay'] = function(parent) {
+Module['ui']['overlay'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_overlay_1(parent), Widget);
 };
-Module['popup'] = function(parent, flags) {
+Module['ui']['popup'] = function(parent, flags) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -2024,7 +2022,7 @@ Module['popup'] = function(parent, flags) {
     if (flags && typeof flags === "object") flags = flags.ptr;
     return wrapPointer(_mud_ui_popup_2(parent, flags), Widget);
 };
-Module['popup_at'] = function(parent, position, flags) {
+Module['ui']['popup_at'] = function(parent, position, flags) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -2032,10 +2030,10 @@ Module['popup_at'] = function(parent, position, flags) {
     position = position.ptr;
     /* flags <PopupFlags> [] */
     if (flags && typeof flags === "object") flags = flags.ptr;
-    if (flags === undefined) { return wrapPointer(_mud_ui_popup_at_2(parent, position), Widget); return; }
+    if (flags === undefined) { return wrapPointer(_mud_ui_popup_at_2(parent, position), Widget); }
     return wrapPointer(_mud_ui_popup_at_3(parent, position, flags), Widget);
 };
-Module['quat_edit'] = function(parent, quat) {
+Module['ui']['quat_edit'] = function(parent, quat) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -2043,7 +2041,7 @@ Module['quat_edit'] = function(parent, quat) {
     quat = quat.ptr;
     return !!(_mud_ui_quat_edit_2(parent, quat));
 };
-Module['radio_choice'] = function(parent, value, active) {
+Module['ui']['radio_choice'] = function(parent, value, active) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -2051,7 +2049,7 @@ Module['radio_choice'] = function(parent, value, active) {
     /* active <bool> [] */
     return wrapPointer(_mud_ui_radio_choice_3(parent, value, active), Widget);
 };
-Module['rectangle'] = function(parent, rect) {
+Module['ui']['rectangle'] = function(parent, rect) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -2059,55 +2057,55 @@ Module['rectangle'] = function(parent, rect) {
     rect = rect.ptr;
     return wrapPointer(_mud_ui_rectangle_2(parent, rect), Widget);
 };
-Module['row'] = function(parent) {
+Module['ui']['row'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_row_1(parent), Widget);
 };
-Module['screen'] = function(parent) {
+Module['ui']['screen'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_screen_1(parent), Widget);
 };
-Module['scroll_sequence'] = function(parent) {
+Module['ui']['scroll_sequence'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_scroll_sequence_1(parent), Sequence);
 };
-Module['scrollable'] = function(parent) {
+Module['ui']['scrollable'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_scrollable_1(parent), Widget);
 };
-Module['select_list'] = function(parent) {
+Module['ui']['select_list'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_select_list_1(parent), ScrollSheet);
 };
-Module['sequence'] = function(parent) {
+Module['ui']['sequence'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_sequence_1(parent), Sequence);
 };
-Module['sheet'] = function(parent) {
+Module['ui']['sheet'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_sheet_1(parent), Widget);
 };
-Module['spacer'] = function(parent) {
+Module['ui']['spacer'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_spacer_1(parent), Widget);
 };
-Module['spanner'] = function(parent, style, dim, span) {
+Module['ui']['spanner'] = function(parent, style, dim, span) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -2118,89 +2116,89 @@ Module['spanner'] = function(parent, style, dim, span) {
     /* span <float> [] */
     return wrapPointer(_mud_ui_spanner_4(parent, style, dim, span), Widget);
 };
-Module['stack'] = function(parent) {
+Module['ui']['stack'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_stack_1(parent), Widget);
 };
-Module['tab'] = function(tabber, name) {
+Module['ui']['tab'] = function(tabber, name) {
     var self = this.ptr;
     /* tabber <Tabber> [] */
     tabber = tabber.ptr;
     /* name <const char*> [] */
     return wrapPointer(_mud_ui_tab_2(tabber, name), Widget);
 };
-Module['tabber'] = function(parent) {
+Module['ui']['tabber'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_tabber_1(parent), Tabber);
 };
-Module['table_row'] = function(parent) {
+Module['ui']['table_row'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_table_row_1(parent), Widget);
 };
-Module['table_separator'] = function(parent) {
+Module['ui']['table_separator'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_table_separator_1(parent), Widget);
 };
-Module['text'] = function(parent, label) {
+Module['ui']['text'] = function(parent, label) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* label <const char*> [] */
     return wrapPointer(_mud_ui_text_2(parent, label), Widget);
 };
-Module['title'] = function(parent, label) {
+Module['ui']['title'] = function(parent, label) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* label <const char*> [] */
     return wrapPointer(_mud_ui_title_2(parent, label), Widget);
 };
-Module['title_header'] = function(parent, title) {
+Module['ui']['title_header'] = function(parent, title) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* title <const char*> [] */
     return wrapPointer(_mud_ui_title_header_2(parent, title), Widget);
 };
-Module['toggle'] = function(parent, on, content) {
+Module['ui']['toggle'] = function(parent, on, content) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* on <bool> [] */
     /* content <const char*> [] */
-    if (content === undefined) { return wrapPointer(_mud_ui_toggle_2(parent, on), Widget); return; }
+    if (content === undefined) { return wrapPointer(_mud_ui_toggle_2(parent, on), Widget); }
     return wrapPointer(_mud_ui_toggle_3(parent, on, content), Widget);
 };
-Module['toolbar'] = function(parent, wrap) {
+Module['ui']['toolbar'] = function(parent, wrap) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* wrap <bool> [] */
-    if (wrap === undefined) { return wrapPointer(_mud_ui_toolbar_1(parent), Widget); return; }
+    if (wrap === undefined) { return wrapPointer(_mud_ui_toolbar_1(parent), Widget); }
     return wrapPointer(_mud_ui_toolbar_2(parent, wrap), Widget);
 };
-Module['toolbutton'] = function(parent, icon) {
+Module['ui']['toolbutton'] = function(parent, icon) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* icon <const char*> [] */
     return wrapPointer(_mud_ui_toolbutton_2(parent, icon), Widget);
 };
-Module['tooldock'] = function(parent) {
+Module['ui']['tooldock'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_tooldock_1(parent), Widget);
 };
-Module['tooltip'] = function(parent, position, content) {
+Module['ui']['tooltip'] = function(parent, position, content) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -2209,24 +2207,24 @@ Module['tooltip'] = function(parent, position, content) {
     /* content <const char*> [] */
     return wrapPointer(_mud_ui_tooltip_3(parent, position, content), Widget);
 };
-Module['tree'] = function(parent) {
+Module['ui']['tree'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_tree_1(parent), Widget);
 };
-Module['tree_node'] = function(parent, name, leaf, open) {
+Module['ui']['tree_node'] = function(parent, name, leaf, open) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
     /* leaf <bool> [] */
     /* open <bool> [] */
-    if (leaf === undefined) { return wrapPointer(_mud_ui_tree_node_2(parent, name), TreeNode); return; }
-    if (open === undefined) { return wrapPointer(_mud_ui_tree_node_3(parent, name, leaf), TreeNode); return; }
+    if (leaf === undefined) { return wrapPointer(_mud_ui_tree_node_2(parent, name), TreeNode); }
+    if (open === undefined) { return wrapPointer(_mud_ui_tree_node_3(parent, name, leaf), TreeNode); }
     return wrapPointer(_mud_ui_tree_node_4(parent, name, leaf, open), TreeNode);
 };
-Module['vec2_edit'] = function(parent, vec) {
+Module['ui']['vec2_edit'] = function(parent, vec) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -2234,7 +2232,7 @@ Module['vec2_edit'] = function(parent, vec) {
     vec = vec.ptr;
     return !!(_mud_ui_vec2_edit_2(parent, vec));
 };
-Module['vec3_edit'] = function(parent, vec) {
+Module['ui']['vec3_edit'] = function(parent, vec) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -2242,7 +2240,7 @@ Module['vec3_edit'] = function(parent, vec) {
     vec = vec.ptr;
     return !!(_mud_ui_vec3_edit_2(parent, vec));
 };
-Module['widget'] = function(parent, style, open, length, index) {
+Module['ui']['widget'] = function(parent, style, open, length, index) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -2253,19 +2251,19 @@ Module['widget'] = function(parent, style, open, length, index) {
     if (length && typeof length === "object") length = length.ptr;
     /* index <Dim2<size_t>> [] */
     if(typeof index !== "undefined" && index !== null) {{ index = index.ptr }};
-    if (open === undefined) { return wrapPointer(_mud_ui_widget_2(parent, style), Widget); return; }
-    if (length === undefined) { return wrapPointer(_mud_ui_widget_3(parent, style, open), Widget); return; }
-    if (index === undefined) { return wrapPointer(_mud_ui_widget_4(parent, style, open, length), Widget); return; }
+    if (open === undefined) { return wrapPointer(_mud_ui_widget_2(parent, style), Widget); }
+    if (length === undefined) { return wrapPointer(_mud_ui_widget_3(parent, style, open), Widget); }
+    if (index === undefined) { return wrapPointer(_mud_ui_widget_4(parent, style, open, length), Widget); }
     return wrapPointer(_mud_ui_widget_5(parent, style, open, length, index), Widget);
 };
-Module['window'] = function(parent, title, state) {
+Module['ui']['window'] = function(parent, title, state) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* title <const char*> [] */
     /* state <WindowState> [] */
     if (state && typeof state === "object") state = state.ptr;
-    if (state === undefined) { return wrapPointer(_mud_ui_window_2(parent, title), Window); return; }
+    if (state === undefined) { return wrapPointer(_mud_ui_window_2(parent, title), Window); }
     return wrapPointer(_mud_ui_window_3(parent, title, state), Window);
 };
 
@@ -2313,11 +2311,11 @@ Module['window'] = function(parent, title, state) {
         Module['FORWARD'] = _mud_Pivot_FORWARD();
         Module['REVERSE'] = _mud_Pivot_REVERSE();
         // PopupFlags
-        Module['PopupFlags']['None'] = _mud_ui_PopupFlags_None();
-        Module['PopupFlags']['Modal'] = _mud_ui_PopupFlags_Modal();
-        Module['PopupFlags']['Clamp'] = _mud_ui_PopupFlags_Clamp();
-        Module['PopupFlags']['AutoClose'] = _mud_ui_PopupFlags_AutoClose();
-        Module['PopupFlags']['AutoModal'] = _mud_ui_PopupFlags_AutoModal();
+        Module['ui']['PopupFlags']['None'] = _mud_ui_PopupFlags_None();
+        Module['ui']['PopupFlags']['Modal'] = _mud_ui_PopupFlags_Modal();
+        Module['ui']['PopupFlags']['Clamp'] = _mud_ui_PopupFlags_Clamp();
+        Module['ui']['PopupFlags']['AutoClose'] = _mud_ui_PopupFlags_AutoClose();
+        Module['ui']['PopupFlags']['AutoModal'] = _mud_ui_PopupFlags_AutoModal();
         // Sizing
         Module['FIXED'] = _mud_Sizing_FIXED();
         Module['SHRINK'] = _mud_Sizing_SHRINK();

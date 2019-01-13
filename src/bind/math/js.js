@@ -1,7 +1,4 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
+Module['glm'] = Module['glm'] || {};
 // Colour
 function Colour(r, g, b, a) {
     /* r <float> [] */
@@ -894,7 +891,7 @@ Module['cosf'] = function(a) {
     /* a <float> [] */
     return __cosf_1(a);
 };
-Module['distance'] = function(a, b) {
+Module['glm']['distance'] = function(a, b) {
     var self = this.ptr;
     /* a <vec3> [] */
     a = a.ptr;
@@ -947,13 +944,13 @@ Module['hsla_to_rgba'] = function(colour) {
     colour = colour.ptr;
     return wrapPointer(_mud_hsla_to_rgba_1(colour), Colour);
 };
-Module['length'] = function(v) {
+Module['glm']['length'] = function(v) {
     var self = this.ptr;
     /* v <vec3> [] */
     v = v.ptr;
     return _glm_length_1(v);
 };
-Module['length2'] = function(v) {
+Module['glm']['length2'] = function(v) {
     var self = this.ptr;
     /* v <vec3> [] */
     v = v.ptr;
@@ -967,7 +964,7 @@ Module['look_at'] = function(eye, target, forward) {
     target = target.ptr;
     /* forward <vec3> [] */
     forward = forward.ptr;
-    if (forward === undefined) { return wrapPointer(_mud_look_at_2(eye, target), quat); return; }
+    if (forward === undefined) { return wrapPointer(_mud_look_at_2(eye, target), quat); }
     return wrapPointer(_mud_look_at_3(eye, target, forward), quat);
 };
 Module['look_dir'] = function(direction, forward) {
@@ -976,7 +973,7 @@ Module['look_dir'] = function(direction, forward) {
     direction = direction.ptr;
     /* forward <vec3> [] */
     forward = forward.ptr;
-    if (forward === undefined) { return wrapPointer(_mud_look_dir_1(direction), quat); return; }
+    if (forward === undefined) { return wrapPointer(_mud_look_dir_1(direction), quat); }
     return wrapPointer(_mud_look_dir_2(direction, forward), quat);
 };
 Module['multiply<float>'] = function(a, b) {

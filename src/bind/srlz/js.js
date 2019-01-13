@@ -1,8 +1,4 @@
 
-// Bindings utilities
-function WrapperObject() {
-}
-
 (function() {
     function setupEnums() {
     }

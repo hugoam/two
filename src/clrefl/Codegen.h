@@ -997,6 +997,14 @@ namespace clgen
 		return t;
 	}
 
+	string js_namespace_path(const CLModule& m, const CLPrimitive& n)
+	{
+		if(n.m_name != "" && n.m_name != m.m_namespace)
+			return js_namespace_path(m, *n.m_parent) + "['" + n.m_name + "']";
+		else
+			return "";
+	};
+
 	void bind_javascript(CLModule& m)
 	{
 		// @todo:
@@ -1049,11 +1057,6 @@ namespace clgen
 		cw("  }");
 		cw("}");
 #endif
-
-		jsw("");
-		jsw("// Bindings utilities");
-		jsw("function WrapperObject() {");
-		jsw("}");
 
 		//js_constructor("WrapperObject");
 
@@ -1135,6 +1138,17 @@ namespace clgen
 			return vector_union((method ? std::vector<string>{ "self" } : std::vector<string>()), params);
 		};
 
+		auto js_namespace = [&](const CLNamespace& n)
+		{
+			string path = "Module" + js_namespace_path(m, n);
+			jsw(path + " = " + path + " || {};");
+		};
+
+		auto js_module_path = [&](const CLModule& m, const CLPrimitive& p)
+		{
+			return "Module" + js_namespace_path(m, p);
+		};
+
 		auto js_call_inner = [&](const CLCallable& f, size_t n)
 		{
 			return "_" + binding_name_n(f, n) + "(" + join(call_args(f, n), ", ") + ")";
@@ -1165,7 +1179,7 @@ namespace clgen
 		auto js_wrap_optional_call = [&](const CLCallable& f, size_t n, const string& call)
 		{
 			if(n < f.m_params.size())
-				jsw("if (" + f.m_params[n].m_name + " === undefined) { " + call + " return; }");
+				jsw("if (" + f.m_params[n].m_name + " === undefined) { " + call + (f.m_return_type.isvoid() ? " return;" : "") + " }");
 			else
 				jsw(call);
 		};
@@ -1290,7 +1304,7 @@ namespace clgen
 			if(f.m_kind == CLPrimitiveKind::Method)
 				jsw(f.m_parent->m_name + ".prototype[\"" + f.m_name + "\"] = " + f.m_parent->m_name + ".prototype." + f.m_name + " = ", true);
 			else if(f.m_kind == CLPrimitiveKind::Function)
-				jsw("Module['" + f.m_name + "'] = ", true);
+				jsw(js_module_path(m, f) + " = ", true);
 			jsw(js_supress + "function" + (ctor ? " " + f.m_name : "") + "(" + join(call_args(f, f.m_params.size()), ", ") + ") {");
 			if(!ctor) 
 				jsw("var self = this.ptr;");
@@ -1335,7 +1349,7 @@ namespace clgen
 			jsw(c.m_name + ".prototype.constructor = " + c.m_name + ";");
 			jsw(c.m_name + ".prototype.__class__ = " + c.m_name + ";");
 			jsw(c.m_name + ".__cache__ = {};");
-			jsw("Module['" + c.m_name + "'] = " + c.m_name + ";");
+			jsw(js_module_path(m, c) + " = " + c.m_name + ";");
 		};
 
 		auto js_function = [&](const Overloads& o)
@@ -1491,6 +1505,13 @@ namespace clgen
   if not js_impl: continue
   implements[name] = [js_impl[0]]*/
 
+		for(auto& pair : m.m_context.m_namespaces)
+		{
+			CLNamespace& n = *pair.second;
+			if(n.m_reflect_content && n.m_name != m.m_namespace)
+				js_namespace(*pair.second);
+		}
+
 		for(auto& pc : m.m_classes)
 			if(pc->m_reflect && !pc->m_is_templated)
 			{
@@ -1631,10 +1652,7 @@ namespace clgen
 					cw("return " + e.m_scoped_ids[i] + ";");
 					cw("}");
 
-					if(e.m_scoped)
-						jsw("Module['" + e.m_name + "']['" + e.m_ids[i] + "'] = _" + f + "();");
-					else
-						jsw("Module['" + e.m_ids[i] + "'] = _" + f + "();");
+					jsw(js_module_path(m, e.m_scoped ? e : *e.m_parent) + "['" + e.m_ids[i] + "'] = _" + f + "();");
 				}
 			}
 

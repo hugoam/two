@@ -122,6 +122,8 @@ namespace mud
 			});
 		}
 
+		parent.m_reflect_content |= true;
+
 		for(size_t i = 0; i < f.m_params.size(); ++i)
 			if(!f.m_params[i].m_has_default)
 				f.m_min_args = i+1;
@@ -235,6 +237,8 @@ namespace mud
 		}
 		if(c.m_is_templated)
 			c.m_template = module.m_context.m_class_templates[c.m_template_name];
+
+		parent.m_reflect_content |= c.m_reflect;
 
 		//#if(m_is_templated && is_template_decl(cursor):
 		//#    m_template.template_used = true

@@ -1,7 +1,3 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
 // Call
 function Call(callable, arguments) {
     /* callable <Callable> [] */

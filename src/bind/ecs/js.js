@@ -1,7 +1,3 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
 // Complex
 function Complex(id, type, parts) {
     /* id <mud::Id> [] */

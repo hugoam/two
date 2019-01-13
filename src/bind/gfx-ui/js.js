@@ -1,7 +1,6 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
+Module['glm'] = Module['glm'] || {};
+Module['gfx'] = Module['gfx'] || {};
+Module['ui'] = Module['ui'] || {};
 // Object
 function Object() { throw "cannot construct a Object, no constructor in IDL" }
 Object.prototype = Object.create(WrapperObject.prototype);
@@ -177,13 +176,13 @@ SceneViewer.prototype["__destroy__"] = SceneViewer.prototype.__destroy__ = funct
     var self = this.ptr;
     _mud_SceneViewer__destroy(self);
 };
-Module['free_orbit_controller'] = function(viewer) {
+Module['ui']['free_orbit_controller'] = function(viewer) {
     var self = this.ptr;
     /* viewer <Viewer> [] */
     viewer = viewer.ptr;
     return wrapPointer(_mud_ui_free_orbit_controller_1(viewer), FreeOrbitController);
 };
-Module['hybrid_controller'] = function(viewer, mode, entity, aiming, angles, modal) {
+Module['ui']['hybrid_controller'] = function(viewer, mode, entity, aiming, angles, modal) {
     var self = this.ptr;
     /* viewer <Viewer> [] */
     viewer = viewer.ptr;
@@ -195,37 +194,37 @@ Module['hybrid_controller'] = function(viewer, mode, entity, aiming, angles, mod
     /* angles <vec2> [] */
     angles = angles.ptr;
     /* modal <bool> [] */
-    if (modal === undefined) { return wrapPointer(_mud_ui_hybrid_controller_5(viewer, mode, entity, aiming, angles), OrbitController); return; }
+    if (modal === undefined) { return wrapPointer(_mud_ui_hybrid_controller_5(viewer, mode, entity, aiming, angles), OrbitController); }
     return wrapPointer(_mud_ui_hybrid_controller_6(viewer, mode, entity, aiming, angles, modal), OrbitController);
 };
-Module['isometric_controller'] = function(viewer, topdown) {
+Module['ui']['isometric_controller'] = function(viewer, topdown) {
     var self = this.ptr;
     /* viewer <Viewer> [] */
     viewer = viewer.ptr;
     /* topdown <bool> [] */
-    if (topdown === undefined) { return wrapPointer(_mud_ui_isometric_controller_1(viewer), OrbitController); return; }
+    if (topdown === undefined) { return wrapPointer(_mud_ui_isometric_controller_1(viewer), OrbitController); }
     return wrapPointer(_mud_ui_isometric_controller_2(viewer, topdown), OrbitController);
 };
-Module['orbit_controller'] = function(viewer, yaw, pitch, distance) {
+Module['ui']['orbit_controller'] = function(viewer, yaw, pitch, distance) {
     var self = this.ptr;
     /* viewer <Viewer> [] */
     viewer = viewer.ptr;
     /* yaw <float> [] */
     /* pitch <float> [] */
     /* distance <float> [] */
-    if (distance === undefined) { return wrapPointer(_mud_ui_orbit_controller_3(viewer, yaw, pitch), OrbitController); return; }
+    if (distance === undefined) { return wrapPointer(_mud_ui_orbit_controller_3(viewer, yaw, pitch), OrbitController); }
     return wrapPointer(_mud_ui_orbit_controller_4(viewer, yaw, pitch, distance), OrbitController);
 };
-Module['scene_viewer'] = function(parent, size) {
+Module['ui']['scene_viewer'] = function(parent, size) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* size <vec2> [] */
     size = size.ptr;
-    if (size === undefined) { return wrapPointer(_mud_ui_scene_viewer_1(parent), SceneViewer); return; }
+    if (size === undefined) { return wrapPointer(_mud_ui_scene_viewer_1(parent), SceneViewer); }
     return wrapPointer(_mud_ui_scene_viewer_2(parent, size), SceneViewer);
 };
-Module['velocity_controller'] = function(viewer, linear, angular, speed) {
+Module['ui']['velocity_controller'] = function(viewer, linear, angular, speed) {
     var self = this.ptr;
     /* viewer <Viewer> [] */
     viewer = viewer.ptr;
@@ -237,7 +236,7 @@ Module['velocity_controller'] = function(viewer, linear, angular, speed) {
     if (speed === undefined) { _mud_ui_velocity_controller_3(viewer, linear, angular); return; }
     _mud_ui_velocity_controller_4(viewer, linear, angular, speed);
 };
-Module['viewer'] = function(parent, scene) {
+Module['ui']['viewer'] = function(parent, scene) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
@@ -249,9 +248,9 @@ Module['viewer'] = function(parent, scene) {
 (function() {
     function setupEnums() {
         // OrbitMode
-        Module['OrbitMode']['ThirdPerson'] = _mud_ui_OrbitMode_ThirdPerson();
-        Module['OrbitMode']['Isometric'] = _mud_ui_OrbitMode_Isometric();
-        Module['OrbitMode']['PseudoIsometric'] = _mud_ui_OrbitMode_PseudoIsometric();
+        Module['ui']['OrbitMode']['ThirdPerson'] = _mud_ui_OrbitMode_ThirdPerson();
+        Module['ui']['OrbitMode']['Isometric'] = _mud_ui_OrbitMode_Isometric();
+        Module['ui']['OrbitMode']['PseudoIsometric'] = _mud_ui_OrbitMode_PseudoIsometric();
     }
     if (Module['calledRun']) setupEnums();
     else addOnPreMain(setupEnums);

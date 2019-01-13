@@ -1,7 +1,6 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
+Module['glm'] = Module['glm'] || {};
+Module['gfx'] = Module['gfx'] || {};
+Module['ui'] = Module['ui'] || {};
 // Animated
 function Animated() { throw "cannot construct a Animated, no constructor in IDL" }
 Animated.prototype = Object.create(WrapperObject.prototype);
@@ -1227,7 +1226,7 @@ GfxSystem.prototype["fetch_material"] = GfxSystem.prototype.fetch_material = fun
     /* name <const char*> [] */
     /* shader <const char*> [] */
     /* builtin <bool> [] */
-    if (builtin === undefined) { return wrapPointer(_mud_GfxSystem_fetch_material_2(self, name, shader), Material); return; }
+    if (builtin === undefined) { return wrapPointer(_mud_GfxSystem_fetch_material_2(self, name, shader), Material); }
     return wrapPointer(_mud_GfxSystem_fetch_material_3(self, name, shader, builtin), Material);
 };
 GfxSystem.prototype["fetch_symbol"] = GfxSystem.prototype.fetch_symbol = function(self, symbol, shape, draw_mode) {
@@ -3074,7 +3073,7 @@ RenderTarget.prototype["__destroy__"] = RenderTarget.prototype.__destroy__ = fun
     var self = this.ptr;
     _mud_RenderTarget__destroy(self);
 };
-Module['animated'] = function(parent, item) {
+Module['gfx']['animated'] = function(parent, item) {
     var self = this.ptr;
     /* parent <Gnode> [] */
     parent = parent.ptr;
@@ -3082,7 +3081,7 @@ Module['animated'] = function(parent, item) {
     item = item.ptr;
     return wrapPointer(_mud_gfx_animated_2(parent, item), Animated);
 };
-Module['draw'] = function(parent, shape, symbol, flags) {
+Module['gfx']['draw'] = function(parent, shape, symbol, flags) {
     var self = this.ptr;
     /* parent <Gnode> [] */
     parent = parent.ptr;
@@ -3094,7 +3093,7 @@ Module['draw'] = function(parent, shape, symbol, flags) {
     if (flags === undefined) { _mud_gfx_draw_3(parent, shape, symbol); return; }
     _mud_gfx_draw_4(parent, shape, symbol, flags);
 };
-Module['light'] = function(parent, type, shadows, colour, range, attenuation) {
+Module['gfx']['light'] = function(parent, type, shadows, colour, range, attenuation) {
     var self = this.ptr;
     /* parent <Gnode> [] */
     parent = parent.ptr;
@@ -3105,11 +3104,11 @@ Module['light'] = function(parent, type, shadows, colour, range, attenuation) {
     colour = colour.ptr;
     /* range <float> [] */
     /* attenuation <float> [] */
-    if (range === undefined) { return wrapPointer(_mud_gfx_light_4(parent, type, shadows, colour), Light); return; }
-    if (attenuation === undefined) { return wrapPointer(_mud_gfx_light_5(parent, type, shadows, colour, range), Light); return; }
+    if (range === undefined) { return wrapPointer(_mud_gfx_light_4(parent, type, shadows, colour), Light); }
+    if (attenuation === undefined) { return wrapPointer(_mud_gfx_light_5(parent, type, shadows, colour, range), Light); }
     return wrapPointer(_mud_gfx_light_6(parent, type, shadows, colour, range, attenuation), Light);
 };
-Module['model'] = function(parent, name, flags, material, instances) {
+Module['gfx']['model'] = function(parent, name, flags, material, instances) {
     var self = this.ptr;
     ensureCache.prepare();
     /* parent <Gnode> [] */
@@ -3121,12 +3120,12 @@ Module['model'] = function(parent, name, flags, material, instances) {
     /* material <Material> [] */
     if(typeof material !== "undefined" && material !== null) {{ material = material.ptr }};
     /* instances <size_t> [] */
-    if (flags === undefined) { return wrapPointer(_mud_gfx_model_2(parent, name), Item); return; }
-    if (material === undefined) { return wrapPointer(_mud_gfx_model_3(parent, name, flags), Item); return; }
-    if (instances === undefined) { return wrapPointer(_mud_gfx_model_4(parent, name, flags, material), Item); return; }
+    if (flags === undefined) { return wrapPointer(_mud_gfx_model_2(parent, name), Item); }
+    if (material === undefined) { return wrapPointer(_mud_gfx_model_3(parent, name, flags), Item); }
+    if (instances === undefined) { return wrapPointer(_mud_gfx_model_4(parent, name, flags, material), Item); }
     return wrapPointer(_mud_gfx_model_5(parent, name, flags, material, instances), Item);
 };
-Module['particles'] = function(parent, emitter, flags, instances) {
+Module['gfx']['particles'] = function(parent, emitter, flags, instances) {
     var self = this.ptr;
     /* parent <Gnode> [] */
     parent = parent.ptr;
@@ -3134,11 +3133,11 @@ Module['particles'] = function(parent, emitter, flags, instances) {
     emitter = emitter.ptr;
     /* flags <uint32_t> [] */
     /* instances <size_t> [] */
-    if (flags === undefined) { return wrapPointer(_mud_gfx_particles_2(parent, emitter), Particles); return; }
-    if (instances === undefined) { return wrapPointer(_mud_gfx_particles_3(parent, emitter, flags), Particles); return; }
+    if (flags === undefined) { return wrapPointer(_mud_gfx_particles_2(parent, emitter), Particles); }
+    if (instances === undefined) { return wrapPointer(_mud_gfx_particles_3(parent, emitter, flags), Particles); }
     return wrapPointer(_mud_gfx_particles_4(parent, emitter, flags, instances), Particles);
 };
-Module['radiance'] = function(parent, texture, background) {
+Module['gfx']['radiance'] = function(parent, texture, background) {
     var self = this.ptr;
     ensureCache.prepare();
     /* parent <Gnode> [] */
@@ -3150,7 +3149,7 @@ Module['radiance'] = function(parent, texture, background) {
     if (background && typeof background === "object") background = background.ptr;
     _mud_gfx_radiance_3(parent, texture, background);
 };
-Module['shape'] = function(parent, shape, symbol, flags, material, instances) {
+Module['gfx']['shape'] = function(parent, shape, symbol, flags, material, instances) {
     var self = this.ptr;
     /* parent <Gnode> [] */
     parent = parent.ptr;
@@ -3162,12 +3161,12 @@ Module['shape'] = function(parent, shape, symbol, flags, material, instances) {
     /* material <Material> [] */
     if(typeof material !== "undefined" && material !== null) {{ material = material.ptr }};
     /* instances <size_t> [] */
-    if (flags === undefined) { return wrapPointer(_mud_gfx_shape_3(parent, shape, symbol), Item); return; }
-    if (material === undefined) { return wrapPointer(_mud_gfx_shape_4(parent, shape, symbol, flags), Item); return; }
-    if (instances === undefined) { return wrapPointer(_mud_gfx_shape_5(parent, shape, symbol, flags, material), Item); return; }
+    if (flags === undefined) { return wrapPointer(_mud_gfx_shape_3(parent, shape, symbol), Item); }
+    if (material === undefined) { return wrapPointer(_mud_gfx_shape_4(parent, shape, symbol, flags), Item); }
+    if (instances === undefined) { return wrapPointer(_mud_gfx_shape_5(parent, shape, symbol, flags, material), Item); }
     return wrapPointer(_mud_gfx_shape_6(parent, shape, symbol, flags, material, instances), Item);
 };
-Module['sprite'] = function(parent, image, size, flags, material, instances) {
+Module['gfx']['sprite'] = function(parent, image, size, flags, material, instances) {
     var self = this.ptr;
     /* parent <Gnode> [] */
     parent = parent.ptr;
@@ -3179,12 +3178,12 @@ Module['sprite'] = function(parent, image, size, flags, material, instances) {
     /* material <Material> [] */
     if(typeof material !== "undefined" && material !== null) {{ material = material.ptr }};
     /* instances <size_t> [] */
-    if (flags === undefined) { return wrapPointer(_mud_gfx_sprite_3(parent, image, size), Item); return; }
-    if (material === undefined) { return wrapPointer(_mud_gfx_sprite_4(parent, image, size, flags), Item); return; }
-    if (instances === undefined) { return wrapPointer(_mud_gfx_sprite_5(parent, image, size, flags, material), Item); return; }
+    if (flags === undefined) { return wrapPointer(_mud_gfx_sprite_3(parent, image, size), Item); }
+    if (material === undefined) { return wrapPointer(_mud_gfx_sprite_4(parent, image, size, flags), Item); }
+    if (instances === undefined) { return wrapPointer(_mud_gfx_sprite_5(parent, image, size, flags, material), Item); }
     return wrapPointer(_mud_gfx_sprite_6(parent, image, size, flags, material, instances), Item);
 };
-Module['sun_light'] = function(parent, azimuth, elevation) {
+Module['gfx']['sun_light'] = function(parent, azimuth, elevation) {
     var self = this.ptr;
     /* parent <Gnode> [] */
     parent = parent.ptr;
@@ -3192,13 +3191,13 @@ Module['sun_light'] = function(parent, azimuth, elevation) {
     /* elevation <float> [] */
     return wrapPointer(_mud_gfx_sun_light_3(parent, azimuth, elevation), Light);
 };
-Module['update_item_aabb'] = function(item) {
+Module['gfx']['update_item_aabb'] = function(item) {
     var self = this.ptr;
     /* item <Item> [] */
     item = item.ptr;
     _mud_gfx_update_item_aabb_1(item);
 };
-Module['update_item_lights'] = function(item) {
+Module['gfx']['update_item_lights'] = function(item) {
     var self = this.ptr;
     /* item <Item> [] */
     item = item.ptr;

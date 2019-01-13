@@ -1,7 +1,4 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
+Module['glm'] = Module['glm'] || {};
 // Context
 function Context() { throw "cannot construct a Context, no constructor in IDL" }
 Context.prototype = Object.create(WrapperObject.prototype);

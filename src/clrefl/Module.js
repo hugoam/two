@@ -1,3 +1,6 @@
+// Bindings utilities
+function WrapperObject() {
+}
 function getCache(cls) {
   return (cls || WrapperObject).__cache__;
 }

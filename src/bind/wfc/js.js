@@ -1,7 +1,4 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
+Module['glm'] = Module['glm'] || {};
 // Tile
 function Tile() {
     this.ptr = _mud_Tile_Tile_0(); getCache(Tile)[this.ptr] = this;

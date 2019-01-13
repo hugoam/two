@@ -1,7 +1,4 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
+Module['glm'] = Module['glm'] || {};
 // Noise
 function Noise() { throw "cannot construct a Noise, no constructor in IDL" }
 Noise.prototype = Object.create(WrapperObject.prototype);
@@ -22,8 +19,8 @@ Module['noise_2d'] = function(x, y, noise_type, frequency, interp) {
     /* frequency <float> [] */
     /* interp <Interp> [] */
     if (interp && typeof interp === "object") interp = interp.ptr;
-    if (frequency === undefined) { return _mud_noise_2d_3(x, y, noise_type); return; }
-    if (interp === undefined) { return _mud_noise_2d_4(x, y, noise_type, frequency); return; }
+    if (frequency === undefined) { return _mud_noise_2d_3(x, y, noise_type); }
+    if (interp === undefined) { return _mud_noise_2d_4(x, y, noise_type, frequency); }
     return _mud_noise_2d_5(x, y, noise_type, frequency, interp);
 };
 Module['noise_3d'] = function(x, y, z, noise_type, frequency, interp) {
@@ -36,8 +33,8 @@ Module['noise_3d'] = function(x, y, z, noise_type, frequency, interp) {
     /* frequency <float> [] */
     /* interp <Interp> [] */
     if (interp && typeof interp === "object") interp = interp.ptr;
-    if (frequency === undefined) { return _mud_noise_3d_4(x, y, z, noise_type); return; }
-    if (interp === undefined) { return _mud_noise_3d_5(x, y, z, noise_type, frequency); return; }
+    if (frequency === undefined) { return _mud_noise_3d_4(x, y, z, noise_type); }
+    if (interp === undefined) { return _mud_noise_3d_5(x, y, z, noise_type, frequency); }
     return _mud_noise_3d_6(x, y, z, noise_type, frequency, interp);
 };
 Module['noise_fract_2d'] = function(x, y, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain) {
@@ -54,11 +51,11 @@ Module['noise_fract_2d'] = function(x, y, noise_type, frequency, interp, fractal
     /* octaves <int> [] */
     /* lacunarity <float> [] */
     /* gain <float> [] */
-    if (interp === undefined) { return _mud_noise_fract_2d_4(x, y, noise_type, frequency); return; }
-    if (fractal_type === undefined) { return _mud_noise_fract_2d_5(x, y, noise_type, frequency, interp); return; }
-    if (octaves === undefined) { return _mud_noise_fract_2d_6(x, y, noise_type, frequency, interp, fractal_type); return; }
-    if (lacunarity === undefined) { return _mud_noise_fract_2d_7(x, y, noise_type, frequency, interp, fractal_type, octaves); return; }
-    if (gain === undefined) { return _mud_noise_fract_2d_8(x, y, noise_type, frequency, interp, fractal_type, octaves, lacunarity); return; }
+    if (interp === undefined) { return _mud_noise_fract_2d_4(x, y, noise_type, frequency); }
+    if (fractal_type === undefined) { return _mud_noise_fract_2d_5(x, y, noise_type, frequency, interp); }
+    if (octaves === undefined) { return _mud_noise_fract_2d_6(x, y, noise_type, frequency, interp, fractal_type); }
+    if (lacunarity === undefined) { return _mud_noise_fract_2d_7(x, y, noise_type, frequency, interp, fractal_type, octaves); }
+    if (gain === undefined) { return _mud_noise_fract_2d_8(x, y, noise_type, frequency, interp, fractal_type, octaves, lacunarity); }
     return _mud_noise_fract_2d_9(x, y, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain);
 };
 Module['noise_fract_3d'] = function(x, y, z, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain) {
@@ -76,48 +73,48 @@ Module['noise_fract_3d'] = function(x, y, z, noise_type, frequency, interp, frac
     /* octaves <int> [] */
     /* lacunarity <float> [] */
     /* gain <float> [] */
-    if (interp === undefined) { return _mud_noise_fract_3d_5(x, y, z, noise_type, frequency); return; }
-    if (fractal_type === undefined) { return _mud_noise_fract_3d_6(x, y, z, noise_type, frequency, interp); return; }
-    if (octaves === undefined) { return _mud_noise_fract_3d_7(x, y, z, noise_type, frequency, interp, fractal_type); return; }
-    if (lacunarity === undefined) { return _mud_noise_fract_3d_8(x, y, z, noise_type, frequency, interp, fractal_type, octaves); return; }
-    if (gain === undefined) { return _mud_noise_fract_3d_9(x, y, z, noise_type, frequency, interp, fractal_type, octaves, lacunarity); return; }
+    if (interp === undefined) { return _mud_noise_fract_3d_5(x, y, z, noise_type, frequency); }
+    if (fractal_type === undefined) { return _mud_noise_fract_3d_6(x, y, z, noise_type, frequency, interp); }
+    if (octaves === undefined) { return _mud_noise_fract_3d_7(x, y, z, noise_type, frequency, interp, fractal_type); }
+    if (lacunarity === undefined) { return _mud_noise_fract_3d_8(x, y, z, noise_type, frequency, interp, fractal_type, octaves); }
+    if (gain === undefined) { return _mud_noise_fract_3d_9(x, y, z, noise_type, frequency, interp, fractal_type, octaves, lacunarity); }
     return _mud_noise_fract_3d_10(x, y, z, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain);
 };
 
 (function() {
     function setupEnums() {
         // CellularDistanceFunction
-        Module['Euclidean'] = _mud_Noise_CellularDistanceFunction_Euclidean();
-        Module['Manhattan'] = _mud_Noise_CellularDistanceFunction_Manhattan();
-        Module['Natural'] = _mud_Noise_CellularDistanceFunction_Natural();
+        Module['Noise']['Euclidean'] = _mud_Noise_CellularDistanceFunction_Euclidean();
+        Module['Noise']['Manhattan'] = _mud_Noise_CellularDistanceFunction_Manhattan();
+        Module['Noise']['Natural'] = _mud_Noise_CellularDistanceFunction_Natural();
         // CellularReturnType
-        Module['CellValue'] = _mud_Noise_CellularReturnType_CellValue();
-        Module['NoiseLookup'] = _mud_Noise_CellularReturnType_NoiseLookup();
-        Module['Distance'] = _mud_Noise_CellularReturnType_Distance();
-        Module['Distance2'] = _mud_Noise_CellularReturnType_Distance2();
-        Module['Distance2Add'] = _mud_Noise_CellularReturnType_Distance2Add();
-        Module['Distance2Sub'] = _mud_Noise_CellularReturnType_Distance2Sub();
-        Module['Distance2Mul'] = _mud_Noise_CellularReturnType_Distance2Mul();
-        Module['Distance2Div'] = _mud_Noise_CellularReturnType_Distance2Div();
+        Module['Noise']['CellValue'] = _mud_Noise_CellularReturnType_CellValue();
+        Module['Noise']['NoiseLookup'] = _mud_Noise_CellularReturnType_NoiseLookup();
+        Module['Noise']['Distance'] = _mud_Noise_CellularReturnType_Distance();
+        Module['Noise']['Distance2'] = _mud_Noise_CellularReturnType_Distance2();
+        Module['Noise']['Distance2Add'] = _mud_Noise_CellularReturnType_Distance2Add();
+        Module['Noise']['Distance2Sub'] = _mud_Noise_CellularReturnType_Distance2Sub();
+        Module['Noise']['Distance2Mul'] = _mud_Noise_CellularReturnType_Distance2Mul();
+        Module['Noise']['Distance2Div'] = _mud_Noise_CellularReturnType_Distance2Div();
         // FractalType
-        Module['FBM'] = _mud_Noise_FractalType_FBM();
-        Module['Billow'] = _mud_Noise_FractalType_Billow();
-        Module['RigidMulti'] = _mud_Noise_FractalType_RigidMulti();
+        Module['Noise']['FBM'] = _mud_Noise_FractalType_FBM();
+        Module['Noise']['Billow'] = _mud_Noise_FractalType_Billow();
+        Module['Noise']['RigidMulti'] = _mud_Noise_FractalType_RigidMulti();
         // Interp
-        Module['Linear'] = _mud_Noise_Interp_Linear();
-        Module['Hermite'] = _mud_Noise_Interp_Hermite();
-        Module['Quintic'] = _mud_Noise_Interp_Quintic();
+        Module['Noise']['Linear'] = _mud_Noise_Interp_Linear();
+        Module['Noise']['Hermite'] = _mud_Noise_Interp_Hermite();
+        Module['Noise']['Quintic'] = _mud_Noise_Interp_Quintic();
         // NoiseType
-        Module['Value'] = _mud_Noise_NoiseType_Value();
-        Module['ValueFractal'] = _mud_Noise_NoiseType_ValueFractal();
-        Module['Perlin'] = _mud_Noise_NoiseType_Perlin();
-        Module['PerlinFractal'] = _mud_Noise_NoiseType_PerlinFractal();
-        Module['Simplex'] = _mud_Noise_NoiseType_Simplex();
-        Module['SimplexFractal'] = _mud_Noise_NoiseType_SimplexFractal();
-        Module['Cellular'] = _mud_Noise_NoiseType_Cellular();
-        Module['WhiteNoise'] = _mud_Noise_NoiseType_WhiteNoise();
-        Module['Cubic'] = _mud_Noise_NoiseType_Cubic();
-        Module['CubicFractal'] = _mud_Noise_NoiseType_CubicFractal();
+        Module['Noise']['Value'] = _mud_Noise_NoiseType_Value();
+        Module['Noise']['ValueFractal'] = _mud_Noise_NoiseType_ValueFractal();
+        Module['Noise']['Perlin'] = _mud_Noise_NoiseType_Perlin();
+        Module['Noise']['PerlinFractal'] = _mud_Noise_NoiseType_PerlinFractal();
+        Module['Noise']['Simplex'] = _mud_Noise_NoiseType_Simplex();
+        Module['Noise']['SimplexFractal'] = _mud_Noise_NoiseType_SimplexFractal();
+        Module['Noise']['Cellular'] = _mud_Noise_NoiseType_Cellular();
+        Module['Noise']['WhiteNoise'] = _mud_Noise_NoiseType_WhiteNoise();
+        Module['Noise']['Cubic'] = _mud_Noise_NoiseType_Cubic();
+        Module['Noise']['CubicFractal'] = _mud_Noise_NoiseType_CubicFractal();
     }
     if (Module['calledRun']) setupEnums();
     else addOnPreMain(setupEnums);

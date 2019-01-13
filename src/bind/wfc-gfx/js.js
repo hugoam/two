@@ -1,7 +1,6 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
+Module['glm'] = Module['glm'] || {};
+Module['gfx'] = Module['gfx'] || {};
+Module['ui'] = Module['ui'] || {};
 // TileModel
 function TileModel() {
     this.ptr = _mud_TileModel_TileModel_0(); getCache(TileModel)[this.ptr] = this;

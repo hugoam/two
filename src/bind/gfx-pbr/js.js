@@ -1,7 +1,6 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
+Module['glm'] = Module['glm'] || {};
+Module['gfx'] = Module['gfx'] || {};
+Module['ui'] = Module['ui'] || {};
 // BCS
 function BCS() {
     this.ptr = _mud_BCS_BCS_0(); getCache(BCS)[this.ptr] = this;
@@ -643,7 +642,7 @@ BlockTonemap.prototype["__destroy__"] = BlockTonemap.prototype.__destroy__ = fun
     var self = this.ptr;
     _mud_BlockTonemap__destroy(self);
 };
-Module['gi_probe'] = function(parent, subdiv, extents) {
+Module['gfx']['gi_probe'] = function(parent, subdiv, extents) {
     var self = this.ptr;
     /* parent <Gnode> [] */
     parent = parent.ptr;
@@ -652,7 +651,7 @@ Module['gi_probe'] = function(parent, subdiv, extents) {
     extents = extents.ptr;
     return wrapPointer(_mud_gfx_gi_probe_3(parent, subdiv, extents), GIProbe);
 };
-Module['lightmap'] = function(parent, resolution, density, save_path) {
+Module['gfx']['lightmap'] = function(parent, resolution, density, save_path) {
     var self = this.ptr;
     ensureCache.prepare();
     /* parent <Gnode> [] */
@@ -662,8 +661,8 @@ Module['lightmap'] = function(parent, resolution, density, save_path) {
     /* save_path <std::string> [] */
     if (save_path && typeof save_path === "object") save_path = save_path.ptr;
     else save_path = ensureString(save_path);
-    if (density === undefined) { return wrapPointer(_mud_gfx_lightmap_2(parent, resolution), LightmapAtlas); return; }
-    if (save_path === undefined) { return wrapPointer(_mud_gfx_lightmap_3(parent, resolution, density), LightmapAtlas); return; }
+    if (density === undefined) { return wrapPointer(_mud_gfx_lightmap_2(parent, resolution), LightmapAtlas); }
+    if (save_path === undefined) { return wrapPointer(_mud_gfx_lightmap_3(parent, resolution, density), LightmapAtlas); }
     return wrapPointer(_mud_gfx_lightmap_4(parent, resolution, density, save_path), LightmapAtlas);
 };
 

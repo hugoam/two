@@ -1,7 +1,3 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
 // HandlePool
 function HandlePool() { throw "cannot construct a HandlePool, no constructor in IDL" }
 HandlePool.prototype = Object.create(WrapperObject.prototype);

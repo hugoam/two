@@ -1,7 +1,5 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
+Module['glm'] = Module['glm'] || {};
+Module['ui'] = Module['ui'] || {};
 
 (function() {
     function setupEnums() {

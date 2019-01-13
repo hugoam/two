@@ -1,7 +1,4 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
+Module['glm'] = Module['glm'] || {};
 // Distribution
 function Distribution() { throw "cannot construct a Distribution, no constructor in IDL" }
 Distribution.prototype = Object.create(WrapperObject.prototype);
@@ -1253,7 +1250,7 @@ Module['to_ray'] = function(pos, dir, distance) {
     /* dir <vec3> [] */
     dir = dir.ptr;
     /* distance <float> [] */
-    if (distance === undefined) { return wrapPointer(_mud_to_ray_2(pos, dir), Ray); return; }
+    if (distance === undefined) { return wrapPointer(_mud_to_ray_2(pos, dir), Ray); }
     return wrapPointer(_mud_to_ray_3(pos, dir, distance), Ray);
 };
 Module['to_segment'] = function(ray) {

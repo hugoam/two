@@ -1,7 +1,6 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
+Module['glm'] = Module['glm'] || {};
+Module['gfx'] = Module['gfx'] || {};
+Module['ui'] = Module['ui'] || {};
 // EditContext
 function EditContext() { throw "cannot construct a EditContext, no constructor in IDL" }
 EditContext.prototype = Object.create(WrapperObject.prototype);

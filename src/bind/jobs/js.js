@@ -1,7 +1,3 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
 // JobSystem
 function JobSystem() { throw "cannot construct a JobSystem, no constructor in IDL" }
 JobSystem.prototype = Object.create(WrapperObject.prototype);

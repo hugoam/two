@@ -1,7 +1,5 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
+Module['glm'] = Module['glm'] || {};
+Module['ui'] = Module['ui'] || {};
 // ScriptEditor
 function ScriptEditor() { throw "cannot construct a ScriptEditor, no constructor in IDL" }
 ScriptEditor.prototype = Object.create(WrapperObject.prototype);
@@ -21,7 +19,7 @@ Module['entity_edit'] = function(parent, entity, hint) {
     entity = entity.ptr;
     /* hint <EditorHint> [] */
     if (hint && typeof hint === "object") hint = hint.ptr;
-    if (hint === undefined) { return !!(_mud_entity_edit_2(parent, entity)); return; }
+    if (hint === undefined) { return !!(_mud_entity_edit_2(parent, entity)); }
     return !!(_mud_entity_edit_3(parent, entity, hint));
 };
 Module['inspector'] = function(parent, entity) {

@@ -79,7 +79,8 @@ function mud_binary_config()
         }
         
         linkoptions {
-            "-s ALLOW_MEMORY_GROWTH=1",
+            --"-s ALLOW_MEMORY_GROWTH=1",
+            "-s TOTAL_MEMORY=512MB",
             "-s ALIASING_FUNCTION_POINTERS=0",
         }
         

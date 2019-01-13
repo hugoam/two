@@ -1,7 +1,4 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
+Module['glm'] = Module['glm'] || {};
 // Interpreter
 function Interpreter() { throw "cannot construct a Interpreter, no constructor in IDL" }
 Interpreter.prototype = Object.create(WrapperObject.prototype);

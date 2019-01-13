@@ -1,7 +1,3 @@
-
-// Bindings utilities
-function WrapperObject() {
-}
 // Index
 function Index() { throw "cannot construct a Index, no constructor in IDL" }
 Index.prototype = Object.create(WrapperObject.prototype);
