@@ -22,19 +22,8 @@ extern "C" {
 	mud::Complex* EMSCRIPTEN_KEEPALIVE Complex_Complex_3(mud::Id id, mud::Type* type, const std::vector<mud::Ref>* parts) {
 		return new mud::Complex(id, *type, *parts);
 	}
-	void EMSCRIPTEN_KEEPALIVE Complex_add_part_1(mud::Complex* self, mud::Ref* part) {
-		self->add_part(part);
-	}
 	bool EMSCRIPTEN_KEEPALIVE Complex_has_part_1(mud::Complex* self, mud::Type* type) {
 		return self->has_part(*type);
-	}
-	mud::Ref* EMSCRIPTEN_KEEPALIVE Complex_part_1(mud::Complex* self, mud::Type* type) {
-		static mud::Ref temp;
-		return (temp = self->part(*type), &temp);
-	}
-	mud::Ref* EMSCRIPTEN_KEEPALIVE Complex_try_part_1(mud::Complex* self, mud::Type* type) {
-		static mud::Ref temp;
-		return (temp = self->try_part(*type), &temp);
 	}
 	mud::Id EMSCRIPTEN_KEEPALIVE Complex_get_id(mud::Complex* self) {
 		return self->m_id;

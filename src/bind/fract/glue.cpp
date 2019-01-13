@@ -23,14 +23,6 @@ extern "C" {
 	mud::Circlifier* EMSCRIPTEN_KEEPALIVE Circlifier_Circlifier_1(mud::Image256* image) {
 		return new mud::Circlifier(*image);
 	}
-	std::vector<mud::Circle>* EMSCRIPTEN_KEEPALIVE Circlifier_compute_1(mud::Circlifier* self, const mud::Colour* colour) {
-		static std::vector<mud::Circle> temp;
-		return (temp = self->compute(*colour, scale), &temp);
-	}
-	std::vector<mud::Circle>* EMSCRIPTEN_KEEPALIVE Circlifier_compute_2(mud::Circlifier* self, const mud::Colour* colour, float scale) {
-		static std::vector<mud::Circle> temp;
-		return (temp = self->compute(*colour, scale), &temp);
-	}
 	void EMSCRIPTEN_KEEPALIVE Circlifier___destroy__(mud::Circlifier* self) {
 		delete self;
 	}

@@ -479,14 +479,6 @@ extern "C" {
 	mud::Poisson* EMSCRIPTEN_KEEPALIVE Poisson_Poisson_2(mud::vec2* size, float maxRadius) {
 		return new mud::Poisson(size, maxRadius);
 	}
-	std::vector<mud::vec3>* EMSCRIPTEN_KEEPALIVE Poisson_distribute_1(mud::Poisson* self, float radius) {
-		static std::vector<mud::vec3> temp;
-		return (temp = self->distribute(radius), &temp);
-	}
-	std::vector<mud::Circle>* EMSCRIPTEN_KEEPALIVE Poisson_distribute_circles_1(mud::Poisson* self, float radius) {
-		static std::vector<mud::Circle> temp;
-		return (temp = self->distribute_circles(radius), &temp);
-	}
 	bool EMSCRIPTEN_KEEPALIVE Poisson_addPoint_2(mud::Poisson* self, float radius, mud::vec3* point) {
 		return self->addPoint(radius, *point);
 	}

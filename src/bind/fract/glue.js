@@ -15,13 +15,6 @@ Circlifier.prototype.constructor = Circlifier;
 Circlifier.prototype.__class__ = Circlifier;
 Circlifier.__cache__ = {};
 Module['Circlifier'] = Circlifier;
-Circlifier.prototype["compute"] = Circlifier.prototype.compute = function(colour, scale) {
-    /* colour <Colour> [] */
-    colour = colour.ptr;
-    /* scale <float> [] */
-    if (scale === undefined) { return wrapPointer(_Circlifier_compute_1(colour), std::vector<mud::Circle>); return; }
-    return wrapPointer(_Circlifier_compute_2(colour, scale), std::vector<mud::Circle>);
-};
 Circlifier.prototype["__destroy__"] = Circlifier.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Circlifier___destroy__(self);

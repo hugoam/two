@@ -941,14 +941,6 @@ Poisson.prototype["addPoint"] = Poisson.prototype.addPoint = function(radius, po
     point = point.ptr;
     return !!(_Poisson_addPoint_2(radius, point));
 };
-Poisson.prototype["distribute"] = Poisson.prototype.distribute = function(radius) {
-    /* radius <float> [] */
-    return wrapPointer(_Poisson_distribute_1(radius), std::vector<mud::vec3>);
-};
-Poisson.prototype["distribute_circles"] = Poisson.prototype.distribute_circles = function(radius) {
-    /* radius <float> [] */
-    return wrapPointer(_Poisson_distribute_circles_1(radius), std::vector<mud::Circle>);
-};
 Poisson.prototype["__destroy__"] = Poisson.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Poisson___destroy__(self);

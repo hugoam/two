@@ -1002,8 +1002,8 @@ namespace clgen
 		// not implemented yet
 		std::vector<string> blacklist = { "std::vector", "mud::Ref" };
 
-		auto blacklist_method = [&](const CLMethod& m) { for(const string& n : blacklist) for(const CLParam& p : m.m_params) if(p.m_type.m_type->m_name.find(n) != string::npos) return true; return false; };
-		auto blacklist_member = [&](const CLMember& m) { for(const string& n : blacklist) if(m.m_type.m_type->m_name.find(n) != string::npos) return true; return false; };
+		auto blacklist_method = [&](const CLMethod& m) { for(const string& n : blacklist) { for(const CLParam& p : m.m_params) if(p.m_type.m_type->m_id.find(n) != string::npos) return true; if(m.m_return_type.m_type->m_id.find(n) != string::npos) return true; } return false; };
+		auto blacklist_member = [&](const CLMember& m) { for(const string& n : blacklist) { if(m.m_type.m_type->m_id.find(n) != string::npos) return true; } return false; };
 
 		string module_js;
 

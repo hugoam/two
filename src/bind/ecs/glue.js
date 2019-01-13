@@ -18,25 +18,10 @@ Complex.prototype.constructor = Complex;
 Complex.prototype.__class__ = Complex;
 Complex.__cache__ = {};
 Module['Complex'] = Complex;
-Complex.prototype["add_part"] = Complex.prototype.add_part = function(part) {
-    /* part <Ref> [] */
-    part = part.ptr;
-    _Complex_add_part_1(part);
-};
 Complex.prototype["has_part"] = Complex.prototype.has_part = function(type) {
     /* type <Type> [] */
     type = type.ptr;
     return !!(_Complex_has_part_1(type));
-};
-Complex.prototype["part"] = Complex.prototype.part = function(type) {
-    /* type <Type> [] */
-    type = type.ptr;
-    return wrapPointer(_Complex_part_1(type), mud::Ref);
-};
-Complex.prototype["try_part"] = Complex.prototype.try_part = function(type) {
-    /* type <Type> [] */
-    type = type.ptr;
-    return wrapPointer(_Complex_try_part_1(type), mud::Ref);
 };
 Object.defineProperty(Complex.prototype, "id", {
     get: function() {

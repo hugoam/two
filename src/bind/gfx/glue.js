@@ -2650,18 +2650,6 @@ Object.defineProperty(Scene.prototype, "environment", {
         _Scene_set_environment(self, environment);
     }
 });
-Object.defineProperty(Scene.prototype, "user", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_Scene_get_user(self), mud::Ref);
-    },
-    set: function(user) {
-        var self = this.ptr;
-        /* user <Ref> [] */
-        user = user.ptr;
-        _Scene_set_user(self, user);
-    }
-});
 Scene.prototype["__destroy__"] = Scene.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Scene___destroy__(self);

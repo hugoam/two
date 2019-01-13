@@ -896,10 +896,6 @@ extern "C" {
 		static mud::Environment temp;
 		return (temp = self->m_environment, &temp);
 	}
-	mud::Ref* EMSCRIPTEN_KEEPALIVE Scene_get_user(mud::Scene* self) {
-		static mud::Ref temp;
-		return (temp = self->m_user, &temp);
-	}
 	void EMSCRIPTEN_KEEPALIVE Scene___destroy__(mud::Scene* self) {
 		delete self;
 	}
