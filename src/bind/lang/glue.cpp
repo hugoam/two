@@ -158,10 +158,10 @@ extern "C" {
 	}
 	// TextScript
 	mud::TextScript* EMSCRIPTEN_KEEPALIVE TextScript_TextScript_2(const char* name, mud::Language language) {
-		return new mud::TextScript(name, *language);
+		return new mud::TextScript(name, language);
 	}
 	mud::TextScript* EMSCRIPTEN_KEEPALIVE TextScript_TextScript_3(const char* name, mud::Language language, const mud::Signature* signature) {
-		return new mud::TextScript(name, *language, *signature);
+		return new mud::TextScript(name, language, *signature);
 	}
 	mud::Language EMSCRIPTEN_KEEPALIVE TextScript_get_language(mud::TextScript* self) {
 		return self->m_language;

@@ -106,7 +106,7 @@ extern "C" {
 		return new mud::Palette();
 	}
 	mud::Palette* EMSCRIPTEN_KEEPALIVE Palette_Palette_2(mud::Spectrum spectrum, size_t steps) {
-		return new mud::Palette(*spectrum, steps);
+		return new mud::Palette(spectrum, steps);
 	}
 	mud::Palette* EMSCRIPTEN_KEEPALIVE Palette_Palette_1(std::vector<mud::Colour>* colours) {
 		return new mud::Palette(*colours);

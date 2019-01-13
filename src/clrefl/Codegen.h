@@ -1042,11 +1042,11 @@ namespace clgen
 		//jsw(module_js);
 
 		auto address = [](const CLQualType& t) -> string {
-			return !t.isbasetype() && (t.reference() || t.value()) ? "&" : "";
+			return (!t.isbasetype() && !t.isenum()) && (t.reference() || t.value()) ? "&" : "";
 		};
 
 		auto value = [](const CLQualType& t) -> string {
-			return !t.isbasetype() && (t.reference() || t.value()) ? "*" : "";
+			return (!t.isbasetype() && !t.isenum()) && (t.reference() || t.value()) ? "*" : "";
 		};
 
 		auto type_to_c = [&](const CLQualType& t, bool non_pointing = false) -> string

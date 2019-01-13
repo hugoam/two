@@ -438,10 +438,10 @@ extern "C" {
 		return &self->fetch_image256_material(*image);
 	}
 	mud::Model* EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_symbol_3(mud::GfxSystem* self, const mud::Symbol* symbol, const mud::Shape* shape, mud::DrawMode draw_mode) {
-		return &self->fetch_symbol(*symbol, *shape, *draw_mode);
+		return &self->fetch_symbol(*symbol, *shape, draw_mode);
 	}
 	mud::Material* EMSCRIPTEN_KEEPALIVE GfxSystem_fetch_symbol_material_2(mud::GfxSystem* self, const mud::Symbol* symbol, mud::DrawMode draw_mode) {
-		return &self->fetch_symbol_material(*symbol, *draw_mode);
+		return &self->fetch_symbol_material(*symbol, draw_mode);
 	}
 	void EMSCRIPTEN_KEEPALIVE GfxSystem___destroy__(mud::GfxSystem* self) {
 		delete self;

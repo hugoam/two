@@ -149,7 +149,7 @@ extern "C" {
 		return new mud::Symbol(*fill, *outline, overlay, double_sided);
 	}
 	mud::Symbol* EMSCRIPTEN_KEEPALIVE Symbol_Symbol_5(mud::Colour* fill, mud::Colour* outline, bool overlay, bool double_sided, mud::SymbolDetail detail) {
-		return new mud::Symbol(*fill, *outline, overlay, double_sided, *detail);
+		return new mud::Symbol(*fill, *outline, overlay, double_sided, detail);
 	}
 	mud::Colour* EMSCRIPTEN_KEEPALIVE Symbol_get_outline(mud::Symbol* self) {
 		static mud::Colour temp;
@@ -241,7 +241,7 @@ extern "C" {
 		return new mud::Capsule(radius, height);
 	}
 	mud::Capsule* EMSCRIPTEN_KEEPALIVE Capsule_Capsule_3(float radius, float height, mud::Axis axis) {
-		return new mud::Capsule(radius, height, *axis);
+		return new mud::Capsule(radius, height, axis);
 	}
 	float EMSCRIPTEN_KEEPALIVE Capsule_get_radius(mud::Capsule* self) {
 		return self->m_radius;
@@ -312,13 +312,13 @@ extern "C" {
 		return new mud::Circle(radius);
 	}
 	mud::Circle* EMSCRIPTEN_KEEPALIVE Circle_Circle_2(float radius, mud::Axis axis) {
-		return new mud::Circle(radius, *axis);
+		return new mud::Circle(radius, axis);
 	}
 	mud::Circle* EMSCRIPTEN_KEEPALIVE Circle_Circle_2(const mud::vec3* center, float radius) {
 		return new mud::Circle(*center, radius);
 	}
 	mud::Circle* EMSCRIPTEN_KEEPALIVE Circle_Circle_3(const mud::vec3* center, float radius, mud::Axis axis) {
-		return new mud::Circle(*center, radius, *axis);
+		return new mud::Circle(*center, radius, axis);
 	}
 	float EMSCRIPTEN_KEEPALIVE Circle_get_radius(mud::Circle* self) {
 		return self->m_radius;
@@ -353,7 +353,7 @@ extern "C" {
 		return new mud::Cylinder(radius, height);
 	}
 	mud::Cylinder* EMSCRIPTEN_KEEPALIVE Cylinder_Cylinder_3(float radius, float height, mud::Axis axis) {
-		return new mud::Cylinder(radius, height, *axis);
+		return new mud::Cylinder(radius, height, axis);
 	}
 	float EMSCRIPTEN_KEEPALIVE Cylinder_get_radius(mud::Cylinder* self) {
 		return self->m_radius;
@@ -378,7 +378,7 @@ extern "C" {
 		return new mud::Ellipsis(*radius);
 	}
 	mud::Ellipsis* EMSCRIPTEN_KEEPALIVE Ellipsis_Ellipsis_2(mud::vec2* radius, mud::Axis axis) {
-		return new mud::Ellipsis(*radius, *axis);
+		return new mud::Ellipsis(*radius, axis);
 	}
 	mud::vec2* EMSCRIPTEN_KEEPALIVE Ellipsis_get_radius(mud::Ellipsis* self) {
 		static mud::vec2 temp;
@@ -628,13 +628,13 @@ extern "C" {
 		return new mud::Torus(radius, solid_radius);
 	}
 	mud::Torus* EMSCRIPTEN_KEEPALIVE Torus_Torus_3(float radius, float solid_radius, mud::Axis axis) {
-		return new mud::Torus(radius, solid_radius, *axis);
+		return new mud::Torus(radius, solid_radius, axis);
 	}
 	mud::Torus* EMSCRIPTEN_KEEPALIVE Torus_Torus_3(const mud::vec3* center, float radius, float solid_radius) {
 		return new mud::Torus(*center, radius, solid_radius);
 	}
 	mud::Torus* EMSCRIPTEN_KEEPALIVE Torus_Torus_4(const mud::vec3* center, float radius, float solid_radius, mud::Axis axis) {
-		return new mud::Torus(*center, radius, solid_radius, *axis);
+		return new mud::Torus(*center, radius, solid_radius, axis);
 	}
 	float EMSCRIPTEN_KEEPALIVE Torus_get_radius(mud::Torus* self) {
 		return self->m_radius;

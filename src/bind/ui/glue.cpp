@@ -77,7 +77,7 @@ extern "C" {
 		return new mud::ImageSkin(*image, left, top, right, bottom, margin);
 	}
 	mud::ImageSkin* EMSCRIPTEN_KEEPALIVE ImageSkin_ImageSkin_7(mud::Image* image, int left, int top, int right, int bottom, int margin, mud::Dim stretch) {
-		return new mud::ImageSkin(*image, left, top, right, bottom, margin, *stretch);
+		return new mud::ImageSkin(*image, left, top, right, bottom, margin, stretch);
 	}
 	mud::Image* EMSCRIPTEN_KEEPALIVE ImageSkin_get_d_image(mud::ImageSkin* self) {
 		return self->d_image;
@@ -488,16 +488,16 @@ extern "C" {
 		return &self->parent_modal();
 	}
 	void EMSCRIPTEN_KEEPALIVE Widget_toggle_state_1(mud::Widget* self, mud::WidgetState state) {
-		self->toggle_state(*state);
+		self->toggle_state(state);
 	}
 	void EMSCRIPTEN_KEEPALIVE Widget_disable_state_1(mud::Widget* self, mud::WidgetState state) {
-		self->disable_state(*state);
+		self->disable_state(state);
 	}
 	void EMSCRIPTEN_KEEPALIVE Widget_set_state_2(mud::Widget* self, mud::WidgetState state, bool enabled) {
-		self->set_state(*state, enabled);
+		self->set_state(state, enabled);
 	}
 	void EMSCRIPTEN_KEEPALIVE Widget_enable_state_1(mud::Widget* self, mud::WidgetState state) {
-		self->enable_state(*state);
+		self->enable_state(state);
 	}
 	void EMSCRIPTEN_KEEPALIVE Widget_clear_focus_0(mud::Widget* self) {
 		self->clear_focus();
@@ -516,39 +516,39 @@ extern "C" {
 	}
 	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_key_event_2(mud::Widget* self, mud::Key code, mud::EventType event_type) {
 		static mud::KeyEvent temp;
-		return (temp = self->key_event(*code, *event_type), &temp);
+		return (temp = self->key_event(code, event_type), &temp);
 	}
 	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_key_event_3(mud::Widget* self, mud::Key code, mud::EventType event_type, mud::InputMod modifier) {
 		static mud::KeyEvent temp;
-		return (temp = self->key_event(*code, *event_type, *modifier), &temp);
+		return (temp = self->key_event(code, event_type, modifier), &temp);
 	}
 	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_key_stroke_1(mud::Widget* self, mud::Key code) {
 		static mud::KeyEvent temp;
-		return (temp = self->key_stroke(*code), &temp);
+		return (temp = self->key_stroke(code), &temp);
 	}
 	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_key_stroke_2(mud::Widget* self, mud::Key code, mud::InputMod modifier) {
 		static mud::KeyEvent temp;
-		return (temp = self->key_stroke(*code, *modifier), &temp);
+		return (temp = self->key_stroke(code, modifier), &temp);
 	}
 	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_char_stroke_1(mud::Widget* self, mud::Key code) {
 		static mud::KeyEvent temp;
-		return (temp = self->char_stroke(*code), &temp);
+		return (temp = self->char_stroke(code), &temp);
 	}
 	mud::KeyEvent* EMSCRIPTEN_KEEPALIVE Widget_char_stroke_2(mud::Widget* self, mud::Key code, mud::InputMod modifier) {
 		static mud::KeyEvent temp;
-		return (temp = self->char_stroke(*code, *modifier), &temp);
+		return (temp = self->char_stroke(code, modifier), &temp);
 	}
 	mud::MouseEvent* EMSCRIPTEN_KEEPALIVE Widget_mouse_event_2(mud::Widget* self, mud::DeviceType device, mud::EventType event_type) {
 		static mud::MouseEvent temp;
-		return (temp = self->mouse_event(*device, *event_type), &temp);
+		return (temp = self->mouse_event(device, event_type), &temp);
 	}
 	mud::MouseEvent* EMSCRIPTEN_KEEPALIVE Widget_mouse_event_3(mud::Widget* self, mud::DeviceType device, mud::EventType event_type, mud::InputMod modifier) {
 		static mud::MouseEvent temp;
-		return (temp = self->mouse_event(*device, *event_type, *modifier), &temp);
+		return (temp = self->mouse_event(device, event_type, modifier), &temp);
 	}
 	mud::MouseEvent* EMSCRIPTEN_KEEPALIVE Widget_mouse_event_4(mud::Widget* self, mud::DeviceType device, mud::EventType event_type, mud::InputMod modifier, bool consume) {
 		static mud::MouseEvent temp;
-		return (temp = self->mouse_event(*device, *event_type, *modifier, consume), &temp);
+		return (temp = self->mouse_event(device, event_type, modifier, consume), &temp);
 	}
 	mud::Frame* EMSCRIPTEN_KEEPALIVE Widget_get_frame(mud::Widget* self) {
 		static mud::Frame temp;

@@ -84,13 +84,13 @@ extern "C" {
 		return new mud::Pattern();
 	}
 	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_2(mud::Palette* palette, mud::PatternSampling sampling) {
-		return new mud::Pattern(*palette, *sampling);
+		return new mud::Pattern(*palette, sampling);
 	}
 	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_3(mud::Palette* palette, mud::PatternSampling sampling, float precision) {
-		return new mud::Pattern(*palette, *sampling, precision);
+		return new mud::Pattern(*palette, sampling, precision);
 	}
 	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_4(mud::Palette* palette, mud::PatternSampling sampling, float precision, size_t step) {
-		return new mud::Pattern(*palette, *sampling, precision, step);
+		return new mud::Pattern(*palette, sampling, precision, step);
 	}
 	mud::Pattern* EMSCRIPTEN_KEEPALIVE Pattern_Pattern_0() {
 		return new mud::Pattern();
