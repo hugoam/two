@@ -187,6 +187,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTF>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTF>(ref)) glTF(  ); }, {} }
             },
             // copy constructor
             {
@@ -226,6 +227,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFAccessor>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFAccessor>(ref)) glTFAccessor(  ); }, {} }
             },
             // copy constructor
             {
@@ -260,6 +262,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFAnimation>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFAnimation>(ref)) glTFAnimation(  ); }, {} }
             },
             // copy constructor
             {
@@ -289,6 +292,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFAnimationChannel>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFAnimationChannel>(ref)) glTFAnimationChannel(  ); }, {} }
             },
             // copy constructor
             {
@@ -317,6 +321,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFAnimationSampler>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFAnimationSampler>(ref)) glTFAnimationSampler(  ); }, {} }
             },
             // copy constructor
             {
@@ -346,6 +351,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFAnimationTarget>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFAnimationTarget>(ref)) glTFAnimationTarget(  ); }, {} }
             },
             // copy constructor
             {
@@ -374,6 +380,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFAttributes>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFAttributes>(ref)) glTFAttributes(  ); }, {} }
             },
             // copy constructor
             {
@@ -408,6 +415,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFBuffer>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFBuffer>(ref)) glTFBuffer(  ); }, {} }
             },
             // copy constructor
             {
@@ -438,6 +446,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFBufferView>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFBufferView>(ref)) glTFBufferView(  ); }, {} }
             },
             // copy constructor
             {
@@ -470,6 +479,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFCamera>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFCamera>(ref)) glTFCamera(  ); }, {} }
             },
             // copy constructor
             {
@@ -500,6 +510,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFImage>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFImage>(ref)) glTFImage(  ); }, {} }
             },
             // copy constructor
             {
@@ -530,6 +541,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFMaterial>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFMaterial>(ref)) glTFMaterial(  ); }, {} }
             },
             // copy constructor
             {
@@ -564,6 +576,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFMaterialPBR>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFMaterialPBR>(ref)) glTFMaterialPBR(  ); }, {} }
             },
             // copy constructor
             {
@@ -595,6 +608,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFMesh>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFMesh>(ref)) glTFMesh(  ); }, {} }
             },
             // copy constructor
             {
@@ -624,6 +638,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFMorphTarget>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFMorphTarget>(ref)) glTFMorphTarget(  ); }, {} }
             },
             // copy constructor
             {
@@ -653,6 +668,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFNode>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFNode>(ref)) glTFNode(  ); }, {} }
             },
             // copy constructor
             {
@@ -688,6 +704,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFNodeExtras>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFNodeExtras>(ref)) glTFNodeExtras(  ); }, {} }
             },
             // copy constructor
             {
@@ -714,6 +731,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFOrthographic>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFOrthographic>(ref)) glTFOrthographic(  ); }, {} }
             },
             // copy constructor
             {
@@ -744,6 +762,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFPerspective>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFPerspective>(ref)) glTFPerspective(  ); }, {} }
             },
             // copy constructor
             {
@@ -774,6 +793,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFPrimitive>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFPrimitive>(ref)) glTFPrimitive(  ); }, {} }
             },
             // copy constructor
             {
@@ -805,6 +825,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFSampler>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFSampler>(ref)) glTFSampler(  ); }, {} }
             },
             // copy constructor
             {
@@ -836,6 +857,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFScene>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFScene>(ref)) glTFScene(  ); }, {} }
             },
             // copy constructor
             {
@@ -864,6 +886,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFSkin>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFSkin>(ref)) glTFSkin(  ); }, {} }
             },
             // copy constructor
             {
@@ -894,6 +917,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFSparse>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFSparse>(ref)) glTFSparse(  ); }, {} }
             },
             // copy constructor
             {
@@ -923,6 +947,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFSparseIndices>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFSparseIndices>(ref)) glTFSparseIndices(  ); }, {} }
             },
             // copy constructor
             {
@@ -952,6 +977,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFSparseValues>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFSparseValues>(ref)) glTFSparseValues(  ); }, {} }
             },
             // copy constructor
             {
@@ -980,6 +1006,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFTexture>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFTexture>(ref)) glTFTexture(  ); }, {} }
             },
             // copy constructor
             {
@@ -1009,6 +1036,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<glTFTextureInfo>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<glTFTextureInfo>(ref)) glTFTextureInfo(  ); }, {} }
             },
             // copy constructor
             {

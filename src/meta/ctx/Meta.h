@@ -85,7 +85,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Context>(), member_address(&mud::Context::m_resource_path), type<std::string>(), "resource_path", var(std::string()), Member::Value, nullptr },
+                { type<mud::Context>(), member_address(&mud::Context::m_resource_path), type<std::string>(), "resource_path", var(std::string()), Member::Flags(Member::Value|Member::NonMutable), nullptr },
                 { type<mud::Context>(), member_address(&mud::Context::m_title), type<std::string>(), "title", var(std::string()), Member::Value, nullptr },
                 { type<mud::Context>(), member_address(&mud::Context::m_width), type<unsigned int>(), "width", var(uint()), Member::Value, nullptr },
                 { type<mud::Context>(), member_address(&mud::Context::m_height), type<unsigned int>(), "height", var(uint()), Member::Value, nullptr },
@@ -142,6 +142,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::InputEvent>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::InputEvent>(ref)) mud::InputEvent(  ); }, {} }
             },
             // copy constructor
             {
@@ -252,6 +253,7 @@ namespace mud
             { base_offset<mud::KeyEvent, mud::InputEvent>() },
             // constructors
             {
+                { type<mud::KeyEvent>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::KeyEvent>(ref)) mud::KeyEvent(  ); }, {} }
             },
             // copy constructor
             {
@@ -280,6 +282,7 @@ namespace mud
             { base_offset<mud::MouseEvent, mud::InputEvent>() },
             // constructors
             {
+                { type<mud::MouseEvent>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::MouseEvent>(ref)) mud::MouseEvent(  ); }, {} }
             },
             // copy constructor
             {

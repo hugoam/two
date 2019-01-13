@@ -66,6 +66,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Entity>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Entity>(ref)) mud::Entity(  ); }, {} }
             },
             // copy constructor
             {

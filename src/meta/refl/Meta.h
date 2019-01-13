@@ -73,7 +73,7 @@ namespace mud
             // members
             {
                 { type<mud::Call>(), member_address(&mud::Call::m_arguments), type<std::vector<mud::Var>>(), "arguments", var(std::vector<mud::Var>()), Member::Value, nullptr },
-                { type<mud::Call>(), member_address(&mud::Call::m_result), type<mud::Var>(), "result", Ref(type<mud::Var>()), Member::None, nullptr }
+                { type<mud::Call>(), member_address(&mud::Call::m_result), type<mud::Var>(), "result", Ref(type<mud::Var>()), Member::NonMutable, nullptr }
             },
             // methods
             {
@@ -327,6 +327,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Operator>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Operator>(ref)) mud::Operator(  ); }, {} }
             },
             // copy constructor
             {

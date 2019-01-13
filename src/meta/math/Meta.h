@@ -264,6 +264,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Image>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Image>(ref)) mud::Image(  ); }, {} }
             },
             // copy constructor
             {
@@ -375,6 +376,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Range<float>>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Range<float>>(ref)) mud::Range<float>(  ); }, {} }
             },
             // copy constructor
             {
@@ -403,6 +405,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Range<mud::Colour>>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Range<mud::Colour>>(ref)) mud::Range<mud::Colour>(  ); }, {} }
             },
             // copy constructor
             {
@@ -431,6 +434,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Range<mud::quat>>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Range<mud::quat>>(ref)) mud::Range<mud::quat>(  ); }, {} }
             },
             // copy constructor
             {
@@ -459,6 +463,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Range<mud::vec3>>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Range<mud::vec3>>(ref)) mud::Range<mud::vec3>(  ); }, {} }
             },
             // copy constructor
             {
@@ -487,6 +492,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Range<uint32_t>>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Range<uint32_t>>(ref)) mud::Range<uint32_t>(  ); }, {} }
             },
             // copy constructor
             {
@@ -950,6 +956,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::bvec3>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::bvec3>(ref)) mud::bvec3(  ); }, {} }
             },
             // copy constructor
             {
@@ -976,6 +983,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::bvec4>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::bvec4>(ref)) mud::bvec4(  ); }, {} }
             },
             // copy constructor
             {
@@ -1002,6 +1010,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::half2>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::half2>(ref)) mud::half2(  ); }, {} }
             },
             // copy constructor
             {
@@ -1028,6 +1037,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::half3>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::half3>(ref)) mud::half3(  ); }, {} }
             },
             // copy constructor
             {
@@ -1054,6 +1064,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::ivec2>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::ivec2>(ref)) mud::ivec2(  ); }, {} }
             },
             // copy constructor
             {
@@ -1113,6 +1124,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::ivec4>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::ivec4>(ref)) mud::ivec4(  ); }, {} }
             },
             // copy constructor
             {
@@ -1139,6 +1151,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::mat4>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::mat4>(ref)) mud::mat4(  ); }, {} }
             },
             // copy constructor
             {

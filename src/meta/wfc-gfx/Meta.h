@@ -29,6 +29,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::TileModel>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::TileModel>(ref)) mud::TileModel(  ); }, {} }
             },
             // copy constructor
             {

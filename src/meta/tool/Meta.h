@@ -45,12 +45,12 @@ namespace mud
             },
             // members
             {
-                { type<mud::EditContext>(), member_address(&mud::EditContext::m_undo_tool), type<mud::UndoTool>(), "undo_tool", Ref(type<mud::UndoTool>()), Member::None, nullptr },
-                { type<mud::EditContext>(), member_address(&mud::EditContext::m_redo_tool), type<mud::RedoTool>(), "redo_tool", Ref(type<mud::RedoTool>()), Member::None, nullptr },
+                { type<mud::EditContext>(), member_address(&mud::EditContext::m_undo_tool), type<mud::UndoTool>(), "undo_tool", Ref(type<mud::UndoTool>()), Member::NonMutable, nullptr },
+                { type<mud::EditContext>(), member_address(&mud::EditContext::m_redo_tool), type<mud::RedoTool>(), "redo_tool", Ref(type<mud::RedoTool>()), Member::NonMutable, nullptr },
                 { type<mud::EditContext>(), member_address(&mud::EditContext::m_work_plane), type<mud::Plane>(), "work_plane", var(mud::Plane()), Member::Value, nullptr },
-                { type<mud::EditContext>(), member_address(&mud::EditContext::m_translate_tool), type<mud::TranslateTool>(), "translate_tool", Ref(type<mud::TranslateTool>()), Member::None, nullptr },
-                { type<mud::EditContext>(), member_address(&mud::EditContext::m_rotate_tool), type<mud::RotateTool>(), "rotate_tool", Ref(type<mud::RotateTool>()), Member::None, nullptr },
-                { type<mud::EditContext>(), member_address(&mud::EditContext::m_scale_tool), type<mud::ScaleTool>(), "scale_tool", Ref(type<mud::ScaleTool>()), Member::None, nullptr },
+                { type<mud::EditContext>(), member_address(&mud::EditContext::m_translate_tool), type<mud::TranslateTool>(), "translate_tool", Ref(type<mud::TranslateTool>()), Member::NonMutable, nullptr },
+                { type<mud::EditContext>(), member_address(&mud::EditContext::m_rotate_tool), type<mud::RotateTool>(), "rotate_tool", Ref(type<mud::RotateTool>()), Member::NonMutable, nullptr },
+                { type<mud::EditContext>(), member_address(&mud::EditContext::m_scale_tool), type<mud::ScaleTool>(), "scale_tool", Ref(type<mud::ScaleTool>()), Member::NonMutable, nullptr },
                 { type<mud::EditContext>(), member_address(&mud::EditContext::m_viewer), type<mud::Viewer>(), "viewer", Ref(type<mud::Viewer>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
                 { type<mud::EditContext>(), member_address(&mud::EditContext::m_tool), type<mud::ViewportTool>(), "tool", Ref(type<mud::ViewportTool>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
                 { type<mud::EditContext>(), member_address(&mud::EditContext::m_spatial_tool), type<mud::SpatialTool>(), "spatial_tool", Ref(type<mud::SpatialTool>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
@@ -99,6 +99,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Gizmo>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Gizmo>(ref)) mud::Gizmo(  ); }, {} }
             },
             // copy constructor
             {
@@ -154,6 +155,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::ToolContext>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::ToolContext>(ref)) mud::ToolContext(  ); }, {} }
             },
             // copy constructor
             {
@@ -312,7 +314,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::CircleBrush>(), member_address(&mud::CircleBrush::m_creator), type<mud::Creator>(), "creator", Ref(type<mud::Creator>()), Member::None, nullptr },
+                { type<mud::CircleBrush>(), member_address(&mud::CircleBrush::m_creator), type<mud::Creator>(), "creator", Ref(type<mud::Creator>()), Member::NonMutable, nullptr },
                 { type<mud::CircleBrush>(), member_address(&mud::CircleBrush::m_radius), type<float>(), "radius", var(float()), Member::Value, nullptr },
                 { type<mud::CircleBrush>(), member_address(&mud::CircleBrush::m_maxSpotRadius), type<float>(), "maxSpotRadius", var(float()), Member::Value, nullptr }
             },
@@ -342,7 +344,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::PlaceBrush>(), member_address(&mud::PlaceBrush::m_creator), type<mud::Creator>(), "creator", Ref(type<mud::Creator>()), Member::None, nullptr }
+                { type<mud::PlaceBrush>(), member_address(&mud::PlaceBrush::m_creator), type<mud::Creator>(), "creator", Ref(type<mud::Creator>()), Member::NonMutable, nullptr }
             },
             // methods
             {

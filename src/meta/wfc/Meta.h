@@ -39,6 +39,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Tile>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Tile>(ref)) mud::Tile(  ); }, {} }
             },
             // copy constructor
             {
@@ -101,6 +102,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Wave>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Wave>(ref)) mud::Wave(  ); }, {} }
             },
             // copy constructor
             {

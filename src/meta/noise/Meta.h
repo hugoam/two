@@ -104,6 +104,7 @@ namespace mud
             { base_offset<mud::array_3d<float>, std::vector<float>>() },
             // constructors
             {
+                { type<mud::array_3d<float>>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::array_3d<float>>(ref)) mud::array_3d<float>(  ); }, {} }
             },
             // copy constructor
             {

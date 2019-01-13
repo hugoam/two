@@ -271,6 +271,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::CanvasConnect>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::CanvasConnect>(ref)) mud::CanvasConnect(  ); }, {} }
             },
             // copy constructor
             {
@@ -297,6 +298,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Clipboard>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Clipboard>(ref)) mud::Clipboard(  ); }, {} }
             },
             // copy constructor
             {
@@ -512,6 +514,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Dock>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Dock>(ref)) mud::Dock(  ); }, {} }
             },
             // copy constructor
             {
@@ -563,6 +566,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Gradient>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Gradient>(ref)) mud::Gradient(  ); }, {} }
             },
             // copy constructor
             {
@@ -776,6 +780,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::NodeConnection>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::NodeConnection>(ref)) mud::NodeConnection(  ); }, {} }
             },
             // copy constructor
             {
@@ -802,6 +807,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Paint>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Paint>(ref)) mud::Paint(  ); }, {} }
             },
             // copy constructor
             {
@@ -864,6 +870,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Space>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Space>(ref)) mud::Space(  ); }, {} }
             },
             // copy constructor
             {
@@ -900,7 +907,7 @@ namespace mud
             // members
             {
                 { type<mud::Style>(), member_address(&mud::Style::m_base), type<mud::Style>(), "base", Ref(type<mud::Style>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-                { type<mud::Style>(), member_address<const char*(mud::Style::*)()>(&mud::Style::name), type<const char*>(), "name", Ref(type<const char*>()), Member::Flags(Member::Pointer|Member::Link), [](Ref object) { return Ref(val<mud::Style>(object).name()); } },
+                { type<mud::Style>(), member_address<const char*(mud::Style::*)()>(&mud::Style::name), type<const char*>(), "name", Ref(type<const char*>()), Member::Flags(Member::Pointer|Member::NonMutable|Member::Link), [](Ref object) { return Ref(val<mud::Style>(object).name()); } },
                 { type<mud::Style>(), member_address<mud::Layout&(mud::Style::*)()>(&mud::Style::layout), type<mud::Layout>(), "layout", var(mud::Layout()), Member::Flags(Member::Value|Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Style>(object).layout()); } },
                 { type<mud::Style>(), member_address<mud::InkStyle&(mud::Style::*)()>(&mud::Style::skin), type<mud::InkStyle>(), "skin", var(mud::InkStyle()), Member::Flags(Member::Value|Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Style>(object).skin()); } }
             },
@@ -972,6 +979,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::TextCursor>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::TextCursor>(ref)) mud::TextCursor(  ); }, {} }
             },
             // copy constructor
             {
@@ -998,6 +1006,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::TextMarker>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::TextMarker>(ref)) mud::TextMarker(  ); }, {} }
             },
             // copy constructor
             {
@@ -1024,6 +1033,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::TextPaint>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::TextPaint>(ref)) mud::TextPaint(  ); }, {} }
             },
             // copy constructor
             {
@@ -1056,6 +1066,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::TextSelection>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::TextSelection>(ref)) mud::TextSelection(  ); }, {} }
             },
             // copy constructor
             {
@@ -1082,6 +1093,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::UiRect>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::UiRect>(ref)) mud::UiRect(  ); }, {} }
             },
             // copy constructor
             {
@@ -1269,7 +1281,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Widget>(), member_address(&mud::Widget::m_frame), type<mud::Frame>(), "frame", Ref(type<mud::Frame>()), Member::None, nullptr },
+                { type<mud::Widget>(), member_address(&mud::Widget::m_frame), type<mud::Frame>(), "frame", Ref(type<mud::Frame>()), Member::NonMutable, nullptr },
                 { type<mud::Widget>(), member_address(&mud::Widget::m_state), type<mud::WidgetState>(), "state", var(mud::WidgetState(CREATED)), Member::Value, nullptr },
                 { type<mud::Widget>(), member_address(&mud::Widget::m_switch), type<uint32_t>(), "switch", var(uint32_t(0)), Member::Value, nullptr },
                 { type<mud::Widget>(), member_address(&mud::Widget::m_index), type<size_t>(), "index", var(size_t(0)), Member::Value, nullptr },

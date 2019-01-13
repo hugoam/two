@@ -90,6 +90,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Face3>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Face3>(ref)) mud::Face3(  ); }, {} }
             },
             // copy constructor
             {
@@ -143,6 +144,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Plane>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Plane>(ref)) mud::Plane(  ); }, {} }
             },
             // copy constructor
             {
@@ -171,6 +173,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Plane3>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Plane3>(ref)) mud::Plane3(  ); }, {} }
             },
             // copy constructor
             {
@@ -200,6 +203,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Ray>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Ray>(ref)) mud::Ray(  ); }, {} }
             },
             // copy constructor
             {
@@ -230,6 +234,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Segment>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Segment>(ref)) mud::Segment(  ); }, {} }
             },
             // copy constructor
             {

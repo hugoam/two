@@ -123,8 +123,8 @@ namespace mud
             // members
             {
                 { type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
-                { type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_class_type), type<mud::Type>(), "class_type", Ref(type<mud::Type>()), Member::None, nullptr },
-                { type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_class), type<mud::Class>(), "class", Ref(type<mud::Class>()), Member::None, nullptr }
+                { type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_class_type), type<mud::Type>(), "class_type", Ref(type<mud::Type>()), Member::NonMutable, nullptr },
+                { type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_class), type<mud::Class>(), "class", Ref(type<mud::Class>()), Member::NonMutable, nullptr }
             },
             // methods
             {
@@ -145,6 +145,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::ScriptError>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::ScriptError>(ref)) mud::ScriptError(  ); }, {} }
             },
             // copy constructor
             {

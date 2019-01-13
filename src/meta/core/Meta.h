@@ -29,7 +29,7 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::Shell>(), [](Ref ref, array<Var> args) { new(&val<mud::Shell>(ref)) mud::Shell( val<const char*>(args[0]), val<int>(args[1]), val<char*[]>(args[2]) ); }, { { "resource_path", Ref(type<const char*>()), Param::Nullable }, { "argc", var(int()) }, { "argv", var(char*[]()) } } }
+                { type<mud::Shell>(), [](Ref ref, array<Var> args) { new(&val<mud::Shell>(ref)) mud::Shell( val<const char*>(args[0]), val<const char*>(args[1]) ); }, { { "resource_path", Ref(type<const char*>()), Param::Nullable }, { "exec_path", Ref(type<const char*>()), Param::Flags(Param::Nullable|Param::Default) } } }
             },
             // copy constructor
             {
@@ -45,6 +45,7 @@ namespace mud
             },
             // methods
             {
+                { type<mud::Shell>(), "pump", member_address<bool(mud::Shell::*)()>(&mud::Shell::pump), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<bool>(result) = val<mud::Shell>(object).pump(); }, {}, var(bool()) }
             },
             // static members
             {

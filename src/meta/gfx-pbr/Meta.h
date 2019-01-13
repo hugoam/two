@@ -39,6 +39,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::BCS>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::BCS>(ref)) mud::BCS(  ); }, {} }
             },
             // copy constructor
             {
@@ -69,6 +70,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::DofBlur>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::DofBlur>(ref)) mud::DofBlur(  ); }, {} }
             },
             // copy constructor
             {
@@ -128,6 +130,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Glow>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Glow>(ref)) mud::Glow(  ); }, {} }
             },
             // copy constructor
             {
@@ -162,6 +165,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::LightShadow>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::LightShadow>(ref)) mud::LightShadow(  ); }, {} }
             },
             // copy constructor
             {
@@ -294,6 +298,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::RenderFilters>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::RenderFilters>(ref)) mud::RenderFilters(  ); }, {} }
             },
             // copy constructor
             {
@@ -324,6 +329,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Tonemap>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Tonemap>(ref)) mud::Tonemap(  ); }, {} }
             },
             // copy constructor
             {

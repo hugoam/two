@@ -38,7 +38,7 @@ namespace mud
     
     // mud::Circlifier
     {
-        static Meta meta = { type<mud::Circlifier>(), &namspc({ "mud" }), "Circlifier", sizeof(mud::Circlifier), TypeClass::Struct };
+        static Meta meta = { type<mud::Circlifier>(), &namspc({ "mud" }), "Circlifier", sizeof(mud::Circlifier), TypeClass::Object };
         static Class cls = { type<mud::Circlifier>(),
             // bases
             {  },
@@ -49,7 +49,6 @@ namespace mud
             },
             // copy constructor
             {
-                { type<mud::Circlifier>(), [](Ref ref, Ref other) { new(&val<mud::Circlifier>(ref)) mud::Circlifier(val<mud::Circlifier>(other)); } }
             },
             // members
             {
@@ -62,6 +61,7 @@ namespace mud
             {
             }
         };
+        init_pool<mud::Circlifier>();
         meta_class<mud::Circlifier>();
     }
     // mud::Fract
@@ -137,6 +137,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::FractTab>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::FractTab>(ref)) mud::FractTab(  ); }, {} }
             },
             // copy constructor
             {

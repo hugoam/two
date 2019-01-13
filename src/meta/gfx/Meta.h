@@ -260,6 +260,12 @@ namespace mud
     
     // Sequences
     {
+        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
+        static Class cls = { type<array<const char*>>() };
+        cls.m_content = &type<const char*>();
+        meta_sequence<array<const char*>, const char*>();
+    }
+    {
         static Meta meta = { type<array<mud::mat4>>(), &namspc({}), "array<mud::mat4>", sizeof(array<mud::mat4>), TypeClass::Sequence };
         static Class cls = { type<array<mud::mat4>>() };
         cls.m_content = &type<mud::mat4>();
@@ -349,6 +355,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::AnimatedTrack>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::AnimatedTrack>(ref)) mud::AnimatedTrack(  ); }, {} }
             },
             // copy constructor
             {
@@ -403,6 +410,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::AnimationPlay>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::AnimationPlay>(ref)) mud::AnimationPlay(  ); }, {} }
             },
             // copy constructor
             {
@@ -655,6 +663,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Background>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Background>(ref)) mud::Background(  ); }, {} }
             },
             // copy constructor
             {
@@ -684,6 +693,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::BaseMaterialBlock>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::BaseMaterialBlock>(ref)) mud::BaseMaterialBlock(  ); }, {} }
             },
             // copy constructor
             {
@@ -720,6 +730,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Bone>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Bone>(ref)) mud::Bone(  ); }, {} }
             },
             // copy constructor
             {
@@ -778,6 +789,32 @@ namespace mud
         };
         meta_class<mud::Camera>();
     }
+    // mud::Culler
+    {
+        static Meta meta = { type<mud::Culler>(), &namspc({ "mud" }), "Culler", sizeof(mud::Culler), TypeClass::Object };
+        static Class cls = { type<mud::Culler>(),
+            // bases
+            {  },
+            {  },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+                { type<mud::Culler>(), member_address(&mud::Culler::m_viewport), type<mud::Viewport>(), "viewport", Ref(type<mud::Viewport>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        meta_class<mud::Culler>();
+    }
     // mud::DepthParams
     {
         static Meta meta = { type<mud::DepthParams>(), &namspc({ "mud" }), "DepthParams", sizeof(mud::DepthParams), TypeClass::Struct };
@@ -787,6 +824,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::DepthParams>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::DepthParams>(ref)) mud::DepthParams(  ); }, {} }
             },
             // copy constructor
             {
@@ -813,6 +851,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Environment>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Environment>(ref)) mud::Environment(  ); }, {} }
             },
             // copy constructor
             {
@@ -868,6 +907,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Fog>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Fog>(ref)) mud::Fog(  ); }, {} }
             },
             // copy constructor
             {
@@ -931,6 +971,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::FresnelMaterialBlock>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::FresnelMaterialBlock>(ref)) mud::FresnelMaterialBlock(  ); }, {} }
             },
             // copy constructor
             {
@@ -993,6 +1034,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::FrustumSlice>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::FrustumSlice>(ref)) mud::FrustumSlice(  ); }, {} }
             },
             // copy constructor
             {
@@ -1071,6 +1113,8 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::GfxSystem>(), [](Ref ref, array<Var> args) { new(&val<mud::GfxSystem>(ref)) mud::GfxSystem( val<const char*>(args[0]) ); }, { { "resource_path", Ref(type<const char*>()), Param::Nullable } } },
+                { type<mud::GfxSystem>(), [](Ref ref, array<Var> args) { new(&val<mud::GfxSystem>(ref)) mud::GfxSystem( val<array<const char*>>(args[0]) ); }, { { "resource_paths", var(array<const char*>()) } } }
             },
             // copy constructor
             {
@@ -1086,7 +1130,7 @@ namespace mud
             },
             // methods
             {
-                { type<mud::GfxSystem>(), "add_resource_path", member_address<void(mud::GfxSystem::*)(const char*)>(&mud::GfxSystem::add_resource_path), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::GfxSystem>(object).add_resource_path(val<const char*>(args[0])); }, { { "path", Ref(type<const char*>()), Param::Nullable } }, Var() },
+                { type<mud::GfxSystem>(), "add_resource_path", member_address<void(mud::GfxSystem::*)(const char*, bool)>(&mud::GfxSystem::add_resource_path), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::GfxSystem>(object).add_resource_path(val<const char*>(args[0]), val<bool>(args[1])); }, { { "path", Ref(type<const char*>()), Param::Nullable }, { "relative", var(bool(true)), Param::Default } }, Var() },
                 { type<mud::GfxSystem>(), "debug_material", member_address<mud::Material&(mud::GfxSystem::*)()>(&mud::GfxSystem::debug_material), [](Ref object, array<Var> args, Var& result) { UNUSED(args); result = Ref(&val<mud::GfxSystem>(object).debug_material()); }, {}, Ref(type<mud::Material>()) },
                 { type<mud::GfxSystem>(), "fetch_material", member_address<mud::Material&(mud::GfxSystem::*)(const char*, const char*, bool)>(&mud::GfxSystem::fetch_material), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::GfxSystem>(object).fetch_material(val<const char*>(args[0]), val<const char*>(args[1]), val<bool>(args[2]))); }, { { "name", Ref(type<const char*>()), Param::Nullable }, { "shader", Ref(type<const char*>()), Param::Nullable }, { "builtin", var(bool(true)), Param::Default } }, Ref(type<mud::Material>()) },
                 { type<mud::GfxSystem>(), "fetch_image256_material", member_address<mud::Material&(mud::GfxSystem::*)(const mud::Image256&)>(&mud::GfxSystem::fetch_image256_material), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::GfxSystem>(object).fetch_image256_material(val<mud::Image256>(args[0]))); }, { { "image", var(mud::Image256()) } }, Ref(type<mud::Material>()) },
@@ -1097,6 +1141,7 @@ namespace mud
             {
             }
         };
+        init_pool<mud::GfxSystem>();
         meta_class<mud::GfxSystem>();
     }
     // mud::Gnode
@@ -1158,6 +1203,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::ImportConfig>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::ImportConfig>(ref)) mud::ImportConfig(  ); }, {} }
             },
             // copy constructor
             {
@@ -1231,6 +1277,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Joint>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Joint>(ref)) mud::Joint(  ); }, {} }
             },
             // copy constructor
             {
@@ -1335,6 +1382,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::MaterialParam<float>>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::MaterialParam<float>>(ref)) mud::MaterialParam<float>(  ); }, {} }
             },
             // copy constructor
             {
@@ -1364,6 +1412,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::MaterialParam<mud::Colour>>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::MaterialParam<mud::Colour>>(ref)) mud::MaterialParam<mud::Colour>(  ); }, {} }
             },
             // copy constructor
             {
@@ -1461,6 +1510,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::ModelItem>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::ModelItem>(ref)) mud::ModelItem(  ); }, {} }
             },
             // copy constructor
             {
@@ -1523,6 +1573,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::ParticleGenerator>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::ParticleGenerator>(ref)) mud::ParticleGenerator(  ); }, {} }
             },
             // copy constructor
             {
@@ -1651,7 +1702,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Program>(), member_address<const char*(mud::Program::*)()>(&mud::Program::name), type<const char*>(), "name", Ref(type<const char*>()), Member::Flags(Member::Pointer|Member::Link), [](Ref object) { return Ref(val<mud::Program>(object).name()); } }
+                { type<mud::Program>(), member_address<const char*(mud::Program::*)()>(&mud::Program::name), type<const char*>(), "name", Ref(type<const char*>()), Member::Flags(Member::Pointer|Member::NonMutable|Member::Link), [](Ref object) { return Ref(val<mud::Program>(object).name()); } }
             },
             // methods
             {
@@ -1671,6 +1722,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Radiance>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Radiance>(ref)) mud::Radiance(  ); }, {} }
             },
             // copy constructor
             {
@@ -1701,6 +1753,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::RenderFrame>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::RenderFrame>(ref)) mud::RenderFrame(  ); }, {} }
             },
             // copy constructor
             {
@@ -1727,6 +1780,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::RenderQuad>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::RenderQuad>(ref)) mud::RenderQuad(  ); }, {} }
             },
             // copy constructor
             {
@@ -1784,10 +1838,10 @@ namespace mud
             },
             // members
             {
-                { type<mud::Scene>(), member_address(&mud::Scene::m_graph), type<mud::Gnode>(), "graph", Ref(type<mud::Gnode>()), Member::None, nullptr },
-                { type<mud::Scene>(), member_address(&mud::Scene::m_root_node), type<mud::Node3>(), "root_node", Ref(type<mud::Node3>()), Member::None, nullptr },
+                { type<mud::Scene>(), member_address(&mud::Scene::m_graph), type<mud::Gnode>(), "graph", Ref(type<mud::Gnode>()), Member::NonMutable, nullptr },
+                { type<mud::Scene>(), member_address(&mud::Scene::m_root_node), type<mud::Node3>(), "root_node", Ref(type<mud::Node3>()), Member::NonMutable, nullptr },
                 { type<mud::Scene>(), member_address(&mud::Scene::m_environment), type<mud::Environment>(), "environment", var(mud::Environment()), Member::Value, nullptr },
-                { type<mud::Scene>(), member_address(&mud::Scene::m_user), type<mud::Ref>(), "user", Ref(), Member::None, nullptr }
+                { type<mud::Scene>(), member_address(&mud::Scene::m_user), type<mud::Ref>(), "user", Ref(), Member::NonMutable, nullptr }
             },
             // methods
             {
@@ -1883,6 +1937,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::Sun>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Sun>(ref)) mud::Sun(  ); }, {} }
             },
             // copy constructor
             {
@@ -1966,6 +2021,7 @@ namespace mud
             {  },
             // constructors
             {
+                { type<mud::UnshadedMaterialBlock>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::UnshadedMaterialBlock>(ref)) mud::UnshadedMaterialBlock(  ); }, {} }
             },
             // copy constructor
             {
@@ -2203,6 +2259,7 @@ namespace mud
             { base_offset<mud::ClusteredFrustum, mud::Frustum>() },
             // constructors
             {
+                { type<mud::ClusteredFrustum>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::ClusteredFrustum>(ref)) mud::ClusteredFrustum(  ); }, {} }
             },
             // copy constructor
             {
@@ -2229,6 +2286,7 @@ namespace mud
             { base_offset<mud::Particles, mud::ParticleGenerator>() },
             // constructors
             {
+                { type<mud::Particles>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Particles>(ref)) mud::Particles(  ); }, {} }
             },
             // copy constructor
             {
@@ -2291,6 +2349,7 @@ namespace mud
         m.m_types.push_back(&type<mud::Bone>());
         m.m_types.push_back(&type<mud::Camera>());
         m.m_types.push_back(&type<mud::CullMode>());
+        m.m_types.push_back(&type<mud::Culler>());
         m.m_types.push_back(&type<mud::DepthDraw>());
         m.m_types.push_back(&type<mud::DepthParams>());
         m.m_types.push_back(&type<mud::DepthTest>());
@@ -2352,6 +2411,7 @@ namespace mud
         m.m_types.push_back(&type<mud::TextureSampler>());
         m.m_types.push_back(&type<mud::UnshadedMaterialBlock>());
         m.m_types.push_back(&type<mud::Viewport>());
+        m.m_types.push_back(&type<array<const char*>>());
         m.m_types.push_back(&type<array<mud::mat4>>());
         m.m_types.push_back(&type<std::vector<mud::Animation*>>());
         m.m_types.push_back(&type<std::vector<mud::AnimationPlay>>());
@@ -2360,13 +2420,13 @@ namespace mud
         m.m_types.push_back(&type<std::vector<std::string>>());
         m.m_types.push_back(&type<std::vector<std::string>>());
         m.m_types.push_back(&type<mud::BlockCopy>());
+        m.m_types.push_back(&type<mud::DrawBlock>());
         m.m_types.push_back(&type<mud::BlockDepth>());
         m.m_types.push_back(&type<mud::BlockFilter>());
         m.m_types.push_back(&type<mud::BlockParticles>());
         m.m_types.push_back(&type<mud::BlockResolve>());
         m.m_types.push_back(&type<mud::BlockSky>());
         m.m_types.push_back(&type<mud::ClusteredFrustum>());
-        m.m_types.push_back(&type<mud::DrawBlock>());
         m.m_types.push_back(&type<mud::Particles>());
         m.m_types.push_back(&type<mud::RenderTarget>());
         {
