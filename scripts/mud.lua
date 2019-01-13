@@ -257,6 +257,7 @@ function mud_binary(name, modules, deps)
 end
 
 function mud_js(name, modules)
-    mud_lib(name, {}, "ConsoleApp", modules)
+    local lib = mud_lib(name, {}, "ConsoleApp", modules)
+    mud_glue_js(table.inverse(lib.deps))
     mud_binary_config()
 end

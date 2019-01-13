@@ -74,8 +74,8 @@ function mud_binary_config()
         }
         
         linkoptions {
-            "-s EXPORTED_FUNCTIONS=\"['_main', '_copy', '_paste']\"",
-            "-s EXTRA_EXPORTED_RUNTIME_METHODS=\"['ccall', 'cwrap']\"",
+            --"-s EXPORTED_FUNCTIONS=\"['_main', '_copy', '_paste']\"",
+            --"-s EXTRA_EXPORTED_RUNTIME_METHODS=\"['ccall', 'cwrap']\"",
         }
         
         linkoptions {

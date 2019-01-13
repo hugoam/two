@@ -66,10 +66,12 @@ end
 
 function concat_files(files)
     for _, filepath in ipairs(files) do
-        local js, jserr = io.open(filepath, "r")
-        local content = js:read("*a")
-        io.printf(content)
-        js:close()
+        if os.isfile(filepath) then
+            local js, jserr = io.open(filepath, "r")
+            local content = js:read("*a")
+            io.printf(content)
+            js:close()
+        end
     end
 end
 
@@ -77,13 +79,19 @@ function mud_glue_js(modules)
     local glue_path = path.join(BUILD_DIR, "js", "glue.js")
     local f, err = io.open(glue_path, "wb")
     io.output(f)
+    
     local files = { path.join(MUD_DIR, "src/clrefl", "Module.js") }
     for _, m in ipairs(modules) do
         table.insert(files, path.join(m.root, "bind", m.subdir, "js.js"))
     end
     concat_files(files)
     io.printf("")
+    
     f:close()
+
+    linkoptions {
+        "--post-js " .. glue_path
+    }
 end
 
 function mud_reflect(modules)
