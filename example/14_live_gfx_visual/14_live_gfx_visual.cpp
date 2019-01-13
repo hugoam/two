@@ -103,7 +103,7 @@ void pump(Shell& app)
 
 int main(int argc, char *argv[])
 {
-	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
+	Shell app(MUD_RESOURCE_PATH, argc, argv);
 	System::instance().load_modules({ &mud_gfx::m() });
 	app.m_gfx_system.init_pipeline(pipeline_minimal);
 	app.run(pump);

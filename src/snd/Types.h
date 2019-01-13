@@ -8,6 +8,8 @@
 #endif
 
 #ifndef MUD_MODULES
+#include <type/Types.h>
+#include <math/Types.h>
 #endif
 
 #ifndef MUD_CPP_20

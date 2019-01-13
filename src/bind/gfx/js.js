@@ -1194,15 +1194,21 @@ GfxContext.prototype["__destroy__"] = GfxContext.prototype.__destroy__ = functio
     _mud_GfxContext__destroy(self);
 };
 // GfxSystem
-function GfxSystem() { throw "cannot construct a GfxSystem, no constructor in IDL" }
+function GfxSystem(resource_path) {
+    var self = this.ptr;
+    /* resource_path <const char*> [] */
+    this.ptr = _mud_GfxSystem_GfxSystem_1(self, resource_path); getCache(GfxSystem)[this.ptr] = this;
+};
 GfxSystem.prototype = Object.create(WrapperObject.prototype);
 GfxSystem.prototype.constructor = GfxSystem;
 GfxSystem.prototype.__class__ = GfxSystem;
 GfxSystem.__cache__ = {};
 Module['GfxSystem'] = GfxSystem;
-GfxSystem.prototype["add_resource_path"] = GfxSystem.prototype.add_resource_path = function(path) {
+GfxSystem.prototype["add_resource_path"] = GfxSystem.prototype.add_resource_path = function(path, relative) {
     /* path <const char*> [] */
-    _mud_GfxSystem_add_resource_path_1(path);
+    /* relative <bool> [] */
+    if (relative === undefined) { _mud_GfxSystem_add_resource_path_1(path); return; }
+    _mud_GfxSystem_add_resource_path_2(path, relative);
 };
 GfxSystem.prototype["debug_material"] = GfxSystem.prototype.debug_material = function() {
     return wrapPointer(_mud_GfxSystem_debug_material_0(), mud::Material);

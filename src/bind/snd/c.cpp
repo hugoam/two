@@ -1,3 +1,5 @@
+#include <type/Api.h>
+#include <math/Api.h>
 #include <snd/Api.h>
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN

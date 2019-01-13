@@ -36,21 +36,14 @@ namespace mud
 		return exec_dir;
 	}
 
-    Shell::Shell(array<cstring> resource_paths, int argc, char *argv[])
+    Shell::Shell(cstring resource_path, int argc, char *argv[])
         : m_exec_path(exec_path(argc, argv))
-		, m_resource_path(resource_paths[0])
+		, m_resource_path(resource_path)
 		, m_job_system()
-		, m_gfx_system(resource_paths)
-		//, m_lua(false)
-		//, m_wren(false)
-		//, m_editor(m_gfx_system)
+		, m_gfx_system(resource_path)
 	{
-		
 		// @todo this should be automatically done by math module
 		register_math_conversions();
-
-		//m_editor.m_script_editor.m_lua = &m_lua;
-		//m_editor.m_script_editor.m_wren = &m_wren;
 
 		//declare_gfx_edit();
 
@@ -101,14 +94,7 @@ namespace mud
 		context.m_reset_vg = [&] { return m_vg->load_texture(context.m_target->m_diffuse.idx); };
 
 		m_ui_window = make_unique<UiWindow>(*m_context, *m_vg);
-
-		//m_ui_window = &m_gfx_system.create_window("mud EditorCore", 1280, 720, false);
 		m_ui = m_ui_window->m_root_sheet.get();
-
-		//string stylesheet = "minimal.yml";
-		//string stylesheet = "vector.yml";
-		//string stylesheet = "blendish_dark.yml";
-		//set_style_sheet(*m_ui_window->m_styler, (string(m_resource_path) + "interface/styles/" + stylesheet).c_str());
 
 		style_minimal(*m_ui_window);
 	}

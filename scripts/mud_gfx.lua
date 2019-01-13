@@ -88,7 +88,7 @@ mud.tool        = mud_module("mud", "tool",         MUD_SRC_DIR, "tool",        
 -- wfc
 mud.wfc.gfx     = mud_module("mud", "wfc-gfx",      MUD_SRC_DIR, "wfc-gfx",     nil,            nil,                true,       { json11, mud.infra, mud.tree, mud.type, mud.srlz, mud.math, mud.geom, mud.wfc, mud.ctx, mud.ui, mud.uio, mud.gfx, mud.gfx.ui })
 -- core
-mud.core        = mud_module("mud", "core",         MUD_SRC_DIR, "core",        nil,            nil,                false,      { mud.gfx, mud.gfx.ui, mud.ctxbackend, mud.uibackend })
+mud.core        = mud_module("mud", "core",         MUD_SRC_DIR, "core",        nil,            nil,                true,       { mud.gfx, mud.gfx.ui, mud.ctxbackend, mud.uibackend })
 
 table.extend(mud.mud, { mud.ctxbackend, mud.uibackend, mud.bgfx, mud.gfx, mud.gfx.pbr, mud.gfx.obj, mud.gltf, mud.gfx.gltf, mud.gfx.ui, mud.gfx.edit, mud.tool, mud.wfc.gfx, mud.core })
 

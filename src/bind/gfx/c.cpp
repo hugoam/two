@@ -661,8 +661,14 @@ extern "C" {
 		delete self;
 	}
 	// GfxSystem
+	mud::GfxSystem* DECL mud_GfxSystem_GfxSystem_1(const char* resource_path) {
+		return new mud::GfxSystem(resource_path);
+	}
 	void DECL mud_GfxSystem_add_resource_path_1(mud::GfxSystem* self, const char* path) {
 		self->add_resource_path(path);
+	}
+	void DECL mud_GfxSystem_add_resource_path_2(mud::GfxSystem* self, const char* path, bool relative) {
+		self->add_resource_path(path, relative);
 	}
 	mud::Material* DECL mud_GfxSystem_debug_material_0(mud::GfxSystem* self) {
 		return &self->debug_material();

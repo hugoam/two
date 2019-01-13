@@ -69,7 +69,8 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT GfxSystem : public BgfxSystem
 	{
 	public:
-		GfxSystem(array<cstring> resource_paths);
+		constr_ GfxSystem(cstring resource_path);
+		constr_ GfxSystem(array<cstring> resource_paths);
 		~GfxSystem();
 
 		JobSystem* m_job_system = nullptr;
@@ -87,7 +88,7 @@ namespace mud
 		using PipelineDecl = void(*)(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred);
 		void init_pipeline(PipelineDecl pipeline);
 
-		meth_ void add_resource_path(cstring path);
+		meth_ void add_resource_path(cstring path, bool relative = true);
 
 		void set_renderer(Shading shading, Renderer& renderer);
 		Renderer& renderer(Shading shading);

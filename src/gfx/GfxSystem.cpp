@@ -112,19 +112,23 @@ namespace mud
 #endif
 	};
 
-	GfxSystem::GfxSystem(array<cstring> resource_paths)
-		: BgfxSystem(resource_paths[0])
+	GfxSystem::GfxSystem(cstring resource_path)
+		: BgfxSystem(resource_path)
 		, m_impl(make_unique<Impl>())
 		, m_pipeline(make_unique<Pipeline>(*this))
 	{
 		Program::ms_gfx_system = this;
 		Material::ms_gfx_system = this;
 		Model::ms_gfx_system = this;
-		for(cstring path : resource_paths)
-		{
-			printf("INFO: resource path: %s\n", path);
-			m_impl->m_resource_paths.push_back(path);
-		}
+
+		this->add_resource_path(resource_path, false);
+	}
+
+	GfxSystem::GfxSystem(array<cstring> resource_paths)
+		: GfxSystem(resource_paths[0])
+	{
+		for(size_t i = 1; i < resource_paths.size(); ++i)
+			this->add_resource_path(resource_paths[i], false);
 	}
 
 	GfxSystem::~GfxSystem()
@@ -209,9 +213,10 @@ namespace mud
 		this->create_debug_materials();
 	}
 
-	void GfxSystem::add_resource_path(cstring path)
+	void GfxSystem::add_resource_path(cstring path, bool relative)
 	{
-		m_impl->m_resource_paths.push_back(m_resource_path + path);
+		printf("INFO: resource path: %s\n", path);
+		m_impl->m_resource_paths.push_back(relative ? m_resource_path + path : path);
 	}
 
 	void GfxSystem::set_renderer(Shading shading, Renderer& renderer)
