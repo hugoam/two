@@ -11,19 +11,19 @@ ScriptEditor.__cache__ = {};
 Module['ScriptEditor'] = ScriptEditor;
 ScriptEditor.prototype["__destroy__"] = ScriptEditor.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _ScriptEditor___destroy__(self);
+    _mud_ScriptEditor___destroy__(self);
 };
 
 (function() {
     function setupEnums() {
         // EditNestMode
-        Module['EditNestMode']['Inline'] = _EditNestMode_Inline();
-        Module['EditNestMode']['Modal'] = _EditNestMode_Modal();
-        Module['EditNestMode']['Embed'] = _EditNestMode_Embed();
+        Module['EditNestMode']['Inline'] = _mud_EditNestMode_Inline();
+        Module['EditNestMode']['Modal'] = _mud_EditNestMode_Modal();
+        Module['EditNestMode']['Embed'] = _mud_EditNestMode_Embed();
         // EditorHint
-        Module['EditorHint']['Table'] = _EditorHint_Table();
-        Module['EditorHint']['Rows'] = _EditorHint_Rows();
-        Module['EditorHint']['Inline'] = _EditorHint_Inline();
+        Module['EditorHint']['Table'] = _mud_EditorHint_Table();
+        Module['EditorHint']['Rows'] = _mud_EditorHint_Rows();
+        Module['EditorHint']['Inline'] = _mud_EditorHint_Inline();
     }
     if (Module['calledRun']) setupEnums();
     else addOnPreMain(setupEnums);

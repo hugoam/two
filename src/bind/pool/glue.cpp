@@ -8,11 +8,11 @@
 extern "C" {
 	
 	// HandlePool
-	void EMSCRIPTEN_KEEPALIVE HandlePool___destroy__(mud::HandlePool* self) {
+	void EMSCRIPTEN_KEEPALIVE mud_HandlePool___destroy__(mud::HandlePool* self) {
 		delete self;
 	}
 	// Pool
-	void EMSCRIPTEN_KEEPALIVE Pool___destroy__(mud::Pool* self) {
+	void EMSCRIPTEN_KEEPALIVE mud_Pool___destroy__(mud::Pool* self) {
 		delete self;
 	}
 	

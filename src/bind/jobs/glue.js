@@ -11,7 +11,7 @@ JobSystem.__cache__ = {};
 Module['JobSystem'] = JobSystem;
 JobSystem.prototype["__destroy__"] = JobSystem.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _JobSystem___destroy__(self);
+    _mud_JobSystem___destroy__(self);
 };
 
 (function() {

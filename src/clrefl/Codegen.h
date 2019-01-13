@@ -1084,8 +1084,8 @@ namespace clgen
 		//string bind_prefix = "emscripten_bind_";
 		string bind_prefix = "";
 
-		auto binding_name_str = [&](const CLClass& c, const string& name) { return bind_prefix + c.m_name + "_" + name; };
-		auto binding_name = [&](const CLClass& c, const CLFunction& f) { return bind_prefix + c.m_name + "_" + f.m_name; };
+		auto binding_name_str = [&](const CLClass& c, const string& name) { return bind_prefix + replace(c.m_id, "::", "_") + "_" + name; };
+		auto binding_name = [&](const CLClass& c, const CLFunction& f) { return binding_name_str(c, f.m_name); };
 		auto binding_name_n = [&](const CLClass& c, const CLFunction& f, size_t i) { return  binding_name(c, f) + "_" + to_string(i); };
 
 		struct Overloads { const CLFunction* f; std::set<size_t> lengths; };
@@ -1591,7 +1591,7 @@ namespace clgen
 				jsw("// " + e.m_name);
 				for(size_t i = 0; i < e.m_ids.size(); ++i)
 				{
-					string f = enum_prefix + e.m_name + "_" + e.m_ids[i];
+					string f = enum_prefix + replace(e.m_id, "::", "_") + "_" + e.m_ids[i];
 					cw(e.m_id + " EMSCRIPTEN_KEEPALIVE " + f + "() {");
 					cw("return " + e.m_scoped_ids[i] + ";");
 					cw("}");

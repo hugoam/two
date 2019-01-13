@@ -12,91 +12,91 @@ Module['EditContext'] = EditContext;
 Object.defineProperty(EditContext.prototype, "undo_tool", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_EditContext_get_undo_tool(self), mud::UndoTool);
+        return wrapPointer(_mud_EditContext_get_undo_tool(self), mud::UndoTool);
     }});
 Object.defineProperty(EditContext.prototype, "redo_tool", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_EditContext_get_redo_tool(self), mud::RedoTool);
+        return wrapPointer(_mud_EditContext_get_redo_tool(self), mud::RedoTool);
     }});
 Object.defineProperty(EditContext.prototype, "work_plane", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_EditContext_get_work_plane(self), mud::Plane);
+        return wrapPointer(_mud_EditContext_get_work_plane(self), mud::Plane);
     },
     set: function(work_plane) {
         var self = this.ptr;
         /* work_plane <Plane> [] */
         work_plane = work_plane.ptr;
-        _EditContext_set_work_plane(self, work_plane);
+        _mud_EditContext_set_work_plane(self, work_plane);
     }
 });
 Object.defineProperty(EditContext.prototype, "translate_tool", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_EditContext_get_translate_tool(self), mud::TranslateTool);
+        return wrapPointer(_mud_EditContext_get_translate_tool(self), mud::TranslateTool);
     }});
 Object.defineProperty(EditContext.prototype, "rotate_tool", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_EditContext_get_rotate_tool(self), mud::RotateTool);
+        return wrapPointer(_mud_EditContext_get_rotate_tool(self), mud::RotateTool);
     }});
 Object.defineProperty(EditContext.prototype, "scale_tool", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_EditContext_get_scale_tool(self), mud::ScaleTool);
+        return wrapPointer(_mud_EditContext_get_scale_tool(self), mud::ScaleTool);
     }});
 Object.defineProperty(EditContext.prototype, "viewer", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_EditContext_get_viewer(self), mud::Viewer);
+        return wrapPointer(_mud_EditContext_get_viewer(self), mud::Viewer);
     },
     set: function(viewer) {
         var self = this.ptr;
         /* viewer <Viewer> [] */
         viewer = viewer.ptr;
-        _EditContext_set_viewer(self, viewer);
+        _mud_EditContext_set_viewer(self, viewer);
     }
 });
 Object.defineProperty(EditContext.prototype, "tool", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_EditContext_get_tool(self), mud::ViewportTool);
+        return wrapPointer(_mud_EditContext_get_tool(self), mud::ViewportTool);
     },
     set: function(tool) {
         var self = this.ptr;
         /* tool <ViewportTool> [] */
         tool = tool.ptr;
-        _EditContext_set_tool(self, tool);
+        _mud_EditContext_set_tool(self, tool);
     }
 });
 Object.defineProperty(EditContext.prototype, "spatial_tool", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_EditContext_get_spatial_tool(self), mud::SpatialTool);
+        return wrapPointer(_mud_EditContext_get_spatial_tool(self), mud::SpatialTool);
     },
     set: function(spatial_tool) {
         var self = this.ptr;
         /* spatial_tool <SpatialTool> [] */
         spatial_tool = spatial_tool.ptr;
-        _EditContext_set_spatial_tool(self, spatial_tool);
+        _mud_EditContext_set_spatial_tool(self, spatial_tool);
     }
 });
 Object.defineProperty(EditContext.prototype, "brush", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_EditContext_get_brush(self), mud::Brush);
+        return wrapPointer(_mud_EditContext_get_brush(self), mud::Brush);
     },
     set: function(brush) {
         var self = this.ptr;
         /* brush <Brush> [] */
         brush = brush.ptr;
-        _EditContext_set_brush(self, brush);
+        _mud_EditContext_set_brush(self, brush);
     }
 });
 EditContext.prototype["__destroy__"] = EditContext.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _EditContext___destroy__(self);
+    _mud_EditContext___destroy__(self);
 };
 // EditorAction
 function EditorAction() { throw "cannot construct a EditorAction, no constructor in IDL" }
@@ -107,12 +107,12 @@ EditorAction.__cache__ = {};
 Module['EditorAction'] = EditorAction;
 EditorAction.prototype["__destroy__"] = EditorAction.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _EditorAction___destroy__(self);
+    _mud_EditorAction___destroy__(self);
 };
 // Gizmo
 function Gizmo() {
     var self = this.ptr;
-    this.ptr = _Gizmo_Gizmo_0(self); getCache(Gizmo)[this.ptr] = this;
+    this.ptr = _mud_Gizmo_Gizmo_0(self); getCache(Gizmo)[this.ptr] = this;
 };
 Gizmo.prototype = Object.create(WrapperObject.prototype);
 Gizmo.prototype.constructor = Gizmo;
@@ -121,7 +121,7 @@ Gizmo.__cache__ = {};
 Module['Gizmo'] = Gizmo;
 Gizmo.prototype["__destroy__"] = Gizmo.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _Gizmo___destroy__(self);
+    _mud_Gizmo___destroy__(self);
 };
 // Tool
 function Tool() { throw "cannot construct a Tool, no constructor in IDL" }
@@ -133,46 +133,46 @@ Module['Tool'] = Tool;
 Object.defineProperty(Tool.prototype, "type", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_Tool_get_type(self), mud::Type);
+        return wrapPointer(_mud_Tool_get_type(self), mud::Type);
     }});
 Object.defineProperty(Tool.prototype, "context", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_Tool_get_context(self), mud::ToolContext);
+        return wrapPointer(_mud_Tool_get_context(self), mud::ToolContext);
     }});
 Object.defineProperty(Tool.prototype, "name", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_Tool_get_name(self));
+        return Pointer_stringify(_mud_Tool_get_name(self));
     },
     set: function(name) {
         var self = this.ptr;
         /* name <std::string> [] */
         if (name && typeof name === "object") name = name.ptr;
         else name = ensureString(name);
-        _Tool_set_name(self, name);
+        _mud_Tool_set_name(self, name);
     }
 });
 Object.defineProperty(Tool.prototype, "state", {
     get: function() {
         var self = this.ptr;
-        return _Tool_get_state(self);
+        return _mud_Tool_get_state(self);
     },
     set: function(state) {
         var self = this.ptr;
         /* state <ToolState> [] */
         if (state && typeof state === "object") state = state.ptr;
-        _Tool_set_state(self, state);
+        _mud_Tool_set_state(self, state);
     }
 });
 Tool.prototype["__destroy__"] = Tool.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _Tool___destroy__(self);
+    _mud_Tool___destroy__(self);
 };
 // ToolContext
 function ToolContext() {
     var self = this.ptr;
-    this.ptr = _ToolContext_ToolContext_0(self); getCache(ToolContext)[this.ptr] = this;
+    this.ptr = _mud_ToolContext_ToolContext_0(self); getCache(ToolContext)[this.ptr] = this;
 };
 ToolContext.prototype = Object.create(WrapperObject.prototype);
 ToolContext.prototype.constructor = ToolContext;
@@ -181,7 +181,7 @@ ToolContext.__cache__ = {};
 Module['ToolContext'] = ToolContext;
 ToolContext.prototype["__destroy__"] = ToolContext.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _ToolContext___destroy__(self);
+    _mud_ToolContext___destroy__(self);
 };
 // ToolOption
 function ToolOption() { throw "cannot construct a ToolOption, no constructor in IDL" }
@@ -192,7 +192,7 @@ ToolOption.__cache__ = {};
 Module['ToolOption'] = ToolOption;
 ToolOption.prototype["__destroy__"] = ToolOption.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _ToolOption___destroy__(self);
+    _mud_ToolOption___destroy__(self);
 };
 // RedoTool
 function RedoTool() { throw "cannot construct a RedoTool, no constructor in IDL" }
@@ -203,7 +203,7 @@ RedoTool.__cache__ = {};
 Module['RedoTool'] = RedoTool;
 RedoTool.prototype["__destroy__"] = RedoTool.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _RedoTool___destroy__(self);
+    _mud_RedoTool___destroy__(self);
 };
 // ViewportTool
 function ViewportTool() { throw "cannot construct a ViewportTool, no constructor in IDL" }
@@ -214,7 +214,7 @@ ViewportTool.__cache__ = {};
 Module['ViewportTool'] = ViewportTool;
 ViewportTool.prototype["__destroy__"] = ViewportTool.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _ViewportTool___destroy__(self);
+    _mud_ViewportTool___destroy__(self);
 };
 // SpatialTool
 function SpatialTool() { throw "cannot construct a SpatialTool, no constructor in IDL" }
@@ -225,7 +225,7 @@ SpatialTool.__cache__ = {};
 Module['SpatialTool'] = SpatialTool;
 SpatialTool.prototype["__destroy__"] = SpatialTool.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _SpatialTool___destroy__(self);
+    _mud_SpatialTool___destroy__(self);
 };
 // Brush
 function Brush() { throw "cannot construct a Brush, no constructor in IDL" }
@@ -236,14 +236,14 @@ Brush.__cache__ = {};
 Module['Brush'] = Brush;
 Brush.prototype["__destroy__"] = Brush.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _Brush___destroy__(self);
+    _mud_Brush___destroy__(self);
 };
 // CircleBrush
 function CircleBrush(context) {
     var self = this.ptr;
     /* context <ToolContext> [] */
     context = context.ptr;
-    this.ptr = _CircleBrush_CircleBrush_1(self, context); getCache(CircleBrush)[this.ptr] = this;
+    this.ptr = _mud_CircleBrush_CircleBrush_1(self, context); getCache(CircleBrush)[this.ptr] = this;
 };
 CircleBrush.prototype = Object.create(WrapperObject.prototype);
 CircleBrush.prototype.constructor = CircleBrush;
@@ -253,40 +253,40 @@ Module['CircleBrush'] = CircleBrush;
 Object.defineProperty(CircleBrush.prototype, "creator", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_CircleBrush_get_creator(self), mud::Creator);
+        return wrapPointer(_mud_CircleBrush_get_creator(self), mud::Creator);
     }});
 Object.defineProperty(CircleBrush.prototype, "radius", {
     get: function() {
         var self = this.ptr;
-        return _CircleBrush_get_radius(self);
+        return _mud_CircleBrush_get_radius(self);
     },
     set: function(radius) {
         var self = this.ptr;
         /* radius <float> [] */
-        _CircleBrush_set_radius(self, radius);
+        _mud_CircleBrush_set_radius(self, radius);
     }
 });
 Object.defineProperty(CircleBrush.prototype, "maxSpotRadius", {
     get: function() {
         var self = this.ptr;
-        return _CircleBrush_get_maxSpotRadius(self);
+        return _mud_CircleBrush_get_maxSpotRadius(self);
     },
     set: function(maxSpotRadius) {
         var self = this.ptr;
         /* maxSpotRadius <float> [] */
-        _CircleBrush_set_maxSpotRadius(self, maxSpotRadius);
+        _mud_CircleBrush_set_maxSpotRadius(self, maxSpotRadius);
     }
 });
 CircleBrush.prototype["__destroy__"] = CircleBrush.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _CircleBrush___destroy__(self);
+    _mud_CircleBrush___destroy__(self);
 };
 // PlaceBrush
 function PlaceBrush(context) {
     var self = this.ptr;
     /* context <ToolContext> [] */
     context = context.ptr;
-    this.ptr = _PlaceBrush_PlaceBrush_1(self, context); getCache(PlaceBrush)[this.ptr] = this;
+    this.ptr = _mud_PlaceBrush_PlaceBrush_1(self, context); getCache(PlaceBrush)[this.ptr] = this;
 };
 PlaceBrush.prototype = Object.create(WrapperObject.prototype);
 PlaceBrush.prototype.constructor = PlaceBrush;
@@ -296,11 +296,11 @@ Module['PlaceBrush'] = PlaceBrush;
 Object.defineProperty(PlaceBrush.prototype, "creator", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_PlaceBrush_get_creator(self), mud::Creator);
+        return wrapPointer(_mud_PlaceBrush_get_creator(self), mud::Creator);
     }});
 PlaceBrush.prototype["__destroy__"] = PlaceBrush.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _PlaceBrush___destroy__(self);
+    _mud_PlaceBrush___destroy__(self);
 };
 // PlaneSnapOption
 function PlaneSnapOption() { throw "cannot construct a PlaneSnapOption, no constructor in IDL" }
@@ -311,7 +311,7 @@ PlaneSnapOption.__cache__ = {};
 Module['PlaneSnapOption'] = PlaneSnapOption;
 PlaneSnapOption.prototype["__destroy__"] = PlaneSnapOption.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _PlaneSnapOption___destroy__(self);
+    _mud_PlaneSnapOption___destroy__(self);
 };
 // ScriptedBrush
 function ScriptedBrush(context, script) {
@@ -320,7 +320,7 @@ function ScriptedBrush(context, script) {
     context = context.ptr;
     /* script <Script> [] */
     script = script.ptr;
-    this.ptr = _ScriptedBrush_ScriptedBrush_2(self, context, script); getCache(ScriptedBrush)[this.ptr] = this;
+    this.ptr = _mud_ScriptedBrush_ScriptedBrush_2(self, context, script); getCache(ScriptedBrush)[this.ptr] = this;
 };
 ScriptedBrush.prototype = Object.create(WrapperObject.prototype);
 ScriptedBrush.prototype.constructor = ScriptedBrush;
@@ -330,18 +330,18 @@ Module['ScriptedBrush'] = ScriptedBrush;
 Object.defineProperty(ScriptedBrush.prototype, "call", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_ScriptedBrush_get_call(self), mud::Call);
+        return wrapPointer(_mud_ScriptedBrush_get_call(self), mud::Call);
     },
     set: function(call) {
         var self = this.ptr;
         /* call <Call> [] */
         call = call.ptr;
-        _ScriptedBrush_set_call(self, call);
+        _mud_ScriptedBrush_set_call(self, call);
     }
 });
 ScriptedBrush.prototype["__destroy__"] = ScriptedBrush.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _ScriptedBrush___destroy__(self);
+    _mud_ScriptedBrush___destroy__(self);
 };
 // TransformAction
 function TransformAction() { throw "cannot construct a TransformAction, no constructor in IDL" }
@@ -352,7 +352,7 @@ TransformAction.__cache__ = {};
 Module['TransformAction'] = TransformAction;
 TransformAction.prototype["__destroy__"] = TransformAction.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _TransformAction___destroy__(self);
+    _mud_TransformAction___destroy__(self);
 };
 // RotateAction
 function RotateAction() { throw "cannot construct a RotateAction, no constructor in IDL" }
@@ -363,7 +363,7 @@ RotateAction.__cache__ = {};
 Module['RotateAction'] = RotateAction;
 RotateAction.prototype["__destroy__"] = RotateAction.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _RotateAction___destroy__(self);
+    _mud_RotateAction___destroy__(self);
 };
 // TransformTool
 function TransformTool() { throw "cannot construct a TransformTool, no constructor in IDL" }
@@ -374,7 +374,7 @@ TransformTool.__cache__ = {};
 Module['TransformTool'] = TransformTool;
 TransformTool.prototype["__destroy__"] = TransformTool.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _TransformTool___destroy__(self);
+    _mud_TransformTool___destroy__(self);
 };
 // RotateTool
 function RotateTool() { throw "cannot construct a RotateTool, no constructor in IDL" }
@@ -385,7 +385,7 @@ RotateTool.__cache__ = {};
 Module['RotateTool'] = RotateTool;
 RotateTool.prototype["__destroy__"] = RotateTool.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _RotateTool___destroy__(self);
+    _mud_RotateTool___destroy__(self);
 };
 // ScaleAction
 function ScaleAction() { throw "cannot construct a ScaleAction, no constructor in IDL" }
@@ -396,7 +396,7 @@ ScaleAction.__cache__ = {};
 Module['ScaleAction'] = ScaleAction;
 ScaleAction.prototype["__destroy__"] = ScaleAction.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _ScaleAction___destroy__(self);
+    _mud_ScaleAction___destroy__(self);
 };
 // ScaleTool
 function ScaleTool() { throw "cannot construct a ScaleTool, no constructor in IDL" }
@@ -407,7 +407,7 @@ ScaleTool.__cache__ = {};
 Module['ScaleTool'] = ScaleTool;
 ScaleTool.prototype["__destroy__"] = ScaleTool.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _ScaleTool___destroy__(self);
+    _mud_ScaleTool___destroy__(self);
 };
 // TranslateAction
 function TranslateAction() { throw "cannot construct a TranslateAction, no constructor in IDL" }
@@ -418,7 +418,7 @@ TranslateAction.__cache__ = {};
 Module['TranslateAction'] = TranslateAction;
 TranslateAction.prototype["__destroy__"] = TranslateAction.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _TranslateAction___destroy__(self);
+    _mud_TranslateAction___destroy__(self);
 };
 // CopyAction
 function CopyAction() { throw "cannot construct a CopyAction, no constructor in IDL" }
@@ -429,7 +429,7 @@ CopyAction.__cache__ = {};
 Module['CopyAction'] = CopyAction;
 CopyAction.prototype["__destroy__"] = CopyAction.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _CopyAction___destroy__(self);
+    _mud_CopyAction___destroy__(self);
 };
 // CopyTool
 function CopyTool() { throw "cannot construct a CopyTool, no constructor in IDL" }
@@ -440,7 +440,7 @@ CopyTool.__cache__ = {};
 Module['CopyTool'] = CopyTool;
 CopyTool.prototype["__destroy__"] = CopyTool.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _CopyTool___destroy__(self);
+    _mud_CopyTool___destroy__(self);
 };
 // FrameViewTool
 function FrameViewTool() { throw "cannot construct a FrameViewTool, no constructor in IDL" }
@@ -451,7 +451,7 @@ FrameViewTool.__cache__ = {};
 Module['FrameViewTool'] = FrameViewTool;
 FrameViewTool.prototype["__destroy__"] = FrameViewTool.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _FrameViewTool___destroy__(self);
+    _mud_FrameViewTool___destroy__(self);
 };
 // TranslateTool
 function TranslateTool() { throw "cannot construct a TranslateTool, no constructor in IDL" }
@@ -462,7 +462,7 @@ TranslateTool.__cache__ = {};
 Module['TranslateTool'] = TranslateTool;
 TranslateTool.prototype["__destroy__"] = TranslateTool.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _TranslateTool___destroy__(self);
+    _mud_TranslateTool___destroy__(self);
 };
 // UndoTool
 function UndoTool() { throw "cannot construct a UndoTool, no constructor in IDL" }
@@ -473,7 +473,7 @@ UndoTool.__cache__ = {};
 Module['UndoTool'] = UndoTool;
 UndoTool.prototype["__destroy__"] = UndoTool.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _UndoTool___destroy__(self);
+    _mud_UndoTool___destroy__(self);
 };
 // ViewAction
 function ViewAction() { throw "cannot construct a ViewAction, no constructor in IDL" }
@@ -484,7 +484,7 @@ ViewAction.__cache__ = {};
 Module['ViewAction'] = ViewAction;
 ViewAction.prototype["__destroy__"] = ViewAction.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _ViewAction___destroy__(self);
+    _mud_ViewAction___destroy__(self);
 };
 // ViewTool
 function ViewTool() { throw "cannot construct a ViewTool, no constructor in IDL" }
@@ -495,7 +495,7 @@ ViewTool.__cache__ = {};
 Module['ViewTool'] = ViewTool;
 ViewTool.prototype["__destroy__"] = ViewTool.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _ViewTool___destroy__(self);
+    _mud_ViewTool___destroy__(self);
 };
 // WorkPlaneAction
 function WorkPlaneAction() { throw "cannot construct a WorkPlaneAction, no constructor in IDL" }
@@ -506,7 +506,7 @@ WorkPlaneAction.__cache__ = {};
 Module['WorkPlaneAction'] = WorkPlaneAction;
 WorkPlaneAction.prototype["__destroy__"] = WorkPlaneAction.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _WorkPlaneAction___destroy__(self);
+    _mud_WorkPlaneAction___destroy__(self);
 };
 // WorkPlaneTool
 function WorkPlaneTool() { throw "cannot construct a WorkPlaneTool, no constructor in IDL" }
@@ -517,7 +517,7 @@ WorkPlaneTool.__cache__ = {};
 Module['WorkPlaneTool'] = WorkPlaneTool;
 WorkPlaneTool.prototype["__destroy__"] = WorkPlaneTool.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _WorkPlaneTool___destroy__(self);
+    _mud_WorkPlaneTool___destroy__(self);
 };
 // WorldSnapOption
 function WorldSnapOption() { throw "cannot construct a WorldSnapOption, no constructor in IDL" }
@@ -528,15 +528,15 @@ WorldSnapOption.__cache__ = {};
 Module['WorldSnapOption'] = WorldSnapOption;
 WorldSnapOption.prototype["__destroy__"] = WorldSnapOption.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _WorldSnapOption___destroy__(self);
+    _mud_WorldSnapOption___destroy__(self);
 };
 
 (function() {
     function setupEnums() {
         // ToolState
-        Module['ToolState']['Inactive'] = _ToolState_Inactive();
-        Module['ToolState']['Done'] = _ToolState_Done();
-        Module['ToolState']['Active'] = _ToolState_Active();
+        Module['ToolState']['Inactive'] = _mud_ToolState_Inactive();
+        Module['ToolState']['Done'] = _mud_ToolState_Done();
+        Module['ToolState']['Active'] = _mud_ToolState_Active();
     }
     if (Module['calledRun']) setupEnums();
     else addOnPreMain(setupEnums);

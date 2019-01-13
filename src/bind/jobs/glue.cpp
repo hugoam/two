@@ -7,7 +7,7 @@
 extern "C" {
 	
 	// JobSystem
-	void EMSCRIPTEN_KEEPALIVE JobSystem___destroy__(mud::JobSystem* self) {
+	void EMSCRIPTEN_KEEPALIVE mud_JobSystem___destroy__(mud::JobSystem* self) {
 		delete self;
 	}
 	
