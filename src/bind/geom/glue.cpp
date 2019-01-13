@@ -339,10 +339,6 @@ extern "C" {
 	mud::ConvexHull* EMSCRIPTEN_KEEPALIVE ConvexHull_ConvexHull_1(const std::vector<mud::vec3>* vertices) {
 		return new mud::ConvexHull(*vertices);
 	}
-	std::vector<mud::vec3>* EMSCRIPTEN_KEEPALIVE ConvexHull_get_vertices(mud::ConvexHull* self) {
-		static std::vector<mud::vec3> temp;
-		return (temp = self->m_vertices, &temp);
-	}
 	void EMSCRIPTEN_KEEPALIVE ConvexHull___destroy__(mud::ConvexHull* self) {
 		delete self;
 	}
@@ -442,10 +438,6 @@ extern "C" {
 		static mud::uvec2 temp;
 		return (temp = self->m_size, &temp);
 	}
-	std::vector<mud::vec3>* EMSCRIPTEN_KEEPALIVE Grid3_get_points(mud::Grid3* self) {
-		static std::vector<mud::vec3> temp;
-		return (temp = self->m_points, &temp);
-	}
 	void EMSCRIPTEN_KEEPALIVE Grid3___destroy__(mud::Grid3* self) {
 		delete self;
 	}
@@ -479,10 +471,6 @@ extern "C" {
 	}
 	mud::Points* EMSCRIPTEN_KEEPALIVE Points_Points_1(const std::vector<mud::vec3>* points) {
 		return new mud::Points(*points);
-	}
-	std::vector<mud::vec3>* EMSCRIPTEN_KEEPALIVE Points_get_points(mud::Points* self) {
-		static std::vector<mud::vec3> temp;
-		return (temp = self->m_points, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE Points___destroy__(mud::Points* self) {
 		delete self;

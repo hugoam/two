@@ -50,18 +50,6 @@ Object.defineProperty(Clipboard.prototype, "line_mode", {
         _Clipboard_set_line_mode(self, line_mode);
     }
 });
-Object.defineProperty(Clipboard.prototype, "pasted", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_Clipboard_get_pasted(self), std::vector<mud::string>);
-    },
-    set: function(pasted) {
-        var self = this.ptr;
-        /* pasted <std::vector<std::string>> [] */
-        pasted = pasted.ptr;
-        _Clipboard_set_pasted(self, pasted);
-    }
-});
 Clipboard.prototype["__destroy__"] = Clipboard.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Clipboard___destroy__(self);
@@ -722,30 +710,6 @@ Object.defineProperty(Layout.prototype, "no_grid", {
         var self = this.ptr;
         /* no_grid <bool> [] */
         _Layout_set_no_grid(self, no_grid);
-    }
-});
-Object.defineProperty(Layout.prototype, "grid_division", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_Layout_get_grid_division(self), std::vector<mud::Space>);
-    },
-    set: function(grid_division) {
-        var self = this.ptr;
-        /* grid_division <std::vector<mud::Space>> [] */
-        grid_division = grid_division.ptr;
-        _Layout_set_grid_division(self, grid_division);
-    }
-});
-Object.defineProperty(Layout.prototype, "table_division", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_Layout_get_table_division(self), std::vector<float>);
-    },
-    set: function(table_division) {
-        var self = this.ptr;
-        /* table_division <std::vector<float>> [] */
-        table_division = table_division.ptr;
-        _Layout_set_table_division(self, table_division);
     }
 });
 Object.defineProperty(Layout.prototype, "updated", {

@@ -33,10 +33,6 @@ extern "C" {
 	bool EMSCRIPTEN_KEEPALIVE Clipboard_get_line_mode(mud::Clipboard* self) {
 		return self->m_line_mode;
 	}
-	std::vector<std::string>* EMSCRIPTEN_KEEPALIVE Clipboard_get_pasted(mud::Clipboard* self) {
-		static std::vector<std::string> temp;
-		return (temp = self->m_pasted, &temp);
-	}
 	void EMSCRIPTEN_KEEPALIVE Clipboard___destroy__(mud::Clipboard* self) {
 		delete self;
 	}
@@ -262,14 +258,6 @@ extern "C" {
 	}
 	bool EMSCRIPTEN_KEEPALIVE Layout_get_no_grid(mud::Layout* self) {
 		return self->m_no_grid;
-	}
-	std::vector<mud::Space>* EMSCRIPTEN_KEEPALIVE Layout_get_grid_division(mud::Layout* self) {
-		static std::vector<mud::Space> temp;
-		return (temp = self->m_grid_division, &temp);
-	}
-	std::vector<float>* EMSCRIPTEN_KEEPALIVE Layout_get_table_division(mud::Layout* self) {
-		static std::vector<float> temp;
-		return (temp = self->m_table_division, &temp);
 	}
 	size_t EMSCRIPTEN_KEEPALIVE Layout_get_updated(mud::Layout* self) {
 		return self->m_updated;

@@ -56,9 +56,6 @@ extern "C" {
 	void EMSCRIPTEN_KEEPALIVE Fract_render_whole_3(mud::Fract* self, const mud::Pattern* pattern, mud::uvec2* resolution, mud::Image256* output_image) {
 		self->render_whole(*pattern, resolution, *output_image);
 	}
-	void EMSCRIPTEN_KEEPALIVE Fract_render_grid_4(mud::Fract* self, mud::uvec2* size, const mud::Pattern* pattern, mud::uvec2* resolution, std::vector<mud::Image256>* output_images) {
-		self->render_grid(size, *pattern, resolution, *output_images);
-	}
 	size_t EMSCRIPTEN_KEEPALIVE Fract_get_nutabs(mud::Fract* self) {
 		return self->m_num_tabs;
 	}

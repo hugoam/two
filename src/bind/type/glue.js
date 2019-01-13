@@ -37,18 +37,6 @@ Object.defineProperty(Indexer.prototype, "type", {
         _Indexer_set_type(self, type);
     }
 });
-Object.defineProperty(Indexer.prototype, "objects", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_Indexer_get_objects(self), std::vector<mud::Ref>);
-    },
-    set: function(objects) {
-        var self = this.ptr;
-        /* objects <std::vector<mud::Ref>> [] */
-        objects = objects.ptr;
-        _Indexer_set_objects(self, objects);
-    }
-});
 Indexer.prototype["__destroy__"] = Indexer.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Indexer___destroy__(self);

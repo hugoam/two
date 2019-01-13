@@ -17,18 +17,6 @@ Call.prototype.constructor = Call;
 Call.prototype.__class__ = Call;
 Call.__cache__ = {};
 Module['Call'] = Call;
-Object.defineProperty(Call.prototype, "arguments", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_Call_get_arguments(self), std::vector<mud::Var>);
-    },
-    set: function(arguments) {
-        var self = this.ptr;
-        /* arguments <std::vector<mud::Var>> [] */
-        arguments = arguments.ptr;
-        _Call_set_arguments(self, arguments);
-    }
-});
 Object.defineProperty(Call.prototype, "result", {
     get: function() {
         var self = this.ptr;
@@ -181,42 +169,6 @@ Object.defineProperty(Module.prototype, "name", {
         var self = this.ptr;
         return _Module_get_name(self);
     }});
-Object.defineProperty(Module.prototype, "deps", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_Module_get_deps(self), std::vector<mud::Module*>);
-    },
-    set: function(deps) {
-        var self = this.ptr;
-        /* deps <std::vector<mud::Module*>> [] */
-        deps = deps.ptr;
-        _Module_set_deps(self, deps);
-    }
-});
-Object.defineProperty(Module.prototype, "types", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_Module_get_types(self), std::vector<mud::Type*>);
-    },
-    set: function(types) {
-        var self = this.ptr;
-        /* types <std::vector<mud::Type*>> [] */
-        types = types.ptr;
-        _Module_set_types(self, types);
-    }
-});
-Object.defineProperty(Module.prototype, "functions", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_Module_get_functions(self), std::vector<mud::Function*>);
-    },
-    set: function(functions) {
-        var self = this.ptr;
-        /* functions <std::vector<mud::Function*>> [] */
-        functions = functions.ptr;
-        _Module_set_functions(self, functions);
-    }
-});
 Object.defineProperty(Module.prototype, "path", {
     get: function() {
         var self = this.ptr;
@@ -325,42 +277,6 @@ System.prototype.constructor = System;
 System.prototype.__class__ = System;
 System.__cache__ = {};
 Module['System'] = System;
-Object.defineProperty(System.prototype, "modules", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_System_get_modules(self), std::vector<mud::Module*>);
-    },
-    set: function(modules) {
-        var self = this.ptr;
-        /* modules <std::vector<mud::Module*>> [] */
-        modules = modules.ptr;
-        _System_set_modules(self, modules);
-    }
-});
-Object.defineProperty(System.prototype, "types", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_System_get_types(self), std::vector<mud::Type*>);
-    },
-    set: function(types) {
-        var self = this.ptr;
-        /* types <std::vector<mud::Type*>> [] */
-        types = types.ptr;
-        _System_set_types(self, types);
-    }
-});
-Object.defineProperty(System.prototype, "functions", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_System_get_functions(self), std::vector<mud::Function*>);
-    },
-    set: function(functions) {
-        var self = this.ptr;
-        /* functions <std::vector<mud::Function*>> [] */
-        functions = functions.ptr;
-        _System_set_functions(self, functions);
-    }
-});
 System.prototype["__destroy__"] = System.prototype.__destroy__ = function() {
     var self = this.ptr;
     _System___destroy__(self);

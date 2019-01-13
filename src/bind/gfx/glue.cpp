@@ -63,14 +63,6 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Animated_playing_0(mud::Animated* self) {
 		return self->playing().c_str();
 	}
-	std::vector<mud::AnimationPlay>* EMSCRIPTEN_KEEPALIVE Animated_get_playing(mud::Animated* self) {
-		static std::vector<mud::AnimationPlay> temp;
-		return (temp = self->m_playing, &temp);
-	}
-	std::vector<mud::Animation*>* EMSCRIPTEN_KEEPALIVE Animated_get_queue(mud::Animated* self) {
-		static std::vector<mud::Animation*> temp;
-		return (temp = self->m_queue, &temp);
-	}
 	bool EMSCRIPTEN_KEEPALIVE Animated_get_active(mud::Animated* self) {
 		return self->m_active;
 	}
@@ -484,22 +476,6 @@ extern "C" {
 	mud::mat4* EMSCRIPTEN_KEEPALIVE ImportConfig_get_transform(mud::ImportConfig* self) {
 		static mud::mat4 temp;
 		return (temp = self->m_transform, &temp);
-	}
-	std::vector<std::string>* EMSCRIPTEN_KEEPALIVE ImportConfig_get_exclude_elements(mud::ImportConfig* self) {
-		static std::vector<std::string> temp;
-		return (temp = self->m_exclude_elements, &temp);
-	}
-	std::vector<std::string>* EMSCRIPTEN_KEEPALIVE ImportConfig_get_exclude_materials(mud::ImportConfig* self) {
-		static std::vector<std::string> temp;
-		return (temp = self->m_exclude_materials, &temp);
-	}
-	std::vector<std::string>* EMSCRIPTEN_KEEPALIVE ImportConfig_get_include_elements(mud::ImportConfig* self) {
-		static std::vector<std::string> temp;
-		return (temp = self->m_include_elements, &temp);
-	}
-	std::vector<std::string>* EMSCRIPTEN_KEEPALIVE ImportConfig_get_include_materials(mud::ImportConfig* self) {
-		static std::vector<std::string> temp;
-		return (temp = self->m_include_materials, &temp);
 	}
 	const char* EMSCRIPTEN_KEEPALIVE ImportConfig_get_suffix(mud::ImportConfig* self) {
 		return self->m_suffix.c_str();

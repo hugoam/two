@@ -57,17 +57,6 @@ Fract.prototype["render"] = Fract.prototype.render = function(rect, pattern, res
     output_image = output_image.ptr;
     _Fract_render_4(rect, pattern, resolution, output_image);
 };
-Fract.prototype["render_grid"] = Fract.prototype.render_grid = function(size, pattern, resolution, output_images) {
-    /* size <uvec2> [] */
-    size = size.ptr;
-    /* pattern <Pattern> [] */
-    pattern = pattern.ptr;
-    /* resolution <uvec2> [] */
-    resolution = resolution.ptr;
-    /* output_images <std::vector<mud::Image256>> [] */
-    output_images = output_images.ptr;
-    _Fract_render_grid_4(size, pattern, resolution, output_images);
-};
 Fract.prototype["render_whole"] = Fract.prototype.render_whole = function(pattern, resolution, output_image) {
     /* pattern <Pattern> [] */
     pattern = pattern.ptr;

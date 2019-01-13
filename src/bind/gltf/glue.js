@@ -12,162 +12,6 @@ glTF.prototype.constructor = glTF;
 glTF.prototype.__class__ = glTF;
 glTF.__cache__ = {};
 Module['glTF'] = glTF;
-Object.defineProperty(glTF.prototype, "buffers", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTF_get_buffers(self), std::vector<glTFBuffer>);
-    },
-    set: function(buffers) {
-        var self = this.ptr;
-        /* buffers <std::vector<glTFBuffer>> [] */
-        buffers = buffers.ptr;
-        _glTF_set_buffers(self, buffers);
-    }
-});
-Object.defineProperty(glTF.prototype, "buffer_views", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTF_get_buffer_views(self), std::vector<glTFBufferView>);
-    },
-    set: function(buffer_views) {
-        var self = this.ptr;
-        /* buffer_views <std::vector<glTFBufferView>> [] */
-        buffer_views = buffer_views.ptr;
-        _glTF_set_buffer_views(self, buffer_views);
-    }
-});
-Object.defineProperty(glTF.prototype, "accessors", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTF_get_accessors(self), std::vector<glTFAccessor>);
-    },
-    set: function(accessors) {
-        var self = this.ptr;
-        /* accessors <std::vector<glTFAccessor>> [] */
-        accessors = accessors.ptr;
-        _glTF_set_accessors(self, accessors);
-    }
-});
-Object.defineProperty(glTF.prototype, "images", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTF_get_images(self), std::vector<glTFImage>);
-    },
-    set: function(images) {
-        var self = this.ptr;
-        /* images <std::vector<glTFImage>> [] */
-        images = images.ptr;
-        _glTF_set_images(self, images);
-    }
-});
-Object.defineProperty(glTF.prototype, "textures", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTF_get_textures(self), std::vector<glTFTexture>);
-    },
-    set: function(textures) {
-        var self = this.ptr;
-        /* textures <std::vector<glTFTexture>> [] */
-        textures = textures.ptr;
-        _glTF_set_textures(self, textures);
-    }
-});
-Object.defineProperty(glTF.prototype, "materials", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTF_get_materials(self), std::vector<glTFMaterial>);
-    },
-    set: function(materials) {
-        var self = this.ptr;
-        /* materials <std::vector<glTFMaterial>> [] */
-        materials = materials.ptr;
-        _glTF_set_materials(self, materials);
-    }
-});
-Object.defineProperty(glTF.prototype, "meshes", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTF_get_meshes(self), std::vector<glTFMesh>);
-    },
-    set: function(meshes) {
-        var self = this.ptr;
-        /* meshes <std::vector<glTFMesh>> [] */
-        meshes = meshes.ptr;
-        _glTF_set_meshes(self, meshes);
-    }
-});
-Object.defineProperty(glTF.prototype, "nodes", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTF_get_nodes(self), std::vector<glTFNode>);
-    },
-    set: function(nodes) {
-        var self = this.ptr;
-        /* nodes <std::vector<glTFNode>> [] */
-        nodes = nodes.ptr;
-        _glTF_set_nodes(self, nodes);
-    }
-});
-Object.defineProperty(glTF.prototype, "skins", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTF_get_skins(self), std::vector<glTFSkin>);
-    },
-    set: function(skins) {
-        var self = this.ptr;
-        /* skins <std::vector<glTFSkin>> [] */
-        skins = skins.ptr;
-        _glTF_set_skins(self, skins);
-    }
-});
-Object.defineProperty(glTF.prototype, "animations", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTF_get_animations(self), std::vector<glTFAnimation>);
-    },
-    set: function(animations) {
-        var self = this.ptr;
-        /* animations <std::vector<glTFAnimation>> [] */
-        animations = animations.ptr;
-        _glTF_set_animations(self, animations);
-    }
-});
-Object.defineProperty(glTF.prototype, "cameras", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTF_get_cameras(self), std::vector<glTFCamera>);
-    },
-    set: function(cameras) {
-        var self = this.ptr;
-        /* cameras <std::vector<glTFCamera>> [] */
-        cameras = cameras.ptr;
-        _glTF_set_cameras(self, cameras);
-    }
-});
-Object.defineProperty(glTF.prototype, "samplers", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTF_get_samplers(self), std::vector<glTFSampler>);
-    },
-    set: function(samplers) {
-        var self = this.ptr;
-        /* samplers <std::vector<glTFSampler>> [] */
-        samplers = samplers.ptr;
-        _glTF_set_samplers(self, samplers);
-    }
-});
-Object.defineProperty(glTF.prototype, "scenes", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTF_get_scenes(self), std::vector<glTFScene>);
-    },
-    set: function(scenes) {
-        var self = this.ptr;
-        /* scenes <std::vector<glTFScene>> [] */
-        scenes = scenes.ptr;
-        _glTF_set_scenes(self, scenes);
-    }
-});
 glTF.prototype["__destroy__"] = glTF.prototype.__destroy__ = function() {
     var self = this.ptr;
     _glTF___destroy__(self);
@@ -300,30 +144,6 @@ Object.defineProperty(glTFAnimation.prototype, "name", {
         if (name && typeof name === "object") name = name.ptr;
         else name = ensureString(name);
         _glTFAnimation_set_name(self, name);
-    }
-});
-Object.defineProperty(glTFAnimation.prototype, "samplers", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFAnimation_get_samplers(self), std::vector<glTFAnimationSampler>);
-    },
-    set: function(samplers) {
-        var self = this.ptr;
-        /* samplers <std::vector<glTFAnimationSampler>> [] */
-        samplers = samplers.ptr;
-        _glTFAnimation_set_samplers(self, samplers);
-    }
-});
-Object.defineProperty(glTFAnimation.prototype, "channels", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFAnimation_get_channels(self), std::vector<glTFAnimationChannel>);
-    },
-    set: function(channels) {
-        var self = this.ptr;
-        /* channels <std::vector<glTFAnimationChannel>> [] */
-        channels = channels.ptr;
-        _glTFAnimation_set_channels(self, channels);
     }
 });
 glTFAnimation.prototype["__destroy__"] = glTFAnimation.prototype.__destroy__ = function() {
@@ -1034,30 +854,6 @@ Object.defineProperty(glTFMesh.prototype, "name", {
         _glTFMesh_set_name(self, name);
     }
 });
-Object.defineProperty(glTFMesh.prototype, "primitives", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFMesh_get_primitives(self), std::vector<glTFPrimitive>);
-    },
-    set: function(primitives) {
-        var self = this.ptr;
-        /* primitives <std::vector<glTFPrimitive>> [] */
-        primitives = primitives.ptr;
-        _glTFMesh_set_primitives(self, primitives);
-    }
-});
-Object.defineProperty(glTFMesh.prototype, "weights", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFMesh_get_weights(self), std::vector<float>);
-    },
-    set: function(weights) {
-        var self = this.ptr;
-        /* weights <std::vector<float>> [] */
-        weights = weights.ptr;
-        _glTFMesh_set_weights(self, weights);
-    }
-});
 glTFMesh.prototype["__destroy__"] = glTFMesh.prototype.__destroy__ = function() {
     var self = this.ptr;
     _glTFMesh___destroy__(self);
@@ -1211,18 +1007,6 @@ Object.defineProperty(glTFNode.prototype, "scale", {
         /* scale <vec3> [] */
         scale = scale.ptr;
         _glTFNode_set_scale(self, scale);
-    }
-});
-Object.defineProperty(glTFNode.prototype, "children", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFNode_get_children(self), std::vector<int>);
-    },
-    set: function(children) {
-        var self = this.ptr;
-        /* children <std::vector<int>> [] */
-        children = children.ptr;
-        _glTFNode_set_children(self, children);
     }
 });
 glTFNode.prototype["__destroy__"] = glTFNode.prototype.__destroy__ = function() {
@@ -1415,18 +1199,6 @@ Object.defineProperty(glTFPrimitive.prototype, "mode", {
         _glTFPrimitive_set_mode(self, mode);
     }
 });
-Object.defineProperty(glTFPrimitive.prototype, "targets", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFPrimitive_get_targets(self), std::vector<glTFMorphTarget>);
-    },
-    set: function(targets) {
-        var self = this.ptr;
-        /* targets <std::vector<glTFMorphTarget>> [] */
-        targets = targets.ptr;
-        _glTFPrimitive_set_targets(self, targets);
-    }
-});
 glTFPrimitive.prototype["__destroy__"] = glTFPrimitive.prototype.__destroy__ = function() {
     var self = this.ptr;
     _glTFPrimitive___destroy__(self);
@@ -1525,18 +1297,6 @@ Object.defineProperty(glTFScene.prototype, "name", {
         _glTFScene_set_name(self, name);
     }
 });
-Object.defineProperty(glTFScene.prototype, "nodes", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFScene_get_nodes(self), std::vector<int>);
-    },
-    set: function(nodes) {
-        var self = this.ptr;
-        /* nodes <std::vector<int>> [] */
-        nodes = nodes.ptr;
-        _glTFScene_set_nodes(self, nodes);
-    }
-});
 glTFScene.prototype["__destroy__"] = glTFScene.prototype.__destroy__ = function() {
     var self = this.ptr;
     _glTFScene___destroy__(self);
@@ -1573,18 +1333,6 @@ Object.defineProperty(glTFSkin.prototype, "skeleton", {
         var self = this.ptr;
         /* skeleton <int> [] */
         _glTFSkin_set_skeleton(self, skeleton);
-    }
-});
-Object.defineProperty(glTFSkin.prototype, "joints", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_glTFSkin_get_joints(self), std::vector<int>);
-    },
-    set: function(joints) {
-        var self = this.ptr;
-        /* joints <std::vector<int>> [] */
-        joints = joints.ptr;
-        _glTFSkin_set_joints(self, joints);
     }
 });
 Object.defineProperty(glTFSkin.prototype, "inverse_bind_matrices", {

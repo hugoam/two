@@ -21,58 +21,6 @@ extern "C" {
 	glTF* EMSCRIPTEN_KEEPALIVE glTF_glTF_0() {
 		return new glTF();
 	}
-	std::vector<glTFBuffer>* EMSCRIPTEN_KEEPALIVE glTF_get_buffers(glTF* self) {
-		static std::vector<glTFBuffer> temp;
-		return (temp = self->m_buffers, &temp);
-	}
-	std::vector<glTFBufferView>* EMSCRIPTEN_KEEPALIVE glTF_get_buffer_views(glTF* self) {
-		static std::vector<glTFBufferView> temp;
-		return (temp = self->m_buffer_views, &temp);
-	}
-	std::vector<glTFAccessor>* EMSCRIPTEN_KEEPALIVE glTF_get_accessors(glTF* self) {
-		static std::vector<glTFAccessor> temp;
-		return (temp = self->m_accessors, &temp);
-	}
-	std::vector<glTFImage>* EMSCRIPTEN_KEEPALIVE glTF_get_images(glTF* self) {
-		static std::vector<glTFImage> temp;
-		return (temp = self->m_images, &temp);
-	}
-	std::vector<glTFTexture>* EMSCRIPTEN_KEEPALIVE glTF_get_textures(glTF* self) {
-		static std::vector<glTFTexture> temp;
-		return (temp = self->m_textures, &temp);
-	}
-	std::vector<glTFMaterial>* EMSCRIPTEN_KEEPALIVE glTF_get_materials(glTF* self) {
-		static std::vector<glTFMaterial> temp;
-		return (temp = self->m_materials, &temp);
-	}
-	std::vector<glTFMesh>* EMSCRIPTEN_KEEPALIVE glTF_get_meshes(glTF* self) {
-		static std::vector<glTFMesh> temp;
-		return (temp = self->m_meshes, &temp);
-	}
-	std::vector<glTFNode>* EMSCRIPTEN_KEEPALIVE glTF_get_nodes(glTF* self) {
-		static std::vector<glTFNode> temp;
-		return (temp = self->m_nodes, &temp);
-	}
-	std::vector<glTFSkin>* EMSCRIPTEN_KEEPALIVE glTF_get_skins(glTF* self) {
-		static std::vector<glTFSkin> temp;
-		return (temp = self->m_skins, &temp);
-	}
-	std::vector<glTFAnimation>* EMSCRIPTEN_KEEPALIVE glTF_get_animations(glTF* self) {
-		static std::vector<glTFAnimation> temp;
-		return (temp = self->m_animations, &temp);
-	}
-	std::vector<glTFCamera>* EMSCRIPTEN_KEEPALIVE glTF_get_cameras(glTF* self) {
-		static std::vector<glTFCamera> temp;
-		return (temp = self->m_cameras, &temp);
-	}
-	std::vector<glTFSampler>* EMSCRIPTEN_KEEPALIVE glTF_get_samplers(glTF* self) {
-		static std::vector<glTFSampler> temp;
-		return (temp = self->m_samplers, &temp);
-	}
-	std::vector<glTFScene>* EMSCRIPTEN_KEEPALIVE glTF_get_scenes(glTF* self) {
-		static std::vector<glTFScene> temp;
-		return (temp = self->m_scenes, &temp);
-	}
 	void EMSCRIPTEN_KEEPALIVE glTF___destroy__(glTF* self) {
 		delete self;
 	}
@@ -114,14 +62,6 @@ extern "C" {
 	}
 	const char* EMSCRIPTEN_KEEPALIVE glTFAnimation_get_name(glTFAnimation* self) {
 		return self->name.c_str();
-	}
-	std::vector<glTFAnimationSampler>* EMSCRIPTEN_KEEPALIVE glTFAnimation_get_samplers(glTFAnimation* self) {
-		static std::vector<glTFAnimationSampler> temp;
-		return (temp = self->samplers, &temp);
-	}
-	std::vector<glTFAnimationChannel>* EMSCRIPTEN_KEEPALIVE glTFAnimation_get_channels(glTFAnimation* self) {
-		static std::vector<glTFAnimationChannel> temp;
-		return (temp = self->channels, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFAnimation___destroy__(glTFAnimation* self) {
 		delete self;
@@ -352,14 +292,6 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE glTFMesh_get_name(glTFMesh* self) {
 		return self->name.c_str();
 	}
-	std::vector<glTFPrimitive>* EMSCRIPTEN_KEEPALIVE glTFMesh_get_primitives(glTFMesh* self) {
-		static std::vector<glTFPrimitive> temp;
-		return (temp = self->primitives, &temp);
-	}
-	std::vector<float>* EMSCRIPTEN_KEEPALIVE glTFMesh_get_weights(glTFMesh* self) {
-		static std::vector<float> temp;
-		return (temp = self->weights, &temp);
-	}
 	void EMSCRIPTEN_KEEPALIVE glTFMesh___destroy__(glTFMesh* self) {
 		delete self;
 	}
@@ -410,10 +342,6 @@ extern "C" {
 	mud::vec3* EMSCRIPTEN_KEEPALIVE glTFNode_get_scale(glTFNode* self) {
 		static mud::vec3 temp;
 		return (temp = self->scale, &temp);
-	}
-	std::vector<int>* EMSCRIPTEN_KEEPALIVE glTFNode_get_children(glTFNode* self) {
-		static std::vector<int> temp;
-		return (temp = self->children, &temp);
 	}
 	void EMSCRIPTEN_KEEPALIVE glTFNode___destroy__(glTFNode* self) {
 		delete self;
@@ -480,10 +408,6 @@ extern "C" {
 	glTFPrimitiveType EMSCRIPTEN_KEEPALIVE glTFPrimitive_get_mode(glTFPrimitive* self) {
 		return self->mode;
 	}
-	std::vector<glTFMorphTarget>* EMSCRIPTEN_KEEPALIVE glTFPrimitive_get_targets(glTFPrimitive* self) {
-		static std::vector<glTFMorphTarget> temp;
-		return (temp = self->targets, &temp);
-	}
 	void EMSCRIPTEN_KEEPALIVE glTFPrimitive___destroy__(glTFPrimitive* self) {
 		delete self;
 	}
@@ -516,10 +440,6 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE glTFScene_get_name(glTFScene* self) {
 		return self->name.c_str();
 	}
-	std::vector<int>* EMSCRIPTEN_KEEPALIVE glTFScene_get_nodes(glTFScene* self) {
-		static std::vector<int> temp;
-		return (temp = self->nodes, &temp);
-	}
 	void EMSCRIPTEN_KEEPALIVE glTFScene___destroy__(glTFScene* self) {
 		delete self;
 	}
@@ -532,10 +452,6 @@ extern "C" {
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFSkin_get_skeleton(glTFSkin* self) {
 		return self->skeleton;
-	}
-	std::vector<int>* EMSCRIPTEN_KEEPALIVE glTFSkin_get_joints(glTFSkin* self) {
-		static std::vector<int> temp;
-		return (temp = self->joints, &temp);
 	}
 	int EMSCRIPTEN_KEEPALIVE glTFSkin_get_inverse_bind_matrices(glTFSkin* self) {
 		return self->inverse_bind_matrices;

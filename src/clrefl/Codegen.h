@@ -999,6 +999,12 @@ namespace clgen
 
 	void bind_javascript(CLModule& m)
 	{
+		// not implemented yet
+		std::vector<string> blacklist = { "std::vector", "mud::Ref" };
+
+		auto blacklist_method = [&](const CLMethod& m) { for(const string& n : blacklist) for(const CLParam& p : m.m_params) if(p.m_type.m_type->m_name.find(n) != string::npos) return true; return false; };
+		auto blacklist_member = [&](const CLMember& m) { for(const string& n : blacklist) if(m.m_type.m_type->m_name.find(n) != string::npos) return true; return false; };
+
 		string module_js;
 
 		string ct;
@@ -1455,7 +1461,7 @@ namespace clgen
 				cw("// " + c.m_name);
 
 				//js_impl_methods = "";
-				
+
 				//js_impl = interface.getExtendedAttribute('JSImplementation')
 				//if js_impl:
 				//  js_impl = js_impl[0]
@@ -1463,10 +1469,10 @@ namespace clgen
 				OverloadMap constructors;
 
 				for(CLConstructor& ctor : c.m_constructors)
+				{
 					c_bind_callable(c, ctor, true);
-
-				for(CLConstructor& ctor : c.m_constructors)
 					overload(constructors, c, ctor);
+				}
 
 				for(auto& pairs : constructors)
 				{
@@ -1485,10 +1491,11 @@ namespace clgen
 				OverloadMap methods;
 
 				for(CLMethod& m : c.m_methods)
+				{
+					if(blacklist_method(m)) continue;
 					c_bind_callable(c, m);
-
-				for(CLMethod& m : c.m_methods)
 					overload(methods, c, m);
+				}
 
 				for(auto& pairs : methods)
 				{
@@ -1499,6 +1506,7 @@ namespace clgen
 
 				for(CLMember& m : c.m_members)
 				{
+					if(blacklist_member(m)) continue;
 					if(m.m_type.m_type->m_is_templated) continue;
 
 					if(m.m_type.isarray()) continue;

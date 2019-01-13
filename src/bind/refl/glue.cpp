@@ -25,10 +25,6 @@ extern "C" {
 	mud::Call* EMSCRIPTEN_KEEPALIVE Call_Call_2(const mud::Callable* callable, std::vector<mud::Var>* arguments) {
 		return new mud::Call(*callable, arguments);
 	}
-	std::vector<mud::Var>* EMSCRIPTEN_KEEPALIVE Call_get_arguments(mud::Call* self) {
-		static std::vector<mud::Var> temp;
-		return (temp = self->m_arguments, &temp);
-	}
 	mud::Var* EMSCRIPTEN_KEEPALIVE Call_get_result(mud::Call* self) {
 		static mud::Var temp;
 		return (temp = self->m_result, &temp);
@@ -80,18 +76,6 @@ extern "C" {
 	const char* EMSCRIPTEN_KEEPALIVE Module_get_name(mud::Module* self) {
 		return self->m_name;
 	}
-	std::vector<mud::Module*>* EMSCRIPTEN_KEEPALIVE Module_get_deps(mud::Module* self) {
-		static std::vector<mud::Module*> temp;
-		return (temp = self->m_deps, &temp);
-	}
-	std::vector<mud::Type*>* EMSCRIPTEN_KEEPALIVE Module_get_types(mud::Module* self) {
-		static std::vector<mud::Type*> temp;
-		return (temp = self->m_types, &temp);
-	}
-	std::vector<mud::Function*>* EMSCRIPTEN_KEEPALIVE Module_get_functions(mud::Module* self) {
-		static std::vector<mud::Function*> temp;
-		return (temp = self->m_functions, &temp);
-	}
 	const char* EMSCRIPTEN_KEEPALIVE Module_get_path(mud::Module* self) {
 		return self->m_path;
 	}
@@ -134,18 +118,6 @@ extern "C" {
 		delete self;
 	}
 	// System
-	std::vector<mud::Module*>* EMSCRIPTEN_KEEPALIVE System_get_modules(mud::System* self) {
-		static std::vector<mud::Module*> temp;
-		return (temp = self->m_modules, &temp);
-	}
-	std::vector<mud::Type*>* EMSCRIPTEN_KEEPALIVE System_get_types(mud::System* self) {
-		static std::vector<mud::Type*> temp;
-		return (temp = self->m_types, &temp);
-	}
-	std::vector<mud::Function*>* EMSCRIPTEN_KEEPALIVE System_get_functions(mud::System* self) {
-		static std::vector<mud::Function*> temp;
-		return (temp = self->m_functions, &temp);
-	}
 	void EMSCRIPTEN_KEEPALIVE System___destroy__(mud::System* self) {
 		delete self;
 	}

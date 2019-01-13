@@ -33,11 +33,6 @@ Complex.prototype["part"] = Complex.prototype.part = function(type) {
     type = type.ptr;
     return wrapPointer(_Complex_part_1(type), mud::Ref);
 };
-Complex.prototype["setup"] = Complex.prototype.setup = function(parts) {
-    /* parts <std::vector<mud::Ref>> [] */
-    parts = parts.ptr;
-    _Complex_setup_1(parts);
-};
 Complex.prototype["try_part"] = Complex.prototype.try_part = function(type) {
     /* type <Type> [] */
     type = type.ptr;
@@ -76,18 +71,6 @@ Object.defineProperty(Complex.prototype, "prototype", {
         /* prototype <Prototype> [] */
         prototype = prototype.ptr;
         _Complex_set_prototype(self, prototype);
-    }
-});
-Object.defineProperty(Complex.prototype, "parts", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_Complex_get_parts(self), std::vector<mud::Ref>);
-    },
-    set: function(parts) {
-        var self = this.ptr;
-        /* parts <std::vector<mud::Ref>> [] */
-        parts = parts.ptr;
-        _Complex_set_parts(self, parts);
     }
 });
 Complex.prototype["__destroy__"] = Complex.prototype.__destroy__ = function() {

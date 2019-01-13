@@ -670,18 +670,6 @@ ConvexHull.prototype.constructor = ConvexHull;
 ConvexHull.prototype.__class__ = ConvexHull;
 ConvexHull.__cache__ = {};
 Module['ConvexHull'] = ConvexHull;
-Object.defineProperty(ConvexHull.prototype, "vertices", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_ConvexHull_get_vertices(self), std::vector<mud::vec3>);
-    },
-    set: function(vertices) {
-        var self = this.ptr;
-        /* vertices <std::vector<mud::vec3>> [] */
-        vertices = vertices.ptr;
-        _ConvexHull_set_vertices(self, vertices);
-    }
-});
 ConvexHull.prototype["__destroy__"] = ConvexHull.prototype.__destroy__ = function() {
     var self = this.ptr;
     _ConvexHull___destroy__(self);
@@ -870,18 +858,6 @@ Object.defineProperty(Grid3.prototype, "size", {
         _Grid3_set_size(self, size);
     }
 });
-Object.defineProperty(Grid3.prototype, "points", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_Grid3_get_points(self), std::vector<mud::vec3>);
-    },
-    set: function(points) {
-        var self = this.ptr;
-        /* points <std::vector<mud::vec3>> [] */
-        points = points.ptr;
-        _Grid3_set_points(self, points);
-    }
-});
 Grid3.prototype["__destroy__"] = Grid3.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Grid3___destroy__(self);
@@ -942,18 +918,6 @@ Points.prototype.constructor = Points;
 Points.prototype.__class__ = Points;
 Points.__cache__ = {};
 Module['Points'] = Points;
-Object.defineProperty(Points.prototype, "points", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_Points_get_points(self), std::vector<mud::vec3>);
-    },
-    set: function(points) {
-        var self = this.ptr;
-        /* points <std::vector<mud::vec3>> [] */
-        points = points.ptr;
-        _Points_set_points(self, points);
-    }
-});
 Points.prototype["__destroy__"] = Points.prototype.__destroy__ = function() {
     var self = this.ptr;
     _Points___destroy__(self);

@@ -106,18 +106,6 @@ Image256.prototype.constructor = Image256;
 Image256.prototype.__class__ = Image256;
 Image256.__cache__ = {};
 Module['Image256'] = Image256;
-Object.defineProperty(Image256.prototype, "pixels", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_Image256_get_pixels(self), std::vector<uint32_t>);
-    },
-    set: function(pixels) {
-        var self = this.ptr;
-        /* pixels <std::vector<uint32_t>> [] */
-        pixels = pixels.ptr;
-        _Image256_set_pixels(self, pixels);
-    }
-});
 Object.defineProperty(Image256.prototype, "width", {
     get: function() {
         var self = this.ptr;

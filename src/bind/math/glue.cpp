@@ -84,10 +84,6 @@ extern "C" {
 	mud::Image256* EMSCRIPTEN_KEEPALIVE Image256_Image256_3(uint16_t width, uint16_t height, const mud::Palette* palette) {
 		return new mud::Image256(width, height, *palette);
 	}
-	std::vector<uint32_t>* EMSCRIPTEN_KEEPALIVE Image256_get_pixels(mud::Image256* self) {
-		static std::vector<uint32_t> temp;
-		return (temp = self->m_pixels, &temp);
-	}
 	uint16_t EMSCRIPTEN_KEEPALIVE Image256_get_width(mud::Image256* self) {
 		return self->m_width;
 	}

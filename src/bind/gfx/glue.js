@@ -52,30 +52,6 @@ Animated.prototype["start"] = Animated.prototype.start = function(animation, loo
 Animated.prototype["stop"] = Animated.prototype.stop = function() {
     _Animated_stop_0();
 };
-Object.defineProperty(Animated.prototype, "playing", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_Animated_get_playing(self), std::vector<mud::AnimationPlay>);
-    },
-    set: function(playing) {
-        var self = this.ptr;
-        /* playing <std::vector<mud::AnimationPlay>> [] */
-        playing = playing.ptr;
-        _Animated_set_playing(self, playing);
-    }
-});
-Object.defineProperty(Animated.prototype, "queue", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_Animated_get_queue(self), std::vector<mud::Animation*>);
-    },
-    set: function(queue) {
-        var self = this.ptr;
-        /* queue <std::vector<mud::Animation*>> [] */
-        queue = queue.ptr;
-        _Animated_set_queue(self, queue);
-    }
-});
 Object.defineProperty(Animated.prototype, "active", {
     get: function() {
         var self = this.ptr;
@@ -1330,54 +1306,6 @@ Object.defineProperty(ImportConfig.prototype, "transform", {
         /* transform <mat4> [] */
         transform = transform.ptr;
         _ImportConfig_set_transform(self, transform);
-    }
-});
-Object.defineProperty(ImportConfig.prototype, "exclude_elements", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_ImportConfig_get_exclude_elements(self), std::vector<mud::string>);
-    },
-    set: function(exclude_elements) {
-        var self = this.ptr;
-        /* exclude_elements <std::vector<std::string>> [] */
-        exclude_elements = exclude_elements.ptr;
-        _ImportConfig_set_exclude_elements(self, exclude_elements);
-    }
-});
-Object.defineProperty(ImportConfig.prototype, "exclude_materials", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_ImportConfig_get_exclude_materials(self), std::vector<mud::string>);
-    },
-    set: function(exclude_materials) {
-        var self = this.ptr;
-        /* exclude_materials <std::vector<std::string>> [] */
-        exclude_materials = exclude_materials.ptr;
-        _ImportConfig_set_exclude_materials(self, exclude_materials);
-    }
-});
-Object.defineProperty(ImportConfig.prototype, "include_elements", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_ImportConfig_get_include_elements(self), std::vector<mud::string>);
-    },
-    set: function(include_elements) {
-        var self = this.ptr;
-        /* include_elements <std::vector<std::string>> [] */
-        include_elements = include_elements.ptr;
-        _ImportConfig_set_include_elements(self, include_elements);
-    }
-});
-Object.defineProperty(ImportConfig.prototype, "include_materials", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_ImportConfig_get_include_materials(self), std::vector<mud::string>);
-    },
-    set: function(include_materials) {
-        var self = this.ptr;
-        /* include_materials <std::vector<std::string>> [] */
-        include_materials = include_materials.ptr;
-        _ImportConfig_set_include_materials(self, include_materials);
     }
 });
 Object.defineProperty(ImportConfig.prototype, "suffix", {
