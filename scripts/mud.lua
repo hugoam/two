@@ -260,7 +260,8 @@ function mud_js(name, modules)
     local lib = mud_lib(name, {}, "ConsoleApp", modules)
     mud_glue_js(table.inverse(lib.deps))
     linkoptions {
-        "-s EXPORT_NAME=\"'" .. name .. "'\""
+        "-s EXPORT_NAME=\"'" .. name .. "'\"",
+        "-s MODULARIZE=1",
     }
     mud_binary_config()
 end

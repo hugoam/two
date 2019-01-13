@@ -64,6 +64,7 @@ end
 
 if _OPTIONS["jsbind"] then
     mud_js("xx_js", { mud.frame })
+    mud_js("two", { mud.frame })
 end
 
 if _OPTIONS["renderer-bgfx"] then
