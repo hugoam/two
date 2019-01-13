@@ -1,7 +1,7 @@
 #include <math/Api.h>
 #include <gfx/Api.h>
 #include <gfx-ui/Api.h>
-#include <core/Shell.h>
+#include <frame/Shell.h>
 
 #include <01_shapes/01_shapes.h>
 

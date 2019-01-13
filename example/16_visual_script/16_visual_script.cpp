@@ -1,5 +1,5 @@
 #include <mud/core.h>
-#include <core/Types.h>
+#include <frame/Types.h>
 #include <lang/Api.h>
 #include <uio/Api.h>
 #include <noise/Api.h>
