@@ -1089,8 +1089,9 @@ namespace clgen
 		//string bind_prefix = "emscripten_bind_";
 		string bind_prefix = "";
 
+		auto clean_name = [&](const string& name) { return replace(replace(replace(name, "::", "_"), "<", "_"), ">", "_"); };
 		auto binding_name_str = [&](const CLPrimitive& parent, const string& name) { return bind_prefix + replace(parent.m_id, "::", "_") + "_" + name; };
-		auto binding_name = [&](const CLCallable& f) { return binding_name_str(*f.m_parent, f.m_name); };
+		auto binding_name = [&](const CLCallable& f) { return binding_name_str(*f.m_parent, clean_name(f.m_name)); };
 		auto binding_name_n = [&](const CLCallable& f, size_t i) { return  binding_name(f) + "_" + to_string(i); };
 
 		struct Overloads { const CLCallable* f; std::set<size_t> lengths; };

@@ -860,7 +860,7 @@ Module['add<float>'] = function(a, b) {
     var self = this.ptr;
     /* a <float> [] */
     /* b <float> [] */
-    return _mud_add<float>_2(a, b);
+    return _mud_add_float__2(a, b);
 };
 Module['add<mud::vec3>'] = function(a, b) {
     var self = this.ptr;
@@ -868,7 +868,7 @@ Module['add<mud::vec3>'] = function(a, b) {
     a = a.ptr;
     /* b <vec3> [] */
     b = b.ptr;
-    return wrapPointer(_mud_add<mud::vec3>_2(a, b), vec3);
+    return wrapPointer(_mud_add_mud_vec3__2(a, b), vec3);
 };
 Module['angle_axis'] = function(angle, axis) {
     var self = this.ptr;
@@ -906,7 +906,7 @@ Module['divide<float>'] = function(a, b) {
     var self = this.ptr;
     /* a <float> [] */
     /* b <float> [] */
-    return _mud_divide<float>_2(a, b);
+    return _mud_divide_float__2(a, b);
 };
 Module['divide<mud::vec3>'] = function(a, b) {
     var self = this.ptr;
@@ -914,7 +914,7 @@ Module['divide<mud::vec3>'] = function(a, b) {
     a = a.ptr;
     /* b <vec3> [] */
     b = b.ptr;
-    return wrapPointer(_mud_divide<mud::vec3>_2(a, b), vec3);
+    return wrapPointer(_mud_divide_mud_vec3__2(a, b), vec3);
 };
 Module['from_abgr'] = function(colour) {
     var self = this.ptr;
@@ -983,7 +983,7 @@ Module['multiply<float>'] = function(a, b) {
     var self = this.ptr;
     /* a <float> [] */
     /* b <float> [] */
-    return _mud_multiply<float>_2(a, b);
+    return _mud_multiply_float__2(a, b);
 };
 Module['multiply<mud::vec3>'] = function(a, b) {
     var self = this.ptr;
@@ -991,7 +991,7 @@ Module['multiply<mud::vec3>'] = function(a, b) {
     a = a.ptr;
     /* b <vec3> [] */
     b = b.ptr;
-    return wrapPointer(_mud_multiply<mud::vec3>_2(a, b), vec3);
+    return wrapPointer(_mud_multiply_mud_vec3__2(a, b), vec3);
 };
 Module['ncos'] = function(a) {
     var self = this.ptr;
@@ -1067,7 +1067,7 @@ Module['subtract<float>'] = function(a, b) {
     var self = this.ptr;
     /* a <float> [] */
     /* b <float> [] */
-    return _mud_subtract<float>_2(a, b);
+    return _mud_subtract_float__2(a, b);
 };
 Module['subtract<mud::vec3>'] = function(a, b) {
     var self = this.ptr;
@@ -1075,7 +1075,7 @@ Module['subtract<mud::vec3>'] = function(a, b) {
     a = a.ptr;
     /* b <vec3> [] */
     b = b.ptr;
-    return wrapPointer(_mud_subtract<mud::vec3>_2(a, b), vec3);
+    return wrapPointer(_mud_subtract_mud_vec3__2(a, b), vec3);
 };
 Module['to_abgr'] = function(colour) {
     var self = this.ptr;

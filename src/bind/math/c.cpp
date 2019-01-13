@@ -505,10 +505,10 @@ extern "C" {
 	void DECL mud_TextureAtlas__destroy(mud::TextureAtlas* self) {
 		delete self;
 	}
-	float DECL mud_add<float>_2(float a, float b) {
+	float DECL mud_add_float__2(float a, float b) {
 		return mud::add<float>(a, b);
 	}
-	mud::vec3* DECL mud_add<mud::vec3>_2(mud::vec3* a, mud::vec3* b) {
+	mud::vec3* DECL mud_add_mud_vec3__2(mud::vec3* a, mud::vec3* b) {
 		static mud::vec3 temp;
 		return (temp = mud::add<mud::vec3>(*a, *b), &temp);
 	}
@@ -529,10 +529,10 @@ extern "C" {
 	float DECL glm_distance_2(const mud::vec3* a, const mud::vec3* b) {
 		return glm::distance(*a, *b);
 	}
-	float DECL mud_divide<float>_2(float a, float b) {
+	float DECL mud_divide_float__2(float a, float b) {
 		return mud::divide<float>(a, b);
 	}
-	mud::vec3* DECL mud_divide<mud::vec3>_2(mud::vec3* a, mud::vec3* b) {
+	mud::vec3* DECL mud_divide_mud_vec3__2(mud::vec3* a, mud::vec3* b) {
 		static mud::vec3 temp;
 		return (temp = mud::divide<mud::vec3>(*a, *b), &temp);
 	}
@@ -578,10 +578,10 @@ extern "C" {
 		static mud::quat temp;
 		return (temp = mud::look_dir(*direction, *forward), &temp);
 	}
-	float DECL mud_multiply<float>_2(float a, float b) {
+	float DECL mud_multiply_float__2(float a, float b) {
 		return mud::multiply<float>(a, b);
 	}
-	mud::vec3* DECL mud_multiply<mud::vec3>_2(mud::vec3* a, mud::vec3* b) {
+	mud::vec3* DECL mud_multiply_mud_vec3__2(mud::vec3* a, mud::vec3* b) {
 		static mud::vec3 temp;
 		return (temp = mud::multiply<mud::vec3>(*a, *b), &temp);
 	}
@@ -621,10 +621,10 @@ extern "C" {
 	float DECL _sinf_1(float a) {
 		return sinf(a);
 	}
-	float DECL mud_subtract<float>_2(float a, float b) {
+	float DECL mud_subtract_float__2(float a, float b) {
 		return mud::subtract<float>(a, b);
 	}
-	mud::vec3* DECL mud_subtract<mud::vec3>_2(mud::vec3* a, mud::vec3* b) {
+	mud::vec3* DECL mud_subtract_mud_vec3__2(mud::vec3* a, mud::vec3* b) {
 		static mud::vec3 temp;
 		return (temp = mud::subtract<mud::vec3>(*a, *b), &temp);
 	}
