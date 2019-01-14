@@ -1842,7 +1842,7 @@ namespace mud
                 { type<mud::Scene>(), member_address(&mud::Scene::m_graph), type<mud::Gnode>(), "graph", Ref(type<mud::Gnode>()), Member::NonMutable, nullptr },
                 { type<mud::Scene>(), member_address(&mud::Scene::m_root_node), type<mud::Node3>(), "root_node", Ref(type<mud::Node3>()), Member::NonMutable, nullptr },
                 { type<mud::Scene>(), member_address(&mud::Scene::m_environment), type<mud::Environment>(), "environment", var(mud::Environment()), Member::Value, nullptr },
-                { type<mud::Scene>(), member_address(&mud::Scene::m_user), type<mud::Ref>(), "user", Ref(), Member::NonMutable, nullptr }
+                { type<mud::Scene>(), member_address(&mud::Scene::m_user), type<mud::Ref>(), "user", Ref(), Member::Value, nullptr }
             },
             // methods
             {

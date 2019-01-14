@@ -13,7 +13,7 @@ namespace mud
 {
 	using cstring = const char*;
 
-	export_ class refl_ MUD_TYPE_EXPORT Ref
+	export_ class refl_ struct_ MUD_TYPE_EXPORT Ref
 	{
 	public:
 		Ref() : m_type(nullptr), m_value(nullptr) {}

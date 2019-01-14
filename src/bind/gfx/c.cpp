@@ -1560,7 +1560,11 @@ extern "C" {
 		self->m_environment = *value;
 	}
 	mud::Ref* DECL mud_Scene__get_user(mud::Scene* self) {
-		return &self->m_user;
+		static mud::Ref temp;
+		return (temp = self->m_user, &temp);
+	}
+	void DECL mud_Scene__set_user(mud::Scene* self, mud::Ref* value) {
+		self->m_user = *value;
 	}
 	void DECL mud_Scene__destroy(mud::Scene* self) {
 		delete self;

@@ -34,7 +34,10 @@ Indexer.prototype["__destroy__"] = Indexer.prototype.__destroy__ = function() {
     _mud_Indexer__destroy(self);
 };
 // Ref
-function Ref() { throw "cannot construct a Ref, no constructor in IDL" }
+function Ref() {
+    this.ptr = _mud_Ref_Ref_0(); getCache(Ref)[this.ptr] = this;
+    this.type = Ref;
+};
 Ref.prototype = Object.create(WrapperObject.prototype);
 Ref.prototype.constructor = Ref;
 Ref.prototype.__class__ = Ref;

@@ -146,16 +146,18 @@ namespace mud
     }
     // mud::Ref
     {
-        static Meta meta = { type<mud::Ref>(), &namspc({ "mud" }), "Ref", sizeof(mud::Ref), TypeClass::Object };
+        static Meta meta = { type<mud::Ref>(), &namspc({ "mud" }), "Ref", sizeof(mud::Ref), TypeClass::Struct };
         static Class cls = { type<mud::Ref>(),
             // bases
             {  },
             {  },
             // constructors
             {
+                { type<mud::Ref>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Ref>(ref)) mud::Ref(  ); }, {} }
             },
             // copy constructor
             {
+                { type<mud::Ref>(), [](Ref ref, Ref other) { new(&val<mud::Ref>(ref)) mud::Ref(val<mud::Ref>(other)); } }
             },
             // members
             {

@@ -2735,7 +2735,16 @@ Object.defineProperty(Scene.prototype, "user", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_mud_Scene__get_user(self), Ref);
-    }});
+    },
+    set: function(value) {
+        var self = this.ptr;
+        /* value <Ref> [] */
+        var value_type;
+        if(typeof value !== "undefined" && value !== null) { value = value.ptr; value_type = value.type.__type__; }
+        else { value = 0; value_type = 0; }
+        _mud_Scene__set_user(self, value);
+    }
+});
 Scene.prototype["__destroy__"] = Scene.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Scene__destroy(self);

@@ -35,6 +35,9 @@ extern "C" {
 	mud::Type* DECL mud_Ref__type() {
 		return &mud::type<mud::Ref>();
 	}
+	mud::Ref* DECL mud_Ref_Ref_0() {
+		return new mud::Ref();
+	}
 	void DECL mud_Ref__destroy(mud::Ref* self) {
 		delete self;
 	}
@@ -77,7 +80,8 @@ extern "C" {
 		delete self;
 	}
 	mud::Ref* DECL mud_indexed_2(mud::Type* type, uint32_t id) {
-		return &mud::indexed(*type, id);
+		static mud::Ref temp;
+		return (temp = mud::indexed(*type, id), &temp);
 	}
 	
 }
