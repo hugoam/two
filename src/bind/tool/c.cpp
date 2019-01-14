@@ -26,6 +26,9 @@
 extern "C" {
 	
 	// EditContext
+	mud::Type* DECL mud_EditContext__type() {
+		return mud::type<mud::EditContext>();
+	}
 	mud::UndoTool* DECL mud_EditContext__get_undo_tool(mud::EditContext* self) {
 		return &self->m_undo_tool;
 	}
@@ -76,10 +79,16 @@ extern "C" {
 		delete self;
 	}
 	// EditorAction
+	mud::Type* DECL mud_EditorAction__type() {
+		return mud::type<mud::EditorAction>();
+	}
 	void DECL mud_EditorAction__destroy(mud::EditorAction* self) {
 		delete self;
 	}
 	// Gizmo
+	mud::Type* DECL mud_Gizmo__type() {
+		return mud::type<mud::Gizmo>();
+	}
 	mud::Gizmo* DECL mud_Gizmo_Gizmo_0() {
 		return new mud::Gizmo();
 	}
@@ -87,6 +96,9 @@ extern "C" {
 		delete self;
 	}
 	// Tool
+	mud::Type* DECL mud_Tool__type() {
+		return mud::type<mud::Tool>();
+	}
 	mud::Type* DECL mud_Tool__get_type(mud::Tool* self) {
 		return &self->m_type;
 	}
@@ -109,6 +121,9 @@ extern "C" {
 		delete self;
 	}
 	// ToolContext
+	mud::Type* DECL mud_ToolContext__type() {
+		return mud::type<mud::ToolContext>();
+	}
 	mud::ToolContext* DECL mud_ToolContext_ToolContext_0() {
 		return new mud::ToolContext();
 	}
@@ -116,26 +131,44 @@ extern "C" {
 		delete self;
 	}
 	// ToolOption
+	mud::Type* DECL mud_ToolOption__type() {
+		return mud::type<mud::ToolOption>();
+	}
 	void DECL mud_ToolOption__destroy(mud::ToolOption* self) {
 		delete self;
 	}
 	// RedoTool
+	mud::Type* DECL mud_RedoTool__type() {
+		return mud::type<mud::RedoTool>();
+	}
 	void DECL mud_RedoTool__destroy(mud::RedoTool* self) {
 		delete self;
 	}
 	// ViewportTool
+	mud::Type* DECL mud_ViewportTool__type() {
+		return mud::type<mud::ViewportTool>();
+	}
 	void DECL mud_ViewportTool__destroy(mud::ViewportTool* self) {
 		delete self;
 	}
 	// SpatialTool
+	mud::Type* DECL mud_SpatialTool__type() {
+		return mud::type<mud::SpatialTool>();
+	}
 	void DECL mud_SpatialTool__destroy(mud::SpatialTool* self) {
 		delete self;
 	}
 	// Brush
+	mud::Type* DECL mud_Brush__type() {
+		return mud::type<mud::Brush>();
+	}
 	void DECL mud_Brush__destroy(mud::Brush* self) {
 		delete self;
 	}
 	// CircleBrush
+	mud::Type* DECL mud_CircleBrush__type() {
+		return mud::type<mud::CircleBrush>();
+	}
 	mud::CircleBrush* DECL mud_CircleBrush_CircleBrush_1(mud::ToolContext* context) {
 		return new mud::CircleBrush(*context);
 	}
@@ -158,6 +191,9 @@ extern "C" {
 		delete self;
 	}
 	// PlaceBrush
+	mud::Type* DECL mud_PlaceBrush__type() {
+		return mud::type<mud::PlaceBrush>();
+	}
 	mud::PlaceBrush* DECL mud_PlaceBrush_PlaceBrush_1(mud::ToolContext* context) {
 		return new mud::PlaceBrush(*context);
 	}
@@ -168,10 +204,16 @@ extern "C" {
 		delete self;
 	}
 	// PlaneSnapOption
+	mud::Type* DECL mud_PlaneSnapOption__type() {
+		return mud::type<mud::PlaneSnapOption>();
+	}
 	void DECL mud_PlaneSnapOption__destroy(mud::PlaneSnapOption* self) {
 		delete self;
 	}
 	// ScriptedBrush
+	mud::Type* DECL mud_ScriptedBrush__type() {
+		return mud::type<mud::ScriptedBrush>();
+	}
 	mud::ScriptedBrush* DECL mud_ScriptedBrush_ScriptedBrush_2(mud::ToolContext* context, mud::Script* script) {
 		return new mud::ScriptedBrush(*context, *script);
 	}
@@ -186,70 +228,121 @@ extern "C" {
 		delete self;
 	}
 	// TransformAction
+	mud::Type* DECL mud_TransformAction__type() {
+		return mud::type<mud::TransformAction>();
+	}
 	void DECL mud_TransformAction__destroy(mud::TransformAction* self) {
 		delete self;
 	}
 	// RotateAction
+	mud::Type* DECL mud_RotateAction__type() {
+		return mud::type<mud::RotateAction>();
+	}
 	void DECL mud_RotateAction__destroy(mud::RotateAction* self) {
 		delete self;
 	}
 	// TransformTool
+	mud::Type* DECL mud_TransformTool__type() {
+		return mud::type<mud::TransformTool>();
+	}
 	void DECL mud_TransformTool__destroy(mud::TransformTool* self) {
 		delete self;
 	}
 	// RotateTool
+	mud::Type* DECL mud_RotateTool__type() {
+		return mud::type<mud::RotateTool>();
+	}
 	void DECL mud_RotateTool__destroy(mud::RotateTool* self) {
 		delete self;
 	}
 	// ScaleAction
+	mud::Type* DECL mud_ScaleAction__type() {
+		return mud::type<mud::ScaleAction>();
+	}
 	void DECL mud_ScaleAction__destroy(mud::ScaleAction* self) {
 		delete self;
 	}
 	// ScaleTool
+	mud::Type* DECL mud_ScaleTool__type() {
+		return mud::type<mud::ScaleTool>();
+	}
 	void DECL mud_ScaleTool__destroy(mud::ScaleTool* self) {
 		delete self;
 	}
 	// TranslateAction
+	mud::Type* DECL mud_TranslateAction__type() {
+		return mud::type<mud::TranslateAction>();
+	}
 	void DECL mud_TranslateAction__destroy(mud::TranslateAction* self) {
 		delete self;
 	}
 	// CopyAction
+	mud::Type* DECL mud_CopyAction__type() {
+		return mud::type<mud::CopyAction>();
+	}
 	void DECL mud_CopyAction__destroy(mud::CopyAction* self) {
 		delete self;
 	}
 	// CopyTool
+	mud::Type* DECL mud_CopyTool__type() {
+		return mud::type<mud::CopyTool>();
+	}
 	void DECL mud_CopyTool__destroy(mud::CopyTool* self) {
 		delete self;
 	}
 	// FrameViewTool
+	mud::Type* DECL mud_FrameViewTool__type() {
+		return mud::type<mud::FrameViewTool>();
+	}
 	void DECL mud_FrameViewTool__destroy(mud::FrameViewTool* self) {
 		delete self;
 	}
 	// TranslateTool
+	mud::Type* DECL mud_TranslateTool__type() {
+		return mud::type<mud::TranslateTool>();
+	}
 	void DECL mud_TranslateTool__destroy(mud::TranslateTool* self) {
 		delete self;
 	}
 	// UndoTool
+	mud::Type* DECL mud_UndoTool__type() {
+		return mud::type<mud::UndoTool>();
+	}
 	void DECL mud_UndoTool__destroy(mud::UndoTool* self) {
 		delete self;
 	}
 	// ViewAction
+	mud::Type* DECL mud_ViewAction__type() {
+		return mud::type<mud::ViewAction>();
+	}
 	void DECL mud_ViewAction__destroy(mud::ViewAction* self) {
 		delete self;
 	}
 	// ViewTool
+	mud::Type* DECL mud_ViewTool__type() {
+		return mud::type<mud::ViewTool>();
+	}
 	void DECL mud_ViewTool__destroy(mud::ViewTool* self) {
 		delete self;
 	}
 	// WorkPlaneAction
+	mud::Type* DECL mud_WorkPlaneAction__type() {
+		return mud::type<mud::WorkPlaneAction>();
+	}
 	void DECL mud_WorkPlaneAction__destroy(mud::WorkPlaneAction* self) {
 		delete self;
 	}
 	// WorkPlaneTool
+	mud::Type* DECL mud_WorkPlaneTool__type() {
+		return mud::type<mud::WorkPlaneTool>();
+	}
 	void DECL mud_WorkPlaneTool__destroy(mud::WorkPlaneTool* self) {
 		delete self;
 	}
 	// WorldSnapOption
+	mud::Type* DECL mud_WorldSnapOption__type() {
+		return mud::type<mud::WorldSnapOption>();
+	}
 	void DECL mud_WorldSnapOption__destroy(mud::WorldSnapOption* self) {
 		delete self;
 	}

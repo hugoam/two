@@ -4,11 +4,13 @@ function Circlifier(image) {
     /* image <Image256> [] */
     image = image.ptr;
     this.ptr = _mud_Circlifier_Circlifier_1(image); getCache(Circlifier)[this.ptr] = this;
+    this.type = Circlifier;
 };
 Circlifier.prototype = Object.create(WrapperObject.prototype);
 Circlifier.prototype.constructor = Circlifier;
 Circlifier.prototype.__class__ = Circlifier;
 Circlifier.__cache__ = {};
+Circlifier.__type__ = _mud_Circlifier__type();
 Module['Circlifier'] = Circlifier;
 Circlifier.prototype["__destroy__"] = Circlifier.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -19,11 +21,13 @@ function Fract(num_tabs) {
     /* num_tabs <size_t> [] */
     if (num_tabs === undefined) { this.ptr = _mud_Fract_Fract_0(); getCache(Fract)[this.ptr] = this; return; }
     this.ptr = _mud_Fract_Fract_1(num_tabs); getCache(Fract)[this.ptr] = this;
+    this.type = Fract;
 };
 Fract.prototype = Object.create(WrapperObject.prototype);
 Fract.prototype.constructor = Fract;
 Fract.prototype.__class__ = Fract;
 Fract.__cache__ = {};
+Fract.__type__ = _mud_Fract__type();
 Module['Fract'] = Fract;
 Fract.prototype["generate"] = Fract.prototype.generate = function(self, num_tabs) {
     var self = this.ptr;
@@ -81,11 +85,13 @@ function FractSample(fract, rect, resolution) {
     /* resolution <uvec2> [] */
     resolution = resolution.ptr;
     this.ptr = _mud_FractSample_FractSample_3(fract, rect, resolution); getCache(FractSample)[this.ptr] = this;
+    this.type = FractSample;
 };
 FractSample.prototype = Object.create(WrapperObject.prototype);
 FractSample.prototype.constructor = FractSample;
 FractSample.prototype.__class__ = FractSample;
 FractSample.__cache__ = {};
+FractSample.__type__ = _mud_FractSample__type();
 Module['FractSample'] = FractSample;
 FractSample.prototype["render"] = FractSample.prototype.render = function(self, pattern, outputImage) {
     var self = this.ptr;
@@ -131,11 +137,13 @@ FractSample.prototype["__destroy__"] = FractSample.prototype.__destroy__ = funct
 // FractTab
 function FractTab() {
     this.ptr = _mud_FractTab_FractTab_0(); getCache(FractTab)[this.ptr] = this;
+    this.type = FractTab;
 };
 FractTab.prototype = Object.create(WrapperObject.prototype);
 FractTab.prototype.constructor = FractTab;
 FractTab.prototype.__class__ = FractTab;
 FractTab.__cache__ = {};
+FractTab.__type__ = _mud_FractTab__type();
 Module['FractTab'] = FractTab;
 FractTab.prototype["__destroy__"] = FractTab.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -152,11 +160,13 @@ function Pattern(palette, sampling, precision, step) {
     if (precision === undefined) { this.ptr = _mud_Pattern_Pattern_2(palette, sampling); getCache(Pattern)[this.ptr] = this; return; }
     if (step === undefined) { this.ptr = _mud_Pattern_Pattern_3(palette, sampling, precision); getCache(Pattern)[this.ptr] = this; return; }
     this.ptr = _mud_Pattern_Pattern_4(palette, sampling, precision, step); getCache(Pattern)[this.ptr] = this;
+    this.type = Pattern;
 };
 Pattern.prototype = Object.create(WrapperObject.prototype);
 Pattern.prototype.constructor = Pattern;
 Pattern.prototype.__class__ = Pattern;
 Pattern.__cache__ = {};
+Pattern.__type__ = _mud_Pattern__type();
 Module['Pattern'] = Pattern;
 Pattern.prototype["__destroy__"] = Pattern.prototype.__destroy__ = function() {
     var self = this.ptr;

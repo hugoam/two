@@ -3,11 +3,13 @@ Module['ui'] = Module['ui'] || {};
 // CanvasConnect
 function CanvasConnect() {
     this.ptr = _mud_CanvasConnect_CanvasConnect_0(); getCache(CanvasConnect)[this.ptr] = this;
+    this.type = CanvasConnect;
 };
 CanvasConnect.prototype = Object.create(WrapperObject.prototype);
 CanvasConnect.prototype.constructor = CanvasConnect;
 CanvasConnect.prototype.__class__ = CanvasConnect;
 CanvasConnect.__cache__ = {};
+CanvasConnect.__type__ = _mud_CanvasConnect__type();
 Module['CanvasConnect'] = CanvasConnect;
 CanvasConnect.prototype["__destroy__"] = CanvasConnect.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -16,11 +18,13 @@ CanvasConnect.prototype["__destroy__"] = CanvasConnect.prototype.__destroy__ = f
 // Clipboard
 function Clipboard() {
     this.ptr = _mud_Clipboard_Clipboard_0(); getCache(Clipboard)[this.ptr] = this;
+    this.type = Clipboard;
 };
 Clipboard.prototype = Object.create(WrapperObject.prototype);
 Clipboard.prototype.constructor = Clipboard;
 Clipboard.prototype.__class__ = Clipboard;
 Clipboard.__cache__ = {};
+Clipboard.__type__ = _mud_Clipboard__type();
 Module['Clipboard'] = Clipboard;
 Object.defineProperty(Clipboard.prototype, "text", {
     get: function() {
@@ -53,11 +57,13 @@ Clipboard.prototype["__destroy__"] = Clipboard.prototype.__destroy__ = function(
 // Dock
 function Dock() {
     this.ptr = _mud_Dock_Dock_0(); getCache(Dock)[this.ptr] = this;
+    this.type = Dock;
 };
 Dock.prototype = Object.create(WrapperObject.prototype);
 Dock.prototype.constructor = Dock;
 Dock.prototype.__class__ = Dock;
 Dock.__cache__ = {};
+Dock.__type__ = _mud_Dock__type();
 Module['Dock'] = Dock;
 Dock.prototype["__destroy__"] = Dock.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -69,6 +75,7 @@ Docksystem.prototype = Object.create(WrapperObject.prototype);
 Docksystem.prototype.constructor = Docksystem;
 Docksystem.prototype.__class__ = Docksystem;
 Docksystem.__cache__ = {};
+Docksystem.__type__ = _mud_Docksystem__type();
 Module['Docksystem'] = Docksystem;
 Docksystem.prototype["__destroy__"] = Docksystem.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -77,11 +84,13 @@ Docksystem.prototype["__destroy__"] = Docksystem.prototype.__destroy__ = functio
 // Gradient
 function Gradient() {
     this.ptr = _mud_Gradient_Gradient_0(); getCache(Gradient)[this.ptr] = this;
+    this.type = Gradient;
 };
 Gradient.prototype = Object.create(WrapperObject.prototype);
 Gradient.prototype.constructor = Gradient;
 Gradient.prototype.__class__ = Gradient;
 Gradient.__cache__ = {};
+Gradient.__type__ = _mud_Gradient__type();
 Module['Gradient'] = Gradient;
 Object.defineProperty(Gradient.prototype, "start", {
     get: function() {
@@ -117,6 +126,7 @@ GridSolver.prototype = Object.create(WrapperObject.prototype);
 GridSolver.prototype.constructor = GridSolver;
 GridSolver.prototype.__class__ = GridSolver;
 GridSolver.__cache__ = {};
+GridSolver.__type__ = _mud_GridSolver__type();
 Module['GridSolver'] = GridSolver;
 GridSolver.prototype["__destroy__"] = GridSolver.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -136,11 +146,13 @@ function ImageSkin(image, left, top, right, bottom, margin, stretch) {
     if (margin === undefined) { this.ptr = _mud_ImageSkin_ImageSkin_5(image, left, top, right, bottom); getCache(ImageSkin)[this.ptr] = this; return; }
     if (stretch === undefined) { this.ptr = _mud_ImageSkin_ImageSkin_6(image, left, top, right, bottom, margin); getCache(ImageSkin)[this.ptr] = this; return; }
     this.ptr = _mud_ImageSkin_ImageSkin_7(image, left, top, right, bottom, margin, stretch); getCache(ImageSkin)[this.ptr] = this;
+    this.type = ImageSkin;
 };
 ImageSkin.prototype = Object.create(WrapperObject.prototype);
 ImageSkin.prototype.constructor = ImageSkin;
 ImageSkin.prototype.__class__ = ImageSkin;
 ImageSkin.__cache__ = {};
+ImageSkin.__type__ = _mud_ImageSkin__type();
 Module['ImageSkin'] = ImageSkin;
 Object.defineProperty(ImageSkin.prototype, "d_image", {
     get: function() {
@@ -233,11 +245,13 @@ function InkStyle(name) {
     else name = ensureString(name);
     if (name === undefined) { this.ptr = _mud_InkStyle_InkStyle_0(); getCache(InkStyle)[this.ptr] = this; return; }
     this.ptr = _mud_InkStyle_InkStyle_1(name); getCache(InkStyle)[this.ptr] = this;
+    this.type = InkStyle;
 };
 InkStyle.prototype = Object.create(WrapperObject.prototype);
 InkStyle.prototype.constructor = InkStyle;
 InkStyle.prototype.__class__ = InkStyle;
 InkStyle.__cache__ = {};
+InkStyle.__type__ = _mud_InkStyle__type();
 Module['InkStyle'] = InkStyle;
 Object.defineProperty(InkStyle.prototype, "name", {
     get: function() {
@@ -534,6 +548,7 @@ Layer.prototype = Object.create(WrapperObject.prototype);
 Layer.prototype.constructor = Layer;
 Layer.prototype.__class__ = Layer;
 Layer.__cache__ = {};
+Layer.__type__ = _mud_Layer__type();
 Module['Layer'] = Layer;
 Layer.prototype["__destroy__"] = Layer.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -547,11 +562,13 @@ function Layout(name) {
     else name = ensureString(name);
     if (name === undefined) { this.ptr = _mud_Layout_Layout_0(); getCache(Layout)[this.ptr] = this; return; }
     this.ptr = _mud_Layout_Layout_1(name); getCache(Layout)[this.ptr] = this;
+    this.type = Layout;
 };
 Layout.prototype = Object.create(WrapperObject.prototype);
 Layout.prototype.constructor = Layout;
 Layout.prototype.__class__ = Layout;
 Layout.__cache__ = {};
+Layout.__type__ = _mud_Layout__type();
 Module['Layout'] = Layout;
 Object.defineProperty(Layout.prototype, "name", {
     get: function() {
@@ -726,11 +743,13 @@ Layout.prototype["__destroy__"] = Layout.prototype.__destroy__ = function() {
 // NodeConnection
 function NodeConnection() {
     this.ptr = _mud_NodeConnection_NodeConnection_0(); getCache(NodeConnection)[this.ptr] = this;
+    this.type = NodeConnection;
 };
 NodeConnection.prototype = Object.create(WrapperObject.prototype);
 NodeConnection.prototype.constructor = NodeConnection;
 NodeConnection.prototype.__class__ = NodeConnection;
 NodeConnection.__cache__ = {};
+NodeConnection.__type__ = _mud_NodeConnection__type();
 Module['NodeConnection'] = NodeConnection;
 NodeConnection.prototype["__destroy__"] = NodeConnection.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -739,11 +758,13 @@ NodeConnection.prototype["__destroy__"] = NodeConnection.prototype.__destroy__ =
 // Paint
 function Paint() {
     this.ptr = _mud_Paint_Paint_0(); getCache(Paint)[this.ptr] = this;
+    this.type = Paint;
 };
 Paint.prototype = Object.create(WrapperObject.prototype);
 Paint.prototype.constructor = Paint;
 Paint.prototype.__class__ = Paint;
 Paint.__cache__ = {};
+Paint.__type__ = _mud_Paint__type();
 Module['Paint'] = Paint;
 Object.defineProperty(Paint.prototype, "fill_colour", {
     get: function() {
@@ -794,11 +815,13 @@ function Shadow(xpos, ypos, blur, spread, colour) {
     if(typeof colour !== "undefined" && colour !== null) { colour = colour.ptr; }
     if (colour === undefined) { this.ptr = _mud_Shadow_Shadow_4(xpos, ypos, blur, spread); getCache(Shadow)[this.ptr] = this; return; }
     this.ptr = _mud_Shadow_Shadow_5(xpos, ypos, blur, spread, colour); getCache(Shadow)[this.ptr] = this;
+    this.type = Shadow;
 };
 Shadow.prototype = Object.create(WrapperObject.prototype);
 Shadow.prototype.constructor = Shadow;
 Shadow.prototype.__class__ = Shadow;
 Shadow.__cache__ = {};
+Shadow.__type__ = _mud_Shadow__type();
 Module['Shadow'] = Shadow;
 Object.defineProperty(Shadow.prototype, "d_xpos", {
     get: function() {
@@ -863,11 +886,13 @@ Shadow.prototype["__destroy__"] = Shadow.prototype.__destroy__ = function() {
 // Space
 function Space() {
     this.ptr = _mud_Space_Space_0(); getCache(Space)[this.ptr] = this;
+    this.type = Space;
 };
 Space.prototype = Object.create(WrapperObject.prototype);
 Space.prototype.constructor = Space;
 Space.prototype.__class__ = Space;
 Space.__cache__ = {};
+Space.__type__ = _mud_Space__type();
 Module['Space'] = Space;
 Object.defineProperty(Space.prototype, "direction", {
     get: function() {
@@ -915,6 +940,7 @@ Style.prototype = Object.create(WrapperObject.prototype);
 Style.prototype.constructor = Style;
 Style.prototype.__class__ = Style;
 Style.__cache__ = {};
+Style.__type__ = _mud_Style__type();
 Module['Style'] = Style;
 Object.defineProperty(Style.prototype, "base", {
     get: function() {
@@ -953,6 +979,7 @@ TableSolver.prototype = Object.create(WrapperObject.prototype);
 TableSolver.prototype.constructor = TableSolver;
 TableSolver.prototype.__class__ = TableSolver;
 TableSolver.__cache__ = {};
+TableSolver.__type__ = _mud_TableSolver__type();
 Module['TableSolver'] = TableSolver;
 TableSolver.prototype["__destroy__"] = TableSolver.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -964,6 +991,7 @@ Text.prototype = Object.create(WrapperObject.prototype);
 Text.prototype.constructor = Text;
 Text.prototype.__class__ = Text;
 Text.__cache__ = {};
+Text.__type__ = _mud_Text__type();
 Module['Text'] = Text;
 Text.prototype["__destroy__"] = Text.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -972,11 +1000,13 @@ Text.prototype["__destroy__"] = Text.prototype.__destroy__ = function() {
 // TextCursor
 function TextCursor() {
     this.ptr = _mud_TextCursor_TextCursor_0(); getCache(TextCursor)[this.ptr] = this;
+    this.type = TextCursor;
 };
 TextCursor.prototype = Object.create(WrapperObject.prototype);
 TextCursor.prototype.constructor = TextCursor;
 TextCursor.prototype.__class__ = TextCursor;
 TextCursor.__cache__ = {};
+TextCursor.__type__ = _mud_TextCursor__type();
 Module['TextCursor'] = TextCursor;
 TextCursor.prototype["__destroy__"] = TextCursor.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -985,11 +1015,13 @@ TextCursor.prototype["__destroy__"] = TextCursor.prototype.__destroy__ = functio
 // TextMarker
 function TextMarker() {
     this.ptr = _mud_TextMarker_TextMarker_0(); getCache(TextMarker)[this.ptr] = this;
+    this.type = TextMarker;
 };
 TextMarker.prototype = Object.create(WrapperObject.prototype);
 TextMarker.prototype.constructor = TextMarker;
 TextMarker.prototype.__class__ = TextMarker;
 TextMarker.__cache__ = {};
+TextMarker.__type__ = _mud_TextMarker__type();
 Module['TextMarker'] = TextMarker;
 TextMarker.prototype["__destroy__"] = TextMarker.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -998,11 +1030,13 @@ TextMarker.prototype["__destroy__"] = TextMarker.prototype.__destroy__ = functio
 // TextPaint
 function TextPaint() {
     this.ptr = _mud_TextPaint_TextPaint_0(); getCache(TextPaint)[this.ptr] = this;
+    this.type = TextPaint;
 };
 TextPaint.prototype = Object.create(WrapperObject.prototype);
 TextPaint.prototype.constructor = TextPaint;
 TextPaint.prototype.__class__ = TextPaint;
 TextPaint.__cache__ = {};
+TextPaint.__type__ = _mud_TextPaint__type();
 Module['TextPaint'] = TextPaint;
 Object.defineProperty(TextPaint.prototype, "font", {
     get: function() {
@@ -1069,11 +1103,13 @@ TextPaint.prototype["__destroy__"] = TextPaint.prototype.__destroy__ = function(
 // TextSelection
 function TextSelection() {
     this.ptr = _mud_TextSelection_TextSelection_0(); getCache(TextSelection)[this.ptr] = this;
+    this.type = TextSelection;
 };
 TextSelection.prototype = Object.create(WrapperObject.prototype);
 TextSelection.prototype.constructor = TextSelection;
 TextSelection.prototype.__class__ = TextSelection;
 TextSelection.__cache__ = {};
+TextSelection.__type__ = _mud_TextSelection__type();
 Module['TextSelection'] = TextSelection;
 TextSelection.prototype["__destroy__"] = TextSelection.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1082,11 +1118,13 @@ TextSelection.prototype["__destroy__"] = TextSelection.prototype.__destroy__ = f
 // UiRect
 function UiRect() {
     this.ptr = _mud_UiRect_UiRect_0(); getCache(UiRect)[this.ptr] = this;
+    this.type = UiRect;
 };
 UiRect.prototype = Object.create(WrapperObject.prototype);
 UiRect.prototype.constructor = UiRect;
 UiRect.prototype.__class__ = UiRect;
 UiRect.__cache__ = {};
+UiRect.__type__ = _mud_UiRect__type();
 Module['UiRect'] = UiRect;
 Object.defineProperty(UiRect.prototype, "position", {
     get: function() {
@@ -1157,6 +1195,7 @@ UiWindow.prototype = Object.create(WrapperObject.prototype);
 UiWindow.prototype.constructor = UiWindow;
 UiWindow.prototype.__class__ = UiWindow;
 UiWindow.__cache__ = {};
+UiWindow.__type__ = _mud_UiWindow__type();
 Module['UiWindow'] = UiWindow;
 UiWindow.prototype["__destroy__"] = UiWindow.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1168,6 +1207,7 @@ User.prototype = Object.create(WrapperObject.prototype);
 User.prototype.constructor = User;
 User.prototype.__class__ = User;
 User.__cache__ = {};
+User.__type__ = _mud_User__type();
 Module['User'] = User;
 User.prototype["__destroy__"] = User.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1179,6 +1219,7 @@ Vg.prototype = Object.create(WrapperObject.prototype);
 Vg.prototype.constructor = Vg;
 Vg.prototype.__class__ = Vg;
 Vg.__cache__ = {};
+Vg.__type__ = _mud_Vg__type();
 Module['Vg'] = Vg;
 Vg.prototype["__destroy__"] = Vg.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1190,6 +1231,7 @@ Frame.prototype = Object.create(WrapperObject.prototype);
 Frame.prototype.constructor = Frame;
 Frame.prototype.__class__ = Frame;
 Frame.__cache__ = {};
+Frame.__type__ = _mud_Frame__type();
 Module['Frame'] = Frame;
 Frame.prototype["__destroy__"] = Frame.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1201,6 +1243,7 @@ FrameSolver.prototype = Object.create(WrapperObject.prototype);
 FrameSolver.prototype.constructor = FrameSolver;
 FrameSolver.prototype.__class__ = FrameSolver;
 FrameSolver.__cache__ = {};
+FrameSolver.__type__ = _mud_FrameSolver__type();
 Module['FrameSolver'] = FrameSolver;
 FrameSolver.prototype["__destroy__"] = FrameSolver.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1212,6 +1255,7 @@ LineSolver.prototype = Object.create(WrapperObject.prototype);
 LineSolver.prototype.constructor = LineSolver;
 LineSolver.prototype.__class__ = LineSolver;
 LineSolver.__cache__ = {};
+LineSolver.__type__ = _mud_LineSolver__type();
 Module['LineSolver'] = LineSolver;
 LineSolver.prototype["__destroy__"] = LineSolver.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1223,6 +1267,7 @@ Widget.prototype = Object.create(WrapperObject.prototype);
 Widget.prototype.constructor = Widget;
 Widget.prototype.__class__ = Widget;
 Widget.__cache__ = {};
+Widget.__type__ = _mud_Widget__type();
 Module['Widget'] = Widget;
 Widget.prototype["activated"] = Widget.prototype.activated = function(self) {
     var self = this.ptr;
@@ -1424,6 +1469,7 @@ Canvas.prototype = Object.create(WrapperObject.prototype);
 Canvas.prototype.constructor = Canvas;
 Canvas.prototype.__class__ = Canvas;
 Canvas.__cache__ = {};
+Canvas.__type__ = _mud_Canvas__type();
 Module['Canvas'] = Canvas;
 Canvas.prototype["__destroy__"] = Canvas.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1435,6 +1481,7 @@ Dockable.prototype = Object.create(WrapperObject.prototype);
 Dockable.prototype.constructor = Dockable;
 Dockable.prototype.__class__ = Dockable;
 Dockable.__cache__ = {};
+Dockable.__type__ = _mud_Dockable__type();
 Module['Dockable'] = Dockable;
 Dockable.prototype["__destroy__"] = Dockable.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1446,6 +1493,7 @@ Docker.prototype = Object.create(WrapperObject.prototype);
 Docker.prototype.constructor = Docker;
 Docker.prototype.__class__ = Docker;
 Docker.__cache__ = {};
+Docker.__type__ = _mud_Docker__type();
 Module['Docker'] = Docker;
 Docker.prototype["__destroy__"] = Docker.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1457,6 +1505,7 @@ Dockbar.prototype = Object.create(WrapperObject.prototype);
 Dockbar.prototype.constructor = Dockbar;
 Dockbar.prototype.__class__ = Dockbar;
 Dockbar.__cache__ = {};
+Dockbar.__type__ = _mud_Dockbar__type();
 Module['Dockbar'] = Dockbar;
 Dockbar.prototype["__destroy__"] = Dockbar.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1468,6 +1517,7 @@ Dockspace.prototype = Object.create(WrapperObject.prototype);
 Dockspace.prototype.constructor = Dockspace;
 Dockspace.prototype.__class__ = Dockspace;
 Dockspace.__cache__ = {};
+Dockspace.__type__ = _mud_Dockspace__type();
 Module['Dockspace'] = Dockspace;
 Dockspace.prototype["__destroy__"] = Dockspace.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1479,6 +1529,7 @@ Expandbox.prototype = Object.create(WrapperObject.prototype);
 Expandbox.prototype.constructor = Expandbox;
 Expandbox.prototype.__class__ = Expandbox;
 Expandbox.__cache__ = {};
+Expandbox.__type__ = _mud_Expandbox__type();
 Module['Expandbox'] = Expandbox;
 Expandbox.prototype["__destroy__"] = Expandbox.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1490,6 +1541,7 @@ Node.prototype = Object.create(WrapperObject.prototype);
 Node.prototype.constructor = Node;
 Node.prototype.__class__ = Node;
 Node.__cache__ = {};
+Node.__type__ = _mud_Node__type();
 Module['Node'] = Node;
 Node.prototype["__destroy__"] = Node.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1501,6 +1553,7 @@ NodePlug.prototype = Object.create(WrapperObject.prototype);
 NodePlug.prototype.constructor = NodePlug;
 NodePlug.prototype.__class__ = NodePlug;
 NodePlug.__cache__ = {};
+NodePlug.__type__ = _mud_NodePlug__type();
 Module['NodePlug'] = NodePlug;
 NodePlug.prototype["__destroy__"] = NodePlug.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1512,6 +1565,7 @@ RowSolver.prototype = Object.create(WrapperObject.prototype);
 RowSolver.prototype.constructor = RowSolver;
 RowSolver.prototype.__class__ = RowSolver;
 RowSolver.__cache__ = {};
+RowSolver.__type__ = _mud_RowSolver__type();
 Module['RowSolver'] = RowSolver;
 RowSolver.prototype["__destroy__"] = RowSolver.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1523,6 +1577,7 @@ ScrollSheet.prototype = Object.create(WrapperObject.prototype);
 ScrollSheet.prototype.constructor = ScrollSheet;
 ScrollSheet.prototype.__class__ = ScrollSheet;
 ScrollSheet.__cache__ = {};
+ScrollSheet.__type__ = _mud_ScrollSheet__type();
 Module['ScrollSheet'] = ScrollSheet;
 ScrollSheet.prototype["__destroy__"] = ScrollSheet.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1534,6 +1589,7 @@ Sequence.prototype = Object.create(WrapperObject.prototype);
 Sequence.prototype.constructor = Sequence;
 Sequence.prototype.__class__ = Sequence;
 Sequence.__cache__ = {};
+Sequence.__type__ = _mud_ui_Sequence__type();
 Module['ui']['Sequence'] = Sequence;
 Sequence.prototype["__destroy__"] = Sequence.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1545,6 +1601,7 @@ Tabber.prototype = Object.create(WrapperObject.prototype);
 Tabber.prototype.constructor = Tabber;
 Tabber.prototype.__class__ = Tabber;
 Tabber.__cache__ = {};
+Tabber.__type__ = _mud_Tabber__type();
 Module['Tabber'] = Tabber;
 Tabber.prototype["__destroy__"] = Tabber.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1556,6 +1613,7 @@ Table.prototype = Object.create(WrapperObject.prototype);
 Table.prototype.constructor = Table;
 Table.prototype.__class__ = Table;
 Table.__cache__ = {};
+Table.__type__ = _mud_Table__type();
 Module['Table'] = Table;
 Table.prototype["__destroy__"] = Table.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1567,6 +1625,7 @@ TextEdit.prototype = Object.create(WrapperObject.prototype);
 TextEdit.prototype.constructor = TextEdit;
 TextEdit.prototype.__class__ = TextEdit;
 TextEdit.__cache__ = {};
+TextEdit.__type__ = _mud_TextEdit__type();
 Module['TextEdit'] = TextEdit;
 TextEdit.prototype["__destroy__"] = TextEdit.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1578,6 +1637,7 @@ TreeNode.prototype = Object.create(WrapperObject.prototype);
 TreeNode.prototype.constructor = TreeNode;
 TreeNode.prototype.__class__ = TreeNode;
 TreeNode.__cache__ = {};
+TreeNode.__type__ = _mud_TreeNode__type();
 Module['TreeNode'] = TreeNode;
 TreeNode.prototype["__destroy__"] = TreeNode.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1589,6 +1649,7 @@ Ui.prototype = Object.create(WrapperObject.prototype);
 Ui.prototype.constructor = Ui;
 Ui.prototype.__class__ = Ui;
 Ui.__cache__ = {};
+Ui.__type__ = _mud_Ui__type();
 Module['Ui'] = Ui;
 Ui.prototype["begin"] = Ui.prototype.begin = function(self) {
     var self = this.ptr;
@@ -1604,6 +1665,7 @@ Window.prototype = Object.create(WrapperObject.prototype);
 Window.prototype.constructor = Window;
 Window.prototype.__class__ = Window;
 Window.__cache__ = {};
+Window.__type__ = _mud_Window__type();
 Module['Window'] = Window;
 Window.prototype["__destroy__"] = Window.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1839,6 +1901,16 @@ Module['ui']['dummy'] = function(parent, size) {
     size = size.ptr;
     return wrapPointer(_mud_ui_dummy_2(parent, size), Widget);
 };
+Module['ui']['element'] = function(parent, object) {
+    var self = this.ptr;
+    /* parent <Widget> [] */
+    parent = parent.ptr;
+    /* object <Ref> [] */
+    var object_type;
+    if(typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
+    else { object = 0; object_type = 0; }
+    return wrapPointer(_mud_ui_element_2(parent, object, object_type), Widget);
+};
 Module['ui']['expandbox'] = function(parent, name, open) {
     var self = this.ptr;
     ensureCache.prepare();
@@ -2033,6 +2105,25 @@ Module['ui']['modal_button'] = function(screen, parent, content, mode) {
     /* mode <uint32_t> [] */
     return !!(_mud_ui_modal_button_4(screen, parent, content, mode));
 };
+Module['ui']['node'] = function(parent, title, position, order, identity) {
+    var self = this.ptr;
+    ensureCache.prepare();
+    /* parent <Canvas> [] */
+    parent = parent.ptr;
+    /* title <const char*> [] */
+    if (title && typeof title === "object") title = title.ptr;
+    else title = ensureString(title);
+    /* position <vec2> [] */
+    position = position.ptr;
+    /* order <int> [] */
+    /* identity <Ref> [] */
+    var identity_type;
+    if(typeof identity !== "undefined" && identity !== null) { identity = identity.ptr; identity_type = identity.type.__type__; }
+    else { identity = 0; identity_type = 0; }
+    if (order === undefined) { return wrapPointer(_mud_ui_node_3(parent, title, position), Node); }
+    if (identity === undefined) { return wrapPointer(_mud_ui_node_4(parent, title, position, order), Node); }
+    return wrapPointer(_mud_ui_node_5(parent, title, position, order, identity, identity_type), Node);
+};
 Module['ui']['node_cable'] = function(canvas, plug_out, plug_in) {
     var self = this.ptr;
     /* canvas <Canvas> [] */
@@ -2167,11 +2258,35 @@ Module['ui']['select_list'] = function(parent) {
     parent = parent.ptr;
     return wrapPointer(_mud_ui_select_list_1(parent), ScrollSheet);
 };
+Module['ui']['select_logic'] = function(element, object, selection) {
+    var self = this.ptr;
+    /* element <Widget> [] */
+    element = element.ptr;
+    /* object <Ref> [] */
+    var object_type;
+    if(typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
+    else { object = 0; object_type = 0; }
+    /* selection <Ref> [] */
+    var selection_type;
+    if(typeof selection !== "undefined" && selection !== null) { selection = selection.ptr; selection_type = selection.type.__type__; }
+    else { selection = 0; selection_type = 0; }
+    return !!(_mud_ui_select_logic_3(element, object, object_type, selection, selection_type));
+};
 Module['ui']['sequence'] = function(parent) {
     var self = this.ptr;
     /* parent <Widget> [] */
     parent = parent.ptr;
     return wrapPointer(_mud_ui_sequence_1(parent), Sequence);
+};
+Module['ui']['sequence_element'] = function(parent, object) {
+    var self = this.ptr;
+    /* parent <Sequence> [] */
+    parent = parent.ptr;
+    /* object <Ref> [] */
+    var object_type;
+    if(typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
+    else { object = 0; object_type = 0; }
+    return wrapPointer(_mud_ui_sequence_element_2(parent, object, object_type), Widget);
 };
 Module['ui']['sheet'] = function(parent) {
     var self = this.ptr;

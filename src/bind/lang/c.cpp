@@ -15,14 +15,23 @@
 extern "C" {
 	
 	// Interpreter
+	mud::Type* DECL mud_Interpreter__type() {
+		return mud::type<mud::Interpreter>();
+	}
 	void DECL mud_Interpreter__destroy(mud::Interpreter* self) {
 		delete self;
 	}
 	// Pipe
+	mud::Type* DECL mud_Pipe__type() {
+		return mud::type<mud::Pipe>();
+	}
 	void DECL mud_Pipe__destroy(mud::Pipe* self) {
 		delete self;
 	}
 	// Process
+	mud::Type* DECL mud_Process__type() {
+		return mud::type<mud::Process>();
+	}
 	mud::Type* DECL mud_Process__get_type(mud::Process* self) {
 		return &self->m_type;
 	}
@@ -30,6 +39,9 @@ extern "C" {
 		delete self;
 	}
 	// ScriptClass
+	mud::Type* DECL mud_ScriptClass__type() {
+		return mud::type<mud::ScriptClass>();
+	}
 	mud::ScriptClass* DECL mud_ScriptClass_ScriptClass_2(const char* name, const std::vector<mud::Type*>* parts) {
 		return new mud::ScriptClass(name, *parts);
 	}
@@ -49,6 +61,9 @@ extern "C" {
 		delete self;
 	}
 	// ScriptError
+	mud::Type* DECL mud_ScriptError__type() {
+		return mud::type<mud::ScriptError>();
+	}
 	mud::ScriptError* DECL mud_ScriptError_ScriptError_0() {
 		return new mud::ScriptError();
 	}
@@ -56,18 +71,30 @@ extern "C" {
 		delete self;
 	}
 	// StreamBranch
+	mud::Type* DECL mud_StreamBranch__type() {
+		return mud::type<mud::StreamBranch>();
+	}
 	void DECL mud_StreamBranch__destroy(mud::StreamBranch* self) {
 		delete self;
 	}
 	// Valve
+	mud::Type* DECL mud_Valve__type() {
+		return mud::type<mud::Valve>();
+	}
 	void DECL mud_Valve__destroy(mud::Valve* self) {
 		delete self;
 	}
 	// LuaInterpreter
+	mud::Type* DECL mud_LuaInterpreter__type() {
+		return mud::type<mud::LuaInterpreter>();
+	}
 	void DECL mud_LuaInterpreter__destroy(mud::LuaInterpreter* self) {
 		delete self;
 	}
 	// ProcessCallable
+	mud::Type* DECL mud_ProcessCallable__type() {
+		return mud::type<mud::ProcessCallable>();
+	}
 	mud::ProcessCallable* DECL mud_ProcessCallable_ProcessCallable_2(mud::VisualScript* script, mud::Callable* callable) {
 		return new mud::ProcessCallable(*script, *callable);
 	}
@@ -75,6 +102,9 @@ extern "C" {
 		delete self;
 	}
 	// ProcessCreate
+	mud::Type* DECL mud_ProcessCreate__type() {
+		return mud::type<mud::ProcessCreate>();
+	}
 	mud::ProcessCreate* DECL mud_ProcessCreate_ProcessCreate_3(mud::VisualScript* script, mud::Type* type, const mud::Constructor* constructor) {
 		return new mud::ProcessCreate(*script, *type, *constructor);
 	}
@@ -82,10 +112,16 @@ extern "C" {
 		delete self;
 	}
 	// ProcessDisplay
+	mud::Type* DECL mud_ProcessDisplay__type() {
+		return mud::type<mud::ProcessDisplay>();
+	}
 	void DECL mud_ProcessDisplay__destroy(mud::ProcessDisplay* self) {
 		delete self;
 	}
 	// ProcessFunction
+	mud::Type* DECL mud_ProcessFunction__type() {
+		return mud::type<mud::ProcessFunction>();
+	}
 	mud::ProcessFunction* DECL mud_ProcessFunction_ProcessFunction_2(mud::VisualScript* script, mud::Function* function) {
 		return new mud::ProcessFunction(*script, *function);
 	}
@@ -93,6 +129,9 @@ extern "C" {
 		delete self;
 	}
 	// ProcessGetMember
+	mud::Type* DECL mud_ProcessGetMember__type() {
+		return mud::type<mud::ProcessGetMember>();
+	}
 	mud::ProcessGetMember* DECL mud_ProcessGetMember_ProcessGetMember_2(mud::VisualScript* script, mud::Member* member) {
 		return new mud::ProcessGetMember(*script, *member);
 	}
@@ -100,10 +139,16 @@ extern "C" {
 		delete self;
 	}
 	// ProcessInput
+	mud::Type* DECL mud_ProcessInput__type() {
+		return mud::type<mud::ProcessInput>();
+	}
 	void DECL mud_ProcessInput__destroy(mud::ProcessInput* self) {
 		delete self;
 	}
 	// ProcessMethod
+	mud::Type* DECL mud_ProcessMethod__type() {
+		return mud::type<mud::ProcessMethod>();
+	}
 	mud::ProcessMethod* DECL mud_ProcessMethod_ProcessMethod_2(mud::VisualScript* script, mud::Method* method) {
 		return new mud::ProcessMethod(*script, *method);
 	}
@@ -111,10 +156,16 @@ extern "C" {
 		delete self;
 	}
 	// ProcessOutput
+	mud::Type* DECL mud_ProcessOutput__type() {
+		return mud::type<mud::ProcessOutput>();
+	}
 	void DECL mud_ProcessOutput__destroy(mud::ProcessOutput* self) {
 		delete self;
 	}
 	// ProcessScript
+	mud::Type* DECL mud_ProcessScript__type() {
+		return mud::type<mud::ProcessScript>();
+	}
 	mud::ProcessScript* DECL mud_ProcessScript_ProcessScript_2(mud::VisualScript* script, mud::VisualScript* target) {
 		return new mud::ProcessScript(*script, *target);
 	}
@@ -122,6 +173,9 @@ extern "C" {
 		delete self;
 	}
 	// ProcessSetMember
+	mud::Type* DECL mud_ProcessSetMember__type() {
+		return mud::type<mud::ProcessSetMember>();
+	}
 	mud::ProcessSetMember* DECL mud_ProcessSetMember_ProcessSetMember_2(mud::VisualScript* script, mud::Member* member) {
 		return new mud::ProcessSetMember(*script, *member);
 	}
@@ -129,6 +183,9 @@ extern "C" {
 		delete self;
 	}
 	// ProcessValue
+	mud::Type* DECL mud_ProcessValue__type() {
+		return mud::type<mud::ProcessValue>();
+	}
 	mud::ProcessValue* DECL mud_ProcessValue_ProcessValue_2(mud::VisualScript* script, const mud::Var* value) {
 		return new mud::ProcessValue(*script, *value);
 	}
@@ -136,6 +193,9 @@ extern "C" {
 		delete self;
 	}
 	// Script
+	mud::Type* DECL mud_Script__type() {
+		return mud::type<mud::Script>();
+	}
 	uint32_t DECL mud_Script__get_index(mud::Script* self) {
 		return self->m_index;
 	}
@@ -161,10 +221,16 @@ extern "C" {
 		delete self;
 	}
 	// Stream
+	mud::Type* DECL mud_Stream__type() {
+		return mud::type<mud::Stream>();
+	}
 	void DECL mud_Stream__destroy(mud::Stream* self) {
 		delete self;
 	}
 	// TextScript
+	mud::Type* DECL mud_TextScript__type() {
+		return mud::type<mud::TextScript>();
+	}
 	mud::TextScript* DECL mud_TextScript_TextScript_2(const char* name, mud::Language language) {
 		return new mud::TextScript(name, language);
 	}
@@ -193,6 +259,9 @@ extern "C" {
 		delete self;
 	}
 	// VisualScript
+	mud::Type* DECL mud_VisualScript__type() {
+		return mud::type<mud::VisualScript>();
+	}
 	mud::VisualScript* DECL mud_VisualScript_VisualScript_1(const char* name) {
 		return new mud::VisualScript(name);
 	}
@@ -203,6 +272,9 @@ extern "C" {
 		delete self;
 	}
 	// WrenInterpreter
+	mud::Type* DECL mud_WrenInterpreter__type() {
+		return mud::type<mud::WrenInterpreter>();
+	}
 	void DECL mud_WrenInterpreter__destroy(mud::WrenInterpreter* self) {
 		delete self;
 	}

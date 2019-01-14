@@ -12,11 +12,13 @@ function Shell(resource_path, exec_path) {
     else exec_path = ensureString(exec_path);
     if (exec_path === undefined) { this.ptr = _mud_Shell_Shell_1(resource_path); getCache(Shell)[this.ptr] = this; return; }
     this.ptr = _mud_Shell_Shell_2(resource_path, exec_path); getCache(Shell)[this.ptr] = this;
+    this.type = Shell;
 };
 Shell.prototype = Object.create(WrapperObject.prototype);
 Shell.prototype.constructor = Shell;
 Shell.prototype.__class__ = Shell;
 Shell.__cache__ = {};
+Shell.__type__ = _mud_Shell__type();
 Module['Shell'] = Shell;
 Shell.prototype["pump"] = Shell.prototype.pump = function(self) {
     var self = this.ptr;
@@ -89,11 +91,13 @@ Shell.prototype["__destroy__"] = Shell.prototype.__destroy__ = function() {
 // ShellContext
 function ShellContext() {
     this.ptr = _mud_ShellContext_ShellContext_0(); getCache(ShellContext)[this.ptr] = this;
+    this.type = ShellContext;
 };
 ShellContext.prototype = Object.create(WrapperObject.prototype);
 ShellContext.prototype.constructor = ShellContext;
 ShellContext.prototype.__class__ = ShellContext;
 ShellContext.__cache__ = {};
+ShellContext.__type__ = _mud_ShellContext__type();
 Module['ShellContext'] = ShellContext;
 Object.defineProperty(ShellContext.prototype, "screen", {
     get: function() {

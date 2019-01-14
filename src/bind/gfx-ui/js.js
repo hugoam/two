@@ -7,6 +7,7 @@ Object.prototype = Object.create(WrapperObject.prototype);
 Object.prototype.constructor = Object;
 Object.prototype.__class__ = Object;
 Object.__cache__ = {};
+Object.__type__ = _mud_Object__type();
 Module['Object'] = Object;
 Object.prototype["__destroy__"] = Object.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -18,6 +19,7 @@ ViewerController.prototype = Object.create(WrapperObject.prototype);
 ViewerController.prototype.constructor = ViewerController;
 ViewerController.prototype.__class__ = ViewerController;
 ViewerController.__cache__ = {};
+ViewerController.__type__ = _mud_ViewerController__type();
 Module['ViewerController'] = ViewerController;
 ViewerController.prototype["__destroy__"] = ViewerController.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -29,6 +31,7 @@ OrbitController.prototype = Object.create(WrapperObject.prototype);
 OrbitController.prototype.constructor = OrbitController;
 OrbitController.prototype.__class__ = OrbitController;
 OrbitController.__cache__ = {};
+OrbitController.__type__ = _mud_OrbitController__type();
 Module['OrbitController'] = OrbitController;
 OrbitController.prototype["set_eye"] = OrbitController.prototype.set_eye = function(self, rotation) {
     var self = this.ptr;
@@ -97,6 +100,7 @@ FreeOrbitController.prototype = Object.create(WrapperObject.prototype);
 FreeOrbitController.prototype.constructor = FreeOrbitController;
 FreeOrbitController.prototype.__class__ = FreeOrbitController;
 FreeOrbitController.__cache__ = {};
+FreeOrbitController.__type__ = _mud_FreeOrbitController__type();
 Module['FreeOrbitController'] = FreeOrbitController;
 FreeOrbitController.prototype["__destroy__"] = FreeOrbitController.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -108,6 +112,7 @@ SpaceSheet.prototype = Object.create(WrapperObject.prototype);
 SpaceSheet.prototype.constructor = SpaceSheet;
 SpaceSheet.prototype.__class__ = SpaceSheet;
 SpaceSheet.__cache__ = {};
+SpaceSheet.__type__ = _mud_SpaceSheet__type();
 Module['SpaceSheet'] = SpaceSheet;
 SpaceSheet.prototype["__destroy__"] = SpaceSheet.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -119,6 +124,7 @@ Viewer.prototype = Object.create(WrapperObject.prototype);
 Viewer.prototype.constructor = Viewer;
 Viewer.prototype.__class__ = Viewer;
 Viewer.__cache__ = {};
+Viewer.__type__ = _mud_Viewer__type();
 Module['Viewer'] = Viewer;
 Object.defineProperty(Viewer.prototype, "scene", {
     get: function() {
@@ -171,6 +177,7 @@ SceneViewer.prototype = Object.create(WrapperObject.prototype);
 SceneViewer.prototype.constructor = SceneViewer;
 SceneViewer.prototype.__class__ = SceneViewer;
 SceneViewer.__cache__ = {};
+SceneViewer.__type__ = _mud_SceneViewer__type();
 Module['SceneViewer'] = SceneViewer;
 SceneViewer.prototype["__destroy__"] = SceneViewer.prototype.__destroy__ = function() {
     var self = this.ptr;

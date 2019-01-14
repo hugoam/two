@@ -16,6 +16,9 @@
 extern "C" {
 	
 	// glTF
+	mud::Type* DECL glTF__type() {
+		return mud::type<glTF>();
+	}
 	glTF* DECL glTF_glTF_0() {
 		return new glTF();
 	}
@@ -23,6 +26,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFAccessor
+	mud::Type* DECL glTFAccessor__type() {
+		return mud::type<glTFAccessor>();
+	}
 	glTFAccessor* DECL glTFAccessor_glTFAccessor_0() {
 		return new glTFAccessor();
 	}
@@ -79,6 +85,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFAnimation
+	mud::Type* DECL glTFAnimation__type() {
+		return mud::type<glTFAnimation>();
+	}
 	glTFAnimation* DECL glTFAnimation_glTFAnimation_0() {
 		return new glTFAnimation();
 	}
@@ -92,6 +101,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFAnimationChannel
+	mud::Type* DECL glTFAnimationChannel__type() {
+		return mud::type<glTFAnimationChannel>();
+	}
 	glTFAnimationChannel* DECL glTFAnimationChannel_glTFAnimationChannel_0() {
 		return new glTFAnimationChannel();
 	}
@@ -112,6 +124,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFAnimationSampler
+	mud::Type* DECL glTFAnimationSampler__type() {
+		return mud::type<glTFAnimationSampler>();
+	}
 	glTFAnimationSampler* DECL glTFAnimationSampler_glTFAnimationSampler_0() {
 		return new glTFAnimationSampler();
 	}
@@ -137,6 +152,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFAnimationTarget
+	mud::Type* DECL glTFAnimationTarget__type() {
+		return mud::type<glTFAnimationTarget>();
+	}
 	glTFAnimationTarget* DECL glTFAnimationTarget_glTFAnimationTarget_0() {
 		return new glTFAnimationTarget();
 	}
@@ -156,6 +174,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFAttributes
+	mud::Type* DECL glTFAttributes__type() {
+		return mud::type<glTFAttributes>();
+	}
 	glTFAttributes* DECL glTFAttributes_glTFAttributes_0() {
 		return new glTFAttributes();
 	}
@@ -211,6 +232,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFBuffer
+	mud::Type* DECL glTFBuffer__type() {
+		return mud::type<glTFBuffer>();
+	}
 	glTFBuffer* DECL glTFBuffer_glTFBuffer_0() {
 		return new glTFBuffer();
 	}
@@ -242,6 +266,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFBufferView
+	mud::Type* DECL glTFBufferView__type() {
+		return mud::type<glTFBufferView>();
+	}
 	glTFBufferView* DECL glTFBufferView_glTFBufferView_0() {
 		return new glTFBufferView();
 	}
@@ -285,6 +312,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFCamera
+	mud::Type* DECL glTFCamera__type() {
+		return mud::type<glTFCamera>();
+	}
 	glTFCamera* DECL glTFCamera_glTFCamera_0() {
 		return new glTFCamera();
 	}
@@ -318,6 +348,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFImage
+	mud::Type* DECL glTFImage__type() {
+		return mud::type<glTFImage>();
+	}
 	glTFImage* DECL glTFImage_glTFImage_0() {
 		return new glTFImage();
 	}
@@ -349,6 +382,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFMaterial
+	mud::Type* DECL glTFMaterial__type() {
+		return mud::type<glTFMaterial>();
+	}
 	glTFMaterial* DECL glTFMaterial_glTFMaterial_0() {
 		return new glTFMaterial();
 	}
@@ -409,6 +445,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFMaterialPBR
+	mud::Type* DECL glTFMaterialPBR__type() {
+		return mud::type<glTFMaterialPBR>();
+	}
 	glTFMaterialPBR* DECL glTFMaterialPBR_glTFMaterialPBR_0() {
 		return new glTFMaterialPBR();
 	}
@@ -449,6 +488,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFMesh
+	mud::Type* DECL glTFMesh__type() {
+		return mud::type<glTFMesh>();
+	}
 	glTFMesh* DECL glTFMesh_glTFMesh_0() {
 		return new glTFMesh();
 	}
@@ -462,6 +504,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFMorphTarget
+	mud::Type* DECL glTFMorphTarget__type() {
+		return mud::type<glTFMorphTarget>();
+	}
 	glTFMorphTarget* DECL glTFMorphTarget_glTFMorphTarget_0() {
 		return new glTFMorphTarget();
 	}
@@ -487,6 +532,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFNode
+	mud::Type* DECL glTFNode__type() {
+		return mud::type<glTFNode>();
+	}
 	glTFNode* DECL glTFNode_glTFNode_0() {
 		return new glTFNode();
 	}
@@ -546,6 +594,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFNodeExtras
+	mud::Type* DECL glTFNodeExtras__type() {
+		return mud::type<glTFNodeExtras>();
+	}
 	glTFNodeExtras* DECL glTFNodeExtras_glTFNodeExtras_0() {
 		return new glTFNodeExtras();
 	}
@@ -553,6 +604,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFOrthographic
+	mud::Type* DECL glTFOrthographic__type() {
+		return mud::type<glTFOrthographic>();
+	}
 	glTFOrthographic* DECL glTFOrthographic_glTFOrthographic_0() {
 		return new glTFOrthographic();
 	}
@@ -584,6 +638,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFPerspective
+	mud::Type* DECL glTFPerspective__type() {
+		return mud::type<glTFPerspective>();
+	}
 	glTFPerspective* DECL glTFPerspective_glTFPerspective_0() {
 		return new glTFPerspective();
 	}
@@ -615,6 +672,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFPrimitive
+	mud::Type* DECL glTFPrimitive__type() {
+		return mud::type<glTFPrimitive>();
+	}
 	glTFPrimitive* DECL glTFPrimitive_glTFPrimitive_0() {
 		return new glTFPrimitive();
 	}
@@ -647,6 +707,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFSampler
+	mud::Type* DECL glTFSampler__type() {
+		return mud::type<glTFSampler>();
+	}
 	glTFSampler* DECL glTFSampler_glTFSampler_0() {
 		return new glTFSampler();
 	}
@@ -684,6 +747,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFScene
+	mud::Type* DECL glTFScene__type() {
+		return mud::type<glTFScene>();
+	}
 	glTFScene* DECL glTFScene_glTFScene_0() {
 		return new glTFScene();
 	}
@@ -697,6 +763,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFSkin
+	mud::Type* DECL glTFSkin__type() {
+		return mud::type<glTFSkin>();
+	}
 	glTFSkin* DECL glTFSkin_glTFSkin_0() {
 		return new glTFSkin();
 	}
@@ -722,6 +791,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFSparse
+	mud::Type* DECL glTFSparse__type() {
+		return mud::type<glTFSparse>();
+	}
 	glTFSparse* DECL glTFSparse_glTFSparse_0() {
 		return new glTFSparse();
 	}
@@ -749,6 +821,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFSparseIndices
+	mud::Type* DECL glTFSparseIndices__type() {
+		return mud::type<glTFSparseIndices>();
+	}
 	glTFSparseIndices* DECL glTFSparseIndices_glTFSparseIndices_0() {
 		return new glTFSparseIndices();
 	}
@@ -774,6 +849,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFSparseValues
+	mud::Type* DECL glTFSparseValues__type() {
+		return mud::type<glTFSparseValues>();
+	}
 	glTFSparseValues* DECL glTFSparseValues_glTFSparseValues_0() {
 		return new glTFSparseValues();
 	}
@@ -793,6 +871,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFTexture
+	mud::Type* DECL glTFTexture__type() {
+		return mud::type<glTFTexture>();
+	}
 	glTFTexture* DECL glTFTexture_glTFTexture_0() {
 		return new glTFTexture();
 	}
@@ -818,6 +899,9 @@ extern "C" {
 		delete self;
 	}
 	// glTFTextureInfo
+	mud::Type* DECL glTFTextureInfo__type() {
+		return mud::type<glTFTextureInfo>();
+	}
 	glTFTextureInfo* DECL glTFTextureInfo_glTFTextureInfo_0() {
 		return new glTFTextureInfo();
 	}

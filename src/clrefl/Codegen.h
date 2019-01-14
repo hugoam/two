@@ -11,6 +11,8 @@ namespace mud
 {
 namespace clgen
 {
+	inline string comma(const std::vector<string>& strings) { return join(strings, ", "); }
+
 	std::vector<string> location(const CLPrimitive& e)
 	{
 		if(e.m_parent->m_id == "") return {};
@@ -129,17 +131,17 @@ namespace clgen
 	string params_def(const std::vector<CLParam>& params)
 	{
 		std::vector<string> decls = transform<string>(params, [](const CLParam& p) { return param_decl(p); });
-		return params.size() > 0 ? "{ " + join(decls, ", ") + " }" : "{}";
+		return params.size() > 0 ? "{ " + comma(decls) + " }" : "{}";
 	}
 
 	string function_signature(const CLCallable& f)
 	{
-		return f.m_return_type.m_spelling + "(*)(" + join(params_types(f), ", ") + ")";
+		return f.m_return_type.m_spelling + "(*)(" + comma(params_types(f)) + ")";
 	}
 
 	string method_signature(const CLMethod& m)
 	{
-		return m.m_return_type.m_spelling + "(" + m.m_parent->m_id + "::*)(" + join(params_types(m), ", ") + ")" + (m.m_const ? " const" : "");
+		return m.m_return_type.m_spelling + "(" + m.m_parent->m_id + "::*)(" + comma(params_types(m)) + ")" + (m.m_const ? " const" : "");
 	}
 
 	string function_identity(const CLCallable& f)
@@ -155,7 +157,7 @@ namespace clgen
 	string get_args(const std::vector<CLParam>& params)
 	{
 		std::vector<string> decls = transform<string>(params, [](const CLParam& p) { return param_forward(p, p.m_index); });
-		return join(decls, ", ");
+		return comma(decls);
 	}
 
 	string method_identity(const CLType& c, const CLMethod& m)
@@ -364,7 +366,7 @@ namespace clgen
 				p(i, "static Enum enu = { " + type_get(e) + ",");
 				p(i, string(e.m_scoped ? "true" : "false") + ",");
 				p(i, "{ \"" + join(e.m_ids, "\", \"") + "\" },");
-				p(i, "{ " + join(e.m_values, ", ") + " },");
+				p(i, "{ " + comma(e.m_values) + " },");
 				p(i, "{ var(" + join(e.m_scoped_ids, "), var(") + ") }");
 				p(i, "};");
 				p(i, "meta_enum<" + e.m_id + ">();");
@@ -394,8 +396,8 @@ namespace clgen
 				p(i, meta_decl(c, type_class(c)));
 				p(i, "static Class cls = { " + type_get(c) + ",");
 				p(i, "// bases");
-				p(i, "{ " + join(transform<string>(c.m_bases, [&](CLType* base) { return type_get_pt(*base); }), ", ") + " },");
-				p(i, "{ " + join(transform<string>(c.m_bases, [&](CLType* base) { return base_offset_get(c, *base); }), ", ") + " },");
+				p(i, "{ " + comma(transform<string>(c.m_bases, [&](CLType* base) { return type_get_pt(*base); })) + " },");
+				p(i, "{ " + comma(transform<string>(c.m_bases, [&](CLType* base) { return base_offset_get(c, *base); })) + " },");
 				p(i, "// constructors");
 				p(i, "{");
 				for(CLConstructor& constr : c.m_constructors)
@@ -594,7 +596,7 @@ namespace clgen
 		auto p = [&](int& i, const string& s) {	write_line(t, i, s); };
 		int i = 0;
 
-		auto deps = [&](){ return join(transform<string>(m.m_dependencies, [](CLModule* d) { return "&" + d->m_id + "::m()"; }), ", "); };
+		auto deps = [&](){ return comma(transform<string>(m.m_dependencies, [](CLModule* d) { return "&" + d->m_id + "::m()"; })); };
 
 		p(i, "#include <infra/Cpp20.h>");
 		p(i, "");
@@ -717,207 +719,6 @@ namespace clgen
 		return t;
 	}
 
-	string bind_embind_h_template(CLModule& m)
-	{
-		string t;
-		auto p = [&](int& i, const string& s) {	write_line(t, i, s, true); };
-		int i = 0;
-
-		p(i, "#include <" + m.m_subdir + "/Api.h>");
-		p(i, "#include <emscripten/bind.h>");
-		p(i, "");
-		p(i, "using namespace emscripten;");
-		p(i, "");
-
-		p(i, "EMSCRIPTEN_BINDINGS(" + m.m_id + ")");
-		p(i, "{");
-		p(i, "");
-		p(i, "// Enums");
-		for(auto& pe : m.m_enums)
-			if(pe->m_reflect)
-			{
-				CLEnum& e = *pe;
-				p(i, "enum_<" + e.m_id + ">(\"" + e.m_id + "\")");
-				for(size_t j = 0; j < e.m_ids.size(); ++j)
-					p(i, "    .value(\"" + e.m_ids[j] + "\", " + e.m_scoped_ids[j] + ")");
-				p(i, "    ;");
-			}
-		p(i, "");
-
-		p(i, "// Sequences");
-		for(auto& ps : m.m_sequences)
-		{
-			CLSequence& s = *ps;
-		}
-		p(i, "");
-
-		p(i, "// Arrays");
-		for(auto& pc : m.m_classes)
-			if(pc->m_reflect && pc->m_array)
-			{
-				CLClass& c = *pc;
-				p(i, "value_array<" + c.m_id + ">(\"" + c.m_name + "\")");
-				for(CLMember& m : c.m_members)
-					p(i, "    .element(" + member_pointer(c, m) + ")");
-				p(i, "    ;");
-			}
-
-		p(i, "");
-
-		p(i, "// Structs");
-		for(auto& pc : m.m_classes)
-			if(pc->m_reflect && !pc->m_array && pc->m_struct)
-			{
-				CLClass& c = *pc;
-				p(i, "value_object<" + c.m_id + ">(\"" + c.m_name + "\")");
-				for(CLMember& m : c.m_members)
-					p(i, "    .field(\"" + m.m_name + "\", " + member_pointer(c, m) + ")");
-				p(i, "    ;");
-			}
-		p(i, "");
-
-		p(i, "// Classes");
-		for(auto& pc : m.m_classes)
-			if(pc->m_reflect && !pc->m_array && !pc->m_struct)
-			{
-				CLClass& c = *pc;
-				p(i, "class_<" + c.m_id + ">(\"" + c.m_name + "\")");
-
-				for(CLConstructor& ctor : c.m_constructors)
-					p(i, "    .constructor<" + join(params_types(ctor), ", ") + ">()");
-				for(CLMember& m : c.m_members)
-				{
-					if(m.m_method && m.m_setter)
-						p(i, "    .property(\"" + m.m_name + "\", " + member_getter(c, m) + ", " + member_setter(c, m) + ")");
-					else if(m.m_method)
-						p(i, "    .property(\"" + m.m_name + "\", " + member_getter(c, m) + ")");
-					else
-						p(i, "    .property(\"" + m.m_name + "\", " + member_pointer(c, m) + ")");
-				}
-				for(CLMethod& m : c.m_methods)
-					p(i, "    .function(\"" + m.m_name + "\", " + method_pointer(c, m) + ")");
-				for(CLStatic& m : c.m_statics)
-					p(i, "    .class_property(\"" + m.m_name + "\", " + "&" + c.m_id + "::" + m.m_name + ")");
-				//for(CLFunction& f : c.m_functions)
-				//    p(i, "    .class_function(\"" + m.m_name + "\", " + "&" + c.m_id + "::" + f.m_name + ")");
-
-				p(i, "    ;");
-			}
-		p(i, "");
-
-		p(i, "// Functions");
-		for(auto& pf : m.m_functions)
-		{
-			CLFunction& f = *pf;
-			p(i, "function(\"" + f.m_name + "\", " + "&" + f.m_id + ");");
-		}
-		p(i, "");
-
-		p(i, "}");
-
-		return t;
-	}
-
-	string bind_webidl_h_template(CLModule& m)
-	{
-		string t;
-		auto p = [&](int& i, const string& s) {	write_line(t, i, s, true); };
-		int i = 0;
-
-		auto idl_quals = [](const CLQualType& type) -> string
-		{
-			std::vector<string> quals;
-			if(type.m_type->m_is_basetype) return "";
-			if(type.isconst()) quals.push_back("Const");
-			if(type.reference()) quals.push_back("Ref");
-			else if(!type.pointer()) quals.push_back("Value");
-			return quals.size() > 0 ? "[" + join(quals, ", ") + "] " : "";
-		};
-
-		struct CppToIdl { string cpp; string idl; };
-		std::vector<CppToIdl> cpp_to_idl;
-
-		auto map = [&](string cpp, string idl) { cpp_to_idl.push_back({ cpp, idl }); };
-		map("bool", "boolean");
-		map("float", "float");
-		map("double", "double");
-		map("short", "short");
-		map("unsigned short", "short");
-		map("uint16_t", "short");
-		map("const char*", "DOMString");
-		map("std::string", "DOMString");
-		for(string cpp : { "int", "long", "long long" })
-			map(cpp, "long");
-		for(string cpp : { "unsigned int", "unsigned long", "unsigned long long"  })
-			map(cpp, "long");
-		for(string cpp : { "uint32_t", "size_t" })
-			map(cpp, "long");
-
-		auto idl_type = [&](const CLQualType& type) -> string { for(auto& ctoi : cpp_to_idl) { if(type.m_spelling == ctoi.cpp) return ctoi.idl; } return type.m_type->m_name;  };
-		auto idl_qual_type = [&](const CLQualType& type) -> string { return idl_quals(type) + type.m_type->m_name;  };
-		auto params_types_idl = [&](const CLCallable& f) -> std::vector<string> { return transform<string>(f.m_params, [&](const CLParam& p) { return idl_qual_type(p.m_type); }); };
-
-		p(i, "// Enums");
-		for(auto& pe : m.m_enums)
-			if(pe->m_reflect)
-			{
-				CLEnum& e = *pe;
-				p(i, "enum " + replace(e.m_id, "::", "_") + "{");
-				for(size_t j = 0; j < e.m_ids.size(); ++j)
-					p(i, "\"" + replace(e.m_scoped_ids[j], "::", "_") + "\"");
-				p(i, "};");
-			}
-		p(i, "");
-
-		p(i, "// Sequences");
-		for(auto& ps : m.m_sequences)
-		{
-			CLSequence& s = *ps;
-		}
-		p(i, "");
-
-		p(i, "// Classes");
-		for(auto& pc : m.m_classes)
-			if(pc->m_reflect && !pc->m_is_templated)
-			{
-				CLClass& c = *pc;
-				if(c.m_parent->m_prefix != "")
-					p(i, "[Prefix=\"" + c.m_parent->m_prefix + "\"]");
-				p(i, "interface " + c.m_name + " {");
-
-				for(CLConstructor& ctor : c.m_constructors)
-					p(i, "void " + c.m_name + "(" + join(params_types_idl(ctor), ", ") + ");");
-				for(CLMember& m : c.m_members)
-				{
-					if(!m.m_method)
-						p(i, idl_quals(m.m_type) + "attribute " + idl_type(m.m_type) + " " + m.m_name + ";");
-					else
-						p(i, idl_type(m.m_type) + " " + m.m_name + "();");
-					if(m.m_setter)
-						p(i, "void set" + m.m_capname + "(" + idl_type(m.m_type) + ");");
-				}
-				for(CLMethod& m : c.m_methods)
-					p(i, idl_type(m.m_return_type) + " " + m.m_name + "(" + join(params_types_idl(m), ", ") + ");");
-				for(CLStatic& m : c.m_statics)
-					;
-				//for(CLFunction& f : c.m_functions)
-				//    ;
-
-				p(i, "};");
-			}
-		p(i, "");
-
-		p(i, "// Functions");
-		for(auto& pf : m.m_functions)
-		{
-			CLFunction& f = *pf;
-			p(i, "void " + f.m_name + "(" + join(params_types_idl(f), ", ") + ");");
-		}
-		p(i, "");
-
-		return t;
-	}
-
 	string amalgam_h_template(CLModule& m)
 	{
 		string t;
@@ -1009,6 +810,7 @@ namespace clgen
 	{
 		// @todo:
 		// - vectors
+		// - array members
 		// - array types
 		// - noncopy types
 		// - pointer types (mud::Ref)
@@ -1016,9 +818,10 @@ namespace clgen
 		// - references to strings
 
 		// not implemented yet
-		std::vector<string> blacklist = { "std::vector", "array", "mud::Ref" };
+		std::vector<string> blacklist = { "std::vector", "array", "mud::Complex" };
 
 		auto blacklist_type = [&](const CLQualType& t) { for(const string& n : blacklist) { if(t.m_spelling.find(n) != string::npos) return true; } if(t.isstring() && t.reference() && !t.isconst()) return true; return false; };
+		auto blacklist_class = [&](const CLClass& c) { for(const string& n : blacklist) { if(c.m_id.find(n) != string::npos) return true; } return false; };
 		auto blacklist_callable = [&](const CLCallable& f) { for(const CLParam& p : f.m_params) if(blacklist_type(p.m_type)) return true; if(blacklist_type(f.m_return_type)) return true; return false; };
 		auto blacklist_member = [&](const CLMember& m) { if(blacklist_type(m.m_type)) return true; return false; };
 
@@ -1070,11 +873,12 @@ namespace clgen
 			return (!t.isbasetype() && !t.isenum()) && (t.reference() || t.value()) ? "*" : "";
 		};
 
-		auto type_to_c = [&](const CLQualType& t, bool non_pointing = false) -> string
+		auto type_to_c = [&](const CLQualType& t, bool non_pointing = false, bool no_array = false) -> string
 		{
 			if(t.isstring()) return "const char*";
 			if(t.isenum()) return t.m_type->m_id;
 			string name = !t.isbasetype() ? t.m_type->m_id + (non_pointing ? "" : "*") : t.m_type->m_name;
+			if(no_array) name = replace(name, "[]", "");
 			return (t.isconst() && name != "const char*" ? "const " : "") + name + (t.isarray() ? "[]" : "");
 		};
 
@@ -1131,11 +935,54 @@ namespace clgen
 				printf("WARNING: can't bind %s%s (can only overload signatures of same types and different lengths)\n", f.m_parent->m_id.c_str(), f.m_name.c_str());
 		};
 
-		auto call_args = [](const CLCallable& f, size_t n)
+		auto js_signature_args = [](const CLCallable& f, size_t n)
 		{
-			std::vector<string> params = transform<string>(0, n, [&](size_t i) { return f.m_params[i].m_name; });
-			bool method = f.m_kind == CLPrimitiveKind::Method;
-			return vector_union((method ? std::vector<string>{ "self" } : std::vector<string>()), params);
+			std::vector<string> args = transform<string>(0, n, [&](size_t i) { return f.m_params[i].m_name; });
+			return f.m_kind == CLPrimitiveKind::Method ? vector_union({ "self" }, args)
+													   : args;
+		};
+
+		auto js_forward_arg = [&](const CLParam& p)
+		{
+			if(p.m_type.istypedptr())
+				return p.m_name + ", " + p.m_name + "_type";
+			else
+				return p.m_name;
+		};
+
+		auto js_forward_args = [&](const CLCallable& f, size_t n)
+		{
+			std::vector<string> args = transform<string>(0, n, [&](size_t i) { return js_forward_arg(f.m_params[i]); });
+			return f.m_kind == CLPrimitiveKind::Method ? vector_union({ "self" }, args)
+													   : args;
+		};
+
+		auto c_forward_arg = [&](const CLParam& p)
+		{
+			if(p.m_type.istypedptr())
+				return "{ " + p.m_name + ", *" + p.m_name + "_type" + " }";
+			else
+				return value(p.m_type) + p.m_name;
+		};
+
+		auto c_forward_args = [&](const CLCallable& f, size_t n)
+		{
+			return transform<string>(0, n, [&](size_t i) { return c_forward_arg(f.m_params[i]); });
+		};
+
+		auto c_typed_arg = [&](const CLParam& p)
+		{
+			if(p.m_type.istypedptr())
+				return "void* " + p.m_name + ", " + "mud::Type* " + p.m_name + "_type";
+			else
+				return  type_to_c(p.m_type) + " " + p.m_name;
+		};
+
+		auto c_typed_args = [&](const CLCallable& f, size_t i)
+		{
+			std::vector<string> args = transform<string>(0, i, [&](size_t i) { return c_typed_arg(f.m_params[i]); });
+			return f.m_kind == CLPrimitiveKind::Method ? vector_union({ f.m_parent->m_id + "* self" }, args)
+													   : args;
 		};
 
 		auto js_namespace = [&](const CLPrimitive& n)
@@ -1151,7 +998,7 @@ namespace clgen
 
 		auto js_call_inner = [&](const CLCallable& f, size_t n)
 		{
-			return "_" + binding_name_n(f, n) + "(" + join(call_args(f, n), ", ") + ")";
+			return "_" + binding_name_n(f, n) + "(" + comma(js_forward_args(f, n)) + ")";
 		};
 
 		auto js_call_return_wrap = [&](const CLQualType& return_type, const string& call)
@@ -1248,15 +1095,15 @@ namespace clgen
 				// an array can be received here
 				string arg_type = t.m_type->m_name;
 				if(arg_type == "char" || arg_type == "unsigned char")
-					jsw("if (typeof " + a + " == \"object\") {{ " + a + " = ensureInt8(" + a + "); }}");
+					jsw("if (typeof " + a + " == \"object\") { " + a + " = ensureInt8(" + a + "); }");
 				else if(arg_type == "short" || arg_type == "unsigned short")
-					jsw("if (typeof " + a + " == \"object\") {{ " + a + " = ensureInt16(" + a + "); }}");
+					jsw("if (typeof " + a + " == \"object\") { " + a + " = ensureInt16(" + a + "); }");
 				else if(arg_type == "int", "unsigned int")
-					jsw("if (typeof " + a + " == \"object\") {{ " + a + " = ensureInt32(" + a + "); }}");
+					jsw("if (typeof " + a + " == \"object\") { " + a + " = ensureInt32(" + a + "); }");
 				else if(arg_type == "float")
-					jsw("if (typeof " + a + " == \"object\") {{ " + a + " = ensureFloat32(" + a + "); }}");
+					jsw("if (typeof " + a + " == \"object\") { " + a + " = ensureFloat32(" + a + "); }");
 				else if(arg_type == "double")
-					jsw("if (typeof " + a + " == \"object\") {{ " + a + " = ensureFloat64(" + a + "); }}");
+					jsw("if (typeof " + a + " == \"object\") { " + a + " = ensureFloat64(" + a + "); }");
 			}
 		};
 
@@ -1272,6 +1119,12 @@ namespace clgen
 			if(t.iscstring() || t.isstring())
 			{	
 				js_convert_arg_default(t, a); // legacy path is fast enough for strings.
+			}
+			else if(t.istypedptr())
+			{
+				jsw("var " + a + "_type;");
+				jsw("if(typeof " + a + " !== \"undefined\" && " + a + " !== null) { " + a + " = " + a + ".ptr; " + a + "_type = " + a + ".type.__type__; }");
+				jsw("else { " + a + " = 0; " + a + "_type = 0; }");
 			}
 			else if(t.isclass())
 			{
@@ -1304,32 +1157,31 @@ namespace clgen
 				jsw(f.m_parent->m_name + ".prototype[\"" + f.m_name + "\"] = " + f.m_parent->m_name + ".prototype." + f.m_name + " = ", true);
 			else if(f.m_kind == CLPrimitiveKind::Function)
 				jsw(js_module_path(m, f) + " = ", true);
-			jsw(js_supress + "function" + (ctor ? " " + f.m_name : "") + "(" + join(call_args(f, f.m_params.size()), ", ") + ") {");
+			jsw(js_supress + "function" + (ctor ? " " + f.m_name : "") + "(" + comma(js_signature_args(f, f.m_params.size())) + ") {");
 			if(!ctor) 
 				jsw("var self = this.ptr;");
 			js_call_prepare(f);
 			js_call_convert_args(f);
 			js_call(o);
+			if(ctor)
+				jsw("this.type = " + f.m_parent->m_name + ";");
 			jsw("};");
 		};
 
-		auto js_getter = [&](const CLClass& c, const CLMember& m)
+		auto js_getter = [&](const CLClass& c, const CLMember& m, bool isarray = false)
 		{
-			jsw("function() {");
+			jsw("function(" + string(isarray ? "index" : "") + ") {");
 			jsw("var self = this.ptr;");
-			jsw(js_call_return_wrap(m.m_type, "_" + binding_name_str(c, "_get_" + m.m_name) + "(self)"));
+			jsw(js_call_return_wrap(m.m_type, "_" + binding_name_str(c, "_get_" + m.m_name) + "(self" + (isarray ? ", index" : "") + ")"));
 			jsw("}", true);
 		};
 
-		auto js_setter_array = [&]()
-		{};
-
-		auto js_setter = [&](const CLClass& c, const CLMember& m)
+		auto js_setter = [&](const CLClass& c, const CLMember& m, bool isarray = false)
 		{
-			jsw("function(value) {");
+			jsw("function(" + string(isarray ? "index, " : "") + "value) {");
 			jsw("var self = this.ptr;");
 			js_call_convert_arg(m.m_type, "value", false);
-			jsw("_" + binding_name_str(c, "_set_" + m.m_name) + "(self, value);");
+			jsw("_" + binding_name_str(c, "_set_" + m.m_name) + "(self" + (isarray ? ", index" : "") + ", value);");
 			jsw("}");
 		};
 
@@ -1348,6 +1200,7 @@ namespace clgen
 			jsw(c.m_name + ".prototype.constructor = " + c.m_name + ";");
 			jsw(c.m_name + ".prototype.__class__ = " + c.m_name + ";");
 			jsw(c.m_name + ".__cache__ = {};");
+			jsw(c.m_name + ".__type__ = " + "_" + replace(c.m_id, "::", "_") + "__type();"); // add wrapPointer() ?
 			jsw(js_module_path(m, c) + " = " + c.m_name + ";");
 		};
 
@@ -1356,19 +1209,14 @@ namespace clgen
 			js_bind_callable(o);
 		};
 
-		auto c_call_args_n = [&](const CLCallable& f, size_t i)
-		{
-			return transform<string>(0, i, [&](size_t i) { return value(f.m_params[i].m_type) + f.m_params[i].m_name; });
-		};
-
 		auto c_call_n = [&](const CLCallable& f, size_t i)
 		{
 			if(f.m_kind == CLPrimitiveKind::Constructor)
-				return "new " + f.m_parent->m_id + "(" + join(c_call_args_n(f, i), ", ") + ")";
+				return "new " + f.m_parent->m_id + "(" + comma(c_forward_args(f, i)) + ")";
 			else if(f.m_kind == CLPrimitiveKind::Method)
-				return "self->" + f.m_name + "(" + join(c_call_args_n(f, i), ", ") + ")";
+				return "self->" + f.m_name + "(" + comma(c_forward_args(f, i)) + ")";
 			else if(f.m_kind == CLPrimitiveKind::Function)
-				return f.m_id + "(" + join(c_call_args_n(f, i), ", ") + ")";
+				return f.m_id + "(" + comma(c_forward_args(f, i)) + ")";
 		};
 
 		auto c_call_operator_n = [&](const CLCallable& f, size_t i, const string& op)
@@ -1407,20 +1255,6 @@ namespace clgen
 			c_call_return_wrap(f.m_return_type, c_call_n(f, i), f.m_kind == CLPrimitiveKind::Constructor);
 		};
 
-		auto c_binding_args = [&](const CLCallable& f, size_t i)
-		{
-			std::vector<string> c_arg_types = transform<string>(f.m_params, [&](const CLParam& p) { return type_to_c(p.m_type); });
-			return join(transform<string>(0, i, [&](size_t i) { return c_arg_types[i] + " " + f.m_params[i].m_name; }), ", ");
-		};
-
-		auto c_callable_args = [&](const CLCallable& f, size_t i)
-		{
-			if(f.m_kind == CLPrimitiveKind::Constructor || f.m_kind == CLPrimitiveKind::Function)
-				return c_binding_args(f, i);
-			else if(f.m_kind == CLPrimitiveKind::Method)
-				return f.m_parent->m_id + "* self" + (i > 0 ? ", " + c_binding_args(f, i) : "");
-		};
-
 		auto c_binding_body = [&]()
 		{
 
@@ -1428,14 +1262,10 @@ namespace clgen
 
 		auto c_bind_callable_n = [&](const CLCallable& f, size_t i)
 		{
-			//if(array_attribute)
-			//  sig = [x.replace("[]", "") for x in sig] // for arrays, ignore that this is an array - our get/set methods operate on the elements
-
-			string maybe_const = f.m_return_type.isconst() ? "const " : "";
 			if(f.m_kind != CLPrimitiveKind::Constructor)
-				cw(maybe_const + type_to_c(f.m_return_type) + " DECL " + binding_name_n(f, i) + "(" + c_callable_args(f, i) + ") {");
+				cw((f.m_return_type.isconst() ? "const " : "") + type_to_c(f.m_return_type) + " DECL " + binding_name_n(f, i) + "(" + comma(c_typed_args(f, i)) + ") {");
 			else
-				cw(f.m_parent->m_id + "* DECL " + binding_name_n(f, i) + "(" + c_callable_args(f, i) + ") {");
+				cw(f.m_parent->m_id + "* DECL " + binding_name_n(f, i) + "(" + comma(c_typed_args(f, i)) + ") {");
 
 			c_call_wrapped_n(f, i);
 			cw("}");
@@ -1445,14 +1275,14 @@ namespace clgen
 				{
 					std::vector<string> C_FLOATS = { "float", "double" };
 
-					string dec_args = join(transform<string>(0, i, [&](size_t j) { return type_to_cdec(raw[j]->m_type) + ' ' + args[j]; }), ", "); ;
-					string js_call_args = join(transform<string>(0, i, [&](size_t j) { return (is_interface(sig[j]) ? "(int)" : "") + take_addr_if_nonpointer(raw[j]->m_type) + args[j]; }), ", ");
+					string dec_args = comma(transform<string>(0, i, [&](size_t j) { return type_to_cdec(raw[j]->m_type) + ' ' + args[j]; })); ;
+					string js_call_args = comma(transform<string>(0, i, [&](size_t j) { return (is_interface(sig[j]) ? "(int)" : "") + take_addr_if_nonpointer(raw[j]->m_type) + args[j]; }));
 
 					js_impl_methods += "  " + c_return_type + " " + func_name + "(" + dec_args + ") " + maybe_const + " {";
 					js_impl_methods += basic_return + "EM_ASM_" + (!vector_has(C_FLOATS, c_return_type) ? "INT" : "DOUBLE") + "({";
 					js_impl_methods += "var self = Module['getCache'](Module['" + class_name + "'])[$0];";
 					js_impl_methods += "if (!self.hasOwnProperty('" + func_name + "')) throw 'a JSImplementation must implement all functions, you forgot " + class_name + "::" + func_name + ".';";
-					js_impl_methods += "return " + return_prefix + "self['" + func_name + "'](" + join(transform<string>(1, max_args + 1, [](size_t i) { return "$" + to_string(i); }), ", ") + ")" + return_postfix + ";";
+					js_impl_methods += "return " + return_prefix + "self['" + func_name + "'](" + comma(transform<string>(1, max_args + 1, [](size_t i) { return "$" + to_string(i); })) + ")" + return_postfix + ";";
 					js_impl_methods += "}, (int)this" + string(js_call_args.size() > 0 ? ", " : "") + js_call_args + ");";
 				}*/
 		};
@@ -1464,31 +1294,33 @@ namespace clgen
 				c_bind_callable_n(f, i);
 		};
 
-		auto c_getter_array = [&](const CLClass& c, const CLMember& m)
+		auto c_type_handle = [&](const CLClass& c)
 		{
-			return address(m.m_type) + "self->" + m.m_member + "[index];";
+			cw("mud::Type* DECL " + binding_name_str(c, "_type") + "() {");
+			cw("return mud::type<" + c.m_id + ">();");
+			cw("}");
+		};
+
+		auto c_getter = [&](const CLClass& c, const CLMember& m, bool isarray = false)
+		{
+			cw(type_to_c(m.m_type) + " DECL " + binding_name_str(c, "_get_" + m.m_name) + "(" + c.m_id + "* self" + (isarray ? ", unsigned int index" : "") + ") {");
+			c_call_return_wrap(m.m_type, "self->" + m.m_member + (m.m_method ? "()" : "") + (isarray ? "[index]" : ""));
+			cw("}");
+		};
+
+		auto c_setter = [&](const CLClass& c, const CLMember& m, bool isarray = false)
+		{
+			cw("void DECL " + binding_name_str(c, "_set_" + m.m_name) + "(" + c.m_id + "* self, " + (isarray ? "unsigned int index, " : "") + type_to_c(m.m_type) + " value"  + ") {");
+			if(m.m_setter)
+				cw("self->" + m.m_member + "(" + value(m.m_type) + "value);");
+			else
+				cw("self->" + m.m_member + (isarray ? "[index]" : "") + " = " + value(m.m_type) + "value;");
+			cw("}");
 		};
 
 		auto c_setter_array = [&](const CLClass& c, const CLMember& m)
 		{
 			return "self->" + m.m_member + "[index] = " + value(m.m_type) + "value;";
-		};
-
-		auto c_getter = [&](const CLClass& c, const CLMember& m)
-		{
-			cw(type_to_c(m.m_type) + " DECL " + binding_name_str(c, "_get_" + m.m_name) + "(" + c.m_id + "* self) {");
-			c_call_return_wrap(m.m_type, "self->" + m.m_member + (m.m_method ? "()" : ""));
-			cw("}");
-		};
-
-		auto c_setter = [&](const CLClass& c, const CLMember& m)
-		{
-			cw("void DECL " + binding_name_str(c, "_set_" + m.m_name) + "(" + c.m_id + "* self, " + type_to_c(m.m_type) + " value) {");
-			if(m.m_setter)
-				cw("self->" + m.m_member + "(" + value(m.m_type) + "value);");
-			else
-				cw("self->" + m.m_member + " = " + value(m.m_type) + "value;");
-			cw("}");
 		};
 
 		auto c_destructor = [&](const CLClass& c)
@@ -1514,11 +1346,15 @@ namespace clgen
 		for(auto& pc : m.m_classes)
 			if(pc->m_reflect && !pc->m_is_templated)
 			{
+				if(blacklist_class(*pc)) continue;
+
 				CLClass& c = *pc;
 				string interface = c.m_name;
 
 				jsw("// " + c.m_name);
 				cw("// " + c.m_name);
+
+				c_type_handle(c);
 
 				//js_impl_methods = "";
 
@@ -1568,18 +1404,6 @@ namespace clgen
 					if(blacklist_member(m)) continue;
 					if(m.m_type.m_type->m_is_templated) continue;
 					if(m.m_type.value() && m.m_type.m_type->m_move_only) continue;
-
-					if(m.m_type.isarray()) continue;
-					{
-						//get_sigs[1] = [Dummy({ "type": WebIDL.BuiltinTypes[WebIDL.IDLBuiltinType.Types.long] })];
-						//set_sigs[2] = [Dummy({ "type": WebIDL.BuiltinTypes[WebIDL.IDLBuiltinType.Types.long] }),
-						//               Dummy({ "type": m.type })];
-
-						//if m.getExtendedAttribute("BoundsChecked"):
-						//  bounds_check = "array_bounds_check(sizeof(self->%s) / sizeof(self->%s[0]), arg0)" % (attr, attr)
-						//  get_call_content = "(%s, %s)" % (bounds_check, get_call_content)
-						//  set_call_content = "(%s, %s)" % (bounds_check, set_call_content)
-					}
 
 					c_getter(c, m);
 					if(!m.m_nonmutable)

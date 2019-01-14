@@ -5,6 +5,7 @@ Context.prototype = Object.create(WrapperObject.prototype);
 Context.prototype.constructor = Context;
 Context.prototype.__class__ = Context;
 Context.__cache__ = {};
+Context.__type__ = _mud_Context__type();
 Module['Context'] = Context;
 Context.prototype["init_input"] = Context.prototype.init_input = function(self, mouse, keyboard) {
     var self = this.ptr;
@@ -135,6 +136,7 @@ ControlNode.prototype = Object.create(WrapperObject.prototype);
 ControlNode.prototype.constructor = ControlNode;
 ControlNode.prototype.__class__ = ControlNode;
 ControlNode.__cache__ = {};
+ControlNode.__type__ = _mud_ControlNode__type();
 Module['ControlNode'] = ControlNode;
 ControlNode.prototype["__destroy__"] = ControlNode.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -143,11 +145,13 @@ ControlNode.prototype["__destroy__"] = ControlNode.prototype.__destroy__ = funct
 // InputEvent
 function InputEvent() {
     this.ptr = _mud_InputEvent_InputEvent_0(); getCache(InputEvent)[this.ptr] = this;
+    this.type = InputEvent;
 };
 InputEvent.prototype = Object.create(WrapperObject.prototype);
 InputEvent.prototype.constructor = InputEvent;
 InputEvent.prototype.__class__ = InputEvent;
 InputEvent.__cache__ = {};
+InputEvent.__type__ = _mud_InputEvent__type();
 Module['InputEvent'] = InputEvent;
 InputEvent.prototype["consume"] = InputEvent.prototype.consume = function(self, consumer) {
     var self = this.ptr;
@@ -251,6 +255,7 @@ Keyboard.prototype = Object.create(WrapperObject.prototype);
 Keyboard.prototype.constructor = Keyboard;
 Keyboard.prototype.__class__ = Keyboard;
 Keyboard.__cache__ = {};
+Keyboard.__type__ = _mud_Keyboard__type();
 Module['Keyboard'] = Keyboard;
 Keyboard.prototype["__destroy__"] = Keyboard.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -262,6 +267,7 @@ Mouse.prototype = Object.create(WrapperObject.prototype);
 Mouse.prototype.constructor = Mouse;
 Mouse.prototype.__class__ = Mouse;
 Mouse.__cache__ = {};
+Mouse.__type__ = _mud_Mouse__type();
 Module['Mouse'] = Mouse;
 Mouse.prototype["__destroy__"] = Mouse.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -273,6 +279,7 @@ RenderSystem.prototype = Object.create(WrapperObject.prototype);
 RenderSystem.prototype.constructor = RenderSystem;
 RenderSystem.prototype.__class__ = RenderSystem;
 RenderSystem.__cache__ = {};
+RenderSystem.__type__ = _mud_RenderSystem__type();
 Module['RenderSystem'] = RenderSystem;
 RenderSystem.prototype["__destroy__"] = RenderSystem.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -281,11 +288,13 @@ RenderSystem.prototype["__destroy__"] = RenderSystem.prototype.__destroy__ = fun
 // KeyEvent
 function KeyEvent() {
     this.ptr = _mud_KeyEvent_KeyEvent_0(); getCache(KeyEvent)[this.ptr] = this;
+    this.type = KeyEvent;
 };
 KeyEvent.prototype = Object.create(WrapperObject.prototype);
 KeyEvent.prototype.constructor = KeyEvent;
 KeyEvent.prototype.__class__ = KeyEvent;
 KeyEvent.__cache__ = {};
+KeyEvent.__type__ = _mud_KeyEvent__type();
 Module['KeyEvent'] = KeyEvent;
 Object.defineProperty(KeyEvent.prototype, "code", {
     get: function() {
@@ -317,11 +326,13 @@ KeyEvent.prototype["__destroy__"] = KeyEvent.prototype.__destroy__ = function() 
 // MouseEvent
 function MouseEvent() {
     this.ptr = _mud_MouseEvent_MouseEvent_0(); getCache(MouseEvent)[this.ptr] = this;
+    this.type = MouseEvent;
 };
 MouseEvent.prototype = Object.create(WrapperObject.prototype);
 MouseEvent.prototype.constructor = MouseEvent;
 MouseEvent.prototype.__class__ = MouseEvent;
 MouseEvent.__cache__ = {};
+MouseEvent.__type__ = _mud_MouseEvent__type();
 Module['MouseEvent'] = MouseEvent;
 Object.defineProperty(MouseEvent.prototype, "pos", {
     get: function() {

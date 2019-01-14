@@ -351,6 +351,7 @@ namespace mud
 		bool isenum() const { return m_type->m_type_kind == CLTypeKind::Enum; }
 		bool isclass() const { return m_type->m_type_kind == CLTypeKind::Class; }
 		bool isbasetype() const { return m_type->m_type_kind != CLTypeKind::Class && m_type->m_type_kind != CLTypeKind::Enum; }
+		bool istypedptr() const { return m_type_name == "mud::Ref"; }
 
 		//explicit operator CLType&() { return *m_type; }
 		//explicit operator const CLType&() const { return *m_type; }

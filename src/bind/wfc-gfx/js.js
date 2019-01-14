@@ -4,11 +4,13 @@ Module['ui'] = Module['ui'] || {};
 // TileModel
 function TileModel() {
     this.ptr = _mud_TileModel_TileModel_0(); getCache(TileModel)[this.ptr] = this;
+    this.type = TileModel;
 };
 TileModel.prototype = Object.create(WrapperObject.prototype);
 TileModel.prototype.constructor = TileModel;
 TileModel.prototype.__class__ = TileModel;
 TileModel.__cache__ = {};
+TileModel.__type__ = _mud_TileModel__type();
 Module['TileModel'] = TileModel;
 TileModel.prototype["__destroy__"] = TileModel.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -28,11 +30,13 @@ function WfcBlock(position, size, scale, tileset, auto_solve) {
     if (position === undefined) { this.ptr = _mud_WfcBlock_WfcBlock_0(); getCache(WfcBlock)[this.ptr] = this; return; }
     if (auto_solve === undefined) { this.ptr = _mud_WfcBlock_WfcBlock_4(position, size, scale, tileset); getCache(WfcBlock)[this.ptr] = this; return; }
     this.ptr = _mud_WfcBlock_WfcBlock_5(position, size, scale, tileset, auto_solve); getCache(WfcBlock)[this.ptr] = this;
+    this.type = WfcBlock;
 };
 WfcBlock.prototype = Object.create(WrapperObject.prototype);
 WfcBlock.prototype.constructor = WfcBlock;
 WfcBlock.prototype.__class__ = WfcBlock;
 WfcBlock.__cache__ = {};
+WfcBlock.__type__ = _mud_WfcBlock__type();
 Module['WfcBlock'] = WfcBlock;
 WfcBlock.prototype["observe"] = WfcBlock.prototype.observe = function(self) {
     var self = this.ptr;

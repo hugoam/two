@@ -5,6 +5,7 @@ Interpreter.prototype = Object.create(WrapperObject.prototype);
 Interpreter.prototype.constructor = Interpreter;
 Interpreter.prototype.__class__ = Interpreter;
 Interpreter.__cache__ = {};
+Interpreter.__type__ = _mud_Interpreter__type();
 Module['Interpreter'] = Interpreter;
 Interpreter.prototype["__destroy__"] = Interpreter.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -16,6 +17,7 @@ Pipe.prototype = Object.create(WrapperObject.prototype);
 Pipe.prototype.constructor = Pipe;
 Pipe.prototype.__class__ = Pipe;
 Pipe.__cache__ = {};
+Pipe.__type__ = _mud_Pipe__type();
 Module['Pipe'] = Pipe;
 Pipe.prototype["__destroy__"] = Pipe.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -27,6 +29,7 @@ Process.prototype = Object.create(WrapperObject.prototype);
 Process.prototype.constructor = Process;
 Process.prototype.__class__ = Process;
 Process.__cache__ = {};
+Process.__type__ = _mud_Process__type();
 Module['Process'] = Process;
 Object.defineProperty(Process.prototype, "type", {
     get: function() {
@@ -46,11 +49,13 @@ function ScriptClass(name, parts) {
     /* parts <std::vector<mud::Type*>> [] */
     parts = parts.ptr;
     this.ptr = _mud_ScriptClass_ScriptClass_2(name, parts); getCache(ScriptClass)[this.ptr] = this;
+    this.type = ScriptClass;
 };
 ScriptClass.prototype = Object.create(WrapperObject.prototype);
 ScriptClass.prototype.constructor = ScriptClass;
 ScriptClass.prototype.__class__ = ScriptClass;
 ScriptClass.__cache__ = {};
+ScriptClass.__type__ = _mud_ScriptClass__type();
 Module['ScriptClass'] = ScriptClass;
 Object.defineProperty(ScriptClass.prototype, "name", {
     get: function() {
@@ -82,11 +87,13 @@ ScriptClass.prototype["__destroy__"] = ScriptClass.prototype.__destroy__ = funct
 // ScriptError
 function ScriptError() {
     this.ptr = _mud_ScriptError_ScriptError_0(); getCache(ScriptError)[this.ptr] = this;
+    this.type = ScriptError;
 };
 ScriptError.prototype = Object.create(WrapperObject.prototype);
 ScriptError.prototype.constructor = ScriptError;
 ScriptError.prototype.__class__ = ScriptError;
 ScriptError.__cache__ = {};
+ScriptError.__type__ = _mud_ScriptError__type();
 Module['ScriptError'] = ScriptError;
 ScriptError.prototype["__destroy__"] = ScriptError.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -98,6 +105,7 @@ StreamBranch.prototype = Object.create(WrapperObject.prototype);
 StreamBranch.prototype.constructor = StreamBranch;
 StreamBranch.prototype.__class__ = StreamBranch;
 StreamBranch.__cache__ = {};
+StreamBranch.__type__ = _mud_StreamBranch__type();
 Module['StreamBranch'] = StreamBranch;
 StreamBranch.prototype["__destroy__"] = StreamBranch.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -109,6 +117,7 @@ Valve.prototype = Object.create(WrapperObject.prototype);
 Valve.prototype.constructor = Valve;
 Valve.prototype.__class__ = Valve;
 Valve.__cache__ = {};
+Valve.__type__ = _mud_Valve__type();
 Module['Valve'] = Valve;
 Valve.prototype["__destroy__"] = Valve.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -120,6 +129,7 @@ LuaInterpreter.prototype = Object.create(WrapperObject.prototype);
 LuaInterpreter.prototype.constructor = LuaInterpreter;
 LuaInterpreter.prototype.__class__ = LuaInterpreter;
 LuaInterpreter.__cache__ = {};
+LuaInterpreter.__type__ = _mud_LuaInterpreter__type();
 Module['LuaInterpreter'] = LuaInterpreter;
 LuaInterpreter.prototype["__destroy__"] = LuaInterpreter.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -132,11 +142,13 @@ function ProcessCallable(script, callable) {
     /* callable <Callable> [] */
     callable = callable.ptr;
     this.ptr = _mud_ProcessCallable_ProcessCallable_2(script, callable); getCache(ProcessCallable)[this.ptr] = this;
+    this.type = ProcessCallable;
 };
 ProcessCallable.prototype = Object.create(WrapperObject.prototype);
 ProcessCallable.prototype.constructor = ProcessCallable;
 ProcessCallable.prototype.__class__ = ProcessCallable;
 ProcessCallable.__cache__ = {};
+ProcessCallable.__type__ = _mud_ProcessCallable__type();
 Module['ProcessCallable'] = ProcessCallable;
 ProcessCallable.prototype["__destroy__"] = ProcessCallable.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -151,11 +163,13 @@ function ProcessCreate(script, type, constructor) {
     /* constructor <Constructor> [] */
     constructor = constructor.ptr;
     this.ptr = _mud_ProcessCreate_ProcessCreate_3(script, type, constructor); getCache(ProcessCreate)[this.ptr] = this;
+    this.type = ProcessCreate;
 };
 ProcessCreate.prototype = Object.create(WrapperObject.prototype);
 ProcessCreate.prototype.constructor = ProcessCreate;
 ProcessCreate.prototype.__class__ = ProcessCreate;
 ProcessCreate.__cache__ = {};
+ProcessCreate.__type__ = _mud_ProcessCreate__type();
 Module['ProcessCreate'] = ProcessCreate;
 ProcessCreate.prototype["__destroy__"] = ProcessCreate.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -167,6 +181,7 @@ ProcessDisplay.prototype = Object.create(WrapperObject.prototype);
 ProcessDisplay.prototype.constructor = ProcessDisplay;
 ProcessDisplay.prototype.__class__ = ProcessDisplay;
 ProcessDisplay.__cache__ = {};
+ProcessDisplay.__type__ = _mud_ProcessDisplay__type();
 Module['ProcessDisplay'] = ProcessDisplay;
 ProcessDisplay.prototype["__destroy__"] = ProcessDisplay.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -179,11 +194,13 @@ function ProcessFunction(script, function) {
     /* function <Function> [] */
     function = function.ptr;
     this.ptr = _mud_ProcessFunction_ProcessFunction_2(script, function); getCache(ProcessFunction)[this.ptr] = this;
+    this.type = ProcessFunction;
 };
 ProcessFunction.prototype = Object.create(WrapperObject.prototype);
 ProcessFunction.prototype.constructor = ProcessFunction;
 ProcessFunction.prototype.__class__ = ProcessFunction;
 ProcessFunction.__cache__ = {};
+ProcessFunction.__type__ = _mud_ProcessFunction__type();
 Module['ProcessFunction'] = ProcessFunction;
 ProcessFunction.prototype["__destroy__"] = ProcessFunction.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -196,11 +213,13 @@ function ProcessGetMember(script, member) {
     /* member <Member> [] */
     member = member.ptr;
     this.ptr = _mud_ProcessGetMember_ProcessGetMember_2(script, member); getCache(ProcessGetMember)[this.ptr] = this;
+    this.type = ProcessGetMember;
 };
 ProcessGetMember.prototype = Object.create(WrapperObject.prototype);
 ProcessGetMember.prototype.constructor = ProcessGetMember;
 ProcessGetMember.prototype.__class__ = ProcessGetMember;
 ProcessGetMember.__cache__ = {};
+ProcessGetMember.__type__ = _mud_ProcessGetMember__type();
 Module['ProcessGetMember'] = ProcessGetMember;
 ProcessGetMember.prototype["__destroy__"] = ProcessGetMember.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -212,6 +231,7 @@ ProcessInput.prototype = Object.create(WrapperObject.prototype);
 ProcessInput.prototype.constructor = ProcessInput;
 ProcessInput.prototype.__class__ = ProcessInput;
 ProcessInput.__cache__ = {};
+ProcessInput.__type__ = _mud_ProcessInput__type();
 Module['ProcessInput'] = ProcessInput;
 ProcessInput.prototype["__destroy__"] = ProcessInput.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -224,11 +244,13 @@ function ProcessMethod(script, method) {
     /* method <Method> [] */
     method = method.ptr;
     this.ptr = _mud_ProcessMethod_ProcessMethod_2(script, method); getCache(ProcessMethod)[this.ptr] = this;
+    this.type = ProcessMethod;
 };
 ProcessMethod.prototype = Object.create(WrapperObject.prototype);
 ProcessMethod.prototype.constructor = ProcessMethod;
 ProcessMethod.prototype.__class__ = ProcessMethod;
 ProcessMethod.__cache__ = {};
+ProcessMethod.__type__ = _mud_ProcessMethod__type();
 Module['ProcessMethod'] = ProcessMethod;
 ProcessMethod.prototype["__destroy__"] = ProcessMethod.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -240,6 +262,7 @@ ProcessOutput.prototype = Object.create(WrapperObject.prototype);
 ProcessOutput.prototype.constructor = ProcessOutput;
 ProcessOutput.prototype.__class__ = ProcessOutput;
 ProcessOutput.__cache__ = {};
+ProcessOutput.__type__ = _mud_ProcessOutput__type();
 Module['ProcessOutput'] = ProcessOutput;
 ProcessOutput.prototype["__destroy__"] = ProcessOutput.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -252,11 +275,13 @@ function ProcessScript(script, target) {
     /* target <VisualScript> [] */
     target = target.ptr;
     this.ptr = _mud_ProcessScript_ProcessScript_2(script, target); getCache(ProcessScript)[this.ptr] = this;
+    this.type = ProcessScript;
 };
 ProcessScript.prototype = Object.create(WrapperObject.prototype);
 ProcessScript.prototype.constructor = ProcessScript;
 ProcessScript.prototype.__class__ = ProcessScript;
 ProcessScript.__cache__ = {};
+ProcessScript.__type__ = _mud_ProcessScript__type();
 Module['ProcessScript'] = ProcessScript;
 ProcessScript.prototype["__destroy__"] = ProcessScript.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -269,11 +294,13 @@ function ProcessSetMember(script, member) {
     /* member <Member> [] */
     member = member.ptr;
     this.ptr = _mud_ProcessSetMember_ProcessSetMember_2(script, member); getCache(ProcessSetMember)[this.ptr] = this;
+    this.type = ProcessSetMember;
 };
 ProcessSetMember.prototype = Object.create(WrapperObject.prototype);
 ProcessSetMember.prototype.constructor = ProcessSetMember;
 ProcessSetMember.prototype.__class__ = ProcessSetMember;
 ProcessSetMember.__cache__ = {};
+ProcessSetMember.__type__ = _mud_ProcessSetMember__type();
 Module['ProcessSetMember'] = ProcessSetMember;
 ProcessSetMember.prototype["__destroy__"] = ProcessSetMember.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -286,11 +313,13 @@ function ProcessValue(script, value) {
     /* value <Var> [] */
     value = value.ptr;
     this.ptr = _mud_ProcessValue_ProcessValue_2(script, value); getCache(ProcessValue)[this.ptr] = this;
+    this.type = ProcessValue;
 };
 ProcessValue.prototype = Object.create(WrapperObject.prototype);
 ProcessValue.prototype.constructor = ProcessValue;
 ProcessValue.prototype.__class__ = ProcessValue;
 ProcessValue.__cache__ = {};
+ProcessValue.__type__ = _mud_ProcessValue__type();
 Module['ProcessValue'] = ProcessValue;
 ProcessValue.prototype["__destroy__"] = ProcessValue.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -302,6 +331,7 @@ Script.prototype = Object.create(WrapperObject.prototype);
 Script.prototype.constructor = Script;
 Script.prototype.__class__ = Script;
 Script.__cache__ = {};
+Script.__type__ = _mud_Script__type();
 Module['Script'] = Script;
 Object.defineProperty(Script.prototype, "index", {
     get: function() {
@@ -353,6 +383,7 @@ Stream.prototype = Object.create(WrapperObject.prototype);
 Stream.prototype.constructor = Stream;
 Stream.prototype.__class__ = Stream;
 Stream.__cache__ = {};
+Stream.__type__ = _mud_Stream__type();
 Module['Stream'] = Stream;
 Stream.prototype["__destroy__"] = Stream.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -370,11 +401,13 @@ function TextScript(name, language, signature) {
     if(typeof signature !== "undefined" && signature !== null) { signature = signature.ptr; }
     if (signature === undefined) { this.ptr = _mud_TextScript_TextScript_2(name, language); getCache(TextScript)[this.ptr] = this; return; }
     this.ptr = _mud_TextScript_TextScript_3(name, language, signature); getCache(TextScript)[this.ptr] = this;
+    this.type = TextScript;
 };
 TextScript.prototype = Object.create(WrapperObject.prototype);
 TextScript.prototype.constructor = TextScript;
 TextScript.prototype.__class__ = TextScript;
 TextScript.__cache__ = {};
+TextScript.__type__ = _mud_TextScript__type();
 Module['TextScript'] = TextScript;
 Object.defineProperty(TextScript.prototype, "language", {
     get: function() {
@@ -426,11 +459,13 @@ function VisualScript(name, signature) {
     if(typeof signature !== "undefined" && signature !== null) { signature = signature.ptr; }
     if (signature === undefined) { this.ptr = _mud_VisualScript_VisualScript_1(name); getCache(VisualScript)[this.ptr] = this; return; }
     this.ptr = _mud_VisualScript_VisualScript_2(name, signature); getCache(VisualScript)[this.ptr] = this;
+    this.type = VisualScript;
 };
 VisualScript.prototype = Object.create(WrapperObject.prototype);
 VisualScript.prototype.constructor = VisualScript;
 VisualScript.prototype.__class__ = VisualScript;
 VisualScript.__cache__ = {};
+VisualScript.__type__ = _mud_VisualScript__type();
 Module['VisualScript'] = VisualScript;
 VisualScript.prototype["__destroy__"] = VisualScript.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -442,6 +477,7 @@ WrenInterpreter.prototype = Object.create(WrapperObject.prototype);
 WrenInterpreter.prototype.constructor = WrenInterpreter;
 WrenInterpreter.prototype.__class__ = WrenInterpreter;
 WrenInterpreter.__cache__ = {};
+WrenInterpreter.__type__ = _mud_WrenInterpreter__type();
 Module['WrenInterpreter'] = WrenInterpreter;
 WrenInterpreter.prototype["__destroy__"] = WrenInterpreter.prototype.__destroy__ = function() {
     var self = this.ptr;

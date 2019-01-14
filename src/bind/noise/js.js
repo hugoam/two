@@ -5,6 +5,7 @@ Noise.prototype = Object.create(WrapperObject.prototype);
 Noise.prototype.constructor = Noise;
 Noise.prototype.__class__ = Noise;
 Noise.__cache__ = {};
+Noise.__type__ = _mud_Noise__type();
 Module['Noise'] = Noise;
 Noise.prototype["__destroy__"] = Noise.prototype.__destroy__ = function() {
     var self = this.ptr;

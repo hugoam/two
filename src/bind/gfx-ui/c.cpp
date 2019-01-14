@@ -19,14 +19,23 @@
 extern "C" {
 	
 	// Object
+	mud::Type* DECL mud_Object__type() {
+		return mud::type<mud::Object>();
+	}
 	void DECL mud_Object__destroy(mud::Object* self) {
 		delete self;
 	}
 	// ViewerController
+	mud::Type* DECL mud_ViewerController__type() {
+		return mud::type<mud::ViewerController>();
+	}
 	void DECL mud_ViewerController__destroy(mud::ViewerController* self) {
 		delete self;
 	}
 	// OrbitController
+	mud::Type* DECL mud_OrbitController__type() {
+		return mud::type<mud::OrbitController>();
+	}
 	void DECL mud_OrbitController_set_eye_1(mud::OrbitController* self, const mud::quat* rotation) {
 		self->set_eye(*rotation);
 	}
@@ -62,14 +71,23 @@ extern "C" {
 		delete self;
 	}
 	// FreeOrbitController
+	mud::Type* DECL mud_FreeOrbitController__type() {
+		return mud::type<mud::FreeOrbitController>();
+	}
 	void DECL mud_FreeOrbitController__destroy(mud::FreeOrbitController* self) {
 		delete self;
 	}
 	// SpaceSheet
+	mud::Type* DECL mud_SpaceSheet__type() {
+		return mud::type<mud::SpaceSheet>();
+	}
 	void DECL mud_SpaceSheet__destroy(mud::SpaceSheet* self) {
 		delete self;
 	}
 	// Viewer
+	mud::Type* DECL mud_Viewer__type() {
+		return mud::type<mud::Viewer>();
+	}
 	mud::Scene* DECL mud_Viewer__get_scene(mud::Viewer* self) {
 		return self->m_scene;
 	}
@@ -97,6 +115,9 @@ extern "C" {
 		delete self;
 	}
 	// SceneViewer
+	mud::Type* DECL mud_SceneViewer__type() {
+		return mud::type<mud::SceneViewer>();
+	}
 	void DECL mud_SceneViewer__destroy(mud::SceneViewer* self) {
 		delete self;
 	}

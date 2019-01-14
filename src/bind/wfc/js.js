@@ -2,11 +2,13 @@ Module['glm'] = Module['glm'] || {};
 // Tile
 function Tile() {
     this.ptr = _mud_Tile_Tile_0(); getCache(Tile)[this.ptr] = this;
+    this.type = Tile;
 };
 Tile.prototype = Object.create(WrapperObject.prototype);
 Tile.prototype.constructor = Tile;
 Tile.prototype.__class__ = Tile;
 Tile.__cache__ = {};
+Tile.__type__ = _mud_Tile__type();
 Module['Tile'] = Tile;
 Object.defineProperty(Tile.prototype, "index", {
     get: function() {
@@ -72,11 +74,13 @@ Tile.prototype["__destroy__"] = Tile.prototype.__destroy__ = function() {
 // Tileset
 function Tileset() {
     this.ptr = _mud_Tileset_Tileset_0(); getCache(Tileset)[this.ptr] = this;
+    this.type = Tileset;
 };
 Tileset.prototype = Object.create(WrapperObject.prototype);
 Tileset.prototype.constructor = Tileset;
 Tileset.prototype.__class__ = Tileset;
 Tileset.__cache__ = {};
+Tileset.__type__ = _mud_Tileset__type();
 Module['Tileset'] = Tileset;
 Object.defineProperty(Tileset.prototype, "name", {
     get: function() {
@@ -133,11 +137,13 @@ Tileset.prototype["__destroy__"] = Tileset.prototype.__destroy__ = function() {
 // Wave
 function Wave() {
     this.ptr = _mud_Wave_Wave_0(); getCache(Wave)[this.ptr] = this;
+    this.type = Wave;
 };
 Wave.prototype = Object.create(WrapperObject.prototype);
 Wave.prototype.constructor = Wave;
 Wave.prototype.__class__ = Wave;
 Wave.__cache__ = {};
+Wave.__type__ = _mud_Wave__type();
 Module['Wave'] = Wave;
 Wave.prototype["solve"] = Wave.prototype.solve = function(self, limit) {
     var self = this.ptr;
@@ -157,11 +163,13 @@ function TileWave(tileset, width, height, depth, periodic) {
     /* depth <uint16_t> [] */
     /* periodic <bool> [] */
     this.ptr = _mud_TileWave_TileWave_5(tileset, width, height, depth, periodic); getCache(TileWave)[this.ptr] = this;
+    this.type = TileWave;
 };
 TileWave.prototype = Object.create(WrapperObject.prototype);
 TileWave.prototype.constructor = TileWave;
 TileWave.prototype.__class__ = TileWave;
 TileWave.__cache__ = {};
+TileWave.__type__ = _mud_TileWave__type();
 Module['TileWave'] = TileWave;
 TileWave.prototype["__destroy__"] = TileWave.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -170,11 +178,13 @@ TileWave.prototype["__destroy__"] = TileWave.prototype.__destroy__ = function() 
 // WaveTileset
 function WaveTileset() {
     this.ptr = _mud_WaveTileset_WaveTileset_0(); getCache(WaveTileset)[this.ptr] = this;
+    this.type = WaveTileset;
 };
 WaveTileset.prototype = Object.create(WrapperObject.prototype);
 WaveTileset.prototype.constructor = WaveTileset;
 WaveTileset.prototype.__class__ = WaveTileset;
 WaveTileset.__cache__ = {};
+WaveTileset.__type__ = _mud_WaveTileset__type();
 Module['WaveTileset'] = WaveTileset;
 WaveTileset.prototype["__destroy__"] = WaveTileset.prototype.__destroy__ = function() {
     var self = this.ptr;

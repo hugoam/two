@@ -12,6 +12,9 @@
 extern "C" {
 	
 	// JobSystem
+	mud::Type* DECL mud_JobSystem__type() {
+		return mud::type<mud::JobSystem>();
+	}
 	void DECL mud_JobSystem__destroy(mud::JobSystem* self) {
 		delete self;
 	}

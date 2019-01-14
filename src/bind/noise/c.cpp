@@ -15,6 +15,9 @@
 extern "C" {
 	
 	// Noise
+	mud::Type* DECL mud_Noise__type() {
+		return mud::type<mud::Noise>();
+	}
 	void DECL mud_Noise__destroy(mud::Noise* self) {
 		delete self;
 	}

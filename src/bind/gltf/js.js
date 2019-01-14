@@ -4,11 +4,13 @@ Module['ui'] = Module['ui'] || {};
 // glTF
 function glTF() {
     this.ptr = _glTF_glTF_0(); getCache(glTF)[this.ptr] = this;
+    this.type = glTF;
 };
 glTF.prototype = Object.create(WrapperObject.prototype);
 glTF.prototype.constructor = glTF;
 glTF.prototype.__class__ = glTF;
 glTF.__cache__ = {};
+glTF.__type__ = _glTF__type();
 Module['glTF'] = glTF;
 glTF.prototype["__destroy__"] = glTF.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -17,11 +19,13 @@ glTF.prototype["__destroy__"] = glTF.prototype.__destroy__ = function() {
 // glTFAccessor
 function glTFAccessor() {
     this.ptr = _glTFAccessor_glTFAccessor_0(); getCache(glTFAccessor)[this.ptr] = this;
+    this.type = glTFAccessor;
 };
 glTFAccessor.prototype = Object.create(WrapperObject.prototype);
 glTFAccessor.prototype.constructor = glTFAccessor;
 glTFAccessor.prototype.__class__ = glTFAccessor;
 glTFAccessor.__cache__ = {};
+glTFAccessor.__type__ = _glTFAccessor__type();
 Module['glTFAccessor'] = glTFAccessor;
 Object.defineProperty(glTFAccessor.prototype, "name", {
     get: function() {
@@ -123,11 +127,13 @@ glTFAccessor.prototype["__destroy__"] = glTFAccessor.prototype.__destroy__ = fun
 // glTFAnimation
 function glTFAnimation() {
     this.ptr = _glTFAnimation_glTFAnimation_0(); getCache(glTFAnimation)[this.ptr] = this;
+    this.type = glTFAnimation;
 };
 glTFAnimation.prototype = Object.create(WrapperObject.prototype);
 glTFAnimation.prototype.constructor = glTFAnimation;
 glTFAnimation.prototype.__class__ = glTFAnimation;
 glTFAnimation.__cache__ = {};
+glTFAnimation.__type__ = _glTFAnimation__type();
 Module['glTFAnimation'] = glTFAnimation;
 Object.defineProperty(glTFAnimation.prototype, "name", {
     get: function() {
@@ -149,11 +155,13 @@ glTFAnimation.prototype["__destroy__"] = glTFAnimation.prototype.__destroy__ = f
 // glTFAnimationChannel
 function glTFAnimationChannel() {
     this.ptr = _glTFAnimationChannel_glTFAnimationChannel_0(); getCache(glTFAnimationChannel)[this.ptr] = this;
+    this.type = glTFAnimationChannel;
 };
 glTFAnimationChannel.prototype = Object.create(WrapperObject.prototype);
 glTFAnimationChannel.prototype.constructor = glTFAnimationChannel;
 glTFAnimationChannel.prototype.__class__ = glTFAnimationChannel;
 glTFAnimationChannel.__cache__ = {};
+glTFAnimationChannel.__type__ = _glTFAnimationChannel__type();
 Module['glTFAnimationChannel'] = glTFAnimationChannel;
 Object.defineProperty(glTFAnimationChannel.prototype, "sampler", {
     get: function() {
@@ -185,11 +193,13 @@ glTFAnimationChannel.prototype["__destroy__"] = glTFAnimationChannel.prototype._
 // glTFAnimationSampler
 function glTFAnimationSampler() {
     this.ptr = _glTFAnimationSampler_glTFAnimationSampler_0(); getCache(glTFAnimationSampler)[this.ptr] = this;
+    this.type = glTFAnimationSampler;
 };
 glTFAnimationSampler.prototype = Object.create(WrapperObject.prototype);
 glTFAnimationSampler.prototype.constructor = glTFAnimationSampler;
 glTFAnimationSampler.prototype.__class__ = glTFAnimationSampler;
 glTFAnimationSampler.__cache__ = {};
+glTFAnimationSampler.__type__ = _glTFAnimationSampler__type();
 Module['glTFAnimationSampler'] = glTFAnimationSampler;
 Object.defineProperty(glTFAnimationSampler.prototype, "interpolation", {
     get: function() {
@@ -232,11 +242,13 @@ glTFAnimationSampler.prototype["__destroy__"] = glTFAnimationSampler.prototype._
 // glTFAnimationTarget
 function glTFAnimationTarget() {
     this.ptr = _glTFAnimationTarget_glTFAnimationTarget_0(); getCache(glTFAnimationTarget)[this.ptr] = this;
+    this.type = glTFAnimationTarget;
 };
 glTFAnimationTarget.prototype = Object.create(WrapperObject.prototype);
 glTFAnimationTarget.prototype.constructor = glTFAnimationTarget;
 glTFAnimationTarget.prototype.__class__ = glTFAnimationTarget;
 glTFAnimationTarget.__cache__ = {};
+glTFAnimationTarget.__type__ = _glTFAnimationTarget__type();
 Module['glTFAnimationTarget'] = glTFAnimationTarget;
 Object.defineProperty(glTFAnimationTarget.prototype, "node", {
     get: function() {
@@ -269,11 +281,13 @@ glTFAnimationTarget.prototype["__destroy__"] = glTFAnimationTarget.prototype.__d
 // glTFAttributes
 function glTFAttributes() {
     this.ptr = _glTFAttributes_glTFAttributes_0(); getCache(glTFAttributes)[this.ptr] = this;
+    this.type = glTFAttributes;
 };
 glTFAttributes.prototype = Object.create(WrapperObject.prototype);
 glTFAttributes.prototype.constructor = glTFAttributes;
 glTFAttributes.prototype.__class__ = glTFAttributes;
 glTFAttributes.__cache__ = {};
+glTFAttributes.__type__ = _glTFAttributes__type();
 Module['glTFAttributes'] = glTFAttributes;
 Object.defineProperty(glTFAttributes.prototype, "POSITION", {
     get: function() {
@@ -370,11 +384,13 @@ glTFAttributes.prototype["__destroy__"] = glTFAttributes.prototype.__destroy__ =
 // glTFBuffer
 function glTFBuffer() {
     this.ptr = _glTFBuffer_glTFBuffer_0(); getCache(glTFBuffer)[this.ptr] = this;
+    this.type = glTFBuffer;
 };
 glTFBuffer.prototype = Object.create(WrapperObject.prototype);
 glTFBuffer.prototype.constructor = glTFBuffer;
 glTFBuffer.prototype.__class__ = glTFBuffer;
 glTFBuffer.__cache__ = {};
+glTFBuffer.__type__ = _glTFBuffer__type();
 Module['glTFBuffer'] = glTFBuffer;
 Object.defineProperty(glTFBuffer.prototype, "name", {
     get: function() {
@@ -433,11 +449,13 @@ glTFBuffer.prototype["__destroy__"] = glTFBuffer.prototype.__destroy__ = functio
 // glTFBufferView
 function glTFBufferView() {
     this.ptr = _glTFBufferView_glTFBufferView_0(); getCache(glTFBufferView)[this.ptr] = this;
+    this.type = glTFBufferView;
 };
 glTFBufferView.prototype = Object.create(WrapperObject.prototype);
 glTFBufferView.prototype.constructor = glTFBufferView;
 glTFBufferView.prototype.__class__ = glTFBufferView;
 glTFBufferView.__cache__ = {};
+glTFBufferView.__type__ = _glTFBufferView__type();
 Module['glTFBufferView'] = glTFBufferView;
 Object.defineProperty(glTFBufferView.prototype, "name", {
     get: function() {
@@ -514,11 +532,13 @@ glTFBufferView.prototype["__destroy__"] = glTFBufferView.prototype.__destroy__ =
 // glTFCamera
 function glTFCamera() {
     this.ptr = _glTFCamera_glTFCamera_0(); getCache(glTFCamera)[this.ptr] = this;
+    this.type = glTFCamera;
 };
 glTFCamera.prototype = Object.create(WrapperObject.prototype);
 glTFCamera.prototype.constructor = glTFCamera;
 glTFCamera.prototype.__class__ = glTFCamera;
 glTFCamera.__cache__ = {};
+glTFCamera.__type__ = _glTFCamera__type();
 Module['glTFCamera'] = glTFCamera;
 Object.defineProperty(glTFCamera.prototype, "name", {
     get: function() {
@@ -577,11 +597,13 @@ glTFCamera.prototype["__destroy__"] = glTFCamera.prototype.__destroy__ = functio
 // glTFImage
 function glTFImage() {
     this.ptr = _glTFImage_glTFImage_0(); getCache(glTFImage)[this.ptr] = this;
+    this.type = glTFImage;
 };
 glTFImage.prototype = Object.create(WrapperObject.prototype);
 glTFImage.prototype.constructor = glTFImage;
 glTFImage.prototype.__class__ = glTFImage;
 glTFImage.__cache__ = {};
+glTFImage.__type__ = _glTFImage__type();
 Module['glTFImage'] = glTFImage;
 Object.defineProperty(glTFImage.prototype, "name", {
     get: function() {
@@ -640,11 +662,13 @@ glTFImage.prototype["__destroy__"] = glTFImage.prototype.__destroy__ = function(
 // glTFMaterial
 function glTFMaterial() {
     this.ptr = _glTFMaterial_glTFMaterial_0(); getCache(glTFMaterial)[this.ptr] = this;
+    this.type = glTFMaterial;
 };
 glTFMaterial.prototype = Object.create(WrapperObject.prototype);
 glTFMaterial.prototype.constructor = glTFMaterial;
 glTFMaterial.prototype.__class__ = glTFMaterial;
 glTFMaterial.__cache__ = {};
+glTFMaterial.__type__ = _glTFMaterial__type();
 Module['glTFMaterial'] = glTFMaterial;
 Object.defineProperty(glTFMaterial.prototype, "name", {
     get: function() {
@@ -749,11 +773,13 @@ glTFMaterial.prototype["__destroy__"] = glTFMaterial.prototype.__destroy__ = fun
 // glTFMaterialPBR
 function glTFMaterialPBR() {
     this.ptr = _glTFMaterialPBR_glTFMaterialPBR_0(); getCache(glTFMaterialPBR)[this.ptr] = this;
+    this.type = glTFMaterialPBR;
 };
 glTFMaterialPBR.prototype = Object.create(WrapperObject.prototype);
 glTFMaterialPBR.prototype.constructor = glTFMaterialPBR;
 glTFMaterialPBR.prototype.__class__ = glTFMaterialPBR;
 glTFMaterialPBR.__cache__ = {};
+glTFMaterialPBR.__type__ = _glTFMaterialPBR__type();
 Module['glTFMaterialPBR'] = glTFMaterialPBR;
 Object.defineProperty(glTFMaterialPBR.prototype, "base_color_factor", {
     get: function() {
@@ -820,11 +846,13 @@ glTFMaterialPBR.prototype["__destroy__"] = glTFMaterialPBR.prototype.__destroy__
 // glTFMesh
 function glTFMesh() {
     this.ptr = _glTFMesh_glTFMesh_0(); getCache(glTFMesh)[this.ptr] = this;
+    this.type = glTFMesh;
 };
 glTFMesh.prototype = Object.create(WrapperObject.prototype);
 glTFMesh.prototype.constructor = glTFMesh;
 glTFMesh.prototype.__class__ = glTFMesh;
 glTFMesh.__cache__ = {};
+glTFMesh.__type__ = _glTFMesh__type();
 Module['glTFMesh'] = glTFMesh;
 Object.defineProperty(glTFMesh.prototype, "name", {
     get: function() {
@@ -846,11 +874,13 @@ glTFMesh.prototype["__destroy__"] = glTFMesh.prototype.__destroy__ = function() 
 // glTFMorphTarget
 function glTFMorphTarget() {
     this.ptr = _glTFMorphTarget_glTFMorphTarget_0(); getCache(glTFMorphTarget)[this.ptr] = this;
+    this.type = glTFMorphTarget;
 };
 glTFMorphTarget.prototype = Object.create(WrapperObject.prototype);
 glTFMorphTarget.prototype.constructor = glTFMorphTarget;
 glTFMorphTarget.prototype.__class__ = glTFMorphTarget;
 glTFMorphTarget.__cache__ = {};
+glTFMorphTarget.__type__ = _glTFMorphTarget__type();
 Module['glTFMorphTarget'] = glTFMorphTarget;
 Object.defineProperty(glTFMorphTarget.prototype, "POSITION", {
     get: function() {
@@ -892,11 +922,13 @@ glTFMorphTarget.prototype["__destroy__"] = glTFMorphTarget.prototype.__destroy__
 // glTFNode
 function glTFNode() {
     this.ptr = _glTFNode_glTFNode_0(); getCache(glTFNode)[this.ptr] = this;
+    this.type = glTFNode;
 };
 glTFNode.prototype = Object.create(WrapperObject.prototype);
 glTFNode.prototype.constructor = glTFNode;
 glTFNode.prototype.__class__ = glTFNode;
 glTFNode.__cache__ = {};
+glTFNode.__type__ = _glTFNode__type();
 Module['glTFNode'] = glTFNode;
 Object.defineProperty(glTFNode.prototype, "name", {
     get: function() {
@@ -999,11 +1031,13 @@ glTFNode.prototype["__destroy__"] = glTFNode.prototype.__destroy__ = function() 
 // glTFNodeExtras
 function glTFNodeExtras() {
     this.ptr = _glTFNodeExtras_glTFNodeExtras_0(); getCache(glTFNodeExtras)[this.ptr] = this;
+    this.type = glTFNodeExtras;
 };
 glTFNodeExtras.prototype = Object.create(WrapperObject.prototype);
 glTFNodeExtras.prototype.constructor = glTFNodeExtras;
 glTFNodeExtras.prototype.__class__ = glTFNodeExtras;
 glTFNodeExtras.__cache__ = {};
+glTFNodeExtras.__type__ = _glTFNodeExtras__type();
 Module['glTFNodeExtras'] = glTFNodeExtras;
 glTFNodeExtras.prototype["__destroy__"] = glTFNodeExtras.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1012,11 +1046,13 @@ glTFNodeExtras.prototype["__destroy__"] = glTFNodeExtras.prototype.__destroy__ =
 // glTFOrthographic
 function glTFOrthographic() {
     this.ptr = _glTFOrthographic_glTFOrthographic_0(); getCache(glTFOrthographic)[this.ptr] = this;
+    this.type = glTFOrthographic;
 };
 glTFOrthographic.prototype = Object.create(WrapperObject.prototype);
 glTFOrthographic.prototype.constructor = glTFOrthographic;
 glTFOrthographic.prototype.__class__ = glTFOrthographic;
 glTFOrthographic.__cache__ = {};
+glTFOrthographic.__type__ = _glTFOrthographic__type();
 Module['glTFOrthographic'] = glTFOrthographic;
 Object.defineProperty(glTFOrthographic.prototype, "xmag", {
     get: function() {
@@ -1069,11 +1105,13 @@ glTFOrthographic.prototype["__destroy__"] = glTFOrthographic.prototype.__destroy
 // glTFPerspective
 function glTFPerspective() {
     this.ptr = _glTFPerspective_glTFPerspective_0(); getCache(glTFPerspective)[this.ptr] = this;
+    this.type = glTFPerspective;
 };
 glTFPerspective.prototype = Object.create(WrapperObject.prototype);
 glTFPerspective.prototype.constructor = glTFPerspective;
 glTFPerspective.prototype.__class__ = glTFPerspective;
 glTFPerspective.__cache__ = {};
+glTFPerspective.__type__ = _glTFPerspective__type();
 Module['glTFPerspective'] = glTFPerspective;
 Object.defineProperty(glTFPerspective.prototype, "yfov", {
     get: function() {
@@ -1126,11 +1164,13 @@ glTFPerspective.prototype["__destroy__"] = glTFPerspective.prototype.__destroy__
 // glTFPrimitive
 function glTFPrimitive() {
     this.ptr = _glTFPrimitive_glTFPrimitive_0(); getCache(glTFPrimitive)[this.ptr] = this;
+    this.type = glTFPrimitive;
 };
 glTFPrimitive.prototype = Object.create(WrapperObject.prototype);
 glTFPrimitive.prototype.constructor = glTFPrimitive;
 glTFPrimitive.prototype.__class__ = glTFPrimitive;
 glTFPrimitive.__cache__ = {};
+glTFPrimitive.__type__ = _glTFPrimitive__type();
 Module['glTFPrimitive'] = glTFPrimitive;
 Object.defineProperty(glTFPrimitive.prototype, "attributes", {
     get: function() {
@@ -1185,11 +1225,13 @@ glTFPrimitive.prototype["__destroy__"] = glTFPrimitive.prototype.__destroy__ = f
 // glTFSampler
 function glTFSampler() {
     this.ptr = _glTFSampler_glTFSampler_0(); getCache(glTFSampler)[this.ptr] = this;
+    this.type = glTFSampler;
 };
 glTFSampler.prototype = Object.create(WrapperObject.prototype);
 glTFSampler.prototype.constructor = glTFSampler;
 glTFSampler.prototype.__class__ = glTFSampler;
 glTFSampler.__cache__ = {};
+glTFSampler.__type__ = _glTFSampler__type();
 Module['glTFSampler'] = glTFSampler;
 Object.defineProperty(glTFSampler.prototype, "mag_filter", {
     get: function() {
@@ -1255,11 +1297,13 @@ glTFSampler.prototype["__destroy__"] = glTFSampler.prototype.__destroy__ = funct
 // glTFScene
 function glTFScene() {
     this.ptr = _glTFScene_glTFScene_0(); getCache(glTFScene)[this.ptr] = this;
+    this.type = glTFScene;
 };
 glTFScene.prototype = Object.create(WrapperObject.prototype);
 glTFScene.prototype.constructor = glTFScene;
 glTFScene.prototype.__class__ = glTFScene;
 glTFScene.__cache__ = {};
+glTFScene.__type__ = _glTFScene__type();
 Module['glTFScene'] = glTFScene;
 Object.defineProperty(glTFScene.prototype, "name", {
     get: function() {
@@ -1281,11 +1325,13 @@ glTFScene.prototype["__destroy__"] = glTFScene.prototype.__destroy__ = function(
 // glTFSkin
 function glTFSkin() {
     this.ptr = _glTFSkin_glTFSkin_0(); getCache(glTFSkin)[this.ptr] = this;
+    this.type = glTFSkin;
 };
 glTFSkin.prototype = Object.create(WrapperObject.prototype);
 glTFSkin.prototype.constructor = glTFSkin;
 glTFSkin.prototype.__class__ = glTFSkin;
 glTFSkin.__cache__ = {};
+glTFSkin.__type__ = _glTFSkin__type();
 Module['glTFSkin'] = glTFSkin;
 Object.defineProperty(glTFSkin.prototype, "name", {
     get: function() {
@@ -1329,11 +1375,13 @@ glTFSkin.prototype["__destroy__"] = glTFSkin.prototype.__destroy__ = function() 
 // glTFSparse
 function glTFSparse() {
     this.ptr = _glTFSparse_glTFSparse_0(); getCache(glTFSparse)[this.ptr] = this;
+    this.type = glTFSparse;
 };
 glTFSparse.prototype = Object.create(WrapperObject.prototype);
 glTFSparse.prototype.constructor = glTFSparse;
 glTFSparse.prototype.__class__ = glTFSparse;
 glTFSparse.__cache__ = {};
+glTFSparse.__type__ = _glTFSparse__type();
 Module['glTFSparse'] = glTFSparse;
 Object.defineProperty(glTFSparse.prototype, "count", {
     get: function() {
@@ -1377,11 +1425,13 @@ glTFSparse.prototype["__destroy__"] = glTFSparse.prototype.__destroy__ = functio
 // glTFSparseIndices
 function glTFSparseIndices() {
     this.ptr = _glTFSparseIndices_glTFSparseIndices_0(); getCache(glTFSparseIndices)[this.ptr] = this;
+    this.type = glTFSparseIndices;
 };
 glTFSparseIndices.prototype = Object.create(WrapperObject.prototype);
 glTFSparseIndices.prototype.constructor = glTFSparseIndices;
 glTFSparseIndices.prototype.__class__ = glTFSparseIndices;
 glTFSparseIndices.__cache__ = {};
+glTFSparseIndices.__type__ = _glTFSparseIndices__type();
 Module['glTFSparseIndices'] = glTFSparseIndices;
 Object.defineProperty(glTFSparseIndices.prototype, "buffer_view", {
     get: function() {
@@ -1424,11 +1474,13 @@ glTFSparseIndices.prototype["__destroy__"] = glTFSparseIndices.prototype.__destr
 // glTFSparseValues
 function glTFSparseValues() {
     this.ptr = _glTFSparseValues_glTFSparseValues_0(); getCache(glTFSparseValues)[this.ptr] = this;
+    this.type = glTFSparseValues;
 };
 glTFSparseValues.prototype = Object.create(WrapperObject.prototype);
 glTFSparseValues.prototype.constructor = glTFSparseValues;
 glTFSparseValues.prototype.__class__ = glTFSparseValues;
 glTFSparseValues.__cache__ = {};
+glTFSparseValues.__type__ = _glTFSparseValues__type();
 Module['glTFSparseValues'] = glTFSparseValues;
 Object.defineProperty(glTFSparseValues.prototype, "buffer_view", {
     get: function() {
@@ -1459,11 +1511,13 @@ glTFSparseValues.prototype["__destroy__"] = glTFSparseValues.prototype.__destroy
 // glTFTexture
 function glTFTexture() {
     this.ptr = _glTFTexture_glTFTexture_0(); getCache(glTFTexture)[this.ptr] = this;
+    this.type = glTFTexture;
 };
 glTFTexture.prototype = Object.create(WrapperObject.prototype);
 glTFTexture.prototype.constructor = glTFTexture;
 glTFTexture.prototype.__class__ = glTFTexture;
 glTFTexture.__cache__ = {};
+glTFTexture.__type__ = _glTFTexture__type();
 Module['glTFTexture'] = glTFTexture;
 Object.defineProperty(glTFTexture.prototype, "name", {
     get: function() {
@@ -1507,11 +1561,13 @@ glTFTexture.prototype["__destroy__"] = glTFTexture.prototype.__destroy__ = funct
 // glTFTextureInfo
 function glTFTextureInfo() {
     this.ptr = _glTFTextureInfo_glTFTextureInfo_0(); getCache(glTFTextureInfo)[this.ptr] = this;
+    this.type = glTFTextureInfo;
 };
 glTFTextureInfo.prototype = Object.create(WrapperObject.prototype);
 glTFTextureInfo.prototype.constructor = glTFTextureInfo;
 glTFTextureInfo.prototype.__class__ = glTFTextureInfo;
 glTFTextureInfo.__cache__ = {};
+glTFTextureInfo.__type__ = _glTFTextureInfo__type();
 Module['glTFTextureInfo'] = glTFTextureInfo;
 Object.defineProperty(glTFTextureInfo.prototype, "index", {
     get: function() {

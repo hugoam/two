@@ -21,6 +21,9 @@
 extern "C" {
 	
 	// ScriptEditor
+	mud::Type* DECL mud_ScriptEditor__type() {
+		return mud::type<mud::ScriptEditor>();
+	}
 	void DECL mud_ScriptEditor__destroy(mud::ScriptEditor* self) {
 		delete self;
 	}
@@ -30,8 +33,29 @@ extern "C" {
 	bool DECL mud_entity_edit_3(mud::Widget* parent, mud::Entity* entity, mud::EditorHint hint) {
 		return mud::entity_edit(*parent, *entity, hint);
 	}
-	bool DECL mud_inspector_2(mud::Widget* parent, mud::Entity* entity) {
-		return mud::inspector(*parent, *entity);
+	bool DECL mud_inspector_2(mud::Widget* parent, void* object, mud::Type* object_type) {
+		return mud::inspector(*parent, { object, *object_type });
+	}
+	bool DECL mud_object_edit_2(mud::Widget* parent, void* object, mud::Type* object_type) {
+		return mud::object_edit(*parent, { object, *object_type });
+	}
+	bool DECL mud_object_edit_3(mud::Widget* parent, void* object, mud::Type* object_type, mud::EditorHint hint) {
+		return mud::object_edit(*parent, { object, *object_type }, hint);
+	}
+	bool DECL mud_object_edit_columns_2(mud::Widget* parent, void* object, mud::Type* object_type) {
+		return mud::object_edit_columns(*parent, { object, *object_type });
+	}
+	bool DECL mud_object_edit_expandbox_2(mud::Widget* parent, void* object, mud::Type* object_type) {
+		return mud::object_edit_expandbox(*parent, { object, *object_type });
+	}
+	bool DECL mud_object_edit_inline_2(mud::Widget* parent, void* object, mud::Type* object_type) {
+		return mud::object_edit_inline(*parent, { object, *object_type });
+	}
+	bool DECL mud_object_edit_rows_2(mud::Widget* parent, void* object, mud::Type* object_type) {
+		return mud::object_edit_rows(*parent, { object, *object_type });
+	}
+	bool DECL mud_object_edit_table_2(mud::Widget* parent, void* object, mud::Type* object_type) {
+		return mud::object_edit_table(*parent, { object, *object_type });
 	}
 	// EditNestMode
 	mud::EditNestMode DECL mud_EditNestMode_Inline() {

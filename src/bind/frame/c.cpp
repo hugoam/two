@@ -13,6 +13,9 @@
 extern "C" {
 	
 	// Shell
+	mud::Type* DECL mud_Shell__type() {
+		return mud::type<mud::Shell>();
+	}
 	mud::Shell* DECL mud_Shell_Shell_1(const char* resource_path) {
 		return new mud::Shell(resource_path);
 	}
@@ -57,6 +60,9 @@ extern "C" {
 		delete self;
 	}
 	// ShellContext
+	mud::Type* DECL mud_ShellContext__type() {
+		return mud::type<mud::ShellContext>();
+	}
 	mud::ShellContext* DECL mud_ShellContext_ShellContext_0() {
 		return new mud::ShellContext();
 	}

@@ -5,6 +5,7 @@ Distribution.prototype = Object.create(WrapperObject.prototype);
 Distribution.prototype.constructor = Distribution;
 Distribution.prototype.__class__ = Distribution;
 Distribution.__cache__ = {};
+Distribution.__type__ = _mud_Distribution__type();
 Module['Distribution'] = Distribution;
 Distribution.prototype["__destroy__"] = Distribution.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -13,11 +14,13 @@ Distribution.prototype["__destroy__"] = Distribution.prototype.__destroy__ = fun
 // Face3
 function Face3() {
     this.ptr = _mud_Face3_Face3_0(); getCache(Face3)[this.ptr] = this;
+    this.type = Face3;
 };
 Face3.prototype = Object.create(WrapperObject.prototype);
 Face3.prototype.constructor = Face3;
 Face3.prototype.__class__ = Face3;
 Face3.__cache__ = {};
+Face3.__type__ = _mud_Face3__type();
 Module['Face3'] = Face3;
 Face3.prototype["__destroy__"] = Face3.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -26,11 +29,13 @@ Face3.prototype["__destroy__"] = Face3.prototype.__destroy__ = function() {
 // MeshPacker
 function MeshPacker() {
     this.ptr = _mud_MeshPacker_MeshPacker_0(); getCache(MeshPacker)[this.ptr] = this;
+    this.type = MeshPacker;
 };
 MeshPacker.prototype = Object.create(WrapperObject.prototype);
 MeshPacker.prototype.constructor = MeshPacker;
 MeshPacker.prototype.__class__ = MeshPacker;
 MeshPacker.__cache__ = {};
+MeshPacker.__type__ = _mud_MeshPacker__type();
 Module['MeshPacker'] = MeshPacker;
 MeshPacker.prototype["__destroy__"] = MeshPacker.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -39,11 +44,13 @@ MeshPacker.prototype["__destroy__"] = MeshPacker.prototype.__destroy__ = functio
 // Plane
 function Plane() {
     this.ptr = _mud_Plane_Plane_0(); getCache(Plane)[this.ptr] = this;
+    this.type = Plane;
 };
 Plane.prototype = Object.create(WrapperObject.prototype);
 Plane.prototype.constructor = Plane;
 Plane.prototype.__class__ = Plane;
 Plane.__cache__ = {};
+Plane.__type__ = _mud_Plane__type();
 Module['Plane'] = Plane;
 Object.defineProperty(Plane.prototype, "normal", {
     get: function() {
@@ -75,11 +82,13 @@ Plane.prototype["__destroy__"] = Plane.prototype.__destroy__ = function() {
 // Plane3
 function Plane3() {
     this.ptr = _mud_Plane3_Plane3_0(); getCache(Plane3)[this.ptr] = this;
+    this.type = Plane3;
 };
 Plane3.prototype = Object.create(WrapperObject.prototype);
 Plane3.prototype.constructor = Plane3;
 Plane3.prototype.__class__ = Plane3;
 Plane3.__cache__ = {};
+Plane3.__type__ = _mud_Plane3__type();
 Module['Plane3'] = Plane3;
 Object.defineProperty(Plane3.prototype, "origin", {
     get: function() {
@@ -124,11 +133,13 @@ Plane3.prototype["__destroy__"] = Plane3.prototype.__destroy__ = function() {
 // Ray
 function Ray() {
     this.ptr = _mud_Ray_Ray_0(); getCache(Ray)[this.ptr] = this;
+    this.type = Ray;
 };
 Ray.prototype = Object.create(WrapperObject.prototype);
 Ray.prototype.constructor = Ray;
 Ray.prototype.__class__ = Ray;
 Ray.__cache__ = {};
+Ray.__type__ = _mud_Ray__type();
 Module['Ray'] = Ray;
 Object.defineProperty(Ray.prototype, "start", {
     get: function() {
@@ -185,11 +196,13 @@ Ray.prototype["__destroy__"] = Ray.prototype.__destroy__ = function() {
 // Segment
 function Segment() {
     this.ptr = _mud_Segment_Segment_0(); getCache(Segment)[this.ptr] = this;
+    this.type = Segment;
 };
 Segment.prototype = Object.create(WrapperObject.prototype);
 Segment.prototype.constructor = Segment;
 Segment.prototype.__class__ = Segment;
 Segment.__cache__ = {};
+Segment.__type__ = _mud_Segment__type();
 Module['Segment'] = Segment;
 Object.defineProperty(Segment.prototype, "start", {
     get: function() {
@@ -225,6 +238,7 @@ Shape.prototype = Object.create(WrapperObject.prototype);
 Shape.prototype.constructor = Shape;
 Shape.prototype.__class__ = Shape;
 Shape.__cache__ = {};
+Shape.__type__ = _mud_Shape__type();
 Module['Shape'] = Shape;
 Object.defineProperty(Shape.prototype, "type", {
     get: function() {
@@ -241,11 +255,13 @@ function ShapeVar(shape) {
     shape = shape.ptr;
     if (shape === undefined) { this.ptr = _mud_ShapeVar_ShapeVar_0(); getCache(ShapeVar)[this.ptr] = this; return; }
     this.ptr = _mud_ShapeVar_ShapeVar_1(shape); getCache(ShapeVar)[this.ptr] = this;
+    this.type = ShapeVar;
 };
 ShapeVar.prototype = Object.create(WrapperObject.prototype);
 ShapeVar.prototype.constructor = ShapeVar;
 ShapeVar.prototype.__class__ = ShapeVar;
 ShapeVar.__cache__ = {};
+ShapeVar.__type__ = _mud_ShapeVar__type();
 Module['ShapeVar'] = ShapeVar;
 Object.defineProperty(ShapeVar.prototype, "shape", {
     get: function() {
@@ -272,11 +288,13 @@ function Symbol(fill, outline, overlay, double_sided, detail) {
     if (double_sided === undefined) { this.ptr = _mud_Symbol_Symbol_3(fill, outline, overlay); getCache(Symbol)[this.ptr] = this; return; }
     if (detail === undefined) { this.ptr = _mud_Symbol_Symbol_4(fill, outline, overlay, double_sided); getCache(Symbol)[this.ptr] = this; return; }
     this.ptr = _mud_Symbol_Symbol_5(fill, outline, overlay, double_sided, detail); getCache(Symbol)[this.ptr] = this;
+    this.type = Symbol;
 };
 Symbol.prototype = Object.create(WrapperObject.prototype);
 Symbol.prototype.constructor = Symbol;
 Symbol.prototype.__class__ = Symbol;
 Symbol.__cache__ = {};
+Symbol.__type__ = _mud_Symbol__type();
 Module['Symbol'] = Symbol;
 Object.defineProperty(Symbol.prototype, "outline", {
     get: function() {
@@ -385,11 +403,13 @@ function Arc(radius, start, end) {
     /* end <float> [] */
     if (radius === undefined) { this.ptr = _mud_Arc_Arc_0(); getCache(Arc)[this.ptr] = this; return; }
     this.ptr = _mud_Arc_Arc_3(radius, start, end); getCache(Arc)[this.ptr] = this;
+    this.type = Arc;
 };
 Arc.prototype = Object.create(WrapperObject.prototype);
 Arc.prototype.constructor = Arc;
 Arc.prototype.__class__ = Arc;
 Arc.__cache__ = {};
+Arc.__type__ = _mud_Arc__type();
 Module['Arc'] = Arc;
 Object.defineProperty(Arc.prototype, "radius", {
     get: function() {
@@ -441,11 +461,13 @@ function ArcLine(center, start, middle, end) {
     if (center === undefined) { this.ptr = _mud_ArcLine_ArcLine_0(); getCache(ArcLine)[this.ptr] = this; return; }
     if (end === undefined) { this.ptr = _mud_ArcLine_ArcLine_3(center, start, middle); getCache(ArcLine)[this.ptr] = this; return; }
     this.ptr = _mud_ArcLine_ArcLine_4(center, start, middle, end); getCache(ArcLine)[this.ptr] = this;
+    this.type = ArcLine;
 };
 ArcLine.prototype = Object.create(WrapperObject.prototype);
 ArcLine.prototype.constructor = ArcLine;
 ArcLine.prototype.__class__ = ArcLine;
 ArcLine.__cache__ = {};
+ArcLine.__type__ = _mud_ArcLine__type();
 Module['ArcLine'] = ArcLine;
 Object.defineProperty(ArcLine.prototype, "start", {
     get: function() {
@@ -496,11 +518,13 @@ function Capsule(radius, height, axis) {
     if (radius === undefined) { this.ptr = _mud_Capsule_Capsule_0(); getCache(Capsule)[this.ptr] = this; return; }
     if (axis === undefined) { this.ptr = _mud_Capsule_Capsule_2(radius, height); getCache(Capsule)[this.ptr] = this; return; }
     this.ptr = _mud_Capsule_Capsule_3(radius, height, axis); getCache(Capsule)[this.ptr] = this;
+    this.type = Capsule;
 };
 Capsule.prototype = Object.create(WrapperObject.prototype);
 Capsule.prototype.constructor = Capsule;
 Capsule.prototype.__class__ = Capsule;
 Capsule.__cache__ = {};
+Capsule.__type__ = _mud_Capsule__type();
 Module['Capsule'] = Capsule;
 Object.defineProperty(Capsule.prototype, "radius", {
     get: function() {
@@ -549,11 +573,13 @@ function Cube(center, extents) {
     if (center === undefined) { this.ptr = _mud_Cube_Cube_0(); getCache(Cube)[this.ptr] = this; return; }
     if (extents === undefined) { this.ptr = _mud_Cube_Cube_1(center); getCache(Cube)[this.ptr] = this; return; }
     this.ptr = _mud_Cube_Cube_2(center, extents); getCache(Cube)[this.ptr] = this;
+    this.type = Cube;
 };
 Cube.prototype = Object.create(WrapperObject.prototype);
 Cube.prototype.constructor = Cube;
 Cube.prototype.__class__ = Cube;
 Cube.__cache__ = {};
+Cube.__type__ = _mud_Cube__type();
 Module['Cube'] = Cube;
 Object.defineProperty(Cube.prototype, "extents", {
     get: function() {
@@ -579,11 +605,13 @@ function Aabb(center, extents) {
     extents = extents.ptr;
     if (center === undefined) { this.ptr = _mud_Aabb_Aabb_0(); getCache(Aabb)[this.ptr] = this; return; }
     this.ptr = _mud_Aabb_Aabb_2(center, extents); getCache(Aabb)[this.ptr] = this;
+    this.type = Aabb;
 };
 Aabb.prototype = Object.create(WrapperObject.prototype);
 Aabb.prototype.constructor = Aabb;
 Aabb.prototype.__class__ = Aabb;
 Aabb.__cache__ = {};
+Aabb.__type__ = _mud_Aabb__type();
 Module['Aabb'] = Aabb;
 Object.defineProperty(Aabb.prototype, "empty", {
     get: function() {
@@ -603,11 +631,13 @@ Aabb.prototype["__destroy__"] = Aabb.prototype.__destroy__ = function() {
 // Box
 function Box() {
     this.ptr = _mud_Box_Box_0(); getCache(Box)[this.ptr] = this;
+    this.type = Box;
 };
 Box.prototype = Object.create(WrapperObject.prototype);
 Box.prototype.constructor = Box;
 Box.prototype.__class__ = Box;
 Box.__cache__ = {};
+Box.__type__ = _mud_Box__type();
 Module['Box'] = Box;
 Box.prototype["__destroy__"] = Box.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -621,11 +651,13 @@ function Circle(radius, axis) {
     if (radius === undefined) { this.ptr = _mud_Circle_Circle_0(); getCache(Circle)[this.ptr] = this; return; }
     if (axis === undefined) { this.ptr = _mud_Circle_Circle_1(radius); getCache(Circle)[this.ptr] = this; return; }
     this.ptr = _mud_Circle_Circle_2(radius, axis); getCache(Circle)[this.ptr] = this;
+    this.type = Circle;
 };
 Circle.prototype = Object.create(WrapperObject.prototype);
 Circle.prototype.constructor = Circle;
 Circle.prototype.__class__ = Circle;
 Circle.__cache__ = {};
+Circle.__type__ = _mud_Circle__type();
 Module['Circle'] = Circle;
 Object.defineProperty(Circle.prototype, "radius", {
     get: function() {
@@ -660,11 +692,13 @@ function ConvexHull(vertices) {
     vertices = vertices.ptr;
     if (vertices === undefined) { this.ptr = _mud_ConvexHull_ConvexHull_0(); getCache(ConvexHull)[this.ptr] = this; return; }
     this.ptr = _mud_ConvexHull_ConvexHull_1(vertices); getCache(ConvexHull)[this.ptr] = this;
+    this.type = ConvexHull;
 };
 ConvexHull.prototype = Object.create(WrapperObject.prototype);
 ConvexHull.prototype.constructor = ConvexHull;
 ConvexHull.prototype.__class__ = ConvexHull;
 ConvexHull.__cache__ = {};
+ConvexHull.__type__ = _mud_ConvexHull__type();
 Module['ConvexHull'] = ConvexHull;
 ConvexHull.prototype["__destroy__"] = ConvexHull.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -679,11 +713,13 @@ function Cylinder(radius, height, axis) {
     if (radius === undefined) { this.ptr = _mud_Cylinder_Cylinder_0(); getCache(Cylinder)[this.ptr] = this; return; }
     if (axis === undefined) { this.ptr = _mud_Cylinder_Cylinder_2(radius, height); getCache(Cylinder)[this.ptr] = this; return; }
     this.ptr = _mud_Cylinder_Cylinder_3(radius, height, axis); getCache(Cylinder)[this.ptr] = this;
+    this.type = Cylinder;
 };
 Cylinder.prototype = Object.create(WrapperObject.prototype);
 Cylinder.prototype.constructor = Cylinder;
 Cylinder.prototype.__class__ = Cylinder;
 Cylinder.__cache__ = {};
+Cylinder.__type__ = _mud_Cylinder__type();
 Module['Cylinder'] = Cylinder;
 Object.defineProperty(Cylinder.prototype, "radius", {
     get: function() {
@@ -732,11 +768,13 @@ function Ellipsis(radius, axis) {
     if (radius === undefined) { this.ptr = _mud_Ellipsis_Ellipsis_0(); getCache(Ellipsis)[this.ptr] = this; return; }
     if (axis === undefined) { this.ptr = _mud_Ellipsis_Ellipsis_1(radius); getCache(Ellipsis)[this.ptr] = this; return; }
     this.ptr = _mud_Ellipsis_Ellipsis_2(radius, axis); getCache(Ellipsis)[this.ptr] = this;
+    this.type = Ellipsis;
 };
 Ellipsis.prototype = Object.create(WrapperObject.prototype);
 Ellipsis.prototype.constructor = Ellipsis;
 Ellipsis.prototype.__class__ = Ellipsis;
 Ellipsis.__cache__ = {};
+Ellipsis.__type__ = _mud_Ellipsis__type();
 Module['Ellipsis'] = Ellipsis;
 Object.defineProperty(Ellipsis.prototype, "radius", {
     get: function() {
@@ -769,11 +807,13 @@ Ellipsis.prototype["__destroy__"] = Ellipsis.prototype.__destroy__ = function() 
 // Geometry
 function Geometry() {
     this.ptr = _mud_Geometry_Geometry_0(); getCache(Geometry)[this.ptr] = this;
+    this.type = Geometry;
 };
 Geometry.prototype = Object.create(WrapperObject.prototype);
 Geometry.prototype.constructor = Geometry;
 Geometry.prototype.__class__ = Geometry;
 Geometry.__cache__ = {};
+Geometry.__type__ = _mud_Geometry__type();
 Module['Geometry'] = Geometry;
 Geometry.prototype["__destroy__"] = Geometry.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -788,11 +828,13 @@ function Grid2(size, space) {
     if (size === undefined) { this.ptr = _mud_Grid2_Grid2_0(); getCache(Grid2)[this.ptr] = this; return; }
     if (space === undefined) { this.ptr = _mud_Grid2_Grid2_1(size); getCache(Grid2)[this.ptr] = this; return; }
     this.ptr = _mud_Grid2_Grid2_2(size, space); getCache(Grid2)[this.ptr] = this;
+    this.type = Grid2;
 };
 Grid2.prototype = Object.create(WrapperObject.prototype);
 Grid2.prototype.constructor = Grid2;
 Grid2.prototype.__class__ = Grid2;
 Grid2.__cache__ = {};
+Grid2.__type__ = _mud_Grid2__type();
 Module['Grid2'] = Grid2;
 Object.defineProperty(Grid2.prototype, "size", {
     get: function() {
@@ -831,11 +873,13 @@ function Grid3(size, points) {
     if (size === undefined) { this.ptr = _mud_Grid3_Grid3_0(); getCache(Grid3)[this.ptr] = this; return; }
     if (points === undefined) { this.ptr = _mud_Grid3_Grid3_1(size); getCache(Grid3)[this.ptr] = this; return; }
     this.ptr = _mud_Grid3_Grid3_2(size, points); getCache(Grid3)[this.ptr] = this;
+    this.type = Grid3;
 };
 Grid3.prototype = Object.create(WrapperObject.prototype);
 Grid3.prototype.constructor = Grid3;
 Grid3.prototype.__class__ = Grid3;
 Grid3.__cache__ = {};
+Grid3.__type__ = _mud_Grid3__type();
 Module['Grid3'] = Grid3;
 Object.defineProperty(Grid3.prototype, "size", {
     get: function() {
@@ -861,11 +905,13 @@ function Line(start, end) {
     end = end.ptr;
     if (start === undefined) { this.ptr = _mud_Line_Line_0(); getCache(Line)[this.ptr] = this; return; }
     this.ptr = _mud_Line_Line_2(start, end); getCache(Line)[this.ptr] = this;
+    this.type = Line;
 };
 Line.prototype = Object.create(WrapperObject.prototype);
 Line.prototype.constructor = Line;
 Line.prototype.__class__ = Line;
 Line.__cache__ = {};
+Line.__type__ = _mud_Line__type();
 Module['Line'] = Line;
 Object.defineProperty(Line.prototype, "start", {
     get: function() {
@@ -901,11 +947,13 @@ function Points(points) {
     points = points.ptr;
     if (points === undefined) { this.ptr = _mud_Points_Points_0(); getCache(Points)[this.ptr] = this; return; }
     this.ptr = _mud_Points_Points_1(points); getCache(Points)[this.ptr] = this;
+    this.type = Points;
 };
 Points.prototype = Object.create(WrapperObject.prototype);
 Points.prototype.constructor = Points;
 Points.prototype.__class__ = Points;
 Points.__cache__ = {};
+Points.__type__ = _mud_Points__type();
 Module['Points'] = Points;
 Points.prototype["__destroy__"] = Points.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -917,11 +965,13 @@ function Poisson(size, maxRadius) {
     size = size.ptr;
     /* maxRadius <float> [] */
     this.ptr = _mud_Poisson_Poisson_2(size, maxRadius); getCache(Poisson)[this.ptr] = this;
+    this.type = Poisson;
 };
 Poisson.prototype = Object.create(WrapperObject.prototype);
 Poisson.prototype.constructor = Poisson;
 Poisson.prototype.__class__ = Poisson;
 Poisson.__cache__ = {};
+Poisson.__type__ = _mud_Poisson__type();
 Module['Poisson'] = Poisson;
 Poisson.prototype["addPoint"] = Poisson.prototype.addPoint = function(self, radius, point) {
     var self = this.ptr;
@@ -940,11 +990,13 @@ function Polygon(vertices) {
     vertices = vertices.ptr;
     if (vertices === undefined) { this.ptr = _mud_Polygon_Polygon_0(); getCache(Polygon)[this.ptr] = this; return; }
     this.ptr = _mud_Polygon_Polygon_1(vertices); getCache(Polygon)[this.ptr] = this;
+    this.type = Polygon;
 };
 Polygon.prototype = Object.create(WrapperObject.prototype);
 Polygon.prototype.constructor = Polygon;
 Polygon.prototype.__class__ = Polygon;
 Polygon.__cache__ = {};
+Polygon.__type__ = _mud_Polygon__type();
 Module['Polygon'] = Polygon;
 Polygon.prototype["__destroy__"] = Polygon.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -962,11 +1014,13 @@ function Quad(a, b, c, d) {
     d = d.ptr;
     if (a === undefined) { this.ptr = _mud_Quad_Quad_0(); getCache(Quad)[this.ptr] = this; return; }
     this.ptr = _mud_Quad_Quad_4(a, b, c, d); getCache(Quad)[this.ptr] = this;
+    this.type = Quad;
 };
 Quad.prototype = Object.create(WrapperObject.prototype);
 Quad.prototype.constructor = Quad;
 Quad.prototype.__class__ = Quad;
 Quad.__cache__ = {};
+Quad.__type__ = _mud_Quad__type();
 Module['Quad'] = Quad;
 Quad.prototype["__destroy__"] = Quad.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -980,11 +1034,13 @@ function Rect(position, size) {
     size = size.ptr;
     if (position === undefined) { this.ptr = _mud_Rect_Rect_0(); getCache(Rect)[this.ptr] = this; return; }
     this.ptr = _mud_Rect_Rect_2(position, size); getCache(Rect)[this.ptr] = this;
+    this.type = Rect;
 };
 Rect.prototype = Object.create(WrapperObject.prototype);
 Rect.prototype.constructor = Rect;
 Rect.prototype.__class__ = Rect;
 Rect.__cache__ = {};
+Rect.__type__ = _mud_Rect__type();
 Module['Rect'] = Rect;
 Object.defineProperty(Rect.prototype, "position", {
     get: function() {
@@ -1021,11 +1077,13 @@ function Ring(radius, min, max) {
     /* max <float> [] */
     if (radius === undefined) { this.ptr = _mud_Ring_Ring_0(); getCache(Ring)[this.ptr] = this; return; }
     this.ptr = _mud_Ring_Ring_3(radius, min, max); getCache(Ring)[this.ptr] = this;
+    this.type = Ring;
 };
 Ring.prototype = Object.create(WrapperObject.prototype);
 Ring.prototype.constructor = Ring;
 Ring.prototype.__class__ = Ring;
 Ring.__cache__ = {};
+Ring.__type__ = _mud_Ring__type();
 Module['Ring'] = Ring;
 Object.defineProperty(Ring.prototype, "radius", {
     get: function() {
@@ -1069,11 +1127,13 @@ function Sphere(radius) {
     /* radius <float> [] */
     if (radius === undefined) { this.ptr = _mud_Sphere_Sphere_0(); getCache(Sphere)[this.ptr] = this; return; }
     this.ptr = _mud_Sphere_Sphere_1(radius); getCache(Sphere)[this.ptr] = this;
+    this.type = Sphere;
 };
 Sphere.prototype = Object.create(WrapperObject.prototype);
 Sphere.prototype.constructor = Sphere;
 Sphere.prototype.__class__ = Sphere;
 Sphere.__cache__ = {};
+Sphere.__type__ = _mud_Sphere__type();
 Module['Sphere'] = Sphere;
 Object.defineProperty(Sphere.prototype, "radius", {
     get: function() {
@@ -1097,11 +1157,13 @@ function SphereRing(radius, min, max) {
     /* max <float> [] */
     if (radius === undefined) { this.ptr = _mud_SphereRing_SphereRing_0(); getCache(SphereRing)[this.ptr] = this; return; }
     this.ptr = _mud_SphereRing_SphereRing_3(radius, min, max); getCache(SphereRing)[this.ptr] = this;
+    this.type = SphereRing;
 };
 SphereRing.prototype = Object.create(WrapperObject.prototype);
 SphereRing.prototype.constructor = SphereRing;
 SphereRing.prototype.__class__ = SphereRing;
 SphereRing.__cache__ = {};
+SphereRing.__type__ = _mud_SphereRing__type();
 Module['SphereRing'] = SphereRing;
 Object.defineProperty(SphereRing.prototype, "radius", {
     get: function() {
@@ -1145,11 +1207,13 @@ function Spheroid(radius) {
     /* radius <float> [] */
     if (radius === undefined) { this.ptr = _mud_Spheroid_Spheroid_0(); getCache(Spheroid)[this.ptr] = this; return; }
     this.ptr = _mud_Spheroid_Spheroid_1(radius); getCache(Spheroid)[this.ptr] = this;
+    this.type = Spheroid;
 };
 Spheroid.prototype = Object.create(WrapperObject.prototype);
 Spheroid.prototype.constructor = Spheroid;
 Spheroid.prototype.__class__ = Spheroid;
 Spheroid.__cache__ = {};
+Spheroid.__type__ = _mud_Spheroid__type();
 Module['Spheroid'] = Spheroid;
 Object.defineProperty(Spheroid.prototype, "radius", {
     get: function() {
@@ -1175,11 +1239,13 @@ function Torus(radius, solid_radius, axis) {
     if (radius === undefined) { this.ptr = _mud_Torus_Torus_0(); getCache(Torus)[this.ptr] = this; return; }
     if (axis === undefined) { this.ptr = _mud_Torus_Torus_2(radius, solid_radius); getCache(Torus)[this.ptr] = this; return; }
     this.ptr = _mud_Torus_Torus_3(radius, solid_radius, axis); getCache(Torus)[this.ptr] = this;
+    this.type = Torus;
 };
 Torus.prototype = Object.create(WrapperObject.prototype);
 Torus.prototype.constructor = Torus;
 Torus.prototype.__class__ = Torus;
 Torus.__cache__ = {};
+Torus.__type__ = _mud_Torus__type();
 Module['Torus'] = Torus;
 Object.defineProperty(Torus.prototype, "radius", {
     get: function() {
@@ -1225,11 +1291,13 @@ function Triangle(size) {
     size = size.ptr;
     if (size === undefined) { this.ptr = _mud_Triangle_Triangle_0(); getCache(Triangle)[this.ptr] = this; return; }
     this.ptr = _mud_Triangle_Triangle_1(size); getCache(Triangle)[this.ptr] = this;
+    this.type = Triangle;
 };
 Triangle.prototype = Object.create(WrapperObject.prototype);
 Triangle.prototype.constructor = Triangle;
 Triangle.prototype.__class__ = Triangle;
 Triangle.__cache__ = {};
+Triangle.__type__ = _mud_Triangle__type();
 Module['Triangle'] = Triangle;
 Object.defineProperty(Triangle.prototype, "size", {
     get: function() {

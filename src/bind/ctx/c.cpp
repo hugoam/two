@@ -14,6 +14,9 @@
 extern "C" {
 	
 	// Context
+	mud::Type* DECL mud_Context__type() {
+		return mud::type<mud::Context>();
+	}
 	void DECL mud_Context_init_input_2(mud::Context* self, mud::Mouse* mouse, mud::Keyboard* keyboard) {
 		self->init_input(*mouse, *keyboard);
 	}
@@ -82,10 +85,16 @@ extern "C" {
 		delete self;
 	}
 	// ControlNode
+	mud::Type* DECL mud_ControlNode__type() {
+		return mud::type<mud::ControlNode>();
+	}
 	void DECL mud_ControlNode__destroy(mud::ControlNode* self) {
 		delete self;
 	}
 	// InputEvent
+	mud::Type* DECL mud_InputEvent__type() {
+		return mud::type<mud::InputEvent>();
+	}
 	mud::InputEvent* DECL mud_InputEvent_InputEvent_0() {
 		return new mud::InputEvent();
 	}
@@ -141,18 +150,30 @@ extern "C" {
 		delete self;
 	}
 	// Keyboard
+	mud::Type* DECL mud_Keyboard__type() {
+		return mud::type<mud::Keyboard>();
+	}
 	void DECL mud_Keyboard__destroy(mud::Keyboard* self) {
 		delete self;
 	}
 	// Mouse
+	mud::Type* DECL mud_Mouse__type() {
+		return mud::type<mud::Mouse>();
+	}
 	void DECL mud_Mouse__destroy(mud::Mouse* self) {
 		delete self;
 	}
 	// RenderSystem
+	mud::Type* DECL mud_RenderSystem__type() {
+		return mud::type<mud::RenderSystem>();
+	}
 	void DECL mud_RenderSystem__destroy(mud::RenderSystem* self) {
 		delete self;
 	}
 	// KeyEvent
+	mud::Type* DECL mud_KeyEvent__type() {
+		return mud::type<mud::KeyEvent>();
+	}
 	mud::KeyEvent* DECL mud_KeyEvent_KeyEvent_0() {
 		return new mud::KeyEvent();
 	}
@@ -172,6 +193,9 @@ extern "C" {
 		delete self;
 	}
 	// MouseEvent
+	mud::Type* DECL mud_MouseEvent__type() {
+		return mud::type<mud::MouseEvent>();
+	}
 	mud::MouseEvent* DECL mud_MouseEvent_MouseEvent_0() {
 		return new mud::MouseEvent();
 	}
