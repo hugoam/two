@@ -360,6 +360,7 @@ Stream.prototype["__destroy__"] = Stream.prototype.__destroy__ = function() {
 };
 // TextScript
 function TextScript(name, language, signature) {
+    ensureCache.prepare();
     /* name <const char*> [] */
     if (name && typeof name === "object") name = name.ptr;
     else name = ensureString(name);
@@ -417,6 +418,7 @@ TextScript.prototype["__destroy__"] = TextScript.prototype.__destroy__ = functio
 };
 // VisualScript
 function VisualScript(name, signature) {
+    ensureCache.prepare();
     /* name <const char*> [] */
     if (name && typeof name === "object") name = name.ptr;
     else name = ensureString(name);

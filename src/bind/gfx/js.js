@@ -45,6 +45,7 @@ Animated.prototype["seek"] = Animated.prototype.seek = function(self, time) {
 };
 Animated.prototype["start"] = Animated.prototype.start = function(self, animation, loop, blend, speed, transient) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* animation <const char*> [] */
     if (animation && typeof animation === "object") animation = animation.ptr;
     else animation = ensureString(animation);
@@ -1194,6 +1195,7 @@ GfxContext.prototype["__destroy__"] = GfxContext.prototype.__destroy__ = functio
 };
 // GfxSystem
 function GfxSystem(resource_path) {
+    ensureCache.prepare();
     /* resource_path <const char*> [] */
     if (resource_path && typeof resource_path === "object") resource_path = resource_path.ptr;
     else resource_path = ensureString(resource_path);
@@ -1206,6 +1208,7 @@ GfxSystem.__cache__ = {};
 Module['GfxSystem'] = GfxSystem;
 GfxSystem.prototype["add_resource_path"] = GfxSystem.prototype.add_resource_path = function(self, path, relative) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* path <const char*> [] */
     if (path && typeof path === "object") path = path.ptr;
     else path = ensureString(path);
@@ -1229,6 +1232,7 @@ GfxSystem.prototype["fetch_image256_material"] = GfxSystem.prototype.fetch_image
 };
 GfxSystem.prototype["fetch_material"] = GfxSystem.prototype.fetch_material = function(self, name, shader, builtin) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* name <const char*> [] */
     if (name && typeof name === "object") name = name.ptr;
     else name = ensureString(name);

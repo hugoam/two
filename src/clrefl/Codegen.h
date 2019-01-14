@@ -1203,7 +1203,7 @@ namespace clgen
 		{
 			bool prepare = false;
 			for(const CLParam& p : f.m_params)
-				if(p.m_type.isstring() || p.m_type.isarray())
+				if(p.m_type.iscstring() || p.m_type.isstring() || p.m_type.isarray())
 					prepare = true;
 			if(prepare)
 				jsw("ensureCache.prepare();");

@@ -227,6 +227,7 @@ ImageSkin.prototype["__destroy__"] = ImageSkin.prototype.__destroy__ = function(
 };
 // InkStyle
 function InkStyle(name) {
+    ensureCache.prepare();
     /* name <const char*> [] */
     if (name && typeof name === "object") name = name.ptr;
     else name = ensureString(name);
@@ -540,6 +541,7 @@ Layer.prototype["__destroy__"] = Layer.prototype.__destroy__ = function() {
 };
 // Layout
 function Layout(name) {
+    ensureCache.prepare();
     /* name <const char*> [] */
     if (name && typeof name === "object") name = name.ptr;
     else name = ensureString(name);
@@ -1625,6 +1627,7 @@ Module['ui']['board'] = function(parent) {
 };
 Module['ui']['button'] = function(parent, content) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* content <const char*> [] */
@@ -1658,6 +1661,7 @@ Module['ui']['color_display'] = function(parent, value) {
 };
 Module['ui']['color_display_field'] = function(parent, name, value, reverse) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
@@ -1697,6 +1701,7 @@ Module['ui']['color_edit_simple'] = function(parent, value) {
 };
 Module['ui']['color_field'] = function(parent, name, value, reverse) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
@@ -1746,6 +1751,7 @@ Module['ui']['decal'] = function(parent) {
 };
 Module['ui']['dir_item'] = function(parent, name) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
@@ -1755,6 +1761,7 @@ Module['ui']['dir_item'] = function(parent, name) {
 };
 Module['ui']['dir_node'] = function(parent, path, name, collapsed) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* path <const char*> [] */
@@ -1809,6 +1816,7 @@ Module['ui']['drag_float'] = function(parent, value, step) {
 };
 Module['ui']['dropdown'] = function(parent, style, value, flags, list_style) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* style <Style> [] */
@@ -1833,6 +1841,7 @@ Module['ui']['dummy'] = function(parent, size) {
 };
 Module['ui']['expandbox'] = function(parent, name, open) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
@@ -1844,6 +1853,7 @@ Module['ui']['expandbox'] = function(parent, name, open) {
 };
 Module['ui']['file_item'] = function(parent, name) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
@@ -1853,6 +1863,7 @@ Module['ui']['file_item'] = function(parent, name) {
 };
 Module['ui']['file_node'] = function(parent, name) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
@@ -1862,6 +1873,7 @@ Module['ui']['file_node'] = function(parent, name) {
 };
 Module['ui']['file_tree'] = function(parent, path) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* path <const char*> [] */
@@ -1881,6 +1893,7 @@ Module['ui']['fill_bar'] = function(parent, percentage, dim) {
 };
 Module['ui']['flag_field'] = function(parent, name, value, shift, reverse) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
@@ -1908,6 +1921,7 @@ Module['ui']['hoverbox'] = function(parent, delay) {
 };
 Module['ui']['icon'] = function(parent, icon) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* icon <const char*> [] */
@@ -1917,6 +1931,7 @@ Module['ui']['icon'] = function(parent, icon) {
 };
 Module['ui']['image256'] = function(parent, name, source, size) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
@@ -1931,6 +1946,7 @@ Module['ui']['image256'] = function(parent, name, source, size) {
 };
 Module['ui']['item'] = function(parent, style, content) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* style <Style> [] */
@@ -1943,6 +1959,7 @@ Module['ui']['item'] = function(parent, style, content) {
 };
 Module['ui']['label'] = function(parent, label) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* label <const char*> [] */
@@ -1958,6 +1975,7 @@ Module['ui']['layout'] = function(parent) {
 };
 Module['ui']['menu'] = function(parent, label, submenu) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* label <const char*> [] */
@@ -1969,6 +1987,7 @@ Module['ui']['menu'] = function(parent, label, submenu) {
 };
 Module['ui']['menu_choice'] = function(parent, content) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* content <const char*> [] */
@@ -1984,6 +2003,7 @@ Module['ui']['menubar'] = function(parent) {
 };
 Module['ui']['message'] = function(parent, label) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* label <const char*> [] */
@@ -2002,6 +2022,7 @@ Module['ui']['modal'] = function(parent, size) {
 };
 Module['ui']['modal_button'] = function(screen, parent, content, mode) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* screen <Widget> [] */
     screen = screen.ptr;
     /* parent <Widget> [] */
@@ -2024,6 +2045,7 @@ Module['ui']['node_cable'] = function(canvas, plug_out, plug_in) {
 };
 Module['ui']['node_input'] = function(node, name, icon, colour, active, connected) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* node <Node> [] */
     node = node.ptr;
     /* name <const char*> [] */
@@ -2044,6 +2066,7 @@ Module['ui']['node_input'] = function(node, name, icon, colour, active, connecte
 };
 Module['ui']['node_output'] = function(node, name, icon, colour, active, connected) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* node <Node> [] */
     node = node.ptr;
     /* name <const char*> [] */
@@ -2097,6 +2120,7 @@ Module['ui']['quat_edit'] = function(parent, quat) {
 };
 Module['ui']['radio_choice'] = function(parent, value, active) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* value <const char*> [] */
@@ -2180,6 +2204,7 @@ Module['ui']['stack'] = function(parent) {
 };
 Module['ui']['tab'] = function(tabber, name) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* tabber <Tabber> [] */
     tabber = tabber.ptr;
     /* name <const char*> [] */
@@ -2207,6 +2232,7 @@ Module['ui']['table_separator'] = function(parent) {
 };
 Module['ui']['text'] = function(parent, label) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* label <const char*> [] */
@@ -2216,6 +2242,7 @@ Module['ui']['text'] = function(parent, label) {
 };
 Module['ui']['title'] = function(parent, label) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* label <const char*> [] */
@@ -2225,6 +2252,7 @@ Module['ui']['title'] = function(parent, label) {
 };
 Module['ui']['title_header'] = function(parent, title) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* title <const char*> [] */
@@ -2234,6 +2262,7 @@ Module['ui']['title_header'] = function(parent, title) {
 };
 Module['ui']['toggle'] = function(parent, on, content) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* on <bool> [] */
@@ -2253,6 +2282,7 @@ Module['ui']['toolbar'] = function(parent, wrap) {
 };
 Module['ui']['toolbutton'] = function(parent, icon) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* icon <const char*> [] */
@@ -2268,6 +2298,7 @@ Module['ui']['tooldock'] = function(parent) {
 };
 Module['ui']['tooltip'] = function(parent, position, content) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* position <vec2> [] */
@@ -2285,6 +2316,7 @@ Module['ui']['tree'] = function(parent) {
 };
 Module['ui']['tree_node'] = function(parent, name, leaf, open) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
@@ -2330,6 +2362,7 @@ Module['ui']['widget'] = function(parent, style, open, length, index) {
 };
 Module['ui']['window'] = function(parent, title, state) {
     var self = this.ptr;
+    ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* title <const char*> [] */

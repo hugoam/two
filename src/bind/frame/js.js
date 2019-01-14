@@ -3,6 +3,7 @@ Module['gfx'] = Module['gfx'] || {};
 Module['ui'] = Module['ui'] || {};
 // Shell
 function Shell(resource_path, exec_path) {
+    ensureCache.prepare();
     /* resource_path <const char*> [] */
     if (resource_path && typeof resource_path === "object") resource_path = resource_path.ptr;
     else resource_path = ensureString(resource_path);
