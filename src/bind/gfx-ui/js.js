@@ -220,7 +220,7 @@ Module['ui']['scene_viewer'] = function(parent, size) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* size <vec2> [] */
-    size = size.ptr;
+    if(typeof size !== "undefined" && size !== null) { size = size.ptr; }
     if (size === undefined) { return wrapPointer(_mud_ui_scene_viewer_1(parent), SceneViewer); }
     return wrapPointer(_mud_ui_scene_viewer_2(parent, size), SceneViewer);
 };

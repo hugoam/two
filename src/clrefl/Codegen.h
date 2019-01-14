@@ -1215,10 +1215,9 @@ namespace clgen
 			return "[CHECK FAILED] " + c.m_name + "::" + f.m_name + "(arg" + to_string(p.m_index) + ":" + p.m_name + "): ";
 		};
 
-		auto js_call_check_arg = [&](const CLQualType& t, const string& a)
+		auto js_call_check_arg = [&](const CLQualType& t, const string& a, bool optional)
 		{
 			string msg = "";// js_check_msg(c, f, p);
-			bool optional = false;
 			if(optional) jsw("if(typeof " + a + " !== \"undefined\" && " + a + " !== null) {");
 
 			if(t.isinteger())
@@ -1268,7 +1267,7 @@ namespace clgen
 			jsw("/* " + a + " <" + t.m_type->m_name + "> [" + inner + "] */");
 
 			if(bool checks = false)
-				js_call_check_arg(t, a);
+				js_call_check_arg(t, a, optional);
 
 			if(t.iscstring() || t.isstring())
 			{	
@@ -1277,7 +1276,7 @@ namespace clgen
 			else if(t.isclass())
 			{
 				if(optional)
-					jsw("if(typeof " + a + " !== \"undefined\" && " + a + " !== null) {{ " + a + " = " + a + ".ptr }};");
+					jsw("if(typeof " + a + " !== \"undefined\" && " + a + " !== null) { " + a + " = " + a + ".ptr; }");
 				else
 					jsw(a + " = " + a + ".ptr;"); // No checks in fast mode when the arg is required
 			}
@@ -1290,7 +1289,7 @@ namespace clgen
 		auto js_call_convert_args = [&](const CLCallable& f)
 		{
 			for(const CLParam& p : f.m_params)
-				js_call_convert_arg(p.m_type, p.m_name, p.m_index > f.m_min_args);
+				js_call_convert_arg(p.m_type, p.m_name, p.m_index >= f.m_min_args);
 		};
 
 		// We need to avoid some closure errors on the constructors we define here.

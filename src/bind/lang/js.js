@@ -367,7 +367,7 @@ function TextScript(name, language, signature) {
     /* language <Language> [] */
     if (language && typeof language === "object") language = language.ptr;
     /* signature <Signature> [] */
-    signature = signature.ptr;
+    if(typeof signature !== "undefined" && signature !== null) { signature = signature.ptr; }
     if (signature === undefined) { this.ptr = _mud_TextScript_TextScript_2(name, language); getCache(TextScript)[this.ptr] = this; return; }
     this.ptr = _mud_TextScript_TextScript_3(name, language, signature); getCache(TextScript)[this.ptr] = this;
 };
@@ -423,7 +423,7 @@ function VisualScript(name, signature) {
     if (name && typeof name === "object") name = name.ptr;
     else name = ensureString(name);
     /* signature <Signature> [] */
-    signature = signature.ptr;
+    if(typeof signature !== "undefined" && signature !== null) { signature = signature.ptr; }
     if (signature === undefined) { this.ptr = _mud_VisualScript_VisualScript_1(name); getCache(VisualScript)[this.ptr] = this; return; }
     this.ptr = _mud_VisualScript_VisualScript_2(name, signature); getCache(VisualScript)[this.ptr] = this;
 };

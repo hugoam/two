@@ -3132,7 +3132,7 @@ Module['gfx']['model'] = function(parent, name, flags, material, instances) {
     else name = ensureString(name);
     /* flags <uint32_t> [] */
     /* material <Material> [] */
-    if(typeof material !== "undefined" && material !== null) {{ material = material.ptr }};
+    if(typeof material !== "undefined" && material !== null) { material = material.ptr; }
     /* instances <size_t> [] */
     if (flags === undefined) { return wrapPointer(_mud_gfx_model_2(parent, name), Item); }
     if (material === undefined) { return wrapPointer(_mud_gfx_model_3(parent, name, flags), Item); }
@@ -3173,7 +3173,7 @@ Module['gfx']['shape'] = function(parent, shape, symbol, flags, material, instan
     symbol = symbol.ptr;
     /* flags <uint32_t> [] */
     /* material <Material> [] */
-    if(typeof material !== "undefined" && material !== null) {{ material = material.ptr }};
+    if(typeof material !== "undefined" && material !== null) { material = material.ptr; }
     /* instances <size_t> [] */
     if (flags === undefined) { return wrapPointer(_mud_gfx_shape_3(parent, shape, symbol), Item); }
     if (material === undefined) { return wrapPointer(_mud_gfx_shape_4(parent, shape, symbol, flags), Item); }
@@ -3190,7 +3190,7 @@ Module['gfx']['sprite'] = function(parent, image, size, flags, material, instanc
     size = size.ptr;
     /* flags <uint32_t> [] */
     /* material <Material> [] */
-    if(typeof material !== "undefined" && material !== null) {{ material = material.ptr }};
+    if(typeof material !== "undefined" && material !== null) { material = material.ptr; }
     /* instances <size_t> [] */
     if (flags === undefined) { return wrapPointer(_mud_gfx_sprite_3(parent, image, size), Item); }
     if (material === undefined) { return wrapPointer(_mud_gfx_sprite_4(parent, image, size, flags), Item); }

@@ -97,7 +97,7 @@ function Image256(width, height, palette) {
     /* width <uint16_t> [] */
     /* height <uint16_t> [] */
     /* palette <Palette> [] */
-    if(typeof palette !== "undefined" && palette !== null) {{ palette = palette.ptr }};
+    if(typeof palette !== "undefined" && palette !== null) { palette = palette.ptr; }
     if (width === undefined) { this.ptr = _mud_Image256_Image256_0(); getCache(Image256)[this.ptr] = this; return; }
     if (height === undefined) { this.ptr = _mud_Image256_Image256_1(width); getCache(Image256)[this.ptr] = this; return; }
     if (palette === undefined) { this.ptr = _mud_Image256_Image256_2(width, height); getCache(Image256)[this.ptr] = this; return; }
@@ -963,7 +963,7 @@ Module['look_at'] = function(eye, target, forward) {
     /* target <vec3> [] */
     target = target.ptr;
     /* forward <vec3> [] */
-    forward = forward.ptr;
+    if(typeof forward !== "undefined" && forward !== null) { forward = forward.ptr; }
     if (forward === undefined) { return wrapPointer(_mud_look_at_2(eye, target), quat); }
     return wrapPointer(_mud_look_at_3(eye, target, forward), quat);
 };
@@ -972,7 +972,7 @@ Module['look_dir'] = function(direction, forward) {
     /* direction <vec3> [] */
     direction = direction.ptr;
     /* forward <vec3> [] */
-    forward = forward.ptr;
+    if(typeof forward !== "undefined" && forward !== null) { forward = forward.ptr; }
     if (forward === undefined) { return wrapPointer(_mud_look_dir_1(direction), quat); }
     return wrapPointer(_mud_look_dir_2(direction, forward), quat);
 };

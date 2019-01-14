@@ -259,9 +259,9 @@ ShapeVar.prototype["__destroy__"] = ShapeVar.prototype.__destroy__ = function() 
 // Symbol
 function Symbol(fill, outline, overlay, double_sided, detail) {
     /* fill <Colour> [] */
-    fill = fill.ptr;
+    if(typeof fill !== "undefined" && fill !== null) { fill = fill.ptr; }
     /* outline <Colour> [] */
-    if(typeof outline !== "undefined" && outline !== null) {{ outline = outline.ptr }};
+    if(typeof outline !== "undefined" && outline !== null) { outline = outline.ptr; }
     /* overlay <bool> [] */
     /* double_sided <bool> [] */
     /* detail <SymbolDetail> [] */
@@ -784,7 +784,7 @@ function Grid2(size, space) {
     /* size <vec2> [] */
     size = size.ptr;
     /* space <vec2> [] */
-    space = space.ptr;
+    if(typeof space !== "undefined" && space !== null) { space = space.ptr; }
     if (size === undefined) { this.ptr = _mud_Grid2_Grid2_0(); getCache(Grid2)[this.ptr] = this; return; }
     if (space === undefined) { this.ptr = _mud_Grid2_Grid2_1(size); getCache(Grid2)[this.ptr] = this; return; }
     this.ptr = _mud_Grid2_Grid2_2(size, space); getCache(Grid2)[this.ptr] = this;
@@ -827,7 +827,7 @@ function Grid3(size, points) {
     /* size <uvec2> [] */
     size = size.ptr;
     /* points <std::vector<mud::vec3>> [] */
-    points = points.ptr;
+    if(typeof points !== "undefined" && points !== null) { points = points.ptr; }
     if (size === undefined) { this.ptr = _mud_Grid3_Grid3_0(); getCache(Grid3)[this.ptr] = this; return; }
     if (points === undefined) { this.ptr = _mud_Grid3_Grid3_1(size); getCache(Grid3)[this.ptr] = this; return; }
     this.ptr = _mud_Grid3_Grid3_2(size, points); getCache(Grid3)[this.ptr] = this;

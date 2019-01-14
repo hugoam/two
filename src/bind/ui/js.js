@@ -791,7 +791,7 @@ function Shadow(xpos, ypos, blur, spread, colour) {
     /* blur <float> [] */
     /* spread <float> [] */
     /* colour <Colour> [] */
-    colour = colour.ptr;
+    if(typeof colour !== "undefined" && colour !== null) { colour = colour.ptr; }
     if (colour === undefined) { this.ptr = _mud_Shadow_Shadow_4(xpos, ypos, blur, spread); getCache(Shadow)[this.ptr] = this; return; }
     this.ptr = _mud_Shadow_Shadow_5(xpos, ypos, blur, spread, colour); getCache(Shadow)[this.ptr] = this;
 };
@@ -1827,7 +1827,7 @@ Module['ui']['dropdown'] = function(parent, style, value, flags, list_style) {
     /* flags <PopupFlags> [] */
     if (flags && typeof flags === "object") flags = flags.ptr;
     /* list_style <Style> [] */
-    list_style = list_style.ptr;
+    if(typeof list_style !== "undefined" && list_style !== null) { list_style = list_style.ptr; }
     if (list_style === undefined) { return wrapPointer(_mud_ui_dropdown_4(parent, style, value, flags), Widget); }
     return wrapPointer(_mud_ui_dropdown_5(parent, style, value, flags, list_style), Widget);
 };
@@ -2055,7 +2055,7 @@ Module['ui']['node_input'] = function(node, name, icon, colour, active, connecte
     if (icon && typeof icon === "object") icon = icon.ptr;
     else icon = ensureString(icon);
     /* colour <Colour> [] */
-    if(typeof colour !== "undefined" && colour !== null) {{ colour = colour.ptr }};
+    if(typeof colour !== "undefined" && colour !== null) { colour = colour.ptr; }
     /* active <bool> [] */
     /* connected <bool> [] */
     if (icon === undefined) { return wrapPointer(_mud_ui_node_input_2(node, name), NodePlug); }
@@ -2076,7 +2076,7 @@ Module['ui']['node_output'] = function(node, name, icon, colour, active, connect
     if (icon && typeof icon === "object") icon = icon.ptr;
     else icon = ensureString(icon);
     /* colour <Colour> [] */
-    if(typeof colour !== "undefined" && colour !== null) {{ colour = colour.ptr }};
+    if(typeof colour !== "undefined" && colour !== null) { colour = colour.ptr; }
     /* active <bool> [] */
     /* connected <bool> [] */
     if (icon === undefined) { return wrapPointer(_mud_ui_node_output_2(node, name), NodePlug); }
@@ -2354,7 +2354,7 @@ Module['ui']['widget'] = function(parent, style, open, length, index) {
     /* length <Dim> [] */
     if (length && typeof length === "object") length = length.ptr;
     /* index <Dim2<size_t>> [] */
-    if(typeof index !== "undefined" && index !== null) {{ index = index.ptr }};
+    if(typeof index !== "undefined" && index !== null) { index = index.ptr; }
     if (open === undefined) { return wrapPointer(_mud_ui_widget_2(parent, style), Widget); }
     if (length === undefined) { return wrapPointer(_mud_ui_widget_3(parent, style, open), Widget); }
     if (index === undefined) { return wrapPointer(_mud_ui_widget_4(parent, style, open, length), Widget); }
