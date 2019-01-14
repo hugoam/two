@@ -13,7 +13,7 @@ extern "C" {
 	
 	// Index
 	mud::Type* DECL mud_Index__type() {
-		return mud::type<mud::Index>();
+		return &mud::type<mud::Index>();
 	}
 	mud::Indexer* DECL mud_Index_indexer_1(mud::Index* self, mud::Type* type) {
 		return &self->indexer(*type);
@@ -23,7 +23,7 @@ extern "C" {
 	}
 	// Indexer
 	mud::Type* DECL mud_Indexer__type() {
-		return mud::type<mud::Indexer>();
+		return &mud::type<mud::Indexer>();
 	}
 	mud::Type* DECL mud_Indexer__get_type(mud::Indexer* self) {
 		return &self->m_type;
@@ -33,14 +33,14 @@ extern "C" {
 	}
 	// Ref
 	mud::Type* DECL mud_Ref__type() {
-		return mud::type<mud::Ref>();
+		return &mud::type<mud::Ref>();
 	}
 	void DECL mud_Ref__destroy(mud::Ref* self) {
 		delete self;
 	}
 	// Type
 	mud::Type* DECL mud_Type__type() {
-		return mud::type<mud::Type>();
+		return &mud::type<mud::Type>();
 	}
 	mud::Id DECL mud_Type__get_id(mud::Type* self) {
 		return self->m_id;
@@ -71,7 +71,7 @@ extern "C" {
 	}
 	// Var
 	mud::Type* DECL mud_Var__type() {
-		return mud::type<mud::Var>();
+		return &mud::type<mud::Var>();
 	}
 	void DECL mud_Var__destroy(mud::Var* self) {
 		delete self;

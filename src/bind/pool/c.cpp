@@ -14,14 +14,14 @@ extern "C" {
 	
 	// HandlePool
 	mud::Type* DECL mud_HandlePool__type() {
-		return mud::type<mud::HandlePool>();
+		return &mud::type<mud::HandlePool>();
 	}
 	void DECL mud_HandlePool__destroy(mud::HandlePool* self) {
 		delete self;
 	}
 	// Pool
 	mud::Type* DECL mud_Pool__type() {
-		return mud::type<mud::Pool>();
+		return &mud::type<mud::Pool>();
 	}
 	void DECL mud_Pool__destroy(mud::Pool* self) {
 		delete self;

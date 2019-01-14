@@ -14,7 +14,7 @@ extern "C" {
 	
 	// Colour
 	mud::Type* DECL mud_Colour__type() {
-		return mud::type<mud::Colour>();
+		return &mud::type<mud::Colour>();
 	}
 	mud::Colour* DECL mud_Colour_Colour_0() {
 		return new mud::Colour();
@@ -60,7 +60,7 @@ extern "C" {
 	}
 	// Gauge
 	mud::Type* DECL mud_Gauge__type() {
-		return mud::type<mud::Gauge>();
+		return &mud::type<mud::Gauge>();
 	}
 	mud::Gauge* DECL mud_Gauge_Gauge_0() {
 		return new mud::Gauge();
@@ -73,7 +73,7 @@ extern "C" {
 	}
 	// Image
 	mud::Type* DECL mud_Image__type() {
-		return mud::type<mud::Image>();
+		return &mud::type<mud::Image>();
 	}
 	mud::Image* DECL mud_Image_Image_0() {
 		return new mud::Image();
@@ -83,7 +83,7 @@ extern "C" {
 	}
 	// Image256
 	mud::Type* DECL mud_Image256__type() {
-		return mud::type<mud::Image256>();
+		return &mud::type<mud::Image256>();
 	}
 	mud::Image256* DECL mud_Image256_Image256_0() {
 		return new mud::Image256();
@@ -121,14 +121,14 @@ extern "C" {
 	}
 	// ImageAtlas
 	mud::Type* DECL mud_ImageAtlas__type() {
-		return mud::type<mud::ImageAtlas>();
+		return &mud::type<mud::ImageAtlas>();
 	}
 	void DECL mud_ImageAtlas__destroy(mud::ImageAtlas* self) {
 		delete self;
 	}
 	// Palette
 	mud::Type* DECL mud_Palette__type() {
-		return mud::type<mud::Palette>();
+		return &mud::type<mud::Palette>();
 	}
 	mud::Palette* DECL mud_Palette_Palette_2(mud::Spectrum spectrum, size_t steps) {
 		return new mud::Palette(spectrum, steps);
@@ -138,7 +138,7 @@ extern "C" {
 	}
 	// Ratio
 	mud::Type* DECL mud_Ratio__type() {
-		return mud::type<mud::Ratio>();
+		return &mud::type<mud::Ratio>();
 	}
 	mud::Ratio* DECL mud_Ratio_Ratio_0() {
 		return new mud::Ratio();
@@ -151,7 +151,7 @@ extern "C" {
 	}
 	// Time
 	mud::Type* DECL mud_Time__type() {
-		return mud::type<mud::Time>();
+		return &mud::type<mud::Time>();
 	}
 	mud::Time* DECL mud_Time_Time_1(double value) {
 		return new mud::Time(value);
@@ -167,7 +167,7 @@ extern "C" {
 	}
 	// TimeSpan
 	mud::Type* DECL mud_TimeSpan__type() {
-		return mud::type<mud::TimeSpan>();
+		return &mud::type<mud::TimeSpan>();
 	}
 	mud::TimeSpan* DECL mud_TimeSpan_TimeSpan_2(mud::Time* s, mud::Time* e) {
 		return new mud::TimeSpan(*s, *e);
@@ -191,7 +191,7 @@ extern "C" {
 	}
 	// Transform
 	mud::Type* DECL mud_Transform__type() {
-		return mud::type<mud::Transform>();
+		return &mud::type<mud::Transform>();
 	}
 	mud::Transform* DECL mud_Transform_Transform_0() {
 		return new mud::Transform();
@@ -225,7 +225,7 @@ extern "C" {
 	}
 	// bvec3
 	mud::Type* DECL mud_bvec3__type() {
-		return mud::type<mud::bvec3>();
+		return &mud::type<mud::bvec3>();
 	}
 	mud::bvec3* DECL mud_bvec3_bvec3_0() {
 		return new mud::bvec3();
@@ -235,7 +235,7 @@ extern "C" {
 	}
 	// bvec4
 	mud::Type* DECL mud_bvec4__type() {
-		return mud::type<mud::bvec4>();
+		return &mud::type<mud::bvec4>();
 	}
 	mud::bvec4* DECL mud_bvec4_bvec4_0() {
 		return new mud::bvec4();
@@ -245,7 +245,7 @@ extern "C" {
 	}
 	// half2
 	mud::Type* DECL mud_half2__type() {
-		return mud::type<mud::half2>();
+		return &mud::type<mud::half2>();
 	}
 	mud::half2* DECL mud_half2_half2_0() {
 		return new mud::half2();
@@ -255,7 +255,7 @@ extern "C" {
 	}
 	// half3
 	mud::Type* DECL mud_half3__type() {
-		return mud::type<mud::half3>();
+		return &mud::type<mud::half3>();
 	}
 	mud::half3* DECL mud_half3_half3_0() {
 		return new mud::half3();
@@ -265,7 +265,7 @@ extern "C" {
 	}
 	// ivec2
 	mud::Type* DECL mud_ivec2__type() {
-		return mud::type<mud::ivec2>();
+		return &mud::type<mud::ivec2>();
 	}
 	mud::ivec2* DECL mud_ivec2_ivec2_0() {
 		return new mud::ivec2();
@@ -275,7 +275,7 @@ extern "C" {
 	}
 	// ivec3
 	mud::Type* DECL mud_ivec3__type() {
-		return mud::type<mud::ivec3>();
+		return &mud::type<mud::ivec3>();
 	}
 	mud::ivec3* DECL mud_ivec3_ivec3_0() {
 		return new mud::ivec3();
@@ -309,7 +309,7 @@ extern "C" {
 	}
 	// ivec4
 	mud::Type* DECL mud_ivec4__type() {
-		return mud::type<mud::ivec4>();
+		return &mud::type<mud::ivec4>();
 	}
 	mud::ivec4* DECL mud_ivec4_ivec4_0() {
 		return new mud::ivec4();
@@ -319,7 +319,7 @@ extern "C" {
 	}
 	// mat4
 	mud::Type* DECL mud_mat4__type() {
-		return mud::type<mud::mat4>();
+		return &mud::type<mud::mat4>();
 	}
 	mud::mat4* DECL mud_mat4_mat4_0() {
 		return new mud::mat4();
@@ -329,7 +329,7 @@ extern "C" {
 	}
 	// quat
 	mud::Type* DECL mud_quat__type() {
-		return mud::type<mud::quat>();
+		return &mud::type<mud::quat>();
 	}
 	mud::quat* DECL mud_quat_quat_0() {
 		return new mud::quat();
@@ -366,7 +366,7 @@ extern "C" {
 	}
 	// uvec2
 	mud::Type* DECL mud_uvec2__type() {
-		return mud::type<mud::uvec2>();
+		return &mud::type<mud::uvec2>();
 	}
 	mud::uvec2* DECL mud_uvec2_uvec2_0() {
 		return new mud::uvec2();
@@ -394,7 +394,7 @@ extern "C" {
 	}
 	// uvec3
 	mud::Type* DECL mud_uvec3__type() {
-		return mud::type<mud::uvec3>();
+		return &mud::type<mud::uvec3>();
 	}
 	mud::uvec3* DECL mud_uvec3_uvec3_0() {
 		return new mud::uvec3();
@@ -428,7 +428,7 @@ extern "C" {
 	}
 	// uvec4
 	mud::Type* DECL mud_uvec4__type() {
-		return mud::type<mud::uvec4>();
+		return &mud::type<mud::uvec4>();
 	}
 	mud::uvec4* DECL mud_uvec4_uvec4_0() {
 		return new mud::uvec4();
@@ -468,7 +468,7 @@ extern "C" {
 	}
 	// vec2
 	mud::Type* DECL mud_vec2__type() {
-		return mud::type<mud::vec2>();
+		return &mud::type<mud::vec2>();
 	}
 	mud::vec2* DECL mud_vec2_vec2_0() {
 		return new mud::vec2();
@@ -496,7 +496,7 @@ extern "C" {
 	}
 	// vec3
 	mud::Type* DECL mud_vec3__type() {
-		return mud::type<mud::vec3>();
+		return &mud::type<mud::vec3>();
 	}
 	mud::vec3* DECL mud_vec3_vec3_0() {
 		return new mud::vec3();
@@ -530,7 +530,7 @@ extern "C" {
 	}
 	// vec4
 	mud::Type* DECL mud_vec4__type() {
-		return mud::type<mud::vec4>();
+		return &mud::type<mud::vec4>();
 	}
 	mud::vec4* DECL mud_vec4_vec4_0() {
 		return new mud::vec4();
@@ -570,21 +570,21 @@ extern "C" {
 	}
 	// Sprite
 	mud::Type* DECL mud_Sprite__type() {
-		return mud::type<mud::Sprite>();
+		return &mud::type<mud::Sprite>();
 	}
 	void DECL mud_Sprite__destroy(mud::Sprite* self) {
 		delete self;
 	}
 	// SpriteAtlas
 	mud::Type* DECL mud_SpriteAtlas__type() {
-		return mud::type<mud::SpriteAtlas>();
+		return &mud::type<mud::SpriteAtlas>();
 	}
 	void DECL mud_SpriteAtlas__destroy(mud::SpriteAtlas* self) {
 		delete self;
 	}
 	// TextureAtlas
 	mud::Type* DECL mud_TextureAtlas__type() {
-		return mud::type<mud::TextureAtlas>();
+		return &mud::type<mud::TextureAtlas>();
 	}
 	void DECL mud_TextureAtlas__destroy(mud::TextureAtlas* self) {
 		delete self;

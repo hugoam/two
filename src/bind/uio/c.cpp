@@ -22,7 +22,7 @@ extern "C" {
 	
 	// ScriptEditor
 	mud::Type* DECL mud_ScriptEditor__type() {
-		return mud::type<mud::ScriptEditor>();
+		return &mud::type<mud::ScriptEditor>();
 	}
 	void DECL mud_ScriptEditor__destroy(mud::ScriptEditor* self) {
 		delete self;

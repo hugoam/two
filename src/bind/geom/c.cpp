@@ -14,14 +14,14 @@ extern "C" {
 	
 	// Distribution
 	mud::Type* DECL mud_Distribution__type() {
-		return mud::type<mud::Distribution>();
+		return &mud::type<mud::Distribution>();
 	}
 	void DECL mud_Distribution__destroy(mud::Distribution* self) {
 		delete self;
 	}
 	// Face3
 	mud::Type* DECL mud_Face3__type() {
-		return mud::type<mud::Face3>();
+		return &mud::type<mud::Face3>();
 	}
 	mud::Face3* DECL mud_Face3_Face3_0() {
 		return new mud::Face3();
@@ -31,7 +31,7 @@ extern "C" {
 	}
 	// MeshPacker
 	mud::Type* DECL mud_MeshPacker__type() {
-		return mud::type<mud::MeshPacker>();
+		return &mud::type<mud::MeshPacker>();
 	}
 	mud::MeshPacker* DECL mud_MeshPacker_MeshPacker_0() {
 		return new mud::MeshPacker();
@@ -41,7 +41,7 @@ extern "C" {
 	}
 	// Plane
 	mud::Type* DECL mud_Plane__type() {
-		return mud::type<mud::Plane>();
+		return &mud::type<mud::Plane>();
 	}
 	mud::Plane* DECL mud_Plane_Plane_0() {
 		return new mud::Plane();
@@ -64,7 +64,7 @@ extern "C" {
 	}
 	// Plane3
 	mud::Type* DECL mud_Plane3__type() {
-		return mud::type<mud::Plane3>();
+		return &mud::type<mud::Plane3>();
 	}
 	mud::Plane3* DECL mud_Plane3_Plane3_0() {
 		return new mud::Plane3();
@@ -95,7 +95,7 @@ extern "C" {
 	}
 	// Ray
 	mud::Type* DECL mud_Ray__type() {
-		return mud::type<mud::Ray>();
+		return &mud::type<mud::Ray>();
 	}
 	mud::Ray* DECL mud_Ray_Ray_0() {
 		return new mud::Ray();
@@ -133,7 +133,7 @@ extern "C" {
 	}
 	// Segment
 	mud::Type* DECL mud_Segment__type() {
-		return mud::type<mud::Segment>();
+		return &mud::type<mud::Segment>();
 	}
 	mud::Segment* DECL mud_Segment_Segment_0() {
 		return new mud::Segment();
@@ -157,7 +157,7 @@ extern "C" {
 	}
 	// Shape
 	mud::Type* DECL mud_Shape__type() {
-		return mud::type<mud::Shape>();
+		return &mud::type<mud::Shape>();
 	}
 	mud::Type* DECL mud_Shape__get_type(mud::Shape* self) {
 		return &self->m_type;
@@ -167,7 +167,7 @@ extern "C" {
 	}
 	// ShapeVar
 	mud::Type* DECL mud_ShapeVar__type() {
-		return mud::type<mud::ShapeVar>();
+		return &mud::type<mud::ShapeVar>();
 	}
 	mud::ShapeVar* DECL mud_ShapeVar_ShapeVar_0() {
 		return new mud::ShapeVar();
@@ -183,7 +183,7 @@ extern "C" {
 	}
 	// Symbol
 	mud::Type* DECL mud_Symbol__type() {
-		return mud::type<mud::Symbol>();
+		return &mud::type<mud::Symbol>();
 	}
 	mud::Symbol* DECL mud_Symbol_Symbol_0() {
 		return new mud::Symbol();
@@ -258,7 +258,7 @@ extern "C" {
 	}
 	// Arc
 	mud::Type* DECL mud_Arc__type() {
-		return mud::type<mud::Arc>();
+		return &mud::type<mud::Arc>();
 	}
 	mud::Arc* DECL mud_Arc_Arc_0() {
 		return new mud::Arc();
@@ -289,7 +289,7 @@ extern "C" {
 	}
 	// ArcLine
 	mud::Type* DECL mud_ArcLine__type() {
-		return mud::type<mud::ArcLine>();
+		return &mud::type<mud::ArcLine>();
 	}
 	mud::ArcLine* DECL mud_ArcLine_ArcLine_0() {
 		return new mud::ArcLine();
@@ -326,7 +326,7 @@ extern "C" {
 	}
 	// Capsule
 	mud::Type* DECL mud_Capsule__type() {
-		return mud::type<mud::Capsule>();
+		return &mud::type<mud::Capsule>();
 	}
 	mud::Capsule* DECL mud_Capsule_Capsule_0() {
 		return new mud::Capsule();
@@ -360,7 +360,7 @@ extern "C" {
 	}
 	// Cube
 	mud::Type* DECL mud_Cube__type() {
-		return mud::type<mud::Cube>();
+		return &mud::type<mud::Cube>();
 	}
 	mud::Cube* DECL mud_Cube_Cube_0() {
 		return new mud::Cube();
@@ -383,7 +383,7 @@ extern "C" {
 	}
 	// Aabb
 	mud::Type* DECL mud_Aabb__type() {
-		return mud::type<mud::Aabb>();
+		return &mud::type<mud::Aabb>();
 	}
 	mud::Aabb* DECL mud_Aabb_Aabb_0() {
 		return new mud::Aabb();
@@ -402,7 +402,7 @@ extern "C" {
 	}
 	// Box
 	mud::Type* DECL mud_Box__type() {
-		return mud::type<mud::Box>();
+		return &mud::type<mud::Box>();
 	}
 	mud::Box* DECL mud_Box_Box_0() {
 		return new mud::Box();
@@ -412,7 +412,7 @@ extern "C" {
 	}
 	// Circle
 	mud::Type* DECL mud_Circle__type() {
-		return mud::type<mud::Circle>();
+		return &mud::type<mud::Circle>();
 	}
 	mud::Circle* DECL mud_Circle_Circle_0() {
 		return new mud::Circle();
@@ -440,7 +440,7 @@ extern "C" {
 	}
 	// ConvexHull
 	mud::Type* DECL mud_ConvexHull__type() {
-		return mud::type<mud::ConvexHull>();
+		return &mud::type<mud::ConvexHull>();
 	}
 	mud::ConvexHull* DECL mud_ConvexHull_ConvexHull_0() {
 		return new mud::ConvexHull();
@@ -453,7 +453,7 @@ extern "C" {
 	}
 	// Cylinder
 	mud::Type* DECL mud_Cylinder__type() {
-		return mud::type<mud::Cylinder>();
+		return &mud::type<mud::Cylinder>();
 	}
 	mud::Cylinder* DECL mud_Cylinder_Cylinder_0() {
 		return new mud::Cylinder();
@@ -487,7 +487,7 @@ extern "C" {
 	}
 	// Ellipsis
 	mud::Type* DECL mud_Ellipsis__type() {
-		return mud::type<mud::Ellipsis>();
+		return &mud::type<mud::Ellipsis>();
 	}
 	mud::Ellipsis* DECL mud_Ellipsis_Ellipsis_0() {
 		return new mud::Ellipsis();
@@ -516,7 +516,7 @@ extern "C" {
 	}
 	// Geometry
 	mud::Type* DECL mud_Geometry__type() {
-		return mud::type<mud::Geometry>();
+		return &mud::type<mud::Geometry>();
 	}
 	mud::Geometry* DECL mud_Geometry_Geometry_0() {
 		return new mud::Geometry();
@@ -526,7 +526,7 @@ extern "C" {
 	}
 	// Grid2
 	mud::Type* DECL mud_Grid2__type() {
-		return mud::type<mud::Grid2>();
+		return &mud::type<mud::Grid2>();
 	}
 	mud::Grid2* DECL mud_Grid2_Grid2_0() {
 		return new mud::Grid2();
@@ -556,7 +556,7 @@ extern "C" {
 	}
 	// Grid3
 	mud::Type* DECL mud_Grid3__type() {
-		return mud::type<mud::Grid3>();
+		return &mud::type<mud::Grid3>();
 	}
 	mud::Grid3* DECL mud_Grid3_Grid3_0() {
 		return new mud::Grid3();
@@ -579,7 +579,7 @@ extern "C" {
 	}
 	// Line
 	mud::Type* DECL mud_Line__type() {
-		return mud::type<mud::Line>();
+		return &mud::type<mud::Line>();
 	}
 	mud::Line* DECL mud_Line_Line_0() {
 		return new mud::Line();
@@ -606,7 +606,7 @@ extern "C" {
 	}
 	// Points
 	mud::Type* DECL mud_Points__type() {
-		return mud::type<mud::Points>();
+		return &mud::type<mud::Points>();
 	}
 	mud::Points* DECL mud_Points_Points_0() {
 		return new mud::Points();
@@ -619,7 +619,7 @@ extern "C" {
 	}
 	// Poisson
 	mud::Type* DECL mud_Poisson__type() {
-		return mud::type<mud::Poisson>();
+		return &mud::type<mud::Poisson>();
 	}
 	mud::Poisson* DECL mud_Poisson_Poisson_2(mud::vec2* size, float maxRadius) {
 		return new mud::Poisson(*size, maxRadius);
@@ -632,7 +632,7 @@ extern "C" {
 	}
 	// Polygon
 	mud::Type* DECL mud_Polygon__type() {
-		return mud::type<mud::Polygon>();
+		return &mud::type<mud::Polygon>();
 	}
 	mud::Polygon* DECL mud_Polygon_Polygon_0() {
 		return new mud::Polygon();
@@ -645,7 +645,7 @@ extern "C" {
 	}
 	// Quad
 	mud::Type* DECL mud_Quad__type() {
-		return mud::type<mud::Quad>();
+		return &mud::type<mud::Quad>();
 	}
 	mud::Quad* DECL mud_Quad_Quad_0() {
 		return new mud::Quad();
@@ -658,7 +658,7 @@ extern "C" {
 	}
 	// Rect
 	mud::Type* DECL mud_Rect__type() {
-		return mud::type<mud::Rect>();
+		return &mud::type<mud::Rect>();
 	}
 	mud::Rect* DECL mud_Rect_Rect_0() {
 		return new mud::Rect();
@@ -685,7 +685,7 @@ extern "C" {
 	}
 	// Ring
 	mud::Type* DECL mud_Ring__type() {
-		return mud::type<mud::Ring>();
+		return &mud::type<mud::Ring>();
 	}
 	mud::Ring* DECL mud_Ring_Ring_0() {
 		return new mud::Ring();
@@ -716,7 +716,7 @@ extern "C" {
 	}
 	// Sphere
 	mud::Type* DECL mud_Sphere__type() {
-		return mud::type<mud::Sphere>();
+		return &mud::type<mud::Sphere>();
 	}
 	mud::Sphere* DECL mud_Sphere_Sphere_0() {
 		return new mud::Sphere();
@@ -735,7 +735,7 @@ extern "C" {
 	}
 	// SphereRing
 	mud::Type* DECL mud_SphereRing__type() {
-		return mud::type<mud::SphereRing>();
+		return &mud::type<mud::SphereRing>();
 	}
 	mud::SphereRing* DECL mud_SphereRing_SphereRing_0() {
 		return new mud::SphereRing();
@@ -766,7 +766,7 @@ extern "C" {
 	}
 	// Spheroid
 	mud::Type* DECL mud_Spheroid__type() {
-		return mud::type<mud::Spheroid>();
+		return &mud::type<mud::Spheroid>();
 	}
 	mud::Spheroid* DECL mud_Spheroid_Spheroid_0() {
 		return new mud::Spheroid();
@@ -785,7 +785,7 @@ extern "C" {
 	}
 	// Torus
 	mud::Type* DECL mud_Torus__type() {
-		return mud::type<mud::Torus>();
+		return &mud::type<mud::Torus>();
 	}
 	mud::Torus* DECL mud_Torus_Torus_0() {
 		return new mud::Torus();
@@ -819,7 +819,7 @@ extern "C" {
 	}
 	// Triangle
 	mud::Type* DECL mud_Triangle__type() {
-		return mud::type<mud::Triangle>();
+		return &mud::type<mud::Triangle>();
 	}
 	mud::Triangle* DECL mud_Triangle_Triangle_0() {
 		return new mud::Triangle();

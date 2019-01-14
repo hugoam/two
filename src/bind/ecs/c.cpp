@@ -15,7 +15,7 @@ extern "C" {
 	
 	// Entity
 	mud::Type* DECL mud_Entity__type() {
-		return mud::type<mud::Entity>();
+		return &mud::type<mud::Entity>();
 	}
 	mud::Entity* DECL mud_Entity_Entity_0() {
 		return new mud::Entity();
@@ -25,7 +25,7 @@ extern "C" {
 	}
 	// Prototype
 	mud::Type* DECL mud_Prototype__type() {
-		return mud::type<mud::Prototype>();
+		return &mud::type<mud::Prototype>();
 	}
 	void DECL mud_Prototype__destroy(mud::Prototype* self) {
 		delete self;

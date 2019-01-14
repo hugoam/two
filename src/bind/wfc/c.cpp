@@ -17,7 +17,7 @@ extern "C" {
 	
 	// Tile
 	mud::Type* DECL mud_Tile__type() {
-		return mud::type<mud::Tile>();
+		return &mud::type<mud::Tile>();
 	}
 	mud::Tile* DECL mud_Tile_Tile_0() {
 		return new mud::Tile();
@@ -57,7 +57,7 @@ extern "C" {
 	}
 	// Tileset
 	mud::Type* DECL mud_Tileset__type() {
-		return mud::type<mud::Tileset>();
+		return &mud::type<mud::Tileset>();
 	}
 	mud::Tileset* DECL mud_Tileset_Tileset_0() {
 		return new mud::Tileset();
@@ -93,7 +93,7 @@ extern "C" {
 	}
 	// Wave
 	mud::Type* DECL mud_Wave__type() {
-		return mud::type<mud::Wave>();
+		return &mud::type<mud::Wave>();
 	}
 	mud::Wave* DECL mud_Wave_Wave_0() {
 		return new mud::Wave();
@@ -106,7 +106,7 @@ extern "C" {
 	}
 	// TileWave
 	mud::Type* DECL mud_TileWave__type() {
-		return mud::type<mud::TileWave>();
+		return &mud::type<mud::TileWave>();
 	}
 	mud::TileWave* DECL mud_TileWave_TileWave_5(mud::WaveTileset* tileset, uint16_t width, uint16_t height, uint16_t depth, bool periodic) {
 		return new mud::TileWave(*tileset, width, height, depth, periodic);
@@ -116,7 +116,7 @@ extern "C" {
 	}
 	// WaveTileset
 	mud::Type* DECL mud_WaveTileset__type() {
-		return mud::type<mud::WaveTileset>();
+		return &mud::type<mud::WaveTileset>();
 	}
 	mud::WaveTileset* DECL mud_WaveTileset_WaveTileset_0() {
 		return new mud::WaveTileset();

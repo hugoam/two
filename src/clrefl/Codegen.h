@@ -1297,7 +1297,7 @@ namespace clgen
 		auto c_type_handle = [&](const CLClass& c)
 		{
 			cw("mud::Type* DECL " + binding_name_str(c, "_type") + "() {");
-			cw("return mud::type<" + c.m_id + ">();");
+			cw("return &mud::type<" + c.m_id + ">();");
 			cw("}");
 		};
 

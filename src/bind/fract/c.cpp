@@ -16,7 +16,7 @@ extern "C" {
 	
 	// Circlifier
 	mud::Type* DECL mud_Circlifier__type() {
-		return mud::type<mud::Circlifier>();
+		return &mud::type<mud::Circlifier>();
 	}
 	mud::Circlifier* DECL mud_Circlifier_Circlifier_1(mud::Image256* image) {
 		return new mud::Circlifier(*image);
@@ -26,7 +26,7 @@ extern "C" {
 	}
 	// Fract
 	mud::Type* DECL mud_Fract__type() {
-		return mud::type<mud::Fract>();
+		return &mud::type<mud::Fract>();
 	}
 	mud::Fract* DECL mud_Fract_Fract_0() {
 		return new mud::Fract();
@@ -60,7 +60,7 @@ extern "C" {
 	}
 	// FractSample
 	mud::Type* DECL mud_FractSample__type() {
-		return mud::type<mud::FractSample>();
+		return &mud::type<mud::FractSample>();
 	}
 	mud::FractSample* DECL mud_FractSample_FractSample_3(mud::Fract* fract, const mud::Rect* rect, mud::uvec2* resolution) {
 		return new mud::FractSample(*fract, *rect, *resolution);
@@ -90,7 +90,7 @@ extern "C" {
 	}
 	// FractTab
 	mud::Type* DECL mud_FractTab__type() {
-		return mud::type<mud::FractTab>();
+		return &mud::type<mud::FractTab>();
 	}
 	mud::FractTab* DECL mud_FractTab_FractTab_0() {
 		return new mud::FractTab();
@@ -100,7 +100,7 @@ extern "C" {
 	}
 	// Pattern
 	mud::Type* DECL mud_Pattern__type() {
-		return mud::type<mud::Pattern>();
+		return &mud::type<mud::Pattern>();
 	}
 	mud::Pattern* DECL mud_Pattern_Pattern_2(mud::Palette* palette, mud::PatternSampling sampling) {
 		return new mud::Pattern(*palette, sampling);

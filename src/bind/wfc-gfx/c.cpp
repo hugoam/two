@@ -24,7 +24,7 @@ extern "C" {
 	
 	// TileModel
 	mud::Type* DECL mud_TileModel__type() {
-		return mud::type<mud::TileModel>();
+		return &mud::type<mud::TileModel>();
 	}
 	mud::TileModel* DECL mud_TileModel_TileModel_0() {
 		return new mud::TileModel();
@@ -34,7 +34,7 @@ extern "C" {
 	}
 	// WfcBlock
 	mud::Type* DECL mud_WfcBlock__type() {
-		return mud::type<mud::WfcBlock>();
+		return &mud::type<mud::WfcBlock>();
 	}
 	mud::WfcBlock* DECL mud_WfcBlock_WfcBlock_0() {
 		return new mud::WfcBlock();

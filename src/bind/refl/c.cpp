@@ -15,7 +15,7 @@ extern "C" {
 	
 	// Call
 	mud::Type* DECL mud_Call__type() {
-		return mud::type<mud::Call>();
+		return &mud::type<mud::Call>();
 	}
 	mud::Call* DECL mud_Call_Call_0() {
 		return new mud::Call();
@@ -31,28 +31,28 @@ extern "C" {
 	}
 	// Callable
 	mud::Type* DECL mud_Callable__type() {
-		return mud::type<mud::Callable>();
+		return &mud::type<mud::Callable>();
 	}
 	void DECL mud_Callable__destroy(mud::Callable* self) {
 		delete self;
 	}
 	// Class
 	mud::Type* DECL mud_Class__type() {
-		return mud::type<mud::Class>();
+		return &mud::type<mud::Class>();
 	}
 	void DECL mud_Class__destroy(mud::Class* self) {
 		delete self;
 	}
 	// Convert
 	mud::Type* DECL mud_Convert__type() {
-		return mud::type<mud::Convert>();
+		return &mud::type<mud::Convert>();
 	}
 	void DECL mud_Convert__destroy(mud::Convert* self) {
 		delete self;
 	}
 	// Creator
 	mud::Type* DECL mud_Creator__type() {
-		return mud::type<mud::Creator>();
+		return &mud::type<mud::Creator>();
 	}
 	mud::Type* DECL mud_Creator__get_type(mud::Creator* self) {
 		return &self->m_type;
@@ -77,28 +77,28 @@ extern "C" {
 	}
 	// Enum
 	mud::Type* DECL mud_Enum__type() {
-		return mud::type<mud::Enum>();
+		return &mud::type<mud::Enum>();
 	}
 	void DECL mud_Enum__destroy(mud::Enum* self) {
 		delete self;
 	}
 	// Member
 	mud::Type* DECL mud_Member__type() {
-		return mud::type<mud::Member>();
+		return &mud::type<mud::Member>();
 	}
 	void DECL mud_Member__destroy(mud::Member* self) {
 		delete self;
 	}
 	// Meta
 	mud::Type* DECL mud_Meta__type() {
-		return mud::type<mud::Meta>();
+		return &mud::type<mud::Meta>();
 	}
 	void DECL mud_Meta__destroy(mud::Meta* self) {
 		delete self;
 	}
 	// Module
 	mud::Type* DECL mud_Module__type() {
-		return mud::type<mud::Module>();
+		return &mud::type<mud::Module>();
 	}
 	const char* DECL mud_Module__get_name(mud::Module* self) {
 		return self->m_name;
@@ -117,14 +117,14 @@ extern "C" {
 	}
 	// Namespace
 	mud::Type* DECL mud_Namespace__type() {
-		return mud::type<mud::Namespace>();
+		return &mud::type<mud::Namespace>();
 	}
 	void DECL mud_Namespace__destroy(mud::Namespace* self) {
 		delete self;
 	}
 	// Operator
 	mud::Type* DECL mud_Operator__type() {
-		return mud::type<mud::Operator>();
+		return &mud::type<mud::Operator>();
 	}
 	mud::Operator* DECL mud_Operator_Operator_0() {
 		return new mud::Operator();
@@ -158,70 +158,70 @@ extern "C" {
 	}
 	// Param
 	mud::Type* DECL mud_Param__type() {
-		return mud::type<mud::Param>();
+		return &mud::type<mud::Param>();
 	}
 	void DECL mud_Param__destroy(mud::Param* self) {
 		delete self;
 	}
 	// Signature
 	mud::Type* DECL mud_Signature__type() {
-		return mud::type<mud::Signature>();
+		return &mud::type<mud::Signature>();
 	}
 	void DECL mud_Signature__destroy(mud::Signature* self) {
 		delete self;
 	}
 	// Static
 	mud::Type* DECL mud_Static__type() {
-		return mud::type<mud::Static>();
+		return &mud::type<mud::Static>();
 	}
 	void DECL mud_Static__destroy(mud::Static* self) {
 		delete self;
 	}
 	// System
 	mud::Type* DECL mud_System__type() {
-		return mud::type<mud::System>();
+		return &mud::type<mud::System>();
 	}
 	void DECL mud_System__destroy(mud::System* self) {
 		delete self;
 	}
 	// Constructor
 	mud::Type* DECL mud_Constructor__type() {
-		return mud::type<mud::Constructor>();
+		return &mud::type<mud::Constructor>();
 	}
 	void DECL mud_Constructor__destroy(mud::Constructor* self) {
 		delete self;
 	}
 	// CopyConstructor
 	mud::Type* DECL mud_CopyConstructor__type() {
-		return mud::type<mud::CopyConstructor>();
+		return &mud::type<mud::CopyConstructor>();
 	}
 	void DECL mud_CopyConstructor__destroy(mud::CopyConstructor* self) {
 		delete self;
 	}
 	// Destructor
 	mud::Type* DECL mud_Destructor__type() {
-		return mud::type<mud::Destructor>();
+		return &mud::type<mud::Destructor>();
 	}
 	void DECL mud_Destructor__destroy(mud::Destructor* self) {
 		delete self;
 	}
 	// Function
 	mud::Type* DECL mud_Function__type() {
-		return mud::type<mud::Function>();
+		return &mud::type<mud::Function>();
 	}
 	void DECL mud_Function__destroy(mud::Function* self) {
 		delete self;
 	}
 	// Injector
 	mud::Type* DECL mud_Injector__type() {
-		return mud::type<mud::Injector>();
+		return &mud::type<mud::Injector>();
 	}
 	void DECL mud_Injector__destroy(mud::Injector* self) {
 		delete self;
 	}
 	// Method
 	mud::Type* DECL mud_Method__type() {
-		return mud::type<mud::Method>();
+		return &mud::type<mud::Method>();
 	}
 	void DECL mud_Method__destroy(mud::Method* self) {
 		delete self;
