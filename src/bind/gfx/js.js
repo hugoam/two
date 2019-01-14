@@ -46,6 +46,8 @@ Animated.prototype["seek"] = Animated.prototype.seek = function(self, time) {
 Animated.prototype["start"] = Animated.prototype.start = function(self, animation, loop, blend, speed, transient) {
     var self = this.ptr;
     /* animation <const char*> [] */
+    if (animation && typeof animation === "object") animation = animation.ptr;
+    else animation = ensureString(animation);
     /* loop <bool> [] */
     /* blend <float> [] */
     /* speed <float> [] */
@@ -1193,6 +1195,8 @@ GfxContext.prototype["__destroy__"] = GfxContext.prototype.__destroy__ = functio
 // GfxSystem
 function GfxSystem(resource_path) {
     /* resource_path <const char*> [] */
+    if (resource_path && typeof resource_path === "object") resource_path = resource_path.ptr;
+    else resource_path = ensureString(resource_path);
     this.ptr = _mud_GfxSystem_GfxSystem_1(resource_path); getCache(GfxSystem)[this.ptr] = this;
 };
 GfxSystem.prototype = Object.create(WrapperObject.prototype);
@@ -1203,6 +1207,8 @@ Module['GfxSystem'] = GfxSystem;
 GfxSystem.prototype["add_resource_path"] = GfxSystem.prototype.add_resource_path = function(self, path, relative) {
     var self = this.ptr;
     /* path <const char*> [] */
+    if (path && typeof path === "object") path = path.ptr;
+    else path = ensureString(path);
     /* relative <bool> [] */
     if (relative === undefined) { _mud_GfxSystem_add_resource_path_1(self, path); return; }
     _mud_GfxSystem_add_resource_path_2(self, path, relative);
@@ -1224,7 +1230,11 @@ GfxSystem.prototype["fetch_image256_material"] = GfxSystem.prototype.fetch_image
 GfxSystem.prototype["fetch_material"] = GfxSystem.prototype.fetch_material = function(self, name, shader, builtin) {
     var self = this.ptr;
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     /* shader <const char*> [] */
+    if (shader && typeof shader === "object") shader = shader.ptr;
+    else shader = ensureString(shader);
     /* builtin <bool> [] */
     if (builtin === undefined) { return wrapPointer(_mud_GfxSystem_fetch_material_2(self, name, shader), Material); }
     return wrapPointer(_mud_GfxSystem_fetch_material_3(self, name, shader, builtin), Material);
@@ -2522,7 +2532,7 @@ Module['Program'] = Program;
 Object.defineProperty(Program.prototype, "name", {
     get: function() {
         var self = this.ptr;
-        return _mud_Program__get_name(self);
+        return Pointer_stringify(_mud_Program__get_name(self));
     }});
 Program.prototype["__destroy__"] = Program.prototype.__destroy__ = function() {
     var self = this.ptr;

@@ -141,22 +141,26 @@ Module['Module'] = Module;
 Object.defineProperty(Module.prototype, "name", {
     get: function() {
         var self = this.ptr;
-        return _mud_Module__get_name(self);
+        return Pointer_stringify(_mud_Module__get_name(self));
     },
     set: function(value) {
         var self = this.ptr;
         /* value <const char*> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        else value = ensureString(value);
         _mud_Module__set_name(self, value);
     }
 });
 Object.defineProperty(Module.prototype, "path", {
     get: function() {
         var self = this.ptr;
-        return _mud_Module__get_path(self);
+        return Pointer_stringify(_mud_Module__get_path(self));
     },
     set: function(value) {
         var self = this.ptr;
         /* value <const char*> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        else value = ensureString(value);
         _mud_Module__set_path(self, value);
     }
 });
@@ -211,22 +215,26 @@ Object.defineProperty(Operator.prototype, "type", {
 Object.defineProperty(Operator.prototype, "name", {
     get: function() {
         var self = this.ptr;
-        return _mud_Operator__get_name(self);
+        return Pointer_stringify(_mud_Operator__get_name(self));
     },
     set: function(value) {
         var self = this.ptr;
         /* value <const char*> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        else value = ensureString(value);
         _mud_Operator__set_name(self, value);
     }
 });
 Object.defineProperty(Operator.prototype, "sign", {
     get: function() {
         var self = this.ptr;
-        return _mud_Operator__get_sign(self);
+        return Pointer_stringify(_mud_Operator__get_sign(self));
     },
     set: function(value) {
         var self = this.ptr;
         /* value <const char*> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        else value = ensureString(value);
         _mud_Operator__set_sign(self, value);
     }
 });

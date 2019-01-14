@@ -361,6 +361,8 @@ Stream.prototype["__destroy__"] = Stream.prototype.__destroy__ = function() {
 // TextScript
 function TextScript(name, language, signature) {
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     /* language <Language> [] */
     if (language && typeof language === "object") language = language.ptr;
     /* signature <Signature> [] */
@@ -416,6 +418,8 @@ TextScript.prototype["__destroy__"] = TextScript.prototype.__destroy__ = functio
 // VisualScript
 function VisualScript(name, signature) {
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     /* signature <Signature> [] */
     signature = signature.ptr;
     if (signature === undefined) { this.ptr = _mud_VisualScript_VisualScript_1(name); getCache(VisualScript)[this.ptr] = this; return; }

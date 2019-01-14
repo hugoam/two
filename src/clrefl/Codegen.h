@@ -1158,7 +1158,7 @@ namespace clgen
 		{
 			if(return_type.isclass())
 				return "return wrapPointer(" + call + ", " + return_type.m_type->m_name + ");";
-			else if(return_type.isstring())
+			else if(return_type.iscstring() || return_type.isstring())
 				return "return Pointer_stringify(" + call + ");";
 			else if(return_type.isboolean())
 				return "return !!(" + call + ");";
@@ -1227,7 +1227,7 @@ namespace clgen
 				jsw("assert(typeof " + a + " === \"number\", \"" + msg + "Expecting <number>\");");
 			else if(t.isboolean())
 				jsw("assert(typeof " + a + " === \"boolean\" || (typeof " + a + " === \"number\" && !isNaN(" + a + ")), \"" + msg + "Expecting <boolean>\");");
-			else if(t.isstring())
+			else if(t.iscstring() || t.isstring())
 				jsw("assert(typeof " + a + " === \"string\" || (" + a + " && typeof " + a + " === \"object\" && typeof " + a + ".ptr === \"number\"), \"" + msg + "Expecting <string>\");");
 			else if(t.isclass())
 				jsw("assert(typeof " + a + " === \"object\" && typeof " + a + ".ptr === \"number\", \"" + msg + "Expecting <pointer>\");");
@@ -1241,7 +1241,7 @@ namespace clgen
 			if(!(t.isarray() && !array_attribute))
 			{
 				jsw("if (" + a + " && typeof " + a + " === \"object\") " + a + " = " + a + ".ptr;");
-				if(t.isstring())
+				if(t.iscstring() || t.isstring())
 					jsw("else " + a + " = ensureString(" + a + ");");
 			}
 			else
@@ -1270,7 +1270,7 @@ namespace clgen
 			if(bool checks = false)
 				js_call_check_arg(t, a);
 
-			if(t.isstring())
+			if(t.iscstring() || t.isstring())
 			{	
 				js_convert_arg_default(t, a); // legacy path is fast enough for strings.
 			}

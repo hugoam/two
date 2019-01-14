@@ -339,11 +339,13 @@ Object.defineProperty(Symbol.prototype, "detail", {
 Object.defineProperty(Symbol.prototype, "image", {
     get: function() {
         var self = this.ptr;
-        return _mud_Symbol__get_image(self);
+        return Pointer_stringify(_mud_Symbol__get_image(self));
     },
     set: function(value) {
         var self = this.ptr;
         /* value <const char*> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        else value = ensureString(value);
         _mud_Symbol__set_image(self, value);
     }
 });
@@ -362,11 +364,13 @@ Object.defineProperty(Symbol.prototype, "image256", {
 Object.defineProperty(Symbol.prototype, "program", {
     get: function() {
         var self = this.ptr;
-        return _mud_Symbol__get_program(self);
+        return Pointer_stringify(_mud_Symbol__get_program(self));
     },
     set: function(value) {
         var self = this.ptr;
         /* value <const char*> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        else value = ensureString(value);
         _mud_Symbol__set_program(self, value);
     }
 });

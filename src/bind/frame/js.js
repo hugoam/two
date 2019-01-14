@@ -4,7 +4,11 @@ Module['ui'] = Module['ui'] || {};
 // Shell
 function Shell(resource_path, exec_path) {
     /* resource_path <const char*> [] */
+    if (resource_path && typeof resource_path === "object") resource_path = resource_path.ptr;
+    else resource_path = ensureString(resource_path);
     /* exec_path <const char*> [] */
+    if (exec_path && typeof exec_path === "object") exec_path = exec_path.ptr;
+    else exec_path = ensureString(exec_path);
     if (exec_path === undefined) { this.ptr = _mud_Shell_Shell_1(resource_path); getCache(Shell)[this.ptr] = this; return; }
     this.ptr = _mud_Shell_Shell_2(resource_path, exec_path); getCache(Shell)[this.ptr] = this;
 };

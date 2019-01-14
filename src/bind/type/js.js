@@ -63,11 +63,13 @@ Object.defineProperty(Type.prototype, "id", {
 Object.defineProperty(Type.prototype, "name", {
     get: function() {
         var self = this.ptr;
-        return _mud_Type__get_name(self);
+        return Pointer_stringify(_mud_Type__get_name(self));
     },
     set: function(value) {
         var self = this.ptr;
         /* value <const char*> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        else value = ensureString(value);
         _mud_Type__set_name(self, value);
     }
 });

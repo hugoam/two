@@ -228,6 +228,8 @@ ImageSkin.prototype["__destroy__"] = ImageSkin.prototype.__destroy__ = function(
 // InkStyle
 function InkStyle(name) {
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     if (name === undefined) { this.ptr = _mud_InkStyle_InkStyle_0(); getCache(InkStyle)[this.ptr] = this; return; }
     this.ptr = _mud_InkStyle_InkStyle_1(name); getCache(InkStyle)[this.ptr] = this;
 };
@@ -539,6 +541,8 @@ Layer.prototype["__destroy__"] = Layer.prototype.__destroy__ = function() {
 // Layout
 function Layout(name) {
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     if (name === undefined) { this.ptr = _mud_Layout_Layout_0(); getCache(Layout)[this.ptr] = this; return; }
     this.ptr = _mud_Layout_Layout_1(name); getCache(Layout)[this.ptr] = this;
 };
@@ -925,7 +929,7 @@ Object.defineProperty(Style.prototype, "base", {
 Object.defineProperty(Style.prototype, "name", {
     get: function() {
         var self = this.ptr;
-        return _mud_Style__get_name(self);
+        return Pointer_stringify(_mud_Style__get_name(self));
     }});
 Object.defineProperty(Style.prototype, "layout", {
     get: function() {
@@ -1001,11 +1005,13 @@ Module['TextPaint'] = TextPaint;
 Object.defineProperty(TextPaint.prototype, "font", {
     get: function() {
         var self = this.ptr;
-        return _mud_TextPaint__get_font(self);
+        return Pointer_stringify(_mud_TextPaint__get_font(self));
     },
     set: function(value) {
         var self = this.ptr;
         /* value <const char*> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        else value = ensureString(value);
         _mud_TextPaint__set_font(self, value);
     }
 });
@@ -1622,6 +1628,8 @@ Module['ui']['button'] = function(parent, content) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* content <const char*> [] */
+    if (content && typeof content === "object") content = content.ptr;
+    else content = ensureString(content);
     if (content === undefined) { return wrapPointer(_mud_ui_button_1(parent), Widget); }
     return wrapPointer(_mud_ui_button_2(parent, content), Widget);
 };
@@ -1653,6 +1661,8 @@ Module['ui']['color_display_field'] = function(parent, name, value, reverse) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     /* value <Colour> [] */
     value = value.ptr;
     /* reverse <bool> [] */
@@ -1690,6 +1700,8 @@ Module['ui']['color_field'] = function(parent, name, value, reverse) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     /* value <Colour> [] */
     value = value.ptr;
     /* reverse <bool> [] */
@@ -1737,6 +1749,8 @@ Module['ui']['dir_item'] = function(parent, name) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     return wrapPointer(_mud_ui_dir_item_2(parent, name), Widget);
 };
 Module['ui']['dir_node'] = function(parent, path, name, collapsed) {
@@ -1744,7 +1758,11 @@ Module['ui']['dir_node'] = function(parent, path, name, collapsed) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* path <const char*> [] */
+    if (path && typeof path === "object") path = path.ptr;
+    else path = ensureString(path);
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     /* collapsed <bool> [] */
     return wrapPointer(_mud_ui_dir_node_4(parent, path, name, collapsed), Widget);
 };
@@ -1796,6 +1814,8 @@ Module['ui']['dropdown'] = function(parent, style, value, flags, list_style) {
     /* style <Style> [] */
     style = style.ptr;
     /* value <const char*> [] */
+    if (value && typeof value === "object") value = value.ptr;
+    else value = ensureString(value);
     /* flags <PopupFlags> [] */
     if (flags && typeof flags === "object") flags = flags.ptr;
     /* list_style <Style> [] */
@@ -1816,6 +1836,8 @@ Module['ui']['expandbox'] = function(parent, name, open) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     /* open <bool> [] */
     if (open === undefined) { return wrapPointer(_mud_ui_expandbox_2(parent, name), Expandbox); }
     return wrapPointer(_mud_ui_expandbox_3(parent, name, open), Expandbox);
@@ -1825,6 +1847,8 @@ Module['ui']['file_item'] = function(parent, name) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     return wrapPointer(_mud_ui_file_item_2(parent, name), Widget);
 };
 Module['ui']['file_node'] = function(parent, name) {
@@ -1832,6 +1856,8 @@ Module['ui']['file_node'] = function(parent, name) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     return wrapPointer(_mud_ui_file_node_2(parent, name), Widget);
 };
 Module['ui']['file_tree'] = function(parent, path) {
@@ -1839,6 +1865,8 @@ Module['ui']['file_tree'] = function(parent, path) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* path <const char*> [] */
+    if (path && typeof path === "object") path = path.ptr;
+    else path = ensureString(path);
     return wrapPointer(_mud_ui_file_tree_2(parent, path), Widget);
 };
 Module['ui']['fill_bar'] = function(parent, percentage, dim) {
@@ -1856,6 +1884,8 @@ Module['ui']['flag_field'] = function(parent, name, value, shift, reverse) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     /* value <uint32_t> [] */
     /* shift <uint8_t> [] */
     /* reverse <bool> [] */
@@ -1881,6 +1911,8 @@ Module['ui']['icon'] = function(parent, icon) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* icon <const char*> [] */
+    if (icon && typeof icon === "object") icon = icon.ptr;
+    else icon = ensureString(icon);
     return wrapPointer(_mud_ui_icon_2(parent, icon), Widget);
 };
 Module['ui']['image256'] = function(parent, name, source, size) {
@@ -1888,6 +1920,8 @@ Module['ui']['image256'] = function(parent, name, source, size) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     /* source <Image256> [] */
     source = source.ptr;
     /* size <vec2> [] */
@@ -1902,6 +1936,8 @@ Module['ui']['item'] = function(parent, style, content) {
     /* style <Style> [] */
     style = style.ptr;
     /* content <const char*> [] */
+    if (content && typeof content === "object") content = content.ptr;
+    else content = ensureString(content);
     if (content === undefined) { return wrapPointer(_mud_ui_item_2(parent, style), Widget); }
     return wrapPointer(_mud_ui_item_3(parent, style, content), Widget);
 };
@@ -1910,6 +1946,8 @@ Module['ui']['label'] = function(parent, label) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* label <const char*> [] */
+    if (label && typeof label === "object") label = label.ptr;
+    else label = ensureString(label);
     return wrapPointer(_mud_ui_label_2(parent, label), Widget);
 };
 Module['ui']['layout'] = function(parent) {
@@ -1923,6 +1961,8 @@ Module['ui']['menu'] = function(parent, label, submenu) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* label <const char*> [] */
+    if (label && typeof label === "object") label = label.ptr;
+    else label = ensureString(label);
     /* submenu <bool> [] */
     if (submenu === undefined) { return wrapPointer(_mud_ui_menu_2(parent, label), Widget); }
     return wrapPointer(_mud_ui_menu_3(parent, label, submenu), Widget);
@@ -1932,6 +1972,8 @@ Module['ui']['menu_choice'] = function(parent, content) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* content <const char*> [] */
+    if (content && typeof content === "object") content = content.ptr;
+    else content = ensureString(content);
     return wrapPointer(_mud_ui_menu_choice_2(parent, content), Widget);
 };
 Module['ui']['menubar'] = function(parent) {
@@ -1945,6 +1987,8 @@ Module['ui']['message'] = function(parent, label) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* label <const char*> [] */
+    if (label && typeof label === "object") label = label.ptr;
+    else label = ensureString(label);
     return wrapPointer(_mud_ui_message_2(parent, label), Widget);
 };
 Module['ui']['modal'] = function(parent, size) {
@@ -1963,6 +2007,8 @@ Module['ui']['modal_button'] = function(screen, parent, content, mode) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* content <const char*> [] */
+    if (content && typeof content === "object") content = content.ptr;
+    else content = ensureString(content);
     /* mode <uint32_t> [] */
     return !!(_mud_ui_modal_button_4(screen, parent, content, mode));
 };
@@ -1981,7 +2027,11 @@ Module['ui']['node_input'] = function(node, name, icon, colour, active, connecte
     /* node <Node> [] */
     node = node.ptr;
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     /* icon <const char*> [] */
+    if (icon && typeof icon === "object") icon = icon.ptr;
+    else icon = ensureString(icon);
     /* colour <Colour> [] */
     if(typeof colour !== "undefined" && colour !== null) {{ colour = colour.ptr }};
     /* active <bool> [] */
@@ -1997,7 +2047,11 @@ Module['ui']['node_output'] = function(node, name, icon, colour, active, connect
     /* node <Node> [] */
     node = node.ptr;
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     /* icon <const char*> [] */
+    if (icon && typeof icon === "object") icon = icon.ptr;
+    else icon = ensureString(icon);
     /* colour <Colour> [] */
     if(typeof colour !== "undefined" && colour !== null) {{ colour = colour.ptr }};
     /* active <bool> [] */
@@ -2046,6 +2100,8 @@ Module['ui']['radio_choice'] = function(parent, value, active) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* value <const char*> [] */
+    if (value && typeof value === "object") value = value.ptr;
+    else value = ensureString(value);
     /* active <bool> [] */
     return wrapPointer(_mud_ui_radio_choice_3(parent, value, active), Widget);
 };
@@ -2127,6 +2183,8 @@ Module['ui']['tab'] = function(tabber, name) {
     /* tabber <Tabber> [] */
     tabber = tabber.ptr;
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     return wrapPointer(_mud_ui_tab_2(tabber, name), Widget);
 };
 Module['ui']['tabber'] = function(parent) {
@@ -2152,6 +2210,8 @@ Module['ui']['text'] = function(parent, label) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* label <const char*> [] */
+    if (label && typeof label === "object") label = label.ptr;
+    else label = ensureString(label);
     return wrapPointer(_mud_ui_text_2(parent, label), Widget);
 };
 Module['ui']['title'] = function(parent, label) {
@@ -2159,6 +2219,8 @@ Module['ui']['title'] = function(parent, label) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* label <const char*> [] */
+    if (label && typeof label === "object") label = label.ptr;
+    else label = ensureString(label);
     return wrapPointer(_mud_ui_title_2(parent, label), Widget);
 };
 Module['ui']['title_header'] = function(parent, title) {
@@ -2166,6 +2228,8 @@ Module['ui']['title_header'] = function(parent, title) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* title <const char*> [] */
+    if (title && typeof title === "object") title = title.ptr;
+    else title = ensureString(title);
     return wrapPointer(_mud_ui_title_header_2(parent, title), Widget);
 };
 Module['ui']['toggle'] = function(parent, on, content) {
@@ -2174,6 +2238,8 @@ Module['ui']['toggle'] = function(parent, on, content) {
     parent = parent.ptr;
     /* on <bool> [] */
     /* content <const char*> [] */
+    if (content && typeof content === "object") content = content.ptr;
+    else content = ensureString(content);
     if (content === undefined) { return wrapPointer(_mud_ui_toggle_2(parent, on), Widget); }
     return wrapPointer(_mud_ui_toggle_3(parent, on, content), Widget);
 };
@@ -2190,6 +2256,8 @@ Module['ui']['toolbutton'] = function(parent, icon) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* icon <const char*> [] */
+    if (icon && typeof icon === "object") icon = icon.ptr;
+    else icon = ensureString(icon);
     return wrapPointer(_mud_ui_toolbutton_2(parent, icon), Widget);
 };
 Module['ui']['tooldock'] = function(parent) {
@@ -2205,6 +2273,8 @@ Module['ui']['tooltip'] = function(parent, position, content) {
     /* position <vec2> [] */
     position = position.ptr;
     /* content <const char*> [] */
+    if (content && typeof content === "object") content = content.ptr;
+    else content = ensureString(content);
     return wrapPointer(_mud_ui_tooltip_3(parent, position, content), Widget);
 };
 Module['ui']['tree'] = function(parent) {
@@ -2218,6 +2288,8 @@ Module['ui']['tree_node'] = function(parent, name, leaf, open) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* name <const char*> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
     /* leaf <bool> [] */
     /* open <bool> [] */
     if (leaf === undefined) { return wrapPointer(_mud_ui_tree_node_2(parent, name), TreeNode); }
@@ -2261,6 +2333,8 @@ Module['ui']['window'] = function(parent, title, state) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* title <const char*> [] */
+    if (title && typeof title === "object") title = title.ptr;
+    else title = ensureString(title);
     /* state <WindowState> [] */
     if (state && typeof state === "object") state = state.ptr;
     if (state === undefined) { return wrapPointer(_mud_ui_window_2(parent, title), Window); }
