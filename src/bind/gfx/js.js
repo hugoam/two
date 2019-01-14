@@ -3207,15 +3207,18 @@ Module['gfx']['update_item_lights'] = function(item) {
 (function() {
     function setupEnums() {
         // AnimationTarget
+        Module['AnimationTarget'] = Module['AnimationTarget'] || {};
         Module['AnimationTarget']['Position'] = _mud_AnimationTarget_Position();
         Module['AnimationTarget']['Rotation'] = _mud_AnimationTarget_Rotation();
         Module['AnimationTarget']['Scale'] = _mud_AnimationTarget_Scale();
         // BackgroundMode
+        Module['BackgroundMode'] = Module['BackgroundMode'] || {};
         Module['BackgroundMode']['None'] = _mud_BackgroundMode_None();
         Module['BackgroundMode']['Panorama'] = _mud_BackgroundMode_Panorama();
         Module['BackgroundMode']['Radiance'] = _mud_BackgroundMode_Radiance();
         Module['BackgroundMode']['Custom'] = _mud_BackgroundMode_Custom();
         // BlendMode
+        Module['BlendMode'] = Module['BlendMode'] || {};
         Module['BlendMode']['Mix'] = _mud_BlendMode_Mix();
         Module['BlendMode']['Add'] = _mud_BlendMode_Add();
         Module['BlendMode']['Sub'] = _mud_BlendMode_Sub();
@@ -3223,19 +3226,24 @@ Module['gfx']['update_item_lights'] = function(item) {
         Module['BlendMode']['Normal'] = _mud_BlendMode_Normal();
         Module['BlendMode']['Alpha'] = _mud_BlendMode_Alpha();
         // CullMode
+        Module['CullMode'] = Module['CullMode'] || {};
         Module['CullMode']['None'] = _mud_CullMode_None();
         Module['CullMode']['Front'] = _mud_CullMode_Front();
         Module['CullMode']['Back'] = _mud_CullMode_Back();
         // DepthDraw
+        Module['DepthDraw'] = Module['DepthDraw'] || {};
         Module['DepthDraw']['Enabled'] = _mud_DepthDraw_Enabled();
         Module['DepthDraw']['Disabled'] = _mud_DepthDraw_Disabled();
         // DepthTest
+        Module['DepthTest'] = Module['DepthTest'] || {};
         Module['DepthTest']['Enabled'] = _mud_DepthTest_Enabled();
         Module['DepthTest']['Disabled'] = _mud_DepthTest_Disabled();
         // EmitterFlow
+        Module['EmitterFlow'] = Module['EmitterFlow'] || {};
         Module['EmitterFlow']['Outward'] = _mud_EmitterFlow_Outward();
         Module['EmitterFlow']['Absolute'] = _mud_EmitterFlow_Absolute();
         // Interpolation
+        Module['Interpolation'] = Module['Interpolation'] || {};
         Module['Interpolation']['Nearest'] = _mud_Interpolation_Nearest();
         Module['Interpolation']['Linear'] = _mud_Interpolation_Linear();
         Module['Interpolation']['Cubic'] = _mud_Interpolation_Cubic();
@@ -3245,33 +3253,40 @@ Module['gfx']['update_item_lights'] = function(item) {
         Module['EAST'] = _mud_IsometricAngle_EAST();
         Module['WEST'] = _mud_IsometricAngle_WEST();
         // ItemShadow
+        Module['ItemShadow'] = Module['ItemShadow'] || {};
         Module['ItemShadow']['Default'] = _mud_ItemShadow_Default();
         Module['ItemShadow']['DoubleSided'] = _mud_ItemShadow_DoubleSided();
         // LightType
+        Module['LightType'] = Module['LightType'] || {};
         Module['LightType']['Direct'] = _mud_LightType_Direct();
         Module['LightType']['Point'] = _mud_LightType_Point();
         Module['LightType']['Spot'] = _mud_LightType_Spot();
         Module['LightType']['Count'] = _mud_LightType_Count();
         // Lighting
+        Module['Lighting'] = Module['Lighting'] || {};
         Module['Lighting']['None'] = _mud_Lighting_None();
         Module['Lighting']['Clustered'] = _mud_Lighting_Clustered();
         Module['Lighting']['Deferred'] = _mud_Lighting_Deferred();
         Module['Lighting']['VoxelGI'] = _mud_Lighting_VoxelGI();
         // MSAA
+        Module['MSAA'] = Module['MSAA'] || {};
         Module['MSAA']['Disabled'] = _mud_MSAA_Disabled();
         Module['MSAA']['X2'] = _mud_MSAA_X2();
         Module['MSAA']['X4'] = _mud_MSAA_X4();
         Module['MSAA']['X8'] = _mud_MSAA_X8();
         Module['MSAA']['X16'] = _mud_MSAA_X16();
         // MaterialFlag
+        Module['MaterialFlag'] = Module['MaterialFlag'] || {};
         Module['MaterialFlag']['TriplanarUV1'] = _mud_MaterialFlag_TriplanarUV1();
         Module['MaterialFlag']['TriplanarUV2'] = _mud_MaterialFlag_TriplanarUV2();
         Module['MaterialFlag']['Count'] = _mud_MaterialFlag_Count();
         // ModelFormat
+        Module['ModelFormat'] = Module['ModelFormat'] || {};
         Module['ModelFormat']['obj'] = _mud_ModelFormat_obj();
         Module['ModelFormat']['gltf'] = _mud_ModelFormat_gltf();
         Module['ModelFormat']['Count'] = _mud_ModelFormat_Count();
         // Month
+        Module['Month'] = Module['Month'] || {};
         Module['Month']['January'] = _mud_Month_January();
         Module['Month']['February'] = _mud_Month_February();
         Module['Month']['March'] = _mud_Month_March();
@@ -3285,24 +3300,28 @@ Module['gfx']['update_item_lights'] = function(item) {
         Module['Month']['November'] = _mud_Month_November();
         Module['Month']['December'] = _mud_Month_December();
         // PbrDiffuseMode
+        Module['PbrDiffuseMode'] = Module['PbrDiffuseMode'] || {};
         Module['PbrDiffuseMode']['Lambert'] = _mud_PbrDiffuseMode_Lambert();
         Module['PbrDiffuseMode']['LambertHalf'] = _mud_PbrDiffuseMode_LambertHalf();
         Module['PbrDiffuseMode']['OrenNayar'] = _mud_PbrDiffuseMode_OrenNayar();
         Module['PbrDiffuseMode']['Burley'] = _mud_PbrDiffuseMode_Burley();
         Module['PbrDiffuseMode']['Toon'] = _mud_PbrDiffuseMode_Toon();
         // PbrSpecularMode
+        Module['PbrSpecularMode'] = Module['PbrSpecularMode'] || {};
         Module['PbrSpecularMode']['SchlickGGX'] = _mud_PbrSpecularMode_SchlickGGX();
         Module['PbrSpecularMode']['Blinn'] = _mud_PbrSpecularMode_Blinn();
         Module['PbrSpecularMode']['Phong'] = _mud_PbrSpecularMode_Phong();
         Module['PbrSpecularMode']['Toon'] = _mud_PbrSpecularMode_Toon();
         Module['PbrSpecularMode']['Disabled'] = _mud_PbrSpecularMode_Disabled();
         // ShaderType
+        Module['ShaderType'] = Module['ShaderType'] || {};
         Module['ShaderType']['Compute'] = _mud_ShaderType_Compute();
         Module['ShaderType']['Fragment'] = _mud_ShaderType_Fragment();
         Module['ShaderType']['Geometry'] = _mud_ShaderType_Geometry();
         Module['ShaderType']['Vertex'] = _mud_ShaderType_Vertex();
         Module['ShaderType']['Count'] = _mud_ShaderType_Count();
         // Shading
+        Module['Shading'] = Module['Shading'] || {};
         Module['Shading']['Wireframe'] = _mud_Shading_Wireframe();
         Module['Shading']['Unshaded'] = _mud_Shading_Unshaded();
         Module['Shading']['Shaded'] = _mud_Shading_Shaded();
@@ -3316,16 +3335,19 @@ Module['gfx']['update_item_lights'] = function(item) {
         Module['CSM_Optimize'] = _mud_ShadowFlags_CSM_Optimize();
         Module['CSM_BlendSplits'] = _mud_ShadowFlags_CSM_BlendSplits();
         // TextureChannel
+        Module['TextureChannel'] = Module['TextureChannel'] || {};
         Module['TextureChannel']['Red'] = _mud_TextureChannel_Red();
         Module['TextureChannel']['Green'] = _mud_TextureChannel_Green();
         Module['TextureChannel']['Blue'] = _mud_TextureChannel_Blue();
         Module['TextureChannel']['Alpha'] = _mud_TextureChannel_Alpha();
         Module['TextureChannel']['All'] = _mud_TextureChannel_All();
         // TextureHint
+        Module['TextureHint'] = Module['TextureHint'] || {};
         Module['TextureHint']['Black'] = _mud_TextureHint_Black();
         Module['TextureHint']['White'] = _mud_TextureHint_White();
         Module['TextureHint']['Normal'] = _mud_TextureHint_Normal();
         // TextureSampler
+        Module['TextureSampler'] = Module['TextureSampler'] || {};
         Module['TextureSampler']['Source0'] = _mud_TextureSampler_Source0();
         Module['TextureSampler']['Source1'] = _mud_TextureSampler_Source1();
         Module['TextureSampler']['Source2'] = _mud_TextureSampler_Source2();

@@ -34,10 +34,12 @@ Module['inspector'] = function(parent, entity) {
 (function() {
     function setupEnums() {
         // EditNestMode
+        Module['EditNestMode'] = Module['EditNestMode'] || {};
         Module['EditNestMode']['Inline'] = _mud_EditNestMode_Inline();
         Module['EditNestMode']['Modal'] = _mud_EditNestMode_Modal();
         Module['EditNestMode']['Embed'] = _mud_EditNestMode_Embed();
         // EditorHint
+        Module['EditorHint'] = Module['EditorHint'] || {};
         Module['EditorHint']['Table'] = _mud_EditorHint_Table();
         Module['EditorHint']['Rows'] = _mud_EditorHint_Rows();
         Module['EditorHint']['Inline'] = _mud_EditorHint_Inline();

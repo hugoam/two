@@ -669,6 +669,7 @@ Module['gfx']['lightmap'] = function(parent, resolution, density, save_path) {
 (function() {
     function setupEnums() {
         // TonemapMode
+        Module['TonemapMode'] = Module['TonemapMode'] || {};
         Module['TonemapMode']['Linear'] = _mud_TonemapMode_Linear();
         Module['TonemapMode']['Reinhardt'] = _mud_TonemapMode_Reinhardt();
         Module['TonemapMode']['Filmic'] = _mud_TonemapMode_Filmic();

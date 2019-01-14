@@ -1138,7 +1138,7 @@ namespace clgen
 			return vector_union((method ? std::vector<string>{ "self" } : std::vector<string>()), params);
 		};
 
-		auto js_namespace = [&](const CLNamespace& n)
+		auto js_namespace = [&](const CLPrimitive& n)
 		{
 			string path = "Module" + js_namespace_path(m, n);
 			jsw(path + " = " + path + " || {};");
@@ -1645,6 +1645,8 @@ namespace clgen
 				CLEnum& e = *pe;
 				cw("// " + e.m_name);
 				jsw("// " + e.m_name);
+				if(e.m_scoped)
+					js_namespace(e);
 				for(size_t i = 0; i < e.m_ids.size(); ++i)
 				{
 					string f = enum_prefix + replace(e.m_id, "::", "_") + "_" + e.m_ids[i];

@@ -352,6 +352,7 @@ Module['system'] = function() {
 (function() {
     function setupEnums() {
         // TypeClass
+        Module['TypeClass'] = Module['TypeClass'] || {};
         Module['TypeClass']['None'] = _mud_TypeClass_None();
         Module['TypeClass']['Object'] = _mud_TypeClass_Object();
         Module['TypeClass']['Struct'] = _mud_TypeClass_Struct();

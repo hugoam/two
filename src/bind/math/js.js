@@ -1108,11 +1108,13 @@ Module['to_srgb'] = function(colour) {
 (function() {
     function setupEnums() {
         // Axes
+        Module['Axes'] = Module['Axes'] || {};
         Module['Axes']['None'] = _mud_Axes_None();
         Module['Axes']['X'] = _mud_Axes_X();
         Module['Axes']['Y'] = _mud_Axes_Y();
         Module['Axes']['Z'] = _mud_Axes_Z();
         // Axis
+        Module['Axis'] = Module['Axis'] || {};
         Module['Axis']['X'] = _mud_Axis_X();
         Module['Axis']['Y'] = _mud_Axis_Y();
         Module['Axis']['Z'] = _mud_Axis_Z();
@@ -1120,6 +1122,7 @@ Module['to_srgb'] = function(colour) {
         Module['CLOCKWISE'] = _mud_Clockwise_CLOCKWISE();
         Module['ANTI_CLOCKWISE'] = _mud_Clockwise_ANTI_CLOCKWISE();
         // Side
+        Module['Side'] = Module['Side'] || {};
         Module['Side']['Right'] = _mud_Side_Right();
         Module['Side']['Left'] = _mud_Side_Left();
         Module['Side']['Up'] = _mud_Side_Up();
@@ -1127,6 +1130,7 @@ Module['to_srgb'] = function(colour) {
         Module['Side']['Back'] = _mud_Side_Back();
         Module['Side']['Front'] = _mud_Side_Front();
         // SignedAxis
+        Module['SignedAxis'] = Module['SignedAxis'] || {};
         Module['SignedAxis']['PlusX'] = _mud_SignedAxis_PlusX();
         Module['SignedAxis']['MinusX'] = _mud_SignedAxis_MinusX();
         Module['SignedAxis']['PlusY'] = _mud_SignedAxis_PlusY();
@@ -1134,9 +1138,11 @@ Module['to_srgb'] = function(colour) {
         Module['SignedAxis']['PlusZ'] = _mud_SignedAxis_PlusZ();
         Module['SignedAxis']['MinusZ'] = _mud_SignedAxis_MinusZ();
         // Spectrum
+        Module['Spectrum'] = Module['Spectrum'] || {};
         Module['Spectrum']['Value'] = _mud_Spectrum_Value();
         Module['Spectrum']['Hue'] = _mud_Spectrum_Hue();
         // TrackMode
+        Module['TrackMode'] = Module['TrackMode'] || {};
         Module['TrackMode']['Constant'] = _mud_TrackMode_Constant();
         Module['TrackMode']['ConstantRandom'] = _mud_TrackMode_ConstantRandom();
         Module['TrackMode']['Curve'] = _mud_TrackMode_Curve();

@@ -176,6 +176,7 @@ Module['generate_fract'] = function(resolution, pattern, output_image) {
 (function() {
     function setupEnums() {
         // PatternSampling
+        Module['PatternSampling'] = Module['PatternSampling'] || {};
         Module['PatternSampling']['X'] = _mud_PatternSampling_X();
         Module['PatternSampling']['XY'] = _mud_PatternSampling_XY();
         Module['PatternSampling']['Depth'] = _mud_PatternSampling_Depth();

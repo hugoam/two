@@ -1,6 +1,11 @@
 // Bindings utilities
 function WrapperObject() {
 }
+WrapperObject.prototype = Object.create(WrapperObject.prototype);
+WrapperObject.prototype.constructor = WrapperObject;
+WrapperObject.prototype.__class__ = WrapperObject;
+WrapperObject.__cache__ = {};
+Module[WrapperObject] = WrapperObject;
 function getCache(cls) {
   return (cls || WrapperObject).__cache__;
 }

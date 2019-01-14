@@ -1543,10 +1543,12 @@ glTFTextureInfo.prototype["__destroy__"] = glTFTextureInfo.prototype.__destroy__
 (function() {
     function setupEnums() {
         // glTFAlphaMode
+        Module['glTFAlphaMode'] = Module['glTFAlphaMode'] || {};
         Module['glTFAlphaMode']['OPAQUE'] = _glTFAlphaMode_OPAQUE();
         Module['glTFAlphaMode']['MASK'] = _glTFAlphaMode_MASK();
         Module['glTFAlphaMode']['BLEND'] = _glTFAlphaMode_BLEND();
         // glTFComponentType
+        Module['glTFComponentType'] = Module['glTFComponentType'] || {};
         Module['glTFComponentType']['BYTE'] = _glTFComponentType_BYTE();
         Module['glTFComponentType']['UNSIGNED_BYTE'] = _glTFComponentType_UNSIGNED_BYTE();
         Module['glTFComponentType']['SHORT'] = _glTFComponentType_SHORT();
@@ -1554,11 +1556,13 @@ glTFTextureInfo.prototype["__destroy__"] = glTFTextureInfo.prototype.__destroy__
         Module['glTFComponentType']['INT'] = _glTFComponentType_INT();
         Module['glTFComponentType']['FLOAT'] = _glTFComponentType_FLOAT();
         // glTFInterpolation
+        Module['glTFInterpolation'] = Module['glTFInterpolation'] || {};
         Module['glTFInterpolation']['LINEAR'] = _glTFInterpolation_LINEAR();
         Module['glTFInterpolation']['STEP'] = _glTFInterpolation_STEP();
         Module['glTFInterpolation']['CATMULLROMSPLINE'] = _glTFInterpolation_CATMULLROMSPLINE();
         Module['glTFInterpolation']['CUBIC_SPLINE'] = _glTFInterpolation_CUBIC_SPLINE();
         // glTFPrimitiveType
+        Module['glTFPrimitiveType'] = Module['glTFPrimitiveType'] || {};
         Module['glTFPrimitiveType']['POINTS'] = _glTFPrimitiveType_POINTS();
         Module['glTFPrimitiveType']['LINES'] = _glTFPrimitiveType_LINES();
         Module['glTFPrimitiveType']['LINE_LOOP'] = _glTFPrimitiveType_LINE_LOOP();
@@ -1567,6 +1571,7 @@ glTFTextureInfo.prototype["__destroy__"] = glTFTextureInfo.prototype.__destroy__
         Module['glTFPrimitiveType']['TRIANGLE_STRIP'] = _glTFPrimitiveType_TRIANGLE_STRIP();
         Module['glTFPrimitiveType']['TRIANGLE_FAN'] = _glTFPrimitiveType_TRIANGLE_FAN();
         // glTFType
+        Module['glTFType'] = Module['glTFType'] || {};
         Module['glTFType']['SCALAR'] = _glTFType_SCALAR();
         Module['glTFType']['VEC2'] = _glTFType_VEC2();
         Module['glTFType']['VEC3'] = _glTFType_VEC3();

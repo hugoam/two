@@ -1266,6 +1266,7 @@ Module['to_segment'] = function(ray) {
         Module['OUTLINE'] = _mud_DrawMode_OUTLINE();
         Module['PLAIN'] = _mud_DrawMode_PLAIN();
         // PrimitiveType
+        Module['PrimitiveType'] = Module['PrimitiveType'] || {};
         Module['PrimitiveType']['Points'] = _mud_PrimitiveType_Points();
         Module['PrimitiveType']['Lines'] = _mud_PrimitiveType_Lines();
         Module['PrimitiveType']['LineLoop'] = _mud_PrimitiveType_LineLoop();
@@ -1274,6 +1275,7 @@ Module['to_segment'] = function(ray) {
         Module['PrimitiveType']['TriangleStrip'] = _mud_PrimitiveType_TriangleStrip();
         Module['PrimitiveType']['TriangleFan'] = _mud_PrimitiveType_TriangleFan();
         // SymbolDetail
+        Module['SymbolDetail'] = Module['SymbolDetail'] || {};
         Module['SymbolDetail']['Lowest'] = _mud_SymbolDetail_Lowest();
         Module['SymbolDetail']['Low'] = _mud_SymbolDetail_Low();
         Module['SymbolDetail']['Medium'] = _mud_SymbolDetail_Medium();

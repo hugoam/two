@@ -528,6 +528,7 @@ WorldSnapOption.prototype["__destroy__"] = WorldSnapOption.prototype.__destroy__
 (function() {
     function setupEnums() {
         // ToolState
+        Module['ToolState'] = Module['ToolState'] || {};
         Module['ToolState']['Inactive'] = _mud_ToolState_Inactive();
         Module['ToolState']['Done'] = _mud_ToolState_Done();
         Module['ToolState']['Active'] = _mud_ToolState_Active();

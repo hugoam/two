@@ -445,6 +445,7 @@ WrenInterpreter.prototype["__destroy__"] = WrenInterpreter.prototype.__destroy__
 (function() {
     function setupEnums() {
         // Language
+        Module['Language'] = Module['Language'] || {};
         Module['Language']['Cpp'] = _mud_Language_Cpp();
         Module['Language']['Lua'] = _mud_Language_Lua();
         Module['Language']['Wren'] = _mud_Language_Wren();

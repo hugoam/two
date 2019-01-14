@@ -2311,6 +2311,7 @@ Module['ui']['window'] = function(parent, title, state) {
         Module['FORWARD'] = _mud_Pivot_FORWARD();
         Module['REVERSE'] = _mud_Pivot_REVERSE();
         // PopupFlags
+        Module['ui']['PopupFlags'] = Module['ui']['PopupFlags'] || {};
         Module['ui']['PopupFlags']['None'] = _mud_ui_PopupFlags_None();
         Module['ui']['PopupFlags']['Modal'] = _mud_ui_PopupFlags_Modal();
         Module['ui']['PopupFlags']['Clamp'] = _mud_ui_PopupFlags_Clamp();

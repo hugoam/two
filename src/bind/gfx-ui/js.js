@@ -248,6 +248,7 @@ Module['ui']['viewer'] = function(parent, scene) {
 (function() {
     function setupEnums() {
         // OrbitMode
+        Module['ui']['OrbitMode'] = Module['ui']['OrbitMode'] || {};
         Module['ui']['OrbitMode']['ThirdPerson'] = _mud_ui_OrbitMode_ThirdPerson();
         Module['ui']['OrbitMode']['Isometric'] = _mud_ui_OrbitMode_Isometric();
         Module['ui']['OrbitMode']['PseudoIsometric'] = _mud_ui_OrbitMode_PseudoIsometric();

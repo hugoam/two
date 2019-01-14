@@ -402,6 +402,7 @@ MouseEvent.prototype["__destroy__"] = MouseEvent.prototype.__destroy__ = functio
 (function() {
     function setupEnums() {
         // DeviceType
+        Module['DeviceType'] = Module['DeviceType'] || {};
         Module['DeviceType']['None'] = _mud_DeviceType_None();
         Module['DeviceType']['Keyboard'] = _mud_DeviceType_Keyboard();
         Module['DeviceType']['Mouse'] = _mud_DeviceType_Mouse();
@@ -411,6 +412,7 @@ MouseEvent.prototype["__destroy__"] = MouseEvent.prototype.__destroy__ = functio
         Module['DeviceType']['Touch'] = _mud_DeviceType_Touch();
         Module['DeviceType']['Count'] = _mud_DeviceType_Count();
         // EventType
+        Module['EventType'] = Module['EventType'] || {};
         Module['EventType']['None'] = _mud_EventType_None();
         Module['EventType']['Heartbeat'] = _mud_EventType_Heartbeat();
         Module['EventType']['Moved'] = _mud_EventType_Moved();
@@ -425,12 +427,14 @@ MouseEvent.prototype["__destroy__"] = MouseEvent.prototype.__destroy__ = functio
         Module['EventType']['Dropped'] = _mud_EventType_Dropped();
         Module['EventType']['Count'] = _mud_EventType_Count();
         // InputMod
+        Module['InputMod'] = Module['InputMod'] || {};
         Module['InputMod']['None'] = _mud_InputMod_None();
         Module['InputMod']['Shift'] = _mud_InputMod_Shift();
         Module['InputMod']['Ctrl'] = _mud_InputMod_Ctrl();
         Module['InputMod']['Alt'] = _mud_InputMod_Alt();
         Module['InputMod']['Any'] = _mud_InputMod_Any();
         // Key
+        Module['Key'] = Module['Key'] || {};
         Module['Key']['Unassigned'] = _mud_Key_Unassigned();
         Module['Key']['Escape'] = _mud_Key_Escape();
         Module['Key']['Num1'] = _mud_Key_Num1();
