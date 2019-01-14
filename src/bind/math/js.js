@@ -1131,33 +1131,16 @@ Module['to_srgb'] = function(colour) {
 
 (function() {
     function setup() {
-        AutoStat<float>.__type__ = _mud_AutoStat<float>__type();
-        AutoStat<int>.__type__ = _mud_AutoStat<int>__type();
         Colour.__type__ = _mud_Colour__type();
         Gauge.__type__ = _mud_Gauge__type();
         Image.__type__ = _mud_Image__type();
         Image256.__type__ = _mud_Image256__type();
         ImageAtlas.__type__ = _mud_ImageAtlas__type();
         Palette.__type__ = _mud_Palette__type();
-        Range<float>.__type__ = _mud_Range<float>__type();
-        Range<mud::Colour>.__type__ = _mud_Range<mud_Colour>__type();
-        Range<mud::quat>.__type__ = _mud_Range<mud_quat>__type();
-        Range<mud::vec3>.__type__ = _mud_Range<mud_vec3>__type();
-        Range<uint32_t>.__type__ = _mud_Range<uint32_t>__type();
         Ratio.__type__ = _mud_Ratio__type();
         Time.__type__ = _mud_Time__type();
         TimeSpan.__type__ = _mud_TimeSpan__type();
         Transform.__type__ = _mud_Transform__type();
-        ValueCurve<float>.__type__ = _mud_ValueCurve<float>__type();
-        ValueCurve<mud::Colour>.__type__ = _mud_ValueCurve<mud_Colour>__type();
-        ValueCurve<mud::quat>.__type__ = _mud_ValueCurve<mud_quat>__type();
-        ValueCurve<mud::vec3>.__type__ = _mud_ValueCurve<mud_vec3>__type();
-        ValueCurve<uint32_t>.__type__ = _mud_ValueCurve<uint32_t>__type();
-        ValueTrack<float>.__type__ = _mud_ValueTrack<float>__type();
-        ValueTrack<mud::Colour>.__type__ = _mud_ValueTrack<mud_Colour>__type();
-        ValueTrack<mud::quat>.__type__ = _mud_ValueTrack<mud_quat>__type();
-        ValueTrack<mud::vec3>.__type__ = _mud_ValueTrack<mud_vec3>__type();
-        ValueTrack<uint32_t>.__type__ = _mud_ValueTrack<uint32_t>__type();
         bvec3.__type__ = _mud_bvec3__type();
         bvec4.__type__ = _mud_bvec4__type();
         half2.__type__ = _mud_half2__type();

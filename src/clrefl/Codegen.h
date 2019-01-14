@@ -809,11 +809,11 @@ namespace clgen
 	void bind_javascript(CLModule& m)
 	{
 		// @todo:
+		// - static members
 		// - vectors
 		// - array members
 		// - array types
 		// - noncopy types
-		// - pointer types (mud::Ref)
 		// - handle types
 		// - references to strings
 
@@ -1401,7 +1401,6 @@ namespace clgen
 				{
 					if(blacklist_member(m)) continue;
 					if(m.m_type.m_type->m_is_templated) continue;
-					if(m.m_type.value() && m.m_type.m_type->m_move_only) continue;
 
 					c_getter(c, m);
 					if(!m.m_nonmutable)
@@ -1459,13 +1458,14 @@ namespace clgen
 			jsw("function setup() {");
 			
 			for(auto& pc : m.m_classes)
-			{
-				if(blacklist_class(*pc)) continue;
+				if(pc->m_reflect && !pc->m_is_templated)
+				{
+					if(blacklist_class(*pc)) continue;
 
-				CLClass& c = *pc;
+					CLClass& c = *pc;
 
-				jsw(c.m_name + ".__type__ = " + "_" + replace(c.m_id, "::", "_") + "__type();"); // add wrapPointer() ?
-			}
+					jsw(replace(c.m_name, "::", "_") + ".__type__ = " + "_" + replace(c.m_id, "::", "_") + "__type();"); // add wrapPointer() ?
+				}
 
 			//string enum_prefix = "emscripten_enum_";
 			string enum_prefix = "";

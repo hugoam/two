@@ -2447,12 +2447,6 @@ Module['ui']['window'] = function(parent, title, state) {
     function setup() {
         CanvasConnect.__type__ = _mud_CanvasConnect__type();
         Clipboard.__type__ = _mud_Clipboard__type();
-        Dim2<bool>.__type__ = _mud_Dim2<bool>__type();
-        Dim2<mud::Align>.__type__ = _mud_Dim2<mud_Align>__type();
-        Dim2<mud::AutoLayout>.__type__ = _mud_Dim2<mud_AutoLayout>__type();
-        Dim2<mud::Pivot>.__type__ = _mud_Dim2<mud_Pivot>__type();
-        Dim2<mud::Sizing>.__type__ = _mud_Dim2<mud_Sizing>__type();
-        Dim2<size_t>.__type__ = _mud_Dim2<size_t>__type();
         Dock.__type__ = _mud_Dock__type();
         Docksystem.__type__ = _mud_Docksystem__type();
         Gradient.__type__ = _mud_Gradient__type();
