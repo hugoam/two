@@ -5,7 +5,6 @@ Distribution.prototype = Object.create(WrapperObject.prototype);
 Distribution.prototype.constructor = Distribution;
 Distribution.prototype.__class__ = Distribution;
 Distribution.__cache__ = {};
-Distribution.__type__ = _mud_Distribution__type();
 Module['Distribution'] = Distribution;
 Distribution.prototype["__destroy__"] = Distribution.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -20,7 +19,6 @@ Face3.prototype = Object.create(WrapperObject.prototype);
 Face3.prototype.constructor = Face3;
 Face3.prototype.__class__ = Face3;
 Face3.__cache__ = {};
-Face3.__type__ = _mud_Face3__type();
 Module['Face3'] = Face3;
 Face3.prototype["__destroy__"] = Face3.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -35,7 +33,6 @@ MeshPacker.prototype = Object.create(WrapperObject.prototype);
 MeshPacker.prototype.constructor = MeshPacker;
 MeshPacker.prototype.__class__ = MeshPacker;
 MeshPacker.__cache__ = {};
-MeshPacker.__type__ = _mud_MeshPacker__type();
 Module['MeshPacker'] = MeshPacker;
 MeshPacker.prototype["__destroy__"] = MeshPacker.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -50,7 +47,6 @@ Plane.prototype = Object.create(WrapperObject.prototype);
 Plane.prototype.constructor = Plane;
 Plane.prototype.__class__ = Plane;
 Plane.__cache__ = {};
-Plane.__type__ = _mud_Plane__type();
 Module['Plane'] = Plane;
 Object.defineProperty(Plane.prototype, "normal", {
     get: function() {
@@ -88,7 +84,6 @@ Plane3.prototype = Object.create(WrapperObject.prototype);
 Plane3.prototype.constructor = Plane3;
 Plane3.prototype.__class__ = Plane3;
 Plane3.__cache__ = {};
-Plane3.__type__ = _mud_Plane3__type();
 Module['Plane3'] = Plane3;
 Object.defineProperty(Plane3.prototype, "origin", {
     get: function() {
@@ -139,7 +134,6 @@ Ray.prototype = Object.create(WrapperObject.prototype);
 Ray.prototype.constructor = Ray;
 Ray.prototype.__class__ = Ray;
 Ray.__cache__ = {};
-Ray.__type__ = _mud_Ray__type();
 Module['Ray'] = Ray;
 Object.defineProperty(Ray.prototype, "start", {
     get: function() {
@@ -202,7 +196,6 @@ Segment.prototype = Object.create(WrapperObject.prototype);
 Segment.prototype.constructor = Segment;
 Segment.prototype.__class__ = Segment;
 Segment.__cache__ = {};
-Segment.__type__ = _mud_Segment__type();
 Module['Segment'] = Segment;
 Object.defineProperty(Segment.prototype, "start", {
     get: function() {
@@ -238,7 +231,6 @@ Shape.prototype = Object.create(WrapperObject.prototype);
 Shape.prototype.constructor = Shape;
 Shape.prototype.__class__ = Shape;
 Shape.__cache__ = {};
-Shape.__type__ = _mud_Shape__type();
 Module['Shape'] = Shape;
 Object.defineProperty(Shape.prototype, "type", {
     get: function() {
@@ -261,7 +253,6 @@ ShapeVar.prototype = Object.create(WrapperObject.prototype);
 ShapeVar.prototype.constructor = ShapeVar;
 ShapeVar.prototype.__class__ = ShapeVar;
 ShapeVar.__cache__ = {};
-ShapeVar.__type__ = _mud_ShapeVar__type();
 Module['ShapeVar'] = ShapeVar;
 Object.defineProperty(ShapeVar.prototype, "shape", {
     get: function() {
@@ -294,7 +285,6 @@ Symbol.prototype = Object.create(WrapperObject.prototype);
 Symbol.prototype.constructor = Symbol;
 Symbol.prototype.__class__ = Symbol;
 Symbol.__cache__ = {};
-Symbol.__type__ = _mud_Symbol__type();
 Module['Symbol'] = Symbol;
 Object.defineProperty(Symbol.prototype, "outline", {
     get: function() {
@@ -409,7 +399,6 @@ Arc.prototype = Object.create(WrapperObject.prototype);
 Arc.prototype.constructor = Arc;
 Arc.prototype.__class__ = Arc;
 Arc.__cache__ = {};
-Arc.__type__ = _mud_Arc__type();
 Module['Arc'] = Arc;
 Object.defineProperty(Arc.prototype, "radius", {
     get: function() {
@@ -467,7 +456,6 @@ ArcLine.prototype = Object.create(WrapperObject.prototype);
 ArcLine.prototype.constructor = ArcLine;
 ArcLine.prototype.__class__ = ArcLine;
 ArcLine.__cache__ = {};
-ArcLine.__type__ = _mud_ArcLine__type();
 Module['ArcLine'] = ArcLine;
 Object.defineProperty(ArcLine.prototype, "start", {
     get: function() {
@@ -524,7 +512,6 @@ Capsule.prototype = Object.create(WrapperObject.prototype);
 Capsule.prototype.constructor = Capsule;
 Capsule.prototype.__class__ = Capsule;
 Capsule.__cache__ = {};
-Capsule.__type__ = _mud_Capsule__type();
 Module['Capsule'] = Capsule;
 Object.defineProperty(Capsule.prototype, "radius", {
     get: function() {
@@ -579,7 +566,6 @@ Cube.prototype = Object.create(WrapperObject.prototype);
 Cube.prototype.constructor = Cube;
 Cube.prototype.__class__ = Cube;
 Cube.__cache__ = {};
-Cube.__type__ = _mud_Cube__type();
 Module['Cube'] = Cube;
 Object.defineProperty(Cube.prototype, "extents", {
     get: function() {
@@ -611,7 +597,6 @@ Aabb.prototype = Object.create(WrapperObject.prototype);
 Aabb.prototype.constructor = Aabb;
 Aabb.prototype.__class__ = Aabb;
 Aabb.__cache__ = {};
-Aabb.__type__ = _mud_Aabb__type();
 Module['Aabb'] = Aabb;
 Object.defineProperty(Aabb.prototype, "empty", {
     get: function() {
@@ -637,7 +622,6 @@ Box.prototype = Object.create(WrapperObject.prototype);
 Box.prototype.constructor = Box;
 Box.prototype.__class__ = Box;
 Box.__cache__ = {};
-Box.__type__ = _mud_Box__type();
 Module['Box'] = Box;
 Box.prototype["__destroy__"] = Box.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -657,7 +641,6 @@ Circle.prototype = Object.create(WrapperObject.prototype);
 Circle.prototype.constructor = Circle;
 Circle.prototype.__class__ = Circle;
 Circle.__cache__ = {};
-Circle.__type__ = _mud_Circle__type();
 Module['Circle'] = Circle;
 Object.defineProperty(Circle.prototype, "radius", {
     get: function() {
@@ -698,7 +681,6 @@ ConvexHull.prototype = Object.create(WrapperObject.prototype);
 ConvexHull.prototype.constructor = ConvexHull;
 ConvexHull.prototype.__class__ = ConvexHull;
 ConvexHull.__cache__ = {};
-ConvexHull.__type__ = _mud_ConvexHull__type();
 Module['ConvexHull'] = ConvexHull;
 ConvexHull.prototype["__destroy__"] = ConvexHull.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -719,7 +701,6 @@ Cylinder.prototype = Object.create(WrapperObject.prototype);
 Cylinder.prototype.constructor = Cylinder;
 Cylinder.prototype.__class__ = Cylinder;
 Cylinder.__cache__ = {};
-Cylinder.__type__ = _mud_Cylinder__type();
 Module['Cylinder'] = Cylinder;
 Object.defineProperty(Cylinder.prototype, "radius", {
     get: function() {
@@ -774,7 +755,6 @@ Ellipsis.prototype = Object.create(WrapperObject.prototype);
 Ellipsis.prototype.constructor = Ellipsis;
 Ellipsis.prototype.__class__ = Ellipsis;
 Ellipsis.__cache__ = {};
-Ellipsis.__type__ = _mud_Ellipsis__type();
 Module['Ellipsis'] = Ellipsis;
 Object.defineProperty(Ellipsis.prototype, "radius", {
     get: function() {
@@ -813,7 +793,6 @@ Geometry.prototype = Object.create(WrapperObject.prototype);
 Geometry.prototype.constructor = Geometry;
 Geometry.prototype.__class__ = Geometry;
 Geometry.__cache__ = {};
-Geometry.__type__ = _mud_Geometry__type();
 Module['Geometry'] = Geometry;
 Geometry.prototype["__destroy__"] = Geometry.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -834,7 +813,6 @@ Grid2.prototype = Object.create(WrapperObject.prototype);
 Grid2.prototype.constructor = Grid2;
 Grid2.prototype.__class__ = Grid2;
 Grid2.__cache__ = {};
-Grid2.__type__ = _mud_Grid2__type();
 Module['Grid2'] = Grid2;
 Object.defineProperty(Grid2.prototype, "size", {
     get: function() {
@@ -879,7 +857,6 @@ Grid3.prototype = Object.create(WrapperObject.prototype);
 Grid3.prototype.constructor = Grid3;
 Grid3.prototype.__class__ = Grid3;
 Grid3.__cache__ = {};
-Grid3.__type__ = _mud_Grid3__type();
 Module['Grid3'] = Grid3;
 Object.defineProperty(Grid3.prototype, "size", {
     get: function() {
@@ -911,7 +888,6 @@ Line.prototype = Object.create(WrapperObject.prototype);
 Line.prototype.constructor = Line;
 Line.prototype.__class__ = Line;
 Line.__cache__ = {};
-Line.__type__ = _mud_Line__type();
 Module['Line'] = Line;
 Object.defineProperty(Line.prototype, "start", {
     get: function() {
@@ -953,7 +929,6 @@ Points.prototype = Object.create(WrapperObject.prototype);
 Points.prototype.constructor = Points;
 Points.prototype.__class__ = Points;
 Points.__cache__ = {};
-Points.__type__ = _mud_Points__type();
 Module['Points'] = Points;
 Points.prototype["__destroy__"] = Points.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -971,7 +946,6 @@ Poisson.prototype = Object.create(WrapperObject.prototype);
 Poisson.prototype.constructor = Poisson;
 Poisson.prototype.__class__ = Poisson;
 Poisson.__cache__ = {};
-Poisson.__type__ = _mud_Poisson__type();
 Module['Poisson'] = Poisson;
 Poisson.prototype["addPoint"] = Poisson.prototype.addPoint = function(self, radius, point) {
     var self = this.ptr;
@@ -996,7 +970,6 @@ Polygon.prototype = Object.create(WrapperObject.prototype);
 Polygon.prototype.constructor = Polygon;
 Polygon.prototype.__class__ = Polygon;
 Polygon.__cache__ = {};
-Polygon.__type__ = _mud_Polygon__type();
 Module['Polygon'] = Polygon;
 Polygon.prototype["__destroy__"] = Polygon.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1020,7 +993,6 @@ Quad.prototype = Object.create(WrapperObject.prototype);
 Quad.prototype.constructor = Quad;
 Quad.prototype.__class__ = Quad;
 Quad.__cache__ = {};
-Quad.__type__ = _mud_Quad__type();
 Module['Quad'] = Quad;
 Quad.prototype["__destroy__"] = Quad.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1040,7 +1012,6 @@ Rect.prototype = Object.create(WrapperObject.prototype);
 Rect.prototype.constructor = Rect;
 Rect.prototype.__class__ = Rect;
 Rect.__cache__ = {};
-Rect.__type__ = _mud_Rect__type();
 Module['Rect'] = Rect;
 Object.defineProperty(Rect.prototype, "position", {
     get: function() {
@@ -1083,7 +1054,6 @@ Ring.prototype = Object.create(WrapperObject.prototype);
 Ring.prototype.constructor = Ring;
 Ring.prototype.__class__ = Ring;
 Ring.__cache__ = {};
-Ring.__type__ = _mud_Ring__type();
 Module['Ring'] = Ring;
 Object.defineProperty(Ring.prototype, "radius", {
     get: function() {
@@ -1133,7 +1103,6 @@ Sphere.prototype = Object.create(WrapperObject.prototype);
 Sphere.prototype.constructor = Sphere;
 Sphere.prototype.__class__ = Sphere;
 Sphere.__cache__ = {};
-Sphere.__type__ = _mud_Sphere__type();
 Module['Sphere'] = Sphere;
 Object.defineProperty(Sphere.prototype, "radius", {
     get: function() {
@@ -1163,7 +1132,6 @@ SphereRing.prototype = Object.create(WrapperObject.prototype);
 SphereRing.prototype.constructor = SphereRing;
 SphereRing.prototype.__class__ = SphereRing;
 SphereRing.__cache__ = {};
-SphereRing.__type__ = _mud_SphereRing__type();
 Module['SphereRing'] = SphereRing;
 Object.defineProperty(SphereRing.prototype, "radius", {
     get: function() {
@@ -1213,7 +1181,6 @@ Spheroid.prototype = Object.create(WrapperObject.prototype);
 Spheroid.prototype.constructor = Spheroid;
 Spheroid.prototype.__class__ = Spheroid;
 Spheroid.__cache__ = {};
-Spheroid.__type__ = _mud_Spheroid__type();
 Module['Spheroid'] = Spheroid;
 Object.defineProperty(Spheroid.prototype, "radius", {
     get: function() {
@@ -1245,7 +1212,6 @@ Torus.prototype = Object.create(WrapperObject.prototype);
 Torus.prototype.constructor = Torus;
 Torus.prototype.__class__ = Torus;
 Torus.__cache__ = {};
-Torus.__type__ = _mud_Torus__type();
 Module['Torus'] = Torus;
 Object.defineProperty(Torus.prototype, "radius", {
     get: function() {
@@ -1297,7 +1263,6 @@ Triangle.prototype = Object.create(WrapperObject.prototype);
 Triangle.prototype.constructor = Triangle;
 Triangle.prototype.__class__ = Triangle;
 Triangle.__cache__ = {};
-Triangle.__type__ = _mud_Triangle__type();
 Module['Triangle'] = Triangle;
 Object.defineProperty(Triangle.prototype, "size", {
     get: function() {
@@ -1333,7 +1298,42 @@ Module['to_segment'] = function(ray) {
 };
 
 (function() {
-    function setupEnums() {
+    function setup() {
+        Distribution.__type__ = _mud_Distribution__type();
+        Face3.__type__ = _mud_Face3__type();
+        MeshPacker.__type__ = _mud_MeshPacker__type();
+        Plane.__type__ = _mud_Plane__type();
+        Plane3.__type__ = _mud_Plane3__type();
+        Ray.__type__ = _mud_Ray__type();
+        Segment.__type__ = _mud_Segment__type();
+        Shape.__type__ = _mud_Shape__type();
+        ShapeVar.__type__ = _mud_ShapeVar__type();
+        Symbol.__type__ = _mud_Symbol__type();
+        Arc.__type__ = _mud_Arc__type();
+        ArcLine.__type__ = _mud_ArcLine__type();
+        Capsule.__type__ = _mud_Capsule__type();
+        Cube.__type__ = _mud_Cube__type();
+        Aabb.__type__ = _mud_Aabb__type();
+        Box.__type__ = _mud_Box__type();
+        Circle.__type__ = _mud_Circle__type();
+        ConvexHull.__type__ = _mud_ConvexHull__type();
+        Cylinder.__type__ = _mud_Cylinder__type();
+        Ellipsis.__type__ = _mud_Ellipsis__type();
+        Geometry.__type__ = _mud_Geometry__type();
+        Grid2.__type__ = _mud_Grid2__type();
+        Grid3.__type__ = _mud_Grid3__type();
+        Line.__type__ = _mud_Line__type();
+        Points.__type__ = _mud_Points__type();
+        Poisson.__type__ = _mud_Poisson__type();
+        Polygon.__type__ = _mud_Polygon__type();
+        Quad.__type__ = _mud_Quad__type();
+        Rect.__type__ = _mud_Rect__type();
+        Ring.__type__ = _mud_Ring__type();
+        Sphere.__type__ = _mud_Sphere__type();
+        SphereRing.__type__ = _mud_SphereRing__type();
+        Spheroid.__type__ = _mud_Spheroid__type();
+        Torus.__type__ = _mud_Torus__type();
+        Triangle.__type__ = _mud_Triangle__type();
         // DrawMode
         Module['OUTLINE'] = _mud_DrawMode_OUTLINE();
         Module['PLAIN'] = _mud_DrawMode_PLAIN();
@@ -1354,6 +1354,6 @@ Module['to_segment'] = function(ray) {
         Module['SymbolDetail']['High'] = _mud_SymbolDetail_High();
         Module['SymbolDetail']['Highest'] = _mud_SymbolDetail_Highest();
     }
-    if (Module['calledRun']) setupEnums();
-    else addOnPreMain(setupEnums);
+    if (Module['calledRun']) setup();
+    else addOnPreMain(setup);
 })();

@@ -10,7 +10,6 @@ BCS.prototype = Object.create(WrapperObject.prototype);
 BCS.prototype.constructor = BCS;
 BCS.prototype.__class__ = BCS;
 BCS.__cache__ = {};
-BCS.__type__ = _mud_BCS__type();
 Module['BCS'] = BCS;
 Object.defineProperty(BCS.prototype, "enabled", {
     get: function() {
@@ -69,7 +68,6 @@ DofBlur.prototype = Object.create(WrapperObject.prototype);
 DofBlur.prototype.constructor = DofBlur;
 DofBlur.prototype.__class__ = DofBlur;
 DofBlur.__cache__ = {};
-DofBlur.__type__ = _mud_DofBlur__type();
 Module['DofBlur'] = DofBlur;
 Object.defineProperty(DofBlur.prototype, "enabled", {
     get: function() {
@@ -169,7 +167,6 @@ GIProbe.prototype = Object.create(WrapperObject.prototype);
 GIProbe.prototype.constructor = GIProbe;
 GIProbe.prototype.__class__ = GIProbe;
 GIProbe.__cache__ = {};
-GIProbe.__type__ = _mud_GIProbe__type();
 Module['GIProbe'] = GIProbe;
 GIProbe.prototype["__destroy__"] = GIProbe.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -184,7 +181,6 @@ Glow.prototype = Object.create(WrapperObject.prototype);
 Glow.prototype.constructor = Glow;
 Glow.prototype.__class__ = Glow;
 Glow.__cache__ = {};
-Glow.__type__ = _mud_Glow__type();
 Module['Glow'] = Glow;
 Object.defineProperty(Glow.prototype, "enabled", {
     get: function() {
@@ -289,7 +285,6 @@ LightShadow.prototype = Object.create(WrapperObject.prototype);
 LightShadow.prototype.constructor = LightShadow;
 LightShadow.prototype.__class__ = LightShadow;
 LightShadow.__cache__ = {};
-LightShadow.__type__ = _mud_LightShadow__type();
 Module['LightShadow'] = LightShadow;
 LightShadow.prototype["__destroy__"] = LightShadow.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -301,7 +296,6 @@ Lightmap.prototype = Object.create(WrapperObject.prototype);
 Lightmap.prototype.constructor = Lightmap;
 Lightmap.prototype.__class__ = Lightmap;
 Lightmap.__cache__ = {};
-Lightmap.__type__ = _mud_Lightmap__type();
 Module['Lightmap'] = Lightmap;
 Lightmap.prototype["__destroy__"] = Lightmap.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -313,7 +307,6 @@ LightmapAtlas.prototype = Object.create(WrapperObject.prototype);
 LightmapAtlas.prototype.constructor = LightmapAtlas;
 LightmapAtlas.prototype.__class__ = LightmapAtlas;
 LightmapAtlas.__cache__ = {};
-LightmapAtlas.__type__ = _mud_LightmapAtlas__type();
 Module['LightmapAtlas'] = LightmapAtlas;
 LightmapAtlas.prototype["__destroy__"] = LightmapAtlas.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -325,7 +318,6 @@ LightmapItem.prototype = Object.create(WrapperObject.prototype);
 LightmapItem.prototype.constructor = LightmapItem;
 LightmapItem.prototype.__class__ = LightmapItem;
 LightmapItem.__cache__ = {};
-LightmapItem.__type__ = _mud_LightmapItem__type();
 Module['LightmapItem'] = LightmapItem;
 LightmapItem.prototype["__destroy__"] = LightmapItem.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -337,7 +329,6 @@ ReflectionProbe.prototype = Object.create(WrapperObject.prototype);
 ReflectionProbe.prototype.constructor = ReflectionProbe;
 ReflectionProbe.prototype.__class__ = ReflectionProbe;
 ReflectionProbe.__cache__ = {};
-ReflectionProbe.__type__ = _mud_ReflectionProbe__type();
 Module['ReflectionProbe'] = ReflectionProbe;
 Object.defineProperty(ReflectionProbe.prototype, "node", {
     get: function() {
@@ -413,7 +404,6 @@ RenderFilters.prototype = Object.create(WrapperObject.prototype);
 RenderFilters.prototype.constructor = RenderFilters;
 RenderFilters.prototype.__class__ = RenderFilters;
 RenderFilters.__cache__ = {};
-RenderFilters.__type__ = _mud_RenderFilters__type();
 Module['RenderFilters'] = RenderFilters;
 Object.defineProperty(RenderFilters.prototype, "dof_blur", {
     get: function() {
@@ -476,7 +466,6 @@ Tonemap.prototype = Object.create(WrapperObject.prototype);
 Tonemap.prototype.constructor = Tonemap;
 Tonemap.prototype.__class__ = Tonemap;
 Tonemap.__cache__ = {};
-Tonemap.__type__ = _mud_Tonemap__type();
 Module['Tonemap'] = Tonemap;
 Object.defineProperty(Tonemap.prototype, "mode", {
     get: function() {
@@ -533,7 +522,6 @@ BlockBlur.prototype = Object.create(WrapperObject.prototype);
 BlockBlur.prototype.constructor = BlockBlur;
 BlockBlur.prototype.__class__ = BlockBlur;
 BlockBlur.__cache__ = {};
-BlockBlur.__type__ = _mud_BlockBlur__type();
 Module['BlockBlur'] = BlockBlur;
 BlockBlur.prototype["__destroy__"] = BlockBlur.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -545,7 +533,6 @@ BlockDofBlur.prototype = Object.create(WrapperObject.prototype);
 BlockDofBlur.prototype.constructor = BlockDofBlur;
 BlockDofBlur.prototype.__class__ = BlockDofBlur;
 BlockDofBlur.__cache__ = {};
-BlockDofBlur.__type__ = _mud_BlockDofBlur__type();
 Module['BlockDofBlur'] = BlockDofBlur;
 BlockDofBlur.prototype["__destroy__"] = BlockDofBlur.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -557,7 +544,6 @@ BlockGIBake.prototype = Object.create(WrapperObject.prototype);
 BlockGIBake.prototype.constructor = BlockGIBake;
 BlockGIBake.prototype.__class__ = BlockGIBake;
 BlockGIBake.__cache__ = {};
-BlockGIBake.__type__ = _mud_BlockGIBake__type();
 Module['BlockGIBake'] = BlockGIBake;
 BlockGIBake.prototype["__destroy__"] = BlockGIBake.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -569,7 +555,6 @@ BlockGITrace.prototype = Object.create(WrapperObject.prototype);
 BlockGITrace.prototype.constructor = BlockGITrace;
 BlockGITrace.prototype.__class__ = BlockGITrace;
 BlockGITrace.__cache__ = {};
-BlockGITrace.__type__ = _mud_BlockGITrace__type();
 Module['BlockGITrace'] = BlockGITrace;
 BlockGITrace.prototype["__destroy__"] = BlockGITrace.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -581,7 +566,6 @@ BlockGeometry.prototype = Object.create(WrapperObject.prototype);
 BlockGeometry.prototype.constructor = BlockGeometry;
 BlockGeometry.prototype.__class__ = BlockGeometry;
 BlockGeometry.__cache__ = {};
-BlockGeometry.__type__ = _mud_BlockGeometry__type();
 Module['BlockGeometry'] = BlockGeometry;
 BlockGeometry.prototype["__destroy__"] = BlockGeometry.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -593,7 +577,6 @@ BlockGlow.prototype = Object.create(WrapperObject.prototype);
 BlockGlow.prototype.constructor = BlockGlow;
 BlockGlow.prototype.__class__ = BlockGlow;
 BlockGlow.__cache__ = {};
-BlockGlow.__type__ = _mud_BlockGlow__type();
 Module['BlockGlow'] = BlockGlow;
 BlockGlow.prototype["__destroy__"] = BlockGlow.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -605,7 +588,6 @@ BlockLight.prototype = Object.create(WrapperObject.prototype);
 BlockLight.prototype.constructor = BlockLight;
 BlockLight.prototype.__class__ = BlockLight;
 BlockLight.__cache__ = {};
-BlockLight.__type__ = _mud_BlockLight__type();
 Module['BlockLight'] = BlockLight;
 BlockLight.prototype["__destroy__"] = BlockLight.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -617,7 +599,6 @@ BlockLightmap.prototype = Object.create(WrapperObject.prototype);
 BlockLightmap.prototype.constructor = BlockLightmap;
 BlockLightmap.prototype.__class__ = BlockLightmap;
 BlockLightmap.__cache__ = {};
-BlockLightmap.__type__ = _mud_BlockLightmap__type();
 Module['BlockLightmap'] = BlockLightmap;
 BlockLightmap.prototype["__destroy__"] = BlockLightmap.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -629,7 +610,6 @@ BlockRadiance.prototype = Object.create(WrapperObject.prototype);
 BlockRadiance.prototype.constructor = BlockRadiance;
 BlockRadiance.prototype.__class__ = BlockRadiance;
 BlockRadiance.__cache__ = {};
-BlockRadiance.__type__ = _mud_BlockRadiance__type();
 Module['BlockRadiance'] = BlockRadiance;
 BlockRadiance.prototype["__destroy__"] = BlockRadiance.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -641,7 +621,6 @@ BlockReflection.prototype = Object.create(WrapperObject.prototype);
 BlockReflection.prototype.constructor = BlockReflection;
 BlockReflection.prototype.__class__ = BlockReflection;
 BlockReflection.__cache__ = {};
-BlockReflection.__type__ = _mud_BlockReflection__type();
 Module['BlockReflection'] = BlockReflection;
 BlockReflection.prototype["__destroy__"] = BlockReflection.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -653,7 +632,6 @@ BlockShadow.prototype = Object.create(WrapperObject.prototype);
 BlockShadow.prototype.constructor = BlockShadow;
 BlockShadow.prototype.__class__ = BlockShadow;
 BlockShadow.__cache__ = {};
-BlockShadow.__type__ = _mud_BlockShadow__type();
 Module['BlockShadow'] = BlockShadow;
 BlockShadow.prototype["__destroy__"] = BlockShadow.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -665,7 +643,6 @@ BlockTonemap.prototype = Object.create(WrapperObject.prototype);
 BlockTonemap.prototype.constructor = BlockTonemap;
 BlockTonemap.prototype.__class__ = BlockTonemap;
 BlockTonemap.__cache__ = {};
-BlockTonemap.__type__ = _mud_BlockTonemap__type();
 Module['BlockTonemap'] = BlockTonemap;
 BlockTonemap.prototype["__destroy__"] = BlockTonemap.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -696,7 +673,30 @@ Module['gfx']['lightmap'] = function(parent, resolution, density, save_path) {
 };
 
 (function() {
-    function setupEnums() {
+    function setup() {
+        BCS.__type__ = _mud_BCS__type();
+        DofBlur.__type__ = _mud_DofBlur__type();
+        GIProbe.__type__ = _mud_GIProbe__type();
+        Glow.__type__ = _mud_Glow__type();
+        LightShadow.__type__ = _mud_LightShadow__type();
+        Lightmap.__type__ = _mud_Lightmap__type();
+        LightmapAtlas.__type__ = _mud_LightmapAtlas__type();
+        LightmapItem.__type__ = _mud_LightmapItem__type();
+        ReflectionProbe.__type__ = _mud_ReflectionProbe__type();
+        RenderFilters.__type__ = _mud_RenderFilters__type();
+        Tonemap.__type__ = _mud_Tonemap__type();
+        BlockBlur.__type__ = _mud_BlockBlur__type();
+        BlockDofBlur.__type__ = _mud_BlockDofBlur__type();
+        BlockGIBake.__type__ = _mud_BlockGIBake__type();
+        BlockGITrace.__type__ = _mud_BlockGITrace__type();
+        BlockGeometry.__type__ = _mud_BlockGeometry__type();
+        BlockGlow.__type__ = _mud_BlockGlow__type();
+        BlockLight.__type__ = _mud_BlockLight__type();
+        BlockLightmap.__type__ = _mud_BlockLightmap__type();
+        BlockRadiance.__type__ = _mud_BlockRadiance__type();
+        BlockReflection.__type__ = _mud_BlockReflection__type();
+        BlockShadow.__type__ = _mud_BlockShadow__type();
+        BlockTonemap.__type__ = _mud_BlockTonemap__type();
         // TonemapMode
         Module['TonemapMode'] = Module['TonemapMode'] || {};
         Module['TonemapMode']['Linear'] = _mud_TonemapMode_Linear();
@@ -704,6 +704,6 @@ Module['gfx']['lightmap'] = function(parent, resolution, density, save_path) {
         Module['TonemapMode']['Filmic'] = _mud_TonemapMode_Filmic();
         Module['TonemapMode']['ACES'] = _mud_TonemapMode_ACES();
     }
-    if (Module['calledRun']) setupEnums();
-    else addOnPreMain(setupEnums);
+    if (Module['calledRun']) setup();
+    else addOnPreMain(setup);
 })();

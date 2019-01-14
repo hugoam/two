@@ -6,7 +6,6 @@ ScriptEditor.prototype = Object.create(WrapperObject.prototype);
 ScriptEditor.prototype.constructor = ScriptEditor;
 ScriptEditor.prototype.__class__ = ScriptEditor;
 ScriptEditor.__cache__ = {};
-ScriptEditor.__type__ = _mud_ScriptEditor__type();
 Module['ScriptEditor'] = ScriptEditor;
 ScriptEditor.prototype["__destroy__"] = ScriptEditor.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -98,7 +97,8 @@ Module['object_edit_table'] = function(parent, object) {
 };
 
 (function() {
-    function setupEnums() {
+    function setup() {
+        ScriptEditor.__type__ = _mud_ScriptEditor__type();
         // EditNestMode
         Module['EditNestMode'] = Module['EditNestMode'] || {};
         Module['EditNestMode']['Inline'] = _mud_EditNestMode_Inline();
@@ -110,6 +110,6 @@ Module['object_edit_table'] = function(parent, object) {
         Module['EditorHint']['Rows'] = _mud_EditorHint_Rows();
         Module['EditorHint']['Inline'] = _mud_EditorHint_Inline();
     }
-    if (Module['calledRun']) setupEnums();
-    else addOnPreMain(setupEnums);
+    if (Module['calledRun']) setup();
+    else addOnPreMain(setup);
 })();

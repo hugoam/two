@@ -7,7 +7,6 @@ Entity.prototype = Object.create(WrapperObject.prototype);
 Entity.prototype.constructor = Entity;
 Entity.prototype.__class__ = Entity;
 Entity.__cache__ = {};
-Entity.__type__ = _mud_Entity__type();
 Module['Entity'] = Entity;
 Entity.prototype["__destroy__"] = Entity.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -19,7 +18,6 @@ Prototype.prototype = Object.create(WrapperObject.prototype);
 Prototype.prototype.constructor = Prototype;
 Prototype.prototype.__class__ = Prototype;
 Prototype.__cache__ = {};
-Prototype.__type__ = _mud_Prototype__type();
 Module['Prototype'] = Prototype;
 Prototype.prototype["__destroy__"] = Prototype.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -27,8 +25,10 @@ Prototype.prototype["__destroy__"] = Prototype.prototype.__destroy__ = function(
 };
 
 (function() {
-    function setupEnums() {
+    function setup() {
+        Entity.__type__ = _mud_Entity__type();
+        Prototype.__type__ = _mud_Prototype__type();
     }
-    if (Module['calledRun']) setupEnums();
-    else addOnPreMain(setupEnums);
+    if (Module['calledRun']) setup();
+    else addOnPreMain(setup);
 })();

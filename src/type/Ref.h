@@ -16,8 +16,8 @@ namespace mud
 	export_ class refl_ struct_ MUD_TYPE_EXPORT Ref
 	{
 	public:
-		Ref() : m_type(nullptr), m_value(nullptr) {}
-		Ref(void* value, Type& type) : m_type(&type), m_value(value) {}
+		constr_ Ref() : m_type(nullptr), m_value(nullptr) {}
+		constr_ Ref(void* value, Type& type) : m_type(&type), m_value(value) {}
 		explicit Ref(Type& type) : m_type(&type), m_value(nullptr) {}
 		template <class T>
 		explicit Ref(T* object) : m_type(&type_of<T>(object)), m_value(object) {}
@@ -28,8 +28,8 @@ namespace mud
 		inline bool operator!=(const Ref& other) const { return m_type != other.m_type || m_value != other.m_value; }
 		inline explicit operator bool() const { return m_value != nullptr; }
 
-		Type* m_type;
-		void* m_value;
+		attr_ Type* m_type;
+		attr_ void* m_value;
 	};
 
 	export_ template <class T>

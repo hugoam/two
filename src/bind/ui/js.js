@@ -9,7 +9,6 @@ CanvasConnect.prototype = Object.create(WrapperObject.prototype);
 CanvasConnect.prototype.constructor = CanvasConnect;
 CanvasConnect.prototype.__class__ = CanvasConnect;
 CanvasConnect.__cache__ = {};
-CanvasConnect.__type__ = _mud_CanvasConnect__type();
 Module['CanvasConnect'] = CanvasConnect;
 CanvasConnect.prototype["__destroy__"] = CanvasConnect.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -24,7 +23,6 @@ Clipboard.prototype = Object.create(WrapperObject.prototype);
 Clipboard.prototype.constructor = Clipboard;
 Clipboard.prototype.__class__ = Clipboard;
 Clipboard.__cache__ = {};
-Clipboard.__type__ = _mud_Clipboard__type();
 Module['Clipboard'] = Clipboard;
 Object.defineProperty(Clipboard.prototype, "text", {
     get: function() {
@@ -63,7 +61,6 @@ Dock.prototype = Object.create(WrapperObject.prototype);
 Dock.prototype.constructor = Dock;
 Dock.prototype.__class__ = Dock;
 Dock.__cache__ = {};
-Dock.__type__ = _mud_Dock__type();
 Module['Dock'] = Dock;
 Dock.prototype["__destroy__"] = Dock.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -75,7 +72,6 @@ Docksystem.prototype = Object.create(WrapperObject.prototype);
 Docksystem.prototype.constructor = Docksystem;
 Docksystem.prototype.__class__ = Docksystem;
 Docksystem.__cache__ = {};
-Docksystem.__type__ = _mud_Docksystem__type();
 Module['Docksystem'] = Docksystem;
 Docksystem.prototype["__destroy__"] = Docksystem.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -90,7 +86,6 @@ Gradient.prototype = Object.create(WrapperObject.prototype);
 Gradient.prototype.constructor = Gradient;
 Gradient.prototype.__class__ = Gradient;
 Gradient.__cache__ = {};
-Gradient.__type__ = _mud_Gradient__type();
 Module['Gradient'] = Gradient;
 Object.defineProperty(Gradient.prototype, "start", {
     get: function() {
@@ -126,7 +121,6 @@ GridSolver.prototype = Object.create(WrapperObject.prototype);
 GridSolver.prototype.constructor = GridSolver;
 GridSolver.prototype.__class__ = GridSolver;
 GridSolver.__cache__ = {};
-GridSolver.__type__ = _mud_GridSolver__type();
 Module['GridSolver'] = GridSolver;
 GridSolver.prototype["__destroy__"] = GridSolver.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -152,7 +146,6 @@ ImageSkin.prototype = Object.create(WrapperObject.prototype);
 ImageSkin.prototype.constructor = ImageSkin;
 ImageSkin.prototype.__class__ = ImageSkin;
 ImageSkin.__cache__ = {};
-ImageSkin.__type__ = _mud_ImageSkin__type();
 Module['ImageSkin'] = ImageSkin;
 Object.defineProperty(ImageSkin.prototype, "d_image", {
     get: function() {
@@ -251,7 +244,6 @@ InkStyle.prototype = Object.create(WrapperObject.prototype);
 InkStyle.prototype.constructor = InkStyle;
 InkStyle.prototype.__class__ = InkStyle;
 InkStyle.__cache__ = {};
-InkStyle.__type__ = _mud_InkStyle__type();
 Module['InkStyle'] = InkStyle;
 Object.defineProperty(InkStyle.prototype, "name", {
     get: function() {
@@ -548,7 +540,6 @@ Layer.prototype = Object.create(WrapperObject.prototype);
 Layer.prototype.constructor = Layer;
 Layer.prototype.__class__ = Layer;
 Layer.__cache__ = {};
-Layer.__type__ = _mud_Layer__type();
 Module['Layer'] = Layer;
 Layer.prototype["__destroy__"] = Layer.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -568,7 +559,6 @@ Layout.prototype = Object.create(WrapperObject.prototype);
 Layout.prototype.constructor = Layout;
 Layout.prototype.__class__ = Layout;
 Layout.__cache__ = {};
-Layout.__type__ = _mud_Layout__type();
 Module['Layout'] = Layout;
 Object.defineProperty(Layout.prototype, "name", {
     get: function() {
@@ -749,7 +739,6 @@ NodeConnection.prototype = Object.create(WrapperObject.prototype);
 NodeConnection.prototype.constructor = NodeConnection;
 NodeConnection.prototype.__class__ = NodeConnection;
 NodeConnection.__cache__ = {};
-NodeConnection.__type__ = _mud_NodeConnection__type();
 Module['NodeConnection'] = NodeConnection;
 NodeConnection.prototype["__destroy__"] = NodeConnection.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -764,7 +753,6 @@ Paint.prototype = Object.create(WrapperObject.prototype);
 Paint.prototype.constructor = Paint;
 Paint.prototype.__class__ = Paint;
 Paint.__cache__ = {};
-Paint.__type__ = _mud_Paint__type();
 Module['Paint'] = Paint;
 Object.defineProperty(Paint.prototype, "fill_colour", {
     get: function() {
@@ -821,7 +809,6 @@ Shadow.prototype = Object.create(WrapperObject.prototype);
 Shadow.prototype.constructor = Shadow;
 Shadow.prototype.__class__ = Shadow;
 Shadow.__cache__ = {};
-Shadow.__type__ = _mud_Shadow__type();
 Module['Shadow'] = Shadow;
 Object.defineProperty(Shadow.prototype, "d_xpos", {
     get: function() {
@@ -892,7 +879,6 @@ Space.prototype = Object.create(WrapperObject.prototype);
 Space.prototype.constructor = Space;
 Space.prototype.__class__ = Space;
 Space.__cache__ = {};
-Space.__type__ = _mud_Space__type();
 Module['Space'] = Space;
 Object.defineProperty(Space.prototype, "direction", {
     get: function() {
@@ -940,7 +926,6 @@ Style.prototype = Object.create(WrapperObject.prototype);
 Style.prototype.constructor = Style;
 Style.prototype.__class__ = Style;
 Style.__cache__ = {};
-Style.__type__ = _mud_Style__type();
 Module['Style'] = Style;
 Object.defineProperty(Style.prototype, "base", {
     get: function() {
@@ -979,7 +964,6 @@ TableSolver.prototype = Object.create(WrapperObject.prototype);
 TableSolver.prototype.constructor = TableSolver;
 TableSolver.prototype.__class__ = TableSolver;
 TableSolver.__cache__ = {};
-TableSolver.__type__ = _mud_TableSolver__type();
 Module['TableSolver'] = TableSolver;
 TableSolver.prototype["__destroy__"] = TableSolver.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -991,7 +975,6 @@ Text.prototype = Object.create(WrapperObject.prototype);
 Text.prototype.constructor = Text;
 Text.prototype.__class__ = Text;
 Text.__cache__ = {};
-Text.__type__ = _mud_Text__type();
 Module['Text'] = Text;
 Text.prototype["__destroy__"] = Text.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1006,7 +989,6 @@ TextCursor.prototype = Object.create(WrapperObject.prototype);
 TextCursor.prototype.constructor = TextCursor;
 TextCursor.prototype.__class__ = TextCursor;
 TextCursor.__cache__ = {};
-TextCursor.__type__ = _mud_TextCursor__type();
 Module['TextCursor'] = TextCursor;
 TextCursor.prototype["__destroy__"] = TextCursor.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1021,7 +1003,6 @@ TextMarker.prototype = Object.create(WrapperObject.prototype);
 TextMarker.prototype.constructor = TextMarker;
 TextMarker.prototype.__class__ = TextMarker;
 TextMarker.__cache__ = {};
-TextMarker.__type__ = _mud_TextMarker__type();
 Module['TextMarker'] = TextMarker;
 TextMarker.prototype["__destroy__"] = TextMarker.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1036,7 +1017,6 @@ TextPaint.prototype = Object.create(WrapperObject.prototype);
 TextPaint.prototype.constructor = TextPaint;
 TextPaint.prototype.__class__ = TextPaint;
 TextPaint.__cache__ = {};
-TextPaint.__type__ = _mud_TextPaint__type();
 Module['TextPaint'] = TextPaint;
 Object.defineProperty(TextPaint.prototype, "font", {
     get: function() {
@@ -1109,7 +1089,6 @@ TextSelection.prototype = Object.create(WrapperObject.prototype);
 TextSelection.prototype.constructor = TextSelection;
 TextSelection.prototype.__class__ = TextSelection;
 TextSelection.__cache__ = {};
-TextSelection.__type__ = _mud_TextSelection__type();
 Module['TextSelection'] = TextSelection;
 TextSelection.prototype["__destroy__"] = TextSelection.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1124,7 +1103,6 @@ UiRect.prototype = Object.create(WrapperObject.prototype);
 UiRect.prototype.constructor = UiRect;
 UiRect.prototype.__class__ = UiRect;
 UiRect.__cache__ = {};
-UiRect.__type__ = _mud_UiRect__type();
 Module['UiRect'] = UiRect;
 Object.defineProperty(UiRect.prototype, "position", {
     get: function() {
@@ -1195,7 +1173,6 @@ UiWindow.prototype = Object.create(WrapperObject.prototype);
 UiWindow.prototype.constructor = UiWindow;
 UiWindow.prototype.__class__ = UiWindow;
 UiWindow.__cache__ = {};
-UiWindow.__type__ = _mud_UiWindow__type();
 Module['UiWindow'] = UiWindow;
 UiWindow.prototype["__destroy__"] = UiWindow.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1207,7 +1184,6 @@ User.prototype = Object.create(WrapperObject.prototype);
 User.prototype.constructor = User;
 User.prototype.__class__ = User;
 User.__cache__ = {};
-User.__type__ = _mud_User__type();
 Module['User'] = User;
 User.prototype["__destroy__"] = User.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1219,7 +1195,6 @@ Vg.prototype = Object.create(WrapperObject.prototype);
 Vg.prototype.constructor = Vg;
 Vg.prototype.__class__ = Vg;
 Vg.__cache__ = {};
-Vg.__type__ = _mud_Vg__type();
 Module['Vg'] = Vg;
 Vg.prototype["__destroy__"] = Vg.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1231,7 +1206,6 @@ Frame.prototype = Object.create(WrapperObject.prototype);
 Frame.prototype.constructor = Frame;
 Frame.prototype.__class__ = Frame;
 Frame.__cache__ = {};
-Frame.__type__ = _mud_Frame__type();
 Module['Frame'] = Frame;
 Frame.prototype["__destroy__"] = Frame.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1243,7 +1217,6 @@ FrameSolver.prototype = Object.create(WrapperObject.prototype);
 FrameSolver.prototype.constructor = FrameSolver;
 FrameSolver.prototype.__class__ = FrameSolver;
 FrameSolver.__cache__ = {};
-FrameSolver.__type__ = _mud_FrameSolver__type();
 Module['FrameSolver'] = FrameSolver;
 FrameSolver.prototype["__destroy__"] = FrameSolver.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1255,7 +1228,6 @@ LineSolver.prototype = Object.create(WrapperObject.prototype);
 LineSolver.prototype.constructor = LineSolver;
 LineSolver.prototype.__class__ = LineSolver;
 LineSolver.__cache__ = {};
-LineSolver.__type__ = _mud_LineSolver__type();
 Module['LineSolver'] = LineSolver;
 LineSolver.prototype["__destroy__"] = LineSolver.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1267,7 +1239,6 @@ Widget.prototype = Object.create(WrapperObject.prototype);
 Widget.prototype.constructor = Widget;
 Widget.prototype.__class__ = Widget;
 Widget.__cache__ = {};
-Widget.__type__ = _mud_Widget__type();
 Module['Widget'] = Widget;
 Widget.prototype["activated"] = Widget.prototype.activated = function(self) {
     var self = this.ptr;
@@ -1469,7 +1440,6 @@ Canvas.prototype = Object.create(WrapperObject.prototype);
 Canvas.prototype.constructor = Canvas;
 Canvas.prototype.__class__ = Canvas;
 Canvas.__cache__ = {};
-Canvas.__type__ = _mud_Canvas__type();
 Module['Canvas'] = Canvas;
 Canvas.prototype["__destroy__"] = Canvas.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1481,7 +1451,6 @@ Dockable.prototype = Object.create(WrapperObject.prototype);
 Dockable.prototype.constructor = Dockable;
 Dockable.prototype.__class__ = Dockable;
 Dockable.__cache__ = {};
-Dockable.__type__ = _mud_Dockable__type();
 Module['Dockable'] = Dockable;
 Dockable.prototype["__destroy__"] = Dockable.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1493,7 +1462,6 @@ Docker.prototype = Object.create(WrapperObject.prototype);
 Docker.prototype.constructor = Docker;
 Docker.prototype.__class__ = Docker;
 Docker.__cache__ = {};
-Docker.__type__ = _mud_Docker__type();
 Module['Docker'] = Docker;
 Docker.prototype["__destroy__"] = Docker.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1505,7 +1473,6 @@ Dockbar.prototype = Object.create(WrapperObject.prototype);
 Dockbar.prototype.constructor = Dockbar;
 Dockbar.prototype.__class__ = Dockbar;
 Dockbar.__cache__ = {};
-Dockbar.__type__ = _mud_Dockbar__type();
 Module['Dockbar'] = Dockbar;
 Dockbar.prototype["__destroy__"] = Dockbar.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1517,7 +1484,6 @@ Dockspace.prototype = Object.create(WrapperObject.prototype);
 Dockspace.prototype.constructor = Dockspace;
 Dockspace.prototype.__class__ = Dockspace;
 Dockspace.__cache__ = {};
-Dockspace.__type__ = _mud_Dockspace__type();
 Module['Dockspace'] = Dockspace;
 Dockspace.prototype["__destroy__"] = Dockspace.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1529,7 +1495,6 @@ Expandbox.prototype = Object.create(WrapperObject.prototype);
 Expandbox.prototype.constructor = Expandbox;
 Expandbox.prototype.__class__ = Expandbox;
 Expandbox.__cache__ = {};
-Expandbox.__type__ = _mud_Expandbox__type();
 Module['Expandbox'] = Expandbox;
 Expandbox.prototype["__destroy__"] = Expandbox.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1541,7 +1506,6 @@ Node.prototype = Object.create(WrapperObject.prototype);
 Node.prototype.constructor = Node;
 Node.prototype.__class__ = Node;
 Node.__cache__ = {};
-Node.__type__ = _mud_Node__type();
 Module['Node'] = Node;
 Node.prototype["__destroy__"] = Node.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1553,7 +1517,6 @@ NodePlug.prototype = Object.create(WrapperObject.prototype);
 NodePlug.prototype.constructor = NodePlug;
 NodePlug.prototype.__class__ = NodePlug;
 NodePlug.__cache__ = {};
-NodePlug.__type__ = _mud_NodePlug__type();
 Module['NodePlug'] = NodePlug;
 NodePlug.prototype["__destroy__"] = NodePlug.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1565,7 +1528,6 @@ RowSolver.prototype = Object.create(WrapperObject.prototype);
 RowSolver.prototype.constructor = RowSolver;
 RowSolver.prototype.__class__ = RowSolver;
 RowSolver.__cache__ = {};
-RowSolver.__type__ = _mud_RowSolver__type();
 Module['RowSolver'] = RowSolver;
 RowSolver.prototype["__destroy__"] = RowSolver.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1577,7 +1539,6 @@ ScrollSheet.prototype = Object.create(WrapperObject.prototype);
 ScrollSheet.prototype.constructor = ScrollSheet;
 ScrollSheet.prototype.__class__ = ScrollSheet;
 ScrollSheet.__cache__ = {};
-ScrollSheet.__type__ = _mud_ScrollSheet__type();
 Module['ScrollSheet'] = ScrollSheet;
 ScrollSheet.prototype["__destroy__"] = ScrollSheet.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1589,7 +1550,6 @@ Sequence.prototype = Object.create(WrapperObject.prototype);
 Sequence.prototype.constructor = Sequence;
 Sequence.prototype.__class__ = Sequence;
 Sequence.__cache__ = {};
-Sequence.__type__ = _mud_ui_Sequence__type();
 Module['ui']['Sequence'] = Sequence;
 Sequence.prototype["__destroy__"] = Sequence.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1601,7 +1561,6 @@ Tabber.prototype = Object.create(WrapperObject.prototype);
 Tabber.prototype.constructor = Tabber;
 Tabber.prototype.__class__ = Tabber;
 Tabber.__cache__ = {};
-Tabber.__type__ = _mud_Tabber__type();
 Module['Tabber'] = Tabber;
 Tabber.prototype["__destroy__"] = Tabber.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1613,7 +1572,6 @@ Table.prototype = Object.create(WrapperObject.prototype);
 Table.prototype.constructor = Table;
 Table.prototype.__class__ = Table;
 Table.__cache__ = {};
-Table.__type__ = _mud_Table__type();
 Module['Table'] = Table;
 Table.prototype["__destroy__"] = Table.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1625,7 +1583,6 @@ TextEdit.prototype = Object.create(WrapperObject.prototype);
 TextEdit.prototype.constructor = TextEdit;
 TextEdit.prototype.__class__ = TextEdit;
 TextEdit.__cache__ = {};
-TextEdit.__type__ = _mud_TextEdit__type();
 Module['TextEdit'] = TextEdit;
 TextEdit.prototype["__destroy__"] = TextEdit.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1637,7 +1594,6 @@ TreeNode.prototype = Object.create(WrapperObject.prototype);
 TreeNode.prototype.constructor = TreeNode;
 TreeNode.prototype.__class__ = TreeNode;
 TreeNode.__cache__ = {};
-TreeNode.__type__ = _mud_TreeNode__type();
 Module['TreeNode'] = TreeNode;
 TreeNode.prototype["__destroy__"] = TreeNode.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1649,7 +1605,6 @@ Ui.prototype = Object.create(WrapperObject.prototype);
 Ui.prototype.constructor = Ui;
 Ui.prototype.__class__ = Ui;
 Ui.__cache__ = {};
-Ui.__type__ = _mud_Ui__type();
 Module['Ui'] = Ui;
 Ui.prototype["begin"] = Ui.prototype.begin = function(self) {
     var self = this.ptr;
@@ -1665,7 +1620,6 @@ Window.prototype = Object.create(WrapperObject.prototype);
 Window.prototype.constructor = Window;
 Window.prototype.__class__ = Window;
 Window.__cache__ = {};
-Window.__type__ = _mud_Window__type();
 Module['Window'] = Window;
 Window.prototype["__destroy__"] = Window.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -2490,7 +2444,59 @@ Module['ui']['window'] = function(parent, title, state) {
 };
 
 (function() {
-    function setupEnums() {
+    function setup() {
+        CanvasConnect.__type__ = _mud_CanvasConnect__type();
+        Clipboard.__type__ = _mud_Clipboard__type();
+        Dim2<bool>.__type__ = _mud_Dim2<bool>__type();
+        Dim2<mud::Align>.__type__ = _mud_Dim2<mud_Align>__type();
+        Dim2<mud::AutoLayout>.__type__ = _mud_Dim2<mud_AutoLayout>__type();
+        Dim2<mud::Pivot>.__type__ = _mud_Dim2<mud_Pivot>__type();
+        Dim2<mud::Sizing>.__type__ = _mud_Dim2<mud_Sizing>__type();
+        Dim2<size_t>.__type__ = _mud_Dim2<size_t>__type();
+        Dock.__type__ = _mud_Dock__type();
+        Docksystem.__type__ = _mud_Docksystem__type();
+        Gradient.__type__ = _mud_Gradient__type();
+        GridSolver.__type__ = _mud_GridSolver__type();
+        ImageSkin.__type__ = _mud_ImageSkin__type();
+        InkStyle.__type__ = _mud_InkStyle__type();
+        Layer.__type__ = _mud_Layer__type();
+        Layout.__type__ = _mud_Layout__type();
+        NodeConnection.__type__ = _mud_NodeConnection__type();
+        Paint.__type__ = _mud_Paint__type();
+        Shadow.__type__ = _mud_Shadow__type();
+        Space.__type__ = _mud_Space__type();
+        Style.__type__ = _mud_Style__type();
+        TableSolver.__type__ = _mud_TableSolver__type();
+        Text.__type__ = _mud_Text__type();
+        TextCursor.__type__ = _mud_TextCursor__type();
+        TextMarker.__type__ = _mud_TextMarker__type();
+        TextPaint.__type__ = _mud_TextPaint__type();
+        TextSelection.__type__ = _mud_TextSelection__type();
+        UiRect.__type__ = _mud_UiRect__type();
+        UiWindow.__type__ = _mud_UiWindow__type();
+        User.__type__ = _mud_User__type();
+        Vg.__type__ = _mud_Vg__type();
+        Frame.__type__ = _mud_Frame__type();
+        FrameSolver.__type__ = _mud_FrameSolver__type();
+        LineSolver.__type__ = _mud_LineSolver__type();
+        Widget.__type__ = _mud_Widget__type();
+        Canvas.__type__ = _mud_Canvas__type();
+        Dockable.__type__ = _mud_Dockable__type();
+        Docker.__type__ = _mud_Docker__type();
+        Dockbar.__type__ = _mud_Dockbar__type();
+        Dockspace.__type__ = _mud_Dockspace__type();
+        Expandbox.__type__ = _mud_Expandbox__type();
+        Node.__type__ = _mud_Node__type();
+        NodePlug.__type__ = _mud_NodePlug__type();
+        RowSolver.__type__ = _mud_RowSolver__type();
+        ScrollSheet.__type__ = _mud_ScrollSheet__type();
+        Sequence.__type__ = _mud_ui_Sequence__type();
+        Tabber.__type__ = _mud_Tabber__type();
+        Table.__type__ = _mud_Table__type();
+        TextEdit.__type__ = _mud_TextEdit__type();
+        TreeNode.__type__ = _mud_TreeNode__type();
+        Ui.__type__ = _mud_Ui__type();
+        Window.__type__ = _mud_Window__type();
         // Align
         Module['Left'] = _mud_Align_Left();
         Module['CENTER'] = _mud_Align_CENTER();
@@ -2577,6 +2583,6 @@ Module['ui']['window'] = function(parent, title, state) {
         Module['WINDOW_SIZABLE'] = _mud_WindowState_WINDOW_SIZABLE();
         Module['WINDOW_DEFAULT'] = _mud_WindowState_WINDOW_DEFAULT();
     }
-    if (Module['calledRun']) setupEnums();
-    else addOnPreMain(setupEnums);
+    if (Module['calledRun']) setup();
+    else addOnPreMain(setup);
 })();

@@ -80,7 +80,7 @@ namespace mud
 		}
 	};
 
-	export_ class refl_ MUD_JOBS_EXPORT JobSystem
+	export_ class refl_ nocopy_ MUD_JOBS_EXPORT JobSystem
 	{
 		static constexpr size_t MAX_JOB_COUNT = 4096;
 		static_assert(MAX_JOB_COUNT <= 0x7FFE, "MAX_JOB_COUNT must be <= 0x7FFE");

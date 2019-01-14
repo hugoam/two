@@ -8,7 +8,6 @@ Tile.prototype = Object.create(WrapperObject.prototype);
 Tile.prototype.constructor = Tile;
 Tile.prototype.__class__ = Tile;
 Tile.__cache__ = {};
-Tile.__type__ = _mud_Tile__type();
 Module['Tile'] = Tile;
 Object.defineProperty(Tile.prototype, "index", {
     get: function() {
@@ -80,7 +79,6 @@ Tileset.prototype = Object.create(WrapperObject.prototype);
 Tileset.prototype.constructor = Tileset;
 Tileset.prototype.__class__ = Tileset;
 Tileset.__cache__ = {};
-Tileset.__type__ = _mud_Tileset__type();
 Module['Tileset'] = Tileset;
 Object.defineProperty(Tileset.prototype, "name", {
     get: function() {
@@ -143,7 +141,6 @@ Wave.prototype = Object.create(WrapperObject.prototype);
 Wave.prototype.constructor = Wave;
 Wave.prototype.__class__ = Wave;
 Wave.__cache__ = {};
-Wave.__type__ = _mud_Wave__type();
 Module['Wave'] = Wave;
 Wave.prototype["solve"] = Wave.prototype.solve = function(self, limit) {
     var self = this.ptr;
@@ -169,7 +166,6 @@ TileWave.prototype = Object.create(WrapperObject.prototype);
 TileWave.prototype.constructor = TileWave;
 TileWave.prototype.__class__ = TileWave;
 TileWave.__cache__ = {};
-TileWave.__type__ = _mud_TileWave__type();
 Module['TileWave'] = TileWave;
 TileWave.prototype["__destroy__"] = TileWave.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -184,7 +180,6 @@ WaveTileset.prototype = Object.create(WrapperObject.prototype);
 WaveTileset.prototype.constructor = WaveTileset;
 WaveTileset.prototype.__class__ = WaveTileset;
 WaveTileset.__cache__ = {};
-WaveTileset.__type__ = _mud_WaveTileset__type();
 Module['WaveTileset'] = WaveTileset;
 WaveTileset.prototype["__destroy__"] = WaveTileset.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -218,12 +213,17 @@ Module['parse_json_wave_tileset'] = function(path, subset, outputTileset) {
 };
 
 (function() {
-    function setupEnums() {
+    function setup() {
+        Tile.__type__ = _mud_Tile__type();
+        Tileset.__type__ = _mud_Tileset__type();
+        Wave.__type__ = _mud_Wave__type();
+        TileWave.__type__ = _mud_TileWave__type();
+        WaveTileset.__type__ = _mud_WaveTileset__type();
         // Result
         Module['kSuccess'] = _mud_Result_kSuccess();
         Module['kFail'] = _mud_Result_kFail();
         Module['kUnfinished'] = _mud_Result_kUnfinished();
     }
-    if (Module['calledRun']) setupEnums();
-    else addOnPreMain(setupEnums);
+    if (Module['calledRun']) setup();
+    else addOnPreMain(setup);
 })();

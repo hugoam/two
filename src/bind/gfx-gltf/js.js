@@ -3,8 +3,8 @@ Module['gfx'] = Module['gfx'] || {};
 Module['ui'] = Module['ui'] || {};
 
 (function() {
-    function setupEnums() {
+    function setup() {
     }
-    if (Module['calledRun']) setupEnums();
-    else addOnPreMain(setupEnums);
+    if (Module['calledRun']) setup();
+    else addOnPreMain(setup);
 })();

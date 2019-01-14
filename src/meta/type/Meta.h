@@ -79,6 +79,10 @@ namespace mud
         static Meta meta = { type<void>(), &namspc({}), "void", 0, TypeClass::BaseType };
         meta_basetype<void>();
     }
+    {
+        static Meta meta = { type<void*>(), &namspc({}), "void*", sizeof(void*), TypeClass::BaseType };
+        meta_basetype<void*>();
+    }
     
     // Enums
     
@@ -153,7 +157,8 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::Ref>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Ref>(ref)) mud::Ref(  ); }, {} }
+                { type<mud::Ref>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Ref>(ref)) mud::Ref(  ); }, {} },
+                { type<mud::Ref>(), [](Ref ref, array<Var> args) { new(&val<mud::Ref>(ref)) mud::Ref( val<void*>(args[0]), val<mud::Type>(args[1]) ); }, { { "value", Ref(), Param::Nullable }, { "type", Ref(type<mud::Type>()) } } }
             },
             // copy constructor
             {
@@ -161,6 +166,8 @@ namespace mud
             },
             // members
             {
+                { type<mud::Ref>(), member_address(&mud::Ref::m_type), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
+                { type<mud::Ref>(), member_address(&mud::Ref::m_value), type<void*>(), "value", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr }
             },
             // methods
             {
@@ -247,6 +254,7 @@ namespace mud
         m.m_types.push_back(&type<unsigned long long>());
         m.m_types.push_back(&type<unsigned short>());
         m.m_types.push_back(&type<void>());
+        m.m_types.push_back(&type<void*>());
         {
             auto func = [](array<Var> args, Var& result) {  result = mud::indexed(val<mud::Type>(args[0]), val<uint32_t>(args[1])); };
             std::vector<Param> params = { { "type", Ref(type<mud::Type>()) }, { "id", var(uint32_t()) } };

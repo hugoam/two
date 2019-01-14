@@ -38,6 +38,21 @@ extern "C" {
 	mud::Ref* DECL mud_Ref_Ref_0() {
 		return new mud::Ref();
 	}
+	mud::Ref* DECL mud_Ref_Ref_2(void* value, mud::Type* type) {
+		return new mud::Ref(value, *type);
+	}
+	mud::Type* DECL mud_Ref__get_type(mud::Ref* self) {
+		return self->m_type;
+	}
+	void DECL mud_Ref__set_type(mud::Ref* self, mud::Type* value) {
+		self->m_type = value;
+	}
+	void* DECL mud_Ref__get_value(mud::Ref* self) {
+		return self->m_value;
+	}
+	void DECL mud_Ref__set_value(mud::Ref* self, void* value) {
+		self->m_value = value;
+	}
 	void DECL mud_Ref__destroy(mud::Ref* self) {
 		delete self;
 	}

@@ -7,7 +7,6 @@ Animated.prototype = Object.create(WrapperObject.prototype);
 Animated.prototype.constructor = Animated;
 Animated.prototype.__class__ = Animated;
 Animated.__cache__ = {};
-Animated.__type__ = _mud_Animated__type();
 Module['Animated'] = Animated;
 Animated.prototype["advance"] = Animated.prototype.advance = function(self, time) {
     var self = this.ptr;
@@ -109,7 +108,6 @@ AnimatedTrack.prototype = Object.create(WrapperObject.prototype);
 AnimatedTrack.prototype.constructor = AnimatedTrack;
 AnimatedTrack.prototype.__class__ = AnimatedTrack;
 AnimatedTrack.__cache__ = {};
-AnimatedTrack.__type__ = _mud_AnimatedTrack__type();
 Module['AnimatedTrack'] = AnimatedTrack;
 AnimatedTrack.prototype["__destroy__"] = AnimatedTrack.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -121,7 +119,6 @@ Animation.prototype = Object.create(WrapperObject.prototype);
 Animation.prototype.constructor = Animation;
 Animation.prototype.__class__ = Animation;
 Animation.__cache__ = {};
-Animation.__type__ = _mud_Animation__type();
 Module['Animation'] = Animation;
 Object.defineProperty(Animation.prototype, "name", {
     get: function() {
@@ -171,7 +168,6 @@ AnimationPlay.prototype = Object.create(WrapperObject.prototype);
 AnimationPlay.prototype.constructor = AnimationPlay;
 AnimationPlay.prototype.__class__ = AnimationPlay;
 AnimationPlay.__cache__ = {};
-AnimationPlay.__type__ = _mud_AnimationPlay__type();
 Module['AnimationPlay'] = AnimationPlay;
 Object.defineProperty(AnimationPlay.prototype, "animation", {
     get: function() {
@@ -272,7 +268,6 @@ AnimationTrack.prototype = Object.create(WrapperObject.prototype);
 AnimationTrack.prototype.constructor = AnimationTrack;
 AnimationTrack.prototype.__class__ = AnimationTrack;
 AnimationTrack.__cache__ = {};
-AnimationTrack.__type__ = _mud_AnimationTrack__type();
 Module['AnimationTrack'] = AnimationTrack;
 Object.defineProperty(AnimationTrack.prototype, "animation", {
     get: function() {
@@ -370,7 +365,6 @@ Background.prototype = Object.create(WrapperObject.prototype);
 Background.prototype.constructor = Background;
 Background.prototype.__class__ = Background;
 Background.__cache__ = {};
-Background.__type__ = _mud_Background__type();
 Module['Background'] = Background;
 Object.defineProperty(Background.prototype, "mode", {
     get: function() {
@@ -421,7 +415,6 @@ BaseMaterialBlock.prototype = Object.create(WrapperObject.prototype);
 BaseMaterialBlock.prototype.constructor = BaseMaterialBlock;
 BaseMaterialBlock.prototype.__class__ = BaseMaterialBlock;
 BaseMaterialBlock.__cache__ = {};
-BaseMaterialBlock.__type__ = _mud_BaseMaterialBlock__type();
 Module['BaseMaterialBlock'] = BaseMaterialBlock;
 Object.defineProperty(BaseMaterialBlock.prototype, "blend_mode", {
     get: function() {
@@ -554,7 +547,6 @@ Bone.prototype = Object.create(WrapperObject.prototype);
 Bone.prototype.constructor = Bone;
 Bone.prototype.__class__ = Bone;
 Bone.__cache__ = {};
-Bone.__type__ = _mud_Bone__type();
 Module['Bone'] = Bone;
 Object.defineProperty(Bone.prototype, "position", {
     get: function() {
@@ -602,7 +594,6 @@ Camera.prototype = Object.create(WrapperObject.prototype);
 Camera.prototype.constructor = Camera;
 Camera.prototype.__class__ = Camera;
 Camera.__cache__ = {};
-Camera.__type__ = _mud_Camera__type();
 Module['Camera'] = Camera;
 Object.defineProperty(Camera.prototype, "eye", {
     get: function() {
@@ -762,7 +753,6 @@ Culler.prototype = Object.create(WrapperObject.prototype);
 Culler.prototype.constructor = Culler;
 Culler.prototype.__class__ = Culler;
 Culler.__cache__ = {};
-Culler.__type__ = _mud_Culler__type();
 Module['Culler'] = Culler;
 Object.defineProperty(Culler.prototype, "viewport", {
     get: function() {
@@ -789,7 +779,6 @@ DepthParams.prototype = Object.create(WrapperObject.prototype);
 DepthParams.prototype.constructor = DepthParams;
 DepthParams.prototype.__class__ = DepthParams;
 DepthParams.__cache__ = {};
-DepthParams.__type__ = _mud_DepthParams__type();
 Module['DepthParams'] = DepthParams;
 DepthParams.prototype["__destroy__"] = DepthParams.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -804,7 +793,6 @@ Environment.prototype = Object.create(WrapperObject.prototype);
 Environment.prototype.constructor = Environment;
 Environment.prototype.__class__ = Environment;
 Environment.__cache__ = {};
-Environment.__type__ = _mud_Environment__type();
 Module['Environment'] = Environment;
 Object.defineProperty(Environment.prototype, "background", {
     get: function() {
@@ -864,7 +852,6 @@ Filter.prototype = Object.create(WrapperObject.prototype);
 Filter.prototype.constructor = Filter;
 Filter.prototype.__class__ = Filter;
 Filter.__cache__ = {};
-Filter.__type__ = _mud_Filter__type();
 Module['Filter'] = Filter;
 Filter.prototype["__destroy__"] = Filter.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -879,7 +866,6 @@ Fog.prototype = Object.create(WrapperObject.prototype);
 Fog.prototype.constructor = Fog;
 Fog.prototype.__class__ = Fog;
 Fog.__cache__ = {};
-Fog.__type__ = _mud_Fog__type();
 Module['Fog'] = Fog;
 Object.defineProperty(Fog.prototype, "enabled", {
     get: function() {
@@ -1024,7 +1010,6 @@ FrameBuffer.prototype = Object.create(WrapperObject.prototype);
 FrameBuffer.prototype.constructor = FrameBuffer;
 FrameBuffer.prototype.__class__ = FrameBuffer;
 FrameBuffer.__cache__ = {};
-FrameBuffer.__type__ = _mud_FrameBuffer__type();
 Module['FrameBuffer'] = FrameBuffer;
 FrameBuffer.prototype["__destroy__"] = FrameBuffer.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1039,7 +1024,6 @@ FresnelMaterialBlock.prototype = Object.create(WrapperObject.prototype);
 FresnelMaterialBlock.prototype.constructor = FresnelMaterialBlock;
 FresnelMaterialBlock.prototype.__class__ = FresnelMaterialBlock;
 FresnelMaterialBlock.__cache__ = {};
-FresnelMaterialBlock.__type__ = _mud_FresnelMaterialBlock__type();
 Module['FresnelMaterialBlock'] = FresnelMaterialBlock;
 Object.defineProperty(FresnelMaterialBlock.prototype, "enabled", {
     get: function() {
@@ -1095,7 +1079,6 @@ Frustum.prototype = Object.create(WrapperObject.prototype);
 Frustum.prototype.constructor = Frustum;
 Frustum.prototype.__class__ = Frustum;
 Frustum.__cache__ = {};
-Frustum.__type__ = _mud_Frustum__type();
 Module['Frustum'] = Frustum;
 Object.defineProperty(Frustum.prototype, "fov", {
     get: function() {
@@ -1177,7 +1160,6 @@ FrustumSlice.prototype = Object.create(WrapperObject.prototype);
 FrustumSlice.prototype.constructor = FrustumSlice;
 FrustumSlice.prototype.__class__ = FrustumSlice;
 FrustumSlice.__cache__ = {};
-FrustumSlice.__type__ = _mud_FrustumSlice__type();
 Module['FrustumSlice'] = FrustumSlice;
 FrustumSlice.prototype["__destroy__"] = FrustumSlice.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1189,7 +1171,6 @@ GfxBlock.prototype = Object.create(WrapperObject.prototype);
 GfxBlock.prototype.constructor = GfxBlock;
 GfxBlock.prototype.__class__ = GfxBlock;
 GfxBlock.__cache__ = {};
-GfxBlock.__type__ = _mud_GfxBlock__type();
 Module['GfxBlock'] = GfxBlock;
 Object.defineProperty(GfxBlock.prototype, "type", {
     get: function() {
@@ -1217,7 +1198,6 @@ GfxContext.prototype = Object.create(WrapperObject.prototype);
 GfxContext.prototype.constructor = GfxContext;
 GfxContext.prototype.__class__ = GfxContext;
 GfxContext.__cache__ = {};
-GfxContext.__type__ = _mud_GfxContext__type();
 Module['GfxContext'] = GfxContext;
 GfxContext.prototype["__destroy__"] = GfxContext.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1236,7 +1216,6 @@ GfxSystem.prototype = Object.create(WrapperObject.prototype);
 GfxSystem.prototype.constructor = GfxSystem;
 GfxSystem.prototype.__class__ = GfxSystem;
 GfxSystem.__cache__ = {};
-GfxSystem.__type__ = _mud_GfxSystem__type();
 Module['GfxSystem'] = GfxSystem;
 GfxSystem.prototype["add_resource_path"] = GfxSystem.prototype.add_resource_path = function(self, path, relative) {
     var self = this.ptr;
@@ -1303,7 +1282,6 @@ Gnode.prototype = Object.create(WrapperObject.prototype);
 Gnode.prototype.constructor = Gnode;
 Gnode.prototype.__class__ = Gnode;
 Gnode.__cache__ = {};
-Gnode.__type__ = _mud_Gnode__type();
 Module['Gnode'] = Gnode;
 Gnode.prototype["__destroy__"] = Gnode.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1315,7 +1293,6 @@ ImmediateDraw.prototype = Object.create(WrapperObject.prototype);
 ImmediateDraw.prototype.constructor = ImmediateDraw;
 ImmediateDraw.prototype.__class__ = ImmediateDraw;
 ImmediateDraw.__cache__ = {};
-ImmediateDraw.__type__ = _mud_ImmediateDraw__type();
 Module['ImmediateDraw'] = ImmediateDraw;
 ImmediateDraw.prototype["__destroy__"] = ImmediateDraw.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1330,7 +1307,6 @@ ImportConfig.prototype = Object.create(WrapperObject.prototype);
 ImportConfig.prototype.constructor = ImportConfig;
 ImportConfig.prototype.__class__ = ImportConfig;
 ImportConfig.__cache__ = {};
-ImportConfig.__type__ = _mud_ImportConfig__type();
 Module['ImportConfig'] = ImportConfig;
 Object.defineProperty(ImportConfig.prototype, "format", {
     get: function() {
@@ -1459,7 +1435,6 @@ Item.prototype = Object.create(WrapperObject.prototype);
 Item.prototype.constructor = Item;
 Item.prototype.__class__ = Item;
 Item.__cache__ = {};
-Item.__type__ = _mud_Item__type();
 Module['Item'] = Item;
 Object.defineProperty(Item.prototype, "node", {
     get: function() {
@@ -1568,7 +1543,6 @@ Joint.prototype = Object.create(WrapperObject.prototype);
 Joint.prototype.constructor = Joint;
 Joint.prototype.__class__ = Joint;
 Joint.__cache__ = {};
-Joint.__type__ = _mud_Joint__type();
 Module['Joint'] = Joint;
 Joint.prototype["__destroy__"] = Joint.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1580,7 +1554,6 @@ Light.prototype = Object.create(WrapperObject.prototype);
 Light.prototype.constructor = Light;
 Light.prototype.__class__ = Light;
 Light.__cache__ = {};
-Light.__type__ = _mud_Light__type();
 Module['Light'] = Light;
 Object.defineProperty(Light.prototype, "node", {
     get: function() {
@@ -1821,7 +1794,6 @@ Material.prototype = Object.create(WrapperObject.prototype);
 Material.prototype.constructor = Material;
 Material.prototype.__class__ = Material;
 Material.__cache__ = {};
-Material.__type__ = _mud_Material__type();
 Module['Material'] = Material;
 Object.defineProperty(Material.prototype, "index", {
     get: function() {
@@ -1915,7 +1887,6 @@ Mesh.prototype = Object.create(WrapperObject.prototype);
 Mesh.prototype.constructor = Mesh;
 Mesh.prototype.__class__ = Mesh;
 Mesh.__cache__ = {};
-Mesh.__type__ = _mud_Mesh__type();
 Module['Mesh'] = Mesh;
 Object.defineProperty(Mesh.prototype, "name", {
     get: function() {
@@ -2076,7 +2047,6 @@ Model.prototype = Object.create(WrapperObject.prototype);
 Model.prototype.constructor = Model;
 Model.prototype.__class__ = Model;
 Model.__cache__ = {};
-Model.__type__ = _mud_Model__type();
 Module['Model'] = Model;
 Object.defineProperty(Model.prototype, "name", {
     get: function() {
@@ -2150,7 +2120,6 @@ ModelItem.prototype = Object.create(WrapperObject.prototype);
 ModelItem.prototype.constructor = ModelItem;
 ModelItem.prototype.__class__ = ModelItem;
 ModelItem.__cache__ = {};
-ModelItem.__type__ = _mud_ModelItem__type();
 Module['ModelItem'] = ModelItem;
 Object.defineProperty(ModelItem.prototype, "index", {
     get: function() {
@@ -2243,7 +2212,6 @@ Node3.prototype = Object.create(WrapperObject.prototype);
 Node3.prototype.constructor = Node3;
 Node3.prototype.__class__ = Node3;
 Node3.__cache__ = {};
-Node3.__type__ = _mud_Node3__type();
 Module['Node3'] = Node3;
 Object.defineProperty(Node3.prototype, "scene", {
     get: function() {
@@ -2304,7 +2272,6 @@ ParticleGenerator.prototype = Object.create(WrapperObject.prototype);
 ParticleGenerator.prototype.constructor = ParticleGenerator;
 ParticleGenerator.prototype.__class__ = ParticleGenerator;
 ParticleGenerator.__cache__ = {};
-ParticleGenerator.__type__ = _mud_ParticleGenerator__type();
 Module['ParticleGenerator'] = ParticleGenerator;
 Object.defineProperty(ParticleGenerator.prototype, "name", {
     get: function() {
@@ -2456,7 +2423,6 @@ PbrMaterialBlock.prototype = Object.create(WrapperObject.prototype);
 PbrMaterialBlock.prototype.constructor = PbrMaterialBlock;
 PbrMaterialBlock.prototype.__class__ = PbrMaterialBlock;
 PbrMaterialBlock.__cache__ = {};
-PbrMaterialBlock.__type__ = _mud_PbrMaterialBlock__type();
 Module['PbrMaterialBlock'] = PbrMaterialBlock;
 Object.defineProperty(PbrMaterialBlock.prototype, "enabled", {
     get: function() {
@@ -2558,7 +2524,6 @@ Prefab.prototype = Object.create(WrapperObject.prototype);
 Prefab.prototype.constructor = Prefab;
 Prefab.prototype.__class__ = Prefab;
 Prefab.__cache__ = {};
-Prefab.__type__ = _mud_Prefab__type();
 Module['Prefab'] = Prefab;
 Object.defineProperty(Prefab.prototype, "name", {
     get: function() {
@@ -2583,7 +2548,6 @@ Program.prototype = Object.create(WrapperObject.prototype);
 Program.prototype.constructor = Program;
 Program.prototype.__class__ = Program;
 Program.__cache__ = {};
-Program.__type__ = _mud_Program__type();
 Module['Program'] = Program;
 Object.defineProperty(Program.prototype, "name", {
     get: function() {
@@ -2603,7 +2567,6 @@ Radiance.prototype = Object.create(WrapperObject.prototype);
 Radiance.prototype.constructor = Radiance;
 Radiance.prototype.__class__ = Radiance;
 Radiance.__cache__ = {};
-Radiance.__type__ = _mud_Radiance__type();
 Module['Radiance'] = Radiance;
 Object.defineProperty(Radiance.prototype, "energy", {
     get: function() {
@@ -2664,7 +2627,6 @@ RenderFrame.prototype = Object.create(WrapperObject.prototype);
 RenderFrame.prototype.constructor = RenderFrame;
 RenderFrame.prototype.__class__ = RenderFrame;
 RenderFrame.__cache__ = {};
-RenderFrame.__type__ = _mud_RenderFrame__type();
 Module['RenderFrame'] = RenderFrame;
 RenderFrame.prototype["__destroy__"] = RenderFrame.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -2679,7 +2641,6 @@ RenderQuad.prototype = Object.create(WrapperObject.prototype);
 RenderQuad.prototype.constructor = RenderQuad;
 RenderQuad.prototype.__class__ = RenderQuad;
 RenderQuad.__cache__ = {};
-RenderQuad.__type__ = _mud_RenderQuad__type();
 Module['RenderQuad'] = RenderQuad;
 RenderQuad.prototype["__destroy__"] = RenderQuad.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -2691,7 +2652,6 @@ Rig.prototype = Object.create(WrapperObject.prototype);
 Rig.prototype.constructor = Rig;
 Rig.prototype.__class__ = Rig;
 Rig.__cache__ = {};
-Rig.__type__ = _mud_Rig__type();
 Module['Rig'] = Rig;
 Rig.prototype["__destroy__"] = Rig.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -2703,7 +2663,6 @@ Scene.prototype = Object.create(WrapperObject.prototype);
 Scene.prototype.constructor = Scene;
 Scene.prototype.__class__ = Scene;
 Scene.__cache__ = {};
-Scene.__type__ = _mud_Scene__type();
 Module['Scene'] = Scene;
 Scene.prototype["begin"] = Scene.prototype.begin = function(self) {
     var self = this.ptr;
@@ -2755,7 +2714,6 @@ Shot.prototype = Object.create(WrapperObject.prototype);
 Shot.prototype.constructor = Shot;
 Shot.prototype.__class__ = Shot;
 Shot.__cache__ = {};
-Shot.__type__ = _mud_Shot__type();
 Module['Shot'] = Shot;
 Shot.prototype["__destroy__"] = Shot.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -2767,7 +2725,6 @@ Skeleton.prototype = Object.create(WrapperObject.prototype);
 Skeleton.prototype.constructor = Skeleton;
 Skeleton.prototype.__class__ = Skeleton;
 Skeleton.__cache__ = {};
-Skeleton.__type__ = _mud_Skeleton__type();
 Module['Skeleton'] = Skeleton;
 Skeleton.prototype["__destroy__"] = Skeleton.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -2779,7 +2736,6 @@ Skin.prototype = Object.create(WrapperObject.prototype);
 Skin.prototype.constructor = Skin;
 Skin.prototype.__class__ = Skin;
 Skin.__cache__ = {};
-Skin.__type__ = _mud_Skin__type();
 Module['Skin'] = Skin;
 Skin.prototype["__destroy__"] = Skin.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -2794,7 +2750,6 @@ Sun.prototype = Object.create(WrapperObject.prototype);
 Sun.prototype.constructor = Sun;
 Sun.prototype.__class__ = Sun;
 Sun.__cache__ = {};
-Sun.__type__ = _mud_Sun__type();
 Module['Sun'] = Sun;
 Object.defineProperty(Sun.prototype, "azimuth", {
     get: function() {
@@ -2851,7 +2806,6 @@ SymbolIndex.prototype = Object.create(WrapperObject.prototype);
 SymbolIndex.prototype.constructor = SymbolIndex;
 SymbolIndex.prototype.__class__ = SymbolIndex;
 SymbolIndex.__cache__ = {};
-SymbolIndex.__type__ = _mud_SymbolIndex__type();
 Module['SymbolIndex'] = SymbolIndex;
 SymbolIndex.prototype["__destroy__"] = SymbolIndex.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -2863,7 +2817,6 @@ Texture.prototype = Object.create(WrapperObject.prototype);
 Texture.prototype.constructor = Texture;
 Texture.prototype.__class__ = Texture;
 Texture.__cache__ = {};
-Texture.__type__ = _mud_Texture__type();
 Module['Texture'] = Texture;
 Object.defineProperty(Texture.prototype, "width", {
     get: function() {
@@ -2911,7 +2864,6 @@ UnshadedMaterialBlock.prototype = Object.create(WrapperObject.prototype);
 UnshadedMaterialBlock.prototype.constructor = UnshadedMaterialBlock;
 UnshadedMaterialBlock.prototype.__class__ = UnshadedMaterialBlock;
 UnshadedMaterialBlock.__cache__ = {};
-UnshadedMaterialBlock.__type__ = _mud_UnshadedMaterialBlock__type();
 Module['UnshadedMaterialBlock'] = UnshadedMaterialBlock;
 Object.defineProperty(UnshadedMaterialBlock.prototype, "enabled", {
     get: function() {
@@ -2934,7 +2886,6 @@ Viewport.prototype = Object.create(WrapperObject.prototype);
 Viewport.prototype.constructor = Viewport;
 Viewport.prototype.__class__ = Viewport;
 Viewport.__cache__ = {};
-Viewport.__type__ = _mud_Viewport__type();
 Module['Viewport'] = Viewport;
 Object.defineProperty(Viewport.prototype, "camera", {
     get: function() {
@@ -3051,7 +3002,6 @@ BlockCopy.prototype = Object.create(WrapperObject.prototype);
 BlockCopy.prototype.constructor = BlockCopy;
 BlockCopy.prototype.__class__ = BlockCopy;
 BlockCopy.__cache__ = {};
-BlockCopy.__type__ = _mud_BlockCopy__type();
 Module['BlockCopy'] = BlockCopy;
 BlockCopy.prototype["__destroy__"] = BlockCopy.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -3063,7 +3013,6 @@ DrawBlock.prototype = Object.create(WrapperObject.prototype);
 DrawBlock.prototype.constructor = DrawBlock;
 DrawBlock.prototype.__class__ = DrawBlock;
 DrawBlock.__cache__ = {};
-DrawBlock.__type__ = _mud_DrawBlock__type();
 Module['DrawBlock'] = DrawBlock;
 DrawBlock.prototype["__destroy__"] = DrawBlock.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -3075,7 +3024,6 @@ BlockDepth.prototype = Object.create(WrapperObject.prototype);
 BlockDepth.prototype.constructor = BlockDepth;
 BlockDepth.prototype.__class__ = BlockDepth;
 BlockDepth.__cache__ = {};
-BlockDepth.__type__ = _mud_BlockDepth__type();
 Module['BlockDepth'] = BlockDepth;
 BlockDepth.prototype["__destroy__"] = BlockDepth.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -3087,7 +3035,6 @@ BlockFilter.prototype = Object.create(WrapperObject.prototype);
 BlockFilter.prototype.constructor = BlockFilter;
 BlockFilter.prototype.__class__ = BlockFilter;
 BlockFilter.__cache__ = {};
-BlockFilter.__type__ = _mud_BlockFilter__type();
 Module['BlockFilter'] = BlockFilter;
 BlockFilter.prototype["__destroy__"] = BlockFilter.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -3099,7 +3046,6 @@ BlockParticles.prototype = Object.create(WrapperObject.prototype);
 BlockParticles.prototype.constructor = BlockParticles;
 BlockParticles.prototype.__class__ = BlockParticles;
 BlockParticles.__cache__ = {};
-BlockParticles.__type__ = _mud_BlockParticles__type();
 Module['BlockParticles'] = BlockParticles;
 BlockParticles.prototype["__destroy__"] = BlockParticles.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -3111,7 +3057,6 @@ BlockResolve.prototype = Object.create(WrapperObject.prototype);
 BlockResolve.prototype.constructor = BlockResolve;
 BlockResolve.prototype.__class__ = BlockResolve;
 BlockResolve.__cache__ = {};
-BlockResolve.__type__ = _mud_BlockResolve__type();
 Module['BlockResolve'] = BlockResolve;
 BlockResolve.prototype["__destroy__"] = BlockResolve.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -3123,7 +3068,6 @@ BlockSky.prototype = Object.create(WrapperObject.prototype);
 BlockSky.prototype.constructor = BlockSky;
 BlockSky.prototype.__class__ = BlockSky;
 BlockSky.__cache__ = {};
-BlockSky.__type__ = _mud_BlockSky__type();
 Module['BlockSky'] = BlockSky;
 BlockSky.prototype["__destroy__"] = BlockSky.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -3138,7 +3082,6 @@ ClusteredFrustum.prototype = Object.create(WrapperObject.prototype);
 ClusteredFrustum.prototype.constructor = ClusteredFrustum;
 ClusteredFrustum.prototype.__class__ = ClusteredFrustum;
 ClusteredFrustum.__cache__ = {};
-ClusteredFrustum.__type__ = _mud_ClusteredFrustum__type();
 Module['ClusteredFrustum'] = ClusteredFrustum;
 ClusteredFrustum.prototype["__destroy__"] = ClusteredFrustum.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -3153,7 +3096,6 @@ Particles.prototype = Object.create(WrapperObject.prototype);
 Particles.prototype.constructor = Particles;
 Particles.prototype.__class__ = Particles;
 Particles.__cache__ = {};
-Particles.__type__ = _mud_Particles__type();
 Module['Particles'] = Particles;
 Object.defineProperty(Particles.prototype, "node", {
     get: function() {
@@ -3177,7 +3119,6 @@ RenderTarget.prototype = Object.create(WrapperObject.prototype);
 RenderTarget.prototype.constructor = RenderTarget;
 RenderTarget.prototype.__class__ = RenderTarget;
 RenderTarget.__cache__ = {};
-RenderTarget.__type__ = _mud_RenderTarget__type();
 Module['RenderTarget'] = RenderTarget;
 RenderTarget.prototype["__destroy__"] = RenderTarget.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -3335,7 +3276,74 @@ Module['gfx']['update_item_lights'] = function(item) {
 };
 
 (function() {
-    function setupEnums() {
+    function setup() {
+        Animated.__type__ = _mud_Animated__type();
+        AnimatedTrack.__type__ = _mud_AnimatedTrack__type();
+        Animation.__type__ = _mud_Animation__type();
+        AnimationPlay.__type__ = _mud_AnimationPlay__type();
+        AnimationTrack.__type__ = _mud_AnimationTrack__type();
+        AssetStore<mud::Material>.__type__ = _mud_AssetStore<mud_Material>__type();
+        AssetStore<mud::Model>.__type__ = _mud_AssetStore<mud_Model>__type();
+        AssetStore<mud::ParticleGenerator>.__type__ = _mud_AssetStore<mud_ParticleGenerator>__type();
+        AssetStore<mud::Prefab>.__type__ = _mud_AssetStore<mud_Prefab>__type();
+        AssetStore<mud::Program>.__type__ = _mud_AssetStore<mud_Program>__type();
+        AssetStore<mud::Texture>.__type__ = _mud_AssetStore<mud_Texture>__type();
+        Background.__type__ = _mud_Background__type();
+        BaseMaterialBlock.__type__ = _mud_BaseMaterialBlock__type();
+        Bone.__type__ = _mud_Bone__type();
+        Camera.__type__ = _mud_Camera__type();
+        Culler.__type__ = _mud_Culler__type();
+        DepthParams.__type__ = _mud_DepthParams__type();
+        Environment.__type__ = _mud_Environment__type();
+        Filter.__type__ = _mud_Filter__type();
+        Fog.__type__ = _mud_Fog__type();
+        FrameBuffer.__type__ = _mud_FrameBuffer__type();
+        FresnelMaterialBlock.__type__ = _mud_FresnelMaterialBlock__type();
+        Frustum.__type__ = _mud_Frustum__type();
+        FrustumSlice.__type__ = _mud_FrustumSlice__type();
+        GfxBlock.__type__ = _mud_GfxBlock__type();
+        GfxContext.__type__ = _mud_GfxContext__type();
+        GfxSystem.__type__ = _mud_GfxSystem__type();
+        Gnode.__type__ = _mud_Gnode__type();
+        ImmediateDraw.__type__ = _mud_ImmediateDraw__type();
+        ImportConfig.__type__ = _mud_ImportConfig__type();
+        Item.__type__ = _mud_Item__type();
+        Joint.__type__ = _mud_Joint__type();
+        Light.__type__ = _mud_Light__type();
+        Material.__type__ = _mud_Material__type();
+        MaterialParam<float>.__type__ = _mud_MaterialParam<float>__type();
+        MaterialParam<mud::Colour>.__type__ = _mud_MaterialParam<mud_Colour>__type();
+        Mesh.__type__ = _mud_Mesh__type();
+        Model.__type__ = _mud_Model__type();
+        ModelItem.__type__ = _mud_ModelItem__type();
+        Node3.__type__ = _mud_Node3__type();
+        ParticleGenerator.__type__ = _mud_ParticleGenerator__type();
+        PbrMaterialBlock.__type__ = _mud_PbrMaterialBlock__type();
+        Prefab.__type__ = _mud_Prefab__type();
+        Program.__type__ = _mud_Program__type();
+        Radiance.__type__ = _mud_Radiance__type();
+        RenderFrame.__type__ = _mud_RenderFrame__type();
+        RenderQuad.__type__ = _mud_RenderQuad__type();
+        Rig.__type__ = _mud_Rig__type();
+        Scene.__type__ = _mud_Scene__type();
+        Shot.__type__ = _mud_Shot__type();
+        Skeleton.__type__ = _mud_Skeleton__type();
+        Skin.__type__ = _mud_Skin__type();
+        Sun.__type__ = _mud_Sun__type();
+        SymbolIndex.__type__ = _mud_SymbolIndex__type();
+        Texture.__type__ = _mud_Texture__type();
+        UnshadedMaterialBlock.__type__ = _mud_UnshadedMaterialBlock__type();
+        Viewport.__type__ = _mud_Viewport__type();
+        BlockCopy.__type__ = _mud_BlockCopy__type();
+        DrawBlock.__type__ = _mud_DrawBlock__type();
+        BlockDepth.__type__ = _mud_BlockDepth__type();
+        BlockFilter.__type__ = _mud_BlockFilter__type();
+        BlockParticles.__type__ = _mud_BlockParticles__type();
+        BlockResolve.__type__ = _mud_BlockResolve__type();
+        BlockSky.__type__ = _mud_BlockSky__type();
+        ClusteredFrustum.__type__ = _mud_ClusteredFrustum__type();
+        Particles.__type__ = _mud_Particles__type();
+        RenderTarget.__type__ = _mud_RenderTarget__type();
         // AnimationTarget
         Module['AnimationTarget'] = Module['AnimationTarget'] || {};
         Module['AnimationTarget']['Position'] = _mud_AnimationTarget_Position();
@@ -3502,6 +3510,6 @@ Module['gfx']['update_item_lights'] = function(item) {
         Module['TextureSampler']['LightRecords'] = _mud_TextureSampler_LightRecords();
         Module['TextureSampler']['Lightmap'] = _mud_TextureSampler_Lightmap();
     }
-    if (Module['calledRun']) setupEnums();
-    else addOnPreMain(setupEnums);
+    if (Module['calledRun']) setup();
+    else addOnPreMain(setup);
 })();

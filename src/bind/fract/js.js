@@ -10,7 +10,6 @@ Circlifier.prototype = Object.create(WrapperObject.prototype);
 Circlifier.prototype.constructor = Circlifier;
 Circlifier.prototype.__class__ = Circlifier;
 Circlifier.__cache__ = {};
-Circlifier.__type__ = _mud_Circlifier__type();
 Module['Circlifier'] = Circlifier;
 Circlifier.prototype["__destroy__"] = Circlifier.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -27,7 +26,6 @@ Fract.prototype = Object.create(WrapperObject.prototype);
 Fract.prototype.constructor = Fract;
 Fract.prototype.__class__ = Fract;
 Fract.__cache__ = {};
-Fract.__type__ = _mud_Fract__type();
 Module['Fract'] = Fract;
 Fract.prototype["generate"] = Fract.prototype.generate = function(self, num_tabs) {
     var self = this.ptr;
@@ -91,7 +89,6 @@ FractSample.prototype = Object.create(WrapperObject.prototype);
 FractSample.prototype.constructor = FractSample;
 FractSample.prototype.__class__ = FractSample;
 FractSample.__cache__ = {};
-FractSample.__type__ = _mud_FractSample__type();
 Module['FractSample'] = FractSample;
 FractSample.prototype["render"] = FractSample.prototype.render = function(self, pattern, outputImage) {
     var self = this.ptr;
@@ -143,7 +140,6 @@ FractTab.prototype = Object.create(WrapperObject.prototype);
 FractTab.prototype.constructor = FractTab;
 FractTab.prototype.__class__ = FractTab;
 FractTab.__cache__ = {};
-FractTab.__type__ = _mud_FractTab__type();
 Module['FractTab'] = FractTab;
 FractTab.prototype["__destroy__"] = FractTab.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -166,7 +162,6 @@ Pattern.prototype = Object.create(WrapperObject.prototype);
 Pattern.prototype.constructor = Pattern;
 Pattern.prototype.__class__ = Pattern;
 Pattern.__cache__ = {};
-Pattern.__type__ = _mud_Pattern__type();
 Module['Pattern'] = Pattern;
 Pattern.prototype["__destroy__"] = Pattern.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -184,13 +179,18 @@ Module['generate_fract'] = function(resolution, pattern, output_image) {
 };
 
 (function() {
-    function setupEnums() {
+    function setup() {
+        Circlifier.__type__ = _mud_Circlifier__type();
+        Fract.__type__ = _mud_Fract__type();
+        FractSample.__type__ = _mud_FractSample__type();
+        FractTab.__type__ = _mud_FractTab__type();
+        Pattern.__type__ = _mud_Pattern__type();
         // PatternSampling
         Module['PatternSampling'] = Module['PatternSampling'] || {};
         Module['PatternSampling']['X'] = _mud_PatternSampling_X();
         Module['PatternSampling']['XY'] = _mud_PatternSampling_XY();
         Module['PatternSampling']['Depth'] = _mud_PatternSampling_Depth();
     }
-    if (Module['calledRun']) setupEnums();
-    else addOnPreMain(setupEnums);
+    if (Module['calledRun']) setup();
+    else addOnPreMain(setup);
 })();

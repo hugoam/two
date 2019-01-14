@@ -5,7 +5,6 @@ Noise.prototype = Object.create(WrapperObject.prototype);
 Noise.prototype.constructor = Noise;
 Noise.prototype.__class__ = Noise;
 Noise.__cache__ = {};
-Noise.__type__ = _mud_Noise__type();
 Module['Noise'] = Noise;
 Noise.prototype["__destroy__"] = Noise.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -83,7 +82,8 @@ Module['noise_fract_3d'] = function(x, y, z, noise_type, frequency, interp, frac
 };
 
 (function() {
-    function setupEnums() {
+    function setup() {
+        Noise.__type__ = _mud_Noise__type();
         // CellularDistanceFunction
         Module['Noise']['Euclidean'] = _mud_Noise_CellularDistanceFunction_Euclidean();
         Module['Noise']['Manhattan'] = _mud_Noise_CellularDistanceFunction_Manhattan();
@@ -117,6 +117,6 @@ Module['noise_fract_3d'] = function(x, y, z, noise_type, frequency, interp, frac
         Module['Noise']['Cubic'] = _mud_Noise_NoiseType_Cubic();
         Module['Noise']['CubicFractal'] = _mud_Noise_NoiseType_CubicFractal();
     }
-    if (Module['calledRun']) setupEnums();
-    else addOnPreMain(setupEnums);
+    if (Module['calledRun']) setup();
+    else addOnPreMain(setup);
 })();

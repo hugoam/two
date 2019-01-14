@@ -27,6 +27,7 @@ namespace mud
     template <> MUD_TYPE_EXPORT Type& type<unsigned long long>() { static Type ty("unsigned long long", sizeof(unsigned long long)); return ty; }
     template <> MUD_TYPE_EXPORT Type& type<unsigned short>() { static Type ty("unsigned short", sizeof(unsigned short)); return ty; }
     template <> MUD_TYPE_EXPORT Type& type<void>() { static Type ty("void"); return ty; }
+    template <> MUD_TYPE_EXPORT Type& type<void*>() { static Type ty("void*", sizeof(void*)); return ty; }
     
     template <> MUD_TYPE_EXPORT Type& type<mud::Index>() { static Type ty("Index", sizeof(mud::Index)); return ty; }
     template <> MUD_TYPE_EXPORT Type& type<mud::Indexer>() { static Type ty("Indexer", sizeof(mud::Indexer)); return ty; }

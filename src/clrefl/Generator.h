@@ -198,6 +198,8 @@ namespace mud
 
 	string class_name(CXType type)
 	{
+		if(spelling(type) == "void *")
+			return "void*";
 		if(type.kind == CXType_Pointer)
 			return replace(type_name(get_pointee(type)), "const ", "");
 		if(type.kind == CXType_LValueReference)
@@ -274,6 +276,7 @@ namespace mud
 	enum class CLTypeKind
 	{
 		Void,
+		VoidPtr,
 		Boolean,
 		Char,
 		Integer,
@@ -294,11 +297,13 @@ namespace mud
 			m_module = &module;
 			//m_nested = parent.m_kind == CLPrimitiveKind::Class;
 
-			if(name == "const char*")
+			if(name.back() == '*')
 				m_pointer = true;
 
 			if(vector_has({ "void" }, name))
 				m_type_kind = CLTypeKind::Void;
+			if(vector_has({ "void*" }, name))
+				m_type_kind = CLTypeKind::VoidPtr;
 			else if(vector_has({ "bool" }, name))
 				m_type_kind = CLTypeKind::Boolean;
 			else if(vector_has({ "char", "signed char", "unsigned char" }, name))
@@ -343,6 +348,7 @@ namespace mud
 
 		bool isarray() const { return false; }
 		bool isvoid() const { return m_type->m_type_kind == CLTypeKind::Void; }
+		bool isvoidptr() const { return m_type->m_type_kind == CLTypeKind::VoidPtr; }
 		bool isboolean() const { return m_type->m_type_kind == CLTypeKind::Boolean; }
 		bool isinteger() const { return m_type->m_type_kind == CLTypeKind::Integer; }
 		bool isfloat() const { return m_type->m_type_kind == CLTypeKind::Float; }

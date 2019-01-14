@@ -52,7 +52,7 @@ namespace clgen
 	{
 		if(name == "void")
 			return "Var()";
-		else if(name == "mud::Ref")
+		else if(name == "void*" || name == "mud::Ref")
 			return "Ref()";
 		else if(pointer || !c.m_struct)
 			return "Ref(" + type_get(c) + ")";
@@ -269,7 +269,7 @@ namespace clgen
 	string method_func(const CLType& c, const CLMethod& m)
 	{
 		string call = "val<" + c.m_id + ">(object)." + m.m_name + "(" + get_args(m.m_params) + ")";
-		if(m.m_return_type.m_spelling == "void")
+		if(m.m_return_type.isvoid())
 			return "[](Ref object, array<Var> args, Var& result) { UNUSED(result); " + unused_args(m) + call + "; }";
 		else
 			return "[](Ref object, array<Var> args, Var& result) { " + unused_args(m) + value_assign(*m.m_return_type.m_type, "result", m.m_return_type.pointer(), call) + "; }";
@@ -442,7 +442,7 @@ namespace clgen
 		{
 			CLFunction& f = *pf;
 			p(i, "{");
-			if(f.m_return_type.m_spelling == "void")
+			if(f.m_return_type.isvoid())
 				p(i, "auto func = [](array<Var> args, Var& result) { UNUSED(result); " + unused_args(f) + " " + f.m_id + "(" + get_args(f.m_params) + "); };");
 			else
 				p(i, "auto func = [](array<Var> args, Var& result) { " + unused_args(f) + " " + value_assign(*f.m_return_type.m_type, "result", f.m_return_type.pointer(), f.m_id + "(" + get_args(f.m_params) + ")") + "; };");
@@ -1200,7 +1200,6 @@ namespace clgen
 			jsw(c.m_name + ".prototype.constructor = " + c.m_name + ";");
 			jsw(c.m_name + ".prototype.__class__ = " + c.m_name + ";");
 			jsw(c.m_name + ".__cache__ = {};");
-			jsw(c.m_name + ".__type__ = " + "_" + replace(c.m_id, "::", "_") + "__type();"); // add wrapPointer() ?
 			jsw(js_module_path(m, c) + " = " + c.m_name + ";");
 		};
 
@@ -1349,7 +1348,6 @@ namespace clgen
 				if(blacklist_class(*pc)) continue;
 
 				CLClass& c = *pc;
-				string interface = c.m_name;
 
 				jsw("// " + c.m_name);
 				cw("// " + c.m_name);
@@ -1458,8 +1456,17 @@ namespace clgen
 
 			jsw("");
 			jsw("(function() {");
-			jsw("function setupEnums() {");
+			jsw("function setup() {");
 			
+			for(auto& pc : m.m_classes)
+			{
+				if(blacklist_class(*pc)) continue;
+
+				CLClass& c = *pc;
+
+				jsw(c.m_name + ".__type__ = " + "_" + replace(c.m_id, "::", "_") + "__type();"); // add wrapPointer() ?
+			}
+
 			//string enum_prefix = "emscripten_enum_";
 			string enum_prefix = "";
 
@@ -1482,8 +1489,8 @@ namespace clgen
 			}
 
 			jsw("}");
-			jsw("if (Module['calledRun']) setupEnums();");
-			jsw("else addOnPreMain(setupEnums);");
+			jsw("if (Module['calledRun']) setup();");
+			jsw("else addOnPreMain(setup);");
 			jsw("})();");
 
 			cw("\n}\n\n");

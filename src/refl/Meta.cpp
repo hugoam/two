@@ -33,7 +33,13 @@ namespace mud
 	void init_string<void>() {}
 
 	template <>
+	void init_string<void*>() {}
+
+	template <>
 	void init_string<cstring>() {}
+
+	template <>
+	void init_assign<void*>() {}
 
 	template <>
 	void init_assign<cstring>() {}

@@ -18,7 +18,6 @@ Shell.prototype = Object.create(WrapperObject.prototype);
 Shell.prototype.constructor = Shell;
 Shell.prototype.__class__ = Shell;
 Shell.__cache__ = {};
-Shell.__type__ = _mud_Shell__type();
 Module['Shell'] = Shell;
 Shell.prototype["pump"] = Shell.prototype.pump = function(self) {
     var self = this.ptr;
@@ -97,7 +96,6 @@ ShellContext.prototype = Object.create(WrapperObject.prototype);
 ShellContext.prototype.constructor = ShellContext;
 ShellContext.prototype.__class__ = ShellContext;
 ShellContext.__cache__ = {};
-ShellContext.__type__ = _mud_ShellContext__type();
 Module['ShellContext'] = ShellContext;
 Object.defineProperty(ShellContext.prototype, "screen", {
     get: function() {
@@ -129,8 +127,10 @@ ShellContext.prototype["__destroy__"] = ShellContext.prototype.__destroy__ = fun
 };
 
 (function() {
-    function setupEnums() {
+    function setup() {
+        Shell.__type__ = _mud_Shell__type();
+        ShellContext.__type__ = _mud_ShellContext__type();
     }
-    if (Module['calledRun']) setupEnums();
-    else addOnPreMain(setupEnums);
+    if (Module['calledRun']) setup();
+    else addOnPreMain(setup);
 })();

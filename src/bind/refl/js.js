@@ -12,7 +12,6 @@ Call.prototype = Object.create(WrapperObject.prototype);
 Call.prototype.constructor = Call;
 Call.prototype.__class__ = Call;
 Call.__cache__ = {};
-Call.__type__ = _mud_Call__type();
 Module['Call'] = Call;
 Object.defineProperty(Call.prototype, "result", {
     get: function() {
@@ -29,7 +28,6 @@ Callable.prototype = Object.create(WrapperObject.prototype);
 Callable.prototype.constructor = Callable;
 Callable.prototype.__class__ = Callable;
 Callable.__cache__ = {};
-Callable.__type__ = _mud_Callable__type();
 Module['Callable'] = Callable;
 Callable.prototype["__destroy__"] = Callable.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -41,7 +39,6 @@ Class.prototype = Object.create(WrapperObject.prototype);
 Class.prototype.constructor = Class;
 Class.prototype.__class__ = Class;
 Class.__cache__ = {};
-Class.__type__ = _mud_Class__type();
 Module['Class'] = Class;
 Class.prototype["__destroy__"] = Class.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -53,7 +50,6 @@ Convert.prototype = Object.create(WrapperObject.prototype);
 Convert.prototype.constructor = Convert;
 Convert.prototype.__class__ = Convert;
 Convert.__cache__ = {};
-Convert.__type__ = _mud_Convert__type();
 Module['Convert'] = Convert;
 Convert.prototype["__destroy__"] = Convert.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -65,7 +61,6 @@ Creator.prototype = Object.create(WrapperObject.prototype);
 Creator.prototype.constructor = Creator;
 Creator.prototype.__class__ = Creator;
 Creator.__cache__ = {};
-Creator.__type__ = _mud_Creator__type();
 Module['Creator'] = Creator;
 Object.defineProperty(Creator.prototype, "type", {
     get: function() {
@@ -110,7 +105,6 @@ Enum.prototype = Object.create(WrapperObject.prototype);
 Enum.prototype.constructor = Enum;
 Enum.prototype.__class__ = Enum;
 Enum.__cache__ = {};
-Enum.__type__ = _mud_Enum__type();
 Module['Enum'] = Enum;
 Enum.prototype["__destroy__"] = Enum.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -122,7 +116,6 @@ Member.prototype = Object.create(WrapperObject.prototype);
 Member.prototype.constructor = Member;
 Member.prototype.__class__ = Member;
 Member.__cache__ = {};
-Member.__type__ = _mud_Member__type();
 Module['Member'] = Member;
 Member.prototype["__destroy__"] = Member.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -134,7 +127,6 @@ Meta.prototype = Object.create(WrapperObject.prototype);
 Meta.prototype.constructor = Meta;
 Meta.prototype.__class__ = Meta;
 Meta.__cache__ = {};
-Meta.__type__ = _mud_Meta__type();
 Module['Meta'] = Meta;
 Meta.prototype["__destroy__"] = Meta.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -146,7 +138,6 @@ Module.prototype = Object.create(WrapperObject.prototype);
 Module.prototype.constructor = Module;
 Module.prototype.__class__ = Module;
 Module.__cache__ = {};
-Module.__type__ = _mud_Module__type();
 Module['Module'] = Module;
 Object.defineProperty(Module.prototype, "name", {
     get: function() {
@@ -184,7 +175,6 @@ Namespace.prototype = Object.create(WrapperObject.prototype);
 Namespace.prototype.constructor = Namespace;
 Namespace.prototype.__class__ = Namespace;
 Namespace.__cache__ = {};
-Namespace.__type__ = _mud_Namespace__type();
 Module['Namespace'] = Namespace;
 Namespace.prototype["__destroy__"] = Namespace.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -199,7 +189,6 @@ Operator.prototype = Object.create(WrapperObject.prototype);
 Operator.prototype.constructor = Operator;
 Operator.prototype.__class__ = Operator;
 Operator.__cache__ = {};
-Operator.__type__ = _mud_Operator__type();
 Module['Operator'] = Operator;
 Object.defineProperty(Operator.prototype, "function", {
     get: function() {
@@ -261,7 +250,6 @@ Param.prototype = Object.create(WrapperObject.prototype);
 Param.prototype.constructor = Param;
 Param.prototype.__class__ = Param;
 Param.__cache__ = {};
-Param.__type__ = _mud_Param__type();
 Module['Param'] = Param;
 Param.prototype["__destroy__"] = Param.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -273,7 +261,6 @@ Signature.prototype = Object.create(WrapperObject.prototype);
 Signature.prototype.constructor = Signature;
 Signature.prototype.__class__ = Signature;
 Signature.__cache__ = {};
-Signature.__type__ = _mud_Signature__type();
 Module['Signature'] = Signature;
 Signature.prototype["__destroy__"] = Signature.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -285,7 +272,6 @@ Static.prototype = Object.create(WrapperObject.prototype);
 Static.prototype.constructor = Static;
 Static.prototype.__class__ = Static;
 Static.__cache__ = {};
-Static.__type__ = _mud_Static__type();
 Module['Static'] = Static;
 Static.prototype["__destroy__"] = Static.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -297,7 +283,6 @@ System.prototype = Object.create(WrapperObject.prototype);
 System.prototype.constructor = System;
 System.prototype.__class__ = System;
 System.__cache__ = {};
-System.__type__ = _mud_System__type();
 Module['System'] = System;
 System.prototype["__destroy__"] = System.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -309,7 +294,6 @@ Constructor.prototype = Object.create(WrapperObject.prototype);
 Constructor.prototype.constructor = Constructor;
 Constructor.prototype.__class__ = Constructor;
 Constructor.__cache__ = {};
-Constructor.__type__ = _mud_Constructor__type();
 Module['Constructor'] = Constructor;
 Constructor.prototype["__destroy__"] = Constructor.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -321,7 +305,6 @@ CopyConstructor.prototype = Object.create(WrapperObject.prototype);
 CopyConstructor.prototype.constructor = CopyConstructor;
 CopyConstructor.prototype.__class__ = CopyConstructor;
 CopyConstructor.__cache__ = {};
-CopyConstructor.__type__ = _mud_CopyConstructor__type();
 Module['CopyConstructor'] = CopyConstructor;
 CopyConstructor.prototype["__destroy__"] = CopyConstructor.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -333,7 +316,6 @@ Destructor.prototype = Object.create(WrapperObject.prototype);
 Destructor.prototype.constructor = Destructor;
 Destructor.prototype.__class__ = Destructor;
 Destructor.__cache__ = {};
-Destructor.__type__ = _mud_Destructor__type();
 Module['Destructor'] = Destructor;
 Destructor.prototype["__destroy__"] = Destructor.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -345,7 +327,6 @@ Function.prototype = Object.create(WrapperObject.prototype);
 Function.prototype.constructor = Function;
 Function.prototype.__class__ = Function;
 Function.__cache__ = {};
-Function.__type__ = _mud_Function__type();
 Module['Function'] = Function;
 Function.prototype["__destroy__"] = Function.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -357,7 +338,6 @@ Injector.prototype = Object.create(WrapperObject.prototype);
 Injector.prototype.constructor = Injector;
 Injector.prototype.__class__ = Injector;
 Injector.__cache__ = {};
-Injector.__type__ = _mud_Injector__type();
 Module['Injector'] = Injector;
 Injector.prototype["__destroy__"] = Injector.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -369,7 +349,6 @@ Method.prototype = Object.create(WrapperObject.prototype);
 Method.prototype.constructor = Method;
 Method.prototype.__class__ = Method;
 Method.__cache__ = {};
-Method.__type__ = _mud_Method__type();
 Module['Method'] = Method;
 Method.prototype["__destroy__"] = Method.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -381,7 +360,28 @@ Module['system'] = function() {
 };
 
 (function() {
-    function setupEnums() {
+    function setup() {
+        Call.__type__ = _mud_Call__type();
+        Callable.__type__ = _mud_Callable__type();
+        Class.__type__ = _mud_Class__type();
+        Convert.__type__ = _mud_Convert__type();
+        Creator.__type__ = _mud_Creator__type();
+        Enum.__type__ = _mud_Enum__type();
+        Member.__type__ = _mud_Member__type();
+        Meta.__type__ = _mud_Meta__type();
+        Module.__type__ = _mud_Module__type();
+        Namespace.__type__ = _mud_Namespace__type();
+        Operator.__type__ = _mud_Operator__type();
+        Param.__type__ = _mud_Param__type();
+        Signature.__type__ = _mud_Signature__type();
+        Static.__type__ = _mud_Static__type();
+        System.__type__ = _mud_System__type();
+        Constructor.__type__ = _mud_Constructor__type();
+        CopyConstructor.__type__ = _mud_CopyConstructor__type();
+        Destructor.__type__ = _mud_Destructor__type();
+        Function.__type__ = _mud_Function__type();
+        Injector.__type__ = _mud_Injector__type();
+        Method.__type__ = _mud_Method__type();
         // TypeClass
         Module['TypeClass'] = Module['TypeClass'] || {};
         Module['TypeClass']['None'] = _mud_TypeClass_None();
@@ -391,6 +391,6 @@ Module['system'] = function() {
         Module['TypeClass']['BaseType'] = _mud_TypeClass_BaseType();
         Module['TypeClass']['Enum'] = _mud_TypeClass_Enum();
     }
-    if (Module['calledRun']) setupEnums();
-    else addOnPreMain(setupEnums);
+    if (Module['calledRun']) setup();
+    else addOnPreMain(setup);
 })();

@@ -45,13 +45,19 @@ namespace mud
 
 	export_ template <>
 	inline const Ref& val<Ref>(const Ref& ref) { return ref; }
+	
+	export_ template <>
+	inline void* val<void*>(Ref& ref) { return ref.m_value; }
+
+	export_ template <>
+	inline void* val<void*>(const Ref& ref) { return ref.m_value; }
 
 	export_ template <>
 	inline cstring val<cstring>(Ref& ref) { return (cstring)ref.m_value; }
 
 	export_ template <>
 	inline cstring val<cstring>(const Ref& ref) { return (cstring)ref.m_value; }
-
+	
 	export_ inline void set(Ref& ref, cstring value) { ref.m_value = (void*)value; ref.m_type = &type<cstring>(); }
 
 	template <class T>
@@ -128,6 +134,12 @@ namespace mud
 
 	export_ template <class T>
 	inline T val(const Var& var) { return val<T>(var.m_ref); }
+	
+	export_ template <>
+	inline void*& val(Var& var) { return var.m_ref.m_value; }
+
+	export_ template <>
+	inline void* val(const Var& var) { return var.m_ref.m_value; }
 
 	export_ template <>
 	inline cstring& val(Var& var) { return (cstring&)var.m_ref.m_value; }

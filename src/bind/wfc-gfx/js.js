@@ -10,7 +10,6 @@ TileModel.prototype = Object.create(WrapperObject.prototype);
 TileModel.prototype.constructor = TileModel;
 TileModel.prototype.__class__ = TileModel;
 TileModel.__cache__ = {};
-TileModel.__type__ = _mud_TileModel__type();
 Module['TileModel'] = TileModel;
 TileModel.prototype["__destroy__"] = TileModel.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -36,7 +35,6 @@ WfcBlock.prototype = Object.create(WrapperObject.prototype);
 WfcBlock.prototype.constructor = WfcBlock;
 WfcBlock.prototype.__class__ = WfcBlock;
 WfcBlock.__cache__ = {};
-WfcBlock.__type__ = _mud_WfcBlock__type();
 Module['WfcBlock'] = WfcBlock;
 WfcBlock.prototype["observe"] = WfcBlock.prototype.observe = function(self) {
     var self = this.ptr;
@@ -116,8 +114,10 @@ WfcBlock.prototype["__destroy__"] = WfcBlock.prototype.__destroy__ = function() 
 };
 
 (function() {
-    function setupEnums() {
+    function setup() {
+        TileModel.__type__ = _mud_TileModel__type();
+        WfcBlock.__type__ = _mud_WfcBlock__type();
     }
-    if (Module['calledRun']) setupEnums();
-    else addOnPreMain(setupEnums);
+    if (Module['calledRun']) setup();
+    else addOnPreMain(setup);
 })();

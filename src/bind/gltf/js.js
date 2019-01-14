@@ -10,7 +10,6 @@ glTF.prototype = Object.create(WrapperObject.prototype);
 glTF.prototype.constructor = glTF;
 glTF.prototype.__class__ = glTF;
 glTF.__cache__ = {};
-glTF.__type__ = _glTF__type();
 Module['glTF'] = glTF;
 glTF.prototype["__destroy__"] = glTF.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -25,7 +24,6 @@ glTFAccessor.prototype = Object.create(WrapperObject.prototype);
 glTFAccessor.prototype.constructor = glTFAccessor;
 glTFAccessor.prototype.__class__ = glTFAccessor;
 glTFAccessor.__cache__ = {};
-glTFAccessor.__type__ = _glTFAccessor__type();
 Module['glTFAccessor'] = glTFAccessor;
 Object.defineProperty(glTFAccessor.prototype, "name", {
     get: function() {
@@ -133,7 +131,6 @@ glTFAnimation.prototype = Object.create(WrapperObject.prototype);
 glTFAnimation.prototype.constructor = glTFAnimation;
 glTFAnimation.prototype.__class__ = glTFAnimation;
 glTFAnimation.__cache__ = {};
-glTFAnimation.__type__ = _glTFAnimation__type();
 Module['glTFAnimation'] = glTFAnimation;
 Object.defineProperty(glTFAnimation.prototype, "name", {
     get: function() {
@@ -161,7 +158,6 @@ glTFAnimationChannel.prototype = Object.create(WrapperObject.prototype);
 glTFAnimationChannel.prototype.constructor = glTFAnimationChannel;
 glTFAnimationChannel.prototype.__class__ = glTFAnimationChannel;
 glTFAnimationChannel.__cache__ = {};
-glTFAnimationChannel.__type__ = _glTFAnimationChannel__type();
 Module['glTFAnimationChannel'] = glTFAnimationChannel;
 Object.defineProperty(glTFAnimationChannel.prototype, "sampler", {
     get: function() {
@@ -199,7 +195,6 @@ glTFAnimationSampler.prototype = Object.create(WrapperObject.prototype);
 glTFAnimationSampler.prototype.constructor = glTFAnimationSampler;
 glTFAnimationSampler.prototype.__class__ = glTFAnimationSampler;
 glTFAnimationSampler.__cache__ = {};
-glTFAnimationSampler.__type__ = _glTFAnimationSampler__type();
 Module['glTFAnimationSampler'] = glTFAnimationSampler;
 Object.defineProperty(glTFAnimationSampler.prototype, "interpolation", {
     get: function() {
@@ -248,7 +243,6 @@ glTFAnimationTarget.prototype = Object.create(WrapperObject.prototype);
 glTFAnimationTarget.prototype.constructor = glTFAnimationTarget;
 glTFAnimationTarget.prototype.__class__ = glTFAnimationTarget;
 glTFAnimationTarget.__cache__ = {};
-glTFAnimationTarget.__type__ = _glTFAnimationTarget__type();
 Module['glTFAnimationTarget'] = glTFAnimationTarget;
 Object.defineProperty(glTFAnimationTarget.prototype, "node", {
     get: function() {
@@ -287,7 +281,6 @@ glTFAttributes.prototype = Object.create(WrapperObject.prototype);
 glTFAttributes.prototype.constructor = glTFAttributes;
 glTFAttributes.prototype.__class__ = glTFAttributes;
 glTFAttributes.__cache__ = {};
-glTFAttributes.__type__ = _glTFAttributes__type();
 Module['glTFAttributes'] = glTFAttributes;
 Object.defineProperty(glTFAttributes.prototype, "POSITION", {
     get: function() {
@@ -390,7 +383,6 @@ glTFBuffer.prototype = Object.create(WrapperObject.prototype);
 glTFBuffer.prototype.constructor = glTFBuffer;
 glTFBuffer.prototype.__class__ = glTFBuffer;
 glTFBuffer.__cache__ = {};
-glTFBuffer.__type__ = _glTFBuffer__type();
 Module['glTFBuffer'] = glTFBuffer;
 Object.defineProperty(glTFBuffer.prototype, "name", {
     get: function() {
@@ -455,7 +447,6 @@ glTFBufferView.prototype = Object.create(WrapperObject.prototype);
 glTFBufferView.prototype.constructor = glTFBufferView;
 glTFBufferView.prototype.__class__ = glTFBufferView;
 glTFBufferView.__cache__ = {};
-glTFBufferView.__type__ = _glTFBufferView__type();
 Module['glTFBufferView'] = glTFBufferView;
 Object.defineProperty(glTFBufferView.prototype, "name", {
     get: function() {
@@ -538,7 +529,6 @@ glTFCamera.prototype = Object.create(WrapperObject.prototype);
 glTFCamera.prototype.constructor = glTFCamera;
 glTFCamera.prototype.__class__ = glTFCamera;
 glTFCamera.__cache__ = {};
-glTFCamera.__type__ = _glTFCamera__type();
 Module['glTFCamera'] = glTFCamera;
 Object.defineProperty(glTFCamera.prototype, "name", {
     get: function() {
@@ -603,7 +593,6 @@ glTFImage.prototype = Object.create(WrapperObject.prototype);
 glTFImage.prototype.constructor = glTFImage;
 glTFImage.prototype.__class__ = glTFImage;
 glTFImage.__cache__ = {};
-glTFImage.__type__ = _glTFImage__type();
 Module['glTFImage'] = glTFImage;
 Object.defineProperty(glTFImage.prototype, "name", {
     get: function() {
@@ -668,7 +657,6 @@ glTFMaterial.prototype = Object.create(WrapperObject.prototype);
 glTFMaterial.prototype.constructor = glTFMaterial;
 glTFMaterial.prototype.__class__ = glTFMaterial;
 glTFMaterial.__cache__ = {};
-glTFMaterial.__type__ = _glTFMaterial__type();
 Module['glTFMaterial'] = glTFMaterial;
 Object.defineProperty(glTFMaterial.prototype, "name", {
     get: function() {
@@ -779,7 +767,6 @@ glTFMaterialPBR.prototype = Object.create(WrapperObject.prototype);
 glTFMaterialPBR.prototype.constructor = glTFMaterialPBR;
 glTFMaterialPBR.prototype.__class__ = glTFMaterialPBR;
 glTFMaterialPBR.__cache__ = {};
-glTFMaterialPBR.__type__ = _glTFMaterialPBR__type();
 Module['glTFMaterialPBR'] = glTFMaterialPBR;
 Object.defineProperty(glTFMaterialPBR.prototype, "base_color_factor", {
     get: function() {
@@ -852,7 +839,6 @@ glTFMesh.prototype = Object.create(WrapperObject.prototype);
 glTFMesh.prototype.constructor = glTFMesh;
 glTFMesh.prototype.__class__ = glTFMesh;
 glTFMesh.__cache__ = {};
-glTFMesh.__type__ = _glTFMesh__type();
 Module['glTFMesh'] = glTFMesh;
 Object.defineProperty(glTFMesh.prototype, "name", {
     get: function() {
@@ -880,7 +866,6 @@ glTFMorphTarget.prototype = Object.create(WrapperObject.prototype);
 glTFMorphTarget.prototype.constructor = glTFMorphTarget;
 glTFMorphTarget.prototype.__class__ = glTFMorphTarget;
 glTFMorphTarget.__cache__ = {};
-glTFMorphTarget.__type__ = _glTFMorphTarget__type();
 Module['glTFMorphTarget'] = glTFMorphTarget;
 Object.defineProperty(glTFMorphTarget.prototype, "POSITION", {
     get: function() {
@@ -928,7 +913,6 @@ glTFNode.prototype = Object.create(WrapperObject.prototype);
 glTFNode.prototype.constructor = glTFNode;
 glTFNode.prototype.__class__ = glTFNode;
 glTFNode.__cache__ = {};
-glTFNode.__type__ = _glTFNode__type();
 Module['glTFNode'] = glTFNode;
 Object.defineProperty(glTFNode.prototype, "name", {
     get: function() {
@@ -1037,7 +1021,6 @@ glTFNodeExtras.prototype = Object.create(WrapperObject.prototype);
 glTFNodeExtras.prototype.constructor = glTFNodeExtras;
 glTFNodeExtras.prototype.__class__ = glTFNodeExtras;
 glTFNodeExtras.__cache__ = {};
-glTFNodeExtras.__type__ = _glTFNodeExtras__type();
 Module['glTFNodeExtras'] = glTFNodeExtras;
 glTFNodeExtras.prototype["__destroy__"] = glTFNodeExtras.prototype.__destroy__ = function() {
     var self = this.ptr;
@@ -1052,7 +1035,6 @@ glTFOrthographic.prototype = Object.create(WrapperObject.prototype);
 glTFOrthographic.prototype.constructor = glTFOrthographic;
 glTFOrthographic.prototype.__class__ = glTFOrthographic;
 glTFOrthographic.__cache__ = {};
-glTFOrthographic.__type__ = _glTFOrthographic__type();
 Module['glTFOrthographic'] = glTFOrthographic;
 Object.defineProperty(glTFOrthographic.prototype, "xmag", {
     get: function() {
@@ -1111,7 +1093,6 @@ glTFPerspective.prototype = Object.create(WrapperObject.prototype);
 glTFPerspective.prototype.constructor = glTFPerspective;
 glTFPerspective.prototype.__class__ = glTFPerspective;
 glTFPerspective.__cache__ = {};
-glTFPerspective.__type__ = _glTFPerspective__type();
 Module['glTFPerspective'] = glTFPerspective;
 Object.defineProperty(glTFPerspective.prototype, "yfov", {
     get: function() {
@@ -1170,7 +1151,6 @@ glTFPrimitive.prototype = Object.create(WrapperObject.prototype);
 glTFPrimitive.prototype.constructor = glTFPrimitive;
 glTFPrimitive.prototype.__class__ = glTFPrimitive;
 glTFPrimitive.__cache__ = {};
-glTFPrimitive.__type__ = _glTFPrimitive__type();
 Module['glTFPrimitive'] = glTFPrimitive;
 Object.defineProperty(glTFPrimitive.prototype, "attributes", {
     get: function() {
@@ -1231,7 +1211,6 @@ glTFSampler.prototype = Object.create(WrapperObject.prototype);
 glTFSampler.prototype.constructor = glTFSampler;
 glTFSampler.prototype.__class__ = glTFSampler;
 glTFSampler.__cache__ = {};
-glTFSampler.__type__ = _glTFSampler__type();
 Module['glTFSampler'] = glTFSampler;
 Object.defineProperty(glTFSampler.prototype, "mag_filter", {
     get: function() {
@@ -1303,7 +1282,6 @@ glTFScene.prototype = Object.create(WrapperObject.prototype);
 glTFScene.prototype.constructor = glTFScene;
 glTFScene.prototype.__class__ = glTFScene;
 glTFScene.__cache__ = {};
-glTFScene.__type__ = _glTFScene__type();
 Module['glTFScene'] = glTFScene;
 Object.defineProperty(glTFScene.prototype, "name", {
     get: function() {
@@ -1331,7 +1309,6 @@ glTFSkin.prototype = Object.create(WrapperObject.prototype);
 glTFSkin.prototype.constructor = glTFSkin;
 glTFSkin.prototype.__class__ = glTFSkin;
 glTFSkin.__cache__ = {};
-glTFSkin.__type__ = _glTFSkin__type();
 Module['glTFSkin'] = glTFSkin;
 Object.defineProperty(glTFSkin.prototype, "name", {
     get: function() {
@@ -1381,7 +1358,6 @@ glTFSparse.prototype = Object.create(WrapperObject.prototype);
 glTFSparse.prototype.constructor = glTFSparse;
 glTFSparse.prototype.__class__ = glTFSparse;
 glTFSparse.__cache__ = {};
-glTFSparse.__type__ = _glTFSparse__type();
 Module['glTFSparse'] = glTFSparse;
 Object.defineProperty(glTFSparse.prototype, "count", {
     get: function() {
@@ -1431,7 +1407,6 @@ glTFSparseIndices.prototype = Object.create(WrapperObject.prototype);
 glTFSparseIndices.prototype.constructor = glTFSparseIndices;
 glTFSparseIndices.prototype.__class__ = glTFSparseIndices;
 glTFSparseIndices.__cache__ = {};
-glTFSparseIndices.__type__ = _glTFSparseIndices__type();
 Module['glTFSparseIndices'] = glTFSparseIndices;
 Object.defineProperty(glTFSparseIndices.prototype, "buffer_view", {
     get: function() {
@@ -1480,7 +1455,6 @@ glTFSparseValues.prototype = Object.create(WrapperObject.prototype);
 glTFSparseValues.prototype.constructor = glTFSparseValues;
 glTFSparseValues.prototype.__class__ = glTFSparseValues;
 glTFSparseValues.__cache__ = {};
-glTFSparseValues.__type__ = _glTFSparseValues__type();
 Module['glTFSparseValues'] = glTFSparseValues;
 Object.defineProperty(glTFSparseValues.prototype, "buffer_view", {
     get: function() {
@@ -1517,7 +1491,6 @@ glTFTexture.prototype = Object.create(WrapperObject.prototype);
 glTFTexture.prototype.constructor = glTFTexture;
 glTFTexture.prototype.__class__ = glTFTexture;
 glTFTexture.__cache__ = {};
-glTFTexture.__type__ = _glTFTexture__type();
 Module['glTFTexture'] = glTFTexture;
 Object.defineProperty(glTFTexture.prototype, "name", {
     get: function() {
@@ -1567,7 +1540,6 @@ glTFTextureInfo.prototype = Object.create(WrapperObject.prototype);
 glTFTextureInfo.prototype.constructor = glTFTextureInfo;
 glTFTextureInfo.prototype.__class__ = glTFTextureInfo;
 glTFTextureInfo.__cache__ = {};
-glTFTextureInfo.__type__ = _glTFTextureInfo__type();
 Module['glTFTextureInfo'] = glTFTextureInfo;
 Object.defineProperty(glTFTextureInfo.prototype, "index", {
     get: function() {
@@ -1597,7 +1569,35 @@ glTFTextureInfo.prototype["__destroy__"] = glTFTextureInfo.prototype.__destroy__
 };
 
 (function() {
-    function setupEnums() {
+    function setup() {
+        glTF.__type__ = _glTF__type();
+        glTFAccessor.__type__ = _glTFAccessor__type();
+        glTFAnimation.__type__ = _glTFAnimation__type();
+        glTFAnimationChannel.__type__ = _glTFAnimationChannel__type();
+        glTFAnimationSampler.__type__ = _glTFAnimationSampler__type();
+        glTFAnimationTarget.__type__ = _glTFAnimationTarget__type();
+        glTFAttributes.__type__ = _glTFAttributes__type();
+        glTFBuffer.__type__ = _glTFBuffer__type();
+        glTFBufferView.__type__ = _glTFBufferView__type();
+        glTFCamera.__type__ = _glTFCamera__type();
+        glTFImage.__type__ = _glTFImage__type();
+        glTFMaterial.__type__ = _glTFMaterial__type();
+        glTFMaterialPBR.__type__ = _glTFMaterialPBR__type();
+        glTFMesh.__type__ = _glTFMesh__type();
+        glTFMorphTarget.__type__ = _glTFMorphTarget__type();
+        glTFNode.__type__ = _glTFNode__type();
+        glTFNodeExtras.__type__ = _glTFNodeExtras__type();
+        glTFOrthographic.__type__ = _glTFOrthographic__type();
+        glTFPerspective.__type__ = _glTFPerspective__type();
+        glTFPrimitive.__type__ = _glTFPrimitive__type();
+        glTFSampler.__type__ = _glTFSampler__type();
+        glTFScene.__type__ = _glTFScene__type();
+        glTFSkin.__type__ = _glTFSkin__type();
+        glTFSparse.__type__ = _glTFSparse__type();
+        glTFSparseIndices.__type__ = _glTFSparseIndices__type();
+        glTFSparseValues.__type__ = _glTFSparseValues__type();
+        glTFTexture.__type__ = _glTFTexture__type();
+        glTFTextureInfo.__type__ = _glTFTextureInfo__type();
         // glTFAlphaMode
         Module['glTFAlphaMode'] = Module['glTFAlphaMode'] || {};
         Module['glTFAlphaMode']['OPAQUE'] = _glTFAlphaMode_OPAQUE();
@@ -1637,6 +1637,6 @@ glTFTextureInfo.prototype["__destroy__"] = glTFTextureInfo.prototype.__destroy__
         Module['glTFType']['MAT4'] = _glTFType_MAT4();
         Module['glTFType']['INVALID'] = _glTFType_INVALID();
     }
-    if (Module['calledRun']) setupEnums();
-    else addOnPreMain(setupEnums);
+    if (Module['calledRun']) setup();
+    else addOnPreMain(setup);
 })();
