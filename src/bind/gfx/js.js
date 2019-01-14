@@ -2410,7 +2410,7 @@ ParticleGenerator.prototype["__destroy__"] = ParticleGenerator.prototype.__destr
 // PbrMaterialBlock
 function PbrMaterialBlock(albedo, metallic, roughness) {
     /* albedo <Colour> [] */
-    albedo = albedo.ptr;
+    if(typeof albedo !== "undefined" && albedo !== null) { albedo = albedo.ptr; }
     /* metallic <float> [] */
     /* roughness <float> [] */
     if (albedo === undefined) { this.ptr = _mud_PbrMaterialBlock_PbrMaterialBlock_0(); getCache(PbrMaterialBlock)[this.ptr] = this; return; }

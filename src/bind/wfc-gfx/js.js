@@ -18,13 +18,13 @@ TileModel.prototype["__destroy__"] = TileModel.prototype.__destroy__ = function(
 // WfcBlock
 function WfcBlock(position, size, scale, tileset, auto_solve) {
     /* position <vec3> [] */
-    position = position.ptr;
+    if(typeof position !== "undefined" && position !== null) { position = position.ptr; }
     /* size <uvec3> [] */
-    size = size.ptr;
+    if(typeof size !== "undefined" && size !== null) { size = size.ptr; }
     /* scale <vec3> [] */
-    scale = scale.ptr;
+    if(typeof scale !== "undefined" && scale !== null) { scale = scale.ptr; }
     /* tileset <WaveTileset> [] */
-    tileset = tileset.ptr;
+    if(typeof tileset !== "undefined" && tileset !== null) { tileset = tileset.ptr; }
     /* auto_solve <bool> [] */
     if (position === undefined) { this.ptr = _mud_WfcBlock_WfcBlock_0(); getCache(WfcBlock)[this.ptr] = this; return; }
     if (auto_solve === undefined) { this.ptr = _mud_WfcBlock_WfcBlock_4(position, size, scale, tileset); getCache(WfcBlock)[this.ptr] = this; return; }

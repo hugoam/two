@@ -1631,7 +1631,7 @@ Module['ui']['auto_modal'] = function(parent, mode, size) {
     parent = parent.ptr;
     /* mode <uint32_t> [] */
     /* size <vec2> [] */
-    size = size.ptr;
+    if(typeof size !== "undefined" && size !== null) { size = size.ptr; }
     if (size === undefined) { return wrapPointer(_mud_ui_auto_modal_2(parent, mode), Widget); }
     return wrapPointer(_mud_ui_auto_modal_3(parent, mode, size), Widget);
 };
@@ -1966,7 +1966,7 @@ Module['ui']['image256'] = function(parent, name, source, size) {
     /* source <Image256> [] */
     source = source.ptr;
     /* size <vec2> [] */
-    size = size.ptr;
+    if(typeof size !== "undefined" && size !== null) { size = size.ptr; }
     if (size === undefined) { return wrapPointer(_mud_ui_image256_3(parent, name, source), Widget); }
     return wrapPointer(_mud_ui_image256_4(parent, name, source, size), Widget);
 };
@@ -2042,7 +2042,7 @@ Module['ui']['modal'] = function(parent, size) {
     /* parent <Widget> [] */
     parent = parent.ptr;
     /* size <vec2> [] */
-    size = size.ptr;
+    if(typeof size !== "undefined" && size !== null) { size = size.ptr; }
     if (size === undefined) { return wrapPointer(_mud_ui_modal_1(parent), Widget); }
     return wrapPointer(_mud_ui_modal_2(parent, size), Widget);
 };

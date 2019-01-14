@@ -1,9 +1,9 @@
 // Call
 function Call(callable, arguments) {
     /* callable <Callable> [] */
-    callable = callable.ptr;
+    if(typeof callable !== "undefined" && callable !== null) { callable = callable.ptr; }
     /* arguments <std::vector<mud::Var>> [] */
-    arguments = arguments.ptr;
+    if(typeof arguments !== "undefined" && arguments !== null) { arguments = arguments.ptr; }
     if (callable === undefined) { this.ptr = _mud_Call_Call_0(); getCache(Call)[this.ptr] = this; return; }
     this.ptr = _mud_Call_Call_2(callable, arguments); getCache(Call)[this.ptr] = this;
     this.type = Call;

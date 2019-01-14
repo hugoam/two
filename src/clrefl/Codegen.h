@@ -1139,10 +1139,10 @@ namespace clgen
 			}
 		};
 
-		auto js_call_convert_args = [&](const CLCallable& f)
+		auto js_call_convert_args = [&](const CLCallable& f, size_t min_args)
 		{
 			for(const CLParam& p : f.m_params)
-				js_call_convert_arg(p.m_type, p.m_name, p.m_index >= f.m_min_args);
+				js_call_convert_arg(p.m_type, p.m_name, p.m_index >= min_args);
 		};
 
 		// We need to avoid some closure errors on the constructors we define here.
@@ -1161,7 +1161,7 @@ namespace clgen
 			if(!ctor) 
 				jsw("var self = this.ptr;");
 			js_call_prepare(f);
-			js_call_convert_args(f);
+			js_call_convert_args(f, *o.lengths.begin());
 			js_call(o);
 			if(ctor)
 				jsw("this.type = " + f.m_parent->m_name + ";");

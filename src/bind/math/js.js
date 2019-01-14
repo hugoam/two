@@ -265,11 +265,11 @@ TimeSpan.prototype["__destroy__"] = TimeSpan.prototype.__destroy__ = function() 
 // Transform
 function Transform(position, rotation, scale) {
     /* position <vec3> [] */
-    position = position.ptr;
+    if(typeof position !== "undefined" && position !== null) { position = position.ptr; }
     /* rotation <quat> [] */
-    rotation = rotation.ptr;
+    if(typeof rotation !== "undefined" && rotation !== null) { rotation = rotation.ptr; }
     /* scale <vec3> [] */
-    scale = scale.ptr;
+    if(typeof scale !== "undefined" && scale !== null) { scale = scale.ptr; }
     if (position === undefined) { this.ptr = _mud_Transform_Transform_0(); getCache(Transform)[this.ptr] = this; return; }
     this.ptr = _mud_Transform_Transform_3(position, rotation, scale); getCache(Transform)[this.ptr] = this;
     this.type = Transform;

@@ -244,7 +244,7 @@ Shape.prototype["__destroy__"] = Shape.prototype.__destroy__ = function() {
 // ShapeVar
 function ShapeVar(shape) {
     /* shape <Shape> [] */
-    shape = shape.ptr;
+    if(typeof shape !== "undefined" && shape !== null) { shape = shape.ptr; }
     if (shape === undefined) { this.ptr = _mud_ShapeVar_ShapeVar_0(); getCache(ShapeVar)[this.ptr] = this; return; }
     this.ptr = _mud_ShapeVar_ShapeVar_1(shape); getCache(ShapeVar)[this.ptr] = this;
     this.type = ShapeVar;
@@ -440,13 +440,13 @@ Arc.prototype["__destroy__"] = Arc.prototype.__destroy__ = function() {
 // ArcLine
 function ArcLine(center, start, middle, end) {
     /* center <vec3> [] */
-    center = center.ptr;
+    if(typeof center !== "undefined" && center !== null) { center = center.ptr; }
     /* start <vec3> [] */
-    start = start.ptr;
+    if(typeof start !== "undefined" && start !== null) { start = start.ptr; }
     /* middle <vec3> [] */
-    middle = middle.ptr;
+    if(typeof middle !== "undefined" && middle !== null) { middle = middle.ptr; }
     /* end <vec3> [] */
-    end = end.ptr;
+    if(typeof end !== "undefined" && end !== null) { end = end.ptr; }
     if (center === undefined) { this.ptr = _mud_ArcLine_ArcLine_0(); getCache(ArcLine)[this.ptr] = this; return; }
     if (end === undefined) { this.ptr = _mud_ArcLine_ArcLine_3(center, start, middle); getCache(ArcLine)[this.ptr] = this; return; }
     this.ptr = _mud_ArcLine_ArcLine_4(center, start, middle, end); getCache(ArcLine)[this.ptr] = this;
@@ -554,9 +554,9 @@ Capsule.prototype["__destroy__"] = Capsule.prototype.__destroy__ = function() {
 // Cube
 function Cube(center, extents) {
     /* center <vec3> [] */
-    center = center.ptr;
+    if(typeof center !== "undefined" && center !== null) { center = center.ptr; }
     /* extents <vec3> [] */
-    extents = extents.ptr;
+    if(typeof extents !== "undefined" && extents !== null) { extents = extents.ptr; }
     if (center === undefined) { this.ptr = _mud_Cube_Cube_0(); getCache(Cube)[this.ptr] = this; return; }
     if (extents === undefined) { this.ptr = _mud_Cube_Cube_1(center); getCache(Cube)[this.ptr] = this; return; }
     this.ptr = _mud_Cube_Cube_2(center, extents); getCache(Cube)[this.ptr] = this;
@@ -586,9 +586,9 @@ Cube.prototype["__destroy__"] = Cube.prototype.__destroy__ = function() {
 // Aabb
 function Aabb(center, extents) {
     /* center <vec3> [] */
-    center = center.ptr;
+    if(typeof center !== "undefined" && center !== null) { center = center.ptr; }
     /* extents <vec3> [] */
-    extents = extents.ptr;
+    if(typeof extents !== "undefined" && extents !== null) { extents = extents.ptr; }
     if (center === undefined) { this.ptr = _mud_Aabb_Aabb_0(); getCache(Aabb)[this.ptr] = this; return; }
     this.ptr = _mud_Aabb_Aabb_2(center, extents); getCache(Aabb)[this.ptr] = this;
     this.type = Aabb;
@@ -672,7 +672,7 @@ Circle.prototype["__destroy__"] = Circle.prototype.__destroy__ = function() {
 // ConvexHull
 function ConvexHull(vertices) {
     /* vertices <std::vector<mud::vec3>> [] */
-    vertices = vertices.ptr;
+    if(typeof vertices !== "undefined" && vertices !== null) { vertices = vertices.ptr; }
     if (vertices === undefined) { this.ptr = _mud_ConvexHull_ConvexHull_0(); getCache(ConvexHull)[this.ptr] = this; return; }
     this.ptr = _mud_ConvexHull_ConvexHull_1(vertices); getCache(ConvexHull)[this.ptr] = this;
     this.type = ConvexHull;
@@ -743,7 +743,7 @@ Cylinder.prototype["__destroy__"] = Cylinder.prototype.__destroy__ = function() 
 // Ellipsis
 function Ellipsis(radius, axis) {
     /* radius <vec2> [] */
-    radius = radius.ptr;
+    if(typeof radius !== "undefined" && radius !== null) { radius = radius.ptr; }
     /* axis <Axis> [] */
     if (axis && typeof axis === "object") axis = axis.ptr;
     if (radius === undefined) { this.ptr = _mud_Ellipsis_Ellipsis_0(); getCache(Ellipsis)[this.ptr] = this; return; }
@@ -801,7 +801,7 @@ Geometry.prototype["__destroy__"] = Geometry.prototype.__destroy__ = function() 
 // Grid2
 function Grid2(size, space) {
     /* size <vec2> [] */
-    size = size.ptr;
+    if(typeof size !== "undefined" && size !== null) { size = size.ptr; }
     /* space <vec2> [] */
     if(typeof space !== "undefined" && space !== null) { space = space.ptr; }
     if (size === undefined) { this.ptr = _mud_Grid2_Grid2_0(); getCache(Grid2)[this.ptr] = this; return; }
@@ -845,7 +845,7 @@ Grid2.prototype["__destroy__"] = Grid2.prototype.__destroy__ = function() {
 // Grid3
 function Grid3(size, points) {
     /* size <uvec2> [] */
-    size = size.ptr;
+    if(typeof size !== "undefined" && size !== null) { size = size.ptr; }
     /* points <std::vector<mud::vec3>> [] */
     if(typeof points !== "undefined" && points !== null) { points = points.ptr; }
     if (size === undefined) { this.ptr = _mud_Grid3_Grid3_0(); getCache(Grid3)[this.ptr] = this; return; }
@@ -877,9 +877,9 @@ Grid3.prototype["__destroy__"] = Grid3.prototype.__destroy__ = function() {
 // Line
 function Line(start, end) {
     /* start <vec3> [] */
-    start = start.ptr;
+    if(typeof start !== "undefined" && start !== null) { start = start.ptr; }
     /* end <vec3> [] */
-    end = end.ptr;
+    if(typeof end !== "undefined" && end !== null) { end = end.ptr; }
     if (start === undefined) { this.ptr = _mud_Line_Line_0(); getCache(Line)[this.ptr] = this; return; }
     this.ptr = _mud_Line_Line_2(start, end); getCache(Line)[this.ptr] = this;
     this.type = Line;
@@ -920,7 +920,7 @@ Line.prototype["__destroy__"] = Line.prototype.__destroy__ = function() {
 // Points
 function Points(points) {
     /* points <std::vector<mud::vec3>> [] */
-    points = points.ptr;
+    if(typeof points !== "undefined" && points !== null) { points = points.ptr; }
     if (points === undefined) { this.ptr = _mud_Points_Points_0(); getCache(Points)[this.ptr] = this; return; }
     this.ptr = _mud_Points_Points_1(points); getCache(Points)[this.ptr] = this;
     this.type = Points;
@@ -961,7 +961,7 @@ Poisson.prototype["__destroy__"] = Poisson.prototype.__destroy__ = function() {
 // Polygon
 function Polygon(vertices) {
     /* vertices <std::vector<mud::vec3>> [] */
-    vertices = vertices.ptr;
+    if(typeof vertices !== "undefined" && vertices !== null) { vertices = vertices.ptr; }
     if (vertices === undefined) { this.ptr = _mud_Polygon_Polygon_0(); getCache(Polygon)[this.ptr] = this; return; }
     this.ptr = _mud_Polygon_Polygon_1(vertices); getCache(Polygon)[this.ptr] = this;
     this.type = Polygon;
@@ -978,13 +978,13 @@ Polygon.prototype["__destroy__"] = Polygon.prototype.__destroy__ = function() {
 // Quad
 function Quad(a, b, c, d) {
     /* a <vec3> [] */
-    a = a.ptr;
+    if(typeof a !== "undefined" && a !== null) { a = a.ptr; }
     /* b <vec3> [] */
-    b = b.ptr;
+    if(typeof b !== "undefined" && b !== null) { b = b.ptr; }
     /* c <vec3> [] */
-    c = c.ptr;
+    if(typeof c !== "undefined" && c !== null) { c = c.ptr; }
     /* d <vec3> [] */
-    d = d.ptr;
+    if(typeof d !== "undefined" && d !== null) { d = d.ptr; }
     if (a === undefined) { this.ptr = _mud_Quad_Quad_0(); getCache(Quad)[this.ptr] = this; return; }
     this.ptr = _mud_Quad_Quad_4(a, b, c, d); getCache(Quad)[this.ptr] = this;
     this.type = Quad;
@@ -1001,9 +1001,9 @@ Quad.prototype["__destroy__"] = Quad.prototype.__destroy__ = function() {
 // Rect
 function Rect(position, size) {
     /* position <vec2> [] */
-    position = position.ptr;
+    if(typeof position !== "undefined" && position !== null) { position = position.ptr; }
     /* size <vec2> [] */
-    size = size.ptr;
+    if(typeof size !== "undefined" && size !== null) { size = size.ptr; }
     if (position === undefined) { this.ptr = _mud_Rect_Rect_0(); getCache(Rect)[this.ptr] = this; return; }
     this.ptr = _mud_Rect_Rect_2(position, size); getCache(Rect)[this.ptr] = this;
     this.type = Rect;
@@ -1254,7 +1254,7 @@ Torus.prototype["__destroy__"] = Torus.prototype.__destroy__ = function() {
 // Triangle
 function Triangle(size) {
     /* size <vec2> [] */
-    size = size.ptr;
+    if(typeof size !== "undefined" && size !== null) { size = size.ptr; }
     if (size === undefined) { this.ptr = _mud_Triangle_Triangle_0(); getCache(Triangle)[this.ptr] = this; return; }
     this.ptr = _mud_Triangle_Triangle_1(size); getCache(Triangle)[this.ptr] = this;
     this.type = Triangle;

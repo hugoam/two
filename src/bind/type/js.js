@@ -35,7 +35,7 @@ Indexer.prototype["__destroy__"] = Indexer.prototype.__destroy__ = function() {
 function Ref(value, type) {
     /* value <void*> [] */
     /* type <Type> [] */
-    type = type.ptr;
+    if(typeof type !== "undefined" && type !== null) { type = type.ptr; }
     if (value === undefined) { this.ptr = _mud_Ref_Ref_0(); getCache(Ref)[this.ptr] = this; return; }
     this.ptr = _mud_Ref_Ref_2(value, type); getCache(Ref)[this.ptr] = this;
     this.type = Ref;
