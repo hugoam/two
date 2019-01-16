@@ -40,8 +40,8 @@ namespace mud
 		T_Node* m_parent = nullptr;
 		void* m_identity = nullptr;
 		size_t m_heartbeat = 0;
-		vector<unique_ptr<T_Node>> m_nodes;
-		unique_ptr<NodeState> m_state;
+		vector<unique<T_Node>> m_nodes;
+		unique<NodeState> m_state;
 		uint16_t m_next = 0;
 		
 		template <class T_Child = T_Node, class... T_Args>

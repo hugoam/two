@@ -16,7 +16,7 @@ namespace mud
 		SharedBuffer(const string& fileName, SoundManager& manager);
 		~SharedBuffer();
 
-		unique_ptr<SoundFileBuffer> m_file_buffer;
+		unique<SoundFileBuffer> m_file_buffer;
 
 		ALuint m_al_buffer;
 

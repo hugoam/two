@@ -41,7 +41,7 @@ namespace mud
 		GfxSystem& m_gfx_system;
 
 		//class Impl;
-		//unique_ptr<Impl> m_impl;
+		//unique<Impl> m_impl;
 
 		string m_path;
 		Loader m_loader;
@@ -60,6 +60,6 @@ namespace mud
 		T_Asset* load(cstring path, cstring name);
 		void load_files(cstring path);
 
-		map<string, unique_ptr<T_Asset>> m_assets;
+		map<string, unique<T_Asset>> m_assets;
 	};
 }

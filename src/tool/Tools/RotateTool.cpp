@@ -67,12 +67,12 @@ namespace mud
 		virtual void draw_gizmo(Gnode& parent, bool active) { rotate_gizmo(parent, m_axis, gizmo_colour(m_hue, active), 0.01f); };
 	};
 
-	unique_ptr<Gizmo> RotateTool::rotation_gizmo(Axis axis, float hue)
+	unique<Gizmo> RotateTool::rotation_gizmo(Axis axis, float hue)
 	{
 		return make_unique<RotationGizmo>(*this, axis, hue);
 	}
 
-	object_ptr<TransformAction> RotateTool::create_action(array<Transform*> targets)
+	object<TransformAction> RotateTool::create_action(array<Transform*> targets)
 	{
 		vec3 axis = m_current == &*m_gizmos[0] ? -X3
 				  : m_current == &*m_gizmos[1] ?  Y3

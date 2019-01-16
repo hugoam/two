@@ -32,11 +32,11 @@ namespace mud
 		template <class T>
 		inline TPool<T>& create_pool(size_t size = 12) { m_pools[type<T>().m_id] = make_unique<TPool<T>>(size); return pool<T>(); }
 
-		vector<unique_ptr<Pool>> m_pools;
+		vector<unique<Pool>> m_pools;
 	};
 
-	//export_ extern MUD_POOL_EXPORT vector<unique_ptr<Pool>> g_pool_makers;
-	export_ extern MUD_POOL_EXPORT vector<unique_ptr<Pool>> g_pools;
+	//export_ extern MUD_POOL_EXPORT vector<unique<Pool>> g_pool_makers;
+	export_ extern MUD_POOL_EXPORT vector<unique<Pool>> g_pools;
 
 	template <class T>
 	inline TPool<T>& global_pool()

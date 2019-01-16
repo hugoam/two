@@ -30,7 +30,7 @@ namespace mud
 		array<Vertex> vertices() { return { &m_vertices[0], m_vertices.size() }; }
 		array<uint32_t> indices() { return { &m_triangles[0].a, m_triangles.size() / 3 }; }
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT MeshPacker

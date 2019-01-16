@@ -26,7 +26,7 @@ namespace mud
 	using json11::Json;
 
 	template <class T, class... T_Args>
-	inline T& vector_emplace(vector<unique_ptr<T>>& vector, T_Args&&... args)
+	inline T& vector_emplace(vector<unique<T>>& vector, T_Args&&... args)
 	{
 		vector.push_back(construct<T>(static_cast<T_Args&&>(args)...));
 		return static_cast<T&>(*vector.back());
@@ -486,8 +486,8 @@ namespace mud
 		CLClass* m_parent;
 		CLQualType m_type;
 
-		unique_ptr<CLMethod> m_method = {};
-		unique_ptr<CLMethod> m_setter = {};
+		unique<CLMethod> m_method = {};
+		unique<CLMethod> m_setter = {};
 
 		string m_member;
 		string m_name;
@@ -568,7 +568,7 @@ namespace mud
 		map<string, CLClass*> m_class_templates;
 		map<string, CLFunction*> m_func_templates;
 
-		map<string, unique_ptr<CLNamespace>> m_namespaces;
+		map<string, unique<CLNamespace>> m_namespaces;
 
 		vector<string> m_base_aliases;
 
@@ -627,17 +627,17 @@ namespace mud
 
 		bool m_has_structs;
 
-		vector<unique_ptr<CLClass>> m_classes = {};
-		vector<unique_ptr<CLClass>> m_class_templates = {};
-		vector<unique_ptr<CLEnum>> m_enums = {};
-		vector<unique_ptr<CLSequence>> m_sequences = {};
-		vector<unique_ptr<CLBaseType>> m_basetypes = {};
-		vector<unique_ptr<CLType>> m_extern_types = {};
+		vector<unique<CLClass>> m_classes = {};
+		vector<unique<CLClass>> m_class_templates = {};
+		vector<unique<CLEnum>> m_enums = {};
+		vector<unique<CLSequence>> m_sequences = {};
+		vector<unique<CLBaseType>> m_basetypes = {};
+		vector<unique<CLType>> m_extern_types = {};
 
 		vector<CLType*> m_types = {};
 
-		vector<unique_ptr<CLFunction>> m_functions = {};
-		vector<unique_ptr<CLFunction>> m_func_templates = {};
+		vector<unique<CLFunction>> m_functions = {};
+		vector<unique<CLFunction>> m_func_templates = {};
 
 		CLNamespace& get_namespace(const string& name, CLPrimitive& parent)
 		{
@@ -708,7 +708,7 @@ namespace mud
 					if(content_type)
 						return sequence_type(name, content_name, *content_type);
 				}
-			for(const string& name : { "unique_ptr", "object_ptr" })
+			for(const string& name : { "unique", "object" })
 				if(clsname.find(name) != string::npos)
 				{
 					CLType& type = this->proxy_type(clsname, m_context.m_root_namespace);

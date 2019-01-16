@@ -71,11 +71,11 @@ namespace mud
 		Material& symbol_material(GfxSystem& gfx_system, const Symbol& symbol, DrawMode draw_mode);
 
 		class Impl;
-		unique_ptr<Impl> m_impl;
+		unique<Impl> m_impl;
 	};
 
-	export_ MUD_GFX_EXPORT object_ptr<Model> draw_model(cstring name, const ProcShape& shape, bool readback = false);
-	export_ MUD_GFX_EXPORT object_ptr<Model> draw_model(cstring name, const vector<ProcShape>& shapes, bool readback = false);
+	export_ MUD_GFX_EXPORT object<Model> draw_model(cstring name, const ProcShape& shape, bool readback = false);
+	export_ MUD_GFX_EXPORT object<Model> draw_model(cstring name, const vector<ProcShape>& shapes, bool readback = false);
 
 	export_ MUD_GFX_EXPORT void draw_model(const ProcShape& shape, Model& model, bool readback = false, Material* material = nullptr);
 	export_ MUD_GFX_EXPORT void draw_model(const vector<ProcShape>& shapes, Model& model, bool readback = false, Material* material = nullptr);

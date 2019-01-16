@@ -85,7 +85,7 @@ namespace mud
 		T* m_memory;
 		T* m_last;
 
-		unique_ptr<VecPool<T>> m_next;
+		unique<VecPool<T>> m_next;
 
 		static int s_count;
 	};

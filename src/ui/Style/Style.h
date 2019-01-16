@@ -36,7 +36,7 @@ namespace mud
 		attr_ InkStyle& skin();
 		
 		struct Impl;
-		unique_ptr<Impl> m_impl;
+		unique<Impl> m_impl;
 	};
 
 	export_ MUD_UI_EXPORT void layout_minimal(UiWindow& ui_window);

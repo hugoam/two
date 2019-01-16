@@ -118,7 +118,7 @@ namespace mud
 		LocklessQueue<SoundAction> m_actions;
 		LocklessQueue<SoundAction> m_delayedActions;
 
-		unique_ptr<std::thread> m_update_thread = nullptr;
+		unique<std::thread> m_update_thread = nullptr;
 		bool m_shuttingDown = false;
 
 	public:
@@ -142,7 +142,7 @@ namespace mud
 		unsigned int m_maxSources = 100;		// Maximum Number of sources to allocate
 		SourceVector m_sourcePool;				// List of available sources
 
-		map<string, unique_ptr<SharedBuffer>> m_sharedBuffers;
+		map<string, unique<SharedBuffer>> m_sharedBuffers;
 
 		Clock m_clock;
 	};

@@ -34,7 +34,7 @@ namespace mud
 		float m_width;
 		float m_height;
 
-		unique_ptr<SpaceQuad> m_quad;
+		unique<SpaceQuad> m_quad;
 
 		float m_size_ratio;
 	};

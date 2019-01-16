@@ -21,7 +21,7 @@ namespace mud
 		attr_ vec3 m_start = Zero3;
 		attr_ vec3 m_end = Unit3;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT Rect final : public Shape
@@ -34,7 +34,7 @@ namespace mud
 		attr_ vec2 m_position = Zero2;
 		attr_ vec2 m_size = Unit2;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT Quad final : public Shape
@@ -54,7 +54,7 @@ namespace mud
 
 		/*attr_ mut_*/ vec3 m_vertices[4];
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT Grid2 final : public Shape
@@ -66,7 +66,7 @@ namespace mud
 		attr_ vec2 m_size = vec2{ 1.f };
 		attr_ vec2 m_space = vec2{ 0.1f };
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT Triangle final : public Shape
@@ -77,7 +77,7 @@ namespace mud
 
 		attr_ vec2 m_size = Unit2;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT Circle final : public Shape
@@ -92,7 +92,7 @@ namespace mud
 		attr_ float m_radius = 1.f;
 		attr_ Axis m_axis = Axis::X;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT Torus final : public Shape
@@ -108,7 +108,7 @@ namespace mud
 		attr_ float m_solid_radius = 1.f;
 		attr_ Axis m_axis = Axis::X;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT Ring final : public Shape
@@ -121,7 +121,7 @@ namespace mud
 		attr_ float m_min = 0.f;
 		attr_ float m_max = 1.f;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT Ellipsis final : public Shape
@@ -133,7 +133,7 @@ namespace mud
 		attr_ vec2 m_radius = Unit2;
 		attr_ Axis m_axis = Axis::Y;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT Arc final : public Shape
@@ -146,7 +146,7 @@ namespace mud
 		attr_ float m_start = 0.f;
 		attr_ float m_end = 1.f;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT ArcLine final : public Shape
@@ -160,7 +160,7 @@ namespace mud
 		attr_ vec3 m_middle;
 		attr_ vec3 m_end;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT Cylinder final : public Shape
@@ -173,7 +173,7 @@ namespace mud
 		attr_ float m_height = 2.f;
 		attr_ Axis m_axis = Axis::X;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT Capsule final : public Shape
@@ -186,7 +186,7 @@ namespace mud
 		attr_ float m_height = 2.f;
 		attr_ Axis m_axis = Axis::X;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 
@@ -200,7 +200,7 @@ namespace mud
 
 		attr_ vec3 m_extents = vec3{ 0.5f };
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT Sphere final : public Shape
@@ -212,7 +212,7 @@ namespace mud
 
 		attr_ float m_radius = 1.f;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT SphereRing final : public Shape
@@ -225,7 +225,7 @@ namespace mud
 		attr_ float m_min = -1.f;
 		attr_ float m_max = 1.f;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT Spheroid final : public Shape
@@ -241,6 +241,6 @@ namespace mud
 		Circle m_circleY;
 		Circle m_circleZ;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 }

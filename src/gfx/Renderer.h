@@ -150,7 +150,7 @@ namespace mud
 		Camera& m_camera;
 		RenderFrame& m_frame;
 
-		unique_ptr<Frustum> m_frustum;
+		unique<Frustum> m_frustum;
 
 		Environment* m_environment = nullptr;
 		RenderFilters* m_filters = nullptr;
@@ -169,7 +169,7 @@ namespace mud
 		uint8_t m_debug_pass_index = s_debug_pass_id;
 		uint8_t m_sub_pass_index = 0;
 
-		unique_ptr<Shot> m_shot;
+		unique<Shot> m_shot;
 
 		uint32_t m_num_draw_calls = 0;
 		uint32_t m_num_vertices = 0;
@@ -216,7 +216,7 @@ namespace mud
 		attr_ Type& m_type;
 		attr_ uint8_t m_index;
 
-		unique_ptr<ShaderBlock> m_shader_block;
+		unique<ShaderBlock> m_shader_block;
 
 		bool m_draw_block = false;
 
@@ -296,7 +296,7 @@ namespace mud
 		virtual void queue_draw_element(Render& render, DrawElement& element) = 0;
 
 		struct Impl;
-		unique_ptr<Impl> m_impl;
+		unique<Impl> m_impl;
 	};
 
 	export_ class MUD_GFX_EXPORT Renderer : public NonCopy
@@ -310,7 +310,7 @@ namespace mud
 		Shading m_shading;
 
 		struct Impl;
-		unique_ptr<Impl> m_impl;
+		unique<Impl> m_impl;
 
 		void init();
 
@@ -321,7 +321,7 @@ namespace mud
 		void render(Render& render);
 		void subrender(Render& render, Render& sub);
 
-		RenderPass& add_pass(unique_ptr<RenderPass> pass);
+		RenderPass& add_pass(unique<RenderPass> pass);
 
 		template <class T_Pass, class... T_Args>
 		T_Pass& add_pass(T_Args&&... args) { return as<T_Pass>(add_pass(make_unique<T_Pass>(static_cast<T_Args&&>(args)...))); }

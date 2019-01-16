@@ -32,20 +32,20 @@ namespace mud
 	}
 
 	template <class T>
-	using object_ptr = unique_ptr<T, std::function<void(void*)>>;
+	using object = unique<T, std::function<void(void*)>>;
 
 	template<class T, class... Types>
-	inline typename std::enable_if<!std::is_array<T>::value, object_ptr<T>>::type make_object(Types&&... args)
+	inline typename std::enable_if<!std::is_array<T>::value, object<T>>::type make_object(Types&&... args)
 	{
 		object_ptr_tracker<T>::increment();
-		return (object_ptr<T>(new T(static_cast<Types&&>(args)...), &delete_tracked<T>));
+		return (object<T>(new T(static_cast<Types&&>(args)...), &delete_tracked<T>));
 	}
 #else
 	export_ template <class T>
-	using object_ptr = unique_ptr<T>;
+	using object = unique<T>;
 
 	export_ template <typename T, typename... Args>
-	object_ptr<T> make_object(Args&&... args)
+	object<T> make_object(Args&&... args)
 	{
 		return make_unique<T>(static_cast<Args&&>(args)...);
 	}

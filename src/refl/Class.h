@@ -98,7 +98,7 @@ namespace mud
 		bool m_content_pointer = false;
 
 		// Implementation
-		using MakePool = unique_ptr<Pool>(*)(); MakePool m_make_pool;
+		using MakePool = unique<Pool>(*)(); MakePool m_make_pool;
 	};
 
 	inline Ref Member::cast(Ref object) const

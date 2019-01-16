@@ -55,13 +55,13 @@ namespace mud
 		attr_ vec2 m_position;
 		attr_ vec2 m_size;
 
-		vector<unique_ptr<Picker>> m_pickers;
+		vector<unique<Picker>> m_pickers;
 
 		Item* m_hovered = nullptr;
 
-		unique_ptr<Object> m_filters;
+		unique<Object> m_filters;
 
-		unique_ptr<ViewerController> m_controller;
+		unique<ViewerController> m_controller;
 
 		void update();
 

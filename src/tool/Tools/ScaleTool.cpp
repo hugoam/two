@@ -108,22 +108,22 @@ namespace mud
 		virtual void draw_gizmo(Gnode& parent, bool active) { scale_3d_gizmo(parent, active ? Colour::White : Colour::AlphaWhite); };
 	};
 
-	unique_ptr<Gizmo> ScaleTool::linear_gizmo(Axis axis, float hue)
+	unique<Gizmo> ScaleTool::linear_gizmo(Axis axis, float hue)
 	{
 		return make_unique<ScaleLinearGizmo>(*this, axis, hue);
 	}
 
-	unique_ptr<Gizmo> ScaleTool::planar_gizmo(Axis normal, float hue)
+	unique<Gizmo> ScaleTool::planar_gizmo(Axis normal, float hue)
 	{
 		return make_unique<ScaleLinearGizmo>(*this, normal, hue);
 	}
 
-	unique_ptr<Gizmo> ScaleTool::uniform_gizmo()
+	unique<Gizmo> ScaleTool::uniform_gizmo()
 	{
 		return make_unique<ScaleUniformGizmo>(*this);
 	}
 
-	object_ptr<TransformAction> ScaleTool::create_action(array<Transform*> targets)
+	object<TransformAction> ScaleTool::create_action(array<Transform*> targets)
 	{
 		return make_object<ScaleAction>(targets);
 	}

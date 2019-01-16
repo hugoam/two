@@ -36,7 +36,7 @@ namespace mud
 		virtual void call(cstring code, Var* result = nullptr) final;
 		virtual void virtual_call(Method& method, Ref object, array<Var> args) final;
 
-		unique_ptr<WrenContext> m_context;
+		unique<WrenContext> m_context;
 
 		void create_virtual(Ref object);
 

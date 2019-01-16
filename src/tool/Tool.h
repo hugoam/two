@@ -42,7 +42,7 @@ namespace mud
 		virtual void deactivate() = 0;
 	};
 
-	typedef vector<object_ptr<ToolOption>> OptionVector;
+	typedef vector<object<ToolOption>> OptionVector;
 
 	export_ enum class refl_ ToolState : unsigned int
 	{
@@ -69,12 +69,12 @@ namespace mud
 
 		bool active() { return m_state == ToolState::Active; }
 
-		void add_option(object_ptr<ToolOption> option);
+		void add_option(object<ToolOption> option);
 
 		virtual void activate();
 		virtual void deactivate();
 
-		void commit(object_ptr<EditorAction> action);
+		void commit(object<EditorAction> action);
 
 		virtual bool enabled(const vector<Ref>& selection) { UNUSED(selection); return true; }
 
@@ -151,11 +151,11 @@ namespace mud
 
 		virtual bool enabled(const vector<Ref>& selection) override;
 
-		virtual object_ptr<TransformAction> create_action(array<Transform*> targets) = 0;
+		virtual object<TransformAction> create_action(array<Transform*> targets) = 0;
 		virtual bool test_target(Ref target) { UNUSED(target); return true; }
 
 	public:
-		vector<unique_ptr<Gizmo>> m_gizmos;
+		vector<unique<Gizmo>> m_gizmos;
 		Gizmo* m_current = nullptr;
 		Gizmo* m_dragging = nullptr;
 
@@ -164,7 +164,7 @@ namespace mud
 		vec3 m_grab_start;
 		vec3 m_grab_end;
 
-		object_ptr<TransformAction> m_action;
+		object<TransformAction> m_action;
 	};
 
 	export_ class refl_ MUD_TOOL_EXPORT TransformGizmo : public Gizmo

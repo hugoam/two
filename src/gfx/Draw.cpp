@@ -175,7 +175,7 @@ namespace mud
 	struct SymbolIndex::Impl
 	{
 		std::map<uint64_t, Material*> m_materials;
-		std::map<uint64_t, std::map<std::array<char, c_max_shape_size>, object_ptr<Model>>> m_symbols;
+		std::map<uint64_t, std::map<std::array<char, c_max_shape_size>, object<Model>>> m_symbols;
 	};
 
 	SymbolIndex::SymbolIndex()
@@ -231,14 +231,14 @@ namespace mud
 		return *shapes[shape_mem];
 	}
 
-	object_ptr<Model> draw_model(cstring id, const ProcShape& shape, bool readback)
+	object<Model> draw_model(cstring id, const ProcShape& shape, bool readback)
 	{
 		return draw_model(id, vector<ProcShape>{ { shape } }, readback);
 	}
 
-	object_ptr<Model> draw_model(cstring id, const vector<ProcShape>& shapes, bool readback)
+	object<Model> draw_model(cstring id, const vector<ProcShape>& shapes, bool readback)
 	{
-		object_ptr<Model> model = make_object<Model>(id);
+		object<Model> model = make_object<Model>(id);
 		draw_model(shapes, *model, readback);
 		return model;
 	}

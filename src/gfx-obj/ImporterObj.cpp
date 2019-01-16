@@ -314,7 +314,7 @@ namespace mud
 			return;
 		}
 
-		unique_ptr<MeshWriter> mesh_writer = make_unique<MeshWriter>(config, scene, generate_tangents);
+		unique<MeshWriter> mesh_writer = make_unique<MeshWriter>(config, scene, generate_tangents);
 
 		std::string line;
 

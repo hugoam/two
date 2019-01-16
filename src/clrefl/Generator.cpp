@@ -428,7 +428,7 @@ namespace mud
 	public:
 		CLGenerator() : m_context() {}
 
-		vector<unique_ptr<CLModule>> m_modules = {};
+		vector<unique<CLModule>> m_modules = {};
 		vector<CLModule*> m_generator_queue = {};
 		CLContext m_context;
 
@@ -560,10 +560,10 @@ namespace mud
 
 			sort(module.m_types, [&](CLType* a, CLType* b) { return cmp_types(*a, *b) < 0; });
 
-			sort(module.m_classes, [&](const unique_ptr<CLClass>& a, const unique_ptr<CLClass>& b) { return cmp_types(*a, *b) < 0; });
-			sort(module.m_enums, [&](const unique_ptr<CLEnum>& a, const unique_ptr<CLEnum>& b) { return cmp_types(*a, *b) < 0; });
-			sort(module.m_sequences, [&](const unique_ptr<CLSequence>& a, const unique_ptr<CLSequence>& b) { return cmp_types(*a, *b) < 0; });
-			sort(module.m_basetypes, [&](const unique_ptr<CLBaseType>& a, const unique_ptr<CLBaseType>& b) { return cmp_types(*a, *b) < 0; });
+			sort(module.m_classes, [&](const unique<CLClass>& a, const unique<CLClass>& b) { return cmp_types(*a, *b) < 0; });
+			sort(module.m_enums, [&](const unique<CLEnum>& a, const unique<CLEnum>& b) { return cmp_types(*a, *b) < 0; });
+			sort(module.m_sequences, [&](const unique<CLSequence>& a, const unique<CLSequence>& b) { return cmp_types(*a, *b) < 0; });
+			sort(module.m_basetypes, [&](const unique<CLBaseType>& a, const unique<CLBaseType>& b) { return cmp_types(*a, *b) < 0; });
             
 			//if(module.m_classes.size() == 0 && module.m_enums.size() == 0)
 			//	return;

@@ -111,10 +111,10 @@ namespace mud
 
 	public:
 		struct Content;
-		object_ptr<Content> d_content;
-		object_ptr<FrameSolver> m_solver;
+		object<Content> d_content;
+		object<FrameSolver> m_solver;
 
-		object_ptr<Layer> m_layer;
+		object<Layer> m_layer;
 
 		static Vg* s_vg;
 	};

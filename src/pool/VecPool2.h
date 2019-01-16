@@ -94,7 +94,7 @@ namespace mud
 		vector<Handle> m_available;
 		vector<Handle> m_objects;
 
-		unique_ptr<VecPool<T>> m_next;
+		unique<VecPool<T>> m_next;
 
 		static int s_count;
 	};

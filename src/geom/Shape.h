@@ -26,7 +26,7 @@ namespace mud
 		// @todo add this to reflection need to fix serialization (must either be an argument of child constructors or init members directly)
 		vec3 m_center;
 
-		virtual object_ptr<Shape> clone() const = 0;
+		virtual object<Shape> clone() const = 0;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT ShapeVar
@@ -44,6 +44,6 @@ namespace mud
 		operator const Shape&() const { return *m_shape; }
 		Shape& operator*() const { return *m_shape; }
 
-		object_ptr<Shape> m_shape;
+		object<Shape> m_shape;
 	};
 }

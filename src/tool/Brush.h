@@ -90,7 +90,7 @@ namespace mud
 	protected:
 		vector<Ref> m_stroke;
 
-		object_ptr<Poisson> m_distribution;
+		object<Poisson> m_distribution;
 
 		bool m_accumulate;
 	};

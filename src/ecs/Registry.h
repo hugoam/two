@@ -158,7 +158,7 @@ namespace mud
 		SparseIndices<false> m_indices;
 		vector<uint32_t> m_handles;
 
-		vector<unique_ptr<ComponentBufferBase>> m_buffers;
+		vector<unique<ComponentBufferBase>> m_buffers;
 		vector<ComponentBufferBase*> m_buffer_map;
 	};
 

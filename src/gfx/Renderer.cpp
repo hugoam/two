@@ -109,7 +109,7 @@ namespace mud
 	struct Renderer::Impl
 	{
 		vector<GfxBlock*> m_gfx_blocks;
-		vector<unique_ptr<RenderPass>> m_render_passes;
+		vector<unique<RenderPass>> m_render_passes;
 	};
 
 	Renderer::Renderer(GfxSystem& gfx_system, Pipeline& pipeline, Shading shading)
@@ -142,7 +142,7 @@ namespace mud
 		m_impl->m_gfx_blocks.push_back(&block);
 	}
 
-	RenderPass& Renderer::add_pass(unique_ptr<RenderPass> render_pass)
+	RenderPass& Renderer::add_pass(unique<RenderPass> render_pass)
 	{ 
 		m_impl->m_render_passes.emplace_back(std::move(render_pass));
 		return *m_impl->m_render_passes.back();

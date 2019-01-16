@@ -14,7 +14,7 @@ module mud.proto;
 
 namespace mud
 {
-	vector<unique_ptr<Prototype>> g_prototypes = vector<unique_ptr<Prototype>>(c_max_types);
+	vector<unique<Prototype>> g_prototypes = vector<unique<Prototype>>(c_max_types);
 
 	Type& proto_stem(Class& cls)
 	{

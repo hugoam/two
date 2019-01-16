@@ -55,7 +55,7 @@ namespace mud
 		mat4 m_capture_transform;
 		vec3 m_capture_extents;
 
-		vector<unique_ptr<Lightmap>> m_layers;
+		vector<unique<Lightmap>> m_layers;
 	};
 
 	struct LightmapRenderer : public Renderer

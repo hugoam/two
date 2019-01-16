@@ -45,7 +45,7 @@ namespace mud
 		attr_ Type* m_prototype;
 		attr_ Injector& injector() const { return *m_injector; }
 
-		object_ptr<Injector> m_injector;
+		object<Injector> m_injector;
 
 		void set_prototype(Type& prototype);
 	};

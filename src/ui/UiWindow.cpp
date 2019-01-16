@@ -120,7 +120,7 @@ namespace mud
 		Visitor visitor = { images, sprite_path };
 		visit_folders(sprite_path.c_str(), visit_folder);
 
-		m_images = vector_convert<object_ptr<Image>>(images, [](const Image& image) { return make_object<Image>(image); });
+		m_images = vector_convert<object<Image>>(images, [](const Image& image) { return make_object<Image>(image); });
 	}
 
 	void UiWindow::load_resources()
@@ -145,7 +145,7 @@ namespace mud
 
 	void UiWindow::remove_image(Image& image)
 	{
-		vector_remove_if(m_images, [&](object_ptr<Image>& current) { return current.get() == &image; });
+		vector_remove_if(m_images, [&](object<Image>& current) { return current.get() == &image; });
 		m_vg.unload_image(image);
 	}
 

@@ -50,7 +50,7 @@ namespace mud
 		// bgfx::shutdown();
 	}
 
-	object_ptr<Context> BgfxSystem::create_context(cstring name, int width, int height, bool fullScreen)
+	object<Context> BgfxSystem::create_context(cstring name, int width, int height, bool fullScreen)
 	{
 		return make_object<BgfxContext>(*this, name, width, height, fullScreen, !m_initialized);
 	}

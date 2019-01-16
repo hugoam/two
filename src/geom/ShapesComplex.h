@@ -21,7 +21,7 @@ namespace mud
 
 		vector<vec3> m_vertices;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT Box final : public Shape
@@ -34,7 +34,7 @@ namespace mud
 
 		vec3 m_vertices[8];
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT Points final : public Shape
@@ -45,7 +45,7 @@ namespace mud
 
 		attr_ vector<vec3> m_points;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT Grid3 final : public Shape
@@ -57,7 +57,7 @@ namespace mud
 		attr_ uvec2 m_size;
 		attr_ vector<vec3> m_points;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ struct refl_ MUD_GEOM_EXPORT ConvexHull final : public Shape
@@ -68,6 +68,6 @@ namespace mud
 
 		attr_ vector<vec3> m_vertices;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 }

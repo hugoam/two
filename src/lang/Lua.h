@@ -34,6 +34,6 @@ namespace mud
 
 		virtual void call(cstring code, Var* result = nullptr) final;
 
-		unique_ptr<LuaContext> m_context;
+		unique<LuaContext> m_context;
 	};
 }

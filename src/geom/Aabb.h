@@ -32,7 +32,7 @@ namespace mud
 		bool cull(const vec3& point) const;
 		bool cull(array<vec3> points) const;
 
-		virtual object_ptr<Shape> clone() const;
+		virtual object<Shape> clone() const;
 	};
 
 	export_ inline Aabb aabb(const vec3& min, const vec3& max)

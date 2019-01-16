@@ -39,7 +39,7 @@ namespace mud
 
 		GfxSystem& m_gfx_system;
 
-		object_ptr<RenderTarget> m_target;
+		object<RenderTarget> m_target;
 
 		uint16_t m_vg_handle = UINT16_MAX;
 		using ResetVg = uint16_t(*)(GfxContext&, Vg&); ResetVg m_reset_vg;
@@ -79,7 +79,7 @@ namespace mud
 		virtual void begin_frame() final;
 		virtual bool next_frame() final;
 
-		virtual object_ptr<Context> create_context(cstring name, int width, int height, bool full_screen) final;
+		virtual object<Context> create_context(cstring name, int width, int height, bool full_screen) final;
 
 		void init(GfxContext& context);
 
@@ -131,8 +131,8 @@ namespace mud
 
 	public:
 		struct Impl;
-		unique_ptr<Impl> m_impl;
+		unique<Impl> m_impl;
 
-		unique_ptr<Pipeline> m_pipeline;
+		unique<Pipeline> m_pipeline;
 	};
 }

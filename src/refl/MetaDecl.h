@@ -59,7 +59,7 @@ namespace mud
 	MUD_REFL_EXPORT void init_string<cstring>();
 
 	export_ template <class T>
-	void init_pool() { cls<T>().m_make_pool = []() -> unique_ptr<Pool> { return make_unique<TPool<T>>(); }; }
+	void init_pool() { cls<T>().m_make_pool = []() -> unique<Pool> { return make_unique<TPool<T>>(); }; }
 
 	export_ template <class T>
 	inline typename std::enable_if<std::is_default_constructible<T>::value, void>::type

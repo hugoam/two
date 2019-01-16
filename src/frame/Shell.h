@@ -36,9 +36,9 @@ namespace mud
 		attr_ GfxSystem m_gfx_system;
 		attr_ ShellContext m_editor;
 
-		unique_ptr<Context> m_context = nullptr;
-		unique_ptr<Vg> m_vg = nullptr;
-		unique_ptr<UiWindow> m_ui_window = nullptr;
+		unique<Context> m_context = nullptr;
+		unique<Vg> m_vg = nullptr;
+		unique<UiWindow> m_ui_window = nullptr;
 
 		attr_ Ui* m_ui = nullptr;
 

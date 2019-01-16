@@ -74,7 +74,7 @@ namespace mud
 			return nullptr;
 		}
 
-		unique_ptr<VecPool<T>> m_vec_pool;
+		unique<VecPool<T>> m_vec_pool;
 	};
 
 	export_ class refl_ MUD_POOL_EXPORT HandlePool

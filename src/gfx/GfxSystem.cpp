@@ -85,16 +85,16 @@ namespace mud
 		bx::FileReader m_file_reader;
 		bx::FileWriter m_file_writer;
 
-		unique_ptr<TPool<Mesh>> m_meshes;
-		unique_ptr<TPool<Rig>> m_rigs;
-		unique_ptr<TPool<Animation>> m_animations;
+		unique<TPool<Mesh>> m_meshes;
+		unique<TPool<Rig>> m_rigs;
+		unique<TPool<Animation>> m_animations;
 
-		unique_ptr<AssetStore<Texture>> m_textures;
-		unique_ptr<AssetStore<Program>> m_programs;
-		unique_ptr<AssetStore<Material>> m_materials;
-		unique_ptr<AssetStore<Model>> m_models;
-		unique_ptr<AssetStore<ParticleFlow>> m_particles;
-		unique_ptr<AssetStore<Prefab>> m_prefabs;
+		unique<AssetStore<Texture>> m_textures;
+		unique<AssetStore<Program>> m_programs;
+		unique<AssetStore<Material>> m_materials;
+		unique<AssetStore<Model>> m_models;
+		unique<AssetStore<ParticleFlow>> m_particles;
+		unique<AssetStore<Prefab>> m_prefabs;
 
 		vector<Importer*> m_importers;
 
@@ -157,9 +157,9 @@ namespace mud
 		return m_impl->m_importers[size_t(format)];
 	}
 
-	object_ptr<Context> GfxSystem::create_context(cstring name, int width, int height, bool fullScreen)
+	object<Context> GfxSystem::create_context(cstring name, int width, int height, bool fullScreen)
 	{
-		object_ptr<GfxContext> context = make_object<GfxContext>(*this, name, width, height, fullScreen, !m_initialized);
+		object<GfxContext> context = make_object<GfxContext>(*this, name, width, height, fullScreen, !m_initialized);
 		m_impl->m_contexts.push_back(context.get());
 		return std::move(context);
 	}

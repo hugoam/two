@@ -39,7 +39,7 @@ namespace mud
 
 		array<GfxBlock*> pass_blocks(PassType pass);
 
-		vector<unique_ptr<GfxBlock>> m_gfx_blocks;
+		vector<unique<GfxBlock>> m_gfx_blocks;
 
 		enum_array<PassType, vector<GfxBlock*>> m_pass_blocks;
 	};

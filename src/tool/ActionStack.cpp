@@ -19,7 +19,7 @@ namespace mud
 		, m_undone()
 	{}
 
-	void ActionStack::push(object_ptr<EditorAction> action)
+	void ActionStack::push(object<EditorAction> action)
 	{
 		m_undone.clear();
 		//action->apply();

@@ -56,7 +56,7 @@ namespace mud
 			return *m_indexers[type.m_id];
 		}
 
-		vector<unique_ptr<Indexer>> m_indexers;
+		vector<unique<Indexer>> m_indexers;
 
 		attr_ static Index me;
 	};

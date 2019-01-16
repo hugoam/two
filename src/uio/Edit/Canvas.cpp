@@ -59,7 +59,7 @@ namespace mud
 		static string filter = "";
 		ui::type_in(parent, filter);
 
-		auto add_process = [&](object_ptr<Process> process)
+		auto add_process = [&](object<Process> process)
 		{
 			script.m_processes.push_back(std::move(process));
 			vec2 position = canvas.m_plan->m_frame.integrate_position(parent.m_frame.m_position, canvas.m_scroll_plan->m_frame);

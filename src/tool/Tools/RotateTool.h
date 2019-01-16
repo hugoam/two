@@ -36,8 +36,8 @@ namespace mud
 	public:
 		RotateTool(ToolContext& context);
 
-		unique_ptr<Gizmo> rotation_gizmo(Axis axis, float hue);
+		unique<Gizmo> rotation_gizmo(Axis axis, float hue);
 
-		virtual object_ptr<TransformAction> create_action(array<Transform*> transforms);
+		virtual object<TransformAction> create_action(array<Transform*> transforms);
 	};
 }

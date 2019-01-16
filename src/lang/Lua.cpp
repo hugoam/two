@@ -183,7 +183,7 @@ namespace mud
 
 	inline Call& lua_cached_call(const Callable& callable)
 	{
-		static vector<object_ptr<Call>> lua_call_table;
+		static vector<object<Call>> lua_call_table;
 		if(callable.m_index >= lua_call_table.size())
 			lua_call_table.resize(callable.m_index + 1);
 

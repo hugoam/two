@@ -85,17 +85,17 @@ namespace mud
 		virtual void draw_gizmo(Gnode& parent, bool active) { translate_2d_gizmo(parent, m_axis, gizmo_colour(m_hue, active)); };;
 	};
 
-	unique_ptr<Gizmo> TranslateTool::linear_gizmo(Axis axis, float hue)
+	unique<Gizmo> TranslateTool::linear_gizmo(Axis axis, float hue)
 	{
 		return make_unique<TranslateLinearGizmo>(*this, axis, hue);
 	}
 
-	unique_ptr<Gizmo> TranslateTool::planar_gizmo(Axis normal, float hue)
+	unique<Gizmo> TranslateTool::planar_gizmo(Axis normal, float hue)
 	{
 		return make_unique<TranslatePlanarGizmo>(*this, normal, hue);
 	}
 
-	object_ptr<TransformAction> TranslateTool::create_action(array<Transform*> targets)
+	object<TransformAction> TranslateTool::create_action(array<Transform*> targets)
 	{
 		return make_object<TranslateAction>(targets);
 	}

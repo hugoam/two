@@ -30,7 +30,7 @@ namespace mud
 	{
 		CreatorState(Type& type) : m_type(0), m_injector(make_unique<Injector>(type)) {}
 		uint32_t m_type;
-		unique_ptr<Injector> m_injector;
+		unique<Injector> m_injector;
 	};
 
 	bool object_creator(Widget& parent, Injector& injector)

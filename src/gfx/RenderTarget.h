@@ -78,7 +78,7 @@ namespace mud
 		bgfx::FrameBufferHandle m_fbo;
 		bgfx::TextureHandle m_texture;
 		size_t m_num_mips;
-		unique_ptr<FrameBuffer> m_mips[9] = {};
+		unique<FrameBuffer> m_mips[9] = {};
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT RenderTarget : public FrameBuffer

@@ -35,6 +35,6 @@ namespace mud
 
 	private:
 		struct Impl;
-		unique_ptr<Impl> m_impl;
+		unique<Impl> m_impl;
 	};
 }

@@ -138,7 +138,7 @@ namespace mud
 		//dispatch_branch<AutoStat<int>>(valueWidget<AutoStat<int>, ui::slider_input<int>>);
 		//dispatch_branch<AutoStat<float>>(valueWidget<AutoStat<float>, ui::slider_input<float>>);
 
-		//dispatch_branch<Image256>([](Image256& image, Wedge& parent) -> object_ptr<Widget> { return make_object<Figure>(Widget::Input{ &parent }, image); });
+		//dispatch_branch<Image256>([](Image256& image, Wedge& parent) -> object<Widget> { return make_object<Figure>(Widget::Input{ &parent }, image); });
 	}
 
 	bool type_selector(Widget& parent, uint32_t& type, array<Type*> types)

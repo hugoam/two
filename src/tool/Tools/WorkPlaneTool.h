@@ -35,11 +35,11 @@ namespace mud
 		virtual void activate() final;
 
 	private:
-		object_ptr<WorkPlaneAction> m_action;
+		object<WorkPlaneAction> m_action;
 		Plane m_plane;
 	};
 
-	inline unique_ptr<WorkPlaneTool> xy_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "XY Work Plane", Plane{ Zero3, X3, Y3 }); }
-	inline unique_ptr<WorkPlaneTool> yz_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "YZ Work Plane", Plane{ Zero3, Y3, Z3 }); }
-	inline unique_ptr<WorkPlaneTool> xz_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "XZ Work Plane", Plane{ Zero3, X3, Z3 }); }
+	inline unique<WorkPlaneTool> xy_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "XY Work Plane", Plane{ Zero3, X3, Y3 }); }
+	inline unique<WorkPlaneTool> yz_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "YZ Work Plane", Plane{ Zero3, Y3, Z3 }); }
+	inline unique<WorkPlaneTool> xz_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "XZ Work Plane", Plane{ Zero3, X3, Z3 }); }
 }

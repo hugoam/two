@@ -35,7 +35,7 @@ namespace mud
 		// Streaming sounds have local buffers
 		int m_numBuffers;
 		vector<ALuint> m_aLBuffers;
-		unique_ptr<SoundFileBuffer> m_buffer;
+		unique<SoundFileBuffer> m_buffer;
 
 		ALfloat m_lastOffset;
 	};

@@ -113,7 +113,7 @@ namespace mud
 		return stream_branch->m_value;
 	}
 
-	object_ptr<Pipe> Valve::try_connect(Valve& output, StreamModifier modifier)
+	object<Pipe> Valve::try_connect(Valve& output, StreamModifier modifier)
 	{
 		if(!m_pipes.empty())
 			m_process.m_script.disconnect(*m_pipes[0]);
@@ -416,7 +416,7 @@ namespace mud
 
 	void VisualScript::connect(Valve& output, Valve& input, StreamModifier modifier)
 	{
-		object_ptr<Pipe> pipe = input.try_connect(output, modifier);
+		object<Pipe> pipe = input.try_connect(output, modifier);
 		if(pipe)
 			m_pipes.push_back(std::move(pipe));
 		if(!m_locked)

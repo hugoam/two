@@ -32,12 +32,12 @@ namespace mud
 		, m_state(ToolState::Inactive)
 	{}
 
-	void Tool::add_option(object_ptr<ToolOption> option)
+	void Tool::add_option(object<ToolOption> option)
 	{
 		UNUSED(option);
 	}
 
-	void Tool::commit(object_ptr<EditorAction> action)
+	void Tool::commit(object<EditorAction> action)
 	{
 		action->apply();
 		m_context.m_action_stack->push(std::move(action));

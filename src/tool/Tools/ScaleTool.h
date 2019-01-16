@@ -35,11 +35,11 @@ namespace mud
 	public:
 		ScaleTool(ToolContext& context);
 
-		unique_ptr<Gizmo> linear_gizmo(Axis axis, float hue);
-		unique_ptr<Gizmo> planar_gizmo(Axis normal, float hue);
-		unique_ptr<Gizmo> uniform_gizmo();
+		unique<Gizmo> linear_gizmo(Axis axis, float hue);
+		unique<Gizmo> planar_gizmo(Axis normal, float hue);
+		unique<Gizmo> uniform_gizmo();
 
-		virtual object_ptr<TransformAction> create_action(array<Transform*> transforms);
+		virtual object<TransformAction> create_action(array<Transform*> transforms);
 	};
 
 }

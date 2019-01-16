@@ -42,8 +42,8 @@ namespace mud
 		vector<Image*> m_images;
 
 	protected:
-		//unique_ptr<GuillotineBinPack> m_rect_pack;
-		unique_ptr<StbRectPack> m_rect_pack;
+		//unique<GuillotineBinPack> m_rect_pack;
+		unique<StbRectPack> m_rect_pack;
 	};
 
 	export_ class refl_ MUD_MATH_EXPORT TextureAtlas : public ImageAtlas

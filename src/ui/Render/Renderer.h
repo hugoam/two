@@ -97,7 +97,7 @@ namespace mud
 
 	protected:
 		struct Impl;
-		unique_ptr<Impl> m_impl;
+		unique<Impl> m_impl;
 
 		bool m_null = false;
 	};
@@ -137,7 +137,7 @@ namespace mud
 		size_t m_debug_batch = 0;
 
 		struct Impl;
-		unique_ptr<Impl> m_impl;
+		unique<Impl> m_impl;
 
 		Clock m_clock;
 	};

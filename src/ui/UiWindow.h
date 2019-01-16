@@ -59,7 +59,7 @@ namespace mud
 
 		UiRenderer m_renderer;
 
-		vector<object_ptr<Image>> m_images;
+		vector<object<Image>> m_images;
 		ImageAtlas m_atlas;
 
 		float m_width;
@@ -67,7 +67,7 @@ namespace mud
 
 		Clipboard m_clipboard;
 
-		object_ptr<Ui> m_root_sheet;
+		object<Ui> m_root_sheet;
 
 		bool m_shutdown = false;
 

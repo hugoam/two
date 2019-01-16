@@ -137,7 +137,7 @@ namespace mud
 		virtual void collect(SolverVector& solvers);
 
 	protected:
-		vector<unique_ptr<FrameSolver>> m_solvers;
+		vector<unique<FrameSolver>> m_solvers;
 	};
 
 	export_ class refl_ MUD_UI_EXPORT TableSolver : public CustomSolver

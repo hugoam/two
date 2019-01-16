@@ -104,7 +104,7 @@ namespace mud
 		uint32_t m_update = 1;
 
 		struct Impl;
-		unique_ptr<Impl> m_impl;
+		unique<Impl> m_impl;
 
 		static GfxSystem* ms_gfx_system;
 	};

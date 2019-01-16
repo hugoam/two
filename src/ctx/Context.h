@@ -23,7 +23,7 @@ namespace mud
 		virtual void begin_frame() = 0;
 		virtual bool next_frame() = 0;
 
-		virtual object_ptr<Context> create_context(cstring name, int width, int height, bool fullScreen) = 0;
+		virtual object<Context> create_context(cstring name, int width, int height, bool fullScreen) = 0;
 		
 		const string m_resource_path;
 		const bool m_manual_render;

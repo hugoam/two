@@ -62,7 +62,7 @@ namespace mud
 		virtual void begin_frame() override;
 		virtual bool next_frame() override;
 
-		virtual object_ptr<Context> create_context(cstring name, int width, int height, bool fullScreen) override;
+		virtual object<Context> create_context(cstring name, int width, int height, bool fullScreen) override;
 		
 		void init(BgfxContext& context);
 		void advance();

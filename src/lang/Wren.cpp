@@ -108,7 +108,7 @@ namespace mud
 
 	inline Call& cached_call(const Callable& callable)
 	{
-		static vector<object_ptr<Call>> call_table;
+		static vector<object<Call>> call_table;
 		if(callable.m_index >= call_table.size())
 			call_table.resize(callable.m_index + 1);
 

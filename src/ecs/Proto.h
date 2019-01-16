@@ -40,7 +40,7 @@ namespace mud
 		vector<size_t> m_hash_parts;
 	};
 
-	export_ extern MUD_ECS_EXPORT vector<unique_ptr<Prototype>> g_prototypes;
+	export_ extern MUD_ECS_EXPORT vector<unique<Prototype>> g_prototypes;
 
 	export_ MUD_ECS_EXPORT Prototype& proto(Type& type);
 

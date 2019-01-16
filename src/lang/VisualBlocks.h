@@ -37,7 +37,7 @@ namespace mud
 	protected:
 		Type& m_object_type;
 		Injector m_injector;
-		vector<object_ptr<Valve>> m_input_params;
+		vector<object<Valve>> m_input_params;
 		Valve m_output;
 
 		Pool* m_pool;
@@ -54,11 +54,11 @@ namespace mud
 	protected:
 		vector<Var> m_parameters;
 		Callable& m_callable;
-		vector<object_ptr<Valve>> m_params;
+		vector<object<Valve>> m_params;
 		// @todo : try moving to this
 		//vector<Valve> m_inputParams;
 		//vector<Valve> m_outputParams;
-		object_ptr<Valve> m_result;
+		object<Valve> m_result;
 	};
 
 	export_ class refl_ MUD_LANG_EXPORT ProcessScript : public ProcessCallable

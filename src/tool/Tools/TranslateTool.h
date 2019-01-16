@@ -36,9 +36,9 @@ namespace mud
 	public:
 		TranslateTool(ToolContext& context);
 
-		unique_ptr<Gizmo> linear_gizmo(Axis axis, float hue);
-		unique_ptr<Gizmo> planar_gizmo(Axis normal, float hue);
+		unique<Gizmo> linear_gizmo(Axis axis, float hue);
+		unique<Gizmo> planar_gizmo(Axis normal, float hue);
 
-		virtual object_ptr<TransformAction> create_action(array<Transform*> transforms);
+		virtual object<TransformAction> create_action(array<Transform*> transforms);
 	};
 }

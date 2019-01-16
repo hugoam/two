@@ -67,6 +67,6 @@ namespace mud
 
 		Ray ray(const vec2& offset) const;
 
-		unique_ptr<Froxelizer> m_clusters;
+		unique<Froxelizer> m_clusters;
 	};
 }

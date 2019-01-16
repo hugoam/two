@@ -47,7 +47,7 @@ namespace mud
 		bool check(const StreamLocation& location);
 		const Var& read(const StreamLocation& location);
 
-		object_ptr<Pipe> try_connect(Valve& output, StreamModifier modifier = SM_NONE);
+		object<Pipe> try_connect(Valve& output, StreamModifier modifier = SM_NONE);
 
 		void propagate();
 	};
@@ -100,8 +100,8 @@ namespace mud
 		Valve* m_master_input = nullptr;
 		Valve* m_secondary_input = nullptr;
 
-		object_ptr<Valve> m_in_flow;
-		object_ptr<Valve> m_out_flow;
+		object<Valve> m_in_flow;
+		object<Valve> m_out_flow;
 
 		Stream m_execution_flow;
 
@@ -141,8 +141,8 @@ namespace mud
 	public:
 		constr_ VisualScript(cstring name, const Signature& signature = {});
 
-		vector<object_ptr<Process>> m_processes;
-		vector<object_ptr<Pipe>> m_pipes;
+		vector<object<Process>> m_processes;
+		vector<object<Pipe>> m_pipes;
 
 		vector<Process*> m_execution;
 

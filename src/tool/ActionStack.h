@@ -17,14 +17,14 @@ namespace mud
 	public:
 		ActionStack();
 
-		void push(object_ptr<EditorAction> action);
+		void push(object<EditorAction> action);
 
 		void redo();
 		void undo();
 
 	private:
-		vector<object_ptr<EditorAction>> m_done;
-		vector<object_ptr<EditorAction>> m_undone;
+		vector<object<EditorAction>> m_done;
+		vector<object<EditorAction>> m_undone;
 	};
 
 	export_ class refl_ MUD_TOOL_EXPORT UndoTool : public Tool

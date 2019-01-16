@@ -88,11 +88,11 @@ namespace mud
 
 		GfxSystem& m_gfx_system;
 
-		object_ptr<ImmediateDraw> m_immediate;
-		object_ptr<ParticleSystem> m_particle_system;
-		object_ptr<PassJobs> m_pass_jobs;
+		object<ImmediateDraw> m_immediate;
+		object<ParticleSystem> m_particle_system;
+		object<PassJobs> m_pass_jobs;
 
-		unique_ptr<ObjectPool> m_pool;
+		unique<ObjectPool> m_pool;
 
 		attr_ Gnode m_graph;
 		attr_ Node3 m_root_node;

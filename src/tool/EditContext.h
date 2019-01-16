@@ -56,7 +56,7 @@ namespace mud
 		attr_ SpatialTool* m_spatial_tool = nullptr;
 		attr_ Brush* m_brush = nullptr;
 
-		vector<unique_ptr<Brush>> m_custom_brushes;
+		vector<unique<Brush>> m_custom_brushes;
 
 		ScriptEditor m_script_editor;
 
