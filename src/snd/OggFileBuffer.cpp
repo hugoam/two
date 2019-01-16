@@ -5,7 +5,7 @@
 #include <snd/OggFileBuffer.h>
 
 #include <iostream>
-#include <vector>
+#include <stl/vector.h>
 
 #include <vorbis/vorbisfile.h>
 
@@ -102,8 +102,8 @@ namespace mud
 
 	void OggFileBuffer::fill(ALuint buffer)
 	{
-		std::vector<char> data;
-		std::vector<char> chunk = std::vector<char>(m_chunk_size);
+		vector<char> data;
+		vector<char> chunk = vector<char>(m_chunk_size);
 
 		int size_read = 1;
 		int last_pos = 0;
@@ -123,7 +123,7 @@ namespace mud
 
 	bool OggFileBuffer::fill_chunk(ALuint buffer)
 	{
-		std::vector<char> chunk = std::vector<char>(m_chunk_size);
+		vector<char> chunk = vector<char>(m_chunk_size);
 		
 		bool last_chunk = this->read_chunk(chunk.data(), m_chunk_size);
 

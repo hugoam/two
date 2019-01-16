@@ -11,9 +11,9 @@
 #include <srlz/Forward.h>
 
 #ifndef MUD_CPP_20
-#include <string>
-#include <vector>
-#include <map>
+#include <stl/string.h>
+#include <stl/vector.h>
+#include <stl/map.h>
 #endif
 
 #ifndef MUD_MODULES
@@ -27,8 +27,6 @@ export_ using json = json11::Json;
 
 namespace mud
 {
-	using string = std::string;
-
 	export_ class MUD_SRLZ_EXPORT FromJson : public Dispatch<void, Ref&, const json&>
 	{
 	public:
@@ -41,11 +39,13 @@ namespace mud
 		ToJson();
 	};
 
-	export_ using JsonVisitor = std::function<void(json&)>;
-
 	export_ MUD_SRLZ_EXPORT void parse_json_file(const string& path, json& data);
 	export_ MUD_SRLZ_EXPORT void dump_json_file(const string& path, const json& data);
+
+#if 0
+	export_ using JsonVisitor = std::function<void(json&)>;
 	export_ MUD_SRLZ_EXPORT void visit_json(json& value, const JsonVisitor& visitor);
+#endif
 
 	export_ MUD_SRLZ_EXPORT Var unpack(Type& type, const json& data);
 	export_ MUD_SRLZ_EXPORT Var unpack(FromJson& unpacker, Type& type, const json& data, bool typed = false);

@@ -3,8 +3,20 @@
 #ifdef MUD_MODULES
 module mud.gfx-edit;
 #else
+#include <meta/infra/Module.h>
+#include <meta/type/Module.h>
+#include <meta/refl/Module.h>
+#include <meta/srlz/Module.h>
+#include <meta/math/Module.h>
+#include <meta/geom/Module.h>
+#include <meta/ui/Module.h>
+#include <meta/uio/Module.h>
+#include <meta/gfx/Module.h>
+#include <meta/gfx-pbr/Module.h>
 #include <meta/gfx-edit/Module.h>
 #endif
+
+#include <gfx-edit/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/gfx-edit/Convert.h>

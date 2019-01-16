@@ -7,7 +7,7 @@
 #include <ecs/ECS.h>
 #include <ecs/SparseBuffer.h>
 
-#include <vector>
+#include <stl/vector.h>
 
 #define MUD_ECS_TYPED
 
@@ -133,6 +133,6 @@ namespace mud
 		}
 #endif
 
-		std::vector<T> m_data;
+		vector<T> m_data;
 	};
 }

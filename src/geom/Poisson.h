@@ -26,7 +26,7 @@ namespace mud
 			size_t visits;
 		};
 
-		//meth_ virtual std::vector<Circle> distribute(float radius, const vec3& offset) = 0;
+		//meth_ virtual vector<Circle> distribute(float radius, const vec3& offset) = 0;
 		//meth_ virtual bool addPoint(float radius, vec3& point) = 0;
 	};
 
@@ -42,8 +42,8 @@ namespace mud
 
 		void uniform(float radius);
 
-		meth_ std::vector<vec3> distribute(float radius);
-		meth_ std::vector<Circle> distribute_circles(float radius);
+		meth_ vector<vec3> distribute(float radius);
+		meth_ vector<Circle> distribute_circles(float radius);
 		meth_ bool addPoint(float radius, vec3& point);
 
 		bool insertPoint(float radius);
@@ -62,11 +62,11 @@ namespace mud
 
 		size_t m_k = 30U;
 
-		std::vector<Point> m_points;
+		vector<Point> m_points;
 
-		std::vector<Point> m_unprocessed;
-		Grid<std::vector<Point>> m_grid;
+		vector<Point> m_unprocessed;
+		Grid<vector<Point>> m_grid;
 	};
 
-	MUD_GEOM_EXPORT func_ std::vector<vec3> distribute_poisson(vec2 size, float radius);
+	MUD_GEOM_EXPORT func_ vector<vec3> distribute_poisson(vec2 size, float radius);
 }

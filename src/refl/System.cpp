@@ -5,12 +5,12 @@
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <fstream>
-#include <string>
 #endif
 
 #ifdef MUD_MODULES
 module mud.refl;
 #else
+#include <stl/string.h>
 #include <infra/Vector.h>
 #include <refl/System.h>
 #include <refl/Module.h>
@@ -35,13 +35,11 @@ module mud.refl;
 
 namespace mud
 {
-	using string = std::string;
-
 	void copyfile(const string& source, const string& dest)
 	{
-		std::ifstream file(source, std::ios::binary);
-		std::ofstream destFile(dest, std::ios::binary);
-		destFile << file.rdbuf();
+		std::ifstream source_file(source.c_str(), std::ios::binary);
+		std::ofstream dest_file(dest.c_str(), std::ios::binary);
+		dest_file << source_file.rdbuf();
 	}
 
 	Module* load_module(cstring path)
@@ -49,7 +47,7 @@ namespace mud
 		string module_path = string(path) + BUILD_SUFFIX + MODULE_EXT;
 		string loaded_path = string(path) + BUILD_SUFFIX + "_loaded" + MODULE_EXT;
 		
-		if(!std::ifstream(module_path, std::ios::binary).good())
+		if(!std::ifstream(module_path.c_str(), std::ios::binary).good())
 		{
 			printf("ERROR: Module %s not found\n", module_path.c_str());
 			return nullptr;
@@ -131,7 +129,7 @@ namespace mud
 		PROCESS_INFORMATION processInfo = {};
 
 		string cmd = string(path) + " " + string(args);
-		std::vector<char> mutcmd(cmd.c_str(), cmd.c_str() + cmd.length() + 1);
+		vector<char> mutcmd(cmd.c_str(), cmd.c_str() + cmd.size() + 1);
 
 		CreateProcess(path, mutcmd.data(), NULL, NULL, FALSE, 0, NULL, NULL, &startupInfo, &processInfo);
 
@@ -143,7 +141,7 @@ namespace mud
 #endif
 	}
 
-	void System::load_modules(std::vector<Module*> modules)
+	void System::load_modules(vector<Module*> modules)
 	{
 		for(Module* m : modules)
 			this->load_module(*m);
@@ -233,9 +231,9 @@ namespace mud
 		return *m_functions[0];
 	}
 
-	std::vector<cstring> System::meta_symbols()
+	vector<cstring> System::meta_symbols()
 	{
-		std::vector<cstring> symbols;
+		vector<cstring> symbols;
 
 		for(Function* function : System::instance().m_functions)
 			symbols.push_back(function->m_name);
@@ -283,7 +281,7 @@ namespace mud
 		}
 	}
 
-	bool compare(const std::vector<cstring>& first, const std::vector<cstring>& second)
+	bool compare(const vector<cstring>& first, const vector<cstring>& second)
 	{
 		if(first.size() != second.size())
 			return false;
@@ -293,7 +291,7 @@ namespace mud
 		return true;
 	}
 
-	Namespace& System::get_namespace(std::vector<cstring> path)
+	Namespace& System::get_namespace(vector<cstring> path)
 	{
 		for(Namespace& location : m_namespaces)
 			if(compare(location.m_path, path))

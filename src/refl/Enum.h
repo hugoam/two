@@ -11,7 +11,7 @@
 #include <infra/StringConvert.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -19,15 +19,15 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Enum
 	{
 	public:
-		Enum(Type& type, bool scoped, const std::vector<cstring>& names, const std::vector<uint32_t>& values, const std::vector<Var>& vars);
+		Enum(Type& type, bool scoped, const vector<cstring>& names, const vector<uint32_t>& values, const vector<Var>& vars);
 
 		Type& m_type;
 
 		bool m_scoped = true;
-		std::vector<cstring> m_names;
-		std::vector<uint32_t> m_values;
-		std::vector<Var> m_vars;
-		std::vector<cstring> m_reverse;
+		vector<cstring> m_names;
+		vector<uint32_t> m_values;
+		vector<Var> m_vars;
+		vector<cstring> m_reverse;
 
 		uint32_t value(cstring name);
 		uint32_t value(const Var& value);

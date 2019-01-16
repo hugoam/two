@@ -30,7 +30,7 @@ Object.defineProperty(Shell.prototype, "exec_path", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_Shell__set_exec_path(self, value);
@@ -43,7 +43,7 @@ Object.defineProperty(Shell.prototype, "resource_path", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_Shell__set_resource_path(self, value);

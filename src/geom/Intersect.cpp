@@ -7,7 +7,6 @@
 #ifdef MUD_MODULES
 module mud.geom;
 #else
-#include <math/Clamp.h>
 #include <math/Axes.h>
 #include <geom/Types.h>
 #include <geom/Intersect.h>
@@ -16,10 +15,10 @@ module mud.geom;
 #include <geom/Aabb.h>
 #endif
 
+#include <algorithm>
+
 namespace mud
 {
-	// using std::clamp;
-
 	const float c_cmp_epsilon = 0.00001f;
 	const float c_cmp_epsilon2 = c_cmp_epsilon * c_cmp_epsilon;
 

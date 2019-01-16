@@ -12,10 +12,6 @@
 #include <gfx/Renderer.h>
 #include <gfx/Culling.h>
 
-#ifndef MUD_CPP_20
-#include <functional>
-#endif
-
 namespace mud
 {
 	using cstring = const char*;
@@ -62,9 +58,11 @@ namespace mud
 		attr_ Lighting m_lighting = Lighting::Clustered;
 		/*attr_ mut_*/ RenderFilters* m_filters = nullptr;
 
-		std::function<uvec4()> m_get_size;
-		std::function<void(Render&)> m_render;
+		using OnRender = void(*)(void*, Render&);
+		struct RenderTask { void* user; OnRender render; };
 
+		vector<RenderTask> m_tasks;
+		
 		Culler m_culler;
 
 		void render_pass(cstring name, const Pass& render_pass);

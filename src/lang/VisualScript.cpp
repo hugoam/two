@@ -9,17 +9,21 @@ module mud.lang;
 #else
 #include <infra/Vector.h>
 #include <refl/Convert.h>
-#include <infra/StringConvert.h>
+#include <infra/ToString.h>
 #include <infra/Reverse.h>
 #include <lang/Types.h>
 #include <lang/VisualScript.h>
 #endif
 
+#include <algorithm>
+
 #define MUD_DEBUG_SCRIPT
 
 namespace mud
 {
-	template <> void from_string<StreamIndex>(const string& str, StreamIndex& val) { UNUSED(str); UNUSED(val); }
+	using std::min;
+
+	template <> void to_value<StreamIndex>(const string& str, StreamIndex& val) { UNUSED(str); UNUSED(val); }
 	template <> void to_string<StreamIndex>(const StreamIndex& val, string& str) { str += "{"; for(size_t i : val) str += to_string(i) + ","; str.pop_back(); str += "}"; }
 
 	Valve::Valve(Process& process, cstring name, ValveKind kind, Var value, bool nullable, bool reference)
@@ -302,19 +306,19 @@ namespace mud
 		return *this;
 	}
 
-	Valve* Process::pipe(std::vector<Valve*> outputParams, Process* flow, std::vector<StreamModifier> modifiers)
+	Valve* Process::pipe(vector<Valve*> outputParams, Process* flow, vector<StreamModifier> modifiers)
 	{
 		this->plug(outputParams, flow, modifiers);
 		return m_outputs.size() > 0 ? &this->output() : nullptr;
 	}
 
-	Process& Process::plug(std::vector<Valve*> outputParams, Process* flow, std::vector<StreamModifier> modifiers)
+	Process& Process::plug(vector<Valve*> outputParams, Process* flow, vector<StreamModifier> modifiers)
 	{
 		if(flow)
 			this->flow(flow->out_flow());
-		size_t num_inputs = std::min(m_inputs.size(), outputParams.size());
+		size_t num_inputs = min(m_inputs.size(), outputParams.size());
 		for(size_t i = 0; i < num_inputs; ++i)
-			m_script.connect(*outputParams[i], *m_inputs.at(i), modifiers.size() > i ? modifiers[i] : SM_NONE);
+			m_script.connect(*outputParams[i], *m_inputs[i], modifiers.size() > i ? modifiers[i] : SM_NONE);
 		return *this;
 	}
 

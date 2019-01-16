@@ -29,9 +29,9 @@ namespace ui
 	public:
 		Sequence(Widget* parent, void* identity) : Widget(parent, identity) {}
 #ifdef MUD_UI_SEQUENCE_REFS
-		std::vector<Ref>* m_selection = nullptr;
+		vector<Ref>* m_selection = nullptr;
 #else
-		std::vector<Widget*> m_selection;
+		vector<Widget*> m_selection;
 #endif
 	};
 }
@@ -64,6 +64,6 @@ namespace ui
 	public:
 		Table(Widget* parent, void* identity, array<float> weights);
 		Table(Widget* parent, void* identity, size_t columns);
-		std::vector<float> m_weights;
+		vector<float> m_weights;
 	};
 }

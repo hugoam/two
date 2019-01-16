@@ -17,7 +17,7 @@ module mud.ui;
 
 namespace mud
 {
-	std::map<string, Style*> UiWindow::s_styles;
+	map<string, Style*> UiWindow::s_styles;
 
 	UiWindow::UiWindow(Context& context, Vg& vg, User* user)
 		: m_resource_path(context.m_resource_path)
@@ -106,15 +106,18 @@ namespace mud
 
 		printf("INFO: Loading Images in path %s\n", sprite_path.c_str());
 
-		std::vector<Image> images;
+		vector<Image> images;
 		load_folder_images(images, sprite_path, "");
 
-		auto visit_folder = [&](cstring path, cstring folder)
+		struct Visitor { vector<Image>& images; string sprite_path; };
+		auto visit_folder = [](void* user, cstring path, cstring folder)
 		{
 			UNUSED(path);
-			load_folder_images(images, sprite_path + folder + "/", string(folder) + "/");
+			Visitor& v = *(Visitor*)user;
+			load_folder_images(v.images, v.sprite_path + folder + "/", string(folder) + "/");
 		};
 
+		Visitor visitor = { images, sprite_path };
 		visit_folders(sprite_path.c_str(), visit_folder);
 
 		m_images = vector_convert<object_ptr<Image>>(images, [](const Image& image) { return make_object<Image>(image); });
@@ -124,10 +127,10 @@ namespace mud
 	{
 		m_vg.load_default_font();
 
-		std::vector<Image*> images;
+		vector<Image*> images;
 		for(auto& image : m_images) images.push_back(image.get());
 
-		std::vector<unsigned char> atlas = m_atlas.generate_atlas(images);
+		vector<unsigned char> atlas = m_atlas.generate_atlas(images);
 		m_vg.load_image_RGBA(m_atlas.m_image, atlas.data());
 	}
 

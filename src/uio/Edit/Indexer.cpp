@@ -4,7 +4,7 @@
 
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #endif
 
 #ifdef MUD_MODULES
@@ -25,9 +25,7 @@ namespace mud
 	DispatchSelector::DispatchSelector()
 	{}
 
-	using string = std::string;
-
-	void complex_indexer(Widget& parent, Indexer& indexer, std::vector<Ref>* selection)
+	void complex_indexer(Widget& parent, Indexer& indexer, vector<Ref>* selection)
 	{
 		Member& complex = cls(indexer.m_type).member("complex");
 
@@ -42,7 +40,7 @@ namespace mud
 			}
 	}
 
-	void object_indexer(Widget& parent, Indexer& indexer, std::vector<Ref>* selection)
+	void object_indexer(Widget& parent, Indexer& indexer, vector<Ref>* selection)
 	{
 		Widget& self = ui::sheet(parent);
 		for(Ref object : indexer.m_objects)

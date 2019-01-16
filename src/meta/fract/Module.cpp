@@ -3,8 +3,14 @@
 #ifdef MUD_MODULES
 module mud.fract;
 #else
+#include <meta/infra/Module.h>
+#include <meta/type/Module.h>
+#include <meta/math/Module.h>
+#include <meta/geom/Module.h>
 #include <meta/fract/Module.h>
 #endif
+
+#include <fract/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/fract/Convert.h>

@@ -11,7 +11,6 @@ module mud.gfx;
 #else
 #include <type/Type.h>
 #include <type/Indexer.h>
-#include <infra/StringConvert.h>
 #include <math/VecOps.h>
 #include <gfx/Types.h>
 #include <gfx/Material.h>

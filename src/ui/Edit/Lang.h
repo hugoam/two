@@ -4,14 +4,15 @@
 
 #pragma once
 
+#include <stl/unordered_map.h>
+#include <stl/map.h>
 #include <ui/Forward.h>
 #include <ui/Edit/TypeIn.h>
 
 #ifndef MUD_CPP_20
+#ifndef MUD_UNORDERED_MAP_TINYSTL
 #include <unordered_set>
-#include <unordered_map>
-
-#include <map>
+#endif
 #include <regex>
 #endif
 
@@ -26,17 +27,21 @@ namespace mud
 	struct LanguageDefinition
 	{
 		string m_name;
-		std::vector<string> m_punctuation;
-		std::vector<string> m_operators;
+		vector<string> m_punctuation;
+		vector<string> m_operators;
+#ifdef MUD_UNORDERED_MAP_TINYSTL
+		unordered_map<string, void*> m_keywords;
+#else
 		std::unordered_set<string> m_keywords;
-		std::unordered_map<string, Identifier> m_identifiers;
-		std::unordered_map<string, Identifier> m_functions;
-		std::unordered_map<string, Identifier> m_preproc_identifiers;
+#endif
+		unordered_map<string, Identifier> m_identifiers;
+		unordered_map<string, Identifier> m_functions;
+		unordered_map<string, Identifier> m_preproc_identifiers;
 		string m_comment_start;
 		string m_comment_end;
 
-		std::vector<std::pair<string, PaletteIndex>> m_regex_string_tokens;
-		std::vector<std::pair<std::regex, PaletteIndex>> m_regex_tokens;
+		vector<std::pair<string, PaletteIndex>> m_regex_string_tokens;
+		vector<std::pair<std::regex, PaletteIndex>> m_regex_tokens;
 
 		bool m_case_sensitive;
 	};

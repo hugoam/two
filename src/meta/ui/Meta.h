@@ -163,103 +163,25 @@ namespace mud
         static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
         static Class cls = { type<array<const char*>>() };
         cls.m_content = &type<const char*>();
-        meta_sequence<array<const char*>, const char*>();
-    }
-    {
-        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-        static Class cls = { type<array<const char*>>() };
-        cls.m_content = &type<const char*>();
-        meta_sequence<array<const char*>, const char*>();
-    }
-    {
-        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-        static Class cls = { type<array<const char*>>() };
-        cls.m_content = &type<const char*>();
-        meta_sequence<array<const char*>, const char*>();
-    }
-    {
-        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-        static Class cls = { type<array<const char*>>() };
-        cls.m_content = &type<const char*>();
-        meta_sequence<array<const char*>, const char*>();
-    }
-    {
-        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-        static Class cls = { type<array<const char*>>() };
-        cls.m_content = &type<const char*>();
-        meta_sequence<array<const char*>, const char*>();
-    }
-    {
-        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-        static Class cls = { type<array<const char*>>() };
-        cls.m_content = &type<const char*>();
-        meta_sequence<array<const char*>, const char*>();
-    }
-    {
-        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-        static Class cls = { type<array<const char*>>() };
-        cls.m_content = &type<const char*>();
-        meta_sequence<array<const char*>, const char*>();
-    }
-    {
-        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-        static Class cls = { type<array<const char*>>() };
-        cls.m_content = &type<const char*>();
-        meta_sequence<array<const char*>, const char*>();
-    }
-    {
-        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-        static Class cls = { type<array<const char*>>() };
-        cls.m_content = &type<const char*>();
-        meta_sequence<array<const char*>, const char*>();
-    }
-    {
-        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-        static Class cls = { type<array<const char*>>() };
-        cls.m_content = &type<const char*>();
-        meta_sequence<array<const char*>, const char*>();
-    }
-    {
-        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-        static Class cls = { type<array<const char*>>() };
-        cls.m_content = &type<const char*>();
-        meta_sequence<array<const char*>, const char*>();
-    }
-    {
-        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-        static Class cls = { type<array<const char*>>() };
-        cls.m_content = &type<const char*>();
-        meta_sequence<array<const char*>, const char*>();
+        //meta_sequence<array<const char*>, const char*>();
     }
     {
         static Meta meta = { type<array<float>>(), &namspc({}), "array<float>", sizeof(array<float>), TypeClass::Sequence };
         static Class cls = { type<array<float>>() };
         cls.m_content = &type<float>();
-        meta_sequence<array<float>, float>();
+        //meta_sequence<array<float>, float>();
     }
     {
-        static Meta meta = { type<std::vector<mud::Space>>(), &namspc({}), "std::vector<mud::Space>", sizeof(std::vector<mud::Space>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<mud::Space>>() };
+        static Meta meta = { type<vector<mud::Space>>(), &namspc({}), "vector<mud::Space>", sizeof(vector<mud::Space>), TypeClass::Sequence };
+        static Class cls = { type<vector<mud::Space>>() };
         cls.m_content = &type<mud::Space>();
-        meta_sequence<std::vector<mud::Space>, mud::Space>();
+        meta_sequence<vector<mud::Space>, mud::Space>();
     }
     {
-        static Meta meta = { type<std::vector<std::string>>(), &namspc({}), "std::vector<std::string>", sizeof(std::vector<std::string>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<std::string>>() };
-        cls.m_content = &type<std::string>();
-        meta_sequence<std::vector<std::string>, std::string>();
-    }
-    {
-        static Meta meta = { type<std::vector<std::string>>(), &namspc({}), "std::vector<std::string>", sizeof(std::vector<std::string>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<std::string>>() };
-        cls.m_content = &type<std::string>();
-        meta_sequence<std::vector<std::string>, std::string>();
-    }
-    {
-        static Meta meta = { type<std::vector<std::string>>(), &namspc({}), "std::vector<std::string>", sizeof(std::vector<std::string>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<std::string>>() };
-        cls.m_content = &type<std::string>();
-        meta_sequence<std::vector<std::string>, std::string>();
+        static Meta meta = { type<vector<string>>(), &namspc({}), "vector<string>", sizeof(vector<string>), TypeClass::Sequence };
+        static Class cls = { type<vector<string>>() };
+        cls.m_content = &type<string>();
+        meta_sequence<vector<string>, string>();
     }
     
     // mud::CanvasConnect
@@ -306,9 +228,9 @@ namespace mud
             },
             // members
             {
-                { type<mud::Clipboard>(), member_address(&mud::Clipboard::m_text), type<std::string>(), "text", var(std::string("")), Member::Value, nullptr },
+                { type<mud::Clipboard>(), member_address(&mud::Clipboard::m_text), type<string>(), "text", var(string("")), Member::Value, nullptr },
                 { type<mud::Clipboard>(), member_address(&mud::Clipboard::m_line_mode), type<bool>(), "line_mode", var(bool(false)), Member::Value, nullptr },
-                { type<mud::Clipboard>(), member_address(&mud::Clipboard::m_pasted), type<std::vector<std::string>>(), "pasted", var(std::vector<std::string>{}), Member::Value, nullptr }
+                { type<mud::Clipboard>(), member_address(&mud::Clipboard::m_pasted), type<vector<string>>(), "pasted", var(vector<string>{}), Member::Value, nullptr }
             },
             // methods
             {
@@ -663,13 +585,13 @@ namespace mud
             },
             // members
             {
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_name), type<std::string>(), "name", var(std::string("")), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_name), type<string>(), "name", var(string("")), Member::Value, nullptr },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_empty), type<bool>(), "empty", var(bool(true)), Member::Value, nullptr },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_background_colour), type<mud::Colour>(), "background_colour", var(mud::Colour::None), Member::Value, nullptr },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_border_colour), type<mud::Colour>(), "border_colour", var(mud::Colour::None), Member::Value, nullptr },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_image_colour), type<mud::Colour>(), "image_colour", var(mud::Colour::None), Member::Value, nullptr },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_colour), type<mud::Colour>(), "text_colour", var(mud::Colour::None), Member::Value, nullptr },
-                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_font), type<std::string>(), "text_font", var(std::string("dejavu")), Member::Value, nullptr },
+                { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_font), type<string>(), "text_font", var(string("dejavu")), Member::Value, nullptr },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_size), type<float>(), "text_size", var(float(14.f)), Member::Value, nullptr },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_break), type<bool>(), "text_break", var(bool(false)), Member::Value, nullptr },
                 { type<mud::InkStyle>(), member_address(&mud::InkStyle::m_text_wrap), type<bool>(), "text_wrap", var(bool(false)), Member::Value, nullptr },
@@ -742,7 +664,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Layout>(), member_address(&mud::Layout::m_name), type<std::string>(), "name", var(std::string("")), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_name), type<string>(), "name", var(string("")), Member::Value, nullptr },
                 { type<mud::Layout>(), member_address(&mud::Layout::m_solver), type<mud::LayoutSolver>(), "solver", var(mud::LayoutSolver(FRAME_SOLVER)), Member::Value, nullptr },
                 { type<mud::Layout>(), member_address(&mud::Layout::m_layout), type<mud::Dim2<mud::AutoLayout>>(), "layout", var(mud::Dim2<mud::AutoLayout>{AUTO_LAYOUT,AUTO_LAYOUT}), Member::Value, nullptr },
                 { type<mud::Layout>(), member_address(&mud::Layout::m_flow), type<mud::Flow>(), "flow", var(mud::Flow(FLOW)), Member::Value, nullptr },
@@ -758,8 +680,8 @@ namespace mud
                 { type<mud::Layout>(), member_address(&mud::Layout::m_pivot), type<mud::Dim2<mud::Pivot>>(), "pivot", var(mud::Dim2<mud::Pivot>{FORWARD,FORWARD}), Member::Value, nullptr },
                 { type<mud::Layout>(), member_address(&mud::Layout::m_zorder), type<int>(), "zorder", var(int(0)), Member::Value, nullptr },
                 { type<mud::Layout>(), member_address(&mud::Layout::m_no_grid), type<bool>(), "no_grid", var(bool(false)), Member::Value, nullptr },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_grid_division), type<std::vector<mud::Space>>(), "grid_division", var(std::vector<mud::Space>()), Member::Value, nullptr },
-                { type<mud::Layout>(), member_address(&mud::Layout::m_table_division), type<std::vector<float>>(), "table_division", var(std::vector<float>()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_grid_division), type<vector<mud::Space>>(), "grid_division", var(vector<mud::Space>()), Member::Value, nullptr },
+                { type<mud::Layout>(), member_address(&mud::Layout::m_table_division), type<vector<float>>(), "table_division", var(vector<float>()), Member::Value, nullptr },
                 { type<mud::Layout>(), member_address(&mud::Layout::m_updated), type<size_t>(), "updated", var(size_t(0)), Member::Value, nullptr }
             },
             // methods
@@ -1804,10 +1726,10 @@ namespace mud
         m.m_types.push_back(&type<array<const char*>>());
         m.m_types.push_back(&type<array<const char*>>());
         m.m_types.push_back(&type<array<float>>());
-        m.m_types.push_back(&type<std::vector<mud::Space>>());
-        m.m_types.push_back(&type<std::vector<std::string>>());
-        m.m_types.push_back(&type<std::vector<std::string>>());
-        m.m_types.push_back(&type<std::vector<std::string>>());
+        m.m_types.push_back(&type<vector<mud::Space>>());
+        m.m_types.push_back(&type<vector<string>>());
+        m.m_types.push_back(&type<vector<string>>());
+        m.m_types.push_back(&type<vector<string>>());
         m.m_types.push_back(&type<mud::Dockable>());
         m.m_types.push_back(&type<mud::Frame>());
         m.m_types.push_back(&type<mud::Widget>());
@@ -1831,674 +1753,674 @@ namespace mud
         m.m_types.push_back(&type<mud::Window>());
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::widget(val<mud::Widget>(args[0]), val<mud::Style>(args[1]), val<bool>(args[2]), val<mud::Dim>(args[3]), val<mud::Dim2<size_t>>(args[4]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "style", Ref(type<mud::Style>()) }, { "open", var(bool(false)), Param::Default }, { "length", var(mud::Dim(DIM_NONE)), Param::Default }, { "index", var(mud::Dim2<size_t>{0,0}), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "style", Ref(type<mud::Style>()) }, { "open", var(bool(false)), Param::Default }, { "length", var(mud::Dim(DIM_NONE)), Param::Default }, { "index", var(mud::Dim2<size_t>{0,0}), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "widget", function_id<mud::Widget&(*)(mud::Widget&, mud::Style&, bool, mud::Dim, mud::Dim2<size_t>)>(&mud::ui::widget), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::item(val<mud::Widget>(args[0]), val<mud::Style>(args[1]), val<const char*>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "style", Ref(type<mud::Style>()) }, { "content", Ref(type<const char*>()), Param::Flags(Param::Nullable|Param::Default) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "style", Ref(type<mud::Style>()) }, { "content", Ref(type<const char*>()), Param::Flags(Param::Nullable|Param::Default) } };
             static Function f = { &namspc({ "mud", "ui" }), "item", function_id<mud::Widget&(*)(mud::Widget&, mud::Style&, const char*)>(&mud::ui::item), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::multi_item(val<mud::Widget>(args[0]), val<mud::Style>(args[1]), val<array<const char*>>(args[2]), &val<mud::Style>(args[3]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "style", Ref(type<mud::Style>()) }, { "elements", var(array<const char*>()) }, { "element_style", Ref(type<mud::Style>()), Param::Flags(Param::Nullable|Param::Default) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "style", Ref(type<mud::Style>()) }, { "elements", var(array<const char*>()) }, { "element_style", Ref(type<mud::Style>()), Param::Flags(Param::Nullable|Param::Default) } };
             static Function f = { &namspc({ "mud", "ui" }), "multi_item", function_id<mud::Widget&(*)(mud::Widget&, mud::Style&, array<const char*>, mud::Style*)>(&mud::ui::multi_item), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::spanner(val<mud::Widget>(args[0]), val<mud::Style>(args[1]), val<mud::Dim>(args[2]), val<float>(args[3]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "style", Ref(type<mud::Style>()) }, { "dim", var(mud::Dim()) }, { "span", var(float()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "style", Ref(type<mud::Style>()) }, { "dim", var(mud::Dim()) }, { "span", var(float()) } };
             static Function f = { &namspc({ "mud", "ui" }), "spanner", function_id<mud::Widget&(*)(mud::Widget&, mud::Style&, mud::Dim, float)>(&mud::ui::spanner), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::spacer(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "spacer", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::spacer), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::icon(val<mud::Widget>(args[0]), val<const char*>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "icon", Ref(type<const char*>()), Param::Nullable } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "icon", Ref(type<const char*>()), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "icon", function_id<mud::Widget&(*)(mud::Widget&, const char*)>(&mud::ui::icon), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::label(val<mud::Widget>(args[0]), val<const char*>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "label", Ref(type<const char*>()), Param::Nullable } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "label", Ref(type<const char*>()), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "label", function_id<mud::Widget&(*)(mud::Widget&, const char*)>(&mud::ui::label), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::title(val<mud::Widget>(args[0]), val<const char*>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "label", Ref(type<const char*>()), Param::Nullable } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "label", Ref(type<const char*>()), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "title", function_id<mud::Widget&(*)(mud::Widget&, const char*)>(&mud::ui::title), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::message(val<mud::Widget>(args[0]), val<const char*>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "label", Ref(type<const char*>()), Param::Nullable } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "label", Ref(type<const char*>()), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "message", function_id<mud::Widget&(*)(mud::Widget&, const char*)>(&mud::ui::message), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::text(val<mud::Widget>(args[0]), val<const char*>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "label", Ref(type<const char*>()), Param::Nullable } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "label", Ref(type<const char*>()), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "text", function_id<mud::Widget&(*)(mud::Widget&, const char*)>(&mud::ui::text), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::button(val<mud::Widget>(args[0]), val<const char*>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "content", Ref(type<const char*>()), Param::Flags(Param::Nullable|Param::Default) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "content", Ref(type<const char*>()), Param::Flags(Param::Nullable|Param::Default) } };
             static Function f = { &namspc({ "mud", "ui" }), "button", function_id<mud::Widget&(*)(mud::Widget&, const char*)>(&mud::ui::button), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::multi_button(val<mud::Widget>(args[0]), val<array<const char*>>(args[1]), &val<mud::Style>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "elements", var(array<const char*>()) }, { "element_style", Ref(type<mud::Style>()), Param::Flags(Param::Nullable|Param::Default) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "elements", var(array<const char*>()) }, { "element_style", Ref(type<mud::Style>()), Param::Flags(Param::Nullable|Param::Default) } };
             static Function f = { &namspc({ "mud", "ui" }), "multi_button", function_id<mud::Widget&(*)(mud::Widget&, array<const char*>, mud::Style*)>(&mud::ui::multi_button), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::toggle(val<mud::Widget>(args[0]), val<bool>(args[1]), val<const char*>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "on", var(bool()) }, { "content", Ref(type<const char*>()), Param::Flags(Param::Nullable|Param::Default) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "on", var(bool()) }, { "content", Ref(type<const char*>()), Param::Flags(Param::Nullable|Param::Default) } };
             static Function f = { &namspc({ "mud", "ui" }), "toggle", function_id<mud::Widget&(*)(mud::Widget&, bool&, const char*)>(&mud::ui::toggle), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::multi_toggle(val<mud::Widget>(args[0]), val<bool>(args[1]), val<array<const char*>>(args[2]), &val<mud::Style>(args[3]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "on", var(bool()) }, { "elements", var(array<const char*>()) }, { "element_style", Ref(type<mud::Style>()), Param::Flags(Param::Nullable|Param::Default) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "on", var(bool()) }, { "elements", var(array<const char*>()) }, { "element_style", Ref(type<mud::Style>()), Param::Flags(Param::Nullable|Param::Default) } };
             static Function f = { &namspc({ "mud", "ui" }), "multi_toggle", function_id<mud::Widget&(*)(mud::Widget&, bool&, array<const char*>, mud::Style*)>(&mud::ui::multi_toggle), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::modal_button(val<mud::Widget>(args[0]), val<mud::Widget>(args[1]), val<const char*>(args[2]), val<uint32_t>(args[3])); };
-            std::vector<Param> params = { { "screen", Ref(type<mud::Widget>()) }, { "parent", Ref(type<mud::Widget>()) }, { "content", Ref(type<const char*>()), Param::Nullable }, { "mode", var(uint32_t()) } };
+            vector<Param> params = { { "screen", Ref(type<mud::Widget>()) }, { "parent", Ref(type<mud::Widget>()) }, { "content", Ref(type<const char*>()), Param::Nullable }, { "mode", var(uint32_t()) } };
             static Function f = { &namspc({ "mud", "ui" }), "modal_button", function_id<bool(*)(mud::Widget&, mud::Widget&, const char*, uint32_t)>(&mud::ui::modal_button), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::modal_multi_button(val<mud::Widget>(args[0]), val<mud::Widget>(args[1]), val<array<const char*>>(args[2]), val<uint32_t>(args[3])); };
-            std::vector<Param> params = { { "screen", Ref(type<mud::Widget>()) }, { "parent", Ref(type<mud::Widget>()) }, { "elements", var(array<const char*>()) }, { "mode", var(uint32_t()) } };
+            vector<Param> params = { { "screen", Ref(type<mud::Widget>()) }, { "parent", Ref(type<mud::Widget>()) }, { "elements", var(array<const char*>()) }, { "mode", var(uint32_t()) } };
             static Function f = { &namspc({ "mud", "ui" }), "modal_multi_button", function_id<bool(*)(mud::Widget&, mud::Widget&, array<const char*>, uint32_t)>(&mud::ui::modal_multi_button), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::checkbox(val<mud::Widget>(args[0]), val<bool>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "on", var(bool()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "on", var(bool()) } };
             static Function f = { &namspc({ "mud", "ui" }), "checkbox", function_id<mud::Widget&(*)(mud::Widget&, bool&)>(&mud::ui::checkbox), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::fill_bar(val<mud::Widget>(args[0]), val<float>(args[1]), val<mud::Dim>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "percentage", var(float()) }, { "dim", var(mud::Dim(DIM_X)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "percentage", var(float()) }, { "dim", var(mud::Dim(DIM_X)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "fill_bar", function_id<mud::Widget&(*)(mud::Widget&, float, mud::Dim)>(&mud::ui::fill_bar), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
-        {
+        /*{
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::image256(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<mud::Image256>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "source", var(mud::Image256()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "source", var(mud::Image256()) } };
             static Function f = { &namspc({ "mud", "ui" }), "image256", function_id<mud::Widget&(*)(mud::Widget&, const char*, const mud::Image256&)>(&mud::ui::image256), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::image256(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<mud::Image256>(args[2]), val<mud::vec2>(args[3]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "source", var(mud::Image256()) }, { "size", var(mud::vec2()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "source", var(mud::Image256()) }, { "size", var(mud::vec2()) } };
             static Function f = { &namspc({ "mud", "ui" }), "image256", function_id<mud::Widget&(*)(mud::Widget&, const char*, const mud::Image256&, const mud::vec2&)>(&mud::ui::image256), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
-        }
+        }*/
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::radio_choice(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<bool>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "value", Ref(type<const char*>()), Param::Nullable }, { "active", var(bool()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "value", Ref(type<const char*>()), Param::Nullable }, { "active", var(bool()) } };
             static Function f = { &namspc({ "mud", "ui" }), "radio_choice", function_id<mud::Widget&(*)(mud::Widget&, const char*, bool)>(&mud::ui::radio_choice), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::radio_switch(val<mud::Widget>(args[0]), val<array<const char*>>(args[1]), val<uint32_t>(args[2]), val<mud::Dim>(args[3])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "labels", var(array<const char*>()) }, { "value", var(uint32_t()) }, { "dim", var(mud::Dim(DIM_X)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "labels", var(array<const char*>()) }, { "value", var(uint32_t()) }, { "dim", var(mud::Dim(DIM_X)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "radio_switch", function_id<bool(*)(mud::Widget&, array<const char*>, uint32_t&, mud::Dim)>(&mud::ui::radio_switch), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::popdown(val<mud::Widget>(args[0]), val<array<const char*>>(args[1]), val<uint32_t>(args[2]), val<mud::vec2>(args[3]), val<mud::ui::PopupFlags>(args[4])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "choices", var(array<const char*>()) }, { "value", var(uint32_t()) }, { "position", var(mud::vec2()) }, { "flags", var(mud::ui::PopupFlags()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "choices", var(array<const char*>()) }, { "value", var(uint32_t()) }, { "position", var(mud::vec2()) }, { "flags", var(mud::ui::PopupFlags()) } };
             static Function f = { &namspc({ "mud", "ui" }), "popdown", function_id<bool(*)(mud::Widget&, array<const char*>, uint32_t&, mud::vec2, mud::ui::PopupFlags)>(&mud::ui::popdown), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::dropdown(val<mud::Widget>(args[0]), val<mud::Style>(args[1]), val<const char*>(args[2]), val<mud::ui::PopupFlags>(args[3]), &val<mud::Style>(args[4]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "style", Ref(type<mud::Style>()) }, { "value", Ref(type<const char*>()), Param::Nullable }, { "flags", var(mud::ui::PopupFlags()) }, { "list_style", Ref(type<mud::Style>()), Param::Flags(Param::Nullable|Param::Default) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "style", Ref(type<mud::Style>()) }, { "value", Ref(type<const char*>()), Param::Nullable }, { "flags", var(mud::ui::PopupFlags()) }, { "list_style", Ref(type<mud::Style>()), Param::Flags(Param::Nullable|Param::Default) } };
             static Function f = { &namspc({ "mud", "ui" }), "dropdown", function_id<mud::Widget&(*)(mud::Widget&, mud::Style&, const char*, mud::ui::PopupFlags, mud::Style*)>(&mud::ui::dropdown), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::dropdown_input(val<mud::Widget>(args[0]), val<array<const char*>>(args[1]), val<uint32_t>(args[2]), val<bool>(args[3])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "choices", var(array<const char*>()) }, { "value", var(uint32_t()) }, { "compact", var(bool(false)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "choices", var(array<const char*>()) }, { "value", var(uint32_t()) }, { "compact", var(bool(false)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "dropdown_input", function_id<bool(*)(mud::Widget&, array<const char*>, uint32_t&, bool)>(&mud::ui::dropdown_input), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::typedown_input(val<mud::Widget>(args[0]), val<array<const char*>>(args[1]), val<uint32_t>(args[2])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "choices", var(array<const char*>()) }, { "value", var(uint32_t()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "choices", var(array<const char*>()) }, { "value", var(uint32_t()) } };
             static Function f = { &namspc({ "mud", "ui" }), "typedown_input", function_id<bool(*)(mud::Widget&, array<const char*>, uint32_t&)>(&mud::ui::typedown_input), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::menu_choice(val<mud::Widget>(args[0]), val<const char*>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "content", Ref(type<const char*>()), Param::Nullable } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "content", Ref(type<const char*>()), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "menu_choice", function_id<mud::Widget&(*)(mud::Widget&, const char*)>(&mud::ui::menu_choice), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::menu(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<bool>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "label", Ref(type<const char*>()), Param::Nullable }, { "submenu", var(bool(false)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "label", Ref(type<const char*>()), Param::Nullable }, { "submenu", var(bool(false)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "menu", function_id<mud::Widget&(*)(mud::Widget&, const char*, bool)>(&mud::ui::menu), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::menubar(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "menubar", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::menubar), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::toolbutton(val<mud::Widget>(args[0]), val<const char*>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "icon", Ref(type<const char*>()), Param::Nullable } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "icon", Ref(type<const char*>()), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "toolbutton", function_id<mud::Widget&(*)(mud::Widget&, const char*)>(&mud::ui::toolbutton), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::tooldock(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "tooldock", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::tooldock), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::toolbar(val<mud::Widget>(args[0]), val<bool>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "wrap", var(bool(false)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "wrap", var(bool(false)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "toolbar", function_id<mud::Widget&(*)(mud::Widget&, bool)>(&mud::ui::toolbar), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::select_list(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "select_list", function_id<mud::ScrollSheet&(*)(mud::Widget&)>(&mud::ui::select_list), func, params, Ref(type<mud::ScrollSheet>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::columns(val<mud::Widget>(args[0]), val<array<float>>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "weights", var(array<float>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "weights", var(array<float>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "columns", function_id<mud::Table&(*)(mud::Widget&, array<float>)>(&mud::ui::columns), func, params, Ref(type<mud::Table>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::table(val<mud::Widget>(args[0]), val<array<const char*>>(args[1]), val<array<float>>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "columns", var(array<const char*>()) }, { "weights", var(array<float>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "columns", var(array<const char*>()) }, { "weights", var(array<float>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "table", function_id<mud::Table&(*)(mud::Widget&, array<const char*>, array<float>)>(&mud::ui::table), func, params, Ref(type<mud::Table>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::table_row(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "table_row", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::table_row), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::table_separator(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "table_separator", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::table_separator), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::expandbox(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<bool>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "open", var(bool(true)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "open", var(bool(true)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "expandbox", function_id<mud::Expandbox&(*)(mud::Widget&, const char*, bool)>(&mud::ui::expandbox), func, params, Ref(type<mud::Expandbox>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::tree_node(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<bool>(args[2]), val<bool>(args[3]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "leaf", var(bool(false)), Param::Default }, { "open", var(bool(true)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "leaf", var(bool(false)), Param::Default }, { "open", var(bool(true)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "tree_node", function_id<mud::TreeNode&(*)(mud::Widget&, const char*, bool, bool)>(&mud::ui::tree_node), func, params, Ref(type<mud::TreeNode>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::tree(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "tree", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::tree), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(mud::ui::tab(val<mud::Tabber>(args[0]), val<const char*>(args[1]))); };
-            std::vector<Param> params = { { "tabber", Ref(type<mud::Tabber>()) }, { "name", Ref(type<const char*>()), Param::Nullable } };
+            vector<Param> params = { { "tabber", Ref(type<mud::Tabber>()) }, { "name", Ref(type<const char*>()), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "tab", function_id<mud::Widget*(*)(mud::Tabber&, const char*)>(&mud::ui::tab), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::tabber(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "tabber", function_id<mud::Tabber&(*)(mud::Widget&)>(&mud::ui::tabber), func, params, Ref(type<mud::Tabber>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::row(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "row", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::row), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::header(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "header", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::header), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::div(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "div", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::div), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::stack(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "stack", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::stack), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::sheet(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "sheet", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::sheet), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::board(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "board", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::board), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::layout(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "layout", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::layout), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::screen(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "screen", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::screen), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::decal(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "decal", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::decal), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::overlay(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "overlay", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::overlay), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::title_header(val<mud::Widget>(args[0]), val<const char*>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "title", Ref(type<const char*>()), Param::Nullable } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "title", Ref(type<const char*>()), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "title_header", function_id<mud::Widget&(*)(mud::Widget&, const char*)>(&mud::ui::title_header), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::dummy(val<mud::Widget>(args[0]), val<mud::vec2>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "size", var(mud::vec2()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "size", var(mud::vec2()) } };
             static Function f = { &namspc({ "mud", "ui" }), "dummy", function_id<mud::Widget&(*)(mud::Widget&, const mud::vec2&)>(&mud::ui::dummy), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::popup(val<mud::Widget>(args[0]), val<mud::ui::PopupFlags>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "flags", var(mud::ui::PopupFlags()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "flags", var(mud::ui::PopupFlags()) } };
             static Function f = { &namspc({ "mud", "ui" }), "popup", function_id<mud::Widget&(*)(mud::Widget&, mud::ui::PopupFlags)>(&mud::ui::popup), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::popup(val<mud::Widget>(args[0]), val<mud::vec2>(args[1]), val<mud::ui::PopupFlags>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "size", var(mud::vec2()) }, { "flags", var(mud::ui::PopupFlags::None), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "size", var(mud::vec2()) }, { "flags", var(mud::ui::PopupFlags::None), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "popup", function_id<mud::Widget&(*)(mud::Widget&, const mud::vec2&, mud::ui::PopupFlags)>(&mud::ui::popup), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::popup_at(val<mud::Widget>(args[0]), val<mud::vec2>(args[1]), val<mud::ui::PopupFlags>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "position", var(mud::vec2()) }, { "flags", var(mud::ui::PopupFlags::None), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "position", var(mud::vec2()) }, { "flags", var(mud::ui::PopupFlags::None), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "popup_at", function_id<mud::Widget&(*)(mud::Widget&, const mud::vec2&, mud::ui::PopupFlags)>(&mud::ui::popup_at), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::modal(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "modal", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::modal), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::modal(val<mud::Widget>(args[0]), val<mud::vec2>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "size", var(mud::vec2()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "size", var(mud::vec2()) } };
             static Function f = { &namspc({ "mud", "ui" }), "modal", function_id<mud::Widget&(*)(mud::Widget&, const mud::vec2&)>(&mud::ui::modal), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::auto_modal(val<mud::Widget>(args[0]), val<uint32_t>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "mode", var(uint32_t()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "mode", var(uint32_t()) } };
             static Function f = { &namspc({ "mud", "ui" }), "auto_modal", function_id<mud::Widget&(*)(mud::Widget&, uint32_t)>(&mud::ui::auto_modal), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::auto_modal(val<mud::Widget>(args[0]), val<uint32_t>(args[1]), val<mud::vec2>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "mode", var(uint32_t()) }, { "size", var(mud::vec2()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "mode", var(uint32_t()) }, { "size", var(mud::vec2()) } };
             static Function f = { &namspc({ "mud", "ui" }), "auto_modal", function_id<mud::Widget&(*)(mud::Widget&, uint32_t, const mud::vec2&)>(&mud::ui::auto_modal), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(mud::ui::context(val<mud::Widget>(args[0]), val<uint32_t>(args[1]), val<mud::ui::PopupFlags>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "mode", var(uint32_t()) }, { "flags", var(mud::ui::PopupFlags::None), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "mode", var(uint32_t()) }, { "flags", var(mud::ui::PopupFlags::None), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "context", function_id<mud::Widget*(*)(mud::Widget&, uint32_t, mud::ui::PopupFlags)>(&mud::ui::context), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(mud::ui::hoverbox(val<mud::Widget>(args[0]), val<float>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "delay", var(float(0.5f)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "delay", var(float(0.5f)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "hoverbox", function_id<mud::Widget*(*)(mud::Widget&, float)>(&mud::ui::hoverbox), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(mud::ui::tooltip(val<mud::Widget>(args[0]), val<mud::vec2>(args[1]), val<const char*>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "position", var(mud::vec2()) }, { "content", Ref(type<const char*>()), Param::Nullable } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "position", var(mud::vec2()) }, { "content", Ref(type<const char*>()), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "tooltip", function_id<mud::Widget*(*)(mud::Widget&, const mud::vec2&, const char*)>(&mud::ui::tooltip), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::cursor(val<mud::Widget>(args[0]), val<mud::vec2>(args[1]), val<mud::Widget>(args[2]), val<bool>(args[3]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "position", var(mud::vec2()) }, { "hovered", Ref(type<mud::Widget>()) }, { "locked", var(bool(false)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "position", var(mud::vec2()) }, { "hovered", Ref(type<mud::Widget>()) }, { "locked", var(bool(false)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "cursor", function_id<mud::Widget&(*)(mud::Widget&, const mud::vec2&, mud::Widget&, bool)>(&mud::ui::cursor), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::rectangle(val<mud::Widget>(args[0]), val<mud::vec4>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "rect", var(mud::vec4()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "rect", var(mud::vec4()) } };
             static Function f = { &namspc({ "mud", "ui" }), "rectangle", function_id<mud::Widget&(*)(mud::Widget&, const mud::vec4&)>(&mud::ui::rectangle), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::dockspace(val<mud::Widget>(args[0]), val<mud::Docksystem>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "docksystem", Ref(type<mud::Docksystem>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "docksystem", Ref(type<mud::Docksystem>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "dockspace", function_id<mud::Dockspace&(*)(mud::Widget&, mud::Docksystem&)>(&mud::ui::dockspace), func, params, Ref(type<mud::Dockspace>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::dockbar(val<mud::Widget>(args[0]), val<mud::Docksystem>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "docksystem", Ref(type<mud::Docksystem>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "docksystem", Ref(type<mud::Docksystem>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "dockbar", function_id<mud::Dockbar&(*)(mud::Widget&, mud::Docksystem&)>(&mud::ui::dockbar), func, params, Ref(type<mud::Dockbar>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(mud::ui::dockitem(val<mud::Widget>(args[0]), val<mud::Docksystem>(args[1]), val<mud::Dock>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "docksystem", Ref(type<mud::Docksystem>()) }, { "dock", var(mud::Dock()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "docksystem", Ref(type<mud::Docksystem>()) }, { "dock", var(mud::Dock()) } };
             static Function f = { &namspc({ "mud", "ui" }), "dockitem", function_id<mud::Widget*(*)(mud::Widget&, mud::Docksystem&, mud::Dock&)>(&mud::ui::dockitem), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::text_box(val<mud::Widget>(args[0]), val<mud::Style>(args[1]), val<std::string>(args[2]), val<bool>(args[3]), val<size_t>(args[4]), val<std::string>(args[5]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "style", Ref(type<mud::Style>()) }, { "text", var(std::string()) }, { "editor", var(bool(false)), Param::Default }, { "lines", var(size_t(1)), Param::Default }, { "allowed_chars", var(std::string("")), Param::Default } };
-            static Function f = { &namspc({ "mud", "ui" }), "text_box", function_id<mud::TextEdit&(*)(mud::Widget&, mud::Style&, std::string&, bool, size_t, const std::string&)>(&mud::ui::text_box), func, params, Ref(type<mud::TextEdit>()) };
+            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::text_box(val<mud::Widget>(args[0]), val<mud::Style>(args[1]), val<string>(args[2]), val<bool>(args[3]), val<size_t>(args[4]), val<string>(args[5]))); };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "style", Ref(type<mud::Style>()) }, { "text", var(string()) }, { "editor", var(bool(false)), Param::Default }, { "lines", var(size_t(1)), Param::Default }, { "allowed_chars", var(string("")), Param::Default } };
+            static Function f = { &namspc({ "mud", "ui" }), "text_box", function_id<mud::TextEdit&(*)(mud::Widget&, mud::Style&, string&, bool, size_t, const string&)>(&mud::ui::text_box), func, params, Ref(type<mud::TextEdit>()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::type_in(val<mud::Widget>(args[0]), val<std::string>(args[1]), val<size_t>(args[2]), val<std::string>(args[3]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "text", var(std::string()) }, { "lines", var(size_t(1)), Param::Default }, { "allowed_chars", var(std::string("")), Param::Default } };
-            static Function f = { &namspc({ "mud", "ui" }), "type_in", function_id<mud::TextEdit&(*)(mud::Widget&, std::string&, size_t, const std::string&)>(&mud::ui::type_in), func, params, Ref(type<mud::TextEdit>()) };
+            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::type_in(val<mud::Widget>(args[0]), val<string>(args[1]), val<size_t>(args[2]), val<string>(args[3]))); };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "text", var(string()) }, { "lines", var(size_t(1)), Param::Default }, { "allowed_chars", var(string("")), Param::Default } };
+            static Function f = { &namspc({ "mud", "ui" }), "type_in", function_id<mud::TextEdit&(*)(mud::Widget&, string&, size_t, const string&)>(&mud::ui::type_in), func, params, Ref(type<mud::TextEdit>()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::text_edit(val<mud::Widget>(args[0]), val<std::string>(args[1]), val<size_t>(args[2]), &val<std::vector<std::string>>(args[3]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "text", var(std::string()) }, { "lines", var(size_t(1)), Param::Default }, { "vocabulary", Ref(type<std::vector<std::string>>()), Param::Flags(Param::Nullable|Param::Default) } };
-            static Function f = { &namspc({ "mud", "ui" }), "text_edit", function_id<mud::TextEdit&(*)(mud::Widget&, std::string&, size_t, std::vector<std::string>*)>(&mud::ui::text_edit), func, params, Ref(type<mud::TextEdit>()) };
+            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::text_edit(val<mud::Widget>(args[0]), val<string>(args[1]), val<size_t>(args[2]), &val<vector<string>>(args[3]))); };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "text", var(string()) }, { "lines", var(size_t(1)), Param::Default }, { "vocabulary", Ref(type<vector<string>>()), Param::Flags(Param::Nullable|Param::Default) } };
+            static Function f = { &namspc({ "mud", "ui" }), "text_edit", function_id<mud::TextEdit&(*)(mud::Widget&, string&, size_t, vector<string>*)>(&mud::ui::text_edit), func, params, Ref(type<mud::TextEdit>()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::code_edit(val<mud::Widget>(args[0]), val<std::string>(args[1]), val<size_t>(args[2]), &val<std::vector<std::string>>(args[3]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "text", var(std::string()) }, { "lines", var(size_t(1)), Param::Default }, { "vocabulary", Ref(type<std::vector<std::string>>()), Param::Flags(Param::Nullable|Param::Default) } };
-            static Function f = { &namspc({ "mud", "ui" }), "code_edit", function_id<mud::TextEdit&(*)(mud::Widget&, std::string&, size_t, std::vector<std::string>*)>(&mud::ui::code_edit), func, params, Ref(type<mud::TextEdit>()) };
+            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::code_edit(val<mud::Widget>(args[0]), val<string>(args[1]), val<size_t>(args[2]), &val<vector<string>>(args[3]))); };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "text", var(string()) }, { "lines", var(size_t(1)), Param::Default }, { "vocabulary", Ref(type<vector<string>>()), Param::Flags(Param::Nullable|Param::Default) } };
+            static Function f = { &namspc({ "mud", "ui" }), "code_edit", function_id<mud::TextEdit&(*)(mud::Widget&, string&, size_t, vector<string>*)>(&mud::ui::code_edit), func, params, Ref(type<mud::TextEdit>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::drag_float(val<mud::Widget>(args[0]), val<float>(args[1]), val<float>(args[2])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "value", var(float()) }, { "step", var(float(0.1f)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "value", var(float()) }, { "step", var(float(0.1f)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "drag_float", function_id<bool(*)(mud::Widget&, float&, float)>(&mud::ui::drag_float), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::vec2_edit(val<mud::Widget>(args[0]), val<mud::vec2>(args[1])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "vec", var(mud::vec2()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "vec", var(mud::vec2()) } };
             static Function f = { &namspc({ "mud", "ui" }), "vec2_edit", function_id<bool(*)(mud::Widget&, mud::vec2&)>(&mud::ui::vec2_edit), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::vec3_edit(val<mud::Widget>(args[0]), val<mud::vec3>(args[1])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "vec", var(mud::vec3()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "vec", var(mud::vec3()) } };
             static Function f = { &namspc({ "mud", "ui" }), "vec3_edit", function_id<bool(*)(mud::Widget&, mud::vec3&)>(&mud::ui::vec3_edit), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::quat_edit(val<mud::Widget>(args[0]), val<mud::quat>(args[1])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "quat", var(mud::quat()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "quat", var(mud::quat()) } };
             static Function f = { &namspc({ "mud", "ui" }), "quat_edit", function_id<bool(*)(mud::Widget&, mud::quat&)>(&mud::ui::quat_edit), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::color_edit_hsl(val<mud::Widget>(args[0]), val<mud::Colour>(args[1]), val<mud::Colour>(args[2])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "colour", var(mud::Colour()) }, { "value", var(mud::Colour()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "colour", var(mud::Colour()) }, { "value", var(mud::Colour()) } };
             static Function f = { &namspc({ "mud", "ui" }), "color_edit_hsl", function_id<bool(*)(mud::Widget&, const mud::Colour&, mud::Colour&)>(&mud::ui::color_edit_hsl), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::color_display(val<mud::Widget>(args[0]), val<mud::Colour>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "value", var(mud::Colour()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "value", var(mud::Colour()) } };
             static Function f = { &namspc({ "mud", "ui" }), "color_display", function_id<mud::Widget&(*)(mud::Widget&, const mud::Colour&)>(&mud::ui::color_display), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::color_edit(val<mud::Widget>(args[0]), val<mud::Colour>(args[1])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "value", var(mud::Colour()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "value", var(mud::Colour()) } };
             static Function f = { &namspc({ "mud", "ui" }), "color_edit", function_id<bool(*)(mud::Widget&, mud::Colour&)>(&mud::ui::color_edit), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::color_edit_simple(val<mud::Widget>(args[0]), val<mud::Colour>(args[1])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "value", var(mud::Colour()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "value", var(mud::Colour()) } };
             static Function f = { &namspc({ "mud", "ui" }), "color_edit_simple", function_id<bool(*)(mud::Widget&, mud::Colour&)>(&mud::ui::color_edit_simple), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::color_toggle_edit(val<mud::Widget>(args[0]), val<mud::Colour>(args[1])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "value", var(mud::Colour()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "value", var(mud::Colour()) } };
             static Function f = { &namspc({ "mud", "ui" }), "color_toggle_edit", function_id<bool(*)(mud::Widget&, mud::Colour&)>(&mud::ui::color_toggle_edit), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::curve_graph(val<mud::Widget>(args[0]), val<array<float>>(args[1]), val<array<float>>(args[2])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "values", var(array<float>()) }, { "points", var(array<float>{}), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "values", var(array<float>()) }, { "points", var(array<float>{}), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "curve_graph", function_id<bool(*)(mud::Widget&, array<float>, array<float>)>(&mud::ui::curve_graph), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::curve_edit(val<mud::Widget>(args[0]), val<array<float>>(args[1]), val<array<float>>(args[2])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "values", var(array<float>()) }, { "points", var(array<float>{}), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "values", var(array<float>()) }, { "points", var(array<float>{}), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "curve_edit", function_id<bool(*)(mud::Widget&, array<float>, array<float>)>(&mud::ui::curve_edit), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::flag_field(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<uint32_t>(args[2]), val<uint8_t>(args[3]), val<bool>(args[4])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "value", var(uint32_t()) }, { "shift", var(uint8_t()) }, { "reverse", var(bool(false)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "value", var(uint32_t()) }, { "shift", var(uint8_t()) }, { "reverse", var(bool(false)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "flag_field", function_id<bool(*)(mud::Widget&, const char*, uint32_t&, uint8_t, bool)>(&mud::ui::flag_field), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::radio_field(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<array<const char*>>(args[2]), val<uint32_t>(args[3]), val<bool>(args[4])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "choices", var(array<const char*>()) }, { "value", var(uint32_t()) }, { "reverse", var(bool(false)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "choices", var(array<const char*>()) }, { "value", var(uint32_t()) }, { "reverse", var(bool(false)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "radio_field", function_id<bool(*)(mud::Widget&, const char*, array<const char*>, uint32_t&, bool)>(&mud::ui::radio_field), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::dropdown_field(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<array<const char*>>(args[2]), val<uint32_t>(args[3]), val<bool>(args[4])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "choices", var(array<const char*>()) }, { "value", var(uint32_t()) }, { "reverse", var(bool(false)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "choices", var(array<const char*>()) }, { "value", var(uint32_t()) }, { "reverse", var(bool(false)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "dropdown_field", function_id<bool(*)(mud::Widget&, const char*, array<const char*>, uint32_t&, bool)>(&mud::ui::dropdown_field), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::typedown_field(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<array<const char*>>(args[2]), val<uint32_t>(args[3]), val<bool>(args[4])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "choices", var(array<const char*>()) }, { "value", var(uint32_t()) }, { "reverse", var(bool(false)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "choices", var(array<const char*>()) }, { "value", var(uint32_t()) }, { "reverse", var(bool(false)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "typedown_field", function_id<bool(*)(mud::Widget&, const char*, array<const char*>, uint32_t&, bool)>(&mud::ui::typedown_field), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::color_field(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<mud::Colour>(args[2]), val<bool>(args[3])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "value", var(mud::Colour()) }, { "reverse", var(bool(false)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "value", var(mud::Colour()) }, { "reverse", var(bool(false)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "color_field", function_id<bool(*)(mud::Widget&, const char*, mud::Colour&, bool)>(&mud::ui::color_field), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::ui::color_display_field(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<mud::Colour>(args[2]), val<bool>(args[3])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "value", var(mud::Colour()) }, { "reverse", var(bool(false)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "value", var(mud::Colour()) }, { "reverse", var(bool(false)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "color_display_field", function_id<void(*)(mud::Widget&, const char*, const mud::Colour&, bool)>(&mud::ui::color_display_field), func, params, Var() };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::node_input(val<mud::Node>(args[0]), val<const char*>(args[1]), val<const char*>(args[2]), val<mud::Colour>(args[3]), val<bool>(args[4]), val<bool>(args[5]))); };
-            std::vector<Param> params = { { "node", Ref(type<mud::Node>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "icon", Ref(type<const char*>()), Param::Flags(Param::Nullable|Param::Default) }, { "colour", var(mud::Colour::NeonGreen), Param::Default }, { "active", var(bool(true)), Param::Default }, { "connected", var(bool(false)), Param::Default } };
+            vector<Param> params = { { "node", Ref(type<mud::Node>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "icon", Ref(type<const char*>()), Param::Flags(Param::Nullable|Param::Default) }, { "colour", var(mud::Colour::NeonGreen), Param::Default }, { "active", var(bool(true)), Param::Default }, { "connected", var(bool(false)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "node_input", function_id<mud::NodePlug&(*)(mud::Node&, const char*, const char*, const mud::Colour&, bool, bool)>(&mud::ui::node_input), func, params, Ref(type<mud::NodePlug>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::node_output(val<mud::Node>(args[0]), val<const char*>(args[1]), val<const char*>(args[2]), val<mud::Colour>(args[3]), val<bool>(args[4]), val<bool>(args[5]))); };
-            std::vector<Param> params = { { "node", Ref(type<mud::Node>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "icon", Ref(type<const char*>()), Param::Flags(Param::Nullable|Param::Default) }, { "colour", var(mud::Colour::NeonGreen), Param::Default }, { "active", var(bool(true)), Param::Default }, { "connected", var(bool(false)), Param::Default } };
+            vector<Param> params = { { "node", Ref(type<mud::Node>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "icon", Ref(type<const char*>()), Param::Flags(Param::Nullable|Param::Default) }, { "colour", var(mud::Colour::NeonGreen), Param::Default }, { "active", var(bool(true)), Param::Default }, { "connected", var(bool(false)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "node_output", function_id<mud::NodePlug&(*)(mud::Node&, const char*, const char*, const mud::Colour&, bool, bool)>(&mud::ui::node_output), func, params, Ref(type<mud::NodePlug>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::node(val<mud::Canvas>(args[0]), val<const char*>(args[1]), val<mud::vec2>(args[2]), val<int>(args[3]), args[4])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Canvas>()) }, { "title", Ref(type<const char*>()), Param::Nullable }, { "position", var(mud::vec2()) }, { "order", var(int(0)), Param::Default }, { "identity", Ref(), Param::Flags(Param::Nullable|Param::Default) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Canvas>()) }, { "title", Ref(type<const char*>()), Param::Nullable }, { "position", var(mud::vec2()) }, { "order", var(int(0)), Param::Default }, { "identity", Ref(), Param::Flags(Param::Nullable|Param::Default) } };
             static Function f = { &namspc({ "mud", "ui" }), "node", function_id<mud::Node&(*)(mud::Canvas&, const char*, mud::vec2&, int, mud::Ref)>(&mud::ui::node), func, params, Ref(type<mud::Node>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::node_cable(val<mud::Canvas>(args[0]), val<mud::NodePlug>(args[1]), val<mud::NodePlug>(args[2]))); };
-            std::vector<Param> params = { { "canvas", Ref(type<mud::Canvas>()) }, { "plug_out", Ref(type<mud::NodePlug>()) }, { "plug_in", Ref(type<mud::NodePlug>()) } };
+            vector<Param> params = { { "canvas", Ref(type<mud::Canvas>()) }, { "plug_out", Ref(type<mud::NodePlug>()) }, { "plug_in", Ref(type<mud::NodePlug>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "node_cable", function_id<mud::Widget&(*)(mud::Canvas&, mud::NodePlug&, mud::NodePlug&)>(&mud::ui::node_cable), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::canvas(val<mud::Widget>(args[0]), val<size_t>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "num_nodes", var(size_t(0)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "num_nodes", var(size_t(0)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "canvas", function_id<mud::Canvas&(*)(mud::Widget&, size_t)>(&mud::ui::canvas), func, params, Ref(type<mud::Canvas>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::scrollable(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "scrollable", function_id<mud::Widget&(*)(mud::Widget&)>(&mud::ui::scrollable), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::sequence(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "sequence", function_id<mud::ui::Sequence&(*)(mud::Widget&)>(&mud::ui::sequence), func, params, Ref(type<mud::ui::Sequence>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::scroll_sequence(val<mud::Widget>(args[0]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };
             static Function f = { &namspc({ "mud", "ui" }), "scroll_sequence", function_id<mud::ui::Sequence&(*)(mud::Widget&)>(&mud::ui::scroll_sequence), func, params, Ref(type<mud::ui::Sequence>()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::multiselect_logic(val<mud::Widget>(args[0]), args[1], val<std::vector<mud::Ref>>(args[2])); };
-            std::vector<Param> params = { { "element", Ref(type<mud::Widget>()) }, { "object", Ref(), Param::Nullable }, { "selection", var(std::vector<mud::Ref>()) } };
-            static Function f = { &namspc({ "mud", "ui" }), "multiselect_logic", function_id<bool(*)(mud::Widget&, mud::Ref, std::vector<mud::Ref>&)>(&mud::ui::multiselect_logic), func, params, var(bool()) };
+            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::multiselect_logic(val<mud::Widget>(args[0]), args[1], val<vector<mud::Ref>>(args[2])); };
+            vector<Param> params = { { "element", Ref(type<mud::Widget>()) }, { "object", Ref(), Param::Nullable }, { "selection", var(vector<mud::Ref>()) } };
+            static Function f = { &namspc({ "mud", "ui" }), "multiselect_logic", function_id<bool(*)(mud::Widget&, mud::Ref, vector<mud::Ref>&)>(&mud::ui::multiselect_logic), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::select_logic(val<mud::Widget>(args[0]), args[1], args[2]); };
-            std::vector<Param> params = { { "element", Ref(type<mud::Widget>()) }, { "object", Ref(), Param::Nullable }, { "selection", Ref(), Param::Nullable } };
+            vector<Param> params = { { "element", Ref(type<mud::Widget>()) }, { "object", Ref(), Param::Nullable }, { "selection", Ref(), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "select_logic", function_id<bool(*)(mud::Widget&, mud::Ref, mud::Ref&)>(&mud::ui::select_logic), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::element(val<mud::Widget>(args[0]), args[1])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "object", Ref(), Param::Nullable } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "object", Ref(), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "element", function_id<mud::Widget&(*)(mud::Widget&, mud::Ref)>(&mud::ui::element), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::sequence_element(val<mud::ui::Sequence>(args[0]), args[1])); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::ui::Sequence>()) }, { "object", Ref(), Param::Nullable } };
+            vector<Param> params = { { "parent", Ref(type<mud::ui::Sequence>()) }, { "object", Ref(), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "sequence_element", function_id<mud::Widget&(*)(mud::ui::Sequence&, mud::Ref)>(&mud::ui::sequence_element), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::window(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<mud::WindowState>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "title", Ref(type<const char*>()), Param::Nullable }, { "state", var(mud::WindowState(WINDOW_DEFAULT)), Param::Default } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "title", Ref(type<const char*>()), Param::Nullable }, { "state", var(mud::WindowState(WINDOW_DEFAULT)), Param::Default } };
             static Function f = { &namspc({ "mud", "ui" }), "window", function_id<mud::Window&(*)(mud::Widget&, const char*, mud::WindowState)>(&mud::ui::window), func, params, Ref(type<mud::Window>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::dir_item(val<mud::Widget>(args[0]), val<const char*>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "dir_item", function_id<mud::Widget&(*)(mud::Widget&, const char*)>(&mud::ui::dir_item), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::file_item(val<mud::Widget>(args[0]), val<const char*>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "file_item", function_id<mud::Widget&(*)(mud::Widget&, const char*)>(&mud::ui::file_item), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::file_list(val<mud::Widget>(args[0]), val<std::string>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "path", var(std::string()) } };
-            static Function f = { &namspc({ "mud", "ui" }), "file_list", function_id<mud::Widget&(*)(mud::Widget&, std::string&)>(&mud::ui::file_list), func, params, Ref(type<mud::Widget>()) };
+            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::file_list(val<mud::Widget>(args[0]), val<string>(args[1]))); };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "path", var(string()) } };
+            static Function f = { &namspc({ "mud", "ui" }), "file_list", function_id<mud::Widget&(*)(mud::Widget&, string&)>(&mud::ui::file_list), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::file_browser(val<mud::Widget>(args[0]), val<std::string>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "path", var(std::string()) } };
-            static Function f = { &namspc({ "mud", "ui" }), "file_browser", function_id<mud::Widget&(*)(mud::Widget&, std::string&)>(&mud::ui::file_browser), func, params, Ref(type<mud::Widget>()) };
+            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::file_browser(val<mud::Widget>(args[0]), val<string>(args[1]))); };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "path", var(string()) } };
+            static Function f = { &namspc({ "mud", "ui" }), "file_browser", function_id<mud::Widget&(*)(mud::Widget&, string&)>(&mud::ui::file_browser), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::dir_node(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<const char*>(args[2]), val<bool>(args[3]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "path", Ref(type<const char*>()), Param::Nullable }, { "name", Ref(type<const char*>()), Param::Nullable }, { "collapsed", var(bool()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "path", Ref(type<const char*>()), Param::Nullable }, { "name", Ref(type<const char*>()), Param::Nullable }, { "collapsed", var(bool()) } };
             static Function f = { &namspc({ "mud", "ui" }), "dir_node", function_id<mud::Widget&(*)(mud::Widget&, const char*, const char*, bool)>(&mud::ui::dir_node), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::file_node(val<mud::Widget>(args[0]), val<const char*>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "file_node", function_id<mud::Widget&(*)(mud::Widget&, const char*)>(&mud::ui::file_node), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::file_tree(val<mud::Widget>(args[0]), val<const char*>(args[1]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "path", Ref(type<const char*>()), Param::Nullable } };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "path", Ref(type<const char*>()), Param::Nullable } };
             static Function f = { &namspc({ "mud", "ui" }), "file_tree", function_id<mud::Widget&(*)(mud::Widget&, const char*)>(&mud::ui::file_tree), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::command_line(val<mud::Widget>(args[0]), val<std::string>(args[1]), val<std::string>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "text", var(std::string()) }, { "command", var(std::string()) } };
-            static Function f = { &namspc({ "mud", "ui" }), "command_line", function_id<mud::Widget&(*)(mud::Widget&, std::string&, std::string&)>(&mud::ui::command_line), func, params, Ref(type<mud::Widget>()) };
+            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::command_line(val<mud::Widget>(args[0]), val<string>(args[1]), val<string>(args[2]))); };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "text", var(string()) }, { "command", var(string()) } };
+            static Function f = { &namspc({ "mud", "ui" }), "command_line", function_id<mud::Widget&(*)(mud::Widget&, string&, string&)>(&mud::ui::command_line), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::console(val<mud::Widget>(args[0]), val<std::string>(args[1]), val<std::string>(args[2]), val<std::string>(args[3]), val<size_t>(args[4]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "feed", var(std::string()) }, { "line", var(std::string()) }, { "command", var(std::string()) }, { "num_lines", var(size_t(0)), Param::Default } };
-            static Function f = { &namspc({ "mud", "ui" }), "console", function_id<mud::Widget&(*)(mud::Widget&, std::string&, std::string&, std::string&, size_t)>(&mud::ui::console), func, params, Ref(type<mud::Widget>()) };
+            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::console(val<mud::Widget>(args[0]), val<string>(args[1]), val<string>(args[2]), val<string>(args[3]), val<size_t>(args[4]))); };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "feed", var(string()) }, { "line", var(string()) }, { "command", var(string()) }, { "num_lines", var(size_t(0)), Param::Default } };
+            static Function f = { &namspc({ "mud", "ui" }), "console", function_id<mud::Widget&(*)(mud::Widget&, string&, string&, string&, size_t)>(&mud::ui::console), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
     }

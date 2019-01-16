@@ -4,6 +4,9 @@
 
 #pragma once
 
+#include <stl/string.h>
+#include <stl/vector.h>
+#include <stl/map.h>
 #include <infra/NonCopy.h>
 #include <type/Unique.h>
 #include <type/Util/LocklessQueue.h>
@@ -14,17 +17,12 @@
 #include <snd/SoundListener.h>
 #include <snd/Sound.h>
 
-#include <string>
 #include <list>
-#include <vector>
-#include <map>
 #include <thread>
-#include <functional>
 
 namespace mud
 {
-	using string = std::string;
-	using SoundCallback = std::function<void(Sound&)>;
+	using SoundCallback = void(*)(Sound&);
 
 	bool openal_check_error();
 
@@ -33,8 +31,8 @@ namespace mud
 	public:
 		typedef std::function<void ()> SoundAction;
 		typedef std::list<Sound*> SoundList;
-		typedef std::vector<Sound*> SoundVector;
-		typedef std::vector<ALuint> SourceVector;
+		typedef vector<Sound*> SoundVector;
+		typedef vector<ALuint> SourceVector;
 
 	// Thread-safe interface
 	public:
@@ -103,8 +101,9 @@ namespace mud
 
 		SharedBuffer& createSharedBuffer(cstring filename);
 		SharedBuffer& getSharedBuffer(cstring filename);
+	public:
 		void releaseBuffer(SharedBuffer& buffer);
-
+	private:
 		void logFeatureSupport();
 
 	private:
@@ -123,7 +122,7 @@ namespace mud
 		bool m_shuttingDown = false;
 
 	public:
-		std::vector<string> m_devices;			// List of available devices strings
+		vector<string> m_devices;			// List of available devices strings
 		ALCdevice* m_device = nullptr;			// OpenAL device
 		ALCcontext* m_context = nullptr;		// OpenAL context
 
@@ -143,7 +142,7 @@ namespace mud
 		unsigned int m_maxSources = 100;		// Maximum Number of sources to allocate
 		SourceVector m_sourcePool;				// List of available sources
 
-		std::map<string, unique_ptr<SharedBuffer>> m_sharedBuffers;
+		map<string, unique_ptr<SharedBuffer>> m_sharedBuffers;
 
 		Clock m_clock;
 	};

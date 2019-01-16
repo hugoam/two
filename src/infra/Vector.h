@@ -4,82 +4,68 @@
 
 #pragma once
 
+#include <stl/vector.h>
+#include <stl/algorithm.h>
 #include <infra/Config.h>
 #include <infra/Array.h>
 #include <infra/TypeTraits.h>
 
-#ifndef MUD_CPP_20
-#include <vector>
-#include <algorithm>
-#endif
-
 namespace mud
 {
-#if 0
-	export_ class refl_ MUD_INFRA_EXPORT pvector
-	{
-	public:
-		pvector(Type& element_type) : m_element_type(&element_type) {}
-
-		template <class T>
-		array<T*> array() { return { (T*)m_elements.data(), m_elements.size() }; }
-
-		template <class T>
-		void push_back(T* object) { m_elements.push_back(object); }
-
-		Type* m_element_type;
-		std::vector<void*> m_elements;
-	};
-#endif
-
 	template <typename T>
-	struct is_comparable<std::vector<T>> : is_comparable_base<T> {};
+	struct is_comparable<vector<T>> : is_comparable_base<T> {};
 
 	export_ template <class T>
-	array<T> to_array(std::vector<T>& vector) { return { &vector[0], vector.size() }; }
+	array<T> to_array(vector<T>& vec) { return { &vec[0], vec.size() }; }
 	export_ template <class T>
-	array<T> to_array(std::vector<T>& vector, size_t offset) { return { &vector[offset], vector.size() - offset }; }
+	array<T> to_array(vector<T>& vec, size_t offset) { return { &vec[offset], vec.size() - offset }; }
 	export_ template <class T>
-	array<T> to_array(std::vector<T>& vector, size_t offset, size_t count) { return { &vector[offset], count }; }
+	array<T> to_array(vector<T>& vec, size_t offset, size_t count) { return { &vec[offset], count }; }
 
 	export_ template <class T>
-	std::vector<T> to_vector(const array<T>& array) { return { array.m_pointer, array.m_pointer + array.m_count }; }
+	vector<T> to_vector(const array<T>& array) { return { array.m_pointer, array.m_pointer + array.m_count }; }
 
 	export_ template <class T>
-	inline void vector_extend(std::vector<T>& vector, const std::vector<T>& other)
+	inline void vector_extend(vector<T>& vec, const vector<T>& other)
 	{
-		vector.insert(vector.end(), other.begin(), other.end());
+		vec.insert(vec.end(), other.begin(), other.end());
+	}
+	
+	export_ template <class T>
+	inline void vector_prepend(vector<T>& vec, const T& value)
+	{
+		vec.insert(vec.begin(), value);
 	}
 
 	export_ template <class T>
-	inline void vector_prepend(std::vector<T>& vector, const std::vector<T>& other)
+	inline void vector_prepend(vector<T>& vec, const vector<T>& other)
 	{
-		vector.insert(vector.begin(), other.begin(), other.end());
+		vec.insert(vec.begin(), other.begin(), other.end());
 	}
 
 	export_ template <class T>
-	inline std::vector<T> vector_union(const std::vector<T>& first, const std::vector<T>& second)
+	inline vector<T> vector_union(const vector<T>& first, const vector<T>& second)
 	{
-		std::vector<T> result; vector_extend(result, first); vector_extend(result, second); return result;
+		vector<T> result; vector_extend(result, first); vector_extend(result, second); return result;
 	}
 
 	export_ template <class T, class... T_Args>
-	inline T& vector_push(std::vector<T>& vector, T_Args&&... args)
+	inline T& vector_push(vector<T>& vec, T_Args&&... args)
 	{
-		vector.push_back(T(std::forward<T_Args>(args)...));
-		return vector.back();
+		vec.emplace_back(static_cast<T_Args&&>(args)...);
+		return vec.back();
 	}
 
 	export_ template <class T>
-	inline T vector_pop(std::vector<T>& vector)
+	inline T vector_pop(vector<T>& vec)
 	{
-		T val = std::move(vector.back());
-		vector.pop_back();
+		T val = std::move(vec.back());
+		vec.pop_back();
 		return val;
 	}
 
 	export_ template <class T, class U>
-	inline void vector_cast(const std::vector<T>& source, std::vector<U>& target)
+	inline void vector_cast(const vector<T>& source, vector<U>& target)
 	{
 		target.reserve(source.size());
 		for(const T& val : source)
@@ -87,165 +73,163 @@ namespace mud
 	}
 
 	export_ template <class U, class T>
-	inline std::vector<U> vector_convert(const std::vector<T>& source)
+	inline vector<U> vector_convert(const vector<T>& source)
 	{
-		std::vector<U> target;
-		target.reserve(source.size());
-		for(const T& val : source)
-			target.push_back(static_cast<U>(val));
+		vector<U> target;
+		vector_cast(source, target);
 		return target;
 	}
 
 	export_ template <class U, class T, class Op>
-	inline std::vector<U> vector_convert(const std::vector<T>& source, Op op)
+	inline vector<U> vector_convert(const vector<T>& source, Op op)
 	{
-		std::vector<U> result;
+		vector<U> result;
 		result.resize(source.size());
-		std::transform(source.begin(), source.end(), result.begin(), op);
+		transform(source.begin(), source.end(), result.begin(), op);
 		return result;
 	}
 
 	export_ template <class T>
-	inline void vector_remove(std::vector<T>& vector, T value)
+	inline void vector_remove(vector<T>& vec, T value)
 	{
-		vector.erase(std::remove(vector.begin(), vector.end(), value), vector.end());
+		vec.erase(remove(vec.begin(), vec.end(), value), vec.end());
 	}
 
 	export_ template <class T>
-	inline void vector_remove_ref(std::vector<T>& vector, T& value)
+	inline void vector_remove_ref(vector<T>& vec, T& value)
 	{
-		size_t index = &value - vector.data();
-		vector.erase(vector.begin() + index);
+		size_t index = &value - vec.data();
+		vec.erase(vec.begin() + index);
 	}
 
 	export_ template <class T, class Pred>
-	inline auto vector_remove_if(std::vector<T>& vector, Pred predicate)
+	inline auto vector_remove_if(vector<T>& vec, Pred predicate)
 	{
-		return vector.erase(std::remove_if(vector.begin(), vector.end(), predicate), vector.end());
+		return vec.erase(remove_if(vec.begin(), vec.end(), predicate), vec.end());
 	}
 
 	export_ template <class T, class Pred>
-	inline void vector_prune(std::vector<T>& vector, Pred predicate)
+	inline void vector_prune(vector<T>& vec, Pred predicate)
 	{
-		for(int i = int(vector.size()) - 1; i >= 0; i--)
-			if(predicate(vector[i]))
-				vector.erase(vector.begin() + i);
+		for(int i = int(vec.size()) - 1; i >= 0; i--)
+			if(predicate(vec[i]))
+				vec.erase(vec.begin() + i);
 	}
 
 	export_ template <class T>
-	inline size_t vector_index(const std::vector<T>& vector, T value)
+	inline size_t vector_index(const vector<T>& vec, T value)
 	{
-		return std::find(vector.begin(), vector.end(), value) - vector.begin();
+		return find(vec.begin(), vec.end(), value) - vec.begin();
 	}
 	
 	export_ template <class T>
-	inline size_t array_index(array<T> vector, T value)
+	inline size_t array_index(array<T> vec, T value)
 	{
-		return std::find(vector.begin(), vector.end(), value) - vector.begin();
+		return find(vec.begin(), vec.end(), value) - vec.begin();
 	}
 
 	export_ template <class T>
-	inline bool vector_has(const std::vector<T>& vector, T value)
+	inline bool vector_has(const vector<T>& vec, T value)
 	{
-		return std::find(vector.begin(), vector.end(), value) != vector.end();
+		return find(vec.begin(), vec.end(), value) != vec.end();
 	}
 
 	export_ template <class T, class Pred>
-	inline bool vector_has_pred(const std::vector<T>& vector, Pred predicate)
+	inline bool vector_has_pred(const vector<T>& vec, Pred predicate)
 	{
-		return std::find_if(vector.begin(), vector.end(), predicate) != vector.end();
+		return find_if(vec.begin(), vec.end(), predicate) != vec.end();
 	}
 
 	export_ template <class T, class Pred>
-	inline const T* vector_find(const std::vector<T>& vector, Pred predicate)
+	inline const T* vector_find(const vector<T>& vec, Pred predicate)
 	{
-		auto it = std::find_if(vector.begin(), vector.end(), predicate);
-		return it != vector.end() ? &(*it) : nullptr;
+		auto it = find_if(vec.begin(), vec.end(), predicate);
+		return it != vec.end() ? &(*it) : nullptr;
 	}
 
 	export_ template <class T, class Pred>
-	inline auto vector_find_if(const std::vector<T>& vector, Pred predicate)
+	inline auto vector_find_if(const vector<T>& vec, Pred predicate)
 	{
-		return std::find_if(vector.begin(), vector.end(), predicate);
+		return find_if(vec.begin(), vec.end(), predicate);
 	}
 
 	export_ template <class T>
-	inline void vector_remove_object(std::vector<T>& vector, T& object)
+	inline void vector_remove_object(vector<T>& vec, T& object)
 	{
-		auto pos = vector_find_if(vector, [&](const T& look) { return &look == &object; });
-		vector.erase(pos);
+		auto pos = find_if(vec.begin(), vec.end(), [&](const T& look) { return &look == &object; });
+		vec.erase(pos);
 	}
 
 	export_ template <class T>
-	inline bool vector_contains(const std::vector<T>& vector, const std::vector<T>& other)
+	inline bool vector_contains(const vector<T>& vec, const vector<T>& other)
 	{
-		return std::includes(vector.begin(), vector.end(), other.begin(), other.end());
+		return includes(vec.begin(), vec.end(), other.begin(), other.end());
 	}
 
 	export_ template <class T>
-	inline std::vector<T> vector_reverse(const std::vector<T>& vector)
+	inline vector<T> vector_reverse(const vector<T>& vec)
 	{
-		std::vector<T> result = vector;
-		std::reverse(result.begin(), result.end());
+		vector<T> result = vec;
+		reverse(result.begin(), result.end());
 		return result;
 	}
 
 	export_ template <class T, class V>
-	inline auto vector_remove_pt(std::vector<T>& vector, V& value)
+	inline auto vector_remove_pt(vector<T>& vec, V& value)
 	{
-		auto pos = vector_find_if(vector, [&](auto& pt) { return pt.get() == &value; });
-		vector.erase(pos);
+		auto pos = find_if(vec.begin(), vec.end(), [&](auto& pt) { return pt.get() == &value; });
+		vec.erase(pos);
 	}
 
 	export_ template <class T, class V>
-	inline auto vector_transfer_pt(std::vector<T>& source, std::vector<T>& target, V& value)
+	inline auto vector_transfer_pt(vector<T>& source, vector<T>& target, V& value)
 	{
-		auto pos = vector_find_if(source, [&](auto& pt) { return pt.get() == &value; });
+		auto pos = find_if(source.begin(), source.end(), [&](auto& pt) { return pt.get() == &value; });
 		target.emplace_back(std::move(*pos));
 		source.erase(pos);
 	}
 
 	export_ template <class T>
-	inline void vector_add(std::vector<T>& vector, T value)
+	inline void vector_add(vector<T>& vec, T value)
 	{
-		if(!vector_has(vector, value))
-			vector.push_back(value);
+		if(!vector_has(vec, value))
+			vec.push_back(value);
 	}
 
 	export_ template <class T>
-	inline void vector_select(std::vector<T>& vector, T value) { vector.clear(); vector.push_back(value); }
+	inline void vector_select(vector<T>& vec, T value) { vec.clear(); vec.push_back(value); }
 
 	export_ template <class T>
-	inline bool vector_swap(std::vector<T>& vector, T value) { if(vector_has(vector, value)) { vector_remove(vector, value); return false; } else { vector_add(vector, value); return true; } }
+	inline bool vector_swap(vector<T>& vec, T value) { if(vector_has(vec, value)) { vector_remove(vec, value); return false; } else { vector_add(vec, value); return true; } }
 	
 	export_ template <class T>
-	inline size_t index_of(const std::vector<T>& vector, const T& value)
+	inline size_t index_of(const vector<T>& vec, const T& value)
 	{
-		return std::find(vector.begin(), vector.end(), value) - vector.begin();
+		return find(vec.begin(), vec.end(), value) - vec.begin();
 	}
 
 	template <class U, class T, class F>
-	export_ std::vector<U> transform(const std::vector<T>& vector, F func)
+	export_ vector<U> transform(const vector<T>& vec, F func)
 	{
-		std::vector<U> result;
-		for(const T& value : vector)
+		vector<U> result;
+		for(const T& value : vec)
 			result.push_back(func(value));
 		return result;
 	}
 
 	template <class V, class T, class U, class F>
-	export_ std::vector<V> transform(const std::vector<T>& a, const std::vector<U>& b, F func)
+	export_ vector<V> transform(const vector<T>& a, const vector<U>& b, F func)
 	{
-		std::vector<V> result;
+		vector<V> result;
 		for(size_t i = 0; i < a.size(); ++i)
 			result.push_back(func(a[i], b[i]));
 		return result;
 	}
 
 	template <class T, class F>
-	export_ std::vector<T> transform(size_t begin, size_t end, F func)
+	export_ vector<T> transform(size_t begin, size_t end, F func)
 	{
-		std::vector<T> result;
+		vector<T> result;
 		for(size_t i = begin; i < end; ++i)
 			result.push_back(func(i));
 		return result;
@@ -284,6 +268,15 @@ namespace mud
 #endif
 	}
 
+#ifdef MUD_VECTOR_TINYSTL
+	template <typename T>
+	class TinystlAlignedAllocator
+	{
+	public:
+		static inline T* static_allocate(size_t bytes) { return (T*)aligned_alloc(bytes, alignof(T)); };
+		static inline void static_deallocate(T* ptr, size_t /*bytes*/) { aligned_free(ptr); }
+	};
+#else
 	template <typename T>
 	class STLAlignedAllocator
 	{
@@ -316,4 +309,5 @@ namespace mud
 		inline bool operator==(const STLAlignedAllocator<T>&) const { return true; }
 		inline bool operator!=(const STLAlignedAllocator<T>&) const { return false; }
 	};
+#endif
 }

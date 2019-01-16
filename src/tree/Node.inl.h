@@ -7,16 +7,12 @@
 #include <tree/Node.h>
 #include <infra/Vector.h>
 
-#ifndef MUD_CPP_20
-#include <functional>
-#endif
-
 namespace mud
 {
 	export_ template <class T_Node>
 	void clean_node_tree(T_Node& node, size_t heartbeat)
 	{
-		vector_remove_if(node.m_nodes, [=](std::unique_ptr<T_Node>& node) { return node->m_heartbeat < heartbeat; });
+		vector_remove_if(node.m_nodes, [=](unique_ptr<T_Node>& node) { return node->m_heartbeat < heartbeat; });
 		for(auto& child : node.m_nodes)
 			clean_node_tree(*child, heartbeat);
 	}
@@ -44,8 +40,8 @@ namespace mud
 		return node;
 	}
 
-	export_ template <class T_Node>
-	inline void visit_node(T_Node& node, const std::function<void(T_Node&, bool& visit)>& visitor)
+	export_ template <class T_Node, class T_Visitor>
+	inline void visit_node(T_Node& node, const T_Visitor& visitor)
 	{
 		bool visit = true;
 		visitor(node.impl(), visit);

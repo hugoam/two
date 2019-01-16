@@ -52,7 +52,7 @@ namespace mud
 
 		Table& table = ui::table(self, carray<cstring, 2>{ "Field", "Value" }, carray<float, 2>{ 0.3f, 0.7f });
 
-		static std::vector<cstring> animations;
+		static vector<cstring> animations;
 		animations.clear();
 		for(Animation* animation : animated.m_rig.m_skeleton.m_animations)
 			animations.push_back(animation->m_name.c_str());
@@ -259,7 +259,7 @@ namespace mud
 		return viewer;
 	}
 
-	SceneViewer& particles_viewer(Widget& parent, ParticleGenerator& particles)
+	SceneViewer& particles_viewer(Widget& parent, ParticleFlow& particles)
 	{
 		SceneViewer& viewer = asset_empty_viewer(parent, Ref(&particles), Zero3, 1.f); // particles.m_radius
 		gfx::particles(*viewer.m_scene->m_graph.m_nodes[0], particles);
@@ -271,9 +271,9 @@ namespace mud
 	public:
 		DispatchAssetViewer()
 		{
-			dispatch_branch<Material>			(*this, [](Material& material, Widget& parent) -> SceneViewer&				{ return material_viewer(parent, material); });
-			dispatch_branch<Model>				(*this, [](Model& model, Widget& parent) -> SceneViewer&					{ return model_viewer(parent, model); });
-			dispatch_branch<ParticleGenerator>	(*this, [](ParticleGenerator& generator, Widget& parent) -> SceneViewer&	{ return particles_viewer(parent, generator); });
+			dispatch_branch<Material>		(*this, +[](Material& material, Widget& parent) -> SceneViewer&			{ return material_viewer(parent, material); });
+			dispatch_branch<Model>			(*this, +[](Model& model, Widget& parent) -> SceneViewer&				{ return model_viewer(parent, model); });
+			dispatch_branch<ParticleFlow>	(*this, +[](ParticleFlow& generator, Widget& parent) -> SceneViewer&	{ return particles_viewer(parent, generator); });
 		}
 	};
 
@@ -300,7 +300,7 @@ namespace mud
 		return self;
 	}
 
-	void asset_browser(Widget& parent, GfxSystem& gfx_system, std::vector<Ref>& selection)
+	void asset_browser(Widget& parent, GfxSystem& gfx_system, vector<Ref>& selection)
 	{
 		Section& self = section(parent, "Assets");
 
@@ -350,13 +350,13 @@ namespace mud
 
 	void asset_browser(Widget& parent, GfxSystem& gfx_system)
 	{
-		static std::vector<Ref> selection = {};
+		static vector<Ref> selection = {};
 		asset_browser(parent, gfx_system, selection);
 	}
 
 	void asset_browser(Widget& parent, GfxSystem& gfx_system, Ref& selected)
 	{
-		static std::vector<Ref> selection = {};
+		static vector<Ref> selection = {};
 		asset_browser(parent, gfx_system, selection);
 		if(selection.size() > 0)
 			selected = selection[0];
@@ -424,8 +424,8 @@ namespace mud
 
 		if(asset)
 		{
-			if(type(asset).is<ParticleGenerator>())
-				particle_edit(sheet, gfx_system, val<ParticleGenerator>(asset));
+			if(type(asset).is<ParticleFlow>())
+				particle_edit(sheet, gfx_system, val<ParticleFlow>(asset));
 		}
 	}
 
@@ -471,8 +471,8 @@ namespace mud
 		bool changed = false;
 
 		// @todo: only these shape random distributions are implemented so far
-		static std::vector<Type*> shape_types = type_vector<Sphere, SphereRing, Circle, Ring, Rect, Points>();
-		//static std::vector<Type*> shape_types = type_vector<Line, Rect, Quad, Polygon, Grid2, Triangle, Circle,
+		static vector<Type*> shape_types = type_vector<Sphere, SphereRing, Circle, Ring, Rect, Points>();
+		//static vector<Type*> shape_types = type_vector<Line, Rect, Quad, Polygon, Grid2, Triangle, Circle,
 		//													Ring, Ellipsis, Arc, Cylinder, Capsule, Cube, Aabb,
 		//													Box, Sphere, SphereRing, Spheroid, Points, ConvexHull>();
 
@@ -514,13 +514,13 @@ namespace mud
 
 		{
 			DispatchInput& dispatch = DispatchInput::me;
-			dispatch_branch<ShapeVar>(dispatch, [](ShapeVar& object, Widget& parent) { return edit_shape(parent, object); });
+			dispatch_branch<ShapeVar>(dispatch, +[](ShapeVar& object, Widget& parent) { return edit_shape(parent, object); });
 		}
 
 		{
 			DispatchItem& dispatch = DispatchItem::me();
-			dispatch_branch<Material>	(dispatch, [](Material& material, Widget& parent) -> Widget&	{ return asset_item(parent, "(material)", material.m_name.c_str(), Ref(&material)); });
-			dispatch_branch<Model>		(dispatch, [](Model& model, Widget& parent) -> Widget&			{ return asset_item(parent, "(model)", model.m_name.c_str(), Ref(&model)); });
+			dispatch_branch<Material>	(dispatch, +[](Material& material, Widget& parent) -> Widget&	{ return asset_item(parent, "(material)", material.m_name.c_str(), Ref(&material)); });
+			dispatch_branch<Model>		(dispatch, +[](Model& model, Widget& parent) -> Widget&			{ return asset_item(parent, "(model)", model.m_name.c_str(), Ref(&model)); });
 		}
 
 	}

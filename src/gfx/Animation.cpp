@@ -20,6 +20,8 @@ module mud.gfx;
 #include <gfx/Skeleton.h>
 #endif
 
+#include <algorithm>
+
 namespace mud
 {
 	static Type* s_target_types[3] = { &type<vec3>(), &type<quat>(), &type<vec3>() };

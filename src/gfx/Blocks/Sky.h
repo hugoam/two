@@ -9,7 +9,7 @@
 #include <gfx/Filter.h>
 
 #ifndef MUD_CPP_20
-#include <map>
+#include <stl/map.h>
 #endif
 
 namespace mud
@@ -33,6 +33,7 @@ namespace mud
 	MUD_GFX_EXPORT quat sun_rotation(float azimuth, float altitude, const vec3& up = Y3, const vec3& north = X3);
 	MUD_GFX_EXPORT quat sun_rotation(Month month, float latitude, float hour, float ecliptic_obliquity = 0.408407f, const vec3& up = Y3, const vec3& north = X3);
 
+#if 0
 	// Represents color. Color-space depends on context.
 	// In the code below, used to represent color in XYZ, and RGB color-space
 	union Color
@@ -56,7 +57,7 @@ namespace mud
 	class DynamicValueController
 	{
 		typedef Color ValueType;
-		typedef std::map<float, ValueType> KeyMap;
+		typedef map<float, ValueType> KeyMap;
 	public:
 		DynamicValueController() {}
 		~DynamicValueController() {}
@@ -147,6 +148,7 @@ namespace mud
 		void init(GfxSystem& gfx_system);
 		void render(Render& render);
 	};
+#endif
 
 	export_ class refl_ MUD_GFX_EXPORT BlockSky : public GfxBlock
 	{

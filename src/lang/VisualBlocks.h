@@ -5,16 +5,13 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
 #include <refl/Class.h>
 #include <refl/Injector.h>
 #include <refl/System.h>
 #endif
 #include <lang/Forward.h>
 #include <lang/VisualScript.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#endif
 
 namespace mud
 {
@@ -40,11 +37,11 @@ namespace mud
 	protected:
 		Type& m_object_type;
 		Injector m_injector;
-		std::vector<object_ptr<Valve>> m_inputParams;
+		vector<object_ptr<Valve>> m_input_params;
 		Valve m_output;
 
 		Pool* m_pool;
-		std::vector<Ref> m_persistentObjects;
+		vector<Ref> m_persistent_objects;
 	};
 
 	export_ class refl_ MUD_LANG_EXPORT ProcessCallable : public Process
@@ -55,12 +52,12 @@ namespace mud
 		virtual void process(const StreamLocation& branch) override;
 
 	protected:
-		std::vector<Var> m_parameters;
+		vector<Var> m_parameters;
 		Callable& m_callable;
-		std::vector<object_ptr<Valve>> m_params;
+		vector<object_ptr<Valve>> m_params;
 		// @todo : try moving to this
-		//std::vector<Valve> m_inputParams;
-		//std::vector<Valve> m_outputParams;
+		//vector<Valve> m_inputParams;
+		//vector<Valve> m_outputParams;
 		object_ptr<Valve> m_result;
 	};
 
@@ -121,34 +118,31 @@ namespace mud
 	public:
 		ProcessDisplay(VisualScript& script);
 
-		Valve& inputValue() { return m_input_value; }
-		void updateDisplayHandler(const std::function<void(ProcessDisplay&)>& handler) { m_updateDisplay = handler; }
-
 		virtual void process(const StreamLocation& branch);
 
 		Valve m_input_value;
-		std::function<void(ProcessDisplay&)> m_updateDisplay;
+		using Handler = void(*)(ProcessDisplay&); Handler m_update_display;
 	};
 
 	template <class T>
 	Valve& VisualScript::value(const T& value) { return this->node<ProcessValue>(var(value)).output(); }
 
 	template <class T>
-	Valve& VisualScript::reference(T&& value) { return this->node<ProcessValue>(Ref(std::forward<T>(value))).output(); }
+	Valve& VisualScript::reference(T&& value) { return this->node<ProcessValue>(Ref(static_cast<T&&>(value))).output(); }
 
 	template <class T>
-	Valve* VisualScript::function(T func, std::vector<Valve*> params, Process* flow, std::vector<StreamModifier> modifiers) { return this->node<ProcessFunction>(mud::function(func)).pipe(params, flow, modifiers); }
+	Valve* VisualScript::function(T func, vector<Valve*> params, Process* flow, vector<StreamModifier> modifiers) { return this->node<ProcessFunction>(mud::function(func)).pipe(params, flow, modifiers); }
 
 	template <class T>
-	Valve& VisualScript::create(std::vector<Valve*> params, Process* flow, std::vector<StreamModifier> modifiers) { return *this->node<ProcessCreate>(type<T>(), params.size()).pipe(params, flow, modifiers); }
+	Valve& VisualScript::create(vector<Valve*> params, Process* flow, vector<StreamModifier> modifiers) { return *this->node<ProcessCreate>(type<T>(), params.size()).pipe(params, flow, modifiers); }
 
 	template <class T_Member>
-	Valve& VisualScript::get(T_Member mem, std::vector<Valve*> params, Process* flow, std::vector<StreamModifier> modifiers) { return *this->node<ProcessGetMember>(member(mem)).pipe(params, flow, modifiers); }
+	Valve& VisualScript::get(T_Member mem, vector<Valve*> params, Process* flow, vector<StreamModifier> modifiers) { return *this->node<ProcessGetMember>(member(mem)).pipe(params, flow, modifiers); }
 
 	template <class T_Member>
-	void VisualScript::set(T_Member mem, std::vector<Valve*> params, Process* flow, std::vector<StreamModifier> modifiers) { this->node<ProcessSetMember>(member(mem)).pipe(params, flow, modifiers); }
+	void VisualScript::set(T_Member mem, vector<Valve*> params, Process* flow, vector<StreamModifier> modifiers) { this->node<ProcessSetMember>(member(mem)).pipe(params, flow, modifiers); }
 
 	template <class T_Method>
-	Valve* VisualScript::method(T_Method meth, std::vector<Valve*> params, Process* flow, std::vector<StreamModifier> modifiers) { return this->node<ProcessMethod>(mud::method(meth)).pipe(params, flow, modifiers); }
+	Valve* VisualScript::method(T_Method meth, vector<Valve*> params, Process* flow, vector<StreamModifier> modifiers) { return this->node<ProcessMethod>(mud::method(meth)).pipe(params, flow, modifiers); }
 
 }

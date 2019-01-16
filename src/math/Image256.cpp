@@ -21,7 +21,7 @@ namespace mud
 		: m_colours()
 	{}
 
-	Palette::Palette(std::vector<Colour> colours)
+	Palette::Palette(vector<Colour> colours)
 		: m_colours(colours)
 	{}
 
@@ -121,9 +121,9 @@ namespace mud
 			}
 	}
 
-	std::vector<uint8_t> Image256::read() const
+	vector<uint8_t> Image256::read() const
 	{
-		std::vector<uint8_t> data(m_width * m_height * 4);
+		vector<uint8_t> data(m_width * m_height * 4);
 		this->read(&data[0]);
 		return data;
 	}

@@ -16,9 +16,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 
@@ -60,32 +60,32 @@ namespace mud
     export_ template <> MUD_GLTF_EXPORT Type& type<glTFTexture>();
     export_ template <> MUD_GLTF_EXPORT Type& type<glTFTextureInfo>();
     
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTF*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFAccessor*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFAnimation*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFAnimationChannel*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFAnimationSampler*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFAnimationTarget*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFAttributes*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFBuffer*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFBufferView*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFCamera*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFImage*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFMaterial*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFMaterialPBR*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFMesh*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFMorphTarget*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFNode*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFNodeExtras*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFOrthographic*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFPerspective*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFPrimitive*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFSampler*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFScene*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFSkin*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFSparse*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFSparseIndices*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFSparseValues*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFTexture*>>;
-    export_ template struct MUD_GLTF_EXPORT Typed<std::vector<glTFTextureInfo*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTF*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFAccessor*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFAnimation*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFAnimationChannel*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFAnimationSampler*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFAnimationTarget*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFAttributes*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFBuffer*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFBufferView*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFCamera*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFImage*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFMaterial*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFMaterialPBR*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFMesh*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFMorphTarget*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFNode*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFNodeExtras*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFOrthographic*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFPerspective*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFPrimitive*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFSampler*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFScene*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFSkin*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFSparse*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFSparseIndices*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFSparseValues*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFTexture*>>;
+    export_ template struct MUD_GLTF_EXPORT Typed<vector<glTFTextureInfo*>>;
 }

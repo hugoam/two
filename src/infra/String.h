@@ -5,44 +5,43 @@
 #pragma once
 
 #include <infra/Config.h>
-#include <infra/Strung.h>
 #include <infra/Array.h>
 
 #ifndef MUD_CPP_20
-#include <string>
-#include <vector>
+#include <stl/string.h>
+#include <stl/vector.h>
 #endif
 
 namespace mud
 {
-	export_ using string = std::string;
-	
+	export_ using cstring = const char*;
+
 	export_ template <class T>
 	struct StringConverter;
 
 	export_ template <class T>
-	inline void from_string(const string& str, T& val);
+	inline void to_value(const string& str, T& val);
 
 	export_ template <class T>
 	inline void to_string(const T& val, string& str);
 
 	export_ template <class T>
-	inline T from_string(const string& str) { T val; from_string<T>(str, val); return val; }
+	inline T to_value(const string& str) { T val; to_value<T>(str, val); return val; }
 
 	export_ template <class T>
 	inline string to_string(const T& val) { string str; to_string<T>(val, str); return str; }
 
 	// string - string conversion
-	export_ template <> inline void from_string<cstring>(const string& str, cstring& val) { val = str.c_str(); }
+	export_ template <> inline void to_value<cstring>(const string& str, cstring& val) { val = str.c_str(); }
 	export_ template <> inline void to_string<cstring>(const cstring& val, string& str) { str = val; }
-	export_ template <> inline void from_string<string>(const string& str, string& val) { val = str; }
+	export_ template <> inline void to_value<string>(const string& str, string& val) { val = str; }
 	export_ template <> inline void to_string<string>(const string& val, string& str){ str = val; }
 
 	export_ MUD_INFRA_EXPORT void split(const string& str, const string& separator, array<string> output);
-	export_ MUD_INFRA_EXPORT std::vector<string> split(const string& str, const string& separator);
+	export_ MUD_INFRA_EXPORT vector<string> split(const string& str, const string& separator);
 
 	//export_ MUD_INFRA_EXPORT string join(array<string> strings, string separator);
-	export_ MUD_INFRA_EXPORT string join(const std::vector<string>& strings, string separator);
+	export_ MUD_INFRA_EXPORT string join(const vector<string>& strings, string separator);
 
 	export_ MUD_INFRA_EXPORT string replace(const string& original, const string& before, const string& after);
 

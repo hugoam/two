@@ -4,19 +4,8 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef MUD_MODULES
-#include <meta/infra/Module.h>
-#include <meta/type/Module.h>
-#include <meta/math/Module.h>
-#include <meta/geom/Module.h>
-#include <meta/gfx/Module.h>
-#endif
-
 #include <gfx-pbr/Forward.h>
 #include <gfx-pbr/Types.h>
-#include <gfx-pbr/Api.h>
-
-#include <meta/gfx-pbr/Convert.h>
 
 #ifndef MUD_GFX_PBR_REFL_EXPORT
 #define MUD_GFX_PBR_REFL_EXPORT MUD_IMPORT

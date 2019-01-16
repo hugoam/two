@@ -314,7 +314,7 @@ namespace mud
 		nvgTextMetrics(m_ctx, nullptr, nullptr, &m_line_height);
 	}
 
-	void VgNano::break_text(cstring text, size_t len, const vec2& space, const TextPaint& paint, std::vector<TextRow>& text_rows)
+	void VgNano::break_text(cstring text, size_t len, const vec2& space, const TextPaint& paint, vector<TextRow>& text_rows)
 	{
 		this->setup_text(paint);
 		VgRenderer::break_text(text, len, space, paint, text_rows);
@@ -335,7 +335,7 @@ namespace mud
 	{
 		UNUSED(paint);
 		size_t numGlyphs = textRow.m_end - textRow.m_start;
-		std::vector<NVGglyphPosition> glyphs(numGlyphs);
+		vector<NVGglyphPosition> glyphs(numGlyphs);
 		textRow.m_glyphs.resize(numGlyphs);
 
 		nvgTextGlyphPositions(m_ctx, rect.x, rect.y, textRow.m_start, textRow.m_end, &glyphs.front(), glyphs.size());

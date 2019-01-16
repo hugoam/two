@@ -5,8 +5,8 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
 #include <infra/Array.h>
-#include <jobs/Job.h>
 #include <type/Unique.h>
 #endif
 #include <gfx/Forward.h>
@@ -14,11 +14,6 @@
 #define MUD_BGFX_EXPORT MUD_GFX_EXPORT
 #endif
 #include <bgfx/BgfxSystem.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#include <functional>
-#endif
 
 #include <bgfx/bgfx.h>
 
@@ -32,6 +27,8 @@ namespace bx
 
 namespace mud
 {
+	class Vg;
+
 	export_ class refl_ MUD_GFX_EXPORT GfxContext : public BgfxContext
 	{
 	public:
@@ -45,9 +42,9 @@ namespace mud
 		object_ptr<RenderTarget> m_target;
 
 		uint16_t m_vg_handle = UINT16_MAX;
-		std::function<uint16_t()> m_reset_vg;
+		using ResetVg = uint16_t(*)(GfxContext&, Vg&); ResetVg m_reset_vg;
 
-		std::vector<Viewport*> m_viewports;
+		vector<Viewport*> m_viewports;
 	};
 
 	template <class T_Asset>
@@ -74,6 +71,7 @@ namespace mud
 		~GfxSystem();
 
 		JobSystem* m_job_system = nullptr;
+		Vg* m_vg = nullptr;
 
 		bgfx::Encoder* m_encoders[8] = {};
 		size_t m_num_encoders = 0;
@@ -114,7 +112,7 @@ namespace mud
 		attr_ AssetStore<Program>& programs();
 		attr_ AssetStore<Material>& materials();
 		attr_ AssetStore<Model>& models();
-		attr_ AssetStore<ParticleGenerator>& particles();
+		attr_ AssetStore<ParticleFlow>& particles();
 		attr_ AssetStore<Prefab>& prefabs();
 
 		void add_importer(ModelFormat format, Importer& importer);

@@ -65,7 +65,7 @@ namespace mud
 		m_interpreter->call(*this, args, result.none() ? nullptr : &result);
 	}
 
-	ScriptClass::ScriptClass(const string& name, const std::vector<Type*>& parts)
+	ScriptClass::ScriptClass(const string& name, const vector<Type*>& parts)
 		: m_name(name)
 		, m_class_type(m_name.c_str())
 		, m_class(m_class_type)

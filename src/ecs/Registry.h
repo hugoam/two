@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include <stl/memory.h>
+#include <stl/map.h>
 #include <infra/Vector.h>
 #include <type/Type.h>
 #include <type/Ref.h>
@@ -7,16 +9,12 @@
 #include <ecs/ECS.h>
 #include <ecs/ComponentBuffer.h>
 
-#include <memory>
-#include <functional>
-#include <map>
-
 namespace mud
 {
 	template <typename F, typename... Ts>
 	void for_each(F&& f, Ts&&... xs)
 	{
-		swallow{ (f(std::forward<Ts>(xs)), 0)... };
+		swallow{ (f(static_cast<Ts&&>(xs)), 0)... };
 	}
 
 	template <typename... Ts>
@@ -48,7 +46,7 @@ namespace mud
 		T& operator[](size_t index) { return *m_components[index]; }
 		const T& operator[](size_t index) const { return *m_components[index]; }
 
-		std::vector<T*> m_components;
+		vector<T*> m_components;
 	};
 
 	//template <bool Dense>
@@ -63,13 +61,19 @@ namespace mud
 			m_handles.reserve(size);
 		}
 
+		ParallelBuffers(ParallelBuffers&& other) = default;
+		ParallelBuffers& operator=(ParallelBuffers&& other) = default;
+
+		ParallelBuffers(const ParallelBuffers& other) = delete;
+		ParallelBuffers& operator=(const ParallelBuffers& other) = delete;
+
 		template <class T>
 		void AddBuffer()
 		{
 #ifdef MUD_ECS_TYPED
-			m_buffers.emplace_back(std::make_unique<ComponentBuffer<T>>(type<T>(), int(TypedBuffer<T>::index()), int(m_handles.capacity())));
+			m_buffers.emplace_back(make_unique<ComponentBuffer<T>>(type<T>(), int(TypedBuffer<T>::index()), int(m_handles.capacity())));
 #else
-			m_buffers.emplace_back(std::make_unique<ComponentBuffer<T>>(int(TypedBuffer<T>::index()), int(m_handles.capacity())));
+			m_buffers.emplace_back(make_unique<ComponentBuffer<T>>(int(TypedBuffer<T>::index()), int(m_handles.capacity())));
 #endif
 			m_buffer_map[TypedBuffer<T>::index()] = &(*m_buffers.back());
 		}
@@ -152,10 +156,10 @@ namespace mud
 
 		//SparseIndices<Dense> m_indices;
 		SparseIndices<false> m_indices;
-		std::vector<uint32_t> m_handles;
+		vector<uint32_t> m_handles;
 
-		std::vector<std::unique_ptr<ComponentBufferBase>> m_buffers;
-		std::vector<ComponentBufferBase*> m_buffer_map;
+		vector<unique_ptr<ComponentBufferBase>> m_buffers;
+		vector<ComponentBufferBase*> m_buffer_map;
 	};
 
 	class ECS
@@ -163,11 +167,11 @@ namespace mud
 	public:
 		uint32_t m_index = 0;
 
-		std::vector<ParallelBuffers> m_buffers;
-		std::map<EntFlags, uint16_t> m_streams;
+		vector<ParallelBuffers> m_buffers;
+		map<EntFlags, uint16_t> m_streams;
 
-		std::vector<EntityData> m_entities;
-		std::vector<uint32_t> m_available;
+		vector<EntityData> m_entities;
+		vector<uint32_t> m_available;
 
 	public:
 		ECS(int capacity = 1 << 10)
@@ -175,6 +179,9 @@ namespace mud
 			m_buffers.reserve(64);
 			m_entities.reserve(capacity);
 		}
+
+		ECS(const ECS& other) = delete;
+		ECS& operator=(const ECS& other) = delete;
 
 		template <class... T_Components>
 		ParallelBuffers& Stream()
@@ -190,9 +197,9 @@ namespace mud
 			return m_buffers[stream];
 		}
 
-		std::vector<ParallelBuffers*> Match(EntFlags prototype)
+		vector<ParallelBuffers*> Match(EntFlags prototype)
 		{
-			std::vector<ParallelBuffers*> matches;
+			vector<ParallelBuffers*> matches;
 			for(ParallelBuffers& buffers : m_buffers)
 				if((buffers.m_prototype & prototype) == prototype)
 					matches.push_back(&buffers);
@@ -278,7 +285,7 @@ namespace mud
 		
 			ComponentArray<T> result;
 
-			std::vector<ParallelBuffers*> matches = this->Match(prototype);
+			vector<ParallelBuffers*> matches = this->Match(prototype);
 			for(ParallelBuffers* buffers : matches)
 			{
 				ComponentBuffer<T>& buffer = buffers->Buffer<T>();
@@ -299,7 +306,7 @@ namespace mud
 		{
 			EntFlags prototype = (1ULL << TypedBuffer<T0>::index());
 
-			std::vector<ParallelBuffers*> matches = this->Match(prototype);
+			vector<ParallelBuffers*> matches = this->Match(prototype);
 			for(ParallelBuffers* buffers : matches)
 			{
 				ComponentBuffer<T0>& buffer0 = buffers->Buffer<T0>();
@@ -318,7 +325,7 @@ namespace mud
 		{
 			EntFlags prototype = (1ULL << TypedBuffer<T0>::index()) | (1ULL << TypedBuffer<T1>::index());
 
-			std::vector<ParallelBuffers*> matches = this->Match(prototype);
+			vector<ParallelBuffers*> matches = this->Match(prototype);
 			for(ParallelBuffers* buffers : matches)
 			{
 				ComponentBuffer<T0>& buffer0 = buffers->Buffer<T0>();
@@ -339,7 +346,7 @@ namespace mud
 		{
 			EntFlags prototype = (1ULL << TypedBuffer<T0>::index()) | (1ULL << TypedBuffer<T1>::index()) | (1ULL << TypedBuffer<T2>::index());
 
-			std::vector<ParallelBuffers*> matches = this->Match(prototype);
+			vector<ParallelBuffers*> matches = this->Match(prototype);
 			for(ParallelBuffers* buffers : matches)
 			{
 				ComponentBuffer<T0>& buffer0 = buffers->Buffer<T0>();
@@ -362,7 +369,7 @@ namespace mud
 		{
 			EntFlags prototype = (1ULL << TypedBuffer<T0>::index()) | (1ULL << TypedBuffer<T1>::index()) | (1ULL << TypedBuffer<T2>::index()) | (1ULL << TypedBuffer<T3>::index());
 			
-			std::vector<ParallelBuffers*> matches = this->Match(prototype);
+			vector<ParallelBuffers*> matches = this->Match(prototype);
 			for(ParallelBuffers* buffers : matches)
 			{
 				ComponentBuffer<T0>& buffer0 = buffers->Buffer<T0>();

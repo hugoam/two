@@ -1,9 +1,8 @@
 ﻿#pragma once
 
+#include <stl/vector.h>
 #include <ecs/ECS.h>
 
-#include <vector>
-#include <algorithm>
 #include <unordered_map>
 
 namespace mud
@@ -23,7 +22,7 @@ namespace mud
 		uint32_t& operator[](uint32_t at) { return m_indices[at]; }
 
 	private:
-		std::vector<uint32_t> m_indices;
+		vector<uint32_t> m_indices;
 	};
 
 	template <>

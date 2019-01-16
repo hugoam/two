@@ -3,8 +3,18 @@
 #ifdef MUD_MODULES
 module mud.gfx-ui;
 #else
+#include <meta/infra/Module.h>
+#include <meta/tree/Module.h>
+#include <meta/type/Module.h>
+#include <meta/math/Module.h>
+#include <meta/geom/Module.h>
+#include <meta/ctx/Module.h>
+#include <meta/ui/Module.h>
+#include <meta/gfx/Module.h>
 #include <meta/gfx-ui/Module.h>
 #endif
+
+#include <gfx-ui/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/gfx-ui/Convert.h>

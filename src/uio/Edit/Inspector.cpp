@@ -23,7 +23,7 @@ module mud.uio;
 
 namespace mud
 {
-	std::vector<EditSpec> g_edit_specs = std::vector<EditSpec>(c_max_types);
+	vector<EditSpec> g_edit_specs = vector<EditSpec>(c_max_types);
 
 	EditSpec::EditSpec(Class& cls)
 		: m_setup(true)
@@ -231,13 +231,13 @@ namespace mud
 
 	bool inspector(Widget& parent, Entity entity)
 	{
-		Section& self = section(parent, "Entity Inspector", {}, true);
+		Section& self = section(parent, "Entity Inspector", true);
 		return entity_edit(*self.m_body, entity);
 	}
 
 	bool inspector(Widget& parent, Ref object)
 	{
-		Section& self = section(parent, "Inspector", {}, true);
+		Section& self = section(parent, "Inspector", true);
 		if(object.m_type->is<EntityRef>())
 			return inspector(parent, { as_ent(object), 0 });
 		else
@@ -246,14 +246,14 @@ namespace mud
 
 	bool inspector(Widget& parent)
 	{
-		Section& self = section(parent, "Inspector", {}, true);
+		Section& self = section(parent, "Inspector", true);
 		EditState& state = self.state<EditState>();
 		if(state.object)
 			return object_edit_columns(*self.m_body, state.object);
 		return false;
 	}
 
-	void multi_object_edit(Widget& parent, Type& type, std::vector<Ref> objects)
+	void multi_object_edit(Widget& parent, Type& type, vector<Ref> objects)
 	{
 		ScrollSheet& scroll_sheet = ui::scroll_sheet(parent);
 		Widget& table = ui::table(*scroll_sheet.m_body, to_array(cls(type).m_field_names), {});
@@ -262,7 +262,7 @@ namespace mud
 			object_edit_inline(table, object);
 	}
 
-	void multi_inspector(Widget& parent, Type& type, std::vector<Var>& objects, size_t& selected)
+	void multi_inspector(Widget& parent, Type& type, vector<Var>& objects, size_t& selected)
 	{
 		enum Modes { CREATE = 1 << 0, TYPE_INFO = 1 << 1 };
 

@@ -7,7 +7,7 @@
 #include <fract/Forward.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -30,7 +30,7 @@ namespace mud
 	public:
 		constr_ Circlifier(Image256& image);
 
-		meth_ std::vector<Circle> compute(const Colour& colour, float scale = 1.f);
+		meth_ vector<Circle> compute(const Colour& colour, float scale = 1.f);
 
 		void cull(size_t colour);
 		void grow(size_t colour);

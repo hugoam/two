@@ -79,7 +79,8 @@ namespace mud
 #elif defined MUD_VG_NANOVG
 		m_vg = make_object<VgNanoBgfx>(m_resource_path.c_str());
 #endif
-		context.m_reset_vg = [&] { return m_vg->load_texture(context.m_target->m_diffuse.idx); };
+		m_gfx_system.m_vg = &*m_vg;
+		context.m_reset_vg = [](GfxContext& context, Vg& vg) { return vg.load_texture(context.m_target->m_diffuse.idx); };
 
 		m_ui_window = make_unique<UiWindow>(*m_context, *m_vg);
 		m_ui = m_ui_window->m_root_sheet.get();

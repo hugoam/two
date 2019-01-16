@@ -1,6 +1,5 @@
 #include <math/Axes.h>
 #include <math/Axis.h>
-#include <math/Clamp.h>
 #include <math/Colour.h>
 #include <math/Curve.h>
 #include <math/Forward.h>

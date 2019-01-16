@@ -4,14 +4,14 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
-#include <infra/Strung.h>
-#endif
+#include <stl/string.h>
 #include <math/Vec.h>
 #include <math/Forward.h>
 
 namespace mud
 {
+	export_ using cstring = const char*;
+
 	export_ struct refl_ MUD_MATH_EXPORT Image
 	{
 	public:

@@ -3,8 +3,11 @@
 #ifdef MUD_MODULES
 module mud.tree;
 #else
+#include <meta/infra/Module.h>
 #include <meta/tree/Module.h>
 #endif
+
+#include <tree/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/tree/Convert.h>

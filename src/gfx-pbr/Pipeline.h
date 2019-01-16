@@ -89,9 +89,9 @@ namespace mud
 		DeferredRenderer(GfxSystem& gfx_system, Pipeline& pipeline);
 	};
 
-	export_ MUD_GFX_PBR_EXPORT void gather_gi_probes(Scene& scene, std::vector<GIProbe*>& gi_probes);
-	export_ MUD_GFX_PBR_EXPORT void gather_lightmaps(Scene& scene, std::vector<LightmapAtlas*>& atlases);
-	export_ MUD_GFX_PBR_EXPORT void gather_reflection_probes(Scene& scene, std::vector<ReflectionProbe*>& reflection_probes);
+	export_ MUD_GFX_PBR_EXPORT void gather_gi_probes(Scene& scene, vector<GIProbe*>& gi_probes);
+	export_ MUD_GFX_PBR_EXPORT void gather_lightmaps(Scene& scene, vector<LightmapAtlas*>& atlases);
+	export_ MUD_GFX_PBR_EXPORT void gather_reflection_probes(Scene& scene, vector<ReflectionProbe*>& reflection_probes);
 
 	export_ MUD_GFX_PBR_EXPORT void pipeline_pbr(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred = false);
 }

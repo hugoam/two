@@ -5,8 +5,8 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/string.h>
 #include <infra/Array.h>
-#include <infra/Strung.h>
 #include <math/Vec.h>
 #endif
 #include <gfx/Forward.h>

@@ -13,9 +13,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 
@@ -25,5 +25,5 @@ namespace mud
     
     export_ template <> MUD_CTX_GLFW_EXPORT Type& type<mud::GlfwContext>();
     
-    export_ template struct MUD_CTX_GLFW_EXPORT Typed<std::vector<mud::GlfwContext*>>;
+    export_ template struct MUD_CTX_GLFW_EXPORT Typed<vector<mud::GlfwContext*>>;
 }

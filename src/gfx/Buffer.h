@@ -4,14 +4,11 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <math/VecOps.h>
 #include <gfx/Forward.h>
 
 #include <bgfx/bgfx.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#endif
 
 namespace mud
 {
@@ -57,7 +54,7 @@ namespace mud
 		uint16_t m_row_size = 0;
 		bgfx::TextureFormat::Enum m_format;
 	
-		std::vector<Range<float>> m_dirty_ranges;
+		vector<Range<float>> m_dirty_ranges;
 
 		void invalidate() noexcept;
 		void invalidate(size_t row, size_t count) noexcept;

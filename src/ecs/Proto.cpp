@@ -14,7 +14,7 @@ module mud.proto;
 
 namespace mud
 {
-	std::vector<unique_ptr<Prototype>> g_prototypes = std::vector<unique_ptr<Prototype>>(c_max_types);
+	vector<unique_ptr<Prototype>> g_prototypes = vector<unique_ptr<Prototype>>(c_max_types);
 
 	Type& proto_stem(Class& cls)
 	{
@@ -47,7 +47,7 @@ namespace mud
 
 	Prototype& proto(Type& type)
 	{
-		if(g_prototypes[type.m_id] == nullptr)
+		if(g_prototypes[type.m_id])
 			g_prototypes[type.m_id] = make_unique<Prototype>(cls(type));
 		return *g_prototypes[type.m_id];
 	}

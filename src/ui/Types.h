@@ -15,9 +15,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 
@@ -92,56 +92,56 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::Ui>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Window>();
     
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::CanvasConnect*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Clipboard*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Dim2<bool>*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Dim2<mud::Align>*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Dim2<mud::AutoLayout>*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Dim2<mud::Pivot>*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Dim2<mud::Sizing>*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Dim2<size_t>*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Dock*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Docksystem*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Gradient*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::GridSolver*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::ImageSkin*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::InkStyle*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Layer*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Layout*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::NodeConnection*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Paint*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Shadow*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Space*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Style*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::TableSolver*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Text*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::TextCursor*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::TextMarker*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::TextPaint*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::TextSelection*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::UiRect*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::UiWindow*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::User*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Vg*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Frame*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::FrameSolver*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::LineSolver*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Widget*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Canvas*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Dockable*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Docker*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Dockbar*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Dockspace*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Expandbox*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Node*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::NodePlug*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::RowSolver*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::ScrollSheet*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::ui::Sequence*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Tabber*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Table*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::TextEdit*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::TreeNode*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Ui*>>;
-    export_ template struct MUD_UI_EXPORT Typed<std::vector<mud::Window*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::CanvasConnect*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Clipboard*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dim2<bool>*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dim2<mud::Align>*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dim2<mud::AutoLayout>*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dim2<mud::Pivot>*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dim2<mud::Sizing>*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dim2<size_t>*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dock*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Docksystem*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Gradient*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::GridSolver*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::ImageSkin*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::InkStyle*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Layer*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Layout*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::NodeConnection*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Paint*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Shadow*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Space*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Style*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::TableSolver*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Text*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::TextCursor*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::TextMarker*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::TextPaint*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::TextSelection*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::UiRect*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::UiWindow*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::User*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Vg*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Frame*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::FrameSolver*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::LineSolver*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Widget*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Canvas*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dockable*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Docker*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dockbar*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dockspace*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Expandbox*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Node*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::NodePlug*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::RowSolver*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::ScrollSheet*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::ui::Sequence*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Tabber*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Table*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::TextEdit*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::TreeNode*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Ui*>>;
+    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Window*>>;
 }

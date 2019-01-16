@@ -9,7 +9,7 @@
 #include <geom/Shape.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -19,8 +19,8 @@ namespace mud
 	public:
 		constr_ Geometry();
 
-		std::vector<Vertex> m_vertices;
-		std::vector<Tri> m_triangles;
+		vector<Vertex> m_vertices;
+		vector<Tri> m_triangles;
 
 		vec3 m_bounds_min;
 		vec3 m_bounds_max;
@@ -43,17 +43,17 @@ namespace mud
 
 		PrimitiveType m_primitive = PrimitiveType::Triangles;
 
-		std::vector<vec3> m_positions;		// Position
-		std::vector<vec3> m_normals;		// Normal
-		std::vector<Colour> m_colours;		// Colour
-		std::vector<vec4> m_tangents;		// Tangent
-		std::vector<vec3> m_bitangents;		// Bitangent
-		std::vector<vec2> m_uv0s;			// Texture Coordinates 0
-		std::vector<vec2> m_uv1s;			// Texture Coordinates 1
-		std::vector<ivec4> m_bones;			// Bones Indices
-		std::vector<vec4> m_weights;		// Bones Weights
+		vector<vec3> m_positions;		// Position
+		vector<vec3> m_normals;		// Normal
+		vector<Colour> m_colours;		// Colour
+		vector<vec4> m_tangents;		// Tangent
+		vector<vec3> m_bitangents;		// Bitangent
+		vector<vec2> m_uv0s;			// Texture Coordinates 0
+		vector<vec2> m_uv1s;			// Texture Coordinates 1
+		vector<ivec4> m_bones;			// Bones Indices
+		vector<vec4> m_weights;		// Bones Weights
 
-		std::vector<uint32_t> m_indices;
+		vector<uint32_t> m_indices;
 
 		bool m_quantize = false;
 

@@ -30,28 +30,28 @@ namespace mud
     
     // Sequences
     {
-        static Meta meta = { type<std::vector<mud::Function*>>(), &namspc({}), "std::vector<mud::Function*>", sizeof(std::vector<mud::Function*>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<mud::Function*>>() };
+        static Meta meta = { type<vector<mud::Function*>>(), &namspc({}), "vector<mud::Function*>", sizeof(vector<mud::Function*>), TypeClass::Sequence };
+        static Class cls = { type<vector<mud::Function*>>() };
         cls.m_content = &type<mud::Function>();
-        meta_sequence<std::vector<mud::Function*>, mud::Function*>();
+        meta_sequence<vector<mud::Function*>, mud::Function*>();
     }
     {
-        static Meta meta = { type<std::vector<mud::Module*>>(), &namspc({}), "std::vector<mud::Module*>", sizeof(std::vector<mud::Module*>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<mud::Module*>>() };
+        static Meta meta = { type<vector<mud::Module*>>(), &namspc({}), "vector<mud::Module*>", sizeof(vector<mud::Module*>), TypeClass::Sequence };
+        static Class cls = { type<vector<mud::Module*>>() };
         cls.m_content = &type<mud::Module>();
-        meta_sequence<std::vector<mud::Module*>, mud::Module*>();
+        meta_sequence<vector<mud::Module*>, mud::Module*>();
     }
     {
-        static Meta meta = { type<std::vector<mud::Type*>>(), &namspc({}), "std::vector<mud::Type*>", sizeof(std::vector<mud::Type*>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<mud::Type*>>() };
+        static Meta meta = { type<vector<mud::Type*>>(), &namspc({}), "vector<mud::Type*>", sizeof(vector<mud::Type*>), TypeClass::Sequence };
+        static Class cls = { type<vector<mud::Type*>>() };
         cls.m_content = &type<mud::Type>();
-        meta_sequence<std::vector<mud::Type*>, mud::Type*>();
+        meta_sequence<vector<mud::Type*>, mud::Type*>();
     }
     {
-        static Meta meta = { type<std::vector<mud::Var>>(), &namspc({}), "std::vector<mud::Var>", sizeof(std::vector<mud::Var>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<mud::Var>>() };
+        static Meta meta = { type<vector<mud::Var>>(), &namspc({}), "vector<mud::Var>", sizeof(vector<mud::Var>), TypeClass::Sequence };
+        static Class cls = { type<vector<mud::Var>>() };
         cls.m_content = &type<mud::Var>();
-        meta_sequence<std::vector<mud::Var>, mud::Var>();
+        meta_sequence<vector<mud::Var>, mud::Var>();
     }
     
     // mud::Call
@@ -64,7 +64,7 @@ namespace mud
             // constructors
             {
                 { type<mud::Call>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Call>(ref)) mud::Call(  ); }, {} },
-                { type<mud::Call>(), [](Ref ref, array<Var> args) { new(&val<mud::Call>(ref)) mud::Call( val<mud::Callable>(args[0]), val<std::vector<mud::Var>>(args[1]) ); }, { { "callable", Ref(type<mud::Callable>()) }, { "arguments", var(std::vector<mud::Var>()) } } }
+                { type<mud::Call>(), [](Ref ref, array<Var> args) { new(&val<mud::Call>(ref)) mud::Call( val<mud::Callable>(args[0]), val<vector<mud::Var>>(args[1]) ); }, { { "callable", Ref(type<mud::Callable>()) }, { "arguments", var(vector<mud::Var>()) } } }
             },
             // copy constructor
             {
@@ -72,7 +72,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Call>(), member_address(&mud::Call::m_arguments), type<std::vector<mud::Var>>(), "arguments", var(std::vector<mud::Var>()), Member::Value, nullptr },
+                { type<mud::Call>(), member_address(&mud::Call::m_arguments), type<vector<mud::Var>>(), "arguments", var(vector<mud::Var>()), Member::Value, nullptr },
                 { type<mud::Call>(), member_address(&mud::Call::m_result), type<mud::Var>(), "result", Ref(type<mud::Var>()), Member::NonMutable, nullptr }
             },
             // methods
@@ -279,9 +279,9 @@ namespace mud
             // members
             {
                 { type<mud::Module>(), member_address(&mud::Module::m_name), type<const char*>(), "name", Ref(type<const char*>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-                { type<mud::Module>(), member_address(&mud::Module::m_deps), type<std::vector<mud::Module*>>(), "deps", var(std::vector<mud::Module*>()), Member::Value, nullptr },
-                { type<mud::Module>(), member_address(&mud::Module::m_types), type<std::vector<mud::Type*>>(), "types", var(std::vector<mud::Type*>()), Member::Value, nullptr },
-                { type<mud::Module>(), member_address(&mud::Module::m_functions), type<std::vector<mud::Function*>>(), "functions", var(std::vector<mud::Function*>()), Member::Value, nullptr },
+                { type<mud::Module>(), member_address(&mud::Module::m_deps), type<vector<mud::Module*>>(), "deps", var(vector<mud::Module*>()), Member::Value, nullptr },
+                { type<mud::Module>(), member_address(&mud::Module::m_types), type<vector<mud::Type*>>(), "types", var(vector<mud::Type*>()), Member::Value, nullptr },
+                { type<mud::Module>(), member_address(&mud::Module::m_functions), type<vector<mud::Function*>>(), "functions", var(vector<mud::Function*>()), Member::Value, nullptr },
                 { type<mud::Module>(), member_address(&mud::Module::m_path), type<const char*>(), "path", Ref(type<const char*>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
             },
             // methods
@@ -439,9 +439,9 @@ namespace mud
             },
             // members
             {
-                { type<mud::System>(), member_address(&mud::System::m_modules), type<std::vector<mud::Module*>>(), "modules", var(std::vector<mud::Module*>()), Member::Value, nullptr },
-                { type<mud::System>(), member_address(&mud::System::m_types), type<std::vector<mud::Type*>>(), "types", var(std::vector<mud::Type*>()), Member::Value, nullptr },
-                { type<mud::System>(), member_address(&mud::System::m_functions), type<std::vector<mud::Function*>>(), "functions", var(std::vector<mud::Function*>()), Member::Value, nullptr }
+                { type<mud::System>(), member_address(&mud::System::m_modules), type<vector<mud::Module*>>(), "modules", var(vector<mud::Module*>()), Member::Value, nullptr },
+                { type<mud::System>(), member_address(&mud::System::m_types), type<vector<mud::Type*>>(), "types", var(vector<mud::Type*>()), Member::Value, nullptr },
+                { type<mud::System>(), member_address(&mud::System::m_functions), type<vector<mud::Function*>>(), "functions", var(vector<mud::Function*>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -618,10 +618,10 @@ namespace mud
         m.m_types.push_back(&type<mud::Static>());
         m.m_types.push_back(&type<mud::System>());
         m.m_types.push_back(&type<mud::TypeClass>());
-        m.m_types.push_back(&type<std::vector<mud::Function*>>());
-        m.m_types.push_back(&type<std::vector<mud::Module*>>());
-        m.m_types.push_back(&type<std::vector<mud::Type*>>());
-        m.m_types.push_back(&type<std::vector<mud::Var>>());
+        m.m_types.push_back(&type<vector<mud::Function*>>());
+        m.m_types.push_back(&type<vector<mud::Module*>>());
+        m.m_types.push_back(&type<vector<mud::Type*>>());
+        m.m_types.push_back(&type<vector<mud::Var>>());
         m.m_types.push_back(&type<mud::Constructor>());
         m.m_types.push_back(&type<mud::CopyConstructor>());
         m.m_types.push_back(&type<mud::Destructor>());
@@ -630,7 +630,7 @@ namespace mud
         m.m_types.push_back(&type<mud::Method>());
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(args);  result = Ref(&mud::system()); };
-            std::vector<Param> params = {};
+            vector<Param> params = {};
             static Function f = { &namspc({ "mud" }), "system", function_id<mud::System&(*)()>(&mud::system), func, params, Ref(type<mud::System>()) };
             m.m_functions.push_back(&f);
         }

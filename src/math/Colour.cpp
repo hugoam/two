@@ -3,17 +3,12 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <functional>
-#include <algorithm>
-#endif
 
 #ifdef MUD_MODULES
 module mud.math;
 #else
 #include <math/Colour.h>
 #include <math/Math.h>
-#include <math/Clamp.h>
 #endif
 
 namespace mud

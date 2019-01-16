@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/string.h>
 #include <math/Vec.h>
 #include <type/Type.h>
 #include <type/TypeUtils.h>
@@ -14,14 +15,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifndef MUD_CPP_20
-#include <string>
-#endif
-
 namespace mud
 {
-	using string = std::string;
-
 	// @todo automatical definition of structs to uniforms using reflection
 	// - vectors and floats are packed to Vec4 in the order they appear, adding padding if next vector is too big to fit
 	// - enums are sent as a define switch using enum value label
@@ -35,7 +30,7 @@ namespace mud
 		Address m_member;
 		bgfx::UniformType::Enum m_type;
 		bgfx::UniformHandle m_uniform;
-		std::vector<float> m_floats;
+		vector<float> m_floats;
 
 		struct Field
 		{
@@ -43,7 +38,7 @@ namespace mud
 			Address m_member;
 			size_t m_size;
 		};
-		std::vector<Field> m_fields;
+		vector<Field> m_fields;
 		size_t m_space = 4;
 
 		void create()
@@ -102,8 +97,8 @@ namespace mud
 
 		Type& m_type;
 		string m_name;
-		std::vector<Uniform> m_uniforms;
-		std::vector<Sampler> m_samplers;
+		vector<Uniform> m_uniforms;
+		vector<Sampler> m_samplers;
 		string m_shader_decl;
 		size_t m_num_packed = 0;
 

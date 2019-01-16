@@ -33,14 +33,13 @@ namespace mud
 		: Process(script, meta(type).m_name, mud::type<ProcessCreate>())
 		, m_object_type(type)
 		, m_injector(constructor)
-		, m_inputParams()
 		, m_output(*this, "output", OUTPUT_VALVE, is_struct(type) ? meta(type).m_empty_var : Var(meta(type).m_empty_ref), false, is_struct(type) ? false : true)
 		, m_pool(is_struct(type) ? nullptr : g_pools[m_object_type.m_id].get())
 	{
 		for(const Param& param : m_injector.m_constructor.m_params)
 			//if(param.m_mode == INPUT_PARAM)
 			if(param.m_index > 0) // skip first, it's the object reference
-				m_inputParams.emplace_back(make_object<Valve>(*this, param));
+				m_input_params.emplace_back(make_object<Valve>(*this, param));
 	}
 
 	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, ConstructorIndex constructor)
@@ -53,9 +52,9 @@ namespace mud
 
 	void ProcessCreate::clear()
 	{
-		for(Ref& object : m_persistentObjects)
+		for(Ref& object : m_persistent_objects)
 			m_pool->destroy(object);
-		m_persistentObjects.clear();
+		m_persistent_objects.clear();
 	}
 
 	void ProcessCreate::process(const StreamLocation& branch)
@@ -72,7 +71,7 @@ namespace mud
 		{
 			Ref object = m_injector.inject(*m_pool);
 			m_output.m_stream.write(branch, object);
-			m_persistentObjects.push_back(object);
+			m_persistent_objects.push_back(object);
 		}
 	}
 
@@ -173,13 +172,12 @@ namespace mud
 	ProcessDisplay::ProcessDisplay(VisualScript& script)
 		: Process(script, "Display", type<ProcessDisplay>())
 		, m_input_value(*this, "input", INPUT_VALVE)
-		, m_updateDisplay()
 	{}
 
 	void ProcessDisplay::process(const StreamLocation& branch)
 	{
 		UNUSED(branch);
-		if(m_updateDisplay)
-			m_updateDisplay(*this);
+		if(m_update_display)
+			m_update_display(*this);
 	}
 }

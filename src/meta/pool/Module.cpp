@@ -3,8 +3,12 @@
 #ifdef MUD_MODULES
 module mud.pool;
 #else
+#include <meta/infra/Module.h>
+#include <meta/type/Module.h>
 #include <meta/pool/Module.h>
 #endif
+
+#include <pool/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/pool/Convert.h>

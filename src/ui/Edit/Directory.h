@@ -8,15 +8,13 @@
 #include <ui/Style/Style.h>
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #endif
 
 struct dirent;
 
 namespace mud
 {
-	export_ using string = std::string;
-
 namespace ui
 {
 	export_ struct FileStyles

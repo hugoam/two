@@ -147,11 +147,9 @@ namespace mud
 		gfx::shape(bottom, grid, Symbol(colour));
 	}
 
-	inline bvec4 less(const vec4& lhs, const vec4& rhs) { return glm::lessThan(lhs, rhs); }
-
 	Model& entropy_cube(Gnode& parent, WfcBlock& tileblock, uint16_t x, uint16_t y, uint16_t z)
 	{
-		static std::vector<Model*> cubes(tileblock.m_tileset->m_num_tiles + 1, nullptr);
+		static vector<Model*> cubes(tileblock.m_tileset->m_num_tiles + 1, nullptr);
 		uint16_t states = tileblock.m_entropy.at(x, y, z);
 		if(!cubes[states])
 		{
@@ -165,7 +163,7 @@ namespace mud
 	struct VisuBlock : public NodeState
 	{
 		size_t m_updated = 0;
-		std::map<Model*, std::vector<mat4>> m_tiles;
+		map<Model*, vector<mat4>> m_tiles;
 	};
 
 	inline bool intersects(const uvec3& coord, const uvec3& lo, const uvec3& hi)
@@ -276,7 +274,7 @@ namespace mud
 	struct ModelArrayView : public NodeState
 	{
 		ModelArrayView() {}
-		std::vector<ModelArrayItem> m_items = {};
+		vector<ModelArrayItem> m_items = {};
 		float m_item_radius = 0.f;
 	};
 

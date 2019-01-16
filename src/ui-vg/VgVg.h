@@ -4,13 +4,12 @@
 
 #pragma once
 
+#ifndef MUD_MODULES
+#include <stl/string.h>
+#include <stl/map.h>
+#endif
 #include <ui/Forward.h>
 #include <ui/Render/Renderer.h>
-
-#ifndef MUD_CPP_20
-#include <map>
-#include <string>
-#endif
 
 #ifndef MUD_MODULES
 #include <vg/vg.h>
@@ -23,8 +22,6 @@
 
 namespace mud
 {
-	using string = std::string;
-
 	export_ class MUD_UI_VG_EXPORT VgVg : public Vg
 	{
 	public:
@@ -108,8 +105,8 @@ namespace mud
 
 		vg::FontHandle m_default_font = { UINT16_MAX };
 
-		std::map<string, vg::FontHandle> m_fonts;
+		map<string, vg::FontHandle> m_fonts;
 
-		//std::map<Layer*, NVGdisplayList*> m_layers;
+		//map<Layer*, NVGdisplayList*> m_layers;
 	};
 }

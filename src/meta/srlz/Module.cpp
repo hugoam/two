@@ -3,8 +3,13 @@
 #ifdef MUD_MODULES
 module mud.srlz;
 #else
+#include <meta/infra/Module.h>
+#include <meta/type/Module.h>
+#include <meta/refl/Module.h>
 #include <meta/srlz/Module.h>
 #endif
+
+#include <srlz/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/srlz/Convert.h>

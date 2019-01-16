@@ -1,6 +1,9 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/string.h>
+#include <stl/vector.h>
+#include <stl/unordered_map.h>
 #include <math/Grid.h>
 #include <math/Vec.h>
 #endif
@@ -8,17 +11,13 @@
 
 #ifndef MUD_CPP_20
 #include <unordered_map>
-#include <vector>
-#include <array>
 #include <set>
 #include <functional>
 #include <random>
-#include <string>
 #endif
 
 namespace mud
 {
-	using string = std::string;
 	using ubool = uint8_t;
 
 #define MUD_WFC_PROPAGATION_VEC
@@ -39,8 +38,8 @@ namespace mud
 		attr_ char m_symmetry;
 		attr_ int m_cardinality;
 		attr_ int m_profile;
-		std::array<int, 8> m_flips;
-		std::array<uint32_t, 6> m_edges;
+		int m_flips[8];
+		uint32_t m_edges[6];
 	};
 
 	export_ struct refl_ MUD_WFC_EXPORT Tileset
@@ -48,9 +47,9 @@ namespace mud
 		attr_ string m_name;
 		attr_ vec3 m_tile_size;
 		attr_ vec3 m_tile_scale;
-		std::vector<Tile> m_tiles;
-		std::vector<Tile> m_tiles_flip;
-		std::vector<double> m_weights;
+		vector<Tile> m_tiles;
+		vector<Tile> m_tiles_flip;
+		vector<double> m_weights;
 		attr_ uint16_t m_num_tiles;
 
 		constr_ Tileset() {}
@@ -79,10 +78,10 @@ namespace mud
 		uint16_t m_width, m_height, m_depth;
 		bool m_periodic;
 
-		std::vector<double> m_states;
-		std::vector<string> m_pattern_names; // debug
-		array_3d<std::vector<ubool>> m_wave;
-		std::vector<uvec3> m_changes;
+		vector<double> m_states;
+		vector<string> m_pattern_names; // debug
+		array_3d<vector<ubool>> m_wave;
+		vector<uvec3> m_changes;
 
 		bool m_stabilized = true;
 		bool m_solved = false;
@@ -95,7 +94,7 @@ namespace mud
 		uint16_t m_failure_point[6];
 
 		/*double m_logT;
-		std::vector<double> m_log_weights;
+		vector<double> m_log_weights;
 
 		void setup()
 		{
@@ -157,8 +156,8 @@ namespace mud
 	inline bool operator==(RGBA x, RGBA y) { return x.r == y.r && x.g == y.g && x.b == y.b && x.a == y.a; }
 
 	using ColorIndex = uint8_t; // tile index or color index. If you have more than 255, don't.
-	using ColorPalette = std::vector<RGBA>;
-	using ColorPattern = std::vector<ColorIndex>;
+	using ColorPalette = vector<RGBA>;
+	using ColorPattern = vector<ColorIndex>;
 	using PatternHash = uint64_t; // Another representation of a Pattern.
 	using PatternPrevalence = std::unordered_map<PatternHash, size_t>;
 	using PatternIndex = uint16_t;
@@ -168,12 +167,12 @@ namespace mud
 
 	const size_t MAX_COLORS = 1 << (sizeof(ColorIndex) * 8);
 
-	using OverlapGraphics = array_3d<std::vector<ColorIndex>>;
+	using OverlapGraphics = array_3d<vector<ColorIndex>>;
 
 	struct PalettedImage
 	{
 		size_t                  width, height;
-		std::vector<ColorIndex> data; // width * height
+		vector<ColorIndex> data; // width * height
 		ColorPalette            palette;
 
 		ColorIndex at_wrapped(size_t x, size_t y) const
@@ -188,8 +187,8 @@ namespace mud
 		Patternset(int n, const PatternPrevalence& hashed_patterns, const ColorPalette& palette, PatternHash foundation_pattern);
 
 		int m_n;
-		array_3d<std::vector<std::vector<PatternIndex>>> m_propagator;
-		std::vector<ColorPattern> m_patterns;
-		std::vector<double> m_weights;
+		array_3d<vector<vector<PatternIndex>>> m_propagator;
+		vector<ColorPattern> m_patterns;
+		vector<double> m_weights;
 	};
 }

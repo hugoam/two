@@ -12,9 +12,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 
@@ -30,7 +30,7 @@ namespace mud
     export_ template <> MUD_TYPE_EXPORT Type& type<long>();
     export_ template <> MUD_TYPE_EXPORT Type& type<long long>();
     export_ template <> MUD_TYPE_EXPORT Type& type<short>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<std::string>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<string>();
     export_ template <> MUD_TYPE_EXPORT Type& type<unsigned char>();
     export_ template <> MUD_TYPE_EXPORT Type& type<unsigned int>();
     export_ template <> MUD_TYPE_EXPORT Type& type<unsigned long>();
@@ -44,8 +44,8 @@ namespace mud
     export_ template <> MUD_TYPE_EXPORT Type& type<mud::Ref>();
     export_ template <> MUD_TYPE_EXPORT Type& type<mud::Var>();
     
-    export_ template struct MUD_TYPE_EXPORT Typed<std::vector<mud::Index*>>;
-    export_ template struct MUD_TYPE_EXPORT Typed<std::vector<mud::Indexer*>>;
-    export_ template struct MUD_TYPE_EXPORT Typed<std::vector<mud::Ref*>>;
-    export_ template struct MUD_TYPE_EXPORT Typed<std::vector<mud::Var*>>;
+    export_ template struct MUD_TYPE_EXPORT Typed<vector<mud::Index*>>;
+    export_ template struct MUD_TYPE_EXPORT Typed<vector<mud::Indexer*>>;
+    export_ template struct MUD_TYPE_EXPORT Typed<vector<mud::Ref*>>;
+    export_ template struct MUD_TYPE_EXPORT Typed<vector<mud::Var*>>;
 }

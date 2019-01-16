@@ -4,29 +4,8 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef MUD_MODULES
-#include <meta/infra/Module.h>
-#include <meta/tree/Module.h>
-#include <meta/type/Module.h>
-#include <meta/refl/Module.h>
-#include <meta/srlz/Module.h>
-#include <meta/lang/Module.h>
-#include <meta/math/Module.h>
-#include <meta/geom/Module.h>
-#include <meta/ctx/Module.h>
-#include <meta/ui/Module.h>
-#include <meta/uio/Module.h>
-#include <meta/gfx/Module.h>
-#include <meta/gfx-pbr/Module.h>
-#include <meta/gfx-ui/Module.h>
-#include <meta/gfx-edit/Module.h>
-#endif
-
 #include <tool/Forward.h>
 #include <tool/Types.h>
-#include <tool/Api.h>
-
-#include <meta/tool/Convert.h>
 
 #ifndef MUD_TOOL_REFL_EXPORT
 #define MUD_TOOL_REFL_EXPORT MUD_IMPORT

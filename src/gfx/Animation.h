@@ -5,17 +5,14 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/string.h>
+#include <stl/vector.h>
 #include <type/Var.h>
-#include <infra/Strung.h>
 #include <math/Vec.h>
 #endif
 #include <gfx/Forward.h>
 
 #include <bgfx/bgfx.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#endif
 
 namespace mud
 {
@@ -69,7 +66,7 @@ namespace mud
 		attr_ float m_length = 0.f;
 		attr_ Interpolation m_interpolation = Interpolation::Linear;
 
-		std::vector<Key> m_keys;
+		vector<Key> m_keys;
 
 		void insert_key(float time, const Value& value, float transition = 1.f);
 		size_t key_after(float time) const;
@@ -83,7 +80,7 @@ namespace mud
 	public:
 		explicit Animation(cstring name);
 
-		std::vector<AnimationTrack> tracks;
+		vector<AnimationTrack> tracks;
 
 		attr_ string m_name;
 		attr_ float m_length = 1.f;

@@ -30,7 +30,7 @@ namespace mud
 		this->add_option(make_object<WorldSnapOption>(*this));
 	}
 
-	void Brush::process(Viewer& viewer, const std::vector<Ref>& selection)
+	void Brush::process(Viewer& viewer, const vector<Ref>& selection)
 	{
 		UNUSED(selection);
 		Widget& screen = ui::overlay(viewer);

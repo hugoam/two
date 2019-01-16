@@ -4,18 +4,8 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef MUD_MODULES
-#include <meta/infra/Module.h>
-#include <meta/type/Module.h>
-#include <meta/math/Module.h>
-#include <meta/geom/Module.h>
-#endif
-
 #include <noise/Forward.h>
 #include <noise/Types.h>
-#include <noise/Api.h>
-
-#include <meta/noise/Convert.h>
 
 #ifndef MUD_NOISE_REFL_EXPORT
 #define MUD_NOISE_REFL_EXPORT MUD_IMPORT

@@ -3,8 +3,20 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
+#include <meta/infra/Module.h>
+#include <meta/tree/Module.h>
+#include <meta/type/Module.h>
+#include <meta/ecs/Module.h>
+#include <meta/pool/Module.h>
+#include <meta/refl/Module.h>
+#include <meta/math/Module.h>
+#include <meta/lang/Module.h>
+#include <meta/ctx/Module.h>
+#include <meta/ui/Module.h>
 #include <meta/uio/Module.h>
 #endif
+
+#include <uio/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/uio/Convert.h>

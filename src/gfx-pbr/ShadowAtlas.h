@@ -12,8 +12,8 @@
 #include <bgfx/bgfx.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
-#include <map>
+#include <stl/vector.h>
+#include <stl/map.h>
 #endif
 
 namespace mud
@@ -30,14 +30,14 @@ namespace mud
 	{
 	public:
 		ShadowAtlas() {}
-		ShadowAtlas(uint16_t size, std::vector<uint16_t> slices_subdiv);
+		ShadowAtlas(uint16_t size, vector<uint16_t> slices_subdiv);
 
 		uint16_t m_size = 0;
 
 		bgfx::TextureHandle m_depth = BGFX_INVALID_HANDLE;
 		bgfx::FrameBufferHandle m_fbo = BGFX_INVALID_HANDLE;
 
-		std::vector<ShadowCubemap> m_cubemaps;
+		vector<ShadowCubemap> m_cubemaps;
 
 		uvec4 light_rect(Light& light);
 
@@ -64,11 +64,11 @@ namespace mud
 			void remove_light(Light& light);
 			void add_light(Light& light);
 
-			std::vector<Slot> m_slots;
-			std::vector<Slot*> m_free_slots;
+			vector<Slot> m_slots;
+			vector<Slot*> m_free_slots;
 		};
 
-		std::vector<Slice> m_slices;
+		vector<Slice> m_slices;
 
 		struct Index
 		{
@@ -76,6 +76,6 @@ namespace mud
 			uint16_t m_slot;
 		};
 
-		std::vector<Index> m_light_indices;
+		vector<Index> m_light_indices;
 	};
 }

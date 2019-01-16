@@ -5,6 +5,8 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
+#include <stl/string.h>
 #include <infra/Array.h>
 #include <math/Colour.h>
 #include <math/Vec.h>
@@ -15,15 +17,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifndef MUD_CPP_20
-#include <vector>
-#include <string>
-#endif
-
 namespace mud
 {
-	using string = std::string;
-
 	export_ struct refl_ ModelItem
 	{
 		attr_ size_t m_index;
@@ -46,7 +41,7 @@ namespace mud
 
 		Rig* m_rig = nullptr;
 
-		std::vector<ModelItem> m_items;
+		vector<ModelItem> m_items;
 
 		/*attr_*/ bool m_geometry[2] = { false, false };
 		attr_ Aabb m_aabb = { Zero3, Zero3 };

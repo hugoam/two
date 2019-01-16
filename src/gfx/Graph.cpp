@@ -94,7 +94,7 @@ namespace mud
 	template <class T_Element, class... T_Args>
 	inline T_Element& create(Scene& scene, T_Args&&... args)
 	{
-		return scene.m_pool->pool<T_Element>().construct(std::forward<T_Args>(args)...);
+		return scene.m_pool->pool<T_Element>().construct(static_cast<T_Args&&>(args)...);
 	}
 
 namespace gfx
@@ -258,13 +258,13 @@ namespace gfx
 		return *self.m_animated;
 	}
 
-	Particles& particles(Gnode& parent, const ParticleGenerator& emitter, uint32_t flags, size_t instances)
+	Particles& particles(Gnode& parent, const ParticleFlow& emitter, uint32_t flags, size_t instances)
 	{
 		UNUSED(flags); UNUSED(instances);
 		Gnode& self = parent.suba();
 		if(!self.m_particles)
 			self.m_particles = &create<Particles>(*self.m_scene, self.m_attach, Sphere(1.f), 1024);
-		as<ParticleGenerator>(*self.m_particles) = emitter;
+		as<ParticleFlow>(*self.m_particles) = emitter;
 		self.m_particles->m_node = self.m_attach;
 		self.m_particles->m_sprite = &parent.m_scene->m_particle_system->m_block.m_sprites.find_sprite(emitter.m_sprite_name.c_str());
 		return *self.m_particles;
@@ -325,13 +325,13 @@ namespace gfx
 		parent.m_scene->m_environment.m_background.m_mode = background;
 	}
 
-	void custom_sky(Gnode& parent, std::function<void(Render&)> renderer)
+	void custom_sky(Gnode& parent, CustomSky renderer)
 	{
 		parent.m_scene->m_environment.m_background.m_custom_function = renderer;
 		parent.m_scene->m_environment.m_background.m_mode = BackgroundMode::Custom;
 	}
 
-	void manual_job(Gnode& parent, PassType pass, std::function<void(const Pass&)> job)
+	void manual_job(Gnode& parent, PassType pass, ManualJob job)
 	{
 		parent.m_scene->m_pass_jobs->m_jobs[size_t(pass)].push_back(job);
 	}

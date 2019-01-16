@@ -36,7 +36,7 @@ namespace gfx
 	template <class T_Element, class... T_Args>
 	inline T_Element& create(Scene& scene, T_Args&&... args)
 	{
-		return scene.m_pool->pool<T_Element>().construct(std::forward<T_Args>(args)...);
+		return scene.m_pool->pool<T_Element>().construct(static_cast<T_Args&&>(args)...);
 	}
 
 	GIProbe& gi_probe(Gnode& parent, uint16_t subdiv, const vec3& extents)
@@ -215,7 +215,7 @@ namespace gfx
 		vec3 extents = gi_probe.m_extents;
 		
 		Camera camera = { gi_probe.m_transform, vec2(extents.x * 2.f, extents.y * 2.f), -extents.z, extents.z };
-		Viewport viewport = { camera, render.m_scene, { uvec2(0), uvec2(gi_probe.m_subdiv) } };
+		Viewport viewport = { camera, render.m_scene, { uvec2(0U), uvec2(uint(gi_probe.m_subdiv)) } };
 		Render voxel_render = { Shading::Voxels, viewport, gi_probe.m_fbo, render.m_frame };
 
 		BlockShadow& block_shadow = *m_gfx_system.m_pipeline->block<BlockShadow>();

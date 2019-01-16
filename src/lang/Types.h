@@ -15,9 +15,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 
@@ -51,28 +51,28 @@ namespace mud
     export_ template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::WrenInterpreter>();
     
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::Interpreter*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::Pipe*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::Process*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::ScriptClass*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::ScriptError*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::StreamBranch*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::Valve*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::LuaInterpreter*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::ProcessCallable*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::ProcessCreate*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::ProcessDisplay*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::ProcessFunction*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::ProcessGetMember*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::ProcessInput*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::ProcessMethod*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::ProcessOutput*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::ProcessScript*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::ProcessSetMember*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::ProcessValue*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::Script*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::Stream*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::TextScript*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::VisualScript*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<std::vector<mud::WrenInterpreter*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::Interpreter*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::Pipe*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::Process*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ScriptClass*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ScriptError*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::StreamBranch*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::Valve*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::LuaInterpreter*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessCallable*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessCreate*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessDisplay*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessFunction*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessGetMember*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessInput*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessMethod*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessOutput*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessScript*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessSetMember*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessValue*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::Script*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::Stream*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::TextScript*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::VisualScript*>>;
+    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::WrenInterpreter*>>;
 }

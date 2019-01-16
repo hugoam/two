@@ -13,9 +13,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 
@@ -26,6 +26,6 @@ namespace mud
     export_ template <> MUD_FRAME_EXPORT Type& type<mud::Shell>();
     export_ template <> MUD_FRAME_EXPORT Type& type<mud::ShellContext>();
     
-    export_ template struct MUD_FRAME_EXPORT Typed<std::vector<mud::Shell*>>;
-    export_ template struct MUD_FRAME_EXPORT Typed<std::vector<mud::ShellContext*>>;
+    export_ template struct MUD_FRAME_EXPORT Typed<vector<mud::Shell*>>;
+    export_ template struct MUD_FRAME_EXPORT Typed<vector<mud::ShellContext*>>;
 }

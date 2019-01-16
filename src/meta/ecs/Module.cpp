@@ -3,8 +3,13 @@
 #ifdef MUD_MODULES
 module mud.ecs;
 #else
+#include <meta/infra/Module.h>
+#include <meta/type/Module.h>
+#include <meta/refl/Module.h>
 #include <meta/ecs/Module.h>
 #endif
+
+#include <ecs/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/ecs/Convert.h>

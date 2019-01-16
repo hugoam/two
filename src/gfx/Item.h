@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
 #include <geom/Aabb.h>
@@ -13,10 +14,6 @@
 #include <gfx/Forward.h>
 
 #include <bgfx/bgfx.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#endif
 
 namespace mud
 {
@@ -70,15 +67,15 @@ namespace mud
 
 		void submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const ModelItem& item) const;
 
-		std::vector<mat4> m_instances;
+		vector<mat4> m_instances;
 
-		std::vector<bgfx::InstanceDataBuffer> m_instance_buffers;
+		vector<bgfx::InstanceDataBuffer> m_instance_buffers;
 		
-		std::vector<Light*> m_lights;
-		//std::vector<ReflectionProbe*> m_reflection_probes;
-		//std::vector<GIProbe*> m_gi_probes;
+		vector<Light*> m_lights;
+		//vector<ReflectionProbe*> m_reflection_probes;
+		//vector<GIProbe*> m_gi_probes;
 		
-		std::vector<LightmapItem*> m_lightmaps;
+		vector<LightmapItem*> m_lightmaps;
 
 		float m_depth = 0.f;
 		uint32_t m_layer_mask = 1;

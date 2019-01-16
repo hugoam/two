@@ -6,12 +6,10 @@
 
 #include <snd/Sound.h>
 #include <snd/Forward.h>
-#include <string>
+#include <stl/string.h>
 
 namespace mud
 {
-	using string = std::string;
-
 	class MUD_SND_EXPORT SoundFileBuffer
 	{
 	public:

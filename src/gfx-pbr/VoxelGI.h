@@ -198,7 +198,7 @@ namespace gfx
 			void setUniforms(bgfx::Encoder& encoder, GIProbe& gi_probe) const
 			{
 				vec4 voxelgi_extents = { gi_probe.m_extents, 0.f };
-				vec4 voxelgi_subdiv = { vec3(gi_probe.m_subdiv), 0.f };
+				vec4 voxelgi_subdiv = { vec3(float(gi_probe.m_subdiv)), 0.f };
 
 				mat4 voxelgi_world = gi_probe.m_transform;
 				//mat3 voxelgi_normal = {};

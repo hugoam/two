@@ -32,7 +32,7 @@ Object.defineProperty(glTFAccessor.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFAccessor__set_name(self, value);
@@ -139,7 +139,7 @@ Object.defineProperty(glTFAnimation.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFAnimation__set_name(self, value);
@@ -262,7 +262,7 @@ Object.defineProperty(glTFAnimationTarget.prototype, "path", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFAnimationTarget__set_path(self, value);
@@ -391,7 +391,7 @@ Object.defineProperty(glTFBuffer.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFBuffer__set_name(self, value);
@@ -404,7 +404,7 @@ Object.defineProperty(glTFBuffer.prototype, "mime_type", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFBuffer__set_mime_type(self, value);
@@ -417,7 +417,7 @@ Object.defineProperty(glTFBuffer.prototype, "uri", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFBuffer__set_uri(self, value);
@@ -455,7 +455,7 @@ Object.defineProperty(glTFBufferView.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFBufferView__set_name(self, value);
@@ -537,7 +537,7 @@ Object.defineProperty(glTFCamera.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFCamera__set_name(self, value);
@@ -550,7 +550,7 @@ Object.defineProperty(glTFCamera.prototype, "type", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFCamera__set_type(self, value);
@@ -601,7 +601,7 @@ Object.defineProperty(glTFImage.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFImage__set_name(self, value);
@@ -614,7 +614,7 @@ Object.defineProperty(glTFImage.prototype, "mime_type", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFImage__set_mime_type(self, value);
@@ -627,7 +627,7 @@ Object.defineProperty(glTFImage.prototype, "uri", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFImage__set_uri(self, value);
@@ -665,7 +665,7 @@ Object.defineProperty(glTFMaterial.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFMaterial__set_name(self, value);
@@ -847,7 +847,7 @@ Object.defineProperty(glTFMesh.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFMesh__set_name(self, value);
@@ -921,7 +921,7 @@ Object.defineProperty(glTFNode.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFNode__set_name(self, value);
@@ -1263,7 +1263,7 @@ Object.defineProperty(glTFSampler.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFSampler__set_name(self, value);
@@ -1290,7 +1290,7 @@ Object.defineProperty(glTFScene.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFScene__set_name(self, value);
@@ -1317,7 +1317,7 @@ Object.defineProperty(glTFSkin.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFSkin__set_name(self, value);
@@ -1499,7 +1499,7 @@ Object.defineProperty(glTFTexture.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _glTFTexture__set_name(self, value);

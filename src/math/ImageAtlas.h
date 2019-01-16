@@ -12,7 +12,7 @@
 #include <math/Image.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 class GuillotineBinPack;
@@ -21,7 +21,7 @@ namespace mud
 {
 	struct StbRectPack;
 
-	export_ MUD_MATH_EXPORT void load_folder_images(std::vector<Image>& images, const string& path, const string& subfolder);
+	export_ MUD_MATH_EXPORT void load_folder_images(vector<Image>& images, const string& path, const string& subfolder);
 
 	export_ class refl_ MUD_MATH_EXPORT ImageAtlas
 	{
@@ -29,17 +29,17 @@ namespace mud
 		ImageAtlas(uvec2 size);
 		~ImageAtlas();
 
-		std::vector<unsigned char> generate_atlas(std::vector<Image*>& images);
+		vector<unsigned char> generate_atlas(vector<Image*>& images);
 
 		bool place_image(Image& image);
-		void blit_image(Image& image, std::vector<unsigned char>& data);
+		void blit_image(Image& image, vector<unsigned char>& data);
 
 	public:
 		uvec2 m_size;
 		vec2 m_inverse_size;
 
 		Image m_image;
-		std::vector<Image*> m_images;
+		vector<Image*> m_images;
 
 	protected:
 		//unique_ptr<GuillotineBinPack> m_rect_pack;
@@ -54,7 +54,7 @@ namespace mud
 		const Image& find_texture(cstring name) const;
 		Image* add_texture(cstring name, uvec2 size);
 
-		std::vector<Image> m_textures;
+		vector<Image> m_textures;
 	};
 
 	export_ class refl_ MUD_MATH_EXPORT Sprite : public Image
@@ -68,8 +68,8 @@ namespace mud
 		uvec2 m_frames;
 		uint m_num_frames;
 		uvec2 m_frame_size;
-		std::vector<uvec2> m_frame_coords;
-		std::vector<vec4> m_frame_uvs;
+		vector<uvec2> m_frame_coords;
+		vector<vec4> m_frame_uvs;
 	};
 
 	export_ class refl_ MUD_MATH_EXPORT SpriteAtlas : public ImageAtlas
@@ -83,6 +83,6 @@ namespace mud
 		vec4 sprite_uv(const Sprite& sprite, uint32_t frame) const;
 		vec4 sprite_uv(const Sprite& sprite, float t) const;
 
-		std::vector<Sprite> m_sprites;
+		vector<Sprite> m_sprites;
 	};
 }

@@ -11,7 +11,7 @@
 #include <tool/Tool.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -35,9 +35,9 @@ namespace mud
 	public:
 		ScaleTool(ToolContext& context);
 
-		Gizmo linear_gizmo(Axis axis, float hue);
-		Gizmo planar_gizmo(Axis normal, float hue);
-		Gizmo uniform_gizmo();
+		unique_ptr<Gizmo> linear_gizmo(Axis axis, float hue);
+		unique_ptr<Gizmo> planar_gizmo(Axis normal, float hue);
+		unique_ptr<Gizmo> uniform_gizmo();
 
 		virtual object_ptr<TransformAction> create_action(array<Transform*> transforms);
 	};

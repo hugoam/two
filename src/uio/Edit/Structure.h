@@ -10,11 +10,11 @@
 #include <uio/Forward.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
 {
-	export_ MUD_UIO_EXPORT void structure_node(Widget& parent, Ref object, std::vector<Ref>& selection);
-	export_ MUD_UIO_EXPORT void structure_view(Widget& parent, Ref object, std::vector<Ref>& selection);
+	export_ MUD_UIO_EXPORT void structure_node(Widget& parent, Ref object, vector<Ref>& selection);
+	export_ MUD_UIO_EXPORT void structure_view(Widget& parent, Ref object, vector<Ref>& selection);
 }

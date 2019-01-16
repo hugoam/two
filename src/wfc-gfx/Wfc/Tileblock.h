@@ -8,7 +8,7 @@
 #include <wfc-gfx/Forward.h>
 
 #ifndef MUD_CPP_20
-#include <map>
+#include <stl/map.h>
 #endif
 
 namespace mud
@@ -40,7 +40,7 @@ namespace mud
 		array_3d<uint16_t> m_tiles;
 		array_3d<uint16_t> m_entropy;
 
-		std::vector<TileModel> m_tile_models;
+		vector<TileModel> m_tile_models;
 
 		bool m_auto_solve = false;
 

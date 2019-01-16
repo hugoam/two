@@ -4,7 +4,7 @@
 
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
-#include <map>
+#include <stl/map.h>
 #endif
 
 #ifdef MUD_MODULES
@@ -106,7 +106,7 @@ namespace mud
 			for(int x = 0; x < 2 * n - 1; ++x)
 				for(int y = 0; y < 2 * n - 1; ++y)
 				{
-					std::vector<PatternIndex>& patterns = m_propagator.at(x, y)[t];
+					vector<PatternIndex>& patterns = m_propagator.at(x, y)[t];
 					for(uint16_t t2 = 0; t2 < hashed_patterns.size(); ++t2)
 						if(agrees(m_patterns[t], m_patterns[t2], x - n + 1, y - n + 1))
 							patterns.push_back(t2);
@@ -157,7 +157,7 @@ namespace mud
 
 				bool can_pattern_fit = false;
 
-				const std::vector<PatternIndex>& prop = tileset.m_propagator.at(n - 1 - dx, n - 1 - dy, n - 1 - dz)[t2];
+				const vector<PatternIndex>& prop = tileset.m_propagator.at(n - 1 - dx, n - 1 - dy, n - 1 - dz)[t2];
 				for(const auto& t3 : prop) {
 					if(wave.m_wave.at(changed.x, changed.y, changed.z)[t3]) {
 						can_pattern_fit = true;
@@ -198,8 +198,8 @@ namespace mud
 			}
 		}
 
-		std::vector<RGBA> palette;
-		std::vector<ColorIndex> data;
+		vector<RGBA> palette;
+		vector<ColorIndex> data;
 
 		for(size_t pixel_idx = 0; pixel_idx < num_pixels; ++pixel_idx)
 		{
@@ -219,7 +219,7 @@ namespace mud
 		};
 	}
 
-	PalettedImage load_paletted_image(const std::string& path)
+	PalettedImage load_paletted_image(const string& path)
 	{
 		UNUSED(path);
 		int width = 0; int height = 0; int comp = 0;
@@ -246,7 +246,7 @@ namespace mud
 		for(size_t y = 0; y < (periodic_in ? sample.height : h); ++y)
 			for(size_t x = 0; y < (periodic_in ? sample.width : w); ++x)
 			{
-				std::array<ColorPattern, 8> ps;
+				ColorPattern ps[8];
 				ps[0] = pattern_from_sample(x, y);
 				ps[1] = reflect(ps[0]);
 				ps[2] = rotate(ps[0]);
@@ -269,7 +269,7 @@ namespace mud
 #endif
 	}
 
-	void run_overlapping(const std::string& image, size_t symmetry, int n, uint16_t width, uint16_t height, uint16_t depth, bool periodic)
+	void run_overlapping(const string& image, size_t symmetry, int n, uint16_t width, uint16_t height, uint16_t depth, bool periodic)
 	{
 		const PalettedImage sample_image = load_paletted_image(image);
 		const PatternPrevalence hashed_patterns = extract_patterns(sample_image, n, false, symmetry, nullptr);

@@ -10,7 +10,7 @@
 module mud.gfx.pbr;
 #else
 #include <infra/Vector.h>
-#include <infra/StringConvert.h>
+#include <infra/ToString.h>
 #include <math/VecOps.h>
 #include <gfx/Shot.h>
 #include <gfx/Item.h>

@@ -73,14 +73,14 @@ namespace mud
 		inline T& construct(Types&&... args)
 		{
 			T* at = this->alloc();
-			new (at) T(std::forward<Types>(args)...);
+			new (at) T(static_cast<Types&&>(args)...);
 			return *at;
 		}
 
 	public:
 		size_t m_size;
-		std::vector<T*> m_available;
-		std::vector<T*> m_objects;
+		vector<T*> m_available;
+		vector<T*> m_objects;
 		void* m_chunk;
 		T* m_memory;
 		T* m_last;

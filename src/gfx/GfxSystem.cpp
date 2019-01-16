@@ -4,9 +4,8 @@
 
 #include <gfx/Cpp20.h>
 #ifndef MUD_CPP_20
-#include <map>
-#include <string>
-#include <fstream>
+#include <stl/map.h>
+#include <stl/string.h>
 #endif
 
 #include <bx/timer.h>
@@ -19,7 +18,7 @@
 module mud.gfx;
 #else
 #include <pool/ObjectPool.h>
-#include <infra/StringConvert.h>
+#include <infra/ToString.h>
 #include <math/Image256.h>
 #include <math/Stream.h>
 #include <ui/Render/Renderer.h>
@@ -73,15 +72,15 @@ namespace mud
 			if(!m_target || width != m_target->m_size.x || height != m_target->m_size.y)
 				m_target = make_object<RenderTarget>(uvec2(width, height));
 		}
-		m_vg_handle = m_reset_vg();
+		m_vg_handle = m_reset_vg(*this, *m_gfx_system.m_vg);
 	}
 
 	struct GfxSystem::Impl
 	{
-		std::vector<string> m_resource_paths;
+		vector<string> m_resource_paths;
 
-		std::vector<GfxContext*> m_contexts;
-		std::vector<Scene*> m_scenes;
+		vector<GfxContext*> m_contexts;
+		vector<Scene*> m_scenes;
 
 		bx::FileReader m_file_reader;
 		bx::FileWriter m_file_writer;
@@ -94,12 +93,12 @@ namespace mud
 		unique_ptr<AssetStore<Program>> m_programs;
 		unique_ptr<AssetStore<Material>> m_materials;
 		unique_ptr<AssetStore<Model>> m_models;
-		unique_ptr<AssetStore<ParticleGenerator>> m_particles;
+		unique_ptr<AssetStore<ParticleFlow>> m_particles;
 		unique_ptr<AssetStore<Prefab>> m_prefabs;
 
-		std::vector<Importer*> m_importers;
+		vector<Importer*> m_importers;
 
-		std::vector<Renderer*> m_renderers;
+		vector<Renderer*> m_renderers;
 
 		Texture* m_white_texture = nullptr;
 		Texture* m_black_texture = nullptr;
@@ -108,7 +107,7 @@ namespace mud
 		SymbolIndex m_symbols;
 
 #ifdef MUD_GFX_THREADED
-		std::vector<bgfx::Encoder*> m_encoders;
+		vector<bgfx::Encoder*> m_encoders;
 #endif
 	};
 
@@ -145,7 +144,7 @@ namespace mud
 	AssetStore<Program>& GfxSystem::programs() { return *m_impl->m_programs; }
 	AssetStore<Material>& GfxSystem::materials() { return *m_impl->m_materials; }
 	AssetStore<Model>& GfxSystem::models() { return *m_impl->m_models; }
-	AssetStore<ParticleGenerator>& GfxSystem::particles() { return *m_impl->m_particles; }
+	AssetStore<ParticleFlow>& GfxSystem::particles() { return *m_impl->m_particles; }
 	AssetStore<Prefab>& GfxSystem::prefabs() { return *m_impl->m_prefabs; }
 
 	void GfxSystem::add_importer(ModelFormat format, Importer& importer)
@@ -173,11 +172,12 @@ namespace mud
 		m_impl->m_rigs = make_unique<TPool<Rig>>();
 		m_impl->m_animations = make_unique<TPool<Animation>>();
 
-		m_impl->m_textures = make_unique<AssetStore<Texture>>(*this, "textures/", load_texture);
+		AssetStore<Texture>::Loader load_tex = { this, [](void* user, Texture& texture, cstring path) { load_texture(*(GfxSystem*)user, texture, path); } };
+		m_impl->m_textures = make_unique<AssetStore<Texture>>(*this, "textures/", load_tex);
 		m_impl->m_programs = make_unique<AssetStore<Program>>(*this, "programs/", ".prg");
 		m_impl->m_materials = make_unique<AssetStore<Material>>(*this, "materials/", ".mtl");
 		m_impl->m_models = make_unique<AssetStore<Model>>(*this, "models/");
-		m_impl->m_particles = make_unique<AssetStore<ParticleGenerator>>(*this, "particles/", ".ptc");
+		m_impl->m_particles = make_unique<AssetStore<ParticleFlow>>(*this, "particles/", ".ptc");
 		//m_impl->m_prefabs = make_unique<AssetStore<Prefab>>(*this, "prefabs/", ".pfb");
 		m_impl->m_prefabs = make_unique<AssetStore<Prefab>>(*this, "models/");
 
@@ -337,10 +337,13 @@ namespace mud
 	{
 		for(const string& path : m_impl->m_resource_paths)
 			for(size_t i = 0; i < extensions.size(); ++i)
-				if(std::ifstream(path + file + extensions[i]).good())
+			{
+				string filepath = path + file + extensions[i];
+				if(file_exists(filepath.c_str()))
 				{
 					return { path.c_str(), file, extensions[i], i };
 				}
+			}
 		return {};
 	}
 

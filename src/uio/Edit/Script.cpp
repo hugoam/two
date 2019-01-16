@@ -78,14 +78,14 @@ namespace mud
 		return script;
 	}
 
-	std::vector<string> lua_words()
+	vector<string> lua_words()
 	{
 		return { "print" };
 	}
 
-	std::vector<string> meta_words()
+	vector<string> meta_words()
 	{
-		std::vector<string> symbols = vector_convert<string>(System::instance().meta_symbols());
+		vector<string> symbols = vector_convert<string>(System::instance().meta_symbols());
 		vector_extend(symbols, lua_words());
 		return symbols;
 	}
@@ -139,15 +139,17 @@ namespace mud
 	}
 #endif
 
-	void script_edit_code(Widget& parent, TextScript& script, ActionList actions)
+	Section& script_edit_code(Widget& parent, TextScript& script)
 	{
 		//auto run = [&] { script({}); };
 		auto reload = [&] { script.m_dirty = true; };
 		//actions.push_back({ "Run",  });
-		actions.push_back({ "Reload", reload });
-		Section& self = section(parent, script.m_name.c_str(), actions);
+		Section& self = section(parent, script.m_name.c_str());
 
-		std::vector<string> known_words = meta_words();
+		if(section_action(self, "Reload"))
+			reload();
+
+		vector<string> known_words = meta_words();
 		TextEdit& edit = ui::code_edit(*self.m_body, script.m_script, 0, &known_words);
 		
 		if(script.m_language == Language::Lua)
@@ -175,11 +177,13 @@ namespace mud
 		}
 
 		script_edit_hover(edit);
+
+		return self;
 	}
 
-	void script_edit(Widget& parent, TextScript& script, ActionList actions)
+	Section& script_edit(Widget& parent, TextScript& script)
 	{
-		script_edit_code(parent, script, actions);
+		return script_edit_code(parent, script);
 		//Widget& span_0 = ui::layout_span(parent, 0.8f);
 		//script_edit_code(span_0, script, actions);
 		//Widget& span_1 = ui::layout_span(parent, 0.2f);
@@ -190,14 +194,12 @@ namespace mud
 	{
 		if(Widget* tab = ui::tab(parent, script.m_name.c_str()))
 		{
-			ActionList script_actions = {
-				{ "Close", [&] { editor.close(script); } }
-			};
+			Section& edit = script.m_type.is<VisualScript>()
+				? visual_script_edit(*tab, as<VisualScript>(script))
+				: script_edit(*tab, as<TextScript>(script));
 
-			if(script.m_type.is<VisualScript>())
-				visual_script_edit(*tab, as<VisualScript>(script), script_actions);
-			else if(script.m_type.is<TextScript>())
-				script_edit(*tab, as<TextScript>(script), script_actions);
+			if(section_action(edit, "Close"))
+				editor.close(script);
 		}
 	}
 
@@ -205,12 +207,12 @@ namespace mud
 	{
 		enum Modes { Open = 1 << 0, Browse = 1 << 1 };
 
-		ActionList actions = {
-			{ "New Script", [&] { editor.create_script(("Untitled " + to_string(editor.m_scripts.size())).c_str(), Language::Lua); } },
-			{ "New Visual Script", [&] { editor.create_visual(("Untitled " + to_string(editor.m_scripts.size())).c_str()); } }
-		};
+		Section& self = section(parent, "Script Editor");
 
-		Section& self = section(parent, "Script Editor", actions);
+		if(section_action(self, "New Script"))
+			editor.create_script(("Untitled " + to_string(editor.m_scripts.size())).c_str(), Language::Lua);
+		if(section_action(self, "New Visual Script"))
+			editor.create_visual(("Untitled " + to_string(editor.m_scripts.size())).c_str());
 
 		if(ui::modal_button(self, *self.m_toolbar, "Open Script", Open))
 		{

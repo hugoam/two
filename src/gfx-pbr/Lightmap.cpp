@@ -11,7 +11,7 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
-#include <infra/StringConvert.h>
+#include <infra/ToString.h>
 #include <math/Random.h>
 #include <geom/Intersect.h>
 #include <geom/Mesh.h>
@@ -38,7 +38,11 @@ module mud.gfx.pbr;
 //#define LIGHTMAP_PIXELS
 //#define LIGHTMAP_SORT
 
+#ifdef MUD_NO_GLM
+namespace mud
+#else
 namespace glm
+#endif
 {
 	inline bool operator>(const uvec2& lhs, const uvec2& rhs) { return lhs.x > rhs.x || (lhs.x == rhs.x && lhs.y > rhs.y); }
 }
@@ -261,14 +265,14 @@ namespace mud
 
 	struct ModelUnwrap
 	{
-		std::vector<bool> success;
+		vector<bool> success;
 		uvec2 size;
 	};
 
 	void unwrap_model(Model& model, ModelUnwrap& unwrap, uint32_t rect_size, float density)
 	{
-		unwrap.success = std::vector<bool>(model.m_items.size(), false);
-		unwrap.size = uvec2(0);
+		unwrap.success = vector<bool>(model.m_items.size(), false);
+		unwrap.size = uvec2(0U);
 
 		bool is_unwrapped = false;
 		for(size_t i = 0; i < model.m_items.size(); ++i)
@@ -291,7 +295,7 @@ namespace mud
 
 		XAtlas atlas;
 
-		std::vector<MeshPacker> geometry(model.m_items.size());
+		vector<MeshPacker> geometry(model.m_items.size());
 		for(size_t i = 0; i < model.m_items.size(); ++i)
 		{
 			Mesh& mesh = *model.m_items[i].m_mesh;
@@ -343,7 +347,7 @@ namespace mud
 		string m_cached_path;
 		uint32_t m_rect_size;
 		float m_density;
-		std::map<Model*, ModelUnwrap> unwraps;
+		map<Model*, ModelUnwrap> unwraps;
 	};
 
 	void BlockLightmap::bake_geometry(array<Item*> items, LightmapAtlas& lightmaps)
@@ -363,7 +367,7 @@ namespace mud
 
 		LightmapUnwrap atlas = { lightmaps.m_save_path, lightmaps.m_size, lightmaps.m_density };
 		
-		std::vector<size_t> sorted;
+		vector<size_t> sorted;
 		for(size_t i = 0; i < items.size(); ++i)
 			sorted.push_back(i);
 
@@ -377,7 +381,7 @@ namespace mud
 			Model& model = *items[i]->m_model;
 			ModelUnwrap& unwrap = atlas.unwrap(model);
 
-			if(unwrap.size == uvec2(0))
+			if(unwrap.size == uvec2(0U))
 				continue;
 
 			auto pack = pack_texture(model.m_name.c_str(), unwrap.size);
@@ -401,7 +405,7 @@ namespace mud
 				}
 
 				vec2 scale = vec2(1.f / float(lightmaps.m_size));
-				vec2 offset = vec2(rect_offset(rect)) / float(lightmaps.m_size);
+				vec2 offset = rect_offset(vec4(rect)) / float(lightmaps.m_size);
 				lightmap.add_item(i, *items[i], true, vec4(scale, offset));
 			}
 		}
@@ -411,7 +415,7 @@ namespace mud
 	{
 		printf("INFO: bake lightmaps\n");
 
-		std::vector<Item*> items;
+		vector<Item*> items;
 		//Plane6 planes = frustum_planes(transform, vec2(extents.x, extents.y), -extents.z / 2.f, -extents.z / 2.f);
 		//scene.cull_items(planes, items);
 		scene.m_pool->pool<Item>().iterate([&](Item& item)
@@ -423,7 +427,7 @@ namespace mud
 
 		this->bake_geometry(items, atlas);
 
-		std::vector<GIProbe*> gi_probes;
+		vector<GIProbe*> gi_probes;
 		gather_gi_probes(scene, gi_probes);
 
 		Renderer& renderer = m_gfx_system.renderer(Shading::Lightmap);
@@ -455,7 +459,7 @@ namespace mud
 			RenderFrame frame = m_gfx_system.render_frame();
 
 			Camera camera = { transform, vec2(extents.x * 2.f, extents.y * 2.f), -extents.z, extents.z };
-			Viewport viewport = { camera, scene, { uvec2(0), uvec2(lightmap->m_size) } };
+			Viewport viewport = { camera, scene, { uvec2(0U), uvec2(lightmap->m_size) } };
 			Render lightmap_render = { Shading::Lightmap, viewport, fbo, frame };
 			viewport.m_clear_colour = Colour::None;
 

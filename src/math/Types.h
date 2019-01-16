@@ -13,9 +13,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 #include <math/Structs.h>
@@ -77,49 +77,49 @@ namespace mud
     export_ template <> MUD_MATH_EXPORT Type& type<mud::SpriteAtlas>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::TextureAtlas>();
     
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::AutoStat<float>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::AutoStat<int>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Colour*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Gauge*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Image*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Image256*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ImageAtlas*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Palette*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Range<float>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Range<mud::Colour>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Range<mud::quat>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Range<mud::vec3>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Range<uint32_t>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Ratio*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Time*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::TimeSpan*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Transform*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ValueCurve<float>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ValueCurve<mud::Colour>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ValueCurve<mud::quat>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ValueCurve<mud::vec3>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ValueCurve<uint32_t>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ValueTrack<float>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ValueTrack<mud::Colour>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ValueTrack<mud::quat>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ValueTrack<mud::vec3>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ValueTrack<uint32_t>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::bvec3*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::bvec4*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::half2*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::half3*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ivec2*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ivec3*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::ivec4*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::mat4*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::quat*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::uvec2*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::uvec3*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::uvec4*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::vec2*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::vec3*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::vec4*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::Sprite*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::SpriteAtlas*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<std::vector<mud::TextureAtlas*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::AutoStat<float>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::AutoStat<int>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Colour*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Gauge*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Image*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Image256*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ImageAtlas*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Palette*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Range<float>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Range<mud::Colour>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Range<mud::quat>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Range<mud::vec3>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Range<uint32_t>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Ratio*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Time*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::TimeSpan*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Transform*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueCurve<float>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueCurve<mud::Colour>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueCurve<mud::quat>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueCurve<mud::vec3>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueCurve<uint32_t>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueTrack<float>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueTrack<mud::Colour>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueTrack<mud::quat>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueTrack<mud::vec3>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueTrack<uint32_t>*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::bvec3*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::bvec4*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::half2*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::half3*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ivec2*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ivec3*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ivec4*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::mat4*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::quat*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::uvec2*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::uvec3*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::uvec4*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::vec2*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::vec3*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::vec4*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Sprite*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::SpriteAtlas*>>;
+    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::TextureAtlas*>>;
 }

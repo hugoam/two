@@ -26,23 +26,30 @@ namespace mud
 {
 	void write_binary_file(const string& path, array<uint8_t> data)
 	{
-		std::ofstream file(path, std::ios::out | std::ios::binary);
+		std::ofstream file(path.c_str(), std::ios::out | std::ios::binary);
 		file.write((const char*)data.data(), data.size());
 	}
 
-	std::vector<uint8_t> read_binary_file(const string& path)
+	vector<uint8_t> read_binary_file(const string& path)
 	{
-		std::vector<uint8_t> buffer;
-		std::ifstream file = std::ifstream(path, std::ios::binary);
-		//buffer.resize(file.gcount());
+		vector<uint8_t> buffer;
+		std::ifstream file = std::ifstream(path.c_str(), std::ios::binary);
+		buffer.resize(file.gcount());
+#ifdef MUD_VECTOR_TINYSTL
+#else
 		buffer.insert(buffer.begin(), std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
+#endif
 		return buffer;
 	}
 
 	string read_text_file(const string& path)
 	{
-		std::ifstream file = std::ifstream(path);
+		std::ifstream file = std::ifstream(path.c_str());
+#ifdef MUD_STRING_TINYSTL
+		string result;
+#else
 		string result((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+#endif
 		return result;
 	}
 
@@ -51,7 +58,7 @@ namespace mud
 #ifdef _WIN32
 		UNUSED(argc);
 		string exec_path = argv[0];
-		string exec_dir(exec_path.begin(), exec_path.begin() + exec_path.rfind('\\'));
+		string exec_dir = exec_path.substr(0, exec_path.rfind("\\"));
 #else
 		UNUSED(argc); UNUSED(argv);
 		string exec_dir = "./";
@@ -118,7 +125,7 @@ namespace mud
 			return true;
 	}
 
-	void visit_files(cstring path, FileVisitor visit_file)
+	void visit_files(cstring path, FileVisitor visit, void* user)
 	{
 		DIR* dir = opendir(path);
 		dirent* ent;
@@ -126,14 +133,14 @@ namespace mud
 		while((ent = readdir(dir)) != NULL)
 			if(ent->d_type & DT_REG)
 			{
-				visit_file(path, ent->d_name);
+				visit(user, path, ent->d_name);
 			}
 
 
 		closedir(dir);
 	}
 
-	void visit_folders(cstring path, FileVisitor visit_file, bool ignore_symbolic)
+	void visit_folders(cstring path, FileVisitor visit, void* user, bool ignore_symbolic)
 	{
 		DIR* dir = opendir(path);
 		dirent* ent;
@@ -143,7 +150,7 @@ namespace mud
 			{
 				bool is_symbolic = string(ent->d_name) == "." || string(ent->d_name) == "..";
 				if(!is_symbolic || !ignore_symbolic)
-					visit_file(path, ent->d_name);
+					visit(user, path, ent->d_name);
 			}
 
 		closedir(dir);

@@ -3,23 +3,22 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <algorithm>
-#endif
 
 #ifdef MUD_MODULES
 module mud.infra;
 #else
 #include <infra/Config.h>
 #include <infra/String.h>
-#include <infra/StringConvert.h>
-#include <infra/Strung.h>
+#include <infra/ToString.h>
 #include <infra/NonCopy.h>
 #endif
 
+#include <algorithm>
+#include <cctype>
+
 namespace mud
 {
-	template MUD_INFRA_EXPORT void from_string(const string& str, float& val);
+	template MUD_INFRA_EXPORT void to_value(const string& str, float& val);
 	template MUD_INFRA_EXPORT void to_string(const float& val, string& str);
 
 	const size_t g_num_precision = 3;
@@ -40,9 +39,9 @@ namespace mud
 			output[index++].assign(str.data() + start, str.size() - start);
 	}
 
-	std::vector<string> split(const string& str, const string& separator)
+	vector<string> split(const string& str, const string& separator)
 	{
-		std::vector<string> result;
+		vector<string> result;
 		
 		if(str.size() == 0)
 			return result;
@@ -61,7 +60,7 @@ namespace mud
 	}
 
 	//string join(array<string> strings, string separator)
-	string join(const std::vector<string>& strings, string separator)
+	string join(const vector<string>& strings, string separator)
 	{
 		if(strings.size() == 0) return "";
 		string result;
@@ -109,7 +108,7 @@ namespace mud
 	{
 		string result = name;
 		result[0] = char(::toupper(name[0]));
-		for (size_t pos = result.find('_'); pos != string::npos; pos = result.find('_', pos))
+		for (size_t pos = result.find("_"); pos != string::npos; pos = result.find("_", pos))
 		{
 			result.erase(pos, 1);
 			result[pos] = char(::toupper(result[pos]));
@@ -120,7 +119,7 @@ namespace mud
 	string to_camelcase(const string& name)
 	{
 		string result = name;
-		for(size_t pos = result.find('_'); pos != string::npos; pos = result.find('_', pos))
+		for(size_t pos = result.find("_"); pos != string::npos; pos = result.find("_", pos))
 		{
 			result.erase(pos, 1);
 			result[pos] = char(::toupper(result[pos]));

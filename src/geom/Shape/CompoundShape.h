@@ -8,14 +8,14 @@
 #include <geom/Shape/ProcShape.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
 {
 	export_ struct MUD_GEOM_EXPORT CompoundShape
 	{
-		std::vector<ProcShape> m_shapes;
+		vector<ProcShape> m_shapes;
 	};
 
 	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const CompoundShape& compound);

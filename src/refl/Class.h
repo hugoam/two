@@ -4,36 +4,33 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <refl/Forward.h>
 #include <type/Var.h>
-#include <infra/Strung.h>
 #include <refl/Method.h>
 #include <refl/Member.h>
 
-#ifndef MUD_CPP_20
-#include <vector>
-#include <functional>
-#endif
-
 namespace mud
 {
+	export_ using cstring = const char*;
+
 	export_ class refl_ MUD_REFL_EXPORT Class
 	{
 	public:
 		Class(Type& type);
 		Class(
 			Type& type,
-			std::vector<Type*> bases,
-			std::vector<size_t> bases_offsets,
-			std::vector<Constructor> constructors,
-			std::vector<CopyConstructor> copy_constructors,
-			std::vector<Member> members,
-			std::vector<Method> methods,
-			std::vector<Static> static_members
+			vector<Type*> bases,
+			vector<size_t> bases_offsets,
+			vector<Constructor> constructors,
+			vector<CopyConstructor> copy_constructors,
+			vector<Member> members,
+			vector<Method> methods,
+			vector<Static> static_members
 		);
 		~Class();
 
-		void inherit(std::vector<Type*> types);
+		void inherit(vector<Type*> types);
 		void setup_class();
 
 		Ref upcast(Ref object, Type& base);
@@ -67,47 +64,41 @@ namespace mud
 		Meta* m_meta;
 		Type* m_root;
 
-		std::vector<Type*> m_bases;
-		std::vector<size_t> m_bases_offsets;
+		vector<Type*> m_bases;
+		vector<size_t> m_bases_offsets;
 
 		bool m_nested = false;
 
 		// Reflection
-		std::vector<Constructor> m_constructors;
-		std::vector<CopyConstructor> m_copy_constructors; // in a vector until we update to c++17 optional
-		std::vector<Destructor> m_destructor; // in a vector until we update to c++17 optional
-		std::vector<Member> m_members;
-		std::vector<Method> m_methods;
+		vector<Constructor> m_constructors;
+		vector<CopyConstructor> m_copy_constructors; // in a vector until we update to c++17 optional
+		vector<Destructor> m_destructor; // in a vector until we update to c++17 optional
+		vector<Member> m_members;
+		vector<Method> m_methods;
 
-		std::vector<Operator> m_operators;
+		vector<Operator> m_operators;
 
-		std::vector<Static> m_static_members;
-		std::vector<Function> m_static_functions;
+		vector<Static> m_static_members;
+		vector<Function> m_static_functions;
 
 		Member* m_id_member = nullptr;
 		Member* m_type_member = nullptr;
 		Member* m_name_member = nullptr;
 
-		std::vector<cstring> m_field_names;
-		std::vector<Var> m_field_values;
+		vector<cstring> m_field_names;
+		vector<Var> m_field_values;
 
 		// Deep Reflection
-		std::vector<Member*> m_components;
-		std::vector<Member*> m_deep_members;
-		std::vector<Method*> m_deep_methods;
+		vector<Member*> m_components;
+		vector<Member*> m_deep_members;
+		vector<Method*> m_deep_methods;
 
 		// Sequence
 		Type* m_content = nullptr;
 		bool m_content_pointer = false;
 
 		// Implementation
-		std::function<unique_ptr<Pool>()> m_make_pool;
-
-		std::function<unique_ptr<Sequence>(Ref)> m_sequence;
-		std::function<unique_ptr<Iterable>(Ref)> m_iterable;
-
-		bool m_is_sequence = false;
-		bool m_is_iterable = false;
+		using MakePool = unique_ptr<Pool>(*)(); MakePool m_make_pool;
 	};
 
 	inline Ref Member::cast(Ref object) const

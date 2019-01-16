@@ -11,7 +11,7 @@ function mud_modules(m)
         return
     end
     
-    removeflags { "Cpp14" }
+    removeflags { "Cpp17" }
     flags {
         "CppLatest",
         --"CppModules",

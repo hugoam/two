@@ -41,7 +41,7 @@ Object.defineProperty(Context.prototype, "title", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_Context__set_title(self, value);

@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/string.h>
 #include <math/Colour.h>
 #include <math/Vec.h>
 #endif
@@ -12,16 +13,9 @@
 #include <ui/Style/9Sprite.h>
 #include <ui/Style/Paint.h>
 
-#ifndef MUD_CPP_20
-#include <functional>
-#include <string>
-#endif
-
 namespace mud
 {
-	using string = std::string;
-
-	using CustomRenderer = std::function<void(const Frame&, const vec4&, Vg&)>;
+	using CustomDraw = void(*)(const Frame&, const vec4&, Vg&);
 
 	export_ struct refl_ MUD_UI_EXPORT InkStyle
 	{
@@ -64,7 +58,7 @@ namespace mud
 		attr_ Shadow m_shadow;
 		attr_ Colour m_shadow_colour;
 		attr_ Style* m_hover_cursor = nullptr;
-		/*attr_*/ CustomRenderer m_custom_draw;
+		/*attr_*/ CustomDraw m_custom_draw;
 
 		WidgetState m_state;
 	};

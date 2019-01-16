@@ -8,7 +8,6 @@
 module mud.ui;
 #else
 #include <math/VecOps.h>
-#include <math/Clamp.h>
 #include <ui/Input.h>
 #include <ui/Sheet.h>
 #include <ui/Container.h>
@@ -19,10 +18,10 @@ module mud.ui;
 #include <ui/Style/Skin.h>
 #endif
 
+#include <algorithm>
+
 namespace mud
 {
-	// using std::clamp;
-
 namespace ui
 {
 	bool drag_float(Widget& parent, float& value, float step)
@@ -38,7 +37,7 @@ namespace ui
 		}
 		else if(self.m_changed)
 		{
-			value = from_string<float>(text);
+			value = to_value<float>(text);
 			return true;
 		}
 		return false;
@@ -119,7 +118,12 @@ namespace ui
 	bool color_wheel(Widget& parent, Colour& hsla)
 	{
 		Widget& self = widget(parent, styles().color_wheel);
-		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(rect); draw_color_wheel(vg, frame.m_size, hsla.m_h, hsla.m_s, hsla.m_l); };
+		self.m_custom_draw = { &hsla, [](void* user, const Frame& frame, const vec4& rect, Vg& vg)
+		{
+			UNUSED(rect);
+			Colour hsla = *(Colour*)user;
+			draw_color_wheel(vg, frame.m_size, hsla.m_h, hsla.m_s, hsla.m_l);
+		} };
 		bool changed = false;
 
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
@@ -188,11 +192,11 @@ namespace ui
 	Widget& color_slab(Widget& parent, Style& style, const Colour& value)
 	{
 		Widget& self = button(parent, style);//styles().color_slab);
-		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg)
+		self.m_custom_draw = { (void*)&value, [](void* user, const Frame& frame, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect);
-			vg.draw_rect({ Zero2, frame.m_size }, { value }, frame.d_inkstyle->m_corner_radius);
-		};
+			vg.draw_rect({ Zero2, frame.m_size }, { *(Colour*)user }, frame.d_inkstyle->m_corner_radius);
+		} };
 		return self;
 	}
 
@@ -297,14 +301,18 @@ namespace
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Released))
 			dragged = SIZE_MAX;
 
-		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg)
+		struct User { array<float> values; array<float> points; };
+		User user = { values, points };
+
+		self.m_custom_draw = { &user, [](void* user, const Frame& frame, const vec4& rect, Vg& vg)
 		{
 			UNUSED(frame); UNUSED(rect);
-			Curve curve = { rect_size(rect), 0.f, 1.f, values, points };
+			User data = *(User*)user;
+			Curve curve = { rect_size(rect), 0.f, 1.f, data.values, data.points };
 			vg.draw_rect(rect, { Colour::DarkGrey });
 			draw_curve(Colour::NeonGreen, curve, hovered, vg);
 			draw_points(Colour::NeonGreen, curve, hovered, vg);
-		};
+		} };
 
 		return false;
 	}

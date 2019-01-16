@@ -5,8 +5,9 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
+#include <stl/string.h>
 #include <infra/Array.h>
-#include <infra/Strung.h>
 #include <math/Vec.h>
 #include <geom/Primitive.h>
 #include <geom/Aabb.h>
@@ -14,10 +15,6 @@
 #include <gfx/Forward.h>
 
 #include <bgfx/bgfx.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#endif
 
 namespace mud
 {
@@ -99,8 +96,8 @@ namespace mud
 		UvBounds m_uv0_rect = {};
 		UvBounds m_uv1_rect = {};
 
-		std::vector<uint8_t> m_cached_vertices;
-		std::vector<uint8_t> m_cached_indices;
+		vector<uint8_t> m_cached_vertices;
+		vector<uint8_t> m_cached_indices;
 
 		MeshAdapter m_cache;
 

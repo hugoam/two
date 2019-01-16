@@ -20,6 +20,6 @@ namespace mud
 	export_ template class refl_ MUD_GFX_EXPORT AssetStore<Program>;
 	export_ template class refl_ MUD_GFX_EXPORT AssetStore<Material>;
 	export_ template class refl_ MUD_GFX_EXPORT AssetStore<Model>;
-	export_ template class refl_ MUD_GFX_EXPORT AssetStore<ParticleGenerator>;
+	export_ template class refl_ MUD_GFX_EXPORT AssetStore<ParticleFlow>;
 	export_ template class refl_ MUD_GFX_EXPORT AssetStore<Prefab>;
 }

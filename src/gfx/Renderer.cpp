@@ -3,7 +3,7 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <gfx/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef MUD_CPP20
 #include <algorithm>
 #endif
 
@@ -108,8 +108,8 @@ namespace mud
 
 	struct Renderer::Impl
 	{
-		std::vector<GfxBlock*> m_gfx_blocks;
-		std::vector<unique_ptr<RenderPass>> m_render_passes;
+		vector<GfxBlock*> m_gfx_blocks;
+		vector<unique_ptr<RenderPass>> m_render_passes;
 	};
 
 	Renderer::Renderer(GfxSystem& gfx_system, Pipeline& pipeline, Shading shading)
@@ -205,7 +205,7 @@ namespace mud
 		, m_shader_version(material.shader_version(program, item, model))
 	{}
 
-	struct DrawList : public std::vector<DrawElement>
+	struct DrawList : public vector<DrawElement>
 	{
 		struct SortByKey
 		{
@@ -213,7 +213,7 @@ namespace mud
 		};
 
 		DrawList(size_t size)
-			: std::vector<DrawElement>(size)
+			: vector<DrawElement>(size)
 		{}
 
 		array<DrawElement> elements() { return{ this->first(), this->size() }; }
@@ -229,7 +229,7 @@ namespace mud
 	{
 		Impl() : m_draw_elements(0) {}
 		DrawList m_draw_elements;
-		std::vector<DrawBlock*> m_draw_blocks;
+		vector<DrawBlock*> m_draw_blocks;
 	};
 
 	DrawPass::DrawPass(GfxSystem& gfx_system, const char* name, PassType type)
@@ -367,7 +367,7 @@ namespace mud
 		{
 			Pass render_pass = render.next_pass(m_name);
 			render.set_uniforms(*render_pass.m_encoder);
-			job(render_pass);
+			job(render, render_pass);
 		}
 
 		for(uint8_t sub_pass = 0; sub_pass < num_sub_passes; ++sub_pass)

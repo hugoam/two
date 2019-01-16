@@ -16,9 +16,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 
@@ -33,9 +33,9 @@ namespace mud
     export_ template <> MUD_WFC_EXPORT Type& type<mud::TileWave>();
     export_ template <> MUD_WFC_EXPORT Type& type<mud::WaveTileset>();
     
-    export_ template struct MUD_WFC_EXPORT Typed<std::vector<mud::Tile*>>;
-    export_ template struct MUD_WFC_EXPORT Typed<std::vector<mud::Tileset*>>;
-    export_ template struct MUD_WFC_EXPORT Typed<std::vector<mud::Wave*>>;
-    export_ template struct MUD_WFC_EXPORT Typed<std::vector<mud::TileWave*>>;
-    export_ template struct MUD_WFC_EXPORT Typed<std::vector<mud::WaveTileset*>>;
+    export_ template struct MUD_WFC_EXPORT Typed<vector<mud::Tile*>>;
+    export_ template struct MUD_WFC_EXPORT Typed<vector<mud::Tileset*>>;
+    export_ template struct MUD_WFC_EXPORT Typed<vector<mud::Wave*>>;
+    export_ template struct MUD_WFC_EXPORT Typed<vector<mud::TileWave*>>;
+    export_ template struct MUD_WFC_EXPORT Typed<vector<mud::WaveTileset*>>;
 }

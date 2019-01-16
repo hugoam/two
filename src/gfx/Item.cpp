@@ -16,6 +16,8 @@ module mud.gfx;
 #include <gfx/Node3.h>
 #endif
 
+#include <algorithm>
+
 namespace mud
 {
 	Item::Item(Node3& node, const Model& model, uint32_t flags, Material* material, size_t instances)

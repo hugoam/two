@@ -88,7 +88,7 @@ namespace mud
 		return ui::select_logic(self, object, selection);
 	}
 
-	bool object_item(Widget& parent, Ref object, std::vector<Ref>& selection)
+	bool object_item(Widget& parent, Ref object, vector<Ref>& selection)
 	{
 		Widget& self = object_item(parent, object);
 		return ui::multiselect_logic(self, object, selection);

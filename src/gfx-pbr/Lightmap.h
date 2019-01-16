@@ -34,7 +34,7 @@ namespace mud
 
 		bgfx::TextureHandle m_texture = BGFX_INVALID_HANDLE;
 
-		std::vector<LightmapItem> m_items;
+		vector<LightmapItem> m_items;
 
 		void add_item(size_t index, Item& item, bool valid, const vec4& uv_scale_offset);
 	};
@@ -55,7 +55,7 @@ namespace mud
 		mat4 m_capture_transform;
 		vec3 m_capture_extents;
 
-		std::vector<unique_ptr<Lightmap>> m_layers;
+		vector<unique_ptr<Lightmap>> m_layers;
 	};
 
 	struct LightmapRenderer : public Renderer
@@ -111,6 +111,6 @@ namespace mud
 		Program* m_lightmap;
 
 		struct BakeEntry { Scene* scene; LightmapAtlas* atlas; };
-		std::vector<BakeEntry> m_bake_queue;
+		vector<BakeEntry> m_bake_queue;
 	};
 }

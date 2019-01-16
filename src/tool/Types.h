@@ -26,9 +26,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 
@@ -69,35 +69,35 @@ namespace mud
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::WorkPlaneTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::WorldSnapOption>();
     
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::EditContext*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::EditorAction*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::Gizmo*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::Tool*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::ToolContext*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::ToolOption*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::RedoTool*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::ViewportTool*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::SpatialTool*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::Brush*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::CircleBrush*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::PlaceBrush*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::PlaneSnapOption*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::ScriptedBrush*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::TransformAction*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::RotateAction*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::TransformTool*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::RotateTool*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::ScaleAction*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::ScaleTool*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::TranslateAction*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::CopyAction*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::CopyTool*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::FrameViewTool*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::TranslateTool*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::UndoTool*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::ViewAction*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::ViewTool*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::WorkPlaneAction*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::WorkPlaneTool*>>;
-    export_ template struct MUD_TOOL_EXPORT Typed<std::vector<mud::WorldSnapOption*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::EditContext*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::EditorAction*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::Gizmo*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::Tool*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::ToolContext*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::ToolOption*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::RedoTool*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::ViewportTool*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::SpatialTool*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::Brush*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::CircleBrush*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::PlaceBrush*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::PlaneSnapOption*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::ScriptedBrush*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::TransformAction*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::RotateAction*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::TransformTool*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::RotateTool*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::ScaleAction*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::ScaleTool*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::TranslateAction*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::CopyAction*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::CopyTool*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::FrameViewTool*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::TranslateTool*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::UndoTool*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::ViewAction*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::ViewTool*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::WorkPlaneAction*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::WorkPlaneTool*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::WorldSnapOption*>>;
 }

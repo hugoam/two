@@ -4,17 +4,8 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef MUD_MODULES
-#include <meta/infra/Module.h>
-#include <meta/type/Module.h>
-#include <meta/refl/Module.h>
-#endif
-
 #include <ecs/Forward.h>
 #include <ecs/Types.h>
-#include <ecs/Api.h>
-
-#include <meta/ecs/Convert.h>
 
 #ifndef MUD_ECS_REFL_EXPORT
 #define MUD_ECS_REFL_EXPORT MUD_IMPORT

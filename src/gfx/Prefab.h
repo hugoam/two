@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
 //#include <refl/Method.h>
 #include <geom/Aabb.h>
 #endif
@@ -12,10 +13,6 @@
 #include <gfx/Node3.h>
 #include <gfx/Item.h>
 #include <gfx/Importer.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#endif
 
 namespace mud
 {
@@ -38,7 +35,7 @@ namespace mud
 		attr_ Ref m_object = {};
 		attr_ PrefabType m_prefab_type = PrefabType::None;
 		attr_ Call m_call = {};
-		attr_ std::vector<PrefabNode> m_nodes;
+		attr_ vector<PrefabNode> m_nodes;
 
 		void draw(Gnode& parent);
 	};
@@ -54,8 +51,8 @@ namespace mud
 		attr_ PrefabNode m_node;
 #endif
 
-		std::vector<Node3> m_nodes;
-		std::vector<Item> m_items;
+		vector<Node3> m_nodes;
+		vector<Item> m_items;
 
 		Aabb m_aabb;
 	};

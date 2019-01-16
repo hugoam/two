@@ -4,7 +4,7 @@
 
 #include <gfx/Cpp20.h>
 #ifndef MUD_CPP_20
-#include <map>
+#include <stl/map.h>
 #endif
 
 #ifdef MUD_MODULES
@@ -65,7 +65,7 @@ namespace mud
 			bgfx::destroy(m_readback_texture);
 	}
 
-	void Picker::pick_point(Viewport& viewport, vec2 position, std::function<void(Item*)> callback, uint32_t mask)
+	void Picker::pick_point(Viewport& viewport, vec2 position, PickCallback callback, uint32_t mask)
 	{
 		if(m_query) return;
 		Ray ray = viewport.ray(position);
@@ -74,7 +74,7 @@ namespace mud
 		m_query.m_callback = callback;
 	}
 
-	void Picker::pick_rectangle(Viewport& viewport, vec4 rect, std::function<void(array<Item*>)> callback, uint32_t mask)
+	void Picker::pick_rectangle(Viewport& viewport, vec4 rect, MultipickCallback callback, uint32_t mask)
 	{
 		if(m_query) return;
 		Ray ray = viewport.ray(rect_center(rect));
@@ -145,11 +145,11 @@ namespace mud
 		if(query.m_readback_ready <= render.m_frame.m_frame)
 		{
 			Item* item = nullptr;
-			std::vector<Item*> items = {};
+			vector<Item*> items = {};
 
 			// not sure which is more efficient
-			//std::vector<uint32_t> counts(render.m_items.size());
-			std::map<uint32_t, uint32_t> counts; 
+			//vector<uint32_t> counts(render.m_items.size());
+			map<uint32_t, uint32_t> counts; 
 			uint32_t maxAmount = 0;
 
 			//array<uint32_t> data = { m_data.data(), rect_w(query.m_rect) * rect_h(query.m_rect) };

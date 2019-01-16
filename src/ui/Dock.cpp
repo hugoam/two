@@ -3,14 +3,12 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <map>
-#include <string>
-#endif
 
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <stl/string.h>
+#include <stl/map.h>
 #include <infra/Vector.h>
 #include <ui/Dock.h>
 #include <ui/Structs/Dock.h>
@@ -20,8 +18,6 @@ module mud.ui;
 
 namespace mud
 {
-	using string = std::string;
-
 namespace ui
 {
 	Widget& dockline(Widget& parent, uint16_t index, Dim dim)

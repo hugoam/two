@@ -5,29 +5,21 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
 #include <infra/EnumArray.h>
 #endif
 #include <gfx/Forward.h>
 #include <gfx/Renderer.h>
 
-#ifndef MUD_CPP_20
-#include <vector>
-#include <functional>
-#endif
-
 namespace mud
 {
-	using PassJob = std::function<void(const Pass&)>;
+	using PassJob = void(*)(Render&, const Pass&);
 
 	export_ MUD_GFX_EXPORT void pipeline_minimal(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred);
 
 	export_ struct MUD_GFX_EXPORT PassJobs
 	{
-#ifdef MUD_MODULES
-		enum_array<PassType, std::vector<PassJob>, size_t(PassType::Count)> m_jobs;
-#else
-		enum_array<PassType, std::vector<PassJob>> m_jobs;
-#endif
+		enum_array<PassType, vector<PassJob>> m_jobs;
 	};
 
 	export_ class MUD_GFX_EXPORT Pipeline : public NonCopy
@@ -43,17 +35,13 @@ namespace mud
 		T_Block* block() { for(auto& block : m_gfx_blocks) if(&(block->m_type) == &type<T_Block>()) return &as<T_Block>(*block); return nullptr; }
 
 		template <class T_Block, class... T_Args>
-		T_Block& add_block(T_Args&&... args) { m_gfx_blocks.emplace_back(make_unique<T_Block>(std::forward<T_Args>(args)...)); return as<T_Block>(*m_gfx_blocks.back()); }
+		T_Block& add_block(T_Args&&... args) { m_gfx_blocks.emplace_back(make_unique<T_Block>(static_cast<T_Args&&>(args)...)); return as<T_Block>(*m_gfx_blocks.back()); }
 
 		array<GfxBlock*> pass_blocks(PassType pass);
 
-		std::vector<unique_ptr<GfxBlock>> m_gfx_blocks;
+		vector<unique_ptr<GfxBlock>> m_gfx_blocks;
 
-#ifdef MUD_MODULES
-		enum_array<PassType, std::vector<GfxBlock*>, size_t(PassType::Count)> m_pass_blocks;
-#else
-		enum_array<PassType, std::vector<GfxBlock*>> m_pass_blocks;
-#endif
+		enum_array<PassType, vector<GfxBlock*>> m_pass_blocks;
 	};
 
 	export_ class MUD_GFX_EXPORT PassClear : public RenderPass

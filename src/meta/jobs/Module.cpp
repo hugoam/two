@@ -3,8 +3,11 @@
 #ifdef MUD_MODULES
 module mud.jobs;
 #else
+#include <meta/infra/Module.h>
 #include <meta/jobs/Module.h>
 #endif
+
+#include <jobs/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/jobs/Convert.h>

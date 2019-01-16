@@ -15,10 +15,13 @@
 
 namespace mud {
 
+	using uchar = unsigned char;
 	using ushort = unsigned short;
 	using uint = unsigned int;
 	using ulong = unsigned long;
-	using ulong2 = unsigned long long;
+	using ullong = unsigned long long;
+	using llong = long long;
+	using ddouble = long double;
 
     template <class T> struct array;
     

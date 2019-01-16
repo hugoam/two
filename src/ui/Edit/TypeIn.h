@@ -4,15 +4,15 @@
 
 #pragma once
 
+#include <stl/string.h>
+#include <stl/vector.h>
+#include <stl/memory.h>
 #include <ui/Forward.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Frame/Caption.h>
 #include <ui/Style/Paint.h>
 
 #ifndef MUD_CPP_20
-#include <string>
-#include <vector>
-#include <memory>
 #include <cinttypes>
 #include <climits>
 //#include <inttypes.h>
@@ -20,8 +20,6 @@
 
 namespace mud
 {
-	using string = std::string;
-
 	MUD_UI_EXPORT bool is_separator(char c);
 
 	MUD_UI_EXPORT size_t word_begin(const string& text, size_t index);
@@ -124,7 +122,7 @@ namespace mud
 		string m_text;
 		size_t m_num_lines;
 
-		std::vector<TextRow> m_text_rows;
+		vector<TextRow> m_text_rows;
 
 		TextPaint m_text_paint;
 
@@ -135,9 +133,9 @@ namespace mud
 			PaletteIndex m_colour;
 		};
 
-		std::vector<ColorSection> m_sections;
+		vector<ColorSection> m_sections;
 
-		std::vector<TextMarker> m_markers;
+		vector<TextMarker> m_markers;
 
 	public:
 		static Vg* s_vg;
@@ -193,7 +191,7 @@ namespace mud
 			TextSelection mAfter;
 		};
 
-		using Callback = std::function<string(const string&)>;
+		using Callback = string(*)(const string&);
 
 	public:
 		TextEdit(Widget* parent, void* identity, bool editor, string allowed_chars);
@@ -303,7 +301,7 @@ namespace mud
 		string m_hovered_word = "";
 		vec4 m_hovered_word_rect = Zero4;
 
-		std::function<bool(char)> m_allow_char;
+		using AllowChar = bool(*)(char); AllowChar m_allow_char;
 
 		int m_tab_size = 4;
 		bool m_completing = false;
@@ -312,8 +310,8 @@ namespace mud
 
 		ColourPalette m_palette;
 
-		static std::vector<uint32_t>& DarkPalette();
-		static std::vector<uint32_t>& OkaidaPalette();
+		static vector<uint32_t>& DarkPalette();
+		static vector<uint32_t>& OkaidaPalette();
 
 	public:
 		bool CanUndo() const { return m_undo_index > 0; }
@@ -322,7 +320,7 @@ namespace mud
 	public:
 		void AddUndo(Action& aValue);
 		
-		std::vector<Action> m_undo_stack;
+		vector<Action> m_undo_stack;
 		int m_undo_index = 0;
 
 		LanguageDefinition* m_language = nullptr;
@@ -334,8 +332,8 @@ namespace ui
 
 	export_ MUD_UI_EXPORT func_ TextEdit& text_box(Widget& parent, Style& style, string& text, bool editor = false, size_t lines = 1, const string& allowed_chars = "");
 	export_ MUD_UI_EXPORT func_ TextEdit& type_in(Widget& parent, string& text, size_t lines = 1, const string& allowed_chars = "");
-	export_ MUD_UI_EXPORT func_ TextEdit& text_edit(Widget& parent, string& text, size_t lines = 1, std::vector<string>* vocabulary = nullptr);
-	export_ MUD_UI_EXPORT func_ TextEdit& code_edit(Widget& parent, string& text, size_t lines = 1, std::vector<string>* vocabulary = nullptr);
+	export_ MUD_UI_EXPORT func_ TextEdit& text_edit(Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
+	export_ MUD_UI_EXPORT func_ TextEdit& code_edit(Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
 
 	export_ MUD_UI_EXPORT string auto_indent(TextEdit& edit);
 }

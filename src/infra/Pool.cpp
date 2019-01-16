@@ -6,7 +6,6 @@
 #ifndef MUD_CPP_20
 #include <cmath>
 #include <random>
-#include <algorithm>
 #endif
 
 #ifdef MUD_MODULES

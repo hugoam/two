@@ -3,8 +3,12 @@
 #ifdef MUD_MODULES
 module mud.geom;
 #else
+#include <meta/type/Module.h>
+#include <meta/math/Module.h>
 #include <meta/geom/Module.h>
 #endif
+
+#include <geom/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/geom/Convert.h>

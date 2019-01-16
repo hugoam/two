@@ -4,12 +4,8 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <refl/Forward.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#include <functional>
-#endif
 
 namespace mud
 {
@@ -24,8 +20,8 @@ namespace mud
 
 		cstring m_name;
 		Namespace* m_parent;
-		std::vector<cstring> m_path;
+		vector<cstring> m_path;
 	};
 
-	export_ MUD_REFL_EXPORT Namespace& namspc(std::vector<cstring> path);
+	export_ MUD_REFL_EXPORT Namespace& namspc(vector<cstring> path);
 }

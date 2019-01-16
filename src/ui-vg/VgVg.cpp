@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
-#include <fstream>
 #include <cmath>
+#include <cfloat>
 #endif
 
 #ifdef MUD_MODULES
@@ -22,7 +22,6 @@ module mud.ui.vg;
 
 #include <infra/File.h>
 #include <math/Math.h>
-#include <math/Clamp.h>
 #include <ui/Style/Paint.h>
 #include <ui/Frame/Layer.h>
 #include <math/ImageAtlas.h>
@@ -85,7 +84,7 @@ namespace mud
 	void VgVg::load_font(cstring name)
 	{
 		string path = this->font_path(name);
-		std::vector<uint8_t> buffer = read_binary_file(path);
+		vector<uint8_t> buffer = read_binary_file(path);
 		m_fonts[name] = vg::createFont(m_vg, name, buffer.data(), uint32_t(buffer.size()), 0);
 	}
 
@@ -312,7 +311,7 @@ namespace mud
 	void VgVg::break_glyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow)
 	{
 		size_t numGlyphs = textRow.m_end - textRow.m_start;
-		std::vector<vg::GlyphPosition> glyphs(numGlyphs);
+		vector<vg::GlyphPosition> glyphs(numGlyphs);
 		textRow.m_glyphs.resize(numGlyphs);
 
 		vg::textGlyphPositions(m_vg, text_font(paint), rect.x, rect.y, textRow.m_start, textRow.m_end, &glyphs.front(), int(glyphs.size()));

@@ -3,9 +3,6 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <gfx/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <string>
-#endif
 
 #include <bx/math.h>
 #include <bx/allocator.h>
@@ -15,6 +12,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/string.h>
 #include <pool/Pool.h>
 #include <math/Math.h>
 #include <math/Random.h>
@@ -37,8 +35,6 @@ module mud.gfx;
 
 namespace mud
 {
-	using string = std::string;
-
 	void ParticleVertex::init()
 	{
 		bgfx::VertexDecl decl;
@@ -56,10 +52,10 @@ namespace mud
 
 	bgfx::VertexDecl ParticleVertex::ms_decl;
 
-	ParticleGenerator::ParticleGenerator()
+	ParticleFlow::ParticleFlow()
 	{}
 
-	ParticleGenerator::ParticleGenerator(cstring name)
+	ParticleFlow::ParticleFlow(cstring name)
 		: m_name(name)
 	{}
 
@@ -104,7 +100,7 @@ namespace mud
 		m_dt -= num_particles * particle_period;
 
 		size_t count = min(num_particles, m_max - uint32_t(m_particles.size()));
-		std::vector<vec3> points = distribute_shape(*m_shape, count);
+		vector<vec3> points = distribute_shape(*m_shape, count);
 
 		float time = 0.0f;
 		for(size_t ii = 0; ii < count; ++ii)
@@ -257,7 +253,7 @@ namespace mud
 
 			bgfx::allocTransientBuffers(&vertex_buffer, ParticleVertex::ms_decl, max * 4, &index_buffer, max * 6);
 
-			std::vector<ParticleSort> particleSort{ max };
+			vector<ParticleSort> particleSort{ max };
 
 			uint32_t pos = 0;
 			ParticleVertex* vertices = (ParticleVertex*)vertex_buffer.data;

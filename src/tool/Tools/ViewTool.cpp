@@ -39,7 +39,7 @@ namespace mud
 	void FrameViewTool::activate()
 	{
 		vec3 vision = m_context.m_camera->m_target - m_context.m_camera->m_eye;
-		std::vector<Transform*> transforms = gather_transforms(*m_context.m_selection);
+		vector<Transform*> transforms = gather_transforms(*m_context.m_selection);
 		Transform transform = average_transforms(transforms);
 		this->commit(make_object<ViewAction>(*m_context.m_camera, transform.m_position - vision, transform.m_position));
 		m_state = ToolState::Done;

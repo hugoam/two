@@ -190,7 +190,7 @@ namespace mud
 	struct StringConverter<AutoStat<T>>
 	{
 		static inline void to(const AutoStat<T>& stat, string& str) { to_string<T>(stat.value(), str); }
-		static inline void from(const string& str, AutoStat<T>& stat) { stat.modify(from_string<T>(str)); }
+		static inline void from(const string& str, AutoStat<T>& stat) { stat.modify(to_value<T>(str)); }
 	};
 #endif
 

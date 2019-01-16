@@ -77,7 +77,7 @@ namespace mud
 	{
 	public:
 		template <class U>
-		static void create(Any& any, const AnyHandler& handler, U&& value) { any.m_pointer = new T(std::forward<U>(value)); any.m_handler = &handler; }
+		static void create(Any& any, const AnyHandler& handler, U&& value) { any.m_pointer = new T(static_cast<U&&>(value)); any.m_handler = &handler; }
 
 		static inline T& value(Any& any) { return *static_cast<T*>(any.m_pointer); }
 		static inline const T& value(const Any& any) { return *static_cast<const T*>(any.m_pointer); }
@@ -92,7 +92,7 @@ namespace mud
 	{
 	public:
 		template <class U>
-		static void create(Any& any, const AnyHandler& handler, U&& value) { new ((void*)&any.m_storage) T(std::forward<U>(value)); any.m_handler = &handler; }
+		static void create(Any& any, const AnyHandler& handler, U&& value) { new ((void*)&any.m_storage) T(static_cast<U&&>(value)); any.m_handler = &handler; }
 
 		static inline T& value(Any& any) { return *static_cast<T*>((void*)&any.m_storage); }
 		static inline const T& value(const Any& any) { return *static_cast<const T*>((void*)&any.m_storage); }
@@ -107,7 +107,7 @@ namespace mud
 	{
 	public:
 		template <class U>
-		static Any create(U&& value) { Any any; TAnyHandlerImpl<T>::create(any, me, std::forward<U>(value)); return any; }
+		static Any create(U&& value) { Any any; TAnyHandlerImpl<T>::create(any, me, static_cast<U&&>(value)); return any; }
 
 		virtual Ref ref(const Any& any) const { return Ref(&const_cast<T&>(this->value(any))); }
 		virtual void assign(Any& any, Ref ref) const { any_assign<T>(this->value(any), val<T>(ref)); }
@@ -153,14 +153,14 @@ namespace mud
 
 	export_ template <class T, class U>
 	inline typename std::enable_if<!ValueSemantic<T>::value, void>::type
-		set(Var& var, U&& value) { set(var.m_ref, std::forward<U>(value)); }
+		set(Var& var, U&& value) { set(var.m_ref, static_cast<U&&>(value)); }
 
 	export_ template <class T, class U>
-	inline Var make_any(U&& value) { return TAnyHandler<T>::create(std::forward<U>(value)); }
+	inline Var make_any(U&& value) { return TAnyHandler<T>::create(static_cast<U&&>(value)); }
 	
 	export_ template <class T, class U>
 	inline typename enable_if<ValueSemantic<T>::value, Var>::type
-		var_value(U&& value) { return make_any<T>(std::forward<U>(value)); }
+		var_value(U&& value) { return make_any<T>(static_cast<U&&>(value)); }
 
 	export_ template <class T, class U>
 	inline typename enable_if<!ValueSemantic<T>::value, Var>::type
@@ -168,14 +168,14 @@ namespace mud
 
 	export_ template <class T, class U>
 	inline typename enable_if<!is_object_pointer<T>::value, Var>::type
-		make_var(U&& value) { return var_value<typename unqual_type<T>::type>(std::forward<T>(value)); }
+		make_var(U&& value) { return var_value<typename unqual_type<T>::type>(static_cast<T&&>(value)); }
 
 	export_ template <class T, class U>
 	inline typename enable_if<is_object_pointer<T>::value, Var>::type
 		make_var(U&& value) { return Ref(value); }
 
 	export_ template <class T>
-	inline Var var(T&& value) { return make_var<T>(std::forward<T>(value)); }
+	inline Var var(T&& value) { return make_var<T>(static_cast<T&&>(value)); }
 
 	export_ template <>
 	inline Var var(Ref&& ref) { return Var(ref); }

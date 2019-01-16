@@ -136,7 +136,7 @@ namespace mud
 
 	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::ProgramHandle program, const uvec4& rect, uint64_t flags, bool render)
 	{
-		RenderQuad quad = { target.source_quad(rect), target.dest_quad(rect), true };
+		RenderQuad quad = { target.source_quad(vec4(rect)), target.dest_quad(vec4(rect)), true };
 		this->submit_quad(target, view, fbo, program, quad, flags, render);
 	}
 
@@ -153,7 +153,7 @@ namespace mud
 
 	void BlockFilter::submit_quad(FrameBuffer& target, uint8_t view, bgfx::ProgramHandle program, uint64_t flags, bool render)
 	{
-		uvec4 rect = vec4(vec2(0.f), vec2(target.m_size));
+		vec4 rect = vec4(vec2(0.f), vec2(target.m_size));
 		RenderQuad quad = { target.source_quad(rect), target.dest_quad(rect), true };
 		this->submit_quad(target, view, program, quad, flags, render);
 	}
@@ -187,9 +187,8 @@ namespace mud
 
 	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::FrameBufferHandle fbo, bgfx::TextureHandle texture, const uvec4& rect, uint64_t flags)
 	{
-		RenderQuad quad = { target.source_quad(rect), target.dest_quad(rect), true };
-		bgfx::setTexture(uint8_t(TextureSampler::Source0), m_filter.u_uniform.s_source_0, texture, GFX_TEXTURE_CLAMP);
-		m_filter.submit_quad(target, view, fbo, m_program.default_version(), quad, flags);
+		RenderQuad quad = { target.source_quad(vec4(rect)), target.dest_quad(vec4(rect)), true };
+		this->submit_quad(target, view, fbo, texture, quad, flags);
 	}
 
 	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, const RenderQuad& quad, uint64_t flags)
@@ -199,13 +198,13 @@ namespace mud
 
 	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, const uvec4& rect, uint64_t flags)
 	{
-		RenderQuad quad = { target.source_quad(rect), target.dest_quad(rect), true };
+		RenderQuad quad = { target.source_quad(vec4(rect)), target.dest_quad(vec4(rect)), true };
 		this->submit_quad(target, view, texture, quad, flags);
 	}
 
 	void BlockCopy::submit_quad(FrameBuffer& target, uint8_t view, bgfx::TextureHandle texture, uint64_t flags)
 	{
-		uvec4 rect = vec4(vec2(0.f), vec2(target.m_size));
+		vec4 rect = vec4(vec2(0.f), vec2(target.m_size));
 		RenderQuad quad = { target.source_quad(rect), target.dest_quad(rect), true };
 		this->submit_quad(target, view, texture, quad, flags);
 	}

@@ -5,8 +5,8 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/string.h>
 #include <infra/NonCopy.h>
-#include <infra/Strung.h>
 #include <type/Unique.h>
 #include <math/Vec.h>
 #endif

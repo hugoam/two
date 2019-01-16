@@ -50,7 +50,7 @@ namespace mud
 		inline T& construct(Types&&... args)
 		{
 			T* at = this->talloc();
-			new (at) T(std::forward<Types>(args)...);
+			new (at) T(static_cast<Types&&>(args)...);
 			return *at;
 		}
 
@@ -192,7 +192,7 @@ namespace mud
 		{
 			uint32_t handle = this->handle();
 			m_indices[handle] = uint32_t(m_objects.size());
-			m_objects.emplace_back(std::forward<Types>(args)...);
+			m_objects.emplace_back(static_cast<Types&&>(args)...);
 			m_handles.push_back(handle);
 			return { *this, handle };
 		}
@@ -205,10 +205,10 @@ namespace mud
 		}
 
 	public:
-		std::vector<T> m_objects;
-		std::vector<uint32_t> m_handles;
-		std::vector<uint32_t> m_indices;
-		std::vector<uint32_t> m_available;
+		vector<T> m_objects;
+		vector<uint32_t> m_handles;
+		vector<uint32_t> m_indices;
+		vector<uint32_t> m_available;
 	};
 
 	template <class T>

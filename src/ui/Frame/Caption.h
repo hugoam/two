@@ -11,7 +11,7 @@
 #include <ui/Frame/Dim.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -30,7 +30,7 @@ namespace mud
 		size_t m_end_index;
 		vec4 m_rect;
 
-		std::vector<TextGlyph> m_glyphs;
+		vector<TextGlyph> m_glyphs;
 	};
 
 	inline TextRow text_row(const char* str, const char* start, const char* end, const vec4& rect)

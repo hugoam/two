@@ -46,6 +46,9 @@ namespace mud
 	inline T max(T a, T b) { return (a < b) ? b : a; }
 
 	export_ template <class T>
+	inline T clamp(T v, T lo, T hi) { return min(max(v, lo), hi); }
+
+	export_ template <class T>
 	func_ T add(T a, T b) { return a + b; }
 
 	export_ template <class T>

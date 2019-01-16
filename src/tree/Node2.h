@@ -4,11 +4,11 @@
 
 #pragma once
 
+#include <stl/vector.h>
+#include <stl/memory.h>
 #include <infra/Config.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
-#include <memory>
 #include <cstdint>
 #endif
 
@@ -36,12 +36,12 @@ namespace mud
 		Graph* m_parent = nullptr;
 		void* m_identity = nullptr;
 		size_t m_heartbeat = 0;
-		std::vector<std::unique_ptr<Graph>> m_nodes;
-		std::unique_ptr<NodeState> m_state;
+		vector<unique_ptr<Graph>> m_nodes;
+		unique_ptr<NodeState> m_state;
 		uint16_t m_next = 0;
 		
 		template <class T_Node>
-		inline T_Node& append(void* identity = nullptr) { m_nodes.emplace_back(std::make_unique<Graph>(&impl(), identity)); return m_nodes.back()->impl<T_Node>(); }
+		inline T_Node& append(void* identity = nullptr) { m_nodes.emplace_back(make_unique<Graph>(&impl(), identity)); return m_nodes.back()->impl<T_Node>(); }
 
 		void clear() { m_nodes.clear(); }
 
@@ -70,13 +70,13 @@ namespace mud
 				append<T_Node>(identity);
 
 			if(m_nodes[index]->m_identity != identity)
-				m_nodes.insert(m_nodes.begin() + index, std::make_unique<T_Node>(&impl(), identity));
+				m_nodes.insert(m_nodes.begin() + index, make_unique<T_Node>(&impl(), identity));
 
 			return static_cast<T_Node&>(update(*m_nodes[index]));
 		}
 
 		template <class T_Node, class... T_Args>
-		T_Node& child_args(T_Args... args, void* identity = nullptr) { size_t index = m_next++; if(m_nodes.size() <= index) m_nodes.emplace_back(std::make_unique<T_Child>(&impl(), identity, args...)); update(*m_nodes[index]); return static_cast<T_Child&>(*m_nodes[index]); }
+		T_Node& child_args(T_Args... args, void* identity = nullptr) { size_t index = m_next++; if(m_nodes.size() <= index) m_nodes.emplace_back(make_unique<T_Child>(&impl(), identity, args...)); update(*m_nodes[index]); return static_cast<T_Child&>(*m_nodes[index]); }
 
 		inline Graph& root() { if(m_parent) return m_parent->root(); return *this; }
 
@@ -84,7 +84,7 @@ namespace mud
 		inline T_State& state(T_Args&&... args)
 		{
 			if(!m_state)
-				m_state = std::make_unique<T_State>(std::forward<T_Args>(args)...);
+				m_state = make_unique<T_State>(static_cast<T_Args&&>(args)...);
 			return static_cast<T_State&>(*m_state);
 		}
 	};

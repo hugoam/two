@@ -14,10 +14,6 @@
 #include <gfx/Mesh.h>
 #include <gfx/Material.h>
 
-#ifndef MUD_CPP_20
-#include <map>
-#endif
-
 namespace mud
 {
 	constexpr size_t c_max_shape_size = 256U;
@@ -43,11 +39,11 @@ namespace mud
 		struct Batch
 		{
 			//DrawMode m_draw_mode;
-			std::vector<Vertex> m_vertices;
-			std::vector<uint16_t> m_indices;
+			vector<Vertex> m_vertices;
+			vector<uint16_t> m_indices;
 		};
 
-		std::vector<Batch> m_batches[2];
+		vector<Batch> m_batches[2];
 		size_t m_cursor[2];
 
 		void begin();
@@ -74,20 +70,19 @@ namespace mud
 		Model& symbol_model(const Symbol& symbol, const Shape& shape, DrawMode draw_mode);
 		Material& symbol_material(GfxSystem& gfx_system, const Symbol& symbol, DrawMode draw_mode);
 
-	protected:
-		std::map<uint64_t, Material*> m_materials;
-		std::map<uint64_t, std::map<std::array<char, c_max_shape_size>, object_ptr<Model>>> m_symbols;
+		class Impl;
+		unique_ptr<Impl> m_impl;
 	};
 
 	export_ MUD_GFX_EXPORT object_ptr<Model> draw_model(cstring name, const ProcShape& shape, bool readback = false);
-	export_ MUD_GFX_EXPORT object_ptr<Model> draw_model(cstring name, const std::vector<ProcShape>& shapes, bool readback = false);
+	export_ MUD_GFX_EXPORT object_ptr<Model> draw_model(cstring name, const vector<ProcShape>& shapes, bool readback = false);
 
 	export_ MUD_GFX_EXPORT void draw_model(const ProcShape& shape, Model& model, bool readback = false, Material* material = nullptr);
-	export_ MUD_GFX_EXPORT void draw_model(const std::vector<ProcShape>& shapes, Model& model, bool readback = false, Material* material = nullptr);
+	export_ MUD_GFX_EXPORT void draw_model(const vector<ProcShape>& shapes, Model& model, bool readback = false, Material* material = nullptr);
 
 	export_ MUD_GFX_EXPORT void draw_mesh(const ProcShape& shapes, Model& model, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
-	export_ MUD_GFX_EXPORT void draw_mesh(const std::vector<ProcShape>& shapes, Model& model, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
+	export_ MUD_GFX_EXPORT void draw_mesh(const vector<ProcShape>& shapes, Model& model, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
 	
-	export_ MUD_GFX_EXPORT void draw_mesh(const std::vector<ProcShape>& shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
+	export_ MUD_GFX_EXPORT void draw_mesh(const vector<ProcShape>& shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
 
 }

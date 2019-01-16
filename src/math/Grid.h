@@ -4,14 +4,12 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <math/Forward.h>
 #include <math/Vec.h>
 
 #ifndef MUD_CPP_20
 #include <cstdint>
-#include <vector>
-#include <functional>
-#include <array>
 #endif
 
 namespace mud
@@ -22,6 +20,7 @@ namespace mud
 		struct Dim
 		{
 		public:
+			Dim() {}
 			Dim(int period, size_t limit, int increment, size_t modulo, size_t divide)
 				: m_period(period), m_limit(limit), m_increment(increment), m_modulo(modulo), m_divide(divide)
 			{}
@@ -50,13 +49,15 @@ namespace mud
 	public:
 		Grided(size_t x, size_t y, size_t z)
 			: T_Array(x*y*z), m_x(x), m_y(y), m_z(z), m_sq(x*y)
-			, m_dims(dims())
-		{}
+		{
+			this->reset_dims();
+		}
 
 		Grided(size_t x, size_t y, size_t z, const T& val)
 			: T_Array(x*y*z, val), m_x(x), m_y(y), m_z(z), m_sq(x*y)
-			, m_dims(dims())
-		{}
+		{
+			this->reset_dims();
+		}
 
 		Grided(size_t s)
 			: Grided(s, s, s)
@@ -66,15 +67,16 @@ namespace mud
 			: Grided(0, 0, 0)
 		{}
 
-		std::array<Dim, 6> dims()
+		Dim& dim(SignedAxis axis) { return m_dims[size_t(axis)]; }
+
+		void reset_dims()
 		{
-			Dim pos_x = { int(m_x), m_x - 1, +1, m_x, 1 };
-			Dim neg_x = { -int(m_x), 0, -1, m_x, 1 };
-			Dim pos_y = { int(m_x*m_y), m_y - 1, +int(m_x), m_sq, m_x };
-			Dim neg_y = { -int(m_x*m_y), 0, -int(m_x), m_sq, m_x };
-			Dim pos_z = { int(m_x*m_y*m_z), m_z - 1, +int(m_sq), SIZE_MAX, m_sq };
-			Dim neg_z = { -int(m_x*m_y*m_z), 0, -int(m_sq), SIZE_MAX, m_sq };
-			return { { pos_x, neg_x, pos_y, neg_y, pos_z, neg_z } };
+			dim(SignedAxis::PlusX)  = {  int(m_x), m_x - 1, +1, m_x, 1 };
+			dim(SignedAxis::MinusX) = { -int(m_x), 0, -1, m_x, 1 };
+			dim(SignedAxis::PlusY)  = {  int(m_x*m_y), m_y - 1, +int(m_x), m_sq, m_x };
+			dim(SignedAxis::MinusX) = { -int(m_x*m_y), 0, -int(m_x), m_sq, m_x };
+			dim(SignedAxis::PlusZ)  = {  int(m_x*m_y*m_z), m_z - 1, +int(m_sq), SIZE_MAX, m_sq };
+			dim(SignedAxis::MinusZ) = { -int(m_x*m_y*m_z), 0, -int(m_sq), SIZE_MAX, m_sq };
 		}
 
 		void clear(T val)
@@ -86,7 +88,7 @@ namespace mud
 		void reset(size_t x, size_t y, size_t z)
 		{
 			m_x = x; m_y = y; m_z = z; m_sq = x*y;
-			m_dims = dims();
+			this->reset_dims();
 			this->resize(x*y*z);
 		}
 		
@@ -96,8 +98,8 @@ namespace mud
 			clear(val);
 		}
 
-		inline T& at(size_t i) { return T_Array::at(i); }
-		inline const T& at(size_t i) const { return T_Array::at(i); }
+		inline T& at(size_t i) { return T_Array::operator[](i); }
+		inline const T& at(size_t i) const { return T_Array::operator[](i); }
 
 		inline T& at(size_t x, size_t y, size_t z = 0) { return at(x + y*m_x + z*m_sq); }
 		inline const T& at(size_t x, size_t y, size_t z = 0) const { return at(x + y*m_x + z*m_sq); }
@@ -138,7 +140,8 @@ namespace mud
 			return true;
 		}
 
-		bool visit_near_2d(size_t x, size_t y, size_t z, size_t d, const std::function<bool(T&)>& callback)
+		template <class T_Visitor>
+		bool visit_near_2d(size_t x, size_t y, size_t z, size_t d, T_Visitor callback)
 		{
 			size_t xMin = x > d ? x - d : 0;
 			size_t yMin = y > d ? y - d : 0;
@@ -157,7 +160,8 @@ namespace mud
 			return true;
 		}
 
-		bool visit_near(size_t x, size_t y, size_t z, size_t d, const std::function<bool(T&)>& callback)
+		template <class T_Visitor>
+		bool visit_near(size_t x, size_t y, size_t z, size_t d, T_Visitor callback)
 		{
 			size_t xMin = x > d ? x - d : 0;
 			size_t yMin = y > d ? y - d : 0;
@@ -175,31 +179,34 @@ namespace mud
 			return true;
 		}
 
-		bool visit_near_dist(size_t index, size_t dist, const std::function<bool(T&)>& callback)
+		template <class T_Visitor>
+		bool visit_near_dist(size_t index, size_t dist, T_Visitor callback)
 		{
 			return this->visit_near_dist(this->x(index), this->y(index), this->z(index), dist, callback);
 		}
 
-		bool visit_near_2d(size_t index, size_t dist, const std::function<bool(T&)>& callback)
+		template <class T_Visitor>
+		bool visit_near_2d(size_t index, size_t dist, T_Visitor callback)
 		{
 			return this->visit_near_2d(this->x(index), this->y(index), this->z(index), dist, callback);
 		}
 
-		bool visit_near(size_t index, size_t dist, const std::function<bool(T&)>& callback)
+		template <class T_Visitor>
+		bool visit_near(size_t index, size_t dist, T_Visitor callback)
 		{
 			return this->visit_near(this->x(index), this->y(index), this->z(index), dist, callback);
 		}
 
-		std::vector<T*> neighbours(size_t index, size_t dist)
+		vector<T*> neighbours(size_t index, size_t dist)
 		{
-			std::vector<T*> result;
+			vector<T*> result;
 			this->visit_near(index, dist, [&](T& obj){ result.push_back(&obj); return true; });
 			return result;
 		}
 
-		std::vector<T*> neighbours_2d(size_t index, size_t dist)
+		vector<T*> neighbours_2d(size_t index, size_t dist)
 		{
-			std::vector<T*> result;
+			vector<T*> result;
 			this->visit_near_2d(index, dist, [&](T& obj){ result.push_back(&obj); return true; });
 			return result;
 		}
@@ -209,29 +216,29 @@ namespace mud
 		size_t m_sq;
 
 		//enum_array<Side, Dim> m_dims;
-		std::array<Dim, 6> m_dims;
+		Dim m_dims[6] = {};
 	};
 
 	export_ template <class T_Element>
-	struct refl_ struct_ Grid : public Grided<std::vector<T_Element>>
+	struct refl_ struct_ Grid : public Grided<vector<T_Element>>
 	{
-		using Grided<std::vector<T_Element>>::Grided;
+		using Grided<vector<T_Element>>::Grided;
 	};
 
 
 	export_ template <class T_Element>
-	struct refl_ struct_ array_3d : public std::vector<T_Element>
+	struct refl_ struct_ array_3d : public vector<T_Element>
 	{
 	public:
 		typedef T_Element T;
 
 	public:
 		array_3d(size_t x, size_t y, size_t z)
-			: std::vector<T_Element>(x*y*z), m_x(x), m_y(y), m_z(z)
+			: vector<T_Element>(x*y*z), m_x(x), m_y(y), m_z(z)
 		{}
 
 		array_3d(size_t x, size_t y, size_t z, const T& val)
-			: std::vector<T_Element>(x*y*z, val), m_x(x), m_y(y), m_z(z)
+			: vector<T_Element>(x*y*z, val), m_x(x), m_y(y), m_z(z)
 		{}
 
 		array_3d(size_t s)
@@ -260,8 +267,8 @@ namespace mud
 			clear(val);
 		}
 
-		inline T& at(size_t x, size_t y, size_t z = 0) { return std::vector<T_Element>::at(x + y*m_x + z*m_x*m_y); }
-		inline const T& at(size_t x, size_t y, size_t z = 0) const { return std::vector<T_Element>::at(x + y*m_x + z*m_x*m_y); }
+		inline T& at(size_t x, size_t y, size_t z = 0) { return vector<T_Element>::operator[](x + y*m_x + z*m_x*m_y); }
+		inline const T& at(size_t x, size_t y, size_t z = 0) const { return vector<T_Element>::operator[](x + y*m_x + z*m_x*m_y); }
 		inline T* safeAt(size_t x, size_t y, size_t z) { if(x > m_x || y > m_y || z > m_z) return nullptr; else return &at(x, y, z); }
 
 		inline size_t indexAt(size_t x, size_t y, size_t z) { return x + y*m_x + z*m_x*m_y; }
@@ -274,8 +281,8 @@ namespace mud
 		size_t m_x, m_y, m_z;
 	};
 
-	export_ MUD_MATH_EXPORT func_ void grid(const uvec3& size, std::vector<uvec3>& output_coords);
+	export_ MUD_MATH_EXPORT func_ void grid(const uvec3& size, vector<uvec3>& output_coords);
 	export_ MUD_MATH_EXPORT func_ vec3 grid_center(const uvec3& coord, const vec3& cell_size);
 
-	export_ MUD_MATH_EXPORT func_ void index_list(uint32_t size, std::vector<uint32_t>& output_indices);
+	export_ MUD_MATH_EXPORT func_ void index_list(uint32_t size, vector<uint32_t>& output_indices);
 }

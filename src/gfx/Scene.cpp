@@ -90,7 +90,7 @@ namespace mud
 			}
 	}
 
-	void cull_items(Scene& scene, const Plane6& planes, std::vector<Item*>& items)
+	void cull_items(Scene& scene, const Plane6& planes, vector<Item*>& items)
 	{
 		//items.reserve(m_pool->pool<Item>().size());
 		scene.m_pool->pool<Item>().iterate([&](Item& item)
@@ -103,7 +103,7 @@ namespace mud
 		});
 	}
 
-	void gather_items(Scene& scene, const Camera& camera, std::vector<Item*>& items)
+	void gather_items(Scene& scene, const Camera& camera, vector<Item*>& items)
 	{
 		Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
 
@@ -135,7 +135,7 @@ namespace mud
 		});
 	}
 
-	void gather_occluders(Scene& scene, const Camera& camera, std::vector<Item*>& occluders)
+	void gather_occluders(Scene& scene, const Camera& camera, vector<Item*>& occluders)
 	{
 		Plane6 planes = frustum_planes(camera.m_projection, camera.m_transform);
 
@@ -150,7 +150,7 @@ namespace mud
 		});
 	}
 
-	void gather_lights(Scene& scene, std::vector<Light*>& lights)
+	void gather_lights(Scene& scene, vector<Light*>& lights)
 	{
 		//lights.reserve(m_pool->pool<Light>().size());
 		scene.m_pool->pool<Light>().iterate([&](Light& light)

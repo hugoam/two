@@ -34,7 +34,7 @@ namespace mud
 
 		GfxSystem& m_gfx_system;
 
-		std::vector<Ref> m_selection;
+		vector<Ref> m_selection;
 
 		ActionStack m_action_stack;
 		ToolContext m_tool_context;
@@ -56,7 +56,7 @@ namespace mud
 		attr_ SpatialTool* m_spatial_tool = nullptr;
 		attr_ Brush* m_brush = nullptr;
 
-		std::vector<unique_ptr<Brush>> m_custom_brushes;
+		vector<unique_ptr<Brush>> m_custom_brushes;
 
 		ScriptEditor m_script_editor;
 
@@ -69,7 +69,7 @@ namespace mud
 	MUD_TOOL_EXPORT void brush_options(Widget& parent, Brush& brush);
 	MUD_TOOL_EXPORT void current_brush_edit(Widget& parent, EditContext& context);
 
-	MUD_TOOL_EXPORT void object_editor(Widget& parent, const std::vector<Ref>& selection);
+	MUD_TOOL_EXPORT void object_editor(Widget& parent, const vector<Ref>& selection);
 
 	MUD_TOOL_EXPORT void tools_transform(Widget& toolbar, EditContext& context);
 	MUD_TOOL_EXPORT void edit_transform(Widget& parent, EditContext& context);

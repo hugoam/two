@@ -4,18 +4,13 @@
 
 #pragma once
 
+#include <stl/string.h>
+#include <stl/vector.h>
 #include <infra/Array.h>
 #include <type/Forward.h>
 
-#ifndef MUD_CPP_20
-#include <string>
-#include <vector>
-#include <functional>
-#endif
-
 namespace mud
 {
-	using string = std::string;
 	using cstring = const char*;
 
 	export_ struct Filepath
@@ -25,7 +20,7 @@ namespace mud
 		string extension;
 	};
 
-	export_ MUD_INFRA_EXPORT std::vector<uint8_t> read_binary_file(const string& path);
+	export_ MUD_INFRA_EXPORT vector<uint8_t> read_binary_file(const string& path);
 	export_ MUD_INFRA_EXPORT string read_text_file(const string& path);
 
 	export_ MUD_INFRA_EXPORT void write_binary_file(const string& path, array<uint8_t> data);
@@ -40,19 +35,19 @@ namespace mud
 	export_ MUD_INFRA_EXPORT bool create_directory_tree(cstring path);
 	export_ MUD_INFRA_EXPORT bool create_file_tree(cstring path);
 
-	export_ using FileVisitor = std::function<void(cstring, cstring)>;
-	export_ MUD_INFRA_EXPORT void visit_files(cstring path, FileVisitor visit_file);
-	export_ MUD_INFRA_EXPORT void visit_folders(cstring path, FileVisitor visit_folder, bool ignore_symbolic = true);
+	export_ using FileVisitor = void(*)(void*, cstring, cstring);
+	export_ MUD_INFRA_EXPORT void visit_files(cstring path, FileVisitor visit_file, void* user = nullptr);
+	export_ MUD_INFRA_EXPORT void visit_folders(cstring path, FileVisitor visit_folder, void* user = nullptr, bool ignore_symbolic = true);
 
 	export_ MUD_INFRA_EXPORT void write_file(cstring path, cstring content);
 
 	inline string file_directory(const string& path)
 	{
-		return path.substr(0, path.rfind('/') + 1);
+		return path.substr(0, path.rfind("/") + 1);
 	}
 
 	inline string file_name(const string& path)
 	{
-		return path.substr(path.rfind('/') + 1);
+		return path.substr(path.rfind("/") + 1);
 	}
 }

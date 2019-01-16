@@ -9,7 +9,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstdarg>
-#include <vector>
 #include <type_traits>
 #endif
 
@@ -17,17 +16,18 @@
 #include <stdlib.h>
 module mud.lang;
 #else
+#include <stl/vector.h>
 #include <infra/NonCopy.h>
+#include <infra/Vector.h>
+#include <infra/Global.h>
+#include <type/Any.h>
 #include <ecs/Proto.h>
+#include <type/Dispatch.h>
+#include <type/DispatchDecl.h>
 #include <refl/Meta.h>
 #include <refl/Enum.h>
 #include <refl/Sequence.h>
-#include <type/Any.h>
-#include <infra/Vector.h>
 #include <refl/System.h>
-#include <type/Dispatch.h>
-#include <type/DispatchDecl.h>
-#include <infra/Global.h>
 #include <lang/Types.h>
 #include <lang/Lua.h>
 #endif
@@ -183,7 +183,7 @@ namespace mud
 
 	inline Call& lua_cached_call(const Callable& callable)
 	{
-		static std::vector<object_ptr<Call>> lua_call_table;
+		static vector<object_ptr<Call>> lua_call_table;
 		if(callable.m_index >= lua_call_table.size())
 			lua_call_table.resize(callable.m_index + 1);
 
@@ -683,25 +683,25 @@ namespace mud
 		{
 			Var element = meta(*cls(sequence_type).m_content).m_empty_var;
 			read(state, -1, element);
-			add_sequence(result, element);
+			sequence(result).add(result, element);
 			lua_pop(state, 1); // pop the value but keep the key for the next iteration
 		}
 	}
 
 	FromLua::FromLua()
 	{
-		function<int>     ([](Ref, lua_State* state, int index, Var& result) { read_integer<int>(state, index, result); });
-		function<ushort>  ([](Ref, lua_State* state, int index, Var& result) { read_integer<ushort>(state, index, result); });
-		function<uint>    ([](Ref, lua_State* state, int index, Var& result) { read_integer<uint>(state, index, result); });
-		function<ulong>   ([](Ref, lua_State* state, int index, Var& result) { read_integer<ulong>(state, index, result); });
-		function<ulong2>  ([](Ref, lua_State* state, int index, Var& result) { read_integer<ulong2>(state, index, result); });
-		function<float>   ([](Ref, lua_State* state, int index, Var& result) { read_number<float>(state, index, result); });
-		function<double>  ([](Ref, lua_State* state, int index, Var& result) { read_number<double>(state, index, result); });
-		function<cstring> ([](Ref, lua_State* state, int index, Var& result) { read_cstring(state, index, result); });
-		function<string>  ([](Ref, lua_State* state, int index, Var& result) { read_string(state, index, result); });
-		function<bool>    ([](Ref, lua_State* state, int index, Var& result) { val<bool>(result) = lua_toboolean(state, index) != 0; });
+		function<int>     ([](void*, Ref, lua_State* state, int index, Var& result) { read_integer<int>(state, index, result); });
+		function<ushort>  ([](void*, Ref, lua_State* state, int index, Var& result) { read_integer<ushort>(state, index, result); });
+		function<uint>    ([](void*, Ref, lua_State* state, int index, Var& result) { read_integer<uint>(state, index, result); });
+		function<ulong>   ([](void*, Ref, lua_State* state, int index, Var& result) { read_integer<ulong>(state, index, result); });
+		function<ullong>  ([](void*, Ref, lua_State* state, int index, Var& result) { read_integer<ullong>(state, index, result); });
+		function<float>   ([](void*, Ref, lua_State* state, int index, Var& result) { read_number<float>(state, index, result); });
+		function<double>  ([](void*, Ref, lua_State* state, int index, Var& result) { read_number<double>(state, index, result); });
+		function<cstring> ([](void*, Ref, lua_State* state, int index, Var& result) { read_cstring(state, index, result); });
+		function<string>  ([](void*, Ref, lua_State* state, int index, Var& result) { read_string(state, index, result); });
+		function<bool>    ([](void*, Ref, lua_State* state, int index, Var& result) { val<bool>(result) = lua_toboolean(state, index) != 0; });
 
-		function<Type>    ([](Ref, lua_State* state, int index, Var& result) { return read_type(state, index, result); });
+		function<Type>    ([](void*, Ref, lua_State* state, int index, Var& result) { return read_type(state, index, result); });
 		//function<Prototype> ([](Ref, lua_State* state, int index) { return read_type(state, index); });
 	}
 
@@ -717,7 +717,7 @@ namespace mud
 
 	inline Stack push_string(lua_State* state, const string& value)
 	{
-		lua_pushlstring(state, value.c_str(), value.length()); return{ state, 1 };
+		lua_pushlstring(state, value.c_str(), value.size()); return{ state, 1 };
 	}
 
 	inline Stack push_cstring(lua_State* state, const char* value)
@@ -745,8 +745,8 @@ namespace mud
 	inline Stack push_dict(lua_State* state, const Var& value)
 	{
 		Stack obj = push_array(state);
-		iterate_dict(value.m_ref, [=](Var key, Var element) {
-			set_table(state, key, element); });
+		//iterdict(value).iterate(value, [=](Var key, Var element) {
+		//	set_table(state, key, element); });
 		return obj;
 	}
 
@@ -754,7 +754,7 @@ namespace mud
 	{
 		Stack obj = push_array(state);
 		size_t index = 1;
-		iterate_sequence(value.m_ref, [&](/*size_t index, */Ref element) {
+		iter(value).iterate(value, [&](/*size_t index, */Ref element) {
 			set_table(state, var(index++ /*+ 1*/), element); });
 		return obj;
 	}
@@ -773,24 +773,24 @@ namespace mud
 
 	ToLua::ToLua()
 	{
-		function<void>([](Ref, lua_State* state) { return push_null(state); });
+		function<void>([](void*, Ref, lua_State* state) { return push_null(state); });
 
-		dispatch_branch<int>     (*this, [](int&      value, lua_State* state) { return push_integer(state, value); });
-		dispatch_branch<ushort>  (*this, [](ushort&   value, lua_State* state) { return push_integer(state, value); });
-		dispatch_branch<uint>    (*this, [](uint&     value, lua_State* state) { return push_integer(state, value); });
-		dispatch_branch<ulong>   (*this, [](ulong&    value, lua_State* state) { return push_integer(state, value); });
-		dispatch_branch<ulong2>  (*this, [](ulong2&   value, lua_State* state) { return push_integer(state, value); });
-		dispatch_branch<float>   (*this, [](float&    value, lua_State* state) { return push_scalar(state, value); });
-		dispatch_branch<double>  (*this, [](double&   value, lua_State* state) { return push_scalar(state, value); });
-		dispatch_branch<cstring> (*this, [](cstring   value, lua_State* state) { return push_cstring(state, value); });
-		dispatch_branch<string>  (*this, [](string&   value, lua_State* state) { return push_string(state, value); });
-		dispatch_branch<bool>    (*this, [](bool&     value, lua_State* state) { return push_bool(state, value); });
+		dispatch_branch<int>     (*this, +[](int&      value, lua_State* state) { return push_integer(state, value); });
+		dispatch_branch<ushort>  (*this, +[](ushort&   value, lua_State* state) { return push_integer(state, value); });
+		dispatch_branch<uint>    (*this, +[](uint&     value, lua_State* state) { return push_integer(state, value); });
+		dispatch_branch<ulong>   (*this, +[](ulong&    value, lua_State* state) { return push_integer(state, value); });
+		dispatch_branch<ullong>  (*this, +[](ullong&   value, lua_State* state) { return push_integer(state, value); });
+		dispatch_branch<float>   (*this, +[](float&    value, lua_State* state) { return push_scalar(state, value); });
+		dispatch_branch<double>  (*this, +[](double&   value, lua_State* state) { return push_scalar(state, value); });
+		dispatch_branch<cstring> (*this, +[](cstring   value, lua_State* state) { return push_cstring(state, value); });
+		dispatch_branch<string>  (*this, +[](string&   value, lua_State* state) { return push_string(state, value); });
+		dispatch_branch<bool>    (*this, +[](bool&     value, lua_State* state) { return push_bool(state, value); });
 	}
 
 	class LuaContext : public NonCopy
 	{
 	public:
-		explicit LuaContext(std::vector<string> import_namespaces = {})
+		explicit LuaContext(vector<string> import_namespaces = {})
 			: m_import_namespaces(import_namespaces)
 		{
 			m_state = luaL_newstate();
@@ -898,7 +898,7 @@ namespace mud
 			register_field(m_state, type, member.m_name, Ref(&member));
 		}
 		
-		std::vector<string> m_import_namespaces;
+		vector<string> m_import_namespaces;
 
 		lua_State* m_state;
 	};
@@ -908,7 +908,7 @@ namespace mud
 namespace mud
 {
 	LuaInterpreter::LuaInterpreter(bool import_symbols)
-		: m_context(make_unique<LuaContext>(std::vector<string>{ "mud", "toy" }))
+		: m_context(construct<LuaContext>(vector<string>{ "mud", "toy" }))
 	{
 		g_lua_print_output = &m_output;
 		if(import_symbols)

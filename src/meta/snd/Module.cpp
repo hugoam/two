@@ -6,6 +6,8 @@ module mud.snd;
 #include <meta/snd/Module.h>
 #endif
 
+#include <snd/Api.h>
+
 #ifndef MUD_MODULES
 #include <meta/snd/Convert.h>
 #endif

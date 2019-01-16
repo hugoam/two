@@ -11,7 +11,7 @@
 #include <ui/Structs/Widget.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -56,7 +56,7 @@ namespace mud
 
 		CanvasConnect m_connect;
 
-		std::vector<Node*> m_nodes;
-		std::vector<Node*> m_selection;
+		vector<Node*> m_nodes;
+		vector<Node*> m_selection;
 	};
 }

@@ -4,17 +4,8 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef MUD_MODULES
-#include <meta/infra/Module.h>
-#include <meta/type/Module.h>
-#include <meta/refl/Module.h>
-#endif
-
 #include <srlz/Forward.h>
 #include <srlz/Types.h>
-#include <srlz/Api.h>
-
-#include <meta/srlz/Convert.h>
 
 #ifndef MUD_SRLZ_REFL_EXPORT
 #define MUD_SRLZ_REFL_EXPORT MUD_IMPORT

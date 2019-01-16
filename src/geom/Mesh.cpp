@@ -4,7 +4,7 @@
 
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
-#include <map>
+#include <stl/map.h>
 #include <unordered_map>
 #include <cstdio>
 #endif
@@ -20,9 +20,13 @@ module mud.geom;
 
 #include <mikktspace.h>
 
+#ifdef MUD_NO_GLM
+namespace mud
+#else
 namespace glm
+#endif
 {
-	inline bool operator<(const vec3& lhs, const vec3& rhs) { return all(lessThan(lhs, rhs)); }
+	inline bool operator<(const vec3& lhs, const vec3& rhs) { return all(less(lhs, rhs)); }
 }
 
 namespace mud
@@ -208,10 +212,11 @@ namespace mud
 
 	void MeshPacker::generate_normals()
 	{
-		std::map<vec3, vec3> smooth_normals;
+#if 0
+		map<vec3, vec3> smooth_normals;
 		//std::unordered_map<vec3, vec3> smooth_normals;
 
-		std::vector<int> smooth_groups;
+		vector<int> smooth_groups;
 
 		for(int smooth_group : smooth_groups)
 		{
@@ -250,6 +255,7 @@ namespace mud
 
 			smooth_normals.clear();
 		}
+#endif
 	}
 
 	struct ShapeData
@@ -269,7 +275,7 @@ namespace mud
 	void generate_mikkt_tangents(array<ShapeIndex> indices, array<ShapeVertex> vertices)
 	{
 		ShapeData shape_data = { indices, vertices };
-		std::vector<ShapeVertex> verts = to_vector(vertices);
+		vector<ShapeVertex> verts = to_vector(vertices);
 
 		using Context = SMikkTSpaceContext;
 

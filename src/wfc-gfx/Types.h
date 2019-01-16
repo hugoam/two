@@ -23,9 +23,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 
@@ -36,6 +36,6 @@ namespace mud
     export_ template <> MUD_WFC_GFX_EXPORT Type& type<mud::TileModel>();
     export_ template <> MUD_WFC_GFX_EXPORT Type& type<mud::WfcBlock>();
     
-    export_ template struct MUD_WFC_GFX_EXPORT Typed<std::vector<mud::TileModel*>>;
-    export_ template struct MUD_WFC_GFX_EXPORT Typed<std::vector<mud::WfcBlock*>>;
+    export_ template struct MUD_WFC_GFX_EXPORT Typed<vector<mud::TileModel*>>;
+    export_ template struct MUD_WFC_GFX_EXPORT Typed<vector<mud::WfcBlock*>>;
 }

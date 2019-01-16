@@ -8,7 +8,7 @@
 module mud.gfx;
 #else
 #include <refl/Class.h>
-#include <infra/StringConvert.h>
+#include <infra/ToString.h>
 #include <gfx/Types.h>
 #include <gfx/Uniform.h>
 #include <gfx/GfxSystem.h>

@@ -53,7 +53,7 @@ namespace mud
 		auto neighbours = m_grid.neighbours(index, 2);
 		neighbours.push_back(&m_grid.at(index));
 
-		for(std::vector<Point>* cell : neighbours)
+		for(vector<Point>* cell : neighbours)
 			for(Point& other : *cell)
 			{
 				float dist = m_overlap ? point.radius : point.radius + other.radius;
@@ -122,12 +122,12 @@ namespace mud
 			continue;
 	}
 
-	std::vector<vec3> Poisson::distribute(float radius)
+	vector<vec3> Poisson::distribute(float radius)
 	{
 		while(insertPoint(radius))
 			continue;
 
-		std::vector<vec3> result;
+		vector<vec3> result;
 		for(Point& point : m_points)
 		{
 			vec3 position = { point.position.x - m_size.x / 2.f, 0.f, point.position.y - m_size.y / 2.f };
@@ -136,16 +136,16 @@ namespace mud
 		return result;
 	}
 
-	std::vector<Circle> Poisson::distribute_circles(float radius)
+	vector<Circle> Poisson::distribute_circles(float radius)
 	{
-		std::vector<vec3> distribution = this->distribute(radius);
-		std::vector<Circle> result;
+		vector<vec3> distribution = this->distribute(radius);
+		vector<Circle> result;
 		for(vec3& point : distribution)
-			result.emplace_back(point, radius, Axis::Y);
+			result.push_back({ point, radius, Axis::Y });
 		return result;
 	}
 
-	std::vector<vec3> distribute_poisson(vec2 size, float radius)
+	vector<vec3> distribute_poisson(vec2 size, float radius)
 	{
 		Poisson distribution = { size, radius };
 		return distribution.distribute(radius);

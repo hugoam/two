@@ -5,12 +5,13 @@
 #include <gfx/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <array>
+#include <map>
 #endif
 
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <infra/StringConvert.h>
+#include <infra/ToString.h>
 #include <geom/Mesh.h>
 #include <geom/Shape/ProcShape.h>
 #include <gfx/Types.h>
@@ -171,7 +172,14 @@ namespace mud
 
 	bgfx::VertexDecl ImmediateDraw::ms_vertex_decl;
 
+	struct SymbolIndex::Impl
+	{
+		std::map<uint64_t, Material*> m_materials;
+		std::map<uint64_t, std::map<std::array<char, c_max_shape_size>, object_ptr<Model>>> m_symbols;
+	};
+
 	SymbolIndex::SymbolIndex()
+		: m_impl(make_unique<Impl>())
 	{}
 
 	SymbolIndex::~SymbolIndex()
@@ -193,16 +201,17 @@ namespace mud
 		Colour colour = draw_mode == PLAIN ? symbol.m_fill : symbol.m_outline;
 
 		uint64_t hash = hash_symbol_material(symbol, draw_mode);
-		if(m_materials[hash] == nullptr)
+		if(m_impl->m_materials.find(hash) == m_impl->m_materials.end())
 		{
-			m_materials[hash] = &gfx_system.fetch_material(("Symbol" + to_string(hash)).c_str(), "unshaded");
-			m_materials[hash]->m_base_block.m_depth_draw_mode = DepthDraw::Disabled;
-			m_materials[hash]->m_base_block.m_depth_test = symbol.m_overlay ? DepthTest::Disabled : DepthTest::Enabled;
-			m_materials[hash]->m_base_block.m_cull_mode = symbol.m_double_sided ? CullMode::None : CullMode::Back;
-			m_materials[hash]->m_unshaded_block.m_enabled = true;
-			m_materials[hash]->m_unshaded_block.m_colour.m_value = colour;
+			Material& m = gfx_system.fetch_material(("Symbol" + to_string(hash)).c_str(), "unshaded");
+			m.m_base_block.m_depth_draw_mode = DepthDraw::Disabled;
+			m.m_base_block.m_depth_test = symbol.m_overlay ? DepthTest::Disabled : DepthTest::Enabled;
+			m.m_base_block.m_cull_mode = symbol.m_double_sided ? CullMode::None : CullMode::Back;
+			m.m_unshaded_block.m_enabled = true;
+			m.m_unshaded_block.m_colour.m_value = colour;
+			m_impl->m_materials[hash] = &m;
 		}
-		return *m_materials[hash];
+		return *m_impl->m_materials[hash];
 	}
 
 	Model& SymbolIndex::symbol_model(const Symbol& symbol, const Shape& shape, DrawMode draw_mode)
@@ -211,22 +220,23 @@ namespace mud
 		std::array<char, c_max_shape_size> shape_mem = {};
 		std::memcpy(&shape_mem[0], (void*) &shape, shape.m_type.m_size);
 
-		if(m_symbols[hash][shape_mem] == nullptr)
+		auto& shapes = m_impl->m_symbols[hash];
+		if(shapes.find(shape_mem) == shapes.end())
 		{
 			//printf("INFO: created indexed Shape %s %s\n", shape.m_type.m_name, pack_json(Ref(&shape)).c_str());
 			string name = "Shape:" + string(shape.m_type.m_name);
-			m_symbols[hash][shape_mem] = draw_model(name.c_str(), ProcShape{ symbol, &shape, draw_mode }, true);
+			shapes[shape_mem] = draw_model(name.c_str(), ProcShape{ symbol, &shape, draw_mode }, true);
 		}
 
-		return *m_symbols[hash][shape_mem];
+		return *shapes[shape_mem];
 	}
 
 	object_ptr<Model> draw_model(cstring id, const ProcShape& shape, bool readback)
 	{
-		return draw_model(id, std::vector<ProcShape>{ { shape } }, readback);
+		return draw_model(id, vector<ProcShape>{ { shape } }, readback);
 	}
 
-	object_ptr<Model> draw_model(cstring id, const std::vector<ProcShape>& shapes, bool readback)
+	object_ptr<Model> draw_model(cstring id, const vector<ProcShape>& shapes, bool readback)
 	{
 		object_ptr<Model> model = make_object<Model>(id);
 		draw_model(shapes, *model, readback);
@@ -235,10 +245,10 @@ namespace mud
 
 	void draw_model(const ProcShape& shape, Model& model, bool readback, Material* material)
 	{
-		draw_model(std::vector<ProcShape>{ { shape } }, model, readback, material);
+		draw_model(vector<ProcShape>{ { shape } }, model, readback, material);
 	}
 
-	void draw_model(const std::vector<ProcShape>& shapes, Model& model, bool readback, Material* material)
+	void draw_model(const vector<ProcShape>& shapes, Model& model, bool readback, Material* material)
 	{
 		ShapeSize size[2] = { { 0, 0 }, { 0, 0 } };
 		size_t shape_count = 0;
@@ -255,10 +265,10 @@ namespace mud
 
 	void draw_mesh(const ProcShape& shape, Model& model, DrawMode draw_mode, bool readback, Material* material)
 	{
-		draw_mesh(std::vector<ProcShape>{ { shape } }, model, draw_mode, readback, material);
+		draw_mesh(vector<ProcShape>{ { shape } }, model, draw_mode, readback, material);
 	}
 
-	void draw_mesh(const std::vector<ProcShape>& shapes, Model& model, DrawMode draw_mode, bool readback, Material* material)
+	void draw_mesh(const vector<ProcShape>& shapes, Model& model, DrawMode draw_mode, bool readback, Material* material)
 	{
 		ShapeSize size = { 0, 0 };
 		size_t shape_count = 0;
@@ -267,7 +277,7 @@ namespace mud
 		draw_mesh(shapes, model, size, draw_mode, readback, material);
 	}
 
-	void draw_mesh(const std::vector<ProcShape>& shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback, Material* material)
+	void draw_mesh(const vector<ProcShape>& shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback, Material* material)
 	{
 		Mesh& mesh = model.add_mesh((model.m_name + to_string(draw_mode)).c_str(), readback);
 		mesh.m_material = material;

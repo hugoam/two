@@ -10,7 +10,11 @@
 #include <math/Colour.h>
 
 #ifndef MUD_META_GENERATOR
+#ifdef MUD_NO_GLM
+namespace mud
+#else
 namespace glm
+#endif
 {
 	inline bool operator<(const uvec2& lhs, const uvec2& rhs) { return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y); }
 	inline bool operator<(const ivec2& lhs, const ivec2& rhs) { return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y); }

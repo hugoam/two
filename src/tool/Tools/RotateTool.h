@@ -11,7 +11,7 @@
 #include <tool/Tool.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -36,7 +36,7 @@ namespace mud
 	public:
 		RotateTool(ToolContext& context);
 
-		Gizmo rotation_gizmo(Axis axis, float hue);
+		unique_ptr<Gizmo> rotation_gizmo(Axis axis, float hue);
 
 		virtual object_ptr<TransformAction> create_action(array<Transform*> transforms);
 	};

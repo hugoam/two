@@ -90,11 +90,11 @@ namespace mud
 			FrustumSlice m_frustum_slice;
 			LightBounds m_light_bounds;
 
-			std::vector<Item*> m_items;
+			vector<Item*> m_items;
 		};
 
-		std::vector<FrustumSlice> m_frustum_slices;
-		std::vector<Slice> m_slices;
+		vector<FrustumSlice> m_frustum_slices;
+		vector<Slice> m_slices;
 	};
 
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockShadow : public DrawBlock
@@ -152,7 +152,7 @@ namespace mud
 
 		ShadowAtlas m_atlas;
 
-		std::vector<LightShadow> m_shadows;
+		vector<LightShadow> m_shadows;
 
 		CSMShadow m_csm;
 

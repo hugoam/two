@@ -37,7 +37,7 @@ namespace mud
 	object_ptr<Shape> Quad::clone() const { return make_object<Quad>(*this); }
 
 	Polygon::Polygon() : Shape(type<Polygon>()) {}
-	Polygon::Polygon(std::vector<vec3> vertices) : Shape(type<Polygon>()), m_vertices(vertices) {}
+	Polygon::Polygon(vector<vec3> vertices) : Shape(type<Polygon>()), m_vertices(vertices) {}
 	object_ptr<Shape> Polygon::clone() const { return make_object<Polygon>(*this); }
 
 	Grid2::Grid2() : Shape(type<Grid2>()) {}
@@ -107,15 +107,15 @@ namespace mud
 	object_ptr<Shape> Spheroid::clone() const { return make_object<Spheroid>(*this); }
 
 	Points::Points() : Shape(type<Points>()) {}
-	Points::Points(const std::vector<vec3>& points) : Shape(type<Points>()), m_points(points) {}
+	Points::Points(const vector<vec3>& points) : Shape(type<Points>()), m_points(points) {}
 	object_ptr<Shape> Points::clone() const { return make_object<Points>(*this); }
 
 	Grid3::Grid3() : Shape(type<Grid3>()) {}
-	Grid3::Grid3(const uvec2& size, const std::vector<vec3>& points) : Shape(type<Grid3>()), m_size(size), m_points(points) { m_points.resize(size.x * size.y); }
+	Grid3::Grid3(const uvec2& size, const vector<vec3>& points) : Shape(type<Grid3>()), m_size(size), m_points(points) { m_points.resize(size.x * size.y); }
 	object_ptr<Shape> Grid3::clone() const { return make_object<Grid3>(*this); }
 
 	ConvexHull::ConvexHull() : Shape(type<ConvexHull>()) {}
-	ConvexHull::ConvexHull(const std::vector<vec3>& vertices) : Shape(type<ConvexHull>()), m_vertices(vertices) {}
+	ConvexHull::ConvexHull(const vector<vec3>& vertices) : Shape(type<ConvexHull>()), m_vertices(vertices) {}
 	object_ptr<Shape> ConvexHull::clone() const { return make_object<ConvexHull>(*this); }
 
 	Aabb::Aabb() : Cube(Zero3), m_empty(true) {}
@@ -229,8 +229,8 @@ namespace mud
 		vertices[7] = { max.x, max.y, min.z };
 	}
 
-	Box::Box(array<vec3> vertices) : Shape(type<Box>()) { array<vec3> dest = { m_vertices.data(), 8 }; vertices.copy(dest); }
-	Box::Box(const Cube& cube) : Shape(type<Box>()) { box_vertices(cube.m_center, cube.m_extents, m_vertices); }
+	Box::Box(array<vec3> vertices) : Shape(type<Box>()) { array<vec3> dest = { m_vertices, 8 }; vertices.copy(dest); }
+	Box::Box(const Cube& cube) : Shape(type<Box>()) { box_vertices(cube.m_center, cube.m_extents, { m_vertices, 8 }); }
 
 	Symbol::Symbol(Colour fill, Colour outline, bool overlay, bool double_sided, SymbolDetail detail)
 		: m_outline(outline)
@@ -296,7 +296,7 @@ namespace mud
 		return { x * width, 0.f, y * height };
 	}
 
-	inline vec3 distribute_points(const std::vector<vec3>& points)
+	inline vec3 distribute_points(const vector<vec3>& points)
 	{
 		size_t index = random_integer(size_t(0U), points.size() - 1U);
 		return points[index];
@@ -304,20 +304,20 @@ namespace mud
 
 	RandomShapePoint::RandomShapePoint()
 	{
-		dispatch_branch<Sphere>(*this, [](const Sphere& sphere) { return distribute_sphere(sphere.m_radius); });
-		dispatch_branch<SphereRing>(*this, [](const SphereRing& sphere) { return distribute_spherical(sphere.m_radius, sphere.m_min, sphere.m_max); });
-		dispatch_branch<Circle>(*this, [](const Circle& circle) { return distribute_circle(circle.m_radius); });
-		dispatch_branch<Ring>(*this, [](const Ring& ring) { return distribute_ring(ring.m_radius, ring.m_min, ring.m_max); });
-		dispatch_branch<Rect>(*this, [](const Rect& rect) { return distribute_rect(rect.m_size.x, rect.m_size.y); });
-		dispatch_branch<Points>(*this, [](const Points& points) { return distribute_points(points.m_points); });
+		dispatch_branch<Sphere>(*this, +[](const Sphere& sphere) { return distribute_sphere(sphere.m_radius); });
+		dispatch_branch<SphereRing>(*this, +[](const SphereRing& sphere) { return distribute_spherical(sphere.m_radius, sphere.m_min, sphere.m_max); });
+		dispatch_branch<Circle>(*this, +[](const Circle& circle) { return distribute_circle(circle.m_radius); });
+		dispatch_branch<Ring>(*this, +[](const Ring& ring) { return distribute_ring(ring.m_radius, ring.m_min, ring.m_max); });
+		dispatch_branch<Rect>(*this, +[](const Rect& rect) { return distribute_rect(rect.m_size.x, rect.m_size.y); });
+		dispatch_branch<Points>(*this, +[](const Points& points) { return distribute_points(points.m_points); });
 	}
 
-	std::vector<vec3> distribute_shape(const Shape& shape, size_t count)
+	vector<vec3> distribute_shape(const Shape& shape, size_t count)
 	{
 		if(!RandomShapePoint::me().check(Ref(&shape)))
-			return std::vector<vec3>(count, Zero3);
+			return vector<vec3>(count, Zero3);
 
-		std::vector<vec3> points(count);
+		vector<vec3> points(count);
 		for(size_t i = 0; i < count; ++i)
 			points[i] = RandomShapePoint::me().dispatch(Ref(&shape));
 		return points;

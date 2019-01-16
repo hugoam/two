@@ -11,12 +11,12 @@
 #include <ui/Style/Layout.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
 {
-	using SolverVector = std::vector<FrameSolver*>;
+	using SolverVector = vector<FrameSolver*>;
 
 	void collect_solvers(Frame& frame, SolverVector& solvers, DirtyLayout dirtyTop);
 	void relayout(SolverVector& solvers);
@@ -137,7 +137,7 @@ namespace mud
 		virtual void collect(SolverVector& solvers);
 
 	protected:
-		std::vector<unique_ptr<FrameSolver>> m_solvers;
+		vector<unique_ptr<FrameSolver>> m_solvers;
 	};
 
 	export_ class refl_ MUD_UI_EXPORT TableSolver : public CustomSolver
@@ -145,8 +145,8 @@ namespace mud
 	public:
 		TableSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
 
-		void divide(const std::vector<float>& spans);
-		void update(const std::vector<float>& spans);
+		void divide(const vector<float>& spans);
+		void update(const vector<float>& spans);
 
 		virtual FrameSolver& solver(FrameSolver& frame, Dim dim);
 		virtual FrameSolver* grid() { return this; }
@@ -167,7 +167,7 @@ namespace mud
 	public:
 		GridSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
 
-		void divide(std::vector<Space> spaces);
+		void divide(vector<Space> spaces);
 
 		virtual FrameSolver& solver(FrameSolver& frame, Dim dim);
 	};

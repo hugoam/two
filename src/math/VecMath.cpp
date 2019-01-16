@@ -4,7 +4,6 @@
 
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
-#include <cmath>
 #include <limits>
 #endif
 
@@ -17,12 +16,10 @@ module mud.math;
 
 #ifdef MUD_NO_GLM
 
+#include <algorithm>
+
 namespace mud
 {
-	using std::isnan;
-	using std::isinf;
-	using std::abs;
-
 	template <class T>
 	inline T epsilon() { return std::numeric_limits<T>::epsilon(); }
 
@@ -106,7 +103,7 @@ namespace mud
 		if(cosTheta > float(1) - epsilon<float>())
 		{
 			// Linear interpolation
-			return quat(mix(x.x, z.x, a), mix(x.y, z.y, a), mix(x.z, z.z, a), mix(x.w, z.w, a));
+			return quat(lerp(x.x, z.x, a), lerp(x.y, z.y, a), lerp(x.z, z.z, a), lerp(x.w, z.w, a));
 		}
 		else
 		{
@@ -119,7 +116,7 @@ namespace mud
 	float oriented_angle(const float3& a, const float3& b, const float3& ref)
 	{
 		const float angle = acos(clamp(dot(a, b), float(-1), float(1)));
-		return mix(angle, -angle, dot(ref, cross(a, b)) < float(0));
+		return lerp(angle, -angle, dot(ref, cross(a, b)) < float(0));
 	}
 
 	float oriented_angle(const float2& a, const float2& b)
@@ -564,7 +561,7 @@ namespace mud
 	//
 	float QuadAreaApproximateSphereProjectionSize(const float3& pos, float radius, const mat4& w2c, const mat4& c2s, float near_z);
 	double SphereAngularProjectionOntoPosition(const double3& sphere_pos, double radius, const double3& position);
-	void MakeHammersleyPoints(u32 nb_points, std::vector<float4>& points);
+	void MakeHammersleyPoints(u32 nb_points, vector<float4>& points);
 	i16 Compress_DoubleToSigned16(double d, double extents);
 	double Decompress_Signed16ToDouble(i16 d, double extents);
 #endif

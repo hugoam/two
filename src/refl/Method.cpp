@@ -10,6 +10,7 @@ module mud.refl;
 #include <refl/Method.h>
 #include <refl/Meta.h>
 #include <refl/Class.h>
+#include <refl/VirtualMethod.h>
 #include <infra/Vector.h>
 #endif
 
@@ -27,14 +28,14 @@ namespace mud
 			m_flags = static_cast<Flags>(m_flags | Nullable);
 	}
 
-	Signature::Signature(const std::vector<Param>& paramvec, const Var& returnval)
+	Signature::Signature(const vector<Param>& paramvec, const Var& returnval)
 		: m_params(paramvec)
 		, m_returnval(returnval)
 	{}
 
 	static uint32_t s_callable_index = 0;
 
-	Callable::Callable(cstring name, const std::vector<Param>& paramvec, Var returnval)
+	Callable::Callable(cstring name, const vector<Param>& paramvec, Var returnval)
 		: m_index(++s_callable_index)
 		, m_name(name)
 		, m_returnval(returnval)
@@ -72,7 +73,7 @@ namespace mud
 		return valid;
 	}
 
-	Function::Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc trigger, const std::vector<Param>& paramvec, Var returnval)
+	Function::Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc trigger, const vector<Param>& paramvec, Var returnval)
 		: Callable(name, paramvec, returnval)
 		, m_namespace(location)
 		, m_identity(identity)
@@ -106,33 +107,33 @@ namespace mud
 		else return {};
 	}
 
-	Method::Method(Type& object_type, cstring name, Address address, MethodFunc trigger, const std::vector<Param>& paramvec, Var returnval)
-		: Callable(name, vector_union({ { "self", Ref(object_type) } }, paramvec), returnval)
+	Method::Method(Type& object_type, cstring name, Address address, MethodFunc trigger, const vector<Param>& paramvec, Var returnval)
+		: Callable(name, vector_union({ 1, { "self", Ref(object_type) } }, paramvec), returnval)
 		, m_object_type(&object_type)
 		, m_address(address)
 		, m_call(trigger)
 	{}
 
-	Constructor::Constructor(Type& object_type, ConstructorFunc constructor, const std::vector<Param>& paramvec)
-		: Callable(object_type.m_name, vector_union({ { "self", Ref(object_type) } }, paramvec))
+	Constructor::Constructor(Type& object_type, ConstructorFunc constructor, const vector<Param>& paramvec)
+		: Callable(object_type.m_name, vector_union({ 1, { "self", Ref(object_type) } }, paramvec))
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
 
-	Constructor::Constructor(Type& object_type, cstring name, ConstructorFunc constructor, const std::vector<Param>& paramvec)
-		: Callable(name, vector_union({ { "self", Ref(object_type) } }, paramvec))
+	Constructor::Constructor(Type& object_type, cstring name, ConstructorFunc constructor, const vector<Param>& paramvec)
+		: Callable(name, vector_union({ 1, { "self", Ref(object_type) } }, paramvec))
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
 
 	CopyConstructor::CopyConstructor(Type& object_type, CopyConstructorFunc constructor)
-		: Callable(object_type.m_name, { { "self", Ref(object_type) } })
+		: Callable(object_type.m_name, { 1, { "self", Ref(object_type) } })
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
 
 	Destructor::Destructor(Type& object_type, DestructorFunc destructor)
-		: Callable(object_type.m_name, { { "self", Ref(object_type) } })
+		: Callable(object_type.m_name, { 1, { "self", Ref(object_type) } })
 		, m_object_type(&object_type)
 		, m_call(destructor)
 	{}
@@ -140,7 +141,7 @@ namespace mud
 	Call::Call()
 	{}
 
-	Call::Call(const Callable& callable, std::vector<Var> arguments)
+	Call::Call(const Callable& callable, vector<Var> arguments)
 		: m_callable(&callable)
 		, m_arguments(arguments)
 		, m_result(callable.m_returnval)

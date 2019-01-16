@@ -70,112 +70,112 @@ namespace mud
     
     // Sequences
     {
-        static Meta meta = { type<std::vector<glTFAccessor>>(), &namspc({}), "std::vector<glTFAccessor>", sizeof(std::vector<glTFAccessor>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFAccessor>>() };
+        static Meta meta = { type<vector<glTFAccessor>>(), &namspc({}), "vector<glTFAccessor>", sizeof(vector<glTFAccessor>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFAccessor>>() };
         cls.m_content = &type<glTFAccessor>();
-        meta_sequence<std::vector<glTFAccessor>, glTFAccessor>();
+        meta_sequence<vector<glTFAccessor>, glTFAccessor>();
     }
     {
-        static Meta meta = { type<std::vector<glTFAnimation>>(), &namspc({}), "std::vector<glTFAnimation>", sizeof(std::vector<glTFAnimation>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFAnimation>>() };
+        static Meta meta = { type<vector<glTFAnimation>>(), &namspc({}), "vector<glTFAnimation>", sizeof(vector<glTFAnimation>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFAnimation>>() };
         cls.m_content = &type<glTFAnimation>();
-        meta_sequence<std::vector<glTFAnimation>, glTFAnimation>();
+        meta_sequence<vector<glTFAnimation>, glTFAnimation>();
     }
     {
-        static Meta meta = { type<std::vector<glTFAnimationChannel>>(), &namspc({}), "std::vector<glTFAnimationChannel>", sizeof(std::vector<glTFAnimationChannel>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFAnimationChannel>>() };
+        static Meta meta = { type<vector<glTFAnimationChannel>>(), &namspc({}), "vector<glTFAnimationChannel>", sizeof(vector<glTFAnimationChannel>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFAnimationChannel>>() };
         cls.m_content = &type<glTFAnimationChannel>();
-        meta_sequence<std::vector<glTFAnimationChannel>, glTFAnimationChannel>();
+        meta_sequence<vector<glTFAnimationChannel>, glTFAnimationChannel>();
     }
     {
-        static Meta meta = { type<std::vector<glTFAnimationSampler>>(), &namspc({}), "std::vector<glTFAnimationSampler>", sizeof(std::vector<glTFAnimationSampler>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFAnimationSampler>>() };
+        static Meta meta = { type<vector<glTFAnimationSampler>>(), &namspc({}), "vector<glTFAnimationSampler>", sizeof(vector<glTFAnimationSampler>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFAnimationSampler>>() };
         cls.m_content = &type<glTFAnimationSampler>();
-        meta_sequence<std::vector<glTFAnimationSampler>, glTFAnimationSampler>();
+        meta_sequence<vector<glTFAnimationSampler>, glTFAnimationSampler>();
     }
     {
-        static Meta meta = { type<std::vector<glTFBuffer>>(), &namspc({}), "std::vector<glTFBuffer>", sizeof(std::vector<glTFBuffer>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFBuffer>>() };
+        static Meta meta = { type<vector<glTFBuffer>>(), &namspc({}), "vector<glTFBuffer>", sizeof(vector<glTFBuffer>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFBuffer>>() };
         cls.m_content = &type<glTFBuffer>();
-        meta_sequence<std::vector<glTFBuffer>, glTFBuffer>();
+        meta_sequence<vector<glTFBuffer>, glTFBuffer>();
     }
     {
-        static Meta meta = { type<std::vector<glTFBufferView>>(), &namspc({}), "std::vector<glTFBufferView>", sizeof(std::vector<glTFBufferView>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFBufferView>>() };
+        static Meta meta = { type<vector<glTFBufferView>>(), &namspc({}), "vector<glTFBufferView>", sizeof(vector<glTFBufferView>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFBufferView>>() };
         cls.m_content = &type<glTFBufferView>();
-        meta_sequence<std::vector<glTFBufferView>, glTFBufferView>();
+        meta_sequence<vector<glTFBufferView>, glTFBufferView>();
     }
     {
-        static Meta meta = { type<std::vector<glTFCamera>>(), &namspc({}), "std::vector<glTFCamera>", sizeof(std::vector<glTFCamera>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFCamera>>() };
+        static Meta meta = { type<vector<glTFCamera>>(), &namspc({}), "vector<glTFCamera>", sizeof(vector<glTFCamera>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFCamera>>() };
         cls.m_content = &type<glTFCamera>();
-        meta_sequence<std::vector<glTFCamera>, glTFCamera>();
+        meta_sequence<vector<glTFCamera>, glTFCamera>();
     }
     {
-        static Meta meta = { type<std::vector<glTFImage>>(), &namspc({}), "std::vector<glTFImage>", sizeof(std::vector<glTFImage>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFImage>>() };
+        static Meta meta = { type<vector<glTFImage>>(), &namspc({}), "vector<glTFImage>", sizeof(vector<glTFImage>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFImage>>() };
         cls.m_content = &type<glTFImage>();
-        meta_sequence<std::vector<glTFImage>, glTFImage>();
+        meta_sequence<vector<glTFImage>, glTFImage>();
     }
     {
-        static Meta meta = { type<std::vector<glTFMaterial>>(), &namspc({}), "std::vector<glTFMaterial>", sizeof(std::vector<glTFMaterial>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFMaterial>>() };
+        static Meta meta = { type<vector<glTFMaterial>>(), &namspc({}), "vector<glTFMaterial>", sizeof(vector<glTFMaterial>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFMaterial>>() };
         cls.m_content = &type<glTFMaterial>();
-        meta_sequence<std::vector<glTFMaterial>, glTFMaterial>();
+        meta_sequence<vector<glTFMaterial>, glTFMaterial>();
     }
     {
-        static Meta meta = { type<std::vector<glTFMesh>>(), &namspc({}), "std::vector<glTFMesh>", sizeof(std::vector<glTFMesh>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFMesh>>() };
+        static Meta meta = { type<vector<glTFMesh>>(), &namspc({}), "vector<glTFMesh>", sizeof(vector<glTFMesh>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFMesh>>() };
         cls.m_content = &type<glTFMesh>();
-        meta_sequence<std::vector<glTFMesh>, glTFMesh>();
+        meta_sequence<vector<glTFMesh>, glTFMesh>();
     }
     {
-        static Meta meta = { type<std::vector<glTFMorphTarget>>(), &namspc({}), "std::vector<glTFMorphTarget>", sizeof(std::vector<glTFMorphTarget>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFMorphTarget>>() };
+        static Meta meta = { type<vector<glTFMorphTarget>>(), &namspc({}), "vector<glTFMorphTarget>", sizeof(vector<glTFMorphTarget>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFMorphTarget>>() };
         cls.m_content = &type<glTFMorphTarget>();
-        meta_sequence<std::vector<glTFMorphTarget>, glTFMorphTarget>();
+        meta_sequence<vector<glTFMorphTarget>, glTFMorphTarget>();
     }
     {
-        static Meta meta = { type<std::vector<glTFNode>>(), &namspc({}), "std::vector<glTFNode>", sizeof(std::vector<glTFNode>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFNode>>() };
+        static Meta meta = { type<vector<glTFNode>>(), &namspc({}), "vector<glTFNode>", sizeof(vector<glTFNode>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFNode>>() };
         cls.m_content = &type<glTFNode>();
-        meta_sequence<std::vector<glTFNode>, glTFNode>();
+        meta_sequence<vector<glTFNode>, glTFNode>();
     }
     {
-        static Meta meta = { type<std::vector<glTFPrimitive>>(), &namspc({}), "std::vector<glTFPrimitive>", sizeof(std::vector<glTFPrimitive>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFPrimitive>>() };
+        static Meta meta = { type<vector<glTFPrimitive>>(), &namspc({}), "vector<glTFPrimitive>", sizeof(vector<glTFPrimitive>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFPrimitive>>() };
         cls.m_content = &type<glTFPrimitive>();
-        meta_sequence<std::vector<glTFPrimitive>, glTFPrimitive>();
+        meta_sequence<vector<glTFPrimitive>, glTFPrimitive>();
     }
     {
-        static Meta meta = { type<std::vector<glTFSampler>>(), &namspc({}), "std::vector<glTFSampler>", sizeof(std::vector<glTFSampler>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFSampler>>() };
+        static Meta meta = { type<vector<glTFSampler>>(), &namspc({}), "vector<glTFSampler>", sizeof(vector<glTFSampler>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFSampler>>() };
         cls.m_content = &type<glTFSampler>();
-        meta_sequence<std::vector<glTFSampler>, glTFSampler>();
+        meta_sequence<vector<glTFSampler>, glTFSampler>();
     }
     {
-        static Meta meta = { type<std::vector<glTFScene>>(), &namspc({}), "std::vector<glTFScene>", sizeof(std::vector<glTFScene>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFScene>>() };
+        static Meta meta = { type<vector<glTFScene>>(), &namspc({}), "vector<glTFScene>", sizeof(vector<glTFScene>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFScene>>() };
         cls.m_content = &type<glTFScene>();
-        meta_sequence<std::vector<glTFScene>, glTFScene>();
+        meta_sequence<vector<glTFScene>, glTFScene>();
     }
     {
-        static Meta meta = { type<std::vector<glTFSkin>>(), &namspc({}), "std::vector<glTFSkin>", sizeof(std::vector<glTFSkin>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFSkin>>() };
+        static Meta meta = { type<vector<glTFSkin>>(), &namspc({}), "vector<glTFSkin>", sizeof(vector<glTFSkin>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFSkin>>() };
         cls.m_content = &type<glTFSkin>();
-        meta_sequence<std::vector<glTFSkin>, glTFSkin>();
+        meta_sequence<vector<glTFSkin>, glTFSkin>();
     }
     {
-        static Meta meta = { type<std::vector<glTFTexture>>(), &namspc({}), "std::vector<glTFTexture>", sizeof(std::vector<glTFTexture>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<glTFTexture>>() };
+        static Meta meta = { type<vector<glTFTexture>>(), &namspc({}), "vector<glTFTexture>", sizeof(vector<glTFTexture>), TypeClass::Sequence };
+        static Class cls = { type<vector<glTFTexture>>() };
         cls.m_content = &type<glTFTexture>();
-        meta_sequence<std::vector<glTFTexture>, glTFTexture>();
+        meta_sequence<vector<glTFTexture>, glTFTexture>();
     }
     {
-        static Meta meta = { type<std::vector<int>>(), &namspc({}), "std::vector<int>", sizeof(std::vector<int>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<int>>() };
+        static Meta meta = { type<vector<int>>(), &namspc({}), "vector<int>", sizeof(vector<int>), TypeClass::Sequence };
+        static Class cls = { type<vector<int>>() };
         cls.m_content = &type<int>();
-        meta_sequence<std::vector<int>, int>();
+        meta_sequence<vector<int>, int>();
     }
     
     // glTF
@@ -195,19 +195,19 @@ namespace mud
             },
             // members
             {
-                { type<glTF>(), member_address(&glTF::m_buffers), type<std::vector<glTFBuffer>>(), "buffers", var(std::vector<glTFBuffer>()), Member::Value, nullptr },
-                { type<glTF>(), member_address(&glTF::m_buffer_views), type<std::vector<glTFBufferView>>(), "buffer_views", var(std::vector<glTFBufferView>()), Member::Value, nullptr },
-                { type<glTF>(), member_address(&glTF::m_accessors), type<std::vector<glTFAccessor>>(), "accessors", var(std::vector<glTFAccessor>()), Member::Value, nullptr },
-                { type<glTF>(), member_address(&glTF::m_images), type<std::vector<glTFImage>>(), "images", var(std::vector<glTFImage>()), Member::Value, nullptr },
-                { type<glTF>(), member_address(&glTF::m_textures), type<std::vector<glTFTexture>>(), "textures", var(std::vector<glTFTexture>()), Member::Value, nullptr },
-                { type<glTF>(), member_address(&glTF::m_materials), type<std::vector<glTFMaterial>>(), "materials", var(std::vector<glTFMaterial>()), Member::Value, nullptr },
-                { type<glTF>(), member_address(&glTF::m_meshes), type<std::vector<glTFMesh>>(), "meshes", var(std::vector<glTFMesh>()), Member::Value, nullptr },
-                { type<glTF>(), member_address(&glTF::m_nodes), type<std::vector<glTFNode>>(), "nodes", var(std::vector<glTFNode>()), Member::Value, nullptr },
-                { type<glTF>(), member_address(&glTF::m_skins), type<std::vector<glTFSkin>>(), "skins", var(std::vector<glTFSkin>()), Member::Value, nullptr },
-                { type<glTF>(), member_address(&glTF::m_animations), type<std::vector<glTFAnimation>>(), "animations", var(std::vector<glTFAnimation>()), Member::Value, nullptr },
-                { type<glTF>(), member_address(&glTF::m_cameras), type<std::vector<glTFCamera>>(), "cameras", var(std::vector<glTFCamera>()), Member::Value, nullptr },
-                { type<glTF>(), member_address(&glTF::m_samplers), type<std::vector<glTFSampler>>(), "samplers", var(std::vector<glTFSampler>()), Member::Value, nullptr },
-                { type<glTF>(), member_address(&glTF::m_scenes), type<std::vector<glTFScene>>(), "scenes", var(std::vector<glTFScene>()), Member::Value, nullptr }
+                { type<glTF>(), member_address(&glTF::m_buffers), type<vector<glTFBuffer>>(), "buffers", var(vector<glTFBuffer>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_buffer_views), type<vector<glTFBufferView>>(), "buffer_views", var(vector<glTFBufferView>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_accessors), type<vector<glTFAccessor>>(), "accessors", var(vector<glTFAccessor>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_images), type<vector<glTFImage>>(), "images", var(vector<glTFImage>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_textures), type<vector<glTFTexture>>(), "textures", var(vector<glTFTexture>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_materials), type<vector<glTFMaterial>>(), "materials", var(vector<glTFMaterial>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_meshes), type<vector<glTFMesh>>(), "meshes", var(vector<glTFMesh>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_nodes), type<vector<glTFNode>>(), "nodes", var(vector<glTFNode>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_skins), type<vector<glTFSkin>>(), "skins", var(vector<glTFSkin>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_animations), type<vector<glTFAnimation>>(), "animations", var(vector<glTFAnimation>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_cameras), type<vector<glTFCamera>>(), "cameras", var(vector<glTFCamera>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_samplers), type<vector<glTFSampler>>(), "samplers", var(vector<glTFSampler>()), Member::Value, nullptr },
+                { type<glTF>(), member_address(&glTF::m_scenes), type<vector<glTFScene>>(), "scenes", var(vector<glTFScene>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -235,7 +235,7 @@ namespace mud
             },
             // members
             {
-                { type<glTFAccessor>(), member_address(&glTFAccessor::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<glTFAccessor>(), member_address(&glTFAccessor::name), type<string>(), "name", var(string()), Member::Value, nullptr },
                 { type<glTFAccessor>(), member_address(&glTFAccessor::buffer_view), type<int>(), "buffer_view", var(int()), Member::Value, nullptr },
                 { type<glTFAccessor>(), member_address(&glTFAccessor::byte_offset), type<int>(), "byte_offset", var(int(0)), Member::Value, nullptr },
                 { type<glTFAccessor>(), member_address(&glTFAccessor::component_type), type<glTFComponentType>(), "component_type", var(glTFComponentType()), Member::Value, nullptr },
@@ -270,9 +270,9 @@ namespace mud
             },
             // members
             {
-                { type<glTFAnimation>(), member_address(&glTFAnimation::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
-                { type<glTFAnimation>(), member_address(&glTFAnimation::samplers), type<std::vector<glTFAnimationSampler>>(), "samplers", var(std::vector<glTFAnimationSampler>()), Member::Value, nullptr },
-                { type<glTFAnimation>(), member_address(&glTFAnimation::channels), type<std::vector<glTFAnimationChannel>>(), "channels", var(std::vector<glTFAnimationChannel>()), Member::Value, nullptr }
+                { type<glTFAnimation>(), member_address(&glTFAnimation::name), type<string>(), "name", var(string()), Member::Value, nullptr },
+                { type<glTFAnimation>(), member_address(&glTFAnimation::samplers), type<vector<glTFAnimationSampler>>(), "samplers", var(vector<glTFAnimationSampler>()), Member::Value, nullptr },
+                { type<glTFAnimation>(), member_address(&glTFAnimation::channels), type<vector<glTFAnimationChannel>>(), "channels", var(vector<glTFAnimationChannel>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -360,7 +360,7 @@ namespace mud
             // members
             {
                 { type<glTFAnimationTarget>(), member_address(&glTFAnimationTarget::node), type<int>(), "node", var(int()), Member::Value, nullptr },
-                { type<glTFAnimationTarget>(), member_address(&glTFAnimationTarget::path), type<std::string>(), "path", var(std::string()), Member::Value, nullptr }
+                { type<glTFAnimationTarget>(), member_address(&glTFAnimationTarget::path), type<string>(), "path", var(string()), Member::Value, nullptr }
             },
             // methods
             {
@@ -423,9 +423,9 @@ namespace mud
             },
             // members
             {
-                { type<glTFBuffer>(), member_address(&glTFBuffer::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
-                { type<glTFBuffer>(), member_address(&glTFBuffer::mime_type), type<std::string>(), "mime_type", var(std::string()), Member::Value, nullptr },
-                { type<glTFBuffer>(), member_address(&glTFBuffer::uri), type<std::string>(), "uri", var(std::string()), Member::Value, nullptr },
+                { type<glTFBuffer>(), member_address(&glTFBuffer::name), type<string>(), "name", var(string()), Member::Value, nullptr },
+                { type<glTFBuffer>(), member_address(&glTFBuffer::mime_type), type<string>(), "mime_type", var(string()), Member::Value, nullptr },
+                { type<glTFBuffer>(), member_address(&glTFBuffer::uri), type<string>(), "uri", var(string()), Member::Value, nullptr },
                 { type<glTFBuffer>(), member_address(&glTFBuffer::byte_length), type<int>(), "byte_length", var(int()), Member::Value, nullptr }
             },
             // methods
@@ -454,7 +454,7 @@ namespace mud
             },
             // members
             {
-                { type<glTFBufferView>(), member_address(&glTFBufferView::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<glTFBufferView>(), member_address(&glTFBufferView::name), type<string>(), "name", var(string()), Member::Value, nullptr },
                 { type<glTFBufferView>(), member_address(&glTFBufferView::buffer), type<int>(), "buffer", var(int(0)), Member::Value, nullptr },
                 { type<glTFBufferView>(), member_address(&glTFBufferView::byte_offset), type<size_t>(), "byte_offset", var(size_t(0)), Member::Value, nullptr },
                 { type<glTFBufferView>(), member_address(&glTFBufferView::byte_length), type<size_t>(), "byte_length", var(size_t(0)), Member::Value, nullptr },
@@ -487,8 +487,8 @@ namespace mud
             },
             // members
             {
-                { type<glTFCamera>(), member_address(&glTFCamera::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
-                { type<glTFCamera>(), member_address(&glTFCamera::type), type<std::string>(), "type", var(std::string()), Member::Value, nullptr },
+                { type<glTFCamera>(), member_address(&glTFCamera::name), type<string>(), "name", var(string()), Member::Value, nullptr },
+                { type<glTFCamera>(), member_address(&glTFCamera::type), type<string>(), "type", var(string()), Member::Value, nullptr },
                 { type<glTFCamera>(), member_address(&glTFCamera::orthographic), type<glTFOrthographic>(), "orthographic", var(glTFOrthographic()), Member::Value, nullptr },
                 { type<glTFCamera>(), member_address(&glTFCamera::perspective), type<glTFPerspective>(), "perspective", var(glTFPerspective()), Member::Value, nullptr }
             },
@@ -518,9 +518,9 @@ namespace mud
             },
             // members
             {
-                { type<glTFImage>(), member_address(&glTFImage::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
-                { type<glTFImage>(), member_address(&glTFImage::mime_type), type<std::string>(), "mime_type", var(std::string()), Member::Value, nullptr },
-                { type<glTFImage>(), member_address(&glTFImage::uri), type<std::string>(), "uri", var(std::string()), Member::Value, nullptr },
+                { type<glTFImage>(), member_address(&glTFImage::name), type<string>(), "name", var(string()), Member::Value, nullptr },
+                { type<glTFImage>(), member_address(&glTFImage::mime_type), type<string>(), "mime_type", var(string()), Member::Value, nullptr },
+                { type<glTFImage>(), member_address(&glTFImage::uri), type<string>(), "uri", var(string()), Member::Value, nullptr },
                 { type<glTFImage>(), member_address(&glTFImage::buffer_view), type<int>(), "buffer_view", var(int()), Member::Value, nullptr }
             },
             // methods
@@ -549,7 +549,7 @@ namespace mud
             },
             // members
             {
-                { type<glTFMaterial>(), member_address(&glTFMaterial::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<glTFMaterial>(), member_address(&glTFMaterial::name), type<string>(), "name", var(string()), Member::Value, nullptr },
                 { type<glTFMaterial>(), member_address(&glTFMaterial::normal_texture), type<glTFTextureInfo>(), "normal_texture", var(glTFTextureInfo()), Member::Value, nullptr },
                 { type<glTFMaterial>(), member_address(&glTFMaterial::occlusion_texture), type<glTFTextureInfo>(), "occlusion_texture", var(glTFTextureInfo()), Member::Value, nullptr },
                 { type<glTFMaterial>(), member_address(&glTFMaterial::emissive_factor), type<mud::vec3>(), "emissive_factor", var(mud::vec3(to_vec3(mud::Colour::Black))), Member::Value, nullptr },
@@ -616,9 +616,9 @@ namespace mud
             },
             // members
             {
-                { type<glTFMesh>(), member_address(&glTFMesh::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
-                { type<glTFMesh>(), member_address(&glTFMesh::primitives), type<std::vector<glTFPrimitive>>(), "primitives", var(std::vector<glTFPrimitive>()), Member::Value, nullptr },
-                { type<glTFMesh>(), member_address(&glTFMesh::weights), type<std::vector<float>>(), "weights", var(std::vector<float>()), Member::Value, nullptr }
+                { type<glTFMesh>(), member_address(&glTFMesh::name), type<string>(), "name", var(string()), Member::Value, nullptr },
+                { type<glTFMesh>(), member_address(&glTFMesh::primitives), type<vector<glTFPrimitive>>(), "primitives", var(vector<glTFPrimitive>()), Member::Value, nullptr },
+                { type<glTFMesh>(), member_address(&glTFMesh::weights), type<vector<float>>(), "weights", var(vector<float>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -676,7 +676,7 @@ namespace mud
             },
             // members
             {
-                { type<glTFNode>(), member_address(&glTFNode::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<glTFNode>(), member_address(&glTFNode::name), type<string>(), "name", var(string()), Member::Value, nullptr },
                 { type<glTFNode>(), member_address(&glTFNode::mesh), type<int>(), "mesh", var(int()), Member::Value, nullptr },
                 { type<glTFNode>(), member_address(&glTFNode::camera), type<int>(), "camera", var(int()), Member::Value, nullptr },
                 { type<glTFNode>(), member_address(&glTFNode::skin), type<int>(), "skin", var(int()), Member::Value, nullptr },
@@ -684,7 +684,7 @@ namespace mud
                 { type<glTFNode>(), member_address(&glTFNode::translation), type<mud::vec3>(), "translation", var(mud::vec3(mud::Zero3)), Member::Value, nullptr },
                 { type<glTFNode>(), member_address(&glTFNode::rotation), type<mud::quat>(), "rotation", var(mud::quat(mud::ZeroQuat)), Member::Value, nullptr },
                 { type<glTFNode>(), member_address(&glTFNode::scale), type<mud::vec3>(), "scale", var(mud::vec3(mud::Unit3)), Member::Value, nullptr },
-                { type<glTFNode>(), member_address(&glTFNode::children), type<std::vector<int>>(), "children", var(std::vector<int>()), Member::Value, nullptr }
+                { type<glTFNode>(), member_address(&glTFNode::children), type<vector<int>>(), "children", var(vector<int>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -805,7 +805,7 @@ namespace mud
                 { type<glTFPrimitive>(), member_address(&glTFPrimitive::indices), type<int>(), "indices", var(int()), Member::Value, nullptr },
                 { type<glTFPrimitive>(), member_address(&glTFPrimitive::material), type<int>(), "material", var(int()), Member::Value, nullptr },
                 { type<glTFPrimitive>(), member_address(&glTFPrimitive::mode), type<glTFPrimitiveType>(), "mode", var(glTFPrimitiveType::TRIANGLES), Member::Value, nullptr },
-                { type<glTFPrimitive>(), member_address(&glTFPrimitive::targets), type<std::vector<glTFMorphTarget>>(), "targets", var(std::vector<glTFMorphTarget>()), Member::Value, nullptr }
+                { type<glTFPrimitive>(), member_address(&glTFPrimitive::targets), type<vector<glTFMorphTarget>>(), "targets", var(vector<glTFMorphTarget>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -837,7 +837,7 @@ namespace mud
                 { type<glTFSampler>(), member_address(&glTFSampler::min_filter), type<int>(), "min_filter", var(int()), Member::Value, nullptr },
                 { type<glTFSampler>(), member_address(&glTFSampler::wrap_s), type<int>(), "wrap_s", var(int(10497)), Member::Value, nullptr },
                 { type<glTFSampler>(), member_address(&glTFSampler::wrap_t), type<int>(), "wrap_t", var(int(10497)), Member::Value, nullptr },
-                { type<glTFSampler>(), member_address(&glTFSampler::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr }
+                { type<glTFSampler>(), member_address(&glTFSampler::name), type<string>(), "name", var(string()), Member::Value, nullptr }
             },
             // methods
             {
@@ -865,8 +865,8 @@ namespace mud
             },
             // members
             {
-                { type<glTFScene>(), member_address(&glTFScene::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
-                { type<glTFScene>(), member_address(&glTFScene::nodes), type<std::vector<int>>(), "nodes", var(std::vector<int>()), Member::Value, nullptr }
+                { type<glTFScene>(), member_address(&glTFScene::name), type<string>(), "name", var(string()), Member::Value, nullptr },
+                { type<glTFScene>(), member_address(&glTFScene::nodes), type<vector<int>>(), "nodes", var(vector<int>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -894,9 +894,9 @@ namespace mud
             },
             // members
             {
-                { type<glTFSkin>(), member_address(&glTFSkin::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<glTFSkin>(), member_address(&glTFSkin::name), type<string>(), "name", var(string()), Member::Value, nullptr },
                 { type<glTFSkin>(), member_address(&glTFSkin::skeleton), type<int>(), "skeleton", var(int()), Member::Value, nullptr },
-                { type<glTFSkin>(), member_address(&glTFSkin::joints), type<std::vector<int>>(), "joints", var(std::vector<int>()), Member::Value, nullptr },
+                { type<glTFSkin>(), member_address(&glTFSkin::joints), type<vector<int>>(), "joints", var(vector<int>()), Member::Value, nullptr },
                 { type<glTFSkin>(), member_address(&glTFSkin::inverse_bind_matrices), type<int>(), "inverse_bind_matrices", var(int()), Member::Value, nullptr }
             },
             // methods
@@ -1014,7 +1014,7 @@ namespace mud
             },
             // members
             {
-                { type<glTFTexture>(), member_address(&glTFTexture::name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<glTFTexture>(), member_address(&glTFTexture::name), type<string>(), "name", var(string()), Member::Value, nullptr },
                 { type<glTFTexture>(), member_address(&glTFTexture::sampler), type<int>(), "sampler", var(int()), Member::Value, nullptr },
                 { type<glTFTexture>(), member_address(&glTFTexture::source), type<int>(), "source", var(int()), Member::Value, nullptr }
             },
@@ -1089,23 +1089,23 @@ namespace mud
         m.m_types.push_back(&type<glTFTexture>());
         m.m_types.push_back(&type<glTFTextureInfo>());
         m.m_types.push_back(&type<glTFType>());
-        m.m_types.push_back(&type<std::vector<glTFAccessor>>());
-        m.m_types.push_back(&type<std::vector<glTFAnimation>>());
-        m.m_types.push_back(&type<std::vector<glTFAnimationChannel>>());
-        m.m_types.push_back(&type<std::vector<glTFAnimationSampler>>());
-        m.m_types.push_back(&type<std::vector<glTFBuffer>>());
-        m.m_types.push_back(&type<std::vector<glTFBufferView>>());
-        m.m_types.push_back(&type<std::vector<glTFCamera>>());
-        m.m_types.push_back(&type<std::vector<glTFImage>>());
-        m.m_types.push_back(&type<std::vector<glTFMaterial>>());
-        m.m_types.push_back(&type<std::vector<glTFMesh>>());
-        m.m_types.push_back(&type<std::vector<glTFMorphTarget>>());
-        m.m_types.push_back(&type<std::vector<glTFNode>>());
-        m.m_types.push_back(&type<std::vector<glTFPrimitive>>());
-        m.m_types.push_back(&type<std::vector<glTFSampler>>());
-        m.m_types.push_back(&type<std::vector<glTFScene>>());
-        m.m_types.push_back(&type<std::vector<glTFSkin>>());
-        m.m_types.push_back(&type<std::vector<glTFTexture>>());
-        m.m_types.push_back(&type<std::vector<int>>());
+        m.m_types.push_back(&type<vector<glTFAccessor>>());
+        m.m_types.push_back(&type<vector<glTFAnimation>>());
+        m.m_types.push_back(&type<vector<glTFAnimationChannel>>());
+        m.m_types.push_back(&type<vector<glTFAnimationSampler>>());
+        m.m_types.push_back(&type<vector<glTFBuffer>>());
+        m.m_types.push_back(&type<vector<glTFBufferView>>());
+        m.m_types.push_back(&type<vector<glTFCamera>>());
+        m.m_types.push_back(&type<vector<glTFImage>>());
+        m.m_types.push_back(&type<vector<glTFMaterial>>());
+        m.m_types.push_back(&type<vector<glTFMesh>>());
+        m.m_types.push_back(&type<vector<glTFMorphTarget>>());
+        m.m_types.push_back(&type<vector<glTFNode>>());
+        m.m_types.push_back(&type<vector<glTFPrimitive>>());
+        m.m_types.push_back(&type<vector<glTFSampler>>());
+        m.m_types.push_back(&type<vector<glTFScene>>());
+        m.m_types.push_back(&type<vector<glTFSkin>>());
+        m.m_types.push_back(&type<vector<glTFTexture>>());
+        m.m_types.push_back(&type<vector<int>>());
     }
 }

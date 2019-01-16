@@ -7,6 +7,10 @@
 #include <type/Ref.h>
 #include <type/Unique.h>
 
+#ifndef MUD_CPP_20
+#include <cstdint>
+#endif
+
 namespace mud
 {
 	export_ class MUD_TYPE_EXPORT AnyHandler

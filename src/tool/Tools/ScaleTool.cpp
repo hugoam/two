@@ -49,7 +49,7 @@ namespace mud
 		m_gizmos.push_back(planar_gizmo(Axis::Y, 1.f / 3.f));
 		m_gizmos.push_back(planar_gizmo(Axis::Z, 2.f / 3.f));
 		m_gizmos.push_back(uniform_gizmo());
-		m_current = &m_gizmos.front();
+		m_current = &*m_gizmos.front();
 	}
 
 	Item& scale_1d_gizmo(Gnode& parent, Axis axis, Colour colour, uint32_t flags = 0U)
@@ -71,47 +71,56 @@ namespace mud
 		return gfx::shape(node, Cube(0.1f), Symbol(colour, Colour::None, true), flags);
 	}
 
-	Gizmo ScaleTool::linear_gizmo(Axis axis, float hue)
+	class ScaleLinearGizmo : public TransformGizmo
 	{
-#ifdef MUD_MODULES // @todo clang bug
-		return {};
-#else
-		auto grab_point = [this, axis](Viewer& viewer, const vec2& pos) { UNUSED(pos); return inverse(m_transform.m_rotation) * gizmo_grab_linear(viewer, m_transform, axis); };
+	public:
+		ScaleLinearGizmo(TransformTool& tool, Axis axis, float hue) : TransformGizmo(tool, axis, hue) {}
 
-		auto draw_handle = [=](Gnode& parent) { return &scale_1d_gizmo(parent, axis, Colour::Invisible, ItemFlag::Ui); };
-		auto draw_gizmo = [=](Gnode& parent, bool active) { scale_1d_gizmo(parent, axis, gizmo_colour(hue, active)); };
-		return { draw_handle, draw_gizmo, nullptr, false, grab_point };
-#endif
-	}
+		virtual vec3 grab_point(Viewer& viewer, const vec2& pos) { UNUSED(pos); return inverse(m_tool.m_transform.m_rotation) * gizmo_grab_linear(viewer, m_tool.m_transform, m_axis); };
 
-	Gizmo ScaleTool::planar_gizmo(Axis normal, float hue)
+		virtual Item* draw_handle(Gnode& parent) { return &scale_1d_gizmo(parent, m_axis, Colour::Invisible, ItemFlag::Ui); };
+		virtual void draw_gizmo(Gnode& parent, bool active) { scale_1d_gizmo(parent, m_axis, gizmo_colour(m_hue, active)); };
+	};
+
+	class ScalePlanarGizmo : public TransformGizmo
 	{
-#ifdef MUD_MODULES // @todo clang bug
-		return {};
-#else
-		auto grab_point = [this, normal](Viewer& viewer, const vec2& pos) { UNUSED(pos); return inverse(m_transform.m_rotation) * gizmo_grab_planar(viewer, m_transform, normal); };
+	public:
+		ScalePlanarGizmo(TransformTool& tool, Axis axis, float hue) : TransformGizmo(tool, axis, hue) {}
 
-		auto draw_handle = [=](Gnode& parent) { return &scale_2d_gizmo(parent, normal, Colour::Invisible, ItemFlag::Ui); };
-		auto draw_gizmo = [=](Gnode& parent, bool active) { scale_2d_gizmo(parent, normal, gizmo_colour(hue, active)); };
-		return { draw_handle, draw_gizmo, nullptr, false, grab_point };
-#endif
-	}
+		virtual vec3 grab_point(Viewer& viewer, const vec2& pos) { UNUSED(pos); return inverse(m_tool.m_transform.m_rotation) * gizmo_grab_planar(viewer, m_tool.m_transform, m_axis); };
 
-	Gizmo ScaleTool::uniform_gizmo()
+		virtual Item* draw_handle(Gnode& parent) { return &scale_2d_gizmo(parent, m_axis, Colour::Invisible, ItemFlag::Ui); };
+		virtual void draw_gizmo(Gnode& parent, bool active) { scale_2d_gizmo(parent, m_axis, gizmo_colour(m_hue, active)); };
+	};
+
+	class ScaleUniformGizmo : public TransformGizmo
 	{
-#ifdef MUD_MODULES // @todo clang bug
-		return {};
-#else
-		auto grab_point = [this](Viewer& viewer, const vec2& pos)
+	public:
+		ScaleUniformGizmo(TransformTool& tool) : TransformGizmo(tool) {}
+
+		virtual vec3 grab_point(Viewer& viewer, const vec2& pos)
 		{
-			vec2 delta = (pos - m_drag_start) * 5.f / viewer.m_frame.m_size;
+			vec2 delta = (pos - m_tool.m_drag_start) * 5.f / viewer.m_frame.m_size;
 			return fabs(delta.x) > fabs(delta.y) ? vec3(delta.x) : vec3(delta.y);
 		};
 
-		auto draw_handle = [=](Gnode& parent) { return &scale_3d_gizmo(parent, Colour::Invisible, ItemFlag::Ui); };
-		auto draw_gizmo = [=](Gnode& parent, bool active) { scale_3d_gizmo(parent, active ? Colour::White : Colour::AlphaWhite); };
-		return { draw_handle, draw_gizmo, nullptr, false, grab_point };
-#endif
+		virtual Item* draw_handle(Gnode& parent) { return &scale_3d_gizmo(parent, Colour::Invisible, ItemFlag::Ui); };
+		virtual void draw_gizmo(Gnode& parent, bool active) { scale_3d_gizmo(parent, active ? Colour::White : Colour::AlphaWhite); };
+	};
+
+	unique_ptr<Gizmo> ScaleTool::linear_gizmo(Axis axis, float hue)
+	{
+		return make_unique<ScaleLinearGizmo>(*this, axis, hue);
+	}
+
+	unique_ptr<Gizmo> ScaleTool::planar_gizmo(Axis normal, float hue)
+	{
+		return make_unique<ScaleLinearGizmo>(*this, normal, hue);
+	}
+
+	unique_ptr<Gizmo> ScaleTool::uniform_gizmo()
+	{
+		return make_unique<ScaleUniformGizmo>(*this);
 	}
 
 	object_ptr<TransformAction> ScaleTool::create_action(array<Transform*> targets)

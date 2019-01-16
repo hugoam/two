@@ -42,7 +42,12 @@ namespace mud
 
 		return sun_rotation(azimuth, altitude, up, north);
 	}
+}
 
+#if 0
+#include <map>
+namespace mud
+{
 	// HDTV rec. 709 matrix.
 	static float M_XYZ2RGB[] =
 	{
@@ -370,3 +375,4 @@ namespace mud
 		}
 	}
 }
+#endif

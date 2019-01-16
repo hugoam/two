@@ -15,10 +15,6 @@
 
 #include <bgfx/bgfx.h>
 
-#ifndef MUD_CPP_20
-#include <functional>
-#endif
-
 namespace mud
 {
 	export_ struct refl_ Sun
@@ -52,7 +48,7 @@ namespace mud
 		attr_ BackgroundMode m_mode = BackgroundMode::None;
 		attr_ Colour m_colour = Colour::Black;
 		attr_ Program* m_custom_program = nullptr;
-		std::function<void(Render&)> m_custom_function;
+		using CustomRender = void(*)(Render&); CustomRender m_custom_function;
 	};
 
 	export_ struct refl_ Fog
@@ -108,14 +104,14 @@ namespace mud
 
 		void debug_items(Render& render);
 
-		std::vector<Sound*> m_orphan_sounds;
+		vector<Sound*> m_orphan_sounds;
 	};
 
-	export_ MUD_GFX_EXPORT void cull_items(Scene& scene, const Plane6& planes, std::vector<Item*>& items);
+	export_ MUD_GFX_EXPORT void cull_items(Scene& scene, const Plane6& planes, vector<Item*>& items);
 
-	export_ MUD_GFX_EXPORT void gather_items(Scene& scene, const Camera& camera, std::vector<Item*>& items);
-	export_ MUD_GFX_EXPORT void gather_occluders(Scene& scene, const Camera& camera, std::vector<Item*>& occluders);
-	export_ MUD_GFX_EXPORT void gather_lights(Scene& scene, std::vector<Light*>& lights);
+	export_ MUD_GFX_EXPORT void gather_items(Scene& scene, const Camera& camera, vector<Item*>& items);
+	export_ MUD_GFX_EXPORT void gather_occluders(Scene& scene, const Camera& camera, vector<Item*>& occluders);
+	export_ MUD_GFX_EXPORT void gather_lights(Scene& scene, vector<Light*>& lights);
 
 	export_ MUD_GFX_EXPORT void gather_render(Scene& scene, Render& render);
 }

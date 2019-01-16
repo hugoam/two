@@ -10,6 +10,12 @@ module mud.type;
 
 namespace mud
 {
+	void test()
+	{
+		Var v = var(vector<mud::Ref>());
+		vector<Ref> a; vector<Ref> b;
+		any_compare(a, b);
+	}
     // Exported types
     template <> MUD_TYPE_EXPORT Type& type<bool>() { static Type ty("bool", sizeof(bool)); return ty; }
     template <> MUD_TYPE_EXPORT Type& type<char>() { static Type ty("char", sizeof(char)); return ty; }
@@ -20,7 +26,7 @@ namespace mud
     template <> MUD_TYPE_EXPORT Type& type<long>() { static Type ty("long", sizeof(long)); return ty; }
     template <> MUD_TYPE_EXPORT Type& type<long long>() { static Type ty("long long", sizeof(long long)); return ty; }
     template <> MUD_TYPE_EXPORT Type& type<short>() { static Type ty("short", sizeof(short)); return ty; }
-    template <> MUD_TYPE_EXPORT Type& type<std::string>() { static Type ty("std::string", sizeof(std::string)); return ty; }
+    template <> MUD_TYPE_EXPORT Type& type<string>() { static Type ty("string", sizeof(string)); return ty; }
     template <> MUD_TYPE_EXPORT Type& type<unsigned char>() { static Type ty("unsigned char", sizeof(unsigned char)); return ty; }
     template <> MUD_TYPE_EXPORT Type& type<unsigned int>() { static Type ty("unsigned int", sizeof(unsigned int)); return ty; }
     template <> MUD_TYPE_EXPORT Type& type<unsigned long>() { static Type ty("unsigned long", sizeof(unsigned long)); return ty; }

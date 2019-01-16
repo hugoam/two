@@ -213,7 +213,7 @@ namespace mud
 	{
 		string path = filename; //m_resource_path + "sounds/" + filename;
 
-		std::ifstream ifile(path, std::ifstream::out);
+		std::ifstream ifile(path.c_str(), std::ifstream::out);
 		if(!ifile.good())
 		{
 			printf("ERROR: Could not open sound file %s\n", path.c_str());
@@ -449,7 +449,7 @@ namespace mud
 
 	SharedBuffer& SoundManager::createSharedBuffer(cstring filename)
 	{
-		m_sharedBuffers[filename] = make_unique<SharedBuffer>(filename, [=](SharedBuffer& buffer) { this->releaseBuffer(buffer); });
+		m_sharedBuffers[filename] = make_unique<SharedBuffer>(filename, *this);
 		return *m_sharedBuffers[filename];
 	}
 

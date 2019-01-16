@@ -13,9 +13,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 
@@ -26,6 +26,6 @@ namespace mud
     export_ template <> MUD_POOL_EXPORT Type& type<mud::HandlePool>();
     export_ template <> MUD_POOL_EXPORT Type& type<mud::Pool>();
     
-    export_ template struct MUD_POOL_EXPORT Typed<std::vector<mud::HandlePool*>>;
-    export_ template struct MUD_POOL_EXPORT Typed<std::vector<mud::Pool*>>;
+    export_ template struct MUD_POOL_EXPORT Typed<vector<mud::HandlePool*>>;
+    export_ template struct MUD_POOL_EXPORT Typed<vector<mud::Pool*>>;
 }

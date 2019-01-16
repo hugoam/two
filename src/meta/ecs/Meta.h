@@ -30,7 +30,7 @@ namespace mud
             // constructors
             {
                 { type<mud::Complex>(), [](Ref ref, array<Var> args) { new(&val<mud::Complex>(ref)) mud::Complex( val<mud::Id>(args[0]), val<mud::Type>(args[1]) ); }, { { "id", var(mud::Id()) }, { "type", Ref(type<mud::Type>()) } } },
-                { type<mud::Complex>(), [](Ref ref, array<Var> args) { new(&val<mud::Complex>(ref)) mud::Complex( val<mud::Id>(args[0]), val<mud::Type>(args[1]), val<std::vector<mud::Ref>>(args[2]) ); }, { { "id", var(mud::Id()) }, { "type", Ref(type<mud::Type>()) }, { "parts", var(std::vector<mud::Ref>()) } } }
+                { type<mud::Complex>(), [](Ref ref, array<Var> args) { new(&val<mud::Complex>(ref)) mud::Complex( val<mud::Id>(args[0]), val<mud::Type>(args[1]), val<vector<mud::Ref>>(args[2]) ); }, { { "id", var(mud::Id()) }, { "type", Ref(type<mud::Type>()) }, { "parts", var(vector<mud::Ref>()) } } }
             },
             // copy constructor
             {
@@ -40,11 +40,11 @@ namespace mud
                 { type<mud::Complex>(), member_address(&mud::Complex::m_id), type<mud::Id>(), "id", var(mud::Id()), Member::Value, nullptr },
                 { type<mud::Complex>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Complex>(object).m_type); } },
                 { type<mud::Complex>(), Address(), type<mud::Prototype>(), "prototype", Ref(type<mud::Prototype>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Complex>(object).m_prototype); } },
-                { type<mud::Complex>(), member_address(&mud::Complex::m_parts), type<std::vector<mud::Ref>>(), "parts", var(std::vector<mud::Ref>()), Member::Value, nullptr }
+                { type<mud::Complex>(), member_address(&mud::Complex::m_parts), type<vector<mud::Ref>>(), "parts", var(vector<mud::Ref>()), Member::Value, nullptr }
             },
             // methods
             {
-                { type<mud::Complex>(), "setup", member_address<void(mud::Complex::*)(const std::vector<mud::Ref>&)>(&mud::Complex::setup), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Complex>(object).setup(val<std::vector<mud::Ref>>(args[0])); }, { { "parts", var(std::vector<mud::Ref>()) } }, Var() },
+                { type<mud::Complex>(), "setup", member_address<void(mud::Complex::*)(const vector<mud::Ref>&)>(&mud::Complex::setup), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Complex>(object).setup(val<vector<mud::Ref>>(args[0])); }, { { "parts", var(vector<mud::Ref>()) } }, Var() },
                 { type<mud::Complex>(), "add_part", member_address<void(mud::Complex::*)(mud::Ref)>(&mud::Complex::add_part), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Complex>(object).add_part(args[0]); }, { { "part", Ref(), Param::Nullable } }, Var() },
                 { type<mud::Complex>(), "has_part", member_address<bool(mud::Complex::*)(mud::Type&)>(&mud::Complex::has_part), [](Ref object, array<Var> args, Var& result) { val<bool>(result) = val<mud::Complex>(object).has_part(val<mud::Type>(args[0])); }, { { "type", Ref(type<mud::Type>()) } }, var(bool()) },
                 { type<mud::Complex>(), "part", member_address<mud::Ref(mud::Complex::*)(mud::Type&)>(&mud::Complex::part), [](Ref object, array<Var> args, Var& result) { result = val<mud::Complex>(object).part(val<mud::Type>(args[0])); }, { { "type", Ref(type<mud::Type>()) } }, Ref() },

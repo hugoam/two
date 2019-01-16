@@ -13,7 +13,7 @@
 
 namespace mud
 {
-	MUD_GFX_EDIT_EXPORT void particle_edit(Widget& parent, GfxSystem& system, ParticleGenerator& generator);
+	MUD_GFX_EDIT_EXPORT void particle_edit(Widget& parent, GfxSystem& system, ParticleFlow& generator);
 	MUD_GFX_EDIT_EXPORT void particle_edit(Widget& parent, GfxSystem& system, Call& particles);
 	MUD_GFX_EDIT_EXPORT void particle_editor(Widget& parent, GfxSystem& system);
 }

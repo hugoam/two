@@ -12,7 +12,7 @@
 #include <geom/Forward.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -23,5 +23,5 @@ namespace mud
 		RandomShapePoint();
 	};
 
-	export_ MUD_GEOM_EXPORT std::vector<vec3> distribute_shape(const Shape& shape, size_t count);
+	export_ MUD_GEOM_EXPORT vector<vec3> distribute_shape(const Shape& shape, size_t count);
 }

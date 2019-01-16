@@ -25,7 +25,7 @@ void add_asset_loader(AssetStore<T_Asset>& store, cstring format)
 struct ParticleItem
 {
 	size_t m_index;
-	ParticleGenerator* m_emitter;
+	ParticleFlow* m_emitter;
 	Particles* m_particles;
 };
 
@@ -41,7 +41,7 @@ std::vector<ParticleItem> create_particles(GfxSystem& gfx_system, const std::vec
 	size_t index = 0;
 	for(const string& name : names)
 	{
-		ParticleGenerator* emitter = gfx_system.particles().file(name.c_str());
+		ParticleFlow* emitter = gfx_system.particles().file(name.c_str());
 		particles_vector.push_back({ index++, emitter, nullptr });
 	}
 

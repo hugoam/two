@@ -4,15 +4,15 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <type/Forward.h>
 #include <type/Ref.h>
 #include <type/Type.h>
 #include <infra/NonCopy.h>
 #include <type/Unique.h>
 
-#ifndef MUD_CPP_20
-#include <functional>
-#include <vector>
+#ifndef MUD_CPP20
+#include <cstdint>
 #endif
 
 namespace mud
@@ -23,7 +23,7 @@ namespace mud
 		Indexer(Type& type) : m_type(type), m_objects(1, Ref{ type }), m_count(0), m_next(1) {}
 
 		attr_ Type& m_type;
-		attr_ std::vector<Ref> m_objects;
+		attr_ vector<Ref> m_objects;
 
 		inline Id alloc() { return m_next++; }
 		inline void add(uint32_t id, Ref object) { this->resize(id); m_objects[id] = object; ++m_count; }
@@ -33,7 +33,8 @@ namespace mud
 
 		inline void resize(Id id) { if(id >= m_objects.size()) m_objects.resize(id+1); }
 
-		inline void iterate(const std::function<void(Ref)>& callback) const { for(Ref object : m_objects) if(object.m_value) callback(object); }
+		template <class T_Visitor>
+		inline void iterate(T_Visitor visitor) const { for(Ref object : m_objects) if(object.m_value) visitor(object); }
 		inline bool has(uint32_t id) const { return m_objects[id].m_value != nullptr; }
 
 		inline void clear() { m_objects.clear(); m_count = 0; }
@@ -55,7 +56,7 @@ namespace mud
 			return *m_indexers[type.m_id];
 		}
 
-		std::vector<unique_ptr<Indexer>> m_indexers;
+		vector<unique_ptr<Indexer>> m_indexers;
 
 		attr_ static Index me;
 	};

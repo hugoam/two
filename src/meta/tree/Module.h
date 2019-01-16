@@ -4,15 +4,8 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef MUD_MODULES
-#include <meta/infra/Module.h>
-#endif
-
 #include <tree/Forward.h>
 #include <tree/Types.h>
-#include <tree/Api.h>
-
-#include <meta/tree/Convert.h>
 
 #ifndef MUD_TREE_REFL_EXPORT
 #define MUD_TREE_REFL_EXPORT MUD_IMPORT

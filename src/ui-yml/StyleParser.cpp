@@ -30,14 +30,14 @@ namespace mud
 	export_ class MUD_UI_EXPORT Options
 	{
 	public:
-		std::vector<Var> m_fields;
+		vector<Var> m_fields;
 
 		void set(size_t index, const Var& value);
 		void merge(const Options& other);
 		void apply(Ref object);
 	};
 
-	using StyleMap = std::map<string, Options>;
+	using StyleMap = map<string, Options>;
 
 	export_ class refl_ MUD_UI_EXPORT Styler
 	{
@@ -56,7 +56,7 @@ namespace mud
 		void load(Style& style, StyleMap& layout_defs, StyleMap& skin_defs);
 		void define(Style& style, StyleMap& layout_defs, StyleMap& skin_defs);
 
-		static std::map<string, Style*> s_styles;
+		static map<string, Style*> s_styles;
 	};
 
 	void load_style(Styler& styler, const string& name, const json& json_style);
@@ -130,7 +130,7 @@ namespace mud
 			;
 		else // if(vector_has(meta<WidgetState>().m_enumIds, to_upper(key)))
 		{
-			std::vector<string> states = split_string(replace_all(key, " ", ""), ",");
+			vector<string> states = split_string(replace_all(key, " ", ""), ",");
 			
 			for(const string& state : states)
 				load_style(styler, style + ":" + state, json_value);
@@ -139,7 +139,7 @@ namespace mud
 
 	void load_style(Styler& styler, const string& selector, const json& json_style)
 	{
-		std::vector<string> names = split_string(replace_all(selector, " ", ""), ",");
+		vector<string> names = split_string(replace_all(selector, " ", ""), ",");
 		
 		for(const string& name : names)
 		{
@@ -151,7 +151,7 @@ namespace mud
 		}
 	}
 
-	void replace_colours(const std::map<string, Colour>& colours, json& json_value)
+	void replace_colours(const map<string, Colour>& colours, json& json_value)
 	{
 		visit_json(json_value, [&](json& json_value)
 		{
@@ -160,7 +160,7 @@ namespace mud
 		});
 	}
 
-	void load_colours(std::map<string, Colour>& colours, const json& json_colours)
+	void load_colours(map<string, Colour>& colours, const json& json_colours)
 	{
 		for(auto& key_value : json_colours.object_items())
 			from_json(key_value.second, colours[key_value.first]);
@@ -177,7 +177,7 @@ namespace mud
 			load_style_sheet(styler, (string(styler.m_ui_window.m_resource_path) + "interface/styles/" + includes[i].string_value()).c_str());
 		}
 
-		std::map<string, Colour> colours;
+		map<string, Colour> colours;
 		load_colours(colours, style_sheet["colours"]);
 		replace_colours(colours, const_cast<json&>(style_sheet["styles"]));
 

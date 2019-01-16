@@ -4,13 +4,9 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <refl/Forward.h>
 #include <refl/Namespace.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#include <functional>
-#endif
 
 namespace mud
 {
@@ -27,15 +23,15 @@ namespace mud
 	public:
 		System();
 
-		std::vector<Namespace> m_namespaces; // @todo fix reflection
-		attr_ std::vector<Module*> m_modules;
-		attr_ std::vector<Type*> m_types;
-		//attr_ std::vector<Prototype*> m_prototypes;
-		attr_ std::vector<Function*> m_functions;
+		vector<Namespace> m_namespaces; // @todo fix reflection
+		attr_ vector<Module*> m_modules;
+		attr_ vector<Type*> m_types;
+		//attr_ vector<Prototype*> m_prototypes;
+		attr_ vector<Function*> m_functions;
 
 		void launch_process(cstring path, cstring args);
 
-		void load_modules(std::vector<Module*> modules);
+		void load_modules(vector<Module*> modules);
 
 		Module* open_module(cstring path);
 		void load_module(Module& m);
@@ -43,12 +39,12 @@ namespace mud
 		Module& reload_module(Module& m);
 		bool has_module(Module& m);
 
-		std::vector<cstring> meta_symbols();
+		vector<cstring> meta_symbols();
 
 		void dump_meta_info();
 		void dump_memory_usage();
 
-		Namespace& get_namespace(std::vector<cstring> path);
+		Namespace& get_namespace(vector<cstring> path);
 		Function& function(FunctionPointer pointer);
 
 		Type* find_type(cstring name);

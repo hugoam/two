@@ -21,11 +21,19 @@ namespace mud
 		Lerp();
 	};
 
+#ifndef MUD_NO_GLM
 	export_ template <class T>
 	inline T lerp(const T& a, const T& b, float c)
 	{
 		return T(a + (b - a) * c);
 	}
+
+	export_ template <>
+		inline quat lerp(const quat& a, const quat& b, float c)
+	{
+		return slerp(a, b, c);
+	}
+#endif
 
 	export_ template <class T>
 	inline T catmull_rom(const T& p0, const T& p1, const T& p2, const T& p3, float t)
@@ -59,12 +67,6 @@ namespace mud
 	}
 
 	export_ template <>
-	inline quat lerp(const quat& a, const quat& b, float c)
-	{
-		return slerp(a, b, c);
-	}
-
-	export_ template <>
 	inline quat catmull_rom(const quat& p0, const quat& p1, const quat& p2, const quat& p3, float c)
 	{
 		UNUSED(p0); UNUSED(p3);
@@ -78,8 +80,12 @@ namespace mud
 		return slerp(start, end, t);
 	}
 
+#ifdef MUD_NO_GLM
+	inline Colour lerp(const Colour& a, const Colour& b, float c)
+#else
 	export_ template <>
 	inline Colour lerp(const Colour& a, const Colour& b, float c)
+#endif
 	{
 		vec4 va = to_vec4(a);
 		vec4 vb = to_vec4(b);

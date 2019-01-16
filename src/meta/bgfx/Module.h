@@ -4,18 +4,8 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef MUD_MODULES
-#include <meta/infra/Module.h>
-#include <meta/type/Module.h>
-#include <meta/math/Module.h>
-#include <meta/ctx/Module.h>
-#endif
-
 #include <bgfx/Forward.h>
 #include <bgfx/Types.h>
-#include <bgfx/Api.h>
-
-#include <meta/bgfx/Convert.h>
 
 #ifndef MUD_BGFX_REFL_EXPORT
 #define MUD_BGFX_REFL_EXPORT MUD_IMPORT

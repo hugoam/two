@@ -5,16 +5,13 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
 #include <type/Var.h>
 #include <infra/NonCopy.h>
 #endif
 #include <lang/Forward.h>
 #include <lang/Stream.h>
 #include <lang/Script.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#endif
 
 namespace mud
 {
@@ -40,7 +37,7 @@ namespace mud
 
 		Stream m_stream;
 
-		std::vector<Pipe*> m_pipes;
+		vector<Pipe*> m_pipes;
 
 		bool m_edit;
 
@@ -74,7 +71,7 @@ namespace mud
 		Process(VisualScript& script, cstring title, Type& type);
 		virtual ~Process();
 
-		typedef std::function<void(Process&)> Callback;
+		using Callback = void(*)(Process&);
 
 		enum State
 		{
@@ -87,8 +84,8 @@ namespace mud
 		VisualScript& m_script;
 		size_t m_index;
 		string m_title;
-		std::vector<Valve*> m_inputs;
-		std::vector<Valve*> m_outputs;
+		vector<Valve*> m_inputs;
+		vector<Valve*> m_outputs;
 
 		State m_state = UNCOMPUTED;
 
@@ -130,8 +127,8 @@ namespace mud
 		Valve& find_master_input();
 
 		Process& flow(Valve& valve);
-		Valve* pipe(std::vector<Valve*> params = {}, Process* flow = nullptr, std::vector<StreamModifier> modifiers = {});
-		Process& plug(std::vector<Valve*> params = {}, Process* flow = nullptr, std::vector<StreamModifier> modifiers = {});
+		Valve* pipe(vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
+		Process& plug(vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
 		Process& combine_flow(size_t masterInput, size_t secondaryInput);
 
 		void connected(Process& output);
@@ -144,13 +141,13 @@ namespace mud
 	public:
 		constr_ VisualScript(cstring name, const Signature& signature = {});
 
-		std::vector<object_ptr<Process>> m_processes;
-		std::vector<object_ptr<Pipe>> m_pipes;
+		vector<object_ptr<Process>> m_processes;
+		vector<object_ptr<Pipe>> m_pipes;
 
-		std::vector<Process*> m_execution;
+		vector<Process*> m_execution;
 
-		std::vector<ProcessInput*> m_inputs;
-		std::vector<ProcessOutput*> m_outputs;
+		vector<ProcessInput*> m_inputs;
+		vector<ProcessOutput*> m_outputs;
 
 		using Callable::operator();
 		virtual void operator()(array<Var> args, Var& result) const;
@@ -172,7 +169,7 @@ namespace mud
 		template <class T, class... Types>
 		T& node(Types&&... args)
 		{
-			m_processes.push_back(make_object<T>(*this, std::forward<Types>(args)...)); return as<T>(*m_processes.back());
+			m_processes.push_back(make_object<T>(*this, static_cast<Types&&>(args)...)); return as<T>(*m_processes.back());
 		}
 
 		template <class T>
@@ -182,19 +179,19 @@ namespace mud
 		Valve& reference(T&& value);
 		
 		template <class T>
-		Valve* function(T func, std::vector<Valve*> params = {}, Process* flow = nullptr, std::vector<StreamModifier> modifiers = {});
+		Valve* function(T func, vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
 
 		template <class T>
-		Valve& create(std::vector<Valve*> params = {}, Process* flow = nullptr, std::vector<StreamModifier> modifiers = {});
+		Valve& create(vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
 
 		template <class T_Member>
-		Valve& get(T_Member mem, std::vector<Valve*> params = {}, Process* flow = nullptr, std::vector<StreamModifier> modifiers = {});
+		Valve& get(T_Member mem, vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
 		
 		template <class T_Member>
-		void set(T_Member mem, std::vector<Valve*> params = {}, Process* flow = nullptr, std::vector<StreamModifier> modifiers = {});
+		void set(T_Member mem, vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
 		
 		template <class T_Method>
-		Valve* method(T_Method meth, std::vector<Valve*> params = {}, Process* flow = nullptr, std::vector<StreamModifier> modifiers = {});
+		Valve* method(T_Method meth, vector<Valve*> params = {}, Process* flow = nullptr, vector<StreamModifier> modifiers = {});
 	};
 
 	export_ class refl_ MUD_LANG_EXPORT ProcessInput : public Process, public Param

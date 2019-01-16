@@ -18,8 +18,8 @@ namespace mud
 	void init_store(Meta& meta) {}
 		
 	template <class T>
-	void init_vector(Meta& meta) { meta.m_iterable = [](Ref value) -> unique_ptr<Iterable> { return make_unique<VectorIterable<T>>(val<std::vector<T>>(value)); };
-								   meta.m_sequence = [](Ref value) -> unique_ptr<Sequence> { return make_unique<VectorSequence<T>>(val<std::vector<T>>(value)); }; }
+	void init_vector(Meta& meta) { meta.m_iterable = [](Ref value) -> unique_ptr<Iterable> { return make_unique<VectorIterable<T>>(val<vector<T>>(value)); };
+								   meta.m_sequence = [](Ref value) -> unique_ptr<Sequence> { return make_unique<VectorSequence<T>>(val<vector<T>>(value)); }; }
 		
 	template <class T>
 	void init_string(Meta& meta) { meta.m_convert->m_to_string = [](const Var& ref, string& str) { to_string<T>(val<T>(ref), str); };

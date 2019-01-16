@@ -664,7 +664,7 @@ Module['gfx']['lightmap'] = function(parent, resolution, density, save_path) {
     parent = parent.ptr;
     /* resolution <uint32_t> [] */
     /* density <float> [] */
-    /* save_path <std::string> [] */
+    /* save_path <string> [] */
     if (save_path && typeof save_path === "object") save_path = save_path.ptr;
     else save_path = ensureString(save_path);
     if (density === undefined) { return wrapPointer(_mud_gfx_lightmap_2(parent, resolution), LightmapAtlas); }

@@ -11,7 +11,7 @@
 #include <ecs/Registry.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -20,7 +20,7 @@ namespace mud
 	{
 	public:
 		constr_ Complex(Id id, Type& type);
-		constr_ Complex(Id id, Type& type, const std::vector<Ref>& parts);
+		constr_ Complex(Id id, Type& type, const vector<Ref>& parts);
 		virtual ~Complex();
 
 		template <typename... T_Parts>
@@ -34,9 +34,9 @@ namespace mud
 		attr_ Type& m_type;
 		attr_ Prototype& m_prototype;
 
-		attr_ std::vector<Ref> m_parts;
+		attr_ vector<Ref> m_parts;
 
-		meth_ void setup(const std::vector<Ref>& parts);
+		meth_ void setup(const vector<Ref>& parts);
 
 		meth_ void add_part(Ref part) { m_parts[m_prototype.part_index(type(part))] = part; }
 		meth_ bool has_part(Type& type) { return m_prototype.has_part(type); }

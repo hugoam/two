@@ -319,7 +319,7 @@ namespace mud
 		this->divide(layout->m_table_division);
 	}
 
-	void TableSolver::divide(const std::vector<float>& columns)
+	void TableSolver::divide(const vector<float>& columns)
 	{
 		m_solvers.clear();
 		m_solvers.emplace_back(make_unique<RowSolver>(this, &gridOverlayStyle()));
@@ -330,7 +330,7 @@ namespace mud
 		}
 	}
 
-	void TableSolver::update(const std::vector<float>& columns)
+	void TableSolver::update(const vector<float>& columns)
 	{
 		if(m_solvers.size() != columns.size() + 1)
 			return divide(columns);
@@ -368,7 +368,7 @@ namespace mud
 		this->divide(layout->m_grid_division);
 	}
 
-	void GridSolver::divide(std::vector<Space> lines)
+	void GridSolver::divide(vector<Space> lines)
 	{
 		m_solvers.clear();
 		for(size_t i = 0; i < lines.size(); ++i)

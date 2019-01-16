@@ -6,9 +6,8 @@
 #ifndef MUD_CPP_20
 #include <cctype>
 #include <locale>
-#include <algorithm>
 #include <chrono>
-#include <string>
+#include <stl/string.h>
 #include <regex>
 #include <cmath>
 #endif
@@ -272,7 +271,7 @@ namespace mud
 		int line = max(0, min(int(m_text_rows.size()) - 1, grid_index.y));
 		int column = m_text_rows.empty() ? 0 : min(int(m_text_rows[line].m_glyphs.size()), grid_index.x);
 		size_t index = m_text_rows[line].m_start_index + column;
-		return { index, grid_index };
+		return { index, uvec2(grid_index) };
 		//return to_cursor({ uint(column), uint(line) });
 	}
 
@@ -281,7 +280,7 @@ namespace mud
 		, m_editor(editor)
 		, m_text(m_frame)
 		, m_string(m_text.m_text)
-		, m_dirty(0, m_string.size())
+		, m_dirty(0, uint(m_string.size()))
 		, m_allowed_chars(allowed_chars)
 	{
 		m_palette = to_array(OkaidaPalette());
@@ -373,7 +372,7 @@ namespace mud
 
 	void TextEdit::insert(size_t index, const string& text)
 	{
-		this->shift(index, int(text.length()));
+		this->shift(index, int(text.size()));
 		m_string.insert(index, text);
 		this->mark_dirty(line_begin(m_string, index), line_end(m_string, index + text.size()));
 		m_follow_cursor = true;
@@ -473,7 +472,8 @@ namespace mud
 			if(has_selection())
 				erase_selected(action);
 
-			insert(m_selection.m_cursor, string(1, c), m_selection.m_cursor + 1, action);
+			char cc = c;
+			insert(m_selection.m_cursor, string(&cc, 1), m_selection.m_cursor + 1, action);
 		});
 	}
 
@@ -586,12 +586,12 @@ namespace mud
 
 	void TextEdit::move_page_up(bool select)
 	{
-		this->move_select(m_text.clamp_cursor(ivec2(m_selection.m_cursor.m_grid_index) - ivec2(0, visible_lines() - 4)), select);
+		this->move_select(m_text.clamp_cursor(ivec2(m_selection.m_cursor.m_grid_index) - ivec2(0, int(visible_lines()) - 4)), select);
 	}
 
 	void TextEdit::move_page_down(bool select)
 	{
-		this->move_select(m_text.clamp_cursor(ivec2(m_selection.m_cursor.m_grid_index) + ivec2(0, visible_lines() - 4)), select);
+		this->move_select(m_text.clamp_cursor(ivec2(m_selection.m_cursor.m_grid_index) + ivec2(0, int(visible_lines()) - 4)), select);
 	}
 
 	void TextEdit::move_left(size_t count, bool select, bool word_mode)
@@ -1029,8 +1029,8 @@ namespace mud
 					}
 
 					Text::ColorSection section = { size_t(match.first - first), size_t(match.second - first), color };
-					start_section = m_text.m_sections.insert(start_section, section) + 1;
-					//m_text.m_sections.push_back(section);
+					m_text.m_sections.insert((Text::ColorSection*)start_section, section);
+					start_section++;
 
 					current += name.size() - 1;
 					break;
@@ -1113,7 +1113,7 @@ namespace ui
 		vec2 size = self.frame_size();
 		ui::dummy(self, size);
 
-		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(frame); UNUSED(rect); self.render(vg); };
+		self.m_custom_draw = { &self, [](void* user, const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(frame); UNUSED(rect); ((TextEdit*)user)->render(vg); } };
 
 		return self;
 	}
@@ -1149,7 +1149,7 @@ namespace ui
 		}
 	}
 
-	TextEdit& text_edit(Widget& parent, string& text, size_t lines, std::vector<string>* vocabulary)
+	TextEdit& text_edit(Widget& parent, string& text, size_t lines, vector<string>* vocabulary)
 	{
 		Widget& self = widget(parent, styles().text_edit);
 		ScrollSheet& scroll_sheet = ui::scroll_sheet(self);
@@ -1165,13 +1165,15 @@ namespace ui
 			string current_word = begin == SIZE_MAX ? "" : edit.m_string.substr(begin, cursor - begin);
 			if(current_word != "")
 			{
-				std::vector<cstring> completions;
+				vector<cstring> completions;
 				for(const string& word : *vocabulary)
 				{
 					//if(word.find(current_word) != string::npos)
 					// if current word is fits the beginning of word
-					if(word.compare(0, current_word.size(), current_word) == 0)
+					if(word.substr(0, current_word.size()).compare(current_word) == 0)
 						completions.push_back(word.c_str());
+					//if(word.compare(0, current_word.size(), current_word) == 0)
+					//	completions.push_back(word.c_str());
 				}
 
 				if(!completions.empty())
@@ -1182,7 +1184,7 @@ namespace ui
 		return edit;
 	}
 
-	TextEdit& code_edit(Widget& parent, string& text, size_t lines, std::vector<string>* vocabulary)
+	TextEdit& code_edit(Widget& parent, string& text, size_t lines, vector<string>* vocabulary)
 	{
 		return text_edit(parent, text, lines, vocabulary);
 	}

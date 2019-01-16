@@ -3,6 +3,7 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
+#include <cfloat>
 
 #ifdef MUD_MODULES
 module mud.ui;
@@ -138,7 +139,7 @@ namespace ui
 			//offset = min(vec2{ widget->m_frame.m_position - margin });
 		}
 
-		vec2 offset = margin - bounds_min;
+		vec2 offset = vec2(margin) - bounds_min;
 		vec2 remainder = mod(offset, vec2(100.f));
 		offset = offset - remainder;
 

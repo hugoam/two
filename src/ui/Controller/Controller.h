@@ -5,16 +5,12 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/map.h>
 #include <math/Vec.h>
 #include <ctx/KeyCode.h>
 #include <ctx/InputDispatcher.h>
 #endif
 #include <ui/Forward.h>
-
-#ifndef MUD_CPP_20
-#include <map>
-#include <functional>
-#endif
 
 namespace mud
 {
@@ -25,8 +21,11 @@ namespace mud
 		InputMod m_modifier;
 		Key m_key;
 		uint64_t value() const { return (uint64_t)m_modifier << 32 | uint(m_key); }
-		friend bool operator<(const KeyCombo& lhs, const KeyCombo& rhs) { return lhs.value() < rhs.value(); }
+		explicit operator uint64_t() const { return value(); }
 	};
+
+	inline bool operator<(const KeyCombo& lhs, const KeyCombo& rhs) { return lhs.value() < rhs.value(); }
+	inline bool operator==(const KeyCombo& lhs, const KeyCombo& rhs) { return lhs.value() == rhs.value(); }
 
 	export_ class MUD_UI_EXPORT EventDispatch
 	{
@@ -35,10 +34,10 @@ namespace mud
 
 		virtual void process(Widget& widget);
 		
-		typedef std::function<void()> KeyHandler;
+		using KeyHandler = void(*)();
 		//EventMap<KeyHandler> m_handlers;
 
-		std::map<KeyCombo, KeyHandler> m_key_down_handlers;
-		std::map<KeyCombo, KeyHandler> m_key_up_handlers;
+		map<KeyCombo, KeyHandler> m_key_down_handlers;
+		map<KeyCombo, KeyHandler> m_key_up_handlers;
 	};
 }

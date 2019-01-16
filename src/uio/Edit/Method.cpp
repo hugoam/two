@@ -4,7 +4,7 @@
 
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #endif
 
 #ifdef MUD_MODULES
@@ -25,8 +25,6 @@ namespace mud
 		CallableEditState(Callable& callable, Ref object) : m_call(callable, object) {}
 		Call m_call;
 	};
-
-	using string = std::string;
 
 	bool call_edit(Widget& parent, Call& call)
 	{

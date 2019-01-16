@@ -177,7 +177,7 @@ namespace mud
 		T* make(T_Args&&... args)
 		{
 			void* const p = this->alloc();
-			return p ? new(p) T(std::forward<T_Args>(args)...) : nullptr;
+			return p ? new(p) T(static_cast<T_Args&&>(args)...) : nullptr;
 		}
 
 		void destroy(T* p)

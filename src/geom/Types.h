@@ -13,9 +13,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 
@@ -62,39 +62,39 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Torus>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Triangle>();
     
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Distribution*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Face3*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::MeshPacker*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Plane*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Plane3*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Ray*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Segment*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Shape*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::ShapeVar*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Symbol*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Arc*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::ArcLine*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Capsule*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Cube*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Aabb*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Box*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Circle*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::ConvexHull*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Cylinder*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Ellipsis*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Geometry*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Grid2*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Grid3*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Line*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Points*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Poisson*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Polygon*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Quad*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Rect*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Ring*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Sphere*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::SphereRing*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Spheroid*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Torus*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<std::vector<mud::Triangle*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Distribution*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Face3*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::MeshPacker*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Plane*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Plane3*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Ray*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Segment*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Shape*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::ShapeVar*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Symbol*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Arc*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::ArcLine*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Capsule*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Cube*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Aabb*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Box*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Circle*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::ConvexHull*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Cylinder*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Ellipsis*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Geometry*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Grid2*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Grid3*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Line*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Points*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Poisson*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Polygon*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Quad*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Rect*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Ring*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Sphere*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::SphereRing*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Spheroid*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Torus*>>;
+    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Triangle*>>;
 }

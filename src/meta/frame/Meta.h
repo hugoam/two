@@ -36,8 +36,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Shell>(), member_address(&mud::Shell::m_exec_path), type<std::string>(), "exec_path", var(std::string()), Member::Value, nullptr },
-                { type<mud::Shell>(), member_address(&mud::Shell::m_resource_path), type<std::string>(), "resource_path", var(std::string()), Member::Value, nullptr },
+                { type<mud::Shell>(), member_address(&mud::Shell::m_exec_path), type<string>(), "exec_path", var(string()), Member::Value, nullptr },
+                { type<mud::Shell>(), member_address(&mud::Shell::m_resource_path), type<string>(), "resource_path", var(string()), Member::Value, nullptr },
                 { type<mud::Shell>(), member_address(&mud::Shell::m_job_system), type<mud::JobSystem>(), "job_system", Ref(type<mud::JobSystem>()), Member::NonMutable, nullptr },
                 { type<mud::Shell>(), member_address(&mud::Shell::m_gfx_system), type<mud::GfxSystem>(), "gfx_system", Ref(type<mud::GfxSystem>()), Member::NonMutable, nullptr },
                 { type<mud::Shell>(), member_address(&mud::Shell::m_editor), type<mud::ShellContext>(), "editor", var(mud::ShellContext()), Member::Value, nullptr },

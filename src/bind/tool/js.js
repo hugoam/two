@@ -146,7 +146,7 @@ Object.defineProperty(Tool.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_Tool__set_name(self, value);

@@ -24,7 +24,7 @@ module mud.fract;
 
 #ifndef MUD_CPP_20
 #include <cstdio>
-#include <string>
+#include <stl/string.h>
 #endif
 
 float rnd_float()
@@ -230,7 +230,7 @@ namespace mud
 		this->render(rect, pattern, resolution, image);
 	}
 
-	void Fract::render_grid(uvec2 subdiv, const Pattern& pattern, uvec2 resolution, std::vector<Image256>& images)
+	void Fract::render_grid(uvec2 subdiv, const Pattern& pattern, uvec2 resolution, vector<Image256>& images)
 	{
 		for(size_t y = 0; y < subdiv.y; ++y)
 			for(size_t x = 0; x < subdiv.x; ++x)

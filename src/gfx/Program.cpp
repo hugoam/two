@@ -4,10 +4,6 @@
 
 #include <gfx/Cpp20.h>
 #ifndef MUD_CPP_20
-#include <string>
-#include <map>
-#include <vector>
-#include <fstream>
 #include <mutex>
 #endif
 
@@ -18,10 +14,13 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/string.h>
+#include <stl/vector.h>
+#include <stl/map.h>
 #include <infra/Vector.h>
+#include <infra/ToString.h>
 #include <infra/EnumArray.h>
 #include <infra/File.h>
-#include <infra/StringConvert.h>
 #include <gfx/Program.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Texture.h>
@@ -36,8 +35,6 @@ namespace bgfx
 
 namespace mud
 {
-	using string = std::string;
-
 	static const bgfx::Memory* load_mem(bx::FileReaderI& reader, const char* file_path)
 	{
 		if(!bx::open(&reader, file_path))
@@ -158,7 +155,7 @@ namespace mud
 		if(target == ESSL || target == Metal)
 			defines += "NO_TEXEL_FETCH;";
 
-		std::vector<cstring> args;
+		vector<cstring> args;
 		auto push_arg = [&args](cstring name, cstring arg) { args.push_back(name); args.push_back(arg); };
 
 		static cstring types[] = { "compute", "fragment", "geometry", "vertex" };
@@ -222,11 +219,11 @@ namespace mud
 	{
 		string m_name;
 
-		std::map<uint64_t, Version> m_versions;
-		std::vector<string> m_option_names;
-		std::vector<string> m_mode_names;
+		map<uint64_t, Version> m_versions;
+		vector<string> m_option_names;
+		vector<string> m_mode_names;
 
-		std::vector<ShaderDefine> m_defines;
+		vector<ShaderDefine> m_defines;
 	};
 
 	string program_defines(Program::Impl& program, const ShaderVersion& version)
@@ -356,7 +353,7 @@ namespace mud
 	}
 
 	template <class T, class U>
-	inline void vector_prepend(std::vector<T>& vector, const U& other)
+	inline void vector_prepend(vector<T>& vector, const U& other)
 	{
 		vector.insert(vector.begin(), other.begin(), other.end());
 	}

@@ -13,7 +13,7 @@ namespace mud
 
 		Job* job = job_system.job(parent);
 
-		std::vector<ParallelBuffers*> matches = ecs.Match(prototype);
+		vector<ParallelBuffers*> matches = ecs.Match(prototype);
 		for(ParallelBuffers* stream : matches)
 		{
 			std::tuple<ComponentBuffer<Ts>&...> buffers = std::make_tuple(std::ref(stream->Buffer<Ts>())...);

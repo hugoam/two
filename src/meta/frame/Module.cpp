@@ -3,8 +3,12 @@
 #ifdef MUD_MODULES
 module mud.frame;
 #else
+#include <meta/gfx/Module.h>
+#include <meta/gfx-ui/Module.h>
 #include <meta/frame/Module.h>
 #endif
+
+#include <frame/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/frame/Convert.h>

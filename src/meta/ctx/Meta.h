@@ -85,8 +85,8 @@ namespace mud
             },
             // members
             {
-                { type<mud::Context>(), member_address(&mud::Context::m_resource_path), type<std::string>(), "resource_path", var(std::string()), Member::Flags(Member::Value|Member::NonMutable), nullptr },
-                { type<mud::Context>(), member_address(&mud::Context::m_title), type<std::string>(), "title", var(std::string()), Member::Value, nullptr },
+                { type<mud::Context>(), member_address(&mud::Context::m_resource_path), type<string>(), "resource_path", var(string()), Member::Flags(Member::Value|Member::NonMutable), nullptr },
+                { type<mud::Context>(), member_address(&mud::Context::m_title), type<string>(), "title", var(string()), Member::Value, nullptr },
                 { type<mud::Context>(), member_address(&mud::Context::m_width), type<unsigned int>(), "width", var(uint()), Member::Value, nullptr },
                 { type<mud::Context>(), member_address(&mud::Context::m_height), type<unsigned int>(), "height", var(uint()), Member::Value, nullptr },
                 { type<mud::Context>(), member_address(&mud::Context::m_full_screen), type<bool>(), "full_screen", var(bool()), Member::Value, nullptr },

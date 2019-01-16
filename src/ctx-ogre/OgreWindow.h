@@ -74,7 +74,7 @@ namespace mud
 		Mouse* m_uiMouse;
 		Keyboard* m_uiKeyboard;
 
-		std::map<OIS::MouseButtonID, bool> m_pressed;
+		map<OIS::MouseButtonID, bool> m_pressed;
 		bool m_shutdownRequested;
 	};
 }

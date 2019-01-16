@@ -4,19 +4,17 @@
 
 #pragma once
 
+#include <stl/string.h>
 #include <math/Forward.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
 
 #ifndef MUD_CPP_20
 #include <sstream>
-#include <string>
 #endif
 
 namespace mud
 {
-	using string = std::string;
-
 #ifndef MUD_CPP_20
 	export_ inline string read(std::istream& stream, size_t length) { string result; result.resize(length); stream.read(&result[0], length); return result; }
 

@@ -57,7 +57,7 @@ namespace mud
 
 	MetaStyles& meta_styles() { static MetaStyles styles; return styles; }
 
-	void set_meta_palette(const std::vector<uint32_t>& palette)
+	void set_meta_palette(const vector<uint32_t>& palette)
 	{
 		meta_styles().label.skin().m_text_colour		= from_rgba(palette[size_t(CodePalette::Word)]);
 		meta_styles().type.skin().m_text_colour			= from_rgba(palette[size_t(CodePalette::Identifier)]);
@@ -293,7 +293,7 @@ namespace mud
 		static Mode mode = Classes;
 		ui::dropdown_field(table, "Browse:", carray<cstring, 4>{ "Basetypes", "Enums", "Classes", "Functions" }, (uint32_t&) mode);
 
-		static std::map<Module*, bool> modules;
+		static map<Module*, bool> modules;
 
 		Widget& row = ui::row(table);
 		ui::label(row, "Modules");

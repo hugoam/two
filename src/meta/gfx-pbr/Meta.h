@@ -677,14 +677,14 @@ namespace mud
         m.m_types.push_back(&type<mud::BlockTonemap>());
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::gi_probe(val<mud::Gnode>(args[0]), val<uint16_t>(args[1]), val<mud::vec3>(args[2]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "subdiv", var(uint16_t()) }, { "extents", var(mud::vec3()) } };
+            vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "subdiv", var(uint16_t()) }, { "extents", var(mud::vec3()) } };
             static Function f = { &namspc({ "mud", "gfx" }), "gi_probe", function_id<mud::GIProbe&(*)(mud::Gnode&, uint16_t, const mud::vec3&)>(&mud::gfx::gi_probe), func, params, Ref(type<mud::GIProbe>()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::lightmap(val<mud::Gnode>(args[0]), val<uint32_t>(args[1]), val<float>(args[2]), val<std::string>(args[3]))); };
-            std::vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "resolution", var(uint32_t()) }, { "density", var(float(8.f)), Param::Default }, { "save_path", var(std::string("")), Param::Default } };
-            static Function f = { &namspc({ "mud", "gfx" }), "lightmap", function_id<mud::LightmapAtlas&(*)(mud::Gnode&, uint32_t, float, const std::string&)>(&mud::gfx::lightmap), func, params, Ref(type<mud::LightmapAtlas>()) };
+            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::lightmap(val<mud::Gnode>(args[0]), val<uint32_t>(args[1]), val<float>(args[2]), val<string>(args[3]))); };
+            vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "resolution", var(uint32_t()) }, { "density", var(float(8.f)), Param::Default }, { "save_path", var(string("")), Param::Default } };
+            static Function f = { &namspc({ "mud", "gfx" }), "lightmap", function_id<mud::LightmapAtlas&(*)(mud::Gnode&, uint32_t, float, const string&)>(&mud::gfx::lightmap), func, params, Ref(type<mud::LightmapAtlas>()) };
             m.m_functions.push_back(&f);
         }
     }

@@ -35,12 +35,18 @@ namespace mud
 	void init_store() {}
 		
 	export_ template <class T, class U>
-	void init_vector() { cls<T>().m_iterable = [](Ref value) -> unique_ptr<Iterable> { return make_unique<VectorIterable<U>>(val<std::vector<U>>(value)); };
-						 cls<T>().m_sequence = [](Ref value) -> unique_ptr<Sequence> { return make_unique<VectorSequence<U>>(val<std::vector<U>>(value)); }; }
-		
+	void init_vector() { static Iterable iterable = { [](Ref vec) { return val<T>(vec).size(); },
+													  [](Ref vec, size_t i) -> Ref { return ref(val<T>(vec)[i]); } };
+						 static Sequence sequence = { [](Ref vec, Ref value) { val<T>(vec).push_back(val<U>(value)); },
+													  [](Ref vec, Ref value) { vector_remove_any(val<T>(vec), val<U>(value)); } };
+						 g_iterable[type<T>().m_id] = &iterable;
+						 g_sequence[type<T>().m_id] = &sequence; }
+
+	//virtual bool has(Ref ref) const { for(const T& value : m_vector) if(any_compare<T>(val<T>(ref), value)) return true; return false; }
+
 	export_ template <class T>
 	void init_string() { static Convert convert = { [](Ref ref, string& str) { to_string<T>(val<T>(ref), str); },
-													[](const string& str, Ref ref) { from_string<T>(str, val<T>(ref)); } };
+													[](const string& str, Ref ref) { to_value<T>(str, val<T>(ref)); } };
 						 g_convert[type<T>().m_id] = &convert; }
 
 	export_ template <>
@@ -53,7 +59,7 @@ namespace mud
 	MUD_REFL_EXPORT void init_string<cstring>();
 
 	export_ template <class T>
-	void init_pool() { cls<T>().m_make_pool = [] { return make_unique<TPool<T>>(); }; }
+	void init_pool() { cls<T>().m_make_pool = []() -> unique_ptr<Pool> { return make_unique<TPool<T>>(); }; }
 
 	export_ template <class T>
 	inline typename std::enable_if<std::is_default_constructible<T>::value, void>::type

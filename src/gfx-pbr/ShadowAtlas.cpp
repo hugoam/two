@@ -34,7 +34,7 @@ namespace mud
 		}
 	}
 
-	ShadowAtlas::ShadowAtlas(uint16_t size, std::vector<uint16_t> slices_subdiv)
+	ShadowAtlas::ShadowAtlas(uint16_t size, vector<uint16_t> slices_subdiv)
 		: m_size(size)
 	{
 		m_depth = bgfx::createTexture2D(m_size, m_size * uint16_t(slices_subdiv.size()), false, 1, bgfx::TextureFormat::D24S8, BGFX_TEXTURE_RT | GFX_TEXTURE_CLAMP);

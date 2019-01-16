@@ -12,7 +12,7 @@ module mud.geom;
 
 namespace mud
 {
-	std::vector<IcoSphere> IcoSphere::s_levels = { 1, 2, 3 };
+	vector<IcoSphere> IcoSphere::s_levels = { 1, 2, 3 };
 
 	IcoSphere::IcoSphere(int recursionLevel)
 	{
@@ -63,7 +63,7 @@ namespace mud
 
 		for(int r = 0; r < recursionLevel; r++)
 		{
-			std::vector<Face> prevfaces = m_faces;
+			vector<Face> prevfaces = m_faces;
 
 			m_faces.clear();
 			m_lines.clear();

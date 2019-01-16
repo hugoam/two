@@ -3,8 +3,15 @@
 #ifdef MUD_MODULES
 module mud.wfc;
 #else
+#include <meta/infra/Module.h>
+#include <meta/type/Module.h>
+#include <meta/srlz/Module.h>
+#include <meta/math/Module.h>
+#include <meta/geom/Module.h>
 #include <meta/wfc/Module.h>
 #endif
+
+#include <wfc/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/wfc/Convert.h>

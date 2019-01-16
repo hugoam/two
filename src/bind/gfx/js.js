@@ -127,7 +127,7 @@ Object.defineProperty(Animation.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_Animation__set_name(self, value);
@@ -299,7 +299,7 @@ Object.defineProperty(AnimationTrack.prototype, "node_name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_AnimationTrack__set_node_name(self, value);
@@ -1375,7 +1375,7 @@ Object.defineProperty(ImportConfig.prototype, "suffix", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_ImportConfig__set_suffix(self, value);
@@ -1895,7 +1895,7 @@ Object.defineProperty(Mesh.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_Mesh__set_name(self, value);
@@ -2055,7 +2055,7 @@ Object.defineProperty(Model.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_Model__set_name(self, value);
@@ -2280,7 +2280,7 @@ Object.defineProperty(ParticleGenerator.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_ParticleGenerator__set_name(self, value);
@@ -2397,7 +2397,7 @@ Object.defineProperty(ParticleGenerator.prototype, "sprite_name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_ParticleGenerator__set_sprite_name(self, value);
@@ -2532,7 +2532,7 @@ Object.defineProperty(Prefab.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_Prefab__set_name(self, value);
@@ -3164,7 +3164,7 @@ Module['gfx']['model'] = function(parent, name, flags, material, instances) {
     ensureCache.prepare();
     /* parent <Gnode> [] */
     parent = parent.ptr;
-    /* name <std::string> [] */
+    /* name <string> [] */
     if (name && typeof name === "object") name = name.ptr;
     else name = ensureString(name);
     /* flags <uint32_t> [] */
@@ -3213,7 +3213,7 @@ Module['gfx']['radiance'] = function(parent, texture, background) {
     ensureCache.prepare();
     /* parent <Gnode> [] */
     parent = parent.ptr;
-    /* texture <std::string> [] */
+    /* texture <string> [] */
     if (texture && typeof texture === "object") texture = texture.ptr;
     else texture = ensureString(texture);
     /* background <BackgroundMode> [] */

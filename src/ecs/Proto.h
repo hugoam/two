@@ -9,7 +9,7 @@
 #include <ecs/Forward.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -29,7 +29,7 @@ namespace mud
 
 		Type& m_type;
 		Type& m_stem;
-		std::vector<Type*> m_parts;
+		vector<Type*> m_parts;
 
 		void add_part(Type& type);
 
@@ -37,10 +37,10 @@ namespace mud
 		inline size_t part_index(Type& type) { return m_hash_parts[type.m_id]; }
 
 	protected:
-		std::vector<size_t> m_hash_parts;
+		vector<size_t> m_hash_parts;
 	};
 
-	export_ extern MUD_ECS_EXPORT std::vector<unique_ptr<Prototype>> g_prototypes;
+	export_ extern MUD_ECS_EXPORT vector<unique_ptr<Prototype>> g_prototypes;
 
 	export_ MUD_ECS_EXPORT Prototype& proto(Type& type);
 

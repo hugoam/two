@@ -10,7 +10,7 @@
 #include <ui/Forward.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -18,6 +18,6 @@ namespace mud
 	export_ class refl_ MUD_UI_EXPORT User
 	{
 	public:
-		std::vector<Ref> m_selection;
+		vector<Ref> m_selection;
 	};
 }

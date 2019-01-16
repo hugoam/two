@@ -1,6 +1,8 @@
 #include <clrefl/Generator.h>
 #include <clrefl/Codegen.h>
 
+#include <string>
+
 #define PARSE_EXTERNAL 0
 
 namespace mud
@@ -185,7 +187,7 @@ namespace mud
 
 		m.m_member = spelling(cursor);
 		m.m_name = replace(spelling(cursor), "m_", "");
-		m.m_capname = char(toupper(m.m_name[0])) + m.m_name.substr(1, string::npos);
+		m.m_capname = string(1, char(toupper(m.m_name[0]))) + m.m_name.substr(1, string::npos);
 
 		m.m_annotations = get_annotations(cursor);
 		m.m_nonmutable = has<string>(m.m_annotations, "nomut");
@@ -263,7 +265,7 @@ namespace mud
 
 	void parse_class_child(CLClass& c, CXCursor cursor)
 	{
-		std::vector<string> annotations = get_annotations(cursor);
+		vector<string> annotations = get_annotations(cursor);
 
 		if(cursor.kind == CXCursor_TemplateTypeParameter)
 			c.m_template_types.push_back(spelling(cursor));
@@ -354,7 +356,7 @@ namespace mud
 		{
 			if(should_visit(c, module))
 			{
-				std::vector<string> annotations = get_annotations(c);
+				vector<string> annotations = get_annotations(c);
 
 				if(c.kind == CXCursor_Namespace)
 				{
@@ -392,7 +394,7 @@ namespace mud
 		{
 			if(should_visit(c, module))
 			{
-				std::vector<string> annotations = get_annotations(c);
+				vector<string> annotations = get_annotations(c);
 
 				if(c.kind == CXCursor_Namespace)
 				{
@@ -426,8 +428,8 @@ namespace mud
 	public:
 		CLGenerator() : m_context() {}
 
-		std::vector<unique_ptr<CLModule>> m_modules = {};
-		std::vector<CLModule*> m_generator_queue = {};
+		vector<unique_ptr<CLModule>> m_modules = {};
+		vector<CLModule*> m_generator_queue = {};
 		CLContext m_context;
 
 		CLModule& module(const string& id)
@@ -443,7 +445,7 @@ namespace mud
 
 			bool debug_diagnostic = true;
 
-			std::vector<string> compiler_args = {
+			vector<string> compiler_args = {
 				"-x",
 				"c++",
 				"-std=c++14",
@@ -470,7 +472,7 @@ namespace mud
 				printf("%s\n", arg.c_str());
 #endif
 
-			auto parse_file = [&](const string& path, const string& file, const std::vector<cstring>& compiler_args, bool debug = false)
+			auto parse_file = [&](const string& path, const string& file, const vector<cstring>& compiler_args, bool debug = false)
 			{
 				string fullpath = path + "\\" + file;
 				CXIndex index = clang_createIndex(0, 0);
@@ -512,7 +514,7 @@ namespace mud
 				func(cursor(translation_unit), module, module.m_context.m_root_namespace);
 			};
 
-			std::vector<cstring> compiler_cargs;
+			vector<cstring> compiler_cargs;
 			for(const string& arg : compiler_args)
 				compiler_cargs.push_back(arg.c_str());
 
@@ -605,27 +607,29 @@ namespace mud
 
 		void add_module(const Json& m)
 		{
-			std::vector<CLModule*> dependencies = {};
+			auto tos = [](const Json& j) -> string { return j.string_value().c_str(); };
+
+			vector<CLModule*> dependencies = {};
 			for(const Json& dep : m["dependencies"].array_items())
 			{
-				dependencies.push_back(&this->module(dep.string_value()));
+				dependencies.push_back(&this->module(tos(dep)));
 			}
 
-			std::vector<string> includedirs = {};
+			vector<string> includedirs = {};
 			for(const Json& inc : m["includedirs"].array_items())
 			{
-				includedirs.push_back(inc.string_value());
+				includedirs.push_back(tos(inc));
 			}
 
-			CLModule& module = vector_emplace<CLModule>(m_modules, m_context, m["namespace"].string_value(), m["name"].string_value(), m["dotname"].string_value(), m["idname"].string_value(),
-																   m["root"].string_value(), m["subdir"].string_value(), m["path"].string_value(), includedirs, dependencies);
+			CLModule& module = vector_emplace<CLModule>(m_modules, m_context, tos(m["namespace"]), tos(m["name"]), tos(m["dotname"]), tos(m["idname"]),
+																   tos(m["root"]), tos(m["subdir"]), tos(m["path"]), includedirs, dependencies);
 			m_generator_queue.push_back(&module);
 
 			for(const Json& ty : m["basetypes"].array_items())
-				module.base_type(ty.string_value(), m_context.m_root_namespace);
+				module.base_type(tos(ty), m_context.m_root_namespace);
 
 			for(const auto& key_value : m["aliases"].object_items())
-				m_context.m_types[key_value.first] = m_context.m_types[key_value.second.string_value()];
+				m_context.m_types[key_value.first.c_str()] = m_context.m_types[tos(key_value.second)];
 		}
 
 		void generate_module(const string& id)
@@ -651,16 +655,16 @@ int main(int argc, char *argv[])
 
 	CLGenerator generator;
 
-	std::vector<string> locations = split(args, " ");
+	vector<string> locations = split(args, " ");
 
 	for(int i = 1; i < argc; ++i)
 		locations.push_back(argv[i]);
 
 	for(string loc : locations)
 	{
-		string errors;
+		std::string errors;
 		string text_module = read_text_file(loc);
-		Json json_module = Json::parse(text_module, errors);
+		Json json_module = Json::parse(text_module.c_str(), errors);
 		generator.add_module(json_module);
 	}
 

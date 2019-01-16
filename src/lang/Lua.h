@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/string.h>
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
 #include <type/Any.h>
@@ -13,14 +14,8 @@
 #include <lang/Forward.h>
 #include <lang/Script.h>
 
-#ifndef  MUD_CPP_20
-#include <string>
-#endif
-
 namespace mud
 {
-	using string = std::string;
-
 	class LuaContext;
 
 	export_ class refl_ MUD_LANG_EXPORT LuaInterpreter final : public Interpreter

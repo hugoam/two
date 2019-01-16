@@ -31,7 +31,7 @@ Object.defineProperty(Clipboard.prototype, "text", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_Clipboard__set_text(self, value);
@@ -252,7 +252,7 @@ Object.defineProperty(InkStyle.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_InkStyle__set_name(self, value);
@@ -324,7 +324,7 @@ Object.defineProperty(InkStyle.prototype, "text_font", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_InkStyle__set_text_font(self, value);
@@ -567,7 +567,7 @@ Object.defineProperty(Layout.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_Layout__set_name(self, value);

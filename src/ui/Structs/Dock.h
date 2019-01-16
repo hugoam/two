@@ -9,22 +9,20 @@
 #include <ui/Container.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
-#include <map>
-#include <string>
+#include <stl/vector.h>
+#include <stl/map.h>
+#include <stl/string.h>
 #endif
 
 namespace mud
 {
-	using string = std::string;
-
 	export_ struct refl_ MUD_UI_EXPORT Dock
 	{
 		Dock();
-		Dock(Docker& docker, cstring name, std::vector<uint16_t> dockid, float span = 0.f);
+		Dock(Docker& docker, cstring name, vector<uint16_t> dockid, float span = 0.f);
 		Docker* m_docker = nullptr;
 		cstring m_name;
-		std::vector<uint16_t> m_dockid;
+		vector<uint16_t> m_dockid;
 		float m_span = 0.f;
 	};
 
@@ -35,8 +33,8 @@ namespace mud
 
 		void dock(Dockable& widget, const vec2& pos);
 
-		std::map<string, Dock> m_docks;
-		std::vector<Docker*> m_dockers;
+		map<string, Dock> m_docks;
+		vector<Docker*> m_dockers;
 	};
 
 	export_ class refl_ MUD_UI_EXPORT Dockable : public Widget
@@ -63,7 +61,7 @@ namespace mud
 		void shift(Dock& start, bool add);
 
 		Docksystem* m_docksystem;
-		std::vector<Dock*> m_docks;
+		vector<Dock*> m_docks;
 	};
 
 	export_ class refl_ MUD_UI_EXPORT Dockspace : public Docker

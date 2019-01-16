@@ -30,10 +30,10 @@ namespace mud
     
     // Sequences
     {
-        static Meta meta = { type<std::vector<mud::Image256>>(), &namspc({}), "std::vector<mud::Image256>", sizeof(std::vector<mud::Image256>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<mud::Image256>>() };
+        static Meta meta = { type<vector<mud::Image256>>(), &namspc({}), "vector<mud::Image256>", sizeof(vector<mud::Image256>), TypeClass::Sequence };
+        static Class cls = { type<vector<mud::Image256>>() };
         cls.m_content = &type<mud::Image256>();
-        meta_sequence<std::vector<mud::Image256>, mud::Image256>();
+        meta_sequence<vector<mud::Image256>, mud::Image256>();
     }
     
     // mud::Circlifier
@@ -55,7 +55,7 @@ namespace mud
             },
             // methods
             {
-                { type<mud::Circlifier>(), "compute", member_address<std::vector<mud::Circle>(mud::Circlifier::*)(const mud::Colour&, float)>(&mud::Circlifier::compute), [](Ref object, array<Var> args, Var& result) { val<std::vector<mud::Circle>>(result) = val<mud::Circlifier>(object).compute(val<mud::Colour>(args[0]), val<float>(args[1])); }, { { "colour", var(mud::Colour()) }, { "scale", var(float(1.f)), Param::Default } }, var(std::vector<mud::Circle>()) }
+                { type<mud::Circlifier>(), "compute", member_address<vector<mud::Circle>(mud::Circlifier::*)(const mud::Colour&, float)>(&mud::Circlifier::compute), [](Ref object, array<Var> args, Var& result) { val<vector<mud::Circle>>(result) = val<mud::Circlifier>(object).compute(val<mud::Colour>(args[0]), val<float>(args[1])); }, { { "colour", var(mud::Colour()) }, { "scale", var(float(1.f)), Param::Default } }, var(vector<mud::Circle>()) }
             },
             // static members
             {
@@ -88,7 +88,7 @@ namespace mud
                 { type<mud::Fract>(), "regen", member_address<void(mud::Fract::*)()>(&mud::Fract::regen), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args); val<mud::Fract>(object).regen(); }, {}, Var() },
                 { type<mud::Fract>(), "render", member_address<void(mud::Fract::*)(const mud::Rect&, const mud::Pattern&, mud::uvec2, mud::Image256&)>(&mud::Fract::render), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Fract>(object).render(val<mud::Rect>(args[0]), val<mud::Pattern>(args[1]), val<mud::uvec2>(args[2]), val<mud::Image256>(args[3])); }, { { "rect", var(mud::Rect()) }, { "pattern", var(mud::Pattern()) }, { "resolution", var(mud::uvec2()) }, { "output_image", var(mud::Image256()), Param::Output } }, Var() },
                 { type<mud::Fract>(), "render_whole", member_address<void(mud::Fract::*)(const mud::Pattern&, mud::uvec2, mud::Image256&)>(&mud::Fract::render_whole), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Fract>(object).render_whole(val<mud::Pattern>(args[0]), val<mud::uvec2>(args[1]), val<mud::Image256>(args[2])); }, { { "pattern", var(mud::Pattern()) }, { "resolution", var(mud::uvec2()) }, { "output_image", var(mud::Image256()), Param::Output } }, Var() },
-                { type<mud::Fract>(), "render_grid", member_address<void(mud::Fract::*)(mud::uvec2, const mud::Pattern&, mud::uvec2, std::vector<mud::Image256>&)>(&mud::Fract::render_grid), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Fract>(object).render_grid(val<mud::uvec2>(args[0]), val<mud::Pattern>(args[1]), val<mud::uvec2>(args[2]), val<std::vector<mud::Image256>>(args[3])); }, { { "size", var(mud::uvec2()) }, { "pattern", var(mud::Pattern()) }, { "resolution", var(mud::uvec2()) }, { "output_images", var(std::vector<mud::Image256>()), Param::Output } }, Var() }
+                { type<mud::Fract>(), "render_grid", member_address<void(mud::Fract::*)(mud::uvec2, const mud::Pattern&, mud::uvec2, vector<mud::Image256>&)>(&mud::Fract::render_grid), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Fract>(object).render_grid(val<mud::uvec2>(args[0]), val<mud::Pattern>(args[1]), val<mud::uvec2>(args[2]), val<vector<mud::Image256>>(args[3])); }, { { "size", var(mud::uvec2()) }, { "pattern", var(mud::Pattern()) }, { "resolution", var(mud::uvec2()) }, { "output_images", var(vector<mud::Image256>()), Param::Output } }, Var() }
             },
             // static members
             {
@@ -189,10 +189,10 @@ namespace mud
         m.m_types.push_back(&type<mud::FractTab>());
         m.m_types.push_back(&type<mud::Pattern>());
         m.m_types.push_back(&type<mud::PatternSampling>());
-        m.m_types.push_back(&type<std::vector<mud::Image256>>());
+        m.m_types.push_back(&type<vector<mud::Image256>>());
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::generate_fract(val<mud::uvec2>(args[0]), val<mud::Pattern>(args[1]), val<mud::Image256>(args[2])); };
-            std::vector<Param> params = { { "resolution", var(mud::uvec2()) }, { "pattern", var(mud::Pattern()) }, { "output_image", var(mud::Image256()), Param::Output } };
+            vector<Param> params = { { "resolution", var(mud::uvec2()) }, { "pattern", var(mud::Pattern()) }, { "output_image", var(mud::Image256()), Param::Output } };
             static Function f = { &namspc({ "mud" }), "generate_fract", function_id<void(*)(mud::uvec2, const mud::Pattern&, mud::Image256&)>(&mud::generate_fract), func, params, Var() };
             m.m_functions.push_back(&f);
         }

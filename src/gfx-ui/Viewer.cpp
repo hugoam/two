@@ -52,17 +52,14 @@ namespace mud
 	{
 		this->init(viewer_styles().viewer);
 
-#ifndef MUD_MODULES // @todo clang bug
-		m_viewport.m_get_size = [&] { return uvec4(this->query_size()); };
-		m_viewport.m_render = [&](Render& render) { this->render(render); };
+		m_viewport.m_tasks.push_back({ this, [](void* user, Render& render) { ((Viewer*)user)->render(render); } });
 
-		m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
+		m_custom_draw = { this, [](void* user, const Frame& frame, const vec4& rect, Vg& vg)
 		{
 			UNUSED(frame); UNUSED(rect);
 			//renderer.draw_frame(frame, rect);
-			this->blit(vg);
-		};
-#endif
+			((Viewer*)user)->blit(vg);
+		} };
 
 		m_context.m_viewports.push_back(&m_viewport);
 
@@ -128,7 +125,7 @@ namespace mud
 	{
 		if(m_pickers.size() <= index)
 			m_pickers.resize(index + 1);
-		if(m_pickers[index] == nullptr)
+		if(!m_pickers[index])
 			m_pickers[index] = make_unique<Picker>(m_scene->m_gfx_system, *m_context.m_target);
 		return *m_pickers[index];
 	}
@@ -189,6 +186,7 @@ namespace ui
 		Viewer& viewer = parent.subi<Viewer, Scene&>(&type<Viewer>(), scene);
 		viewer.m_scene = &scene;
 		viewer.m_viewport.m_scene = &scene;
+		viewer.m_viewport.m_rect = uvec4(viewer.query_size());
 		//if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
 		//	viewer.take_focus();
 		return viewer;

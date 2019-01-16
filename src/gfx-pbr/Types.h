@@ -16,9 +16,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 
@@ -51,27 +51,27 @@ namespace mud
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockShadow>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockTonemap>();
     
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BCS*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::DofBlur*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::GIProbe*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::Glow*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::LightShadow*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::Lightmap*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::LightmapAtlas*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::LightmapItem*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::ReflectionProbe*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::RenderFilters*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::Tonemap*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockBlur*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockDofBlur*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockGIBake*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockGITrace*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockGeometry*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockGlow*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockLight*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockLightmap*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockRadiance*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockReflection*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockShadow*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<std::vector<mud::BlockTonemap*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::BCS*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::DofBlur*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::GIProbe*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::Glow*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::LightShadow*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::Lightmap*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::LightmapAtlas*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::LightmapItem*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::ReflectionProbe*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::RenderFilters*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::Tonemap*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::BlockBlur*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::BlockDofBlur*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::BlockGIBake*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::BlockGITrace*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::BlockGeometry*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::BlockGlow*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::BlockLight*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::BlockLightmap*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::BlockRadiance*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::BlockReflection*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::BlockShadow*>>;
+    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::BlockTonemap*>>;
 }

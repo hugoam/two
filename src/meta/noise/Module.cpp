@@ -3,8 +3,14 @@
 #ifdef MUD_MODULES
 module mud.noise;
 #else
+#include <meta/infra/Module.h>
+#include <meta/type/Module.h>
+#include <meta/math/Module.h>
+#include <meta/geom/Module.h>
 #include <meta/noise/Module.h>
 #endif
+
+#include <noise/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/noise/Convert.h>

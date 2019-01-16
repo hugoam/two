@@ -5,16 +5,12 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
 #include <math/Vec.h>
 #endif
 #include <ctx/Forward.h>
 #include <ctx/KeyCode.h>
 #include <ctx/InputDispatcher.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#include <array>
-#endif
 
 namespace mud
 {
@@ -48,7 +44,7 @@ namespace mud
 		bool m_ctrl = false;
 		bool m_alt = false;
 
-		std::vector<KeyEvent> m_events;
+		vector<KeyEvent> m_events;
 	};
 
 	export_ class MUD_CTX_EXPORT MouseButton : public InputDevice
@@ -92,8 +88,8 @@ namespace mud
 		Keyboard& m_keyboard;
 		vec2 m_pos;
 		vec2 m_last_pos;
-		std::array<MouseButton, 3> m_buttons;
+		MouseButton m_buttons[3];
 
-		std::vector<MouseEvent> m_events;
+		vector<MouseEvent> m_events;
 	};
 }

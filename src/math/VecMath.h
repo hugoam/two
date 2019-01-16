@@ -27,6 +27,12 @@ namespace mud
 	using std::floor;
 	using std::ceil;
 
+	using std::isnan;
+	using std::isinf;
+	using std::abs;
+
+
+#if 0
 	// A 16-bit floating point number
 	export_ struct refl_ struct_ array_ half
 	{
@@ -44,13 +50,15 @@ namespace mud
 	{
 		u16 x, y, z, w;
 	};
+#endif
 
 	template <class T>
 	export_ struct refl_ struct_ array_ v2
 	{
+		typedef uint length_type;
 		typedef T type;
 		v2() { }
-		v2(T v) : x(v), y(v) {}
+		explicit v2(T v) : x(v), y(v) {}
 		v2(T x, T y) : x(x), y(y) {}
 		template <class V>
 		explicit v2(V v) : x(T(v.x)), y(T(v.y)) {}
@@ -58,6 +66,7 @@ namespace mud
 		T& operator[](uint index) { return *((T*)&x + index); }
 		bool operator==(const v2& other) const { return x == other.x && y == other.y; }
 		bool operator!=(const v2& other) const { return x != other.x || y != other.y; }
+		explicit operator T() { return T(x); }
 		//T x, y;
 		union {
 			T f[2];
@@ -68,34 +77,41 @@ namespace mud
 	template <class T>
 	export_ struct refl_ struct_ array_ v3
 	{
+		typedef uint length_type;
 		typedef T type;
 		typedef v2<T> type2;
 		v3() { }
-		v3(T v) : x(v), y(v), z(v) {}
+		explicit v3(T v) : x(v), y(v), z(v) {}
 		v3(T x, T y, T z) : x(x), y(y), z(z) {}
+		v3(v2<T> a, T z) : x(a.x), y(a.y), z(z) {}
 		template <class V>
 		explicit v3(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)) {}
 		T operator[](uint index) const { return *((T*)&x + index); }
 		T& operator[](uint index) { return *((T*)&x + index); }
 		bool operator==(const v3& other) const { return x == other.x && y == other.y && z == other.z; }
 		bool operator!=(const v3& other) const { return x != other.x || y == other.y || z != other.z; }
+		explicit operator T() { return T(x); }
+		explicit operator v2<T>() { return v2<T>(x, y); }
 		//T x, y, z;
 		union {
 			T f[3];
 			struct { attr_ T x; attr_ T y; attr_ T z; };
+			struct { T r; T g; T b; };
 		};
 	};
 
 	template <class T>
 	export_ struct refl_ struct_ array_ v4
 	{
+		typedef uint length_type;
 		typedef T type;
 		typedef v2<T> type2;
 		typedef v3<T> type3;
 		v4() { }
-		v4(T v) : x(v), y(v), z(v), w(v) {}
+		explicit v4(T v) : x(v), y(v), z(v), w(v) {}
 		v4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
 		v4(v3<T> a, T w) : x(a.x), y(a.y), z(a.z), w(w) {}
+		v4(T x, v3<T> b) : x(x), y(b.x), z(b.y), w(b.z) {}
 		v4(v2<T> a, v2<T> b) : x(a.x), y(a.y), z(b.x), w(b.y) {}
 		template <class V>
 		explicit v4(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)), w(T(v.w)) {}
@@ -103,10 +119,13 @@ namespace mud
 		T& operator[](uint index) { return *((T*)&x + index); }
 		bool operator==(const v4& other) const { return x == other.x && y == other.y && z == other.z && w == other.w; }
 		bool operator!=(const v4& other) const { return x != other.x || y == other.y || z != other.z || w != other.w; }
+		explicit operator v2<T>() { return v2<T>(x, y); }
+		explicit operator v3<T>() { return v3<T>(x, y, z); }
 		//T x, y, z, w;
 		union {
 			T f[4];
 			struct { attr_ T x; attr_ T y; attr_ T z; attr_ T w; };
+			struct { T r; T g; T b; T a; };
 		};
 	};
 
@@ -125,6 +144,9 @@ namespace mud
 	export_ template struct refl_ MUD_MATH_EXPORT v2<bool>;
 	export_ template struct refl_ MUD_MATH_EXPORT v3<bool>;
 	export_ template struct refl_ MUD_MATH_EXPORT v4<bool>;
+
+	export_ refl_ using half2 = v2<ushort>;
+	export_ refl_ using half3 = v3<ushort>;
 
 	export_ refl_ using float2 = v2<float>;
 	export_ refl_ using float3 = v3<float>;
@@ -209,7 +231,7 @@ namespace mud
 	template <class T> inline bool3 not_equal(const v3<T>& a, const v3<T>& b) { return bool3(a.x != b.x, a.y != b.y, a.z != b.z); }
 	template <class T> inline bool4 not_equal(const v4<T>& a, const v4<T>& b) { return bool4(a.x != b.x, a.y != b.y, a.z != b.z, a.w != b.w); }
 
-	template <class T> inline T     sign(T v) { return T(T(0) < v) - T(v < T(0)); }
+	//template <class T> inline T     sign(T v) { return T(T(0) < v) - T(v < T(0)); }
 	template <class T> inline v2<T> sign(const v2<T>& v) { return T2(less(v2<T>(T(0)), v)) - v2<T>(less(v, v2<T>(T(0)))); }
 	template <class T> inline v3<T> sign(const v3<T>& v) { return T3(less(v3<T>(T(0)), v)) - v3<T>(less(v, v3<T>(T(0)))); }
 	template <class T> inline v4<T> sign(const v4<T>& v) { return T4(less(v4<T>(T(0)), v)) - v4<T>(less(v, v4<T>(T(0)))); }
@@ -251,20 +273,24 @@ namespace mud
 	template <class T> inline v3<T> mod(const v3<T>& a, const v3<T>& b) { return v3<T>(fmod(a.x, b.x), fmod(a.y, b.y), fmod(a.z, b.z)); }
 	template <class T> inline v4<T> mod(const v4<T>& a, const v4<T>& b) { return v4<T>(fmod(a.x, b.x), fmod(a.y, b.y), fmod(a.z, b.z), fmod(a.w, b.w)); }
 
-	template <class T> inline T     mod(const T& a, const T& b) { return a % b; }
-	template <class T> inline v2<T> mod(const v2<T>& a, const v2<T>& b) { return v2<T>(a.x % b.x, a.y % b.y); }
-	template <class T> inline v3<T> mod(const v3<T>& a, const v3<T>& b) { return v3<T>(a.x % b.x, a.y % b.y, a.z % b.z); }
-	template <class T> inline v4<T> mod(const v4<T>& a, const v4<T>& b) { return v4<T>(a.x % b.x, a.y % b.y, a.z % b.z, a.w % b.w); }
+	template <class T> inline T     imod(const T& a, const T& b) { return a % b; }
+	template <class T> inline v2<T> imod(const v2<T>& a, const v2<T>& b) { return v2<T>(a.x % b.x, a.y % b.y); }
+	template <class T> inline v3<T> imod(const v3<T>& a, const v3<T>& b) { return v3<T>(a.x % b.x, a.y % b.y, a.z % b.z); }
+	template <class T> inline v4<T> imod(const v4<T>& a, const v4<T>& b) { return v4<T>(a.x % b.x, a.y % b.y, a.z % b.z, a.w % b.w); }
 
 	template <class T> inline v2<T> min(const v2<T>& a, const v2<T>& b) { return v2<T>(min(a.x, b.x), min(a.y, b.y)); }
 	template <class T> inline v3<T> min(const v3<T>& a, const v3<T>& b) { return v3<T>(min(a.x, b.x), min(a.y, b.y), min(a.z, b.z)); }
 	template <class T> inline v4<T> min(const v4<T>& a, const v4<T>& b) { return v4<T>(min(a.x, b.x), min(a.y, b.y), min(a.z, b.z), min(a.w, b.w)); }
+	template <class T> inline v2<T> min(const v2<T>& a, T b) { return v2<T>(min(a.x, b), min(a.y, b)); }
+	template <class T> inline v3<T> min(const v3<T>& a, T b) { return v3<T>(min(a.x, b), min(a.y, b), min(a.z, b)); }
+	template <class T> inline v4<T> min(const v4<T>& a, T b) { return v4<T>(min(a.x, b), min(a.y, b), min(a.z, b), min(a.w, b)); }
 
 	template <class T> inline v2<T> max(const v2<T>& a, const v2<T>& b) { return v2<T>(max(a.x, b.x), max(a.y, b.y)); }
 	template <class T> inline v3<T> max(const v3<T>& a, const v3<T>& b) { return v3<T>(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z)); }
 	template <class T> inline v4<T> max(const v4<T>& a, const v4<T>& b) { return v4<T>(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z), max(a.w, b.w)); }
-
-	//template <class T> T clamp(T v, T lo, T hi) { return min(max(v, lo), hi); }
+	template <class T> inline v2<T> max(const v2<T>& a, T b) { return v2<T>(max(a.x, b), max(a.y, b)); }
+	template <class T> inline v3<T> max(const v3<T>& a, T b) { return v3<T>(max(a.x, b), max(a.y, b), max(a.z, b)); }
+	template <class T> inline v4<T> max(const v4<T>& a, T b) { return v4<T>(max(a.x, b), max(a.y, b), max(a.z, b), max(a.w, b)); }
 
 	template <class T> inline v2<T> clamp(const v2<T>& v, T lo, T hi) { return min(max(v, lo), hi); }
 	template <class T> inline v3<T> clamp(const v3<T>& v, T lo, T hi) { return min(max(v, lo), hi); }
@@ -295,15 +321,11 @@ namespace mud
 	template <class T> inline v3<T> sin(const v3<T>& v) { return v3<T>(sin(v.x), sin(v.y), sin(v.z)); }
 	template <class T> inline v4<T> sin(const v4<T>& v) { return v4<T>(sin(v.x), sin(v.y), sin(v.z), sin(v.w)); }
 
-	template <class T> inline T     lerp(T a, T b, T t) { return T(a) + t * T(b - a); }
-	template <class T> inline v2<T> lerp(const v2<T>& a, const v2<T>& b, T t) { return v2<T>(a) + t * v2<T>(b - a); }
-	template <class T> inline v3<T> lerp(const v3<T>& a, const v3<T>& b, T t) { return v3<T>(a) + t * v3<T>(b - a); }
-	template <class T> inline v4<T> lerp(const v4<T>& a, const v4<T>& b, T t) { return v4<T>(a) + t * v4<T>(b - a); }
-
-	template <class T> inline T     mix(T a, T b, T t) { return lerp(a, b, t); }
-	template <class T> inline v2<T> mix(const v2<T>& a, const v2<T>& b, T t) { return lerp(a, b, t); }
-	template <class T> inline v3<T> mix(const v3<T>& a, const v3<T>& b, T t) { return lerp(a, b, t); }
-	template <class T> inline v4<T> mix(const v4<T>& a, const v4<T>& b, T t) { return lerp(a, b, t); }
+	// lerp
+	template <class T> inline T     lerp(T a, T b, float t) { return T(a + t * (b - a)); }
+	template <class T> inline v2<T> lerp(const v2<T>& a, const v2<T>& b, float t) { return v2<T>(a) + t * v2<T>(b - a); }
+	template <class T> inline v3<T> lerp(const v3<T>& a, const v3<T>& b, float t) { return v3<T>(a) + t * v3<T>(b - a); }
+	template <class T> inline v4<T> lerp(const v4<T>& a, const v4<T>& b, float t) { return v4<T>(a) + t * v4<T>(b - a); }
 
 	template <class T> T     spline(T a, T b, T c, T d, T t);
 	template <class T> v2<T> spline(const v2<T>& a, const v2<T>& b, const v2<T>& c, const v2<T>& d, T t);
@@ -359,9 +381,23 @@ namespace mud
 	template <class T> inline v3<T>& operator+=(v3<T>& a, const v3<T>& b) { a = a + b; return a; }
 	template <class T> inline v4<T>& operator+=(v4<T>& a, const v4<T>& b) { a = a + b; return a; }
 
+	template <class T> inline v2<T>& operator-=(v2<T>& a, const v2<T>& b) { a = a - b; return a; }
+	template <class T> inline v3<T>& operator-=(v3<T>& a, const v3<T>& b) { a = a - b; return a; }
+	template <class T> inline v4<T>& operator-=(v4<T>& a, const v4<T>& b) { a = a - b; return a; }
+
 	template <class T> inline v2<T>& operator*=(v2<T>& a, const v2<T>& b) { a = a * b; return a; }
 	template <class T> inline v3<T>& operator*=(v3<T>& a, const v3<T>& b) { a = a * b; return a; }
 	template <class T> inline v4<T>& operator*=(v4<T>& a, const v4<T>& b) { a = a * b; return a; }
+	template <class T> inline v2<T>& operator*=(v2<T>& a, T b) { a = a * b; return a; }
+	template <class T> inline v3<T>& operator*=(v3<T>& a, T b) { a = a * b; return a; }
+	template <class T> inline v4<T>& operator*=(v4<T>& a, T b) { a = a * b; return a; }
+
+	template <class T> inline v2<T>& operator/=(v2<T>& a, const v2<T>& b) { a = a / b; return a; }
+	template <class T> inline v3<T>& operator/=(v3<T>& a, const v3<T>& b) { a = a / b; return a; }
+	template <class T> inline v4<T>& operator/=(v4<T>& a, const v4<T>& b) { a = a / b; return a; }
+	template <class T> inline v2<T>& operator/=(v2<T>& a, T b) { a = a / b; return a; }
+	template <class T> inline v3<T>& operator/=(v3<T>& a, T b) { a = a / b; return a; }
+	template <class T> inline v4<T>& operator/=(v4<T>& a, T b) { a = a / b; return a; }
 
 	export_ struct refl_ struct_ array_ mat3
 	{
@@ -430,6 +466,7 @@ namespace mud
 	export_ struct refl_ struct_ array_ mat4
 	{
 		typedef float type;
+		typedef uint length_type;
 		mat4() {}
 		mat4(const float4& x, const float4& y, const float4& z, const float4& w)
 		{
@@ -456,6 +493,8 @@ namespace mud
 				&& f[8] == other.f[8] && f[9] == other.f[9] && f[10] == other.f[10] && f[11] == other.f[11]
 				&& f[12] == other.f[12] && f[13] == other.f[13] && f[14] == other.f[14] && f[15] == other.f[15];
 		}
+
+		bool operator!=(const mat4& other) const { return !(*this == other); }
 
 		union
 		{
@@ -542,6 +581,7 @@ namespace mud
 
 	export_ MUD_MATH_EXPORT float oriented_angle(const float3& a, const float3& b, const float3& ref);
 	export_ MUD_MATH_EXPORT float oriented_angle(const float2& a, const float2& b);
+	export_ inline float oriented_angle_2d(const float2& a, const float2& b) { return oriented_angle(a, b); }
 
 	export_ MUD_MATH_EXPORT mat4 inverse(const mat4& m);
 	export_ MUD_MATH_EXPORT mat4 transpose(const mat4& m);
@@ -1030,7 +1070,7 @@ double3 float3_to_double3(const float3& v);
 }
 
 #if 0 // MUD_NOT_IMPLEMENTED
-#include <vector>
+#include <stl/vector.h>
 
 namespace mud
 {
@@ -1039,7 +1079,7 @@ namespace mud
 	//
 	float QuadAreaApproximateSphereProjectionSize(const float3& pos, float radius, const mat4& w2c, const mat4& c2s, float near_z);
 	double SphereAngularProjectionOntoPosition(const double3& sphere_pos, double radius, const double3& position);
-	void MakeHammersleyPoints(u32 nb_points, std::vector<float4>& points);
+	void MakeHammersleyPoints(u32 nb_points, vector<float4>& points);
 	i16 Compress_DoubleToSigned16(double d, double extents);
 	double Decompress_Signed16ToDouble(i16 d, double extents);
 }

@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
-#include <infra/StringConvert.h>
+#include <infra/ToString.h>
 #include <ui/Style/Styles.h>
 #include <ui/Style/Skin.h>
 #include <ui/Style/Layout.h>

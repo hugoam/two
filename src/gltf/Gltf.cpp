@@ -21,7 +21,7 @@ using json = json11::Json;
 #include <infra/Vector.h>
 #include <infra/File.h>
 #include <infra/String.h>
-#include <infra/StringConvert.h>
+#include <infra/ToString.h>
 #include <pool/Pool.h>
 #include <srlz/Serial.h>
 #include <refl/System.h>
@@ -48,17 +48,17 @@ namespace mud
 	FromJson gltf_unpacker()
 	{
 		FromJson unpacker;
-		dispatch_branch<mat4>(unpacker, [&](mat4& result, Ref&, const json& json) { from_json(json, result); });
-		dispatch_branch<quat>(unpacker, [&](quat& result, Ref&, const json& json) { from_json(json, result); });
+		dispatch_branch<mat4>(unpacker, +[](mat4& result, Ref&, const json& json) { from_json(json, result); });
+		dispatch_branch<quat>(unpacker, +[](quat& result, Ref&, const json& json) { from_json(json, result); });
 		return unpacker;
 	}
 
 	ToJson gltf_packer()
 	{
 		ToJson packer;
-		dispatch_branch<glTFType>         (packer, [](glTFType&          value, json& json_value) { json_value = to_string(Ref(&value)); });
-		dispatch_branch<glTFInterpolation>(packer, [](glTFInterpolation& value, json& json_value) { json_value = to_string(Ref(&value)); });
-		dispatch_branch<glTFAlphaMode>    (packer, [](glTFAlphaMode&     value, json& json_value) { json_value = to_string(Ref(&value)); });
+		dispatch_branch<glTFType>         (packer, +[](glTFType&          value, json& json_value) { json_value = to_string(Ref(&value)); });
+		dispatch_branch<glTFInterpolation>(packer, +[](glTFInterpolation& value, json& json_value) { json_value = to_string(Ref(&value)); });
+		dispatch_branch<glTFAlphaMode>    (packer, +[](glTFAlphaMode&     value, json& json_value) { json_value = to_string(Ref(&value)); });
 		return packer;
 	}
 
@@ -66,7 +66,7 @@ namespace mud
 	{
 		System::instance().load_modules({ &gltf });
 
-		static std::vector<string> fixed_members(256);
+		static vector<string> fixed_members(256);
 
 		size_t index = 0;
 		for(Type* type : system().m_types)
@@ -82,9 +82,9 @@ namespace mud
 			}
 	}
 
-	void parse_glb(const string& path, json& json, std::vector<uint8_t>& buffer)
+	void parse_glb(const string& path, json& json, vector<uint8_t>& buffer)
 	{
-		std::ifstream file = std::ifstream(path, std::ios::binary);
+		std::ifstream file = std::ifstream(path.c_str(), std::ios::binary);
 
 		uint32_t magic = read<uint32_t>(file);
 		uint32_t version = read<uint32_t>(file);
@@ -103,14 +103,17 @@ namespace mud
 
 			if(chunk_type == 0x4E4F534A)
 			{
-				string errors;
+				std::string errors;
 				string json_string = read(file, chunk_length);
-				json = json::parse(json_string, errors);
+				json = json::parse(json_string.c_str(), errors);
 			}
 			else if(chunk_type == 0x004E4942)
 			{
 				buffer.reserve(chunk_length);
+#ifdef MUD_VECTOR_TINYSTL
+#else
 				buffer.insert(buffer.begin(), std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
+#endif
 			}
 		}
 	}
@@ -156,14 +159,14 @@ namespace mud
 		return layout;
 	}
 
-	int encode_accessor(glTF& gltf, int buffer_index, glTFAccessor& a, std::vector<double>& values, bool for_vertex)
+	int encode_accessor(glTF& gltf, int buffer_index, glTFAccessor& a, vector<double>& values, bool for_vertex)
 	{
 		glTFComponentLayout layout = component_layout(a.type, a.component_type);
 		size_t stride = layout.element_size;
 		if(for_vertex && stride % 4)
 			stride += 4 - (stride % 4); // according to spec must be multiple of 4
 
-		std::vector<uint8_t>& buffer = gltf.m_binary_buffers[buffer_index];
+		vector<uint8_t>& buffer = gltf.m_binary_buffers[buffer_index];
 
 		glTFBufferView buffer_view;
 		buffer_view.byte_stride = stride;
@@ -229,7 +232,7 @@ namespace mud
 			stride += 4 - (stride % 4); // according to spec must be multiple of 4
 
 		size_t offset = buffer_view.byte_offset + a.byte_offset;
-		const std::vector<uint8_t>& buffer = gltf.m_binary_buffers[buffer_view.buffer];
+		const vector<uint8_t>& buffer = gltf.m_binary_buffers[buffer_view.buffer];
 
 		for(int i = 0; i < a.count; i++)
 		{
@@ -273,13 +276,13 @@ namespace mud
 		}
 	}
 	
-	std::vector<double> decode_accessor(const glTF& gltf, size_t accessor, bool for_vertex)
+	vector<double> decode_accessor(const glTF& gltf, size_t accessor, bool for_vertex)
 	{
 		const glTFAccessor& a = gltf.m_accessors[accessor];
 
 		glTFComponentLayout layout = component_layout(a.type, a.component_type);
 
-		std::vector<double> dest_buffer;
+		vector<double> dest_buffer;
 		dest_buffer.resize(layout.num_components * a.count);
 
 		if(a.buffer_view == -1)
@@ -289,7 +292,7 @@ namespace mud
 
 		if(a.sparse.count > 0)
 		{
-			std::vector<double> indices;
+			vector<double> indices;
 			indices.resize(a.sparse.count);
 			int indices_component_size = component_type_size[size_t(a.sparse.indices.component_type) - 5120U];
 
@@ -297,7 +300,7 @@ namespace mud
 			glTFComponentLayout indices_layout = { 1, indices_component_size, 0, 0, indices_component_size };
 			decode_buffer_view(gltf, indices_accessor, indices_layout, indices.data(), false);
 
-			std::vector<double> data;
+			vector<double> data;
 			data.resize(layout.num_components * a.sparse.count);
 			glTFAccessor values_accessor = { a.sparse.values.buffer_view, a.sparse.values.byte_offset, a.component_type, a.normalized, a.sparse.count, a.type };
 			decode_buffer_view(gltf, values_accessor, layout, data.data(), for_vertex);
@@ -321,7 +324,7 @@ namespace mud
 		bool glb = ends_with(to_lower(path), ".glb");
 		if(glb)
 		{
-			std::vector<uint8_t> buffer;
+			vector<uint8_t> buffer;
 			parse_glb(path + file + ".glb", data, buffer);
 			gltf.m_binary_buffers.push_back(buffer);
 		}
@@ -331,7 +334,7 @@ namespace mud
 		}
 
 		json asset = data["asset"];
-		string version = asset["version"].string_value();
+		string version = asset["version"].string_value().c_str();
 
 		static FromJson unpacker = gltf_unpacker();
 		Var gltfvar = Ref(&gltf);
@@ -362,7 +365,7 @@ namespace mud
 			for(glTFPrimitive& primitive : gltf_mesh.primitives)
 			{
 				string name = model_name + ":" + to_string(mesh_index++);
-				repack(name, primitive);
+				repack(gltf, name, primitive);
 			}
 		}
 

@@ -9,7 +9,7 @@
 #include <gfx-pbr/Forward.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -62,7 +62,7 @@ namespace mud
 
 		uint16_t m_direct_light_index = 0;
 		Light* m_direct_light = nullptr;
-		std::vector<Light*> m_direct_lights;
+		vector<Light*> m_direct_lights;
 
 		struct LightUniform
 		{

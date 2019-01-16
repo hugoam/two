@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
 #include <infra/Array.h>
 #include <geom/Geom.h>
 #endif
@@ -12,14 +13,12 @@
 
 #include <bgfx/bgfx.h>
 
-#ifndef MUD_CPP_20
-#include <vector>
-#include <functional>
-#endif
-
 namespace mud
 {
 #define PICKING_BUFFER_SIZE 8  // Size of the ID buffer
+
+	using PickCallback = void(*)(Item*);
+	using MultipickCallback = void(*)(array<Item*>);
 
 	export_ struct PickQuery
 	{
@@ -36,8 +35,8 @@ namespace mud
 
 		uint32_t m_readback_ready = UINT32_MAX;
 
-		std::function<void(Item*)> m_callback;
-		std::function<void(array<Item*>)> m_multi_callback;
+		PickCallback m_callback;
+		MultipickCallback m_multi_callback;
 
 		operator bool() const { return m_rect != uvec4(0U); }
 	};
@@ -48,8 +47,8 @@ namespace mud
 		Picker(GfxSystem& system, FrameBuffer& target);
 		~Picker();
 
-		void pick_point(Viewport& viewport, vec2 position, std::function<void(Item*)> callback, uint32_t mask);
-		void pick_rectangle(Viewport& viewport, vec4 rect, std::function<void(array<Item*>)> callback, uint32_t mask);
+		void pick_point(Viewport& viewport, vec2 position, PickCallback callback, uint32_t mask);
+		void pick_rectangle(Viewport& viewport, vec4 rect, MultipickCallback callback, uint32_t mask);
 
 		void process(Render& render, PickQuery& query);
 
@@ -67,6 +66,6 @@ namespace mud
 
 		bgfx::TextureHandle m_readback_texture = BGFX_INVALID_HANDLE;
 
-		std::vector<uint32_t> m_data;
+		vector<uint32_t> m_data;
 	};
 }

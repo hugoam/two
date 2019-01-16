@@ -14,7 +14,7 @@ module mud.refl;
 #include <refl/Convert.h>
 #include <type/Types.h>
 #include <type/Any.h>
-#include <infra/StringConvert.h>
+#include <infra/ToString.h>
 #include <refl/Injector.h>
 //#include <ecs/Proto.h>
 //#include <ecs/Entity.h>
@@ -24,10 +24,10 @@ module mud.refl;
 
 namespace mud
 {
-	std::vector<Meta*> g_meta = std::vector<Meta*>(c_max_types);
-	std::vector<Class*> g_class = std::vector<Class*>(c_max_types);
-	std::vector<Enum*> g_enu = std::vector<Enum*>(c_max_types);
-	std::vector<Convert*> g_convert = std::vector<Convert*>(c_max_types);
+	vector<Meta*> g_meta = vector<Meta*>(c_max_types);
+	vector<Class*> g_class = vector<Class*>(c_max_types);
+	vector<Enum*> g_enu = vector<Enum*>(c_max_types);
+	vector<Convert*> g_convert = vector<Convert*>(c_max_types);
 
 	template <>
 	void init_string<void>() {}
@@ -71,7 +71,7 @@ namespace mud
 		g_meta[type.m_id] = this;
 	}
 
-	Enum::Enum(Type& type, bool scoped, const std::vector<cstring>& names, const std::vector<uint32_t>& values, const std::vector<Var>& vars)
+	Enum::Enum(Type& type, bool scoped, const vector<cstring>& names, const vector<uint32_t>& values, const vector<Var>& vars)
 		: m_type(type)
 		, m_scoped(scoped)
 		, m_names(names)
@@ -139,8 +139,8 @@ namespace mud
 		g_class[type.m_id] = this;
 	}
 
-	Class::Class(Type& type, std::vector<Type*> bases, std::vector<size_t> bases_offsets, std::vector<Constructor> constructors, std::vector<CopyConstructor> copy_constructors,
-				 std::vector<Member> members, std::vector<Method> methods, std::vector<Static> static_members)
+	Class::Class(Type& type, vector<Type*> bases, vector<size_t> bases_offsets, vector<Constructor> constructors, vector<CopyConstructor> copy_constructors,
+				 vector<Member> members, vector<Method> methods, vector<Static> static_members)
 		: m_type(&type)
 		, m_meta(&meta(type))
 		, m_root(&type)
@@ -158,7 +158,7 @@ namespace mud
 	Class::~Class()
 	{}
 
-	void Class::inherit(std::vector<Type*> types)
+	void Class::inherit(vector<Type*> types)
 	{
 		for(Type* type : types)
 			if(g_class[type->m_id])
@@ -384,22 +384,22 @@ namespace mud
 		this->default_converter<float, ushort>();
 		this->default_converter<float, uint>();
 		this->default_converter<float, ulong>();
-		this->default_converter<float, ulong2>();
+		this->default_converter<float, ullong>();
 		this->default_converter<double, int>();
 		this->default_converter<double, ushort>();
 		this->default_converter<double, uint>();
 		this->default_converter<double, ulong>();
-		this->default_converter<double, ulong2>();
+		this->default_converter<double, ullong>();
 		this->default_converter<int, ushort>();
 		this->default_converter<int, uint>();
 		this->default_converter<int, ulong>();
-		this->default_converter<int, ulong2>();
+		this->default_converter<int, ullong>();
 		this->default_converter<ushort, uint>();
 		this->default_converter<ushort, ulong>();
-		this->default_converter<ushort, ulong2>();
+		this->default_converter<ushort, ullong>();
 		this->default_converter<uint, ulong>();
-		this->default_converter<uint, ulong2>();
-		this->default_converter<ulong, ulong2>();
+		this->default_converter<uint, ullong>();
+		this->default_converter<ulong, ullong>();
 	}
 
 	bool TypeConverter::check(Type& input, Type& output)

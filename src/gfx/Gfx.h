@@ -5,21 +5,15 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/string.h>
 #include <infra/Array.h>
 #endif
 #include <gfx/Forward.h>
 #include <gfx/Node3.h>
 #include <gfx/Light.h>
 
-#ifndef MUD_CPP_20
-#include <string>
-#include <functional>
-#endif
-
 namespace mud
 {
-	using string = std::string;
-
 namespace gfx
 {
 	export_ MUD_GFX_EXPORT func_ void update_item_lights(Item& item);
@@ -38,12 +32,16 @@ namespace gfx
 	export_ MUD_GFX_EXPORT func_ void prefab(Gnode& parent, const Prefab& prefab, bool transform = true, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0, array<mat4> transforms = {});
 	export_ MUD_GFX_EXPORT func_ Item* model(Gnode& parent, const string& name, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
 	export_ MUD_GFX_EXPORT func_ Animated& animated(Gnode& parent, Item& item);
-	export_ MUD_GFX_EXPORT func_ Particles& particles(Gnode& parent, const ParticleGenerator& emitter, uint32_t flags = 0, size_t instances = 0);
+	export_ MUD_GFX_EXPORT func_ Particles& particles(Gnode& parent, const ParticleFlow& emitter, uint32_t flags = 0, size_t instances = 0);
 	export_ MUD_GFX_EXPORT func_ Light& light(Gnode& parent, LightType type, bool shadows, Colour colour, float range = 0.f, float attenuation = 0.5f);
 	export_ MUD_GFX_EXPORT func_ Light& sun_light(Gnode& parent, float azimuth, float elevation);
 	export_ MUD_GFX_EXPORT func_ void radiance(Gnode& parent, const string& texture, BackgroundMode background);
-	export_ MUD_GFX_EXPORT void manual_job(Gnode& parent, PassType pass, std::function<void(const Pass&)> job);
-	export_ MUD_GFX_EXPORT void custom_sky(Gnode& parent, std::function<void(Render&)> func);
+
+	using ManualJob = void(*)(Render&, const Pass&);
+	using CustomSky = void(*)(Render&);
+
+	export_ MUD_GFX_EXPORT void manual_job(Gnode& parent, PassType pass, ManualJob job);
+	export_ MUD_GFX_EXPORT void custom_sky(Gnode& parent, CustomSky func);
 
 	export_ MUD_GFX_EXPORT Light& direct_light_node(Gnode& parent);
 	export_ MUD_GFX_EXPORT Light& direct_light_node(Gnode& parent, const quat& rotation);

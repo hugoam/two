@@ -5,6 +5,8 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/string.h>
+#include <stl/map.h>
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
 #include <type/Any.h>
@@ -13,15 +15,8 @@
 #include <lang/Forward.h>
 #include <lang/Script.h>
 
-#ifndef  MUD_CPP_20
-#include <map>
-#include <string>
-#endif
-
 namespace mud
 {
-	using string = std::string;
-
 	class WrenContext;
 
 	export_ class refl_ MUD_LANG_EXPORT WrenInterpreter final : public Interpreter
@@ -45,6 +40,6 @@ namespace mud
 
 		void create_virtual(Ref object);
 
-		std::map<void*, const TextScript*> m_virtual_scripts;
+		map<void*, const TextScript*> m_virtual_scripts;
 	};
 }

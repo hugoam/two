@@ -3,10 +3,6 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <iostream>
-#include <fstream>
-#endif
 
 #ifdef MUD_MODULES
 #include <cpp/stdguard.h>
@@ -20,11 +16,10 @@ module mud.gfx.gltf;
 #include <json11.hpp>
 using json = json11::Json;
 
-#include <type/DispatchDecl.h>
 #include <infra/Vector.h>
 #include <infra/File.h>
 #include <infra/String.h>
-#include <infra/StringConvert.h>
+#include <infra/ToString.h>
 #include <pool/Pool.h>
 #include <srlz/Serial.h>
 #include <math/VecJson.h>
@@ -78,32 +73,30 @@ namespace mud
 	{
 		setup_gltf(mud_gltf::m());
 
-		static auto load_gltf_model = [&](GfxSystem& gfx_system, Model& model, cstring path)
+		static auto load_gltf_model = [](void* loader, Model& model, cstring path)
 		{
-			UNUSED(gfx_system);
 			ImportConfig config = load_model_config(path, model.m_name.c_str());
-			this->import_model(model, path, config);
+			((ImporterGltf*)loader)->import_model(model, path, config);
 		};
 
-		static auto load_gltf_prefab = [&](GfxSystem& gfx_system, Prefab& prefab, cstring path)
+		static auto load_gltf_prefab = [](void* loader, Prefab& prefab, cstring path)
 		{
-			UNUSED(gfx_system);
 			ImportConfig config = load_model_config(path, prefab.m_name.c_str());
-			this->import_prefab(prefab, path, config);
+			((ImporterGltf*)loader)->import_prefab(prefab, path, config);
 		};
 
 		gfx_system.add_importer(ModelFormat::gltf, *this);
-		gfx_system.models().add_format(".gltf", load_gltf_model);
-		gfx_system.prefabs().add_format(".gltf", load_gltf_prefab);
+		gfx_system.models().add_format(".gltf", { this, load_gltf_model });
+		gfx_system.prefabs().add_format(".gltf", { this, load_gltf_prefab });
 	}
 
-	static std::vector<uint8_t> read_base64_uri(const string& uri)
+	static vector<uint8_t> read_base64_uri(const string& uri)
 	{
-		string decoded = decode_base64(uri.substr(uri.find(",") + 1));
-		return std::vector<uint8_t>(decoded.begin(), decoded.end());
+		string decoded = decode_base64(uri.substr(uri.find(",") + 1).c_str()).c_str();
+		return vector_convert<uint8_t>(decoded);
 	}
 
-	std::vector<uint8_t> read_uri(const string& base_path, const string& uri)
+	vector<uint8_t> read_uri(const string& base_path, const string& uri)
 	{
 		if(uri.find("data:application/octet-stream;base64") == 0)
 			return read_base64_uri(uri);
@@ -136,7 +129,7 @@ namespace mud
 			{
 				if(image.uri.find("data:application/octet-stream;base64") == 0)
 				{
-					std::vector<uint8_t> data = read_base64_uri(image.uri);
+					vector<uint8_t> data = read_base64_uri(image.uri);
 					import_image_mem(data);
 				}
 				else
@@ -194,7 +187,7 @@ namespace mud
 			mesh.m_uv0s = unpack_accessor<vec2, 2>(gltf, attributes.TEXCOORD_0, true);
 		if(attributes.TEXCOORD_1 != -1)
 		{
-			std::vector<vec2> uv1s = unpack_accessor<vec2, 2>(gltf, attributes.TEXCOORD_1, true);
+			vector<vec2> uv1s = unpack_accessor<vec2, 2>(gltf, attributes.TEXCOORD_1, true);
 			if(!std::equal(uv1s.begin() + 1, uv1s.end(), uv1s.begin())) // probably full of zeroes, skip it
 				mesh.m_uv1s = uv1s;
 		}
@@ -213,7 +206,7 @@ namespace mud
 
 	void import_meshes(const glTF& gltf, Import& state, const ImportConfig& config)
 	{
-		std::map<string, int> duplicate_names;
+		map<string, int> duplicate_names;
 
 		size_t index = 0;
 		for(const glTFMesh& gltf_mesh : gltf.m_meshes)
@@ -264,11 +257,11 @@ namespace mud
 
 				if(primitive.indices != -1)
 				{
-					std::vector<int> indices = unpack_accessor<int>(gltf, primitive.indices, false);
-					packer.m_indices = std::vector<uint32_t>(indices.begin(), indices.end());
+					vector<int> indices = unpack_accessor<int>(gltf, primitive.indices, false);
+					packer.m_indices = vector_convert<uint32_t>(indices);
 				}
 
-				std::vector<MeshPacker> morphs;
+				vector<MeshPacker> morphs;
 
 				for(const glTFMorphTarget& morph_target : primitive.targets)
 				{
@@ -283,7 +276,7 @@ namespace mud
 						morph_shape.m_normals = unpack_accessor<vec3, 3>(gltf, morph_target.NORMAL, true);
 					if(morph_target.TANGENT != -1)
 					{
-						std::vector<vec3> tangents = unpack_accessor<vec3, 3>(gltf, morph_target.TANGENT, true);
+						vector<vec3> tangents = unpack_accessor<vec3, 3>(gltf, morph_target.TANGENT, true);
 						morph_shape.m_tangents.resize(tangents.size());
 
 						for(size_t i = 0; i < packer.m_tangents.size(); ++i)
@@ -439,7 +432,7 @@ namespace mud
 
 	void import_skeletons(glTF& gltf, Import& state, Model& model)
 	{
-		std::map<int, int> skeleton_sizes;
+		map<int, int> skeleton_sizes;
 
 		for(const glTFSkin& skin : gltf.m_skins)
 			skeleton_sizes[skin.skeleton] = max(int(skin.joints.size()), skeleton_sizes[skin.skeleton]);
@@ -457,7 +450,7 @@ namespace mud
 			model.m_rig->m_skins.emplace_back(*state.m_skeletons[gltf_skin.skeleton], int(gltf_skin.joints.size())); // gltf_skin.name
 			Skin& skin = model.m_rig->m_skins.back();
 
-			std::vector<mat4> bind_matrices;
+			vector<mat4> bind_matrices;
 
 			if(gltf_skin.inverse_bind_matrices != -1)
 				bind_matrices = unpack_accessor<mat4, 16>(gltf, gltf_skin.inverse_bind_matrices, false);
@@ -469,7 +462,7 @@ namespace mud
 	}
 
 	template <class T>
-	void import_track(const glTFNode& node, glTFInterpolation interpolation, const std::vector<float>& times, const std::vector<T>& values, Animation& animation, size_t bone, AnimationTarget target)
+	void import_track(const glTFNode& node, glTFInterpolation interpolation, const vector<float>& times, const vector<T>& values, Animation& animation, size_t bone, AnimationTarget target)
 	{
 		AnimationTrack track = { animation, bone, node.name.c_str(), target };
 
@@ -500,7 +493,7 @@ namespace mud
 			Bone* bone = skeleton.find_bone(node.name.c_str());
 			size_t bone_index = bone ? bone->m_index : SIZE_MAX;
 
-			std::vector<float> times = unpack_accessor<float>(gltf, sampler.input, false);
+			vector<float> times = unpack_accessor<float>(gltf, sampler.input, false);
 
 			float length = 0.f;
 
@@ -511,22 +504,22 @@ namespace mud
 
 			if(channel.target.path == "translation")
 			{
-				std::vector<vec3> translations = unpack_accessor<vec3, 3>(gltf, sampler.output, false);
+				vector<vec3> translations = unpack_accessor<vec3, 3>(gltf, sampler.output, false);
 				import_track(node, sampler.interpolation, times, translations, animation, bone_index, AnimationTarget::Position); // member(&Bone::m_position)
 			}
 			else if(channel.target.path == "rotation")
 			{
-				std::vector<quat> rotations = unpack_accessor<quat, 4>(gltf, sampler.output, false);
+				vector<quat> rotations = unpack_accessor<quat, 4>(gltf, sampler.output, false);
 				import_track(node, sampler.interpolation, times, rotations, animation, bone_index, AnimationTarget::Rotation); // member(&Bone::m_rotation)
 			}
 			else if(channel.target.path == "scale")
 			{
-				std::vector<vec3> scales = unpack_accessor<vec3, 3>(gltf, sampler.output, false);
+				vector<vec3> scales = unpack_accessor<vec3, 3>(gltf, sampler.output, false);
 				import_track(node, sampler.interpolation, times, scales, animation, bone_index, AnimationTarget::Scale); // member(&Bone::m_scale)
 			}
 			else if(channel.target.path == "weights")
 			{
-				std::vector<float> weights = unpack_accessor<float>(gltf, sampler.output, false);
+				vector<float> weights = unpack_accessor<float>(gltf, sampler.output, false);
 				size_t track_key_size = gltf.m_meshes[node.mesh].weights.size();
 				// mud doesn't implement morph targets so far :/ this 
 				UNUSED(weights); UNUSED(track_key_size);
@@ -587,9 +580,10 @@ namespace mud
 
 	void export_repack(GfxSystem& gfx_system, glTF& gltf, const string& path, const string& file)
 	{
-		auto repack = [&](const string& name, glTFPrimitive& primitive)
+		auto repack = [](glTF& gltf, const string& name, glTFPrimitive& primitive)
 		{
-			Mesh* mesh = gfx_system.meshes().find([&](Mesh& mesh) { return mesh.m_name == name; });
+			GfxSystem& gfx = *(GfxSystem*)gltf.m_user;
+			Mesh* mesh = gfx.meshes().find([&](Mesh& mesh) { return mesh.m_name == name; });
 			if(!mesh) return;
 			MeshPacker packer;
 			mesh->read(packer, bxidentity());

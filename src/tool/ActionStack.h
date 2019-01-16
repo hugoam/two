@@ -23,8 +23,8 @@ namespace mud
 		void undo();
 
 	private:
-		std::vector<object_ptr<EditorAction>> m_done;
-		std::vector<object_ptr<EditorAction>> m_undone;
+		vector<object_ptr<EditorAction>> m_done;
+		vector<object_ptr<EditorAction>> m_undone;
 	};
 
 	export_ class refl_ MUD_TOOL_EXPORT UndoTool : public Tool

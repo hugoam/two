@@ -8,7 +8,7 @@
 #include <math/Colour.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -25,7 +25,7 @@ namespace mud
 	{
 	public:
 		constr_ Palette(Spectrum spectrum, size_t steps);
-		constr_ Palette(std::vector<Colour> colours);
+		constr_ Palette(vector<Colour> colours);
 		constr_ Palette();
 
 		void reset();
@@ -37,7 +37,7 @@ namespace mud
 		void value_spectrum(size_t steps, bool toWhite = false);
 		void hue_spectrum(size_t steps);
 
-		std::vector<Colour> m_colours;
+		vector<Colour> m_colours;
 	};
 
 	export_ struct refl_ MUD_MATH_EXPORT Image256
@@ -50,10 +50,10 @@ namespace mud
 		void resize(uint16_t width, uint16_t height);
 		uint32_t& at(uint16_t x, uint16_t y) { return m_pixels[x + y * m_width]; }
 
-		std::vector<uint8_t> read() const;
+		vector<uint8_t> read() const;
 		void read(uint8_t* data) const;
 
-		attr_ std::vector<uint32_t> m_pixels;
+		attr_ vector<uint32_t> m_pixels;
 		attr_ uint16_t m_width;
 		attr_ uint16_t m_height;
 		attr_ Palette m_palette;

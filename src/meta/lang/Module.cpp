@@ -3,8 +3,14 @@
 #ifdef MUD_MODULES
 module mud.lang;
 #else
+#include <meta/infra/Module.h>
+#include <meta/type/Module.h>
+#include <meta/pool/Module.h>
+#include <meta/refl/Module.h>
 #include <meta/lang/Module.h>
 #endif
+
+#include <lang/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/lang/Convert.h>

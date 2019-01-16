@@ -12,9 +12,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 
@@ -24,5 +24,5 @@ namespace mud
     
     export_ template <> MUD_JOBS_EXPORT Type& type<mud::JobSystem>();
     
-    export_ template struct MUD_JOBS_EXPORT Typed<std::vector<mud::JobSystem*>>;
+    export_ template struct MUD_JOBS_EXPORT Typed<vector<mud::JobSystem*>>;
 }

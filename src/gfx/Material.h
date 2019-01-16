@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <infra/Strung.h>
+#include <stl/string.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
 #include <geom/Primitive.h>

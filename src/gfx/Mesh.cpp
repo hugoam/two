@@ -13,7 +13,7 @@ module mud.gfx;
 #include <gfx/Node3.h>
 #endif
 
-#include <map>
+#include <stl/map.h>
 
 #include <meshoptimizer.h>
 
@@ -72,7 +72,7 @@ namespace mud
 
 	const bgfx::VertexDecl& vertex_decl(uint32_t vertex_format)
 	{
-		static std::map<uint32_t, bgfx::VertexDecl> decls;
+		static map<uint32_t, bgfx::VertexDecl> decls;
 		if(decls.find(vertex_format) == decls.end())
 			decls[vertex_format] = create_vertex_decl(vertex_format);
 		return decls[vertex_format];
@@ -107,9 +107,9 @@ namespace mud
 
 		for(size_t i = 0; i < reader.m_vertices.size(); ++i)
 		{
-			writer.position(transform * vec4(reader.position(), 1.f));
+			writer.position(mulp(transform, reader.position()));
 			if(writer.m_cursor.m_normal)
-				writer.normal(transform * vec4(reader.normal(), 0.f));
+				writer.normal(muln(transform, reader.normal()));
 			if(writer.m_cursor.m_uv0)
 				writer.uv0(reader.uv0());
 		}
@@ -123,10 +123,6 @@ namespace mud
 
 		writer.next();
 	}
-
-	inline vec3 mulp(const mat4& mat, const vec3& p) { return vec3(mat * vec4(p, 1.f)); }
-	inline vec3 muln(const mat4& mat, const vec3& n) { return normalize(vec3(mat * vec4(n, 0.f))); }
-	inline vec4 mult(const mat4& mat, const vec4& t) { return vec4(vec3(mat * vec4(vec3(t), 0.f)), t.w); }
 
 	void Mesh::read(MeshPacker& packer, const mat4& transform) const
 	{
@@ -188,7 +184,7 @@ namespace mud
 	{
 		size_t vertex_stride = vertex_size(mesh.m_vertex_format);
 
-		std::vector<unsigned int> remap(mesh.m_vertex_count);
+		vector<unsigned int> remap(mesh.m_vertex_count);
 		uint32_t index_count = mesh.m_index_count;
 		size_t vertex_count = meshopt_generateVertexRemap(remap.data(), (T*)mesh.m_indices, index_count, mesh.m_vertices, mesh.m_vertex_count, vertex_stride);
 

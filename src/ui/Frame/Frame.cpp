@@ -57,7 +57,7 @@ namespace mud
 
 	bool Frame::empty() const
 	{
-		return d_content == nullptr || (d_content->d_caption == "" && d_content->d_icon == nullptr);
+		return !d_content || (d_content->d_caption == "" && d_content->d_icon == nullptr);
 	}
 
 	Image* Frame::icon() const

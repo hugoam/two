@@ -11,10 +11,6 @@
 #include <infra/Array.h>
 #include <refl/Meta.h>
 
-#ifndef MUD_CPP_20
-#include <functional>
-#endif
-
 namespace mud
 {
 	using MemberGet = Ref(*)(Ref);

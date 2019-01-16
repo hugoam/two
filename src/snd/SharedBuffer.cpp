@@ -13,9 +13,9 @@
 
 namespace mud
 {
-	SharedBuffer::SharedBuffer(const string& filename, const ReleaseCallback& onRelease)
+	SharedBuffer::SharedBuffer(const string& filename, SoundManager& manager)
 		: m_al_buffer(AL_NONE)
-		, m_on_release(onRelease)
+		, m_manager(&manager)
 	{
 		if(filename.find(".ogg") != filename.npos || filename.find(".OGG") != filename.npos)
 			m_file_buffer = make_unique<OggFileBuffer>();
@@ -42,6 +42,6 @@ namespace mud
 	{
 		--m_num_users;
 		if(m_num_users == 0)
-			m_on_release(*this);
+			m_manager->releaseBuffer(*this);
 	}
 }

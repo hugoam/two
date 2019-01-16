@@ -14,15 +14,9 @@
 #include <ui/Frame/Frame.h>
 #include <ui/Widget.h>
 
-#ifndef MUD_CPP_20
-#include <functional>
-#endif
-
 namespace mud
 {
-	using CustomRenderer = std::function<void(const Frame&, const vec4&, Vg&)>;
-
-	using FrameFilter = std::function<bool(Frame&)>;
+	using FrameFilter = bool(*)(Frame&);
 
 	export_ class refl_ MUD_UI_EXPORT Widget : public Graph<Widget>, public ControlNode
 	{
@@ -82,7 +76,10 @@ namespace mud
 		attr_ size_t m_index = 0;
 		attr_ bool m_open = false;
 		attr_ Widget* m_body = nullptr;
-		CustomRenderer m_custom_draw = {};
+
+		using CustomRender = void(*)(void*, const Frame&, const vec4&, Vg&);
+		struct CustomDraw { void* user = nullptr; CustomRender func = nullptr; void draw(const Frame& frame, const vec4& rect, Vg& vg) { func(user, frame, rect, vg); } };
+		CustomDraw m_custom_draw = {};
 
 		Widget& layer();
 

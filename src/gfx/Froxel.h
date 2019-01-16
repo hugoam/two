@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
 #include <infra/Array.h>
 #include <infra/Bitset.h>
 #include <geom/Geom.h>
@@ -17,13 +18,9 @@
 #include <gfx/Uniform.h>
 #endif
 
-#ifndef MUD_CPP_20
-#include <vector>
-#include <array>
-#include <bitset>
-#endif
-
 #include <bgfx/bgfx.h>
+
+#include <limits>
 
 //#define USE_STD_BITSET
 
@@ -150,7 +147,7 @@ namespace mud
 		};
 
 		// The first entry always encodes the type of light, i.e. point/spot
-		using FroxelThreadData = std::array<LightGroupType, FROXEL_BUFFER_ENTRY_COUNT_MAX + 1>;
+		using FroxelThreadData = carray<LightGroupType, FROXEL_BUFFER_ENTRY_COUNT_MAX + 1>;
 
 		bool update();
 		void update_viewport();
@@ -171,17 +168,17 @@ namespace mud
 		{
 			Buffer(GpuBuffer::Element element, size_t row_size, size_t row_count) : m_buffer(element, row_size, row_count) {}
 			GpuBuffer m_buffer;
-			std::vector<T> m_data;
+			vector<T> m_data;
 			const bgfx::Memory* m_memory;
 		};
 
-		std::vector<FroxelThreadData> m_froxel_sharded_data;  // 256 KiB w/ 256 lights
-		std::vector<LightRecord> m_light_records;             // 256 KiB w/ 256 lights
+		vector<FroxelThreadData> m_froxel_sharded_data;  // 256 KiB w/ 256 lights
+		vector<LightRecord> m_light_records;             // 256 KiB w/ 256 lights
 
 		Buffer<FroxelEntry> m_froxels;			//  32 KiB w/ 8192 froxels
 		Buffer<RecordBufferType> m_records;		//  64 KiB // max 32 KiB  (actual: resolution dependant)
 
-		std::vector<Frustum> m_debug_clusters;
+		vector<Frustum> m_debug_clusters;
 
 		mat4 m_projection;
 

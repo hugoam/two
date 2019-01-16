@@ -4,11 +4,10 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <gfx/Forward.h>
 
 #include <bgfx/bgfx.h>
-
-#include <vector>
 
 class MaskedOcclusionCulling;
 
@@ -31,7 +30,7 @@ namespace mud
 		void cull(Render& render);
 		void debug(Render& render);
 
-		std::vector<float> m_depth_data;
+		vector<float> m_depth_data;
 		bgfx::TextureHandle m_depth_texture = BGFX_INVALID_HANDLE;
 	};
 }

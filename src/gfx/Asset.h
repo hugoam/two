@@ -13,24 +13,24 @@
 #include <gfx/GfxSystem.h>
 
 #ifndef MUD_CPP_20
-#include <map>
-#include <vector>
-#include <string>
-#include <functional>
-#include <fstream>
+#include <stl/vector.h>
+#include <stl/string.h>
+#include <stl/map.h>
 #endif
 
 namespace mud
 {
 	using cstring = const char*;
-	using string = std::string;
 
 	export_ template <class T_Asset>
 	class refl_ AssetStore : public NonCopy
 	{
 	public:
-		using Initializer = std::function<void(T_Asset&)>;
-		using Loader = std::function<void(GfxSystem&, T_Asset&, cstring)>;
+		struct Loader
+		{
+			void* loader;
+			using Handler = void(*)(void*, T_Asset&, cstring); Handler load;
+		};
 
 		AssetStore(GfxSystem& gfx_system, cstring path);
 		AssetStore(GfxSystem& gfx_system, cstring path, const Loader& loader);
@@ -46,9 +46,9 @@ namespace mud
 		string m_path;
 		Loader m_loader;
 
-		std::vector<string> m_formats;
-		std::vector<cstring> m_cformats;
-		std::vector<Loader> m_format_loaders;
+		vector<string> m_formats;
+		vector<cstring> m_cformats;
+		vector<Loader> m_format_loaders;
 
 		meth_ T_Asset* get(cstring name);
 		meth_ T_Asset& create(cstring name);
@@ -57,8 +57,9 @@ namespace mud
 		meth_ T_Asset* file(cstring name);
 		meth_ void destroy(cstring name);
 
+		T_Asset* load(cstring path, cstring name);
 		void load_files(cstring path);
 
-		std::map<string, unique_ptr<T_Asset>> m_assets;
+		map<string, unique_ptr<T_Asset>> m_assets;
 	};
 }

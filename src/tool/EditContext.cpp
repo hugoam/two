@@ -121,7 +121,7 @@ namespace mud
 		}
 	}
 
-	void object_editor(Widget& parent, const std::vector<Ref>& selection)
+	void object_editor(Widget& parent, const vector<Ref>& selection)
 	{
 		Widget& self = section(parent, "Inspector");
 

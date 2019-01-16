@@ -14,7 +14,7 @@ module mud.pool;
 
 namespace mud
 {
-	std::vector<unique_ptr<Pool>> g_pools = std::vector<unique_ptr<Pool>>(c_max_types);
+	vector<unique_ptr<Pool>> g_pools = vector<unique_ptr<Pool>>(c_max_types);
 
 	ObjectPool::ObjectPool()
 		: m_pools(c_max_types)

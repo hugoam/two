@@ -15,9 +15,9 @@ namespace mud
 	template<class T, size_t N>
 	constexpr size_t size(T(&)[N]) { return N; }
 
-	std::vector<uint32_t>& TextEdit::OkaidaPalette()
+	vector<uint32_t>& TextEdit::OkaidaPalette()
 	{
-		static std::vector<uint32_t> palette = std::vector<uint32_t>(size_t(CodePalette::Count));
+		static vector<uint32_t> palette = vector<uint32_t>(size_t(CodePalette::Count));
 
 		palette[Text::Default] = 0xffffffff;
 		palette[Text::Background] = 0x000000ff;
@@ -52,9 +52,9 @@ namespace mud
 		return palette;
 	}
 
-	std::vector<uint32_t>& TextEdit::DarkPalette()
+	vector<uint32_t>& TextEdit::DarkPalette()
 	{
-		static std::vector<uint32_t> palette = std::vector<uint32_t>(size_t(CodePalette::Count));
+		static vector<uint32_t> palette = vector<uint32_t>(size_t(CodePalette::Count));
 
 		palette[Text::Default]                 = 0xffffffff;
 		palette[Text::Background]              = 0x1e1e1eff;
@@ -88,35 +88,45 @@ namespace mud
 		return palette;
 	}
 
+	void builtin_keywords(LanguageDefinition& language, array<cstring> keywords)
+	{
+		for(cstring i : keywords)
+#ifdef MUD_UNORDERED_MAP_TINYSTL
+			language.m_keywords.insert({ string(i), nullptr });
+#else
+			language.m_keywords.insert(string(i));
+#endif
+	}
+
 	void builtin_identifiers(LanguageDefinition& language, array<cstring> identifiers)
 	{
-		for (auto& k : identifiers)
+		for (cstring k : identifiers)
 		{
 			Identifier id = { {}, "Built-in identifier" };
-			language.m_identifiers.insert({ std::string(k), id });
+			language.m_identifiers.insert({ string(k), id });
 		}
 	}
 
 	void builtin_functions(LanguageDefinition& language, array<cstring> functions)
 	{
-		for (auto& k : functions)
+		for (cstring k : functions)
 		{
 			Identifier id = { {}, "Built-in function" };
-			language.m_functions.insert({ std::string(k), id });
+			language.m_functions.insert({ string(k), id });
 		}
 	}
 
-	void add_token_regex(LanguageDefinition& lang, const std::string& token, CodePalette index)
+	void add_token_regex(LanguageDefinition& lang, const string& token, CodePalette index)
 	{
 		lang.m_regex_string_tokens.push_back(std::make_pair(token, PaletteIndex(index)));
 #ifdef MUD_CPP_20
 		// not implemented by MSVC modules yet
 #else
-		lang.m_regex_tokens.push_back(std::make_pair(std::regex(token, std::regex_constants::optimize), PaletteIndex(index)));
+		lang.m_regex_tokens.push_back(std::make_pair(std::regex(token.c_str(), std::regex_constants::optimize), PaletteIndex(index)));
 #endif
 	}
 
-	string list_regex(const std::vector<string>& tokens)
+	string list_regex(const vector<string>& tokens)
 	{
 		string r = "[";
 		for(const string& token : tokens)
@@ -135,7 +145,7 @@ namespace mud
 
 			lang.m_operators = { "+", "-", "*", "/", "=", "~", "|", "<", ">", "?", "/", ".", "!", "%", "^", "&" };
 
-			lang.m_keywords =
+			static cstring keywords[] =
 			{
 				"alignas", "alignof", "and", "and_eq", "asm", "atomic_cancel", "atomic_commit", "atomic_noexcept", "auto", "bitand", "bitor", "bool", "break", "case", "catch", "char", "char16_t", "char32_t", "class",
 				"compl", "concept", "const", "constexpr", "const_cast", "continue", "decltype", "default", "delete", "do", "double", "dynamic_cast", "else", "enum", "explicit", "export_", "extern", "false", "float",
@@ -151,6 +161,7 @@ namespace mud
 				"std", "string", "vector", "map", "unordered_map", "set", "unordered_set", "min", "max"
 			};
 
+			builtin_keywords(lang, { keywords, size(keywords) });
 			builtin_identifiers(lang, { identifiers, size(identifiers) });
 
 			add_token_regex(lang, "//.*", CodePalette::Comment);
@@ -187,7 +198,7 @@ namespace mud
 
 			lang.m_operators = {};
 
-			lang.m_keywords =
+			static cstring keywords[] =
 			{
 				"AppendStructuredBuffer", "asm", "asm_fragment", "BlendState", "bool", "break", "Buffer", "ByteAddressBuffer", "case", "cbuffer", "centroid", "class", "column_major", "compile", "compile_fragment",
 				"CompileShader", "const", "continue", "ComputeShader", "ConsumeStructuredBuffer", "default", "DepthStencilState", "DepthStencilView", "discard", "do", "double", "DomainShader", "dword", "else",
@@ -223,6 +234,7 @@ namespace mud
 				"tex3D", "tex3D", "tex3Dbias", "tex3Dgrad", "tex3Dlod", "tex3Dproj", "texCUBE", "texCUBE", "texCUBEbias", "texCUBEgrad", "texCUBElod", "texCUBEproj", "transpose", "trunc"
 			};
 
+			builtin_keywords(lang, { keywords, size(keywords) });
 			builtin_identifiers(lang, { identifiers, size(identifiers) });
 
 			add_token_regex(lang, "//.*", CodePalette::Comment);
@@ -257,7 +269,7 @@ namespace mud
 		{
 			lang.m_punctuation = { "[", "]", "{", "}", "!", "%", "^", "&", "*", "(", ")", "-", "+", "=", "~", "|", "<", ">", "?", "/", ";", ",", "." };
 
-			lang.m_keywords =
+			static cstring keywords[] =
 			{
 				"auto", "break", "case", "char", "const", "continue", "default", "do", "double", "else", "enum", "extern", "float", "for", "goto", "if", "inline", "int", "long", "register", "restrict", "return", "short",
 				"signed", "sizeof", "static", "struct", "switch", "typedef", "union", "unsigned", "void", "volatile", "while", "_Alignas", "_Alignof", "_Atomic", "_Bool", "_Complex", "_Generic", "_Imaginary",
@@ -270,6 +282,7 @@ namespace mud
 				"ispunct", "isspace", "isupper", "kbhit", "log10", "log2", "log", "memcmp", "modf", "pow", "putchar", "putenv", "puts", "rand", "remove", "rename", "sinh", "sqrt", "srand", "strcat", "strcmp", "strerror", "time", "tolower", "toupper"
 			};
 
+			builtin_keywords(lang, { keywords, size(keywords) });
 			builtin_identifiers(lang, { identifiers, size(identifiers) });
 
 			add_token_regex(lang, "//.*", CodePalette::Comment);
@@ -304,7 +317,7 @@ namespace mud
 		{
 			lang.m_punctuation = { "[", "]", "{", "}", "!", "%", "^", "&", "*", "(", ")", "-", "+", "=", "~", "|", "<", ">", "?", "/", ";", ",", "." };
 
-			lang.m_keywords =
+			static cstring keywords[] =
 			{
 				"auto", "break", "case", "char", "const", "continue", "default", "do", "double", "else", "enum", "extern", "float", "for", "goto", "if", "inline", "int", "long", "register", "restrict", "return", "short",
 				"signed", "sizeof", "static", "struct", "switch", "typedef", "union", "unsigned", "void", "volatile", "while", "_Alignas", "_Alignof", "_Atomic", "_Bool", "_Complex", "_Generic", "_Imaginary",
@@ -317,6 +330,7 @@ namespace mud
 				"ispunct", "isspace", "isupper", "kbhit", "log10", "log2", "log", "memcmp", "modf", "pow", "putchar", "putenv", "puts", "rand", "remove", "rename", "sinh", "sqrt", "srand", "strcat", "strcmp", "strerror", "time", "tolower", "toupper"
 			};
 
+			builtin_keywords(lang, { keywords, size(keywords) });
 			builtin_identifiers(lang, { identifiers, size(identifiers) });
 
 			add_token_regex(lang, "//.*", CodePalette::Comment);
@@ -351,7 +365,7 @@ namespace mud
 		{
 			lang.m_punctuation = { "[", "]", "{", "}", "!", "%", "^", "&", "*", "(", ")", "-", "+", "=", "~", "|", "<", ">", "?", "/", ";", ",", "." };
 
-			lang.m_keywords =
+			static cstring keywords[] =
 			{
 				"and", "break", "do", "", "else", "elseif", "end", "false", "for", "function", "if", "in", "", "local", "nil", "not", "or", "repeat", "return", "then", "true", "until", "while"
 			};
@@ -374,6 +388,7 @@ namespace mud
 				"reverse", "sub", "upper", "pack", "packsize", "unpack", "concat", "maxn", "insert", "pack", "unpack", "remove", "move", "sort", "offset", "codepoint", "char", "len", "codes", "charpattern"
 			};
 
+			builtin_keywords(lang, { keywords, size(keywords) });
 			builtin_identifiers(lang, { identifiers, size(identifiers) });
 			builtin_functions(lang, { functions, size(functions) });
 
@@ -409,9 +424,12 @@ namespace mud
 
 			lang.m_operators = { "[", "]", "!", "%", "^", "&", "*", "-", "+", "=", "~", "|", "<", ">", "?", "/", ":", ";" };
 
-			lang.m_keywords = {
+			static cstring keywords[] =
+			{
 				"class", "construct", "continue", "else", "false", "for", "foreign", "if", "import", "in", "is", "new", "null", "return", "static", "this", "true", "var", "while"
 			};
+
+			builtin_keywords(lang, { keywords, size(keywords) });
 
 			add_token_regex(lang, "//.*", CodePalette::Comment);
 			add_token_regex(lang, "[A-Z][a-zA-Z0-9_]*", CodePalette::Identifier);

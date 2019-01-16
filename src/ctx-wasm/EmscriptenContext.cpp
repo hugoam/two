@@ -12,11 +12,11 @@
 #include <emscripten/html5.h>
 
 #include <cassert>
-#include <string>
+#include <stl/string.h>
 
 namespace mud
 {
-	using string = std::string;
+	using string = string;
 
 	MouseButtonCode convert_html5_mouse_button(unsigned short button)
 	{

@@ -4,23 +4,22 @@
 
 #pragma once
 
-#include <gfx/Forward.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
+#ifndef MUD_MODULES
+#include <stl/vector.h>
 #endif
+#include <gfx/Forward.h>
 
 namespace mud
 {
 	export_ class refl_ MUD_GFX_EXPORT Shot
 	{
 	public:
-		std::vector<Item*> m_items;
-		std::vector<Item*> m_occluders;
-		std::vector<Light*> m_lights;
-		std::vector<ReflectionProbe*> m_reflection_probes;
-		std::vector<GIProbe*> m_gi_probes;
-		std::vector<LightmapAtlas*> m_lightmaps;
-		std::vector<ImmediateDraw*> m_immediate;
+		vector<Item*> m_items;
+		vector<Item*> m_occluders;
+		vector<Light*> m_lights;
+		vector<ReflectionProbe*> m_reflection_probes;
+		vector<GIProbe*> m_gi_probes;
+		vector<LightmapAtlas*> m_lightmaps;
+		vector<ImmediateDraw*> m_immediate;
 	};
 }

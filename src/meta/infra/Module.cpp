@@ -6,6 +6,8 @@ module mud.infra;
 #include <meta/infra/Module.h>
 #endif
 
+#include <infra/Api.h>
+
 #ifndef MUD_MODULES
 #include <meta/infra/Convert.h>
 #endif

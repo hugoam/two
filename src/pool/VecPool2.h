@@ -88,11 +88,11 @@ namespace mud
 		uint32_t m_offset;
 		uint32_t m_last;
 
-		std::vector<uint8_t> m_chunk;
-		std::vector<uint8_t> m_versions;
+		vector<uint8_t> m_chunk;
+		vector<uint8_t> m_versions;
 
-		std::vector<Handle> m_available;
-		std::vector<Handle> m_objects;
+		vector<Handle> m_available;
+		vector<Handle> m_objects;
 
 		unique_ptr<VecPool<T>> m_next;
 

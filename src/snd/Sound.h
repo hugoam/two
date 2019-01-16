@@ -4,21 +4,20 @@
 
 #pragma once
 
+#include <stl/string.h>
 #include <snd/Forward.h>
 #include <snd/Structs.h>
 #include <math/Vec.h>
 
-#include <string>
 #include <list>
-#include <functional>
-#include <stdint.h>
+#include <cstdint>
 
 namespace mud
 {
 	class Sound;
 
 	using cstring = const char*;
-	using SoundCallback = std::function<void(Sound&)>;
+	using SoundCallback = void(*)(Sound&);
 
 	class MUD_SND_EXPORT Sound
 	{
@@ -174,6 +173,6 @@ namespace mud
 		bool m_fade = false;
 		FadeControl m_fadeEndAction = FC_NONE;
 
-		std::string m_name;
+		string m_name;
 	};
 }

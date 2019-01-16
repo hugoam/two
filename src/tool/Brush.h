@@ -21,7 +21,7 @@ namespace mud
 		bool m_world_snap;
 		Plane m_work_plane;
 
-		virtual void process(Viewer& viewer, const std::vector<Ref>& selection);
+		virtual void process(Viewer& viewer, const vector<Ref>& selection);
 
 		virtual void begin(const vec3& position) { UNUSED(position); }
 		virtual void update(const vec3& position) = 0;
@@ -88,7 +88,7 @@ namespace mud
 		bool filter(const vec3& center, vec3& position);
 
 	protected:
-		std::vector<Ref> m_stroke;
+		vector<Ref> m_stroke;
 
 		object_ptr<Poisson> m_distribution;
 

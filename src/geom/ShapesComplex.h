@@ -5,15 +5,11 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
 #include <infra/Array.h>
 #endif
 #include <geom/Forward.h>
 #include <geom/Shape.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#include <array>
-#endif
 
 namespace mud
 {
@@ -21,9 +17,9 @@ namespace mud
 	{
 	public:
 		constr_ Polygon();
-		constr_ Polygon(std::vector<vec3> vertices);
+		constr_ Polygon(vector<vec3> vertices);
 
-		std::vector<vec3> m_vertices;
+		vector<vec3> m_vertices;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -36,7 +32,7 @@ namespace mud
 
 		Box(const Cube& cube);
 
-		std::array<vec3, 8> m_vertices;
+		vec3 m_vertices[8];
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -45,9 +41,9 @@ namespace mud
 	{
 	public:
 		constr_ Points();
-		constr_ Points(const std::vector<vec3>& points);
+		constr_ Points(const vector<vec3>& points);
 
-		attr_ std::vector<vec3> m_points;
+		attr_ vector<vec3> m_points;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -56,10 +52,10 @@ namespace mud
 	{
 	public:
 		constr_ Grid3();
-		constr_ Grid3(const uvec2& size, const std::vector<vec3>& points = {});
+		constr_ Grid3(const uvec2& size, const vector<vec3>& points = {});
 
 		attr_ uvec2 m_size;
-		attr_ std::vector<vec3> m_points;
+		attr_ vector<vec3> m_points;
 
 		virtual object_ptr<Shape> clone() const;
 	};
@@ -68,9 +64,9 @@ namespace mud
 	{
 	public:
 		constr_ ConvexHull();
-		constr_ ConvexHull(const std::vector<vec3>& vertices);
+		constr_ ConvexHull(const vector<vec3>& vertices);
 
-		attr_ std::vector<vec3> m_vertices;
+		attr_ vector<vec3> m_vertices;
 
 		virtual object_ptr<Shape> clone() const;
 	};

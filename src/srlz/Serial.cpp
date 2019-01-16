@@ -5,6 +5,9 @@
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
 #include <fstream>
+#include <string>
+#include <vector>
+#include <map>
 #endif
 
 #ifdef MUD_MODULES
@@ -34,15 +37,15 @@ namespace mud
 {
 	void parse_json_file(const string& path, json& data)
 	{
-		if(!std::ifstream(path).good())
+		if(!std::ifstream(path.c_str()).good())
 		{
 			printf("ERROR: couldn't open file %s\n", path.c_str());
 			return;
 		}
 
 		string text = read_text_file(path);
-		string errors;
-		data = json::parse(text, errors);
+		std::string errors;
+		data = json::parse(text.c_str(), errors);
 	}
 
 	json parse_json_file(const string& path)
@@ -55,14 +58,15 @@ namespace mud
 #ifndef MUD_CPP_20
 	void dump_json_file(const string& path, const json& value)
 	{
-		std::ofstream file = std::ofstream(path);
+		std::ofstream file = std::ofstream(path.c_str());
 		if(!file.good())
 			printf("ERROR: couldn't open file %s\n", path.c_str());
-		string content = value.dump();
+		std::string content = value.dump();
 		file << content;
 	}
 #endif
 
+#if 0
 	void visit_json(json& json_value, const JsonVisitor& visitor)
 	{
 		visitor(json_value);
@@ -74,57 +78,58 @@ namespace mud
 			for(const json& value : json_value.array_items())
 				visit_json(const_cast<json&>(value), visitor);
 	}
+#endif
 
 	FromJson::FromJson()
 	{
-		dispatch_branch<int>    (*this, [](int&    value, Ref&, const json& json_value) { value = json_value.int_value(); });
-		dispatch_branch<ushort> (*this, [](ushort& value, Ref&, const json& json_value) { value = ushort(json_value.int_value()); });
-		dispatch_branch<uint>   (*this, [](uint&   value, Ref&, const json& json_value) { value = uint(json_value.int_value()); });
-		dispatch_branch<ulong>  (*this, [](ulong&  value, Ref&, const json& json_value) { value = ulong(json_value.number_value()); });
-		dispatch_branch<ulong2> (*this, [](ulong2& value, Ref&, const json& json_value) { value = ulong2(json_value.number_value()); });
-		dispatch_branch<float>  (*this, [](float&  value, Ref&, const json& json_value) { value = float(json_value.number_value()); });
-		dispatch_branch<double> (*this, [](double& value, Ref&, const json& json_value) { value = json_value.number_value(); });
+		dispatch_branch<int>    (*this, +[](int&    value, Ref&, const json& json_value) { value = json_value.int_value(); });
+		dispatch_branch<ushort> (*this, +[](ushort& value, Ref&, const json& json_value) { value = ushort(json_value.int_value()); });
+		dispatch_branch<uint>   (*this, +[](uint&   value, Ref&, const json& json_value) { value = uint(json_value.int_value()); });
+		dispatch_branch<ulong>  (*this, +[](ulong&  value, Ref&, const json& json_value) { value = ulong(json_value.number_value()); });
+		dispatch_branch<ullong> (*this, +[](ullong& value, Ref&, const json& json_value) { value = ullong(json_value.number_value()); });
+		dispatch_branch<float>  (*this, +[](float&  value, Ref&, const json& json_value) { value = float(json_value.number_value()); });
+		dispatch_branch<double> (*this, +[](double& value, Ref&, const json& json_value) { value = json_value.number_value(); });
 		// cstring can't be deserialized I believe, or we need to memoize them ?
-		dispatch_branch<string>(*this, [](string& value, Ref&, const json& json_value) { value = json_value.string_value(); });
-		dispatch_branch<bool>(*this, [](bool& value, Ref&, const json& json_value) { value = json_value.bool_value(); });
+		dispatch_branch<string> (*this, +[](string& value, Ref&, const json& json_value) { value = json_value.string_value().c_str(); });
+		dispatch_branch<bool>   (*this, +[](bool& value,   Ref&, const json& json_value) { value = json_value.bool_value(); });
 
-		dispatch_branch<std::vector<Var>>(*this, [](std::vector<Var>& values, Ref&, const json& json_value)
+		dispatch_branch<vector<Var>>(*this, +[](vector<Var>& values, Ref&, const json& json_value)
 		{
 			for(const json& value : json_value.array_items())
 				values.push_back(unpack_typed(value));
 		});
 
-		dispatch_branch<Call>(*this, [](Call& call, Ref&, const json& json_value)
+		dispatch_branch<Call>(*this, +[](Call& call, Ref&, const json& json_value)
 		{
 			call.m_callable = System::instance().find_function(json_value["callable"].string_value().c_str());
-			call.m_arguments = unpackt<std::vector<Var>>(json_value["arguments"]);
+			call.m_arguments = unpackt<vector<Var>>(json_value["arguments"]);
 		});
 	}
 
 	ToJson::ToJson()
 	{
-		dispatch_branch<int>     (*this, [](int&     value, json& json_value) { json_value = json(value); });
-		dispatch_branch<uint>    (*this, [](uint&    value, json& json_value) { json_value = json(int(value)); });
-		dispatch_branch<ushort>  (*this, [](ushort&  value, json& json_value) { json_value = json(int(value)); });
-		dispatch_branch<ulong>   (*this, [](ulong&   value, json& json_value) { json_value = json(double(value)); });
-		dispatch_branch<ulong2>  (*this, [](ulong2&  value, json& json_value) { json_value = json(double(value)); });
-		dispatch_branch<float>   (*this, [](float&   value, json& json_value) { json_value = value; });
-		dispatch_branch<double>  (*this, [](double&  value, json& json_value) { json_value = value; });
-		dispatch_branch<cstring> (*this, [](cstring  value, json& json_value) { json_value = string(value); });
-		dispatch_branch<string>  (*this, [](string&  value, json& json_value) { json_value = value; });
-		dispatch_branch<bool>    (*this, [](bool&    value, json& json_value) { json_value = value; });
+		dispatch_branch<int>     (*this, +[](int&     value, json& json_value) { json_value = json(value); });
+		dispatch_branch<uint>    (*this, +[](uint&    value, json& json_value) { json_value = json(int(value)); });
+		dispatch_branch<ushort>  (*this, +[](ushort&  value, json& json_value) { json_value = json(int(value)); });
+		dispatch_branch<ulong>   (*this, +[](ulong&   value, json& json_value) { json_value = json(double(value)); });
+		dispatch_branch<ullong>  (*this, +[](ullong&  value, json& json_value) { json_value = json(double(value)); });
+		dispatch_branch<float>   (*this, +[](float&   value, json& json_value) { json_value = value; });
+		dispatch_branch<double>  (*this, +[](double&  value, json& json_value) { json_value = value; });
+		dispatch_branch<cstring> (*this, +[](cstring  value, json& json_value) { json_value = string(value); });
+		dispatch_branch<string>  (*this, +[](string&  value, json& json_value) { json_value = value; });
+		dispatch_branch<bool>    (*this, +[](bool&    value, json& json_value) { json_value = value; });
 
-		dispatch_branch<Type>(*this, [](Type& type, json& json_value) { json_value = type.m_name; });
+		dispatch_branch<Type>(*this, +[](Type& type, json& json_value) { json_value = type.m_name; });
 
-		dispatch_branch<std::vector<Var>>(*this, [](std::vector<Var>& values, json& json_value)
+		dispatch_branch<vector<Var>>(*this, +[](vector<Var>& values, json& json_value)
 		{
-			std::vector<json> json_values = std::vector<json>(values.size());
+			vector<json> json_values = vector<json>(values.size());
 			for (size_t i = 0; i < values.size(); ++i)
 				pack_typed(values[i], json_values[i]);
 			json_value = json_values;
 		});
 
-		dispatch_branch<Call>(*this, [](Call& call, json& json_value)
+		dispatch_branch<Call>(*this, +[](Call& call, json& json_value)
 		{
 			std::map<std::string, json> json_values;
 			json_values["callable"] = string(call.m_callable->m_name);
@@ -189,7 +194,7 @@ namespace mud
 		}
 		else if(g_convert[type(value).m_id] && json_value.is_string())
 		{
-			convert(type(value)).m_from_string(json_value.string_value(), value);
+			convert(type(value)).m_from_string(json_value.string_value().c_str(), value);
 			return;
 		}
 		else if(is_sequence(type(value)))
@@ -197,7 +202,7 @@ namespace mud
 			for(const json& json_element : json_value.array_items())
 			{
 				Var element = unpack(unpacker, *cls(value).m_content, json_element);
-				add_sequence(value, element);
+				sequence(value).add(value, element);
 			}
 			return;
 		}
@@ -260,9 +265,9 @@ namespace mud
 
 	Var unpack_typed(FromJson& unpacker, const json& json_typed_value)
 	{
-		string type_name = json_typed_value["type"].string_value();
+		cstring type_name = json_typed_value["type"].string_value().c_str();
 		json json_value = json_typed_value["value"];
-		return unpack(unpacker, *System::instance().find_type(type_name.c_str()), json_value, true);
+		return unpack(unpacker, *System::instance().find_type(type_name), json_value, true);
 	}
 
 	Var unpack_typed(const json& json_value)
@@ -292,8 +297,8 @@ namespace mud
 		else if(is_sequence(type(value)))
 		{
 			size_t i = 0;
-			std::vector<json> json_values = std::vector<json>(sequence_size(value.m_ref));
-			iterate_sequence(value.m_ref, [&](Ref element) {
+			vector<json> json_values = vector<json>(iter(value).size(value));
+			iter(value).iterate(value, [&](Ref element) {
 				pack(packer, element, json_values[i++]);
 			});
 			json_value = json_values;
@@ -306,7 +311,7 @@ namespace mud
 				pack_typed(packer, value, json_value);
 			else if(is_array(type(value)))
 			{
-				std::vector<json> json_members;
+				vector<json> json_members;
 				json_members.resize(cls(value).m_members.size());
 
 				for(Member& member : cls(value).m_members)
@@ -369,7 +374,7 @@ namespace mud
 	{
 		json json_value;
 		pack(value, json_value);
-		return json_value.dump();
+		return json_value.dump().c_str();
 	}
 
 	void pack_json_file(const Var& value, const string& path)

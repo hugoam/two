@@ -3,16 +3,12 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <fstream>
-#endif
 
 #ifdef MUD_MODULES
 module mud.gfx-edit;
 #else
-#include <refl/Method.h>
+#include <infra/File.h>
 #include <srlz/Serial.h>
-#include <refl/System.h>
 #include <geom/Shapes.h>
 #include <geom/Symbol.h>
 #include <gfx/Gfx.h>
@@ -30,8 +26,8 @@ namespace mud
 {
 	struct ParticleEditorState : public NodeState
 	{
-		ParticleEditorState() : m_particles(function(gfx::particles)) {}
-		Call m_particles;
+		ParticleEditorState() {}
+		ParticleFlow m_particles;
 	};
 
 	void cube_test(Gnode& parent)
@@ -40,7 +36,7 @@ namespace mud
 		gfx::shape(self, Cube(1.f), Symbol());
 	}
 
-	void particle_editor_viewer(Widget& parent, Call& particles)
+	void particle_editor_viewer(Widget& parent, ParticleFlow& particles)
 	{
 		SceneViewer& viewer = ui::scene_viewer(parent, vec2{ 500.f });
 		ui::orbit_controller(viewer);
@@ -49,11 +45,9 @@ namespace mud
 		//viewer.m_camera.set_isometric(SOUTH, Zero3);
 
 		Gnode& scene = viewer.m_scene->begin();
-		particles.m_arguments[0] = Ref(&parent);
-		particles.m_arguments[1] = var(string("particle.ktx"));
-		particles();
-		
-		Shape* shape = val<ParticleGenerator>(particles.m_arguments[2]).m_shape.m_shape.get();
+		gfx::particles(scene, particles);
+
+		Shape* shape = particles.m_shape.m_shape.get();
 		if(shape)
 			gfx::shape(scene, *shape, Symbol());
 
@@ -66,19 +60,19 @@ namespace mud
 		SAVE_PARTICLES = 1 << 1
 	};
 
-	void open_particles(Widget& parent, GfxSystem& system, ParticleGenerator& generator)
+	void open_particles(Widget& parent, GfxSystem& system, ParticleFlow& generator)
 	{
 		static string location = "";
 		if(select_value(parent, OPEN_PARTICLES, location, true))
 		{
-			if(std::fstream(string(system.m_resource_path) + location).good())
+			if(file_exists((string(system.m_resource_path) + location).c_str()))
 			{
 				unpack_json_file(Ref(&generator), string(system.m_resource_path) + location);
 			}
 		}
 	}
 
-	void save_particles(Widget& parent, GfxSystem& system, ParticleGenerator& generator)
+	void save_particles(Widget& parent, GfxSystem& system, ParticleFlow& generator)
 	{
 		static string destination = "";
 		if(select_value(parent, SAVE_PARTICLES, destination, true))
@@ -87,23 +81,17 @@ namespace mud
 		}
 	}
 
-	void particle_edit(Widget& parent, GfxSystem& system, ParticleGenerator& generator)
+	void particle_edit(Widget& parent, GfxSystem& system, ParticleFlow& generator)
 	{
 		Section& self = section(parent, "Particle Editor");
 
-		//call_edit(self, generator);
 		object_edit(*self.m_body, Ref(&generator));
-		//particle_editor_viewer(self, particles);
+		particle_editor_viewer(self, generator);
 
 		if(ui::modal_button(self, *self.m_toolbar, "Open", OPEN_PARTICLES))
 			open_particles(self, system, generator);
 		if(ui::modal_button(self, *self.m_toolbar, "Save", SAVE_PARTICLES))
 			save_particles(self, system, generator);
-	}
-
-	void particle_edit(Widget& parent, GfxSystem& system, Call& particles_call)
-	{
-		particle_edit(parent, system, val<ParticleGenerator>(particles_call.m_arguments[1]));
 	}
 
 	void particle_editor(Widget& parent, GfxSystem& system)

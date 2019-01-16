@@ -4,7 +4,6 @@
 
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
-#include <algorithm>
 #include <cstdio>
 #endif
 
@@ -99,9 +98,9 @@ namespace mud
 		: InputDevice(dispatcher)
 		, m_keyboard(keyboard)
 		, m_last_pos(0.f, 0.f)
-		, m_buttons{ { MouseButton{ *this, DeviceType::MouseLeft },
-					   MouseButton{ *this, DeviceType::MouseRight },
-					   MouseButton{ *this, DeviceType::MouseMiddle } } }
+		, m_buttons{ { *this, DeviceType::MouseLeft },
+					 { *this, DeviceType::MouseRight },
+					 { *this, DeviceType::MouseMiddle } }
 	{
 		m_events.reserve(100);
 	}

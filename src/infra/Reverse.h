@@ -4,7 +4,12 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <infra/Config.h>
+
+#ifdef MUD_VECTOR_TINYSTL
+#include <iterator>
+#endif
 
 namespace mud
 {
@@ -14,8 +19,15 @@ namespace mud
 	public:
 		reverse_adapter(T& container) : m_container(container) { }
 		reverse_adapter& operator=(const reverse_adapter&) = delete;
+
+#ifdef MUD_VECTOR_TINYSTL
+		using iterator = std::reverse_iterator<typename T::iterator>;
+		iterator begin() { return iterator(m_container.end() - 1); }
+		iterator end() { return iterator(m_container.begin() + 1); }
+#else
 		typename T::reverse_iterator begin() { return m_container.rbegin(); }
 		typename T::reverse_iterator end() { return m_container.rend(); }
+#endif
 	private:
 		T& m_container;
 	};

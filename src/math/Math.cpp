@@ -283,12 +283,12 @@ namespace mud
 		return result;
 	}
 
-	void grid(const uvec3& size, std::vector<uvec3>& output_coords)
+	void grid(const uvec3& size, vector<uvec3>& output_coords)
 	{
-		for(size_t z = 0; z < size.z; ++z)
-			for(size_t y = 0; y < size.y; ++y)
-				for(size_t x = 0; x < size.x; ++x)
-					output_coords.emplace_back(x, y, z);
+		for(uint z = 0; z < size.z; ++z)
+			for(uint y = 0; y < size.y; ++y)
+				for(uint x = 0; x < size.x; ++x)
+					output_coords.push_back({ x, y, z });
 	}
 
 	vec3 grid_center(const uvec3& coord, float cell_size)
@@ -301,7 +301,7 @@ namespace mud
 		return vec3(coord) * cell_size + cell_size * 0.5f;
 	}
 
-	void index_list(uint32_t size, std::vector<uint32_t>& output_indices)
+	void index_list(uint32_t size, vector<uint32_t>& output_indices)
 	{
 		for(uint32_t i = 0; i < size; ++i)
 			output_indices.push_back(i);

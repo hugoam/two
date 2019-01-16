@@ -19,9 +19,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 
@@ -38,11 +38,11 @@ namespace mud
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::Viewer>();
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::SceneViewer>();
     
-    export_ template struct MUD_GFX_UI_EXPORT Typed<std::vector<mud::Object*>>;
-    export_ template struct MUD_GFX_UI_EXPORT Typed<std::vector<mud::ViewerController*>>;
-    export_ template struct MUD_GFX_UI_EXPORT Typed<std::vector<mud::OrbitController*>>;
-    export_ template struct MUD_GFX_UI_EXPORT Typed<std::vector<mud::FreeOrbitController*>>;
-    export_ template struct MUD_GFX_UI_EXPORT Typed<std::vector<mud::SpaceSheet*>>;
-    export_ template struct MUD_GFX_UI_EXPORT Typed<std::vector<mud::Viewer*>>;
-    export_ template struct MUD_GFX_UI_EXPORT Typed<std::vector<mud::SceneViewer*>>;
+    export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::Object*>>;
+    export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::ViewerController*>>;
+    export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::OrbitController*>>;
+    export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::FreeOrbitController*>>;
+    export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::SpaceSheet*>>;
+    export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::Viewer*>>;
+    export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::SceneViewer*>>;
 }

@@ -115,14 +115,14 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::ScriptClass>(), [](Ref ref, array<Var> args) { new(&val<mud::ScriptClass>(ref)) mud::ScriptClass( val<std::string>(args[0]), val<std::vector<mud::Type*>>(args[1]) ); }, { { "name", var(std::string()) }, { "parts", var(std::vector<mud::Type*>()) } } }
+                { type<mud::ScriptClass>(), [](Ref ref, array<Var> args) { new(&val<mud::ScriptClass>(ref)) mud::ScriptClass( val<string>(args[0]), val<vector<mud::Type*>>(args[1]) ); }, { { "name", var(string()) }, { "parts", var(vector<mud::Type*>()) } } }
             },
             // copy constructor
             {
             },
             // members
             {
-                { type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
                 { type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_class_type), type<mud::Type>(), "class_type", Ref(type<mud::Type>()), Member::NonMutable, nullptr },
                 { type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_class), type<mud::Class>(), "class", Ref(type<mud::Class>()), Member::NonMutable, nullptr }
             },
@@ -546,7 +546,7 @@ namespace mud
             {
                 { type<mud::Script>(), member_address(&mud::Script::m_index), type<uint32_t>(), "index", var(uint32_t()), Member::Value, nullptr },
                 { type<mud::Script>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Script>(object).m_type); } },
-                { type<mud::Script>(), member_address(&mud::Script::m_name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<mud::Script>(), member_address(&mud::Script::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
                 { type<mud::Script>(), member_address(&mud::Script::m_locked), type<bool>(), "locked", var(bool()), Member::Value, nullptr }
             },
             // methods
@@ -600,7 +600,7 @@ namespace mud
             // members
             {
                 { type<mud::TextScript>(), member_address(&mud::TextScript::m_language), type<mud::Language>(), "language", var(mud::Language()), Member::Value, nullptr },
-                { type<mud::TextScript>(), member_address(&mud::TextScript::m_script), type<std::string>(), "script", var(std::string()), Member::Value, nullptr },
+                { type<mud::TextScript>(), member_address(&mud::TextScript::m_script), type<string>(), "script", var(string()), Member::Value, nullptr },
                 { type<mud::TextScript>(), member_address(&mud::TextScript::m_dirty), type<bool>(), "dirty", var(bool()), Member::Value, nullptr }
             },
             // methods

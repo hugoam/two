@@ -3,9 +3,6 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <algorithm>
-#endif
 
 #ifdef MUD_MODULES
 module mud.fract;
@@ -15,6 +12,8 @@ module mud.fract;
 #include <geom/Shapes.h>
 #include <fract/Circle.h>
 #endif
+
+#include <algorithm>
 
 namespace mud
 {
@@ -31,13 +30,13 @@ namespace mud
 		}
 	}
 
-	std::vector<Circle> Circlifier::compute(const Colour& colour, float scale)
+	vector<Circle> Circlifier::compute(const Colour& colour, float scale)
 	{
 		size_t colourIndex = m_image.m_palette.find_colour(colour);
 		this->grow(colourIndex);
 		this->cull(colourIndex);
 
-		std::vector<Circle> circles;
+		vector<Circle> circles;
 		for(Pixircle& circle : m_pixircles)
 			if(circle.colour == colourIndex && !circle.culled && circle.radius > 0)
 			{
@@ -69,7 +68,7 @@ namespace mud
 
 	void Circlifier::cull(size_t colour)
 	{
-		std::vector<Pixircle> sorted(m_pixircles.begin(), m_pixircles.end());
+		vector<Pixircle> sorted(m_pixircles.begin(), m_pixircles.end());
 		std::sort(sorted.begin(), sorted.end(), [](Pixircle& lhs, Pixircle& rhs) { return rhs < lhs; });
 
 		for(Pixircle& circle : sorted)

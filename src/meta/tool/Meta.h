@@ -99,11 +99,9 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::Gizmo>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Gizmo>(ref)) mud::Gizmo(  ); }, {} }
             },
             // copy constructor
             {
-                { type<mud::Gizmo>(), [](Ref ref, Ref other) { new(&val<mud::Gizmo>(ref)) mud::Gizmo(val<mud::Gizmo>(other)); } }
             },
             // members
             {
@@ -134,7 +132,7 @@ namespace mud
             {
                 { type<mud::Tool>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Tool>(object).m_type); } },
                 { type<mud::Tool>(), Address(), type<mud::ToolContext>(), "context", var(mud::ToolContext()), Member::Flags(Member::Value|Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Tool>(object).m_context); } },
-                { type<mud::Tool>(), member_address(&mud::Tool::m_name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<mud::Tool>(), member_address(&mud::Tool::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
                 { type<mud::Tool>(), member_address(&mud::Tool::m_state), type<mud::ToolState>(), "state", var(mud::ToolState()), Member::Value, nullptr }
             },
             // methods

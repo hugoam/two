@@ -11,7 +11,7 @@
 
 namespace mud
 {
-	MUD_GFX_UI_EXPORT void viewport_picker(Viewer& viewer, Widget& widget, std::vector<Ref>& selection);
+	MUD_GFX_UI_EXPORT void viewport_picker(Viewer& viewer, Widget& widget, vector<Ref>& selection);
 
-	MUD_GFX_UI_EXPORT Viewer& scene_viewport(Widget& parent, Scene& scene, Camera& camera, std::vector<Ref>& selection);
+	MUD_GFX_UI_EXPORT Viewer& scene_viewport(Widget& parent, Scene& scene, Camera& camera, vector<Ref>& selection);
 }

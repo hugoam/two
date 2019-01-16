@@ -24,22 +24,18 @@ namespace mud
 		return style;
 	}
 
-	Widget& section_actions(Widget& parent, const ActionList& actions)
+	bool section_action(Section& parent, cstring name)
 	{
-		Widget& self = ui::toolbar(parent);
-		for(const SectionAction& action : actions)
-			if(ui::button(self, action.m_name.c_str()).activated())
-				action.m_action();
-		return self;
+		return ui::button(*parent.m_toolbar, name).activated();
 	}
 
-	Section& section(Widget& parent, cstring name, const ActionList& actions, bool no_toolbar)
+	Section& section(Widget& parent, cstring name, bool no_toolbar)
 	{
 		Section& self = ui::twidget<Section>(parent, section_style());
 		ui::title_header(self, name);
 
 		if(!no_toolbar)
-			self.m_toolbar = &section_actions(self, actions);
+			self.m_toolbar = &ui::toolbar(self);
 
 		ScrollSheet& scroll_sheet = ui::scroll_sheet(self);
 		self.m_body = &ui::sheet(*scroll_sheet.m_body);

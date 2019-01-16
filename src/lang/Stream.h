@@ -5,20 +5,16 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <type/Var.h>
+#include <stl/vector.h>
 #include <infra/String.h>
+#include <type/Var.h>
 #endif
 #include <lang/Forward.h>
 
-#ifndef MUD_CPP_20
-#include <vector>
-#include <functional>
-#endif
-
 namespace mud
 {
-	typedef std::vector<size_t> StreamIndex;
-	typedef std::vector<size_t> Topology;
+	typedef vector<size_t> StreamIndex;
+	typedef vector<size_t> Topology;
 
 	/*export_ struct MUD_LANG_EXPORT StreamBranch : public StreamIndex
 	{
@@ -30,7 +26,7 @@ namespace mud
 
 	export_ struct MUD_LANG_EXPORT Flow
 	{
-		std::vector<StreamBranch> branches;
+		vector<StreamBranch> branches;
 		Topology topology;
 	};*/
 
@@ -54,9 +50,16 @@ namespace mud
 
 		void copy(const StreamBranch& branch);
 
-		typedef std::function<void(StreamBranch&)> Visitor;
-		void visit(bool leafs, const Visitor& visitor);
-		
+		template <class T_Visitor>
+		void visit(bool leafs, const T_Visitor& visitor)
+		{
+			for(auto& branch : m_branches)
+				branch.visit(leafs, visitor);
+
+			if(!leafs || m_branches.size() == 0)
+				visitor(*this);
+		}
+
 		StreamBranch& branch(const StreamIndex& index);
 
 		StreamBranch* find_branch(const StreamIndex& branch, size_t depth);
@@ -75,7 +78,7 @@ namespace mud
 		bool m_valid = true;
 		//bool m_empty = false;
 
-		std::vector<StreamBranch> m_branches;
+		vector<StreamBranch> m_branches;
 	};
 
 

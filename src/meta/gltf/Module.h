@@ -4,19 +4,8 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef MUD_MODULES
-#include <meta/infra/Module.h>
-#include <meta/type/Module.h>
-#include <meta/refl/Module.h>
-#include <meta/srlz/Module.h>
-#include <meta/math/Module.h>
-#endif
-
 #include <gltf/Forward.h>
 #include <gltf/Types.h>
-#include <gltf/Api.h>
-
-#include <meta/gltf/Convert.h>
 
 #ifndef MUD_GLTF_REFL_EXPORT
 #define MUD_GLTF_REFL_EXPORT MUD_IMPORT

@@ -7,25 +7,35 @@
 #include <refl/Forward.h>
 #include <type/Ref.h>
 
-#ifndef MUD_CPP_20
-#include <functional>
-#endif
-
 namespace mud
 {
 	export_ class MUD_REFL_EXPORT Iterable
 	{
 	public:
-		virtual ~Iterable() {}
-		virtual size_t size() const = 0;
-		virtual void iterate(const std::function<void(Ref)>& callback) const = 0;
-		virtual bool has(Ref object) const = 0;
+		using Size = size_t(*)(Ref); Size size;
+		using At = Ref(*)(Ref, size_t); At at;
+
+		template <class T_Visitor>
+		void iterate(Ref vec, T_Visitor visitor) const
+		{
+			size_t count = this->size(vec);
+			for(size_t i = 0; i < count; ++i)
+				visitor(this->at(vec, i));
+		}
+
+		template <class T_Visitor>
+		void iteratei(Ref vec, T_Visitor visitor) const
+		{
+			size_t count = this->size(vec);
+			for(size_t i = 0; i < count; ++i)
+				visitor(i, this->at(vec, i));
+		}
 	};
 
-	export_ class MUD_REFL_EXPORT Sequence : public Iterable
+	export_ class MUD_REFL_EXPORT Sequence
 	{
 	public:
-		virtual void add(Ref value) = 0;
-		virtual void remove(Ref value) = 0;
+		using Add = void(*)(Ref, Ref); Add add;
+		using Remove = void(*)(Ref, Ref); Remove remove;
 	};
 }

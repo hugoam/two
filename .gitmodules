@@ -72,3 +72,6 @@
 [submodule "3rdparty/culling"]
 	path = 3rdparty/culling
 	url = https://github.com/hugoam/MaskedOcclusionCulling
+[submodule "3rdparty/tinystl"]
+	path = 3rdparty/tinystl
+	url = https://github.com/hugoam/tinystl

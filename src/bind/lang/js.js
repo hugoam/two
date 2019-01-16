@@ -40,10 +40,10 @@ Process.prototype["__destroy__"] = Process.prototype.__destroy__ = function() {
 // ScriptClass
 function ScriptClass(name, parts) {
     ensureCache.prepare();
-    /* name <std::string> [] */
+    /* name <string> [] */
     if (name && typeof name === "object") name = name.ptr;
     else name = ensureString(name);
-    /* parts <std::vector<mud::Type*>> [] */
+    /* parts <vector<mud::Type*>> [] */
     parts = parts.ptr;
     this.ptr = _mud_ScriptClass_ScriptClass_2(name, parts); getCache(ScriptClass)[this.ptr] = this;
     this.type = ScriptClass;
@@ -60,7 +60,7 @@ Object.defineProperty(ScriptClass.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_ScriptClass__set_name(self, value);
@@ -336,7 +336,7 @@ Object.defineProperty(Script.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_Script__set_name(self, value);
@@ -406,7 +406,7 @@ Object.defineProperty(TextScript.prototype, "script", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_TextScript__set_script(self, value);

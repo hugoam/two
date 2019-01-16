@@ -9,7 +9,7 @@
 #include <math/Forward.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -26,7 +26,7 @@ namespace mud
 	struct refl_ struct_ ValueCurve
 	{
 		constr_ ValueCurve() {}
-		constr_ ValueCurve(std::vector<T> keys) : m_keys(keys) {}
+		constr_ ValueCurve(vector<T> keys) : m_keys(keys) {}
 
 		T sample_curve(float t)
 		{
@@ -37,7 +37,7 @@ namespace mud
 			return mud::lerp(m_keys[key], m_keys[key + 1], ttmod);
 		}
 
-		attr_ std::vector<T> m_keys;
+		attr_ vector<T> m_keys;
 	};
 
 	export_ template struct refl_ MUD_MATH_EXPORT ValueCurve<vec3>;
@@ -60,8 +60,8 @@ namespace mud
 		constr_ ValueTrack(TrackMode mode, ValueCurve<T> curve, ValueCurve<T> min_curve, ValueCurve<T> max_curve) : m_mode(mode), m_curve(curve), m_min_curve(min_curve), m_max_curve(max_curve) {}
 		ValueTrack(T value) : m_mode(TrackMode::Constant), m_value(value) {}
 		ValueTrack(T min, T max) : m_mode(TrackMode::ConstantRandom), m_min(min), m_max(max) {}
-		ValueTrack(std::vector<T> values) : m_mode(TrackMode::Curve), m_curve(values) {}
-		ValueTrack(std::vector<T> min_values, std::vector<T> max_values) : m_mode(TrackMode::CurveRandom), m_min_curve(min_values), m_max_curve(max_values) {}
+		ValueTrack(vector<T> values) : m_mode(TrackMode::Curve), m_curve(values) {}
+		ValueTrack(vector<T> min_values, vector<T> max_values) : m_mode(TrackMode::CurveRandom), m_min_curve(min_values), m_max_curve(max_values) {}
 
 		void set_mode(TrackMode mode)
 		{
@@ -70,9 +70,9 @@ namespace mud
 			else if(mode == TrackMode::ConstantRandom)
 				*this = ValueTrack<T>(T(), T());
 			else if(mode == TrackMode::Curve)
-				*this = ValueTrack<T>(std::vector<T>(2, T()));
+				*this = ValueTrack<T>(vector<T>(2, T()));
 			else if(mode == TrackMode::CurveRandom)
-				*this = ValueTrack<T>(std::vector<T>(2, T()), std::vector<T>(2, T()));
+				*this = ValueTrack<T>(vector<T>(2, T()), vector<T>(2, T()));
 		}
 
 		T sample(float t, float seed = 0.f)
@@ -80,11 +80,11 @@ namespace mud
 			if(m_mode == TrackMode::Constant)
 				return m_value;
 			else if(m_mode == TrackMode::ConstantRandom)
-				return mud::lerp(m_min, m_max, seed);
+				return lerp(m_min, m_max, seed);
 			else if(m_mode == TrackMode::Curve)
 				return m_value * m_curve.sample_curve(t);
 			else //if(m_mode == TrackMode::CurveRandom)
-				return mud::lerp(m_min * m_min_curve.sample_curve(t), m_max * m_max_curve.sample_curve(t), seed);
+				return lerp(m_min * m_min_curve.sample_curve(t), m_max * m_max_curve.sample_curve(t), seed);
 		}
 
 		attr_ TrackMode m_mode;

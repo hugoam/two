@@ -48,7 +48,7 @@ namespace mud
             // members
             {
                 { type<mud::Tile>(), member_address(&mud::Tile::m_index), type<uint32_t>(), "index", var(uint32_t()), Member::Value, nullptr },
-                { type<mud::Tile>(), member_address(&mud::Tile::m_name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<mud::Tile>(), member_address(&mud::Tile::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
                 { type<mud::Tile>(), member_address(&mud::Tile::m_symmetry), type<char>(), "symmetry", var(char()), Member::Value, nullptr },
                 { type<mud::Tile>(), member_address(&mud::Tile::m_cardinality), type<int>(), "cardinality", var(int()), Member::Value, nullptr },
                 { type<mud::Tile>(), member_address(&mud::Tile::m_profile), type<int>(), "profile", var(int()), Member::Value, nullptr }
@@ -79,7 +79,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Tileset>(), member_address(&mud::Tileset::m_name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
+                { type<mud::Tileset>(), member_address(&mud::Tileset::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
                 { type<mud::Tileset>(), member_address(&mud::Tileset::m_tile_size), type<mud::vec3>(), "tile_size", var(mud::vec3()), Member::Value, nullptr },
                 { type<mud::Tileset>(), member_address(&mud::Tileset::m_tile_scale), type<mud::vec3>(), "tile_scale", var(mud::vec3()), Member::Value, nullptr },
                 { type<mud::Tileset>(), member_address(&mud::Tileset::m_num_tiles), type<uint16_t>(), "nutiles", var(uint16_t()), Member::Value, nullptr }
@@ -182,15 +182,15 @@ namespace mud
         m.m_types.push_back(&type<mud::TileWave>());
         m.m_types.push_back(&type<mud::WaveTileset>());
         {
-            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::parse_json_tileset(val<std::string>(args[0]), val<std::string>(args[1]), val<mud::Tileset>(args[2])); };
-            std::vector<Param> params = { { "path", var(std::string()) }, { "subset", var(std::string()) }, { "outputTileset", var(mud::Tileset()), Param::Output } };
-            static Function f = { &namspc({ "mud" }), "parse_json_tileset", function_id<void(*)(const std::string&, const std::string&, mud::Tileset&)>(&mud::parse_json_tileset), func, params, Var() };
+            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::parse_json_tileset(val<string>(args[0]), val<string>(args[1]), val<mud::Tileset>(args[2])); };
+            vector<Param> params = { { "path", var(string()) }, { "subset", var(string()) }, { "outputTileset", var(mud::Tileset()), Param::Output } };
+            static Function f = { &namspc({ "mud" }), "parse_json_tileset", function_id<void(*)(const string&, const string&, mud::Tileset&)>(&mud::parse_json_tileset), func, params, Var() };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::parse_json_wave_tileset(val<std::string>(args[0]), val<std::string>(args[1]), val<mud::WaveTileset>(args[2])); };
-            std::vector<Param> params = { { "path", var(std::string()) }, { "subset", var(std::string()) }, { "outputTileset", var(mud::WaveTileset()), Param::Output } };
-            static Function f = { &namspc({ "mud" }), "parse_json_wave_tileset", function_id<void(*)(const std::string&, const std::string&, mud::WaveTileset&)>(&mud::parse_json_wave_tileset), func, params, Var() };
+            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::parse_json_wave_tileset(val<string>(args[0]), val<string>(args[1]), val<mud::WaveTileset>(args[2])); };
+            vector<Param> params = { { "path", var(string()) }, { "subset", var(string()) }, { "outputTileset", var(mud::WaveTileset()), Param::Output } };
+            static Function f = { &namspc({ "mud" }), "parse_json_wave_tileset", function_id<void(*)(const string&, const string&, mud::WaveTileset&)>(&mud::parse_json_wave_tileset), func, params, Var() };
             m.m_functions.push_back(&f);
         }
     }

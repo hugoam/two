@@ -107,7 +107,7 @@ namespace mud
 
 		ReflectionUniform u_uniform;
 
-		std::vector<ReflectionCubemap> m_cubemaps;
+		vector<ReflectionCubemap> m_cubemaps;
 
 		ReflectionAtlas m_atlas;
 

@@ -3,8 +3,15 @@
 #ifdef MUD_MODULES
 module mud.gfx-pbr;
 #else
+#include <meta/infra/Module.h>
+#include <meta/type/Module.h>
+#include <meta/math/Module.h>
+#include <meta/geom/Module.h>
+#include <meta/gfx/Module.h>
 #include <meta/gfx-pbr/Module.h>
 #endif
+
+#include <gfx-pbr/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/gfx-pbr/Convert.h>

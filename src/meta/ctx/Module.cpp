@@ -3,8 +3,13 @@
 #ifdef MUD_MODULES
 module mud.ctx;
 #else
+#include <meta/infra/Module.h>
+#include <meta/type/Module.h>
+#include <meta/math/Module.h>
 #include <meta/ctx/Module.h>
 #endif
+
+#include <ctx/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/ctx/Convert.h>

@@ -4,15 +4,15 @@
 
 #pragma once
 
-#include <infra/Config.h>
+#include <type/Ref.h>
+#include <type/Any.h>
+#include <refl/Forward.h>
 
-#ifndef MUD_CPP_20
-#include <cstring>
-#include <string>
-#endif
+#include <functional>
 
 namespace mud
 {
-	export_ using cstring = const char*;
-	export_ using string = std::string;
+	export_ using VirtualMethod = std::function<void(Method&, Ref, array<Var>)>;
+
+	export_ template <> MUD_REFL_EXPORT Type& type<VirtualMethod>();
 }

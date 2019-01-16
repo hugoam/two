@@ -52,8 +52,8 @@ namespace mud
         meta_basetype<short>();
     }
     {
-        static Meta meta = { type<std::string>(), &namspc({}), "std::string", sizeof(std::string), TypeClass::BaseType };
-        meta_basetype<std::string>();
+        static Meta meta = { type<string>(), &namspc({}), "string", sizeof(string), TypeClass::BaseType };
+        meta_basetype<string>();
     }
     {
         static Meta meta = { type<unsigned char>(), &namspc({}), "unsigned char", sizeof(unsigned char), TypeClass::BaseType };
@@ -88,10 +88,10 @@ namespace mud
     
     // Sequences
     {
-        static Meta meta = { type<std::vector<mud::Ref>>(), &namspc({}), "std::vector<mud::Ref>", sizeof(std::vector<mud::Ref>), TypeClass::Sequence };
-        static Class cls = { type<std::vector<mud::Ref>>() };
+        static Meta meta = { type<vector<mud::Ref>>(), &namspc({}), "vector<mud::Ref>", sizeof(vector<mud::Ref>), TypeClass::Sequence };
+        static Class cls = { type<vector<mud::Ref>>() };
         cls.m_content = &type<mud::Ref>();
-        meta_sequence<std::vector<mud::Ref>, mud::Ref>();
+        meta_sequence<vector<mud::Ref>, mud::Ref>();
     }
     
     // mud::Index
@@ -137,7 +137,7 @@ namespace mud
             // members
             {
                 { type<mud::Indexer>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Indexer>(object).m_type); } },
-                { type<mud::Indexer>(), member_address(&mud::Indexer::m_objects), type<std::vector<mud::Ref>>(), "objects", var(std::vector<mud::Ref>()), Member::Value, nullptr }
+                { type<mud::Indexer>(), member_address(&mud::Indexer::m_objects), type<vector<mud::Ref>>(), "objects", var(vector<mud::Ref>()), Member::Value, nullptr }
             },
             // methods
             {
@@ -246,8 +246,8 @@ namespace mud
         m.m_types.push_back(&type<long>());
         m.m_types.push_back(&type<long long>());
         m.m_types.push_back(&type<short>());
-        m.m_types.push_back(&type<std::string>());
-        m.m_types.push_back(&type<std::vector<mud::Ref>>());
+        m.m_types.push_back(&type<string>());
+        m.m_types.push_back(&type<vector<mud::Ref>>());
         m.m_types.push_back(&type<unsigned char>());
         m.m_types.push_back(&type<unsigned int>());
         m.m_types.push_back(&type<unsigned long>());
@@ -257,7 +257,7 @@ namespace mud
         m.m_types.push_back(&type<void*>());
         {
             auto func = [](array<Var> args, Var& result) {  result = mud::indexed(val<mud::Type>(args[0]), val<uint32_t>(args[1])); };
-            std::vector<Param> params = { { "type", Ref(type<mud::Type>()) }, { "id", var(uint32_t()) } };
+            vector<Param> params = { { "type", Ref(type<mud::Type>()) }, { "id", var(uint32_t()) } };
             static Function f = { &namspc({ "mud" }), "indexed", function_id<mud::Ref(*)(mud::Type&, uint32_t)>(&mud::indexed), func, params, Ref() };
             m.m_functions.push_back(&f);
         }

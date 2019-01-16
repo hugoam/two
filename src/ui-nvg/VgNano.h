@@ -7,7 +7,7 @@
 #include <ui/Generated/Forward.h>
 #include <ui/Render/Renderer.h>
 
-#include <map>
+#include <stl/map.h>
 
 struct NVGcontext;
 struct NVGdisplayList;
@@ -80,7 +80,7 @@ namespace mud
 		virtual float text_size(cstring text, size_t len, Dim dim, const TextPaint& paint) final;
 		virtual vec2 text_size(cstring text, size_t len, const TextPaint& paint) final;
 
-		virtual void break_text(cstring text, size_t len, const vec2& space, const TextPaint& paint, std::vector<TextRow>& text_rows) final;
+		virtual void break_text(cstring text, size_t len, const vec2& space, const TextPaint& paint, vector<TextRow>& text_rows) final;
 
 	private:
 		void setup_text(const TextPaint& paint);
@@ -94,6 +94,6 @@ namespace mud
 
 		float m_line_height;
 
-		std::map<const Layer*, NVGdisplayList*> m_layers;
+		map<const Layer*, NVGdisplayList*> m_layers;
 	};
 }

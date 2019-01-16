@@ -4,7 +4,7 @@
 
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
-#include <map>
+#include <stl/map.h>
 #endif
 
 #ifdef MUD_MODULES
@@ -32,7 +32,7 @@ namespace mud
 
 		Colour colour(Type& type, const Colour& fallback) { return m_colours.find(&type) != m_colours.end() ? m_colours[&type] : fallback; }
 
-		std::map<Type*, Colour> m_colours;
+		map<Type*, Colour> m_colours;
 	};
 
 	TypeColours::TypeColours()
@@ -165,7 +165,7 @@ namespace mud
 
 	void process_display(Widget& parent, ProcessDisplay& process)
 	{
-		process.inputValue().m_stream.visit(true, [&](StreamBranch& branch) {
+		process.m_input_value.m_stream.visit(true, [&](StreamBranch& branch) {
 			Ref value = branch.m_value;
 			value_edit(parent, value); // value_display
 		});
@@ -283,9 +283,9 @@ namespace mud
 		return canvas;
 	}
 
-	void visual_script_edit(Widget& parent, VisualScript& script, ActionList actions)
+	Section& visual_script_edit(Widget& parent, VisualScript& script)
 	{
-		Section& self = section(parent, script.m_name.c_str(), actions);
+		Section& self = section(parent, script.m_name.c_str());
 
 		Canvas& canvas = script_canvas(*self.m_body, script);
 
@@ -293,5 +293,6 @@ namespace mud
 			ui::canvas_autolayout(canvas);
 
 		ui::toggle(*self.m_toolbar, canvas.m_rounded_links, "Rounded Links");
+		return self;
 	}
 }

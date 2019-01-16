@@ -5,7 +5,6 @@
 #include <cstdint>
 #include <climits>
 
-#include <algorithm>
 #include <type_traits>
 
 namespace mud
@@ -63,7 +62,7 @@ template<typename T, size_t N = 1,
         typename = typename std::enable_if<std::is_integral<T>::value &&
                                            std::is_unsigned<T>::value>::type>
 class bitset {
-    T storage[N];
+	T storage[N] = {};
 
 public:
     static constexpr T BITS_PER_WORD = sizeof(T) * 8;
@@ -72,9 +71,7 @@ public:
     using container_type = T;
 
     bitset()
-	{
-        std::fill(std::begin(storage), std::end(storage), 0);
-    }
+	{}
 
     T at(size_t n) const
 	{

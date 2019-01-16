@@ -3,8 +3,8 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <gfx/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <string>
+#ifndef MUD_CPP20
+#include <algorithm>
 #endif
 
 #include <bgfx/bgfx.h>
@@ -17,6 +17,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/string.h>
 #include <gfx/Texture.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Node3.h>
@@ -25,8 +26,6 @@ module mud.gfx;
 
 namespace mud
 {
-	using string = std::string;
-
 	string readable_file_size(double size)
 	{
 		int i = 0;

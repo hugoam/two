@@ -1,6 +1,9 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
+#include <stl/map.h>
+#include <stl/memory.h>
 #include <ecs/Proto.h>
 #include <math/Colour.h>
 #include <math/Image256.h>
@@ -8,12 +11,6 @@
 #include <geom/Shapes.h>
 #endif
 #include <fract/Forward.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#include <map>
-#include <memory>
-#endif
 
 namespace mud
 {
@@ -93,7 +90,7 @@ namespace mud
 		meth_ void regen();
 		meth_ void render(const Rect& rect, const Pattern& pattern, uvec2 resolution, Image256& output_image);
 		meth_ void render_whole(const Pattern& pattern, uvec2 resolution, Image256& output_image);
-		meth_ void render_grid(uvec2 size, const Pattern& pattern, uvec2 resolution, std::vector<Image256>& output_images);
+		meth_ void render_grid(uvec2 size, const Pattern& pattern, uvec2 resolution, vector<Image256>& output_images);
 
 		int inverse_point(float& x, float& y);		
 
@@ -104,7 +101,7 @@ namespace mud
 
 		attr_ size_t m_num_tabs;
 		size_t m_update;
-		std::vector<FractTab> m_tabs;
+		vector<FractTab> m_tabs;
 	};
 
 	export_ class refl_ MUD_FRACT_EXPORT FractSample

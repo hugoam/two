@@ -15,9 +15,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 #include <noise/Structs.h>
@@ -34,6 +34,6 @@ namespace mud
     export_ template <> MUD_NOISE_EXPORT Type& type<mud::Noise>();
     export_ template <> MUD_NOISE_EXPORT Type& type<mud::array_3d<float>>();
     
-    export_ template struct MUD_NOISE_EXPORT Typed<std::vector<mud::Noise*>>;
-    export_ template struct MUD_NOISE_EXPORT Typed<std::vector<mud::array_3d<float>*>>;
+    export_ template struct MUD_NOISE_EXPORT Typed<vector<mud::Noise*>>;
+    export_ template struct MUD_NOISE_EXPORT Typed<vector<mud::array_3d<float>*>>;
 }

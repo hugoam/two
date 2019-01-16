@@ -5,19 +5,15 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
+#include <stl/string.h>
 #include <math/Colour.h>
 #include <math/Vec.h>
 #endif
 #include <ui/Frame/Dim.h>
 
-#ifndef MUD_CPP_20
-#include <vector>
-#include <string>
-#endif
-
 namespace mud
 {
-	using string = std::string;
 	using cstring = const char*;
 
 	export_ struct refl_ MUD_UI_EXPORT Layout
@@ -46,8 +42,8 @@ namespace mud
 		attr_ int m_zorder = 0;
 		attr_ bool m_no_grid = false;
 
-		attr_ std::vector<Space> m_grid_division;
-		attr_ std::vector<float> m_table_division;
+		attr_ vector<Space> m_grid_division;
+		attr_ vector<float> m_table_division;
 
 		attr_ size_t m_updated = 0;
 	};

@@ -40,7 +40,6 @@ namespace mud
 	void screen_space_rect(Render& render, const Camera& camera, const mat4& mat, const vec2& lo, const vec2& hi, const Colour& colour)
 	{
 		static const mat4 identity = bxidentity();
-		auto mulp = [](const mat4& mat, const vec3& p) { return vec3(mat * vec4(p, 1.f)); };
 
 		const float proj_height = bx::tan(bx::toRad(camera.m_fov) * 0.5f);
 		const float proj_width = proj_height * camera.m_aspect;
@@ -304,12 +303,12 @@ namespace mud
 		const mat4 world_to_clip = render.m_camera.m_projection * render.m_camera.m_transform;
 		const mat4 camera_to_world = inverse(render.m_camera.m_transform);
 
-		std::vector<Item*> items = render.m_shot->m_items;
+		vector<Item*> items = render.m_shot->m_items;
 		render.m_shot->m_items.clear();
 
 		Plane near = render.m_camera.near_plane();
 
-		std::vector<Item*> culled;
+		vector<Item*> culled;
 		for(Item* item : items)
 		{
 			if((item->m_flags & ItemFlag::Occluder) != 0)

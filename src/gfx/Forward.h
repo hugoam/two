@@ -5,6 +5,7 @@
 #include <infra/Config.h>
 
 #include <infra/Forward.h>
+#include <jobs/Forward.h>
 #include <type/Forward.h>
 #include <pool/Forward.h>
 #include <math/Forward.h>
@@ -99,7 +100,7 @@ namespace mud
     class Mesh;
     struct Particle;
     struct ParticleSort;
-    struct ParticleGenerator;
+    struct ParticleFlow;
     struct ParticleVertex;
     struct Particles;
     class ParticleSystem;

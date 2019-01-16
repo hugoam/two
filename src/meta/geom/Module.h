@@ -4,16 +4,8 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef MUD_MODULES
-#include <meta/type/Module.h>
-#include <meta/math/Module.h>
-#endif
-
 #include <geom/Forward.h>
 #include <geom/Types.h>
-#include <geom/Api.h>
-
-#include <meta/geom/Convert.h>
 
 #ifndef MUD_GEOM_REFL_EXPORT
 #define MUD_GEOM_REFL_EXPORT MUD_IMPORT

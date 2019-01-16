@@ -9,7 +9,7 @@
 #include <obj/Reflect/Class.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -29,8 +29,8 @@ namespace mud
 	struct MUD_TYPE_EXPORT Args
 	{
 		Args() : m_args() {}
-		Args(std::vector<Arg> args) : m_args(args) {}
-		std::vector<Arg> m_args;
+		Args(vector<Arg> args) : m_args(args) {}
+		vector<Arg> m_args;
 	};
 
 	inline void set_args(Ref object, const Args& args)

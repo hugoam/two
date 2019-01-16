@@ -13,7 +13,7 @@
 #include <bgfx/bgfx.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -53,7 +53,7 @@ namespace mud
 		bgfx::FrameBufferHandle m_fbo[6];
 		bgfx::TextureHandle m_color;
 
-		std::vector<Slot> m_slots;
-		std::vector<Slot*> m_free_slots;
+		vector<Slot> m_slots;
+		vector<Slot*> m_free_slots;
 	};
 }

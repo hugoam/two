@@ -3,8 +3,12 @@
 #ifdef MUD_MODULES
 module mud.math;
 #else
+#include <meta/infra/Module.h>
+#include <meta/type/Module.h>
 #include <meta/math/Module.h>
 #endif
+
+#include <math/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/math/Convert.h>

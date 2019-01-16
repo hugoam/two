@@ -95,11 +95,12 @@ namespace mud
 		Light& m_light;
 	};
 
-	std::vector<Item*> filter_cull(Scene& scene, std::function<bool(Item&)> filter)
+	template <class T_Filter>
+	vector<Item*> filter_cull(Scene& scene, T_Filter filter, bool nofilter = false)
 	{
-		std::vector<Item*> culled;
+		vector<Item*> culled;
 		scene.m_pool->pool<Item>().iterate([&](Item& item) {
-			if(!filter || filter(item))
+			if(nofilter || filter(item))
 			{
 				culled.push_back(&item);
 			}
@@ -107,11 +108,12 @@ namespace mud
 		return culled;
 	}
 
-	std::vector<Item*> frustum_cull(Scene& scene, const Plane6& frustum_planes, std::function<bool(Item&)> filter)
+	template <class T_Filter>
+	vector<Item*> frustum_cull(Scene& scene, const Plane6& frustum_planes, T_Filter filter, bool nofilter = false)
 	{
-		std::vector<Item*> culled;
+		vector<Item*> culled;
 		scene.m_pool->pool<Item>().iterate([&](Item& item) {
-			if(!filter || filter(item))
+			if(nofilter || filter(item))
 			{
 				if(frustum_aabb_intersection(frustum_planes, item.m_aabb))
 					culled.push_back(&item);
@@ -120,7 +122,7 @@ namespace mud
 		return culled;
 	}
 
-	void cull_shadow_render(Render& render, std::vector<Item*>& result, const Plane6& planes)
+	void cull_shadow_render(Render& render, vector<Item*>& result, const Plane6& planes)
 	{
 		auto filter = [](Item& item) { return item.m_visible && item.m_model->m_geometry[PLAIN] && (item.m_flags & ItemFlag::Shadows) != 0; };
 		result = filter_cull(render.m_scene, filter);
@@ -130,7 +132,7 @@ namespace mud
 			item->m_depth = distance(planes.m_near, item->m_aabb.m_center);
 	}
 
-	void cull_shadow_render(Render& render, std::vector<Item*>& result, const mat4& projection, const mat4& transform)
+	void cull_shadow_render(Render& render, vector<Item*>& result, const mat4& projection, const mat4& transform)
 	{
 		Plane6 planes = frustum_planes(projection, transform);
 		cull_shadow_render(render, result, planes);
@@ -171,7 +173,7 @@ namespace mud
 		light_bounds.max.z = zmax;
 	}
 
-	void light_slice_cull(Render& render, Light& light, LightBounds& light_bounds, std::vector<Item*>& result)
+	void light_slice_cull(Render& render, Light& light, LightBounds& light_bounds, vector<Item*>& result)
 	{
 		vec3 x = light.m_node.axis(X3);
 		vec3 y = light.m_node.axis(Y3);
@@ -243,7 +245,7 @@ namespace mud
 	void update_shadow_slice(Render& render, Light& light, size_t num_direct, size_t index, const mat4& light_transform, const mat4& light_proj, 
 							 FrustumSlice& slice, LightShadow& shadow, LightShadow::Slice& shadow_slice, size_t csm_size)
 	{
-		shadow_slice.m_viewport_rect = csm_rect(uint(csm_size), num_direct, light, index, slice.m_index);
+		shadow_slice.m_viewport_rect = vec4(csm_rect(uint(csm_size), num_direct, light, index, slice.m_index));
 
 		shadow_slice.m_light_bounds = light_slice_bounds(slice.m_frustum, light_transform);
 
@@ -305,7 +307,7 @@ namespace mud
 			if(bgfx::getCaps()->originBottomLeft)
 				viewport_rect.y = 4096 - viewport_rect.y - rect_h(viewport_rect);
 
-			ShadowRender shadow_render = { render, light, m_csm.m_fbo, viewport_rect, slice.m_transform, slice.m_projection };
+			ShadowRender shadow_render = { render, light, m_csm.m_fbo, uvec4(viewport_rect), slice.m_transform, slice.m_projection };
 			shadow_render.m_sub_render.m_shot->m_items = slice.m_items;
 			shadow_render.render(*this, slice.m_bias_scale);
 		}

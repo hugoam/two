@@ -1,21 +1,17 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/string.h>
+#include <stl/vector.h>
+#include <stl/map.h>
 #include <type/Type.h>
 #include <gfx/Importer.h>
 #endif
 #include <gfx-obj/Forward.h>
 
-#ifndef MUD_CPP_20
-#include <string>
-#include <map>
-#include <vector>
-#endif
-
 namespace mud
 {
-	using string = std::string;
-	using MaterialMap = std::map<string, Material*>;
+	using MaterialMap = map<string, Material*>;
 
 	export_ class MUD_GFX_OBJ_EXPORT ImporterOBJ : public Importer
 	{

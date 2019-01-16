@@ -42,7 +42,7 @@ namespace mud
 		attr_ float m_cursor = 0.f;
 		attr_ bool m_ended = false;
 
-		std::vector<AnimatedTrack> m_tracks;
+		vector<AnimatedTrack> m_tracks;
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT Animated
@@ -54,8 +54,8 @@ namespace mud
 		Node3& m_node;
 		Rig m_rig;
 
-		attr_ std::vector<AnimationPlay> m_playing;
-		attr_ std::vector<Animation*> m_queue;
+		attr_ vector<AnimationPlay> m_playing;
+		attr_ vector<Animation*> m_queue;
 
 		attr_ bool m_active = true;
 

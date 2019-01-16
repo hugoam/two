@@ -5,6 +5,8 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/string.h>
+#include <stl/map.h>
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
 #include <type/Any.h>
@@ -13,15 +15,8 @@
 #endif
 #include <lang/Forward.h>
 
-#ifndef MUD_CPP_20
-#include <map>
-#include <string>
-#endif
-
 namespace mud
 {
-	using string = std::string;
-
 	export_ class refl_ MUD_LANG_EXPORT Script : public Callable
 	{
 	public:
@@ -64,8 +59,8 @@ namespace mud
 		using Callable::operator();
 		virtual void operator()(array<Var> args, Var& result) const;
 
-		mutable std::map<int, ScriptError> m_compile_errors;
-		mutable std::map<int, ScriptError> m_runtime_errors;
+		mutable map<int, ScriptError> m_compile_errors;
+		mutable map<int, ScriptError> m_runtime_errors;
 	};
 
 	export_ class refl_ MUD_LANG_EXPORT Interpreter : public NonCopy
@@ -105,7 +100,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT ScriptClass : public NonCopy
 	{
 	public:
-		constr_ ScriptClass(const string& name, const std::vector<Type*>& parts);
+		constr_ ScriptClass(const string& name, const vector<Type*>& parts);
 
 		attr_ string m_name;
 		attr_ Type m_class_type;

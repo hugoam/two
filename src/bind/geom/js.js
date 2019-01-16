@@ -671,7 +671,7 @@ Circle.prototype["__destroy__"] = Circle.prototype.__destroy__ = function() {
 };
 // ConvexHull
 function ConvexHull(vertices) {
-    /* vertices <std::vector<mud::vec3>> [] */
+    /* vertices <vector<mud::vec3>> [] */
     if(typeof vertices !== "undefined" && vertices !== null) { vertices = vertices.ptr; }
     if (vertices === undefined) { this.ptr = _mud_ConvexHull_ConvexHull_0(); getCache(ConvexHull)[this.ptr] = this; return; }
     this.ptr = _mud_ConvexHull_ConvexHull_1(vertices); getCache(ConvexHull)[this.ptr] = this;
@@ -846,7 +846,7 @@ Grid2.prototype["__destroy__"] = Grid2.prototype.__destroy__ = function() {
 function Grid3(size, points) {
     /* size <uvec2> [] */
     if(typeof size !== "undefined" && size !== null) { size = size.ptr; }
-    /* points <std::vector<mud::vec3>> [] */
+    /* points <vector<mud::vec3>> [] */
     if(typeof points !== "undefined" && points !== null) { points = points.ptr; }
     if (size === undefined) { this.ptr = _mud_Grid3_Grid3_0(); getCache(Grid3)[this.ptr] = this; return; }
     if (points === undefined) { this.ptr = _mud_Grid3_Grid3_1(size); getCache(Grid3)[this.ptr] = this; return; }
@@ -919,7 +919,7 @@ Line.prototype["__destroy__"] = Line.prototype.__destroy__ = function() {
 };
 // Points
 function Points(points) {
-    /* points <std::vector<mud::vec3>> [] */
+    /* points <vector<mud::vec3>> [] */
     if(typeof points !== "undefined" && points !== null) { points = points.ptr; }
     if (points === undefined) { this.ptr = _mud_Points_Points_0(); getCache(Points)[this.ptr] = this; return; }
     this.ptr = _mud_Points_Points_1(points); getCache(Points)[this.ptr] = this;
@@ -960,7 +960,7 @@ Poisson.prototype["__destroy__"] = Poisson.prototype.__destroy__ = function() {
 };
 // Polygon
 function Polygon(vertices) {
-    /* vertices <std::vector<mud::vec3>> [] */
+    /* vertices <vector<mud::vec3>> [] */
     if(typeof vertices !== "undefined" && vertices !== null) { vertices = vertices.ptr; }
     if (vertices === undefined) { this.ptr = _mud_Polygon_Polygon_0(); getCache(Polygon)[this.ptr] = this; return; }
     this.ptr = _mud_Polygon_Polygon_1(vertices); getCache(Polygon)[this.ptr] = this;

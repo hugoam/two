@@ -9,7 +9,7 @@ module mud.gfx-edit;
 #else
 #include <type/Any.h>
 #include <infra/Vector.h>
-#include <infra/StringConvert.h>
+//#include <infra/ToString.h>
 #include <refl/Convert.h>
 #include <refl/System.h>
 #include <ui/Structs/Container.h>
@@ -65,7 +65,7 @@ namespace mud
 		Section& self = section(parent, "Prefab Inspector");
 
 		static cstring types[6] = { "None", "Item", "Model", "Shape", "Particles", "Light" };
-		static std::vector<Function*> functions = { nullptr, &function(gfx::item), &function(gfx::model), &function(gfx::shape), &function(&gfx::particles), &function(gfx::light) };
+		static vector<Function*> functions = { nullptr, &function(gfx::item), &function(gfx::model), &function(gfx::shape), &function(&gfx::particles), &function(gfx::light) };
 
 		static cstring columns[2] = { "field", "value" };
 		Widget& table = ui::table(*self.m_body, { columns, 2 }, {});

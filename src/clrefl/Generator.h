@@ -2,18 +2,19 @@
 
 #include <clang-c/Index.h>
 
+#include <stl/string.h>
+#include <stl/vector.h>
+#include <stl/map.h>
 #include <infra/String.h>
 #include <infra/File.h>
 #include <refl/Api.h>
 
 #include <json11.hpp>
 
-#include <string>
-#include <vector>
-#include <map>
 #include <set>
 #include <fstream>
 #include <functional>
+#include <algorithm>
 
 namespace mud
 {
@@ -22,21 +23,17 @@ namespace mud
 	// - handle aliases of known types (either by parsing using/typedef, or by checking canonical type always)
 	// - allow precompilation of separate modules
 
-	using std::string;
-	using std::vector;
-	using std::map;
-
 	using json11::Json;
 
 	template <class T, class... T_Args>
-	inline T& vector_emplace(std::vector<unique_ptr<T>>& vector, T_Args&&... args)
+	inline T& vector_emplace(vector<unique_ptr<T>>& vector, T_Args&&... args)
 	{
-		vector.push_back(make_unique<T>(std::forward<T_Args>(args)...));
+		vector.push_back(construct<T>(static_cast<T_Args&&>(args)...));
 		return static_cast<T&>(*vector.back());
 	}
 
 	template <class T_Value>
-	bool has(const std::vector<T_Value>& vector, const T_Value& key)
+	bool has(const vector<T_Value>& vector, const T_Value& key)
 	{
 		return vector_has(vector, key);
 	}
@@ -153,9 +150,9 @@ namespace mud
 		return result;
 	}
 
-	std::vector<string> get_annotations(CXCursor cursor)
+	vector<string> get_annotations(CXCursor cursor)
 	{
-		std::vector<string> annotations;
+		vector<string> annotations;
 		visit_children(cursor, [&](CXCursor c)
 		{
 			if(c.kind == CXCursor_AnnotateAttr)
@@ -169,7 +166,7 @@ namespace mud
 		return name.substr(0, name.find("<"));
 	}
 
-	std::vector<string> template_types(const string& name)
+	vector<string> template_types(const string& name)
 	{
 		return split(name.substr(name.find("<") + 1, name.rfind(">") - name.find("<") - 1), ",");
 	}
@@ -189,7 +186,7 @@ namespace mud
 			CXType named_type = clang_Type_getNamedType(type);
 			if(named_type.kind == CXType_Invalid)
 				return name;
-			std::vector<string> types = template_types(clean_name(spelling(named_type)));
+			vector<string> types = template_types(clean_name(spelling(named_type)));
 			return template_name(name) + "<" + join(types, ",") + ">";
 		}
 
@@ -216,7 +213,7 @@ namespace mud
 		return replace(type_name(type), "const ", "");
 	}
 
-	string substitute_template(const string& name, const std::vector<string>& template_types, const std::vector<string>& real_types)
+	string substitute_template(const string& name, const vector<string>& template_types, const vector<string>& real_types)
 	{
 		string result = name;
 		for(size_t i = 0; i < template_types.size(); ++i)
@@ -260,7 +257,7 @@ namespace mud
 		bool m_is_template = false;
 		bool m_is_templated = false;
 
-		std::vector<string> m_annotations;
+		vector<string> m_annotations;
 
 		virtual string fix_template(const string& name) { return name; };
 	};
@@ -314,7 +311,7 @@ namespace mud
 				m_type_kind = CLTypeKind::Float;
 			else if(vector_has({ "char*", "const char*" }, name))
 				m_type_kind = CLTypeKind::CString;
-			else if(vector_has({ "std::string" }, name))
+			else if(vector_has({ "string" }, name))
 				m_type_kind = CLTypeKind::String;
 		}
 
@@ -324,9 +321,9 @@ namespace mud
 		bool m_move_only = false;
 		bool m_pointer = false;
 
-		std::vector<CLType*> m_bases;
-		std::vector<CLType*> m_deep_bases;
-		std::vector<string> m_aliases;
+		vector<CLType*> m_bases;
+		vector<CLType*> m_deep_bases;
+		vector<string> m_aliases;
 	};
 
 	struct CLQualType
@@ -385,10 +382,10 @@ namespace mud
 
 		bool m_scoped = false;
 		string m_enum_type;
-		std::vector<string> m_ids;
-		std::vector<string> m_values;
+		vector<string> m_ids;
+		vector<string> m_values;
 
-		std::vector<string> m_scoped_ids;
+		vector<string> m_scoped_ids;
 	};
 
 	class CLSequence : public CLType
@@ -436,7 +433,7 @@ namespace mud
 		{}
 
 		CLQualType m_return_type;
-		std::vector<CLParam> m_params;
+		vector<CLParam> m_params;
 		size_t m_min_args = 0;
 		bool m_overloaded = false;
 	};
@@ -483,10 +480,10 @@ namespace mud
 	{
 	public:
 		CLMember(CLClass& parent)
-			: m_parent(parent)
+			: m_parent(&parent)
 		{}
 
-		CLClass& m_parent;
+		CLClass* m_parent;
 		CLQualType m_type;
 
 		unique_ptr<CLMethod> m_method = {};
@@ -496,7 +493,7 @@ namespace mud
 		string m_name;
 		string m_capname;
 
-		std::vector<string> m_annotations;
+		vector<string> m_annotations;
 
 		bool m_nonmutable = false;
 		bool m_structure = false;
@@ -518,12 +515,12 @@ namespace mud
 
 		CXCursor m_cursor;
 
-		std::vector<CLConstructor> m_constructors;
-		std::vector<CLMember> m_members;
-		std::vector<CLMethod> m_methods;
-		std::vector<CLStatic> m_statics;
+		vector<CLConstructor> m_constructors;
+		vector<CLMember> m_members;
+		vector<CLMethod> m_methods;
+		vector<CLStatic> m_statics;
 
-		std::vector<string> m_annotations;
+		vector<string> m_annotations;
 
 		bool m_array = false;
 		size_t m_array_size = 0;
@@ -533,7 +530,7 @@ namespace mud
 		string m_template_name;
 		bool m_template_used = false;
 		CLClass* m_template = nullptr;
-		std::vector<string> m_template_types;
+		vector<string> m_template_types;
 
 		string fix_template_element(const string& name)
 		{
@@ -546,7 +543,7 @@ namespace mud
 		virtual string fix_template(const string& name) override
 		{
 			// first fix nested template types
-			std::vector<string> real_types;
+			vector<string> real_types;
 			for(const string& t : template_types(name))
 				real_types.push_back(this->fix_template_element(t));
 			string result = substitute_template(name, template_types(name), real_types);
@@ -567,13 +564,13 @@ namespace mud
 
 		CLNamespace m_root_namespace;
 
-		std::map<string, CLType*> m_types;
-		std::map<string, CLClass*> m_class_templates;
-		std::map<string, CLFunction*> m_func_templates;
+		map<string, CLType*> m_types;
+		map<string, CLClass*> m_class_templates;
+		map<string, CLFunction*> m_func_templates;
 
-		std::map<string, unique_ptr<CLNamespace>> m_namespaces;
+		map<string, unique_ptr<CLNamespace>> m_namespaces;
 
-		std::vector<string> m_base_aliases;
+		vector<string> m_base_aliases;
 
 		std::set<string> m_parsed_files;
 
@@ -590,7 +587,7 @@ namespace mud
 	{
 	public:
 		CLModule(CLContext& context, const string& nemespace, const string& name, const string& dotname, const string& id, 
-				 const string& rootdir, const string& subdir, const string& path, std::vector<string> includedirs, std::vector<CLModule*> dependencies)
+				 const string& rootdir, const string& subdir, const string& path, vector<string> includedirs, vector<CLModule*> dependencies)
 			: m_context(context), m_namespace(nemespace), m_name(name), m_dotname(dotname), m_id(id), m_rootdir(rootdir), m_subdir(subdir), m_path(path)
 			, m_includedirs(includedirs), m_dependencies(dependencies)
 		{
@@ -616,31 +613,31 @@ namespace mud
 		string m_subdir;
 		string m_path;
 
-		std::vector<string> m_includedirs;
-		std::vector<CLModule*> m_dependencies;
+		vector<string> m_includedirs;
+		vector<CLModule*> m_dependencies;
 
 		string m_preproc_name;
 		string m_export;
 		string m_refl_export;
 
-		std::vector<CLModule*> m_modules;
+		vector<CLModule*> m_modules;
 
 		string m_refl_path;
 		string m_bind_path;
 
 		bool m_has_structs;
 
-		std::vector<unique_ptr<CLClass>> m_classes = {};
-		std::vector<unique_ptr<CLClass>> m_class_templates = {};
-		std::vector<unique_ptr<CLEnum>> m_enums = {};
-		std::vector<unique_ptr<CLSequence>> m_sequences = {};
-		std::vector<unique_ptr<CLBaseType>> m_basetypes = {};
-		std::vector<unique_ptr<CLType>> m_extern_types = {};
+		vector<unique_ptr<CLClass>> m_classes = {};
+		vector<unique_ptr<CLClass>> m_class_templates = {};
+		vector<unique_ptr<CLEnum>> m_enums = {};
+		vector<unique_ptr<CLSequence>> m_sequences = {};
+		vector<unique_ptr<CLBaseType>> m_basetypes = {};
+		vector<unique_ptr<CLType>> m_extern_types = {};
 
-		std::vector<CLType*> m_types = {};
+		vector<CLType*> m_types = {};
 
-		std::vector<unique_ptr<CLFunction>> m_functions = {};
-		std::vector<unique_ptr<CLFunction>> m_func_templates = {};
+		vector<unique_ptr<CLFunction>> m_functions = {};
+		vector<unique_ptr<CLFunction>> m_func_templates = {};
 
 		CLNamespace& get_namespace(const string& name, CLPrimitive& parent)
 		{
@@ -703,7 +700,7 @@ namespace mud
 
 		CLType& register_type(CLPrimitive& parent, const string& clsname)
 		{
-			for(const string& name : { "std::vector", "std::list", "mud::array", "array" })
+			for(const string& name : { "vector", "std::list", "mud::array", "array" })
 				if(clsname.find(name) == 0)
 				{
 					string content_name = template_types(clsname)[0];

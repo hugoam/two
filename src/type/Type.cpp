@@ -6,13 +6,13 @@
 #ifndef MUD_CPP_20
 #include <cstring>
 #include <cstdio>
-#include <vector>
-#include <string>
 #endif
 
 #ifdef MUD_MODULES
 module mud.obj;
 #else
+#include <stl/vector.h>
+#include <stl/string.h>
 #include <type/Type.h>
 #include <type/Vector.h>
 #include <type/Indexer.h>
@@ -21,13 +21,11 @@ module mud.obj;
 
 namespace mud
 {
-	using string = std::string;
-
 	const unsigned int c_max_types = 1000U;
 
 #ifdef MUD_CONTAINER_TYPES_2
-	std::vector<Type> g_vector_types = std::vector<Type>(1000U);
-	std::vector<Type> g_array_types = std::vector<Type>(1000U);
+	vector<Type> g_vector_types = vector<Type>(1000U);
+	vector<Type> g_array_types = vector<Type>(1000U);
 #endif
 
 	bool Address::operator==(const Address& other) const

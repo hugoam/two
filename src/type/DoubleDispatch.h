@@ -4,13 +4,9 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <type/Ref.h>
 #include <type/Type.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#include <functional>
-#endif
 
 namespace mud
 {
@@ -46,6 +42,6 @@ namespace mud
 			return false;
 		}
 
-		std::vector<std::vector<std::function<void (Ref, Ref)>>> m_branches;
+		vector<vector<void (*)(Ref, Ref)>> m_branches;
 	};
 }

@@ -30,6 +30,7 @@ mud = {}
 function uses_mud()
     includedirs {
         path.join(MUD_SRC_DIR),
+        path.join(MUD_3RDPARTY_DIR, "tinystl", "include"),
     }
     
     if _OPTIONS["profile"] then

@@ -3,8 +3,14 @@
 #ifdef MUD_MODULES
 module mud.bgfx;
 #else
+#include <meta/infra/Module.h>
+#include <meta/type/Module.h>
+#include <meta/math/Module.h>
+#include <meta/ctx/Module.h>
 #include <meta/bgfx/Module.h>
 #endif
+
+#include <bgfx/Api.h>
 
 #ifndef MUD_MODULES
 #include <meta/bgfx/Convert.h>

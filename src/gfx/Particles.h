@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
 #include <math/Vec.h>
 #include <math/Curve.h>
 #include <math/ImageAtlas.h>
@@ -15,10 +16,6 @@
 #include <gfx/Mesh.h>
 
 #include <bgfx/bgfx.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#endif
 
 namespace mud
 {
@@ -51,10 +48,10 @@ namespace mud
 		Absolute
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT ParticleGenerator
+	export_ struct refl_ MUD_GFX_EXPORT ParticleFlow
 	{
-		ParticleGenerator();
-		ParticleGenerator(cstring name);
+		ParticleFlow();
+		ParticleFlow(cstring name);
 
 		attr_ string m_name;
 
@@ -81,7 +78,7 @@ namespace mud
 		// particles
 		attr_ ValueTrack<float> m_speed = { 1.f };
 		attr_ ValueTrack<float> m_angle = { 0.f };
-		attr_ ValueTrack<float> m_blend = { std::vector<float>({ 0.8f, 0.0f }) };
+		attr_ ValueTrack<float> m_blend = { vector<float>({ 0.8f, 0.0f }) };
 		attr_ ValueTrack<Colour> m_colour = { Colour::White };
 		attr_ ValueTrack<float> m_scale = { 0.1f };
 
@@ -106,7 +103,7 @@ namespace mud
 		static bgfx::VertexDecl ms_decl;
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT Particles : public ParticleGenerator
+	export_ struct refl_ MUD_GFX_EXPORT Particles : public ParticleFlow
 	{
 	public:
 		Particles(Node3* node = nullptr, ShapeVar shape = {}, uint32_t max_particles = 1024);
@@ -128,7 +125,7 @@ namespace mud
 
 		Aabb m_aabb;
 
-		std::vector<Particle> m_particles;
+		vector<Particle> m_particles;
 		uint32_t m_max;
 	};
 

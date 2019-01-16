@@ -9,9 +9,12 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/algorithm.h>
 #include <gfx/FrustumCluster.h>
 #endif
 
+#include <type_traits>
+#include <limits>
 #include <cstddef>
 #include <cstdint>
 
@@ -23,7 +26,7 @@ namespace mud
 		frustum.m_subdiv_x = uint16_t(32);
 		frustum.m_subdiv_y = uint16_t(16);
 		if(clip_size.y > clip_size.x)
-			std::swap(frustum.m_subdiv_x, frustum.m_subdiv_y);
+			swap(frustum.m_subdiv_x, frustum.m_subdiv_y);
 		frustum.m_subdiv_z = uint16_t(slices);
 		frustum.m_tile_size.x = (uint(clip_size.x) + frustum.m_subdiv_x - 1) / frustum.m_subdiv_x;
 		frustum.m_tile_size.y = (uint(clip_size.y) + frustum.m_subdiv_y - 1) / frustum.m_subdiv_y;
@@ -56,18 +59,18 @@ namespace mud
 		frustum.m_subdiv_z = uint16_t(slices);
 	}
 
-	ClusteredFrustum::TileIndex ClusteredFrustum::tile_index(const vec2& clip) const
+	uvec2 ClusteredFrustum::tile_index(const vec2& clip) const
 	{
 		// clip coordinates between [-1, 1], conversion to index between [0, count[
 		//  = floor((clip + 1) * ((0.5 * dimension) / froxelsize))
 		//  = floor((clip + 1) * constant
 		//  = floor(clip * constant + constant)
-		const size_t xi = size_t(bx::clamp(int(clip.x * m_clip_to_cluster.x + m_clip_to_cluster.x), 0, m_subdiv_x - 1));
-		const size_t yi = size_t(bx::clamp(int(clip.y * m_clip_to_cluster.y + m_clip_to_cluster.y), 0, m_subdiv_y - 1));
+		const uint xi = uint(clamp(int(clip.x * m_clip_to_cluster.x + m_clip_to_cluster.x), 0, m_subdiv_x - 1));
+		const uint yi = uint(clamp(int(clip.y * m_clip_to_cluster.y + m_clip_to_cluster.y), 0, m_subdiv_y - 1));
 		return{ xi, yi };
 	}
 
-	size_t ClusteredFrustum::slice(float z) const
+	uint ClusteredFrustum::slice(float z) const
 	{
 		// The vastly common case is that z<0, so we always do the math for this case
 		// and we "undo" it below otherwise. This works because we're using fast::log2 which
@@ -89,7 +92,7 @@ namespace mud
 
 	Plane to_plane(const vec4& p) { return{ vec3(p), p.w }; }
 
-	Frustum ClusteredFrustum::cluster_frustum(size_t x, size_t y, size_t z) const
+	Frustum ClusteredFrustum::cluster_frustum(uint x, uint y, uint z) const
 	{
 		assert(x < m_subdiv_x);
 		assert(y < m_subdiv_y);

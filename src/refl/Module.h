@@ -4,12 +4,10 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <refl/Forward.h>
 
-#ifndef MUD_CPP_20
-#include <vector>
-#include <functional>
-#endif
+#include <cstdint>
 
 namespace mud
 {
@@ -18,12 +16,12 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Module
 	{
 	public:
-		Module(cstring name, std::vector<Module*> deps);
+		Module(cstring name, vector<Module*> deps);
 
 		attr_ cstring m_name;
-		attr_ std::vector<Module*> m_deps;
-		attr_ std::vector<Type*> m_types;
-		attr_ std::vector<Function*> m_functions;
+		attr_ vector<Module*> m_deps;
+		attr_ vector<Type*> m_types;
+		attr_ vector<Function*> m_functions;
 
 		attr_ cstring m_path;
 		void* m_handle;

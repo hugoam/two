@@ -4,7 +4,6 @@
 
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
-#include <algorithm>
 #include <cmath>
 #include <limits>
 #include <numeric>
@@ -14,19 +13,19 @@
 #ifdef MUD_MODULES
 module mud.wfc;
 #else
-#include <infra/StringConvert.h>
+#include <infra/ToString.h>
 #include <wfc/Wfc.h>
 #endif
 
 namespace mud
 {
-	double calc_sum(const std::vector<double>& a)
+	double calc_sum(const vector<double>& a)
 	{
 		return std::accumulate(a.begin(), a.end(), 0.0);
 	}
 
 	// Pick a random index weighted by a
-	size_t spin_the_bottle(const std::vector<double>& a, double between_zero_and_one)
+	size_t spin_the_bottle(const vector<double>& a, double between_zero_and_one)
 	{
 		double sum = calc_sum(a);
 
@@ -56,7 +55,7 @@ namespace mud
 		, m_depth(depth)
 		, m_periodic(periodic)
 		, m_states(states, 1.0)
-		, m_wave(width, height, depth, std::vector<ubool>(states, true))
+		, m_wave(width, height, depth, vector<ubool>(states, true))
 	{
 		static DoubleGenerator generator;
 		m_random_double = [&] { return generator.next(); };
@@ -64,7 +63,7 @@ namespace mud
 
 	void Wave::clear()
 	{
-		m_wave.reset(m_width, m_height, m_depth, std::vector<ubool>(m_states.size(), true));
+		m_wave.reset(m_width, m_height, m_depth, vector<ubool>(m_states.size(), true));
 		m_changes.clear();
 	}
 
@@ -133,7 +132,7 @@ namespace mud
 		if(m_state != Result::kUnfinished)
 			return m_state;
 
-		std::vector<double> distribution(m_states.size());
+		vector<double> distribution(m_states.size());
 		for(uint16_t t = 0; t < m_states.size(); ++t)
 			distribution[t] = m_wave.at(coord.x, coord.y, coord.z)[t] ? m_states[t] : 0;
 

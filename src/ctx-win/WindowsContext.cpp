@@ -22,7 +22,7 @@ namespace mud
 		void remove(WinContext& window) { vector_remove(m_windows, &window); }
 		WinContext* find(HWND hwnd) { for(WinContext* window : m_windows) if(window->m_render.m_hwnd == hwnd) return window; return nullptr; }
 
-		std::vector<WinContext*> m_windows;
+		vector<WinContext*> m_windows;
 
 		static WindowHolder& instance() { static WindowHolder instance; return instance; }
 	};

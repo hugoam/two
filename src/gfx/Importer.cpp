@@ -3,9 +3,6 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <gfx/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <fstream>
-#endif
 
 #ifdef MUD_MODULES
 module mud.gfx;

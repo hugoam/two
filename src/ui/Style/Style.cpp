@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <infra/StringConvert.h>
 #include <infra/Reverse.h>
 #include <ui/Style/Style.h>
 #include <ui/Style/Layout.h>
@@ -25,7 +26,7 @@ namespace mud
 		, d_stretch(stretch)
 		, d_size(image.d_size)
 		, d_solid_size(image.d_size - uvec2(uint(margin + margin)))
-		, d_fill_size(image.d_size.x - d_left - d_right, image.d_size.y - d_top - d_bottom)
+		, d_fill_size(uvec2(image.d_size.x - d_left - d_right, image.d_size.y - d_top - d_bottom))
 		, d_images()
 	{
 		for(Image& subimage : d_images)
@@ -75,7 +76,7 @@ namespace mud
 		string m_name;
 		Layout m_layout;
 		InkStyle m_skin;
-		std::vector<InkStyle> m_skins;
+		vector<InkStyle> m_skins;
 	};
 
 	Style::Style(cstring name, Style* base, LayoutDef layout, InkStyleDef skin, StyleDef style)

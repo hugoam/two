@@ -4,12 +4,11 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <ui/Frame/Frame.h>
 
 #ifndef MUD_CPP_20
 #include <cstdint>
-#include <vector>
-#include <functional>
 #endif
 
 namespace mud
@@ -46,8 +45,13 @@ namespace mud
 		void reindex();
 		void reorder();
 
-		using Visitor = std::function<void(Layer&)>;
-		void visit(const Visitor& visitor);
+		template <class T_Visitor>
+		void visit(const T_Visitor& visitor)
+		{
+			visitor(*this);
+			for(Layer* layer : d_sublayers)
+				layer->visit(visitor);
+		}
 
 	public:
 		Frame& m_frame;
@@ -58,6 +62,6 @@ namespace mud
 		Redraw d_redraw = REDRAW;
 		size_t d_handle = SIZE_MAX;
 
-		std::vector<Layer*> d_sublayers;
+		vector<Layer*> d_sublayers;
 	};
 }

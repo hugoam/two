@@ -21,7 +21,7 @@ namespace mud
 	Dock::Dock()
 	{}
 
-	Dock::Dock(Docker& docker, cstring name, std::vector<uint16_t> dockid, float span)
+	Dock::Dock(Docker& docker, cstring name, vector<uint16_t> dockid, float span)
 		: m_docker(&docker)
 		, m_name(name)
 		, m_dockid(dockid)
@@ -68,7 +68,7 @@ namespace mud
 
 	void Docker::shift(Dock& start, bool add)
 	{
-		std::vector<uint16_t> root = start.m_dockid;
+		vector<uint16_t> root = start.m_dockid;
 		uint16_t index = vector_pop(root);
 
 		size_t level = root.size();
@@ -110,7 +110,7 @@ namespace mud
 
 	Widget* Dockspace::docksection(Dock& dock)
 	{
-		std::vector<uint16_t> dockid = vector_reverse(dock.m_dockid);
+		vector<uint16_t> dockid = vector_reverse(dock.m_dockid);
 		Widget* line = m_mainline;
 
 		Dim dim = DIM_Y;

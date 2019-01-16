@@ -5,7 +5,8 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <infra/StringConvert.h>
+#include <infra/ToString.h>
+#include <infra/ToValue.h>
 #include <math/Stat.h>
 #include <math/Colour.h>
 #include <math/Math.h>
@@ -48,7 +49,7 @@ namespace ui
 		TextEdit& self = type_in(parent, text, 0, is_scalar<T>() ? "1234567890." : "1234567890");
 		if(self.m_changed)
 		{
-			value = from_string<T>(text);
+			value = to_value<T>(text);
 			return true;
 		}
 		return false;

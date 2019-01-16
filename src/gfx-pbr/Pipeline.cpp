@@ -27,7 +27,7 @@ namespace mud
 #define MUD_GFX_STATE_DEFAULT_ALPHA 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LESS \
 									  | BGFX_STATE_MSAA | BGFX_STATE_BLEND_ALPHA
 
-	void gather_gi_probes(Scene& scene, std::vector<GIProbe*>& gi_probes)
+	void gather_gi_probes(Scene& scene, vector<GIProbe*>& gi_probes)
 	{
 		//gi_probes.reserve(m_pool->pool<GIProbe>().size());
 		scene.m_pool->pool<GIProbe>().iterate([&](GIProbe& gi_probe)
@@ -36,7 +36,7 @@ namespace mud
 		});
 	}
 
-	void gather_lightmaps(Scene& scene, std::vector<LightmapAtlas*>& atlases)
+	void gather_lightmaps(Scene& scene, vector<LightmapAtlas*>& atlases)
 	{
 		//atlases.reserve(m_pool->pool<LightmapAtlas>().size());
 		scene.m_pool->pool<LightmapAtlas>().iterate([&](LightmapAtlas& atlas)
@@ -45,7 +45,7 @@ namespace mud
 		});
 	}
 
-	void gather_reflection_probes(Scene& scene, std::vector<ReflectionProbe*>& reflection_probes)
+	void gather_reflection_probes(Scene& scene, vector<ReflectionProbe*>& reflection_probes)
 	{
 		scene.m_pool->pool<ReflectionProbe>().iterate([&](ReflectionProbe& probe)
 		{
@@ -106,11 +106,11 @@ namespace mud
 		BlockGlow& glow = pipeline.add_block<BlockGlow>(gfx_system, filter, copy, blur);
 		BlockTonemap& tonemap = pipeline.add_block<BlockTonemap>(gfx_system, filter, copy);
 
-		std::vector<GfxBlock*> depth_blocks = { &depth };
-		std::vector<GfxBlock*> geometry_blocks = {};
-		std::vector<GfxBlock*> shading_blocks = { &radiance, &light, &shadow, &gi_trace, &reflection, &lightmap };
-		std::vector<GfxBlock*> gi_blocks = { &light, &shadow, &gi_bake };
-		std::vector<GfxBlock*> lightmap_blocks = { &light, &shadow, &gi_trace, &lightmap };
+		vector<GfxBlock*> depth_blocks = { &depth };
+		vector<GfxBlock*> geometry_blocks = {};
+		vector<GfxBlock*> shading_blocks = { &radiance, &light, &shadow, &gi_trace, &reflection, &lightmap };
+		vector<GfxBlock*> gi_blocks = { &light, &shadow, &gi_bake };
+		vector<GfxBlock*> lightmap_blocks = { &light, &shadow, &gi_trace, &lightmap };
 
 		pipeline.m_pass_blocks[size_t(PassType::Unshaded)] = {};
 		pipeline.m_pass_blocks[size_t(PassType::Background)] = { &sky };

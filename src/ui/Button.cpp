@@ -10,7 +10,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
-#include <infra/StringConvert.h>
+#include <infra/ToString.h>
 #include <math/Image256.h>
 #include <ui/Button.h>
 #include <ui/Structs/Widget.h>
@@ -164,7 +164,7 @@ namespace ui
 		Image* image = self.ui_window().find_image(name);
 		if(!image)
 		{
-			std::vector<uint8_t> data = source.read();
+			vector<uint8_t> data = source.read();
 			image = &self.ui_window().create_image(name, uvec2{ source.m_width, source.m_height }, &data[0], false);
 		}
 		self.m_frame.set_icon(image);

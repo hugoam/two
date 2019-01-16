@@ -19,9 +19,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 
@@ -60,7 +60,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AnimationTrack>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Material>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Model>>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::ParticleGenerator>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::ParticleFlow>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Prefab>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Program>>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::AssetStore<mud::Texture>>();
@@ -93,7 +93,7 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Model>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::ModelItem>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Node3>();
-    export_ template <> MUD_GFX_EXPORT Type& type<mud::ParticleGenerator>();
+    export_ template <> MUD_GFX_EXPORT Type& type<mud::ParticleFlow>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::PbrMaterialBlock>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Prefab>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Program>();
@@ -121,71 +121,71 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Particles>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
     
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Animated*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AnimatedTrack*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Animation*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AnimationPlay*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AnimationTrack*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AssetStore<mud::Material>*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AssetStore<mud::Model>*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AssetStore<mud::ParticleGenerator>*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AssetStore<mud::Prefab>*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AssetStore<mud::Program>*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::AssetStore<mud::Texture>*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Background*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::BaseMaterialBlock*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Bone*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Camera*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Culler*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::DepthParams*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Environment*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Filter*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Fog*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::FrameBuffer*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::FresnelMaterialBlock*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Frustum*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::FrustumSlice*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::GfxBlock*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::GfxContext*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::GfxSystem*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Gnode*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::ImmediateDraw*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::ImportConfig*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Item*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Joint*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Light*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Material*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::MaterialParam<float>*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::MaterialParam<mud::Colour>*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Mesh*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Model*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::ModelItem*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Node3*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::ParticleGenerator*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::PbrMaterialBlock*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Prefab*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Program*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Radiance*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::RenderFrame*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::RenderQuad*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Rig*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Scene*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Shot*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Skeleton*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Skin*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Sun*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::SymbolIndex*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Texture*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::UnshadedMaterialBlock*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Viewport*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::BlockCopy*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::DrawBlock*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::BlockDepth*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::BlockFilter*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::BlockParticles*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::BlockResolve*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::BlockSky*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::ClusteredFrustum*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::Particles*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<std::vector<mud::RenderTarget*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Animated*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AnimatedTrack*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Animation*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AnimationPlay*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AnimationTrack*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AssetStore<mud::Material>*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AssetStore<mud::Model>*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AssetStore<mud::ParticleFlow>*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AssetStore<mud::Prefab>*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AssetStore<mud::Program>*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AssetStore<mud::Texture>*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Background*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::BaseMaterialBlock*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Bone*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Camera*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Culler*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::DepthParams*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Environment*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Filter*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Fog*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::FrameBuffer*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::FresnelMaterialBlock*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Frustum*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::FrustumSlice*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::GfxBlock*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::GfxContext*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::GfxSystem*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Gnode*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::ImmediateDraw*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::ImportConfig*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Item*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Joint*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Light*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Material*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::MaterialParam<float>*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::MaterialParam<mud::Colour>*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Mesh*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Model*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::ModelItem*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Node3*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::ParticleFlow*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::PbrMaterialBlock*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Prefab*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Program*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Radiance*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::RenderFrame*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::RenderQuad*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Rig*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Scene*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Shot*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Skeleton*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Skin*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Sun*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::SymbolIndex*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Texture*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::UnshadedMaterialBlock*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Viewport*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::BlockCopy*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::DrawBlock*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::BlockDepth*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::BlockFilter*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::BlockParticles*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::BlockResolve*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::BlockSky*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::ClusteredFrustum*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Particles*>>;
+    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::RenderTarget*>>;
 }

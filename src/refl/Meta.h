@@ -4,14 +4,10 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <refl/Forward.h>
 #include <type/Var.h>
 #include <type/Type.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#include <functional>
-#endif
 
 namespace mud
 {
@@ -55,19 +51,23 @@ namespace mud
 		Ref m_empty_ref;
 		Var m_empty_var;
 
-		std::function<Var(Ref)> m_copy_construct;
-		std::function<void(Ref, Ref)> m_copy_assign;
+		using CopyConstruct = Var(*)(Ref); CopyConstruct m_copy_construct;
+		using CopyAssign = void(*)(Ref, Ref); CopyAssign m_copy_assign;
 	};
 	
-	export_ extern MUD_REFL_EXPORT std::vector<Meta*> g_meta;
-	export_ extern MUD_REFL_EXPORT std::vector<Class*> g_class;
-	export_ extern MUD_REFL_EXPORT std::vector<Enum*> g_enu;
-	export_ extern MUD_REFL_EXPORT std::vector<Convert*> g_convert;
+	export_ extern MUD_REFL_EXPORT vector<Meta*> g_meta;
+	export_ extern MUD_REFL_EXPORT vector<Class*> g_class;
+	export_ extern MUD_REFL_EXPORT vector<Enum*> g_enu;
+	export_ extern MUD_REFL_EXPORT vector<Convert*> g_convert;
+	export_ extern MUD_REFL_EXPORT vector<Iterable*> g_iterable;
+	export_ extern MUD_REFL_EXPORT vector<Sequence*> g_sequence;
 
 	export_ inline Meta& meta(Type& type) { return *g_meta[type.m_id]; }
 	export_ inline Class& cls(Type& type) { return *g_class[type.m_id]; }
 	export_ inline Enum& enu(Type& type) { return *g_enu[type.m_id]; }
 	export_ inline Convert& convert(Type& type) { return *g_convert[type.m_id]; }
+	export_ inline Iterable& iter(Type& type) { return *g_iterable[type.m_id]; }
+	export_ inline Sequence& sequence(Type& type) { return *g_sequence[type.m_id]; }
 
 	export_ template <class T>
 	inline Meta& meta() { return meta(type<T>()); }
@@ -88,6 +88,9 @@ namespace mud
 
 	export_ inline bool is_array(Type& ty) { return meta(ty).m_is_array; }
 
+	export_ inline bool is_iterable(Type& ty) { return g_iterable[ty.m_id] != nullptr; }
+	//export_ inline bool is_sequence(Type& ty) { return g_sequence[ty.m_id] != nullptr; }
+
 	export_ inline Meta& meta(const Ref& ref) { return meta(type(ref)); }
 	export_ inline Meta& meta(const Var& var) { return meta(*var.m_ref.m_type); }
 
@@ -96,6 +99,12 @@ namespace mud
 
 	export_ inline Enum& enu(const Ref& ref) { return enu(type(ref)); }
 	export_ inline Enum& enu(const Var& var) { return enu(*var.m_ref.m_type); }
+
+	export_ inline Iterable& iter(const Ref& ref) { return iter(type(ref)); }
+	export_ inline Iterable& iter(const Var& var) { return iter(*var.m_ref.m_type); }
+
+	export_ inline Sequence& sequence(const Ref& ref) { return sequence(type(ref)); }
+	export_ inline Sequence& sequence(const Var& var) { return sequence(*var.m_ref.m_type); }
 
 	export_ MUD_REFL_EXPORT void copy_construct(Ref dest, Ref source);
 

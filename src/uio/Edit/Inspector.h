@@ -8,7 +8,7 @@
 #include <uio/Unode.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 namespace mud
@@ -28,7 +28,7 @@ namespace mud
 		EditNestMode m_nest_mode[2] = { EditNestMode::Inline, EditNestMode::Inline };
 	};
 
-	export_ extern MUD_UIO_EXPORT std::vector<EditSpec> g_edit_specs;
+	export_ extern MUD_UIO_EXPORT vector<EditSpec> g_edit_specs;
 	
 	export_ enum class refl_ EditorHint : unsigned int
 	{
@@ -49,9 +49,9 @@ namespace mud
 	export_ MUD_UIO_EXPORT func_ bool inspector(Widget& parent, Ref object);
 	export_ MUD_UIO_EXPORT func_ bool inspector(Widget& parent, Entity entity);
 	export_ MUD_UIO_EXPORT func_ bool inspector(Widget& parent);
-	export_ MUD_UIO_EXPORT func_ void multi_inspector(Widget& parent, Type& type, std::vector<Var>& objects, size_t& selected);
+	export_ MUD_UIO_EXPORT func_ void multi_inspector(Widget& parent, Type& type, vector<Var>& objects, size_t& selected);
 
-	export_ MUD_UIO_EXPORT func_ void multi_object_edit(Widget& parent, Type& type, std::vector<Ref> objects);
+	export_ MUD_UIO_EXPORT func_ void multi_object_edit(Widget& parent, Type& type, vector<Ref> objects);
 
 	//template <class T_Object>
 	//T_Object* deref(std::pair<const string, unique_ptr<T_Object>>& element) { return element.second.get(); }
@@ -70,7 +70,7 @@ namespace mud
 	template <class T_Object, class T_Container>
 	void multi_object_edit_container(Widget& parent, T_Container& container)
 	{
-		std::vector<Ref> objects;
+		vector<Ref> objects;
 		for(auto& element : container)
 			objects.push_back(deref<T_Object>(element));
 		multi_object_edit(parent, type<T_Object>(), objects);

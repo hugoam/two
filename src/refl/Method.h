@@ -4,20 +4,17 @@
 
 #pragma once
 
+#include <stl/vector.h>
+#include <stl/memory.h>
 #include <infra/Array.h>
-#include <infra/Strung.h>
-#include <refl/Forward.h>
 #include <type/Type.h>
 #include <type/Var.h>
-
-#ifndef MUD_CPP_20
-#include <functional>
-#include <vector>
-#include <memory>
-#endif
+#include <refl/Forward.h>
 
 namespace mud
 {
+	export_ using cstring = const char*;
+
 	export_ using FunctionPointer = void* (*)();
 
 	export_ using ConstructorFunc = void(*)(Ref, array<Var>);
@@ -55,9 +52,9 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Signature
 	{
 	public:
-		Signature(const std::vector<Param>& params = {}, const Var& returnval = Var());
+		Signature(const vector<Param>& params = {}, const Var& returnval = Var());
 
-		std::vector<Param> m_params;
+		vector<Param> m_params;
 		Var m_returnval;
 	};
 
@@ -65,7 +62,7 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Callable
 	{
 	public:
-		Callable(cstring name, const std::vector<Param>& params = {}, Var returnval = Var());
+		Callable(cstring name, const vector<Param>& params = {}, Var returnval = Var());
 		virtual ~Callable() {}
 
 		void setup();
@@ -80,19 +77,19 @@ namespace mud
 
 		Var m_returnval;
 
-		std::vector<Param> m_params;
+		vector<Param> m_params;
 		size_t m_num_defaults;
 		size_t m_num_required;
 
-		std::vector<Var> m_arguments;
+		vector<Var> m_arguments;
 
-		bool checkArgs(const std::vector<Var>& args) const { for(const Param& param : m_params) if(!type(args[param.m_index]).is(type(param.m_value))) return false; return true; }
+		bool checkArgs(const vector<Var>& args) const { for(const Param& param : m_params) if(!type(args[param.m_index]).is(type(param.m_value))) return false; return true; }
 	};
 
 	export_ class refl_ MUD_REFL_EXPORT Function final : public Callable
 	{
 	public:
-		Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc function, const std::vector<Param>& params = {}, Var returnval = Var());
+		Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc function, const vector<Param>& params = {}, Var returnval = Var());
 
 		virtual void operator()(array<Var> args, Var& result) const { return m_call(args, result); }
 
@@ -115,7 +112,7 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Method final : public Callable
 	{
 	public:
-		Method(Type& object_type, cstring name, Address address, MethodFunc method, const std::vector<Param>& params = {}, Var returnval = Var());
+		Method(Type& object_type, cstring name, Address address, MethodFunc method, const vector<Param>& params = {}, Var returnval = Var());
 
 		virtual void operator()(array<Var> args, Var& result) const { return m_call(args[0], array<Var>{ args, 1 }, result); }
 
@@ -124,9 +121,11 @@ namespace mud
 		MethodFunc m_call;
 	};
 
+#if 0
 	export_ using VirtualMethod = std::function<void(Method&, Ref, array<Var>)>;
 
 	export_ template <> MUD_REFL_EXPORT Type& type<VirtualMethod>();
+#endif
 
 	export_ enum class ConstructorIndex : unsigned int
 	{
@@ -138,8 +137,8 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Constructor final : public Callable
 	{
 	public:
-		Constructor(Type& object_type, ConstructorFunc func, const std::vector<Param>& params = {});
-		Constructor(Type& object_type, cstring name, ConstructorFunc func, const std::vector<Param>& params = {});
+		Constructor(Type& object_type, ConstructorFunc func, const vector<Param>& params = {});
+		Constructor(Type& object_type, cstring name, ConstructorFunc func, const vector<Param>& params = {});
 
 		virtual void operator()(array<Var> args, Var& result) const { UNUSED(result); m_call(args[0], array<Var>{ args, 1 }); }
 
@@ -174,7 +173,7 @@ namespace mud
 	{
 	public:
 		constr_ Call();
-		constr_ Call(const Callable& callable, std::vector<Var> arguments);
+		constr_ Call(const Callable& callable, vector<Var> arguments);
 		Call(const Callable& callable);
 		Call(const Callable& callable, Ref object);
 
@@ -184,7 +183,7 @@ namespace mud
 		const Var& operator()(Ref object);
 
 		const Callable* m_callable = nullptr;
-		attr_ std::vector<Var> m_arguments;
+		attr_ vector<Var> m_arguments;
 		attr_ Var m_result;
 	};
 

@@ -2,13 +2,14 @@
 
 #include <frame/Forward.h>
 
+#include <jobs/Api.h>
 #include <ui/Api.h>
 #include <gfx/Api.h>
 #include <gfx-ui/Api.h>
 
 namespace mud
 {
-	using Selection = std::vector<Ref>;
+	using Selection = vector<Ref>;
 
 	struct refl_ ShellContext
 	{

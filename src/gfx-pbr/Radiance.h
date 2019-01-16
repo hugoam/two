@@ -11,8 +11,8 @@
 #include <gfx-pbr/Forward.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
-#include <map>
+#include <stl/vector.h>
+#include <stl/map.h>
 #endif
 
 namespace mud
@@ -68,7 +68,7 @@ namespace mud
 
 		Program& m_prefilter_program;
 
-		std::vector<Radiance*> m_prefilter_queue;
-		std::map<uint16_t, uint16_t> m_prefiltered;
+		vector<Radiance*> m_prefilter_queue;
+		map<uint16_t, uint16_t> m_prefiltered;
 	};
 }

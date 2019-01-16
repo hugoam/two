@@ -62,9 +62,6 @@ namespace mud
 
 	void Viewport::render(Render& render)
 	{
-		if(m_get_size)
-			m_rect = m_get_size();
-
 		m_camera->m_aspect = float(rect_w(m_rect)) / float(rect_h(m_rect));
 		m_camera->update();
 
@@ -76,8 +73,8 @@ namespace mud
 			m_camera->m_clusters->upload();
 		}
 
-		if(m_render)
-			m_render(render);
+		for(RenderTask& task : m_tasks)
+			task.render(task.user, render);
 	}
 
 	/*void hmdUpdate()

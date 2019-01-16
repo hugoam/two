@@ -7,8 +7,6 @@
 
 namespace mud
 {
-	using string = std::string;
-
 	export_ class MUD_GFX_GLTF_EXPORT ImporterGltf : public Importer
 	{
 	public:

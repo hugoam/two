@@ -1,6 +1,3 @@
-#ifdef MUD_META_GENERATOR
-#include <functional>
-#endif
 #include <gfx/Animated.h>
 #include <gfx/Animation.h>
 #include <gfx/Asset.h>

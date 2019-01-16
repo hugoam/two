@@ -27,7 +27,7 @@ Object.defineProperty(Tile.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_Tile__set_name(self, value);
@@ -87,7 +87,7 @@ Object.defineProperty(Tileset.prototype, "name", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <std::string> [] */
+        /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
         _mud_Tileset__set_name(self, value);
@@ -188,10 +188,10 @@ WaveTileset.prototype["__destroy__"] = WaveTileset.prototype.__destroy__ = funct
 Module['parse_json_tileset'] = function(path, subset, outputTileset) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* path <std::string> [] */
+    /* path <string> [] */
     if (path && typeof path === "object") path = path.ptr;
     else path = ensureString(path);
-    /* subset <std::string> [] */
+    /* subset <string> [] */
     if (subset && typeof subset === "object") subset = subset.ptr;
     else subset = ensureString(subset);
     /* outputTileset <Tileset> [] */
@@ -201,10 +201,10 @@ Module['parse_json_tileset'] = function(path, subset, outputTileset) {
 Module['parse_json_wave_tileset'] = function(path, subset, outputTileset) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* path <std::string> [] */
+    /* path <string> [] */
     if (path && typeof path === "object") path = path.ptr;
     else path = ensureString(path);
-    /* subset <std::string> [] */
+    /* subset <string> [] */
     if (subset && typeof subset === "object") subset = subset.ptr;
     else subset = ensureString(subset);
     /* outputTileset <WaveTileset> [] */

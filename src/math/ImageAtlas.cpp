@@ -9,29 +9,33 @@ module mud.ui;
 #else
 #include <stb_rect_pack.h>
 #include <stb_image.h>
-
 #include <infra/String.h>
 #include <infra/File.h>
 #include <math/Interp.h>
 #include <math/ImageAtlas.h>
 #endif
 
+#include <algorithm>
+
 namespace mud
 {
-	void load_folder_images(std::vector<Image>& images, const string& path, const string& subfolder)
+	void load_folder_images(vector<Image>& images, const string& path, const string& subfolder)
 	{
-		auto visit_file = [&](cstring path, cstring file)
+		struct Visitor { vector<Image>& images; string path; string subfolder; };
+		auto visit_file = [](void* user, cstring path, cstring file)
 		{
+			Visitor& v = *(Visitor*)user;
 			string fullpath = string(path) + file;
-			string name = subfolder + replace(file, ".png", "");
+			string name = v.subfolder + replace(file, ".png", "");
 
 			int width, height, n;
 			unsigned char* img = stbi_load(fullpath.c_str(), &width, &height, &n, 4);
 			stbi_image_free(img);
-			images.push_back({ name.c_str(), fullpath.c_str(), { uint(width), uint(height) } });
+			v.images.push_back({ name.c_str(), fullpath.c_str(), { uint(width), uint(height) } });
 		};
 
-		visit_files(path.c_str(), visit_file);
+		Visitor visitor = { images, subfolder };
+		visit_files(path.c_str(), visit_file, &visitor);
 	}
 
 	struct StbRectPack
@@ -43,7 +47,7 @@ namespace mud
 		}
 
 		stbrp_context m_context;
-		std::vector<stbrp_node> m_nodes;
+		vector<stbrp_node> m_nodes;
 	};
 
 	ImageAtlas::ImageAtlas(uvec2 size)
@@ -55,10 +59,10 @@ namespace mud
 	ImageAtlas::~ImageAtlas()
 	{}
 
-	std::vector<unsigned char> ImageAtlas::generate_atlas(std::vector<Image*>& images)
+	vector<unsigned char> ImageAtlas::generate_atlas(vector<Image*>& images)
 	{
 		size_t size = m_size.x * m_size.y * 4;
-		std::vector<unsigned char> data(size, 0);
+		vector<unsigned char> data(size, 0);
 
 		m_images = images;
 
@@ -87,7 +91,7 @@ namespace mud
 		return true;
 	}
 
-	void ImageAtlas::blit_image(Image& sprite, std::vector<unsigned char>& data)
+	void ImageAtlas::blit_image(Image& sprite, vector<unsigned char>& data)
 	{
 		int width, height, n;
 		stbi_set_unpremultiply_on_load(1);
@@ -121,7 +125,7 @@ namespace mud
 	{
 		if(m_textures.size() >= m_rect_pack->m_nodes.size())
 			return nullptr;
-		m_textures.emplace_back(name, "", size);
+		m_textures.push_back({ name, "", size });
 		Image& texture = m_textures.back();
 		if(!this->place_image(texture))
 		{
@@ -182,7 +186,7 @@ namespace mud
 	{
 		if(m_sprites.size() >= m_rect_pack->m_nodes.size())
 			return nullptr;
-		m_sprites.emplace_back(name, "", size, frames);
+		m_sprites.push_back({ name, "", size, frames });
 		Sprite& sprite = m_sprites.back();
 		if(!this->place_image(sprite))
 		{

@@ -64,14 +64,14 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 	//viewer.m_filters.m_tonemap.m_enabled = false;
 
 	Gnode& scene = viewer.m_scene->begin();
-	BlockFilter& filter = *scene.m_scene->m_gfx_system.m_pipeline->block<BlockFilter>();
 
 	static string source = create_shader();
 
 	static Program program = { "custom_program", {}, carray<cstring, size_t(ShaderType::Count)>{ nullptr, source.c_str(), nullptr, nullptr } };
 	
-	auto draw_quad = [&](const Pass& render_pass)
+	auto draw_quad = [](Render& render, const Pass& render_pass)
 	{
+		BlockFilter& filter = *render.m_scene.m_gfx_system.m_pipeline->block<BlockFilter>();
 		filter.submit_quad(*render_pass.m_target, render_pass.m_index, render_pass.m_target->m_fbo, program.default_version(), { render_pass.m_viewport->m_rect });
 	};
 

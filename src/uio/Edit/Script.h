@@ -17,7 +17,7 @@ namespace mud
 		ScriptEditor();
 		~ScriptEditor();
 
-		std::vector<Script*> m_scripts;
+		vector<Script*> m_scripts;
 
 		LuaInterpreter* m_lua = nullptr;
 		WrenInterpreter* m_wren = nullptr;
@@ -32,7 +32,7 @@ namespace mud
 	};
 
 	export_ MUD_UIO_EXPORT void script_edit_output(Widget& parent, Interpreter& interpreter);
-	export_ MUD_UIO_EXPORT void script_edit_code(Widget& parent, TextScript& script, ActionList actions = {});
-	export_ MUD_UIO_EXPORT void script_edit(Widget& parent, TextScript& script, ActionList actions = {});
+	export_ MUD_UIO_EXPORT Section& script_edit_code(Widget& parent, TextScript& script);
+	export_ MUD_UIO_EXPORT Section& script_edit(Widget& parent, TextScript& script);
 	export_ MUD_UIO_EXPORT void script_editor(Widget& parent, ScriptEditor& editor);
 }

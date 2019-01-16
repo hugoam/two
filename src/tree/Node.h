@@ -4,11 +4,11 @@
 
 #pragma once
 
+#include <stl/vector.h>
+#include <stl/memory.h>
 #include <infra/Config.h>
 
 #ifndef MUD_CPP_20
-#include <vector>
-#include <memory>
 #include <cstdint>
 #endif
 
@@ -40,12 +40,12 @@ namespace mud
 		T_Node* m_parent = nullptr;
 		void* m_identity = nullptr;
 		size_t m_heartbeat = 0;
-		std::vector<std::unique_ptr<T_Node>> m_nodes;
-		std::unique_ptr<NodeState> m_state;
+		vector<unique_ptr<T_Node>> m_nodes;
+		unique_ptr<NodeState> m_state;
 		uint16_t m_next = 0;
 		
 		template <class T_Child = T_Node, class... T_Args>
-		inline T_Child& append(T_Args... args, void* identity = nullptr) { m_nodes.emplace_back(std::make_unique<T_Child>(&impl(), identity, args...)); return static_cast<T_Child&>(*m_nodes.back()); }
+		inline T_Child& append(T_Args... args, void* identity = nullptr) { m_nodes.emplace_back(construct<T_Child>(&impl(), identity, args...)); return static_cast<T_Child&>(*m_nodes.back()); }
 
 		void clear() { m_nodes.clear(); }
 
@@ -74,7 +74,7 @@ namespace mud
 				append<T_Child, T_Args...>(args..., identity);
 
 			if(m_nodes[index]->m_identity != identity)
-				m_nodes.insert(m_nodes.begin() + index, std::make_unique<T_Child>(&impl(), identity, args...));
+				m_nodes.insert(m_nodes.begin() + index, make_unique<T_Child>(&impl(), identity, args...));
 
 			return static_cast<T_Child&>(update(*m_nodes[index]));
 		}
@@ -85,7 +85,7 @@ namespace mud
 		inline T_State& state(T_Args&&... args)
 		{
 			if(!m_state)
-				m_state = std::make_unique<T_State>(std::forward<T_Args>(args)...);
+				m_state = make_unique<T_State>(static_cast<T_Args&&>(args)...);
 			return static_cast<T_State&>(*m_state);
 		}
 	};

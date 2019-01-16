@@ -8,7 +8,7 @@
 #include <snd/Sound.h>
 #include <snd/SoundFileBuffer.h>
 
-#include <vector>
+#include <stl/vector.h>
 
 namespace mud
 {
@@ -34,7 +34,7 @@ namespace mud
 	private:
 		// Streaming sounds have local buffers
 		int m_numBuffers;
-		std::vector<ALuint> m_aLBuffers;
+		vector<ALuint> m_aLBuffers;
 		unique_ptr<SoundFileBuffer> m_buffer;
 
 		ALfloat m_lastOffset;

@@ -40,7 +40,7 @@ namespace mud
 	}
 
 	template <class T>
-	bool curve_edit(Widget& parent, std::vector<T>& keys)
+	bool curve_edit(Widget& parent, vector<T>& keys)
 	{
 		bool changed = false;
 		for(T& key : keys)
@@ -59,7 +59,7 @@ namespace mud
 	}
 
 	template <>
-	bool curve_edit(Widget& parent, std::vector<float>& keys)
+	bool curve_edit(Widget& parent, vector<float>& keys)
 	{
 		enum Modes { EDIT_CURVE = 1 << 0 };
 
@@ -143,7 +143,7 @@ namespace mud
 
 	bool type_selector(Widget& parent, uint32_t& type, array<Type*> types)
 	{
-		std::vector<cstring> type_names;
+		vector<cstring> type_names;
 		for(size_t i = 0; i < types.size(); ++i)
 			type_names.push_back(types[i]->m_name);
 
@@ -185,11 +185,11 @@ namespace mud
 		return object_selector_modal(self, self, value);
 	}
 
-	bool sequence_element_edit(Widget& parent, Ref sequence, Ref& value)
+	bool sequence_element_edit(Widget& parent, Ref seq, Ref& value)
 	{
 		object_item(parent, value);
 		if(ui::button(parent, "remove").activated())
-			remove_sequence(sequence, value);
+			sequence(seq).remove(seq, value);
 		return false;
 	}
 
@@ -200,12 +200,12 @@ namespace mud
 		Widget& self = hint == EditorHint::Inline ? ui::row(parent)
 												  : ui::sheet(parent);
 		bool changed = false;
-		iterate_sequence(value, [&](Ref element) { changed |= value_edit(self, element); });
+		iter(value).iterate(value, [&](Ref element) { changed |= value_edit(self, element); });
 		if(ui::modal_button(self, self, "add", Add))
 		{
 			if(meta(*cls(value).m_content).m_empty_var)
 			{
-				add_sequence(value, meta(*cls(value).m_content).m_empty_var);
+				sequence(value).add(value, meta(*cls(value).m_content).m_empty_var);
 				self.m_switch &= ~Add;
 				changed |= true;
 			}
@@ -214,7 +214,7 @@ namespace mud
 				Ref selected = Ref(*value.m_type);
 				if(object_selector(self, selected))
 				{
-					add_sequence(value, selected);
+					sequence(value).add(value, selected);
 					self.m_switch &= ~Add;
 					changed |= true;
 				}

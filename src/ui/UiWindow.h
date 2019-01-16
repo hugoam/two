@@ -5,19 +5,16 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/string.h>
+#include <stl/vector.h>
+#include <stl/map.h>
 #include <infra/NonCopy.h>
-#include <infra/Strung.h>
 #include <type/Unique.h>
 #include <math/Timer.h>
 #include <math/ImageAtlas.h>
 #endif
 #include <ui/Forward.h>
 #include <ui/Render/Renderer.h>
-
-#ifndef MUD_CPP_20
-#include <vector>
-#include <map>
-#endif
 
 namespace mud
 {
@@ -27,7 +24,7 @@ namespace mud
 		Clipboard(const string& text, bool line_mode) : m_text(text), m_line_mode(line_mode) {}
 		attr_ string m_text = "";
 		attr_ bool m_line_mode = false;
-		attr_ std::vector<string> m_pasted = {};
+		attr_ vector<string> m_pasted = {};
 	};
 
 	export_ class refl_ MUD_UI_EXPORT UiWindow : public NonCopy
@@ -62,7 +59,7 @@ namespace mud
 
 		UiRenderer m_renderer;
 
-		std::vector<object_ptr<Image>> m_images;
+		vector<object_ptr<Image>> m_images;
 		ImageAtlas m_atlas;
 
 		float m_width;
@@ -76,6 +73,6 @@ namespace mud
 
 		User* m_user = nullptr;
 
-		static std::map<string, Style*> s_styles;
+		static map<string, Style*> s_styles;
 	};
 }

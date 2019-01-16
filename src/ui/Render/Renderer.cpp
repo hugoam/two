@@ -4,14 +4,13 @@
 
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
-#include <map>
-#include <string>
+#include <stl/map.h>
+#include <stl/string.h>
 #endif
 
 #ifdef MUD_MODULES
 module mud.ui;
 #else
-#include <math/Clamp.h>
 #include <ui/Render/Renderer.h>
 #include <ui/Frame/Layer.h>
 #include <ui/Frame/Solver.h>
@@ -22,11 +21,10 @@ module mud.ui;
 #include <math/ImageAtlas.h>
 #endif
 
+#include <algorithm>
+
 namespace mud
 {
-	//using std::clamp;
-	using string = std::string;
-
 	inline Colour offset_colour(const Colour& colour, float delta)
 	{
 		float offset = delta / 255.0f;
@@ -39,7 +37,7 @@ namespace mud
 	struct Vg::Impl
 	{
 		string m_resource_path;
-		std::map<string, string> m_font_sources;
+		map<string, string> m_font_sources;
 	};
 
 	Vg::Vg(cstring resource_path)
@@ -112,7 +110,7 @@ namespace mud
 			row.m_rect = vec4{ rect.x, rect.y, row.m_glyphs.back().m_rect.x + rect_w(row.m_glyphs.back().m_rect), line_height(paint) };
 	}
 
-	void Vg::break_text(cstring text, size_t len, const vec2& space, const TextPaint& paint, std::vector<TextRow>& textRows)
+	void Vg::break_text(cstring text, size_t len, const vec2& space, const TextPaint& paint, vector<TextRow>& textRows)
 	{
 		float line_height = this->line_height(paint);
 
@@ -292,8 +290,8 @@ namespace mud
 		if(frame.d_inkstyle->m_empty)
 			return;
 
-		if(frame.d_widget.m_custom_draw)
-			return frame.d_widget.m_custom_draw(frame, rect, m_vg);
+		if(frame.d_widget.m_custom_draw.func)
+			return frame.d_widget.m_custom_draw.draw(frame, rect, m_vg);
 
 		if(frame.d_inkstyle->m_custom_draw)
 			return frame.d_inkstyle->m_custom_draw(frame, rect, m_vg);

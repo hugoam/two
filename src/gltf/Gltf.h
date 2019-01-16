@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
 #include <srlz/Serial.h>
 #include <math/Vec.h>
 #include <math/VecOps.h>
@@ -8,12 +9,10 @@
 #endif
 #include <gltf/Forward.h>
 
-#ifndef MUD_CPP_20
-#include <vector>
-#include <map>
-#include <functional>
 #include <algorithm>
-#endif
+
+using mud::vector;
+using mud::string;
 
 export_ struct refl_ glTFNodeExtras
 {
@@ -53,24 +52,24 @@ export_ enum class refl_ glTFType : unsigned int
 
 export_ struct refl_ glTFBuffer
 {
-	attr_ std::string name;
-	attr_ std::string mime_type;
-	attr_ std::string uri;
+	attr_ string name;
+	attr_ string mime_type;
+	attr_ string uri;
 	attr_ int byte_length;
 };
 
 export_ struct refl_ glTFImage
 {
-	attr_ std::string name;
-	attr_ std::string mime_type;
-	attr_ std::string uri;
+	attr_ string name;
+	attr_ string mime_type;
+	attr_ string uri;
 	attr_ int buffer_view;
 };
 
 export_ struct refl_ glTFBufferView
 {
 	glTFBufferView() {}
-	attr_ std::string name;
+	attr_ string name;
 	attr_ int buffer = 0;
 	attr_ size_t byte_offset = 0;
 	attr_ size_t byte_length = 0;
@@ -107,7 +106,7 @@ export_ struct refl_ glTFAccessor
 	glTFAccessor(int buffer_view, int byte_offset, glTFComponentType component_type, bool normalized, int count, glTFType type)
 		: buffer_view(buffer_view), byte_offset(byte_offset), component_type(component_type), normalized(normalized), count(count), type(type)
 	{}
-	attr_ std::string name;
+	attr_ string name;
 	attr_ int buffer_view = -1;
 	attr_ int byte_offset = 0;
 	attr_ glTFComponentType component_type;
@@ -127,22 +126,22 @@ export_ struct refl_ glTFSampler
 	attr_ int min_filter;
 	attr_ int wrap_s = 10497;
 	attr_ int wrap_t = 10497;
-	attr_ std::string name;
+	attr_ string name;
 };
 
 export_ struct refl_ glTFTexture
 {
 	glTFTexture() {}
-	attr_ std::string name;
+	attr_ string name;
 	attr_ int sampler = -1;
 	attr_ int source = -1;
 };
 
 export_ struct refl_ glTFSkin
 {
-	attr_ std::string name;
+	attr_ string name;
 	attr_ int skeleton = -1;
-	attr_ std::vector<int> joints;
+	attr_ vector<int> joints;
 	attr_ int inverse_bind_matrices;
 };
 
@@ -182,14 +181,14 @@ export_ struct refl_ glTFPrimitive
 	attr_ int indices = -1;
 	attr_ int material = -1;
 	attr_ glTFPrimitiveType mode = glTFPrimitiveType::TRIANGLES;
-	attr_ std::vector<glTFMorphTarget> targets;
+	attr_ vector<glTFMorphTarget> targets;
 };
 
 export_ struct refl_ glTFMesh
 {
-	attr_ std::string name;
-	attr_ std::vector<glTFPrimitive> primitives;
-	attr_ std::vector<float> weights;
+	attr_ string name;
+	attr_ vector<glTFPrimitive> primitives;
+	attr_ vector<float> weights;
 };
 
 export_ struct refl_ glTFPerspective
@@ -210,8 +209,8 @@ export_ struct refl_ glTFOrthographic
 
 export_ struct refl_ glTFCamera
 {
-	attr_ std::string name;
-	attr_ std::string type;
+	attr_ string name;
+	attr_ string type;
 	attr_ glTFOrthographic orthographic;
 	attr_ glTFPerspective perspective;
 };
@@ -227,7 +226,7 @@ export_ enum class refl_ glTFInterpolation : unsigned int
 export_ struct refl_ glTFAnimationTarget
 {
 	attr_ int node;
-	attr_ std::string path;
+	attr_ string path;
 };
 
 export_ struct refl_ glTFAnimationChannel
@@ -245,9 +244,9 @@ export_ struct refl_ glTFAnimationSampler
 
 export_ struct refl_ glTFAnimation
 {
-	attr_ std::string name;
-	attr_ std::vector<glTFAnimationSampler> samplers;
-	attr_ std::vector<glTFAnimationChannel> channels;
+	attr_ string name;
+	attr_ vector<glTFAnimationSampler> samplers;
+	attr_ vector<glTFAnimationChannel> channels;
 };
 
 export_ struct refl_ glTFTextureInfo
@@ -277,7 +276,7 @@ export_ enum class refl_ glTFAlphaMode : unsigned int
 export_ struct refl_ glTFMaterial
 {
 	glTFMaterial() {}
-	attr_ std::string name;
+	attr_ string name;
 	attr_ glTFTextureInfo normal_texture;
 	attr_ glTFTextureInfo occlusion_texture;
 	attr_ mud::vec3 emissive_factor = to_vec3(mud::Colour::Black);
@@ -291,7 +290,7 @@ export_ struct refl_ glTFMaterial
 export_ struct refl_ glTFNode
 {
 	glTFNode() {}
-	attr_ std::string name;
+	attr_ string name;
 
 	attr_ int mesh = -1;
 	attr_ int camera = -1;
@@ -302,7 +301,7 @@ export_ struct refl_ glTFNode
 	attr_ mud::quat rotation = mud::ZeroQuat;
 	attr_ mud::vec3 scale = mud::Unit3;
 
-	attr_ std::vector<int> children;
+	attr_ vector<int> children;
 
 	int parent = -1;
 	bool is_joint = false;
@@ -310,87 +309,89 @@ export_ struct refl_ glTFNode
 
 export_ struct refl_ glTFScene
 {
-	attr_ std::string name;
-	attr_ std::vector<int> nodes;
+	attr_ string name;
+	attr_ vector<int> nodes;
 };
 
 export_ struct refl_ glTF
 {
-	attr_ std::vector<glTFBuffer> m_buffers;
+	attr_ vector<glTFBuffer> m_buffers;
 
-	attr_ std::vector<glTFBufferView> m_buffer_views;
-	attr_ std::vector<glTFAccessor> m_accessors;
+	attr_ vector<glTFBufferView> m_buffer_views;
+	attr_ vector<glTFAccessor> m_accessors;
 
-	attr_ std::vector<glTFImage> m_images;
-	attr_ std::vector<glTFTexture> m_textures;
-	attr_ std::vector<glTFMaterial> m_materials;
-	attr_ std::vector<glTFMesh> m_meshes;
-	attr_ std::vector<glTFNode> m_nodes;
-	attr_ std::vector<glTFSkin> m_skins;
-	attr_ std::vector<glTFAnimation> m_animations;
-	attr_ std::vector<glTFCamera> m_cameras;
-	attr_ std::vector<glTFSampler> m_samplers;
-	attr_ std::vector<glTFScene> m_scenes;
+	attr_ vector<glTFImage> m_images;
+	attr_ vector<glTFTexture> m_textures;
+	attr_ vector<glTFMaterial> m_materials;
+	attr_ vector<glTFMesh> m_meshes;
+	attr_ vector<glTFNode> m_nodes;
+	attr_ vector<glTFSkin> m_skins;
+	attr_ vector<glTFAnimation> m_animations;
+	attr_ vector<glTFCamera> m_cameras;
+	attr_ vector<glTFSampler> m_samplers;
+	attr_ vector<glTFScene> m_scenes;
 
-	std::vector<std::vector<uint8_t>> m_binary_buffers;
+	vector<vector<uint8_t>> m_binary_buffers;
+
+	void* m_user = nullptr;
 };
 
 namespace mud
 {
-	export_ using glTFRepack = std::function<void(const string&, glTFPrimitive&)>;
+	export_ using glTFRepack = void(*)(glTF&, const string&, glTFPrimitive&);
 
 	export_ MUD_GLTF_EXPORT void setup_gltf(Module& gltf);
 	export_ MUD_GLTF_EXPORT void unpack_gltf(const string& path, const string& file, glTF& gltf);
 	export_ MUD_GLTF_EXPORT void repack_gltf(glTF& gltf, const string& path, const string& file, const glTFRepack& repack);
 
-	export_ MUD_GLTF_EXPORT int encode_accessor(glTF& gltf, int buffer_index, glTFAccessor& a, std::vector<double>& values, bool for_vertex);
-	export_ MUD_GLTF_EXPORT std::vector<double> decode_accessor(const glTF& gltf, size_t accessor, bool for_vertex);
+	export_ MUD_GLTF_EXPORT int encode_accessor(glTF& gltf, int buffer_index, glTFAccessor& a, vector<double>& values, bool for_vertex);
+	export_ MUD_GLTF_EXPORT vector<double> decode_accessor(const glTF& gltf, size_t accessor, bool for_vertex);
 
 	export_ MUD_GLTF_EXPORT void setup_nodes(glTF& gltf);
 
 	template <class T>
-	std::vector<T> unpack_accessor(const glTF& gltf, size_t accessor, bool for_vertex)
+	vector<T> unpack_accessor(const glTF& gltf, size_t accessor, bool for_vertex)
 	{
-		std::vector<double> attribs = decode_accessor(gltf, accessor, for_vertex);
-		std::vector<T> ret;
+		vector<double> attribs = decode_accessor(gltf, accessor, for_vertex);
+		vector<T> ret;
 		vector_cast(attribs, ret);
 		return ret;
 	}
 
 	template <class T, size_t size>
-	std::vector<T> unpack_accessor(const glTF& gltf, size_t accessor, bool for_vertex)
+	vector<T> unpack_accessor(const glTF& gltf, size_t accessor, bool for_vertex)
 	{
-		std::vector<double> attribs = decode_accessor(gltf, accessor, for_vertex);
-		std::vector<T> ret(attribs.size() / size);
+		vector<double> attribs = decode_accessor(gltf, accessor, for_vertex);
+		vector<T> ret(attribs.size() / size);
 		using U = std::remove_pointer_t<decltype(value_ptr(ret.front()))>;
 		std::transform(attribs.begin(), attribs.end(), value_ptr(ret.front()), [](double v) { return static_cast<U>(v); });
 		return ret;
 	}
 
 	template <class T>
-	int pack_accessor(glTF& gltf, int buffer_index, glTFAccessor& accessor, const std::vector<T>& values, bool for_vertex)
+	int pack_accessor(glTF& gltf, int buffer_index, glTFAccessor& accessor, const vector<T>& values, bool for_vertex)
 	{
-		std::vector<double> attribs(values.size());
+		vector<double> attribs(values.size());
 		std::transform(values.begin(), values.end(), attribs.begin(), [](int v) { return static_cast<double>(v); });
 		return encode_accessor(gltf, buffer_index, accessor, attribs, for_vertex);
 	}
 
 	template <class T, size_t size>
-	int pack_accessor(glTF& gltf, int buffer_index, glTFAccessor& accessor, const std::vector<T>& values, bool for_vertex)
+	int pack_accessor(glTF& gltf, int buffer_index, glTFAccessor& accessor, const vector<T>& values, bool for_vertex)
 	{
-		std::vector<double> attribs(values.size() * size);
+		vector<double> attribs(values.size() * size);
 		using U = std::remove_pointer_t<decltype(value_ptr(values.front()))>;
 		std::transform(value_ptr(values.front()), value_ptr(values.back()) + size, attribs.begin(), [](U v) { return static_cast<double>(v); });
 		return encode_accessor(gltf, buffer_index, accessor, attribs, for_vertex);
 	}
 
 	template <class T, size_t size>
-	int pack_accessor_float(glTF& gltf, int buffer_index, const std::vector<T>& values, bool for_vertex)
+	int pack_accessor_float(glTF& gltf, int buffer_index, const vector<T>& values, bool for_vertex)
 	{
 		static_assert(size > 0 && size <= 4, "incorrect size");
 		glTFAccessor accessor = { 0, 0, glTFComponentType::FLOAT, false, int(values.size()), glTFType(size - 1) };
 		int result = pack_accessor<T, size>(gltf, buffer_index, accessor, values, for_vertex);
-		std::vector<T> debug = unpack_accessor<T, size>(gltf, result, for_vertex);
+		vector<T> debug = unpack_accessor<T, size>(gltf, result, for_vertex);
 		return result;
 	}
 }

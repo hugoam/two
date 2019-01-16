@@ -14,6 +14,8 @@ module mud.ui;
 #include <ui/Style/Layout.h>
 #endif
 
+#include <algorithm>
+
 namespace mud
 {
 	Layer::Layer(Frame& frame)
@@ -65,13 +67,5 @@ namespace mud
 	{
 		d_parentLayer->removeLayer(*this);
 		d_parentLayer->addLayer(*this);
-	}
-
-	void Layer::visit(const Visitor& visitor)
-	{
-		visitor(*this);
-
-		for(Layer* layer : d_sublayers)
-			layer->visit(visitor);
 	}
 }

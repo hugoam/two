@@ -14,9 +14,9 @@
 #endif
 
 #ifndef MUD_CPP_20
-#include <string>
+#include <stl/string.h>
 #include <cstdint>
-#include <vector>
+#include <stl/vector.h>
 #endif
 
 
@@ -38,12 +38,12 @@ namespace mud
     export_ template <> MUD_CTX_EXPORT Type& type<mud::KeyEvent>();
     export_ template <> MUD_CTX_EXPORT Type& type<mud::MouseEvent>();
     
-    export_ template struct MUD_CTX_EXPORT Typed<std::vector<mud::Context*>>;
-    export_ template struct MUD_CTX_EXPORT Typed<std::vector<mud::ControlNode*>>;
-    export_ template struct MUD_CTX_EXPORT Typed<std::vector<mud::InputEvent*>>;
-    export_ template struct MUD_CTX_EXPORT Typed<std::vector<mud::Keyboard*>>;
-    export_ template struct MUD_CTX_EXPORT Typed<std::vector<mud::Mouse*>>;
-    export_ template struct MUD_CTX_EXPORT Typed<std::vector<mud::RenderSystem*>>;
-    export_ template struct MUD_CTX_EXPORT Typed<std::vector<mud::KeyEvent*>>;
-    export_ template struct MUD_CTX_EXPORT Typed<std::vector<mud::MouseEvent*>>;
+    export_ template struct MUD_CTX_EXPORT Typed<vector<mud::Context*>>;
+    export_ template struct MUD_CTX_EXPORT Typed<vector<mud::ControlNode*>>;
+    export_ template struct MUD_CTX_EXPORT Typed<vector<mud::InputEvent*>>;
+    export_ template struct MUD_CTX_EXPORT Typed<vector<mud::Keyboard*>>;
+    export_ template struct MUD_CTX_EXPORT Typed<vector<mud::Mouse*>>;
+    export_ template struct MUD_CTX_EXPORT Typed<vector<mud::RenderSystem*>>;
+    export_ template struct MUD_CTX_EXPORT Typed<vector<mud::KeyEvent*>>;
+    export_ template struct MUD_CTX_EXPORT Typed<vector<mud::MouseEvent*>>;
 }

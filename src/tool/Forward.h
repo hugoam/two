@@ -69,7 +69,7 @@ namespace mud {
     class Tool;
     class ViewportTool;
     class SpatialTool;
-    struct Gizmo;
+    class Gizmo;
     class TransformAction;
     class TransformTool;
     class ActionStack;

@@ -5,6 +5,8 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
+#include <stl/string.h>
 #include <math/Vec.h>
 #endif
 #include <gfx/Forward.h>
@@ -13,15 +15,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifndef MUD_CPP_20
-#include <vector>
-#include <string>
-#endif
-
 namespace mud
 {
-	using string = std::string;
-
 	export_ struct refl_ MUD_GFX_EXPORT Bone
 	{
 		Bone() {}
@@ -38,7 +33,7 @@ namespace mud
 		mat4 m_pose_local;
 		mat4 m_pose;
 
-		std::vector<Node3*> m_attached_nodes;
+		vector<Node3*> m_attached_nodes;
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT Skeleton
@@ -52,8 +47,8 @@ namespace mud
 		void update_bones();
 
 		cstring m_name;
-		std::vector<Bone> m_bones;
-		std::vector<Animation*> m_animations;
+		vector<Bone> m_bones;
+		vector<Animation*> m_animations;
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT Joint
@@ -78,9 +73,9 @@ namespace mud
 
 		bgfx::TextureHandle m_texture = BGFX_INVALID_HANDLE;
 		const bgfx::Memory* m_memory = nullptr;
-		//std::vector<float> m_texture_data;
+		//vector<float> m_texture_data;
 
-		std::vector<Joint> m_joints;
+		vector<Joint> m_joints;
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT Rig
@@ -94,6 +89,6 @@ namespace mud
 		void update_rig();
 
 		Skeleton m_skeleton;
-		std::vector<Skin> m_skins;
+		vector<Skin> m_skins;
 	};
 }

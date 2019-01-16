@@ -120,9 +120,9 @@ namespace mud
 		m_frustum.m_near = m_light_near;
 		m_frustum.m_far = m_light_far;
 
-		m_frustum.resize(rect_size(m_viewport->m_rect));
+		m_frustum.resize(rect_size(vec4(m_viewport->m_rect)));
 
-		m_params_z = { 0, 0, -m_frustum.m_linearizer, m_frustum.m_subdiv_z };
+		m_params_z = { 0.f, 0.f, -m_frustum.m_linearizer, float(m_frustum.m_subdiv_z) };
 		if(SUPPORTS_REMAPPED_FROXELS)
 		{
 			m_params_f.x = uint32_t(m_frustum.m_subdiv_z);
@@ -139,7 +139,7 @@ namespace mud
 
 	void Froxelizer::update_projection()
 	{
-		m_frustum.recompute(m_projection, rect_size(m_viewport->m_rect));
+		m_frustum.recompute(m_projection, rect_size(vec4(m_viewport->m_rect)));
 
 		//    linearizer = log2(zLightFar / zLightNear) / (zcount - 1)
 		//    vz = -exp2((i - zcount) * linearizer) * zLightFar
@@ -232,7 +232,7 @@ namespace mud
 			encoder.setUniform(m_uniform.u_froxel_z, &z);
 		};
 
-		submit(encoder, vec4(m_frustum.m_inv_tile_size, rect_offset(m_viewport->m_rect)), vec4(m_params_f, 0.f), m_params_z);
+		submit(encoder, vec4(m_frustum.m_inv_tile_size, rect_offset(vec4(m_viewport->m_rect))), vec4(vec3(m_params_f), 0.f), m_params_z);
 	}
 
 	void Froxelizer::froxelize_lights(const Camera& camera, array<Light*> lights)

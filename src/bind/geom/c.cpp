@@ -445,7 +445,7 @@ extern "C" {
 	mud::ConvexHull* DECL mud_ConvexHull_ConvexHull_0() {
 		return new mud::ConvexHull();
 	}
-	mud::ConvexHull* DECL mud_ConvexHull_ConvexHull_1(const std::vector<mud::vec3>* vertices) {
+	mud::ConvexHull* DECL mud_ConvexHull_ConvexHull_1(const vector<mud::vec3>* vertices) {
 		return new mud::ConvexHull(*vertices);
 	}
 	void DECL mud_ConvexHull__destroy(mud::ConvexHull* self) {
@@ -564,7 +564,7 @@ extern "C" {
 	mud::Grid3* DECL mud_Grid3_Grid3_1(const mud::uvec2* size) {
 		return new mud::Grid3(*size);
 	}
-	mud::Grid3* DECL mud_Grid3_Grid3_2(const mud::uvec2* size, const std::vector<mud::vec3>* points) {
+	mud::Grid3* DECL mud_Grid3_Grid3_2(const mud::uvec2* size, const vector<mud::vec3>* points) {
 		return new mud::Grid3(*size, *points);
 	}
 	mud::uvec2* DECL mud_Grid3__get_size(mud::Grid3* self) {
@@ -611,7 +611,7 @@ extern "C" {
 	mud::Points* DECL mud_Points_Points_0() {
 		return new mud::Points();
 	}
-	mud::Points* DECL mud_Points_Points_1(const std::vector<mud::vec3>* points) {
+	mud::Points* DECL mud_Points_Points_1(const vector<mud::vec3>* points) {
 		return new mud::Points(*points);
 	}
 	void DECL mud_Points__destroy(mud::Points* self) {
@@ -637,7 +637,7 @@ extern "C" {
 	mud::Polygon* DECL mud_Polygon_Polygon_0() {
 		return new mud::Polygon();
 	}
-	mud::Polygon* DECL mud_Polygon_Polygon_1(std::vector<mud::vec3>* vertices) {
+	mud::Polygon* DECL mud_Polygon_Polygon_1(vector<mud::vec3>* vertices) {
 		return new mud::Polygon(*vertices);
 	}
 	void DECL mud_Polygon__destroy(mud::Polygon* self) {
