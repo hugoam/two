@@ -4,13 +4,10 @@
 
 #pragma once
 
-#include <infra/Config.h>
-#include <infra/Array.h>
-
-#ifndef MUD_CPP_20
 #include <stl/string.h>
 #include <stl/vector.h>
-#endif
+#include <infra/Config.h>
+#include <infra/Array.h>
 
 namespace mud
 {
