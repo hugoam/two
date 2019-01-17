@@ -87,7 +87,9 @@ void ex_04_lights(Shell& app, Widget& parent)
 	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
 	static std::vector<LightInstance > light_items = create_light_grid(10U, 10U);
 
+#if DEBUG_CLUSTERED
 	static bool debug = true;
+#endif
 	static bool clustered = true;
 	static bool ground = false;
 	static bool moving_lights = false;

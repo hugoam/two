@@ -1,5 +1,6 @@
 #include <mud/core.h>
 #include <gfx-pbr/Api.h>
+#include <uio/Api.h>
 
 #include <03_materials/03_materials.h>
 
@@ -174,6 +175,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 	UNUSED(app);
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	OrbitController& controller = ui::orbit_controller(viewer);
+	UNUSED(controller);
 
 	Gnode& scene = viewer.m_scene->begin();
 
@@ -216,8 +218,8 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 		ui::label(sheet, "Environment :");
 		ui::number_field<float>(sheet, "Ambient", { viewer.m_environment.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
 
-		//if(edited)
-		//	object_edit(*dock, Ref(edited)); // "Particle Editor" // identity = edited
+		if(edited)
+			object_edit(*dock, Ref(edited)); // "Particle Editor" // identity = edited
 	}
 }
 

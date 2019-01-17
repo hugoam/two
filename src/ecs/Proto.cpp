@@ -21,6 +21,7 @@ namespace mud
 		for(Member& member : cls.m_members)
 			if(member.is_component())
 				return *member.m_type;
+		static Type invalid("INVALID"); return invalid;
 	}
 
 	Prototype::Prototype(Class& cls)

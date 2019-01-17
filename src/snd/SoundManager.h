@@ -17,6 +17,7 @@
 #include <snd/SoundListener.h>
 #include <snd/Sound.h>
 
+#include <functional>
 #include <list>
 //#include <thread>
 //#include <memory>
@@ -30,12 +31,12 @@ namespace mud
 	class MUD_SND_EXPORT SoundManager : public NonCopy, public SoundImplementer
 	{
 	public:
-		typedef std::function<void ()> SoundAction;
-		typedef std::list<Sound*> SoundList;
-		typedef vector<Sound*> SoundVector;
-		typedef vector<ALuint> SourceVector;
+		using SoundAction = std::function<void()>;
+		using SoundList = std::list<Sound*>;
+		using SoundVector = vector<Sound*>;
+		using SourceVector = vector<ALuint>;
 
-	// Thread-safe interface
+		// Thread-safe interface
 	public:
 		SoundManager(cstring resourcePath = "");
 		~SoundManager();

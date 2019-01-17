@@ -35,7 +35,7 @@ namespace mud
 			v.images.push_back({ name.c_str(), fullpath.c_str(), { uint(width), uint(height) } });
 		};
 
-		Visitor visitor = { images, subfolder };
+		Visitor visitor = { images, path, subfolder };
 		visit_files(path.c_str(), visit_file, &visitor);
 	}
 

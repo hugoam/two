@@ -337,6 +337,7 @@ namespace mud
 
 	void BlockShadow::begin_render(Render& render)
 	{
+		UNUSED(render);
 		if(m_direct_light && m_direct_light->m_shadows)
 		{
 			constexpr uint16_t csm_size = 4096;

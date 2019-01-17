@@ -81,7 +81,7 @@ namespace mud
 			interpolate(Ref((void*)result.m_value, *m_value_type), at(cursor.m_prev), at(cursor.m_next), c);
 			return result;
 		}
-		else if(m_interpolation == Interpolation::Cubic)
+		else if(m_interpolation == Interpolation::Cubic || true)
 		{
 			Value result;
 			size_t pre = max<size_t>(0, cursor.m_prev - 1);

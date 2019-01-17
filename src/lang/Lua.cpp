@@ -745,7 +745,7 @@ namespace mud
 
 	inline Stack push_dict(lua_State* state, const Var& value)
 	{
-		Stack obj = push_array(state);
+		Stack obj = push_array(state); UNUSED(value);
 		//iterdict(value).iterate(value, [=](Var key, Var element) {
 		//	set_table(state, key, element); });
 		return obj;

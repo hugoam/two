@@ -19,9 +19,6 @@ module mud.infra;
 
 namespace mud
 {
-	template MUD_INFRA_EXPORT void to_value(const string& str, float& val);
-	template MUD_INFRA_EXPORT void to_string(const float& val, string& str);
-
 	const size_t g_num_precision = 3;
 
 	void split(const string& str, const string& separator, array<string> output)

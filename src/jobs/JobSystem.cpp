@@ -44,6 +44,7 @@ namespace mud
 		: m_job_pool("JobSystem Job pool", MAX_JOB_COUNT * sizeof(Job))
 		, m_jobs(static_cast<Job*>(m_job_pool.current()))
 	{
+		UNUSED(padding);
 		if(num_threads == 0)
 		{
 			uint32_t hardware_threads = std::thread::hardware_concurrency();
@@ -57,8 +58,7 @@ namespace mud
 		m_thread_states = aligned_vector<ThreadState>(num_threads + adoptable_threads);
 		m_thread_count = uint16_t(num_threads);
 		m_parallel_split_count = (uint8_t)std::ceil(std::log2f(float(num_threads + adoptable_threads)));
-		std::vector<int> i;
-		i.emplace_back();
+
 		printf("INFO: job system running on %i worker threads\n", int(m_thread_count));
 
 		for(size_t i = 0, n = m_thread_states.size(); i < n; i++)

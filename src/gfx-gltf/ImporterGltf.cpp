@@ -578,7 +578,7 @@ namespace mud
 		import_items(gltf, state, config);
 	}
 
-	void export_repack(GfxSystem& gfx_system, glTF& gltf, const string& path, const string& file)
+	void export_repack(glTF& gltf, const string& path, const string& file)
 	{
 		auto repack = [](glTF& gltf, const string& name, glTFPrimitive& primitive)
 		{
@@ -599,7 +599,7 @@ namespace mud
 	{
 		printf("INFO: gltf - loading scene %s\n", filepath.c_str());
 
-		glTF gltf;
+		glTF gltf = { &m_gfx_system };
 		unpack_gltf(state.m_path, state.m_file, gltf);
 
 		import_gltf(gltf, state, config);
@@ -611,7 +611,7 @@ namespace mud
 
 		Import state = { m_gfx_system, filepath, config };
 
-		glTF gltf;
+		glTF gltf = { &m_gfx_system };
 		unpack_gltf(state.m_path, state.m_file, gltf);
 
 		import_gltf(gltf, state, config);
@@ -632,7 +632,7 @@ namespace mud
 
 		Import state = { m_gfx_system, filepath, config };
 
-		glTF gltf;
+		glTF gltf = { &m_gfx_system };
 		unpack_gltf(state.m_path, state.m_file, gltf);
 
 		import_gltf(gltf, state, config);
@@ -647,8 +647,8 @@ namespace mud
 		string path = file_directory(filepath);
 		string file = file_name(filepath);
 
-		glTF gltf;
+		glTF gltf = { &m_gfx_system };
 		unpack_gltf(path, file, gltf);
-		export_repack(m_gfx_system, gltf, path, file);
+		export_repack(gltf, path, file);
 	}
 }

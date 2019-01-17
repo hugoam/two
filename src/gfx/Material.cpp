@@ -261,7 +261,7 @@ namespace mud
 	ShaderVersion Material::shader_version(const Program& program, const Item& item, const ModelItem& model_item) const
 	{
 		ShaderVersion version = this->shader_version(program);
-
+		UNUSED(item); UNUSED(model_item);
 #if 0
 		PbrBlock& pbr = pbr_block(*ms_gfx_system);
 

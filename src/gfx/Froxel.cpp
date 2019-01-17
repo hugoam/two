@@ -133,6 +133,7 @@ namespace mud
 		: m_gfx_system(gfx_system)
 		, m_impl(construct<Impl>())
 	{
+		UNUSED(RECORD_BUFFER_WIDTH_MASK);
 		m_uniform.createUniforms();
 	}
 

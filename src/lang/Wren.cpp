@@ -969,7 +969,7 @@ namespace mud
 
 	inline void push_dict(WrenVM* vm, int slot, Ref value)
 	{
-		UNUSED(vm); UNUSED(slot);
+		UNUSED(vm); UNUSED(slot); UNUSED(value);
 		//iterdict(value).iterate(value, [=](Var key, Var element) {
 		//	set_table(vm, key, element); });
 		//});

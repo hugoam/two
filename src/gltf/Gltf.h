@@ -315,6 +315,8 @@ export_ struct refl_ glTFScene
 
 export_ struct refl_ glTF
 {
+	glTF(void* user = nullptr) : m_user(user) {}
+
 	attr_ vector<glTFBuffer> m_buffers;
 
 	attr_ vector<glTFBufferView> m_buffer_views;

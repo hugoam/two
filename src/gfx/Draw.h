@@ -70,7 +70,7 @@ namespace mud
 		Model& symbol_model(const Symbol& symbol, const Shape& shape, DrawMode draw_mode);
 		Material& symbol_material(GfxSystem& gfx_system, const Symbol& symbol, DrawMode draw_mode);
 
-		class Impl;
+		struct Impl;
 		unique<Impl> m_impl;
 	};
 
