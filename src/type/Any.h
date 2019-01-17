@@ -99,7 +99,7 @@ namespace mud
 
 		virtual void destroy(Any& any) const { any_destruct<T>(value(any)); }
 		virtual void copy(Any& any, const Any& other) const { create(any, *this, value(other)); }
-		virtual void move(Any& any, Any& other) const { create(any, *this, move(value(other))); destroy(other); }
+		virtual void move(Any& any, Any& other) const { using mud::move; create(any, *this, move(value(other))); destroy(other); }
 	};
 
 	export_ template <class T>
