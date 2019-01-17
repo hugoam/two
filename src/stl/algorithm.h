@@ -8,6 +8,7 @@
 #endif
 namespace mud
 {
+	using std::move;
 	using std::swap;
 	using std::find;
 	using std::find_if;

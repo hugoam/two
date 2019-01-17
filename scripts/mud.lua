@@ -40,6 +40,7 @@ end
 
 function mud_infra()
     files {
+        path.join(MUD_SRC_DIR, "stl", "**.h"),
         path.join(MUD_3RDPARTY_DIR, "tinystl", "include", "**.h"),
     }
 end
