@@ -186,7 +186,9 @@ function mud_project(lib, name, modules, libkind, optdeps, norefl)
     lib.deps = table.inverse(sort_topological(deps, 'deps'))
     
     for _, m in ipairs(lib.deps) do
-        mud_depend(lib, m)
+        if m then
+            mud_depend(lib, m)
+        end
     end
 end
 

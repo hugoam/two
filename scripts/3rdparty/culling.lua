@@ -15,7 +15,8 @@ culling = mud_dep(nil, "culling", false, uses_culling)
     }
 
     files {
-        path.join(MUD_3RDPARTY_DIR, "culling", "MaskedOcclusionCulling.cpp"),
+        path.join(MUD_3RDPARTY_DIR, "culling", "*.cpp"),
+        --path.join(MUD_3RDPARTY_DIR, "culling", "MaskedOcclusionCulling.cpp"),
     }
 
     configuration { "asmjs" }
@@ -35,6 +36,7 @@ culling = mud_dep(nil, "culling", false, uses_culling)
             "/wd4127", -- warning C4127: conditional expression is constant
             "/wd4456", -- warning C4456: declaration hides previous local declaration
             "/wd4245", -- warning C4245: conversion from 'int' to 'unsigned int', signed/unsigned mismatch
+            "/wd4310", -- warning C4310: cast truncates constant value
         }
 
     configuration {}

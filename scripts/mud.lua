@@ -14,10 +14,16 @@ dofile(path.join(MUD_DIR, "scripts/3rdparty/wren.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/mikktspace.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/vg.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/bgfx/bgfx.lua"))
+group "3rdparty"
 dofile(path.join(MUD_DIR, "scripts/3rdparty/meshoptimizer.lua"))
-dofile(path.join(MUD_DIR, "scripts/3rdparty/culling.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/xatlas.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/fastnoise.lua"))
+
+if _OPTIONS["culling"] then
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/culling.lua"))
+else
+    culling = nil
+end
 
 if _OPTIONS["context-glfw"] then
     dofile(path.join(MUD_DIR, "scripts/3rdparty/glfw.lua"))
