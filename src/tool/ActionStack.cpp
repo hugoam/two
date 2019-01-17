@@ -23,7 +23,7 @@ namespace mud
 	{
 		m_undone.clear();
 		//action->apply();
-		m_done.push_back(std::move(action));
+		m_done.push_back(move(action));
 	}
 
 	void ActionStack::redo()

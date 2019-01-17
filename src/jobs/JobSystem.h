@@ -129,7 +129,7 @@ namespace mud
 			};
 			Job* job = create(parent, &stub::call);
 			if(job)
-				new(job->padding) T(std::move(data));
+				new(job->padding) T(move(data));
 			return job;
 		}
 
@@ -148,7 +148,7 @@ namespace mud
 			};
 			Job* job = create(parent, &stub::call);
 			if(job)
-				new(job->padding) T(std::move(functor));
+				new(job->padding) T(move(functor));
 			return job;
 		}
 

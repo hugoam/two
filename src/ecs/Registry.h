@@ -141,7 +141,7 @@ namespace mud
 		void Set(uint32_t handle, T component = T())
 		{
 			size_t index = m_indices[handle];
-			this->Buffer<T>().m_data[index] = std::move(component);
+			this->Buffer<T>().m_data[index] = move(component);
 		}
 
 		template <class T>
@@ -254,7 +254,7 @@ namespace mud
 		void SetComponent(uint32_t handle, T component = T())
 		{
 			EntityData& entity = m_entities[handle];
-			m_buffers[entity.m_stream].Set<T>(handle, std::move(component));
+			m_buffers[entity.m_stream].Set<T>(handle, move(component));
 		}
 
 		template <class T>

@@ -130,7 +130,7 @@ namespace mud
 
 		OwnedHandle(OwnedHandle<T>&& other) { other.swap(*this); }
 		OwnedHandle& operator=(OwnedHandle<T>&& other) { other.swap(*this); return *this; }
-		void swap(OwnedHandle<T>& other) { swap(m_handle, other.m_handle); swap(m_pool, other.m_pool); }
+		void swap(OwnedHandle<T>& other) { using mud::swap; swap(m_handle, other.m_handle); swap(m_pool, other.m_pool); }
 
 		operator SparseHandle<T>() const { return { *m_pool, m_handle }; }
 

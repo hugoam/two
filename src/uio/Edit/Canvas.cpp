@@ -61,7 +61,7 @@ namespace mud
 
 		auto add_process = [&](object<Process> process)
 		{
-			script.m_processes.push_back(std::move(process));
+			script.m_processes.push_back(move(process));
 			vec2 position = canvas.m_plan->m_frame.integrate_position(parent.m_frame.m_position, canvas.m_scroll_plan->m_frame);
 			script.m_processes.back()->m_position[0] = position.x;
 			script.m_processes.back()->m_position[1] = position.y;

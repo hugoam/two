@@ -100,7 +100,7 @@ namespace clgen
 	string param_forward(const CLParam& p, size_t index)
 	{
 		bool move = p.m_type.m_type->m_move_only && p.m_type.value();
-		return move ? "std::move(" + param_refget(p, index) + ")" : param_refget(p, index);
+		return move ? "move(" + param_refget(p, index) + ")" : param_refget(p, index);
 	}
 
 	string param_flags(const CLParam& p)

@@ -14,7 +14,7 @@ namespace mud
 
 			ParallelJob(uint32_t start, uint32_t count, uint8_t splits, Functor functor, const Splitter& splitter)
 				: m_start(start), m_count(count)
-				, m_functor(std::move(functor))
+				, m_functor(move(functor))
 				, m_splits(splits)
 				, m_splitter(splitter)
 			{}
@@ -31,13 +31,13 @@ namespace mud
 				{
 					const uint32_t lc = m_count / 2;
 					Jobs ld(m_start, lc, m_splits + uint8_t(1), m_functor, m_splitter);
-					Job* left = js.job<Jobs, &Jobs::run>(parent, std::move(ld));
+					Job* left = js.job<Jobs, &Jobs::run>(parent, move(ld));
 
 					js.run(left);
 
 					const uint32_t rc = m_count - lc;
 					Jobs rd(m_start + lc, rc, m_splits + uint8_t(1), m_functor, m_splitter);
-					Job* right = js.job<Jobs, &Jobs::run>(parent, std::move(rd));
+					Job* right = js.job<Jobs, &Jobs::run>(parent, move(rd));
 
 					js.run(right, JobSystem::DONT_SIGNAL);
 				}
@@ -82,21 +82,21 @@ namespace mud
 	Job* split_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor, const S& splitter)
 	{
 		using Jobs = details::ParallelJob<S, F>;
-		Jobs jobData(start, count, 0, std::move(functor), splitter);
-		return js.job<Jobs, &Jobs::run>(parent, std::move(jobData));
+		Jobs jobData(start, count, 0, move(functor), splitter);
+		return js.job<Jobs, &Jobs::run>(parent, move(jobData));
 	}
 
 	template <typename T, typename S, typename F>
 	Job* split_jobs(JobSystem& js, Job* parent, T* data, uint32_t count, F functor, const S& splitter)
 	{
-		auto user = [data, f = std::move(functor)](JobSystem& js, Job* job, uint32_t start, uint32_t count)
+		auto user = [data, f = move(functor)](JobSystem& js, Job* job, uint32_t start, uint32_t count)
 		{
 			UNUSED(js); UNUSED(job);
 			f(data + start, count);
 		};
 		using Jobs = details::ParallelJob<S, decltype(user)>;
-		Jobs jobData(0, count, 0, std::move(user), splitter);
-		return js.job<Jobs, &Jobs::run>(parent, std::move(jobData));
+		Jobs jobData(0, count, 0, move(user), splitter);
+		return js.job<Jobs, &Jobs::run>(parent, move(jobData));
 	}
 
 	template <typename T, typename S, typename F>
@@ -127,14 +127,14 @@ namespace mud
 	template <uint32_t Count, typename F>
 	Job* parallel_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor)
 	{
-		auto user = [f = std::move(functor)](JobSystem& js, Job* job, uint32_t start, uint32_t count)
+		auto user = [f = move(functor)](JobSystem& js, Job* job, uint32_t start, uint32_t count)
 		{
 			for(uint32_t i = start; i < start + count; ++i)
 				f(js, job, i);
 		};
 		using Jobs = details::ParallelJob<CountSplitter<Count>, decltype(user)>;
-		Jobs jobData(start, count, 0, std::move(user), CountSplitter<Count>());
-		return js.job<Jobs, &Jobs::run>(parent, std::move(jobData));
+		Jobs jobData(start, count, 0, move(user), CountSplitter<Count>());
+		return js.job<Jobs, &Jobs::run>(parent, move(jobData));
 	}
 
 	template <uint32_t Count, class T_Source, class T_Dest>

@@ -40,7 +40,7 @@ namespace mud
 	void Tool::commit(object<EditorAction> action)
 	{
 		action->apply();
-		m_context.m_action_stack->push(std::move(action));
+		m_context.m_action_stack->push(move(action));
 	}
 
 	void Tool::activate()
@@ -186,7 +186,7 @@ namespace mud
 		{
 			m_dragging = nullptr;
 			m_action->undo();
-			this->commit(std::move(m_action));
+			this->commit(move(m_action));
 			mouse_event.consume(screen);
 		}
 

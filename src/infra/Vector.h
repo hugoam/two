@@ -59,7 +59,7 @@ namespace mud
 	export_ template <class T>
 	inline T vector_pop(vector<T>& vec)
 	{
-		T val = std::move(vec.back());
+		T val = move(vec.back());
 		vec.pop_back();
 		return val;
 	}
@@ -185,7 +185,7 @@ namespace mud
 	inline auto vector_transfer_pt(vector<T>& source, vector<T>& target, V& value)
 	{
 		auto pos = find_if(source.begin(), source.end(), [&](auto& pt) { return pt.get() == &value; });
-		target.emplace_back(std::move(*pos));
+		target.emplace_back(move(*pos));
 		source.erase(pos);
 	}
 

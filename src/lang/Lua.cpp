@@ -441,7 +441,7 @@ namespace mud
 		Stack arguments = { state, 0 };
 		for(Var& param : parameters)
 			arguments += push(state, param);
-		Stack results = call_lua_stack(state, std::move(arguments), result ? 1 : 0, std::move(function));
+		Stack results = call_lua_stack(state, move(arguments), result ? 1 : 0, move(function));
 		if(result)
 			read(state, results.m_num, *result);
 	}
@@ -450,7 +450,7 @@ namespace mud
 	{
 		Stack stack = load_code(state, code);
 		if(stack.m_num)
-			call_lua(state, std::move(stack), {}, result);
+			call_lua(state, move(stack), {}, result);
 	}
 
 	inline bool read_params(lua_State* state, const Callable& callable, array<Var> vars)

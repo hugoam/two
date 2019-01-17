@@ -144,7 +144,7 @@ namespace mud
 
 	RenderPass& Renderer::add_pass(unique<RenderPass> render_pass)
 	{ 
-		m_impl->m_render_passes.emplace_back(std::move(render_pass));
+		m_impl->m_render_passes.emplace_back(move(render_pass));
 		return *m_impl->m_render_passes.back();
 	}
 

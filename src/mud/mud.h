@@ -7,6 +7,8 @@
 #include <tree/Api.h>
 #include <math/Api.h>
 #include <geom/Api.h>
+#include <refl/Api.h>
+#include <srlz/Api.h>
 #include <lang/Api.h>
 #include <ui/Api.h>
 #include <uio/Api.h>

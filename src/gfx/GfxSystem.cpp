@@ -161,7 +161,7 @@ namespace mud
 	{
 		object<GfxContext> context = make_object<GfxContext>(*this, name, width, height, fullScreen, !m_initialized);
 		m_impl->m_contexts.push_back(context.get());
-		return std::move(context);
+		return move(context);
 	}
 
 	void GfxSystem::init(GfxContext& context)

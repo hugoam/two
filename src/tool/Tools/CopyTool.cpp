@@ -53,7 +53,7 @@ namespace mud
 
 	void CopyTool::end()
 	{
-		this->commit(std::move(m_action));
+		this->commit(move(m_action));
 	}
 
 	object<TransformAction> CopyTool::create_action(array<Transform*> targets)

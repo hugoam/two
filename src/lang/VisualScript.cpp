@@ -425,7 +425,7 @@ namespace mud
 	{
 		object<Pipe> pipe = input.try_connect(output, modifier);
 		if(pipe)
-			m_pipes.push_back(std::move(pipe));
+			m_pipes.push_back(move(pipe));
 		if(!m_locked)
 			this->execute();
 	}
