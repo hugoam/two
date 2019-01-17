@@ -238,6 +238,8 @@ namespace mud
 
 #if defined(WIN32)
 #include <malloc.h>
+#else
+#include <cstdlib>
 #endif
 
 namespace mud

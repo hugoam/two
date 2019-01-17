@@ -3,6 +3,7 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
+#include <climits>
 
 #ifdef MUD_MODULES
 module mud.noise;

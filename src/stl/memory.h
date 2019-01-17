@@ -21,6 +21,7 @@ namespace mud
 #endif
 #else
 #include <stl/swap.h>
+#include <cstddef>
 namespace mud
 {
 	template<typename T>

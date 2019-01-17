@@ -9,6 +9,8 @@
 #include <type/Var.h>
 #include <type/Type.h>
 
+#include <cstdlib>
+
 namespace mud
 {
 	using cstring = const char*;

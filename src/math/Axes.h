@@ -8,6 +8,8 @@
 #include <math/Axis.h>
 #include <math/Vec.h>
 
+#include <cstddef>
+
 namespace mud
 {
 	// @todo replace with inline constexpr when moving to C++17

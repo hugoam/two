@@ -8,6 +8,8 @@
 #include <pool/VecPool.h>
 #include <type/Any.h>
 
+#include <new>
+
 namespace mud
 {
 	export_ class refl_ MUD_POOL_EXPORT Pool

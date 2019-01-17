@@ -7,6 +7,7 @@
 #include <stl/vector.h>
 #include <math/Forward.h>
 #include <math/Vec.h>
+#include <math/Axis.h>
 
 #ifndef MUD_CPP_20
 #include <cstdint>

@@ -4,12 +4,13 @@
 
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
-#include <stl/map.h>
+#include <algorithm>
 #endif
 
 #ifdef MUD_MODULES
 module mud.wfc;
 #else
+#include <stl/map.h>
 #include <infra/Vector.h>
 #include <wfc/Wfc.h>
 // @kludge : not sure why this fixes a compilation error when using MSVC modules :/

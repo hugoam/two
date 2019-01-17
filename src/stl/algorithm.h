@@ -60,7 +60,7 @@ namespace mud
 			{
 				if(!pred(*first))
 				{
-					*next = std::move(*first);
+					*next = move(*first);
 					++next;
 				}
 			}
@@ -78,7 +78,7 @@ namespace mud
 			{
 				if(!(*first == val))
 				{
-					*next = std::move(*first);
+					*next = move(*first);
 					++next;
 				}
 			}

@@ -513,7 +513,7 @@ namespace mud
 		quat() { }
 		quat(float v) : float4(v) { }
 		quat(float x, float y, float z, float w) : float4(x, y, z, w) { }
-		quat(const float3& euler_angles) 
+		explicit quat(const float3& euler_angles) 
 		{
 			float3 c = cos(euler_angles * float(0.5));
 			float3 s = sin(euler_angles * float(0.5));

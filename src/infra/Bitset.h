@@ -137,7 +137,7 @@ public:
 
     void reset()
 	{
-        std::fill(std::begin(storage), std::end(storage), 0);
+        *this = {};
     }
 
     bool operator[](size_t b) const
@@ -187,15 +187,8 @@ public:
     bitset operator~() const { bitset r; for(size_t i = 0; i < N; ++i) r.storage[i] = ~storage[i]; return r; }
 
 private:
-    friend bool operator<(bitset const& lhs, bitset const& rhs)
-	{
-        return std::lexicographical_compare(
-                std::begin(lhs.storage), std::end(lhs.storage),
-                std::begin(rhs.storage), std::end(rhs.storage)
-        );
-    }
 
-	friend bitset operator&(const bitset& lhs, const bitset& rhs) { return bitset(lhs) &= rhs; }
+    friend bitset operator&(const bitset& lhs, const bitset& rhs) { return bitset(lhs) &= rhs; }
     friend bitset operator|(const bitset& lhs, const bitset& rhs) { return bitset(lhs) |= rhs; }
     friend bitset operator^(const bitset& lhs, const bitset& rhs) { return bitset(lhs) ^= rhs; }
 };

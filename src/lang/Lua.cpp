@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <cstdarg>
 #include <type_traits>
+#include <new>
 #endif
 
 #ifdef MUD_MODULES

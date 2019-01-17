@@ -33,8 +33,8 @@ std::vector<LightInstance> create_light_grid(size_t size_x, size_t size_y)
 
 void light_grid(Gnode& parent, array2d<LightInstance> light_grid, bool moving, LightType light_type, float range, float attenuation, float spot_angle, float spot_attenuation)
 {
-	size_t size_x = light_grid.m_size_x / 2;
-	size_t size_y = light_grid.m_size_y / 2;
+	size_t size_x = light_grid.m_x / 2;
+	size_t size_y = light_grid.m_y / 2;
 	float spacing = 4.f * 2.f;
 	vec3 center = { (size_x-1) * spacing * -0.5f, 0.f, (size_y-1) * spacing * -0.5f };
 

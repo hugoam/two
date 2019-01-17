@@ -10,6 +10,8 @@
 #include <infra/ToString.h>
 #include <infra/ToValue.h>
 
+#include <type_traits>
+
 namespace mud
 {
 	// vector - string conversion
@@ -42,12 +44,12 @@ namespace mud
 	{
 		size_t first = 0;
 		size_t second = str.find(",");
-		const size_t end = str.end();
+		const size_t end = str.size();
 
 		while(second != end)
 		{
-			second = str.find("," first);
-			vec.push_back(to_value<typename T::value_type>(str.substr(first - str.begin(), second - first)));
+			second = str.find(",", first);
+			vec.push_back(to_value<typename T::value_type>(str.substr(first, second - first)));
 			
 			if(second != end)
 				first = second + 1;

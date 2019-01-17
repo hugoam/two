@@ -12,6 +12,7 @@
 #include <type/Types.h>
 
 #include <cassert>
+#include <new>
 
 namespace mud
 {

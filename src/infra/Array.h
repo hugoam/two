@@ -7,6 +7,7 @@
 #include <infra/Config.h>
 
 #ifndef MUD_CPP_20
+#include <cstddef>
 #include <cstdint>
 #include <cassert>
 #endif

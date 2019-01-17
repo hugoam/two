@@ -15,6 +15,8 @@
 
 #include <bgfx/bgfx.h>
 
+#include <algorithm>
+
 namespace mud
 {
 	// @todo automatical definition of structs to uniforms using reflection

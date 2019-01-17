@@ -13,6 +13,8 @@ module mud.math;
 
 namespace mud
 {
+	using std::abs;
+
 	Colour Colour::Black(0.f, 0.f, 0.f);
 	Colour Colour::AlphaBlack(0.f, 0.f, 0.f, 0.5f);
 	Colour Colour::Red(1.f, 0.f, 0.f);

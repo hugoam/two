@@ -10,6 +10,7 @@ module mud.infra;
 #include <infra/Config.h>
 #include <infra/String.h>
 #include <infra/ToString.h>
+#include <infra/ToValue.h>
 #include <infra/NonCopy.h>
 #endif
 

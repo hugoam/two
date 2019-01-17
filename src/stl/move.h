@@ -4,8 +4,8 @@
 
 namespace mud
 {
-	namespace
-	{
+	//namespace
+	//{
 		template<class T>
 		struct remove_reference { using type = T; };
 
@@ -23,5 +23,5 @@ namespace mud
 		{
 			return (static_cast<remove_reference_t<T>&&>(arg));
 		}
-	}
+	//}
 }
