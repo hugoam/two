@@ -8,7 +8,7 @@
 #include <cstdlib>
 module mud.math;
 #else
-//#include <refl/Convert.h>
+#include <infra/Array.h>
 #include <math/Types.h>
 #include <math/VecOps.h>
 #include <math/Math.h>

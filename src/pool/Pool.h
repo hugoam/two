@@ -130,7 +130,7 @@ namespace mud
 
 		OwnedHandle(OwnedHandle<T>&& other) { other.swap(*this); }
 		OwnedHandle& operator=(OwnedHandle<T>&& other) { other.swap(*this); return *this; }
-		void swap(OwnedHandle<T>& other) { std::swap(m_handle, other.m_handle); std::swap(m_pool, other.m_pool); }
+		void swap(OwnedHandle<T>& other) { swap(m_handle, other.m_handle); swap(m_pool, other.m_pool); }
 
 		operator SparseHandle<T>() const { return { *m_pool, m_handle }; }
 
@@ -173,8 +173,8 @@ namespace mud
 		void destroy(uint32_t handle)
 		{
 			uint32_t index = m_indices[handle];
-			std::swap(m_objects[index], m_objects.back());
-			std::swap(m_handles[index], m_handles.back());
+			swap(m_objects[index], m_objects.back());
+			swap(m_handles[index], m_handles.back());
 			m_objects.pop_back();
 			m_handles.pop_back();
 			m_indices[m_handles[index]] = index;

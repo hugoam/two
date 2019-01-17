@@ -20,6 +20,8 @@ module mud.gfx.pbr;
 #include <gfx-pbr/Radiance.h>
 #endif
 
+#include <cstdio>
+
 namespace mud
 {
 	BlockRadiance::BlockRadiance(GfxSystem& gfx_system, BlockFilter& filter, BlockCopy& copy)

@@ -4,30 +4,22 @@
 
 #pragma once
 
+#include <stl/limits.h>
 #include <math/Forward.h>
+#include <math/Math.h>
 
 #ifndef MUD_CPP_20
 #include <cstdint>
 #include <cfloat>
-#include <limits>
 #endif
 
 namespace mud
 {
-	namespace detail
-	{
-		template <class T>
-		inline T min(T a, T b) { return (b < a) ? b : a; }
-
-		template <class T>
-		inline T max(T a, T b) { return (a < b) ? b : a; }
-	}
-
 	export_ template <class T>
 	class StatDef
 	{
 	public:
-		StatDef(T min = std::numeric_limits<T>::lowest(), T max = std::numeric_limits<T>::max(), T step = T(1))
+		StatDef(T min = limits<T>::min(), T max = limits<T>::max(), T step = T(1))
 			: m_min(min)
 			, m_max(max)
 			, m_step(step)
@@ -37,8 +29,8 @@ namespace mud
 		T m_max;
 		T m_step;
 
-		T rincrement(T& value, T amount) const { T diff = detail::min(m_max - value, amount); value += diff; update(value); return diff; }
-		T rdecrement(T& value, T amount) const { T diff = detail::max(-m_min + value, amount); value -= diff; update(value); return diff; }
+		T rincrement(T& value, T amount) const { T diff = min(m_max - value, amount); value += diff; update(value); return diff; }
+		T rdecrement(T& value, T amount) const { T diff = max(-m_min + value, amount); value -= diff; update(value); return diff; }
 		void increment(T& value, T amount) const { value += amount; update(value); }
 		void decrement(T& value, T amount) const { value -= amount; update(value); }
 
@@ -110,7 +102,7 @@ namespace mud
 	class refl_ AutoStat
 	{
 	public:
-		AutoStat(T value = T(), T min = std::numeric_limits<T>::lowest(), T max = std::numeric_limits<T>::max(), T step = T(1))
+		AutoStat(T value = T(), T min = limits<T>::min(), T max = limits<T>::max(), T step = T(1))
 			: m_value(value)
 			, m_valueRef(m_value)
 			, m_def(min, max, step)

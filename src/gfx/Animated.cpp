@@ -21,6 +21,8 @@ module mud.gfx;
 #include <gfx/Skeleton.h>
 #endif
 
+#include <cstdio>
+
 namespace mud
 {
 	Animated::Animated(Node3& node)

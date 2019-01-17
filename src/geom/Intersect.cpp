@@ -102,7 +102,7 @@ namespace mud
 				const float ood = 1.0f / d[i];
 				float t1 = (amin[i] - sp[i]) * ood;
 				float t2 = (amax[i] - sp[i]) * ood;
-				if(t1 > t2) std::swap(t1, t2);
+				if(t1 > t2) swap(t1, t2);
 				if(t1 > tmin) tmin = t1;
 				if(t2 < tmax) tmax = t2;
 				if(tmin > tmax) return false;
@@ -134,7 +134,7 @@ namespace mud
 				float ood = 1.0f / d[i];
 				float t1 = (bmin[i] - p[i]) * ood;
 				float t2 = (bmax[i] - p[i]) * ood;
-				if(t1 > t2) std::swap(t1, t2);
+				if(t1 > t2) swap(t1, t2);
 				if(t1 > tmin) tmin = t1;
 				if(t2 < tmax) tmax = t2;
 				if(tmin > tmax) return false;

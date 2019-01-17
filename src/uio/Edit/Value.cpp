@@ -103,10 +103,10 @@ namespace mud
 	bool value_input(T_Val& value, Widget& parent) { return Input(parent, value); }
 
 	template <class T_Val, bool(*Input)(Widget&, AutoStat<T_Val>)>
-	bool stat_value_input(T_Val& value, Widget& parent) { return Input(parent, AutoStat<T_Val>(value, StatDef<T_Val>(std::numeric_limits<T_Val>::lowest(), std::numeric_limits<T_Val>::max(), T_Val(1)))); }
+	bool stat_value_input(T_Val& value, Widget& parent) { return Input(parent, AutoStat<T_Val>(value, StatDef<T_Val>(limits<T_Val>::min(), limits<T_Val>::max(), T_Val(1)))); }
 
 	template <class T_Val, bool(*Input)(Widget&, AutoStat<T_Val>), int decimal>
-	bool stat_value_input(T_Val& value, Widget& parent) { return Input(parent, AutoStat<T_Val>(value, StatDef<T_Val>(std::numeric_limits<T_Val>::lowest(), std::numeric_limits<T_Val>::max(), T_Val(1) / T_Val(decimal)))); }
+	bool stat_value_input(T_Val& value, Widget& parent) { return Input(parent, AutoStat<T_Val>(value, StatDef<T_Val>(limits<T_Val>::min(), limits<T_Val>::max(), T_Val(1) / T_Val(decimal)))); }
 
 	DispatchInput::DispatchInput()
 	{

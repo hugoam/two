@@ -17,6 +17,8 @@ module mud.uio;
 #include <uio/Edit/Method.h>
 #endif
 
+#include <cstring>
+
 namespace mud
 {
 	struct CallableEditState : public NodeState

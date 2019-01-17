@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include <infra/Array.h>
 #include <math/Forward.h>
 
 #ifndef MUD_CPP_20

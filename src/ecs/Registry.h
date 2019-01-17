@@ -129,7 +129,7 @@ namespace mud
 			for(auto& buffer : m_buffers)
 				buffer->Remove(index);
 
-			std::swap(m_handles[index], m_handles.back());
+			swap(m_handles[index], m_handles.back());
 			m_handles.pop_back();
 
 			const uint32_t moved = m_handles[index];
@@ -405,7 +405,7 @@ namespace mud
 
 		void destroy() { if(m_handle != UINT32_MAX) s_ecs[m_ecs]->DeleteEntity(m_handle); }
 
-		void swap(Entity& other) { std::swap(m_handle, other.m_handle); std::swap(m_ecs, other.m_ecs); }
+		void swap(Entity& other) { using mud::swap; swap(m_handle, other.m_handle); swap(m_ecs, other.m_ecs); }
 
 		uint32_t m_ecs = UINT32_MAX;
 		uint32_t m_handle = UINT32_MAX;

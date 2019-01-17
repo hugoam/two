@@ -17,6 +17,8 @@ module mud.ui;
 #include <ui/Render/Renderer.h>
 #endif
 
+#include <cstdio>
+
 namespace mud
 {
 	inline TextPaint text_paint(InkStyle& inkstyle)

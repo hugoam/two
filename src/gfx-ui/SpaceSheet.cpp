@@ -24,6 +24,8 @@ module mud.gfx.ui;
 #include <gfx-ui/Viewer3.h>
 #endif
 
+#include <cstdio>
+
 namespace mud
 {
 	class SpaceQuad

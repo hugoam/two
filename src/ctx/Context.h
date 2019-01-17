@@ -14,6 +14,8 @@
 
 namespace mud
 {
+	using cstring = const char*;
+
 	export_ class refl_ MUD_CTX_EXPORT RenderSystem
 	{
 	public:

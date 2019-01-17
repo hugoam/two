@@ -27,6 +27,8 @@ module mud.gfx.pbr;
 #include <gfx-pbr/Lightmap.h>
 #endif
 
+#include <cstdio>
+
 #define LIGHTMAP_XATLAS
 
 namespace mud

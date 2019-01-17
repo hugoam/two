@@ -8,6 +8,7 @@
 module mud.gfx;
 #else
 #include <infra/Vector.h>
+#include <infra/Copy.h>
 #include <pool/ObjectPool.h>
 #include <math/Math.h>
 #include <geom/Intersect.h>
@@ -28,6 +29,8 @@ module mud.gfx;
 #include <gfx/GfxSystem.h>
 #include <gfx/Pipeline.h>
 #endif
+
+#include <cstdio>
 
 namespace mud
 {
@@ -170,7 +173,7 @@ namespace gfx
 		if(transforms.size() > 0)
 		{
 			self.m_item->m_instances.resize(instances);
-			transforms.copy(self.m_item->m_instances);
+			copy<mat4>(self.m_item->m_instances, transforms);
 		}
 		if(instances > 0)
 		{

@@ -20,7 +20,7 @@ namespace mud
 }
 #endif
 #else
-#include <utility>
+#include <stl/swap.h>
 namespace mud
 {
 	template<typename T>
@@ -72,7 +72,8 @@ namespace mud
 
 		void swap(unique& src) noexcept
 		{
-			std::swap(m_ptr, src.m_ptr);
+			using mud::swap;
+			swap(m_ptr, src.m_ptr);
 		}
 
 		void reset()
@@ -83,8 +84,9 @@ namespace mud
 
 		T* release() noexcept
 		{
+			using mud::swap;
 			T* result = nullptr;
-			std::swap(result, m_ptr);
+			swap(result, m_ptr);
 			return result;
 		}
 
@@ -92,11 +94,13 @@ namespace mud
 		T* m_ptr;
 	};
 
+#if 0
 	template<typename T>
 	void swap(unique<T>& lhs, unique<T>& rhs)
 	{
 		lhs.swap(rhs);
 	}
+#endif
 
 	template<class T> bool operator==(std::nullptr_t, const unique<T>& b) { return b == nullptr; }
 	template<class T> bool operator!=(std::nullptr_t, const unique<T>& b) { return b != nullptr; }

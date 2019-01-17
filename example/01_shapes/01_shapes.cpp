@@ -25,18 +25,18 @@ std::vector<ShapeInstance> create_shape_grid(size_t size_x, size_t size_y, const
 	return shape_items;
 }
 
-void shape_grid(Gnode& parent, array_2d<ShapeInstance> shape_grid, const Symbol* symbol, bool rotate, Material* material)
+void shape_grid(Gnode& parent, array2d<ShapeInstance> shape_grid, const Symbol* symbol, bool rotate, Material* material)
 {
 	static float time = 0.f;
 	time += 0.01f;
 
 	float spacing = 4.f;
-	vec3 center = { (shape_grid.m_size_x-1) * spacing * -0.5f, 0.f, (shape_grid.m_size_y-1) * spacing * -0.5f };
+	vec3 center = { (shape_grid.m_x-1) * spacing * -0.5f, 0.f, (shape_grid.m_y-1) * spacing * -0.5f };
 
-	for(size_t x = 0; x < shape_grid.m_size_x; ++x)
-		for(size_t y = 0; y < shape_grid.m_size_y; ++y)
+	for(size_t x = 0; x < shape_grid.m_x; ++x)
+		for(size_t y = 0; y < shape_grid.m_y; ++y)
 		{
-			const ShapeInstance& shape = shape_grid[x + y * shape_grid.m_size_x];
+			const ShapeInstance& shape = shape_grid[x + y * shape_grid.m_x];
 
 			vec3 angles = rotate ? vec3{ time + float(x) * 0.21f, 0.f, time + float(y) * 0.37f }
 								 : Zero3;

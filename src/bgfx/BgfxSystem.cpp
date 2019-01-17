@@ -3,6 +3,7 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <gfx/Cpp20.h>
+#include <cstdio>
 
 #include <bx/allocator.h>
 #include <bx/timer.h>

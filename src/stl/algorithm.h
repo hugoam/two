@@ -19,19 +19,9 @@ namespace mud
 }
 #else
 #include <TINYSTL/vector.h>
+#include <stl/swap.h>
 namespace mud
 {
-	namespace
-	{
-		template<typename T>
-		inline void swap(T& t1, T& t2)
-		{
-			T temp = std::move(t1);
-			t1 = std::move(t2);
-			t2 = std::move(temp);
-		}
-	}
-
 	template<class It, class T>
 	inline It find_char(It first, const It last, const T& val)
 	{

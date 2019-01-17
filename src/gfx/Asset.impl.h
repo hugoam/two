@@ -10,6 +10,8 @@
 #endif
 #include <gfx/Asset.h>
 
+#include <cstdio>
+
 namespace mud
 {
 	template <class T_Asset>

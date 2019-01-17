@@ -17,6 +17,8 @@ module mud.gfx;
 #include <gfx/GfxSystem.h>
 #endif
 
+#include <cstdio>
+
 namespace mud
 {
 	BlockFilter::BlockFilter(GfxSystem& gfx_system)

@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.geom;
 #else
+#include <infra/Copy.h>
 #include <type/DispatchDecl.h>
 #include <math/VecOps.h>
 #include <math/Math.h>
@@ -229,7 +230,7 @@ namespace mud
 		vertices[7] = { max.x, max.y, min.z };
 	}
 
-	Box::Box(array<vec3> vertices) : Shape(type<Box>()) { array<vec3> dest = { m_vertices, 8 }; vertices.copy(dest); }
+	Box::Box(array<vec3> vertices) : Shape(type<Box>()) { array<vec3> dest = { m_vertices, 8 }; copy(dest, vertices); }
 	Box::Box(const Cube& cube) : Shape(type<Box>()) { box_vertices(cube.m_center, cube.m_extents, { m_vertices, 8 }); }
 
 	Symbol::Symbol(Colour fill, Colour outline, bool overlay, bool double_sided, SymbolDetail detail)

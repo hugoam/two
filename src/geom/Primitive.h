@@ -13,6 +13,7 @@
 
 #ifndef MUD_CPP_20
 #include <cfloat>
+#include <cstring>
 #endif
 
 namespace mud

@@ -31,7 +31,7 @@ std::vector<LightInstance> create_light_grid(size_t size_x, size_t size_y)
 	return light_items;
 }
 
-void light_grid(Gnode& parent, array_2d<LightInstance> light_grid, bool moving, LightType light_type, float range, float attenuation, float spot_angle, float spot_attenuation)
+void light_grid(Gnode& parent, array2d<LightInstance> light_grid, bool moving, LightType light_type, float range, float attenuation, float spot_angle, float spot_attenuation)
 {
 	size_t size_x = light_grid.m_size_x / 2;
 	size_t size_y = light_grid.m_size_y / 2;

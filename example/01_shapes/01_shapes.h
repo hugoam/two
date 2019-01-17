@@ -16,6 +16,6 @@ struct ShapeInstance { ShapeVar shape; Colour colour; Symbol symbol; };
 
 std::vector<ShapeInstance> create_shape_grid(size_t size_x, size_t size_y, const std::vector<ShapeVar>& shapes, bool plain = true);
 
-void shape_grid(Gnode& parent, array_2d<ShapeInstance> shape_grid, const Symbol* symbol = nullptr, bool rotate = true, Material* material = nullptr);
+void shape_grid(Gnode& parent, array2d<ShapeInstance> shape_grid, const Symbol* symbol = nullptr, bool rotate = true, Material* material = nullptr);
 
 void ex_01_shapes(Shell& app, Widget& parent, Dockbar& dockbar);

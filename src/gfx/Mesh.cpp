@@ -7,15 +7,16 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/map.h>
 #include <infra/Vector.h>
 #include <geom/Mesh.h>
 #include <gfx/Mesh.h>
 #include <gfx/Node3.h>
 #endif
 
-#include <stl/map.h>
-
 #include <meshoptimizer.h>
+
+#include <cstdio>
 
 namespace mud
 {

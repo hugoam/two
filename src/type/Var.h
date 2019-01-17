@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <stl/swap.h>
 #include <type/Ref.h>
 #include <type/Unique.h>
 
@@ -40,7 +41,7 @@ namespace mud
 		Any& operator=(const Any& rhs) { if(m_handler == rhs.m_handler) m_handler->assign(*this, rhs); else Any(rhs).swap(*this); return *this; }
 		Any& operator=(Ref ref) { m_handler->assign(*this, ref); return *this; }
 
-		Any& swap(Any& other) { std::swap(m_handler, other.m_handler); std::swap(m_pointer, other.m_pointer); std::swap(m_storage, other.m_storage); return *this; }
+		Any& swap(Any& other) { using mud::swap; swap(m_handler, other.m_handler); swap(m_pointer, other.m_pointer); swap(m_storage, other.m_storage); return *this; }
 
 		Ref ref() const { return m_handler->ref(*this); }
 		bool operator==(const Any& other) const { return m_handler == other.m_handler && m_handler->compare(*this, other); }

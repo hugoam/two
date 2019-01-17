@@ -118,7 +118,7 @@ namespace mud
 		size_t i = 0;
 		for(Frustum& frustum : clusters.m_debug_clusters)
 		{
-			if(!clusters.m_froxels.m_data[i].count[0] && !clusters.m_froxels.m_data[i].count[1])
+			if(!clusters.count(i, 0) && !clusters.count(i, 1))
 			{
 				//gfx::draw(*parent.m_scene, transform, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(Colour(1.f, 0.02f)));
 				i++;
@@ -126,8 +126,8 @@ namespace mud
 			}
 
 			Colour colour = Colour(1.f, 0.02f);
-			size_t record = clusters.m_froxels.m_data[i].offset;
-			size_t light = clusters.m_records.m_data[record];
+			size_t record = clusters.record(i);
+			size_t light = clusters.light(record);
 
 			if(mode == ClusterIndex)
 				colour = hsl_to_rgb(float(i) / (29.f * 16.f * 16.f), 1.f, 0.5f);
@@ -136,7 +136,7 @@ namespace mud
 			else if(mode == LightIndex)
 				colour = hsl_to_rgb(float(light) / 255.f, 1.f, 0.5f);
 			else if(mode == LightCount)
-				colour = hsl_to_rgb(float(clusters.m_froxels.m_data[i].count[0]) / 32.f, 1.f, 0.5f);
+				colour = hsl_to_rgb(float(clusters.count(i)) / 32.f, 1.f, 0.5f);
 			
 			gfx::draw(*parent.m_scene, transform, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(colour));
 			i++;

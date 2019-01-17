@@ -7,7 +7,6 @@
 #ifndef MUD_MODULES
 #include <stl/vector.h>
 #include <infra/Array.h>
-#include <infra/Bitset.h>
 #include <geom/Geom.h>
 #endif
 #include <gfx/Forward.h>
@@ -19,10 +18,6 @@
 #endif
 
 #include <bgfx/bgfx.h>
-
-#include <limits>
-
-//#define USE_STD_BITSET
 
 namespace mud
 {
@@ -117,68 +112,26 @@ namespace mud
 			};
 		};
 
-		// This depends on the maximum number of lights (currently 255),and can't be more than 16 bits.
-		static_assert(CONFIG_MAX_LIGHT_INDEX <= std::numeric_limits<uint16_t>::max(), "can't have more than 65536 lights");
-		using RecordBufferType = std::conditional_t<CONFIG_MAX_LIGHT_INDEX <= std::numeric_limits<uint8_t>::max(), uint8_t, uint16_t>;
-
-		// this is chosen so froxelizePointAndSpotLight() vectorizes 4 froxel tests / spotlight
-		// with 256 lights this implies 8 jobs (256 / 32) for froxelization.
-		using LightGroupType = uint32_t;
-
-	//private:
-		struct LightRecord
-		{
-#ifndef USE_STD_BITSET
-			using Lights = bitset<uint64_t, (CONFIG_MAX_LIGHT_COUNT + 63) / 64>;
-#else
-			using Lights = std::bitset<CONFIG_MAX_LIGHT_COUNT>;
-#endif
-			Lights lights;
-		};
-
-		struct LightParams
-		{
-			LightParams(vec3 position, float cosSqr, vec3 axis, float invSin, float radius) : position(position), cosSqr(cosSqr), axis(axis), invSin(invSin), radius(radius) {}
-			vec3 position;
-			float cosSqr;
-			vec3 axis;
-			float invSin = std::numeric_limits<float>::infinity(); // this must be initialized to indicate this is a point light
-			float radius; // radius is not used in the hot loop, so leave it at the end
-		};
-
-		// The first entry always encodes the type of light, i.e. point/spot
-		using FroxelThreadData = carray<LightGroupType, FROXEL_BUFFER_ENTRY_COUNT_MAX + 1>;
-
 		bool update();
 		void update_viewport();
 		void update_projection();
 
+		size_t record(size_t cluster);
+		size_t count(size_t cluster, int type = 0);
+		size_t light(size_t record);
+
 		void froxelize_assign_records_compress(size_t num_lights);
 
-		void light_bounds(const mat4& projection, const Froxelizer::LightParams& light, uvec3& lo, uvec3& hi) const;
-		void froxelize_light(FroxelThreadData& froxelThread, size_t bit, const mat4& projection, const LightParams& light) const;
 		void froxelize_light_group(const Camera& camera, array<Light*> lights, size_t offset, size_t stride);
 
 		GfxSystem& m_gfx_system;
 
 		ClusteredFrustum m_frustum;
 
-		template <class T>
-		struct Buffer
-		{
-			Buffer(GpuBuffer::Element element, size_t row_size, size_t row_count) : m_buffer(element, row_size, row_count) {}
-			GpuBuffer m_buffer;
-			vector<T> m_data;
-			const bgfx::Memory* m_memory;
-		};
-
-		vector<FroxelThreadData> m_froxel_sharded_data;  // 256 KiB w/ 256 lights
-		vector<LightRecord> m_light_records;             // 256 KiB w/ 256 lights
-
-		Buffer<FroxelEntry> m_froxels;			//  32 KiB w/ 8192 froxels
-		Buffer<RecordBufferType> m_records;		//  64 KiB // max 32 KiB  (actual: resolution dependant)
-
 		vector<Frustum> m_debug_clusters;
+
+		struct Impl;
+		unique<Impl> m_impl;
 
 		mat4 m_projection;
 

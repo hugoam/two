@@ -148,7 +148,7 @@ namespace mud
 		Stack(lua_State* state, int num = 1) : m_state(state), m_num(num) {}
 		~Stack() { assert(lua_gettop(m_state) >= m_num); if(m_num >= 1) lua_pop(m_state, m_num); }
 
-		Stack& operator=(Stack&& other) { std::swap(m_state, other.m_state); std::swap(m_num, other.m_num); return *this; }
+		Stack& operator=(Stack&& other) { swap(m_state, other.m_state); swap(m_num, other.m_num); return *this; }
 		Stack(Stack&& other) : m_state(other.m_state), m_num(other.m_num) { other.m_num = 0; }
 
 		Stack operator+(Stack&& other) && { Stack obj(m_state, m_num + other.m_num); m_num = 0; other.m_num = 0; return obj; }
