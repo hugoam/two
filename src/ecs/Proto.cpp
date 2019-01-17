@@ -47,7 +47,7 @@ namespace mud
 
 	Prototype& proto(Type& type)
 	{
-		if(g_prototypes[type.m_id])
+		if(g_prototypes[type.m_id] == nullptr)
 			g_prototypes[type.m_id] = make_unique<Prototype>(cls(type));
 		return *g_prototypes[type.m_id];
 	}

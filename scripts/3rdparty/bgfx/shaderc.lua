@@ -3,6 +3,14 @@
 dofile(path.join(MUD_DIR, "scripts/3rdparty/bgfx/shaderc_bgfx.lua"))
 
 project "glsl-optimizer"
+    removeflags {
+        "Cpp17"
+    }
+    
+    flags {
+        "Cpp14"
+    }
+    
     configuration { "asmjs" }
         defines {
             "HAVE___BUILTIN_FFS",
