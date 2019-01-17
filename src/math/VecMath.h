@@ -89,7 +89,7 @@ namespace mud
 		T operator[](uint index) const { return *((T*)&x + index); }
 		T& operator[](uint index) { return *((T*)&x + index); }
 		bool operator==(const v3& other) const { return x == other.x && y == other.y && z == other.z; }
-		bool operator!=(const v3& other) const { return x != other.x || y == other.y || z != other.z; }
+		bool operator!=(const v3& other) const { return x != other.x || y != other.y || z != other.z; }
 		explicit operator T() { return T(x); }
 		explicit operator v2<T>() { return v2<T>(x, y); }
 		//T x, y, z;
@@ -118,7 +118,7 @@ namespace mud
 		T operator[](uint index) const { return *((T*)&x + index); }
 		T& operator[](uint index) { return *((T*)&x + index); }
 		bool operator==(const v4& other) const { return x == other.x && y == other.y && z == other.z && w == other.w; }
-		bool operator!=(const v4& other) const { return x != other.x || y == other.y || z != other.z || w != other.w; }
+		bool operator!=(const v4& other) const { return x != other.x || y != other.y || z != other.z || w != other.w; }
 		explicit operator v2<T>() { return v2<T>(x, y); }
 		explicit operator v3<T>() { return v3<T>(x, y, z); }
 		//T x, y, z, w;

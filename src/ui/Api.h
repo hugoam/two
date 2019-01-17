@@ -20,7 +20,7 @@
 #include <ui/Controller/Controller.h>
 #include <ui/Edit/Console.h>
 #include <ui/Edit/Directory.h>
-#include <ui/Edit/Lang.h>
+//#include <ui/Edit/Lang.h>
 #include <ui/Edit/TypeIn.h>
 #include <ui/Frame/Caption.h>
 #include <ui/Frame/Dim.h>

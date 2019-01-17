@@ -21,7 +21,7 @@ using json = json11::Json;
 #include <infra/Vector.h>
 #include <infra/File.h>
 #include <infra/String.h>
-#include <infra/ToString.h>
+#include <infra/StringConvert.h>
 #include <pool/Pool.h>
 #include <srlz/Serial.h>
 #include <refl/System.h>
@@ -75,6 +75,7 @@ namespace mud
 				for(Member& member : cls(*type).m_members)
 				{
 					fixed_members[index] = to_camelcase(string(member.m_name));
+					printf("renamed member %s to %s\n", member.m_name, fixed_members[index].c_str());
 					member.m_name = fixed_members[index].c_str();
 					index++;
 					assert(index < fixed_members.size());

@@ -58,7 +58,7 @@ namespace mud
 		attr_ Shadow m_shadow;
 		attr_ Colour m_shadow_colour;
 		attr_ Style* m_hover_cursor = nullptr;
-		/*attr_*/ CustomDraw m_custom_draw;
+		/*attr_*/ CustomDraw m_custom_draw = nullptr;
 
 		WidgetState m_state;
 	};

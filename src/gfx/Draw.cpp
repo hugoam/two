@@ -279,7 +279,7 @@ namespace mud
 
 	void draw_mesh(const vector<ProcShape>& shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback, Material* material)
 	{
-		Mesh& mesh = model.add_mesh((model.m_name + to_string(draw_mode)).c_str(), readback);
+		Mesh& mesh = model.add_mesh((model.m_name + to_string(uint(draw_mode))).c_str(), readback);
 		mesh.m_material = material;
 
 		GpuMesh gpu_mesh = alloc_mesh(ShapeVertex::vertex_format, size.vertex_count, size.index_count);

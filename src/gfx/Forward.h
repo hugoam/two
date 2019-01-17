@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include <infra/Config.h>
@@ -157,10 +155,6 @@ namespace mud
     struct Uniform;
     struct Sampler;
     struct UniformBlock;
-    class DynamicValueController;
-    class SunController;
-    struct ProceduralSky;
-    struct PerezSky;
     class BlockSky;
 	class GIProbe;
 	class ReflectionProbe;
@@ -168,32 +162,3 @@ namespace mud
 	class LightmapAtlas;
 	class LightmapItem;
 }
-
-namespace mud {
-namespace detail {
-
-    
-    
-}
-}
-
-namespace mud {
-namespace gfx {
-
-    
-    
-}
-}
-
-namespace bimg {
-
-    
-    
-}
-
-namespace bgfx {
-
-    
-    
-}
-

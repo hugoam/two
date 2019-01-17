@@ -8,6 +8,7 @@
 
 namespace mud
 {
+	using schar = signed char;
 	using uchar = unsigned char;
 	using ushort = unsigned short;
 	using uint = unsigned int;

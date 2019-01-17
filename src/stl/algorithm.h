@@ -62,6 +62,7 @@ namespace mud
 	template<class It, class Pred>
 	inline It remove_if(It first, const It last, Pred pred)
 	{
+		first = find_if(first, last, pred);
 		It next = first;
 		if(first != last)
 		{

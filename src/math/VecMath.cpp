@@ -166,6 +166,55 @@ namespace mud
 
 	mat4 inverse(const mat4& m)
 	{
+#if 1
+		float xx = m.f[0];
+		float xy = m.f[1];
+		float xz = m.f[2];
+		float xw = m.f[3];
+		float yx = m.f[4];
+		float yy = m.f[5];
+		float yz = m.f[6];
+		float yw = m.f[7];
+		float zx = m.f[8];
+		float zy = m.f[9];
+		float zz = m.f[10];
+		float zw = m.f[11];
+		float wx = m.f[12];
+		float wy = m.f[13];
+		float wz = m.f[14];
+		float ww = m.f[15];
+
+		float det = 0.0f;
+		det += xx * (yy*(zz*ww - zw * wz) - yz * (zy*ww - zw * wy) + yw * (zy*wz - zz * wy));
+		det -= xy * (yx*(zz*ww - zw * wz) - yz * (zx*ww - zw * wx) + yw * (zx*wz - zz * wx));
+		det += xz * (yx*(zy*ww - zw * wy) - yy * (zx*ww - zw * wx) + yw * (zx*wy - zy * wx));
+		det -= xw * (yx*(zy*wz - zz * wy) - yy * (zx*wz - zz * wx) + yz * (zx*wy - zy * wx));
+
+		float invDet = 1.0f / det;
+
+		mat4 result;
+		result.f[0] = +(yy*(zz*ww - wz * zw) - yz * (zy*ww - wy * zw) + yw * (zy*wz - wy * zz)) * invDet;
+		result.f[1] = -(xy*(zz*ww - wz * zw) - xz * (zy*ww - wy * zw) + xw * (zy*wz - wy * zz)) * invDet;
+		result.f[2] = +(xy*(yz*ww - wz * yw) - xz * (yy*ww - wy * yw) + xw * (yy*wz - wy * yz)) * invDet;
+		result.f[3] = -(xy*(yz*zw - zz * yw) - xz * (yy*zw - zy * yw) + xw * (yy*zz - zy * yz)) * invDet;
+
+		result.f[4] = -(yx*(zz*ww - wz * zw) - yz * (zx*ww - wx * zw) + yw * (zx*wz - wx * zz)) * invDet;
+		result.f[5] = +(xx*(zz*ww - wz * zw) - xz * (zx*ww - wx * zw) + xw * (zx*wz - wx * zz)) * invDet;
+		result.f[6] = -(xx*(yz*ww - wz * yw) - xz * (yx*ww - wx * yw) + xw * (yx*wz - wx * yz)) * invDet;
+		result.f[7] = +(xx*(yz*zw - zz * yw) - xz * (yx*zw - zx * yw) + xw * (yx*zz - zx * yz)) * invDet;
+
+		result.f[8] = +(yx*(zy*ww - wy * zw) - yy * (zx*ww - wx * zw) + yw * (zx*wy - wx * zy)) * invDet;
+		result.f[9] = -(xx*(zy*ww - wy * zw) - xy * (zx*ww - wx * zw) + xw * (zx*wy - wx * zy)) * invDet;
+		result.f[10] = +(xx*(yy*ww - wy * yw) - xy * (yx*ww - wx * yw) + xw * (yx*wy - wx * yy)) * invDet;
+		result.f[11] = -(xx*(yy*zw - zy * yw) - xy * (yx*zw - zx * yw) + xw * (yx*zy - zx * yy)) * invDet;
+
+		result.f[12] = -(yx*(zy*wz - wy * zz) - yy * (zx*wz - wx * zz) + yz * (zx*wy - wx * zy)) * invDet;
+		result.f[13] = +(xx*(zy*wz - wy * zz) - xy * (zx*wz - wx * zz) + xz * (zx*wy - wx * zy)) * invDet;
+		result.f[14] = -(xx*(yy*wz - wy * yz) - xy * (yx*wz - wx * yz) + xz * (yx*wy - wx * yy)) * invDet;
+		result.f[15] = +(xx*(yy*zz - zy * yz) - xy * (yx*zz - zx * yz) + xz * (yx*zy - zx * yy)) * invDet;
+
+		return result;
+#else
 		const float c00 = m[2][2] * m[3][3] - m[3][2] * m[2][3];
 		const float c02 = m[1][2] * m[3][3] - m[3][2] * m[1][3];
 		const float c03 = m[1][2] * m[2][3] - m[2][2] * m[1][3];
@@ -219,6 +268,7 @@ namespace mud
 		float OneOverDeterminant = float(1) / Dot1;
 
 		return Inverse * OneOverDeterminant;
+#endif
 	}
 
 	mat4 operator*(const mat4& m1, const mat4& m2)

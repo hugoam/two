@@ -93,7 +93,7 @@ namespace mud
 	static vector<uint8_t> read_base64_uri(const string& uri)
 	{
 		string decoded = decode_base64(uri.substr(uri.find(",") + 1).c_str()).c_str();
-		return vector_convert<uint8_t>(decoded);
+		return {};//vector_convert<uint8_t>(decoded);
 	}
 
 	vector<uint8_t> read_uri(const string& base_path, const string& uri)

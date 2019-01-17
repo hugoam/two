@@ -40,13 +40,13 @@ namespace mud
 		// - compute the number of square froxels we need in width and height, rounded down
 		//   solving: |  froxel_count_x * froxel_count_y == per_slice
 		//            |  froxel_count_x / froxel_count_y == width / height
-		size_t count_x = size_t(bx::sqrt(per_slice * clip_size.x / clip_size.y));
-		size_t count_y = size_t(bx::sqrt(per_slice * clip_size.y / clip_size.x));
+		size_t count_x = size_t(sqrt(per_slice * clip_size.x / clip_size.y));
+		size_t count_y = size_t(sqrt(per_slice * clip_size.y / clip_size.x));
 		// - copmute the froxels dimensions, rounded up
 		size_t size_x = (size_t(clip_size.x) + count_x - 1) / count_x;
 		size_t size_y = (size_t(clip_size.y) + count_y - 1) / count_y;
 		// - and since our froxels must be square, only keep the largest dimension
-		size_t size = bx::max(size_x, size_y);
+		size_t size = max(size_x, size_y);
 
 		// Here we recompute the froxel counts which may have changed a little due to the rounding
 		// and the squareness requirement of froxels
@@ -141,7 +141,7 @@ namespace mud
 		// clip-space dimensions
 		const vec2 froxel_clip_size = (2.0f * vec2(m_tile_size)) / clip_size;
 		const mat4 inv_projection = inverse(projection);
-
+		
 		auto to_view_space = [](const mat4& inv_projection, vec4 p0, vec4 p1)
 		{
 			p0 = inv_projection * p0;
@@ -201,11 +201,11 @@ namespace mud
 				// min/max for x is calculated by intersecting the near/far and left/right planes
 				for(size_t c = 0; c < 4; ++c)
 				{
-					vec4 const& p0 = planes[0 + (c & 1)];    // {x,0,z,0}
+					vec4 const& p0 = planes[0 + (c & 1)];     // {x,0,z,0}
 					vec4 const& p2 = planes[4 + (c >> 1)];    // {0,0,+/-1,d}
 					float px = (p2.z * p2.w * p0.z) / p0.x;
-					minp.x = bx::min(minp.x, px);
-					maxp.x = bx::max(maxp.x, px);
+					minp.x = min(minp.x, px);
+					maxp.x = max(maxp.x, px);
 				}
 				assert(minp.x < maxp.x);
 				minMaxX[ix] = vec2{ minp.x, maxp.x };
@@ -221,11 +221,11 @@ namespace mud
 				// min/max for y is calculated by intersecting the near/far and bottom/top planes
 				for(size_t c = 0; c < 4; ++c)
 				{
-					vec4 const& p1 = planes[2 + (c & 1)];    // {0,y,z,0}
+					vec4 const& p1 = planes[2 + (c & 1)];     // {0,y,z,0}
 					vec4 const& p2 = planes[4 + (c >> 1)];    // {0,0,+/-1,d}
 					float py = (p2.z * p2.w * p1.z) / p1.y;
-					minp.y = bx::min(minp.y, py);
-					maxp.y = bx::max(maxp.y, py);
+					minp.y = min(minp.y, py);
+					maxp.y = max(maxp.y, py);
 				}
 				assert(minp.y < maxp.y);
 

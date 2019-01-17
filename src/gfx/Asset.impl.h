@@ -95,6 +95,7 @@ namespace mud
 			if(location.m_location == nullptr)
 				return nullptr;
 
+			m_assets[name];
 			m_assets[name] = make_unique<T_Asset>(name);
 			Loader& loader = m_cformats.size() > 0 ? m_format_loaders[location.m_extension_index] : m_loader;
 			loader.load(loader.loader, *m_assets[name], (string(location.m_location) + location.m_name).c_str());

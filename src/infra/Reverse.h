@@ -22,8 +22,8 @@ namespace mud
 
 #ifdef MUD_VECTOR_TINYSTL
 		using iterator = std::reverse_iterator<typename T::iterator>;
-		iterator begin() { return iterator(m_container.end() - 1); }
-		iterator end() { return iterator(m_container.begin() + 1); }
+		iterator begin() { return iterator(m_container.end()); }
+		iterator end() { return iterator(m_container.begin()); }
 #else
 		typename T::reverse_iterator begin() { return m_container.rbegin(); }
 		typename T::reverse_iterator end() { return m_container.rend(); }

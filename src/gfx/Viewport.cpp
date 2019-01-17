@@ -62,7 +62,8 @@ namespace mud
 
 	void Viewport::render(Render& render)
 	{
-		m_camera->m_aspect = float(rect_w(m_rect)) / float(rect_h(m_rect));
+		if(rect_h(m_rect) != 0)
+			m_camera->m_aspect = float(rect_w(m_rect)) / float(rect_h(m_rect));
 		m_camera->update();
 
 		if(m_camera->m_clusters)

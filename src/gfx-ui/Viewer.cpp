@@ -184,8 +184,7 @@ namespace ui
 	Viewer& viewer(Widget& parent, Scene& scene)
 	{
 		Viewer& viewer = parent.subi<Viewer, Scene&>(&type<Viewer>(), scene);
-		viewer.m_scene = &scene;
-		viewer.m_viewport.m_scene = &scene;
+		viewer.m_scene = viewer.m_viewport.m_scene = &scene;;
 		viewer.m_viewport.m_rect = uvec4(viewer.query_size());
 		//if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
 		//	viewer.take_focus();
@@ -204,6 +203,7 @@ namespace ui
 	SceneViewer& scene_viewer(Widget& parent, const vec2& size)
 	{
 		SceneViewer& self = parent.subi<SceneViewer>(&type<SceneViewer>());
+		self.m_viewport.m_rect = uvec4(self.query_size());
 		if(self.once() && size != Zero2)
 		{
 			self.m_frame.m_content = size;

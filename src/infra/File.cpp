@@ -6,8 +6,12 @@
 #include <infra/Cpp20.h>
 #include <dirent.h>
 #else
+#include <vector>
+#include <string>
 #include <fstream>
 #include <dirent.h>
+#undef min
+#undef max
 #endif
 
 #ifdef MUD_MODULES
@@ -32,25 +36,26 @@ namespace mud
 
 	vector<uint8_t> read_binary_file(const string& path)
 	{
-		vector<uint8_t> buffer;
+		std::vector<uint8_t> buffer;
 		std::ifstream file = std::ifstream(path.c_str(), std::ios::binary);
 		buffer.resize(file.gcount());
-#ifdef MUD_VECTOR_TINYSTL
-#else
 		buffer.insert(buffer.begin(), std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
-#endif
+#ifdef MUD_VECTOR_TINYSTL
+		return vector<uint8_t>(buffer.data(), buffer.data() + buffer.size());
+#else
 		return buffer;
+#endif
 	}
 
 	string read_text_file(const string& path)
 	{
 		std::ifstream file = std::ifstream(path.c_str());
-#ifdef MUD_STRING_TINYSTL
-		string result;
+		std::string result((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+#ifdef MUD_VECTOR_TINYSTL
+		return string(result.data(), result.data() + result.size());
 #else
-		string result((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-#endif
 		return result;
+#endif
 	}
 
 	string exec_path(int argc, char* argv[])

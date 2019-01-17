@@ -1,14 +1,22 @@
 #pragma once
 #include <infra/Config.h>
 
-//#define MUD_UNIQUE_PTR_STL
+#define MUD_UNIQUE_PTR_STL
 #ifdef MUD_UNIQUE_PTR_STL
 #ifndef MUD_CPP_20
 #include <memory>
 namespace mud
 {
+	export_ template <class T>
+	using unique = std::unique_ptr<T>;
 	export_ using std::unique_ptr;
 	export_ using std::make_unique;
+
+	template<class T, class... Types>
+	inline unique<T> construct(Types&&... args)
+	{
+		return unique<T>(new T(static_cast<Types&&>(args)...));
+	}
 }
 #endif
 #else
@@ -17,26 +25,26 @@ namespace mud
 namespace mud
 {
 	template<typename T>
-	class unique_ptr
+	class unique
 	{
 	public:
-		unique_ptr() : m_ptr(nullptr) {}
-		explicit unique_ptr(T* m_ptr) : m_ptr(m_ptr) {}
-		~unique_ptr() { delete m_ptr; }
-		unique_ptr(std::nullptr_t) : m_ptr(nullptr) {}
+		unique() : m_ptr(nullptr) {}
+		explicit unique(T* m_ptr) : m_ptr(m_ptr) {}
+		~unique() { delete m_ptr; }
+		unique(std::nullptr_t) : m_ptr(nullptr) {}
 
-		unique_ptr& operator=(std::nullptr_t)
+		unique& operator=(std::nullptr_t)
 		{
 			reset();
 			return *this;
 		}
 
 		// Constructor/Assignment that allows move semantics
-		unique_ptr(unique_ptr&& moving) noexcept
+		unique(unique&& moving) noexcept
 		{
 			moving.swap(*this);
 		}
-		unique_ptr& operator=(unique_ptr&& moving) noexcept
+		unique& operator=(unique&& moving) noexcept
 		{
 			moving.swap(*this);
 			return *this;
@@ -44,22 +52,22 @@ namespace mud
 
 		// Constructor/Assignment for use with types derived from T
 		template<typename U>
-		unique_ptr(unique_ptr<U>&& moving)
+		unique(unique<U>&& moving)
 		{
-			unique_ptr<T> tmp(moving.release());
+			unique<T> tmp(moving.release());
 			tmp.swap(*this);
 		}
 		template<typename U>
-		unique_ptr& operator=(unique_ptr<U>&& moving)
+		unique& operator=(unique<U>&& moving)
 		{
-			unique_ptr<T> tmp(moving.release());
+			unique<T> tmp(moving.release());
 			tmp.swap(*this);
 			return *this;
 		}
 
 		// Remove compiler generated copy semantics.
-		unique_ptr(unique_ptr const&) = delete;
-		unique_ptr& operator=(unique_ptr const&) = delete;
+		unique(unique const&) = delete;
+		unique& operator=(unique const&) = delete;
 
 		// Const correct access owned object
 		T* operator->() const { return m_ptr; }
@@ -76,7 +84,7 @@ namespace mud
 			std::swap(result, m_ptr);
 			return result;
 		}
-		void swap(unique_ptr& src) noexcept
+		void swap(unique& src) noexcept
 		{
 			std::swap(m_ptr, src.m_ptr);
 		}
@@ -91,46 +99,46 @@ namespace mud
 	};
 
 	template<typename T>
-	void swap(unique_ptr<T>& lhs, unique_ptr<T>& rhs)
+	void swap(unique<T>& lhs, unique<T>& rhs)
 	{
 		lhs.swap(rhs);
 	}
 
-	template<class T, class U> inline bool operator==(const unique_ptr<T>& l, const unique_ptr<U>& r) 
+	template<class T, class U> inline bool operator==(const unique<T>& l, const unique<U>& r) 
 	{
 		return (l.get() == r.get());
 	}
-	template<class T, class U> inline bool operator!=(const unique_ptr<T>& l, const unique_ptr<U>& r) 
+	template<class T, class U> inline bool operator!=(const unique<T>& l, const unique<U>& r) 
 	{
 		return (l.get() != r.get());
 	}
-	template<class T, class U> inline bool operator<=(const unique_ptr<T>& l, const unique_ptr<U>& r) 
+	template<class T, class U> inline bool operator<=(const unique<T>& l, const unique<U>& r) 
 	{
 		return (l.get() <= r.get());
 	}
-	template<class T, class U> inline bool operator<(const unique_ptr<T>& l, const unique_ptr<U>& r) 
+	template<class T, class U> inline bool operator<(const unique<T>& l, const unique<U>& r) 
 	{
 		return (l.get() < r.get());
 	}
-	template<class T, class U> inline bool operator>=(const unique_ptr<T>& l, const unique_ptr<U>& r) 
+	template<class T, class U> inline bool operator>=(const unique<T>& l, const unique<U>& r) 
 	{
 		return (l.get() >= r.get());
 	}
-	template<class T, class U> inline bool operator>(const unique_ptr<T>& l, const unique_ptr<U>& r) 
+	template<class T, class U> inline bool operator>(const unique<T>& l, const unique<U>& r) 
 	{
 		return (l.get() > r.get());
 	}
 
 	template<class T, class... Types>
-	inline unique_ptr<T> make_unique(Types&&... args)
+	inline unique<T> make_unique(Types&&... args)
 	{
-		return unique_ptr<T>(new T(static_cast<Types&&>(args)...));
+		return unique<T>(new T(static_cast<Types&&>(args)...));
 	}
 
 	template<class T, class... Types>
-	inline unique_ptr<T> construct(Types&&... args)
+	inline unique<T> construct(Types&&... args)
 	{
-		return unique_ptr<T>(new T(static_cast<Types&&>(args)...));
+		return unique<T>(new T(static_cast<Types&&>(args)...));
 	}
 }
 
@@ -139,37 +147,37 @@ namespace mud
 namespace mud
 {
 	template<class T>
-	class unique_ptr
+	class unique
 	{
 	public:
 		typedef T element_type;
 
-		unique_ptr() : m_ptr(nullptr) {}
-		explicit unique_ptr(T* p) : m_ptr(p) {}
+		unique() : m_ptr(nullptr) {}
+		explicit unique(T* p) : m_ptr(p) {}
 
-		unique_ptr(unique_ptr const&) = delete;
-		unique_ptr& operator=(unique_ptr const&) = delete;
+		unique(unique const&) = delete;
+		unique& operator=(unique const&) = delete;
 
-		unique_ptr(unique_ptr&& other)
+		unique(unique&& other)
 			: m_ptr(other.m_ptr)
 		{
-			const_cast<unique_ptr&>(other).m_ptr = nullptr;
+			const_cast<unique&>(other).m_ptr = nullptr;
 		}
 
-		unique_ptr& operator=(unique_ptr&& other)
+		unique& operator=(unique&& other)
 		{
 			swap(other);
 			return *this;
 		}
 
 		template <class U>
-		unique_ptr(const unique_ptr<U>& other)
-			: m_ptr(static_cast<typename unique_ptr<T>::element_type*>(ptr.m_ptr))
+		unique(const unique<U>& other)
+			: m_ptr(static_cast<typename unique<T>::element_type*>(ptr.m_ptr))
 		{
-			const_cast<unique_ptr<U>&>(ptr).m_ptr = nullptr; // const-cast to force ownership transfer!
+			const_cast<unique<U>&>(ptr).m_ptr = nullptr; // const-cast to force ownership transfer!
 		}
 
-		inline ~unique_ptr(void)
+		inline ~unique(void)
 		{
 			destroy();
 		}
@@ -184,7 +192,7 @@ namespace mud
 			m_ptr = p;
 		}
 
-		void swap(unique_ptr& lhs)
+		void swap(unique& lhs)
 		{
 			std::swap(m_ptr, lhs.m_ptr);
 		}

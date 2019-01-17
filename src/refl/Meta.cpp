@@ -28,6 +28,8 @@ namespace mud
 	vector<Class*> g_class = vector<Class*>(c_max_types);
 	vector<Enum*> g_enu = vector<Enum*>(c_max_types);
 	vector<Convert*> g_convert = vector<Convert*>(c_max_types);
+	vector<Iterable*> g_iterable = vector<Iterable*>(c_max_types);
+	vector<Sequence*> g_sequence = vector<Sequence*>(c_max_types);
 
 	template <>
 	void init_string<void>() {}

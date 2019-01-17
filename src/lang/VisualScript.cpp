@@ -21,7 +21,14 @@ module mud.lang;
 
 namespace mud
 {
-	using std::min;
+	template <class T, class V>
+	inline auto remove_pt(vector<T>& vec, V& value)
+	{
+		auto pos = std::find_if(vec.begin(), vec.end(), [&](auto& pt) { return pt.get() == &value; });
+		vec.erase(pos);
+	}
+
+	template <class T> inline T min(T a, T b) { return a < b ? a : b; }
 
 	template <> void to_value<StreamIndex>(const string& str, StreamIndex& val) { UNUSED(str); UNUSED(val); }
 	template <> void to_string<StreamIndex>(const StreamIndex& val, string& str) { str += "{"; for(size_t i : val) str += to_string(i) + ","; str.pop_back(); str += "}"; }
@@ -347,14 +354,14 @@ namespace mud
 			for(Pipe* pipe : m_out_flow->m_pipes)
 			{
 				Process& process = pipe->m_input.m_process;
-				m_order = std::min(m_order, process.visit_order() - 1);
+				m_order = min(m_order, process.visit_order() - 1);
 			}
 
 		for(Valve* valve : m_outputs)
 			for(Pipe* pipe : valve->m_pipes)
 			{
 				Process& process = pipe->m_input.m_process;
-				m_order = std::min(m_order, process.visit_order() - 1);
+				m_order = min(m_order, process.visit_order() - 1);
 			}
 
 		return m_order;
@@ -375,7 +382,7 @@ namespace mud
 
 	void VisualScript::remove(Process& process)
 	{
-		vector_remove_pt(m_processes, process);
+		remove_pt(m_processes, process);
 
 		size_t index = 0;
 		for(auto& element : m_processes)
@@ -425,7 +432,7 @@ namespace mud
 
 	void VisualScript::disconnect(Pipe& pipe)
 	{
-		vector_remove_pt(m_pipes, pipe);
+		remove_pt(m_pipes, pipe);
 	}
 
 	Valve& VisualScript::input(const string& name)

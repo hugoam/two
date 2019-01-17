@@ -95,7 +95,7 @@ namespace mud
 
 		float m_position[2];
 
-		Callback m_callback;
+		Callback m_callback = nullptr;
 
 		Valve* m_master_input = nullptr;
 		Valve* m_secondary_input = nullptr;
