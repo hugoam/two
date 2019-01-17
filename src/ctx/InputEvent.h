@@ -12,7 +12,7 @@
 
 namespace mud
 {
-	export_ enum class refl_ InputMod : unsigned int
+	export_ enum class refl_ InputMod : uint8_t
 	{
 		None = 0,
 		Shift = 1 << 0,

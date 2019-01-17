@@ -26,8 +26,8 @@ namespace mud
 	{
 		string result;
 		result.reserve(lhs.size() + rhs.size());
-		result.append(lhs.c_str(), lhs.c_str() + lhs.size());
-		result.append(rhs.c_str(), rhs.c_str() + rhs.size());
+		result.append(lhs);
+		result.append(rhs);
 		return result;
 	}
 }

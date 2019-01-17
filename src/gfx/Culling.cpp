@@ -174,8 +174,7 @@ namespace mud
 
 		mat4 local_to_clip = view * transform;
 
-		float sum = 0; int i;
-		for(i = 0; i < num; i++) // transform all outline corners into 2D screen space
+		for(int i = 0; i < num; i++) // transform all outline corners into 2D screen space
 		{
 			vec3w p = mulxyproj(local_to_clip, corners[indexlist[pos][i]]);
 			rect.depth = max(0.f, min(p.w, rect.depth));

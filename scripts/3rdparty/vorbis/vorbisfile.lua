@@ -20,9 +20,4 @@ vorbisfile = mud_dep(nil, "vorbisfile")
 		"ogg"
 	}
     
-	configuration { "linux-*" }
-		buildoptions {
-			"-fPIC",
-		}
-
 	configuration {}

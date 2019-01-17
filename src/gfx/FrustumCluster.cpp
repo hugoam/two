@@ -229,7 +229,7 @@ namespace mud
 				}
 				assert(minp.y < maxp.y);
 
-				for(size_t ix = 0, nx = m_subdiv_x; ix < nx; ++ix)
+				for(uint ix = 0, nx = m_subdiv_x; ix < nx; ++ix)
 				{
 					// note: clang vectorizes this loop!
 					assert(this->index(ix, iy, iz) == fi);

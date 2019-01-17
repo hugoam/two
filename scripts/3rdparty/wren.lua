@@ -50,9 +50,4 @@ wren = mud_dep(nil, "wren")
             "/wd4709", -- warning C4200: comma operator within array index expression
         }
     
-	configuration { "linux-*" }
-		buildoptions {
-			"-fPIC",
-		}
-
 	configuration {}

@@ -437,6 +437,8 @@ namespace mud
 			for(auto& module : m_modules)
 				if(id == module->m_id)
 					return *module;
+			printf("ERROR: fetching inexistent module\n");
+			CLModule invalid(m_context); return invalid;
 		}
 
 		void parse_through(CLModule& module, std::function<void(CXCursor, CLModule&, CLPrimitive&)> func)
@@ -489,8 +491,8 @@ namespace mud
 
 				if(debug)
 				{
-					size_t num_diagnostics = clang_getNumDiagnostics(translation_unit);
-					for(size_t i = 0; i < num_diagnostics; ++i)
+					uint num_diagnostics = clang_getNumDiagnostics(translation_unit);
+					for(uint i = 0; i < num_diagnostics; ++i)
 					{
 						CXDiagnostic diagnostic = clang_getDiagnostic(translation_unit, i);
 						CXDiagnosticSeverity severity = clang_getDiagnosticSeverity(diagnostic);

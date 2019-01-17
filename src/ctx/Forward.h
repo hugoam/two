@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include <infra/Config.h>
@@ -12,47 +10,13 @@
 #define MUD_CTX_EXPORT MUD_IMPORT
 #endif
 
+#include <cstdint>
 
-    
-    
-
-namespace std {
-
-    
-    
-}
-
-namespace mud {
-namespace ui {
-
-    
-    
-}
-}
-
-namespace glm {
-
-    
-    
-}
-
-namespace bx {
-
-    
-    
-}
-
-namespace json11 {
-
-    
-    
-}
-
-namespace mud {
-
-    enum class Key : unsigned int;
+namespace mud
+{
+    enum class Key : uint16_t;
     enum MouseButtonCode : unsigned int;
-    enum class InputMod : unsigned int;
+    enum class InputMod : uint8_t;
     enum class DeviceType : unsigned int;
     enum class DeviceMask : unsigned int;
     enum class EventType : unsigned int;
@@ -72,32 +36,3 @@ namespace mud {
     class MouseButton;
     class Mouse;
 }
-
-namespace mud {
-namespace detail {
-
-    
-    
-}
-}
-
-namespace mud {
-namespace gfx {
-
-    
-    
-}
-}
-
-namespace bimg {
-
-    
-    
-}
-
-namespace bgfx {
-
-    
-    
-}
-

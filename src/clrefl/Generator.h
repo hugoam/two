@@ -586,6 +586,7 @@ namespace mud
 	class CLModule
 	{
 	public:
+		CLModule(CLContext& context) : m_context(context) {}
 		CLModule(CLContext& context, const string& nemespace, const string& name, const string& dotname, const string& id, 
 				 const string& rootdir, const string& subdir, const string& path, vector<string> includedirs, vector<CLModule*> dependencies)
 			: m_context(context), m_namespace(nemespace), m_name(name), m_dotname(dotname), m_id(id), m_rootdir(rootdir), m_subdir(subdir), m_path(path)

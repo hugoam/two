@@ -20,9 +20,14 @@ namespace mud
 		KeyCombo(InputMod modifier, Key key) : m_modifier(modifier), m_key(key) {}
 		InputMod m_modifier;
 		Key m_key;
-		uint64_t value() const { return (uint64_t)m_modifier << 32 | uint(m_key); }
-		explicit operator uint64_t() const { return value(); }
+		uint32_t value() const { return uint32_t(m_modifier) << 24 | uint32_t(m_key); }
+		explicit operator uint32_t() const { return value(); }
 	};
+
+	inline size_t hash(const KeyCombo& value)
+	{
+		return value.value();
+	}
 
 	inline bool operator<(const KeyCombo& lhs, const KeyCombo& rhs) { return lhs.value() < rhs.value(); }
 	inline bool operator==(const KeyCombo& lhs, const KeyCombo& rhs) { return lhs.value() == rhs.value(); }

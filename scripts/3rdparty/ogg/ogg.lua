@@ -23,9 +23,4 @@ ogg = mud_dep(nil, "ogg")
 		
 	}
     
-	configuration { "linux-*" }
-		buildoptions {
-			"-fPIC",
-		}
-
 	configuration {}

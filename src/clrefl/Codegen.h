@@ -430,9 +430,9 @@ namespace clgen
 
 		i++;
 
-		for(CLType* t : m.m_types)
-			if(t->m_reflect)
-				p(i, "m.m_types.push_back(&" + type_get(*t) + ");");
+		for(CLType* ty : m.m_types)
+			if(ty->m_reflect)
+				p(i, "m.m_types.push_back(&" + type_get(*ty) + ");");
        
 		for(auto& pf : m.m_functions)
 		{
@@ -1214,7 +1214,7 @@ namespace clgen
 				return "new " + f.m_parent->m_id + "(" + comma(c_forward_args(f, i)) + ")";
 			else if(f.m_kind == CLPrimitiveKind::Method)
 				return "self->" + f.m_name + "(" + comma(c_forward_args(f, i)) + ")";
-			else if(f.m_kind == CLPrimitiveKind::Function)
+			else if(f.m_kind == CLPrimitiveKind::Function || true)
 				return f.m_id + "(" + comma(c_forward_args(f, i)) + ")";
 		};
 

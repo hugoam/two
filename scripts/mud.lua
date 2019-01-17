@@ -6,12 +6,18 @@ end
 
 group "3rdparty"
 dofile(path.join(MUD_DIR, "scripts/3rdparty/json11.lua"))
+dofile(path.join(MUD_DIR, "scripts/3rdparty/base64.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/stb.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/tracy.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/lua.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/wren.lua"))
+dofile(path.join(MUD_DIR, "scripts/3rdparty/mikktspace.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/vg.lua"))
 dofile(path.join(MUD_DIR, "scripts/3rdparty/bgfx/bgfx.lua"))
+dofile(path.join(MUD_DIR, "scripts/3rdparty/meshoptimizer.lua"))
+dofile(path.join(MUD_DIR, "scripts/3rdparty/culling.lua"))
+dofile(path.join(MUD_DIR, "scripts/3rdparty/xatlas.lua"))
+dofile(path.join(MUD_DIR, "scripts/3rdparty/fastnoise.lua"))
 
 if _OPTIONS["context-glfw"] then
     dofile(path.join(MUD_DIR, "scripts/3rdparty/glfw.lua"))
@@ -84,10 +90,6 @@ function mud_geom()
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "mikkt"),
     }
-    
-    files {
-        path.join(MUD_3RDPARTY_DIR, "mikkt", "mikktspace.c"),
-    }
 end
 
 function uses_mud_noise()
@@ -99,11 +101,6 @@ end
 function mud_noise()
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "FastNoise"),
-    }
-    
-    files {
-        path.join(MUD_3RDPARTY_DIR, "FastNoise", "**.h"),
-        path.join(MUD_3RDPARTY_DIR, "FastNoise", "**.cpp"),
     }
 end
 
@@ -176,34 +173,34 @@ end
 
 --                       base   name        root path       sub path    self decl   usage decl      reflect     dependencies
 -- core
-mud.infra   = mud_module("mud", "infra",    MUD_SRC_DIR,    "infra",    mud_infra,  uses_mud,       true,       { })
+mud.infra   = mud_module("mud", "infra",    MUD_SRC_DIR,    "infra",    mud_infra,  uses_mud,       false,      { })
 mud.jobs    = mud_module("mud", "jobs",     MUD_SRC_DIR,    "jobs",     mud_jobs,   uses_mud,       true,       { tracy, mud.infra })
 mud.type    = mud_module("mud", "type",     MUD_SRC_DIR,    "type",     nil,        uses_mud,       true,       { mud.infra })
-mud.tree    = mud_module("mud", "tree",     MUD_SRC_DIR,    "tree",     nil,        nil,            true,       { mud.infra })
+mud.tree    = mud_module("mud", "tree",     MUD_SRC_DIR,    "tree",     nil,        nil,            false,      { mud.infra })
 mud.pool    = mud_module("mud", "pool",     MUD_SRC_DIR,    "pool",     nil,        nil,            true,       { mud.infra, mud.type })
 -- refl
 mud.refl    = mud_module("mud", "refl",     MUD_SRC_DIR,    "refl",     nil,        nil,            true,       { mud.infra, mud.type, mud.pool })
 -- ecs
 mud.ecs     = mud_module("mud", "ecs",      MUD_SRC_DIR,    "ecs",      nil,        uses_mud,       true,       { mud.infra, mud.type, mud.refl })
 -- srlz
-mud.srlz    = mud_module("mud", "srlz",     MUD_SRC_DIR,    "srlz",     mud_srlz,   nil,            true,       { json11, mud.infra, mud.type, mud.refl })
+mud.srlz    = mud_module("mud", "srlz",     MUD_SRC_DIR,    "srlz",     mud_srlz,   nil,            false,      { json11, mud.infra, mud.type, mud.refl })
 -- math
 if MUD_STATIC then      
-  mud.math  = mud_module("mud", "math",     MUD_SRC_DIR,    "math",     mud_math,   uses_mud_math,  true,       { json11, stb.rect_pack, mud.infra, mud.type })
+  mud.math  = mud_module("mud", "math",     MUD_SRC_DIR,    "math",     mud_math,   uses_mud_math,  true,       { stb.rect_pack, mud.infra, mud.type })
 else        
-  mud.math  = mud_module("mud", "math",     MUD_SRC_DIR,    "math",     mud_math,   uses_mud_math,  true,       { json11, stb.image, stb.rect_pack, mud.infra, mud.type })
+  mud.math  = mud_module("mud", "math",     MUD_SRC_DIR,    "math",     mud_math,   uses_mud_math,  true,       { stb.image, stb.rect_pack, mud.infra, mud.type })
 end     
 -- geom
-mud.geom    = mud_module("mud", "geom",     MUD_SRC_DIR,    "geom",     mud_geom,   nil,            true,       { mud.type, mud.math })
+mud.geom    = mud_module("mud", "geom",     MUD_SRC_DIR,    "geom",     mud_geom,   nil,            true,       { mikktspace, mud.type, mud.math })
 -- procgen
-mud.noise   = mud_module("mud", "noise",    MUD_SRC_DIR,    "noise",    mud_noise,  uses_mud_noise, true,       { json11, mud.infra, mud.type, mud.math, mud.geom })
+mud.noise   = mud_module("mud", "noise",    MUD_SRC_DIR,    "noise",    mud_noise,  uses_mud_noise, true,       { fastnoise, mud.infra, mud.type, mud.math, mud.geom })
 mud.wfc     = mud_module("mud", "wfc",      MUD_SRC_DIR,    "wfc",      mud_wfc,    nil,            true,       { json11, mud.infra, mud.type, mud.srlz, mud.math, mud.geom })
 mud.fract   = mud_module("mud", "fract",    MUD_SRC_DIR,    "fract",    nil,        nil,            true,       { json11, mud.infra, mud.type, mud.math, mud.geom })
 -- lang
 mud.lang    = mud_module("mud", "lang",     MUD_SRC_DIR,    "lang",     mud_lang,   nil,            true,       { lua, wren, mud.infra, mud.type, mud.pool, mud.refl })
 -- ui
 mud.ctx     = mud_module("mud", "ctx",      MUD_SRC_DIR,    "ctx",      nil,        nil,            true,       { mud.infra, mud.type, mud.math })
-mud.ui      = mud_module("mud", "ui",       MUD_SRC_DIR,    "ui",       mud_ui,     uses_mud_ui,    true,       { json11, mud.infra, mud.type, mud.math, mud.ctx })
+mud.ui      = mud_module("mud", "ui",       MUD_SRC_DIR,    "ui",       mud_ui,     uses_mud_ui,    true,       { mud.infra, mud.type, mud.math, mud.ctx })
 mud.uio     = mud_module("mud", "uio",      MUD_SRC_DIR,    "uio",      nil,        nil,            true,       { mud.infra, mud.tree, mud.type, mud.ecs, mud.pool, mud.refl, mud.math, mud.lang, mud.ctx, mud.ui })
 -- snd
 mud.snd     = mud_module("mud", "snd",      MUD_SRC_DIR,    "snd",      mud_snd,    uses_mud_snd,   true,       { ogg, vorbis, vorbisfile, mud.type, mud.math })

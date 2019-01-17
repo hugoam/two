@@ -64,9 +64,4 @@ vorbis = mud_dep(nil, "vorbis")
             "/wd4456", -- warning C4456: declaration of 'i' hides previous local declaration
         }
         
-	configuration { "linux-*" }
-		buildoptions {
-			"-fPIC",
-		}
-
 	configuration {}

@@ -35,9 +35,4 @@ lua = mud_dep(nil, "lua")
 			"-Wno-expansion-to-defined",
 		}
 
-	configuration { "linux-*" }
-		buildoptions {
-			"-fPIC",
-		}
-
 	configuration {}

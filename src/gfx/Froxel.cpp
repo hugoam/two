@@ -267,9 +267,9 @@ namespace mud
 
 		size_t i = 0;
 
-		for(size_t z = 0; z < m_frustum.m_subdiv_z; ++z)
-		for(size_t y = 0; y < m_frustum.m_subdiv_y; ++y)
-		for(size_t x = 0; x < m_frustum.m_subdiv_x; ++x)
+		for(uint16_t z = 0; z < m_frustum.m_subdiv_z; ++z)
+		for(uint16_t y = 0; y < m_frustum.m_subdiv_y; ++y)
+		for(uint16_t x = 0; x < m_frustum.m_subdiv_x; ++x)
 		{
 			m_debug_clusters[i++] = m_frustum.cluster_frustum(x, y, z);
 		}
@@ -576,7 +576,7 @@ namespace mud
 
 		const size_t zcenter = frustum.slice(s.z);
 
-		for(size_t iz = lo.z; iz <= hi.z; ++iz)
+		for(uint iz = lo.z; iz <= hi.z; ++iz)
 		{
 			vec4 cz(s);
 			if(iz != zcenter) // [[unlikely]]
@@ -589,7 +589,7 @@ namespace mud
 
 			if(cz.w > 0)
 			{ // intersection of light with this plane (slice)
-				for(size_t iy = lo.y; iy <= hi.y; ++iy)
+				for(uint iy = lo.y; iy <= hi.y; ++iy)
 				{
 					vec4 cy(cz);
 					if(iy != center.y) // [[unlikely]] 
@@ -599,7 +599,7 @@ namespace mud
 					}
 					if(cy.w > 0)
 					{ // intersection of light with this horizontal plane
-						size_t bx, ex; // horizontal begin/end indices
+						uint bx, ex; // horizontal begin/end indices
 										// find the begin index (left side)
 						for(bx = lo.x; ++bx <= center.x;)
 							if(sphere_plane_distance2(cy, frustum.m_planes_x[bx].x, frustum.m_planes_x[bx].z) > 0)
@@ -619,7 +619,7 @@ namespace mud
 						assert(bx < frustum.m_subdiv_x && ex <= frustum.m_subdiv_x);
 
 						// The first entry reserved for type of light, i.e. point/spot
-						size_t fi = frustum.index(bx, iy, iz) + 1;
+						uint16_t fi = frustum.index(bx, iy, iz) + 1;
 						if(light.invSin != std::numeric_limits<float>::infinity())
 						{
 							// This is a spotlight (common case)
