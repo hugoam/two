@@ -23,39 +23,46 @@ namespace mud
 #include <utility>
 namespace mud
 {
-	template<class T>
+	template<typename T>
 	class unique
 	{
 	public:
-		unique() noexcept : m_ptr(nullptr) {}
-		unique(std::nullptr_t) noexcept : m_ptr(nullptr) {}
-		explicit unique(T* pointer) noexcept : m_ptr(pointer) {}
+		unique() : m_ptr(nullptr) {}
+		unique(std::nullptr_t) : m_ptr(nullptr) {}
+		explicit unique(T* m_ptr) : m_ptr(m_ptr) {}
 		~unique() { delete m_ptr; }
 
-		unique(const unique<T>&) = delete;
-		unique<T>& operator=(const unique<T>&) = delete;
+		unique(unique const&) = delete;
+		unique& operator=(unique const&) = delete;
 
-		unique(unique<T>&& other) noexcept
-			: m_ptr(other.m_ptr)
+		unique(unique&& moving) noexcept
+			: unique()
 		{
-			other.m_ptr = nullptr;
+			moving.swap(*this);
 		}
 
-		template<class U>
-		unique(unique<U>&& other) noexcept
-			: m_ptr(other.m_ptr)
+		unique& operator=(unique&& moving) noexcept
 		{
-			other.m_ptr = nullptr;
-		}
-
-		unique<T>& operator=(unique<T>&& other) noexcept
-		{
-			std::swap(m_ptr, other.m_ptr);
+			moving.swap(*this);
 			return *this;
 		}
 
-		bool operator==(std::nullptr_t) const { return !m_ptr; }
-		bool operator!=(std::nullptr_t) const { return m_ptr; }
+		template<typename U>
+		unique(unique<U>&& moving)
+			: unique()
+		{
+			unique<T>(moving.release()).swap(*this);
+		}
+
+		template<typename U>
+		unique& operator=(unique<U>&& moving)
+		{
+			unique<T>(moving.release()).swap(*this);
+			return *this;
+		}
+
+		bool operator==(std::nullptr_t) const { return m_ptr == nullptr; }
+		bool operator!=(std::nullptr_t) const { return m_ptr != nullptr; }
 
 		explicit operator bool() const { return m_ptr; }
 
@@ -63,33 +70,39 @@ namespace mud
 		T* operator->() const { return m_ptr; }
 		T& operator*() const { return *m_ptr; }
 
-		void reset(T* pointer)
+		void swap(unique& src) noexcept
 		{
-			delete m_ptr;
-			m_ptr = pointer;
+			std::swap(m_ptr, src.m_ptr);
 		}
 
-		template<class ...Args>
-		T& emplace(Args&&... args)
+		void reset()
 		{
-			delete m_ptr;
-			m_ptr = new T{ std::forward<Args>(args)... };
-			return *m_ptr;
+			T* tmp = release();
+			delete tmp;
 		}
 
-		T* release()
+		T* release() noexcept
 		{
-			T* const out = m_ptr;
-			m_ptr = nullptr;
-			return out;
+			T* result = nullptr;
+			std::swap(result, m_ptr);
+			return result;
 		}
 
-	public:
+	private:
 		T* m_ptr;
 	};
 
+	template<typename T>
+	void swap(unique<T>& lhs, unique<T>& rhs)
+	{
+		lhs.swap(rhs);
+	}
+
 	template<class T> bool operator==(std::nullptr_t, const unique<T>& b) { return b == nullptr; }
 	template<class T> bool operator!=(std::nullptr_t, const unique<T>& b) { return b != nullptr; }
+
+	template<class T, class U> inline bool operator==(const unique<T>& l, const unique<U>& r) { return (l.get() == r.get()); }
+	template<class T, class U> inline bool operator!=(const unique<T>& l, const unique<U>& r) {	return (l.get() != r.get()); }
 
 	template<class T, class... Types>
 	inline unique<T> make_unique(Types&&... args)
