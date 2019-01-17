@@ -327,9 +327,9 @@ namespace mud
 	template <class T> inline T distance2(const v3<T>& a, const v3<T>& b) { return length2(b - a); }
 	template <class T> inline T distance2(const v4<T>& a, const v4<T>& b) { return length2(b - a); }
 
-	template <class T> inline v2<T> normalize(const v2<T>& v) { return v * T(1) / sqrt(dot(v, v)); }
-	template <class T> inline v3<T> normalize(const v3<T>& v) { return v * T(1) / sqrt(dot(v, v)); }
-	template <class T> inline v4<T> normalize(const v4<T>& v) { return v * T(1) / sqrt(dot(v, v)); }
+	template <class T> inline v2<T> normalize(const v2<T>& v) { return v * T(1) / T(sqrt(dot(v, v))); }
+	template <class T> inline v3<T> normalize(const v3<T>& v) { return v * T(1) / T(sqrt(dot(v, v))); }
+	template <class T> inline v4<T> normalize(const v4<T>& v) { return v * T(1) / T(sqrt(dot(v, v))); }
 
 	template <class T> inline v2<T> abs(const v2<T>& v) { return v2<T>(abs(v.x), abs(v.y)); }
 	template <class T> inline v3<T> abs(const v3<T>& v) { return v3<T>(abs(v.x), abs(v.y), abs(v.z)); }
