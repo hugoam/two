@@ -38,6 +38,12 @@ function uses_mud()
     end
 end
 
+function mud_infra()
+    files {
+        path.join(MUD_3RDPARTY_DIR, "tinystl", "include", "**.h"),
+    }
+end
+
 function mud_jobs()
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "tracy"),
@@ -169,7 +175,7 @@ end
 
 --                       base   name        root path       sub path    self decl   usage decl      reflect     dependencies
 -- core
-mud.infra   = mud_module("mud", "infra",    MUD_SRC_DIR,    "infra",    nil,        uses_mud,       true,       { })
+mud.infra   = mud_module("mud", "infra",    MUD_SRC_DIR,    "infra",    mud_infra,  uses_mud,       true,       { })
 mud.jobs    = mud_module("mud", "jobs",     MUD_SRC_DIR,    "jobs",     mud_jobs,   uses_mud,       true,       { tracy, mud.infra })
 mud.type    = mud_module("mud", "type",     MUD_SRC_DIR,    "type",     nil,        uses_mud,       true,       { mud.infra })
 mud.tree    = mud_module("mud", "tree",     MUD_SRC_DIR,    "tree",     nil,        nil,            true,       { mud.infra })

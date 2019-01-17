@@ -36,7 +36,7 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 	static std::vector<Item*> selected = {};
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
-		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, [&](Item* item) { selected = { item }; }, ItemFlag::Default | ItemFlag::Selectable);
+		//viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, [&](Item* item) { selected = { item }; }, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
 	static vec4 select_rect = Zero4;
@@ -49,9 +49,9 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
 	{
-		auto select = [&](array<Item*> items) { selected = to_vector(items); };
-		viewer.picker(0).pick_rectangle(viewer.m_viewport, select_rect, select, ItemFlag::Default | ItemFlag::Selectable);
-		select_rect = Zero4;
+		//auto select = [&](array<Item*> items) { selected = to_vector(items); };
+		//viewer.picker(0).pick_rectangle(viewer.m_viewport, select_rect, select, ItemFlag::Default | ItemFlag::Selectable);
+		//select_rect = Zero4;
 	}
 
 	if(select_rect != Zero4)

@@ -45,7 +45,7 @@ void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 	//	paint_tile_cube(scene, block, vec3(highlighted), Colour::DarkGrey);
 
 	if(selected != uvec3(UINT32_MAX))
-		paint_tile_cube(scene, block, vec3(selected), Colour::White, Colour::AlphaWhite);
+		paint_tile_cube(scene, block, selected, Colour::White, Colour::AlphaWhite);
 
 	static size_t tick = 0;
 	tick++;

@@ -102,7 +102,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 #endif
 
 #if CLUSTERED
-	if(rect_size(viewer.m_viewport.m_rect) != vec2(0.f) && !viewer.m_camera.m_clusters)
+	if(rect_size(vec4(viewer.m_viewport.m_rect)) != vec2(0.f) && !viewer.m_camera.m_clusters)
 	{
 		viewer.m_camera.m_clustered = true;
 		viewer.m_camera.m_clusters = make_unique<Froxelizer>(viewer.m_scene->m_gfx_system);

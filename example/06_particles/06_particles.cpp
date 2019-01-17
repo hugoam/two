@@ -13,13 +13,12 @@ using namespace mud;
 template <class T_Asset>
 void add_asset_loader(AssetStore<T_Asset>& store, cstring format)
 {
-	auto loader = [&](GfxSystem& gfx_system, T_Asset& asset, cstring path)
+	auto loader = [](void* user, T_Asset& asset, cstring path)
 	{
-		UNUSED(gfx_system);
-		unpack_json_file(Ref(&asset), string(path) + store.m_cformats[0]);
+		unpack_json_file(Ref(&asset), string(path) + ".ptc"); // store.m_cformats[0]);
 	};
 
-	store.add_format(format, loader);
+	store.add_format(format, { nullptr, loader });
 }
 
 struct ParticleItem
@@ -80,13 +79,13 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
-		auto callback = [&controller, middle](Item* item)
-		{
-			if(item == nullptr) return;
-			edited = &val<ParticleItem>(item->m_node->m_object);
-			controller.m_position = vec3{ -middle + edited->m_index * 10.f, 0.f, 0.f };
-		};
-		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
+		//auto callback = [&controller, middle](Item* item)
+		//{
+		//	if(item == nullptr) return;
+		//	edited = &val<ParticleItem>(item->m_node->m_object);
+		//	controller.m_position = vec3{ -middle + edited->m_index * 10.f, 0.f, 0.f };
+		//};
+		//viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
 	if(edited)

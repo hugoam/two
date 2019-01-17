@@ -45,7 +45,7 @@ void light_grid(Gnode& parent, array_2d<LightInstance> light_grid, bool moving, 
 
 			float height = moving ? sinf(g_time + float(y + x) * 0.21f) * 5.f : 5.f;
 
-			Gnode& light_node = gfx::node(parent, {}, center + vec3{ x * spacing, height, y * spacing }, angleAxis(c_pi / 2.f, X3));
+			Gnode& light_node = gfx::node(parent, {}, center + vec3{ x * spacing, height, y * spacing }, angle_axis(c_pi / 2.f, X3));
 			Light& light = gfx::light(light_node, light_type, false, light_item.colour, range, attenuation);
 			if(light_type == LightType::Spot)
 			{
@@ -111,7 +111,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 #endif
 
 #if CLUSTERED
-	if(clustered && viewer.m_viewport.m_rect != uvec4(0) && !viewer.m_camera.m_clusters)
+	if(clustered && viewer.m_viewport.m_rect != uvec4(0U) && !viewer.m_camera.m_clusters)
 	{
 		viewer.m_camera.m_clustered = true;
 		viewer.m_camera.m_clusters = make_unique<Froxelizer>(viewer.m_scene->m_gfx_system);

@@ -1,4 +1,5 @@
 #include <mud/core.h>
+#include <ui/Edit/Lang.h>
 
 #include <09_live_shader/09_live_shader.h>
 
@@ -79,8 +80,10 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
-		ActionList actions = { { "Reload", [&] { program.reload(); } } };
-		Section& edit = section(*dock, "Shader Editor", actions);
+		Section& edit = section(*dock, "Shader Editor");
+		
+		if(section_action(edit, "Reload"))
+			program.reload();
 
 		TextEdit& text_edit = ui::code_edit(*edit.m_body, source, 0);
 		if(text_edit.m_changed)

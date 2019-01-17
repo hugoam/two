@@ -14,8 +14,8 @@ void debug_normals(Gnode& parent, Mesh& mesh, const mat4& transform, float lengt
 
 	for(size_t i = 0; i < source.m_vertices.size(); ++i)
 	{
-		vec3 position = transform * vec4(source.position(), 1.f);
-		vec3 normal = normalize(vec3(transform * vec4(source.normal(), 0.f)));
+		vec3 position = mulp(transform, source.position());
+		vec3 normal = muln(transform, source.normal());
 		gfx::draw(parent, Line(position, position + normal * length), Symbol(to_colour(normal)));
 	}
 }

@@ -26,7 +26,7 @@ public:
 	vec3 m_linear_velocity = Zero3;
 	vec3 m_angular_velocity = Zero3;
 
-	std::vector<State> m_states;
+	vector<State> m_states;
 };
 
 Animated& paint_human(Gnode& parent, Human& human, bool high_lod)
