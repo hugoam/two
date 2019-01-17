@@ -18,7 +18,8 @@
 #include <snd/Sound.h>
 
 #include <list>
-#include <thread>
+//#include <thread>
+//#include <memory>
 
 namespace mud
 {
@@ -118,7 +119,7 @@ namespace mud
 		LocklessQueue<SoundAction> m_actions;
 		LocklessQueue<SoundAction> m_delayedActions;
 
-		unique<std::thread> m_update_thread = nullptr;
+		//std::unique_ptr<std::thread> m_update_thread = nullptr;
 		bool m_shuttingDown = false;
 
 	public:

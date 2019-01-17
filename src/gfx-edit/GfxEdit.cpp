@@ -368,6 +368,7 @@ namespace mud
 	{
 		ScrollSheet& scroll_sheet = ui::scroll_sheet(parent);
 		Widget& self = ui::sheet(*scroll_sheet.m_body);
+		UNUSED(self);
 
 		//RenderFilters& filters = viewer.m_filters;
 		//object_edit_expandbox(self, Ref(&filters.m_dof_blur));

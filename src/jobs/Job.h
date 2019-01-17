@@ -3,6 +3,8 @@
 #include <jobs/Forward.h>
 #include <jobs/JobSystem.h>
 
+#include <functional>
+
 namespace mud
 {
 	template <typename Function, typename ... Args>

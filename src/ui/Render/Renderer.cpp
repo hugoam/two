@@ -22,6 +22,7 @@ module mud.ui;
 #endif
 
 #include <algorithm>
+#include <cstdio>
 
 namespace mud
 {

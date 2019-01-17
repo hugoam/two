@@ -143,7 +143,7 @@ namespace mud
 
 		m_maxSources = createSourcePool(max_sources);
 
-		//m_update_thread = make_unique<std::thread>([=] { this->threadUpdate(); });
+		//m_update_thread = std::make_unique<std::thread>([=] { this->threadUpdate(); });
 
 		return true;
 	}

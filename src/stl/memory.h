@@ -73,8 +73,7 @@ namespace mud
 
 		void swap(unique& src) noexcept
 		{
-			using mud::swap;
-			swap(m_ptr, src.m_ptr);
+			mud::swap(m_ptr, src.m_ptr);
 		}
 
 		void reset()
@@ -85,9 +84,8 @@ namespace mud
 
 		T* release() noexcept
 		{
-			using mud::swap;
 			T* result = nullptr;
-			swap(result, m_ptr);
+			mud::swap(result, m_ptr);
 			return result;
 		}
 

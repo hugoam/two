@@ -5,6 +5,7 @@
 #include <gfx/Cpp20.h>
 #ifndef MUD_CPP20
 #include <algorithm>
+#include <cstdio>
 #endif
 
 #include <bgfx/bgfx.h>
