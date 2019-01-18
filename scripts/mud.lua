@@ -177,19 +177,21 @@ function mud_clrefl()
     configuration {}
 end
 
+-- @todo deactivate reflection for infra, tree, srlz, bgfx, gfx.obj, gfx.gltf, gfx.edit
+--       and make reflection generator generate empty modules in those cases
 --                       base   name        root path       sub path    self decl   usage decl      reflect     dependencies
 -- core
-mud.infra   = mud_module("mud", "infra",    MUD_SRC_DIR,    "infra",    mud_infra,  uses_mud,       false,      { })
+mud.infra   = mud_module("mud", "infra",    MUD_SRC_DIR,    "infra",    mud_infra,  uses_mud,       true,       { })
 mud.jobs    = mud_module("mud", "jobs",     MUD_SRC_DIR,    "jobs",     mud_jobs,   uses_mud,       true,       { tracy, mud.infra })
 mud.type    = mud_module("mud", "type",     MUD_SRC_DIR,    "type",     nil,        uses_mud,       true,       { mud.infra })
-mud.tree    = mud_module("mud", "tree",     MUD_SRC_DIR,    "tree",     nil,        nil,            false,      { mud.infra })
+mud.tree    = mud_module("mud", "tree",     MUD_SRC_DIR,    "tree",     nil,        nil,            true,       { mud.infra })
 mud.pool    = mud_module("mud", "pool",     MUD_SRC_DIR,    "pool",     nil,        nil,            true,       { mud.infra, mud.type })
 -- refl
 mud.refl    = mud_module("mud", "refl",     MUD_SRC_DIR,    "refl",     nil,        nil,            true,       { mud.infra, mud.type, mud.pool })
 -- ecs
 mud.ecs     = mud_module("mud", "ecs",      MUD_SRC_DIR,    "ecs",      nil,        uses_mud,       true,       { mud.infra, mud.type, mud.refl })
 -- srlz
-mud.srlz    = mud_module("mud", "srlz",     MUD_SRC_DIR,    "srlz",     mud_srlz,   nil,            false,      { json11, mud.infra, mud.type, mud.refl })
+mud.srlz    = mud_module("mud", "srlz",     MUD_SRC_DIR,    "srlz",     mud_srlz,   nil,            true,       { json11, mud.infra, mud.type, mud.refl })
 -- math
 if MUD_STATIC then      
   mud.math  = mud_module("mud", "math",     MUD_SRC_DIR,    "math",     mud_math,   uses_mud_math,  true,       { stb.rect_pack, mud.infra, mud.type })

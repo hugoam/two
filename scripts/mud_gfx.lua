@@ -56,16 +56,16 @@ mud.uibackend   = mud_ui_backend()
 
 --                           base   name            root path    sub path       self decl       decl transitive     reflect     dependencies
 -- gfx
-mud.bgfx        = mud_module("mud", "bgfx",         MUD_SRC_DIR, "bgfx",        nil,            nil,                false,      { bx, bimg, bimg.decode, bimg.encode, bgfx, mud.infra, mud.type, mud.math, mud.ctx })
+mud.bgfx        = mud_module("mud", "bgfx",         MUD_SRC_DIR, "bgfx",        nil,            nil,                true,       { bx, bimg, bimg.decode, bimg.encode, bgfx, mud.infra, mud.type, mud.math, mud.ctx })
 mud.gfx         = mud_module("mud", "gfx",          MUD_SRC_DIR, "gfx",         mud_gfx,        uses_mud_gfx,       true,       { tracy, json11, meshopt, culling, bgfx, shaderc, mud.infra, mud.jobs, mud.type, mud.pool, mud.math, mud.geom, mud.ctx, mud.bgfx })
 -- gltf
 mud.gltf        = mud_module("mud", "gltf",         MUD_SRC_DIR, "gltf",        mud_gltf,       nil,                true,       { json11, base64, mud.infra, mud.type, mud.refl, mud.srlz, mud.math })
 -- gfx exts
 mud.gfx.pbr     = mud_module("mud", "gfx-pbr",      MUD_SRC_DIR, "gfx-pbr",     mud_gfx_pbr,    nil,                true,       { xatlas, mud.infra, mud.type, mud.math, mud.geom, mud.gfx })
-mud.gfx.obj     = mud_module("mud", "gfx-obj",      MUD_SRC_DIR, "gfx-obj",     nil,            nil,                false,      { mud.infra, mud.type, mud.srlz, mud.math, mud.geom, mud.gfx })
-mud.gfx.gltf    = mud_module("mud", "gfx-gltf",     MUD_SRC_DIR, "gfx-gltf",    mud_gltf,       nil,                false,      { json11, mud.infra, mud.type, mud.refl, mud.srlz, mud.math, mud.geom, mud.gfx, mud.gltf, mud.gltf.refl })
+mud.gfx.obj     = mud_module("mud", "gfx-obj",      MUD_SRC_DIR, "gfx-obj",     nil,            nil,                true,       { mud.infra, mud.type, mud.srlz, mud.math, mud.geom, mud.gfx })
+mud.gfx.gltf    = mud_module("mud", "gfx-gltf",     MUD_SRC_DIR, "gfx-gltf",    mud_gltf,       nil,                true,       { json11, mud.infra, mud.type, mud.refl, mud.srlz, mud.math, mud.geom, mud.gfx, mud.gltf, mud.gltf.refl })
 mud.gfx.ui      = mud_module("mud", "gfx-ui",       MUD_SRC_DIR, "gfx-ui",      nil,            nil,                true,       { mud.infra, mud.tree, mud.type, mud.math, mud.geom, mud.ctx, mud.ui, mud.gfx })
-mud.gfx.edit    = mud_module("mud", "gfx-edit",     MUD_SRC_DIR, "gfx-edit",    nil,            nil,                false,      { mud.infra, mud.type, mud.refl, mud.srlz, mud.math, mud.geom, mud.ui, mud.uio, mud.gfx, mud.gfx.pbr })
+mud.gfx.edit    = mud_module("mud", "gfx-edit",     MUD_SRC_DIR, "gfx-edit",    nil,            nil,                true,       { mud.infra, mud.type, mud.refl, mud.srlz, mud.math, mud.geom, mud.ui, mud.uio, mud.gfx, mud.gfx.pbr })
 -- tool
 mud.tool        = mud_module("mud", "tool",         MUD_SRC_DIR, "tool",        nil,            nil,                true,       { mud.infra, mud.tree, mud.type, mud.refl, mud.srlz, mud.lang, mud.math, mud.geom, mud.ctx, mud.ui, mud.uio, mud.gfx, mud.gfx.pbr, mud.gfx.ui, mud.gfx.edit })
 -- wfc
