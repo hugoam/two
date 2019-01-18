@@ -22,7 +22,7 @@ dofile(path.join(MUD_DIR, "scripts/3rdparty/fastnoise.lua"))
 if _OPTIONS["culling"] then
     dofile(path.join(MUD_DIR, "scripts/3rdparty/culling.lua"))
 else
-    culling = nil
+    culling = null
 end
 
 if _OPTIONS["context-glfw"] then

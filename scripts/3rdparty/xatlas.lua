@@ -14,13 +14,13 @@ xatlas = mud_dep(nil, "xatlas")
 
     configuration { "mingw* or linux or osx or asmjs" }
         buildoptions {
-            "-Wsign-compare",
-            "-Wreorder",
-            "-Wunused-function",
+            "-Wno-sign-compare",
+            "-Wno-reorder",
+            "-Wno-unused-function",
         }
         
         buildoptions {
-            "-Wtype-limits",
+            "-Wno-type-limits",
         }
         
     configuration { "osx or *-clang* or asmjs" }
