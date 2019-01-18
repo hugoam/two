@@ -29,7 +29,7 @@ namespace mud
 	}
 
 	export_ template <>
-		inline quat lerp(const quat& a, const quat& b, float c)
+	inline quat lerp(const quat& a, const quat& b, float c)
 	{
 		return slerp(a, b, c);
 	}

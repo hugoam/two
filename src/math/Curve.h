@@ -80,11 +80,11 @@ namespace mud
 			if(m_mode == TrackMode::Constant)
 				return m_value;
 			else if(m_mode == TrackMode::ConstantRandom)
-				return lerp(m_min, m_max, seed);
+				return mud::lerp(m_min, m_max, seed);
 			else if(m_mode == TrackMode::Curve)
 				return m_value * m_curve.sample_curve(t);
 			else //if(m_mode == TrackMode::CurveRandom)
-				return lerp(m_min * m_min_curve.sample_curve(t), m_max * m_max_curve.sample_curve(t), seed);
+				return mud::lerp(m_min * m_min_curve.sample_curve(t), m_max * m_max_curve.sample_curve(t), seed);
 		}
 
 		attr_ TrackMode m_mode;

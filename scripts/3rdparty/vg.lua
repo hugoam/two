@@ -28,6 +28,11 @@ vg = mud_dep(nil, "vg")
             "-Wno-empty-body",
         }
         
+	configuration { "osx or *-clang* or asmjs" }
+		buildoptions {
+            "-Wno-shadow",
+		}
+        
     configuration { "Debug" }
         defines {
             "VG_CONFIG_DEBUG=1"

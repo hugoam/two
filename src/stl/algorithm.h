@@ -66,12 +66,14 @@ namespace mud
 				}
 			}
 		}
+		first = next;
 		return first;
 	}
 
 	template<class It, class T>
 	inline It remove(It first, const It last, const T& val)
 	{
+		first = find(first, last, val);
 		It next = first;
 		if(first != last)
 		{
@@ -84,6 +86,7 @@ namespace mud
 				}
 			}
 		}
+		first = next;
 		return first;
 	}
 

@@ -22,12 +22,15 @@ module mud.geom;
 
 #ifdef MUD_NO_GLM
 namespace mud
-#else
-namespace glm
-#endif
 {
 	inline bool operator<(const vec3& lhs, const vec3& rhs) { return all(less(lhs, rhs)); }
 }
+#else
+namespace glm
+{
+	inline bool operator<(const vec3& lhs, const vec3& rhs) { return all(lessThan(lhs, rhs)); }
+}
+#endif
 
 namespace mud
 {

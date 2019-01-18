@@ -36,7 +36,9 @@ project "bimg_encode"
         
 	configuration { "osx or *-clang* or asmjs" }
 		buildoptions {
+            "-Wno-shadow",
 			"-Wno-macro-redefined",
+            "-Wno-tautological-compare",
 		}
 
     configuration {}
