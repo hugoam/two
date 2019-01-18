@@ -12,6 +12,11 @@ mikktspace = mud_dep(nil, "mikktspace")
         path.join(MUD_3RDPARTY_DIR, "mikkt", "mikktspace.c"),
     }
     
+    configuration { "osx or *-clang* or asmjs" }
+        buildoptions {
+            "-Wno-shadow",
+        }
+
     configuration { "vs*", "not asmjs" }
         buildoptions {
             "/wd4204", -- warning C4204: nonstandard extension used: non-constant aggregate initializer

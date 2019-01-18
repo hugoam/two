@@ -37,8 +37,8 @@ namespace mud
 		size_t m_wave_updated = 0;
 		size_t m_wave_solved = 0;
 
-		array_3d<uint16_t> m_tiles;
-		array_3d<uint16_t> m_entropy;
+		array3d<uint16_t> m_tiles;
+		array3d<uint16_t> m_entropy;
 
 		vector<TileModel> m_tile_models;
 

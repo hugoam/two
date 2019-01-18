@@ -228,26 +228,26 @@ namespace mud
 
 
 	export_ template <class T_Element>
-	struct refl_ struct_ array_3d : public vector<T_Element>
+	struct refl_ struct_ array3d : public vector<T_Element>
 	{
 	public:
 		typedef T_Element T;
 
 	public:
-		array_3d(size_t x, size_t y, size_t z)
+		array3d(size_t x, size_t y, size_t z)
 			: vector<T_Element>(x*y*z), m_x(x), m_y(y), m_z(z)
 		{}
 
-		array_3d(size_t x, size_t y, size_t z, const T& val)
+		array3d(size_t x, size_t y, size_t z, const T& val)
 			: vector<T_Element>(x*y*z, val), m_x(x), m_y(y), m_z(z)
 		{}
 
-		array_3d(size_t s)
-			: array_3d(s, s, s)
+		array3d(size_t s)
+			: array3d(s, s, s)
 		{}
 
-		array_3d()
-			: array_3d(0, 0, 0)
+		array3d()
+			: array3d(0, 0, 0)
 		{}
 
 		void clear(T val)

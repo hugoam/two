@@ -95,20 +95,20 @@ namespace mud
         };
         meta_class<mud::Noise>();
     }
-    // mud::array_3d<float>
+    // mud::array3d<float>
     {
-        static Meta meta = { type<mud::array_3d<float>>(), &namspc({ "mud" }), "array_3d<float>", sizeof(mud::array_3d<float>), TypeClass::Struct };
-        static Class cls = { type<mud::array_3d<float>>(),
+        static Meta meta = { type<mud::array3d<float>>(), &namspc({ "mud" }), "array3d<float>", sizeof(mud::array3d<float>), TypeClass::Struct };
+        static Class cls = { type<mud::array3d<float>>(),
             // bases
             { &type<vector<float>>() },
-            { base_offset<mud::array_3d<float>, vector<float>>() },
+            { base_offset<mud::array3d<float>, vector<float>>() },
             // constructors
             {
-                { type<mud::array_3d<float>>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::array_3d<float>>(ref)) mud::array_3d<float>(  ); }, {} }
+                { type<mud::array3d<float>>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::array3d<float>>(ref)) mud::array3d<float>(  ); }, {} }
             },
             // copy constructor
             {
-                { type<mud::array_3d<float>>(), [](Ref ref, Ref other) { new(&val<mud::array_3d<float>>(ref)) mud::array_3d<float>(val<mud::array_3d<float>>(other)); } }
+                { type<mud::array3d<float>>(), [](Ref ref, Ref other) { new(&val<mud::array3d<float>>(ref)) mud::array3d<float>(val<mud::array3d<float>>(other)); } }
             },
             // members
             {
@@ -120,7 +120,7 @@ namespace mud
             {
             }
         };
-        meta_class<mud::array_3d<float>>();
+        meta_class<mud::array3d<float>>();
     }
         m.m_types.push_back(&type<mud::Noise::CellularDistanceFunction>());
         m.m_types.push_back(&type<mud::Noise::CellularReturnType>());
@@ -128,7 +128,7 @@ namespace mud
         m.m_types.push_back(&type<mud::Noise::Interp>());
         m.m_types.push_back(&type<mud::Noise>());
         m.m_types.push_back(&type<mud::Noise::NoiseType>());
-        m.m_types.push_back(&type<mud::array_3d<float>>());
+        m.m_types.push_back(&type<mud::array3d<float>>());
         {
             auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::noise_2d(val<float>(args[0]), val<float>(args[1]), val<mud::Noise::NoiseType>(args[2]), val<float>(args[3]), val<mud::Noise::Interp>(args[4])); };
             vector<Param> params = { { "x", var(float()) }, { "y", var(float()) }, { "noise_type", var(mud::Noise::NoiseType()) }, { "frequency", var(float(0.01f)), Param::Default }, { "interp", var(mud::Noise::Interp(Noise::Quintic)), Param::Default } };
@@ -154,15 +154,15 @@ namespace mud
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::noise_field_2d(val<mud::array_3d<float>>(args[0]), val<mud::Noise::NoiseType>(args[1]), val<float>(args[2]), val<mud::Noise::Interp>(args[3])); };
-            vector<Param> params = { { "output_values", var(mud::array_3d<float>()), Param::Output }, { "noise_type", var(mud::Noise::NoiseType()) }, { "frequency", var(float(0.01f)), Param::Default }, { "interp", var(mud::Noise::Interp(Noise::Quintic)), Param::Default } };
-            static Function f = { &namspc({ "mud" }), "noise_field_2d", function_id<void(*)(mud::array_3d<float>&, mud::Noise::NoiseType, float, mud::Noise::Interp)>(&mud::noise_field_2d), func, params, Var() };
+            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::noise_field_2d(val<mud::array3d<float>>(args[0]), val<mud::Noise::NoiseType>(args[1]), val<float>(args[2]), val<mud::Noise::Interp>(args[3])); };
+            vector<Param> params = { { "output_values", var(mud::array3d<float>()), Param::Output }, { "noise_type", var(mud::Noise::NoiseType()) }, { "frequency", var(float(0.01f)), Param::Default }, { "interp", var(mud::Noise::Interp(Noise::Quintic)), Param::Default } };
+            static Function f = { &namspc({ "mud" }), "noise_field_2d", function_id<void(*)(mud::array3d<float>&, mud::Noise::NoiseType, float, mud::Noise::Interp)>(&mud::noise_field_2d), func, params, Var() };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::noise_field_3d(val<mud::array_3d<float>>(args[0]), val<mud::Noise::NoiseType>(args[1]), val<float>(args[2]), val<mud::Noise::Interp>(args[3])); };
-            vector<Param> params = { { "output_values", var(mud::array_3d<float>()), Param::Output }, { "noise_type", var(mud::Noise::NoiseType()) }, { "frequency", var(float(0.01f)), Param::Default }, { "interp", var(mud::Noise::Interp(Noise::Quintic)), Param::Default } };
-            static Function f = { &namspc({ "mud" }), "noise_field_3d", function_id<void(*)(mud::array_3d<float>&, mud::Noise::NoiseType, float, mud::Noise::Interp)>(&mud::noise_field_3d), func, params, Var() };
+            auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::noise_field_3d(val<mud::array3d<float>>(args[0]), val<mud::Noise::NoiseType>(args[1]), val<float>(args[2]), val<mud::Noise::Interp>(args[3])); };
+            vector<Param> params = { { "output_values", var(mud::array3d<float>()), Param::Output }, { "noise_type", var(mud::Noise::NoiseType()) }, { "frequency", var(float(0.01f)), Param::Default }, { "interp", var(mud::Noise::Interp(Noise::Quintic)), Param::Default } };
+            static Function f = { &namspc({ "mud" }), "noise_field_3d", function_id<void(*)(mud::array3d<float>&, mud::Noise::NoiseType, float, mud::Noise::Interp)>(&mud::noise_field_3d), func, params, Var() };
             m.m_functions.push_back(&f);
         }
     }

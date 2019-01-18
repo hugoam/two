@@ -57,6 +57,11 @@ glfw = mud_dep(nil, "glfw", false, uses_glfw)
             "-Wno-missing-field-initializers",
         }
         
+    configuration { "osx or *-clang* or asmjs" }
+        buildoptions {
+            "-Wno-shadow",
+        }
+        
     configuration { "clang" }
         buildoptions {
             "-Wno-deprecated-declarations",

@@ -28,6 +28,7 @@ tracy = mud_dep(nil, "tracy", false, uses_tracy)
 	configuration { "osx or *-clang* or asmjs" }
 		buildoptions {
 			"-Wno-undef",
+			"-Wno-unused-private-field",
 		}
 
     configuration { "not osx" } -- kludge: disabling for OSX until we fix compile errors and add a proper profiling build option

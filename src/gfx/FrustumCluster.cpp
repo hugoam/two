@@ -149,7 +149,7 @@ namespace mud
 			return vec4(normalize(cross(vec3(p1), vec3(p0))), 0.f);
 		};
 
-		for(size_t i = 0, n = m_subdiv_x; i <= n; ++i)
+		for(uint16_t i = 0, n = m_subdiv_x; i <= n; ++i)
 		{
 			float x = (i * froxel_clip_size.x) - 1.0f;
 			vec4 p0 = { x, -1, -1, 1 };
@@ -157,7 +157,7 @@ namespace mud
 			m_planes_x[i] = to_view_space(inv_projection, p0, p1);
 		}
 
-		for(size_t i = 0, n = m_subdiv_y; i <= n; ++i)
+		for(uint16_t i = 0, n = m_subdiv_y; i <= n; ++i)
 		{
 			float y = (i * froxel_clip_size.y) - 1.0f;
 			vec4 p0 = { -1, y, -1, 1 };
@@ -175,7 +175,7 @@ namespace mud
 		typename std::aligned_storage<sizeof(vec2), alignof(vec2)>::type stack[2048];
 		vec2* const minMaxX = reinterpret_cast<vec2*>(stack);
 
-		for(size_t iz = 0, fi = 0, nz = m_subdiv_z; iz < nz; ++iz)
+		for(uint iz = 0, fi = 0, nz = m_subdiv_z; iz < nz; ++iz)
 		{
 			vec4 planes[6];
 			vec3 minp;
@@ -191,7 +191,7 @@ namespace mud
 			maxp.z = -m_distances_z[iz];
 			assert(minp.z < maxp.z);
 
-			for(size_t ix = 0; ix < m_subdiv_x; ++ix)
+			for(uint16_t ix = 0; ix < m_subdiv_x; ++ix)
 			{
 				// left, right planes for all froxels at ix
 				planes[0] = m_planes_x[ix];
@@ -199,7 +199,7 @@ namespace mud
 				minp.x = std::numeric_limits<float>::max();
 				maxp.x = std::numeric_limits<float>::lowest();
 				// min/max for x is calculated by intersecting the near/far and left/right planes
-				for(size_t c = 0; c < 4; ++c)
+				for(uint16_t c = 0; c < 4; ++c)
 				{
 					vec4 const& p0 = planes[0 + (c & 1)];     // {x,0,z,0}
 					vec4 const& p2 = planes[4 + (c >> 1)];    // {0,0,+/-1,d}
@@ -211,7 +211,7 @@ namespace mud
 				minMaxX[ix] = vec2{ minp.x, maxp.x };
 			}
 
-			for(size_t iy = 0; iy < m_subdiv_y; ++iy)
+			for(uint16_t iy = 0; iy < m_subdiv_y; ++iy)
 			{
 				// bottom, top planes for all froxels at iy
 				planes[2] = m_planes_y[iy];
@@ -219,7 +219,7 @@ namespace mud
 				minp.y = std::numeric_limits<float>::max();
 				maxp.y = std::numeric_limits<float>::lowest();
 				// min/max for y is calculated by intersecting the near/far and bottom/top planes
-				for(size_t c = 0; c < 4; ++c)
+				for(uint16_t c = 0; c < 4; ++c)
 				{
 					vec4 const& p1 = planes[2 + (c & 1)];     // {0,y,z,0}
 					vec4 const& p2 = planes[4 + (c >> 1)];    // {0,0,+/-1,d}
@@ -229,7 +229,7 @@ namespace mud
 				}
 				assert(minp.y < maxp.y);
 
-				for(uint ix = 0, nx = m_subdiv_x; ix < nx; ++ix)
+				for(uint16_t ix = 0, nx = m_subdiv_x; ix < nx; ++ix)
 				{
 					// note: clang vectorizes this loop!
 					assert(this->index(ix, iy, iz) == fi);

@@ -12,7 +12,12 @@ fastnoise = mud_dep(nil, "FastNoise")
         path.join(MUD_3RDPARTY_DIR, "FastNoise", "**.h"),
         path.join(MUD_3RDPARTY_DIR, "FastNoise", "**.cpp"),
     }
-    
+        
+    configuration { "mingw* or linux or osx or asmjs" }
+        buildoptions {
+            "-Wno-unused-function",
+        }
+        
     configuration { "vs*", "not asmjs" }
         buildoptions {
             "/wd4244", -- warning C4244: '=': conversion from 'int' to 'unsigned char', possible loss of data

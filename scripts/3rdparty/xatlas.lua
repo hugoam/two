@@ -17,6 +17,7 @@ xatlas = mud_dep(nil, "xatlas")
             "-Wno-sign-compare",
             "-Wno-reorder",
             "-Wno-unused-function",
+            "-Wno-shadow",
         }
         
         buildoptions {
@@ -26,6 +27,7 @@ xatlas = mud_dep(nil, "xatlas")
     configuration { "osx or *-clang* or asmjs" }
         buildoptions {
             "-Wno-macro-redefined", -- for __STDC_LIMIT_MACROS, we can't touch the source and don't want to touch the toolchain
+            "-Wno-tautological-compare",
         }
         
     configuration { "vs*", "not asmjs" }

@@ -26,7 +26,7 @@ namespace mud
     template <class T> struct ValueCurve;
     template <class T> struct ValueTrack;
     template <class T> struct Grid;
-    template <class T> struct array_3d;
+    template <class T> struct array3d;
     template <class T> class AutoStat;
     
     struct Transform;

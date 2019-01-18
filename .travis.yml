@@ -5,8 +5,8 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - g++-5
-      - gcc-5
+      - g++-8
+      - gcc-8
       - xorg-dev
             
 compiler:
@@ -15,7 +15,7 @@ compiler:
 
 install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export GENIE_FOLDER="linux"; fi
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5" COMPILER="gcc" TOOLCHAIN="linux-gcc-5" GMAKE_FOLDER="gmake-linux"; fi
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-8" CC="gcc-8" COMPILER="gcc" TOOLCHAIN="linux-gcc-8" GMAKE_FOLDER="gmake-linux"; fi
   - if [ "$CXX" = "clang++" ]; then export CXX="clang++" CC="clang" COMPILER="clang" TOOLCHAIN="linux-clang" GMAKE_FOLDER="gmake-linux-clang"; fi
 
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export GENIE_FOLDER="darwin" TOOLCHAIN="osx" GMAKE_FOLDER="gmake-osx"; fi

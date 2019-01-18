@@ -37,7 +37,7 @@ if not _OPTIONS["renderer-gl"] then
 --  mud_example("00_tutorial",          { mud.frame },                                  {}, true)
     mud_example("00_cube",              { mud.frame },                                  {})
     mud_example("01_shapes",            { mud.frame },                                  {})
-    mud_example("03_materials",         { mud.frame, mud.gfx.pbr },                     {})
+    mud_example("03_materials",         { mud.frame, mud.gfx.pbr, mud.uio },            {})
     mud_example("02_camera",            { mud.frame, mud.gfx.pbr },                     { _G["03_materials"] })
     mud_example("04_lights",            { mud.frame, mud.gfx.pbr },                     { _G["01_shapes"], _G["03_materials"] })
     mud_example("04_sponza",            { mud.frame, mud.gfx.pbr, mud.gfx.obj },        { _G["01_shapes"], _G["03_materials"], _G["04_lights"] })

@@ -34,6 +34,11 @@ project "bimg_encode"
 			"-Wno-undef"
         }
         
+	configuration { "osx or *-clang* or asmjs" }
+		buildoptions {
+			"-Wno-macro-redefined",
+		}
+
     configuration {}
         
 dofile(path.join(MUD_DIR, "scripts/3rdparty/bgfx/shaderc.lua"))

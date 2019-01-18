@@ -286,7 +286,7 @@ namespace mud
 #endif
 	}
 
-	using WfcImage = array_3d<RGBA>;
+	using WfcImage = array3d<RGBA>;
 
 	struct ProgressGif
 	{
