@@ -276,7 +276,7 @@ namespace mud
 #endif
 	}
 
-#ifdef MUD_VECTOR_TINYSTL
+#ifdef MUD_NO_STL
 	template <typename T>
 	class TinystlAlignedAllocator
 	{

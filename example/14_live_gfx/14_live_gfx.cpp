@@ -116,7 +116,7 @@ void ex_14_live_gfx(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Clock clock;
 
-	std::vector<Var> args = { Ref(&scene), var(clock.read()) };
+	vector<Var> args = { Ref(&scene), var(clock.read()) };
 	if(language == Language::Lua)
 		lua_script(args);
 	else if(language == Language::Wren)

@@ -7,7 +7,7 @@
 #include <stl/vector.h>
 #include <infra/Config.h>
 
-#ifdef MUD_VECTOR_TINYSTL
+#ifdef MUD_NO_STL
 #include <iterator>
 #endif
 
@@ -20,7 +20,7 @@ namespace mud
 		reverse_adapter(T& container) : m_container(container) { }
 		reverse_adapter& operator=(const reverse_adapter&) = delete;
 
-#ifdef MUD_VECTOR_TINYSTL
+#ifdef MUD_NO_STL
 		using iterator = std::reverse_iterator<typename T::iterator>;
 		iterator begin() { return iterator(m_container.end()); }
 		iterator end() { return iterator(m_container.begin()); }

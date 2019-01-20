@@ -7,6 +7,8 @@
 #include <gfx/Api.h>
 #include <gfx-ui/Api.h>
 
+//#include <functional>
+
 namespace mud
 {
 	using Selection = vector<Ref>;
@@ -17,6 +19,9 @@ namespace mud
 		attr_ Widget* m_screen = nullptr;
 		attr_ Dockbar* m_dockbar = nullptr;
 	};
+	
+	using ShellUpdate = void(*)(Shell&);
+	//using ShellUpdate = std::function<void(Shell&)>;
 
 	class refl_ Shell : public NonCopy
 	{
@@ -25,7 +30,7 @@ namespace mud
 		~Shell();
 
 		void init();
-		void run(const std::function<void(Shell&)>& func, size_t iterations = 0U);
+		void run(const ShellUpdate& func, size_t iterations = 0U);
 		meth_ bool pump();
 
 	public:
@@ -42,7 +47,7 @@ namespace mud
 
 		attr_ Ui* m_ui = nullptr;
 
-		std::function<void(Shell&)> m_pump;
+		ShellUpdate m_pump = nullptr;
 	};
 
 	void shell_context(Widget& parent, ShellContext& context);

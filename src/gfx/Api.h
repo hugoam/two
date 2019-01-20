@@ -37,7 +37,7 @@
 #include <gfx/Skeleton.h>
 #include <gfx/Texture.h>
 #include <gfx/Types.h>
-#include <gfx/Uniform.h>
+//s#include <gfx/Uniform.h>
 #include <gfx/Viewport.h>
 #include <gfx/Blocks/Sky.h>
 

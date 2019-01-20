@@ -111,7 +111,7 @@ namespace mud
 			else if(chunk_type == 0x004E4942)
 			{
 				buffer.reserve(chunk_length);
-#ifdef MUD_VECTOR_TINYSTL
+#ifdef MUD_NO_STL
 #else
 				buffer.insert(buffer.begin(), std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
 #endif

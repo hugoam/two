@@ -40,7 +40,7 @@ namespace mud
 		std::ifstream file = std::ifstream(path.c_str(), std::ios::binary);
 		buffer.resize(file.gcount());
 		buffer.insert(buffer.begin(), std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
-#ifdef MUD_VECTOR_TINYSTL
+#ifdef MUD_NO_STL
 		return vector<uint8_t>(buffer.data(), buffer.data() + buffer.size());
 #else
 		return buffer;
@@ -51,7 +51,7 @@ namespace mud
 	{
 		std::ifstream file = std::ifstream(path.c_str());
 		std::string result((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-#ifdef MUD_VECTOR_TINYSTL
+#ifdef MUD_NO_STL
 		return string(result.data(), result.data() + result.size());
 #else
 		return result;

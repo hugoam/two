@@ -45,7 +45,7 @@ namespace mud
 		m_job_system.emancipate();
 	}
 
-	void Shell::run(const std::function<void(Shell&)>& func, size_t iterations)
+	void Shell::run(const ShellUpdate& func, size_t iterations)
 	{
 		m_pump = func;
 

@@ -18,6 +18,8 @@ os.mkdir(path.join(PROJECT_DIR, "data/shaders/compiled/filter"))
 os.mkdir(path.join(PROJECT_DIR, "data/shaders/compiled/pbr"))
 
 function uses_mud_bgfx()
+    uses_mud()
+    
     includedirs {
         path.join(BX_DIR,    "include"),
         path.join(BIMG_DIR,  "include"),

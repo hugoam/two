@@ -29,7 +29,7 @@ namespace mud
 		string m_name;
 		vector<string> m_punctuation;
 		vector<string> m_operators;
-#ifdef MUD_UNORDERED_MAP_TINYSTL
+#ifdef MUD_NO_STL
 		unordered_map<string, void*> m_keywords;
 #else
 		std::unordered_set<string> m_keywords;

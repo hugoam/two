@@ -12,7 +12,7 @@
 
 namespace mud
 {
-#ifdef MUD_STRING_TINYSTL
+#ifdef MUD_NO_STL
 	export_ template <> inline void to_value(const string& str, bool& val) { val = atoi(str.c_str()) != 0; } //str == "true" ? true : false; }
 	export_ template <> inline void to_value(const string& str, float& val) { val = float(atof(str.c_str())); }
 	export_ template <> inline void to_value(const string& str, double& val) { sscanf(str.c_str(), "%lf", &val); }

@@ -8,7 +8,7 @@
 #include <infra/Global.h>
 #include <infra/Limits.h>
 #include <infra/NonCopy.h>
-#include <infra/Pool.h>
+//#include <infra/Pool.h>
 #include <infra/Pragma.h>
 #include <infra/Reverse.h>
 #include <infra/String.h>

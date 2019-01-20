@@ -15,7 +15,6 @@
 
 namespace mud
 {
-#ifndef MUD_CPP_20
 	export_ inline string read(std::istream& stream, size_t length) { string result; result.resize(length); stream.read(&result[0], length); return result; }
 
 	export_ template <class T>
@@ -32,13 +31,4 @@ namespace mud
 
 	export_ template <>
 	inline Colour read(std::istream& stream) { Colour result; stream >> result.m_r >> result.m_g >> result.m_b; return result; }
-#else
-	// istream doesn't seem implemented yet with MSVC modules
-
-	export_ inline string read(std::istream& stream, size_t length) { return string(); }
-
-	export_ template <class T>
-	inline T read(std::istream& stream) { return T(); }
-#endif
-
 }
