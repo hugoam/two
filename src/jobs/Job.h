@@ -24,7 +24,7 @@ namespace mud
 	Job* job(JobSystem& js, Job* parent, T* data)
 	{
 		auto call = [](void* user, JobSystem& js, Job* job) { (*static_cast<T**>(user)->*method)(js, job); };
-		Job* job = js.job(parent, &stub::call);
+		Job* job = js.job(parent, &call);
 		if(job)
 			job->padding[0] = data;
 		return job;
@@ -34,13 +34,13 @@ namespace mud
 	Job* job(JobSystem& js, Job* parent, T data)
 	{
 		static_assert(sizeof(data) <= sizeof(Job::padding), "user data too large");
-		auto stub = [](void* user, JobSystem& js, Job* job)
+		auto call = [](void* user, JobSystem& js, Job* job)
 		{
 			T* that = static_cast<T*>(user);
 			(that->*method)(js, job);
 			that->~T();
 		};
-		Job* job = js.job(parent, stub);
+		Job* job = js.job(parent, call);
 		if(job)
 			new(job->padding) T(move(data));
 		return job;
@@ -56,7 +56,7 @@ namespace mud
 			that(js, job);
 			that.~T();
 		};
-		Job* job = js.job(parent, &stub::call);
+		Job* job = js.job(parent, call);
 		if(job)
 			new(job->padding) T(move(functor));
 		return job;
