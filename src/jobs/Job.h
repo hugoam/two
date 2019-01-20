@@ -69,10 +69,8 @@ namespace mud
 		{
 			std::function<void()> f;
 			void gob(JobSystem&, Job*) { f(); }
-		};
-		Data user{ std::bind(std::forward<Function>(func), static_cast<Args&&>(args)...) };
+		} user { std::bind(std::forward<Function>(func), static_cast<Args&&>(args)...) };
 		return job<Data, &Data::gob>(js, parent, move(user));
-		return nullptr;
 	}
 
 	template <typename Function, typename T, typename... Args, typename = typename std::enable_if<std::is_member_function_pointer<typename std::remove_reference<Function>::type>::value>::type>
@@ -83,6 +81,6 @@ namespace mud
 			std::function<void()> f;
 			void gob(JobSystem&, Job*) { f(); }
 		} user { std::bind(std::forward<Function>(func), static_cast<T&&>(o), std::forward<Args>(args)...) };
-		return js.job<Data, &Data::gob>(parent, move(user));
+		return job<Data, &Data::gob>(js, parent, move(user));
 	}
 }

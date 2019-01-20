@@ -31,13 +31,13 @@ namespace mud
 				{
 					const uint32_t lc = m_count / 2;
 					Jobs ld(m_start, lc, m_splits + uint8_t(1), m_functor, m_splitter);
-					Job* left = js.job<Jobs, &Jobs::run>(parent, move(ld));
+					Job* left = job<Jobs, &Jobs::run>(js, parent, move(ld));
 
 					js.run(left);
 
 					const uint32_t rc = m_count - lc;
 					Jobs rd(m_start + lc, rc, m_splits + uint8_t(1), m_functor, m_splitter);
-					Job* right = js.job<Jobs, &Jobs::run>(parent, move(rd));
+					Job* right = job<Jobs, &Jobs::run>(js, parent, move(rd));
 
 					js.run(right, JobSystem::DONT_SIGNAL);
 				}
@@ -59,7 +59,7 @@ namespace mud
 				}
 				else
 				{
-					Job* job = js.job(parent, [f = m_functor, start, count](JobSystem& js, Job* job) {
+					Job* job = job(js, parent, [f = m_functor, start, count](JobSystem& js, Job* job) {
 						f(js, job, start, count);
 					});
 					if(job)
@@ -83,7 +83,7 @@ namespace mud
 	{
 		using Jobs = details::ParallelJob<S, F>;
 		Jobs jobData(start, count, 0, move(functor), splitter);
-		return js.job<Jobs, &Jobs::run>(parent, move(jobData));
+		return job<Jobs, &Jobs::run>(js, parent, move(jobData));
 	}
 
 	template <typename T, typename S, typename F>
@@ -96,7 +96,7 @@ namespace mud
 		};
 		using Jobs = details::ParallelJob<S, decltype(user)>;
 		Jobs jobData(0, count, 0, move(user), splitter);
-		return js.job<Jobs, &Jobs::run>(parent, move(jobData));
+		return job<Jobs, &Jobs::run>(js, parent, move(jobData));
 	}
 
 	template <typename T, typename S, typename F>
@@ -134,7 +134,7 @@ namespace mud
 		};
 		using Jobs = details::ParallelJob<CountSplitter<Count>, decltype(user)>;
 		Jobs jobData(start, count, 0, move(user), CountSplitter<Count>());
-		return js.job<Jobs, &Jobs::run>(parent, move(jobData));
+		return job<Jobs, &Jobs::run>(js, parent, move(jobData));
 	}
 
 	template <uint32_t Count, class T_Source, class T_Dest>
