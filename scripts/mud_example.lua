@@ -68,7 +68,7 @@ if _OPTIONS["jsbind"] then
 end
 
 if _OPTIONS["renderer-bgfx"] then
-    project "09_live_shader"
-        configuration { "asmjs" }
-            uses_shaderc()
+    --project "09_live_shader"
+    --    configuration { "asmjs" }
+    --        uses_shaderc()
 end

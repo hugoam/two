@@ -4,35 +4,58 @@ if _OPTIONS["cpp-modules"] and _ACTION == "gmake" then
     dofile(path.join(MUD_DIR, "scripts/3rdparty/std.lua"))
 end
 
-group "3rdparty"
-dofile(path.join(MUD_DIR, "scripts/3rdparty/json11.lua"))
-dofile(path.join(MUD_DIR, "scripts/3rdparty/base64.lua"))
-dofile(path.join(MUD_DIR, "scripts/3rdparty/stb.lua"))
-dofile(path.join(MUD_DIR, "scripts/3rdparty/tracy.lua"))
-dofile(path.join(MUD_DIR, "scripts/3rdparty/lua.lua"))
-dofile(path.join(MUD_DIR, "scripts/3rdparty/wren.lua"))
-dofile(path.join(MUD_DIR, "scripts/3rdparty/mikktspace.lua"))
-dofile(path.join(MUD_DIR, "scripts/3rdparty/vg.lua"))
-dofile(path.join(MUD_DIR, "scripts/3rdparty/bgfx/bgfx.lua"))
-group "3rdparty"
-dofile(path.join(MUD_DIR, "scripts/3rdparty/meshoptimizer.lua"))
-dofile(path.join(MUD_DIR, "scripts/3rdparty/xatlas.lua"))
-dofile(path.join(MUD_DIR, "scripts/3rdparty/fastnoise.lua"))
+if not _OPTIONS["compile-only"] then
+    group "3rdparty"
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/json11.lua"))
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/base64.lua"))
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/stb.lua"))
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/tracy.lua"))
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/lua.lua"))
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/wren.lua"))
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/mikktspace.lua"))
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/vg.lua"))
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/bgfx/bgfx.lua"))
+    group "3rdparty"
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/meshoptimizer.lua"))
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/xatlas.lua"))
+    dofile(path.join(MUD_DIR, "scripts/3rdparty/fastnoise.lua"))
 
-if _OPTIONS["culling"] then
-    dofile(path.join(MUD_DIR, "scripts/3rdparty/culling.lua"))
+    if _OPTIONS["culling"] then
+        dofile(path.join(MUD_DIR, "scripts/3rdparty/culling.lua"))
+    else
+        culling = null
+    end
+
+    if _OPTIONS["context-glfw"] then
+        dofile(path.join(MUD_DIR, "scripts/3rdparty/glfw.lua"))
+    end
+
+    if _OPTIONS["sound"] then
+        dofile(path.join(MUD_DIR, "scripts/3rdparty/ogg/ogg.lua"))
+        dofile(path.join(MUD_DIR, "scripts/3rdparty/vorbis/vorbis.lua"))
+        dofile(path.join(MUD_DIR, "scripts/3rdparty/vorbis/vorbisfile.lua"))
+    end
 else
+    stb = {}
+    json11 = null
+    base64 = null
+    stb.image = null
+    stb.rect_pack = null
+    tracy = null
+    lua = null
+    wren = null
+    fastnoise = null
+    mikktspace = null
+    vg = null
+    bx = null
+    bimg = null
+    bgfx = null
+    meshoptimizer = null
     culling = null
-end
-
-if _OPTIONS["context-glfw"] then
-    dofile(path.join(MUD_DIR, "scripts/3rdparty/glfw.lua"))
-end
-
-if _OPTIONS["sound"] then
-    dofile(path.join(MUD_DIR, "scripts/3rdparty/ogg/ogg.lua"))
-    dofile(path.join(MUD_DIR, "scripts/3rdparty/vorbis/vorbis.lua"))
-    dofile(path.join(MUD_DIR, "scripts/3rdparty/vorbis/vorbisfile.lua"))
+    glfw = null
+    ogg = null
+    vorbis = null
+    vorbisfile = null
 end
 
 group "lib"

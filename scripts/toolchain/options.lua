@@ -7,6 +7,11 @@ newoption {
 }
 
 newoption {
+    trigger = "compile-only",
+    description = "Compile library code only",
+}
+
+newoption {
     trigger = "as-libs",
     description = "Generate separate mud libraries",
 }

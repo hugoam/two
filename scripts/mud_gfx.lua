@@ -2,15 +2,15 @@
 -- mud gfx module
 
 if _OPTIONS["context-glfw"] then
-dofile(path.join(MUD_DIR, "scripts/mud_ctx_glfw.lua"))
+    dofile(path.join(MUD_DIR, "scripts/mud_ctx_glfw.lua"))
 elseif _OPTIONS["context-wasm"] then
-dofile(path.join(MUD_DIR, "scripts/mud_ctx_wasm.lua"))
+    dofile(path.join(MUD_DIR, "scripts/mud_ctx_wasm.lua"))
 end
 
 if _OPTIONS["renderer-bgfx"] then
-dofile(path.join(MUD_DIR, "scripts/mud_ui_bgfx.lua"))
+    dofile(path.join(MUD_DIR, "scripts/mud_ui_bgfx.lua"))
 else
-dofile(path.join(MUD_DIR, "scripts/mud_ui_gl.lua"))
+    dofile(path.join(MUD_DIR, "scripts/mud_ui_gl.lua"))
 end
 
 os.mkdir(path.join(PROJECT_DIR, "data/shaders/compiled"))
@@ -19,8 +19,16 @@ os.mkdir(path.join(PROJECT_DIR, "data/shaders/compiled/pbr"))
 
 function uses_mud_gfx()
     includedirs {
+        path.join(BX_DIR,    "include"),
+        path.join(BIMG_DIR,  "include"),
+        path.join(BGFX_DIR,  "include"),
         path.join(MUD_3RDPARTY_DIR, "glm"),
     }
+    
+    configuration { "vs*", "not orbis", "not asmjs" }
+        includedirs { path.join(BX_DIR, "include/compat/msvc") }
+    
+    configuration {}
 end
 
 function mud_gfx()
