@@ -148,11 +148,17 @@ namespace mud
 	}
 
 	export_ template <class T, class Pred>
+	inline auto vector_find_if(vector<T>& vec, Pred predicate)
+	{
+		return find_if(vec.begin(), vec.end(), predicate);
+	}
+	
+	export_ template <class T, class Pred>
 	inline auto vector_find_if(const vector<T>& vec, Pred predicate)
 	{
 		return find_if(vec.begin(), vec.end(), predicate);
 	}
-
+	
 	export_ template <class T>
 	inline void vector_remove_object(vector<T>& vec, T& object)
 	{
