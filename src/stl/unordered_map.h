@@ -1,8 +1,7 @@
 #pragma once
 #include <infra/Config.h>
 
-#define MUD_UNORDERED_MAP_TINYSTL
-#ifndef MUD_UNORDERED_MAP_TINYSTL
+#ifndef MUD_NO_STL
 #ifndef MUD_CPP_20
 #include <unordered_map>
 namespace mud

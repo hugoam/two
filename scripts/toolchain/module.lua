@@ -26,7 +26,6 @@ function mud_dep(namespace, name, cppmodule, usage_decl, deps)
     }
     
     if cppmodule then
-        mud_defines()
         mud_modules(m)
     end
     
@@ -137,7 +136,6 @@ function mud_module_decl(m)
     
     --vpaths { [name] = { "**.h", "**.cpp" } }
     
-    mud_defines()
     mud_modules(m)
     
     if m.self_decl then

@@ -5,8 +5,6 @@ function stb_module(name)
 local m = mud_dep('stb', name, true)
     kind "StaticLib"
     
-    mud_defines()
-    
     includedirs {
         path.join(MUD_SRC_DIR),
         path.join(MUD_3RDPARTY_DIR, "stb"),

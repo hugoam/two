@@ -7,6 +7,16 @@ newoption {
 }
 
 newoption {
+    trigger = "use-stl",
+    description = "Use STL containers",
+}
+
+newoption {
+    trigger = "use-glm",
+    description = "Use GLM math",
+}
+
+newoption {
     trigger = "compile-only",
     description = "Compile library code only",
 }

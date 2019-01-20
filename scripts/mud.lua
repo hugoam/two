@@ -63,10 +63,19 @@ group "lib"
 mud = {}
 
 function uses_mud()
+    mud_defines()
+    
     includedirs {
         path.join(MUD_SRC_DIR),
         path.join(MUD_3RDPARTY_DIR, "tinystl", "include"),
     }
+    
+    if not _OPTIONS["use-stl"] then
+        configuration { "Debug" }
+            defines { "MUD_NO_STL" }
+            
+        configuration {}
+    end
     
     if _OPTIONS["profile"] then
         defines { "TRACY_ENABLE" }
@@ -103,6 +112,10 @@ function uses_mud_math()
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "glm"),
     }
+    
+    if not _OPTIONS["use-glm"] then
+        defines { "MUD_NO_GLM" }
+    end
 end
 
 function mud_ui()

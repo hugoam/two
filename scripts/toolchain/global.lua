@@ -13,8 +13,6 @@ removeflags {
 configuration { "Debug" }
     targetsuffix "_d"
 
-    --removeflags { "NoExceptions" }
-
 configuration { "Release" }
     targetsuffix ""
     

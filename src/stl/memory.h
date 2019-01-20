@@ -1,8 +1,7 @@
 #pragma once
 #include <infra/Config.h>
 
-//#define MUD_UNIQUE_PTR_STL
-#ifdef MUD_UNIQUE_PTR_STL
+#ifndef MUD_NO_STL
 #ifndef MUD_CPP_20
 #include <memory>
 namespace mud

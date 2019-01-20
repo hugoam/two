@@ -1,8 +1,7 @@
 #pragma once
 #include <infra/Config.h>
 
-#define MUD_VECTOR_TINYSTL
-#ifndef MUD_VECTOR_TINYSTL
+#ifndef MUD_NO_STL
 #ifndef MUD_CPP_20
 #include <vector>
 #endif

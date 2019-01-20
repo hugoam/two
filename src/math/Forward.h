@@ -10,8 +10,6 @@
 #define MUD_MATH_EXPORT MUD_IMPORT
 #endif
 
-#define MUD_NO_GLM
-
 namespace mud
 {
     enum Clockwise : unsigned int;
