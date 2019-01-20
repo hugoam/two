@@ -58,7 +58,7 @@ namespace mud
 			animations.push_back(animation->m_name.c_str());
 
 		static uint32_t animation = 0;
-		if(ui::radio_field(table, "animation", animations, animation))
+		if(ui::radio_field(table, "animation", animations, animation, DIM_Y))
 			animated.start(animations[animation], true, 0.f, 1.f);
 
 		if(!animated.m_playing.empty())

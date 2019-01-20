@@ -1,4 +1,4 @@
-#include <mud/core.h>
+#include <mud/frame.h>
 #include <gfx-pbr/Api.h>
 
 #include <02_camera/02_camera.h>

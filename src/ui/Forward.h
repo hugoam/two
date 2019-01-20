@@ -11,6 +11,8 @@
 #define MUD_UI_EXPORT MUD_IMPORT
 #endif
 
+#undef MUD_UI_DRAW_CACHE
+
 namespace mud
 {
 namespace ui

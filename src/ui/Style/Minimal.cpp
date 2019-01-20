@@ -122,6 +122,11 @@ namespace mud
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
 			i.m_padding = vec4(ivec4(-5, 0, -5, 0));
 		});
+		
+		select({ "RadioChoiceItem" })
+		.declare([&](Layout& l, InkStyle& i) { UNUSED(i);
+			l.m_align = { CENTER, CENTER };
+		});
 	}
 
 	void style_minimal(UiWindow& ui_window)
@@ -173,11 +178,6 @@ namespace mud
 		select({ "Element", "TreeNodeHeader" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
 			i.m_background_colour = grey86;
-		});
-
-		select({ "RadioChoiceItem" })
-		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
-			i.m_align = { CENTER, CENTER };
 		});
 
 		select({ "SliderKnob", "ScrollerKnob" })

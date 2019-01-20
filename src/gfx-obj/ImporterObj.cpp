@@ -173,7 +173,7 @@ namespace mud
 				float metallic = read<float>(stream);
 				current->m_pbr_block.m_metallic.m_value = metallic;
 			}
-			else if(command.substr(0, 4) == "map")
+			else if(command.substr(0, 3) == "map")
 			{
 				string map = read<std::string>(stream).c_str();
 				if(command == "map_Ka ") // ambient texture

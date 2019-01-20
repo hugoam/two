@@ -1,4 +1,4 @@
-#include <mud/core.h>
+#include <mud/frame.h>
 #include <gfx-pbr/Api.h>
 #include <wfc/Api.h>
 #include <wfc-gfx/Api.h>

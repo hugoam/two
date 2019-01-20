@@ -41,6 +41,11 @@ project "bimg_encode"
             "-Wno-tautological-compare",
 		}
 
+    configuration { "vs*", "not asmjs" }
+        buildoptions {
+            "/wd4244", -- warning C4244: '=': conversion from 'int' to 'vtype', possible loss of data
+        }
+
     configuration {}
         
 dofile(path.join(MUD_DIR, "scripts/3rdparty/bgfx/shaderc.lua"))
@@ -50,8 +55,8 @@ function uses_bx()
         path.join(BX_DIR,    "include"),
     }
     
-	configuration { "vs*", "not orbis", "not asmjs" }
-		includedirs { path.join(BX_DIR, "include/compat/msvc") }
+    configuration { "vs*", "not orbis", "not asmjs" }
+        includedirs { path.join(BX_DIR, "include/compat/msvc") }
     
     configuration {}
 end

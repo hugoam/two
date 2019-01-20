@@ -313,17 +313,10 @@ namespace mud
 
 		vec2 content_pos = { this->content_pos(frame, content, padded_rect, DIM_X), this->content_pos(frame, content, padded_rect, DIM_Y) };
 		vec4 content_rect = { content_pos, content };
-		
-#if 0 // DEBUG
-		if(frame.d_style->m_name == m_debug_filter)
-			this->debug_rect(rect, Colour::Red);
-		if(m_debug_frame_rect)
-			this->debug_rect(rect, Colour::Red);
-		if(m_debug_padded_rect)
-			this->debug_rect(padded_rect, Colour::Green);
-		if(m_debug_content_rect)
-			this->debug_rect(content_rect, Colour::Blue);
-#endif
+
+		//m_vg.debug_rect(rect, Colour::Red);
+		//m_vg.debug_rect(padded_rect, Colour::Green);
+		//m_vg.debug_rect(content_rect, Colour::Blue);
 
 		this->draw_background(frame, rect, padded_rect, content_rect);
 		this->draw_content(frame, rect, padded_rect, content_rect);

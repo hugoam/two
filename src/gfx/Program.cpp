@@ -178,9 +178,9 @@ namespace mud
 		if (target == GLSL)
 		{
 			push_arg("--platform", "linux");
-			//push_arg("--profile", "120");
+			push_arg("--profile", "120");
 			//push_arg("--profile", "130");
-			push_arg("--profile", "430");
+			//push_arg("--profile", "430");
 		}
 		else if(target == ESSL)
 		{

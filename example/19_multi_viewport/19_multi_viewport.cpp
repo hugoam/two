@@ -1,4 +1,4 @@
-#include <mud/core.h>
+#include <mud/frame.h>
 
 #include <19_multi_viewport/19_multi_viewport.h>
 #include <03_materials/03_materials.h>

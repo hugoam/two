@@ -7,16 +7,11 @@ function uses_culling()
     }
 end
 
-culling = mud_dep(nil, "culling", false, uses_culling)
+function culling_config()
     kind "StaticLib"
 
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "culling"),
-    }
-
-    files {
-        path.join(MUD_3RDPARTY_DIR, "culling", "*.cpp"),
-        --path.join(MUD_3RDPARTY_DIR, "culling", "MaskedOcclusionCulling.cpp"),
     }
 
     configuration { "asmjs" }
@@ -40,3 +35,39 @@ culling = mud_dep(nil, "culling", false, uses_culling)
         }
 
     configuration {}
+end
+
+cullingavx2 = mud_dep(nil, "cullingavx2", false, uses_culling)
+    culling_config()
+    
+    files {
+        path.join(MUD_3RDPARTY_DIR, "culling", "MaskedOcclusionCullingAVX2.cpp"),
+    }
+
+    configuration { "vs*", "not asmjs" }
+        buildoptions {
+            "/arch:AVX2",
+        }
+        
+    configuration {}
+        
+cullingavx512 = mud_dep(nil, "cullingavx512", false, uses_culling)
+    culling_config()
+    
+    files {
+        path.join(MUD_3RDPARTY_DIR, "culling", "MaskedOcclusionCullingAVX512.cpp"),
+    }
+
+    configuration { "vs*", "not asmjs" }
+        buildoptions {
+            "/arch:AVX2",
+        }
+        
+    configuration {}
+    
+culling = mud_dep(nil, "culling", false, uses_culling, { cullingavx2, cullingavx512 })
+    culling_config()
+    
+    files {
+        path.join(MUD_3RDPARTY_DIR, "culling", "MaskedOcclusionCulling.cpp"),
+    }

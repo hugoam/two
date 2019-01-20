@@ -1,7 +1,8 @@
-#include <mud/core.h>
+#include <mud/frame.h>
 #include <refl/Api.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-gltf/Api.h>
+#include <gfx-edit/Api.h>
 #include <meta/gfx-gltf/Module.h>
 
 #include <04_lights/04_lights.h>
@@ -170,7 +171,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
 		anim_editor = true;
-		//animation_edit(*dock, *animated);
+		animation_edit(*dock, *animated);
 	}
 	else
 	{

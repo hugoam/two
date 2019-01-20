@@ -1,4 +1,4 @@
-#include <mud/core.h>
+#include <mud/frame.h>
 #include <lang/Api.h>
 #include <uio/Api.h>
 #include <meta/gfx/Module.h>

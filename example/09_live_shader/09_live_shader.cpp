@@ -1,4 +1,4 @@
-#include <mud/core.h>
+#include <mud/frame.h>
 #include <ui/Edit/Lang.h>
 
 #include <09_live_shader/09_live_shader.h>
@@ -88,7 +88,7 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 		TextEdit& text_edit = ui::code_edit(*edit.m_body, source, 0);
 		if(text_edit.m_changed)
 		{
-			program.m_sources[0] = source.c_str();
+			program.m_sources[size_t(ShaderType::Fragment)] = source.c_str();
 			program.reload();
 		}
 		text_edit.m_changed = false;

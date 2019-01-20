@@ -5,7 +5,7 @@
 #pragma once
 
 #include <frame/Forward.h>
-#include <mud/core.h>
+#include <mud/frame.h>
 
 using namespace mud;
 

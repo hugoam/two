@@ -1,4 +1,4 @@
-#include <mud/core.h>
+#include <mud/frame.h>
 #include <00_tutorial/00_tutorial.h>
 #include <meta/00_tutorial/Module.h>
 

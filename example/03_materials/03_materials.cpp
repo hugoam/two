@@ -1,6 +1,8 @@
-#include <mud/core.h>
+#include <mud/frame.h>
 #include <gfx-pbr/Api.h>
+#include <refl/Api.h>
 #include <uio/Api.h>
+#include <meta/gfx/Module.h>
 
 #include <03_materials/03_materials.h>
 
@@ -233,6 +235,7 @@ void pump(Shell& app)
 int main(int argc, char *argv[])
 {
 	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv).c_str());
+	System::instance().load_modules({ &mud_gfx::m() });
 	app.m_gfx_system.add_resource_path("examples/03_materials/");
 	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
