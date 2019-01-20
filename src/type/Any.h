@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <stl/move.h>
 #include <type/Type.h>
 #include <type/Var.h>
 #include <type/TypeOf.h>

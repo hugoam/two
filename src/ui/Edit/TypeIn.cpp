@@ -1029,7 +1029,7 @@ namespace mud
 					}
 
 					Text::ColorSection section = { size_t(match.first - first), size_t(match.second - first), color };
-					start_section = m_text.m_sections.insert((Text::ColorSection*)start_section, section);
+					start_section = m_text.m_sections.insert(start_section, section);
 					start_section++;
 
 					current += name.size() - 1;

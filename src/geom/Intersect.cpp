@@ -15,7 +15,7 @@ module mud.geom;
 #include <geom/Aabb.h>
 #endif
 
-#include <algorithm>
+#include <stl/swap.h>
 
 namespace mud
 {

@@ -1,18 +1,24 @@
 #pragma once
 
 #include <infra/Config.h>
-#include <stl/move.h>
 
+#ifndef MUD_NO_STL
+#include <utility>
 namespace mud
 {
-	namespace
+	using std::swap;
+}
+#else
+#include <stl/move.h>
+namespace mud
+{
+	template<typename T>
+	inline void swap(T& t1, T& t2)
 	{
-		template<typename T>
-		inline void swap(T& t1, T& t2)
-		{
-			T temp = move(t1);
-			t1 = move(t2);
-			t2 = move(temp);
-		}
+		T temp = move(t1);
+		t1 = move(t2);
+		t2 = move(temp);
 	}
 }
+#endif
+

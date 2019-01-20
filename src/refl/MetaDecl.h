@@ -36,7 +36,7 @@ namespace mud
 		
 	export_ template <class T, class U>
 	void init_vector() { static Iterable iterable = { [](Ref vec) { return val<T>(vec).size(); },
-													  [](Ref vec, size_t i) -> Ref { return ref(val<T>(vec)[i]); } };
+													  [](Ref vec, size_t i) -> Ref { return mud::ref(val<T>(vec)[i]); } };
 						 static Sequence sequence = { [](Ref vec, Ref value) { val<T>(vec).push_back(val<U>(value)); },
 													  [](Ref vec, Ref value) { vector_remove_any(val<T>(vec), val<U>(value)); } };
 						 g_iterable[type<T>().m_id] = &iterable;

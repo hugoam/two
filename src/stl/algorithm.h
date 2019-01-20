@@ -1,8 +1,7 @@
 #pragma once
 #include <infra/Config.h>
 
-//#define MUD_ALGORITHM_STL
-#ifdef MUD_ALGORITHM_STL
+#ifndef MUD_NO_STL
 #ifndef MUD_CPP_20
 #include <algorithm>
 #endif

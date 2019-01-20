@@ -2,6 +2,13 @@
 
 #include <infra/Config.h>
 
+#ifndef MUD_NO_STL
+#include <utility>
+namespace mud
+{
+	using std::move;
+}
+#else
 namespace mud
 {
 	template<class T>
@@ -22,3 +29,4 @@ namespace mud
 		return (static_cast<remove_reference_t<T>&&>(arg));
 	}
 }
+#endif
