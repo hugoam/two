@@ -323,7 +323,7 @@ namespace mud
 		}
 		else if(index <= m_max_sources)
 		{
-			Sound& release = *m_active_sounds[m_max_sources];
+			Sound& release = *m_active_sounds[m_max_sources-1];
 			sound.assign_source(release.release_source());
 		}
 
@@ -344,7 +344,7 @@ namespace mud
 		}
 		else
 		{
-			Sound& assign = *m_active_sounds[m_max_sources];
+			Sound& assign = *m_active_sounds[m_max_sources-1];
 			assign.assign_source(sound.release_source());
 		}
 	}

@@ -48,12 +48,12 @@ namespace mud
 
 		Return operator()(Args... args)
 		{
-			m_func(m_storage, static_cast<Args&&>(args)...);
+			return m_func(m_storage, static_cast<Args&&>(args)...);
 		}
 
 		Return operator()(Args... args) const
 		{
-			m_func(m_storage, static_cast<Args&&>(args)...);
+			return m_func(m_storage, static_cast<Args&&>(args)...);
 		}
 
 		explicit operator bool() { return m_func != nullptr; }

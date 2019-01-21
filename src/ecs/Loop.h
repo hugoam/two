@@ -1,14 +1,14 @@
 ﻿#pragma once
 
+#include <stl/tuple.h>
 #include <ecs/Forward.h>
 #include <ecs/Registry.h>
 #include <jobs/JobLoop.h>
 
-#define FOR_VARIADIC 0
+#define FOR_VARIADIC 1
 
 #if FOR_VARIADIC
-#include <tuple>
-#include <functional>
+//#include <functional>
 #endif
 
 namespace mud
@@ -24,7 +24,7 @@ namespace mud
 		vector<ParallelBuffers*> matches = ecs.Match(prototype);
 		for(ParallelBuffers* stream : matches)
 		{
-			std::tuple<ComponentBuffer<Ts>&...> buffers = std::make_tuple(std::ref(stream->Buffer<Ts>())...);
+			tuple<ComponentBuffer<Ts>&...> buffers = { stream->Buffer<Ts>()... };
 
 			auto process = [action, stream, buffers](JobSystem& js, Job* job, uint32_t start, uint32_t count)
 			{
@@ -32,7 +32,7 @@ namespace mud
 				for(uint32_t index = start; index < start + count; ++index)
 				{
 					uint32_t handle = stream->m_handles[index];
-					action(handle, std::get<Is>(buffers).m_data[index]...);
+					action(handle, at<Is>(buffers).m_data[index]...);
 				}
 			};
 
@@ -48,7 +48,7 @@ namespace mud
 	{
 		return for_components_impl<Ts...>(job_system, parent, ecs, action, std::make_index_sequence<sizeof...(Ts)>());
 	}
-#endif
+#else
 
 	template <class T0, class T_Function>
 	Job* for_components(JobSystem& job_system, Job* parent, ECS& ecs, T_Function action)
@@ -139,4 +139,5 @@ namespace mud
 
 		return job;
 	}
+#endif
 }
