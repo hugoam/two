@@ -7,8 +7,6 @@
 #include <gfx/Api.h>
 #include <gfx-ui/Api.h>
 
-//#include <functional>
-
 namespace mud
 {
 	using Selection = vector<Ref>;

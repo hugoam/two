@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include <infra/Config.h>
@@ -10,14 +8,9 @@
 #define MUD_TYPE_EXPORT MUD_IMPORT
 #endif
 
-
-    
-    
-
-namespace mud {
-
+namespace mud
+{
     enum VarMode : unsigned int;
-    
     
     struct Address;
     class Type;
@@ -30,4 +23,3 @@ namespace mud {
     class Indexer;
     class Index;
 }
-

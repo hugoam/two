@@ -4,16 +4,16 @@
 
 #include <stl/string.h>
 #include <stl/vector.h>
+#include <stl/set.h>
 #include <stl/map.h>
+#include <stl/function.h>
 #include <infra/String.h>
 #include <infra/File.h>
 #include <refl/Api.h>
 
 #include <json11.hpp>
 
-#include <set>
 #include <fstream>
-#include <functional>
 #include <algorithm>
 
 namespace mud
@@ -60,8 +60,8 @@ namespace mud
 	class CLClass;
 	class CLEnum;
 
-	void visit_tokens(CXCursor cursor, const std::function<void(CXToken)>& visitor);
-	void visit_children(CXCursor cursor, const std::function<void(CXCursor)>& visitor);
+	void visit_tokens(CXCursor cursor, const function<void(CXToken)>& visitor);
+	void visit_children(CXCursor cursor, const function<void(CXCursor)>& visitor);
 	void dump_ast(CXCursor cursor, int level = 0);
 
 	CXCursor cursor(CXTranslationUnit tu) { return clang_getTranslationUnitCursor(tu); }
@@ -106,7 +106,7 @@ namespace mud
 		});
 	}
 
-	void visit_tokens(CXCursor cursor, const std::function<void(CXToken)>& visitor)
+	void visit_tokens(CXCursor cursor, const function<void(CXToken)>& visitor)
 	{
 		CXTranslationUnit tu = clang_Cursor_getTranslationUnit(cursor);
 		CXSourceRange extent = clang_getCursorExtent(cursor);
@@ -119,12 +119,12 @@ namespace mud
 			visitor(tokens[i]);
 	}
 
-	void visit_children(CXCursor cursor, const std::function<void(CXCursor)>& visitor)
+	void visit_children(CXCursor cursor, const function<void(CXCursor)>& visitor)
 	{
 		CXCursorVisitor cxvisitor = [](CXCursor cursor, CXCursor parent, CXClientData client_data) -> CXChildVisitResult
 		{
 			UNUSED(parent);
-			std::function<void(CXCursor)>& func = *(std::function<void(CXCursor)>*)client_data;
+			function<void(CXCursor)>& func = *(function<void(CXCursor)>*)client_data;
 			func(cursor);
 			return CXChildVisit_Continue;
 		};
@@ -572,7 +572,7 @@ namespace mud
 
 		vector<string> m_base_aliases;
 
-		std::set<string> m_parsed_files;
+		set<string> m_parsed_files;
 
 		CLNamespace& get_namespace(const string& name, CLPrimitive& parent)
 		{

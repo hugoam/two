@@ -5,16 +5,13 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/string.h>
+#include <stl/vector.h>
+#include <stl/map.h>
 #include <type/Any.h>
 #include <type/Dispatch.h>
 #endif
 #include <srlz/Forward.h>
-
-#ifndef MUD_CPP_20
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/map.h>
-#endif
 
 #ifndef MUD_MODULES
 namespace json11

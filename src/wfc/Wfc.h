@@ -1,20 +1,15 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/function.h>
 #include <stl/string.h>
 #include <stl/vector.h>
-#include <stl/unordered_map.h>
+#include <stl/set.h>
+#include <stl/map.h>
 #include <math/Grid.h>
 #include <math/Vec.h>
 #endif
 #include <wfc/Forward.h>
-
-#ifndef MUD_CPP_20
-#include <unordered_map>
-#include <set>
-#include <functional>
-#include <random>
-#endif
 
 namespace mud
 {
@@ -57,18 +52,9 @@ namespace mud
 		int flip(int tile, uint8_t flip) const { return m_tiles_flip[tile].m_flips[flip]; }
 	};
 
-	using RandomDouble = std::function<double()>;
-	using ValidCoord = std::function<bool(int, int, int)>;
-	using Propagator = std::function<void(Wave&)>;
-
-	struct DoubleGenerator
-	{
-		std::random_device device;
-		std::mt19937 generator;
-		std::uniform_real_distribution<double> distribution;
-		double next() { return distribution(generator); }
-		DoubleGenerator() : device(), generator(device()), distribution(0.0, 1.0) {}
-	};
+	using RandomDouble = function<double()>;
+	using ValidCoord = function<bool(int, int, int)>;
+	using Propagator = function<void(Wave&)>;
 
 	export_ struct refl_ MUD_WFC_EXPORT Wave
 	{
@@ -136,7 +122,7 @@ namespace mud
 	export_ MUD_WFC_EXPORT bool neighbour(Wave& wave, const uvec3& coord, SignedAxis d, uvec3& neighbour);
 	export_ MUD_WFC_EXPORT uint16_t tile_at(Wave& wave, uint16_t x, uint16_t y, uint16_t z);
 
-	export_ MUD_WFC_EXPORT void add_tile(Tileset& tileset, const std::set<string>& subset_tiles, const string& tile_name, char symmetry, float weight);
+	export_ MUD_WFC_EXPORT void add_tile(Tileset& tileset, const set<string>& subset_tiles, const string& tile_name, char symmetry, float weight);
 	export_ MUD_WFC_EXPORT void add_tile(Tileset& tileset, const string& tile_name, char symmetry, float weight);
 
 	export_ MUD_WFC_EXPORT func_ void parse_json_tileset(const string& path, const string& subset, Tileset& outputTileset);
@@ -159,7 +145,7 @@ namespace mud
 	using ColorPalette = vector<RGBA>;
 	using ColorPattern = vector<ColorIndex>;
 	using PatternHash = uint64_t; // Another representation of a Pattern.
-	using PatternPrevalence = std::unordered_map<PatternHash, size_t>;
+	using PatternPrevalence = map<PatternHash, size_t>;
 	using PatternIndex = uint16_t;
 
 	const auto kInvalidIndex = static_cast<size_t>(-1);

@@ -5,7 +5,6 @@
 #pragma once
 
 #include <type/Forward.h>
-
 #include <type/Cls.h>
 #include <type/TypeOf.h>
 

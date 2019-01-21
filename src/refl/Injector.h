@@ -4,15 +4,12 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <type/Any.h>
 #include <type/Unique.h>
 #include <infra/NonCopy.h>
 #include <refl/Forward.h>
 #include <refl/Method.h>
-
-#ifndef MUD_CPP_20
-#include <stl/vector.h>
-#endif
 
 namespace mud
 {

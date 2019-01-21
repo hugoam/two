@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <stl/function.h>
 #include <stl/string.h>
 #include <stl/vector.h>
 #include <stl/map.h>
@@ -17,7 +18,6 @@
 #include <snd/SoundListener.h>
 #include <snd/Sound.h>
 
-#include <functional>
 #include <list>
 //#include <thread>
 //#include <memory>
@@ -31,7 +31,7 @@ namespace mud
 	class MUD_SND_EXPORT SoundManager : public NonCopy, public SoundImplementer
 	{
 	public:
-		using SoundAction = std::function<void()>;
+		using SoundAction = function<void()>;
 		using SoundList = std::list<Sound*>;
 		using SoundVector = vector<Sound*>;
 		using SourceVector = vector<ALuint>;
@@ -54,12 +54,12 @@ namespace mud
 		void setSpeedOfSound(float speed = 363.f);
 
 	public:
-		void playSound(Sound* sound);
-		void stopSound(Sound* sound);
-		void pauseSound(Sound* sound);
-		void destroySound(Sound* sound);
+		void playSound(Sound& sound);
+		void stopSound(Sound& sound);
+		void pauseSound(Sound& sound);
+		void destroySound(Sound& sound);
 
-		void updatePosition(Sound* sound, const vec3& position);
+		void updatePosition(Sound& sound, const vec3& position);
 
 		void stopAllSounds();
 		void pauseAllSounds();
@@ -80,12 +80,12 @@ namespace mud
 	public:
 		void threadUpdate();
 
-		void createSoundImpl(Sound* sound, cstring filename, bool stream);
-		void destroySoundImpl(Sound* sound);
+		void createSoundImpl(Sound& sound, cstring filename, bool stream);
+		void destroySoundImpl(Sound& sound);
 
-		void playSoundImpl(Sound* sound);
-		void stopSoundImpl(Sound* sound);
-		void pauseSoundImpl(Sound* sound);
+		void playSoundImpl(Sound& sound);
+		void stopSoundImpl(Sound& sound);
+		void pauseSoundImpl(Sound& sound);
 
 		void setGlobalPitchImpl();
 
@@ -94,12 +94,12 @@ namespace mud
 		void resumeAllSoundsImpl();
 
 	private:
-		void updateActiveSound(Sound* sound);
-		void releaseActiveSound(Sound* sound);
-		void queueActiveSound(Sound* sound);
+		void updateActiveSound(Sound& sound);
+		void releaseActiveSound(Sound& sound);
+		void queueActiveSound(Sound& sound);
 		
-		void activateSound(Sound* sound);
-		void disactivateSound(Sound* sound);
+		void activateSound(Sound& sound);
+		void disactivateSound(Sound& sound);
 
 		SharedBuffer& createSharedBuffer(cstring filename);
 		SharedBuffer& getSharedBuffer(cstring filename);
@@ -135,8 +135,8 @@ namespace mud
 	private:
 		/** Sounds **/
 		SoundList m_active_sounds;				// list of all sounds : m_active_sounds.begin() to m_active_sounds[m_maxSources] are active
-		SoundList m_inactiveSounds;
-		SoundList m_pausedSounds;				// list of sounds currently paused
+		SoundList m_inactive_sounds;
+		SoundList m_paused_sounds;				// list of sounds currently paused
 
 		SoundList::iterator m_lastActive;
 		SoundVector m_updateQueue;
@@ -144,7 +144,7 @@ namespace mud
 		unsigned int m_maxSources = 100;		// Maximum Number of sources to allocate
 		SourceVector m_sourcePool;				// List of available sources
 
-		map<string, unique<SharedBuffer>> m_sharedBuffers;
+		map<string, unique<SharedBuffer>> m_shared_buffers;
 
 		Clock m_clock;
 	};

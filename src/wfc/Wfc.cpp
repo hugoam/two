@@ -19,6 +19,15 @@ module mud.wfc;
 
 namespace mud
 {
+	struct DoubleGenerator
+	{
+		std::random_device device;
+		std::mt19937 generator;
+		std::uniform_real_distribution<double> distribution;
+		double next() { return distribution(generator); }
+		DoubleGenerator() : device(), generator(device()), distribution(0.0, 1.0) {}
+	};
+
 	double calc_sum(const vector<double>& a)
 	{
 		return std::accumulate(a.begin(), a.end(), 0.0);
@@ -58,7 +67,7 @@ namespace mud
 		, m_wave(width, height, depth, vector<ubool>(states, true))
 	{
 		static DoubleGenerator generator;
-		m_random_double = [&] { return generator.next(); };
+		m_random_double = [&]() -> double { return generator.next(); };
 	}
 
 	void Wave::clear()

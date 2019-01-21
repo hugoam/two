@@ -278,7 +278,7 @@ namespace mud
 		float m_item_radius = 0.f;
 	};
 
-	void model_array_view(Widget& parent, std::function<void(ModelArrayView&)> query_state, void* id = nullptr)
+	void model_array_view(Widget& parent, function<void(ModelArrayView&)> query_state, void* id = nullptr)
 	{
 		Widget& self = ui::widget(parent, styles().stack, id);
 		ModelArrayView& state = self.state<ModelArrayView>();

@@ -13,7 +13,6 @@ namespace mud
 #include <TINYSTL/unordered_map.h>
 namespace mud
 {
-	template <class K, class T>
-	export_ using unordered_map = tinystl::unordered_map<K, T>;
+	export_ using tinystl::unordered_map;
 }
 #endif

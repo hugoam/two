@@ -26,10 +26,10 @@ namespace mud
 		template <class T>
 		function(T functor)
 		{
-			m_func = [](void* user, Args... args)
+			m_func = [](const void* user, Args... args) -> Return
 			{
-				T& func = *static_cast<T*>(user);
-				func(static_cast<Args&&>(args)...);
+				const T& func = *static_cast<const T*>(user);
+				return func(static_cast<Args&&>(args)...);
 			};
 
 			m_dtor = [](void* user)
@@ -51,9 +51,14 @@ namespace mud
 			m_func(m_storage, static_cast<Args&&>(args)...);
 		}
 
+		Return operator()(Args... args) const
+		{
+			m_func(m_storage, static_cast<Args&&>(args)...);
+		}
+
 		explicit operator bool() { return m_func != nullptr; }
 
-		using Func = Return(*)(void*, Args...); Func m_func = nullptr;
+		using Func = Return(*)(const void*, Args...); Func m_func = nullptr;
 		using Dtor = void(*)(void*); Dtor m_dtor = nullptr;
 		void* m_storage[8];
 	};

@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/set.h>
 #include <pool/Pool.h>
 #include <gfx/Types.h>
 #include <gfx/Prefab.h>
@@ -15,8 +16,6 @@ module mud.gfx;
 #include <gfx/Importer.h>
 #include <gfx/GfxSystem.h>
 #endif
-
-#include <set>
 
 namespace mud
 {
@@ -57,7 +56,7 @@ namespace mud
 
 	void destroy_prefab(GfxSystem& gfx_system, Prefab& prefab)
 	{
-		std::set<Model*> models;
+		set<Model*> models;
 		for(Item& item : prefab.m_items)
 			models.insert(item.m_model);
 

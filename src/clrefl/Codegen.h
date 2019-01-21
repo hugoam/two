@@ -3,7 +3,7 @@
 #include <clrefl/Generator.h>
 
 #include <stl/string.h>
-#include <set>
+#include <stl/set.h>
 
 namespace mud
 {
@@ -903,7 +903,7 @@ namespace clgen
 		auto binding_name = [&](const CLCallable& f) { return binding_name_str(*f.m_parent, clean_name(f.m_name)); };
 		auto binding_name_n = [&](const CLCallable& f, size_t i) { return  binding_name(f) + "_" + to_string(i); };
 
-		struct Overloads { const CLCallable* f; std::set<size_t> lengths; };
+		struct Overloads { const CLCallable* f; set<size_t> lengths; };
 		using OverloadMap = map<string, Overloads>;
 
 		auto cramfunc = [](Overloads& o, const CLCallable& f)

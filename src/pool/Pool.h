@@ -38,7 +38,7 @@ namespace mud
 		inline void tdestroy(T& object) { m_vec_pool->destroy(&object); }
 		inline void tfree(T& object) { m_vec_pool->free(&object); }
 
-		virtual void alloc(Ref& ref) { set<T>(ref, m_vec_pool->alloc()); }
+		virtual void alloc(Ref& ref) { setval<T>(ref, m_vec_pool->alloc()); }
 		virtual Ref alloc() { return Ref(m_vec_pool->alloc(), type<T>()); }
 
 		virtual void destroy(Ref object) { m_vec_pool->destroy(&val<T>(object)); }

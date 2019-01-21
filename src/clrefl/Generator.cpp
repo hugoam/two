@@ -324,7 +324,7 @@ namespace mud
 			c.m_array_type = c.m_members[0].m_type.m_type;
 		}
 
-		std::set<string> method_names;
+		set<string> method_names;
 		for(CLMethod& method : c.m_methods)
 		{
 			if(method_names.find(method.m_name) != method_names.end())
@@ -441,7 +441,7 @@ namespace mud
 			CLModule invalid(m_context); return invalid;
 		}
 
-		void parse_through(CLModule& module, std::function<void(CXCursor, CLModule&, CLPrimitive&)> func)
+		void parse_through(CLModule& module, function<void(CXCursor, CLModule&, CLPrimitive&)> func)
 		{
 			printf("Module path : %s\n", module.m_path.c_str());
 

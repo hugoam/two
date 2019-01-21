@@ -85,19 +85,17 @@ namespace mud
 
 	void SoundManager::clearSounds()
 	{
-		for (SoundList::iterator it = m_active_sounds.begin(); it != m_active_sounds.end(); ++it)
-		{
-			destroySoundImpl((*it));
-		}
+		for (Sound* sound : m_active_sounds)
+			destroySoundImpl(*sound);
 
-		m_pausedSounds.clear();
+		m_paused_sounds.clear();
 		m_active_sounds.clear();
-		m_inactiveSounds.clear();
+		m_inactive_sounds.clear();
 	}
 
 	void SoundManager::clearBuffers()
 	{
-		m_sharedBuffers.clear();
+		m_shared_buffers.clear();
 	}
 
 	void SoundManager::releaseAll()
@@ -228,43 +226,43 @@ namespace mud
 
 		sound->setLoop(loop);
 
-		this->addAction([=] { this->createSoundImpl(sound, path.c_str(), stream); });
+		this->addAction([=] { this->createSoundImpl(*sound, path.c_str(), stream); });
 
 		return sound;
 	}
 
-	void SoundManager::createSoundImpl(Sound* sound, cstring filename, bool stream)
+	void SoundManager::createSoundImpl(Sound& sound, cstring filename, bool stream)
 	{
 		//std::cerr << "creating sound Impl : " << filename << std::endl;
-		m_inactiveSounds.push_back(sound);
+		m_inactive_sounds.push_back(&sound);
 
 		if(!stream)
-			sound->openShared(getSharedBuffer(filename));
+			sound.openShared(getSharedBuffer(filename));
 		else
-			sound->open(filename);
+			sound.open(filename);
 		//std::cerr << "done" << std::endl;
 	}
 
 	void SoundManager::stopAllSounds()
 	{
-		addAction(std::bind(&SoundManager::stopAllSoundsImpl, this));
+		addAction([&]() { this->stopAllSoundsImpl(); });
 	}
 
 	void SoundManager::setGlobalPitch(float pitch)
 	{
 		m_globalPitch = pitch;
 
-		addAction(std::bind(&SoundManager::setGlobalPitchImpl, this));
+		addAction([&]() { this->setGlobalPitchImpl(); });
 	}
 
 	void SoundManager::pauseAllSounds()
 	{
-		addAction(std::bind(&SoundManager::pauseAllSoundsImpl, this));
+		addAction([&]() { this->pauseAllSoundsImpl(); });
 	}
 
 	void SoundManager::resumeAllSounds()
 	{
-		addAction(std::bind(&SoundManager::resumeAllSoundsImpl, this));
+		addAction([&]() { this->resumeAllSoundsImpl(); });
 	}
 
 	void SoundManager::muteAllSounds()
@@ -278,9 +276,9 @@ namespace mud
 		alListenerf(AL_GAIN, m_volume);
 	}
 
-	void SoundManager::destroySound(Sound* sound)
+	void SoundManager::destroySound(Sound& sound)
 	{
-		addAction(std::bind(&SoundManager::destroySoundImpl, this, sound));
+		addAction([&]() { this->destroySoundImpl(sound); });
 	}
 
 	void SoundManager::setDistanceModel(ALenum value)
@@ -298,147 +296,144 @@ namespace mud
 		alDopplerFactor(factor);
 	}
 
-	void SoundManager::updateActiveSound(Sound* sound)
+	void SoundManager::updateActiveSound(Sound& sound)
 	{
 		releaseActiveSound(sound);
 		queueActiveSound(sound);
 	}
 
-	void SoundManager::queueActiveSound(Sound* sound)
+	void SoundManager::queueActiveSound(Sound& sound)
 	{
 		unsigned int index = 0;
 		SoundList::iterator pos = m_active_sounds.begin();
 
-		while(pos != m_active_sounds.end() && (*pos)->m_priority < sound->m_priority) { ++index; ++pos; }
+		while(pos != m_active_sounds.end() && (*pos)->m_priority < sound.m_priority) { ++index; ++pos; }
 
 		if(m_active_sounds.size() < m_maxSources)
 		{
-			sound->assignSource(vector_pop(m_sourcePool));
+			sound.assignSource(vector_pop(m_sourcePool));
 		}
 		else if(index <= m_maxSources)
 		{
-			sound->assignSource((*m_lastActive)->m_source);
+			sound.assignSource((*m_lastActive)->m_source);
 			(*m_lastActive)->releaseSource();
 			--m_lastActive;
 		}
 
-		m_active_sounds.insert(pos, sound);
+		m_active_sounds.insert(pos, &sound);
 
-		sound->m_priority.m_queueIndex = index;
-		sound->m_priority.m_queueIterator = pos;
+		sound.m_priority.m_queueIndex = index;
+		sound.m_priority.m_queueIterator = pos;
 	}
 
-	void SoundManager::activateSound(Sound* sound)
+	void SoundManager::activateSound(Sound& sound)
 	{
 		queueActiveSound(sound);
-		m_inactiveSounds.remove(sound);
+		m_inactive_sounds.remove(&sound);
 	}
 
-	void SoundManager::releaseActiveSound(Sound* sound)
+	void SoundManager::releaseActiveSound(Sound& sound)
 	{
-		//int lastIndex = sound->getPriority().m_queueIndex;
-		//SoundList::iterator lastPos = sound->getPriority().m_queueIterator;
+		//int lastIndex = sound.getPriority().m_queueIndex;
+		//SoundList::iterator lastPos = sound.getPriority().m_queueIterator;
 
 		if(m_active_sounds.size() <= m_maxSources)
 		{
-			m_sourcePool.push_back(sound->m_source);
-			sound->releaseSource();
+			m_sourcePool.push_back(sound.m_source);
+			sound.releaseSource();
 		}
 		else
 		{
 			++m_lastActive;
-			(*m_lastActive)->assignSource(sound->m_source);
-			sound->releaseSource();
+			(*m_lastActive)->assignSource(sound.m_source);
+			sound.releaseSource();
 		}
 
-		m_active_sounds.remove(sound);
+		m_active_sounds.remove(&sound);
 	}
 
-	void SoundManager::disactivateSound(Sound* sound)
+	void SoundManager::disactivateSound(Sound& sound)
 	{
 		releaseActiveSound(sound);
-		m_inactiveSounds.push_back(sound);
+		m_inactive_sounds.push_back(&sound);
 	}
 
-	void SoundManager::updatePosition(Sound* sound, const vec3& position)
+	void SoundManager::updatePosition(Sound& sound, const vec3& position)
 	{
-		sound->m_priority.m_distance = distance(position, m_listener.m_position);
-		m_updateQueue.push_back(sound);
+		sound.m_priority.m_distance = distance(position, m_listener.m_position);
+		m_updateQueue.push_back(&sound);
 	}
 
-	void SoundManager::destroySoundImpl(Sound* sound)
+	void SoundManager::destroySoundImpl(Sound& sound)
 	{
 		//std::cerr << "destroying sound " << std::endl;
-		if(sound->m_active)
+		if(sound.m_active)
 			releaseActiveSound(sound);
 		else
-			m_inactiveSounds.remove(sound);
+			m_inactive_sounds.remove(&sound);
 
-		if(sound->isPaused())
-			m_pausedSounds.remove(sound);
+		if(sound.isPaused())
+			m_paused_sounds.remove(&sound);
 
-		delete sound;
+		delete &sound;
 	}
 
-	void SoundManager::playSound(Sound* sound)
+	void SoundManager::playSound(Sound& sound)
 	{
-		addAction([=] { this->playSoundImpl(sound); });
+		addAction([&] { this->playSoundImpl(sound); });
 	}
 
-	void SoundManager::pauseSound(Sound* sound)
+	void SoundManager::pauseSound(Sound& sound)
 	{
-		addAction([=] { this->pauseSoundImpl(sound); });
+		addAction([&] { this->pauseSoundImpl(sound); });
 	}
 
-	void SoundManager::stopSound(Sound* sound)
+	void SoundManager::stopSound(Sound& sound)
 	{
-		addAction([=] { this->stopSoundImpl(sound); });
+		addAction([&] { this->stopSoundImpl(sound); });
 	}
 
-	void SoundManager::playSoundImpl(Sound* sound)
+	void SoundManager::playSoundImpl(Sound& sound)
 	{
 		activateSound(sound);
-		sound->playImpl();
+		sound.playImpl();
 	}
 
-	void SoundManager::pauseSoundImpl(Sound* sound)
+	void SoundManager::pauseSoundImpl(Sound& sound)
 	{
-		sound->pauseImpl();
-		m_pausedSounds.push_back(sound);
+		sound.pauseImpl();
+		m_paused_sounds.push_back(&sound);
 		disactivateSound(sound);
 	}
 
-	void SoundManager::stopSoundImpl(Sound* sound)
+	void SoundManager::stopSoundImpl(Sound& sound)
 	{
-		sound->stopImpl();
+		sound.stopImpl();
 		disactivateSound(sound);
 
-		if(sound->m_temporary)
+		if(sound.m_temporary)
 			destroySound(sound);
 	}
 
 	void SoundManager::stopAllSoundsImpl()
 	{
-		SoundList activeSounds(m_active_sounds.begin(), m_active_sounds.end());
-
-		for(Sound* sound : activeSounds)
-			stopSoundImpl(sound);
+		SoundList active_sounds = m_active_sounds;
+		for(Sound* sound : active_sounds)
+			stopSoundImpl(*sound);
 	}
 
 	void SoundManager::pauseAllSoundsImpl()
 	{
-		SoundList activeSounds(m_active_sounds.begin(), m_active_sounds.end());
-
-		for(Sound* sound : activeSounds)
-			pauseSoundImpl(sound);
+		SoundList active_sounds = m_active_sounds;
+		for(Sound* sound : active_sounds)
+			pauseSoundImpl(*sound);
 	}
 
 	void SoundManager::resumeAllSoundsImpl()
 	{
-		SoundList pausedSounds(m_pausedSounds.begin(), m_pausedSounds.end());
-
-		for(Sound* sound : pausedSounds)
-			playSoundImpl(sound);
+		SoundList paused_sounds = m_paused_sounds;
+		for(Sound* sound : paused_sounds)
+			playSoundImpl(*sound);
 	}
 
 	void SoundManager::setGlobalPitchImpl()
@@ -449,14 +444,14 @@ namespace mud
 
 	SharedBuffer& SoundManager::createSharedBuffer(cstring filename)
 	{
-		m_sharedBuffers[filename] = make_unique<SharedBuffer>(filename, *this);
-		return *m_sharedBuffers[filename];
+		m_shared_buffers[filename] = make_unique<SharedBuffer>(filename, *this);
+		return *m_shared_buffers[filename];
 	}
 
 	SharedBuffer& SoundManager::getSharedBuffer(cstring filename)
 	{
-		auto find = m_sharedBuffers.find(filename);
-		if(find != m_sharedBuffers.end())
+		auto find = m_shared_buffers.find(filename);
+		if(find != m_shared_buffers.end())
 			return *(*find).second;
 		else
 			return createSharedBuffer(filename);
@@ -464,7 +459,7 @@ namespace mud
 
 	void SoundManager::releaseBuffer(SharedBuffer& buffer)
 	{
-		m_sharedBuffers.erase(m_sharedBuffers.find(buffer.m_file_buffer->m_filename));
+		m_shared_buffers.erase(m_shared_buffers.find(buffer.m_file_buffer->m_filename));
 	}
 
 	void SoundManager::addAction(const SoundAction& action)
@@ -476,7 +471,7 @@ namespace mud
 	void SoundManager::processActions()
 	{
 		int i = 0;
-		std::function<void ()> action;
+		function<void ()> action;
 
 		if(!m_actions.empty())
 			while(((++i) < 5) && m_actions.pop(action))

@@ -29,8 +29,9 @@ namespace mud
 		if(!subset_tiles.empty() && !vector_has(subset_tiles, tile_name))
 			return;
 
-		std::function<int(int)> a; // rotates pattern counter-clockwise
-		std::function<int(int)> b; // flips pattern vertically
+		using Transform = int(*)(int);
+		Transform a; // rotates pattern counter-clockwise
+		Transform b; // flips pattern vertically
 		int cardinality = 1;
 
 #ifndef MUD_MODULES // @todo clang bug

@@ -31,4 +31,4 @@ install:
 script:
   - bin/$GENIE_FOLDER/genie --compile-only --use-stl --use-glm --gcc=$TOOLCHAIN gmake
   - cd build/projects/$GMAKE_FOLDER
-  - make config=debug64 mud
+  - time make config=debug64 mud

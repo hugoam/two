@@ -37,10 +37,10 @@ namespace mud
 		val(const Ref& ref) { type_check<typename std::remove_pointer<T>::type>(ref); return (T)(ref.m_value); }
 
 	export_ template <class T>
-	inline void set(Ref& ref, T& value) { ref.m_value = &value; ref.m_type = &type_of<T>(value); }
-
+	inline void setval(Ref& ref, T& value) { ref.m_value = &value; ref.m_type = &type_of<T>(value); }
+	
 	export_ template <class T>
-	inline void set(Ref& ref, T* value) { ref.m_value = (void*)value; ref.m_type = &type_of<T>(value); }
+	inline void setval(Ref& ref, T* value) { ref.m_value = (void*)value; ref.m_type = &type_of<T>(value); }
 	
 	export_ template <>
 	inline Ref& val<Ref>(Ref& ref) { return ref; }
@@ -60,7 +60,7 @@ namespace mud
 	export_ template <>
 	inline cstring val<cstring>(const Ref& ref) { return (cstring)ref.m_value; }
 	
-	export_ inline void set(Ref& ref, cstring value) { ref.m_value = (void*)value; ref.m_type = &type<cstring>(); }
+	export_ inline void setval(Ref& ref, cstring value) { ref.m_value = (void*)value; ref.m_type = &type<cstring>(); }
 
 	template <class T>
 	export_ inline T* try_val(Ref object) { if (object && type(object).template is<T>()) return &val<T>(object); else return nullptr; }
@@ -129,7 +129,7 @@ namespace mud
 	inline const T& val(const Any& v) { return TAnyHandler<T>::value(v); }
 
 	export_ template <class T, class U>
-	inline void set(Any& v, U&& value) { TAnyHandler<T>::value(v) = value; }
+	inline void setval(Any& v, U&& value) { TAnyHandler<T>::value(v) = value; }
 	
 	export_ template <class T>
 	inline T& val(Var& var) { return val<T>(var.m_ref); }
@@ -151,11 +151,11 @@ namespace mud
 
 	export_ template <class T, class U>
 	inline typename std::enable_if<ValueSemantic<T>::value, void>::type
-		set(Var& var, U&& value) { if(var.m_mode == VAL) { set<T>(var.m_any, value); set(var.m_ref, val<T>(var.m_any)); } else set<T>(var.m_ref, value); }
+		setval(Var& var, U&& value) { if(var.m_mode == VAL) { set<T>(var.m_any, value); setval(var.m_ref, val<T>(var.m_any)); } else set<T>(var.m_ref, value); }
 
 	export_ template <class T, class U>
 	inline typename std::enable_if<!ValueSemantic<T>::value, void>::type
-		set(Var& var, U&& value) { set(var.m_ref, static_cast<U&&>(value)); }
+		setval(Var& var, U&& value) { setval(var.m_ref, static_cast<U&&>(value)); }
 
 	export_ template <class T, class U>
 	inline Var make_any(U&& value) { return TAnyHandler<T>::create(static_cast<U&&>(value)); }

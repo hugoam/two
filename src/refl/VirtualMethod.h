@@ -4,15 +4,14 @@
 
 #pragma once
 
+#include <stl/function.h>
 #include <type/Ref.h>
 #include <type/Any.h>
 #include <refl/Forward.h>
 
-#include <functional>
-
 namespace mud
 {
-	export_ using VirtualMethod = std::function<void(Method&, Ref, array<Var>)>;
+	export_ using VirtualMethod = function<void(Method&, Ref, array<Var>)>;
 
 	export_ template <> MUD_REFL_EXPORT Type& type<VirtualMethod>();
 }

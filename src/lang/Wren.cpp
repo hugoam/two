@@ -10,8 +10,6 @@
 #include <cstdlib>
 #include <cstdarg>
 #include <cctype>
-#include <unordered_map>
-#include <set>
 #include <type_traits>
 #include <algorithm>
 #endif
@@ -22,6 +20,8 @@ module mud.lang;
 #else
 #include <stl/vector.h>
 #include <stl/map.h>
+#include <stl/unordered_map.h>
+#include <stl/set.h>
 #include <ecs/Proto.h>
 #include <infra/NonCopy.h>
 #include <refl/Meta.h>
@@ -1265,7 +1265,7 @@ namespace mud
 
 		map<string, Functions> m_function_decls;
 
-		std::set<string> m_variables;
+		set<string> m_variables;
 
 		WrenVM* m_vm;
 	};
