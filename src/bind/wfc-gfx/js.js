@@ -1,6 +1,6 @@
 Module['glm'] = Module['glm'] || {};
-Module['gfx'] = Module['gfx'] || {};
 Module['ui'] = Module['ui'] || {};
+Module['gfx'] = Module['gfx'] || {};
 // TileModel
 function TileModel() {
     this.ptr = _mud_TileModel_TileModel_0(); getCache(TileModel)[this.ptr] = this;
@@ -36,6 +36,10 @@ WfcBlock.prototype.constructor = WfcBlock;
 WfcBlock.prototype.__class__ = WfcBlock;
 WfcBlock.__cache__ = {};
 Module['WfcBlock'] = WfcBlock;
+WfcBlock.prototype["reset"] = WfcBlock.prototype.reset = function(self) {
+    var self = this.ptr;
+    _mud_WfcBlock_reset_0(self);
+};
 WfcBlock.prototype["observe"] = WfcBlock.prototype.observe = function(self) {
     var self = this.ptr;
     _mud_WfcBlock_observe_0(self);
@@ -43,10 +47,6 @@ WfcBlock.prototype["observe"] = WfcBlock.prototype.observe = function(self) {
 WfcBlock.prototype["propagate"] = WfcBlock.prototype.propagate = function(self) {
     var self = this.ptr;
     _mud_WfcBlock_propagate_0(self);
-};
-WfcBlock.prototype["reset"] = WfcBlock.prototype.reset = function(self) {
-    var self = this.ptr;
-    _mud_WfcBlock_reset_0(self);
 };
 WfcBlock.prototype["solve"] = WfcBlock.prototype.solve = function(self, limit) {
     var self = this.ptr;

@@ -6,13 +6,10 @@ module mud.geom;
 #include <meta/type/Module.h>
 #include <meta/math/Module.h>
 #include <meta/geom/Module.h>
+#include <meta/geom/Convert.h>
 #endif
 
 #include <geom/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/geom/Convert.h>
-#endif
 #define MUD_GEOM_REFLECTION_IMPL
 #include <meta/geom/Meta.h>
 

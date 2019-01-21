@@ -14,13 +14,10 @@ module mud.gfx-edit;
 #include <meta/gfx/Module.h>
 #include <meta/gfx-pbr/Module.h>
 #include <meta/gfx-edit/Module.h>
+#include <meta/gfx-edit/Convert.h>
 #endif
 
 #include <gfx-edit/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/gfx-edit/Convert.h>
-#endif
 #define MUD_GFX_EDIT_REFLECTION_IMPL
 #include <meta/gfx-edit/Meta.h>
 

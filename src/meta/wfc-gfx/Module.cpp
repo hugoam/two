@@ -16,13 +16,10 @@ module mud.wfc-gfx;
 #include <meta/gfx/Module.h>
 #include <meta/gfx-ui/Module.h>
 #include <meta/wfc-gfx/Module.h>
+#include <meta/wfc-gfx/Convert.h>
 #endif
 
 #include <wfc-gfx/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/wfc-gfx/Convert.h>
-#endif
 #define MUD_WFC_GFX_REFLECTION_IMPL
 #include <meta/wfc-gfx/Meta.h>
 

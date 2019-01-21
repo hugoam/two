@@ -121,26 +121,8 @@ extern "C" {
 	void DECL mud_SceneViewer__destroy(mud::SceneViewer* self) {
 		delete self;
 	}
-	mud::FreeOrbitController* DECL mud_ui_free_orbit_controller_1(mud::Viewer* viewer) {
-		return &mud::ui::free_orbit_controller(*viewer);
-	}
-	mud::OrbitController* DECL mud_ui_hybrid_controller_5(mud::Viewer* viewer, mud::ui::OrbitMode mode, mud::Transform* entity, bool aiming, mud::vec2* angles) {
-		return &mud::ui::hybrid_controller(*viewer, mode, *entity, aiming, *angles);
-	}
-	mud::OrbitController* DECL mud_ui_hybrid_controller_6(mud::Viewer* viewer, mud::ui::OrbitMode mode, mud::Transform* entity, bool aiming, mud::vec2* angles, bool modal) {
-		return &mud::ui::hybrid_controller(*viewer, mode, *entity, aiming, *angles, modal);
-	}
-	mud::OrbitController* DECL mud_ui_isometric_controller_1(mud::Viewer* viewer) {
-		return &mud::ui::isometric_controller(*viewer);
-	}
-	mud::OrbitController* DECL mud_ui_isometric_controller_2(mud::Viewer* viewer, bool topdown) {
-		return &mud::ui::isometric_controller(*viewer, topdown);
-	}
-	mud::OrbitController* DECL mud_ui_orbit_controller_3(mud::Viewer* viewer, float yaw, float pitch) {
-		return &mud::ui::orbit_controller(*viewer, yaw, pitch);
-	}
-	mud::OrbitController* DECL mud_ui_orbit_controller_4(mud::Viewer* viewer, float yaw, float pitch, float distance) {
-		return &mud::ui::orbit_controller(*viewer, yaw, pitch, distance);
+	mud::Viewer* DECL mud_ui_viewer_2(mud::Widget* parent, mud::Scene* scene) {
+		return &mud::ui::viewer(*parent, *scene);
 	}
 	mud::SceneViewer* DECL mud_ui_scene_viewer_1(mud::Widget* parent) {
 		return &mud::ui::scene_viewer(*parent);
@@ -148,14 +130,32 @@ extern "C" {
 	mud::SceneViewer* DECL mud_ui_scene_viewer_2(mud::Widget* parent, const mud::vec2* size) {
 		return &mud::ui::scene_viewer(*parent, *size);
 	}
+	mud::OrbitController* DECL mud_ui_orbit_controller_3(mud::Viewer* viewer, float yaw, float pitch) {
+		return &mud::ui::orbit_controller(*viewer, yaw, pitch);
+	}
+	mud::OrbitController* DECL mud_ui_orbit_controller_4(mud::Viewer* viewer, float yaw, float pitch, float distance) {
+		return &mud::ui::orbit_controller(*viewer, yaw, pitch, distance);
+	}
+	mud::FreeOrbitController* DECL mud_ui_free_orbit_controller_1(mud::Viewer* viewer) {
+		return &mud::ui::free_orbit_controller(*viewer);
+	}
+	mud::OrbitController* DECL mud_ui_isometric_controller_1(mud::Viewer* viewer) {
+		return &mud::ui::isometric_controller(*viewer);
+	}
+	mud::OrbitController* DECL mud_ui_isometric_controller_2(mud::Viewer* viewer, bool topdown) {
+		return &mud::ui::isometric_controller(*viewer, topdown);
+	}
+	mud::OrbitController* DECL mud_ui_hybrid_controller_5(mud::Viewer* viewer, mud::ui::OrbitMode mode, mud::Transform* entity, bool aiming, mud::vec2* angles) {
+		return &mud::ui::hybrid_controller(*viewer, mode, *entity, aiming, *angles);
+	}
+	mud::OrbitController* DECL mud_ui_hybrid_controller_6(mud::Viewer* viewer, mud::ui::OrbitMode mode, mud::Transform* entity, bool aiming, mud::vec2* angles, bool modal) {
+		return &mud::ui::hybrid_controller(*viewer, mode, *entity, aiming, *angles, modal);
+	}
 	void DECL mud_ui_velocity_controller_3(mud::Viewer* viewer, mud::vec3* linear, mud::vec3* angular) {
 		mud::ui::velocity_controller(*viewer, *linear, *angular);
 	}
 	void DECL mud_ui_velocity_controller_4(mud::Viewer* viewer, mud::vec3* linear, mud::vec3* angular, float speed) {
 		mud::ui::velocity_controller(*viewer, *linear, *angular, speed);
-	}
-	mud::Viewer* DECL mud_ui_viewer_2(mud::Widget* parent, mud::Scene* scene) {
-		return &mud::ui::viewer(*parent, *scene);
 	}
 	// OrbitMode
 	mud::ui::OrbitMode DECL mud_ui_OrbitMode_ThirdPerson() {

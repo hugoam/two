@@ -8,13 +8,10 @@ module mud.noise;
 #include <meta/math/Module.h>
 #include <meta/geom/Module.h>
 #include <meta/noise/Module.h>
+#include <meta/noise/Convert.h>
 #endif
 
 #include <noise/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/noise/Convert.h>
-#endif
 #define MUD_NOISE_REFLECTION_IMPL
 #include <meta/noise/Meta.h>
 

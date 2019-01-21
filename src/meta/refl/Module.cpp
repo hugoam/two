@@ -7,13 +7,10 @@ module mud.refl;
 #include <meta/type/Module.h>
 #include <meta/pool/Module.h>
 #include <meta/refl/Module.h>
+#include <meta/refl/Convert.h>
 #endif
 
 #include <refl/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/refl/Convert.h>
-#endif
 #define MUD_REFL_REFLECTION_IMPL
 #include <meta/refl/Meta.h>
 

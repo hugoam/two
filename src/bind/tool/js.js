@@ -1,6 +1,6 @@
 Module['glm'] = Module['glm'] || {};
-Module['gfx'] = Module['gfx'] || {};
 Module['ui'] = Module['ui'] || {};
+Module['gfx'] = Module['gfx'] || {};
 // EditContext
 function EditContext() { throw "cannot construct a EditContext, no constructor in IDL" }
 EditContext.prototype = Object.create(WrapperObject.prototype);
@@ -109,10 +109,7 @@ EditorAction.prototype["__destroy__"] = EditorAction.prototype.__destroy__ = fun
     _mud_EditorAction__destroy(self);
 };
 // Gizmo
-function Gizmo() {
-    this.ptr = _mud_Gizmo_Gizmo_0(); getCache(Gizmo)[this.ptr] = this;
-    this.type = Gizmo;
-};
+function Gizmo() { throw "cannot construct a Gizmo, no constructor in IDL" }
 Gizmo.prototype = Object.create(WrapperObject.prototype);
 Gizmo.prototype.constructor = Gizmo;
 Gizmo.prototype.__class__ = Gizmo;
@@ -364,6 +361,17 @@ RotateAction.prototype["__destroy__"] = RotateAction.prototype.__destroy__ = fun
     var self = this.ptr;
     _mud_RotateAction__destroy(self);
 };
+// TransformGizmo
+function TransformGizmo() { throw "cannot construct a TransformGizmo, no constructor in IDL" }
+TransformGizmo.prototype = Object.create(WrapperObject.prototype);
+TransformGizmo.prototype.constructor = TransformGizmo;
+TransformGizmo.prototype.__class__ = TransformGizmo;
+TransformGizmo.__cache__ = {};
+Module['TransformGizmo'] = TransformGizmo;
+TransformGizmo.prototype["__destroy__"] = TransformGizmo.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_TransformGizmo__destroy(self);
+};
 // TransformTool
 function TransformTool() { throw "cannot construct a TransformTool, no constructor in IDL" }
 TransformTool.prototype = Object.create(WrapperObject.prototype);
@@ -548,6 +556,7 @@ WorldSnapOption.prototype["__destroy__"] = WorldSnapOption.prototype.__destroy__
         ScriptedBrush.__type__ = _mud_ScriptedBrush__type();
         TransformAction.__type__ = _mud_TransformAction__type();
         RotateAction.__type__ = _mud_RotateAction__type();
+        TransformGizmo.__type__ = _mud_TransformGizmo__type();
         TransformTool.__type__ = _mud_TransformTool__type();
         RotateTool.__type__ = _mud_RotateTool__type();
         ScaleAction.__type__ = _mud_ScaleAction__type();

@@ -26,7 +26,7 @@ module mud.wfc.gfx;
 #include <gfx-ui/Viewer.h>
 #include <wfc-gfx/Types.h>
 #include <wfc-gfx/Wfc/Tileblock.h>
-#include <ecs/Registry.h>
+#include <ecs/ECS.h>
 #endif
 
 namespace mud
@@ -212,7 +212,7 @@ namespace mud
 					{
 						uvec3 lo = exclude[0];
 						uvec3 hi = exclude[1];
-						if(intersects(uvec3(x, y, z), lo, hi))
+						if(intersects(uvec3(uint(x), uint(y), uint(z)), lo, hi))
 							continue;
 					}
 

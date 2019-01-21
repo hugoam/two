@@ -13,6 +13,7 @@ namespace mud
 {
     void mud_gfx_pbr_meta(Module& m)
     {
+    UNUSED(m);
     
     // Base Types
     

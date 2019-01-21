@@ -7,9 +7,8 @@
 #ifdef MUD_MODULES
 module mud.proto;
 #else
-#include <type/Indexer.h>
 #include <ecs/Entity.h>
-#include <ecs/Proto.h>
+#include <ecs/ECS.h>
 #endif
 
 namespace mud
@@ -17,28 +16,4 @@ namespace mud
 	ECS* s_ecs[256] = {};
 
 	template <> Type& type<EntityRef>() { static Type ty("EntityRef"); return ty; }
-
-	Complex::Complex(Id id, Type& type)
-		: m_id(index(type, id, Ref(this, type)))
-		, m_type(type)
-		, m_prototype(proto(type))
-		, m_parts(m_prototype.m_parts.size())
-	{}
-
-	Complex::Complex(Id id, Type& type, const vector<Ref>& parts)
-		: Complex(id, type)
-	{
-		this->setup(parts);
-	}
-
-	Complex::~Complex()
-	{
-		unindex(m_type, m_id);
-	}
-
-	void Complex::setup(const vector<Ref>& parts)
-	{
-		for (Ref ref : parts)
-			this->add_part(ref);
-	}
 }

@@ -311,7 +311,7 @@ namespace mud
 				m_type_kind = CLTypeKind::Float;
 			else if(vector_has({ "char*", "const char*" }, name))
 				m_type_kind = CLTypeKind::CString;
-			else if(vector_has({ "string" }, name))
+			else if(vector_has({ "string", "std::string", "mud::string" }, name))
 				m_type_kind = CLTypeKind::String;
 		}
 
@@ -701,7 +701,7 @@ namespace mud
 
 		CLType& register_type(CLPrimitive& parent, const string& clsname)
 		{
-			for(const string& name : { "vector", "std::list", "mud::array", "array" })
+			for(const string& name : { "vector", "list", "array" })
 				if(clsname.find(name) == 0)
 				{
 					string content_name = template_types(clsname)[0];

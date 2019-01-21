@@ -13,6 +13,7 @@ namespace mud
 {
     void mud_gfx_ui_meta(Module& m)
     {
+    UNUSED(m);
     
     // Base Types
     

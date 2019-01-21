@@ -8,13 +8,10 @@ module mud.lang;
 #include <meta/pool/Module.h>
 #include <meta/refl/Module.h>
 #include <meta/lang/Module.h>
+#include <meta/lang/Convert.h>
 #endif
 
 #include <lang/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/lang/Convert.h>
-#endif
 #define MUD_LANG_REFLECTION_IMPL
 #include <meta/lang/Meta.h>
 

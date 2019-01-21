@@ -9,13 +9,10 @@ module mud.gfx-pbr;
 #include <meta/geom/Module.h>
 #include <meta/gfx/Module.h>
 #include <meta/gfx-pbr/Module.h>
+#include <meta/gfx-pbr/Convert.h>
 #endif
 
 #include <gfx-pbr/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/gfx-pbr/Convert.h>
-#endif
 #define MUD_GFX_PBR_REFLECTION_IMPL
 #include <meta/gfx-pbr/Meta.h>
 

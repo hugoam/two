@@ -6,13 +6,10 @@ module mud.math;
 #include <meta/infra/Module.h>
 #include <meta/type/Module.h>
 #include <meta/math/Module.h>
+#include <meta/math/Convert.h>
 #endif
 
 #include <math/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/math/Convert.h>
-#endif
 #define MUD_MATH_REFLECTION_IMPL
 #include <meta/math/Meta.h>
 

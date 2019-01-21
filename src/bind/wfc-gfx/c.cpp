@@ -45,14 +45,14 @@ extern "C" {
 	mud::WfcBlock* DECL mud_WfcBlock_WfcBlock_5(const mud::vec3* position, const mud::uvec3* size, const mud::vec3* scale, mud::WaveTileset* tileset, bool auto_solve) {
 		return new mud::WfcBlock(*position, *size, *scale, *tileset, auto_solve);
 	}
+	void DECL mud_WfcBlock_reset_0(mud::WfcBlock* self) {
+		self->reset();
+	}
 	void DECL mud_WfcBlock_observe_0(mud::WfcBlock* self) {
 		self->observe();
 	}
 	void DECL mud_WfcBlock_propagate_0(mud::WfcBlock* self) {
 		self->propagate();
-	}
-	void DECL mud_WfcBlock_reset_0(mud::WfcBlock* self) {
-		self->reset();
 	}
 	void DECL mud_WfcBlock_solve_0(mud::WfcBlock* self) {
 		self->solve();

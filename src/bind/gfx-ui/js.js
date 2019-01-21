@@ -1,6 +1,6 @@
 Module['glm'] = Module['glm'] || {};
-Module['gfx'] = Module['gfx'] || {};
 Module['ui'] = Module['ui'] || {};
+Module['gfx'] = Module['gfx'] || {};
 // Object
 function Object() { throw "cannot construct a Object, no constructor in IDL" }
 Object.prototype = Object.create(WrapperObject.prototype);
@@ -176,11 +176,46 @@ SceneViewer.prototype["__destroy__"] = SceneViewer.prototype.__destroy__ = funct
     var self = this.ptr;
     _mud_SceneViewer__destroy(self);
 };
+Module['ui']['viewer'] = function(parent, scene) {
+    var self = this.ptr;
+    /* parent <Widget> [] */
+    parent = parent.ptr;
+    /* scene <Scene> [] */
+    scene = scene.ptr;
+    return wrapPointer(_mud_ui_viewer_2(parent, scene), Viewer);
+};
+Module['ui']['scene_viewer'] = function(parent, size) {
+    var self = this.ptr;
+    /* parent <Widget> [] */
+    parent = parent.ptr;
+    /* size <vec2> [] */
+    if(typeof size !== "undefined" && size !== null) { size = size.ptr; }
+    if (size === undefined) { return wrapPointer(_mud_ui_scene_viewer_1(parent), SceneViewer); }
+    return wrapPointer(_mud_ui_scene_viewer_2(parent, size), SceneViewer);
+};
+Module['ui']['orbit_controller'] = function(viewer, yaw, pitch, distance) {
+    var self = this.ptr;
+    /* viewer <Viewer> [] */
+    viewer = viewer.ptr;
+    /* yaw <float> [] */
+    /* pitch <float> [] */
+    /* distance <float> [] */
+    if (distance === undefined) { return wrapPointer(_mud_ui_orbit_controller_3(viewer, yaw, pitch), OrbitController); }
+    return wrapPointer(_mud_ui_orbit_controller_4(viewer, yaw, pitch, distance), OrbitController);
+};
 Module['ui']['free_orbit_controller'] = function(viewer) {
     var self = this.ptr;
     /* viewer <Viewer> [] */
     viewer = viewer.ptr;
     return wrapPointer(_mud_ui_free_orbit_controller_1(viewer), FreeOrbitController);
+};
+Module['ui']['isometric_controller'] = function(viewer, topdown) {
+    var self = this.ptr;
+    /* viewer <Viewer> [] */
+    viewer = viewer.ptr;
+    /* topdown <bool> [] */
+    if (topdown === undefined) { return wrapPointer(_mud_ui_isometric_controller_1(viewer), OrbitController); }
+    return wrapPointer(_mud_ui_isometric_controller_2(viewer, topdown), OrbitController);
 };
 Module['ui']['hybrid_controller'] = function(viewer, mode, entity, aiming, angles, modal) {
     var self = this.ptr;
@@ -197,33 +232,6 @@ Module['ui']['hybrid_controller'] = function(viewer, mode, entity, aiming, angle
     if (modal === undefined) { return wrapPointer(_mud_ui_hybrid_controller_5(viewer, mode, entity, aiming, angles), OrbitController); }
     return wrapPointer(_mud_ui_hybrid_controller_6(viewer, mode, entity, aiming, angles, modal), OrbitController);
 };
-Module['ui']['isometric_controller'] = function(viewer, topdown) {
-    var self = this.ptr;
-    /* viewer <Viewer> [] */
-    viewer = viewer.ptr;
-    /* topdown <bool> [] */
-    if (topdown === undefined) { return wrapPointer(_mud_ui_isometric_controller_1(viewer), OrbitController); }
-    return wrapPointer(_mud_ui_isometric_controller_2(viewer, topdown), OrbitController);
-};
-Module['ui']['orbit_controller'] = function(viewer, yaw, pitch, distance) {
-    var self = this.ptr;
-    /* viewer <Viewer> [] */
-    viewer = viewer.ptr;
-    /* yaw <float> [] */
-    /* pitch <float> [] */
-    /* distance <float> [] */
-    if (distance === undefined) { return wrapPointer(_mud_ui_orbit_controller_3(viewer, yaw, pitch), OrbitController); }
-    return wrapPointer(_mud_ui_orbit_controller_4(viewer, yaw, pitch, distance), OrbitController);
-};
-Module['ui']['scene_viewer'] = function(parent, size) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* size <vec2> [] */
-    if(typeof size !== "undefined" && size !== null) { size = size.ptr; }
-    if (size === undefined) { return wrapPointer(_mud_ui_scene_viewer_1(parent), SceneViewer); }
-    return wrapPointer(_mud_ui_scene_viewer_2(parent, size), SceneViewer);
-};
 Module['ui']['velocity_controller'] = function(viewer, linear, angular, speed) {
     var self = this.ptr;
     /* viewer <Viewer> [] */
@@ -235,14 +243,6 @@ Module['ui']['velocity_controller'] = function(viewer, linear, angular, speed) {
     /* speed <float> [] */
     if (speed === undefined) { _mud_ui_velocity_controller_3(viewer, linear, angular); return; }
     _mud_ui_velocity_controller_4(viewer, linear, angular, speed);
-};
-Module['ui']['viewer'] = function(parent, scene) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* scene <Scene> [] */
-    scene = scene.ptr;
-    return wrapPointer(_mud_ui_viewer_2(parent, scene), Viewer);
 };
 
 (function() {

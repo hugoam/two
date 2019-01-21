@@ -1,15 +1,15 @@
-﻿#pragma once
+#pragma once
+
+#define MUD_ECS_TYPED
 
 #include <stl/swap.h>
 #include <stl/vector.h>
-#include <infra/Array.h>
-#include <infra/Generic.h>
+#ifdef MUD_ECS_TYPED
 #include <type/Ref.h>
+#endif
 #include <ecs/Forward.h>
-#include <ecs/ECS.h>
 #include <ecs/SparseBuffer.h>
 
-#define MUD_ECS_TYPED
 
 namespace mud
 {
@@ -18,7 +18,7 @@ namespace mud
 	public:
 		virtual ~ComponentBufferBase() {}
 
-		EntFlags m_flag;
+		uint64_t m_flag;
 
 #ifdef MUD_ECS_TYPED
 		Type* m_type = nullptr;

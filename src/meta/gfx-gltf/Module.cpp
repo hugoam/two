@@ -12,13 +12,10 @@ module mud.gfx-gltf;
 #include <meta/gfx/Module.h>
 #include <meta/gltf/Module.h>
 #include <meta/gfx-gltf/Module.h>
+#include <meta/gfx-gltf/Convert.h>
 #endif
 
 #include <gfx-gltf/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/gfx-gltf/Convert.h>
-#endif
 #define MUD_GFX_GLTF_REFLECTION_IMPL
 #include <meta/gfx-gltf/Meta.h>
 

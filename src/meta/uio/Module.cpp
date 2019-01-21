@@ -14,13 +14,10 @@ module mud.uio;
 #include <meta/ctx/Module.h>
 #include <meta/ui/Module.h>
 #include <meta/uio/Module.h>
+#include <meta/uio/Convert.h>
 #endif
 
 #include <uio/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/uio/Convert.h>
-#endif
 #define MUD_UIO_REFLECTION_IMPL
 #include <meta/uio/Meta.h>
 

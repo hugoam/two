@@ -13,6 +13,7 @@ namespace mud
 {
     void mud_uio_meta(Module& m)
     {
+    UNUSED(m);
     
     // Base Types
     
@@ -104,24 +105,24 @@ namespace mud
             static Function f = { &namspc({ "mud" }), "object_edit", funcptr<bool(*)(mud::Widget&, mud::Ref, mud::EditorHint)>(&mud::object_edit), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
-        /*{
+        {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::entity_edit(val<mud::Widget>(args[0]), val<mud::Entity>(args[1]), val<mud::EditorHint>(args[2])); };
             vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "entity", var(mud::Entity()) }, { "hint", var(mud::EditorHint::Table), Param::Default } };
             static Function f = { &namspc({ "mud" }), "entity_edit", funcptr<bool(*)(mud::Widget&, mud::Entity, mud::EditorHint)>(&mud::entity_edit), func, params, var(bool()) };
             m.m_functions.push_back(&f);
-        }*/
+        }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::inspector(val<mud::Widget>(args[0]), args[1]); };
             vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "object", Ref(), Param::Nullable } };
             static Function f = { &namspc({ "mud" }), "inspector", funcptr<bool(*)(mud::Widget&, mud::Ref)>(&mud::inspector), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
-        /*{
+        {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::inspector(val<mud::Widget>(args[0]), val<mud::Entity>(args[1])); };
             vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "entity", var(mud::Entity()) } };
             static Function f = { &namspc({ "mud" }), "inspector", funcptr<bool(*)(mud::Widget&, mud::Entity)>(&mud::inspector), func, params, var(bool()) };
             m.m_functions.push_back(&f);
-        }*/
+        }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::inspector(val<mud::Widget>(args[0])); };
             vector<Param> params = { { "parent", Ref(type<mud::Widget>()) } };

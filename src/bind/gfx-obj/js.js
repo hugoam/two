@@ -1,6 +1,6 @@
 Module['glm'] = Module['glm'] || {};
-Module['gfx'] = Module['gfx'] || {};
 Module['ui'] = Module['ui'] || {};
+Module['gfx'] = Module['gfx'] || {};
 
 (function() {
     function setup() {

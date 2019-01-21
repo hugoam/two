@@ -5,13 +5,10 @@ module mud.jobs;
 #else
 #include <meta/infra/Module.h>
 #include <meta/jobs/Module.h>
+#include <meta/jobs/Convert.h>
 #endif
 
 #include <jobs/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/jobs/Convert.h>
-#endif
 #define MUD_JOBS_REFLECTION_IMPL
 #include <meta/jobs/Meta.h>
 

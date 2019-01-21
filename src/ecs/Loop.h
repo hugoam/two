@@ -2,7 +2,7 @@
 
 #include <stl/tuple.h>
 #include <ecs/Forward.h>
-#include <ecs/Registry.h>
+#include <ecs/ECS.h>
 #include <jobs/JobLoop.h>
 
 namespace mud
@@ -10,7 +10,7 @@ namespace mud
 	template <class... Ts, size_t... Is, class T_Function>
 	Job* for_components_impl(JobSystem& job_system, Job* parent, ECS& ecs, T_Function action, index_sequence<Is...>)
 	{
-		EntFlags prototype = any_flags(1ULL << TypedBuffer<Ts>::index()...);
+		uint64_t prototype = any_flags(1ULL << TypedBuffer<Ts>::index()...);
 
 		Job* job = job_system.job(parent);
 

@@ -13,6 +13,7 @@ namespace mud
 {
     void mud_fract_meta(Module& m)
     {
+    UNUSED(m);
     
     // Base Types
     
@@ -33,7 +34,7 @@ namespace mud
         static Meta meta = { type<vector<mud::Image256>>(), &namspc({}), "vector<mud::Image256>", sizeof(vector<mud::Image256>), TypeClass::Sequence };
         static Class cls = { type<vector<mud::Image256>>() };
         cls.m_content = &type<mud::Image256>();
-        meta_sequence<vector<mud::Image256>, mud::Image256>();
+        meta_vector<vector<mud::Image256>, mud::Image256>();
     }
     
     // mud::Circlifier

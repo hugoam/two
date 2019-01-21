@@ -5,13 +5,10 @@ module mud.tree;
 #else
 #include <meta/infra/Module.h>
 #include <meta/tree/Module.h>
+#include <meta/tree/Convert.h>
 #endif
 
 #include <tree/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/tree/Convert.h>
-#endif
 #define MUD_TREE_REFLECTION_IMPL
 #include <meta/tree/Meta.h>
 

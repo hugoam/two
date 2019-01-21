@@ -4,52 +4,28 @@
 
 #pragma once
 
-#include <infra/Generic.h>
-#include <type/Ref.h>
+#include <stl/swap.h>
 #include <ecs/Forward.h>
-#include <ecs/Proto.h>
-#include <ecs/Registry.h>
-
-#ifndef MUD_CPP_20
-#include <stl/vector.h>
-#endif
+#include <cstdint>
 
 namespace mud
 {
-	export_ class refl_ MUD_ECS_EXPORT Complex
+	struct refl_ struct_ MUD_ECS_EXPORT Entity
 	{
-	public:
-		constr_ Complex(Id id, Type& type);
-		constr_ Complex(Id id, Type& type, const vector<Ref>& parts);
-		virtual ~Complex();
+		Entity() {}
+		Entity(uint32_t handle, uint32_t ecs) : m_ecs(ecs), m_handle(handle) {}
 
-		template <typename... T_Parts>
-		Complex(Id id, Type& type, T_Parts&&... parts)
-			: Complex(id, type)
-		{
-			swallow{ (this->add_part(Ref(&parts, mud::type<typename type_class<T_Parts>::type>())), 1)... };
-		}
+		explicit operator bool() const { return m_handle != UINT32_MAX; }
+		operator uint32_t() const { return m_handle; }
 
-		attr_ Id m_id;
-		attr_ Type& m_type;
-		attr_ Prototype& m_prototype;
+		bool operator==(const Entity& other) const { return m_handle == other.m_handle; };
+		bool operator!=(const Entity& other) const { return m_handle != other.m_handle; };
 
-		attr_ vector<Ref> m_parts;
+		void destroy(); // { if(m_handle != UINT32_MAX) s_ecs[m_ecs]->DeleteEntity(m_handle); }
 
-		meth_ void setup(const vector<Ref>& parts);
+		void swap(Entity& other) { using mud::swap; swap(m_handle, other.m_handle); swap(m_ecs, other.m_ecs); }
 
-		meth_ void add_part(Ref part) { m_parts[m_prototype.part_index(type(part))] = part; }
-		meth_ bool has_part(Type& type) { return m_prototype.has_part(type); }
-		meth_ Ref part(Type& type) { return m_parts[m_prototype.part_index(type)]; }
-		meth_ Ref try_part(Type& type) { if(has_part(type)) return this->part(type); else return Ref(); }
+		uint32_t m_ecs = UINT32_MAX;
+		uint32_t m_handle = UINT32_MAX;
 	};
-
-	export_ template <class T>
-	inline bool is(Complex& complex) { return complex.m_type.template is<T>() || complex.has_part(type<T>()); }
-
-	export_ template <class T>
-	inline T& as(Complex& complex) { return *static_cast<T*>(complex.part(type<T>()).m_value); }
-
-	export_ template <class T>
-	inline T* try_as(Complex& complex) { return is<T>(complex) ? *as<T>(complex) : nullptr; }
 }

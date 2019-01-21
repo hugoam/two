@@ -271,8 +271,8 @@ if _OPTIONS["as-libs"] then
     FORCE_REFL_PROJECTS = true
 end
 
-mud.type.basetypes = { 'void', 'void*', 'bool', 'short', 'int', 'long', 'long long', 'float', 'double', 'char', 'unsigned char', 'unsigned short', 'unsigned int', 'unsigned long', 'unsigned long long', 'std::string', 'const char*' }
-mud.type.aliases = { ['mud::string'] = 'std::string', ['string'] = 'std::string', ['mud::cstring'] = 'const char*' }
+mud.type.basetypes = { 'void', 'void*', 'bool', 'short', 'int', 'long', 'long long', 'float', 'double', 'char', 'unsigned char', 'unsigned short', 'unsigned int', 'unsigned long', 'unsigned long long', 'string', 'const char*' }
+mud.type.aliases = { ['mud::string'] = 'string', ['mud::cstring'] = 'const char*' }
 
 if _OPTIONS["renderer-gl"] then
     dofile(path.join(MUD_DIR, "scripts/mud_gl.lua"))

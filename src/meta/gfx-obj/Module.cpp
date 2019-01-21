@@ -10,13 +10,10 @@ module mud.gfx-obj;
 #include <meta/geom/Module.h>
 #include <meta/gfx/Module.h>
 #include <meta/gfx-obj/Module.h>
+#include <meta/gfx-obj/Convert.h>
 #endif
 
 #include <gfx-obj/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/gfx-obj/Convert.h>
-#endif
 #define MUD_GFX_OBJ_REFLECTION_IMPL
 #include <meta/gfx-obj/Meta.h>
 

@@ -1,6 +1,6 @@
 Module['glm'] = Module['glm'] || {};
-Module['gfx'] = Module['gfx'] || {};
 Module['ui'] = Module['ui'] || {};
+Module['gfx'] = Module['gfx'] || {};
 // BCS
 function BCS() {
     this.ptr = _mud_BCS_BCS_0(); getCache(BCS)[this.ptr] = this;

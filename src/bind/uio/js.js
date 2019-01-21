@@ -11,60 +11,6 @@ ScriptEditor.prototype["__destroy__"] = ScriptEditor.prototype.__destroy__ = fun
     var self = this.ptr;
     _mud_ScriptEditor__destroy(self);
 };
-Module['entity_edit'] = function(parent, entity, hint) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* entity <Entity> [] */
-    entity = entity.ptr;
-    /* hint <EditorHint> [] */
-    if (hint && typeof hint === "object") hint = hint.ptr;
-    if (hint === undefined) { return !!(_mud_entity_edit_2(parent, entity)); }
-    return !!(_mud_entity_edit_3(parent, entity, hint));
-};
-Module['inspector'] = function(parent, object) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* object <Ref> [] */
-    var object_type;
-    if(typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
-    else { object = 0; object_type = 0; }
-    return !!(_mud_inspector_2(parent, object, object_type));
-};
-Module['object_edit'] = function(parent, object, hint) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* object <Ref> [] */
-    var object_type;
-    if(typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
-    else { object = 0; object_type = 0; }
-    /* hint <EditorHint> [] */
-    if (hint && typeof hint === "object") hint = hint.ptr;
-    if (hint === undefined) { return !!(_mud_object_edit_2(parent, object, object_type)); }
-    return !!(_mud_object_edit_3(parent, object, object_type, hint));
-};
-Module['object_edit_columns'] = function(parent, object) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* object <Ref> [] */
-    var object_type;
-    if(typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
-    else { object = 0; object_type = 0; }
-    return !!(_mud_object_edit_columns_2(parent, object, object_type));
-};
-Module['object_edit_expandbox'] = function(parent, object) {
-    var self = this.ptr;
-    /* parent <Widget> [] */
-    parent = parent.ptr;
-    /* object <Ref> [] */
-    var object_type;
-    if(typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
-    else { object = 0; object_type = 0; }
-    return !!(_mud_object_edit_expandbox_2(parent, object, object_type));
-};
 Module['object_edit_inline'] = function(parent, object) {
     var self = this.ptr;
     /* parent <Widget> [] */
@@ -85,6 +31,16 @@ Module['object_edit_rows'] = function(parent, object) {
     else { object = 0; object_type = 0; }
     return !!(_mud_object_edit_rows_2(parent, object, object_type));
 };
+Module['object_edit_columns'] = function(parent, object) {
+    var self = this.ptr;
+    /* parent <Widget> [] */
+    parent = parent.ptr;
+    /* object <Ref> [] */
+    var object_type;
+    if(typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
+    else { object = 0; object_type = 0; }
+    return !!(_mud_object_edit_columns_2(parent, object, object_type));
+};
 Module['object_edit_table'] = function(parent, object) {
     var self = this.ptr;
     /* parent <Widget> [] */
@@ -94,6 +50,50 @@ Module['object_edit_table'] = function(parent, object) {
     if(typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
     else { object = 0; object_type = 0; }
     return !!(_mud_object_edit_table_2(parent, object, object_type));
+};
+Module['object_edit_expandbox'] = function(parent, object) {
+    var self = this.ptr;
+    /* parent <Widget> [] */
+    parent = parent.ptr;
+    /* object <Ref> [] */
+    var object_type;
+    if(typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
+    else { object = 0; object_type = 0; }
+    return !!(_mud_object_edit_expandbox_2(parent, object, object_type));
+};
+Module['object_edit'] = function(parent, object, hint) {
+    var self = this.ptr;
+    /* parent <Widget> [] */
+    parent = parent.ptr;
+    /* object <Ref> [] */
+    var object_type;
+    if(typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
+    else { object = 0; object_type = 0; }
+    /* hint <EditorHint> [] */
+    if (hint && typeof hint === "object") hint = hint.ptr;
+    if (hint === undefined) { return !!(_mud_object_edit_2(parent, object, object_type)); }
+    return !!(_mud_object_edit_3(parent, object, object_type, hint));
+};
+Module['entity_edit'] = function(parent, entity, hint) {
+    var self = this.ptr;
+    /* parent <Widget> [] */
+    parent = parent.ptr;
+    /* entity <Entity> [] */
+    entity = entity.ptr;
+    /* hint <EditorHint> [] */
+    if (hint && typeof hint === "object") hint = hint.ptr;
+    if (hint === undefined) { return !!(_mud_entity_edit_2(parent, entity)); }
+    return !!(_mud_entity_edit_3(parent, entity, hint));
+};
+Module['inspector'] = function(parent, object) {
+    var self = this.ptr;
+    /* parent <Widget> [] */
+    parent = parent.ptr;
+    /* object <Ref> [] */
+    var object_type;
+    if(typeof object !== "undefined" && object !== null) { object = object.ptr; object_type = object.type.__type__; }
+    else { object = 0; object_type = 0; }
+    return !!(_mud_inspector_2(parent, object, object_type));
 };
 
 (function() {

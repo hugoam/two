@@ -13,6 +13,7 @@ namespace mud
 {
     void mud_gltf_meta(Module& m)
     {
+    UNUSED(m);
     
     // Base Types
     
@@ -73,109 +74,109 @@ namespace mud
         static Meta meta = { type<vector<glTFAccessor>>(), &namspc({}), "vector<glTFAccessor>", sizeof(vector<glTFAccessor>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFAccessor>>() };
         cls.m_content = &type<glTFAccessor>();
-        meta_sequence<vector<glTFAccessor>, glTFAccessor>();
+        meta_vector<vector<glTFAccessor>, glTFAccessor>();
     }
     {
         static Meta meta = { type<vector<glTFAnimation>>(), &namspc({}), "vector<glTFAnimation>", sizeof(vector<glTFAnimation>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFAnimation>>() };
         cls.m_content = &type<glTFAnimation>();
-        meta_sequence<vector<glTFAnimation>, glTFAnimation>();
+        meta_vector<vector<glTFAnimation>, glTFAnimation>();
     }
     {
         static Meta meta = { type<vector<glTFAnimationChannel>>(), &namspc({}), "vector<glTFAnimationChannel>", sizeof(vector<glTFAnimationChannel>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFAnimationChannel>>() };
         cls.m_content = &type<glTFAnimationChannel>();
-        meta_sequence<vector<glTFAnimationChannel>, glTFAnimationChannel>();
+        meta_vector<vector<glTFAnimationChannel>, glTFAnimationChannel>();
     }
     {
         static Meta meta = { type<vector<glTFAnimationSampler>>(), &namspc({}), "vector<glTFAnimationSampler>", sizeof(vector<glTFAnimationSampler>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFAnimationSampler>>() };
         cls.m_content = &type<glTFAnimationSampler>();
-        meta_sequence<vector<glTFAnimationSampler>, glTFAnimationSampler>();
+        meta_vector<vector<glTFAnimationSampler>, glTFAnimationSampler>();
     }
     {
         static Meta meta = { type<vector<glTFBuffer>>(), &namspc({}), "vector<glTFBuffer>", sizeof(vector<glTFBuffer>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFBuffer>>() };
         cls.m_content = &type<glTFBuffer>();
-        meta_sequence<vector<glTFBuffer>, glTFBuffer>();
+        meta_vector<vector<glTFBuffer>, glTFBuffer>();
     }
     {
         static Meta meta = { type<vector<glTFBufferView>>(), &namspc({}), "vector<glTFBufferView>", sizeof(vector<glTFBufferView>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFBufferView>>() };
         cls.m_content = &type<glTFBufferView>();
-        meta_sequence<vector<glTFBufferView>, glTFBufferView>();
+        meta_vector<vector<glTFBufferView>, glTFBufferView>();
     }
     {
         static Meta meta = { type<vector<glTFCamera>>(), &namspc({}), "vector<glTFCamera>", sizeof(vector<glTFCamera>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFCamera>>() };
         cls.m_content = &type<glTFCamera>();
-        meta_sequence<vector<glTFCamera>, glTFCamera>();
+        meta_vector<vector<glTFCamera>, glTFCamera>();
     }
     {
         static Meta meta = { type<vector<glTFImage>>(), &namspc({}), "vector<glTFImage>", sizeof(vector<glTFImage>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFImage>>() };
         cls.m_content = &type<glTFImage>();
-        meta_sequence<vector<glTFImage>, glTFImage>();
+        meta_vector<vector<glTFImage>, glTFImage>();
     }
     {
         static Meta meta = { type<vector<glTFMaterial>>(), &namspc({}), "vector<glTFMaterial>", sizeof(vector<glTFMaterial>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFMaterial>>() };
         cls.m_content = &type<glTFMaterial>();
-        meta_sequence<vector<glTFMaterial>, glTFMaterial>();
+        meta_vector<vector<glTFMaterial>, glTFMaterial>();
     }
     {
         static Meta meta = { type<vector<glTFMesh>>(), &namspc({}), "vector<glTFMesh>", sizeof(vector<glTFMesh>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFMesh>>() };
         cls.m_content = &type<glTFMesh>();
-        meta_sequence<vector<glTFMesh>, glTFMesh>();
+        meta_vector<vector<glTFMesh>, glTFMesh>();
     }
     {
         static Meta meta = { type<vector<glTFMorphTarget>>(), &namspc({}), "vector<glTFMorphTarget>", sizeof(vector<glTFMorphTarget>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFMorphTarget>>() };
         cls.m_content = &type<glTFMorphTarget>();
-        meta_sequence<vector<glTFMorphTarget>, glTFMorphTarget>();
+        meta_vector<vector<glTFMorphTarget>, glTFMorphTarget>();
     }
     {
         static Meta meta = { type<vector<glTFNode>>(), &namspc({}), "vector<glTFNode>", sizeof(vector<glTFNode>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFNode>>() };
         cls.m_content = &type<glTFNode>();
-        meta_sequence<vector<glTFNode>, glTFNode>();
+        meta_vector<vector<glTFNode>, glTFNode>();
     }
     {
         static Meta meta = { type<vector<glTFPrimitive>>(), &namspc({}), "vector<glTFPrimitive>", sizeof(vector<glTFPrimitive>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFPrimitive>>() };
         cls.m_content = &type<glTFPrimitive>();
-        meta_sequence<vector<glTFPrimitive>, glTFPrimitive>();
+        meta_vector<vector<glTFPrimitive>, glTFPrimitive>();
     }
     {
         static Meta meta = { type<vector<glTFSampler>>(), &namspc({}), "vector<glTFSampler>", sizeof(vector<glTFSampler>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFSampler>>() };
         cls.m_content = &type<glTFSampler>();
-        meta_sequence<vector<glTFSampler>, glTFSampler>();
+        meta_vector<vector<glTFSampler>, glTFSampler>();
     }
     {
         static Meta meta = { type<vector<glTFScene>>(), &namspc({}), "vector<glTFScene>", sizeof(vector<glTFScene>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFScene>>() };
         cls.m_content = &type<glTFScene>();
-        meta_sequence<vector<glTFScene>, glTFScene>();
+        meta_vector<vector<glTFScene>, glTFScene>();
     }
     {
         static Meta meta = { type<vector<glTFSkin>>(), &namspc({}), "vector<glTFSkin>", sizeof(vector<glTFSkin>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFSkin>>() };
         cls.m_content = &type<glTFSkin>();
-        meta_sequence<vector<glTFSkin>, glTFSkin>();
+        meta_vector<vector<glTFSkin>, glTFSkin>();
     }
     {
         static Meta meta = { type<vector<glTFTexture>>(), &namspc({}), "vector<glTFTexture>", sizeof(vector<glTFTexture>), TypeClass::Sequence };
         static Class cls = { type<vector<glTFTexture>>() };
         cls.m_content = &type<glTFTexture>();
-        meta_sequence<vector<glTFTexture>, glTFTexture>();
+        meta_vector<vector<glTFTexture>, glTFTexture>();
     }
     {
         static Meta meta = { type<vector<int>>(), &namspc({}), "vector<int>", sizeof(vector<int>), TypeClass::Sequence };
         static Class cls = { type<vector<int>>() };
         cls.m_content = &type<int>();
-        meta_sequence<vector<int>, int>();
+        meta_vector<vector<int>, int>();
     }
     
     // glTF

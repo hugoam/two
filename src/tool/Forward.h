@@ -72,6 +72,7 @@ namespace mud {
     class Gizmo;
     class TransformAction;
     class TransformTool;
+	class TransformGizmo;
     class ActionStack;
     class UndoTool;
     class RedoTool;

@@ -7,13 +7,10 @@ module mud.ecs;
 #include <meta/type/Module.h>
 #include <meta/refl/Module.h>
 #include <meta/ecs/Module.h>
+#include <meta/ecs/Convert.h>
 #endif
 
 #include <ecs/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/ecs/Convert.h>
-#endif
 #define MUD_ECS_REFLECTION_IMPL
 #include <meta/ecs/Meta.h>
 

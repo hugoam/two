@@ -877,19 +877,153 @@ TextureAtlas.prototype["__destroy__"] = TextureAtlas.prototype.__destroy__ = fun
     var self = this.ptr;
     _mud_TextureAtlas__destroy(self);
 };
+Module['sinf'] = function(a) {
+    var self = this.ptr;
+    /* a <float> [] */
+    return __sinf_1(a);
+};
+Module['cosf'] = function(a) {
+    var self = this.ptr;
+    /* a <float> [] */
+    return __cosf_1(a);
+};
+Module['sin'] = function(a) {
+    var self = this.ptr;
+    /* a <double> [] */
+    return __sin_1(a);
+};
+Module['cos'] = function(a) {
+    var self = this.ptr;
+    /* a <double> [] */
+    return __cos_1(a);
+};
 Module['add<float>'] = function(a, b) {
     var self = this.ptr;
     /* a <float> [] */
     /* b <float> [] */
     return _mud_add_float__2(a, b);
 };
-Module['add<mud::vec3>'] = function(a, b) {
+Module['subtract<float>'] = function(a, b) {
     var self = this.ptr;
-    /* a <vec3> [] */
-    a = a.ptr;
-    /* b <vec3> [] */
-    b = b.ptr;
-    return wrapPointer(_mud_add_mud_vec3__2(a, b), vec3);
+    /* a <float> [] */
+    /* b <float> [] */
+    return _mud_subtract_float__2(a, b);
+};
+Module['multiply<float>'] = function(a, b) {
+    var self = this.ptr;
+    /* a <float> [] */
+    /* b <float> [] */
+    return _mud_multiply_float__2(a, b);
+};
+Module['divide<float>'] = function(a, b) {
+    var self = this.ptr;
+    /* a <float> [] */
+    /* b <float> [] */
+    return _mud_divide_float__2(a, b);
+};
+Module['nsinf'] = function(a) {
+    var self = this.ptr;
+    /* a <float> [] */
+    return _mud_nsinf_1(a);
+};
+Module['ncosf'] = function(a) {
+    var self = this.ptr;
+    /* a <float> [] */
+    return _mud_ncosf_1(a);
+};
+Module['nsin'] = function(a) {
+    var self = this.ptr;
+    /* a <double> [] */
+    return _mud_nsin_1(a);
+};
+Module['ncos'] = function(a) {
+    var self = this.ptr;
+    /* a <double> [] */
+    return _mud_ncos_1(a);
+};
+Module['to_rgba'] = function(colour) {
+    var self = this.ptr;
+    /* colour <Colour> [] */
+    colour = colour.ptr;
+    return _mud_to_rgba_1(colour);
+};
+Module['to_abgr'] = function(colour) {
+    var self = this.ptr;
+    /* colour <Colour> [] */
+    colour = colour.ptr;
+    return _mud_to_abgr_1(colour);
+};
+Module['from_rgba'] = function(colour) {
+    var self = this.ptr;
+    /* colour <uint32_t> [] */
+    return wrapPointer(_mud_from_rgba_1(colour), Colour);
+};
+Module['from_abgr'] = function(colour) {
+    var self = this.ptr;
+    /* colour <uint32_t> [] */
+    return wrapPointer(_mud_from_abgr_1(colour), Colour);
+};
+Module['to_linear'] = function(colour) {
+    var self = this.ptr;
+    /* colour <Colour> [] */
+    colour = colour.ptr;
+    return wrapPointer(_mud_to_linear_1(colour), Colour);
+};
+Module['to_gamma'] = function(colour) {
+    var self = this.ptr;
+    /* colour <Colour> [] */
+    colour = colour.ptr;
+    return wrapPointer(_mud_to_gamma_1(colour), Colour);
+};
+Module['to_srgb'] = function(colour) {
+    var self = this.ptr;
+    /* colour <Colour> [] */
+    colour = colour.ptr;
+    return wrapPointer(_mud_to_srgb_1(colour), Colour);
+};
+Module['hsl_to_rgb'] = function(h, s, l) {
+    var self = this.ptr;
+    /* h <float> [] */
+    /* s <float> [] */
+    /* l <float> [] */
+    return wrapPointer(_mud_hsl_to_rgb_3(h, s, l), Colour);
+};
+Module['rgb_to_hsl'] = function(r, g, b) {
+    var self = this.ptr;
+    /* r <float> [] */
+    /* g <float> [] */
+    /* b <float> [] */
+    return wrapPointer(_mud_rgb_to_hsl_3(r, g, b), Colour);
+};
+Module['rgba_to_hsla'] = function(colour) {
+    var self = this.ptr;
+    /* colour <Colour> [] */
+    colour = colour.ptr;
+    return wrapPointer(_mud_rgba_to_hsla_1(colour), Colour);
+};
+Module['hsla_to_rgba'] = function(colour) {
+    var self = this.ptr;
+    /* colour <Colour> [] */
+    colour = colour.ptr;
+    return wrapPointer(_mud_hsla_to_rgba_1(colour), Colour);
+};
+Module['oriented_angle_2d'] = function(lhs, rhs) {
+    var self = this.ptr;
+    /* lhs <vec2> [] */
+    lhs = lhs.ptr;
+    /* rhs <vec2> [] */
+    rhs = rhs.ptr;
+    return _mud_oriented_angle_2d_2(lhs, rhs);
+};
+Module['oriented_angle'] = function(lhs, rhs, ref) {
+    var self = this.ptr;
+    /* lhs <vec3> [] */
+    lhs = lhs.ptr;
+    /* rhs <vec3> [] */
+    rhs = rhs.ptr;
+    /* ref <vec3> [] */
+    ref = ref.ptr;
+    return _mud_oriented_angle_3(lhs, rhs, ref);
 };
 Module['angle_axis'] = function(angle, axis) {
     var self = this.ptr;
@@ -905,29 +1039,58 @@ Module['axis_angle'] = function(axis, angle) {
     /* angle <float> [] */
     return wrapPointer(_mud_axis_angle_2(axis, angle), quat);
 };
-Module['cos'] = function(a) {
+Module['rotate'] = function(q, axis, angle) {
     var self = this.ptr;
-    /* a <double> [] */
-    return __cos_1(a);
+    /* q <quat> [] */
+    q = q.ptr;
+    /* axis <vec3> [] */
+    axis = axis.ptr;
+    /* angle <float> [] */
+    return wrapPointer(_mud_rotate_3(q, axis, angle), quat);
 };
-Module['cosf'] = function(a) {
+Module['look_dir'] = function(direction, forward) {
     var self = this.ptr;
-    /* a <float> [] */
-    return __cosf_1(a);
+    /* direction <vec3> [] */
+    direction = direction.ptr;
+    /* forward <vec3> [] */
+    if(typeof forward !== "undefined" && forward !== null) { forward = forward.ptr; }
+    if (forward === undefined) { return wrapPointer(_mud_look_dir_1(direction), quat); }
+    return wrapPointer(_mud_look_dir_2(direction, forward), quat);
 };
-Module['glm']['distance'] = function(a, b) {
+Module['look_at'] = function(eye, target, forward) {
+    var self = this.ptr;
+    /* eye <vec3> [] */
+    eye = eye.ptr;
+    /* target <vec3> [] */
+    target = target.ptr;
+    /* forward <vec3> [] */
+    if(typeof forward !== "undefined" && forward !== null) { forward = forward.ptr; }
+    if (forward === undefined) { return wrapPointer(_mud_look_at_2(eye, target), quat); }
+    return wrapPointer(_mud_look_at_3(eye, target, forward), quat);
+};
+Module['add<mud::vec3>'] = function(a, b) {
     var self = this.ptr;
     /* a <vec3> [] */
     a = a.ptr;
     /* b <vec3> [] */
     b = b.ptr;
-    return _glm_distance_2(a, b);
+    return wrapPointer(_mud_add_mud_vec3__2(a, b), vec3);
 };
-Module['divide<float>'] = function(a, b) {
+Module['subtract<mud::vec3>'] = function(a, b) {
     var self = this.ptr;
-    /* a <float> [] */
-    /* b <float> [] */
-    return _mud_divide_float__2(a, b);
+    /* a <vec3> [] */
+    a = a.ptr;
+    /* b <vec3> [] */
+    b = b.ptr;
+    return wrapPointer(_mud_subtract_mud_vec3__2(a, b), vec3);
+};
+Module['multiply<mud::vec3>'] = function(a, b) {
+    var self = this.ptr;
+    /* a <vec3> [] */
+    a = a.ptr;
+    /* b <vec3> [] */
+    b = b.ptr;
+    return wrapPointer(_mud_multiply_mud_vec3__2(a, b), vec3);
 };
 Module['divide<mud::vec3>'] = function(a, b) {
     var self = this.ptr;
@@ -937,36 +1100,13 @@ Module['divide<mud::vec3>'] = function(a, b) {
     b = b.ptr;
     return wrapPointer(_mud_divide_mud_vec3__2(a, b), vec3);
 };
-Module['from_abgr'] = function(colour) {
+Module['glm']['distance'] = function(a, b) {
     var self = this.ptr;
-    /* colour <uint32_t> [] */
-    return wrapPointer(_mud_from_abgr_1(colour), Colour);
-};
-Module['from_rgba'] = function(colour) {
-    var self = this.ptr;
-    /* colour <uint32_t> [] */
-    return wrapPointer(_mud_from_rgba_1(colour), Colour);
-};
-Module['grid_center'] = function(coord, cell_size) {
-    var self = this.ptr;
-    /* coord <uvec3> [] */
-    coord = coord.ptr;
-    /* cell_size <vec3> [] */
-    cell_size = cell_size.ptr;
-    return wrapPointer(_mud_grid_center_2(coord, cell_size), vec3);
-};
-Module['hsl_to_rgb'] = function(h, s, l) {
-    var self = this.ptr;
-    /* h <float> [] */
-    /* s <float> [] */
-    /* l <float> [] */
-    return wrapPointer(_mud_hsl_to_rgb_3(h, s, l), Colour);
-};
-Module['hsla_to_rgba'] = function(colour) {
-    var self = this.ptr;
-    /* colour <Colour> [] */
-    colour = colour.ptr;
-    return wrapPointer(_mud_hsla_to_rgba_1(colour), Colour);
+    /* a <vec3> [] */
+    a = a.ptr;
+    /* b <vec3> [] */
+    b = b.ptr;
+    return _glm_distance_2(a, b);
 };
 Module['glm']['length'] = function(v) {
     var self = this.ptr;
@@ -980,153 +1120,13 @@ Module['glm']['length2'] = function(v) {
     v = v.ptr;
     return _glm_length2_1(v);
 };
-Module['look_at'] = function(eye, target, forward) {
+Module['grid_center'] = function(coord, cell_size) {
     var self = this.ptr;
-    /* eye <vec3> [] */
-    eye = eye.ptr;
-    /* target <vec3> [] */
-    target = target.ptr;
-    /* forward <vec3> [] */
-    if(typeof forward !== "undefined" && forward !== null) { forward = forward.ptr; }
-    if (forward === undefined) { return wrapPointer(_mud_look_at_2(eye, target), quat); }
-    return wrapPointer(_mud_look_at_3(eye, target, forward), quat);
-};
-Module['look_dir'] = function(direction, forward) {
-    var self = this.ptr;
-    /* direction <vec3> [] */
-    direction = direction.ptr;
-    /* forward <vec3> [] */
-    if(typeof forward !== "undefined" && forward !== null) { forward = forward.ptr; }
-    if (forward === undefined) { return wrapPointer(_mud_look_dir_1(direction), quat); }
-    return wrapPointer(_mud_look_dir_2(direction, forward), quat);
-};
-Module['multiply<float>'] = function(a, b) {
-    var self = this.ptr;
-    /* a <float> [] */
-    /* b <float> [] */
-    return _mud_multiply_float__2(a, b);
-};
-Module['multiply<mud::vec3>'] = function(a, b) {
-    var self = this.ptr;
-    /* a <vec3> [] */
-    a = a.ptr;
-    /* b <vec3> [] */
-    b = b.ptr;
-    return wrapPointer(_mud_multiply_mud_vec3__2(a, b), vec3);
-};
-Module['ncos'] = function(a) {
-    var self = this.ptr;
-    /* a <double> [] */
-    return _mud_ncos_1(a);
-};
-Module['ncosf'] = function(a) {
-    var self = this.ptr;
-    /* a <float> [] */
-    return _mud_ncosf_1(a);
-};
-Module['nsin'] = function(a) {
-    var self = this.ptr;
-    /* a <double> [] */
-    return _mud_nsin_1(a);
-};
-Module['nsinf'] = function(a) {
-    var self = this.ptr;
-    /* a <float> [] */
-    return _mud_nsinf_1(a);
-};
-Module['oriented_angle'] = function(lhs, rhs, ref) {
-    var self = this.ptr;
-    /* lhs <vec3> [] */
-    lhs = lhs.ptr;
-    /* rhs <vec3> [] */
-    rhs = rhs.ptr;
-    /* ref <vec3> [] */
-    ref = ref.ptr;
-    return _mud_oriented_angle_3(lhs, rhs, ref);
-};
-Module['oriented_angle_2d'] = function(lhs, rhs) {
-    var self = this.ptr;
-    /* lhs <vec2> [] */
-    lhs = lhs.ptr;
-    /* rhs <vec2> [] */
-    rhs = rhs.ptr;
-    return _mud_oriented_angle_2d_2(lhs, rhs);
-};
-Module['rgb_to_hsl'] = function(r, g, b) {
-    var self = this.ptr;
-    /* r <float> [] */
-    /* g <float> [] */
-    /* b <float> [] */
-    return wrapPointer(_mud_rgb_to_hsl_3(r, g, b), Colour);
-};
-Module['rgba_to_hsla'] = function(colour) {
-    var self = this.ptr;
-    /* colour <Colour> [] */
-    colour = colour.ptr;
-    return wrapPointer(_mud_rgba_to_hsla_1(colour), Colour);
-};
-Module['rotate'] = function(q, axis, angle) {
-    var self = this.ptr;
-    /* q <quat> [] */
-    q = q.ptr;
-    /* axis <vec3> [] */
-    axis = axis.ptr;
-    /* angle <float> [] */
-    return wrapPointer(_mud_rotate_3(q, axis, angle), quat);
-};
-Module['sin'] = function(a) {
-    var self = this.ptr;
-    /* a <double> [] */
-    return __sin_1(a);
-};
-Module['sinf'] = function(a) {
-    var self = this.ptr;
-    /* a <float> [] */
-    return __sinf_1(a);
-};
-Module['subtract<float>'] = function(a, b) {
-    var self = this.ptr;
-    /* a <float> [] */
-    /* b <float> [] */
-    return _mud_subtract_float__2(a, b);
-};
-Module['subtract<mud::vec3>'] = function(a, b) {
-    var self = this.ptr;
-    /* a <vec3> [] */
-    a = a.ptr;
-    /* b <vec3> [] */
-    b = b.ptr;
-    return wrapPointer(_mud_subtract_mud_vec3__2(a, b), vec3);
-};
-Module['to_abgr'] = function(colour) {
-    var self = this.ptr;
-    /* colour <Colour> [] */
-    colour = colour.ptr;
-    return _mud_to_abgr_1(colour);
-};
-Module['to_gamma'] = function(colour) {
-    var self = this.ptr;
-    /* colour <Colour> [] */
-    colour = colour.ptr;
-    return wrapPointer(_mud_to_gamma_1(colour), Colour);
-};
-Module['to_linear'] = function(colour) {
-    var self = this.ptr;
-    /* colour <Colour> [] */
-    colour = colour.ptr;
-    return wrapPointer(_mud_to_linear_1(colour), Colour);
-};
-Module['to_rgba'] = function(colour) {
-    var self = this.ptr;
-    /* colour <Colour> [] */
-    colour = colour.ptr;
-    return _mud_to_rgba_1(colour);
-};
-Module['to_srgb'] = function(colour) {
-    var self = this.ptr;
-    /* colour <Colour> [] */
-    colour = colour.ptr;
-    return wrapPointer(_mud_to_srgb_1(colour), Colour);
+    /* coord <uvec3> [] */
+    coord = coord.ptr;
+    /* cell_size <vec3> [] */
+    cell_size = cell_size.ptr;
+    return wrapPointer(_mud_grid_center_2(coord, cell_size), vec3);
 };
 
 (function() {

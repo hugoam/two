@@ -89,9 +89,6 @@ extern "C" {
 	mud::Type* DECL mud_Gizmo__type() {
 		return &mud::type<mud::Gizmo>();
 	}
-	mud::Gizmo* DECL mud_Gizmo_Gizmo_0() {
-		return new mud::Gizmo();
-	}
 	void DECL mud_Gizmo__destroy(mud::Gizmo* self) {
 		delete self;
 	}
@@ -239,6 +236,13 @@ extern "C" {
 		return &mud::type<mud::RotateAction>();
 	}
 	void DECL mud_RotateAction__destroy(mud::RotateAction* self) {
+		delete self;
+	}
+	// TransformGizmo
+	mud::Type* DECL mud_TransformGizmo__type() {
+		return &mud::type<mud::TransformGizmo>();
+	}
+	void DECL mud_TransformGizmo__destroy(mud::TransformGizmo* self) {
 		delete self;
 	}
 	// TransformTool

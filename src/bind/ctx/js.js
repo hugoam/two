@@ -6,6 +6,12 @@ Context.prototype.constructor = Context;
 Context.prototype.__class__ = Context;
 Context.__cache__ = {};
 Module['Context'] = Context;
+Context.prototype["reset"] = Context.prototype.reset = function(self, width, height) {
+    var self = this.ptr;
+    /* width <uint16_t> [] */
+    /* height <uint16_t> [] */
+    _mud_Context_reset_2(self, width, height);
+};
 Context.prototype["init_input"] = Context.prototype.init_input = function(self, mouse, keyboard) {
     var self = this.ptr;
     /* mouse <Mouse> [] */
@@ -14,20 +20,14 @@ Context.prototype["init_input"] = Context.prototype.init_input = function(self, 
     keyboard = keyboard.ptr;
     _mud_Context_init_input_2(self, mouse, keyboard);
 };
-Context.prototype["lock_mouse"] = Context.prototype.lock_mouse = function(self, locked) {
-    var self = this.ptr;
-    /* locked <bool> [] */
-    _mud_Context_lock_mouse_1(self, locked);
-};
 Context.prototype["next_frame"] = Context.prototype.next_frame = function(self) {
     var self = this.ptr;
     return !!(_mud_Context_next_frame_0(self));
 };
-Context.prototype["reset"] = Context.prototype.reset = function(self, width, height) {
+Context.prototype["lock_mouse"] = Context.prototype.lock_mouse = function(self, locked) {
     var self = this.ptr;
-    /* width <uint16_t> [] */
-    /* height <uint16_t> [] */
-    _mud_Context_reset_2(self, width, height);
+    /* locked <bool> [] */
+    _mud_Context_lock_mouse_1(self, locked);
 };
 Object.defineProperty(Context.prototype, "resource_path", {
     get: function() {

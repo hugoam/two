@@ -6,13 +6,10 @@ module mud.frame;
 #include <meta/gfx/Module.h>
 #include <meta/gfx-ui/Module.h>
 #include <meta/frame/Module.h>
+#include <meta/frame/Convert.h>
 #endif
 
 #include <frame/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/frame/Convert.h>
-#endif
 #define MUD_FRAME_REFLECTION_IMPL
 #include <meta/frame/Meta.h>
 

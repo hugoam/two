@@ -9,7 +9,7 @@ module mud.tool;
 #else
 #include <type/Any.h>
 #include <pool/ObjectPool.h>
-#include <ecs/Registry.h>
+#include <ecs/ECS.h>
 #include <lang/Lua.h>
 #include <lang/VisualScript.h>
 #include <ui/Edit/Console.h>

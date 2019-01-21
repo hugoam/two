@@ -438,7 +438,7 @@ namespace mud
 				if(id == module->m_id)
 					return *module;
 			printf("ERROR: fetching inexistent module\n");
-			CLModule invalid(m_context); return invalid;
+			static CLModule invalid(m_context); return invalid;
 		}
 
 		void parse_through(CLModule& module, function<void(CXCursor, CLModule&, CLPrimitive&)> func)
@@ -457,6 +457,8 @@ namespace mud
 				"-fmsc-version=1900",
 				"-Wmicrosoft",
 				"-DMUD_META_GENERATOR",
+				"-DMUD_NO_STL",
+				//"-DMUD_NO_GLM", // @todo
 			};
 
 			for(string attr : { "refl", "struct", "nocopy", "extern", "array", "comp", "constr", "meth", "func", "attr", "nomut", "graph", "link" })

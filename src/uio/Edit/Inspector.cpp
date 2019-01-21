@@ -9,7 +9,7 @@ module mud.uio;
 #else
 #include <infra/Vector.h>
 #include <type/Any.h>
-#include <ecs/Registry.h>
+#include <ecs/ECS.h>
 #include <refl/Class.h>
 #include <uio/Edit/Inspector.h>
 #include <ui/Structs/Container.h>

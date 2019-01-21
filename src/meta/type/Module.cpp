@@ -5,13 +5,10 @@ module mud.type;
 #else
 #include <meta/infra/Module.h>
 #include <meta/type/Module.h>
+#include <meta/type/Convert.h>
 #endif
 
 #include <type/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/type/Convert.h>
-#endif
 #define MUD_TYPE_REFLECTION_IMPL
 #include <meta/type/Meta.h>
 

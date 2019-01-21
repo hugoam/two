@@ -13,6 +13,7 @@ namespace mud
 {
     void mud_tool_meta(Module& m)
     {
+    UNUSED(m);
     
     // Base Types
     
@@ -92,7 +93,7 @@ namespace mud
     }
     // mud::Gizmo
     {
-        static Meta meta = { type<mud::Gizmo>(), &namspc({ "mud" }), "Gizmo", sizeof(mud::Gizmo), TypeClass::Struct };
+        static Meta meta = { type<mud::Gizmo>(), &namspc({ "mud" }), "Gizmo", sizeof(mud::Gizmo), TypeClass::Object };
         static Class cls = { type<mud::Gizmo>(),
             // bases
             {  },
@@ -456,6 +457,31 @@ namespace mud
             }
         };
         meta_class<mud::RotateAction>();
+    }
+    // mud::TransformGizmo
+    {
+        static Meta meta = { type<mud::TransformGizmo>(), &namspc({ "mud" }), "TransformGizmo", sizeof(mud::TransformGizmo), TypeClass::Object };
+        static Class cls = { type<mud::TransformGizmo>(),
+            // bases
+            { &type<mud::Gizmo>() },
+            { base_offset<mud::TransformGizmo, mud::Gizmo>() },
+            // constructors
+            {
+            },
+            // copy constructor
+            {
+            },
+            // members
+            {
+            },
+            // methods
+            {
+            },
+            // static members
+            {
+            }
+        };
+        meta_class<mud::TransformGizmo>();
     }
     // mud::TransformTool
     {
@@ -839,24 +865,25 @@ namespace mud
         m.m_types.push_back(&type<mud::ToolContext>());
         m.m_types.push_back(&type<mud::ToolOption>());
         m.m_types.push_back(&type<mud::ToolState>());
-        m.m_types.push_back(&type<mud::RedoTool>());
-        m.m_types.push_back(&type<mud::ViewportTool>());
         m.m_types.push_back(&type<mud::SpatialTool>());
         m.m_types.push_back(&type<mud::Brush>());
         m.m_types.push_back(&type<mud::CircleBrush>());
+        m.m_types.push_back(&type<mud::CopyAction>());
+        m.m_types.push_back(&type<mud::CopyTool>());
+        m.m_types.push_back(&type<mud::FrameViewTool>());
         m.m_types.push_back(&type<mud::PlaceBrush>());
         m.m_types.push_back(&type<mud::PlaneSnapOption>());
+        m.m_types.push_back(&type<mud::RedoTool>());
+        m.m_types.push_back(&type<mud::RotateAction>());
         m.m_types.push_back(&type<mud::ScriptedBrush>());
         m.m_types.push_back(&type<mud::TransformAction>());
-        m.m_types.push_back(&type<mud::RotateAction>());
+        m.m_types.push_back(&type<mud::ViewportTool>());
         m.m_types.push_back(&type<mud::TransformTool>());
         m.m_types.push_back(&type<mud::RotateTool>());
         m.m_types.push_back(&type<mud::ScaleAction>());
         m.m_types.push_back(&type<mud::ScaleTool>());
+        m.m_types.push_back(&type<mud::TransformGizmo>());
         m.m_types.push_back(&type<mud::TranslateAction>());
-        m.m_types.push_back(&type<mud::CopyAction>());
-        m.m_types.push_back(&type<mud::CopyTool>());
-        m.m_types.push_back(&type<mud::FrameViewTool>());
         m.m_types.push_back(&type<mud::TranslateTool>());
         m.m_types.push_back(&type<mud::UndoTool>());
         m.m_types.push_back(&type<mud::ViewAction>());

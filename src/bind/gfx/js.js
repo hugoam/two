@@ -1,6 +1,6 @@
 Module['glm'] = Module['glm'] || {};
-Module['gfx'] = Module['gfx'] || {};
 Module['ui'] = Module['ui'] || {};
+Module['gfx'] = Module['gfx'] || {};
 // Animated
 function Animated() { throw "cannot construct a Animated, no constructor in IDL" }
 Animated.prototype = Object.create(WrapperObject.prototype);
@@ -8,41 +8,6 @@ Animated.prototype.constructor = Animated;
 Animated.prototype.__class__ = Animated;
 Animated.__cache__ = {};
 Module['Animated'] = Animated;
-Animated.prototype["advance"] = Animated.prototype.advance = function(self, time) {
-    var self = this.ptr;
-    /* time <float> [] */
-    _mud_Animated_advance_1(self, time);
-};
-Animated.prototype["next_animation"] = Animated.prototype.next_animation = function(self) {
-    var self = this.ptr;
-    _mud_Animated_next_animation_0(self);
-};
-Animated.prototype["pause"] = Animated.prototype.pause = function(self) {
-    var self = this.ptr;
-    _mud_Animated_pause_0(self);
-};
-Animated.prototype["play"] = Animated.prototype.play = function(self, animation, loop, blend, speed, transient) {
-    var self = this.ptr;
-    /* animation <Animation> [] */
-    animation = animation.ptr;
-    /* loop <bool> [] */
-    /* blend <float> [] */
-    /* speed <float> [] */
-    /* transient <bool> [] */
-    if (blend === undefined) { _mud_Animated_play_2(self, animation, loop); return; }
-    if (speed === undefined) { _mud_Animated_play_3(self, animation, loop, blend); return; }
-    if (transient === undefined) { _mud_Animated_play_4(self, animation, loop, blend, speed); return; }
-    _mud_Animated_play_5(self, animation, loop, blend, speed, transient);
-};
-Animated.prototype["playing"] = Animated.prototype.playing = function(self) {
-    var self = this.ptr;
-    return Pointer_stringify(_mud_Animated_playing_0(self));
-};
-Animated.prototype["seek"] = Animated.prototype.seek = function(self, time) {
-    var self = this.ptr;
-    /* time <float> [] */
-    _mud_Animated_seek_1(self, time);
-};
 Animated.prototype["start"] = Animated.prototype.start = function(self, animation, loop, blend, speed, transient) {
     var self = this.ptr;
     ensureCache.prepare();
@@ -58,9 +23,44 @@ Animated.prototype["start"] = Animated.prototype.start = function(self, animatio
     if (transient === undefined) { _mud_Animated_start_4(self, animation, loop, blend, speed); return; }
     _mud_Animated_start_5(self, animation, loop, blend, speed, transient);
 };
+Animated.prototype["play"] = Animated.prototype.play = function(self, animation, loop, blend, speed, transient) {
+    var self = this.ptr;
+    /* animation <Animation> [] */
+    animation = animation.ptr;
+    /* loop <bool> [] */
+    /* blend <float> [] */
+    /* speed <float> [] */
+    /* transient <bool> [] */
+    if (blend === undefined) { _mud_Animated_play_2(self, animation, loop); return; }
+    if (speed === undefined) { _mud_Animated_play_3(self, animation, loop, blend); return; }
+    if (transient === undefined) { _mud_Animated_play_4(self, animation, loop, blend, speed); return; }
+    _mud_Animated_play_5(self, animation, loop, blend, speed, transient);
+};
+Animated.prototype["seek"] = Animated.prototype.seek = function(self, time) {
+    var self = this.ptr;
+    /* time <float> [] */
+    _mud_Animated_seek_1(self, time);
+};
+Animated.prototype["pause"] = Animated.prototype.pause = function(self) {
+    var self = this.ptr;
+    _mud_Animated_pause_0(self);
+};
 Animated.prototype["stop"] = Animated.prototype.stop = function(self) {
     var self = this.ptr;
     _mud_Animated_stop_0(self);
+};
+Animated.prototype["advance"] = Animated.prototype.advance = function(self, time) {
+    var self = this.ptr;
+    /* time <float> [] */
+    _mud_Animated_advance_1(self, time);
+};
+Animated.prototype["next_animation"] = Animated.prototype.next_animation = function(self) {
+    var self = this.ptr;
+    _mud_Animated_next_animation_0(self);
+};
+Animated.prototype["playing"] = Animated.prototype.playing = function(self) {
+    var self = this.ptr;
+    return Pointer_stringify(_mud_Animated_playing_0(self));
 };
 Object.defineProperty(Animated.prototype, "active", {
     get: function() {
@@ -1217,6 +1217,10 @@ GfxSystem.prototype.constructor = GfxSystem;
 GfxSystem.prototype.__class__ = GfxSystem;
 GfxSystem.__cache__ = {};
 Module['GfxSystem'] = GfxSystem;
+GfxSystem.prototype["default_pipeline"] = GfxSystem.prototype.default_pipeline = function(self) {
+    var self = this.ptr;
+    _mud_GfxSystem_default_pipeline_0(self);
+};
 GfxSystem.prototype["add_resource_path"] = GfxSystem.prototype.add_resource_path = function(self, path, relative) {
     var self = this.ptr;
     ensureCache.prepare();
@@ -1231,16 +1235,6 @@ GfxSystem.prototype["debug_material"] = GfxSystem.prototype.debug_material = fun
     var self = this.ptr;
     return wrapPointer(_mud_GfxSystem_debug_material_0(self), Material);
 };
-GfxSystem.prototype["default_pipeline"] = GfxSystem.prototype.default_pipeline = function(self) {
-    var self = this.ptr;
-    _mud_GfxSystem_default_pipeline_0(self);
-};
-GfxSystem.prototype["fetch_image256_material"] = GfxSystem.prototype.fetch_image256_material = function(self, image) {
-    var self = this.ptr;
-    /* image <Image256> [] */
-    image = image.ptr;
-    return wrapPointer(_mud_GfxSystem_fetch_image256_material_1(self, image), Material);
-};
 GfxSystem.prototype["fetch_material"] = GfxSystem.prototype.fetch_material = function(self, name, shader, builtin) {
     var self = this.ptr;
     ensureCache.prepare();
@@ -1253,6 +1247,12 @@ GfxSystem.prototype["fetch_material"] = GfxSystem.prototype.fetch_material = fun
     /* builtin <bool> [] */
     if (builtin === undefined) { return wrapPointer(_mud_GfxSystem_fetch_material_2(self, name, shader), Material); }
     return wrapPointer(_mud_GfxSystem_fetch_material_3(self, name, shader, builtin), Material);
+};
+GfxSystem.prototype["fetch_image256_material"] = GfxSystem.prototype.fetch_image256_material = function(self, image) {
+    var self = this.ptr;
+    /* image <Image256> [] */
+    image = image.ptr;
+    return wrapPointer(_mud_GfxSystem_fetch_image256_material_1(self, image), Material);
 };
 GfxSystem.prototype["fetch_symbol"] = GfxSystem.prototype.fetch_symbol = function(self, symbol, shape, draw_mode) {
     var self = this.ptr;
@@ -2263,149 +2263,149 @@ Node3.prototype["__destroy__"] = Node3.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Node3__destroy(self);
 };
-// ParticleGenerator
-function ParticleGenerator() {
-    this.ptr = _mud_ParticleGenerator_ParticleGenerator_0(); getCache(ParticleGenerator)[this.ptr] = this;
-    this.type = ParticleGenerator;
+// ParticleFlow
+function ParticleFlow() {
+    this.ptr = _mud_ParticleFlow_ParticleFlow_0(); getCache(ParticleFlow)[this.ptr] = this;
+    this.type = ParticleFlow;
 };
-ParticleGenerator.prototype = Object.create(WrapperObject.prototype);
-ParticleGenerator.prototype.constructor = ParticleGenerator;
-ParticleGenerator.prototype.__class__ = ParticleGenerator;
-ParticleGenerator.__cache__ = {};
-Module['ParticleGenerator'] = ParticleGenerator;
-Object.defineProperty(ParticleGenerator.prototype, "name", {
+ParticleFlow.prototype = Object.create(WrapperObject.prototype);
+ParticleFlow.prototype.constructor = ParticleFlow;
+ParticleFlow.prototype.__class__ = ParticleFlow;
+ParticleFlow.__cache__ = {};
+Module['ParticleFlow'] = ParticleFlow;
+Object.defineProperty(ParticleFlow.prototype, "name", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_mud_ParticleGenerator__get_name(self));
+        return Pointer_stringify(_mud_ParticleFlow__get_name(self));
     },
     set: function(value) {
         var self = this.ptr;
         /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
-        _mud_ParticleGenerator__set_name(self, value);
+        _mud_ParticleFlow__set_name(self, value);
     }
 });
-Object.defineProperty(ParticleGenerator.prototype, "duration", {
+Object.defineProperty(ParticleFlow.prototype, "duration", {
     get: function() {
         var self = this.ptr;
-        return _mud_ParticleGenerator__get_duration(self);
+        return _mud_ParticleFlow__get_duration(self);
     },
     set: function(value) {
         var self = this.ptr;
         /* value <float> [] */
-        _mud_ParticleGenerator__set_duration(self, value);
+        _mud_ParticleFlow__set_duration(self, value);
     }
 });
-Object.defineProperty(ParticleGenerator.prototype, "start_time", {
+Object.defineProperty(ParticleFlow.prototype, "start_time", {
     get: function() {
         var self = this.ptr;
-        return _mud_ParticleGenerator__get_start_time(self);
+        return _mud_ParticleFlow__get_start_time(self);
     },
     set: function(value) {
         var self = this.ptr;
         /* value <float> [] */
-        _mud_ParticleGenerator__set_start_time(self, value);
+        _mud_ParticleFlow__set_start_time(self, value);
     }
 });
-Object.defineProperty(ParticleGenerator.prototype, "loop", {
+Object.defineProperty(ParticleFlow.prototype, "loop", {
     get: function() {
         var self = this.ptr;
-        return !!(_mud_ParticleGenerator__get_loop(self));
+        return !!(_mud_ParticleFlow__get_loop(self));
     },
     set: function(value) {
         var self = this.ptr;
         /* value <bool> [] */
-        _mud_ParticleGenerator__set_loop(self, value);
+        _mud_ParticleFlow__set_loop(self, value);
     }
 });
-Object.defineProperty(ParticleGenerator.prototype, "shape", {
+Object.defineProperty(ParticleFlow.prototype, "shape", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_ParticleGenerator__get_shape(self), ShapeVar);
+        return wrapPointer(_mud_ParticleFlow__get_shape(self), ShapeVar);
     },
     set: function(value) {
         var self = this.ptr;
         /* value <ShapeVar> [] */
         value = value.ptr;
-        _mud_ParticleGenerator__set_shape(self, value);
+        _mud_ParticleFlow__set_shape(self, value);
     }
 });
-Object.defineProperty(ParticleGenerator.prototype, "flow", {
+Object.defineProperty(ParticleFlow.prototype, "flow", {
     get: function() {
         var self = this.ptr;
-        return _mud_ParticleGenerator__get_flow(self);
+        return _mud_ParticleFlow__get_flow(self);
     },
     set: function(value) {
         var self = this.ptr;
         /* value <EmitterFlow> [] */
         if (value && typeof value === "object") value = value.ptr;
-        _mud_ParticleGenerator__set_flow(self, value);
+        _mud_ParticleFlow__set_flow(self, value);
     }
 });
-Object.defineProperty(ParticleGenerator.prototype, "billboard", {
+Object.defineProperty(ParticleFlow.prototype, "billboard", {
     get: function() {
         var self = this.ptr;
-        return !!(_mud_ParticleGenerator__get_billboard(self));
+        return !!(_mud_ParticleFlow__get_billboard(self));
     },
     set: function(value) {
         var self = this.ptr;
         /* value <bool> [] */
-        _mud_ParticleGenerator__set_billboard(self, value);
+        _mud_ParticleFlow__set_billboard(self, value);
     }
 });
-Object.defineProperty(ParticleGenerator.prototype, "direction", {
+Object.defineProperty(ParticleFlow.prototype, "direction", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_ParticleGenerator__get_direction(self), vec3);
+        return wrapPointer(_mud_ParticleFlow__get_direction(self), vec3);
     },
     set: function(value) {
         var self = this.ptr;
         /* value <vec3> [] */
         value = value.ptr;
-        _mud_ParticleGenerator__set_direction(self, value);
+        _mud_ParticleFlow__set_direction(self, value);
     }
 });
-Object.defineProperty(ParticleGenerator.prototype, "rotation", {
+Object.defineProperty(ParticleFlow.prototype, "rotation", {
     get: function() {
         var self = this.ptr;
-        return wrapPointer(_mud_ParticleGenerator__get_rotation(self), quat);
+        return wrapPointer(_mud_ParticleFlow__get_rotation(self), quat);
     },
     set: function(value) {
         var self = this.ptr;
         /* value <quat> [] */
         value = value.ptr;
-        _mud_ParticleGenerator__set_rotation(self, value);
+        _mud_ParticleFlow__set_rotation(self, value);
     }
 });
-Object.defineProperty(ParticleGenerator.prototype, "blend_mode", {
+Object.defineProperty(ParticleFlow.prototype, "blend_mode", {
     get: function() {
         var self = this.ptr;
-        return _mud_ParticleGenerator__get_blend_mode(self);
+        return _mud_ParticleFlow__get_blend_mode(self);
     },
     set: function(value) {
         var self = this.ptr;
         /* value <BlendMode> [] */
         if (value && typeof value === "object") value = value.ptr;
-        _mud_ParticleGenerator__set_blend_mode(self, value);
+        _mud_ParticleFlow__set_blend_mode(self, value);
     }
 });
-Object.defineProperty(ParticleGenerator.prototype, "sprite_name", {
+Object.defineProperty(ParticleFlow.prototype, "sprite_name", {
     get: function() {
         var self = this.ptr;
-        return Pointer_stringify(_mud_ParticleGenerator__get_sprite_name(self));
+        return Pointer_stringify(_mud_ParticleFlow__get_sprite_name(self));
     },
     set: function(value) {
         var self = this.ptr;
         /* value <string> [] */
         if (value && typeof value === "object") value = value.ptr;
         else value = ensureString(value);
-        _mud_ParticleGenerator__set_sprite_name(self, value);
+        _mud_ParticleFlow__set_sprite_name(self, value);
     }
 });
-ParticleGenerator.prototype["__destroy__"] = ParticleGenerator.prototype.__destroy__ = function() {
+ParticleFlow.prototype["__destroy__"] = ParticleFlow.prototype.__destroy__ = function() {
     var self = this.ptr;
-    _mud_ParticleGenerator__destroy(self);
+    _mud_ParticleFlow__destroy(self);
 };
 // PbrMaterialBlock
 function PbrMaterialBlock(albedo, metallic, roughness) {
@@ -3124,57 +3124,17 @@ RenderTarget.prototype["__destroy__"] = RenderTarget.prototype.__destroy__ = fun
     var self = this.ptr;
     _mud_RenderTarget__destroy(self);
 };
-Module['gfx']['animated'] = function(parent, item) {
+Module['gfx']['update_item_lights'] = function(item) {
     var self = this.ptr;
-    /* parent <Gnode> [] */
-    parent = parent.ptr;
     /* item <Item> [] */
     item = item.ptr;
-    return wrapPointer(_mud_gfx_animated_2(parent, item), Animated);
+    _mud_gfx_update_item_lights_1(item);
 };
-Module['gfx']['draw'] = function(parent, shape, symbol, flags) {
+Module['gfx']['update_item_aabb'] = function(item) {
     var self = this.ptr;
-    /* parent <Gnode> [] */
-    parent = parent.ptr;
-    /* shape <Shape> [] */
-    shape = shape.ptr;
-    /* symbol <Symbol> [] */
-    symbol = symbol.ptr;
-    /* flags <uint32_t> [] */
-    if (flags === undefined) { _mud_gfx_draw_3(parent, shape, symbol); return; }
-    _mud_gfx_draw_4(parent, shape, symbol, flags);
-};
-Module['gfx']['light'] = function(parent, type, shadows, colour, range, attenuation) {
-    var self = this.ptr;
-    /* parent <Gnode> [] */
-    parent = parent.ptr;
-    /* type <LightType> [] */
-    if (type && typeof type === "object") type = type.ptr;
-    /* shadows <bool> [] */
-    /* colour <Colour> [] */
-    colour = colour.ptr;
-    /* range <float> [] */
-    /* attenuation <float> [] */
-    if (range === undefined) { return wrapPointer(_mud_gfx_light_4(parent, type, shadows, colour), Light); }
-    if (attenuation === undefined) { return wrapPointer(_mud_gfx_light_5(parent, type, shadows, colour, range), Light); }
-    return wrapPointer(_mud_gfx_light_6(parent, type, shadows, colour, range, attenuation), Light);
-};
-Module['gfx']['model'] = function(parent, name, flags, material, instances) {
-    var self = this.ptr;
-    ensureCache.prepare();
-    /* parent <Gnode> [] */
-    parent = parent.ptr;
-    /* name <string> [] */
-    if (name && typeof name === "object") name = name.ptr;
-    else name = ensureString(name);
-    /* flags <uint32_t> [] */
-    /* material <Material> [] */
-    if(typeof material !== "undefined" && material !== null) { material = material.ptr; }
-    /* instances <size_t> [] */
-    if (flags === undefined) { return wrapPointer(_mud_gfx_model_2(parent, name), Item); }
-    if (material === undefined) { return wrapPointer(_mud_gfx_model_3(parent, name, flags), Item); }
-    if (instances === undefined) { return wrapPointer(_mud_gfx_model_4(parent, name, flags, material), Item); }
-    return wrapPointer(_mud_gfx_model_5(parent, name, flags, material, instances), Item);
+    /* item <Item> [] */
+    item = item.ptr;
+    _mud_gfx_update_item_aabb_1(item);
 };
 Module['gfx']['node'] = function(parent, object, position, rotation, scale) {
     var self = this.ptr;
@@ -3196,30 +3156,6 @@ Module['gfx']['node'] = function(parent, object, position, rotation, scale) {
     if (scale === undefined) { return wrapPointer(_mud_gfx_node_4(parent, object, object_type, position, rotation), Gnode); }
     return wrapPointer(_mud_gfx_node_5(parent, object, object_type, position, rotation, scale), Gnode);
 };
-Module['gfx']['particles'] = function(parent, emitter, flags, instances) {
-    var self = this.ptr;
-    /* parent <Gnode> [] */
-    parent = parent.ptr;
-    /* emitter <ParticleGenerator> [] */
-    emitter = emitter.ptr;
-    /* flags <uint32_t> [] */
-    /* instances <size_t> [] */
-    if (flags === undefined) { return wrapPointer(_mud_gfx_particles_2(parent, emitter), Particles); }
-    if (instances === undefined) { return wrapPointer(_mud_gfx_particles_3(parent, emitter, flags), Particles); }
-    return wrapPointer(_mud_gfx_particles_4(parent, emitter, flags, instances), Particles);
-};
-Module['gfx']['radiance'] = function(parent, texture, background) {
-    var self = this.ptr;
-    ensureCache.prepare();
-    /* parent <Gnode> [] */
-    parent = parent.ptr;
-    /* texture <string> [] */
-    if (texture && typeof texture === "object") texture = texture.ptr;
-    else texture = ensureString(texture);
-    /* background <BackgroundMode> [] */
-    if (background && typeof background === "object") background = background.ptr;
-    _mud_gfx_radiance_3(parent, texture, background);
-};
 Module['gfx']['shape'] = function(parent, shape, symbol, flags, material, instances) {
     var self = this.ptr;
     /* parent <Gnode> [] */
@@ -3236,6 +3172,18 @@ Module['gfx']['shape'] = function(parent, shape, symbol, flags, material, instan
     if (material === undefined) { return wrapPointer(_mud_gfx_shape_4(parent, shape, symbol, flags), Item); }
     if (instances === undefined) { return wrapPointer(_mud_gfx_shape_5(parent, shape, symbol, flags, material), Item); }
     return wrapPointer(_mud_gfx_shape_6(parent, shape, symbol, flags, material, instances), Item);
+};
+Module['gfx']['draw'] = function(parent, shape, symbol, flags) {
+    var self = this.ptr;
+    /* parent <Gnode> [] */
+    parent = parent.ptr;
+    /* shape <Shape> [] */
+    shape = shape.ptr;
+    /* symbol <Symbol> [] */
+    symbol = symbol.ptr;
+    /* flags <uint32_t> [] */
+    if (flags === undefined) { _mud_gfx_draw_3(parent, shape, symbol); return; }
+    _mud_gfx_draw_4(parent, shape, symbol, flags);
 };
 Module['gfx']['sprite'] = function(parent, image, size, flags, material, instances) {
     var self = this.ptr;
@@ -3254,6 +3202,58 @@ Module['gfx']['sprite'] = function(parent, image, size, flags, material, instanc
     if (instances === undefined) { return wrapPointer(_mud_gfx_sprite_5(parent, image, size, flags, material), Item); }
     return wrapPointer(_mud_gfx_sprite_6(parent, image, size, flags, material, instances), Item);
 };
+Module['gfx']['model'] = function(parent, name, flags, material, instances) {
+    var self = this.ptr;
+    ensureCache.prepare();
+    /* parent <Gnode> [] */
+    parent = parent.ptr;
+    /* name <string> [] */
+    if (name && typeof name === "object") name = name.ptr;
+    else name = ensureString(name);
+    /* flags <uint32_t> [] */
+    /* material <Material> [] */
+    if(typeof material !== "undefined" && material !== null) { material = material.ptr; }
+    /* instances <size_t> [] */
+    if (flags === undefined) { return wrapPointer(_mud_gfx_model_2(parent, name), Item); }
+    if (material === undefined) { return wrapPointer(_mud_gfx_model_3(parent, name, flags), Item); }
+    if (instances === undefined) { return wrapPointer(_mud_gfx_model_4(parent, name, flags, material), Item); }
+    return wrapPointer(_mud_gfx_model_5(parent, name, flags, material, instances), Item);
+};
+Module['gfx']['animated'] = function(parent, item) {
+    var self = this.ptr;
+    /* parent <Gnode> [] */
+    parent = parent.ptr;
+    /* item <Item> [] */
+    item = item.ptr;
+    return wrapPointer(_mud_gfx_animated_2(parent, item), Animated);
+};
+Module['gfx']['particles'] = function(parent, emitter, flags, instances) {
+    var self = this.ptr;
+    /* parent <Gnode> [] */
+    parent = parent.ptr;
+    /* emitter <ParticleFlow> [] */
+    emitter = emitter.ptr;
+    /* flags <uint32_t> [] */
+    /* instances <size_t> [] */
+    if (flags === undefined) { return wrapPointer(_mud_gfx_particles_2(parent, emitter), Particles); }
+    if (instances === undefined) { return wrapPointer(_mud_gfx_particles_3(parent, emitter, flags), Particles); }
+    return wrapPointer(_mud_gfx_particles_4(parent, emitter, flags, instances), Particles);
+};
+Module['gfx']['light'] = function(parent, type, shadows, colour, range, attenuation) {
+    var self = this.ptr;
+    /* parent <Gnode> [] */
+    parent = parent.ptr;
+    /* type <LightType> [] */
+    if (type && typeof type === "object") type = type.ptr;
+    /* shadows <bool> [] */
+    /* colour <Colour> [] */
+    colour = colour.ptr;
+    /* range <float> [] */
+    /* attenuation <float> [] */
+    if (range === undefined) { return wrapPointer(_mud_gfx_light_4(parent, type, shadows, colour), Light); }
+    if (attenuation === undefined) { return wrapPointer(_mud_gfx_light_5(parent, type, shadows, colour, range), Light); }
+    return wrapPointer(_mud_gfx_light_6(parent, type, shadows, colour, range, attenuation), Light);
+};
 Module['gfx']['sun_light'] = function(parent, azimuth, elevation) {
     var self = this.ptr;
     /* parent <Gnode> [] */
@@ -3262,17 +3262,17 @@ Module['gfx']['sun_light'] = function(parent, azimuth, elevation) {
     /* elevation <float> [] */
     return wrapPointer(_mud_gfx_sun_light_3(parent, azimuth, elevation), Light);
 };
-Module['gfx']['update_item_aabb'] = function(item) {
+Module['gfx']['radiance'] = function(parent, texture, background) {
     var self = this.ptr;
-    /* item <Item> [] */
-    item = item.ptr;
-    _mud_gfx_update_item_aabb_1(item);
-};
-Module['gfx']['update_item_lights'] = function(item) {
-    var self = this.ptr;
-    /* item <Item> [] */
-    item = item.ptr;
-    _mud_gfx_update_item_lights_1(item);
+    ensureCache.prepare();
+    /* parent <Gnode> [] */
+    parent = parent.ptr;
+    /* texture <string> [] */
+    if (texture && typeof texture === "object") texture = texture.ptr;
+    else texture = ensureString(texture);
+    /* background <BackgroundMode> [] */
+    if (background && typeof background === "object") background = background.ptr;
+    _mud_gfx_radiance_3(parent, texture, background);
 };
 
 (function() {
@@ -3309,7 +3309,7 @@ Module['gfx']['update_item_lights'] = function(item) {
         Model.__type__ = _mud_Model__type();
         ModelItem.__type__ = _mud_ModelItem__type();
         Node3.__type__ = _mud_Node3__type();
-        ParticleGenerator.__type__ = _mud_ParticleGenerator__type();
+        ParticleFlow.__type__ = _mud_ParticleFlow__type();
         PbrMaterialBlock.__type__ = _mud_PbrMaterialBlock__type();
         Prefab.__type__ = _mud_Prefab__type();
         Program.__type__ = _mud_Program__type();

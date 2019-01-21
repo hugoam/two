@@ -4,13 +4,10 @@
 module mud.infra;
 #else
 #include <meta/infra/Module.h>
+#include <meta/infra/Convert.h>
 #endif
 
 #include <infra/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/infra/Convert.h>
-#endif
 #define MUD_INFRA_REFLECTION_IMPL
 #include <meta/infra/Meta.h>
 

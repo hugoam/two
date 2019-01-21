@@ -22,14 +22,17 @@ extern "C" {
 	mud::Type* DECL mud_Animated__type() {
 		return &mud::type<mud::Animated>();
 	}
-	void DECL mud_Animated_advance_1(mud::Animated* self, float time) {
-		self->advance(time);
+	void DECL mud_Animated_start_2(mud::Animated* self, const char* animation, bool loop) {
+		self->start(animation, loop);
 	}
-	void DECL mud_Animated_next_animation_0(mud::Animated* self) {
-		self->next_animation();
+	void DECL mud_Animated_start_3(mud::Animated* self, const char* animation, bool loop, float blend) {
+		self->start(animation, loop, blend);
 	}
-	void DECL mud_Animated_pause_0(mud::Animated* self) {
-		self->pause();
+	void DECL mud_Animated_start_4(mud::Animated* self, const char* animation, bool loop, float blend, float speed) {
+		self->start(animation, loop, blend, speed);
+	}
+	void DECL mud_Animated_start_5(mud::Animated* self, const char* animation, bool loop, float blend, float speed, bool transient) {
+		self->start(animation, loop, blend, speed, transient);
 	}
 	void DECL mud_Animated_play_2(mud::Animated* self, const mud::Animation* animation, bool loop) {
 		self->play(*animation, loop);
@@ -43,26 +46,23 @@ extern "C" {
 	void DECL mud_Animated_play_5(mud::Animated* self, const mud::Animation* animation, bool loop, float blend, float speed, bool transient) {
 		self->play(*animation, loop, blend, speed, transient);
 	}
-	const char* DECL mud_Animated_playing_0(mud::Animated* self) {
-		return self->playing().c_str();
-	}
 	void DECL mud_Animated_seek_1(mud::Animated* self, float time) {
 		self->seek(time);
 	}
-	void DECL mud_Animated_start_2(mud::Animated* self, const char* animation, bool loop) {
-		self->start(animation, loop);
-	}
-	void DECL mud_Animated_start_3(mud::Animated* self, const char* animation, bool loop, float blend) {
-		self->start(animation, loop, blend);
-	}
-	void DECL mud_Animated_start_4(mud::Animated* self, const char* animation, bool loop, float blend, float speed) {
-		self->start(animation, loop, blend, speed);
-	}
-	void DECL mud_Animated_start_5(mud::Animated* self, const char* animation, bool loop, float blend, float speed, bool transient) {
-		self->start(animation, loop, blend, speed, transient);
+	void DECL mud_Animated_pause_0(mud::Animated* self) {
+		self->pause();
 	}
 	void DECL mud_Animated_stop_0(mud::Animated* self) {
 		self->stop();
+	}
+	void DECL mud_Animated_advance_1(mud::Animated* self, float time) {
+		self->advance(time);
+	}
+	void DECL mud_Animated_next_animation_0(mud::Animated* self) {
+		self->next_animation();
+	}
+	const char* DECL mud_Animated_playing_0(mud::Animated* self) {
+		return self->playing().c_str();
 	}
 	bool DECL mud_Animated__get_active(mud::Animated* self) {
 		return self->m_active;
@@ -727,6 +727,9 @@ extern "C" {
 	mud::GfxSystem* DECL mud_GfxSystem_GfxSystem_1(const char* resource_path) {
 		return new mud::GfxSystem(resource_path);
 	}
+	void DECL mud_GfxSystem_default_pipeline_0(mud::GfxSystem* self) {
+		self->default_pipeline();
+	}
 	void DECL mud_GfxSystem_add_resource_path_1(mud::GfxSystem* self, const char* path) {
 		self->add_resource_path(path);
 	}
@@ -736,17 +739,14 @@ extern "C" {
 	mud::Material* DECL mud_GfxSystem_debug_material_0(mud::GfxSystem* self) {
 		return &self->debug_material();
 	}
-	void DECL mud_GfxSystem_default_pipeline_0(mud::GfxSystem* self) {
-		self->default_pipeline();
-	}
-	mud::Material* DECL mud_GfxSystem_fetch_image256_material_1(mud::GfxSystem* self, const mud::Image256* image) {
-		return &self->fetch_image256_material(*image);
-	}
 	mud::Material* DECL mud_GfxSystem_fetch_material_2(mud::GfxSystem* self, const char* name, const char* shader) {
 		return &self->fetch_material(name, shader);
 	}
 	mud::Material* DECL mud_GfxSystem_fetch_material_3(mud::GfxSystem* self, const char* name, const char* shader, bool builtin) {
 		return &self->fetch_material(name, shader, builtin);
+	}
+	mud::Material* DECL mud_GfxSystem_fetch_image256_material_1(mud::GfxSystem* self, const mud::Image256* image) {
+		return &self->fetch_image256_material(*image);
 	}
 	mud::Model* DECL mud_GfxSystem_fetch_symbol_3(mud::GfxSystem* self, const mud::Symbol* symbol, const mud::Shape* shape, mud::DrawMode draw_mode) {
 		return &self->fetch_symbol(*symbol, *shape, draw_mode);
@@ -1308,83 +1308,83 @@ extern "C" {
 	void DECL mud_Node3__destroy(mud::Node3* self) {
 		delete self;
 	}
-	// ParticleGenerator
-	mud::Type* DECL mud_ParticleGenerator__type() {
-		return &mud::type<mud::ParticleGenerator>();
+	// ParticleFlow
+	mud::Type* DECL mud_ParticleFlow__type() {
+		return &mud::type<mud::ParticleFlow>();
 	}
-	mud::ParticleGenerator* DECL mud_ParticleGenerator_ParticleGenerator_0() {
-		return new mud::ParticleGenerator();
+	mud::ParticleFlow* DECL mud_ParticleFlow_ParticleFlow_0() {
+		return new mud::ParticleFlow();
 	}
-	const char* DECL mud_ParticleGenerator__get_name(mud::ParticleGenerator* self) {
+	const char* DECL mud_ParticleFlow__get_name(mud::ParticleFlow* self) {
 		return self->m_name.c_str();
 	}
-	void DECL mud_ParticleGenerator__set_name(mud::ParticleGenerator* self, const char* value) {
+	void DECL mud_ParticleFlow__set_name(mud::ParticleFlow* self, const char* value) {
 		self->m_name = value;
 	}
-	float DECL mud_ParticleGenerator__get_duration(mud::ParticleGenerator* self) {
+	float DECL mud_ParticleFlow__get_duration(mud::ParticleFlow* self) {
 		return self->m_duration;
 	}
-	void DECL mud_ParticleGenerator__set_duration(mud::ParticleGenerator* self, float value) {
+	void DECL mud_ParticleFlow__set_duration(mud::ParticleFlow* self, float value) {
 		self->m_duration = value;
 	}
-	float DECL mud_ParticleGenerator__get_start_time(mud::ParticleGenerator* self) {
+	float DECL mud_ParticleFlow__get_start_time(mud::ParticleFlow* self) {
 		return self->m_start_time;
 	}
-	void DECL mud_ParticleGenerator__set_start_time(mud::ParticleGenerator* self, float value) {
+	void DECL mud_ParticleFlow__set_start_time(mud::ParticleFlow* self, float value) {
 		self->m_start_time = value;
 	}
-	bool DECL mud_ParticleGenerator__get_loop(mud::ParticleGenerator* self) {
+	bool DECL mud_ParticleFlow__get_loop(mud::ParticleFlow* self) {
 		return self->m_loop;
 	}
-	void DECL mud_ParticleGenerator__set_loop(mud::ParticleGenerator* self, bool value) {
+	void DECL mud_ParticleFlow__set_loop(mud::ParticleFlow* self, bool value) {
 		self->m_loop = value;
 	}
-	mud::ShapeVar* DECL mud_ParticleGenerator__get_shape(mud::ParticleGenerator* self) {
+	mud::ShapeVar* DECL mud_ParticleFlow__get_shape(mud::ParticleFlow* self) {
 		static mud::ShapeVar temp;
 		return (temp = self->m_shape, &temp);
 	}
-	void DECL mud_ParticleGenerator__set_shape(mud::ParticleGenerator* self, mud::ShapeVar* value) {
+	void DECL mud_ParticleFlow__set_shape(mud::ParticleFlow* self, mud::ShapeVar* value) {
 		self->m_shape = *value;
 	}
-	mud::EmitterFlow DECL mud_ParticleGenerator__get_flow(mud::ParticleGenerator* self) {
+	mud::EmitterFlow DECL mud_ParticleFlow__get_flow(mud::ParticleFlow* self) {
 		return self->m_flow;
 	}
-	void DECL mud_ParticleGenerator__set_flow(mud::ParticleGenerator* self, mud::EmitterFlow value) {
+	void DECL mud_ParticleFlow__set_flow(mud::ParticleFlow* self, mud::EmitterFlow value) {
 		self->m_flow = value;
 	}
-	bool DECL mud_ParticleGenerator__get_billboard(mud::ParticleGenerator* self) {
+	bool DECL mud_ParticleFlow__get_billboard(mud::ParticleFlow* self) {
 		return self->m_billboard;
 	}
-	void DECL mud_ParticleGenerator__set_billboard(mud::ParticleGenerator* self, bool value) {
+	void DECL mud_ParticleFlow__set_billboard(mud::ParticleFlow* self, bool value) {
 		self->m_billboard = value;
 	}
-	mud::vec3* DECL mud_ParticleGenerator__get_direction(mud::ParticleGenerator* self) {
+	mud::vec3* DECL mud_ParticleFlow__get_direction(mud::ParticleFlow* self) {
 		static mud::vec3 temp;
 		return (temp = self->m_direction, &temp);
 	}
-	void DECL mud_ParticleGenerator__set_direction(mud::ParticleGenerator* self, mud::vec3* value) {
+	void DECL mud_ParticleFlow__set_direction(mud::ParticleFlow* self, mud::vec3* value) {
 		self->m_direction = *value;
 	}
-	mud::quat* DECL mud_ParticleGenerator__get_rotation(mud::ParticleGenerator* self) {
+	mud::quat* DECL mud_ParticleFlow__get_rotation(mud::ParticleFlow* self) {
 		static mud::quat temp;
 		return (temp = self->m_rotation, &temp);
 	}
-	void DECL mud_ParticleGenerator__set_rotation(mud::ParticleGenerator* self, mud::quat* value) {
+	void DECL mud_ParticleFlow__set_rotation(mud::ParticleFlow* self, mud::quat* value) {
 		self->m_rotation = *value;
 	}
-	mud::BlendMode DECL mud_ParticleGenerator__get_blend_mode(mud::ParticleGenerator* self) {
+	mud::BlendMode DECL mud_ParticleFlow__get_blend_mode(mud::ParticleFlow* self) {
 		return self->m_blend_mode;
 	}
-	void DECL mud_ParticleGenerator__set_blend_mode(mud::ParticleGenerator* self, mud::BlendMode value) {
+	void DECL mud_ParticleFlow__set_blend_mode(mud::ParticleFlow* self, mud::BlendMode value) {
 		self->m_blend_mode = value;
 	}
-	const char* DECL mud_ParticleGenerator__get_sprite_name(mud::ParticleGenerator* self) {
+	const char* DECL mud_ParticleFlow__get_sprite_name(mud::ParticleFlow* self) {
 		return self->m_sprite_name.c_str();
 	}
-	void DECL mud_ParticleGenerator__set_sprite_name(mud::ParticleGenerator* self, const char* value) {
+	void DECL mud_ParticleFlow__set_sprite_name(mud::ParticleFlow* self, const char* value) {
 		self->m_sprite_name = value;
 	}
-	void DECL mud_ParticleGenerator__destroy(mud::ParticleGenerator* self) {
+	void DECL mud_ParticleFlow__destroy(mud::ParticleFlow* self) {
 		delete self;
 	}
 	// PbrMaterialBlock
@@ -1818,35 +1818,11 @@ extern "C" {
 	void DECL mud_RenderTarget__destroy(mud::RenderTarget* self) {
 		delete self;
 	}
-	mud::Animated* DECL mud_gfx_animated_2(mud::Gnode* parent, mud::Item* item) {
-		return &mud::gfx::animated(*parent, *item);
+	void DECL mud_gfx_update_item_lights_1(mud::Item* item) {
+		mud::gfx::update_item_lights(*item);
 	}
-	void DECL mud_gfx_draw_3(mud::Gnode* parent, const mud::Shape* shape, const mud::Symbol* symbol) {
-		mud::gfx::draw(*parent, *shape, *symbol);
-	}
-	void DECL mud_gfx_draw_4(mud::Gnode* parent, const mud::Shape* shape, const mud::Symbol* symbol, uint32_t flags) {
-		mud::gfx::draw(*parent, *shape, *symbol, flags);
-	}
-	mud::Light* DECL mud_gfx_light_4(mud::Gnode* parent, mud::LightType type, bool shadows, mud::Colour* colour) {
-		return &mud::gfx::light(*parent, type, shadows, *colour);
-	}
-	mud::Light* DECL mud_gfx_light_5(mud::Gnode* parent, mud::LightType type, bool shadows, mud::Colour* colour, float range) {
-		return &mud::gfx::light(*parent, type, shadows, *colour, range);
-	}
-	mud::Light* DECL mud_gfx_light_6(mud::Gnode* parent, mud::LightType type, bool shadows, mud::Colour* colour, float range, float attenuation) {
-		return &mud::gfx::light(*parent, type, shadows, *colour, range, attenuation);
-	}
-	mud::Item* DECL mud_gfx_model_2(mud::Gnode* parent, const char* name) {
-		return mud::gfx::model(*parent, name);
-	}
-	mud::Item* DECL mud_gfx_model_3(mud::Gnode* parent, const char* name, uint32_t flags) {
-		return mud::gfx::model(*parent, name, flags);
-	}
-	mud::Item* DECL mud_gfx_model_4(mud::Gnode* parent, const char* name, uint32_t flags, mud::Material* material) {
-		return mud::gfx::model(*parent, name, flags, material);
-	}
-	mud::Item* DECL mud_gfx_model_5(mud::Gnode* parent, const char* name, uint32_t flags, mud::Material* material, size_t instances) {
-		return mud::gfx::model(*parent, name, flags, material, instances);
+	void DECL mud_gfx_update_item_aabb_1(mud::Item* item) {
+		mud::gfx::update_item_aabb(*item);
 	}
 	mud::Gnode* DECL mud_gfx_node_1(mud::Gnode* parent) {
 		return &mud::gfx::node(*parent);
@@ -1863,18 +1839,6 @@ extern "C" {
 	mud::Gnode* DECL mud_gfx_node_5(mud::Gnode* parent, void* object, mud::Type* object_type, const mud::vec3* position, const mud::quat* rotation, const mud::vec3* scale) {
 		return &mud::gfx::node(*parent, { object, *object_type }, *position, *rotation, *scale);
 	}
-	mud::Particles* DECL mud_gfx_particles_2(mud::Gnode* parent, const mud::ParticleGenerator* emitter) {
-		return &mud::gfx::particles(*parent, *emitter);
-	}
-	mud::Particles* DECL mud_gfx_particles_3(mud::Gnode* parent, const mud::ParticleGenerator* emitter, uint32_t flags) {
-		return &mud::gfx::particles(*parent, *emitter, flags);
-	}
-	mud::Particles* DECL mud_gfx_particles_4(mud::Gnode* parent, const mud::ParticleGenerator* emitter, uint32_t flags, size_t instances) {
-		return &mud::gfx::particles(*parent, *emitter, flags, instances);
-	}
-	void DECL mud_gfx_radiance_3(mud::Gnode* parent, const char* texture, mud::BackgroundMode background) {
-		mud::gfx::radiance(*parent, texture, background);
-	}
 	mud::Item* DECL mud_gfx_shape_3(mud::Gnode* parent, const mud::Shape* shape, const mud::Symbol* symbol) {
 		return &mud::gfx::shape(*parent, *shape, *symbol);
 	}
@@ -1886,6 +1850,12 @@ extern "C" {
 	}
 	mud::Item* DECL mud_gfx_shape_6(mud::Gnode* parent, const mud::Shape* shape, const mud::Symbol* symbol, uint32_t flags, mud::Material* material, size_t instances) {
 		return &mud::gfx::shape(*parent, *shape, *symbol, flags, material, instances);
+	}
+	void DECL mud_gfx_draw_3(mud::Gnode* parent, const mud::Shape* shape, const mud::Symbol* symbol) {
+		mud::gfx::draw(*parent, *shape, *symbol);
+	}
+	void DECL mud_gfx_draw_4(mud::Gnode* parent, const mud::Shape* shape, const mud::Symbol* symbol, uint32_t flags) {
+		mud::gfx::draw(*parent, *shape, *symbol, flags);
 	}
 	mud::Item* DECL mud_gfx_sprite_3(mud::Gnode* parent, const mud::Image256* image, const mud::vec2* size) {
 		return &mud::gfx::sprite(*parent, *image, *size);
@@ -1899,14 +1869,44 @@ extern "C" {
 	mud::Item* DECL mud_gfx_sprite_6(mud::Gnode* parent, const mud::Image256* image, const mud::vec2* size, uint32_t flags, mud::Material* material, size_t instances) {
 		return &mud::gfx::sprite(*parent, *image, *size, flags, material, instances);
 	}
+	mud::Item* DECL mud_gfx_model_2(mud::Gnode* parent, const char* name) {
+		return mud::gfx::model(*parent, name);
+	}
+	mud::Item* DECL mud_gfx_model_3(mud::Gnode* parent, const char* name, uint32_t flags) {
+		return mud::gfx::model(*parent, name, flags);
+	}
+	mud::Item* DECL mud_gfx_model_4(mud::Gnode* parent, const char* name, uint32_t flags, mud::Material* material) {
+		return mud::gfx::model(*parent, name, flags, material);
+	}
+	mud::Item* DECL mud_gfx_model_5(mud::Gnode* parent, const char* name, uint32_t flags, mud::Material* material, size_t instances) {
+		return mud::gfx::model(*parent, name, flags, material, instances);
+	}
+	mud::Animated* DECL mud_gfx_animated_2(mud::Gnode* parent, mud::Item* item) {
+		return &mud::gfx::animated(*parent, *item);
+	}
+	mud::Particles* DECL mud_gfx_particles_2(mud::Gnode* parent, const mud::ParticleFlow* emitter) {
+		return &mud::gfx::particles(*parent, *emitter);
+	}
+	mud::Particles* DECL mud_gfx_particles_3(mud::Gnode* parent, const mud::ParticleFlow* emitter, uint32_t flags) {
+		return &mud::gfx::particles(*parent, *emitter, flags);
+	}
+	mud::Particles* DECL mud_gfx_particles_4(mud::Gnode* parent, const mud::ParticleFlow* emitter, uint32_t flags, size_t instances) {
+		return &mud::gfx::particles(*parent, *emitter, flags, instances);
+	}
+	mud::Light* DECL mud_gfx_light_4(mud::Gnode* parent, mud::LightType type, bool shadows, mud::Colour* colour) {
+		return &mud::gfx::light(*parent, type, shadows, *colour);
+	}
+	mud::Light* DECL mud_gfx_light_5(mud::Gnode* parent, mud::LightType type, bool shadows, mud::Colour* colour, float range) {
+		return &mud::gfx::light(*parent, type, shadows, *colour, range);
+	}
+	mud::Light* DECL mud_gfx_light_6(mud::Gnode* parent, mud::LightType type, bool shadows, mud::Colour* colour, float range, float attenuation) {
+		return &mud::gfx::light(*parent, type, shadows, *colour, range, attenuation);
+	}
 	mud::Light* DECL mud_gfx_sun_light_3(mud::Gnode* parent, float azimuth, float elevation) {
 		return &mud::gfx::sun_light(*parent, azimuth, elevation);
 	}
-	void DECL mud_gfx_update_item_aabb_1(mud::Item* item) {
-		mud::gfx::update_item_aabb(*item);
-	}
-	void DECL mud_gfx_update_item_lights_1(mud::Item* item) {
-		mud::gfx::update_item_lights(*item);
+	void DECL mud_gfx_radiance_3(mud::Gnode* parent, const char* texture, mud::BackgroundMode background) {
+		mud::gfx::radiance(*parent, texture, background);
 	}
 	// AnimationTarget
 	mud::AnimationTarget DECL mud_AnimationTarget_Position() {

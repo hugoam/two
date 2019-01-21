@@ -740,34 +740,62 @@ extern "C" {
 	mud::Type* DECL mud_Widget__type() {
 		return &mud::type<mud::Widget>();
 	}
-	bool DECL mud_Widget_activated_0(mud::Widget* self) {
-		return self->activated();
-	}
-	mud::KeyEvent* DECL mud_Widget_char_stroke_1(mud::Widget* self, mud::Key code) {
-		static mud::KeyEvent temp;
-		return (temp = self->char_stroke(code), &temp);
-	}
-	mud::KeyEvent* DECL mud_Widget_char_stroke_2(mud::Widget* self, mud::Key code, mud::InputMod modifier) {
-		static mud::KeyEvent temp;
-		return (temp = self->char_stroke(code, modifier), &temp);
-	}
-	void DECL mud_Widget_clear_focus_0(mud::Widget* self) {
-		self->clear_focus();
-	}
-	bool DECL mud_Widget_closed_0(mud::Widget* self) {
-		return self->closed();
-	}
-	void DECL mud_Widget_disable_state_1(mud::Widget* self, mud::WidgetState state) {
-		self->disable_state(state);
-	}
-	void DECL mud_Widget_enable_state_1(mud::Widget* self, mud::WidgetState state) {
-		self->enable_state(state);
-	}
 	bool DECL mud_Widget_focused_0(mud::Widget* self) {
 		return self->focused();
 	}
 	bool DECL mud_Widget_hovered_0(mud::Widget* self) {
 		return self->hovered();
+	}
+	bool DECL mud_Widget_pressed_0(mud::Widget* self) {
+		return self->pressed();
+	}
+	bool DECL mud_Widget_activated_0(mud::Widget* self) {
+		return self->activated();
+	}
+	bool DECL mud_Widget_selected_0(mud::Widget* self) {
+		return self->selected();
+	}
+	bool DECL mud_Widget_modal_0(mud::Widget* self) {
+		return self->modal();
+	}
+	bool DECL mud_Widget_closed_0(mud::Widget* self) {
+		return self->closed();
+	}
+	mud::UiWindow* DECL mud_Widget_ui_window_0(mud::Widget* self) {
+		return &self->ui_window();
+	}
+	mud::Ui* DECL mud_Widget_ui_0(mud::Widget* self) {
+		return &self->ui();
+	}
+	mud::Widget* DECL mud_Widget_parent_modal_0(mud::Widget* self) {
+		return &self->parent_modal();
+	}
+	void DECL mud_Widget_toggle_state_1(mud::Widget* self, mud::WidgetState state) {
+		self->toggle_state(state);
+	}
+	void DECL mud_Widget_disable_state_1(mud::Widget* self, mud::WidgetState state) {
+		self->disable_state(state);
+	}
+	void DECL mud_Widget_set_state_2(mud::Widget* self, mud::WidgetState state, bool enabled) {
+		self->set_state(state, enabled);
+	}
+	void DECL mud_Widget_enable_state_1(mud::Widget* self, mud::WidgetState state) {
+		self->enable_state(state);
+	}
+	void DECL mud_Widget_clear_focus_0(mud::Widget* self) {
+		self->clear_focus();
+	}
+	void DECL mud_Widget_take_focus_0(mud::Widget* self) {
+		self->take_focus();
+	}
+	void DECL mud_Widget_yield_focus_0(mud::Widget* self) {
+		self->yield_focus();
+	}
+	void DECL mud_Widget_take_modal_1(mud::Widget* self, uint32_t device_filter) {
+		self->take_modal(device_filter);
+	}
+	void DECL mud_Widget_yield_modal_0(mud::Widget* self) {
+		self->yield_modal();
 	}
 	mud::KeyEvent* DECL mud_Widget_key_event_2(mud::Widget* self, mud::Key code, mud::EventType event_type) {
 		static mud::KeyEvent temp;
@@ -785,8 +813,13 @@ extern "C" {
 		static mud::KeyEvent temp;
 		return (temp = self->key_stroke(code, modifier), &temp);
 	}
-	bool DECL mud_Widget_modal_0(mud::Widget* self) {
-		return self->modal();
+	mud::KeyEvent* DECL mud_Widget_char_stroke_1(mud::Widget* self, mud::Key code) {
+		static mud::KeyEvent temp;
+		return (temp = self->char_stroke(code), &temp);
+	}
+	mud::KeyEvent* DECL mud_Widget_char_stroke_2(mud::Widget* self, mud::Key code, mud::InputMod modifier) {
+		static mud::KeyEvent temp;
+		return (temp = self->char_stroke(code, modifier), &temp);
 	}
 	mud::MouseEvent* DECL mud_Widget_mouse_event_2(mud::Widget* self, mud::DeviceType device, mud::EventType event_type) {
 		static mud::MouseEvent temp;
@@ -799,39 +832,6 @@ extern "C" {
 	mud::MouseEvent* DECL mud_Widget_mouse_event_4(mud::Widget* self, mud::DeviceType device, mud::EventType event_type, mud::InputMod modifier, bool consume) {
 		static mud::MouseEvent temp;
 		return (temp = self->mouse_event(device, event_type, modifier, consume), &temp);
-	}
-	mud::Widget* DECL mud_Widget_parent_modal_0(mud::Widget* self) {
-		return &self->parent_modal();
-	}
-	bool DECL mud_Widget_pressed_0(mud::Widget* self) {
-		return self->pressed();
-	}
-	bool DECL mud_Widget_selected_0(mud::Widget* self) {
-		return self->selected();
-	}
-	void DECL mud_Widget_set_state_2(mud::Widget* self, mud::WidgetState state, bool enabled) {
-		self->set_state(state, enabled);
-	}
-	void DECL mud_Widget_take_focus_0(mud::Widget* self) {
-		self->take_focus();
-	}
-	void DECL mud_Widget_take_modal_1(mud::Widget* self, uint32_t device_filter) {
-		self->take_modal(device_filter);
-	}
-	void DECL mud_Widget_toggle_state_1(mud::Widget* self, mud::WidgetState state) {
-		self->toggle_state(state);
-	}
-	mud::Ui* DECL mud_Widget_ui_0(mud::Widget* self) {
-		return &self->ui();
-	}
-	mud::UiWindow* DECL mud_Widget_ui_window_0(mud::Widget* self) {
-		return &self->ui_window();
-	}
-	void DECL mud_Widget_yield_focus_0(mud::Widget* self) {
-		self->yield_focus();
-	}
-	void DECL mud_Widget_yield_modal_0(mud::Widget* self) {
-		self->yield_modal();
 	}
 	mud::Frame* DECL mud_Widget__get_frame(mud::Widget* self) {
 		return &self->m_frame;
@@ -991,152 +991,17 @@ extern "C" {
 	void DECL mud_Window__destroy(mud::Window* self) {
 		delete self;
 	}
-	mud::Widget* DECL mud_ui_auto_modal_2(mud::Widget* parent, uint32_t mode) {
-		return &mud::ui::auto_modal(*parent, mode);
+	mud::Widget* DECL mud_ui_widget_2(mud::Widget* parent, mud::Style* style) {
+		return &mud::ui::widget(*parent, *style);
 	}
-	mud::Widget* DECL mud_ui_auto_modal_3(mud::Widget* parent, uint32_t mode, const mud::vec2* size) {
-		return &mud::ui::auto_modal(*parent, mode, *size);
+	mud::Widget* DECL mud_ui_widget_3(mud::Widget* parent, mud::Style* style, bool open) {
+		return &mud::ui::widget(*parent, *style, open);
 	}
-	mud::Widget* DECL mud_ui_board_1(mud::Widget* parent) {
-		return &mud::ui::board(*parent);
+	mud::Widget* DECL mud_ui_widget_4(mud::Widget* parent, mud::Style* style, bool open, mud::Dim length) {
+		return &mud::ui::widget(*parent, *style, open, length);
 	}
-	mud::Widget* DECL mud_ui_button_1(mud::Widget* parent) {
-		return &mud::ui::button(*parent);
-	}
-	mud::Widget* DECL mud_ui_button_2(mud::Widget* parent, const char* content) {
-		return &mud::ui::button(*parent, content);
-	}
-	mud::Canvas* DECL mud_ui_canvas_1(mud::Widget* parent) {
-		return &mud::ui::canvas(*parent);
-	}
-	mud::Canvas* DECL mud_ui_canvas_2(mud::Widget* parent, size_t num_nodes) {
-		return &mud::ui::canvas(*parent, num_nodes);
-	}
-	mud::Widget* DECL mud_ui_checkbox_2(mud::Widget* parent, bool on) {
-		return &mud::ui::checkbox(*parent, on);
-	}
-	mud::Widget* DECL mud_ui_color_display_2(mud::Widget* parent, const mud::Colour* value) {
-		return &mud::ui::color_display(*parent, *value);
-	}
-	void DECL mud_ui_color_display_field_3(mud::Widget* parent, const char* name, const mud::Colour* value) {
-		mud::ui::color_display_field(*parent, name, *value);
-	}
-	void DECL mud_ui_color_display_field_4(mud::Widget* parent, const char* name, const mud::Colour* value, bool reverse) {
-		mud::ui::color_display_field(*parent, name, *value, reverse);
-	}
-	bool DECL mud_ui_color_edit_2(mud::Widget* parent, mud::Colour* value) {
-		return mud::ui::color_edit(*parent, *value);
-	}
-	bool DECL mud_ui_color_edit_hsl_3(mud::Widget* parent, const mud::Colour* colour, mud::Colour* value) {
-		return mud::ui::color_edit_hsl(*parent, *colour, *value);
-	}
-	bool DECL mud_ui_color_edit_simple_2(mud::Widget* parent, mud::Colour* value) {
-		return mud::ui::color_edit_simple(*parent, *value);
-	}
-	bool DECL mud_ui_color_field_3(mud::Widget* parent, const char* name, mud::Colour* value) {
-		return mud::ui::color_field(*parent, name, *value);
-	}
-	bool DECL mud_ui_color_field_4(mud::Widget* parent, const char* name, mud::Colour* value, bool reverse) {
-		return mud::ui::color_field(*parent, name, *value, reverse);
-	}
-	bool DECL mud_ui_color_toggle_edit_2(mud::Widget* parent, mud::Colour* value) {
-		return mud::ui::color_toggle_edit(*parent, *value);
-	}
-	mud::Widget* DECL mud_ui_context_2(mud::Widget* parent, uint32_t mode) {
-		return mud::ui::context(*parent, mode);
-	}
-	mud::Widget* DECL mud_ui_context_3(mud::Widget* parent, uint32_t mode, mud::ui::PopupFlags flags) {
-		return mud::ui::context(*parent, mode, flags);
-	}
-	mud::Widget* DECL mud_ui_cursor_3(mud::Widget* parent, const mud::vec2* position, mud::Widget* hovered) {
-		return &mud::ui::cursor(*parent, *position, *hovered);
-	}
-	mud::Widget* DECL mud_ui_cursor_4(mud::Widget* parent, const mud::vec2* position, mud::Widget* hovered, bool locked) {
-		return &mud::ui::cursor(*parent, *position, *hovered, locked);
-	}
-	mud::Widget* DECL mud_ui_decal_1(mud::Widget* parent) {
-		return &mud::ui::decal(*parent);
-	}
-	mud::Widget* DECL mud_ui_dir_item_2(mud::Widget* parent, const char* name) {
-		return &mud::ui::dir_item(*parent, name);
-	}
-	mud::Widget* DECL mud_ui_dir_node_4(mud::Widget* parent, const char* path, const char* name, bool collapsed) {
-		return &mud::ui::dir_node(*parent, path, name, collapsed);
-	}
-	mud::Widget* DECL mud_ui_div_1(mud::Widget* parent) {
-		return &mud::ui::div(*parent);
-	}
-	mud::Dockbar* DECL mud_ui_dockbar_2(mud::Widget* parent, mud::Docksystem* docksystem) {
-		return &mud::ui::dockbar(*parent, *docksystem);
-	}
-	mud::Widget* DECL mud_ui_dockitem_3(mud::Widget* parent, mud::Docksystem* docksystem, mud::Dock* dock) {
-		return mud::ui::dockitem(*parent, *docksystem, *dock);
-	}
-	mud::Dockspace* DECL mud_ui_dockspace_2(mud::Widget* parent, mud::Docksystem* docksystem) {
-		return &mud::ui::dockspace(*parent, *docksystem);
-	}
-	bool DECL mud_ui_drag_float_2(mud::Widget* parent, float value) {
-		return mud::ui::drag_float(*parent, value);
-	}
-	bool DECL mud_ui_drag_float_3(mud::Widget* parent, float value, float step) {
-		return mud::ui::drag_float(*parent, value, step);
-	}
-	mud::Widget* DECL mud_ui_dropdown_4(mud::Widget* parent, mud::Style* style, const char* value, mud::ui::PopupFlags flags) {
-		return &mud::ui::dropdown(*parent, *style, value, flags);
-	}
-	mud::Widget* DECL mud_ui_dropdown_5(mud::Widget* parent, mud::Style* style, const char* value, mud::ui::PopupFlags flags, mud::Style* list_style) {
-		return &mud::ui::dropdown(*parent, *style, value, flags, list_style);
-	}
-	mud::Widget* DECL mud_ui_dummy_2(mud::Widget* parent, const mud::vec2* size) {
-		return &mud::ui::dummy(*parent, *size);
-	}
-	mud::Widget* DECL mud_ui_element_2(mud::Widget* parent, void* object, mud::Type* object_type) {
-		return &mud::ui::element(*parent, { object, *object_type });
-	}
-	mud::Expandbox* DECL mud_ui_expandbox_2(mud::Widget* parent, const char* name) {
-		return &mud::ui::expandbox(*parent, name);
-	}
-	mud::Expandbox* DECL mud_ui_expandbox_3(mud::Widget* parent, const char* name, bool open) {
-		return &mud::ui::expandbox(*parent, name, open);
-	}
-	mud::Widget* DECL mud_ui_file_item_2(mud::Widget* parent, const char* name) {
-		return &mud::ui::file_item(*parent, name);
-	}
-	mud::Widget* DECL mud_ui_file_node_2(mud::Widget* parent, const char* name) {
-		return &mud::ui::file_node(*parent, name);
-	}
-	mud::Widget* DECL mud_ui_file_tree_2(mud::Widget* parent, const char* path) {
-		return &mud::ui::file_tree(*parent, path);
-	}
-	mud::Widget* DECL mud_ui_fill_bar_2(mud::Widget* parent, float percentage) {
-		return &mud::ui::fill_bar(*parent, percentage);
-	}
-	mud::Widget* DECL mud_ui_fill_bar_3(mud::Widget* parent, float percentage, mud::Dim dim) {
-		return &mud::ui::fill_bar(*parent, percentage, dim);
-	}
-	bool DECL mud_ui_flag_field_4(mud::Widget* parent, const char* name, uint32_t value, uint8_t shift) {
-		return mud::ui::flag_field(*parent, name, value, shift);
-	}
-	bool DECL mud_ui_flag_field_5(mud::Widget* parent, const char* name, uint32_t value, uint8_t shift, bool reverse) {
-		return mud::ui::flag_field(*parent, name, value, shift, reverse);
-	}
-	mud::Widget* DECL mud_ui_header_1(mud::Widget* parent) {
-		return &mud::ui::header(*parent);
-	}
-	mud::Widget* DECL mud_ui_hoverbox_1(mud::Widget* parent) {
-		return mud::ui::hoverbox(*parent);
-	}
-	mud::Widget* DECL mud_ui_hoverbox_2(mud::Widget* parent, float delay) {
-		return mud::ui::hoverbox(*parent, delay);
-	}
-	mud::Widget* DECL mud_ui_icon_2(mud::Widget* parent, const char* icon) {
-		return &mud::ui::icon(*parent, icon);
-	}
-	mud::Widget* DECL mud_ui_image256_3(mud::Widget* parent, const char* name, const mud::Image256* source) {
-		return &mud::ui::image256(*parent, name, *source);
-	}
-	mud::Widget* DECL mud_ui_image256_4(mud::Widget* parent, const char* name, const mud::Image256* source, const mud::vec2* size) {
-		return &mud::ui::image256(*parent, name, *source, *size);
+	mud::Widget* DECL mud_ui_widget_5(mud::Widget* parent, mud::Style* style, bool open, mud::Dim length, mud::Dim2<size_t>* index) {
+		return &mud::ui::widget(*parent, *style, open, length, *index);
 	}
 	mud::Widget* DECL mud_ui_item_2(mud::Widget* parent, mud::Style* style) {
 		return &mud::ui::item(*parent, *style);
@@ -1144,11 +1009,68 @@ extern "C" {
 	mud::Widget* DECL mud_ui_item_3(mud::Widget* parent, mud::Style* style, const char* content) {
 		return &mud::ui::item(*parent, *style, content);
 	}
+	mud::Widget* DECL mud_ui_spanner_4(mud::Widget* parent, mud::Style* style, mud::Dim dim, float span) {
+		return &mud::ui::spanner(*parent, *style, dim, span);
+	}
+	mud::Widget* DECL mud_ui_spacer_1(mud::Widget* parent) {
+		return &mud::ui::spacer(*parent);
+	}
+	mud::Widget* DECL mud_ui_icon_2(mud::Widget* parent, const char* icon) {
+		return &mud::ui::icon(*parent, icon);
+	}
 	mud::Widget* DECL mud_ui_label_2(mud::Widget* parent, const char* label) {
 		return &mud::ui::label(*parent, label);
 	}
-	mud::Widget* DECL mud_ui_layout_1(mud::Widget* parent) {
-		return &mud::ui::layout(*parent);
+	mud::Widget* DECL mud_ui_title_2(mud::Widget* parent, const char* label) {
+		return &mud::ui::title(*parent, label);
+	}
+	mud::Widget* DECL mud_ui_message_2(mud::Widget* parent, const char* label) {
+		return &mud::ui::message(*parent, label);
+	}
+	mud::Widget* DECL mud_ui_text_2(mud::Widget* parent, const char* label) {
+		return &mud::ui::text(*parent, label);
+	}
+	mud::Widget* DECL mud_ui_button_1(mud::Widget* parent) {
+		return &mud::ui::button(*parent);
+	}
+	mud::Widget* DECL mud_ui_button_2(mud::Widget* parent, const char* content) {
+		return &mud::ui::button(*parent, content);
+	}
+	mud::Widget* DECL mud_ui_toggle_2(mud::Widget* parent, bool on) {
+		return &mud::ui::toggle(*parent, on);
+	}
+	mud::Widget* DECL mud_ui_toggle_3(mud::Widget* parent, bool on, const char* content) {
+		return &mud::ui::toggle(*parent, on, content);
+	}
+	bool DECL mud_ui_modal_button_4(mud::Widget* screen, mud::Widget* parent, const char* content, uint32_t mode) {
+		return mud::ui::modal_button(*screen, *parent, content, mode);
+	}
+	mud::Widget* DECL mud_ui_checkbox_2(mud::Widget* parent, bool on) {
+		return &mud::ui::checkbox(*parent, on);
+	}
+	mud::Widget* DECL mud_ui_fill_bar_2(mud::Widget* parent, float percentage) {
+		return &mud::ui::fill_bar(*parent, percentage);
+	}
+	mud::Widget* DECL mud_ui_fill_bar_3(mud::Widget* parent, float percentage, mud::Dim dim) {
+		return &mud::ui::fill_bar(*parent, percentage, dim);
+	}
+	mud::Widget* DECL mud_ui_image256_3(mud::Widget* parent, const char* name, const mud::Image256* source) {
+		return &mud::ui::image256(*parent, name, *source);
+	}
+	mud::Widget* DECL mud_ui_image256_4(mud::Widget* parent, const char* name, const mud::Image256* source, const mud::vec2* size) {
+		return &mud::ui::image256(*parent, name, *source, *size);
+	}
+	mud::Widget* DECL mud_ui_radio_choice_3(mud::Widget* parent, const char* value, bool active) {
+		return &mud::ui::radio_choice(*parent, value, active);
+	}
+	mud::Widget* DECL mud_ui_dropdown_4(mud::Widget* parent, mud::Style* style, const char* value, mud::ui::PopupFlags flags) {
+		return &mud::ui::dropdown(*parent, *style, value, flags);
+	}
+	mud::Widget* DECL mud_ui_dropdown_5(mud::Widget* parent, mud::Style* style, const char* value, mud::ui::PopupFlags flags, mud::Style* list_style) {
+		return &mud::ui::dropdown(*parent, *style, value, flags, list_style);
+	}
+	mud::Widget* DECL mud_ui_menu_choice_2(mud::Widget* parent, const char* content) {
+		return &mud::ui::menu_choice(*parent, content);
 	}
 	mud::Widget* DECL mud_ui_menu_2(mud::Widget* parent, const char* label) {
 		return &mud::ui::menu(*parent, label);
@@ -1156,14 +1078,98 @@ extern "C" {
 	mud::Widget* DECL mud_ui_menu_3(mud::Widget* parent, const char* label, bool submenu) {
 		return &mud::ui::menu(*parent, label, submenu);
 	}
-	mud::Widget* DECL mud_ui_menu_choice_2(mud::Widget* parent, const char* content) {
-		return &mud::ui::menu_choice(*parent, content);
-	}
 	mud::Widget* DECL mud_ui_menubar_1(mud::Widget* parent) {
 		return &mud::ui::menubar(*parent);
 	}
-	mud::Widget* DECL mud_ui_message_2(mud::Widget* parent, const char* label) {
-		return &mud::ui::message(*parent, label);
+	mud::Widget* DECL mud_ui_toolbutton_2(mud::Widget* parent, const char* icon) {
+		return &mud::ui::toolbutton(*parent, icon);
+	}
+	mud::Widget* DECL mud_ui_tooldock_1(mud::Widget* parent) {
+		return &mud::ui::tooldock(*parent);
+	}
+	mud::Widget* DECL mud_ui_toolbar_1(mud::Widget* parent) {
+		return &mud::ui::toolbar(*parent);
+	}
+	mud::Widget* DECL mud_ui_toolbar_2(mud::Widget* parent, bool wrap) {
+		return &mud::ui::toolbar(*parent, wrap);
+	}
+	mud::ScrollSheet* DECL mud_ui_select_list_1(mud::Widget* parent) {
+		return &mud::ui::select_list(*parent);
+	}
+	mud::Widget* DECL mud_ui_table_row_1(mud::Widget* parent) {
+		return &mud::ui::table_row(*parent);
+	}
+	mud::Widget* DECL mud_ui_table_separator_1(mud::Widget* parent) {
+		return &mud::ui::table_separator(*parent);
+	}
+	mud::Expandbox* DECL mud_ui_expandbox_2(mud::Widget* parent, const char* name) {
+		return &mud::ui::expandbox(*parent, name);
+	}
+	mud::Expandbox* DECL mud_ui_expandbox_3(mud::Widget* parent, const char* name, bool open) {
+		return &mud::ui::expandbox(*parent, name, open);
+	}
+	mud::TreeNode* DECL mud_ui_tree_node_2(mud::Widget* parent, const char* name) {
+		return &mud::ui::tree_node(*parent, name);
+	}
+	mud::TreeNode* DECL mud_ui_tree_node_3(mud::Widget* parent, const char* name, bool leaf) {
+		return &mud::ui::tree_node(*parent, name, leaf);
+	}
+	mud::TreeNode* DECL mud_ui_tree_node_4(mud::Widget* parent, const char* name, bool leaf, bool open) {
+		return &mud::ui::tree_node(*parent, name, leaf, open);
+	}
+	mud::Widget* DECL mud_ui_tree_1(mud::Widget* parent) {
+		return &mud::ui::tree(*parent);
+	}
+	mud::Widget* DECL mud_ui_tab_2(mud::Tabber* tabber, const char* name) {
+		return mud::ui::tab(*tabber, name);
+	}
+	mud::Tabber* DECL mud_ui_tabber_1(mud::Widget* parent) {
+		return &mud::ui::tabber(*parent);
+	}
+	mud::Widget* DECL mud_ui_row_1(mud::Widget* parent) {
+		return &mud::ui::row(*parent);
+	}
+	mud::Widget* DECL mud_ui_header_1(mud::Widget* parent) {
+		return &mud::ui::header(*parent);
+	}
+	mud::Widget* DECL mud_ui_div_1(mud::Widget* parent) {
+		return &mud::ui::div(*parent);
+	}
+	mud::Widget* DECL mud_ui_stack_1(mud::Widget* parent) {
+		return &mud::ui::stack(*parent);
+	}
+	mud::Widget* DECL mud_ui_sheet_1(mud::Widget* parent) {
+		return &mud::ui::sheet(*parent);
+	}
+	mud::Widget* DECL mud_ui_board_1(mud::Widget* parent) {
+		return &mud::ui::board(*parent);
+	}
+	mud::Widget* DECL mud_ui_layout_1(mud::Widget* parent) {
+		return &mud::ui::layout(*parent);
+	}
+	mud::Widget* DECL mud_ui_screen_1(mud::Widget* parent) {
+		return &mud::ui::screen(*parent);
+	}
+	mud::Widget* DECL mud_ui_decal_1(mud::Widget* parent) {
+		return &mud::ui::decal(*parent);
+	}
+	mud::Widget* DECL mud_ui_overlay_1(mud::Widget* parent) {
+		return &mud::ui::overlay(*parent);
+	}
+	mud::Widget* DECL mud_ui_title_header_2(mud::Widget* parent, const char* title) {
+		return &mud::ui::title_header(*parent, title);
+	}
+	mud::Widget* DECL mud_ui_dummy_2(mud::Widget* parent, const mud::vec2* size) {
+		return &mud::ui::dummy(*parent, *size);
+	}
+	mud::Widget* DECL mud_ui_popup_2(mud::Widget* parent, mud::ui::PopupFlags flags) {
+		return &mud::ui::popup(*parent, flags);
+	}
+	mud::Widget* DECL mud_ui_popup_at_2(mud::Widget* parent, const mud::vec2* position) {
+		return &mud::ui::popup_at(*parent, *position);
+	}
+	mud::Widget* DECL mud_ui_popup_at_3(mud::Widget* parent, const mud::vec2* position, mud::ui::PopupFlags flags) {
+		return &mud::ui::popup_at(*parent, *position, flags);
 	}
 	mud::Widget* DECL mud_ui_modal_1(mud::Widget* parent) {
 		return &mud::ui::modal(*parent);
@@ -1171,20 +1177,92 @@ extern "C" {
 	mud::Widget* DECL mud_ui_modal_2(mud::Widget* parent, const mud::vec2* size) {
 		return &mud::ui::modal(*parent, *size);
 	}
-	bool DECL mud_ui_modal_button_4(mud::Widget* screen, mud::Widget* parent, const char* content, uint32_t mode) {
-		return mud::ui::modal_button(*screen, *parent, content, mode);
+	mud::Widget* DECL mud_ui_auto_modal_2(mud::Widget* parent, uint32_t mode) {
+		return &mud::ui::auto_modal(*parent, mode);
 	}
-	mud::Node* DECL mud_ui_node_3(mud::Canvas* parent, const char* title, mud::vec2* position) {
-		return &mud::ui::node(*parent, title, *position);
+	mud::Widget* DECL mud_ui_auto_modal_3(mud::Widget* parent, uint32_t mode, const mud::vec2* size) {
+		return &mud::ui::auto_modal(*parent, mode, *size);
 	}
-	mud::Node* DECL mud_ui_node_4(mud::Canvas* parent, const char* title, mud::vec2* position, int order) {
-		return &mud::ui::node(*parent, title, *position, order);
+	mud::Widget* DECL mud_ui_context_2(mud::Widget* parent, uint32_t mode) {
+		return mud::ui::context(*parent, mode);
 	}
-	mud::Node* DECL mud_ui_node_5(mud::Canvas* parent, const char* title, mud::vec2* position, int order, void* identity, mud::Type* identity_type) {
-		return &mud::ui::node(*parent, title, *position, order, { identity, *identity_type });
+	mud::Widget* DECL mud_ui_context_3(mud::Widget* parent, uint32_t mode, mud::ui::PopupFlags flags) {
+		return mud::ui::context(*parent, mode, flags);
 	}
-	mud::Widget* DECL mud_ui_node_cable_3(mud::Canvas* canvas, mud::NodePlug* plug_out, mud::NodePlug* plug_in) {
-		return &mud::ui::node_cable(*canvas, *plug_out, *plug_in);
+	mud::Widget* DECL mud_ui_hoverbox_1(mud::Widget* parent) {
+		return mud::ui::hoverbox(*parent);
+	}
+	mud::Widget* DECL mud_ui_hoverbox_2(mud::Widget* parent, float delay) {
+		return mud::ui::hoverbox(*parent, delay);
+	}
+	mud::Widget* DECL mud_ui_tooltip_3(mud::Widget* parent, const mud::vec2* position, const char* content) {
+		return mud::ui::tooltip(*parent, *position, content);
+	}
+	mud::Widget* DECL mud_ui_cursor_3(mud::Widget* parent, const mud::vec2* position, mud::Widget* hovered) {
+		return &mud::ui::cursor(*parent, *position, *hovered);
+	}
+	mud::Widget* DECL mud_ui_cursor_4(mud::Widget* parent, const mud::vec2* position, mud::Widget* hovered, bool locked) {
+		return &mud::ui::cursor(*parent, *position, *hovered, locked);
+	}
+	mud::Widget* DECL mud_ui_rectangle_2(mud::Widget* parent, const mud::vec4* rect) {
+		return &mud::ui::rectangle(*parent, *rect);
+	}
+	mud::Dockspace* DECL mud_ui_dockspace_2(mud::Widget* parent, mud::Docksystem* docksystem) {
+		return &mud::ui::dockspace(*parent, *docksystem);
+	}
+	mud::Dockbar* DECL mud_ui_dockbar_2(mud::Widget* parent, mud::Docksystem* docksystem) {
+		return &mud::ui::dockbar(*parent, *docksystem);
+	}
+	mud::Widget* DECL mud_ui_dockitem_3(mud::Widget* parent, mud::Docksystem* docksystem, mud::Dock* dock) {
+		return mud::ui::dockitem(*parent, *docksystem, *dock);
+	}
+	bool DECL mud_ui_drag_float_2(mud::Widget* parent, float value) {
+		return mud::ui::drag_float(*parent, value);
+	}
+	bool DECL mud_ui_drag_float_3(mud::Widget* parent, float value, float step) {
+		return mud::ui::drag_float(*parent, value, step);
+	}
+	bool DECL mud_ui_vec2_edit_2(mud::Widget* parent, mud::vec2* vec) {
+		return mud::ui::vec2_edit(*parent, *vec);
+	}
+	bool DECL mud_ui_vec3_edit_2(mud::Widget* parent, mud::vec3* vec) {
+		return mud::ui::vec3_edit(*parent, *vec);
+	}
+	bool DECL mud_ui_quat_edit_2(mud::Widget* parent, mud::quat* quat) {
+		return mud::ui::quat_edit(*parent, *quat);
+	}
+	bool DECL mud_ui_color_edit_hsl_3(mud::Widget* parent, const mud::Colour* colour, mud::Colour* value) {
+		return mud::ui::color_edit_hsl(*parent, *colour, *value);
+	}
+	mud::Widget* DECL mud_ui_color_display_2(mud::Widget* parent, const mud::Colour* value) {
+		return &mud::ui::color_display(*parent, *value);
+	}
+	bool DECL mud_ui_color_edit_2(mud::Widget* parent, mud::Colour* value) {
+		return mud::ui::color_edit(*parent, *value);
+	}
+	bool DECL mud_ui_color_edit_simple_2(mud::Widget* parent, mud::Colour* value) {
+		return mud::ui::color_edit_simple(*parent, *value);
+	}
+	bool DECL mud_ui_color_toggle_edit_2(mud::Widget* parent, mud::Colour* value) {
+		return mud::ui::color_toggle_edit(*parent, *value);
+	}
+	bool DECL mud_ui_flag_field_4(mud::Widget* parent, const char* name, uint32_t value, uint8_t shift) {
+		return mud::ui::flag_field(*parent, name, value, shift);
+	}
+	bool DECL mud_ui_flag_field_5(mud::Widget* parent, const char* name, uint32_t value, uint8_t shift, bool reverse) {
+		return mud::ui::flag_field(*parent, name, value, shift, reverse);
+	}
+	bool DECL mud_ui_color_field_3(mud::Widget* parent, const char* name, mud::Colour* value) {
+		return mud::ui::color_field(*parent, name, *value);
+	}
+	bool DECL mud_ui_color_field_4(mud::Widget* parent, const char* name, mud::Colour* value, bool reverse) {
+		return mud::ui::color_field(*parent, name, *value, reverse);
+	}
+	void DECL mud_ui_color_display_field_3(mud::Widget* parent, const char* name, const mud::Colour* value) {
+		mud::ui::color_display_field(*parent, name, *value);
+	}
+	void DECL mud_ui_color_display_field_4(mud::Widget* parent, const char* name, const mud::Colour* value, bool reverse) {
+		mud::ui::color_display_field(*parent, name, *value, reverse);
 	}
 	mud::NodePlug* DECL mud_ui_node_input_2(mud::Node* node, const char* name) {
 		return &mud::ui::node_input(*node, name);
@@ -1216,140 +1294,62 @@ extern "C" {
 	mud::NodePlug* DECL mud_ui_node_output_6(mud::Node* node, const char* name, const char* icon, const mud::Colour* colour, bool active, bool connected) {
 		return &mud::ui::node_output(*node, name, icon, *colour, active, connected);
 	}
-	mud::Widget* DECL mud_ui_overlay_1(mud::Widget* parent) {
-		return &mud::ui::overlay(*parent);
+	mud::Node* DECL mud_ui_node_3(mud::Canvas* parent, const char* title, mud::vec2* position) {
+		return &mud::ui::node(*parent, title, *position);
 	}
-	mud::Widget* DECL mud_ui_popup_2(mud::Widget* parent, mud::ui::PopupFlags flags) {
-		return &mud::ui::popup(*parent, flags);
+	mud::Node* DECL mud_ui_node_4(mud::Canvas* parent, const char* title, mud::vec2* position, int order) {
+		return &mud::ui::node(*parent, title, *position, order);
 	}
-	mud::Widget* DECL mud_ui_popup_at_2(mud::Widget* parent, const mud::vec2* position) {
-		return &mud::ui::popup_at(*parent, *position);
+	mud::Node* DECL mud_ui_node_5(mud::Canvas* parent, const char* title, mud::vec2* position, int order, void* identity, mud::Type* identity_type) {
+		return &mud::ui::node(*parent, title, *position, order, { identity, *identity_type });
 	}
-	mud::Widget* DECL mud_ui_popup_at_3(mud::Widget* parent, const mud::vec2* position, mud::ui::PopupFlags flags) {
-		return &mud::ui::popup_at(*parent, *position, flags);
+	mud::Widget* DECL mud_ui_node_cable_3(mud::Canvas* canvas, mud::NodePlug* plug_out, mud::NodePlug* plug_in) {
+		return &mud::ui::node_cable(*canvas, *plug_out, *plug_in);
 	}
-	bool DECL mud_ui_quat_edit_2(mud::Widget* parent, mud::quat* quat) {
-		return mud::ui::quat_edit(*parent, *quat);
+	mud::Canvas* DECL mud_ui_canvas_1(mud::Widget* parent) {
+		return &mud::ui::canvas(*parent);
 	}
-	mud::Widget* DECL mud_ui_radio_choice_3(mud::Widget* parent, const char* value, bool active) {
-		return &mud::ui::radio_choice(*parent, value, active);
-	}
-	mud::Widget* DECL mud_ui_rectangle_2(mud::Widget* parent, const mud::vec4* rect) {
-		return &mud::ui::rectangle(*parent, *rect);
-	}
-	mud::Widget* DECL mud_ui_row_1(mud::Widget* parent) {
-		return &mud::ui::row(*parent);
-	}
-	mud::Widget* DECL mud_ui_screen_1(mud::Widget* parent) {
-		return &mud::ui::screen(*parent);
-	}
-	mud::ui::Sequence* DECL mud_ui_scroll_sequence_1(mud::Widget* parent) {
-		return &mud::ui::scroll_sequence(*parent);
+	mud::Canvas* DECL mud_ui_canvas_2(mud::Widget* parent, size_t num_nodes) {
+		return &mud::ui::canvas(*parent, num_nodes);
 	}
 	mud::Widget* DECL mud_ui_scrollable_1(mud::Widget* parent) {
 		return &mud::ui::scrollable(*parent);
 	}
-	mud::ScrollSheet* DECL mud_ui_select_list_1(mud::Widget* parent) {
-		return &mud::ui::select_list(*parent);
-	}
-	//bool DECL mud_ui_select_logic_3(mud::Widget* element, void* object, mud::Type* object_type, void* selection, mud::Type* selection_type) {
-	//	return mud::ui::select_logic(*element, { object, *object_type }, { selection, *selection_type });
-	//}
 	mud::ui::Sequence* DECL mud_ui_sequence_1(mud::Widget* parent) {
 		return &mud::ui::sequence(*parent);
 	}
+	mud::ui::Sequence* DECL mud_ui_scroll_sequence_1(mud::Widget* parent) {
+		return &mud::ui::scroll_sequence(*parent);
+	}
+	bool DECL mud_ui_select_logic_3(mud::Widget* element, void* object, mud::Type* object_type, void* selection, mud::Type* selection_type) {
+		return mud::ui::select_logic(*element, { object, *object_type }, { selection, *selection_type });
+	}
+	mud::Widget* DECL mud_ui_element_2(mud::Widget* parent, void* object, mud::Type* object_type) {
+		return &mud::ui::element(*parent, { object, *object_type });
+	}
 	mud::Widget* DECL mud_ui_sequence_element_2(mud::ui::Sequence* parent, void* object, mud::Type* object_type) {
 		return &mud::ui::sequence_element(*parent, { object, *object_type });
-	}
-	mud::Widget* DECL mud_ui_sheet_1(mud::Widget* parent) {
-		return &mud::ui::sheet(*parent);
-	}
-	mud::Widget* DECL mud_ui_spacer_1(mud::Widget* parent) {
-		return &mud::ui::spacer(*parent);
-	}
-	mud::Widget* DECL mud_ui_spanner_4(mud::Widget* parent, mud::Style* style, mud::Dim dim, float span) {
-		return &mud::ui::spanner(*parent, *style, dim, span);
-	}
-	mud::Widget* DECL mud_ui_stack_1(mud::Widget* parent) {
-		return &mud::ui::stack(*parent);
-	}
-	mud::Widget* DECL mud_ui_tab_2(mud::Tabber* tabber, const char* name) {
-		return mud::ui::tab(*tabber, name);
-	}
-	mud::Tabber* DECL mud_ui_tabber_1(mud::Widget* parent) {
-		return &mud::ui::tabber(*parent);
-	}
-	mud::Widget* DECL mud_ui_table_row_1(mud::Widget* parent) {
-		return &mud::ui::table_row(*parent);
-	}
-	mud::Widget* DECL mud_ui_table_separator_1(mud::Widget* parent) {
-		return &mud::ui::table_separator(*parent);
-	}
-	mud::Widget* DECL mud_ui_text_2(mud::Widget* parent, const char* label) {
-		return &mud::ui::text(*parent, label);
-	}
-	mud::Widget* DECL mud_ui_title_2(mud::Widget* parent, const char* label) {
-		return &mud::ui::title(*parent, label);
-	}
-	mud::Widget* DECL mud_ui_title_header_2(mud::Widget* parent, const char* title) {
-		return &mud::ui::title_header(*parent, title);
-	}
-	mud::Widget* DECL mud_ui_toggle_2(mud::Widget* parent, bool on) {
-		return &mud::ui::toggle(*parent, on);
-	}
-	mud::Widget* DECL mud_ui_toggle_3(mud::Widget* parent, bool on, const char* content) {
-		return &mud::ui::toggle(*parent, on, content);
-	}
-	mud::Widget* DECL mud_ui_toolbar_1(mud::Widget* parent) {
-		return &mud::ui::toolbar(*parent);
-	}
-	mud::Widget* DECL mud_ui_toolbar_2(mud::Widget* parent, bool wrap) {
-		return &mud::ui::toolbar(*parent, wrap);
-	}
-	mud::Widget* DECL mud_ui_toolbutton_2(mud::Widget* parent, const char* icon) {
-		return &mud::ui::toolbutton(*parent, icon);
-	}
-	mud::Widget* DECL mud_ui_tooldock_1(mud::Widget* parent) {
-		return &mud::ui::tooldock(*parent);
-	}
-	mud::Widget* DECL mud_ui_tooltip_3(mud::Widget* parent, const mud::vec2* position, const char* content) {
-		return mud::ui::tooltip(*parent, *position, content);
-	}
-	mud::Widget* DECL mud_ui_tree_1(mud::Widget* parent) {
-		return &mud::ui::tree(*parent);
-	}
-	mud::TreeNode* DECL mud_ui_tree_node_2(mud::Widget* parent, const char* name) {
-		return &mud::ui::tree_node(*parent, name);
-	}
-	mud::TreeNode* DECL mud_ui_tree_node_3(mud::Widget* parent, const char* name, bool leaf) {
-		return &mud::ui::tree_node(*parent, name, leaf);
-	}
-	mud::TreeNode* DECL mud_ui_tree_node_4(mud::Widget* parent, const char* name, bool leaf, bool open) {
-		return &mud::ui::tree_node(*parent, name, leaf, open);
-	}
-	bool DECL mud_ui_vec2_edit_2(mud::Widget* parent, mud::vec2* vec) {
-		return mud::ui::vec2_edit(*parent, *vec);
-	}
-	bool DECL mud_ui_vec3_edit_2(mud::Widget* parent, mud::vec3* vec) {
-		return mud::ui::vec3_edit(*parent, *vec);
-	}
-	mud::Widget* DECL mud_ui_widget_2(mud::Widget* parent, mud::Style* style) {
-		return &mud::ui::widget(*parent, *style);
-	}
-	mud::Widget* DECL mud_ui_widget_3(mud::Widget* parent, mud::Style* style, bool open) {
-		return &mud::ui::widget(*parent, *style, open);
-	}
-	mud::Widget* DECL mud_ui_widget_4(mud::Widget* parent, mud::Style* style, bool open, mud::Dim length) {
-		return &mud::ui::widget(*parent, *style, open, length);
-	}
-	mud::Widget* DECL mud_ui_widget_5(mud::Widget* parent, mud::Style* style, bool open, mud::Dim length, mud::Dim2<size_t>* index) {
-		return &mud::ui::widget(*parent, *style, open, length, *index);
 	}
 	mud::Window* DECL mud_ui_window_2(mud::Widget* parent, const char* title) {
 		return &mud::ui::window(*parent, title);
 	}
 	mud::Window* DECL mud_ui_window_3(mud::Widget* parent, const char* title, mud::WindowState state) {
 		return &mud::ui::window(*parent, title, state);
+	}
+	mud::Widget* DECL mud_ui_dir_item_2(mud::Widget* parent, const char* name) {
+		return &mud::ui::dir_item(*parent, name);
+	}
+	mud::Widget* DECL mud_ui_file_item_2(mud::Widget* parent, const char* name) {
+		return &mud::ui::file_item(*parent, name);
+	}
+	mud::Widget* DECL mud_ui_dir_node_4(mud::Widget* parent, const char* path, const char* name, bool collapsed) {
+		return &mud::ui::dir_node(*parent, path, name, collapsed);
+	}
+	mud::Widget* DECL mud_ui_file_node_2(mud::Widget* parent, const char* name) {
+		return &mud::ui::file_node(*parent, name);
+	}
+	mud::Widget* DECL mud_ui_file_tree_2(mud::Widget* parent, const char* path) {
+		return &mud::ui::file_tree(*parent, path);
 	}
 	// Align
 	mud::Align DECL mud_Align_Left() {

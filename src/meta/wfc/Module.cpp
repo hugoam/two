@@ -9,13 +9,10 @@ module mud.wfc;
 #include <meta/math/Module.h>
 #include <meta/geom/Module.h>
 #include <meta/wfc/Module.h>
+#include <meta/wfc/Convert.h>
 #endif
 
 #include <wfc/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/wfc/Convert.h>
-#endif
 #define MUD_WFC_REFLECTION_IMPL
 #include <meta/wfc/Meta.h>
 

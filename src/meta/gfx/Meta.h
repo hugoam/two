@@ -9,10 +9,13 @@
 #include <refl/Module.h>
 #endif
 
+#include <math/Api.h>
+
 namespace mud
 {
     void mud_gfx_meta(Module& m)
     {
+    UNUSED(m);
     
     // Base Types
     
@@ -263,49 +266,49 @@ namespace mud
         static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
         static Class cls = { type<array<const char*>>() };
         cls.m_content = &type<const char*>();
-        //meta_sequence<array<const char*>, const char*>();
+        meta_sequence<array<const char*>, const char*>();
     }
     {
         static Meta meta = { type<array<mud::mat4>>(), &namspc({}), "array<mud::mat4>", sizeof(array<mud::mat4>), TypeClass::Sequence };
         static Class cls = { type<array<mud::mat4>>() };
         cls.m_content = &type<mud::mat4>();
-        //meta_sequence<array<mud::mat4>, mud::mat4>();
+        meta_sequence<array<mud::mat4>, mud::mat4>();
     }
     {
         static Meta meta = { type<vector<mud::Animation*>>(), &namspc({}), "vector<mud::Animation*>", sizeof(vector<mud::Animation*>), TypeClass::Sequence };
         static Class cls = { type<vector<mud::Animation*>>() };
         cls.m_content = &type<mud::Animation>();
-        meta_sequence<vector<mud::Animation*>, mud::Animation*>();
+        meta_vector<vector<mud::Animation*>, mud::Animation*>();
     }
     {
         static Meta meta = { type<vector<mud::AnimationPlay>>(), &namspc({}), "vector<mud::AnimationPlay>", sizeof(vector<mud::AnimationPlay>), TypeClass::Sequence };
         static Class cls = { type<vector<mud::AnimationPlay>>() };
         cls.m_content = &type<mud::AnimationPlay>();
-        meta_sequence<vector<mud::AnimationPlay>, mud::AnimationPlay>();
+        meta_vector<vector<mud::AnimationPlay>, mud::AnimationPlay>();
     }
     {
         static Meta meta = { type<vector<string>>(), &namspc({}), "vector<string>", sizeof(vector<string>), TypeClass::Sequence };
         static Class cls = { type<vector<string>>() };
         cls.m_content = &type<string>();
-        meta_sequence<vector<string>, string>();
+        meta_vector<vector<string>, string>();
     }
     {
         static Meta meta = { type<vector<string>>(), &namspc({}), "vector<string>", sizeof(vector<string>), TypeClass::Sequence };
         static Class cls = { type<vector<string>>() };
         cls.m_content = &type<string>();
-        meta_sequence<vector<string>, string>();
+        meta_vector<vector<string>, string>();
     }
     {
         static Meta meta = { type<vector<string>>(), &namspc({}), "vector<string>", sizeof(vector<string>), TypeClass::Sequence };
         static Class cls = { type<vector<string>>() };
         cls.m_content = &type<string>();
-        meta_sequence<vector<string>, string>();
+        meta_vector<vector<string>, string>();
     }
     {
         static Meta meta = { type<vector<string>>(), &namspc({}), "vector<string>", sizeof(vector<string>), TypeClass::Sequence };
         static Class cls = { type<vector<string>>() };
         cls.m_content = &type<string>();
-        meta_sequence<vector<string>, string>();
+        meta_vector<vector<string>, string>();
     }
     
     // mud::Animated
@@ -1134,7 +1137,7 @@ namespace mud
                 { type<mud::GfxSystem>(), "add_resource_path", member_address<void(mud::GfxSystem::*)(const char*, bool)>(&mud::GfxSystem::add_resource_path), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::GfxSystem>(object).add_resource_path(val<const char*>(args[0]), val<bool>(args[1])); }, { { "path", Ref(type<const char*>()), Param::Nullable }, { "relative", var(bool(true)), Param::Default } }, Var() },
                 { type<mud::GfxSystem>(), "debug_material", member_address<mud::Material&(mud::GfxSystem::*)()>(&mud::GfxSystem::debug_material), [](Ref object, array<Var> args, Var& result) { UNUSED(args); result = Ref(&val<mud::GfxSystem>(object).debug_material()); }, {}, Ref(type<mud::Material>()) },
                 { type<mud::GfxSystem>(), "fetch_material", member_address<mud::Material&(mud::GfxSystem::*)(const char*, const char*, bool)>(&mud::GfxSystem::fetch_material), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::GfxSystem>(object).fetch_material(val<const char*>(args[0]), val<const char*>(args[1]), val<bool>(args[2]))); }, { { "name", Ref(type<const char*>()), Param::Nullable }, { "shader", Ref(type<const char*>()), Param::Nullable }, { "builtin", var(bool(true)), Param::Default } }, Ref(type<mud::Material>()) },
-                //{ type<mud::GfxSystem>(), "fetch_image256_material", member_address<mud::Material&(mud::GfxSystem::*)(const mud::Image256&)>(&mud::GfxSystem::fetch_image256_material), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::GfxSystem>(object).fetch_image256_material(val<mud::Image256>(args[0]))); }, { { "image", var(mud::Image256()) } }, Ref(type<mud::Material>()) },
+                { type<mud::GfxSystem>(), "fetch_image256_material", member_address<mud::Material&(mud::GfxSystem::*)(const mud::Image256&)>(&mud::GfxSystem::fetch_image256_material), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::GfxSystem>(object).fetch_image256_material(val<mud::Image256>(args[0]))); }, { { "image", var(mud::Image256()) } }, Ref(type<mud::Material>()) },
                 { type<mud::GfxSystem>(), "fetch_symbol", member_address<mud::Model&(mud::GfxSystem::*)(const mud::Symbol&, const mud::Shape&, mud::DrawMode)>(&mud::GfxSystem::fetch_symbol), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::GfxSystem>(object).fetch_symbol(val<mud::Symbol>(args[0]), val<mud::Shape>(args[1]), val<mud::DrawMode>(args[2]))); }, { { "symbol", var(mud::Symbol()) }, { "shape", Ref(type<mud::Shape>()) }, { "draw_mode", var(mud::DrawMode()) } }, Ref(type<mud::Model>()) },
                 { type<mud::GfxSystem>(), "fetch_symbol_material", member_address<mud::Material&(mud::GfxSystem::*)(const mud::Symbol&, mud::DrawMode)>(&mud::GfxSystem::fetch_symbol_material), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::GfxSystem>(object).fetch_symbol_material(val<mud::Symbol>(args[0]), val<mud::DrawMode>(args[1]))); }, { { "symbol", var(mud::Symbol()) }, { "draw_mode", var(mud::DrawMode()) } }, Ref(type<mud::Material>()) }
             },
@@ -2460,12 +2463,12 @@ namespace mud
             static Function f = { &namspc({ "mud", "gfx" }), "draw", funcptr<void(*)(mud::Gnode&, const mud::Shape&, const mud::Symbol&, uint32_t)>(&mud::gfx::draw), func, params, Var() };
             m.m_functions.push_back(&f);
         }
-        /*{
+        {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::sprite(val<mud::Gnode>(args[0]), val<mud::Image256>(args[1]), val<mud::vec2>(args[2]), val<uint32_t>(args[3]), &val<mud::Material>(args[4]), val<size_t>(args[5]))); };
             vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "image", var(mud::Image256()) }, { "size", var(mud::vec2()) }, { "flags", var(uint32_t(0)), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t(0)), Param::Default } };
             static Function f = { &namspc({ "mud", "gfx" }), "sprite", funcptr<mud::Item&(*)(mud::Gnode&, const mud::Image256&, const mud::vec2&, uint32_t, mud::Material*, size_t)>(&mud::gfx::sprite), func, params, Ref(type<mud::Item>()) };
             m.m_functions.push_back(&f);
-        }*/
+        }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::item(val<mud::Gnode>(args[0]), val<mud::Model>(args[1]), val<uint32_t>(args[2]), &val<mud::Material>(args[3]), val<size_t>(args[4]), val<array<mud::mat4>>(args[5]))); };
             vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "model", Ref(type<mud::Model>()) }, { "flags", var(uint32_t(0)), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t(0)), Param::Default }, { "transforms", var(array<mud::mat4>{}), Param::Default } };

@@ -17,17 +17,17 @@ extern "C" {
 	mud::Type* DECL mud_Context__type() {
 		return &mud::type<mud::Context>();
 	}
+	void DECL mud_Context_reset_2(mud::Context* self, uint16_t width, uint16_t height) {
+		self->reset(width, height);
+	}
 	void DECL mud_Context_init_input_2(mud::Context* self, mud::Mouse* mouse, mud::Keyboard* keyboard) {
 		self->init_input(*mouse, *keyboard);
-	}
-	void DECL mud_Context_lock_mouse_1(mud::Context* self, bool locked) {
-		self->lock_mouse(locked);
 	}
 	bool DECL mud_Context_next_frame_0(mud::Context* self) {
 		return self->next_frame();
 	}
-	void DECL mud_Context_reset_2(mud::Context* self, uint16_t width, uint16_t height) {
-		self->reset(width, height);
+	void DECL mud_Context_lock_mouse_1(mud::Context* self, bool locked) {
+		self->lock_mouse(locked);
 	}
 	const char* DECL mud_Context__get_resource_path(mud::Context* self) {
 		return self->m_resource_path.c_str();

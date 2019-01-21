@@ -13,6 +13,7 @@ namespace mud
 {
     void mud_math_meta(Module& m)
     {
+    UNUSED(m);
     
     // Base Types
     
@@ -93,37 +94,37 @@ namespace mud
         static Meta meta = { type<vector<float>>(), &namspc({}), "vector<float>", sizeof(vector<float>), TypeClass::Sequence };
         static Class cls = { type<vector<float>>() };
         cls.m_content = &type<float>();
-        meta_sequence<vector<float>, float>();
+        meta_vector<vector<float>, float>();
     }
     {
         static Meta meta = { type<vector<mud::Colour>>(), &namspc({}), "vector<mud::Colour>", sizeof(vector<mud::Colour>), TypeClass::Sequence };
         static Class cls = { type<vector<mud::Colour>>() };
         cls.m_content = &type<mud::Colour>();
-        meta_sequence<vector<mud::Colour>, mud::Colour>();
+        meta_vector<vector<mud::Colour>, mud::Colour>();
     }
     {
         static Meta meta = { type<vector<mud::quat>>(), &namspc({}), "vector<mud::quat>", sizeof(vector<mud::quat>), TypeClass::Sequence };
         static Class cls = { type<vector<mud::quat>>() };
         cls.m_content = &type<mud::quat>();
-        meta_sequence<vector<mud::quat>, mud::quat>();
+        meta_vector<vector<mud::quat>, mud::quat>();
     }
     {
         static Meta meta = { type<vector<mud::uvec3>>(), &namspc({}), "vector<mud::uvec3>", sizeof(vector<mud::uvec3>), TypeClass::Sequence };
         static Class cls = { type<vector<mud::uvec3>>() };
         cls.m_content = &type<mud::uvec3>();
-        meta_sequence<vector<mud::uvec3>, mud::uvec3>();
+        meta_vector<vector<mud::uvec3>, mud::uvec3>();
     }
     {
         static Meta meta = { type<vector<mud::vec3>>(), &namspc({}), "vector<mud::vec3>", sizeof(vector<mud::vec3>), TypeClass::Sequence };
         static Class cls = { type<vector<mud::vec3>>() };
         cls.m_content = &type<mud::vec3>();
-        meta_sequence<vector<mud::vec3>, mud::vec3>();
+        meta_vector<vector<mud::vec3>, mud::vec3>();
     }
     {
         static Meta meta = { type<vector<uint32_t>>(), &namspc({}), "vector<uint32_t>", sizeof(vector<uint32_t>), TypeClass::Sequence };
         static Class cls = { type<vector<uint32_t>>() };
         cls.m_content = &type<uint32_t>();
-        meta_sequence<vector<uint32_t>, uint32_t>();
+        meta_vector<vector<uint32_t>, uint32_t>();
     }
     
     // mud::AutoStat<float>
@@ -1519,18 +1520,18 @@ namespace mud
         m.m_types.push_back(&type<mud::ivec4>());
         m.m_types.push_back(&type<mud::mat4>());
         m.m_types.push_back(&type<mud::quat>());
-        m.m_types.push_back(&type<vector<float>>());
-        m.m_types.push_back(&type<vector<mud::Colour>>());
-        m.m_types.push_back(&type<vector<mud::quat>>());
-        m.m_types.push_back(&type<vector<mud::uvec3>>());
-        m.m_types.push_back(&type<vector<mud::vec3>>());
-        m.m_types.push_back(&type<vector<uint32_t>>());
         m.m_types.push_back(&type<mud::uvec2>());
         m.m_types.push_back(&type<mud::uvec3>());
         m.m_types.push_back(&type<mud::uvec4>());
         m.m_types.push_back(&type<mud::vec2>());
         m.m_types.push_back(&type<mud::vec3>());
         m.m_types.push_back(&type<mud::vec4>());
+        m.m_types.push_back(&type<vector<float>>());
+        m.m_types.push_back(&type<vector<mud::Colour>>());
+        m.m_types.push_back(&type<vector<mud::quat>>());
+        m.m_types.push_back(&type<vector<mud::uvec3>>());
+        m.m_types.push_back(&type<vector<mud::vec3>>());
+        m.m_types.push_back(&type<vector<uint32_t>>());
         m.m_types.push_back(&type<mud::Sprite>());
         m.m_types.push_back(&type<mud::SpriteAtlas>());
         m.m_types.push_back(&type<mud::TextureAtlas>());
@@ -1744,24 +1745,24 @@ namespace mud
             static Function f = { &namspc({ "mud" }), "divide<mud::vec3>", funcptr<mud::vec3(*)(mud::vec3, mud::vec3)>(&mud::divide<mud::vec3>), func, params, var(mud::vec3()) };
             m.m_functions.push_back(&f);
         }
-        /*{
-            auto func = [](array<Var> args, Var& result) {  val<float>(result) = glm::distance(val<mud::vec3>(args[0]), val<mud::vec3>(args[1])); };
+        {
+            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::distance(val<mud::vec3>(args[0]), val<mud::vec3>(args[1])); };
             vector<Param> params = { { "a", var(mud::vec3()) }, { "b", var(mud::vec3()) } };
-            static Function f = { &namspc({ "glm" }), "distance", funcptr<float(*)(const mud::vec3&, const mud::vec3&)>(&glm::distance), func, params, var(float()) };
+            static Function f = { &namspc({ "glm" }), "distance", funcptr<float(*)(const mud::vec3&, const mud::vec3&)>(&mud::distance), func, params, var(float()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<float>(result) = glm::length(val<mud::vec3>(args[0])); };
+            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::length(val<mud::vec3>(args[0])); };
             vector<Param> params = { { "v", var(mud::vec3()) } };
-            static Function f = { &namspc({ "glm" }), "length", funcptr<float(*)(const mud::vec3&)>(&glm::length), func, params, var(float()) };
+            static Function f = { &namspc({ "glm" }), "length", funcptr<float(*)(const mud::vec3&)>(&mud::length), func, params, var(float()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<float>(result) = glm::length2(val<mud::vec3>(args[0])); };
+            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::length2(val<mud::vec3>(args[0])); };
             vector<Param> params = { { "v", var(mud::vec3()) } };
-            static Function f = { &namspc({ "glm" }), "length2", funcptr<float(*)(const mud::vec3&)>(&glm::length2), func, params, var(float()) };
+            static Function f = { &namspc({ "glm" }), "length2", funcptr<float(*)(const mud::vec3&)>(&mud::length2), func, params, var(float()) };
             m.m_functions.push_back(&f);
-        }*/
+        }
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::grid(val<mud::uvec3>(args[0]), val<vector<mud::uvec3>>(args[1])); };
             vector<Param> params = { { "size", var(mud::uvec3()) }, { "output_coords", var(vector<mud::uvec3>()), Param::Output } };

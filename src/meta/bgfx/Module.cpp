@@ -8,13 +8,10 @@ module mud.bgfx;
 #include <meta/math/Module.h>
 #include <meta/ctx/Module.h>
 #include <meta/bgfx/Module.h>
+#include <meta/bgfx/Convert.h>
 #endif
 
 #include <bgfx/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/bgfx/Convert.h>
-#endif
 #define MUD_BGFX_REFLECTION_IMPL
 #include <meta/bgfx/Meta.h>
 

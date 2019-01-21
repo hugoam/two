@@ -8,13 +8,10 @@ module mud.fract;
 #include <meta/math/Module.h>
 #include <meta/geom/Module.h>
 #include <meta/fract/Module.h>
+#include <meta/fract/Convert.h>
 #endif
 
 #include <fract/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/fract/Convert.h>
-#endif
 #define MUD_FRACT_REFLECTION_IMPL
 #include <meta/fract/Meta.h>
 

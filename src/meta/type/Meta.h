@@ -13,6 +13,7 @@ namespace mud
 {
     void mud_type_meta(Module& m)
     {
+    UNUSED(m);
     
     // Base Types
     {
@@ -91,7 +92,7 @@ namespace mud
         static Meta meta = { type<vector<mud::Ref>>(), &namspc({}), "vector<mud::Ref>", sizeof(vector<mud::Ref>), TypeClass::Sequence };
         static Class cls = { type<vector<mud::Ref>>() };
         cls.m_content = &type<mud::Ref>();
-        meta_sequence<vector<mud::Ref>, mud::Ref>();
+        meta_vector<vector<mud::Ref>, mud::Ref>();
     }
     
     // mud::Index
@@ -247,12 +248,12 @@ namespace mud
         m.m_types.push_back(&type<long long>());
         m.m_types.push_back(&type<short>());
         m.m_types.push_back(&type<string>());
-        m.m_types.push_back(&type<vector<mud::Ref>>());
         m.m_types.push_back(&type<unsigned char>());
         m.m_types.push_back(&type<unsigned int>());
         m.m_types.push_back(&type<unsigned long>());
         m.m_types.push_back(&type<unsigned long long>());
         m.m_types.push_back(&type<unsigned short>());
+        m.m_types.push_back(&type<vector<mud::Ref>>());
         m.m_types.push_back(&type<void>());
         m.m_types.push_back(&type<void*>());
         {

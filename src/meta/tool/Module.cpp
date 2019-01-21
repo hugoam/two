@@ -19,13 +19,10 @@ module mud.tool;
 #include <meta/gfx-ui/Module.h>
 #include <meta/gfx-edit/Module.h>
 #include <meta/tool/Module.h>
+#include <meta/tool/Convert.h>
 #endif
 
 #include <tool/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/tool/Convert.h>
-#endif
 #define MUD_TOOL_REFLECTION_IMPL
 #include <meta/tool/Meta.h>
 

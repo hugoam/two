@@ -8,13 +8,10 @@ module mud.ui;
 #include <meta/math/Module.h>
 #include <meta/ctx/Module.h>
 #include <meta/ui/Module.h>
+#include <meta/ui/Convert.h>
 #endif
 
 #include <ui/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/ui/Convert.h>
-#endif
 #define MUD_UI_REFLECTION_IMPL
 #include <meta/ui/Meta.h>
 

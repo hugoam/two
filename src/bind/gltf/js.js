@@ -1,6 +1,6 @@
 Module['glm'] = Module['glm'] || {};
-Module['gfx'] = Module['gfx'] || {};
 Module['ui'] = Module['ui'] || {};
+Module['gfx'] = Module['gfx'] || {};
 // glTF
 function glTF() {
     this.ptr = _glTF_glTF_0(); getCache(glTF)[this.ptr] = this;

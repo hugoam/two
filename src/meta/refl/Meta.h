@@ -13,6 +13,7 @@ namespace mud
 {
     void mud_refl_meta(Module& m)
     {
+    UNUSED(m);
     
     // Base Types
     
@@ -33,25 +34,25 @@ namespace mud
         static Meta meta = { type<vector<mud::Function*>>(), &namspc({}), "vector<mud::Function*>", sizeof(vector<mud::Function*>), TypeClass::Sequence };
         static Class cls = { type<vector<mud::Function*>>() };
         cls.m_content = &type<mud::Function>();
-        meta_sequence<vector<mud::Function*>, mud::Function*>();
+        meta_vector<vector<mud::Function*>, mud::Function*>();
     }
     {
         static Meta meta = { type<vector<mud::Module*>>(), &namspc({}), "vector<mud::Module*>", sizeof(vector<mud::Module*>), TypeClass::Sequence };
         static Class cls = { type<vector<mud::Module*>>() };
         cls.m_content = &type<mud::Module>();
-        meta_sequence<vector<mud::Module*>, mud::Module*>();
+        meta_vector<vector<mud::Module*>, mud::Module*>();
     }
     {
         static Meta meta = { type<vector<mud::Type*>>(), &namspc({}), "vector<mud::Type*>", sizeof(vector<mud::Type*>), TypeClass::Sequence };
         static Class cls = { type<vector<mud::Type*>>() };
         cls.m_content = &type<mud::Type>();
-        meta_sequence<vector<mud::Type*>, mud::Type*>();
+        meta_vector<vector<mud::Type*>, mud::Type*>();
     }
     {
         static Meta meta = { type<vector<mud::Var>>(), &namspc({}), "vector<mud::Var>", sizeof(vector<mud::Var>), TypeClass::Sequence };
         static Class cls = { type<vector<mud::Var>>() };
         cls.m_content = &type<mud::Var>();
-        meta_sequence<vector<mud::Var>, mud::Var>();
+        meta_vector<vector<mud::Var>, mud::Var>();
     }
     
     // mud::Call

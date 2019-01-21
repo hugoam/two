@@ -12,13 +12,10 @@ module mud.gfx;
 #include <meta/ctx/Module.h>
 #include <meta/bgfx/Module.h>
 #include <meta/gfx/Module.h>
+#include <meta/gfx/Convert.h>
 #endif
 
 #include <gfx/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/gfx/Convert.h>
-#endif
 #define MUD_GFX_REFLECTION_IMPL
 #include <meta/gfx/Meta.h>
 

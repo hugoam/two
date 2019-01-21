@@ -29,6 +29,7 @@ namespace mud
     template <> MUD_TOOL_EXPORT Type& type<mud::ScriptedBrush>() { static Type ty("ScriptedBrush", type<mud::Brush>(), sizeof(mud::ScriptedBrush)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::TransformAction>() { static Type ty("TransformAction", type<mud::EditorAction>(), sizeof(mud::TransformAction)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::RotateAction>() { static Type ty("RotateAction", type<mud::TransformAction>(), sizeof(mud::RotateAction)); return ty; }
+    template <> MUD_TOOL_EXPORT Type& type<mud::TransformGizmo>() { static Type ty("TransformGizmo", type<mud::Gizmo>(), sizeof(mud::TransformGizmo)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::TransformTool>() { static Type ty("TransformTool", type<mud::SpatialTool>(), sizeof(mud::TransformTool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::RotateTool>() { static Type ty("RotateTool", type<mud::TransformTool>(), sizeof(mud::RotateTool)); return ty; }
     template <> MUD_TOOL_EXPORT Type& type<mud::ScaleAction>() { static Type ty("ScaleAction", type<mud::TransformAction>(), sizeof(mud::ScaleAction)); return ty; }

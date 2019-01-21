@@ -6,13 +6,10 @@ module mud.pool;
 #include <meta/infra/Module.h>
 #include <meta/type/Module.h>
 #include <meta/pool/Module.h>
+#include <meta/pool/Convert.h>
 #endif
 
 #include <pool/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/pool/Convert.h>
-#endif
 #define MUD_POOL_REFLECTION_IMPL
 #include <meta/pool/Meta.h>
 

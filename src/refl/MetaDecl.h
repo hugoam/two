@@ -112,6 +112,12 @@ namespace mud
 	void meta_sequence()
 	{
 		meta_type<T>();
+	}
+	
+	export_ template <class T, class U>
+	void meta_vector()
+	{
+		meta_type<T>();
 		init_vector<T, U>();
 	}
 

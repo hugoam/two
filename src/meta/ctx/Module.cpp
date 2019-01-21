@@ -7,13 +7,10 @@ module mud.ctx;
 #include <meta/type/Module.h>
 #include <meta/math/Module.h>
 #include <meta/ctx/Module.h>
+#include <meta/ctx/Convert.h>
 #endif
 
 #include <ctx/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/ctx/Convert.h>
-#endif
 #define MUD_CTX_REFLECTION_IMPL
 #include <meta/ctx/Meta.h>
 

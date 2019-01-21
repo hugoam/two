@@ -3,7 +3,8 @@
 #include <clrefl/Generator.h>
 
 #include <stl/string.h>
-#include <stl/set.h>
+
+#include <set>
 
 namespace mud
 {
@@ -338,6 +339,7 @@ namespace clgen
 
 		i--;
 
+		p(i, "UNUSED(m);");
 		p(i, "");
 
 		p(i, "// Base Types");
@@ -378,7 +380,10 @@ namespace clgen
 			p(i, meta_decl(s, "TypeClass::Sequence"));
 			p(i, "static Class cls = { " + type_get(s) + " };");
 			p(i, "cls.m_content = " + type_get_pt(*s.m_contentcls) + ";");
-			p(i, "meta_sequence<" + s.m_id + ", " + s.m_content + ">();");
+			if(s.m_name.find("vector") != string::npos)
+				p(i, "meta_vector<" + s.m_id + ", " + s.m_content + ">();");
+			else
+				p(i, "meta_sequence<" + s.m_id + ", " + s.m_content + ">();");
 			p(i, "}");
 		}
 		p(i, "");
@@ -547,16 +552,8 @@ namespace clgen
 		p(i, "#include <refl/Module.h>");
 		p(i, "#endif");
 		p(i, "");
-		p(i, "#ifndef MUD_MODULES");
-		for(CLModule* d : m.m_dependencies)
-			p(i, "#include <meta/" + d->m_subdir + "/Module.h>");
-		p(i, "#endif");
-		p(i, "");
 		p(i, "#include <" + m.m_subdir + "/Forward.h>");
 		p(i, "#include <" + m.m_subdir + "/Types.h>");
-		p(i, "#include <" + m.m_subdir + "/Api.h>");
-		p(i, "");
-		p(i, "#include <meta/" + m.m_subdir + "/Convert.h>");
 		p(i, "");
 		p(i, "#ifndef " + m.m_refl_export);
 		p(i, "#define " + m.m_refl_export + " MUD_IMPORT");
@@ -599,12 +596,13 @@ namespace clgen
 		p(i, "#ifdef MUD_MODULES");
 		p(i, "module " + m.m_namespace + "." + m.m_name + ";");
 		p(i, "#else");
+		for(CLModule* d : m.m_dependencies)
+			p(i, "#include <meta/" + d->m_subdir + "/Module.h>");
 		p(i, "#include <meta/" + m.m_subdir + "/Module.h>");
-		p(i, "#endif");
-		p(i, "");
-		p(i, "#ifndef MUD_MODULES");
 		p(i, "#include <meta/" + m.m_subdir + "/Convert.h>");
 		p(i, "#endif");
+		p(i, "");
+		p(i, "#include <" + m.m_subdir + "/Api.h>");
 		p(i, "#define " + m.m_preproc_name + "_REFLECTION_IMPL");
 		p(i, "#include <meta/" + m.m_subdir + "/Meta.h>");
 		p(i, "");
@@ -903,8 +901,8 @@ namespace clgen
 		auto binding_name = [&](const CLCallable& f) { return binding_name_str(*f.m_parent, clean_name(f.m_name)); };
 		auto binding_name_n = [&](const CLCallable& f, size_t i) { return  binding_name(f) + "_" + to_string(i); };
 
-		struct Overloads { const CLCallable* f; set<size_t> lengths; };
-		using OverloadMap = map<string, Overloads>;
+		struct Overloads { const CLCallable* f; std::set<size_t> lengths; };
+		using OverloadMap = vector<Overloads>;
 
 		auto cramfunc = [](Overloads& o, const CLCallable& f)
 		{
@@ -913,15 +911,24 @@ namespace clgen
 				o.lengths.insert(i);
 		};
 
+		auto first_overload = [&](OverloadMap& overloads, const CLCallable& f) -> Overloads*
+		{
+			for(Overloads& o : overloads)
+				if(o.f->m_name == f.m_name)
+				{
+					return &o;
+				}
+			Overloads& o = vector_push(overloads);
+			cramfunc(o, f);
+			return nullptr;
+		};
+
 		auto overload = [&](OverloadMap& overloads, const CLCallable& f)
 		{
-			if(overloads.find(f.m_name) == overloads.end())
-			{
-				cramfunc(overloads[f.m_name], f);
-				return;
-			}
+			Overloads* fo = first_overload(overloads, f);
+			if(fo == nullptr) return;
 
-			Overloads& o = overloads[f.m_name];
+			Overloads& o = *fo;
 			bool clashes = false;
 			for(size_t i = 0; i < o.f->m_params.size(); ++i)
 				if(i < f.m_params.size() && f.m_params[i].m_type != o.f->m_params[i].m_type)
@@ -1362,9 +1369,8 @@ namespace clgen
 					overload(constructors, ctor);
 				}
 
-				for(auto& pairs : constructors)
+				for(Overloads& o : constructors)
 				{
-					Overloads& o = pairs.second;
 					c_bind_callable(o);
 					js_bind_callable(o);
 				}
@@ -1385,9 +1391,8 @@ namespace clgen
 					overload(methods, f);
 				}
 
-				for(auto& pairs : methods)
+				for(Overloads& o : methods)
 				{
-					Overloads& o = pairs.second;
 					c_bind_callable(o);
 					js_bind_callable(o);
 				}
@@ -1441,9 +1446,8 @@ namespace clgen
 				overload(functions, *pf);
 			}
 
-			for(auto& pairs : functions)
+			for(Overloads& o : functions)
 			{
-				Overloads& o = pairs.second;
 				c_bind_callable(o);
 				js_bind_callable(o);
 			}

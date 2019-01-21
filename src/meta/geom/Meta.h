@@ -13,6 +13,7 @@ namespace mud
 {
     void mud_geom_meta(Module& m)
     {
+    UNUSED(m);
     
     // Base Types
     
@@ -53,7 +54,7 @@ namespace mud
         static Meta meta = { type<vector<mud::Circle>>(), &namspc({}), "vector<mud::Circle>", sizeof(vector<mud::Circle>), TypeClass::Sequence };
         static Class cls = { type<vector<mud::Circle>>() };
         cls.m_content = &type<mud::Circle>();
-        meta_sequence<vector<mud::Circle>, mud::Circle>();
+        meta_vector<vector<mud::Circle>, mud::Circle>();
     }
     
     // mud::Distribution

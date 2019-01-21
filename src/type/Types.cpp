@@ -10,12 +10,6 @@ module mud.type;
 
 namespace mud
 {
-	void test()
-	{
-		Var v = var(vector<mud::Ref>());
-		vector<Ref> a; vector<Ref> b;
-		any_compare(a, b);
-	}
     // Exported types
     template <> MUD_TYPE_EXPORT Type& type<bool>() { static Type ty("bool", sizeof(bool)); return ty; }
     template <> MUD_TYPE_EXPORT Type& type<char>() { static Type ty("char", sizeof(char)); return ty; }

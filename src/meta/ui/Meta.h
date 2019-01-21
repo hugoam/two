@@ -9,10 +9,13 @@
 #include <refl/Module.h>
 #endif
 
+#include <math/Api.h>
+
 namespace mud
 {
     void mud_ui_meta(Module& m)
     {
+    UNUSED(m);
     
     // Base Types
     
@@ -163,25 +166,103 @@ namespace mud
         static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
         static Class cls = { type<array<const char*>>() };
         cls.m_content = &type<const char*>();
-        //meta_sequence<array<const char*>, const char*>();
+        meta_sequence<array<const char*>, const char*>();
+    }
+    {
+        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
+        static Class cls = { type<array<const char*>>() };
+        cls.m_content = &type<const char*>();
+        meta_sequence<array<const char*>, const char*>();
+    }
+    {
+        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
+        static Class cls = { type<array<const char*>>() };
+        cls.m_content = &type<const char*>();
+        meta_sequence<array<const char*>, const char*>();
+    }
+    {
+        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
+        static Class cls = { type<array<const char*>>() };
+        cls.m_content = &type<const char*>();
+        meta_sequence<array<const char*>, const char*>();
+    }
+    {
+        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
+        static Class cls = { type<array<const char*>>() };
+        cls.m_content = &type<const char*>();
+        meta_sequence<array<const char*>, const char*>();
+    }
+    {
+        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
+        static Class cls = { type<array<const char*>>() };
+        cls.m_content = &type<const char*>();
+        meta_sequence<array<const char*>, const char*>();
+    }
+    {
+        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
+        static Class cls = { type<array<const char*>>() };
+        cls.m_content = &type<const char*>();
+        meta_sequence<array<const char*>, const char*>();
+    }
+    {
+        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
+        static Class cls = { type<array<const char*>>() };
+        cls.m_content = &type<const char*>();
+        meta_sequence<array<const char*>, const char*>();
+    }
+    {
+        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
+        static Class cls = { type<array<const char*>>() };
+        cls.m_content = &type<const char*>();
+        meta_sequence<array<const char*>, const char*>();
+    }
+    {
+        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
+        static Class cls = { type<array<const char*>>() };
+        cls.m_content = &type<const char*>();
+        meta_sequence<array<const char*>, const char*>();
+    }
+    {
+        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
+        static Class cls = { type<array<const char*>>() };
+        cls.m_content = &type<const char*>();
+        meta_sequence<array<const char*>, const char*>();
+    }
+    {
+        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
+        static Class cls = { type<array<const char*>>() };
+        cls.m_content = &type<const char*>();
+        meta_sequence<array<const char*>, const char*>();
     }
     {
         static Meta meta = { type<array<float>>(), &namspc({}), "array<float>", sizeof(array<float>), TypeClass::Sequence };
         static Class cls = { type<array<float>>() };
         cls.m_content = &type<float>();
-        //meta_sequence<array<float>, float>();
+        meta_sequence<array<float>, float>();
     }
     {
         static Meta meta = { type<vector<mud::Space>>(), &namspc({}), "vector<mud::Space>", sizeof(vector<mud::Space>), TypeClass::Sequence };
         static Class cls = { type<vector<mud::Space>>() };
         cls.m_content = &type<mud::Space>();
-        meta_sequence<vector<mud::Space>, mud::Space>();
+        meta_vector<vector<mud::Space>, mud::Space>();
     }
     {
         static Meta meta = { type<vector<string>>(), &namspc({}), "vector<string>", sizeof(vector<string>), TypeClass::Sequence };
         static Class cls = { type<vector<string>>() };
         cls.m_content = &type<string>();
-        meta_sequence<vector<string>, string>();
+        meta_vector<vector<string>, string>();
+    }
+    {
+        static Meta meta = { type<vector<string>>(), &namspc({}), "vector<string>", sizeof(vector<string>), TypeClass::Sequence };
+        static Class cls = { type<vector<string>>() };
+        cls.m_content = &type<string>();
+        meta_vector<vector<string>, string>();
+    }
+    {
+        static Meta meta = { type<vector<string>>(), &namspc({}), "vector<string>", sizeof(vector<string>), TypeClass::Sequence };
+        static Class cls = { type<vector<string>>() };
+        cls.m_content = &type<string>();
+        meta_vector<vector<string>, string>();
     }
     
     // mud::CanvasConnect
@@ -1739,10 +1820,10 @@ namespace mud
         m.m_types.push_back(&type<mud::Dockspace>());
         m.m_types.push_back(&type<mud::Expandbox>());
         m.m_types.push_back(&type<mud::FrameSolver>());
+        m.m_types.push_back(&type<mud::RowSolver>());
         m.m_types.push_back(&type<mud::LineSolver>());
         m.m_types.push_back(&type<mud::Node>());
         m.m_types.push_back(&type<mud::NodePlug>());
-        m.m_types.push_back(&type<mud::RowSolver>());
         m.m_types.push_back(&type<mud::ScrollSheet>());
         m.m_types.push_back(&type<mud::ui::Sequence>());
         m.m_types.push_back(&type<mud::Tabber>());
@@ -1859,7 +1940,7 @@ namespace mud
             static Function f = { &namspc({ "mud", "ui" }), "fill_bar", funcptr<mud::Widget&(*)(mud::Widget&, float, mud::Dim)>(&mud::ui::fill_bar), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
         }
-        /*{
+        {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::image256(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<mud::Image256>(args[2]))); };
             vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "source", var(mud::Image256()) } };
             static Function f = { &namspc({ "mud", "ui" }), "image256", funcptr<mud::Widget&(*)(mud::Widget&, const char*, const mud::Image256&)>(&mud::ui::image256), func, params, Ref(type<mud::Widget>()) };
@@ -1870,7 +1951,7 @@ namespace mud
             vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "source", var(mud::Image256()) }, { "size", var(mud::vec2()) } };
             static Function f = { &namspc({ "mud", "ui" }), "image256", funcptr<mud::Widget&(*)(mud::Widget&, const char*, const mud::Image256&, const mud::vec2&)>(&mud::ui::image256), func, params, Ref(type<mud::Widget>()) };
             m.m_functions.push_back(&f);
-        }*/
+        }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::radio_choice(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<bool>(args[2]))); };
             vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "value", Ref(type<const char*>()), Param::Nullable }, { "active", var(bool()) } };
@@ -2261,12 +2342,12 @@ namespace mud
             static Function f = { &namspc({ "mud", "ui" }), "flag_field", funcptr<bool(*)(mud::Widget&, const char*, uint32_t&, uint8_t, bool)>(&mud::ui::flag_field), func, params, var(bool()) };
             m.m_functions.push_back(&f);
         }
-        //{
-        //    auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::radio_field(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<array<const char*>>(args[2]), val<uint32_t>(args[3]), val<bool>(args[4])); };
-        //    vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "choices", var(array<const char*>()) }, { "value", var(uint32_t()) }, { "reverse", var(bool(false)), Param::Default } };
-        //    static Function f = { &namspc({ "mud", "ui" }), "radio_field", funcptr<bool(*)(mud::Widget&, const char*, array<const char*>, uint32_t&, bool)>(&mud::ui::radio_field), func, params, var(bool()) };
-        //    m.m_functions.push_back(&f);
-        //}
+        {
+            auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::radio_field(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<array<const char*>>(args[2]), val<uint32_t>(args[3]), val<mud::Dim>(args[4]), val<bool>(args[5])); };
+            vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "choices", var(array<const char*>()) }, { "value", var(uint32_t()) }, { "dim", var(mud::Dim(DIM_X)), Param::Default }, { "reverse", var(bool(false)), Param::Default } };
+            static Function f = { &namspc({ "mud", "ui" }), "radio_field", funcptr<bool(*)(mud::Widget&, const char*, array<const char*>, uint32_t&, mud::Dim, bool)>(&mud::ui::radio_field), func, params, var(bool()) };
+            m.m_functions.push_back(&f);
+        }
         {
             auto func = [](array<Var> args, Var& result) {  val<bool>(result) = mud::ui::dropdown_field(val<mud::Widget>(args[0]), val<const char*>(args[1]), val<array<const char*>>(args[2]), val<uint32_t>(args[3]), val<bool>(args[4])); };
             vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "name", Ref(type<const char*>()), Param::Nullable }, { "choices", var(array<const char*>()) }, { "value", var(uint32_t()) }, { "reverse", var(bool(false)), Param::Default } };

@@ -9,13 +9,10 @@ module mud.gltf;
 #include <meta/srlz/Module.h>
 #include <meta/math/Module.h>
 #include <meta/gltf/Module.h>
+#include <meta/gltf/Convert.h>
 #endif
 
 #include <gltf/Api.h>
-
-#ifndef MUD_MODULES
-#include <meta/gltf/Convert.h>
-#endif
 #define MUD_GLTF_REFLECTION_IMPL
 #include <meta/gltf/Meta.h>
 

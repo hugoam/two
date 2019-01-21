@@ -53,6 +53,7 @@ namespace mud
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::ScriptedBrush>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::TransformAction>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::RotateAction>();
+    export_ template <> MUD_TOOL_EXPORT Type& type<mud::TransformGizmo>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::TransformTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::RotateTool>();
     export_ template <> MUD_TOOL_EXPORT Type& type<mud::ScaleAction>();
@@ -85,6 +86,7 @@ namespace mud
     export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::ScriptedBrush*>>;
     export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::TransformAction*>>;
     export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::RotateAction*>>;
+    export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::TransformGizmo*>>;
     export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::TransformTool*>>;
     export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::RotateTool*>>;
     export_ template struct MUD_TOOL_EXPORT Typed<vector<mud::ScaleAction*>>;

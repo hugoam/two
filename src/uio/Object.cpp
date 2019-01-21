@@ -7,9 +7,6 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#ifdef MUD_ECS
-#include <ecs/Entity.h>
-#endif
 #include <refl/Class.h>
 #include <refl/Convert.h>
 #include <ecs/Entity.h>

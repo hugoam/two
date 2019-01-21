@@ -4,12 +4,9 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <math/Forward.h>
 #include <math/Colour.h>
-
-#ifndef MUD_CPP_20
-#include <stl/vector.h>
-#endif
 
 namespace mud
 {
