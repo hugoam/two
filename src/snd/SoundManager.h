@@ -43,33 +43,33 @@ namespace mud
 
 		bool init(cstring deviceName = "", unsigned int maxSources = 100);
 
-		Sound* createSound(cstring file, bool loop = false, bool stream = false, SoundCallback callback = {});
+		Sound* create_sound(cstring file, bool loop = false, bool stream = false, SoundCallback callback = {});
 
 	public:
-		void setMasterVolume(ALfloat vol);
-		void setGlobalPitch(float pitch);
+		void set_master_volume(ALfloat vol);
+		void set_global_pitch(float pitch);
 
-		void setDistanceModel(ALenum value);
-		void setDopplerFactor(float factor = 1.f);
-		void setSpeedOfSound(float speed = 363.f);
+		void set_distance_model(ALenum value);
+		void set_doppler_factor(float factor = 1.f);
+		void set_speed_of_sound(float speed = 363.f);
 
 	public:
-		void playSound(Sound& sound);
-		void stopSound(Sound& sound);
-		void pauseSound(Sound& sound);
-		void destroySound(Sound& sound);
+		void play_sound(Sound& sound);
+		void stop_sound(Sound& sound);
+		void pause_sound(Sound& sound);
+		void destroy_sound(Sound& sound);
 
-		void updatePosition(Sound& sound, const vec3& position);
+		void update_position(Sound& sound, const vec3& position);
 
-		void stopAllSounds();
-		void pauseAllSounds();
-		void muteAllSounds();
-		void unmuteAllSounds();
-		void resumeAllSounds();
+		void stop_all_sounds();
+		void pause_all_sounds();
+		void mute_all_sounds();
+		void unmute_all_sounds();
+		void resume_all_sounds();
 
 	private:
-		void enumDevices();
-		int createSourcePool(int numSources);
+		void enum_devices();
+		int create_source_pool(int numSources);
 
 		void clear_sounds();
 		void clear_sources();
@@ -78,43 +78,43 @@ namespace mud
 
 	// Thread-safe implementation to be executed by one same unique thread
 	public:
-		void threadUpdate();
+		void update();
 
-		void createSoundImpl(unique<Sound> sound, cstring filename, bool stream);
-		void destroySoundImpl(Sound& sound);
+		void create(unique<Sound> sound, cstring filename, bool stream);
+		void destroy(Sound& sound);
 
-		void playSoundImpl(Sound& sound);
-		void stopSoundImpl(Sound& sound);
-		void pauseSoundImpl(Sound& sound);
+		void play(Sound& sound);
+		void stop(Sound& sound);
+		void pause(Sound& sound);
 
-		void setGlobalPitchImpl();
+		void set_pitch();
 
-		void stopAllSoundsImpl();
-		void pauseAllSoundsImpl();
-		void resumeAllSoundsImpl();
+		void stop_all();
+		void pause_all();
+		void resume_all();
 
 	private:
-		void updateActiveSound(Sound& sound);
-		void releaseActiveSound(Sound& sound);
-		void queueActiveSound(Sound& sound);
+		void update_active(Sound& sound);
+		void release_active(Sound& sound);
+		void queue_active(Sound& sound);
 		
-		void activateSound(Sound& sound);
-		void disactivateSound(Sound& sound);
+		void activate(Sound& sound);
+		void disactivate(Sound& sound);
 
-		SharedBuffer& createSharedBuffer(cstring filename);
-		SharedBuffer& getSharedBuffer(cstring filename);
+		void log_features();
+
 	public:
-		void releaseBuffer(SharedBuffer& buffer);
-	private:
-		void logFeatureSupport();
+		SharedBuffer& create_buffer(cstring filename);
+		SharedBuffer& get_buffer(cstring filename);
+		void release_buffer(SharedBuffer& buffer);
 
 	private:
-		void addAction(const SoundAction& action);
+		void add_action(const SoundAction& action);
 
-		void updateSounds();
+		void update_sounds();
 
 #ifdef SOUND_THREADED
-		void processActions();
+		void process_actions();
 #endif
 	private:
 		string m_resource_path;

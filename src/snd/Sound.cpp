@@ -81,16 +81,16 @@ namespace mud
 
 	void Sound::play()
 	{
-		m_manager.playSound(*this);
+		m_manager.play_sound(*this);
 	}
 
 	void Sound::stop()
 	{
-		m_manager.stopSound(*this);
+		m_manager.stop_sound(*this);
 	}
 	void Sound::pause()
 	{
-		m_manager.pauseSound(*this);
+		m_manager.pause_sound(*this);
 	}
 
 	void Sound::play_impl()

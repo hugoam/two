@@ -42,6 +42,6 @@ namespace mud
 	{
 		--m_num_users;
 		if(m_num_users == 0)
-			m_manager->releaseBuffer(*this);
+			m_manager->release_buffer(*this);
 	}
 }

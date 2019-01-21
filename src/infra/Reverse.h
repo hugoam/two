@@ -34,7 +34,7 @@ namespace mud
 		{
 			T* temp = m_ptr;
 			--temp;
-			return temp.operator->();
+			return temp;
 		}
 
 		reverse_pointer& operator++() { --m_ptr; return *this; }

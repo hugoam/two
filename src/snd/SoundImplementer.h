@@ -11,11 +11,11 @@ namespace mud
 	class SoundImplementer
 	{
 	public:
-		virtual void playSound(Sound& sound) = 0;
-		virtual void pauseSound(Sound& sound) = 0;
-		virtual void stopSound(Sound& sound) = 0;
-		virtual void destroySound(Sound& sound) = 0;
+		virtual void play_sound(Sound& sound) = 0;
+		virtual void pause_sound(Sound& sound) = 0;
+		virtual void stop_sound(Sound& sound) = 0;
+		virtual void destroy_sound(Sound& sound) = 0;
 
-		virtual void updatePosition(Sound& sound, const vec3& position) = 0;
+		virtual void update_position(Sound& sound, const vec3& position) = 0;
 	};
 }
