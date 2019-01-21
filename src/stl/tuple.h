@@ -34,6 +34,7 @@ namespace mud
 	template<size_t i, class T>
 	struct tuple_leaf
 	{
+		constexpr tuple_leaf(T&& val) : value(static_cast<T&&>(val)) {}
 		T value;
 	};
 
@@ -47,7 +48,12 @@ namespace mud
 	struct tuple_base<i, Head, Tail...>
 		: public tuple_leaf<i, Head>
 		, public tuple_base<i + 1, Tail...>
-	{};
+	{
+		constexpr tuple_base(Head&& head, Tail&&... tail)
+			: tuple_leaf<i, Head>(static_cast<Head&&>(head))
+			, tuple_base<i + 1, Tail...>(static_cast<Tail&&>(tail)...)
+		{}
+	};
 
 	template<size_t i, class Head, class... Tail>
 	Head& at(tuple_base<i, Head, Tail...>& tup) { return tup.tuple_leaf<i, Head>::value; }
