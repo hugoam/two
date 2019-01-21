@@ -4,6 +4,9 @@
 #include <ecs/Registry.h>
 #include <jobs/JobLoop.h>
 
+#include <tuple>
+#include <functional>
+
 namespace mud
 {
 	template <class... Ts, size_t... Is, class T_Function>

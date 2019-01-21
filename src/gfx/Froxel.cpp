@@ -26,6 +26,7 @@ module mud.gfx;
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <cstdio>
 #include <limits>
 
 #if defined WIN32

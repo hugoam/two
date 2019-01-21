@@ -131,7 +131,7 @@ namespace mud
 	Valve& VisualScript::reference(T&& value) { return this->node<ProcessValue>(Ref(static_cast<T&&>(value))).output(); }
 
 	template <class T>
-	Valve* VisualScript::function(T func, vector<Valve*> params, Process* flow, vector<StreamModifier> modifiers) { return this->node<ProcessFunction>(mud::function(func)).pipe(params, flow, modifiers); }
+	Valve* VisualScript::function(T f, vector<Valve*> params, Process* flow, vector<StreamModifier> modifiers) { return this->node<ProcessFunction>(func(f)).pipe(params, flow, modifiers); }
 
 	template <class T>
 	Valve& VisualScript::create(vector<Valve*> params, Process* flow, vector<StreamModifier> modifiers) { return *this->node<ProcessCreate>(type<T>(), params.size()).pipe(params, flow, modifiers); }

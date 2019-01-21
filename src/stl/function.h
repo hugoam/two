@@ -10,6 +10,7 @@ namespace mud
 	export_ using std::function;
 }
 #else
+#include <new>
 namespace mud
 {
 	template <typename T>
