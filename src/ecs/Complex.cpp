@@ -8,16 +8,12 @@
 module mud.proto;
 #else
 #include <type/Indexer.h>
-#include <ecs/Entity.h>
+#include <ecs/Complex.h>
 #include <ecs/Proto.h>
 #endif
 
 namespace mud
 {
-	ECS* s_ecs[256] = {};
-
-	template <> Type& type<EntityRef>() { static Type ty("EntityRef"); return ty; }
-
 	Complex::Complex(Id id, Type& type)
 		: m_id(index(type, id, Ref(this, type)))
 		, m_type(type)
