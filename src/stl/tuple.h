@@ -14,6 +14,23 @@ namespace mud
 #include <cstddef>
 namespace mud
 {
+	template <size_t...>
+	struct index_sequence
+	{};
+
+	template <size_t N, size_t... Next>
+	struct index_sequence_type : public index_sequence_type<N - 1U, N - 1U, Next...>
+	{};
+
+	template <size_t... Next>
+	struct index_sequence_type<0U, Next...>
+	{
+		using type = index_sequence<Next...>;
+	};
+
+	template <size_t N>
+	using make_index_sequence = typename index_sequence_type<N>::type;
+
 	template<size_t i, class T>
 	struct tuple_leaf
 	{

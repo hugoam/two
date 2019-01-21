@@ -15,7 +15,7 @@ namespace mud
 {
 #if FOR_VARIADIC
 	template <class... Ts, size_t... Is, class T_Function>
-	Job* for_components_impl(JobSystem& job_system, Job* parent, ECS& ecs, T_Function action, std::index_sequence<Is...>)
+	Job* for_components_impl(JobSystem& job_system, Job* parent, ECS& ecs, T_Function action, index_sequence<Is...>)
 	{
 		EntFlags prototype = any_flags(1ULL << TypedBuffer<Ts>::index()...);
 
@@ -46,7 +46,7 @@ namespace mud
 	template <class... Ts, class T_Function>
 	Job* for_components(JobSystem& job_system, Job* parent, ECS& ecs, T_Function action)
 	{
-		return for_components_impl<Ts...>(job_system, parent, ecs, action, std::make_index_sequence<sizeof...(Ts)>());
+		return for_components_impl<Ts...>(job_system, parent, ecs, action, make_index_sequence<sizeof...(Ts)>());
 	}
 #else
 
