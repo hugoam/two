@@ -52,14 +52,14 @@ namespace mud
 	{
 		this->init(viewer_styles().viewer);
 
-		m_viewport.m_tasks.push_back({ this, [](void* user, Render& render) { ((Viewer*)user)->render(render); } });
+		m_viewport.m_tasks.push_back([&](Render& render) { this->render(render); });
 
-		m_custom_draw = { this, [](void* user, const Frame& frame, const vec4& rect, Vg& vg)
+		m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
 		{
 			UNUSED(frame); UNUSED(rect);
 			//renderer.draw_frame(frame, rect);
-			((Viewer*)user)->blit(vg);
-		} };
+			this->blit(vg);
+		};
 
 		m_context.m_viewports.push_back(&m_viewport);
 

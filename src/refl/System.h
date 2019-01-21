@@ -57,5 +57,5 @@ namespace mud
 	export_ func_ inline System& system() { return System::instance(); }
 
 	export_ template <typename T_Function>
-	inline Function& function(T_Function func) { return System::instance().function(reinterpret_cast<FunctionPointer>(func)); }
+	inline Function& func(T_Function func) { return System::instance().function(reinterpret_cast<FunctionPointer>(func)); }
 }

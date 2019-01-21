@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/function.h>
 #include <tree/Node.h>
 #include <infra/Array.h>
 #include <ctx/ControlNode.h>
@@ -77,9 +78,8 @@ namespace mud
 		attr_ bool m_open = false;
 		attr_ Widget* m_body = nullptr;
 
-		using CustomRender = void(*)(void*, const Frame&, const vec4&, Vg&);
-		struct CustomDraw { void* user = nullptr; CustomRender func = nullptr; void draw(const Frame& frame, const vec4& rect, Vg& vg) { func(user, frame, rect, vg); } };
-		CustomDraw m_custom_draw = {};
+		using CustomRender = function<void(const Frame&, const vec4&, Vg&)>;
+		CustomRender m_custom_draw;
 
 		Widget& layer();
 

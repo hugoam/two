@@ -130,7 +130,7 @@ namespace mud
 			return true;
 	}
 
-	void visit_files(cstring path, FileVisitor visit, void* user)
+	void visit_files(cstring path, FileVisitor visit)
 	{
 		DIR* dir = opendir(path);
 		dirent* ent;
@@ -138,14 +138,14 @@ namespace mud
 		while((ent = readdir(dir)) != NULL)
 			if(ent->d_type & DT_REG)
 			{
-				visit(user, path, ent->d_name);
+				visit(path, ent->d_name);
 			}
 
 
 		closedir(dir);
 	}
 
-	void visit_folders(cstring path, FileVisitor visit, void* user, bool ignore_symbolic)
+	void visit_folders(cstring path, FileVisitor visit, bool ignore_symbolic)
 	{
 		DIR* dir = opendir(path);
 		dirent* ent;
@@ -155,7 +155,7 @@ namespace mud
 			{
 				bool is_symbolic = string(ent->d_name) == "." || string(ent->d_name) == "..";
 				if(!is_symbolic || !ignore_symbolic)
-					visit(user, path, ent->d_name);
+					visit(path, ent->d_name);
 			}
 
 		closedir(dir);

@@ -54,21 +54,21 @@ namespace mud
 	ImporterOBJ::ImporterOBJ(GfxSystem& gfx_system)
 		: m_gfx_system(gfx_system)
 	{
-		static auto load_obj_model = [](void* self, Model& model, cstring path)
+		static auto load_obj_model = [&](Model& model, cstring path)
 		{
 			ImportConfig config = load_model_config(path, model.m_name.c_str());
-			((ImporterOBJ*)self)->import_model(model, path, config);
+			this->import_model(model, path, config);
 		};
 
-		static auto load_obj_prefab = [](void* self, Prefab& prefab, cstring path)
+		static auto load_obj_prefab = [&](Prefab& prefab, cstring path)
 		{
 			ImportConfig config = load_model_config(path, prefab.m_name.c_str());
-			((ImporterOBJ*)self)->import_prefab(prefab, path, config);
+			this->import_prefab(prefab, path, config);
 		};
 
 		gfx_system.add_importer(ModelFormat::obj, *this);
-		gfx_system.models().add_format(".obj", { this, load_obj_model });
-		gfx_system.prefabs().add_format(".obj", { this, load_obj_prefab });
+		gfx_system.models().add_format(".obj", load_obj_model);
+		gfx_system.prefabs().add_format(".obj", load_obj_prefab);
 	}
 
 	void import_material_library(GfxSystem& gfx_system, const string& path, MaterialMap& material_map)

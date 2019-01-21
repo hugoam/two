@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/function.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
 #endif
@@ -58,9 +59,7 @@ namespace mud
 		attr_ Lighting m_lighting = Lighting::Clustered;
 		/*attr_ mut_*/ RenderFilters* m_filters = nullptr;
 
-		using OnRender = void(*)(void*, Render&);
-		struct RenderTask { void* user; OnRender render; };
-
+		using RenderTask = function<void(Render&)>;
 		vector<RenderTask> m_tasks;
 		
 		Culler m_culler;

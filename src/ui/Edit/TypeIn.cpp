@@ -1113,7 +1113,7 @@ namespace ui
 		vec2 size = self.frame_size();
 		ui::dummy(self, size);
 
-		self.m_custom_draw = { &self, [](void* user, const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(frame); UNUSED(rect); ((TextEdit*)user)->render(vg); } };
+		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(frame); UNUSED(rect); self.render(vg); };
 
 		return self;
 	}

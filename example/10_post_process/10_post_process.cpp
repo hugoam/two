@@ -26,8 +26,8 @@ void ex_10_post_process(Shell& app, Widget& parent, Dockbar& dockbar)//, Dockbar
 	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
-	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
-	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
+	static vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
+	static vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
 	static Symbol symbol;
 
 	shape_grid(scene, { shape_items.data(), 10U, 10U }, &symbol, true, &material);

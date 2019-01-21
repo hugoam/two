@@ -7,9 +7,9 @@
 
 using namespace mud;
 
-std::vector<ShapeInstance> create_shape_grid(size_t size_x, size_t size_y, const std::vector<ShapeVar>& shapes, bool plain)
+vector<ShapeInstance> create_shape_grid(size_t size_x, size_t size_y, const vector<ShapeVar>& shapes, bool plain)
 {
-	std::vector<ShapeInstance> shape_items = {};
+	vector<ShapeInstance> shape_items = {};
 	shape_items.resize(size_x * size_y);
 
 	for(size_t x = 0; x < size_x; ++x)
@@ -57,8 +57,8 @@ void ex_01_shapes(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& node = gfx::node(scene, {}, vec3(-5.f, 0.f, -5.f));
 	gfx::shape(node, Grid2({ 10.f, 10.f }), Symbol(Colour::AlphaGrey));
 
-	static std::vector<ShapeVar> shapes = { Cube(), Sphere(), Spheroid(), Cylinder(), Rect(), Circle() };
-	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes, false);
+	static vector<ShapeVar> shapes = { Cube(), Sphere(), Spheroid(), Cylinder(), Rect(), Circle() };
+	static vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes, false);
 
 	shape_grid(scene, { shape_items.data(), 10U, 10U });
 }

@@ -13,12 +13,12 @@ using namespace mud;
 template <class T_Asset>
 void add_asset_loader(AssetStore<T_Asset>& store, cstring format)
 {
-	auto loader = [](void* user, T_Asset& asset, cstring path)
+	auto loader = [&](T_Asset& asset, cstring path)
 	{
-		unpack_json_file(Ref(&asset), string(path) + ".ptc"); // store.m_cformats[0]);
+		unpack_json_file(Ref(&asset), string(path) + store.m_cformats[0]);
 	};
 
-	store.add_format(format, { nullptr, loader });
+	store.add_format(format, loader);
 }
 
 struct ParticleItem
@@ -33,9 +33,9 @@ namespace mud
 	template <> Type& type<ParticleItem>() { static Type ty("ParticleItem"); return ty; }
 }
 
-std::vector<ParticleItem> create_particles(GfxSystem& gfx_system, const std::vector<string>& names)
+vector<ParticleItem> create_particles(GfxSystem& gfx_system, const vector<string>& names)
 {
-	std::vector<ParticleItem> particles_vector;
+	vector<ParticleItem> particles_vector;
 
 	size_t index = 0;
 	for(const string& name : names)
@@ -57,8 +57,8 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Gnode& scene = viewer.m_scene->begin();
 
-	static std::vector<string> particles_names = { "particles_0" };//, "particles_1" }; //, "particles_2" };
-	static std::vector<ParticleItem> particles_vector = create_particles(viewer.m_gfx_system, particles_names);
+	static vector<string> particles_names = { "particles_0" };//, "particles_1" }; //, "particles_2" };
+	static vector<ParticleItem> particles_vector = create_particles(viewer.m_gfx_system, particles_names);
 	static ParticleItem* edited = &particles_vector[0];
 
 	float middle = 0.f;//particles_vector.size() * 10.f / 2.f;
@@ -79,13 +79,13 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
-		//auto callback = [&controller, middle](Item* item)
-		//{
-		//	if(item == nullptr) return;
-		//	edited = &val<ParticleItem>(item->m_node->m_object);
-		//	controller.m_position = vec3{ -middle + edited->m_index * 10.f, 0.f, 0.f };
-		//};
-		//viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
+		auto callback = [&controller, middle](Item* item)
+		{
+			if(item == nullptr) return;
+			edited = &val<ParticleItem>(item->m_node->m_object);
+			controller.m_position = vec3{ -middle + edited->m_index * 10.f, 0.f, 0.f };
+		};
+		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
 	if(edited)

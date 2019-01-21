@@ -109,15 +109,12 @@ namespace mud
 		vector<Image> images;
 		load_folder_images(images, sprite_path, "");
 
-		struct Visitor { vector<Image>& images; string sprite_path; };
-		auto visit_folder = [](void* user, cstring path, cstring folder)
+		auto visit_folder = [&](cstring path, cstring folder)
 		{
 			UNUSED(path);
-			Visitor& v = *(Visitor*)user;
-			load_folder_images(v.images, v.sprite_path + folder + "/", string(folder) + "/");
+			load_folder_images(images, sprite_path + folder + "/", string(folder) + "/");
 		};
 
-		Visitor visitor = { images, sprite_path };
 		visit_folders(sprite_path.c_str(), visit_folder);
 
 		m_images = vector_convert<object<Image>>(images, [](const Image& image) { return make_object<Image>(image); });

@@ -484,8 +484,8 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 	//gfx::gi_probe(scene, 512, vec3(50.f));
 
-	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
-	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
+	static vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
+	static vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
 	static Symbol symbol;
 
 	shape_grid(scene, { shape_items.data(), 10U, 10U }, &symbol, true, &material);

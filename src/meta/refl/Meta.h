@@ -631,7 +631,7 @@ namespace mud
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(args);  result = Ref(&mud::system()); };
             vector<Param> params = {};
-            static Function f = { &namspc({ "mud" }), "system", function_id<mud::System&(*)()>(&mud::system), func, params, Ref(type<mud::System>()) };
+            static Function f = { &namspc({ "mud" }), "system", funcptr<mud::System&(*)()>(&mud::system), func, params, Ref(type<mud::System>()) };
             m.m_functions.push_back(&f);
         }
     }

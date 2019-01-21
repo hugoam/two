@@ -193,7 +193,7 @@ namespace mud
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::generate_fract(val<mud::uvec2>(args[0]), val<mud::Pattern>(args[1]), val<mud::Image256>(args[2])); };
             vector<Param> params = { { "resolution", var(mud::uvec2()) }, { "pattern", var(mud::Pattern()) }, { "output_image", var(mud::Image256()), Param::Output } };
-            static Function f = { &namspc({ "mud" }), "generate_fract", function_id<void(*)(mud::uvec2, const mud::Pattern&, mud::Image256&)>(&mud::generate_fract), func, params, Var() };
+            static Function f = { &namspc({ "mud" }), "generate_fract", funcptr<void(*)(mud::uvec2, const mud::Pattern&, mud::Image256&)>(&mud::generate_fract), func, params, Var() };
             m.m_functions.push_back(&f);
         }
     }

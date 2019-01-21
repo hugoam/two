@@ -6,6 +6,7 @@
 
 #include <stl/string.h>
 #include <stl/vector.h>
+#include <stl/function.h>
 #include <infra/Array.h>
 #include <type/Forward.h>
 
@@ -34,10 +35,12 @@ namespace mud
 	export_ MUD_INFRA_EXPORT bool create_directory(cstring path);
 	export_ MUD_INFRA_EXPORT bool create_directory_tree(cstring path);
 	export_ MUD_INFRA_EXPORT bool create_file_tree(cstring path);
+	
+	//export_ using FileVisitor = void(*)(void*, cstring, cstring);
+	export_ using FileVisitor = function<void(cstring, cstring)>;
 
-	export_ using FileVisitor = void(*)(void*, cstring, cstring);
-	export_ MUD_INFRA_EXPORT void visit_files(cstring path, FileVisitor visit_file, void* user = nullptr);
-	export_ MUD_INFRA_EXPORT void visit_folders(cstring path, FileVisitor visit_folder, void* user = nullptr, bool ignore_symbolic = true);
+	export_ MUD_INFRA_EXPORT void visit_files(cstring path, FileVisitor visit_file);
+	export_ MUD_INFRA_EXPORT void visit_folders(cstring path, FileVisitor visit_folder, bool ignore_symbolic = true);
 
 	export_ MUD_INFRA_EXPORT void write_file(cstring path, cstring content);
 

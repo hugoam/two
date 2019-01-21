@@ -97,12 +97,9 @@ namespace ui
 	{
 		Widget& self = widget(parent, style);
 		static Colour disabled_colour = Colour::DarkGrey;
-		struct KnobState { const Colour& colour; bool active; bool connected; };
-		KnobState state = { colour, active, connected };
-		self.m_custom_draw = { &state, [](void* user, const Frame& frame, const vec4& rect, Vg& vg)
+		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
 		{
-			KnobState& s = *(KnobState*)user;
-			UNUSED(rect); draw_knob(frame, s.active ? s.colour : disabled_colour, s.connected, vg); }
+			UNUSED(rect); draw_knob(frame, active ? colour : disabled_colour, connected, vg);
 		};
 		return self;
 	}
@@ -112,13 +109,10 @@ namespace ui
 		Widget& self = widget(parent, node_styles().cable);
 		self.m_frame.m_position = min(out, in);
 		self.m_frame.m_size = max(out, in) - self.m_frame.m_position;
-		struct CableState { vec2 out; vec2 in; const Colour& colour_out; const Colour& colour_in; bool straight; };
-		CableState state = { out, in, colour_out, colour_in, straight };
-		self.m_custom_draw = { &state, [](void* user, const Frame& frame, const vec4& rect, Vg& vg)
+		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
 		{
-			CableState& s = *(CableState*)user;
-			UNUSED(rect); draw_node_cable(s.out - frame.m_position, s.in - frame.m_position, s.colour_out, s.colour_in, s.straight, vg);
-		} };
+			UNUSED(rect); draw_node_cable(out - frame.m_position, in - frame.m_position, colour_out, colour_in, straight, vg);
+		};
 		return self;
 	}
 

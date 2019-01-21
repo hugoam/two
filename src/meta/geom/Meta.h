@@ -1133,19 +1133,19 @@ namespace mud
         {
             auto func = [](array<Var> args, Var& result) {  val<mud::Ray>(result) = mud::to_ray(val<mud::vec3>(args[0]), val<mud::vec3>(args[1]), val<float>(args[2])); };
             vector<Param> params = { { "pos", var(mud::vec3()) }, { "dir", var(mud::vec3()) }, { "distance", var(float(1000.f)), Param::Default } };
-            static Function f = { &namspc({ "mud" }), "to_ray", function_id<mud::Ray(*)(const mud::vec3&, const mud::vec3&, float)>(&mud::to_ray), func, params, var(mud::Ray()) };
+            static Function f = { &namspc({ "mud" }), "to_ray", funcptr<mud::Ray(*)(const mud::vec3&, const mud::vec3&, float)>(&mud::to_ray), func, params, var(mud::Ray()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<mud::Segment>(result) = mud::to_segment(val<mud::Ray>(args[0])); };
             vector<Param> params = { { "ray", var(mud::Ray()) } };
-            static Function f = { &namspc({ "mud" }), "to_segment", function_id<mud::Segment(*)(const mud::Ray&)>(&mud::to_segment), func, params, var(mud::Segment()) };
+            static Function f = { &namspc({ "mud" }), "to_segment", funcptr<mud::Segment(*)(const mud::Ray&)>(&mud::to_segment), func, params, var(mud::Segment()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<vector<mud::vec3>>(result) = mud::distribute_poisson(val<mud::vec2>(args[0]), val<float>(args[1])); };
             vector<Param> params = { { "size", var(mud::vec2()) }, { "radius", var(float()) } };
-            static Function f = { &namspc({ "mud" }), "distribute_poisson", function_id<vector<mud::vec3>(*)(mud::vec2, float)>(&mud::distribute_poisson), func, params, var(vector<mud::vec3>()) };
+            static Function f = { &namspc({ "mud" }), "distribute_poisson", funcptr<vector<mud::vec3>(*)(mud::vec2, float)>(&mud::distribute_poisson), func, params, var(vector<mud::vec3>()) };
             m.m_functions.push_back(&f);
         }
     }

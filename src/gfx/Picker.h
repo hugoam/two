@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/function.h>
 #include <stl/vector.h>
 #include <infra/Array.h>
 #include <geom/Geom.h>
@@ -17,8 +18,8 @@ namespace mud
 {
 #define PICKING_BUFFER_SIZE 8  // Size of the ID buffer
 
-	using PickCallback = void(*)(Item*);
-	using MultipickCallback = void(*)(array<Item*>);
+	using PickCallback = function<void(Item*)>;
+	using MultipickCallback = function<void(array<Item*>)>;
 
 	export_ struct PickQuery
 	{

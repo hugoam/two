@@ -258,7 +258,7 @@ namespace mud
         {
             auto func = [](array<Var> args, Var& result) {  result = mud::indexed(val<mud::Type>(args[0]), val<uint32_t>(args[1])); };
             vector<Param> params = { { "type", Ref(type<mud::Type>()) }, { "id", var(uint32_t()) } };
-            static Function f = { &namspc({ "mud" }), "indexed", function_id<mud::Ref(*)(mud::Type&, uint32_t)>(&mud::indexed), func, params, Ref() };
+            static Function f = { &namspc({ "mud" }), "indexed", funcptr<mud::Ref(*)(mud::Type&, uint32_t)>(&mud::indexed), func, params, Ref() };
             m.m_functions.push_back(&f);
         }
     }

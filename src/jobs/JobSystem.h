@@ -25,6 +25,7 @@ namespace mud
 	class JobSystem;
 
 	using JobFunc = void(*)(void*, JobSystem&, Job*);
+	using JobStorage = void*[JOB_PADDING];
 
 	export_ class refl_ nocopy_ MUD_JOBS_EXPORT JobSystem
 	{
@@ -45,8 +46,7 @@ namespace mud
 
 		enum runFlags { DONT_SIGNAL = 0x1 };
 
-		Job* job(Job* parent = nullptr) { return job(parent, nullptr); }
-		Job* job(Job* parent, JobFunc func);
+		Job* create(Job* parent, JobFunc func);
 		void run(Job* job, uint32_t flags = 0);
 		void wait(Job const* job);
 
@@ -57,6 +57,11 @@ namespace mud
 		}
 
 		void finish(Job* job);
+
+		Job* job(Job* parent = nullptr) { return this->create(parent, nullptr); }
+
+		template <typename T>
+		Job* job(Job* parent, T functor);
 
 		struct ThreadState;
 

@@ -142,7 +142,7 @@ namespace clgen
 
 	string function_identity(const CLCallable& f)
 	{
-		return "function_id<" + function_signature(f) + ">(&" + f.m_id + ")";
+		return "funcptr<" + function_signature(f) + ">(&" + f.m_id + ")";
 	}
 	
 	string function_return_def(const CLCallable& f)

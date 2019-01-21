@@ -188,8 +188,8 @@ namespace mud
 	};
 
 	export_ template<typename T_Function>
-	inline FunctionPointer function_id(T_Function func) { return reinterpret_cast<FunctionPointer>(func); }
+	inline FunctionPointer funcptr(T_Function func) { return reinterpret_cast<FunctionPointer>(func); }
 
 	export_ template <typename T_Function>
-	inline Function& function(T_Function func);
+	inline Function& func(T_Function func);
 }

@@ -27,16 +27,16 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 	//gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
-	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
-	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
+	static vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
+	static vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
 	static Symbol symbol;
 
 	shape_grid(scene, { shape_items.data(), 10U, 10U }, &symbol, false, &material);
 
-	static std::vector<Item*> selected = {};
+	static vector<Item*> selected = {};
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
-		//viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, [&](Item* item) { selected = { item }; }, ItemFlag::Default | ItemFlag::Selectable);
+		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, [&](Item* item) { selected = { item }; }, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
 	static vec4 select_rect = Zero4;

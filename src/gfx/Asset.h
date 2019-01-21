@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/function.h>
 #include <type/Unique.h>
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
@@ -26,11 +27,7 @@ namespace mud
 	class refl_ AssetStore : public NonCopy
 	{
 	public:
-		struct Loader
-		{
-			void* loader;
-			using Handler = void(*)(void*, T_Asset&, cstring); Handler load;
-		};
+		using Loader = function<void(T_Asset&, cstring)>;
 
 		AssetStore(GfxSystem& gfx_system, cstring path);
 		AssetStore(GfxSystem& gfx_system, cstring path, const Loader& loader);

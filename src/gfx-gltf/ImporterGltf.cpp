@@ -73,21 +73,21 @@ namespace mud
 	{
 		setup_gltf(mud_gltf::m());
 
-		static auto load_gltf_model = [](void* loader, Model& model, cstring path)
+		static auto load_gltf_model = [&](Model& model, cstring path)
 		{
 			ImportConfig config = load_model_config(path, model.m_name.c_str());
-			((ImporterGltf*)loader)->import_model(model, path, config);
+			this->import_model(model, path, config);
 		};
 
-		static auto load_gltf_prefab = [](void* loader, Prefab& prefab, cstring path)
+		static auto load_gltf_prefab = [&](Prefab& prefab, cstring path)
 		{
 			ImportConfig config = load_model_config(path, prefab.m_name.c_str());
-			((ImporterGltf*)loader)->import_prefab(prefab, path, config);
+			this->import_prefab(prefab, path, config);
 		};
 
 		gfx_system.add_importer(ModelFormat::gltf, *this);
-		gfx_system.models().add_format(".gltf", { this, load_gltf_model });
-		gfx_system.prefabs().add_format(".gltf", { this, load_gltf_prefab });
+		gfx_system.models().add_format(".gltf", load_gltf_model);
+		gfx_system.prefabs().add_format(".gltf", load_gltf_prefab);
 	}
 
 	static vector<uint8_t> read_base64_uri(const string& uri)

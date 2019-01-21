@@ -1,20 +1,13 @@
-
-
 #pragma once
 
 #include <infra/Config.h>
-
 
 #ifndef MUD_INFRA_EXPORT
 #define MUD_INFRA_EXPORT MUD_IMPORT
 #endif
 
-
-    
-    
-
-namespace mud {
-
+namespace mud
+{
 	using uchar = unsigned char;
 	using ushort = unsigned short;
 	using uint = unsigned int;

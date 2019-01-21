@@ -55,14 +55,14 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 #if SHAPES
-	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
-	static std::vector<ShapeInstance> shape_items = create_shape_grid(10U, 10U, shapes);
+	static vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
+	static vector<ShapeInstance> shape_items = create_shape_grid(10U, 10U, shapes);
 	static Symbol symbol;
 	shape_grid(scene, { shape_items.data(), 10U, 10U }, &symbol, true, &material);
 #endif
 
 #if POINT_LIGHTS
-	static std::vector<LightInstance> light_items = create_light_grid(10U, 10U);
+	static vector<LightInstance> light_items = create_light_grid(10U, 10U);
 	light_grid(scene, { light_items.data(), 10U, 10U }, true, LightType::Point, 9.f, 0.4f, 0.f, 0.f);
 #endif
 

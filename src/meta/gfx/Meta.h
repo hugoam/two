@@ -2433,85 +2433,85 @@ namespace mud
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::gfx::update_item_lights(val<mud::Item>(args[0])); };
             vector<Param> params = { { "item", Ref(type<mud::Item>()) } };
-            static Function f = { &namspc({ "mud", "gfx" }), "update_item_lights", function_id<void(*)(mud::Item&)>(&mud::gfx::update_item_lights), func, params, Var() };
+            static Function f = { &namspc({ "mud", "gfx" }), "update_item_lights", funcptr<void(*)(mud::Item&)>(&mud::gfx::update_item_lights), func, params, Var() };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::gfx::update_item_aabb(val<mud::Item>(args[0])); };
             vector<Param> params = { { "item", Ref(type<mud::Item>()) } };
-            static Function f = { &namspc({ "mud", "gfx" }), "update_item_aabb", function_id<void(*)(mud::Item&)>(&mud::gfx::update_item_aabb), func, params, Var() };
+            static Function f = { &namspc({ "mud", "gfx" }), "update_item_aabb", funcptr<void(*)(mud::Item&)>(&mud::gfx::update_item_aabb), func, params, Var() };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::node(val<mud::Gnode>(args[0]), args[1], val<mud::vec3>(args[2]), val<mud::quat>(args[3]), val<mud::vec3>(args[4]))); };
             vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "object", Ref(), Param::Flags(Param::Nullable|Param::Default) }, { "position", var(mud::vec3(Zero3)), Param::Default }, { "rotation", var(mud::quat(ZeroQuat)), Param::Default }, { "scale", var(mud::vec3(Unit3)), Param::Default } };
-            static Function f = { &namspc({ "mud", "gfx" }), "node", function_id<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::node), func, params, Ref(type<mud::Gnode>()) };
+            static Function f = { &namspc({ "mud", "gfx" }), "node", funcptr<mud::Gnode&(*)(mud::Gnode&, mud::Ref, const mud::vec3&, const mud::quat&, const mud::vec3&)>(&mud::gfx::node), func, params, Ref(type<mud::Gnode>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::shape(val<mud::Gnode>(args[0]), val<mud::Shape>(args[1]), val<mud::Symbol>(args[2]), val<uint32_t>(args[3]), &val<mud::Material>(args[4]), val<size_t>(args[5]))); };
             vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "shape", Ref(type<mud::Shape>()) }, { "symbol", var(mud::Symbol()) }, { "flags", var(uint32_t(0)), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t(0)), Param::Default } };
-            static Function f = { &namspc({ "mud", "gfx" }), "shape", function_id<mud::Item&(*)(mud::Gnode&, const mud::Shape&, const mud::Symbol&, uint32_t, mud::Material*, size_t)>(&mud::gfx::shape), func, params, Ref(type<mud::Item>()) };
+            static Function f = { &namspc({ "mud", "gfx" }), "shape", funcptr<mud::Item&(*)(mud::Gnode&, const mud::Shape&, const mud::Symbol&, uint32_t, mud::Material*, size_t)>(&mud::gfx::shape), func, params, Ref(type<mud::Item>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::gfx::draw(val<mud::Gnode>(args[0]), val<mud::Shape>(args[1]), val<mud::Symbol>(args[2]), val<uint32_t>(args[3])); };
             vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "shape", Ref(type<mud::Shape>()) }, { "symbol", var(mud::Symbol()) }, { "flags", var(uint32_t(0)), Param::Default } };
-            static Function f = { &namspc({ "mud", "gfx" }), "draw", function_id<void(*)(mud::Gnode&, const mud::Shape&, const mud::Symbol&, uint32_t)>(&mud::gfx::draw), func, params, Var() };
+            static Function f = { &namspc({ "mud", "gfx" }), "draw", funcptr<void(*)(mud::Gnode&, const mud::Shape&, const mud::Symbol&, uint32_t)>(&mud::gfx::draw), func, params, Var() };
             m.m_functions.push_back(&f);
         }
         /*{
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::sprite(val<mud::Gnode>(args[0]), val<mud::Image256>(args[1]), val<mud::vec2>(args[2]), val<uint32_t>(args[3]), &val<mud::Material>(args[4]), val<size_t>(args[5]))); };
             vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "image", var(mud::Image256()) }, { "size", var(mud::vec2()) }, { "flags", var(uint32_t(0)), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t(0)), Param::Default } };
-            static Function f = { &namspc({ "mud", "gfx" }), "sprite", function_id<mud::Item&(*)(mud::Gnode&, const mud::Image256&, const mud::vec2&, uint32_t, mud::Material*, size_t)>(&mud::gfx::sprite), func, params, Ref(type<mud::Item>()) };
+            static Function f = { &namspc({ "mud", "gfx" }), "sprite", funcptr<mud::Item&(*)(mud::Gnode&, const mud::Image256&, const mud::vec2&, uint32_t, mud::Material*, size_t)>(&mud::gfx::sprite), func, params, Ref(type<mud::Item>()) };
             m.m_functions.push_back(&f);
         }*/
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::item(val<mud::Gnode>(args[0]), val<mud::Model>(args[1]), val<uint32_t>(args[2]), &val<mud::Material>(args[3]), val<size_t>(args[4]), val<array<mud::mat4>>(args[5]))); };
             vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "model", Ref(type<mud::Model>()) }, { "flags", var(uint32_t(0)), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t(0)), Param::Default }, { "transforms", var(array<mud::mat4>{}), Param::Default } };
-            static Function f = { &namspc({ "mud", "gfx" }), "item", function_id<mud::Item&(*)(mud::Gnode&, const mud::Model&, uint32_t, mud::Material*, size_t, array<mud::mat4>)>(&mud::gfx::item), func, params, Ref(type<mud::Item>()) };
+            static Function f = { &namspc({ "mud", "gfx" }), "item", funcptr<mud::Item&(*)(mud::Gnode&, const mud::Model&, uint32_t, mud::Material*, size_t, array<mud::mat4>)>(&mud::gfx::item), func, params, Ref(type<mud::Item>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::gfx::prefab(val<mud::Gnode>(args[0]), val<mud::Prefab>(args[1]), val<bool>(args[2]), val<uint32_t>(args[3]), &val<mud::Material>(args[4]), val<size_t>(args[5]), val<array<mud::mat4>>(args[6])); };
             vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "prefab", Ref(type<mud::Prefab>()) }, { "transform", var(bool(true)), Param::Default }, { "flags", var(uint32_t(0)), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t(0)), Param::Default }, { "transforms", var(array<mud::mat4>{}), Param::Default } };
-            static Function f = { &namspc({ "mud", "gfx" }), "prefab", function_id<void(*)(mud::Gnode&, const mud::Prefab&, bool, uint32_t, mud::Material*, size_t, array<mud::mat4>)>(&mud::gfx::prefab), func, params, Var() };
+            static Function f = { &namspc({ "mud", "gfx" }), "prefab", funcptr<void(*)(mud::Gnode&, const mud::Prefab&, bool, uint32_t, mud::Material*, size_t, array<mud::mat4>)>(&mud::gfx::prefab), func, params, Var() };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(mud::gfx::model(val<mud::Gnode>(args[0]), val<string>(args[1]), val<uint32_t>(args[2]), &val<mud::Material>(args[3]), val<size_t>(args[4]))); };
             vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "name", var(string()) }, { "flags", var(uint32_t(0)), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t(0)), Param::Default } };
-            static Function f = { &namspc({ "mud", "gfx" }), "model", function_id<mud::Item*(*)(mud::Gnode&, const string&, uint32_t, mud::Material*, size_t)>(&mud::gfx::model), func, params, Ref(type<mud::Item>()) };
+            static Function f = { &namspc({ "mud", "gfx" }), "model", funcptr<mud::Item*(*)(mud::Gnode&, const string&, uint32_t, mud::Material*, size_t)>(&mud::gfx::model), func, params, Ref(type<mud::Item>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::animated(val<mud::Gnode>(args[0]), val<mud::Item>(args[1]))); };
             vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "item", Ref(type<mud::Item>()) } };
-            static Function f = { &namspc({ "mud", "gfx" }), "animated", function_id<mud::Animated&(*)(mud::Gnode&, mud::Item&)>(&mud::gfx::animated), func, params, Ref(type<mud::Animated>()) };
+            static Function f = { &namspc({ "mud", "gfx" }), "animated", funcptr<mud::Animated&(*)(mud::Gnode&, mud::Item&)>(&mud::gfx::animated), func, params, Ref(type<mud::Animated>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  val<mud::Particles>(result) = mud::gfx::particles(val<mud::Gnode>(args[0]), val<mud::ParticleFlow>(args[1]), val<uint32_t>(args[2]), val<size_t>(args[3])); };
             vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "emitter", var(mud::ParticleFlow()) }, { "flags", var(uint32_t(0)), Param::Default }, { "instances", var(size_t(0)), Param::Default } };
-            static Function f = { &namspc({ "mud", "gfx" }), "particles", function_id<mud::Particles&(*)(mud::Gnode&, const mud::ParticleFlow&, uint32_t, size_t)>(&mud::gfx::particles), func, params, var(mud::Particles()) };
+            static Function f = { &namspc({ "mud", "gfx" }), "particles", funcptr<mud::Particles&(*)(mud::Gnode&, const mud::ParticleFlow&, uint32_t, size_t)>(&mud::gfx::particles), func, params, var(mud::Particles()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::light(val<mud::Gnode>(args[0]), val<mud::LightType>(args[1]), val<bool>(args[2]), val<mud::Colour>(args[3]), val<float>(args[4]), val<float>(args[5]))); };
             vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "type", var(mud::LightType()) }, { "shadows", var(bool()) }, { "colour", var(mud::Colour()) }, { "range", var(float(0.f)), Param::Default }, { "attenuation", var(float(0.5f)), Param::Default } };
-            static Function f = { &namspc({ "mud", "gfx" }), "light", function_id<mud::Light&(*)(mud::Gnode&, mud::LightType, bool, mud::Colour, float, float)>(&mud::gfx::light), func, params, Ref(type<mud::Light>()) };
+            static Function f = { &namspc({ "mud", "gfx" }), "light", funcptr<mud::Light&(*)(mud::Gnode&, mud::LightType, bool, mud::Colour, float, float)>(&mud::gfx::light), func, params, Ref(type<mud::Light>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::sun_light(val<mud::Gnode>(args[0]), val<float>(args[1]), val<float>(args[2]))); };
             vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "azimuth", var(float()) }, { "elevation", var(float()) } };
-            static Function f = { &namspc({ "mud", "gfx" }), "sun_light", function_id<mud::Light&(*)(mud::Gnode&, float, float)>(&mud::gfx::sun_light), func, params, Ref(type<mud::Light>()) };
+            static Function f = { &namspc({ "mud", "gfx" }), "sun_light", funcptr<mud::Light&(*)(mud::Gnode&, float, float)>(&mud::gfx::sun_light), func, params, Ref(type<mud::Light>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::gfx::radiance(val<mud::Gnode>(args[0]), val<string>(args[1]), val<mud::BackgroundMode>(args[2])); };
             vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "texture", var(string()) }, { "background", var(mud::BackgroundMode()) } };
-            static Function f = { &namspc({ "mud", "gfx" }), "radiance", function_id<void(*)(mud::Gnode&, const string&, mud::BackgroundMode)>(&mud::gfx::radiance), func, params, Var() };
+            static Function f = { &namspc({ "mud", "gfx" }), "radiance", funcptr<void(*)(mud::Gnode&, const string&, mud::BackgroundMode)>(&mud::gfx::radiance), func, params, Var() };
             m.m_functions.push_back(&f);
         }
     }

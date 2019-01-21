@@ -75,7 +75,7 @@ namespace mud
 		}
 
 		for(RenderTask& task : m_tasks)
-			task.render(task.user, render);
+			task(render);
 	}
 
 	/*void hmdUpdate()

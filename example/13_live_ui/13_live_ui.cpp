@@ -125,7 +125,7 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 	static LuaInterpreter interpreter = { true };
 	static TextScript script = create_script(interpreter);
 
-	std::vector<Var> args = { Ref(&parent) };
+	vector<Var> args = { Ref(&parent) };
 	script(args);
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))

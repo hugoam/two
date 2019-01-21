@@ -25,6 +25,7 @@ module mud.gfx;
 
 #include <cstddef>
 #include <cstdint>
+#include <cstring>
 #include <limits>
 
 #if defined WIN32
@@ -340,15 +341,12 @@ namespace mud
 
 #ifdef MUD_THREADED
 		JobSystem& js = *m_gfx_system.m_job_system;
-
-		auto process_task = [&](size_t offset, size_t stride)
-		{
-			this->froxelize_light_group(camera, lights, offset, stride);
-		};
-
 		Job* parent = js.job();
 		for(size_t i = 0; i < GROUP_COUNT; i++)
-			js.run(job(js, parent, std::cref(process_task), i, GROUP_COUNT));
+		{
+			auto task = [&](JobSystem&, Job*) { this->froxelize_light_group(camera, lights, i, GROUP_COUNT); };
+			js.run(js.job(parent, task));
+		}
 		js.complete(parent);
 #else
 		for(size_t i = 0; i < GROUP_COUNT; i++)

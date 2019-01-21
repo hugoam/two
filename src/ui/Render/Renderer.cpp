@@ -291,8 +291,8 @@ namespace mud
 		if(frame.d_inkstyle->m_empty)
 			return;
 
-		if(frame.d_widget.m_custom_draw.func)
-			return frame.d_widget.m_custom_draw.draw(frame, rect, m_vg);
+		if(frame.d_widget.m_custom_draw)
+			return frame.d_widget.m_custom_draw(frame, rect, m_vg);
 
 		if(frame.d_inkstyle->m_custom_draw)
 			return frame.d_inkstyle->m_custom_draw(frame, rect, m_vg);

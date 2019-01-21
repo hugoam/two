@@ -1,5 +1,6 @@
 #include <mud/frame.h>
 #include <gfx-pbr/Api.h>
+#include <math/Random.h>
 
 #include <04_lights/04_lights.h>
 #include <01_shapes/01_shapes.h>
@@ -16,9 +17,9 @@ using namespace mud;
 
 static float g_time = 0.f;
 
-std::vector<LightInstance> create_light_grid(size_t size_x, size_t size_y)
+vector<LightInstance> create_light_grid(size_t size_x, size_t size_y)
 {
-	std::vector<LightInstance> light_items = {};
+	vector<LightInstance> light_items = {};
 	light_items.resize(size_x * size_y);
 
 	for(size_t x = 0; x < size_x; ++x)
@@ -83,9 +84,9 @@ void ex_04_lights(Shell& app, Widget& parent)
 	//gfx::radiance(scene, "radiance/rocky_ridge_1k.hdr", BackgroundMode::None);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
-	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder(1.f, 2.f, Axis::Y) }; // @todo Circle() looks weird
-	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
-	static std::vector<LightInstance > light_items = create_light_grid(10U, 10U);
+	static vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder(1.f, 2.f, Axis::Y) }; // @todo Circle() looks weird
+	static vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
+	static vector<LightInstance > light_items = create_light_grid(10U, 10U);
 
 #if DEBUG_CLUSTERED
 	static bool debug = true;

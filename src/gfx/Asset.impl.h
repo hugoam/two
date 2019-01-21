@@ -80,7 +80,7 @@ namespace mud
 		if(m_assets.find(name) == m_assets.end())
 		{
 			m_assets[name] = make_unique<T_Asset>(name);
-			m_loader.load(m_loader.loader, *m_assets[name], (string(path) + name).c_str());
+			m_loader(*m_assets[name], (string(path) + name).c_str());
 		}
 		return *m_assets[name];
 	}
@@ -100,7 +100,7 @@ namespace mud
 			m_assets[name];
 			m_assets[name] = make_unique<T_Asset>(name);
 			Loader& loader = m_cformats.size() > 0 ? m_format_loaders[location.m_extension_index] : m_loader;
-			loader.load(loader.loader, *m_assets[name], (string(location.m_location) + location.m_name).c_str());
+			loader(*m_assets[name], (string(location.m_location) + location.m_name).c_str());
 		}
 		return m_assets[name].get();
 	}
@@ -114,8 +114,7 @@ namespace mud
 			{
 				string name = filename.substr(0, filename.size() - m_formats[i].size());
 				T_Asset& asset = this->create(name.c_str());
-				Loader& loader = m_format_loaders[i];
-				loader.load(loader.loader, asset, (path + name).c_str());
+				m_format_loaders[i](asset, (path + name).c_str());
 				return &asset;
 			}
 		return nullptr;
@@ -124,19 +123,17 @@ namespace mud
 	template <class T_Asset>
 	void AssetStore<T_Asset>::load_files(cstring path)
 	{
-		auto visit_file = [](void* user, cstring path, cstring file)
+		auto visit_file = [&](cstring path, cstring file)
 		{
-			AssetStore<T_Asset>& self = *(AssetStore<T_Asset>*)user;
-			self.load(path, file);
+			this->load(path, file);
 		};
 
-		auto visit_folder = [](void* user, cstring path, cstring folder)
+		auto visit_folder = [&](cstring path, cstring folder)
 		{
-			AssetStore<T_Asset>& self = *(AssetStore<T_Asset>*)user;
-			self.load_files((string(path) + folder + "/").c_str());
+			this->load_files((string(path) + folder + "/").c_str());
 		};
 
-		visit_files(path, visit_file, this);
-		visit_folders(path, visit_folder, this);
+		visit_files(path, visit_file);
+		visit_folders(path, visit_folder);
 	}
 }

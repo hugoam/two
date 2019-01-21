@@ -90,7 +90,7 @@ void ex_14_live_gfx_visual(Shell& app, Widget& parent, Dockbar& dockbar)
 	Gnode& scene = viewer.m_scene->begin();
 
 	static Var result;
-	static std::vector<Var> args = { Ref(&scene) };
+	static vector<Var> args = { Ref(&scene) };
 	script(args, result);
 }
 

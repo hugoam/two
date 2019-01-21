@@ -36,32 +36,28 @@ namespace ui
 	{
 		Widget& self = widget(parent, styles().wedge);//file_styles().directory);
 
-		struct Visitor { Widget& self; string& path; };
-		auto on_dir = [](void* user, cstring basepath, cstring dir)
+		auto on_dir = [&](cstring basepath, cstring dir)
 		{
 			UNUSED(basepath);
-			Visitor& v = *(Visitor*)user;
 			if(string(dir) == ".") return;
-			Widget& item = dir_item(v.self, dir);
+			Widget& item = dir_item(self, dir);
 			if(item.activated())
 			{
 				if(string(dir) == "..")
-					v.path = v.path.substr(0, v.path.rfind("/"));
+					path = path.substr(0, path.rfind("/"));
 				else
-					v.path = v.path + "/" + dir;
+					path = path + "/" + dir;
 			}
 		};
 
-		auto on_file = [](void* user, cstring path, cstring file)
+		auto on_file = [&](cstring path, cstring file)
 		{
 			UNUSED(path);
-			Visitor& v = *(Visitor*)user;
-			file_item(v.self, file);
+			file_item(self, file);
 		};
 
-		Visitor visitor = { self, path };
-		visit_folders(path.c_str(), on_dir, &visitor, false);
-		visit_files(path.c_str(), on_file, &visitor);
+		visit_folders(path.c_str(), on_dir);
+		visit_files(path.c_str(), on_file);
 		return self;
 	}
 
@@ -78,23 +74,19 @@ namespace ui
 		Widget& self = tree_node(parent, elements, false, open);
 		if(!self.m_body) return self;
 
-		struct Visitor { Widget& self; };
-		auto on_dir = [](void* user, cstring path, cstring dir)
+		auto on_dir = [&](cstring path, cstring dir)
 		{
-			Visitor& v = *(Visitor*)user;
-			dir_node(*v.self.m_body, (string(path) + "/" + dir).c_str(), dir, false);
+			dir_node(*self.m_body, (string(path) + "/" + dir).c_str(), dir, false);
 		};
 
-		auto on_file = [](void* user, cstring path, cstring file)
+		auto on_file = [&](cstring path, cstring file)
 		{
 			UNUSED(path);
-			Visitor& v = *(Visitor*)user;
-			file_node(*v.self.m_body, file);
+			file_node(*self.m_body, file);
 		};
 
-		Visitor visitor = { self };
-		visit_folders(path, on_dir, &visitor);
-		visit_files(path, on_file, &visitor);
+		visit_folders(path, on_dir);
+		visit_files(path, on_file);
 		return self;
 	}
 

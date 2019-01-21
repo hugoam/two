@@ -113,9 +113,9 @@ Material& roughness_material(GfxSystem& gfx_system, const string& name, Colour a
 	return mat;
 }
 
-std::vector<Material*> create_roughness_dielectric_materials(GfxSystem& gfx_system)
+vector<Material*> create_roughness_dielectric_materials(GfxSystem& gfx_system)
 {
-	std::vector<Material*> materials;
+	vector<Material*> materials;
 	for(size_t i = 0; i < 8; ++i)
 	{
 		float roughness = i / float(8 - 1);
@@ -124,9 +124,9 @@ std::vector<Material*> create_roughness_dielectric_materials(GfxSystem& gfx_syst
 	return materials;
 }
 
-std::vector<Material*> create_roughness_metallic_materials(GfxSystem& gfx_system)
+vector<Material*> create_roughness_metallic_materials(GfxSystem& gfx_system)
 {
-	std::vector<Material*> materials;
+	vector<Material*> materials;
 	for(size_t i = 0; i < 8; ++i)
 	{
 		float roughness = i / float(8 - 1);
@@ -152,8 +152,8 @@ void roughness_spheres(Gnode& parent)
 {
 	GfxSystem& gfx_system = parent.m_scene->m_gfx_system;
 
-	static std::vector<Material*> roughness_dielectric_materials = create_roughness_dielectric_materials(gfx_system);
-	static std::vector<Material*> roughness_metallic_materials = create_roughness_metallic_materials(gfx_system);
+	static vector<Material*> roughness_dielectric_materials = create_roughness_dielectric_materials(gfx_system);
+	static vector<Material*> roughness_metallic_materials = create_roughness_metallic_materials(gfx_system);
 
 	float dielectric_center = roughness_dielectric_materials.size() * 2.f / 2.f;
 	for(size_t i = 0; i < roughness_dielectric_materials.size(); ++i)
@@ -189,16 +189,15 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	GfxSystem& gfx_system = scene.m_scene->m_gfx_system;
 	
-	//static std::vector<Material*> materials = { &milky_white(gfx_system), &mirror(gfx_system), &rocks_01(gfx_system), &fabric_08(gfx_system), &paving_stones_11(gfx_system), 
+	//static vector<Material*> materials = { &milky_white(gfx_system), &mirror(gfx_system), &rocks_01(gfx_system), &fabric_08(gfx_system), &paving_stones_11(gfx_system), 
 	//											&wood_floor_05(gfx_system), &paving_stones_08(gfx_system) };
-	static std::vector<Material*> materials = { &paving_stones_11(gfx_system), &metal_plates_02(gfx_system), &paving_stones_08(gfx_system) };
+	static vector<Material*> materials = { &paving_stones_11(gfx_system), &metal_plates_02(gfx_system), &paving_stones_08(gfx_system) };
 
 	static Material* edited = materials[0];
 
 	//roughness_spheres(scene);
 	material_spheres(scene, materials);
 
-#if 0
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
 		auto callback = [&](Item* item)
@@ -211,7 +210,6 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 		};
 		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
 	}
-#endif
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{

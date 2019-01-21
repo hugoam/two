@@ -226,43 +226,43 @@ namespace mud
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::viewer(val<mud::Widget>(args[0]), val<mud::Scene>(args[1]))); };
             vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "scene", Ref(type<mud::Scene>()) } };
-            static Function f = { &namspc({ "mud", "ui" }), "viewer", function_id<mud::Viewer&(*)(mud::Widget&, mud::Scene&)>(&mud::ui::viewer), func, params, Ref(type<mud::Viewer>()) };
+            static Function f = { &namspc({ "mud", "ui" }), "viewer", funcptr<mud::Viewer&(*)(mud::Widget&, mud::Scene&)>(&mud::ui::viewer), func, params, Ref(type<mud::Viewer>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::scene_viewer(val<mud::Widget>(args[0]), val<mud::vec2>(args[1]))); };
             vector<Param> params = { { "parent", Ref(type<mud::Widget>()) }, { "size", var(mud::vec2(Zero2)), Param::Default } };
-            static Function f = { &namspc({ "mud", "ui" }), "scene_viewer", function_id<mud::SceneViewer&(*)(mud::Widget&, const mud::vec2&)>(&mud::ui::scene_viewer), func, params, Ref(type<mud::SceneViewer>()) };
+            static Function f = { &namspc({ "mud", "ui" }), "scene_viewer", funcptr<mud::SceneViewer&(*)(mud::Widget&, const mud::vec2&)>(&mud::ui::scene_viewer), func, params, Ref(type<mud::SceneViewer>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::orbit_controller(val<mud::Viewer>(args[0]), val<float>(args[1]), val<float>(args[2]), val<float>(args[3]))); };
             vector<Param> params = { { "viewer", Ref(type<mud::Viewer>()) }, { "yaw", var(float()) }, { "pitch", var(float()) }, { "distance", var(float(10.f)), Param::Default } };
-            static Function f = { &namspc({ "mud", "ui" }), "orbit_controller", function_id<mud::OrbitController&(*)(mud::Viewer&, float, float, float)>(&mud::ui::orbit_controller), func, params, Ref(type<mud::OrbitController>()) };
+            static Function f = { &namspc({ "mud", "ui" }), "orbit_controller", funcptr<mud::OrbitController&(*)(mud::Viewer&, float, float, float)>(&mud::ui::orbit_controller), func, params, Ref(type<mud::OrbitController>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::free_orbit_controller(val<mud::Viewer>(args[0]))); };
             vector<Param> params = { { "viewer", Ref(type<mud::Viewer>()) } };
-            static Function f = { &namspc({ "mud", "ui" }), "free_orbit_controller", function_id<mud::FreeOrbitController&(*)(mud::Viewer&)>(&mud::ui::free_orbit_controller), func, params, Ref(type<mud::FreeOrbitController>()) };
+            static Function f = { &namspc({ "mud", "ui" }), "free_orbit_controller", funcptr<mud::FreeOrbitController&(*)(mud::Viewer&)>(&mud::ui::free_orbit_controller), func, params, Ref(type<mud::FreeOrbitController>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::isometric_controller(val<mud::Viewer>(args[0]), val<bool>(args[1]))); };
             vector<Param> params = { { "viewer", Ref(type<mud::Viewer>()) }, { "topdown", var(bool(false)), Param::Default } };
-            static Function f = { &namspc({ "mud", "ui" }), "isometric_controller", function_id<mud::OrbitController&(*)(mud::Viewer&, bool)>(&mud::ui::isometric_controller), func, params, Ref(type<mud::OrbitController>()) };
+            static Function f = { &namspc({ "mud", "ui" }), "isometric_controller", funcptr<mud::OrbitController&(*)(mud::Viewer&, bool)>(&mud::ui::isometric_controller), func, params, Ref(type<mud::OrbitController>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::ui::hybrid_controller(val<mud::Viewer>(args[0]), val<mud::ui::OrbitMode>(args[1]), val<mud::Transform>(args[2]), val<bool>(args[3]), val<mud::vec2>(args[4]), val<bool>(args[5]))); };
             vector<Param> params = { { "viewer", Ref(type<mud::Viewer>()) }, { "mode", var(mud::ui::OrbitMode()) }, { "entity", var(mud::Transform()) }, { "aiming", var(bool()) }, { "angles", var(mud::vec2()) }, { "modal", var(bool(false)), Param::Default } };
-            static Function f = { &namspc({ "mud", "ui" }), "hybrid_controller", function_id<mud::OrbitController&(*)(mud::Viewer&, mud::ui::OrbitMode, mud::Transform&, bool&, mud::vec2&, bool)>(&mud::ui::hybrid_controller), func, params, Ref(type<mud::OrbitController>()) };
+            static Function f = { &namspc({ "mud", "ui" }), "hybrid_controller", funcptr<mud::OrbitController&(*)(mud::Viewer&, mud::ui::OrbitMode, mud::Transform&, bool&, mud::vec2&, bool)>(&mud::ui::hybrid_controller), func, params, Ref(type<mud::OrbitController>()) };
             m.m_functions.push_back(&f);
         }
         {
             auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::ui::velocity_controller(val<mud::Viewer>(args[0]), val<mud::vec3>(args[1]), val<mud::vec3>(args[2]), val<float>(args[3])); };
             vector<Param> params = { { "viewer", Ref(type<mud::Viewer>()) }, { "linear", var(mud::vec3()) }, { "angular", var(mud::vec3()) }, { "speed", var(float(1.f)), Param::Default } };
-            static Function f = { &namspc({ "mud", "ui" }), "velocity_controller", function_id<void(*)(mud::Viewer&, mud::vec3&, mud::vec3&, float)>(&mud::ui::velocity_controller), func, params, Var() };
+            static Function f = { &namspc({ "mud", "ui" }), "velocity_controller", funcptr<void(*)(mud::Viewer&, mud::vec3&, mud::vec3&, float)>(&mud::ui::velocity_controller), func, params, Var() };
             m.m_functions.push_back(&f);
         }
     }

@@ -19,6 +19,11 @@ namespace mud
 				, m_splitter(splitter)
 			{}
 
+			void operator()(JobSystem& js, Job* parent)
+			{
+				this->run(js, parent);
+			}
+
 			void run(JobSystem& js, Job* parent)
 			{
 				if(m_splits == js.m_parallel_split_count)
@@ -31,13 +36,13 @@ namespace mud
 				{
 					const uint32_t lc = m_count / 2;
 					Jobs ld(m_start, lc, m_splits + uint8_t(1), m_functor, m_splitter);
-					Job* left = job<Jobs, &Jobs::run>(js, parent, move(ld));
+					Job* left = js.job(parent, ld);
 
 					js.run(left);
 
 					const uint32_t rc = m_count - lc;
 					Jobs rd(m_start + lc, rc, m_splits + uint8_t(1), m_functor, m_splitter);
-					Job* right = job<Jobs, &Jobs::run>(js, parent, move(rd));
+					Job* right = js.job(parent, rd);
 
 					js.run(right, JobSystem::DONT_SIGNAL);
 				}
@@ -59,7 +64,7 @@ namespace mud
 				}
 				else
 				{
-					Job* job = job(js, parent, [f = m_functor, start, count](JobSystem& js, Job* job) {
+					Job* job = js.job(parent, [f = m_functor, start, count](JobSystem& js, Job* job) {
 						f(js, job, start, count);
 					});
 					if(job)
@@ -82,8 +87,8 @@ namespace mud
 	Job* split_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor, const S& splitter)
 	{
 		using Jobs = details::ParallelJob<S, F>;
-		Jobs jobData(start, count, 0, move(functor), splitter);
-		return job<Jobs, &Jobs::run>(js, parent, move(jobData));
+		Jobs jobs(start, count, 0, move(functor), splitter);
+		return js.job(parent, jobs);
 	}
 
 	template <typename T, typename S, typename F>
@@ -95,8 +100,8 @@ namespace mud
 			f(data + start, count);
 		};
 		using Jobs = details::ParallelJob<S, decltype(user)>;
-		Jobs jobData(0, count, 0, move(user), splitter);
-		return job<Jobs, &Jobs::run>(js, parent, move(jobData));
+		Jobs jobs(0, count, 0, move(user), splitter);
+		return js.job(parent, jobs);
 	}
 
 	template <typename T, typename S, typename F>
@@ -133,8 +138,8 @@ namespace mud
 				f(js, job, i);
 		};
 		using Jobs = details::ParallelJob<CountSplitter<Count>, decltype(user)>;
-		Jobs jobData(start, count, 0, move(user), CountSplitter<Count>());
-		return job<Jobs, &Jobs::run>(js, parent, move(jobData));
+		Jobs jobs(start, count, 0, move(user), CountSplitter<Count>());
+		return js.job<Jobs>(parent, jobs);
 	}
 
 	template <uint32_t Count, class T_Source, class T_Dest>

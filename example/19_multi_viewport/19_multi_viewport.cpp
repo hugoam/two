@@ -7,7 +7,7 @@ using namespace mud;
 
 size_t viewport_mode(Widget& parent)
 {
-	std::vector<size_t> num_viewer_vals = { 1, 2, 4 };
+	vector<size_t> num_viewer_vals = { 1, 2, 4 };
 
 	ui::label(parent, "num viewports : ");
 	static uint32_t choice = 1;
@@ -31,7 +31,7 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar)
 	Widget& first_split = ui::board(layout);
 	Widget* second_split = num_viewers > 2 ? &ui::board(layout) : nullptr;
 
-	std::vector<Viewer*> viewers = {};
+	vector<Viewer*> viewers = {};
 
 	if(!multiple_scene)
 	{

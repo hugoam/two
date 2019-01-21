@@ -253,7 +253,7 @@ namespace mud
 			if(job->function) //[[likely]]
 			{
 				ZoneScopedN("job");
-				job->function(job->padding, *this, job);
+				job->function(job->storage, *this, job);
 			}
 
 			finish(job);
@@ -279,7 +279,7 @@ namespace mud
 		} while(!exiting());
 	}
 	
-	Job* JobSystem::job(Job* parent, JobFunc func)
+	Job* JobSystem::create(Job* parent, JobFunc func)
 	{
 		parent = (parent == nullptr) ? m_master_job : parent;
 		Job* const job = m_impl->m_job_pool.make();
