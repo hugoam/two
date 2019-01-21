@@ -276,7 +276,7 @@ namespace mud
 		{
 			uint64_t flag = (1ULL << TypedBuffer<T>::index());
 			EntityData& entity = m_entities[handle];
-			return (entity.m_flags & flag) != 0;
+			return (entity.m_prototype & flag) != 0;
 		}
 
 		template <class T>
