@@ -8,7 +8,11 @@
 namespace mud
 {
 	export_ using std::tuple;
-	export_ using std::get;
+	export_ using std::index_sequence;
+	export_ using std::make_index_sequence;
+
+	template<typename T>
+	const auto at = std::get<T>;
 }
 #else
 #include <cstddef>
