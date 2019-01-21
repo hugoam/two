@@ -88,8 +88,8 @@ namespace mud
             {
                 { type<mud::Context>(), member_address(&mud::Context::m_resource_path), type<string>(), "resource_path", var(string()), Member::Flags(Member::Value|Member::NonMutable), nullptr },
                 { type<mud::Context>(), member_address(&mud::Context::m_title), type<string>(), "title", var(string()), Member::Value, nullptr },
-                { type<mud::Context>(), member_address(&mud::Context::m_width), type<uint>(), "width", var(unsigned int()), Member::Value, nullptr },
-                { type<mud::Context>(), member_address(&mud::Context::m_height), type<uint>(), "height", var(unsigned int()), Member::Value, nullptr },
+                { type<mud::Context>(), member_address(&mud::Context::m_width), type<uint>(), "width", var(uint()), Member::Value, nullptr },
+                { type<mud::Context>(), member_address(&mud::Context::m_height), type<uint>(), "height", var(uint()), Member::Value, nullptr },
                 { type<mud::Context>(), member_address(&mud::Context::m_full_screen), type<bool>(), "full_screen", var(bool()), Member::Value, nullptr },
                 { type<mud::Context>(), member_address(&mud::Context::m_active), type<bool>(), "active", var(bool(true)), Member::Value, nullptr },
                 { type<mud::Context>(), member_address(&mud::Context::m_shutdown), type<bool>(), "shutdown", var(bool(false)), Member::Value, nullptr },
