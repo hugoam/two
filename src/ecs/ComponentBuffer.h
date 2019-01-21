@@ -26,7 +26,9 @@ namespace mud
 		virtual void Clear() = 0;
 		virtual void Add() = 0;
 		virtual void Remove(uint32_t index) = 0;
+#ifdef MUD_ECS_TYPED
 		virtual Ref Get(uint32_t index) = 0;
+#endif
 
 		virtual void SortComponents() = 0;
 	};

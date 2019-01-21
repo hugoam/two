@@ -2,6 +2,7 @@
 
 #include <stl/memory.h>
 #include <stl/map.h>
+#include <stl/tuple.h>
 #include <infra/Vector.h>
 #include <type/Type.h>
 #include <type/Ref.h>
@@ -301,92 +302,53 @@ namespace mud
 			return result;
 		}
 
-		template <class T0, class T_Function>
-		void Loop(T_Function action)
+		template <class... Ts, size_t... Is, class T_Function>
+		void LoopHImpl(T_Function action, index_sequence<Is...>)
 		{
-			EntFlags prototype = (1ULL << TypedBuffer<T0>::index());
+			EntFlags prototype = any_flags(1ULL << TypedBuffer<Ts>::index()...);
 
 			vector<ParallelBuffers*> matches = this->Match(prototype);
-			for(ParallelBuffers* buffers : matches)
+			for(ParallelBuffers* stream : matches)
 			{
-				ComponentBuffer<T0>& buffer0 = buffers->Buffer<T0>();
+				tuple<ComponentBuffer<Ts>&...> buffers = { stream->Buffer<Ts>()... };
 
-				for(size_t i = 0; i < buffer0.m_data.size(); ++i)
+				const size_t size = stream->m_handles.size();
+				for(size_t i = 0; i < size; ++i)
 				{
-					uint32_t handle = buffers->m_handles[i];
-					T0& component0 = buffer0.m_data[i];
-					action(handle, component0);
+					uint32_t handle = stream->m_handles[i];
+					action(handle, at<Is>(buffers).m_data[i]...);
 				}
 			}
 		}
 
-		template <class T0, class T1, class T_Function>
-		void Loop(T_Function action)
+		template <class... Ts, size_t... Is, class T_Function>
+		void LoopImpl(T_Function action, index_sequence<Is...>)
 		{
-			EntFlags prototype = (1ULL << TypedBuffer<T0>::index()) | (1ULL << TypedBuffer<T1>::index());
+			EntFlags prototype = any_flags(1ULL << TypedBuffer<Ts>::index()...);
 
 			vector<ParallelBuffers*> matches = this->Match(prototype);
-			for(ParallelBuffers* buffers : matches)
+			for(ParallelBuffers* stream : matches)
 			{
-				ComponentBuffer<T0>& buffer0 = buffers->Buffer<T0>();
-				ComponentBuffer<T1>& buffer1 = buffers->Buffer<T1>();
+				tuple<ComponentBuffer<Ts>&...> buffers = { stream->Buffer<Ts>()... };
 
-				for(size_t i = 0; i < buffer0.m_data.size(); ++i)
+				const size_t size = stream->m_handles.size();
+				for(size_t i = 0; i < size; ++i)
 				{
-					uint32_t handle = buffers->m_handles[i];
-					T0& component0 = buffer0.m_data[i];
-					T1& component1 = buffer1.m_data[i];
-					action(handle, component0, component1);
+					action(at<Is>(buffers).m_data[i]...);
 				}
 			}
 		}
 
-		template <class T0, class T1, class T2, class T_Function>
+		template <class... Ts, class T_Function>
 		void Loop(T_Function action)
 		{
-			EntFlags prototype = (1ULL << TypedBuffer<T0>::index()) | (1ULL << TypedBuffer<T1>::index()) | (1ULL << TypedBuffer<T2>::index());
-
-			vector<ParallelBuffers*> matches = this->Match(prototype);
-			for(ParallelBuffers* buffers : matches)
-			{
-				ComponentBuffer<T0>& buffer0 = buffers->Buffer<T0>();
-				ComponentBuffer<T1>& buffer1 = buffers->Buffer<T1>();
-				ComponentBuffer<T2>& buffer2 = buffers->Buffer<T2>();
-
-				for(size_t i = 0; i < buffer0.m_data.size(); ++i)
-				{
-					uint32_t handle = buffers->m_handles[i];
-					T0& component0 = buffer0.m_data[i];
-					T1& component1 = buffer1.m_data[i];
-					T2& component2 = buffer2.m_data[i];
-					action(handle, component0, component1, component2);
-				}
-			}
+			this->LoopImpl<Ts...>(action, index_tuple<sizeof...(Ts)>());
 		}
 
-		template <class T0, class T1, class T2, class T3, class T_Function>
-		void Loop(T_Function action)
+		template <class... Ts, class T_Function>
+		void LoopH(T_Function action)
 		{
-			EntFlags prototype = (1ULL << TypedBuffer<T0>::index()) | (1ULL << TypedBuffer<T1>::index()) | (1ULL << TypedBuffer<T2>::index()) | (1ULL << TypedBuffer<T3>::index());
-			
-			vector<ParallelBuffers*> matches = this->Match(prototype);
-			for(ParallelBuffers* buffers : matches)
-			{
-				ComponentBuffer<T0>& buffer0 = buffers->Buffer<T0>();
-				ComponentBuffer<T1>& buffer1 = buffers->Buffer<T1>();
-				ComponentBuffer<T2>& buffer2 = buffers->Buffer<T2>();
-				ComponentBuffer<T3>& buffer3 = buffers->Buffer<T3>();
-
-				for(size_t i = 0; i < buffer0.m_data.size(); ++i)
-				{
-					uint32_t handle = buffers->m_handles[i];
-					T0& component0 = buffer0.m_data[i];
-					T1& component1 = buffer1.m_data[i];
-					T2& component2 = buffer2.m_data[i];
-					T3& component3 = buffer3.m_data[i];
-					action(handle, component0, component1, component2, component3);
-				}
-			}
+			this->LoopHImpl<Ts...>(action, index_tuple<sizeof...(Ts)>());
 		}
 	};
 
@@ -423,12 +385,14 @@ namespace mud
 	export_ template <class T>
 	inline T* try_asa(const Entity* entity) { if(entity && isa<T>(*entity)) return &asa<T>(*entity); else return nullptr; }
 
+#ifdef MUD_ECS_TYPED
 	struct EntityRef {};
 
 	export_ template <> MUD_ECS_EXPORT Type& type<EntityRef>();
 
 	inline Ref ent_ref(uint32_t entity) { return Ref((void*)uintptr_t(entity), type<EntityRef>()); }
 	inline uint32_t as_ent(const Ref& ref) { return ref.m_type->is<EntityRef>() ? uint32_t((uintptr_t)ref.m_value) : UINT32_MAX; }
+#endif
 
 	inline cstring entity_prototype(const Entity& entity)
 	{

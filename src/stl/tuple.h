@@ -31,6 +31,9 @@ namespace mud
 	template <size_t N>
 	using make_index_sequence = typename index_sequence_type<N>::type;
 
+	template <size_t N>
+	using index_tuple = typename index_sequence_type<N>::type;
+
 	template<size_t i, class T>
 	struct tuple_leaf
 	{
@@ -67,8 +70,7 @@ namespace mud
 	template<class... Types>
 	constexpr tuple<Types...> to_tuple(Types&&... args)
 	{
-		typedef tuple<Types...> Tuple;
-		return (Tuple(static_cast<Types&&>(args)...));
+		return tuple<Types...>(static_cast<Types&&>(args)...);
 	}
 }
 #endif
