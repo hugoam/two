@@ -10,6 +10,7 @@ namespace mud
 	export_ using std::function;
 }
 #else
+#include <stl/move.h>
 #include <new>
 namespace mud
 {
