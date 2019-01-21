@@ -5,11 +5,11 @@
 #pragma once
 
 #include <stl/string.h>
+#include <stl/vector.h>
 #include <snd/Forward.h>
 #include <snd/Structs.h>
 #include <math/Vec.h>
 
-#include <list>
 #include <cstdint>
 
 namespace mud
@@ -34,10 +34,7 @@ namespace mud
 			uint8_t m_level;
 			float m_distance;
 
-			int m_queueIndex;
-			std::list<Sound*>::iterator m_queueIterator;
-
-			friend bool operator < (Priority& rhs, Priority& lhs);
+			friend bool operator<(Priority& rhs, Priority& lhs);
 		};
 
 		enum FadeControl
@@ -57,69 +54,69 @@ namespace mud
 		void pause();
 
 		// @check : are these thread-safe ???
-		void setDirection(const vec3& dir);
+		void set_direction(const vec3& dir);
 		void set_position(const vec3& pos);
-		void setVelocity(const vec3& vel);
+		void set_velocity(const vec3& vel);
 
 	// Thread-Exclusive externals
 	public:
 		void update(float fTime);
 
-		void playImpl();
-		void stopImpl();
-		void pauseImpl();
+		void play_impl();
+		void stop_impl();
+		void pause_impl();
 
-		void enable3D();
-		void disable3D();
-		void update3D();
+		void enable_3D();
+		void disable_3D();
+		void update_3D();
 
-		virtual void setLoop(bool loop);
+		virtual void set_loop(bool loop);
 
-		void setVolume(float gain);
-		void setMaxVolume(float maxGain);
-		void setMinVolume(float minGain);
+		void set_volume(float gain);
+		void set_max_volume(float maxGain);
+		void set_min_volume(float minGain);
 
-		void setConeAngles(float insideAngle, float outsideAngle);
-		void setOuterConeVolume(float gain);
-		void setMaxDistance(float maxDistance);
-		void setRolloffFactor(float rolloffFactor);
-		void setReferenceDistance(float referenceDistance);
+		void set_cone_angles(float insideAngle, float outsideAngle);
+		void set_outer_cone_volume(float gain);
+		void set_max_distance(float maxDistance);
+		void set_rolloff_factor(float rolloffFactor);
+		void set_reference_distance(float referenceDistance);
 
-		void setPitch(float pitch);
+		void set_pitch(float pitch);
 
-		void assignSource(ALuint src);
-		void releaseSource();
+		void assign_source(ALuint src);
+		ALuint release_source();
 
-		void setPlayCursor(float seconds);
+		void set_play_cursor(float seconds);
 
-		void startFade(bool fDir, float fadeTime, FadeControl actionOnComplete = FC_NONE);
+		void start_fade(bool fDir, float fadeTime, FadeControl actionOnComplete = FC_NONE);
 
 	public:
-		inline bool isPlaying() const { return m_state == PLAYING; }
-		inline bool isPaused() const { return m_state == PAUSED; }
-		inline bool isStopped() const { return m_state == STOPPED; }
+		inline bool is_playing() const { return m_state == PLAYING; }
+		inline bool is_paused() const { return m_state == PAUSED; }
+		inline bool is_stopped() const { return m_state == STOPPED; }
 
 	public:
 		virtual void open(cstring filename) { UNUSED(filename); }
-		virtual void openShared(SharedBuffer& buffer) { UNUSED(buffer); }
+		virtual void open_shared(SharedBuffer& buffer) { UNUSED(buffer); }
 
 	protected:
 		virtual void release() {}
 
-		virtual void fillBuffers() = 0;
-		virtual void clearBuffers() = 0;
-		virtual void updateBuffers() = 0;
+		virtual void fill_buffers() = 0;
+		virtual void clear_buffers() = 0;
+		virtual void update_buffers() = 0;
 
 		virtual void rewind() = 0;
-		virtual void updatePlayCursor() = 0;
-		virtual ALfloat getPlayCursor() = 0;
+		virtual void update_play_cursor() = 0;
+		virtual ALfloat get_play_cursor() = 0;
 
 	protected:
-		void initSource();
+		void init_source();
 
-		void checkError();
+		void check_error();
 
-		void updateFade(float fTime);
+		void update_fade(float fTime);
 
 	public:
 		SoundImplementer& m_manager;
@@ -128,7 +125,7 @@ namespace mud
 		ALuint m_source = 0;			// OpenAL Source
 		Priority m_priority;			// Priority assigned to source
 		bool m_active = false;
-		bool m_pauseOnDisactivate = false;
+		bool m_pause_on_disactivate = false;
 
 		float m_gain = 1.f;				// Current volume
 		float m_pitch = 1.f;			// Current pitch 
@@ -144,34 +141,37 @@ namespace mud
 		float m_duration = 0.f;			// Time in seconds of sound file
 		bool m_seekable = true;			// Flag indicating seeking available
 
-		bool m_sourceRelative = true;
+		bool m_source_relative = true;
 
 		vec3 m_position = Zero3;	// 3D position
 		vec3 m_direction = Zero3;	// 3D direction
 		vec3 m_velocity = Zero3;	// 3D velocity
 
-		float m_maxGain = 1.f;			// Minimum volume
-		float m_minGain = 0.f;			// Maximum volume
-		float m_maxDistance = 1E10;		// Maximum attenuation distance
-		float m_rolloffFactor = 1.f;	// Rolloff factor for attenuation
-		float m_referenceDistance = 1.f;// Half-volume distance for attenuation
+		float m_max_gain = 1.f;			// Minimum volume
+		float m_min_gain = 0.f;			// Maximum volume
+		float m_max_distance = 1E10;		// Maximum attenuation distance
+		float m_rolloff_factor = 1.f;	// Rolloff factor for attenuation
+		float m_reference_distance = 1.f;// Half-volume distance for attenuation
 
-		float m_outerConeGain = 0.f;	// Outer cone volume
-		float m_innerConeAngle = 360.f;	// Inner cone angle
-		float m_outerConeAngle = 360.f;	// outer cone angle
+		float m_outer_cone_gain = 0.f;		// Outer cone volume
+		float m_inner_cone_angle = 360.f;	// Inner cone angle
+		float m_outer_cone_angle = 360.f;	// outer cone angle
 
 		bool m_update_transform = false;	// Transformation update flag
-		bool m_updateCursor = false;	// Flag indicating playback position has changed
+		bool m_update_cursor = false;		// Flag indicating playback position has changed
 
-		std::list<float> m_cuePoints;	// List of play position points
+		vector<float> m_cue_points;	// List of play position points
 
-		/* Fade sound */
-		float m_fadeTimer = 0.f;
-		float m_fadeTime = 1.f;
-		float m_fadeInitVol = 0.f;
-		float m_fadeEndVol = 1.f;
-		bool m_fade = false;
-		FadeControl m_fadeEndAction = FC_NONE;
+		struct Fade
+		{
+			float m_timer = 0.f;
+			float m_time = 1.f;
+			float m_init_vol = 0.f;
+			float m_end_vol = 1.f;
+			bool m_fade = false;
+			FadeControl m_end_action = FC_NONE;
+
+		} m_fade;
 
 		string m_name;
 	};

@@ -21,7 +21,7 @@ namespace mud
 	StaticSound::~StaticSound()
 	{}
 
-	void StaticSound::openShared(SharedBuffer& buffer)
+	void StaticSound::open_shared(SharedBuffer& buffer)
 	{
 		m_name = buffer.m_file_buffer->m_filename;
 		m_buffer = &buffer;
@@ -36,15 +36,15 @@ namespace mud
 		m_buffer->release();
 	}
 
-	void StaticSound::updateBuffers()
+	void StaticSound::update_buffers()
 	{}
 
-	void StaticSound::fillBuffers()
+	void StaticSound::fill_buffers()
 	{
 		alSourcei(m_source, AL_BUFFER, m_buffer->m_al_buffer);
 	}
 
-	void StaticSound::clearBuffers()
+	void StaticSound::clear_buffers()
 	{
 		alSourcei(m_source, AL_BUFFER, 0);
 	}
@@ -54,23 +54,23 @@ namespace mud
 		alSourceRewind(m_source);
 	}
 
-	void StaticSound::updatePlayCursor()
+	void StaticSound::update_play_cursor()
 	{
 		alSourcef(m_source, AL_SEC_OFFSET, m_cursor);
 
-		m_updateCursor = false;
+		m_update_cursor = false;
 	}
 
-	ALfloat StaticSound::getPlayCursor()
+	ALfloat StaticSound::get_play_cursor()
 	{
 		ALfloat cursor;
 		alGetSourcef(m_source, AL_SEC_OFFSET, &cursor);
 		return cursor;
 	}
 
-	void StaticSound::setLoop(bool loop)
+	void StaticSound::set_loop(bool loop)
 	{
-		Sound::setLoop(loop);
+		Sound::set_loop(loop);
 
 		if(m_active)
 			alSourcei(m_source, AL_LOOPING, loop);

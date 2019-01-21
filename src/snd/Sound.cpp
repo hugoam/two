@@ -65,16 +65,16 @@ namespace mud
 			m_update_transform = false;
 		}
 
-		if(m_updateCursor)
+		if(m_update_cursor)
 		{
-			updatePlayCursor();
+			update_play_cursor();
 		}
 
-		updateBuffers();
-		updateFade(fTime);
+		update_buffers();
+		update_fade(fTime);
 	}
 
-	void Sound::checkError()
+	void Sound::check_error()
 	{
 		alGetError();
 	}
@@ -93,7 +93,7 @@ namespace mud
 		m_manager.pauseSound(*this);
 	}
 
-	void Sound::playImpl()
+	void Sound::play_impl()
 	{
 		if(m_state == PLAYING)
 			return;
@@ -102,16 +102,16 @@ namespace mud
 
 		if(m_active)
 		{
-			clearBuffers();
-			fillBuffers();
+			clear_buffers();
+			fill_buffers();
 
-			updatePlayCursor();
+			update_play_cursor();
 
 			alSourcePlay(m_source);
 		}
 	}
 
-	void Sound::stopImpl()
+	void Sound::stop_impl()
 	{
 		if(m_state == STOPPED)
 			return;
@@ -122,54 +122,54 @@ namespace mud
 		{
 			alSourceStop(m_source);
 
-			clearBuffers();
+			clear_buffers();
 
 			rewind();
 		}
 	}
 
-	void Sound::pauseImpl()
+	void Sound::pause_impl()
 	{
 		m_state = PAUSED;
 
 		if(m_active)
 		{
-			m_cursor = getPlayCursor();
+			m_cursor = get_play_cursor();
 			alSourcePause(m_source);
 		}
 	}
 
-	void Sound::setPlayCursor(float seconds)
+	void Sound::set_play_cursor(float seconds)
 	{
 		m_cursor = seconds;
-		m_updateCursor = true;
+		m_update_cursor = true;
 	}
 
-	void Sound::update3D()
+	void Sound::update_3D()
 	{
-		alSourcei(m_source, AL_SOURCE_RELATIVE, m_sourceRelative);
-		alSourcef(m_source, AL_REFERENCE_DISTANCE, m_referenceDistance);
+		alSourcei(m_source, AL_SOURCE_RELATIVE, m_source_relative);
+		alSourcef(m_source, AL_REFERENCE_DISTANCE, m_reference_distance);
 		alSource3f(m_source, AL_POSITION, m_position.x, m_position.y, m_position.z);
 		alSource3f(m_source, AL_DIRECTION, m_direction.x, m_direction.y, m_direction.z);
 	}
 
-	void Sound::disable3D()
+	void Sound::disable_3D()
 	{
-		m_sourceRelative = false;
+		m_source_relative = false;
 		m_position = Zero3;
 		m_direction = Zero3;
-		m_referenceDistance = 1.f;
+		m_reference_distance = 1.f;
 
 		if(m_active)
-			this->update3D();
+			this->update_3D();
 	}
 
-	void Sound::enable3D()
+	void Sound::enable_3D()
 	{
-		m_sourceRelative = true;
+		m_source_relative = true;
 
 		if(m_active)
-			this->update3D();
+			this->update_3D();
 	}
 
 	void Sound::set_position(const vec3& pos)
@@ -178,13 +178,13 @@ namespace mud
 		m_update_transform = true;
 	}
 
-	void Sound::setDirection(const vec3& dir)
+	void Sound::set_direction(const vec3& dir)
 	{
 		m_direction = dir;
 		m_update_transform = true;
 	}
 
-	void Sound::setVelocity(const vec3& vel)
+	void Sound::set_velocity(const vec3& vel)
 	{
 		m_velocity = vel;
 
@@ -192,12 +192,12 @@ namespace mud
 			alSource3f(m_source, AL_VELOCITY, vel.x, vel.y, vel.z);
 	}
 
-	void Sound::setLoop(bool loop)
+	void Sound::set_loop(bool loop)
 	{
 		m_loop = loop;
 	}
 
-	void Sound::setVolume(float gain)
+	void Sound::set_volume(float gain)
 	{
 		m_gain = gain;
 
@@ -205,67 +205,67 @@ namespace mud
 			alSourcef(m_source, AL_GAIN, m_gain);
 	}
 
-	void Sound::setMaxVolume(float maxGain)
+	void Sound::set_max_volume(float maxGain)
 	{
-		m_maxGain = maxGain;
+		m_max_gain = maxGain;
 
 		if(m_active)
-			alSourcef(m_source, AL_MAX_GAIN, m_maxGain);
+			alSourcef(m_source, AL_MAX_GAIN, m_max_gain);
 	}
 
-	void Sound::setMinVolume(float minGain)
+	void Sound::set_min_volume(float minGain)
 	{
-		m_minGain = minGain;
+		m_min_gain = minGain;
 
 		if(m_active)
-			alSourcef(m_source, AL_MIN_GAIN, m_minGain);
+			alSourcef(m_source, AL_MIN_GAIN, m_min_gain);
 	}
 
-	void Sound::setConeAngles(float insideAngle, float outsideAngle)
+	void Sound::set_cone_angles(float insideAngle, float outsideAngle)
 	{
-		m_innerConeAngle = insideAngle;
-		m_outerConeAngle = outsideAngle;
+		m_inner_cone_angle = insideAngle;
+		m_outer_cone_angle = outsideAngle;
 
 		if(m_active)
 		{
-			alSourcef (m_source, AL_CONE_INNER_ANGLE, m_innerConeAngle);
-			alSourcef (m_source, AL_CONE_OUTER_ANGLE, m_outerConeAngle);
+			alSourcef (m_source, AL_CONE_INNER_ANGLE, m_inner_cone_angle);
+			alSourcef (m_source, AL_CONE_OUTER_ANGLE, m_outer_cone_angle);
 		}
 	}
 
-	void Sound::setOuterConeVolume(float gain)
+	void Sound::set_outer_cone_volume(float gain)
 	{
-		m_outerConeGain = gain;
+		m_outer_cone_gain = gain;
 
 		if(m_active)
-			alSourcef (m_source, AL_CONE_OUTER_GAIN, m_outerConeGain);
+			alSourcef (m_source, AL_CONE_OUTER_GAIN, m_outer_cone_gain);
 	}
 
-	void Sound::setMaxDistance(float maxDistance)
+	void Sound::set_max_distance(float maxDistance)
 	{
-		m_maxDistance = maxDistance;
+		m_max_distance = maxDistance;
 
 		if(m_active)
-			alSourcef(m_source, AL_MAX_DISTANCE, m_maxDistance);
+			alSourcef(m_source, AL_MAX_DISTANCE, m_max_distance);
 	}
 
-	void Sound::setRolloffFactor(float rolloffFactor)
+	void Sound::set_rolloff_factor(float rolloffFactor)
 	{
-		m_rolloffFactor = rolloffFactor;
+		m_rolloff_factor = rolloffFactor;
 
 		if(m_active)
-			alSourcef(m_source, AL_ROLLOFF_FACTOR, m_rolloffFactor);		
+			alSourcef(m_source, AL_ROLLOFF_FACTOR, m_rolloff_factor);		
 	}
 
-	void Sound::setReferenceDistance(float referenceDistance)
+	void Sound::set_reference_distance(float referenceDistance)
 	{
-		m_referenceDistance = referenceDistance;
+		m_reference_distance = referenceDistance;
 
 		if(m_active)
-			alSourcef(m_source, AL_REFERENCE_DISTANCE, m_referenceDistance);		
+			alSourcef(m_source, AL_REFERENCE_DISTANCE, m_reference_distance);		
 	}
 
-	void Sound::setPitch(float pitch)
+	void Sound::set_pitch(float pitch)
 	{
 		m_pitch = pitch;
 
@@ -273,87 +273,93 @@ namespace mud
 			alSourcef(m_source, AL_PITCH, m_pitch);		
 	}
 
-	void Sound::initSource()
+	void Sound::init_source()
 	{
 		ALenum state;
 		alGetSourcei(m_source, AL_SOURCE_STATE, &state);
 
 		alSourcef (m_source, AL_GAIN,				m_gain);
-		alSourcef (m_source, AL_MAX_GAIN,			m_maxGain);
-		alSourcef (m_source, AL_MIN_GAIN,			m_minGain);
-		alSourcef (m_source, AL_MAX_DISTANCE,		m_maxDistance);
-		alSourcef (m_source, AL_ROLLOFF_FACTOR,		m_rolloffFactor);
-		alSourcef (m_source, AL_REFERENCE_DISTANCE,	m_referenceDistance);
-		alSourcef (m_source, AL_CONE_OUTER_GAIN,	m_outerConeGain);
-		alSourcef (m_source, AL_CONE_INNER_ANGLE,	m_innerConeAngle);
-		alSourcef (m_source, AL_CONE_OUTER_ANGLE,	m_outerConeAngle);
+		alSourcef (m_source, AL_MAX_GAIN,			m_max_gain);
+		alSourcef (m_source, AL_MIN_GAIN,			m_min_gain);
+		alSourcef (m_source, AL_MAX_DISTANCE,		m_max_distance);
+		alSourcef (m_source, AL_ROLLOFF_FACTOR,		m_rolloff_factor);
+		alSourcef (m_source, AL_REFERENCE_DISTANCE,	m_reference_distance);
+		alSourcef (m_source, AL_CONE_OUTER_GAIN,	m_outer_cone_gain);
+		alSourcef (m_source, AL_CONE_INNER_ANGLE,	m_inner_cone_angle);
+		alSourcef (m_source, AL_CONE_OUTER_ANGLE,	m_outer_cone_angle);
 		alSource3f(m_source, AL_POSITION,			m_position.x, m_position.y, m_position.z);
 		alSource3f(m_source, AL_DIRECTION,			m_direction.x, m_direction.y, m_direction.z);
 		alSource3f(m_source, AL_VELOCITY,			m_velocity.x, m_velocity.y, m_velocity.z);
 		alSourcef (m_source, AL_PITCH,				m_pitch);
-		alSourcei (m_source, AL_SOURCE_RELATIVE,	m_sourceRelative);
+		alSourcei (m_source, AL_SOURCE_RELATIVE,	m_source_relative);
 		alSourcei (m_source, AL_LOOPING,			m_loop);
 		//alSourcei (m_source, AL_SOURCE_STATE,		AL_INITIAL);
 		alSourceRewind(m_source);
 	}
 
-	void Sound::assignSource(ALuint src)
+	void Sound::assign_source(ALuint src)
 	{
 		m_active = true;
 		m_source = src;
-		initSource();
-		fillBuffers();
+		init_source();
+		fill_buffers();
 
-		if(m_pauseOnDisactivate)
+		if(m_pause_on_disactivate)
 		{
-			playImpl();
+			play_impl();
 		}
 	}
 
-	void Sound::releaseSource()
+	ALuint Sound::release_source()
 	{
-		if(m_state != STOPPED && m_pauseOnDisactivate)
-			pauseImpl();
+		ALuint source = m_source;
+
+		if(m_state != STOPPED && m_pause_on_disactivate)
+			pause_impl();
 
 		alSourceStop(m_source);
-		clearBuffers();
+		clear_buffers();
 
 		m_source = AL_NONE;
 		m_active = false;
+		return source;
 	}
 
-	void Sound::startFade(bool fDir, float fadeTime, FadeControl actionOnComplete)
+	void Sound::start_fade(bool fDir, float fadeTime, FadeControl actionOnComplete)
 	{
-		m_fade = true;
-	    m_fadeInitVol = fDir ? 0.f : m_gain;
-		m_fadeEndVol = fDir ? 1.f : 0.f;
-		m_fadeTimer = 0.f;
-		m_fadeEndAction = actionOnComplete;
-		m_fadeTime = fadeTime;
+		m_fade =
+		{
+			0.f,
+			fadeTime,
+			fDir ? 0.f : m_gain,
+			fDir ? 1.f : 0.f,
+			true,
+			actionOnComplete
+		};
 
-		if(fDir == true && !isPlaying())
+		if(fDir == true && !is_playing())
 			play();
 	}
 
-	void Sound::updateFade(float fTime)
+	void Sound::update_fade(float fTime)
 	{
-		if(!m_fade) return;
+		if(!m_fade.m_fade) return;
 
-		m_fadeTimer += fTime;
-		if(m_fadeTimer >= m_fadeTime)
+		m_fade.m_timer += fTime;
+		if(m_fade.m_timer >= m_fade.m_time)
 		{
-			setVolume(m_fadeEndVol);
-			m_fade = false;
+			set_volume(m_fade.m_end_vol);
+			m_fade.m_fade = false;
 
-			if(m_fadeEndAction == FC_PAUSE)
+			if(m_fade.m_end_action == FC_PAUSE)
 				pause(); 
-			else if(m_fadeEndAction == FC_STOP)
+			else if(m_fade.m_end_action == FC_STOP)
 				stop(); 
 		}
 		else
 		{
-			float vol = (m_fadeEndVol - m_fadeInitVol) * (m_fadeTimer / m_fadeTime);
-			setVolume(m_fadeInitVol + vol);
+			float vol = (m_fade.m_end_vol - m_fade.m_init_vol) * (m_fade.m_timer / m_fade.m_time);
+			set_volume(m_fade.m_init_vol + vol);
 		}
 	}
 }

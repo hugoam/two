@@ -7,10 +7,10 @@
 #include <stl/function.h>
 #include <stl/string.h>
 #include <stl/vector.h>
+#include <stl/memory.h>
 #include <stl/map.h>
 #include <infra/NonCopy.h>
 #include <type/Unique.h>
-#include <type/Util/LocklessQueue.h>
 #include <math/Timer.h>
 #include <math/Vec.h>
 #include <snd/Forward.h>
@@ -18,9 +18,11 @@
 #include <snd/SoundListener.h>
 #include <snd/Sound.h>
 
-#include <list>
+#ifdef SOUND_THREADED
+#include <type/Util/LocklessQueue.h>
 //#include <thread>
 //#include <memory>
+#endif
 
 namespace mud
 {
@@ -32,8 +34,6 @@ namespace mud
 	{
 	public:
 		using SoundAction = function<void()>;
-		using SoundList = std::list<Sound*>;
-		using SoundVector = vector<Sound*>;
 		using SourceVector = vector<ALuint>;
 
 		// Thread-safe interface
@@ -71,16 +71,16 @@ namespace mud
 		void enumDevices();
 		int createSourcePool(int numSources);
 
-		void clearSounds();
-		void clearSources();
-		void clearBuffers();
-		void releaseAll();
+		void clear_sounds();
+		void clear_sources();
+		void clear_buffers();
+		void release_all();
 
 	// Thread-safe implementation to be executed by one same unique thread
 	public:
 		void threadUpdate();
 
-		void createSoundImpl(Sound& sound, cstring filename, bool stream);
+		void createSoundImpl(unique<Sound> sound, cstring filename, bool stream);
 		void destroySoundImpl(Sound& sound);
 
 		void playSoundImpl(Sound& sound);
@@ -111,17 +111,22 @@ namespace mud
 	private:
 		void addAction(const SoundAction& action);
 
-		void processActions();
 		void updateSounds();
 
+#ifdef SOUND_THREADED
+		void processActions();
+#endif
 	private:
 		string m_resource_path;
 
-		LocklessQueue<SoundAction> m_actions;
-		LocklessQueue<SoundAction> m_delayedActions;
-
+#ifdef SOUND_THREADED
 		//std::unique_ptr<std::thread> m_update_thread = nullptr;
-		bool m_shuttingDown = false;
+
+		LocklessQueue<SoundAction> m_actions;
+		LocklessQueue<SoundAction> m_delayed_actions;
+#endif
+
+		bool m_shutting_down = false;
 
 	public:
 		vector<string> m_devices;			// List of available devices strings
@@ -129,20 +134,19 @@ namespace mud
 		ALCcontext* m_context = nullptr;		// OpenAL context
 
 		ALfloat	m_volume = 1.f;					// Main Volume
-		float m_globalPitch = 1.f;				// Global pitch modifier
+		float m_global_pitch = 1.f;				// Global pitch modifier
 		SoundListener m_listener;				// Listener object
 
 	private:
-		/** Sounds **/
-		SoundList m_active_sounds;				// list of all sounds : m_active_sounds.begin() to m_active_sounds[m_maxSources] are active
-		SoundList m_inactive_sounds;
-		SoundList m_paused_sounds;				// list of sounds currently paused
+		vector<unique<Sound>> m_sounds;			// list of all sounds : m_sounds.begin() to m_sounds[m_max_sources] are active
+		vector<Sound*> m_active_sounds;
+		vector<Sound*> m_inactive_sounds;
+		vector<Sound*> m_paused_sounds;				// list of sounds currently paused
 
-		SoundList::iterator m_lastActive;
-		SoundVector m_updateQueue;
+		vector<Sound*> m_update_queue;
 
-		unsigned int m_maxSources = 100;		// Maximum Number of sources to allocate
-		SourceVector m_sourcePool;				// List of available sources
+		unsigned int m_max_sources = 100;		// Maximum Number of sources to allocate
+		SourceVector m_source_pool;				// List of available sources
 
 		map<string, unique<SharedBuffer>> m_shared_buffers;
 

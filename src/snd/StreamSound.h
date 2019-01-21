@@ -23,13 +23,13 @@ namespace mud
 		void setup();
 		void release();
 
-		void updateBuffers();
-		void fillBuffers();
-		void clearBuffers();
+		void update_buffers();
+		void fill_buffers();
+		void clear_buffers();
 
 		void rewind();
-		void updatePlayCursor();
-		ALfloat getPlayCursor();
+		void update_play_cursor();
+		ALfloat get_play_cursor();
 
 	private:
 		// Streaming sounds have local buffers

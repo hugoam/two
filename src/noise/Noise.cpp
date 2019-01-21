@@ -8,6 +8,7 @@
 #ifdef MUD_MODULES
 module mud.noise;
 #else
+#include <math/Random.h>
 #include <noise/Noise.h>
 #endif
 

@@ -56,8 +56,10 @@ namespace mud
 
 	SoundManager::SoundManager(cstring resource_path)
 		: m_resource_path(resource_path)
+#ifdef SOUND_THREADED
 		, m_actions(QUEUE_LIST_SIZE)
-		, m_delayedActions(500)
+		, m_delayed_actions(500)
+#endif
 	{}
 
 	SoundManager::~SoundManager()
@@ -65,45 +67,46 @@ namespace mud
 		if(m_context == 0)
 			return;
 
-		m_shuttingDown = true;
+		m_shutting_down = true;
+#ifdef SOUND_THREADED
 		//mUpdateThread->join();
 		//delete m_updateThread;
+#endif
 
-		releaseAll();
+		release_all();
 
 		alcMakeContextCurrent(0);
 		alcDestroyContext(m_context);
 		alcCloseDevice(m_device);
 	}
 
-	void SoundManager::clearSources()
+	void SoundManager::clear_sources()
 	{
-		alDeleteSources(m_maxSources, &m_sourcePool[0]);
-
-		m_sourcePool.clear();
+		alDeleteSources(m_max_sources, &m_source_pool[0]);
+		m_source_pool.clear();
 	}
 
-	void SoundManager::clearSounds()
+	void SoundManager::clear_sounds()
 	{
-		for (Sound* sound : m_active_sounds)
-			destroySoundImpl(*sound);
+		for(auto& sound : m_sounds)
+			this->releaseActiveSound(*sound);
 
+		m_sounds.clear();
 		m_paused_sounds.clear();
-		m_active_sounds.clear();
 		m_inactive_sounds.clear();
 	}
 
-	void SoundManager::clearBuffers()
+	void SoundManager::clear_buffers()
 	{
 		m_shared_buffers.clear();
 	}
 
-	void SoundManager::releaseAll()
+	void SoundManager::release_all()
 	{
 		stopAllSoundsImpl();
-		clearSounds();
-		clearBuffers();
-		clearSources();
+		clear_sounds();
+		clear_buffers();
+		clear_sources();
 	}
 
 	bool SoundManager::init(cstring device_name, unsigned int max_sources)
@@ -139,7 +142,7 @@ namespace mud
 
 		this->logFeatureSupport();
 
-		m_maxSources = createSourcePool(max_sources);
+		m_max_sources = createSourcePool(max_sources);
 
 		//m_update_thread = std::make_unique<std::thread>([=] { this->threadUpdate(); });
 
@@ -157,7 +160,7 @@ namespace mud
 			alGenSources(1,&source);
 			if(source != 0)
 			{
-				m_sourcePool.push_back(source);
+				m_source_pool.push_back(source);
 				num_sources++;
 			}
 			else
@@ -218,28 +221,35 @@ namespace mud
 			return nullptr;
 		}
 
-		Sound* sound = nullptr;
+		unique<Sound> sound;
 		if(stream)
-			sound = new/*sound*/StreamSound(*this, callback);
+			sound = construct<StreamSound>(*this, callback);
 		else
-			sound = new/*sound*/StaticSound(*this, callback);
+			sound = construct<StaticSound>(*this, callback);
 
-		sound->setLoop(loop);
+		sound->set_loop(loop);
 
-		this->addAction([=] { this->createSoundImpl(*sound, path.c_str(), stream); });
-
-		return sound;
+		Sound& result = *sound;
+#ifdef SOUND_THREADED
+		this->addAction([&, sound = move(sound)]() mutable { this->createSoundImpl(move(sound), path.c_str(), stream); });
+#else
+		this->createSoundImpl(move(sound), path.c_str(), stream);
+#endif
+		return &result;
 	}
 
-	void SoundManager::createSoundImpl(Sound& sound, cstring filename, bool stream)
+	void SoundManager::createSoundImpl(unique<Sound> sound, cstring filename, bool stream)
 	{
 		//std::cerr << "creating sound Impl : " << filename << std::endl;
-		m_inactive_sounds.push_back(&sound);
+		m_inactive_sounds.push_back(&*sound);
 
 		if(!stream)
-			sound.openShared(getSharedBuffer(filename));
+			sound->open_shared(getSharedBuffer(filename));
 		else
-			sound.open(filename);
+			sound->open(filename);
+
+		m_sounds.push_back(move(sound));
+
 		//std::cerr << "done" << std::endl;
 	}
 
@@ -250,7 +260,7 @@ namespace mud
 
 	void SoundManager::setGlobalPitch(float pitch)
 	{
-		m_globalPitch = pitch;
+		m_global_pitch = pitch;
 
 		addAction([&]() { this->setGlobalPitchImpl(); });
 	}
@@ -304,52 +314,39 @@ namespace mud
 
 	void SoundManager::queueActiveSound(Sound& sound)
 	{
-		unsigned int index = 0;
-		SoundList::iterator pos = m_active_sounds.begin();
+		size_t index = 0;
+		while(index != m_active_sounds.size() && m_active_sounds[index]->m_priority < sound.m_priority) { ++index; }
 
-		while(pos != m_active_sounds.end() && (*pos)->m_priority < sound.m_priority) { ++index; ++pos; }
-
-		if(m_active_sounds.size() < m_maxSources)
+		if(m_active_sounds.size() < m_max_sources)
 		{
-			sound.assignSource(vector_pop(m_sourcePool));
+			sound.assign_source(vector_pop(m_source_pool));
 		}
-		else if(index <= m_maxSources)
+		else if(index <= m_max_sources)
 		{
-			sound.assignSource((*m_lastActive)->m_source);
-			(*m_lastActive)->releaseSource();
-			--m_lastActive;
+			Sound& release = *m_active_sounds[m_max_sources];
+			sound.assign_source(release.release_source());
 		}
 
-		m_active_sounds.insert(pos, &sound);
-
-		sound.m_priority.m_queueIndex = index;
-		sound.m_priority.m_queueIterator = pos;
+		m_active_sounds.insert(m_active_sounds.begin() + index, &sound);
 	}
 
 	void SoundManager::activateSound(Sound& sound)
 	{
 		queueActiveSound(sound);
-		m_inactive_sounds.remove(&sound);
+		vector_remove(m_inactive_sounds, &sound);
 	}
 
 	void SoundManager::releaseActiveSound(Sound& sound)
 	{
-		//int lastIndex = sound.getPriority().m_queueIndex;
-		//SoundList::iterator lastPos = sound.getPriority().m_queueIterator;
-
-		if(m_active_sounds.size() <= m_maxSources)
+		if(m_sounds.size() <= m_max_sources)
 		{
-			m_sourcePool.push_back(sound.m_source);
-			sound.releaseSource();
+			m_source_pool.push_back(sound.release_source());
 		}
 		else
 		{
-			++m_lastActive;
-			(*m_lastActive)->assignSource(sound.m_source);
-			sound.releaseSource();
+			Sound& assign = *m_active_sounds[m_max_sources];
+			assign.assign_source(sound.release_source());
 		}
-
-		m_active_sounds.remove(&sound);
 	}
 
 	void SoundManager::disactivateSound(Sound& sound)
@@ -361,7 +358,7 @@ namespace mud
 	void SoundManager::updatePosition(Sound& sound, const vec3& position)
 	{
 		sound.m_priority.m_distance = distance(position, m_listener.m_position);
-		m_updateQueue.push_back(&sound);
+		m_update_queue.push_back(&sound);
 	}
 
 	void SoundManager::destroySoundImpl(Sound& sound)
@@ -370,12 +367,10 @@ namespace mud
 		if(sound.m_active)
 			releaseActiveSound(sound);
 		else
-			m_inactive_sounds.remove(&sound);
+			vector_remove(m_inactive_sounds, &sound);
 
-		if(sound.isPaused())
-			m_paused_sounds.remove(&sound);
-
-		delete &sound;
+		if(sound.is_paused())
+			vector_remove(m_paused_sounds, &sound);
 	}
 
 	void SoundManager::playSound(Sound& sound)
@@ -396,19 +391,19 @@ namespace mud
 	void SoundManager::playSoundImpl(Sound& sound)
 	{
 		activateSound(sound);
-		sound.playImpl();
+		sound.play_impl();
 	}
 
 	void SoundManager::pauseSoundImpl(Sound& sound)
 	{
-		sound.pauseImpl();
+		sound.pause_impl();
 		m_paused_sounds.push_back(&sound);
 		disactivateSound(sound);
 	}
 
 	void SoundManager::stopSoundImpl(Sound& sound)
 	{
-		sound.stopImpl();
+		sound.stop_impl();
 		disactivateSound(sound);
 
 		if(sound.m_temporary)
@@ -417,29 +412,26 @@ namespace mud
 
 	void SoundManager::stopAllSoundsImpl()
 	{
-		SoundList active_sounds = m_active_sounds;
-		for(Sound* sound : active_sounds)
+		for(Sound* sound : m_active_sounds)
 			stopSoundImpl(*sound);
 	}
 
 	void SoundManager::pauseAllSoundsImpl()
 	{
-		SoundList active_sounds = m_active_sounds;
-		for(Sound* sound : active_sounds)
+		for(Sound* sound : m_active_sounds)
 			pauseSoundImpl(*sound);
 	}
 
 	void SoundManager::resumeAllSoundsImpl()
 	{
-		SoundList paused_sounds = m_paused_sounds;
-		for(Sound* sound : paused_sounds)
+		for(Sound* sound : m_paused_sounds)
 			playSoundImpl(*sound);
 	}
 
 	void SoundManager::setGlobalPitchImpl()
 	{
-		for(Sound* sound : m_active_sounds)
-			sound->setPitch(m_globalPitch);
+		for(auto& sound : m_sounds)
+			sound->set_pitch(m_global_pitch);
 	}
 
 	SharedBuffer& SoundManager::createSharedBuffer(cstring filename)
@@ -464,10 +456,15 @@ namespace mud
 
 	void SoundManager::addAction(const SoundAction& action)
 	{
+#ifndef SOUND_THREADED
+		action();
+#else
 		if(!m_actions.push(action))
-			m_delayedActions.push(action);
+			m_delayed_actions.push(action);
+#endif
 	}
 
+#ifdef SOUND_THREADED
 	void SoundManager::processActions()
 	{
 		int i = 0;
@@ -477,10 +474,11 @@ namespace mud
 			while(((++i) < 5) && m_actions.pop(action))
 				action();
 
-		if(!m_delayedActions.empty())
-			while(((++i) < 5) && m_delayedActions.pop(action))
+		if(!m_delayed_actions.empty())
+			while(((++i) < 5) && m_delayed_actions.pop(action))
 				action();
 	}
+#endif
 
 	void SoundManager::updateSounds()
 	{
@@ -490,7 +488,7 @@ namespace mud
 
 		m_listener.update();
 		
-		for(Sound* sound : m_active_sounds)
+		for(auto& sound : m_sounds)
 			sound->update(float(time_step));
 
 		m_clock.update();
@@ -501,14 +499,14 @@ namespace mud
 		if(!m_device)
 			return;
 
-		//std::cerr << "SoundManager::next_frame" << std::endl;
-		//while(!m_shuttingDown)
+		//while(!m_shutting_down)
 		//{
 			updateSounds();
+#ifdef SOUND_THREADED
 			processActions();
+#endif
 			//std::this_thread::sleep(std::posix_time::milliseconds(10));
 		//}
-		//std::cerr << "SoundManager::next_frame" << std::endl;
 	}
 
 	void SoundManager::logFeatureSupport()

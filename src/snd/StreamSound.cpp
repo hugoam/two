@@ -75,7 +75,7 @@ namespace mud
 		m_lastOffset = 0;
 	}
 
-	void StreamSound::updateBuffers()
+	void StreamSound::update_buffers()
 	{
 		int processed;
 
@@ -104,7 +104,7 @@ namespace mud
 		}
 	}
 
-	void StreamSound::fillBuffers()
+	void StreamSound::fill_buffers()
 	{
 		int i = 0;
 		while(i < NUM_BUFFERS)
@@ -118,7 +118,7 @@ namespace mud
 		}
 	}
 
-	void StreamSound::clearBuffers()
+	void StreamSound::clear_buffers()
 	{
 		int queued;
 		ALuint buffer;
@@ -128,20 +128,20 @@ namespace mud
 		while (queued--)
 		{
 			alSourceUnqueueBuffers(m_source, 1, &buffer);
-			checkError();
+			check_error();
 		}
 	}
 
-	void StreamSound::updatePlayCursor()
+	void StreamSound::update_play_cursor()
 	{
 		if(m_buffer->m_seekable)
 			m_buffer->seek_time(m_cursor);
 
-		m_updateCursor = false;
+		m_update_cursor = false;
 		m_lastOffset = m_cursor;
 	}
 
-	ALfloat StreamSound::getPlayCursor()
+	ALfloat StreamSound::get_play_cursor()
 	{
 		ALfloat pos;
 		alGetSourcef(m_source, AL_SEC_OFFSET, &pos);

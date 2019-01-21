@@ -15,18 +15,18 @@ namespace mud
 		StaticSound(SoundImplementer& manager, SoundCallback callback = {});
 		~StaticSound();
 
-		virtual void openShared(SharedBuffer& buffer) final;
+		virtual void open_shared(SharedBuffer& buffer) final;
 		virtual void release() final;
 			    
-		virtual void updateBuffers() final;
-		virtual void fillBuffers() final;
-		virtual void clearBuffers() final;
+		virtual void update_buffers() final;
+		virtual void fill_buffers() final;
+		virtual void clear_buffers() final;
 			    
 		virtual void rewind() final;
-		virtual void updatePlayCursor() final;
-		virtual ALfloat getPlayCursor() final;
+		virtual void update_play_cursor() final;
+		virtual ALfloat get_play_cursor() final;
 
-		void setLoop(bool loop);
+		void set_loop(bool loop);
 
 	private:
 		SharedBuffer* m_buffer;
