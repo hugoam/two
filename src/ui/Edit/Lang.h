@@ -5,14 +5,12 @@
 #pragma once
 
 #include <stl/unordered_map.h>
+#include <stl/unordered_set.h>
 #include <stl/map.h>
 #include <ui/Forward.h>
 #include <ui/Edit/TypeIn.h>
 
 #ifndef MUD_CPP_20
-#ifndef MUD_UNORDERED_MAP_TINYSTL
-#include <unordered_set>
-#endif
 #include <regex>
 #endif
 
@@ -29,11 +27,7 @@ namespace mud
 		string m_name;
 		vector<string> m_punctuation;
 		vector<string> m_operators;
-#ifdef MUD_NO_STL
-		unordered_map<string, void*> m_keywords;
-#else
-		std::unordered_set<string> m_keywords;
-#endif
+		unordered_set<string> m_keywords;
 		unordered_map<string, Identifier> m_identifiers;
 		unordered_map<string, Identifier> m_functions;
 		unordered_map<string, Identifier> m_preproc_identifiers;

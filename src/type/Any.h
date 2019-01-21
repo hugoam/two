@@ -151,7 +151,7 @@ namespace mud
 
 	export_ template <class T, class U>
 	inline typename std::enable_if<ValueSemantic<T>::value, void>::type
-		setval(Var& var, U&& value) { if(var.m_mode == VAL) { set<T>(var.m_any, value); setval(var.m_ref, val<T>(var.m_any)); } else set<T>(var.m_ref, value); }
+		setval(Var& var, U&& value) { if(var.m_mode == VAL) { setval<T>(var.m_any, value); /*setval(var.m_ref, val<T>(var.m_any));*/ } else setval<T>(var.m_ref, value); }
 
 	export_ template <class T, class U>
 	inline typename std::enable_if<!ValueSemantic<T>::value, void>::type

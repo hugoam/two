@@ -5,14 +5,11 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
 #include <infra/NonCopy.h>
 #endif
 #include <ui/Frame/Frame.h>
 #include <ui/Style/Layout.h>
-
-#ifndef MUD_CPP_20
-#include <stl/vector.h>
-#endif
 
 namespace mud
 {

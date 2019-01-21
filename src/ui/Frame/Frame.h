@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/memory.h>
 #include <infra/NonCopy.h>
 #include <type/Unique.h>
 #endif
@@ -13,7 +14,6 @@
 
 #ifndef MUD_CPP_20
 #include <cmath>
-#include <stl/memory.h>
 #endif
 
 namespace mud

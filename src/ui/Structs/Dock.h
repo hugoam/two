@@ -4,15 +4,12 @@
 
 #pragma once
 
-#include <ui/Forward.h>
-#include <ui/Structs/Widget.h>
-#include <ui/Container.h>
-
-#ifndef MUD_CPP_20
 #include <stl/vector.h>
 #include <stl/map.h>
 #include <stl/string.h>
-#endif
+#include <ui/Forward.h>
+#include <ui/Structs/Widget.h>
+#include <ui/Container.h>
 
 namespace mud
 {

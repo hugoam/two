@@ -91,11 +91,7 @@ namespace mud
 	void builtin_keywords(LanguageDefinition& language, array<cstring> keywords)
 	{
 		for(cstring i : keywords)
-#ifdef MUD_NO_STL
-			language.m_keywords.insert({ string(i), nullptr });
-#else
 			language.m_keywords.insert(string(i));
-#endif
 	}
 
 	void builtin_identifiers(LanguageDefinition& language, array<cstring> identifiers)

@@ -13,6 +13,6 @@ namespace mud
 #include <TINYSTL/unordered_set.h>
 namespace mud
 {
-	export_ using unordered_set = tinystl::unordered_set<K, T>;
+	export_ using tinystl::unordered_set;
 }
 #endif

@@ -4,12 +4,9 @@
 
 #pragma once
 
+#include <stl/string.h>
 #include <ui/Forward.h>
 #include <ui/Style/Style.h>
-
-#ifndef MUD_CPP_20
-#include <stl/string.h>
-#endif
 
 struct dirent;
 

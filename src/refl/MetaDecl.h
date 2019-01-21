@@ -17,13 +17,13 @@
 namespace mud
 {
 	export_ template <typename T_Value, typename T_Member, typename T>
-	inline auto member_getter(T_Member T::*mem) { return [mem](Ref object, Var& v) { set<T_Value>(v, val<T>(object).*mem); }; }
+	inline auto member_getter(T_Member T::*mem) { return [mem](Ref object, Var& v) { setval<T_Value>(v, val<T>(object).*mem); }; }
 
 	export_ template <typename T_Value, typename T_Return, typename T>
-	inline auto member_getter(T_Return(T::*func)()) { return [func](Ref object, Var& v) { set<T_Value>(v, (val<T>(object).*func)()); }; }
+	inline auto member_getter(T_Return(T::*func)()) { return [func](Ref object, Var& v) { setval<T_Value>(v, (val<T>(object).*func)()); }; }
 
 	export_ template <typename T_Value, typename T_Return, typename T>
-	inline auto member_getter(T_Return(T::*func)() const) { return [func](Ref object, Var& v) { set<T_Value>(v, (val<T>(object).*func)()); }; }
+	inline auto member_getter(T_Return(T::*func)() const) { return [func](Ref object, Var& v) { setval<T_Value>(v, (val<T>(object).*func)()); }; }
 
 	export_ template <typename T_Value, typename T_Member, typename T>
 	inline auto member_setter(T_Member T::*mem) { return [mem](Ref object, const Var& v) { val<T>(object).*mem = val<T_Value>(v); }; }
