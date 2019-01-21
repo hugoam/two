@@ -1,9 +1,8 @@
 ﻿#pragma once
 
+#include <stl/unordered_map.h>
 #include <stl/vector.h>
 #include <ecs/ECS.h>
-
-#include <unordered_map>
 
 namespace mud
 {
@@ -29,7 +28,7 @@ namespace mud
 	class SparseIndices<true>
 	{
 	public:
-		SparseIndices(size_t capacity = 1 << 10) : m_indices(4) { UNUSED(capacity); }
+		SparseIndices(size_t capacity = 1 << 10) /*: m_indices(4)*/ { UNUSED(capacity); }
 
 		void clear() { m_indices.clear(); }
 
@@ -40,6 +39,6 @@ namespace mud
 		uint32_t& operator[](uint32_t at) { return m_indices[at]; }
 
 	private:
-		std::unordered_map<uint32_t, uint32_t> m_indices;
+		unordered_map<uint32_t, uint32_t> m_indices;
 	};
 }

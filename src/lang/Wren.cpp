@@ -123,7 +123,7 @@ namespace mud
 	vector<WrenHandle*> g_construct_handles;
 
 	//map<void*, WrenHandle*> g_wren_objects;
-	std::unordered_map<void*, WrenHandle*> g_wren_objects;
+	unordered_map<void*, WrenHandle*> g_wren_objects;
 
 	string signature(cstring name, size_t num_args)
 	{

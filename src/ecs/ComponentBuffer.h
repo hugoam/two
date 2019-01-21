@@ -1,13 +1,13 @@
 ﻿#pragma once
 
+#include <stl/swap.h>
+#include <stl/vector.h>
 #include <infra/Array.h>
 #include <infra/Generic.h>
 #include <type/Ref.h>
 #include <ecs/Forward.h>
 #include <ecs/ECS.h>
 #include <ecs/SparseBuffer.h>
-
-#include <stl/vector.h>
 
 #define MUD_ECS_TYPED
 
@@ -66,7 +66,7 @@ namespace mud
 
 		virtual void Remove(uint32_t index) override
 		{
-			std::swap(m_data[index], m_data.back());
+			swap(m_data[index], m_data.back());
 			m_data.pop_back();
 		}
 
