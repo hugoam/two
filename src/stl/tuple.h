@@ -11,8 +11,8 @@ namespace mud
 	export_ using std::index_sequence;
 	export_ using std::make_index_sequence;
 
-	template<size_t... Values>
-	using index_tuple = make_index_sequence<Values...>;
+	template<size_t Num>
+	using index_tuple = make_index_sequence<Num>;
 
 	template<size_t i, class... Types>
 	Head& at(tuple<Types...>& tup) { return std::get<i>(tup); }
