@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stl/move.h>
 #include <jobs/Forward.h>
 #include <jobs/JobSystem.h>
 

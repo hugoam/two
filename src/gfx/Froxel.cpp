@@ -10,6 +10,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/swap.h>
 #include <infra/Bitset.h>
 #include <jobs/Job.h>
 #include <geom/Aabb.h>
