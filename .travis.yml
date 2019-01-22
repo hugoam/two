@@ -14,9 +14,9 @@ dist: xenial
 matrix:
   include:
     - os: linux
-      compiler: clang
-    - os: linux
       compiler: gcc
+    - os: linux
+      compiler: clang
     - os: osx
       compiler: clang
       osx_image: xcode10
