@@ -319,7 +319,7 @@ namespace gfx
 
 	Light& direct_light_node(Gnode& parent)
 	{
-		return direct_light_node(parent, quat{ vec3{ -c_pi / 4.f, -c_pi / 4.f, 0.f } });
+		return direct_light_node(parent, quat(vec3(-c_pi / 4.f, -c_pi / 4.f, 0.f)));
 	}
 
 	void radiance(Gnode& parent, const string& texture, BackgroundMode background)

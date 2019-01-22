@@ -248,8 +248,8 @@ namespace ui
 			{ Key::Down,  Z3 * 2.f }, { Key::S,   Z3 * 2.f },
 			{ Key::Left, -X3 * 1.f }, { Key::A,  -X3 * 1.f },
 			{ Key::Right, X3 * 1.f }, { Key::D,   X3 * 1.f },
-			{ Key::T,	    Y3 * 1.f }, { Key::Z,  -Y3 * 1.f },
-			{ Key::G,	   -Y3 * 1.f }, { Key::X,   Y3 * 1.f },
+			{ Key::T,	  Y3 * 1.f }, { Key::Z,  -Y3 * 1.f },
+			{ Key::G,	 -Y3 * 1.f }, { Key::X,   Y3 * 1.f },
 		};
 
 		for(const KeyMove& key_move : moves)
@@ -374,7 +374,7 @@ namespace ui
 		{
 			{ Key::Up,    -Z3 }, { Key::W, -Z3 },
 			{ Key::Down,   Z3 }, { Key::S,  Z3 },
-			{ Key::Left,	-X3 }, { Key::A, -X3 },
+			{ Key::Left,  -X3 }, { Key::A, -X3 },
 			{ Key::Right,  X3 }, { Key::D,  X3 },
 		};
 

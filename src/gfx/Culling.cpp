@@ -185,6 +185,11 @@ namespace mud
 		return rect;
 	}
 
+	DepthRect project_aabb(const Camera& camera, const mat4& transform, const Aabb& aabb)
+	{
+		return project_aabb(camera.m_eye, camera.m_far, aabb.bmin(), aabb.bmax(), transform, camera.m_transform);
+	}
+
 	DepthRect project_aabb_strict(const Camera& camera, const mat4& transform, const Aabb& aabb)
 	{
 		DepthRect rect = { vec2(FLT_MAX), vec2(-FLT_MAX), camera.m_far };
@@ -196,7 +201,7 @@ namespace mud
 			p /= p.w;
 			rect.lo = min(vec2(p), rect.lo);
 			rect.hi = max(vec2(p), rect.hi);
-			}
+		}
 		return rect;
 	}
 
@@ -262,11 +267,11 @@ namespace mud
 
 	void Culler::rasterize(Render& render)
 	{
-		mat4 world_to_clip = render.m_camera.m_projection * render.m_camera.m_transform;
+		const mat4 world_to_clip = render.m_camera.m_projection * render.m_camera.m_transform;
 
 		for(Item* item : render.m_shot->m_occluders)
 		{
-			mat4 model_to_clip = world_to_clip * item->m_node->m_transform;
+			const mat4 model_to_clip = world_to_clip * item->m_node->m_transform;
 
 			for(ModelItem& model_item : item->m_model->m_items)
 			{

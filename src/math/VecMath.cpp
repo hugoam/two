@@ -38,7 +38,6 @@ namespace mud
 
 	quat operator*(const quat& a, const quat& b)
 	{
-		glm::quat() * glm::quat();
 		return quat(
 			a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y,
 			a.w * b.y + a.y * b.w + a.z * b.x - a.x * b.z,
@@ -171,7 +170,7 @@ namespace mud
 
 	mat4 inverse(const mat4& m)
 	{
-#if 0
+#if 1
 		float xx = m.f[0];
 		float xy = m.f[1];
 		float xz = m.f[2];
