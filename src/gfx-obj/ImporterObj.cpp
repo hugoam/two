@@ -76,7 +76,7 @@ namespace mud
 		string models_path = "models/" + path;
 		string materials_path = "materials/" + path;
 		LocatedFile location = gfx_system.locate_file(models_path);
-		if(location.m_location == nullptr)
+		if(!location)
 			location = gfx_system.locate_file(materials_path);
 
 		string filepath = string(location.m_location) + location.m_name;
