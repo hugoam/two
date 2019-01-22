@@ -52,7 +52,7 @@ namespace mud
 
 		attr_ uint16_t m_index = 0;
 		attr_ bool m_active = true;
-		attr_ uvec4 m_rect = uvec4(0);
+		attr_ uvec4 m_rect = uvec4(0U);
 		attr_ bool m_scissor = false;
 		attr_ Colour m_clear_colour = Colour::Black;
 		attr_ Shading m_shading = Shading::Shaded;
