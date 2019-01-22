@@ -9,10 +9,12 @@ addons:
       - g++-8
       - xorg-dev
 
-dist: xenial
 os:
   - linux
   - osx
+
+dist: xenial
+osx_image: xcode10
   
 matrix:
   exclude:
@@ -25,7 +27,7 @@ compiler:
 
 install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export GENIE_FOLDER="linux"; fi
-  - if [ "$CXX" = "g++" ]; then export TOOLCHAIN="linux-gcc" GMAKE_FOLDER="gmake-linux"; fi
+  - if [ "$CXX" = "g++" ]; then export TOOLCHAIN="linux-gcc-8" GMAKE_FOLDER="gmake-linux"; fi
   - if [ "$CXX" = "clang++" ]; then export TOOLCHAIN="linux-clang" GMAKE_FOLDER="gmake-linux-clang"; fi
 
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export GENIE_FOLDER="darwin" TOOLCHAIN="osx" GMAKE_FOLDER="gmake-osx"; fi
