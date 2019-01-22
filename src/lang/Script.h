@@ -74,8 +74,8 @@ namespace mud
 		virtual Var get(const string& name, Type& type) { UNUSED(name); UNUSED(type); return Var(); }
 		virtual void set(const string& name, Var value) { UNUSED(name); UNUSED(value); }
 
-		virtual Var getx(array<string> path, Type& type) { UNUSED(path); UNUSED(type); return Var(); }
-		virtual void setx(array<string> path, Var value) { UNUSED(path); UNUSED(value); }
+		virtual Var getx(array<cstring> path, Type& type) { UNUSED(path); UNUSED(type); return Var(); }
+		virtual void setx(array<cstring> path, Var value) { UNUSED(path); UNUSED(value); }
 
 		virtual void call(const string& code, Var* result = nullptr) = 0;
 		virtual void virtual_call(Method& method, Ref object, array<Var> args) { UNUSED(method); UNUSED(object); UNUSED(args); }

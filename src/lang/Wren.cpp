@@ -1315,17 +1315,17 @@ namespace mud
 		this->flush();
 	}
 
-	Var WrenInterpreter::get(cstring name, Type& type)
+	Var WrenInterpreter::get(const string& name, Type& type)
 	{
 		wrenBegin(m_context->m_vm);
 		wrenEnsureSlots(m_context->m_vm, 1);
-		wrenGetVariable(m_context->m_vm, "main", name, 0);
+		wrenGetVariable(m_context->m_vm, "main", name.c_str(), 0);
 		Var result = Ref(&type);
 		read(m_context->m_vm, 0, result);
 		return result;
 	}
 
-	void WrenInterpreter::set(cstring name, Var value)
+	void WrenInterpreter::set(const string& name, Var value)
 	{
 		if(m_context->m_variables.find(name) == m_context->m_variables.end())
 		{
@@ -1336,7 +1336,7 @@ namespace mud
 		wrenBegin(m_context->m_vm);
 		wrenEnsureSlots(m_context->m_vm, 1);
 		push(m_context->m_vm, 0, value);
-		wrenAssignVariable(m_context->m_vm, "main", name, 0);
+		wrenAssignVariable(m_context->m_vm, "main", name.c_str(), 0);
 	}
 
 	Var WrenInterpreter::getx(array<cstring> path, Type& type)
@@ -1350,10 +1350,10 @@ namespace mud
 		UNUSED(path); UNUSED(value);
 	}
 
-	void WrenInterpreter::call(cstring code, Var* result)
+	void WrenInterpreter::call(const string& code, Var* result)
 	{
 		UNUSED(result);
-		wrenInterpret(m_context->m_vm, "main", code);
+		wrenInterpret(m_context->m_vm, "main", code.c_str());
 	}
 
 	void WrenInterpreter::virtual_call(Method& method, Ref object, array<Var> args)

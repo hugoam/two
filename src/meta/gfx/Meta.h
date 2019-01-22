@@ -9,8 +9,6 @@
 #include <refl/Module.h>
 #endif
 
-#include <math/Api.h>
-
 namespace mud
 {
     void mud_gfx_meta(Module& m)
@@ -263,12 +261,6 @@ namespace mud
     
     // Sequences
     {
-        static Meta meta = { type<array<const char*>>(), &namspc({}), "array<const char*>", sizeof(array<const char*>), TypeClass::Sequence };
-        static Class cls = { type<array<const char*>>() };
-        cls.m_content = &type<const char*>();
-        meta_sequence<array<const char*>, const char*>();
-    }
-    {
         static Meta meta = { type<array<mud::mat4>>(), &namspc({}), "array<mud::mat4>", sizeof(array<mud::mat4>), TypeClass::Sequence };
         static Class cls = { type<array<mud::mat4>>() };
         cls.m_content = &type<mud::mat4>();
@@ -489,12 +481,12 @@ namespace mud
             },
             // methods
             {
-                //{ type<mud::AssetStore<mud::Material>>(), "get", member_address<mud::Material*(mud::AssetStore<mud::Material>::*)(const char*)>(&mud::AssetStore<mud::Material>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Material>>(object).get(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Material>()) },
-                //{ type<mud::AssetStore<mud::Material>>(), "create", member_address<mud::Material&(mud::AssetStore<mud::Material>::*)(const char*)>(&mud::AssetStore<mud::Material>::create), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Material>>(object).create(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Material>()) },
-                //{ type<mud::AssetStore<mud::Material>>(), "fetch", member_address<mud::Material&(mud::AssetStore<mud::Material>::*)(const char*)>(&mud::AssetStore<mud::Material>::fetch), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Material>>(object).fetch(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Material>()) },
-                //{ type<mud::AssetStore<mud::Material>>(), "file_at", member_address<mud::Material&(mud::AssetStore<mud::Material>::*)(const char*, const char*)>(&mud::AssetStore<mud::Material>::file_at), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Material>>(object).file_at(val<const char*>(args[0]), val<const char*>(args[1]))); }, { { "path", Ref(type<const char*>()), Param::Nullable }, { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Material>()) },
-                //{ type<mud::AssetStore<mud::Material>>(), "file", member_address<mud::Material*(mud::AssetStore<mud::Material>::*)(const char*)>(&mud::AssetStore<mud::Material>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Material>>(object).file(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Material>()) },
-                //{ type<mud::AssetStore<mud::Material>>(), "destroy", member_address<void(mud::AssetStore<mud::Material>::*)(const char*)>(&mud::AssetStore<mud::Material>::destroy), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::AssetStore<mud::Material>>(object).destroy(val<const char*>(args[0])); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Var() }
+                { type<mud::AssetStore<mud::Material>>(), "get", member_address<mud::Material*(mud::AssetStore<mud::Material>::*)(const string&)>(&mud::AssetStore<mud::Material>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Material>>(object).get(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Material>()) },
+                { type<mud::AssetStore<mud::Material>>(), "create", member_address<mud::Material&(mud::AssetStore<mud::Material>::*)(const string&)>(&mud::AssetStore<mud::Material>::create), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Material>>(object).create(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Material>()) },
+                { type<mud::AssetStore<mud::Material>>(), "fetch", member_address<mud::Material&(mud::AssetStore<mud::Material>::*)(const string&)>(&mud::AssetStore<mud::Material>::fetch), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Material>>(object).fetch(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Material>()) },
+                { type<mud::AssetStore<mud::Material>>(), "file_at", member_address<mud::Material&(mud::AssetStore<mud::Material>::*)(const string&, const string&)>(&mud::AssetStore<mud::Material>::file_at), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Material>>(object).file_at(val<string>(args[0]), val<string>(args[1]))); }, { { "path", var(string()) }, { "name", var(string()) } }, Ref(type<mud::Material>()) },
+                { type<mud::AssetStore<mud::Material>>(), "file", member_address<mud::Material*(mud::AssetStore<mud::Material>::*)(const string&)>(&mud::AssetStore<mud::Material>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Material>>(object).file(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Material>()) },
+                { type<mud::AssetStore<mud::Material>>(), "destroy", member_address<void(mud::AssetStore<mud::Material>::*)(const string&)>(&mud::AssetStore<mud::Material>::destroy), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::AssetStore<mud::Material>>(object).destroy(val<string>(args[0])); }, { { "name", var(string()) } }, Var() }
             },
             // static members
             {
@@ -520,12 +512,12 @@ namespace mud
             },
             // methods
             {
-                //{ type<mud::AssetStore<mud::Model>>(), "get", member_address<mud::Model*(mud::AssetStore<mud::Model>::*)(const char*)>(&mud::AssetStore<mud::Model>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Model>>(object).get(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Model>()) },
-                //{ type<mud::AssetStore<mud::Model>>(), "create", member_address<mud::Model&(mud::AssetStore<mud::Model>::*)(const char*)>(&mud::AssetStore<mud::Model>::create), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Model>>(object).create(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Model>()) },
-                //{ type<mud::AssetStore<mud::Model>>(), "fetch", member_address<mud::Model&(mud::AssetStore<mud::Model>::*)(const char*)>(&mud::AssetStore<mud::Model>::fetch), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Model>>(object).fetch(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Model>()) },
-                //{ type<mud::AssetStore<mud::Model>>(), "file_at", member_address<mud::Model&(mud::AssetStore<mud::Model>::*)(const char*, const char*)>(&mud::AssetStore<mud::Model>::file_at), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Model>>(object).file_at(val<const char*>(args[0]), val<const char*>(args[1]))); }, { { "path", Ref(type<const char*>()), Param::Nullable }, { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Model>()) },
-                //{ type<mud::AssetStore<mud::Model>>(), "file", member_address<mud::Model*(mud::AssetStore<mud::Model>::*)(const char*)>(&mud::AssetStore<mud::Model>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Model>>(object).file(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Model>()) },
-                //{ type<mud::AssetStore<mud::Model>>(), "destroy", member_address<void(mud::AssetStore<mud::Model>::*)(const char*)>(&mud::AssetStore<mud::Model>::destroy), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::AssetStore<mud::Model>>(object).destroy(val<const char*>(args[0])); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Var() }
+                { type<mud::AssetStore<mud::Model>>(), "get", member_address<mud::Model*(mud::AssetStore<mud::Model>::*)(const string&)>(&mud::AssetStore<mud::Model>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Model>>(object).get(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Model>()) },
+                { type<mud::AssetStore<mud::Model>>(), "create", member_address<mud::Model&(mud::AssetStore<mud::Model>::*)(const string&)>(&mud::AssetStore<mud::Model>::create), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Model>>(object).create(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Model>()) },
+                { type<mud::AssetStore<mud::Model>>(), "fetch", member_address<mud::Model&(mud::AssetStore<mud::Model>::*)(const string&)>(&mud::AssetStore<mud::Model>::fetch), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Model>>(object).fetch(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Model>()) },
+                { type<mud::AssetStore<mud::Model>>(), "file_at", member_address<mud::Model&(mud::AssetStore<mud::Model>::*)(const string&, const string&)>(&mud::AssetStore<mud::Model>::file_at), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Model>>(object).file_at(val<string>(args[0]), val<string>(args[1]))); }, { { "path", var(string()) }, { "name", var(string()) } }, Ref(type<mud::Model>()) },
+                { type<mud::AssetStore<mud::Model>>(), "file", member_address<mud::Model*(mud::AssetStore<mud::Model>::*)(const string&)>(&mud::AssetStore<mud::Model>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Model>>(object).file(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Model>()) },
+                { type<mud::AssetStore<mud::Model>>(), "destroy", member_address<void(mud::AssetStore<mud::Model>::*)(const string&)>(&mud::AssetStore<mud::Model>::destroy), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::AssetStore<mud::Model>>(object).destroy(val<string>(args[0])); }, { { "name", var(string()) } }, Var() }
             },
             // static members
             {
@@ -551,12 +543,12 @@ namespace mud
             },
             // methods
             {
-                //{ type<mud::AssetStore<mud::ParticleFlow>>(), "get", member_address<mud::ParticleFlow*(mud::AssetStore<mud::ParticleFlow>::*)(const char*)>(&mud::AssetStore<mud::ParticleFlow>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::ParticleFlow>>(object).get(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::ParticleFlow>()) },
-                //{ type<mud::AssetStore<mud::ParticleFlow>>(), "create", member_address<mud::ParticleFlow&(mud::AssetStore<mud::ParticleFlow>::*)(const char*)>(&mud::AssetStore<mud::ParticleFlow>::create), [](Ref object, array<Var> args, Var& result) { val<mud::ParticleFlow>(result) = val<mud::AssetStore<mud::ParticleFlow>>(object).create(val<const char*>(args[0])); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, var(mud::ParticleFlow()) },
-                //{ type<mud::AssetStore<mud::ParticleFlow>>(), "fetch", member_address<mud::ParticleFlow&(mud::AssetStore<mud::ParticleFlow>::*)(const char*)>(&mud::AssetStore<mud::ParticleFlow>::fetch), [](Ref object, array<Var> args, Var& result) { val<mud::ParticleFlow>(result) = val<mud::AssetStore<mud::ParticleFlow>>(object).fetch(val<const char*>(args[0])); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, var(mud::ParticleFlow()) },
-                //{ type<mud::AssetStore<mud::ParticleFlow>>(), "file_at", member_address<mud::ParticleFlow&(mud::AssetStore<mud::ParticleFlow>::*)(const char*, const char*)>(&mud::AssetStore<mud::ParticleFlow>::file_at), [](Ref object, array<Var> args, Var& result) { val<mud::ParticleFlow>(result) = val<mud::AssetStore<mud::ParticleFlow>>(object).file_at(val<const char*>(args[0]), val<const char*>(args[1])); }, { { "path", Ref(type<const char*>()), Param::Nullable }, { "name", Ref(type<const char*>()), Param::Nullable } }, var(mud::ParticleFlow()) },
-                //{ type<mud::AssetStore<mud::ParticleFlow>>(), "file", member_address<mud::ParticleFlow*(mud::AssetStore<mud::ParticleFlow>::*)(const char*)>(&mud::AssetStore<mud::ParticleFlow>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::ParticleFlow>>(object).file(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::ParticleFlow>()) },
-                //{ type<mud::AssetStore<mud::ParticleFlow>>(), "destroy", member_address<void(mud::AssetStore<mud::ParticleFlow>::*)(const char*)>(&mud::AssetStore<mud::ParticleFlow>::destroy), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::AssetStore<mud::ParticleFlow>>(object).destroy(val<const char*>(args[0])); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Var() }
+                { type<mud::AssetStore<mud::ParticleFlow>>(), "get", member_address<mud::ParticleFlow*(mud::AssetStore<mud::ParticleFlow>::*)(const string&)>(&mud::AssetStore<mud::ParticleFlow>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::ParticleFlow>>(object).get(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::ParticleFlow>()) },
+                { type<mud::AssetStore<mud::ParticleFlow>>(), "create", member_address<mud::ParticleFlow&(mud::AssetStore<mud::ParticleFlow>::*)(const string&)>(&mud::AssetStore<mud::ParticleFlow>::create), [](Ref object, array<Var> args, Var& result) { val<mud::ParticleFlow>(result) = val<mud::AssetStore<mud::ParticleFlow>>(object).create(val<string>(args[0])); }, { { "name", var(string()) } }, var(mud::ParticleFlow()) },
+                { type<mud::AssetStore<mud::ParticleFlow>>(), "fetch", member_address<mud::ParticleFlow&(mud::AssetStore<mud::ParticleFlow>::*)(const string&)>(&mud::AssetStore<mud::ParticleFlow>::fetch), [](Ref object, array<Var> args, Var& result) { val<mud::ParticleFlow>(result) = val<mud::AssetStore<mud::ParticleFlow>>(object).fetch(val<string>(args[0])); }, { { "name", var(string()) } }, var(mud::ParticleFlow()) },
+                { type<mud::AssetStore<mud::ParticleFlow>>(), "file_at", member_address<mud::ParticleFlow&(mud::AssetStore<mud::ParticleFlow>::*)(const string&, const string&)>(&mud::AssetStore<mud::ParticleFlow>::file_at), [](Ref object, array<Var> args, Var& result) { val<mud::ParticleFlow>(result) = val<mud::AssetStore<mud::ParticleFlow>>(object).file_at(val<string>(args[0]), val<string>(args[1])); }, { { "path", var(string()) }, { "name", var(string()) } }, var(mud::ParticleFlow()) },
+                { type<mud::AssetStore<mud::ParticleFlow>>(), "file", member_address<mud::ParticleFlow*(mud::AssetStore<mud::ParticleFlow>::*)(const string&)>(&mud::AssetStore<mud::ParticleFlow>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::ParticleFlow>>(object).file(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::ParticleFlow>()) },
+                { type<mud::AssetStore<mud::ParticleFlow>>(), "destroy", member_address<void(mud::AssetStore<mud::ParticleFlow>::*)(const string&)>(&mud::AssetStore<mud::ParticleFlow>::destroy), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::AssetStore<mud::ParticleFlow>>(object).destroy(val<string>(args[0])); }, { { "name", var(string()) } }, Var() }
             },
             // static members
             {
@@ -582,12 +574,12 @@ namespace mud
             },
             // methods
             {
-                //{ type<mud::AssetStore<mud::Prefab>>(), "get", member_address<mud::Prefab*(mud::AssetStore<mud::Prefab>::*)(const char*)>(&mud::AssetStore<mud::Prefab>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Prefab>>(object).get(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Prefab>()) },
-                //{ type<mud::AssetStore<mud::Prefab>>(), "create", member_address<mud::Prefab&(mud::AssetStore<mud::Prefab>::*)(const char*)>(&mud::AssetStore<mud::Prefab>::create), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Prefab>>(object).create(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Prefab>()) },
-                //{ type<mud::AssetStore<mud::Prefab>>(), "fetch", member_address<mud::Prefab&(mud::AssetStore<mud::Prefab>::*)(const char*)>(&mud::AssetStore<mud::Prefab>::fetch), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Prefab>>(object).fetch(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Prefab>()) },
-                //{ type<mud::AssetStore<mud::Prefab>>(), "file_at", member_address<mud::Prefab&(mud::AssetStore<mud::Prefab>::*)(const char*, const char*)>(&mud::AssetStore<mud::Prefab>::file_at), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Prefab>>(object).file_at(val<const char*>(args[0]), val<const char*>(args[1]))); }, { { "path", Ref(type<const char*>()), Param::Nullable }, { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Prefab>()) },
-                //{ type<mud::AssetStore<mud::Prefab>>(), "file", member_address<mud::Prefab*(mud::AssetStore<mud::Prefab>::*)(const char*)>(&mud::AssetStore<mud::Prefab>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Prefab>>(object).file(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Prefab>()) },
-                //{ type<mud::AssetStore<mud::Prefab>>(), "destroy", member_address<void(mud::AssetStore<mud::Prefab>::*)(const char*)>(&mud::AssetStore<mud::Prefab>::destroy), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::AssetStore<mud::Prefab>>(object).destroy(val<const char*>(args[0])); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Var() }
+                { type<mud::AssetStore<mud::Prefab>>(), "get", member_address<mud::Prefab*(mud::AssetStore<mud::Prefab>::*)(const string&)>(&mud::AssetStore<mud::Prefab>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Prefab>>(object).get(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Prefab>()) },
+                { type<mud::AssetStore<mud::Prefab>>(), "create", member_address<mud::Prefab&(mud::AssetStore<mud::Prefab>::*)(const string&)>(&mud::AssetStore<mud::Prefab>::create), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Prefab>>(object).create(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Prefab>()) },
+                { type<mud::AssetStore<mud::Prefab>>(), "fetch", member_address<mud::Prefab&(mud::AssetStore<mud::Prefab>::*)(const string&)>(&mud::AssetStore<mud::Prefab>::fetch), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Prefab>>(object).fetch(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Prefab>()) },
+                { type<mud::AssetStore<mud::Prefab>>(), "file_at", member_address<mud::Prefab&(mud::AssetStore<mud::Prefab>::*)(const string&, const string&)>(&mud::AssetStore<mud::Prefab>::file_at), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Prefab>>(object).file_at(val<string>(args[0]), val<string>(args[1]))); }, { { "path", var(string()) }, { "name", var(string()) } }, Ref(type<mud::Prefab>()) },
+                { type<mud::AssetStore<mud::Prefab>>(), "file", member_address<mud::Prefab*(mud::AssetStore<mud::Prefab>::*)(const string&)>(&mud::AssetStore<mud::Prefab>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Prefab>>(object).file(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Prefab>()) },
+                { type<mud::AssetStore<mud::Prefab>>(), "destroy", member_address<void(mud::AssetStore<mud::Prefab>::*)(const string&)>(&mud::AssetStore<mud::Prefab>::destroy), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::AssetStore<mud::Prefab>>(object).destroy(val<string>(args[0])); }, { { "name", var(string()) } }, Var() }
             },
             // static members
             {
@@ -613,12 +605,12 @@ namespace mud
             },
             // methods
             {
-                //{ type<mud::AssetStore<mud::Program>>(), "get", member_address<mud::Program*(mud::AssetStore<mud::Program>::*)(const char*)>(&mud::AssetStore<mud::Program>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Program>>(object).get(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Program>()) },
-                //{ type<mud::AssetStore<mud::Program>>(), "create", member_address<mud::Program&(mud::AssetStore<mud::Program>::*)(const char*)>(&mud::AssetStore<mud::Program>::create), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Program>>(object).create(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Program>()) },
-                //{ type<mud::AssetStore<mud::Program>>(), "fetch", member_address<mud::Program&(mud::AssetStore<mud::Program>::*)(const char*)>(&mud::AssetStore<mud::Program>::fetch), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Program>>(object).fetch(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Program>()) },
-                //{ type<mud::AssetStore<mud::Program>>(), "file_at", member_address<mud::Program&(mud::AssetStore<mud::Program>::*)(const char*, const char*)>(&mud::AssetStore<mud::Program>::file_at), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Program>>(object).file_at(val<const char*>(args[0]), val<const char*>(args[1]))); }, { { "path", Ref(type<const char*>()), Param::Nullable }, { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Program>()) },
-                //{ type<mud::AssetStore<mud::Program>>(), "file", member_address<mud::Program*(mud::AssetStore<mud::Program>::*)(const char*)>(&mud::AssetStore<mud::Program>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Program>>(object).file(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Program>()) },
-                //{ type<mud::AssetStore<mud::Program>>(), "destroy", member_address<void(mud::AssetStore<mud::Program>::*)(const char*)>(&mud::AssetStore<mud::Program>::destroy), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::AssetStore<mud::Program>>(object).destroy(val<const char*>(args[0])); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Var() }
+                { type<mud::AssetStore<mud::Program>>(), "get", member_address<mud::Program*(mud::AssetStore<mud::Program>::*)(const string&)>(&mud::AssetStore<mud::Program>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Program>>(object).get(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Program>()) },
+                { type<mud::AssetStore<mud::Program>>(), "create", member_address<mud::Program&(mud::AssetStore<mud::Program>::*)(const string&)>(&mud::AssetStore<mud::Program>::create), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Program>>(object).create(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Program>()) },
+                { type<mud::AssetStore<mud::Program>>(), "fetch", member_address<mud::Program&(mud::AssetStore<mud::Program>::*)(const string&)>(&mud::AssetStore<mud::Program>::fetch), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Program>>(object).fetch(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Program>()) },
+                { type<mud::AssetStore<mud::Program>>(), "file_at", member_address<mud::Program&(mud::AssetStore<mud::Program>::*)(const string&, const string&)>(&mud::AssetStore<mud::Program>::file_at), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Program>>(object).file_at(val<string>(args[0]), val<string>(args[1]))); }, { { "path", var(string()) }, { "name", var(string()) } }, Ref(type<mud::Program>()) },
+                { type<mud::AssetStore<mud::Program>>(), "file", member_address<mud::Program*(mud::AssetStore<mud::Program>::*)(const string&)>(&mud::AssetStore<mud::Program>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Program>>(object).file(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Program>()) },
+                { type<mud::AssetStore<mud::Program>>(), "destroy", member_address<void(mud::AssetStore<mud::Program>::*)(const string&)>(&mud::AssetStore<mud::Program>::destroy), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::AssetStore<mud::Program>>(object).destroy(val<string>(args[0])); }, { { "name", var(string()) } }, Var() }
             },
             // static members
             {
@@ -644,12 +636,12 @@ namespace mud
             },
             // methods
             {
-                //{ type<mud::AssetStore<mud::Texture>>(), "get", member_address<mud::Texture*(mud::AssetStore<mud::Texture>::*)(const char*)>(&mud::AssetStore<mud::Texture>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Texture>>(object).get(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Texture>()) },
-                //{ type<mud::AssetStore<mud::Texture>>(), "create", member_address<mud::Texture&(mud::AssetStore<mud::Texture>::*)(const char*)>(&mud::AssetStore<mud::Texture>::create), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Texture>>(object).create(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Texture>()) },
-                //{ type<mud::AssetStore<mud::Texture>>(), "fetch", member_address<mud::Texture&(mud::AssetStore<mud::Texture>::*)(const char*)>(&mud::AssetStore<mud::Texture>::fetch), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Texture>>(object).fetch(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Texture>()) },
-                //{ type<mud::AssetStore<mud::Texture>>(), "file_at", member_address<mud::Texture&(mud::AssetStore<mud::Texture>::*)(const char*, const char*)>(&mud::AssetStore<mud::Texture>::file_at), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Texture>>(object).file_at(val<const char*>(args[0]), val<const char*>(args[1]))); }, { { "path", Ref(type<const char*>()), Param::Nullable }, { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Texture>()) },
-                //{ type<mud::AssetStore<mud::Texture>>(), "file", member_address<mud::Texture*(mud::AssetStore<mud::Texture>::*)(const char*)>(&mud::AssetStore<mud::Texture>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Texture>>(object).file(val<const char*>(args[0]))); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Ref(type<mud::Texture>()) },
-                //{ type<mud::AssetStore<mud::Texture>>(), "destroy", member_address<void(mud::AssetStore<mud::Texture>::*)(const char*)>(&mud::AssetStore<mud::Texture>::destroy), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::AssetStore<mud::Texture>>(object).destroy(val<const char*>(args[0])); }, { { "name", Ref(type<const char*>()), Param::Nullable } }, Var() }
+                { type<mud::AssetStore<mud::Texture>>(), "get", member_address<mud::Texture*(mud::AssetStore<mud::Texture>::*)(const string&)>(&mud::AssetStore<mud::Texture>::get), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Texture>>(object).get(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Texture>()) },
+                { type<mud::AssetStore<mud::Texture>>(), "create", member_address<mud::Texture&(mud::AssetStore<mud::Texture>::*)(const string&)>(&mud::AssetStore<mud::Texture>::create), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Texture>>(object).create(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Texture>()) },
+                { type<mud::AssetStore<mud::Texture>>(), "fetch", member_address<mud::Texture&(mud::AssetStore<mud::Texture>::*)(const string&)>(&mud::AssetStore<mud::Texture>::fetch), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Texture>>(object).fetch(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Texture>()) },
+                { type<mud::AssetStore<mud::Texture>>(), "file_at", member_address<mud::Texture&(mud::AssetStore<mud::Texture>::*)(const string&, const string&)>(&mud::AssetStore<mud::Texture>::file_at), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::AssetStore<mud::Texture>>(object).file_at(val<string>(args[0]), val<string>(args[1]))); }, { { "path", var(string()) }, { "name", var(string()) } }, Ref(type<mud::Texture>()) },
+                { type<mud::AssetStore<mud::Texture>>(), "file", member_address<mud::Texture*(mud::AssetStore<mud::Texture>::*)(const string&)>(&mud::AssetStore<mud::Texture>::file), [](Ref object, array<Var> args, Var& result) { result = Ref(val<mud::AssetStore<mud::Texture>>(object).file(val<string>(args[0]))); }, { { "name", var(string()) } }, Ref(type<mud::Texture>()) },
+                { type<mud::AssetStore<mud::Texture>>(), "destroy", member_address<void(mud::AssetStore<mud::Texture>::*)(const string&)>(&mud::AssetStore<mud::Texture>::destroy), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::AssetStore<mud::Texture>>(object).destroy(val<string>(args[0])); }, { { "name", var(string()) } }, Var() }
             },
             // static members
             {
@@ -1116,8 +1108,7 @@ namespace mud
             {  },
             // constructors
             {
-                //{ type<mud::GfxSystem>(), [](Ref ref, array<Var> args) { new(&val<mud::GfxSystem>(ref)) mud::GfxSystem( val<const char*>(args[0]) ); }, { { "resource_path", Ref(type<const char*>()), Param::Nullable } } },
-                //{ type<mud::GfxSystem>(), [](Ref ref, array<Var> args) { new(&val<mud::GfxSystem>(ref)) mud::GfxSystem( val<array<const char*>>(args[0]) ); }, { { "resource_paths", var(array<const char*>()) } } }
+                { type<mud::GfxSystem>(), [](Ref ref, array<Var> args) { new(&val<mud::GfxSystem>(ref)) mud::GfxSystem( val<string>(args[0]) ); }, { { "resource_path", var(string()) } } }
             },
             // copy constructor
             {
@@ -1134,10 +1125,10 @@ namespace mud
             // methods
             {
                 { type<mud::GfxSystem>(), "default_pipeline", member_address<void(mud::GfxSystem::*)()>(&mud::GfxSystem::default_pipeline), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args); val<mud::GfxSystem>(object).default_pipeline(); }, {}, Var() },
-                //{ type<mud::GfxSystem>(), "add_resource_path", member_address<void(mud::GfxSystem::*)(const char*, bool)>(&mud::GfxSystem::add_resource_path), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::GfxSystem>(object).add_resource_path(val<const char*>(args[0]), val<bool>(args[1])); }, { { "path", Ref(type<const char*>()), Param::Nullable }, { "relative", var(bool(true)), Param::Default } }, Var() },
+                { type<mud::GfxSystem>(), "add_resource_path", member_address<void(mud::GfxSystem::*)(const string&, bool)>(&mud::GfxSystem::add_resource_path), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::GfxSystem>(object).add_resource_path(val<string>(args[0]), val<bool>(args[1])); }, { { "path", var(string()) }, { "relative", var(bool(true)), Param::Default } }, Var() },
                 { type<mud::GfxSystem>(), "debug_material", member_address<mud::Material&(mud::GfxSystem::*)()>(&mud::GfxSystem::debug_material), [](Ref object, array<Var> args, Var& result) { UNUSED(args); result = Ref(&val<mud::GfxSystem>(object).debug_material()); }, {}, Ref(type<mud::Material>()) },
-                //{ type<mud::GfxSystem>(), "fetch_material", member_address<mud::Material&(mud::GfxSystem::*)(const char*, const char*, bool)>(&mud::GfxSystem::fetch_material), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::GfxSystem>(object).fetch_material(val<const char*>(args[0]), val<const char*>(args[1]), val<bool>(args[2]))); }, { { "name", Ref(type<const char*>()), Param::Nullable }, { "shader", Ref(type<const char*>()), Param::Nullable }, { "builtin", var(bool(true)), Param::Default } }, Ref(type<mud::Material>()) },
-                { type<mud::GfxSystem>(), "fetch_image256_material", member_address<mud::Material&(mud::GfxSystem::*)(const mud::Image256&)>(&mud::GfxSystem::fetch_image256_material), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::GfxSystem>(object).fetch_image256_material(val<mud::Image256>(args[0]))); }, { { "image", var(mud::Image256()) } }, Ref(type<mud::Material>()) },
+                { type<mud::GfxSystem>(), "fetch_material", member_address<mud::Material&(mud::GfxSystem::*)(const string&, const string&, bool)>(&mud::GfxSystem::fetch_material), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::GfxSystem>(object).fetch_material(val<string>(args[0]), val<string>(args[1]), val<bool>(args[2]))); }, { { "name", var(string()) }, { "shader", var(string()) }, { "builtin", var(bool(true)), Param::Default } }, Ref(type<mud::Material>()) },
+                //{ type<mud::GfxSystem>(), "fetch_image256_material", member_address<mud::Material&(mud::GfxSystem::*)(const mud::Image256&)>(&mud::GfxSystem::fetch_image256_material), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::GfxSystem>(object).fetch_image256_material(val<mud::Image256>(args[0]))); }, { { "image", var(mud::Image256()) } }, Ref(type<mud::Material>()) },
                 { type<mud::GfxSystem>(), "fetch_symbol", member_address<mud::Model&(mud::GfxSystem::*)(const mud::Symbol&, const mud::Shape&, mud::DrawMode)>(&mud::GfxSystem::fetch_symbol), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::GfxSystem>(object).fetch_symbol(val<mud::Symbol>(args[0]), val<mud::Shape>(args[1]), val<mud::DrawMode>(args[2]))); }, { { "symbol", var(mud::Symbol()) }, { "shape", Ref(type<mud::Shape>()) }, { "draw_mode", var(mud::DrawMode()) } }, Ref(type<mud::Model>()) },
                 { type<mud::GfxSystem>(), "fetch_symbol_material", member_address<mud::Material&(mud::GfxSystem::*)(const mud::Symbol&, mud::DrawMode)>(&mud::GfxSystem::fetch_symbol_material), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::GfxSystem>(object).fetch_symbol_material(val<mud::Symbol>(args[0]), val<mud::DrawMode>(args[1]))); }, { { "symbol", var(mud::Symbol()) }, { "draw_mode", var(mud::DrawMode()) } }, Ref(type<mud::Material>()) }
             },
@@ -1361,6 +1352,7 @@ namespace mud
             // members
             {
                 { type<mud::Material>(), member_address(&mud::Material::m_index), type<uint16_t>(), "index", var(uint16_t(0)), Member::Value, nullptr },
+                { type<mud::Material>(), member_address(&mud::Material::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
                 { type<mud::Material>(), member_address(&mud::Material::m_builtin), type<bool>(), "builtin", var(bool(false)), Member::Value, nullptr },
                 { type<mud::Material>(), member_address(&mud::Material::m_program), type<mud::Program>(), "program", Ref(type<mud::Program>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
                 { type<mud::Material>(), member_address(&mud::Material::m_base_block), type<mud::BaseMaterialBlock>(), "base_block", var(mud::BaseMaterialBlock()), Member::Value, nullptr },
@@ -2003,6 +1995,7 @@ namespace mud
             },
             // members
             {
+                { type<mud::Texture>(), member_address(&mud::Texture::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
                 { type<mud::Texture>(), member_address(&mud::Texture::m_width), type<uint16_t>(), "width", var(uint16_t(0)), Member::Value, nullptr },
                 { type<mud::Texture>(), member_address(&mud::Texture::m_height), type<uint16_t>(), "height", var(uint16_t(0)), Member::Value, nullptr },
                 { type<mud::Texture>(), member_address(&mud::Texture::m_bits_per_pixel), type<uint32_t>(), "bits_per_pixel", var(uint32_t(0)), Member::Value, nullptr }
@@ -2415,7 +2408,6 @@ namespace mud
         m.m_types.push_back(&type<mud::TextureSampler>());
         m.m_types.push_back(&type<mud::UnshadedMaterialBlock>());
         m.m_types.push_back(&type<mud::Viewport>());
-        m.m_types.push_back(&type<array<const char*>>());
         m.m_types.push_back(&type<array<mud::mat4>>());
         m.m_types.push_back(&type<vector<mud::Animation*>>());
         m.m_types.push_back(&type<vector<mud::AnimationPlay>>());
@@ -2424,13 +2416,13 @@ namespace mud
         m.m_types.push_back(&type<vector<string>>());
         m.m_types.push_back(&type<vector<string>>());
         m.m_types.push_back(&type<mud::BlockCopy>());
-        m.m_types.push_back(&type<mud::DrawBlock>());
         m.m_types.push_back(&type<mud::BlockDepth>());
         m.m_types.push_back(&type<mud::BlockFilter>());
         m.m_types.push_back(&type<mud::BlockParticles>());
         m.m_types.push_back(&type<mud::BlockResolve>());
         m.m_types.push_back(&type<mud::BlockSky>());
         m.m_types.push_back(&type<mud::ClusteredFrustum>());
+        m.m_types.push_back(&type<mud::DrawBlock>());
         m.m_types.push_back(&type<mud::Particles>());
         m.m_types.push_back(&type<mud::RenderTarget>());
         {
@@ -2463,12 +2455,12 @@ namespace mud
             static Function f = { &namspc({ "mud", "gfx" }), "draw", funcptr<void(*)(mud::Gnode&, const mud::Shape&, const mud::Symbol&, uint32_t)>(&mud::gfx::draw), func, params, Var() };
             m.m_functions.push_back(&f);
         }
-        {
-            auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::sprite(val<mud::Gnode>(args[0]), val<mud::Image256>(args[1]), val<mud::vec2>(args[2]), val<uint32_t>(args[3]), &val<mud::Material>(args[4]), val<size_t>(args[5]))); };
-            vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "image", var(mud::Image256()) }, { "size", var(mud::vec2()) }, { "flags", var(uint32_t(0)), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t(0)), Param::Default } };
-            static Function f = { &namspc({ "mud", "gfx" }), "sprite", funcptr<mud::Item&(*)(mud::Gnode&, const mud::Image256&, const mud::vec2&, uint32_t, mud::Material*, size_t)>(&mud::gfx::sprite), func, params, Ref(type<mud::Item>()) };
-            m.m_functions.push_back(&f);
-        }
+        //{
+        //    auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::sprite(val<mud::Gnode>(args[0]), val<mud::Image256>(args[1]), val<mud::vec2>(args[2]), val<uint32_t>(args[3]), &val<mud::Material>(args[4]), val<size_t>(args[5]))); };
+        //    vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "image", var(mud::Image256()) }, { "size", var(mud::vec2()) }, { "flags", var(uint32_t(0)), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t(0)), Param::Default } };
+        //    static Function f = { &namspc({ "mud", "gfx" }), "sprite", funcptr<mud::Item&(*)(mud::Gnode&, const mud::Image256&, const mud::vec2&, uint32_t, mud::Material*, size_t)>(&mud::gfx::sprite), func, params, Ref(type<mud::Item>()) };
+        //    m.m_functions.push_back(&f);
+        //}
         {
             auto func = [](array<Var> args, Var& result) {  result = Ref(&mud::gfx::item(val<mud::Gnode>(args[0]), val<mud::Model>(args[1]), val<uint32_t>(args[2]), &val<mud::Material>(args[3]), val<size_t>(args[4]), val<array<mud::mat4>>(args[5]))); };
             vector<Param> params = { { "parent", Ref(type<mud::Gnode>()) }, { "model", Ref(type<mud::Model>()) }, { "flags", var(uint32_t(0)), Param::Default }, { "material", Ref(type<mud::Material>()), Param::Flags(Param::Nullable|Param::Default) }, { "instances", var(size_t(0)), Param::Default }, { "transforms", var(array<mud::mat4>{}), Param::Default } };

@@ -593,7 +593,7 @@ namespace mud
             { base_offset<mud::TextScript, mud::Script>() },
             // constructors
             {
-                { type<mud::TextScript>(), [](Ref ref, array<Var> args) { new(&val<mud::TextScript>(ref)) mud::TextScript( val<const char*>(args[0]), val<mud::Language>(args[1]), val<mud::Signature>(args[2]) ); }, { { "name", Ref(type<const char*>()), Param::Nullable }, { "language", var(mud::Language()) }, { "signature", Ref(type<mud::Signature>()), Param::Default } } }
+                { type<mud::TextScript>(), [](Ref ref, array<Var> args) { new(&val<mud::TextScript>(ref)) mud::TextScript( val<string>(args[0]), val<mud::Language>(args[1]), val<mud::Signature>(args[2]) ); }, { { "name", var(string()) }, { "language", var(mud::Language()) }, { "signature", Ref(type<mud::Signature>()), Param::Default } } }
             },
             // copy constructor
             {

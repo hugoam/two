@@ -947,14 +947,14 @@ namespace mud
 			}
 	}
 
-	Var LuaInterpreter::get(cstring name, Type& type)
+	Var LuaInterpreter::get(const string& name, Type& type)
 	{
-		return get_global(m_context->m_state, name, type);
+		return get_global(m_context->m_state, name.c_str(), type);
 	}
 
-	void LuaInterpreter::set(cstring name, Var value)
+	void LuaInterpreter::set(const string& name, Var value)
 	{
-		set_global(m_context->m_state, name, value);
+		set_global(m_context->m_state, name.c_str(), value);
 	}
 
 	Var LuaInterpreter::getx(array<cstring> path, Type& type)
@@ -968,12 +968,12 @@ namespace mud
 		set_table(m_context->m_state, *path.end(), value);
 	}
 
-	void LuaInterpreter::call(cstring code, Var* result)
+	void LuaInterpreter::call(const string& code, Var* result)
 	{
 #ifdef MUD_LUA_DEBUG_IO
 		printf("lua -> %s\n", code);
 #endif
-		exec_lua(m_context->m_state, code, result);
+		exec_lua(m_context->m_state, code.c_str(), result);
 #ifdef MUD_LUA_DEBUG_IO
 		printf("lua -> %s\n", m_output.c_str());
 		m_output = "";

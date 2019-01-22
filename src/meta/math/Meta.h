@@ -273,6 +273,8 @@ namespace mud
             },
             // members
             {
+                { type<mud::Image>(), member_address(&mud::Image::d_name), type<string>(), "d_name", var(string()), Member::Value, nullptr },
+                { type<mud::Image>(), member_address(&mud::Image::d_path), type<string>(), "d_path", var(string()), Member::Value, nullptr }
             },
             // methods
             {

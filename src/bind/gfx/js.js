@@ -1206,7 +1206,7 @@ GfxContext.prototype["__destroy__"] = GfxContext.prototype.__destroy__ = functio
 // GfxSystem
 function GfxSystem(resource_path) {
     ensureCache.prepare();
-    /* resource_path <const char*> [] */
+    /* resource_path <string> [] */
     if (resource_path && typeof resource_path === "object") resource_path = resource_path.ptr;
     else resource_path = ensureString(resource_path);
     this.ptr = _mud_GfxSystem_GfxSystem_1(resource_path); getCache(GfxSystem)[this.ptr] = this;
@@ -1224,7 +1224,7 @@ GfxSystem.prototype["default_pipeline"] = GfxSystem.prototype.default_pipeline =
 GfxSystem.prototype["add_resource_path"] = GfxSystem.prototype.add_resource_path = function(self, path, relative) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* path <const char*> [] */
+    /* path <string> [] */
     if (path && typeof path === "object") path = path.ptr;
     else path = ensureString(path);
     /* relative <bool> [] */
@@ -1238,10 +1238,10 @@ GfxSystem.prototype["debug_material"] = GfxSystem.prototype.debug_material = fun
 GfxSystem.prototype["fetch_material"] = GfxSystem.prototype.fetch_material = function(self, name, shader, builtin) {
     var self = this.ptr;
     ensureCache.prepare();
-    /* name <const char*> [] */
+    /* name <string> [] */
     if (name && typeof name === "object") name = name.ptr;
     else name = ensureString(name);
-    /* shader <const char*> [] */
+    /* shader <string> [] */
     if (shader && typeof shader === "object") shader = shader.ptr;
     else shader = ensureString(shader);
     /* builtin <bool> [] */
@@ -1804,6 +1804,19 @@ Object.defineProperty(Material.prototype, "index", {
         var self = this.ptr;
         /* value <uint16_t> [] */
         _mud_Material__set_index(self, value);
+    }
+});
+Object.defineProperty(Material.prototype, "name", {
+    get: function() {
+        var self = this.ptr;
+        return Pointer_stringify(_mud_Material__get_name(self));
+    },
+    set: function(value) {
+        var self = this.ptr;
+        /* value <string> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        else value = ensureString(value);
+        _mud_Material__set_name(self, value);
     }
 });
 Object.defineProperty(Material.prototype, "builtin", {
@@ -2818,6 +2831,19 @@ Texture.prototype.constructor = Texture;
 Texture.prototype.__class__ = Texture;
 Texture.__cache__ = {};
 Module['Texture'] = Texture;
+Object.defineProperty(Texture.prototype, "name", {
+    get: function() {
+        var self = this.ptr;
+        return Pointer_stringify(_mud_Texture__get_name(self));
+    },
+    set: function(value) {
+        var self = this.ptr;
+        /* value <string> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        else value = ensureString(value);
+        _mud_Texture__set_name(self, value);
+    }
+});
 Object.defineProperty(Texture.prototype, "width", {
     get: function() {
         var self = this.ptr;

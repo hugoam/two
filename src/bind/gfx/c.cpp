@@ -1053,6 +1053,12 @@ extern "C" {
 	void DECL mud_Material__set_index(mud::Material* self, uint16_t value) {
 		self->m_index = value;
 	}
+	const char* DECL mud_Material__get_name(mud::Material* self) {
+		return self->m_name.c_str();
+	}
+	void DECL mud_Material__set_name(mud::Material* self, const char* value) {
+		self->m_name = value;
+	}
 	bool DECL mud_Material__get_builtin(mud::Material* self) {
 		return self->m_builtin;
 	}
@@ -1635,6 +1641,12 @@ extern "C" {
 	// Texture
 	mud::Type* DECL mud_Texture__type() {
 		return &mud::type<mud::Texture>();
+	}
+	const char* DECL mud_Texture__get_name(mud::Texture* self) {
+		return self->m_name.c_str();
+	}
+	void DECL mud_Texture__set_name(mud::Texture* self, const char* value) {
+		self->m_name = value;
 	}
 	uint16_t DECL mud_Texture__get_width(mud::Texture* self) {
 		return self->m_width;

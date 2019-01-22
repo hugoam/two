@@ -371,7 +371,7 @@ Stream.prototype["__destroy__"] = Stream.prototype.__destroy__ = function() {
 // TextScript
 function TextScript(name, language, signature) {
     ensureCache.prepare();
-    /* name <const char*> [] */
+    /* name <string> [] */
     if (name && typeof name === "object") name = name.ptr;
     else name = ensureString(name);
     /* language <Language> [] */

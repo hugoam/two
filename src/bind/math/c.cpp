@@ -78,6 +78,18 @@ extern "C" {
 	mud::Image* DECL mud_Image_Image_0() {
 		return new mud::Image();
 	}
+	const char* DECL mud_Image__get_d_name(mud::Image* self) {
+		return self->d_name.c_str();
+	}
+	void DECL mud_Image__set_d_name(mud::Image* self, const char* value) {
+		self->d_name = value;
+	}
+	const char* DECL mud_Image__get_d_path(mud::Image* self) {
+		return self->d_path.c_str();
+	}
+	void DECL mud_Image__set_d_path(mud::Image* self, const char* value) {
+		self->d_path = value;
+	}
 	void DECL mud_Image__destroy(mud::Image* self) {
 		delete self;
 	}

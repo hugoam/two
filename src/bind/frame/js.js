@@ -4,7 +4,7 @@ Module['gfx'] = Module['gfx'] || {};
 // Shell
 function Shell(resource_path, exec_path) {
     ensureCache.prepare();
-    /* resource_path <const char*> [] */
+    /* resource_path <string> [] */
     if (resource_path && typeof resource_path === "object") resource_path = resource_path.ptr;
     else resource_path = ensureString(resource_path);
     /* exec_path <const char*> [] */

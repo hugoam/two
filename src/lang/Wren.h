@@ -27,13 +27,13 @@ namespace mud
 
 		virtual void declare_types() final;
 
-		virtual Var get(cstring name, Type& type) final;
-		virtual void set(cstring name, Var value) final;
+		virtual Var get(const string& name, Type& type) final;
+		virtual void set(const string& name, Var value) final;
 
 		virtual Var getx(array<cstring> path, Type& type) final;
 		virtual void setx(array<cstring> path, Var value) final;
 
-		virtual void call(cstring code, Var* result = nullptr) final;
+		virtual void call(const string& code, Var* result = nullptr) final;
 		virtual void virtual_call(Method& method, Ref object, array<Var> args) final;
 
 		unique<WrenContext> m_context;

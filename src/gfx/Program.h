@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/stringfwd.h>
 #include <infra/Array.h>
 #include <type/Unique.h>
 #endif

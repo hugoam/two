@@ -91,6 +91,32 @@ Image.prototype.constructor = Image;
 Image.prototype.__class__ = Image;
 Image.__cache__ = {};
 Module['Image'] = Image;
+Object.defineProperty(Image.prototype, "d_name", {
+    get: function() {
+        var self = this.ptr;
+        return Pointer_stringify(_mud_Image__get_d_name(self));
+    },
+    set: function(value) {
+        var self = this.ptr;
+        /* value <string> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        else value = ensureString(value);
+        _mud_Image__set_d_name(self, value);
+    }
+});
+Object.defineProperty(Image.prototype, "d_path", {
+    get: function() {
+        var self = this.ptr;
+        return Pointer_stringify(_mud_Image__get_d_path(self));
+    },
+    set: function(value) {
+        var self = this.ptr;
+        /* value <string> [] */
+        if (value && typeof value === "object") value = value.ptr;
+        else value = ensureString(value);
+        _mud_Image__set_d_path(self, value);
+    }
+});
 Image.prototype["__destroy__"] = Image.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Image__destroy(self);

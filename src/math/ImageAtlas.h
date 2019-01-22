@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <stl/vector.h>
+#include <stl/stringfwd.h>
 #include <stl/vector.h>
 #include <type/Unique.h>
 #endif

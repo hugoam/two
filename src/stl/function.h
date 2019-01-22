@@ -24,9 +24,6 @@ namespace mud
 	public:
 		function() {}
 
-		function(const function& f) = default;
-		function& operator=(const function& f) = default;
-
 		template <class T, typename = typename enable_if<is_invocable<T, Args...>::value>::type>
 		function(T functor)
 		{

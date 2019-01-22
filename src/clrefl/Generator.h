@@ -702,7 +702,7 @@ namespace mud
 		CLType& register_type(CLPrimitive& parent, const string& clsname)
 		{
 			for(const string& name : { "vector", "list", "array" })
-				if(clsname.find(name) == 0)
+				if(clsname.find(name) != string::npos)
 				{
 					string content_name = template_types(clsname)[0];
 					CLType* content_type = this->find_type(parent, replace(content_name, "*", ""));

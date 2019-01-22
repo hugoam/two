@@ -5,6 +5,7 @@
 #pragma once
 
 #include <stl/vector.h>
+#include <stl/string.h>
 #include <refl/Forward.h>
 
 namespace mud
