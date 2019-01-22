@@ -9,21 +9,17 @@ addons:
       - g++-8
       - xorg-dev
 
-os:
-  - linux
-  - osx
-
 dist: xenial
-osx_image: xcode10
-  
-matrix:
-  exclude:
-    - os: osx
-      compiler: gcc
 
-compiler:
-  - gcc
-  - clang
+matrix:
+  include:
+    - os: linux
+      compiler: clang
+    - os: linux
+      compiler: gcc
+    - os: osx
+      compiler: clang
+      osx_image: xcode10
 
 install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export GENIE_FOLDER="linux"; fi
@@ -33,6 +29,6 @@ install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export GENIE_FOLDER="darwin" TOOLCHAIN="osx" GMAKE_FOLDER="gmake-osx"; fi
 
 script:
-  - bin/$GENIE_FOLDER/genie --compile-only --use-stl --gcc=$TOOLCHAIN gmake
+  - bin/$GENIE_FOLDER/genie --compile-only --gcc=$TOOLCHAIN gmake
   - cd build/projects/$GMAKE_FOLDER
   - time make config=debug64 mud
