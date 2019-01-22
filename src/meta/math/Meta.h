@@ -1748,21 +1748,21 @@ namespace mud
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<float>(result) = glm::distance(val<mud::vec3>(args[0]), val<mud::vec3>(args[1])); };
+            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::distance(val<mud::vec3>(args[0]), val<mud::vec3>(args[1])); };
             vector<Param> params = { { "a", var(mud::vec3()) }, { "b", var(mud::vec3()) } };
-            static Function f = { &namspc({ "glm" }), "distance", funcptr<float(*)(const mud::vec3&, const mud::vec3&)>(&glm::distance), func, params, var(float()) };
+            static Function f = { &namspc({ "glm" }), "distance", funcptr<float(*)(const mud::vec3&, const mud::vec3&)>(&mud::distance), func, params, var(float()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<float>(result) = glm::length(val<mud::vec3>(args[0])); };
+            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::length(val<mud::vec3>(args[0])); };
             vector<Param> params = { { "v", var(mud::vec3()) } };
-            static Function f = { &namspc({ "glm" }), "length", funcptr<float(*)(const mud::vec3&)>(&glm::length), func, params, var(float()) };
+            static Function f = { &namspc({ "glm" }), "length", funcptr<float(*)(const mud::vec3&)>(&mud::length), func, params, var(float()) };
             m.m_functions.push_back(&f);
         }
         {
-            auto func = [](array<Var> args, Var& result) {  val<float>(result) = glm::length2(val<mud::vec3>(args[0])); };
+            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::length2(val<mud::vec3>(args[0])); };
             vector<Param> params = { { "v", var(mud::vec3()) } };
-            static Function f = { &namspc({ "glm" }), "length2", funcptr<float(*)(const mud::vec3&)>(&glm::length2), func, params, var(float()) };
+            static Function f = { &namspc({ "glm" }), "length2", funcptr<float(*)(const mud::vec3&)>(&mud::length2), func, params, var(float()) };
             m.m_functions.push_back(&f);
         }
         {
