@@ -7,10 +7,6 @@
 #include <stl/vector.h>
 #include <infra/Config.h>
 
-#ifdef MUD_NO_STL
-//#include <iterator>
-#endif
-
 namespace mud
 {
 #ifdef MUD_NO_STL

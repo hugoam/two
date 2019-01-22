@@ -181,13 +181,13 @@ namespace gfx
 
 					printf("INFO: bake GIProbe done\n");
 
-					//string path = m_gfx_system.m_resource_path + "gi_probe.dds";
+					//string path = m_gfx_system.m_resource_path + "/" + "gi_probe.dds";
 					//save_gi_probe(m_gfx_system, *gi_probe, bgfx::TextureFormat::RGBA16F, bgfx::TextureFormat::BC6H, path);
 				}
 
 				if(gi_probe->m_mode == GIProbeMode::LoadVoxels)
 				{
-					string path = m_gfx_system.m_resource_path + "gi_probe.dds";
+					string path = m_gfx_system.m_resource_path + "/" + "gi_probe.dds";
 					load_gi_probe(m_gfx_system, *gi_probe, path);
 				}
 			}

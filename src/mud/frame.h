@@ -13,5 +13,5 @@
 #include <frame/Api.h>
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN
-#define MUD_RESOURCE_PATH "/data/"
+#define MUD_RESOURCE_PATH "/data"
 #endif

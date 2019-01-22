@@ -58,7 +58,7 @@ namespace mud
 	{
 		for(Tile& tile : m_tileset->m_tiles_flip)
 		{
-			Model* model = from_file ? gfx_system.models().file((string(m_tileset->m_name) + "/" + tile.m_name).c_str())
+			Model* model = from_file ? gfx_system.models().file(m_tileset->m_name + "/" + tile.m_name)
 									 : gfx_system.models().get(tile.m_name.c_str());
 			quat rotation = angle_axis(tile.m_profile * c_pi / 2.f, Y3);
 			m_tile_models.push_back({ model, rotation });

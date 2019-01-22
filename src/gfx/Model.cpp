@@ -33,13 +33,13 @@ namespace mud
 	Model::~Model()
 	{}
 
-	Mesh& Model::add_mesh(cstring name, bool readback)
+	Mesh& Model::add_mesh(const string& name, bool readback)
 	{
 		Mesh& mesh = ms_gfx_system->meshes().construct(name, readback);
 		return mesh;
 	}
 
-	Rig& Model::add_rig(cstring name)
+	Rig& Model::add_rig(const string& name)
 	{
 		UNUSED(name);
 		m_rig = &ms_gfx_system->rigs().construct();
@@ -68,7 +68,7 @@ namespace mud
 		m_origin = m_aabb.m_center;
 	}
 
-	Model& model_variant(GfxSystem& gfx_system, Model& original, cstring name, array<cstring> materials, array<Material*> substitutes)
+	Model& model_variant(GfxSystem& gfx_system, Model& original, const string& name, array<string> materials, array<Material*> substitutes)
 	{
 		Model& variant = gfx_system.models().create(name);
 		variant = original;

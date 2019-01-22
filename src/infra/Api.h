@@ -10,7 +10,7 @@
 #include <infra/NonCopy.h>
 //#include <infra/Pool.h>
 #include <infra/Pragma.h>
-//#include <infra/Reverse.h>
+#include <infra/Reverse.h>
 #include <infra/String.h>
 #include <infra/ToString.h>
 #include <infra/ToValue.h>

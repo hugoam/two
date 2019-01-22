@@ -471,7 +471,7 @@ namespace mud
 
 			auto parse_file = [&](const string& path, const string& file, const vector<cstring>& compiler_args, bool debug = false)
 			{
-				string fullpath = path + "\\" + file;
+				string fullpath = path + "/" + file;
 				CXIndex index = clang_createIndex(0, 0);
 
 				printf("Parsing %s\n", file.c_str());
@@ -520,7 +520,7 @@ namespace mud
 
 		void generate_module(CLModule& module)
 		{
-			if(!file_exists((module.m_path + "\\" + "Types.h").c_str()))
+			if(!file_exists(module.m_path + "\\" + "Types.h"))
 			{
 				//with open(os.path.join(module.path, "Types.h"), "w") as f :
 				//	pass
@@ -531,7 +531,7 @@ namespace mud
 			printf("NUM CLASSES : %i\n", int(module.m_classes.size()));
 
 			//string forward_h = clgen::forward_h_template(module);
-			//update_file((module.m_path + "\\" + "Forward.h").c_str(), forward_h.c_str());
+			//update_file((module.m_path + "\\" + "Forward.h", forward_h.c_str());
 
 			this->parse_through(module, build_classes);
         
@@ -571,22 +571,22 @@ namespace mud
 			printf("Generating meta reflection files for %s:\n", module.m_name.c_str());
 
 			string types_h = clgen::types_h_template(module);
-			update_file((module.m_path + "\\" + "Types.h").c_str(), types_h.c_str());
+			update_file(module.m_path + "\\" + "Types.h", types_h.c_str());
 
 			string types_cpp = clgen::types_cpp_template(module);
-			update_file((module.m_path + "\\" + "Types.cpp").c_str(), types_cpp.c_str());
+			update_file(module.m_path + "\\" + "Types.cpp", types_cpp.c_str());
 
 			string meta_h = clgen::meta_h_template(module);
-			update_file((module.m_refl_path + "\\" + "Meta.h").c_str(), meta_h.c_str());
+			update_file(module.m_refl_path + "\\" + "Meta.h", meta_h.c_str());
 
 			string module_h = clgen::module_h_template(module);
-			update_file((module.m_refl_path + "\\" + "Module.h").c_str(), module_h.c_str());
+			update_file(module.m_refl_path + "\\" + "Module.h", module_h.c_str());
 
 			string module_cpp = clgen::module_cpp_template(module);
-			update_file((module.m_refl_path + "\\" + "Module.cpp").c_str(), module_cpp.c_str());
+			update_file(module.m_refl_path + "\\" + "Module.cpp", module_cpp.c_str());
 
 			string convert_h = clgen::convert_h_template(module);
-			update_file((module.m_refl_path + "\\" + "Convert.h").c_str(), convert_h.c_str());
+			update_file(module.m_refl_path + "\\" + "Convert.h", convert_h.c_str());
 
 			printf("Generating bindings files for %s:\n", module.m_name.c_str());
 
@@ -594,10 +594,10 @@ namespace mud
 				create_directory_tree(module.m_bind_path.c_str());
 
 			//string embind_cpp = clgen::bind_embind_h_template(module);
-			//update_file((module.m_bind_path + "\\" + "Embind.cpp").c_str(), embind_cpp.c_str());
+			//update_file((module.m_bind_path + "\\" + "Embind.cpp", embind_cpp.c_str());
 
 			//string module_idl = clgen::bind_webidl_h_template(module);
-			//update_file((module.m_bind_path + "\\" + "Module.idl").c_str(), module_idl.c_str());
+			//update_file((module.m_bind_path + "\\" + "Module.idl", module_idl.c_str());
 
 			clgen::bind_javascript(module);
 		}

@@ -212,7 +212,7 @@ namespace mud
 
 	Sound* SoundManager::create_sound(const string& filename, bool loop, bool stream, SoundCallback callback)
 	{
-		string path = filename; //m_resource_path + "sounds/" + filename;
+		string path = filename; //m_resource_path + "/sounds/" + filename;
 
 		std::ifstream ifile(path.c_str(), std::ifstream::out);
 		if(!ifile.good())

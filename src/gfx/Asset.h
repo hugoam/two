@@ -34,9 +34,6 @@ namespace mud
 
 		GfxSystem& m_gfx_system;
 
-		//class Impl;
-		//unique<Impl> m_impl;
-
 		string m_path;
 		Loader m_loader;
 
@@ -46,8 +43,9 @@ namespace mud
 		meth_ T_Asset* get(const string& name);
 		meth_ T_Asset& create(const string& name);
 		meth_ T_Asset& fetch(const string& name);
-		meth_ T_Asset& file_at(const string& path, const string& name);
+		//meth_ bool locate(const string& name);
 		meth_ T_Asset* file(const string& name);
+		meth_ T_Asset& file_at(const string& path, const string& name);
 		meth_ void destroy(const string& name);
 
 		T_Asset* load(const string& path, const string& name);

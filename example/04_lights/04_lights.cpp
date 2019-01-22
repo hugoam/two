@@ -1,6 +1,5 @@
 #include <mud/frame.h>
 #include <gfx-pbr/Api.h>
-#include <math/Random.h>
 
 #include <04_lights/04_lights.h>
 #include <01_shapes/01_shapes.h>
@@ -175,7 +174,7 @@ void pump(Shell& app)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv).c_str());
+	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
 	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }

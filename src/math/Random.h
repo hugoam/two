@@ -6,30 +6,19 @@
 
 #include <math/Forward.h>
 
-#ifndef MUD_CPP_20
-#include <random>
-#endif
-
 namespace mud
 {
 	export_ template <class T>
-	T random_integer(T min, T max)
-	{
-		static std::random_device randomDevice;
-		static std::mt19937 range(randomDevice());
-
-		std::uniform_int_distribution<T> uniform(min, max);
-		return uniform(range);
-	}
+	T random_integer(T min, T max);
 
 	export_ template <class T>
-	T random_scalar(T min, T max)
-	{
-		static std::random_device randomDevice;
-		static std::mt19937 range(randomDevice());
+	T random_scalar(T min, T max);
 
-		std::uniform_real_distribution<T> uniform(min, max);
-		return uniform(range);
-	}
+	extern template float random_scalar<float>(float min, float max);
+	extern template double random_scalar<double>(double min, double max);
 
+	extern template int random_integer<int>(int min, int max);
+	extern template uint random_integer<uint>(uint min, uint max);
+	extern template ulong random_integer<ulong>(ulong min, ulong max);
+	extern template ullong random_integer<ullong>(ullong min, ullong max);
 }

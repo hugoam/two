@@ -12,7 +12,7 @@ WaveTileset& create_tileset(Shell& app)
 	static WaveTileset tileset;
 
 	LocatedFile location = app.m_gfx_system.locate_file("models/platform/platform", carray<cstring, 1>{ ".tls" });
-	parse_json_wave_tileset(location.m_location + "models/platform/platform.tls", "", tileset);
+	parse_json_wave_tileset(location.path(true), "", tileset);
 
 	return tileset;
 }
@@ -65,8 +65,8 @@ void pump(Shell& app)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv).c_str());
-	app.m_gfx_system.add_resource_path("examples/17_wfc/");
+	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	app.m_gfx_system.add_resource_path("examples/17_wfc");
 	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }

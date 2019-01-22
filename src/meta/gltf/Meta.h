@@ -774,7 +774,7 @@ namespace mud
                 { type<glTFPerspective>(), member_address(&glTFPerspective::yfov), type<float>(), "yfov", var(float()), Member::Value, nullptr },
                 { type<glTFPerspective>(), member_address(&glTFPerspective::zfar), type<float>(), "zfar", var(float()), Member::Value, nullptr },
                 { type<glTFPerspective>(), member_address(&glTFPerspective::znear), type<float>(), "znear", var(float()), Member::Value, nullptr },
-                { type<glTFPerspective>(), member_address(&glTFPerspective::aspect_ration), type<float>(), "aspect_ration", var(float()), Member::Value, nullptr }
+                { type<glTFPerspective>(), member_address(&glTFPerspective::aspect_ratio), type<float>(), "aspect_ratio", var(float()), Member::Value, nullptr }
             },
             // methods
             {

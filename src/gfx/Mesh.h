@@ -66,7 +66,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Mesh
 	{
 	public:
-		Mesh(cstring name, bool readback = false);
+		Mesh(const string& name, bool readback = false);
 		~Mesh();
 
 		Mesh(Mesh&& other) = default;

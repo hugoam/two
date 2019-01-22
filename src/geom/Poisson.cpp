@@ -89,7 +89,7 @@ namespace mud
 
 		while(!m_unprocessed.empty())
 		{
-			size_t index = random_integer(size_t(0), m_unprocessed.size() - 1);
+			uint index = random_integer(0U, uint(m_unprocessed.size()) - 1);
 			Point& refpoint = m_unprocessed[index];
 
 			for(; refpoint.visits < m_k; ++refpoint.visits)

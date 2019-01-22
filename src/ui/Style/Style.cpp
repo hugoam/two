@@ -154,7 +154,7 @@ namespace mud
 				return skin;
 
 		m_impl->m_skins.emplace_back(m_impl->m_skin);
-		m_impl->m_skins.back().m_name = (string(m_impl->m_name) + ":" + to_lower(flags_to_string<WidgetState, 9>(state))).c_str();
+		m_impl->m_skins.back().m_name = m_impl->m_name + ":" + to_lower(flags_to_string<WidgetState, 9>(state));
 		m_impl->m_skins.back().m_state = state;
 		return m_impl->m_skins.back();
 	}

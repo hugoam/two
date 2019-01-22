@@ -104,10 +104,10 @@ void pump(Shell& app)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv).c_str());
+	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
 	System::instance().load_modules({ &mud_gfx::m() });
 	add_asset_loader(app.m_gfx_system.particles(), ".ptc");
-	app.m_gfx_system.add_resource_path("examples/06_particles/");
+	app.m_gfx_system.add_resource_path("examples/06_particles");
 	app.m_gfx_system.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }

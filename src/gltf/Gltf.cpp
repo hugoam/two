@@ -75,7 +75,7 @@ namespace mud
 				for(Member& member : cls(*type).m_members)
 				{
 					fixed_members[index] = to_camelcase(member.m_name);
-					printf("renamed member %s to %s\n", member.m_name, fixed_members[index].c_str());
+					//printf("renamed member %s to %s\n", member.m_name, fixed_members[index].c_str());
 					member.m_name = fixed_members[index].c_str();
 					index++;
 					assert(index < fixed_members.size());
@@ -326,12 +326,12 @@ namespace mud
 		if(glb)
 		{
 			vector<uint8_t> buffer;
-			parse_glb(path + file + ".glb", data, buffer);
+			parse_glb(path + "/" + file + ".glb", data, buffer);
 			gltf.m_binary_buffers.push_back(buffer);
 		}
 		else
 		{
-			parse_json_file(path + file + ".gltf", data);
+			parse_json_file(path + "/" + file + ".gltf", data);
 		}
 
 		json asset = data["asset"];
@@ -370,9 +370,9 @@ namespace mud
 			}
 		}
 
-		write_binary_file(path + buffer.uri, gltf.m_binary_buffers[0]);
+		write_binary_file(path + "/" + buffer.uri, gltf.m_binary_buffers[0]);
 
 		ToJson packer = gltf_packer();
-		pack_json_file(packer, Ref(&gltf), path + file + ".repack.gltf");
+		pack_json_file(packer, Ref(&gltf), path + "/" + file + ".repack.gltf");
 	}
 }

@@ -18,6 +18,6 @@ namespace mud
 		Widget* m_toolbar = nullptr;
 	};
 
-	export_ MUD_UI_EXPORT Section& section(Widget& parent, cstring name, bool no_toolbar = false);
-	export_ MUD_UI_EXPORT bool section_action(Section& parent, cstring name);
+	export_ MUD_UI_EXPORT Section& section(Widget& parent, const string& name, bool no_toolbar = false);
+	export_ MUD_UI_EXPORT bool section_action(Section& parent, const string& name);
 }

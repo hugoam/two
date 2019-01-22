@@ -102,7 +102,7 @@ namespace mud
 		if(uri.find("data:application/octet-stream;base64") == 0)
 			return read_base64_uri(uri);
 		else
-			return read_binary_file(base_path + replace(uri, "\\", "/"));
+			return read_binary_file(base_path + "/" + replace(uri, "\\", "/"));
 	}
 
 	void import_buffers(glTF& gltf, Import& state)
@@ -135,7 +135,7 @@ namespace mud
 				}
 				else
 				{
-					string path = string(state.m_path) + state.m_file + "/";
+					string path = state.m_path + "/" + state.m_file;
 					Texture& texture = state.m_gfx_system.textures().file_at(path.c_str(), image.uri.c_str());
 					//Texture& texture = state.m_gfx_system.textures().file(image.uri.c_str());
 					state.m_images.push_back(&texture);

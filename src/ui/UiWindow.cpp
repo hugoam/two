@@ -102,7 +102,7 @@ namespace mud
 
 	void UiWindow::init_resources()
 	{
-		string sprite_path = string(m_resource_path) + "interface/uisprites/";
+		string sprite_path = m_resource_path + "/interface/uisprites";
 
 		printf("INFO: Loading Images in path %s\n", sprite_path.c_str());
 

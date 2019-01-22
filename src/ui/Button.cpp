@@ -29,30 +29,17 @@ namespace ui
 		return widget(parent, styles().spacer);
 	}
 
-	Widget& icon(Widget& parent, cstring icon)
-	{
-		return item(parent, styles().item, icon);
-	}
+	Widget& icon(Widget& parent, cstring icon) { return item(parent, styles().item, icon); }
+	Widget& label(Widget& parent, cstring label) { return item(parent, styles().label, label); }
+	Widget& title(Widget& parent, cstring label) { return item(parent, styles().title, label); }
+	Widget& message(Widget& parent, cstring label) { return item(parent, styles().message, label); }
+	Widget& text(Widget& parent, cstring label) { return item(parent, styles().text, label); }
 
-	Widget& label(Widget& parent, cstring label)
-	{
-		return item(parent, styles().label, label);
-	}
-
-	Widget& title(Widget& parent, cstring label)
-	{
-		return item(parent, styles().title, label);
-	}
-
-	Widget& message(Widget& parent, cstring label)
-	{
-		return item(parent, styles().message, label);
-	}
-
-	Widget& text(Widget& parent, cstring label)
-	{
-		return item(parent, styles().text, label);
-	}
+	Widget& icon(Widget& parent, const string& icon) { return item(parent, styles().item, icon); }
+	Widget& label(Widget& parent, const string& label) { return item(parent, styles().label, label); }
+	Widget& title(Widget& parent, const string& label) { return item(parent, styles().title, label); }
+	Widget& message(Widget& parent, const string& label) { return item(parent, styles().message, label); }
+	Widget& text(Widget& parent, const string& label) { return item(parent, styles().text, label); }
 
 	void button_logic(Widget& self)
 	{
@@ -67,18 +54,13 @@ namespace ui
 			mouse_event.consume(self);
 		}
 		else
-		{
 			self.disable_state(ACTIVATED);
-		}
 	}
 
 	void toggle_logic(Widget& self, bool& on)
 	{
 		button_logic(self);
-
-		if(self.activated())
-			on = !on;
-
+		if(self.activated()) on = !on;
 		self.set_state(ACTIVE, on);
 	}
 
@@ -110,19 +92,15 @@ namespace ui
 		return self;
 	}
 
-	Widget& button(Widget& parent, cstring content)
-	{
-		return button(parent, styles().button, content);
-	}
+	Widget& button(Widget& parent, cstring content) { return button(parent, styles().button, content); }
+	Widget& toggle(Widget& parent, bool& on, cstring content) { return toggle(parent, styles().toggle, on, content); }
+
+	Widget& button(Widget& parent, const string& content) { return button(parent, styles().button, content.c_str()); }
+	Widget& toggle(Widget& parent, bool& on, const string& content) { return toggle(parent, styles().toggle, on, content.c_str()); }
 
 	Widget& multi_button(Widget& parent, array<cstring> elements, Style* element_style)
-	{
+{
 		return multi_button(parent, styles().multi_button, elements, element_style);
-	}
-
-	Widget& toggle(Widget& parent, bool& on, cstring content)
-	{
-		return toggle(parent, styles().toggle, on, content);
 	}
 
 	Widget& multi_toggle(Widget& parent, bool& on, array<cstring> elements, Style* element_style)
@@ -154,7 +132,7 @@ namespace ui
 		Widget& self = widget(parent, styles().fill_bar);
 		spanner(self, styles().filler, dim, percentage);
 		spanner(self, styles().spacer, dim, 1.f - percentage);
-		item(self, styles().slider_display, string(to_string(percentage) + "%").c_str());
+		item(self, styles().slider_display, to_string(percentage) + "%");
 		return self;
 	}
 
@@ -183,6 +161,9 @@ namespace ui
 		ui::dummy(self, size);
 		return self;
 	}
+
+	Widget& image256(Widget& parent, const string& name, const Image256& source) { return image256(parent, name.c_str(), source); }
+	Widget& image256(Widget& parent, const string& name, const Image256& source, const vec2& size) { return image256(parent, name.c_str(), source, size); }
 
 	Widget& radio_choice(Widget& parent, cstring value, bool active)
 	{

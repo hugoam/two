@@ -5,6 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/stringfwd.h>
 #include <type/Ref.h>
 #include <math/Vec.h>
 #endif
@@ -57,23 +58,34 @@ namespace ui
 
 	export_ MUD_UI_EXPORT func_ Widget& spacer(Widget& parent);
 
-	export_ MUD_UI_EXPORT func_ Widget& icon(Widget& parent, cstring icon);
+	export_ MUD_UI_EXPORT func_ Widget& icon(Widget& parent, cstring image);
 	export_ MUD_UI_EXPORT func_ Widget& label(Widget& parent, cstring label);
 	export_ MUD_UI_EXPORT func_ Widget& title(Widget& parent, cstring label);
 	export_ MUD_UI_EXPORT func_ Widget& message(Widget& parent, cstring label);
 	export_ MUD_UI_EXPORT func_ Widget& text(Widget& parent, cstring label);
 
+	export_ MUD_UI_EXPORT Widget& icon(Widget& parent, const string& image);
+	export_ MUD_UI_EXPORT Widget& label(Widget& parent, const string& text);
+	export_ MUD_UI_EXPORT Widget& title(Widget& parent, const string& label);
+	export_ MUD_UI_EXPORT Widget& message(Widget& parent, const string& label);
+	export_ MUD_UI_EXPORT Widget& text(Widget& parent, const string& label);
+
 	export_ MUD_UI_EXPORT void button_logic(Widget& self);
 	export_ MUD_UI_EXPORT void toggle_logic(Widget& self, bool& on);
 
 	export_ MUD_UI_EXPORT Widget& button(Widget& parent, Style& style, cstring content = nullptr);
-	export_ MUD_UI_EXPORT Widget& multi_button(Widget& parent, Style& style, array<cstring> elements, Style* element_style = nullptr);
 	export_ MUD_UI_EXPORT Widget& toggle(Widget& parent, Style& style, bool& on, cstring content = nullptr);
+
+	export_ MUD_UI_EXPORT Widget& multi_button(Widget& parent, Style& style, array<cstring> elements, Style* element_style = nullptr);
 	export_ MUD_UI_EXPORT Widget& multi_toggle(Widget& parent, Style& style, bool& on, array<cstring> elements, Style* element_style = nullptr);
 
 	export_ MUD_UI_EXPORT func_ Widget& button(Widget& parent, cstring content = nullptr);
-	export_ MUD_UI_EXPORT func_ Widget& multi_button(Widget& parent, array<cstring> elements, Style* element_style = nullptr);
 	export_ MUD_UI_EXPORT func_ Widget& toggle(Widget& parent, bool& on, cstring content = nullptr);
+
+	export_ MUD_UI_EXPORT func_ Widget& button(Widget& parent, const string& content);
+	export_ MUD_UI_EXPORT func_ Widget& toggle(Widget& parent, bool& on, const string& content);
+
+	export_ MUD_UI_EXPORT func_ Widget& multi_button(Widget& parent, array<cstring> elements, Style* element_style = nullptr);
 	export_ MUD_UI_EXPORT func_ Widget& multi_toggle(Widget& parent, bool& on, array<cstring> elements, Style* element_style = nullptr);
 
 	export_ MUD_UI_EXPORT func_ bool modal_button(Widget& screen, Widget& parent, cstring content, uint32_t mode);
@@ -84,6 +96,9 @@ namespace ui
 
 	export_ MUD_UI_EXPORT func_ Widget& image256(Widget& parent, cstring name, const Image256& source);
 	export_ MUD_UI_EXPORT func_ Widget& image256(Widget& parent, cstring name, const Image256& source, const vec2& size);
+
+	export_ MUD_UI_EXPORT func_ Widget& image256(Widget& parent, const string& name, const Image256& source);
+	export_ MUD_UI_EXPORT func_ Widget& image256(Widget& parent, const string& name, const Image256& source, const vec2& size);
 
 	export_ MUD_UI_EXPORT func_ Widget& radio_choice(Widget& parent, cstring value, bool active);
 	export_ MUD_UI_EXPORT func_ bool radio_switch(Widget& parent, array<cstring> labels, uint32_t& value, Dim dim = DIM_X);

@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <stl/string.h>
 #include <ui/Widget.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Style/Styles.h>
@@ -46,6 +47,11 @@ namespace ui
 		if(content != nullptr)
 			self.set_content(content);
 		return self;
+	}
+
+	Widget& item(Widget& parent, Style& style, const string& content)
+	{
+		return item(parent, style, content.c_str());
 	}
 
 	Widget& multi_item(Widget& parent, Style& style, array<cstring> elements, Style* element_style)

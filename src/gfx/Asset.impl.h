@@ -79,7 +79,7 @@ namespace mud
 		if(m_assets.find(name) == m_assets.end())
 		{
 			m_assets[name] = make_unique<T_Asset>(name);
-			m_loader(*m_assets[name], path + name);
+			m_loader(*m_assets[name], path + "/" + name);
 		}
 		return *m_assets[name];
 	}
@@ -96,10 +96,9 @@ namespace mud
 			if(!location)
 				return nullptr;
 
-			m_assets[name];
 			m_assets[name] = make_unique<T_Asset>(name);
 			Loader& loader = m_formats.size() > 0 ? m_format_loaders[location.m_extension_index] : m_loader;
-			loader(*m_assets[name], location.m_location + location.m_name);
+			loader(*m_assets[name], location.path(false));
 		}
 		return m_assets[name].get();
 	}
@@ -113,7 +112,7 @@ namespace mud
 			{
 				string name = filename.substr(0, filename.size() - m_formats[i].size());
 				T_Asset& asset = this->create(name);
-				m_format_loaders[i](asset, path + name);
+				m_format_loaders[i](asset, path + "/" + name);
 				return &asset;
 			}
 		return nullptr;
@@ -129,7 +128,7 @@ namespace mud
 
 		auto visit_folder = [&](const string& path, const string& folder)
 		{
-			this->load_files(path + folder + "/");
+			this->load_files(path + "/" + folder);
 		};
 
 		visit_files(path, visit_file);

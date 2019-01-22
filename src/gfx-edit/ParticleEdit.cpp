@@ -65,9 +65,9 @@ namespace mud
 		static string location = "";
 		if(select_value(parent, OPEN_PARTICLES, location, true))
 		{
-			if(file_exists(system.m_resource_path + location))
+			if(file_exists(system.m_resource_path + "/" + location))
 			{
-				unpack_json_file(Ref(&generator), system.m_resource_path + location);
+				unpack_json_file(Ref(&generator), system.m_resource_path + "/" + location);
 			}
 		}
 	}
@@ -77,7 +77,7 @@ namespace mud
 		static string destination = "";
 		if(select_value(parent, SAVE_PARTICLES, destination, true))
 		{
-			pack_json_file(Ref(&generator), system.m_resource_path + destination);
+			pack_json_file(Ref(&generator), system.m_resource_path + "/" + destination);
 		}
 	}
 

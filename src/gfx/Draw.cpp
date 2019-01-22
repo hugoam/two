@@ -203,7 +203,7 @@ namespace mud
 		uint64_t hash = hash_symbol_material(symbol, draw_mode);
 		if(m_impl->m_materials.find(hash) == m_impl->m_materials.end())
 		{
-			Material& m = gfx_system.fetch_material(("Symbol" + to_string(hash)).c_str(), "unshaded");
+			Material& m = gfx_system.fetch_material("Symbol" + to_string(hash), "unshaded");
 			m.m_base_block.m_depth_draw_mode = DepthDraw::Disabled;
 			m.m_base_block.m_depth_test = symbol.m_overlay ? DepthTest::Disabled : DepthTest::Enabled;
 			m.m_base_block.m_cull_mode = symbol.m_double_sided ? CullMode::None : CullMode::Back;
@@ -279,7 +279,7 @@ namespace mud
 
 	void draw_mesh(const vector<ProcShape>& shapes, Model& model, ShapeSize size, DrawMode draw_mode, bool readback, Material* material)
 	{
-		Mesh& mesh = model.add_mesh((model.m_name + to_string(uint(draw_mode))).c_str(), readback);
+		Mesh& mesh = model.add_mesh(model.m_name + to_string(uint(draw_mode)), readback);
 		mesh.m_material = material;
 
 		GpuMesh gpu_mesh = alloc_mesh(ShapeVertex::vertex_format, size.vertex_count, size.index_count);

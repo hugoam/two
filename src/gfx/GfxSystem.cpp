@@ -213,7 +213,7 @@ namespace mud
 	void GfxSystem::add_resource_path(const string& path, bool relative)
 	{
 		printf("INFO: resource path: %s\n", path.c_str());
-		m_impl->m_resource_paths.push_back(relative ? m_resource_path + path : path);
+		m_impl->m_resource_paths.push_back(relative ? m_resource_path + "/" + path : path);
 	}
 
 	void GfxSystem::set_renderer(Shading shading, Renderer& renderer)
@@ -330,7 +330,7 @@ namespace mud
 		for(const string& path : m_impl->m_resource_paths)
 			for(size_t i = 0; i < extensions.size(); ++i)
 			{
-				string filepath = path + file + extensions[i];
+				string filepath = path + "/" + file + extensions[i];
 				if(file_exists(filepath))
 				{
 					return { path, file, extensions[i], i };

@@ -81,7 +81,7 @@ namespace mud
 
 	static uint16_t s_mesh_index = 0;
 
-	Mesh::Mesh(cstring name, bool readback)
+	Mesh::Mesh(const string& name, bool readback)
 		: m_name(name)
 		, m_index(++s_mesh_index)
 		, m_readback(readback)

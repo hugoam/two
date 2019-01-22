@@ -187,7 +187,7 @@ namespace mud
 		}
 	}
 
-	void double_label(Widget& parent, cstring label, cstring value)
+	void double_label(Widget& parent, const string& label, const string& value)
 	{
 		Widget& row = ui::row(parent);
 		ui::label(row, label);
@@ -205,12 +205,12 @@ namespace mud
 
 			double cpu_time = 1000.0f * stats->cpuTimeFrame / (double)stats->cpuTimerFreq;
 
-			double_label(columns, "cpu frame", to_string(cpu_time).c_str());
-			double_label(columns, "gpu latency", to_string(stats->maxGpuLatency).c_str());
-			double_label(columns, "draw calls", to_string(stats->numDraw).c_str());
+			double_label(columns, "cpu frame", to_string(cpu_time));
+			double_label(columns, "gpu latency", to_string(stats->maxGpuLatency));
+			double_label(columns, "draw calls", to_string(stats->numDraw));
 
-			double_label(columns, "backbuffer width", to_string(stats->width).c_str());
-			double_label(columns, "backbuffer height", to_string(stats->height).c_str());
+			double_label(columns, "backbuffer width", to_string(stats->width));
+			double_label(columns, "backbuffer height", to_string(stats->height));
 		}
 
 		static cstring columns[3] = { "view", "gpu time", "cpu time" };

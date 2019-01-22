@@ -8,24 +8,24 @@
 using namespace mud;
 
 #if 0
-//"local l = ui.scrollable(d1)" "\n"
-//"local modules = system().modules" "\n"
-//"for _, module in ipairs(modules) do" "\n"
-//"    local types = module.types" "\n"
-//"    for _, type in ipairs(types) do" "\n"
-//"        --local tb = ui.button(l, type.name)" "\n"
-//"        --if tb.activated then" "\n"
-//"        --    selected_type = type" "\n"
-//"        --end" "\n"
-//"    end" "\n"
-//"end" "\n"
-//"local w = window(d2, 'A random window', WINDOW_DEFAULT)"               "\n"
-//"if selected_type then" "\n"
-//"    local e = ui.expandbox(d2, { selected_type.name }, true).body" "\n"
-//"    if e then" "\n"
-//"        ui.button(e, selected_type.name)" "\n"
-//"    end" "\n"
-//"end" "\n"
+"local l = ui.scrollable(d1)" "\n"
+"local modules = system().modules" "\n"
+"for _, module in ipairs(modules) do" "\n"
+"    local types = module.types" "\n"
+"    for _, type in ipairs(types) do" "\n"
+"        --local tb = ui.button(l, type.name)" "\n"
+"        --if tb.activated then" "\n"
+"        --    selected_type = type" "\n"
+"        --end" "\n"
+"    end" "\n"
+"end" "\n"
+"local w = window(d2, 'A random window', WINDOW_DEFAULT)"               "\n"
+"if selected_type then" "\n"
+"    local e = ui.expandbox(d2, { selected_type.name }, true).body" "\n"
+"    if e then" "\n"
+"        ui.button(e, selected_type.name)" "\n"
+"    end" "\n"
+"end" "\n"
 #endif
 
 static TextScript create_script(LuaInterpreter& interpreter)
@@ -141,7 +141,7 @@ void pump(Shell& app)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv).c_str());
+	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
 	System::instance().load_modules({ &mud_ui::m() });
 	app.m_gfx_system.init_pipeline(pipeline_minimal);
 	app.run(pump);

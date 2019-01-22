@@ -321,11 +321,8 @@ namespace mud
 
 	Sprite* BlockParticles::create_sprite(cstring name, cstring pathname, uvec2 frames)
 	{
-		string filename = "textures/particles/" + string(pathname);
-		LocatedFile location = m_gfx_system.locate_file(filename.c_str());
-		string path = location.m_location + filename;
-
-		bimg::ImageContainer* image = load_bgfx_image(m_gfx_system.m_allocator, m_gfx_system.file_reader(), path.c_str(), bgfx::TextureFormat::BGRA8);
+		LocatedFile location = m_gfx_system.locate_file("textures/particles/" + string(pathname));
+		bimg::ImageContainer* image = load_bgfx_image(m_gfx_system.m_allocator, m_gfx_system.file_reader(), location.path(true).c_str(), bgfx::TextureFormat::BGRA8);
 		Sprite* sprite = this->create_sprite(name, uvec2(image->m_width, image->m_height), frames, image->m_data);
 		bimg::imageFree(image);
 		return sprite;

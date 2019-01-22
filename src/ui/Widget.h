@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <stl/stringfwd.h>
 #include <infra/Array.h>
 #include <ui/Forward.h>
 #include <ui/Frame/Dim.h>
@@ -32,11 +33,15 @@ namespace mud
 
 namespace ui
 {
-	export_ MUD_UI_EXPORT Widget& widget(Widget& parent, Style& style, void* identity);
 	export_ MUD_UI_EXPORT func_ Widget& widget(Widget& parent, Style& style, bool open = false, Dim length = DIM_NONE, Dim2<size_t> index = { 0, 0 });
+	export_ MUD_UI_EXPORT Widget& widget(Widget& parent, Style& style, void* identity);
+
 	export_ MUD_UI_EXPORT func_ Widget& item(Widget& parent, Style& style, cstring content = nullptr);
+	export_ MUD_UI_EXPORT Widget& item(Widget& parent, Style& style, const string& content);
+
 	export_ MUD_UI_EXPORT func_ Widget& multi_item(Widget& parent, Style& style, array<cstring> elements, Style* element_style = nullptr);
 	export_ MUD_UI_EXPORT Widget& multi_item(Widget& parent, array<cstring> elements, Style* element_style = nullptr);
+
 	export_ MUD_UI_EXPORT func_ Widget& spanner(Widget& parent, Style& style, Dim dim, float span);
 }
 }

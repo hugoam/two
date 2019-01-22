@@ -24,7 +24,7 @@ namespace mud
 	{
 		auto visit_file = [&](const string& path, const string& file)
 		{
-			string fullpath = path + file;
+			string fullpath = path + "/" + file;
 			string name = subfolder + replace(file, ".png", "");
 
 			int width, height, n;

@@ -56,9 +56,9 @@ namespace mud
 		if(member.m_type->is<cstring>())
 			return val<cstring>(member.get(value));
 		else if(member.m_type->is<string>())
-			return val<string>(member.get(value)).c_str();
-		else
 			return val<string>(member.get(value));
+		else
+			return to_string(member.get(value));
 	}
 
 	Meta::Meta(Type& type, Namespace* location, cstring name, size_t size, TypeClass type_class, bool is_array)

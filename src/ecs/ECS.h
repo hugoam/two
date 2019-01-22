@@ -6,6 +6,7 @@
 #include <stl/map.h>
 #include <stl/tuple.h>
 #include <infra/Vector.h>
+#include <infra/Generic.h>
 #include <type/Type.h>
 #include <type/Ref.h>
 #include <ecs/Forward.h>

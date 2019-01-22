@@ -65,6 +65,7 @@ namespace mud
 		string m_name;
 		string m_extension;
 		size_t m_extension_index = 0;
+		string path(bool ext) { return m_location + "/" + m_name + (ext ? m_extension : ""); }
 		explicit operator bool() { return m_located; }
 	};
 

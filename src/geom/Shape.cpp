@@ -299,7 +299,7 @@ namespace mud
 
 	inline vec3 distribute_points(const vector<vec3>& points)
 	{
-		size_t index = random_integer(size_t(0U), points.size() - 1U);
+		uint index = random_integer(0U, uint(points.size()) - 1U);
 		return points[index];
 	}
 

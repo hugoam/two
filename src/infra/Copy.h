@@ -15,5 +15,8 @@ namespace mud
 	void copy(array<T> dest, array<T> src) { memcpy(dest.m_pointer, src.m_pointer, sizeof(T) * src.m_count); }
 
 	template <class T>
+	void copy(T* dest, array<T> src) { memcpy(dest, src.m_pointer, sizeof(T) * src.m_count); }
+
+	template <class T>
 	void copy(void* dest, array<T> src) { memcpy(dest, src.m_pointer, sizeof(T) * src.m_count); }
 }

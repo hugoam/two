@@ -29,7 +29,7 @@ namespace ui
 		float slider_value = float(value);
 		bool changed = slider(self, slider_value, metrics, dim);
 		value.ref() = T(slider_value);
-		item(self, styles().slider_display, truncate_number(to_string(slider_value)).c_str());
+		item(self, styles().slider_display, truncate_number(to_string(slider_value)));
 		return changed;
 	}
 

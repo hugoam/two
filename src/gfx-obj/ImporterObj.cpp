@@ -73,14 +73,11 @@ namespace mud
 
 	void import_material_library(GfxSystem& gfx_system, const string& path, MaterialMap& material_map)
 	{
-		string models_path = "models/" + path;
-		string materials_path = "materials/" + path;
-		LocatedFile location = gfx_system.locate_file(models_path);
+		LocatedFile location = gfx_system.locate_file("models/" + path);
 		if(!location)
-			location = gfx_system.locate_file(materials_path);
+			location = gfx_system.locate_file("materials/" + path);
 
-		string filepath = location.m_location + location.m_name;
-		std::ifstream file = std::ifstream(filepath.c_str());
+		std::ifstream file = std::ifstream(location.path(false).c_str());
 
 		if(!file.good())
 			return;

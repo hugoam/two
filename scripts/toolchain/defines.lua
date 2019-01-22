@@ -91,12 +91,12 @@ function mud_binary_config()
 
     configuration { "not osx", "not asmjs" }
         defines {
-            "MUD_RESOURCE_PATH=\"" .. path.join(PROJECT_DIR, "data") .. "/\"",
+            "MUD_RESOURCE_PATH=\"" .. path.join(PROJECT_DIR, "data") .. "\"",
         }
 
     configuration { "osx", "not asmjs" }
         defines {
-            "MUD_RESOURCE_PATH=\\\"" .. path.join(PROJECT_DIR, "data") .. "/\\\"",
+            "MUD_RESOURCE_PATH=\\\"" .. path.join(PROJECT_DIR, "data") .. "\\\"",
         }
 
     configuration {}

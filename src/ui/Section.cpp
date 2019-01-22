@@ -24,15 +24,15 @@ namespace mud
 		return style;
 	}
 
-	bool section_action(Section& parent, cstring name)
+	bool section_action(Section& parent, const string& name)
 	{
 		return ui::button(*parent.m_toolbar, name).activated();
 	}
 
-	Section& section(Widget& parent, cstring name, bool no_toolbar)
+	Section& section(Widget& parent, const string& name, bool no_toolbar)
 	{
 		Section& self = ui::twidget<Section>(parent, section_style());
-		ui::title_header(self, name);
+		ui::title_header(self, name.c_str());
 
 		if(!no_toolbar)
 			self.m_toolbar = &ui::toolbar(self);

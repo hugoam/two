@@ -196,7 +196,7 @@ export_ struct refl_ glTFPerspective
 	attr_ float yfov;
 	attr_ float zfar;
 	attr_ float znear;
-	attr_ float aspect_ration;
+	attr_ float aspect_ratio;
 };
 
 export_ struct refl_ glTFOrthographic

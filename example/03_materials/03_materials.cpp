@@ -33,23 +33,21 @@ Material& mirror(GfxSystem& gfx_system)
 
 Material& material(GfxSystem& gfx_system, const string& name)
 {
-	static carray<cstring, 1> exts = { ".jpg" };
-
 	Material& mat = gfx_system.fetch_material(name.c_str(), "pbr/pbr");
 	PbrMaterialBlock& pbr = mat.m_pbr_block;
 
 	pbr.m_enabled = true;
-	pbr.m_albedo.m_texture = gfx_system.textures().file((name + "/" + name + "_col.jpg").c_str());
-	pbr.m_normal.m_texture = gfx_system.textures().file((name + "/" + name + "_nrm.jpg").c_str());
-	pbr.m_roughness.m_texture = gfx_system.textures().file((name + "/" + name + "_rgh.jpg").c_str());
+	pbr.m_albedo.m_texture = gfx_system.textures().file(name + "/" + name + "_col.jpg");
+	pbr.m_normal.m_texture = gfx_system.textures().file(name + "/" + name + "_nrm.jpg");
+	pbr.m_roughness.m_texture = gfx_system.textures().file(name + "/" + name + "_rgh.jpg");
 
-	if(gfx_system.locate_file(("textures/" + name + "/" + name + "_AO").c_str(), exts).m_location != nullptr)
-		pbr.m_ambient_occlusion.m_texture = gfx_system.textures().file((name + "/" + name + "_AO.jpg").c_str());
-	if(gfx_system.locate_file(("textures/" + name + "/" + name + "_disp").c_str(), exts).m_location != nullptr)
-		pbr.m_depth.m_texture = gfx_system.textures().file((name + "/" + name + "_disp.jpg").c_str());
-	if(gfx_system.locate_file(("textures/" + name + "/" + name + "_met").c_str(), exts).m_location != nullptr)
+	if(Texture* ao = gfx_system.textures().file(name + "/" + name + "_AO.jpg"))
+		pbr.m_ambient_occlusion.m_texture = ao;
+	if(Texture* depth = gfx_system.textures().file(name + "/" + name + "_disp.jpg"))
+		pbr.m_depth.m_texture = depth;
+	if(Texture* met = gfx_system.textures().file(name + "/" + name + "_met.jpg"))
 	{
-		pbr.m_metallic.m_texture = gfx_system.textures().file((name + "/" + name + "_met.jpg").c_str());
+		pbr.m_metallic.m_texture = met;
 		pbr.m_metallic.m_value = 1.f;
 	}
 
@@ -232,9 +230,9 @@ void pump(Shell& app)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv).c_str());
+	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
 	System::instance().load_modules({ &mud_gfx::m() });
-	app.m_gfx_system.add_resource_path("examples/03_materials/");
+	app.m_gfx_system.add_resource_path("examples/03_materials");
 	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }

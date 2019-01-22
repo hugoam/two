@@ -9,7 +9,7 @@
 #include <math/ImageAtlas.h>
 #include <math/Interp.h>
 #include <math/Math.h>
-//#include <math/Random.h>
+#include <math/Random.h>
 #include <math/Stat.h>
 //#include <math/Stream.h>
 #include <math/Structs.h>
