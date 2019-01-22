@@ -662,11 +662,11 @@ extern "C" {
 	void DECL glTFPerspective__set_znear(glTFPerspective* self, float value) {
 		self->znear = value;
 	}
-	float DECL glTFPerspective__get_aspect_ration(glTFPerspective* self) {
-		return self->aspect_ration;
+	float DECL glTFPerspective__get_aspect_ratio(glTFPerspective* self) {
+		return self->aspect_ratio;
 	}
-	void DECL glTFPerspective__set_aspect_ration(glTFPerspective* self, float value) {
-		self->aspect_ration = value;
+	void DECL glTFPerspective__set_aspect_ratio(glTFPerspective* self, float value) {
+		self->aspect_ratio = value;
 	}
 	void DECL glTFPerspective__destroy(glTFPerspective* self) {
 		delete self;

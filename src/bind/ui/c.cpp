@@ -1015,8 +1015,8 @@ extern "C" {
 	mud::Widget* DECL mud_ui_spacer_1(mud::Widget* parent) {
 		return &mud::ui::spacer(*parent);
 	}
-	mud::Widget* DECL mud_ui_icon_2(mud::Widget* parent, const char* icon) {
-		return &mud::ui::icon(*parent, icon);
+	mud::Widget* DECL mud_ui_icon_2(mud::Widget* parent, const char* image) {
+		return &mud::ui::icon(*parent, image);
 	}
 	mud::Widget* DECL mud_ui_label_2(mud::Widget* parent, const char* label) {
 		return &mud::ui::label(*parent, label);

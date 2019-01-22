@@ -30,7 +30,7 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::Shell>(), [](Ref ref, array<Var> args) { new(&val<mud::Shell>(ref)) mud::Shell( val<string>(args[0]), val<const char*>(args[1]) ); }, { { "resource_path", var(string()) }, { "exec_path", Ref(type<const char*>()), Param::Flags(Param::Nullable|Param::Default) } } }
+                { type<mud::Shell>(), [](Ref ref, array<Var> args) { new(&val<mud::Shell>(ref)) mud::Shell( val<string>(args[0]), val<string>(args[1]) ); }, { { "resource_path", var(string()) }, { "exec_path", var(string("")), Param::Default } } }
             },
             // copy constructor
             {

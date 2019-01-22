@@ -7,7 +7,7 @@ function Shell(resource_path, exec_path) {
     /* resource_path <string> [] */
     if (resource_path && typeof resource_path === "object") resource_path = resource_path.ptr;
     else resource_path = ensureString(resource_path);
-    /* exec_path <const char*> [] */
+    /* exec_path <string> [] */
     if (exec_path && typeof exec_path === "object") exec_path = exec_path.ptr;
     else exec_path = ensureString(exec_path);
     if (exec_path === undefined) { this.ptr = _mud_Shell_Shell_1(resource_path); getCache(Shell)[this.ptr] = this; return; }

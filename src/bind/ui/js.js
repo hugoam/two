@@ -1671,15 +1671,15 @@ Module['ui']['spacer'] = function(parent) {
     parent = parent.ptr;
     return wrapPointer(_mud_ui_spacer_1(parent), Widget);
 };
-Module['ui']['icon'] = function(parent, icon) {
+Module['ui']['icon'] = function(parent, image) {
     var self = this.ptr;
     ensureCache.prepare();
     /* parent <Widget> [] */
     parent = parent.ptr;
-    /* icon <const char*> [] */
-    if (icon && typeof icon === "object") icon = icon.ptr;
-    else icon = ensureString(icon);
-    return wrapPointer(_mud_ui_icon_2(parent, icon), Widget);
+    /* image <const char*> [] */
+    if (image && typeof image === "object") image = image.ptr;
+    else image = ensureString(image);
+    return wrapPointer(_mud_ui_icon_2(parent, image), Widget);
 };
 Module['ui']['label'] = function(parent, label) {
     var self = this.ptr;

@@ -531,7 +531,7 @@ namespace mud
 			printf("NUM CLASSES : %i\n", int(module.m_classes.size()));
 
 			//string forward_h = clgen::forward_h_template(module);
-			//update_file((module.m_path + "\\" + "Forward.h", forward_h.c_str());
+			//update_file((module.m_path + "\\" + "Forward.h", forward_h);
 
 			this->parse_through(module, build_classes);
         
@@ -565,39 +565,39 @@ namespace mud
 			//if(module.m_classes.size() == 0 && module.m_enums.size() == 0)
 			//	return;
 
-			if(!directory_exists(module.m_refl_path.c_str()))
-				create_directory_tree(module.m_refl_path.c_str());
+			if(!directory_exists(module.m_refl_path))
+				create_directory_tree(module.m_refl_path);
             
 			printf("Generating meta reflection files for %s:\n", module.m_name.c_str());
 
 			string types_h = clgen::types_h_template(module);
-			update_file(module.m_path + "\\" + "Types.h", types_h.c_str());
+			update_file(module.m_path + "\\" + "Types.h", types_h);
 
 			string types_cpp = clgen::types_cpp_template(module);
-			update_file(module.m_path + "\\" + "Types.cpp", types_cpp.c_str());
+			update_file(module.m_path + "\\" + "Types.cpp", types_cpp);
 
 			string meta_h = clgen::meta_h_template(module);
-			update_file(module.m_refl_path + "\\" + "Meta.h", meta_h.c_str());
+			update_file(module.m_refl_path + "\\" + "Meta.h", meta_h);
 
 			string module_h = clgen::module_h_template(module);
-			update_file(module.m_refl_path + "\\" + "Module.h", module_h.c_str());
+			update_file(module.m_refl_path + "\\" + "Module.h", module_h);
 
 			string module_cpp = clgen::module_cpp_template(module);
-			update_file(module.m_refl_path + "\\" + "Module.cpp", module_cpp.c_str());
+			update_file(module.m_refl_path + "\\" + "Module.cpp", module_cpp);
 
 			string convert_h = clgen::convert_h_template(module);
-			update_file(module.m_refl_path + "\\" + "Convert.h", convert_h.c_str());
+			update_file(module.m_refl_path + "\\" + "Convert.h", convert_h);
 
 			printf("Generating bindings files for %s:\n", module.m_name.c_str());
 
-			if(!directory_exists(module.m_bind_path.c_str()))
-				create_directory_tree(module.m_bind_path.c_str());
+			if(!directory_exists(module.m_bind_path))
+				create_directory_tree(module.m_bind_path);
 
 			//string embind_cpp = clgen::bind_embind_h_template(module);
-			//update_file((module.m_bind_path + "\\" + "Embind.cpp", embind_cpp.c_str());
+			//update_file((module.m_bind_path + "\\" + "Embind.cpp", embind_cpp);
 
 			//string module_idl = clgen::bind_webidl_h_template(module);
-			//update_file((module.m_bind_path + "\\" + "Module.idl", module_idl.c_str());
+			//update_file((module.m_bind_path + "\\" + "Module.idl", module_idl);
 
 			clgen::bind_javascript(module);
 		}

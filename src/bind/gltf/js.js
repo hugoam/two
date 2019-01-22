@@ -1127,15 +1127,15 @@ Object.defineProperty(glTFPerspective.prototype, "znear", {
         _glTFPerspective__set_znear(self, value);
     }
 });
-Object.defineProperty(glTFPerspective.prototype, "aspect_ration", {
+Object.defineProperty(glTFPerspective.prototype, "aspect_ratio", {
     get: function() {
         var self = this.ptr;
-        return _glTFPerspective__get_aspect_ration(self);
+        return _glTFPerspective__get_aspect_ratio(self);
     },
     set: function(value) {
         var self = this.ptr;
         /* value <float> [] */
-        _glTFPerspective__set_aspect_ration(self, value);
+        _glTFPerspective__set_aspect_ratio(self, value);
     }
 });
 glTFPerspective.prototype["__destroy__"] = glTFPerspective.prototype.__destroy__ = function() {
