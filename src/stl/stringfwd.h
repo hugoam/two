@@ -2,7 +2,7 @@
 #include <infra/Config.h>
 
 #ifndef MUD_NO_STL
-#include <string>
+#include <stl/string.h>
 #else
 #include <TINYSTL/allocator.h>
 namespace tinystl
