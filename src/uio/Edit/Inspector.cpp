@@ -266,7 +266,7 @@ namespace mud
 	{
 		enum Modes { CREATE = 1 << 0, TYPE_INFO = 1 << 1 };
 
-		Section& self = section(parent, (string(meta(type).m_name) + " Library").c_str());
+		Section& self = section(parent, (string(type.m_name) + " Library").c_str());
 
 		if(ui::modal_button(self, *self.m_toolbar, "Type Info", TYPE_INFO))
 		{

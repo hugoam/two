@@ -1,7 +1,9 @@
 #pragma once
 #include <infra/Config.h>
 
-#ifdef MUD_NO_STL
+#ifndef MUD_NO_STL
+#include <string>
+#else
 #include <TINYSTL/allocator.h>
 namespace tinystl
 {

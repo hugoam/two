@@ -12,7 +12,7 @@ WaveTileset& create_tileset(Shell& app)
 	static WaveTileset tileset;
 
 	LocatedFile location = app.m_gfx_system.locate_file("models/platform/platform", carray<cstring, 1>{ ".tls" });
-	parse_json_wave_tileset(string(location.m_location) + "models/platform/platform.tls", "", tileset);
+	parse_json_wave_tileset(location.m_location + "models/platform/platform.tls", "", tileset);
 
 	return tileset;
 }

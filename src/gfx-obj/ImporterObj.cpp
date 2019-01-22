@@ -79,7 +79,7 @@ namespace mud
 		if(!location)
 			location = gfx_system.locate_file(materials_path);
 
-		string filepath = string(location.m_location) + location.m_name;
+		string filepath = location.m_location + location.m_name;
 		std::ifstream file = std::ifstream(filepath.c_str());
 
 		if(!file.good())

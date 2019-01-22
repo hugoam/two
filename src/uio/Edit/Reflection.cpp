@@ -257,7 +257,7 @@ namespace mud
 	{
 		enum Modes { Browse = 1 << 0 };
 
-		Section& self = section(parent, ("Type Info : " + string(meta(type).m_name)).c_str());
+		Section& self = section(parent, ("Type Info : " + string(type.m_name)).c_str());
 		MetaEditState& state = self.state<MetaEditState>(type);
 
 		if (ui::modal_button(self, *self.m_toolbar, "Browse", Browse))

@@ -74,7 +74,7 @@ namespace mud
 			{
 				for(Member& member : cls(*type).m_members)
 				{
-					fixed_members[index] = to_camelcase(string(member.m_name));
+					fixed_members[index] = to_camelcase(member.m_name);
 					printf("renamed member %s to %s\n", member.m_name, fixed_members[index].c_str());
 					member.m_name = fixed_members[index].c_str();
 					index++;

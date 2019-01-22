@@ -105,7 +105,7 @@ namespace mud
 	string shader_path(GfxSystem& gfx_system, const string& name, ShaderType shader_type)
 	{
 		string suffix = shader_suffix(shader_type);
-		return string(gfx_system.m_resource_path) + "shaders/" + name + suffix;
+		return gfx_system.m_resource_path + "shaders/" + name + suffix;
 	}
 
 #ifdef MUD_LIVE_SHADER_COMPILER
@@ -131,15 +131,15 @@ namespace mud
 		static cstring output_suffixes[] = { "_cs", "_fs", "_gs", "_vs" };
 
 		string output_suffix = output_suffixes[size_t(shader_type)];
-		string output_path = string(gfx_system.m_resource_path) + "shaders/compiled/" + name + suffix + output_suffix;
+		string output_path = gfx_system.m_resource_path + "shaders/compiled/" + name + suffix + output_suffix;
 
 		create_file_tree(output_path.c_str());
 
 		printf("INFO: Compiling Shader : %s\n", source_path.c_str());
 		printf("INFO: Defines : %s\n", defines.c_str());
 
-		string include = string(gfx_system.m_resource_path) + "shaders/";
-		string varying_path = string(gfx_system.m_resource_path) + "shaders/varying.def.sc";
+		string include = gfx_system.m_resource_path + "shaders/";
+		string varying_path = gfx_system.m_resource_path + "shaders/varying.def.sc";
 
 		enum Target { GLSL, ESSL, HLSL, Metal };
 #if BX_PLATFORM_WINDOWS
@@ -309,7 +309,7 @@ namespace mud
 		}
 
 		printf("INFO: loading program %s with options %s\n", full_name.c_str(), defines.c_str());
-		string compiled_path = string(gfx_system.m_resource_path) + "/shaders/compiled/" + full_name;
+		string compiled_path = gfx_system.m_resource_path + "/shaders/compiled/" + full_name;
 		version.m_program = compute ? load_compute_program(gfx_system.file_reader(), compiled_path)
 									: load_program(gfx_system.file_reader(), compiled_path);
 		version.m_update = m_update;

@@ -323,7 +323,7 @@ namespace mud
 	{
 		string filename = "textures/particles/" + string(pathname);
 		LocatedFile location = m_gfx_system.locate_file(filename.c_str());
-		string path = string(location.m_location) + filename;
+		string path = location.m_location + filename;
 
 		bimg::ImageContainer* image = load_bgfx_image(m_gfx_system.m_allocator, m_gfx_system.file_reader(), path.c_str(), bgfx::TextureFormat::BGRA8);
 		Sprite* sprite = this->create_sprite(name, uvec2(image->m_width, image->m_height), frames, image->m_data);
