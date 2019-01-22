@@ -40,15 +40,15 @@ namespace mud
 	}
 #endif
 
-	Prefab::Prefab(cstring name)
+	Prefab::Prefab(const string& name)
 		: m_name(name)
 	{}
 
 	Prefab& import_prefab(GfxSystem& gfx_system, ModelFormat format, const string& name, const ImportConfig& config)
 	{
 		string filename = "models/" + name;
-		LocatedFile location = gfx_system.locate_file(filename.c_str(), carray<cstring, 1>{ format == ModelFormat::obj ? ".obj" : ".gltf" });
-		Prefab& prefab = gfx_system.prefabs().create(name.c_str());
+		LocatedFile location = gfx_system.locate_file(filename, carray<string, 1>{ format == ModelFormat::obj ? ".obj" : ".gltf" });
+		Prefab& prefab = gfx_system.prefabs().create(name);
 		string filepath = string(location.m_location) + location.m_name;
 		gfx_system.importer(format)->import_prefab(prefab, filepath, config);
 		return prefab;
@@ -67,7 +67,7 @@ namespace mud
 				gfx_system.meshes().destroy(Ref(model_item.m_mesh));
 			}
 
-			gfx_system.models().destroy(model->m_name.c_str());
+			gfx_system.models().destroy(model->m_name);
 		}
 	}
 }

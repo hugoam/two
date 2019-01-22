@@ -55,7 +55,7 @@ namespace mud
 	ParticleFlow::ParticleFlow()
 	{}
 
-	ParticleFlow::ParticleFlow(cstring name)
+	ParticleFlow::ParticleFlow(const string& name)
 		: m_name(name)
 	{}
 

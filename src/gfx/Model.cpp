@@ -25,8 +25,8 @@ namespace mud
 
 	GfxSystem* Model::ms_gfx_system = nullptr;
 
-	Model::Model(cstring id)
-		: m_name(id)
+	Model::Model(const string& name)
+		: m_name(name)
 		, m_index(uint16_t(index(type<Model>(), Ref(this))))//++s_model_index)
 	{}
 

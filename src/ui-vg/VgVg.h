@@ -25,7 +25,7 @@ namespace mud
 	export_ class MUD_UI_VG_EXPORT VgVg : public Vg
 	{
 	public:
-		VgVg(cstring resource_path, bx::AllocatorI* allocator);
+		VgVg(const string& resource_path, bx::AllocatorI* allocator);
 		~VgVg();
 
 		// init

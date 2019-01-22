@@ -19,13 +19,13 @@ namespace mud
 	export_ class refl_ MUD_CTX_EXPORT RenderSystem
 	{
 	public:
-		RenderSystem(cstring resource_path, bool manual_render);
+		RenderSystem(const string& resource_path, bool manual_render);
 		virtual ~RenderSystem() {}
 
 		virtual void begin_frame() = 0;
 		virtual bool next_frame() = 0;
 
-		virtual object<Context> create_context(cstring name, int width, int height, bool fullScreen) = 0;
+		virtual object<Context> create_context(const string& name, int width, int height, bool fullScreen) = 0;
 		
 		const string m_resource_path;
 		const bool m_manual_render;
@@ -34,7 +34,7 @@ namespace mud
 	export_ class refl_ MUD_CTX_EXPORT Context : public NonCopy
 	{
 	public:
-		Context(RenderSystem& render_system, cstring title, int width, int height, bool full_screen = false);
+		Context(RenderSystem& render_system, const string& title, int width, int height, bool full_screen = false);
 		virtual ~Context();
 
 		RenderSystem& m_render_system;

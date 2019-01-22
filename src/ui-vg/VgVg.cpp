@@ -42,8 +42,8 @@ namespace mud
 
 #define RECT_FLOATS(rect) rect.x, rect.y, rect.z, rect.w
 
-	VgVg::VgVg(cstring resource_path, bx::AllocatorI* allocator)
-		: Vg(resource_path)
+	VgVg::VgVg(const string& resource_path, bx::AllocatorI* allocator)
+		: Vg(resource_path.c_str())
 		, m_allocator(allocator)
 	{}
 

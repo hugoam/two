@@ -109,7 +109,7 @@ namespace mud
 		vector<Image> images;
 		load_folder_images(images, sprite_path, "");
 
-		auto visit_folder = [&](cstring path, cstring folder)
+		auto visit_folder = [&](const string& path, const string& folder)
 		{
 			UNUSED(path);
 			load_folder_images(images, sprite_path + folder + "/", string(folder) + "/");

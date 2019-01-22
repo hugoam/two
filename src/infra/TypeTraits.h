@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_CPP_20
-#include <type_traits>
+#include <stl/type_traits.h>
 #include <cstring>
 #endif
 
@@ -15,9 +15,6 @@
 
 namespace mud
 {
-	using std::enable_if; using std::is_copy_assignable; using std::is_copy_constructible; using std::is_pointer;
-	using std::is_function; using std::integral_constant; using std::remove_pointer; using std::is_trivially_destructible;
-
 	export_ template <typename T>
 	struct is_function_pointer : integral_constant<bool, is_pointer<T>::value
 													  && is_function<typename remove_pointer<T>::type>::value> {};

@@ -20,7 +20,7 @@ module mud.bgfx;
 
 namespace mud
 {
-	BgfxContext::BgfxContext(BgfxSystem& gfx_system, cstring name, int width, int height, bool fullScreen, bool init)
+	BgfxContext::BgfxContext(BgfxSystem& gfx_system, const string& name, int width, int height, bool fullScreen, bool init)
 #if defined MUD_CONTEXT_GLFW
 		: GlfwContext(gfx_system, name, width, height, fullScreen, false)
 #elif defined MUD_CONTEXT_WASM
@@ -38,7 +38,7 @@ namespace mud
 		bgfx::reset(width, height, BGFX_RESET_NONE);
 	}
 
-	BgfxSystem::BgfxSystem(cstring resource_path)
+	BgfxSystem::BgfxSystem(const string& resource_path)
 		: RenderSystem(resource_path, true)
 		//, m_capture_every(100)
 	{
@@ -51,7 +51,7 @@ namespace mud
 		// bgfx::shutdown();
 	}
 
-	object<Context> BgfxSystem::create_context(cstring name, int width, int height, bool fullScreen)
+	object<Context> BgfxSystem::create_context(const string& name, int width, int height, bool fullScreen)
 	{
 		return make_object<BgfxContext>(*this, name, width, height, fullScreen, !m_initialized);
 	}

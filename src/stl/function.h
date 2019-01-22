@@ -11,6 +11,7 @@ namespace mud
 }
 #else
 #include <stl/move.h>
+#include <stl/type_traits.h>
 #include <new>
 namespace mud
 {
@@ -23,7 +24,10 @@ namespace mud
 	public:
 		function() {}
 
-		template <class T>
+		function(const function& f) = default;
+		function& operator=(const function& f) = default;
+
+		template <class T, typename = typename enable_if<is_invocable<T, Args...>::value>::type>
 		function(T functor)
 		{
 			m_func = [](const void* user, Args... args) -> Return
@@ -38,17 +42,13 @@ namespace mud
 				func.~T();
 			};
 
+			static_assert(sizeof(T) <= sizeof(m_storage));
 			new(m_storage) T(move(functor));
 		}
 
 		~function()
 		{
 			if(m_dtor) m_dtor(m_storage);
-		}
-
-		Return operator()(Args... args)
-		{
-			return m_func(m_storage, static_cast<Args&&>(args)...);
 		}
 
 		Return operator()(Args... args) const

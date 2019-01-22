@@ -16,13 +16,14 @@ module mud.lang;
 
 namespace mud
 {
-	Script::Script(Type& type, cstring name, const Signature& signature)
-		: Callable(name, signature.m_params, signature.m_returnval)
+	Script::Script(Type& type, const string& name, const Signature& signature)
+		: Callable(name.c_str(), signature.m_params, signature.m_returnval)
 		, m_index(index(mud::type<Script>(), Ref(this, type)))
 		, m_type(type)
 		, m_name(name)
 		, m_signature(signature)
 	{
+		Callable::m_name = m_name.c_str();
 		m_signature.m_params = m_params;
 	}
 
@@ -45,7 +46,7 @@ namespace mud
 			this->set(param.m_name, args[param.m_index]);
 		}
 
-		this->call(script.m_script.c_str(), result);
+		this->call(script.m_script, result);
 	}
 
 	string Interpreter::flush()
@@ -55,7 +56,7 @@ namespace mud
 		return output;
 	}
 
-	TextScript::TextScript(cstring name, Language language, const Signature& signature)
+	TextScript::TextScript(const string& name, Language language, const Signature& signature)
 		: Script(type<TextScript>(), name, signature)
 		, m_language(language)
 	{}

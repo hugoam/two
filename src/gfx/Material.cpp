@@ -217,7 +217,7 @@ namespace mud
 	static FresnelMaterialUniform s_fresnel_material_block = {};
 	static PbrMaterialUniform s_pbr_material_block = {};
 
-	Material::Material(cstring name)
+	Material::Material(const string& name)
 		: m_index(uint16_t(index(type<Material>(), Ref(this))))//++s_material_index)
 		, m_name(name)
 	{

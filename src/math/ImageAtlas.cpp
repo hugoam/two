@@ -22,18 +22,18 @@ namespace mud
 {
 	void load_folder_images(vector<Image>& images, const string& path, const string& subfolder)
 	{
-		auto visit_file = [&](cstring path, cstring file)
+		auto visit_file = [&](const string& path, const string& file)
 		{
-			string fullpath = string(path) + file;
+			string fullpath = path + file;
 			string name = subfolder + replace(file, ".png", "");
 
 			int width, height, n;
 			unsigned char* img = stbi_load(fullpath.c_str(), &width, &height, &n, 4);
 			stbi_image_free(img);
-			images.push_back({ name.c_str(), fullpath.c_str(), { uint(width), uint(height) } });
+			images.push_back({ name, fullpath, { uint(width), uint(height) } });
 		};
 
-		visit_files(path.c_str(), visit_file);
+		visit_files(path, visit_file);
 	}
 
 	struct StbRectPack

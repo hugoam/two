@@ -245,7 +245,7 @@ namespace mud
 
 	GfxSystem* Program::ms_gfx_system = nullptr;
 
-	Program::Program(cstring name, bool compute)
+	Program::Program(const string& name, bool compute)
 		: m_compute(compute)
 		, m_impl(make_unique<Impl>())
 	{
@@ -257,7 +257,7 @@ namespace mud
 		this->register_options(pbr.m_index, pbr.m_shader_block->m_options);
 	}
 
-	Program::Program(cstring name, array<GfxBlock*> blocks, array<cstring> sources)
+	Program::Program(const string& name, array<GfxBlock*> blocks, array<cstring> sources)
 		: Program(name)
 	{
 		this->register_blocks(blocks);

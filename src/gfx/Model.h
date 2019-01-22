@@ -33,7 +33,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Model
 	{
 	public:
-		Model(cstring id);
+		Model(const string& name);
 		~Model();
 
 		attr_ string m_name;

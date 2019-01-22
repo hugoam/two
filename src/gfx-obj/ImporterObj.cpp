@@ -38,12 +38,12 @@ module mud.gfx.obj;
 
 namespace mud
 {
-	static ImportConfig load_model_config(cstring path, cstring model_name)
+	static ImportConfig load_model_config(const string& path, const string& model_name)
 	{
 		ImportConfig config = {};
 
 		string config_path = file_directory(path) + "/" + model_name + ".cfg";
-		if(file_exists(config_path.c_str()))
+		if(file_exists(config_path))
 			unpack_json_file(Ref(&config), config_path);
 
 		config.m_transform = bxSRT(config.m_scale, config.m_rotation, config.m_position);
@@ -54,15 +54,15 @@ namespace mud
 	ImporterOBJ::ImporterOBJ(GfxSystem& gfx_system)
 		: m_gfx_system(gfx_system)
 	{
-		static auto load_obj_model = [&](Model& model, cstring path)
+		static auto load_obj_model = [&](Model& model, const string& path)
 		{
-			ImportConfig config = load_model_config(path, model.m_name.c_str());
+			ImportConfig config = load_model_config(path, model.m_name);
 			this->import_model(model, path, config);
 		};
 
-		static auto load_obj_prefab = [&](Prefab& prefab, cstring path)
+		static auto load_obj_prefab = [&](Prefab& prefab, const string& path)
 		{
-			ImportConfig config = load_model_config(path, prefab.m_name.c_str());
+			ImportConfig config = load_model_config(path, prefab.m_name);
 			this->import_prefab(prefab, path, config);
 		};
 
@@ -75,9 +75,9 @@ namespace mud
 	{
 		string models_path = "models/" + path;
 		string materials_path = "materials/" + path;
-		LocatedFile location = gfx_system.locate_file(models_path.c_str());
+		LocatedFile location = gfx_system.locate_file(models_path);
 		if(location.m_location == nullptr)
-			location = gfx_system.locate_file(materials_path.c_str());
+			location = gfx_system.locate_file(materials_path);
 
 		string filepath = string(location.m_location) + location.m_name;
 		std::ifstream file = std::ifstream(filepath.c_str());
@@ -115,7 +115,7 @@ namespace mud
 			auto fetch_texture = [&](const string& path) -> Texture*
 			{
 				// @todo replace backslashes with slashes ?
-				if(gfx_system.locate_file(("textures/" + path).c_str()).m_location)
+				if(gfx_system.locate_file("textures/" + path))
 					return gfx_system.textures().file(path.c_str());
 				else
 					return nullptr;

@@ -23,7 +23,7 @@ namespace mud
 	}
 #endif
 
-    Shell::Shell(cstring resource_path, cstring exec_path)
+    Shell::Shell(const string& resource_path, cstring exec_path)
         : m_exec_path(exec_path ? string(exec_path) : "")
 		, m_resource_path(resource_path)
 		, m_job_system()

@@ -18,6 +18,7 @@
 module mud.infra;
 #else
 #include <infra/File.h>
+#include <infra/String.h>
 #endif
 
 #if defined _WIN32
@@ -28,6 +29,19 @@ module mud.infra;
 
 namespace mud
 {
+	void write_file(const string& path, const string& content)
+	{
+		std::ofstream out(path.c_str());
+		out << content.c_str();
+	}
+
+	void update_file(const string& path, const string& content)
+	{
+		string current = read_text_file(path);
+		if(content != current)
+			write_file(path, content);
+	}
+
 	void write_binary_file(const string& path, array<uint8_t> data)
 	{
 		std::ofstream file(path.c_str(), std::ios::out | std::ios::binary);
@@ -58,6 +72,19 @@ namespace mud
 #endif
 	}
 
+	void read_text_file(const string& path, LineVisitor visit_line)
+	{
+		std::ifstream file = std::ifstream(path.c_str());
+		if(!file.good()) return;
+
+		std::string stdline;
+		while(std::getline(file, stdline))
+		{
+			string line = { stdline.data(), stdline.data() + stdline.size() };
+			visit_line(line);
+		}
+	}
+
 	string exec_path(int argc, char* argv[])
 	{
 #ifdef _WIN32
@@ -71,23 +98,29 @@ namespace mud
 		return exec_dir;
 	}
 
-	bool file_exists(cstring path)
+	bool file_exists(const string& path)
 	{
-		return std::fstream(path).good();
+		return std::fstream(path.c_str()).good();
 	}
 
-	bool directory_exists(cstring path)
+	bool directory_exists(const string& path)
 	{
 #if defined WIN32
 		struct _stat info;
-		return _stat(path, &info) == 0 && (info.st_mode & _S_IFDIR) != 0;
+		return _stat(path.c_str(), &info) == 0 && (info.st_mode & _S_IFDIR) != 0;
 #else 
 		struct stat info;
-		return stat(path, &info) == 0 && (info.st_mode & S_IFDIR) != 0;
+		return stat(path.c_str(), &info) == 0 && (info.st_mode & S_IFDIR) != 0;
 #endif
 	}
 
-	string file_directory(cstring path)
+	bool directory_contains(const string& path, const string& query)
+	{
+		auto fix_path = [](const string& path) { return replace(path, "\\", "/"); };
+		return fix_path(path).find(fix_path(query)) == 0;
+	}
+
+	string file_directory(const string& path)
 	{
 		string directory = path;
 		size_t separator = directory.rfind("/");
@@ -98,41 +131,49 @@ namespace mud
 		return directory.substr(0, separator);
 	}
 
-	bool create_directory(cstring path)
+	string parent_directory(const string& path)
+	{
+		if(path.back() == '/' || path.back() == '\\')
+			return file_directory(path.substr(0, path.size() - 1));
+		else
+			return file_directory(path);
+	}
+
+	bool create_directory(const string& path)
 	{
 #ifdef WIN32
-		return 0 == _mkdir(path);
+		return 0 == _mkdir(path.c_str());
 		//CreateDirectory(path, NULL);
 		//return ERROR_SUCCESS == GetLastError();
 #else
 		mode_t mode = 0755;
-		return 0 == mkdir(path, mode);
+		return 0 == mkdir(path.c_str(), mode);
 #endif
 	}
 
-	bool create_directory_tree(cstring path)
+	bool create_directory_tree(const string& path)
 	{
 		string parent = file_directory(path);
-		if(!directory_exists(parent.c_str()))
+		if(!directory_exists(parent))
 		{
-			bool success = create_directory_tree(parent.c_str());
+			bool success = create_directory_tree(parent);
 			if(!success) return false;
 		}
 		return create_directory(path);
 	}
 
-	bool create_file_tree(cstring path)
+	bool create_file_tree(const string& path)
 	{
 		string directory = file_directory(path);
-		if(!directory_exists(directory.c_str()))
-			return create_directory_tree(directory.c_str());
+		if(!directory_exists(directory))
+			return create_directory_tree(directory);
 		else
 			return true;
 	}
 
-	void visit_files(cstring path, FileVisitor visit)
+	void visit_files(const string& path, FileVisitor visit)
 	{
-		DIR* dir = opendir(path);
+		DIR* dir = opendir(path.c_str());
 		dirent* ent;
 
 		while((ent = readdir(dir)) != NULL)
@@ -141,13 +182,12 @@ namespace mud
 				visit(path, ent->d_name);
 			}
 
-
 		closedir(dir);
 	}
 
-	void visit_folders(cstring path, FileVisitor visit, bool ignore_symbolic)
+	void visit_folders(const string& path, FileVisitor visit, bool ignore_symbolic)
 	{
-		DIR* dir = opendir(path);
+		DIR* dir = opendir(path.c_str());
 		dirent* ent;
 
 		while((ent = readdir(dir)) != NULL)
@@ -160,11 +200,4 @@ namespace mud
 
 		closedir(dir);
 	}
-
-	void write_file(cstring path, cstring content)
-	{
-		std::ofstream out(path);
-		out << content;
-	}
-
 }

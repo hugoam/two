@@ -20,7 +20,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT Script : public Callable
 	{
 	public:
-		Script(Type& type, cstring name, const Signature& signature = {});
+		Script(Type& type, const string& name, const Signature& signature = {});
 		virtual ~Script();
 
 		attr_ uint32_t m_index;
@@ -48,7 +48,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT TextScript final : public Script
 	{
 	public:
-		constr_ TextScript(cstring name, Language language, const Signature& signature = {});
+		constr_ TextScript(const string& name, Language language, const Signature& signature = {});
 
 		attr_ Language m_language;
 		attr_ string m_script;
@@ -71,13 +71,13 @@ namespace mud
 
 		virtual void declare_types() = 0;
 
-		virtual Var get(cstring name, Type& type) { UNUSED(name); UNUSED(type); return Var(); }
-		virtual void set(cstring name, Var value) { UNUSED(name); UNUSED(value); }
+		virtual Var get(const string& name, Type& type) { UNUSED(name); UNUSED(type); return Var(); }
+		virtual void set(const string& name, Var value) { UNUSED(name); UNUSED(value); }
 
-		virtual Var getx(array<cstring> path, Type& type) { UNUSED(path); UNUSED(type); return Var(); }
-		virtual void setx(array<cstring> path, Var value) { UNUSED(path); UNUSED(value); }
+		virtual Var getx(array<string> path, Type& type) { UNUSED(path); UNUSED(type); return Var(); }
+		virtual void setx(array<string> path, Var value) { UNUSED(path); UNUSED(value); }
 
-		virtual void call(cstring code, Var* result = nullptr) = 0;
+		virtual void call(const string& code, Var* result = nullptr) = 0;
 		virtual void virtual_call(Method& method, Ref object, array<Var> args) { UNUSED(method); UNUSED(object); UNUSED(args); }
 
 		void call(const TextScript& script, array<Var> args, Var* result = nullptr);
@@ -85,13 +85,13 @@ namespace mud
 		string flush();
 
 		template <class T>
-		T* tget(cstring name) { Var value = get(name, type<T>()); return try_val<T>(value); }
+		T* tget(const string& name) { Var value = get(name, type<T>()); return try_val<T>(value); }
 
 		template <class T>
 		T* tgetx(array<cstring> path) { Var value = getx(path, type<T>()); return try_val<T>(value); }
 
 		template <class T>
-		T* tcall(cstring expr) { Var result = call(expr, &type<T>()); return try_val<T>(result); }
+		T* tcall(const string& expr) { Var result = call(expr, &type<T>()); return try_val<T>(result); }
 
 		const TextScript* m_script = nullptr;
 		string m_output;

@@ -34,7 +34,6 @@ namespace mud
 		Transform b; // flips pattern vertically
 		int cardinality = 1;
 
-#ifndef MUD_MODULES // @todo clang bug
 		if(symmetry == 'L') {
 			cardinality = 4;
 			a = [](int i) { return (i + 1) % 4; };
@@ -55,12 +54,11 @@ namespace mud
 			a = [](int i) { return 1 - i; };
 			b = [](int i) { return 1 - i; };
 		}
-		else if(symmetry == 'X') {
+		else if(symmetry == 'X' || true) {
 			cardinality = 1;
 			a = [](int i) { return i; };
 			b = [](int i) { return i; };
 		}
-#endif
 
 		const uint32_t num_patterns = uint32_t(tileset.m_tiles_flip.size());
 
@@ -354,11 +352,9 @@ namespace mud
 	TileWave::TileWave(WaveTileset& tileset, uint16_t width, uint16_t height, uint16_t depth, bool periodic)
 		: Wave(tileset.m_num_tiles, width, height, depth, periodic)
 	{
-#ifndef MUD_MODULES // @todo clang bug
 		m_propagate = [&](Wave& wave) { propagate_tiled(tileset, wave); };
 		m_valid_coord = [](int, int, int) { return true; };
 		m_states = tileset.m_weights;
-#endif
 	}
 
 	void run_tiled(WaveTileset& tileset, uint16_t width, uint16_t height, uint16_t depth, bool periodic)

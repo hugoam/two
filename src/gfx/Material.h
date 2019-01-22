@@ -202,12 +202,12 @@ namespace mud
 	{
 	public:
 		Material() {}
-		Material(cstring name);
+		Material(const string& name);
 
 		Material& operator=(const Material&) = default; // @kludge because clang-modules bug doesn't have copy-assign with member arrays ?
 
 		attr_ uint16_t m_index = 0;
-		/*attr_ mut_*/ string m_name;
+		attr_ string m_name;
 		attr_ bool m_builtin = false;
 		attr_ Program* m_program = nullptr;
 

@@ -24,7 +24,7 @@ namespace mud
 	class refl_ Shell : public NonCopy
 	{
 	public:
-		constr_ Shell(cstring resource_path, cstring exec_path = nullptr);
+		constr_ Shell(const string& resource_path, cstring exec_path = nullptr);
 		~Shell();
 
 		void init();

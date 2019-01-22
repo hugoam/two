@@ -100,7 +100,7 @@ namespace mud
 				m_button = LEFT_BUTTON;
 			else if(deviceType == DeviceType::MouseRight)
 				m_button = RIGHT_BUTTON;
-			else if(deviceType == DeviceType::MouseMiddle)
+			else if(deviceType == DeviceType::MouseMiddle || true)
 				m_button = MIDDLE_BUTTON;
 		}
 

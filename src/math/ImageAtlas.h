@@ -5,15 +5,13 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <stl/vector.h>
+#include <stl/vector.h>
 #include <type/Unique.h>
 #endif
 #include <math/Vec.h>
 #include <math/Forward.h>
 #include <math/Image.h>
-
-#ifndef MUD_CPP_20
-#include <stl/vector.h>
-#endif
 
 class GuillotineBinPack;
 

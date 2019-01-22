@@ -6,18 +6,15 @@
 
 #ifndef MUD_MODULES
 #include <stl/function.h>
+#include <stl/string.h>
+#include <stl/vector.h>
+#include <stl/map.h>
 #include <type/Unique.h>
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
 #endif
 #include <gfx/Forward.h>
 #include <gfx/GfxSystem.h>
-
-#ifndef MUD_CPP_20
-#include <stl/vector.h>
-#include <stl/string.h>
-#include <stl/map.h>
-#endif
 
 namespace mud
 {
@@ -27,13 +24,13 @@ namespace mud
 	class refl_ AssetStore : public NonCopy
 	{
 	public:
-		using Loader = function<void(T_Asset&, cstring)>;
+		using Loader = function<void(T_Asset&, const string&)>;
 
-		AssetStore(GfxSystem& gfx_system, cstring path);
-		AssetStore(GfxSystem& gfx_system, cstring path, const Loader& loader);
-		AssetStore(GfxSystem& gfx_system, cstring path, cstring format);
+		AssetStore(GfxSystem& gfx_system, const string& path);
+		AssetStore(GfxSystem& gfx_system, const string& path, const Loader& loader);
+		AssetStore(GfxSystem& gfx_system, const string& path, const string& format);
 
-		void add_format(cstring format, const Loader& loader);
+		void add_format(const string& format, const Loader& loader);
 
 		GfxSystem& m_gfx_system;
 
@@ -44,18 +41,17 @@ namespace mud
 		Loader m_loader;
 
 		vector<string> m_formats;
-		vector<cstring> m_cformats;
 		vector<Loader> m_format_loaders;
 
-		meth_ T_Asset* get(cstring name);
-		meth_ T_Asset& create(cstring name);
-		meth_ T_Asset& fetch(cstring name);
-		meth_ T_Asset& file_at(cstring path, cstring name);
-		meth_ T_Asset* file(cstring name);
-		meth_ void destroy(cstring name);
+		meth_ T_Asset* get(const string& name);
+		meth_ T_Asset& create(const string& name);
+		meth_ T_Asset& fetch(const string& name);
+		meth_ T_Asset& file_at(const string& path, const string& name);
+		meth_ T_Asset* file(const string& name);
+		meth_ void destroy(const string& name);
 
-		T_Asset* load(cstring path, cstring name);
-		void load_files(cstring path);
+		T_Asset* load(const string& path, const string& name);
+		void load_files(const string& path);
 
 		map<string, unique<T_Asset>> m_assets;
 	};

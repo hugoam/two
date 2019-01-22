@@ -44,7 +44,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Prefab
 	{
 	public:
-		Prefab(cstring name);
+		Prefab(const string& name);
 
 		attr_ string m_name;
 #ifdef MUD_PREFABNODE

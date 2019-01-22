@@ -6,6 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <stl/vector.h>
+#include <stl/string.h>
 #include <infra/Array.h>
 #include <type/Unique.h>
 #endif
@@ -32,7 +33,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT GfxContext : public BgfxContext
 	{
 	public:
-		GfxContext(GfxSystem& gfx_system, cstring name, int width, int height, bool fullScreen, bool init);
+		GfxContext(GfxSystem& gfx_system, const string& name, int width, int height, bool fullScreen, bool init);
 		~GfxContext();
 
 		virtual void reset(uint16_t width, uint16_t height) override;
@@ -56,18 +57,21 @@ namespace mud
 	export_ struct LocatedFile
 	{
 		LocatedFile() {}
-		LocatedFile(cstring location, cstring name, cstring extension, size_t extension_index) : m_location(location), m_name(name), m_extension(extension), m_extension_index(extension_index) {}
-		cstring m_location = nullptr;
-		cstring m_name = nullptr;
-		cstring m_extension = nullptr;
+		LocatedFile(string location, string name, string extension, size_t extension_index)
+			: m_located(true), m_location(location), m_name(name), m_extension(extension), m_extension_index(extension_index)
+		{}
+		bool m_located = false;
+		string m_location;
+		string m_name;
+		string m_extension;
 		size_t m_extension_index = 0;
+		explicit operator bool() { return m_located; }
 	};
 
 	export_ class refl_ MUD_GFX_EXPORT GfxSystem : public BgfxSystem
 	{
 	public:
-		constr_ GfxSystem(cstring resource_path);
-		constr_ GfxSystem(array<cstring> resource_paths);
+		constr_ GfxSystem(const string& resource_path);
 		~GfxSystem();
 
 		JobSystem* m_job_system = nullptr;
@@ -79,7 +83,7 @@ namespace mud
 		virtual void begin_frame() final;
 		virtual bool next_frame() final;
 
-		virtual object<Context> create_context(cstring name, int width, int height, bool full_screen) final;
+		virtual object<Context> create_context(const string& name, int width, int height, bool full_screen) final;
 
 		void init(GfxContext& context);
 
@@ -88,7 +92,7 @@ namespace mud
 
 		meth_ void default_pipeline();
 
-		meth_ void add_resource_path(cstring path, bool relative = true);
+		meth_ void add_resource_path(const string& path, bool relative = true);
 
 		void set_renderer(Shading shading, Renderer& renderer);
 		Renderer& renderer(Shading shading);
@@ -101,8 +105,8 @@ namespace mud
 		bx::FileReaderI& file_reader();
 		bx::FileWriterI& file_writer();
 
-		LocatedFile locate_file(cstring file);
-		LocatedFile locate_file(cstring file, array<cstring> extensions);
+		LocatedFile locate_file(const string& file);
+		LocatedFile locate_file(const string& file, array<string> extensions);
 
 		TPool<Mesh>& meshes();
 		TPool<Rig>& rigs();
@@ -121,7 +125,7 @@ namespace mud
 		Texture& default_texture(TextureHint hint);
 
 		meth_ Material& debug_material();
-		meth_ Material& fetch_material(cstring name, cstring shader, bool builtin = true);
+		meth_ Material& fetch_material(const string& name, const string& shader, bool builtin = true);
 		meth_ Material& fetch_image256_material(const Image256& image);
 
 		meth_ Model& fetch_symbol(const Symbol& symbol, const Shape& shape, DrawMode draw_mode);

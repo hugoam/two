@@ -40,7 +40,7 @@ namespace mud
 #endif
 	{
 	public:
-		BgfxContext(BgfxSystem& gfx_system, cstring name, int width, int height, bool fullScreen, bool init);
+		BgfxContext(BgfxSystem& gfx_system, const string& name, int width, int height, bool fullScreen, bool init);
 
 		virtual void reset(uint16_t width, uint16_t height) override;
 	};
@@ -56,13 +56,13 @@ namespace mud
 	export_ class MUD_BGFX_EXPORT BgfxSystem : public NonCopy, public RenderSystem
 	{
 	public:
-		BgfxSystem(cstring resource_path);
+		BgfxSystem(const string& resource_path);
 		~BgfxSystem();
 
 		virtual void begin_frame() override;
 		virtual bool next_frame() override;
 
-		virtual object<Context> create_context(cstring name, int width, int height, bool fullScreen) override;
+		virtual object<Context> create_context(const string& name, int width, int height, bool fullScreen) override;
 		
 		void init(BgfxContext& context);
 		void advance();

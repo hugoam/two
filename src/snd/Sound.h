@@ -97,7 +97,7 @@ namespace mud
 		inline bool is_stopped() const { return m_state == STOPPED; }
 
 	public:
-		virtual void open(cstring filename) { UNUSED(filename); }
+		virtual void open(const string& filename) { UNUSED(filename); }
 		virtual void open_shared(SharedBuffer& buffer) { UNUSED(buffer); }
 
 	protected:

@@ -185,7 +185,7 @@ namespace mud
 		else return translate(convert_glfw_key(key));
 	}
 
-	GlfwContext::GlfwContext(RenderSystem& render_system, cstring name, int width, int height, bool full_screen, bool auto_swap)
+	GlfwContext::GlfwContext(RenderSystem& render_system, const string& name, int width, int height, bool full_screen, bool auto_swap)
 		: Context(render_system, name, width, height, full_screen)
 		, m_gl_window(nullptr)
 		, m_auto_swap(auto_swap)

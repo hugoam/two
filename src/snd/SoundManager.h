@@ -38,12 +38,12 @@ namespace mud
 
 		// Thread-safe interface
 	public:
-		SoundManager(cstring resourcePath = "");
+		SoundManager(const string& resource_path = "");
 		~SoundManager();
 
-		bool init(cstring deviceName = "", unsigned int maxSources = 100);
+		bool init(const string& device_name = "", unsigned int max_sources = 100);
 
-		Sound* create_sound(cstring file, bool loop = false, bool stream = false, SoundCallback callback = {});
+		Sound* create_sound(const string& file, bool loop = false, bool stream = false, SoundCallback callback = {});
 
 	public:
 		void set_master_volume(ALfloat vol);
@@ -80,7 +80,7 @@ namespace mud
 	public:
 		void update();
 
-		void create(unique<Sound> sound, cstring filename, bool stream);
+		void create(unique<Sound> sound, const string& filename, bool stream);
 		void destroy(Sound& sound);
 
 		void play(Sound& sound);
@@ -104,8 +104,8 @@ namespace mud
 		void log_features();
 
 	public:
-		SharedBuffer& create_buffer(cstring filename);
-		SharedBuffer& get_buffer(cstring filename);
+		SharedBuffer& create_buffer(const string& filename);
+		SharedBuffer& get_buffer(const string& filename);
 		void release_buffer(SharedBuffer& buffer);
 
 	private:

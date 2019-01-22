@@ -190,9 +190,9 @@ namespace mud
 		return bimg::imageParse(&allocator, data, size, bimg::TextureFormat::Enum(_dstFormat));
 	}
 
-	void save_texture(GfxSystem& gfx_system, Texture& texture, cstring path)
+	void save_texture(GfxSystem& gfx_system, Texture& texture, const string& path)
 	{
-		save_bgfx_texture(gfx_system.m_allocator, gfx_system.file_writer(), path, texture.m_format, texture.m_texture, texture.m_format, texture.m_width, texture.m_height);
+		save_bgfx_texture(gfx_system.m_allocator, gfx_system.file_writer(), path.c_str(), texture.m_format, texture.m_texture, texture.m_format, texture.m_width, texture.m_height);
 	}
 
 	void set_texture_info(Texture& texture, bgfx::TextureInfo& texture_info)
@@ -203,10 +203,10 @@ namespace mud
 		texture.m_bits_per_pixel = texture_info.bitsPerPixel;
 	}
 
-	void load_texture(GfxSystem& gfx_system, Texture& texture, cstring path)
+	void load_texture(GfxSystem& gfx_system, Texture& texture, const string& path)
 	{
 		bgfx::TextureInfo texture_info;
-		texture.m_texture = load_bgfx_texture(gfx_system.m_allocator, gfx_system.file_reader(), path, 0U, &texture_info, true);
+		texture.m_texture = load_bgfx_texture(gfx_system.m_allocator, gfx_system.file_reader(), path.c_str(), 0U, &texture_info, true);
 		// if(!bgfx::isValid(texture.m_texture)) set placeholder "missing texture" texture instead
 		set_texture_info(texture, texture_info);
 	}
@@ -226,7 +226,7 @@ namespace mud
 		texture.m_texture = bgfx::createTexture2D(width, height, false, 1, bgfx::TextureFormat::RGBA8, GFX_TEXTURE_POINT, memory);
 	}
 
-	Texture::Texture(cstring name)
+	Texture::Texture(const string& name)
 		: m_name(name)
 	{}
 

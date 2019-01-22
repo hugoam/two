@@ -54,7 +54,7 @@ namespace mud
 		return errors;
 	}
 
-	SoundManager::SoundManager(cstring resource_path)
+	SoundManager::SoundManager(const string& resource_path)
 		: m_resource_path(resource_path)
 #ifdef SOUND_THREADED
 		, m_actions(QUEUE_LIST_SIZE)
@@ -109,7 +109,7 @@ namespace mud
 		this->clear_sources();
 	}
 
-	bool SoundManager::init(cstring device_name, unsigned int max_sources)
+	bool SoundManager::init(const string& device_name, unsigned int max_sources)
 	{
 		printf("INFO: Init Sound Manager\n");
 
@@ -210,7 +210,7 @@ namespace mud
 		alListenerf(AL_GAIN, vol);
 	}
 
-	Sound* SoundManager::create_sound(cstring filename, bool loop, bool stream, SoundCallback callback)
+	Sound* SoundManager::create_sound(const string& filename, bool loop, bool stream, SoundCallback callback)
 	{
 		string path = filename; //m_resource_path + "sounds/" + filename;
 
@@ -238,7 +238,7 @@ namespace mud
 		return &result;
 	}
 
-	void SoundManager::create(unique<Sound> sound, cstring filename, bool stream)
+	void SoundManager::create(unique<Sound> sound, const string& filename, bool stream)
 	{
 		//std::cerr << "creating sound Impl : " << filename << std::endl;
 		m_inactive_sounds.push_back(&*sound);
@@ -434,13 +434,13 @@ namespace mud
 			sound->set_pitch(m_global_pitch);
 	}
 
-	SharedBuffer& SoundManager::create_buffer(cstring filename)
+	SharedBuffer& SoundManager::create_buffer(const string& filename)
 	{
 		m_shared_buffers[filename] = make_unique<SharedBuffer>(filename, *this);
 		return *m_shared_buffers[filename];
 	}
 
-	SharedBuffer& SoundManager::get_buffer(cstring filename)
+	SharedBuffer& SoundManager::get_buffer(const string& filename)
 	{
 		auto find = m_shared_buffers.find(filename);
 		if(find != m_shared_buffers.end())

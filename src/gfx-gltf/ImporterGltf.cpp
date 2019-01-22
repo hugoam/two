@@ -53,12 +53,12 @@ namespace mud
 
 namespace mud
 {
-	static ImportConfig load_model_config(cstring path, cstring model_name)
+	static ImportConfig load_model_config(const string& path, const string& model_name)
 	{
 		ImportConfig config = {};
 
 		string config_path = file_directory(path) + "/" + model_name + ".cfg";
-		if(file_exists(config_path.c_str()))
+		if(file_exists(config_path))
 			unpack_json_file(Ref(&config), config_path);
 
 		config.m_transform = bxSRT(config.m_scale, config.m_rotation, config.m_position);
@@ -73,15 +73,15 @@ namespace mud
 	{
 		setup_gltf(mud_gltf::m());
 
-		static auto load_gltf_model = [&](Model& model, cstring path)
+		static auto load_gltf_model = [&](Model& model, const string& path)
 		{
-			ImportConfig config = load_model_config(path, model.m_name.c_str());
+			ImportConfig config = load_model_config(path, model.m_name);
 			this->import_model(model, path, config);
 		};
 
-		static auto load_gltf_prefab = [&](Prefab& prefab, cstring path)
+		static auto load_gltf_prefab = [&](Prefab& prefab, const string& path)
 		{
-			ImportConfig config = load_model_config(path, prefab.m_name.c_str());
+			ImportConfig config = load_model_config(path, prefab.m_name);
 			this->import_prefab(prefab, path, config);
 		};
 
@@ -92,7 +92,8 @@ namespace mud
 
 	static vector<uint8_t> read_base64_uri(const string& uri)
 	{
-		string decoded = decode_base64(uri.substr(uri.find(",") + 1).c_str()).c_str();
+		std::string base64 = uri.substr(uri.find(",") + 1).c_str();
+		string decoded = decode_base64(base64).c_str();
 		return {};//vector_convert<uint8_t>(decoded);
 	}
 

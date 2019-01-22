@@ -64,8 +64,8 @@ namespace mud
 		};
 
 	public:
-		Program(cstring name, bool compute = false);
-		Program(cstring name, array<GfxBlock*> blocks, array<cstring> sources);
+		Program(const string& name, bool compute = false);
+		Program(const string& name, array<GfxBlock*> blocks, array<cstring> sources);
 		~Program();
 
 		attr_ cstring name();

@@ -51,7 +51,7 @@ namespace mud
 	export_ struct refl_ MUD_GFX_EXPORT ParticleFlow
 	{
 		ParticleFlow();
-		ParticleFlow(cstring name);
+		ParticleFlow(const string& name);
 
 		attr_ string m_name;
 

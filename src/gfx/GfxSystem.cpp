@@ -49,7 +49,7 @@ module mud.gfx;
 
 namespace mud
 {
-	GfxContext::GfxContext(GfxSystem& gfx_system, cstring name, int width, int height, bool fullScreen, bool init)
+	GfxContext::GfxContext(GfxSystem& gfx_system, const string& name, int width, int height, bool fullScreen, bool init)
 		: BgfxContext(gfx_system, name, width, height, fullScreen, false)
 		, m_gfx_system(gfx_system)
 		, m_target()
@@ -111,7 +111,7 @@ namespace mud
 #endif
 	};
 
-	GfxSystem::GfxSystem(cstring resource_path)
+	GfxSystem::GfxSystem(const string& resource_path)
 		: BgfxSystem(resource_path)
 		, m_impl(make_unique<Impl>())
 		, m_pipeline(make_unique<Pipeline>(*this))
@@ -121,13 +121,6 @@ namespace mud
 		Model::ms_gfx_system = this;
 
 		this->add_resource_path(resource_path, false);
-	}
-
-	GfxSystem::GfxSystem(array<cstring> resource_paths)
-		: GfxSystem(resource_paths[0])
-	{
-		for(size_t i = 1; i < resource_paths.size(); ++i)
-			this->add_resource_path(resource_paths[i], false);
 	}
 
 	GfxSystem::~GfxSystem()
@@ -157,7 +150,7 @@ namespace mud
 		return m_impl->m_importers[size_t(format)];
 	}
 
-	object<Context> GfxSystem::create_context(cstring name, int width, int height, bool fullScreen)
+	object<Context> GfxSystem::create_context(const string& name, int width, int height, bool fullScreen)
 	{
 		object<GfxContext> context = make_object<GfxContext>(*this, name, width, height, fullScreen, !m_initialized);
 		m_impl->m_contexts.push_back(context.get());
@@ -171,8 +164,8 @@ namespace mud
 		m_impl->m_meshes = make_unique<TPool<Mesh>>();
 		m_impl->m_rigs = make_unique<TPool<Rig>>();
 		m_impl->m_animations = make_unique<TPool<Animation>>();
-
-		m_impl->m_textures = make_unique<AssetStore<Texture>>(*this, "textures/", [&](Texture& texture, cstring path) { load_texture(*this, texture, path); });
+		//std::function<T>();
+		m_impl->m_textures = make_unique<AssetStore<Texture>>(*this, "textures/", [&](Texture& texture, const string& path) { load_texture(*this, texture, path); });
 		m_impl->m_programs = make_unique<AssetStore<Program>>(*this, "programs/", ".prg");
 		m_impl->m_materials = make_unique<AssetStore<Material>>(*this, "materials/", ".mtl");
 		m_impl->m_models = make_unique<AssetStore<Model>>(*this, "models/");
@@ -217,9 +210,9 @@ namespace mud
 		this->create_debug_materials();
 	}
 
-	void GfxSystem::add_resource_path(cstring path, bool relative)
+	void GfxSystem::add_resource_path(const string& path, bool relative)
 	{
-		printf("INFO: resource path: %s\n", path);
+		printf("INFO: resource path: %s\n", path.c_str());
 		m_impl->m_resource_paths.push_back(relative ? m_resource_path + path : path);
 	}
 
@@ -332,23 +325,23 @@ namespace mud
 		return { m_frame, m_time, m_delta_time, Render::s_render_pass_id };
 	}
 
-	LocatedFile GfxSystem::locate_file(cstring file, array<cstring> extensions)
+	LocatedFile GfxSystem::locate_file(const string& file, array<string> extensions)
 	{
 		for(const string& path : m_impl->m_resource_paths)
 			for(size_t i = 0; i < extensions.size(); ++i)
 			{
 				string filepath = path + file + extensions[i];
-				if(file_exists(filepath.c_str()))
+				if(file_exists(filepath))
 				{
-					return { path.c_str(), file, extensions[i], i };
+					return { path, file, extensions[i], i };
 				}
 			}
 		return {};
 	}
 
-	LocatedFile GfxSystem::locate_file(cstring file)
+	LocatedFile GfxSystem::locate_file(const string& file)
 	{
-		carray<cstring, 1> exts = { "" };
+		carray<string, 1> exts = { "" };
 		return this->locate_file(file, exts);
 	}
 
@@ -380,7 +373,7 @@ namespace mud
 		return *this->materials().get("debug_pbr");
 	}
 
-	Material& GfxSystem::fetch_material(cstring name, cstring shader, bool builtin)
+	Material& GfxSystem::fetch_material(const string& name, const string& shader, bool builtin)
 	{
 		Program* program = this->programs().file(shader);
 		Material& material = this->materials().fetch(name);
@@ -392,16 +385,16 @@ namespace mud
 	Material& GfxSystem::fetch_image256_material(const Image256& image)
 	{
 		string name = "Image256_" + to_string((uintptr_t)&image);
-		Material* material = this->materials().get(name.c_str());
+		Material* material = this->materials().get(name);
 
 		if(!material)
 		{
 			string image_name = "Image256_" + to_string((uintptr_t)&image);
 			auto initializer = [&](Texture& texture) { auto data = image.read(); load_texture_rgba(texture, image.m_width, image.m_height, data); };
 
-			Texture& texture = this->textures().fetch(image_name.c_str());
+			Texture& texture = this->textures().fetch(image_name);
 			initializer(texture);
-			material = &this->fetch_material(name.c_str(), "unshaded");
+			material = &this->fetch_material(name, "unshaded");
 			material->m_unshaded_block.m_enabled = true;
 			material->m_unshaded_block.m_colour.m_texture = &texture;
 		}
