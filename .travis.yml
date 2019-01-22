@@ -5,6 +5,8 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
+      - gcc-8
+      - g++-8
       - xorg-dev
 
 dist: xenial
