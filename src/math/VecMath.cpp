@@ -16,6 +16,8 @@ module mud.math;
 
 #ifdef MUD_NO_GLM
 
+#include <glm/gtc/quaternion.hpp>
+
 #include <algorithm>
 
 namespace mud
@@ -26,16 +28,17 @@ namespace mud
 	quat operator+(const quat& q) { return q; }
 	quat operator-(const quat& v) { return quat(-v.x, -v.y, -v.z, -v.w); }
 
-	quat operator+(const quat& a, const quat& b) { return quat(a.w + b.w, a.x + b.x, a.y + b.y, a.z + b.z); }
-	quat operator-(const quat& a, const quat& b) { return quat(a.w - b.w, a.x - b.x, a.y - b.y, a.z - b.z); }
+	quat operator+(const quat& a, const quat& b) { return quat(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w); }
+	quat operator-(const quat& a, const quat& b) { return quat(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w); }
 
-	quat operator*(const quat& q, float s) { return quat(q.w * s, q.x * s, q.y * s, q.z * s); }
-	quat operator/(const quat& q, float s) { return quat(q.w / s, q.x / s, q.y / s, q.z / s); }
-	quat operator*(float s, const quat& q) { return quat(q.w * s, q.x * s, q.y * s, q.z * s); }
-	quat operator/(float s, const quat& q) { return quat(q.w / s, q.x / s, q.y / s, q.z / s); }
+	quat operator*(const quat& q, float s) { return quat(q.x * s, q.y * s, q.z * s, q.w * s); }
+	quat operator/(const quat& q, float s) { return quat(q.x / s, q.y / s, q.z / s, q.w / s); }
+	quat operator*(float s, const quat& q) { return quat(q.x * s, q.y * s, q.z * s, q.w * s); }
+	quat operator/(float s, const quat& q) { return quat(s / q.x, s / q.y, s / q.w, s / q.w); }
 
 	quat operator*(const quat& a, const quat& b)
 	{
+		glm::quat() * glm::quat();
 		return quat(
 			a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y,
 			a.w * b.y + a.y * b.w + a.z * b.x - a.x * b.z,
@@ -66,8 +69,8 @@ namespace mud
 		float len = length(q);
 		if(len <= float(0))
 			return quat(float(0), float(0), float(0), float(1));
-		float inverse_len = float(1) / len;
-		return quat(q.x * inverse_len, q.y * inverse_len, q.z * inverse_len, q.w * inverse_len);
+		float invlen = float(1) / len;
+		return quat(q.x * invlen, q.y * invlen, q.z * invlen, q.w * invlen);
 	}
 
 	//bool operator==(const quat& q1, const quat& q2) { return all(equal(q1, q2, epsilon<float>())); }
@@ -79,11 +82,13 @@ namespace mud
 		return (tmp.x + tmp.y) + (tmp.z + tmp.w);
 	}
 
+#if 0
 	quat lerp(const quat& a, const quat& b, float t)
 	{
 		float4 vec = lerp((float4&)a, (float4&)b, t);
 		return quat(vec.x, vec.y, vec.z, vec.w);
 	}
+#endif
 
 	quat slerp(const quat& x, const quat& y, float a)
 	{
@@ -133,9 +138,9 @@ namespace mud
 	{
 		mat4 result;
 		result[0] = m[0] * f;
-		result[1] = m[0] * f;
-		result[2] = m[0] * f;
-		result[3] = m[0] * f;
+		result[1] = m[1] * f;
+		result[2] = m[2] * f;
+		result[3] = m[3] * f;
 		return result;
 	}
 
@@ -166,7 +171,7 @@ namespace mud
 
 	mat4 inverse(const mat4& m)
 	{
-#if 1
+#if 0
 		float xx = m.f[0];
 		float xy = m.f[1];
 		float xz = m.f[2];

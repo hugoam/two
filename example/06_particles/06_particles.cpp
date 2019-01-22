@@ -13,9 +13,9 @@ using namespace mud;
 template <class T_Asset>
 void add_asset_loader(AssetStore<T_Asset>& store, cstring format)
 {
-	auto loader = [&](T_Asset& asset, cstring path)
+	auto loader = [&](T_Asset& asset, const string& path)
 	{
-		unpack_json_file(Ref(&asset), string(path) + store.m_cformats[0]);
+		unpack_json_file(Ref(&asset), path + store.m_formats[0]);
 	};
 
 	store.add_format(format, loader);

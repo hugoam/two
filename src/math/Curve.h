@@ -4,13 +4,10 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <math/Vec.h>
 #include <math/Interp.h>
 #include <math/Forward.h>
-
-#ifndef MUD_CPP_20
-#include <stl/vector.h>
-#endif
 
 namespace mud
 {

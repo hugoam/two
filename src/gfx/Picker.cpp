@@ -3,13 +3,11 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <gfx/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <stl/map.h>
-#endif
 
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/map.h>
 #include <infra/Vector.h>
 #include <math/Math.h>
 #include <math/VecOps.h>

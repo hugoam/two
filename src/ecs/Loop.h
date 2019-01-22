@@ -19,7 +19,7 @@ namespace mud
 		{
 			tuple<ComponentBuffer<Ts>&...> buffers = { stream->Buffer<Ts>()... };
 
-			auto process = [action, stream, buffers](JobSystem& js, Job* job, uint32_t start, uint32_t count)
+			auto process = [=](JobSystem& js, Job* job, uint32_t start, uint32_t count)
 			{
 				UNUSED(js); UNUSED(job);
 				for(uint32_t i = start; i < start + count; ++i)

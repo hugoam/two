@@ -58,23 +58,23 @@ namespace mud
 	// in all version of GLES.
 
 	// Make sure this matches the same constants in shading_lit.fs
-	constexpr size_t FROXEL_BUFFER_WIDTH_SHIFT = 6u;
-	constexpr size_t FROXEL_BUFFER_WIDTH = 1u << FROXEL_BUFFER_WIDTH_SHIFT;
-	constexpr size_t FROXEL_BUFFER_WIDTH_MASK = FROXEL_BUFFER_WIDTH - 1u;
-	constexpr size_t FROXEL_BUFFER_HEIGHT = (FROXEL_BUFFER_ENTRY_COUNT_MAX + FROXEL_BUFFER_WIDTH_MASK) / FROXEL_BUFFER_WIDTH;
+	constexpr uint32_t FROXEL_BUFFER_WIDTH_SHIFT = 6u;
+	constexpr uint32_t FROXEL_BUFFER_WIDTH = 1u << FROXEL_BUFFER_WIDTH_SHIFT;
+	constexpr uint32_t FROXEL_BUFFER_WIDTH_MASK = FROXEL_BUFFER_WIDTH - 1u;
+	constexpr uint32_t FROXEL_BUFFER_HEIGHT = (FROXEL_BUFFER_ENTRY_COUNT_MAX + FROXEL_BUFFER_WIDTH_MASK) / FROXEL_BUFFER_WIDTH;
 
-	constexpr size_t RECORD_BUFFER_WIDTH_SHIFT = 5u;
-	constexpr size_t RECORD_BUFFER_WIDTH = 1u << RECORD_BUFFER_WIDTH_SHIFT;
-	constexpr size_t RECORD_BUFFER_WIDTH_MASK = RECORD_BUFFER_WIDTH - 1u;
+	constexpr uint32_t RECORD_BUFFER_WIDTH_SHIFT = 5u;
+	constexpr uint32_t RECORD_BUFFER_WIDTH = 1u << RECORD_BUFFER_WIDTH_SHIFT;
+	constexpr uint32_t RECORD_BUFFER_WIDTH_MASK = RECORD_BUFFER_WIDTH - 1u;
 
-	constexpr size_t RECORD_BUFFER_HEIGHT = 2048;
-	constexpr size_t RECORD_BUFFER_ENTRY_COUNT = RECORD_BUFFER_WIDTH * RECORD_BUFFER_HEIGHT; // 64K
+	constexpr uint32_t RECORD_BUFFER_HEIGHT = 2048;
+	constexpr uint32_t RECORD_BUFFER_ENTRY_COUNT = RECORD_BUFFER_WIDTH * RECORD_BUFFER_HEIGHT; // 64K
 
 	// number of lights processed by one group (e.g. 32)
-	static constexpr size_t LIGHT_PER_GROUP = sizeof(LightGroupType) * 8;
+	static constexpr uint32_t LIGHT_PER_GROUP = sizeof(LightGroupType) * 8;
 
 	// number of groups (i.e. jobs) to use for froxelization (e.g. 8)
-	static constexpr size_t GROUP_COUNT = (CONFIG_MAX_LIGHT_COUNT + LIGHT_PER_GROUP - 1) / LIGHT_PER_GROUP;
+	static constexpr uint32_t GROUP_COUNT = (CONFIG_MAX_LIGHT_COUNT + LIGHT_PER_GROUP - 1) / LIGHT_PER_GROUP;
 
 
 	// record buffer cannot be larger than 65K entries because we're using uint16_t to store indices
@@ -117,7 +117,7 @@ namespace mud
 		template <class T>
 		struct Buffer
 		{
-			Buffer(GpuBuffer::Element element, size_t row_size, size_t row_count) : m_buffer(element, row_size, row_count) {}
+			Buffer(GpuBuffer::Element element, uint32_t row_size, uint32_t row_count) : m_buffer(element, row_size, row_count) {}
 			GpuBuffer m_buffer;
 			vector<T> m_data;
 			const bgfx::Memory* m_memory;
@@ -130,7 +130,7 @@ namespace mud
 		Buffer<RecordBufferType> m_records;		//  64 KiB // max 32 KiB  (actual: resolution dependant)
 	};
 
-	void froxelize_light(ClusteredFrustum& frustum, FroxelThreadData& froxelThread, size_t bit, const mat4& projection, float near, const LightParams& light, float light_far);
+	void froxelize_light(ClusteredFrustum& frustum, FroxelThreadData& froxelThread, uint32_t bit, const mat4& projection, float near, const LightParams& light, float light_far);
 
 	Froxelizer::Froxelizer(GfxSystem& gfx_system)
 		: m_gfx_system(gfx_system)
@@ -143,9 +143,9 @@ namespace mud
 	Froxelizer::~Froxelizer()
 	{}
 
-	size_t Froxelizer::record(size_t cluster) { return m_impl->m_froxels.m_data[cluster].offset; }
-	size_t Froxelizer::count(size_t record, int type) { return m_impl->m_froxels.m_data[record].count[type]; }
-	size_t Froxelizer::light(size_t record) { return m_impl->m_records.m_data[record]; }
+	uint32_t Froxelizer::record(uint32_t cluster) { return m_impl->m_froxels.m_data[cluster].offset; }
+	uint32_t Froxelizer::count(uint32_t record, int type) { return m_impl->m_froxels.m_data[record].count[type]; }
+	uint32_t Froxelizer::light(uint32_t record) { return m_impl->m_records.m_data[record]; }
 
 	bool Froxelizer::update(const Viewport& viewport, const mat4& projection, float near, float far)
 	{
@@ -268,7 +268,7 @@ namespace mud
 	{	
 		m_debug_clusters.resize(m_frustum.m_cluster_count);
 
-		size_t i = 0;
+		uint32_t i = 0;
 
 		for(uint16_t z = 0; z < m_frustum.m_subdiv_z; ++z)
 		for(uint16_t y = 0; y < m_frustum.m_subdiv_y; ++y)
@@ -307,25 +307,25 @@ namespace mud
 	{
 		// note: this is called asynchronously
 		froxelize_loop(camera, lights);
-		froxelize_assign_records_compress(lights.size());
+		froxelize_assign_records_compress(uint32_t(lights.size()));
 	}
 
-	void Froxelizer::froxelize_light_group(const Camera& camera, array<Light*> lights, size_t offset, size_t stride)
+	void Froxelizer::froxelize_light_group(const Camera& camera, array<Light*> lights, uint32_t offset, uint32_t stride)
 	{
 		const mat4& projection = m_projection;
 
-		for(size_t i = offset; i < lights.size(); i += stride)
+		for(uint32_t i = offset; i < lights.size(); i += stride)
 		{
-			vec3 position = vec3(camera.m_transform * vec4(lights[i]->m_node.position(), 1.f));
-			vec3 direction = vec3(camera.m_transform * vec4(lights[i]->m_node.direction(), 0.f));
+			vec3 position = mulp(camera.m_transform, lights[i]->m_node.position());
+			vec3 direction = muln(camera.m_transform, lights[i]->m_node.direction());
 
 			float cos2 = bx::square(cos(to_radians(lights[i]->m_spot_angle)));
 			float invsin = 1.f / std::sqrt(1.f - cos2);
 
 			LightParams light = { position, cos2, direction, invsin, lights[i]->m_range };
 
-			const size_t group = i % GROUP_COUNT;
-			const size_t bit = i / GROUP_COUNT;
+			const uint32_t group = i % GROUP_COUNT;
+			const uint32_t bit = i / GROUP_COUNT;
 			assert(bit < LIGHT_PER_GROUP);
 
 			FroxelThreadData& threadData = m_impl->m_froxel_sharded_data[group];
@@ -344,25 +344,25 @@ namespace mud
 #ifdef MUD_THREADED
 		JobSystem& js = *m_gfx_system.m_job_system;
 		Job* parent = js.job();
-		for(size_t i = 0; i < GROUP_COUNT; i++)
+		for(uint32_t i = 0; i < GROUP_COUNT; i++)
 		{
-			auto task = [&](JobSystem&, Job*) { this->froxelize_light_group(camera, lights, i, GROUP_COUNT); };
+			auto task = [=, &camera](JobSystem&, Job*) { this->froxelize_light_group(camera, lights, i, GROUP_COUNT); };
 			js.run(js.job(parent, task));
 		}
 		js.complete(parent);
 #else
-		for(size_t i = 0; i < GROUP_COUNT; i++)
+		for(uint32_t i = 0; i < GROUP_COUNT; i++)
 			this->froxelize_light_group(camera, lights, i, GROUP_COUNT);
 #endif
 	}
 
-	void Froxelizer::froxelize_assign_records_compress(size_t num_lights)
+	void Froxelizer::froxelize_assign_records_compress(uint32_t num_lights)
 	{
 		UNUSED(num_lights);
 
 		auto inspect = [&]()
 		{
-			size_t i = 0;
+			uint32_t i = 0;
 			for(FroxelEntry& entry : m_impl->m_froxels.m_data)
 			{
 				if((entry.count[0] > 0 || entry.count[1] > 0) && entry.offset == 0)
@@ -380,23 +380,23 @@ namespace mud
 		LightRecord::Lights spot_lights;
 
 		using container_type = LightRecord::Lights::container_type;
-		constexpr size_t r = sizeof(container_type) / sizeof(LightGroupType);
+		constexpr uint32_t r = sizeof(container_type) / sizeof(LightGroupType);
 
-		for(size_t i = 0; i < LightRecord::Lights::WORLD_COUNT; i++)
+		for(uint32_t i = 0; i < LightRecord::Lights::WORLD_COUNT; i++)
 		{
 			container_type b = m_impl->m_froxel_sharded_data[i * r][0];
-			for(size_t k = 0; k < r; k++)
+			for(uint32_t k = 0; k < r; k++)
 				b |= (container_type(m_impl->m_froxel_sharded_data[i * r + k][0]) << (LIGHT_PER_GROUP * k));
 			spot_lights.at(i) = b;
 		}
 
 		// this gets very well vectorized...
-		for(size_t j = 1, jc = FROXEL_BUFFER_ENTRY_COUNT_MAX; j < jc; j++)
+		for(uint32_t j = 1, jc = FROXEL_BUFFER_ENTRY_COUNT_MAX; j < jc; j++)
 		{
-			for(size_t i = 0; i < LightRecord::Lights::WORLD_COUNT; i++)
+			for(uint32_t i = 0; i < LightRecord::Lights::WORLD_COUNT; i++)
 			{
 				container_type b = m_impl->m_froxel_sharded_data[i * r][j];
-				for(size_t k = 0; k < r; k++)
+				for(uint32_t k = 0; k < r; k++)
 					b |= (container_type(m_impl->m_froxel_sharded_data[i * r + k][j]) << (LIGHT_PER_GROUP * k));
 				m_impl->m_light_records[j - 1].lights.at(i) = b;
 			}
@@ -404,7 +404,7 @@ namespace mud
 
 		uint16_t offset = 0;
 
-		auto remap = [stride = size_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_y)](size_t i) -> size_t
+		auto remap = [stride = uint32_t(m_frustum.m_subdiv_x * m_frustum.m_subdiv_y)](uint32_t i) -> uint32_t
 		{
 			if(SUPPORTS_REMAPPED_FROXELS) {
 				// TODO: with the non-square froxel change these would be mask ops instead of divide.
@@ -413,8 +413,8 @@ namespace mud
 			return i;
 		};
 
-		size_t num_clusters = m_frustum.m_cluster_count;
-		for(size_t cluster = 0; cluster < num_clusters;)
+		uint32_t num_clusters = m_frustum.m_cluster_count;
+		for(uint32_t cluster = 0; cluster < num_clusters;)
 		{
 			LightRecord b = m_impl->m_light_records[cluster];
 			if(b.lights.none())
@@ -424,8 +424,8 @@ namespace mud
 			}
 
 			// We have a limitation of 255 spot + 255 point lights per froxel.
-			uint8_t point_count = (uint8_t)bx::min(size_t(255), (b.lights & ~spot_lights).count());
-			uint8_t spot_count = (uint8_t)bx::min(size_t(255), (b.lights &  spot_lights).count());
+			uint8_t point_count = uint8_t(min(255U, uint32_t((b.lights & ~spot_lights).count())));
+			uint8_t spot_count = uint8_t(min(255U, uint32_t((b.lights &  spot_lights).count())));
 
 			FroxelEntry entry = { offset, point_count, spot_count };
 
@@ -442,16 +442,16 @@ namespace mud
 			}
 
 			// iterate the bitfield
-			size_t first_point = offset;
-			size_t first_spot = offset + entry.count[0];
-			size_t point = first_point;
-			size_t spot = first_spot;
+			uint32_t first_point = offset;
+			uint32_t first_spot = offset + entry.count[0];
+			uint32_t point = first_point;
+			uint32_t spot = first_spot;
 
 //#ifndef USE_STD_BITSET
 #if 0
-			b.lights.for_each([&](size_t l) mutable
+			b.lights.for_each([&](uint32_t l) mutable
 #else
-			for(size_t l = 0; l < CONFIG_MAX_LIGHT_COUNT; ++l)
+			for(uint32_t l = 0; l < CONFIG_MAX_LIGHT_COUNT; ++l)
 				if(b.lights[l])
 #endif
 			{
@@ -460,9 +460,9 @@ namespace mud
 				auto& i = isSpot ? spot : point;
 				auto  s = isSpot ? first_spot : first_point;
 
-				const size_t word = l / LIGHT_PER_GROUP;
-				const size_t bit = l % LIGHT_PER_GROUP;
-				size_t ll = (bit * GROUP_COUNT) | (word % GROUP_COUNT);
+				const uint32_t word = l / LIGHT_PER_GROUP;
+				const uint32_t bit = l % LIGHT_PER_GROUP;
+				uint32_t ll = (bit * GROUP_COUNT) | (word % GROUP_COUNT);
 				assert(ll < num_lights);
 
 				m_impl->m_records.m_data[i] = (RecordBufferType)ll;
@@ -516,13 +516,28 @@ namespace mud
 		const float y = p[1].y * vy + p[2].y * vz + p[3].y;
 		const float w = p[2].w * vz + p[3].w;
 
-		return vec2{ x, y } * (1 / w);
+		return vec2(x, y) * (1 / w);
 	}
 
-	inline float sphere_plane_distance2(const vec4& s, float px, float pz) { return sphere_plane_intersection(vec3(s), s.w, { px, 0.f, pz }, 0.f).w; };
-	inline vec4 sphere_plane_intersection(const vec4& s, float py, float pz) { return sphere_plane_intersection(vec3(s), s.w, { 0.f, py, pz }, 0.f); };
-	inline vec4 sphere_plane_intersection(const vec4& s, float pw) { return sphere_plane_intersection(vec3(s), s.w, { 0.f, 0.f, 1.f }, pw); };
-	inline bool sphere_cone_intersection(const vec4& s, const vec3& cone_position, const vec3& cone_axis, float cone_sin_inverse, float cone_cos_squared) { return sphere_cone_intersection_fast(vec3(s), s.w, cone_position, cone_axis, cone_sin_inverse, cone_cos_squared); }
+	inline float sphere_plane_distance2(const vec4& s, float px, float pz)
+	{
+		return sphere_plane_intersection(vec3(s), s.w, { px, 0.f, pz }, 0.f).w;
+	}
+	
+	inline vec4 sphere_plane_intersection(const vec4& s, float py, float pz)
+	{
+		return sphere_plane_intersection(vec3(s), s.w, { 0.f, py, pz }, 0.f);
+	}
+	
+	inline vec4 sphere_plane_intersection(const vec4& s, float pw)
+	{
+		return sphere_plane_intersection(vec3(s), s.w, { 0.f, 0.f, 1.f }, pw);
+	}
+
+	inline bool sphere_cone_intersection(const vec4& s, const vec3& cone_position, const vec3& cone_axis, float cone_sin_inverse, float cone_cos_squared)
+	{
+		return sphere_cone_intersection_fast(vec3(s), s.w, cone_position, cone_axis, cone_sin_inverse, cone_cos_squared);
+	}
 	
 	void light_bounds(ClusteredFrustum& frustum, const mat4& projection, float near, const LightParams& light, uvec3& lo, uvec3& hi)
 	{
@@ -554,7 +569,7 @@ namespace mud
 		};
 	}
 
-	void froxelize_light(ClusteredFrustum& frustum, FroxelThreadData& froxelThread, size_t bit, const mat4& projection, float near, const LightParams& light, float light_far)
+	void froxelize_light(ClusteredFrustum& frustum, FroxelThreadData& froxelThread, uint32_t bit, const mat4& projection, float near, const LightParams& light, float light_far)
 	{
 		if(light.position.z + light.radius < -light_far) // [[unlikely]] // z values are negative
 		{
@@ -574,9 +589,9 @@ namespace mud
 		assert(lo.y <= hi.y);
 		assert(lo.z <= hi.z);
 
-		const size_t zcenter = frustum.slice(s.z);
+		const uint32_t zcenter = frustum.slice(s.z);
 
-		for(uint iz = lo.z; iz <= hi.z; ++iz)
+		for(uint32_t iz = lo.z; iz <= hi.z; ++iz)
 		{
 			vec4 cz(s);
 			if(iz != zcenter) // [[unlikely]]
@@ -589,7 +604,7 @@ namespace mud
 
 			if(cz.w > 0)
 			{ // intersection of light with this plane (slice)
-				for(uint iy = lo.y; iy <= hi.y; ++iy)
+				for(uint32_t iy = lo.y; iy <= hi.y; ++iy)
 				{
 					vec4 cy(cz);
 					if(iy != center.y) // [[unlikely]] 
@@ -599,7 +614,7 @@ namespace mud
 					}
 					if(cy.w > 0)
 					{ // intersection of light with this horizontal plane
-						uint bx, ex; // horizontal begin/end indices
+						uint32_t bx, ex; // horizontal begin/end indices
 										// find the begin index (left side)
 						for(bx = lo.x; ++bx <= center.x;)
 							if(sphere_plane_distance2(cy, frustum.m_planes_x[bx].x, frustum.m_planes_x[bx].z) > 0)

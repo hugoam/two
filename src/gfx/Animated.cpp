@@ -165,26 +165,27 @@ namespace mud
 
 		for(AnimatedTrack& track : m_tracks)
 		{
-			track.m_cursor.m_time = m_cursor;
+			AnimationCursor& c = track.m_cursor;
+			c.m_time = m_cursor;
 
 			if(m_ended)
 				continue;
 
 			if(looped)
 			{
-				track.m_cursor.m_prev = m_speed > 0.f ? 0 : track.m_track->m_keys.size() - 2;
-				track.m_cursor.m_next = m_speed > 0.f ? 1 : track.m_track->m_keys.size() - 1;
+				c.m_prev = m_speed > 0.f ? 0 : track.m_track->m_keys.size() - 2;
+				c.m_next = m_speed > 0.f ? 1 : track.m_track->m_keys.size() - 1;
 			}
 
-			while(m_speed > 0.f && track.m_cursor.m_time >= track.m_track->m_keys[track.m_cursor.m_next].m_time)
+			while(m_speed > 0.f && c.m_time >= track.m_track->m_keys[c.m_next].m_time)
 			{
-				track.m_cursor.m_next++;
-				track.m_cursor.m_prev++;
+				c.m_next++;
+				c.m_prev++;
 			}
-			while(m_speed < 0.f && track.m_cursor.m_time <= track.m_track->m_keys[track.m_cursor.m_prev].m_time)
+			while(m_speed < 0.f && c.m_time <= track.m_track->m_keys[c.m_prev].m_time)
 			{
-				track.m_cursor.m_next--;
-				track.m_cursor.m_prev--;
+				c.m_next--;
+				c.m_prev--;
 			}
 		}
 

@@ -69,6 +69,7 @@ namespace mud
 	//mat4 bxrotation(const quat& rot) { mat4 result; bx::mtxQuat(value_ptr(result), value_ptr(rot)); return transpose(result); }
 	mat4 bxtranslation(const vec3& vec) { mat4 result; bx::mtxTranslate(value_ptr(result), vec.x, vec.y, vec.z); return result; }
 	mat4 bxmul(const mat4& lhs, const mat4& rhs) { mat4 result; bx::mtxMul(value_ptr(result), value_ptr(lhs), value_ptr(rhs)); return result; }
+	vec4 bxmul(const mat4& mat, const vec4& vec) { vec4 result; bx::vec4MulMtx(&result[0], value_ptr(vec), value_ptr(mat)); return result; }
 	vec3 bxmul(const mat4& mat, const vec3& vec) { vec3 result; bx::vec3MulMtx(&result[0], value_ptr(vec), value_ptr(mat)); return result; }
 	vec3 bxmulh(const mat4& mat, const vec3& vec) { vec3 result; bx::vec3MulMtxH(&result[0], value_ptr(vec), value_ptr(mat)); return result; }
 	mat4 bxlookat(const vec3& eye, const vec3& at) { mat4 result; bx::mtxLookAtRh(value_ptr(result), value_ptr(eye), value_ptr(at)); return result; }

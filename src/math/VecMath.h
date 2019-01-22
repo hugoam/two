@@ -31,27 +31,6 @@ namespace mud
 	using std::isinf;
 	using std::abs;
 
-
-#if 0
-	// A 16-bit floating point number
-	export_ struct refl_ struct_ array_ half
-	{
-		u16 x;
-	};
-	export_ struct refl_ struct_ array_ half2
-	{
-		u16 x, y;
-	};
-	export_ struct refl_ struct_ array_ half3
-	{
-		u16 x, y, z;
-	};
-	export_ struct refl_ struct_ array_ half4
-	{
-		u16 x, y, z, w;
-	};
-#endif
-
 	template <class T>
 	export_ struct refl_ struct_ array_ v2
 	{
@@ -430,43 +409,6 @@ namespace mud
 		};
 	};
 
-
-#if 0
-	//
-	// Double precision 3x3 matrix
-	// C++ only
-	//
-	export_ struct refl_ struct_ array_ mat3d
-	{
-		typedef double type;
-		mat3d() { }
-		mat3d(const double3& x, const double3& y, const double3& z)
-		{
-			f[0] = x.x; f[1] = x.y; f[2] = x.z;
-			f[3] = y.x; f[4] = y.y; f[5] = y.z;
-			f[6] = z.x; f[7] = z.y; f[8] = z.z;
-		}
-		mat3d(double f0, double f1, double f2, double f3, double f4, double f5, double f6, double f7, double f8)
-		{
-			f[0] = f0; f[1] = f1; f[2] = f2;
-			f[3] = f3; f[4] = f4; f[5] = f5;
-			f[6] = f6; f[7] = f7; f[8] = f8;
-		}
-
-		const double3& operator[](uint index) const { return *((double3*)f + index); }
-		double3& operator[](uint index) { return *((double3*)f + index); }
-
-		union
-		{
-			double m[3][3];
-			attr_ double f[9];
-		};
-	};
-#endif
-
-	//
-	// Single precision 4x4 matrix
-	//
 	export_ struct refl_ struct_ array_ mat4
 	{
 		typedef float type;

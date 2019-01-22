@@ -40,6 +40,9 @@ namespace mud
 	export_ func_ inline quat rotate(const quat& q, const vec3& axis, float angle) { return glm::rotate(q, angle, axis); }
 	export_ inline quat rotate(const quat& q, float angle, const vec3& axis) { return glm::rotate(q, angle, axis); }
 	export_ func_ inline vec3 rotate(const quat& q, const vec3& vec) { return q * vec; }
+	export_ func_ inline float distance(const vec3& a, const vec3& b) { return glm::distance(a, b); }
+	export_ func_ inline float length(const vec3& v) { return glm::length(v); }
+	export_ func_ inline float length2(const vec3& v) { return glm::length2(v); }
 #endif
 
 	export_ inline vec3 rotate(const vec3& v, float angle, const vec3& axis) { return angle_axis(angle, axis) * v; }
@@ -108,12 +111,3 @@ namespace mud
 	export_ template struct refl_ Range<uint32_t>;
 	export_ template struct refl_ Range<Colour>;
 }
-
-#ifdef MUD_META_GENERATOR
-namespace glm
-{
-	export_ func_ float distance(const mud::vec3& a, const mud::vec3& b);
-	export_ func_ float length(const mud::vec3& v);
-	export_ func_ float length2(const mud::vec3& v);
-}
-#endif

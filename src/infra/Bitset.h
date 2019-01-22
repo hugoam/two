@@ -59,7 +59,7 @@ namespace mud
  */
 
 template<typename T, size_t N = 1,
-        typename = typename std::enable_if<std::is_integral<T>::value &&
+         typename = typename std::enable_if<std::is_integral<T>::value &&
                                            std::is_unsigned<T>::value>::type>
 class bitset {
 	T storage[N] = {};
@@ -145,7 +145,7 @@ public:
         return (storage[b / BITS_PER_WORD] & (T(1) << (b % BITS_PER_WORD))) != 0;
     }
 
-    size_t count() const
+    T count() const
 	{
         T r = popcount(storage[0]);
         for (size_t i = 1; i < N; ++i)

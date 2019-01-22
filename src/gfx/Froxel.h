@@ -21,10 +21,10 @@
 
 namespace mud
 {
-	constexpr size_t CONFIG_MAX_LIGHT_COUNT = 256;
-	constexpr size_t CONFIG_MAX_LIGHT_INDEX = CONFIG_MAX_LIGHT_COUNT - 1;
+	constexpr uint32_t CONFIG_MAX_LIGHT_COUNT = 256;
+	constexpr uint32_t CONFIG_MAX_LIGHT_INDEX = CONFIG_MAX_LIGHT_COUNT - 1;
 
-	constexpr size_t CONFIG_FROXEL_SLICE_COUNT = 16;
+	constexpr uint32_t CONFIG_FROXEL_SLICE_COUNT = 16;
 
 	//
 	// Light UBO           Froxel Record Buffer     per-froxel light list texture
@@ -56,7 +56,7 @@ namespace mud
 	// the light indices per froxel. The record buffer is limited to 65536 entries, so with
 	// 8192 froxels, we can store 8 lights per froxels assuming they're all used. In practice, some
 	// froxels are not used, so we can store more.
-	static constexpr size_t FROXEL_BUFFER_ENTRY_COUNT_MAX = 8192;
+	static constexpr uint32_t FROXEL_BUFFER_ENTRY_COUNT_MAX = 8192;
 
 	export_ struct FroxelUniform
 	{
@@ -116,13 +116,13 @@ namespace mud
 		void update_viewport();
 		void update_projection();
 
-		size_t record(size_t cluster);
-		size_t count(size_t cluster, int type = 0);
-		size_t light(size_t record);
+		uint32_t record(uint32_t cluster);
+		uint32_t count(uint32_t cluster, int type = 0);
+		uint32_t light(uint32_t record);
 
-		void froxelize_assign_records_compress(size_t num_lights);
+		void froxelize_assign_records_compress(uint32_t num_lights);
 
-		void froxelize_light_group(const Camera& camera, array<Light*> lights, size_t offset, size_t stride);
+		void froxelize_light_group(const Camera& camera, array<Light*> lights, uint32_t offset, uint32_t stride);
 
 		GfxSystem& m_gfx_system;
 

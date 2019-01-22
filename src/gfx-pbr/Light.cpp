@@ -176,8 +176,8 @@ namespace mud
 		for(Light* light : lights)
 		{
 			Colour energy = to_linear(light->m_colour) * light->m_energy;
-			vec3 position = vec3(view * vec4(light->m_node.position(), 1.f));
-			vec3 direction = vec3(view * vec4(light->m_node.direction(), 0.f));
+			vec3 position = mulp(view, light->m_node.position());
+			vec3 direction = muln(view, light->m_node.direction());
 			Colour shadow_color = to_linear(light->m_shadow_colour);
 			m_lights_data.shadow_color_enabled[light_count] = { to_vec3(shadow_color), light->m_shadows ? 1.f : 0.f };
 
@@ -227,3 +227,97 @@ namespace mud
 		encoder.setUniform(u_shot.u_light_indices, m_lights_data.light_indices, m_light_count);
 	}
 }
+
+#ifdef _DEBUG
+#include <gfx/GfxSystem.h>
+#include <gfx/Pipeline.h>
+#include <gfx/Gfx.h>
+#include <geom/ShapesComplex.h>
+#include <geom/Symbol.h>
+namespace mud
+{
+	void debug_draw_light_clusters(Gnode& parent, Camera& camera)
+	{
+		if (!camera.m_clustered) return;
+		Froxelizer& clusters = *camera.m_clusters;
+
+		if (clusters.m_debug_clusters.empty())
+			clusters.compute_froxels();
+
+		enum Mode { ClusterIndex, RecordIndex, LightIndex, LightCount };
+		Mode mode = ClusterIndex;
+
+		mat4 transform = inverse(bxlookat(camera.m_eye, camera.m_target));
+		uint32_t i = 0;
+		for (Frustum& frustum : clusters.m_debug_clusters)
+		{
+			if (!clusters.count(i, 0) && !clusters.count(i, 1))
+			{
+				//gfx::draw(*parent.m_scene, transform, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(Colour(1.f, 0.02f)));
+				i++;
+				continue;
+			}
+
+			Colour colour = Colour(1.f, 0.02f);
+			uint32_t record = clusters.record(i);
+			uint32_t light = clusters.light(record);
+
+			if (mode == ClusterIndex)
+				colour = hsl_to_rgb(float(i) / (29.f * 16.f * 16.f), 1.f, 0.5f);
+			else if (mode == RecordIndex)
+				colour = hsl_to_rgb(float(record) / float(255.f), 1.f, 0.5f);
+			else if (mode == LightIndex)
+				colour = hsl_to_rgb(float(light) / 255.f, 1.f, 0.5f);
+			else if (mode == LightCount)
+				colour = hsl_to_rgb(float(clusters.count(i)) / 32.f, 1.f, 0.5f);
+
+			gfx::draw(*parent.m_scene, transform, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(colour));
+			i++;
+		}
+	}
+
+	void debug_draw_light_slices(Gnode& parent, Light& light, bool frustums, bool bounds)
+	{
+		uint32_t index = 0; UNUSED(light);// light.m_index];
+
+		GfxSystem& gfx_system = parent.m_scene->m_gfx_system;
+		BlockShadow& block_shadow = *gfx_system.m_pipeline->block<BlockShadow>();
+
+		if (index >= block_shadow.m_shadows.size())
+			return;
+
+		LightShadow& shadow = block_shadow.m_shadows[index];
+
+		auto draw = [](Gnode& parent, const Shape& shape, const Symbol& symbol)
+		{
+			Gnode& self = gfx::node(parent, {});
+			gfx::draw(self, shape, symbol);
+		};
+
+		for (size_t i = 0; i < shadow.m_slices.size(); ++i)
+		{
+			mat4 inverse_light = inverse(shadow.m_slices[i].m_transform);
+			draw(parent, Sphere(vec3(inverse_light[3]), 1.f), Symbol::wire(Colour::White));
+
+			if (frustums)
+			{
+				Frustum& frustum = shadow.m_frustum_slices[i].m_frustum;
+				draw(parent, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(Colour::White));
+				if (false)
+					draw(parent, Sphere(frustum.m_center, frustum.m_radius), Symbol::wire(Colour::DarkGrey));
+
+			}
+
+			if (bounds)
+			{
+				Box light_bounds = Box(aabb(shadow.m_slices[i].m_light_bounds.min, shadow.m_slices[i].m_light_bounds.max));
+
+				for (vec3& vertex : light_bounds.m_vertices)
+					vertex = vec3(inverse_light * vec4(vertex, 1.f));
+
+				draw(parent, light_bounds, Symbol::wire(Colour::Pink));
+			}
+		}
+	}
+}
+#endif

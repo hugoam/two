@@ -3,10 +3,6 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <gfx/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <stl/map.h>
-#include <stl/string.h>
-#endif
 
 #include <bx/timer.h>
 #include <bx/file.h>
@@ -17,6 +13,8 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/string.h>
+#include <stl/map.h>
 #include <pool/ObjectPool.h>
 #include <infra/ToString.h>
 #include <math/Image256.h>

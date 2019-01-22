@@ -149,3 +149,26 @@ namespace mud
 	}
 }
 
+#ifdef _DEBUG
+#include <gfx/Gfx.h>
+#include <math/VecOps.h>
+#include <geom/Shapes.h>
+#include <geom/Symbol.h>
+namespace mud
+{
+	mat4 fix_bone_pose(Bone& bone)
+	{
+		return bxrotation(angle_axis(-c_pi * 0.5f, X3)) * bxscale(vec3(0.009999999776482582f)) * bone.m_pose;
+	}
+
+	void debug_draw_skeleton(Gnode& parent, const vec3& position, const quat& rotation, Rig& rig)
+	{
+		for (Bone& bone : rig.m_skeleton.m_bones)
+		{
+			mat4 pose = bxrotation(rotation) * fix_bone_pose(bone);
+			Gnode& node = gfx::node(parent, {}, position + vec3(pose * vec4(Zero3, 1.f)));
+			gfx::shape(node, Sphere(0.02f), Symbol());
+		}
+	}
+}
+#endif

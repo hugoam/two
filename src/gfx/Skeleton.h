@@ -17,6 +17,10 @@
 
 namespace mud
 {
+	MUD_GFX_EXPORT mat4 fix_bone_pose(Bone& bone);
+
+	MUD_GFX_EXPORT void debug_draw_skeleton(Gnode& parent, const quat& position, const quat& rotation, Rig& rig);
+
 	export_ struct refl_ MUD_GFX_EXPORT Bone
 	{
 		Bone() {}

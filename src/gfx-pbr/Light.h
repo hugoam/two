@@ -37,6 +37,9 @@ namespace mud
 		vec4 csm_splits[num_direct];
 	};
 
+	export_ MUD_GFX_PBR_EXPORT void debug_draw_light_clusters(Gnode& parent, Camera& camera);
+	export_ MUD_GFX_PBR_EXPORT void debug_draw_light_slices(Gnode& parent, Light& light, bool frustums = true, bool bounds = true);
+
 	export_ class refl_ MUD_GFX_PBR_EXPORT BlockLight : public DrawBlock
 	{
 	public:

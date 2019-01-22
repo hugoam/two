@@ -4,13 +4,10 @@
 
 #pragma once
 
+#include <stl/vector.h>
 #include <type/Unique.h>
 #include <type/Type.h>
 #include <ecs/Forward.h>
-
-#ifndef MUD_CPP_20
-#include <stl/vector.h>
-#endif
 
 namespace mud
 {

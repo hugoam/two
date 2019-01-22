@@ -19,6 +19,7 @@ namespace mud
 	//export_ MUD_GFX_EXPORT mat4 bxquat(const quat& rot) { mat4 result; bx::mtxQuat(value_ptr(result), &rot[0]); return result; }
 	export_ MUD_GFX_EXPORT mat4 bxtranslation(const vec3& vec);
 	export_ MUD_GFX_EXPORT mat4 bxmul(const mat4& lhs, const mat4& rhs);
+	export_ MUD_GFX_EXPORT vec4 bxmul(const mat4& mat, const vec4& vec);
 	export_ MUD_GFX_EXPORT vec3 bxmul(const mat4& mat, const vec3& vec);
 	export_ MUD_GFX_EXPORT vec3 bxmulh(const mat4& mat, const vec3& vec);
 	export_ MUD_GFX_EXPORT mat4 bxlookat(const vec3& eye, const vec3& at);

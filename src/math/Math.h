@@ -31,6 +31,7 @@ namespace mud
 	export_ using i16 = int16_t;
 	export_ using i32 = int32_t;
 
+	export_ using std::abs;
 	export_ using std::floor;
 	export_ using std::ceil;
 	export_ using std::sin;

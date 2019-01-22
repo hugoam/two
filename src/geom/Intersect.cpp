@@ -300,7 +300,7 @@ namespace mud
 
 		float denom = dot(cross(normal0, normal1), normal2);
 
-		if(std::abs(denom) <= c_cmp_epsilon)
+		if(abs(denom) <= c_cmp_epsilon)
 			return Zero3; // @todo move to optional when C++17
 
 		return ((cross(normal1, normal2) * plane0.m_distance) +
@@ -414,8 +414,8 @@ namespace mud
 
 	Aabb transform_aabb(const Aabb& source, const mat4& transform)
 	{
-		vec3 center = vec3(transform * vec4{ source.m_center, 1.f });
-		vec3 extent = vec3(abs(transform) * vec4 { source.m_extents, 0.f });
+		vec3 center = mulp(transform, source.m_center);
+		vec3 extent = muln(abs(transform), source.m_extents);
 
 		return Aabb(center, extent);
 	}
