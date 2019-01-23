@@ -7,17 +7,17 @@
 
 namespace mud
 {
-	template <class... Ts, size_t... Is, class T_Function>
+	template <class... Types, size_t... Is, class T_Function>
 	Job* for_components_impl(JobSystem& job_system, Job* parent, ECS& ecs, T_Function action, index_sequence<Is...>)
 	{
-		uint64_t prototype = any_flags(1ULL << TypedBuffer<Ts>::index()...);
+		uint64_t prototype = ecs.prototype<Types...>();
 
 		Job* job = job_system.job(parent);
 
-		vector<ParallelBuffers*> matches = ecs.Match(prototype);
-		for(ParallelBuffers* stream : matches)
+		vector<EntityStream*> matches = ecs.match(prototype);
+		for(EntityStream* stream : matches)
 		{
-			tuple<ComponentBuffer<Ts>&...> buffers = { stream->Buffer<Ts>()... };
+			tuple<TBuffer<Types>&...> buffers = { stream->buffer<Types>()... };
 
 			auto process = [=](JobSystem& js, Job* job, uint32_t start, uint32_t count)
 			{
@@ -28,16 +28,16 @@ namespace mud
 				}
 			};
 
-			Job* stream_job = split_jobs<64>(job_system, job, 0, uint32_t(stream->m_handles.size()), process);
+			Job* stream_job = split_jobs<64>(job_system, job, 0, uint32_t(stream->size()), process);
 			job_system.run(stream_job);
 		}
 
 		return job;
 	}
 
-	template <class... Ts, class T_Function>
+	template <class... Types, class T_Function>
 	Job* for_components(JobSystem& job_system, Job* parent, ECS& ecs, T_Function action)
 	{
-		return for_components_impl<Ts...>(job_system, parent, ecs, action, index_tuple<sizeof...(Ts)>());
+		return for_components_impl<Types...>(job_system, parent, ecs, action, index_tuple<sizeof...(Types)>());
 	}
 }

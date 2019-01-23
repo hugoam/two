@@ -71,7 +71,7 @@ namespace mud
 		if(probe.m_atlas_index)
 			return m_slots[probe.m_atlas_index].m_urect;
 
-		Slot& slot = *vector_pop(m_free_slots);
+		Slot& slot = *pop(m_free_slots);
 		slot.m_probe = &probe;
 		probe.m_atlas_index = int(slot.m_index);
 		return slot.m_urect;

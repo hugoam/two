@@ -30,32 +30,7 @@ namespace mud
     }
     
     // Sequences
-    
-    // mud::Object
-    {
-        static Meta meta = { type<mud::Object>(), &namspc({ "mud" }), "Object", sizeof(mud::Object), TypeClass::Object };
-        static Class cls = { type<mud::Object>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-            },
-            // copy constructor
-            {
-            },
-            // members
-            {
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        meta_class<mud::Object>();
-    }
+
     // mud::ViewerController
     {
         static Meta meta = { type<mud::ViewerController>(), &namspc({ "mud" }), "ViewerController", sizeof(mud::ViewerController), TypeClass::Object };
@@ -216,7 +191,6 @@ namespace mud
         };
         meta_class<mud::SceneViewer>();
     }
-        m.m_types.push_back(&type<mud::Object>());
         m.m_types.push_back(&type<mud::ui::OrbitMode>());
         m.m_types.push_back(&type<mud::ViewerController>());
         m.m_types.push_back(&type<mud::OrbitController>());

@@ -9,7 +9,7 @@
 #include <stl/map.h>
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
-#include <type/Any.h>
+#include <type/Var.h>
 #include <type/Unique.h>
 #endif
 #include <lang/Forward.h>

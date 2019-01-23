@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.infra;
 #else
+#include <stl/algorithm.h>
 #include <infra/Config.h>
 #include <infra/String.h>
 #include <infra/ToString.h>
@@ -14,7 +15,6 @@ module mud.infra;
 #include <infra/NonCopy.h>
 #endif
 
-#include <algorithm>
 #include <cctype>
 
 namespace mud
@@ -74,31 +74,32 @@ namespace mud
 	string replace(const string& original, const string& before, const string& after)
 	{
 		string retval;
-		string::const_iterator end = original.end();
-		string::const_iterator current = original.begin();
-		string::const_iterator next = std::search(current, end, before.begin(), before.end());
-		while(next != end)
+		retval.reserve(original.size());
+
+		size_t current = 0;
+		size_t next = original.find(before, current);
+		while(next != string::npos)
 		{
-			retval.append(current, next);
+			retval.append(original.begin() + current, original.begin() + next);
 			retval.append(after);
 			current = next + before.size();
-			next = std::search(current, end, before.begin(), before.end());
+			next = original.find(before, current);
 		}
-		retval.append(current, next);
+		retval.append(original.substr(current));
 		return retval;
 	}
 
 	string to_lower(const string& original)
 	{
 		string result = original;
-		std::transform(result.begin(), result.end(), result.begin(), [](char c) { return char(tolower(c)); });
+		transform(result.begin(), result.end(), result.begin(), [](char c) { return char(tolower(c)); });
 		return result;
 	}
 
 	string to_upper(const string& original)
 	{
 		string result = original;
-		std::transform(result.begin(), result.end(), result.begin(), [](char c) { return char(toupper(c)); });
+		transform(result.begin(), result.end(), result.begin(), [](char c) { return char(toupper(c)); });
 		return result;
 	}
 

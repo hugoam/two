@@ -53,7 +53,7 @@ namespace mud
 		if(ui::button(parent, "-").activated() && keys.size() > 1)
 		{
 			changed = true;
-			vector_pop(keys);
+			pop(keys);
 		}
 		return changed;
 	}

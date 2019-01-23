@@ -3,11 +3,6 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <fstream>
-#include <sstream>
-#include <string>
-#endif
 
 #include <bgfx/bgfx.h>
 
@@ -73,23 +68,27 @@ namespace mud
 
 	void import_material_library(GfxSystem& gfx_system, const string& path, MaterialMap& material_map)
 	{
+		auto tof = [](const string& s) { return float(atof(s.c_str())); };
+		auto toi = [](const string& s) { return atoi(s.c_str()); };
+		auto tocol = [&](const string tokens[]) { return Colour{ tof(tokens[1]), tof(tokens[2]), tof(tokens[3]), tof(tokens[4]) }; };
+
 		LocatedFile location = gfx_system.locate_file("models/" + path);
 		if(!location)
 			location = gfx_system.locate_file("materials/" + path);
 
-		std::ifstream file = std::ifstream(location.path(false).c_str());
+		string filename = location.path(false);
 
-		if(!file.good())
+		if(!file_exists(filename))
 			return;
 
 		Material* current = nullptr;
 
-		std::string line;
-		while(std::getline(file, line))
+		read_text_file(filename, [&](string line)
 		{
-			std::istringstream stream(line);
+			string tokens[5];
+			split(line.c_str(), " ", { tokens, 5 });
 
-			std::string command = read<std::string>(stream);
+			const string& command = tokens[0];
 
 			// "Ka" ambient rgb
 			// "Kd" diffuse rgb
@@ -120,7 +119,7 @@ namespace mud
 
 			if(command == "newmtl")
 			{
-				string name = read<std::string>(stream).c_str();
+				string name = tokens[1];
 				current = &gfx_system.fetch_material(name.c_str(), "pbr/pbr");
 				current->m_pbr_block.m_enabled = true;
 				material_map[name] = current;
@@ -131,48 +130,48 @@ namespace mud
 			}
 			else if(command == "Kd")
 			{
-				Colour albedo = read<Colour>(stream);
+				Colour albedo = tocol(tokens);
 				current->m_pbr_block.m_albedo.m_value = albedo;
 			}
 			else if(command == "Ks")
 			{
-				Colour specular = read<Colour>(stream);
+				Colour specular = tocol(tokens);
 				current->m_pbr_block.m_metallic.m_value = max(specular.m_r, max(specular.m_g, specular.m_b));
 			}
 			else if(command == "Ke")
 			{
-				Colour emissive = read<Colour>(stream);
+				Colour emissive = tocol(tokens);
 				current->m_pbr_block.m_emissive.m_value = emissive;
 				current->m_pbr_block.m_emissive.m_value.m_a = length(to_vec3(emissive));
 			}
 			else if(command == "Ns")
 			{
-				float specular = read<float>(stream);
+				float specular = tof(tokens[1]);
 				current->m_pbr_block.m_metallic.m_value = (1000.f - specular) / 1000.f;
 			}
 			else if(command == "d")
 			{
-				float d = read<float>(stream);
+				float d = tof(tokens[1]);
 				current->m_pbr_block.m_albedo.m_value.m_a = d;
 			}
 			else if(command == "Tr")
 			{
-				float tr = read<float>(stream);
+				float tr = tof(tokens[1]);
 				current->m_pbr_block.m_albedo.m_value.m_a = 1.f - tr;
 			}
 			else if(command == "Pr")
 			{
-				float roughness = read<float>(stream);
+				float roughness = tof(tokens[1]);
 				current->m_pbr_block.m_roughness.m_value = roughness;
 			}
 			else if(command == "Pm")
 			{
-				float metallic = read<float>(stream);
+				float metallic = tof(tokens[1]);
 				current->m_pbr_block.m_metallic.m_value = metallic;
 			}
 			else if(command.substr(0, 3) == "map")
 			{
-				string map = read<std::string>(stream).c_str();
+				string map = tokens[1];
 				if(command == "map_Ka ") // ambient texture
 				{
 					// nothing
@@ -217,7 +216,7 @@ namespace mud
 			// "map_Pm" PBR: metallic texture
 			// "map_Ps" PBR: sheen texture
 			// "norm"   PBR: normal map texture
-		}
+		});
 	}
 
 	void ImporterOBJ::import(Import& scene, const string& path, const ImportConfig& config)
@@ -232,11 +231,14 @@ namespace mud
 
 		bool generate_tangents = true;
 
-		vector<vec3> vertices;
-		vector<vec3> normals;
-		vector<vec2> uvs;
-		map<string, Material*> materials;
-		
+		struct Geometry
+		{
+			vector<vec3> vertices;
+			vector<vec3> normals;
+			vector<vec2> uvs;
+			map<string, Material*> materials;
+		} g;
+
 		enum VertAttrib
 		{
 			POSITION,
@@ -303,9 +305,8 @@ namespace mud
 		};
 
 		string filename = path + ".obj";
-		std::ifstream filestream(filename.c_str());
 
-		if(!filestream.good())
+		if(!file_exists(filename))
 		{
 			printf("ERROR: could not locate model %s\n", filename.c_str());
 			return;
@@ -313,9 +314,7 @@ namespace mud
 
 		unique<MeshWriter> mesh_writer = make_unique<MeshWriter>(config, scene, generate_tangents);
 
-		std::string line;
-
-		while(std::getline(filestream, line))
+		read_text_file(filename, [&](string line)
 		{
 			if(line.back() == '\r')
 				line.pop_back();
@@ -345,7 +344,7 @@ namespace mud
 			else if(command == "usemtl")
 			{
 				const string& material = tokens[1];
-				mesh_writer->m_material = materials[material];
+				mesh_writer->m_material = g.materials[material];
 				if(config.filter_material(material))
 					mesh_writer->m_skip = true;
 			}
@@ -359,18 +358,18 @@ namespace mud
 			{
 				vec3 vert = { tof(tokens[1]), tof(tokens[2]), tof(tokens[3]) };
 				vert = mulp(config.m_transform, vert);
-				vertices.emplace_back(vert);
+				g.vertices.emplace_back(vert);
 			}
 			else if(command == "vt")
 			{
 				vec2 uv = { tof(tokens[1]), tof(tokens[2]) };
-				uvs.push_back({ uv.x, 1.f - uv.y });
+				g.uvs.push_back({ uv.x, 1.f - uv.y });
 			}
 			else if(command == "vn")
 			{
 				vec3 norm = { tof(tokens[1]), tof(tokens[2]), tof(tokens[3]) };
 				norm = muln(config.m_transform, norm);
-				normals.emplace_back(norm);
+				g.normals.emplace_back(norm);
 			}
 			else if(command == "f")
 			{
@@ -384,11 +383,11 @@ namespace mud
 
 					int face[3] = { toi(ids[0]), toi(ids[1]), toi(ids[2]) };
 
-					verts[i].m_position = face[POSITION] >= 0 ? vertices[face[POSITION] - 1] : vertices[face[POSITION] + vertices.size()];
+					verts[i].m_position = g.vertices[face[POSITION] >= 0 ? face[POSITION] - 1 : face[POSITION] + g.vertices.size()];
 					if(face[TEXCOORD] != 0)
-						verts[i].m_uv0 = face[TEXCOORD] >= 0 ? uvs[face[TEXCOORD] - 1] : uvs[face[TEXCOORD] + uvs.size()];
+						verts[i].m_uv0 = g.uvs[face[TEXCOORD] >= 0 ? face[TEXCOORD] - 1 : face[TEXCOORD] + g.uvs.size()];
 					if(face[NORMAL] != 0)
-						verts[i].m_normal = face[NORMAL] >= 0 ? normals[face[NORMAL] - 1] : normals[face[NORMAL] + normals.size()];
+						verts[i].m_normal = g.normals[face[NORMAL] >= 0 ? face[NORMAL] - 1 : face[NORMAL] + g.normals.size()];
 				}
 
 				mesh_writer->face(verts, 0, 1, 2);
@@ -399,11 +398,11 @@ namespace mud
 			else if(command == "mtllib")
 			{
 				const string& lib_path = tokens[1];
-				import_material_library(m_gfx_system, lib_path, materials);
+				import_material_library(m_gfx_system, lib_path, g.materials);
 			}
-		}
+		});
 
-		printf("INFO: obj - imported %i vertices in %.2f seconds\n", int(vertices.size()), clock.step());
+		printf("INFO: obj - imported %i vertices in %.2f seconds\n", int(g.vertices.size()), clock.step());
 		
 		mesh_writer = nullptr;
 	}

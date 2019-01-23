@@ -18,22 +18,32 @@ namespace mud
 	template <class T>
 	T random_integer(T min, T max)
 	{
-		static std::random_device randomDevice;
-		static std::mt19937 range(randomDevice());
-
-		std::uniform_int_distribution<T> uniform(min, max);
-		return uniform(range);
+		static std::random_device device;
+		static std::mt19937 generator(device());
+		std::uniform_int_distribution<T> distribution(min, max);
+		return distribution(generator);
 	}
 
 	template <class T>
 	T random_scalar(T min, T max)
 	{
-		static std::random_device randomDevice;
-		static std::mt19937 range(randomDevice());
-
-		std::uniform_real_distribution<T> uniform(min, max);
-		return uniform(range);
+		static std::random_device device;
+		static std::mt19937 generator(device());
+		std::uniform_real_distribution<T> distribution(min, max);
+		return distribution(generator);
 	}
+
+	template <class T>
+	T random_scalar()
+	{
+		static std::random_device device;
+		static std::mt19937 generator(device());
+		static std::uniform_real_distribution<T> distribution { T(0), T(1) };
+		return distribution(generator);
+	}
+
+	template MUD_MATH_EXPORT float random_scalar<float>();
+	template MUD_MATH_EXPORT double random_scalar<double>();
 
 	template MUD_MATH_EXPORT float random_scalar<float>(float min, float max);
 	template MUD_MATH_EXPORT double random_scalar<double>(double min, double max);

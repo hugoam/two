@@ -9,6 +9,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <stl/limits.h>
 #include <stl/algorithm.h>
 #include <gfx/FrustumCluster.h>
 #endif
@@ -124,16 +125,16 @@ namespace mud
 		m_clip_to_cluster = (0.5f * vec2(clip_size)) / vec2(m_tile_size);
 		m_inv_tile_size = 1.0f / vec2(m_tile_size);
 
-		const float linearizer = std::log2(m_far / m_near) / float(m_subdiv_z - 1);
+		const float linearizer = log2(m_far / m_near) / float(m_subdiv_z - 1);
 
 		m_distances_z[0] = 0.0f;
 
 		for(int i = 1, n = m_subdiv_z; i <= n; i++)
-			m_distances_z[i] = m_far * std::exp2f(float(i - n) * linearizer);
+			m_distances_z[i] = m_far * exp2f(float(i - n) * linearizer);
 
 		// for the inverse-transformation (view-space z to z-slice)
 		m_linearizer = 1 / linearizer;
-		m_far_log2 = std::log2(m_far);
+		m_far_log2 = log2(m_far);
 	}
 
 	void ClusteredFrustum::recompute(const mat4& projection, const vec2& clip_size)
@@ -196,8 +197,8 @@ namespace mud
 				// left, right planes for all froxels at ix
 				planes[0] = m_planes_x[ix];
 				planes[1] = -m_planes_x[ix + 1];
-				minp.x = std::numeric_limits<float>::max();
-				maxp.x = std::numeric_limits<float>::lowest();
+				minp.x = limits<float>::max();
+				maxp.x = limits<float>::min();
 				// min/max for x is calculated by intersecting the near/far and left/right planes
 				for(uint16_t c = 0; c < 4; ++c)
 				{
@@ -216,8 +217,8 @@ namespace mud
 				// bottom, top planes for all froxels at iy
 				planes[2] = m_planes_y[iy];
 				planes[3] = -m_planes_y[iy + 1];
-				minp.y = std::numeric_limits<float>::max();
-				maxp.y = std::numeric_limits<float>::lowest();
+				minp.y = limits<float>::max();
+				maxp.y = limits<float>::min();
 				// min/max for y is calculated by intersecting the near/far and bottom/top planes
 				for(uint16_t c = 0; c < 4; ++c)
 				{

@@ -58,7 +58,7 @@ namespace ui
 	bool vec2_edit(Widget& parent, vec2& vec)
 	{
 		Widget& self = ui::row(parent);
-		StatDef<float> def = { std::numeric_limits<float>::min(), std::numeric_limits<float>::max(), 0.01f };
+		StatDef<float> def = { limits<float>::min(), limits<float>::max(), 0.01f };
 		bool changed = false;
 		changed |= ui::number_input<float>(self, { vec.x, def });
 		changed |= ui::number_input<float>(self, { vec.y, def });
@@ -68,7 +68,7 @@ namespace ui
 	bool vec3_edit(Widget& parent, vec3& vec)
 	{
 		Widget& self = ui::row(parent);
-		StatDef<float> def = { std::numeric_limits<float>::min(), std::numeric_limits<float>::max(), 0.01f };
+		StatDef<float> def = { limits<float>::min(), limits<float>::max(), 0.01f };
 		bool changed = false;
 		changed |= ui::number_input<float>(self, { vec.x, def });
 		changed |= ui::number_input<float>(self, { vec.y, def });

@@ -9,10 +9,15 @@
 namespace mud
 {
 	export_ template <class T>
+	T random_scalar();
+
+	export_ template <class T>
 	T random_integer(T min, T max);
 
 	export_ template <class T>
 	T random_scalar(T min, T max);
+
+	extern template float random_scalar();
 
 	extern template float random_scalar<float>(float min, float max);
 	extern template double random_scalar<double>(double min, double max);

@@ -70,9 +70,6 @@ namespace mud
 		: m_name(name)
 		, m_class_type(m_name.c_str())
 		, m_class(m_class_type)
-	{
-		g_prototypes[m_class_type.m_id] = make_unique<Prototype>(m_class);
-		for(Type* type : parts)
-			g_prototypes[m_class_type.m_id]->add_part(*type);
-	}
+		, m_prototype(m_class_type, parts)
+	{}
 }

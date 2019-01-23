@@ -83,12 +83,12 @@ namespace mud
 		//normal_a = normal_ab*cos(pa);
 		//normal_b = normal_ab*sin(pa);
 
-		/*std::cerr << "AXIS" << std::endl;
-		std::cerr << cos(angle_t) << std::endl;
-		std::cerr << "dist : " << dist << std::endl;
-		std::cerr << "normal_c : " << normal_c << std::endl;
-		std::cerr << "ptt : " << ptt << std::endl;
-		std::cerr << "normal_ab : " << normal_ab << ", ptt/pt : " << ptt / dist << std::endl;*/
+		/*printf("AXIS" );
+		printf(cos(angle_t) );
+		printf("dist : " << dist );
+		printf("normal_c : " << normal_c );
+		printf("ptt : " << ptt );
+		printf("normal_ab : " << normal_ab << ", ptt/pt : " << ptt / dist );*/
 
 	}
 

@@ -24,7 +24,7 @@ namespace mud
 
 	void StreamSound::open(const string& filename)
 	{
-		//std::cerr << "opening stream sound" << std::endl;
+		//printf("opening stream sound" );
 
 		for(int i=0; i < m_numBuffers; i++)
 		{

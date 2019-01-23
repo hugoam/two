@@ -145,7 +145,7 @@ namespace mud
 			if(button.m_pressed && !button.m_dragging)
 			{
 				vec2 delta = mouse_event.m_pos - button.m_pressed_event.m_pos;
-				if (std::abs(delta.x) > drag_threshold || std::abs(delta.y) > drag_threshold)
+				if (abs(delta.x) > drag_threshold || abs(delta.y) > drag_threshold)
 					button.drag_start(mouse_event);
 			}
 	}

@@ -15,10 +15,10 @@ namespace mud
 	using index_tuple = make_index_sequence<Num>;
 
 	template<size_t i, class... Types>
-	auto at(tuple<Types...>& tup) { return std::get<i>(tup); }
+	decltype(auto) at(tuple<Types...>& tup) { return std::get<i>(tup); }
 
 	template<size_t i, class... Types>
-	auto at(const tuple<Types...>& tup) { return std::get<i>(tup); }
+	decltype(auto) at(const tuple<Types...>& tup) { return std::get<i>(tup); }
 }
 #else
 #include <cstddef>

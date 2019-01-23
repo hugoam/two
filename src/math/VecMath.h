@@ -21,16 +21,6 @@
 
 namespace mud
 {
-	using std::sin;
-	using std::cos;
-
-	using std::floor;
-	using std::ceil;
-
-	using std::isnan;
-	using std::isinf;
-	using std::abs;
-
 	template <class T>
 	export_ struct refl_ struct_ array_ v2
 	{

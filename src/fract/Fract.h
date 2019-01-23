@@ -16,7 +16,6 @@ namespace mud
 {
 	MUD_FRACT_EXPORT func_ void generate_fract(uvec2 resolution, const Pattern& pattern, Image256& output_image);
 
-	//typedef std::function<size_t(const Pattern&, float, float, float)> PatternSampler;
 	typedef uint32_t(*PatternSampler)(const Pattern&, float, float, float);
 
 	export_ enum class refl_ PatternSampling : unsigned int

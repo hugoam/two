@@ -22,10 +22,9 @@ namespace mud
 	export_ class refl_ MUD_ECS_EXPORT Prototype
 	{
 	public:
-		Prototype(Class& cls);
+		Prototype(Type& type, vector<Type*> parts);
 
 		Type& m_type;
-		Type& m_stem;
 		vector<Type*> m_parts;
 
 		void add_part(Type& type);
@@ -37,10 +36,7 @@ namespace mud
 		vector<size_t> m_hash_parts;
 	};
 
-	export_ extern MUD_ECS_EXPORT vector<unique<Prototype>> g_prototypes;
+	export_ extern MUD_ECS_EXPORT vector<Prototype*> g_prototypes;
 
-	export_ MUD_ECS_EXPORT Prototype& proto(Type& type);
-
-	export_ template <class T>
-	inline Prototype& proto() { return proto(type<T>()); }
+	inline Prototype& proto(Type& type) { return *g_prototypes[type.m_id]; }
 }

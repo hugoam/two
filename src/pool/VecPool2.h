@@ -4,7 +4,9 @@
 
 #pragma once
 
-// @todo: robust handle-based pool implementation + switch tree to use this pool + solve case of multiple types in tree (maybe just by simplifiying it out)
+// @todo: robust handle-based pool implementation 
+// + switch tree to use this pool 
+// + solve case of multiple types in tree (maybe just by simplifiying it out)
 
 #if 0
 

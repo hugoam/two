@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <climits>
 
-#include <type_traits>
+#include <stl/type_traits.h>
 
 namespace mud
 {
@@ -59,8 +59,8 @@ namespace mud
  */
 
 template<typename T, size_t N = 1,
-         typename = typename std::enable_if<std::is_integral<T>::value &&
-                                           std::is_unsigned<T>::value>::type>
+         typename = typename enable_if<is_integral<T>::value &&
+                                       is_unsigned<T>::value>::type>
 class bitset {
 	T storage[N] = {};
 

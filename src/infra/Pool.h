@@ -150,7 +150,7 @@ namespace mud
 			return p;
 		}
 
-		template <typename U = T, typename = typename std::enable_if<std::is_trivially_destructible<U>::value>::type>
+		template <typename U = T, typename = typename enable_if<std::is_trivially_destructible<U>::value>::type>
 		T* alloc(size_t count, size_t alignment = alignof(T))
 		{
 			return (T*)alloc(count * sizeof(T), alignment);

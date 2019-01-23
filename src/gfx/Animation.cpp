@@ -66,7 +66,7 @@ namespace mud
 			return m_keys[0].m_value;
 		}
 
-		float c = std::abs(cursor.m_time - m_keys[cursor.m_prev].m_time) / std::abs(m_keys[cursor.m_next].m_time - m_keys[cursor.m_prev].m_time);
+		float c = abs(cursor.m_time - m_keys[cursor.m_prev].m_time) / abs(m_keys[cursor.m_next].m_time - m_keys[cursor.m_prev].m_time);
 		//printf("sample %i < %i, %f\n", int(cursor.m_prev), int(cursor.m_next), c);
 
 		auto at = [&](size_t i) { return Ref((void*)m_keys[i].m_value.m_value, *m_value_type); };

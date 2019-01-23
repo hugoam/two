@@ -69,7 +69,7 @@ namespace mud
 	void Docker::shift(Dock& start, bool add)
 	{
 		vector<uint16_t> root = start.m_dockid;
-		uint16_t index = vector_pop(root);
+		uint16_t index = pop(root);
 
 		size_t level = root.size();
 		for(Dock* dock : m_docks)
@@ -116,7 +116,7 @@ namespace mud
 		Dim dim = DIM_Y;
 		while(dockid.size() > 0)
 		{
-			uint16_t index = vector_pop(dockid);
+			uint16_t index = pop(dockid);
 			dim = flip_dim(dim);
 			line = &ui::dockline(*line, index, dim);
 			if(dockid.size() == 0 && dock.m_span > 0.f && line->m_frame.m_span[flip_dim(dim)] == 1.f)

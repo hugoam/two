@@ -3,20 +3,15 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <algorithm>
-#endif
 
 #ifdef MUD_MODULES
 module mud.wfc;
 #else
 #include <stl/map.h>
+#include <stl/algorithm.h>
 #include <infra/Vector.h>
 #include <wfc/Wfc.h>
-// @kludge : not sure why this fixes a compilation error when using MSVC modules :/
-#ifdef MUD_CPP_20
 #include <srlz/Serial.h>
-#endif
 #endif
 
 #include <json11.hpp>
@@ -27,10 +22,10 @@ namespace mud
 {
 	PatternHash hash_from_pattern(const ColorPattern& pattern, size_t palette_size)
 	{
-		/*CHECK_LT_F(std::pow((double)palette_size, (double)pattern.size()),
-				   std::pow(2.0, sizeof(PatternHash) * 8),
+		/*CHECK_LT_F(pow((double)palette_size, (double)pattern.size()),
+				   pow(2.0, sizeof(PatternHash) * 8),
 				   "Too large palette (it is %lu) or too large pattern size (it's %.0f)",
-				   palette_size, std::sqrt(pattern.size()));*/
+				   palette_size, sqrt(pattern.size()));*/
 		PatternHash result = 0;
 		size_t power = 1;
 		for(size_t i = 0; i < pattern.size(); ++i)
@@ -44,7 +39,7 @@ namespace mud
 	ColorPattern pattern_from_hash(const PatternHash hash, int n, size_t palette_size)
 	{
 		uint64_t residue = hash;
-		size_t power = size_t(std::pow(palette_size, n * n));
+		size_t power = size_t(pow(palette_size, n * n));
 		ColorPattern result(n * n);
 
 		for(size_t i = 0; i < result.size(); ++i)
@@ -130,7 +125,7 @@ namespace mud
 	{
 		int n = tileset.m_n;
 
-		uvec3 changed = vector_pop(wave.m_changes);
+		uvec3 changed = pop(wave.m_changes);
 				
 		for(int dx = -n + 1; dx < n; ++dx) for(int dy = -n + 1; dy < n; ++dy) for(int dz = -n + 1; dz < n; ++dz)
 		{
@@ -205,7 +200,7 @@ namespace mud
 		for(size_t pixel_idx = 0; pixel_idx < num_pixels; ++pixel_idx)
 		{
 			const RGBA color = rgba[pixel_idx];
-			const uint8_t color_idx = uint8_t(std::find(palette.begin(), palette.end(), color) - palette.begin());
+			const uint8_t color_idx = uint8_t(find(palette.begin(), palette.end(), color) - palette.begin());
 			if(color_idx == palette.size())
 			{
 				palette.push_back(color);

@@ -147,7 +147,7 @@ namespace mud
 		for(int i = 0; i < 6; ++i)
 		{
 			vec3 edge = view_normal[i] * probe.m_extents;
-			float range = std::abs(dot(view_normal[i], edge));
+			float range = abs(dot(view_normal[i], edge));
 
 			mat4 transform = probe.m_node.m_transform * bxlookat(Zero3, view_normal[i], view_up[i]);
 			mat4 projection = bxproj(90.f, 1.f, 0.01f, range, bgfx::getCaps()->homogeneousDepth);

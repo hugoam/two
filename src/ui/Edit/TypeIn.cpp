@@ -736,7 +736,7 @@ namespace mud
 		Clipboard& clipboard = this->ui_window().m_clipboard;
 		if(clipboard.m_pasted.size() > 0)
 		{
-			clipboard.m_text = vector_pop(clipboard.m_pasted);
+			clipboard.m_text = pop(clipboard.m_pasted);
 			clipboard.m_line_mode = false;
 			this->paste();
 		}

@@ -713,47 +713,6 @@ namespace clgen
 		return t;
 	}
 
-	string amalgam_h_template(CLModule& m)
-	{
-		string t;
-
-		Json j;
-		std::map<std::string, Json> top;
-		top["project"] = m.m_namespace + m.m_name + ".h";
-		top["target"] = m.m_namespace + m.m_name + ".h";
-		std::vector<Json> sources;
-		for(string h : { "" }) //m.m_headers)
-			sources.push_back(string(m.m_subdir + "/" + h));
-		top["sources"] = sources;
-		std::vector<Json> include_paths;
-		for(string p : { "" }) //m.m_headers)
-			include_paths.push_back(p);
-		top["include_paths"] = include_paths;
-		std::map<std::string, Json> includes_map;
-		for(CLModule* d : m.m_dependencies)
-			includes_map[string(d->m_name + "/").c_str()] = Json(d->m_namespace + d->m_name + ".h");
-		top["includes_map"] = includes_map;
-		top["ignore"] = Json(string("Generated"));
-
-		cstring strings[] =
-		{
-			"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",
-			"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
-			"//  This notice and the license may not be removed or altered from any source distribution.",
-			"/* mud */",
-		};
-
-		std::vector<Json> clean_strings;
-		for(cstring s : strings)
-			clean_strings.push_back(s);
-
-		top["clean_strings"] = clean_strings;
-
-		t = j.dump().c_str();
-
-		return t;
-	}
-
 	export_ template <class T>
 	inline vector<T> vector_slice(const vector<T>& vector, size_t begin, size_t end)
 	{

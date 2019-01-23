@@ -11,8 +11,8 @@
 namespace mud
 {
 	export_ template <class T>
-	typename std::enable_if<is_comparable<T>::value, void>::type vector_remove_any(vector<T>& vector, T value) { vector_remove(vector, value); }
+	typename enable_if<is_comparable<T>::value, void>::type vector_remove_any(vector<T>& vector, T value) { vector_remove(vector, value); }
 
 	export_ template <class T>
-	typename std::enable_if<!is_comparable<T>::value, void>::type vector_remove_any(vector<T>& vector, T& value) { vector_remove_object(vector, value); }
+	typename enable_if<!is_comparable<T>::value, void>::type vector_remove_any(vector<T>& vector, T& value) { vector_remove_object(vector, value); }
 }

@@ -11,7 +11,6 @@
 #include <cstdarg>
 #include <cctype>
 #include <type_traits>
-#include <algorithm>
 #endif
 
 #ifdef MUD_MODULES
@@ -55,7 +54,8 @@ void wrenAssignVariable(WrenVM* vm, const char* module, const char* name,
 
 namespace mud
 {
-	using std::max;
+	template <class T>
+	inline T max(T a, T b) { return a < b ? b : a; }
 
 	inline WrenInterpreter* wren(WrenVM* vm) { return (WrenInterpreter*) wrenGetUserData(vm); }
 	inline const TextScript* wren_script(WrenVM* vm) { return wren(vm)->m_script; }

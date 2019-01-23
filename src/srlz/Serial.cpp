@@ -4,7 +4,6 @@
 
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
-#include <fstream>
 #include <string>
 #include <vector>
 #include <map>
@@ -37,7 +36,7 @@ namespace mud
 {
 	void parse_json_file(const string& path, json& data)
 	{
-		if(!std::ifstream(path.c_str()).good())
+		if(!file_exists(path))
 		{
 			printf("ERROR: couldn't open file %s\n", path.c_str());
 			return;
@@ -55,16 +54,13 @@ namespace mud
 		return data;
 	}
 
-#ifndef MUD_CPP_20
 	void dump_json_file(const string& path, const json& value)
 	{
-		std::ofstream file = std::ofstream(path.c_str());
-		if(!file.good())
+		if (!file_exists(path))
 			printf("ERROR: couldn't open file %s\n", path.c_str());
-		std::string content = value.dump();
-		file << content;
+		std::string text = value.dump();
+		write_file(path, string(text.data(), text.data() + text.size()));
 	}
-#endif
 
 #if 0
 	void visit_json(json& json_value, const JsonVisitor& visitor)

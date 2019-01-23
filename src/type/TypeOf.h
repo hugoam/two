@@ -4,43 +4,40 @@
 
 #pragma once
 
+#include <stl/type_traits.h>
 #include <type/Forward.h>
-
-#ifndef MUD_CPP_20
-#include <type_traits>
-#endif
 
 namespace mud
 {
 	class Type;
 
 	export_ template<typename T>
-	using unqual_type = typename std::remove_cv<typename std::remove_reference<T>::type>;
+	using unqual_type = typename remove_cv<typename remove_reference<T>::type>;
 
 	export_ template<typename T>
-	using type_class = typename std::remove_pointer<typename unqual_type<T>::type>;
+	using type_class = typename remove_pointer<typename unqual_type<T>::type>;
 	
 	inline void sink_type(Type&) {}
 
 	export_ template <typename T, typename = int>
-	struct is_typed : std::false_type { };
+	struct is_typed : false_type { };
 
 	export_ template <typename T>
-	struct is_typed <T, decltype(sink_type(std::declval<T>().m_type), 0)> : std::true_type { };
+	struct is_typed <T, decltype(sink_type(std::declval<T>().m_type), 0)> : true_type { };
 
 	export_ template <class T>
-	inline typename std::enable_if<!is_typed<T>::value,
+	inline typename enable_if<!is_typed<T>::value,
 		Type&>::type type_of(const T& value) { UNUSED(value); return type<T>(); }
 
 	export_ template <class T>
-	inline typename std::enable_if<is_typed<T>::value,
+	inline typename enable_if<is_typed<T>::value,
 		Type&>::type type_of(const T& value) { return value.m_type; }
 
 	export_ template <class T>
-	inline typename std::enable_if<!is_typed<T>::value,
+	inline typename enable_if<!is_typed<T>::value,
 		Type&>::type type_of(const T* value) { UNUSED(value); return type<T>(); }
 
 	export_ template <class T>
-	inline typename std::enable_if<is_typed<T>::value,
+	inline typename enable_if<is_typed<T>::value,
 		Type&>::type type_of(const T* value) { if(value) return value->m_type; return type<T>(); }
 }

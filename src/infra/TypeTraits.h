@@ -24,10 +24,10 @@ namespace mud
 													&& !is_function_pointer<T>::value> {};
 
 	export_ template <typename T, typename = void>
-	struct is_comparable_base : std::false_type {};
+	struct is_comparable_base : false_type {};
 
 	export_ template <typename T>
-	struct is_comparable_base<T, decltype(std::declval<T&>() == std::declval<T&>(), (void) 0)> : std::true_type {};
+	struct is_comparable_base<T, decltype(std::declval<T&>() == std::declval<T&>(), (void) 0)> : true_type {};
 
 	export_ template <typename T>
 	struct is_comparable : is_comparable_base<T> {};

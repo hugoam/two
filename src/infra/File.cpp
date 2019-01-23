@@ -29,6 +29,13 @@ module mud.infra;
 
 namespace mud
 {
+	void copy_file(const string& source, const string& dest)
+	{
+		std::ifstream source_file(source.c_str(), std::ios::binary);
+		std::ofstream dest_file(dest.c_str(), std::ios::binary);
+		dest_file << source_file.rdbuf();
+	}
+
 	void write_file(const string& path, const string& content)
 	{
 		std::ofstream out(path.c_str());
@@ -81,6 +88,7 @@ namespace mud
 		while(std::getline(file, stdline))
 		{
 			string line = { stdline.data(), stdline.data() + stdline.size() };
+			if(line.back() == '\r') line.pop_back();
 			visit_line(line);
 		}
 	}

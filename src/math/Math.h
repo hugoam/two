@@ -36,6 +36,10 @@ namespace mud
 	export_ using std::ceil;
 	export_ using std::sin;
 	export_ using std::cos;
+	export_ using std::pow;
+	export_ using std::log2;
+	export_ using std::isnan;
+	export_ using std::isinf;
 
 	export_ template <typename T>
 	inline T sign(T val) { return T(T(0) < val) - (val < T(0)); }

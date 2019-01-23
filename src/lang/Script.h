@@ -10,6 +10,7 @@
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
 #include <type/Any.h>
+#include <ecs/Proto.h>
 #include <refl/Method.h>
 #include <refl/Class.h>
 #endif
@@ -105,5 +106,6 @@ namespace mud
 		attr_ string m_name;
 		attr_ Type m_class_type;
 		attr_ Class m_class;
+		attr_ Prototype m_prototype;
 	};
 }

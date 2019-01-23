@@ -30,7 +30,6 @@ namespace mud
     // Exported types
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::ui::OrbitMode>();
     
-    export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::Object>();
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::ViewerController>();
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::OrbitController>();
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::FreeOrbitController>();
@@ -38,7 +37,6 @@ namespace mud
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::Viewer>();
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::SceneViewer>();
     
-    export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::Object*>>;
     export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::ViewerController*>>;
     export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::OrbitController*>>;
     export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::FreeOrbitController*>>;

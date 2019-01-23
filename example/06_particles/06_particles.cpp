@@ -53,8 +53,6 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	OrbitController& controller = ui::orbit_controller(viewer);
 
-	//viewer.m_filters.m_tonemap.m_enabled = false;
-
 	Gnode& scene = viewer.m_scene->begin();
 
 	static vector<string> particles_names = { "particles_0" };//, "particles_1" }; //, "particles_2" };

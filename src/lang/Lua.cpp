@@ -632,7 +632,7 @@ namespace mud
 	}
 	
 	template <class T>
-	inline void read_integer(lua_State* state, int index, Var& result) // std::is_integral<T>::value
+	inline void read_integer(lua_State* state, int index, Var& result)
 	{
 		int success; lua_Integer value = lua_tointegerx(state, index, &success);
 		if(success)

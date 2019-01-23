@@ -72,7 +72,7 @@ mud.uibackend   = mud_ui_backend()
 --                           base   name            root path    sub path       self decl       decl transitive     reflect     dependencies
 -- gfx
 mud.bgfx        = mud_module("mud", "bgfx",         MUD_SRC_DIR, "bgfx",        nil,            uses_mud_bgfx,      true,       { bx, bimg, bimg.decode, bimg.encode, bgfx, mud.infra, mud.type, mud.math, mud.ctx })
-mud.gfx         = mud_module("mud", "gfx",          MUD_SRC_DIR, "gfx",         mud_gfx,        uses_mud_gfx,       true,       { tracy, json11, meshopt, culling, bgfx, shaderc, mud.infra, mud.jobs, mud.type, mud.pool, mud.math, mud.geom, mud.ctx, mud.bgfx })
+mud.gfx         = mud_module("mud", "gfx",          MUD_SRC_DIR, "gfx",         mud_gfx,        uses_mud_gfx,       true,       { tracy, json11, meshopt, culling, bgfx, shaderc, mud.infra, mud.jobs, mud.type, mud.pool, mud.ecs, mud.math, mud.geom, mud.ctx, mud.bgfx })
 -- gltf
 mud.gltf        = mud_module("mud", "gltf",         MUD_SRC_DIR, "gltf",        mud_gltf,       nil,                true,       { json11, base64, mud.infra, mud.type, mud.refl, mud.srlz, mud.math })
 -- gfx exts

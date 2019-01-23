@@ -114,12 +114,8 @@ namespace mud
 
 	void add_token_regex(LanguageDefinition& lang, const string& token, CodePalette index)
 	{
-		lang.m_regex_string_tokens.push_back(std::make_pair(token, PaletteIndex(index)));
-#ifdef MUD_CPP_20
-		// not implemented by MSVC modules yet
-#else
-		lang.m_regex_tokens.push_back(std::make_pair(std::regex(token.c_str(), std::regex_constants::optimize), PaletteIndex(index)));
-#endif
+		lang.m_regex_string_tokens.push_back({ token, PaletteIndex(index) });
+		lang.m_regex_tokens.push_back({ std::regex(token.c_str(), std::regex_constants::optimize), PaletteIndex(index) });
 	}
 
 	string list_regex(const vector<string>& tokens)

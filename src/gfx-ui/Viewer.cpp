@@ -29,10 +29,14 @@ module mud.gfx.ui;
 #include <gfx/Pipeline.h>
 #include <gfx/Filter.h>
 #include <gfx-ui/Viewer.h>
+#include <gfx-ui/Types.h>
 #endif
 
 namespace mud
 {
+	GridECS s_viewer_ecs;
+	GridECS* g_viewer_ecs = &s_viewer_ecs;
+
 	ViewerStyles::ViewerStyles()
 		: viewer("Viewer", styles().wedge, [](Layout& l) { l.m_opacity = OPAQUE; l.m_space = SHEET; }, [](InkStyle& l) { l.m_empty = false; })
 		, viewer_fixed("ViewerFixed", viewer, [](Layout& l) { l.m_space = BLOCK; l.m_align = { CENTER, CENTER }; l.m_padding = vec4(4.f); }, [](InkStyle& l) { l.m_empty = false; l.m_border_width = vec4(1.f); l.m_border_colour = Colour::MidGrey; })
@@ -64,6 +68,8 @@ namespace mud
 		m_context.m_viewports.push_back(&m_viewport);
 
 		//this->take_focus();
+
+		m_ecs_handle = g_viewer_ecs->create();
 	}
 
 	Viewer::~Viewer()
@@ -196,7 +202,7 @@ namespace ui
 	{
 		viewer.m_filters = make_unique<RenderFilters>();
 		viewer.m_viewport.m_filters = &viewer.m_filters;
-		viewer.m_viewport.m_filters.m_tonemap.m_enabled = true;
+		viewer.comp<Tonemap>().m_enabled = true;
 	}
 #endif
 

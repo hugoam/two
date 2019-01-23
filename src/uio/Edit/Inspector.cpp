@@ -216,14 +216,14 @@ namespace mud
 		static float spans[2] = { 0.4f, 0.6f };
 		Table& self = ui::table(parent, { columns, 2 }, { spans, 2 });
 
-		ParallelBuffers& stream = s_ecs[entity.m_ecs]->Stream(entity);
-		uint32_t index = stream.m_indices[entity];
+		EntityStream& stream = s_ecs[entity.m_ecs]->stream(entity);
+		uint32_t index = stream.m_handles[entity];
 		for(auto& buffer : stream.m_buffers)
 		{
 			Widget& row = ui::table_separator(self);
 			Widget* body = ui::tree_node(row, buffer->m_type->m_name, false, true).m_body;
 			if(body)
-				changed |= object_edit_columns(*body, buffer->Get(index));
+				changed |= object_edit_columns(*body, buffer->get(index));
 		}
 
 		return changed;

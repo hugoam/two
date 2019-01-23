@@ -7,27 +7,18 @@
 #include <cmath>
 #include <limits>
 #include <numeric>
-#include <random>
 #endif
 
 #ifdef MUD_MODULES
 module mud.wfc;
 #else
 #include <infra/ToString.h>
+#include <math/Random.h>
 #include <wfc/Wfc.h>
 #endif
 
 namespace mud
 {
-	struct DoubleGenerator
-	{
-		std::random_device device;
-		std::mt19937 generator;
-		std::uniform_real_distribution<double> distribution;
-		double next() { return distribution(generator); }
-		DoubleGenerator() : device(), generator(device()), distribution(0.0, 1.0) {}
-	};
-
 	double calc_sum(const vector<double>& a)
 	{
 		return std::accumulate(a.begin(), a.end(), 0.0);
@@ -39,7 +30,7 @@ namespace mud
 		double sum = calc_sum(a);
 
 		if(sum == 0.0)
-			return size_t(std::floor(between_zero_and_one * a.size()));
+			return size_t(floor(between_zero_and_one * a.size()));
 
 		double between_zero_and_sum = between_zero_and_one * sum;
 
@@ -66,8 +57,7 @@ namespace mud
 		, m_states(states, 1.0)
 		, m_wave(width, height, depth, vector<ubool>(states, true))
 	{
-		static DoubleGenerator generator;
-		m_random_double = [&]() -> double { return generator.next(); };
+		m_random_double = []() -> double { return random_scalar<double>(); };
 	}
 
 	void Wave::clear()

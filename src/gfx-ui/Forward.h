@@ -7,6 +7,7 @@
 #include <infra/Forward.h>
 #include <tree/Forward.h>
 #include <type/Forward.h>
+#include <ecs/Forward.h>
 #include <math/Forward.h>
 #include <geom/Forward.h>
 #include <ctx/Forward.h>

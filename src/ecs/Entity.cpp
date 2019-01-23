@@ -20,6 +20,6 @@ namespace mud
 	void Entity::destroy()
 	{
 		if(m_handle != UINT32_MAX)
-			s_ecs[m_ecs]->DeleteEntity(m_handle);
+			s_ecs[m_ecs]->destroy(m_handle);
 	}
 }

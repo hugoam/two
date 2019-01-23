@@ -7,7 +7,6 @@
 #include <refl/Forward.h>
 #include <type/Type.h>
 #include <type/Var.h>
-#include <type/Any.h>
 #include <infra/Array.h>
 #include <refl/Meta.h>
 

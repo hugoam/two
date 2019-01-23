@@ -32,7 +32,7 @@ namespace mud
 			return;
 
 		m_undone.back()->apply();
-		m_done.emplace_back(vector_pop(m_undone));
+		m_done.emplace_back(pop(m_undone));
 	}
 
 	void ActionStack::undo()
@@ -41,7 +41,7 @@ namespace mud
 			return;
 
 		m_done.back()->undo();
-		m_undone.emplace_back(vector_pop(m_done));
+		m_undone.emplace_back(pop(m_done));
 	}
 
 	UndoTool::UndoTool(ToolContext& context)

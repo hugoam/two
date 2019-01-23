@@ -54,9 +54,6 @@ namespace mud
 
 	export_ MUD_UIO_EXPORT func_ void multi_object_edit(Widget& parent, Type& type, vector<Ref> objects);
 
-	//template <class T_Object>
-	//T_Object* deref(std::pair<const string, unique<T_Object>>& element) { return element.second.get(); }
-
 	template <class T_Object>
 	T_Object* deref(unique<T_Object>& element) { return element.get(); }
 

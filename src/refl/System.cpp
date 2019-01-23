@@ -3,15 +3,13 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
-#include <fstream>
-#endif
 
 #ifdef MUD_MODULES
 module mud.refl;
 #else
 #include <stl/string.h>
 #include <infra/Vector.h>
+#include <infra/File.h>
 #include <refl/System.h>
 #include <refl/Module.h>
 #include <refl/Class.h>
@@ -33,27 +31,22 @@ module mud.refl;
 	#define BUILD_SUFFIX ""
 #endif
 
+#include <cstdio>
+
 namespace mud
 {
-	void copyfile(const string& source, const string& dest)
-	{
-		std::ifstream source_file(source.c_str(), std::ios::binary);
-		std::ofstream dest_file(dest.c_str(), std::ios::binary);
-		dest_file << source_file.rdbuf();
-	}
-
 	Module* load_module(cstring path)
 	{
 		string module_path = string(path) + BUILD_SUFFIX + MODULE_EXT;
 		string loaded_path = string(path) + BUILD_SUFFIX + "_loaded" + MODULE_EXT;
 		
-		if(!std::ifstream(module_path.c_str(), std::ios::binary).good())
+		if(!file_exists(module_path))
 		{
 			printf("ERROR: Module %s not found\n", module_path.c_str());
 			return nullptr;
 		}
 
-		copyfile(module_path, loaded_path);
+		copy_file(module_path, loaded_path);
 
 #ifdef _WIN32
 		HMODULE module_handle = LoadLibraryA(loaded_path.c_str());
@@ -304,7 +297,7 @@ namespace mud
 
 		if(!path.empty())
 		{
-			name = vector_pop(path);
+			name = pop(path);
 			parent = &namspc(path);
 		}
 

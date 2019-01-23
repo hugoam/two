@@ -50,6 +50,8 @@
 
 namespace mud
 {
+	using std::min;
+
 	thread_local JobSystem::ThreadState* s_thread_state(nullptr);
 
 	template <size_t Count>
@@ -167,10 +169,10 @@ namespace mud
 			else
 				num_threads = uint16_t(hardware_threads - 1);
 		}
-		num_threads = std::min(uint16_t(HAS_THREADING ? 32 : 0), num_threads);
+		num_threads = min(uint16_t(HAS_THREADING ? 32 : 0), num_threads);
 
 		m_thread_count = num_threads;
-		m_parallel_split_count = (uint8_t)std::ceil(std::log2f(float(num_threads + adoptable_threads)));
+		m_parallel_split_count = (uint8_t)ceil(log2f(float(num_threads + adoptable_threads)));
 
 		m_impl->init(*this, num_threads, adoptable_threads);
 	}

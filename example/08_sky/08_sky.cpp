@@ -41,7 +41,7 @@ public:
 
 	void SetMap(const KeyMap& keymap);
 	ValueType GetValue(float time) const;
-	void Clear();
+	void clear();
 
 private:
 	const ValueType interpolate(float lowerTime, const ValueType& lowerVal, float upperTime, const ValueType& upperVal, float time) const;
@@ -249,7 +249,7 @@ DynamicValueController::ValueType DynamicValueController::GetValue(float time) c
 	return interpolate(lowerTime, lowerVal, upperTime, upperVal, time);
 }
 
-void DynamicValueController::Clear()
+void DynamicValueController::clear()
 {
 	m_keyMap.clear();
 }

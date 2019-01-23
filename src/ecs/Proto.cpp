@@ -8,30 +8,20 @@
 module mud.proto;
 #else
 #include <type/Cls.h>
-#include <refl/Class.h>
 #include <ecs/Proto.h>
 #endif
 
 namespace mud
 {
-	vector<unique<Prototype>> g_prototypes = vector<unique<Prototype>>(c_max_types);
+	vector<Prototype*> g_prototypes = vector<Prototype*>(c_max_types);
 
-	Type& proto_stem(Class& cls)
-	{
-		for(Member& member : cls.m_members)
-			if(member.is_component())
-				return *member.m_type;
-		static Type invalid("INVALID"); return invalid;
-	}
-
-	Prototype::Prototype(Class& cls)
-		: m_type(*cls.m_type)
-		, m_stem(proto_stem(cls))
+	Prototype::Prototype(Type& type, vector<Type*> parts)
+		: m_type(type)
 		, m_hash_parts(c_max_types)
 	{
-		for(Member& member : cls.m_members)
-			if(member.is_component())
-				this->add_part(*member.m_type);
+		g_prototypes[type.m_id] = this;
+		for (Type* part : parts)
+			this->add_part(*part);
 		this->add_part(m_type);
 	}
 
@@ -44,12 +34,5 @@ namespace mud
 			base = base->m_base;
 		}
 		m_parts.push_back(&type);
-	}
-
-	Prototype& proto(Type& type)
-	{
-		if(g_prototypes[type.m_id] == nullptr)
-			g_prototypes[type.m_id] = make_unique<Prototype>(cls(type));
-		return *g_prototypes[type.m_id];
 	}
 }

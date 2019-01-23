@@ -162,7 +162,7 @@ namespace mud
 		float closest_dot = 0.f;
 		for(Axis a : { Axis::X, Axis::Y, Axis::Z })
 		{
-			float product = std::abs(dot(direction, to_vec3(a)));
+			float product = abs(dot(direction, to_vec3(a)));
 			if(a == Axis::X || product > closest_dot)
 			{
 				axis = a;
@@ -175,7 +175,7 @@ namespace mud
 
 	float float_shortest_angle(float angle1, float angle2)
 	{
-		return min((2.f * c_pi) - std::abs(angle1 - angle2), std::abs(angle1 - angle2));
+		return min((2.f * c_pi) - abs(angle1 - angle2), abs(angle1 - angle2));
 	}
 
 	float trigo_angle(const vec3& vec1, const vec3& vec2)

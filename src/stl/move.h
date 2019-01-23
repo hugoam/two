@@ -9,8 +9,10 @@ namespace mud
 	using std::move;
 }
 #else
+#include <stl/type_traits.h>
 namespace mud
 {
+#if 0
 	template<class T>
 	struct remove_reference { using type = T; };
 
@@ -22,6 +24,7 @@ namespace mud
 
 	template<class T>
 	using remove_reference_t = typename remove_reference<T>::type;
+#endif
 
 	template<class T>
 	constexpr remove_reference_t<T>&& move(T&& arg) noexcept

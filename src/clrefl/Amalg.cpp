@@ -110,7 +110,7 @@ namespace mud
 				string header;
 				for (string include : includes)
 					header += "#include <" + include + ">" + "\n";
-				file.insert(file.begin(), header);
+				file.insert(size_t(0), header);
 			};
 
 			write_includes(module.m_includes_h, module.m_h);

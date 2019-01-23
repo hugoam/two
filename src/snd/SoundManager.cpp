@@ -6,6 +6,7 @@
 #include <snd/SoundManager.h>
 
 #include <infra/Vector.h>
+#include <infra/File.h>
 
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -121,7 +122,7 @@ namespace mud
 		this->enum_devices();
 
 		string name = device_name;
-		if(!name.empty() && std::find(m_devices.begin(), m_devices.end(), name) != m_devices.end())
+		if(!name.empty() && find(m_devices.begin(), m_devices.end(), name) != m_devices.end())
 			m_device = alcOpenDevice(name.c_str());
 		else if(m_devices.size() > 0)
 			m_device = alcOpenDevice(m_devices.front().c_str());
@@ -214,8 +215,7 @@ namespace mud
 	{
 		string path = filename; //m_resource_path + "/sounds/" + filename;
 
-		std::ifstream ifile(path.c_str(), std::ifstream::out);
-		if(!ifile.good())
+		if(!file_exists(path))
 		{
 			printf("ERROR: Could not open sound file %s\n", path.c_str());
 			return nullptr;
@@ -240,7 +240,7 @@ namespace mud
 
 	void SoundManager::create(unique<Sound> sound, const string& filename, bool stream)
 	{
-		//std::cerr << "creating sound Impl : " << filename << std::endl;
+		//printf("creating sound Impl : " << filename );
 		m_inactive_sounds.push_back(&*sound);
 
 		if(!stream)
@@ -250,7 +250,7 @@ namespace mud
 
 		m_sounds.push_back(move(sound));
 
-		//std::cerr << "done" << std::endl;
+		//printf("done" );
 	}
 
 	void SoundManager::stop_all_sounds()
@@ -319,7 +319,7 @@ namespace mud
 
 		if(m_active_sounds.size() < m_max_sources)
 		{
-			sound.assign_source(vector_pop(m_source_pool));
+			sound.assign_source(pop(m_source_pool));
 		}
 		else if(index <= m_max_sources)
 		{
@@ -363,7 +363,7 @@ namespace mud
 
 	void SoundManager::destroy(Sound& sound)
 	{
-		//std::cerr << "destroying sound " << std::endl;
+		//printf("destroying sound " );
 		if(sound.m_active)
 			this->release_active(sound);
 		else

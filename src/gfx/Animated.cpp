@@ -75,7 +75,7 @@ namespace mud
 
 	void Animated::next_animation()
 	{
-		//this->play(*vector_pop(m_queue));
+		//this->play(*pop(m_queue));
 	}
 
 	void Animated::advance(float delta)

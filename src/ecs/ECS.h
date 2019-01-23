@@ -7,11 +7,13 @@
 #include <stl/tuple.h>
 #include <infra/Vector.h>
 #include <infra/Generic.h>
+#include <pool/SparsePool.h>
 #include <type/Type.h>
 #include <type/Ref.h>
 #include <ecs/Forward.h>
 #include <ecs/Entity.h>
-#include <ecs/ComponentBuffer.h>
+#include <ecs/Buffer.h>
+#include <ecs/SparseBuffer.h>
 
 namespace mud
 {
@@ -26,164 +28,217 @@ namespace mud
 		bool operator<(EntityData& other) const { return m_prototype < other.m_prototype; }
 	};
 	
-	template <typename F, typename... Ts>
-	void for_each(F&& f, Ts&&... xs)
+	template <typename F, typename... Types>
+	void for_each(F&& f, Types&&... xs)
 	{
-		swallow{ (f(static_cast<Ts&&>(xs)), 0)... };
+		swallow{ (f(static_cast<Types&&>(xs)), 0)... };
 	}
 
-	template <typename... Ts>
-	uint64_t any_flags(Ts... xs)
+	template <typename... Types>
+	uint64_t any_flags(Types... xs)
 	{
 		uint64_t flags = false;
 		for_each([&flags](uint64_t x) { flags = flags | x; }, xs...);
 		return flags;
 	}
 
-	enum class BufferType
+#ifdef _MSC_VER // sucks
+	template <class... Args>
+	struct select_last;
+
+	template <typename T>
+	struct select_last<T>
 	{
-		/// Fast to loop, but uses more memory (32KiB per 1024 entities). Use for common components (e.g. position).
-		Sparse,
-		/// Slow to loop, but uses less memory. Best suited for uncommon components (added to less than 1/20 of entities).
-		Dense,
+		using type = T;
 	};
 
-	template <class T>
-	struct TypedBuffer
-	{};
-
-	template <class T>
-	class ComponentArray
+	template <class T, class... Args>
+	struct select_last<T, Args...>
 	{
-	public:
-		size_t size() const { return m_components.size(); }
-
-		T& operator[](size_t index) { return *m_components[index]; }
-		const T& operator[](size_t index) const { return *m_components[index]; }
-
-		vector<T*> m_components;
+		using type = typename select_last<Args...>::type;
 	};
+#else
+	template<typename T>
+	struct tag
+	{
+		using type = T;
+	};
+	
+	template<typename... Types>
+	struct select_last
+	{
+		using type = typename decltype((tag<Types>{}, ...))::type;
+	};
+#endif
 
-	//template <bool Dense>
-	class ParallelBuffers
+	using Typemap = vector<uint32_t>;
+
+	template <bool Dense>
+	class BufferArray
 	{
 	public:
-		ParallelBuffers(cstring name, size_t size = 0)
-			: m_name(name)
-			, m_indices(size)
+		BufferArray(Typemap& typemap, uint32_t size = 0)
+			: m_typemap(typemap)
 			, m_buffer_map(64)
 		{
-			m_handles.reserve(size);
+			m_handles.ensure(size);
 		}
 
-		ParallelBuffers(ParallelBuffers&& other) = default;
-		ParallelBuffers& operator=(ParallelBuffers&& other) = default;
+		BufferArray(BufferArray&& other) = default;
+		BufferArray& operator=(BufferArray&& other) = default;
 
-		ParallelBuffers(const ParallelBuffers& other) = delete;
-		ParallelBuffers& operator=(const ParallelBuffers& other) = delete;
+		BufferArray(const BufferArray& other) = delete;
+		BufferArray& operator=(const BufferArray& other) = delete;
 
 		template <class T>
-		void AddBuffer()
+		uint32_t type_index()
+		{
+#if 0 //def MUD_ECS_TYPED
+			return m_typemap[type<T>().m_id];
+#else
+			return TypedBuffer<T>::index();
+#endif
+		}
+
+		template <class T>
+		void add_buffer()
 		{
 #ifdef MUD_ECS_TYPED
-			m_buffers.emplace_back(make_unique<ComponentBuffer<T>>(type<T>(), int(TypedBuffer<T>::index()), int(m_handles.capacity())));
+			m_buffers.emplace_back(construct<TBuffer<T>>(type<T>()));
 #else
-			m_buffers.emplace_back(make_unique<ComponentBuffer<T>>(int(TypedBuffer<T>::index()), int(m_handles.capacity())));
+			m_buffers.emplace_back(construct<TBuffer<T>>());
 #endif
-			m_buffer_map[TypedBuffer<T>::index()] = &(*m_buffers.back());
-		}
-
-		template <class... T_Components>
-		void AddBuffers()
-		{
-			m_prototype = any_flags(1ULL << TypedBuffer<T_Components>::index()...);
-			swallow{ (AddBuffer<T_Components>(), 0)... };
+			m_buffer_map[this->type_index<T>()] = &(*m_buffers.back());
 		}
 
 		template <class T>
-		ComponentBuffer<T>& Buffer()
+		TBuffer<T>& buffer()
 		{
-			return static_cast<ComponentBuffer<T>&>(*m_buffer_map[TypedBuffer<T>::index()]);
+			return static_cast<TBuffer<T>&>(*m_buffer_map[this->type_index<T>()]);
 		}
 
-		void SortComponents()
+		uint32_t size() const { return m_handles.size(); }
+		uint32_t count() const { return m_handles.count(); }
+
+		uint32_t reverse(uint32_t index) const { return m_handles.reverse(index); }
+		uint32_t handle(uint32_t index) const { return m_handles.reverse(index); }
+
+		void ensure(uint32_t capacity)
 		{
-			for(auto& buffer : m_buffers)
-				buffer->SortComponents();
+			m_handles.ensure(capacity);
 		}
 
-		void SetCapacity(size_t capacity)
+		void clear()
 		{
-			m_indices.ensure(capacity);
-		}
-
-		void Clear()
-		{
-			for(auto& buffer : m_buffers)
-				buffer->Clear();
-
 			m_handles.clear();
-			m_indices.clear();
+			for(auto& buffer : m_buffers)
+				buffer->clear();
 		}
 
-		void Add(uint32_t handle)
+		uint32_t create()
 		{
-			const uint32_t index = uint32_t(m_handles.size());
-
-			for(auto& buffer : m_buffers)
-				buffer->Add();
-
-			m_handles.push_back(handle);
-			m_indices[handle] = index;
+			const uint32_t handle = m_handles.create();
+			for (auto& buffer : m_buffers)
+				buffer->add();
+			return handle;
 		}
 
-		void Remove(uint32_t handle)
+		void add(uint32_t handle)
 		{
-			const uint32_t index = m_indices[handle];
-
+			m_handles.add(handle);
 			for(auto& buffer : m_buffers)
-				buffer->Remove(index);
+				buffer->add();
+		}
 
-			swap(m_handles[index], m_handles.back());
-			m_handles.pop_back();
-
-			const uint32_t moved = m_handles[index];
-			m_indices[moved] = index;
-			m_indices.erase(handle);
+		void remove(uint32_t handle)
+		{
+			const uint32_t index = m_handles.remove(handle);
+			for(auto& buffer : m_buffers)
+				buffer->remove(index);
 		}
 
 		template <class T>
-		void Set(uint32_t handle, T component = T())
+		void set(uint32_t handle, T component = T())
 		{
-			size_t index = m_indices[handle];
-			this->Buffer<T>().m_data[index] = move(component);
+			uint32_t index = m_handles[handle];
+			this->buffer<T>().m_data[index] = move(component);
 		}
 
 		template <class T>
-		T& Get(uint32_t handle)
+		T& get(uint32_t handle)
 		{
-			size_t index = m_indices[handle];
-			return this->Buffer<T>().m_data[index];
+			uint32_t index = m_handles[handle];
+			return this->buffer<T>().m_data[index];
+		}
+
+		template <class T>
+		T& has(uint32_t handle)
+		{
+			T& comp = this->Get<T>(handle);
+			return comp.m_enabled;
+		}
+
+		Typemap& m_typemap;
+
+		SparseHandles<Dense> m_handles;
+
+		vector<unique<Buffer>> m_buffers;
+		vector<Buffer*> m_buffer_map;
+	};
+
+	class EntityStream : public BufferArray<false>
+	{
+	public:
+		EntityStream(cstring name, Typemap& typemap, uint32_t size = 0)
+			: BufferArray<false>(typemap, size)
+			, m_name(name)
+		{}
+
+		template <class... Types>
+		void init(uint64_t prototype)
+		{
+			m_prototype = prototype;
+			swallow{ (this->add_buffer<Types>(), 0)... };
 		}
 
 		cstring m_name;
 		uint64_t m_prototype;
+	};
 
-		//SparseIndices<Dense> m_indices;
-		SparseIndices<false> m_indices;
-		vector<uint32_t> m_handles;
+	class GridECS : public BufferArray<false>
+	{
+	public:
+		Typemap m_typemap;
+		vector<uint32_t> m_available;
 
-		vector<unique<ComponentBufferBase>> m_buffers;
-		vector<ComponentBufferBase*> m_buffer_map;
+	public:
+		GridECS()
+			: BufferArray<false>(m_typemap)
+		{}
+
+		uint32_t create()
+		{
+			uint32_t handle = m_available.size() > 0 ? pop(m_available) : m_handles.alloc();
+			this->add(handle);
+			return handle;
+		}
+
+		void destroy(uint32_t handle)
+		{
+			this->remove(handle);
+			m_available.push_back(handle);
+		}
 	};
 
 	class ECS
 	{
 	public:
 		uint32_t m_index = 0;
+		uint32_t m_type_index = 0;
+		Typemap m_typemap;
 
-		vector<ParallelBuffers> m_buffers;
-		map<uint64_t, uint16_t> m_streams;
+		vector<EntityStream> m_streams;
+		map<uint64_t, uint16_t> m_stream_map;
 
 		vector<EntityData> m_entities;
 		vector<uint32_t> m_available;
@@ -191,188 +246,217 @@ namespace mud
 	public:
 		ECS(int capacity = 1 << 10)
 		{
-			m_buffers.reserve(64);
+			m_streams.reserve(64);
 			m_entities.reserve(capacity);
 		}
 
 		ECS(const ECS& other) = delete;
 		ECS& operator=(const ECS& other) = delete;
 
-		template <class... T_Components>
-		ParallelBuffers& Stream()
+		template <class T>
+		uint32_t type_index()
 		{
-			uint64_t prototype = any_flags(1ULL << TypedBuffer<T_Components>::index()...);
-			uint16_t stream = m_streams[prototype];
-			return m_buffers[stream];
+#if 0 //def MUD_ECS_TYPED
+			return m_typemap[type<T>().m_id];
+#else
+			return TypedBuffer<T>::index();
+#endif
 		}
 
-		ParallelBuffers& Stream(uint32_t handle)
+		template <class... Types>
+		uint64_t prototype()
+		{
+			return any_flags(1ULL << this->type_index<Types>()...);
+		}
+
+		template <class... Types>
+		EntityStream& stream()
+		{
+			uint64_t prototype = this->prototype<Types...>();
+			uint16_t stream = m_stream_map[prototype];
+			return m_streams[stream];
+		}
+
+		EntityStream& stream(uint32_t handle)
 		{
 			uint16_t stream = m_entities[handle].m_stream;
-			return m_buffers[stream];
+			return m_streams[stream];
 		}
 
-		vector<ParallelBuffers*> Match(uint64_t prototype)
+		vector<EntityStream*> match(uint64_t prototype)
 		{
-			vector<ParallelBuffers*> matches;
-			for(ParallelBuffers& buffers : m_buffers)
+			vector<EntityStream*> matches;
+			for(EntityStream& buffers : m_streams)
 				if((buffers.m_prototype & prototype) == prototype)
 					matches.push_back(&buffers);
 			return matches;
 		}
 
-		template <class... T_Components>
-		void AddBuffers(cstring name)
+		template <class... Types>
+		void add_stream(cstring name)
 		{
-			uint64_t prototype = any_flags(1ULL << TypedBuffer<T_Components>::index()...);
-			m_streams[prototype] = uint16_t(m_buffers.size());
-			m_buffers.emplace_back(name);
-			m_buffers.back().AddBuffers<T_Components...>();
+			uint64_t prototype = this->prototype<Types...>();
+			m_stream_map[prototype] = uint16_t(m_streams.size());
+			m_streams.emplace_back(name, m_typemap);
+			m_streams.back().init<Types...>(prototype);
 		}
 
-		void UpdateSize()
+#ifdef MUD_ECS_TYPED
+		template <class T>
+		void register_type()
 		{
-			for(auto& buffer : m_buffers)
-				buffer.SetCapacity(m_entities.size());
+#if 0
+			if(m_typemap[type<T>().m_id] == 0)
+				m_typemap[type<T>().m_id] = ++m_type_index;
+#endif
 		}
 
-		uint32_t AllocEntity(uint64_t prototype, uint16_t stream)
+		template <class... Types>
+		void add_stream()
+		{
+			using T_Prototype = typename select_last<Types...>::type;
+			this->add_stream<Types...>(type<T_Prototype>().m_name);
+			swallow{ (this->register_type<Types&&>(), 0)... };
+		}
+#endif
+
+		void ensure_size()
+		{
+			for(auto& buffer : m_streams)
+				buffer.ensure(uint32_t(m_entities.size()));
+		}
+
+		uint32_t alloc(uint64_t prototype, uint16_t stream)
 		{
 			if(m_available.size() > 0)
-				return vector_pop(m_available);
+				return pop(m_available);
 			uint32_t handle = uint32_t(m_entities.size());
 			m_entities.push_back({ prototype, stream });
-			this->UpdateSize();
+			this->ensure_size();
 			return handle;
 		}
 
-		template <class... T_Components>
-		uint32_t CreateEntity()
+		template <class... Types>
+		uint32_t create()
 		{
-			uint64_t prototype = any_flags(1ULL << TypedBuffer<T_Components>::index()...);
-			if(m_streams.find(prototype) == m_streams.end())
-				this->AddBuffers<T_Components...>("Todo");
-			uint16_t stream = m_streams[prototype];
-			uint32_t handle = AllocEntity(prototype, stream);
-			m_buffers[stream].Add(handle);
+			uint64_t prototype = this->prototype<Types...>();
+			if(m_stream_map.find(prototype) == m_stream_map.end())
+				this->add_stream<Types...>();
+			uint16_t stream = m_stream_map[prototype];
+			uint32_t handle = this->alloc(prototype, stream);
+			m_streams[stream].add(handle);
 			return handle;
 		}
 
-		void DeleteEntity(uint32_t handle)
+		void destroy(uint32_t handle)
 		{
 			EntityData& entity = m_entities[handle];
-			m_buffers[entity.m_stream].Remove(handle);
+			m_streams[entity.m_stream].remove(handle);
 			m_available.push_back(handle);
 		}
 
 		template <class T>
-		void SetComponent(uint32_t handle, T component = T())
+		void set(uint32_t handle, T component = T())
 		{
 			EntityData& entity = m_entities[handle];
-			m_buffers[entity.m_stream].Set<T>(handle, move(component));
+			m_streams[entity.m_stream].set<T>(handle, move(component));
 		}
 
 		template <class T>
-		bool HasComponent(uint32_t handle)
+		bool has(uint32_t handle)
 		{
-			uint64_t flag = (1ULL << TypedBuffer<T>::index());
+			uint64_t flag = (1ULL << this->type_index<T>());
 			EntityData& entity = m_entities[handle];
 			return (entity.m_prototype & flag) != 0;
 		}
 
 		template <class T>
-		T& GetComponent(uint32_t handle)
+		T& get(uint32_t handle)
 		{
 			EntityData& entity = m_entities[handle];
-			return m_buffers[entity.m_stream].Get<T>(handle);
+			return m_streams[entity.m_stream].get<T>(handle);
 		}
 
-		void SortComponents()
+		template <class T, class... Types>
+		vector<T*> gather()
 		{
-			for(ParallelBuffers& buffers : m_buffers)
-				buffers.SortComponents();
-		}
-
-		template <class T, class... T_Components>
-		ComponentArray<T> Components()
-		{
-			uint64_t prototype = (1ULL << TypedBuffer<T>::index()) | any_flags(1ULL << TypedBuffer<T_Components>::index()...);
+			uint64_t prototype = this->prototype<T, Types...>();
 		
-			ComponentArray<T> result;
+			vector<T*> result;
 
-			vector<ParallelBuffers*> matches = this->Match(prototype);
-			for(ParallelBuffers* buffers : matches)
+			vector<EntityStream*> matches = this->match(prototype);
+			for(EntityStream* buffers : matches)
 			{
-				ComponentBuffer<T>& buffer = buffers->Buffer<T>();
+				TBuffer<T>& buffer = buffers->buffer<T>();
 
-				size_t count = buffer.m_data.size();
-				size_t size = result.m_components.size();
-				result.m_components.reserve(size + count);
+				const size_t count = buffer.m_data.size();
+				const size_t size = result.size();
+				result.reserve(size + count);
 
 				for(size_t i = 0; i < count; ++i)
-					result.m_components.push_back(&buffer.m_data[size + i]);
+					result.push_back(&buffer.m_data[size + i]);
 			}
 
 			return result;
 		}
 
-		template <class... Ts, size_t... Is, class T_Function>
-		void LoopHImpl(T_Function action, index_sequence<Is...>)
+		template <class... Types, size_t... Is, class T_Function>
+		void loop_ent_impl(T_Function action, index_sequence<Is...>)
 		{
-			uint64_t prototype = any_flags(1ULL << TypedBuffer<Ts>::index()...);
+			uint64_t prototype = this->prototype<Types...>();
 
-			vector<ParallelBuffers*> matches = this->Match(prototype);
-			for(ParallelBuffers* stream : matches)
+			vector<EntityStream*> matches = this->match(prototype);
+			for(EntityStream* stream : matches)
 			{
-				tuple<ComponentBuffer<Ts>&...> buffers = { stream->Buffer<Ts>()... };
+				tuple<TBuffer<Types>&...> buffers = { stream->buffer<Types>()... };
 
-				const size_t size = stream->m_handles.size();
-				for(size_t i = 0; i < size; ++i)
+				const uint32_t size = stream->size();
+				for(uint32_t i = 0; i < size; ++i)
 				{
-					uint32_t handle = stream->m_handles[i];
+					uint32_t handle = stream->handle(i);
 					action(handle, at<Is>(buffers).m_data[i]...);
 				}
 			}
 		}
 
-		template <class... Ts, size_t... Is, class T_Function>
-		void LoopImpl(T_Function action, index_sequence<Is...>)
+		template <class... Types, size_t... Is, class T_Function>
+		void loop_impl(T_Function action, index_sequence<Is...>)
 		{
-			uint64_t prototype = any_flags(1ULL << TypedBuffer<Ts>::index()...);
+			uint64_t prototype = this->prototype<Types...>();
 
-			vector<ParallelBuffers*> matches = this->Match(prototype);
-			for(ParallelBuffers* stream : matches)
+			vector<EntityStream*> matches = this->match(prototype);
+			for(EntityStream* stream : matches)
 			{
-				tuple<ComponentBuffer<Ts>&...> buffers = { stream->Buffer<Ts>()... };
+				tuple<TBuffer<Types>&...> buffers = { stream->buffer<Types>()... };
 
-				const size_t size = stream->m_handles.size();
-				for(size_t i = 0; i < size; ++i)
+				const uint32_t size = stream->size();
+				for(uint32_t i = 0; i < size; ++i)
 				{
 					action(at<Is>(buffers).m_data[i]...);
 				}
 			}
 		}
 
-		template <class... Ts, class T_Function>
-		void Loop(T_Function action)
+		template <class... Types, class T_Function>
+		void loop(T_Function action)
 		{
-			this->LoopImpl<Ts...>(action, index_tuple<sizeof...(Ts)>());
+			this->loop_impl<Types...>(action, index_tuple<sizeof...(Types)>());
 		}
 
-		template <class... Ts, class T_Function>
-		void LoopH(T_Function action)
+		template <class... Types, class T_Function>
+		void loop_ent(T_Function action)
 		{
-			this->LoopHImpl<Ts...>(action, index_tuple<sizeof...(Ts)>());
+			this->loop_ent_impl<Types...>(action, index_tuple<sizeof...(Types)>());
 		}
 	};
 
 	export_ extern MUD_ECS_EXPORT ECS* s_ecs[256];
 
 	export_ template <class T>
-	inline bool isa(const Entity& entity) { return s_ecs[entity.m_ecs]->HasComponent<T>(entity.m_handle); }
+	inline bool isa(const Entity& entity) { return s_ecs[entity.m_ecs]->has<T>(entity.m_handle); }
 
 	export_ template <class T>
-	inline T& asa(const Entity& entity) { return s_ecs[entity.m_ecs]->GetComponent<T>(entity.m_handle); }
+	inline T& asa(const Entity& entity) { return s_ecs[entity.m_ecs]->get<T>(entity.m_handle); }
 
 	export_ template <class T>
 	inline T* try_asa(const Entity& entity) { if(entity && isa<T>(entity)) return &asa<T>(entity); else return nullptr; }
@@ -391,7 +475,7 @@ namespace mud
 
 	inline cstring entity_prototype(const Entity& entity)
 	{
-		ParallelBuffers& stream = s_ecs[entity.m_ecs]->Stream(entity.m_handle);
+		EntityStream& stream = s_ecs[entity.m_ecs]->stream(entity.m_handle);
 		return stream.m_name;
 	}
 
@@ -404,6 +488,7 @@ namespace mud
 
 		operator T&() { return asa<T>(*this); }
 		operator const T&() const { return asa<T>(*this); }
+
 		T* operator->() { return &asa<T>(*this); }
 		T& operator*() { return asa<T>(*this); }
 		const T* operator->() const { return &asa<T>(*this); }

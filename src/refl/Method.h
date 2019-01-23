@@ -121,12 +121,6 @@ namespace mud
 		MethodFunc m_call;
 	};
 
-#if 0
-	export_ using VirtualMethod = std::function<void(Method&, Ref, array<Var>)>;
-
-	export_ template <> MUD_REFL_EXPORT Type& type<VirtualMethod>();
-#endif
-
 	export_ enum class ConstructorIndex : unsigned int
 	{
 		Default = 0,

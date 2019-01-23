@@ -5,11 +5,21 @@
 #pragma once
 
 #ifndef MUD_MODULES
+#include <ecs/Entity.h>
 #include <gfx/Renderer.h>
 #endif
 #include <gfx-pbr/Forward.h>
 #include <gfx-pbr/Filters/Glow.h>
 #include <gfx-pbr/Filters/DofBlur.h>
+
+namespace mud
+{
+	template <> struct TypedBuffer<Tonemap> { static uint32_t index() { return 0; } };
+	template <> struct TypedBuffer<BCS> { static uint32_t index() { return 1; } };
+	template <> struct TypedBuffer<Glow> { static uint32_t index() { return 2; } };
+	template <> struct TypedBuffer<DofBlurNear> { static uint32_t index() { return 3; } };
+	template <> struct TypedBuffer<DofBlurFar> { static uint32_t index() { return 4; } };
+}
 
 namespace mud
 {

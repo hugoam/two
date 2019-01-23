@@ -10,6 +10,10 @@
 
 namespace mud
 {
+	template <class T>
+	struct TypedBuffer
+	{};
+
 	struct refl_ struct_ MUD_ECS_EXPORT Entity
 	{
 		Entity() {}
@@ -21,7 +25,7 @@ namespace mud
 		bool operator==(const Entity& other) const { return m_handle == other.m_handle; };
 		bool operator!=(const Entity& other) const { return m_handle != other.m_handle; };
 
-		void destroy(); // { if(m_handle != UINT32_MAX) s_ecs[m_ecs]->DeleteEntity(m_handle); }
+		void destroy(); // { if(m_handle != UINT32_MAX) s_ecs[m_ecs]->destroy(m_handle); }
 
 		void swap(Entity& other) { using mud::swap; swap(m_handle, other.m_handle); swap(m_ecs, other.m_ecs); }
 

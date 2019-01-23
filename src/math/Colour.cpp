@@ -13,8 +13,6 @@ module mud.math;
 
 namespace mud
 {
-	using std::abs;
-
 	Colour Colour::Black(0.f, 0.f, 0.f);
 	Colour Colour::AlphaBlack(0.f, 0.f, 0.f, 0.5f);
 	Colour Colour::Red(1.f, 0.f, 0.f);
@@ -107,12 +105,12 @@ namespace mud
 
 	inline float to_linear(float value)
 	{
-		return value < 0.04045 ? float(value * (1.0 / 12.92)) : float(std::pow((value + 0.055) * (1.0 / (1 + 0.055)), 2.4));
+		return value < 0.04045 ? float(value * (1.0 / 12.92)) : float(pow((value + 0.055) * (1.0 / (1 + 0.055)), 2.4));
 	}
 
 	inline float to_gamma(float value)
 	{
-		return value > 0.0031308 ? float(value * 12.92) : float(std::pow(abs(value), 1.0 / 2.4) * 1.055 - 0.055);
+		return value > 0.0031308 ? float(value * 12.92) : float(pow(abs(value), 1.0 / 2.4) * 1.055 - 0.055);
 	}
 
 	Colour to_linear(const Colour& colour)

@@ -24,9 +24,9 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	static ImporterOBJ obj_importer(app.m_gfx_system);
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//viewer.m_filters.m_tonemap.m_mode = TonemapMode::ACES;
-	//viewer.m_filters.m_tonemap.m_mode = TonemapMode::Filmic;
-	//viewer.m_filters.m_tonemap.m_mode = TonemapMode::Reinhardt;
+	viewer.comp<Tonemap>().m_mode = TonemapMode::ACES;
+	viewer.comp<Tonemap>().m_mode = TonemapMode::Filmic;
+	viewer.comp<Tonemap>().m_mode = TonemapMode::Reinhardt;
 	viewer.m_viewport.m_lighting = Lighting::VoxelGI;
 
 	OrbitController& controller = ui::free_orbit_controller(viewer);
@@ -119,13 +119,13 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 
 #if POSTPROCESS
 		ui::label(sheet, "Post process :");
-		ui::slider_field<float>(sheet, "Exposure", { viewer.m_filters.m_tonemap.m_exposure, { 0.f, 2.f, 0.01f } });
-		ui::slider_field<float>(sheet, "Whitepoint", { viewer.m_filters.m_tonemap.m_white_point, { 0.f, 2.f, 0.01f } });
+		ui::slider_field<float>(sheet, "Exposure", { viewer.comp<Tonemap>().m_exposure, { 0.f, 2.f, 0.01f } });
+		ui::slider_field<float>(sheet, "Whitepoint", { viewer.comp<Tonemap>().m_white_point, { 0.f, 2.f, 0.01f } });
 
-		viewer.m_filters.m_bcs.m_enabled = true;
-		ui::slider_field<float>(sheet, "Brightness", { viewer.m_filters.m_bcs.m_brightness, { 0.f, 2.f, 0.01f } });
-		ui::slider_field<float>(sheet, "Contrast", { viewer.m_filters.m_bcs.m_contrast, { 0.f, 2.f, 0.01f } });
-		ui::slider_field<float>(sheet, "Saturation", { viewer.m_filters.m_bcs.m_saturation, { 0.f, 2.f, 0.01f } });
+		viewer.comp<BCS>().m_enabled = true;
+		ui::slider_field<float>(sheet, "Brightness", { viewer.comp<BCS>().m_brightness, { 0.f, 2.f, 0.01f } });
+		ui::slider_field<float>(sheet, "Contrast", { viewer.comp<BCS>().m_contrast, { 0.f, 2.f, 0.01f } });
+		ui::slider_field<float>(sheet, "Saturation", { viewer.comp<BCS>().m_saturation, { 0.f, 2.f, 0.01f } });
 #endif
 
 #if DIRECT_LIGHT

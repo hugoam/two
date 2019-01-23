@@ -24,7 +24,7 @@ namespace mud
 	template <class T, class V>
 	inline auto remove_pt(vector<T>& vec, V& value)
 	{
-		auto pos = std::find_if(vec.begin(), vec.end(), [&](auto& pt) { return pt.get() == &value; });
+		auto pos = find_if(vec.begin(), vec.end(), [&](auto& pt) { return pt.get() == &value; });
 		vec.erase(pos);
 	}
 

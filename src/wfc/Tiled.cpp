@@ -319,7 +319,7 @@ namespace mud
 
 	void propagate_tiled(WaveTileset& tileset, Wave& wave)
 	{
-		uvec3 changed = vector_pop(wave.m_changes);
+		uvec3 changed = pop(wave.m_changes);
 
 		int directions = wave.m_depth == 1 ? 4 : 6;
 		for(int d = 0; d < directions; d++)
@@ -365,7 +365,7 @@ namespace mud
 
 	/*
 	using Tile = vector<RGBA>;
-	using TileLoader = std::function<Tile(const string& tile_name)>;
+	using TileLoader = function<Tile(const string& tile_name)>;
 
 	Tile rotate_tile(const Tile& in_tile, const size_t tile_size)
 	{

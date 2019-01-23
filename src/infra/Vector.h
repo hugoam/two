@@ -57,11 +57,18 @@ namespace mud
 	}
 
 	export_ template <class T>
-	inline T vector_pop(vector<T>& vec)
+	inline T pop(vector<T>& vec)
 	{
 		T val = move(vec.back());
 		vec.pop_back();
 		return val;
+	}
+
+	export_ template <class T>
+	inline void swap_pop(vector<T>& vec, size_t index)
+	{
+		swap(vec[index], vec.back());
+		vec.pop_back();
 	}
 
 	export_ template <class T, class U>
@@ -296,10 +303,10 @@ namespace mud
 		using const_pointer = const T*;
 		using reference = T&;
 		using const_reference = const T&;
-		using size_type = std::size_t;
+		using size_type = size_t;
 		using difference_type = std::ptrdiff_t;
-		using propagate_on_container_move_assignment = std::true_type;
-		using is_always_equal = std::true_type;
+		using propagate_on_container_move_assignment = true_type;
+		using is_always_equal = true_type;
 
 		template <typename U>
 		struct rebind { using other = STLAlignedAllocator<U>; };

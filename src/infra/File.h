@@ -31,6 +31,8 @@ namespace mud
 	export_ MUD_INFRA_EXPORT void update_file(const string& path, const string& content);
 	export_ MUD_INFRA_EXPORT void write_binary_file(const string& path, array<uint8_t> data);
 
+	export_ MUD_INFRA_EXPORT void copy_file(const string& source, const string& dest);
+
 	export_ MUD_INFRA_EXPORT string exec_path(int argc, char* argv[]);
 
 	export_ MUD_INFRA_EXPORT bool file_exists(const string& path);

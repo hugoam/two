@@ -28,14 +28,14 @@ namespace mud
 	}
 	
 	export_ template <typename T>
-	struct is_vector : std::false_type {};
+	struct is_vector : false_type {};
 	
 	export_ template <typename T>
-	struct is_vector<vector<T>> : std::true_type {};
+	struct is_vector<vector<T>> : true_type {};
 
 #if 0
 	export_ template <class T>
-	inline typename std::enable_if<is_vector<T>::value, void>::type
+	inline typename enable_if<is_vector<T>::value, void>::type
 		to_string(const T& val, string& str) { vector_to_string(val, str); }
 #endif
 

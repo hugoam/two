@@ -95,6 +95,8 @@ namespace mud {
     struct BlurKernel;
     class BlockBlur;
     struct DofBlur;
+	struct DofBlurNear;
+	struct DofBlurFar;
     struct DofBlurUniform;
     class BlockDofBlur;
     struct Glow;
