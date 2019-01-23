@@ -18,21 +18,20 @@ namespace mud
 		StreamSound(SoundImplementer& manager, SoundCallback callback = {});
 		~StreamSound();
 
-		void open(cstring filename);
-
 		void setup();
-		void release();
 
-		void update_buffers();
-		void fill_buffers();
-		void clear_buffers();
+		virtual void open(const string& filename) override;
+		virtual void release() override;
 
-		void rewind();
-		void update_play_cursor();
-		ALfloat get_play_cursor();
+		virtual void update_buffers() override;
+		virtual void fill_buffers() override;
+		virtual void clear_buffers() override;
+
+		virtual void rewind() override;
+		virtual void update_play_cursor() override;
+		virtual ALfloat get_play_cursor() override;
 
 	private:
-		// Streaming sounds have local buffers
 		int m_numBuffers;
 		vector<ALuint> m_aLBuffers;
 		unique<SoundFileBuffer> m_buffer;

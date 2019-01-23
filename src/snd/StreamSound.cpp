@@ -22,7 +22,7 @@ namespace mud
 		m_stream = true;
 	}
 
-	void StreamSound::open(cstring filename)
+	void StreamSound::open(const string& filename)
 	{
 		//std::cerr << "opening stream sound" << std::endl;
 

@@ -98,7 +98,7 @@ namespace mud
 
 	public:
 		virtual void open(const string& filename) { UNUSED(filename); }
-		virtual void open_shared(SharedBuffer& buffer) { UNUSED(buffer); }
+		virtual void open(SharedBuffer& buffer) { UNUSED(buffer); }
 
 	protected:
 		virtual void release() {}

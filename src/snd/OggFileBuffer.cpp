@@ -50,7 +50,7 @@ namespace mud
 	OggFileBuffer::~OggFileBuffer()
 	{}
 
-	void OggFileBuffer::open(cstring filename)
+	void OggFileBuffer::open(const string& filename)
 	{
 		m_impl->m_ogg_callbacks.read_func = ogg_read;
 		m_impl->m_ogg_callbacks.close_func = ogg_close;
@@ -62,7 +62,7 @@ namespace mud
 		//FILE* file = fopen(filename, "rb");
 		//int result = ov_open_callbacks(file, &m_oggFile, NULL, 0, m_oggCallbacks);
 
-		int result = ov_fopen(filename, &m_impl->m_ogg_file);
+		int result = ov_fopen(filename.c_str(), &m_impl->m_ogg_file);
 
 		if(result < 0)
 			return;

@@ -21,7 +21,7 @@ namespace mud
 	StaticSound::~StaticSound()
 	{}
 
-	void StaticSound::open_shared(SharedBuffer& buffer)
+	void StaticSound::open(SharedBuffer& buffer)
 	{
 		m_name = buffer.m_file_buffer->m_filename;
 		m_buffer = &buffer;

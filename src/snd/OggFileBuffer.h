@@ -19,15 +19,15 @@ namespace mud
 
 		size_t m_chunk_size = 0;			// Size of audio buffer (250ms)
 
-		void open(cstring filename);
-		void close();
-		void reopen();
+		virtual void open(const string& filename) override;
+		virtual void close() override;
+		virtual void reopen() override;
 
-		void seek_time(float time);
-		void seek_bytes(long pos);
+		virtual void seek_time(float time) override;
+		virtual void seek_bytes(long pos) override;
 
-		void fill(ALuint buffer);
-		bool fill_chunk(ALuint buffer);
+		virtual void fill(ALuint buffer) override;
+		virtual bool fill_chunk(ALuint buffer) override;
 
 	protected:
 		bool read_buffer_info();		

@@ -244,7 +244,7 @@ namespace mud
 		m_inactive_sounds.push_back(&*sound);
 
 		if(!stream)
-			sound->open_shared(get_buffer(filename));
+			sound->open(get_buffer(filename));
 		else
 			sound->open(filename);
 
