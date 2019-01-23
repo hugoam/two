@@ -415,8 +415,7 @@ namespace mud
 	Aabb transform_aabb(const Aabb& source, const mat4& transform)
 	{
 		vec3 center = mulp(transform, source.m_center);
-		vec3 extent = muln(abs(transform), source.m_extents);
-
+		vec3 extent = mult(abs(transform), source.m_extents);
 		return Aabb(center, extent);
 	}
 

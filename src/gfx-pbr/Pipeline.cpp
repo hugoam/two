@@ -16,8 +16,9 @@ module mud.gfx.pbr;
 #include <gfx-pbr/Api.h>
 #endif
 
-#define DEPTH_PASS
-//#define DEBUG_GBUFFERS
+#define DEBUG_ITEMS 0
+#define DEPTH_PASS 1
+#define DEBUG_GBUFFERS 0
 
 namespace mud
 {
@@ -70,6 +71,10 @@ namespace mud
 
 		render.m_environment = &scene.m_environment;
 		render.m_shot->m_immediate = { scene.m_immediate.get() };
+
+#if DEBUG_ITEMS
+		scene.debug_items(render);
+#endif
 	}
 
 	void pipeline_pbr(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred)
@@ -193,7 +198,7 @@ namespace mud
 		this->add_pass<PassGIProbes>(gfx_system, *pipeline.block<BlockLight>(), *pipeline.block<BlockGIBake>());
 		this->add_pass<PassShadowmap>(gfx_system, *pipeline.block<BlockShadow>());
 		this->add_pass<PassClear>(gfx_system);
-#ifdef DEPTH_PASS
+#if DEPTH_PASS
 		this->add_pass<PassDepth>(gfx_system, *pipeline.block<BlockDepth>());
 #endif
 		this->add_pass<PassOpaque>(gfx_system);
@@ -381,7 +386,7 @@ namespace mud
 		m_filter.submit_quad(*render.m_target, render_pass.m_index, render.m_target_fbo,
 							 m_program->version(cluster.m_shader_version), render.m_viewport.m_rect, BGFX_STATE_BLEND_ALPHA);
 
-#ifdef DEBUG_GBUFFERS
+#if DEBUG_GBUFFERS
 		if(render.m_target)
 		{
 			BlockCopy& copy = *m_gfx_system.m_pipeline->block<BlockCopy>();

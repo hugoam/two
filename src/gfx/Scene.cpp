@@ -27,7 +27,7 @@ module mud.gfx;
 #include <gfx/GfxSystem.h>
 #endif
 
-//#define DEBUG_ITEMS
+#define DEBUG_ITEMS 1
 
 namespace mud
 {
@@ -173,5 +173,9 @@ namespace mud
 
 		render.m_environment = &scene.m_environment;
 		render.m_shot->m_immediate = { scene.m_immediate.get() };
+
+#if DEBUG_ITEMS
+		scene.debug_items(render);
+#endif
 	}
 }

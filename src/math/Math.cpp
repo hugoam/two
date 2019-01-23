@@ -278,7 +278,7 @@ namespace mud
 		mat4 result;
 		for(mat4::length_type i = 0; i < 4; ++i)
 			for(mat4::length_type j = 0; j < 4; ++j)
-				result[i][j] = std::abs(mat[i][j]);
+				result[i][j] = abs(mat[i][j]);
 		return result;
 	}
 
