@@ -58,7 +58,6 @@ namespace mud
 				return {};
 
 			string file = line.substr(line.find("<") + 1, line.rfind(">") - line.find("<") - 1);
-			string subdir = file_directory(file);
 			for(Module& module : m_modules)
 				if(is_subpath(module.root + "/" + file, module.path + "/")
 				&& file_exists(module.root + "/" + file))
@@ -75,7 +74,12 @@ namespace mud
 			{
 				Include include = module_include(line);
 				if(include.module)
-					module.m_deps_cpp.insert(include.module->dest_h());
+				{
+					if(file_extension(include.file) == "h")
+						module.m_deps_cpp.insert(include.module->dest_h());
+					else
+						process_cpp(module, include.file);
+				}
 				//else if(include.file != "")
 				//	module.m_includes_cpp.insert(include.file);
 				else if(filter(line))
@@ -171,7 +175,9 @@ int main(int argc, char *argv[])
 	vector<string> filter = {
 		"//  Copyright (c) 2019 Hugo Amiard hugo.amiard@laposte.net",
 		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
-		"//  This notice and the license may not be removed or altered from any source distribution."
+		"//  This notice and the license may not be removed or altered from any source distribution.",
+		"//  This software is licensed  under the terms of the GNU General Public License v3.0.",
+		"//  See the attached LICENSE.txt file or https://www.gnu.org/licenses/gpl-3.0.en.html.",
 	};
 
 	string mudsrc = "d:/Documents/Programmation/toy/mud/src";
@@ -179,6 +185,7 @@ int main(int argc, char *argv[])
 
 	Amalgamator amalgamator;
 	amalgamator.m_filter = filter;
+
 	for (string module : { "infra", "jobs", "type", "tree", "pool", "refl", "ecs", "srlz", "math", "geom", "noise", "wfc", "fract", "lang", "ctx", "ui", "uio", "snd" })
 		amalgamator.add(mudsrc, "mud", module, module);
 	for (string module : { "ctx-glfw", "ctx-wasm", "ctx-win" })
@@ -189,6 +196,8 @@ int main(int argc, char *argv[])
 		amalgamator.add(mudsrc, "mud", module, module);
 	for (string module : { "util", "core", "visu", "block", "edit", "shell" })
 		amalgamator.add(toysrc, "toy", module, module);
+
 	amalgamator.run();
+
 	return 0;
 }
