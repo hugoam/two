@@ -7,6 +7,7 @@
 #include <stl/vector.h>
 #include <refl/Forward.h>
 #include <type/Var.h>
+#include <type/RefVal.h>
 #include <refl/Method.h>
 #include <refl/Member.h>
 
