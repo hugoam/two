@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include <infra/Config.h>
@@ -20,47 +18,17 @@
 #define MUD_GFX_EDIT_EXPORT MUD_IMPORT
 #endif
 
-
-    
-    
-
-namespace std {
-
-    
-    
-}
-
-namespace mud {
-namespace ui {
-
+namespace mud
+{
+namespace ui
+{
     enum class OrbitMode : int;
     
-    
 }
 }
 
-namespace glm {
-
-    
-    
-}
-
-namespace bx {
-
-    
-    
-}
-
-namespace json11 {
-
-    
-    
-}
-
-namespace mud {
-
-    
-    
+namespace mud
+{
     class SpaceSheet;
     struct ViewerStyles;
     class ViewerController;
@@ -70,32 +38,3 @@ namespace mud {
     class FreeOrbitController;
     class SpaceViewport;
 }
-
-namespace mud {
-namespace detail {
-
-    
-    
-}
-}
-
-namespace mud {
-namespace gfx {
-
-    
-    
-}
-}
-
-namespace bimg {
-
-    
-    
-}
-
-namespace bgfx {
-
-    
-    
-}
-

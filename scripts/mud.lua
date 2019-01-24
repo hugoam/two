@@ -256,8 +256,9 @@ end
 
 mud.mud = { mud.infra, mud.jobs, mud.type, mud.tree, mud.pool, mud.refl, mud.ecs, mud.srlz, mud.math, mud.geom, mud.noise, mud.wfc, mud.fract, mud.lang, mud.ctx, mud.ui, mud.uio }
 
-if _OPTIONS["metagen"] then
+if _OPTIONS["tools"] then
     table.insert(mud.mud, mud.clrefl)
+    table.insert(mud.mud, mud.amalg)
 end
 
 if _OPTIONS["sound"] then

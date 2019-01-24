@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include <infra/Config.h>
@@ -11,30 +9,8 @@
 #define MUD_GEOM_EXPORT MUD_IMPORT
 #endif
 
-
-    
-    
-
-namespace std {
-
-    
-    
-}
-
-namespace glm {
-
-    
-    
-}
-
-namespace json11 {
-
-    
-    
-}
-
-namespace mud {
-
+namespace mud
+{
     enum DrawMode : unsigned int;
     enum class PrimitiveType : unsigned int;
     enum class SymbolDetail : unsigned short;
@@ -90,12 +66,3 @@ namespace mud {
     struct DispatchDrawProcShape;
     class IcoSphere;
 }
-
-namespace mud {
-namespace detail {
-
-    
-    
-}
-}
-

@@ -193,9 +193,7 @@ namespace mud
 	float shortest_angle(const vec3& vec1, const vec3& vec2)
 	{
 		float a = angle(vec1, vec2);
-
-		if(a == 0.f)
-			return a;
+		if(a == 0.f) return a;
 
 		vec3 clockwise = rotate(vec1, a, Y3);
 		flatten(clockwise);

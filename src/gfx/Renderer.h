@@ -9,6 +9,7 @@
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
 #include <ecs/Entity.h>
+#include <type/Cls.h>
 #include <type/Unique.h>
 #endif
 #include <gfx/Forward.h>

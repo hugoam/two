@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include <infra/Config.h>
@@ -14,46 +12,8 @@
 #define MUD_GFX_PBR_EXPORT MUD_IMPORT
 #endif
 
-
-    
-    
-
-namespace std {
-
-    
-    
-}
-
-namespace mud {
-namespace ui {
-
-    
-    
-}
-}
-
-namespace glm {
-
-    
-    
-}
-
-namespace mud {
-namespace gfx {
-
-    
-    
-}
-}
-
-namespace json11 {
-
-    
-    
-}
-
-namespace mud {
-
+namespace mud
+{
     enum ShaderOptionLight : unsigned int;
     enum ShaderOptionRadiance : unsigned int;
     enum ShaderOptionShadow : unsigned int;
@@ -109,30 +69,3 @@ namespace mud {
     struct TonemapUniform;
     class BlockTonemap;
 }
-
-namespace mud {
-namespace detail {
-
-    
-    
-}
-}
-
-namespace bgfx {
-
-    
-    
-}
-
-namespace bimg {
-
-    
-    
-}
-
-namespace bx {
-
-    
-    
-}
-
