@@ -3,7 +3,7 @@
 #include <mud/ctx.wasm.h>
 #include <mud/ctx.h>
 #include <mud/type.h>
-//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net
+//  Copyright (c) 2019 Hugo Amiard hugo.amiard@laposte.net
 
 
 //#include <ui/UiWindow.h>

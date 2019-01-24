@@ -1,6 +1,6 @@
 #pragma once
 
-//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net
+//  Copyright (c) 2019 Hugo Amiard hugo.amiard@laposte.net
 
 
 #ifdef MUD_CTX_NATIVE

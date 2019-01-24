@@ -1,7 +1,7 @@
 #pragma once
 
 #include <mud/ui.h>
-//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net
+//  Copyright (c) 2019 Hugo Amiard hugo.amiard@laposte.net
 
 #include <ui/Config.h>
 #include <ui/Context/Windows/WindowsContext.h>
