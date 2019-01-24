@@ -62,13 +62,13 @@ namespace mud
 		OwnedHandle(SparsePool<T>& pool, uint32_t handle) : SparseHandle<T>(pool, handle) {}
 		~OwnedHandle() { this->destroy(); }
 
-		OwnedHandle(OwnedHandle<T>& other) = delete;
-		OwnedHandle& operator=(OwnedHandle<T>& other) = delete;
+		OwnedHandle(OwnedHandle& other) = delete;
+		OwnedHandle& operator=(OwnedHandle& other) = delete;
 
-		OwnedHandle(OwnedHandle<T>&& other) { other.swap(*this); }
-		OwnedHandle& operator=(OwnedHandle<T>&& other) { other.swap(*this); return *this; }
+		OwnedHandle(OwnedHandle&& other) { other.swap(*this); }
+		OwnedHandle& operator=(OwnedHandle&& other) { other.swap(*this); return *this; }
 
-		void swap(OwnedHandle<T>& other) { using mud::swap; swap(this->m_handle, other.m_handle); swap(this->m_pool, other.m_pool); }
+		void swap(OwnedHandle& other) { using mud::swap; swap(this->m_handle, other.m_handle); swap(this->m_pool, other.m_pool); }
 
 		operator SparseHandle<T>() const { return { *this->m_pool, this->m_handle }; }
 	};
