@@ -26,7 +26,8 @@ namespace mud
 			string subdir;
 			string path;
 
-			set<string> m_included;
+			set<string> m_included_h;
+			set<string> m_included_cpp;
 
 			string m_h;
 			string m_cpp;
@@ -70,6 +71,13 @@ namespace mud
 
 		void process_cpp(Module& module, const string& file)
 		{
+			if (module.m_included_cpp.find(file) != module.m_included_cpp.end())
+				return;
+
+			printf("processing file %s\n", file.c_str());
+
+			module.m_included_cpp.insert(file);
+
 			auto read_line = [&](const string& line)
 			{
 				Include include = module_include(line);
@@ -93,12 +101,12 @@ namespace mud
 		
 		void process_h(Module& module, const string& file)
 		{
-			if(module.m_included.find(file) != module.m_included.end())
+			if(module.m_included_h.find(file) != module.m_included_h.end())
 				return;
 
 			printf("processing file %s\n", file.c_str());
 
-			module.m_included.insert(file);
+			module.m_included_h.insert(file);
 
 			auto read_line = [&](const string& line)
 			{
