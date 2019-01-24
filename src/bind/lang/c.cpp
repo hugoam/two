@@ -57,6 +57,9 @@ extern "C" {
 	mud::Class* DECL mud_ScriptClass__get_class(mud::ScriptClass* self) {
 		return &self->m_class;
 	}
+	mud::Prototype* DECL mud_ScriptClass__get_prototype(mud::ScriptClass* self) {
+		return &self->m_prototype;
+	}
 	void DECL mud_ScriptClass__destroy(mud::ScriptClass* self) {
 		delete self;
 	}

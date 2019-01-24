@@ -9,17 +9,11 @@
 #include <math/Math.h>
 #include <math/Colour.h>
 
-#ifndef MUD_META_GENERATOR
-#ifdef MUD_NO_GLM
 namespace mud
-#else
-namespace glm
-#endif
 {
 	inline bool operator<(const uvec2& lhs, const uvec2& rhs) { return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y); }
 	inline bool operator<(const ivec2& lhs, const ivec2& rhs) { return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y); }
 }
-#endif
 
 namespace mud
 {
@@ -27,23 +21,6 @@ namespace mud
 	export_ inline vec4 to_vec4(const Colour& colour) { return { colour.m_r, colour.m_g, colour.m_b, colour.m_a }; }
 	export_ inline Colour to_colour(const vec3& vec) { return { vec.x, vec.y, vec.z }; }
 	export_ inline Colour to_colour(const vec4& vec) { return { vec.x, vec.y, vec.z, vec.w }; }
-
-#ifndef MUD_NO_GLM
-	export_ inline bvec3 greater(const vec3& lhs, const vec3& rhs) { return glm::greaterThan(lhs, rhs); }
-	export_ inline bvec4 greater(const vec4& lhs, const vec4& rhs) { return glm::greaterThan(lhs, rhs); }
-	export_ inline bvec3 greater_equal(const vec3& lhs, const vec3& rhs) { return glm::greaterThanEqual(lhs, rhs); }
-	export_ inline bvec3 less(const vec3& lhs, const vec3& rhs) { return glm::lessThan(lhs, rhs); }
-	export_ func_ inline float oriented_angle_2d(const vec2& lhs, const vec2& rhs) { return glm::orientedAngle(lhs, rhs); }
-	export_ func_ inline float oriented_angle(const vec3& lhs, const vec3& rhs, const vec3& ref) { return glm::orientedAngle(lhs, rhs, ref); }
-	export_ func_ inline quat angle_axis(float angle, const vec3& axis) { return glm::angleAxis(angle, axis); }
-	export_ func_ inline quat axis_angle(const vec3& axis, float angle) { return glm::angleAxis(angle, axis); }
-	export_ func_ inline quat rotate(const quat& q, const vec3& axis, float angle) { return glm::rotate(q, angle, axis); }
-	export_ inline quat rotate(const quat& q, float angle, const vec3& axis) { return glm::rotate(q, angle, axis); }
-	export_ func_ inline vec3 rotate(const quat& q, const vec3& vec) { return q * vec; }
-	export_ func_ inline float distance(const vec3& a, const vec3& b) { return glm::distance(a, b); }
-	export_ func_ inline float length(const vec3& v) { return glm::length(v); }
-	export_ func_ inline float length2(const vec3& v) { return glm::length2(v); }
-#endif
 
 	export_ inline vec3 rotate(const vec3& v, float angle, const vec3& axis) { return angle_axis(angle, axis) * v; }
 	export_ inline vec3 rotate(const vec3& v, const vec3& axis, float angle) { return angle_axis(angle, axis) * v; }

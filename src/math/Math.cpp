@@ -50,11 +50,7 @@ namespace mud
 	const vec3 c_dirs_tangents[6]	 = {  Y3, -Z3, -Z3,  X3,  Y3,  X3 };
 	const vec3 c_dirs_normals[6]	 = { -Z3,  Y3,  X3, -Z3,  X3,  Y3 };
 
-#ifdef MUD_NO_GLM
 	const quat ZeroQuat = { 0.f, 0.f, 0.f, 1.f };
-#else
-	const quat ZeroQuat = { 1.f, 0.f, 0.f, 0.f };
-#endif
 
 	const vec2 Zero2 = { 0.f, 0.f };
 	const vec2 Unit2 = { 1.f, 1.f };

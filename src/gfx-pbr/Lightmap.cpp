@@ -38,11 +38,7 @@ module mud.gfx.pbr;
 //#define LIGHTMAP_PIXELS
 //#define LIGHTMAP_SORT
 
-#ifdef MUD_NO_GLM
 namespace mud
-#else
-namespace glm
-#endif
 {
 	inline bool operator>(const uvec2& lhs, const uvec2& rhs) { return lhs.x > rhs.x || (lhs.x == rhs.x && lhs.y > rhs.y); }
 }

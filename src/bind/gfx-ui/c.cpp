@@ -18,13 +18,6 @@
 
 extern "C" {
 	
-	// Object
-	mud::Type* DECL mud_Object__type() {
-		return &mud::type<mud::Object>();
-	}
-	void DECL mud_Object__destroy(mud::Object* self) {
-		delete self;
-	}
 	// ViewerController
 	mud::Type* DECL mud_ViewerController__type() {
 		return &mud::type<mud::ViewerController>();

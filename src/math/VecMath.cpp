@@ -14,10 +14,6 @@ module mud.math;
 #include <math/VecMath.h>
 #endif
 
-#ifdef MUD_NO_GLM
-
-#include <glm/gtc/quaternion.hpp>
-
 #include <algorithm>
 
 namespace mud
@@ -620,5 +616,3 @@ namespace mud
 	double Decompress_Signed16ToDouble(i16 d, double extents);
 #endif
 }
-
-#endif

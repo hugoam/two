@@ -1712,6 +1712,24 @@ namespace mud
             m.m_functions.push_back(&f);
         }
         {
+            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::distance(val<mud::vec3>(args[0]), val<mud::vec3>(args[1])); };
+            vector<Param> params = { { "a", var(mud::vec3()) }, { "b", var(mud::vec3()) } };
+            static Function f = { &namspc({ "mud" }), "distance", funcptr<float(*)(const mud::vec3&, const mud::vec3&)>(&mud::distance), func, params, var(float()) };
+            m.m_functions.push_back(&f);
+        }
+        {
+            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::length(val<mud::vec3>(args[0])); };
+            vector<Param> params = { { "v", var(mud::vec3()) } };
+            static Function f = { &namspc({ "mud" }), "length", funcptr<float(*)(const mud::vec3&)>(&mud::length), func, params, var(float()) };
+            m.m_functions.push_back(&f);
+        }
+        {
+            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::length2(val<mud::vec3>(args[0])); };
+            vector<Param> params = { { "v", var(mud::vec3()) } };
+            static Function f = { &namspc({ "mud" }), "length2", funcptr<float(*)(const mud::vec3&)>(&mud::length2), func, params, var(float()) };
+            m.m_functions.push_back(&f);
+        }
+        {
             auto func = [](array<Var> args, Var& result) {  val<mud::quat>(result) = mud::look_dir(val<mud::vec3>(args[0]), val<mud::vec3>(args[1])); };
             vector<Param> params = { { "direction", var(mud::vec3()) }, { "forward", var(mud::vec3()), Param::Default } };
             static Function f = { &namspc({ "mud" }), "look_dir", funcptr<mud::quat(*)(const mud::vec3&, const mud::vec3&)>(&mud::look_dir), func, params, var(mud::quat()) };
@@ -1745,24 +1763,6 @@ namespace mud
             auto func = [](array<Var> args, Var& result) {  val<mud::vec3>(result) = mud::divide<mud::vec3>(val<mud::vec3>(args[0]), val<mud::vec3>(args[1])); };
             vector<Param> params = { { "a", var(mud::vec3()) }, { "b", var(mud::vec3()) } };
             static Function f = { &namspc({ "mud" }), "divide<mud::vec3>", funcptr<mud::vec3(*)(mud::vec3, mud::vec3)>(&mud::divide<mud::vec3>), func, params, var(mud::vec3()) };
-            m.m_functions.push_back(&f);
-        }
-        {
-            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::distance(val<mud::vec3>(args[0]), val<mud::vec3>(args[1])); };
-            vector<Param> params = { { "a", var(mud::vec3()) }, { "b", var(mud::vec3()) } };
-            static Function f = { &namspc({ "glm" }), "distance", funcptr<float(*)(const mud::vec3&, const mud::vec3&)>(&mud::distance), func, params, var(float()) };
-            m.m_functions.push_back(&f);
-        }
-        {
-            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::length(val<mud::vec3>(args[0])); };
-            vector<Param> params = { { "v", var(mud::vec3()) } };
-            static Function f = { &namspc({ "glm" }), "length", funcptr<float(*)(const mud::vec3&)>(&mud::length), func, params, var(float()) };
-            m.m_functions.push_back(&f);
-        }
-        {
-            auto func = [](array<Var> args, Var& result) {  val<float>(result) = mud::length2(val<mud::vec3>(args[0])); };
-            vector<Param> params = { { "v", var(mud::vec3()) } };
-            static Function f = { &namspc({ "glm" }), "length2", funcptr<float(*)(const mud::vec3&)>(&mud::length2), func, params, var(float()) };
             m.m_functions.push_back(&f);
         }
         {

@@ -1,4 +1,3 @@
-Module['glm'] = Module['glm'] || {};
 // Noise
 function Noise() { throw "cannot construct a Noise, no constructor in IDL" }
 Noise.prototype = Object.create(WrapperObject.prototype);

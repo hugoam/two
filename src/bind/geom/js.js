@@ -1,4 +1,3 @@
-Module['glm'] = Module['glm'] || {};
 // Distribution
 function Distribution() { throw "cannot construct a Distribution, no constructor in IDL" }
 Distribution.prototype = Object.create(WrapperObject.prototype);

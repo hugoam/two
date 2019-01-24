@@ -8,9 +8,6 @@
 #include <cmath>
 #endif
 
-#ifdef MUD_NO_GLM
-#ifndef MUD_META_GENERATOR
-
 // These are binary-exact approximations of pi/e constants
 // http://www.exploringbinary.com/pi-and-e-in-binary/
 
@@ -1019,7 +1016,4 @@ namespace mud
 	i16 Compress_DoubleToSigned16(double d, double extents);
 	double Decompress_Signed16ToDouble(i16 d, double extents);
 }
-#endif
-
-#endif
 #endif

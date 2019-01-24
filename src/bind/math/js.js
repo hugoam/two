@@ -1,4 +1,3 @@
-Module['glm'] = Module['glm'] || {};
 // Colour
 function Colour(r, g, b, a) {
     /* r <float> [] */
@@ -1074,6 +1073,26 @@ Module['rotate'] = function(q, axis, angle) {
     /* angle <float> [] */
     return wrapPointer(_mud_rotate_3(q, axis, angle), quat);
 };
+Module['distance'] = function(a, b) {
+    var self = this.ptr;
+    /* a <vec3> [] */
+    a = a.ptr;
+    /* b <vec3> [] */
+    b = b.ptr;
+    return _mud_distance_2(a, b);
+};
+Module['length'] = function(v) {
+    var self = this.ptr;
+    /* v <vec3> [] */
+    v = v.ptr;
+    return _mud_length_1(v);
+};
+Module['length2'] = function(v) {
+    var self = this.ptr;
+    /* v <vec3> [] */
+    v = v.ptr;
+    return _mud_length2_1(v);
+};
 Module['look_dir'] = function(direction, forward) {
     var self = this.ptr;
     /* direction <vec3> [] */
@@ -1125,26 +1144,6 @@ Module['divide<mud::vec3>'] = function(a, b) {
     /* b <vec3> [] */
     b = b.ptr;
     return wrapPointer(_mud_divide_mud_vec3__2(a, b), vec3);
-};
-Module['glm']['distance'] = function(a, b) {
-    var self = this.ptr;
-    /* a <vec3> [] */
-    a = a.ptr;
-    /* b <vec3> [] */
-    b = b.ptr;
-    return _glm_distance_2(a, b);
-};
-Module['glm']['length'] = function(v) {
-    var self = this.ptr;
-    /* v <vec3> [] */
-    v = v.ptr;
-    return _glm_length_1(v);
-};
-Module['glm']['length2'] = function(v) {
-    var self = this.ptr;
-    /* v <vec3> [] */
-    v = v.ptr;
-    return _glm_length2_1(v);
 };
 Module['grid_center'] = function(coord, cell_size) {
     var self = this.ptr;

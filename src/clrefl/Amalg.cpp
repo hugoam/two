@@ -116,8 +116,8 @@ namespace mud
 			write_includes(module.m_includes_h, module.m_h);
 			write_includes(module.m_includes_cpp, module.m_cpp);
 
-			update_file(module.root + "/" + subdir + ".h", module.m_h);
-			update_file(module.root + "/" + subdir + ".cpp", module.m_cpp);
+			update_file(module.root + "/mud/" + subdir + ".h", module.m_h);
+			update_file(module.root + "/mud/" + subdir + ".cpp", module.m_cpp);
 		}
 
 	};

@@ -1,17 +1,5 @@
-Module['glm'] = Module['glm'] || {};
 Module['ui'] = Module['ui'] || {};
 Module['gfx'] = Module['gfx'] || {};
-// Object
-function Object() { throw "cannot construct a Object, no constructor in IDL" }
-Object.prototype = Object.create(WrapperObject.prototype);
-Object.prototype.constructor = Object;
-Object.prototype.__class__ = Object;
-Object.__cache__ = {};
-Module['Object'] = Object;
-Object.prototype["__destroy__"] = Object.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_Object__destroy(self);
-};
 // ViewerController
 function ViewerController() { throw "cannot construct a ViewerController, no constructor in IDL" }
 ViewerController.prototype = Object.create(WrapperObject.prototype);
@@ -247,7 +235,6 @@ Module['ui']['velocity_controller'] = function(viewer, linear, angular, speed) {
 
 (function() {
     function setup() {
-        Object.__type__ = _mud_Object__type();
         ViewerController.__type__ = _mud_ViewerController__type();
         OrbitController.__type__ = _mud_OrbitController__type();
         FreeOrbitController.__type__ = _mud_FreeOrbitController__type();

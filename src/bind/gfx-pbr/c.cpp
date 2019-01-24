@@ -246,44 +246,6 @@ extern "C" {
 	void DECL mud_ReflectionProbe__destroy(mud::ReflectionProbe* self) {
 		delete self;
 	}
-	// RenderFilters
-	mud::Type* DECL mud_RenderFilters__type() {
-		return &mud::type<mud::RenderFilters>();
-	}
-	mud::RenderFilters* DECL mud_RenderFilters_RenderFilters_0() {
-		return new mud::RenderFilters();
-	}
-	mud::DofBlur* DECL mud_RenderFilters__get_dof_blur(mud::RenderFilters* self) {
-		static mud::DofBlur temp;
-		return (temp = self->m_dof_blur, &temp);
-	}
-	void DECL mud_RenderFilters__set_dof_blur(mud::RenderFilters* self, mud::DofBlur* value) {
-		self->m_dof_blur = *value;
-	}
-	mud::Glow* DECL mud_RenderFilters__get_glow(mud::RenderFilters* self) {
-		static mud::Glow temp;
-		return (temp = self->m_glow, &temp);
-	}
-	void DECL mud_RenderFilters__set_glow(mud::RenderFilters* self, mud::Glow* value) {
-		self->m_glow = *value;
-	}
-	mud::BCS* DECL mud_RenderFilters__get_bcs(mud::RenderFilters* self) {
-		static mud::BCS temp;
-		return (temp = self->m_bcs, &temp);
-	}
-	void DECL mud_RenderFilters__set_bcs(mud::RenderFilters* self, mud::BCS* value) {
-		self->m_bcs = *value;
-	}
-	mud::Tonemap* DECL mud_RenderFilters__get_tonemap(mud::RenderFilters* self) {
-		static mud::Tonemap temp;
-		return (temp = self->m_tonemap, &temp);
-	}
-	void DECL mud_RenderFilters__set_tonemap(mud::RenderFilters* self, mud::Tonemap* value) {
-		self->m_tonemap = *value;
-	}
-	void DECL mud_RenderFilters__destroy(mud::RenderFilters* self) {
-		delete self;
-	}
 	// Tonemap
 	mud::Type* DECL mud_Tonemap__type() {
 		return &mud::type<mud::Tonemap>();

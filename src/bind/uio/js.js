@@ -1,4 +1,3 @@
-Module['glm'] = Module['glm'] || {};
 Module['ui'] = Module['ui'] || {};
 // ScriptEditor
 function ScriptEditor() { throw "cannot construct a ScriptEditor, no constructor in IDL" }

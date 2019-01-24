@@ -23,12 +23,7 @@ namespace mud
 
 	void from_json(const json& j, quat& q)
 	{
-#ifdef MUD_NO_GLM
 		q = quat(jfloat(j[0]), jfloat(j[1]), jfloat(j[2]), jfloat(j[3]));
-#else
-		// glm is w, x, y, z whereas gltf is x, y, z, w
-		q = quat(jfloat(j[3]), jfloat(j[0]), jfloat(j[1]), jfloat(j[2]));
-#endif
 	}
 
 	void from_json(const json& j, mat4& mat)

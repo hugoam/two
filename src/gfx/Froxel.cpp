@@ -154,7 +154,7 @@ namespace mud
 		if(m_projection != projection) //[[unlikely]]
 			m_dirty |= PROJECTION_CHANGED;
 
-		//if(all(less(abs(m_projection), glm::vec3(EPSILON))))
+		//if(all(less(abs(m_projection), vec3(EPSILON))))
 
 		m_viewport = &viewport;
 		m_projection = projection;

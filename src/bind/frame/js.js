@@ -1,4 +1,3 @@
-Module['glm'] = Module['glm'] || {};
 Module['ui'] = Module['ui'] || {};
 Module['gfx'] = Module['gfx'] || {};
 // Shell

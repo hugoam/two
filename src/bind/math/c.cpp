@@ -697,6 +697,15 @@ extern "C" {
 		static mud::quat temp;
 		return (temp = mud::rotate(*q, *axis, angle), &temp);
 	}
+	float DECL mud_distance_2(const mud::vec3* a, const mud::vec3* b) {
+		return mud::distance(*a, *b);
+	}
+	float DECL mud_length_1(const mud::vec3* v) {
+		return mud::length(*v);
+	}
+	float DECL mud_length2_1(const mud::vec3* v) {
+		return mud::length2(*v);
+	}
 	mud::quat* DECL mud_look_dir_1(const mud::vec3* direction) {
 		static mud::quat temp;
 		return (temp = mud::look_dir(*direction), &temp);
@@ -728,15 +737,6 @@ extern "C" {
 	mud::vec3* DECL mud_divide_mud_vec3__2(mud::vec3* a, mud::vec3* b) {
 		static mud::vec3 temp;
 		return (temp = mud::divide<mud::vec3>(*a, *b), &temp);
-	}
-	float DECL glm_distance_2(const mud::vec3* a, const mud::vec3* b) {
-		return glm::distance(*a, *b);
-	}
-	float DECL glm_length_1(const mud::vec3* v) {
-		return glm::length(*v);
-	}
-	float DECL glm_length2_1(const mud::vec3* v) {
-		return glm::length2(*v);
 	}
 	mud::vec3* DECL mud_grid_center_2(const mud::uvec3* coord, const mud::vec3* cell_size) {
 		static mud::vec3 temp;

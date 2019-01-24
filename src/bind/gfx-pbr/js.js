@@ -1,4 +1,3 @@
-Module['glm'] = Module['glm'] || {};
 Module['ui'] = Module['ui'] || {};
 Module['gfx'] = Module['gfx'] || {};
 // BCS
@@ -395,68 +394,6 @@ ReflectionProbe.prototype["__destroy__"] = ReflectionProbe.prototype.__destroy__
     var self = this.ptr;
     _mud_ReflectionProbe__destroy(self);
 };
-// RenderFilters
-function RenderFilters() {
-    this.ptr = _mud_RenderFilters_RenderFilters_0(); getCache(RenderFilters)[this.ptr] = this;
-    this.type = RenderFilters;
-};
-RenderFilters.prototype = Object.create(WrapperObject.prototype);
-RenderFilters.prototype.constructor = RenderFilters;
-RenderFilters.prototype.__class__ = RenderFilters;
-RenderFilters.__cache__ = {};
-Module['RenderFilters'] = RenderFilters;
-Object.defineProperty(RenderFilters.prototype, "dof_blur", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_RenderFilters__get_dof_blur(self), DofBlur);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        /* value <DofBlur> [] */
-        value = value.ptr;
-        _mud_RenderFilters__set_dof_blur(self, value);
-    }
-});
-Object.defineProperty(RenderFilters.prototype, "glow", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_RenderFilters__get_glow(self), Glow);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        /* value <Glow> [] */
-        value = value.ptr;
-        _mud_RenderFilters__set_glow(self, value);
-    }
-});
-Object.defineProperty(RenderFilters.prototype, "bcs", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_RenderFilters__get_bcs(self), BCS);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        /* value <BCS> [] */
-        value = value.ptr;
-        _mud_RenderFilters__set_bcs(self, value);
-    }
-});
-Object.defineProperty(RenderFilters.prototype, "tonemap", {
-    get: function() {
-        var self = this.ptr;
-        return wrapPointer(_mud_RenderFilters__get_tonemap(self), Tonemap);
-    },
-    set: function(value) {
-        var self = this.ptr;
-        /* value <Tonemap> [] */
-        value = value.ptr;
-        _mud_RenderFilters__set_tonemap(self, value);
-    }
-});
-RenderFilters.prototype["__destroy__"] = RenderFilters.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_RenderFilters__destroy(self);
-};
 // Tonemap
 function Tonemap() {
     this.ptr = _mud_Tonemap_Tonemap_0(); getCache(Tonemap)[this.ptr] = this;
@@ -683,7 +620,6 @@ Module['gfx']['lightmap'] = function(parent, resolution, density, save_path) {
         LightmapAtlas.__type__ = _mud_LightmapAtlas__type();
         LightmapItem.__type__ = _mud_LightmapItem__type();
         ReflectionProbe.__type__ = _mud_ReflectionProbe__type();
-        RenderFilters.__type__ = _mud_RenderFilters__type();
         Tonemap.__type__ = _mud_Tonemap__type();
         BlockBlur.__type__ = _mud_BlockBlur__type();
         BlockDofBlur.__type__ = _mud_BlockDofBlur__type();

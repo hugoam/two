@@ -1,4 +1,3 @@
-Module['glm'] = Module['glm'] || {};
 // Circlifier
 function Circlifier(image) {
     /* image <Image256> [] */

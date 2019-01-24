@@ -21,17 +21,6 @@ namespace mud
 		Lerp();
 	};
 
-#ifndef MUD_NO_GLM
-	export_ template <class T>
-	inline T lerp(const T& a, const T& b, float c)
-	{
-		return T(a + (b - a) * c);
-	}
-#endif
-
-#ifndef MUD_NO_GLM
-	export_ template <>
-#endif
 	inline quat lerp(const quat& a, const quat& b, float c)
 	{
 		return slerp(a, b, c);
@@ -82,10 +71,6 @@ namespace mud
 		return slerp(start, end, t);
 	}
 
-
-#ifndef MUD_NO_GLM
-	export_ template <>
-#endif
 	inline Colour lerp(const Colour& a, const Colour& b, float c)
 	{
 		vec4 va = to_vec4(a);

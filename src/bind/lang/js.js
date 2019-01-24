@@ -1,4 +1,3 @@
-Module['glm'] = Module['glm'] || {};
 // Interpreter
 function Interpreter() { throw "cannot construct a Interpreter, no constructor in IDL" }
 Interpreter.prototype = Object.create(WrapperObject.prototype);
@@ -75,6 +74,11 @@ Object.defineProperty(ScriptClass.prototype, "class", {
     get: function() {
         var self = this.ptr;
         return wrapPointer(_mud_ScriptClass__get_class(self), Class);
+    }});
+Object.defineProperty(ScriptClass.prototype, "prototype", {
+    get: function() {
+        var self = this.ptr;
+        return wrapPointer(_mud_ScriptClass__get_prototype(self), Prototype);
     }});
 ScriptClass.prototype["__destroy__"] = ScriptClass.prototype.__destroy__ = function() {
     var self = this.ptr;

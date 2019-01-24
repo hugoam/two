@@ -30,7 +30,7 @@ namespace mud
     }
     
     // Sequences
-
+    
     // mud::ViewerController
     {
         static Meta meta = { type<mud::ViewerController>(), &namspc({ "mud" }), "ViewerController", sizeof(mud::ViewerController), TypeClass::Object };
