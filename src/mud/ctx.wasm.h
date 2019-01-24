@@ -1,7 +1,6 @@
 #pragma once
 
 #include <mud/ctx.h>
-//  Copyright (c) 2019 Hugo Amiard hugo.amiard@laposte.net
 
 
 #ifdef MUD_PLATFORM_EMSCRIPTEN

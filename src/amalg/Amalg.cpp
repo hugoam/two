@@ -174,17 +174,21 @@ int main(int argc, char *argv[])
 		"//  This notice and the license may not be removed or altered from any source distribution."
 	};
 
-	string directory = "d:/Documents/Programmation/toy/mud/src";
+	string mudsrc = "d:/Documents/Programmation/toy/mud/src";
+	string toysrc = "d:/Documents/Programmation/toy/src";
+
 	Amalgamator amalgamator;
 	amalgamator.m_filter = filter;
 	for (string module : { "infra", "jobs", "type", "tree", "pool", "refl", "ecs", "srlz", "math", "geom", "noise", "wfc", "fract", "lang", "ctx", "ui", "uio", "snd" })
-		amalgamator.add(directory, "mud", module, module);
+		amalgamator.add(mudsrc, "mud", module, module);
 	for (string module : { "ctx-glfw", "ctx-wasm", "ctx-win" })
-		amalgamator.add(directory, "mud", module, module);
+		amalgamator.add(mudsrc, "mud", module, module);
 	for (string module : { "ui-vg", "ui-nvg" })
-		amalgamator.add(directory, "mud", module, module);
+		amalgamator.add(mudsrc, "mud", module, module);
 	for (string module : { "bgfx", "gfx", "gltf", "gfx-pbr", "gfx-obj", "gfx-gltf", "gfx-ui", "gfx-edit", "tool", "wfc-gfx", "frame" })
-		amalgamator.add(directory, "mud", module, module);
+		amalgamator.add(mudsrc, "mud", module, module);
+	for (string module : { "utils", "core", "visu", "block", "edit", "shell" })
+		amalgamator.add(toysrc, "to", module, module);
 	amalgamator.run();
 	return 0;
 }

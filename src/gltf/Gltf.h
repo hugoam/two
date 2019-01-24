@@ -55,7 +55,7 @@ export_ struct refl_ glTFBuffer
 	attr_ string name;
 	attr_ string mime_type;
 	attr_ string uri;
-	attr_ int byte_length;
+	attr_ size_t byte_length;
 };
 
 export_ struct refl_ glTFImage
