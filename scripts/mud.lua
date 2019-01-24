@@ -279,7 +279,7 @@ elseif _OPTIONS["renderer-bgfx"] then
 end
 
 if _OPTIONS["unity"] then
-    for _, m in pairs(mud.mud or {}) do
+    for _, m in pairs(mud.mud) do
         m.unity = true
         if m.refl then
             m.refl.unity = true
