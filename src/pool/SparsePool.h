@@ -32,6 +32,8 @@ namespace mud
 
 		explicit operator bool() const { return m_handle != UINT32_MAX; }
 
+		void destroy();
+
 		operator T&();
 		operator const T&() const;
 
@@ -58,7 +60,7 @@ namespace mud
 	{
 		OwnedHandle() {}
 		OwnedHandle(SparsePool<T>& pool, uint32_t handle) : SparseHandle<T>(pool, handle) {}
-		~OwnedHandle();
+		~OwnedHandle() { this->destroy(); }
 
 		OwnedHandle(OwnedHandle<T>& other) = delete;
 		OwnedHandle& operator=(OwnedHandle<T>& other) = delete;
@@ -210,7 +212,7 @@ namespace mud
 	};
 
 	template <class T>
-	OwnedHandle<T>::~OwnedHandle() { if(m_pool && m_handle != UINT32_MAX) { DestroyHandle<T>::destroy(*this); m_pool->destroy(m_handle); } }
+	void SparseHandle<T>::destroy() { if(m_pool && m_handle != UINT32_MAX) { DestroyHandle<T>::destroy(*this); m_pool->destroy(m_handle); } }
 
 	template <class T>
 	SparseHandle<T>::operator T&() { return m_pool->get(m_handle); }
