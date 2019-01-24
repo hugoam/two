@@ -281,6 +281,9 @@ end
 if _OPTIONS["unity"] then
     for _, m in pairs(mud.mud or {}) do
         m.unity = true
+        if m.refl then
+            m.refl.unity = true
+        end
     end
 end
 
