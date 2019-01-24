@@ -15,6 +15,7 @@ module mud.gfx.pbr;
 #include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>
+#include <gfx-pbr/Handles.h>
 #include <gfx-pbr/Filters/Glow.h>
 #include <gfx-pbr/Filters/Blur.h>
 #include <gfx-pbr/Filters/Tonemap.h>
@@ -61,8 +62,8 @@ namespace mud
 
 	void BlockGlow::submit_pass(Render& render)
 	{
-		if(render.m_filters && render.m_filters->m_glow.m_enabled)
-			this->render(render, render.m_filters->m_glow);
+		if(render.m_filters.comp<Glow>().m_enabled)
+			this->render(render, render.m_filters.comp<Glow>());
 	}
 
 	void BlockGlow::render(Render& render, Glow& glow)

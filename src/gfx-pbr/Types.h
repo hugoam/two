@@ -36,7 +36,6 @@ namespace mud
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightmapAtlas>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightmapItem>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::ReflectionProbe>();
-    export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::RenderFilters>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::Tonemap>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockBlur>();
     export_ template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockDofBlur>();
@@ -60,7 +59,6 @@ namespace mud
     export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::LightmapAtlas*>>;
     export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::LightmapItem*>>;
     export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::ReflectionProbe*>>;
-    export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::RenderFilters*>>;
     export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::Tonemap*>>;
     export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::BlockBlur*>>;
     export_ template struct MUD_GFX_PBR_EXPORT Typed<vector<mud::BlockDofBlur*>>;

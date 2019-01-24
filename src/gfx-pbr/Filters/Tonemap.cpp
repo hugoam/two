@@ -9,11 +9,13 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
+#include <ecs/ECS.h>
 #include <gfx/RenderTarget.h>
 #include <gfx/Filter.h>
 #include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>
+#include <gfx-pbr/Handles.h>
 #include <gfx-pbr/Filters/Tonemap.h>
 #endif
 
@@ -56,8 +58,8 @@ namespace mud
 	
 	void BlockTonemap::submit_pass(Render& render)
 	{
-		if(render.m_filters && render.m_filters->m_tonemap.m_enabled)
-			this->render(render, render.m_filters->m_tonemap, render.m_filters->m_bcs);
+		if(render.m_filters.comp<Tonemap>().m_enabled)
+			this->render(render, render.m_filters.comp<Tonemap>(), render.m_filters.comp<BCS>());
 		else
 			m_copy.submit_quad(*render.m_target, render.composite_pass(), render.m_target->m_post_process.last(), render.m_viewport.m_rect);
 	}

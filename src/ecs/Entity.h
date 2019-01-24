@@ -32,4 +32,13 @@ namespace mud
 		uint32_t m_ecs = UINT32_MAX;
 		uint32_t m_handle = UINT32_MAX;
 	};
+
+	struct Entt
+	{
+		GridECS* m_ecs = nullptr;
+		uint32_t m_handle = UINT32_MAX;
+
+		template <class T>
+		T& comp();
+	};
 }

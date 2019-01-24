@@ -10,6 +10,7 @@ module mud.gfx;
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
 
+#include <ecs/ECS.h>
 #include <geom/Intersect.h>
 #include <gfx/Viewport.h>
 #include <gfx/Camera.h>
@@ -23,6 +24,9 @@ module mud.gfx;
 
 namespace mud
 {
+	GridECS s_viewer_ecs;
+	GridECS* g_viewer_ecs = &s_viewer_ecs;
+
 	static uint16_t viewportIndex = 1;
 
 	Viewport::Viewport(Camera& camera, Scene& scene, uvec4 rect, bool scissor)
@@ -32,7 +36,9 @@ namespace mud
 		, m_rect(rect)
 		, m_scissor(scissor)
 		, m_culler(*this)
-	{}
+	{
+		(Entt&)(*this) = { &s_viewer_ecs, s_viewer_ecs.create() };
+	}
 
 	Viewport::~Viewport()
 	{}

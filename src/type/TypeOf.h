@@ -12,10 +12,10 @@ namespace mud
 	class Type;
 
 	export_ template<typename T>
-	using unqual_type = typename remove_cv<typename remove_reference<T>::type>;
+	using unqual_type = remove_cv<typename remove_reference<T>::type>;
 
 	export_ template<typename T>
-	using type_class = typename remove_pointer<typename unqual_type<T>::type>;
+	using type_class = remove_pointer<typename unqual_type<T>::type>;
 	
 	inline void sink_type(Type&) {}
 

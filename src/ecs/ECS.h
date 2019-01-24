@@ -111,6 +111,12 @@ namespace mud
 			m_buffer_map[this->type_index<T>()] = &(*m_buffers.back());
 		}
 
+		template <class... Types>
+		void init()
+		{
+			swallow{ (this->add_buffer<Types>(), 0)... };
+		}
+
 		template <class T>
 		TBuffer<T>& buffer()
 		{
@@ -118,7 +124,6 @@ namespace mud
 		}
 
 		uint32_t size() const { return m_handles.size(); }
-		uint32_t count() const { return m_handles.count(); }
 
 		uint32_t reverse(uint32_t index) const { return m_handles.reverse(index); }
 		uint32_t handle(uint32_t index) const { return m_handles.reverse(index); }
@@ -229,6 +234,9 @@ namespace mud
 			m_available.push_back(handle);
 		}
 	};
+
+	template <class T>
+	T& Entt::comp() { return m_ecs->get<T>(m_handle); }
 
 	class ECS
 	{

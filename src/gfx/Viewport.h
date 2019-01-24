@@ -8,6 +8,7 @@
 #include <stl/function.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
+#include <ecs/Entity.h>
 #endif
 #include <gfx/Forward.h>
 #include <gfx/Renderer.h>
@@ -39,9 +40,9 @@ namespace mud
 		Count
 	};
 
-	struct RenderFilters;
+	export_ extern MUD_GFX_EXPORT GridECS* g_viewer_ecs;
 
-	export_ class refl_ MUD_GFX_EXPORT Viewport
+	export_ class refl_ MUD_GFX_EXPORT Viewport : public Entt
 	{
 	public:
 		Viewport(Camera& camera, Scene& scene, uvec4 rect = {}, bool scissor = false);
@@ -57,7 +58,6 @@ namespace mud
 		attr_ Colour m_clear_colour = Colour::Black;
 		attr_ Shading m_shading = Shading::Shaded;
 		attr_ Lighting m_lighting = Lighting::Clustered;
-		/*attr_ mut_*/ RenderFilters* m_filters = nullptr;
 
 		using RenderTask = function<void(Render&)>;
 		vector<RenderTask> m_tasks;

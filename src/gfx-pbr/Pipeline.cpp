@@ -9,6 +9,7 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
+#include <ecs/ECS.h>
 #include <pool/ObjectPool.h>
 #include <gfx/Types.h>
 #include <gfx/Api.h>
@@ -190,6 +191,8 @@ namespace mud
 		gfx_system.set_renderer(Shading::Lightmap, lightmap_renderer);
 
 		pipeline.m_gather_func = gather_render_pbr;
+
+		g_viewer_ecs->init<Tonemap, BCS, Glow, DofBlur>();
 	}
 
 	ForwardRenderer::ForwardRenderer(GfxSystem& gfx_system, Pipeline& pipeline)

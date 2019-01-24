@@ -6,9 +6,9 @@
 
 #ifndef MUD_MODULES
 #include <math/Math.h>
-#include <type/Cls.h>
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
+#include <ecs/Entity.h>
 #include <type/Unique.h>
 #endif
 #include <gfx/Forward.h>
@@ -134,8 +134,6 @@ namespace mud
 		uint32_t m_num_triangles = 0;
 	};
 
-	struct RenderFilters;
-
 	export_ struct MUD_GFX_EXPORT Render : public NonCopy
 	{
 		Render(Shading shading, Viewport& viewport, RenderTarget& target, RenderFrame& frame);
@@ -153,7 +151,7 @@ namespace mud
 		unique<Frustum> m_frustum;
 
 		Environment* m_environment = nullptr;
-		RenderFilters* m_filters = nullptr;
+		Entt m_filters;
 
 		Lighting m_lighting = Lighting::None;
 		bool m_needs_mrt = false;

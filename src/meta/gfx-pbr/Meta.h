@@ -290,37 +290,6 @@ namespace mud
         };
         meta_class<mud::ReflectionProbe>();
     }
-    // mud::RenderFilters
-    {
-        static Meta meta = { type<mud::RenderFilters>(), &namspc({ "mud" }), "RenderFilters", sizeof(mud::RenderFilters), TypeClass::Struct };
-        static Class cls = { type<mud::RenderFilters>(),
-            // bases
-            {  },
-            {  },
-            // constructors
-            {
-                { type<mud::RenderFilters>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::RenderFilters>(ref)) mud::RenderFilters(  ); }, {} }
-            },
-            // copy constructor
-            {
-                { type<mud::RenderFilters>(), [](Ref ref, Ref other) { new(&val<mud::RenderFilters>(ref)) mud::RenderFilters(val<mud::RenderFilters>(other)); } }
-            },
-            // members
-            {
-                { type<mud::RenderFilters>(), member_address(&mud::RenderFilters::m_dof_blur), type<mud::DofBlur>(), "dof_blur", var(mud::DofBlur()), Member::Value, nullptr },
-                { type<mud::RenderFilters>(), member_address(&mud::RenderFilters::m_glow), type<mud::Glow>(), "glow", var(mud::Glow()), Member::Value, nullptr },
-                { type<mud::RenderFilters>(), member_address(&mud::RenderFilters::m_bcs), type<mud::BCS>(), "bcs", var(mud::BCS()), Member::Value, nullptr },
-                { type<mud::RenderFilters>(), member_address(&mud::RenderFilters::m_tonemap), type<mud::Tonemap>(), "tonemap", var(mud::Tonemap()), Member::Value, nullptr }
-            },
-            // methods
-            {
-            },
-            // static members
-            {
-            }
-        };
-        meta_class<mud::RenderFilters>();
-    }
     // mud::Tonemap
     {
         static Meta meta = { type<mud::Tonemap>(), &namspc({ "mud" }), "Tonemap", sizeof(mud::Tonemap), TypeClass::Struct };
@@ -661,7 +630,6 @@ namespace mud
         m.m_types.push_back(&type<mud::LightmapAtlas>());
         m.m_types.push_back(&type<mud::LightmapItem>());
         m.m_types.push_back(&type<mud::ReflectionProbe>());
-        m.m_types.push_back(&type<mud::RenderFilters>());
         m.m_types.push_back(&type<mud::Tonemap>());
         m.m_types.push_back(&type<mud::TonemapMode>());
         m.m_types.push_back(&type<mud::BlockBlur>());

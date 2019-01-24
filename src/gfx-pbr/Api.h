@@ -14,4 +14,5 @@
 #include <gfx-pbr/Filters/DofBlur.h>
 #include <gfx-pbr/Filters/Glow.h>
 #include <gfx-pbr/Filters/Tonemap.h>
+#include <gfx-pbr/Handles.h>
 

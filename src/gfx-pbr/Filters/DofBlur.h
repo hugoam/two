@@ -29,9 +29,6 @@ namespace mud
 		attr_ float m_max_coc_radius = 8.f;
 	};
 
-	struct DofBlurFar : public DofBlur {};
-	struct DofBlurNear : public DofBlur {};
-
 	struct DofBlurUniform
 	{
 		void createUniforms()

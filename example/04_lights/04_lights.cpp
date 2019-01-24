@@ -60,14 +60,6 @@ void light_grid(Gnode& parent, array2d<LightInstance> light_grid, bool moving, L
 		}
 }
 
-Viewer& pbr_viewer(Widget& parent, Scene& scene)
-{
-	Viewer& viewer = ui::viewer(parent, scene);
-	viewer.m_filters = make_unique<RenderFilters>();
-	viewer.m_viewport.m_filters = &viewer.m_filters;
-	viewer.comp<Tonemap>().m_enabled = true;
-}
-
 #ifdef DOCKBAR
 void ex_04_lights(Shell& app, Widget& parent, Dockbar& dockbar)
 #else
@@ -83,6 +75,8 @@ void ex_04_lights(Shell& app, Widget& parent)
 
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	ui::free_orbit_controller(viewer);
+
+	//viewer.m_viewport.comp<Tonemap>().m_enabled = true;
 
 	Gnode& scene = viewer.m_scene->begin();
 

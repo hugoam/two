@@ -22,7 +22,6 @@ namespace mud
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightmapAtlas>() { static Type ty("LightmapAtlas", sizeof(mud::LightmapAtlas)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::LightmapItem>() { static Type ty("LightmapItem", sizeof(mud::LightmapItem)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::ReflectionProbe>() { static Type ty("ReflectionProbe", sizeof(mud::ReflectionProbe)); return ty; }
-    template <> MUD_GFX_PBR_EXPORT Type& type<mud::RenderFilters>() { static Type ty("RenderFilters", sizeof(mud::RenderFilters)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::Tonemap>() { static Type ty("Tonemap", sizeof(mud::Tonemap)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockBlur>() { static Type ty("BlockBlur", type<mud::GfxBlock>(), sizeof(mud::BlockBlur)); return ty; }
     template <> MUD_GFX_PBR_EXPORT Type& type<mud::BlockDofBlur>() { static Type ty("BlockDofBlur", type<mud::GfxBlock>(), sizeof(mud::BlockDofBlur)); return ty; }

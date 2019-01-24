@@ -35,8 +35,6 @@ namespace mud
 		virtual void process(Viewer& viewer) = 0;
 	};
 
-	export_ extern MUD_GFX_UI_EXPORT GridECS* g_viewer_ecs;
-
 	export_ class refl_ MUD_GFX_UI_EXPORT Viewer : public Widget
 	{
 	public:
@@ -55,11 +53,6 @@ namespace mud
 		vector<unique<Picker>> m_pickers;
 
 		Item* m_hovered = nullptr;
-
-		uint32_t m_ecs_handle;
-
-		template <class T>
-		T& comp() { g_viewer_ecs->m_stream.get<T>(m_ecs_handle); }
 
 		unique<ViewerController> m_controller;
 

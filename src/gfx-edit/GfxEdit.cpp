@@ -37,7 +37,11 @@ module mud.gfx-edit;
 #include <gfx/Frustum.h>
 #include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>
+#include <gfx-pbr/Handles.h>
 #include <gfx-pbr/Shadow.h>
+#include <gfx-pbr/Filters/DofBlur.h>
+#include <gfx-pbr/Filters/Glow.h>
+#include <gfx-pbr/Filters/Tonemap.h>
 #include <gfx-ui/Types.h>
 #include <gfx-ui/Viewer.h>
 #include <gfx-edit/ParticleEdit.h>
@@ -271,11 +275,11 @@ namespace mud
 		Widget& self = ui::sheet(*scroll_sheet.m_body);
 		UNUSED(self); UNUSED(viewer);
 
-		//RenderFilters& filters = viewer.m_filters;
-		//object_edit_expandbox(self, Ref(&filters.m_dof_blur));
-		//object_edit_expandbox(self, Ref(&filters.m_glow));
-		//object_edit_expandbox(self, Ref(&filters.m_bcs));
-		//object_edit_expandbox(self, Ref(&filters.m_tonemap));
+		Entt filters = viewer.m_viewport;
+		object_edit_expandbox(self, Ref(&filters.comp<DofBlur>()));
+		object_edit_expandbox(self, Ref(&filters.comp<Glow>()));
+		object_edit_expandbox(self, Ref(&filters.comp<BCS>()));
+		object_edit_expandbox(self, Ref(&filters.comp<Tonemap>()));
 	}
 
 #if 0

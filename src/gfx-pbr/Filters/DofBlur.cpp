@@ -9,10 +9,12 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
+#include <ecs/ECS.h>
 #include <gfx/RenderTarget.h>
 #include <gfx/Asset.h>
 #include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>
+#include <gfx-pbr/Handles.h>
 #include <gfx-pbr/Filters/DofBlur.h>
 #include <gfx-pbr/Filters/Tonemap.h>
 #endif
@@ -46,8 +48,8 @@ namespace mud
 	
 	void BlockDofBlur::submit_pass(Render& render)
 	{
-		if(render.m_filters && render.m_filters->m_dof_blur.m_enabled)
-			this->render(render, render.m_filters->m_dof_blur);
+		if(render.m_filters.comp<DofBlur>().m_enabled)
+			this->render(render, render.m_filters.comp<DofBlur>());
 	}
 
 	void BlockDofBlur::render(Render& render, const DofBlur& blur)

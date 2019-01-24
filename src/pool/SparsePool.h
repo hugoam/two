@@ -9,6 +9,7 @@
 #include <infra/NonCopy.h>
 #include <pool/Forward.h>
 
+#include <cstdint>
 #include <new>
 
 namespace mud
