@@ -187,7 +187,7 @@ int main(int argc, char *argv[])
 		amalgamator.add(mudsrc, "mud", module, module);
 	for (string module : { "bgfx", "gfx", "gltf", "gfx-pbr", "gfx-obj", "gfx-gltf", "gfx-ui", "gfx-edit", "tool", "wfc-gfx", "frame" })
 		amalgamator.add(mudsrc, "mud", module, module);
-	for (string module : { "utils", "core", "visu", "block", "edit", "shell" })
+	for (string module : { "util", "core", "visu", "block", "edit", "shell" })
 		amalgamator.add(toysrc, "toy", module, module);
 	amalgamator.run();
 	return 0;
