@@ -5,12 +5,12 @@
 #pragma once
 
 #include <stl/memory.h>
-#include <type/Cls.h>
 
 #ifndef MUD_CPP_20
 #ifdef MUD_TRACK_MEMORY
-#include <functional>
-#include <type_traits>
+#include <type/Cls.h>
+#include <stl/type_traits.h>
+#include <stl/function.h>
 #endif
 #endif
 

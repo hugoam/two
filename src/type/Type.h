@@ -9,11 +9,11 @@
 
 #ifndef MUD_CPP_20
 #include <cstddef>
+#include <cstdint>
 #endif
 
 namespace mud // export_ namespace mud// @todo evaluate export at namespace level ?
 {
-	export_ using Id = unsigned int;
 	export_ using cstring = const char*;
 
 	export_ struct MUD_TYPE_EXPORT Address
@@ -35,7 +35,7 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 
 		Type(Type&&) = delete;
 
-		attr_ Id m_id;
+		attr_ uint32_t m_id;
 		attr_ cstring m_name;
 		attr_ size_t m_size;
 		attr_ Type* m_base = nullptr;

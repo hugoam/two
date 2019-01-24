@@ -123,10 +123,17 @@ function mud_module_decl(m)
         m.root,
     }
     
-    files {
-        path.join(m.path, "**.h"),
-        path.join(m.path, "**.cpp"),
-    }
+    if not _OPTIONS["unity"] then
+        files {
+            path.join(m.path, "**.h"),
+            path.join(m.path, "**.cpp"),
+        }
+    else
+        files {
+            path.join(m.root, m.namespace, m.dotname .. ".h"),
+            path.join(m.root, m.namespace, m.dotname .. ".cpp"),
+        }
+    end
     
     local cpps = os.matchfiles(path.join(m.path, "**.cpp"))
     mud_mxx(cpps, m)

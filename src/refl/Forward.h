@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include <infra/Config.h>
@@ -42,5 +40,6 @@ namespace mud
     class Namespace;
     class Module;
     class System;
+	class Prototype;
 }
 

@@ -14,14 +14,14 @@ module mud.proto;
 
 namespace mud
 {
-	Complex::Complex(Id id, Type& type)
+	Complex::Complex(uint32_t id, Type& type)
 		: m_id(index(type, id, Ref(this, type)))
 		, m_type(type)
 		, m_prototype(proto(type))
 		, m_parts(m_prototype.m_parts.size())
 	{}
 
-	Complex::Complex(Id id, Type& type, const vector<Ref>& parts)
+	Complex::Complex(uint32_t id, Type& type, const vector<Ref>& parts)
 		: Complex(id, type)
 	{
 		this->setup(parts);

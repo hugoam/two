@@ -4,7 +4,6 @@
 function mud_defines()
     configuration { "cpp-modules" }
         defines {
-            "MUD_NO_GLM",
             "MUD_CPP_20",
             "MUD_MODULES",
         }

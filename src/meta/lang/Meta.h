@@ -126,7 +126,7 @@ namespace mud
                 { type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
                 { type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_class_type), type<mud::Type>(), "class_type", Ref(type<mud::Type>()), Member::NonMutable, nullptr },
                 { type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_class), type<mud::Class>(), "class", Ref(type<mud::Class>()), Member::NonMutable, nullptr },
-                { type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_prototype), type<mud::Prototype>(), "prototype", Ref(type<mud::Prototype>()), Member::NonMutable, nullptr }
+                //{ type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_prototype), type<mud::Prototype>(), "prototype", Ref(type<mud::Prototype>()), Member::NonMutable, nullptr }
             },
             // methods
             {

@@ -13,6 +13,7 @@
 module mud.geom;
 #else
 #include <infra/Vector.h>
+#include <type/Cls.h>
 #include <math/VecOps.h>
 #include <geom/Mesh.h>
 #include <geom/Geom.h>

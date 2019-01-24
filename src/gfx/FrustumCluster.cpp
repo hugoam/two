@@ -11,11 +11,12 @@ module mud.gfx;
 #else
 #include <stl/limits.h>
 #include <stl/algorithm.h>
+//#include <stl/type_traits.h>
 #include <gfx/FrustumCluster.h>
 #endif
 
-#include <type_traits>
-#include <limits>
+//#include <type_traits>
+//#include <limits>
 #include <cstddef>
 #include <cstdint>
 
@@ -79,7 +80,7 @@ namespace mud
 
 		// This whole function is now branch-less.
 
-		int s = int((bx::log2(-z) - m_far_log2) * m_linearizer + m_subdiv_z);
+		int s = int((log2(-z) - m_far_log2) * m_linearizer + m_subdiv_z);
 
 		// there are cases where z can be negative here, e.g.:
 		// - the light is visible, but its center is behind the camera
@@ -88,7 +89,7 @@ namespace mud
 		s = z < 0 ? s : 0;
 
 		// clamp between [0, m_subdiv_z)
-		return size_t(bx::clamp(s, 0, m_subdiv_z - 1));
+		return size_t(clamp(s, 0, m_subdiv_z - 1));
 	}
 
 	Plane to_plane(const vec4& p) { return{ vec3(p), p.w }; }

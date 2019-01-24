@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stl/type_traits.h>
 #include <infra/Array.h>
 
 #include <cassert>
@@ -7,7 +8,6 @@
 #include <cstdlib>
 
 #include <atomic>
-#include <type_traits>
 #include <utility>
 
 #if defined(WIN32)

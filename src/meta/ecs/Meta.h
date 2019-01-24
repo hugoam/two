@@ -30,15 +30,15 @@ namespace mud
             {  },
             // constructors
             {
-                { type<mud::Complex>(), [](Ref ref, array<Var> args) { new(&val<mud::Complex>(ref)) mud::Complex( val<mud::Id>(args[0]), val<mud::Type>(args[1]) ); }, { { "id", var(mud::Id()) }, { "type", Ref(type<mud::Type>()) } } },
-                { type<mud::Complex>(), [](Ref ref, array<Var> args) { new(&val<mud::Complex>(ref)) mud::Complex( val<mud::Id>(args[0]), val<mud::Type>(args[1]), val<vector<mud::Ref>>(args[2]) ); }, { { "id", var(mud::Id()) }, { "type", Ref(type<mud::Type>()) }, { "parts", var(vector<mud::Ref>()) } } }
+                { type<mud::Complex>(), [](Ref ref, array<Var> args) { new(&val<mud::Complex>(ref)) mud::Complex( val<uint32_t>(args[0]), val<mud::Type>(args[1]) ); }, { { "id", var(uint32_t()) }, { "type", Ref(type<mud::Type>()) } } },
+                { type<mud::Complex>(), [](Ref ref, array<Var> args) { new(&val<mud::Complex>(ref)) mud::Complex( val<uint32_t>(args[0]), val<mud::Type>(args[1]), val<vector<mud::Ref>>(args[2]) ); }, { { "id", var(uint32_t()) }, { "type", Ref(type<mud::Type>()) }, { "parts", var(vector<mud::Ref>()) } } }
             },
             // copy constructor
             {
             },
             // members
             {
-                { type<mud::Complex>(), member_address(&mud::Complex::m_id), type<mud::Id>(), "id", var(mud::Id()), Member::Value, nullptr },
+                { type<mud::Complex>(), member_address(&mud::Complex::m_id), type<uint32_t>(), "id", var(uint32_t()), Member::Value, nullptr },
                 { type<mud::Complex>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Complex>(object).m_type); } },
                 { type<mud::Complex>(), Address(), type<mud::Prototype>(), "prototype", Ref(type<mud::Prototype>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Complex>(object).m_prototype); } },
                 { type<mud::Complex>(), member_address(&mud::Complex::m_parts), type<vector<mud::Ref>>(), "parts", var(vector<mud::Ref>()), Member::Value, nullptr }

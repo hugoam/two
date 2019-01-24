@@ -5,12 +5,11 @@
 #pragma once
 
 #include <stl/vector.h>
+//#include <stl/type_traits.h>
 #include <infra/Config.h>
 #include <infra/String.h>
 #include <infra/ToString.h>
 #include <infra/ToValue.h>
-
-#include <type_traits>
 
 namespace mud
 {

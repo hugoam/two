@@ -112,10 +112,6 @@ function uses_mud_math()
     includedirs {
         path.join(MUD_3RDPARTY_DIR, "glm"),
     }
-    
-    if not _OPTIONS["use-glm"] then
-        defines { "MUD_NO_GLM" }
-    end
 end
 
 function mud_ui()

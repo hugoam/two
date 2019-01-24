@@ -559,7 +559,7 @@ namespace mud
 		CLContext()
 			: m_root_namespace("")
 		{
-			m_base_aliases = { "uint8_t", "uint16_t", "uint32_t", "uint64_t", "size_t", "mud::Id" };
+			m_base_aliases = { "uint8_t", "uint16_t", "uint32_t", "uint64_t", "size_t" };
 		}
 
 		CLNamespace m_root_namespace;

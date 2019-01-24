@@ -194,7 +194,7 @@ namespace mud
             },
             // members
             {
-                { type<mud::Type>(), member_address(&mud::Type::m_id), type<mud::Id>(), "id", var(mud::Id()), Member::Value, nullptr },
+                { type<mud::Type>(), member_address(&mud::Type::m_id), type<uint32_t>(), "id", var(uint32_t()), Member::Value, nullptr },
                 { type<mud::Type>(), member_address(&mud::Type::m_name), type<const char*>(), "name", Ref(type<const char*>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
                 { type<mud::Type>(), member_address(&mud::Type::m_size), type<size_t>(), "size", var(size_t()), Member::Value, nullptr },
                 { type<mud::Type>(), member_address(&mud::Type::m_base), type<mud::Type>(), "base", Ref(type<mud::Type>()), Member::Flags(Member::Pointer|Member::Link), nullptr }

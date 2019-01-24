@@ -9,7 +9,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstdarg>
-#include <type_traits>
 #include <new>
 #endif
 
