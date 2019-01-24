@@ -122,10 +122,27 @@ namespace mud
 #endif
 	}
 
-	bool directory_contains(const string& path, const string& query)
+	string fix_path(const string& path)
 	{
-		auto fix_path = [](const string& path) { return replace(path, "\\", "/"); };
-		return fix_path(path).find(fix_path(query)) == 0;
+		return replace(path, "\\", "/");
+	}
+
+	string closed_path(const string& path)
+	{
+		// closed path is useful to do string compare on the tree structure
+		// e.g foo/subpath would be seen as a child of foo/sub but clearly not a child of foo/sub/
+		string clean = replace(path, "\\", "/");
+		return clean + (clean.back() == '/' ? "" : "/");
+	}
+
+	bool is_subpath(const string& path, const string& dir)
+	{
+		return fix_path(path).find(closed_path(dir)) == 0;
+	}
+
+	string relative_to(const string& path, const string& dir)
+	{
+		return fix_path(path).substr(closed_path(dir).size());
 	}
 
 	string file_directory(const string& path)
@@ -187,7 +204,7 @@ namespace mud
 		while((ent = readdir(dir)) != NULL)
 			if(ent->d_type & DT_REG)
 			{
-				visit(path, ent->d_name);
+				visit(ent->d_name);
 			}
 
 		closedir(dir);
@@ -203,9 +220,27 @@ namespace mud
 			{
 				bool is_symbolic = string(ent->d_name) == "." || string(ent->d_name) == "..";
 				if(!is_symbolic || !ignore_symbolic)
-					visit(path, ent->d_name);
+					visit(ent->d_name);
 			}
 
 		closedir(dir);
+	}
+
+	void visit_files_recursive(const string& path, FileVisitor visit, const string& prefix)
+	{
+		string suffix = prefix == "" ? "" : "/" + prefix;
+
+		auto visit_file = [&](const string& file)
+		{
+			visit(prefix + file);
+		};
+
+		auto visit_folder = [&](const string& folder)
+		{
+			visit_files_recursive(path + suffix, visit_file, folder + "/");
+		};
+
+		visit_files(path + suffix, visit_file);
+		visit_folders(path + suffix, visit_folder);
 	}
 }

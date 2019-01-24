@@ -36,7 +36,7 @@ namespace ui
 	{
 		Widget& self = widget(parent, styles().wedge);//file_styles().directory);
 
-		auto on_dir = [&](const string&, const string& dir)
+		auto on_dir = [&](const string& dir)
 		{
 			if(string(dir) == ".") return;
 			Widget& item = dir_item(self, dir.c_str());
@@ -49,7 +49,7 @@ namespace ui
 			}
 		};
 
-		auto on_file = [&](const string&, const string& file)
+		auto on_file = [&](const string& file)
 		{
 			file_item(self, file.c_str());
 		};
@@ -72,14 +72,13 @@ namespace ui
 		Widget& self = tree_node(parent, elements, false, open);
 		if(!self.m_body) return self;
 
-		auto on_dir = [&](const string& path, const string& dir)
+		auto on_dir = [&](const string& dir)
 		{
-			dir_node(*self.m_body, (path + "/" + dir).c_str(), dir.c_str(), false);
+			dir_node(*self.m_body, (string(path) + "/" + dir).c_str(), dir.c_str(), false);
 		};
 
-		auto on_file = [&](const string& path, const string& file)
+		auto on_file = [&](const string& file)
 		{
-			UNUSED(path);
 			file_node(*self.m_body, file.c_str());
 		};
 

@@ -3,6 +3,10 @@
 #ifdef MUD_MODULES
 module mud.gfx-obj;
 #else
+#include <type/Any.h>
+#include <type/Vector.h>
+#include <refl/MetaDecl.h>
+#include <refl/Module.h>
 #include <meta/infra/Module.h>
 #include <meta/type/Module.h>
 #include <meta/srlz/Module.h>
@@ -14,8 +18,21 @@ module mud.gfx-obj;
 #endif
 
 #include <gfx-obj/Api.h>
-#define MUD_GFX_OBJ_REFLECTION_IMPL
-#include <meta/gfx-obj/Meta.h>
+
+namespace mud
+{
+	void mud_gfx_obj_meta(Module& m)
+	{
+	UNUSED(m);
+	
+	// Base Types
+	
+	// Enums
+	
+	// Sequences
+	
+	}
+}
 
 namespace mud
 {

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef MUD_MODULES
 #include <stl/vector.h>

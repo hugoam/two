@@ -15,7 +15,6 @@ module mud.ui;
 #include <ui/Ui.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Structs/RootSheet.h>
-#include <meta/ui/Convert.h>
 #endif
 
 namespace mud

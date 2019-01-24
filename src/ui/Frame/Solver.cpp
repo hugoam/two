@@ -85,24 +85,24 @@ namespace mud
 	FrameSolver::FrameSolver(FrameSolver* solver, Layout* layout, Frame* frame)
 		: d_frame(frame)
 		, d_parent(solver)
-		, d_style(layout)
+		, d_layout(layout)
 		, m_solvers{ solver ? &solver->solver(*this, DIM_X) : nullptr, solver ? &solver->solver(*this, DIM_Y) : nullptr }
 		, d_grid(solver ? solver->grid() : nullptr)
 	{
-		if(d_style)
+		if(d_layout)
 			this->applySpace();
 	}
 
 	FrameSolver& FrameSolver::solver(FrameSolver& frame, Dim dim)
 	{
-		if(dim == d_length && d_grid && frame.d_frame && frame.d_parent != d_grid) // && !frame.d_style->m_no_grid
+		if(dim == d_length && d_grid && frame.d_frame && frame.d_parent != d_grid) // && !d_layout->m_no_grid
 			return d_grid->solver(frame, dim);
 		return *this;
 	}
 
 	void FrameSolver::applySpace(Dim length)
 	{
-		const Space& space = d_style->m_space;
+		const Space& space = d_layout->m_space;
 
 		if(length != DIM_NONE)
 			d_length = length;
@@ -223,7 +223,7 @@ namespace mud
 
 	void RowSolver::resize(FrameSolver& frame, Dim dim)
 	{
-		if(d_style->m_layout[dim] < AUTO_SIZE)
+		if(d_layout->m_layout[dim] < AUTO_SIZE)
 			return;
 
 		float space = this->dspace(dim);
@@ -252,7 +252,7 @@ namespace mud
 
 	void RowSolver::position(FrameSolver& frame, Dim dim)
 	{
-		if(d_style->m_layout[dim] < AUTO_LAYOUT)
+		if(d_layout->m_layout[dim] < AUTO_LAYOUT)
 			return;
 
 		float space = this->dspace(dim);
@@ -342,7 +342,7 @@ namespace mud
 	FrameSolver& TableSolver::solver(FrameSolver& frame, Dim dim)
 	{
 		UNUSED(dim);
-		if(frame.d_frame && frame.d_parent != this && !frame.d_parent->d_style->m_no_grid)
+		if(frame.d_frame && frame.d_parent != this && !frame.d_parent->d_layout->m_no_grid)
 		{
 			//size_t column0 = frame.d_frame->dindex(d_depth);
 			size_t column = frame.d_frame->d_widget.m_index;
@@ -354,11 +354,11 @@ namespace mud
 
 	LineSolver::LineSolver(FrameSolver* solver, Space space)
 		: RowSolver(solver, nullptr)
-		, d_style()
+		, d_layout()
 	{
-		d_style.m_space = space;
-		d_style.m_space.direction = READING;
-		FrameSolver::d_style = &d_style;
+		d_layout.m_space = space;
+		d_layout.m_space.direction = READING;
+		FrameSolver::d_layout = &d_layout;
 		this->applySpace();
 	}
 

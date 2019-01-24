@@ -576,9 +576,6 @@ namespace mud
 			string types_cpp = clgen::types_cpp_template(module);
 			update_file(module.m_path + "\\" + "Types.cpp", types_cpp);
 
-			string meta_h = clgen::meta_h_template(module);
-			update_file(module.m_refl_path + "\\" + "Meta.h", meta_h);
-
 			string module_h = clgen::module_h_template(module);
 			update_file(module.m_refl_path + "\\" + "Module.h", module_h);
 

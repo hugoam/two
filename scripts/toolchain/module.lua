@@ -47,6 +47,7 @@ function mud_module(namespace, name, rootpath, subpath, self_decl, usage_decl, r
         self_decl = self_decl,
         usage_decl = usage_decl,
         reflect = reflect,
+        unity = false,
         deps = deps or {},
         nomodule = nomodule,
     }
@@ -123,15 +124,15 @@ function mud_module_decl(m)
         m.root,
     }
     
-    if not _OPTIONS["unity"] then
+    if not m.unity then
         files {
             path.join(m.path, "**.h"),
             path.join(m.path, "**.cpp"),
         }
     else
         files {
-            path.join(m.root, m.namespace, m.dotname .. ".h"),
-            path.join(m.root, m.namespace, m.dotname .. ".cpp"),
+            path.join(m.root, m.namespace, string.gsub(m.name, "-", ".") .. ".h"),
+            path.join(m.root, m.namespace, string.gsub(m.name, "-", ".") .. ".cpp"),
         }
     end
     
@@ -175,7 +176,7 @@ function mud_project(lib, name, modules, libkind, optdeps, norefl)
     lib.modules = {}
     lib.links = {}
     
-    for k, m in pairs(modules or {}) do
+    for _, m in pairs(modules or {}) do
         --print("    module " .. m.dotname)
         table.insert(lib.modules, m)
         m.lib = lib

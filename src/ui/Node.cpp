@@ -23,9 +23,6 @@ namespace mud
 {
 namespace ui
 {
-	template <class T, class U>
-	array<T> to_array(vector<U>& vector) { return{ (T*)&vector[0], vector.size() }; }
-
 	void draw_knob(const Frame& frame, const Colour& colour, bool connected, Vg& vg)
 	{
 		float radius = connected ? 5.f : 4.f;
@@ -273,7 +270,7 @@ namespace ui
 		self.m_scroll_plan = &scroll_plan(self);
 		self.m_plan = self.m_scroll_plan->m_body;
 
-		autofit_scroll_plan(*self.m_scroll_plan, to_array<Widget*>(self.m_nodes));
+		autofit_scroll_plan(*self.m_scroll_plan, to_array_cast<Widget*>(self.m_nodes));
 
 		//if(mouse_click_right(self) && context_trigger)
 		//	context_trigger(self);

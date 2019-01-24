@@ -21,11 +21,6 @@ module mud.ui;
 
 namespace mud
 {
-	inline TextPaint text_paint(InkStyle& inkstyle)
-	{;
-		return { inkstyle.m_text_font.c_str(), inkstyle.m_text_colour, inkstyle.m_text_size, inkstyle.m_align, inkstyle.m_text_break, inkstyle.m_text_wrap };
-	}
-
 	template <> string to_string<DirtyLayout>(const DirtyLayout& dirty) { if(dirty == CLEAN) return "CLEAN"; else if(dirty == DIRTY_REDRAW) return "DIRTY_REDRAW"; else if(dirty == DIRTY_PARENT) return "DIRTY_PARENT"; else if(dirty == DIRTY_LAYOUT) return "DIRTY_LAYOUT"; else if(dirty == DIRTY_FORCE_LAYOUT) return "DIRTY_FORCE_LAYOUT"; else /*if(dirty == DIRTY_STRUCTURE)*/ return "DIRTY_STRUCTURE"; }
 
 	Vg* Frame::s_vg = nullptr;
@@ -75,21 +70,22 @@ namespace mud
 	FrameSolver& Frame::solver(Style& style, Dim length, Dim2<size_t> index)
 	{
 		d_style = &style;
+		d_layout = &style.layout();
 		d_index = index;
 
 		this->update_style();
 
-		LayoutSolver type = d_style->layout().m_solver;
+		LayoutSolver type = d_layout->m_solver;
 		FrameSolver* solver = d_parent ? d_parent->m_solver.get() : nullptr;
 
 		if(type == FRAME_SOLVER)
-			m_solver = make_object<FrameSolver>(solver, &d_style->layout(), this);
+			m_solver = make_object<FrameSolver>(solver, d_layout, this);
 		else if(type == ROW_SOLVER)
-			m_solver = make_object<RowSolver>(solver, &d_style->layout(), this);
+			m_solver = make_object<RowSolver>(solver, d_layout, this);
 		else if(type == GRID_SOLVER)
-			m_solver = make_object<GridSolver>(solver, &d_style->layout(), this);
+			m_solver = make_object<GridSolver>(solver, d_layout, this);
 		else if(type == TABLE_SOLVER)
-			m_solver = make_object<TableSolver>(solver, &d_style->layout(), this);
+			m_solver = make_object<TableSolver>(solver, d_layout, this);
 
 		m_solver->applySpace(length);
 		return *m_solver;
@@ -120,8 +116,9 @@ namespace mud
 
 	void Frame::update_style(bool reset)
 	{
-		m_opacity = d_style->layout().m_opacity;
-		m_size = d_style->layout().m_size == Zero2 ? m_size : d_style->layout().m_size;
+		d_layout = &d_style->layout();
+		m_opacity = d_layout->m_opacity;
+		m_size = d_layout->m_size == Zero2 ? m_size : d_layout->m_size;
 
 		this->update_inkstyle(d_style->state_skin(d_widget.m_state));
 
@@ -220,7 +217,7 @@ namespace mud
 	Frame* clip_parent(Frame& frame)
 	{
 		Frame* parent = frame.d_parent;
-		while(parent->d_style->layout().m_clipping != CLIP)
+		while(parent->d_layout->m_clipping != CLIP)
 			parent = parent->d_parent;
 		return parent;
 	}
@@ -295,7 +292,7 @@ namespace mud
 		if(d_dirty == DIRTY_PARENT)
 		{
 			// @bug this causes a bug in the relayout if we want to implement scarce behavior for wrap frames, since here the content is instead just the unpadded size
-			solver.d_content = m_size - rect_sum(solver.d_style->m_padding);
+			solver.d_content = m_size - rect_sum(solver.d_layout->m_padding);
 		}
 	}
 

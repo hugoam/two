@@ -69,6 +69,7 @@ end
 
 function uses_bgfx()
     includedirs {
+        path.join(BX_DIR,    "include"),
         path.join(BGFX_DIR,  "include"),
     }
     

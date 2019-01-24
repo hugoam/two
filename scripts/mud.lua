@@ -278,6 +278,12 @@ elseif _OPTIONS["renderer-bgfx"] then
     dofile(path.join(MUD_DIR, "scripts/mud_gfx.lua"))
 end
 
+if _OPTIONS["unity"] then
+    for _, m in pairs(mud.mud or {}) do
+        m.unity = true
+    end
+end
+
 if _OPTIONS["as-libs"] then
     group "lib/mud"
         mud_libs(mud.mud, "StaticLib")

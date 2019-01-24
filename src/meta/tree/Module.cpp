@@ -3,14 +3,31 @@
 #ifdef MUD_MODULES
 module mud.tree;
 #else
+#include <type/Any.h>
+#include <type/Vector.h>
+#include <refl/MetaDecl.h>
+#include <refl/Module.h>
 #include <meta/infra/Module.h>
 #include <meta/tree/Module.h>
 #include <meta/tree/Convert.h>
 #endif
 
 #include <tree/Api.h>
-#define MUD_TREE_REFLECTION_IMPL
-#include <meta/tree/Meta.h>
+
+namespace mud
+{
+	void mud_tree_meta(Module& m)
+	{
+	UNUSED(m);
+	
+	// Base Types
+	
+	// Enums
+	
+	// Sequences
+	
+	}
+}
 
 namespace mud
 {

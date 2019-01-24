@@ -1032,67 +1032,6 @@ Module['hsla_to_rgba'] = function(colour) {
     colour = colour.ptr;
     return wrapPointer(_mud_hsla_to_rgba_1(colour), Colour);
 };
-Module['oriented_angle_2d'] = function(lhs, rhs) {
-    var self = this.ptr;
-    /* lhs <vec2> [] */
-    lhs = lhs.ptr;
-    /* rhs <vec2> [] */
-    rhs = rhs.ptr;
-    return _mud_oriented_angle_2d_2(lhs, rhs);
-};
-Module['oriented_angle'] = function(lhs, rhs, ref) {
-    var self = this.ptr;
-    /* lhs <vec3> [] */
-    lhs = lhs.ptr;
-    /* rhs <vec3> [] */
-    rhs = rhs.ptr;
-    /* ref <vec3> [] */
-    ref = ref.ptr;
-    return _mud_oriented_angle_3(lhs, rhs, ref);
-};
-Module['angle_axis'] = function(angle, axis) {
-    var self = this.ptr;
-    /* angle <float> [] */
-    /* axis <vec3> [] */
-    axis = axis.ptr;
-    return wrapPointer(_mud_angle_axis_2(angle, axis), quat);
-};
-Module['axis_angle'] = function(axis, angle) {
-    var self = this.ptr;
-    /* axis <vec3> [] */
-    axis = axis.ptr;
-    /* angle <float> [] */
-    return wrapPointer(_mud_axis_angle_2(axis, angle), quat);
-};
-Module['rotate'] = function(q, axis, angle) {
-    var self = this.ptr;
-    /* q <quat> [] */
-    q = q.ptr;
-    /* axis <vec3> [] */
-    axis = axis.ptr;
-    /* angle <float> [] */
-    return wrapPointer(_mud_rotate_3(q, axis, angle), quat);
-};
-Module['distance'] = function(a, b) {
-    var self = this.ptr;
-    /* a <vec3> [] */
-    a = a.ptr;
-    /* b <vec3> [] */
-    b = b.ptr;
-    return _mud_distance_2(a, b);
-};
-Module['length'] = function(v) {
-    var self = this.ptr;
-    /* v <vec3> [] */
-    v = v.ptr;
-    return _mud_length_1(v);
-};
-Module['length2'] = function(v) {
-    var self = this.ptr;
-    /* v <vec3> [] */
-    v = v.ptr;
-    return _mud_length2_1(v);
-};
 Module['look_dir'] = function(direction, forward) {
     var self = this.ptr;
     /* direction <vec3> [] */

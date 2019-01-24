@@ -3,6 +3,10 @@
 #ifdef MUD_MODULES
 module mud.bgfx;
 #else
+#include <type/Any.h>
+#include <type/Vector.h>
+#include <refl/MetaDecl.h>
+#include <refl/Module.h>
 #include <meta/infra/Module.h>
 #include <meta/type/Module.h>
 #include <meta/math/Module.h>
@@ -12,8 +16,21 @@ module mud.bgfx;
 #endif
 
 #include <bgfx/Api.h>
-#define MUD_BGFX_REFLECTION_IMPL
-#include <meta/bgfx/Meta.h>
+
+namespace mud
+{
+	void mud_bgfx_meta(Module& m)
+	{
+	UNUSED(m);
+	
+	// Base Types
+	
+	// Enums
+	
+	// Sequences
+	
+	}
+}
 
 namespace mud
 {

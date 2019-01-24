@@ -3,6 +3,10 @@
 #ifdef MUD_MODULES
 module mud.srlz;
 #else
+#include <type/Any.h>
+#include <type/Vector.h>
+#include <refl/MetaDecl.h>
+#include <refl/Module.h>
 #include <meta/infra/Module.h>
 #include <meta/type/Module.h>
 #include <meta/refl/Module.h>
@@ -11,8 +15,21 @@ module mud.srlz;
 #endif
 
 #include <srlz/Api.h>
-#define MUD_SRLZ_REFLECTION_IMPL
-#include <meta/srlz/Meta.h>
+
+namespace mud
+{
+	void mud_srlz_meta(Module& m)
+	{
+	UNUSED(m);
+	
+	// Base Types
+	
+	// Enums
+	
+	// Sequences
+	
+	}
+}
 
 namespace mud
 {

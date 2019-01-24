@@ -229,20 +229,16 @@ namespace mud
 			m_vg.end_target();
 	}
 
-	inline bool flow(const Frame& frame) { return frame.d_style->layout().m_flow == FLOW; }
-	inline bool clip(const Frame& frame) { return frame.d_style->layout().m_clipping == CLIP; }
-	inline bool unclip(const Frame& frame) { return frame.d_style->layout().m_clipping == UNCLIP; }
-
 	void UiRenderer::begin_frame(Frame& frame)
 	{
 		m_vg.begin_update(floor(frame.m_position), frame.m_scale);
 
-		if(clip(frame))
+		if(frame.d_layout->m_clipping == CLIP)
 		{
 			m_vg.clip(frame.content_rect());
 		}
 
-		if(unclip(frame))
+		if(frame.d_layout->m_clipping == UNCLIP)
 			m_vg.unclip();
 	}
 
@@ -432,11 +428,6 @@ namespace mud
 			ratio.y = divided.y;
 
 		this->draw_image_stretch(imageSkin.d_images[section], rect, ratio);
-	}
-
-	inline TextPaint text_paint(InkStyle& inkstyle)
-	{
-		return { inkstyle.m_text_font.c_str(), inkstyle.m_text_colour, inkstyle.m_text_size, inkstyle.m_align, inkstyle.m_text_break, inkstyle.m_text_wrap };
 	}
 
 	void UiRenderer::draw_content(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)

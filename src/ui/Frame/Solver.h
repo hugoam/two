@@ -24,15 +24,15 @@ namespace mud
 		FrameSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
 		virtual ~FrameSolver() {}
 
-		inline bool flow() { return d_style->m_flow == FLOW; }
-		inline bool posflow() { return d_style->m_flow <= ALIGN; }
-		inline bool sizeflow() { return d_style->m_flow <= OVERLAY; }
+		inline bool flow() { return d_layout->m_flow == FLOW; }
+		inline bool posflow() { return d_layout->m_flow <= ALIGN; }
+		inline bool sizeflow() { return d_layout->m_flow <= OVERLAY; }
 
-		inline float dpadding(Dim dim) { return d_style->m_padding[dim]; }
-		inline float dbackpadding(Dim dim) { return d_style->m_padding[dim + 2]; }
-		inline float dmargin(Dim dim) { return d_style->m_margin[dim]; }
+		inline float dpadding(Dim dim) { return d_layout->m_padding[dim]; }
+		inline float dbackpadding(Dim dim) { return d_layout->m_padding[dim + 2]; }
+		inline float dmargin(Dim dim) { return d_layout->m_margin[dim]; }
 
-		inline Align dalign(Dim dim) { return d_style->m_align[dim]; }
+		inline Align dalign(Dim dim) { return d_layout->m_align[dim]; }
 
 		inline float dcontent(Dim dim) { return d_content[dim] + dpadding(dim) + dbackpadding(dim); }
 		inline float dbounds(Dim dim) { return dcontent(dim) + dmargin(dim) * 2.f; }
@@ -41,8 +41,8 @@ namespace mud
 		inline float doffset(Dim dim) { return m_position[dim] + m_size[dim] + dmargin(dim); }
 		inline float dspace(Dim dim) { return m_size[dim] - dpadding(dim) - dbackpadding(dim); }
 
-		//inline float spacing(FrameSolver& frame) { return d_prev ? d_style->m_spacing[d_length] : 0.f; }
-		inline float spacing() { return d_style->m_spacing[d_length]; }
+		//inline float spacing(FrameSolver& frame) { return d_prev ? d_layout->m_spacing[d_length] : 0.f; }
+		inline float spacing() { return d_layout->m_spacing[d_length]; }
 
 		void setup(const vec2& position, const vec2& size, const vec2& span, const vec2* content)
 		{
@@ -87,7 +87,7 @@ namespace mud
 	public:
 		Frame* d_frame;
 		FrameSolver* d_parent;
-		Layout* d_style;
+		Layout* d_layout;
 
 		FrameSolver* m_solvers[2];
 		FrameSolver* d_grid;
@@ -156,7 +156,7 @@ namespace mud
 		LineSolver(const LineSolver& other) = delete; // @kludge for clang modules bug
 		LineSolver& operator=(const LineSolver& other) = delete;
 		
-		Layout d_style;
+		Layout d_layout;
 	};
 
 	export_ class refl_ MUD_UI_EXPORT GridSolver : public CustomSolver

@@ -3,6 +3,10 @@
 #ifdef MUD_MODULES
 module mud.wfc;
 #else
+#include <type/Any.h>
+#include <type/Vector.h>
+#include <refl/MetaDecl.h>
+#include <refl/Module.h>
 #include <meta/infra/Module.h>
 #include <meta/type/Module.h>
 #include <meta/srlz/Module.h>
@@ -13,8 +17,194 @@ module mud.wfc;
 #endif
 
 #include <wfc/Api.h>
-#define MUD_WFC_REFLECTION_IMPL
-#include <meta/wfc/Meta.h>
+
+namespace mud
+{
+	void mud_wfc_meta(Module& m)
+	{
+	UNUSED(m);
+	
+	// Base Types
+	
+	// Enums
+	{
+		static Meta meta = { type<mud::Result>(), &namspc({ "mud" }), "Result", sizeof(mud::Result), TypeClass::Enum };
+		static Enum enu = { type<mud::Result>(),
+			false,
+			{ "kSuccess", "kFail", "kUnfinished" },
+			{ 0, 1, 2 },
+			{ var(mud::kSuccess), var(mud::kFail), var(mud::kUnfinished) }
+		};
+		meta_enum<mud::Result>();
+	}
+	
+	// Sequences
+	
+	// mud::Tile
+	{
+		static Meta meta = { type<mud::Tile>(), &namspc({ "mud" }), "Tile", sizeof(mud::Tile), TypeClass::Struct };
+		static Class cls = { type<mud::Tile>(),
+			// bases
+			{  },
+			{  },
+			// constructors
+			{
+				{ type<mud::Tile>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Tile>(ref)) mud::Tile(  ); }, {} }
+			},
+			// copy constructor
+			{
+				{ type<mud::Tile>(), [](Ref ref, Ref other) { new(&val<mud::Tile>(ref)) mud::Tile(val<mud::Tile>(other)); } }
+			},
+			// members
+			{
+				{ type<mud::Tile>(), member_address(&mud::Tile::m_index), type<uint32_t>(), "index", var(uint32_t()), Member::Value, nullptr },
+				{ type<mud::Tile>(), member_address(&mud::Tile::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
+				{ type<mud::Tile>(), member_address(&mud::Tile::m_symmetry), type<char>(), "symmetry", var(char()), Member::Value, nullptr },
+				{ type<mud::Tile>(), member_address(&mud::Tile::m_cardinality), type<int>(), "cardinality", var(int()), Member::Value, nullptr },
+				{ type<mud::Tile>(), member_address(&mud::Tile::m_profile), type<int>(), "profile", var(int()), Member::Value, nullptr }
+			},
+			// methods
+			{
+			},
+			// static members
+			{
+			}
+		};
+		meta_class<mud::Tile>();
+	}
+	// mud::Tileset
+	{
+		static Meta meta = { type<mud::Tileset>(), &namspc({ "mud" }), "Tileset", sizeof(mud::Tileset), TypeClass::Struct };
+		static Class cls = { type<mud::Tileset>(),
+			// bases
+			{  },
+			{  },
+			// constructors
+			{
+				{ type<mud::Tileset>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Tileset>(ref)) mud::Tileset(  ); }, {} }
+			},
+			// copy constructor
+			{
+				{ type<mud::Tileset>(), [](Ref ref, Ref other) { new(&val<mud::Tileset>(ref)) mud::Tileset(val<mud::Tileset>(other)); } }
+			},
+			// members
+			{
+				{ type<mud::Tileset>(), member_address(&mud::Tileset::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
+				{ type<mud::Tileset>(), member_address(&mud::Tileset::m_tile_size), type<mud::vec3>(), "tile_size", var(mud::vec3()), Member::Value, nullptr },
+				{ type<mud::Tileset>(), member_address(&mud::Tileset::m_tile_scale), type<mud::vec3>(), "tile_scale", var(mud::vec3()), Member::Value, nullptr },
+				{ type<mud::Tileset>(), member_address(&mud::Tileset::m_num_tiles), type<uint16_t>(), "nutiles", var(uint16_t()), Member::Value, nullptr }
+			},
+			// methods
+			{
+			},
+			// static members
+			{
+			}
+		};
+		meta_class<mud::Tileset>();
+	}
+	// mud::Wave
+	{
+		static Meta meta = { type<mud::Wave>(), &namspc({ "mud" }), "Wave", sizeof(mud::Wave), TypeClass::Struct };
+		static Class cls = { type<mud::Wave>(),
+			// bases
+			{  },
+			{  },
+			// constructors
+			{
+				{ type<mud::Wave>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Wave>(ref)) mud::Wave(  ); }, {} }
+			},
+			// copy constructor
+			{
+				{ type<mud::Wave>(), [](Ref ref, Ref other) { new(&val<mud::Wave>(ref)) mud::Wave(val<mud::Wave>(other)); } }
+			},
+			// members
+			{
+			},
+			// methods
+			{
+				{ type<mud::Wave>(), "solve", member_address<mud::Result(mud::Wave::*)(size_t)>(&mud::Wave::solve), [](Ref object, array<Var> args, Var& result) { val<mud::Result>(result) = val<mud::Wave>(object).solve(val<size_t>(args[0])); }, { { "limit", var(size_t()) } }, var(mud::Result()) }
+			},
+			// static members
+			{
+			}
+		};
+		meta_class<mud::Wave>();
+	}
+	// mud::TileWave
+	{
+		static Meta meta = { type<mud::TileWave>(), &namspc({ "mud" }), "TileWave", sizeof(mud::TileWave), TypeClass::Struct };
+		static Class cls = { type<mud::TileWave>(),
+			// bases
+			{ &type<mud::Wave>() },
+			{ base_offset<mud::TileWave, mud::Wave>() },
+			// constructors
+			{
+				{ type<mud::TileWave>(), [](Ref ref, array<Var> args) { new(&val<mud::TileWave>(ref)) mud::TileWave( val<mud::WaveTileset>(args[0]), val<uint16_t>(args[1]), val<uint16_t>(args[2]), val<uint16_t>(args[3]), val<bool>(args[4]) ); }, { { "tileset", var(mud::WaveTileset()) }, { "width", var(uint16_t()) }, { "height", var(uint16_t()) }, { "depth", var(uint16_t()) }, { "periodic", var(bool()) } } }
+			},
+			// copy constructor
+			{
+				{ type<mud::TileWave>(), [](Ref ref, Ref other) { new(&val<mud::TileWave>(ref)) mud::TileWave(val<mud::TileWave>(other)); } }
+			},
+			// members
+			{
+			},
+			// methods
+			{
+			},
+			// static members
+			{
+			}
+		};
+		meta_class<mud::TileWave>();
+	}
+	// mud::WaveTileset
+	{
+		static Meta meta = { type<mud::WaveTileset>(), &namspc({ "mud" }), "WaveTileset", sizeof(mud::WaveTileset), TypeClass::Struct };
+		static Class cls = { type<mud::WaveTileset>(),
+			// bases
+			{ &type<mud::Tileset>() },
+			{ base_offset<mud::WaveTileset, mud::Tileset>() },
+			// constructors
+			{
+				{ type<mud::WaveTileset>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::WaveTileset>(ref)) mud::WaveTileset(  ); }, {} }
+			},
+			// copy constructor
+			{
+				{ type<mud::WaveTileset>(), [](Ref ref, Ref other) { new(&val<mud::WaveTileset>(ref)) mud::WaveTileset(val<mud::WaveTileset>(other)); } }
+			},
+			// members
+			{
+			},
+			// methods
+			{
+			},
+			// static members
+			{
+			}
+		};
+		meta_class<mud::WaveTileset>();
+	}
+		m.m_types.push_back(&type<mud::Result>());
+		m.m_types.push_back(&type<mud::Tile>());
+		m.m_types.push_back(&type<mud::Tileset>());
+		m.m_types.push_back(&type<mud::Wave>());
+		m.m_types.push_back(&type<mud::TileWave>());
+		m.m_types.push_back(&type<mud::WaveTileset>());
+		{
+			auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::parse_json_tileset(val<string>(args[0]), val<string>(args[1]), val<mud::Tileset>(args[2])); };
+			vector<Param> params = { { "path", var(string()) }, { "subset", var(string()) }, { "outputTileset", var(mud::Tileset()), Param::Output } };
+			static Function f = { &namspc({ "mud" }), "parse_json_tileset", funcptr<void(*)(const string&, const string&, mud::Tileset&)>(&mud::parse_json_tileset), func, params, Var() };
+			m.m_functions.push_back(&f);
+		}
+		{
+			auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::parse_json_wave_tileset(val<string>(args[0]), val<string>(args[1]), val<mud::WaveTileset>(args[2])); };
+			vector<Param> params = { { "path", var(string()) }, { "subset", var(string()) }, { "outputTileset", var(mud::WaveTileset()), Param::Output } };
+			static Function f = { &namspc({ "mud" }), "parse_json_wave_tileset", funcptr<void(*)(const string&, const string&, mud::WaveTileset&)>(&mud::parse_json_wave_tileset), func, params, Var() };
+			m.m_functions.push_back(&f);
+		}
+	}
+}
 
 namespace mud
 {

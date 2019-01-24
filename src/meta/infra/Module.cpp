@@ -3,13 +3,30 @@
 #ifdef MUD_MODULES
 module mud.infra;
 #else
+#include <type/Any.h>
+#include <type/Vector.h>
+#include <refl/MetaDecl.h>
+#include <refl/Module.h>
 #include <meta/infra/Module.h>
 #include <meta/infra/Convert.h>
 #endif
 
 #include <infra/Api.h>
-#define MUD_INFRA_REFLECTION_IMPL
-#include <meta/infra/Meta.h>
+
+namespace mud
+{
+	void mud_infra_meta(Module& m)
+	{
+	UNUSED(m);
+	
+	// Base Types
+	
+	// Enums
+	
+	// Sequences
+	
+	}
+}
 
 namespace mud
 {

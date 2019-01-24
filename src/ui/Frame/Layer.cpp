@@ -34,7 +34,7 @@ namespace mud
 
 	size_t Layer::z() const
 	{
-		return m_frame.d_style->layout().m_zorder ? m_frame.d_style->layout().m_zorder : d_z;
+		return m_frame.d_layout->m_zorder ? m_frame.d_layout->m_zorder : d_z;
 	}
 
 	void Layer::reindex()

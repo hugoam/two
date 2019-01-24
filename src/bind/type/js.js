@@ -86,7 +86,7 @@ Object.defineProperty(Type.prototype, "id", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <mud::Id> [] */
+        /* value <uint32_t> [] */
         _mud_Type__set_id(self, value);
     }
 });

@@ -22,7 +22,7 @@ namespace mud
 {
 	void load_folder_images(vector<Image>& images, const string& path, const string& subfolder)
 	{
-		auto visit_file = [&](const string& path, const string& file)
+		auto visit_file = [&](const string& file)
 		{
 			string fullpath = path + "/" + file;
 			string name = subfolder + replace(file, ".png", "");

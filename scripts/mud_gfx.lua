@@ -99,4 +99,3 @@ elseif _OPTIONS["renderer-bgfx"] then
 end
 
 table.insert(lgfx, mud.frame)
-

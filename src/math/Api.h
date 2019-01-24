@@ -17,6 +17,6 @@
 #include <math/Types.h>
 #include <math/Vec.h>
 //#include <math/VecJson.h>
-#include <math/VecMath.h>
+//#include <math/VecMath.h>
 #include <math/VecOps.h>
 

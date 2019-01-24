@@ -107,6 +107,7 @@ namespace mud
 		Opacity m_opacity = CLEAR;
 
 		Style* d_style = nullptr;
+		Layout* d_layout = nullptr;
 		InkStyle* d_inkstyle = nullptr;
 
 	public:

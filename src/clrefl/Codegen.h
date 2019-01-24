@@ -314,151 +314,6 @@ namespace clgen
 		if(s[0] == '{') ++i;
 	}
 
-	string meta_h_template(CLModule& m)
-	{
-		string t;
-		auto p = [&](int& i, const string& s) {	write_line(t, i, s, true); };
-		int i = 0;
-
-		p(i, "#pragma once");
-		p(i, "");
-		p(i, "#ifndef MUD_MODULES");
-		p(i, "#include <meta/" + m.m_subdir + "/Module.h>");
-		p(i, "");
-		p(i, "#include <type/Any.h>");
-		p(i, "#include <type/Vector.h>");
-		p(i, "#include <refl/MetaDecl.h>");
-		p(i, "#include <refl/Module.h>");
-		p(i, "#endif");
-		p(i, "");
-		p(i, "namespace mud");
-		p(i, "{");
-
-		p(i, "void " + m.m_id + "_meta(Module& m)");
-		p(i, "{");
-
-		i--;
-
-		p(i, "UNUSED(m);");
-		p(i, "");
-
-		p(i, "// Base Types");
-		for(auto& pb : m.m_basetypes)
-		{
-			CLBaseType& b = *pb;
-			p(i, "{");
-			p(i, meta_decl(b, "TypeClass::BaseType"));
-			p(i, "meta_basetype<" + b.m_name + ">();");
-			p(i, "}");
-		}
-		p(i, "");
-
-	
-		p(i, "// Enums");
-		for(auto& pe : m.m_enums)
-			if(pe->m_reflect)
-			{
-				CLEnum& e = *pe;
-				p(i, "{");
-				p(i, meta_decl(e, "TypeClass::Enum"));
-				p(i, "static Enum enu = { " + type_get(e) + ",");
-				p(i, string(e.m_scoped ? "true" : "false") + ",");
-				p(i, "{ \"" + join(e.m_ids, "\", \"") + "\" },");
-				p(i, "{ " + comma(e.m_values) + " },");
-				p(i, "{ var(" + join(e.m_scoped_ids, "), var(") + ") }");
-				p(i, "};");
-				p(i, "meta_enum<" + e.m_id + ">();");
-				p(i, "}");
-			}
-		p(i, "");
-
-		p(i, "// Sequences");
-		for(auto& ps : m.m_sequences)
-		{
-			CLSequence& s = *ps;
-			p(i, "{");
-			p(i, meta_decl(s, "TypeClass::Sequence"));
-			p(i, "static Class cls = { " + type_get(s) + " };");
-			p(i, "cls.m_content = " + type_get_pt(*s.m_contentcls) + ";");
-			if(s.m_name.find("vector") != string::npos)
-				p(i, "meta_vector<" + s.m_id + ", " + s.m_content + ">();");
-			else
-				p(i, "meta_sequence<" + s.m_id + ", " + s.m_content + ">();");
-			p(i, "}");
-		}
-		p(i, "");
-
-		for(auto& pc : m.m_classes)
-			if(pc->m_reflect)
-			{
-				CLClass& c = *pc;
-				p(i, "// " + c.m_id);
-				p(i, "{");
-				p(i, meta_decl(c, type_class(c)));
-				p(i, "static Class cls = { " + type_get(c) + ",");
-				p(i, "// bases");
-				p(i, "{ " + comma(transform<string>(c.m_bases, [&](CLType* base) { return type_get_pt(*base); })) + " },");
-				p(i, "{ " + comma(transform<string>(c.m_bases, [&](CLType* base) { return base_offset_get(c, *base); })) + " },");
-				p(i, "// constructors");
-				p(i, "{");
-				for(CLConstructor& constr : c.m_constructors)
-					p(i, "{ " + constructor_decl(c, constr) + " }" + (&constr == &c.m_constructors.back() ? "" : ","));
-				p(i, "},");
-				p(i, "// copy constructor");
-				p(i, "{");
-				if(c.m_struct && !c.m_move_only)
-					p(i, "{ " + copy_constructor_decl(c) + " }");
-				p(i, "},");
-				p(i, "// members");
-				p(i, "{");
-				for(CLMember& a : c.m_members)
-					p(i, "{ " + member_decl(c, a) + " }" + (&a == &c.m_members.back() ? "" : ","));
-				p(i, "},");
-				p(i, "// methods");
-				p(i, "{");
-				for(CLMethod& f : c.m_methods)
-					p(i, "{ " + method_decl(c, f) + " }" + (&f == &c.m_methods.back() ? "" : ","));
-				p(i, "},");
-				p(i, "// static members");
-				p(i, "{");
-				for(CLStatic& s : c.m_statics)
-					p(i, "{ " + static_decl(c, s) + " }" + (&s == &c.m_statics.back() ? "" : ","));
-				p(i, "}");
-				p(i, "};");
-				if(c.m_constructors.size() > 0 && !c.m_struct)
-					p(i, "init_pool<" + c.m_id + ">();");
-				if(c.m_array)
-					p(i, "init_string<" + c.m_id + ">();");
-				p(i, "meta_class<" + c.m_id + ">();");
-				p(i, "}");
-			}
-
-		i++;
-
-		for(CLType* ty : m.m_types)
-			if(ty->m_reflect)
-				p(i, "m.m_types.push_back(&" + type_get(*ty) + ");");
-       
-		for(auto& pf : m.m_functions)
-		{
-			CLFunction& f = *pf;
-			p(i, "{");
-			if(f.m_return_type.isvoid())
-				p(i, "auto func = [](array<Var> args, Var& result) { UNUSED(result); " + unused_args(f) + " " + f.m_id + "(" + get_args(f.m_params) + "); };");
-			else
-				p(i, "auto func = [](array<Var> args, Var& result) { " + unused_args(f) + " " + value_assign(*f.m_return_type.m_type, "result", f.m_return_type.pointer(), f.m_id + "(" + get_args(f.m_params) + ")") + "; };");
-			p(i, "vector<Param> params = " + params_def(f.m_params) + ";");
-			p(i, "static Function f = { " + clnamespace(f) + ", \"" + f.m_name + "\", " + function_identity(f) + ", func, params, " + function_return_def(f) + " };");
-			p(i, "m.m_functions.push_back(&f);");
-			p(i, "}");
-		}
-
-		p(i, "}");
-		p(i, "}");
-
-		return t;
-	}
-
 	string forward_h_template(CLModule& m)
 	{
 		string t;
@@ -596,6 +451,10 @@ namespace clgen
 		p(i, "#ifdef MUD_MODULES");
 		p(i, "module " + m.m_namespace + "." + m.m_name + ";");
 		p(i, "#else");
+		p(i, "#include <type/Any.h>");
+		p(i, "#include <type/Vector.h>");
+		p(i, "#include <refl/MetaDecl.h>");
+		p(i, "#include <refl/Module.h>");
 		for(CLModule* d : m.m_dependencies)
 			p(i, "#include <meta/" + d->m_subdir + "/Module.h>");
 		p(i, "#include <meta/" + m.m_subdir + "/Module.h>");
@@ -603,9 +462,133 @@ namespace clgen
 		p(i, "#endif");
 		p(i, "");
 		p(i, "#include <" + m.m_subdir + "/Api.h>");
-		p(i, "#define " + m.m_preproc_name + "_REFLECTION_IMPL");
-		p(i, "#include <meta/" + m.m_subdir + "/Meta.h>");
 		p(i, "");
+		p(i, "namespace mud");
+		p(i, "{");
+
+		p(i, "void " + m.m_id + "_meta(Module& m)");
+		p(i, "{");
+
+		i--;
+
+		p(i, "UNUSED(m);");
+		p(i, "");
+
+		p(i, "// Base Types");
+		for (auto& pb : m.m_basetypes)
+		{
+			CLBaseType& b = *pb;
+			p(i, "{");
+			p(i, meta_decl(b, "TypeClass::BaseType"));
+			p(i, "meta_basetype<" + b.m_name + ">();");
+			p(i, "}");
+		}
+		p(i, "");
+
+
+		p(i, "// Enums");
+		for (auto& pe : m.m_enums)
+			if (pe->m_reflect)
+			{
+				CLEnum& e = *pe;
+				p(i, "{");
+				p(i, meta_decl(e, "TypeClass::Enum"));
+				p(i, "static Enum enu = { " + type_get(e) + ",");
+				p(i, string(e.m_scoped ? "true" : "false") + ",");
+				p(i, "{ \"" + join(e.m_ids, "\", \"") + "\" },");
+				p(i, "{ " + comma(e.m_values) + " },");
+				p(i, "{ var(" + join(e.m_scoped_ids, "), var(") + ") }");
+				p(i, "};");
+				p(i, "meta_enum<" + e.m_id + ">();");
+				p(i, "}");
+			}
+		p(i, "");
+
+		p(i, "// Sequences");
+		for (auto& ps : m.m_sequences)
+		{
+			CLSequence& s = *ps;
+			p(i, "{");
+			p(i, meta_decl(s, "TypeClass::Sequence"));
+			p(i, "static Class cls = { " + type_get(s) + " };");
+			p(i, "cls.m_content = " + type_get_pt(*s.m_contentcls) + ";");
+			if (s.m_name.find("vector") != string::npos)
+				p(i, "meta_vector<" + s.m_id + ", " + s.m_content + ">();");
+			else
+				p(i, "meta_sequence<" + s.m_id + ", " + s.m_content + ">();");
+			p(i, "}");
+		}
+		p(i, "");
+
+		for (auto& pc : m.m_classes)
+			if (pc->m_reflect)
+			{
+				CLClass& c = *pc;
+				p(i, "// " + c.m_id);
+				p(i, "{");
+				p(i, meta_decl(c, type_class(c)));
+				p(i, "static Class cls = { " + type_get(c) + ",");
+				p(i, "// bases");
+				p(i, "{ " + comma(transform<string>(c.m_bases, [&](CLType* base) { return type_get_pt(*base); })) + " },");
+				p(i, "{ " + comma(transform<string>(c.m_bases, [&](CLType* base) { return base_offset_get(c, *base); })) + " },");
+				p(i, "// constructors");
+				p(i, "{");
+				for (CLConstructor& constr : c.m_constructors)
+					p(i, "{ " + constructor_decl(c, constr) + " }" + (&constr == &c.m_constructors.back() ? "" : ","));
+				p(i, "},");
+				p(i, "// copy constructor");
+				p(i, "{");
+				if (c.m_struct && !c.m_move_only)
+					p(i, "{ " + copy_constructor_decl(c) + " }");
+				p(i, "},");
+				p(i, "// members");
+				p(i, "{");
+				for (CLMember& a : c.m_members)
+					p(i, "{ " + member_decl(c, a) + " }" + (&a == &c.m_members.back() ? "" : ","));
+				p(i, "},");
+				p(i, "// methods");
+				p(i, "{");
+				for (CLMethod& f : c.m_methods)
+					p(i, "{ " + method_decl(c, f) + " }" + (&f == &c.m_methods.back() ? "" : ","));
+				p(i, "},");
+				p(i, "// static members");
+				p(i, "{");
+				for (CLStatic& s : c.m_statics)
+					p(i, "{ " + static_decl(c, s) + " }" + (&s == &c.m_statics.back() ? "" : ","));
+				p(i, "}");
+				p(i, "};");
+				if (c.m_constructors.size() > 0 && !c.m_struct)
+					p(i, "init_pool<" + c.m_id + ">();");
+				if (c.m_array)
+					p(i, "init_string<" + c.m_id + ">();");
+				p(i, "meta_class<" + c.m_id + ">();");
+				p(i, "}");
+			}
+
+		i++;
+
+		for (CLType* ty : m.m_types)
+			if (ty->m_reflect)
+				p(i, "m.m_types.push_back(&" + type_get(*ty) + ");");
+
+		for (auto& pf : m.m_functions)
+		{
+			CLFunction& f = *pf;
+			p(i, "{");
+			if (f.m_return_type.isvoid())
+				p(i, "auto func = [](array<Var> args, Var& result) { UNUSED(result); " + unused_args(f) + " " + f.m_id + "(" + get_args(f.m_params) + "); };");
+			else
+				p(i, "auto func = [](array<Var> args, Var& result) { " + unused_args(f) + " " + value_assign(*f.m_return_type.m_type, "result", f.m_return_type.pointer(), f.m_id + "(" + get_args(f.m_params) + ")") + "; };");
+			p(i, "vector<Param> params = " + params_def(f.m_params) + ";");
+			p(i, "static Function f = { " + clnamespace(f) + ", \"" + f.m_name + "\", " + function_identity(f) + ", func, params, " + function_return_def(f) + " };");
+			p(i, "m.m_functions.push_back(&f);");
+			p(i, "}");
+		}
+
+		p(i, "}");
+		p(i, "}");
+		p(i, "");
+
 		if(m.m_namespace != "")
 		{
 			p(i, "namespace " + m.m_namespace);
@@ -720,39 +703,6 @@ namespace clgen
 		for(size_t i = begin; i < end; ++i)
 			result.push_back(vector[i]);
 		return result;
-	}
-
-	string amalgam_cpp_template(CLModule& m)
-	{
-		UNUSED(m);
-		string t;
-#if 0
-{
-	"project": "${ module.namespace }${ module.name }.cpp",
-	"target": "${ module.namespace }${ module.name }.cpp",
-	"sources": [
-% for s in module.sources :
-		"${ module.subdir }/${ s }"${ "," if not loop.last else "" }
-% endfor
-	],
-	"include_paths": [
-        ""
-	],
-    "includes_map": {
-		"${ module.name }/": "${ module.namespace }${ module.name }.h"${ "," if len(module.dependencies) > 0 else "" }
-% for m in module.dependencies :
-		"${ m.name }/": "${ m.namespace }${ m.name }.h"${ "," if not loop.last else "" }
-% endfor
-    },
-	"clean_strings": [
-		"//  Copyright (c) 2016 Hugo Amiard hugo.amiard@laposte.net",
-		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
-		"//  This notice and the license may not be removed or altered from any source distribution.",
-		"/* mud */"
-	]
-}
-#endif
-		return t;
 	}
 
 	string js_namespace_path(const CLModule& m, const CLPrimitive& n)

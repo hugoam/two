@@ -20,9 +20,7 @@ module mud.ui;
 
 namespace mud
 {
-	inline bool flow(const Frame& frame) { return frame.d_style->layout().m_flow == FLOW; }
-	inline bool clip(const Frame& frame) { return frame.d_style->layout().m_clipping == CLIP; }
-	inline bool unclip(const Frame& frame) { return frame.d_style->layout().m_clipping == UNCLIP; }
+	inline bool clip(const Frame& frame) { return frame.d_layout->m_clipping == CLIP; }
 
 	Frame* pinpoint(Frame& frame, vec2 pos, const FrameFilter& filter)
 	{

@@ -10,6 +10,28 @@
 #include <cstdint>
 #endif
 
+#ifdef MUD_META_GENERATOR
+namespace mud
+{
+	struct refl_ array_ extern_ vec2 { constr_ vec2();   constr_ vec2(float a);     constr_ vec2(float x, float y);                                attr_ float x; attr_ float y; };
+	struct refl_ array_ extern_ uvec2 { constr_ uvec2();  constr_ uvec2(uint32_t a); constr_ uvec2(uint32_t x, uint32_t y);						   attr_ uint32_t x; attr_ uint32_t y; };
+	struct refl_ array_ extern_ vec3 { constr_ vec3();   constr_ vec3(float a);     constr_ vec3(float x, float y, float z);                       attr_ float x; attr_ float y; attr_ float z; };
+	struct refl_ array_ extern_ uvec3 { constr_ uvec3();  constr_ uvec3(uint32_t a); constr_ uvec3(uint32_t x, uint32_t y, uint32_t z);             attr_ uint32_t x;   attr_ uint32_t y;   attr_ uint32_t z; };
+	struct refl_ array_ extern_ ivec3 { constr_ ivec3();  constr_ ivec3(int a);      constr_ ivec3(int x, int y, int z);                            attr_ int x;   attr_ int y;   attr_ int z; };
+	struct refl_ array_ extern_ vec4 { constr_ vec4();   constr_ vec4(float a);     constr_ vec4(float w, float x, float y, float z);              attr_ float x; attr_ float y; attr_ float z; attr_ float w; };
+	struct refl_ array_ extern_ uvec4 { constr_ uvec4();  constr_ uvec4(uint32_t a); constr_ uvec4(uint32_t w, uint32_t x, uint32_t y, uint32_t z); attr_ uint32_t x; attr_ uint32_t y; attr_ uint32_t z; attr_ uint32_t w; };
+	struct refl_ array_ extern_ quat { constr_ quat();   constr_ quat(float w, float x, float y, float z);   constr_ quat(vec3 euler_angles);      attr_ float x; attr_ float y; attr_ float z; attr_ float w; };
+	struct refl_ extern_ mat4 {};
+
+	struct refl_ extern_ bvec3 {};
+	struct refl_ extern_ bvec4 {};
+	struct refl_ extern_ ivec2 {};
+	struct refl_ extern_ ivec4 {};
+
+	struct refl_ extern_ half3 {};
+	struct refl_ extern_ half2 {};
+}
+#else
 #include <math/VecMath.h>
 
 namespace mud
@@ -26,6 +48,7 @@ namespace mud
 	export_ using bvec3 = bool3;
 	export_ using bvec4 = bool4;
 }
+#endif
 
 namespace mud
 {

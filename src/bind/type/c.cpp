@@ -60,10 +60,10 @@ extern "C" {
 	mud::Type* DECL mud_Type__type() {
 		return &mud::type<mud::Type>();
 	}
-	mud::Id DECL mud_Type__get_id(mud::Type* self) {
+	uint32_t DECL mud_Type__get_id(mud::Type* self) {
 		return self->m_id;
 	}
-	void DECL mud_Type__set_id(mud::Type* self, mud::Id value) {
+	void DECL mud_Type__set_id(mud::Type* self, uint32_t value) {
 		self->m_id = value;
 	}
 	const char* DECL mud_Type__get_name(mud::Type* self) {

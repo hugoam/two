@@ -3,6 +3,10 @@
 #ifdef MUD_MODULES
 module mud.gfx-edit;
 #else
+#include <type/Any.h>
+#include <type/Vector.h>
+#include <refl/MetaDecl.h>
+#include <refl/Module.h>
 #include <meta/infra/Module.h>
 #include <meta/type/Module.h>
 #include <meta/refl/Module.h>
@@ -18,8 +22,21 @@ module mud.gfx-edit;
 #endif
 
 #include <gfx-edit/Api.h>
-#define MUD_GFX_EDIT_REFLECTION_IMPL
-#include <meta/gfx-edit/Meta.h>
+
+namespace mud
+{
+	void mud_gfx_edit_meta(Module& m)
+	{
+	UNUSED(m);
+	
+	// Base Types
+	
+	// Enums
+	
+	// Sequences
+	
+	}
+}
 
 namespace mud
 {

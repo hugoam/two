@@ -22,6 +22,11 @@ newoption {
 }
 
 newoption {
+    trigger = "unity",
+    description = "Unity build (use amalgamated)",
+}
+
+newoption {
     trigger = "webgl2",
     description = "Use WebGL 2.0",
 }

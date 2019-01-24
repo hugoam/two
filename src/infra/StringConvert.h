@@ -5,7 +5,7 @@
 #pragma once
 
 #include <stl/vector.h>
-//#include <stl/type_traits.h>
+#include <stl/type_traits.h>
 #include <infra/Config.h>
 #include <infra/String.h>
 #include <infra/ToString.h>

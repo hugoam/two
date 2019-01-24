@@ -121,12 +121,12 @@ namespace mud
 	template <class T_Asset>
 	void AssetStore<T_Asset>::load_files(const string& path)
 	{
-		auto visit_file = [&](const string& path, const string& file)
+		auto visit_file = [&](const string& file)
 		{
 			this->load(path, file);
 		};
 
-		auto visit_folder = [&](const string& path, const string& folder)
+		auto visit_folder = [&](const string& folder)
 		{
 			this->load_files(path + "/" + folder);
 		};

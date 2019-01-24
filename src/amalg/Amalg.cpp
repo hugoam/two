@@ -15,8 +15,8 @@ namespace mud
 		class Module
 		{
 		public:
-			Module(const string& root, const string& nemespace, const string& name)
-				: root(root), nemespace(nemespace), name(name), dotname(replace(name, "-", ".")), subdir(name), path(root + "/" + subdir)
+			Module(const string& root, const string& nemespace, const string& name, const string& subdir)
+				: root(root), nemespace(nemespace), name(name), dotname(replace(name, "-", ".")), subdir(subdir), path(root + "/" + subdir)
 			{}
 
 			string root;
@@ -53,15 +53,18 @@ namespace mud
 		struct Include { Module* module = nullptr; string file; };
 		Include module_include(const string& line)
 		{
-			if(line.substr(0, 8) != "#include")
+			string clean = replace(replace(line, " ", ""), "\t", "");
+			if(clean.substr(0, 8) != "#include")
 				return {};
 
 			string file = line.substr(line.find("<") + 1, line.rfind(">") - line.find("<") - 1);
 			string subdir = file_directory(file);
 			for(Module& module : m_modules)
-				if(directory_contains(module.root + "/" + file, module.path))
+				if(is_subpath(module.root + "/" + file, module.path + "/")
+				&& file_exists(module.root + "/" + file))
 				{
-					return { &module, file_name(file) };
+					string relative = relative_to(module.root + "/" + file, module.path);
+					return { &module, relative };
 				}
 			return { nullptr, file };
 		}
@@ -111,11 +114,25 @@ namespace mud
 			read_text_file(module.path + "/" + file, read_line);
 		}
 
-		void process(const string& root, const string& nemespace, const string& subdir)
+		void add(const string& root, const string& nemespace, const string& name, const string& subdir, bool refl = true)
 		{
-			Module& module = vector_push(m_modules, root, nemespace, subdir);
+			m_modules.push_back({ root, nemespace, name, subdir });
+			if(refl)
+				m_modules.push_back({ root, nemespace, name + ".refl", "meta/" + subdir });
+		}
 
-			auto visit = [&](const string& path, const string& file)
+		void run()
+		{
+			for(Module& module : m_modules)
+				this->process(module);
+		}
+
+		void process(Module& module)
+		{
+			if(!directory_exists(module.path))
+				return;
+
+			auto visit = [&](const string& file)
 			{
 				string ext = file_extension(file);
 				if(vector_has({ "cpp", "cxx", "cc", "c" }, ext))
@@ -124,7 +141,7 @@ namespace mud
 					process_h(module, file);
 			};
 
-			visit_files(module.path, visit);
+			visit_files_recursive(module.path, visit);
 
 			auto write_includes = [&](const set<string>& includes, string& file)
 			{
@@ -161,8 +178,13 @@ int main(int argc, char *argv[])
 	Amalgamator amalgamator;
 	amalgamator.m_filter = filter;
 	for (string module : { "infra", "jobs", "type", "tree", "pool", "refl", "ecs", "srlz", "math", "geom", "noise", "wfc", "fract", "lang", "ctx", "ui", "uio", "snd" })
-		amalgamator.process(directory, "mud", module);
-	for (string module : { "bgfx", "gfx", "gltf", "gfx-pbr", "gfx-obj", "gfx-gltf", "gfx-ui", "gfx-edit", "tool", "wfc-gfx" }) //, "frame" })
-		amalgamator.process(directory, "mud", module);
+		amalgamator.add(directory, "mud", module, module);
+	for (string module : { "ctx-glfw", "ctx-wasm", "ctx-win" })
+		amalgamator.add(directory, "mud", module, module);
+	for (string module : { "ui-vg", "ui-nvg" })
+		amalgamator.add(directory, "mud", module, module);
+	for (string module : { "bgfx", "gfx", "gltf", "gfx-pbr", "gfx-obj", "gfx-gltf", "gfx-ui", "gfx-edit", "tool", "wfc-gfx", "frame" })
+		amalgamator.add(directory, "mud", module, module);
+	amalgamator.run();
 	return 0;
 }

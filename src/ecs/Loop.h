@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <stl/tuple.h>
 #include <ecs/Forward.h>

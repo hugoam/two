@@ -22,6 +22,9 @@ namespace mud
 	export_ template <class T>
 	array<T> to_array(vector<T>& vec, size_t offset, size_t count) { return { &vec[offset], count }; }
 
+	template <class T, class U>
+	array<T> to_array_cast(vector<U>& vec) { return{ (T*)&vec[0], vec.size() }; }
+
 	export_ template <class T>
 	vector<T> to_vector(const array<T>& array) { return { array.m_pointer, array.m_pointer + array.m_count }; }
 

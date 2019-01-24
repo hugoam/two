@@ -679,33 +679,6 @@ extern "C" {
 		static mud::Colour temp;
 		return (temp = mud::hsla_to_rgba(*colour), &temp);
 	}
-	float DECL mud_oriented_angle_2d_2(const mud::vec2* lhs, const mud::vec2* rhs) {
-		return mud::oriented_angle_2d(*lhs, *rhs);
-	}
-	float DECL mud_oriented_angle_3(const mud::vec3* lhs, const mud::vec3* rhs, const mud::vec3* ref) {
-		return mud::oriented_angle(*lhs, *rhs, *ref);
-	}
-	mud::quat* DECL mud_angle_axis_2(float angle, const mud::vec3* axis) {
-		static mud::quat temp;
-		return (temp = mud::angle_axis(angle, *axis), &temp);
-	}
-	mud::quat* DECL mud_axis_angle_2(const mud::vec3* axis, float angle) {
-		static mud::quat temp;
-		return (temp = mud::axis_angle(*axis, angle), &temp);
-	}
-	mud::quat* DECL mud_rotate_3(const mud::quat* q, const mud::vec3* axis, float angle) {
-		static mud::quat temp;
-		return (temp = mud::rotate(*q, *axis, angle), &temp);
-	}
-	float DECL mud_distance_2(const mud::vec3* a, const mud::vec3* b) {
-		return mud::distance(*a, *b);
-	}
-	float DECL mud_length_1(const mud::vec3* v) {
-		return mud::length(*v);
-	}
-	float DECL mud_length2_1(const mud::vec3* v) {
-		return mud::length2(*v);
-	}
 	mud::quat* DECL mud_look_dir_1(const mud::vec3* direction) {
 		static mud::quat temp;
 		return (temp = mud::look_dir(*direction), &temp);
