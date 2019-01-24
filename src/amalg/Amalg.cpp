@@ -41,7 +41,14 @@ namespace mud
 			string dest_cpp() { return nemespace + "/" + dotname + ".cpp"; }
 		};
 
+		vector<string> m_filter;
 		vector<Module> m_modules;
+
+		bool filter(const string& line)
+		{
+			if (line == "#pragma once") return true;
+			return vector_has(m_filter, line);
+		}
 
 		struct Include { Module* module = nullptr; string file; };
 		Include module_include(const string& line)
@@ -68,6 +75,8 @@ namespace mud
 					module.m_deps_cpp.insert(include.module->dest_h());
 				//else if(include.file != "")
 				//	module.m_includes_cpp.insert(include.file);
+				else if(filter(line))
+					;
 				else
 					module.m_cpp += line + "\n";
 			};
@@ -93,6 +102,8 @@ namespace mud
 					module.m_deps_h.insert(include.module->dest_h());
 				//else if(include.file != "")
 				//	module.m_includes_h.insert(include.file);
+				else if (filter(line))
+					;
 				else
 					module.m_h += line + "\n";
 			};
@@ -117,14 +128,14 @@ namespace mud
 
 			auto write_includes = [&](const set<string>& includes, string& file)
 			{
-				string header;
+				string header = "#pragma once\n\n";
 				for (string include : includes)
 					header += "#include <" + include + ">" + "\n";
 				file.insert(size_t(0), header);
 			};
 
-			write_includes(module.m_includes_h, module.m_h);
-			write_includes(module.m_includes_cpp, module.m_cpp);
+			//write_includes(module.m_includes_h, module.m_h);
+			//write_includes(module.m_includes_cpp, module.m_cpp);
 
 			write_includes(module.m_deps_h, module.m_h);
 			write_includes(module.m_deps_cpp, module.m_cpp);
@@ -140,8 +151,15 @@ using namespace mud;
 
 int main(int argc, char *argv[])
 {
+	vector<string> filter = {
+		"//  Copyright (c) 2019 Hugo Amiard hugo.amiard@laposte.net",
+		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
+		"//  This notice and the license may not be removed or altered from any source distribution."
+	};
+
 	string directory = "d:/Documents/Programmation/toy/mud/src";
 	Amalgamator amalgamator;
+	amalgamator.m_filter = filter;
 	for (string module : { "infra", "jobs", "type", "tree", "pool", "refl", "ecs", "srlz", "math", "geom", "noise", "wfc", "fract", "lang", "ctx", "ui", "uio", "snd" })
 		amalgamator.process(directory, "mud", module);
 	for (string module : { "bgfx", "gfx", "gltf", "gfx-pbr", "gfx-obj", "gfx-gltf", "gfx-ui", "gfx-edit", "tool", "wfc-gfx" }) //, "frame" })
