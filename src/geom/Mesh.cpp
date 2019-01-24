@@ -21,17 +21,10 @@ module mud.geom;
 
 #include <mikktspace.h>
 
-#ifdef MUD_NO_GLM
 namespace mud
 {
 	inline bool operator<(const vec3& lhs, const vec3& rhs) { return all(less(lhs, rhs)); }
 }
-#else
-namespace glm
-{
-	inline bool operator<(const vec3& lhs, const vec3& rhs) { return all(lessThan(lhs, rhs)); }
-}
-#endif
 
 namespace mud
 {

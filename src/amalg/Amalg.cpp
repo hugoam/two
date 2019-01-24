@@ -2,7 +2,7 @@
 #include <stl/set.h>
 #include <infra/Vector.h>
 #include <infra/File.h>
-#include <clrefl/Amalg.h>
+#include <amalg/Amalg.h>
 
 #include <cstdio>
 
@@ -125,7 +125,6 @@ namespace mud
 
 using namespace mud;
 
-#if 0
 int main(int argc, char *argv[])
 {
 	string directory = "d:/Documents/Programmation/toy/mud/src";
@@ -134,4 +133,3 @@ int main(int argc, char *argv[])
 		amalgamator.process(directory, module);
 	return 0;
 }
-#endif

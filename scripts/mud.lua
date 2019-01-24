@@ -245,8 +245,9 @@ mud.uio     = mud_module("mud", "uio",      MUD_SRC_DIR,    "uio",      nil,    
 -- snd
 mud.snd     = mud_module("mud", "snd",      MUD_SRC_DIR,    "snd",      mud_snd,    uses_mud_snd,   true,       { ogg, vorbis, vorbisfile, mud.type, mud.math })
 
-if _OPTIONS["metagen"] then
+if _OPTIONS["tools"] then
   mud.clrefl = mud_module("mud", "clrefl",  MUD_SRC_DIR,    "clrefl",   mud_clrefl, nil,            false,      { json11, mud.infra, mud.type, mud.pool, mud.refl })
+  mud.amalg  = mud_module("mud", "amalg",   MUD_SRC_DIR,    "amalg",    nil,        nil,            false,      { json11, mud.infra })
 end
 
 --mud_sys(true)

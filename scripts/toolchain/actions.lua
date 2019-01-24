@@ -5,8 +5,8 @@ function mud_amalgamate(modules)
     for _, m in ipairs(modules) do
         local dir = os.getcwd()
         os.chdir(m.root)
-        os.execute(path.join(MUD_DIR, "3rdparty/amalgamate/amalgamate.py") .. " -c " .. m.path .. "/Refl/amalgam.h.json" .. " -s " .. MUD_SRC_DIR)
-        os.execute(path.join(MUD_DIR, "3rdparty/amalgamate/amalgamate.py") .. " -c " .. m.path .. "/Refl/amalgam.cpp.json" .. " -s " .. MUD_SRC_DIR)
+        local jsonfile = m.path .. "/amalg.json"
+        os.execute(path.join(MUD_DIR, "bin/amalg") .. " " .. jsonfile)
         os.chdir(dir)
     end
 end

@@ -52,8 +52,8 @@ newoption {
 }
 
 newoption {
-    trigger = "metagen",
-    description = "Build metagen",
+    trigger = "tools",
+    description = "Build tools",
 }
 
 --newoption {

@@ -184,12 +184,12 @@ namespace mud
 		return angle;
 	}
 
-#ifdef MUD_NO_GLM
 	float shortest_angle(const vec3& vec1, const vec3& vec2)
 	{
 		return oriented_angle(vec1, vec2, Y3);
 	}
-#else
+
+#if 0
 	float shortest_angle(const vec3& vec1, const vec3& vec2)
 	{
 		float a = angle(vec1, vec2);
