@@ -179,7 +179,7 @@ namespace mud
 		template <class T>
 		T& has(uint32_t handle)
 		{
-			T& comp = this->Get<T>(handle);
+			T& comp = this->get<T>(handle);
 			return comp.m_enabled;
 		}
 
