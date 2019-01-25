@@ -15,6 +15,7 @@ namespace mud
 	{
 		auto swap = [&](size_t first, size_t second)
 		{
+			using mud::swap;
 			swap(keys[first], keys[second]);
 			swap(values[first], values[second]);
 			swap(indices[keys[first]], indices[keys[second]]);
