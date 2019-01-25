@@ -28,142 +28,128 @@ namespace mud
 	// Enums
 	{
 		static Meta meta = { type<mud::Align>(), &namspc({ "mud" }), "Align", sizeof(mud::Align), TypeClass::Enum };
-		static Enum enu = { type<mud::Align>(),
-			false,
-			{ "Left", "CENTER", "Right", "OUT_LEFT", "OUT_RIGHT" },
-			{ 0, 1, 2, 3, 4 },
-			{ var(mud::Left), var(mud::CENTER), var(mud::Right), var(mud::OUT_LEFT), var(mud::OUT_RIGHT) }
-		};
+		static cstring ids[] = { "Left", "CENTER", "Right", "OUT_LEFT", "OUT_RIGHT" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4 };
+		static mud::Align vars[] = { mud::Left, mud::CENTER, mud::Right, mud::OUT_LEFT, mud::OUT_RIGHT};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4]};
+		static Enum enu = { type<mud::Align>(), false, ids, values, refs };
 		meta_enum<mud::Align>();
 	}
 	{
 		static Meta meta = { type<mud::AutoLayout>(), &namspc({ "mud" }), "AutoLayout", sizeof(mud::AutoLayout), TypeClass::Enum };
-		static Enum enu = { type<mud::AutoLayout>(),
-			false,
-			{ "NO_LAYOUT", "AUTO_SIZE", "AUTO_LAYOUT" },
-			{ 0, 1, 2 },
-			{ var(mud::NO_LAYOUT), var(mud::AUTO_SIZE), var(mud::AUTO_LAYOUT) }
-		};
+		static cstring ids[] = { "NO_LAYOUT", "AUTO_SIZE", "AUTO_LAYOUT" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::AutoLayout vars[] = { mud::NO_LAYOUT, mud::AUTO_SIZE, mud::AUTO_LAYOUT};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::AutoLayout>(), false, ids, values, refs };
 		meta_enum<mud::AutoLayout>();
 	}
 	{
 		static Meta meta = { type<mud::Clipping>(), &namspc({ "mud" }), "Clipping", sizeof(mud::Clipping), TypeClass::Enum };
-		static Enum enu = { type<mud::Clipping>(),
-			false,
-			{ "NOCLIP", "CLIP", "UNCLIP" },
-			{ 0, 1, 2 },
-			{ var(mud::NOCLIP), var(mud::CLIP), var(mud::UNCLIP) }
-		};
+		static cstring ids[] = { "NOCLIP", "CLIP", "UNCLIP" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::Clipping vars[] = { mud::NOCLIP, mud::CLIP, mud::UNCLIP};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::Clipping>(), false, ids, values, refs };
 		meta_enum<mud::Clipping>();
 	}
 	{
 		static Meta meta = { type<mud::Dim>(), &namspc({ "mud" }), "Dim", sizeof(mud::Dim), TypeClass::Enum };
-		static Enum enu = { type<mud::Dim>(),
-			false,
-			{ "DIM_X", "DIM_Y", "DIM_NONE" },
-			{ 0, 1, 2 },
-			{ var(mud::DIM_X), var(mud::DIM_Y), var(mud::DIM_NONE) }
-		};
+		static cstring ids[] = { "DIM_X", "DIM_Y", "DIM_NONE" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::Dim vars[] = { mud::DIM_X, mud::DIM_Y, mud::DIM_NONE};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::Dim>(), false, ids, values, refs };
 		meta_enum<mud::Dim>();
 	}
 	{
 		static Meta meta = { type<mud::Flow>(), &namspc({ "mud" }), "Flow", sizeof(mud::Flow), TypeClass::Enum };
-		static Enum enu = { type<mud::Flow>(),
-			false,
-			{ "FLOW", "OVERLAY", "ALIGN", "FREE" },
-			{ 0, 1, 2, 3 },
-			{ var(mud::FLOW), var(mud::OVERLAY), var(mud::ALIGN), var(mud::FREE) }
-		};
+		static cstring ids[] = { "FLOW", "OVERLAY", "ALIGN", "FREE" };
+		static uint32_t values[] = { 0, 1, 2, 3 };
+		static mud::Flow vars[] = { mud::FLOW, mud::OVERLAY, mud::ALIGN, mud::FREE};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
+		static Enum enu = { type<mud::Flow>(), false, ids, values, refs };
 		meta_enum<mud::Flow>();
 	}
 	{
 		static Meta meta = { type<mud::FlowAxis>(), &namspc({ "mud" }), "FlowAxis", sizeof(mud::FlowAxis), TypeClass::Enum };
-		static Enum enu = { type<mud::FlowAxis>(),
-			false,
-			{ "READING", "PARAGRAPH", "PARALLEL", "ORTHOGONAL", "AXIS_NONE" },
-			{ 0, 1, 2, 3, 4 },
-			{ var(mud::READING), var(mud::PARAGRAPH), var(mud::PARALLEL), var(mud::ORTHOGONAL), var(mud::AXIS_NONE) }
-		};
+		static cstring ids[] = { "READING", "PARAGRAPH", "PARALLEL", "ORTHOGONAL", "AXIS_NONE" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4 };
+		static mud::FlowAxis vars[] = { mud::READING, mud::PARAGRAPH, mud::PARALLEL, mud::ORTHOGONAL, mud::AXIS_NONE};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4]};
+		static Enum enu = { type<mud::FlowAxis>(), false, ids, values, refs };
 		meta_enum<mud::FlowAxis>();
 	}
 	{
 		static Meta meta = { type<mud::LayoutSolver>(), &namspc({ "mud" }), "LayoutSolver", sizeof(mud::LayoutSolver), TypeClass::Enum };
-		static Enum enu = { type<mud::LayoutSolver>(),
-			false,
-			{ "FRAME_SOLVER", "ROW_SOLVER", "GRID_SOLVER", "TABLE_SOLVER" },
-			{ 0, 1, 2, 3 },
-			{ var(mud::FRAME_SOLVER), var(mud::ROW_SOLVER), var(mud::GRID_SOLVER), var(mud::TABLE_SOLVER) }
-		};
+		static cstring ids[] = { "FRAME_SOLVER", "ROW_SOLVER", "GRID_SOLVER", "TABLE_SOLVER" };
+		static uint32_t values[] = { 0, 1, 2, 3 };
+		static mud::LayoutSolver vars[] = { mud::FRAME_SOLVER, mud::ROW_SOLVER, mud::GRID_SOLVER, mud::TABLE_SOLVER};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
+		static Enum enu = { type<mud::LayoutSolver>(), false, ids, values, refs };
 		meta_enum<mud::LayoutSolver>();
 	}
 	{
 		static Meta meta = { type<mud::Opacity>(), &namspc({ "mud" }), "Opacity", sizeof(mud::Opacity), TypeClass::Enum };
-		static Enum enu = { type<mud::Opacity>(),
-			false,
-			{ "OPAQUE", "CLEAR", "HOLLOW" },
-			{ 0, 1, 2 },
-			{ var(mud::OPAQUE), var(mud::CLEAR), var(mud::HOLLOW) }
-		};
+		static cstring ids[] = { "OPAQUE", "CLEAR", "HOLLOW" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::Opacity vars[] = { mud::OPAQUE, mud::CLEAR, mud::HOLLOW};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::Opacity>(), false, ids, values, refs };
 		meta_enum<mud::Opacity>();
 	}
 	{
 		static Meta meta = { type<mud::Pivot>(), &namspc({ "mud" }), "Pivot", sizeof(mud::Pivot), TypeClass::Enum };
-		static Enum enu = { type<mud::Pivot>(),
-			false,
-			{ "FORWARD", "REVERSE" },
-			{ 0, 1 },
-			{ var(mud::FORWARD), var(mud::REVERSE) }
-		};
+		static cstring ids[] = { "FORWARD", "REVERSE" };
+		static uint32_t values[] = { 0, 1 };
+		static mud::Pivot vars[] = { mud::FORWARD, mud::REVERSE};
+		static void* refs[] = { &vars[0], &vars[1]};
+		static Enum enu = { type<mud::Pivot>(), false, ids, values, refs };
 		meta_enum<mud::Pivot>();
 	}
 	{
 		static Meta meta = { type<mud::ui::PopupFlags>(), &namspc({ "mud", "ui" }), "PopupFlags", sizeof(mud::ui::PopupFlags), TypeClass::Enum };
-		static Enum enu = { type<mud::ui::PopupFlags>(),
-			true,
-			{ "None", "Modal", "Clamp", "AutoClose", "AutoModal" },
-			{ 0, 1, 2, 4, 5 },
-			{ var(mud::ui::PopupFlags::None), var(mud::ui::PopupFlags::Modal), var(mud::ui::PopupFlags::Clamp), var(mud::ui::PopupFlags::AutoClose), var(mud::ui::PopupFlags::AutoModal) }
-		};
+		static cstring ids[] = { "None", "Modal", "Clamp", "AutoClose", "AutoModal" };
+		static uint32_t values[] = { 0, 1, 2, 4, 5 };
+		static mud::ui::PopupFlags vars[] = { mud::ui::PopupFlags::None, mud::ui::PopupFlags::Modal, mud::ui::PopupFlags::Clamp, mud::ui::PopupFlags::AutoClose, mud::ui::PopupFlags::AutoModal};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4]};
+		static Enum enu = { type<mud::ui::PopupFlags>(), true, ids, values, refs };
 		meta_enum<mud::ui::PopupFlags>();
 	}
 	{
 		static Meta meta = { type<mud::Sizing>(), &namspc({ "mud" }), "Sizing", sizeof(mud::Sizing), TypeClass::Enum };
-		static Enum enu = { type<mud::Sizing>(),
-			false,
-			{ "FIXED", "SHRINK", "WRAP", "EXPAND" },
-			{ 0, 1, 2, 3 },
-			{ var(mud::FIXED), var(mud::SHRINK), var(mud::WRAP), var(mud::EXPAND) }
-		};
+		static cstring ids[] = { "FIXED", "SHRINK", "WRAP", "EXPAND" };
+		static uint32_t values[] = { 0, 1, 2, 3 };
+		static mud::Sizing vars[] = { mud::FIXED, mud::SHRINK, mud::WRAP, mud::EXPAND};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
+		static Enum enu = { type<mud::Sizing>(), false, ids, values, refs };
 		meta_enum<mud::Sizing>();
 	}
 	{
 		static Meta meta = { type<mud::SpacePreset>(), &namspc({ "mud" }), "SpacePreset", sizeof(mud::SpacePreset), TypeClass::Enum };
-		static Enum enu = { type<mud::SpacePreset>(),
-			false,
-			{ "SHEET", "FLEX", "ITEM", "UNIT", "BLOCK", "LINE", "STACK", "DIV", "SPACER", "BOARD", "LAYOUT" },
-			{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 },
-			{ var(mud::SHEET), var(mud::FLEX), var(mud::ITEM), var(mud::UNIT), var(mud::BLOCK), var(mud::LINE), var(mud::STACK), var(mud::DIV), var(mud::SPACER), var(mud::BOARD), var(mud::LAYOUT) }
-		};
+		static cstring ids[] = { "SHEET", "FLEX", "ITEM", "UNIT", "BLOCK", "LINE", "STACK", "DIV", "SPACER", "BOARD", "LAYOUT" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+		static mud::SpacePreset vars[] = { mud::SHEET, mud::FLEX, mud::ITEM, mud::UNIT, mud::BLOCK, mud::LINE, mud::STACK, mud::DIV, mud::SPACER, mud::BOARD, mud::LAYOUT};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7], &vars[8], &vars[9], &vars[10]};
+		static Enum enu = { type<mud::SpacePreset>(), false, ids, values, refs };
 		meta_enum<mud::SpacePreset>();
 	}
 	{
 		static Meta meta = { type<mud::WidgetState>(), &namspc({ "mud" }), "WidgetState", sizeof(mud::WidgetState), TypeClass::Enum };
-		static Enum enu = { type<mud::WidgetState>(),
-			false,
-			{ "NOSTATE", "CREATED", "HOVERED", "PRESSED", "ACTIVATED", "ACTIVE", "SELECTED", "DISABLED", "DRAGGED", "FOCUSED", "CLOSED" },
-			{ 0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512 },
-			{ var(mud::NOSTATE), var(mud::CREATED), var(mud::HOVERED), var(mud::PRESSED), var(mud::ACTIVATED), var(mud::ACTIVE), var(mud::SELECTED), var(mud::DISABLED), var(mud::DRAGGED), var(mud::FOCUSED), var(mud::CLOSED) }
-		};
+		static cstring ids[] = { "NOSTATE", "CREATED", "HOVERED", "PRESSED", "ACTIVATED", "ACTIVE", "SELECTED", "DISABLED", "DRAGGED", "FOCUSED", "CLOSED" };
+		static uint32_t values[] = { 0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512 };
+		static mud::WidgetState vars[] = { mud::NOSTATE, mud::CREATED, mud::HOVERED, mud::PRESSED, mud::ACTIVATED, mud::ACTIVE, mud::SELECTED, mud::DISABLED, mud::DRAGGED, mud::FOCUSED, mud::CLOSED};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7], &vars[8], &vars[9], &vars[10]};
+		static Enum enu = { type<mud::WidgetState>(), false, ids, values, refs };
 		meta_enum<mud::WidgetState>();
 	}
 	{
 		static Meta meta = { type<mud::WindowState>(), &namspc({ "mud" }), "WindowState", sizeof(mud::WindowState), TypeClass::Enum };
-		static Enum enu = { type<mud::WindowState>(),
-			false,
-			{ "WINDOW_NOSTATE", "WINDOW_HEADER", "WINDOW_DOCKABLE", "WINDOW_CLOSABLE", "WINDOW_MOVABLE", "WINDOW_SIZABLE", "WINDOW_DEFAULT" },
-			{ 0, 2, 4, 8, 16, 32, 58 },
-			{ var(mud::WINDOW_NOSTATE), var(mud::WINDOW_HEADER), var(mud::WINDOW_DOCKABLE), var(mud::WINDOW_CLOSABLE), var(mud::WINDOW_MOVABLE), var(mud::WINDOW_SIZABLE), var(mud::WINDOW_DEFAULT) }
-		};
+		static cstring ids[] = { "WINDOW_NOSTATE", "WINDOW_HEADER", "WINDOW_DOCKABLE", "WINDOW_CLOSABLE", "WINDOW_MOVABLE", "WINDOW_SIZABLE", "WINDOW_DEFAULT" };
+		static uint32_t values[] = { 0, 2, 4, 8, 16, 32, 58 };
+		static mud::WindowState vars[] = { mud::WINDOW_NOSTATE, mud::WINDOW_HEADER, mud::WINDOW_DOCKABLE, mud::WINDOW_CLOSABLE, mud::WINDOW_MOVABLE, mud::WINDOW_SIZABLE, mud::WINDOW_DEFAULT};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6]};
+		static Enum enu = { type<mud::WindowState>(), false, ids, values, refs };
 		meta_enum<mud::WindowState>();
 	}
 	

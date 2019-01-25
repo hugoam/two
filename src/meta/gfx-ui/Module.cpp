@@ -32,12 +32,11 @@ namespace mud
 	// Enums
 	{
 		static Meta meta = { type<mud::ui::OrbitMode>(), &namspc({ "mud", "ui" }), "OrbitMode", sizeof(mud::ui::OrbitMode), TypeClass::Enum };
-		static Enum enu = { type<mud::ui::OrbitMode>(),
-			true,
-			{ "ThirdPerson", "Isometric", "PseudoIsometric" },
-			{ 0, 1, 2 },
-			{ var(mud::ui::OrbitMode::ThirdPerson), var(mud::ui::OrbitMode::Isometric), var(mud::ui::OrbitMode::PseudoIsometric) }
-		};
+		static cstring ids[] = { "ThirdPerson", "Isometric", "PseudoIsometric" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::ui::OrbitMode vars[] = { mud::ui::OrbitMode::ThirdPerson, mud::ui::OrbitMode::Isometric, mud::ui::OrbitMode::PseudoIsometric};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::ui::OrbitMode>(), true, ids, values, refs };
 		meta_enum<mud::ui::OrbitMode>();
 	}
 	

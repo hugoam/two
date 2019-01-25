@@ -48,6 +48,8 @@ namespace mud
 				e.m_scoped_ids.push_back(e.m_prefix + displayname(c));
 			}
 		});
+
+		e.m_count = e.m_ids.size();
 	}
 
 	void find_default_value(CXCursor cursor, const string& type, bool& has_default, string& default_value)

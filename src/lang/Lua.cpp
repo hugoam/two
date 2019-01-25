@@ -20,6 +20,7 @@ module mud.lang;
 #include <infra/NonCopy.h>
 #include <infra/Vector.h>
 #include <infra/Global.h>
+#include <infra/ToString.h>
 #include <type/Any.h>
 #include <ecs/Proto.h>
 #include <type/Dispatch.h>
@@ -27,6 +28,7 @@ module mud.lang;
 #include <refl/Meta.h>
 #include <refl/Enum.h>
 #include <refl/Sequence.h>
+#include <refl/Convert.h>
 #include <refl/System.h>
 #include <lang/Types.h>
 #include <lang/Lua.h>
@@ -853,7 +855,7 @@ namespace mud
 
 			for(size_t i = 0; i < e.m_names.size(); ++i)
 			{
-				set_table(m_state, e.m_names[i], e.m_vars[i]);
+				set_table(m_state, e.m_names[i], e.varn(i));
 			}
 		}
 

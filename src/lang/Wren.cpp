@@ -20,18 +20,19 @@ module mud.lang;
 #include <stl/map.h>
 #include <stl/unordered_map.h>
 #include <stl/set.h>
-#include <ecs/Proto.h>
 #include <infra/NonCopy.h>
+#include <infra/Vector.h>
+#include <infra/ToString.h>
+#include <infra/Global.h>
+#include <type/Any.h>
+#include <type/Dispatch.h>
+#include <type/DispatchDecl.h>
+#include <ecs/Proto.h>
 #include <refl/Meta.h>
 #include <refl/Enum.h>
 #include <refl/Sequence.h>
 #include <refl/VirtualMethod.h>
 #include <refl/System.h>
-#include <type/Any.h>
-#include <infra/Vector.h>
-#include <type/Dispatch.h>
-#include <type/DispatchDecl.h>
-#include <infra/Global.h>
 #include <lang/Types.h>
 #include <lang/Wren.h>
 #endif

@@ -382,6 +382,7 @@ namespace mud
 
 		bool m_scoped = false;
 		string m_enum_type;
+		size_t m_count = 0;
 		vector<string> m_ids;
 		vector<string> m_values;
 

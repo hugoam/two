@@ -34,22 +34,20 @@ namespace mud
 	// Enums
 	{
 		static Meta meta = { type<mud::EditNestMode>(), &namspc({ "mud" }), "EditNestMode", sizeof(mud::EditNestMode), TypeClass::Enum };
-		static Enum enu = { type<mud::EditNestMode>(),
-			true,
-			{ "Inline", "Modal", "Embed" },
-			{ 0, 1, 2 },
-			{ var(mud::EditNestMode::Inline), var(mud::EditNestMode::Modal), var(mud::EditNestMode::Embed) }
-		};
+		static cstring ids[] = { "Inline", "Modal", "Embed" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::EditNestMode vars[] = { mud::EditNestMode::Inline, mud::EditNestMode::Modal, mud::EditNestMode::Embed};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::EditNestMode>(), true, ids, values, refs };
 		meta_enum<mud::EditNestMode>();
 	}
 	{
 		static Meta meta = { type<mud::EditorHint>(), &namspc({ "mud" }), "EditorHint", sizeof(mud::EditorHint), TypeClass::Enum };
-		static Enum enu = { type<mud::EditorHint>(),
-			true,
-			{ "Table", "Rows", "Inline" },
-			{ 0, 1, 2 },
-			{ var(mud::EditorHint::Table), var(mud::EditorHint::Rows), var(mud::EditorHint::Inline) }
-		};
+		static cstring ids[] = { "Table", "Rows", "Inline" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::EditorHint vars[] = { mud::EditorHint::Table, mud::EditorHint::Rows, mud::EditorHint::Inline};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::EditorHint>(), true, ids, values, refs };
 		meta_enum<mud::EditorHint>();
 	}
 	

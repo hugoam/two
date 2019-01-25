@@ -26,32 +26,29 @@ namespace mud
 	// Enums
 	{
 		static Meta meta = { type<mud::DrawMode>(), &namspc({ "mud" }), "DrawMode", sizeof(mud::DrawMode), TypeClass::Enum };
-		static Enum enu = { type<mud::DrawMode>(),
-			false,
-			{ "OUTLINE", "PLAIN" },
-			{ 0, 1 },
-			{ var(mud::OUTLINE), var(mud::PLAIN) }
-		};
+		static cstring ids[] = { "OUTLINE", "PLAIN" };
+		static uint32_t values[] = { 0, 1 };
+		static mud::DrawMode vars[] = { mud::OUTLINE, mud::PLAIN};
+		static void* refs[] = { &vars[0], &vars[1]};
+		static Enum enu = { type<mud::DrawMode>(), false, ids, values, refs };
 		meta_enum<mud::DrawMode>();
 	}
 	{
 		static Meta meta = { type<mud::PrimitiveType>(), &namspc({ "mud" }), "PrimitiveType", sizeof(mud::PrimitiveType), TypeClass::Enum };
-		static Enum enu = { type<mud::PrimitiveType>(),
-			true,
-			{ "Points", "Lines", "LineLoop", "LineStrip", "Triangles", "TriangleStrip", "TriangleFan" },
-			{ 0, 1, 2, 3, 4, 5, 6 },
-			{ var(mud::PrimitiveType::Points), var(mud::PrimitiveType::Lines), var(mud::PrimitiveType::LineLoop), var(mud::PrimitiveType::LineStrip), var(mud::PrimitiveType::Triangles), var(mud::PrimitiveType::TriangleStrip), var(mud::PrimitiveType::TriangleFan) }
-		};
+		static cstring ids[] = { "Points", "Lines", "LineLoop", "LineStrip", "Triangles", "TriangleStrip", "TriangleFan" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6 };
+		static mud::PrimitiveType vars[] = { mud::PrimitiveType::Points, mud::PrimitiveType::Lines, mud::PrimitiveType::LineLoop, mud::PrimitiveType::LineStrip, mud::PrimitiveType::Triangles, mud::PrimitiveType::TriangleStrip, mud::PrimitiveType::TriangleFan};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6]};
+		static Enum enu = { type<mud::PrimitiveType>(), true, ids, values, refs };
 		meta_enum<mud::PrimitiveType>();
 	}
 	{
 		static Meta meta = { type<mud::SymbolDetail>(), &namspc({ "mud" }), "SymbolDetail", sizeof(mud::SymbolDetail), TypeClass::Enum };
-		static Enum enu = { type<mud::SymbolDetail>(),
-			true,
-			{ "Lowest", "Low", "Medium", "High", "Highest" },
-			{ 0, 1, 2, 3, 4 },
-			{ var(mud::SymbolDetail::Lowest), var(mud::SymbolDetail::Low), var(mud::SymbolDetail::Medium), var(mud::SymbolDetail::High), var(mud::SymbolDetail::Highest) }
-		};
+		static cstring ids[] = { "Lowest", "Low", "Medium", "High", "Highest" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4 };
+		static mud::SymbolDetail vars[] = { mud::SymbolDetail::Lowest, mud::SymbolDetail::Low, mud::SymbolDetail::Medium, mud::SymbolDetail::High, mud::SymbolDetail::Highest};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4]};
+		static Enum enu = { type<mud::SymbolDetail>(), true, ids, values, refs };
 		meta_enum<mud::SymbolDetail>();
 	}
 	

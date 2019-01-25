@@ -21,8 +21,8 @@ namespace ui
 	{
 		Enum& e = enu<T>();
 		uint32_t index = e.index(Ref(&value));
-		//ui::radio_switch(parent, to_array(e.m_names), index);
-		if(ui::dropdown_input(parent, to_array(e.m_names), index))
+		//ui::radio_switch(parent, e.m_names, index);
+		if(ui::dropdown_input(parent, e.m_names, index))
 		{
 			e.varn(index, Ref(&value));
 			return true;

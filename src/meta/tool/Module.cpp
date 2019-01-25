@@ -39,12 +39,11 @@ namespace mud
 	// Enums
 	{
 		static Meta meta = { type<mud::ToolState>(), &namspc({ "mud" }), "ToolState", sizeof(mud::ToolState), TypeClass::Enum };
-		static Enum enu = { type<mud::ToolState>(),
-			true,
-			{ "Inactive", "Done", "Active" },
-			{ 0, 1, 2 },
-			{ var(mud::ToolState::Inactive), var(mud::ToolState::Done), var(mud::ToolState::Active) }
-		};
+		static cstring ids[] = { "Inactive", "Done", "Active" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::ToolState vars[] = { mud::ToolState::Inactive, mud::ToolState::Done, mud::ToolState::Active};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::ToolState>(), true, ids, values, refs };
 		meta_enum<mud::ToolState>();
 	}
 	

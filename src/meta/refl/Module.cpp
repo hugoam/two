@@ -27,12 +27,11 @@ namespace mud
 	// Enums
 	{
 		static Meta meta = { type<mud::TypeClass>(), &namspc({ "mud" }), "TypeClass", sizeof(mud::TypeClass), TypeClass::Enum };
-		static Enum enu = { type<mud::TypeClass>(),
-			true,
-			{ "None", "Object", "Struct", "Sequence", "BaseType", "Enum" },
-			{ 0, 1, 2, 4, 5, 6 },
-			{ var(mud::TypeClass::None), var(mud::TypeClass::Object), var(mud::TypeClass::Struct), var(mud::TypeClass::Sequence), var(mud::TypeClass::BaseType), var(mud::TypeClass::Enum) }
-		};
+		static cstring ids[] = { "None", "Object", "Struct", "Sequence", "BaseType", "Enum" };
+		static uint32_t values[] = { 0, 1, 2, 4, 5, 6 };
+		static mud::TypeClass vars[] = { mud::TypeClass::None, mud::TypeClass::Object, mud::TypeClass::Struct, mud::TypeClass::Sequence, mud::TypeClass::BaseType, mud::TypeClass::Enum};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5]};
+		static Enum enu = { type<mud::TypeClass>(), true, ids, values, refs };
 		meta_enum<mud::TypeClass>();
 	}
 	

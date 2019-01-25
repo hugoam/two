@@ -29,12 +29,11 @@ namespace mud
 	// Enums
 	{
 		static Meta meta = { type<mud::TonemapMode>(), &namspc({ "mud" }), "TonemapMode", sizeof(mud::TonemapMode), TypeClass::Enum };
-		static Enum enu = { type<mud::TonemapMode>(),
-			true,
-			{ "Linear", "Reinhardt", "Filmic", "ACES" },
-			{ 0, 1, 2, 3 },
-			{ var(mud::TonemapMode::Linear), var(mud::TonemapMode::Reinhardt), var(mud::TonemapMode::Filmic), var(mud::TonemapMode::ACES) }
-		};
+		static cstring ids[] = { "Linear", "Reinhardt", "Filmic", "ACES" };
+		static uint32_t values[] = { 0, 1, 2, 3 };
+		static mud::TonemapMode vars[] = { mud::TonemapMode::Linear, mud::TonemapMode::Reinhardt, mud::TonemapMode::Filmic, mud::TonemapMode::ACES};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
+		static Enum enu = { type<mud::TonemapMode>(), true, ids, values, refs };
 		meta_enum<mud::TonemapMode>();
 	}
 	

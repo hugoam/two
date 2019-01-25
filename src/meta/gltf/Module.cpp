@@ -29,52 +29,47 @@ namespace mud
 	// Enums
 	{
 		static Meta meta = { type<glTFAlphaMode>(), &namspc({}), "glTFAlphaMode", sizeof(glTFAlphaMode), TypeClass::Enum };
-		static Enum enu = { type<glTFAlphaMode>(),
-			true,
-			{ "OPAQUE", "MASK", "BLEND" },
-			{ 0, 1, 2 },
-			{ var(glTFAlphaMode::OPAQUE), var(glTFAlphaMode::MASK), var(glTFAlphaMode::BLEND) }
-		};
+		static cstring ids[] = { "OPAQUE", "MASK", "BLEND" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static glTFAlphaMode vars[] = { glTFAlphaMode::OPAQUE, glTFAlphaMode::MASK, glTFAlphaMode::BLEND};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<glTFAlphaMode>(), true, ids, values, refs };
 		meta_enum<glTFAlphaMode>();
 	}
 	{
 		static Meta meta = { type<glTFComponentType>(), &namspc({}), "glTFComponentType", sizeof(glTFComponentType), TypeClass::Enum };
-		static Enum enu = { type<glTFComponentType>(),
-			true,
-			{ "BYTE", "UNSIGNED_BYTE", "SHORT", "UNSIGNED_SHORT", "INT", "FLOAT" },
-			{ 5120, 5121, 5122, 5123, 5125, 5126 },
-			{ var(glTFComponentType::BYTE), var(glTFComponentType::UNSIGNED_BYTE), var(glTFComponentType::SHORT), var(glTFComponentType::UNSIGNED_SHORT), var(glTFComponentType::INT), var(glTFComponentType::FLOAT) }
-		};
+		static cstring ids[] = { "BYTE", "UNSIGNED_BYTE", "SHORT", "UNSIGNED_SHORT", "INT", "FLOAT" };
+		static uint32_t values[] = { 5120, 5121, 5122, 5123, 5125, 5126 };
+		static glTFComponentType vars[] = { glTFComponentType::BYTE, glTFComponentType::UNSIGNED_BYTE, glTFComponentType::SHORT, glTFComponentType::UNSIGNED_SHORT, glTFComponentType::INT, glTFComponentType::FLOAT};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5]};
+		static Enum enu = { type<glTFComponentType>(), true, ids, values, refs };
 		meta_enum<glTFComponentType>();
 	}
 	{
 		static Meta meta = { type<glTFInterpolation>(), &namspc({}), "glTFInterpolation", sizeof(glTFInterpolation), TypeClass::Enum };
-		static Enum enu = { type<glTFInterpolation>(),
-			true,
-			{ "LINEAR", "STEP", "CATMULLROMSPLINE", "CUBIC_SPLINE" },
-			{ 0, 1, 2, 3 },
-			{ var(glTFInterpolation::LINEAR), var(glTFInterpolation::STEP), var(glTFInterpolation::CATMULLROMSPLINE), var(glTFInterpolation::CUBIC_SPLINE) }
-		};
+		static cstring ids[] = { "LINEAR", "STEP", "CATMULLROMSPLINE", "CUBIC_SPLINE" };
+		static uint32_t values[] = { 0, 1, 2, 3 };
+		static glTFInterpolation vars[] = { glTFInterpolation::LINEAR, glTFInterpolation::STEP, glTFInterpolation::CATMULLROMSPLINE, glTFInterpolation::CUBIC_SPLINE};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
+		static Enum enu = { type<glTFInterpolation>(), true, ids, values, refs };
 		meta_enum<glTFInterpolation>();
 	}
 	{
 		static Meta meta = { type<glTFPrimitiveType>(), &namspc({}), "glTFPrimitiveType", sizeof(glTFPrimitiveType), TypeClass::Enum };
-		static Enum enu = { type<glTFPrimitiveType>(),
-			true,
-			{ "POINTS", "LINES", "LINE_LOOP", "LINE_STRIP", "TRIANGLES", "TRIANGLE_STRIP", "TRIANGLE_FAN" },
-			{ 0, 1, 2, 3, 4, 5, 6 },
-			{ var(glTFPrimitiveType::POINTS), var(glTFPrimitiveType::LINES), var(glTFPrimitiveType::LINE_LOOP), var(glTFPrimitiveType::LINE_STRIP), var(glTFPrimitiveType::TRIANGLES), var(glTFPrimitiveType::TRIANGLE_STRIP), var(glTFPrimitiveType::TRIANGLE_FAN) }
-		};
+		static cstring ids[] = { "POINTS", "LINES", "LINE_LOOP", "LINE_STRIP", "TRIANGLES", "TRIANGLE_STRIP", "TRIANGLE_FAN" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6 };
+		static glTFPrimitiveType vars[] = { glTFPrimitiveType::POINTS, glTFPrimitiveType::LINES, glTFPrimitiveType::LINE_LOOP, glTFPrimitiveType::LINE_STRIP, glTFPrimitiveType::TRIANGLES, glTFPrimitiveType::TRIANGLE_STRIP, glTFPrimitiveType::TRIANGLE_FAN};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6]};
+		static Enum enu = { type<glTFPrimitiveType>(), true, ids, values, refs };
 		meta_enum<glTFPrimitiveType>();
 	}
 	{
 		static Meta meta = { type<glTFType>(), &namspc({}), "glTFType", sizeof(glTFType), TypeClass::Enum };
-		static Enum enu = { type<glTFType>(),
-			true,
-			{ "SCALAR", "VEC2", "VEC3", "VEC4", "MAT2", "MAT3", "MAT4", "INVALID" },
-			{ 0, 1, 2, 3, 4, 5, 6, 7 },
-			{ var(glTFType::SCALAR), var(glTFType::VEC2), var(glTFType::VEC3), var(glTFType::VEC4), var(glTFType::MAT2), var(glTFType::MAT3), var(glTFType::MAT4), var(glTFType::INVALID) }
-		};
+		static cstring ids[] = { "SCALAR", "VEC2", "VEC3", "VEC4", "MAT2", "MAT3", "MAT4", "INVALID" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+		static glTFType vars[] = { glTFType::SCALAR, glTFType::VEC2, glTFType::VEC3, glTFType::VEC4, glTFType::MAT2, glTFType::MAT3, glTFType::MAT4, glTFType::INVALID};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7]};
+		static Enum enu = { type<glTFType>(), true, ids, values, refs };
 		meta_enum<glTFType>();
 	}
 	

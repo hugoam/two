@@ -491,14 +491,15 @@ namespace clgen
 		for (auto& pe : m.m_enums)
 			if (pe->m_reflect)
 			{
+				auto toarr = [](const string& name, size_t size) { return "{ " + name + ", " + to_string(size) + " }"; };
 				CLEnum& e = *pe;
 				p(i, "{");
 				p(i, meta_decl(e, "TypeClass::Enum"));
 				p(i, "static cstring ids[] = { " + comma(quote(e.m_ids)) + " };");
-				p(i, "static uint values[] = { " + comma(e.m_values) + " };");
+				p(i, "static uint32_t values[] = { " + comma(e.m_values) + " };");
 				p(i, "static " + e.m_id + " vars[] = { " + comma(e.m_scoped_ids) + "};");
-				p(i, "{ " + comma(e.m_values) + " },");
-				p(i, "static Enum enu = { " + type_get(e) + "," + string(e.m_scoped ? "true" : "false") + ", ids, values, vars };");
+				p(i, "static void* refs[] = { " + comma(transform<string>(0, e.m_count, [](size_t i) { return "&vars[" + to_string(i) + "]"; })) + "};");
+				p(i, "static Enum enu = { " + type_get(e) + ", " + string(e.m_scoped ? "true" : "false") + ", ids, values, refs };");
 				p(i, "meta_enum<" + e.m_id + ">();");
 				p(i, "}");
 			}

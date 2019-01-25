@@ -32,242 +32,218 @@ namespace mud
 	// Enums
 	{
 		static Meta meta = { type<mud::AnimationTarget>(), &namspc({ "mud" }), "AnimationTarget", sizeof(mud::AnimationTarget), TypeClass::Enum };
-		static Enum enu = { type<mud::AnimationTarget>(),
-			true,
-			{ "Position", "Rotation", "Scale" },
-			{ 0, 1, 2 },
-			{ var(mud::AnimationTarget::Position), var(mud::AnimationTarget::Rotation), var(mud::AnimationTarget::Scale) }
-		};
+		static cstring ids[] = { "Position", "Rotation", "Scale" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::AnimationTarget vars[] = { mud::AnimationTarget::Position, mud::AnimationTarget::Rotation, mud::AnimationTarget::Scale};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::AnimationTarget>(), true, ids, values, refs };
 		meta_enum<mud::AnimationTarget>();
 	}
 	{
 		static Meta meta = { type<mud::BackgroundMode>(), &namspc({ "mud" }), "BackgroundMode", sizeof(mud::BackgroundMode), TypeClass::Enum };
-		static Enum enu = { type<mud::BackgroundMode>(),
-			true,
-			{ "None", "Panorama", "Radiance", "Custom" },
-			{ 0, 1, 2, 3 },
-			{ var(mud::BackgroundMode::None), var(mud::BackgroundMode::Panorama), var(mud::BackgroundMode::Radiance), var(mud::BackgroundMode::Custom) }
-		};
+		static cstring ids[] = { "None", "Panorama", "Radiance", "Custom" };
+		static uint32_t values[] = { 0, 1, 2, 3 };
+		static mud::BackgroundMode vars[] = { mud::BackgroundMode::None, mud::BackgroundMode::Panorama, mud::BackgroundMode::Radiance, mud::BackgroundMode::Custom};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
+		static Enum enu = { type<mud::BackgroundMode>(), true, ids, values, refs };
 		meta_enum<mud::BackgroundMode>();
 	}
 	{
 		static Meta meta = { type<mud::BlendMode>(), &namspc({ "mud" }), "BlendMode", sizeof(mud::BlendMode), TypeClass::Enum };
-		static Enum enu = { type<mud::BlendMode>(),
-			true,
-			{ "Mix", "Add", "Sub", "Mul", "Normal", "Alpha" },
-			{ 0, 1, 2, 3, 4, 5 },
-			{ var(mud::BlendMode::Mix), var(mud::BlendMode::Add), var(mud::BlendMode::Sub), var(mud::BlendMode::Mul), var(mud::BlendMode::Normal), var(mud::BlendMode::Alpha) }
-		};
+		static cstring ids[] = { "Mix", "Add", "Sub", "Mul", "Normal", "Alpha" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5 };
+		static mud::BlendMode vars[] = { mud::BlendMode::Mix, mud::BlendMode::Add, mud::BlendMode::Sub, mud::BlendMode::Mul, mud::BlendMode::Normal, mud::BlendMode::Alpha};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5]};
+		static Enum enu = { type<mud::BlendMode>(), true, ids, values, refs };
 		meta_enum<mud::BlendMode>();
 	}
 	{
 		static Meta meta = { type<mud::CullMode>(), &namspc({ "mud" }), "CullMode", sizeof(mud::CullMode), TypeClass::Enum };
-		static Enum enu = { type<mud::CullMode>(),
-			true,
-			{ "None", "Front", "Back" },
-			{ 0, 1, 2 },
-			{ var(mud::CullMode::None), var(mud::CullMode::Front), var(mud::CullMode::Back) }
-		};
+		static cstring ids[] = { "None", "Front", "Back" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::CullMode vars[] = { mud::CullMode::None, mud::CullMode::Front, mud::CullMode::Back};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::CullMode>(), true, ids, values, refs };
 		meta_enum<mud::CullMode>();
 	}
 	{
 		static Meta meta = { type<mud::DepthDraw>(), &namspc({ "mud" }), "DepthDraw", sizeof(mud::DepthDraw), TypeClass::Enum };
-		static Enum enu = { type<mud::DepthDraw>(),
-			true,
-			{ "Enabled", "Disabled" },
-			{ 0, 1 },
-			{ var(mud::DepthDraw::Enabled), var(mud::DepthDraw::Disabled) }
-		};
+		static cstring ids[] = { "Enabled", "Disabled" };
+		static uint32_t values[] = { 0, 1 };
+		static mud::DepthDraw vars[] = { mud::DepthDraw::Enabled, mud::DepthDraw::Disabled};
+		static void* refs[] = { &vars[0], &vars[1]};
+		static Enum enu = { type<mud::DepthDraw>(), true, ids, values, refs };
 		meta_enum<mud::DepthDraw>();
 	}
 	{
 		static Meta meta = { type<mud::DepthTest>(), &namspc({ "mud" }), "DepthTest", sizeof(mud::DepthTest), TypeClass::Enum };
-		static Enum enu = { type<mud::DepthTest>(),
-			true,
-			{ "Enabled", "Disabled" },
-			{ 0, 1 },
-			{ var(mud::DepthTest::Enabled), var(mud::DepthTest::Disabled) }
-		};
+		static cstring ids[] = { "Enabled", "Disabled" };
+		static uint32_t values[] = { 0, 1 };
+		static mud::DepthTest vars[] = { mud::DepthTest::Enabled, mud::DepthTest::Disabled};
+		static void* refs[] = { &vars[0], &vars[1]};
+		static Enum enu = { type<mud::DepthTest>(), true, ids, values, refs };
 		meta_enum<mud::DepthTest>();
 	}
 	{
 		static Meta meta = { type<mud::EmitterFlow>(), &namspc({ "mud" }), "EmitterFlow", sizeof(mud::EmitterFlow), TypeClass::Enum };
-		static Enum enu = { type<mud::EmitterFlow>(),
-			true,
-			{ "Outward", "Absolute" },
-			{ 0, 1 },
-			{ var(mud::EmitterFlow::Outward), var(mud::EmitterFlow::Absolute) }
-		};
+		static cstring ids[] = { "Outward", "Absolute" };
+		static uint32_t values[] = { 0, 1 };
+		static mud::EmitterFlow vars[] = { mud::EmitterFlow::Outward, mud::EmitterFlow::Absolute};
+		static void* refs[] = { &vars[0], &vars[1]};
+		static Enum enu = { type<mud::EmitterFlow>(), true, ids, values, refs };
 		meta_enum<mud::EmitterFlow>();
 	}
 	{
 		static Meta meta = { type<mud::Interpolation>(), &namspc({ "mud" }), "Interpolation", sizeof(mud::Interpolation), TypeClass::Enum };
-		static Enum enu = { type<mud::Interpolation>(),
-			true,
-			{ "Nearest", "Linear", "Cubic" },
-			{ 0, 1, 2 },
-			{ var(mud::Interpolation::Nearest), var(mud::Interpolation::Linear), var(mud::Interpolation::Cubic) }
-		};
+		static cstring ids[] = { "Nearest", "Linear", "Cubic" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::Interpolation vars[] = { mud::Interpolation::Nearest, mud::Interpolation::Linear, mud::Interpolation::Cubic};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::Interpolation>(), true, ids, values, refs };
 		meta_enum<mud::Interpolation>();
 	}
 	{
 		static Meta meta = { type<mud::IsometricAngle>(), &namspc({ "mud" }), "IsometricAngle", sizeof(mud::IsometricAngle), TypeClass::Enum };
-		static Enum enu = { type<mud::IsometricAngle>(),
-			false,
-			{ "NORTH", "SOUTH", "EAST", "WEST" },
-			{ 1, 2, 256, 512 },
-			{ var(mud::NORTH), var(mud::SOUTH), var(mud::EAST), var(mud::WEST) }
-		};
+		static cstring ids[] = { "NORTH", "SOUTH", "EAST", "WEST" };
+		static uint32_t values[] = { 1, 2, 256, 512 };
+		static mud::IsometricAngle vars[] = { mud::NORTH, mud::SOUTH, mud::EAST, mud::WEST};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
+		static Enum enu = { type<mud::IsometricAngle>(), false, ids, values, refs };
 		meta_enum<mud::IsometricAngle>();
 	}
 	{
 		static Meta meta = { type<mud::ItemShadow>(), &namspc({ "mud" }), "ItemShadow", sizeof(mud::ItemShadow), TypeClass::Enum };
-		static Enum enu = { type<mud::ItemShadow>(),
-			true,
-			{ "Default", "DoubleSided" },
-			{ 0, 1 },
-			{ var(mud::ItemShadow::Default), var(mud::ItemShadow::DoubleSided) }
-		};
+		static cstring ids[] = { "Default", "DoubleSided" };
+		static uint32_t values[] = { 0, 1 };
+		static mud::ItemShadow vars[] = { mud::ItemShadow::Default, mud::ItemShadow::DoubleSided};
+		static void* refs[] = { &vars[0], &vars[1]};
+		static Enum enu = { type<mud::ItemShadow>(), true, ids, values, refs };
 		meta_enum<mud::ItemShadow>();
 	}
 	{
 		static Meta meta = { type<mud::LightType>(), &namspc({ "mud" }), "LightType", sizeof(mud::LightType), TypeClass::Enum };
-		static Enum enu = { type<mud::LightType>(),
-			true,
-			{ "Direct", "Point", "Spot", "Count" },
-			{ 0, 1, 2, 3 },
-			{ var(mud::LightType::Direct), var(mud::LightType::Point), var(mud::LightType::Spot), var(mud::LightType::Count) }
-		};
+		static cstring ids[] = { "Direct", "Point", "Spot", "Count" };
+		static uint32_t values[] = { 0, 1, 2, 3 };
+		static mud::LightType vars[] = { mud::LightType::Direct, mud::LightType::Point, mud::LightType::Spot, mud::LightType::Count};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
+		static Enum enu = { type<mud::LightType>(), true, ids, values, refs };
 		meta_enum<mud::LightType>();
 	}
 	{
 		static Meta meta = { type<mud::Lighting>(), &namspc({ "mud" }), "Lighting", sizeof(mud::Lighting), TypeClass::Enum };
-		static Enum enu = { type<mud::Lighting>(),
-			true,
-			{ "None", "Clustered", "Deferred", "VoxelGI" },
-			{ 0, 1, 2, 4 },
-			{ var(mud::Lighting::None), var(mud::Lighting::Clustered), var(mud::Lighting::Deferred), var(mud::Lighting::VoxelGI) }
-		};
+		static cstring ids[] = { "None", "Clustered", "Deferred", "VoxelGI" };
+		static uint32_t values[] = { 0, 1, 2, 4 };
+		static mud::Lighting vars[] = { mud::Lighting::None, mud::Lighting::Clustered, mud::Lighting::Deferred, mud::Lighting::VoxelGI};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
+		static Enum enu = { type<mud::Lighting>(), true, ids, values, refs };
 		meta_enum<mud::Lighting>();
 	}
 	{
 		static Meta meta = { type<mud::MSAA>(), &namspc({ "mud" }), "MSAA", sizeof(mud::MSAA), TypeClass::Enum };
-		static Enum enu = { type<mud::MSAA>(),
-			true,
-			{ "Disabled", "X2", "X4", "X8", "X16" },
-			{ 0, 1, 2, 3, 4 },
-			{ var(mud::MSAA::Disabled), var(mud::MSAA::X2), var(mud::MSAA::X4), var(mud::MSAA::X8), var(mud::MSAA::X16) }
-		};
+		static cstring ids[] = { "Disabled", "X2", "X4", "X8", "X16" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4 };
+		static mud::MSAA vars[] = { mud::MSAA::Disabled, mud::MSAA::X2, mud::MSAA::X4, mud::MSAA::X8, mud::MSAA::X16};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4]};
+		static Enum enu = { type<mud::MSAA>(), true, ids, values, refs };
 		meta_enum<mud::MSAA>();
 	}
 	{
 		static Meta meta = { type<mud::MaterialFlag>(), &namspc({ "mud" }), "MaterialFlag", sizeof(mud::MaterialFlag), TypeClass::Enum };
-		static Enum enu = { type<mud::MaterialFlag>(),
-			true,
-			{ "TriplanarUV1", "TriplanarUV2", "Count" },
-			{ 0, 1, 2 },
-			{ var(mud::MaterialFlag::TriplanarUV1), var(mud::MaterialFlag::TriplanarUV2), var(mud::MaterialFlag::Count) }
-		};
+		static cstring ids[] = { "TriplanarUV1", "TriplanarUV2", "Count" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::MaterialFlag vars[] = { mud::MaterialFlag::TriplanarUV1, mud::MaterialFlag::TriplanarUV2, mud::MaterialFlag::Count};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::MaterialFlag>(), true, ids, values, refs };
 		meta_enum<mud::MaterialFlag>();
 	}
 	{
 		static Meta meta = { type<mud::ModelFormat>(), &namspc({ "mud" }), "ModelFormat", sizeof(mud::ModelFormat), TypeClass::Enum };
-		static Enum enu = { type<mud::ModelFormat>(),
-			true,
-			{ "obj", "gltf", "Count" },
-			{ 0, 1, 2 },
-			{ var(mud::ModelFormat::obj), var(mud::ModelFormat::gltf), var(mud::ModelFormat::Count) }
-		};
+		static cstring ids[] = { "obj", "gltf", "Count" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::ModelFormat vars[] = { mud::ModelFormat::obj, mud::ModelFormat::gltf, mud::ModelFormat::Count};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::ModelFormat>(), true, ids, values, refs };
 		meta_enum<mud::ModelFormat>();
 	}
 	{
 		static Meta meta = { type<mud::Month>(), &namspc({ "mud" }), "Month", sizeof(mud::Month), TypeClass::Enum };
-		static Enum enu = { type<mud::Month>(),
-			true,
-			{ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" },
-			{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 },
-			{ var(mud::Month::January), var(mud::Month::February), var(mud::Month::March), var(mud::Month::April), var(mud::Month::May), var(mud::Month::June), var(mud::Month::July), var(mud::Month::August), var(mud::Month::September), var(mud::Month::October), var(mud::Month::November), var(mud::Month::December) }
-		};
+		static cstring ids[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+		static mud::Month vars[] = { mud::Month::January, mud::Month::February, mud::Month::March, mud::Month::April, mud::Month::May, mud::Month::June, mud::Month::July, mud::Month::August, mud::Month::September, mud::Month::October, mud::Month::November, mud::Month::December};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7], &vars[8], &vars[9], &vars[10], &vars[11]};
+		static Enum enu = { type<mud::Month>(), true, ids, values, refs };
 		meta_enum<mud::Month>();
 	}
 	{
 		static Meta meta = { type<mud::PbrDiffuseMode>(), &namspc({ "mud" }), "PbrDiffuseMode", sizeof(mud::PbrDiffuseMode), TypeClass::Enum };
-		static Enum enu = { type<mud::PbrDiffuseMode>(),
-			true,
-			{ "Lambert", "LambertHalf", "OrenNayar", "Burley", "Toon" },
-			{ 0, 1, 2, 3, 4 },
-			{ var(mud::PbrDiffuseMode::Lambert), var(mud::PbrDiffuseMode::LambertHalf), var(mud::PbrDiffuseMode::OrenNayar), var(mud::PbrDiffuseMode::Burley), var(mud::PbrDiffuseMode::Toon) }
-		};
+		static cstring ids[] = { "Lambert", "LambertHalf", "OrenNayar", "Burley", "Toon" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4 };
+		static mud::PbrDiffuseMode vars[] = { mud::PbrDiffuseMode::Lambert, mud::PbrDiffuseMode::LambertHalf, mud::PbrDiffuseMode::OrenNayar, mud::PbrDiffuseMode::Burley, mud::PbrDiffuseMode::Toon};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4]};
+		static Enum enu = { type<mud::PbrDiffuseMode>(), true, ids, values, refs };
 		meta_enum<mud::PbrDiffuseMode>();
 	}
 	{
 		static Meta meta = { type<mud::PbrSpecularMode>(), &namspc({ "mud" }), "PbrSpecularMode", sizeof(mud::PbrSpecularMode), TypeClass::Enum };
-		static Enum enu = { type<mud::PbrSpecularMode>(),
-			true,
-			{ "SchlickGGX", "Blinn", "Phong", "Toon", "Disabled" },
-			{ 0, 1, 2, 3, 4 },
-			{ var(mud::PbrSpecularMode::SchlickGGX), var(mud::PbrSpecularMode::Blinn), var(mud::PbrSpecularMode::Phong), var(mud::PbrSpecularMode::Toon), var(mud::PbrSpecularMode::Disabled) }
-		};
+		static cstring ids[] = { "SchlickGGX", "Blinn", "Phong", "Toon", "Disabled" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4 };
+		static mud::PbrSpecularMode vars[] = { mud::PbrSpecularMode::SchlickGGX, mud::PbrSpecularMode::Blinn, mud::PbrSpecularMode::Phong, mud::PbrSpecularMode::Toon, mud::PbrSpecularMode::Disabled};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4]};
+		static Enum enu = { type<mud::PbrSpecularMode>(), true, ids, values, refs };
 		meta_enum<mud::PbrSpecularMode>();
 	}
 	{
 		static Meta meta = { type<mud::ShaderType>(), &namspc({ "mud" }), "ShaderType", sizeof(mud::ShaderType), TypeClass::Enum };
-		static Enum enu = { type<mud::ShaderType>(),
-			true,
-			{ "Compute", "Fragment", "Geometry", "Vertex", "Count" },
-			{ 0, 1, 2, 3, 4 },
-			{ var(mud::ShaderType::Compute), var(mud::ShaderType::Fragment), var(mud::ShaderType::Geometry), var(mud::ShaderType::Vertex), var(mud::ShaderType::Count) }
-		};
+		static cstring ids[] = { "Compute", "Fragment", "Geometry", "Vertex", "Count" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4 };
+		static mud::ShaderType vars[] = { mud::ShaderType::Compute, mud::ShaderType::Fragment, mud::ShaderType::Geometry, mud::ShaderType::Vertex, mud::ShaderType::Count};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4]};
+		static Enum enu = { type<mud::ShaderType>(), true, ids, values, refs };
 		meta_enum<mud::ShaderType>();
 	}
 	{
 		static Meta meta = { type<mud::Shading>(), &namspc({ "mud" }), "Shading", sizeof(mud::Shading), TypeClass::Enum };
-		static Enum enu = { type<mud::Shading>(),
-			true,
-			{ "Wireframe", "Unshaded", "Shaded", "Volume", "Voxels", "Lightmap", "Clear", "Count" },
-			{ 0, 1, 2, 3, 4, 5, 6, 7 },
-			{ var(mud::Shading::Wireframe), var(mud::Shading::Unshaded), var(mud::Shading::Shaded), var(mud::Shading::Volume), var(mud::Shading::Voxels), var(mud::Shading::Lightmap), var(mud::Shading::Clear), var(mud::Shading::Count) }
-		};
+		static cstring ids[] = { "Wireframe", "Unshaded", "Shaded", "Volume", "Voxels", "Lightmap", "Clear", "Count" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+		static mud::Shading vars[] = { mud::Shading::Wireframe, mud::Shading::Unshaded, mud::Shading::Shaded, mud::Shading::Volume, mud::Shading::Voxels, mud::Shading::Lightmap, mud::Shading::Clear, mud::Shading::Count};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7]};
+		static Enum enu = { type<mud::Shading>(), true, ids, values, refs };
 		meta_enum<mud::Shading>();
 	}
 	{
 		static Meta meta = { type<mud::ShadowFlags>(), &namspc({ "mud" }), "ShadowFlags", sizeof(mud::ShadowFlags), TypeClass::Enum };
-		static Enum enu = { type<mud::ShadowFlags>(),
-			false,
-			{ "CSM_Stabilize", "CSM_Optimize", "CSM_BlendSplits" },
-			{ 1, 2, 4 },
-			{ var(mud::CSM_Stabilize), var(mud::CSM_Optimize), var(mud::CSM_BlendSplits) }
-		};
+		static cstring ids[] = { "CSM_Stabilize", "CSM_Optimize", "CSM_BlendSplits" };
+		static uint32_t values[] = { 1, 2, 4 };
+		static mud::ShadowFlags vars[] = { mud::CSM_Stabilize, mud::CSM_Optimize, mud::CSM_BlendSplits};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::ShadowFlags>(), false, ids, values, refs };
 		meta_enum<mud::ShadowFlags>();
 	}
 	{
 		static Meta meta = { type<mud::TextureChannel>(), &namspc({ "mud" }), "TextureChannel", sizeof(mud::TextureChannel), TypeClass::Enum };
-		static Enum enu = { type<mud::TextureChannel>(),
-			true,
-			{ "Red", "Green", "Blue", "Alpha", "All" },
-			{ 0, 1, 2, 3, 4 },
-			{ var(mud::TextureChannel::Red), var(mud::TextureChannel::Green), var(mud::TextureChannel::Blue), var(mud::TextureChannel::Alpha), var(mud::TextureChannel::All) }
-		};
+		static cstring ids[] = { "Red", "Green", "Blue", "Alpha", "All" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4 };
+		static mud::TextureChannel vars[] = { mud::TextureChannel::Red, mud::TextureChannel::Green, mud::TextureChannel::Blue, mud::TextureChannel::Alpha, mud::TextureChannel::All};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4]};
+		static Enum enu = { type<mud::TextureChannel>(), true, ids, values, refs };
 		meta_enum<mud::TextureChannel>();
 	}
 	{
 		static Meta meta = { type<mud::TextureHint>(), &namspc({ "mud" }), "TextureHint", sizeof(mud::TextureHint), TypeClass::Enum };
-		static Enum enu = { type<mud::TextureHint>(),
-			true,
-			{ "Black", "White", "Normal" },
-			{ 0, 1, 2 },
-			{ var(mud::TextureHint::Black), var(mud::TextureHint::White), var(mud::TextureHint::Normal) }
-		};
+		static cstring ids[] = { "Black", "White", "Normal" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::TextureHint vars[] = { mud::TextureHint::Black, mud::TextureHint::White, mud::TextureHint::Normal};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::TextureHint>(), true, ids, values, refs };
 		meta_enum<mud::TextureHint>();
 	}
 	{
 		static Meta meta = { type<mud::TextureSampler>(), &namspc({ "mud" }), "TextureSampler", sizeof(mud::TextureSampler), TypeClass::Enum };
-		static Enum enu = { type<mud::TextureSampler>(),
-			true,
-			{ "Source0", "Source1", "Source2", "Source3", "SourceDepth", "Color", "Albedo", "Metallic", "Roughness", "Emissive", "Normal", "AO", "Depth", "Skeleton", "ShadowCSM", "ShadowAtlas", "Radiance", "ReflectionProbe", "GIProbe", "Lights", "Clusters", "LightRecords", "Lightmap" },
-			{ 0, 1, 2, 3, 3, 0, 0, 1, 2, 3, 4, 11, 12, 5, 6, 7, 8, 9, 10, 13, 14, 15, 7 },
-			{ var(mud::TextureSampler::Source0), var(mud::TextureSampler::Source1), var(mud::TextureSampler::Source2), var(mud::TextureSampler::Source3), var(mud::TextureSampler::SourceDepth), var(mud::TextureSampler::Color), var(mud::TextureSampler::Albedo), var(mud::TextureSampler::Metallic), var(mud::TextureSampler::Roughness), var(mud::TextureSampler::Emissive), var(mud::TextureSampler::Normal), var(mud::TextureSampler::AO), var(mud::TextureSampler::Depth), var(mud::TextureSampler::Skeleton), var(mud::TextureSampler::ShadowCSM), var(mud::TextureSampler::ShadowAtlas), var(mud::TextureSampler::Radiance), var(mud::TextureSampler::ReflectionProbe), var(mud::TextureSampler::GIProbe), var(mud::TextureSampler::Lights), var(mud::TextureSampler::Clusters), var(mud::TextureSampler::LightRecords), var(mud::TextureSampler::Lightmap) }
-		};
+		static cstring ids[] = { "Source0", "Source1", "Source2", "Source3", "SourceDepth", "Color", "Albedo", "Metallic", "Roughness", "Emissive", "Normal", "AO", "Depth", "Skeleton", "ShadowCSM", "ShadowAtlas", "Radiance", "ReflectionProbe", "GIProbe", "Lights", "Clusters", "LightRecords", "Lightmap" };
+		static uint32_t values[] = { 0, 1, 2, 3, 3, 0, 0, 1, 2, 3, 4, 11, 12, 5, 6, 7, 8, 9, 10, 13, 14, 15, 7 };
+		static mud::TextureSampler vars[] = { mud::TextureSampler::Source0, mud::TextureSampler::Source1, mud::TextureSampler::Source2, mud::TextureSampler::Source3, mud::TextureSampler::SourceDepth, mud::TextureSampler::Color, mud::TextureSampler::Albedo, mud::TextureSampler::Metallic, mud::TextureSampler::Roughness, mud::TextureSampler::Emissive, mud::TextureSampler::Normal, mud::TextureSampler::AO, mud::TextureSampler::Depth, mud::TextureSampler::Skeleton, mud::TextureSampler::ShadowCSM, mud::TextureSampler::ShadowAtlas, mud::TextureSampler::Radiance, mud::TextureSampler::ReflectionProbe, mud::TextureSampler::GIProbe, mud::TextureSampler::Lights, mud::TextureSampler::Clusters, mud::TextureSampler::LightRecords, mud::TextureSampler::Lightmap};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7], &vars[8], &vars[9], &vars[10], &vars[11], &vars[12], &vars[13], &vars[14], &vars[15], &vars[16], &vars[17], &vars[18], &vars[19], &vars[20], &vars[21], &vars[22]};
+		static Enum enu = { type<mud::TextureSampler>(), true, ids, values, refs };
 		meta_enum<mud::TextureSampler>();
 	}
 	

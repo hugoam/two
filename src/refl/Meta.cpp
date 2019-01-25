@@ -73,7 +73,7 @@ namespace mud
 		g_meta[type.m_id] = this;
 	}
 
-	Enum::Enum(Type& type, bool scoped, const vector<cstring>& names, const vector<uint32_t>& values, const vector<Var>& vars)
+	Enum::Enum(Type& type, bool scoped, array<cstring> names, array<uint32_t> values, array<void*> vars)
 		: m_type(type)
 		, m_scoped(scoped)
 		, m_names(names)
@@ -104,11 +104,11 @@ namespace mud
 		return m_values[0];
 	}
 
-	uint32_t Enum::value(const Var& value)
+	uint32_t Enum::value(Ref value)
 	{
-		size_t size = meta(m_type).m_size;
+		const size_t size = m_type.m_size;
 		for(uint32_t i = 0; i < uint32_t(m_vars.size()); ++i)
-			if(memcmp(value.m_ref.m_value, m_vars[i].m_ref.m_value, size) == 0)
+			if(memcmp(value.m_value, m_vars[i], size) == 0)
 				return m_values[i];
 		printf("WARNING: fetching unknown Enum %s index : %s\n", m_type.m_name, to_string(value).c_str());
 		return 0;
@@ -123,11 +123,11 @@ namespace mud
 		return 0;
 	}
 
-	uint32_t Enum::index(const Var& value)
+	uint32_t Enum::index(Ref value)
 	{
-		size_t size = meta(m_type).m_size;
+		const size_t size = m_type.m_size;
 		for(uint32_t i = 0; i < uint32_t(m_vars.size()); ++i)
-			if(memcmp(value.m_ref.m_value, m_vars[i].m_ref.m_value, size) == 0)
+			if(memcmp(value.m_value, m_vars[i], size) == 0)
 				return i;
 		printf("WARNING: fetching unknown Enum %s index : %s\n", m_type.m_name, to_string(value).c_str());
 		return 0;

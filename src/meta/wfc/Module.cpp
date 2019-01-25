@@ -29,12 +29,11 @@ namespace mud
 	// Enums
 	{
 		static Meta meta = { type<mud::Result>(), &namspc({ "mud" }), "Result", sizeof(mud::Result), TypeClass::Enum };
-		static Enum enu = { type<mud::Result>(),
-			false,
-			{ "kSuccess", "kFail", "kUnfinished" },
-			{ 0, 1, 2 },
-			{ var(mud::kSuccess), var(mud::kFail), var(mud::kUnfinished) }
-		};
+		static cstring ids[] = { "kSuccess", "kFail", "kUnfinished" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::Result vars[] = { mud::kSuccess, mud::kFail, mud::kUnfinished};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::Result>(), false, ids, values, refs };
 		meta_enum<mud::Result>();
 	}
 	

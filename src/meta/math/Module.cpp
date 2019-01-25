@@ -26,72 +26,65 @@ namespace mud
 	// Enums
 	{
 		static Meta meta = { type<mud::Axes>(), &namspc({ "mud" }), "Axes", sizeof(mud::Axes), TypeClass::Enum };
-		static Enum enu = { type<mud::Axes>(),
-			true,
-			{ "None", "X", "Y", "Z" },
-			{ 0, 1, 2, 4 },
-			{ var(mud::Axes::None), var(mud::Axes::X), var(mud::Axes::Y), var(mud::Axes::Z) }
-		};
+		static cstring ids[] = { "None", "X", "Y", "Z" };
+		static uint32_t values[] = { 0, 1, 2, 4 };
+		static mud::Axes vars[] = { mud::Axes::None, mud::Axes::X, mud::Axes::Y, mud::Axes::Z};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
+		static Enum enu = { type<mud::Axes>(), true, ids, values, refs };
 		meta_enum<mud::Axes>();
 	}
 	{
 		static Meta meta = { type<mud::Axis>(), &namspc({ "mud" }), "Axis", sizeof(mud::Axis), TypeClass::Enum };
-		static Enum enu = { type<mud::Axis>(),
-			true,
-			{ "X", "Y", "Z" },
-			{ 0, 1, 2 },
-			{ var(mud::Axis::X), var(mud::Axis::Y), var(mud::Axis::Z) }
-		};
+		static cstring ids[] = { "X", "Y", "Z" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::Axis vars[] = { mud::Axis::X, mud::Axis::Y, mud::Axis::Z};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::Axis>(), true, ids, values, refs };
 		meta_enum<mud::Axis>();
 	}
 	{
 		static Meta meta = { type<mud::Clockwise>(), &namspc({ "mud" }), "Clockwise", sizeof(mud::Clockwise), TypeClass::Enum };
-		static Enum enu = { type<mud::Clockwise>(),
-			false,
-			{ "CLOCKWISE", "ANTI_CLOCKWISE" },
-			{ 0, 1 },
-			{ var(mud::CLOCKWISE), var(mud::ANTI_CLOCKWISE) }
-		};
+		static cstring ids[] = { "CLOCKWISE", "ANTI_CLOCKWISE" };
+		static uint32_t values[] = { 0, 1 };
+		static mud::Clockwise vars[] = { mud::CLOCKWISE, mud::ANTI_CLOCKWISE};
+		static void* refs[] = { &vars[0], &vars[1]};
+		static Enum enu = { type<mud::Clockwise>(), false, ids, values, refs };
 		meta_enum<mud::Clockwise>();
 	}
 	{
 		static Meta meta = { type<mud::Side>(), &namspc({ "mud" }), "Side", sizeof(mud::Side), TypeClass::Enum };
-		static Enum enu = { type<mud::Side>(),
-			true,
-			{ "Right", "Left", "Up", "Down", "Back", "Front" },
-			{ 0, 1, 2, 3, 4, 5 },
-			{ var(mud::Side::Right), var(mud::Side::Left), var(mud::Side::Up), var(mud::Side::Down), var(mud::Side::Back), var(mud::Side::Front) }
-		};
+		static cstring ids[] = { "Right", "Left", "Up", "Down", "Back", "Front" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5 };
+		static mud::Side vars[] = { mud::Side::Right, mud::Side::Left, mud::Side::Up, mud::Side::Down, mud::Side::Back, mud::Side::Front};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5]};
+		static Enum enu = { type<mud::Side>(), true, ids, values, refs };
 		meta_enum<mud::Side>();
 	}
 	{
 		static Meta meta = { type<mud::SignedAxis>(), &namspc({ "mud" }), "SignedAxis", sizeof(mud::SignedAxis), TypeClass::Enum };
-		static Enum enu = { type<mud::SignedAxis>(),
-			true,
-			{ "PlusX", "MinusX", "PlusY", "MinusY", "PlusZ", "MinusZ" },
-			{ 0, 1, 2, 3, 4, 5 },
-			{ var(mud::SignedAxis::PlusX), var(mud::SignedAxis::MinusX), var(mud::SignedAxis::PlusY), var(mud::SignedAxis::MinusY), var(mud::SignedAxis::PlusZ), var(mud::SignedAxis::MinusZ) }
-		};
+		static cstring ids[] = { "PlusX", "MinusX", "PlusY", "MinusY", "PlusZ", "MinusZ" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5 };
+		static mud::SignedAxis vars[] = { mud::SignedAxis::PlusX, mud::SignedAxis::MinusX, mud::SignedAxis::PlusY, mud::SignedAxis::MinusY, mud::SignedAxis::PlusZ, mud::SignedAxis::MinusZ};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5]};
+		static Enum enu = { type<mud::SignedAxis>(), true, ids, values, refs };
 		meta_enum<mud::SignedAxis>();
 	}
 	{
 		static Meta meta = { type<mud::Spectrum>(), &namspc({ "mud" }), "Spectrum", sizeof(mud::Spectrum), TypeClass::Enum };
-		static Enum enu = { type<mud::Spectrum>(),
-			true,
-			{ "Value", "Hue" },
-			{ 0, 1 },
-			{ var(mud::Spectrum::Value), var(mud::Spectrum::Hue) }
-		};
+		static cstring ids[] = { "Value", "Hue" };
+		static uint32_t values[] = { 0, 1 };
+		static mud::Spectrum vars[] = { mud::Spectrum::Value, mud::Spectrum::Hue};
+		static void* refs[] = { &vars[0], &vars[1]};
+		static Enum enu = { type<mud::Spectrum>(), true, ids, values, refs };
 		meta_enum<mud::Spectrum>();
 	}
 	{
 		static Meta meta = { type<mud::TrackMode>(), &namspc({ "mud" }), "TrackMode", sizeof(mud::TrackMode), TypeClass::Enum };
-		static Enum enu = { type<mud::TrackMode>(),
-			true,
-			{ "Constant", "ConstantRandom", "Curve", "CurveRandom" },
-			{ 0, 1, 2, 3 },
-			{ var(mud::TrackMode::Constant), var(mud::TrackMode::ConstantRandom), var(mud::TrackMode::Curve), var(mud::TrackMode::CurveRandom) }
-		};
+		static cstring ids[] = { "Constant", "ConstantRandom", "Curve", "CurveRandom" };
+		static uint32_t values[] = { 0, 1, 2, 3 };
+		static mud::TrackMode vars[] = { mud::TrackMode::Constant, mud::TrackMode::ConstantRandom, mud::TrackMode::Curve, mud::TrackMode::CurveRandom};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
+		static Enum enu = { type<mud::TrackMode>(), true, ids, values, refs };
 		meta_enum<mud::TrackMode>();
 	}
 	

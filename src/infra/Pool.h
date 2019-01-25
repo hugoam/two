@@ -36,7 +36,7 @@ namespace mud
 		inline P* align(P* p, size_t alignment, size_t offset)
 		{
 			P* const r = align(add(p, offset), alignment);
-			assert(pointermath::add(r, -offset) >= p);
+			//assert(pointermath::add(r, -offset) >= p);
 			return r;
 		}
 	}

@@ -28,12 +28,11 @@ namespace mud
 	// Enums
 	{
 		static Meta meta = { type<mud::Language>(), &namspc({ "mud" }), "Language", sizeof(mud::Language), TypeClass::Enum };
-		static Enum enu = { type<mud::Language>(),
-			true,
-			{ "Cpp", "Lua", "Wren" },
-			{ 0, 1, 2 },
-			{ var(mud::Language::Cpp), var(mud::Language::Lua), var(mud::Language::Wren) }
-		};
+		static cstring ids[] = { "Cpp", "Lua", "Wren" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::Language vars[] = { mud::Language::Cpp, mud::Language::Lua, mud::Language::Wren};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::Language>(), true, ids, values, refs };
 		meta_enum<mud::Language>();
 	}
 	
@@ -134,7 +133,7 @@ namespace mud
 				{ type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
 				{ type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_class_type), type<mud::Type>(), "class_type", Ref(type<mud::Type>()), Member::NonMutable, nullptr },
 				{ type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_class), type<mud::Class>(), "class", Ref(type<mud::Class>()), Member::NonMutable, nullptr },
-				//{ type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_prototype), type<mud::Prototype>(), "prototype", Ref(type<mud::Prototype>()), Member::NonMutable, nullptr }
+				{ type<mud::ScriptClass>(), member_address(&mud::ScriptClass::m_prototype), type<mud::Prototype>(), "prototype", Ref(type<mud::Prototype>()), Member::NonMutable, nullptr }
 			},
 			// methods
 			{

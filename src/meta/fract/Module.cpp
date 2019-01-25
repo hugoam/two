@@ -28,12 +28,11 @@ namespace mud
 	// Enums
 	{
 		static Meta meta = { type<mud::PatternSampling>(), &namspc({ "mud" }), "PatternSampling", sizeof(mud::PatternSampling), TypeClass::Enum };
-		static Enum enu = { type<mud::PatternSampling>(),
-			true,
-			{ "X", "XY", "Depth" },
-			{ 0, 1, 2 },
-			{ var(mud::PatternSampling::X), var(mud::PatternSampling::XY), var(mud::PatternSampling::Depth) }
-		};
+		static cstring ids[] = { "X", "XY", "Depth" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::PatternSampling vars[] = { mud::PatternSampling::X, mud::PatternSampling::XY, mud::PatternSampling::Depth};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { type<mud::PatternSampling>(), true, ids, values, refs };
 		meta_enum<mud::PatternSampling>();
 	}
 	

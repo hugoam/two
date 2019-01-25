@@ -4,39 +4,34 @@
 
 #pragma once
 
+#include <stl/vector.h>
+#include <infra/Array.h>
 #include <refl/Forward.h>
 #include <refl/Meta.h>
-#include <refl/Convert.h>
-#include <infra/String.h>
-#include <infra/StringConvert.h>
-
-#ifndef MUD_CPP_20
-#include <stl/vector.h>
-#endif
 
 namespace mud
 {
 	export_ class refl_ MUD_REFL_EXPORT Enum
 	{
 	public:
-		Enum(Type& type, bool scoped, const vector<cstring>& names, const vector<uint32_t>& values, const vector<Var>& vars);
+		Enum(Type& type, bool scoped, array<cstring> names, array<uint32_t> values, array<void*> vars);
 
 		Type& m_type;
 
 		bool m_scoped = true;
-		vector<cstring> m_names;
-		vector<uint32_t> m_values;
-		vector<Var> m_vars;
+		array<cstring> m_names;
+		array<uint32_t> m_values;
+		array<void*> m_vars;
 		vector<cstring> m_reverse;
 
 		uint32_t value(cstring name);
-		uint32_t value(const Var& value);
+		uint32_t value(Ref value);
 		uint32_t index(cstring name);
-		uint32_t index(const Var& value);
+		uint32_t index(Ref value);
 		cstring name(uint32_t value) { return m_reverse[value]; }
-		Var var(uint32_t value);
+		Ref var(uint32_t value);
 		//Var varn(uint32_t index) { Var value = meta(m_type).m_empty_var; copy_construct(value, m_vars[index]); return value; }
-		Var varn(uint32_t index) { return m_vars[index]; }
-		void varn(uint32_t index, Ref value) { copy_construct(value, m_vars[index]); }
+		Ref varn(uint32_t index) { return Ref(m_vars[index], m_type); }
+		void varn(uint32_t index, Ref value) { copy_construct(value, this->varn(index)); }
 	};
 }
