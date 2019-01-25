@@ -13,16 +13,6 @@
 
 namespace mud
 {
-	using ToStringFunc = void(*)(Ref, string&);
-	using FromStringFunc = void(*)(const string&, Ref);
-
-	export_ class refl_ MUD_REFL_EXPORT Convert
-	{
-	public:
-		ToStringFunc m_to_string;
-		FromStringFunc m_from_string;
-	};
-
 	export_ MUD_REFL_EXPORT string to_name(Type& type, Ref value);
 	export_ inline string to_name(Ref value) { return to_name(type(value), value); }
 

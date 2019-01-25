@@ -10,7 +10,7 @@ namespace mud
 	export_ using std::vector;
 }
 #else
-#include <TINYSTL/vector.h>
+#include <stl/tinystl/vector.h>
 namespace mud
 {
 	export_ using tinystl::vector;

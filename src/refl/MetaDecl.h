@@ -8,7 +8,7 @@
 #include <refl/Meta.h>
 #include <refl/Enum.h>
 #include <refl/Sequence.h>
-#include <refl/Convert.h>
+//#include <refl/Convert.h>
 #include <refl/Sequence.h>
 #include <refl/Namespace.h>
 #include <refl/Vector.h>
@@ -16,6 +16,7 @@
 
 namespace mud
 {
+#if 0
 	export_ template <typename T_Value, typename T_Member, typename T>
 	inline auto member_getter(T_Member T::*mem) { return [mem](Ref object, Var& v) { setval<T_Value>(v, val<T>(object).*mem); }; }
 
@@ -30,6 +31,7 @@ namespace mud
 
 	export_ template <typename T_Value, typename T_Param, typename T>
 	inline auto member_setter(void(T::*func)(T_Param)) { return [func](Ref object, const Var& v) { (val<T>(object).*func)(val<T_Value>(v)); }; }
+#endif
 
 	export_ template <class T>
 	void init_store() {}

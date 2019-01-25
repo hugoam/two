@@ -5,6 +5,7 @@
 #pragma once
 
 #include <stl/vector.h>
+#include <stl/string.h>
 #include <refl/Forward.h>
 #include <type/Var.h>
 #include <type/Type.h>
@@ -56,7 +57,14 @@ namespace mud
 		using CopyConstruct = Var(*)(Ref); CopyConstruct m_copy_construct;
 		using CopyAssign = void(*)(Ref, Ref); CopyAssign m_copy_assign;
 	};
-	
+
+	export_ class refl_ MUD_REFL_EXPORT Convert
+	{
+	public:
+		using ToString = void(*)(Ref, string&); ToString m_to_string;
+		using ToValue = void(*)(const string&, Ref); ToValue m_to_value;
+	};
+
 	export_ extern MUD_REFL_EXPORT vector<Meta*> g_meta;
 	export_ extern MUD_REFL_EXPORT vector<Class*> g_class;
 	export_ extern MUD_REFL_EXPORT vector<Enum*> g_enu;

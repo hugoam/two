@@ -10,6 +10,7 @@ namespace mud
 {
 namespace clgen
 {
+	inline vector<string> quote(const vector<string>& strings) { return transform<string>(strings, [](const string& s) { return "\"" + s + "\""; }); }
 	inline string comma(const vector<string>& strings) { return join(strings, ", "); }
 
 	vector<string> location(const CLPrimitive& e)
@@ -39,7 +40,7 @@ namespace clgen
 		if(e.m_parent->m_id == "")
 			return "&namspc({})";
 		else
-			return "&namspc({ \"" + join(location(e), "\", \"") + "\" })";
+			return "&namspc({ " + comma(quote(location(e))) + " })";
 	}
 
 	string type_get(const CLType& c) { return "type<" + c.m_id + ">()"; }
@@ -493,12 +494,11 @@ namespace clgen
 				CLEnum& e = *pe;
 				p(i, "{");
 				p(i, meta_decl(e, "TypeClass::Enum"));
-				p(i, "static Enum enu = { " + type_get(e) + ",");
-				p(i, string(e.m_scoped ? "true" : "false") + ",");
-				p(i, "{ \"" + join(e.m_ids, "\", \"") + "\" },");
+				p(i, "static cstring ids[] = { " + comma(quote(e.m_ids)) + " };");
+				p(i, "static uint values[] = { " + comma(e.m_values) + " };");
+				p(i, "static " + e.m_id + " vars[] = { " + comma(e.m_scoped_ids) + "};");
 				p(i, "{ " + comma(e.m_values) + " },");
-				p(i, "{ var(" + join(e.m_scoped_ids, "), var(") + ") }");
-				p(i, "};");
+				p(i, "static Enum enu = { " + type_get(e) + "," + string(e.m_scoped ? "true" : "false") + ", ids, values, vars };");
 				p(i, "meta_enum<" + e.m_id + ">();");
 				p(i, "}");
 			}

@@ -586,7 +586,7 @@ namespace mud
 	{
 	public:
 		ToStringFunc m_to_string;
-		FromStringFunc m_from_string;
+		FromStringFunc m_to_value;
 	};
 
 	export_ MUD_REFL_EXPORT string to_name(Type& type, Ref value);

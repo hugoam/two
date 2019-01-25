@@ -18,7 +18,7 @@ namespace mud
 	using std::reverse;
 }
 #else
-#include <TINYSTL/vector.h>
+#include <stl/tinystl/vector.h>
 #include <stl/swap.h>
 namespace mud
 {

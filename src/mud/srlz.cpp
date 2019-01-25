@@ -178,7 +178,7 @@ namespace mud
 		}
 		else if(g_convert[type(value).m_id] && json_value.is_string())
 		{
-			convert(type(value)).m_from_string(json_value.string_value().c_str(), value);
+			convert(type(value)).m_to_value(json_value.string_value().c_str(), value);
 			return;
 		}
 		else if(is_sequence(type(value)))

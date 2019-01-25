@@ -4,7 +4,7 @@
 #ifndef MUD_NO_STL
 #include <stl/string.h>
 #else
-#include <TINYSTL/allocator.h>
+#include <stl/tinystl/allocator.h>
 namespace tinystl
 {
 	template <typename Alloc>

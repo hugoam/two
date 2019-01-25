@@ -16,7 +16,7 @@ namespace tinystl
 }
 #endif
 #else
-#include <TINYSTL/string.h>
+#include <stl/tinystl/string.h>
 namespace mud
 {
 	export_ using tinystl::string;
