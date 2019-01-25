@@ -32,8 +32,6 @@ module mud.gfx;
 #include <gfx/Model.h>
 #include <gfx/Prefab.h>
 #include <gfx/Particles.h>
-#include <gfx/Asset.h>
-#include <gfx/Asset.impl.h>
 #include <gfx/Assets.h>
 #include <gfx/Importer.h>
 #include <gfx/Pipeline.h>

@@ -18,6 +18,22 @@ module mud.math;
 
 namespace mud
 {
+	template struct MUD_MATH_EXPORT v2<float>;
+	template struct MUD_MATH_EXPORT v3<float>;
+	template struct MUD_MATH_EXPORT v4<float>;
+
+	template struct MUD_MATH_EXPORT v2<int>;
+	template struct MUD_MATH_EXPORT v3<int>;
+	template struct MUD_MATH_EXPORT v4<int>;
+
+	template struct MUD_MATH_EXPORT v2<uint>;
+	template struct MUD_MATH_EXPORT v3<uint>;
+	template struct MUD_MATH_EXPORT v4<uint>;
+
+	template struct MUD_MATH_EXPORT v2<bool>;
+	template struct MUD_MATH_EXPORT v3<bool>;
+	template struct MUD_MATH_EXPORT v4<bool>;
+
 	template <class T>
 	inline T epsilon() { return std::numeric_limits<T>::epsilon(); }
 

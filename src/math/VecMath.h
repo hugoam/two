@@ -95,21 +95,21 @@ namespace mud
 		};
 	};
 
-	export_ template struct refl_ MUD_MATH_EXPORT v2<float>;
-	export_ template struct refl_ MUD_MATH_EXPORT v3<float>;
-	export_ template struct refl_ MUD_MATH_EXPORT v4<float>;
+	export_ extern template struct refl_ v2<float>;
+	export_ extern template struct refl_ v3<float>;
+	export_ extern template struct refl_ v4<float>;
 
-	export_ template struct refl_ MUD_MATH_EXPORT v2<int>;
-	export_ template struct refl_ MUD_MATH_EXPORT v3<int>;
-	export_ template struct refl_ MUD_MATH_EXPORT v4<int>;
+	export_ extern template struct refl_ v2<int>;
+	export_ extern template struct refl_ v3<int>;
+	export_ extern template struct refl_ v4<int>;
 
-	export_ template struct refl_ MUD_MATH_EXPORT v2<uint>;
-	export_ template struct refl_ MUD_MATH_EXPORT v3<uint>;
-	export_ template struct refl_ MUD_MATH_EXPORT v4<uint>;
+	export_ extern template struct refl_ v2<uint>;
+	export_ extern template struct refl_ v3<uint>;
+	export_ extern template struct refl_ v4<uint>;
 
-	export_ template struct refl_ MUD_MATH_EXPORT v2<bool>;
-	export_ template struct refl_ MUD_MATH_EXPORT v3<bool>;
-	export_ template struct refl_ MUD_MATH_EXPORT v4<bool>;
+	export_ extern template struct refl_ v2<bool>;
+	export_ extern template struct refl_ v3<bool>;
+	export_ extern template struct refl_ v4<bool>;
 
 	export_ refl_ using half2 = v2<ushort>;
 	export_ refl_ using half3 = v3<ushort>;

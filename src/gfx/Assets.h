@@ -6,7 +6,6 @@
 
 #include <gfx/Forward.h>
 #include <gfx/Asset.h>
-#include <gfx/Asset.impl.h>
 #include <gfx/Texture.h>
 #include <gfx/Program.h>
 #include <gfx/Material.h>
@@ -16,10 +15,10 @@
 
 namespace mud
 {
-	export_ template class refl_ MUD_GFX_EXPORT AssetStore<Texture>;
-	export_ template class refl_ MUD_GFX_EXPORT AssetStore<Program>;
-	export_ template class refl_ MUD_GFX_EXPORT AssetStore<Material>;
-	export_ template class refl_ MUD_GFX_EXPORT AssetStore<Model>;
-	export_ template class refl_ MUD_GFX_EXPORT AssetStore<ParticleFlow>;
-	export_ template class refl_ MUD_GFX_EXPORT AssetStore<Prefab>;
+	export_ extern template class refl_ AssetStore<Texture>;
+	export_ extern template class refl_ AssetStore<Program>;
+	export_ extern template class refl_ AssetStore<Material>;
+	export_ extern template class refl_ AssetStore<Model>;
+	export_ extern template class refl_ AssetStore<ParticleFlow>;
+	export_ extern template class refl_ AssetStore<Prefab>;
 }
