@@ -429,7 +429,7 @@ void example_options(Widget& parent, PerezSky& sky)
 {
 	//Widget& body = *ui::window(parent, "Procedural Sky").m_body;
 	//Widget& body = ui::columns(parent, {});
-	Widget& body = ui::table(parent, carray<cstring, 2>{ "field", "value" }, {});
+	Widget& body = ui::table(parent, { "field", "value" }, {});
 	ui::slider_field<float>(body, "Time scale", { sky.m_time_scale, StatDef<float>(0.0f, 1.0f, 0.01f) });
 	ui::slider_field<float>(body, "Time", { sky.m_time, StatDef<float>(0.0f, 24.0f) });
 	ui::slider_field<float>(body, "Latitude", { sky.m_sun.m_latitude, StatDef<float>(-90.0f, 90.0f) });
@@ -470,7 +470,7 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	ui::orbit_controller(viewer);
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 		example_options(*dock, g_sky);
 
 	Gnode& scene = viewer.m_scene->begin();

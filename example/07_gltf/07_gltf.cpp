@@ -38,7 +38,7 @@ void ex_07_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
 	//Model& model = *viewer.m_gfx_system.models().file("DamagedHelmet");
 	//debug_normals(scene, *model.m_meshes[0], model.m_items[0].m_transform, 0.2f);
 	
-	//if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
+	//if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	//	edit_viewer_filters(*dock, viewer);
 }
 

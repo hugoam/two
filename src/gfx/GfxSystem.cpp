@@ -339,8 +339,7 @@ namespace mud
 
 	LocatedFile GfxSystem::locate_file(const string& file)
 	{
-		carray<string, 1> exts = { "" };
-		return this->locate_file(file, exts);
+		return this->locate_file(file, { "" });
 	}
 
 	Texture& GfxSystem::default_texture(TextureHint hint)

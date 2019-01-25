@@ -155,7 +155,7 @@ namespace mud
 	{
 		Widget& self = ui::widget(parent, meta_styles().frame);
 		Widget& table = self;
-		//Widget& table = ui::columns(self, carray<float, 2>{ 0.3f, 0.7f });
+		//Widget& table = ui::columns(self, { 0.3f, 0.7f });
 
 		for(Member& member : cls.m_members)
 		{
@@ -288,10 +288,10 @@ namespace mud
 		Widget& left = ui::layout_span(self, 0.3f);
 		Widget& right = ui::layout_span(self, 0.7f);
 
-		Widget& table = ui::columns(left, carray<float, 2>{ 0.3f, 0.7f });
+		Widget& table = ui::columns(left, { 0.3f, 0.7f });
 
 		static Mode mode = Classes;
-		ui::dropdown_field(table, "Browse:", carray<cstring, 4>{ "Basetypes", "Enums", "Classes", "Functions" }, (uint32_t&) mode);
+		ui::dropdown_field(table, "Browse:", { "Basetypes", "Enums", "Classes", "Functions" }, (uint32_t&) mode);
 
 		static map<Module*, bool> modules;
 
@@ -311,7 +311,12 @@ namespace mud
 		Widget& sheet = ui::widget(left, styles().sheet, (void*) mode);
 		Widget& meta_list = *ui::scroll_sheet(sheet).m_body;
 
-		auto choice = [](Widget& parent, Ref object, cstring name, Ref& selected) -> Widget& { Widget& element = ui::element(parent, object); ui::select_logic(element, object, selected); return ui::multi_item(element, carray<cstring, 1>{ name }); };
+		auto choice = [](Widget& parent, Ref object, cstring name, Ref& selected) -> Widget&
+		{
+			Widget& element = ui::element(parent, object);
+			ui::select_logic(element, object, selected);
+			return ui::multi_item(element, { name });
+		};
 
 		for(Module* m : System::instance().m_modules)
 			if(modules[m])

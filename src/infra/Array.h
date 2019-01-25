@@ -7,6 +7,7 @@
 #include <infra/Config.h>
 
 #ifndef MUD_CPP_20
+#include <initializer_list>
 #include <cstddef>
 #include <cstdint>
 #include <cassert>
@@ -32,18 +33,13 @@ namespace mud
 		operator array<T>() { return{ m_array, Size }; }
 	};
 
-	template <class... T_Args, size_t size = sizeof...(T_Args)>
-	carray<cstring, size> cstrarray(T_Args... args) { return carray<cstring, size>{ args... }; }
-
-	template <class... T_Args, size_t size = sizeof...(T_Args)>
-	carray<cstring, size> strarray(T_Args... args) { return carray<cstring, size>{ args.c_str()... }; }
-
 	export_ template <typename T>
 	struct refl_ struct_ array
 	{
 	public:
 		array() : m_pointer(nullptr), m_count(0) {}
 		array(T* pointer, size_t count) : m_pointer(pointer), m_count(count) {}
+		array(std::initializer_list<T> l) : m_pointer(const_cast<T*>(l.begin())), m_count(l.size()) {}
 		array(array<T> other, size_t offset) : m_pointer(other.m_pointer + offset), m_count(other.m_count - offset) {}
 		array(array<T> other, size_t offset, size_t count) : m_pointer(other.m_pointer + offset), m_count(count) {}
 		template <size_t size>

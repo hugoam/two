@@ -259,7 +259,7 @@ namespace ui
 
 	Node& node(Canvas& parent, cstring title, vec2& position, int order, Ref identity)
 	{
-		return node(parent, carray<cstring, 1>{ title }, &position[0], order, identity);
+		return node(parent, { title }, &position[0], order, identity);
 	}
 
 	Canvas& canvas(Widget& parent, size_t num_nodes) // , const Callback& context_trigger

@@ -24,7 +24,7 @@ namespace mud
 {
 	void structure_node(Widget& parent, Ref object, vector<Ref>& selection)
 	{
-		TreeNode& self = ui::tree_node(parent, carray<cstring, 2>{ object_icon(object).c_str(), object_name(object).c_str() }, false, false);
+		TreeNode& self = ui::tree_node(parent, { object_icon(object).c_str(), object_name(object).c_str() }, false, false);
 		
 		self.set_state(SELECTED, vector_has(selection, object));
 		

@@ -11,7 +11,7 @@ WaveTileset& create_tileset(Shell& app)
 {
 	static WaveTileset tileset;
 
-	LocatedFile location = app.m_gfx_system.locate_file("models/platform/platform", carray<cstring, 1>{ ".tls" });
+	LocatedFile location = app.m_gfx_system.locate_file("models/platform/platform", { ".tls" });
 	parse_json_wave_tileset(location.path(true), "", tileset);
 
 	return tileset;
@@ -52,7 +52,7 @@ void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	block.next_frame(tick, 1);
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 		tileblock_edit(*dock, viewer, block, highlighted, selected, focused);
 }
 

@@ -77,7 +77,7 @@ namespace mud
 			ui::label(functions, m->m_name).enable_state(DISABLED);
 			for(Function* function : m->m_functions)
 				if(fits_filter(function->m_name, filter))
-					if(ui::multi_button(functions, ui::dropdown_styles().choice, carray<cstring, 2>{ "(function)", function->m_name }).activated())
+					if(ui::multi_button(functions, ui::dropdown_styles().choice, { "(function)", function->m_name }).activated())
 					{
 						add_process(make_object<ProcessFunction>(script, *function));
 						parent.m_open = false;
@@ -93,7 +93,7 @@ namespace mud
 			for(Type* type : m->m_types)
 				if(is_struct(*type) || is_base_type(*type))
 					if(fits_filter(type->m_name, filter))
-						if(ui::multi_button(values, ui::dropdown_styles().choice, carray<cstring, 2>{ "(value)", type->m_name }).activated())
+						if(ui::multi_button(values, ui::dropdown_styles().choice, { "(value)", type->m_name }).activated())
 						{
 							add_process(make_object<ProcessValue>(script, *type));
 							parent.m_open = false;
@@ -109,7 +109,7 @@ namespace mud
 			for(Type* type : m->m_types)
 				if(g_class[type->m_id] && !cls(*type).m_constructors.empty()) //is_struct(*type) || is_base_type(*type))
 					if(fits_filter(type->m_name, filter))
-						if(ui::multi_button(types, ui::dropdown_styles().choice, carray<cstring, 2>{ "(class)", type->m_name }).activated())
+						if(ui::multi_button(types, ui::dropdown_styles().choice, { "(class)", type->m_name }).activated())
 						{
 							add_process(make_object<ProcessCreate>(script, *type));
 							parent.m_open = false;
@@ -188,7 +188,7 @@ namespace mud
         UNUSED(script);
 		bool destroy = false;
 
-		Node& node = ui::node(canvas, carray<cstring, 1>{ process.m_title.c_str() }, &process.m_position[0], process.m_order, Ref(&process));
+		Node& node = ui::node(canvas, { process.m_title.c_str() }, &process.m_position[0], process.m_order, Ref(&process));
 		if(ui::button(*node.m_header, "R").activated())
 			process.recompute();
 		if(ui::button(*node.m_header, "X").activated())

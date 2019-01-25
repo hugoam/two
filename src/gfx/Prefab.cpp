@@ -46,7 +46,7 @@ namespace mud
 
 	Prefab& import_prefab(GfxSystem& gfx_system, ModelFormat format, const string& name, const ImportConfig& config)
 	{
-		LocatedFile location = gfx_system.locate_file("models/" + name, carray<string, 1>{ format == ModelFormat::obj ? ".obj" : ".gltf" });
+		LocatedFile location = gfx_system.locate_file("models/" + name, { format == ModelFormat::obj ? ".obj" : ".gltf" });
 		Prefab& prefab = gfx_system.prefabs().create(name);
 		gfx_system.importer(format)->import_prefab(prefab, location.path(false), config);
 		return prefab;

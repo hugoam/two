@@ -167,7 +167,7 @@ namespace ui
 
 	Widget& radio_choice(Widget& parent, cstring value, bool active)
 	{
-		Widget& self = multi_button(parent, styles().radio_choice, carray<cstring, 1>{ value }, &styles().radio_choice_item);
+		Widget& self = multi_button(parent, styles().radio_choice, { value }, &styles().radio_choice_item);
 		self.set_state(ACTIVE, active);
 		return self;
 	}
@@ -190,7 +190,7 @@ namespace ui
 	Widget& dropdown(Widget& parent, Style& style, cstring value, PopupFlags popup_flags, Style* list_style)
 	{ 
 		Widget& self = widget(parent, style);
-		Widget& header = multi_toggle(self, dropdown_styles().head, self.m_open, carray<cstring, 1>{ value });
+		Widget& header = multi_toggle(self, dropdown_styles().head, self.m_open, { value });
 		Widget& button = toggle(self, dropdown_styles().toggle, self.m_open);
 
 		self.set_state(HOVERED, header.hovered() || button.hovered());
@@ -218,7 +218,7 @@ namespace ui
 		ScrollSheet& sheet = scroll_sheet(self);
 
 		for(uint32_t i = 0; i < uint32_t(choices.size()); ++i)
-			if(dropdown_choice(*sheet.m_body, carray<cstring, 1>{ choices[i] }, i == value).activated())
+			if(dropdown_choice(*sheet.m_body, { choices[i] }, i == value).activated())
 			{
 				value = i;
 				return true;
@@ -235,7 +235,7 @@ namespace ui
 		if(!self.m_body) return false;
 
 		for(uint32_t i = 0; i < uint32_t(choices.size()); ++i)
-			if(dropdown_choice(*self.m_body, carray<cstring, 1>{ choices[i] }, value == i).activated())
+			if(dropdown_choice(*self.m_body, { choices[i] }, value == i).activated())
 			{
 				value = i;
 				self.m_open = false;
@@ -263,7 +263,7 @@ namespace ui
 
 	Widget& menu_choice(Widget& parent, cstring content)
 	{
-		return menu_choice(parent, carray<cstring, 1>{ content });
+		return menu_choice(parent, { content });
 	}
 
 	Widget& menu(Widget& parent, cstring label, bool submenu)

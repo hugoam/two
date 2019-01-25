@@ -22,14 +22,12 @@ namespace ui
 {
 	Widget& dir_item(Widget& parent, cstring name)
 	{
-		carray<cstring, 2> elements = { "(folder_20)" , name };
-		return multi_button(parent, file_styles().dir, elements);
+		return multi_button(parent, file_styles().dir, { "(folder_20)" , name });
 	}
 
 	Widget& file_item(Widget& parent, cstring name)
 	{
-		carray<cstring, 2> elements = { "(file_20)" , name };
-		return multi_button(parent, file_styles().file, elements);
+		return multi_button(parent, file_styles().file, { "(file_20)" , name });
 	}
 
 	Widget& file_list(Widget& parent, string& path)
@@ -68,7 +66,7 @@ namespace ui
 
 	Widget& dir_node(Widget& parent, cstring path, cstring name, bool open)
 	{
-		carray<cstring, 2> elements = { "(folder_20)", name };
+		cstring elements[] = { "(folder_20)", name };
 		Widget& self = tree_node(parent, elements, false, open);
 		if(!self.m_body) return self;
 
@@ -89,8 +87,7 @@ namespace ui
 
 	Widget& file_node(Widget& parent, cstring name)
 	{
-		carray<cstring, 2> elements = { "(file_20)", name };
-		Widget& self = tree_node(parent, elements, true, false);
+		Widget& self = tree_node(parent, { "(file_20)", name }, true, false);
 		return self;
 	}
 	

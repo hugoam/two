@@ -77,7 +77,7 @@ namespace mud
 
 	void ImmediateDraw::draw(const mat4& transform, const ProcShape& shape)
 	{
-		this->draw(transform, carray<ProcShape, 1>{ shape });
+		this->draw(transform, { shape });
 	}
 
 	void ImmediateDraw::draw(const mat4& transform, array<ProcShape> shapes)

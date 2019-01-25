@@ -117,7 +117,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 	constexpr size_t num_characters = 1;
 	static Human characters[num_characters] = {};
 	static Human* selected = &characters[0];
-	static carray<cstring, 5> animations = { "TPose", "Idle", "Walk", "Run", "WalkFight" };
+	static cstring animations[] = { "TPose", "Idle", "Walk", "Run", "WalkFight" };
 	static size_t animation = 1;
 	static Animated* animated = nullptr;
 	static bool follow_character = false;
@@ -168,7 +168,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 		selected->m_rotation = rotate(selected->m_rotation, timestep * angular_speed, selected->m_angular_velocity / angular_speed);
 	}
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
 		anim_editor = true;
 		animation_edit(*dock, *animated);

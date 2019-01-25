@@ -99,15 +99,6 @@ namespace mud
 		static inline void from(const string& str, vector<T>& vec) { string_to_vector(str, vec); }
 	};
 
-#if 0
-	export_ template <class T, size_t s>
-	struct StringConverter<carray<T, s>>
-	{
-		static inline void to(const std::array<T, s>& val, string& str) { fixed_vector_to_string<carray<T, s>, s>(val, str); }
-		static inline void from(const string& str, std::array<T, s>& vec) { string_to_fixed_vector<carray<T, s>, T>(str, vec); }
-	};
-#endif
-
 	export_ template <class T_Enum>
 	inline void flags_from_string(const string& str, T_Enum& value)
 	{

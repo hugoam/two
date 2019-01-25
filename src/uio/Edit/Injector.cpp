@@ -37,7 +37,7 @@ namespace mud
 	{
 		Widget& self = ui::widget(parent, styles().sheet, &injector);
 		
-		Table& fields = ui::columns(self, carray<float, 2>{ 0.4f, 0.6f });
+		Table& fields = ui::columns(self, { 0.4f, 0.6f });
 		call_edit(fields, injector);
 
 		if(ui::button(self, "Create").activated())
@@ -71,7 +71,7 @@ namespace mud
 
 		ui::title(self, creator.m_prototype ? creator.m_prototype->m_name : creator.m_type.m_name);
 
-		Table& fields = ui::table(self, carray<cstring, 2>{ "field", "value" }, carray<float, 2>{ 0.3f, 0.7f });
+		Table& fields = ui::table(self, { "field", "value" }, { 0.3f, 0.7f });
 		call_edit(fields, creator.injector());
 
 		if(ui::button(self, "Create").activated())

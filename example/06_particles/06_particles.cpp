@@ -88,7 +88,7 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if(edited)
 	{
-		//if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
+		//if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 		//	particle_edit(*dock, viewer.m_gfx_system, edited->m_call); // "Particle Editor" // identity = edited
 	}
 }

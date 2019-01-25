@@ -66,7 +66,7 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static string source = create_shader();
 
-	static Program program = { "custom_program", {}, carray<cstring, size_t(ShaderType::Count)>{ nullptr, source.c_str(), nullptr, nullptr } };
+	static Program program = { "custom_program", {}, { nullptr, source.c_str(), nullptr, nullptr } };
 	
 	auto draw_quad = [](Render& render, const Pass& render_pass)
 	{
@@ -76,7 +76,7 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	gfx::manual_job(scene, PassType::Unshaded, draw_quad);
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
 		Section& edit = section(*dock, "Shader Editor");
 		

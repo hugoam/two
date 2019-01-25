@@ -56,7 +56,7 @@ namespace mud
 		enum Modes { Context = (1 << 0) };
 
 		Widget& self = ui::element(parent, object);
-		ui::multi_item(self, carray<cstring, 2>{ object_icon(object).c_str(), object_name(object).c_str() });
+		ui::multi_item(self, { object_icon(object).c_str(), object_name(object).c_str() });
 		
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 			self.m_switch |= Context;

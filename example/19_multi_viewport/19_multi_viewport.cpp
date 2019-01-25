@@ -11,7 +11,7 @@ size_t viewport_mode(Widget& parent)
 
 	ui::label(parent, "num viewports : ");
 	static uint32_t choice = 1;
-	ui::radio_switch(parent, carray<cstring, 3>{ "1", "2", "4" }, choice);
+	ui::radio_switch(parent, { "1", "2", "4" }, choice);
 
 	return num_viewer_vals[choice];
 }
@@ -24,7 +24,7 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar)
 	bool multiple_scene = false;
 
 	static size_t num_viewers = 2;
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 		num_viewers = viewport_mode(*dock);
 
 	Widget& layout = ui::layout(parent);

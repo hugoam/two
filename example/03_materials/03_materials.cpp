@@ -209,9 +209,9 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
+	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::columns(*dock, carray<float, 2>{ 0.3f, 0.7f });
+		Widget& sheet = ui::columns(*dock, { 0.3f, 0.7f });
 
 		ui::label(sheet, "Environment :");
 		ui::number_field<float>(sheet, "Ambient", { viewer.m_environment.m_radiance.m_ambient, { 0.f, 100.f, 0.01f } });
