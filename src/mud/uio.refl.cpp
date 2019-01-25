@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/tree.refl.h>
 #include <mud/lang.refl.h>
 #include <mud/uio.refl.h>

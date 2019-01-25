@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/ctx.glfw.h>
 #include <mud/ctx.h>
 #include <mud/infra.h>

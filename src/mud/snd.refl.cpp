@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/snd.h>
 #include <mud/snd.refl.h>
 #include <mud/refl.h>

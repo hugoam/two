@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/gfx.refl.h>
 #include <mud/frame.h>
 #include <mud/gfx.ui.refl.h>

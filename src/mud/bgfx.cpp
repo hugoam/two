@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/gfx.h>
 #include <mud/bgfx.h>
 #include <mud/type.h>

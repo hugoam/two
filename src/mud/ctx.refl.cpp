@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/infra.refl.h>
 #include <mud/type.refl.h>
 #include <mud/ctx.refl.h>

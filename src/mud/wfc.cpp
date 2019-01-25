@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/srlz.h>
 #include <mud/wfc.h>
 #include <mud/math.h>

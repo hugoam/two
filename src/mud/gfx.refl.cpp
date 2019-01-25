@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/jobs.refl.h>
 #include <mud/gfx.h>
 #include <mud/pool.refl.h>

@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/infra.h>
 #include <mud/type.h>
 

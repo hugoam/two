@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/pool.h>
 #include <mud/pool.refl.h>
 #include <mud/infra.refl.h>

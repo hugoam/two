@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/ctx.wasm.h>
 #include <mud/ctx.h>
 #include <mud/type.h>

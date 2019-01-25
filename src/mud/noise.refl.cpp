@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/noise.h>
 #include <mud/geom.refl.h>
 #include <mud/noise.refl.h>

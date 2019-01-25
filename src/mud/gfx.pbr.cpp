@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/gfx.h>
 #include <mud/geom.h>
 #include <mud/pool.h>

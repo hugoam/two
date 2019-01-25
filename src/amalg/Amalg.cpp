@@ -155,9 +155,11 @@ namespace mud
 
 			visit_files_recursive(module.path, visit);
 
-			auto write_includes = [&](const set<string>& includes, string& file)
+			auto write_includes = [&](const set<string>& includes, bool pragma, string& file)
 			{
-				string header = "#pragma once\n\n";
+				string header;
+				if(pragma)
+					header += "#pragma once\n\n";
 				for (string include : includes)
 					header += "#include <" + include + ">" + "\n";
 				file.insert(size_t(0), header);
@@ -166,8 +168,8 @@ namespace mud
 			//write_includes(module.m_includes_h, module.m_h);
 			//write_includes(module.m_includes_cpp, module.m_cpp);
 
-			write_includes(module.m_deps_h, module.m_h);
-			write_includes(module.m_deps_cpp, module.m_cpp);
+			write_includes(module.m_deps_h, true, module.m_h);
+			write_includes(module.m_deps_cpp, false, module.m_cpp);
 
 			update_file(module.root + "/" + module.dest_h(), module.m_h);
 			update_file(module.root + "/" + module.dest_cpp(), module.m_cpp);

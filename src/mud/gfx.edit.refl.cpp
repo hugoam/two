@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/srlz.refl.h>
 #include <mud/uio.refl.h>
 #include <mud/gfx.pbr.refl.h>

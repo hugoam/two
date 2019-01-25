@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/geom.h>
 #include <mud/math.h>
 #include <mud/fract.h>

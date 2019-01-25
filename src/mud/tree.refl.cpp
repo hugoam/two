@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/tree.refl.h>
 #include <mud/tree.h>
 #include <mud/infra.refl.h>

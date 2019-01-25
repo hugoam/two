@@ -102,8 +102,8 @@ namespace mud
 
 #ifndef MUD_CPP_20
 #include <stl/string.h>
-#include <cstdint>
 #include <stl/vector.h>
+#include <cstdint>
 #endif
 
 

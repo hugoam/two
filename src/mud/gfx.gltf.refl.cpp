@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/srlz.refl.h>
 #include <mud/gfx.gltf.h>
 #include <mud/geom.refl.h>

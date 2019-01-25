@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/geom.refl.h>
 #include <mud/infra.refl.h>
 #include <mud/type.refl.h>

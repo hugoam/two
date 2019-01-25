@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/ui.vg.h>
 #include <mud/frame.h>
 #include <mud/infra.h>

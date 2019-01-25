@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/ui.h>
 
 #include <ui/Config.h>

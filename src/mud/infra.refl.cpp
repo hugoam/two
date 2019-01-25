@@ -1,5 +1,3 @@
-#pragma once
-
 #include <mud/infra.refl.h>
 #include <mud/refl.h>
 #include <mud/infra.h>
