@@ -94,7 +94,7 @@ namespace mud
 		enum Modes { Context = (1 << 0) };
 
 		Widget& self = ui::element(parent, object);
-		ui::multi_item(self, carray<cstring, 2>{ object_icon(object).c_str(), object_name(object).c_str() });
+		ui::multi_item(self, { object_icon(object).c_str(), object_name(object).c_str() });
 		
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 			self.m_switch |= Context;
@@ -218,7 +218,7 @@ namespace mud
 			ui::label(functions, m->m_name).enable_state(DISABLED);
 			for(Function* function : m->m_functions)
 				if(fits_filter(function->m_name, filter))
-					if(ui::multi_button(functions, ui::dropdown_styles().choice, carray<cstring, 2>{ "(function)", function->m_name }).activated())
+					if(ui::multi_button(functions, ui::dropdown_styles().choice, { "(function)", function->m_name }).activated())
 					{
 						add_process(make_object<ProcessFunction>(script, *function));
 						parent.m_open = false;
@@ -234,7 +234,7 @@ namespace mud
 			for(Type* type : m->m_types)
 				if(is_struct(*type) || is_base_type(*type))
 					if(fits_filter(type->m_name, filter))
-						if(ui::multi_button(values, ui::dropdown_styles().choice, carray<cstring, 2>{ "(value)", type->m_name }).activated())
+						if(ui::multi_button(values, ui::dropdown_styles().choice, { "(value)", type->m_name }).activated())
 						{
 							add_process(make_object<ProcessValue>(script, *type));
 							parent.m_open = false;
@@ -250,7 +250,7 @@ namespace mud
 			for(Type* type : m->m_types)
 				if(g_class[type->m_id] && !cls(*type).m_constructors.empty()) //is_struct(*type) || is_base_type(*type))
 					if(fits_filter(type->m_name, filter))
-						if(ui::multi_button(types, ui::dropdown_styles().choice, carray<cstring, 2>{ "(class)", type->m_name }).activated())
+						if(ui::multi_button(types, ui::dropdown_styles().choice, { "(class)", type->m_name }).activated())
 						{
 							add_process(make_object<ProcessCreate>(script, *type));
 							parent.m_open = false;
@@ -329,7 +329,7 @@ namespace mud
         UNUSED(script);
 		bool destroy = false;
 
-		Node& node = ui::node(canvas, carray<cstring, 1>{ process.m_title.c_str() }, &process.m_position[0], process.m_order, Ref(&process));
+		Node& node = ui::node(canvas, { process.m_title.c_str() }, &process.m_position[0], process.m_order, Ref(&process));
 		if(ui::button(*node.m_header, "R").activated())
 			process.recompute();
 		if(ui::button(*node.m_header, "X").activated())
@@ -559,7 +559,7 @@ namespace mud
 	{
 		Widget& self = ui::widget(parent, styles().sheet, &injector);
 		
-		Table& fields = ui::columns(self, carray<float, 2>{ 0.4f, 0.6f });
+		Table& fields = ui::columns(self, { 0.4f, 0.6f });
 		call_edit(fields, injector);
 
 		if(ui::button(self, "Create").activated())
@@ -593,7 +593,7 @@ namespace mud
 
 		ui::title(self, creator.m_prototype ? creator.m_prototype->m_name : creator.m_type.m_name);
 
-		Table& fields = ui::table(self, carray<cstring, 2>{ "field", "value" }, carray<float, 2>{ 0.3f, 0.7f });
+		Table& fields = ui::table(self, { "field", "value" }, { 0.3f, 0.7f });
 		call_edit(fields, creator.injector());
 
 		if(ui::button(self, "Create").activated())
@@ -676,7 +676,8 @@ namespace mud
 		Ref value = member.cast_get(object);
 		bool changed = any_edit(parent, value, member.is_link() | member.is_pointer(), hint);
 #else
-		Var value = member.safe_get(object);
+		//Var value = member.safe_get(object);
+		Var value = member.get(object);
 		bool changed = any_edit(parent, value.m_ref, member.is_link() | member.is_pointer(), hint);
 
 		if(changed && member.is_mutable() && !member.is_component())
@@ -1143,7 +1144,7 @@ namespace mud
 	{
 		Widget& self = ui::widget(parent, meta_styles().frame);
 		Widget& table = self;
-		//Widget& table = ui::columns(self, carray<float, 2>{ 0.3f, 0.7f });
+		//Widget& table = ui::columns(self, { 0.3f, 0.7f });
 
 		for(Member& member : cls.m_members)
 		{
@@ -1276,10 +1277,10 @@ namespace mud
 		Widget& left = ui::layout_span(self, 0.3f);
 		Widget& right = ui::layout_span(self, 0.7f);
 
-		Widget& table = ui::columns(left, carray<float, 2>{ 0.3f, 0.7f });
+		Widget& table = ui::columns(left, { 0.3f, 0.7f });
 
 		static Mode mode = Classes;
-		ui::dropdown_field(table, "Browse:", carray<cstring, 4>{ "Basetypes", "Enums", "Classes", "Functions" }, (uint32_t&) mode);
+		ui::dropdown_field(table, "Browse:", { "Basetypes", "Enums", "Classes", "Functions" }, (uint32_t&) mode);
 
 		static map<Module*, bool> modules;
 
@@ -1299,7 +1300,12 @@ namespace mud
 		Widget& sheet = ui::widget(left, styles().sheet, (void*) mode);
 		Widget& meta_list = *ui::scroll_sheet(sheet).m_body;
 
-		auto choice = [](Widget& parent, Ref object, cstring name, Ref& selected) -> Widget& { Widget& element = ui::element(parent, object); ui::select_logic(element, object, selected); return ui::multi_item(element, carray<cstring, 1>{ name }); };
+		auto choice = [](Widget& parent, Ref object, cstring name, Ref& selected) -> Widget&
+		{
+			Widget& element = ui::element(parent, object);
+			ui::select_logic(element, object, selected);
+			return ui::multi_item(element, { name });
+		};
 
 		for(Module* m : System::instance().m_modules)
 			if(modules[m])
@@ -1584,7 +1590,7 @@ namespace mud
 {
 	void structure_node(Widget& parent, Ref object, vector<Ref>& selection)
 	{
-		TreeNode& self = ui::tree_node(parent, carray<cstring, 2>{ object_icon(object).c_str(), object_name(object).c_str() }, false, false);
+		TreeNode& self = ui::tree_node(parent, { object_icon(object).c_str(), object_name(object).c_str() }, false, false);
 		
 		self.set_state(SELECTED, vector_has(selection, object));
 		
@@ -1626,7 +1632,7 @@ namespace mud
 		while(current_target && current_node)
 		{
 			string elements[2] = { current_target->m_frame.d_style->name(), to_string(current_target->m_control.m_mask) };
-			current_node = ui::tree_node(*current_node, carray<cstring, 2>{ elements[0].c_str(), elements[1].c_str() }).m_body;
+			current_node = ui::tree_node(*current_node, { elements[0].c_str(), elements[1].c_str() }).m_body;
 			current_target = static_cast<Widget*>(current_target->m_control.m_modal);
 		}
 	}
@@ -1636,7 +1642,7 @@ namespace mud
 		for(auto& widget : target.m_nodes)
 		{
 			string size = "size : " + truncate_number(to_string(widget->m_frame.m_size.x)) + ", " + truncate_number(to_string(widget->m_frame.m_size.y));
-			TreeNode& node = ui::tree_node(parent, carray<cstring, 2>{ widget->m_frame.d_style->name(), size.c_str() });
+			TreeNode& node = ui::tree_node(parent, { widget->m_frame.d_style->name(), size.c_str() });
 			node.m_header->set_state(SELECTED, selected == widget.get());
 			if(node.m_header->activated())
 				selected = widget.get();

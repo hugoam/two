@@ -316,7 +316,7 @@ namespace mud
 					{
 						Var member_val = member.get(value.m_ref);
 #ifdef NO_PACK_DEFAULT
-						if(memcmp(member_val.m_ref.m_value, member.m_default_value.m_ref.m_value, meta(member_val).m_size) == 0)
+						if(memcmp(member_val.m_ref.m_value, member.m_default_value.m_value, meta(member_val).m_size) == 0)
 							continue;
 #endif
 						pack(packer, member_val, json_members[member.m_name]);

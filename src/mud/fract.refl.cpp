@@ -47,6 +47,7 @@ namespace mud
 	{
 		Type& t = type<mud::Circlifier>();
 		static Meta meta = { t, &namspc({ "mud" }), "Circlifier", sizeof(mud::Circlifier), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -76,6 +77,7 @@ namespace mud
 	{
 		Type& t = type<mud::Fract>();
 		static Meta meta = { t, &namspc({ "mud" }), "Fract", sizeof(mud::Fract), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -89,7 +91,7 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Fract::m_num_tabs), type<size_t>(), "nutabs", var(size_t()), Member::Value, nullptr }
+				{ t, member_address(&mud::Fract::m_num_tabs), type<size_t>(), "nutabs", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -110,6 +112,7 @@ namespace mud
 	{
 		Type& t = type<mud::FractSample>();
 		static Meta meta = { t, &namspc({ "mud" }), "FractSample", sizeof(mud::FractSample), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -123,9 +126,9 @@ namespace mud
 			},
 			// members
 			{
-				{ t, Address(), type<mud::Fract>(), "fract", Ref(type<mud::Fract>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::FractSample>(object).m_fract); } },
-				{ t, member_address(&mud::FractSample::m_rect), type<mud::Rect>(), "rect", var(mud::Rect()), Member::Value, nullptr },
-				{ t, member_address(&mud::FractSample::m_resolution), type<mud::uvec2>(), "resolution", var(mud::uvec2()), Member::Value, nullptr }
+				{ t, Address(), type<mud::Fract>(), "fract", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::FractSample>(object).m_fract); } },
+				{ t, member_address(&mud::FractSample::m_rect), type<mud::Rect>(), "rect", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::FractSample::m_resolution), type<mud::uvec2>(), "resolution", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -142,6 +145,7 @@ namespace mud
 	{
 		Type& t = type<mud::FractTab>();
 		static Meta meta = { t, &namspc({ "mud" }), "FractTab", sizeof(mud::FractTab), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -170,6 +174,7 @@ namespace mud
 	{
 		Type& t = type<mud::Pattern>();
 		static Meta meta = { t, &namspc({ "mud" }), "Pattern", sizeof(mud::Pattern), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },

@@ -44,6 +44,7 @@ namespace mud
 	{
 		Type& t = type<mud::ViewerController>();
 		static Meta meta = { t, &namspc({ "mud" }), "ViewerController", sizeof(mud::ViewerController), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -70,6 +71,11 @@ namespace mud
 	{
 		Type& t = type<mud::OrbitController>();
 		static Meta meta = { t, &namspc({ "mud" }), "OrbitController", sizeof(mud::OrbitController), TypeClass::Object };
+		// defaults
+		static mud::vec3 position_default = Zero3;
+		static float yaw_default = 0.f;
+		static float pitch_default = 0.f;
+		static float distance_default = 1.f;
 		static Class cls = { t,
 			// bases
 			{ &type<mud::ViewerController>() },
@@ -82,10 +88,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::OrbitController::m_position), type<mud::vec3>(), "position", var(mud::vec3(Zero3)), Member::Value, nullptr },
-				{ t, member_address(&mud::OrbitController::m_yaw), type<float>(), "yaw", var(float(0.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::OrbitController::m_pitch), type<float>(), "pitch", var(float(0.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::OrbitController::m_distance), type<float>(), "distance", var(float(1.f)), Member::Value, nullptr }
+				{ t, member_address(&mud::OrbitController::m_position), type<mud::vec3>(), "position", Ref(&position_default), Member::Value, nullptr },
+				{ t, member_address(&mud::OrbitController::m_yaw), type<float>(), "yaw", Ref(&yaw_default), Member::Value, nullptr },
+				{ t, member_address(&mud::OrbitController::m_pitch), type<float>(), "pitch", Ref(&pitch_default), Member::Value, nullptr },
+				{ t, member_address(&mud::OrbitController::m_distance), type<float>(), "distance", Ref(&distance_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -102,6 +108,7 @@ namespace mud
 	{
 		Type& t = type<mud::FreeOrbitController>();
 		static Meta meta = { t, &namspc({ "mud" }), "FreeOrbitController", sizeof(mud::FreeOrbitController), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::OrbitController>() },
@@ -128,6 +135,7 @@ namespace mud
 	{
 		Type& t = type<mud::SpaceSheet>();
 		static Meta meta = { t, &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Ui>() },
@@ -154,6 +162,7 @@ namespace mud
 	{
 		Type& t = type<mud::Viewer>();
 		static Meta meta = { t, &namspc({ "mud" }), "Viewer", sizeof(mud::Viewer), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Widget>() },
@@ -166,10 +175,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Viewer::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::Viewer::m_viewport), type<mud::Viewport>(), "viewport", Ref(type<mud::Viewport>()), Member::NonMutable, nullptr },
-				{ t, member_address(&mud::Viewer::m_position), type<mud::vec2>(), "position", var(mud::vec2()), Member::Value, nullptr },
-				{ t, member_address(&mud::Viewer::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value, nullptr }
+				{ t, member_address(&mud::Viewer::m_scene), type<mud::Scene>(), "scene", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::Viewer::m_viewport), type<mud::Viewport>(), "viewport", Ref(), Member::NonMutable, nullptr },
+				{ t, member_address(&mud::Viewer::m_position), type<mud::vec2>(), "position", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Viewer::m_size), type<mud::vec2>(), "size", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -184,6 +193,7 @@ namespace mud
 	{
 		Type& t = type<mud::SceneViewer>();
 		static Meta meta = { t, &namspc({ "mud" }), "SceneViewer", sizeof(mud::SceneViewer), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Scene>(), &type<mud::Viewer>() },

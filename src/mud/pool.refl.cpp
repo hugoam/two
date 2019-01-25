@@ -28,6 +28,7 @@ namespace mud
 	{
 		Type& t = type<mud::HandlePool>();
 		static Meta meta = { t, &namspc({ "mud" }), "HandlePool", sizeof(mud::HandlePool), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -54,6 +55,7 @@ namespace mud
 	{
 		Type& t = type<mud::Pool>();
 		static Meta meta = { t, &namspc({ "mud" }), "Pool", sizeof(mud::Pool), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },

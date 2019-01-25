@@ -1,7 +1,6 @@
 #include <mud/gfx.h>
 #include <mud/geom.h>
 #include <mud/pool.h>
-#include <mud/ui.h>
 #include <mud/jobs.h>
 #include <mud/tree.h>
 #include <mud/ecs.h>
@@ -317,6 +316,18 @@ namespace mud
 
 
 
+
+namespace mud
+{
+	template class MUD_GFX_EXPORT AssetStore<Texture>;
+	template class MUD_GFX_EXPORT AssetStore<Program>;
+	template class MUD_GFX_EXPORT AssetStore<Material>;
+	template class MUD_GFX_EXPORT AssetStore<Model>;
+	template class MUD_GFX_EXPORT AssetStore<ParticleFlow>;
+	template class MUD_GFX_EXPORT AssetStore<Prefab>;
+}
+
+
 #include <bx/math.h>
 #include <cassert>
 
@@ -553,7 +564,7 @@ namespace mud
 		rect.m_vertices[1] = mulp(mat, vec3(hi.x * nw, lo.y * nh, -near));
 		rect.m_vertices[2] = mulp(mat, vec3(lo.x * nw, lo.y * nh, -near));
 		rect.m_vertices[3] = mulp(mat, vec3(lo.x * nw, hi.y * nh, -near));
-		render.m_shot->m_immediate[0]->draw(identity, { Symbol::wire(colour, true), &rect, OUTLINE });
+		render.m_shot->m_immediate[0]->shape(identity, { Symbol::wire(colour, true), &rect, OUTLINE });
 	}
 
 	// ref: https://github.com/erich666/jgt-code
@@ -1029,9 +1040,9 @@ namespace mud
 		return &m_batches[draw_mode][cursor];
 	}
 
-	void ImmediateDraw::draw(const mat4& transform, const ProcShape& shape)
+	void ImmediateDraw::shape(const mat4& transform, const ProcShape& shape)
 	{
-		this->draw(transform, carray<ProcShape, 1>{ shape });
+		this->draw(transform, { shape });
 	}
 
 	void ImmediateDraw::draw(const mat4& transform, array<ProcShape> shapes)
@@ -2968,8 +2979,7 @@ namespace mud
 
 	LocatedFile GfxSystem::locate_file(const string& file)
 	{
-		carray<string, 1> exts = { "" };
-		return this->locate_file(file, exts);
+		return this->locate_file(file, { "" });
 	}
 
 	Texture& GfxSystem::default_texture(TextureHint hint)
@@ -3246,9 +3256,9 @@ namespace gfx
 	{
 		UNUSED(flags);
 		if(symbol.fill())
-			scene.m_immediate->draw(transform, { symbol, &shape, PLAIN });
+			scene.m_immediate->shape(transform, { symbol, &shape, PLAIN });
 		if(symbol.outline())
-			scene.m_immediate->draw(transform, { symbol, &shape, OUTLINE });
+			scene.m_immediate->shape(transform, { symbol, &shape, OUTLINE });
 	}
 
 	void draw(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags)
@@ -5020,7 +5030,7 @@ namespace mud
 
 	Prefab& import_prefab(GfxSystem& gfx_system, ModelFormat format, const string& name, const ImportConfig& config)
 	{
-		LocatedFile location = gfx_system.locate_file("models/" + name, carray<string, 1>{ format == ModelFormat::obj ? ".obj" : ".gltf" });
+		LocatedFile location = gfx_system.locate_file("models/" + name, { format == ModelFormat::obj ? ".obj" : ".gltf" });
 		Prefab& prefab = gfx_system.prefabs().create(name);
 		gfx_system.importer(format)->import_prefab(prefab, location.path(false), config);
 		return prefab;
@@ -6050,7 +6060,7 @@ namespace mud
 			for(Item* item : render.m_shot->m_items)
 			{
 				Colour colour = { 1.f, 0.f, 1.f, 0.15f };
-				m_immediate->draw(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
+				m_immediate->shape(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
 				//m_immediate->draw(item->m_node->m_transform, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
 			}
 	}

@@ -289,6 +289,7 @@ namespace mud
 	{
 		Type& t = type<mud::CanvasConnect>();
 		static Meta meta = { t, &namspc({ "mud" }), "CanvasConnect", sizeof(mud::CanvasConnect), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -317,6 +318,10 @@ namespace mud
 	{
 		Type& t = type<mud::Clipboard>();
 		static Meta meta = { t, &namspc({ "mud" }), "Clipboard", sizeof(mud::Clipboard), TypeClass::Struct };
+		// defaults
+		static string text_default = "";
+		static bool line_mode_default = false;
+		static vector<string> pasted_default = {};
 		static Class cls = { t,
 			// bases
 			{  },
@@ -331,9 +336,9 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Clipboard::m_text), type<string>(), "text", var(string("")), Member::Value, nullptr },
-				{ t, member_address(&mud::Clipboard::m_line_mode), type<bool>(), "line_mode", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Clipboard::m_pasted), type<vector<string>>(), "pasted", var(vector<string>{}), Member::Value, nullptr }
+				{ t, member_address(&mud::Clipboard::m_text), type<string>(), "text", Ref(&text_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Clipboard::m_line_mode), type<bool>(), "line_mode", Ref(&line_mode_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Clipboard::m_pasted), type<vector<string>>(), "pasted", Ref(&pasted_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -348,6 +353,7 @@ namespace mud
 	{
 		Type& t = type<mud::Dim2<bool>>();
 		static Meta meta = { t, &namspc({ "mud" }), "Dim2<bool>", sizeof(mud::Dim2<bool>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -363,8 +369,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Dim2<bool>::x), type<bool>(), "x", var(bool()), Member::Value, nullptr },
-				{ t, member_address(&mud::Dim2<bool>::y), type<bool>(), "y", var(bool()), Member::Value, nullptr }
+				{ t, member_address(&mud::Dim2<bool>::x), type<bool>(), "x", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Dim2<bool>::y), type<bool>(), "y", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -380,6 +386,7 @@ namespace mud
 	{
 		Type& t = type<mud::Dim2<mud::Align>>();
 		static Meta meta = { t, &namspc({ "mud" }), "Dim2<mud::Align>", sizeof(mud::Dim2<mud::Align>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -395,8 +402,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Dim2<mud::Align>::x), type<mud::Align>(), "x", var(mud::Align()), Member::Value, nullptr },
-				{ t, member_address(&mud::Dim2<mud::Align>::y), type<mud::Align>(), "y", var(mud::Align()), Member::Value, nullptr }
+				{ t, member_address(&mud::Dim2<mud::Align>::x), type<mud::Align>(), "x", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Dim2<mud::Align>::y), type<mud::Align>(), "y", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -412,6 +419,7 @@ namespace mud
 	{
 		Type& t = type<mud::Dim2<mud::AutoLayout>>();
 		static Meta meta = { t, &namspc({ "mud" }), "Dim2<mud::AutoLayout>", sizeof(mud::Dim2<mud::AutoLayout>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -427,8 +435,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Dim2<mud::AutoLayout>::x), type<mud::AutoLayout>(), "x", var(mud::AutoLayout()), Member::Value, nullptr },
-				{ t, member_address(&mud::Dim2<mud::AutoLayout>::y), type<mud::AutoLayout>(), "y", var(mud::AutoLayout()), Member::Value, nullptr }
+				{ t, member_address(&mud::Dim2<mud::AutoLayout>::x), type<mud::AutoLayout>(), "x", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Dim2<mud::AutoLayout>::y), type<mud::AutoLayout>(), "y", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -444,6 +452,7 @@ namespace mud
 	{
 		Type& t = type<mud::Dim2<mud::Pivot>>();
 		static Meta meta = { t, &namspc({ "mud" }), "Dim2<mud::Pivot>", sizeof(mud::Dim2<mud::Pivot>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -459,8 +468,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Dim2<mud::Pivot>::x), type<mud::Pivot>(), "x", var(mud::Pivot()), Member::Value, nullptr },
-				{ t, member_address(&mud::Dim2<mud::Pivot>::y), type<mud::Pivot>(), "y", var(mud::Pivot()), Member::Value, nullptr }
+				{ t, member_address(&mud::Dim2<mud::Pivot>::x), type<mud::Pivot>(), "x", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Dim2<mud::Pivot>::y), type<mud::Pivot>(), "y", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -476,6 +485,7 @@ namespace mud
 	{
 		Type& t = type<mud::Dim2<mud::Sizing>>();
 		static Meta meta = { t, &namspc({ "mud" }), "Dim2<mud::Sizing>", sizeof(mud::Dim2<mud::Sizing>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -491,8 +501,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Dim2<mud::Sizing>::x), type<mud::Sizing>(), "x", var(mud::Sizing()), Member::Value, nullptr },
-				{ t, member_address(&mud::Dim2<mud::Sizing>::y), type<mud::Sizing>(), "y", var(mud::Sizing()), Member::Value, nullptr }
+				{ t, member_address(&mud::Dim2<mud::Sizing>::x), type<mud::Sizing>(), "x", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Dim2<mud::Sizing>::y), type<mud::Sizing>(), "y", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -508,6 +518,7 @@ namespace mud
 	{
 		Type& t = type<mud::Dim2<size_t>>();
 		static Meta meta = { t, &namspc({ "mud" }), "Dim2<size_t>", sizeof(mud::Dim2<size_t>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -523,8 +534,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Dim2<size_t>::x), type<size_t>(), "x", var(size_t()), Member::Value, nullptr },
-				{ t, member_address(&mud::Dim2<size_t>::y), type<size_t>(), "y", var(size_t()), Member::Value, nullptr }
+				{ t, member_address(&mud::Dim2<size_t>::x), type<size_t>(), "x", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Dim2<size_t>::y), type<size_t>(), "y", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -540,6 +551,7 @@ namespace mud
 	{
 		Type& t = type<mud::Dock>();
 		static Meta meta = { t, &namspc({ "mud" }), "Dock", sizeof(mud::Dock), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -568,6 +580,7 @@ namespace mud
 	{
 		Type& t = type<mud::Docksystem>();
 		static Meta meta = { t, &namspc({ "mud" }), "Docksystem", sizeof(mud::Docksystem), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -594,6 +607,7 @@ namespace mud
 	{
 		Type& t = type<mud::Gradient>();
 		static Meta meta = { t, &namspc({ "mud" }), "Gradient", sizeof(mud::Gradient), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -608,8 +622,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Gradient::m_start), type<mud::Colour>(), "start", var(mud::Colour()), Member::Value, nullptr },
-				{ t, member_address(&mud::Gradient::m_end), type<mud::Colour>(), "end", var(mud::Colour()), Member::Value, nullptr }
+				{ t, member_address(&mud::Gradient::m_start), type<mud::Colour>(), "start", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Gradient::m_end), type<mud::Colour>(), "end", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -624,6 +638,7 @@ namespace mud
 	{
 		Type& t = type<mud::GridSolver>();
 		static Meta meta = { t, &namspc({ "mud" }), "GridSolver", sizeof(mud::GridSolver), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -650,6 +665,14 @@ namespace mud
 	{
 		Type& t = type<mud::ImageSkin>();
 		static Meta meta = { t, &namspc({ "mud" }), "ImageSkin", sizeof(mud::ImageSkin), TypeClass::Struct };
+		// defaults
+		static mud::Image* d_image_default = nullptr;
+		static int d_left_default = 0;
+		static int d_top_default = 0;
+		static int d_right_default = 0;
+		static int d_bottom_default = 0;
+		static int margin_default = 0;
+		static mud::Dim d_stretch_default = DIM_NONE;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -664,13 +687,13 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ImageSkin::d_image), type<mud::Image>(), "d_image", Ref(type<mud::Image>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::ImageSkin::d_left), type<int>(), "d_left", var(int(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::ImageSkin::d_top), type<int>(), "d_top", var(int(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::ImageSkin::d_right), type<int>(), "d_right", var(int(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::ImageSkin::d_bottom), type<int>(), "d_bottom", var(int(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::ImageSkin::m_margin), type<int>(), "margin", var(int(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::ImageSkin::d_stretch), type<mud::Dim>(), "d_stretch", var(mud::Dim(DIM_NONE)), Member::Value, nullptr }
+				{ t, member_address(&mud::ImageSkin::d_image), type<mud::Image>(), "d_image", Ref(d_image_default), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::ImageSkin::d_left), type<int>(), "d_left", Ref(&d_left_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImageSkin::d_top), type<int>(), "d_top", Ref(&d_top_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImageSkin::d_right), type<int>(), "d_right", Ref(&d_right_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImageSkin::d_bottom), type<int>(), "d_bottom", Ref(&d_bottom_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImageSkin::m_margin), type<int>(), "margin", Ref(&margin_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImageSkin::d_stretch), type<mud::Dim>(), "d_stretch", Ref(&d_stretch_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -685,6 +708,25 @@ namespace mud
 	{
 		Type& t = type<mud::InkStyle>();
 		static Meta meta = { t, &namspc({ "mud" }), "InkStyle", sizeof(mud::InkStyle), TypeClass::Struct };
+		// defaults
+		static string name_default = "";
+		static bool empty_default = true;
+		static mud::Colour background_colour_default = mud::Colour::None;
+		static mud::Colour border_colour_default = mud::Colour::None;
+		static mud::Colour image_colour_default = mud::Colour::None;
+		static mud::Colour text_colour_default = mud::Colour::None;
+		static string text_font_default = "dejavu";
+		static float text_size_default = 14.f;
+		static bool text_break_default = false;
+		static bool text_wrap_default = false;
+		static bool weak_corners_default = false;
+		static mud::Dim2<mud::Align> align_default = {Left,Left};
+		static mud::Dim linear_gradient_dim_default = DIM_Y;
+		static mud::Dim2<bool> stretch_default = {false,false};
+		static mud::Image* image_default = nullptr;
+		static mud::Image* overlay_default = nullptr;
+		static mud::Image* tile_default = nullptr;
+		static mud::Style* hover_cursor_default = nullptr;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -700,32 +742,32 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::InkStyle::m_name), type<string>(), "name", var(string("")), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_empty), type<bool>(), "empty", var(bool(true)), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_background_colour), type<mud::Colour>(), "background_colour", var(mud::Colour::None), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_border_colour), type<mud::Colour>(), "border_colour", var(mud::Colour::None), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_image_colour), type<mud::Colour>(), "image_colour", var(mud::Colour::None), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_text_colour), type<mud::Colour>(), "text_colour", var(mud::Colour::None), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_text_font), type<string>(), "text_font", var(string("dejavu")), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_text_size), type<float>(), "text_size", var(float(14.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_text_break), type<bool>(), "text_break", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_text_wrap), type<bool>(), "text_wrap", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_border_width), type<mud::vec4>(), "border_width", var(mud::vec4()), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_corner_radius), type<mud::vec4>(), "corner_radius", var(mud::vec4()), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_weak_corners), type<bool>(), "weak_corners", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_padding), type<mud::vec4>(), "padding", var(mud::vec4()), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_margin), type<mud::vec4>(), "margin", var(mud::vec4()), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_align), type<mud::Dim2<mud::Align>>(), "align", var(mud::Dim2<mud::Align>{Left,Left}), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_linear_gradient), type<mud::vec2>(), "linear_gradient", var(mud::vec2()), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_linear_gradient_dim), type<mud::Dim>(), "linear_gradient_dim", var(mud::Dim(DIM_Y)), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_stretch), type<mud::Dim2<bool>>(), "stretch", var(mud::Dim2<bool>{false,false}), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_image), type<mud::Image>(), "image", Ref(type<mud::Image>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::InkStyle::m_overlay), type<mud::Image>(), "overlay", Ref(type<mud::Image>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::InkStyle::m_tile), type<mud::Image>(), "tile", Ref(type<mud::Image>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::InkStyle::m_image_skin), type<mud::ImageSkin>(), "image_skin", var(mud::ImageSkin()), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_shadow), type<mud::Shadow>(), "shadow", var(mud::Shadow()), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_shadow_colour), type<mud::Colour>(), "shadow_colour", var(mud::Colour()), Member::Value, nullptr },
-				{ t, member_address(&mud::InkStyle::m_hover_cursor), type<mud::Style>(), "hover_cursor", Ref(type<mud::Style>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::InkStyle::m_name), type<string>(), "name", Ref(&name_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_empty), type<bool>(), "empty", Ref(&empty_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_background_colour), type<mud::Colour>(), "background_colour", Ref(&background_colour_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_border_colour), type<mud::Colour>(), "border_colour", Ref(&border_colour_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_image_colour), type<mud::Colour>(), "image_colour", Ref(&image_colour_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_text_colour), type<mud::Colour>(), "text_colour", Ref(&text_colour_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_text_font), type<string>(), "text_font", Ref(&text_font_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_text_size), type<float>(), "text_size", Ref(&text_size_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_text_break), type<bool>(), "text_break", Ref(&text_break_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_text_wrap), type<bool>(), "text_wrap", Ref(&text_wrap_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_border_width), type<mud::vec4>(), "border_width", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_corner_radius), type<mud::vec4>(), "corner_radius", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_weak_corners), type<bool>(), "weak_corners", Ref(&weak_corners_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_padding), type<mud::vec4>(), "padding", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_margin), type<mud::vec4>(), "margin", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_align), type<mud::Dim2<mud::Align>>(), "align", Ref(&align_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_linear_gradient), type<mud::vec2>(), "linear_gradient", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_linear_gradient_dim), type<mud::Dim>(), "linear_gradient_dim", Ref(&linear_gradient_dim_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_stretch), type<mud::Dim2<bool>>(), "stretch", Ref(&stretch_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_image), type<mud::Image>(), "image", Ref(image_default), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::InkStyle::m_overlay), type<mud::Image>(), "overlay", Ref(overlay_default), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::InkStyle::m_tile), type<mud::Image>(), "tile", Ref(tile_default), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::InkStyle::m_image_skin), type<mud::ImageSkin>(), "image_skin", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_shadow), type<mud::Shadow>(), "shadow", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_shadow_colour), type<mud::Colour>(), "shadow_colour", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::InkStyle::m_hover_cursor), type<mud::Style>(), "hover_cursor", Ref(hover_cursor_default), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{
@@ -740,6 +782,7 @@ namespace mud
 	{
 		Type& t = type<mud::Layer>();
 		static Meta meta = { t, &namspc({ "mud" }), "Layer", sizeof(mud::Layer), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -766,6 +809,19 @@ namespace mud
 	{
 		Type& t = type<mud::Layout>();
 		static Meta meta = { t, &namspc({ "mud" }), "Layout", sizeof(mud::Layout), TypeClass::Struct };
+		// defaults
+		static string name_default = "";
+		static mud::LayoutSolver solver_default = FRAME_SOLVER;
+		static mud::Dim2<mud::AutoLayout> layout_default = {AUTO_LAYOUT,AUTO_LAYOUT};
+		static mud::Flow flow_default = FLOW;
+		static mud::Space space_default = SHEET;
+		static mud::Clipping clipping_default = NOCLIP;
+		static mud::Opacity opacity_default = CLEAR;
+		static mud::Dim2<mud::Align> align_default = {Left,Left};
+		static mud::Dim2<mud::Pivot> pivot_default = {FORWARD,FORWARD};
+		static int zorder_default = 0;
+		static bool no_grid_default = false;
+		static size_t updated_default = 0;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -781,25 +837,25 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Layout::m_name), type<string>(), "name", var(string("")), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_solver), type<mud::LayoutSolver>(), "solver", var(mud::LayoutSolver(FRAME_SOLVER)), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_layout), type<mud::Dim2<mud::AutoLayout>>(), "layout", var(mud::Dim2<mud::AutoLayout>{AUTO_LAYOUT,AUTO_LAYOUT}), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_flow), type<mud::Flow>(), "flow", var(mud::Flow(FLOW)), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_space), type<mud::Space>(), "space", var(mud::Space(SHEET)), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_clipping), type<mud::Clipping>(), "clipping", var(mud::Clipping(NOCLIP)), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_opacity), type<mud::Opacity>(), "opacity", var(mud::Opacity(CLEAR)), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_align), type<mud::Dim2<mud::Align>>(), "align", var(mud::Dim2<mud::Align>{Left,Left}), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_span), type<mud::vec2>(), "span", var(mud::vec2()), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_padding), type<mud::vec4>(), "padding", var(mud::vec4()), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_margin), type<mud::vec2>(), "margin", var(mud::vec2()), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_spacing), type<mud::vec2>(), "spacing", var(mud::vec2()), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_pivot), type<mud::Dim2<mud::Pivot>>(), "pivot", var(mud::Dim2<mud::Pivot>{FORWARD,FORWARD}), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_zorder), type<int>(), "zorder", var(int(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_no_grid), type<bool>(), "no_grid", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_grid_division), type<vector<mud::Space>>(), "grid_division", var(vector<mud::Space>()), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_table_division), type<vector<float>>(), "table_division", var(vector<float>()), Member::Value, nullptr },
-				{ t, member_address(&mud::Layout::m_updated), type<size_t>(), "updated", var(size_t(0)), Member::Value, nullptr }
+				{ t, member_address(&mud::Layout::m_name), type<string>(), "name", Ref(&name_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_solver), type<mud::LayoutSolver>(), "solver", Ref(&solver_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_layout), type<mud::Dim2<mud::AutoLayout>>(), "layout", Ref(&layout_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_flow), type<mud::Flow>(), "flow", Ref(&flow_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_space), type<mud::Space>(), "space", Ref(&space_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_clipping), type<mud::Clipping>(), "clipping", Ref(&clipping_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_opacity), type<mud::Opacity>(), "opacity", Ref(&opacity_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_align), type<mud::Dim2<mud::Align>>(), "align", Ref(&align_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_span), type<mud::vec2>(), "span", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_size), type<mud::vec2>(), "size", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_padding), type<mud::vec4>(), "padding", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_margin), type<mud::vec2>(), "margin", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_spacing), type<mud::vec2>(), "spacing", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_pivot), type<mud::Dim2<mud::Pivot>>(), "pivot", Ref(&pivot_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_zorder), type<int>(), "zorder", Ref(&zorder_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_no_grid), type<bool>(), "no_grid", Ref(&no_grid_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_grid_division), type<vector<mud::Space>>(), "grid_division", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_table_division), type<vector<float>>(), "table_division", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Layout::m_updated), type<size_t>(), "updated", Ref(&updated_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -814,6 +870,7 @@ namespace mud
 	{
 		Type& t = type<mud::NodeConnection>();
 		static Meta meta = { t, &namspc({ "mud" }), "NodeConnection", sizeof(mud::NodeConnection), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -842,6 +899,7 @@ namespace mud
 	{
 		Type& t = type<mud::Paint>();
 		static Meta meta = { t, &namspc({ "mud" }), "Paint", sizeof(mud::Paint), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -856,9 +914,9 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Paint::m_fill_colour), type<mud::Colour>(), "fill_colour", var(mud::Colour()), Member::Value, nullptr },
-				{ t, member_address(&mud::Paint::m_stroke_colour), type<mud::Colour>(), "stroke_colour", var(mud::Colour()), Member::Value, nullptr },
-				{ t, member_address(&mud::Paint::m_stroke_width), type<float>(), "stroke_width", var(float()), Member::Value, nullptr }
+				{ t, member_address(&mud::Paint::m_fill_colour), type<mud::Colour>(), "fill_colour", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Paint::m_stroke_colour), type<mud::Colour>(), "stroke_colour", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Paint::m_stroke_width), type<float>(), "stroke_width", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -873,6 +931,7 @@ namespace mud
 	{
 		Type& t = type<mud::Shadow>();
 		static Meta meta = { t, &namspc({ "mud" }), "Shadow", sizeof(mud::Shadow), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -888,11 +947,11 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Shadow::d_xpos), type<float>(), "d_xpos", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::Shadow::d_ypos), type<float>(), "d_ypos", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::Shadow::d_blur), type<float>(), "d_blur", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::Shadow::d_spread), type<float>(), "d_spread", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::Shadow::d_colour), type<mud::Colour>(), "d_colour", var(mud::Colour()), Member::Value, nullptr }
+				{ t, member_address(&mud::Shadow::d_xpos), type<float>(), "d_xpos", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Shadow::d_ypos), type<float>(), "d_ypos", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Shadow::d_blur), type<float>(), "d_blur", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Shadow::d_spread), type<float>(), "d_spread", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Shadow::d_colour), type<mud::Colour>(), "d_colour", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -907,6 +966,7 @@ namespace mud
 	{
 		Type& t = type<mud::Space>();
 		static Meta meta = { t, &namspc({ "mud" }), "Space", sizeof(mud::Space), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -921,9 +981,9 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Space::direction), type<mud::FlowAxis>(), "direction", var(mud::FlowAxis()), Member::Value, nullptr },
-				{ t, member_address(&mud::Space::sizingLength), type<mud::Sizing>(), "sizingLength", var(mud::Sizing()), Member::Value, nullptr },
-				{ t, member_address(&mud::Space::sizingDepth), type<mud::Sizing>(), "sizingDepth", var(mud::Sizing()), Member::Value, nullptr }
+				{ t, member_address(&mud::Space::direction), type<mud::FlowAxis>(), "direction", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Space::sizingLength), type<mud::Sizing>(), "sizingLength", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Space::sizingDepth), type<mud::Sizing>(), "sizingDepth", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -938,6 +998,7 @@ namespace mud
 	{
 		Type& t = type<mud::Style>();
 		static Meta meta = { t, &namspc({ "mud" }), "Style", sizeof(mud::Style), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -950,10 +1011,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Style::m_base), type<mud::Style>(), "base", Ref(type<mud::Style>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address<const char*(mud::Style::*)()>(&mud::Style::name), type<const char*>(), "name", Ref(type<const char*>()), Member::Flags(Member::Pointer|Member::NonMutable|Member::Link), [](Ref object) { return Ref(val<mud::Style>(object).name()); } },
-				{ t, member_address<mud::Layout&(mud::Style::*)()>(&mud::Style::layout), type<mud::Layout>(), "layout", var(mud::Layout()), Member::Flags(Member::Value|Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Style>(object).layout()); } },
-				{ t, member_address<mud::InkStyle&(mud::Style::*)()>(&mud::Style::skin), type<mud::InkStyle>(), "skin", var(mud::InkStyle()), Member::Flags(Member::Value|Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Style>(object).skin()); } }
+				{ t, member_address(&mud::Style::m_base), type<mud::Style>(), "base", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address<const char*(mud::Style::*)()>(&mud::Style::name), type<const char*>(), "name", Ref(), Member::Flags(Member::Pointer|Member::NonMutable|Member::Link), [](Ref object) { return Ref(val<mud::Style>(object).name()); } },
+				{ t, member_address<mud::Layout&(mud::Style::*)()>(&mud::Style::layout), type<mud::Layout>(), "layout", Ref(), Member::Flags(Member::Value|Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Style>(object).layout()); } },
+				{ t, member_address<mud::InkStyle&(mud::Style::*)()>(&mud::Style::skin), type<mud::InkStyle>(), "skin", Ref(), Member::Flags(Member::Value|Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Style>(object).skin()); } }
 			},
 			// methods
 			{
@@ -968,6 +1029,7 @@ namespace mud
 	{
 		Type& t = type<mud::TableSolver>();
 		static Meta meta = { t, &namspc({ "mud" }), "TableSolver", sizeof(mud::TableSolver), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -994,6 +1056,7 @@ namespace mud
 	{
 		Type& t = type<mud::Text>();
 		static Meta meta = { t, &namspc({ "mud" }), "Text", sizeof(mud::Text), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1020,6 +1083,7 @@ namespace mud
 	{
 		Type& t = type<mud::TextCursor>();
 		static Meta meta = { t, &namspc({ "mud" }), "TextCursor", sizeof(mud::TextCursor), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1048,6 +1112,7 @@ namespace mud
 	{
 		Type& t = type<mud::TextMarker>();
 		static Meta meta = { t, &namspc({ "mud" }), "TextMarker", sizeof(mud::TextMarker), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1076,6 +1141,7 @@ namespace mud
 	{
 		Type& t = type<mud::TextPaint>();
 		static Meta meta = { t, &namspc({ "mud" }), "TextPaint", sizeof(mud::TextPaint), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1090,12 +1156,12 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::TextPaint::m_font), type<const char*>(), "font", Ref(type<const char*>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::TextPaint::m_colour), type<mud::Colour>(), "colour", var(mud::Colour()), Member::Value, nullptr },
-				{ t, member_address(&mud::TextPaint::m_size), type<float>(), "size", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::TextPaint::m_align), type<mud::Dim2<mud::Align>>(), "align", var(mud::Dim2<mud::Align>()), Member::Value, nullptr },
-				{ t, member_address(&mud::TextPaint::m_text_break), type<bool>(), "text_break", var(bool()), Member::Value, nullptr },
-				{ t, member_address(&mud::TextPaint::m_text_wrap), type<bool>(), "text_wrap", var(bool()), Member::Value, nullptr }
+				{ t, member_address(&mud::TextPaint::m_font), type<const char*>(), "font", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::TextPaint::m_colour), type<mud::Colour>(), "colour", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::TextPaint::m_size), type<float>(), "size", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::TextPaint::m_align), type<mud::Dim2<mud::Align>>(), "align", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::TextPaint::m_text_break), type<bool>(), "text_break", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::TextPaint::m_text_wrap), type<bool>(), "text_wrap", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1110,6 +1176,7 @@ namespace mud
 	{
 		Type& t = type<mud::TextSelection>();
 		static Meta meta = { t, &namspc({ "mud" }), "TextSelection", sizeof(mud::TextSelection), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1138,6 +1205,12 @@ namespace mud
 	{
 		Type& t = type<mud::UiRect>();
 		static Meta meta = { t, &namspc({ "mud" }), "UiRect", sizeof(mud::UiRect), TypeClass::Struct };
+		// defaults
+		static mud::vec2 position_default = Zero2;
+		static mud::vec2 size_default = Zero2;
+		static mud::vec2 content_default = Zero2;
+		static mud::vec2 span_default = Unit2;
+		static float scale_default = 1.f;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1152,11 +1225,11 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::UiRect::m_position), type<mud::vec2>(), "position", var(mud::vec2(Zero2)), Member::Value, nullptr },
-				{ t, member_address(&mud::UiRect::m_size), type<mud::vec2>(), "size", var(mud::vec2(Zero2)), Member::Value, nullptr },
-				{ t, member_address(&mud::UiRect::m_content), type<mud::vec2>(), "content", var(mud::vec2(Zero2)), Member::Value, nullptr },
-				{ t, member_address(&mud::UiRect::m_span), type<mud::vec2>(), "span", var(mud::vec2(Unit2)), Member::Value, nullptr },
-				{ t, member_address(&mud::UiRect::m_scale), type<float>(), "scale", var(float(1.f)), Member::Value, nullptr }
+				{ t, member_address(&mud::UiRect::m_position), type<mud::vec2>(), "position", Ref(&position_default), Member::Value, nullptr },
+				{ t, member_address(&mud::UiRect::m_size), type<mud::vec2>(), "size", Ref(&size_default), Member::Value, nullptr },
+				{ t, member_address(&mud::UiRect::m_content), type<mud::vec2>(), "content", Ref(&content_default), Member::Value, nullptr },
+				{ t, member_address(&mud::UiRect::m_span), type<mud::vec2>(), "span", Ref(&span_default), Member::Value, nullptr },
+				{ t, member_address(&mud::UiRect::m_scale), type<float>(), "scale", Ref(&scale_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1171,6 +1244,7 @@ namespace mud
 	{
 		Type& t = type<mud::UiWindow>();
 		static Meta meta = { t, &namspc({ "mud" }), "UiWindow", sizeof(mud::UiWindow), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1197,6 +1271,7 @@ namespace mud
 	{
 		Type& t = type<mud::User>();
 		static Meta meta = { t, &namspc({ "mud" }), "User", sizeof(mud::User), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1223,6 +1298,7 @@ namespace mud
 	{
 		Type& t = type<mud::Vg>();
 		static Meta meta = { t, &namspc({ "mud" }), "Vg", sizeof(mud::Vg), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1249,6 +1325,7 @@ namespace mud
 	{
 		Type& t = type<mud::Frame>();
 		static Meta meta = { t, &namspc({ "mud" }), "Frame", sizeof(mud::Frame), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::UiRect>() },
@@ -1275,6 +1352,7 @@ namespace mud
 	{
 		Type& t = type<mud::FrameSolver>();
 		static Meta meta = { t, &namspc({ "mud" }), "FrameSolver", sizeof(mud::FrameSolver), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::UiRect>() },
@@ -1301,6 +1379,7 @@ namespace mud
 	{
 		Type& t = type<mud::LineSolver>();
 		static Meta meta = { t, &namspc({ "mud" }), "LineSolver", sizeof(mud::LineSolver), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::RowSolver>() },
@@ -1327,6 +1406,12 @@ namespace mud
 	{
 		Type& t = type<mud::Widget>();
 		static Meta meta = { t, &namspc({ "mud" }), "Widget", sizeof(mud::Widget), TypeClass::Object };
+		// defaults
+		static mud::WidgetState state_default = CREATED;
+		static uint32_t switch_default = 0;
+		static size_t index_default = 0;
+		static bool open_default = false;
+		static mud::Widget* body_default = nullptr;
 		static Class cls = { t,
 			// bases
 			{ &type<mud::ControlNode>() },
@@ -1339,12 +1424,12 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Widget::m_frame), type<mud::Frame>(), "frame", Ref(type<mud::Frame>()), Member::NonMutable, nullptr },
-				{ t, member_address(&mud::Widget::m_state), type<mud::WidgetState>(), "state", var(mud::WidgetState(CREATED)), Member::Value, nullptr },
-				{ t, member_address(&mud::Widget::m_switch), type<uint32_t>(), "switch", var(uint32_t(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::Widget::m_index), type<size_t>(), "index", var(size_t(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::Widget::m_open), type<bool>(), "open", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Widget::m_body), type<mud::Widget>(), "body", Ref(type<mud::Widget>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::Widget::m_frame), type<mud::Frame>(), "frame", Ref(), Member::NonMutable, nullptr },
+				{ t, member_address(&mud::Widget::m_state), type<mud::WidgetState>(), "state", Ref(&state_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Widget::m_switch), type<uint32_t>(), "switch", Ref(&switch_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Widget::m_index), type<size_t>(), "index", Ref(&index_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Widget::m_open), type<bool>(), "open", Ref(&open_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Widget::m_body), type<mud::Widget>(), "body", Ref(body_default), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{
@@ -1382,6 +1467,7 @@ namespace mud
 	{
 		Type& t = type<mud::Canvas>();
 		static Meta meta = { t, &namspc({ "mud" }), "Canvas", sizeof(mud::Canvas), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Widget>() },
@@ -1408,6 +1494,7 @@ namespace mud
 	{
 		Type& t = type<mud::Dockable>();
 		static Meta meta = { t, &namspc({ "mud" }), "Dockable", sizeof(mud::Dockable), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Widget>() },
@@ -1434,6 +1521,7 @@ namespace mud
 	{
 		Type& t = type<mud::Docker>();
 		static Meta meta = { t, &namspc({ "mud" }), "Docker", sizeof(mud::Docker), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Widget>() },
@@ -1460,6 +1548,7 @@ namespace mud
 	{
 		Type& t = type<mud::Dockbar>();
 		static Meta meta = { t, &namspc({ "mud" }), "Dockbar", sizeof(mud::Dockbar), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Docker>() },
@@ -1486,6 +1575,7 @@ namespace mud
 	{
 		Type& t = type<mud::Dockspace>();
 		static Meta meta = { t, &namspc({ "mud" }), "Dockspace", sizeof(mud::Dockspace), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Docker>() },
@@ -1512,6 +1602,7 @@ namespace mud
 	{
 		Type& t = type<mud::Expandbox>();
 		static Meta meta = { t, &namspc({ "mud" }), "Expandbox", sizeof(mud::Expandbox), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Widget>() },
@@ -1538,6 +1629,7 @@ namespace mud
 	{
 		Type& t = type<mud::Node>();
 		static Meta meta = { t, &namspc({ "mud" }), "Node", sizeof(mud::Node), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Widget>() },
@@ -1564,6 +1656,7 @@ namespace mud
 	{
 		Type& t = type<mud::NodePlug>();
 		static Meta meta = { t, &namspc({ "mud" }), "NodePlug", sizeof(mud::NodePlug), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Widget>() },
@@ -1590,6 +1683,7 @@ namespace mud
 	{
 		Type& t = type<mud::RowSolver>();
 		static Meta meta = { t, &namspc({ "mud" }), "RowSolver", sizeof(mud::RowSolver), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::FrameSolver>() },
@@ -1616,6 +1710,7 @@ namespace mud
 	{
 		Type& t = type<mud::ScrollSheet>();
 		static Meta meta = { t, &namspc({ "mud" }), "ScrollSheet", sizeof(mud::ScrollSheet), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Widget>() },
@@ -1642,6 +1737,7 @@ namespace mud
 	{
 		Type& t = type<mud::ui::Sequence>();
 		static Meta meta = { t, &namspc({ "mud", "ui" }), "Sequence", sizeof(mud::ui::Sequence), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Widget>() },
@@ -1668,6 +1764,7 @@ namespace mud
 	{
 		Type& t = type<mud::Tabber>();
 		static Meta meta = { t, &namspc({ "mud" }), "Tabber", sizeof(mud::Tabber), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Widget>() },
@@ -1694,6 +1791,7 @@ namespace mud
 	{
 		Type& t = type<mud::Table>();
 		static Meta meta = { t, &namspc({ "mud" }), "Table", sizeof(mud::Table), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Widget>() },
@@ -1720,6 +1818,7 @@ namespace mud
 	{
 		Type& t = type<mud::TextEdit>();
 		static Meta meta = { t, &namspc({ "mud" }), "TextEdit", sizeof(mud::TextEdit), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Widget>() },
@@ -1746,6 +1845,7 @@ namespace mud
 	{
 		Type& t = type<mud::TreeNode>();
 		static Meta meta = { t, &namspc({ "mud" }), "TreeNode", sizeof(mud::TreeNode), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Widget>() },
@@ -1772,6 +1872,7 @@ namespace mud
 	{
 		Type& t = type<mud::Ui>();
 		static Meta meta = { t, &namspc({ "mud" }), "Ui", sizeof(mud::Ui), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Widget>() },
@@ -1799,6 +1900,7 @@ namespace mud
 	{
 		Type& t = type<mud::Window>();
 		static Meta meta = { t, &namspc({ "mud" }), "Window", sizeof(mud::Window), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Dockable>() },

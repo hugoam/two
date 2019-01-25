@@ -29,6 +29,7 @@ namespace mud
 	{
 		Type& t = type<mud::Complex>();
 		static Meta meta = { t, &namspc({ "mud" }), "Complex", sizeof(mud::Complex), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -43,10 +44,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Complex::m_id), type<uint32_t>(), "id", var(uint32_t()), Member::Value, nullptr },
-				{ t, Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Complex>(object).m_type); } },
-				{ t, Address(), type<mud::Prototype>(), "prototype", Ref(type<mud::Prototype>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Complex>(object).m_prototype); } },
-				{ t, member_address(&mud::Complex::m_parts), type<vector<mud::Ref>>(), "parts", var(vector<mud::Ref>()), Member::Value, nullptr }
+				{ t, member_address(&mud::Complex::m_id), type<uint32_t>(), "id", Ref(), Member::Value, nullptr },
+				{ t, Address(), type<mud::Type>(), "type", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Complex>(object).m_type); } },
+				{ t, Address(), type<mud::Prototype>(), "prototype", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Complex>(object).m_prototype); } },
+				{ t, member_address(&mud::Complex::m_parts), type<vector<mud::Ref>>(), "parts", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -67,6 +68,7 @@ namespace mud
 	{
 		Type& t = type<mud::Entity>();
 		static Meta meta = { t, &namspc({ "mud" }), "Entity", sizeof(mud::Entity), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -95,6 +97,7 @@ namespace mud
 	{
 		Type& t = type<mud::Prototype>();
 		static Meta meta = { t, &namspc({ "mud" }), "Prototype", sizeof(mud::Prototype), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },

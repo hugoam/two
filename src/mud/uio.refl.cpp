@@ -56,6 +56,7 @@ namespace mud
 	{
 		Type& t = type<mud::ScriptEditor>();
 		static Meta meta = { t, &namspc({ "mud" }), "ScriptEditor", sizeof(mud::ScriptEditor), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },

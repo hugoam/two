@@ -87,6 +87,7 @@
 #endif
 
 #ifndef MUD_CPP_20
+#include <initializer_list>
 #include <cstddef>
 #include <cstdint>
 #include <cassert>
@@ -112,18 +113,13 @@ namespace mud
 		operator array<T>() { return{ m_array, Size }; }
 	};
 
-	template <class... T_Args, size_t size = sizeof...(T_Args)>
-	carray<cstring, size> cstrarray(T_Args... args) { return carray<cstring, size>{ args... }; }
-
-	template <class... T_Args, size_t size = sizeof...(T_Args)>
-	carray<cstring, size> strarray(T_Args... args) { return carray<cstring, size>{ args.c_str()... }; }
-
 	export_ template <typename T>
 	struct refl_ struct_ array
 	{
 	public:
 		array() : m_pointer(nullptr), m_count(0) {}
 		array(T* pointer, size_t count) : m_pointer(pointer), m_count(count) {}
+		array(std::initializer_list<T> l) : m_pointer(const_cast<T*>(l.begin())), m_count(l.size()) {}
 		array(array<T> other, size_t offset) : m_pointer(other.m_pointer + offset), m_count(other.m_count - offset) {}
 		array(array<T> other, size_t offset, size_t count) : m_pointer(other.m_pointer + offset), m_count(count) {}
 		template <size_t size>
@@ -646,15 +642,6 @@ namespace mud
 		static inline void to(const vector<T>& val, string& str) { vector_to_string(val, str); }
 		static inline void from(const string& str, vector<T>& vec) { string_to_vector(str, vec); }
 	};
-
-#if 0
-	export_ template <class T, size_t s>
-	struct StringConverter<carray<T, s>>
-	{
-		static inline void to(const std::array<T, s>& val, string& str) { fixed_vector_to_string<carray<T, s>, s>(val, str); }
-		static inline void from(const string& str, std::array<T, s>& vec) { string_to_fixed_vector<carray<T, s>, T>(str, vec); }
-	};
-#endif
 
 	export_ template <class T_Enum>
 	inline void flags_from_string(const string& str, T_Enum& value)

@@ -79,6 +79,10 @@ namespace mud
 	{
 		Type& t = type<mud::Context>();
 		static Meta meta = { t, &namspc({ "mud" }), "Context", sizeof(mud::Context), TypeClass::Object };
+		// defaults
+		static bool active_default = true;
+		static bool shutdown_default = false;
+		static bool mouse_lock_default = false;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -91,15 +95,15 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Context::m_resource_path), type<string>(), "resource_path", var(string()), Member::Flags(Member::Value|Member::NonMutable), nullptr },
-				{ t, member_address(&mud::Context::m_title), type<string>(), "title", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::Context::m_width), type<unsigned int>(), "width", var(uint()), Member::Value, nullptr },
-				{ t, member_address(&mud::Context::m_height), type<unsigned int>(), "height", var(uint()), Member::Value, nullptr },
-				{ t, member_address(&mud::Context::m_full_screen), type<bool>(), "full_screen", var(bool()), Member::Value, nullptr },
-				{ t, member_address(&mud::Context::m_active), type<bool>(), "active", var(bool(true)), Member::Value, nullptr },
-				{ t, member_address(&mud::Context::m_shutdown), type<bool>(), "shutdown", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Context::m_cursor), type<mud::vec2>(), "cursor", var(mud::vec2()), Member::Value, nullptr },
-				{ t, member_address(&mud::Context::m_mouse_lock), type<bool>(), "mouse_lock", var(bool(false)), Member::Value, nullptr }
+				{ t, member_address(&mud::Context::m_resource_path), type<string>(), "resource_path", Ref(), Member::Flags(Member::Value|Member::NonMutable), nullptr },
+				{ t, member_address(&mud::Context::m_title), type<string>(), "title", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Context::m_width), type<unsigned int>(), "width", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Context::m_height), type<unsigned int>(), "height", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Context::m_full_screen), type<bool>(), "full_screen", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Context::m_active), type<bool>(), "active", Ref(&active_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Context::m_shutdown), type<bool>(), "shutdown", Ref(&shutdown_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Context::m_cursor), type<mud::vec2>(), "cursor", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Context::m_mouse_lock), type<bool>(), "mouse_lock", Ref(&mouse_lock_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -118,6 +122,7 @@ namespace mud
 	{
 		Type& t = type<mud::ControlNode>();
 		static Meta meta = { t, &namspc({ "mud" }), "ControlNode", sizeof(mud::ControlNode), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -144,6 +149,13 @@ namespace mud
 	{
 		Type& t = type<mud::InputEvent>();
 		static Meta meta = { t, &namspc({ "mud" }), "InputEvent", sizeof(mud::InputEvent), TypeClass::Struct };
+		// defaults
+		static mud::DeviceType deviceType_default = mud::DeviceType::None;
+		static mud::EventType eventType_default = mud::EventType::None;
+		static mud::ControlNode* receiver_default = nullptr;
+		static mud::ControlNode* consumer_default = nullptr;
+		static bool abort_default = false;
+		static mud::InputMod modifiers_default = mud::InputMod::None;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -158,13 +170,13 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::InputEvent::m_deviceType), type<mud::DeviceType>(), "deviceType", var(mud::DeviceType::None), Member::Value, nullptr },
-				{ t, member_address(&mud::InputEvent::m_eventType), type<mud::EventType>(), "eventType", var(mud::EventType::None), Member::Value, nullptr },
-				{ t, member_address(&mud::InputEvent::m_receiver), type<mud::ControlNode>(), "receiver", Ref(type<mud::ControlNode>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::InputEvent::m_consumer), type<mud::ControlNode>(), "consumer", Ref(type<mud::ControlNode>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::InputEvent::m_abort), type<bool>(), "abort", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::InputEvent::m_modifiers), type<mud::InputMod>(), "modifiers", var(mud::InputMod::None), Member::Value, nullptr },
-				{ t, member_address(&mud::InputEvent::m_key), type<int>(), "key", var(int()), Member::Value, nullptr }
+				{ t, member_address(&mud::InputEvent::m_deviceType), type<mud::DeviceType>(), "deviceType", Ref(&deviceType_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InputEvent::m_eventType), type<mud::EventType>(), "eventType", Ref(&eventType_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InputEvent::m_receiver), type<mud::ControlNode>(), "receiver", Ref(receiver_default), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::InputEvent::m_consumer), type<mud::ControlNode>(), "consumer", Ref(consumer_default), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::InputEvent::m_abort), type<bool>(), "abort", Ref(&abort_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InputEvent::m_modifiers), type<mud::InputMod>(), "modifiers", Ref(&modifiers_default), Member::Value, nullptr },
+				{ t, member_address(&mud::InputEvent::m_key), type<int>(), "key", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -181,6 +193,7 @@ namespace mud
 	{
 		Type& t = type<mud::Keyboard>();
 		static Meta meta = { t, &namspc({ "mud" }), "Keyboard", sizeof(mud::Keyboard), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -207,6 +220,7 @@ namespace mud
 	{
 		Type& t = type<mud::Mouse>();
 		static Meta meta = { t, &namspc({ "mud" }), "Mouse", sizeof(mud::Mouse), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -233,6 +247,7 @@ namespace mud
 	{
 		Type& t = type<mud::RenderSystem>();
 		static Meta meta = { t, &namspc({ "mud" }), "RenderSystem", sizeof(mud::RenderSystem), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -259,6 +274,7 @@ namespace mud
 	{
 		Type& t = type<mud::KeyEvent>();
 		static Meta meta = { t, &namspc({ "mud" }), "KeyEvent", sizeof(mud::KeyEvent), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::InputEvent>() },
@@ -273,8 +289,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::KeyEvent::m_code), type<mud::Key>(), "code", var(mud::Key()), Member::Value, nullptr },
-				{ t, member_address(&mud::KeyEvent::m_char), type<char>(), "char", var(char()), Member::Value, nullptr }
+				{ t, member_address(&mud::KeyEvent::m_code), type<mud::Key>(), "code", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::KeyEvent::m_char), type<char>(), "char", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -289,6 +305,13 @@ namespace mud
 	{
 		Type& t = type<mud::MouseEvent>();
 		static Meta meta = { t, &namspc({ "mud" }), "MouseEvent", sizeof(mud::MouseEvent), TypeClass::Struct };
+		// defaults
+		static mud::vec2 pos_default = {0.f,0.f};
+		static mud::vec2 relative_default = {0.f,0.f};
+		static mud::vec2 delta_default = {0.f,0.f};
+		static float deltaZ_default = 0.f;
+		static mud::vec2 pressed_default = {0.f,0.f};
+		static mud::MouseButtonCode button_default = NO_BUTTON;
 		static Class cls = { t,
 			// bases
 			{ &type<mud::InputEvent>() },
@@ -303,12 +326,12 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::MouseEvent::m_pos), type<mud::vec2>(), "pos", var(mud::vec2{0.f,0.f}), Member::Value, nullptr },
-				{ t, member_address(&mud::MouseEvent::m_relative), type<mud::vec2>(), "relative", var(mud::vec2{0.f,0.f}), Member::Value, nullptr },
-				{ t, member_address(&mud::MouseEvent::m_delta), type<mud::vec2>(), "delta", var(mud::vec2{0.f,0.f}), Member::Value, nullptr },
-				{ t, member_address(&mud::MouseEvent::m_deltaZ), type<float>(), "deltaZ", var(float(0.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::MouseEvent::m_pressed), type<mud::vec2>(), "pressed", var(mud::vec2{0.f,0.f}), Member::Value, nullptr },
-				{ t, member_address(&mud::MouseEvent::m_button), type<mud::MouseButtonCode>(), "button", var(mud::MouseButtonCode(NO_BUTTON)), Member::Value, nullptr }
+				{ t, member_address(&mud::MouseEvent::m_pos), type<mud::vec2>(), "pos", Ref(&pos_default), Member::Value, nullptr },
+				{ t, member_address(&mud::MouseEvent::m_relative), type<mud::vec2>(), "relative", Ref(&relative_default), Member::Value, nullptr },
+				{ t, member_address(&mud::MouseEvent::m_delta), type<mud::vec2>(), "delta", Ref(&delta_default), Member::Value, nullptr },
+				{ t, member_address(&mud::MouseEvent::m_deltaZ), type<float>(), "deltaZ", Ref(&deltaZ_default), Member::Value, nullptr },
+				{ t, member_address(&mud::MouseEvent::m_pressed), type<mud::vec2>(), "pressed", Ref(&pressed_default), Member::Value, nullptr },
+				{ t, member_address(&mud::MouseEvent::m_button), type<mud::MouseButtonCode>(), "button", Ref(&button_default), Member::Value, nullptr }
 			},
 			// methods
 			{

@@ -114,7 +114,7 @@ namespace mud
 		, m_value(value)
 	{}
 
-	Member::Member(Type& object_type, Address address, Type& type, cstring name, Var default_value, Flags flags, MemberGet get)
+	Member::Member(Type& object_type, Address address, Type& type, cstring name, Ref default_value, Flags flags, MemberGet get)
 		: m_index(0)
 		, m_object_type(&object_type)
 		, m_address(address)

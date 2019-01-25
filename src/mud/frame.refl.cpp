@@ -28,6 +28,8 @@ namespace mud
 	{
 		Type& t = type<mud::Shell>();
 		static Meta meta = { t, &namspc({ "mud" }), "Shell", sizeof(mud::Shell), TypeClass::Object };
+		// defaults
+		static mud::Ui* ui_default = nullptr;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -41,12 +43,12 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Shell::m_exec_path), type<string>(), "exec_path", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::Shell::m_resource_path), type<string>(), "resource_path", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::Shell::m_job_system), type<mud::JobSystem>(), "job_system", Ref(type<mud::JobSystem>()), Member::NonMutable, nullptr },
-				{ t, member_address(&mud::Shell::m_gfx_system), type<mud::GfxSystem>(), "gfx_system", Ref(type<mud::GfxSystem>()), Member::NonMutable, nullptr },
-				{ t, member_address(&mud::Shell::m_editor), type<mud::ShellContext>(), "editor", var(mud::ShellContext()), Member::Value, nullptr },
-				{ t, member_address(&mud::Shell::m_ui), type<mud::Ui>(), "ui", Ref(type<mud::Ui>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::Shell::m_exec_path), type<string>(), "exec_path", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Shell::m_resource_path), type<string>(), "resource_path", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Shell::m_job_system), type<mud::JobSystem>(), "job_system", Ref(), Member::NonMutable, nullptr },
+				{ t, member_address(&mud::Shell::m_gfx_system), type<mud::GfxSystem>(), "gfx_system", Ref(), Member::NonMutable, nullptr },
+				{ t, member_address(&mud::Shell::m_editor), type<mud::ShellContext>(), "editor", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Shell::m_ui), type<mud::Ui>(), "ui", Ref(ui_default), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{
@@ -63,6 +65,9 @@ namespace mud
 	{
 		Type& t = type<mud::ShellContext>();
 		static Meta meta = { t, &namspc({ "mud" }), "ShellContext", sizeof(mud::ShellContext), TypeClass::Struct };
+		// defaults
+		static mud::Widget* screen_default = nullptr;
+		static mud::Dockbar* dockbar_default = nullptr;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -77,8 +82,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ShellContext::m_screen), type<mud::Widget>(), "screen", Ref(type<mud::Widget>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::ShellContext::m_dockbar), type<mud::Dockbar>(), "dockbar", Ref(type<mud::Dockbar>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::ShellContext::m_screen), type<mud::Widget>(), "screen", Ref(screen_default), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::ShellContext::m_dockbar), type<mud::Dockbar>(), "dockbar", Ref(dockbar_default), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{

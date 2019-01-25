@@ -391,7 +391,7 @@ namespace mud
 		};
 
 	public:
-		Member(Type& object_type, Address address, Type& type, cstring name, Var default_value, Flags flags = Flags::None, MemberGet get = nullptr);
+		Member(Type& object_type, Address address, Type& type, cstring name, Ref default_value, Flags flags = Flags::None, MemberGet get = nullptr);
 		~Member();
 
 		int m_index;
@@ -400,7 +400,7 @@ namespace mud
 		size_t m_offset;
 		Type* m_type;
 		cstring m_name;
-		Var m_default_value;
+		Ref m_default_value;
 		Flags m_flags;
 		MemberGet m_get;
 
@@ -426,12 +426,12 @@ namespace mud
 				return ref;
 		}
 
-		inline Var get_value(Ref object) const
+		/*inline Var get_value(Ref object) const;
 		{
 			Var result = m_default_value;
 			result.copy(this->get(object));
 			return result;
-		}
+		}*/
 
 		inline void set(Ref object, Ref value) const
 		{
@@ -444,7 +444,7 @@ namespace mud
 
 		inline Ref cast(Ref object) const;
 		inline Ref cast_get(Ref object) const;
-		inline Var safe_get(Ref object) const;
+		//inline Var safe_get(Ref object) const;
 		inline void cast_set(Ref object, Ref value) const;
 	};
 
@@ -562,12 +562,14 @@ namespace mud
 		return this->get(cast(object));
 	}
 
+#if 0
 	inline Var Member::safe_get(Ref object) const
 	{
 		Var result = m_default_value;
 		result.copy(this->get(cast(object)));
 		return result;
 	}
+#endif
 
 	inline void Member::cast_set(Ref object, Ref value) const
 	{

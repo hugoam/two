@@ -26,7 +26,7 @@ namespace mud
 	{
 		Widget& self = ui::sheet(parent);
 
-		Table& table = ui::table(self, carray<cstring, 2>{ "Field", "Value" }, carray<float, 2>{ 0.3f, 0.7f });
+		Table& table = ui::table(self, { "Field", "Value" }, { 0.3f, 0.7f });
 
 		static vector<cstring> animations;
 		animations.clear();
@@ -44,7 +44,7 @@ namespace mud
 			ui::slider_field<float>(table, "timeline", { play.m_cursor, { 0.f, play.m_animation->m_length, 0.01f } });
 		}
 
-		Table& playing = ui::table(self, carray<cstring, 2>{ "Animation", "Time" }, carray<float, 2>{ 0.6f, 0.4f });
+		Table& playing = ui::table(self, { "Animation", "Time" }, { 0.6f, 0.4f });
 		for(AnimationPlay& play : animated.m_playing)
 		{
 			Widget& row = ui::table_row(playing);
@@ -78,7 +78,7 @@ namespace mud
 		const bgfx::Stats* stats = bgfx::getStats();
 
 		{
-			Table& columns = ui::columns(self, carray<float, 2>{ 0.4f, 0.6f });
+			Table& columns = ui::columns(self, { 0.4f, 0.6f });
 
 			double cpu_time = 1000.0f * stats->cpuTimeFrame / (double)stats->cpuTimerFreq;
 
@@ -162,7 +162,7 @@ namespace mud
 	Widget& asset_item(Widget& parent, cstring icon, cstring name, Ref asset)
 	{
 		Widget& self = ui::element(parent, asset);
-		ui::multi_item(self, carray<cstring, 2>{ icon, name });
+		ui::multi_item(self, { icon, name });
 		//if(self.selected())
 		//	asset_viewer(self, asset);
 		if(Widget* tooltip = ui::hoverbox(self, 0.f))
@@ -209,7 +209,7 @@ namespace mud
 			for(auto& name_program : gfx_system.programs().m_assets)
 			{
 				Widget& element = ui::element(sequence, Ref(name_program.second.get()));
-				ui::multi_item(element, carray<cstring, 2>{ "(program)", name_program.first.c_str() });
+				ui::multi_item(element, { "(program)", name_program.first.c_str() });
 			}
 
 		if(models)

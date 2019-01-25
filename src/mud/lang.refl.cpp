@@ -40,6 +40,7 @@ namespace mud
 	{
 		Type& t = type<mud::Interpreter>();
 		static Meta meta = { t, &namspc({ "mud" }), "Interpreter", sizeof(mud::Interpreter), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -66,6 +67,7 @@ namespace mud
 	{
 		Type& t = type<mud::Pipe>();
 		static Meta meta = { t, &namspc({ "mud" }), "Pipe", sizeof(mud::Pipe), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -92,6 +94,7 @@ namespace mud
 	{
 		Type& t = type<mud::Process>();
 		static Meta meta = { t, &namspc({ "mud" }), "Process", sizeof(mud::Process), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -104,7 +107,7 @@ namespace mud
 			},
 			// members
 			{
-				{ t, Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Process>(object).m_type); } }
+				{ t, Address(), type<mud::Type>(), "type", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Process>(object).m_type); } }
 			},
 			// methods
 			{
@@ -119,6 +122,7 @@ namespace mud
 	{
 		Type& t = type<mud::ScriptClass>();
 		static Meta meta = { t, &namspc({ "mud" }), "ScriptClass", sizeof(mud::ScriptClass), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -132,10 +136,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ScriptClass::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::ScriptClass::m_class_type), type<mud::Type>(), "class_type", Ref(type<mud::Type>()), Member::NonMutable, nullptr },
-				{ t, member_address(&mud::ScriptClass::m_class), type<mud::Class>(), "class", Ref(type<mud::Class>()), Member::NonMutable, nullptr },
-				//{ t, member_address(&mud::ScriptClass::m_prototype), type<mud::Prototype>(), "prototype", Ref(type<mud::Prototype>()), Member::NonMutable, nullptr }
+				{ t, member_address(&mud::ScriptClass::m_name), type<string>(), "name", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ScriptClass::m_class_type), type<mud::Type>(), "class_type", Ref(), Member::NonMutable, nullptr },
+				{ t, member_address(&mud::ScriptClass::m_class), type<mud::Class>(), "class", Ref(), Member::NonMutable, nullptr },
+				//{ t, member_address(&mud::ScriptClass::m_prototype), type<mud::Prototype>(), "prototype", Ref(), Member::NonMutable, nullptr }
 			},
 			// methods
 			{
@@ -151,6 +155,7 @@ namespace mud
 	{
 		Type& t = type<mud::ScriptError>();
 		static Meta meta = { t, &namspc({ "mud" }), "ScriptError", sizeof(mud::ScriptError), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -179,6 +184,7 @@ namespace mud
 	{
 		Type& t = type<mud::StreamBranch>();
 		static Meta meta = { t, &namspc({ "mud" }), "StreamBranch", sizeof(mud::StreamBranch), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -205,6 +211,7 @@ namespace mud
 	{
 		Type& t = type<mud::Valve>();
 		static Meta meta = { t, &namspc({ "mud" }), "Valve", sizeof(mud::Valve), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -231,6 +238,7 @@ namespace mud
 	{
 		Type& t = type<mud::LuaInterpreter>();
 		static Meta meta = { t, &namspc({ "mud" }), "LuaInterpreter", sizeof(mud::LuaInterpreter), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Interpreter>() },
@@ -257,6 +265,7 @@ namespace mud
 	{
 		Type& t = type<mud::ProcessCallable>();
 		static Meta meta = { t, &namspc({ "mud" }), "ProcessCallable", sizeof(mud::ProcessCallable), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Process>() },
@@ -285,6 +294,7 @@ namespace mud
 	{
 		Type& t = type<mud::ProcessCreate>();
 		static Meta meta = { t, &namspc({ "mud" }), "ProcessCreate", sizeof(mud::ProcessCreate), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Process>() },
@@ -313,6 +323,7 @@ namespace mud
 	{
 		Type& t = type<mud::ProcessDisplay>();
 		static Meta meta = { t, &namspc({ "mud" }), "ProcessDisplay", sizeof(mud::ProcessDisplay), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Process>() },
@@ -339,6 +350,7 @@ namespace mud
 	{
 		Type& t = type<mud::ProcessFunction>();
 		static Meta meta = { t, &namspc({ "mud" }), "ProcessFunction", sizeof(mud::ProcessFunction), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::ProcessCallable>() },
@@ -367,6 +379,7 @@ namespace mud
 	{
 		Type& t = type<mud::ProcessGetMember>();
 		static Meta meta = { t, &namspc({ "mud" }), "ProcessGetMember", sizeof(mud::ProcessGetMember), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Process>() },
@@ -395,6 +408,7 @@ namespace mud
 	{
 		Type& t = type<mud::ProcessInput>();
 		static Meta meta = { t, &namspc({ "mud" }), "ProcessInput", sizeof(mud::ProcessInput), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Process>(), &type<mud::Param>() },
@@ -421,6 +435,7 @@ namespace mud
 	{
 		Type& t = type<mud::ProcessMethod>();
 		static Meta meta = { t, &namspc({ "mud" }), "ProcessMethod", sizeof(mud::ProcessMethod), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::ProcessCallable>() },
@@ -449,6 +464,7 @@ namespace mud
 	{
 		Type& t = type<mud::ProcessOutput>();
 		static Meta meta = { t, &namspc({ "mud" }), "ProcessOutput", sizeof(mud::ProcessOutput), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Process>(), &type<mud::Param>() },
@@ -475,6 +491,7 @@ namespace mud
 	{
 		Type& t = type<mud::ProcessScript>();
 		static Meta meta = { t, &namspc({ "mud" }), "ProcessScript", sizeof(mud::ProcessScript), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::ProcessCallable>() },
@@ -503,6 +520,7 @@ namespace mud
 	{
 		Type& t = type<mud::ProcessSetMember>();
 		static Meta meta = { t, &namspc({ "mud" }), "ProcessSetMember", sizeof(mud::ProcessSetMember), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Process>() },
@@ -531,6 +549,7 @@ namespace mud
 	{
 		Type& t = type<mud::ProcessValue>();
 		static Meta meta = { t, &namspc({ "mud" }), "ProcessValue", sizeof(mud::ProcessValue), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Process>() },
@@ -559,6 +578,7 @@ namespace mud
 	{
 		Type& t = type<mud::Script>();
 		static Meta meta = { t, &namspc({ "mud" }), "Script", sizeof(mud::Script), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Callable>() },
@@ -571,10 +591,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Script::m_index), type<uint32_t>(), "index", var(uint32_t()), Member::Value, nullptr },
-				{ t, Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Script>(object).m_type); } },
-				{ t, member_address(&mud::Script::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::Script::m_locked), type<bool>(), "locked", var(bool()), Member::Value, nullptr }
+				{ t, member_address(&mud::Script::m_index), type<uint32_t>(), "index", Ref(), Member::Value, nullptr },
+				{ t, Address(), type<mud::Type>(), "type", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Script>(object).m_type); } },
+				{ t, member_address(&mud::Script::m_name), type<string>(), "name", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Script::m_locked), type<bool>(), "locked", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -589,6 +609,7 @@ namespace mud
 	{
 		Type& t = type<mud::Stream>();
 		static Meta meta = { t, &namspc({ "mud" }), "Stream", sizeof(mud::Stream), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::StreamBranch>() },
@@ -615,6 +636,7 @@ namespace mud
 	{
 		Type& t = type<mud::TextScript>();
 		static Meta meta = { t, &namspc({ "mud" }), "TextScript", sizeof(mud::TextScript), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Script>() },
@@ -628,9 +650,9 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::TextScript::m_language), type<mud::Language>(), "language", var(mud::Language()), Member::Value, nullptr },
-				{ t, member_address(&mud::TextScript::m_script), type<string>(), "script", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::TextScript::m_dirty), type<bool>(), "dirty", var(bool()), Member::Value, nullptr }
+				{ t, member_address(&mud::TextScript::m_language), type<mud::Language>(), "language", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::TextScript::m_script), type<string>(), "script", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::TextScript::m_dirty), type<bool>(), "dirty", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -646,6 +668,7 @@ namespace mud
 	{
 		Type& t = type<mud::VisualScript>();
 		static Meta meta = { t, &namspc({ "mud" }), "VisualScript", sizeof(mud::VisualScript), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Script>() },
@@ -674,6 +697,7 @@ namespace mud
 	{
 		Type& t = type<mud::WrenInterpreter>();
 		static Meta meta = { t, &namspc({ "mud" }), "WrenInterpreter", sizeof(mud::WrenInterpreter), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Interpreter>() },
