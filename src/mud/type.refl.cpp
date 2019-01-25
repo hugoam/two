@@ -18,71 +18,88 @@ namespace mud
 	
 	// Base Types
 	{
-		static Meta meta = { type<bool>(), &namspc({}), "bool", sizeof(bool), TypeClass::BaseType };
+		Type& t = type<bool>();
+		static Meta meta = { t, &namspc({}), "bool", sizeof(bool), TypeClass::BaseType };
 		meta_basetype<bool>();
 	}
 	{
-		static Meta meta = { type<char>(), &namspc({}), "char", sizeof(char), TypeClass::BaseType };
+		Type& t = type<char>();
+		static Meta meta = { t, &namspc({}), "char", sizeof(char), TypeClass::BaseType };
 		meta_basetype<char>();
 	}
 	{
-		static Meta meta = { type<const char*>(), &namspc({}), "const char*", sizeof(const char*), TypeClass::BaseType };
+		Type& t = type<const char*>();
+		static Meta meta = { t, &namspc({}), "const char*", sizeof(const char*), TypeClass::BaseType };
 		meta_basetype<const char*>();
 	}
 	{
-		static Meta meta = { type<double>(), &namspc({}), "double", sizeof(double), TypeClass::BaseType };
+		Type& t = type<double>();
+		static Meta meta = { t, &namspc({}), "double", sizeof(double), TypeClass::BaseType };
 		meta_basetype<double>();
 	}
 	{
-		static Meta meta = { type<float>(), &namspc({}), "float", sizeof(float), TypeClass::BaseType };
+		Type& t = type<float>();
+		static Meta meta = { t, &namspc({}), "float", sizeof(float), TypeClass::BaseType };
 		meta_basetype<float>();
 	}
 	{
-		static Meta meta = { type<int>(), &namspc({}), "int", sizeof(int), TypeClass::BaseType };
+		Type& t = type<int>();
+		static Meta meta = { t, &namspc({}), "int", sizeof(int), TypeClass::BaseType };
 		meta_basetype<int>();
 	}
 	{
-		static Meta meta = { type<long>(), &namspc({}), "long", sizeof(long), TypeClass::BaseType };
+		Type& t = type<long>();
+		static Meta meta = { t, &namspc({}), "long", sizeof(long), TypeClass::BaseType };
 		meta_basetype<long>();
 	}
 	{
-		static Meta meta = { type<long long>(), &namspc({}), "long long", sizeof(long long), TypeClass::BaseType };
+		Type& t = type<long long>();
+		static Meta meta = { t, &namspc({}), "long long", sizeof(long long), TypeClass::BaseType };
 		meta_basetype<long long>();
 	}
 	{
-		static Meta meta = { type<short>(), &namspc({}), "short", sizeof(short), TypeClass::BaseType };
+		Type& t = type<short>();
+		static Meta meta = { t, &namspc({}), "short", sizeof(short), TypeClass::BaseType };
 		meta_basetype<short>();
 	}
 	{
-		static Meta meta = { type<string>(), &namspc({}), "string", sizeof(string), TypeClass::BaseType };
+		Type& t = type<string>();
+		static Meta meta = { t, &namspc({}), "string", sizeof(string), TypeClass::BaseType };
 		meta_basetype<string>();
 	}
 	{
-		static Meta meta = { type<unsigned char>(), &namspc({}), "unsigned char", sizeof(unsigned char), TypeClass::BaseType };
+		Type& t = type<unsigned char>();
+		static Meta meta = { t, &namspc({}), "unsigned char", sizeof(unsigned char), TypeClass::BaseType };
 		meta_basetype<unsigned char>();
 	}
 	{
-		static Meta meta = { type<unsigned int>(), &namspc({}), "unsigned int", sizeof(unsigned int), TypeClass::BaseType };
+		Type& t = type<unsigned int>();
+		static Meta meta = { t, &namspc({}), "unsigned int", sizeof(unsigned int), TypeClass::BaseType };
 		meta_basetype<unsigned int>();
 	}
 	{
-		static Meta meta = { type<unsigned long>(), &namspc({}), "unsigned long", sizeof(unsigned long), TypeClass::BaseType };
+		Type& t = type<unsigned long>();
+		static Meta meta = { t, &namspc({}), "unsigned long", sizeof(unsigned long), TypeClass::BaseType };
 		meta_basetype<unsigned long>();
 	}
 	{
-		static Meta meta = { type<unsigned long long>(), &namspc({}), "unsigned long long", sizeof(unsigned long long), TypeClass::BaseType };
+		Type& t = type<unsigned long long>();
+		static Meta meta = { t, &namspc({}), "unsigned long long", sizeof(unsigned long long), TypeClass::BaseType };
 		meta_basetype<unsigned long long>();
 	}
 	{
-		static Meta meta = { type<unsigned short>(), &namspc({}), "unsigned short", sizeof(unsigned short), TypeClass::BaseType };
+		Type& t = type<unsigned short>();
+		static Meta meta = { t, &namspc({}), "unsigned short", sizeof(unsigned short), TypeClass::BaseType };
 		meta_basetype<unsigned short>();
 	}
 	{
-		static Meta meta = { type<void>(), &namspc({}), "void", 0, TypeClass::BaseType };
+		Type& t = type<void>();
+		static Meta meta = { t, &namspc({}), "void", 0, TypeClass::BaseType };
 		meta_basetype<void>();
 	}
 	{
-		static Meta meta = { type<void*>(), &namspc({}), "void*", sizeof(void*), TypeClass::BaseType };
+		Type& t = type<void*>();
+		static Meta meta = { t, &namspc({}), "void*", sizeof(void*), TypeClass::BaseType };
 		meta_basetype<void*>();
 	}
 	
@@ -90,16 +107,18 @@ namespace mud
 	
 	// Sequences
 	{
-		static Meta meta = { type<vector<mud::Ref>>(), &namspc({}), "vector<mud::Ref>", sizeof(vector<mud::Ref>), TypeClass::Sequence };
-		static Class cls = { type<vector<mud::Ref>>() };
+		Type& t = type<vector<mud::Ref>>();
+		static Meta meta = { t, &namspc({}), "vector<mud::Ref>", sizeof(vector<mud::Ref>), TypeClass::Sequence };
+		static Class cls = { t };
 		cls.m_content = &type<mud::Ref>();
 		meta_vector<vector<mud::Ref>, mud::Ref>();
 	}
 	
 	// mud::Index
 	{
-		static Meta meta = { type<mud::Index>(), &namspc({ "mud" }), "Index", sizeof(mud::Index), TypeClass::Object };
-		static Class cls = { type<mud::Index>(),
+		Type& t = type<mud::Index>();
+		static Meta meta = { t, &namspc({ "mud" }), "Index", sizeof(mud::Index), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },
@@ -114,19 +133,20 @@ namespace mud
 			},
 			// methods
 			{
-				{ type<mud::Index>(), "indexer", member_address<mud::Indexer&(mud::Index::*)(mud::Type&)>(&mud::Index::indexer), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::Index>(object).indexer(val<mud::Type>(args[0]))); }, { { "type", Ref(type<mud::Type>()) } }, Ref(type<mud::Indexer>()) }
+				{ t, "indexer", member_address<mud::Indexer&(mud::Index::*)(mud::Type&)>(&mud::Index::indexer), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::Index>(object).indexer(val<mud::Type>(args[0]))); }, { { "type", Ref(type<mud::Type>()) } }, Ref(type<mud::Indexer>()) }
 			},
 			// static members
 			{
-				{ type<mud::Index>(), "me", Ref(&mud::Index::me) }
+				{ t, "me", Ref(&mud::Index::me) }
 			}
 		};
 		meta_class<mud::Index>();
 	}
 	// mud::Indexer
 	{
-		static Meta meta = { type<mud::Indexer>(), &namspc({ "mud" }), "Indexer", sizeof(mud::Indexer), TypeClass::Object };
-		static Class cls = { type<mud::Indexer>(),
+		Type& t = type<mud::Indexer>();
+		static Meta meta = { t, &namspc({ "mud" }), "Indexer", sizeof(mud::Indexer), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },
@@ -138,8 +158,8 @@ namespace mud
 			},
 			// members
 			{
-				{ type<mud::Indexer>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Indexer>(object).m_type); } },
-				{ type<mud::Indexer>(), member_address(&mud::Indexer::m_objects), type<vector<mud::Ref>>(), "objects", var(vector<mud::Ref>()), Member::Value, nullptr }
+				{ t, Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Indexer>(object).m_type); } },
+				{ t, member_address(&mud::Indexer::m_objects), type<vector<mud::Ref>>(), "objects", var(vector<mud::Ref>()), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -152,24 +172,25 @@ namespace mud
 	}
 	// mud::Ref
 	{
-		static Meta meta = { type<mud::Ref>(), &namspc({ "mud" }), "Ref", sizeof(mud::Ref), TypeClass::Struct };
-		static Class cls = { type<mud::Ref>(),
+		Type& t = type<mud::Ref>();
+		static Meta meta = { t, &namspc({ "mud" }), "Ref", sizeof(mud::Ref), TypeClass::Struct };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },
 			// constructors
 			{
-				{ type<mud::Ref>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Ref>(ref)) mud::Ref(  ); }, {} },
-				{ type<mud::Ref>(), [](Ref ref, array<Var> args) { new(&val<mud::Ref>(ref)) mud::Ref( val<void*>(args[0]), val<mud::Type>(args[1]) ); }, { { "value", Ref(), Param::Nullable }, { "type", Ref(type<mud::Type>()) } } }
+				{ t, [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Ref>(ref)) mud::Ref(  ); }, {} },
+				{ t, [](Ref ref, array<Var> args) { new(&val<mud::Ref>(ref)) mud::Ref( val<void*>(args[0]), val<mud::Type>(args[1]) ); }, { { "value", Ref(), Param::Nullable }, { "type", Ref(type<mud::Type>()) } } }
 			},
 			// copy constructor
 			{
-				{ type<mud::Ref>(), [](Ref ref, Ref other) { new(&val<mud::Ref>(ref)) mud::Ref(val<mud::Ref>(other)); } }
+				{ t, [](Ref ref, Ref other) { new(&val<mud::Ref>(ref)) mud::Ref(val<mud::Ref>(other)); } }
 			},
 			// members
 			{
-				{ type<mud::Ref>(), member_address(&mud::Ref::m_type), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ type<mud::Ref>(), member_address(&mud::Ref::m_value), type<void*>(), "value", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::Ref::m_type), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::Ref::m_value), type<void*>(), "value", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{
@@ -182,8 +203,9 @@ namespace mud
 	}
 	// mud::Type
 	{
-		static Meta meta = { type<mud::Type>(), &namspc({ "mud" }), "Type", sizeof(mud::Type), TypeClass::Object };
-		static Class cls = { type<mud::Type>(),
+		Type& t = type<mud::Type>();
+		static Meta meta = { t, &namspc({ "mud" }), "Type", sizeof(mud::Type), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },
@@ -195,10 +217,10 @@ namespace mud
 			},
 			// members
 			{
-				{ type<mud::Type>(), member_address(&mud::Type::m_id), type<uint32_t>(), "id", var(uint32_t()), Member::Value, nullptr },
-				{ type<mud::Type>(), member_address(&mud::Type::m_name), type<const char*>(), "name", Ref(type<const char*>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ type<mud::Type>(), member_address(&mud::Type::m_size), type<size_t>(), "size", var(size_t()), Member::Value, nullptr },
-				{ type<mud::Type>(), member_address(&mud::Type::m_base), type<mud::Type>(), "base", Ref(type<mud::Type>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::Type::m_id), type<uint32_t>(), "id", var(uint32_t()), Member::Value, nullptr },
+				{ t, member_address(&mud::Type::m_name), type<const char*>(), "name", Ref(type<const char*>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::Type::m_size), type<size_t>(), "size", var(size_t()), Member::Value, nullptr },
+				{ t, member_address(&mud::Type::m_base), type<mud::Type>(), "base", Ref(type<mud::Type>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{
@@ -211,8 +233,9 @@ namespace mud
 	}
 	// mud::Var
 	{
-		static Meta meta = { type<mud::Var>(), &namspc({ "mud" }), "Var", sizeof(mud::Var), TypeClass::Object };
-		static Class cls = { type<mud::Var>(),
+		Type& t = type<mud::Var>();
+		static Meta meta = { t, &namspc({ "mud" }), "Var", sizeof(mud::Var), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },

@@ -24,53 +24,53 @@ namespace mud
 	
 	// Enums
 	{
-		static Meta meta = { type<mud::Noise::CellularDistanceFunction>(), &namspc({ "mud", "Noise" }), "CellularDistanceFunction", sizeof(mud::Noise::CellularDistanceFunction), TypeClass::Enum };
-		static Enum enu = { type<mud::Noise::CellularDistanceFunction>(),
-			false,
-			{ "Euclidean", "Manhattan", "Natural" },
-			{ 0, 1, 2 },
-			{ var(mud::Noise::Euclidean), var(mud::Noise::Manhattan), var(mud::Noise::Natural) }
-		};
+		Type& t = type<mud::Noise::CellularDistanceFunction>();
+		static Meta meta = { t, &namspc({ "mud", "Noise" }), "CellularDistanceFunction", sizeof(mud::Noise::CellularDistanceFunction), TypeClass::Enum };
+		static cstring ids[] = { "Euclidean", "Manhattan", "Natural" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::Noise::CellularDistanceFunction vars[] = { mud::Noise::Euclidean, mud::Noise::Manhattan, mud::Noise::Natural};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { t, false, ids, values, refs };
 		meta_enum<mud::Noise::CellularDistanceFunction>();
 	}
 	{
-		static Meta meta = { type<mud::Noise::CellularReturnType>(), &namspc({ "mud", "Noise" }), "CellularReturnType", sizeof(mud::Noise::CellularReturnType), TypeClass::Enum };
-		static Enum enu = { type<mud::Noise::CellularReturnType>(),
-			false,
-			{ "CellValue", "NoiseLookup", "Distance", "Distance2", "Distance2Add", "Distance2Sub", "Distance2Mul", "Distance2Div" },
-			{ 0, 1, 2, 3, 4, 5, 6, 7 },
-			{ var(mud::Noise::CellValue), var(mud::Noise::NoiseLookup), var(mud::Noise::Distance), var(mud::Noise::Distance2), var(mud::Noise::Distance2Add), var(mud::Noise::Distance2Sub), var(mud::Noise::Distance2Mul), var(mud::Noise::Distance2Div) }
-		};
+		Type& t = type<mud::Noise::CellularReturnType>();
+		static Meta meta = { t, &namspc({ "mud", "Noise" }), "CellularReturnType", sizeof(mud::Noise::CellularReturnType), TypeClass::Enum };
+		static cstring ids[] = { "CellValue", "NoiseLookup", "Distance", "Distance2", "Distance2Add", "Distance2Sub", "Distance2Mul", "Distance2Div" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+		static mud::Noise::CellularReturnType vars[] = { mud::Noise::CellValue, mud::Noise::NoiseLookup, mud::Noise::Distance, mud::Noise::Distance2, mud::Noise::Distance2Add, mud::Noise::Distance2Sub, mud::Noise::Distance2Mul, mud::Noise::Distance2Div};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7]};
+		static Enum enu = { t, false, ids, values, refs };
 		meta_enum<mud::Noise::CellularReturnType>();
 	}
 	{
-		static Meta meta = { type<mud::Noise::FractalType>(), &namspc({ "mud", "Noise" }), "FractalType", sizeof(mud::Noise::FractalType), TypeClass::Enum };
-		static Enum enu = { type<mud::Noise::FractalType>(),
-			false,
-			{ "FBM", "Billow", "RigidMulti" },
-			{ 0, 1, 2 },
-			{ var(mud::Noise::FBM), var(mud::Noise::Billow), var(mud::Noise::RigidMulti) }
-		};
+		Type& t = type<mud::Noise::FractalType>();
+		static Meta meta = { t, &namspc({ "mud", "Noise" }), "FractalType", sizeof(mud::Noise::FractalType), TypeClass::Enum };
+		static cstring ids[] = { "FBM", "Billow", "RigidMulti" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::Noise::FractalType vars[] = { mud::Noise::FBM, mud::Noise::Billow, mud::Noise::RigidMulti};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { t, false, ids, values, refs };
 		meta_enum<mud::Noise::FractalType>();
 	}
 	{
-		static Meta meta = { type<mud::Noise::Interp>(), &namspc({ "mud", "Noise" }), "Interp", sizeof(mud::Noise::Interp), TypeClass::Enum };
-		static Enum enu = { type<mud::Noise::Interp>(),
-			false,
-			{ "Linear", "Hermite", "Quintic" },
-			{ 0, 1, 2 },
-			{ var(mud::Noise::Linear), var(mud::Noise::Hermite), var(mud::Noise::Quintic) }
-		};
+		Type& t = type<mud::Noise::Interp>();
+		static Meta meta = { t, &namspc({ "mud", "Noise" }), "Interp", sizeof(mud::Noise::Interp), TypeClass::Enum };
+		static cstring ids[] = { "Linear", "Hermite", "Quintic" };
+		static uint32_t values[] = { 0, 1, 2 };
+		static mud::Noise::Interp vars[] = { mud::Noise::Linear, mud::Noise::Hermite, mud::Noise::Quintic};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
+		static Enum enu = { t, false, ids, values, refs };
 		meta_enum<mud::Noise::Interp>();
 	}
 	{
-		static Meta meta = { type<mud::Noise::NoiseType>(), &namspc({ "mud", "Noise" }), "NoiseType", sizeof(mud::Noise::NoiseType), TypeClass::Enum };
-		static Enum enu = { type<mud::Noise::NoiseType>(),
-			false,
-			{ "Value", "ValueFractal", "Perlin", "PerlinFractal", "Simplex", "SimplexFractal", "Cellular", "WhiteNoise", "Cubic", "CubicFractal" },
-			{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-			{ var(mud::Noise::Value), var(mud::Noise::ValueFractal), var(mud::Noise::Perlin), var(mud::Noise::PerlinFractal), var(mud::Noise::Simplex), var(mud::Noise::SimplexFractal), var(mud::Noise::Cellular), var(mud::Noise::WhiteNoise), var(mud::Noise::Cubic), var(mud::Noise::CubicFractal) }
-		};
+		Type& t = type<mud::Noise::NoiseType>();
+		static Meta meta = { t, &namspc({ "mud", "Noise" }), "NoiseType", sizeof(mud::Noise::NoiseType), TypeClass::Enum };
+		static cstring ids[] = { "Value", "ValueFractal", "Perlin", "PerlinFractal", "Simplex", "SimplexFractal", "Cellular", "WhiteNoise", "Cubic", "CubicFractal" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+		static mud::Noise::NoiseType vars[] = { mud::Noise::Value, mud::Noise::ValueFractal, mud::Noise::Perlin, mud::Noise::PerlinFractal, mud::Noise::Simplex, mud::Noise::SimplexFractal, mud::Noise::Cellular, mud::Noise::WhiteNoise, mud::Noise::Cubic, mud::Noise::CubicFractal};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7], &vars[8], &vars[9]};
+		static Enum enu = { t, false, ids, values, refs };
 		meta_enum<mud::Noise::NoiseType>();
 	}
 	
@@ -78,8 +78,9 @@ namespace mud
 	
 	// mud::Noise
 	{
-		static Meta meta = { type<mud::Noise>(), &namspc({ "mud" }), "Noise", sizeof(mud::Noise), TypeClass::Object };
-		static Class cls = { type<mud::Noise>(),
+		Type& t = type<mud::Noise>();
+		static Meta meta = { t, &namspc({ "mud" }), "Noise", sizeof(mud::Noise), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },
@@ -103,18 +104,19 @@ namespace mud
 	}
 	// mud::array3d<float>
 	{
-		static Meta meta = { type<mud::array3d<float>>(), &namspc({ "mud" }), "array3d<float>", sizeof(mud::array3d<float>), TypeClass::Struct };
-		static Class cls = { type<mud::array3d<float>>(),
+		Type& t = type<mud::array3d<float>>();
+		static Meta meta = { t, &namspc({ "mud" }), "array3d<float>", sizeof(mud::array3d<float>), TypeClass::Struct };
+		static Class cls = { t,
 			// bases
 			{ &type<vector<float>>() },
 			{ base_offset<mud::array3d<float>, vector<float>>() },
 			// constructors
 			{
-				{ type<mud::array3d<float>>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::array3d<float>>(ref)) mud::array3d<float>(  ); }, {} }
+				{ t, [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::array3d<float>>(ref)) mud::array3d<float>(  ); }, {} }
 			},
 			// copy constructor
 			{
-				{ type<mud::array3d<float>>(), [](Ref ref, Ref other) { new(&val<mud::array3d<float>>(ref)) mud::array3d<float>(val<mud::array3d<float>>(other)); } }
+				{ t, [](Ref ref, Ref other) { new(&val<mud::array3d<float>>(ref)) mud::array3d<float>(val<mud::array3d<float>>(other)); } }
 			},
 			// members
 			{

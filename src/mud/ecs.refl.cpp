@@ -27,33 +27,34 @@ namespace mud
 	
 	// mud::Complex
 	{
-		static Meta meta = { type<mud::Complex>(), &namspc({ "mud" }), "Complex", sizeof(mud::Complex), TypeClass::Object };
-		static Class cls = { type<mud::Complex>(),
+		Type& t = type<mud::Complex>();
+		static Meta meta = { t, &namspc({ "mud" }), "Complex", sizeof(mud::Complex), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },
 			// constructors
 			{
-				{ type<mud::Complex>(), [](Ref ref, array<Var> args) { new(&val<mud::Complex>(ref)) mud::Complex( val<uint32_t>(args[0]), val<mud::Type>(args[1]) ); }, { { "id", var(uint32_t()) }, { "type", Ref(type<mud::Type>()) } } },
-				{ type<mud::Complex>(), [](Ref ref, array<Var> args) { new(&val<mud::Complex>(ref)) mud::Complex( val<uint32_t>(args[0]), val<mud::Type>(args[1]), val<vector<mud::Ref>>(args[2]) ); }, { { "id", var(uint32_t()) }, { "type", Ref(type<mud::Type>()) }, { "parts", var(vector<mud::Ref>()) } } }
+				{ t, [](Ref ref, array<Var> args) { new(&val<mud::Complex>(ref)) mud::Complex( val<uint32_t>(args[0]), val<mud::Type>(args[1]) ); }, { { "id", var(uint32_t()) }, { "type", Ref(type<mud::Type>()) } } },
+				{ t, [](Ref ref, array<Var> args) { new(&val<mud::Complex>(ref)) mud::Complex( val<uint32_t>(args[0]), val<mud::Type>(args[1]), val<vector<mud::Ref>>(args[2]) ); }, { { "id", var(uint32_t()) }, { "type", Ref(type<mud::Type>()) }, { "parts", var(vector<mud::Ref>()) } } }
 			},
 			// copy constructor
 			{
 			},
 			// members
 			{
-				{ type<mud::Complex>(), member_address(&mud::Complex::m_id), type<uint32_t>(), "id", var(uint32_t()), Member::Value, nullptr },
-				{ type<mud::Complex>(), Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Complex>(object).m_type); } },
-				{ type<mud::Complex>(), Address(), type<mud::Prototype>(), "prototype", Ref(type<mud::Prototype>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Complex>(object).m_prototype); } },
-				{ type<mud::Complex>(), member_address(&mud::Complex::m_parts), type<vector<mud::Ref>>(), "parts", var(vector<mud::Ref>()), Member::Value, nullptr }
+				{ t, member_address(&mud::Complex::m_id), type<uint32_t>(), "id", var(uint32_t()), Member::Value, nullptr },
+				{ t, Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Complex>(object).m_type); } },
+				{ t, Address(), type<mud::Prototype>(), "prototype", Ref(type<mud::Prototype>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Complex>(object).m_prototype); } },
+				{ t, member_address(&mud::Complex::m_parts), type<vector<mud::Ref>>(), "parts", var(vector<mud::Ref>()), Member::Value, nullptr }
 			},
 			// methods
 			{
-				{ type<mud::Complex>(), "setup", member_address<void(mud::Complex::*)(const vector<mud::Ref>&)>(&mud::Complex::setup), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Complex>(object).setup(val<vector<mud::Ref>>(args[0])); }, { { "parts", var(vector<mud::Ref>()) } }, Var() },
-				{ type<mud::Complex>(), "add_part", member_address<void(mud::Complex::*)(mud::Ref)>(&mud::Complex::add_part), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Complex>(object).add_part(args[0]); }, { { "part", Ref(), Param::Nullable } }, Var() },
-				{ type<mud::Complex>(), "has_part", member_address<bool(mud::Complex::*)(mud::Type&)>(&mud::Complex::has_part), [](Ref object, array<Var> args, Var& result) { val<bool>(result) = val<mud::Complex>(object).has_part(val<mud::Type>(args[0])); }, { { "type", Ref(type<mud::Type>()) } }, var(bool()) },
-				{ type<mud::Complex>(), "part", member_address<mud::Ref(mud::Complex::*)(mud::Type&)>(&mud::Complex::part), [](Ref object, array<Var> args, Var& result) { result = val<mud::Complex>(object).part(val<mud::Type>(args[0])); }, { { "type", Ref(type<mud::Type>()) } }, Ref() },
-				{ type<mud::Complex>(), "try_part", member_address<mud::Ref(mud::Complex::*)(mud::Type&)>(&mud::Complex::try_part), [](Ref object, array<Var> args, Var& result) { result = val<mud::Complex>(object).try_part(val<mud::Type>(args[0])); }, { { "type", Ref(type<mud::Type>()) } }, Ref() }
+				{ t, "setup", member_address<void(mud::Complex::*)(const vector<mud::Ref>&)>(&mud::Complex::setup), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Complex>(object).setup(val<vector<mud::Ref>>(args[0])); }, { { "parts", var(vector<mud::Ref>()) } }, Var() },
+				{ t, "add_part", member_address<void(mud::Complex::*)(mud::Ref)>(&mud::Complex::add_part), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Complex>(object).add_part(args[0]); }, { { "part", Ref(), Param::Nullable } }, Var() },
+				{ t, "has_part", member_address<bool(mud::Complex::*)(mud::Type&)>(&mud::Complex::has_part), [](Ref object, array<Var> args, Var& result) { val<bool>(result) = val<mud::Complex>(object).has_part(val<mud::Type>(args[0])); }, { { "type", Ref(type<mud::Type>()) } }, var(bool()) },
+				{ t, "part", member_address<mud::Ref(mud::Complex::*)(mud::Type&)>(&mud::Complex::part), [](Ref object, array<Var> args, Var& result) { result = val<mud::Complex>(object).part(val<mud::Type>(args[0])); }, { { "type", Ref(type<mud::Type>()) } }, Ref() },
+				{ t, "try_part", member_address<mud::Ref(mud::Complex::*)(mud::Type&)>(&mud::Complex::try_part), [](Ref object, array<Var> args, Var& result) { result = val<mud::Complex>(object).try_part(val<mud::Type>(args[0])); }, { { "type", Ref(type<mud::Type>()) } }, Ref() }
 			},
 			// static members
 			{
@@ -64,18 +65,19 @@ namespace mud
 	}
 	// mud::Entity
 	{
-		static Meta meta = { type<mud::Entity>(), &namspc({ "mud" }), "Entity", sizeof(mud::Entity), TypeClass::Struct };
-		static Class cls = { type<mud::Entity>(),
+		Type& t = type<mud::Entity>();
+		static Meta meta = { t, &namspc({ "mud" }), "Entity", sizeof(mud::Entity), TypeClass::Struct };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },
 			// constructors
 			{
-				{ type<mud::Entity>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Entity>(ref)) mud::Entity(  ); }, {} }
+				{ t, [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Entity>(ref)) mud::Entity(  ); }, {} }
 			},
 			// copy constructor
 			{
-				{ type<mud::Entity>(), [](Ref ref, Ref other) { new(&val<mud::Entity>(ref)) mud::Entity(val<mud::Entity>(other)); } }
+				{ t, [](Ref ref, Ref other) { new(&val<mud::Entity>(ref)) mud::Entity(val<mud::Entity>(other)); } }
 			},
 			// members
 			{
@@ -91,8 +93,9 @@ namespace mud
 	}
 	// mud::Prototype
 	{
-		static Meta meta = { type<mud::Prototype>(), &namspc({ "mud" }), "Prototype", sizeof(mud::Prototype), TypeClass::Object };
-		static Class cls = { type<mud::Prototype>(),
+		Type& t = type<mud::Prototype>();
+		static Meta meta = { t, &namspc({ "mud" }), "Prototype", sizeof(mud::Prototype), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },

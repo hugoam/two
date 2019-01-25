@@ -23,53 +23,53 @@ namespace mud
 	
 	// Enums
 	{
-		static Meta meta = { type<mud::DeviceType>(), &namspc({ "mud" }), "DeviceType", sizeof(mud::DeviceType), TypeClass::Enum };
-		static Enum enu = { type<mud::DeviceType>(),
-			true,
-			{ "None", "Keyboard", "Mouse", "MouseLeft", "MouseRight", "MouseMiddle", "Touch", "Count" },
-			{ 0, 1, 2, 3, 4, 5, 6, 7 },
-			{ var(mud::DeviceType::None), var(mud::DeviceType::Keyboard), var(mud::DeviceType::Mouse), var(mud::DeviceType::MouseLeft), var(mud::DeviceType::MouseRight), var(mud::DeviceType::MouseMiddle), var(mud::DeviceType::Touch), var(mud::DeviceType::Count) }
-		};
+		Type& t = type<mud::DeviceType>();
+		static Meta meta = { t, &namspc({ "mud" }), "DeviceType", sizeof(mud::DeviceType), TypeClass::Enum };
+		static cstring ids[] = { "None", "Keyboard", "Mouse", "MouseLeft", "MouseRight", "MouseMiddle", "Touch", "Count" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+		static mud::DeviceType vars[] = { mud::DeviceType::None, mud::DeviceType::Keyboard, mud::DeviceType::Mouse, mud::DeviceType::MouseLeft, mud::DeviceType::MouseRight, mud::DeviceType::MouseMiddle, mud::DeviceType::Touch, mud::DeviceType::Count};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7]};
+		static Enum enu = { t, true, ids, values, refs };
 		meta_enum<mud::DeviceType>();
 	}
 	{
-		static Meta meta = { type<mud::EventType>(), &namspc({ "mud" }), "EventType", sizeof(mud::EventType), TypeClass::Enum };
-		static Enum enu = { type<mud::EventType>(),
-			true,
-			{ "None", "Heartbeat", "Moved", "Pressed", "Released", "Stroked", "DoubleStroked", "Dragged", "DraggedTarget", "DragStarted", "DragEnded", "Dropped", "Count" },
-			{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 },
-			{ var(mud::EventType::None), var(mud::EventType::Heartbeat), var(mud::EventType::Moved), var(mud::EventType::Pressed), var(mud::EventType::Released), var(mud::EventType::Stroked), var(mud::EventType::DoubleStroked), var(mud::EventType::Dragged), var(mud::EventType::DraggedTarget), var(mud::EventType::DragStarted), var(mud::EventType::DragEnded), var(mud::EventType::Dropped), var(mud::EventType::Count) }
-		};
+		Type& t = type<mud::EventType>();
+		static Meta meta = { t, &namspc({ "mud" }), "EventType", sizeof(mud::EventType), TypeClass::Enum };
+		static cstring ids[] = { "None", "Heartbeat", "Moved", "Pressed", "Released", "Stroked", "DoubleStroked", "Dragged", "DraggedTarget", "DragStarted", "DragEnded", "Dropped", "Count" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+		static mud::EventType vars[] = { mud::EventType::None, mud::EventType::Heartbeat, mud::EventType::Moved, mud::EventType::Pressed, mud::EventType::Released, mud::EventType::Stroked, mud::EventType::DoubleStroked, mud::EventType::Dragged, mud::EventType::DraggedTarget, mud::EventType::DragStarted, mud::EventType::DragEnded, mud::EventType::Dropped, mud::EventType::Count};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7], &vars[8], &vars[9], &vars[10], &vars[11], &vars[12]};
+		static Enum enu = { t, true, ids, values, refs };
 		meta_enum<mud::EventType>();
 	}
 	{
-		static Meta meta = { type<mud::InputMod>(), &namspc({ "mud" }), "InputMod", sizeof(mud::InputMod), TypeClass::Enum };
-		static Enum enu = { type<mud::InputMod>(),
-			true,
-			{ "None", "Shift", "Ctrl", "Alt", "Any" },
-			{ 0, 1, 2, 4, 7 },
-			{ var(mud::InputMod::None), var(mud::InputMod::Shift), var(mud::InputMod::Ctrl), var(mud::InputMod::Alt), var(mud::InputMod::Any) }
-		};
+		Type& t = type<mud::InputMod>();
+		static Meta meta = { t, &namspc({ "mud" }), "InputMod", sizeof(mud::InputMod), TypeClass::Enum };
+		static cstring ids[] = { "None", "Shift", "Ctrl", "Alt", "Any" };
+		static uint32_t values[] = { 0, 1, 2, 4, 7 };
+		static mud::InputMod vars[] = { mud::InputMod::None, mud::InputMod::Shift, mud::InputMod::Ctrl, mud::InputMod::Alt, mud::InputMod::Any};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4]};
+		static Enum enu = { t, true, ids, values, refs };
 		meta_enum<mud::InputMod>();
 	}
 	{
-		static Meta meta = { type<mud::Key>(), &namspc({ "mud" }), "Key", sizeof(mud::Key), TypeClass::Enum };
-		static Enum enu = { type<mud::Key>(),
-			true,
-			{ "Unassigned", "Escape", "Num1", "Num2", "Num3", "Num4", "Num5", "Num6", "Num7", "Num8", "Num9", "Num0", "Minus", "Equals", "Back", "Tab", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "LeftBracket", "RightBracket", "Return", "LeftControl", "A", "S", "D", "F", "G", "H", "J", "K", "L", "Semicolon", "Apostrophe", "Grave", "LeftShift", "Backslash", "Z", "X", "C", "V", "B", "N", "M", "Comma", "Period", "Slash", "RightShift", "Multiply", "LeftAlt", "Space", "Capital", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "Numlock", "ScrollLock", "Numpad7", "Numpad8", "Numpad9", "Subtract", "Numpad4", "Numpad5", "Numpad6", "Add", "Numpad1", "Numpad2", "Numpad3", "Numpad0", "Decimal", "F11", "F12", "F13", "F14", "F15", "NumpadEquals", "NumpadEnter", "RightControl", "Mute", "NumpadComma", "Divide", "RightAlt", "Pause", "Home", "Up", "PageUp", "Left", "Right", "End", "Down", "PageDown", "Insert", "Delete", "LeftWin", "RightWin", "Translated" },
-			{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 87, 88, 100, 101, 102, 141, 156, 157, 160, 179, 181, 184, 197, 199, 200, 201, 203, 205, 207, 208, 209, 210, 211, 219, 220, uint16_t(1 << 15) },
-			{ var(mud::Key::Unassigned), var(mud::Key::Escape), var(mud::Key::Num1), var(mud::Key::Num2), var(mud::Key::Num3), var(mud::Key::Num4), var(mud::Key::Num5), var(mud::Key::Num6), var(mud::Key::Num7), var(mud::Key::Num8), var(mud::Key::Num9), var(mud::Key::Num0), var(mud::Key::Minus), var(mud::Key::Equals), var(mud::Key::Back), var(mud::Key::Tab), var(mud::Key::Q), var(mud::Key::W), var(mud::Key::E), var(mud::Key::R), var(mud::Key::T), var(mud::Key::Y), var(mud::Key::U), var(mud::Key::I), var(mud::Key::O), var(mud::Key::P), var(mud::Key::LeftBracket), var(mud::Key::RightBracket), var(mud::Key::Return), var(mud::Key::LeftControl), var(mud::Key::A), var(mud::Key::S), var(mud::Key::D), var(mud::Key::F), var(mud::Key::G), var(mud::Key::H), var(mud::Key::J), var(mud::Key::K), var(mud::Key::L), var(mud::Key::Semicolon), var(mud::Key::Apostrophe), var(mud::Key::Grave), var(mud::Key::LeftShift), var(mud::Key::Backslash), var(mud::Key::Z), var(mud::Key::X), var(mud::Key::C), var(mud::Key::V), var(mud::Key::B), var(mud::Key::N), var(mud::Key::M), var(mud::Key::Comma), var(mud::Key::Period), var(mud::Key::Slash), var(mud::Key::RightShift), var(mud::Key::Multiply), var(mud::Key::LeftAlt), var(mud::Key::Space), var(mud::Key::Capital), var(mud::Key::F1), var(mud::Key::F2), var(mud::Key::F3), var(mud::Key::F4), var(mud::Key::F5), var(mud::Key::F6), var(mud::Key::F7), var(mud::Key::F8), var(mud::Key::F9), var(mud::Key::F10), var(mud::Key::Numlock), var(mud::Key::ScrollLock), var(mud::Key::Numpad7), var(mud::Key::Numpad8), var(mud::Key::Numpad9), var(mud::Key::Subtract), var(mud::Key::Numpad4), var(mud::Key::Numpad5), var(mud::Key::Numpad6), var(mud::Key::Add), var(mud::Key::Numpad1), var(mud::Key::Numpad2), var(mud::Key::Numpad3), var(mud::Key::Numpad0), var(mud::Key::Decimal), var(mud::Key::F11), var(mud::Key::F12), var(mud::Key::F13), var(mud::Key::F14), var(mud::Key::F15), var(mud::Key::NumpadEquals), var(mud::Key::NumpadEnter), var(mud::Key::RightControl), var(mud::Key::Mute), var(mud::Key::NumpadComma), var(mud::Key::Divide), var(mud::Key::RightAlt), var(mud::Key::Pause), var(mud::Key::Home), var(mud::Key::Up), var(mud::Key::PageUp), var(mud::Key::Left), var(mud::Key::Right), var(mud::Key::End), var(mud::Key::Down), var(mud::Key::PageDown), var(mud::Key::Insert), var(mud::Key::Delete), var(mud::Key::LeftWin), var(mud::Key::RightWin), var(mud::Key::Translated) }
-		};
+		Type& t = type<mud::Key>();
+		static Meta meta = { t, &namspc({ "mud" }), "Key", sizeof(mud::Key), TypeClass::Enum };
+		static cstring ids[] = { "Unassigned", "Escape", "Num1", "Num2", "Num3", "Num4", "Num5", "Num6", "Num7", "Num8", "Num9", "Num0", "Minus", "Equals", "Back", "Tab", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "LeftBracket", "RightBracket", "Return", "LeftControl", "A", "S", "D", "F", "G", "H", "J", "K", "L", "Semicolon", "Apostrophe", "Grave", "LeftShift", "Backslash", "Z", "X", "C", "V", "B", "N", "M", "Comma", "Period", "Slash", "RightShift", "Multiply", "LeftAlt", "Space", "Capital", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "Numlock", "ScrollLock", "Numpad7", "Numpad8", "Numpad9", "Subtract", "Numpad4", "Numpad5", "Numpad6", "Add", "Numpad1", "Numpad2", "Numpad3", "Numpad0", "Decimal", "F11", "F12", "F13", "F14", "F15", "NumpadEquals", "NumpadEnter", "RightControl", "Mute", "NumpadComma", "Divide", "RightAlt", "Pause", "Home", "Up", "PageUp", "Left", "Right", "End", "Down", "PageDown", "Insert", "Delete", "LeftWin", "RightWin", "Translated" };
+		static uint32_t values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 87, 88, 100, 101, 102, 141, 156, 157, 160, 179, 181, 184, 197, 199, 200, 201, 203, 205, 207, 208, 209, 210, 211, 219, 220, uint16_t(1 << 15) };
+		static mud::Key vars[] = { mud::Key::Unassigned, mud::Key::Escape, mud::Key::Num1, mud::Key::Num2, mud::Key::Num3, mud::Key::Num4, mud::Key::Num5, mud::Key::Num6, mud::Key::Num7, mud::Key::Num8, mud::Key::Num9, mud::Key::Num0, mud::Key::Minus, mud::Key::Equals, mud::Key::Back, mud::Key::Tab, mud::Key::Q, mud::Key::W, mud::Key::E, mud::Key::R, mud::Key::T, mud::Key::Y, mud::Key::U, mud::Key::I, mud::Key::O, mud::Key::P, mud::Key::LeftBracket, mud::Key::RightBracket, mud::Key::Return, mud::Key::LeftControl, mud::Key::A, mud::Key::S, mud::Key::D, mud::Key::F, mud::Key::G, mud::Key::H, mud::Key::J, mud::Key::K, mud::Key::L, mud::Key::Semicolon, mud::Key::Apostrophe, mud::Key::Grave, mud::Key::LeftShift, mud::Key::Backslash, mud::Key::Z, mud::Key::X, mud::Key::C, mud::Key::V, mud::Key::B, mud::Key::N, mud::Key::M, mud::Key::Comma, mud::Key::Period, mud::Key::Slash, mud::Key::RightShift, mud::Key::Multiply, mud::Key::LeftAlt, mud::Key::Space, mud::Key::Capital, mud::Key::F1, mud::Key::F2, mud::Key::F3, mud::Key::F4, mud::Key::F5, mud::Key::F6, mud::Key::F7, mud::Key::F8, mud::Key::F9, mud::Key::F10, mud::Key::Numlock, mud::Key::ScrollLock, mud::Key::Numpad7, mud::Key::Numpad8, mud::Key::Numpad9, mud::Key::Subtract, mud::Key::Numpad4, mud::Key::Numpad5, mud::Key::Numpad6, mud::Key::Add, mud::Key::Numpad1, mud::Key::Numpad2, mud::Key::Numpad3, mud::Key::Numpad0, mud::Key::Decimal, mud::Key::F11, mud::Key::F12, mud::Key::F13, mud::Key::F14, mud::Key::F15, mud::Key::NumpadEquals, mud::Key::NumpadEnter, mud::Key::RightControl, mud::Key::Mute, mud::Key::NumpadComma, mud::Key::Divide, mud::Key::RightAlt, mud::Key::Pause, mud::Key::Home, mud::Key::Up, mud::Key::PageUp, mud::Key::Left, mud::Key::Right, mud::Key::End, mud::Key::Down, mud::Key::PageDown, mud::Key::Insert, mud::Key::Delete, mud::Key::LeftWin, mud::Key::RightWin, mud::Key::Translated};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7], &vars[8], &vars[9], &vars[10], &vars[11], &vars[12], &vars[13], &vars[14], &vars[15], &vars[16], &vars[17], &vars[18], &vars[19], &vars[20], &vars[21], &vars[22], &vars[23], &vars[24], &vars[25], &vars[26], &vars[27], &vars[28], &vars[29], &vars[30], &vars[31], &vars[32], &vars[33], &vars[34], &vars[35], &vars[36], &vars[37], &vars[38], &vars[39], &vars[40], &vars[41], &vars[42], &vars[43], &vars[44], &vars[45], &vars[46], &vars[47], &vars[48], &vars[49], &vars[50], &vars[51], &vars[52], &vars[53], &vars[54], &vars[55], &vars[56], &vars[57], &vars[58], &vars[59], &vars[60], &vars[61], &vars[62], &vars[63], &vars[64], &vars[65], &vars[66], &vars[67], &vars[68], &vars[69], &vars[70], &vars[71], &vars[72], &vars[73], &vars[74], &vars[75], &vars[76], &vars[77], &vars[78], &vars[79], &vars[80], &vars[81], &vars[82], &vars[83], &vars[84], &vars[85], &vars[86], &vars[87], &vars[88], &vars[89], &vars[90], &vars[91], &vars[92], &vars[93], &vars[94], &vars[95], &vars[96], &vars[97], &vars[98], &vars[99], &vars[100], &vars[101], &vars[102], &vars[103], &vars[104], &vars[105], &vars[106], &vars[107], &vars[108], &vars[109]};
+		static Enum enu = { t, true, ids, values, refs };
 		meta_enum<mud::Key>();
 	}
 	{
-		static Meta meta = { type<mud::MouseButtonCode>(), &namspc({ "mud" }), "MouseButtonCode", sizeof(mud::MouseButtonCode), TypeClass::Enum };
-		static Enum enu = { type<mud::MouseButtonCode>(),
-			false,
-			{ "LEFT_BUTTON", "RIGHT_BUTTON", "MIDDLE_BUTTON", "NO_BUTTON" },
-			{ 0, 1, 2, 3 },
-			{ var(mud::LEFT_BUTTON), var(mud::RIGHT_BUTTON), var(mud::MIDDLE_BUTTON), var(mud::NO_BUTTON) }
-		};
+		Type& t = type<mud::MouseButtonCode>();
+		static Meta meta = { t, &namspc({ "mud" }), "MouseButtonCode", sizeof(mud::MouseButtonCode), TypeClass::Enum };
+		static cstring ids[] = { "LEFT_BUTTON", "RIGHT_BUTTON", "MIDDLE_BUTTON", "NO_BUTTON" };
+		static uint32_t values[] = { 0, 1, 2, 3 };
+		static mud::MouseButtonCode vars[] = { mud::LEFT_BUTTON, mud::RIGHT_BUTTON, mud::MIDDLE_BUTTON, mud::NO_BUTTON};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
+		static Enum enu = { t, false, ids, values, refs };
 		meta_enum<mud::MouseButtonCode>();
 	}
 	
@@ -77,8 +77,9 @@ namespace mud
 	
 	// mud::Context
 	{
-		static Meta meta = { type<mud::Context>(), &namspc({ "mud" }), "Context", sizeof(mud::Context), TypeClass::Object };
-		static Class cls = { type<mud::Context>(),
+		Type& t = type<mud::Context>();
+		static Meta meta = { t, &namspc({ "mud" }), "Context", sizeof(mud::Context), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },
@@ -90,22 +91,22 @@ namespace mud
 			},
 			// members
 			{
-				{ type<mud::Context>(), member_address(&mud::Context::m_resource_path), type<string>(), "resource_path", var(string()), Member::Flags(Member::Value|Member::NonMutable), nullptr },
-				{ type<mud::Context>(), member_address(&mud::Context::m_title), type<string>(), "title", var(string()), Member::Value, nullptr },
-				{ type<mud::Context>(), member_address(&mud::Context::m_width), type<unsigned int>(), "width", var(uint()), Member::Value, nullptr },
-				{ type<mud::Context>(), member_address(&mud::Context::m_height), type<unsigned int>(), "height", var(uint()), Member::Value, nullptr },
-				{ type<mud::Context>(), member_address(&mud::Context::m_full_screen), type<bool>(), "full_screen", var(bool()), Member::Value, nullptr },
-				{ type<mud::Context>(), member_address(&mud::Context::m_active), type<bool>(), "active", var(bool(true)), Member::Value, nullptr },
-				{ type<mud::Context>(), member_address(&mud::Context::m_shutdown), type<bool>(), "shutdown", var(bool(false)), Member::Value, nullptr },
-				{ type<mud::Context>(), member_address(&mud::Context::m_cursor), type<mud::vec2>(), "cursor", var(mud::vec2()), Member::Value, nullptr },
-				{ type<mud::Context>(), member_address(&mud::Context::m_mouse_lock), type<bool>(), "mouse_lock", var(bool(false)), Member::Value, nullptr }
+				{ t, member_address(&mud::Context::m_resource_path), type<string>(), "resource_path", var(string()), Member::Flags(Member::Value|Member::NonMutable), nullptr },
+				{ t, member_address(&mud::Context::m_title), type<string>(), "title", var(string()), Member::Value, nullptr },
+				{ t, member_address(&mud::Context::m_width), type<unsigned int>(), "width", var(uint()), Member::Value, nullptr },
+				{ t, member_address(&mud::Context::m_height), type<unsigned int>(), "height", var(uint()), Member::Value, nullptr },
+				{ t, member_address(&mud::Context::m_full_screen), type<bool>(), "full_screen", var(bool()), Member::Value, nullptr },
+				{ t, member_address(&mud::Context::m_active), type<bool>(), "active", var(bool(true)), Member::Value, nullptr },
+				{ t, member_address(&mud::Context::m_shutdown), type<bool>(), "shutdown", var(bool(false)), Member::Value, nullptr },
+				{ t, member_address(&mud::Context::m_cursor), type<mud::vec2>(), "cursor", var(mud::vec2()), Member::Value, nullptr },
+				{ t, member_address(&mud::Context::m_mouse_lock), type<bool>(), "mouse_lock", var(bool(false)), Member::Value, nullptr }
 			},
 			// methods
 			{
-				{ type<mud::Context>(), "reset", member_address<void(mud::Context::*)(uint16_t, uint16_t)>(&mud::Context::reset), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Context>(object).reset(val<uint16_t>(args[0]), val<uint16_t>(args[1])); }, { { "width", var(uint16_t()) }, { "height", var(uint16_t()) } }, Var() },
-				{ type<mud::Context>(), "init_input", member_address<void(mud::Context::*)(mud::Mouse&, mud::Keyboard&)>(&mud::Context::init_input), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Context>(object).init_input(val<mud::Mouse>(args[0]), val<mud::Keyboard>(args[1])); }, { { "mouse", Ref(type<mud::Mouse>()) }, { "keyboard", Ref(type<mud::Keyboard>()) } }, Var() },
-				{ type<mud::Context>(), "next_frame", member_address<bool(mud::Context::*)()>(&mud::Context::next_frame), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<bool>(result) = val<mud::Context>(object).next_frame(); }, {}, var(bool()) },
-				{ type<mud::Context>(), "lock_mouse", member_address<void(mud::Context::*)(bool)>(&mud::Context::lock_mouse), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Context>(object).lock_mouse(val<bool>(args[0])); }, { { "locked", var(bool()) } }, Var() }
+				{ t, "reset", member_address<void(mud::Context::*)(uint16_t, uint16_t)>(&mud::Context::reset), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Context>(object).reset(val<uint16_t>(args[0]), val<uint16_t>(args[1])); }, { { "width", var(uint16_t()) }, { "height", var(uint16_t()) } }, Var() },
+				{ t, "init_input", member_address<void(mud::Context::*)(mud::Mouse&, mud::Keyboard&)>(&mud::Context::init_input), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Context>(object).init_input(val<mud::Mouse>(args[0]), val<mud::Keyboard>(args[1])); }, { { "mouse", Ref(type<mud::Mouse>()) }, { "keyboard", Ref(type<mud::Keyboard>()) } }, Var() },
+				{ t, "next_frame", member_address<bool(mud::Context::*)()>(&mud::Context::next_frame), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<bool>(result) = val<mud::Context>(object).next_frame(); }, {}, var(bool()) },
+				{ t, "lock_mouse", member_address<void(mud::Context::*)(bool)>(&mud::Context::lock_mouse), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Context>(object).lock_mouse(val<bool>(args[0])); }, { { "locked", var(bool()) } }, Var() }
 			},
 			// static members
 			{
@@ -115,8 +116,9 @@ namespace mud
 	}
 	// mud::ControlNode
 	{
-		static Meta meta = { type<mud::ControlNode>(), &namspc({ "mud" }), "ControlNode", sizeof(mud::ControlNode), TypeClass::Object };
-		static Class cls = { type<mud::ControlNode>(),
+		Type& t = type<mud::ControlNode>();
+		static Meta meta = { t, &namspc({ "mud" }), "ControlNode", sizeof(mud::ControlNode), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },
@@ -140,33 +142,34 @@ namespace mud
 	}
 	// mud::InputEvent
 	{
-		static Meta meta = { type<mud::InputEvent>(), &namspc({ "mud" }), "InputEvent", sizeof(mud::InputEvent), TypeClass::Struct };
-		static Class cls = { type<mud::InputEvent>(),
+		Type& t = type<mud::InputEvent>();
+		static Meta meta = { t, &namspc({ "mud" }), "InputEvent", sizeof(mud::InputEvent), TypeClass::Struct };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },
 			// constructors
 			{
-				{ type<mud::InputEvent>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::InputEvent>(ref)) mud::InputEvent(  ); }, {} }
+				{ t, [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::InputEvent>(ref)) mud::InputEvent(  ); }, {} }
 			},
 			// copy constructor
 			{
-				{ type<mud::InputEvent>(), [](Ref ref, Ref other) { new(&val<mud::InputEvent>(ref)) mud::InputEvent(val<mud::InputEvent>(other)); } }
+				{ t, [](Ref ref, Ref other) { new(&val<mud::InputEvent>(ref)) mud::InputEvent(val<mud::InputEvent>(other)); } }
 			},
 			// members
 			{
-				{ type<mud::InputEvent>(), member_address(&mud::InputEvent::m_deviceType), type<mud::DeviceType>(), "deviceType", var(mud::DeviceType::None), Member::Value, nullptr },
-				{ type<mud::InputEvent>(), member_address(&mud::InputEvent::m_eventType), type<mud::EventType>(), "eventType", var(mud::EventType::None), Member::Value, nullptr },
-				{ type<mud::InputEvent>(), member_address(&mud::InputEvent::m_receiver), type<mud::ControlNode>(), "receiver", Ref(type<mud::ControlNode>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ type<mud::InputEvent>(), member_address(&mud::InputEvent::m_consumer), type<mud::ControlNode>(), "consumer", Ref(type<mud::ControlNode>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ type<mud::InputEvent>(), member_address(&mud::InputEvent::m_abort), type<bool>(), "abort", var(bool(false)), Member::Value, nullptr },
-				{ type<mud::InputEvent>(), member_address(&mud::InputEvent::m_modifiers), type<mud::InputMod>(), "modifiers", var(mud::InputMod::None), Member::Value, nullptr },
-				{ type<mud::InputEvent>(), member_address(&mud::InputEvent::m_key), type<int>(), "key", var(int()), Member::Value, nullptr }
+				{ t, member_address(&mud::InputEvent::m_deviceType), type<mud::DeviceType>(), "deviceType", var(mud::DeviceType::None), Member::Value, nullptr },
+				{ t, member_address(&mud::InputEvent::m_eventType), type<mud::EventType>(), "eventType", var(mud::EventType::None), Member::Value, nullptr },
+				{ t, member_address(&mud::InputEvent::m_receiver), type<mud::ControlNode>(), "receiver", Ref(type<mud::ControlNode>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::InputEvent::m_consumer), type<mud::ControlNode>(), "consumer", Ref(type<mud::ControlNode>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::InputEvent::m_abort), type<bool>(), "abort", var(bool(false)), Member::Value, nullptr },
+				{ t, member_address(&mud::InputEvent::m_modifiers), type<mud::InputMod>(), "modifiers", var(mud::InputMod::None), Member::Value, nullptr },
+				{ t, member_address(&mud::InputEvent::m_key), type<int>(), "key", var(int()), Member::Value, nullptr }
 			},
 			// methods
 			{
-				{ type<mud::InputEvent>(), "consume", member_address<mud::InputEvent&(mud::InputEvent::*)(mud::ControlNode&)>(&mud::InputEvent::consume), [](Ref object, array<Var> args, Var& result) { val<mud::InputEvent>(result) = val<mud::InputEvent>(object).consume(val<mud::ControlNode>(args[0])); }, { { "consumer", Ref(type<mud::ControlNode>()) } }, var(mud::InputEvent()) },
-				{ type<mud::InputEvent>(), "valid", member_address<bool(mud::InputEvent::*)()>(&mud::InputEvent::valid), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<bool>(result) = val<mud::InputEvent>(object).valid(); }, {}, var(bool()) }
+				{ t, "consume", member_address<mud::InputEvent&(mud::InputEvent::*)(mud::ControlNode&)>(&mud::InputEvent::consume), [](Ref object, array<Var> args, Var& result) { val<mud::InputEvent>(result) = val<mud::InputEvent>(object).consume(val<mud::ControlNode>(args[0])); }, { { "consumer", Ref(type<mud::ControlNode>()) } }, var(mud::InputEvent()) },
+				{ t, "valid", member_address<bool(mud::InputEvent::*)()>(&mud::InputEvent::valid), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<bool>(result) = val<mud::InputEvent>(object).valid(); }, {}, var(bool()) }
 			},
 			// static members
 			{
@@ -176,8 +179,9 @@ namespace mud
 	}
 	// mud::Keyboard
 	{
-		static Meta meta = { type<mud::Keyboard>(), &namspc({ "mud" }), "Keyboard", sizeof(mud::Keyboard), TypeClass::Object };
-		static Class cls = { type<mud::Keyboard>(),
+		Type& t = type<mud::Keyboard>();
+		static Meta meta = { t, &namspc({ "mud" }), "Keyboard", sizeof(mud::Keyboard), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },
@@ -201,8 +205,9 @@ namespace mud
 	}
 	// mud::Mouse
 	{
-		static Meta meta = { type<mud::Mouse>(), &namspc({ "mud" }), "Mouse", sizeof(mud::Mouse), TypeClass::Object };
-		static Class cls = { type<mud::Mouse>(),
+		Type& t = type<mud::Mouse>();
+		static Meta meta = { t, &namspc({ "mud" }), "Mouse", sizeof(mud::Mouse), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },
@@ -226,8 +231,9 @@ namespace mud
 	}
 	// mud::RenderSystem
 	{
-		static Meta meta = { type<mud::RenderSystem>(), &namspc({ "mud" }), "RenderSystem", sizeof(mud::RenderSystem), TypeClass::Object };
-		static Class cls = { type<mud::RenderSystem>(),
+		Type& t = type<mud::RenderSystem>();
+		static Meta meta = { t, &namspc({ "mud" }), "RenderSystem", sizeof(mud::RenderSystem), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },
@@ -251,23 +257,24 @@ namespace mud
 	}
 	// mud::KeyEvent
 	{
-		static Meta meta = { type<mud::KeyEvent>(), &namspc({ "mud" }), "KeyEvent", sizeof(mud::KeyEvent), TypeClass::Struct };
-		static Class cls = { type<mud::KeyEvent>(),
+		Type& t = type<mud::KeyEvent>();
+		static Meta meta = { t, &namspc({ "mud" }), "KeyEvent", sizeof(mud::KeyEvent), TypeClass::Struct };
+		static Class cls = { t,
 			// bases
 			{ &type<mud::InputEvent>() },
 			{ base_offset<mud::KeyEvent, mud::InputEvent>() },
 			// constructors
 			{
-				{ type<mud::KeyEvent>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::KeyEvent>(ref)) mud::KeyEvent(  ); }, {} }
+				{ t, [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::KeyEvent>(ref)) mud::KeyEvent(  ); }, {} }
 			},
 			// copy constructor
 			{
-				{ type<mud::KeyEvent>(), [](Ref ref, Ref other) { new(&val<mud::KeyEvent>(ref)) mud::KeyEvent(val<mud::KeyEvent>(other)); } }
+				{ t, [](Ref ref, Ref other) { new(&val<mud::KeyEvent>(ref)) mud::KeyEvent(val<mud::KeyEvent>(other)); } }
 			},
 			// members
 			{
-				{ type<mud::KeyEvent>(), member_address(&mud::KeyEvent::m_code), type<mud::Key>(), "code", var(mud::Key()), Member::Value, nullptr },
-				{ type<mud::KeyEvent>(), member_address(&mud::KeyEvent::m_char), type<char>(), "char", var(char()), Member::Value, nullptr }
+				{ t, member_address(&mud::KeyEvent::m_code), type<mud::Key>(), "code", var(mud::Key()), Member::Value, nullptr },
+				{ t, member_address(&mud::KeyEvent::m_char), type<char>(), "char", var(char()), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -280,27 +287,28 @@ namespace mud
 	}
 	// mud::MouseEvent
 	{
-		static Meta meta = { type<mud::MouseEvent>(), &namspc({ "mud" }), "MouseEvent", sizeof(mud::MouseEvent), TypeClass::Struct };
-		static Class cls = { type<mud::MouseEvent>(),
+		Type& t = type<mud::MouseEvent>();
+		static Meta meta = { t, &namspc({ "mud" }), "MouseEvent", sizeof(mud::MouseEvent), TypeClass::Struct };
+		static Class cls = { t,
 			// bases
 			{ &type<mud::InputEvent>() },
 			{ base_offset<mud::MouseEvent, mud::InputEvent>() },
 			// constructors
 			{
-				{ type<mud::MouseEvent>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::MouseEvent>(ref)) mud::MouseEvent(  ); }, {} }
+				{ t, [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::MouseEvent>(ref)) mud::MouseEvent(  ); }, {} }
 			},
 			// copy constructor
 			{
-				{ type<mud::MouseEvent>(), [](Ref ref, Ref other) { new(&val<mud::MouseEvent>(ref)) mud::MouseEvent(val<mud::MouseEvent>(other)); } }
+				{ t, [](Ref ref, Ref other) { new(&val<mud::MouseEvent>(ref)) mud::MouseEvent(val<mud::MouseEvent>(other)); } }
 			},
 			// members
 			{
-				{ type<mud::MouseEvent>(), member_address(&mud::MouseEvent::m_pos), type<mud::vec2>(), "pos", var(mud::vec2{0.f,0.f}), Member::Value, nullptr },
-				{ type<mud::MouseEvent>(), member_address(&mud::MouseEvent::m_relative), type<mud::vec2>(), "relative", var(mud::vec2{0.f,0.f}), Member::Value, nullptr },
-				{ type<mud::MouseEvent>(), member_address(&mud::MouseEvent::m_delta), type<mud::vec2>(), "delta", var(mud::vec2{0.f,0.f}), Member::Value, nullptr },
-				{ type<mud::MouseEvent>(), member_address(&mud::MouseEvent::m_deltaZ), type<float>(), "deltaZ", var(float(0.f)), Member::Value, nullptr },
-				{ type<mud::MouseEvent>(), member_address(&mud::MouseEvent::m_pressed), type<mud::vec2>(), "pressed", var(mud::vec2{0.f,0.f}), Member::Value, nullptr },
-				{ type<mud::MouseEvent>(), member_address(&mud::MouseEvent::m_button), type<mud::MouseButtonCode>(), "button", var(mud::MouseButtonCode(NO_BUTTON)), Member::Value, nullptr }
+				{ t, member_address(&mud::MouseEvent::m_pos), type<mud::vec2>(), "pos", var(mud::vec2{0.f,0.f}), Member::Value, nullptr },
+				{ t, member_address(&mud::MouseEvent::m_relative), type<mud::vec2>(), "relative", var(mud::vec2{0.f,0.f}), Member::Value, nullptr },
+				{ t, member_address(&mud::MouseEvent::m_delta), type<mud::vec2>(), "delta", var(mud::vec2{0.f,0.f}), Member::Value, nullptr },
+				{ t, member_address(&mud::MouseEvent::m_deltaZ), type<float>(), "deltaZ", var(float(0.f)), Member::Value, nullptr },
+				{ t, member_address(&mud::MouseEvent::m_pressed), type<mud::vec2>(), "pressed", var(mud::vec2{0.f,0.f}), Member::Value, nullptr },
+				{ t, member_address(&mud::MouseEvent::m_button), type<mud::MouseButtonCode>(), "button", var(mud::MouseButtonCode(NO_BUTTON)), Member::Value, nullptr }
 			},
 			// methods
 			{

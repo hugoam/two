@@ -1,6 +1,6 @@
 #pragma once
 
-//#include <mud/type.h>
+#include <mud/type.h>
 
 
 
@@ -126,6 +126,8 @@ namespace mud
 		array(T* pointer, size_t count) : m_pointer(pointer), m_count(count) {}
 		array(array<T> other, size_t offset) : m_pointer(other.m_pointer + offset), m_count(other.m_count - offset) {}
 		array(array<T> other, size_t offset, size_t count) : m_pointer(other.m_pointer + offset), m_count(count) {}
+		template <size_t size>
+		array(T(&a)[size]) : m_pointer(a), m_count(size) {}
 		template <class U>
 		array(U& container) : m_pointer(container.data()), m_count(container.size()) {}
 
@@ -1315,7 +1317,7 @@ namespace mud
 		inline P* align(P* p, size_t alignment, size_t offset)
 		{
 			P* const r = align(add(p, offset), alignment);
-			assert(pointermath::add(r, -offset) >= p);
+			//assert(pointermath::add(r, -offset) >= p);
 			return r;
 		}
 	}

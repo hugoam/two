@@ -842,7 +842,7 @@ namespace mud
 
 			for(size_t i = 0; i < e.m_names.size(); ++i)
 			{
-				set_table(m_state, e.m_names[i], e.m_vars[i]);
+				set_table(m_state, e.m_names[i], e.varn(i));
 			}
 		}
 

@@ -6638,7 +6638,6 @@ namespace mud
     template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>() { static Type ty("RenderTarget", type<mud::FrameBuffer>(), sizeof(mud::RenderTarget)); return ty; }
 }
 
-#if 0
 
 #ifdef MUD_MODULES
 module mud.gfx;
@@ -6707,7 +6706,6 @@ namespace mud
 	}
 }
 
-#endif
 
 #ifdef MUD_MODULES
 module mud.gfx;
