@@ -232,6 +232,7 @@ namespace mud
 
 
 #include <stl/vector.h>
+#include <stl/string.h>
 
 #include <cstdlib>
 
@@ -280,7 +281,14 @@ namespace mud
 		using CopyConstruct = Var(*)(Ref); CopyConstruct m_copy_construct;
 		using CopyAssign = void(*)(Ref, Ref); CopyAssign m_copy_assign;
 	};
-	
+
+	export_ class refl_ MUD_REFL_EXPORT Convert
+	{
+	public:
+		using ToString = void(*)(Ref, string&); ToString m_to_string;
+		using ToValue = void(*)(const string&, Ref); ToValue m_to_value;
+	};
+
 	export_ extern MUD_REFL_EXPORT vector<Meta*> g_meta;
 	export_ extern MUD_REFL_EXPORT vector<Class*> g_class;
 	export_ extern MUD_REFL_EXPORT vector<Enum*> g_enu;
@@ -579,16 +587,6 @@ namespace mud
 
 namespace mud
 {
-	using ToStringFunc = void(*)(Ref, string&);
-	using FromStringFunc = void(*)(const string&, Ref);
-
-	export_ class refl_ MUD_REFL_EXPORT Convert
-	{
-	public:
-		ToStringFunc m_to_string;
-		FromStringFunc m_to_value;
-	};
-
 	export_ MUD_REFL_EXPORT string to_name(Type& type, Ref value);
 	export_ inline string to_name(Ref value) { return to_name(type(value), value); }
 
@@ -744,6 +742,7 @@ namespace mud
 namespace mud
 {
 }
+//#include <refl/Convert.h>
 
 
 #include <stl/vector.h>
@@ -781,6 +780,7 @@ namespace mud
 
 namespace mud
 {
+#if 0
 	export_ template <typename T_Value, typename T_Member, typename T>
 	inline auto member_getter(T_Member T::*mem) { return [mem](Ref object, Var& v) { setval<T_Value>(v, val<T>(object).*mem); }; }
 
@@ -795,6 +795,7 @@ namespace mud
 
 	export_ template <typename T_Value, typename T_Param, typename T>
 	inline auto member_setter(void(T::*func)(T_Param)) { return [func](Ref object, const Var& v) { (val<T>(object).*func)(val<T_Value>(v)); }; }
+#endif
 
 	export_ template <class T>
 	void init_store() {}
