@@ -44,6 +44,7 @@ namespace mud
 	{
 		Type& t = type<mud::Tile>();
 		static Meta meta = { t, &namspc({ "mud" }), "Tile", sizeof(mud::Tile), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -58,11 +59,11 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Tile::m_index), type<uint32_t>(), "index", var(uint32_t()), Member::Value, nullptr },
-				{ t, member_address(&mud::Tile::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::Tile::m_symmetry), type<char>(), "symmetry", var(char()), Member::Value, nullptr },
-				{ t, member_address(&mud::Tile::m_cardinality), type<int>(), "cardinality", var(int()), Member::Value, nullptr },
-				{ t, member_address(&mud::Tile::m_profile), type<int>(), "profile", var(int()), Member::Value, nullptr }
+				{ t, member_address(&mud::Tile::m_index), type<uint32_t>(), "index", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Tile::m_name), type<string>(), "name", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Tile::m_symmetry), type<char>(), "symmetry", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Tile::m_cardinality), type<int>(), "cardinality", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Tile::m_profile), type<int>(), "profile", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -77,6 +78,7 @@ namespace mud
 	{
 		Type& t = type<mud::Tileset>();
 		static Meta meta = { t, &namspc({ "mud" }), "Tileset", sizeof(mud::Tileset), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -91,10 +93,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Tileset::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::Tileset::m_tile_size), type<mud::vec3>(), "tile_size", var(mud::vec3()), Member::Value, nullptr },
-				{ t, member_address(&mud::Tileset::m_tile_scale), type<mud::vec3>(), "tile_scale", var(mud::vec3()), Member::Value, nullptr },
-				{ t, member_address(&mud::Tileset::m_num_tiles), type<uint16_t>(), "nutiles", var(uint16_t()), Member::Value, nullptr }
+				{ t, member_address(&mud::Tileset::m_name), type<string>(), "name", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Tileset::m_tile_size), type<mud::vec3>(), "tile_size", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Tileset::m_tile_scale), type<mud::vec3>(), "tile_scale", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Tileset::m_num_tiles), type<uint16_t>(), "nutiles", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -109,6 +111,7 @@ namespace mud
 	{
 		Type& t = type<mud::Wave>();
 		static Meta meta = { t, &namspc({ "mud" }), "Wave", sizeof(mud::Wave), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -138,6 +141,7 @@ namespace mud
 	{
 		Type& t = type<mud::TileWave>();
 		static Meta meta = { t, &namspc({ "mud" }), "TileWave", sizeof(mud::TileWave), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Wave>() },
@@ -166,6 +170,7 @@ namespace mud
 	{
 		Type& t = type<mud::WaveTileset>();
 		static Meta meta = { t, &namspc({ "mud" }), "WaveTileset", sizeof(mud::WaveTileset), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Tileset>() },

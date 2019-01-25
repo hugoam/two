@@ -50,7 +50,7 @@ namespace mud
 
 		Batch* batch(DrawMode draw_mode, size_t vertex_count);
 
-		void draw(const mat4& transform, const ProcShape& shapes);
+		void shape(const mat4& transform, const ProcShape& shape);
 		void draw(const mat4& transform, array<ProcShape> shapes);
 		void draw(const mat4& transform, array<ProcShape> shapes, ShapeSize size, DrawMode draw_mode);
 

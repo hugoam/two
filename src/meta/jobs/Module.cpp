@@ -30,6 +30,7 @@ namespace mud
 	{
 		Type& t = type<mud::JobSystem>();
 		static Meta meta = { t, &namspc({ "mud" }), "JobSystem", sizeof(mud::JobSystem), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },

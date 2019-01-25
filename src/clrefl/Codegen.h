@@ -258,10 +258,16 @@ namespace clgen
 			return "nullptr";
 	}
 
+	string member_default_decl(const CLType& c, const CLMember& m)
+	{
+		UNUSED(c);
+		return  "static " + m.m_type.m_spelling + " " + m.m_name + "_default = " + m.m_default + ";";
+	}
+
 	string member_default(const CLType& c, const CLMember& m)
 	{
 		UNUSED(c);
-		return type_var(m.m_type.m_type->m_id, *m.m_type.m_type, m.m_type.pointer(), m.m_default);
+		return m.m_default != "" ? "Ref(" + string(m.m_type.pointer() ? "" : "&") + m.m_name + "_default)" : "Ref()";
 	}
 
 	string method_func(const CLType& c, const CLMethod& m)
@@ -532,6 +538,10 @@ namespace clgen
 				p(i, "{");
 				p(i, "Type& t = " + type_get(c) + ";");
 				p(i, meta_decl(c, type_class(c)));
+				p(i, "// defaults");
+				for (CLMember& a : c.m_members)
+					if(a.m_default != "")
+						p(i, member_default_decl(c, a));
 				p(i, "static Class cls = { t,");
 				p(i, "// bases");
 				p(i, "{ " + comma(transform<string>(c.m_bases, [&](CLType* base) { return type_get_pt(*base); })) + " },");

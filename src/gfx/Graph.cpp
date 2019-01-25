@@ -227,9 +227,9 @@ namespace gfx
 	{
 		UNUSED(flags);
 		if(symbol.fill())
-			scene.m_immediate->draw(transform, { symbol, &shape, PLAIN });
+			scene.m_immediate->shape(transform, { symbol, &shape, PLAIN });
 		if(symbol.outline())
-			scene.m_immediate->draw(transform, { symbol, &shape, OUTLINE });
+			scene.m_immediate->shape(transform, { symbol, &shape, OUTLINE });
 	}
 
 	void draw(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags)

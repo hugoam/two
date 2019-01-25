@@ -83,6 +83,7 @@ namespace mud
 	{
 		Type& t = type<mud::Noise>();
 		static Meta meta = { t, &namspc({ "mud" }), "Noise", sizeof(mud::Noise), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -109,6 +110,7 @@ namespace mud
 	{
 		Type& t = type<mud::array3d<float>>();
 		static Meta meta = { t, &namspc({ "mud" }), "array3d<float>", sizeof(mud::array3d<float>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<vector<float>>() },

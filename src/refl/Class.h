@@ -115,12 +115,14 @@ namespace mud
 		return this->get(cast(object));
 	}
 
+#if 0
 	inline Var Member::safe_get(Ref object) const
 	{
 		Var result = m_default_value;
 		result.copy(this->get(cast(object)));
 		return result;
 	}
+#endif
 
 	inline void Member::cast_set(Ref object, Ref value) const
 	{

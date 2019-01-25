@@ -143,6 +143,7 @@ namespace mud
 	{
 		Type& t = type<mud::AutoStat<float>>();
 		static Meta meta = { t, &namspc({ "mud" }), "AutoStat<float>", sizeof(mud::AutoStat<float>), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -169,6 +170,7 @@ namespace mud
 	{
 		Type& t = type<mud::AutoStat<int>>();
 		static Meta meta = { t, &namspc({ "mud" }), "AutoStat<int>", sizeof(mud::AutoStat<int>), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -195,6 +197,7 @@ namespace mud
 	{
 		Type& t = type<mud::Colour>();
 		static Meta meta = { t, &namspc({ "mud" }), "Colour", sizeof(mud::Colour), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -211,10 +214,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Colour::m_r), type<float>(), "r", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::Colour::m_g), type<float>(), "g", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::Colour::m_b), type<float>(), "b", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::Colour::m_a), type<float>(), "a", var(float()), Member::Value, nullptr }
+				{ t, member_address(&mud::Colour::m_r), type<float>(), "r", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Colour::m_g), type<float>(), "g", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Colour::m_b), type<float>(), "b", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Colour::m_a), type<float>(), "a", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -248,6 +251,7 @@ namespace mud
 	{
 		Type& t = type<mud::Gauge>();
 		static Meta meta = { t, &namspc({ "mud" }), "Gauge", sizeof(mud::Gauge), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -276,6 +280,7 @@ namespace mud
 	{
 		Type& t = type<mud::Image>();
 		static Meta meta = { t, &namspc({ "mud" }), "Image", sizeof(mud::Image), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -290,8 +295,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Image::d_name), type<string>(), "d_name", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::Image::d_path), type<string>(), "d_path", var(string()), Member::Value, nullptr }
+				{ t, member_address(&mud::Image::d_name), type<string>(), "d_name", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Image::d_path), type<string>(), "d_path", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -306,6 +311,7 @@ namespace mud
 	{
 		Type& t = type<mud::Image256>();
 		static Meta meta = { t, &namspc({ "mud" }), "Image256", sizeof(mud::Image256), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -320,10 +326,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Image256::m_pixels), type<vector<uint32_t>>(), "pixels", var(vector<uint32_t>()), Member::Value, nullptr },
-				{ t, member_address(&mud::Image256::m_width), type<uint16_t>(), "width", var(uint16_t()), Member::Value, nullptr },
-				{ t, member_address(&mud::Image256::m_height), type<uint16_t>(), "height", var(uint16_t()), Member::Value, nullptr },
-				{ t, member_address(&mud::Image256::m_palette), type<mud::Palette>(), "palette", var(mud::Palette()), Member::Value, nullptr }
+				{ t, member_address(&mud::Image256::m_pixels), type<vector<uint32_t>>(), "pixels", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Image256::m_width), type<uint16_t>(), "width", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Image256::m_height), type<uint16_t>(), "height", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Image256::m_palette), type<mud::Palette>(), "palette", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -338,6 +344,7 @@ namespace mud
 	{
 		Type& t = type<mud::ImageAtlas>();
 		static Meta meta = { t, &namspc({ "mud" }), "ImageAtlas", sizeof(mud::ImageAtlas), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -364,6 +371,7 @@ namespace mud
 	{
 		Type& t = type<mud::Palette>();
 		static Meta meta = { t, &namspc({ "mud" }), "Palette", sizeof(mud::Palette), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -394,6 +402,7 @@ namespace mud
 	{
 		Type& t = type<mud::Range<float>>();
 		static Meta meta = { t, &namspc({ "mud" }), "Range<float>", sizeof(mud::Range<float>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -408,8 +417,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Range<float>::m_min), type<float>(), "min", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::Range<float>::m_max), type<float>(), "max", var(float()), Member::Value, nullptr }
+				{ t, member_address(&mud::Range<float>::m_min), type<float>(), "min", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Range<float>::m_max), type<float>(), "max", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -424,6 +433,7 @@ namespace mud
 	{
 		Type& t = type<mud::Range<mud::Colour>>();
 		static Meta meta = { t, &namspc({ "mud" }), "Range<mud::Colour>", sizeof(mud::Range<mud::Colour>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -438,8 +448,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Range<mud::Colour>::m_min), type<mud::Colour>(), "min", var(mud::Colour()), Member::Value, nullptr },
-				{ t, member_address(&mud::Range<mud::Colour>::m_max), type<mud::Colour>(), "max", var(mud::Colour()), Member::Value, nullptr }
+				{ t, member_address(&mud::Range<mud::Colour>::m_min), type<mud::Colour>(), "min", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Range<mud::Colour>::m_max), type<mud::Colour>(), "max", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -454,6 +464,7 @@ namespace mud
 	{
 		Type& t = type<mud::Range<mud::quat>>();
 		static Meta meta = { t, &namspc({ "mud" }), "Range<mud::quat>", sizeof(mud::Range<mud::quat>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -468,8 +479,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Range<mud::quat>::m_min), type<mud::quat>(), "min", var(mud::quat()), Member::Value, nullptr },
-				{ t, member_address(&mud::Range<mud::quat>::m_max), type<mud::quat>(), "max", var(mud::quat()), Member::Value, nullptr }
+				{ t, member_address(&mud::Range<mud::quat>::m_min), type<mud::quat>(), "min", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Range<mud::quat>::m_max), type<mud::quat>(), "max", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -484,6 +495,7 @@ namespace mud
 	{
 		Type& t = type<mud::Range<mud::vec3>>();
 		static Meta meta = { t, &namspc({ "mud" }), "Range<mud::vec3>", sizeof(mud::Range<mud::vec3>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -498,8 +510,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Range<mud::vec3>::m_min), type<mud::vec3>(), "min", var(mud::vec3()), Member::Value, nullptr },
-				{ t, member_address(&mud::Range<mud::vec3>::m_max), type<mud::vec3>(), "max", var(mud::vec3()), Member::Value, nullptr }
+				{ t, member_address(&mud::Range<mud::vec3>::m_min), type<mud::vec3>(), "min", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Range<mud::vec3>::m_max), type<mud::vec3>(), "max", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -514,6 +526,7 @@ namespace mud
 	{
 		Type& t = type<mud::Range<uint32_t>>();
 		static Meta meta = { t, &namspc({ "mud" }), "Range<uint32_t>", sizeof(mud::Range<uint32_t>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -528,8 +541,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Range<uint32_t>::m_min), type<uint32_t>(), "min", var(uint32_t()), Member::Value, nullptr },
-				{ t, member_address(&mud::Range<uint32_t>::m_max), type<uint32_t>(), "max", var(uint32_t()), Member::Value, nullptr }
+				{ t, member_address(&mud::Range<uint32_t>::m_min), type<uint32_t>(), "min", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Range<uint32_t>::m_max), type<uint32_t>(), "max", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -544,6 +557,7 @@ namespace mud
 	{
 		Type& t = type<mud::Ratio>();
 		static Meta meta = { t, &namspc({ "mud" }), "Ratio", sizeof(mud::Ratio), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -572,6 +586,7 @@ namespace mud
 	{
 		Type& t = type<mud::Time>();
 		static Meta meta = { t, &namspc({ "mud" }), "Time", sizeof(mud::Time), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -586,7 +601,7 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Time::m_value), type<double>(), "value", var(double()), Member::Value, nullptr }
+				{ t, member_address(&mud::Time::m_value), type<double>(), "value", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -601,6 +616,7 @@ namespace mud
 	{
 		Type& t = type<mud::TimeSpan>();
 		static Meta meta = { t, &namspc({ "mud" }), "TimeSpan", sizeof(mud::TimeSpan), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -615,8 +631,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::TimeSpan::start), type<mud::Time>(), "start", var(mud::Time()), Member::Value, nullptr },
-				{ t, member_address(&mud::TimeSpan::end), type<mud::Time>(), "end", var(mud::Time()), Member::Value, nullptr }
+				{ t, member_address(&mud::TimeSpan::start), type<mud::Time>(), "start", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::TimeSpan::end), type<mud::Time>(), "end", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -631,6 +647,10 @@ namespace mud
 	{
 		Type& t = type<mud::Transform>();
 		static Meta meta = { t, &namspc({ "mud" }), "Transform", sizeof(mud::Transform), TypeClass::Struct };
+		// defaults
+		static mud::vec3 position_default = Zero3;
+		static mud::quat rotation_default = ZeroQuat;
+		static mud::vec3 scale_default = Unit3;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -646,9 +666,9 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Transform::m_position), type<mud::vec3>(), "position", var(mud::vec3(Zero3)), Member::Value, nullptr },
-				{ t, member_address(&mud::Transform::m_rotation), type<mud::quat>(), "rotation", var(mud::quat(ZeroQuat)), Member::Value, nullptr },
-				{ t, member_address(&mud::Transform::m_scale), type<mud::vec3>(), "scale", var(mud::vec3(Unit3)), Member::Value, nullptr }
+				{ t, member_address(&mud::Transform::m_position), type<mud::vec3>(), "position", Ref(&position_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Transform::m_rotation), type<mud::quat>(), "rotation", Ref(&rotation_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Transform::m_scale), type<mud::vec3>(), "scale", Ref(&scale_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -663,6 +683,7 @@ namespace mud
 	{
 		Type& t = type<mud::ValueCurve<float>>();
 		static Meta meta = { t, &namspc({ "mud" }), "ValueCurve<float>", sizeof(mud::ValueCurve<float>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -678,7 +699,7 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ValueCurve<float>::m_keys), type<vector<float>>(), "keys", var(vector<float>()), Member::Value, nullptr }
+				{ t, member_address(&mud::ValueCurve<float>::m_keys), type<vector<float>>(), "keys", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -693,6 +714,7 @@ namespace mud
 	{
 		Type& t = type<mud::ValueCurve<mud::Colour>>();
 		static Meta meta = { t, &namspc({ "mud" }), "ValueCurve<mud::Colour>", sizeof(mud::ValueCurve<mud::Colour>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -708,7 +730,7 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ValueCurve<mud::Colour>::m_keys), type<vector<mud::Colour>>(), "keys", var(vector<mud::Colour>()), Member::Value, nullptr }
+				{ t, member_address(&mud::ValueCurve<mud::Colour>::m_keys), type<vector<mud::Colour>>(), "keys", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -723,6 +745,7 @@ namespace mud
 	{
 		Type& t = type<mud::ValueCurve<mud::quat>>();
 		static Meta meta = { t, &namspc({ "mud" }), "ValueCurve<mud::quat>", sizeof(mud::ValueCurve<mud::quat>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -738,7 +761,7 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ValueCurve<mud::quat>::m_keys), type<vector<mud::quat>>(), "keys", var(vector<mud::quat>()), Member::Value, nullptr }
+				{ t, member_address(&mud::ValueCurve<mud::quat>::m_keys), type<vector<mud::quat>>(), "keys", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -753,6 +776,7 @@ namespace mud
 	{
 		Type& t = type<mud::ValueCurve<mud::vec3>>();
 		static Meta meta = { t, &namspc({ "mud" }), "ValueCurve<mud::vec3>", sizeof(mud::ValueCurve<mud::vec3>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -768,7 +792,7 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ValueCurve<mud::vec3>::m_keys), type<vector<mud::vec3>>(), "keys", var(vector<mud::vec3>()), Member::Value, nullptr }
+				{ t, member_address(&mud::ValueCurve<mud::vec3>::m_keys), type<vector<mud::vec3>>(), "keys", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -783,6 +807,7 @@ namespace mud
 	{
 		Type& t = type<mud::ValueCurve<uint32_t>>();
 		static Meta meta = { t, &namspc({ "mud" }), "ValueCurve<uint32_t>", sizeof(mud::ValueCurve<uint32_t>), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -798,7 +823,7 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ValueCurve<uint32_t>::m_keys), type<vector<uint32_t>>(), "keys", var(vector<uint32_t>()), Member::Value, nullptr }
+				{ t, member_address(&mud::ValueCurve<uint32_t>::m_keys), type<vector<uint32_t>>(), "keys", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -813,6 +838,10 @@ namespace mud
 	{
 		Type& t = type<mud::ValueTrack<float>>();
 		static Meta meta = { t, &namspc({ "mud" }), "ValueTrack<float>", sizeof(mud::ValueTrack<float>), TypeClass::Struct };
+		// defaults
+		static float value_default = One<float>::value();
+		static float min_default = One<float>::value();
+		static float max_default = One<float>::value();
 		static Class cls = { t,
 			// bases
 			{  },
@@ -828,13 +857,13 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ValueTrack<float>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<float>::m_value), type<float>(), "value", var(float(One<float>::value())), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<float>::m_min), type<float>(), "min", var(float(One<float>::value())), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<float>::m_max), type<float>(), "max", var(float(One<float>::value())), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<float>::m_curve), type<mud::ValueCurve<float>>(), "curve", var(mud::ValueCurve<float>()), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<float>::m_min_curve), type<mud::ValueCurve<float>>(), "min_curve", var(mud::ValueCurve<float>()), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<float>::m_max_curve), type<mud::ValueCurve<float>>(), "max_curve", var(mud::ValueCurve<float>()), Member::Value, nullptr }
+				{ t, member_address(&mud::ValueTrack<float>::m_mode), type<mud::TrackMode>(), "mode", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<float>::m_value), type<float>(), "value", Ref(&value_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<float>::m_min), type<float>(), "min", Ref(&min_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<float>::m_max), type<float>(), "max", Ref(&max_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<float>::m_curve), type<mud::ValueCurve<float>>(), "curve", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<float>::m_min_curve), type<mud::ValueCurve<float>>(), "min_curve", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<float>::m_max_curve), type<mud::ValueCurve<float>>(), "max_curve", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -849,6 +878,10 @@ namespace mud
 	{
 		Type& t = type<mud::ValueTrack<mud::Colour>>();
 		static Meta meta = { t, &namspc({ "mud" }), "ValueTrack<mud::Colour>", sizeof(mud::ValueTrack<mud::Colour>), TypeClass::Struct };
+		// defaults
+		static mud::Colour value_default = One<mud::Colour>::value();
+		static mud::Colour min_default = One<mud::Colour>::value();
+		static mud::Colour max_default = One<mud::Colour>::value();
 		static Class cls = { t,
 			// bases
 			{  },
@@ -864,13 +897,13 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ValueTrack<mud::Colour>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::Colour>::m_value), type<mud::Colour>(), "value", var(mud::Colour(One<mud::Colour>::value())), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::Colour>::m_min), type<mud::Colour>(), "min", var(mud::Colour(One<mud::Colour>::value())), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::Colour>::m_max), type<mud::Colour>(), "max", var(mud::Colour(One<mud::Colour>::value())), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::Colour>::m_curve), type<mud::ValueCurve<mud::Colour>>(), "curve", var(mud::ValueCurve<mud::Colour>()), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::Colour>::m_min_curve), type<mud::ValueCurve<mud::Colour>>(), "min_curve", var(mud::ValueCurve<mud::Colour>()), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::Colour>::m_max_curve), type<mud::ValueCurve<mud::Colour>>(), "max_curve", var(mud::ValueCurve<mud::Colour>()), Member::Value, nullptr }
+				{ t, member_address(&mud::ValueTrack<mud::Colour>::m_mode), type<mud::TrackMode>(), "mode", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::Colour>::m_value), type<mud::Colour>(), "value", Ref(&value_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::Colour>::m_min), type<mud::Colour>(), "min", Ref(&min_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::Colour>::m_max), type<mud::Colour>(), "max", Ref(&max_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::Colour>::m_curve), type<mud::ValueCurve<mud::Colour>>(), "curve", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::Colour>::m_min_curve), type<mud::ValueCurve<mud::Colour>>(), "min_curve", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::Colour>::m_max_curve), type<mud::ValueCurve<mud::Colour>>(), "max_curve", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -885,6 +918,10 @@ namespace mud
 	{
 		Type& t = type<mud::ValueTrack<mud::quat>>();
 		static Meta meta = { t, &namspc({ "mud" }), "ValueTrack<mud::quat>", sizeof(mud::ValueTrack<mud::quat>), TypeClass::Struct };
+		// defaults
+		static mud::quat value_default = One<mud::quat>::value();
+		static mud::quat min_default = One<mud::quat>::value();
+		static mud::quat max_default = One<mud::quat>::value();
 		static Class cls = { t,
 			// bases
 			{  },
@@ -900,13 +937,13 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ValueTrack<mud::quat>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::quat>::m_value), type<mud::quat>(), "value", var(mud::quat(One<mud::quat>::value())), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::quat>::m_min), type<mud::quat>(), "min", var(mud::quat(One<mud::quat>::value())), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::quat>::m_max), type<mud::quat>(), "max", var(mud::quat(One<mud::quat>::value())), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::quat>::m_curve), type<mud::ValueCurve<mud::quat>>(), "curve", var(mud::ValueCurve<mud::quat>()), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::quat>::m_min_curve), type<mud::ValueCurve<mud::quat>>(), "min_curve", var(mud::ValueCurve<mud::quat>()), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::quat>::m_max_curve), type<mud::ValueCurve<mud::quat>>(), "max_curve", var(mud::ValueCurve<mud::quat>()), Member::Value, nullptr }
+				{ t, member_address(&mud::ValueTrack<mud::quat>::m_mode), type<mud::TrackMode>(), "mode", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::quat>::m_value), type<mud::quat>(), "value", Ref(&value_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::quat>::m_min), type<mud::quat>(), "min", Ref(&min_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::quat>::m_max), type<mud::quat>(), "max", Ref(&max_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::quat>::m_curve), type<mud::ValueCurve<mud::quat>>(), "curve", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::quat>::m_min_curve), type<mud::ValueCurve<mud::quat>>(), "min_curve", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::quat>::m_max_curve), type<mud::ValueCurve<mud::quat>>(), "max_curve", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -921,6 +958,10 @@ namespace mud
 	{
 		Type& t = type<mud::ValueTrack<mud::vec3>>();
 		static Meta meta = { t, &namspc({ "mud" }), "ValueTrack<mud::vec3>", sizeof(mud::ValueTrack<mud::vec3>), TypeClass::Struct };
+		// defaults
+		static mud::vec3 value_default = One<mud::vec3>::value();
+		static mud::vec3 min_default = One<mud::vec3>::value();
+		static mud::vec3 max_default = One<mud::vec3>::value();
 		static Class cls = { t,
 			// bases
 			{  },
@@ -936,13 +977,13 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ValueTrack<mud::vec3>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::vec3>::m_value), type<mud::vec3>(), "value", var(mud::vec3(One<mud::vec3>::value())), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::vec3>::m_min), type<mud::vec3>(), "min", var(mud::vec3(One<mud::vec3>::value())), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::vec3>::m_max), type<mud::vec3>(), "max", var(mud::vec3(One<mud::vec3>::value())), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::vec3>::m_curve), type<mud::ValueCurve<mud::vec3>>(), "curve", var(mud::ValueCurve<mud::vec3>()), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::vec3>::m_min_curve), type<mud::ValueCurve<mud::vec3>>(), "min_curve", var(mud::ValueCurve<mud::vec3>()), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<mud::vec3>::m_max_curve), type<mud::ValueCurve<mud::vec3>>(), "max_curve", var(mud::ValueCurve<mud::vec3>()), Member::Value, nullptr }
+				{ t, member_address(&mud::ValueTrack<mud::vec3>::m_mode), type<mud::TrackMode>(), "mode", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::vec3>::m_value), type<mud::vec3>(), "value", Ref(&value_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::vec3>::m_min), type<mud::vec3>(), "min", Ref(&min_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::vec3>::m_max), type<mud::vec3>(), "max", Ref(&max_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::vec3>::m_curve), type<mud::ValueCurve<mud::vec3>>(), "curve", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::vec3>::m_min_curve), type<mud::ValueCurve<mud::vec3>>(), "min_curve", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<mud::vec3>::m_max_curve), type<mud::ValueCurve<mud::vec3>>(), "max_curve", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -957,6 +998,10 @@ namespace mud
 	{
 		Type& t = type<mud::ValueTrack<uint32_t>>();
 		static Meta meta = { t, &namspc({ "mud" }), "ValueTrack<uint32_t>", sizeof(mud::ValueTrack<uint32_t>), TypeClass::Struct };
+		// defaults
+		static uint32_t value_default = One<uint32_t>::value();
+		static uint32_t min_default = One<uint32_t>::value();
+		static uint32_t max_default = One<uint32_t>::value();
 		static Class cls = { t,
 			// bases
 			{  },
@@ -972,13 +1017,13 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ValueTrack<uint32_t>::m_mode), type<mud::TrackMode>(), "mode", var(mud::TrackMode()), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<uint32_t>::m_value), type<uint32_t>(), "value", var(uint32_t(One<uint32_t>::value())), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<uint32_t>::m_min), type<uint32_t>(), "min", var(uint32_t(One<uint32_t>::value())), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<uint32_t>::m_max), type<uint32_t>(), "max", var(uint32_t(One<uint32_t>::value())), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<uint32_t>::m_curve), type<mud::ValueCurve<uint32_t>>(), "curve", var(mud::ValueCurve<uint32_t>()), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<uint32_t>::m_min_curve), type<mud::ValueCurve<uint32_t>>(), "min_curve", var(mud::ValueCurve<uint32_t>()), Member::Value, nullptr },
-				{ t, member_address(&mud::ValueTrack<uint32_t>::m_max_curve), type<mud::ValueCurve<uint32_t>>(), "max_curve", var(mud::ValueCurve<uint32_t>()), Member::Value, nullptr }
+				{ t, member_address(&mud::ValueTrack<uint32_t>::m_mode), type<mud::TrackMode>(), "mode", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<uint32_t>::m_value), type<uint32_t>(), "value", Ref(&value_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<uint32_t>::m_min), type<uint32_t>(), "min", Ref(&min_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<uint32_t>::m_max), type<uint32_t>(), "max", Ref(&max_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<uint32_t>::m_curve), type<mud::ValueCurve<uint32_t>>(), "curve", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<uint32_t>::m_min_curve), type<mud::ValueCurve<uint32_t>>(), "min_curve", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ValueTrack<uint32_t>::m_max_curve), type<mud::ValueCurve<uint32_t>>(), "max_curve", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -993,6 +1038,7 @@ namespace mud
 	{
 		Type& t = type<mud::bvec3>();
 		static Meta meta = { t, &namspc({ "mud" }), "bvec3", sizeof(mud::bvec3), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1021,6 +1067,7 @@ namespace mud
 	{
 		Type& t = type<mud::bvec4>();
 		static Meta meta = { t, &namspc({ "mud" }), "bvec4", sizeof(mud::bvec4), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1049,6 +1096,7 @@ namespace mud
 	{
 		Type& t = type<mud::half2>();
 		static Meta meta = { t, &namspc({ "mud" }), "half2", sizeof(mud::half2), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1077,6 +1125,7 @@ namespace mud
 	{
 		Type& t = type<mud::half3>();
 		static Meta meta = { t, &namspc({ "mud" }), "half3", sizeof(mud::half3), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1105,6 +1154,7 @@ namespace mud
 	{
 		Type& t = type<mud::ivec2>();
 		static Meta meta = { t, &namspc({ "mud" }), "ivec2", sizeof(mud::ivec2), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1133,6 +1183,7 @@ namespace mud
 	{
 		Type& t = type<mud::ivec3>();
 		static Meta meta = { t, &namspc({ "mud" }), "ivec3", sizeof(mud::ivec3), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1149,9 +1200,9 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ivec3::x), type<int>(), "x", var(int()), Member::Value, nullptr },
-				{ t, member_address(&mud::ivec3::y), type<int>(), "y", var(int()), Member::Value, nullptr },
-				{ t, member_address(&mud::ivec3::z), type<int>(), "z", var(int()), Member::Value, nullptr }
+				{ t, member_address(&mud::ivec3::x), type<int>(), "x", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ivec3::y), type<int>(), "y", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ivec3::z), type<int>(), "z", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1167,6 +1218,7 @@ namespace mud
 	{
 		Type& t = type<mud::ivec4>();
 		static Meta meta = { t, &namspc({ "mud" }), "ivec4", sizeof(mud::ivec4), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1195,6 +1247,7 @@ namespace mud
 	{
 		Type& t = type<mud::mat4>();
 		static Meta meta = { t, &namspc({ "mud" }), "mat4", sizeof(mud::mat4), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1223,6 +1276,7 @@ namespace mud
 	{
 		Type& t = type<mud::quat>();
 		static Meta meta = { t, &namspc({ "mud" }), "quat", sizeof(mud::quat), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1239,10 +1293,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::quat::x), type<float>(), "x", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::quat::y), type<float>(), "y", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::quat::z), type<float>(), "z", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::quat::w), type<float>(), "w", var(float()), Member::Value, nullptr }
+				{ t, member_address(&mud::quat::x), type<float>(), "x", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::quat::y), type<float>(), "y", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::quat::z), type<float>(), "z", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::quat::w), type<float>(), "w", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1258,6 +1312,7 @@ namespace mud
 	{
 		Type& t = type<mud::uvec2>();
 		static Meta meta = { t, &namspc({ "mud" }), "uvec2", sizeof(mud::uvec2), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1274,8 +1329,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::uvec2::x), type<uint32_t>(), "x", var(uint32_t()), Member::Value, nullptr },
-				{ t, member_address(&mud::uvec2::y), type<uint32_t>(), "y", var(uint32_t()), Member::Value, nullptr }
+				{ t, member_address(&mud::uvec2::x), type<uint32_t>(), "x", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::uvec2::y), type<uint32_t>(), "y", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1291,6 +1346,7 @@ namespace mud
 	{
 		Type& t = type<mud::uvec3>();
 		static Meta meta = { t, &namspc({ "mud" }), "uvec3", sizeof(mud::uvec3), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1307,9 +1363,9 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::uvec3::x), type<uint32_t>(), "x", var(uint32_t()), Member::Value, nullptr },
-				{ t, member_address(&mud::uvec3::y), type<uint32_t>(), "y", var(uint32_t()), Member::Value, nullptr },
-				{ t, member_address(&mud::uvec3::z), type<uint32_t>(), "z", var(uint32_t()), Member::Value, nullptr }
+				{ t, member_address(&mud::uvec3::x), type<uint32_t>(), "x", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::uvec3::y), type<uint32_t>(), "y", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::uvec3::z), type<uint32_t>(), "z", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1325,6 +1381,7 @@ namespace mud
 	{
 		Type& t = type<mud::uvec4>();
 		static Meta meta = { t, &namspc({ "mud" }), "uvec4", sizeof(mud::uvec4), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1341,10 +1398,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::uvec4::x), type<uint32_t>(), "x", var(uint32_t()), Member::Value, nullptr },
-				{ t, member_address(&mud::uvec4::y), type<uint32_t>(), "y", var(uint32_t()), Member::Value, nullptr },
-				{ t, member_address(&mud::uvec4::z), type<uint32_t>(), "z", var(uint32_t()), Member::Value, nullptr },
-				{ t, member_address(&mud::uvec4::w), type<uint32_t>(), "w", var(uint32_t()), Member::Value, nullptr }
+				{ t, member_address(&mud::uvec4::x), type<uint32_t>(), "x", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::uvec4::y), type<uint32_t>(), "y", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::uvec4::z), type<uint32_t>(), "z", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::uvec4::w), type<uint32_t>(), "w", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1360,6 +1417,7 @@ namespace mud
 	{
 		Type& t = type<mud::vec2>();
 		static Meta meta = { t, &namspc({ "mud" }), "vec2", sizeof(mud::vec2), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1376,8 +1434,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::vec2::x), type<float>(), "x", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::vec2::y), type<float>(), "y", var(float()), Member::Value, nullptr }
+				{ t, member_address(&mud::vec2::x), type<float>(), "x", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::vec2::y), type<float>(), "y", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1393,6 +1451,7 @@ namespace mud
 	{
 		Type& t = type<mud::vec3>();
 		static Meta meta = { t, &namspc({ "mud" }), "vec3", sizeof(mud::vec3), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1409,9 +1468,9 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::vec3::x), type<float>(), "x", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::vec3::y), type<float>(), "y", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::vec3::z), type<float>(), "z", var(float()), Member::Value, nullptr }
+				{ t, member_address(&mud::vec3::x), type<float>(), "x", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::vec3::y), type<float>(), "y", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::vec3::z), type<float>(), "z", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1427,6 +1486,7 @@ namespace mud
 	{
 		Type& t = type<mud::vec4>();
 		static Meta meta = { t, &namspc({ "mud" }), "vec4", sizeof(mud::vec4), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1443,10 +1503,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::vec4::x), type<float>(), "x", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::vec4::y), type<float>(), "y", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::vec4::z), type<float>(), "z", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::vec4::w), type<float>(), "w", var(float()), Member::Value, nullptr }
+				{ t, member_address(&mud::vec4::x), type<float>(), "x", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::vec4::y), type<float>(), "y", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::vec4::z), type<float>(), "z", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::vec4::w), type<float>(), "w", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1462,6 +1522,7 @@ namespace mud
 	{
 		Type& t = type<mud::Sprite>();
 		static Meta meta = { t, &namspc({ "mud" }), "Sprite", sizeof(mud::Sprite), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Image>() },
@@ -1488,6 +1549,7 @@ namespace mud
 	{
 		Type& t = type<mud::SpriteAtlas>();
 		static Meta meta = { t, &namspc({ "mud" }), "SpriteAtlas", sizeof(mud::SpriteAtlas), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::ImageAtlas>() },
@@ -1514,6 +1576,7 @@ namespace mud
 	{
 		Type& t = type<mud::TextureAtlas>();
 		static Meta meta = { t, &namspc({ "mud" }), "TextureAtlas", sizeof(mud::TextureAtlas), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::ImageAtlas>() },

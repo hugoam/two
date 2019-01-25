@@ -70,6 +70,7 @@ namespace mud
 	{
 		Type& t = type<mud::Call>();
 		static Meta meta = { t, &namspc({ "mud" }), "Call", sizeof(mud::Call), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -85,8 +86,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Call::m_arguments), type<vector<mud::Var>>(), "arguments", var(vector<mud::Var>()), Member::Value, nullptr },
-				{ t, member_address(&mud::Call::m_result), type<mud::Var>(), "result", Ref(type<mud::Var>()), Member::NonMutable, nullptr }
+				{ t, member_address(&mud::Call::m_arguments), type<vector<mud::Var>>(), "arguments", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Call::m_result), type<mud::Var>(), "result", Ref(), Member::NonMutable, nullptr }
 			},
 			// methods
 			{
@@ -101,6 +102,7 @@ namespace mud
 	{
 		Type& t = type<mud::Callable>();
 		static Meta meta = { t, &namspc({ "mud" }), "Callable", sizeof(mud::Callable), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -127,6 +129,7 @@ namespace mud
 	{
 		Type& t = type<mud::Class>();
 		static Meta meta = { t, &namspc({ "mud" }), "Class", sizeof(mud::Class), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -153,6 +156,7 @@ namespace mud
 	{
 		Type& t = type<mud::Convert>();
 		static Meta meta = { t, &namspc({ "mud" }), "Convert", sizeof(mud::Convert), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -179,6 +183,7 @@ namespace mud
 	{
 		Type& t = type<mud::Creator>();
 		static Meta meta = { t, &namspc({ "mud" }), "Creator", sizeof(mud::Creator), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -191,10 +196,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Creator>(object).m_type); } },
-				{ t, member_address(&mud::Creator::m_construct), type<bool>(), "construct", var(bool()), Member::Value, nullptr },
-				{ t, member_address(&mud::Creator::m_prototype), type<mud::Type>(), "prototype", Ref(type<mud::Type>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address<mud::Injector&(mud::Creator::*)() const>(&mud::Creator::injector), type<mud::Injector>(), "injector", Ref(type<mud::Injector>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Creator>(object).injector()); } }
+				{ t, Address(), type<mud::Type>(), "type", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Creator>(object).m_type); } },
+				{ t, member_address(&mud::Creator::m_construct), type<bool>(), "construct", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Creator::m_prototype), type<mud::Type>(), "prototype", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address<mud::Injector&(mud::Creator::*)() const>(&mud::Creator::injector), type<mud::Injector>(), "injector", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Creator>(object).injector()); } }
 			},
 			// methods
 			{
@@ -209,6 +214,7 @@ namespace mud
 	{
 		Type& t = type<mud::Enum>();
 		static Meta meta = { t, &namspc({ "mud" }), "Enum", sizeof(mud::Enum), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -235,6 +241,7 @@ namespace mud
 	{
 		Type& t = type<mud::Member>();
 		static Meta meta = { t, &namspc({ "mud" }), "Member", sizeof(mud::Member), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -261,6 +268,7 @@ namespace mud
 	{
 		Type& t = type<mud::Meta>();
 		static Meta meta = { t, &namspc({ "mud" }), "Meta", sizeof(mud::Meta), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -287,6 +295,7 @@ namespace mud
 	{
 		Type& t = type<mud::Module>();
 		static Meta meta = { t, &namspc({ "mud" }), "Module", sizeof(mud::Module), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -299,11 +308,11 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Module::m_name), type<const char*>(), "name", Ref(type<const char*>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::Module::m_deps), type<vector<mud::Module*>>(), "deps", var(vector<mud::Module*>()), Member::Value, nullptr },
-				{ t, member_address(&mud::Module::m_types), type<vector<mud::Type*>>(), "types", var(vector<mud::Type*>()), Member::Value, nullptr },
-				{ t, member_address(&mud::Module::m_functions), type<vector<mud::Function*>>(), "functions", var(vector<mud::Function*>()), Member::Value, nullptr },
-				{ t, member_address(&mud::Module::m_path), type<const char*>(), "path", Ref(type<const char*>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::Module::m_name), type<const char*>(), "name", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::Module::m_deps), type<vector<mud::Module*>>(), "deps", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Module::m_types), type<vector<mud::Type*>>(), "types", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Module::m_functions), type<vector<mud::Function*>>(), "functions", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Module::m_path), type<const char*>(), "path", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{
@@ -318,6 +327,7 @@ namespace mud
 	{
 		Type& t = type<mud::Namespace>();
 		static Meta meta = { t, &namspc({ "mud" }), "Namespace", sizeof(mud::Namespace), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -344,6 +354,7 @@ namespace mud
 	{
 		Type& t = type<mud::Operator>();
 		static Meta meta = { t, &namspc({ "mud" }), "Operator", sizeof(mud::Operator), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -358,10 +369,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Operator::m_function), type<mud::Function>(), "function", Ref(type<mud::Function>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::Operator::m_type), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::Operator::m_name), type<const char*>(), "name", Ref(type<const char*>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::Operator::m_sign), type<const char*>(), "sign", Ref(type<const char*>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::Operator::m_function), type<mud::Function>(), "function", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::Operator::m_type), type<mud::Type>(), "type", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::Operator::m_name), type<const char*>(), "name", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::Operator::m_sign), type<const char*>(), "sign", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{
@@ -376,6 +387,7 @@ namespace mud
 	{
 		Type& t = type<mud::Param>();
 		static Meta meta = { t, &namspc({ "mud" }), "Param", sizeof(mud::Param), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -402,6 +414,7 @@ namespace mud
 	{
 		Type& t = type<mud::Signature>();
 		static Meta meta = { t, &namspc({ "mud" }), "Signature", sizeof(mud::Signature), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -428,6 +441,7 @@ namespace mud
 	{
 		Type& t = type<mud::Static>();
 		static Meta meta = { t, &namspc({ "mud" }), "Static", sizeof(mud::Static), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -454,6 +468,7 @@ namespace mud
 	{
 		Type& t = type<mud::System>();
 		static Meta meta = { t, &namspc({ "mud" }), "System", sizeof(mud::System), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -466,9 +481,9 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::System::m_modules), type<vector<mud::Module*>>(), "modules", var(vector<mud::Module*>()), Member::Value, nullptr },
-				{ t, member_address(&mud::System::m_types), type<vector<mud::Type*>>(), "types", var(vector<mud::Type*>()), Member::Value, nullptr },
-				{ t, member_address(&mud::System::m_functions), type<vector<mud::Function*>>(), "functions", var(vector<mud::Function*>()), Member::Value, nullptr }
+				{ t, member_address(&mud::System::m_modules), type<vector<mud::Module*>>(), "modules", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::System::m_types), type<vector<mud::Type*>>(), "types", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::System::m_functions), type<vector<mud::Function*>>(), "functions", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -483,6 +498,7 @@ namespace mud
 	{
 		Type& t = type<mud::Constructor>();
 		static Meta meta = { t, &namspc({ "mud" }), "Constructor", sizeof(mud::Constructor), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Callable>() },
@@ -509,6 +525,7 @@ namespace mud
 	{
 		Type& t = type<mud::CopyConstructor>();
 		static Meta meta = { t, &namspc({ "mud" }), "CopyConstructor", sizeof(mud::CopyConstructor), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Callable>() },
@@ -535,6 +552,7 @@ namespace mud
 	{
 		Type& t = type<mud::Destructor>();
 		static Meta meta = { t, &namspc({ "mud" }), "Destructor", sizeof(mud::Destructor), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Callable>() },
@@ -561,6 +579,7 @@ namespace mud
 	{
 		Type& t = type<mud::Function>();
 		static Meta meta = { t, &namspc({ "mud" }), "Function", sizeof(mud::Function), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Callable>() },
@@ -587,6 +606,7 @@ namespace mud
 	{
 		Type& t = type<mud::Injector>();
 		static Meta meta = { t, &namspc({ "mud" }), "Injector", sizeof(mud::Injector), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Call>() },
@@ -613,6 +633,7 @@ namespace mud
 	{
 		Type& t = type<mud::Method>();
 		static Meta meta = { t, &namspc({ "mud" }), "Method", sizeof(mud::Method), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Callable>() },

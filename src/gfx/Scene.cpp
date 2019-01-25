@@ -85,7 +85,7 @@ namespace mud
 			for(Item* item : render.m_shot->m_items)
 			{
 				Colour colour = { 1.f, 0.f, 1.f, 0.15f };
-				m_immediate->draw(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
+				m_immediate->shape(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
 				//m_immediate->draw(item->m_node->m_transform, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
 			}
 	}

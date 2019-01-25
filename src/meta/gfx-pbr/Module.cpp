@@ -44,6 +44,11 @@ namespace mud
 	{
 		Type& t = type<mud::BCS>();
 		static Meta meta = { t, &namspc({ "mud" }), "BCS", sizeof(mud::BCS), TypeClass::Struct };
+		// defaults
+		static bool enabled_default = false;
+		static float brightness_default = 1.0f;
+		static float contrast_default = 1.0f;
+		static float saturation_default = 1.0f;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -58,10 +63,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::BCS::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::BCS::m_brightness), type<float>(), "brightness", var(float(1.0f)), Member::Value, nullptr },
-				{ t, member_address(&mud::BCS::m_contrast), type<float>(), "contrast", var(float(1.0f)), Member::Value, nullptr },
-				{ t, member_address(&mud::BCS::m_saturation), type<float>(), "saturation", var(float(1.0f)), Member::Value, nullptr }
+				{ t, member_address(&mud::BCS::m_enabled), type<bool>(), "enabled", Ref(&enabled_default), Member::Value, nullptr },
+				{ t, member_address(&mud::BCS::m_brightness), type<float>(), "brightness", Ref(&brightness_default), Member::Value, nullptr },
+				{ t, member_address(&mud::BCS::m_contrast), type<float>(), "contrast", Ref(&contrast_default), Member::Value, nullptr },
+				{ t, member_address(&mud::BCS::m_saturation), type<float>(), "saturation", Ref(&saturation_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -76,6 +81,15 @@ namespace mud
 	{
 		Type& t = type<mud::DofBlur>();
 		static Meta meta = { t, &namspc({ "mud" }), "DofBlur", sizeof(mud::DofBlur), TypeClass::Struct };
+		// defaults
+		static bool enabled_default = false;
+		static float far_distance_default = 10.f;
+		static float far_transition_default = 5.f;
+		static float far_radius_default = 5.f;
+		static float near_distance_default = 2.f;
+		static float near_transition_default = 1.f;
+		static float near_radius_default = 5.f;
+		static float max_coc_radius_default = 8.f;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -90,14 +104,14 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::DofBlur::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::DofBlur::m_far_distance), type<float>(), "far_distance", var(float(10.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::DofBlur::m_far_transition), type<float>(), "far_transition", var(float(5.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::DofBlur::m_far_radius), type<float>(), "far_radius", var(float(5.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::DofBlur::m_near_distance), type<float>(), "near_distance", var(float(2.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::DofBlur::m_near_transition), type<float>(), "near_transition", var(float(1.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::DofBlur::m_near_radius), type<float>(), "near_radius", var(float(5.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::DofBlur::m_max_coc_radius), type<float>(), "max_coc_radius", var(float(8.f)), Member::Value, nullptr }
+				{ t, member_address(&mud::DofBlur::m_enabled), type<bool>(), "enabled", Ref(&enabled_default), Member::Value, nullptr },
+				{ t, member_address(&mud::DofBlur::m_far_distance), type<float>(), "far_distance", Ref(&far_distance_default), Member::Value, nullptr },
+				{ t, member_address(&mud::DofBlur::m_far_transition), type<float>(), "far_transition", Ref(&far_transition_default), Member::Value, nullptr },
+				{ t, member_address(&mud::DofBlur::m_far_radius), type<float>(), "far_radius", Ref(&far_radius_default), Member::Value, nullptr },
+				{ t, member_address(&mud::DofBlur::m_near_distance), type<float>(), "near_distance", Ref(&near_distance_default), Member::Value, nullptr },
+				{ t, member_address(&mud::DofBlur::m_near_transition), type<float>(), "near_transition", Ref(&near_transition_default), Member::Value, nullptr },
+				{ t, member_address(&mud::DofBlur::m_near_radius), type<float>(), "near_radius", Ref(&near_radius_default), Member::Value, nullptr },
+				{ t, member_address(&mud::DofBlur::m_max_coc_radius), type<float>(), "max_coc_radius", Ref(&max_coc_radius_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -112,6 +126,7 @@ namespace mud
 	{
 		Type& t = type<mud::GIProbe>();
 		static Meta meta = { t, &namspc({ "mud" }), "GIProbe", sizeof(mud::GIProbe), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -138,6 +153,15 @@ namespace mud
 	{
 		Type& t = type<mud::Glow>();
 		static Meta meta = { t, &namspc({ "mud" }), "Glow", sizeof(mud::Glow), TypeClass::Struct };
+		// defaults
+		static bool enabled_default = false;
+		static mud::vec4 levels_1_4_default = {1.f,0.f,0.f,0.f};
+		static mud::vec4 levels_5_8_default = Zero4;
+		static float intensity_default = 0.4f;
+		static float bloom_default = 0.0f;
+		static float bleed_threshold_default = 1.0f;
+		static float bleed_scale_default = 2.0f;
+		static bool bicubic_filter_default = false;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -152,14 +176,14 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Glow::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Glow::m_levels_1_4), type<mud::vec4>(), "levels_1_4", var(mud::vec4{1.f,0.f,0.f,0.f}), Member::Value, nullptr },
-				{ t, member_address(&mud::Glow::m_levels_5_8), type<mud::vec4>(), "levels_5_8", var(mud::vec4(Zero4)), Member::Value, nullptr },
-				{ t, member_address(&mud::Glow::m_intensity), type<float>(), "intensity", var(float(0.4f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Glow::m_bloom), type<float>(), "bloom", var(float(0.0f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Glow::m_bleed_threshold), type<float>(), "bleed_threshold", var(float(1.0f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Glow::m_bleed_scale), type<float>(), "bleed_scale", var(float(2.0f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Glow::m_bicubic_filter), type<bool>(), "bicubic_filter", var(bool(false)), Member::Value, nullptr }
+				{ t, member_address(&mud::Glow::m_enabled), type<bool>(), "enabled", Ref(&enabled_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Glow::m_levels_1_4), type<mud::vec4>(), "levels_1_4", Ref(&levels_1_4_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Glow::m_levels_5_8), type<mud::vec4>(), "levels_5_8", Ref(&levels_5_8_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Glow::m_intensity), type<float>(), "intensity", Ref(&intensity_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Glow::m_bloom), type<float>(), "bloom", Ref(&bloom_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Glow::m_bleed_threshold), type<float>(), "bleed_threshold", Ref(&bleed_threshold_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Glow::m_bleed_scale), type<float>(), "bleed_scale", Ref(&bleed_scale_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Glow::m_bicubic_filter), type<bool>(), "bicubic_filter", Ref(&bicubic_filter_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -174,6 +198,7 @@ namespace mud
 	{
 		Type& t = type<mud::LightShadow>();
 		static Meta meta = { t, &namspc({ "mud" }), "LightShadow", sizeof(mud::LightShadow), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -202,6 +227,7 @@ namespace mud
 	{
 		Type& t = type<mud::Lightmap>();
 		static Meta meta = { t, &namspc({ "mud" }), "Lightmap", sizeof(mud::Lightmap), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -228,6 +254,7 @@ namespace mud
 	{
 		Type& t = type<mud::LightmapAtlas>();
 		static Meta meta = { t, &namspc({ "mud" }), "LightmapAtlas", sizeof(mud::LightmapAtlas), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -254,6 +281,7 @@ namespace mud
 	{
 		Type& t = type<mud::LightmapItem>();
 		static Meta meta = { t, &namspc({ "mud" }), "LightmapItem", sizeof(mud::LightmapItem), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -280,6 +308,12 @@ namespace mud
 	{
 		Type& t = type<mud::ReflectionProbe>();
 		static Meta meta = { t, &namspc({ "mud" }), "ReflectionProbe", sizeof(mud::ReflectionProbe), TypeClass::Object };
+		// defaults
+		static bool visible_default = true;
+		static float intensity_default = 1.f;
+		static mud::vec3 extents_default = Zero3;
+		static bool shadows_default = false;
+		static bool dirty_default = true;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -292,12 +326,12 @@ namespace mud
 			},
 			// members
 			{
-				{ t, Address(), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::ReflectionProbe>(object).m_node); } },
-				{ t, member_address(&mud::ReflectionProbe::m_visible), type<bool>(), "visible", var(bool(true)), Member::Value, nullptr },
-				{ t, member_address(&mud::ReflectionProbe::m_intensity), type<float>(), "intensity", var(float(1.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::ReflectionProbe::m_extents), type<mud::vec3>(), "extents", var(mud::vec3(Zero3)), Member::Value, nullptr },
-				{ t, member_address(&mud::ReflectionProbe::m_shadows), type<bool>(), "shadows", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::ReflectionProbe::m_dirty), type<bool>(), "dirty", var(bool(true)), Member::Value, nullptr }
+				{ t, Address(), type<mud::Node3>(), "node", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::ReflectionProbe>(object).m_node); } },
+				{ t, member_address(&mud::ReflectionProbe::m_visible), type<bool>(), "visible", Ref(&visible_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ReflectionProbe::m_intensity), type<float>(), "intensity", Ref(&intensity_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ReflectionProbe::m_extents), type<mud::vec3>(), "extents", Ref(&extents_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ReflectionProbe::m_shadows), type<bool>(), "shadows", Ref(&shadows_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ReflectionProbe::m_dirty), type<bool>(), "dirty", Ref(&dirty_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -312,6 +346,11 @@ namespace mud
 	{
 		Type& t = type<mud::Tonemap>();
 		static Meta meta = { t, &namspc({ "mud" }), "Tonemap", sizeof(mud::Tonemap), TypeClass::Struct };
+		// defaults
+		static mud::TonemapMode mode_default = mud::TonemapMode::Linear;
+		static bool enabled_default = false;
+		static float exposure_default = 1.0f;
+		static float white_point_default = 1.0f;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -326,10 +365,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Tonemap::m_mode), type<mud::TonemapMode>(), "mode", var(mud::TonemapMode::Linear), Member::Value, nullptr },
-				{ t, member_address(&mud::Tonemap::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Tonemap::m_exposure), type<float>(), "exposure", var(float(1.0f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Tonemap::m_white_point), type<float>(), "white_point", var(float(1.0f)), Member::Value, nullptr }
+				{ t, member_address(&mud::Tonemap::m_mode), type<mud::TonemapMode>(), "mode", Ref(&mode_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Tonemap::m_enabled), type<bool>(), "enabled", Ref(&enabled_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Tonemap::m_exposure), type<float>(), "exposure", Ref(&exposure_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Tonemap::m_white_point), type<float>(), "white_point", Ref(&white_point_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -344,6 +383,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockBlur>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockBlur", sizeof(mud::BlockBlur), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::GfxBlock>() },
@@ -370,6 +410,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockDofBlur>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockDofBlur", sizeof(mud::BlockDofBlur), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::GfxBlock>() },
@@ -396,6 +437,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockGIBake>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockGIBake", sizeof(mud::BlockGIBake), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::DrawBlock>() },
@@ -422,6 +464,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockGITrace>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockGITrace", sizeof(mud::BlockGITrace), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::DrawBlock>() },
@@ -448,6 +491,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockGeometry>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockGeometry", sizeof(mud::BlockGeometry), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::DrawBlock>() },
@@ -474,6 +518,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockGlow>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockGlow", sizeof(mud::BlockGlow), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::GfxBlock>() },
@@ -500,6 +545,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockLight>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockLight", sizeof(mud::BlockLight), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::DrawBlock>() },
@@ -526,6 +572,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockLightmap>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockLightmap", sizeof(mud::BlockLightmap), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::DrawBlock>() },
@@ -552,6 +599,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockRadiance>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockRadiance", sizeof(mud::BlockRadiance), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::DrawBlock>() },
@@ -578,6 +626,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockReflection>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockReflection", sizeof(mud::BlockReflection), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::DrawBlock>() },
@@ -604,6 +653,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockShadow>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockShadow", sizeof(mud::BlockShadow), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::DrawBlock>() },
@@ -630,6 +680,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockTonemap>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockTonemap", sizeof(mud::BlockTonemap), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::GfxBlock>() },

@@ -75,7 +75,7 @@ namespace mud
 		return &m_batches[draw_mode][cursor];
 	}
 
-	void ImmediateDraw::draw(const mat4& transform, const ProcShape& shape)
+	void ImmediateDraw::shape(const mat4& transform, const ProcShape& shape)
 	{
 		this->draw(transform, { shape });
 	}

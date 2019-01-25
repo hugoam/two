@@ -41,6 +41,7 @@ namespace mud
 	{
 		Type& t = type<mud::TileModel>();
 		static Meta meta = { t, &namspc({ "mud" }), "TileModel", sizeof(mud::TileModel), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -69,6 +70,7 @@ namespace mud
 	{
 		Type& t = type<mud::WfcBlock>();
 		static Meta meta = { t, &namspc({ "mud" }), "WfcBlock", sizeof(mud::WfcBlock), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -83,10 +85,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::WfcBlock::m_position), type<mud::vec3>(), "position", var(mud::vec3()), Member::Value, nullptr },
-				{ t, member_address(&mud::WfcBlock::m_size), type<mud::uvec3>(), "size", var(mud::uvec3()), Member::Value, nullptr },
-				{ t, member_address(&mud::WfcBlock::m_scale), type<mud::vec3>(), "scale", var(mud::vec3()), Member::Value, nullptr },
-				{ t, member_address(&mud::WfcBlock::m_aabb), type<mud::Aabb>(), "aabb", var(mud::Aabb()), Member::Value, nullptr }
+				{ t, member_address(&mud::WfcBlock::m_position), type<mud::vec3>(), "position", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::WfcBlock::m_size), type<mud::uvec3>(), "size", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::WfcBlock::m_scale), type<mud::vec3>(), "scale", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::WfcBlock::m_aabb), type<mud::Aabb>(), "aabb", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{

@@ -53,7 +53,7 @@ namespace mud
 		rect.m_vertices[1] = mulp(mat, vec3(hi.x * nw, lo.y * nh, -near));
 		rect.m_vertices[2] = mulp(mat, vec3(lo.x * nw, lo.y * nh, -near));
 		rect.m_vertices[3] = mulp(mat, vec3(lo.x * nw, hi.y * nh, -near));
-		render.m_shot->m_immediate[0]->draw(identity, { Symbol::wire(colour, true), &rect, OUTLINE });
+		render.m_shot->m_immediate[0]->shape(identity, { Symbol::wire(colour, true), &rect, OUTLINE });
 	}
 
 	// ref: https://github.com/erich666/jgt-code

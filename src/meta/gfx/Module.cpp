@@ -326,6 +326,10 @@ namespace mud
 	{
 		Type& t = type<mud::Animated>();
 		static Meta meta = { t, &namspc({ "mud" }), "Animated", sizeof(mud::Animated), TypeClass::Object };
+		// defaults
+		static bool active_default = true;
+		static float speed_scale_default = 1.f;
+		static float default_blend_time_default = 1.f;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -338,11 +342,11 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Animated::m_playing), type<vector<mud::AnimationPlay>>(), "playing", var(vector<mud::AnimationPlay>()), Member::Value, nullptr },
-				{ t, member_address(&mud::Animated::m_queue), type<vector<mud::Animation*>>(), "queue", var(vector<mud::Animation*>()), Member::Value, nullptr },
-				{ t, member_address(&mud::Animated::m_active), type<bool>(), "active", var(bool(true)), Member::Value, nullptr },
-				{ t, member_address(&mud::Animated::m_speed_scale), type<float>(), "speed_scale", var(float(1.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Animated::m_default_blend_time), type<float>(), "default_blend_time", var(float(1.f)), Member::Value, nullptr }
+				{ t, member_address(&mud::Animated::m_playing), type<vector<mud::AnimationPlay>>(), "playing", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Animated::m_queue), type<vector<mud::Animation*>>(), "queue", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Animated::m_active), type<bool>(), "active", Ref(&active_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Animated::m_speed_scale), type<float>(), "speed_scale", Ref(&speed_scale_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Animated::m_default_blend_time), type<float>(), "default_blend_time", Ref(&default_blend_time_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -365,6 +369,7 @@ namespace mud
 	{
 		Type& t = type<mud::AnimatedTrack>();
 		static Meta meta = { t, &namspc({ "mud" }), "AnimatedTrack", sizeof(mud::AnimatedTrack), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -393,6 +398,9 @@ namespace mud
 	{
 		Type& t = type<mud::Animation>();
 		static Meta meta = { t, &namspc({ "mud" }), "Animation", sizeof(mud::Animation), TypeClass::Object };
+		// defaults
+		static float length_default = 1.f;
+		static float step_default = 0.1f;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -405,9 +413,9 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Animation::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::Animation::m_length), type<float>(), "length", var(float(1.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Animation::m_step), type<float>(), "step", var(float(0.1f)), Member::Value, nullptr }
+				{ t, member_address(&mud::Animation::m_name), type<string>(), "name", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Animation::m_length), type<float>(), "length", Ref(&length_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Animation::m_step), type<float>(), "step", Ref(&step_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -422,6 +430,15 @@ namespace mud
 	{
 		Type& t = type<mud::AnimationPlay>();
 		static Meta meta = { t, &namspc({ "mud" }), "AnimationPlay", sizeof(mud::AnimationPlay), TypeClass::Struct };
+		// defaults
+		static const mud::Animation* animation_default = nullptr;
+		static bool loop_default = true;
+		static float speed_default = 1.f;
+		static bool transient_default = false;
+		static float fadeout_default = 0.f;
+		static float fadeout_left_default = 0.f;
+		static float cursor_default = 0.f;
+		static bool ended_default = false;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -436,14 +453,14 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::AnimationPlay::m_animation), type<mud::Animation>(), "animation", Ref(type<mud::Animation>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::AnimationPlay::m_loop), type<bool>(), "loop", var(bool(true)), Member::Value, nullptr },
-				{ t, member_address(&mud::AnimationPlay::m_speed), type<float>(), "speed", var(float(1.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::AnimationPlay::m_transient), type<bool>(), "transient", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::AnimationPlay::m_fadeout), type<float>(), "fadeout", var(float(0.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::AnimationPlay::m_fadeout_left), type<float>(), "fadeout_left", var(float(0.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::AnimationPlay::m_cursor), type<float>(), "cursor", var(float(0.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::AnimationPlay::m_ended), type<bool>(), "ended", var(bool(false)), Member::Value, nullptr }
+				{ t, member_address(&mud::AnimationPlay::m_animation), type<mud::Animation>(), "animation", Ref(animation_default), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::AnimationPlay::m_loop), type<bool>(), "loop", Ref(&loop_default), Member::Value, nullptr },
+				{ t, member_address(&mud::AnimationPlay::m_speed), type<float>(), "speed", Ref(&speed_default), Member::Value, nullptr },
+				{ t, member_address(&mud::AnimationPlay::m_transient), type<bool>(), "transient", Ref(&transient_default), Member::Value, nullptr },
+				{ t, member_address(&mud::AnimationPlay::m_fadeout), type<float>(), "fadeout", Ref(&fadeout_default), Member::Value, nullptr },
+				{ t, member_address(&mud::AnimationPlay::m_fadeout_left), type<float>(), "fadeout_left", Ref(&fadeout_left_default), Member::Value, nullptr },
+				{ t, member_address(&mud::AnimationPlay::m_cursor), type<float>(), "cursor", Ref(&cursor_default), Member::Value, nullptr },
+				{ t, member_address(&mud::AnimationPlay::m_ended), type<bool>(), "ended", Ref(&ended_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -458,6 +475,10 @@ namespace mud
 	{
 		Type& t = type<mud::AnimationTrack>();
 		static Meta meta = { t, &namspc({ "mud" }), "AnimationTrack", sizeof(mud::AnimationTrack), TypeClass::Object };
+		// defaults
+		static mud::Type* value_type_default = nullptr;
+		static float length_default = 0.f;
+		static mud::Interpolation interpolation_default = mud::Interpolation::Linear;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -470,13 +491,13 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::AnimationTrack::m_animation), type<mud::Animation>(), "animation", Ref(type<mud::Animation>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::AnimationTrack::m_node), type<size_t>(), "node", var(size_t()), Member::Value, nullptr },
-				{ t, member_address(&mud::AnimationTrack::m_node_name), type<string>(), "node_name", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::AnimationTrack::m_target), type<mud::AnimationTarget>(), "target", var(mud::AnimationTarget()), Member::Value, nullptr },
-				{ t, member_address(&mud::AnimationTrack::m_value_type), type<mud::Type>(), "value_type", Ref(type<mud::Type>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::AnimationTrack::m_length), type<float>(), "length", var(float(0.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::AnimationTrack::m_interpolation), type<mud::Interpolation>(), "interpolation", var(mud::Interpolation::Linear), Member::Value, nullptr }
+				{ t, member_address(&mud::AnimationTrack::m_animation), type<mud::Animation>(), "animation", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::AnimationTrack::m_node), type<size_t>(), "node", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::AnimationTrack::m_node_name), type<string>(), "node_name", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::AnimationTrack::m_target), type<mud::AnimationTarget>(), "target", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::AnimationTrack::m_value_type), type<mud::Type>(), "value_type", Ref(value_type_default), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::AnimationTrack::m_length), type<float>(), "length", Ref(&length_default), Member::Value, nullptr },
+				{ t, member_address(&mud::AnimationTrack::m_interpolation), type<mud::Interpolation>(), "interpolation", Ref(&interpolation_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -491,6 +512,7 @@ namespace mud
 	{
 		Type& t = type<mud::AssetStore<mud::Material>>();
 		static Meta meta = { t, &namspc({ "mud" }), "AssetStore<mud::Material>", sizeof(mud::AssetStore<mud::Material>), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -523,6 +545,7 @@ namespace mud
 	{
 		Type& t = type<mud::AssetStore<mud::Model>>();
 		static Meta meta = { t, &namspc({ "mud" }), "AssetStore<mud::Model>", sizeof(mud::AssetStore<mud::Model>), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -555,6 +578,7 @@ namespace mud
 	{
 		Type& t = type<mud::AssetStore<mud::ParticleFlow>>();
 		static Meta meta = { t, &namspc({ "mud" }), "AssetStore<mud::ParticleFlow>", sizeof(mud::AssetStore<mud::ParticleFlow>), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -587,6 +611,7 @@ namespace mud
 	{
 		Type& t = type<mud::AssetStore<mud::Prefab>>();
 		static Meta meta = { t, &namspc({ "mud" }), "AssetStore<mud::Prefab>", sizeof(mud::AssetStore<mud::Prefab>), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -619,6 +644,7 @@ namespace mud
 	{
 		Type& t = type<mud::AssetStore<mud::Program>>();
 		static Meta meta = { t, &namspc({ "mud" }), "AssetStore<mud::Program>", sizeof(mud::AssetStore<mud::Program>), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -651,6 +677,7 @@ namespace mud
 	{
 		Type& t = type<mud::AssetStore<mud::Texture>>();
 		static Meta meta = { t, &namspc({ "mud" }), "AssetStore<mud::Texture>", sizeof(mud::AssetStore<mud::Texture>), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -683,6 +710,10 @@ namespace mud
 	{
 		Type& t = type<mud::Background>();
 		static Meta meta = { t, &namspc({ "mud" }), "Background", sizeof(mud::Background), TypeClass::Struct };
+		// defaults
+		static mud::BackgroundMode mode_default = mud::BackgroundMode::None;
+		static mud::Colour colour_default = mud::Colour::Black;
+		static mud::Program* custoprogram_default = nullptr;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -697,9 +728,9 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Background::m_mode), type<mud::BackgroundMode>(), "mode", var(mud::BackgroundMode::None), Member::Value, nullptr },
-				{ t, member_address(&mud::Background::m_colour), type<mud::Colour>(), "colour", var(mud::Colour::Black), Member::Value, nullptr },
-				{ t, member_address(&mud::Background::m_custom_program), type<mud::Program>(), "custoprogram", Ref(type<mud::Program>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::Background::m_mode), type<mud::BackgroundMode>(), "mode", Ref(&mode_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Background::m_colour), type<mud::Colour>(), "colour", Ref(&colour_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Background::m_custom_program), type<mud::Program>(), "custoprogram", Ref(custoprogram_default), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{
@@ -714,6 +745,17 @@ namespace mud
 	{
 		Type& t = type<mud::BaseMaterialBlock>();
 		static Meta meta = { t, &namspc({ "mud" }), "BaseMaterialBlock", sizeof(mud::BaseMaterialBlock), TypeClass::Struct };
+		// defaults
+		static mud::BlendMode blend_mode_default = mud::BlendMode::Mix;
+		static mud::CullMode cull_mode_default = mud::CullMode::Back;
+		static mud::DepthDraw depth_draw_mode_default = mud::DepthDraw::Enabled;
+		static mud::DepthTest depth_test_default = mud::DepthTest::Enabled;
+		static mud::vec2 uv0_scale_default = {1.f,1.f};
+		static mud::vec2 uv0_offset_default = {0.f,0.f};
+		static mud::vec2 uv1_scale_default = {1.f,1.f};
+		static mud::vec2 uv1_offset_default = {0.f,0.f};
+		static bool is_alpha_default = false;
+		static bool screen_filter_default = false;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -728,16 +770,16 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::BaseMaterialBlock::m_blend_mode), type<mud::BlendMode>(), "blend_mode", var(mud::BlendMode::Mix), Member::Value, nullptr },
-				{ t, member_address(&mud::BaseMaterialBlock::m_cull_mode), type<mud::CullMode>(), "cull_mode", var(mud::CullMode::Back), Member::Value, nullptr },
-				{ t, member_address(&mud::BaseMaterialBlock::m_depth_draw_mode), type<mud::DepthDraw>(), "depth_draw_mode", var(mud::DepthDraw::Enabled), Member::Value, nullptr },
-				{ t, member_address(&mud::BaseMaterialBlock::m_depth_test), type<mud::DepthTest>(), "depth_test", var(mud::DepthTest::Enabled), Member::Value, nullptr },
-				{ t, member_address(&mud::BaseMaterialBlock::m_uv0_scale), type<mud::vec2>(), "uv0_scale", var(mud::vec2{1.f,1.f}), Member::Value, nullptr },
-				{ t, member_address(&mud::BaseMaterialBlock::m_uv0_offset), type<mud::vec2>(), "uv0_offset", var(mud::vec2{0.f,0.f}), Member::Value, nullptr },
-				{ t, member_address(&mud::BaseMaterialBlock::m_uv1_scale), type<mud::vec2>(), "uv1_scale", var(mud::vec2{1.f,1.f}), Member::Value, nullptr },
-				{ t, member_address(&mud::BaseMaterialBlock::m_uv1_offset), type<mud::vec2>(), "uv1_offset", var(mud::vec2{0.f,0.f}), Member::Value, nullptr },
-				{ t, member_address(&mud::BaseMaterialBlock::m_is_alpha), type<bool>(), "is_alpha", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::BaseMaterialBlock::m_screen_filter), type<bool>(), "screen_filter", var(bool(false)), Member::Value, nullptr }
+				{ t, member_address(&mud::BaseMaterialBlock::m_blend_mode), type<mud::BlendMode>(), "blend_mode", Ref(&blend_mode_default), Member::Value, nullptr },
+				{ t, member_address(&mud::BaseMaterialBlock::m_cull_mode), type<mud::CullMode>(), "cull_mode", Ref(&cull_mode_default), Member::Value, nullptr },
+				{ t, member_address(&mud::BaseMaterialBlock::m_depth_draw_mode), type<mud::DepthDraw>(), "depth_draw_mode", Ref(&depth_draw_mode_default), Member::Value, nullptr },
+				{ t, member_address(&mud::BaseMaterialBlock::m_depth_test), type<mud::DepthTest>(), "depth_test", Ref(&depth_test_default), Member::Value, nullptr },
+				{ t, member_address(&mud::BaseMaterialBlock::m_uv0_scale), type<mud::vec2>(), "uv0_scale", Ref(&uv0_scale_default), Member::Value, nullptr },
+				{ t, member_address(&mud::BaseMaterialBlock::m_uv0_offset), type<mud::vec2>(), "uv0_offset", Ref(&uv0_offset_default), Member::Value, nullptr },
+				{ t, member_address(&mud::BaseMaterialBlock::m_uv1_scale), type<mud::vec2>(), "uv1_scale", Ref(&uv1_scale_default), Member::Value, nullptr },
+				{ t, member_address(&mud::BaseMaterialBlock::m_uv1_offset), type<mud::vec2>(), "uv1_offset", Ref(&uv1_offset_default), Member::Value, nullptr },
+				{ t, member_address(&mud::BaseMaterialBlock::m_is_alpha), type<bool>(), "is_alpha", Ref(&is_alpha_default), Member::Value, nullptr },
+				{ t, member_address(&mud::BaseMaterialBlock::m_screen_filter), type<bool>(), "screen_filter", Ref(&screen_filter_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -752,6 +794,10 @@ namespace mud
 	{
 		Type& t = type<mud::Bone>();
 		static Meta meta = { t, &namspc({ "mud" }), "Bone", sizeof(mud::Bone), TypeClass::Struct };
+		// defaults
+		static mud::vec3 position_default = Zero3;
+		static mud::quat rotation_default = ZeroQuat;
+		static mud::vec3 scale_default = Unit3;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -766,9 +812,9 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Bone::m_position), type<mud::vec3>(), "position", var(mud::vec3(Zero3)), Member::Value, nullptr },
-				{ t, member_address(&mud::Bone::m_rotation), type<mud::quat>(), "rotation", var(mud::quat(ZeroQuat)), Member::Value, nullptr },
-				{ t, member_address(&mud::Bone::m_scale), type<mud::vec3>(), "scale", var(mud::vec3(Unit3)), Member::Value, nullptr }
+				{ t, member_address(&mud::Bone::m_position), type<mud::vec3>(), "position", Ref(&position_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Bone::m_rotation), type<mud::quat>(), "rotation", Ref(&rotation_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Bone::m_scale), type<mud::vec3>(), "scale", Ref(&scale_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -783,6 +829,16 @@ namespace mud
 	{
 		Type& t = type<mud::Camera>();
 		static Meta meta = { t, &namspc({ "mud" }), "Camera", sizeof(mud::Camera), TypeClass::Object };
+		// defaults
+		static float fov_default = 60.f;
+		static float aspect_default = 1.f;
+		static float near_default = 0.1f;
+		static float far_default = 100.f;
+		static bool orthographic_default = false;
+		static float height_default = 1.f;
+		static bool optimize_ends_default = true;
+		static bool clustered_default = false;
+		static mud::vec4 lod_offsets_default = {0.1f,0.3f,0.6f,0.8f};
 		static Class cls = { t,
 			// bases
 			{  },
@@ -795,19 +851,19 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Camera::m_eye), type<mud::vec3>(), "eye", var(mud::vec3()), Member::Value, nullptr },
-				{ t, member_address(&mud::Camera::m_target), type<mud::vec3>(), "target", var(mud::vec3()), Member::Value, nullptr },
-				{ t, member_address(&mud::Camera::m_transform), type<mud::mat4>(), "transform", var(mud::mat4()), Member::Value, nullptr },
-				{ t, member_address(&mud::Camera::m_projection), type<mud::mat4>(), "projection", var(mud::mat4()), Member::Value, nullptr },
-				{ t, member_address(&mud::Camera::m_fov), type<float>(), "fov", var(float(60.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Camera::m_aspect), type<float>(), "aspect", var(float(1.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Camera::m_near), type<float>(), "near", var(float(0.1f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Camera::m_far), type<float>(), "far", var(float(100.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Camera::m_orthographic), type<bool>(), "orthographic", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Camera::m_height), type<float>(), "height", var(float(1.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Camera::m_optimize_ends), type<bool>(), "optimize_ends", var(bool(true)), Member::Value, nullptr },
-				{ t, member_address(&mud::Camera::m_clustered), type<bool>(), "clustered", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Camera::m_lod_offsets), type<mud::vec4>(), "lod_offsets", var(mud::vec4{0.1f,0.3f,0.6f,0.8f}), Member::Value, nullptr }
+				{ t, member_address(&mud::Camera::m_eye), type<mud::vec3>(), "eye", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Camera::m_target), type<mud::vec3>(), "target", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Camera::m_transform), type<mud::mat4>(), "transform", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Camera::m_projection), type<mud::mat4>(), "projection", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Camera::m_fov), type<float>(), "fov", Ref(&fov_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Camera::m_aspect), type<float>(), "aspect", Ref(&aspect_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Camera::m_near), type<float>(), "near", Ref(&near_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Camera::m_far), type<float>(), "far", Ref(&far_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Camera::m_orthographic), type<bool>(), "orthographic", Ref(&orthographic_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Camera::m_height), type<float>(), "height", Ref(&height_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Camera::m_optimize_ends), type<bool>(), "optimize_ends", Ref(&optimize_ends_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Camera::m_clustered), type<bool>(), "clustered", Ref(&clustered_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Camera::m_lod_offsets), type<mud::vec4>(), "lod_offsets", Ref(&lod_offsets_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -822,6 +878,7 @@ namespace mud
 	{
 		Type& t = type<mud::Culler>();
 		static Meta meta = { t, &namspc({ "mud" }), "Culler", sizeof(mud::Culler), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -834,7 +891,7 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Culler::m_viewport), type<mud::Viewport>(), "viewport", Ref(type<mud::Viewport>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::Culler::m_viewport), type<mud::Viewport>(), "viewport", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{
@@ -849,6 +906,7 @@ namespace mud
 	{
 		Type& t = type<mud::DepthParams>();
 		static Meta meta = { t, &namspc({ "mud" }), "DepthParams", sizeof(mud::DepthParams), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -877,6 +935,7 @@ namespace mud
 	{
 		Type& t = type<mud::Environment>();
 		static Meta meta = { t, &namspc({ "mud" }), "Environment", sizeof(mud::Environment), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -891,10 +950,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Environment::m_background), type<mud::Background>(), "background", var(mud::Background()), Member::Value, nullptr },
-				{ t, member_address(&mud::Environment::m_radiance), type<mud::Radiance>(), "radiance", var(mud::Radiance()), Member::Value, nullptr },
-				{ t, member_address(&mud::Environment::m_sun), type<mud::Sun>(), "sun", var(mud::Sun()), Member::Value, nullptr },
-				{ t, member_address(&mud::Environment::m_fog), type<mud::Fog>(), "fog", var(mud::Fog()), Member::Value, nullptr }
+				{ t, member_address(&mud::Environment::m_background), type<mud::Background>(), "background", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Environment::m_radiance), type<mud::Radiance>(), "radiance", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Environment::m_sun), type<mud::Sun>(), "sun", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Environment::m_fog), type<mud::Fog>(), "fog", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -909,6 +968,7 @@ namespace mud
 	{
 		Type& t = type<mud::Filter>();
 		static Meta meta = { t, &namspc({ "mud" }), "Filter", sizeof(mud::Filter), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -935,6 +995,19 @@ namespace mud
 	{
 		Type& t = type<mud::Fog>();
 		static Meta meta = { t, &namspc({ "mud" }), "Fog", sizeof(mud::Fog), TypeClass::Struct };
+		// defaults
+		static bool enabled_default = false;
+		static float density_default = 0.01f;
+		static mud::Colour colour_default = mud::Colour::White;
+		static bool depth_default = false;
+		static float depth_begin_default = 0.f;
+		static float depth_curve_default = 1.f;
+		static bool height_default = false;
+		static float height_min_default = 0.f;
+		static float height_max_default = 1.f;
+		static float height_curve_default = 0.1f;
+		static bool transmit_default = false;
+		static float transmit_curve_default = 1.f;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -949,18 +1022,18 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Fog::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Fog::m_density), type<float>(), "density", var(float(0.01f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Fog::m_colour), type<mud::Colour>(), "colour", var(mud::Colour::White), Member::Value, nullptr },
-				{ t, member_address(&mud::Fog::m_depth), type<bool>(), "depth", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Fog::m_depth_begin), type<float>(), "depth_begin", var(float(0.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Fog::m_depth_curve), type<float>(), "depth_curve", var(float(1.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Fog::m_height), type<bool>(), "height", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Fog::m_height_min), type<float>(), "height_min", var(float(0.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Fog::m_height_max), type<float>(), "height_max", var(float(1.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Fog::m_height_curve), type<float>(), "height_curve", var(float(0.1f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Fog::m_transmit), type<bool>(), "transmit", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Fog::m_transmit_curve), type<float>(), "transmit_curve", var(float(1.f)), Member::Value, nullptr }
+				{ t, member_address(&mud::Fog::m_enabled), type<bool>(), "enabled", Ref(&enabled_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Fog::m_density), type<float>(), "density", Ref(&density_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Fog::m_colour), type<mud::Colour>(), "colour", Ref(&colour_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Fog::m_depth), type<bool>(), "depth", Ref(&depth_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Fog::m_depth_begin), type<float>(), "depth_begin", Ref(&depth_begin_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Fog::m_depth_curve), type<float>(), "depth_curve", Ref(&depth_curve_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Fog::m_height), type<bool>(), "height", Ref(&height_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Fog::m_height_min), type<float>(), "height_min", Ref(&height_min_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Fog::m_height_max), type<float>(), "height_max", Ref(&height_max_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Fog::m_height_curve), type<float>(), "height_curve", Ref(&height_curve_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Fog::m_transmit), type<bool>(), "transmit", Ref(&transmit_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Fog::m_transmit_curve), type<float>(), "transmit_curve", Ref(&transmit_curve_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -975,6 +1048,7 @@ namespace mud
 	{
 		Type& t = type<mud::FrameBuffer>();
 		static Meta meta = { t, &namspc({ "mud" }), "FrameBuffer", sizeof(mud::FrameBuffer), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1001,6 +1075,12 @@ namespace mud
 	{
 		Type& t = type<mud::FresnelMaterialBlock>();
 		static Meta meta = { t, &namspc({ "mud" }), "FresnelMaterialBlock", sizeof(mud::FresnelMaterialBlock), TypeClass::Struct };
+		// defaults
+		static bool enabled_default = false;
+		static mud::MaterialParam<mud::Colour> value_default = {Colour::White,nullptr};
+		static float fresnel_scale_default = 1.f;
+		static float fresnel_bias_default = 0.01f;
+		static float fresnel_power_default = 5.f;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1015,11 +1095,11 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::FresnelMaterialBlock::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::FresnelMaterialBlock::m_value), type<mud::MaterialParam<mud::Colour>>(), "value", var(mud::MaterialParam<mud::Colour>{Colour::White,nullptr}), Member::Value, nullptr },
-				{ t, member_address(&mud::FresnelMaterialBlock::m_fresnel_scale), type<float>(), "fresnel_scale", var(float(1.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::FresnelMaterialBlock::m_fresnel_bias), type<float>(), "fresnel_bias", var(float(0.01f)), Member::Value, nullptr },
-				{ t, member_address(&mud::FresnelMaterialBlock::m_fresnel_power), type<float>(), "fresnel_power", var(float(5.f)), Member::Value, nullptr }
+				{ t, member_address(&mud::FresnelMaterialBlock::m_enabled), type<bool>(), "enabled", Ref(&enabled_default), Member::Value, nullptr },
+				{ t, member_address(&mud::FresnelMaterialBlock::m_value), type<mud::MaterialParam<mud::Colour>>(), "value", Ref(&value_default), Member::Value, nullptr },
+				{ t, member_address(&mud::FresnelMaterialBlock::m_fresnel_scale), type<float>(), "fresnel_scale", Ref(&fresnel_scale_default), Member::Value, nullptr },
+				{ t, member_address(&mud::FresnelMaterialBlock::m_fresnel_bias), type<float>(), "fresnel_bias", Ref(&fresnel_bias_default), Member::Value, nullptr },
+				{ t, member_address(&mud::FresnelMaterialBlock::m_fresnel_power), type<float>(), "fresnel_power", Ref(&fresnel_power_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1034,6 +1114,9 @@ namespace mud
 	{
 		Type& t = type<mud::Frustum>();
 		static Meta meta = { t, &namspc({ "mud" }), "Frustum", sizeof(mud::Frustum), TypeClass::Object };
+		// defaults
+		static float fov_default = 60.f;
+		static float aspect_default = 1.f;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1046,12 +1129,12 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Frustum::m_fov), type<float>(), "fov", var(float(60.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Frustum::m_aspect), type<float>(), "aspect", var(float(1.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Frustum::m_near), type<float>(), "near", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::Frustum::m_far), type<float>(), "far", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::Frustum::m_center), type<mud::vec3>(), "center", var(mud::vec3()), Member::Value, nullptr },
-				{ t, member_address(&mud::Frustum::m_radius), type<float>(), "radius", var(float()), Member::Value, nullptr }
+				{ t, member_address(&mud::Frustum::m_fov), type<float>(), "fov", Ref(&fov_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Frustum::m_aspect), type<float>(), "aspect", Ref(&aspect_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Frustum::m_near), type<float>(), "near", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Frustum::m_far), type<float>(), "far", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Frustum::m_center), type<mud::vec3>(), "center", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Frustum::m_radius), type<float>(), "radius", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1066,6 +1149,7 @@ namespace mud
 	{
 		Type& t = type<mud::FrustumSlice>();
 		static Meta meta = { t, &namspc({ "mud" }), "FrustumSlice", sizeof(mud::FrustumSlice), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1094,6 +1178,7 @@ namespace mud
 	{
 		Type& t = type<mud::GfxBlock>();
 		static Meta meta = { t, &namspc({ "mud" }), "GfxBlock", sizeof(mud::GfxBlock), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1106,8 +1191,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, Address(), type<mud::Type>(), "type", Ref(type<mud::Type>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxBlock>(object).m_type); } },
-				{ t, member_address(&mud::GfxBlock::m_index), type<uint8_t>(), "index", var(uint8_t()), Member::Value, nullptr }
+				{ t, Address(), type<mud::Type>(), "type", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxBlock>(object).m_type); } },
+				{ t, member_address(&mud::GfxBlock::m_index), type<uint8_t>(), "index", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1122,6 +1207,7 @@ namespace mud
 	{
 		Type& t = type<mud::GfxContext>();
 		static Meta meta = { t, &namspc({ "mud" }), "GfxContext", sizeof(mud::GfxContext), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1148,6 +1234,7 @@ namespace mud
 	{
 		Type& t = type<mud::GfxSystem>();
 		static Meta meta = { t, &namspc({ "mud" }), "GfxSystem", sizeof(mud::GfxSystem), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1161,12 +1248,12 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address<mud::AssetStore<mud::Texture>&(mud::GfxSystem::*)()>(&mud::GfxSystem::textures), type<mud::AssetStore<mud::Texture>>(), "textures", Ref(type<mud::AssetStore<mud::Texture>>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).textures()); } },
-				{ t, member_address<mud::AssetStore<mud::Program>&(mud::GfxSystem::*)()>(&mud::GfxSystem::programs), type<mud::AssetStore<mud::Program>>(), "programs", Ref(type<mud::AssetStore<mud::Program>>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).programs()); } },
-				{ t, member_address<mud::AssetStore<mud::Material>&(mud::GfxSystem::*)()>(&mud::GfxSystem::materials), type<mud::AssetStore<mud::Material>>(), "materials", Ref(type<mud::AssetStore<mud::Material>>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).materials()); } },
-				{ t, member_address<mud::AssetStore<mud::Model>&(mud::GfxSystem::*)()>(&mud::GfxSystem::models), type<mud::AssetStore<mud::Model>>(), "models", Ref(type<mud::AssetStore<mud::Model>>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).models()); } },
-				{ t, member_address<mud::AssetStore<mud::ParticleFlow>&(mud::GfxSystem::*)()>(&mud::GfxSystem::particles), type<mud::AssetStore<mud::ParticleFlow>>(), "particles", Ref(type<mud::AssetStore<mud::ParticleFlow>>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).particles()); } },
-				{ t, member_address<mud::AssetStore<mud::Prefab>&(mud::GfxSystem::*)()>(&mud::GfxSystem::prefabs), type<mud::AssetStore<mud::Prefab>>(), "prefabs", Ref(type<mud::AssetStore<mud::Prefab>>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).prefabs()); } }
+				{ t, member_address<mud::AssetStore<mud::Texture>&(mud::GfxSystem::*)()>(&mud::GfxSystem::textures), type<mud::AssetStore<mud::Texture>>(), "textures", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).textures()); } },
+				{ t, member_address<mud::AssetStore<mud::Program>&(mud::GfxSystem::*)()>(&mud::GfxSystem::programs), type<mud::AssetStore<mud::Program>>(), "programs", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).programs()); } },
+				{ t, member_address<mud::AssetStore<mud::Material>&(mud::GfxSystem::*)()>(&mud::GfxSystem::materials), type<mud::AssetStore<mud::Material>>(), "materials", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).materials()); } },
+				{ t, member_address<mud::AssetStore<mud::Model>&(mud::GfxSystem::*)()>(&mud::GfxSystem::models), type<mud::AssetStore<mud::Model>>(), "models", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).models()); } },
+				{ t, member_address<mud::AssetStore<mud::ParticleFlow>&(mud::GfxSystem::*)()>(&mud::GfxSystem::particles), type<mud::AssetStore<mud::ParticleFlow>>(), "particles", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).particles()); } },
+				{ t, member_address<mud::AssetStore<mud::Prefab>&(mud::GfxSystem::*)()>(&mud::GfxSystem::prefabs), type<mud::AssetStore<mud::Prefab>>(), "prefabs", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::GfxSystem>(object).prefabs()); } }
 			},
 			// methods
 			{
@@ -1189,6 +1276,7 @@ namespace mud
 	{
 		Type& t = type<mud::Gnode>();
 		static Meta meta = { t, &namspc({ "mud" }), "Gnode", sizeof(mud::Gnode), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1215,6 +1303,7 @@ namespace mud
 	{
 		Type& t = type<mud::ImmediateDraw>();
 		static Meta meta = { t, &namspc({ "mud" }), "ImmediateDraw", sizeof(mud::ImmediateDraw), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1241,6 +1330,20 @@ namespace mud
 	{
 		Type& t = type<mud::ImportConfig>();
 		static Meta meta = { t, &namspc({ "mud" }), "ImportConfig", sizeof(mud::ImportConfig), TypeClass::Struct };
+		// defaults
+		static mud::ModelFormat format_default = mud::ModelFormat::obj;
+		static mud::vec3 position_default = Zero3;
+		static mud::quat rotation_default = ZeroQuat;
+		static mud::vec3 scale_default = Unit3;
+		static mud::mat4 transform_default = bxidentity();
+		static vector<string> exclude_elements_default = {};
+		static vector<string> exclude_materials_default = {};
+		static vector<string> include_elements_default = {};
+		static vector<string> include_materials_default = {};
+		static bool force_reimport_default = false;
+		static bool cache_geometry_default = false;
+		static bool optimize_geometry_default = false;
+		static uint32_t flags_default = ItemFlag::None;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1255,20 +1358,20 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ImportConfig::m_format), type<mud::ModelFormat>(), "format", var(mud::ModelFormat::obj), Member::Value, nullptr },
-				{ t, member_address(&mud::ImportConfig::m_position), type<mud::vec3>(), "position", var(mud::vec3(Zero3)), Member::Value, nullptr },
-				{ t, member_address(&mud::ImportConfig::m_rotation), type<mud::quat>(), "rotation", var(mud::quat(ZeroQuat)), Member::Value, nullptr },
-				{ t, member_address(&mud::ImportConfig::m_scale), type<mud::vec3>(), "scale", var(mud::vec3(Unit3)), Member::Value, nullptr },
-				{ t, member_address(&mud::ImportConfig::m_transform), type<mud::mat4>(), "transform", var(mud::mat4(bxidentity())), Member::Value, nullptr },
-				{ t, member_address(&mud::ImportConfig::m_exclude_elements), type<vector<string>>(), "exclude_elements", var(vector<string>{}), Member::Value, nullptr },
-				{ t, member_address(&mud::ImportConfig::m_exclude_materials), type<vector<string>>(), "exclude_materials", var(vector<string>{}), Member::Value, nullptr },
-				{ t, member_address(&mud::ImportConfig::m_include_elements), type<vector<string>>(), "include_elements", var(vector<string>{}), Member::Value, nullptr },
-				{ t, member_address(&mud::ImportConfig::m_include_materials), type<vector<string>>(), "include_materials", var(vector<string>{}), Member::Value, nullptr },
-				{ t, member_address(&mud::ImportConfig::m_suffix), type<string>(), "suffix", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::ImportConfig::m_force_reimport), type<bool>(), "force_reimport", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::ImportConfig::m_cache_geometry), type<bool>(), "cache_geometry", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::ImportConfig::m_optimize_geometry), type<bool>(), "optimize_geometry", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::ImportConfig::m_flags), type<uint32_t>(), "flags", var(uint32_t(ItemFlag::None)), Member::Value, nullptr }
+				{ t, member_address(&mud::ImportConfig::m_format), type<mud::ModelFormat>(), "format", Ref(&format_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImportConfig::m_position), type<mud::vec3>(), "position", Ref(&position_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImportConfig::m_rotation), type<mud::quat>(), "rotation", Ref(&rotation_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImportConfig::m_scale), type<mud::vec3>(), "scale", Ref(&scale_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImportConfig::m_transform), type<mud::mat4>(), "transform", Ref(&transform_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImportConfig::m_exclude_elements), type<vector<string>>(), "exclude_elements", Ref(&exclude_elements_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImportConfig::m_exclude_materials), type<vector<string>>(), "exclude_materials", Ref(&exclude_materials_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImportConfig::m_include_elements), type<vector<string>>(), "include_elements", Ref(&include_elements_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImportConfig::m_include_materials), type<vector<string>>(), "include_materials", Ref(&include_materials_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImportConfig::m_suffix), type<string>(), "suffix", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ImportConfig::m_force_reimport), type<bool>(), "force_reimport", Ref(&force_reimport_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImportConfig::m_cache_geometry), type<bool>(), "cache_geometry", Ref(&cache_geometry_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImportConfig::m_optimize_geometry), type<bool>(), "optimize_geometry", Ref(&optimize_geometry_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ImportConfig::m_flags), type<uint32_t>(), "flags", Ref(&flags_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1283,6 +1386,14 @@ namespace mud
 	{
 		Type& t = type<mud::Item>();
 		static Meta meta = { t, &namspc({ "mud" }), "Item", sizeof(mud::Item), TypeClass::Object };
+		// defaults
+		static mud::Model* model_default = nullptr;
+		static uint32_t flags_default = 0;
+		static mud::Colour colour_default = mud::Colour::White;
+		static mud::Material* material_default = nullptr;
+		static bool visible_default = true;
+		static mud::ItemShadow shadow_default = mud::ItemShadow::Default;
+		static mud::Rig* rig_default = nullptr;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1295,14 +1406,14 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Item::m_node), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::Item::m_model), type<mud::Model>(), "model", Ref(type<mud::Model>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::Item::m_flags), type<uint32_t>(), "flags", var(uint32_t(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::Item::m_colour), type<mud::Colour>(), "colour", var(mud::Colour::White), Member::Value, nullptr },
-				{ t, member_address(&mud::Item::m_material), type<mud::Material>(), "material", Ref(type<mud::Material>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::Item::m_visible), type<bool>(), "visible", var(bool(true)), Member::Value, nullptr },
-				{ t, member_address(&mud::Item::m_shadow), type<mud::ItemShadow>(), "shadow", var(mud::ItemShadow::Default), Member::Value, nullptr },
-				{ t, member_address(&mud::Item::m_rig), type<mud::Rig>(), "rig", Ref(type<mud::Rig>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::Item::m_node), type<mud::Node3>(), "node", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::Item::m_model), type<mud::Model>(), "model", Ref(model_default), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::Item::m_flags), type<uint32_t>(), "flags", Ref(&flags_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Item::m_colour), type<mud::Colour>(), "colour", Ref(&colour_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Item::m_material), type<mud::Material>(), "material", Ref(material_default), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::Item::m_visible), type<bool>(), "visible", Ref(&visible_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Item::m_shadow), type<mud::ItemShadow>(), "shadow", Ref(&shadow_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Item::m_rig), type<mud::Rig>(), "rig", Ref(rig_default), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{
@@ -1317,6 +1428,7 @@ namespace mud
 	{
 		Type& t = type<mud::Joint>();
 		static Meta meta = { t, &namspc({ "mud" }), "Joint", sizeof(mud::Joint), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1345,6 +1457,26 @@ namespace mud
 	{
 		Type& t = type<mud::Light>();
 		static Meta meta = { t, &namspc({ "mud" }), "Light", sizeof(mud::Light), TypeClass::Object };
+		// defaults
+		static mud::LightType type_default = mud::LightType::Point;
+		static bool visible_default = true;
+		static mud::Colour colour_default = mud::Colour::White;
+		static float range_default = 1.f;
+		static float energy_default = 1.f;
+		static float specular_default = 0.5f;
+		static float attenuation_default = 0.5f;
+		static bool shadows_default = false;
+		static mud::Colour shadow_colour_default = mud::Colour::Black;
+		static float shadow_range_default = 100.f;
+		static uint32_t layers_default = 0xFFFFFFFF;
+		static uint32_t last_render_default = 0;
+		static uint32_t last_update_default = 0;
+		static float spot_angle_default = 45.f;
+		static float spot_attenuation_default = 0.5f;
+		static uint8_t shadow_nusplits_default = 1;
+		static float shadow_split_distribution_default = 0.6f;
+		static float shadow_normal_bias_default = 0.1f;
+		static float shadow_bias_default = 0.f;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1357,27 +1489,27 @@ namespace mud
 			},
 			// members
 			{
-				{ t, Address(), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Light>(object).m_node); } },
-				{ t, member_address(&mud::Light::m_type), type<mud::LightType>(), "type", var(mud::LightType::Point), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_visible), type<bool>(), "visible", var(bool(true)), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_colour), type<mud::Colour>(), "colour", var(mud::Colour::White), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_range), type<float>(), "range", var(float(1.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_energy), type<float>(), "energy", var(float(1.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_specular), type<float>(), "specular", var(float(0.5f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_attenuation), type<float>(), "attenuation", var(float(0.5f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_shadows), type<bool>(), "shadows", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_shadow_colour), type<mud::Colour>(), "shadow_colour", var(mud::Colour::Black), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_shadow_range), type<float>(), "shadow_range", var(float(100.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_layers), type<uint32_t>(), "layers", var(uint32_t(0xFFFFFFFF)), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_last_render), type<uint32_t>(), "last_render", var(uint32_t(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_last_update), type<uint32_t>(), "last_update", var(uint32_t(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_spot_angle), type<float>(), "spot_angle", var(float(45.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_spot_attenuation), type<float>(), "spot_attenuation", var(float(0.5f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_shadow_flags), type<mud::ShadowFlags>(), "shadow_flags", var(mud::ShadowFlags()), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_shadow_num_splits), type<uint8_t>(), "shadow_nusplits", var(uint8_t(1)), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_shadow_split_distribution), type<float>(), "shadow_split_distribution", var(float(0.6f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_shadow_normal_bias), type<float>(), "shadow_normal_bias", var(float(0.1f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Light::m_shadow_bias), type<float>(), "shadow_bias", var(float(0.f)), Member::Value, nullptr }
+				{ t, Address(), type<mud::Node3>(), "node", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Light>(object).m_node); } },
+				{ t, member_address(&mud::Light::m_type), type<mud::LightType>(), "type", Ref(&type_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_visible), type<bool>(), "visible", Ref(&visible_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_colour), type<mud::Colour>(), "colour", Ref(&colour_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_range), type<float>(), "range", Ref(&range_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_energy), type<float>(), "energy", Ref(&energy_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_specular), type<float>(), "specular", Ref(&specular_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_attenuation), type<float>(), "attenuation", Ref(&attenuation_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_shadows), type<bool>(), "shadows", Ref(&shadows_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_shadow_colour), type<mud::Colour>(), "shadow_colour", Ref(&shadow_colour_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_shadow_range), type<float>(), "shadow_range", Ref(&shadow_range_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_layers), type<uint32_t>(), "layers", Ref(&layers_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_last_render), type<uint32_t>(), "last_render", Ref(&last_render_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_last_update), type<uint32_t>(), "last_update", Ref(&last_update_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_spot_angle), type<float>(), "spot_angle", Ref(&spot_angle_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_spot_attenuation), type<float>(), "spot_attenuation", Ref(&spot_attenuation_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_shadow_flags), type<mud::ShadowFlags>(), "shadow_flags", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_shadow_num_splits), type<uint8_t>(), "shadow_nusplits", Ref(&shadow_nusplits_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_shadow_split_distribution), type<float>(), "shadow_split_distribution", Ref(&shadow_split_distribution_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_shadow_normal_bias), type<float>(), "shadow_normal_bias", Ref(&shadow_normal_bias_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Light::m_shadow_bias), type<float>(), "shadow_bias", Ref(&shadow_bias_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1392,6 +1524,10 @@ namespace mud
 	{
 		Type& t = type<mud::Material>();
 		static Meta meta = { t, &namspc({ "mud" }), "Material", sizeof(mud::Material), TypeClass::Object };
+		// defaults
+		static uint16_t index_default = 0;
+		static bool builtin_default = false;
+		static mud::Program* program_default = nullptr;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1404,14 +1540,14 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Material::m_index), type<uint16_t>(), "index", var(uint16_t(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::Material::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::Material::m_builtin), type<bool>(), "builtin", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Material::m_program), type<mud::Program>(), "program", Ref(type<mud::Program>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::Material::m_base_block), type<mud::BaseMaterialBlock>(), "base_block", var(mud::BaseMaterialBlock()), Member::Value, nullptr },
-				{ t, member_address(&mud::Material::m_unshaded_block), type<mud::UnshadedMaterialBlock>(), "unshaded_block", var(mud::UnshadedMaterialBlock()), Member::Value, nullptr },
-				{ t, member_address(&mud::Material::m_pbr_block), type<mud::PbrMaterialBlock>(), "pbr_block", var(mud::PbrMaterialBlock()), Member::Value, nullptr },
-				{ t, member_address(&mud::Material::m_fresnel_block), type<mud::FresnelMaterialBlock>(), "fresnel_block", var(mud::FresnelMaterialBlock()), Member::Value, nullptr }
+				{ t, member_address(&mud::Material::m_index), type<uint16_t>(), "index", Ref(&index_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Material::m_name), type<string>(), "name", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Material::m_builtin), type<bool>(), "builtin", Ref(&builtin_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Material::m_program), type<mud::Program>(), "program", Ref(program_default), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::Material::m_base_block), type<mud::BaseMaterialBlock>(), "base_block", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Material::m_unshaded_block), type<mud::UnshadedMaterialBlock>(), "unshaded_block", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Material::m_pbr_block), type<mud::PbrMaterialBlock>(), "pbr_block", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Material::m_fresnel_block), type<mud::FresnelMaterialBlock>(), "fresnel_block", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1426,6 +1562,9 @@ namespace mud
 	{
 		Type& t = type<mud::MaterialParam<float>>();
 		static Meta meta = { t, &namspc({ "mud" }), "MaterialParam<float>", sizeof(mud::MaterialParam<float>), TypeClass::Struct };
+		// defaults
+		static mud::Texture* texture_default = nullptr;
+		static mud::TextureChannel channel_default = mud::TextureChannel::All;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1440,9 +1579,9 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::MaterialParam<float>::m_value), type<float>(), "value", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::MaterialParam<float>::m_texture), type<mud::Texture>(), "texture", Ref(type<mud::Texture>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::MaterialParam<float>::m_channel), type<mud::TextureChannel>(), "channel", var(mud::TextureChannel::All), Member::Value, nullptr }
+				{ t, member_address(&mud::MaterialParam<float>::m_value), type<float>(), "value", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::MaterialParam<float>::m_texture), type<mud::Texture>(), "texture", Ref(texture_default), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::MaterialParam<float>::m_channel), type<mud::TextureChannel>(), "channel", Ref(&channel_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1457,6 +1596,9 @@ namespace mud
 	{
 		Type& t = type<mud::MaterialParam<mud::Colour>>();
 		static Meta meta = { t, &namspc({ "mud" }), "MaterialParam<mud::Colour>", sizeof(mud::MaterialParam<mud::Colour>), TypeClass::Struct };
+		// defaults
+		static mud::Texture* texture_default = nullptr;
+		static mud::TextureChannel channel_default = mud::TextureChannel::All;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1471,9 +1613,9 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::MaterialParam<mud::Colour>::m_value), type<mud::Colour>(), "value", var(mud::Colour()), Member::Value, nullptr },
-				{ t, member_address(&mud::MaterialParam<mud::Colour>::m_texture), type<mud::Texture>(), "texture", Ref(type<mud::Texture>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::MaterialParam<mud::Colour>::m_channel), type<mud::TextureChannel>(), "channel", var(mud::TextureChannel::All), Member::Value, nullptr }
+				{ t, member_address(&mud::MaterialParam<mud::Colour>::m_value), type<mud::Colour>(), "value", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::MaterialParam<mud::Colour>::m_texture), type<mud::Texture>(), "texture", Ref(texture_default), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::MaterialParam<mud::Colour>::m_channel), type<mud::TextureChannel>(), "channel", Ref(&channel_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1488,6 +1630,18 @@ namespace mud
 	{
 		Type& t = type<mud::Mesh>();
 		static Meta meta = { t, &namspc({ "mud" }), "Mesh", sizeof(mud::Mesh), TypeClass::Object };
+		// defaults
+		static mud::DrawMode draw_mode_default = PLAIN;
+		static mud::Aabb aabb_default = {};
+		static float radius_default = 0.f;
+		static mud::vec3 origin_default = Zero3;
+		static bool readback_default = false;
+		static uint32_t vertex_format_default = 0;
+		static bool qnormals_default = false;
+		static uint32_t vertex_count_default = 0;
+		static uint32_t index_count_default = 0;
+		static bool index32_default = false;
+		static mud::Material* material_default = nullptr;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1500,19 +1654,19 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Mesh::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::Mesh::m_index), type<uint16_t>(), "index", var(uint16_t()), Member::Value, nullptr },
-				{ t, member_address(&mud::Mesh::m_draw_mode), type<mud::DrawMode>(), "draw_mode", var(mud::DrawMode(PLAIN)), Member::Value, nullptr },
-				{ t, member_address(&mud::Mesh::m_aabb), type<mud::Aabb>(), "aabb", var(mud::Aabb{}), Member::Value, nullptr },
-				{ t, member_address(&mud::Mesh::m_radius), type<float>(), "radius", var(float(0.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Mesh::m_origin), type<mud::vec3>(), "origin", var(mud::vec3(Zero3)), Member::Value, nullptr },
-				{ t, member_address(&mud::Mesh::m_readback), type<bool>(), "readback", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Mesh::m_vertex_format), type<uint32_t>(), "vertex_format", var(uint32_t(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::Mesh::m_qnormals), type<bool>(), "qnormals", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Mesh::m_vertex_count), type<uint32_t>(), "vertex_count", var(uint32_t(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::Mesh::m_index_count), type<uint32_t>(), "index_count", var(uint32_t(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::Mesh::m_index32), type<bool>(), "index32", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Mesh::m_material), type<mud::Material>(), "material", Ref(type<mud::Material>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::Mesh::m_name), type<string>(), "name", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Mesh::m_index), type<uint16_t>(), "index", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Mesh::m_draw_mode), type<mud::DrawMode>(), "draw_mode", Ref(&draw_mode_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Mesh::m_aabb), type<mud::Aabb>(), "aabb", Ref(&aabb_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Mesh::m_radius), type<float>(), "radius", Ref(&radius_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Mesh::m_origin), type<mud::vec3>(), "origin", Ref(&origin_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Mesh::m_readback), type<bool>(), "readback", Ref(&readback_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Mesh::m_vertex_format), type<uint32_t>(), "vertex_format", Ref(&vertex_format_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Mesh::m_qnormals), type<bool>(), "qnormals", Ref(&qnormals_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Mesh::m_vertex_count), type<uint32_t>(), "vertex_count", Ref(&vertex_count_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Mesh::m_index_count), type<uint32_t>(), "index_count", Ref(&index_count_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Mesh::m_index32), type<bool>(), "index32", Ref(&index32_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Mesh::m_material), type<mud::Material>(), "material", Ref(material_default), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{
@@ -1527,6 +1681,10 @@ namespace mud
 	{
 		Type& t = type<mud::Model>();
 		static Meta meta = { t, &namspc({ "mud" }), "Model", sizeof(mud::Model), TypeClass::Object };
+		// defaults
+		static mud::Aabb aabb_default = {Zero3,Zero3};
+		static float radius_default = 0.f;
+		static mud::vec3 origin_default = Zero3;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1539,11 +1697,11 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Model::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::Model::m_index), type<uint16_t>(), "index", var(uint16_t()), Member::Value, nullptr },
-				{ t, member_address(&mud::Model::m_aabb), type<mud::Aabb>(), "aabb", var(mud::Aabb{Zero3,Zero3}), Member::Value, nullptr },
-				{ t, member_address(&mud::Model::m_radius), type<float>(), "radius", var(float(0.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Model::m_origin), type<mud::vec3>(), "origin", var(mud::vec3(Zero3)), Member::Value, nullptr }
+				{ t, member_address(&mud::Model::m_name), type<string>(), "name", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Model::m_index), type<uint16_t>(), "index", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Model::m_aabb), type<mud::Aabb>(), "aabb", Ref(&aabb_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Model::m_radius), type<float>(), "radius", Ref(&radius_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Model::m_origin), type<mud::vec3>(), "origin", Ref(&origin_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1558,6 +1716,7 @@ namespace mud
 	{
 		Type& t = type<mud::ModelItem>();
 		static Meta meta = { t, &namspc({ "mud" }), "ModelItem", sizeof(mud::ModelItem), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1572,13 +1731,13 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ModelItem::m_index), type<size_t>(), "index", var(size_t()), Member::Value, nullptr },
-				{ t, member_address(&mud::ModelItem::m_mesh), type<mud::Mesh>(), "mesh", Ref(type<mud::Mesh>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::ModelItem::m_has_transform), type<bool>(), "has_transform", var(bool()), Member::Value, nullptr },
-				{ t, member_address(&mud::ModelItem::m_transform), type<mud::mat4>(), "transform", var(mud::mat4()), Member::Value, nullptr },
-				{ t, member_address(&mud::ModelItem::m_skin), type<int>(), "skin", var(int()), Member::Value, nullptr },
-				{ t, member_address(&mud::ModelItem::m_colour), type<mud::Colour>(), "colour", var(mud::Colour()), Member::Value, nullptr },
-				{ t, member_address(&mud::ModelItem::m_material), type<mud::Material>(), "material", Ref(type<mud::Material>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::ModelItem::m_index), type<size_t>(), "index", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ModelItem::m_mesh), type<mud::Mesh>(), "mesh", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::ModelItem::m_has_transform), type<bool>(), "has_transform", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ModelItem::m_transform), type<mud::mat4>(), "transform", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ModelItem::m_skin), type<int>(), "skin", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ModelItem::m_colour), type<mud::Colour>(), "colour", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ModelItem::m_material), type<mud::Material>(), "material", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{
@@ -1593,6 +1752,11 @@ namespace mud
 	{
 		Type& t = type<mud::Node3>();
 		static Meta meta = { t, &namspc({ "mud" }), "Node3", sizeof(mud::Node3), TypeClass::Object };
+		// defaults
+		static mud::Scene* scene_default = nullptr;
+		static uint16_t index_default = 0;
+		static mud::mat4 transform_default = bxidentity();
+		static bool visible_default = true;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1605,10 +1769,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Node3::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::Node3::m_index), type<uint16_t>(), "index", var(uint16_t(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::Node3::m_transform), type<mud::mat4>(), "transform", var(mud::mat4(bxidentity())), Member::Value, nullptr },
-				{ t, member_address(&mud::Node3::m_visible), type<bool>(), "visible", var(bool(true)), Member::Value, nullptr }
+				{ t, member_address(&mud::Node3::m_scene), type<mud::Scene>(), "scene", Ref(scene_default), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::Node3::m_index), type<uint16_t>(), "index", Ref(&index_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Node3::m_transform), type<mud::mat4>(), "transform", Ref(&transform_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Node3::m_visible), type<bool>(), "visible", Ref(&visible_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1623,6 +1787,26 @@ namespace mud
 	{
 		Type& t = type<mud::ParticleFlow>();
 		static Meta meta = { t, &namspc({ "mud" }), "ParticleFlow", sizeof(mud::ParticleFlow), TypeClass::Struct };
+		// defaults
+		static float duration_default = 1.f;
+		static float start_time_default = 0.f;
+		static bool loop_default = false;
+		static mud::ShapeVar shape_default = {};
+		static mud::EmitterFlow flow_default = mud::EmitterFlow::Outward;
+		static bool billboard_default = true;
+		static mud::vec3 direction_default = {0.f,0.f,-1.f};
+		static mud::quat rotation_default = ZeroQuat;
+		static mud::BlendMode blend_mode_default = mud::BlendMode::Normal;
+		static mud::ValueTrack<float> volume_default = {1.f};
+		static mud::ValueTrack<uint32_t> rate_default = {0};
+		static mud::ValueTrack<float> lifetime_default = {1.f};
+		static mud::ValueTrack<float> gravity_default = {0.f};
+		static mud::ValueTrack<float> speed_default = {1.f};
+		static mud::ValueTrack<float> angle_default = {0.f};
+		static mud::ValueTrack<float> blend_default = {vector<float>({0.8f,0.0f})};
+		static mud::ValueTrack<mud::Colour> colour_default = {Colour::White};
+		static mud::ValueTrack<float> scale_default = {0.1f};
+		static mud::ValueTrack<float> sprite_frame_default = {0.f};
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1637,27 +1821,27 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::ParticleFlow::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_duration), type<float>(), "duration", var(float(1.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_start_time), type<float>(), "start_time", var(float(0.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_loop), type<bool>(), "loop", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_shape), type<mud::ShapeVar>(), "shape", var(mud::ShapeVar{}), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_flow), type<mud::EmitterFlow>(), "flow", var(mud::EmitterFlow::Outward), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_billboard), type<bool>(), "billboard", var(bool(true)), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_direction), type<mud::vec3>(), "direction", var(mud::vec3{0.f,0.f,-1.f}), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_rotation), type<mud::quat>(), "rotation", var(mud::quat(ZeroQuat)), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_blend_mode), type<mud::BlendMode>(), "blend_mode", var(mud::BlendMode::Normal), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_volume), type<mud::ValueTrack<float>>(), "volume", var(mud::ValueTrack<float>{1.f}), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_rate), type<mud::ValueTrack<uint32_t>>(), "rate", var(mud::ValueTrack<uint32_t>{0}), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_lifetime), type<mud::ValueTrack<float>>(), "lifetime", var(mud::ValueTrack<float>{1.f}), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_gravity), type<mud::ValueTrack<float>>(), "gravity", var(mud::ValueTrack<float>{0.f}), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_speed), type<mud::ValueTrack<float>>(), "speed", var(mud::ValueTrack<float>{1.f}), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_angle), type<mud::ValueTrack<float>>(), "angle", var(mud::ValueTrack<float>{0.f}), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_blend), type<mud::ValueTrack<float>>(), "blend", var(mud::ValueTrack<float>{vector<float>({0.8f,0.0f})}), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_colour), type<mud::ValueTrack<mud::Colour>>(), "colour", var(mud::ValueTrack<mud::Colour>{Colour::White}), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_scale), type<mud::ValueTrack<float>>(), "scale", var(mud::ValueTrack<float>{0.1f}), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_sprite_frame), type<mud::ValueTrack<float>>(), "sprite_frame", var(mud::ValueTrack<float>{0.f}), Member::Value, nullptr },
-				{ t, member_address(&mud::ParticleFlow::m_sprite_name), type<string>(), "sprite_name", var(string()), Member::Value, nullptr }
+				{ t, member_address(&mud::ParticleFlow::m_name), type<string>(), "name", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_duration), type<float>(), "duration", Ref(&duration_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_start_time), type<float>(), "start_time", Ref(&start_time_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_loop), type<bool>(), "loop", Ref(&loop_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_shape), type<mud::ShapeVar>(), "shape", Ref(&shape_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_flow), type<mud::EmitterFlow>(), "flow", Ref(&flow_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_billboard), type<bool>(), "billboard", Ref(&billboard_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_direction), type<mud::vec3>(), "direction", Ref(&direction_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_rotation), type<mud::quat>(), "rotation", Ref(&rotation_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_blend_mode), type<mud::BlendMode>(), "blend_mode", Ref(&blend_mode_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_volume), type<mud::ValueTrack<float>>(), "volume", Ref(&volume_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_rate), type<mud::ValueTrack<uint32_t>>(), "rate", Ref(&rate_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_lifetime), type<mud::ValueTrack<float>>(), "lifetime", Ref(&lifetime_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_gravity), type<mud::ValueTrack<float>>(), "gravity", Ref(&gravity_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_speed), type<mud::ValueTrack<float>>(), "speed", Ref(&speed_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_angle), type<mud::ValueTrack<float>>(), "angle", Ref(&angle_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_blend), type<mud::ValueTrack<float>>(), "blend", Ref(&blend_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_colour), type<mud::ValueTrack<mud::Colour>>(), "colour", Ref(&colour_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_scale), type<mud::ValueTrack<float>>(), "scale", Ref(&scale_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_sprite_frame), type<mud::ValueTrack<float>>(), "sprite_frame", Ref(&sprite_frame_default), Member::Value, nullptr },
+				{ t, member_address(&mud::ParticleFlow::m_sprite_name), type<string>(), "sprite_name", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1672,6 +1856,19 @@ namespace mud
 	{
 		Type& t = type<mud::PbrMaterialBlock>();
 		static Meta meta = { t, &namspc({ "mud" }), "PbrMaterialBlock", sizeof(mud::PbrMaterialBlock), TypeClass::Struct };
+		// defaults
+		static bool enabled_default = false;
+		static mud::MaterialParam<mud::Colour> albedo_default = {Colour::White,nullptr};
+		static float specular_default = 0.5f;
+		static mud::MaterialParam<float> metallic_default = {0.f,nullptr,TextureChannel::Red};
+		static mud::MaterialParam<float> roughness_default = {1.f,nullptr,TextureChannel::Red};
+		static mud::MaterialParam<mud::Colour> emissive_default = {Colour::None,nullptr};
+		static float emissive_energy_default = 0.f;
+		static mud::MaterialParam<float> normal_default = {1.f,nullptr};
+		static mud::MaterialParam<float> depth_default = {-0.02f,nullptr};
+		static bool deep_parallax_default = false;
+		static mud::PbrDiffuseMode diffuse_mode_default = mud::PbrDiffuseMode::Burley;
+		static mud::PbrSpecularMode specular_mode_default = mud::PbrSpecularMode::SchlickGGX;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1687,27 +1884,27 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::PbrMaterialBlock::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_albedo), type<mud::MaterialParam<mud::Colour>>(), "albedo", var(mud::MaterialParam<mud::Colour>{Colour::White,nullptr}), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_specular), type<float>(), "specular", var(float(0.5f)), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_metallic), type<mud::MaterialParam<float>>(), "metallic", var(mud::MaterialParam<float>{0.f,nullptr,TextureChannel::Red}), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_roughness), type<mud::MaterialParam<float>>(), "roughness", var(mud::MaterialParam<float>{1.f,nullptr,TextureChannel::Red}), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_emissive), type<mud::MaterialParam<mud::Colour>>(), "emissive", var(mud::MaterialParam<mud::Colour>{Colour::None,nullptr}), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_emissive_energy), type<float>(), "emissive_energy", var(float(0.f)), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_normal), type<mud::MaterialParam<float>>(), "normal", var(mud::MaterialParam<float>{1.f,nullptr}), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_rim), type<mud::MaterialParam<float>>(), "rim", var(mud::MaterialParam<float>()), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_rim_tint), type<float>(), "ritint", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_clearcoat), type<mud::MaterialParam<float>>(), "clearcoat", var(mud::MaterialParam<float>()), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_clearcoat_gloss), type<float>(), "clearcoat_gloss", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_anisotropy), type<mud::MaterialParam<float>>(), "anisotropy", var(mud::MaterialParam<float>()), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_subsurface), type<mud::MaterialParam<float>>(), "subsurface", var(mud::MaterialParam<float>()), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_transmission), type<mud::MaterialParam<mud::Colour>>(), "transmission", var(mud::MaterialParam<mud::Colour>()), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_refraction), type<mud::MaterialParam<float>>(), "refraction", var(mud::MaterialParam<float>()), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_ambient_occlusion), type<mud::MaterialParam<float>>(), "ambient_occlusion", var(mud::MaterialParam<float>()), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_depth), type<mud::MaterialParam<float>>(), "depth", var(mud::MaterialParam<float>{-0.02f,nullptr}), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_deep_parallax), type<bool>(), "deep_parallax", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_diffuse_mode), type<mud::PbrDiffuseMode>(), "diffuse_mode", var(mud::PbrDiffuseMode::Burley), Member::Value, nullptr },
-				{ t, member_address(&mud::PbrMaterialBlock::m_specular_mode), type<mud::PbrSpecularMode>(), "specular_mode", var(mud::PbrSpecularMode::SchlickGGX), Member::Value, nullptr }
+				{ t, member_address(&mud::PbrMaterialBlock::m_enabled), type<bool>(), "enabled", Ref(&enabled_default), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_albedo), type<mud::MaterialParam<mud::Colour>>(), "albedo", Ref(&albedo_default), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_specular), type<float>(), "specular", Ref(&specular_default), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_metallic), type<mud::MaterialParam<float>>(), "metallic", Ref(&metallic_default), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_roughness), type<mud::MaterialParam<float>>(), "roughness", Ref(&roughness_default), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_emissive), type<mud::MaterialParam<mud::Colour>>(), "emissive", Ref(&emissive_default), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_emissive_energy), type<float>(), "emissive_energy", Ref(&emissive_energy_default), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_normal), type<mud::MaterialParam<float>>(), "normal", Ref(&normal_default), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_rim), type<mud::MaterialParam<float>>(), "rim", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_rim_tint), type<float>(), "ritint", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_clearcoat), type<mud::MaterialParam<float>>(), "clearcoat", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_clearcoat_gloss), type<float>(), "clearcoat_gloss", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_anisotropy), type<mud::MaterialParam<float>>(), "anisotropy", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_subsurface), type<mud::MaterialParam<float>>(), "subsurface", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_transmission), type<mud::MaterialParam<mud::Colour>>(), "transmission", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_refraction), type<mud::MaterialParam<float>>(), "refraction", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_ambient_occlusion), type<mud::MaterialParam<float>>(), "ambient_occlusion", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_depth), type<mud::MaterialParam<float>>(), "depth", Ref(&depth_default), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_deep_parallax), type<bool>(), "deep_parallax", Ref(&deep_parallax_default), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_diffuse_mode), type<mud::PbrDiffuseMode>(), "diffuse_mode", Ref(&diffuse_mode_default), Member::Value, nullptr },
+				{ t, member_address(&mud::PbrMaterialBlock::m_specular_mode), type<mud::PbrSpecularMode>(), "specular_mode", Ref(&specular_mode_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1722,6 +1919,7 @@ namespace mud
 	{
 		Type& t = type<mud::Prefab>();
 		static Meta meta = { t, &namspc({ "mud" }), "Prefab", sizeof(mud::Prefab), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1734,7 +1932,7 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Prefab::m_name), type<string>(), "name", var(string()), Member::Value, nullptr }
+				{ t, member_address(&mud::Prefab::m_name), type<string>(), "name", Ref(), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -1749,6 +1947,7 @@ namespace mud
 	{
 		Type& t = type<mud::Program>();
 		static Meta meta = { t, &namspc({ "mud" }), "Program", sizeof(mud::Program), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1761,7 +1960,7 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address<const char*(mud::Program::*)()>(&mud::Program::name), type<const char*>(), "name", Ref(type<const char*>()), Member::Flags(Member::Pointer|Member::NonMutable|Member::Link), [](Ref object) { return Ref(val<mud::Program>(object).name()); } }
+				{ t, member_address<const char*(mud::Program::*)()>(&mud::Program::name), type<const char*>(), "name", Ref(), Member::Flags(Member::Pointer|Member::NonMutable|Member::Link), [](Ref object) { return Ref(val<mud::Program>(object).name()); } }
 			},
 			// methods
 			{
@@ -1776,6 +1975,11 @@ namespace mud
 	{
 		Type& t = type<mud::Radiance>();
 		static Meta meta = { t, &namspc({ "mud" }), "Radiance", sizeof(mud::Radiance), TypeClass::Struct };
+		// defaults
+		static float energy_default = 1.0f;
+		static float ambient_default = 1.0f;
+		static mud::Colour colour_default = mud::Colour::Black;
+		static mud::Texture* texture_default = nullptr;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1790,10 +1994,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Radiance::m_energy), type<float>(), "energy", var(float(1.0f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Radiance::m_ambient), type<float>(), "ambient", var(float(1.0f)), Member::Value, nullptr },
-				{ t, member_address(&mud::Radiance::m_colour), type<mud::Colour>(), "colour", var(mud::Colour::Black), Member::Value, nullptr },
-				{ t, member_address(&mud::Radiance::m_texture), type<mud::Texture>(), "texture", Ref(type<mud::Texture>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::Radiance::m_energy), type<float>(), "energy", Ref(&energy_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Radiance::m_ambient), type<float>(), "ambient", Ref(&ambient_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Radiance::m_colour), type<mud::Colour>(), "colour", Ref(&colour_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Radiance::m_texture), type<mud::Texture>(), "texture", Ref(texture_default), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{
@@ -1808,6 +2012,7 @@ namespace mud
 	{
 		Type& t = type<mud::RenderFrame>();
 		static Meta meta = { t, &namspc({ "mud" }), "RenderFrame", sizeof(mud::RenderFrame), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1836,6 +2041,7 @@ namespace mud
 	{
 		Type& t = type<mud::RenderQuad>();
 		static Meta meta = { t, &namspc({ "mud" }), "RenderQuad", sizeof(mud::RenderQuad), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1864,6 +2070,7 @@ namespace mud
 	{
 		Type& t = type<mud::Rig>();
 		static Meta meta = { t, &namspc({ "mud" }), "Rig", sizeof(mud::Rig), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1890,6 +2097,7 @@ namespace mud
 	{
 		Type& t = type<mud::Scene>();
 		static Meta meta = { t, &namspc({ "mud" }), "Scene", sizeof(mud::Scene), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1902,9 +2110,9 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Scene::m_graph), type<mud::Gnode>(), "graph", Ref(type<mud::Gnode>()), Member::NonMutable, nullptr },
-				{ t, member_address(&mud::Scene::m_root_node), type<mud::Node3>(), "root_node", Ref(type<mud::Node3>()), Member::NonMutable, nullptr },
-				{ t, member_address(&mud::Scene::m_environment), type<mud::Environment>(), "environment", var(mud::Environment()), Member::Value, nullptr },
+				{ t, member_address(&mud::Scene::m_graph), type<mud::Gnode>(), "graph", Ref(), Member::NonMutable, nullptr },
+				{ t, member_address(&mud::Scene::m_root_node), type<mud::Node3>(), "root_node", Ref(), Member::NonMutable, nullptr },
+				{ t, member_address(&mud::Scene::m_environment), type<mud::Environment>(), "environment", Ref(), Member::Value, nullptr },
 				{ t, member_address(&mud::Scene::m_user), type<mud::Ref>(), "user", Ref(), Member::Value, nullptr }
 			},
 			// methods
@@ -1921,6 +2129,7 @@ namespace mud
 	{
 		Type& t = type<mud::Shot>();
 		static Meta meta = { t, &namspc({ "mud" }), "Shot", sizeof(mud::Shot), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1947,6 +2156,7 @@ namespace mud
 	{
 		Type& t = type<mud::Skeleton>();
 		static Meta meta = { t, &namspc({ "mud" }), "Skeleton", sizeof(mud::Skeleton), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1973,6 +2183,7 @@ namespace mud
 	{
 		Type& t = type<mud::Skin>();
 		static Meta meta = { t, &namspc({ "mud" }), "Skin", sizeof(mud::Skin), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -1999,6 +2210,9 @@ namespace mud
 	{
 		Type& t = type<mud::Sun>();
 		static Meta meta = { t, &namspc({ "mud" }), "Sun", sizeof(mud::Sun), TypeClass::Struct };
+		// defaults
+		static mud::Colour colour_default = {0.8f,0.8f,0.0f};
+		static float intensity_default = 0.f;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -2013,10 +2227,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Sun::azimuth), type<float>(), "azimuth", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::Sun::elevation), type<float>(), "elevation", var(float()), Member::Value, nullptr },
-				{ t, member_address(&mud::Sun::m_colour), type<mud::Colour>(), "colour", var(mud::Colour{0.8f,0.8f,0.0f}), Member::Value, nullptr },
-				{ t, member_address(&mud::Sun::m_intensity), type<float>(), "intensity", var(float(0.f)), Member::Value, nullptr }
+				{ t, member_address(&mud::Sun::azimuth), type<float>(), "azimuth", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Sun::elevation), type<float>(), "elevation", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Sun::m_colour), type<mud::Colour>(), "colour", Ref(&colour_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Sun::m_intensity), type<float>(), "intensity", Ref(&intensity_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -2031,6 +2245,7 @@ namespace mud
 	{
 		Type& t = type<mud::SymbolIndex>();
 		static Meta meta = { t, &namspc({ "mud" }), "SymbolIndex", sizeof(mud::SymbolIndex), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{  },
@@ -2057,6 +2272,10 @@ namespace mud
 	{
 		Type& t = type<mud::Texture>();
 		static Meta meta = { t, &namspc({ "mud" }), "Texture", sizeof(mud::Texture), TypeClass::Object };
+		// defaults
+		static uint16_t width_default = 0;
+		static uint16_t height_default = 0;
+		static uint32_t bits_per_pixel_default = 0;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -2069,10 +2288,10 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Texture::m_name), type<string>(), "name", var(string()), Member::Value, nullptr },
-				{ t, member_address(&mud::Texture::m_width), type<uint16_t>(), "width", var(uint16_t(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::Texture::m_height), type<uint16_t>(), "height", var(uint16_t(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::Texture::m_bits_per_pixel), type<uint32_t>(), "bits_per_pixel", var(uint32_t(0)), Member::Value, nullptr }
+				{ t, member_address(&mud::Texture::m_name), type<string>(), "name", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Texture::m_width), type<uint16_t>(), "width", Ref(&width_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Texture::m_height), type<uint16_t>(), "height", Ref(&height_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Texture::m_bits_per_pixel), type<uint32_t>(), "bits_per_pixel", Ref(&bits_per_pixel_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -2087,6 +2306,9 @@ namespace mud
 	{
 		Type& t = type<mud::UnshadedMaterialBlock>();
 		static Meta meta = { t, &namspc({ "mud" }), "UnshadedMaterialBlock", sizeof(mud::UnshadedMaterialBlock), TypeClass::Struct };
+		// defaults
+		static bool enabled_default = false;
+		static mud::MaterialParam<mud::Colour> colour_default = {Colour::White,nullptr};
 		static Class cls = { t,
 			// bases
 			{  },
@@ -2101,8 +2323,8 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::UnshadedMaterialBlock::m_enabled), type<bool>(), "enabled", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::UnshadedMaterialBlock::m_colour), type<mud::MaterialParam<mud::Colour>>(), "colour", var(mud::MaterialParam<mud::Colour>{Colour::White,nullptr}), Member::Value, nullptr }
+				{ t, member_address(&mud::UnshadedMaterialBlock::m_enabled), type<bool>(), "enabled", Ref(&enabled_default), Member::Value, nullptr },
+				{ t, member_address(&mud::UnshadedMaterialBlock::m_colour), type<mud::MaterialParam<mud::Colour>>(), "colour", Ref(&colour_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -2117,6 +2339,13 @@ namespace mud
 	{
 		Type& t = type<mud::Viewport>();
 		static Meta meta = { t, &namspc({ "mud" }), "Viewport", sizeof(mud::Viewport), TypeClass::Object };
+		// defaults
+		static uint16_t index_default = 0;
+		static bool active_default = true;
+		static bool scissor_default = false;
+		static mud::Colour clear_colour_default = mud::Colour::Black;
+		static mud::Shading shading_default = mud::Shading::Shaded;
+		static mud::Lighting lighting_default = mud::Lighting::Clustered;
 		static Class cls = { t,
 			// bases
 			{  },
@@ -2129,15 +2358,15 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Viewport::m_camera), type<mud::Camera>(), "camera", Ref(type<mud::Camera>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::Viewport::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::Viewport::m_index), type<uint16_t>(), "index", var(uint16_t(0)), Member::Value, nullptr },
-				{ t, member_address(&mud::Viewport::m_active), type<bool>(), "active", var(bool(true)), Member::Value, nullptr },
-				{ t, member_address(&mud::Viewport::m_rect), type<mud::uvec4>(), "rect", var(mud::uvec4()), Member::Value, nullptr },
-				{ t, member_address(&mud::Viewport::m_scissor), type<bool>(), "scissor", var(bool(false)), Member::Value, nullptr },
-				{ t, member_address(&mud::Viewport::m_clear_colour), type<mud::Colour>(), "clear_colour", var(mud::Colour::Black), Member::Value, nullptr },
-				{ t, member_address(&mud::Viewport::m_shading), type<mud::Shading>(), "shading", var(mud::Shading::Shaded), Member::Value, nullptr },
-				{ t, member_address(&mud::Viewport::m_lighting), type<mud::Lighting>(), "lighting", var(mud::Lighting::Clustered), Member::Value, nullptr }
+				{ t, member_address(&mud::Viewport::m_camera), type<mud::Camera>(), "camera", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::Viewport::m_scene), type<mud::Scene>(), "scene", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::Viewport::m_index), type<uint16_t>(), "index", Ref(&index_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Viewport::m_active), type<bool>(), "active", Ref(&active_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Viewport::m_rect), type<mud::uvec4>(), "rect", Ref(), Member::Value, nullptr },
+				{ t, member_address(&mud::Viewport::m_scissor), type<bool>(), "scissor", Ref(&scissor_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Viewport::m_clear_colour), type<mud::Colour>(), "clear_colour", Ref(&clear_colour_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Viewport::m_shading), type<mud::Shading>(), "shading", Ref(&shading_default), Member::Value, nullptr },
+				{ t, member_address(&mud::Viewport::m_lighting), type<mud::Lighting>(), "lighting", Ref(&lighting_default), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -2152,6 +2381,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockCopy>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockCopy", sizeof(mud::BlockCopy), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::GfxBlock>() },
@@ -2178,6 +2408,7 @@ namespace mud
 	{
 		Type& t = type<mud::DrawBlock>();
 		static Meta meta = { t, &namspc({ "mud" }), "DrawBlock", sizeof(mud::DrawBlock), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::GfxBlock>() },
@@ -2204,6 +2435,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockDepth>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockDepth", sizeof(mud::BlockDepth), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::DrawBlock>() },
@@ -2230,6 +2462,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockFilter>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockFilter", sizeof(mud::BlockFilter), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::GfxBlock>() },
@@ -2256,6 +2489,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockParticles>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockParticles", sizeof(mud::BlockParticles), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::GfxBlock>() },
@@ -2282,6 +2516,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockResolve>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockResolve", sizeof(mud::BlockResolve), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::GfxBlock>() },
@@ -2308,6 +2543,7 @@ namespace mud
 	{
 		Type& t = type<mud::BlockSky>();
 		static Meta meta = { t, &namspc({ "mud" }), "BlockSky", sizeof(mud::BlockSky), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::GfxBlock>() },
@@ -2334,6 +2570,7 @@ namespace mud
 	{
 		Type& t = type<mud::ClusteredFrustum>();
 		static Meta meta = { t, &namspc({ "mud" }), "ClusteredFrustum", sizeof(mud::ClusteredFrustum), TypeClass::Struct };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::Frustum>() },
@@ -2362,6 +2599,8 @@ namespace mud
 	{
 		Type& t = type<mud::Particles>();
 		static Meta meta = { t, &namspc({ "mud" }), "Particles", sizeof(mud::Particles), TypeClass::Struct };
+		// defaults
+		static mud::Node3* node_default = nullptr;
 		static Class cls = { t,
 			// bases
 			{ &type<mud::ParticleFlow>() },
@@ -2376,7 +2615,7 @@ namespace mud
 			},
 			// members
 			{
-				{ t, member_address(&mud::Particles::m_node), type<mud::Node3>(), "node", Ref(type<mud::Node3>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::Particles::m_node), type<mud::Node3>(), "node", Ref(node_default), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{
@@ -2391,6 +2630,7 @@ namespace mud
 	{
 		Type& t = type<mud::RenderTarget>();
 		static Meta meta = { t, &namspc({ "mud" }), "RenderTarget", sizeof(mud::RenderTarget), TypeClass::Object };
+		// defaults
 		static Class cls = { t,
 			// bases
 			{ &type<mud::FrameBuffer>() },

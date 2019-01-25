@@ -12,6 +12,7 @@
 module mud.gfx.pbr;
 #else
 #include <infra/ToString.h>
+#include <infra/File.h>
 #include <math/Random.h>
 #include <geom/Intersect.h>
 #include <geom/Mesh.h>

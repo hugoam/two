@@ -49,7 +49,8 @@ namespace mud
 		Ref value = member.cast_get(object);
 		bool changed = any_edit(parent, value, member.is_link() | member.is_pointer(), hint);
 #else
-		Var value = member.safe_get(object);
+		//Var value = member.safe_get(object);
+		Var value = member.get(object);
 		bool changed = any_edit(parent, value.m_ref, member.is_link() | member.is_pointer(), hint);
 
 		if(changed && member.is_mutable() && !member.is_component())
