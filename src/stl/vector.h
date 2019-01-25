@@ -19,12 +19,10 @@ namespace mud
 	inline bool equal(It1 first1, const It1 last1, It2 first2, Pr pred)
 	{
 		for(; first1 != last1; ++first1, (void)++first2)
-		{
 			if(!pred(*first1, *first2))
 			{
 				return false;
 			}
-		}
 		return true;
 	}
 
@@ -34,19 +32,13 @@ namespace mud
 		for(;;)
 		{
 			if(first1 == last1)
-			{
 				return first2 == last2;
-			}
 
 			if(first2 == last2)
-			{
 				return false;
-			}
 
 			if(!Pred(*first1, *first2))
-			{
 				return false;
-			}
 
 			++first1;
 			++first2;

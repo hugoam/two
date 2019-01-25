@@ -451,8 +451,8 @@ namespace clgen
 		p(i, "#ifdef MUD_MODULES");
 		p(i, "module " + m.m_namespace + "." + m.m_name + ";");
 		p(i, "#else");
-		p(i, "#include <type/Any.h>");
 		p(i, "#include <type/Vector.h>");
+		p(i, "#include <type/Any.h>");
 		p(i, "#include <refl/MetaDecl.h>");
 		p(i, "#include <refl/Module.h>");
 		for(CLModule* d : m.m_dependencies)
@@ -636,8 +636,8 @@ namespace clgen
 		p(i, "");
 		p(i, "#ifndef MUD_CPP_20");
 		p(i, "#include <stl/string.h>");
-		p(i, "#include <cstdint>");
 		p(i, "#include <stl/vector.h>");
+		p(i, "#include <cstdint>");
 		p(i, "#endif");
 		p(i, "");
 		if(m.m_has_structs)

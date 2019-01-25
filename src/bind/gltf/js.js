@@ -429,7 +429,7 @@ Object.defineProperty(glTFBuffer.prototype, "byte_length", {
     },
     set: function(value) {
         var self = this.ptr;
-        /* value <int> [] */
+        /* value <size_t> [] */
         _glTFBuffer__set_byte_length(self, value);
     }
 });

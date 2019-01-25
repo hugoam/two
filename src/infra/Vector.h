@@ -12,10 +12,8 @@
 
 namespace mud
 {
-#ifndef MUD_NO_STL
 	template <typename T>
 	struct is_comparable<vector<T>> : is_comparable_base<T> {};
-#endif
 
 	export_ template <class T>
 	array<T> to_array(vector<T>& vec) { return { &vec[0], vec.size() }; }

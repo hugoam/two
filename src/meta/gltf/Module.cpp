@@ -3,8 +3,8 @@
 #ifdef MUD_MODULES
 module mud.gltf;
 #else
-#include <type/Any.h>
 #include <type/Vector.h>
+#include <type/Any.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
 #include <meta/infra/Module.h>
@@ -436,7 +436,7 @@ namespace mud
 				{ type<glTFBuffer>(), member_address(&glTFBuffer::name), type<string>(), "name", var(string()), Member::Value, nullptr },
 				{ type<glTFBuffer>(), member_address(&glTFBuffer::mime_type), type<string>(), "mime_type", var(string()), Member::Value, nullptr },
 				{ type<glTFBuffer>(), member_address(&glTFBuffer::uri), type<string>(), "uri", var(string()), Member::Value, nullptr },
-				{ type<glTFBuffer>(), member_address(&glTFBuffer::byte_length), type<int>(), "byte_length", var(int()), Member::Value, nullptr }
+				{ type<glTFBuffer>(), member_address(&glTFBuffer::byte_length), type<size_t>(), "byte_length", var(size_t()), Member::Value, nullptr }
 			},
 			// methods
 			{

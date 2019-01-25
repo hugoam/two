@@ -3,8 +3,8 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#include <type/Any.h>
 #include <type/Vector.h>
+#include <type/Any.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
 #include <meta/infra/Module.h>

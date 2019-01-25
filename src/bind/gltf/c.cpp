@@ -256,10 +256,10 @@ extern "C" {
 	void DECL glTFBuffer__set_uri(glTFBuffer* self, const char* value) {
 		self->uri = value;
 	}
-	int DECL glTFBuffer__get_byte_length(glTFBuffer* self) {
+	size_t DECL glTFBuffer__get_byte_length(glTFBuffer* self) {
 		return self->byte_length;
 	}
-	void DECL glTFBuffer__set_byte_length(glTFBuffer* self, int value) {
+	void DECL glTFBuffer__set_byte_length(glTFBuffer* self, size_t value) {
 		self->byte_length = value;
 	}
 	void DECL glTFBuffer__destroy(glTFBuffer* self) {
