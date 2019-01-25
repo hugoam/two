@@ -275,33 +275,33 @@ namespace clgen
 
 	string constructor_decl(const CLType& c, const CLConstructor& constr)
 	{
-		return type_get(c) + ", [](Ref ref, array<Var> args) { " + unused_args(constr) + "new(&val<" + c.m_id + ">(ref)) " + c.m_id + "( " + get_args(constr.m_params) + " ); }, " + params_def(constr.m_params);
+		return "t, [](Ref ref, array<Var> args) { " + unused_args(constr) + "new(&val<" + c.m_id + ">(ref)) " + c.m_id + "( " + get_args(constr.m_params) + " ); }, " + params_def(constr.m_params);
 	}
 
 	string copy_constructor_decl(const CLType& c)
 	{
-		return type_get(c) + ", [](Ref ref, Ref other) { new(&val<" + c.m_id + ">(ref)) " + c.m_id + "(val<" + c.m_id + ">(other)); }";
+		return "t, [](Ref ref, Ref other) { new(&val<" + c.m_id + ">(ref)) " + c.m_id + "(val<" + c.m_id + ">(other)); }";
 	}
 
 	string member_decl(const CLType& c, const CLMember& m)
 	{
-		return type_get(c) + ", " + member_identity(c, m) + ", " + type_get(*m.m_type.m_type) + ", \"" + m.m_name + "\", " + member_default(c, m) + ", " + member_flags(c, m) + ", " + member_getfunc(c, m);
+		return "t, " + member_identity(c, m) + ", " + type_get(*m.m_type.m_type) + ", \"" + m.m_name + "\", " + member_default(c, m) + ", " + member_flags(c, m) + ", " + member_getfunc(c, m);
 	}
 
 	string method_decl(const CLType& c, const CLMethod& m)
 	{
-		return type_get(c) + ", \"" + m.m_name + "\", " + method_identity(c, m) + ", " + method_func(c, m) + ", " + params_def(m.m_params) + ", " + function_return_def(m);
+		return "t, \"" + m.m_name + "\", " + method_identity(c, m) + ", " + method_func(c, m) + ", " + params_def(m.m_params) + ", " + function_return_def(m);
 	}
 
 	string static_decl(const CLType& c, const CLStatic& m)
 	{
-		return type_get(c) + ", \"" + m.m_name + "\", Ref(&" + c.m_id + "::" + m.m_member + ")";
+		return "t, \"" + m.m_name + "\", Ref(&" + c.m_id + "::" + m.m_member + ")";
 	}
 
 	string meta_decl(const CLType& c, const string& type_class)
 	{
 		string size = c.m_name == "void" ? "0" : "sizeof(" + c.m_id + ")";
-		return "static Meta meta = { " + type_get(c) + ", " + clnamespace(c) + ", \"" + c.m_name + "\", " + size + ", " + type_class + " };";
+		return "static Meta meta = { t, " + clnamespace(c) + ", \"" + c.m_name + "\", " + size + ", " + type_class + " };";
 	}
 
 	void write_line(string& t, int& i, const string& s, bool spaces = false, bool noendl = false)
@@ -480,6 +480,7 @@ namespace clgen
 		{
 			CLBaseType& b = *pb;
 			p(i, "{");
+			p(i, "Type& t = " + type_get(b) + ";");
 			p(i, meta_decl(b, "TypeClass::BaseType"));
 			p(i, "meta_basetype<" + b.m_name + ">();");
 			p(i, "}");
@@ -494,12 +495,13 @@ namespace clgen
 				auto toarr = [](const string& name, size_t size) { return "{ " + name + ", " + to_string(size) + " }"; };
 				CLEnum& e = *pe;
 				p(i, "{");
+				p(i, "Type& t = " + type_get(e) + ";");
 				p(i, meta_decl(e, "TypeClass::Enum"));
 				p(i, "static cstring ids[] = { " + comma(quote(e.m_ids)) + " };");
 				p(i, "static uint32_t values[] = { " + comma(e.m_values) + " };");
 				p(i, "static " + e.m_id + " vars[] = { " + comma(e.m_scoped_ids) + "};");
 				p(i, "static void* refs[] = { " + comma(transform<string>(0, e.m_count, [](size_t i) { return "&vars[" + to_string(i) + "]"; })) + "};");
-				p(i, "static Enum enu = { " + type_get(e) + ", " + string(e.m_scoped ? "true" : "false") + ", ids, values, refs };");
+				p(i, "static Enum enu = { t, " + string(e.m_scoped ? "true" : "false") + ", ids, values, refs };");
 				p(i, "meta_enum<" + e.m_id + ">();");
 				p(i, "}");
 			}
@@ -510,8 +512,9 @@ namespace clgen
 		{
 			CLSequence& s = *ps;
 			p(i, "{");
+			p(i, "Type& t = " + type_get(s) + ";");
 			p(i, meta_decl(s, "TypeClass::Sequence"));
-			p(i, "static Class cls = { " + type_get(s) + " };");
+			p(i, "static Class cls = { t };");
 			p(i, "cls.m_content = " + type_get_pt(*s.m_contentcls) + ";");
 			if (s.m_name.find("vector") != string::npos)
 				p(i, "meta_vector<" + s.m_id + ", " + s.m_content + ">();");
@@ -527,8 +530,9 @@ namespace clgen
 				CLClass& c = *pc;
 				p(i, "// " + c.m_id);
 				p(i, "{");
+				p(i, "Type& t = " + type_get(c) + ";");
 				p(i, meta_decl(c, type_class(c)));
-				p(i, "static Class cls = { " + type_get(c) + ",");
+				p(i, "static Class cls = { t,");
 				p(i, "// bases");
 				p(i, "{ " + comma(transform<string>(c.m_bases, [&](CLType* base) { return type_get_pt(*base); })) + " },");
 				p(i, "{ " + comma(transform<string>(c.m_bases, [&](CLType* base) { return base_offset_get(c, *base); })) + " },");

@@ -31,12 +31,13 @@ namespace mud
 	
 	// Enums
 	{
-		static Meta meta = { type<mud::ui::OrbitMode>(), &namspc({ "mud", "ui" }), "OrbitMode", sizeof(mud::ui::OrbitMode), TypeClass::Enum };
+		Type& t = type<mud::ui::OrbitMode>();
+		static Meta meta = { t, &namspc({ "mud", "ui" }), "OrbitMode", sizeof(mud::ui::OrbitMode), TypeClass::Enum };
 		static cstring ids[] = { "ThirdPerson", "Isometric", "PseudoIsometric" };
 		static uint32_t values[] = { 0, 1, 2 };
 		static mud::ui::OrbitMode vars[] = { mud::ui::OrbitMode::ThirdPerson, mud::ui::OrbitMode::Isometric, mud::ui::OrbitMode::PseudoIsometric};
 		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
-		static Enum enu = { type<mud::ui::OrbitMode>(), true, ids, values, refs };
+		static Enum enu = { t, true, ids, values, refs };
 		meta_enum<mud::ui::OrbitMode>();
 	}
 	
@@ -44,8 +45,9 @@ namespace mud
 	
 	// mud::ViewerController
 	{
-		static Meta meta = { type<mud::ViewerController>(), &namspc({ "mud" }), "ViewerController", sizeof(mud::ViewerController), TypeClass::Object };
-		static Class cls = { type<mud::ViewerController>(),
+		Type& t = type<mud::ViewerController>();
+		static Meta meta = { t, &namspc({ "mud" }), "ViewerController", sizeof(mud::ViewerController), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },
@@ -69,8 +71,9 @@ namespace mud
 	}
 	// mud::OrbitController
 	{
-		static Meta meta = { type<mud::OrbitController>(), &namspc({ "mud" }), "OrbitController", sizeof(mud::OrbitController), TypeClass::Object };
-		static Class cls = { type<mud::OrbitController>(),
+		Type& t = type<mud::OrbitController>();
+		static Meta meta = { t, &namspc({ "mud" }), "OrbitController", sizeof(mud::OrbitController), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{ &type<mud::ViewerController>() },
 			{ base_offset<mud::OrbitController, mud::ViewerController>() },
@@ -82,15 +85,15 @@ namespace mud
 			},
 			// members
 			{
-				{ type<mud::OrbitController>(), member_address(&mud::OrbitController::m_position), type<mud::vec3>(), "position", var(mud::vec3(Zero3)), Member::Value, nullptr },
-				{ type<mud::OrbitController>(), member_address(&mud::OrbitController::m_yaw), type<float>(), "yaw", var(float(0.f)), Member::Value, nullptr },
-				{ type<mud::OrbitController>(), member_address(&mud::OrbitController::m_pitch), type<float>(), "pitch", var(float(0.f)), Member::Value, nullptr },
-				{ type<mud::OrbitController>(), member_address(&mud::OrbitController::m_distance), type<float>(), "distance", var(float(1.f)), Member::Value, nullptr }
+				{ t, member_address(&mud::OrbitController::m_position), type<mud::vec3>(), "position", var(mud::vec3(Zero3)), Member::Value, nullptr },
+				{ t, member_address(&mud::OrbitController::m_yaw), type<float>(), "yaw", var(float(0.f)), Member::Value, nullptr },
+				{ t, member_address(&mud::OrbitController::m_pitch), type<float>(), "pitch", var(float(0.f)), Member::Value, nullptr },
+				{ t, member_address(&mud::OrbitController::m_distance), type<float>(), "distance", var(float(1.f)), Member::Value, nullptr }
 			},
 			// methods
 			{
-				{ type<mud::OrbitController>(), "set_eye", member_address<void(mud::OrbitController::*)(const mud::quat&)>(&mud::OrbitController::set_eye), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::OrbitController>(object).set_eye(val<mud::quat>(args[0])); }, { { "rotation", var(mud::quat()) } }, Var() },
-				{ type<mud::OrbitController>(), "set_target", member_address<void(mud::OrbitController::*)(const mud::vec3&)>(&mud::OrbitController::set_target), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::OrbitController>(object).set_target(val<mud::vec3>(args[0])); }, { { "position", var(mud::vec3()) } }, Var() }
+				{ t, "set_eye", member_address<void(mud::OrbitController::*)(const mud::quat&)>(&mud::OrbitController::set_eye), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::OrbitController>(object).set_eye(val<mud::quat>(args[0])); }, { { "rotation", var(mud::quat()) } }, Var() },
+				{ t, "set_target", member_address<void(mud::OrbitController::*)(const mud::vec3&)>(&mud::OrbitController::set_target), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::OrbitController>(object).set_target(val<mud::vec3>(args[0])); }, { { "position", var(mud::vec3()) } }, Var() }
 			},
 			// static members
 			{
@@ -100,8 +103,9 @@ namespace mud
 	}
 	// mud::FreeOrbitController
 	{
-		static Meta meta = { type<mud::FreeOrbitController>(), &namspc({ "mud" }), "FreeOrbitController", sizeof(mud::FreeOrbitController), TypeClass::Object };
-		static Class cls = { type<mud::FreeOrbitController>(),
+		Type& t = type<mud::FreeOrbitController>();
+		static Meta meta = { t, &namspc({ "mud" }), "FreeOrbitController", sizeof(mud::FreeOrbitController), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{ &type<mud::OrbitController>() },
 			{ base_offset<mud::FreeOrbitController, mud::OrbitController>() },
@@ -125,8 +129,9 @@ namespace mud
 	}
 	// mud::SpaceSheet
 	{
-		static Meta meta = { type<mud::SpaceSheet>(), &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
-		static Class cls = { type<mud::SpaceSheet>(),
+		Type& t = type<mud::SpaceSheet>();
+		static Meta meta = { t, &namspc({ "mud" }), "SpaceSheet", sizeof(mud::SpaceSheet), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{ &type<mud::Ui>() },
 			{ base_offset<mud::SpaceSheet, mud::Ui>() },
@@ -150,8 +155,9 @@ namespace mud
 	}
 	// mud::Viewer
 	{
-		static Meta meta = { type<mud::Viewer>(), &namspc({ "mud" }), "Viewer", sizeof(mud::Viewer), TypeClass::Object };
-		static Class cls = { type<mud::Viewer>(),
+		Type& t = type<mud::Viewer>();
+		static Meta meta = { t, &namspc({ "mud" }), "Viewer", sizeof(mud::Viewer), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{ &type<mud::Widget>() },
 			{ base_offset<mud::Viewer, mud::Widget>() },
@@ -163,10 +169,10 @@ namespace mud
 			},
 			// members
 			{
-				{ type<mud::Viewer>(), member_address(&mud::Viewer::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ type<mud::Viewer>(), member_address(&mud::Viewer::m_viewport), type<mud::Viewport>(), "viewport", Ref(type<mud::Viewport>()), Member::NonMutable, nullptr },
-				{ type<mud::Viewer>(), member_address(&mud::Viewer::m_position), type<mud::vec2>(), "position", var(mud::vec2()), Member::Value, nullptr },
-				{ type<mud::Viewer>(), member_address(&mud::Viewer::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value, nullptr }
+				{ t, member_address(&mud::Viewer::m_scene), type<mud::Scene>(), "scene", Ref(type<mud::Scene>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::Viewer::m_viewport), type<mud::Viewport>(), "viewport", Ref(type<mud::Viewport>()), Member::NonMutable, nullptr },
+				{ t, member_address(&mud::Viewer::m_position), type<mud::vec2>(), "position", var(mud::vec2()), Member::Value, nullptr },
+				{ t, member_address(&mud::Viewer::m_size), type<mud::vec2>(), "size", var(mud::vec2()), Member::Value, nullptr }
 			},
 			// methods
 			{
@@ -179,8 +185,9 @@ namespace mud
 	}
 	// mud::SceneViewer
 	{
-		static Meta meta = { type<mud::SceneViewer>(), &namspc({ "mud" }), "SceneViewer", sizeof(mud::SceneViewer), TypeClass::Object };
-		static Class cls = { type<mud::SceneViewer>(),
+		Type& t = type<mud::SceneViewer>();
+		static Meta meta = { t, &namspc({ "mud" }), "SceneViewer", sizeof(mud::SceneViewer), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{ &type<mud::Scene>(), &type<mud::Viewer>() },
 			{ base_offset<mud::SceneViewer, mud::Scene>(), base_offset<mud::SceneViewer, mud::Viewer>() },

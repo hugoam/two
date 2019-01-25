@@ -28,8 +28,9 @@ namespace mud
 	
 	// mud::JobSystem
 	{
-		static Meta meta = { type<mud::JobSystem>(), &namspc({ "mud" }), "JobSystem", sizeof(mud::JobSystem), TypeClass::Object };
-		static Class cls = { type<mud::JobSystem>(),
+		Type& t = type<mud::JobSystem>();
+		static Meta meta = { t, &namspc({ "mud" }), "JobSystem", sizeof(mud::JobSystem), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },

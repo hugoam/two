@@ -1,5 +1,6 @@
 #include <clrefl/Generator.h>
 #include <clrefl/Codegen.h>
+#include <infra/ToString.h>
 
 #include <string>
 

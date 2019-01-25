@@ -29,30 +29,31 @@ namespace mud
 	
 	// mud::Shell
 	{
-		static Meta meta = { type<mud::Shell>(), &namspc({ "mud" }), "Shell", sizeof(mud::Shell), TypeClass::Object };
-		static Class cls = { type<mud::Shell>(),
+		Type& t = type<mud::Shell>();
+		static Meta meta = { t, &namspc({ "mud" }), "Shell", sizeof(mud::Shell), TypeClass::Object };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },
 			// constructors
 			{
-				{ type<mud::Shell>(), [](Ref ref, array<Var> args) { new(&val<mud::Shell>(ref)) mud::Shell( val<string>(args[0]), val<string>(args[1]) ); }, { { "resource_path", var(string()) }, { "exec_path", var(string("")), Param::Default } } }
+				{ t, [](Ref ref, array<Var> args) { new(&val<mud::Shell>(ref)) mud::Shell( val<string>(args[0]), val<string>(args[1]) ); }, { { "resource_path", var(string()) }, { "exec_path", var(string("")), Param::Default } } }
 			},
 			// copy constructor
 			{
 			},
 			// members
 			{
-				{ type<mud::Shell>(), member_address(&mud::Shell::m_exec_path), type<string>(), "exec_path", var(string()), Member::Value, nullptr },
-				{ type<mud::Shell>(), member_address(&mud::Shell::m_resource_path), type<string>(), "resource_path", var(string()), Member::Value, nullptr },
-				{ type<mud::Shell>(), member_address(&mud::Shell::m_job_system), type<mud::JobSystem>(), "job_system", Ref(type<mud::JobSystem>()), Member::NonMutable, nullptr },
-				{ type<mud::Shell>(), member_address(&mud::Shell::m_gfx_system), type<mud::GfxSystem>(), "gfx_system", Ref(type<mud::GfxSystem>()), Member::NonMutable, nullptr },
-				{ type<mud::Shell>(), member_address(&mud::Shell::m_editor), type<mud::ShellContext>(), "editor", var(mud::ShellContext()), Member::Value, nullptr },
-				{ type<mud::Shell>(), member_address(&mud::Shell::m_ui), type<mud::Ui>(), "ui", Ref(type<mud::Ui>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::Shell::m_exec_path), type<string>(), "exec_path", var(string()), Member::Value, nullptr },
+				{ t, member_address(&mud::Shell::m_resource_path), type<string>(), "resource_path", var(string()), Member::Value, nullptr },
+				{ t, member_address(&mud::Shell::m_job_system), type<mud::JobSystem>(), "job_system", Ref(type<mud::JobSystem>()), Member::NonMutable, nullptr },
+				{ t, member_address(&mud::Shell::m_gfx_system), type<mud::GfxSystem>(), "gfx_system", Ref(type<mud::GfxSystem>()), Member::NonMutable, nullptr },
+				{ t, member_address(&mud::Shell::m_editor), type<mud::ShellContext>(), "editor", var(mud::ShellContext()), Member::Value, nullptr },
+				{ t, member_address(&mud::Shell::m_ui), type<mud::Ui>(), "ui", Ref(type<mud::Ui>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{
-				{ type<mud::Shell>(), "pump", member_address<bool(mud::Shell::*)()>(&mud::Shell::pump), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<bool>(result) = val<mud::Shell>(object).pump(); }, {}, var(bool()) }
+				{ t, "pump", member_address<bool(mud::Shell::*)()>(&mud::Shell::pump), [](Ref object, array<Var> args, Var& result) { UNUSED(args); val<bool>(result) = val<mud::Shell>(object).pump(); }, {}, var(bool()) }
 			},
 			// static members
 			{
@@ -63,23 +64,24 @@ namespace mud
 	}
 	// mud::ShellContext
 	{
-		static Meta meta = { type<mud::ShellContext>(), &namspc({ "mud" }), "ShellContext", sizeof(mud::ShellContext), TypeClass::Struct };
-		static Class cls = { type<mud::ShellContext>(),
+		Type& t = type<mud::ShellContext>();
+		static Meta meta = { t, &namspc({ "mud" }), "ShellContext", sizeof(mud::ShellContext), TypeClass::Struct };
+		static Class cls = { t,
 			// bases
 			{  },
 			{  },
 			// constructors
 			{
-				{ type<mud::ShellContext>(), [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::ShellContext>(ref)) mud::ShellContext(  ); }, {} }
+				{ t, [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::ShellContext>(ref)) mud::ShellContext(  ); }, {} }
 			},
 			// copy constructor
 			{
-				{ type<mud::ShellContext>(), [](Ref ref, Ref other) { new(&val<mud::ShellContext>(ref)) mud::ShellContext(val<mud::ShellContext>(other)); } }
+				{ t, [](Ref ref, Ref other) { new(&val<mud::ShellContext>(ref)) mud::ShellContext(val<mud::ShellContext>(other)); } }
 			},
 			// members
 			{
-				{ type<mud::ShellContext>(), member_address(&mud::ShellContext::m_screen), type<mud::Widget>(), "screen", Ref(type<mud::Widget>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ type<mud::ShellContext>(), member_address(&mud::ShellContext::m_dockbar), type<mud::Dockbar>(), "dockbar", Ref(type<mud::Dockbar>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
+				{ t, member_address(&mud::ShellContext::m_screen), type<mud::Widget>(), "screen", Ref(type<mud::Widget>()), Member::Flags(Member::Pointer|Member::Link), nullptr },
+				{ t, member_address(&mud::ShellContext::m_dockbar), type<mud::Dockbar>(), "dockbar", Ref(type<mud::Dockbar>()), Member::Flags(Member::Pointer|Member::Link), nullptr }
 			},
 			// methods
 			{
