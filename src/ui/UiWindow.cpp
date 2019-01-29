@@ -53,7 +53,7 @@ namespace mud
 
 		styles().setup(*this);
 
-		m_root_sheet = make_object<Ui>(*this);
+		m_root_sheet = oconstruct<Ui>(*this);
 
 		m_context.init_input(m_root_sheet->m_mouse, m_root_sheet->m_keyboard);
 
@@ -116,7 +116,7 @@ namespace mud
 
 		visit_folders(sprite_path.c_str(), visit_folder);
 
-		m_images = vector_convert<object<Image>>(images, [](const Image& image) { return make_object<Image>(image); });
+		m_images = vector_convert<object<Image>>(images, [](const Image& image) { return oconstruct<Image>(image); });
 	}
 
 	void UiWindow::load_resources()
@@ -132,7 +132,7 @@ namespace mud
 
 	Image& UiWindow::create_image(cstring name, uvec2 size, uint8_t* data, bool filtering)
 	{
-		m_images.emplace_back(make_object<Image>(name, name, size));
+		m_images.push_back(construct<Image>(name, name, size));
 		Image& image = *m_images.back();
 		image.d_filtering = filtering;
 		m_vg.load_image_RGBA(image, data);

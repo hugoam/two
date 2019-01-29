@@ -103,10 +103,10 @@ namespace mud
 	bool value_input(T_Val& value, Widget& parent) { return Input(parent, value); }
 
 	template <class T_Val, bool(*Input)(Widget&, AutoStat<T_Val>)>
-	bool stat_value_input(T_Val& value, Widget& parent) { return Input(parent, AutoStat<T_Val>(value, StatDef<T_Val>(limits<T_Val>::min(), limits<T_Val>::max(), T_Val(1)))); }
+	bool stat_value_input(T_Val& value, Widget& parent) { return Input(parent, AutoStat<T_Val>(value, { limits<T_Val>::min(), limits<T_Val>::max(), T_Val(1) })); }
 
 	template <class T_Val, bool(*Input)(Widget&, AutoStat<T_Val>), int decimal>
-	bool stat_value_input(T_Val& value, Widget& parent) { return Input(parent, AutoStat<T_Val>(value, StatDef<T_Val>(limits<T_Val>::min(), limits<T_Val>::max(), T_Val(1) / T_Val(decimal)))); }
+	bool stat_value_input(T_Val& value, Widget& parent) { return Input(parent, AutoStat<T_Val>(value, { limits<T_Val>::min(), limits<T_Val>::max(), T_Val(1) / T_Val(decimal) })); }
 
 	DispatchInput::DispatchInput()
 	{
@@ -138,7 +138,7 @@ namespace mud
 		//dispatch_branch<AutoStat<int>>(valueWidget<AutoStat<int>, ui::slider_input<int>>);
 		//dispatch_branch<AutoStat<float>>(valueWidget<AutoStat<float>, ui::slider_input<float>>);
 
-		//dispatch_branch<Image256>([](Image256& image, Wedge& parent) -> object<Widget> { return make_object<Figure>(Widget::Input{ &parent }, image); });
+		//dispatch_branch<Image256>([](Image256& image, Wedge& parent) -> object<Widget> { return oconstruct<Figure>(Widget::Input{ &parent }, image); });
 	}
 
 	bool type_selector(Widget& parent, uint32_t& type, array<Type*> types)
@@ -203,9 +203,9 @@ namespace mud
 		iter(value).iterate(value, [&](Ref element) { changed |= value_edit(self, element); });
 		if(ui::modal_button(self, self, "add", Add))
 		{
-			if(meta(*cls(value).m_content).m_empty_var)
+			if(meta(*iter(value).m_element_type).m_empty_var)
 			{
-				sequence(value).add(value, meta(*cls(value).m_content).m_empty_var);
+				sequence(value).add(value, meta(*iter(value).m_element_type).m_empty_var);
 				self.m_switch &= ~Add;
 				changed |= true;
 			}

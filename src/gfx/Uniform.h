@@ -26,10 +26,10 @@ namespace mud
 
 	export_ struct MUD_GFX_EXPORT Uniform
 	{
-		Uniform(const string& name, Address member, bgfx::UniformType::Enum type) : m_name(name), m_member(member), m_type(type), m_floats(16) {}
+		Uniform(const string& name, size_t member, bgfx::UniformType::Enum type) : m_name(name), m_member(member), m_type(type), m_floats(16) {}
 
 		string m_name;
-		Address m_member;
+		size_t m_member;
 		bgfx::UniformType::Enum m_type;
 		bgfx::UniformHandle m_uniform;
 		vector<float> m_floats;
@@ -37,7 +37,7 @@ namespace mud
 		struct Field
 		{
 			string m_name;
-			Address m_member;
+			size_t m_member;
 			size_t m_size;
 		};
 		vector<Field> m_fields;
@@ -74,7 +74,7 @@ namespace mud
 	export_ struct MUD_GFX_EXPORT Sampler
 	{
 		string m_name;
-		Address m_member;
+		size_t m_member;
 		uint8_t m_stage;
 		Texture* m_default;
 		bgfx::UniformHandle m_uniform;

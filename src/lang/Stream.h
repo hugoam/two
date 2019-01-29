@@ -39,6 +39,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT StreamBranch
 	{
 	public:
+		StreamBranch();
 		StreamBranch(Stream* stream, Var value, StreamIndex index);
 
 		Var& value(const StreamIndex& index) { return this->branch(index).m_value; }

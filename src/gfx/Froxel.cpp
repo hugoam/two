@@ -11,7 +11,6 @@
 module mud.gfx;
 #else
 #include <stl/swap.h>
-#include <infra/Bitset.h>
 #include <jobs/Job.h>
 #include <geom/Aabb.h>
 #include <geom/Intersect.h>
@@ -86,16 +85,6 @@ namespace mud
 	// clustered shading refs
 	// http://www.humus.name/Articles/PracticalClusteredShading.pdf
 	// http://www.cse.chalmers.se/~uffe/clustered_shading_preprint.pdf
-
-	struct LightRecord
-	{
-#ifndef USE_STD_BITSET
-		using Lights = bitset<uint64_t, (CONFIG_MAX_LIGHT_COUNT + 63) / 64>;
-#else
-		using Lights = std::bitset<CONFIG_MAX_LIGHT_COUNT>;
-#endif
-		Lights lights;
-	};
 
 	struct LightParams
 	{

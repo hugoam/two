@@ -35,7 +35,7 @@ namespace mud
 		T_Block* block() { for(auto& block : m_gfx_blocks) if(&(block->m_type) == &type<T_Block>()) return &as<T_Block>(*block); return nullptr; }
 
 		template <class T_Block, class... T_Args>
-		T_Block& add_block(T_Args&&... args) { m_gfx_blocks.emplace_back(make_unique<T_Block>(static_cast<T_Args&&>(args)...)); return as<T_Block>(*m_gfx_blocks.back()); }
+		T_Block& add_block(T_Args&&... args) { m_gfx_blocks.push_back(make_unique<T_Block>(static_cast<T_Args&&>(args)...)); return as<T_Block>(*m_gfx_blocks.back()); }
 
 		array<GfxBlock*> pass_blocks(PassType pass);
 

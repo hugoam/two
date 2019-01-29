@@ -52,7 +52,7 @@ namespace mud
 	{
 		if(init)
 			gfx_system.init(*this);
-		m_target = make_object<RenderTarget>(uvec2(width, height));
+		m_target = oconstruct<RenderTarget>(uvec2(width, height));
 	}
 
 	GfxContext::~GfxContext()
@@ -66,7 +66,7 @@ namespace mud
 		else
 		{
 			if(!m_target || width != m_target->m_size.x || height != m_target->m_size.y)
-				m_target = make_object<RenderTarget>(uvec2(width, height));
+				m_target = oconstruct<RenderTarget>(uvec2(width, height));
 		}
 		m_vg_handle = m_reset_vg(*this, *m_gfx_system.m_vg);
 	}
@@ -148,7 +148,7 @@ namespace mud
 
 	object<Context> GfxSystem::create_context(const string& name, int width, int height, bool fullScreen)
 	{
-		object<GfxContext> context = make_object<GfxContext>(*this, name, width, height, fullScreen, !m_initialized);
+		object<GfxContext> context = oconstruct<GfxContext>(*this, name, width, height, fullScreen, !m_initialized);
 		m_impl->m_contexts.push_back(context.get());
 		return move(context);
 	}

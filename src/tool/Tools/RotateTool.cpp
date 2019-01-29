@@ -77,7 +77,7 @@ namespace mud
 		vec3 axis = m_current == &*m_gizmos[0] ? -X3
 				  : m_current == &*m_gizmos[1] ?  Y3
 											   : -Z3;
-		return make_object<RotateAction>(targets, axis);
+		return oconstruct<RotateAction>(targets, axis);
 	}
 
 }

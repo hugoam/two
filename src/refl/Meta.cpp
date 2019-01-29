@@ -31,6 +31,7 @@ namespace mud
 	vector<Iterable*> g_iterable = vector<Iterable*>(c_max_types);
 	vector<Sequence*> g_sequence = vector<Sequence*>(c_max_types);
 
+#if 0
 	template <>
 	void init_string<void>() {}
 
@@ -45,6 +46,7 @@ namespace mud
 
 	template <>
 	void init_assign<cstring>() {}
+#endif
 
 	bool is_string(Type& type)
 	{
@@ -141,8 +143,8 @@ namespace mud
 		g_class[type.m_id] = this;
 	}
 
-	Class::Class(Type& type, vector<Type*> bases, vector<size_t> bases_offsets, vector<Constructor> constructors, vector<CopyConstructor> copy_constructors,
-				 vector<Member> members, vector<Method> methods, vector<Static> static_members)
+	Class::Class(Type& type, array<Type*> bases, array<size_t> bases_offsets, array<Constructor> constructors, array<CopyConstructor> copy_constructors,
+				 array<Member> members, array<Method> methods, array<Static> static_members)
 		: m_type(&type)
 		, m_meta(&meta(type))
 		, m_root(&type)
@@ -162,17 +164,17 @@ namespace mud
 
 	void Class::inherit(vector<Type*> types)
 	{
-		for(Type* type : types)
-			if(g_class[type->m_id])
-			{
-				vector_prepend(m_members, cls(*type).m_members);
-				vector_prepend(m_methods, cls(*type).m_methods);
-			}
+		//for(Type* type : types)
+		//	if(g_class[type->m_id])
+		//	{
+		//		vector_prepend(m_members, cls(*type).m_members);
+		//		vector_prepend(m_methods, cls(*type).m_methods);
+		//	}
 	}
 
 	void Class::setup_class()
 	{
-		this->inherit(m_bases);
+		//this->inherit(m_bases);
 
 		for(size_t i = 0; i < m_members.size(); ++i)
 			m_members[i].m_index = int(i);
@@ -266,18 +268,18 @@ namespace mud
 
 	bool Class::has_member(cstring name)
 	{
-		return vector_has_pred(m_members, [&](const Member& member) { return strcmp(member.m_name, name) == 0; });
+		return has_pred(m_members, [&](const Member& member) { return strcmp(member.m_name, name) == 0; });
 	}
 
 	bool Class::has_method(cstring name)
 	{
-		return vector_has_pred(m_methods, [&](const Method& method) { return strcmp(method.m_name, name) == 0; });
+		return has_pred(m_methods, [&](const Method& method) { return strcmp(method.m_name, name) == 0; });
 	}
 
-	Member& Class::member(Address address)
+	Member& Class::member(size_t offset)
 	{
 		for(Member& look : m_members)
-			if(look.m_address == address)
+			if(look.m_offset == offset)
 				return look;
 		printf("ERROR: retrieving member\n");
 		return m_members[0];
@@ -292,14 +294,14 @@ namespace mud
 		return m_methods[0];
 	}
 
-	bool Class::has_member(Address address)
+	bool Class::has_member(size_t offset)
 	{
-		return vector_has_pred(m_members, [&](const Member& look) { return look.m_address == address; });
+		return has_pred(m_members, [&](const Member& look) { return look.m_offset == offset; });
 	}
 
 	bool Class::has_method(Address address)
 	{
-		return vector_has_pred(m_methods, [&](const Method& look) { return look.m_address == address; });
+		return has_pred(m_methods, [&](const Method& look) { return look.m_address == address; });
 	}
 
 	const Constructor* Class::constructor(ConstructorIndex index) const
@@ -316,8 +318,8 @@ namespace mud
 	{
 		for(const Constructor& constructor : m_constructors)
 		{
-			size_t min_args = constructor.m_arguments.size() - 1 - constructor.m_num_defaults;
-			size_t max_args = constructor.m_arguments.size() - 1;
+			size_t min_args = constructor.m_params.size() - 1 - constructor.m_num_defaults;
+			size_t max_args = constructor.m_params.size() - 1;
 			if(arguments >= min_args && arguments <= max_args)
 				return &constructor;
 		}
@@ -345,14 +347,14 @@ namespace mud
 	{
 		if(is_basic(*dest.m_type))
 			memcpy(dest.m_value, source.m_value, meta(dest).m_size);
-		else if(cls(dest).m_copy_constructors.size() > 0)
-			cls(dest).m_copy_constructors[0].m_call(dest, source);
+		//else if(cls(dest).m_copy_constructors.size() > 0)
+		//	cls(dest).m_copy_constructors[0](dest, source);
 	}
 
 	void assign(Ref first, Ref second)
 	{
 		if(second.m_type->is(*first.m_type))
-			meta(first).m_copy_assign(first, second);
+			meta(first).copy_assign(first, second);
 		else
 			printf("WARNING: can't assign values of unrelated types\n");
 	}

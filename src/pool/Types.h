@@ -26,6 +26,6 @@ namespace mud
     export_ template <> MUD_POOL_EXPORT Type& type<mud::HandlePool>();
     export_ template <> MUD_POOL_EXPORT Type& type<mud::Pool>();
     
-    export_ template struct MUD_POOL_EXPORT Typed<vector<mud::HandlePool*>>;
-    export_ template struct MUD_POOL_EXPORT Typed<vector<mud::Pool*>>;
+    export_ template <> MUD_POOL_EXPORT Type& type<vector<mud::HandlePool*>>();
+    export_ template <> MUD_POOL_EXPORT Type& type<vector<mud::Pool*>>();
 }

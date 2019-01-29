@@ -17,6 +17,9 @@ module mud.bgfx;
 
 #include <bgfx/Api.h>
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_bgfx_meta(Module& m)

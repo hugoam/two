@@ -26,11 +26,6 @@ namespace mud
 		Enum = 6
 	};
 
-	export_ template<typename T, typename U> constexpr uintptr_t member_offset(U T::*member)
-	{
-		return (char*)&((T*)nullptr->*member) - (char*)nullptr;
-	}
-
 	export_ template<typename T_Object, typename T_Base> uintptr_t base_offset()
 	{
 		void* mem = malloc(sizeof(T_Object));
@@ -51,18 +46,25 @@ namespace mud
 		TypeClass m_type_class;
 		bool m_is_array = false;
 
+		const void* m_empty_value;
 		Ref m_empty_ref;
 		Var m_empty_var;
 
-		using CopyConstruct = Var(*)(Ref); CopyConstruct m_copy_construct;
-		using CopyAssign = void(*)(Ref, Ref); CopyAssign m_copy_assign;
+		using CopyConstruct = void(*)(void*, void*); CopyConstruct m_copy_construct;
+		using CopyAssign = void(*)(void*, void*); CopyAssign m_copy_assign;
+
+		inline void copy_construct(Ref first, Ref other) const { m_copy_construct(first.m_value, other.m_value); }
+		inline void copy_assign(Ref first, Ref other) const { m_copy_assign(first.m_value, other.m_value); }
 	};
 
 	export_ class refl_ MUD_REFL_EXPORT Convert
 	{
 	public:
-		using ToString = void(*)(Ref, string&); ToString m_to_string;
-		using ToValue = void(*)(const string&, Ref); ToValue m_to_value;
+		using ToString = void(*)(void*, string&); ToString m_to_string;
+		using ToValue = void(*)(const string&, void*); ToValue m_to_value;
+
+		inline void to_string(Ref object, string& str) const { m_to_string(object.m_value, str); }
+		inline void to_value(const string& str, Ref object) const { m_to_value(str, object.m_value); }
 	};
 
 	export_ extern MUD_REFL_EXPORT vector<Meta*> g_meta;

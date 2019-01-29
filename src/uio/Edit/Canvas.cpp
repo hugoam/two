@@ -12,14 +12,16 @@ module mud.uio;
 #else
 #include <infra/Global.h>
 #include <refl/Module.h>
+#include <math/Stat.h>
 #include <lang/VisualScript.h>
 #include <lang/VisualBlocks.h>
+#include <ui/Ui.h>
 #include <ui/Input.h>
 #include <ui/Structs/Node.h>
 #include <ui/Structs/Container.h>
 #include <uio/Types.h>
-#include <uio/Edit/Canvas.h>
 #include <uio/Unode.h>
+#include <uio/Edit/Canvas.h>
 #include <uio/Edit/Structure.h>
 #include <uio/Edit/Value.h>
 #endif
@@ -79,7 +81,7 @@ namespace mud
 				if(fits_filter(function->m_name, filter))
 					if(ui::multi_button(functions, ui::dropdown_styles().choice, { "(function)", function->m_name }).activated())
 					{
-						add_process(make_object<ProcessFunction>(script, *function));
+						add_process(oconstruct<ProcessFunction>(script, *function));
 						parent.m_open = false;
 					}
 		}
@@ -95,7 +97,7 @@ namespace mud
 					if(fits_filter(type->m_name, filter))
 						if(ui::multi_button(values, ui::dropdown_styles().choice, { "(value)", type->m_name }).activated())
 						{
-							add_process(make_object<ProcessValue>(script, *type));
+							add_process(oconstruct<ProcessValue>(script, *type));
 							parent.m_open = false;
 						}
 		}
@@ -111,7 +113,7 @@ namespace mud
 					if(fits_filter(type->m_name, filter))
 						if(ui::multi_button(types, ui::dropdown_styles().choice, { "(class)", type->m_name }).activated())
 						{
-							add_process(make_object<ProcessCreate>(script, *type));
+							add_process(oconstruct<ProcessCreate>(script, *type));
 							parent.m_open = false;
 						}
 		}

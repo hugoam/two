@@ -18,28 +18,28 @@ namespace mud
 {
 	template <> Type& type<VirtualMethod>() { static Type ty("VirtualMethod"); return ty; }
 
-	Param::Param(cstring name, Var value, Flags flags)
-		: m_index(0)
-		, m_name(name)
-		, m_value(value)
+	Param::Param(cstring name, Type& type, Flags flags, void* default_val)
+		: m_name(name)
+		, m_type(&type)
 		, m_flags(flags)
+		, m_default(default_val)
 	{
-		if(value == Ref())
-			m_flags = static_cast<Flags>(m_flags | Nullable);
+		//if(value == Ref())
+		//	m_flags = static_cast<Flags>(m_flags | Nullable);
 	}
 
-	Signature::Signature(const vector<Param>& paramvec, const Var& returnval)
-		: m_params(paramvec)
-		, m_returnval(returnval)
+	Signature::Signature(const vector<Param>& params, QualType return_type)
+		: m_params(params)
+		, m_return_type(return_type)
 	{}
 
 	static uint32_t s_callable_index = 0;
 
-	Callable::Callable(cstring name, const vector<Param>& paramvec, Var returnval)
+	Callable::Callable(cstring name, const vector<Param>& params, QualType return_type)
 		: m_index(++s_callable_index)
 		, m_name(name)
-		, m_returnval(returnval)
-		, m_params(paramvec)
+		, m_return_type(return_type)
+		, m_params(params)
 		, m_num_defaults(0)
 	{
 		this->setup();
@@ -47,34 +47,36 @@ namespace mud
 
 	void Callable::setup()
 	{
-		for(size_t i = 0; i < m_params.size(); ++i)
-		{
-			m_params[i].m_index = i;
-			m_arguments.emplace_back(m_params[i].m_value);
-
-			if(m_num_defaults == 0 && m_params[i].defaulted())
-				m_num_defaults = m_params.size() - i;
-		}
-		
-		m_num_required = m_params.size() - m_num_defaults;
+		//for(size_t i = 0; i < m_params.size(); ++i)
+		//{
+		//	m_params[i].m_index = i;
+		//	m_arguments.push_back({ m_params[i].m_value });
+		//
+		//	if(m_num_defaults == 0 && m_params[i].defaulted())
+		//		m_num_defaults = m_params.size() - i;
+		//}
+		//
+		//m_num_required = m_params.size() - m_num_defaults;
 	}
 
-	bool Callable::validate(array<Var> args, size_t offset) const
+	bool Callable::validate(array<void*> args, size_t offset) const
 	{
-		if(args.m_count < m_arguments.size() - m_num_defaults)
-			return false;
-
-		bool valid = true;
-		for(size_t i = offset; i < m_params.size(); ++i)
-		{
-			valid &= type(m_params[i].m_value).is(type(args[i]));
-			valid &= m_params[i].nullable() || !args[i].null();
-		}
-		return valid;
+		UNUSED(args); UNUSED(offset);
+		//if(args.m_count < m_arguments.size() - m_num_defaults)
+		//	return false;
+		//
+		//bool valid = true;
+		//for(size_t i = offset; i < m_params.size(); ++i)
+		//{
+		//	valid &= type(m_params[i].m_value).is(type(args[i]));
+		//	valid &= m_params[i].nullable() || !args[i].null();
+		//}
+		//return valid;
+		return true;
 	}
 
-	Function::Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc trigger, const vector<Param>& paramvec, Var returnval)
-		: Callable(name, paramvec, returnval)
+	Function::Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc trigger, const vector<Param>& params, QualType return_type)
+		: Callable(name, params, return_type)
 		, m_namespace(location)
 		, m_identity(identity)
 		, m_call(trigger)
@@ -90,75 +92,51 @@ namespace mud
 	{
 		if(function.m_name == string("add"))
 		{
-			return { &function, &type(function.m_params[0].m_value), function.m_name, "+" };
+			return { &function, function.m_params[0].m_type, function.m_name, "+" };
 		}
 		else if(function.m_name == string("subtract"))
 		{
-			return { &function, &type(function.m_params[0].m_value), function.m_name, "-" };
+			return { &function, function.m_params[0].m_type, function.m_name, "-" };
 		}
 		else if(function.m_name == string("multiply"))
 		{
-			return { &function, &type(function.m_params[0].m_value), function.m_name, "*" };
+			return { &function, function.m_params[0].m_type, function.m_name, "*" };
 		}
 		else if(function.m_name == string("divide"))
 		{
-			return { &function, &type(function.m_params[0].m_value), function.m_name,  "/" };
+			return { &function, function.m_params[0].m_type, function.m_name,  "/" };
 		}
 		else return {};
 	}
 
-	Method::Method(Type& object_type, cstring name, Address address, MethodFunc trigger, const vector<Param>& paramvec, Var returnval)
-		: Callable(name, vector_union({ 1, { "self", Ref(object_type) } }, paramvec), returnval)
+	Method::Method(Type& object_type, cstring name, Address address, MethodFunc trigger, const vector<Param>& params, QualType return_type)
+		: Callable(name, vector_union({ 1, { "self", object_type } }, params), return_type)
 		, m_object_type(&object_type)
 		, m_address(address)
 		, m_call(trigger)
 	{}
 
-	Constructor::Constructor(Type& object_type, ConstructorFunc constructor, const vector<Param>& paramvec)
-		: Callable(object_type.m_name, vector_union({ 1, { "self", Ref(object_type) } }, paramvec))
+	Constructor::Constructor(Type& object_type, ConstructorFunc constructor, const vector<Param>& params)
+		: Callable(object_type.m_name, vector_union({ 1, { "self", object_type } }, params))
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
 
-	Constructor::Constructor(Type& object_type, cstring name, ConstructorFunc constructor, const vector<Param>& paramvec)
-		: Callable(name, vector_union({ 1, { "self", Ref(object_type) } }, paramvec))
+	Constructor::Constructor(Type& object_type, cstring name, ConstructorFunc constructor, const vector<Param>& params)
+		: Callable(name, vector_union({ 1, { "self", object_type } }, params))
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
 
 	CopyConstructor::CopyConstructor(Type& object_type, CopyConstructorFunc constructor)
-		: Callable(object_type.m_name, { 1, { "self", Ref(object_type) } })
+		: Callable(object_type.m_name, { 1, { "self", object_type } })
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
 
 	Destructor::Destructor(Type& object_type, DestructorFunc destructor)
-		: Callable(object_type.m_name, { 1, { "self", Ref(object_type) } })
+		: Callable(object_type.m_name, { 1, { "self", object_type } })
 		, m_object_type(&object_type)
 		, m_call(destructor)
 	{}
-
-	Call::Call()
-	{}
-
-	Call::Call(const Callable& callable, vector<Var> arguments)
-		: m_callable(&callable)
-		, m_arguments(arguments)
-		, m_result(callable.m_returnval)
-	{}
-
-	Call::Call(const Callable& callable)
-		: Call(callable, callable.m_arguments)
-	{}
-
-	Call::Call(const Callable& callable, Ref object)
-		: Call(callable)
-	{
-		m_arguments[0] =  object;
-	}
-
-	bool Call::validate() { return m_callable && m_callable->validate(to_array(m_arguments)); }
-
-	const Var& Call::operator()() { (*m_callable)(to_array(m_arguments), m_result); return m_result; }
-	const Var& Call::operator()(Ref object) { m_arguments[0] = object; (*m_callable)(to_array(m_arguments), m_result); return m_result; }
 }

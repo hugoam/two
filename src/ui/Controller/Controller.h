@@ -32,6 +32,8 @@ namespace mud
 	inline bool operator<(const KeyCombo& lhs, const KeyCombo& rhs) { return lhs.value() < rhs.value(); }
 	inline bool operator==(const KeyCombo& lhs, const KeyCombo& rhs) { return lhs.value() == rhs.value(); }
 
+	using KeyHandler = void(*)();
+
 	export_ class MUD_UI_EXPORT EventDispatch
 	{
 	public:
@@ -39,7 +41,6 @@ namespace mud
 
 		virtual void process(Widget& widget);
 		
-		using KeyHandler = void(*)();
 		//EventMap<KeyHandler> m_handlers;
 
 		map<KeyCombo, KeyHandler> m_key_down_handlers;

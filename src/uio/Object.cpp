@@ -16,6 +16,7 @@ module mud.uio;
 #include <uio/Types.h>
 #include <uio/Unode.h>
 #include <ui/Section.h>
+#include <ui/Ui.h>
 #include <uio/Edit/Method.h>
 #endif
 

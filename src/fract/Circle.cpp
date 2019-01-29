@@ -43,7 +43,7 @@ namespace mud
 				size_t x = m_pixircles.x(circle.index);
 				size_t y = m_pixircles.y(circle.index);
 
-				circles.emplace_back(circle.radius * scale);
+				circles.push_back({ circle.radius * scale });
 				circles.back().m_center = { float(x) * scale, 0.f, float(y) * scale };
 			}
 

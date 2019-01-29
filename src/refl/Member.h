@@ -12,11 +12,12 @@
 
 namespace mud
 {
-	using MemberGet = Ref(*)(Ref);
+	using MemberGet = void*(*)(void*);
 
 	export_ class refl_ MUD_REFL_EXPORT Static
 	{
 	public:
+		Static();
 		Static(Type& parent_type, cstring name, Ref value);
 
 		Type* m_parent_type;
@@ -40,12 +41,12 @@ namespace mud
 		};
 
 	public:
-		Member(Type& object_type, Address address, Type& type, cstring name, Ref default_value, Flags flags = Flags::None, MemberGet get = nullptr);
+		Member();
+		Member(Type& object_type, size_t offset, Type& type, cstring name, const void* default_value, Flags flags = Flags::None, MemberGet get = nullptr);
 		~Member();
 
 		int m_index;
 		Type* m_object_type;
-		Address m_address;
 		size_t m_offset;
 		Type* m_type;
 		cstring m_name;
@@ -67,7 +68,7 @@ namespace mud
 
 		inline Ref get(Ref object) const
 		{
-			if(m_get) return m_get(object);
+			if(m_get) return Ref(m_get(object.m_value), *m_type);
 			Ref ref = this->ref(object);
 			if(this->is_pointer())
 				return Ref(*(void**)ref.m_value, *m_type);

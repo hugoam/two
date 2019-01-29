@@ -54,7 +54,7 @@ namespace mud
 		uint16_t m_row_size = 0;
 		bgfx::TextureFormat::Enum m_format;
 	
-		vector<Range<float>> m_dirty_ranges;
+		//vector<Range<float>> m_dirty_ranges;
 
 		void invalidate() noexcept;
 		void invalidate(size_t row, size_t count) noexcept;

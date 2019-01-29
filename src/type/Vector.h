@@ -13,6 +13,7 @@
 
 namespace mud // export_ namespace mud// @todo evaluate export at namespace level ?
 {
+#if 1
 	export_ template <class T>
 	struct Typed<array<T>>
 	{
@@ -36,6 +37,7 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 	{
 		static inline Type& type() { static Type ty("vector<cstring>"); return ty; }
 	};
+#endif
 
 	export_ template <class... T_Args>
 	inline vector<Type*> type_vector()

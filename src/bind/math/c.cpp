@@ -58,19 +58,6 @@ extern "C" {
 	void DECL mud_Colour__destroy(mud::Colour* self) {
 		delete self;
 	}
-	// Gauge
-	mud::Type* DECL mud_Gauge__type() {
-		return &mud::type<mud::Gauge>();
-	}
-	mud::Gauge* DECL mud_Gauge_Gauge_0() {
-		return new mud::Gauge();
-	}
-	mud::Gauge* DECL mud_Gauge_Gauge_1(float value) {
-		return new mud::Gauge(value);
-	}
-	void DECL mud_Gauge__destroy(mud::Gauge* self) {
-		delete self;
-	}
 	// Image
 	mud::Type* DECL mud_Image__type() {
 		return &mud::type<mud::Image>();
@@ -146,19 +133,6 @@ extern "C" {
 		return new mud::Palette(spectrum, steps);
 	}
 	void DECL mud_Palette__destroy(mud::Palette* self) {
-		delete self;
-	}
-	// Ratio
-	mud::Type* DECL mud_Ratio__type() {
-		return &mud::type<mud::Ratio>();
-	}
-	mud::Ratio* DECL mud_Ratio_Ratio_0() {
-		return new mud::Ratio();
-	}
-	mud::Ratio* DECL mud_Ratio_Ratio_1(float value) {
-		return new mud::Ratio(value);
-	}
-	void DECL mud_Ratio__destroy(mud::Ratio* self) {
 		delete self;
 	}
 	// Time

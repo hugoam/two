@@ -34,8 +34,10 @@ namespace mud
 		string m_comment_start;
 		string m_comment_end;
 
-		vector<std::pair<string, PaletteIndex>> m_regex_string_tokens;
-		vector<std::pair<std::regex, PaletteIndex>> m_regex_tokens;
+		struct StringToken { string token; PaletteIndex color; };
+		struct RegexToken { std::regex token; PaletteIndex color; };
+		vector<StringToken> m_regex_string_tokens;
+		vector<RegexToken> m_regex_tokens;
 
 		bool m_case_sensitive;
 	};

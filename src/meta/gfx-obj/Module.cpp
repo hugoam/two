@@ -19,6 +19,9 @@ module mud.gfx-obj;
 
 #include <gfx-obj/Api.h>
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_gfx_obj_meta(Module& m)

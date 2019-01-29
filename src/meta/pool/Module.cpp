@@ -15,6 +15,9 @@ module mud.pool;
 
 #include <pool/Api.h>
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_pool_meta(Module& m)
@@ -31,55 +34,27 @@ namespace mud
 	{
 		Type& t = type<mud::HandlePool>();
 		static Meta meta = { t, &namspc({ "mud" }), "HandlePool", sizeof(mud::HandlePool), TypeClass::Object };
+		// bases
 		// defaults
-		static Class cls = { t,
-			// bases
-			{  },
-			{  },
-			// constructors
-			{
-			},
-			// copy constructor
-			{
-			},
-			// members
-			{
-			},
-			// methods
-			{
-			},
-			// static members
-			{
-			}
-		};
-		meta_class<mud::HandlePool>();
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// mud::Pool
 	{
 		Type& t = type<mud::Pool>();
 		static Meta meta = { t, &namspc({ "mud" }), "Pool", sizeof(mud::Pool), TypeClass::Object };
+		// bases
 		// defaults
-		static Class cls = { t,
-			// bases
-			{  },
-			{  },
-			// constructors
-			{
-			},
-			// copy constructor
-			{
-			},
-			// members
-			{
-			},
-			// methods
-			{
-			},
-			// static members
-			{
-			}
-		};
-		meta_class<mud::Pool>();
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
 		m.m_types.push_back(&type<mud::HandlePool>());
 		m.m_types.push_back(&type<mud::Pool>());

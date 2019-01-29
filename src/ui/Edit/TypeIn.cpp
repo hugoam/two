@@ -994,11 +994,11 @@ namespace mud
 		{
 			for(auto& token_color : m_language->m_regex_tokens)
 			{
-				if(std::regex_search<const char*>(current, last, results, token_color.first, std::regex_constants::match_continuous))
+				if(std::regex_search<const char*>(current, last, results, token_color.token, std::regex_constants::match_continuous))
 				{
 					auto match = *results.begin();
 					string name = m_string.substr(match.first - first, match.second - match.first);
-					PaletteIndex color = token_color.second;
+					PaletteIndex color = token_color.color;
 
 					//if(color == uint16_t(CodePalette::Word))
 					{

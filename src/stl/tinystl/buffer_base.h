@@ -1,36 +1,14 @@
-/*-
- * Copyright 2012-2018 Matthew Endsley
- * All rights reserved
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted providing that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
- * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
-
 #pragma once
 
 #include <stl/tinystl/buffer.h>
 #include <stl/tinystl/new.h>
 #include <stl/tinystl/traits.h>
 
+#include <type_traits>
+
 namespace tinystl {
+
+	using std::enable_if_t; using std::is_copy_constructible_v;
 
 	template<typename T>
 	static inline void buffer_destroy_range_traits(T* first, T* last, pod_traits<T, false>) {
@@ -214,12 +192,17 @@ namespace tinystl {
 	}
 
 	template<typename T, typename Alloc>
-	static inline void buffer_resize(buffer<T, Alloc>& b, size_t size, const T& value) {
+	static inline enable_if_t<is_copy_constructible_v<T>, void> buffer_resize(buffer<T, Alloc>& b, size_t size, const T& value) {
 		buffer_reserve(b, size);
 
 		buffer_fill_urange(b.last, b.first + size, value);
 		buffer_destroy_range(b.first + size, b.last);
 		b.last = b.first + size;
+	}
+
+	template<typename T, typename Alloc>
+	static inline enable_if_t<!is_copy_constructible_v<T>, void> buffer_resize(buffer<T, Alloc>& b, size_t size, const T& value) {
+		(void)b; (void)size; (void)value;
 	}
 
 	template<typename T, typename Alloc>
@@ -289,12 +272,17 @@ namespace tinystl {
 	}
 
 	template<typename T, typename Alloc>
-	static inline T* buffer_insert(buffer<T, Alloc>& b, T* where, const T* first, const T* last) {
+	static inline enable_if_t<is_copy_constructible_v<T>, T*> buffer_insert(buffer<T, Alloc>& b, T* where, const T* first, const T* last) {
 		const size_t count = last - first;
 		where = buffer_insert_spread(b, where, count);
 		for (; first != last; ++first, ++where)
 			new(placeholder(), where) T(*first);
 		return where;
+	}
+
+	template<typename T, typename Alloc>
+	static inline enable_if_t<!is_copy_constructible_v<T>, T*> buffer_insert(buffer<T, Alloc>& b, T* where, const T* first, const T* last) {
+		(void)b; (void)where; (void)first; (void)last;
 	}
 
 	template<typename T, typename Alloc>
@@ -322,10 +310,15 @@ namespace tinystl {
 	}
 
 	template<typename T, typename Alloc>
-	static inline T* buffer_insert(buffer<T, Alloc>& b, T* where, const T& value) {
+	static inline enable_if_t<is_copy_constructible_v<T>, T*> buffer_insert(buffer<T, Alloc>& b, T* where, const T& value) {
 		where = buffer_insert_spread(b, where, 1);
 		new(placeholder(), where) T(value);
 		return where;
+	}
+
+	template<typename T, typename Alloc>
+	static inline enable_if_t<!is_copy_constructible_v<T>, T*> buffer_insert(buffer<T, Alloc>& b, T* where, const T& value) {
+		(void)b; (void)where; (void)value;
 	}
 
 	template<typename T, typename Alloc>
@@ -336,25 +329,25 @@ namespace tinystl {
 	}
 
 	template<typename T, typename Alloc>
+	static inline T* buffer_insert(buffer<T, Alloc>& b, T* where) {
+		where = buffer_insert_spread(b, where, 1);
+		new(placeholder(), where) T();
+		return where;
+	}
+
+	/*template<typename T, typename Alloc>
 	static inline T* buffer_insert(buffer<T, Alloc>& b, T* where, size_t count) {
 		where = buffer_insert_spread(b, where, count);
 		for (T* end = where+count; where != end; ++where)
 			new(placeholder(), where) T();
 		return where;
-	}
+	}*/
 
 	template<typename T, typename Alloc, typename... Params>
 	static inline void buffer_emplace(buffer<T, Alloc>& b, T* where, size_t count, Params&&... params) {
 		where = buffer_insert_spread(b, where, count);
 		for(T* end = where + count; where != end; ++where)
 			new(placeholder(), where) T(static_cast<Params&&>(params)...);
-	}
-
-	template<typename T, typename Alloc, typename Param>
-	static inline void buffer_append(buffer<T, Alloc>& b, const Param* param) {
-		buffer_grow_count(b, 1);
-		new(placeholder(), b.last) T(*param);
-		++b.last;
 	}
 
 	template<typename T, typename Alloc>
@@ -369,6 +362,18 @@ namespace tinystl {
 		buffer_grow_count(b, 1);
 		new(placeholder(), b.last) T(static_cast<Params&&>(params)...);
 		++b.last;
+	}
+
+	template<typename T, typename Alloc>
+	static inline enable_if_t<is_copy_constructible_v<T>> buffer_append(buffer<T, Alloc>& b, const T* value) {
+		buffer_grow_count(b, 1);
+		new(placeholder(), b.last) T(*value);
+		++b.last;
+	}
+
+	template<typename T, typename Alloc>
+	static inline enable_if_t<!is_copy_constructible_v<T>> buffer_append(buffer<T, Alloc>& b, const T* value) {
+		(void)b; (void)value;
 	}
 
 	template<typename T, typename Alloc>

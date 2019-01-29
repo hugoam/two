@@ -8,7 +8,9 @@
 module mud.ui;
 #else
 #include <math/VecOps.h>
+#include <type/Types.h>
 #include <ui/Input.h>
+#include <ui/Input.impl.h>
 #include <ui/Sheet.h>
 #include <ui/Container.h>
 #include <ui/Structs/Container.h>
@@ -24,6 +26,17 @@ namespace mud
 {
 namespace ui
 {
+	template bool slider_input(Widget& parent, AutoStat<int> value);
+	template bool slider_input(Widget& parent, AutoStat<float> value);
+
+	template bool number_input(Widget& parent, AutoStat<int> value);
+	template bool number_input(Widget& parent, AutoStat<float> value);
+
+	template bool input(Widget& parent, bool& value);
+	template bool input(Widget& parent, int& value);
+	template bool input(Widget& parent, float& value);
+	template bool input(Widget& parent, string& value);
+
 	bool drag_float(Widget& parent, float& value, float step)
 	{
 		string text = truncate_number(to_string(value));

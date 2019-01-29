@@ -108,8 +108,7 @@ namespace mud
 		//ui::item(row, meta_styles().syntax, "Function");
 		if(returns)
 		{
-			auto return_type = [](const Var& val) { if(val.none()) return "void"; else if(val == Ref()) return "Ref"; else return type(val).m_name; };
-			ui::item(row, meta_styles().type, return_type(callable.m_returnval));
+			ui::item(row, meta_styles().type, callable.m_return_type.m_type->m_name);
 		}
 		ui::item(row, meta_styles().function, callable.m_name);
 		ui::item(row, meta_styles().syntax, "(");
@@ -117,7 +116,7 @@ namespace mud
 		{
 			if(skip_first && param.m_index == 0)
 				continue;
-			ui::item(row, meta_styles().type, param.m_value == Ref() ? "Ref" : type(param.m_value).m_name);
+			ui::item(row, meta_styles().type, param.default_val() == Ref() ? "Ref" : param.m_type->m_name);
 			ui::item(row, meta_styles().argument, param.m_name);
 			if(&param != &callable.m_params.back())
 				ui::item(row, meta_styles().syntax, ",");

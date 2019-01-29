@@ -26,8 +26,8 @@ namespace mud
 		, m_world_snap(false)
 		, m_work_plane(Y3, 0.f)
 	{
-		this->add_option(make_object<PlaneSnapOption>(*this));
-		this->add_option(make_object<WorldSnapOption>(*this));
+		this->add_option(oconstruct<PlaneSnapOption>(*this));
+		this->add_option(oconstruct<WorldSnapOption>(*this));
 	}
 
 	void Brush::process(Viewer& viewer, const vector<Ref>& selection)
@@ -176,7 +176,7 @@ namespace mud
 			this->clearStroke(position);
 
 		float side = m_radius * 2.f;
-		m_distribution = make_object<Poisson>(vec2{ side }, m_maxSpotRadius);
+		m_distribution = oconstruct<Poisson>(vec2{ side }, m_maxSpotRadius);
 
 		vec3 point;
 		while(m_distribution->addPoint(m_maxSpotRadius, point))

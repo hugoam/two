@@ -17,7 +17,7 @@ namespace mud
 	export_ class MUD_GEOM_EXPORT IcoSphere
 	{
 	public:
-		IcoSphere(int recursionLevel);
+		IcoSphere(int subdiv = 1);
 
 		using Line = ivec2;
 		using Face = ivec3;

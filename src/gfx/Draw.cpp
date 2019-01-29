@@ -238,7 +238,7 @@ namespace mud
 
 	object<Model> draw_model(cstring id, const vector<ProcShape>& shapes, bool readback)
 	{
-		object<Model> model = make_object<Model>(id);
+		object<Model> model = oconstruct<Model>(id);
 		draw_model(shapes, *model, readback);
 		return model;
 	}

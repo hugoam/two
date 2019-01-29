@@ -45,7 +45,7 @@ namespace mud
 		LightmapAtlas(uint32_t size, float density);
 		~LightmapAtlas();
 
-		Lightmap& add_lightmap() { m_layers.emplace_back(make_unique<Lightmap>(m_size)); return *m_layers.back(); }
+		Lightmap& add_lightmap() { m_layers.push_back(make_unique<Lightmap>(m_size)); return *m_layers.back(); }
 
 		uint32_t m_size;
 		float m_density = 1.f;

@@ -79,13 +79,13 @@ namespace mud
 		FrameSolver* solver = d_parent ? d_parent->m_solver.get() : nullptr;
 
 		if(type == FRAME_SOLVER)
-			m_solver = make_object<FrameSolver>(solver, d_layout, this);
+			m_solver = oconstruct<FrameSolver>(solver, d_layout, this);
 		else if(type == ROW_SOLVER)
-			m_solver = make_object<RowSolver>(solver, d_layout, this);
+			m_solver = oconstruct<RowSolver>(solver, d_layout, this);
 		else if(type == GRID_SOLVER)
-			m_solver = make_object<GridSolver>(solver, d_layout, this);
+			m_solver = oconstruct<GridSolver>(solver, d_layout, this);
 		else if(type == TABLE_SOLVER)
-			m_solver = make_object<TableSolver>(solver, d_layout, this);
+			m_solver = oconstruct<TableSolver>(solver, d_layout, this);
 
 		m_solver->applySpace(length);
 		return *m_solver;

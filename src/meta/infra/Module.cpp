@@ -13,6 +13,9 @@ module mud.infra;
 
 #include <infra/Api.h>
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_infra_meta(Module& m)

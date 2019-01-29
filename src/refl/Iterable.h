@@ -12,13 +12,18 @@ namespace mud
 	export_ class MUD_REFL_EXPORT Iterable
 	{
 	public:
-		using Size = size_t(*)(Ref); Size size;
-		using At = Ref(*)(Ref, size_t); At at;
+		Type* m_element_type;
+
+		using Size = size_t(*)(void*); Size m_size;
+		using At = void*(*)(void*, size_t); At m_at;
+
+		inline size_t size(Ref vec) const { return m_size(vec.m_value); }
+		inline Ref at(Ref vec, size_t i) const { return Ref(m_at(vec.m_value, i), *m_element_type); }
 
 		template <class T_Visitor>
 		void iterate(Ref vec, T_Visitor visitor) const
 		{
-			size_t count = this->size(vec);
+			const size_t count = this->size(vec);
 			for(size_t i = 0; i < count; ++i)
 				visitor(this->at(vec, i));
 		}
@@ -26,7 +31,7 @@ namespace mud
 		template <class T_Visitor>
 		void iteratei(Ref vec, T_Visitor visitor) const
 		{
-			size_t count = this->size(vec);
+			const size_t count = this->size(vec);
 			for(size_t i = 0; i < count; ++i)
 				visitor(i, this->at(vec, i));
 		}
@@ -35,7 +40,10 @@ namespace mud
 	export_ class MUD_REFL_EXPORT Sequence
 	{
 	public:
-		using Add = void(*)(Ref, Ref); Add add;
-		using Remove = void(*)(Ref, Ref); Remove remove;
+		using Add = void(*)(void*, void*); Add m_add;
+		using Remove = void(*)(void*, void*); Remove m_remove;
+
+		inline void add(Ref vec, Ref element) const { m_add(vec.m_value, element.m_value); }
+		inline void remove(Ref vec, Ref element) const { m_remove(vec.m_value, element.m_value); }
 	};
 }

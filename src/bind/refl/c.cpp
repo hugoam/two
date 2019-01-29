@@ -163,6 +163,16 @@ extern "C" {
 	void DECL mud_Param__destroy(mud::Param* self) {
 		delete self;
 	}
+	// QualType
+	mud::Type* DECL mud_QualType__type() {
+		return &mud::type<mud::QualType>();
+	}
+	mud::QualType* DECL mud_QualType_QualType_0() {
+		return new mud::QualType();
+	}
+	void DECL mud_QualType__destroy(mud::QualType* self) {
+		delete self;
+	}
 	// Signature
 	mud::Type* DECL mud_Signature__type() {
 		return &mud::type<mud::Signature>();

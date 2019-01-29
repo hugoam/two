@@ -65,6 +65,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Skin
 	{
 	public:
+		Skin();
 		Skin(Skeleton& skeleton, int num_joints);
 		Skin(const Skin& copy, Skeleton& skeleton);
 		~Skin();

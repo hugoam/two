@@ -152,7 +152,7 @@ namespace mud
 		m_triangles.resize(tri_count);
 	}
 
-	object<Shape> Geometry::clone() const { return make_object<Geometry>(*this); }
+	object<Shape> Geometry::clone() const { return oconstruct<Geometry>(*this); }
 
 	MeshPacker::MeshPacker()
 	{}

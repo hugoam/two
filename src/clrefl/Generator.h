@@ -6,10 +6,12 @@
 #include <stl/vector.h>
 #include <stl/set.h>
 #include <stl/map.h>
+#include <stl/memory.h>
 #include <stl/function.h>
 #include <infra/String.h>
 #include <infra/File.h>
-#include <refl/Api.h>
+#include <infra/Vector.h>
+//#include <refl/Api.h>
 
 #include <json11.hpp>
 
@@ -340,6 +342,7 @@ namespace mud
 		bool reference() const { return m_spelling.back() == '&'; }
 		bool isconst() const { return m_spelling.substr(0, 5) == "const"; }
 		bool value() const { return !this->pointer() && !this->reference(); }
+		bool memvalue() const { return m_type->m_struct && !this->pointer(); }
 		bool nullable() const { return this->pointer() || m_type_name == "mud::Ref"; }
 		bool copyable() const { return this->isbasetype() || this->isenum() || m_type->m_struct; }
 
@@ -445,6 +448,8 @@ namespace mud
 		CLFunction(CLPrimitive& parent, const string& name)
 			: CLCallable(CLPrimitiveKind::Function, parent, name)
 		{}
+
+		uint32_t m_index;
 	};
 
 	class CLMethod : public CLCallable
@@ -463,6 +468,8 @@ namespace mud
 		CLConstructor(CLType& parent, const string& name)
 			: CLCallable(CLPrimitiveKind::Constructor, parent, name)
 		{}
+
+		uint32_t m_index;
 	};
 	
 	class CLStatic

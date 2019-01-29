@@ -180,7 +180,7 @@ namespace mud
 		inline OwnedHandle<T> create(Types&&... args)
 		{
 			uint32_t handle = m_available.empty() ? m_handles.alloc() : pop(m_available);
-			m_objects.emplace_back(static_cast<Types&&>(args)...);
+			m_objects.push_back(T(static_cast<Types&&>(args)...));
 			m_handles.add(handle);
 			return { *this, handle };
 		}

@@ -49,13 +49,13 @@ namespace mud
 
 	void Injector::inject(Var& value)
 	{
-		m_constructor.m_call(value, to_array(m_arguments, 1));
+		//m_constructor(value, to_array(m_arguments, 1));
 	}
 
 	Ref Injector::inject(Pool& pool)
 	{
 		Ref ref = pool.alloc();
-		m_constructor.m_call(ref, to_array(m_arguments, 1));
+		//m_constructor.m_call(ref, to_array(m_arguments, 1));
 		return ref;
 	}
 
@@ -95,12 +95,12 @@ namespace mud
 		, m_construct(false)
 		, m_prototype(nullptr)
 #endif
-		, m_injector(make_object<Injector>(m_prototype ? *m_prototype : type))
+		, m_injector(oconstruct<Injector>(m_prototype ? *m_prototype : type))
 	{}
 
 	void Creator::set_prototype(Type& prototype)
 	{
 		m_prototype = &prototype;
-		m_injector = make_object<Injector>(*m_prototype);
+		m_injector = oconstruct<Injector>(*m_prototype);
 	}
 }

@@ -18,6 +18,78 @@ module mud.math;
 
 namespace mud
 {
+	template <class T>
+	inline v2<T>::v2() { }
+	template <class T>
+	inline v2<T>::v2(T v) : x(v), y(v) {}
+	template <class T>
+	inline v2<T>::v2(T x, T y) : x(x), y(y) {}
+	template <class T>
+	template <class V>
+	inline v2<T>::v2(V v) : x(T(v.x)), y(T(v.y)) {}
+	template <class T>
+	inline T v2<T>::operator[](uint index) const { return *((T*)&x + index); }
+	template <class T>
+	inline T& v2<T>::operator[](uint index) { return *((T*)&x + index); }
+	template <class T>
+	inline bool v2<T>::operator==(const v2& other) const { return x == other.x && y == other.y; }
+	template <class T>
+	inline bool v2<T>::operator!=(const v2& other) const { return x != other.x || y != other.y; }
+	template <class T>
+	inline v2<T>::operator T() { return T(x); }
+
+	template <class T>
+	inline v3<T>::v3() { }
+	template <class T>
+	inline v3<T>::v3(T v) : x(v), y(v), z(v) {}
+	template <class T>
+	inline v3<T>::v3(T x, T y, T z) : x(x), y(y), z(z) {}
+	template <class T>
+	inline v3<T>::v3(v2<T> a, T z) : x(a.x), y(a.y), z(z) {}
+	template <class T>
+	template <class V>
+	inline v3<T>::v3(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)) {}
+	template <class T>
+	inline T v3<T>::operator[](uint index) const { return *((T*)&x + index); }
+	template <class T>
+	inline T& v3<T>::operator[](uint index) { return *((T*)&x + index); }
+	template <class T>
+	inline bool v3<T>::operator==(const v3& other) const { return x == other.x && y == other.y && z == other.z; }
+	template <class T>
+	inline bool v3<T>::operator!=(const v3& other) const { return x != other.x || y != other.y || z != other.z; }
+	template <class T>
+	inline v3<T>::operator T() { return T(x); }
+	template <class T>
+	inline v3<T>::operator v2<T>() { return v2<T>(x, y); }
+
+	template <class T>
+	inline v4<T>::v4() {}
+	template <class T>
+	inline v4<T>::v4(T v) : x(v), y(v), z(v), w(v) {}
+	template <class T>
+	inline v4<T>::v4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
+	template <class T>
+	inline v4<T>::v4(v3<T> a, T w) : x(a.x), y(a.y), z(a.z), w(w) {}
+	template <class T>
+	inline v4<T>::v4(T x, v3<T> b) : x(x), y(b.x), z(b.y), w(b.z) {}
+	template <class T>
+	inline v4<T>::v4(v2<T> a, v2<T> b) : x(a.x), y(a.y), z(b.x), w(b.y) {}
+	template <class T>
+	template <class V>
+	inline v4<T>::v4(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)), w(T(v.w)) {}
+	template <class T>
+	inline T v4<T>::operator[](uint index) const { return *((T*)&x + index); }
+	template <class T>
+	inline T& v4<T>::operator[](uint index) { return *((T*)&x + index); }
+	template <class T>
+	inline bool v4<T>::operator==(const v4& other) const { return x == other.x && y == other.y && z == other.z && w == other.w; }
+	template <class T>
+	inline bool v4<T>::operator!=(const v4& other) const { return x != other.x || y != other.y || z != other.z || w != other.w; }
+	template <class T>
+	inline v4<T>::operator v2<T>() { return v2<T>(x, y); }
+	template <class T>
+	inline v4<T>::operator v3<T>() { return v3<T>(x, y, z); }
+
 	template struct MUD_MATH_EXPORT v2<float>;
 	template struct MUD_MATH_EXPORT v3<float>;
 	template struct MUD_MATH_EXPORT v4<float>;

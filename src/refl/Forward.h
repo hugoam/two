@@ -15,7 +15,7 @@ namespace mud
     enum class ConstructorIndex : unsigned int;
     enum class TypeClass : unsigned int;
     
-    
+	struct QualType;
     class Param;
     class Signature;
     class Callable;

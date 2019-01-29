@@ -33,8 +33,8 @@ namespace mud
 {
 	Scene::Scene(GfxSystem& gfx_system)
 		: m_gfx_system(gfx_system)
-		, m_immediate(make_object<ImmediateDraw>(gfx_system.fetch_material("immediate", "unshaded")))
-		, m_pass_jobs(make_object<PassJobs>())
+		, m_immediate(oconstruct<ImmediateDraw>(gfx_system.fetch_material("immediate", "unshaded")))
+		, m_pass_jobs(oconstruct<PassJobs>())
 		, m_graph(*this)
 		, m_root_node(this)
 	{
@@ -42,10 +42,10 @@ namespace mud
 		m_environment.m_radiance.m_energy = 0.3f;
 		m_environment.m_radiance.m_ambient = 0.7f;
 
-		m_pool = make_object<ObjectPool>();
+		m_pool = oconstruct<ObjectPool>();
 		m_pool->create_pool<Particles>(1024);
 
-		m_particle_system = make_object<ParticleSystem>(gfx_system, m_pool->pool<Particles>());
+		m_particle_system = oconstruct<ParticleSystem>(gfx_system, m_pool->pool<Particles>());
 	}
 
 	Scene::~Scene()

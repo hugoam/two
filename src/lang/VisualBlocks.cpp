@@ -39,7 +39,7 @@ namespace mud
 		for(const Param& param : m_injector.m_constructor.m_params)
 			//if(param.m_mode == INPUT_PARAM)
 			if(param.m_index > 0) // skip first, it's the object reference
-				m_input_params.emplace_back(make_object<Valve>(*this, param));
+				m_input_params.push_back(oconstruct<Valve>(*this, param));
 	}
 
 	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, ConstructorIndex constructor)
@@ -77,14 +77,14 @@ namespace mud
 
 	ProcessCallable::ProcessCallable(VisualScript& script, Callable& callable)
 		: Process(script, callable.m_name, type<ProcessCallable>())
-		, m_parameters(callable.m_params.size() + (callable.m_returnval.none() ? 0 : 1))
+		, m_parameters(callable.m_params.size() + (callable.m_return_type == g_qvoid ? 0 : 1))
 		, m_callable(callable)
 	{
 		for(const Param& param : callable.m_params)
-			m_params.emplace_back(make_object<Valve>(*this, param));
+			m_params.push_back(oconstruct<Valve>(*this, param));
 
-		if(!callable.m_returnval.none())
-			m_result = make_object<Valve>(*this, "result", OUTPUT_VALVE, callable.m_returnval, false, false);
+		if(callable.m_return_type != g_qvoid)
+			m_result = oconstruct<Valve>(*this, "result", OUTPUT_VALVE, meta(*callable.m_return_type.m_type).m_empty_var, false, false);
 	}
 
 	void ProcessCallable::process(const StreamLocation& branch)
@@ -97,13 +97,13 @@ namespace mud
 		if(m_result)
 		{
 			Var& value = m_result->m_stream.branch(branch.m_index).m_value;
-			m_callable(to_array(m_parameters), value);
+			//m_callable(to_array(m_parameters), value);
 			m_result->m_stream.branch(branch.m_index).write(value);
 		}
 		else
 		{
 			static Var unused;
-			m_callable(to_array(m_parameters), unused);
+			//m_callable(to_array(m_parameters), unused);
 		}
 
 		for(const Param& param : m_callable.m_params)

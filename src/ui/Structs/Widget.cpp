@@ -75,7 +75,7 @@ namespace mud
 	Widget& Widget::layer()
 	{
 		if(!m_frame.m_layer)
-			m_frame.m_layer = make_object<Layer>(m_frame);
+			m_frame.m_layer = oconstruct<Layer>(m_frame);
 		return *this;
 	}
 

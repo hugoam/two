@@ -43,14 +43,14 @@ namespace mud
 		uint16_t index = 0;
 		for(uint16_t subdiv : slices_subdiv)
 		{
-			m_slices.emplace_back(m_size, subdiv, uvec4(0, index * m_size, m_size, m_size));
+			m_slices.push_back({ m_size, subdiv, uvec4(0, index * m_size, m_size, m_size) });
 		}
 
 		uint16_t max_cubemap_size = 512;
 		uint16_t cubemap_size = max_cubemap_size;
 		while(cubemap_size >= 32)
 		{
-			m_cubemaps.emplace_back(cubemap_size);
+			m_cubemaps.push_back({ cubemap_size });
 			cubemap_size >>= 1;
 		}
 	}

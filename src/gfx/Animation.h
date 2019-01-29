@@ -48,6 +48,7 @@ namespace mud
 	public:
 		struct Key
 		{
+			Key() {}
 			template <class T>
 			Key(float time, const T& value, float transition = 1.f) : m_time(time), m_value(), m_transition(transition) {  *(T*)m_value.m_value = value; }
 			float m_time;
@@ -55,6 +56,7 @@ namespace mud
 			float m_transition = 1.f;
 		};
 
+		AnimationTrack();
 		AnimationTrack(Animation& animation, size_t node, cstring node_name, AnimationTarget target);
 
 		attr_ Animation* m_animation;

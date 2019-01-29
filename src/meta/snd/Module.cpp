@@ -13,6 +13,9 @@ module mud.snd;
 
 #include <snd/Api.h>
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_snd_meta(Module& m)

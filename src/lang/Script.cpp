@@ -17,7 +17,7 @@ module mud.lang;
 namespace mud
 {
 	Script::Script(Type& type, const string& name, const Signature& signature)
-		: Callable(name.c_str(), signature.m_params, signature.m_returnval)
+		: Callable(name.c_str(), signature.m_params, signature.m_return_type)
 		, m_index(index(mud::type<Script>(), Ref(this, type)))
 		, m_type(type)
 		, m_name(name)

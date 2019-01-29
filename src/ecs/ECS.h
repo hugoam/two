@@ -77,8 +77,9 @@ namespace mud
 	class BufferArray
 	{
 	public:
+		BufferArray() {}
 		BufferArray(Typemap& typemap, uint32_t size = 0)
-			: m_typemap(typemap)
+			: m_typemap(&typemap)
 			, m_buffer_map(64)
 		{
 			m_handles.ensure(size);
@@ -104,9 +105,9 @@ namespace mud
 		void add_buffer()
 		{
 #ifdef MUD_ECS_TYPED
-			m_buffers.emplace_back(construct<TBuffer<T>>(type<T>()));
+			m_buffers.push_back(construct<TBuffer<T>>(type<T>()));
 #else
-			m_buffers.emplace_back(construct<TBuffer<T>>());
+			m_buffers.push_back(construct<TBuffer<T>>());
 #endif
 			m_buffer_map[this->type_index<T>()] = &(*m_buffers.back());
 		}
@@ -183,7 +184,7 @@ namespace mud
 			return comp.m_enabled;
 		}
 
-		Typemap& m_typemap;
+		Typemap* m_typemap = nullptr;
 
 		SparseHandles<Dense> m_handles;
 
@@ -194,6 +195,7 @@ namespace mud
 	class EntityStream : public BufferArray<false>
 	{
 	public:
+		EntityStream() {}
 		EntityStream(cstring name, Typemap& typemap, uint32_t size = 0)
 			: BufferArray<false>(typemap, size)
 			, m_name(name)
@@ -265,7 +267,7 @@ namespace mud
 		uint32_t type_index()
 		{
 #if 0 //def MUD_ECS_TYPED
-			return m_typemap[type<T>().m_id];
+			return (*m_typemap)[type<T>().m_id];
 #else
 			return TypedBuffer<T>::index();
 #endif
@@ -305,7 +307,7 @@ namespace mud
 		{
 			uint64_t prototype = this->prototype<Types...>();
 			m_stream_map[prototype] = uint16_t(m_streams.size());
-			m_streams.emplace_back(name, m_typemap);
+			m_streams.push_back({ name, m_typemap });
 			m_streams.back().init<Types...>(prototype);
 		}
 

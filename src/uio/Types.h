@@ -35,5 +35,5 @@ namespace mud
     
     export_ template <> MUD_UIO_EXPORT Type& type<mud::ScriptEditor>();
     
-    export_ template struct MUD_UIO_EXPORT Typed<vector<mud::ScriptEditor*>>;
+    export_ template <> MUD_UIO_EXPORT Type& type<vector<mud::ScriptEditor*>>();
 }

@@ -47,7 +47,8 @@ namespace mud
 		template <class U>
 		array(U& container) : m_pointer(container.data()), m_count(container.size()) {}
 
-		size_t size() { return m_count; }
+		size_t size() const { return m_count; }
+		bool empty() const { return m_count == 0; }
 		T* data() const { return m_pointer; }
 
 		T& operator[](size_t at) { assert(at < m_count); return m_pointer[at]; }

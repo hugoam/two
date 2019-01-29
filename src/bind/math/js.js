@@ -64,22 +64,6 @@ Colour.prototype["__destroy__"] = Colour.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Colour__destroy(self);
 };
-// Gauge
-function Gauge(value) {
-    /* value <float> [] */
-    if (value === undefined) { this.ptr = _mud_Gauge_Gauge_0(); getCache(Gauge)[this.ptr] = this; return; }
-    this.ptr = _mud_Gauge_Gauge_1(value); getCache(Gauge)[this.ptr] = this;
-    this.type = Gauge;
-};
-Gauge.prototype = Object.create(WrapperObject.prototype);
-Gauge.prototype.constructor = Gauge;
-Gauge.prototype.__class__ = Gauge;
-Gauge.__cache__ = {};
-Module['Gauge'] = Gauge;
-Gauge.prototype["__destroy__"] = Gauge.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_Gauge__destroy(self);
-};
 // Image
 function Image() {
     this.ptr = _mud_Image_Image_0(); getCache(Image)[this.ptr] = this;
@@ -202,22 +186,6 @@ Module['Palette'] = Palette;
 Palette.prototype["__destroy__"] = Palette.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Palette__destroy(self);
-};
-// Ratio
-function Ratio(value) {
-    /* value <float> [] */
-    if (value === undefined) { this.ptr = _mud_Ratio_Ratio_0(); getCache(Ratio)[this.ptr] = this; return; }
-    this.ptr = _mud_Ratio_Ratio_1(value); getCache(Ratio)[this.ptr] = this;
-    this.type = Ratio;
-};
-Ratio.prototype = Object.create(WrapperObject.prototype);
-Ratio.prototype.constructor = Ratio;
-Ratio.prototype.__class__ = Ratio;
-Ratio.__cache__ = {};
-Module['Ratio'] = Ratio;
-Ratio.prototype["__destroy__"] = Ratio.prototype.__destroy__ = function() {
-    var self = this.ptr;
-    _mud_Ratio__destroy(self);
 };
 // Time
 function Time(value) {
@@ -1096,12 +1064,10 @@ Module['grid_center'] = function(coord, cell_size) {
 (function() {
     function setup() {
         Colour.__type__ = _mud_Colour__type();
-        Gauge.__type__ = _mud_Gauge__type();
         Image.__type__ = _mud_Image__type();
         Image256.__type__ = _mud_Image256__type();
         ImageAtlas.__type__ = _mud_ImageAtlas__type();
         Palette.__type__ = _mud_Palette__type();
-        Ratio.__type__ = _mud_Ratio__type();
         Time.__type__ = _mud_Time__type();
         TimeSpan.__type__ = _mud_TimeSpan__type();
         Transform.__type__ = _mud_Transform__type();

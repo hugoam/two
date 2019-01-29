@@ -46,7 +46,7 @@ namespace mud
 		};
 
 		for(Face& face : faces)
-			m_faces.emplace_back(face);
+			m_faces.push_back(face);
 
 		Line lines[] = {
 			{ 1, 0 }, { 1, 5 }, { 1, 7 }, { 1, 8  }, { 1, 9  },
@@ -59,7 +59,7 @@ namespace mud
 		};
 
 		for(Line& line : lines)
-			m_lines.emplace_back(line);
+			m_lines.push_back(line);
 
 		for(int r = 0; r < recursionLevel; r++)
 		{
@@ -95,7 +95,7 @@ namespace mud
 	
 	int IcoSphere::vertex(const vec3& vertex)
 	{
-		m_vertices.emplace_back(normalize(vertex));
+		m_vertices.push_back(normalize(vertex));
 		return int(m_vertices.size() - 1);
 	}
 

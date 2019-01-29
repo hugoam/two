@@ -21,6 +21,7 @@ namespace mud
 	export_ class refl_ MUD_UI_EXPORT FrameSolver : public UiRect
 	{
 	public:
+		FrameSolver();
 		FrameSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
 		virtual ~FrameSolver() {}
 
@@ -112,6 +113,7 @@ namespace mud
 	export_ class refl_ MUD_UI_EXPORT RowSolver : public FrameSolver
 	{
 	public:
+		RowSolver();
 		RowSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
 
 		virtual void compute(FrameSolver& frame, Dim dim);

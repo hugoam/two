@@ -42,7 +42,7 @@ namespace mud
 	void CopyTool::begin(const vec3& position)
 	{
 		UNUSED(position);
-		//m_action = make_object<CopyAction>(m_targets); // @kludge brute cast
+		//m_action = oconstruct<CopyAction>(m_targets); // @kludge brute cast
 	}
 
 	void CopyTool::update(const vec3& position)
@@ -58,6 +58,6 @@ namespace mud
 
 	object<TransformAction> CopyTool::create_action(array<Transform*> targets)
 	{
-		return make_object<CopyAction>(targets);
+		return oconstruct<CopyAction>(targets);
 	}
 }

@@ -33,9 +33,9 @@ namespace mud
     export_ template <> MUD_WFC_EXPORT Type& type<mud::TileWave>();
     export_ template <> MUD_WFC_EXPORT Type& type<mud::WaveTileset>();
     
-    export_ template struct MUD_WFC_EXPORT Typed<vector<mud::Tile*>>;
-    export_ template struct MUD_WFC_EXPORT Typed<vector<mud::Tileset*>>;
-    export_ template struct MUD_WFC_EXPORT Typed<vector<mud::Wave*>>;
-    export_ template struct MUD_WFC_EXPORT Typed<vector<mud::TileWave*>>;
-    export_ template struct MUD_WFC_EXPORT Typed<vector<mud::WaveTileset*>>;
+    export_ template <> MUD_WFC_EXPORT Type& type<vector<mud::Tile*>>();
+    export_ template <> MUD_WFC_EXPORT Type& type<vector<mud::Tileset*>>();
+    export_ template <> MUD_WFC_EXPORT Type& type<vector<mud::Wave*>>();
+    export_ template <> MUD_WFC_EXPORT Type& type<vector<mud::TileWave*>>();
+    export_ template <> MUD_WFC_EXPORT Type& type<vector<mud::WaveTileset*>>();
 }

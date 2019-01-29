@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include <stl/vector.h>
 #include <type/Ref.h>
 #include <type/Type.h>
 
@@ -17,9 +16,7 @@ namespace mud
 		using HandlerFunc = T_Return(*)(void*, Ref, T_Args...);
 		struct Func { void* f = nullptr; HandlerFunc handler = nullptr; };
 
-		Dispatch()
-			: m_branches(c_max_types)
-		{}
+		Dispatch() {}
 
 		void function(Type& type, HandlerFunc func)
 		{
@@ -48,6 +45,6 @@ namespace mud
 			return m_branches[ref.m_type->m_id].handler != nullptr;
 		}
 
-		vector<Func> m_branches;
+		Func m_branches[c_max_types] = {};
 	};
 }

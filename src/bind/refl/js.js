@@ -255,6 +255,20 @@ Param.prototype["__destroy__"] = Param.prototype.__destroy__ = function() {
     var self = this.ptr;
     _mud_Param__destroy(self);
 };
+// QualType
+function QualType() {
+    this.ptr = _mud_QualType_QualType_0(); getCache(QualType)[this.ptr] = this;
+    this.type = QualType;
+};
+QualType.prototype = Object.create(WrapperObject.prototype);
+QualType.prototype.constructor = QualType;
+QualType.prototype.__class__ = QualType;
+QualType.__cache__ = {};
+Module['QualType'] = QualType;
+QualType.prototype["__destroy__"] = QualType.prototype.__destroy__ = function() {
+    var self = this.ptr;
+    _mud_QualType__destroy(self);
+};
 // Signature
 function Signature() { throw "cannot construct a Signature, no constructor in IDL" }
 Signature.prototype = Object.create(WrapperObject.prototype);
@@ -373,6 +387,7 @@ Module['system'] = function() {
         Namespace.__type__ = _mud_Namespace__type();
         Operator.__type__ = _mud_Operator__type();
         Param.__type__ = _mud_Param__type();
+        QualType.__type__ = _mud_QualType__type();
         Signature.__type__ = _mud_Signature__type();
         Static.__type__ = _mud_Static__type();
         System.__type__ = _mud_System__type();

@@ -10,8 +10,10 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#include <refl/Method.h>
 #include <refl/Meta.h>
+#include <refl/Method.h>
+#include <refl/Call.h>
+#include <ui/Ui.h>
 #include <ui/Structs/Container.h>
 #include <uio/Edit/Value.h>
 #include <uio/Edit/Method.h>
@@ -35,7 +37,7 @@ namespace mud
 		for(uint16_t i = offset; i < call.m_callable->m_params.size(); ++i)
 		{
 			const Param& param = call.m_callable->m_params[i];
-			bool link = is_object(type(param.m_value)) || param.nullable();
+			bool link = is_object(type(param.default_val())) || param.nullable();
 			field_edit(parent, param.m_name, call.m_arguments[i].m_ref, link);
 		}
 

@@ -125,7 +125,7 @@ namespace mud
 
 	object<TransformAction> ScaleTool::create_action(array<Transform*> targets)
 	{
-		return make_object<ScaleAction>(targets);
+		return oconstruct<ScaleAction>(targets);
 	}
 
 }

@@ -21,6 +21,9 @@ module mud.gfx-gltf;
 
 #include <gfx-gltf/Api.h>
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_gfx_gltf_meta(Module& m)

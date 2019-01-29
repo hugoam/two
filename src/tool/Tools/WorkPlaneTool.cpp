@@ -36,7 +36,7 @@ namespace mud
 
 	void WorkPlaneTool::activate()
 	{
-		m_action = make_object<WorkPlaneAction>(*m_context.m_work_plane, m_plane);
+		m_action = oconstruct<WorkPlaneAction>(*m_context.m_work_plane, m_plane);
 		this->commit(move(m_action));
 		m_state = ToolState::Done;
 	}

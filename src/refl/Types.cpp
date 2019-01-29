@@ -25,6 +25,7 @@ namespace mud
     template <> MUD_REFL_EXPORT Type& type<mud::Namespace>() { static Type ty("Namespace", sizeof(mud::Namespace)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Operator>() { static Type ty("Operator", sizeof(mud::Operator)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Param>() { static Type ty("Param", sizeof(mud::Param)); return ty; }
+    template <> MUD_REFL_EXPORT Type& type<mud::QualType>() { static Type ty("QualType", sizeof(mud::QualType)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Signature>() { static Type ty("Signature", sizeof(mud::Signature)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Static>() { static Type ty("Static", sizeof(mud::Static)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::System>() { static Type ty("System", sizeof(mud::System)); return ty; }

@@ -14,6 +14,9 @@ module mud.tree;
 
 #include <tree/Api.h>
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_tree_meta(Module& m)

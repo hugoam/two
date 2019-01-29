@@ -14,6 +14,19 @@ module mud.type;
 
 #include <type/Api.h>
 
+using namespace mud;
+
+size_t vector_mud_Ref___size(void* vec) { return (*static_cast<vector<mud::Ref>*>(vec)).size(); }
+void* vector_mud_Ref___at(void* vec, size_t i) { return &(*static_cast<vector<mud::Ref>*>(vec))[i]; }
+void vector_mud_Ref___add(void* vec, void* value) { (*static_cast<vector<mud::Ref>*>(vec)).push_back(*static_cast<mud::Ref*>(value)); }
+void vector_mud_Ref___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<mud::Ref>*>(vec)), *static_cast<mud::Ref*>(value)); }
+void mud_Index_indexer(void* object, array<void*> args, void*& result) { result = &(*static_cast<mud::Index*>(object)).indexer(*static_cast<mud::Type*>(args[0])); }
+void* mud_Indexer__get_type(void* object) { return &(*static_cast<mud::Indexer*>(object)).m_type; }
+void mud_Ref__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Ref*>(ref))) mud::Ref(  ); }
+void mud_Ref__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::Ref*>(ref))) mud::Ref( static_cast<void**>(args[0]), *static_cast<mud::Type*>(args[1]) ); }
+void mud_Ref__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Ref*>(ref))) mud::Ref((*static_cast<mud::Ref*>(other))); }
+void mud_indexed_0(array<void*> args, void*& result) { (*static_cast<mud::Ref*>(result)) = mud::indexed(*static_cast<mud::Type*>(args[0]), *static_cast<uint32_t*>(args[1])); }
+
 namespace mud
 {
 	void mud_type_meta(Module& m)
@@ -24,87 +37,126 @@ namespace mud
 	{
 		Type& t = type<bool>();
 		static Meta meta = { t, &namspc({}), "bool", sizeof(bool), TypeClass::BaseType };
-		meta_basetype<bool>();
+		g_meta[t.m_id]->m_empty_var = var(bool());
+		static Convert convert = { [](void* val, string& str) { to_string<bool>((*static_cast<bool*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<bool>(str, (*static_cast<bool*>(val))); } };
+		g_convert[t.m_id] = &convert;
 	}
 	{
 		Type& t = type<char>();
 		static Meta meta = { t, &namspc({}), "char", sizeof(char), TypeClass::BaseType };
-		meta_basetype<char>();
+		g_meta[t.m_id]->m_empty_var = var(char());
+		static Convert convert = { [](void* val, string& str) { to_string<char>((*static_cast<char*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<char>(str, (*static_cast<char*>(val))); } };
+		g_convert[t.m_id] = &convert;
 	}
 	{
 		Type& t = type<const char*>();
 		static Meta meta = { t, &namspc({}), "const char*", sizeof(const char*), TypeClass::BaseType };
-		meta_basetype<const char*>();
 	}
 	{
 		Type& t = type<double>();
 		static Meta meta = { t, &namspc({}), "double", sizeof(double), TypeClass::BaseType };
-		meta_basetype<double>();
+		g_meta[t.m_id]->m_empty_var = var(double());
+		static Convert convert = { [](void* val, string& str) { to_string<double>((*static_cast<double*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<double>(str, (*static_cast<double*>(val))); } };
+		g_convert[t.m_id] = &convert;
 	}
 	{
 		Type& t = type<float>();
 		static Meta meta = { t, &namspc({}), "float", sizeof(float), TypeClass::BaseType };
-		meta_basetype<float>();
+		g_meta[t.m_id]->m_empty_var = var(float());
+		static Convert convert = { [](void* val, string& str) { to_string<float>((*static_cast<float*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<float>(str, (*static_cast<float*>(val))); } };
+		g_convert[t.m_id] = &convert;
 	}
 	{
 		Type& t = type<int>();
 		static Meta meta = { t, &namspc({}), "int", sizeof(int), TypeClass::BaseType };
-		meta_basetype<int>();
+		g_meta[t.m_id]->m_empty_var = var(int());
+		static Convert convert = { [](void* val, string& str) { to_string<int>((*static_cast<int*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<int>(str, (*static_cast<int*>(val))); } };
+		g_convert[t.m_id] = &convert;
 	}
 	{
 		Type& t = type<long>();
 		static Meta meta = { t, &namspc({}), "long", sizeof(long), TypeClass::BaseType };
-		meta_basetype<long>();
+		g_meta[t.m_id]->m_empty_var = var(long());
+		static Convert convert = { [](void* val, string& str) { to_string<long>((*static_cast<long*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<long>(str, (*static_cast<long*>(val))); } };
+		g_convert[t.m_id] = &convert;
 	}
 	{
 		Type& t = type<long long>();
 		static Meta meta = { t, &namspc({}), "long long", sizeof(long long), TypeClass::BaseType };
-		meta_basetype<long long>();
+		g_meta[t.m_id]->m_empty_var = var(long long());
+		static Convert convert = { [](void* val, string& str) { to_string<long long>((*static_cast<long long*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<long long>(str, (*static_cast<long long*>(val))); } };
+		g_convert[t.m_id] = &convert;
 	}
 	{
 		Type& t = type<short>();
 		static Meta meta = { t, &namspc({}), "short", sizeof(short), TypeClass::BaseType };
-		meta_basetype<short>();
+		g_meta[t.m_id]->m_empty_var = var(short());
+		static Convert convert = { [](void* val, string& str) { to_string<short>((*static_cast<short*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<short>(str, (*static_cast<short*>(val))); } };
+		g_convert[t.m_id] = &convert;
 	}
 	{
 		Type& t = type<string>();
 		static Meta meta = { t, &namspc({}), "string", sizeof(string), TypeClass::BaseType };
-		meta_basetype<string>();
+		g_meta[t.m_id]->m_empty_var = var(string());
+		static Convert convert = { [](void* val, string& str) { to_string<string>((*static_cast<string*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<string>(str, (*static_cast<string*>(val))); } };
+		g_convert[t.m_id] = &convert;
 	}
 	{
 		Type& t = type<unsigned char>();
 		static Meta meta = { t, &namspc({}), "unsigned char", sizeof(unsigned char), TypeClass::BaseType };
-		meta_basetype<unsigned char>();
+		g_meta[t.m_id]->m_empty_var = var(unsigned char());
+		static Convert convert = { [](void* val, string& str) { to_string<unsigned char>((*static_cast<unsigned char*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<unsigned char>(str, (*static_cast<unsigned char*>(val))); } };
+		g_convert[t.m_id] = &convert;
 	}
 	{
 		Type& t = type<unsigned int>();
 		static Meta meta = { t, &namspc({}), "unsigned int", sizeof(unsigned int), TypeClass::BaseType };
-		meta_basetype<unsigned int>();
+		g_meta[t.m_id]->m_empty_var = var(unsigned int());
+		static Convert convert = { [](void* val, string& str) { to_string<unsigned int>((*static_cast<unsigned int*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<unsigned int>(str, (*static_cast<unsigned int*>(val))); } };
+		g_convert[t.m_id] = &convert;
 	}
 	{
 		Type& t = type<unsigned long>();
 		static Meta meta = { t, &namspc({}), "unsigned long", sizeof(unsigned long), TypeClass::BaseType };
-		meta_basetype<unsigned long>();
+		g_meta[t.m_id]->m_empty_var = var(unsigned long());
+		static Convert convert = { [](void* val, string& str) { to_string<unsigned long>((*static_cast<unsigned long*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<unsigned long>(str, (*static_cast<unsigned long*>(val))); } };
+		g_convert[t.m_id] = &convert;
 	}
 	{
 		Type& t = type<unsigned long long>();
 		static Meta meta = { t, &namspc({}), "unsigned long long", sizeof(unsigned long long), TypeClass::BaseType };
-		meta_basetype<unsigned long long>();
+		g_meta[t.m_id]->m_empty_var = var(unsigned long long());
+		static Convert convert = { [](void* val, string& str) { to_string<unsigned long long>((*static_cast<unsigned long long*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<unsigned long long>(str, (*static_cast<unsigned long long*>(val))); } };
+		g_convert[t.m_id] = &convert;
 	}
 	{
 		Type& t = type<unsigned short>();
 		static Meta meta = { t, &namspc({}), "unsigned short", sizeof(unsigned short), TypeClass::BaseType };
-		meta_basetype<unsigned short>();
+		g_meta[t.m_id]->m_empty_var = var(unsigned short());
+		static Convert convert = { [](void* val, string& str) { to_string<unsigned short>((*static_cast<unsigned short*>(val)), str); }, 
+		                           [](const string& str, void* val) { to_value<unsigned short>(str, (*static_cast<unsigned short*>(val))); } };
+		g_convert[t.m_id] = &convert;
 	}
 	{
 		Type& t = type<void>();
 		static Meta meta = { t, &namspc({}), "void", 0, TypeClass::BaseType };
-		meta_basetype<void>();
 	}
 	{
 		Type& t = type<void*>();
 		static Meta meta = { t, &namspc({}), "void*", sizeof(void*), TypeClass::BaseType };
-		meta_basetype<void*>();
 	}
 	
 	// Enums
@@ -114,158 +166,106 @@ namespace mud
 		Type& t = type<vector<mud::Ref>>();
 		static Meta meta = { t, &namspc({}), "vector<mud::Ref>", sizeof(vector<mud::Ref>), TypeClass::Sequence };
 		static Class cls = { t };
-		cls.m_content = &type<mud::Ref>();
-		meta_vector<vector<mud::Ref>, mud::Ref>();
+		static Iterable iterable = { &type<mud::Ref>(),
+		                             vector_mud_Ref___size,
+		                             vector_mud_Ref___at};
+		g_iterable[t.m_id] = &iterable;
+		static Sequence sequence = { vector_mud_Ref___add,
+		                             vector_mud_Ref___remove };
+		g_sequence[t.m_id] = &sequence;
 	}
 	
 	// mud::Index
 	{
 		Type& t = type<mud::Index>();
 		static Meta meta = { t, &namspc({ "mud" }), "Index", sizeof(mud::Index), TypeClass::Object };
+		// bases
 		// defaults
-		static Class cls = { t,
-			// bases
-			{  },
-			{  },
-			// constructors
-			{
-			},
-			// copy constructor
-			{
-			},
-			// members
-			{
-			},
-			// methods
-			{
-				{ t, "indexer", member_address<mud::Indexer&(mud::Index::*)(mud::Type&)>(&mud::Index::indexer), [](Ref object, array<Var> args, Var& result) { result = Ref(&val<mud::Index>(object).indexer(val<mud::Type>(args[0]))); }, { { "type", Ref(type<mud::Type>()) } }, Ref(type<mud::Indexer>()) }
-			},
-			// static members
-			{
-				{ t, "me", Ref(&mud::Index::me) }
-			}
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		static Method methods[] = {
+			{ t, "indexer", Address(), mud_Index_indexer, { { "type", type<mud::Type>(),  } }, { &type<mud::Indexer>(), QualType::None } }
 		};
-		meta_class<mud::Index>();
+		// static members
+		static Static statics[] = {
+			{ t, "me", Ref(&mud::Index::me) }
+		};
+		static Class cls = { t, {}, {}, {}, {}, {}, methods, statics, };
 	}
 	// mud::Indexer
 	{
 		Type& t = type<mud::Indexer>();
 		static Meta meta = { t, &namspc({ "mud" }), "Indexer", sizeof(mud::Indexer), TypeClass::Object };
+		// bases
 		// defaults
-		static Class cls = { t,
-			// bases
-			{  },
-			{  },
-			// constructors
-			{
-			},
-			// copy constructor
-			{
-			},
-			// members
-			{
-				{ t, Address(), type<mud::Type>(), "type", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Indexer>(object).m_type); } },
-				{ t, member_address(&mud::Indexer::m_objects), type<vector<mud::Ref>>(), "objects", Ref(), Member::Value, nullptr }
-			},
-			// methods
-			{
-			},
-			// static members
-			{
-			}
+		// constructors
+		// copy constructor
+		// members
+		static Member members[] = {
+			{ t, SIZE_MAX, type<mud::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_Indexer__get_type },
+			{ t, offsetof(mud::Indexer, m_objects), type<vector<mud::Ref>>(), "objects", nullptr, Member::Value, nullptr }
 		};
-		meta_class<mud::Indexer>();
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
 	}
 	// mud::Ref
 	{
 		Type& t = type<mud::Ref>();
 		static Meta meta = { t, &namspc({ "mud" }), "Ref", sizeof(mud::Ref), TypeClass::Struct };
+		// bases
 		// defaults
-		static Class cls = { t,
-			// bases
-			{  },
-			{  },
-			// constructors
-			{
-				{ t, [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Ref>(ref)) mud::Ref(  ); }, {} },
-				{ t, [](Ref ref, array<Var> args) { new(&val<mud::Ref>(ref)) mud::Ref( val<void*>(args[0]), val<mud::Type>(args[1]) ); }, { { "value", Ref(), Param::Nullable }, { "type", Ref(type<mud::Type>()) } } }
-			},
-			// copy constructor
-			{
-				{ t, [](Ref ref, Ref other) { new(&val<mud::Ref>(ref)) mud::Ref(val<mud::Ref>(other)); } }
-			},
-			// members
-			{
-				{ t, member_address(&mud::Ref::m_type), type<mud::Type>(), "type", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::Ref::m_value), type<void*>(), "value", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr }
-			},
-			// methods
-			{
-			},
-			// static members
-			{
-			}
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Ref__construct_0, {} },
+			{ t, mud_Ref__construct_1, { { "value", type<void*>(), Param::Nullable }, { "type", type<mud::Type>(),  } } }
 		};
-		meta_class<mud::Ref>();
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_Ref__copy_construct }
+		};
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::Ref, m_type), type<mud::Type>(), "type", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(mud::Ref, m_value), type<void*>(), "value", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
 	}
 	// mud::Type
 	{
 		Type& t = type<mud::Type>();
 		static Meta meta = { t, &namspc({ "mud" }), "Type", sizeof(mud::Type), TypeClass::Object };
+		// bases
 		// defaults
 		static mud::Type* base_default = nullptr;
-		static Class cls = { t,
-			// bases
-			{  },
-			{  },
-			// constructors
-			{
-			},
-			// copy constructor
-			{
-			},
-			// members
-			{
-				{ t, member_address(&mud::Type::m_id), type<uint32_t>(), "id", Ref(), Member::Value, nullptr },
-				{ t, member_address(&mud::Type::m_name), type<const char*>(), "name", Ref(), Member::Flags(Member::Pointer|Member::Link), nullptr },
-				{ t, member_address(&mud::Type::m_size), type<size_t>(), "size", Ref(), Member::Value, nullptr },
-				{ t, member_address(&mud::Type::m_base), type<mud::Type>(), "base", Ref(base_default), Member::Flags(Member::Pointer|Member::Link), nullptr }
-			},
-			// methods
-			{
-			},
-			// static members
-			{
-			}
+		// constructors
+		// copy constructor
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::Type, m_id), type<uint32_t>(), "id", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Type, m_size), type<size_t>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Type, m_base), type<mud::Type>(), "base", base_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};
-		meta_class<mud::Type>();
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
 	}
 	// mud::Var
 	{
 		Type& t = type<mud::Var>();
 		static Meta meta = { t, &namspc({ "mud" }), "Var", sizeof(mud::Var), TypeClass::Object };
+		// bases
 		// defaults
-		static Class cls = { t,
-			// bases
-			{  },
-			{  },
-			// constructors
-			{
-			},
-			// copy constructor
-			{
-			},
-			// members
-			{
-			},
-			// methods
-			{
-			},
-			// static members
-			{
-			}
-		};
-		meta_class<mud::Var>();
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
 		m.m_types.push_back(&type<mud::Index>());
 		m.m_types.push_back(&type<mud::Indexer>());
@@ -291,9 +291,7 @@ namespace mud
 		m.m_types.push_back(&type<void>());
 		m.m_types.push_back(&type<void*>());
 		{
-			auto func = [](array<Var> args, Var& result) {  result = mud::indexed(val<mud::Type>(args[0]), val<uint32_t>(args[1])); };
-			vector<Param> params = { { "type", Ref(type<mud::Type>()) }, { "id", var(uint32_t()) } };
-			static Function f = { &namspc({ "mud" }), "indexed", funcptr<mud::Ref(*)(mud::Type&, uint32_t)>(&mud::indexed), func, params, Ref() };
+			static Function f = { &namspc({ "mud" }), "indexed", nullptr, mud_indexed_0, { { "type", type<mud::Type>(),  }, { "id", type<uint32_t>(),  } }, { &type<mud::Ref>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 	}

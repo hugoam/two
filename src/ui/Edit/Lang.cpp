@@ -10,6 +10,8 @@ module mud.ui;
 #include <ui/Edit/Lang.h>
 #endif
 
+#include <stl/tinystl/hash_base.impl.h>
+
 namespace mud
 {
 	template<class T, size_t N>

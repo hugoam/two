@@ -26,102 +26,102 @@ namespace mud
 {
 	Line::Line() : Shape(type<Line>()) {}
 	Line::Line(const vec3& start, const vec3& end) : Shape(type<Line>()), m_start(start), m_end(end) {}
-	object<Shape> Line::clone() const { return make_object<Line>(*this); }
+	object<Shape> Line::clone() const { return oconstruct<Line>(*this); }
 
 	Rect::Rect() : Shape(type<Rect>()) {}
 	Rect::Rect(const vec2& pos, const vec2& size) : Shape(type<Rect>()), m_position(pos), m_size(size) {}
 	Rect::Rect(float x, float y, float w, float h) : Shape(type<Rect>()), m_position(x, y), m_size(w, h) {}
-	object<Shape> Rect::clone() const { return make_object<Rect>(*this); }
+	object<Shape> Rect::clone() const { return oconstruct<Rect>(*this); }
 
 	Quad::Quad() : Shape(type<Quad>()) {}
 	Quad::Quad(const vec3& a, const vec3& b, const vec3& c, const vec3& d) : Shape(type<Quad>()), m_vertices{ a, b, c, d } {}
-	object<Shape> Quad::clone() const { return make_object<Quad>(*this); }
+	object<Shape> Quad::clone() const { return oconstruct<Quad>(*this); }
 
 	Polygon::Polygon() : Shape(type<Polygon>()) {}
 	Polygon::Polygon(vector<vec3> vertices) : Shape(type<Polygon>()), m_vertices(vertices) {}
-	object<Shape> Polygon::clone() const { return make_object<Polygon>(*this); }
+	object<Shape> Polygon::clone() const { return oconstruct<Polygon>(*this); }
 
 	Grid2::Grid2() : Shape(type<Grid2>()) {}
 	Grid2::Grid2(const vec2& size, const vec2& space) : Shape(type<Grid2>()), m_size(size), m_space(space) {}
-	object<Shape> Grid2::clone() const { return make_object<Grid2>(*this); }
+	object<Shape> Grid2::clone() const { return oconstruct<Grid2>(*this); }
 
 	Triangle::Triangle() : Shape(type<Triangle>()) {}
 	Triangle::Triangle(const vec2& size) : Shape(type<Triangle>()), m_size(size) {}
-	object<Shape> Triangle::clone() const { return make_object<Triangle>(*this); }
+	object<Shape> Triangle::clone() const { return oconstruct<Triangle>(*this); }
 
 	Circle::Circle() : Shape(type<Circle>()) {}
 	Circle::Circle(float radius, Axis axis) : Shape(type<Circle>()), m_radius(radius), m_axis(axis) {}
 	Circle::Circle(const vec3& center, float radius, Axis axis) : Shape(type<Circle>(), center), m_radius(radius), m_axis(axis) {}
-	object<Shape> Circle::clone() const { return make_object<Circle>(*this); }
+	object<Shape> Circle::clone() const { return oconstruct<Circle>(*this); }
 
 	Torus::Torus() : Shape(type<Torus>()) {}
 	Torus::Torus(float radius, float solid_radius, Axis axis) : Shape(type<Torus>()), m_radius(radius), m_solid_radius(solid_radius), m_axis(axis) {}
 	Torus::Torus(const vec3& center, float radius, float solid_radius, Axis axis) : Shape(type<Torus>(), center), m_radius(radius), m_solid_radius(solid_radius), m_axis(axis) {}
-	object<Shape> Torus::clone() const { return make_object<Torus>(*this); }
+	object<Shape> Torus::clone() const { return oconstruct<Torus>(*this); }
 
 	Ring::Ring() : Shape(type<Ring>()) {}
 	Ring::Ring(float radius, float min, float max) : Shape(type<Ring>()), m_radius(radius), m_min(min), m_max(max) {}
-	object<Shape> Ring::clone() const { return make_object<Ring>(*this); }
+	object<Shape> Ring::clone() const { return oconstruct<Ring>(*this); }
 
 	Ellipsis::Ellipsis() : Shape(type<Ellipsis>()) {}
 	Ellipsis::Ellipsis(vec2 radius, Axis axis) : Shape(type<Ellipsis>()), m_radius(radius), m_axis(axis) {}
-	object<Shape> Ellipsis::clone() const { return make_object<Ellipsis>(*this); }
+	object<Shape> Ellipsis::clone() const { return oconstruct<Ellipsis>(*this); }
 
 	Arc::Arc() : Shape(type<Arc>()) {}
 	Arc::Arc(float radius, float start, float end) : Shape(type<Arc>()), m_radius(radius), m_start(start), m_end(end) {}
-	object<Shape> Arc::clone() const { return make_object<Arc>(*this); }
+	object<Shape> Arc::clone() const { return oconstruct<Arc>(*this); }
 
 	ArcLine::ArcLine() : Shape(type<ArcLine>()) {}
 	ArcLine::ArcLine(const vec3& start, const vec3& middle, const vec3& end) : Shape(type<ArcLine>()), m_start(start), m_middle(middle), m_end(end) {}
 	ArcLine::ArcLine(const vec3& center, const vec3& start, const vec3& middle, const vec3& end) : Shape(type<ArcLine>(), center), m_start(start), m_middle(middle), m_end(end) {}
-	object<Shape> ArcLine::clone() const { return make_object<ArcLine>(*this); }
+	object<Shape> ArcLine::clone() const { return oconstruct<ArcLine>(*this); }
 
 	Cylinder::Cylinder() : Shape(type<Cylinder>()) {}
 	Cylinder::Cylinder(float radius, float height, Axis axis) : Shape(type<Cylinder>()), m_radius(radius), m_height(height), m_axis(axis) {}
-	object<Shape> Cylinder::clone() const { return make_object<Cylinder>(*this); }
+	object<Shape> Cylinder::clone() const { return oconstruct<Cylinder>(*this); }
 
 	Capsule::Capsule() : Shape(type<Capsule>()) {}
 	Capsule::Capsule(float radius, float height, Axis axis) : Shape(type<Capsule>()), m_radius(radius), m_height(height), m_axis(axis) {}
-	object<Shape> Capsule::clone() const { return make_object<Capsule>(*this); }
+	object<Shape> Capsule::clone() const { return oconstruct<Capsule>(*this); }
 
 	Cube::Cube() : Shape(type<Cube>()) {}
 	Cube::Cube(const vec3& extents) : Shape(type<Cube>()), m_extents(extents) {}
 	Cube::Cube(const vec3& center, const vec3& extents) : Shape(type<Cube>(), center), m_extents(extents) {}
 	Cube::Cube(float side) : Shape(type<Cube>()), m_extents(side, side, side) {}
-	object<Shape> Cube::clone() const { return make_object<Cube>(*this); }
+	object<Shape> Cube::clone() const { return oconstruct<Cube>(*this); }
 
 	Box::Box() : Shape(type<Box>()), m_vertices() {}
-	object<Shape> Box::clone() const { return make_object<Box>(*this); }
+	object<Shape> Box::clone() const { return oconstruct<Box>(*this); }
 
 	Sphere::Sphere() : Shape(type<Sphere>()) {}
 	Sphere::Sphere(float radius) : Shape(type<Sphere>()), m_radius(radius) {}
 	Sphere::Sphere(const vec3& center, float radius) : Shape(type<Sphere>(), center), m_radius(radius) {}
-	object<Shape> Sphere::clone() const { return make_object<Sphere>(*this); }
+	object<Shape> Sphere::clone() const { return oconstruct<Sphere>(*this); }
 
 	SphereRing::SphereRing() : Shape(type<SphereRing>()) {}
 	SphereRing::SphereRing(float radius, float min, float max) : Shape(type<SphereRing>()), m_radius(radius), m_min(min), m_max(max) {}
-	object<Shape> SphereRing::clone() const { return make_object<SphereRing>(*this); }
+	object<Shape> SphereRing::clone() const { return oconstruct<SphereRing>(*this); }
 
 	Spheroid::Spheroid() : Shape(type<Spheroid>()) {}
 	Spheroid::Spheroid(float radius) : Shape(type<Spheroid>()), m_radius(radius), m_circleX(radius, Axis::X), m_circleY(radius, Axis::Y), m_circleZ(radius, Axis::Z) {}
 	Spheroid::Spheroid(const vec3& center, float radius) : Shape(type<Spheroid>(), center), m_radius(radius), m_circleX(radius, Axis::X), m_circleY(radius, Axis::Y), m_circleZ(radius, Axis::Z) {}
-	object<Shape> Spheroid::clone() const { return make_object<Spheroid>(*this); }
+	object<Shape> Spheroid::clone() const { return oconstruct<Spheroid>(*this); }
 
 	Points::Points() : Shape(type<Points>()) {}
 	Points::Points(const vector<vec3>& points) : Shape(type<Points>()), m_points(points) {}
-	object<Shape> Points::clone() const { return make_object<Points>(*this); }
+	object<Shape> Points::clone() const { return oconstruct<Points>(*this); }
 
 	Grid3::Grid3() : Shape(type<Grid3>()) {}
 	Grid3::Grid3(const uvec2& size, const vector<vec3>& points) : Shape(type<Grid3>()), m_size(size), m_points(points) { m_points.resize(size.x * size.y); }
-	object<Shape> Grid3::clone() const { return make_object<Grid3>(*this); }
+	object<Shape> Grid3::clone() const { return oconstruct<Grid3>(*this); }
 
 	ConvexHull::ConvexHull() : Shape(type<ConvexHull>()) {}
 	ConvexHull::ConvexHull(const vector<vec3>& vertices) : Shape(type<ConvexHull>()), m_vertices(vertices) {}
-	object<Shape> ConvexHull::clone() const { return make_object<ConvexHull>(*this); }
+	object<Shape> ConvexHull::clone() const { return oconstruct<ConvexHull>(*this); }
 
 	Aabb::Aabb() : Cube(Zero3), m_empty(true) {}
 	Aabb::Aabb(const vec3& center, const vec3& extents) : Cube(center, extents), m_empty(false) {}
-	object<Shape> Aabb::clone() const { return make_object<Aabb>(*this); }
+	object<Shape> Aabb::clone() const { return oconstruct<Aabb>(*this); }
 
 	bool Aabb::intersects(const Aabb& other) const
 	{

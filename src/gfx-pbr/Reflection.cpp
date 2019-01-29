@@ -60,7 +60,7 @@ namespace mud
 
 		while(cube_size >= 32)
 		{
-			//m_cubemaps.emplace_back(cube_size);
+			//m_cubemaps.push_back(cube_size);
 			cube_size >>= 1;
 		}
 	}

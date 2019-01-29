@@ -16,6 +16,9 @@ module mud.srlz;
 
 #include <srlz/Api.h>
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_srlz_meta(Module& m)

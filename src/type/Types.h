@@ -44,8 +44,8 @@ namespace mud
     export_ template <> MUD_TYPE_EXPORT Type& type<mud::Ref>();
     export_ template <> MUD_TYPE_EXPORT Type& type<mud::Var>();
     
-    export_ template struct MUD_TYPE_EXPORT Typed<vector<mud::Index*>>;
-    export_ template struct MUD_TYPE_EXPORT Typed<vector<mud::Indexer*>>;
-    export_ template struct MUD_TYPE_EXPORT Typed<vector<mud::Ref*>>;
-    export_ template struct MUD_TYPE_EXPORT Typed<vector<mud::Var*>>;
+    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Index*>>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Indexer*>>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Ref*>>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Var*>>();
 }

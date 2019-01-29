@@ -82,9 +82,9 @@ namespace mud
 		bool operator==(const Range<T>& other) const { return m_min == other.m_min && m_max == other.m_max; }
 	};
 
-	export_ template struct refl_ Range<vec3>;
-	export_ template struct refl_ Range<quat>;
-	export_ template struct refl_ Range<float>;
-	export_ template struct refl_ Range<uint32_t>;
-	export_ template struct refl_ Range<Colour>;
+	export_ extern template struct refl_ Range<vec3>;
+	export_ extern template struct refl_ Range<quat>;
+	export_ extern template struct refl_ Range<float>;
+	export_ extern template struct refl_ Range<uint32_t>;
+	export_ extern template struct refl_ Range<Colour>;
 }

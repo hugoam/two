@@ -19,6 +19,7 @@ namespace mud
 		class Point
 		{
 		public:
+			Point() {}
 			Point(const vec3& p, float r) : position(p), radius(r), visits(0) {}
 
 			vec3 position;

@@ -169,7 +169,7 @@ namespace mud
 		template <class T, class... Types>
 		T& node(Types&&... args)
 		{
-			m_processes.push_back(make_object<T>(*this, static_cast<Types&&>(args)...)); return as<T>(*m_processes.back());
+			m_processes.push_back(oconstruct<T>(*this, static_cast<Types&&>(args)...)); return as<T>(*m_processes.back());
 		}
 
 		template <class T>

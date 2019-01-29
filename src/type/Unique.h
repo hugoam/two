@@ -35,7 +35,7 @@ namespace mud
 	using object = unique<T, function<void(void*)>>;
 
 	template<class T, class... Types>
-	inline object<T> make_object(Types&&... args)
+	inline object<T> oconstruct(Types&&... args)
 	{
 		object_ptr_tracker<T>::increment();
 		return (object<T>(new T(static_cast<Types&&>(args)...), &delete_tracked<T>));
@@ -45,9 +45,9 @@ namespace mud
 	using object = unique<T>;
 
 	export_ template <typename T, typename... Args>
-	object<T> make_object(Args&&... args)
+	object<T> oconstruct(Args&&... args)
 	{
-		return make_unique<T>(static_cast<Args&&>(args)...);
+		return construct<T>(static_cast<Args&&>(args)...);
 	}
 #endif
 }

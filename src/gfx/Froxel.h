@@ -7,6 +7,7 @@
 #ifndef MUD_MODULES
 #include <stl/vector.h>
 #include <infra/Array.h>
+#include <infra/Bitset.h>
 #include <geom/Geom.h>
 #endif
 #include <gfx/Forward.h>
@@ -58,6 +59,16 @@ namespace mud
 	// froxels are not used, so we can store more.
 	static constexpr uint32_t FROXEL_BUFFER_ENTRY_COUNT_MAX = 8192;
 
+	struct LightRecord
+	{
+#ifndef USE_STD_BITSET
+		using Lights = bitset<uint64_t, (CONFIG_MAX_LIGHT_COUNT + 63) / 64>;
+#else
+		using Lights = std::bitset<CONFIG_MAX_LIGHT_COUNT>;
+#endif
+		Lights lights;
+	};
+
 	export_ struct FroxelUniform
 	{
 		void createUniforms()
@@ -81,8 +92,12 @@ namespace mud
 	class MUD_GFX_EXPORT Froxelizer
 	{
 	public:
+		Froxelizer();
 		Froxelizer(GfxSystem& gfx_system);
 		~Froxelizer();
+
+		Froxelizer(Froxelizer&& other);
+		Froxelizer& operator=(Froxelizer&& other);
 
 		bool prepare(const Viewport& viewport, const mat4& projection, float near, float far);
 		bool update(const Viewport& viewport, const mat4& projection, float near, float far);

@@ -27,6 +27,7 @@ module mud.lang;
 #include <type/DispatchDecl.h>
 #include <refl/Meta.h>
 #include <refl/Enum.h>
+#include <refl/Call.h>
 #include <refl/Sequence.h>
 #include <refl/Convert.h>
 #include <refl/System.h>
@@ -190,7 +191,7 @@ namespace mud
 			lua_call_table.resize(callable.m_index + 1);
 
 		if(!lua_call_table[callable.m_index])
-			lua_call_table[callable.m_index] = make_object<Call>(callable);
+			lua_call_table[callable.m_index] = oconstruct<Call>(callable);
 		return *lua_call_table[callable.m_index];
 	}
 
@@ -465,7 +466,7 @@ namespace mud
 			success &= callable.m_params[i].nullable() || !vars[i].null();
 #if 1
 			if(!success)
-				printf("ERROR: lua -> wrong argument %s, expect type %s, got %s\n", callable.m_params[i].m_name, type(callable.m_params[i].m_value).m_name, type(vars[i]).m_name);
+				printf("ERROR: lua -> wrong argument %s, expect type %s, got %s\n", callable.m_params[i].m_name, callable.m_params[i].m_type->m_name, type(vars[i]).m_name);
 #endif
 		}
 		return success;
@@ -579,8 +580,8 @@ namespace mud
 	{
 		Type* type = static_cast<Type*>(lua_touserdata(state, lua_upvalueindex(1)));
 		LuaRef object = userdata(state, 1);
-		if(object.m_alloc && cls(object).m_destructor.size() > 0)
-			cls(*type).m_destructor[0].m_call(object);
+		//if(object.m_alloc && cls(object).m_destructor.size() > 0)
+		//	cls(*type).m_destructor[0](object);
 		return 0;
 	}
 
@@ -683,7 +684,7 @@ namespace mud
 		lua_pushnil(state);
 		while(lua_next(state, (index > 0) ? index : (index - 1)) != 0)
 		{
-			Var element = meta(*cls(sequence_type).m_content).m_empty_var;
+			Var element = meta(*iter(sequence_type).m_element_type).m_empty_var;
 			read(state, -1, element);
 			sequence(result).add(result, element);
 			lua_pop(state, 1); // pop the value but keep the key for the next iteration

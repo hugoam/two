@@ -30,6 +30,7 @@ module mud.lang;
 #include <ecs/Proto.h>
 #include <refl/Meta.h>
 #include <refl/Enum.h>
+#include <refl/Call.h>
 #include <refl/Sequence.h>
 #include <refl/VirtualMethod.h>
 #include <refl/System.h>
@@ -113,7 +114,7 @@ namespace mud
 			call_table.resize(callable.m_index + 1);
 
 		if(!call_table[callable.m_index])
-			call_table[callable.m_index] = make_object<Call>(callable);
+			call_table[callable.m_index] = oconstruct<Call>(callable);
 		return *call_table[callable.m_index];
 	}
 
@@ -303,7 +304,7 @@ namespace mud
 			}
 		}
 		for(size_t i = offset + max(num_args, callable.m_num_required - offset); i < vars.size(); ++i)
-			vars[i] = callable.m_params[i].m_value;
+			vars[i] = callable.m_params[i].default_val();
 		return true;
 	}
 
@@ -445,7 +446,7 @@ namespace mud
 		
 		Ref object = alloc_object(vm, 0, 1, *constructor->m_object_type);
 		Ref other = read_ref(vm, 2);
-		constructor->m_call(object, other);
+		//constructor(object, other);
 	}
 
 	inline void construct_interface(WrenVM* vm)
@@ -472,8 +473,8 @@ namespace mud
 	inline void destroy(void* memory)
 	{
 		WrenRef ref = *(WrenRef*)memory;
-		if(ref.m_alloc && cls(ref).m_destructor.size() > 0)
-			cls(ref).m_destructor[0].m_call(ref);
+		//if(ref.m_alloc && cls(ref).m_destructor.size() > 0)
+		//	cls(ref).m_destructor[0].m_call(ref);
 	}
 
 	inline void register_enum(WrenVM* vm, string module, string name, Type& type)
@@ -912,7 +913,7 @@ namespace mud
 
 		for(int i = 0; i < count; ++i)
 		{
-			Var element = meta(*cls(sequence_type).m_content).m_empty_ref;
+			Var element = meta(*iter(sequence_type).m_element_type).m_empty_ref;
 			wrenGetListElement(vm, slot, i, slot + 1);
 			read(vm, slot + 1, element);
 			sequence(result).add(result, element);
@@ -1213,7 +1214,7 @@ namespace mud
 			string n = string(function.m_name);
 			string parent = function.m_namespace->m_name;
 
-			Functions& decls = m_function_decls[c];
+			WrenFunctionDecl& decls = m_function_decls[c];
 
 			decls.bind += "        __" + n + " = Function.ref(\"" + parent + "\", \"" + n + "\", " + to_string(function.m_params.size()) + ")\n";
 
@@ -1233,7 +1234,7 @@ namespace mud
 			if(m_function_decls.find(c) == m_function_decls.end())
 				return;
 
-			Functions& decls = m_function_decls[c];
+			WrenFunctionDecl& decls = m_function_decls[c];
 
 			string decl;
 			decl += "class " + c + " {\n";
@@ -1256,14 +1257,7 @@ namespace mud
 		}
 
 		map<string, string> m_namespaces;
-
-		struct Functions
-		{
-			string functions;
-			string bind;
-		};
-
-		map<string, Functions> m_function_decls;
+		map<string, WrenFunctionDecl> m_function_decls;
 
 		set<string> m_variables;
 

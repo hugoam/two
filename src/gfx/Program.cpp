@@ -376,7 +376,7 @@ namespace mud
 		m_blocks.m_shader_blocks[block].m_option_shift = uint8_t(m_impl->m_option_names.size());
 
 		for(size_t i = 0; i < options.size(); ++i)
-			m_impl->m_option_names.emplace_back(options[i]);
+			m_impl->m_option_names.push_back(options[i]);
 	}
 
 	void Program::register_modes(uint8_t block, array<cstring> modes)
@@ -384,6 +384,6 @@ namespace mud
 		m_blocks.m_shader_blocks[block].m_mode_shift = uint8_t(m_impl->m_mode_names.size());
 
 		for(size_t i = 0; i < modes.size(); ++i)
-			m_impl->m_mode_names.emplace_back(modes[i]);
+			m_impl->m_mode_names.push_back(modes[i]);
 	}
 }

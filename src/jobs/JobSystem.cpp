@@ -1,4 +1,4 @@
-#include <infra/Config.h>
+#include <stl/tinystl/vector.impl.h>
 #include <infra/Pool.h>
 #include <infra/Thread.h>
 #include <infra/Vector.h>

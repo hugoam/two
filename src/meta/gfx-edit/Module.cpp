@@ -23,6 +23,9 @@ module mud.gfx-edit;
 
 #include <gfx-edit/Api.h>
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_gfx_edit_meta(Module& m)

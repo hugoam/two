@@ -53,7 +53,7 @@ namespace mud
 		m_material.m_unshaded_block.m_enabled = true;
 		m_material.m_unshaded_block.m_colour.m_texture = &m_texture;
 
-		//m_target = make_object<FrameBuffer>(*m_viewport.ui_window().m_renderer, as<Layer>(*m_frame), m_viewport.m_scene, m_viewport.m_camera, gfx_system, *m_texture);
+		//m_target = oconstruct<FrameBuffer>(*m_viewport.ui_window().m_renderer, as<Layer>(*m_frame), m_viewport.m_scene, m_viewport.m_camera, gfx_system, *m_texture);
 
 		Symbol symbol = { Colour::White, Colour::None, true };
 		Quad quad = { vec2 { width * scale, height * scale } };
@@ -66,7 +66,7 @@ namespace mud
 		, m_size_ratio(0.01f)
 	{
 		//m_propagate = parent.m_parent; // we skip the SpaceViewport
-		//m_frame = make_object<Layer>(parent.m_frame.get(), viewer_styles().space_sheet, *this, SPACE_LAYER);
+		//m_frame = oconstruct<Layer>(parent.m_frame.get(), viewer_styles().space_sheet, *this, SPACE_LAYER);
 		//this->update_style();
 	}
 
@@ -99,7 +99,7 @@ namespace mud
 		printf("SpaceSheet :: updateSize () %f, %f\n", m_width, m_height);
 
 		if(m_width > 0.f && m_height > 0.f)
-			m_quad = make_object<SpaceQuad>(m_viewer.m_viewport, size_t(m_width), size_t(m_height), m_size_ratio);
+			m_quad = oconstruct<SpaceQuad>(m_viewer.m_viewport, size_t(m_width), size_t(m_height), m_size_ratio);
 	}
 
 	void SpaceSheet::transformCoordinates(MouseEvent& mouse_event)

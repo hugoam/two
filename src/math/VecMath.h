@@ -23,20 +23,19 @@ namespace mud
 	{
 		typedef uint length_type;
 		typedef T type;
-		v2() { }
-		explicit v2(T v) : x(v), y(v) {}
-		v2(T x, T y) : x(x), y(y) {}
+		v2();
+		explicit v2(T v);
+		v2(T x, T y);
 		template <class V>
-		explicit v2(V v) : x(T(v.x)), y(T(v.y)) {}
-		T operator[](uint index) const { return *((T*)&x + index); }
-		T& operator[](uint index) { return *((T*)&x + index); }
-		bool operator==(const v2& other) const { return x == other.x && y == other.y; }
-		bool operator!=(const v2& other) const { return x != other.x || y != other.y; }
-		explicit operator T() { return T(x); }
-		//T x, y;
+		explicit v2(V v);
+		T operator[](uint index) const;
+		T& operator[](uint index);
+		bool operator==(const v2& other) const;
+		bool operator!=(const v2& other) const;
+		explicit operator T();
 		union {
-			T f[2];
 			struct { attr_ T x; attr_ T y; };
+			T f[2];
 		};
 	};
 
@@ -46,23 +45,22 @@ namespace mud
 		typedef uint length_type;
 		typedef T type;
 		typedef v2<T> type2;
-		v3() { }
-		explicit v3(T v) : x(v), y(v), z(v) {}
-		v3(T x, T y, T z) : x(x), y(y), z(z) {}
-		v3(v2<T> a, T z) : x(a.x), y(a.y), z(z) {}
+		v3();
+		explicit v3(T v);
+		v3(T x, T y, T z);
+		v3(v2<T> a, T z);
 		template <class V>
-		explicit v3(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)) {}
-		T operator[](uint index) const { return *((T*)&x + index); }
-		T& operator[](uint index) { return *((T*)&x + index); }
-		bool operator==(const v3& other) const { return x == other.x && y == other.y && z == other.z; }
-		bool operator!=(const v3& other) const { return x != other.x || y != other.y || z != other.z; }
-		explicit operator T() { return T(x); }
-		explicit operator v2<T>() { return v2<T>(x, y); }
-		//T x, y, z;
+		explicit v3(V v);
+		T operator[](uint index) const;
+		T& operator[](uint index);
+		bool operator==(const v3& other) const;
+		bool operator!=(const v3& other) const;
+		explicit operator T();
+		explicit operator v2<T>();
 		union {
-			T f[3];
 			struct { attr_ T x; attr_ T y; attr_ T z; };
 			struct { T r; T g; T b; };
+			T f[3];
 		};
 	};
 
@@ -73,25 +71,24 @@ namespace mud
 		typedef T type;
 		typedef v2<T> type2;
 		typedef v3<T> type3;
-		v4() { }
-		explicit v4(T v) : x(v), y(v), z(v), w(v) {}
-		v4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
-		v4(v3<T> a, T w) : x(a.x), y(a.y), z(a.z), w(w) {}
-		v4(T x, v3<T> b) : x(x), y(b.x), z(b.y), w(b.z) {}
-		v4(v2<T> a, v2<T> b) : x(a.x), y(a.y), z(b.x), w(b.y) {}
+		v4();
+		explicit v4(T v);
+		v4(T x, T y, T z, T w);
+		v4(v3<T> a, T w);
+		v4(T x, v3<T> b);
+		v4(v2<T> a, v2<T> b);
 		template <class V>
-		explicit v4(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)), w(T(v.w)) {}
-		T operator[](uint index) const { return *((T*)&x + index); }
-		T& operator[](uint index) { return *((T*)&x + index); }
-		bool operator==(const v4& other) const { return x == other.x && y == other.y && z == other.z && w == other.w; }
-		bool operator!=(const v4& other) const { return x != other.x || y != other.y || z != other.z || w != other.w; }
-		explicit operator v2<T>() { return v2<T>(x, y); }
-		explicit operator v3<T>() { return v3<T>(x, y, z); }
-		//T x, y, z, w;
+		explicit v4(V v);
+		T operator[](uint index) const;
+		T& operator[](uint index);
+		bool operator==(const v4& other) const;
+		bool operator!=(const v4& other) const;
+		explicit operator v2<T>();
+		explicit operator v3<T>();
 		union {
-			T f[4];
 			struct { attr_ T x; attr_ T y; attr_ T z; attr_ T w; };
 			struct { T r; T g; T b; T a; };
+			T f[4];
 		};
 	};
 

@@ -97,7 +97,7 @@ namespace mud
 
 	object<TransformAction> TranslateTool::create_action(array<Transform*> targets)
 	{
-		return make_object<TranslateAction>(targets);
+		return oconstruct<TranslateAction>(targets);
 	}
 
 }

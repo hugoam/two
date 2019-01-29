@@ -12,6 +12,7 @@ module mud.tool;
 #include <ecs/ECS.h>
 #include <lang/Lua.h>
 #include <lang/VisualScript.h>
+#include <ui/Ui.h>
 #include <ui/Edit/Console.h>
 #include <uio/Edit/Inspector.h>
 #include <uio/Edit/UiEdit.h>

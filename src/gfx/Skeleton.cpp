@@ -39,7 +39,7 @@ namespace mud
 
 	Bone& Skeleton::add_bone(cstring name, int parent)
 	{		
-		m_bones.emplace_back(name, int(m_bones.size()), parent);
+		m_bones.push_back({ name, int(m_bones.size()), parent });
 		return m_bones.back();
 	}
 
@@ -128,7 +128,7 @@ namespace mud
 		: m_skeleton(rig.m_skeleton)
 	{
 		for(const Skin& skin : rig.m_skins)
-			m_skins.emplace_back(skin, m_skeleton);
+			m_skins.push_back({ skin, m_skeleton });
 	}
 
 	Rig& Rig::operator=(const Rig& rig)
@@ -136,7 +136,7 @@ namespace mud
 		m_skeleton = rig.m_skeleton;
 		m_skins.reserve(rig.m_skins.size());
 		for(const Skin& skin : rig.m_skins)
-			m_skins.emplace_back(skin, m_skeleton);
+			m_skins.push_back({ skin, m_skeleton });
 		return *this;
 	}
 

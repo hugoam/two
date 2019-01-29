@@ -14,6 +14,9 @@ module mud.jobs;
 
 #include <jobs/Api.h>
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_jobs_meta(Module& m)
@@ -30,28 +33,14 @@ namespace mud
 	{
 		Type& t = type<mud::JobSystem>();
 		static Meta meta = { t, &namspc({ "mud" }), "JobSystem", sizeof(mud::JobSystem), TypeClass::Object };
+		// bases
 		// defaults
-		static Class cls = { t,
-			// bases
-			{  },
-			{  },
-			// constructors
-			{
-			},
-			// copy constructor
-			{
-			},
-			// members
-			{
-			},
-			// methods
-			{
-			},
-			// static members
-			{
-			}
-		};
-		meta_class<mud::JobSystem>();
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
 		m.m_types.push_back(&type<mud::JobSystem>());
 	}

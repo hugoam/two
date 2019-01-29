@@ -25,9 +25,9 @@ namespace mud
 	void UniformBlock::pack_member(size_t size, Member& member)
 	{
 		if(m_uniforms.empty() || m_uniforms.back().m_space < size)
-			m_uniforms.push_back({ "u_" + m_name + "_params_" + to_string(m_num_packed++), member.m_address, bgfx::UniformType::Vec4 });
+			m_uniforms.push_back({ "u_" + m_name + "_params_" + to_string(m_num_packed++), member.m_offset, bgfx::UniformType::Vec4 });
 
-		m_uniforms.back().m_fields.push_back({ member.m_name, member.m_address, size });
+		m_uniforms.back().m_fields.push_back({ member.m_name, member.m_offset, size });
 		m_uniforms.back().m_space -= size;
 	}
 
@@ -40,11 +40,11 @@ namespace mud
 		else if(member.m_type->is<vec3>())
 			pack_member(3, member);
 		else if(member.m_type->is<vec4>() || member.m_type->is<Colour>())
-			m_uniforms.push_back(Uniform{ "u_" + name, member.m_address, bgfx::UniformType::Vec4 });
+			m_uniforms.push_back({ "u_" + name, member.m_offset, bgfx::UniformType::Vec4 });
 		else if(member.m_type->is<Texture>())
-			m_samplers.push_back(Sampler{ "s_" + name, member.m_address, uint8_t(m_samplers.size()), &gfx_system.default_texture(TextureHint::White), {} });
+			m_samplers.push_back({ "s_" + name, member.m_offset, uint8_t(m_samplers.size()), &gfx_system.default_texture(TextureHint::White), {} });
 		else if(member.m_type->is<mat4>())
-			m_uniforms.push_back(Uniform{ "u_" + name, member.m_address, bgfx::UniformType::Mat4 });
+			m_uniforms.push_back({ "u_" + name, member.m_offset, bgfx::UniformType::Mat4 });
 
 		else if(member.cls().m_members.size() > 0)
 			for(Member& sub_member : member.cls().m_members)

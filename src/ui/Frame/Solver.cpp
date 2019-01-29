@@ -82,6 +82,9 @@ namespace mud
 	float AlignSpace[5] = { 0.f, 0.5f, 1.f, 0.f, 1.f };
 	float AlignExtent[5] = { 0.f, 0.5f, 1.f, 1.f, 0.f };
 
+	FrameSolver::FrameSolver()
+	{}
+
 	FrameSolver::FrameSolver(FrameSolver* solver, Layout* layout, Frame* frame)
 		: d_frame(frame)
 		, d_parent(solver)
@@ -176,6 +179,9 @@ namespace mud
 	{
 		UNUSED(frame); UNUSED(dim);
 	}
+
+	RowSolver::RowSolver()
+	{}
 
 	RowSolver::RowSolver(FrameSolver* solver, Layout* layout, Frame* frame)
 		: FrameSolver(solver, layout, frame)
@@ -322,10 +328,10 @@ namespace mud
 	void TableSolver::divide(const vector<float>& columns)
 	{
 		m_solvers.clear();
-		m_solvers.emplace_back(make_unique<RowSolver>(this, &gridOverlayStyle()));
+		m_solvers.push_back(construct<RowSolver>(this, &gridOverlayStyle()));
 		for(size_t i = 0; i < columns.size(); ++i)
 		{
-			m_solvers.emplace_back(make_unique<RowSolver>(m_solvers.front().get(), &columnSolverStyle()));
+			m_solvers.push_back(construct<RowSolver>(m_solvers.front().get(), &columnSolverStyle()));
 			m_solvers.back()->m_span = { columns[i], 0.f };
 		}
 	}
@@ -372,7 +378,7 @@ namespace mud
 	{
 		m_solvers.clear();
 		for(size_t i = 0; i < lines.size(); ++i)
-			m_solvers.emplace_back(make_unique<LineSolver>(this, lines[i]));
+			m_solvers.push_back(construct<LineSolver>(this, lines[i]));
 	}
 
 	FrameSolver& GridSolver::solver(FrameSolver& frame, Dim dim)

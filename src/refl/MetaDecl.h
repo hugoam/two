@@ -31,7 +31,6 @@ namespace mud
 
 	export_ template <typename T_Value, typename T_Param, typename T>
 	inline auto member_setter(void(T::*func)(T_Param)) { return [func](Ref object, const Var& v) { (val<T>(object).*func)(val<T_Value>(v)); }; }
-#endif
 
 	export_ template <class T>
 	void init_store() {}
@@ -88,8 +87,8 @@ namespace mud
 
 	export_ template <class T>
 		inline typename enable_if<!is_trivially_destructible<T>::value, void>::type
-		init_destructor() { cls<T>().m_destructor.push_back({ type<T>(), [](Ref ref) { val<T>(ref).~T(); } }); }
-	
+		init_destructor() { cls<T>().m_destructor.push_back({ type<T>(), [](void* ref) { static_cast<T*>(ref)->~T(); } }); }
+
 	export_ template <>
 	MUD_REFL_EXPORT void init_assign<void*>();
 
@@ -137,4 +136,5 @@ namespace mud
 		meta_type<T>();
 		init_string<T>();
 	}
+#endif
 }

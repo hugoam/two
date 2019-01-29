@@ -55,7 +55,7 @@ namespace mud
 	}
 
 	Valve::Valve(Process& process, const Param& param)
-		: Valve(process, param.m_name, param.output() ? OUTPUT_VALVE : INPUT_VALVE, param.m_value, param.nullable(), param.reference())
+		: Valve(process, param.m_name, param.output() ? OUTPUT_VALVE : INPUT_VALVE, param.default_val(), param.nullable(), param.reference())
 	{}
 
 	Valve::~Valve()
@@ -125,7 +125,7 @@ namespace mud
 		if(!m_pipes.empty())
 			m_process.m_script.disconnect(*m_pipes[0]);
 
-		return make_object<Pipe>(output, *this, modifier);
+		return oconstruct<Pipe>(output, *this, modifier);
 	}
 
 	void Valve::propagate()
@@ -197,14 +197,14 @@ namespace mud
 	Valve& Process::out_flow()
 	{
 		if(!m_out_flow)
-			m_out_flow = make_object<Valve>(*this, "out", FLOW_VALVE_OUT);
+			m_out_flow = oconstruct<Valve>(*this, "out", FLOW_VALVE_OUT);
 		return *m_out_flow;
 	}
 
 	Valve& Process::in_flow()
 	{
 		if(!m_in_flow)
-			m_in_flow = make_object<Valve>(*this, "in", FLOW_VALVE_IN);
+			m_in_flow = oconstruct<Valve>(*this, "in", FLOW_VALVE_IN);
 		return *m_in_flow;
 	}
 
@@ -370,8 +370,8 @@ namespace mud
 	VisualScript::VisualScript(cstring name, const Signature& signature)
 		: Script(type<VisualScript>(), name, signature)
 	{
-		if(!signature.m_returnval.none())
-			this->node<ProcessOutput>(Param("return", signature.m_returnval));
+		if(!signature.m_return_type.isvoid())
+			this->node<ProcessOutput>(Param("return", *signature.m_return_type.m_type));
 
 		for(const Param& param : signature.m_params)
 			if(!param.output())
@@ -469,7 +469,7 @@ namespace mud
 	ProcessInput::ProcessInput(VisualScript& script, const Param& param)
 		: Process(script, param.m_name, type<ProcessInput>())
 		, Param(param)
-		, m_output(*this, param.m_name, OUTPUT_VALVE, param.m_value, param.nullable(), param.reference())
+		, m_output(*this, param.m_name, OUTPUT_VALVE, param.default_val(), param.nullable(), param.reference())
 	{
 		script.m_inputs.push_back(this);
 	}
@@ -477,7 +477,7 @@ namespace mud
 	ProcessOutput::ProcessOutput(VisualScript& script, const Param& param)
 		: Process(script, param.m_name, type<ProcessOutput>())
 		, Param(param)
-		, m_input(*this, param.m_name, INPUT_VALVE, param.m_value, param.nullable(), param.reference())
+		, m_input(*this, param.m_name, INPUT_VALVE, param.default_val(), param.nullable(), param.reference())
 	{
 		script.m_outputs.push_back(this);
 	}

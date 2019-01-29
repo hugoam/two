@@ -188,11 +188,11 @@ namespace mud
 
 		m_value = meta(*m_type).m_empty_var;
 		Sequence& seq = sequence(m_value);
-		Var element = meta(*cls(*m_type).m_content).m_empty_var;
+		Var element = meta(*iter(*m_type).m_element_type).m_empty_var;
 
 		source.visit(true, [&](StreamBranch& branch)
 		{
-			branch.read(element, cls(*m_type).m_content, m_reference);
+			branch.read(element, iter(*m_type).m_element_type, m_reference);
 			seq.add(m_value, element);
 		});
 	}

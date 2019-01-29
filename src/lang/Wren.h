@@ -19,6 +19,12 @@ namespace mud
 {
 	class WrenContext;
 
+	struct WrenFunctionDecl
+	{
+		string functions;
+		string bind;
+	};
+
 	export_ class refl_ MUD_LANG_EXPORT WrenInterpreter final : public Interpreter
 	{
 	public:

@@ -8,6 +8,7 @@
 module mud.ui;
 #else
 #include <infra/Vector.h>
+#include <ui/Extern.h>
 #include <ui/Node.h>
 #include <ui/Structs/Node.h>
 #include <ui/Structs/Container.h>
@@ -68,13 +69,13 @@ namespace ui
 
 		for(int i = 0; i < max_index + shift + 1; ++i)
 		{
-			columns.emplace_back(&line, &layout_column);
+			columns.push_back({ &line, &layout_column });
 			solvers.push_back(&columns.back());
 		}
 
 		for(size_t i = 0; i < canvas.m_nodes.size(); ++i)
 		{
-			elements.emplace_back(&columns[canvas.m_nodes[i]->m_order + shift], &layout_node, &canvas.m_nodes[i]->m_frame);
+			elements.push_back({ &columns[canvas.m_nodes[i]->m_order + shift], &layout_node, &canvas.m_nodes[i]->m_frame });
 			elements.back().sync();
 			solvers.push_back(&elements.back());
 		}

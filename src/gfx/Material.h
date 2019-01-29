@@ -96,8 +96,8 @@ namespace mud
 		attr_ TextureChannel m_channel = TextureChannel::All;
 	};
 
-	export_ template struct refl_ MUD_GFX_EXPORT MaterialParam<Colour>;
-	export_ template struct refl_ MUD_GFX_EXPORT MaterialParam<float>;
+	export_ extern template struct refl_ MaterialParam<Colour>;
+	export_ extern template struct refl_ MaterialParam<float>;
 
 	export_ struct refl_ MUD_GFX_EXPORT UnshadedMaterialBlock
 	{

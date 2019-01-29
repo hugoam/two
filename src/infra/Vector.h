@@ -145,7 +145,7 @@ namespace mud
 	}
 
 	export_ template <class T, class Pred>
-	inline bool vector_has_pred(const vector<T>& vec, Pred predicate)
+	inline bool has_pred(const T& vec, Pred predicate)
 	{
 		return find_if(vec.begin(), vec.end(), predicate) != vec.end();
 	}
@@ -201,7 +201,7 @@ namespace mud
 	inline auto vector_transfer_pt(vector<T>& source, vector<T>& target, V& value)
 	{
 		auto pos = find_if(source.begin(), source.end(), [&](auto& pt) { return pt.get() == &value; });
-		target.emplace_back(move(*pos));
+		target.push_back(move(*pos));
 		source.erase(pos);
 	}
 

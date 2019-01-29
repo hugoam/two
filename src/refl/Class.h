@@ -21,13 +21,13 @@ namespace mud
 		Class(Type& type);
 		Class(
 			Type& type,
-			vector<Type*> bases,
-			vector<size_t> bases_offsets,
-			vector<Constructor> constructors,
-			vector<CopyConstructor> copy_constructors,
-			vector<Member> members,
-			vector<Method> methods,
-			vector<Static> static_members
+			array<Type*> bases,
+			array<size_t> bases_offsets,
+			array<Constructor> constructors,
+			array<CopyConstructor> copy_constructors,
+			array<Member> members,
+			array<Method> methods,
+			array<Static> static_members
 		);
 		~Class();
 
@@ -45,10 +45,10 @@ namespace mud
 		bool has_member(cstring name);
 		bool has_method(cstring name);
 
-		Member& member(Address address);
+		Member& member(size_t offset);
 		Method& method(Address address);
 
-		bool has_member(Address address);
+		bool has_member(size_t offset);
 		bool has_method(Address address);
 
 		template <class T> inline Member& member(T member) { return this->member(member_address(member)); }
@@ -63,24 +63,21 @@ namespace mud
 	public:
 		Type* m_type;
 		Meta* m_meta;
-		Type* m_root;
-
-		vector<Type*> m_bases;
-		vector<size_t> m_bases_offsets;
-
-		bool m_nested = false;
 
 		// Reflection
-		vector<Constructor> m_constructors;
-		vector<CopyConstructor> m_copy_constructors; // in a vector until we update to c++17 optional
-		vector<Destructor> m_destructor; // in a vector until we update to c++17 optional
-		vector<Member> m_members;
-		vector<Method> m_methods;
+		array<Type*> m_bases;
+		array<size_t> m_bases_offsets;
+
+		array<Constructor> m_constructors;
+		array<CopyConstructor> m_copy_constructors; // in a vector until we update to c++17 optional
+		array<Destructor> m_destructor; // in a vector until we update to c++17 optional
+		array<Member> m_members;
+		array<Method> m_methods;
+
+		array<Static> m_static_members;
+		array<Function> m_static_functions;
 
 		vector<Operator> m_operators;
-
-		vector<Static> m_static_members;
-		vector<Function> m_static_functions;
 
 		Member* m_id_member = nullptr;
 		Member* m_type_member = nullptr;
@@ -94,12 +91,12 @@ namespace mud
 		vector<Member*> m_deep_members;
 		vector<Method*> m_deep_methods;
 
-		// Sequence
-		Type* m_content = nullptr;
-		bool m_content_pointer = false;
-
 		// Implementation
 		using MakePool = unique<Pool>(*)(); MakePool m_make_pool;
+
+		// Deprecated ??
+		Type* m_root = nullptr;
+		bool m_nested = false;
 	};
 
 	inline Ref Member::cast(Ref object) const

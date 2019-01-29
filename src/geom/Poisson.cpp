@@ -27,9 +27,9 @@ namespace mud
 	void Poisson::pushPoint(const Point& point)
 	{
 		size_t index = gridIndex(point);
-		m_points.emplace_back(point);
-		m_unprocessed.emplace_back(point);
-		m_grid[index].emplace_back(point);
+		m_points.push_back(point);
+		m_unprocessed.push_back(point);
+		m_grid[index].push_back(point);
 	}
 
 	Distribution::Point Poisson::randomPointAround(const Point& point, float radius)
@@ -131,7 +131,7 @@ namespace mud
 		for(Point& point : m_points)
 		{
 			vec3 position = { point.position.x - m_size.x / 2.f, 0.f, point.position.y - m_size.y / 2.f };
-			result.emplace_back(position);
+			result.push_back(position);
 		}
 		return result;
 	}

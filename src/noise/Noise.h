@@ -64,13 +64,13 @@ namespace mud
 	MUD_NOISE_EXPORT func_ float noise_3d(float x, float y, float z, Noise::NoiseType noise_type, float frequency = 0.01f, Noise::Interp interp = Noise::Quintic);
 
 	MUD_NOISE_EXPORT func_ float noise_fract_2d(float x, float y, Noise::NoiseType noise_type, float frequency, Noise::Interp interp = Noise::Quintic,
-											   Noise::FractalType fractal_type = Noise::FBM, int octaves = 3, float lacunarity = 2.f, float gain = 0.5f);
+											    Noise::FractalType fractal_type = Noise::FBM, int octaves = 3, float lacunarity = 2.f, float gain = 0.5f);
 
 	MUD_NOISE_EXPORT func_ float noise_fract_3d(float x, float y, float z, Noise::NoiseType noise_type, float frequency, Noise::Interp interp = Noise::Quintic,
-											   Noise::FractalType fractal_type = Noise::FBM, int octaves = 3, float lacunarity = 2.f, float gain = 0.5f);
+											    Noise::FractalType fractal_type = Noise::FBM, int octaves = 3, float lacunarity = 2.f, float gain = 0.5f);
 
 
-	export_ template struct refl_ struct_ MUD_NOISE_EXPORT array3d<float>;
+	export_ extern template struct refl_ struct_ array3d<float>;
 
 	MUD_NOISE_EXPORT func_ void noise_field_2d(array3d<float>& output_values, Noise::NoiseType noise_type, float frequency = 0.01f, Noise::Interp interp = Noise::Quintic);
 	MUD_NOISE_EXPORT func_ void noise_field_3d(array3d<float>& output_values, Noise::NoiseType noise_type, float frequency = 0.01f, Noise::Interp interp = Noise::Quintic);

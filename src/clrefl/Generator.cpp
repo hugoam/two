@@ -2,6 +2,10 @@
 #include <clrefl/Codegen.h>
 #include <infra/ToString.h>
 
+#include <stl/tinystl/vector.impl.h>
+#include <stl/tinystl/unordered_map.impl.h>
+#include <stl/tinystl/unordered_set.impl.h>
+
 #include <string>
 
 #define PARSE_EXTERNAL 0
@@ -132,6 +136,7 @@ namespace mud
 		//print "Function ", cursor.displayname
 		CLFunction& f = vector_emplace<CLFunction>(module.m_functions, parent, spelling(cursor));
 		parse_callable(module, parent, f, cursor);
+		f.m_index = module.m_functions.size() - 1;
 	}
 
 	void parse_function_template(CLModule& module, CLPrimitive& parent, CXCursor cursor)
@@ -153,6 +158,7 @@ namespace mud
 	{
 		CLConstructor& ctor = vector_push(c.m_constructors, c, spelling(cursor));
 		parse_callable(*c.m_module, c, ctor, cursor);
+		ctor.m_index = c.m_constructors.size() - 1;
 	}
 
 	void parse_method(CLClass& c, CLMethod& m, CXCursor cursor)
@@ -332,6 +338,7 @@ namespace mud
 		{
 			CLConstructor& ctor = vector_push(c.m_constructors, c, c.m_name);
 			ctor.m_module = c.m_module;
+			ctor.m_index = 0;
 		}
 	}
 
