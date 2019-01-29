@@ -3794,9 +3794,9 @@ namespace mud
 #include <stl/unordered_map.h>
 #include <stl/unordered_set.h>
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	export_ extern template class vector<Texture*>;
 	export_ extern template class vector<Material*>;
 	export_ extern template class vector<Animation*>;

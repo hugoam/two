@@ -4,8 +4,8 @@
 #include <stl/unordered_map.h>
 #include <pool/Api.h>
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	export_ extern template class vector<unique<Pool>>;
 }

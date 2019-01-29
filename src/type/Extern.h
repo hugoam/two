@@ -6,9 +6,9 @@
 #include <stl/unordered_map.h>
 #include <type/Api.h>
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	export_ extern template class vector<string>;
 	export_ extern template class vector<Type*>;
 	export_ extern template class vector<Var>;

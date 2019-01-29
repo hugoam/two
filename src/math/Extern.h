@@ -6,9 +6,9 @@
 
 #include <stb_rect_pack.h>
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	export_ extern template class vector<const char*>;
 	export_ extern template class vector<char>;
 	export_ extern template class vector<uchar>;

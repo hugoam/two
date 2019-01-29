@@ -4,9 +4,9 @@
 #include <stl/unordered_map.h>
 #include <geom/Api.h>
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	export_ extern template class vector<Poisson*>;
 	export_ extern template class vector<Geometry*>;
 	export_ extern template class vector<Geometry>;

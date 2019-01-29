@@ -8,9 +8,9 @@ module mud.math;
 #include <geom/Extern.h>
 #endif
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	template class MUD_GEOM_EXPORT vector<Poisson*>;
 	template class MUD_GEOM_EXPORT vector<Geometry*>;
 	template class MUD_GEOM_EXPORT vector<Geometry>;

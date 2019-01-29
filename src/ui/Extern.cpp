@@ -9,9 +9,9 @@ module mud.math;
 #include <ui/Extern.h>
 #endif
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	template class MUD_UI_EXPORT vector<TextGlyph>;
 	template class MUD_UI_EXPORT vector<TextRow>;
 	template class MUD_UI_EXPORT vector<Text::ColorSection>;

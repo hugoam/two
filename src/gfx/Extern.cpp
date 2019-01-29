@@ -9,9 +9,9 @@ module mud.math;
 #include <gfx/Extern.h>
 #endif
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	template class MUD_GFX_EXPORT vector<Texture*>;
 	template class MUD_GFX_EXPORT vector<Material*>;
 	template class MUD_GFX_EXPORT vector<Animation*>;

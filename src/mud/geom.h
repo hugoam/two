@@ -1420,9 +1420,9 @@ namespace mud
 #include <stl/vector.h>
 #include <stl/unordered_map.h>
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	export_ extern template class vector<Poisson*>;
 	export_ extern template class vector<Geometry*>;
 	export_ extern template class vector<Geometry>;

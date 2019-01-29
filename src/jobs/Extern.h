@@ -4,8 +4,8 @@
 #include <stl/unordered_map.h>
 #include <jobs/Api.h>
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	//export_ extern template class vector<JobSystem::ThreadState>;
 }

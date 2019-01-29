@@ -3,8 +3,8 @@
 #include <stl/vector.h>
 #include <gfx-pbr/Forward.h>
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	//export_ extern template class vector<>;
 }

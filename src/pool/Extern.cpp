@@ -8,8 +8,8 @@ module mud.uio;
 #include <pool/Extern.h>
 #endif
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	template class MUD_POOL_EXPORT vector<unique<Pool>>;
 }

@@ -777,9 +777,9 @@ namespace mud
 typedef struct WrenHandle WrenHandle;
 //struct WrenHandle;
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	export_ extern template class vector<Pipe*>;
 	export_ extern template class vector<Valve*>;
 	export_ extern template class vector<ProcessInput*>;

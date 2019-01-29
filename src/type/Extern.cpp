@@ -9,9 +9,9 @@ module mud.math;
 #include <type/Extern.h>
 #endif
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	template class MUD_TYPE_EXPORT vector<string>;
 	template class MUD_TYPE_EXPORT vector<Type*>;
 	template class MUD_TYPE_EXPORT vector<Var>;

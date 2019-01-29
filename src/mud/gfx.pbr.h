@@ -1472,8 +1472,8 @@ namespace mud
 
 #include <stl/vector.h>
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	//export_ extern template class vector<>;
 }

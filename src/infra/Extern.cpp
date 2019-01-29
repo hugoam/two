@@ -7,9 +7,9 @@ module mud.infra;
 #include <infra/Extern.h>
 #endif
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	template class MUD_INFRA_EXPORT vector<string>;
 	template class MUD_INFRA_EXPORT vector<uchar>;
 }

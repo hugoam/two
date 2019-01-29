@@ -886,9 +886,9 @@ namespace mud
 #include <stl/unordered_set.h>
 #include <stl/unordered_map.h>
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	export_ extern template class vector<string>;
 	export_ extern template class vector<Type*>;
 	export_ extern template class vector<Var>;

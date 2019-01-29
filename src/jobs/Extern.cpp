@@ -8,8 +8,8 @@ module mud.jobs;
 #include <jobs/Extern.h>
 #endif
 
-using namespace mud;
 namespace tinystl
 {
+	using namespace mud;
 	//template class MUD_JOBS_EXPORT vector<JobSystem::ThreadState>;
 }
