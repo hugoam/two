@@ -8,7 +8,8 @@ module mud.lang;
 #include <lang/Extern.h>
 #endif
 
-namespace mud
+using namespace mud;
+namespace tinystl
 {
 	template class MUD_LANG_EXPORT vector<Pipe*>;
 	template class MUD_LANG_EXPORT vector<Valve*>;
