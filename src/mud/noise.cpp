@@ -3,6 +3,18 @@
 #include <mud/infra.h>
 #include <mud/type.h>
 
+#ifdef MUD_MODULES
+module mud.jobs;
+#else
+#include <stl/tinystl/vector.impl.h>
+#include <stl/tinystl/unordered_map.impl.h>
+#endif
+
+namespace mud
+{
+	template struct MUD_NOISE_EXPORT array3d<float>;
+}
+
 #include <climits>
 
 #ifdef MUD_MODULES

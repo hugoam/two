@@ -238,6 +238,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT StreamBranch
 	{
 	public:
+		StreamBranch();
 		StreamBranch(Stream* stream, Var value, StreamIndex index);
 
 		Var& value(const StreamIndex& index) { return this->branch(index).m_value; }
@@ -360,30 +361,30 @@ namespace mud
     export_ template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>();
     export_ template <> MUD_LANG_EXPORT Type& type<mud::WrenInterpreter>();
     
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::Interpreter*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::Pipe*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::Process*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ScriptClass*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ScriptError*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::StreamBranch*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::Valve*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::LuaInterpreter*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessCallable*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessCreate*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessDisplay*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessFunction*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessGetMember*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessInput*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessMethod*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessOutput*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessScript*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessSetMember*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::ProcessValue*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::Script*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::Stream*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::TextScript*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::VisualScript*>>;
-    export_ template struct MUD_LANG_EXPORT Typed<vector<mud::WrenInterpreter*>>;
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::Interpreter*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::Pipe*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::Process*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::ScriptClass*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::ScriptError*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::StreamBranch*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::Valve*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::LuaInterpreter*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::ProcessCallable*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::ProcessCreate*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::ProcessDisplay*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::ProcessFunction*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::ProcessGetMember*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::ProcessInput*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::ProcessMethod*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::ProcessOutput*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::ProcessScript*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::ProcessSetMember*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::ProcessValue*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::Script*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::Stream*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::TextScript*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::VisualScript*>>();
+    export_ template <> MUD_LANG_EXPORT Type& type<vector<mud::WrenInterpreter*>>();
 }
 
 
@@ -552,7 +553,7 @@ namespace mud
 		template <class T, class... Types>
 		T& node(Types&&... args)
 		{
-			m_processes.push_back(make_object<T>(*this, static_cast<Types&&>(args)...)); return as<T>(*m_processes.back());
+			m_processes.push_back(oconstruct<T>(*this, static_cast<Types&&>(args)...)); return as<T>(*m_processes.back());
 		}
 
 		template <class T>
@@ -738,6 +739,12 @@ namespace mud
 {
 	class WrenContext;
 
+	struct WrenFunctionDecl
+	{
+		string functions;
+		string bind;
+	};
+
 	export_ class refl_ MUD_LANG_EXPORT WrenInterpreter final : public Interpreter
 	{
 	public:
@@ -763,3 +770,35 @@ namespace mud
 	};
 }
 
+
+#include <stl/vector.h>
+#include <stl/unordered_map.h>
+
+typedef struct WrenHandle WrenHandle;
+//struct WrenHandle;
+
+using namespace mud;
+namespace tinystl
+{
+	export_ extern template class vector<Pipe*>;
+	export_ extern template class vector<Valve*>;
+	export_ extern template class vector<ProcessInput*>;
+	export_ extern template class vector<ProcessOutput*>;
+	export_ extern template class vector<Process*>;
+	export_ extern template class vector<Script*>;
+	export_ extern template class vector<VisualScript*>;
+	export_ extern template class vector<TextScript*>;
+	//export_ extern template class vector<WrenHandle*>;
+	export_ extern template class vector<StreamBranch>;
+	export_ extern template class vector<StreamModifier>;
+	export_ extern template class vector<unique<Valve>>;
+	export_ extern template class vector<unique<Pipe>>;
+	export_ extern template class vector<unique<Process>>;
+	export_ extern template class vector<unique<Call>>;
+	export_ extern template class unordered_map<int, ScriptError>;
+	export_ extern template class unordered_map<void*, TextScript*>;
+	export_ extern template class unordered_map<string, WrenFunctionDecl>;
+
+	export_ extern template class vector<WrenHandle*>;
+	export_ extern template class unordered_map<void*, WrenHandle*>;
+}

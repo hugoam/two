@@ -10,7 +10,7 @@ using namespace mud;
 
 static TextScript& create_wren_script(WrenInterpreter& interpreter)
 {
-	Signature signature = { { Param{ "scene", Ref(type<Gnode>()) }, Param{ "time", var(float()) } } };
+	Signature signature = { { Param{ "scene", type<Gnode>() }, Param{ "time", type<float>() } } };
 	static TextScript script = { "Example Script", Language::Wren, signature };
 	script.m_interpreter = &interpreter;
 
@@ -43,7 +43,7 @@ static TextScript& create_wren_script(WrenInterpreter& interpreter)
 
 static TextScript& create_lua_script(LuaInterpreter& interpreter)
 {
-	Signature signature = { { Param{ "scene", Ref(type<Gnode>()) }, Param{ "time", var(float()) } } };
+	Signature signature = { { Param{ "scene", type<Gnode>() }, Param{ "time", type<float>() } } };
 	static TextScript script = { "Example Script", Language::Lua, signature };
 	script.m_interpreter = &interpreter;
 
@@ -117,11 +117,11 @@ void ex_14_live_gfx(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static Clock clock;
 
-	vector<Var> args = { Ref(&scene), var(clock.read()) };
-	if(language == Language::Lua)
-		lua_script(args);
-	else if(language == Language::Wren)
-		wren_script(args);
+	//vector<Var> args = { Ref(&scene), var(clock.read()) };
+	//if(language == Language::Lua)
+	//	lua_script(args);
+	//else if(language == Language::Wren)
+	//	wren_script(args);
 }
 
 #ifdef _14_LIVE_GFX_EXE

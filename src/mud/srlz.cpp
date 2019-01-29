@@ -178,14 +178,14 @@ namespace mud
 		}
 		else if(g_convert[type(value).m_id] && json_value.is_string())
 		{
-			convert(type(value)).m_to_value(json_value.string_value().c_str(), value);
+			convert(type(value)).to_value(json_value.string_value().c_str(), value);
 			return;
 		}
 		else if(is_sequence(type(value)))
 		{
 			for(const json& json_element : json_value.array_items())
 			{
-				Var element = unpack(unpacker, *cls(value).m_content, json_element);
+				Var element = unpack(unpacker, *iter(value).m_element_type, json_element);
 				sequence(value).add(value, element);
 			}
 			return;

@@ -13,6 +13,20 @@ module mud.ecs;
 #endif
 
 
+using namespace mud;
+
+void mud_Complex__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Complex*>(ref))) mud::Complex( *static_cast<uint32_t*>(args[0]), *static_cast<mud::Type*>(args[1]) ); }
+void mud_Complex__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::Complex*>(ref))) mud::Complex( *static_cast<uint32_t*>(args[0]), *static_cast<mud::Type*>(args[1]), *static_cast<vector<mud::Ref>*>(args[2]) ); }
+void* mud_Complex__get_type(void* object) { return &(*static_cast<mud::Complex*>(object)).m_type; }
+void* mud_Complex__get_prototype(void* object) { return &(*static_cast<mud::Complex*>(object)).m_prototype; }
+void mud_Complex_setup(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Complex*>(object)).setup(*static_cast<vector<mud::Ref>*>(args[0])); }
+void mud_Complex_add_part(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Complex*>(object)).add_part(*static_cast<mud::Ref*>(args[0])); }
+void mud_Complex_has_part(void* object, array<void*> args, void*& result) { (*static_cast<bool*>(result)) = (*static_cast<mud::Complex*>(object)).has_part(*static_cast<mud::Type*>(args[0])); }
+void mud_Complex_part(void* object, array<void*> args, void*& result) { (*static_cast<mud::Ref*>(result)) = (*static_cast<mud::Complex*>(object)).part(*static_cast<mud::Type*>(args[0])); }
+void mud_Complex_try_part(void* object, array<void*> args, void*& result) { (*static_cast<mud::Ref*>(result)) = (*static_cast<mud::Complex*>(object)).try_part(*static_cast<mud::Type*>(args[0])); }
+void mud_Entity__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Entity*>(ref))) mud::Entity(  ); }
+void mud_Entity__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Entity*>(ref))) mud::Entity((*static_cast<mud::Entity*>(other))); }
+
 namespace mud
 {
 	void mud_ecs_meta(Module& m)
@@ -29,96 +43,63 @@ namespace mud
 	{
 		Type& t = type<mud::Complex>();
 		static Meta meta = { t, &namspc({ "mud" }), "Complex", sizeof(mud::Complex), TypeClass::Object };
+		// bases
 		// defaults
-		static Class cls = { t,
-			// bases
-			{  },
-			{  },
-			// constructors
-			{
-				{ t, [](Ref ref, array<Var> args) { new(&val<mud::Complex>(ref)) mud::Complex( val<uint32_t>(args[0]), val<mud::Type>(args[1]) ); }, { { "id", var(uint32_t()) }, { "type", Ref(type<mud::Type>()) } } },
-				{ t, [](Ref ref, array<Var> args) { new(&val<mud::Complex>(ref)) mud::Complex( val<uint32_t>(args[0]), val<mud::Type>(args[1]), val<vector<mud::Ref>>(args[2]) ); }, { { "id", var(uint32_t()) }, { "type", Ref(type<mud::Type>()) }, { "parts", var(vector<mud::Ref>()) } } }
-			},
-			// copy constructor
-			{
-			},
-			// members
-			{
-				{ t, member_address(&mud::Complex::m_id), type<uint32_t>(), "id", Ref(), Member::Value, nullptr },
-				{ t, Address(), type<mud::Type>(), "type", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Complex>(object).m_type); } },
-				{ t, Address(), type<mud::Prototype>(), "prototype", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::Complex>(object).m_prototype); } },
-				{ t, member_address(&mud::Complex::m_parts), type<vector<mud::Ref>>(), "parts", Ref(), Member::Value, nullptr }
-			},
-			// methods
-			{
-				{ t, "setup", member_address<void(mud::Complex::*)(const vector<mud::Ref>&)>(&mud::Complex::setup), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Complex>(object).setup(val<vector<mud::Ref>>(args[0])); }, { { "parts", var(vector<mud::Ref>()) } }, Var() },
-				{ t, "add_part", member_address<void(mud::Complex::*)(mud::Ref)>(&mud::Complex::add_part), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Complex>(object).add_part(args[0]); }, { { "part", Ref(), Param::Nullable } }, Var() },
-				{ t, "has_part", member_address<bool(mud::Complex::*)(mud::Type&)>(&mud::Complex::has_part), [](Ref object, array<Var> args, Var& result) { val<bool>(result) = val<mud::Complex>(object).has_part(val<mud::Type>(args[0])); }, { { "type", Ref(type<mud::Type>()) } }, var(bool()) },
-				{ t, "part", member_address<mud::Ref(mud::Complex::*)(mud::Type&)>(&mud::Complex::part), [](Ref object, array<Var> args, Var& result) { result = val<mud::Complex>(object).part(val<mud::Type>(args[0])); }, { { "type", Ref(type<mud::Type>()) } }, Ref() },
-				{ t, "try_part", member_address<mud::Ref(mud::Complex::*)(mud::Type&)>(&mud::Complex::try_part), [](Ref object, array<Var> args, Var& result) { result = val<mud::Complex>(object).try_part(val<mud::Type>(args[0])); }, { { "type", Ref(type<mud::Type>()) } }, Ref() }
-			},
-			// static members
-			{
-			}
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Complex__construct_0, { { "id", type<uint32_t>(),  }, { "type", type<mud::Type>(),  } } },
+			{ t, mud_Complex__construct_1, { { "id", type<uint32_t>(),  }, { "type", type<mud::Type>(),  }, { "parts", type<vector<mud::Ref>>(),  } } }
 		};
-		init_pool<mud::Complex>();
-		meta_class<mud::Complex>();
+		// copy constructor
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::Complex, m_id), type<uint32_t>(), "id", nullptr, Member::Value, nullptr },
+			{ t, SIZE_MAX, type<mud::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_Complex__get_type },
+			{ t, SIZE_MAX, type<mud::Prototype>(), "prototype", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_Complex__get_prototype },
+			{ t, offsetof(mud::Complex, m_parts), type<vector<mud::Ref>>(), "parts", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		static Method methods[] = {
+			{ t, "setup", Address(), mud_Complex_setup, { { "parts", type<vector<mud::Ref>>(),  } }, g_qvoid },
+			{ t, "add_part", Address(), mud_Complex_add_part, { { "part", type<mud::Ref>(), Param::Nullable } }, g_qvoid },
+			{ t, "has_part", Address(), mud_Complex_has_part, { { "type", type<mud::Type>(),  } }, { &type<bool>(), QualType::None } },
+			{ t, "part", Address(), mud_Complex_part, { { "type", type<mud::Type>(),  } }, { &type<mud::Ref>(), QualType::None } },
+			{ t, "try_part", Address(), mud_Complex_try_part, { { "type", type<mud::Type>(),  } }, { &type<mud::Ref>(), QualType::None } }
+		};
+		// static members
+		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
 	}
 	// mud::Entity
 	{
 		Type& t = type<mud::Entity>();
 		static Meta meta = { t, &namspc({ "mud" }), "Entity", sizeof(mud::Entity), TypeClass::Struct };
+		// bases
 		// defaults
-		static Class cls = { t,
-			// bases
-			{  },
-			{  },
-			// constructors
-			{
-				{ t, [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Entity>(ref)) mud::Entity(  ); }, {} }
-			},
-			// copy constructor
-			{
-				{ t, [](Ref ref, Ref other) { new(&val<mud::Entity>(ref)) mud::Entity(val<mud::Entity>(other)); } }
-			},
-			// members
-			{
-			},
-			// methods
-			{
-			},
-			// static members
-			{
-			}
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Entity__construct_0, {} }
 		};
-		meta_class<mud::Entity>();
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_Entity__copy_construct }
+		};
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
 	}
 	// mud::Prototype
 	{
 		Type& t = type<mud::Prototype>();
 		static Meta meta = { t, &namspc({ "mud" }), "Prototype", sizeof(mud::Prototype), TypeClass::Object };
+		// bases
 		// defaults
-		static Class cls = { t,
-			// bases
-			{  },
-			{  },
-			// constructors
-			{
-			},
-			// copy constructor
-			{
-			},
-			// members
-			{
-			},
-			// methods
-			{
-			},
-			// static members
-			{
-			}
-		};
-		meta_class<mud::Prototype>();
+		// constructors
+		// copy constructor
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
 		m.m_types.push_back(&type<mud::Complex>());
 		m.m_types.push_back(&type<mud::Entity>());

@@ -13,6 +13,9 @@ module mud.srlz;
 #endif
 
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_srlz_meta(Module& m)

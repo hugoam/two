@@ -247,7 +247,7 @@ namespace mud
 
 				for(const glTFMorphTarget& morph_target : primitive.targets)
 				{
-					morphs.emplace_back(packer);
+					morphs.push_back(packer);
 
 					MeshPacker& morph_shape = morphs.back();
 					morph_shape.m_indices = {};
@@ -429,7 +429,7 @@ namespace mud
 		for(glTFSkin& gltf_skin : gltf.m_skins)
 		{
 			printf("INFO: Gltf - adding skin %s\n", gltf_skin.name.c_str());
-			model.m_rig->m_skins.emplace_back(*state.m_skeletons[gltf_skin.skeleton], int(gltf_skin.joints.size())); // gltf_skin.name
+			model.m_rig->m_skins.push_back({ *state.m_skeletons[gltf_skin.skeleton], int(gltf_skin.joints.size()) }); // gltf_skin.name
 			Skin& skin = model.m_rig->m_skins.back();
 
 			vector<mat4> bind_matrices;

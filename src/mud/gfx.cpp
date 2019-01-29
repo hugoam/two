@@ -1203,7 +1203,7 @@ namespace mud
 
 	object<Model> draw_model(cstring id, const vector<ProcShape>& shapes, bool readback)
 	{
-		object<Model> model = make_object<Model>(id);
+		object<Model> model = oconstruct<Model>(id);
 		draw_model(shapes, *model, readback);
 		return model;
 	}
@@ -1325,6 +1325,92 @@ namespace mud
 		for(GfxBlock* block : m_gfx_blocks)
 			block->submit_pass(render);
 	}
+}
+
+#ifdef MUD_MODULES
+module mud.math;
+#else
+#include <stl/tinystl/vector.impl.h>
+#include <stl/tinystl/unordered_map.impl.h>
+#include <stl/tinystl/unordered_set.impl.h>
+#endif
+
+using namespace mud;
+namespace tinystl
+{
+	template class MUD_GFX_EXPORT vector<Texture*>;
+	template class MUD_GFX_EXPORT vector<Material*>;
+	template class MUD_GFX_EXPORT vector<Animation*>;
+	template class MUD_GFX_EXPORT vector<Rig*>;
+	template class MUD_GFX_EXPORT vector<Light*>;
+	template class MUD_GFX_EXPORT vector<Mesh*>;
+	template class MUD_GFX_EXPORT vector<Model*>;
+	template class MUD_GFX_EXPORT vector<Animated*>;
+	template class MUD_GFX_EXPORT vector<Particles*>;
+	template class MUD_GFX_EXPORT vector<Item*>;
+	template class MUD_GFX_EXPORT vector<Sound*>;
+	template class MUD_GFX_EXPORT vector<Node3*>;
+	template class MUD_GFX_EXPORT vector<ReflectionProbe*>;
+	template class MUD_GFX_EXPORT vector<GIProbe*>;
+	template class MUD_GFX_EXPORT vector<LightmapAtlas*>;
+	template class MUD_GFX_EXPORT vector<ImmediateDraw*>;
+	template class MUD_GFX_EXPORT vector<Scene*>;
+	template class MUD_GFX_EXPORT vector<Viewport*>;
+	template class MUD_GFX_EXPORT vector<Importer*>;
+	template class MUD_GFX_EXPORT vector<Renderer*>;
+	template class MUD_GFX_EXPORT vector<GfxBlock*>;
+	template class MUD_GFX_EXPORT vector<DrawBlock*>;
+	template class MUD_GFX_EXPORT vector<GfxContext*>;
+	template class MUD_GFX_EXPORT vector<GfxSystem*>;
+	template class MUD_GFX_EXPORT vector<Vertex>;
+	template class MUD_GFX_EXPORT vector<ShapeVertex>;
+	template class MUD_GFX_EXPORT vector<Tri>;
+	template class MUD_GFX_EXPORT vector<ModelItem>;
+	template class MUD_GFX_EXPORT vector<Item>;
+	template class MUD_GFX_EXPORT vector<Node3>;
+	template class MUD_GFX_EXPORT vector<Bone>;
+	template class MUD_GFX_EXPORT vector<Joint>;
+	template class MUD_GFX_EXPORT vector<Skin>;
+	template class MUD_GFX_EXPORT vector<ShaderDefine>;
+	template class MUD_GFX_EXPORT vector<PassJob>;
+	template class MUD_GFX_EXPORT vector<AnimationTrack>;
+	template class MUD_GFX_EXPORT vector<AnimationTrack::Key>;
+	template class MUD_GFX_EXPORT vector<AnimationPlay>;
+	template class MUD_GFX_EXPORT vector<AnimatedTrack>;
+	template class MUD_GFX_EXPORT vector<Particle>;
+	template class MUD_GFX_EXPORT vector<Viewport::RenderTask>;
+	template class MUD_GFX_EXPORT vector<ImmediateDraw::Batch>;
+	template class MUD_GFX_EXPORT vector<ImmediateDraw::Vertex>;
+	template class MUD_GFX_EXPORT vector<Import::Item>;
+	template class MUD_GFX_EXPORT vector<DrawElement>;
+	template class MUD_GFX_EXPORT vector<Frustum>;
+	template class MUD_GFX_EXPORT vector<Froxelizer>;
+	template class MUD_GFX_EXPORT vector<LightRecord>;
+	template class MUD_GFX_EXPORT vector<Froxelizer::FroxelEntry>;
+	template class MUD_GFX_EXPORT vector<carray<uint, 8193>>;
+	template class MUD_GFX_EXPORT vector<unique<Gnode>>;
+	template class MUD_GFX_EXPORT vector<unique<RenderPass>>;
+	template class MUD_GFX_EXPORT vector<unique<GfxBlock>>;
+	template class MUD_GFX_EXPORT vector<unique<Picker>>;
+	template class MUD_GFX_EXPORT unordered_map<int, Skeleton*>;
+	template class MUD_GFX_EXPORT unordered_set<Model*>;
+	template class MUD_GFX_EXPORT vector<function<void(Texture&, const string&)>>;
+	template class MUD_GFX_EXPORT vector<function<void(Material&, const string&)>>;
+	template class MUD_GFX_EXPORT vector<function<void(Program&, const string&)>>;
+	template class MUD_GFX_EXPORT vector<function<void(Model&, const string&)>>;
+	template class MUD_GFX_EXPORT vector<function<void(ParticleFlow&, const string&)>>;
+	template class MUD_GFX_EXPORT vector<function<void(Prefab&, const string&)>>;
+	template class MUD_GFX_EXPORT unordered_map<string, unique<Texture>>;
+	template class MUD_GFX_EXPORT unordered_map<string, unique<Material>>;
+	template class MUD_GFX_EXPORT unordered_map<string, unique<Program>>;
+	template class MUD_GFX_EXPORT unordered_map<string, unique<Model>>;
+	template class MUD_GFX_EXPORT unordered_map<string, unique<ParticleFlow>>;
+	template class MUD_GFX_EXPORT unordered_map<string, unique<Prefab>>;
+	template class MUD_GFX_EXPORT unordered_map<uint32_t, uint32_t>;
+	template class MUD_GFX_EXPORT unordered_map<uint64_t, Program::Version>;
+
+	template class MUD_GFX_EXPORT vector<bgfx::InstanceDataBuffer>;
+	template class MUD_GFX_EXPORT unordered_map<uint, bgfx::VertexDecl>;
 }
 
 
@@ -1621,16 +1707,6 @@ namespace mud
 	// clustered shading refs
 	// http://www.humus.name/Articles/PracticalClusteredShading.pdf
 	// http://www.cse.chalmers.se/~uffe/clustered_shading_preprint.pdf
-
-	struct LightRecord
-	{
-#ifndef USE_STD_BITSET
-		using Lights = bitset<uint64_t, (CONFIG_MAX_LIGHT_COUNT + 63) / 64>;
-#else
-		using Lights = std::bitset<CONFIG_MAX_LIGHT_COUNT>;
-#endif
-		Lights lights;
-	};
 
 	struct LightParams
 	{
@@ -2694,7 +2770,7 @@ namespace mud
 	{
 		if(init)
 			gfx_system.init(*this);
-		m_target = make_object<RenderTarget>(uvec2(width, height));
+		m_target = oconstruct<RenderTarget>(uvec2(width, height));
 	}
 
 	GfxContext::~GfxContext()
@@ -2708,7 +2784,7 @@ namespace mud
 		else
 		{
 			if(!m_target || width != m_target->m_size.x || height != m_target->m_size.y)
-				m_target = make_object<RenderTarget>(uvec2(width, height));
+				m_target = oconstruct<RenderTarget>(uvec2(width, height));
 		}
 		m_vg_handle = m_reset_vg(*this, *m_gfx_system.m_vg);
 	}
@@ -2790,7 +2866,7 @@ namespace mud
 
 	object<Context> GfxSystem::create_context(const string& name, int width, int height, bool fullScreen)
 	{
-		object<GfxContext> context = make_object<GfxContext>(*this, name, width, height, fullScreen, !m_initialized);
+		object<GfxContext> context = oconstruct<GfxContext>(*this, name, width, height, fullScreen, !m_initialized);
 		m_impl->m_contexts.push_back(context.get());
 		return move(context);
 	}
@@ -5419,7 +5495,7 @@ namespace mud
 		m_blocks.m_shader_blocks[block].m_option_shift = uint8_t(m_impl->m_option_names.size());
 
 		for(size_t i = 0; i < options.size(); ++i)
-			m_impl->m_option_names.emplace_back(options[i]);
+			m_impl->m_option_names.push_back(options[i]);
 	}
 
 	void Program::register_modes(uint8_t block, array<cstring> modes)
@@ -5427,7 +5503,7 @@ namespace mud
 		m_blocks.m_shader_blocks[block].m_mode_shift = uint8_t(m_impl->m_mode_names.size());
 
 		for(size_t i = 0; i < modes.size(); ++i)
-			m_impl->m_mode_names.emplace_back(modes[i]);
+			m_impl->m_mode_names.push_back(modes[i]);
 	}
 }
 
@@ -5555,7 +5631,7 @@ namespace mud
 
 	RenderPass& Renderer::add_pass(unique<RenderPass> render_pass)
 	{ 
-		m_impl->m_render_passes.emplace_back(move(render_pass));
+		m_impl->m_render_passes.push_back(move(render_pass));
 		return *m_impl->m_render_passes.back();
 	}
 
@@ -6008,8 +6084,8 @@ namespace mud
 {
 	Scene::Scene(GfxSystem& gfx_system)
 		: m_gfx_system(gfx_system)
-		, m_immediate(make_object<ImmediateDraw>(gfx_system.fetch_material("immediate", "unshaded")))
-		, m_pass_jobs(make_object<PassJobs>())
+		, m_immediate(oconstruct<ImmediateDraw>(gfx_system.fetch_material("immediate", "unshaded")))
+		, m_pass_jobs(oconstruct<PassJobs>())
 		, m_graph(*this)
 		, m_root_node(this)
 	{
@@ -6017,10 +6093,10 @@ namespace mud
 		m_environment.m_radiance.m_energy = 0.3f;
 		m_environment.m_radiance.m_ambient = 0.7f;
 
-		m_pool = make_object<ObjectPool>();
+		m_pool = oconstruct<ObjectPool>();
 		m_pool->create_pool<Particles>(1024);
 
-		m_particle_system = make_object<ParticleSystem>(gfx_system, m_pool->pool<Particles>());
+		m_particle_system = oconstruct<ParticleSystem>(gfx_system, m_pool->pool<Particles>());
 	}
 
 	Scene::~Scene()
@@ -6189,7 +6265,7 @@ namespace mud
 
 	Bone& Skeleton::add_bone(cstring name, int parent)
 	{		
-		m_bones.emplace_back(name, int(m_bones.size()), parent);
+		m_bones.push_back({ name, int(m_bones.size()), parent });
 		return m_bones.back();
 	}
 
@@ -6278,7 +6354,7 @@ namespace mud
 		: m_skeleton(rig.m_skeleton)
 	{
 		for(const Skin& skin : rig.m_skins)
-			m_skins.emplace_back(skin, m_skeleton);
+			m_skins.push_back({ skin, m_skeleton });
 	}
 
 	Rig& Rig::operator=(const Rig& rig)
@@ -6286,7 +6362,7 @@ namespace mud
 		m_skeleton = rig.m_skeleton;
 		m_skins.reserve(rig.m_skins.size());
 		for(const Skin& skin : rig.m_skins)
-			m_skins.emplace_back(skin, m_skeleton);
+			m_skins.push_back({ skin, m_skeleton });
 		return *this;
 	}
 
@@ -6665,9 +6741,9 @@ namespace mud
 	void UniformBlock::pack_member(size_t size, Member& member)
 	{
 		if(m_uniforms.empty() || m_uniforms.back().m_space < size)
-			m_uniforms.push_back({ "u_" + m_name + "_params_" + to_string(m_num_packed++), member.m_address, bgfx::UniformType::Vec4 });
+			m_uniforms.push_back({ "u_" + m_name + "_params_" + to_string(m_num_packed++), member.m_offset, bgfx::UniformType::Vec4 });
 
-		m_uniforms.back().m_fields.push_back({ member.m_name, member.m_address, size });
+		m_uniforms.back().m_fields.push_back({ member.m_name, member.m_offset, size });
 		m_uniforms.back().m_space -= size;
 	}
 
@@ -6680,11 +6756,11 @@ namespace mud
 		else if(member.m_type->is<vec3>())
 			pack_member(3, member);
 		else if(member.m_type->is<vec4>() || member.m_type->is<Colour>())
-			m_uniforms.push_back(Uniform{ "u_" + name, member.m_address, bgfx::UniformType::Vec4 });
+			m_uniforms.push_back({ "u_" + name, member.m_offset, bgfx::UniformType::Vec4 });
 		else if(member.m_type->is<Texture>())
-			m_samplers.push_back(Sampler{ "s_" + name, member.m_address, uint8_t(m_samplers.size()), &gfx_system.default_texture(TextureHint::White), {} });
+			m_samplers.push_back({ "s_" + name, member.m_offset, uint8_t(m_samplers.size()), &gfx_system.default_texture(TextureHint::White), {} });
 		else if(member.m_type->is<mat4>())
-			m_uniforms.push_back(Uniform{ "u_" + name, member.m_address, bgfx::UniformType::Mat4 });
+			m_uniforms.push_back({ "u_" + name, member.m_offset, bgfx::UniformType::Mat4 });
 
 		else if(member.cls().m_members.size() > 0)
 			for(Member& sub_member : member.cls().m_members)
@@ -6716,8 +6792,8 @@ namespace mud
 			sampler.create();
 	}
 }
-
 #endif
+
 
 #ifdef MUD_MODULES
 module mud.gfx;

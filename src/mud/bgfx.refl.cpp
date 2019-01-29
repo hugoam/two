@@ -14,6 +14,9 @@ module mud.bgfx;
 #endif
 
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_bgfx_meta(Module& m)

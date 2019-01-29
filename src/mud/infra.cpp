@@ -1,6 +1,19 @@
 #include <mud/infra.h>
 #include <mud/type.h>
 
+#ifdef MUD_MODULES
+module mud.infra;
+#else
+#include <stl/tinystl/vector.impl.h>
+#endif
+
+using namespace mud;
+namespace tinystl
+{
+	template class MUD_INFRA_EXPORT vector<string>;
+	template class MUD_INFRA_EXPORT vector<uchar>;
+}
+
 #ifdef MUD_CPP_20
 #include <dirent.h>
 #else

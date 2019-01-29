@@ -12,6 +12,28 @@ namespace mud
 	AnyHandler AnyHandler::none;
 }
 
+#ifdef MUD_MODULES
+module mud.math;
+#else
+#include <stl/tinystl/vector.impl.h>
+#include <stl/tinystl/unordered_set.impl.h>
+#include <stl/tinystl/unordered_map.impl.h>
+#endif
+
+using namespace mud;
+namespace tinystl
+{
+	template class MUD_TYPE_EXPORT vector<string>;
+	template class MUD_TYPE_EXPORT vector<Type*>;
+	template class MUD_TYPE_EXPORT vector<Var>;
+	template class MUD_TYPE_EXPORT vector<Ref>;
+	template class MUD_TYPE_EXPORT vector<void(*)(Ref, Ref)>;
+	template class MUD_TYPE_EXPORT vector<vector<void(*)(Ref, Ref)>>;
+	template class MUD_TYPE_EXPORT vector<unique<Indexer>>;
+	template class MUD_TYPE_EXPORT unordered_set<string>;
+	template class MUD_TYPE_EXPORT unordered_map<string, string>;
+}
+
 #ifndef MUD_CPP_20
 #include <cstring>
 #include <cstdio>
@@ -27,13 +49,6 @@ module mud.obj;
 
 namespace mud
 {
-	const unsigned int c_max_types = 1000U;
-
-#ifdef MUD_CONTAINER_TYPES_2
-	vector<Type> g_vector_types = vector<Type>(1000U);
-	vector<Type> g_array_types = vector<Type>(1000U);
-#endif
-
 	bool Address::operator==(const Address& other) const
 	{
 		return strncmp(value, other.value, 16) == 0;

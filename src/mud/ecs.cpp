@@ -54,6 +54,22 @@ namespace mud
 	}
 }
 
+#ifdef MUD_MODULES
+module mud.ecs;
+#else
+#include <stl/tinystl/vector.impl.h>
+#include <stl/tinystl/unordered_map.impl.h>
+#endif
+
+using namespace mud;
+namespace tinystl
+{
+	template class MUD_ECS_EXPORT vector<Buffer*>;
+	template class MUD_ECS_EXPORT vector<EntityData>;
+	template class MUD_ECS_EXPORT vector<EntityStream>;
+	template class MUD_ECS_EXPORT vector<unique<Buffer>>;
+}
+
 
 #ifdef MUD_MODULES
 module mud.proto;

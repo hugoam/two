@@ -11,6 +11,9 @@ module mud.tree;
 #endif
 
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_tree_meta(Module& m)

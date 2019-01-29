@@ -16,6 +16,9 @@ module mud.gfx-obj;
 #endif
 
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_gfx_obj_meta(Module& m)

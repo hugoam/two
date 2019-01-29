@@ -342,7 +342,7 @@ namespace mud
 			{
 				vec3 vert = { tof(tokens[1]), tof(tokens[2]), tof(tokens[3]) };
 				vert = mulp(config.m_transform, vert);
-				g.vertices.emplace_back(vert);
+				g.vertices.push_back(vert);
 			}
 			else if(command == "vt")
 			{
@@ -353,7 +353,7 @@ namespace mud
 			{
 				vec3 norm = { tof(tokens[1]), tof(tokens[2]), tof(tokens[3]) };
 				norm = muln(config.m_transform, norm);
-				g.normals.emplace_back(norm);
+				g.normals.push_back(norm);
 			}
 			else if(command == "f")
 			{

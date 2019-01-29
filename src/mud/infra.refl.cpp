@@ -9,6 +9,9 @@ module mud.infra;
 #endif
 
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_infra_meta(Module& m)

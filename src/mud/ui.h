@@ -312,12 +312,12 @@ namespace mud
 		};
 	};
 
-	export_ template struct refl_ array_ struct_ MUD_UI_EXPORT Dim2<bool>;
-	export_ template struct refl_ array_ struct_ MUD_UI_EXPORT Dim2<size_t>;
-	export_ template struct refl_ array_ struct_ MUD_UI_EXPORT Dim2<AutoLayout>;
-	export_ template struct refl_ array_ struct_ MUD_UI_EXPORT Dim2<Sizing>;
-	export_ template struct refl_ array_ struct_ MUD_UI_EXPORT Dim2<Align>;
-	export_ template struct refl_ array_ struct_ MUD_UI_EXPORT Dim2<Pivot>;
+	export_ extern template struct refl_ array_ struct_ Dim2<bool>;
+	export_ extern template struct refl_ array_ struct_ Dim2<size_t>;
+	export_ extern template struct refl_ array_ struct_ Dim2<AutoLayout>;
+	export_ extern template struct refl_ array_ struct_ Dim2<Sizing>;
+	export_ extern template struct refl_ array_ struct_ Dim2<Align>;
+	export_ extern template struct refl_ array_ struct_ Dim2<Pivot>;
 }
 
 namespace mud
@@ -1352,97 +1352,25 @@ namespace mud
 namespace ui
 {
 	export_ template <class T>
-	bool slider_input_dim(Widget& parent, AutoStat<T> value, Dim dim = DIM_X)
-	{
-		Widget& self = widget(parent, styles().slider_input);
-		SliderMetrics metrics = { float(value.min()), float(value.max()), float(value.step()) };
-		float slider_value = float(value);
-		bool changed = slider(self, slider_value, metrics, dim);
-		value.ref() = T(slider_value);
-		item(self, styles().slider_display, truncate_number(to_string(slider_value)));
-		return changed;
-	}
+	bool slider_input_dim(Widget& parent, AutoStat<T> value, Dim dim = DIM_X);
 
 	export_ template <class T>
-	bool slider_input(Widget& parent, AutoStat<T> value)
-	{
-		return slider_input_dim(parent, value, DIM_X);
-	}
+	bool slider_input(Widget& parent, AutoStat<T> value);
 
 	export_ template <class T>
-	bool is_scalar() { return type<T>().template is<float>() || type<T>().template is<double>(); }
+	bool number_type_in(Widget& parent, T& value);
 
 	export_ template <class T>
-	bool number_type_in(Widget& parent, T& value)
-	{
-		string text = truncate_number(to_string(value));
-		TextEdit& self = type_in(parent, text, 0, is_scalar<T>() ? "1234567890." : "1234567890");
-		if(self.m_changed)
-		{
-			value = to_value<T>(text);
-			return true;
-		}
-		return false;
-	}
-
-	export_ template <class T>
-	bool number_input(Widget& parent, AutoStat<T> value)
-	{
-		Widget& self = widget(parent, styles().number_input);
-		bool changed = false;
-
-		changed |= number_type_in<T>(self, value.ref());
-		if(button(self, "+").activated())
-		{
-			changed = true;
-			value.increment();
-		}
-		if(button(self, "-").activated())
-		{
-			changed |= true;
-			value.decrement();
-		}
-
-		return changed;
-	}
+	bool number_input(Widget& parent, AutoStat<T> value);
 
 	export_ MUD_UI_EXPORT func_ bool drag_float(Widget& parent, float& value, float step = 0.1f);
 
-	export_ template <>
-	inline bool number_input(Widget& parent, AutoStat<float> value)
-	{
-		return drag_float(parent, value.ref(), value.step());
-	}
-
 	export_ template <class T>
-	inline bool input(Widget& parent, T& value)
-	{
-		return number_input(parent, AutoStat<T>{ value, StatDef<T>{} });
-	}
-
-	export_ template <>
-	inline bool input(Widget& parent, bool& value)
-	{
-		Widget& self = widget(parent, styles().input_bool);
-		return checkbox(self, value).activated();
-	}
-
-	export_ template <>
-	inline bool input(Widget& parent, string& value)
-	{
-		Widget& self = widget(parent, styles().input_string);
-		return text_box(self, styles().type_in, value, false, 1).m_changed;
-	}
+	inline bool input(Widget& parent, T& value);
 
 	export_ MUD_UI_EXPORT func_ bool vec2_edit(Widget& parent, vec2& vec);
 	export_ MUD_UI_EXPORT func_ bool vec3_edit(Widget& parent, vec3& vec);
 	export_ MUD_UI_EXPORT func_ bool quat_edit(Widget& parent, quat& quat);
-
-	export_ template <>
-	inline bool input(Widget& parent, vec3& value) { return vec3_edit(parent, value); }
-
-	export_ template <>
-	inline bool input(Widget& parent, quat& value) { return quat_edit(parent, value); }
 
 	export_ MUD_UI_EXPORT Widget& color_slab(Widget& parent, Style& style, const Colour& value);
 	export_ MUD_UI_EXPORT func_ bool color_edit_hsl(Widget& parent, const Colour& colour, Colour& value);
@@ -1458,9 +1386,6 @@ namespace ui
 	export_ MUD_UI_EXPORT bool curve_edit(Widget& parent, array<Colour> values, array<float> points = {});
 
 	export_ MUD_UI_EXPORT bool flag_input(Widget& parent, uint32_t& value, uint8_t shift);
-
-	export_ template <>
-	inline bool input(Widget& parent, Colour& value) { return color_toggle_edit(parent, value); }
 
 	export_ template <class T_Input>
 	bool field(T_Input input, Widget& parent, cstring name, bool reverse)
@@ -1717,58 +1642,58 @@ namespace mud
     export_ template <> MUD_UI_EXPORT Type& type<mud::Ui>();
     export_ template <> MUD_UI_EXPORT Type& type<mud::Window>();
     
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::CanvasConnect*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Clipboard*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dim2<bool>*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dim2<mud::Align>*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dim2<mud::AutoLayout>*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dim2<mud::Pivot>*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dim2<mud::Sizing>*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dim2<size_t>*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dock*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Docksystem*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Gradient*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::GridSolver*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::ImageSkin*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::InkStyle*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Layer*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Layout*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::NodeConnection*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Paint*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Shadow*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Space*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Style*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::TableSolver*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Text*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::TextCursor*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::TextMarker*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::TextPaint*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::TextSelection*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::UiRect*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::UiWindow*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::User*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Vg*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Frame*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::FrameSolver*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::LineSolver*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Widget*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Canvas*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dockable*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Docker*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dockbar*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Dockspace*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Expandbox*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Node*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::NodePlug*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::RowSolver*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::ScrollSheet*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::ui::Sequence*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Tabber*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Table*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::TextEdit*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::TreeNode*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Ui*>>;
-    export_ template struct MUD_UI_EXPORT Typed<vector<mud::Window*>>;
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::CanvasConnect*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Clipboard*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<bool>*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<mud::Align>*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<mud::AutoLayout>*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<mud::Pivot>*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<mud::Sizing>*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<size_t>*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dock*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Docksystem*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Gradient*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::GridSolver*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::ImageSkin*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::InkStyle*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Layer*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Layout*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::NodeConnection*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Paint*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Shadow*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Space*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Style*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TableSolver*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Text*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TextCursor*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TextMarker*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TextPaint*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TextSelection*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::UiRect*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::UiWindow*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::User*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Vg*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Frame*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::FrameSolver*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::LineSolver*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Widget*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Canvas*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dockable*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Docker*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dockbar*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dockspace*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Expandbox*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Node*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::NodePlug*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::RowSolver*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::ScrollSheet*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::ui::Sequence*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Tabber*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Table*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TextEdit*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TreeNode*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Ui*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Window*>>();
 }
 
 
@@ -2079,6 +2004,8 @@ namespace mud
 	inline bool operator<(const KeyCombo& lhs, const KeyCombo& rhs) { return lhs.value() < rhs.value(); }
 	inline bool operator==(const KeyCombo& lhs, const KeyCombo& rhs) { return lhs.value() == rhs.value(); }
 
+	using KeyHandler = void(*)();
+
 	export_ class MUD_UI_EXPORT EventDispatch
 	{
 	public:
@@ -2086,7 +2013,6 @@ namespace mud
 
 		virtual void process(Widget& widget);
 		
-		using KeyHandler = void(*)();
 		//EventMap<KeyHandler> m_handlers;
 
 		map<KeyCombo, KeyHandler> m_key_down_handlers;
@@ -2226,6 +2152,7 @@ namespace mud
 	export_ class refl_ MUD_UI_EXPORT FrameSolver : public UiRect
 	{
 	public:
+		FrameSolver();
 		FrameSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
 		virtual ~FrameSolver() {}
 
@@ -2317,6 +2244,7 @@ namespace mud
 	export_ class refl_ MUD_UI_EXPORT RowSolver : public FrameSolver
 	{
 	public:
+		RowSolver();
 		RowSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
 
 		virtual void compute(FrameSolver& frame, Dim dim);
@@ -2759,6 +2687,146 @@ namespace mud
 }
 
 
+#include <stl/vector.h>
+#include <stl/string.h>
+#include <stl/unordered_map.h>
+//#include <ui/Edit/Lang.h>
+
+using namespace mud;
+namespace tinystl
+{
+	export_ extern template class vector<TextGlyph>;
+	export_ extern template class vector<TextRow>;
+	export_ extern template class vector<Text::ColorSection>;
+	export_ extern template class vector<TextMarker>;
+	export_ extern template class vector<TextEdit::Action>;
+	export_ extern template class vector<Space>;
+	export_ extern template class vector<FrameSolver*>;
+	export_ extern template class vector<Image*>;
+	export_ extern template class vector<Style*>;
+	export_ extern template class vector<Layer*>;
+	export_ extern template class vector<Docker*>;
+	export_ extern template class vector<Dock*>;
+	export_ extern template class vector<Node*>;
+	export_ extern template class vector<EventBatch>;
+	export_ extern template class vector<KeyEvent>;
+	export_ extern template class vector<MouseEvent>;
+	export_ extern template class vector<InkStyle>;
+	export_ extern template class vector<FrameSolver>;
+	export_ extern template class vector<RowSolver>;
+	export_ extern template class vector<unique<Widget>>;
+	export_ extern template class vector<unique<FrameSolver>>;
+	export_ extern template class vector<unique<Image>>;
+	export_ extern template class unordered_map<int, InputEvent*>;
+	export_ extern template class unordered_map<KeyCombo, KeyHandler>;
+	export_ extern template class unordered_map<string, Dock>;
+	export_ extern template class unordered_map<string, Style*>;
+
+	//export_ extern template class vector<LanguageDefinition::StringToken>;
+	//export_ extern template class vector<LanguageDefinition::RegexToken>;
+	//export_ extern template class unordered_map<string, Identifier>;
+}
+
+
+#ifndef MUD_MODULES
+#endif
+
+namespace mud
+{
+namespace ui
+{
+	export_ template <class T>
+	bool slider_input_dim(Widget& parent, AutoStat<T> value, Dim dim)
+	{
+		Widget& self = widget(parent, styles().slider_input);
+		SliderMetrics metrics = { float(value.min()), float(value.max()), float(value.step()) };
+		float slider_value = float(value);
+		bool changed = slider(self, slider_value, metrics, dim);
+		value.ref() = T(slider_value);
+		item(self, styles().slider_display, truncate_number(to_string(slider_value)));
+		return changed;
+	}
+
+	export_ template <class T>
+	bool slider_input(Widget& parent, AutoStat<T> value)
+	{
+		return slider_input_dim(parent, value, DIM_X);
+	}
+
+	export_ template <class T>
+	bool is_scalar() { return type<T>().template is<float>() || type<T>().template is<double>(); }
+
+	export_ template <class T>
+	bool number_type_in(Widget& parent, T& value)
+	{
+		string text = truncate_number(to_string(value));
+		TextEdit& self = type_in(parent, text, 0, is_scalar<T>() ? "1234567890." : "1234567890");
+		if(self.m_changed)
+		{
+			value = to_value<T>(text);
+			return true;
+		}
+		return false;
+	}
+
+	export_ template <class T>
+	bool number_input(Widget& parent, AutoStat<T> value)
+	{
+		Widget& self = widget(parent, styles().number_input);
+		bool changed = false;
+
+		changed |= number_type_in<T>(self, value.ref());
+		if(button(self, "+").activated())
+		{
+			changed = true;
+			value.increment();
+		}
+		if(button(self, "-").activated())
+		{
+			changed |= true;
+			value.decrement();
+		}
+
+		return changed;
+	}
+
+	export_ template <>
+	inline bool number_input(Widget& parent, AutoStat<float> value)
+	{
+		return drag_float(parent, value.ref(), value.step());
+	}
+
+	export_ template <class T>
+	inline bool input(Widget& parent, T& value)
+	{
+		return number_input(parent, AutoStat<T>{ value, StatDef<T>{} });
+	}
+
+	export_ template <>
+	inline bool input(Widget& parent, bool& value)
+	{
+		Widget& self = widget(parent, styles().input_bool);
+		return checkbox(self, value).activated();
+	}
+
+	export_ template <>
+	inline bool input(Widget& parent, string& value)
+	{
+		Widget& self = widget(parent, styles().input_string);
+		return text_box(self, styles().type_in, value, false, 1).m_changed;
+	}
+
+	export_ template <>
+	inline bool input(Widget& parent, vec3& value) { return vec3_edit(parent, value); }
+
+	export_ template <>
+	inline bool input(Widget& parent, quat& value) { return quat_edit(parent, value); }
+
+	export_ template <>
+	inline bool input(Widget& parent, Colour& value) { return color_toggle_edit(parent, value); }
+}
+}
+
 
 #include <stl/unordered_map.h>
 #include <stl/unordered_set.h>
@@ -2788,8 +2856,10 @@ namespace mud
 		string m_comment_start;
 		string m_comment_end;
 
-		vector<std::pair<string, PaletteIndex>> m_regex_string_tokens;
-		vector<std::pair<std::regex, PaletteIndex>> m_regex_tokens;
+		struct StringToken { string token; PaletteIndex color; };
+		struct RegexToken { std::regex token; PaletteIndex color; };
+		vector<StringToken> m_regex_string_tokens;
+		vector<RegexToken> m_regex_tokens;
 
 		bool m_case_sensitive;
 	};

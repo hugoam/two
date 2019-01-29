@@ -2,6 +2,7 @@
 
 #include <stl/tinystl/buffer_base.h>
 #include <stl/tinystl/unordered_set.h>
+#include <stl/tinystl/hash_base.impl.h>
 
 namespace tinystl {
 

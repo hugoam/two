@@ -39,7 +39,7 @@ export_ namespace mud
 
 namespace mud
 {
-	export_ extern MUD_TYPE_EXPORT const unsigned int c_max_types;
+	export_ constexpr unsigned int c_max_types = 1000U;
 
 	class Type;
 
@@ -265,6 +265,7 @@ namespace mud
 
 namespace mud // export_ namespace mud// @todo evaluate export at namespace level ?
 {
+#if 1
 	export_ template <class T>
 	struct Typed<array<T>>
 	{
@@ -288,6 +289,7 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 	{
 		static inline Type& type() { static Type ty("vector<cstring>"); return ty; }
 	};
+#endif
 
 	export_ template <class... T_Args>
 	inline vector<Type*> type_vector()
@@ -333,10 +335,10 @@ namespace mud
     export_ template <> MUD_TYPE_EXPORT Type& type<mud::Ref>();
     export_ template <> MUD_TYPE_EXPORT Type& type<mud::Var>();
     
-    export_ template struct MUD_TYPE_EXPORT Typed<vector<mud::Index*>>;
-    export_ template struct MUD_TYPE_EXPORT Typed<vector<mud::Indexer*>>;
-    export_ template struct MUD_TYPE_EXPORT Typed<vector<mud::Ref*>>;
-    export_ template struct MUD_TYPE_EXPORT Typed<vector<mud::Var*>>;
+    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Index*>>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Indexer*>>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Ref*>>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Var*>>();
 }
 
 #include <cassert>
@@ -427,7 +429,7 @@ namespace mud
 	using object = unique<T, function<void(void*)>>;
 
 	template<class T, class... Types>
-	inline object<T> make_object(Types&&... args)
+	inline object<T> oconstruct(Types&&... args)
 	{
 		object_ptr_tracker<T>::increment();
 		return (object<T>(new T(static_cast<Types&&>(args)...), &delete_tracked<T>));
@@ -437,9 +439,9 @@ namespace mud
 	using object = unique<T>;
 
 	export_ template <typename T, typename... Args>
-	object<T> make_object(Args&&... args)
+	object<T> oconstruct(Args&&... args)
 	{
-		return make_unique<T>(static_cast<Args&&>(args)...);
+		return construct<T>(static_cast<Args&&>(args)...);
 	}
 #endif
 }
@@ -658,7 +660,6 @@ namespace mud
 }
 
 
-#include <stl/vector.h>
 
 namespace mud
 {
@@ -669,9 +670,7 @@ namespace mud
 		using HandlerFunc = T_Return(*)(void*, Ref, T_Args...);
 		struct Func { void* f = nullptr; HandlerFunc handler = nullptr; };
 
-		Dispatch()
-			: m_branches(c_max_types)
-		{}
+		Dispatch() {}
 
 		void function(Type& type, HandlerFunc func)
 		{
@@ -700,7 +699,7 @@ namespace mud
 			return m_branches[ref.m_type->m_id].handler != nullptr;
 		}
 
-		vector<Func> m_branches;
+		Func m_branches[c_max_types] = {};
 	};
 }
 
@@ -881,3 +880,22 @@ namespace mud
 	};
 }
 
+
+#include <stl/vector.h>
+#include <stl/string.h>
+#include <stl/unordered_set.h>
+#include <stl/unordered_map.h>
+
+using namespace mud;
+namespace tinystl
+{
+	export_ extern template class vector<string>;
+	export_ extern template class vector<Type*>;
+	export_ extern template class vector<Var>;
+	export_ extern template class vector<Ref>;
+	export_ extern template class vector<void(*)(Ref, Ref)>;
+	export_ extern template class vector<vector<void(*)(Ref, Ref)>>;
+	export_ extern template class vector<unique<Indexer>>;
+	export_ extern template class unordered_set<string>;
+	export_ extern template class unordered_map<string, string>;
+}

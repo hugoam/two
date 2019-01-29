@@ -197,6 +197,113 @@ module mud.math;
 
 namespace mud
 {
+	template <class T>
+	ValueCurve<T>::ValueCurve() {}
+	template <class T>
+	ValueCurve<T>::ValueCurve(vector<T> keys) : m_keys(keys) {}
+	template <class T>
+	ValueCurve<T>::~ValueCurve() {}
+
+	template <class T>
+	T ValueCurve<T>::sample_curve(float t)
+	{
+		uint32_t key = uint32_t(t * (m_keys.size() - 1));
+		float interval = 1.f / float(m_keys.size() - 1);
+		float ttmod = fmod(t, interval) / interval;
+
+		return mud::lerp(m_keys[key], m_keys[key + 1], ttmod);
+	}
+
+	template struct MUD_MATH_EXPORT ValueCurve<vec3>;
+	template struct MUD_MATH_EXPORT ValueCurve<quat>;
+	template struct MUD_MATH_EXPORT ValueCurve<float>;
+	template struct MUD_MATH_EXPORT ValueCurve<uint32_t>;
+	template struct MUD_MATH_EXPORT ValueCurve<Colour>;
+
+	template <class T>
+	ValueTrack<T>::ValueTrack() {}
+	template <class T>
+	ValueTrack<T>::ValueTrack(TrackMode mode, ValueCurve<T> curve, ValueCurve<T> min_curve, ValueCurve<T> max_curve) : m_mode(mode), m_curve(curve), m_min_curve(min_curve), m_max_curve(max_curve) {}
+	template <class T>
+	ValueTrack<T>::ValueTrack(T value) : m_mode(TrackMode::Constant), m_value(value) {}
+	template <class T>
+	ValueTrack<T>::ValueTrack(T min, T max) : m_mode(TrackMode::ConstantRandom), m_min(min), m_max(max) {}
+	template <class T>
+	ValueTrack<T>::ValueTrack(vector<T> values) : m_mode(TrackMode::Curve), m_curve(values) {}
+	template <class T>
+	ValueTrack<T>::ValueTrack(vector<T> min_values, vector<T> max_values) : m_mode(TrackMode::CurveRandom), m_min_curve(min_values), m_max_curve(max_values) {}
+	template <class T>
+	ValueTrack<T>::~ValueTrack() {}
+
+	template <class T>
+	void ValueTrack<T>::set_mode(TrackMode mode)
+	{
+		if (mode == TrackMode::Constant)
+			*this = ValueTrack<T>(T());
+		else if (mode == TrackMode::ConstantRandom)
+			*this = ValueTrack<T>(T(), T());
+		else if (mode == TrackMode::Curve)
+			*this = ValueTrack<T>(vector<T>(2, T()));
+		else if (mode == TrackMode::CurveRandom)
+			*this = ValueTrack<T>(vector<T>(2, T()), vector<T>(2, T()));
+	}
+
+	template <class T>
+	T ValueTrack<T>::sample(float t, float seed)
+	{
+		if (m_mode == TrackMode::Constant)
+			return m_value;
+		else if (m_mode == TrackMode::ConstantRandom)
+			return mud::lerp(m_min, m_max, seed);
+		else if (m_mode == TrackMode::Curve)
+			return m_value * m_curve.sample_curve(t);
+		else //if(m_mode == TrackMode::CurveRandom)
+			return mud::lerp(m_min * m_min_curve.sample_curve(t), m_max * m_max_curve.sample_curve(t), seed);
+	}
+
+	template struct MUD_MATH_EXPORT ValueTrack<vec3>;
+	template struct MUD_MATH_EXPORT ValueTrack<quat>;
+	template struct MUD_MATH_EXPORT ValueTrack<float>;
+	template struct MUD_MATH_EXPORT ValueTrack<uint32_t>;
+	template struct MUD_MATH_EXPORT ValueTrack<Colour>;
+}
+
+#ifdef MUD_MODULES
+module mud.math;
+#else
+#include <stl/tinystl/vector.impl.h>
+#include <stl/tinystl/unordered_map.impl.h>
+#endif
+
+using namespace mud;
+namespace tinystl
+{
+	template class MUD_MATH_EXPORT vector<const char*>;
+	template class MUD_MATH_EXPORT vector<char>;
+	template class MUD_MATH_EXPORT vector<uchar>;
+	template class MUD_MATH_EXPORT vector<ushort>;
+	template class MUD_MATH_EXPORT vector<uint>;
+	template class MUD_MATH_EXPORT vector<ulong>;
+	template class MUD_MATH_EXPORT vector<long>;
+	template class MUD_MATH_EXPORT vector<llong>;
+	template class MUD_MATH_EXPORT vector<ullong>;
+	template class MUD_MATH_EXPORT vector<float>;
+	template class MUD_MATH_EXPORT vector<uvec2>;
+	template class MUD_MATH_EXPORT vector<uvec3>;
+	template class MUD_MATH_EXPORT vector<ivec2>;
+	template class MUD_MATH_EXPORT vector<ivec3>;
+	template class MUD_MATH_EXPORT vector<ivec4>;
+	template class MUD_MATH_EXPORT vector<vec2>;
+	template class MUD_MATH_EXPORT vector<vec3>;
+	template class MUD_MATH_EXPORT vector<vec4>;
+	template class MUD_MATH_EXPORT vector<quat>;
+	template class MUD_MATH_EXPORT vector<mat4>;
+	template class MUD_MATH_EXPORT vector<Colour>;
+	template class MUD_MATH_EXPORT vector<Image>;
+	template class MUD_MATH_EXPORT vector<Sprite>;
+	template class MUD_MATH_EXPORT unordered_map<Type*, Colour>;
+
+	template class MUD_MATH_EXPORT vector<stbrp_node>;
 }
 
 #ifndef MUD_CPP_20
@@ -895,7 +1002,28 @@ module mud.math;
 #endif
 
 namespace mud
-{}
+{
+#if 0
+	Ratio::Ratio(float value)
+		: Stat<float>(m_value, def())
+		, m_value(value)
+	{}
+
+	Gauge::Gauge(float value)
+		: Stat<float>(m_value, def())
+		, m_value(value)
+	{}
+#endif
+
+	template struct MUD_MATH_EXPORT StatDef<int>;
+	template struct MUD_MATH_EXPORT StatDef<float>;
+
+	template struct MUD_MATH_EXPORT Stat<int>;
+	template struct MUD_MATH_EXPORT Stat<float>;
+
+	template struct MUD_MATH_EXPORT AutoStat<int>;
+	template struct MUD_MATH_EXPORT AutoStat<float>;
+}
 
 
 #ifdef MUD_MODULES
@@ -964,7 +1092,6 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<float>>() { static Type ty("AutoStat<float>", sizeof(mud::AutoStat<float>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<int>>() { static Type ty("AutoStat<int>", sizeof(mud::AutoStat<int>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Colour>() { static Type ty("Colour", sizeof(mud::Colour)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::Gauge>() { static Type ty("Gauge", sizeof(mud::Gauge)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Image>() { static Type ty("Image", sizeof(mud::Image)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Image256>() { static Type ty("Image256", sizeof(mud::Image256)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::ImageAtlas>() { static Type ty("ImageAtlas", sizeof(mud::ImageAtlas)); return ty; }
@@ -974,7 +1101,6 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::Range<mud::quat>>() { static Type ty("Range<mud::quat>", sizeof(mud::Range<mud::quat>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Range<mud::vec3>>() { static Type ty("Range<mud::vec3>", sizeof(mud::Range<mud::vec3>)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Range<uint32_t>>() { static Type ty("Range<uint32_t>", sizeof(mud::Range<uint32_t>)); return ty; }
-    template <> MUD_MATH_EXPORT Type& type<mud::Ratio>() { static Type ty("Ratio", sizeof(mud::Ratio)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Time>() { static Type ty("Time", sizeof(mud::Time)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::TimeSpan>() { static Type ty("TimeSpan", sizeof(mud::TimeSpan)); return ty; }
     template <> MUD_MATH_EXPORT Type& type<mud::Transform>() { static Type ty("Transform", sizeof(mud::Transform)); return ty; }
@@ -1070,6 +1196,78 @@ module mud.math;
 
 namespace mud
 {
+	template <class T>
+	inline v2<T>::v2() { }
+	template <class T>
+	inline v2<T>::v2(T v) : x(v), y(v) {}
+	template <class T>
+	inline v2<T>::v2(T x, T y) : x(x), y(y) {}
+	template <class T>
+	template <class V>
+	inline v2<T>::v2(V v) : x(T(v.x)), y(T(v.y)) {}
+	template <class T>
+	inline T v2<T>::operator[](uint index) const { return *((T*)&x + index); }
+	template <class T>
+	inline T& v2<T>::operator[](uint index) { return *((T*)&x + index); }
+	template <class T>
+	inline bool v2<T>::operator==(const v2& other) const { return x == other.x && y == other.y; }
+	template <class T>
+	inline bool v2<T>::operator!=(const v2& other) const { return x != other.x || y != other.y; }
+	template <class T>
+	inline v2<T>::operator T() { return T(x); }
+
+	template <class T>
+	inline v3<T>::v3() { }
+	template <class T>
+	inline v3<T>::v3(T v) : x(v), y(v), z(v) {}
+	template <class T>
+	inline v3<T>::v3(T x, T y, T z) : x(x), y(y), z(z) {}
+	template <class T>
+	inline v3<T>::v3(v2<T> a, T z) : x(a.x), y(a.y), z(z) {}
+	template <class T>
+	template <class V>
+	inline v3<T>::v3(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)) {}
+	template <class T>
+	inline T v3<T>::operator[](uint index) const { return *((T*)&x + index); }
+	template <class T>
+	inline T& v3<T>::operator[](uint index) { return *((T*)&x + index); }
+	template <class T>
+	inline bool v3<T>::operator==(const v3& other) const { return x == other.x && y == other.y && z == other.z; }
+	template <class T>
+	inline bool v3<T>::operator!=(const v3& other) const { return x != other.x || y != other.y || z != other.z; }
+	template <class T>
+	inline v3<T>::operator T() { return T(x); }
+	template <class T>
+	inline v3<T>::operator v2<T>() { return v2<T>(x, y); }
+
+	template <class T>
+	inline v4<T>::v4() {}
+	template <class T>
+	inline v4<T>::v4(T v) : x(v), y(v), z(v), w(v) {}
+	template <class T>
+	inline v4<T>::v4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
+	template <class T>
+	inline v4<T>::v4(v3<T> a, T w) : x(a.x), y(a.y), z(a.z), w(w) {}
+	template <class T>
+	inline v4<T>::v4(T x, v3<T> b) : x(x), y(b.x), z(b.y), w(b.z) {}
+	template <class T>
+	inline v4<T>::v4(v2<T> a, v2<T> b) : x(a.x), y(a.y), z(b.x), w(b.y) {}
+	template <class T>
+	template <class V>
+	inline v4<T>::v4(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)), w(T(v.w)) {}
+	template <class T>
+	inline T v4<T>::operator[](uint index) const { return *((T*)&x + index); }
+	template <class T>
+	inline T& v4<T>::operator[](uint index) { return *((T*)&x + index); }
+	template <class T>
+	inline bool v4<T>::operator==(const v4& other) const { return x == other.x && y == other.y && z == other.z && w == other.w; }
+	template <class T>
+	inline bool v4<T>::operator!=(const v4& other) const { return x != other.x || y != other.y || z != other.z || w != other.w; }
+	template <class T>
+	inline v4<T>::operator v2<T>() { return v2<T>(x, y); }
+	template <class T>
+	inline v4<T>::operator v3<T>() { return v3<T>(x, y, z); }
+
 	template struct MUD_MATH_EXPORT v2<float>;
 	template struct MUD_MATH_EXPORT v3<float>;
 	template struct MUD_MATH_EXPORT v4<float>;

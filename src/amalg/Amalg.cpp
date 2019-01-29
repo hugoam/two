@@ -5,6 +5,9 @@
 #include <infra/String.h>
 #include <amalg/Amalg.h>
 
+#include <stl/tinystl/vector.impl.h>
+#include <stl/tinystl/unordered_set.impl.h>
+
 #include <cstdio>
 
 namespace mud

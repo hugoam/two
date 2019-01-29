@@ -5,6 +5,38 @@
 #include <mud/infra.h>
 #include <mud/type.h>
 
+#ifdef MUD_MODULES
+module mud.lang;
+#else
+#include <stl/tinystl/vector.impl.h>
+#include <stl/tinystl/unordered_map.impl.h>
+#endif
+
+using namespace mud;
+namespace tinystl
+{
+	template class MUD_LANG_EXPORT vector<Pipe*>;
+	template class MUD_LANG_EXPORT vector<Valve*>;
+	template class MUD_LANG_EXPORT vector<ProcessInput*>;
+	template class MUD_LANG_EXPORT vector<ProcessOutput*>;
+	template class MUD_LANG_EXPORT vector<Process*>;
+	template class MUD_LANG_EXPORT vector<Script*>;
+	template class MUD_LANG_EXPORT vector<VisualScript*>;
+	template class MUD_LANG_EXPORT vector<TextScript*>;
+	template class MUD_LANG_EXPORT vector<StreamBranch>;
+	template class MUD_LANG_EXPORT vector<StreamModifier>;
+	template class MUD_LANG_EXPORT vector<unique<Valve>>;
+	template class MUD_LANG_EXPORT vector<unique<Pipe>>;
+	template class MUD_LANG_EXPORT vector<unique<Process>>;
+	template class MUD_LANG_EXPORT vector<unique<Call>>;
+	template class MUD_LANG_EXPORT unordered_map<int, ScriptError>;
+	template class MUD_LANG_EXPORT unordered_map<void*, const TextScript*>;
+	template class MUD_LANG_EXPORT unordered_map<string, WrenFunctionDecl>;
+
+	template class MUD_LANG_EXPORT vector<WrenHandle*>;
+	template class MUD_LANG_EXPORT unordered_map<void*, WrenHandle*>;
+}
+
 #ifndef MUD_CPP_20
 #include <cassert>
 #include <cmath>
@@ -177,7 +209,7 @@ namespace mud
 			lua_call_table.resize(callable.m_index + 1);
 
 		if(!lua_call_table[callable.m_index])
-			lua_call_table[callable.m_index] = make_object<Call>(callable);
+			lua_call_table[callable.m_index] = oconstruct<Call>(callable);
 		return *lua_call_table[callable.m_index];
 	}
 
@@ -452,7 +484,7 @@ namespace mud
 			success &= callable.m_params[i].nullable() || !vars[i].null();
 #if 1
 			if(!success)
-				printf("ERROR: lua -> wrong argument %s, expect type %s, got %s\n", callable.m_params[i].m_name, type(callable.m_params[i].m_value).m_name, type(vars[i]).m_name);
+				printf("ERROR: lua -> wrong argument %s, expect type %s, got %s\n", callable.m_params[i].m_name, callable.m_params[i].m_type->m_name, type(vars[i]).m_name);
 #endif
 		}
 		return success;
@@ -566,8 +598,8 @@ namespace mud
 	{
 		Type* type = static_cast<Type*>(lua_touserdata(state, lua_upvalueindex(1)));
 		LuaRef object = userdata(state, 1);
-		if(object.m_alloc && cls(object).m_destructor.size() > 0)
-			cls(*type).m_destructor[0].m_call(object);
+		//if(object.m_alloc && cls(object).m_destructor.size() > 0)
+		//	cls(*type).m_destructor[0](object);
 		return 0;
 	}
 
@@ -670,7 +702,7 @@ namespace mud
 		lua_pushnil(state);
 		while(lua_next(state, (index > 0) ? index : (index - 1)) != 0)
 		{
-			Var element = meta(*cls(sequence_type).m_content).m_empty_var;
+			Var element = meta(*iter(sequence_type).m_element_type).m_empty_var;
 			read(state, -1, element);
 			sequence(result).add(result, element);
 			lua_pop(state, 1); // pop the value but keep the key for the next iteration
@@ -979,7 +1011,7 @@ module mud.lang;
 namespace mud
 {
 	Script::Script(Type& type, const string& name, const Signature& signature)
-		: Callable(name.c_str(), signature.m_params, signature.m_returnval)
+		: Callable(name.c_str(), signature.m_params, signature.m_return_type)
 		, m_index(index(mud::type<Script>(), Ref(this, type)))
 		, m_type(type)
 		, m_name(name)
@@ -1215,11 +1247,11 @@ namespace mud
 
 		m_value = meta(*m_type).m_empty_var;
 		Sequence& seq = sequence(m_value);
-		Var element = meta(*cls(*m_type).m_content).m_empty_var;
+		Var element = meta(*iter(*m_type).m_element_type).m_empty_var;
 
 		source.visit(true, [&](StreamBranch& branch)
 		{
-			branch.read(element, cls(*m_type).m_content, m_reference);
+			branch.read(element, iter(*m_type).m_element_type, m_reference);
 			seq.add(m_value, element);
 		});
 	}
@@ -1330,7 +1362,7 @@ namespace mud
 		for(const Param& param : m_injector.m_constructor.m_params)
 			//if(param.m_mode == INPUT_PARAM)
 			if(param.m_index > 0) // skip first, it's the object reference
-				m_input_params.emplace_back(make_object<Valve>(*this, param));
+				m_input_params.push_back(oconstruct<Valve>(*this, param));
 	}
 
 	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, ConstructorIndex constructor)
@@ -1368,14 +1400,14 @@ namespace mud
 
 	ProcessCallable::ProcessCallable(VisualScript& script, Callable& callable)
 		: Process(script, callable.m_name, type<ProcessCallable>())
-		, m_parameters(callable.m_params.size() + (callable.m_returnval.none() ? 0 : 1))
+		, m_parameters(callable.m_params.size() + (callable.m_return_type == g_qvoid ? 0 : 1))
 		, m_callable(callable)
 	{
 		for(const Param& param : callable.m_params)
-			m_params.emplace_back(make_object<Valve>(*this, param));
+			m_params.push_back(oconstruct<Valve>(*this, param));
 
-		if(!callable.m_returnval.none())
-			m_result = make_object<Valve>(*this, "result", OUTPUT_VALVE, callable.m_returnval, false, false);
+		if(callable.m_return_type != g_qvoid)
+			m_result = oconstruct<Valve>(*this, "result", OUTPUT_VALVE, meta(*callable.m_return_type.m_type).m_empty_var, false, false);
 	}
 
 	void ProcessCallable::process(const StreamLocation& branch)
@@ -1388,13 +1420,13 @@ namespace mud
 		if(m_result)
 		{
 			Var& value = m_result->m_stream.branch(branch.m_index).m_value;
-			m_callable(to_array(m_parameters), value);
+			//m_callable(to_array(m_parameters), value);
 			m_result->m_stream.branch(branch.m_index).write(value);
 		}
 		else
 		{
 			static Var unused;
-			m_callable(to_array(m_parameters), unused);
+			//m_callable(to_array(m_parameters), unused);
 		}
 
 		for(const Param& param : m_callable.m_params)
@@ -1519,7 +1551,7 @@ namespace mud
 	}
 
 	Valve::Valve(Process& process, const Param& param)
-		: Valve(process, param.m_name, param.output() ? OUTPUT_VALVE : INPUT_VALVE, param.m_value, param.nullable(), param.reference())
+		: Valve(process, param.m_name, param.output() ? OUTPUT_VALVE : INPUT_VALVE, param.default_val(), param.nullable(), param.reference())
 	{}
 
 	Valve::~Valve()
@@ -1589,7 +1621,7 @@ namespace mud
 		if(!m_pipes.empty())
 			m_process.m_script.disconnect(*m_pipes[0]);
 
-		return make_object<Pipe>(output, *this, modifier);
+		return oconstruct<Pipe>(output, *this, modifier);
 	}
 
 	void Valve::propagate()
@@ -1661,14 +1693,14 @@ namespace mud
 	Valve& Process::out_flow()
 	{
 		if(!m_out_flow)
-			m_out_flow = make_object<Valve>(*this, "out", FLOW_VALVE_OUT);
+			m_out_flow = oconstruct<Valve>(*this, "out", FLOW_VALVE_OUT);
 		return *m_out_flow;
 	}
 
 	Valve& Process::in_flow()
 	{
 		if(!m_in_flow)
-			m_in_flow = make_object<Valve>(*this, "in", FLOW_VALVE_IN);
+			m_in_flow = oconstruct<Valve>(*this, "in", FLOW_VALVE_IN);
 		return *m_in_flow;
 	}
 
@@ -1834,8 +1866,8 @@ namespace mud
 	VisualScript::VisualScript(cstring name, const Signature& signature)
 		: Script(type<VisualScript>(), name, signature)
 	{
-		if(!signature.m_returnval.none())
-			this->node<ProcessOutput>(Param("return", signature.m_returnval));
+		if(!signature.m_return_type.isvoid())
+			this->node<ProcessOutput>(Param("return", *signature.m_return_type.m_type));
 
 		for(const Param& param : signature.m_params)
 			if(!param.output())
@@ -1933,7 +1965,7 @@ namespace mud
 	ProcessInput::ProcessInput(VisualScript& script, const Param& param)
 		: Process(script, param.m_name, type<ProcessInput>())
 		, Param(param)
-		, m_output(*this, param.m_name, OUTPUT_VALVE, param.m_value, param.nullable(), param.reference())
+		, m_output(*this, param.m_name, OUTPUT_VALVE, param.default_val(), param.nullable(), param.reference())
 	{
 		script.m_inputs.push_back(this);
 	}
@@ -1941,7 +1973,7 @@ namespace mud
 	ProcessOutput::ProcessOutput(VisualScript& script, const Param& param)
 		: Process(script, param.m_name, type<ProcessOutput>())
 		, Param(param)
-		, m_input(*this, param.m_name, INPUT_VALVE, param.m_value, param.nullable(), param.reference())
+		, m_input(*this, param.m_name, INPUT_VALVE, param.default_val(), param.nullable(), param.reference())
 	{
 		script.m_outputs.push_back(this);
 	}
@@ -2042,7 +2074,7 @@ namespace mud
 			call_table.resize(callable.m_index + 1);
 
 		if(!call_table[callable.m_index])
-			call_table[callable.m_index] = make_object<Call>(callable);
+			call_table[callable.m_index] = oconstruct<Call>(callable);
 		return *call_table[callable.m_index];
 	}
 
@@ -2232,7 +2264,7 @@ namespace mud
 			}
 		}
 		for(size_t i = offset + max(num_args, callable.m_num_required - offset); i < vars.size(); ++i)
-			vars[i] = callable.m_params[i].m_value;
+			vars[i] = callable.m_params[i].default_val();
 		return true;
 	}
 
@@ -2374,7 +2406,7 @@ namespace mud
 		
 		Ref object = alloc_object(vm, 0, 1, *constructor->m_object_type);
 		Ref other = read_ref(vm, 2);
-		constructor->m_call(object, other);
+		//constructor(object, other);
 	}
 
 	inline void construct_interface(WrenVM* vm)
@@ -2401,8 +2433,8 @@ namespace mud
 	inline void destroy(void* memory)
 	{
 		WrenRef ref = *(WrenRef*)memory;
-		if(ref.m_alloc && cls(ref).m_destructor.size() > 0)
-			cls(ref).m_destructor[0].m_call(ref);
+		//if(ref.m_alloc && cls(ref).m_destructor.size() > 0)
+		//	cls(ref).m_destructor[0].m_call(ref);
 	}
 
 	inline void register_enum(WrenVM* vm, string module, string name, Type& type)
@@ -2841,7 +2873,7 @@ namespace mud
 
 		for(int i = 0; i < count; ++i)
 		{
-			Var element = meta(*cls(sequence_type).m_content).m_empty_ref;
+			Var element = meta(*iter(sequence_type).m_element_type).m_empty_ref;
 			wrenGetListElement(vm, slot, i, slot + 1);
 			read(vm, slot + 1, element);
 			sequence(result).add(result, element);
@@ -3142,7 +3174,7 @@ namespace mud
 			string n = string(function.m_name);
 			string parent = function.m_namespace->m_name;
 
-			Functions& decls = m_function_decls[c];
+			WrenFunctionDecl& decls = m_function_decls[c];
 
 			decls.bind += "        __" + n + " = Function.ref(\"" + parent + "\", \"" + n + "\", " + to_string(function.m_params.size()) + ")\n";
 
@@ -3162,7 +3194,7 @@ namespace mud
 			if(m_function_decls.find(c) == m_function_decls.end())
 				return;
 
-			Functions& decls = m_function_decls[c];
+			WrenFunctionDecl& decls = m_function_decls[c];
 
 			string decl;
 			decl += "class " + c + " {\n";
@@ -3185,14 +3217,7 @@ namespace mud
 		}
 
 		map<string, string> m_namespaces;
-
-		struct Functions
-		{
-			string functions;
-			string bind;
-		};
-
-		map<string, Functions> m_function_decls;
+		map<string, WrenFunctionDecl> m_function_decls;
 
 		set<string> m_variables;
 

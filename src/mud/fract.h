@@ -49,11 +49,11 @@ namespace mud
     export_ template <> MUD_FRACT_EXPORT Type& type<mud::FractTab>();
     export_ template <> MUD_FRACT_EXPORT Type& type<mud::Pattern>();
     
-    export_ template struct MUD_FRACT_EXPORT Typed<vector<mud::Circlifier*>>;
-    export_ template struct MUD_FRACT_EXPORT Typed<vector<mud::Fract*>>;
-    export_ template struct MUD_FRACT_EXPORT Typed<vector<mud::FractSample*>>;
-    export_ template struct MUD_FRACT_EXPORT Typed<vector<mud::FractTab*>>;
-    export_ template struct MUD_FRACT_EXPORT Typed<vector<mud::Pattern*>>;
+    export_ template <> MUD_FRACT_EXPORT Type& type<vector<mud::Circlifier*>>();
+    export_ template <> MUD_FRACT_EXPORT Type& type<vector<mud::Fract*>>();
+    export_ template <> MUD_FRACT_EXPORT Type& type<vector<mud::FractSample*>>();
+    export_ template <> MUD_FRACT_EXPORT Type& type<vector<mud::FractTab*>>();
+    export_ template <> MUD_FRACT_EXPORT Type& type<vector<mud::Pattern*>>();
 }
 
 #ifndef MUD_MODULES

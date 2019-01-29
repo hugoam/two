@@ -50,7 +50,7 @@ namespace mud
 			return;
 
 		m_undone.back()->apply();
-		m_done.emplace_back(pop(m_undone));
+		m_done.push_back(pop(m_undone));
 	}
 
 	void ActionStack::undo()
@@ -59,7 +59,7 @@ namespace mud
 			return;
 
 		m_done.back()->undo();
-		m_undone.emplace_back(pop(m_done));
+		m_undone.push_back(pop(m_done));
 	}
 
 	UndoTool::UndoTool(ToolContext& context)
@@ -96,8 +96,8 @@ namespace mud
 		, m_world_snap(false)
 		, m_work_plane(Y3, 0.f)
 	{
-		this->add_option(make_object<PlaneSnapOption>(*this));
-		this->add_option(make_object<WorldSnapOption>(*this));
+		this->add_option(oconstruct<PlaneSnapOption>(*this));
+		this->add_option(oconstruct<WorldSnapOption>(*this));
 	}
 
 	void Brush::process(Viewer& viewer, const vector<Ref>& selection)
@@ -246,7 +246,7 @@ namespace mud
 			this->clearStroke(position);
 
 		float side = m_radius * 2.f;
-		m_distribution = make_object<Poisson>(vec2{ side }, m_maxSpotRadius);
+		m_distribution = oconstruct<Poisson>(vec2{ side }, m_maxSpotRadius);
 
 		vec3 point;
 		while(m_distribution->addPoint(m_maxSpotRadius, point))
@@ -732,7 +732,7 @@ namespace mud
 	void CopyTool::begin(const vec3& position)
 	{
 		UNUSED(position);
-		//m_action = make_object<CopyAction>(m_targets); // @kludge brute cast
+		//m_action = oconstruct<CopyAction>(m_targets); // @kludge brute cast
 	}
 
 	void CopyTool::update(const vec3& position)
@@ -748,7 +748,7 @@ namespace mud
 
 	object<TransformAction> CopyTool::create_action(array<Transform*> targets)
 	{
-		return make_object<CopyAction>(targets);
+		return oconstruct<CopyAction>(targets);
 	}
 }
 
@@ -818,7 +818,7 @@ namespace mud
 		vec3 axis = m_current == &*m_gizmos[0] ? -X3
 				  : m_current == &*m_gizmos[1] ?  Y3
 											   : -Z3;
-		return make_object<RotateAction>(targets, axis);
+		return oconstruct<RotateAction>(targets, axis);
 	}
 
 }
@@ -938,7 +938,7 @@ namespace mud
 
 	object<TransformAction> ScaleTool::create_action(array<Transform*> targets)
 	{
-		return make_object<ScaleAction>(targets);
+		return oconstruct<ScaleAction>(targets);
 	}
 
 }
@@ -1029,7 +1029,7 @@ namespace mud
 
 	object<TransformAction> TranslateTool::create_action(array<Transform*> targets)
 	{
-		return make_object<TranslateAction>(targets);
+		return oconstruct<TranslateAction>(targets);
 	}
 
 }
@@ -1069,7 +1069,7 @@ namespace mud
 		vec3 vision = m_context.m_camera->m_target - m_context.m_camera->m_eye;
 		vector<Transform*> transforms = gather_transforms(*m_context.m_selection);
 		Transform transform = average_transforms(transforms);
-		this->commit(make_object<ViewAction>(*m_context.m_camera, transform.m_position - vision, transform.m_position));
+		this->commit(oconstruct<ViewAction>(*m_context.m_camera, transform.m_position - vision, transform.m_position));
 		m_state = ToolState::Done;
 	}
 
@@ -1081,7 +1081,7 @@ namespace mud
 	void ViewTool::activate()
 	{
 		vec3 target = m_context.m_camera->m_target;
-		this->commit(make_object<ViewAction>(*m_context.m_camera, target + m_offset, target));
+		this->commit(oconstruct<ViewAction>(*m_context.m_camera, target + m_offset, target));
 		m_state = ToolState::Done;
 	}
 }
@@ -1117,7 +1117,7 @@ namespace mud
 
 	void WorkPlaneTool::activate()
 	{
-		m_action = make_object<WorkPlaneAction>(*m_context.m_work_plane, m_plane);
+		m_action = oconstruct<WorkPlaneAction>(*m_context.m_work_plane, m_plane);
 		this->commit(move(m_action));
 		m_state = ToolState::Done;
 	}

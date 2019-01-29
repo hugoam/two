@@ -18,7 +18,7 @@ namespace mud
     enum class ConstructorIndex : unsigned int;
     enum class TypeClass : unsigned int;
     
-    
+	struct QualType;
     class Param;
     class Signature;
     class Callable;
@@ -49,7 +49,8 @@ namespace mud
 
 
 #include <stl/vector.h>
-#include <stl/memory.h>
+
+#include <cstdint>
 
 namespace mud
 {
@@ -57,11 +58,33 @@ namespace mud
 
 	export_ using FunctionPointer = void* (*)();
 
-	export_ using ConstructorFunc = void(*)(Ref, array<Var>);
-	export_ using CopyConstructorFunc = void(*)(Ref, Ref);
-	export_ using DestructorFunc = void(*)(Ref);
-	export_ using MethodFunc = void(*)(Ref, array<Var>, Var&);
-	export_ using FunctionFunc = void(*)(array<Var>, Var&);
+	export_ using ConstructorFunc = void(*)(void*, array<void*>);
+	export_ using CopyConstructorFunc = void(*)(void*, void*);
+	export_ using DestructorFunc = void(*)(void*);
+	export_ using MethodFunc = void(*)(void*, array<void*>, void*&);
+	export_ using FunctionFunc = void(*)(array<void*>, void*&);
+
+	export_ struct refl_ MUD_REFL_EXPORT QualType
+	{
+		enum Flags
+		{
+			None = 0,
+			Pointer = (1 << 0),
+			Reference = (1 << 1),
+			Const = (1 << 2),
+		};
+
+		Type* m_type;
+		Flags m_flags;
+
+		bool isvoid() const;
+
+		bool operator==(const QualType& other) const;
+		bool operator!=(const QualType& other) const;
+	};
+
+	export_ extern Type* g_void;
+	export_ extern QualType g_qvoid;
 
 	export_ class refl_ MUD_REFL_EXPORT Param
 	{
@@ -76,12 +99,16 @@ namespace mud
 		};
 
 	public:
-		Param(cstring name, Var value, Flags flags = None);
+		Param() {}
+		Param(cstring name, Type& type, Flags flags = None, void* default_val = nullptr);
 		
-		size_t m_index;
-		cstring m_name;
-		Var m_value;
-		Flags m_flags;
+		size_t m_index = 0;
+		cstring m_name = nullptr;
+		Type* m_type = nullptr;
+		Flags m_flags = None;
+		void* m_default = nullptr;
+
+		Ref default_val() const { return Ref(m_default, *m_type); }
 
 		bool nullable() const { return (m_flags & Nullable) != 0; }
 		bool reference() const { return (m_flags & Reference) != 0; }
@@ -92,46 +119,49 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Signature
 	{
 	public:
-		Signature(const vector<Param>& params = {}, const Var& returnval = Var());
+		Signature(const vector<Param>& params = {}, QualType return_type = g_qvoid);
 
 		vector<Param> m_params;
-		Var m_returnval;
+		QualType m_return_type;
 	};
 
 	
 	export_ class refl_ MUD_REFL_EXPORT Callable
 	{
 	public:
-		Callable(cstring name, const vector<Param>& params = {}, Var returnval = Var());
+		Callable(cstring name, const vector<Param>& params = {}, QualType return_type = g_qvoid);
 		virtual ~Callable() {}
 
 		void setup();
 
-		bool validate(array<Var> args, size_t offset = 0) const;
+		bool validate(array<void*> args, size_t offset = 0) const;
 
-		virtual void operator()(array<Var> args) const { Var none; return (*this)(args, none); }
-		virtual void operator()(array<Var> args, Var& result) const = 0;
+		void operator()(array<Ref> args) const;
+		void operator()(array<Ref> args, Ref& result) const;
+
+		//virtual void operator()(array<void*> args) const; // { Var none; return (*this)(args, none); }
+		//virtual void operator()(array<void*> args, void*& result) const = 0;
 
 		uint32_t m_index;
 		cstring m_name;
 
-		Var m_returnval;
-
 		vector<Param> m_params;
+		QualType m_return_type;
 		size_t m_num_defaults;
 		size_t m_num_required;
 
-		vector<Var> m_arguments;
+		//vector<Var> m_arguments;
 
-		bool checkArgs(const vector<Var>& args) const { for(const Param& param : m_params) if(!type(args[param.m_index]).is(type(param.m_value))) return false; return true; }
+		//bool checkArgs(const vector<Var>& args) const; // { for (const Param& param : m_params) if (!type(args[param.m_index]).is(type(param.m_value))) return false; return true; }
 	};
 
 	export_ class refl_ MUD_REFL_EXPORT Function final : public Callable
 	{
 	public:
-		Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc function, const vector<Param>& params = {}, Var returnval = Var());
+		Function();
+		Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc function, const vector<Param>& params = {}, QualType return_type = g_qvoid);
 
-		virtual void operator()(array<Var> args, Var& result) const { return m_call(args, result); }
+		virtual void operator()(array<void*> args, void*& result) const; // { return m_call(args, result); }
 
 		Namespace* m_namespace;
 		FunctionPointer m_identity;
@@ -152,9 +182,10 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Method final : public Callable
 	{
 	public:
-		Method(Type& object_type, cstring name, Address address, MethodFunc method, const vector<Param>& params = {}, Var returnval = Var());
+		Method();
+		Method(Type& object_type, cstring name, Address address, MethodFunc method, const vector<Param>& params = {}, QualType return_type = g_qvoid);
 
-		virtual void operator()(array<Var> args, Var& result) const { return m_call(args[0], array<Var>{ args, 1 }, result); }
+		virtual void operator()(array<void*> args, void*& result) const; // { return m_call(args[0], array<void*>{ args, 1 }, result); }
 
 		Type* m_object_type;
 		Address m_address;
@@ -171,10 +202,11 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Constructor final : public Callable
 	{
 	public:
+		Constructor();
 		Constructor(Type& object_type, ConstructorFunc func, const vector<Param>& params = {});
 		Constructor(Type& object_type, cstring name, ConstructorFunc func, const vector<Param>& params = {});
 
-		virtual void operator()(array<Var> args, Var& result) const { UNUSED(result); m_call(args[0], array<Var>{ args, 1 }); }
+		virtual void operator()(array<void*> args, void*& result) const; // { UNUSED(result); m_call(args[0], array<void*>{ args, 1 }); }
 
 		size_t m_index;
 		Type* m_object_type;
@@ -184,9 +216,10 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT CopyConstructor final : public Callable
 	{
 	public:
+		CopyConstructor();
 		CopyConstructor(Type& object_type, CopyConstructorFunc func);
 
-		virtual void operator()(array<Var> args, Var& result) const { UNUSED(result); m_call(args[0], args[1]); }
+		virtual void operator()(array<void*> args, void*& result) const; // { UNUSED(result); m_call(args[0], args[1]); }
 
 		Type* m_object_type;
 		CopyConstructorFunc m_call;
@@ -195,30 +228,13 @@ namespace mud
 	export_ class refl_ MUD_REFL_EXPORT Destructor final: public Callable
 	{
 	public:
+		Destructor();
 		Destructor(Type& object_type, DestructorFunc func);
 
-		virtual void operator()(array<Var> args, Var& result) const { UNUSED(result); m_call(args[0]); }
+		virtual void operator()(array<void*> args, void*& result) const; // { UNUSED(result); m_call(args[0]); }
 
 		Type* m_object_type;
 		DestructorFunc m_call;
-	};
-
-	export_ struct refl_ MUD_REFL_EXPORT Call
-	{
-	public:
-		constr_ Call();
-		constr_ Call(const Callable& callable, vector<Var> arguments);
-		Call(const Callable& callable);
-		Call(const Callable& callable, Ref object);
-
-		bool validate();
-
-		const Var& operator()();
-		const Var& operator()(Ref object);
-
-		const Callable* m_callable = nullptr;
-		attr_ vector<Var> m_arguments;
-		attr_ Var m_result;
 	};
 
 	export_ template<typename T_Function>
@@ -250,11 +266,6 @@ namespace mud
 		Enum = 6
 	};
 
-	export_ template<typename T, typename U> constexpr uintptr_t member_offset(U T::*member)
-	{
-		return (char*)&((T*)nullptr->*member) - (char*)nullptr;
-	}
-
 	export_ template<typename T_Object, typename T_Base> uintptr_t base_offset()
 	{
 		void* mem = malloc(sizeof(T_Object));
@@ -275,18 +286,25 @@ namespace mud
 		TypeClass m_type_class;
 		bool m_is_array = false;
 
+		const void* m_empty_value;
 		Ref m_empty_ref;
 		Var m_empty_var;
 
-		using CopyConstruct = Var(*)(Ref); CopyConstruct m_copy_construct;
-		using CopyAssign = void(*)(Ref, Ref); CopyAssign m_copy_assign;
+		using CopyConstruct = void(*)(void*, void*); CopyConstruct m_copy_construct;
+		using CopyAssign = void(*)(void*, void*); CopyAssign m_copy_assign;
+
+		inline void copy_construct(Ref first, Ref other) const { m_copy_construct(first.m_value, other.m_value); }
+		inline void copy_assign(Ref first, Ref other) const { m_copy_assign(first.m_value, other.m_value); }
 	};
 
 	export_ class refl_ MUD_REFL_EXPORT Convert
 	{
 	public:
-		using ToString = void(*)(Ref, string&); ToString m_to_string;
-		using ToValue = void(*)(const string&, Ref); ToValue m_to_value;
+		using ToString = void(*)(void*, string&); ToString m_to_string;
+		using ToValue = void(*)(const string&, void*); ToValue m_to_value;
+
+		inline void to_string(Ref object, string& str) const { m_to_string(object.m_value, str); }
+		inline void to_value(const string& str, Ref object) const { m_to_value(str, object.m_value); }
 	};
 
 	export_ extern MUD_REFL_EXPORT vector<Meta*> g_meta;
@@ -363,11 +381,12 @@ namespace mud
 
 namespace mud
 {
-	using MemberGet = Ref(*)(Ref);
+	using MemberGet = void*(*)(void*);
 
 	export_ class refl_ MUD_REFL_EXPORT Static
 	{
 	public:
+		Static();
 		Static(Type& parent_type, cstring name, Ref value);
 
 		Type* m_parent_type;
@@ -391,12 +410,12 @@ namespace mud
 		};
 
 	public:
-		Member(Type& object_type, Address address, Type& type, cstring name, Ref default_value, Flags flags = Flags::None, MemberGet get = nullptr);
+		Member();
+		Member(Type& object_type, size_t offset, Type& type, cstring name, const void* default_value, Flags flags = Flags::None, MemberGet get = nullptr);
 		~Member();
 
 		int m_index;
 		Type* m_object_type;
-		Address m_address;
 		size_t m_offset;
 		Type* m_type;
 		cstring m_name;
@@ -418,7 +437,7 @@ namespace mud
 
 		inline Ref get(Ref object) const
 		{
-			if(m_get) return m_get(object);
+			if(m_get) return Ref(m_get(object.m_value), *m_type);
 			Ref ref = this->ref(object);
 			if(this->is_pointer())
 				return Ref(*(void**)ref.m_value, *m_type);
@@ -468,13 +487,13 @@ namespace mud
 		Class(Type& type);
 		Class(
 			Type& type,
-			vector<Type*> bases,
-			vector<size_t> bases_offsets,
-			vector<Constructor> constructors,
-			vector<CopyConstructor> copy_constructors,
-			vector<Member> members,
-			vector<Method> methods,
-			vector<Static> static_members
+			array<Type*> bases,
+			array<size_t> bases_offsets,
+			array<Constructor> constructors,
+			array<CopyConstructor> copy_constructors,
+			array<Member> members,
+			array<Method> methods,
+			array<Static> static_members
 		);
 		~Class();
 
@@ -492,10 +511,10 @@ namespace mud
 		bool has_member(cstring name);
 		bool has_method(cstring name);
 
-		Member& member(Address address);
+		Member& member(size_t offset);
 		Method& method(Address address);
 
-		bool has_member(Address address);
+		bool has_member(size_t offset);
 		bool has_method(Address address);
 
 		template <class T> inline Member& member(T member) { return this->member(member_address(member)); }
@@ -510,24 +529,21 @@ namespace mud
 	public:
 		Type* m_type;
 		Meta* m_meta;
-		Type* m_root;
-
-		vector<Type*> m_bases;
-		vector<size_t> m_bases_offsets;
-
-		bool m_nested = false;
 
 		// Reflection
-		vector<Constructor> m_constructors;
-		vector<CopyConstructor> m_copy_constructors; // in a vector until we update to c++17 optional
-		vector<Destructor> m_destructor; // in a vector until we update to c++17 optional
-		vector<Member> m_members;
-		vector<Method> m_methods;
+		array<Type*> m_bases;
+		array<size_t> m_bases_offsets;
+
+		array<Constructor> m_constructors;
+		array<CopyConstructor> m_copy_constructors; // in a vector until we update to c++17 optional
+		array<Destructor> m_destructor; // in a vector until we update to c++17 optional
+		array<Member> m_members;
+		array<Method> m_methods;
+
+		array<Static> m_static_members;
+		array<Function> m_static_functions;
 
 		vector<Operator> m_operators;
-
-		vector<Static> m_static_members;
-		vector<Function> m_static_functions;
 
 		Member* m_id_member = nullptr;
 		Member* m_type_member = nullptr;
@@ -541,12 +557,12 @@ namespace mud
 		vector<Member*> m_deep_members;
 		vector<Method*> m_deep_methods;
 
-		// Sequence
-		Type* m_content = nullptr;
-		bool m_content_pointer = false;
-
 		// Implementation
 		using MakePool = unique<Pool>(*)(); MakePool m_make_pool;
+
+		// Deprecated ??
+		Type* m_root = nullptr;
+		bool m_nested = false;
 	};
 
 	inline Ref Member::cast(Ref object) const
@@ -593,10 +609,10 @@ namespace mud
 	export_ inline string to_name(Ref value) { return to_name(type(value), value); }
 
 	export_ template <>
-	inline void to_string<Ref>(const Ref& object, string& str) { convert(*object.m_type).m_to_string(object, str); }
+	inline void to_string<Ref>(const Ref& object, string& str) { convert(*object.m_type).m_to_string(object.m_value, str); }
 
 	export_ template <>
-	inline void to_string<Var>(const Var& value, string& str) { convert(type(value)).m_to_string(value, str); }
+	inline void to_string<Var>(const Var& value, string& str) { convert(type(value)).m_to_string(value.m_ref.m_value, str); }
 
 	export_ template <class T_Source, class T_Dest>
 	void convert(T_Source& from, T_Dest& to)
@@ -662,6 +678,30 @@ namespace mud
 
 #include <stl/vector.h>
 
+
+#include <stl/vector.h>
+
+namespace mud
+{
+	export_ struct refl_ MUD_REFL_EXPORT Call
+	{
+	public:
+		constr_ Call();
+		constr_ Call(const Callable& callable, vector<Var> arguments);
+		Call(const Callable& callable);
+		Call(const Callable& callable, Ref object);
+
+		bool validate();
+
+		const Var& operator()();
+		const Var& operator()(Ref object);
+
+		const Callable* m_callable = nullptr;
+		attr_ vector<Var> m_arguments;
+		attr_ Var m_result;
+	};
+}
+
 namespace mud
 {
 	export_ class refl_ MUD_REFL_EXPORT Injector : public Call
@@ -706,13 +746,18 @@ namespace mud
 	export_ class MUD_REFL_EXPORT Iterable
 	{
 	public:
-		using Size = size_t(*)(Ref); Size size;
-		using At = Ref(*)(Ref, size_t); At at;
+		Type* m_element_type;
+
+		using Size = size_t(*)(void*); Size m_size;
+		using At = void*(*)(void*, size_t); At m_at;
+
+		inline size_t size(Ref vec) const { return m_size(vec.m_value); }
+		inline Ref at(Ref vec, size_t i) const { return Ref(m_at(vec.m_value, i), *m_element_type); }
 
 		template <class T_Visitor>
 		void iterate(Ref vec, T_Visitor visitor) const
 		{
-			size_t count = this->size(vec);
+			const size_t count = this->size(vec);
 			for(size_t i = 0; i < count; ++i)
 				visitor(this->at(vec, i));
 		}
@@ -720,7 +765,7 @@ namespace mud
 		template <class T_Visitor>
 		void iteratei(Ref vec, T_Visitor visitor) const
 		{
-			size_t count = this->size(vec);
+			const size_t count = this->size(vec);
 			for(size_t i = 0; i < count; ++i)
 				visitor(i, this->at(vec, i));
 		}
@@ -729,8 +774,11 @@ namespace mud
 	export_ class MUD_REFL_EXPORT Sequence
 	{
 	public:
-		using Add = void(*)(Ref, Ref); Add add;
-		using Remove = void(*)(Ref, Ref); Remove remove;
+		using Add = void(*)(void*, void*); Add m_add;
+		using Remove = void(*)(void*, void*); Remove m_remove;
+
+		inline void add(Ref vec, Ref element) const { m_add(vec.m_value, element.m_value); }
+		inline void remove(Ref vec, Ref element) const { m_remove(vec.m_value, element.m_value); }
 	};
 }
 
@@ -794,7 +842,6 @@ namespace mud
 
 	export_ template <typename T_Value, typename T_Param, typename T>
 	inline auto member_setter(void(T::*func)(T_Param)) { return [func](Ref object, const Var& v) { (val<T>(object).*func)(val<T_Value>(v)); }; }
-#endif
 
 	export_ template <class T>
 	void init_store() {}
@@ -851,8 +898,8 @@ namespace mud
 
 	export_ template <class T>
 		inline typename enable_if<!is_trivially_destructible<T>::value, void>::type
-		init_destructor() { cls<T>().m_destructor.push_back({ type<T>(), [](Ref ref) { val<T>(ref).~T(); } }); }
-	
+		init_destructor() { cls<T>().m_destructor.push_back({ type<T>(), [](void* ref) { static_cast<T*>(ref)->~T(); } }); }
+
 	export_ template <>
 	MUD_REFL_EXPORT void init_assign<void*>();
 
@@ -900,6 +947,7 @@ namespace mud
 		meta_type<T>();
 		init_string<T>();
 	}
+#endif
 }
 
 
@@ -1019,6 +1067,7 @@ namespace mud
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Namespace>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Operator>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Param>();
+    export_ template <> MUD_REFL_EXPORT Type& type<mud::QualType>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Signature>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Static>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::System>();
@@ -1029,29 +1078,58 @@ namespace mud
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Injector>();
     export_ template <> MUD_REFL_EXPORT Type& type<mud::Method>();
     
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Call*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Callable*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Class*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Convert*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Creator*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Enum*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Member*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Meta*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Module*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Namespace*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Operator*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Param*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Signature*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Static*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::System*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Constructor*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::CopyConstructor*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Destructor*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Function*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Injector*>>;
-    export_ template struct MUD_REFL_EXPORT Typed<vector<mud::Method*>>;
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Call*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Callable*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Class*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Convert*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Creator*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Enum*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Member*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Meta*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Module*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Namespace*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Operator*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Param*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::QualType*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Signature*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Static*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::System*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Constructor*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::CopyConstructor*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Destructor*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Function*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Injector*>>();
+    export_ template <> MUD_REFL_EXPORT Type& type<vector<mud::Method*>>();
 }
 
+
+#include <stl/vector.h>
+
+using namespace mud;
+namespace tinystl
+{
+	export_ extern template class vector<Namespace>;
+	export_ extern template class vector<Param>;
+	export_ extern template class vector<Function>;
+	export_ extern template class vector<Operator>;
+	export_ extern template class vector<Constructor>;
+	export_ extern template class vector<CopyConstructor>;
+	export_ extern template class vector<Destructor>;
+	export_ extern template class vector<Method>;
+	export_ extern template class vector<Member>;
+	export_ extern template class vector<Static>;
+	export_ extern template class vector<Function*>;
+	export_ extern template class vector<Method*>;
+	export_ extern template class vector<Member*>;
+	export_ extern template class vector<Meta*>;
+	export_ extern template class vector<Enum*>;
+	export_ extern template class vector<Convert*>;
+	export_ extern template class vector<Iterable*>;
+	export_ extern template class vector<Sequence*>;
+	export_ extern template class vector<Class*>;
+	export_ extern template class vector<Module*>;
+	export_ extern template class vector<Prototype*>;
+}
 
 
 #include <stl/function.h>

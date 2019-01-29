@@ -211,6 +211,7 @@ namespace mud
 	public:
 		struct Key
 		{
+			Key() {}
 			template <class T>
 			Key(float time, const T& value, float transition = 1.f) : m_time(time), m_value(), m_transition(transition) {  *(T*)m_value.m_value = value; }
 			float m_time;
@@ -218,6 +219,7 @@ namespace mud
 			float m_transition = 1.f;
 		};
 
+		AnimationTrack();
 		AnimationTrack(Animation& animation, size_t node, cstring node_name, AnimationTarget target);
 
 		attr_ Animation* m_animation;
@@ -358,6 +360,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Skin
 	{
 	public:
+		Skin();
 		Skin(Skeleton& skeleton, int num_joints);
 		Skin(const Skin& copy, Skeleton& skeleton);
 		~Skin();
@@ -1250,8 +1253,8 @@ namespace mud
 		attr_ TextureChannel m_channel = TextureChannel::All;
 	};
 
-	export_ template struct refl_ MUD_GFX_EXPORT MaterialParam<Colour>;
-	export_ template struct refl_ MUD_GFX_EXPORT MaterialParam<float>;
+	export_ extern template struct refl_ MaterialParam<Colour>;
+	export_ extern template struct refl_ MaterialParam<float>;
 
 	export_ struct refl_ MUD_GFX_EXPORT UnshadedMaterialBlock
 	{
@@ -1780,6 +1783,7 @@ namespace mud
 	export_ class refl_ MUD_GFX_EXPORT Item
 	{
 	public:
+		Item();
 		Item(Node3& node, const Model& model, uint32_t flags = 0, Material* material = nullptr, size_t instances = 0);
 		~Item();
 
@@ -1996,7 +2000,7 @@ namespace mud
 		uint16_t m_row_size = 0;
 		bgfx::TextureFormat::Enum m_format;
 	
-		vector<Range<float>> m_dirty_ranges;
+		//vector<Range<float>> m_dirty_ranges;
 
 		void invalidate() noexcept;
 		void invalidate(size_t row, size_t count) noexcept;
@@ -2400,6 +2404,8 @@ namespace mud
 #if defined MUD_UNIFORM_BLOCKS
 
 
+#if 0
+
 #ifndef MUD_MODULES
 #include <stl/string.h>
 #endif
@@ -2417,10 +2423,10 @@ namespace mud
 
 	export_ struct MUD_GFX_EXPORT Uniform
 	{
-		Uniform(const string& name, Address member, bgfx::UniformType::Enum type) : m_name(name), m_member(member), m_type(type), m_floats(16) {}
+		Uniform(const string& name, size_t member, bgfx::UniformType::Enum type) : m_name(name), m_member(member), m_type(type), m_floats(16) {}
 
 		string m_name;
-		Address m_member;
+		size_t m_member;
 		bgfx::UniformType::Enum m_type;
 		bgfx::UniformHandle m_uniform;
 		vector<float> m_floats;
@@ -2428,7 +2434,7 @@ namespace mud
 		struct Field
 		{
 			string m_name;
-			Address m_member;
+			size_t m_member;
 			size_t m_size;
 		};
 		vector<Field> m_fields;
@@ -2465,7 +2471,7 @@ namespace mud
 	export_ struct MUD_GFX_EXPORT Sampler
 	{
 		string m_name;
-		Address m_member;
+		size_t m_member;
 		uint8_t m_stage;
 		Texture* m_default;
 		bgfx::UniformHandle m_uniform;
@@ -2518,6 +2524,7 @@ namespace mud
 		}
 	};
 }
+#endif
 #endif
 
 namespace mud
@@ -2654,6 +2661,16 @@ namespace mud
 	// froxels are not used, so we can store more.
 	static constexpr uint32_t FROXEL_BUFFER_ENTRY_COUNT_MAX = 8192;
 
+	struct LightRecord
+	{
+#ifndef USE_STD_BITSET
+		using Lights = bitset<uint64_t, (CONFIG_MAX_LIGHT_COUNT + 63) / 64>;
+#else
+		using Lights = std::bitset<CONFIG_MAX_LIGHT_COUNT>;
+#endif
+		Lights lights;
+	};
+
 	export_ struct FroxelUniform
 	{
 		void createUniforms()
@@ -2677,8 +2694,12 @@ namespace mud
 	class MUD_GFX_EXPORT Froxelizer
 	{
 	public:
+		Froxelizer();
 		Froxelizer(GfxSystem& gfx_system);
 		~Froxelizer();
+
+		Froxelizer(Froxelizer&& other);
+		Froxelizer& operator=(Froxelizer&& other);
 
 		bool prepare(const Viewport& viewport, const mat4& projection, float near, float far);
 		bool update(const Viewport& viewport, const mat4& projection, float near, float far);
@@ -3100,7 +3121,7 @@ namespace mud
 		T_Block* block() { for(auto& block : m_gfx_blocks) if(&(block->m_type) == &type<T_Block>()) return &as<T_Block>(*block); return nullptr; }
 
 		template <class T_Block, class... T_Args>
-		T_Block& add_block(T_Args&&... args) { m_gfx_blocks.emplace_back(make_unique<T_Block>(static_cast<T_Args&&>(args)...)); return as<T_Block>(*m_gfx_blocks.back()); }
+		T_Block& add_block(T_Args&&... args) { m_gfx_blocks.push_back(make_unique<T_Block>(static_cast<T_Args&&>(args)...)); return as<T_Block>(*m_gfx_blocks.back()); }
 
 		array<GfxBlock*> pass_blocks(PassType pass);
 
@@ -3509,73 +3530,73 @@ namespace mud
     export_ template <> MUD_GFX_EXPORT Type& type<mud::Particles>();
     export_ template <> MUD_GFX_EXPORT Type& type<mud::RenderTarget>();
     
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Animated*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AnimatedTrack*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Animation*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AnimationPlay*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AnimationTrack*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AssetStore<mud::Material>*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AssetStore<mud::Model>*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AssetStore<mud::ParticleFlow>*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AssetStore<mud::Prefab>*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AssetStore<mud::Program>*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::AssetStore<mud::Texture>*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Background*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::BaseMaterialBlock*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Bone*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Camera*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Culler*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::DepthParams*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Environment*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Filter*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Fog*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::FrameBuffer*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::FresnelMaterialBlock*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Frustum*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::FrustumSlice*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::GfxBlock*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::GfxContext*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::GfxSystem*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Gnode*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::ImmediateDraw*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::ImportConfig*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Item*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Joint*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Light*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Material*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::MaterialParam<float>*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::MaterialParam<mud::Colour>*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Mesh*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Model*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::ModelItem*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Node3*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::ParticleFlow*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::PbrMaterialBlock*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Prefab*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Program*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Radiance*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::RenderFrame*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::RenderQuad*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Rig*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Scene*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Shot*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Skeleton*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Skin*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Sun*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::SymbolIndex*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Texture*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::UnshadedMaterialBlock*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Viewport*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::BlockCopy*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::DrawBlock*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::BlockDepth*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::BlockFilter*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::BlockParticles*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::BlockResolve*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::BlockSky*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::ClusteredFrustum*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::Particles*>>;
-    export_ template struct MUD_GFX_EXPORT Typed<vector<mud::RenderTarget*>>;
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Animated*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::AnimatedTrack*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Animation*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::AnimationPlay*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::AnimationTrack*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::AssetStore<mud::Material>*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::AssetStore<mud::Model>*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::AssetStore<mud::ParticleFlow>*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::AssetStore<mud::Prefab>*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::AssetStore<mud::Program>*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::AssetStore<mud::Texture>*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Background*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::BaseMaterialBlock*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Bone*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Camera*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Culler*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::DepthParams*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Environment*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Filter*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Fog*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::FrameBuffer*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::FresnelMaterialBlock*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Frustum*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::FrustumSlice*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::GfxBlock*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::GfxContext*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::GfxSystem*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Gnode*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::ImmediateDraw*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::ImportConfig*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Item*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Joint*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Light*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Material*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::MaterialParam<float>*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::MaterialParam<mud::Colour>*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Mesh*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Model*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::ModelItem*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Node3*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::ParticleFlow*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::PbrMaterialBlock*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Prefab*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Program*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Radiance*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::RenderFrame*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::RenderQuad*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Rig*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Scene*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Shot*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Skeleton*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Skin*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Sun*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::SymbolIndex*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Texture*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::UnshadedMaterialBlock*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Viewport*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::BlockCopy*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::DrawBlock*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::BlockDepth*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::BlockFilter*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::BlockParticles*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::BlockResolve*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::BlockSky*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::ClusteredFrustum*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::Particles*>>();
+    export_ template <> MUD_GFX_EXPORT Type& type<vector<mud::RenderTarget*>>();
 }
 //s#include <gfx/Uniform.h>
 
@@ -3767,4 +3788,87 @@ namespace mud
 		visit_files(path, visit_file);
 		visit_folders(path, visit_folder);
 	}
+}
+
+#include <stl/vector.h>
+#include <stl/unordered_map.h>
+#include <stl/unordered_set.h>
+
+using namespace mud;
+namespace tinystl
+{
+	export_ extern template class vector<Texture*>;
+	export_ extern template class vector<Material*>;
+	export_ extern template class vector<Animation*>;
+	export_ extern template class vector<Rig*>;
+	export_ extern template class vector<Light*>;
+	export_ extern template class vector<Mesh*>;
+	export_ extern template class vector<Model*>;
+	export_ extern template class vector<Animated*>;
+	export_ extern template class vector<Particles*>;
+	export_ extern template class vector<Item*>;
+	export_ extern template class vector<Sound*>;
+	export_ extern template class vector<Node3*>;
+	export_ extern template class vector<ReflectionProbe*>;
+	export_ extern template class vector<GIProbe*>;
+	export_ extern template class vector<LightmapAtlas*>;
+	export_ extern template class vector<ImmediateDraw*>;
+	export_ extern template class vector<Scene*>;
+	export_ extern template class vector<Viewport*>;
+	export_ extern template class vector<Importer*>;
+	export_ extern template class vector<Renderer*>;
+	export_ extern template class vector<GfxBlock*>;
+	export_ extern template class vector<DrawBlock*>;
+	export_ extern template class vector<GfxContext*>;
+	export_ extern template class vector<GfxSystem*>;
+	export_ extern template class vector<Vertex>;
+	export_ extern template class vector<ShapeVertex>;
+	export_ extern template class vector<Tri>;
+	export_ extern template class vector<ModelItem>;
+	export_ extern template class vector<Item>;
+	export_ extern template class vector<Node3>;
+	export_ extern template class vector<Bone>;
+	export_ extern template class vector<Joint>;
+	export_ extern template class vector<Skin>;
+	export_ extern template class vector<ShaderDefine>;
+	export_ extern template class vector<PassJob>;
+	export_ extern template class vector<AnimationTrack>;
+	export_ extern template class vector<AnimationTrack::Key>;
+	export_ extern template class vector<AnimationPlay>;
+	export_ extern template class vector<AnimatedTrack>;
+	export_ extern template class vector<Particle>;
+	export_ extern template class vector<Viewport::RenderTask>;
+	export_ extern template class vector<ImmediateDraw::Batch>;
+	export_ extern template class vector<ImmediateDraw::Vertex>;
+	export_ extern template class vector<Import::Item>;
+	export_ extern template class vector<DrawElement>;
+	export_ extern template class vector<ProcShape>;
+	export_ extern template class vector<Frustum>;
+	export_ extern template class vector<Froxelizer>;
+	export_ extern template class vector<LightRecord>;
+	export_ extern template class vector<Froxelizer::FroxelEntry>;
+	export_ extern template class vector<carray<uint, 8193>>;
+	export_ extern template class vector<unique<Gnode>>;
+	export_ extern template class vector<unique<RenderPass>>;
+	export_ extern template class vector<unique<GfxBlock>>;
+	export_ extern template class vector<unique<Picker>>;
+	export_ extern template class unordered_map<int, Skeleton*>;
+	export_ extern template class unordered_set<Model*>;
+	export_ extern template class vector<function<void(Texture&, const string&)>>;
+	export_ extern template class vector<function<void(Material&, const string&)>>;
+	export_ extern template class vector<function<void(Program&, const string&)>>;
+	export_ extern template class vector<function<void(Model&, const string&)>>;
+	export_ extern template class vector<function<void(ParticleFlow&, const string&)>>;
+	export_ extern template class vector<function<void(Prefab&, const string&)>>;
+	export_ extern template class unordered_map<string, unique<Texture>>;
+	export_ extern template class unordered_map<string, unique<Material>>;
+	export_ extern template class unordered_map<string, unique<Program>>;
+	export_ extern template class unordered_map<string, unique<Model>>;
+	export_ extern template class unordered_map<string, unique<ParticleFlow>>;
+	export_ extern template class unordered_map<string, unique<Prefab>>;
+	export_ extern template class unordered_map<uint, uint>;
+	export_ extern template class unordered_map<uint64_t, Program::Version>;
+
+	export_ extern template class vector<bgfx::InstanceDataBuffer>;
+	export_ extern template class unordered_map<uint, bgfx::VertexDecl>;
 }

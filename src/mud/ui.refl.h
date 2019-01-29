@@ -53,24 +53,6 @@ namespace mud
 	export_ template <> inline void to_string(const mud::WindowState& val, string& str) { str = enu<mud::WindowState>().name(uint32_t(val)); };
 	
 	
-	export_ template <> inline void to_value(const string& str, mud::Dim2<bool>& val) { string_to_fixed_vector<mud::Dim2<bool>, bool>(str, val); };
-	export_ template <> inline void to_string(const mud::Dim2<bool>& val, string& str) { fixed_vector_to_string<mud::Dim2<bool>, 2>(val, str); };
-	
-	export_ template <> inline void to_value(const string& str, mud::Dim2<mud::Align>& val) { string_to_fixed_vector<mud::Dim2<mud::Align>, mud::Align>(str, val); };
-	export_ template <> inline void to_string(const mud::Dim2<mud::Align>& val, string& str) { fixed_vector_to_string<mud::Dim2<mud::Align>, 2>(val, str); };
-	
-	export_ template <> inline void to_value(const string& str, mud::Dim2<mud::AutoLayout>& val) { string_to_fixed_vector<mud::Dim2<mud::AutoLayout>, mud::AutoLayout>(str, val); };
-	export_ template <> inline void to_string(const mud::Dim2<mud::AutoLayout>& val, string& str) { fixed_vector_to_string<mud::Dim2<mud::AutoLayout>, 2>(val, str); };
-	
-	export_ template <> inline void to_value(const string& str, mud::Dim2<mud::Pivot>& val) { string_to_fixed_vector<mud::Dim2<mud::Pivot>, mud::Pivot>(str, val); };
-	export_ template <> inline void to_string(const mud::Dim2<mud::Pivot>& val, string& str) { fixed_vector_to_string<mud::Dim2<mud::Pivot>, 2>(val, str); };
-	
-	export_ template <> inline void to_value(const string& str, mud::Dim2<mud::Sizing>& val) { string_to_fixed_vector<mud::Dim2<mud::Sizing>, mud::Sizing>(str, val); };
-	export_ template <> inline void to_string(const mud::Dim2<mud::Sizing>& val, string& str) { fixed_vector_to_string<mud::Dim2<mud::Sizing>, 2>(val, str); };
-	
-	export_ template <> inline void to_value(const string& str, mud::Dim2<size_t>& val) { string_to_fixed_vector<mud::Dim2<size_t>, size_t>(str, val); };
-	export_ template <> inline void to_string(const mud::Dim2<size_t>& val, string& str) { fixed_vector_to_string<mud::Dim2<size_t>, 2>(val, str); };
-	
 }
 
 #if !defined MUD_MODULES || defined MUD_TYPE_LIB

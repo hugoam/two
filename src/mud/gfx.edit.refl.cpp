@@ -20,6 +20,9 @@ module mud.gfx-edit;
 #endif
 
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_gfx_edit_meta(Module& m)

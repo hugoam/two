@@ -2,6 +2,19 @@
 #include <mud/infra.h>
 #include <mud/type.h>
 
+#ifdef MUD_MODULES
+module mud.uio;
+#else
+#include <stl/tinystl/vector.impl.h>
+#include <stl/tinystl/unordered_map.impl.h>
+#endif
+
+using namespace mud;
+namespace tinystl
+{
+	template class MUD_POOL_EXPORT vector<unique<Pool>>;
+}
+
 
 #ifdef MUD_MODULES
 module mud.pool;

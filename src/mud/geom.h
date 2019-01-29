@@ -882,6 +882,7 @@ namespace mud
 		class Point
 		{
 		public:
+			Point() {}
 			Point(const vec3& p, float r) : position(p), radius(r), visits(0) {}
 
 			vec3 position;
@@ -1120,41 +1121,41 @@ namespace mud
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Torus>();
     export_ template <> MUD_GEOM_EXPORT Type& type<mud::Triangle>();
     
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Distribution*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Face3*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::MeshPacker*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Plane*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Plane3*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Ray*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Segment*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Shape*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::ShapeVar*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Symbol*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Arc*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::ArcLine*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Capsule*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Cube*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Aabb*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Box*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Circle*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::ConvexHull*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Cylinder*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Ellipsis*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Geometry*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Grid2*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Grid3*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Line*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Points*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Poisson*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Polygon*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Quad*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Rect*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Ring*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Sphere*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::SphereRing*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Spheroid*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Torus*>>;
-    export_ template struct MUD_GEOM_EXPORT Typed<vector<mud::Triangle*>>;
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Distribution*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Face3*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::MeshPacker*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Plane*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Plane3*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Ray*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Segment*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Shape*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::ShapeVar*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Symbol*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Arc*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::ArcLine*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Capsule*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Cube*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Aabb*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Box*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Circle*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::ConvexHull*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Cylinder*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Ellipsis*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Geometry*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Grid2*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Grid3*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Line*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Points*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Poisson*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Polygon*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Quad*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Rect*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Ring*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Sphere*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::SphereRing*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Spheroid*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Torus*>>();
+    export_ template <> MUD_GEOM_EXPORT Type& type<vector<mud::Triangle*>>();
 }
 
 
@@ -1328,7 +1329,7 @@ namespace mud
 	export_ class MUD_GEOM_EXPORT IcoSphere
 	{
 	public:
-		IcoSphere(int recursionLevel);
+		IcoSphere(int subdiv = 1);
 
 		using Line = ivec2;
 		using Face = ivec3;
@@ -1415,3 +1416,21 @@ namespace mud
 	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Triangle& triangle, MeshAdapter& writer);
 }
 
+
+#include <stl/vector.h>
+#include <stl/unordered_map.h>
+
+using namespace mud;
+namespace tinystl
+{
+	export_ extern template class vector<Poisson*>;
+	export_ extern template class vector<Geometry*>;
+	export_ extern template class vector<Geometry>;
+	export_ extern template class vector<Circle>;
+	export_ extern template class vector<IcoSphere>;
+	export_ extern template class vector<ProcShape>;
+	export_ extern template class vector<Distribution::Point>;
+	export_ extern template class vector<vector<Distribution::Point>>;
+	export_ extern template class vector<vector<Distribution::Point>*>;
+	export_ extern template class unordered_map<int64_t, int>;
+}

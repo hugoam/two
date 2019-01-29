@@ -10,6 +10,9 @@ module mud.snd;
 #endif
 
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_snd_meta(Module& m)

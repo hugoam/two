@@ -101,12 +101,12 @@ namespace mud
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::Viewer>();
     export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::SceneViewer>();
     
-    export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::ViewerController*>>;
-    export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::OrbitController*>>;
-    export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::FreeOrbitController*>>;
-    export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::SpaceSheet*>>;
-    export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::Viewer*>>;
-    export_ template struct MUD_GFX_UI_EXPORT Typed<vector<mud::SceneViewer*>>;
+    export_ template <> MUD_GFX_UI_EXPORT Type& type<vector<mud::ViewerController*>>();
+    export_ template <> MUD_GFX_UI_EXPORT Type& type<vector<mud::OrbitController*>>();
+    export_ template <> MUD_GFX_UI_EXPORT Type& type<vector<mud::FreeOrbitController*>>();
+    export_ template <> MUD_GFX_UI_EXPORT Type& type<vector<mud::SpaceSheet*>>();
+    export_ template <> MUD_GFX_UI_EXPORT Type& type<vector<mud::Viewer*>>();
+    export_ template <> MUD_GFX_UI_EXPORT Type& type<vector<mud::SceneViewer*>>();
 }
 
 

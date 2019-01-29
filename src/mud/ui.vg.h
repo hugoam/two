@@ -112,6 +112,18 @@ namespace mud
 }
 
 
+#include <stl/vector.h>
+#include <stl/unordered_map.h>
+
+#include <vg/vg.h>
+
+using namespace mud;
+namespace tinystl
+{
+	export_ extern template class vector<vg::GlyphPosition>;
+	export_ extern template class unordered_map<string, vg::FontHandle>;
+}
+
 
 
 #ifndef MUD_UI_VG_EXPORT

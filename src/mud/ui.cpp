@@ -731,6 +731,49 @@ namespace ui
 }
 }
 
+#ifdef MUD_MODULES
+module mud.math;
+#else
+#include <stl/tinystl/vector.impl.h>
+#include <stl/tinystl/basic_string.impl.h>
+#include <stl/tinystl/unordered_map.impl.h>
+#endif
+
+using namespace mud;
+namespace tinystl
+{
+	template class MUD_UI_EXPORT vector<TextGlyph>;
+	template class MUD_UI_EXPORT vector<TextRow>;
+	template class MUD_UI_EXPORT vector<Text::ColorSection>;
+	template class MUD_UI_EXPORT vector<TextMarker>;
+	template class MUD_UI_EXPORT vector<TextEdit::Action>;
+	template class MUD_UI_EXPORT vector<Space>;
+	template class MUD_UI_EXPORT vector<FrameSolver*>;
+	template class MUD_UI_EXPORT vector<Image*>;
+	template class MUD_UI_EXPORT vector<Style*>;
+	template class MUD_UI_EXPORT vector<Layer*>;
+	template class MUD_UI_EXPORT vector<Docker*>;
+	template class MUD_UI_EXPORT vector<Dock*>;
+	template class MUD_UI_EXPORT vector<Node*>;
+	template class MUD_UI_EXPORT vector<EventBatch>;
+	template class MUD_UI_EXPORT vector<KeyEvent>;
+	template class MUD_UI_EXPORT vector<MouseEvent>;
+	template class MUD_UI_EXPORT vector<InkStyle>;
+	template class MUD_UI_EXPORT vector<FrameSolver>;
+	template class MUD_UI_EXPORT vector<RowSolver>;
+	template class MUD_UI_EXPORT vector<unique<Widget>>;
+	template class MUD_UI_EXPORT vector<unique<FrameSolver>>;
+	template class MUD_UI_EXPORT vector<unique<Image>>;
+	template class MUD_UI_EXPORT unordered_map<int, InputEvent*>;
+	template class MUD_UI_EXPORT unordered_map<KeyCombo, KeyHandler>;
+	template class MUD_UI_EXPORT unordered_map<string, Dock>;
+	template class MUD_UI_EXPORT unordered_map<string, Style*>;
+
+	//template class MUD_UI_EXPORT vector<LanguageDefinition::StringToken>;
+	//template class MUD_UI_EXPORT vector<LanguageDefinition::RegexToken>;
+	//template class MUD_UI_EXPORT unordered_map<string, Identifier>;
+}
+
 
 #ifdef MUD_MODULES
 module mud.ui;
@@ -743,6 +786,17 @@ namespace mud
 {
 namespace ui
 {
+	template bool slider_input(Widget& parent, AutoStat<int> value);
+	template bool slider_input(Widget& parent, AutoStat<float> value);
+
+	template bool number_input(Widget& parent, AutoStat<int> value);
+	template bool number_input(Widget& parent, AutoStat<float> value);
+
+	template bool input(Widget& parent, bool& value);
+	template bool input(Widget& parent, int& value);
+	template bool input(Widget& parent, float& value);
+	template bool input(Widget& parent, string& value);
+
 	bool drag_float(Widget& parent, float& value, float step)
 	{
 		string text = truncate_number(to_string(value));
@@ -1101,13 +1155,13 @@ namespace ui
 
 		for(int i = 0; i < max_index + shift + 1; ++i)
 		{
-			columns.emplace_back(&line, &layout_column);
+			columns.push_back({ &line, &layout_column });
 			solvers.push_back(&columns.back());
 		}
 
 		for(size_t i = 0; i < canvas.m_nodes.size(); ++i)
 		{
-			elements.emplace_back(&columns[canvas.m_nodes[i]->m_order + shift], &layout_node, &canvas.m_nodes[i]->m_frame);
+			elements.push_back({ &columns[canvas.m_nodes[i]->m_order + shift], &layout_node, &canvas.m_nodes[i]->m_frame });
 			elements.back().sync();
 			solvers.push_back(&elements.back());
 		}
@@ -2100,7 +2154,7 @@ namespace mud
 
 		styles().setup(*this);
 
-		m_root_sheet = make_object<Ui>(*this);
+		m_root_sheet = oconstruct<Ui>(*this);
 
 		m_context.init_input(m_root_sheet->m_mouse, m_root_sheet->m_keyboard);
 
@@ -2163,7 +2217,7 @@ namespace mud
 
 		visit_folders(sprite_path.c_str(), visit_folder);
 
-		m_images = vector_convert<object<Image>>(images, [](const Image& image) { return make_object<Image>(image); });
+		m_images = vector_convert<object<Image>>(images, [](const Image& image) { return oconstruct<Image>(image); });
 	}
 
 	void UiWindow::load_resources()
@@ -2179,7 +2233,7 @@ namespace mud
 
 	Image& UiWindow::create_image(cstring name, uvec2 size, uint8_t* data, bool filtering)
 	{
-		m_images.emplace_back(make_object<Image>(name, name, size));
+		m_images.push_back(construct<Image>(name, name, size));
 		Image& image = *m_images.back();
 		image.d_filtering = filtering;
 		m_vg.load_image_RGBA(image, data);
@@ -2680,6 +2734,8 @@ namespace ui
 module mud.ui;
 #else
 #endif
+
+#include <stl/tinystl/hash_base.impl.h>
 
 namespace mud
 {
@@ -4099,11 +4155,11 @@ namespace mud
 		{
 			for(auto& token_color : m_language->m_regex_tokens)
 			{
-				if(std::regex_search<const char*>(current, last, results, token_color.first, std::regex_constants::match_continuous))
+				if(std::regex_search<const char*>(current, last, results, token_color.token, std::regex_constants::match_continuous))
 				{
 					auto match = *results.begin();
 					string name = m_string.substr(match.first - first, match.second - match.first);
-					PaletteIndex color = token_color.second;
+					PaletteIndex color = token_color.color;
 
 					//if(color == uint16_t(CodePalette::Word))
 					{
@@ -4422,13 +4478,13 @@ namespace mud
 		FrameSolver* solver = d_parent ? d_parent->m_solver.get() : nullptr;
 
 		if(type == FRAME_SOLVER)
-			m_solver = make_object<FrameSolver>(solver, d_layout, this);
+			m_solver = oconstruct<FrameSolver>(solver, d_layout, this);
 		else if(type == ROW_SOLVER)
-			m_solver = make_object<RowSolver>(solver, d_layout, this);
+			m_solver = oconstruct<RowSolver>(solver, d_layout, this);
 		else if(type == GRID_SOLVER)
-			m_solver = make_object<GridSolver>(solver, d_layout, this);
+			m_solver = oconstruct<GridSolver>(solver, d_layout, this);
 		else if(type == TABLE_SOLVER)
-			m_solver = make_object<TableSolver>(solver, d_layout, this);
+			m_solver = oconstruct<TableSolver>(solver, d_layout, this);
 
 		m_solver->applySpace(length);
 		return *m_solver;
@@ -4809,6 +4865,9 @@ namespace mud
 	float AlignSpace[5] = { 0.f, 0.5f, 1.f, 0.f, 1.f };
 	float AlignExtent[5] = { 0.f, 0.5f, 1.f, 1.f, 0.f };
 
+	FrameSolver::FrameSolver()
+	{}
+
 	FrameSolver::FrameSolver(FrameSolver* solver, Layout* layout, Frame* frame)
 		: d_frame(frame)
 		, d_parent(solver)
@@ -4903,6 +4962,9 @@ namespace mud
 	{
 		UNUSED(frame); UNUSED(dim);
 	}
+
+	RowSolver::RowSolver()
+	{}
 
 	RowSolver::RowSolver(FrameSolver* solver, Layout* layout, Frame* frame)
 		: FrameSolver(solver, layout, frame)
@@ -5049,10 +5111,10 @@ namespace mud
 	void TableSolver::divide(const vector<float>& columns)
 	{
 		m_solvers.clear();
-		m_solvers.emplace_back(make_unique<RowSolver>(this, &gridOverlayStyle()));
+		m_solvers.push_back(construct<RowSolver>(this, &gridOverlayStyle()));
 		for(size_t i = 0; i < columns.size(); ++i)
 		{
-			m_solvers.emplace_back(make_unique<RowSolver>(m_solvers.front().get(), &columnSolverStyle()));
+			m_solvers.push_back(construct<RowSolver>(m_solvers.front().get(), &columnSolverStyle()));
 			m_solvers.back()->m_span = { columns[i], 0.f };
 		}
 	}
@@ -5099,7 +5161,7 @@ namespace mud
 	{
 		m_solvers.clear();
 		for(size_t i = 0; i < lines.size(); ++i)
-			m_solvers.emplace_back(make_unique<LineSolver>(this, lines[i]));
+			m_solvers.push_back(construct<LineSolver>(this, lines[i]));
 	}
 
 	FrameSolver& GridSolver::solver(FrameSolver& frame, Dim dim)
@@ -5904,7 +5966,7 @@ namespace mud
 	Widget& Widget::layer()
 	{
 		if(!m_frame.m_layer)
-			m_frame.m_layer = make_object<Layer>(m_frame);
+			m_frame.m_layer = oconstruct<Layer>(m_frame);
 		return *this;
 	}
 
@@ -6499,7 +6561,7 @@ namespace mud
 			if(state == skin.m_state)
 				return skin;
 
-		m_impl->m_skins.emplace_back(m_impl->m_skin);
+		m_impl->m_skins.push_back(m_impl->m_skin);
 		m_impl->m_skins.back().m_name = m_impl->m_name + ":" + to_lower(flags_to_string<WidgetState, 9>(state));
 		m_impl->m_skins.back().m_state = state;
 		return m_impl->m_skins.back();

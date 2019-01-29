@@ -394,7 +394,7 @@ namespace mud
 		inline OwnedHandle<T> create(Types&&... args)
 		{
 			uint32_t handle = m_available.empty() ? m_handles.alloc() : pop(m_available);
-			m_objects.emplace_back(static_cast<Types&&>(args)...);
+			m_objects.push_back(T(static_cast<Types&&>(args)...));
 			m_handles.add(handle);
 			return { *this, handle };
 		}
@@ -456,7 +456,16 @@ namespace mud
     export_ template <> MUD_POOL_EXPORT Type& type<mud::HandlePool>();
     export_ template <> MUD_POOL_EXPORT Type& type<mud::Pool>();
     
-    export_ template struct MUD_POOL_EXPORT Typed<vector<mud::HandlePool*>>;
-    export_ template struct MUD_POOL_EXPORT Typed<vector<mud::Pool*>>;
+    export_ template <> MUD_POOL_EXPORT Type& type<vector<mud::HandlePool*>>();
+    export_ template <> MUD_POOL_EXPORT Type& type<vector<mud::Pool*>>();
 }
 
+
+#include <stl/vector.h>
+#include <stl/unordered_map.h>
+
+using namespace mud;
+namespace tinystl
+{
+	export_ extern template class vector<unique<Pool>>;
+}

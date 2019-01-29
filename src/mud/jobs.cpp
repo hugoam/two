@@ -2,9 +2,23 @@
 #include <mud/infra.h>
 #include <mud/type.h>
 
+#ifdef MUD_MODULES
+module mud.jobs;
+#else
+#include <stl/tinystl/vector.impl.h>
+#include <stl/tinystl/unordered_map.impl.h>
+#endif
+
+using namespace mud;
+namespace tinystl
+{
+	//template class MUD_JOBS_EXPORT vector<JobSystem::ThreadState>;
+}
+
 namespace mud
 {
 }
+#include <stl/tinystl/vector.impl.h>
 
 #include <cassert>
 #include <cmath>

@@ -81,6 +81,4 @@ namespace mud
     // Exported types
     
     export_ template <> MUD_CTX_GLFW_EXPORT Type& type<mud::GlfwContext>();
-    
-    export_ template struct MUD_CTX_GLFW_EXPORT Typed<vector<mud::GlfwContext*>>;
 }

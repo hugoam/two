@@ -44,7 +44,7 @@ namespace mud
 		uint16_t m_next = 0;
 		
 		template <class T_Child = T_Node, class... T_Args>
-		inline T_Child& append(T_Args... args, void* identity = nullptr) { m_nodes.emplace_back(construct<T_Child>(&impl(), identity, args...)); return static_cast<T_Child&>(*m_nodes.back()); }
+		inline T_Child& append(T_Args... args, void* identity = nullptr) { m_nodes.push_back(construct<T_Child>(&impl(), identity, args...)); return static_cast<T_Child&>(*m_nodes.back()); }
 
 		void clear() { m_nodes.clear(); }
 

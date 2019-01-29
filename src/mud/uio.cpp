@@ -5,8 +5,8 @@
 #include <mud/lang.h>
 #include <mud/ecs.h>
 #include <mud/type.refl.h>
-#include <mud/refl.refl.h>
 #include <mud/math.h>
+#include <mud/refl.refl.h>
 #include <mud/refl.h>
 #include <mud/infra.h>
 #include <mud/type.h>
@@ -49,6 +49,20 @@ namespace mud
 		}
 	}
 #endif
+}
+
+#ifdef MUD_MODULES
+module mud.uio;
+#else
+#include <stl/tinystl/vector.impl.h>
+#include <stl/tinystl/unordered_map.impl.h>
+#endif
+
+using namespace mud;
+namespace tinystl
+{
+	template class MUD_UIO_EXPORT vector<EditSpec>;
+	template class MUD_UIO_EXPORT unordered_map<Module*, bool>;
 }
 
 
@@ -220,7 +234,7 @@ namespace mud
 				if(fits_filter(function->m_name, filter))
 					if(ui::multi_button(functions, ui::dropdown_styles().choice, { "(function)", function->m_name }).activated())
 					{
-						add_process(make_object<ProcessFunction>(script, *function));
+						add_process(oconstruct<ProcessFunction>(script, *function));
 						parent.m_open = false;
 					}
 		}
@@ -236,7 +250,7 @@ namespace mud
 					if(fits_filter(type->m_name, filter))
 						if(ui::multi_button(values, ui::dropdown_styles().choice, { "(value)", type->m_name }).activated())
 						{
-							add_process(make_object<ProcessValue>(script, *type));
+							add_process(oconstruct<ProcessValue>(script, *type));
 							parent.m_open = false;
 						}
 		}
@@ -252,7 +266,7 @@ namespace mud
 					if(fits_filter(type->m_name, filter))
 						if(ui::multi_button(types, ui::dropdown_styles().choice, { "(class)", type->m_name }).activated())
 						{
-							add_process(make_object<ProcessCreate>(script, *type));
+							add_process(oconstruct<ProcessCreate>(script, *type));
 							parent.m_open = false;
 						}
 		}
@@ -564,7 +578,7 @@ namespace mud
 
 		if(ui::button(self, "Create").activated())
 		{
-			if(injector.m_constructor.validate(injector.m_arguments, 1))
+			if(false)//injector.m_constructor.validate(injector.m_arguments, 1))
 			{
 				injector.injectpool();
 				return true;
@@ -954,7 +968,7 @@ namespace mud
 		for(uint16_t i = offset; i < call.m_callable->m_params.size(); ++i)
 		{
 			const Param& param = call.m_callable->m_params[i];
-			bool link = is_object(type(param.m_value)) || param.nullable();
+			bool link = is_object(type(param.default_val())) || param.nullable();
 			field_edit(parent, param.m_name, call.m_arguments[i].m_ref, link);
 		}
 
@@ -1097,8 +1111,7 @@ namespace mud
 		//ui::item(row, meta_styles().syntax, "Function");
 		if(returns)
 		{
-			auto return_type = [](const Var& val) { if(val.none()) return "void"; else if(val == Ref()) return "Ref"; else return type(val).m_name; };
-			ui::item(row, meta_styles().type, return_type(callable.m_returnval));
+			ui::item(row, meta_styles().type, callable.m_return_type.m_type->m_name);
 		}
 		ui::item(row, meta_styles().function, callable.m_name);
 		ui::item(row, meta_styles().syntax, "(");
@@ -1106,7 +1119,7 @@ namespace mud
 		{
 			if(skip_first && param.m_index == 0)
 				continue;
-			ui::item(row, meta_styles().type, param.m_value == Ref() ? "Ref" : type(param.m_value).m_name);
+			ui::item(row, meta_styles().type, param.default_val() == Ref() ? "Ref" : param.m_type->m_name);
 			ui::item(row, meta_styles().argument, param.m_name);
 			if(&param != &callable.m_params.back())
 				ui::item(row, meta_styles().syntax, ",");
@@ -1777,10 +1790,10 @@ namespace mud
 	bool value_input(T_Val& value, Widget& parent) { return Input(parent, value); }
 
 	template <class T_Val, bool(*Input)(Widget&, AutoStat<T_Val>)>
-	bool stat_value_input(T_Val& value, Widget& parent) { return Input(parent, AutoStat<T_Val>(value, StatDef<T_Val>(limits<T_Val>::min(), limits<T_Val>::max(), T_Val(1)))); }
+	bool stat_value_input(T_Val& value, Widget& parent) { return Input(parent, AutoStat<T_Val>(value, { limits<T_Val>::min(), limits<T_Val>::max(), T_Val(1) })); }
 
 	template <class T_Val, bool(*Input)(Widget&, AutoStat<T_Val>), int decimal>
-	bool stat_value_input(T_Val& value, Widget& parent) { return Input(parent, AutoStat<T_Val>(value, StatDef<T_Val>(limits<T_Val>::min(), limits<T_Val>::max(), T_Val(1) / T_Val(decimal)))); }
+	bool stat_value_input(T_Val& value, Widget& parent) { return Input(parent, AutoStat<T_Val>(value, { limits<T_Val>::min(), limits<T_Val>::max(), T_Val(1) / T_Val(decimal) })); }
 
 	DispatchInput::DispatchInput()
 	{
@@ -1812,7 +1825,7 @@ namespace mud
 		//dispatch_branch<AutoStat<int>>(valueWidget<AutoStat<int>, ui::slider_input<int>>);
 		//dispatch_branch<AutoStat<float>>(valueWidget<AutoStat<float>, ui::slider_input<float>>);
 
-		//dispatch_branch<Image256>([](Image256& image, Wedge& parent) -> object<Widget> { return make_object<Figure>(Widget::Input{ &parent }, image); });
+		//dispatch_branch<Image256>([](Image256& image, Wedge& parent) -> object<Widget> { return oconstruct<Figure>(Widget::Input{ &parent }, image); });
 	}
 
 	bool type_selector(Widget& parent, uint32_t& type, array<Type*> types)
@@ -1877,9 +1890,9 @@ namespace mud
 		iter(value).iterate(value, [&](Ref element) { changed |= value_edit(self, element); });
 		if(ui::modal_button(self, self, "add", Add))
 		{
-			if(meta(*cls(value).m_content).m_empty_var)
+			if(meta(*iter(value).m_element_type).m_empty_var)
 			{
-				sequence(value).add(value, meta(*cls(value).m_content).m_empty_var);
+				sequence(value).add(value, meta(*iter(value).m_element_type).m_empty_var);
 				self.m_switch &= ~Add;
 				changed |= true;
 			}

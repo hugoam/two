@@ -127,7 +127,8 @@ namespace mud
 		template <class U>
 		array(U& container) : m_pointer(container.data()), m_count(container.size()) {}
 
-		size_t size() { return m_count; }
+		size_t size() const { return m_count; }
+		bool empty() const { return m_count == 0; }
 		T* data() const { return m_pointer; }
 
 		T& operator[](size_t at) { assert(at < m_count); return m_pointer[at]; }
@@ -864,7 +865,7 @@ namespace mud
 	}
 
 	export_ template <class T, class Pred>
-	inline bool vector_has_pred(const vector<T>& vec, Pred predicate)
+	inline bool has_pred(const T& vec, Pred predicate)
 	{
 		return find_if(vec.begin(), vec.end(), predicate) != vec.end();
 	}
@@ -920,7 +921,7 @@ namespace mud
 	inline auto vector_transfer_pt(vector<T>& source, vector<T>& target, V& value)
 	{
 		auto pos = find_if(source.begin(), source.end(), [&](auto& pt) { return pt.get() == &value; });
-		target.emplace_back(move(*pos));
+		target.push_back(move(*pos));
 		source.erase(pos);
 	}
 
@@ -1267,6 +1268,15 @@ namespace mud
 
 	template <class T>
 	void copy(void* dest, array<T> src) { memcpy(dest, src.m_pointer, sizeof(T) * src.m_count); }
+}
+
+#include <stl/vector.h>
+
+using namespace mud;
+namespace tinystl
+{
+	export_ extern template class vector<string>;
+	export_ extern template class vector<uchar>;
 }
 
 #include <stl/type_traits.h>

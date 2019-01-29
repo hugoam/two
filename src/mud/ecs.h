@@ -192,8 +192,9 @@ namespace mud
 	class BufferArray
 	{
 	public:
+		BufferArray() {}
 		BufferArray(Typemap& typemap, uint32_t size = 0)
-			: m_typemap(typemap)
+			: m_typemap(&typemap)
 			, m_buffer_map(64)
 		{
 			m_handles.ensure(size);
@@ -219,9 +220,9 @@ namespace mud
 		void add_buffer()
 		{
 #ifdef MUD_ECS_TYPED
-			m_buffers.emplace_back(construct<TBuffer<T>>(type<T>()));
+			m_buffers.push_back(construct<TBuffer<T>>(type<T>()));
 #else
-			m_buffers.emplace_back(construct<TBuffer<T>>());
+			m_buffers.push_back(construct<TBuffer<T>>());
 #endif
 			m_buffer_map[this->type_index<T>()] = &(*m_buffers.back());
 		}
@@ -298,7 +299,7 @@ namespace mud
 			return comp.m_enabled;
 		}
 
-		Typemap& m_typemap;
+		Typemap* m_typemap = nullptr;
 
 		SparseHandles<Dense> m_handles;
 
@@ -309,6 +310,7 @@ namespace mud
 	class EntityStream : public BufferArray<false>
 	{
 	public:
+		EntityStream() {}
 		EntityStream(cstring name, Typemap& typemap, uint32_t size = 0)
 			: BufferArray<false>(typemap, size)
 			, m_name(name)
@@ -380,7 +382,7 @@ namespace mud
 		uint32_t type_index()
 		{
 #if 0 //def MUD_ECS_TYPED
-			return m_typemap[type<T>().m_id];
+			return (*m_typemap)[type<T>().m_id];
 #else
 			return TypedBuffer<T>::index();
 #endif
@@ -420,7 +422,7 @@ namespace mud
 		{
 			uint64_t prototype = this->prototype<Types...>();
 			m_stream_map[prototype] = uint16_t(m_streams.size());
-			m_streams.emplace_back(name, m_typemap);
+			m_streams.push_back({ name, m_typemap });
 			m_streams.back().init<Types...>(prototype);
 		}
 
@@ -735,11 +737,23 @@ namespace mud
     export_ template <> MUD_ECS_EXPORT Type& type<mud::Entity>();
     export_ template <> MUD_ECS_EXPORT Type& type<mud::Prototype>();
     
-    export_ template struct MUD_ECS_EXPORT Typed<vector<mud::Complex*>>;
-    export_ template struct MUD_ECS_EXPORT Typed<vector<mud::Entity*>>;
-    export_ template struct MUD_ECS_EXPORT Typed<vector<mud::Prototype*>>;
+    export_ template <> MUD_ECS_EXPORT Type& type<vector<mud::Complex*>>();
+    export_ template <> MUD_ECS_EXPORT Type& type<vector<mud::Entity*>>();
+    export_ template <> MUD_ECS_EXPORT Type& type<vector<mud::Prototype*>>();
 }
 
+
+#include <stl/vector.h>
+#include <stl/unordered_map.h>
+
+using namespace mud;
+namespace tinystl
+{
+	export_ extern template class vector<Buffer*>;
+	export_ extern template class vector<EntityData>;
+	export_ extern template class vector<EntityStream>;
+	export_ extern template class vector<unique<Buffer>>;
+}
 
 #include <stl/tuple.h>
 

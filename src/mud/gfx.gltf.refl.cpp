@@ -18,6 +18,9 @@ module mud.gfx-gltf;
 #endif
 
 
+using namespace mud;
+
+
 namespace mud
 {
 	void mud_gfx_gltf_meta(Module& m)

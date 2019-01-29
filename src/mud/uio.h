@@ -104,7 +104,7 @@ namespace mud
     
     export_ template <> MUD_UIO_EXPORT Type& type<mud::ScriptEditor>();
     
-    export_ template struct MUD_UIO_EXPORT Typed<vector<mud::ScriptEditor*>>;
+    export_ template <> MUD_UIO_EXPORT Type& type<vector<mud::ScriptEditor*>>();
 }
 
 
@@ -380,3 +380,13 @@ namespace mud
 	}
 }
 
+
+#include <stl/vector.h>
+#include <stl/unordered_map.h>
+
+using namespace mud;
+namespace tinystl
+{
+	export_ extern template class vector<EditSpec>;
+	export_ extern template class unordered_map<Module*, bool>;
+}

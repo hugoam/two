@@ -14,6 +14,32 @@ module mud.fract;
 #endif
 
 
+using namespace mud;
+
+void mud_PatternSampling__to_string(void* val, string& str) { str = g_enu[type<mud::PatternSampling>().m_id]->name(uint32_t((*static_cast<mud::PatternSampling*>(val)))); }
+void mud_PatternSampling__to_value(const string& str, void* val) { (*static_cast<mud::PatternSampling*>(val)) = mud::PatternSampling(g_enu[type<mud::PatternSampling>().m_id]->value(str.c_str())); }
+size_t vector_mud_Image256___size(void* vec) { return (*static_cast<vector<mud::Image256>*>(vec)).size(); }
+void* vector_mud_Image256___at(void* vec, size_t i) { return &(*static_cast<vector<mud::Image256>*>(vec))[i]; }
+void vector_mud_Image256___add(void* vec, void* value) { (*static_cast<vector<mud::Image256>*>(vec)).push_back(*static_cast<mud::Image256*>(value)); }
+void vector_mud_Image256___remove(void* vec, void* value) { vector_remove_any((*static_cast<vector<mud::Image256>*>(vec)), *static_cast<mud::Image256*>(value)); }
+void mud_Circlifier__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Circlifier*>(ref))) mud::Circlifier( *static_cast<mud::Image256*>(args[0]) ); }
+void mud_Circlifier_compute(void* object, array<void*> args, void*& result) { (*static_cast<vector<mud::Circle>*>(result)) = (*static_cast<mud::Circlifier*>(object)).compute(*static_cast<mud::Colour*>(args[0]), *static_cast<float*>(args[1])); }
+void mud_Fract__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Fract*>(ref))) mud::Fract( *static_cast<size_t*>(args[0]) ); }
+void mud_Fract_generate(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Fract*>(object)).generate(*static_cast<size_t*>(args[0])); }
+void mud_Fract_regen(void* object, array<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<mud::Fract*>(object)).regen(); }
+void mud_Fract_render(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Fract*>(object)).render(*static_cast<mud::Rect*>(args[0]), *static_cast<mud::Pattern*>(args[1]), *static_cast<mud::uvec2*>(args[2]), *static_cast<mud::Image256*>(args[3])); }
+void mud_Fract_render_whole(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Fract*>(object)).render_whole(*static_cast<mud::Pattern*>(args[0]), *static_cast<mud::uvec2*>(args[1]), *static_cast<mud::Image256*>(args[2])); }
+void mud_Fract_render_grid(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::Fract*>(object)).render_grid(*static_cast<mud::uvec2*>(args[0]), *static_cast<mud::Pattern*>(args[1]), *static_cast<mud::uvec2*>(args[2]), *static_cast<vector<mud::Image256>*>(args[3])); }
+void mud_FractSample__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::FractSample*>(ref))) mud::FractSample( *static_cast<mud::Fract*>(args[0]), *static_cast<mud::Rect*>(args[1]), *static_cast<mud::uvec2*>(args[2]) ); }
+void* mud_FractSample__get_fract(void* object) { return &(*static_cast<mud::FractSample*>(object)).m_fract; }
+void mud_FractSample_render(void* object, array<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::FractSample*>(object)).render(*static_cast<mud::Pattern*>(args[0]), *static_cast<mud::Image256*>(args[1])); }
+void mud_FractTab__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::FractTab*>(ref))) mud::FractTab(  ); }
+void mud_FractTab__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::FractTab*>(ref))) mud::FractTab((*static_cast<mud::FractTab*>(other))); }
+void mud_Pattern__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::Pattern*>(ref))) mud::Pattern( *static_cast<mud::Palette*>(args[0]), *static_cast<mud::PatternSampling*>(args[1]), *static_cast<float*>(args[2]), *static_cast<size_t*>(args[3]) ); }
+void mud_Pattern__construct_1(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Pattern*>(ref))) mud::Pattern(  ); }
+void mud_Pattern__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Pattern*>(ref))) mud::Pattern((*static_cast<mud::Pattern*>(other))); }
+void mud_generate_fract_0(array<void*> args, void*& result) { UNUSED(result);  mud::generate_fract(*static_cast<mud::uvec2*>(args[0]), *static_cast<mud::Pattern*>(args[1]), *static_cast<mud::Image256*>(args[2])); }
+
 namespace mud
 {
 	void mud_fract_meta(Module& m)
@@ -31,7 +57,9 @@ namespace mud
 		static mud::PatternSampling vars[] = { mud::PatternSampling::X, mud::PatternSampling::XY, mud::PatternSampling::Depth};
 		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
 		static Enum enu = { t, true, ids, values, refs };
-		meta_enum<mud::PatternSampling>();
+		static Convert convert = { mud_PatternSampling__to_string,
+		                           mud_PatternSampling__to_value };
+		g_convert[t.m_id] = &convert;
 	}
 	
 	// Sequences
@@ -39,166 +67,122 @@ namespace mud
 		Type& t = type<vector<mud::Image256>>();
 		static Meta meta = { t, &namspc({}), "vector<mud::Image256>", sizeof(vector<mud::Image256>), TypeClass::Sequence };
 		static Class cls = { t };
-		cls.m_content = &type<mud::Image256>();
-		meta_vector<vector<mud::Image256>, mud::Image256>();
+		static Iterable iterable = { &type<mud::Image256>(),
+		                             vector_mud_Image256___size,
+		                             vector_mud_Image256___at};
+		g_iterable[t.m_id] = &iterable;
+		static Sequence sequence = { vector_mud_Image256___add,
+		                             vector_mud_Image256___remove };
+		g_sequence[t.m_id] = &sequence;
 	}
 	
 	// mud::Circlifier
 	{
 		Type& t = type<mud::Circlifier>();
 		static Meta meta = { t, &namspc({ "mud" }), "Circlifier", sizeof(mud::Circlifier), TypeClass::Object };
+		// bases
 		// defaults
-		static Class cls = { t,
-			// bases
-			{  },
-			{  },
-			// constructors
-			{
-				{ t, [](Ref ref, array<Var> args) { new(&val<mud::Circlifier>(ref)) mud::Circlifier( val<mud::Image256>(args[0]) ); }, { { "image", var(mud::Image256()) } } }
-			},
-			// copy constructor
-			{
-			},
-			// members
-			{
-			},
-			// methods
-			{
-				{ t, "compute", member_address<vector<mud::Circle>(mud::Circlifier::*)(const mud::Colour&, float)>(&mud::Circlifier::compute), [](Ref object, array<Var> args, Var& result) { val<vector<mud::Circle>>(result) = val<mud::Circlifier>(object).compute(val<mud::Colour>(args[0]), val<float>(args[1])); }, { { "colour", var(mud::Colour()) }, { "scale", var(float(1.f)), Param::Default } }, var(vector<mud::Circle>()) }
-			},
-			// static members
-			{
-			}
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Circlifier__construct_0, { { "image", type<mud::Image256>(),  } } }
 		};
-		init_pool<mud::Circlifier>();
-		meta_class<mud::Circlifier>();
+		// copy constructor
+		// members
+		// methods
+		static Method methods[] = {
+			{ t, "compute", Address(), mud_Circlifier_compute, { { "colour", type<mud::Colour>(),  }, { "scale", type<float>(), Param::Default } }, { &type<vector<mud::Circle>>(), QualType::None } }
+		};
+		// static members
+		static Class cls = { t, {}, {}, constructors, {}, {}, methods, {}, };
 	}
 	// mud::Fract
 	{
 		Type& t = type<mud::Fract>();
 		static Meta meta = { t, &namspc({ "mud" }), "Fract", sizeof(mud::Fract), TypeClass::Object };
+		// bases
 		// defaults
-		static Class cls = { t,
-			// bases
-			{  },
-			{  },
-			// constructors
-			{
-				{ t, [](Ref ref, array<Var> args) { new(&val<mud::Fract>(ref)) mud::Fract( val<size_t>(args[0]) ); }, { { "num_tabs", var(size_t(75)), Param::Default } } }
-			},
-			// copy constructor
-			{
-			},
-			// members
-			{
-				{ t, member_address(&mud::Fract::m_num_tabs), type<size_t>(), "nutabs", Ref(), Member::Value, nullptr }
-			},
-			// methods
-			{
-				{ t, "generate", member_address<void(mud::Fract::*)(size_t)>(&mud::Fract::generate), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Fract>(object).generate(val<size_t>(args[0])); }, { { "num_tabs", var(size_t(75)), Param::Default } }, Var() },
-				{ t, "regen", member_address<void(mud::Fract::*)()>(&mud::Fract::regen), [](Ref object, array<Var> args, Var& result) { UNUSED(result); UNUSED(args); val<mud::Fract>(object).regen(); }, {}, Var() },
-				{ t, "render", member_address<void(mud::Fract::*)(const mud::Rect&, const mud::Pattern&, mud::uvec2, mud::Image256&)>(&mud::Fract::render), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Fract>(object).render(val<mud::Rect>(args[0]), val<mud::Pattern>(args[1]), val<mud::uvec2>(args[2]), val<mud::Image256>(args[3])); }, { { "rect", var(mud::Rect()) }, { "pattern", var(mud::Pattern()) }, { "resolution", var(mud::uvec2()) }, { "output_image", var(mud::Image256()), Param::Output } }, Var() },
-				{ t, "render_whole", member_address<void(mud::Fract::*)(const mud::Pattern&, mud::uvec2, mud::Image256&)>(&mud::Fract::render_whole), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Fract>(object).render_whole(val<mud::Pattern>(args[0]), val<mud::uvec2>(args[1]), val<mud::Image256>(args[2])); }, { { "pattern", var(mud::Pattern()) }, { "resolution", var(mud::uvec2()) }, { "output_image", var(mud::Image256()), Param::Output } }, Var() },
-				{ t, "render_grid", member_address<void(mud::Fract::*)(mud::uvec2, const mud::Pattern&, mud::uvec2, vector<mud::Image256>&)>(&mud::Fract::render_grid), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::Fract>(object).render_grid(val<mud::uvec2>(args[0]), val<mud::Pattern>(args[1]), val<mud::uvec2>(args[2]), val<vector<mud::Image256>>(args[3])); }, { { "size", var(mud::uvec2()) }, { "pattern", var(mud::Pattern()) }, { "resolution", var(mud::uvec2()) }, { "output_images", var(vector<mud::Image256>()), Param::Output } }, Var() }
-			},
-			// static members
-			{
-			}
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Fract__construct_0, { { "num_tabs", type<size_t>(), Param::Default } } }
 		};
-		init_pool<mud::Fract>();
-		meta_class<mud::Fract>();
+		// copy constructor
+		// members
+		static Member members[] = {
+			{ t, offsetof(mud::Fract, m_num_tabs), type<size_t>(), "nutabs", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		static Method methods[] = {
+			{ t, "generate", Address(), mud_Fract_generate, { { "num_tabs", type<size_t>(), Param::Default } }, g_qvoid },
+			{ t, "regen", Address(), mud_Fract_regen, {}, g_qvoid },
+			{ t, "render", Address(), mud_Fract_render, { { "rect", type<mud::Rect>(),  }, { "pattern", type<mud::Pattern>(),  }, { "resolution", type<mud::uvec2>(),  }, { "output_image", type<mud::Image256>(), Param::Output } }, g_qvoid },
+			{ t, "render_whole", Address(), mud_Fract_render_whole, { { "pattern", type<mud::Pattern>(),  }, { "resolution", type<mud::uvec2>(),  }, { "output_image", type<mud::Image256>(), Param::Output } }, g_qvoid },
+			{ t, "render_grid", Address(), mud_Fract_render_grid, { { "size", type<mud::uvec2>(),  }, { "pattern", type<mud::Pattern>(),  }, { "resolution", type<mud::uvec2>(),  }, { "output_images", type<vector<mud::Image256>>(), Param::Output } }, g_qvoid }
+		};
+		// static members
+		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
 	}
 	// mud::FractSample
 	{
 		Type& t = type<mud::FractSample>();
 		static Meta meta = { t, &namspc({ "mud" }), "FractSample", sizeof(mud::FractSample), TypeClass::Object };
+		// bases
 		// defaults
-		static Class cls = { t,
-			// bases
-			{  },
-			{  },
-			// constructors
-			{
-				{ t, [](Ref ref, array<Var> args) { new(&val<mud::FractSample>(ref)) mud::FractSample( val<mud::Fract>(args[0]), val<mud::Rect>(args[1]), val<mud::uvec2>(args[2]) ); }, { { "fract", Ref(type<mud::Fract>()) }, { "rect", var(mud::Rect()) }, { "resolution", var(mud::uvec2()) } } }
-			},
-			// copy constructor
-			{
-			},
-			// members
-			{
-				{ t, Address(), type<mud::Fract>(), "fract", Ref(), Member::Flags(Member::NonMutable|Member::Link), [](Ref object) { return Ref(&val<mud::FractSample>(object).m_fract); } },
-				{ t, member_address(&mud::FractSample::m_rect), type<mud::Rect>(), "rect", Ref(), Member::Value, nullptr },
-				{ t, member_address(&mud::FractSample::m_resolution), type<mud::uvec2>(), "resolution", Ref(), Member::Value, nullptr }
-			},
-			// methods
-			{
-				{ t, "render", member_address<void(mud::FractSample::*)(const mud::Pattern&, mud::Image256&)>(&mud::FractSample::render), [](Ref object, array<Var> args, Var& result) { UNUSED(result); val<mud::FractSample>(object).render(val<mud::Pattern>(args[0]), val<mud::Image256>(args[1])); }, { { "pattern", var(mud::Pattern()) }, { "outputImage", var(mud::Image256()), Param::Output } }, Var() }
-			},
-			// static members
-			{
-			}
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_FractSample__construct_0, { { "fract", type<mud::Fract>(),  }, { "rect", type<mud::Rect>(),  }, { "resolution", type<mud::uvec2>(),  } } }
 		};
-		init_pool<mud::FractSample>();
-		meta_class<mud::FractSample>();
+		// copy constructor
+		// members
+		static Member members[] = {
+			{ t, SIZE_MAX, type<mud::Fract>(), "fract", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_FractSample__get_fract },
+			{ t, offsetof(mud::FractSample, m_rect), type<mud::Rect>(), "rect", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::FractSample, m_resolution), type<mud::uvec2>(), "resolution", nullptr, Member::Value, nullptr }
+		};
+		// methods
+		static Method methods[] = {
+			{ t, "render", Address(), mud_FractSample_render, { { "pattern", type<mud::Pattern>(),  }, { "outputImage", type<mud::Image256>(), Param::Output } }, g_qvoid }
+		};
+		// static members
+		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
 	}
 	// mud::FractTab
 	{
 		Type& t = type<mud::FractTab>();
 		static Meta meta = { t, &namspc({ "mud" }), "FractTab", sizeof(mud::FractTab), TypeClass::Struct };
+		// bases
 		// defaults
-		static Class cls = { t,
-			// bases
-			{  },
-			{  },
-			// constructors
-			{
-				{ t, [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::FractTab>(ref)) mud::FractTab(  ); }, {} }
-			},
-			// copy constructor
-			{
-				{ t, [](Ref ref, Ref other) { new(&val<mud::FractTab>(ref)) mud::FractTab(val<mud::FractTab>(other)); } }
-			},
-			// members
-			{
-			},
-			// methods
-			{
-			},
-			// static members
-			{
-			}
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_FractTab__construct_0, {} }
 		};
-		meta_class<mud::FractTab>();
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_FractTab__copy_construct }
+		};
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
 	}
 	// mud::Pattern
 	{
 		Type& t = type<mud::Pattern>();
 		static Meta meta = { t, &namspc({ "mud" }), "Pattern", sizeof(mud::Pattern), TypeClass::Struct };
+		// bases
 		// defaults
-		static Class cls = { t,
-			// bases
-			{  },
-			{  },
-			// constructors
-			{
-				{ t, [](Ref ref, array<Var> args) { new(&val<mud::Pattern>(ref)) mud::Pattern( val<mud::Palette>(args[0]), val<mud::PatternSampling>(args[1]), val<float>(args[2]), val<size_t>(args[3]) ); }, { { "palette", var(mud::Palette()) }, { "sampling", var(mud::PatternSampling()) }, { "precision", var(float(1.f)), Param::Default }, { "step", var(size_t(1)), Param::Default } } },
-				{ t, [](Ref ref, array<Var> args) { UNUSED(args); new(&val<mud::Pattern>(ref)) mud::Pattern(  ); }, {} }
-			},
-			// copy constructor
-			{
-				{ t, [](Ref ref, Ref other) { new(&val<mud::Pattern>(ref)) mud::Pattern(val<mud::Pattern>(other)); } }
-			},
-			// members
-			{
-			},
-			// methods
-			{
-			},
-			// static members
-			{
-			}
+		// constructors
+		static Constructor constructors[] = {
+			{ t, mud_Pattern__construct_0, { { "palette", type<mud::Palette>(),  }, { "sampling", type<mud::PatternSampling>(),  }, { "precision", type<float>(), Param::Default }, { "step", type<size_t>(), Param::Default } } },
+			{ t, mud_Pattern__construct_1, {} }
 		};
-		meta_class<mud::Pattern>();
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, mud_Pattern__copy_construct }
+		};
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
 	}
 		m.m_types.push_back(&type<mud::Circlifier>());
 		m.m_types.push_back(&type<mud::Fract>());
@@ -208,9 +192,7 @@ namespace mud
 		m.m_types.push_back(&type<mud::PatternSampling>());
 		m.m_types.push_back(&type<vector<mud::Image256>>());
 		{
-			auto func = [](array<Var> args, Var& result) { UNUSED(result);  mud::generate_fract(val<mud::uvec2>(args[0]), val<mud::Pattern>(args[1]), val<mud::Image256>(args[2])); };
-			vector<Param> params = { { "resolution", var(mud::uvec2()) }, { "pattern", var(mud::Pattern()) }, { "output_image", var(mud::Image256()), Param::Output } };
-			static Function f = { &namspc({ "mud" }), "generate_fract", funcptr<void(*)(mud::uvec2, const mud::Pattern&, mud::Image256&)>(&mud::generate_fract), func, params, Var() };
+			static Function f = { &namspc({ "mud" }), "generate_fract", nullptr, mud_generate_fract_0, { { "resolution", type<mud::uvec2>(),  }, { "pattern", type<mud::Pattern>(),  }, { "output_image", type<mud::Image256>(), Param::Output } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

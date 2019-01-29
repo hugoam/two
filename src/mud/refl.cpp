@@ -7,6 +7,73 @@
 #ifdef MUD_MODULES
 module mud.refl;
 #else
+//#include <refl/Class.h>
+//#include <refl/VirtualMethod.h>
+#endif
+
+namespace mud
+{
+	Call::Call()
+	{}
+
+	Call::Call(const Callable& callable, vector<Var> arguments)
+		: m_callable(&callable)
+		, m_arguments(arguments)
+		, m_result(meta(*callable.m_return_type.m_type).m_empty_var)
+	{}
+
+	Call::Call(const Callable& callable)
+		: Call(callable, vector<Var>{})//, callable.m_arguments)
+	{}
+
+	Call::Call(const Callable& callable, Ref object)
+		: Call(callable)
+	{
+		m_arguments[0] =  object;
+	}
+
+	//bool Call::validate() { return m_callable && m_callable->validate(to_array(m_arguments)); }
+
+	//const Var& Call::operator()() { (*m_callable)(to_array(m_arguments), m_result); return m_result; }
+	//const Var& Call::operator()(Ref object) { m_arguments[0] = object; (*m_callable)(to_array(m_arguments), m_result); return m_result; }
+}
+
+#ifdef MUD_MODULES
+module mud.refl;
+#else
+#include <stl/tinystl/vector.impl.h>
+#endif
+
+using namespace mud;
+namespace tinystl
+{
+	template class MUD_TYPE_EXPORT vector<Namespace>;
+	template class MUD_TYPE_EXPORT vector<Param>;
+	template class MUD_TYPE_EXPORT vector<Function>;
+	template class MUD_TYPE_EXPORT vector<Operator>;
+	template class MUD_TYPE_EXPORT vector<Constructor>;
+	template class MUD_TYPE_EXPORT vector<CopyConstructor>;
+	template class MUD_TYPE_EXPORT vector<Destructor>;
+	template class MUD_TYPE_EXPORT vector<Method>;
+	template class MUD_TYPE_EXPORT vector<Member>;
+	template class MUD_TYPE_EXPORT vector<Static>;
+	template class MUD_TYPE_EXPORT vector<Function*>;
+	template class MUD_TYPE_EXPORT vector<Method*>;
+	template class MUD_TYPE_EXPORT vector<Member*>;
+	template class MUD_TYPE_EXPORT vector<Meta*>;
+	template class MUD_TYPE_EXPORT vector<Enum*>;
+	template class MUD_TYPE_EXPORT vector<Convert*>;
+	template class MUD_TYPE_EXPORT vector<Iterable*>;
+	template class MUD_TYPE_EXPORT vector<Sequence*>;
+	template class MUD_TYPE_EXPORT vector<Class*>;
+	template class MUD_TYPE_EXPORT vector<Module*>;
+	template class MUD_TYPE_EXPORT vector<Prototype*>;
+}
+
+
+#ifdef MUD_MODULES
+module mud.refl;
+#else
 //#include <ecs/Proto.h>
 #endif
 
@@ -44,13 +111,13 @@ namespace mud
 
 	void Injector::inject(Var& value)
 	{
-		m_constructor.m_call(value, to_array(m_arguments, 1));
+		//m_constructor(value, to_array(m_arguments, 1));
 	}
 
 	Ref Injector::inject(Pool& pool)
 	{
 		Ref ref = pool.alloc();
-		m_constructor.m_call(ref, to_array(m_arguments, 1));
+		//m_constructor.m_call(ref, to_array(m_arguments, 1));
 		return ref;
 	}
 
@@ -90,13 +157,13 @@ namespace mud
 		, m_construct(false)
 		, m_prototype(nullptr)
 #endif
-		, m_injector(make_object<Injector>(m_prototype ? *m_prototype : type))
+		, m_injector(oconstruct<Injector>(m_prototype ? *m_prototype : type))
 	{}
 
 	void Creator::set_prototype(Type& prototype)
 	{
 		m_prototype = &prototype;
-		m_injector = make_object<Injector>(*m_prototype);
+		m_injector = oconstruct<Injector>(*m_prototype);
 	}
 }
 
@@ -114,18 +181,16 @@ namespace mud
 		, m_value(value)
 	{}
 
-	Member::Member(Type& object_type, Address address, Type& type, cstring name, Ref default_value, Flags flags, MemberGet get)
+	Member::Member(Type& object_type, size_t offset, Type& type, cstring name, const void* default_value, Flags flags, MemberGet get)
 		: m_index(0)
 		, m_object_type(&object_type)
-		, m_address(address)
+		, m_offset(offset)
 		, m_type(&type)
 		, m_name(name)
-		, m_default_value(default_value)
+		, m_default_value((void*)default_value, type)
 		, m_flags(flags)
 		, m_get(get)
-	{
-		m_offset = *reinterpret_cast<size_t*>(m_address.value);
-	}
+	{}
 
 	Member::~Member()
 	{}
@@ -149,6 +214,7 @@ namespace mud
 	vector<Iterable*> g_iterable = vector<Iterable*>(c_max_types);
 	vector<Sequence*> g_sequence = vector<Sequence*>(c_max_types);
 
+#if 0
 	template <>
 	void init_string<void>() {}
 
@@ -163,6 +229,7 @@ namespace mud
 
 	template <>
 	void init_assign<cstring>() {}
+#endif
 
 	bool is_string(Type& type)
 	{
@@ -259,8 +326,8 @@ namespace mud
 		g_class[type.m_id] = this;
 	}
 
-	Class::Class(Type& type, vector<Type*> bases, vector<size_t> bases_offsets, vector<Constructor> constructors, vector<CopyConstructor> copy_constructors,
-				 vector<Member> members, vector<Method> methods, vector<Static> static_members)
+	Class::Class(Type& type, array<Type*> bases, array<size_t> bases_offsets, array<Constructor> constructors, array<CopyConstructor> copy_constructors,
+				 array<Member> members, array<Method> methods, array<Static> static_members)
 		: m_type(&type)
 		, m_meta(&meta(type))
 		, m_root(&type)
@@ -280,17 +347,17 @@ namespace mud
 
 	void Class::inherit(vector<Type*> types)
 	{
-		for(Type* type : types)
-			if(g_class[type->m_id])
-			{
-				vector_prepend(m_members, cls(*type).m_members);
-				vector_prepend(m_methods, cls(*type).m_methods);
-			}
+		//for(Type* type : types)
+		//	if(g_class[type->m_id])
+		//	{
+		//		vector_prepend(m_members, cls(*type).m_members);
+		//		vector_prepend(m_methods, cls(*type).m_methods);
+		//	}
 	}
 
 	void Class::setup_class()
 	{
-		this->inherit(m_bases);
+		//this->inherit(m_bases);
 
 		for(size_t i = 0; i < m_members.size(); ++i)
 			m_members[i].m_index = int(i);
@@ -384,18 +451,18 @@ namespace mud
 
 	bool Class::has_member(cstring name)
 	{
-		return vector_has_pred(m_members, [&](const Member& member) { return strcmp(member.m_name, name) == 0; });
+		return has_pred(m_members, [&](const Member& member) { return strcmp(member.m_name, name) == 0; });
 	}
 
 	bool Class::has_method(cstring name)
 	{
-		return vector_has_pred(m_methods, [&](const Method& method) { return strcmp(method.m_name, name) == 0; });
+		return has_pred(m_methods, [&](const Method& method) { return strcmp(method.m_name, name) == 0; });
 	}
 
-	Member& Class::member(Address address)
+	Member& Class::member(size_t offset)
 	{
 		for(Member& look : m_members)
-			if(look.m_address == address)
+			if(look.m_offset == offset)
 				return look;
 		printf("ERROR: retrieving member\n");
 		return m_members[0];
@@ -410,14 +477,14 @@ namespace mud
 		return m_methods[0];
 	}
 
-	bool Class::has_member(Address address)
+	bool Class::has_member(size_t offset)
 	{
-		return vector_has_pred(m_members, [&](const Member& look) { return look.m_address == address; });
+		return has_pred(m_members, [&](const Member& look) { return look.m_offset == offset; });
 	}
 
 	bool Class::has_method(Address address)
 	{
-		return vector_has_pred(m_methods, [&](const Method& look) { return look.m_address == address; });
+		return has_pred(m_methods, [&](const Method& look) { return look.m_address == address; });
 	}
 
 	const Constructor* Class::constructor(ConstructorIndex index) const
@@ -434,8 +501,8 @@ namespace mud
 	{
 		for(const Constructor& constructor : m_constructors)
 		{
-			size_t min_args = constructor.m_arguments.size() - 1 - constructor.m_num_defaults;
-			size_t max_args = constructor.m_arguments.size() - 1;
+			size_t min_args = constructor.m_params.size() - 1 - constructor.m_num_defaults;
+			size_t max_args = constructor.m_params.size() - 1;
 			if(arguments >= min_args && arguments <= max_args)
 				return &constructor;
 		}
@@ -463,14 +530,14 @@ namespace mud
 	{
 		if(is_basic(*dest.m_type))
 			memcpy(dest.m_value, source.m_value, meta(dest).m_size);
-		else if(cls(dest).m_copy_constructors.size() > 0)
-			cls(dest).m_copy_constructors[0].m_call(dest, source);
+		//else if(cls(dest).m_copy_constructors.size() > 0)
+		//	cls(dest).m_copy_constructors[0](dest, source);
 	}
 
 	void assign(Ref first, Ref second)
 	{
 		if(second.m_type->is(*first.m_type))
-			meta(first).m_copy_assign(first, second);
+			meta(first).copy_assign(first, second);
 		else
 			printf("WARNING: can't assign values of unrelated types\n");
 	}
@@ -614,28 +681,28 @@ namespace mud
 {
 	template <> Type& type<VirtualMethod>() { static Type ty("VirtualMethod"); return ty; }
 
-	Param::Param(cstring name, Var value, Flags flags)
-		: m_index(0)
-		, m_name(name)
-		, m_value(value)
+	Param::Param(cstring name, Type& type, Flags flags, void* default_val)
+		: m_name(name)
+		, m_type(&type)
 		, m_flags(flags)
+		, m_default(default_val)
 	{
-		if(value == Ref())
-			m_flags = static_cast<Flags>(m_flags | Nullable);
+		//if(value == Ref())
+		//	m_flags = static_cast<Flags>(m_flags | Nullable);
 	}
 
-	Signature::Signature(const vector<Param>& paramvec, const Var& returnval)
-		: m_params(paramvec)
-		, m_returnval(returnval)
+	Signature::Signature(const vector<Param>& params, QualType return_type)
+		: m_params(params)
+		, m_return_type(return_type)
 	{}
 
 	static uint32_t s_callable_index = 0;
 
-	Callable::Callable(cstring name, const vector<Param>& paramvec, Var returnval)
+	Callable::Callable(cstring name, const vector<Param>& params, QualType return_type)
 		: m_index(++s_callable_index)
 		, m_name(name)
-		, m_returnval(returnval)
-		, m_params(paramvec)
+		, m_return_type(return_type)
+		, m_params(params)
 		, m_num_defaults(0)
 	{
 		this->setup();
@@ -643,34 +710,36 @@ namespace mud
 
 	void Callable::setup()
 	{
-		for(size_t i = 0; i < m_params.size(); ++i)
-		{
-			m_params[i].m_index = i;
-			m_arguments.emplace_back(m_params[i].m_value);
-
-			if(m_num_defaults == 0 && m_params[i].defaulted())
-				m_num_defaults = m_params.size() - i;
-		}
-		
-		m_num_required = m_params.size() - m_num_defaults;
+		//for(size_t i = 0; i < m_params.size(); ++i)
+		//{
+		//	m_params[i].m_index = i;
+		//	m_arguments.push_back({ m_params[i].m_value });
+		//
+		//	if(m_num_defaults == 0 && m_params[i].defaulted())
+		//		m_num_defaults = m_params.size() - i;
+		//}
+		//
+		//m_num_required = m_params.size() - m_num_defaults;
 	}
 
-	bool Callable::validate(array<Var> args, size_t offset) const
+	bool Callable::validate(array<void*> args, size_t offset) const
 	{
-		if(args.m_count < m_arguments.size() - m_num_defaults)
-			return false;
-
-		bool valid = true;
-		for(size_t i = offset; i < m_params.size(); ++i)
-		{
-			valid &= type(m_params[i].m_value).is(type(args[i]));
-			valid &= m_params[i].nullable() || !args[i].null();
-		}
-		return valid;
+		UNUSED(args); UNUSED(offset);
+		//if(args.m_count < m_arguments.size() - m_num_defaults)
+		//	return false;
+		//
+		//bool valid = true;
+		//for(size_t i = offset; i < m_params.size(); ++i)
+		//{
+		//	valid &= type(m_params[i].m_value).is(type(args[i]));
+		//	valid &= m_params[i].nullable() || !args[i].null();
+		//}
+		//return valid;
+		return true;
 	}
 
-	Function::Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc trigger, const vector<Param>& paramvec, Var returnval)
-		: Callable(name, paramvec, returnval)
+	Function::Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc trigger, const vector<Param>& params, QualType return_type)
+		: Callable(name, params, return_type)
 		, m_namespace(location)
 		, m_identity(identity)
 		, m_call(trigger)
@@ -686,77 +755,53 @@ namespace mud
 	{
 		if(function.m_name == string("add"))
 		{
-			return { &function, &type(function.m_params[0].m_value), function.m_name, "+" };
+			return { &function, function.m_params[0].m_type, function.m_name, "+" };
 		}
 		else if(function.m_name == string("subtract"))
 		{
-			return { &function, &type(function.m_params[0].m_value), function.m_name, "-" };
+			return { &function, function.m_params[0].m_type, function.m_name, "-" };
 		}
 		else if(function.m_name == string("multiply"))
 		{
-			return { &function, &type(function.m_params[0].m_value), function.m_name, "*" };
+			return { &function, function.m_params[0].m_type, function.m_name, "*" };
 		}
 		else if(function.m_name == string("divide"))
 		{
-			return { &function, &type(function.m_params[0].m_value), function.m_name,  "/" };
+			return { &function, function.m_params[0].m_type, function.m_name,  "/" };
 		}
 		else return {};
 	}
 
-	Method::Method(Type& object_type, cstring name, Address address, MethodFunc trigger, const vector<Param>& paramvec, Var returnval)
-		: Callable(name, vector_union({ 1, { "self", Ref(object_type) } }, paramvec), returnval)
+	Method::Method(Type& object_type, cstring name, Address address, MethodFunc trigger, const vector<Param>& params, QualType return_type)
+		: Callable(name, vector_union({ 1, { "self", object_type } }, params), return_type)
 		, m_object_type(&object_type)
 		, m_address(address)
 		, m_call(trigger)
 	{}
 
-	Constructor::Constructor(Type& object_type, ConstructorFunc constructor, const vector<Param>& paramvec)
-		: Callable(object_type.m_name, vector_union({ 1, { "self", Ref(object_type) } }, paramvec))
+	Constructor::Constructor(Type& object_type, ConstructorFunc constructor, const vector<Param>& params)
+		: Callable(object_type.m_name, vector_union({ 1, { "self", object_type } }, params))
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
 
-	Constructor::Constructor(Type& object_type, cstring name, ConstructorFunc constructor, const vector<Param>& paramvec)
-		: Callable(name, vector_union({ 1, { "self", Ref(object_type) } }, paramvec))
+	Constructor::Constructor(Type& object_type, cstring name, ConstructorFunc constructor, const vector<Param>& params)
+		: Callable(name, vector_union({ 1, { "self", object_type } }, params))
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
 
 	CopyConstructor::CopyConstructor(Type& object_type, CopyConstructorFunc constructor)
-		: Callable(object_type.m_name, { 1, { "self", Ref(object_type) } })
+		: Callable(object_type.m_name, { 1, { "self", object_type } })
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
 
 	Destructor::Destructor(Type& object_type, DestructorFunc destructor)
-		: Callable(object_type.m_name, { 1, { "self", Ref(object_type) } })
+		: Callable(object_type.m_name, { 1, { "self", object_type } })
 		, m_object_type(&object_type)
 		, m_call(destructor)
 	{}
-
-	Call::Call()
-	{}
-
-	Call::Call(const Callable& callable, vector<Var> arguments)
-		: m_callable(&callable)
-		, m_arguments(arguments)
-		, m_result(callable.m_returnval)
-	{}
-
-	Call::Call(const Callable& callable)
-		: Call(callable, callable.m_arguments)
-	{}
-
-	Call::Call(const Callable& callable, Ref object)
-		: Call(callable)
-	{
-		m_arguments[0] =  object;
-	}
-
-	bool Call::validate() { return m_callable && m_callable->validate(to_array(m_arguments)); }
-
-	const Var& Call::operator()() { (*m_callable)(to_array(m_arguments), m_result); return m_result; }
-	const Var& Call::operator()(Ref object) { m_arguments[0] = object; (*m_callable)(to_array(m_arguments), m_result); return m_result; }
 }
 
 
@@ -1118,6 +1163,7 @@ namespace mud
     template <> MUD_REFL_EXPORT Type& type<mud::Namespace>() { static Type ty("Namespace", sizeof(mud::Namespace)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Operator>() { static Type ty("Operator", sizeof(mud::Operator)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Param>() { static Type ty("Param", sizeof(mud::Param)); return ty; }
+    template <> MUD_REFL_EXPORT Type& type<mud::QualType>() { static Type ty("QualType", sizeof(mud::QualType)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Signature>() { static Type ty("Signature", sizeof(mud::Signature)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::Static>() { static Type ty("Static", sizeof(mud::Static)); return ty; }
     template <> MUD_REFL_EXPORT Type& type<mud::System>() { static Type ty("System", sizeof(mud::System)); return ty; }

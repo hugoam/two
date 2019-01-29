@@ -28,7 +28,9 @@ namespace mud
     template <class T> struct ValueTrack;
     template <class T> struct Grid;
     template <class T> struct array3d;
-    template <class T> class AutoStat;
+	template <class T> struct StatDef;
+	template <class T> struct Stat;
+    template <class T> struct AutoStat;
     
     struct Transform;
     struct Colour;
@@ -264,20 +266,19 @@ namespace mud
 	{
 		typedef uint length_type;
 		typedef T type;
-		v2() { }
-		explicit v2(T v) : x(v), y(v) {}
-		v2(T x, T y) : x(x), y(y) {}
+		v2();
+		explicit v2(T v);
+		v2(T x, T y);
 		template <class V>
-		explicit v2(V v) : x(T(v.x)), y(T(v.y)) {}
-		T operator[](uint index) const { return *((T*)&x + index); }
-		T& operator[](uint index) { return *((T*)&x + index); }
-		bool operator==(const v2& other) const { return x == other.x && y == other.y; }
-		bool operator!=(const v2& other) const { return x != other.x || y != other.y; }
-		explicit operator T() { return T(x); }
-		//T x, y;
+		explicit v2(V v);
+		T operator[](uint index) const;
+		T& operator[](uint index);
+		bool operator==(const v2& other) const;
+		bool operator!=(const v2& other) const;
+		explicit operator T();
 		union {
-			T f[2];
 			struct { attr_ T x; attr_ T y; };
+			T f[2];
 		};
 	};
 
@@ -287,23 +288,22 @@ namespace mud
 		typedef uint length_type;
 		typedef T type;
 		typedef v2<T> type2;
-		v3() { }
-		explicit v3(T v) : x(v), y(v), z(v) {}
-		v3(T x, T y, T z) : x(x), y(y), z(z) {}
-		v3(v2<T> a, T z) : x(a.x), y(a.y), z(z) {}
+		v3();
+		explicit v3(T v);
+		v3(T x, T y, T z);
+		v3(v2<T> a, T z);
 		template <class V>
-		explicit v3(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)) {}
-		T operator[](uint index) const { return *((T*)&x + index); }
-		T& operator[](uint index) { return *((T*)&x + index); }
-		bool operator==(const v3& other) const { return x == other.x && y == other.y && z == other.z; }
-		bool operator!=(const v3& other) const { return x != other.x || y != other.y || z != other.z; }
-		explicit operator T() { return T(x); }
-		explicit operator v2<T>() { return v2<T>(x, y); }
-		//T x, y, z;
+		explicit v3(V v);
+		T operator[](uint index) const;
+		T& operator[](uint index);
+		bool operator==(const v3& other) const;
+		bool operator!=(const v3& other) const;
+		explicit operator T();
+		explicit operator v2<T>();
 		union {
-			T f[3];
 			struct { attr_ T x; attr_ T y; attr_ T z; };
 			struct { T r; T g; T b; };
+			T f[3];
 		};
 	};
 
@@ -314,25 +314,24 @@ namespace mud
 		typedef T type;
 		typedef v2<T> type2;
 		typedef v3<T> type3;
-		v4() { }
-		explicit v4(T v) : x(v), y(v), z(v), w(v) {}
-		v4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
-		v4(v3<T> a, T w) : x(a.x), y(a.y), z(a.z), w(w) {}
-		v4(T x, v3<T> b) : x(x), y(b.x), z(b.y), w(b.z) {}
-		v4(v2<T> a, v2<T> b) : x(a.x), y(a.y), z(b.x), w(b.y) {}
+		v4();
+		explicit v4(T v);
+		v4(T x, T y, T z, T w);
+		v4(v3<T> a, T w);
+		v4(T x, v3<T> b);
+		v4(v2<T> a, v2<T> b);
 		template <class V>
-		explicit v4(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)), w(T(v.w)) {}
-		T operator[](uint index) const { return *((T*)&x + index); }
-		T& operator[](uint index) { return *((T*)&x + index); }
-		bool operator==(const v4& other) const { return x == other.x && y == other.y && z == other.z && w == other.w; }
-		bool operator!=(const v4& other) const { return x != other.x || y != other.y || z != other.z || w != other.w; }
-		explicit operator v2<T>() { return v2<T>(x, y); }
-		explicit operator v3<T>() { return v3<T>(x, y, z); }
-		//T x, y, z, w;
+		explicit v4(V v);
+		T operator[](uint index) const;
+		T& operator[](uint index);
+		bool operator==(const v4& other) const;
+		bool operator!=(const v4& other) const;
+		explicit operator v2<T>();
+		explicit operator v3<T>();
 		union {
-			T f[4];
 			struct { attr_ T x; attr_ T y; attr_ T z; attr_ T w; };
 			struct { T r; T g; T b; T a; };
+			T f[4];
 		};
 	};
 
@@ -1535,11 +1534,11 @@ namespace mud
 		bool operator==(const Range<T>& other) const { return m_min == other.m_min && m_max == other.m_max; }
 	};
 
-	export_ template struct refl_ Range<vec3>;
-	export_ template struct refl_ Range<quat>;
-	export_ template struct refl_ Range<float>;
-	export_ template struct refl_ Range<uint32_t>;
-	export_ template struct refl_ Range<Colour>;
+	export_ extern template struct refl_ Range<vec3>;
+	export_ extern template struct refl_ Range<quat>;
+	export_ extern template struct refl_ Range<float>;
+	export_ extern template struct refl_ Range<uint32_t>;
+	export_ extern template struct refl_ Range<Colour>;
 }
 
 namespace mud
@@ -1626,26 +1625,20 @@ namespace mud
 	export_ template <class T>
 	struct refl_ struct_ ValueCurve
 	{
-		constr_ ValueCurve() {}
-		constr_ ValueCurve(vector<T> keys) : m_keys(keys) {}
+		constr_ ValueCurve();
+		constr_ ValueCurve(vector<T> keys);
+		~ValueCurve();
 
-		T sample_curve(float t)
-		{
-			uint32_t key = uint32_t(t * (m_keys.size() - 1));
-			float interval = 1.f / float(m_keys.size() - 1);
-			float ttmod = fmod(t, interval) / interval;
-
-			return mud::lerp(m_keys[key], m_keys[key + 1], ttmod);
-		}
+		T sample_curve(float t);
 
 		attr_ vector<T> m_keys;
 	};
 
-	export_ template struct refl_ MUD_MATH_EXPORT ValueCurve<vec3>;
-	export_ template struct refl_ MUD_MATH_EXPORT ValueCurve<quat>;
-	export_ template struct refl_ MUD_MATH_EXPORT ValueCurve<float>;
-	export_ template struct refl_ MUD_MATH_EXPORT ValueCurve<uint32_t>;
-	export_ template struct refl_ MUD_MATH_EXPORT ValueCurve<Colour>;
+	export_ extern template struct refl_ ValueCurve<vec3>;
+	export_ extern template struct refl_ ValueCurve<quat>;
+	export_ extern template struct refl_ ValueCurve<float>;
+	export_ extern template struct refl_ ValueCurve<uint32_t>;
+	export_ extern template struct refl_ ValueCurve<Colour>;
 
 	template <class T>
 	struct One { static T value() { return T(1); } };
@@ -1657,36 +1650,17 @@ namespace mud
 	export_ template <class T>
 	struct refl_ struct_ ValueTrack
 	{
-		constr_ ValueTrack() {}
-		constr_ ValueTrack(TrackMode mode, ValueCurve<T> curve, ValueCurve<T> min_curve, ValueCurve<T> max_curve) : m_mode(mode), m_curve(curve), m_min_curve(min_curve), m_max_curve(max_curve) {}
-		ValueTrack(T value) : m_mode(TrackMode::Constant), m_value(value) {}
-		ValueTrack(T min, T max) : m_mode(TrackMode::ConstantRandom), m_min(min), m_max(max) {}
-		ValueTrack(vector<T> values) : m_mode(TrackMode::Curve), m_curve(values) {}
-		ValueTrack(vector<T> min_values, vector<T> max_values) : m_mode(TrackMode::CurveRandom), m_min_curve(min_values), m_max_curve(max_values) {}
+		constr_ ValueTrack();
+		constr_ ValueTrack(TrackMode mode, ValueCurve<T> curve, ValueCurve<T> min_curve, ValueCurve<T> max_curve);
+		ValueTrack(T value);
+		ValueTrack(T min, T max);
+		ValueTrack(vector<T> values);
+		ValueTrack(vector<T> min_values, vector<T> max_values);
+		~ValueTrack();
 
-		void set_mode(TrackMode mode)
-		{
-			if(mode == TrackMode::Constant)
-				*this = ValueTrack<T>(T());
-			else if(mode == TrackMode::ConstantRandom)
-				*this = ValueTrack<T>(T(), T());
-			else if(mode == TrackMode::Curve)
-				*this = ValueTrack<T>(vector<T>(2, T()));
-			else if(mode == TrackMode::CurveRandom)
-				*this = ValueTrack<T>(vector<T>(2, T()), vector<T>(2, T()));
-		}
+		void set_mode(TrackMode mode);
 
-		T sample(float t, float seed = 0.f)
-		{
-			if(m_mode == TrackMode::Constant)
-				return m_value;
-			else if(m_mode == TrackMode::ConstantRandom)
-				return mud::lerp(m_min, m_max, seed);
-			else if(m_mode == TrackMode::Curve)
-				return m_value * m_curve.sample_curve(t);
-			else //if(m_mode == TrackMode::CurveRandom)
-				return mud::lerp(m_min * m_min_curve.sample_curve(t), m_max * m_max_curve.sample_curve(t), seed);
-		}
+		T sample(float t, float seed = 0.f);
 
 		attr_ TrackMode m_mode;
 		attr_ T m_value = One<T>::value();
@@ -1697,11 +1671,11 @@ namespace mud
 		attr_ ValueCurve<T> m_max_curve;
 	};
 
-	export_ template struct refl_ MUD_MATH_EXPORT ValueTrack<vec3>;
-	export_ template struct refl_ MUD_MATH_EXPORT ValueTrack<quat>;
-	export_ template struct refl_ MUD_MATH_EXPORT ValueTrack<float>;
-	export_ template struct refl_ MUD_MATH_EXPORT ValueTrack<uint32_t>;
-	export_ template struct refl_ MUD_MATH_EXPORT ValueTrack<Colour>;
+	export_ extern template struct refl_ ValueTrack<vec3>;
+	export_ extern template struct refl_ ValueTrack<quat>;
+	export_ extern template struct refl_ ValueTrack<float>;
+	export_ extern template struct refl_ ValueTrack<uint32_t>;
+	export_ extern template struct refl_ ValueTrack<Colour>;
 }
 
 
@@ -2180,176 +2154,101 @@ namespace mud
 namespace mud
 {
 	export_ template <class T>
-	class StatDef
+	struct StatDef
 	{
-	public:
-		StatDef(T min = limits<T>::min(), T max = limits<T>::max(), T step = T(1))
-			: m_min(min)
-			, m_max(max)
-			, m_step(step)
-		{}
+		T m_min = limits<T>::min();
+		T m_max = limits<T>::max();
+		T m_step = T(1);
 
-		T m_min;
-		T m_max;
-		T m_step;
+		T rincrement(T& value, T amount) const;
+		T rdecrement(T& value, T amount) const;
+		void increment(T& value, T amount) const;
+		void decrement(T& value, T amount) const;
 
-		T rincrement(T& value, T amount) const { T diff = min(m_max - value, amount); value += diff; update(value); return diff; }
-		T rdecrement(T& value, T amount) const { T diff = max(-m_min + value, amount); value -= diff; update(value); return diff; }
-		void increment(T& value, T amount) const { value += amount; update(value); }
-		void decrement(T& value, T amount) const { value -= amount; update(value); }
+		void increment(T& value) const;
+		void decrement(T& value) const;
 
-		void increment(T& value) const { value += m_step; update(value); }
-		void decrement(T& value) const { value -= m_step; update(value); }
-
-		void multiply(T& value, T& base, T multiplier) const { T diff = value - base; base *= multiplier; value = base + diff; update(value); }
+		void multiply(T& value, T& base, T multiplier) const;
 		
-		void modify(T& value, T& base, T val) const { value += val - base; base = value; update(value); }
-		void modify(T& value, T val) const { value = val; update(value); }
+		void modify(T& value, T& base, T val) const;
+		void modify(T& value, T val) const;
 
-		void update(T& value) const
-		{
-			if(value < m_min)
-				value = m_min;
-			if(value > m_max)
-				value = m_max;
-		}
+		void update(T& value) const;
 	};
 
+	export_ extern template struct StatDef<int>;
+	export_ extern template struct StatDef<float>;
+
 	export_ template <class T>
-	class Stat
+	struct Stat
 	{
 	public:
-		Stat(T base = T())
-			: m_base(base)
-			, m_value(base)
-			//, m_updateHandlers()
-		{}
+		Stat(T& value, const StatDef<T>& def);
 
-		operator T() const { return m_value; }
+		operator T() const;
 
-		attr_ T m_base;
+		inline T& ref() const;
+		inline T value() const;
+
+		inline T min() const;
+		inline T max() const;
+		inline T step() const;
+
+		inline void modify(T value);
+
+		inline void increment();
+		inline void decrement();
+
+		//T m_base;
+		T* m_ref;
+		const StatDef<T>* m_def;
+	};
+
+	export_ extern template struct Stat<int>;
+	export_ extern template struct Stat<float>;
+
+	export_ template <class T>
+	struct refl_ AutoStat : public Stat<T>
+	{
+	public:
+		AutoStat(T value = T(), T min = limits<T>::min(), T max = limits<T>::max(), T step = T(1));
+		AutoStat(T& value, StatDef<T> def);
+		AutoStat(const AutoStat& other);
+
+		AutoStat& operator=(const AutoStat& other) = default;
+
 		attr_ T m_value;
-
-		virtual const StatDef<T>& vdef() const = 0;
-	};
-
-	template <class T, class T_Def>
-	class DefStat : public Stat<T>
-	{
-	public:
-		DefStat(T base = T())
-			: Stat<T>(base)
-		{}
-
-		const T_Def* self() const { return static_cast<const T_Def*>(this); }
-
-		const StatDef<T>& vdef() const { return self()->def(); }
-
-		inline T min() const { return self()->def().m_min; }
-		inline T max() const { return self()->def().m_max; }
-		inline T step() const { return self()->def().m_step; }
-
-		inline void modify(T value) { self()->def().modify(this->m_value, this->m_base, value); }
-
-		inline T rincrement(T amount) { return self()->def().rincrement(this->m_value, amount); }
-		inline T rdecrement(T amount) { return self()->def().rdecrement(this->m_value, amount); }
-		inline void increment(T amount) { self()->def().increment(this->m_value, amount); }
-		inline void decrement(T amount) { self()->def().decrement(this->m_value, amount); }
-
-		inline void increment() { self()->def().increment(this->m_value); }
-		inline void decrement() { self()->def().increment(this->m_value); }
-
-		inline void multiply(T multiplier) { self()->def().multiply(this->m_value, this->m_base, multiplier); }
-	};
-
-	export_ template <class T>
-	class refl_ AutoStat
-	{
-	public:
-		AutoStat(T value = T(), T min = limits<T>::min(), T max = limits<T>::max(), T step = T(1))
-			: m_value(value)
-			, m_valueRef(m_value)
-			, m_def(min, max, step)
-		{}
-
-		AutoStat(T& value, StatDef<T> def)
-			: m_value()
-			, m_valueRef(value)
-			, m_def(def)
-		{}
-
-		AutoStat(const AutoStat& other)
-			: m_value(other.m_value)
-			, m_valueRef(&other.m_value == &other.m_valueRef ? m_value : other.m_valueRef)
-			, m_def(other.m_def)
-		{}
-
-		AutoStat& operator=(const AutoStat& other)
-		{
-			m_value = other.m_value;
-			m_valueRef = other.m_valueRef;
-			m_def = other.m_def;
-			return *this;
-		}
-
-		operator T() const { return m_valueRef; }
-
-		inline T value() const { return m_valueRef; }
-		inline T& ref() const { return m_valueRef; }
-
-		inline T min() const { return m_def.m_min; }
-		inline T max() const { return m_def.m_max; }
-		inline T step() const { return m_def.m_step; }
-
-		inline void modify(T value) { m_def.modify(m_valueRef, value); }
-
-		inline void increment() { m_def.increment(m_valueRef); }
-		inline void decrement() { m_def.decrement(m_valueRef); }
-
-		const StatDef<T>& vdef() const { return m_def; }
-
-	protected:
-		T m_value;
-		T& m_valueRef;
 		StatDef<T> m_def;
 	};
 
-	export_ template class refl_ MUD_MATH_EXPORT AutoStat<int>;
-	export_ template class refl_ MUD_MATH_EXPORT AutoStat<float>;
-
-	export_ struct refl_ MUD_MATH_EXPORT Ratio : public DefStat<float, Ratio>
-	{
-	public:
-		constr_ Ratio(float value = 0.f) : DefStat<float, Ratio>(value) {}
-		Ratio(const Ratio&) = default;
-		Ratio& operator=(const Ratio&) = default;
-
-		void set(float value) { DefStat<float, Ratio>::modify(value); }
-
-		const StatDef<float>& def() const { static StatDef<float> df(0.f, 1.f, 0.01f); return df; }
-	};
-
-	export_ struct refl_ MUD_MATH_EXPORT Gauge : public DefStat<float, Gauge>
-	{
-	public:
-		constr_ Gauge(float value = 0.f) : DefStat<float, Gauge>(value) {}
-		Gauge(const Gauge&) = default;
-		Gauge& operator=(const Gauge&) = default;
-
-		void set(float value) { DefStat<float, Gauge>::modify(value); }
-
-		const StatDef<float>& def() const { static StatDef<float> df(0.f, FLT_MAX, 1.f); return df; }
-	};
+	export_ extern template struct refl_ AutoStat<int>;
+	export_ extern template struct refl_ AutoStat<float>;
 
 #if 0
-	template <class T>
-	struct StringConverter<AutoStat<T>>
+	export_ struct refl_ MUD_MATH_EXPORT Ratio : public Stat<float>
 	{
-		static inline void to(const AutoStat<T>& stat, string& str) { to_string<T>(stat.value(), str); }
-		static inline void from(const string& str, AutoStat<T>& stat) { stat.modify(to_value<T>(str)); }
+	public:
+		constr_ Ratio(float value = 0.f);
+
+		attr_ float m_value;
+
+		void set(float value) { def().modify(m_value, value); }
+
+		const StatDef<float>& def() const { static StatDef<float> df = { 0.f, 1.f, 0.01f }; return df; }
+	};
+
+	export_ struct refl_ MUD_MATH_EXPORT Gauge : public Stat<float>
+	{
+	public:
+		constr_ Gauge(float value = 0.f);
+
+		attr_ float m_value;
+
+		void set(float value) { def().modify(m_value, value); }
+
+		const StatDef<float>& def() const { static StatDef<float> df = { 0.f, FLT_MAX, 1.f }; return df; }
 	};
 #endif
-
 }
 //#include <math/Stream.h>
 
@@ -2449,7 +2348,6 @@ namespace mud
     export_ template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<float>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::AutoStat<int>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Colour>();
-    export_ template <> MUD_MATH_EXPORT Type& type<mud::Gauge>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Image>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Image256>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::ImageAtlas>();
@@ -2459,7 +2357,6 @@ namespace mud
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Range<mud::quat>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Range<mud::vec3>>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Range<uint32_t>>();
-    export_ template <> MUD_MATH_EXPORT Type& type<mud::Ratio>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Time>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::TimeSpan>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::Transform>();
@@ -2492,55 +2389,175 @@ namespace mud
     export_ template <> MUD_MATH_EXPORT Type& type<mud::SpriteAtlas>();
     export_ template <> MUD_MATH_EXPORT Type& type<mud::TextureAtlas>();
     
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::AutoStat<float>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::AutoStat<int>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Colour*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Gauge*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Image*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Image256*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ImageAtlas*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Palette*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Range<float>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Range<mud::Colour>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Range<mud::quat>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Range<mud::vec3>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Range<uint32_t>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Ratio*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Time*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::TimeSpan*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Transform*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueCurve<float>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueCurve<mud::Colour>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueCurve<mud::quat>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueCurve<mud::vec3>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueCurve<uint32_t>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueTrack<float>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueTrack<mud::Colour>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueTrack<mud::quat>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueTrack<mud::vec3>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ValueTrack<uint32_t>*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::bvec3*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::bvec4*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::half2*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::half3*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ivec2*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ivec3*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::ivec4*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::mat4*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::quat*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::uvec2*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::uvec3*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::uvec4*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::vec2*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::vec3*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::vec4*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::Sprite*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::SpriteAtlas*>>;
-    export_ template struct MUD_MATH_EXPORT Typed<vector<mud::TextureAtlas*>>;
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::AutoStat<float>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::AutoStat<int>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::Colour*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::Image*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::Image256*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::ImageAtlas*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::Palette*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::Range<float>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::Range<mud::Colour>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::Range<mud::quat>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::Range<mud::vec3>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::Range<uint32_t>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::Time*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::TimeSpan*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::Transform*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::ValueCurve<float>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::ValueCurve<mud::Colour>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::ValueCurve<mud::quat>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::ValueCurve<mud::vec3>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::ValueCurve<uint32_t>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::ValueTrack<float>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::ValueTrack<mud::Colour>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::ValueTrack<mud::quat>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::ValueTrack<mud::vec3>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::ValueTrack<uint32_t>*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::bvec3*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::bvec4*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::half2*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::half3*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::ivec2*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::ivec3*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::ivec4*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::mat4*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::quat*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::uvec2*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::uvec3*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::uvec4*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::vec2*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::vec3*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::vec4*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::Sprite*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::SpriteAtlas*>>();
+    export_ template <> MUD_MATH_EXPORT Type& type<vector<mud::TextureAtlas*>>();
 }
 //#include <math/VecJson.h>
 //#include <math/VecMath.h>
 
+
+#include <stl/vector.h>
+#include <stl/unordered_map.h>
+
+#include <stb_rect_pack.h>
+
+using namespace mud;
+namespace tinystl
+{
+	export_ extern template class vector<const char*>;
+	export_ extern template class vector<char>;
+	export_ extern template class vector<uchar>;
+	export_ extern template class vector<ushort>;
+	export_ extern template class vector<uint>;
+	export_ extern template class vector<ulong>;
+	export_ extern template class vector<long>;
+	export_ extern template class vector<llong>;
+	export_ extern template class vector<ullong>;
+	export_ extern template class vector<float>;
+	export_ extern template class vector<uvec2>;
+	export_ extern template class vector<uvec3>;
+	export_ extern template class vector<ivec2>;
+	export_ extern template class vector<ivec3>;
+	export_ extern template class vector<ivec4>;
+	export_ extern template class vector<vec2>;
+	export_ extern template class vector<vec3>;
+	export_ extern template class vector<vec4>;
+	export_ extern template class vector<quat>;
+	export_ extern template class vector<mat4>;
+	export_ extern template class vector<Colour>;
+	export_ extern template class vector<Image>;
+	export_ extern template class vector<Sprite>;
+	export_ extern template class unordered_map<Type*, Colour>;
+
+	export_ extern template class vector<stbrp_node>;
+}
+
+
+
+namespace mud
+{
+	export_ template <class T>
+	inline T StatDef<T>::rincrement(T& value, T amount) const { T diff = min(m_max - value, amount); value += diff; update(value); return diff; }
+	export_ template <class T>
+	inline T StatDef<T>::rdecrement(T& value, T amount) const { T diff = max(-m_min + value, amount); value -= diff; update(value); return diff; }
+
+	export_ template <class T>
+	inline void StatDef<T>::increment(T& value, T amount) const { value += amount; update(value); }
+	export_ template <class T>
+	inline void StatDef<T>::decrement(T& value, T amount) const { value -= amount; update(value); }
+
+	export_ template <class T>
+	inline void StatDef<T>::increment(T& value) const { value += m_step; update(value); }
+	export_ template <class T>
+	inline void StatDef<T>::decrement(T& value) const { value -= m_step; update(value); }
+
+	export_ template <class T>
+	inline void StatDef<T>::multiply(T& value, T& base, T multiplier) const { T diff = value - base; base *= multiplier; value = base + diff; update(value); }
+		
+	export_ template <class T>
+	inline void StatDef<T>::modify(T& value, T& base, T val) const { value += val - base; base = value; update(value); }
+	export_ template <class T>
+	inline void StatDef<T>::modify(T& value, T val) const { value = val; update(value); }
+
+	export_ template <class T>
+	inline void StatDef<T>::update(T& value) const
+	{
+		if(value < m_min)
+			value = m_min;
+		if(value > m_max)
+			value = m_max;
+	}
+
+	export_ template <class T>
+	Stat<T>::Stat(T& value, const StatDef<T>& def)
+		//: m_base(base)
+		: m_ref(&value)
+		, m_def(&def)
+	{}
+
+	export_ template <class T>
+	Stat<T>::operator T() const { return *m_ref; }
+
+	export_ template <class T>
+	inline T& Stat<T>::ref() const { return *m_ref; }
+	export_ template <class T>
+	inline T Stat<T>::value() const { return *m_ref; }
+
+	export_ template <class T>
+	inline T Stat<T>::min() const { return m_def->m_min; }
+	export_ template <class T>
+	inline T Stat<T>::max() const { return m_def->m_max; }
+	export_ template <class T>
+	inline T Stat<T>::step() const { return m_def->m_step; }
+
+	export_ template <class T>
+	inline void Stat<T>::modify(T value) { m_def->modify(*m_ref, value); }
+	export_ template <class T>
+	inline void Stat<T>::increment() { m_def->increment(*m_ref); }
+	export_ template <class T>
+	inline void Stat<T>::decrement() { m_def->decrement(*m_ref); }
+
+	export_ template <class T>
+	AutoStat<T>::AutoStat(T value, T min, T max, T step)
+		: Stat<T>(m_value, m_def)
+		, m_value(value)
+		, m_def{ min, max, step }
+	{}
+
+	export_ template <class T>
+	AutoStat<T>::AutoStat(T& value, StatDef<T> def)
+		: Stat<T>(value, m_def)
+		, m_def(def)
+	{}
+
+	export_ template <class T>
+	AutoStat<T>::AutoStat(const AutoStat& other)
+		: Stat<T>(&other.m_value == other.m_ref ? m_value : *other.m_ref, m_def)
+		, m_value(other.m_value)
+		, m_def(other.m_def)
+	{}
+}
 
 
 #include <stl/string.h>
