@@ -7,7 +7,8 @@ module mud.math;
 #include <gfx-pbr/Extern.h>
 #endif
 
-namespace mud
+using namespace mud;
+namespace tinystl
 {
 	//template class MUD_MATH_EXPORT vector<>;
 }

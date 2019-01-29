@@ -9,7 +9,8 @@ module mud.math;
 #include <ui/Extern.h>
 #endif
 
-namespace mud
+using namespace mud;
+namespace tinystl
 {
 	template class MUD_UI_EXPORT vector<TextGlyph>;
 	template class MUD_UI_EXPORT vector<TextRow>;
@@ -30,14 +31,15 @@ namespace mud
 	template class MUD_UI_EXPORT vector<InkStyle>;
 	template class MUD_UI_EXPORT vector<FrameSolver>;
 	template class MUD_UI_EXPORT vector<RowSolver>;
-	template class MUD_UI_EXPORT vector<LanguageDefinition::StringToken>;
-	template class MUD_UI_EXPORT vector<LanguageDefinition::RegexToken>;
 	template class MUD_UI_EXPORT vector<unique<Widget>>;
 	template class MUD_UI_EXPORT vector<unique<FrameSolver>>;
 	template class MUD_UI_EXPORT vector<unique<Image>>;
 	template class MUD_UI_EXPORT unordered_map<int, InputEvent*>;
 	template class MUD_UI_EXPORT unordered_map<KeyCombo, KeyHandler>;
 	template class MUD_UI_EXPORT unordered_map<string, Dock>;
-	template class MUD_UI_EXPORT unordered_map<string, Identifier>;
 	template class MUD_UI_EXPORT unordered_map<string, Style*>;
+
+	//template class MUD_UI_EXPORT vector<LanguageDefinition::StringToken>;
+	//template class MUD_UI_EXPORT vector<LanguageDefinition::RegexToken>;
+	//template class MUD_UI_EXPORT unordered_map<string, Identifier>;
 }

@@ -8,7 +8,8 @@ module mud.uio;
 #include <ui-vg/Extern.h>
 #endif
 
-namespace mud
+using namespace mud;
+namespace tinystl
 {
 	template class MUD_UI_VG_EXPORT vector<vg::GlyphPosition>;
 	template class MUD_UI_VG_EXPORT unordered_map<string, vg::FontHandle>;

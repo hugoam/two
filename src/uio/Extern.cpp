@@ -8,7 +8,8 @@ module mud.uio;
 #include <uio/Extern.h>
 #endif
 
-namespace mud
+using namespace mud;
+namespace tinystl
 {
 	template class MUD_UIO_EXPORT vector<EditSpec>;
 	template class MUD_UIO_EXPORT unordered_map<Module*, bool>;

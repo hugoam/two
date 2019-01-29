@@ -8,7 +8,8 @@ module mud.ecs;
 #include <ecs/Extern.h>
 #endif
 
-namespace mud
+using namespace mud;
+namespace tinystl
 {
 	template class MUD_ECS_EXPORT vector<Buffer*>;
 	template class MUD_ECS_EXPORT vector<EntityData>;

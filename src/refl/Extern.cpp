@@ -7,7 +7,8 @@ module mud.refl;
 #include <refl/Extern.h>
 #endif
 
-namespace mud
+using namespace mud;
+namespace tinystl
 {
 	template class MUD_TYPE_EXPORT vector<Namespace>;
 	template class MUD_TYPE_EXPORT vector<Param>;
