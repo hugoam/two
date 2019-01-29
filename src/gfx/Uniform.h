@@ -4,6 +4,8 @@
 
 #pragma once
 
+#if 0
+
 #ifndef MUD_MODULES
 #include <stl/string.h>
 #include <math/Vec.h>
@@ -127,3 +129,4 @@ namespace mud
 		}
 	};
 }
+#endif

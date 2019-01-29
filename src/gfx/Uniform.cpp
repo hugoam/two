@@ -2,6 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+#if 0
 #include <gfx/Cpp20.h>
 
 #ifdef MUD_MODULES
@@ -76,3 +77,4 @@ namespace mud
 			sampler.create();
 	}
 }
+#endif
