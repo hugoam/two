@@ -6,7 +6,8 @@
 
 #include <vg/vg.h>
 
-namespace mud
+using namespace mud;
+namespace tinystl
 {
 	export_ extern template class vector<vg::GlyphPosition>;
 	export_ extern template class unordered_map<string, vg::FontHandle>;

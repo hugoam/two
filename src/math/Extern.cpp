@@ -8,7 +8,8 @@ module mud.math;
 #include <math/Extern.h>
 #endif
 
-namespace mud
+using namespace mud;
+namespace tinystl
 {
 	template class MUD_MATH_EXPORT vector<const char*>;
 	template class MUD_MATH_EXPORT vector<char>;

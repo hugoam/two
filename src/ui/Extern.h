@@ -6,7 +6,8 @@
 #include <ui/Api.h>
 //#include <ui/Edit/Lang.h>
 
-namespace mud
+using namespace mud;
+namespace tinystl
 {
 	export_ extern template class vector<TextGlyph>;
 	export_ extern template class vector<TextRow>;

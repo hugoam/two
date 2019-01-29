@@ -4,7 +4,8 @@
 #include <stl/unordered_map.h>
 #include <uio/Api.h>
 
-namespace mud
+using namespace mud;
+namespace tinystl
 {
 	export_ extern template class vector<EditSpec>;
 	export_ extern template class unordered_map<Module*, bool>;

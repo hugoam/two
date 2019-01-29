@@ -5,7 +5,8 @@
 #include <stl/unordered_set.h>
 #include <gfx/Api.h>
 
-namespace mud
+using namespace mud;
+namespace tinystl
 {
 	export_ extern template class vector<Texture*>;
 	export_ extern template class vector<Material*>;

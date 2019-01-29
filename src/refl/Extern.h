@@ -3,7 +3,8 @@
 #include <stl/vector.h>
 #include <refl/Api.h>
 
-namespace mud
+using namespace mud;
+namespace tinystl
 {
 	export_ extern template class vector<Namespace>;
 	export_ extern template class vector<Param>;

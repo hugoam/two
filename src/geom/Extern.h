@@ -4,7 +4,8 @@
 #include <stl/unordered_map.h>
 #include <geom/Api.h>
 
-namespace mud
+using namespace mud;
+namespace tinystl
 {
 	export_ extern template class vector<Poisson*>;
 	export_ extern template class vector<Geometry*>;
