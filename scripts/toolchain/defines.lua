@@ -2,6 +2,11 @@
 -- defines
 
 function mud_defines()
+    configuration { "osx or *-clang* or asmjs" }
+        buildoptions {
+            "-Wno-invalid-offsetof",
+        }
+        
     configuration { "cpp-modules" }
         defines {
             "MUD_CPP_20",

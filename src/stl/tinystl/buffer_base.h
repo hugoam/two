@@ -282,7 +282,7 @@ namespace tinystl {
 
 	template<typename T, typename Alloc>
 	static inline enable_if_t<!is_copy_constructible_v<T>, T*> buffer_insert(buffer<T, Alloc>& b, T* where, const T* first, const T* last) {
-		(void)b; (void)where; (void)first; (void)last;
+		(void)b; (void)where; (void)first; (void)last; return where;
 	}
 
 	template<typename T, typename Alloc>
@@ -318,7 +318,7 @@ namespace tinystl {
 
 	template<typename T, typename Alloc>
 	static inline enable_if_t<!is_copy_constructible_v<T>, T*> buffer_insert(buffer<T, Alloc>& b, T* where, const T& value) {
-		(void)b; (void)where; (void)value;
+		(void)b; (void)where; (void)value; return where;
 	}
 
 	template<typename T, typename Alloc>

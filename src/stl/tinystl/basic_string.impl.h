@@ -266,7 +266,7 @@ namespace tinystl {
 
 	template<typename Alloc>
 	inline void basic_string<Alloc>::insert(size_t where, char value) {
-		(void*)where; (void*)value; //string_insert(m_buffer, m_small, m_buffer.first + where, value);
+		(void)where; (void)value; //string_insert(m_buffer, m_small, m_buffer.first + where, value);
 	}
 
 	template<typename Alloc>
