@@ -115,34 +115,8 @@ namespace gfx
 		{
 			static const int max_gi_probes = 2;
 
-			void createUniforms()
-			{
-				u_transform   = bgfx::createUniform("u_gi_probe_transform",    bgfx::UniformType::Mat4, max_gi_probes);
-				u_bounds      = bgfx::createUniform("u_gi_probe_bounds4",      bgfx::UniformType::Vec4, max_gi_probes);
-				// multiplier, bias, normal_bias, blend_ambient
-				u_params      = bgfx::createUniform("u_gi_probe_params",       bgfx::UniformType::Vec4, max_gi_probes);
-				u_inv_extents = bgfx::createUniform("u_gi_probe_inv_extents4", bgfx::UniformType::Vec4, max_gi_probes);
-				u_cell_size   = bgfx::createUniform("u_gi_probe_cell_size4",   bgfx::UniformType::Vec4, max_gi_probes);
-
-				s_gi_probe = bgfx::createUniform("s_gi_probe", bgfx::UniformType::Int1, max_gi_probes);
-			}
-
-			void setUniforms(bgfx::Encoder& encoder, GIProbe& gi_probe, const mat4& view) const
-			{
-				float diffuse = gi_probe.m_dynamic_range * gi_probe.m_diffuse;
-				float specular = gi_probe.m_dynamic_range * gi_probe.m_specular;
-				vec4 params = { diffuse, specular, gi_probe.m_bias, gi_probe.m_normal_bias };
-				vec4 bounds = { gi_probe.m_extents * 2.f, 0.f };
-				mat4 transform = gi_probe.m_transform * inverse(view);
-				vec4 inv_extents = { Unit3 / gi_probe.m_extents, 1.f };
-				vec4 cell_size = { gi_probe.m_extents * 2.f / float(gi_probe.m_subdiv), 1.f };
-
-				encoder.setUniform(u_transform, &transform);
-				encoder.setUniform(u_bounds, &bounds);
-				encoder.setUniform(u_params, &params);
-				encoder.setUniform(u_inv_extents, &inv_extents);
-				encoder.setUniform(u_cell_size, &cell_size);
-			}
+			void createUniforms();
+			void setUniforms(bgfx::Encoder& encoder, GIProbe& gi_probe, const mat4& view) const;
 
 			bgfx::UniformHandle u_transform;
 			bgfx::UniformHandle u_bounds;

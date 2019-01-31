@@ -21,12 +21,13 @@ module mud.gfx-edit;
 #include <geom/Aabb.h>
 #include <ui/Structs/Container.h>
 #include <ui/Structs/RootSheet.h>
+#include <ui/Section.h>
 #include <ui/Input.h>
 #include <ui/Sequence.h>
-#include <uio/Unode.h>
+#include <ui/Ui.h>
 #include <uio/Edit/Inspector.h>
-#include <ui/Section.h>
 #include <uio/Edit/Value.h>
+#include <uio/Unode.h>
 #include <gfx/Gfx.h>
 #include <gfx/Animated.h>
 #include <gfx/Mesh.h>
@@ -34,6 +35,7 @@ module mud.gfx-edit;
 #include <gfx/Asset.h>
 #include <gfx/Pipeline.h>
 #include <gfx/Froxel.h>
+#include <gfx/Material.h>
 #include <gfx/Frustum.h>
 #include <gfx/GfxSystem.h>
 #include <gfx-pbr/Types.h>

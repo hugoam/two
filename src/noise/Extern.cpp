@@ -3,8 +3,7 @@
 #ifdef MUD_MODULES
 module mud.jobs;
 #else
-#include <stl/tinystl/vector.impl.h>
-#include <stl/tinystl/unordered_map.impl.h>
+#include <stl/vector.hpp>
 #include <noise/Extern.h>
 #endif
 

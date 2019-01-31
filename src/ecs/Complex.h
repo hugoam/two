@@ -19,11 +19,11 @@ namespace mud
 		constr_ Complex(uint32_t id, Type& type, const vector<Ref>& parts);
 		virtual ~Complex();
 
-		template <typename... T_Parts>
+		template <class... T_Parts>
 		Complex(uint32_t id, Type& type, T_Parts&&... parts)
 			: Complex(id, type)
 		{
-			swallow{ (this->add_part(Ref(&parts, mud::type<typename type_class<T_Parts>::type>())), 1)... };
+			swallow{ (this->add_part(Ref(&parts, mud::type<type_class<T_Parts>>())), 1)... };
 		}
 
 		attr_ uint32_t m_id;

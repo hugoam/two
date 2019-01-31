@@ -22,6 +22,7 @@ module mud.ui.vg;
 
 #include <infra/File.h>
 #include <math/Math.h>
+#include <math/Vec.hpp>
 #include <ui/Style/Paint.h>
 #include <ui/Frame/Layer.h>
 #include <math/ImageAtlas.h>

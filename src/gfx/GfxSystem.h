@@ -16,15 +16,16 @@
 #endif
 #include <bgfx/BgfxSystem.h>
 
-#include <bgfx/bgfx.h>
-
-#ifndef MUD_MODULES
 namespace bx
 {
 	struct FileReaderI;
 	struct FileWriterI;
 }
-#endif
+
+namespace bgfx
+{
+	struct Encoder;
+}
 
 namespace mud
 {

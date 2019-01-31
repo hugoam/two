@@ -16,8 +16,6 @@ module mud.gfx.pbr;
 #include <gfx-pbr/Reflection.h>
 #endif
 
-#include <bx/math.h>
-
 namespace mud
 {
 	ReflectionAtlas::ReflectionAtlas(uint16_t size, uint16_t subdiv)

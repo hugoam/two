@@ -11,7 +11,7 @@ module mud.gfx;
 #else
 #include <type/Type.h>
 #include <type/Indexer.h>
-#include <math/VecOps.h>
+#include <math/Vec.hpp>
 #include <gfx/Types.h>
 #include <gfx/Material.h>
 #include <gfx/Texture.h>
@@ -20,6 +20,8 @@ module mud.gfx;
 #include <gfx/Asset.h>
 #include <gfx/Item.h>
 #include <gfx/Model.h>
+#include <gfx/Renderer.h>
+#include <gfx/GfxSystem.h>
 //#include <gfx-pbr/VoxelGI.h>
 //#include <gfx-pbr/Lightmap.h>
 #endif
@@ -43,6 +45,28 @@ namespace mud
 		else if(blend_mode == BlendMode::Alpha)
 			bgfx_state |= BGFX_STATE_BLEND_ALPHA;
 	}
+
+	struct BaseMaterialUniform
+	{
+		BaseMaterialUniform() {}
+		BaseMaterialUniform(GfxSystem& gfx_system)
+			: u_uv0_scale_offset(bgfx::createUniform("u_material_params_0", bgfx::UniformType::Vec4))
+			, u_uv1_scale_offset(bgfx::createUniform("u_material_params_1", bgfx::UniformType::Vec4))
+			, s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Int1))
+		{
+			UNUSED(gfx_system);
+		}
+
+		void upload(bgfx::Encoder& encoder, const BaseMaterialBlock& data) const
+		{
+			encoder.setUniform(u_uv0_scale_offset, &data.m_uv0_scale.x);
+			//encoder.setUniform(u_uv1_scale_offset, &data.m_uv1_scale.x);
+		}
+
+		bgfx::UniformHandle u_uv0_scale_offset;
+		bgfx::UniformHandle u_uv1_scale_offset;
+		bgfx::UniformHandle s_skeleton;
+	};
 
 	struct UnshadedMaterialUniform
 	{
@@ -176,6 +200,16 @@ namespace mud
 		//bgfx::UniformHandle s_lightmap;
 	};
 
+	struct PbrBlock : public GfxBlock
+	{
+		PbrBlock(GfxSystem& gfx_system);
+
+		virtual void init_block() override {}
+
+		virtual void begin_render(Render& render) override { UNUSED(render); }
+		virtual void begin_pass(Render& render) override { UNUSED(render); }
+	};
+
 	PbrBlock::PbrBlock(GfxSystem& gfx_system)
 		: GfxBlock(gfx_system, *this)
 	{
@@ -193,7 +227,7 @@ namespace mud
 
 	template <> Type& type<mud::PbrBlock>() { static Type ty("PbrBlock"); return ty; }
 
-	PbrBlock& pbr_block(GfxSystem& gfx_system)
+	GfxBlock& pbr_block(GfxSystem& gfx_system)
 	{
 		static PbrBlock pbr = { gfx_system };
 		return pbr;
@@ -212,7 +246,7 @@ namespace mud
 
 	//static uint16_t s_material_index = 0;
 
-	Material::BaseMaterialUniform Material::s_base_uniform = {};
+	static BaseMaterialUniform s_base_material_uniform = {};
 	static UnshadedMaterialUniform s_unshaded_material_block = {};
 	static FresnelMaterialUniform s_fresnel_material_block = {};
 	static PbrMaterialUniform s_pbr_material_block = {};
@@ -224,7 +258,7 @@ namespace mud
 		static bool init_blocks = true;
 		if(init_blocks)
 		{
-			s_base_uniform = { *ms_gfx_system };
+			s_base_material_uniform = { *ms_gfx_system };
 			s_unshaded_material_block = { *ms_gfx_system };
 			s_fresnel_material_block = { *ms_gfx_system };
 			s_pbr_material_block = { *ms_gfx_system };
@@ -235,7 +269,7 @@ namespace mud
 
 	ShaderVersion Material::shader_version(const Program& program) const
 	{
-		PbrBlock& pbr = pbr_block(*ms_gfx_system);
+		GfxBlock& pbr = pbr_block(*ms_gfx_system);
 
 		ShaderVersion version = { &program };
 
@@ -296,7 +330,7 @@ namespace mud
 	{
 		this->state(bgfx_state);
 
-		s_base_uniform.upload(encoder, m_base_block);
+		s_base_material_uniform.upload(encoder, m_base_block);
 		if(m_unshaded_block.m_enabled)
 			s_unshaded_material_block.upload(encoder, m_unshaded_block);
 		if(m_fresnel_block.m_enabled)
@@ -305,6 +339,6 @@ namespace mud
 			s_pbr_material_block.upload(encoder, m_pbr_block);
 
 		if(skin)
-			encoder.setTexture(uint8_t(TextureSampler::Skeleton), s_base_uniform.s_skeleton, skin->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Skeleton), s_base_material_uniform.s_skeleton, skin->m_texture);
 	}
 }

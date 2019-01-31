@@ -33,7 +33,7 @@ namespace mud
 	template <> void to_value<StreamIndex>(const string& str, StreamIndex& val) { UNUSED(str); UNUSED(val); }
 	template <> void to_string<StreamIndex>(const StreamIndex& val, string& str) { str += "{"; for(size_t i : val) str += to_string(i) + ","; str.pop_back(); str += "}"; }
 
-	Valve::Valve(Process& process, cstring name, ValveKind kind, Var value, bool nullable, bool reference)
+	Valve::Valve(Process& process, cstring name, ValveKind kind, const Var& value, bool nullable, bool reference)
 		: m_process(process)
 		, m_index(kind == INPUT_VALVE ? process.m_inputs.size() : process.m_outputs.size())
 		, m_name(name)

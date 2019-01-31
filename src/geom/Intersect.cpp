@@ -12,6 +12,7 @@ module mud.geom;
 #include <geom/Intersect.h>
 #include <geom/Shapes.h>
 #include <geom/Geom.h>
+#include <geom/Geom.hpp>
 #include <geom/Aabb.h>
 #endif
 

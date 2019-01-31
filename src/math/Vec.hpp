@@ -1,10 +1,12 @@
 #pragma once
 
 #include <math/Forward.h>
+#include <math/Vec.h>
 #include <math/Math.h>
+#include <math/Colour.h>
 
 #ifndef MUD_CPP_20
-#include <cstdint>
+#include <stdint.h>
 #include <cmath>
 #endif
 
@@ -19,132 +21,92 @@
 namespace mud
 {
 	template <class T>
-	export_ struct refl_ struct_ array_ v2
-	{
-		typedef uint length_type;
-		typedef T type;
-		v2();
-		explicit v2(T v);
-		v2(T x, T y);
-		template <class V>
-		explicit v2(V v);
-		T operator[](uint index) const;
-		T& operator[](uint index);
-		bool operator==(const v2& other) const;
-		bool operator!=(const v2& other) const;
-		explicit operator T();
-		union {
-			struct { attr_ T x; attr_ T y; };
-			T f[2];
-		};
-	};
+	inline v2<T>::v2() { }
+	template <class T>
+	inline v2<T>::v2(T v) : x(v), y(v) {}
+	template <class T>
+	inline v2<T>::v2(T x, T y) : x(x), y(y) {}
+	template <class T>
+	template <class V>
+	inline v2<T>::v2(V v) : x(T(v.x)), y(T(v.y)) {}
+	template <class T>
+	inline T v2<T>::operator[](uint index) const { return *((T*)&x + index); }
+	template <class T>
+	inline T& v2<T>::operator[](uint index) { return *((T*)&x + index); }
+	template <class T>
+	inline bool v2<T>::operator==(const v2& other) const { return x == other.x && y == other.y; }
+	template <class T>
+	inline bool v2<T>::operator!=(const v2& other) const { return x != other.x || y != other.y; }
+	template <class T>
+	inline v2<T>::operator T() { return T(x); }
 
 	template <class T>
-	export_ struct refl_ struct_ array_ v3
-	{
-		typedef uint length_type;
-		typedef T type;
-		typedef v2<T> type2;
-		v3();
-		explicit v3(T v);
-		v3(T x, T y, T z);
-		v3(v2<T> a, T z);
-		template <class V>
-		explicit v3(V v);
-		T operator[](uint index) const;
-		T& operator[](uint index);
-		bool operator==(const v3& other) const;
-		bool operator!=(const v3& other) const;
-		explicit operator T();
-		explicit operator v2<T>();
-		union {
-			struct { attr_ T x; attr_ T y; attr_ T z; };
-			struct { T r; T g; T b; };
-			T f[3];
-		};
-	};
+	inline v3<T>::v3() { }
+	template <class T>
+	inline v3<T>::v3(T v) : x(v), y(v), z(v) {}
+	template <class T>
+	inline v3<T>::v3(T x, T y, T z) : x(x), y(y), z(z) {}
+	template <class T>
+	inline v3<T>::v3(v2<T> a, T z) : x(a.x), y(a.y), z(z) {}
+	template <class T>
+	template <class V>
+	inline v3<T>::v3(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)) {}
+	template <class T>
+	inline T v3<T>::operator[](uint index) const { return *((T*)&x + index); }
+	template <class T>
+	inline T& v3<T>::operator[](uint index) { return *((T*)&x + index); }
+	template <class T>
+	inline bool v3<T>::operator==(const v3& other) const { return x == other.x && y == other.y && z == other.z; }
+	template <class T>
+	inline bool v3<T>::operator!=(const v3& other) const { return x != other.x || y != other.y || z != other.z; }
+	template <class T>
+	inline v3<T>::operator T() { return T(x); }
+	template <class T>
+	inline v3<T>::operator v2<T>() { return v2<T>(x, y); }
 
 	template <class T>
-	export_ struct refl_ struct_ array_ v4
-	{
-		typedef uint length_type;
-		typedef T type;
-		typedef v2<T> type2;
-		typedef v3<T> type3;
-		v4();
-		explicit v4(T v);
-		v4(T x, T y, T z, T w);
-		v4(v3<T> a, T w);
-		v4(T x, v3<T> b);
-		v4(v2<T> a, v2<T> b);
-		template <class V>
-		explicit v4(V v);
-		T operator[](uint index) const;
-		T& operator[](uint index);
-		bool operator==(const v4& other) const;
-		bool operator!=(const v4& other) const;
-		explicit operator v2<T>();
-		explicit operator v3<T>();
-		union {
-			struct { attr_ T x; attr_ T y; attr_ T z; attr_ T w; };
-			struct { T r; T g; T b; T a; };
-			T f[4];
-		};
-	};
-
-	export_ extern template struct refl_ v2<float>;
-	export_ extern template struct refl_ v3<float>;
-	export_ extern template struct refl_ v4<float>;
-
-	export_ extern template struct refl_ v2<int>;
-	export_ extern template struct refl_ v3<int>;
-	export_ extern template struct refl_ v4<int>;
-
-	export_ extern template struct refl_ v2<uint>;
-	export_ extern template struct refl_ v3<uint>;
-	export_ extern template struct refl_ v4<uint>;
-
-	export_ extern template struct refl_ v2<bool>;
-	export_ extern template struct refl_ v3<bool>;
-	export_ extern template struct refl_ v4<bool>;
-
-	export_ refl_ using half2 = v2<ushort>;
-	export_ refl_ using half3 = v3<ushort>;
-
-	export_ refl_ using float2 = v2<float>;
-	export_ refl_ using float3 = v3<float>;
-	export_ refl_ using float4 = v4<float>;
-
-	export_ refl_ using int2 = v2<int>;
-	export_ refl_ using int3 = v3<int>;
-	export_ refl_ using int4 = v4<int>;
-
-	export_ refl_ using uint2 = v2<uint>;
-	export_ refl_ using uint3 = v3<uint>;
-	export_ refl_ using uint4 = v4<uint>;
-
-	export_ refl_ using bool2 = v2<bool>;
-	export_ refl_ using bool3 = v3<bool>;
-	export_ refl_ using bool4 = v4<bool>;
-
-	export_ template <class T> inline typename T::type* value_ptr(T& v) { return &v[0]; }
-	export_ template <class T> inline const typename T::type* value_ptr(const T& v) { return &v.f[0]; }
+	inline v4<T>::v4() {}
+	template <class T>
+	inline v4<T>::v4(T v) : x(v), y(v), z(v), w(v) {}
+	template <class T>
+	inline v4<T>::v4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
+	template <class T>
+	inline v4<T>::v4(v3<T> a, T w) : x(a.x), y(a.y), z(a.z), w(w) {}
+	template <class T>
+	inline v4<T>::v4(T x, v3<T> b) : x(x), y(b.x), z(b.y), w(b.z) {}
+	template <class T>
+	inline v4<T>::v4(v2<T> a, v2<T> b) : x(a.x), y(a.y), z(b.x), w(b.y) {}
+	template <class T>
+	template <class V>
+	inline v4<T>::v4(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)), w(T(v.w)) {}
+	template <class T>
+	inline T v4<T>::operator[](uint index) const { return *((T*)&x + index); }
+	template <class T>
+	inline T& v4<T>::operator[](uint index) { return *((T*)&x + index); }
+	template <class T>
+	inline bool v4<T>::operator==(const v4& other) const { return x == other.x && y == other.y && z == other.z && w == other.w; }
+	template <class T>
+	inline bool v4<T>::operator!=(const v4& other) const { return x != other.x || y != other.y || z != other.z || w != other.w; }
+	template <class T>
+	inline v4<T>::operator v2<T>() { return v2<T>(x, y); }
+	template <class T>
+	inline v4<T>::operator v3<T>() { return v3<T>(x, y, z); }
 
 	// Experimental swizzling
-	export_ template <typename T> inline typename T::type2 xy(const T& v)
+	export_ template <class T> inline typename T::type2 xy(const T& v)
 	{
 		return typename T::type2(v.x, v.y);
 	}
-	export_ template <typename T> inline typename T::type2 xz(const T& v)
+	export_ template <class T> inline typename T::type2 xz(const T& v)
 	{
 		return typename T::type2(v.x, v.z);
 	}
 	// These alias instead of constructing another variable, allowing modification
-	export_ template <typename T> inline const typename T::type3& xyz(const T& v)
+	export_ template <class T> inline const typename T::type3& xyz(const T& v)
 	{
 		return (typename T::type3&)v;
 	}
-	export_ template <typename T> inline typename T::type3& xyz(T& v)
+	export_ template <class T> inline typename T::type3& xyz(T& v)
 	{
 		return (typename T::type3&)v;
 	}
@@ -366,94 +328,126 @@ namespace mud
 	template <class T> inline T angle(const v3<T>& a, const v3<T>& b) { return acos(clamp(dot(a, b), T(-1), T(1))); }
 	template <class T> inline T angle(const v4<T>& a, const v4<T>& b) { return acos(clamp(dot(a, b), T(-1), T(1))); }
 
-	export_ struct refl_ struct_ array_ mat3
+	inline mat3::mat3() {}
+	inline mat3::mat3(const float3& x, const float3& y, const float3& z)
 	{
-		typedef float type;
-		mat3() { }
-		mat3(const float3& x, const float3& y, const float3& z)
-		{
-			f[0] = x.x; f[1] = x.y; f[2] = x.z;
-			f[3] = y.x; f[4] = y.y; f[5] = y.z;
-			f[6] = z.x; f[7] = z.y; f[8] = z.z;
-		}
-		mat3(float f0, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8)
-		{
-			f[0] = f0; f[1] = f1; f[2] = f2;
-			f[3] = f3; f[4] = f4; f[5] = f5;
-			f[6] = f6; f[7] = f7; f[8] = f8;
-		}
-
-		const float3& operator[](uint index) const { return *((float3*)f + index); }
-		float3& operator[](uint index) { return *((float3*)f + index); }
-
-		union
-		{
-			float m[3][3];
-			attr_ float f[9];
-		};
-	};
-
-	export_ struct refl_ struct_ array_ mat4
+		f[0] = x.x; f[1] = x.y; f[2] = x.z;
+		f[3] = y.x; f[4] = y.y; f[5] = y.z;
+		f[6] = z.x; f[7] = z.y; f[8] = z.z;
+	}
+	inline mat3::mat3(float f0, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8)
 	{
-		typedef float type;
-		typedef uint length_type;
-		mat4() {}
-		mat4(const float4& x, const float4& y, const float4& z, const float4& w)
-		{
-			f[0] = x.x; f[1] = x.y; f[2] = x.z; f[3] = x.w;
-			f[4] = y.x; f[5] = y.y; f[6] = y.z; f[7] = y.w;
-			f[8] = z.x; f[9] = z.y; f[10] = z.z; f[11] = z.w;
-			f[12] = w.x; f[13] = w.y; f[14] = w.z; f[15] = w.w;
-		}
-		mat4(float f0, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11, float f12, float f13, float f14, float f15)
-		{
-			f[0] = f0;  f[1] = f1;  f[2] = f2;  f[3] = f3;
-			f[4] = f4;  f[5] = f5;  f[6] = f6;  f[7] = f7;
-			f[8] = f8;  f[9] = f9;  f[10] = f10; f[11] = f11;
-			f[12] = f12; f[13] = f13; f[14] = f14; f[15] = f15;
-		}
+		f[0] = f0; f[1] = f1; f[2] = f2;
+		f[3] = f3; f[4] = f4; f[5] = f5;
+		f[6] = f6; f[7] = f7; f[8] = f8;
+	}
 
-		const float4& operator[](uint index) const { return *((float4*)f + index); }
-		float4& operator[](uint index) { return *((float4*)f + index); }
+	//inline const float3& mat3::operator[](uint index) const { return *((float3*)f + index); }
+	//inline float3& mat3::operator[](uint index) { return *((float3*)f + index); }
 
-		bool operator==(const mat4& other) const
-		{
-			return f[0] == other.f[0] && f[1] == other.f[1] && f[2] == other.f[2] && f[3] == other.f[3]
-				&& f[4] == other.f[4] && f[5] == other.f[5] && f[6] == other.f[6] && f[7] == other.f[7]
-				&& f[8] == other.f[8] && f[9] == other.f[9] && f[10] == other.f[10] && f[11] == other.f[11]
-				&& f[12] == other.f[12] && f[13] == other.f[13] && f[14] == other.f[14] && f[15] == other.f[15];
-		}
-
-		bool operator!=(const mat4& other) const { return !(*this == other); }
-
-		union
-		{
-			float m[4][4];
-			attr_ float f[16];
-		};
-	};
-
-	export_ struct refl_ struct_ array_ quat : public float4
+	inline mat4::mat4() {}
+	inline mat4::mat4(const float4& x, const float4& y, const float4& z, const float4& w)
 	{
-		typedef float type;
-		quat() { }
-		quat(float v) : float4(v) { }
-		quat(float x, float y, float z, float w) : float4(x, y, z, w) { }
-		explicit quat(const float3& euler_angles) 
-		{
-			float3 c = cos(euler_angles * float(0.5));
-			float3 s = sin(euler_angles * float(0.5));
+		f[0] = x.x; f[1] = x.y; f[2] = x.z; f[3] = x.w;
+		f[4] = y.x; f[5] = y.y; f[6] = y.z; f[7] = y.w;
+		f[8] = z.x; f[9] = z.y; f[10] = z.z; f[11] = z.w;
+		f[12] = w.x; f[13] = w.y; f[14] = w.z; f[15] = w.w;
+	}
+	inline mat4::mat4(float f0, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11, float f12, float f13, float f14, float f15)
+	{
+		f[0] = f0;  f[1] = f1;  f[2] = f2;  f[3] = f3;
+		f[4] = f4;  f[5] = f5;  f[6] = f6;  f[7] = f7;
+		f[8] = f8;  f[9] = f9;  f[10] = f10; f[11] = f11;
+		f[12] = f12; f[13] = f13; f[14] = f14; f[15] = f15;
+	}
 
-			this->x = s.x * c.y * c.z - c.x * s.y * s.z;
-			this->y = c.x * s.y * c.z + s.x * c.y * s.z;
-			this->z = c.x * c.y * s.z - s.x * s.y * c.z;
-			this->w = c.x * c.y * c.z + s.x * s.y * s.z;
-		}
-	};
+	//inline const float4& mat4::operator[](uint index) const { return *((float4*)f + index); }
+	//inline float4& mat4::operator[](uint index) { return *((float4*)f + index); }
+
+	inline bool mat4::operator==(const mat4& other) const
+	{
+		return f[0] == other.f[0] && f[1] == other.f[1] && f[2] == other.f[2] && f[3] == other.f[3]
+			&& f[4] == other.f[4] && f[5] == other.f[5] && f[6] == other.f[6] && f[7] == other.f[7]
+			&& f[8] == other.f[8] && f[9] == other.f[9] && f[10] == other.f[10] && f[11] == other.f[11]
+			&& f[12] == other.f[12] && f[13] == other.f[13] && f[14] == other.f[14] && f[15] == other.f[15];
+	}
+
+	//inline bool mat4::operator!=(const mat4& other) const { return !(*this == other); }
+
+	inline quat::quat() { }
+	inline quat::quat(float v) : float4(v) { }
+	inline quat::quat(float x, float y, float z, float w) : float4(x, y, z, w) { }
+	inline quat::quat(const float3& euler_angles)
+	{
+		float3 c = cos(euler_angles * float(0.5));
+		float3 s = sin(euler_angles * float(0.5));
+
+		this->x = s.x * c.y * c.z - c.x * s.y * s.z;
+		this->y = c.x * s.y * c.z + s.x * c.y * s.z;
+		this->z = c.x * c.y * s.z - s.x * s.y * c.z;
+		this->w = c.x * c.y * c.z + s.x * s.y * s.z;
+	}
 
 	export_ template <> inline float* value_ptr(mat4& m) { return &m[0][0]; }
 	export_ template <> inline const float* value_ptr(const mat4& m) { return &m.f[0]; }
 	export_ template <> inline float* value_ptr(quat& q) { return &q[0]; }
+
+	inline bool operator<(const uvec2& lhs, const uvec2& rhs) { return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y); }
+	inline bool operator<(const ivec2& lhs, const ivec2& rhs) { return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y); }
+
+	export_ inline vec3 to_xz(const vec2& vec) { return{ vec.x, 0.f, vec.y }; }
+	export_ inline vec2 to_xz(const vec3& vec) { return{ vec.x, vec.z }; }
+	export_ inline ivec3 to_xz(const ivec2& vec) { return{ vec.x, 0, vec.y }; }
+	export_ inline ivec2 to_xz(const ivec3& vec) { return{ vec.x, vec.z }; }
+
+	export_ inline float& rect_w(vec4& rect) { return rect.z; }
+	export_ inline float& rect_h(vec4& rect) { return rect.w; }
+
+	export_ inline float rect_w(const vec4& rect) { return rect.z; }
+	export_ inline float rect_h(const vec4& rect) { return rect.w; }
+
+	export_ inline unsigned int& rect_w(uvec4& rect) { return rect.z; }
+	export_ inline unsigned int& rect_h(uvec4& rect) { return rect.w; }
+
+	export_ inline vec2 rect_offset(const vec4& rect) { return{ rect.x, rect.y }; }
+	export_ inline vec2 rect_size(const vec4& rect) { return{ rect.z, rect.w }; }
+	export_ inline vec2 rect_sum(const vec4& rect) { return vec2{ rect.x, rect.y } + vec2{ rect.z, rect.w }; }
+	export_ inline vec2 rect_center(const vec4& rect) { return rect_offset(rect) + rect_size(rect) * 0.5f; }
+
+	export_ inline vec3 to_vec3(const Colour& colour) { return { colour.m_r, colour.m_g, colour.m_b }; }
+	export_ inline vec4 to_vec4(const Colour& colour) { return { colour.m_r, colour.m_g, colour.m_b, colour.m_a }; }
+	export_ inline Colour to_colour(const vec3& vec) { return { vec.x, vec.y, vec.z }; }
+	export_ inline Colour to_colour(const vec4& vec) { return { vec.x, vec.y, vec.z, vec.w }; }
+
+	export_ MUD_MATH_EXPORT uint32_t pack4(const vec4& vec);
+	export_ MUD_MATH_EXPORT uint32_t pack3(const vec3& vec);
+	export_ MUD_MATH_EXPORT vec3 unpack3(uint32_t vec);
+	export_ MUD_MATH_EXPORT vec4 unpack4(uint32_t vec);
+
+	export_ inline void flatten(vec3& vector)
+	{
+		for(vec3::length_type i = 0; i < 3; ++i)
+			if(fabs(vector[i]) < 0.0000001f)
+				vector[i] = 0.f;
+	}
+
+	export_ inline void flatten(float& f)
+	{
+		if(fabs(f) < 0.0000001)
+			f = 0.f;
+	}
+
+#ifndef MUD_META_GENERATOR
+	export_ template MUD_MATH_EXPORT func_ vec3 add<vec3>(vec3 a, vec3 b);
+	export_ template MUD_MATH_EXPORT func_ vec3 subtract<vec3>(vec3 a, vec3 b);
+	export_ template MUD_MATH_EXPORT func_ vec3 multiply<vec3>(vec3 a, vec3 b);
+	export_ template MUD_MATH_EXPORT func_ vec3 divide<vec3>(vec3 a, vec3 b);
+#else
+	template <> func_ vec3 add<vec3>(vec3 a, vec3 b);
+	template <> func_ vec3 subtract<vec3>(vec3 a, vec3 b);
+	template <> func_ vec3 multiply<vec3>(vec3 a, vec3 b);
+	template <> func_ vec3 divide<vec3>(vec3 a, vec3 b);
+#endif
 
 	export_ MUD_MATH_EXPORT quat operator*(const quat& a, const quat& b);
 	//export_ MUD_MATH_EXPORT quat operator/(const quat& a, const quat& b);
@@ -517,6 +511,33 @@ namespace mud
 	export_ MUD_MATH_EXPORT mat4 transpose(const mat4& m);
 	export_ MUD_MATH_EXPORT mat4 operator*(const mat4& m0, const mat4& m1);
 	export_ MUD_MATH_EXPORT float4 operator*(const mat4& m, const float4& v);
+
+	export_ inline vec3 rotate(const vec3& v, float angle, const vec3& axis) { return angle_axis(angle, axis) * v; }
+	export_ inline vec3 rotate(const vec3& v, const vec3& axis, float angle) { return angle_axis(angle, axis) * v; }
+
+	export_ MUD_MATH_EXPORT func_ quat look_dir(const vec3& direction, const vec3& forward = -Z3);
+	export_ MUD_MATH_EXPORT func_ quat look_at(const vec3& eye, const vec3& target, const vec3& forward = -Z3);
+
+	export_ MUD_MATH_EXPORT Axis nearest_axis(const vec3& direction);
+
+	export_ MUD_MATH_EXPORT float float_shortest_angle(float angle1, float angle2);
+	export_ MUD_MATH_EXPORT float trigo_angle(const vec3& vec1, const vec3& vec2);
+	export_ MUD_MATH_EXPORT float shortest_angle(const vec3& vec1, const vec3& vec2);
+
+	export_ MUD_MATH_EXPORT void orthonormalize(const mat4& transform, vec3& x, vec3& y, vec3& z);
+	export_ MUD_MATH_EXPORT mat4 orthonormalize(const mat4& transform);
+	export_ MUD_MATH_EXPORT mat4 bias_mat();
+	export_ MUD_MATH_EXPORT mat4 bias_mat_bgfx(bool origin_bottom_left, bool homogeneous_depth);
+	export_ MUD_MATH_EXPORT mat4 rect_mat(vec4 rect);
+
+	export_ MUD_MATH_EXPORT mat4 abs(const mat4& mat);
+
+	export_ inline vec3 mulp(const mat4& mat, const vec3& p) { return vec3(mat * vec4(p, 1.f)); }
+	export_ inline vec3 mult(const mat4& mat, const vec3& n) { return vec3(mat * vec4(n, 0.f)); }
+	export_ inline vec3 muln(const mat4& mat, const vec3& n) { return normalize(vec3(mat * vec4(n, 0.f))); }
+	//export_ inline vec3 muln(const mat4& mat, const vec3& n) { return vec3(normalize(mat * vec4(n, 0.f))); }
+	export_ inline vec4 mult(const mat4& mat, const vec4& t) { return vec4(vec3(mat * vec4(vec3(t), 0.f)), t.w); }
+
 
 #if 0 // not implemented
 	// For float->float16 conversion

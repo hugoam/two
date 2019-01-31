@@ -1,98 +1,98 @@
 #pragma once
 
-#include <stl/tinystl/hash_base.h>
+#include <stl/hash_base.h>
 
-namespace tinystl {
+namespace stl {
 
-	template<typename Key, typename Value>
+	template <class Key, class Value>
 	inline pair<Key, Value>::pair() {
 	}
 
-	template<typename Key, typename Value>
+	template <class Key, class Value>
 	inline pair<Key, Value>::pair(const pair& other)
 		: first(other.first)
 		, second(other.second)
 	{
 	}
 
-	template<typename Key, typename Value>
+	template <class Key, class Value>
 	inline pair<Key, Value>::pair(pair&& other)
 		: first(static_cast<Key&&>(other.first))
 		, second(static_cast<Value&&>(other.second))
 	{
 	}
 
-	template<typename Key, typename Value>
+	template <class Key, class Value>
 	inline pair<Key, Value>::pair(const Key& key, const Value& value)
 		: first(key)
 		, second(value)
 	{
 	}
 
-	template<typename Key, typename Value>
+	template <class Key, class Value>
 	inline pair<Key, Value>::pair(const Key& key, Value&& value)
 		: first(key)
 		, second(static_cast<Value&&>(value))
 	{
 	}
 
-	template<typename Key, typename Value>
+	template <class Key, class Value>
 	inline pair<Key, Value>::pair(Key&& key, Value&& value)
 		: first(static_cast<Key&&>(key))
 		, second(static_cast<Value&&>(value))
 	{
 	}
 
-	template<typename Key, typename Value>
+	template <class Key, class Value>
 	inline pair<Key, Value>& pair<Key, Value>::operator=(const pair& other) {
 		first = other.first;
 		second = other.second;
 		return *this;
 	}
 
-	template<typename Key, typename Value>
+	template <class Key, class Value>
 	inline pair<Key, Value>& pair<Key, Value>::operator=(pair&& other) {
 		first = static_cast<Key&&>(other.first);
 		second = static_cast<Value&&>(other.second);
 		return *this;
 	}
 
-	template<typename Key, typename Value>
-	static inline pair<typename remove_reference<Key>::type, typename remove_reference<Value>::type>
+	template <class Key, class Value>
+	static inline pair<remove_reference<Key>, remove_reference<Value>>
 	make_pair(Key&& key, Value&& value) {
-		return pair<typename remove_reference<Key>::type, typename remove_reference<Value>::type>(
+		return pair<remove_reference<Key>, remove_reference<Value>>(
 				  static_cast<Key&&>(key)
 				, static_cast<Value&&>(value)
 			);
 	}
 
-	template<typename Key, typename Value>
+	template <class Key, class Value>
 	inline unordered_hash_node<Key, Value>::unordered_hash_node(const Key& key, const Value& value)
 		: first(key)
 		, second(value)
 	{
 	}
 
-	template<typename Key, typename Value>
+	template <class Key, class Value>
 	inline unordered_hash_node<Key, Value>::unordered_hash_node(Key&& key, Value&& value)
 		: first(static_cast<Key&&>(key))
 		, second(static_cast<Value&&>(value))
 	{
 	}
 
-	template<typename Key>
+	template <class Key>
 	inline unordered_hash_node<Key, void>::unordered_hash_node(const Key& key)
 		: first(key)
 	{
 	}
 
-	template<typename Key>
+	template <class Key>
 	inline unordered_hash_node<Key, void>::unordered_hash_node(Key&& key)
 		: first(static_cast<Key&&>(key))
 	{
 	}
 
-	template<typename Key, typename Value>
+	template <class Key, class Value>
 	static inline void unordered_hash_node_insert(unordered_hash_node<Key, Value>* node, size_t hash, unordered_hash_node<Key, Value>** buckets, size_t nbuckets) {
 		size_t bucket = hash & (nbuckets - 1);
 
@@ -125,7 +125,7 @@ namespace tinystl {
 		}
 	}
 
-	template<typename Key, typename Value>
+	template <class Key, class Value>
 	static inline void unordered_hash_node_erase(const unordered_hash_node<Key, Value>* where, size_t hash, unordered_hash_node<Key, Value>** buckets, size_t nbuckets) {
 		size_t bucket = hash & (nbuckets - 1);
 
@@ -142,37 +142,37 @@ namespace tinystl {
 			next->prev = where->prev;
 	}
 
-	template<typename Node>
+	template <class Node>
 	inline Node* unordered_hash_iterator<Node>::operator->() const {
 		return node;
 	}
 
-	template<typename Node>
+	template <class Node>
 	inline Node& unordered_hash_iterator<Node>::operator*() const {
 		return *node;
 	}
 
-	template<typename Node>
+	template <class Node>
 	inline const Node* unordered_hash_iterator<const Node>::operator->() const {
 		return node;
 	}
 
-	template<typename Node>
+	template <class Node>
 	inline const Node& unordered_hash_iterator<const Node>::operator*() const {
 		return *node;
 	}
 
-	template<typename Key>
+	template <class Key>
 	inline const Key* unordered_hash_iterator<const unordered_hash_node<Key, void> >::operator->() const {
 		return &node->first;
 	}
 
-	template<typename Key>
+	template <class Key>
 	inline const Key& unordered_hash_iterator<const unordered_hash_node<Key, void> >::operator*() const {
 		return node->first;
 	}
 
-	template<typename Node, typename Key>
+	template <class Node, class Key>
 	static inline Node unordered_hash_find(const Key& key, Node* buckets, size_t nbuckets) {
 		const size_t bucket = hash(key) & (nbuckets - 2);
 		for (Node it = buckets[bucket], end = buckets[bucket+1]; it != end; it = it->next)

@@ -7,7 +7,7 @@ namespace mud
 {
 	namespace details
 	{
-		template <typename Splitter, typename Functor>
+		template <class Splitter, class Functor>
 		struct ParallelJob
 		{
 			using Jobs = ParallelJob;
@@ -83,7 +83,7 @@ namespace mud
 
 	}
 
-	template <typename S, typename F>
+	template <class S, class F>
 	Job* split_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor, const S& splitter)
 	{
 		using Jobs = details::ParallelJob<S, F>;
@@ -91,7 +91,7 @@ namespace mud
 		return js.job(parent, jobs);
 	}
 
-	template <typename T, typename S, typename F>
+	template <class T, class S, class F>
 	Job* split_jobs(JobSystem& js, Job* parent, T* data, uint32_t count, F functor, const S& splitter)
 	{
 		auto user = [data, f = move(functor)](JobSystem& js, Job* job, uint32_t start, uint32_t count)
@@ -104,7 +104,7 @@ namespace mud
 		return js.job(parent, jobs);
 	}
 
-	template <typename T, typename S, typename F>
+	template <class T, class S, class F>
 	Job* split_jobs(JobSystem& js, Job* parent, array<T> slice, F functor, const S& splitter)
 	{
 		return split_jobs(js, parent, slice.data(), slice.size(), functor, splitter);
@@ -117,19 +117,19 @@ namespace mud
 		bool split(uint32_t splits, uint32_t count) const { return (splits < MaxSplits && count >= Count * 2); }
 	};
 
-	template <uint32_t Count, typename F>
+	template <uint32_t Count, class F>
 	Job* split_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor)
 	{
 		return split_jobs(js, parent, start, count, functor, CountSplitter<Count>());
 	}
 
-	template <uint32_t Count, typename T, typename F>
+	template <uint32_t Count, class T, class F>
 	Job* split_jobs(JobSystem& js, Job* parent, array<T> slice, F functor)
 	{
 		return split_jobs(js, parent, slice.data(), slice.size(), functor, CountSplitter<Count>());
 	}
 
-	template <uint32_t Count, typename F>
+	template <uint32_t Count, class F>
 	Job* parallel_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor)
 	{
 		auto user = [f = move(functor)](JobSystem& js, Job* job, uint32_t start, uint32_t count)

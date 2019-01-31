@@ -4,7 +4,6 @@
 module mud.refl;
 #else
 #include <type/Vector.h>
-#include <type/Any.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
 #include <meta/infra/Module.h>
@@ -136,7 +135,7 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Call, m_arguments), type<vector<mud::Var>>(), "arguments", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Call, m_args), type<vector<mud::Var>>(), "arguments", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Call, m_result), type<mud::Var>(), "result", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods

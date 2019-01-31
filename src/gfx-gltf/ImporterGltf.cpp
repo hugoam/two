@@ -20,11 +20,10 @@ using json = json11::Json;
 #include <infra/File.h>
 #include <infra/String.h>
 #include <infra/ToString.h>
-#include <pool/Pool.h>
+#include <pool/Pool.hpp>
 #include <srlz/Serial.h>
 #include <math/VecJson.h>
 #include <math/Interp.h>
-#include <math/Stream.h>
 #include <geom/Mesh.h>
 #include <gfx/Node3.h>
 #include <gfx/Item.h>

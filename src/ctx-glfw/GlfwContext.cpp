@@ -8,6 +8,8 @@
 #endif
 
 #ifndef MUD_MODULES
+#include <math/Math.h>
+#include <math/Vec.hpp>
 #include <ctx/KeyCode.h>
 #include <ctx/InputDevice.h>
 #include <ctx-glfw/GlfwContext.h>

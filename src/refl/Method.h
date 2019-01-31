@@ -5,11 +5,12 @@
 #pragma once
 
 #include <stl/vector.h>
+#include <infra/Array.h>
 #include <type/Type.h>
 #include <type/Ref.h>
 #include <refl/Forward.h>
 
-#include <cstdint>
+#include <stdint.h>
 
 namespace mud
 {
@@ -93,13 +94,10 @@ namespace mud
 
 		void setup();
 
-		bool validate(array<void*> args, size_t offset = 0) const;
+		bool validate(array<Var> args, size_t offset = 0) const;
 
-		void operator()(array<Ref> args) const;
-		void operator()(array<Ref> args, Ref& result) const;
-
-		//virtual void operator()(array<void*> args) const; // { Var none; return (*this)(args, none); }
-		//virtual void operator()(array<void*> args, void*& result) const = 0;
+		virtual void operator()(array<void*> args) const;
+		virtual void operator()(array<void*> args, void*& result) const;
 
 		uint32_t m_index;
 		cstring m_name;
@@ -109,7 +107,7 @@ namespace mud
 		size_t m_num_defaults;
 		size_t m_num_required;
 
-		//vector<Var> m_arguments;
+		//vector<Var> m_args;
 
 		//bool checkArgs(const vector<Var>& args) const; // { for (const Param& param : m_params) if (!type(args[param.m_index]).is(type(param.m_value))) return false; return true; }
 	};
@@ -166,7 +164,7 @@ namespace mud
 		Constructor(Type& object_type, cstring name, ConstructorFunc func, const vector<Param>& params = {});
 
 		virtual void operator()(array<void*> args, void*& result) const; // { UNUSED(result); m_call(args[0], array<void*>{ args, 1 }); }
-
+		
 		size_t m_index;
 		Type* m_object_type;
 		ConstructorFunc m_call;
@@ -196,9 +194,9 @@ namespace mud
 		DestructorFunc m_call;
 	};
 
-	export_ template<typename T_Function>
+	export_ template <class T_Function>
 	inline FunctionPointer funcptr(T_Function func) { return reinterpret_cast<FunctionPointer>(func); }
 
-	export_ template <typename T_Function>
+	export_ template <class T_Function>
 	inline Function& func(T_Function func);
 }

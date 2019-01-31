@@ -2,7 +2,7 @@
 #include <infra/Config.h>
 
 #include <cassert>
-#include <cstdint>
+#include <stdint.h>
 #include <cfloat>
 #include <climits>
 //#include <cmath>

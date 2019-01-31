@@ -11,9 +11,11 @@
 #include <geom/Primitive.h>
 #endif
 #include <gfx/Forward.h>
-#include <gfx/Renderer.h>
 
-#include <bgfx/bgfx.h>
+namespace bgfx
+{
+	struct Encoder;
+}
 
 namespace mud
 {
@@ -184,17 +186,7 @@ namespace mud
 		bool m_flags[size_t(MaterialFlag::Count)];
 	};
 
-	export_ struct PbrBlock : public GfxBlock
-	{
-		PbrBlock(GfxSystem& gfx_system);
-
-		virtual void init_block() override {}
-
-		virtual void begin_render(Render& render) override { UNUSED(render); }
-		virtual void begin_pass(Render& render) override { UNUSED(render); }
-	};
-
-	export_ PbrBlock& pbr_block(GfxSystem& gfx_system);
+	export_ GfxBlock& pbr_block(GfxSystem& gfx_system);
 
 	export_ MUD_GFX_EXPORT void load_material(Material& material, Program& program);
 
@@ -221,30 +213,6 @@ namespace mud
 		ShaderVersion shader_version(const Program& program, const Item& item, const ModelItem& model_item) const;
 
 		void submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin = nullptr) const;
-
-		struct BaseMaterialUniform
-		{
-			BaseMaterialUniform() {}
-			BaseMaterialUniform(GfxSystem& gfx_system)
-				: u_uv0_scale_offset(bgfx::createUniform("u_material_params_0", bgfx::UniformType::Vec4))
-				, u_uv1_scale_offset(bgfx::createUniform("u_material_params_1", bgfx::UniformType::Vec4))
-				, s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Int1))
-			{
-				UNUSED(gfx_system);
-			}
-
-			void upload(bgfx::Encoder& encoder, const BaseMaterialBlock& data) const
-			{
-				encoder.setUniform(u_uv0_scale_offset, &data.m_uv0_scale.x);
-				//encoder.setUniform(u_uv1_scale_offset, &data.m_uv1_scale.x);
-			}
-
-			bgfx::UniformHandle u_uv0_scale_offset;
-			bgfx::UniformHandle u_uv1_scale_offset;
-			bgfx::UniformHandle s_skeleton;
-		};
-
-		static BaseMaterialUniform s_base_uniform;
 
 		static GfxSystem* ms_gfx_system;
 	};

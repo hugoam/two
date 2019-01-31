@@ -6,7 +6,6 @@
 
 #ifndef MUD_MODULES
 #include <math/Vec.h>
-#include <math/Math.h>
 #endif
 #include <tool/Forward.h>
 #include <tool/Tool.h>

@@ -3,11 +3,11 @@
 #ifdef MUD_MODULES
 module mud.infra;
 #else
-#include <stl/tinystl/vector.impl.h>
+#include <stl/vector.hpp>
 #include <infra/Extern.h>
 #endif
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	template class MUD_INFRA_EXPORT vector<string>;

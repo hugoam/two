@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.geom;
 #else
+#include <math/Vec.hpp>
 #include <geom/Shape/Line.h>
 #include <geom/Shapes.h>
 #include <geom/Primitive.h>

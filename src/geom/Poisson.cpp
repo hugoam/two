@@ -9,6 +9,7 @@ module mud.geom;
 #else
 #include <math/Axis.h>
 #include <math/Math.h>
+#include <math/Vec.hpp>
 #include <math/Random.h>
 #include <geom/Poisson.h>
 #include <geom/Shapes.h>

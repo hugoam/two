@@ -4,7 +4,6 @@
 module mud.gfx-gltf;
 #else
 #include <type/Vector.h>
-#include <type/Any.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
 #include <meta/infra/Module.h>

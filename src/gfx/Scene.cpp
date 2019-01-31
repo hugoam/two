@@ -10,8 +10,9 @@ module mud.gfx;
 #include <infra/Vector.h>
 #include <tree/Node.inl.h>
 #include <math/Timer.h>
-#include <pool/ObjectPool.h>
+#include <pool/ObjectPool.hpp>
 #include <geom/Intersect.h>
+#include <geom/Shapes.h>
 #include <gfx/Types.h>
 #include <gfx/Scene.h>
 #include <gfx/Renderer.h>
@@ -85,7 +86,8 @@ namespace mud
 			for(Item* item : render.m_shot->m_items)
 			{
 				Colour colour = { 1.f, 0.f, 1.f, 0.15f };
-				m_immediate->shape(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
+				Cube cube = Cube(item->m_aabb);
+				m_immediate->shape(identity, { Symbol::wire(colour, true), &cube, OUTLINE });
 				//m_immediate->draw(item->m_node->m_transform, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
 			}
 	}

@@ -6,6 +6,16 @@
 
 namespace mud
 {
+#if 0
+	template <class T>
+	T vmin = 0;
+	template <class T>
+	T vmax = 0;
+
+	template <> bool vmin<bool> = false;
+	template <> bool vmax<bool> = true;
+#endif
+
 	template <class T>
 	struct limits {};
 

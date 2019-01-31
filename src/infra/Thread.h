@@ -2,8 +2,8 @@
 
 #include <infra/Forward.h>
 
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 
 namespace mud
 {

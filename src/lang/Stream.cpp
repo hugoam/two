@@ -8,16 +8,17 @@
 module mud.lang;
 #else
 #include <infra/ToString.h>
+#include <infra/Vector.h>
+#include <type/Types.h>
 #include <refl/Sequence.h>
 #include <refl/Convert.h>
-#include <infra/Vector.h>
 #include <refl/Meta.h>
 #include <lang/Stream.h>
 #endif
 
 namespace mud
 {
-	StreamBranch::StreamBranch(Stream* stream, Var value, StreamIndex index)
+	StreamBranch::StreamBranch(Stream* stream, const Var& value, StreamIndex index)
 		: m_stream(stream)
 		, m_index(index)
 		, m_depth(index.size() - 1)
@@ -117,7 +118,7 @@ namespace mud
 		: StreamBranch(this, Var(), { 0 })
 	{}
 
-	Stream::Stream(Var value, bool nullable, bool reference)
+	Stream::Stream(const Var& value, bool nullable, bool reference)
 		: StreamBranch(this, value, { 0 })
 		, m_default(value)
 		, m_type(value == Ref() ? &type<Ref>() : &type(value))

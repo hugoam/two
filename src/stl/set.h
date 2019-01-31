@@ -1,19 +1,19 @@
 #pragma once
 #include <infra/Config.h>
 
-#ifndef MUD_NO_STL
-#ifndef MUD_CPP_20
+#ifdef USE_STL
 #include <set>
-namespace mud
-{
-	export_ using std::set;
-}
-#endif
+namespace stl = std;
 #else
-#include <stl/tinystl/unordered_set.h>
-namespace mud
+#include <stl/unordered_set.h>
+namespace stl
 {
 	template <class T>
-	export_ using set = tinystl::unordered_set<T>;
+	export_ using set = stl::unordered_set<T>;
 }
 #endif
+
+namespace mud
+{
+	export_ using stl::set;
+}

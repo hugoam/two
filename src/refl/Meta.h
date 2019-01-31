@@ -26,7 +26,7 @@ namespace mud
 		Enum = 6
 	};
 
-	export_ template<typename T_Object, typename T_Base> uintptr_t base_offset()
+	export_ template <class T_Object, class T_Base> uintptr_t base_offset()
 	{
 		void* mem = malloc(sizeof(T_Object));
 		uintptr_t offset = (char*)static_cast<T_Base*>((T_Object*)mem) - (char*)(T_Object*)mem;

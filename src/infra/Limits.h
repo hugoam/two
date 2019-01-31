@@ -7,5 +7,5 @@
 #include <stl/limits.h>
 
 #ifndef MUD_CPP_20
-#include <cstdint>
+#include <stdint.h>
 #endif

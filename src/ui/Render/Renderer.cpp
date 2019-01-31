@@ -11,6 +11,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <math/Vec.hpp>
 #include <ui/Render/Renderer.h>
 #include <ui/Frame/Layer.h>
 #include <ui/Frame/Solver.h>

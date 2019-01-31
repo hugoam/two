@@ -6,9 +6,6 @@
 
 #ifndef MUD_MODULES
 #include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/map.h>
-#include <type/Any.h>
 #include <type/Dispatch.h>
 #endif
 #include <srlz/Forward.h>
@@ -24,7 +21,7 @@ export_ using json = json11::Json;
 
 namespace mud
 {
-	export_ class MUD_SRLZ_EXPORT FromJson : public Dispatch<void, Ref&, const json&>
+	export_ class MUD_SRLZ_EXPORT FromJson : public Dispatch<void, const json&>
 	{
 	public:
 		FromJson();
@@ -44,14 +41,14 @@ namespace mud
 	export_ MUD_SRLZ_EXPORT void visit_json(json& value, const JsonVisitor& visitor);
 #endif
 
-	export_ MUD_SRLZ_EXPORT Var unpack(Type& type, const json& data);
-	export_ MUD_SRLZ_EXPORT Var unpack(FromJson& unpacker, Type& type, const json& data, bool typed = false);
+	export_ MUD_SRLZ_EXPORT const Var& unpack(Type& type, const json& data);
+	export_ MUD_SRLZ_EXPORT const Var& unpack(FromJson& unpacker, Type& type, const json& data, bool typed = false);
 	export_ MUD_SRLZ_EXPORT void unpack(Var& value, const json& data);
 	export_ MUD_SRLZ_EXPORT void unpack(Ref value, const json& data);
 	export_ MUD_SRLZ_EXPORT void unpack(FromJson& unpacker, Var& value, const json& data, bool typed = false);
 
-	export_ MUD_SRLZ_EXPORT Var unpack_typed(const json& data);
-	export_ MUD_SRLZ_EXPORT Var unpack_typed(FromJson& unpacker, const json& data);
+	export_ MUD_SRLZ_EXPORT const Var& unpack_typed(const json& data);
+	export_ MUD_SRLZ_EXPORT const Var& unpack_typed(FromJson& unpacker, const json& data);
 
 	export_ MUD_SRLZ_EXPORT void pack(const Var& value, json& data);
 	export_ MUD_SRLZ_EXPORT void pack(ToJson& packer, const Var& value, json& data, bool typed = false);
@@ -60,11 +57,7 @@ namespace mud
 	export_ MUD_SRLZ_EXPORT void pack_typed(ToJson& packer, const Var& value, json& data);
 
 	export_ template <class T>
-	T unpackt(const json& data)
-	{
-		Var value = unpack(type<T>(), data);
-		return val<T>(value);
-	}
+	T unpackt(const json& data);
 
 	export_ MUD_SRLZ_EXPORT string pack_json(const Var& value);
 

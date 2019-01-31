@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
-#include <ui/Ui.h>
-#include <ui/Input.h>
-#include <gfx/Particles.h>
-#endif
 #include <gfx-edit/Forward.h>
 
 namespace mud

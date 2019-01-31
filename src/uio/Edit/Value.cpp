@@ -13,12 +13,12 @@ module mud.uio;
 #include <refl/Sequence.h>
 #include <refl/Enum.h>
 #include <type/DispatchDecl.h>
-#include <math/VecOps.h>
+#include <math/Vec.hpp>
 #include <math/Curve.h>
+#include <math/Range.h>
 #include <ui/Input.h>
 #include <uio/Types.h>
 #include <uio/Edit/Value.h>
-#include <uio/Unode.h>
 #include <uio/Object.h>
 #include <uio/Edit/Inspector.h>
 #include <uio/Edit/Injector.h>

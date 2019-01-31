@@ -9,6 +9,7 @@ module mud.ui;
 #else
 #include <infra/StringConvert.h>
 #include <infra/Reverse.h>
+#include <math/Vec.hpp>
 #include <ui/Style/Style.h>
 #include <ui/Style/Layout.h>
 #include <ui/Style/Skin.h>

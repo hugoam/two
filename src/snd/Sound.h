@@ -10,7 +10,7 @@
 #include <snd/Structs.h>
 #include <math/Vec.h>
 
-#include <cstdint>
+#include <stdint.h>
 
 namespace mud
 {

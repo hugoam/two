@@ -1,8 +1,8 @@
 #pragma once
 
-#include <stl/tinystl/stddef.h>
+#include <stl/stddef.h>
 
-namespace tinystl {
+namespace stl {
 
 	static inline size_t hash_string(const char* str, size_t len) {
 		// Implementation of sdbm a public domain string hash from Ozan Yigit
@@ -16,7 +16,7 @@ namespace tinystl {
 		return hash;
 	}
 
-	template<typename T>
+	template <class T>
 	inline size_t hash(const T& value) {
 		const size_t asint = (size_t)value;
 		return hash_string((const char*)&asint, sizeof(asint));

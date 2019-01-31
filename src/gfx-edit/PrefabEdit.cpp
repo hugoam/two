@@ -13,7 +13,6 @@ module mud.gfx-edit;
 #include <refl/Convert.h>
 #include <refl/System.h>
 #include <ui/Structs/Container.h>
-#include <uio/Unode.h>
 #include <ui/Section.h>
 #include <uio/Edit/Inspector.h>
 #include <uio/Edit/Method.h>

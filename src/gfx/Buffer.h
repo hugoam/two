@@ -5,7 +5,7 @@
 #pragma once
 
 #include <stl/vector.h>
-#include <math/VecOps.h>
+#include <math/Vec.hpp>
 #include <gfx/Forward.h>
 
 #include <bgfx/bgfx.h>

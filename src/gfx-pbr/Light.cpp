@@ -11,7 +11,8 @@ module mud.gfx.pbr;
 #else
 #include <infra/Vector.h>
 #include <infra/ToString.h>
-#include <math/VecOps.h>
+#include <math/Vec.hpp>
+#include <geom/Shapes.h>
 #include <gfx/Shot.h>
 #include <gfx/Item.h>
 #include <gfx/Viewport.h>

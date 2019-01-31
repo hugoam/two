@@ -5,11 +5,11 @@
 #pragma once
 
 #include <infra/Config.h>
+#include <stl/initializer_list.h>
 
 #ifndef MUD_CPP_20
-#include <initializer_list>
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 #include <cassert>
 #endif
 
@@ -17,7 +17,7 @@ namespace mud
 {
 	using cstring = const char*;
 
-	template <typename T>
+	template <class T>
 	struct array;
 
 	export_ template <class T, size_t Size>
@@ -33,7 +33,7 @@ namespace mud
 		operator array<T>() { return{ m_array, Size }; }
 	};
 
-	export_ template <typename T>
+	export_ template <class T>
 	struct refl_ struct_ array
 	{
 	public:
@@ -63,7 +63,8 @@ namespace mud
 		size_t m_count;
 	};
 
-	export_ template<typename T> class array2d : public array<T>
+	export_ template <class T>
+	class array2d : public array<T>
 	{
 	public:
 		array2d(T* pointer, size_t size_x, size_t size_y) : array<T>(pointer, size_x * size_y), m_x(size_x), m_y(size_y) {}

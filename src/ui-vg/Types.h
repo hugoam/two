@@ -16,7 +16,7 @@
 
 #ifndef MUD_CPP_20
 #include <stl/string.h>
-#include <cstdint>
+#include <stdint.h>
 #include <stl/vector.h>
 #endif
 

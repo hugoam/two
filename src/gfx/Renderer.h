@@ -5,7 +5,6 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <math/Math.h>
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
 #include <ecs/Entity.h>
@@ -15,7 +14,7 @@
 #include <gfx/Forward.h>
 #include <gfx/Shader.h>
 
-#include <cstdint>
+#include <stdint.h>
 
 #include <bgfx/bgfx.h>
 
@@ -124,8 +123,6 @@ namespace mud
 
 	export_ struct refl_ MUD_GFX_EXPORT RenderFrame
 	{
-		RenderFrame() {}
-		RenderFrame(uint32_t frame, float time, float delta, uint8_t render_pass) : m_frame(frame), m_time(time), m_delta_time(delta), m_render_pass(render_pass) {}
 		uint32_t m_frame;
 		float m_time;
 		float m_delta_time;

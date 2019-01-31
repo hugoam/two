@@ -10,7 +10,7 @@
 #include <math/Axis.h>
 
 #ifndef MUD_CPP_20
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 namespace mud
@@ -45,7 +45,7 @@ namespace mud
 	class Grided : public T_Array, public Grided3
 	{
 	public:
-		typedef typename T_Array::value_type T;
+		typedef class T_Array::value_type T;
 
 	public:
 		Grided(size_t x, size_t y, size_t z)

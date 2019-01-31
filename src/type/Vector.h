@@ -17,7 +17,7 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 	export_ template <class T>
 	struct Typed<array<T>>
 	{
-		static inline Type& type() { static string name = "array<" + string(mud::type<typename type_class<T>::type>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
+		static inline Type& type() { static string name = "array<" + string(mud::type<type_class<T>>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
 	};
 	
 	export_ template <>
@@ -29,7 +29,7 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 	export_ template <class T>
 	struct Typed<vector<T>>
 	{
-		static inline Type& type() { static string name = "vector<" + string(mud::type<typename type_class<T>::type>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
+		static inline Type& type() { static string name = "vector<" + string(mud::type<type_class<T>>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
 	};
 	
 	export_ template <>

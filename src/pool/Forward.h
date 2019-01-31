@@ -11,6 +11,9 @@
 
 namespace mud
 {
+	template <class T> class VecPool;
+	template <class T> class TPool;
+
 	class HandlePool;
     class Pool;
     class ObjectPool;

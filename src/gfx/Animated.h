@@ -11,8 +11,6 @@
 #include <gfx/Animation.h>
 #include <gfx/Skeleton.h>
 
-#include <bgfx/bgfx.h>
-
 namespace mud
 {
 	export_ struct refl_ MUD_GFX_EXPORT AnimatedTrack

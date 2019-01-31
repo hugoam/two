@@ -15,34 +15,34 @@
 namespace mud
 {
 	export_ template <class T>
-	inline typename enable_if<is_comparable<T>::value, bool>::type
+	inline enable_if<is_comparable<T>, bool>
 		any_compare(const T& first, const T& second) { return first == second; }
 
 	export_ template <class T>
-	inline typename enable_if<!is_comparable<T>::value, bool>::type
+	inline enable_if<!is_comparable<T>, bool>
 		any_compare(const T& first, const T& second) { return &first == &second; }
 
 	export_ template <class T>
-	inline typename enable_if<is_copy_assignable<T>::value, void>::type
+	inline enable_if<is_copy_assignable<T>, void>
 		any_assign(T& val, const T& other) { val = other; }
 
 	export_ template <class T>
-	inline typename enable_if<!is_copy_assignable<T>::value, void>::type
+	inline enable_if<!is_copy_assignable<T>, void>
 		any_assign(T& val, const T& other) { UNUSED(val); UNUSED(other); }
 
 	export_ template <class T>
-	inline typename enable_if<is_copy_constructible<T>::value, T>::type
+	inline enable_if<is_copy_constructible<T>, T>
 		any_copy(const T& val) { return T(val); }
 
 	export_ template <class T>
-	inline typename enable_if<!is_copy_constructible<T>::value, T>::type
+	inline enable_if<!is_copy_constructible<T>, T>
 		any_copy(const T& val) { UNUSED(val); return T(); }
 
 	export_ template <class T>
-	inline typename enable_if<is_trivially_destructible<T>::value, void>::type
+	inline enable_if<is_trivially_destructible<T>, void>
 		any_destruct(T& val) { UNUSED(val); }
 	
 	export_ template <class T>
-	inline typename enable_if<!is_trivially_destructible<T>::value, void>::type
+	inline enable_if<!is_trivially_destructible<T>, void>
 		any_destruct(T& val) { val.~T(); }
 }

@@ -12,24 +12,24 @@
 #include <refl/Sequence.h>
 #include <refl/Namespace.h>
 #include <refl/Vector.h>
-#include <pool/Pool.h>
+//#include <pool/Pool.h>
 
 namespace mud
 {
 #if 0
-	export_ template <typename T_Value, typename T_Member, typename T>
+	export_ template <class T_Value, class T_Member, class T>
 	inline auto member_getter(T_Member T::*mem) { return [mem](Ref object, Var& v) { setval<T_Value>(v, val<T>(object).*mem); }; }
 
-	export_ template <typename T_Value, typename T_Return, typename T>
+	export_ template <class T_Value, class T_Return, class T>
 	inline auto member_getter(T_Return(T::*func)()) { return [func](Ref object, Var& v) { setval<T_Value>(v, (val<T>(object).*func)()); }; }
 
-	export_ template <typename T_Value, typename T_Return, typename T>
+	export_ template <class T_Value, class T_Return, class T>
 	inline auto member_getter(T_Return(T::*func)() const) { return [func](Ref object, Var& v) { setval<T_Value>(v, (val<T>(object).*func)()); }; }
 
-	export_ template <typename T_Value, typename T_Member, typename T>
+	export_ template <class T_Value, class T_Member, class T>
 	inline auto member_setter(T_Member T::*mem) { return [mem](Ref object, const Var& v) { val<T>(object).*mem = val<T_Value>(v); }; }
 
-	export_ template <typename T_Value, typename T_Param, typename T>
+	export_ template <class T_Value, class T_Param, class T>
 	inline auto member_setter(void(T::*func)(T_Param)) { return [func](Ref object, const Var& v) { (val<T>(object).*func)(val<T_Value>(v)); }; }
 
 	export_ template <class T>
@@ -63,30 +63,30 @@ namespace mud
 	void init_pool() { cls<T>().m_make_pool = []() -> unique<Pool> { return make_unique<TPool<T>>(); }; }
 
 	export_ template <class T>
-	inline typename enable_if<is_default_constructible<T>::value, void>::type
+	inline enable_if<is_default_constructible<T>, void>
 		init_default_value() { meta<T>().m_empty_var = var(T()); meta<T>().m_empty_ref = Ref(type<T>()); }
 
 	export_ template <class T>
-	inline typename enable_if<!is_default_constructible<T>::value, void>::type
+	inline enable_if<!is_default_constructible<T>, void>
 		init_default_value() { meta<T>().m_empty_var = Ref(type<T>()); meta<T>().m_empty_ref = Ref(type<T>()); }
 	
 	export_ template <>
 	inline void	init_default_value<Ref>() { meta<Ref>().m_empty_var = Ref(); meta<Ref>().m_empty_ref = Ref(); }
 
 	export_ template <class T>
-	inline typename enable_if<is_copy_assignable<T>::value, void>::type
+	inline enable_if<is_copy_assignable<T>, void>
 		init_assign() { meta<T>().m_copy_assign = [](Ref first, Ref second) { val<T>(first) = val<T>(second); }; }
 
 	export_ template <class T>
-	inline typename enable_if<!is_copy_assignable<T>::value, void>::type
+	inline enable_if<!is_copy_assignable<T>, void>
 		init_assign() {}
 
 	export_ template <class T>
-		inline typename enable_if<is_trivially_destructible<T>::value, void>::type
+		inline enable_if<is_trivially_destructible<T>, void>
 		init_destructor() {}
 
 	export_ template <class T>
-		inline typename enable_if<!is_trivially_destructible<T>::value, void>::type
+		inline enable_if<!is_trivially_destructible<T>, void>
 		init_destructor() { cls<T>().m_destructor.push_back({ type<T>(), [](void* ref) { static_cast<T*>(ref)->~T(); } }); }
 
 	export_ template <>

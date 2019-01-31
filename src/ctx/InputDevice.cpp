@@ -10,6 +10,7 @@
 #ifdef MUD_MODULES
 module mud.ctx;
 #else
+#include <math/Vec.hpp>
 #include <ctx/InputDevice.h>
 #include <ctx/InputEvent.h>
 #include <ctx/ControlNode.h>

@@ -8,6 +8,7 @@
 module mud.ui;
 #else
 #include <infra/Reverse.h>
+#include <math/Vec.hpp>
 #include <ui/Frame/Solver.h>
 #include <ui/Style/Style.h>
 #include <ui/Structs/Widget.h>

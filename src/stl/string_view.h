@@ -1,8 +1,8 @@
 #pragma once
 
-#include <stl/tinystl/stddef.h>
+#include <stl/stddef.h>
 
-namespace tinystl {
+namespace stl {
 
 	class string_view
 	{

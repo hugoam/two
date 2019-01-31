@@ -3,13 +3,14 @@
 #ifdef MUD_MODULES
 module mud.math;
 #else
-#include <stl/tinystl/vector.impl.h>
-#include <stl/tinystl/basic_string.impl.h>
-#include <stl/tinystl/unordered_map.impl.h>
+#include <stl/vector.hpp>
+#include <stl/string.hpp>
+#include <stl/unordered_map.hpp>
 #include <ui/Extern.h>
+#include <ui/Edit/Lang.h>
 #endif
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	template class MUD_UI_EXPORT vector<TextGlyph>;
@@ -39,7 +40,7 @@ namespace tinystl
 	template class MUD_UI_EXPORT unordered_map<string, Dock>;
 	template class MUD_UI_EXPORT unordered_map<string, Style*>;
 
-	//template class MUD_UI_EXPORT vector<LanguageDefinition::StringToken>;
-	//template class MUD_UI_EXPORT vector<LanguageDefinition::RegexToken>;
-	//template class MUD_UI_EXPORT unordered_map<string, Identifier>;
+	template class MUD_UI_EXPORT vector<LanguageDefinition::StringToken>;
+	template class MUD_UI_EXPORT vector<LanguageDefinition::RegexToken>;
+	template class MUD_UI_EXPORT unordered_map<string, Identifier>;
 }

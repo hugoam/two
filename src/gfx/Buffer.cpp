@@ -4,7 +4,6 @@
 
 #include <gfx/Cpp20.h>
 
-#include <bx/math.h>
 #include <cassert>
 
 #ifdef MUD_MODULES

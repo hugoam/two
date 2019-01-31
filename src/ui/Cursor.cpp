@@ -7,6 +7,8 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <math/Vec.hpp>
+#include <math/Timer.h>
 #include <ui/Cursor.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Structs/RootSheet.h>

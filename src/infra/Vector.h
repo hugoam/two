@@ -12,8 +12,8 @@
 
 namespace mud
 {
-	template <typename T>
-	struct is_comparable<vector<T>> : is_comparable_base<T> {};
+	template <class T>
+	constexpr bool is_comparable<vector<T>> = is_comparable<T>;
 
 	export_ template <class T>
 	array<T> to_array(vector<T>& vec) { return { &vec[0], vec.size() }; }
@@ -287,7 +287,7 @@ namespace mud
 	}
 
 #ifdef MUD_NO_STL
-	template <typename T>
+	template <class T>
 	class TinystlAlignedAllocator
 	{
 	public:
@@ -295,7 +295,7 @@ namespace mud
 		static inline void static_deallocate(T* ptr, size_t /*bytes*/) { aligned_free(ptr); }
 	};
 #else
-	template <typename T>
+	template <class T>
 	class STLAlignedAllocator
 	{
 		static_assert(!(alignof(T) & (alignof(T)-1)), "alignof(T) must be a power of two");
@@ -311,14 +311,14 @@ namespace mud
 		using propagate_on_container_move_assignment = true_type;
 		using is_always_equal = true_type;
 
-		template <typename U>
+		template <class U>
 		struct rebind { using other = STLAlignedAllocator<U>; };
 
 	public:
 		inline STLAlignedAllocator() noexcept = default;
 		inline ~STLAlignedAllocator() noexcept = default;
 
-		template <typename U>
+		template <class U>
 		inline explicit STLAlignedAllocator(const STLAlignedAllocator<U>&) noexcept {}
 
 		inline pointer allocate(size_type n) noexcept { return (pointer)aligned_alloc(n * sizeof(value_type), alignof(T)); }

@@ -1,24 +1,24 @@
 #pragma once
 
-#include <stl/tinystl/basic_string.h>
-#include <stl/tinystl/buffer_base.h>
-#include <stl/tinystl/stddef.h>
-#include <stl/tinystl/hash.h>
+#include <stl/string.h>
+#include <stl/buffer_base.h>
+#include <stl/stddef.h>
+#include <stl/hash.h>
 
-namespace tinystl {
+namespace stl {
 
-	template<typename T>
+	template <class T>
 	inline constexpr T min(const T& a, const T& b) { return a < b ? a : b; }
 
-	template<typename T>
+	template <class T>
 	inline constexpr T max(const T& a, const T& b) { return a > b ? a : b; }
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline basic_string<Alloc>::basic_string()
 		: m_buffer{ m_small, m_small, m_small + c_nbuffer }
 	{}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline basic_string<Alloc>::basic_string(const basic_string& other)
 		: basic_string()
 	{
@@ -26,7 +26,7 @@ namespace tinystl {
 		string_copy(m_buffer, other.m_buffer.first, other.m_buffer.last);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline basic_string<Alloc>::basic_string(basic_string&& other)
 		: basic_string()
 	{
@@ -37,7 +37,7 @@ namespace tinystl {
 		string_reset(other.m_buffer, other.m_small, c_nbuffer);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline basic_string<Alloc>::basic_string(const char* s)
 		: basic_string()
 	{
@@ -49,7 +49,7 @@ namespace tinystl {
 		string_copy(m_buffer, s, s + len);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline basic_string<Alloc>::basic_string(const char* s, size_t len)
 		: basic_string()
 	{
@@ -57,7 +57,7 @@ namespace tinystl {
 		string_copy(m_buffer, s, s + len);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline basic_string<Alloc>::basic_string(size_t len, char c)
 		: basic_string()
 	{
@@ -65,7 +65,7 @@ namespace tinystl {
 		buffer_fill_urange(m_buffer.first, m_buffer.last, c);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline basic_string<Alloc>::basic_string(const char* first, const char* last) 
 		: basic_string()
 	{
@@ -73,123 +73,123 @@ namespace tinystl {
 		string_copy(m_buffer, first, last);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline basic_string<Alloc>::basic_string(std::initializer_list<char> list) 
 		: basic_string(list.begin(), list.end())
 	{
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline basic_string<Alloc>::~basic_string() {
 		if(m_buffer.first != m_small)
 			Alloc::static_deallocate(m_buffer.first, m_buffer.capacity - m_buffer.first);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline basic_string<Alloc>& basic_string<Alloc>::operator=(const basic_string& other) {
 		basic_string(other).swap(*this);
 		return *this;
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	basic_string<Alloc>& basic_string<Alloc>::operator=(basic_string&& other) {
 		basic_string(static_cast<basic_string&&>(other)).swap(*this);
 		return *this;
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline const char* basic_string<Alloc>::data() const {
 		return m_buffer.first;
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline char* basic_string<Alloc>::data() {
 		return m_buffer.first;
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline const char* basic_string<Alloc>::c_str() const {
 		return m_buffer.first;
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline size_t basic_string<Alloc>::size() const {
 		return (size_t)(m_buffer.last - m_buffer.first);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline size_t basic_string<Alloc>::capacity() const {
 		return (size_t)(m_buffer.capacity - m_buffer.first);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline bool basic_string<Alloc>::empty() const {
 		return m_buffer.last == m_buffer.first;
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline char& basic_string<Alloc>::operator[](size_t idx) {
 		return m_buffer.first[idx];
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline const char& basic_string<Alloc>::operator[](size_t idx) const {
 		return m_buffer.first[idx];
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline const char& basic_string<Alloc>::front() const {
 		return m_buffer.first[0];
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline char& basic_string<Alloc>::front() {
 		return m_buffer.first[0];
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline const char& basic_string<Alloc>::back() const {
 		return m_buffer.last[-1];
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline char& basic_string<Alloc>::back() {
 		return m_buffer.last[-1];
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::resize(size_t size) {
 		string_resize(m_buffer, m_small, size);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::resize(size_t size, char value) {
 		string_resize(m_buffer, m_small, size, value);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::clear() {
 		string_clear(m_buffer);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::reserve(size_t capacity) {
 		string_reserve(m_buffer, m_small, capacity);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::push_back(char c) {
 		buffer_grow_count(m_buffer, 1, 1, m_buffer.first == m_small);
 		*m_buffer.last++ = c;
 		*m_buffer.last = 0;
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::pop_back() {
 		string_pop(m_buffer);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::swap(basic_string& other) {
 		const pointer tfirst = m_buffer.first, tlast = m_buffer.last, tcapacity = m_buffer.capacity;
 		m_buffer.first = other.m_buffer.first, m_buffer.last = other.m_buffer.last, m_buffer.capacity = other.m_buffer.capacity;
@@ -216,111 +216,111 @@ namespace tinystl {
 		}
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::shrink_to_fit() {
 		if(m_buffer.first != m_small)
 			buffer_shrink_to_fit(m_buffer, 1);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline typename basic_string<Alloc>::iterator basic_string<Alloc>::begin() {
 		return m_buffer.first;
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline typename basic_string<Alloc>::iterator basic_string<Alloc>::end() {
 		return m_buffer.last;
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline typename basic_string<Alloc>::const_iterator basic_string<Alloc>::begin() const {
 		return m_buffer.first;
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline typename basic_string<Alloc>::const_iterator basic_string<Alloc>::end() const {
 		return m_buffer.last;
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::append(const char* first, const char* last) {
 		string_append(m_buffer, m_small, first, last);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::append(const basic_string& other) {
 		string_append(m_buffer, m_small, other.begin(), other.end());
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::assign(const char* first, const char* last) {
 		string_clear(m_buffer);
 		string_append(m_buffer, m_small, first, last);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::assign(const char* sz, size_t n) {
 		string_clear(m_buffer);
 		string_append(m_buffer, m_small, sz, sz + n);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::insert(size_t where, char value) {
 		(void)where; (void)value; //string_insert(m_buffer, m_small, m_buffer.first + where, value);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::insert(size_t where, const char* first, const char* last) {
 		string_insert(m_buffer, m_small, m_buffer.first + where, first, last);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::insert(size_t where, const basic_string& other) {
 		string_insert(m_buffer, m_small, m_buffer.first + where, other.begin(), other.end());
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::insert(iterator where, char value) {
 		(void)where; (void)value; //string_insert(m_buffer, m_small, where, value);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::insert(iterator where, const char* first, const char* last) {
 		string_insert(m_buffer, m_small, where, first, last);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::insert(iterator where, const basic_string& other) {
 		string_insert(m_buffer, m_small, where, other.begin(), other.end());
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline basic_string<Alloc>& basic_string<Alloc>::operator+=(const basic_string& other) {
 		string_append(m_buffer, m_small, other.begin(), other.end());
 		return *this;
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline void basic_string<Alloc>::erase(size_t pos, size_t len) {
 		string_erase(m_buffer, m_buffer.first + pos, len == npos ? m_buffer.last : m_buffer.first + pos + len);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline typename basic_string<Alloc>::iterator basic_string<Alloc>::erase(iterator where) {
 		return string_erase(m_buffer, where, where + 1);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline typename basic_string<Alloc>::iterator basic_string<Alloc>::erase(iterator first, iterator last) {
 		return string_erase(m_buffer, first, last);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline basic_string<Alloc> basic_string<Alloc>::substr(size_t begin, size_t count) const {
 		return basic_string(m_buffer.first + begin, min(count, this->size() - begin));
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline int basic_string<Alloc>::compare(const basic_string& other) const {
 		pointer first1 = m_buffer.first;
 		pointer first2 = other.m_buffer.first;
@@ -362,7 +362,7 @@ namespace tinystl {
 		return nullptr;
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline size_t basic_string<Alloc>::find(char c, const size_t offset) const {
 		const size_t hay_size = size();
 		const char* hay = m_buffer.first;
@@ -376,7 +376,7 @@ namespace tinystl {
 		return size_t(-1);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline size_t basic_string<Alloc>::rfind(char c, const size_t offset) const {
 		const size_t hay_size = size();
 		const char* hay = m_buffer.first;
@@ -390,7 +390,7 @@ namespace tinystl {
 		return size_t(-1);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline size_t basic_string<Alloc>::find(const basic_string& other, const size_t offset) const {
 		const char* hay = this->begin();
 		const char* needle = other.begin();
@@ -413,7 +413,7 @@ namespace tinystl {
 		}
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline size_t basic_string<Alloc>::rfind(const basic_string& other, const size_t offset) const {
 		const char* hay = this->begin();
 		const char* needle = other.begin();
@@ -435,7 +435,7 @@ namespace tinystl {
 		return size_t(-1);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline bool basic_string<Alloc>::operator==(const basic_string& other) const {
 		const size_t lsize = this->size(), rsize = other.size();
 		if (lsize != rsize)
@@ -451,12 +451,12 @@ namespace tinystl {
 		return true;
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline bool basic_string<Alloc>::operator!=(const basic_string& other) const {
 		return !(*this == other);
 	}
 
-	template<typename Alloc>
+	template <class Alloc>
 	inline bool basic_string<Alloc>::operator<(const basic_string& other) const {
 		return this->compare(other) < 0;
 	}

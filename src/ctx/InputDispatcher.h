@@ -22,8 +22,6 @@ namespace mud
 	export_ template <class T_Element>
 	struct EventMap
 	{
-		EventMap() {}
-		
 		enum_array<DeviceType, enum_array<EventType, T_Element>> m_events = {};
 		enum_array<DeviceType, enum_array<EventType, map<int, T_Element>>> m_keyed_events = {};
 
@@ -36,8 +34,6 @@ namespace mud
 	export_ struct MUD_CTX_EXPORT EventBatch : public EventMap<InputEvent*>
 	{
 		ControlNode* m_control_node = nullptr;
-		
-		EventBatch() {}
 	};
 
 	export_ class MUD_CTX_EXPORT EventDispatcher

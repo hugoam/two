@@ -22,6 +22,7 @@ using json = json11::Json;
 #include <infra/File.h>
 #include <infra/String.h>
 #include <infra/StringConvert.h>
+#include <math/Stream.h>
 #include <pool/Pool.h>
 #include <srlz/Serial.h>
 #include <refl/System.h>
@@ -29,7 +30,6 @@ using json = json11::Json;
 #include <refl/Convert.h>
 #include <math/VecJson.h>
 #include <math/Interp.h>
-#include <math/Stream.h>
 #include <geom/Mesh.h>
 #include <gltf/Gltf.h>
 #include <gltf/Types.h>
@@ -48,8 +48,8 @@ namespace mud
 	FromJson gltf_unpacker()
 	{
 		FromJson unpacker;
-		dispatch_branch<mat4>(unpacker, +[](mat4& result, Ref&, const json& json) { from_json(json, result); });
-		dispatch_branch<quat>(unpacker, +[](quat& result, Ref&, const json& json) { from_json(json, result); });
+		dispatch_branch<mat4>(unpacker, +[](mat4& result, const json& json) { from_json(json, result); });
+		dispatch_branch<quat>(unpacker, +[](quat& result, const json& json) { from_json(json, result); });
 		return unpacker;
 	}
 

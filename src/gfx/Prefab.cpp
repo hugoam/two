@@ -29,7 +29,7 @@ namespace mud
 		Gnode& item = gfx::node(self, Ref(this), m_transform.m_position, m_transform.m_rotation, m_transform.m_scale);
 
 		if(m_call.m_callable)
-			m_call.m_arguments[0] = Ref(&item);
+			m_call.m_args[0] = Ref(&item);
 		if(m_call.validate())
 			m_call();
 		//else

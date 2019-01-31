@@ -6,7 +6,6 @@
 
 #ifndef MUD_MODULES
 #include <math/Vec.h>
-#include <ecs/ECS.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Style/Style.h>
 #include <gfx/Viewport.h>

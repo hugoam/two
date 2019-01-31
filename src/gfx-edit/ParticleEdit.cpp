@@ -8,15 +8,17 @@
 module mud.gfx-edit;
 #else
 #include <infra/File.h>
+#include <type/Var.h>
 #include <srlz/Serial.h>
 #include <geom/Shapes.h>
 #include <geom/Symbol.h>
 #include <gfx/Gfx.h>
 #include <gfx/GfxSystem.h>
-#include <uio/Unode.h>
-#include <uio/Edit/Inspector.h>
 #include <ui/Section.h>
+#include <ui/Ui.h>
+#include <uio/Edit/Inspector.h>
 #include <uio/Edit/Value.h>
+#include <gfx/Particles.h>
 #include <gfx-ui/Types.h>
 #include <gfx-ui/Viewer.h>
 #include <gfx-edit/ParticleEdit.h>

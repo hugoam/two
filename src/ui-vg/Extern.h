@@ -6,7 +6,7 @@
 
 #include <vg/vg.h>
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	export_ extern template class vector<vg::GlyphPosition>;

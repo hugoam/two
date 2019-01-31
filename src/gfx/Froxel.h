@@ -18,7 +18,10 @@
 #include <gfx/Uniform.h>
 #endif
 
-#include <bgfx/bgfx.h>
+namespace bgfx
+{
+	struct Encoder;
+}
 
 namespace mud
 {
@@ -67,26 +70,6 @@ namespace mud
 		using Lights = std::bitset<CONFIG_MAX_LIGHT_COUNT>;
 #endif
 		Lights lights;
-	};
-
-	export_ struct FroxelUniform
-	{
-		void createUniforms()
-		{
-			s_light_records		= bgfx::createUniform("s_light_records",	bgfx::UniformType::Int1);
-			s_light_clusters	= bgfx::createUniform("s_light_clusters",	bgfx::UniformType::Int1);
-
-			u_froxel_params = bgfx::createUniform("u_froxel_params",	bgfx::UniformType::Vec4);
-			u_froxel_f		= bgfx::createUniform("u_froxel_f",			bgfx::UniformType::Vec4);
-			u_froxel_z		= bgfx::createUniform("u_froxel_z",			bgfx::UniformType::Vec4);
-		}
-
-		bgfx::UniformHandle s_light_records;
-		bgfx::UniformHandle s_light_clusters;
-
-		bgfx::UniformHandle u_froxel_params;
-		bgfx::UniformHandle u_froxel_f;
-		bgfx::UniformHandle u_froxel_z;
 	};
 
 	class MUD_GFX_EXPORT Froxelizer
@@ -164,8 +147,6 @@ namespace mud
 			VIEWPORT_CHANGED = 0x01,
 			PROJECTION_CHANGED = 0x02
 		};
-
-		FroxelUniform m_uniform;
 	};
 
 }

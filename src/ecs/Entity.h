@@ -6,7 +6,7 @@
 
 #include <stl/swap.h>
 #include <ecs/Forward.h>
-#include <cstdint>
+#include <stdint.h>
 
 namespace mud
 {

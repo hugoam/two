@@ -728,7 +728,6 @@ namespace clgen
 		p("module " + m.m_namespace + "." + m.m_name + ";");
 		p("#else");
 		p("#include <type/Vector.h>");
-		p("#include <type/Any.h>");
 		p("#include <refl/MetaDecl.h>");
 		p("#include <refl/Module.h>");
 		for(CLModule* d : m.m_dependencies)
@@ -1004,7 +1003,7 @@ namespace clgen
 		p("#ifndef MUD_CPP_20");
 		p("#include <stl/string.h>");
 		p("#include <stl/vector.h>");
-		p("#include <cstdint>");
+		p("#include <stdint.h>");
 		p("#endif");
 		p("");
 		if(m.m_has_structs)

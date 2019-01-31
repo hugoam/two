@@ -26,7 +26,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT Valve
 	{
 	public:
-		Valve(Process& process, cstring name, ValveKind kind, Var value = {}, bool nullable = false, bool reference = false);
+		Valve(Process& process, cstring name, ValveKind kind, const Var& value = {}, bool nullable = false, bool reference = false);
 		Valve(Process& process, const Param& param);
 		~Valve();
 

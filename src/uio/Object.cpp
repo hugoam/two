@@ -13,10 +13,10 @@ module mud.uio;
 #include <ui/Structs/Window.h>
 #include <ui/Structs/Container.h>
 #include <ui/Sequence.h>
-#include <uio/Types.h>
-#include <uio/Unode.h>
 #include <ui/Section.h>
 #include <ui/Ui.h>
+#include <uio/Types.h>
+#include <uio/Unode.h>
 #include <uio/Edit/Method.h>
 #endif
 

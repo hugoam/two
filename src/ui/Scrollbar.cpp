@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <math/Vec.hpp>
 #include <ui/Scrollbar.h>
 #include <ui/Button.h>
 #include <ui/Style/Styles.h>

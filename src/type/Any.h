@@ -6,23 +6,25 @@
 
 #include <stl/move.h>
 #include <type/RefVal.h>
+#include <type/TypeUtils.h>
 #include <type/Var.h>
 #include <type/TypeOf.h>
+#include <type/Types.h>
 
 #include <new>
 
 namespace mud
 {
-	export_ template <class T, bool onlyref = is_object_pointer<T>::value || !is_copyable<T>::value>
-	struct ValueSemantic : true_type {};
+	export_ template <class T, bool onlyref = is_object_pointer<T> || !is_copyable<T>>
+	constexpr bool ValueSemantic = true;
 
 	export_ template <class T>
-	struct ValueSemantic<T, true> : false_type {};
+	constexpr bool ValueSemantic<T, true> = false;
 
 	template <class T>
-	using IsSmallObject = integral_constant<bool, sizeof(T) <= sizeof(void*)*3>;
+	constexpr bool IsSmallObject = sizeof(T) <= sizeof(void*)*3;
 
-	export_ template <class T, bool small = IsSmallObject<T>::value>
+	export_ template <class T, bool small = IsSmallObject<T>>
 	class TAnyHandlerImpl : public AnyHandler
 	{
 	public:
@@ -103,30 +105,30 @@ namespace mud
 	inline cstring val(const Var& var) { return (cstring)var.m_ref.m_value; }
 
 	export_ template <class T, class U>
-	inline typename enable_if<ValueSemantic<T>::value, void>::type
+	inline enable_if<ValueSemantic<T>, void>
 		setval(Var& var, U&& value) { if(var.m_mode == VAL) { setval<T>(var.m_any, value); /*setval(var.m_ref, val<T>(var.m_any));*/ } else setval<T>(var.m_ref, value); }
 
 	export_ template <class T, class U>
-	inline typename enable_if<!ValueSemantic<T>::value, void>::type
+	inline enable_if<!ValueSemantic<T>, void>
 		setval(Var& var, U&& value) { setval(var.m_ref, static_cast<U&&>(value)); }
 
 	export_ template <class T, class U>
 	inline Var make_any(U&& value) { return TAnyHandler<T>::create(static_cast<U&&>(value)); }
 	
 	export_ template <class T, class U>
-	inline typename enable_if<ValueSemantic<T>::value, Var>::type
+	inline enable_if<ValueSemantic<T>, Var>
 		var_value(U&& value) { return make_any<T>(static_cast<U&&>(value)); }
 
 	export_ template <class T, class U>
-	inline typename enable_if<!ValueSemantic<T>::value, Var>::type
+	inline enable_if<!ValueSemantic<T>, Var>
 		var_value(U&& value) { return Ref(&value); }
 
 	export_ template <class T, class U>
-	inline typename enable_if<!is_object_pointer<T>::value, Var>::type
-		make_var(U&& value) { return var_value<typename unqual_type<T>::type>(static_cast<T&&>(value)); }
+	inline enable_if<!is_object_pointer<T>, Var>
+		make_var(U&& value) { return var_value<unqual_type<T>>(static_cast<T&&>(value)); }
 
 	export_ template <class T, class U>
-	inline typename enable_if<is_object_pointer<T>::value, Var>::type
+	inline enable_if<is_object_pointer<T>, Var>
 		make_var(U&& value) { return Ref(value); }
 
 	export_ template <class T>

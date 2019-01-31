@@ -3,11 +3,11 @@
 #ifdef MUD_MODULES
 module mud.refl;
 #else
-#include <stl/tinystl/vector.impl.h>
+#include <stl/vector.hpp>
 #include <refl/Extern.h>
 #endif
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	template class MUD_TYPE_EXPORT vector<Namespace>;

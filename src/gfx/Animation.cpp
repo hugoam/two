@@ -4,8 +4,6 @@
 
 #include <gfx/Cpp20.h>
 
-#include <bx/math.h>
-
 #ifdef MUD_MODULES
 module mud.gfx;
 #else

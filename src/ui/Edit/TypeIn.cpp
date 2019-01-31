@@ -7,7 +7,6 @@
 #include <cctype>
 #include <locale>
 #include <chrono>
-#include <stl/string.h>
 #include <regex>
 #include <cmath>
 #endif
@@ -15,8 +14,10 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <stl/string.h>
 #include <infra/Vector.h>
 #include <math/Math.h>
+#include <math/Vec.hpp>
 #include <ui/Edit/TypeIn.h>
 #include <ui/Structs/Container.h>
 #include <ui/ScrollSheet.h>

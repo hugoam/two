@@ -59,8 +59,8 @@ namespace mud
 
 	void ProcessCreate::process(const StreamLocation& branch)
 	{
-		for(size_t i = 1; i < m_injector.m_arguments.size(); ++i)
-			m_injector.m_arguments[i] = m_inputs[i - 1]->read(branch);
+		for(size_t i = 1; i < m_injector.m_args.size(); ++i)
+			m_injector.m_args[i] = m_inputs[i - 1]->read(branch);
 
 		if(is_struct(m_object_type))
 		{

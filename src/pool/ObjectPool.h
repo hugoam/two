@@ -5,10 +5,10 @@
 #pragma once
 
 #include <stl/memory.h>
+#include <stl/vector.h>
+#include <infra/NonCopy.h>
 #include <pool/Forward.h>
 #include <pool/Pool.h>
-#include <infra/NonCopy.h>
-#include <infra/Global.h>
 
 namespace mud
 {
@@ -19,18 +19,13 @@ namespace mud
 
 		void clear();
 
-		inline Pool& pool(Type& type) { return *m_pools[type.m_id].get(); }
+		inline Pool& pool(Type& type);
 
 		template <class T>
-		inline TPool<T>& pool()
-		{
-			if(!m_pools[type<T>().m_id])
-				m_pools[type<T>().m_id] = make_unique<TPool<T>>();
-			return as<TPool<T>>(*m_pools[type<T>().m_id].get());
-		}
+		inline TPool<T>& pool();
 
 		template <class T>
-		inline TPool<T>& create_pool(size_t size = 12) { m_pools[type<T>().m_id] = make_unique<TPool<T>>(size); return pool<T>(); }
+		inline TPool<T>& create_pool(size_t size = 12);
 
 		vector<unique<Pool>> m_pools;
 	};
@@ -39,10 +34,5 @@ namespace mud
 	export_ extern MUD_POOL_EXPORT vector<unique<Pool>> g_pools;
 
 	template <class T>
-	inline TPool<T>& global_pool()
-	{
-		if(!g_pools[type<T>().m_id])
-			g_pools[type<T>().m_id] = make_unique<TPool<T>>();
-		return as<TPool<T>>(*g_pools[type<T>().m_id].get());
-	}
+	inline TPool<T>& global_pool();
 }

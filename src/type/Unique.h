@@ -9,7 +9,7 @@
 #ifndef MUD_CPP_20
 #ifdef MUD_TRACK_MEMORY
 #include <type/Cls.h>
-#include <stl/type_traits.h>
+#include <stl/traits.h>
 #include <stl/function.h>
 #endif
 #endif
@@ -34,7 +34,7 @@ namespace mud
 	template <class T>
 	using object = unique<T, function<void(void*)>>;
 
-	template<class T, class... Types>
+	template <class T, class... Types>
 	inline object<T> oconstruct(Types&&... args)
 	{
 		object_ptr_tracker<T>::increment();
@@ -44,7 +44,7 @@ namespace mud
 	export_ template <class T>
 	using object = unique<T>;
 
-	export_ template <typename T, typename... Args>
+	export_ template <class T, typename... Args>
 	object<T> oconstruct(Args&&... args)
 	{
 		return construct<T>(static_cast<Args&&>(args)...);

@@ -6,18 +6,22 @@
 
 #ifndef MUD_MODULES
 #include <infra/Array.h>
+#include <math/Vec.h>
+#include <math/Vec.hpp>
 #endif
 #include <geom/Forward.h>
-#include <geom/Shapes.h>
+//#include <geom/Shapes.h>
 
 namespace mud
 {
-	export_ struct refl_ MUD_GEOM_EXPORT Aabb : public Cube
+	export_ struct refl_ MUD_GEOM_EXPORT Aabb
 	{
 	public:
 		constr_ Aabb();
 		constr_ Aabb(const vec3& center, const vec3& extents);
 
+		attr_ vec3 m_center;
+		attr_ vec3 m_extents;
 		attr_ bool m_empty;
 
 		vec3 bmin() const { return m_center - m_extents; }
@@ -31,8 +35,6 @@ namespace mud
 
 		bool cull(const vec3& point) const;
 		bool cull(array<vec3> points) const;
-
-		virtual object<Shape> clone() const;
 	};
 
 	export_ inline Aabb aabb(const vec3& min, const vec3& max)

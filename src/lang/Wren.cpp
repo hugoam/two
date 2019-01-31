@@ -311,7 +311,7 @@ namespace mud
 	inline void call_cpp(WrenVM* vm, Call& call, size_t first, size_t num_arguments)
 	{
 		bool enough_arguments = num_arguments >= call.m_callable->m_num_required;
-		if(enough_arguments && read_params(vm, *call.m_callable, call.m_arguments, 0, first))
+		if(enough_arguments && read_params(vm, *call.m_callable, call.m_args, 0, first))
 		{
 			call();
 			if(!call.m_result.none())
@@ -429,7 +429,7 @@ namespace mud
 		printf("INFO: wren -> construct %s\n", constructor->m_name);
 #endif
 		Call& construct = cached_call(*constructor);
-		if(read_params(vm, *construct.m_callable, construct.m_arguments, 1, 2))
+		if(read_params(vm, *construct.m_callable, construct.m_args, 1, 2))
 		{
 			Ref object = alloc_object(vm, 0, 1, *constructor->m_object_type);
 			construct(object);
@@ -459,8 +459,8 @@ namespace mud
 #endif
 		Call& construct = cached_call(*constructor);
 		VirtualMethod virtual_method = [=](Method& method, Ref object, array<Var> args) { wren->virtual_call(method, object, args); };
-		construct.m_arguments.back() = var(virtual_method);
-		if(read_params(vm, *construct.m_callable, construct.m_arguments, 1, 2))
+		construct.m_args.back() = var(virtual_method);
+		if(read_params(vm, *construct.m_callable, construct.m_args, 1, 2))
 		{
 			Ref object = alloc_object(vm, 0, 1, *constructor->m_object_type);
 			construct(object);
@@ -866,7 +866,7 @@ namespace mud
 	}
 
 	template <class T>
-	inline void read_integer(WrenVM* vm, int slot, Ref result) // std::is_integral<T>::value
+	inline void read_integer(WrenVM* vm, int slot, Ref result)
 	{
 		if(wrenGetSlotType(vm, slot) == WREN_TYPE_NUM)
 			val<T>(result) = static_cast<T>(wrenGetSlotDouble(vm, slot));
@@ -956,13 +956,13 @@ namespace mud
 		wrenSetSlotString(vm, slot, value);
 	}
 
-	template<typename T>
+	template <class T>
 	inline void push_integer(WrenVM* vm, int slot, T value)
 	{
 		wrenSetSlotDouble(vm, slot, double(value));
 	}
 
-	template<typename T>
+	template <class T>
 	inline void push_scalar(WrenVM* vm, int slot, T value)
 	{
 		wrenSetSlotDouble(vm, slot, double(value));
@@ -1309,7 +1309,7 @@ namespace mud
 		this->flush();
 	}
 
-	Var WrenInterpreter::get(const string& name, Type& type)
+	const Var& WrenInterpreter::get(const string& name, Type& type)
 	{
 		wrenBegin(m_context->m_vm);
 		wrenEnsureSlots(m_context->m_vm, 1);
@@ -1319,7 +1319,7 @@ namespace mud
 		return result;
 	}
 
-	void WrenInterpreter::set(const string& name, Var value)
+	void WrenInterpreter::set(const string& name, const Var& value)
 	{
 		if(m_context->m_variables.find(name) == m_context->m_variables.end())
 		{
@@ -1333,13 +1333,13 @@ namespace mud
 		wrenAssignVariable(m_context->m_vm, "main", name.c_str(), 0);
 	}
 
-	Var WrenInterpreter::getx(array<cstring> path, Type& type)
+	const Var& WrenInterpreter::getx(array<cstring> path, Type& type)
 	{
 		UNUSED(path); UNUSED(type);
 		return Var();
 	}
 
-	void WrenInterpreter::setx(array<cstring> path, Var value)
+	void WrenInterpreter::setx(array<cstring> path, const Var& value)
 	{
 		UNUSED(path); UNUSED(value);
 	}

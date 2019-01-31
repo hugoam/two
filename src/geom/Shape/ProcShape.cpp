@@ -111,7 +111,7 @@ namespace mud
 
 		declare_shape<Box>(*this);
 		declare_shape<Cube>(*this);
-		declare_shape<Aabb>(*this);
+		//declare_shape<Aabb>(*this);
 		declare_shape<Cylinder>(*this);
 		declare_shape<Sphere>(*this);
 		declare_shape<Torus>(*this);

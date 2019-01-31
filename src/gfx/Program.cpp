@@ -25,6 +25,8 @@ module mud.gfx;
 #include <gfx/GfxSystem.h>
 #include <gfx/Texture.h>
 #include <gfx/Material.h>
+#include <gfx/Shader.h>
+#include <gfx/Renderer.h>
 #endif
 
 namespace bgfx
@@ -250,7 +252,7 @@ namespace mud
 		, m_impl(make_unique<Impl>())
 	{
 		m_impl->m_name = name;
-		PbrBlock& pbr = pbr_block(*ms_gfx_system);
+		GfxBlock& pbr = pbr_block(*ms_gfx_system);
 
 		static cstring options[7] = { "SKELETON", "INSTANCING", "BILLBOARD", "QNORMALS", "MRT", "DEFERRED", "CLUSTERED" };
 		this->register_options(0, { options, 7 });

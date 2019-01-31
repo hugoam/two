@@ -10,6 +10,7 @@ module mud.wfc;
 #include <stl/map.h>
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
+#include <math/Math.h>
 #include <wfc/Wfc.h>
 #include <srlz/Serial.h>
 #endif
@@ -59,7 +60,7 @@ namespace mud
 		return result;
 	}
 
-	template<typename Fun>
+	template <class Fun>
 	ColorPattern make_pattern(size_t n, const Fun& fun)
 	{
 		ColorPattern result(n * n);

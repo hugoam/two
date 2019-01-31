@@ -51,6 +51,12 @@ namespace mud
 		// bgfx::shutdown();
 	}
 
+	bx::AllocatorI& BgfxSystem::allocator()
+	{
+		static bx::DefaultAllocator alloc;
+		return alloc;
+	}
+
 	object<Context> BgfxSystem::create_context(const string& name, int width, int height, bool fullScreen)
 	{
 		return oconstruct<BgfxContext>(*this, name, width, height, fullScreen, !m_initialized);

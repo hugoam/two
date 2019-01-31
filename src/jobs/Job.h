@@ -20,7 +20,7 @@ namespace mud
 		JobStorage storage; // on 64-bits systems, there is an extra 32-bits lost here
 	};
 
-	template <typename T>
+	template <class T>
 	Job* JobSystem::job(Job* parent, T functor)
 	{
 		static_assert(sizeof(functor) <= sizeof(JobStorage), "functor too large");

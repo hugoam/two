@@ -1,4 +1,4 @@
-#include <stl/tinystl/vector.impl.h>
+#include <stl/vector.hpp>
 #include <infra/Pool.h>
 #include <infra/Thread.h>
 #include <infra/Vector.h>
@@ -140,10 +140,10 @@ namespace mud
 		Arena<Job, AtomicFreeList> m_job_pool;
 
 #ifdef MUD_NO_STL
-		template <typename T>
+		template <class T>
 		using aligned_vector = vector<T, TinystlAlignedAllocator<T>>;
 #else
-		template <typename T>
+		template <class T>
 		using aligned_vector = vector<T, STLAlignedAllocator<T>>;
 #endif
 

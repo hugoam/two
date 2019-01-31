@@ -6,7 +6,7 @@
 #include <stl/unordered_map.h>
 #include <type/Api.h>
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	export_ extern template class vector<string>;

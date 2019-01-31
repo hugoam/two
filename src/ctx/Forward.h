@@ -10,7 +10,7 @@
 #define MUD_CTX_EXPORT MUD_IMPORT
 #endif
 
-#include <cstdint>
+#include <stdint.h>
 
 namespace mud
 {

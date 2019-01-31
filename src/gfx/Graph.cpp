@@ -9,10 +9,12 @@ module mud.gfx;
 #else
 #include <infra/Vector.h>
 #include <infra/Copy.h>
-#include <pool/ObjectPool.h>
+#include <pool/ObjectPool.hpp>
 #include <math/Math.h>
+#include <math/ImageAtlas.h>
 #include <geom/Intersect.h>
 #include <geom/Symbol.h>
+#include <geom/Shapes.h>
 #include <gfx/Types.h>
 #include <gfx/Graph.h>
 #include <gfx/Gfx.h>
@@ -269,7 +271,7 @@ namespace gfx
 			self.m_particles = &create<Particles>(*self.m_scene, self.m_attach, Sphere(1.f), 1024);
 		as<ParticleFlow>(*self.m_particles) = emitter;
 		self.m_particles->m_node = self.m_attach;
-		self.m_particles->m_sprite = &parent.m_scene->m_particle_system->m_block.m_sprites.find_sprite(emitter.m_sprite_name.c_str());
+		self.m_particles->m_sprite = &parent.m_scene->m_particle_system->m_block.m_sprites->find_sprite(emitter.m_sprite_name.c_str());
 		return *self.m_particles;
 	}
 

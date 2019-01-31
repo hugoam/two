@@ -1,14 +1,19 @@
 #pragma once
 
-#include <infra/Config.h>
-
+#include <stl/traits.h>
 #include <type_traits>
+
+namespace stl
+{
+	template <class T>
+	constexpr bool is_function = std::is_function_v<T>;
+
+	template <class T>
+	constexpr bool is_trivially_destructible = std::is_trivially_destructible_v<T>;
+}
 
 namespace mud
 {
-	using std::enable_if; using std::integral_constant;
-	using std::is_copy_assignable; using std::is_copy_constructible; using std::is_default_constructible; using std::is_trivially_destructible;
-	using std::is_pointer; using std::is_function; using std::is_invocable; using std::is_integral; using std::is_unsigned;
-	using std::remove_reference; using std::remove_reference_t; using std::remove_pointer; using std::remove_pointer_t; using std::remove_cv;
-	using std::false_type; using std::true_type;
+	using stl::is_function;
+	using stl::is_trivially_destructible;
 }

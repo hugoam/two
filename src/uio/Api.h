@@ -2,7 +2,6 @@
 #include <uio/Forward.h>
 #include <uio/Object.h>
 #include <uio/Types.h>
-#include <uio/Unode.h>
 #include <uio/Edit/Canvas.h>
 #include <uio/Edit/Indexer.h>
 #include <uio/Edit/Injector.h>

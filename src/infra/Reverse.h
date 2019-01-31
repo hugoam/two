@@ -10,7 +10,7 @@
 namespace mud
 {
 #ifdef MUD_NO_STL
-	template<class T>
+	template <class T>
 	class reverse_pointer
 	{
 	public:
@@ -49,26 +49,26 @@ namespace mud
 		T* m_ptr;
 	};
 
-	template<class T1, class T2>
+	template <class T1, class T2>
 	bool operator==(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return left.m_ptr == right.m_ptr; }
 
-	template<class T1, class T2>
+	template <class T1, class T2>
 	bool operator!=(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return !(left == right); }
 
-	template<class T1, class T2>
+	template <class T1, class T2>
 	bool operator<(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return right.m_ptr < left.m_ptr; }
 
-	template<class T1, class T2>
+	template <class T1, class T2>
 	bool operator>(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return right < left; }
 
-	template<class T1, class T2>
+	template <class T1, class T2>
 	bool operator<=(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return !(right < left); }
 
-	template<class T1, class T2>
+	template <class T1, class T2>
 	bool operator>=(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return !(left < right); }
 #endif
 
-	export_ template<typename T>
+	export_ template <class T>
 	class reverse_adapter
 	{
 	public:
@@ -87,6 +87,6 @@ namespace mud
 		T& m_container;
 	};
 
-	export_ template<typename T>
+	export_ template <class T>
 	reverse_adapter<T> reverse_adapt(T& container) { return reverse_adapter<T>(container); }
 }

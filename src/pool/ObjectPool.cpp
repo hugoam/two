@@ -9,6 +9,7 @@ module mud.pool;
 #else
 #include <infra/Config.h>
 #include <pool/ObjectPool.h>
+#include <pool/ObjectPool.hpp>
 //#include <refl/Class.h>
 #endif
 

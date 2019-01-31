@@ -197,6 +197,7 @@ namespace mud
 		constr_ Cube(const vec3& extents);
 		constr_ Cube(const vec3& center, const vec3& extents);
 		Cube(float side);
+		Cube(const Aabb& aabb);
 
 		attr_ vec3 m_extents = vec3{ 0.5f };
 

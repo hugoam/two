@@ -6,6 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <stl/vector.h>
+#include <stl/function.h>
 #include <infra/EnumArray.h>
 #endif
 #include <gfx/Forward.h>
@@ -13,7 +14,7 @@
 
 namespace mud
 {
-	using PassJob = void(*)(Render&, const Pass&);
+	using PassJob = function<void(Render&, const Pass&)>;
 
 	export_ MUD_GFX_EXPORT void pipeline_minimal(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred);
 

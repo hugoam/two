@@ -76,7 +76,7 @@ namespace mud
 				return ref;
 		}
 
-		/*inline Var get_value(Ref object) const;
+		/*inline const Var& get_value(Ref object) const;
 		{
 			Var result = m_default_value;
 			result.copy(this->get(object));
@@ -98,12 +98,12 @@ namespace mud
 		inline void cast_set(Ref object, Ref value) const;
 	};
 
-	export_ template <typename T_Value, typename T>
+	export_ template <class T_Value, class T>
 	Member& member(T_Value T::*mem) { return cls<T>().member(member_address(mem)); }
 
-	export_ template <typename T_Return, typename T, typename... T_Params>
+	export_ template <class T_Return, class T, typename... T_Params>
 	Member& member(T_Return(T::*meth)(T_Params...)) { return cls<T>().member(member_address(meth)); }
 
-	export_ template <typename T_Return, typename T, typename... T_Params>
+	export_ template <class T_Return, class T, typename... T_Params>
 	Member& member(T_Return(T::*meth)(T_Params...) const) { return cls<T>().member(member_address(meth)); }
 }

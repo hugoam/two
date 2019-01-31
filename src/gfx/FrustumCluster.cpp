@@ -4,21 +4,20 @@
 
 #include <gfx/Cpp20.h>
 
-#include <bx/math.h>
-
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
 #include <stl/limits.h>
 #include <stl/algorithm.h>
-//#include <stl/type_traits.h>
+#include <stl/traits.h>
+#include <math/Vec.hpp>
 #include <gfx/FrustumCluster.h>
 #endif
 
-//#include <type_traits>
+#include <type_traits>
 //#include <limits>
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 
 namespace mud
 {

@@ -8,12 +8,12 @@
 #include <stl/vector.h>
 #include <math/Vec.h>
 #include <math/Curve.h>
-#include <math/ImageAtlas.h>
 #include <geom/Shape.h>
+#include <geom/Aabb.h>
 #endif
 #include <gfx/Forward.h>
 #include <gfx/Material.h>
-#include <gfx/Mesh.h>
+#include <gfx/Renderer.h>
 
 #include <bgfx/bgfx.h>
 
@@ -99,8 +99,6 @@ namespace mud
 		//float m_angle;
 
 		static void init();
-
-		static bgfx::VertexDecl ms_decl;
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT Particles : public ParticleFlow
@@ -166,7 +164,7 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 		virtual void begin_pass(Render& render) override;
 
-		SpriteAtlas m_sprites;
+		unique<SpriteAtlas> m_sprites;
 		bgfx::TextureHandle m_texture;
 
 		bgfx::UniformHandle s_color;

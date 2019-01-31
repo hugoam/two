@@ -2,7 +2,6 @@
 
 #ifndef MUD_MODULES
 #include <geom/Aabb.h>
-#include <uio/Unode.h>
 #include <wfc/Wfc.h>
 #endif
 #include <wfc-gfx/Forward.h>

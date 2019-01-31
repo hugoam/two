@@ -49,13 +49,13 @@ namespace mud
 
 	void Injector::inject(Var& value)
 	{
-		//m_constructor(value, to_array(m_arguments, 1));
+		//m_constructor(value, to_array(m_args, 1));
 	}
 
 	Ref Injector::inject(Pool& pool)
 	{
 		Ref ref = pool.alloc();
-		//m_constructor.m_call(ref, to_array(m_arguments, 1));
+		//m_constructor.m_call(ref, to_array(m_args, 1));
 		return ref;
 	}
 

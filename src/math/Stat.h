@@ -6,10 +6,10 @@
 
 #include <stl/limits.h>
 #include <math/Forward.h>
-#include <math/Math.h>
+//#include <math/Math.h>
 
 #ifndef MUD_CPP_20
-#include <cstdint>
+#include <stdint.h>
 #include <cfloat>
 #endif
 

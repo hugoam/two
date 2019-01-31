@@ -1,15 +1,15 @@
 #pragma once
 
 #include <cassert>
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 #include <climits>
 
-#include <stl/type_traits.h>
+#include <stl/traits.h>
 
 namespace mud
 {
-	template<typename T>
+	template <class T>
 	inline T popcount(T v)
 	{
 		static_assert(sizeof(T) * 8 <= 128, "popcount() only support up to 128 bits");
@@ -20,7 +20,7 @@ namespace mud
 		return (T)(v * (ONES / 255)) >> (sizeof(T) - 1) * CHAR_BIT;
 	}
 
-	template<typename T>
+	template <class T>
 	inline T clz(T x)
 	{
 		static_assert(sizeof(T) <= sizeof(uint64_t), "clz() only support up to 64 bits");
@@ -35,7 +35,7 @@ namespace mud
 		return (sizeof(T) * CHAR_BIT) - popcount(x);
 	}
 
-	template<typename T>
+	template <class T>
 	inline T ctz(T x)
 	{
 		static_assert(sizeof(T) <= sizeof(uint64_t), "ctz() only support up to 64 bits");
@@ -57,10 +57,13 @@ namespace mud
  * the exact storage size. This is useful for small bitset (e.g. < 64, on 64-bits machines).
  * It also allows for lexicographical compares (i.e. sorting).
  */
-
-template<typename T, size_t N = 1,
-         typename = typename enable_if<is_integral<T>::value &&
-                                       is_unsigned<T>::value>::type>
+#if 1
+template <class T, size_t N = 1,
+         typename = enable_if<is_integral<T> &&
+                              is_unsigned<T>>>
+#else
+template <class T, size_t N = 1>
+#endif
 class bitset {
 	T storage[N] = {};
 
@@ -95,7 +98,7 @@ public:
         storage[0] = value;
     }
 
-    template<typename F>
+    template <class F>
     void for_each(F exec) const
 	{
         for(size_t i = 0; i < N; i++)

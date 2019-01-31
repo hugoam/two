@@ -8,6 +8,7 @@
 module mud.gfx.ui;
 #else
 #include <geom/Intersect.h>
+#include <geom/Shapes.h>
 #include <geom/Shape/Quad.h>
 #include <ctx/InputDevice.h>
 #include <ui/Frame/Layer.h>
@@ -120,6 +121,7 @@ namespace mud
 
 	void SpaceSheet::receive_event(InputEvent& inputEvent)
 	{
-		inputEvent.dispatch(m_mouse, m_keyboard);
+		UNUSED(inputEvent);
+		//inputEvent.dispatch(m_mouse, m_keyboard);
 	}
 }

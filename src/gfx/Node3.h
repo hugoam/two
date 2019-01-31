@@ -49,8 +49,8 @@ namespace mud
 		Ref m_object;
 		size_t m_last_updated = 0;
 
-		vec3 position() const { return mulp(m_transform, Zero3); }
-		vec3 axis(const vec3& dir) const { return muln(m_transform, dir); }
-		vec3 direction() const { return muln(m_transform, -Z3); }
+		vec3 position() const;
+		vec3 axis(const vec3& dir) const;
+		vec3 direction() const;
 	};
 }

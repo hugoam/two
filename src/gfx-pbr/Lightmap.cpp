@@ -16,13 +16,14 @@ module mud.gfx.pbr;
 #include <math/Random.h>
 #include <geom/Intersect.h>
 #include <geom/Mesh.h>
-#include <pool/ObjectPool.h>
+#include <pool/ObjectPool.hpp>
 #include <gfx/Item.h>
 #include <gfx/ManualRender.h>
 #include <gfx/Shot.h>
 #include <gfx/Graph.h>
 #include <gfx/Scene.h>
 #include <gfx/Assets.h>
+#include <gfx/Mesh.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Pipeline.h>
 #include <gfx-pbr/Lightmap.h>
@@ -80,12 +81,12 @@ namespace mud
 		bgfx::frame();
 		bgfx::frame();
 
-		save_bgfx_texture(gfx_system.m_allocator, gfx_system.file_writer(), path.c_str(), target_format, blit_texture, source_format, uint16_t(lightmap.m_size), uint16_t(lightmap.m_size));
+		save_bgfx_texture(gfx_system.allocator(), gfx_system.file_writer(), path.c_str(), target_format, blit_texture, source_format, uint16_t(lightmap.m_size), uint16_t(lightmap.m_size));
 	}
 
 	void load_lightmap(GfxSystem& gfx_system, Lightmap& lightmap, const string& path)
 	{
-		lightmap.m_texture = load_bgfx_texture(gfx_system.m_allocator, gfx_system.file_reader(), path.c_str());
+		lightmap.m_texture = load_bgfx_texture(gfx_system.allocator(), gfx_system.file_reader(), path.c_str());
 
 		for(LightmapItem& item : lightmap.m_items)
 			item.m_lightmap = lightmap.m_texture;
@@ -532,7 +533,7 @@ namespace mud
 		{
 			LightmapItem& binding = *element.m_item->m_lightmaps[element.m_model->m_index];
 
-			encoder.setUniform(Material::s_base_uniform.u_uv1_scale_offset, &binding.m_uv_scale_offset);
+			//encoder.setUniform(Material::s_base_uniform.u_uv1_scale_offset, &binding.m_uv_scale_offset);
 
 			if(bgfx::isValid(binding.m_lightmap))
 #ifdef LIGHTMAP_PIXELS
@@ -544,7 +545,7 @@ namespace mud
 		else
 		{
 			vec4 uv_scale_offset = vec4(0.f);
-			encoder.setUniform(Material::s_base_uniform.u_uv1_scale_offset, &uv_scale_offset);
+			//encoder.setUniform(Material::s_base_uniform.u_uv1_scale_offset, &uv_scale_offset);
 		}
 	}
 }

@@ -12,7 +12,7 @@
 #include <type/Unique.h>
 
 #ifndef MUD_CPP20
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 namespace mud

@@ -12,6 +12,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <math/Vec.hpp>
 #include <gfx/Node3.h>
 #endif
 
@@ -100,4 +101,8 @@ namespace mud
 		: m_index(s_node_index++)
 		, m_transform(transform)
 	{}
+
+	vec3 Node3::position() const { return mulp(m_transform, Zero3); }
+	vec3 Node3::axis(const vec3& dir) const { return muln(m_transform, dir); }
+	vec3 Node3::direction() const { return muln(m_transform, -Z3); }
 }

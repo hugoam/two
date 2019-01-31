@@ -1,30 +1,24 @@
 #pragma once
 #include <infra/Config.h>
 
-#ifndef MUD_NO_STL
-#ifndef MUD_CPP_20
+#ifdef USE_STL
 #include <functional>
-#endif
-namespace mud
-{
-	export_ using std::function;
-}
 #else
 #include <stl/move.h>
-#include <stl/type_traits.h>
-#include <new>
-namespace mud
+#include <stl/traits.h>
+#include <stl/new.h>
+namespace stl
 {
-	template <typename T>
+	template <class T>
 	class function;
 
-	template <typename Return, typename... Args>
+	template <class Return, typename... Args>
 	class function<Return(Args...)>
 	{
 	public:
 		function() {}
 
-		template <class T, typename = typename enable_if<is_invocable<T, Args...>::value>::type>
+		template <class T, typename = enable_if<is_invocable<T, Args...>>>
 		function(T functor)
 		{
 			m_func = [](const void* user, Args... args) -> Return
@@ -40,7 +34,7 @@ namespace mud
 			};
 
 			static_assert(sizeof(T) <= sizeof(m_storage));
-			new(m_storage) T(move(functor));
+			new(stl::placeholder(), m_storage) T(move(functor));
 		}
 
 		~function()
@@ -61,3 +55,8 @@ namespace mud
 	};
 }
 #endif
+
+namespace mud
+{
+	export_ using stl::function;
+}

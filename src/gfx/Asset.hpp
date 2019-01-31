@@ -6,9 +6,11 @@
 
 #ifndef MUD_MODULES
 #include <infra/File.h>
+#include <infra/Array.h>
 //#include <srlz/Serial.h>
 #endif
 #include <gfx/Asset.h>
+#include <gfx/GfxSystem.h>
 
 #include <cstdio>
 

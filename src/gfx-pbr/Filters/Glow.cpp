@@ -9,6 +9,7 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
+#include <math/Vec.hpp>
 #include <gfx/RenderTarget.h>
 #include <gfx/Filter.h>
 #include <gfx/Pipeline.h>

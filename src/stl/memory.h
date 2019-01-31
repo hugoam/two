@@ -1,7 +1,7 @@
 #pragma once
 #include <infra/Config.h>
 
-#ifndef MUD_NO_STL
+#ifdef USE_STL
 #ifndef MUD_CPP_20
 #include <memory>
 namespace mud
@@ -11,7 +11,7 @@ namespace mud
 	export_ using std::unique_ptr;
 	export_ using std::make_unique;
 
-	template<class T, class... Types>
+	template <class T, class... Types>
 	inline unique<T> construct(Types&&... args)
 	{
 		return unique<T>(new T(static_cast<Types&&>(args)...));
@@ -20,10 +20,10 @@ namespace mud
 #endif
 #else
 #include <stl/swap.h>
-#include <cstddef>
+#include <stl/stddef.h>
 namespace mud
 {
-	template<typename T>
+	template <class T>
 	class unique
 	{
 	public:
@@ -47,14 +47,14 @@ namespace mud
 			return *this;
 		}
 
-		template<typename U>
+		template <class U>
 		unique(unique<U>&& moving)
 			: unique()
 		{
 			unique<T>(moving.release()).swap(*this);
 		}
 
-		template<typename U>
+		template <class U>
 		unique& operator=(unique<U>&& moving)
 		{
 			unique<T>(moving.release()).swap(*this);
@@ -93,26 +93,26 @@ namespace mud
 	};
 
 #if 0
-	template<typename T>
+	template <class T>
 	void swap(unique<T>& lhs, unique<T>& rhs)
 	{
 		lhs.swap(rhs);
 	}
 #endif
 
-	template<class T> bool operator==(std::nullptr_t, const unique<T>& b) { return b == nullptr; }
-	template<class T> bool operator!=(std::nullptr_t, const unique<T>& b) { return b != nullptr; }
+	template <class T> bool operator==(std::nullptr_t, const unique<T>& b) { return b == nullptr; }
+	template <class T> bool operator!=(std::nullptr_t, const unique<T>& b) { return b != nullptr; }
 
-	template<class T, class U> inline bool operator==(const unique<T>& l, const unique<U>& r) { return (l.get() == r.get()); }
-	template<class T, class U> inline bool operator!=(const unique<T>& l, const unique<U>& r) {	return (l.get() != r.get()); }
+	template <class T, class U> inline bool operator==(const unique<T>& l, const unique<U>& r) { return (l.get() == r.get()); }
+	template <class T, class U> inline bool operator!=(const unique<T>& l, const unique<U>& r) {	return (l.get() != r.get()); }
 
-	template<class T, class... Types>
+	template <class T, class... Types>
 	inline unique<T> make_unique(Types&&... args)
 	{
 		return unique<T>(new T(static_cast<Types&&>(args)...));
 	}
 
-	template<class T, class... Types>
+	template <class T, class... Types>
 	inline unique<T> construct(Types&&... args)
 	{
 		return unique<T>(new T(static_cast<Types&&>(args)...));

@@ -40,7 +40,7 @@ namespace mud
 	{
 	public:
 		StreamBranch();
-		StreamBranch(Stream* stream, Var value, StreamIndex index);
+		StreamBranch(Stream* stream, const Var& value, StreamIndex index);
 
 		Var& value(const StreamIndex& index) { return this->branch(index).m_value; }
 
@@ -94,7 +94,7 @@ namespace mud
 	{
 	public:
 		Stream();
-		Stream(Var value, bool nullable, bool reference);
+		Stream(const Var& value, bool nullable, bool reference);
 		Stream(const Stream& stream);
 		Stream& operator=(const Stream& stream);
 

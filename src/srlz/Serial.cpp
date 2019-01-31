@@ -78,27 +78,27 @@ namespace mud
 
 	FromJson::FromJson()
 	{
-		dispatch_branch<int>    (*this, +[](int&    value, Ref&, const json& json_value) { value = json_value.int_value(); });
-		dispatch_branch<ushort> (*this, +[](ushort& value, Ref&, const json& json_value) { value = ushort(json_value.int_value()); });
-		dispatch_branch<uint>   (*this, +[](uint&   value, Ref&, const json& json_value) { value = uint(json_value.int_value()); });
-		dispatch_branch<ulong>  (*this, +[](ulong&  value, Ref&, const json& json_value) { value = ulong(json_value.number_value()); });
-		dispatch_branch<ullong> (*this, +[](ullong& value, Ref&, const json& json_value) { value = ullong(json_value.number_value()); });
-		dispatch_branch<float>  (*this, +[](float&  value, Ref&, const json& json_value) { value = float(json_value.number_value()); });
-		dispatch_branch<double> (*this, +[](double& value, Ref&, const json& json_value) { value = json_value.number_value(); });
+		dispatch_branch<int>    (*this, +[](int&    value, const json& json_value) { value = json_value.int_value(); });
+		dispatch_branch<ushort> (*this, +[](ushort& value, const json& json_value) { value = ushort(json_value.int_value()); });
+		dispatch_branch<uint>   (*this, +[](uint&   value, const json& json_value) { value = uint(json_value.int_value()); });
+		dispatch_branch<ulong>  (*this, +[](ulong&  value, const json& json_value) { value = ulong(json_value.number_value()); });
+		dispatch_branch<ullong> (*this, +[](ullong& value, const json& json_value) { value = ullong(json_value.number_value()); });
+		dispatch_branch<float>  (*this, +[](float&  value, const json& json_value) { value = float(json_value.number_value()); });
+		dispatch_branch<double> (*this, +[](double& value, const json& json_value) { value = json_value.number_value(); });
 		// cstring can't be deserialized I believe, or we need to memoize them ?
-		dispatch_branch<string> (*this, +[](string& value, Ref&, const json& json_value) { value = json_value.string_value().c_str(); });
-		dispatch_branch<bool>   (*this, +[](bool& value,   Ref&, const json& json_value) { value = json_value.bool_value(); });
+		dispatch_branch<string> (*this, +[](string& value, const json& json_value) { value = json_value.string_value().c_str(); });
+		dispatch_branch<bool>   (*this, +[](bool& value,   const json& json_value) { value = json_value.bool_value(); });
 
-		dispatch_branch<vector<Var>>(*this, +[](vector<Var>& values, Ref&, const json& json_value)
+		dispatch_branch<vector<Var>>(*this, +[](vector<Var>& values, const json& json_value)
 		{
 			for(const json& value : json_value.array_items())
 				values.push_back(unpack_typed(value));
 		});
 
-		dispatch_branch<Call>(*this, +[](Call& call, Ref&, const json& json_value)
+		dispatch_branch<Call>(*this, +[](Call& call, const json& json_value)
 		{
 			call.m_callable = System::instance().find_function(json_value["callable"].string_value().c_str());
-			call.m_arguments = unpackt<vector<Var>>(json_value["arguments"]);
+			call.m_args = unpackt<vector<Var>>(json_value["arguments"]);
 		});
 	}
 
@@ -129,7 +129,7 @@ namespace mud
 		{
 			std::map<std::string, json> json_values;
 			json_values["callable"] = string(call.m_callable->m_name);
-			pack(Ref(&call.m_arguments), json_values["arguments"]);
+			pack(Ref(&call.m_args), json_values["arguments"]);
 			json_value = json_values;
 		});
 	}
@@ -139,7 +139,7 @@ namespace mud
 		memcpy(value.m_value, &enum_value, meta(value).m_size);
 	}
 
-	Var unpack(Type& type, const json& json_value)
+	const Var& unpack(Type& type, const json& json_value)
 	{
 		static FromJson unpacker;
 		return unpack(unpacker, type, json_value);
@@ -158,7 +158,7 @@ namespace mud
 		unpack(unpacker, value, json_value);
 	}
 	
-	Var unpack(FromJson& unpacker, Type& type, const json& json_value, bool typed)
+	const Var& unpack(FromJson& unpacker, Type& type, const json& json_value, bool typed)
 	{
 		Var result = meta(type).m_empty_var;
 		unpack(unpacker, result, json_value, typed);
@@ -180,7 +180,7 @@ namespace mud
 
 		if(unpacker.check(value))
 		{
-			unpacker.dispatch(value, value.m_ref, json_value);
+			unpacker.dispatch(value, json_value);
 			return;
 		}
 		else if(is_enum(type(value)) && json_value.is_number()) // is_number_integer
@@ -252,21 +252,21 @@ namespace mud
 				const json& json_field = json_value.is_array() ? json_value[index]
 															   : json_value[construct.m_callable->m_params[index + 1].m_name];
 
-				unpack(unpacker, construct.m_arguments[index + 1], json_field);
+				unpack(unpacker, construct.m_args[index + 1], json_field);
 			}
 
 			construct(value);
 		}
 	}
 
-	Var unpack_typed(FromJson& unpacker, const json& json_typed_value)
+	const Var& unpack_typed(FromJson& unpacker, const json& json_typed_value)
 	{
 		cstring type_name = json_typed_value["type"].string_value().c_str();
 		json json_value = json_typed_value["value"];
 		return unpack(unpacker, *System::instance().find_type(type_name), json_value, true);
 	}
 
-	Var unpack_typed(const json& json_value)
+	const Var& unpack_typed(const json& json_value)
 	{
 		static FromJson unpacker;
 		return unpack_typed(unpacker, json_value);

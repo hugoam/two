@@ -4,8 +4,8 @@
 
 #pragma once
 
+#include <infra/Base.h>
 #include <math/Forward.h>
-#include <math/Math.h>
 
 namespace mud
 {

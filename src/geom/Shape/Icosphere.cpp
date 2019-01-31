@@ -7,6 +7,8 @@
 #ifdef MUD_MODULES
 module mud.geom;
 #else
+#include <math/Math.h>
+#include <math/Vec.hpp>
 #include <geom/Shape/Icosphere.h>
 #endif
 

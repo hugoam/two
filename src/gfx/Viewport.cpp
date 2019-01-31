@@ -8,7 +8,6 @@
 module mud.gfx;
 #else
 #include <bgfx/bgfx.h>
-#include <bx/math.h>
 
 #include <ecs/ECS.h>
 #include <geom/Intersect.h>

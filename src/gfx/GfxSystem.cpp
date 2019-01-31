@@ -19,7 +19,6 @@ module mud.gfx;
 #include <infra/ToString.h>
 #include <infra/File.h>
 #include <math/Image256.h>
-#include <math/Stream.h>
 #include <gfx/Types.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Material.h>

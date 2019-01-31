@@ -12,8 +12,6 @@
 #endif
 #include <gfx/Forward.h>
 
-#include <bgfx/bgfx.h>
-
 namespace mud
 {
 	export_ enum class refl_ AnimationTarget : unsigned int

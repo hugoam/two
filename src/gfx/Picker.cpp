@@ -10,7 +10,7 @@ module mud.gfx;
 #include <stl/map.h>
 #include <infra/Vector.h>
 #include <math/Math.h>
-#include <math/VecOps.h>
+#include <math/Vec.hpp>
 #include <gfx/Picker.h>
 #include <gfx/Frustum.h>
 #include <gfx/Node3.h>
@@ -27,6 +27,7 @@ module mud.gfx;
 #include <gfx/GfxSystem.h>
 #endif
 
+#include <bx/bx.h>
 #include <bgfx/bgfx.h>
 
 namespace mud

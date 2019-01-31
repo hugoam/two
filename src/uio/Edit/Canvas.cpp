@@ -20,7 +20,6 @@ module mud.uio;
 #include <ui/Structs/Node.h>
 #include <ui/Structs/Container.h>
 #include <uio/Types.h>
-#include <uio/Unode.h>
 #include <uio/Edit/Canvas.h>
 #include <uio/Edit/Structure.h>
 #include <uio/Edit/Value.h>

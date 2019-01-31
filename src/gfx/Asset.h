@@ -10,11 +10,9 @@
 #include <stl/vector.h>
 #include <stl/map.h>
 #include <type/Unique.h>
-#include <infra/Array.h>
 #include <infra/NonCopy.h>
 #endif
 #include <gfx/Forward.h>
-#include <gfx/GfxSystem.h>
 
 namespace mud
 {

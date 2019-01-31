@@ -8,7 +8,7 @@
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
 #include <type/Unique.h>
-#include <math/VecOps.h>
+#include <math/Vec.hpp>
 #include <geom/Geom.h>
 #endif
 #include <gfx/Forward.h>

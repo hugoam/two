@@ -5,7 +5,7 @@
 #pragma once
 
 #include <stl/vector.h>
-#include <stl/type_traits.h>
+//#include <stl/type_traits.h>
 #include <infra/Config.h>
 #include <infra/String.h>
 #include <infra/ToString.h>
@@ -25,16 +25,16 @@ namespace mud
 		if(val.size() > 0)
 			str.pop_back();
 	}
-	
-	export_ template <typename T>
-	struct is_vector : false_type {};
-	
-	export_ template <typename T>
-	struct is_vector<vector<T>> : true_type {};
 
 #if 0
 	export_ template <class T>
-	inline typename enable_if<is_vector<T>::value, void>::type
+	constexpr bool is_vector = false;
+	
+	export_ template <class T>
+	constexpr bool is_vector<vector<T>> = true;
+
+	export_ template <class T>
+	inline enable_if<is_vector<T>, void>
 		to_string(const T& val, string& str) { vector_to_string(val, str); }
 #endif
 
@@ -48,7 +48,7 @@ namespace mud
 		while(second != end)
 		{
 			second = str.find(",", first);
-			vec.push_back(to_value<typename T::value_type>(str.substr(first, second - first)));
+			vec.push_back(to_value<class T::value_type>(str.substr(first, second - first)));
 			
 			if(second != end)
 				first = second + 1;
@@ -56,7 +56,7 @@ namespace mud
 	}
 
 	export_ template <class T, uint32_t size>
-	inline void fixed_vector_to_string(const T& val, string& str)
+	inline void array_to_string(const T& val, string& str)
 	{
 		for(uint32_t i = 0; i < size; ++i)
 		{
@@ -67,7 +67,7 @@ namespace mud
 	}
 
 	export_ template <class Vec, class T>
-	inline void string_to_fixed_vector(const string& str, Vec& vec)
+	inline void string_to_array(const string& str, Vec& vec)
 	{
 		size_t first = 0;
 		size_t second = str.find(",");

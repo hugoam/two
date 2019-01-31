@@ -8,6 +8,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <math/Vec.hpp>
 #include <ui/ScrollSheet.h>
 #include <ui/Structs/Container.h>
 #include <ui/Frame/Frame.h>

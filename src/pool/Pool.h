@@ -4,12 +4,9 @@
 
 #pragma once
 
+#include <type/Unique.h>
+#include <type/Ref.h>
 #include <pool/Forward.h>
-#include <pool/VecPool.h>
-#include <type/RefVal.h>
-#include <type/Var.h>
-
-#include <new>
 
 namespace mud
 {
@@ -32,50 +29,31 @@ namespace mud
 	class TPool : public Pool
 	{
 	public:
-		TPool(size_t size = 12) : m_vec_pool(make_unique<VecPool<T>>(size)) {}
-		~TPool() {}
+		TPool(size_t size = 12);
+		~TPool();
 
-		inline T* talloc() { return m_vec_pool->alloc(); }
-		inline void tdestroy(T& object) { m_vec_pool->destroy(&object); }
-		inline void tfree(T& object) { m_vec_pool->free(&object); }
+		inline T* talloc();
+		inline void tdestroy(T& object);
+		inline void tfree(T& object);
 
-		virtual void alloc(Ref& ref) { setval<T>(ref, m_vec_pool->alloc()); }
-		virtual Ref alloc() { return Ref(m_vec_pool->alloc(), type<T>()); }
+		virtual void alloc(Ref& ref);
+		virtual Ref alloc();
 
-		virtual void destroy(Ref object) { m_vec_pool->destroy(&val<T>(object)); }
-		virtual void free(Ref object) { m_vec_pool->free(&val<T>(object)); }
+		virtual void destroy(Ref object);
+		virtual void free(Ref object);
 
-		inline void reset(size_t size) { m_vec_pool = make_unique<VecPool<T>>(size); }
-		virtual void reset() { m_vec_pool = make_unique<VecPool<T>>(12); }
-		virtual void clear() { m_vec_pool = nullptr; }
+		inline void reset(size_t size);
+		virtual void reset();
+		virtual void clear();
 
 		template <class... Types>
-		inline T& construct(Types&&... args)
-		{
-			T* at = this->talloc();
-			new (at) T(static_cast<Types&&>(args)...);
-			return *at;
-		}
+		inline T& construct(Types&&... args);
 
 		template <class T_Func>
-		inline void iterate(T_Func func) const
-		{
-			VecPool<T>* pool = m_vec_pool.get();
-			for(; pool; pool = pool->m_next.get())
-				for(T* object : pool->m_objects)
-					func(*object);
-		}
+		inline void iterate(T_Func func) const;
 
 		template <class T_Test>
-		inline T* find(T_Test test) const
-		{
-			VecPool<T>* pool = m_vec_pool.get();
-			for(; pool; pool = pool->m_next.get())
-				for(T* object : pool->m_objects)
-					if(test(*object))
-						return object;
-			return nullptr;
-		}
+		inline T* find(T_Test test) const;
 
 		unique<VecPool<T>> m_vec_pool;
 	};

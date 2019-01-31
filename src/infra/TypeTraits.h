@@ -15,24 +15,21 @@
 
 namespace mud
 {
-	export_ template <typename T>
-	struct is_function_pointer : integral_constant<bool, is_pointer<T>::value
-													  && is_function<typename remove_pointer<T>::type>::value> {};
+	export_ template <class T>
+	constexpr bool is_function_pointer = is_pointer<T> && is_function<remove_pointer<T>>;
 
-	export_ template <typename T>
-	struct is_object_pointer : integral_constant<bool, is_pointer<T>::value
-													&& !is_function_pointer<T>::value> {};
+	export_ template <class T>
+	constexpr bool is_object_pointer = is_pointer<T> && !is_function_pointer<T>;
 
-	export_ template <typename T, typename = void>
+	export_ template <class T, typename = void>
 	struct is_comparable_base : false_type {};
 
-	export_ template <typename T>
-	struct is_comparable_base<T, decltype(std::declval<T&>() == std::declval<T&>(), (void) 0)> : true_type {};
+	export_ template <class T>
+	struct is_comparable_base<T, decltype(declval<T&>() == declval<T&>(), (void) 0)> : true_type {};
 
-	export_ template <typename T>
-	struct is_comparable : is_comparable_base<T> {};
+	export_ template <class T>
+	constexpr bool is_comparable = is_comparable_base<T>::value;
 
-	export_ template <typename T>
-	struct is_copyable : integral_constant<bool, is_copy_constructible<T>::value
-											  && is_copy_assignable<T>::value> {};
+	export_ template <class T>
+	constexpr bool is_copyable = is_copy_constructible<T> && is_copy_assignable<T>;
 }

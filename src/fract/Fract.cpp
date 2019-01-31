@@ -14,6 +14,7 @@
 module mud.fract;
 #else
 #include <math/Colour.h>
+#include <math/Vec.hpp>
 #include <fract/Fract.h>
 #endif
 

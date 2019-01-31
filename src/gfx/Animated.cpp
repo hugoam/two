@@ -7,8 +7,6 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <bx/math.h>
-
 #include <infra/Vector.h>
 #include <math/Math.h>
 #include <math/Interp.h>

@@ -7,7 +7,7 @@
 #include <math/Forward.h>
 
 #ifndef MUD_CPP_20
-#include <cstdint>
+#include <stdint.h>
 #include <cmath>
 #endif
 
@@ -41,7 +41,7 @@ namespace mud
 	export_ using std::isnan;
 	export_ using std::isinf;
 
-	export_ template <typename T>
+	export_ template <class T>
 	inline T sign(T val) { return T(T(0) < val) - (val < T(0)); }
 
 	export_ template <class T>
@@ -76,12 +76,6 @@ namespace mud
 	template <> func_ float multiply<float>(float a, float b);
 	template <> func_ float divide<float>(float a, float b);
 #endif
-
-	export_ enum refl_ Clockwise : unsigned int
-	{
-		CLOCKWISE,
-		ANTI_CLOCKWISE
-	};
 
 	export_ MUD_MATH_EXPORT func_ float nsinf(float a); // { return a + 1.f / 2.f; } // @kludge can't be inline because we identify reflected functions through their pointer 
 	export_ MUD_MATH_EXPORT func_ float ncosf(float a); // { return a + 1.f / 2.f; }

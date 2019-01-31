@@ -7,7 +7,7 @@
 typedef struct WrenHandle WrenHandle;
 //struct WrenHandle;
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	export_ extern template class vector<Pipe*>;

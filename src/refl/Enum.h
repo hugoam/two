@@ -30,7 +30,7 @@ namespace mud
 		uint32_t index(Ref value);
 		cstring name(uint32_t value) { return m_reverse[value]; }
 		Ref var(uint32_t value);
-		//Var varn(uint32_t index) { Var value = meta(m_type).m_empty_var; copy_construct(value, m_vars[index]); return value; }
+		//Var varn(uint32_t index) { const Var& value = meta(m_type).m_empty_var; copy_construct(value, m_vars[index]); return value; }
 		Ref varn(uint32_t index) { return Ref(m_vars[index], m_type); }
 		void varn(uint32_t index, Ref value) { copy_construct(value, this->varn(index)); }
 	};

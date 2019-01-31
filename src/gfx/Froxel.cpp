@@ -5,7 +5,6 @@
 #include <gfx/Cpp20.h>
 
 #include <bx/allocator.h>
-#include <bx/math.h>
 
 #ifdef MUD_MODULES
 module mud.gfx;
@@ -23,8 +22,8 @@ module mud.gfx;
 #include <gfx/GfxSystem.h>
 #endif
 
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 #include <cstring>
 #include <cstdio>
 #include <limits>
@@ -96,12 +95,34 @@ namespace mud
 		float radius; // radius is not used in the hot loop, so leave it at the end
 	};
 
+	struct FroxelUniform
+	{
+		void createUniforms()
+		{
+			s_light_records = bgfx::createUniform("s_light_records", bgfx::UniformType::Int1);
+			s_light_clusters = bgfx::createUniform("s_light_clusters", bgfx::UniformType::Int1);
+
+			u_froxel_params = bgfx::createUniform("u_froxel_params", bgfx::UniformType::Vec4);
+			u_froxel_f = bgfx::createUniform("u_froxel_f", bgfx::UniformType::Vec4);
+			u_froxel_z = bgfx::createUniform("u_froxel_z", bgfx::UniformType::Vec4);
+		}
+
+		bgfx::UniformHandle s_light_records;
+		bgfx::UniformHandle s_light_clusters;
+
+		bgfx::UniformHandle u_froxel_params;
+		bgfx::UniformHandle u_froxel_f;
+		bgfx::UniformHandle u_froxel_z;
+	};
+
 	struct Froxelizer::Impl
 	{
 		Impl()
 			: m_froxels({ GpuBuffer::ElementType::UINT16, 2 }, FROXEL_BUFFER_WIDTH, FROXEL_BUFFER_HEIGHT)
 			, m_records({ record_type(), 1 }, RECORD_BUFFER_WIDTH, RECORD_BUFFER_HEIGHT)
-		{}
+		{
+			m_uniform.createUniforms();
+		}
 
 		template <class T>
 		struct Buffer
@@ -117,6 +138,8 @@ namespace mud
 
 		Buffer<FroxelEntry> m_froxels;			//  32 KiB w/ 8192 froxels
 		Buffer<RecordBufferType> m_records;		//  64 KiB // max 32 KiB  (actual: resolution dependant)
+
+		FroxelUniform m_uniform;
 	};
 
 	void froxelize_light(ClusteredFrustum& frustum, FroxelThreadData& froxelThread, uint32_t bit, const mat4& projection, float near, const LightParams& light, float light_far);
@@ -126,7 +149,6 @@ namespace mud
 		, m_impl(construct<Impl>())
 	{
 		UNUSED(RECORD_BUFFER_WIDTH_MASK);
-		m_uniform.createUniforms();
 	}
 
 	Froxelizer::~Froxelizer()
@@ -279,14 +301,14 @@ namespace mud
 
 	void Froxelizer::submit(bgfx::Encoder& encoder) const
 	{
-		encoder.setTexture(uint8_t(TextureSampler::LightRecords), m_uniform.s_light_records, m_impl->m_records.m_buffer.m_texture);
-		encoder.setTexture(uint8_t(TextureSampler::Clusters), m_uniform.s_light_clusters, m_impl->m_froxels.m_buffer.m_texture);
+		encoder.setTexture(uint8_t(TextureSampler::LightRecords), m_impl->m_uniform.s_light_records, m_impl->m_records.m_buffer.m_texture);
+		encoder.setTexture(uint8_t(TextureSampler::Clusters), m_impl->m_uniform.s_light_clusters, m_impl->m_froxels.m_buffer.m_texture);
 
 		auto submit = [=](bgfx::Encoder& encoder, vec4 params, vec4 f, vec4 z)
 		{
-			encoder.setUniform(m_uniform.u_froxel_params, &params);
-			encoder.setUniform(m_uniform.u_froxel_f, &f);
-			encoder.setUniform(m_uniform.u_froxel_z, &z);
+			encoder.setUniform(m_impl->m_uniform.u_froxel_params, &params);
+			encoder.setUniform(m_impl->m_uniform.u_froxel_f, &f);
+			encoder.setUniform(m_impl->m_uniform.u_froxel_z, &z);
 		};
 
 		submit(encoder, vec4(m_frustum.m_inv_tile_size, rect_offset(vec4(m_viewport->m_rect))), vec4(vec3(m_params_f), 0.f), m_params_z);
@@ -299,6 +321,9 @@ namespace mud
 		froxelize_assign_records_compress(uint32_t(lights.size()));
 	}
 
+	template <class T>
+	inline T sq(T val) { return val * val; }
+
 	void Froxelizer::froxelize_light_group(const Camera& camera, array<Light*> lights, uint32_t offset, uint32_t stride)
 	{
 		const mat4& projection = m_projection;
@@ -308,7 +333,7 @@ namespace mud
 			vec3 position = mulp(camera.m_transform, lights[i]->m_node.position());
 			vec3 direction = muln(camera.m_transform, lights[i]->m_node.direction());
 
-			float cos2 = bx::square(cos(to_radians(lights[i]->m_spot_angle)));
+			float cos2 = sq(cos(to_radians(lights[i]->m_spot_angle)));
 			float invsin = 1.f / std::sqrt(1.f - cos2);
 
 			LightParams light = { position, cos2, direction, invsin, lights[i]->m_range };

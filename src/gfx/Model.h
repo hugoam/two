@@ -15,8 +15,6 @@
 #include <gfx/Forward.h>
 #include <gfx/Node3.h>
 
-#include <bgfx/bgfx.h>
-
 namespace mud
 {
 	export_ struct refl_ ModelItem

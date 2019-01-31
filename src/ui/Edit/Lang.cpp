@@ -10,11 +10,11 @@ module mud.ui;
 #include <ui/Edit/Lang.h>
 #endif
 
-#include <stl/tinystl/hash_base.impl.h>
+#include <stl/hash_base.hpp>
 
 namespace mud
 {
-	template<class T, size_t N>
+	template <class T, size_t N>
 	constexpr size_t size(T(&)[N]) { return N; }
 
 	vector<uint32_t>& TextEdit::OkaidaPalette()

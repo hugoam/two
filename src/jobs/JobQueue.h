@@ -4,12 +4,12 @@
 
 #include <atomic>
 
-#include <cstddef>
+#include <stl/stddef.h>
 #include <cassert>
 
 namespace mud
 {
-	template <typename T, size_t Count>
+	template <class T, size_t Count>
 	class StealQueue
 	{
 		static_assert(!(Count & (Count - 1)), "Count must be a power of two");
@@ -46,7 +46,7 @@ namespace mud
 	};
 
 
-	template <typename T, size_t Count>
+	template <class T, size_t Count>
 	void StealQueue<T, Count>::push(T item)
 	{
 		int32_t bottom = m_bottom.load(std::memory_order_relaxed);
@@ -54,7 +54,7 @@ namespace mud
 		m_bottom.store(bottom + 1, std::memory_order_release);
 	}
 
-	template <typename T, size_t Count>
+	template <class T, size_t Count>
 	T StealQueue<T, Count>::pop()
 	{
 		int32_t bottom = m_bottom.fetch_sub(1, std::memory_order_relaxed) - 1;
@@ -84,7 +84,7 @@ namespace mud
 		return item;
 	}
 
-	template <typename T, size_t Count>
+	template <class T, size_t Count>
 	T StealQueue<T, Count>::steal()
 	{
 		do {

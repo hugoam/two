@@ -4,7 +4,7 @@
 #include <infra/Array.h>
 
 #include <cassert>
-#include <cstddef>
+#include <stl/stddef.h>
 #include <cstdlib>
 
 #include <atomic>
@@ -18,13 +18,13 @@ namespace mud
 {
 	namespace pointermath
 	{
-		export_ template <typename P, typename T>
+		export_ template <class P, class T>
 		inline P* add(P* a, T b)
 		{
 			return (P*)(uintptr_t(a) + uintptr_t(b));
 		}
 
-		export_ template <typename P>
+		export_ template <class P>
 		inline P* align(P* p, size_t alignment)
 		{
 			// alignment must be a power-of-two
@@ -32,7 +32,7 @@ namespace mud
 			return (P*)((uintptr_t(p) + alignment - 1) & ~(alignment - 1));
 		}
 
-		export_ template <typename P>
+		export_ template <class P>
 		inline P* align(P* p, size_t alignment, size_t offset)
 		{
 			P* const r = align(add(p, offset), alignment);
@@ -150,7 +150,7 @@ namespace mud
 			return p;
 		}
 
-		template <typename U = T, typename = typename enable_if<std::is_trivially_destructible<U>::value>::type>
+		template <class U = T, typename = enable_if<is_trivially_destructible<U>>>
 		T* alloc(size_t count, size_t alignment = alignof(T))
 		{
 			return (T*)alloc(count * sizeof(T), alignment);
@@ -173,7 +173,7 @@ namespace mud
 
 		//void rewind(void* addr) { m_allocator.rewind(addr); }
 
-		template <typename... T_Args>
+		template <class... T_Args>
 		T* make(T_Args&&... args)
 		{
 			void* const p = this->alloc();

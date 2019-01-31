@@ -8,7 +8,6 @@
 #include <refl/Injector.h>
 #endif
 #include <uio/Forward.h>
-#include <uio/Unode.h>
 
 namespace mud
 {

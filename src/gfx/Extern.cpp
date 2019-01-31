@@ -3,13 +3,14 @@
 #ifdef MUD_MODULES
 module mud.math;
 #else
-#include <stl/tinystl/vector.impl.h>
-#include <stl/tinystl/unordered_map.impl.h>
-#include <stl/tinystl/unordered_set.impl.h>
+#include <stl/vector.hpp>
+#include <stl/vectorp.hpp>
+#include <stl/unordered_map.hpp>
+#include <stl/unordered_set.hpp>
 #include <gfx/Extern.h>
 #endif
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	template class MUD_GFX_EXPORT vector<Texture*>;

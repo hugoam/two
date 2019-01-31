@@ -9,7 +9,6 @@
 #include <infra/Global.h>
 #endif
 #include <uio/Forward.h>
-#include <uio/Unode.h>
 
 namespace mud
 {

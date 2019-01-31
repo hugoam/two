@@ -10,6 +10,7 @@
 #include <math/Interp.h>
 #include <math/Math.h>
 #include <math/Random.h>
+#include <math/Range.h>
 #include <math/Stat.h>
 //#include <math/Stream.h>
 #include <math/Structs.h>
@@ -17,6 +18,6 @@
 #include <math/Types.h>
 #include <math/Vec.h>
 //#include <math/VecJson.h>
-//#include <math/VecMath.h>
-#include <math/VecOps.h>
+//#include <math/Vec.hpp>
+#include <math/Vec.hpp>
 

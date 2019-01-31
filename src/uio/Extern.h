@@ -4,7 +4,7 @@
 #include <stl/unordered_map.h>
 #include <uio/Api.h>
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	export_ extern template class vector<EditSpec>;

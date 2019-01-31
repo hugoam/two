@@ -1,11 +1,11 @@
 #pragma once
 
-#include <stl/tinystl/stddef.h>
-#include <stl/tinystl/traits.h>
+#include <stl/stddef.h>
+#include <stl/traits.h>
 
-namespace tinystl {
+namespace stl {
 
-	template<typename Key, typename Value>
+	template <class Key, class Value>
 	struct pair {
 		pair();
 		pair(const pair& other);
@@ -21,7 +21,7 @@ namespace tinystl {
 		Value second;
 	};
 
-	template<typename Key, typename Value>
+	template <class Key, class Value>
 	struct unordered_hash_node {
 		unordered_hash_node(const Key& key, const Value& value);
 		unordered_hash_node(Key&& key, Value&& value);
@@ -35,7 +35,7 @@ namespace tinystl {
 		unordered_hash_node& operator=(const unordered_hash_node&);
 	};
 
-	template <typename Key>
+	template <class Key>
 	struct unordered_hash_node<Key, void> {
 		explicit unordered_hash_node(const Key& key);
 		explicit unordered_hash_node(Key&& key);
@@ -48,14 +48,14 @@ namespace tinystl {
 		unordered_hash_node& operator=(const unordered_hash_node&);
 	};
 
-	template<typename Node>
+	template <class Node>
 	struct unordered_hash_iterator {
 		Node* operator->() const;
 		Node& operator*() const;
 		Node* node;
 	};
 
-	template<typename Node>
+	template <class Node>
 	struct unordered_hash_iterator<const Node> {
 		unordered_hash_iterator() {}
 		unordered_hash_iterator(unordered_hash_iterator<Node> other)
@@ -67,24 +67,24 @@ namespace tinystl {
 		const Node* node;
 	};
 
-	template<typename Key>
+	template <class Key>
 	struct unordered_hash_iterator<const unordered_hash_node<Key, void> > {
 		const Key* operator->() const;
 		const Key& operator*() const;
 		unordered_hash_node<Key, void>* node;
 	};
 
-	template<typename LNode, typename RNode>
+	template <class LNode, class RNode>
 	static inline bool operator==(const unordered_hash_iterator<LNode>& lhs, const unordered_hash_iterator<RNode>& rhs) {
 		return lhs.node == rhs.node;
 	}
 
-	template<typename LNode, typename RNode>
+	template <class LNode, class RNode>
 	static inline bool operator!=(const unordered_hash_iterator<LNode>& lhs, const unordered_hash_iterator<RNode>& rhs) {
 		return lhs.node != rhs.node;
 	}
 
-	template<typename Node>
+	template <class Node>
 	static inline void operator++(unordered_hash_iterator<Node>& lhs) {
 		lhs.node = lhs.node->next;
 	}

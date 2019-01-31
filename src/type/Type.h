@@ -8,8 +8,8 @@
 #include <type/Cls.h>
 
 #ifndef MUD_CPP_20
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 #endif
 
 namespace mud // export_ namespace mud// @todo evaluate export at namespace level ?

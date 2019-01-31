@@ -19,24 +19,30 @@ namespace mud
 	Call::Call()
 	{}
 
-	Call::Call(const Callable& callable, vector<Var> arguments)
+	Call::Call(const Callable& callable, vector<Var> args)
 		: m_callable(&callable)
-		, m_arguments(arguments)
+		, m_args(args)
 		, m_result(meta(*callable.m_return_type.m_type).m_empty_var)
 	{}
 
 	Call::Call(const Callable& callable)
-		: Call(callable, vector<Var>{})//, callable.m_arguments)
+		: Call(callable, vector<Var>{})//, callable.m_args)
 	{}
 
 	Call::Call(const Callable& callable, Ref object)
 		: Call(callable)
 	{
-		m_arguments[0] =  object;
+		m_args[0] =  object;
 	}
 
-	//bool Call::validate() { return m_callable && m_callable->validate(to_array(m_arguments)); }
+	void Call::prepare()
+	{
+		for (size_t i = 0; i < m_args.size(); ++i)
+			m_vargs[i] = m_args[i].m_ref.m_value;
+	}
 
-	//const Var& Call::operator()() { (*m_callable)(to_array(m_arguments), m_result); return m_result; }
-	//const Var& Call::operator()(Ref object) { m_arguments[0] = object; (*m_callable)(to_array(m_arguments), m_result); return m_result; }
+	bool Call::validate() { return m_callable && m_callable->validate(to_array(m_args)); }
+
+	const Var& Call::operator()() { (*m_callable)(to_array(m_vargs), m_result.m_ref.m_value); return m_result; }
+	const Var& Call::operator()(Ref object) { m_args[0] = object; (*m_callable)(to_array(m_vargs), m_result.m_ref.m_value); return m_result; }
 }

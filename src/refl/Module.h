@@ -7,7 +7,7 @@
 #include <stl/vector.h>
 #include <refl/Forward.h>
 
-#include <cstdint>
+#include <stdint.h>
 
 namespace mud
 {

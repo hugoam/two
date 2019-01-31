@@ -7,10 +7,10 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
-#include <math/VecOps.h>
+#include <math/Vec.hpp>
 #include <type/Types.h>
 #include <ui/Input.h>
-#include <ui/Input.impl.h>
+#include <ui/Input.hpp>
 #include <ui/Sheet.h>
 #include <ui/Container.h>
 #include <ui/Structs/Container.h>

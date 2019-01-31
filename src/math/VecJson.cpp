@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.math;
 #else
+#include <stl/vector.h>
 #include <math/VecJson.h>
 #endif
 

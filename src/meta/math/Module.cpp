@@ -4,7 +4,6 @@
 module mud.math;
 #else
 #include <type/Vector.h>
-#include <type/Any.h>
 #include <refl/MetaDecl.h>
 #include <refl/Module.h>
 #include <meta/infra/Module.h>
@@ -85,8 +84,8 @@ void mud_Time__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mu
 void mud_Time__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Time*>(ref))) mud::Time((*static_cast<mud::Time*>(other))); }
 void mud_TimeSpan__construct_0(void* ref, array<void*> args) { new(&(*static_cast<mud::TimeSpan*>(ref))) mud::TimeSpan( *static_cast<mud::Time*>(args[0]), *static_cast<mud::Time*>(args[1]) ); }
 void mud_TimeSpan__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::TimeSpan*>(ref))) mud::TimeSpan((*static_cast<mud::TimeSpan*>(other))); }
-void mud_Transform__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Transform*>(ref))) mud::Transform(  ); }
-void mud_Transform__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::Transform*>(ref))) mud::Transform( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2]) ); }
+//void mud_Transform__construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::Transform*>(ref))) mud::Transform(  ); }
+//void mud_Transform__construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::Transform*>(ref))) mud::Transform( *static_cast<mud::vec3*>(args[0]), *static_cast<mud::quat*>(args[1]), *static_cast<mud::vec3*>(args[2]) ); }
 void mud_Transform__copy_construct(void* ref, void* other) { new(&(*static_cast<mud::Transform*>(ref))) mud::Transform((*static_cast<mud::Transform*>(other))); }
 void mud_ValueCurve_float___construct_0(void* ref, array<void*> args) { UNUSED(args); new(&(*static_cast<mud::ValueCurve<float>*>(ref))) mud::ValueCurve<float>(  ); }
 void mud_ValueCurve_float___construct_1(void* ref, array<void*> args) { new(&(*static_cast<mud::ValueCurve<float>*>(ref))) mud::ValueCurve<float>( *static_cast<vector<float>*>(args[0]) ); }
@@ -708,10 +707,10 @@ namespace mud
 		static mud::quat rotation_default = ZeroQuat;
 		static mud::vec3 scale_default = Unit3;
 		// constructors
-		static Constructor constructors[] = {
-			{ t, mud_Transform__construct_0, {} },
-			{ t, mud_Transform__construct_1, { { "position", type<mud::vec3>(),  }, { "rotation", type<mud::quat>(),  }, { "scale", type<mud::vec3>(),  } } }
-		};
+		//static Constructor constructors[] = {
+		//	{ t, mud_Transform__construct_0, {} },
+		//	{ t, mud_Transform__construct_1, { { "position", type<mud::vec3>(),  }, { "rotation", type<mud::quat>(),  }, { "scale", type<mud::vec3>(),  } } }
+		//};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, mud_Transform__copy_construct }
@@ -724,7 +723,7 @@ namespace mud
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, {}, copy_constructor, members, {}, {}, };
 	}
 	// mud::ValueCurve<float>
 	{

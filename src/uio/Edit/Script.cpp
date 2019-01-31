@@ -8,6 +8,7 @@
 module mud.uio;
 #else
 #include <infra/Vector.h>
+#include <math/Vec.hpp>
 #include <type/Any.h>
 #include <refl/System.h>
 #include <pool/ObjectPool.h>
@@ -22,7 +23,6 @@ module mud.uio;
 #include <uio/Edit/Canvas.h>
 #include <uio/Edit/Indexer.h>
 #include <uio/Edit/Reflection.h>
-#include <uio/Unode.h>
 #endif
 
 namespace mud

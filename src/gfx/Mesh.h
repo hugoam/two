@@ -40,28 +40,10 @@ namespace mud
 		MeshAdapter m_writer = {};
 	};
 	
-	inline GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32)
-	{
-		GpuMesh gpu_mesh = { vertex_count, index_count };
+	export_ MUD_GFX_EXPORT const bgfx::VertexDecl& vertex_decl(uint32_t vertex_format);
 
-		gpu_mesh.m_vertex_memory = bgfx::alloc(vertex_size(vertex_format) * vertex_count);
-		gpu_mesh.m_index_memory = index32 ? bgfx::alloc(sizeof(uint32_t) * index_count)
-										  : bgfx::alloc(sizeof(uint16_t) * index_count);
-		gpu_mesh.m_index32 = index32;
-
-		gpu_mesh.m_vertices = gpu_mesh.m_vertex_memory->data;
-		gpu_mesh.m_indices = gpu_mesh.m_index_memory->data;
-
-		gpu_mesh.m_vertex_format = vertex_format;
-		gpu_mesh.m_writer = MeshAdapter(vertex_format, gpu_mesh.m_vertices, vertex_count, gpu_mesh.m_indices, index_count, index32);
-
-		return gpu_mesh;
-	}
-
-	inline GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count)
-	{
-		return alloc_mesh(vertex_format, vertex_count, index_count, vertex_count > UINT16_MAX);
-	}
+	export_ MUD_GFX_EXPORT GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32);
+	export_ MUD_GFX_EXPORT GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count);
 
 	export_ class refl_ MUD_GFX_EXPORT Mesh
 	{

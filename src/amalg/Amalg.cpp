@@ -5,10 +5,15 @@
 #include <infra/String.h>
 #include <amalg/Amalg.h>
 
-#include <stl/tinystl/vector.impl.h>
-#include <stl/tinystl/unordered_set.impl.h>
+#include <stl/vector.hpp>
+#include <stl/unordered_set.hpp>
 
 #include <cstdio>
+
+namespace stl
+{
+	template class unordered_set<string>;
+}
 
 namespace mud
 {
@@ -185,6 +190,8 @@ using namespace mud;
 
 int main(int argc, char *argv[])
 {
+	set<string> test;
+
 	vector<string> filter = {
 		"//  Copyright (c) 2019 Hugo Amiard hugo.amiard@laposte.net",
 		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",

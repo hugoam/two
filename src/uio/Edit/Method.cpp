@@ -38,12 +38,12 @@ namespace mud
 		{
 			const Param& param = call.m_callable->m_params[i];
 			bool link = is_object(type(param.default_val())) || param.nullable();
-			field_edit(parent, param.m_name, call.m_arguments[i].m_ref, link);
+			field_edit(parent, param.m_name, call.m_args[i].m_ref, link);
 		}
 
-		/*uint16_t offset = call.m_arguments.size() - call.m_callable->m_params.size();
+		/*uint16_t offset = call.m_args.size() - call.m_callable->m_params.size();
 		for(Param& param : call.m_callable->m_params)
-			field_edit(parent, param.m_name, call.m_arguments[param.m_index + offset], param.nullable());*/
+			field_edit(parent, param.m_name, call.m_args[param.m_index + offset], param.nullable());*/
 		return false;
 	}
 

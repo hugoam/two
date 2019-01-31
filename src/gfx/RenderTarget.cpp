@@ -4,12 +4,12 @@
 
 #include <gfx/Cpp20.h>
 
-#include <bx/math.h>
 #include <bgfx/bgfx.h>
 
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <math/Vec.hpp>
 #include <gfx/RenderTarget.h>
 #include <gfx/Node3.h>
 #include <gfx/Renderer.h>

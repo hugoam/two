@@ -70,15 +70,12 @@ namespace mud
 
 		InputEvent() {}
 		InputEvent(DeviceType deviceType, EventType eventType, InputMod modifiers = InputMod::None) : m_deviceType(deviceType), m_eventType(eventType), m_modifiers(modifiers) {}
-		virtual ~InputEvent() {}
-
+		
 		meth_ inline InputEvent& consume(ControlNode& consumer) { m_consumer = &consumer; return *this; }
 		meth_ inline bool valid() { return m_deviceType != DeviceType::None && m_consumer == nullptr; }
-		operator bool() { return valid(); }
+		operator bool() { return this->valid(); }
 
-		virtual void dispatch(Mouse& mouse, Keyboard& keyboard) { UNUSED(mouse); UNUSED(keyboard); }
-
-		bool operator==(const InputEvent& other) const { UNUSED(other); return false; }
+		//bool operator==(const InputEvent& other) const { UNUSED(other); return false; }
 	};
 
 	export_ struct refl_ MUD_CTX_EXPORT MouseEvent : public InputEvent
@@ -112,7 +109,7 @@ namespace mud
 
 		MouseEvent& consume(ControlNode& consumer) { m_consumer = &consumer; return *this; }
 
-		bool operator==(const MouseEvent& other) const { UNUSED(other); return false; }
+		//bool operator==(const MouseEvent& other) const { UNUSED(other); return false; }
 	};
 
 	export_ struct refl_ MUD_CTX_EXPORT KeyEvent : public InputEvent
@@ -127,6 +124,6 @@ namespace mud
 			m_key = int(code);
 		}
 
-		bool operator==(const KeyEvent& other) const { UNUSED(other); return false; }
+		//bool operator==(const KeyEvent& other) const { UNUSED(other); return false; }
 	};
 }

@@ -8,7 +8,7 @@
 module mud.math;
 #else
 #include <math/Stat.h>
-#include <math/Stat.impl.h>
+#include <math/Stat.hpp>
 #endif
 
 namespace mud

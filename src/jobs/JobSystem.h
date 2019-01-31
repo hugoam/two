@@ -5,8 +5,8 @@
 #include <jobs/Forward.h>
 
 #include <cassert>
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 
 // Size is chosen so that we can store at least std::function<> and a job size is a multiple of a cacheline.
 #define JOB_PADDING (6+8)
@@ -60,7 +60,7 @@ namespace mud
 
 		Job* job(Job* parent = nullptr) { return this->create(parent, nullptr); }
 
-		template <typename T>
+		template <class T>
 		Job* job(Job* parent, T functor);
 
 		struct ThreadState;

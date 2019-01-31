@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef MUD_MODULES
-#include <stl/stringfwd.h>
+#include <stl/decls.h>
 #include <type/Ref.h>
 #include <math/Vec.h>
 #endif
@@ -14,7 +14,7 @@
 #include <ui/Widget.h>
 
 #ifndef MUD_CPP_20
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 namespace mud

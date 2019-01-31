@@ -2,9 +2,9 @@
 #include <clrefl/Codegen.h>
 #include <infra/ToString.h>
 
-#include <stl/tinystl/vector.impl.h>
-#include <stl/tinystl/unordered_map.impl.h>
-#include <stl/tinystl/unordered_set.impl.h>
+#include <stl/vector.hpp>
+#include <stl/unordered_map.hpp>
+#include <stl/unordered_set.hpp>
 
 #include <string>
 

@@ -2,7 +2,7 @@
 
 #include <infra/Config.h>
 
-#ifndef MUD_NO_STL
+#ifdef USE_STL
 #include <utility>
 namespace mud
 {
@@ -14,7 +14,7 @@ namespace mud
 {
 	namespace
 	{
-		template<typename T>
+		template <class T>
 		inline void swap(T& t1, T& t2)
 		{
 			T temp = move(t1);

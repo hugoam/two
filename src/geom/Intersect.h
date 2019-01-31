@@ -6,7 +6,7 @@
 
 #ifndef MUD_MODULES
 #include <math/Vec.h>
-#include <math/VecOps.h>
+#include <math/Vec.hpp>
 #endif
 #include <geom/Forward.h>
 

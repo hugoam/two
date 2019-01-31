@@ -9,7 +9,6 @@
 #include <stl/map.h>
 #include <infra/Array.h>
 #include <infra/NonCopy.h>
-#include <type/Any.h>
 #include <ecs/Proto.h>
 #include <refl/Method.h>
 #include <refl/Class.h>
@@ -72,11 +71,11 @@ namespace mud
 
 		virtual void declare_types() = 0;
 
-		virtual Var get(const string& name, Type& type) { UNUSED(name); UNUSED(type); return Var(); }
-		virtual void set(const string& name, Var value) { UNUSED(name); UNUSED(value); }
+		virtual const Var& get(const string& name, Type& type);
+		virtual void set(const string& name, const Var& value);
 
-		virtual Var getx(array<cstring> path, Type& type) { UNUSED(path); UNUSED(type); return Var(); }
-		virtual void setx(array<cstring> path, Var value) { UNUSED(path); UNUSED(value); }
+		virtual const Var& getx(array<cstring> path, Type& type);
+		virtual void setx(array<cstring> path, const Var& value);
 
 		virtual void call(const string& code, Var* result = nullptr) = 0;
 		virtual void virtual_call(Method& method, Ref object, array<Var> args) { UNUSED(method); UNUSED(object); UNUSED(args); }
@@ -86,13 +85,13 @@ namespace mud
 		string flush();
 
 		template <class T>
-		T* tget(const string& name) { Var value = get(name, type<T>()); return try_val<T>(value); }
+		T* tget(const string& name);
 
 		template <class T>
-		T* tgetx(array<cstring> path) { Var value = getx(path, type<T>()); return try_val<T>(value); }
+		T* tgetx(array<cstring> path);
 
 		template <class T>
-		T* tcall(const string& expr) { Var result = call(expr, &type<T>()); return try_val<T>(result); }
+		T* tcall(const string& expr);
 
 		const TextScript* m_script = nullptr;
 		string m_output;

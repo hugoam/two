@@ -10,7 +10,7 @@
 module mud.gfx.pbr;
 #else
 #include <ecs/ECS.h>
-#include <pool/ObjectPool.h>
+#include <pool/ObjectPool.hpp>
 #include <gfx/Types.h>
 #include <gfx/Api.h>
 #include <gfx-pbr/Pipeline.h>

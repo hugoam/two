@@ -7,11 +7,10 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
+#include <math/Vec.hpp>
 #include <gfx/Skeleton.h>
 #include <gfx/Renderer.h>
 #endif
-
-#include <bx/math.h>
 
 #define SKELETON_TEXTURE_SIZE 256
 
@@ -151,7 +150,7 @@ namespace mud
 
 #ifdef _DEBUG
 #include <gfx/Gfx.h>
-#include <math/VecOps.h>
+#include <math/Vec.hpp>
 #include <geom/Shapes.h>
 #include <geom/Symbol.h>
 namespace mud

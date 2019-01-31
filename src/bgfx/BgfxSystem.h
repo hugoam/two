@@ -19,11 +19,14 @@
 	#endif
 #endif
 
-#include <bx/allocator.h>
-
 #ifndef MUD_CPP_20
 #include <stl/vector.h>
 #endif
+
+namespace bx
+{
+	struct AllocatorI;
+}
 
 namespace mud
 {
@@ -67,8 +70,9 @@ namespace mud
 		void init(BgfxContext& context);
 		void advance();
 
+		bx::AllocatorI& allocator();
+
 	public:
-		bx::DefaultAllocator m_allocator;
 		bool m_initialized = false;
 
 		uint32_t m_frame = 1;

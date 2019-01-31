@@ -8,6 +8,7 @@
 module mud.ui;
 #else
 #include <infra/ToString.h>
+#include <math/Vec.hpp>
 #include <ui/Slider.h>
 #include <ui/Button.h>
 #include <ui/Style/Styles.h>

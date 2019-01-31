@@ -10,7 +10,7 @@ module mud.math;
 #else
 #include <infra/Array.h>
 #include <math/Types.h>
-#include <math/VecOps.h>
+#include <math/Vec.hpp>
 #include <math/Math.h>
 #include <math/Grid.h>
 #include <math/Axes.h>

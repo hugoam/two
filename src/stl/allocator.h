@@ -1,8 +1,8 @@
 #pragma once
 
-#include <stl/tinystl/stddef.h>
+#include <stl/stddef.h>
 
-namespace tinystl {
+namespace stl {
 
 	struct allocator {
 		static void* static_allocate(size_t bytes) {
@@ -16,5 +16,5 @@ namespace tinystl {
 }
 
 #ifndef TINYSTL_ALLOCATOR
-#	define TINYSTL_ALLOCATOR ::tinystl::allocator
+#	define TINYSTL_ALLOCATOR ::stl::allocator
 #endif

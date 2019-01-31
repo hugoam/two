@@ -7,9 +7,8 @@
 #include <math/Forward.h>
 
 #ifndef MUD_CPP_20
-#include <cmath>
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 #endif
 
 namespace mud

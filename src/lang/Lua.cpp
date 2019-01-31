@@ -163,7 +163,7 @@ namespace mud
 		int release() { const auto n = m_num; m_num = 0; return n; }
 	};
 
-	class FromLua : public Dispatch<void, lua_State*, int, Var&>, public LazyGlobal<FromLua>
+	class FromLua : public Dispatch<void, lua_State*, int>, public LazyGlobal<FromLua>
 	{
 	public:
 		FromLua();
@@ -175,10 +175,10 @@ namespace mud
 		ToLua();
 	};
 
-	inline void read_sequence(lua_State* state, int index, Type& sequence_type, Var& result);
+	inline void read_sequence(lua_State* state, int index, Type& sequence_type, Ref result);
 	inline Stack push_sequence(lua_State* state, const Var& value);
 
-	inline void read_enum(lua_State* state, int index, Type& type, Var& result);
+	inline void read_enum(lua_State* state, int index, Type& type, Ref result);
 	inline Stack push_enum(lua_State* state, const Var& value);
 
 	inline Stack push_callable(lua_State* state, const Callable& callable);
@@ -261,7 +261,7 @@ namespace mud
 		return ToLua::me().dispatch(value, state);
 	}
 
-	inline void read_ref(lua_State* state, int index, Var& result)
+	inline void read_ref(lua_State* state, int index, Ref result)
 	{
 		if(lua_isnil(state, index)) result = Ref();
 		else if(!lua_isuserdata(state, index)) result = Ref();
@@ -271,7 +271,7 @@ namespace mud
 #endif
 	}
 
-	inline void read_object(lua_State* state, int index, Type& type_to_read, Var& result)
+	inline void read_object(lua_State* state, int index, Type& type_to_read, Ref result)
 	{
 		if(lua_isnil(state, index)) result = Ref(type_to_read);
 		else if(lua_isuserdata(state, index))
@@ -294,11 +294,12 @@ namespace mud
 		value = Ref(type);
 	}
 
-	inline void read_value(lua_State* state, int index, Type& type, Var& result)
+	inline void read_value(lua_State* state, int index, Type& type, Ref result)
 	{
-		FromLua::me().dispatch(Ref(type), state, index, result);
-		if(result.none())
-			lua_printf("ERROR : lua -> reading wrong type %s expected %s\n", lua_typename(state, lua_type(state, index)), type.m_name);
+		UNUSED(type);
+		FromLua::me().dispatch(result, state, index);
+		//if(result.none())
+		//	lua_printf("ERROR : lua -> reading wrong type %s expected %s\n", lua_typename(state, lua_type(state, index)), type.m_name);
 	}
 
 	inline Stack push(lua_State* state, const Var& var)
@@ -345,14 +346,14 @@ namespace mud
 		lua_pushglobaltable(state); return{ state, 1 };
 	}
 
-	inline void set_table(lua_State* state, Var index, Var value)
+	inline void set_table(lua_State* state, Var index, const Var& value)
 	{
 		push(state, index).release();
 		push(state, value).release();
 		lua_settable(state, -3);
 	}
 	
-	inline void set_table(lua_State* state, cstring index, Var value)
+	inline void set_table(lua_State* state, cstring index, const Var& value)
 	{
 		push(state, value).release();
 		lua_setfield(state, -2, index);
@@ -408,7 +409,7 @@ namespace mud
 		return stack;
 	}
 
-	inline Var get_global(lua_State* state, cstring name, Type& type)
+	inline const Var& get_global(lua_State* state, cstring name, Type& type)
 	{
 		Var result = meta(type).m_empty_var;
 		lua_getglobal(state, name);
@@ -417,7 +418,7 @@ namespace mud
 		return result;
 	}
 	
-	inline Var get_global(lua_State* state, array<cstring> indices, Type& type)
+	inline const Var& get_global(lua_State* state, array<cstring> indices, Type& type)
 	{
 		Var result = meta(type).m_empty_var;
 		Stack stack = global_table(state);
@@ -475,7 +476,7 @@ namespace mud
 	inline Stack call_cpp(lua_State* state, Call& call, size_t num_arguments)
 	{
 		bool enough_arguments = num_arguments >= call.m_callable->m_num_required;
-		if(enough_arguments && read_params(state, *call.m_callable, to_array(call.m_arguments, 0, num_arguments)))
+		if(enough_arguments && read_params(state, *call.m_callable, to_array(call.m_args, 0, num_arguments)))
 		{
 			call();
 			Stack result = call.m_result.none() ? Stack{ state, 0 } : push(state, call.m_result);
@@ -527,7 +528,7 @@ namespace mud
 		if(constructor)
 		{
 			Call& construct = lua_cached_call(*constructor);
-			if(read_params(state, *construct.m_callable, to_array(construct.m_arguments, 1, num_args)))
+			if(read_params(state, *construct.m_callable, to_array(construct.m_args, 1, num_args)))
 				construct(alloc_object(state, *type));
 			else
 				lua_pushnil(state);
@@ -634,7 +635,7 @@ namespace mud
 	}
 	
 	template <class T>
-	inline void read_integer(lua_State* state, int index, Var& result)
+	inline void read_integer(lua_State* state, int index, Ref result)
 	{
 		int success; lua_Integer value = lua_tointegerx(state, index, &success);
 		if(success)
@@ -642,41 +643,41 @@ namespace mud
 	}
 
 	template <class T>
-	inline void read_number(lua_State* state, int index, Var& result)
+	inline void read_number(lua_State* state, int index, Ref result)
 	{
 		int success; lua_Number value = lua_tonumberx(state, index, &success);
 		if(success)
 			val<T>(result) = static_cast<T>(value);
 	}
 
-	inline void read_cstring(lua_State* state, int index, Var& result)
+	inline void read_cstring(lua_State* state, int index, Ref result)
 	{
 		size_t len; const char* value = lua_tolstring(state, index, &len);
 		if(value)
 			val<const char*>(result) = value;
 	}
 
-	inline void read_string(lua_State* state, int index, Var& result)
+	inline void read_string(lua_State* state, int index, Ref result)
 	{
 		size_t len; const char* value = lua_tolstring(state, index, &len);
 		if(value)
 			val<string>(result) = value;
 	}
 
-	inline void read_null(lua_State* state, int index, Var& result)
+	inline void read_null(lua_State* state, int index, Ref result)
 	{
 		if(lua_isnil(state, index))
 			result = Ref();
 	}
 
-	inline void read_enum(lua_State* state, int index, Type& type, Var& result)
+	inline void read_enum(lua_State* state, int index, Type& type, Ref result)
 	{
 		if(!lua_isnumber(state, index) || fmod(lua_tonumber(state, index), 1.) != 0)
 			return;
 		result = enu(type).varn(uint32_t(lua_tointeger(state, index)));
 	}
 
-	inline void read_sequence(lua_State* state, int index, Type& sequence_type, Var& result)
+	inline void read_sequence(lua_State* state, int index, Type& sequence_type, Ref result)
 	{
 		if(!lua_istable(state, index))
 			return;
@@ -693,19 +694,16 @@ namespace mud
 
 	FromLua::FromLua()
 	{
-		function<int>     ([](void*, Ref, lua_State* state, int index, Var& result) { read_integer<int>(state, index, result); });
-		function<ushort>  ([](void*, Ref, lua_State* state, int index, Var& result) { read_integer<ushort>(state, index, result); });
-		function<uint>    ([](void*, Ref, lua_State* state, int index, Var& result) { read_integer<uint>(state, index, result); });
-		function<ulong>   ([](void*, Ref, lua_State* state, int index, Var& result) { read_integer<ulong>(state, index, result); });
-		function<ullong>  ([](void*, Ref, lua_State* state, int index, Var& result) { read_integer<ullong>(state, index, result); });
-		function<float>   ([](void*, Ref, lua_State* state, int index, Var& result) { read_number<float>(state, index, result); });
-		function<double>  ([](void*, Ref, lua_State* state, int index, Var& result) { read_number<double>(state, index, result); });
-		function<cstring> ([](void*, Ref, lua_State* state, int index, Var& result) { read_cstring(state, index, result); });
-		function<string>  ([](void*, Ref, lua_State* state, int index, Var& result) { read_string(state, index, result); });
-		function<bool>    ([](void*, Ref, lua_State* state, int index, Var& result) { val<bool>(result) = lua_toboolean(state, index) != 0; });
-
-		function<Type>    ([](void*, Ref, lua_State* state, int index, Var& result) { return read_type(state, index, result); });
-		//function<Prototype> ([](Ref, lua_State* state, int index) { return read_type(state, index); });
+		function<int>     ([](void*, Ref result, lua_State* state, int index) { read_integer<int>(state, index, result); });
+		function<ushort>  ([](void*, Ref result, lua_State* state, int index) { read_integer<ushort>(state, index, result); });
+		function<uint>    ([](void*, Ref result, lua_State* state, int index) { read_integer<uint>(state, index, result); });
+		function<ulong>   ([](void*, Ref result, lua_State* state, int index) { read_integer<ulong>(state, index, result); });
+		function<ullong>  ([](void*, Ref result, lua_State* state, int index) { read_integer<ullong>(state, index, result); });
+		function<float>   ([](void*, Ref result, lua_State* state, int index) { read_number<float>(state, index, result); });
+		function<double>  ([](void*, Ref result, lua_State* state, int index) { read_number<double>(state, index, result); });
+		function<cstring> ([](void*, Ref result, lua_State* state, int index) { read_cstring(state, index, result); });
+		function<string>  ([](void*, Ref result, lua_State* state, int index) { read_string(state, index, result); });
+		function<bool>    ([](void*, Ref result, lua_State* state, int index) { val<bool>(result) = lua_toboolean(state, index) != 0; });
 	}
 
 	inline Stack push_null(lua_State* state)
@@ -728,7 +726,7 @@ namespace mud
 		lua_pushstring(state, value); return{ state, 1 };
 	}
 
-	template<typename T>
+	template <class T>
 	Stack push_integer(lua_State* state, T value)
 	{
 		lua_pushinteger(state, value); return{ state, 1 };
@@ -739,7 +737,7 @@ namespace mud
 		lua_newtable(state); return{ state, 1 };
 	}
 
-	template<typename T>
+	template <class T>
 	inline Stack push_scalar(lua_State* state, T value)
 	{
 		lua_pushnumber(state, value); return{ state, 1 };
@@ -949,22 +947,22 @@ namespace mud
 			}
 	}
 
-	Var LuaInterpreter::get(const string& name, Type& type)
+	const Var& LuaInterpreter::get(const string& name, Type& type)
 	{
 		return get_global(m_context->m_state, name.c_str(), type);
 	}
 
-	void LuaInterpreter::set(const string& name, Var value)
+	void LuaInterpreter::set(const string& name, const Var& value)
 	{
 		set_global(m_context->m_state, name.c_str(), value);
 	}
 
-	Var LuaInterpreter::getx(array<cstring> path, Type& type)
+	const Var& LuaInterpreter::getx(array<cstring> path, Type& type)
 	{
 		return get_global(m_context->m_state, path, type);
 	}
 
-	void LuaInterpreter::setx(array<cstring> path, Var value)
+	void LuaInterpreter::setx(array<cstring> path, const Var& value)
 	{
 		Stack stack = lookup_table(m_context->m_state, { path, path.size() - 1 });
 		set_table(m_context->m_state, *path.end(), value);

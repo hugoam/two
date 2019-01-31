@@ -3,12 +3,12 @@
 #ifdef MUD_MODULES
 module mud.math;
 #else
-#include <stl/tinystl/vector.impl.h>
-#include <stl/tinystl/unordered_map.impl.h>
+#include <stl/vector.hpp>
+#include <stl/unordered_map.hpp>
 #include <math/Extern.h>
 #endif
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	template class MUD_MATH_EXPORT vector<const char*>;

@@ -8,6 +8,7 @@
 module mud.gfx;
 #else
 #include <geom/Mesh.h>
+#include <geom/Shapes.h>
 #include <gfx/Culling.h>
 #include <gfx/Viewport.h>
 #include <gfx/Shot.h>
@@ -22,8 +23,6 @@ module mud.gfx;
 #include <gfx/RenderTarget.h>
 #include <gfx/GfxSystem.h>
 #endif
-
-#include <bx/math.h>
 
 #ifndef NO_OCCLUSION_CULLING
 #include <MaskedOcclusionCulling.h>
@@ -41,7 +40,8 @@ namespace mud
 	{
 		static const mat4 identity = bxidentity();
 
-		const float proj_height = bx::tan(bx::toRad(camera.m_fov) * 0.5f);
+		auto torad = [](float d) { return d * c_pi / 180.0f; };
+		const float proj_height = tan(torad(camera.m_fov) * 0.5f);
 		const float proj_width = proj_height * camera.m_aspect;
 
 		float near = camera.m_near * 2.f;

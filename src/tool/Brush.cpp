@@ -129,8 +129,8 @@ namespace mud
 
 	void PlaceBrush::activate()
 	{
-		m_creator.injector().m_arguments[0] = var(size_t(0));
-		//m_creator.injector().m_arguments[1] = Ref(m_context.m_origin);
+		m_creator.injector().m_args[0] = var(size_t(0));
+		//m_creator.injector().m_args[1] = Ref(m_context.m_origin);
 		m_state = ToolState::Active;
 	}
 
@@ -165,8 +165,8 @@ namespace mud
 
 	void CircleBrush::activate()
 	{
-		m_creator.injector().m_arguments[0] = var(size_t(0));
-		//m_creator.injector().m_arguments[1] = Ref(m_context.m_origin);
+		m_creator.injector().m_args[0] = var(size_t(0));
+		//m_creator.injector().m_args[1] = Ref(m_context.m_origin);
 		m_state = ToolState::Active;
 	}
 
@@ -225,7 +225,7 @@ namespace mud
 
 	void ScriptedBrush::update(const vec3& position)
 	{
-		m_call.m_arguments[0] = var(position);
+		m_call.m_args[0] = var(position);
 		m_call();
 	}
 

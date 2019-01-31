@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <stl/stringfwd.h>
+#include <stl/decls.h>
 #include <infra/Array.h>
 #include <ui/Forward.h>
 #include <ui/Frame/Dim.h>

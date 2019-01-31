@@ -6,7 +6,7 @@
 
 #include <ctx/Forward.h>
 
-#include <cstdint>
+#include <stdint.h>
 
 export_ namespace mud
 {}

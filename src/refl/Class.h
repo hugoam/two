@@ -6,7 +6,6 @@
 
 #include <stl/vector.h>
 #include <refl/Forward.h>
-#include <type/Var.h>
 #include <type/RefVal.h>
 #include <refl/Method.h>
 #include <refl/Member.h>
@@ -84,7 +83,7 @@ namespace mud
 		Member* m_name_member = nullptr;
 
 		vector<cstring> m_field_names;
-		vector<Var> m_field_values;
+		vector<Ref> m_field_values;
 
 		// Deep Reflection
 		vector<Member*> m_components;
@@ -131,6 +130,6 @@ namespace mud
 	export_ template <class T>
 	T& upcast(Ref value) { Ref base = cls(value).upcast(value, type<T>()); return val<T>(base); }
 
-	export_ template<typename T_Return, typename T, typename... T_Params>
+	export_ template <class T_Return, class T, typename... T_Params>
 	inline Method& method(T_Return(T::*meth)(T_Params...)) { return cls<T>().method(member_address(meth)); }
 }

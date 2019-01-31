@@ -1,7 +1,7 @@
 
 
 #include <gfx/Assets.h>
-#include <gfx/Asset.impl.h>
+#include <gfx/Asset.hpp>
 
 namespace mud
 {

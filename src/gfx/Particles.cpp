@@ -4,7 +4,6 @@
 
 #include <gfx/Cpp20.h>
 
-#include <bx/math.h>
 #include <bx/allocator.h>
 #include <bimg/bimg.h>
 #include <bgfx/bgfx.h>
@@ -13,9 +12,11 @@
 module mud.gfx;
 #else
 #include <stl/string.h>
-#include <pool/Pool.h>
+#include <infra/Vector.h>
+#include <pool/Pool.hpp>
 #include <math/Math.h>
 #include <math/Random.h>
+#include <math/ImageAtlas.h>
 #include <geom/ShapeDistrib.h>
 #include <gfx/Types.h>
 #include <gfx/Particles.h>
@@ -35,7 +36,7 @@ module mud.gfx;
 
 namespace mud
 {
-	void ParticleVertex::init()
+	bgfx::VertexDecl particle_vertex_decl()
 	{
 		bgfx::VertexDecl decl;
 
@@ -45,12 +46,10 @@ namespace mud
 			decl.add(bgfx::Attrib::TexCoord0, 4, bgfx::AttribType::Float);
 		decl.end();
 
-		ms_decl = decl;
+		return decl;
 
 		//ms_decl = vertex_decl(VertexAttribute::Position | VertexAttribute::Colour | VertexAttribute::TexCoord0);
 	}
-
-	bgfx::VertexDecl ParticleVertex::ms_decl;
 
 	ParticleFlow::ParticleFlow()
 	{}
@@ -132,12 +131,15 @@ namespace mud
 		}
 	}
 
+	template <class T>
+	inline T sq(T val) { return val * val; }
+
 	uint32_t Particles::render(const SpriteAtlas& atlas, const mat4& view, const vec3& eye, uint32_t first, uint32_t max, ParticleSort* outSort, ParticleVertex* outVertices)
 	{
 		m_aabb =
 		{
-			{ bx::kInfinity,  bx::kInfinity,  bx::kInfinity },
-			{ -bx::kInfinity, -bx::kInfinity, -bx::kInfinity },
+			vec3(FLT_MAX),
+			vec3(-FLT_MAX),
 		};
 
 		if(m_sprite == nullptr)
@@ -149,7 +151,7 @@ namespace mud
 			if(index + 1 >= max)
 				break;
 
-			vec3 gravity = { 0.0f, -9.81f * m_gravity.sample(particle.life) * bx::square(particle.life), 0.0f };
+			vec3 gravity = { 0.0f, -9.81f * m_gravity.sample(particle.life) * sq(particle.life), 0.0f };
 			UNUSED(gravity);
 
 			float advance = particle.life * particle.lifetime * m_speed.sample(particle.life, particle.speed_seed);
@@ -157,7 +159,7 @@ namespace mud
 
 			ParticleSort& sort = outSort[index];
 			vec3 tmp = eye - pos;
-			sort.dist = bx::sqrt(dot(tmp, tmp));
+			sort.dist = sqrt(dot(tmp, tmp));
 			sort.idx = index;
 
 			float blend = m_blend.sample(particle.life, particle.blend_seed);
@@ -241,9 +243,11 @@ namespace mud
 		if(0 == m_num)
 			return;
 
-		const uint32_t numVertices = min(bgfx::getAvailTransientVertexBuffer(m_num * 4, ParticleVertex::ms_decl), uint32_t(UINT16_MAX));
+		static bgfx::VertexDecl decl = particle_vertex_decl();
+
+		const uint32_t numVertices = min(bgfx::getAvailTransientVertexBuffer(m_num * 4, decl), uint32_t(UINT16_MAX));
 		const uint32_t numIndices = bgfx::getAvailTransientIndexBuffer(m_num * 6);
-		const uint32_t max = bx::uint32_min(numVertices / 4, numIndices / 6);
+		const uint32_t max = min(numVertices / 4, numIndices / 6);
 		BX_WARN(m_num == max, "Truncating transient buffer for particles to maximum available (requested %d, available %d).", m_num, max);
 
 		if(0 < max)
@@ -251,7 +255,7 @@ namespace mud
 			bgfx::TransientVertexBuffer vertex_buffer;
 			bgfx::TransientIndexBuffer index_buffer;
 
-			bgfx::allocTransientBuffers(&vertex_buffer, ParticleVertex::ms_decl, max * 4, &index_buffer, max * 6);
+			bgfx::allocTransientBuffers(&vertex_buffer, decl, max * 4, &index_buffer, max * 6);
 
 			vector<ParticleSort> particleSort{ max };
 
@@ -259,7 +263,7 @@ namespace mud
 			ParticleVertex* vertices = (ParticleVertex*)vertex_buffer.data;
 
 			for(Particles* emitter : m_emitters.m_vec_pool->m_objects)
-				pos += emitter->render(m_block.m_sprites, view, eye, pos, max, particleSort.data(), vertices);
+				pos += emitter->render(*m_block.m_sprites, view, eye, pos, max, particleSort.data(), vertices);
 
 			qsort(particleSort.data(), max, sizeof(ParticleSort), particleSortFn);
 
@@ -286,7 +290,7 @@ namespace mud
 
 	BlockParticles::BlockParticles(GfxSystem& gfx_system)
 		: GfxBlock(gfx_system, type<BlockParticles>())
-		, m_sprites(uvec2(SPRITE_TEXTURE_SIZE))
+		, m_sprites(construct<SpriteAtlas>(uvec2(SPRITE_TEXTURE_SIZE)))
 	{}
 
 	BlockParticles::~BlockParticles()
@@ -322,7 +326,7 @@ namespace mud
 	Sprite* BlockParticles::create_sprite(cstring name, cstring pathname, uvec2 frames)
 	{
 		LocatedFile location = m_gfx_system.locate_file("textures/particles/" + string(pathname));
-		bimg::ImageContainer* image = load_bgfx_image(m_gfx_system.m_allocator, m_gfx_system.file_reader(), location.path(true).c_str(), bgfx::TextureFormat::BGRA8);
+		bimg::ImageContainer* image = load_bgfx_image(m_gfx_system.allocator(), m_gfx_system.file_reader(), location.path(true).c_str(), bgfx::TextureFormat::BGRA8);
 		Sprite* sprite = this->create_sprite(name, uvec2(image->m_width, image->m_height), frames, image->m_data);
 		bimg::imageFree(image);
 		return sprite;
@@ -330,7 +334,7 @@ namespace mud
 
 	Sprite* BlockParticles::create_sprite(cstring name, uvec2 size, uvec2 frames, const void* data)
 	{
-		Sprite* sprite = m_sprites.add_sprite(name, size, frames);
+		Sprite* sprite = m_sprites->add_sprite(name, size, frames);
 		if(sprite)
 		{
 			bgfx::updateTexture2D(m_texture, 0, 0, uint16_t(sprite->d_coord.x), uint16_t(sprite->d_coord.y),

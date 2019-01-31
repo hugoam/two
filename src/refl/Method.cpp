@@ -50,7 +50,7 @@ namespace mud
 		//for(size_t i = 0; i < m_params.size(); ++i)
 		//{
 		//	m_params[i].m_index = i;
-		//	m_arguments.push_back({ m_params[i].m_value });
+		//	m_args.push_back({ m_params[i].m_value });
 		//
 		//	if(m_num_defaults == 0 && m_params[i].defaulted())
 		//		m_num_defaults = m_params.size() - i;
@@ -59,20 +59,29 @@ namespace mud
 		//m_num_required = m_params.size() - m_num_defaults;
 	}
 
-	bool Callable::validate(array<void*> args, size_t offset) const
+	bool Callable::validate(array<Var> args, size_t offset) const
 	{
-		UNUSED(args); UNUSED(offset);
-		//if(args.m_count < m_arguments.size() - m_num_defaults)
-		//	return false;
-		//
-		//bool valid = true;
-		//for(size_t i = offset; i < m_params.size(); ++i)
-		//{
-		//	valid &= type(m_params[i].m_value).is(type(args[i]));
-		//	valid &= m_params[i].nullable() || !args[i].null();
-		//}
-		//return valid;
-		return true;
+		if (args.m_count < m_params.size() - m_num_defaults)
+			return false;
+
+		bool valid = true;
+		for (size_t i = offset; i < m_params.size(); ++i)
+		{
+			valid &= m_params[i].m_type->is(type(args[i]));
+			valid &= m_params[i].nullable() || !args[i].null();
+		}
+		return valid;
+	}
+
+	void Callable::operator()(array<void*> args) const
+	{
+		void* none;
+		return (*this)(args, none);
+	}
+
+	void Callable::operator()(array<void*> args, void*& result) const
+	{
+		UNUSED(args); UNUSED(result);
 	}
 
 	Function::Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc trigger, const vector<Param>& params, QualType return_type)

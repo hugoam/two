@@ -20,6 +20,7 @@ module mud.gfx;
 #include <gfx/Material.h>
 #include <gfx/Program.h>
 #include <gfx/Node3.h>
+#include <gfx/Mesh.h>
 #include <gfx/Model.h>
 #endif
 
@@ -152,11 +153,11 @@ namespace mud
 
 		bgfx::TransientVertexBuffer vertex_buffer;
 		bgfx::allocTransientVertexBuffer(&vertex_buffer, num_vertices, ms_vertex_decl);
-		bx::memCopy(vertex_buffer.data, batch.m_vertices.data(), num_vertices * sizeof(Vertex));//ms_vertex_decl.m_stride);
+		memcpy(vertex_buffer.data, batch.m_vertices.data(), num_vertices * sizeof(Vertex));//ms_vertex_decl.m_stride);
 
 		bgfx::TransientIndexBuffer index_buffer;
 		bgfx::allocTransientIndexBuffer(&index_buffer, num_indices);
-		bx::memCopy(index_buffer.data, batch.m_indices.data(), num_indices * sizeof(uint16_t));
+		memcpy(index_buffer.data, batch.m_indices.data(), num_indices * sizeof(uint16_t));
 
 		m_material.submit(encoder, bgfx_state);
 

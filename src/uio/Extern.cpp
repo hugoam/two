@@ -3,12 +3,12 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#include <stl/tinystl/vector.impl.h>
-#include <stl/tinystl/unordered_map.impl.h>
+#include <stl/vector.hpp>
+#include <stl/unordered_map.hpp>
 #include <uio/Extern.h>
 #endif
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	template class MUD_UIO_EXPORT vector<EditSpec>;

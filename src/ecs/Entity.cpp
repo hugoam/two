@@ -9,6 +9,7 @@ module mud.proto;
 #else
 #include <ecs/Entity.h>
 #include <ecs/ECS.h>
+#include <ecs/ECS.hpp>
 #endif
 
 namespace mud

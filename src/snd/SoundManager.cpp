@@ -7,6 +7,7 @@
 
 #include <infra/Vector.h>
 #include <infra/File.h>
+#include <math/Vec.hpp>
 
 #include <AL/al.h>
 #include <AL/alc.h>

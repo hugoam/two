@@ -2,7 +2,7 @@
 #include <gfx/Animated.h>
 #include <gfx/Animation.h>
 #include <gfx/Asset.h>
-//#include <gfx/Asset.impl.h>
+//#include <gfx/Asset.hpp>
 #include <gfx/Assets.h>
 #include <gfx/Buffer.h>
 #include <gfx/Camera.h>

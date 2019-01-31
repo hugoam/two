@@ -6,11 +6,8 @@
 
 #ifndef MUD_MODULES
 #include <stl/string.h>
+#include <stl/memory.h>
 #include <stl/map.h>
-#include <infra/Array.h>
-#include <infra/NonCopy.h>
-#include <type/Var.h>
-#include <type/Unique.h>
 #endif
 #include <lang/Forward.h>
 #include <lang/Script.h>
@@ -33,11 +30,11 @@ namespace mud
 
 		virtual void declare_types() final;
 
-		virtual Var get(const string& name, Type& type) final;
-		virtual void set(const string& name, Var value) final;
+		virtual const Var& get(const string& name, Type& type) final;
+		virtual void set(const string& name, const Var& value) final;
 
-		virtual Var getx(array<cstring> path, Type& type) final;
-		virtual void setx(array<cstring> path, Var value) final;
+		virtual const Var& getx(array<cstring> path, Type& type) final;
+		virtual void setx(array<cstring> path, const Var& value) final;
 
 		virtual void call(const string& code, Var* result = nullptr) final;
 		virtual void virtual_call(Method& method, Ref object, array<Var> args) final;

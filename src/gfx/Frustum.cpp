@@ -4,8 +4,6 @@
 
 #include <gfx/Cpp20.h>
 
-#include <bx/math.h>
-
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
@@ -16,8 +14,8 @@ module mud.gfx;
 #include <gfx/Item.h>
 #endif
 
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 
 #if defined WIN32
 #include <BaseTsd.h>
@@ -129,7 +127,9 @@ namespace mud
 
 	Point8 frustum_corners(float fov, float aspect, float near, float far, const mat4& view)
 	{
-		const float proj_height = bx::tan(bx::toRad(fov) * 0.5f);
+		auto torad = [](float d) { return d * c_pi / 180.0f; };
+
+		const float proj_height = tan(torad(fov) * 0.5f);
 		const float proj_width = proj_height * aspect;
 
 		// Frustum corners in view space.
