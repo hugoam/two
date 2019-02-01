@@ -5,7 +5,7 @@
 
 #include <snd/SoundManager.h>
 
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <infra/File.h>
 #include <math/Vec.hpp>
 
@@ -334,7 +334,7 @@ namespace mud
 	void SoundManager::activate(Sound& sound)
 	{
 		this->queue_active(sound);
-		vector_remove(m_inactive_sounds, &sound);
+		remove(m_inactive_sounds, &sound);
 	}
 
 	void SoundManager::release_active(Sound& sound)
@@ -368,10 +368,10 @@ namespace mud
 		if(sound.m_active)
 			this->release_active(sound);
 		else
-			vector_remove(m_inactive_sounds, &sound);
+			remove(m_inactive_sounds, &sound);
 
 		if(sound.is_paused())
-			vector_remove(m_paused_sounds, &sound);
+			remove(m_paused_sounds, &sound);
 	}
 
 	void SoundManager::play_sound(Sound& sound)

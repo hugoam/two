@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 //#include <type/Entity.h>
 #include <refl/Class.h>
 #include <refl/System.h>

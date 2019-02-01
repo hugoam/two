@@ -8,7 +8,7 @@
 module mud.gfx;
 #else
 #include <stl/map.h>
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <geom/Mesh.h>
 #include <gfx/Mesh.h>
 #include <gfx/Node3.h>
@@ -17,6 +17,7 @@ module mud.gfx;
 #include <meshoptimizer.h>
 
 #include <cstdio>
+#include <cstring>
 
 namespace mud
 {

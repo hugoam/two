@@ -17,7 +17,7 @@ module mud.gfx;
 #include <stl/string.h>
 #include <stl/vector.h>
 #include <stl/map.h>
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <infra/ToString.h>
 #include <infra/EnumArray.h>
 #include <infra/File.h>

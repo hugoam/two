@@ -9,7 +9,7 @@ module mud.wfc;
 #else
 #include <stl/map.h>
 #include <stl/algorithm.h>
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <math/Math.h>
 #include <wfc/Wfc.h>
 #include <srlz/Serial.h>

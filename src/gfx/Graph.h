@@ -16,7 +16,10 @@ namespace mud
 	class SoundManager;
 	class Sound;
 
-	export_ class refl_ MUD_GFX_EXPORT Gnode : public Graph<Gnode>
+	export_ extern template class Graph<Gnode>;
+
+	//export_ class refl_ MUD_GFX_EXPORT Gnode : public Graph<Gnode>
+	export_ class refl_ Gnode : public Graph<Gnode>
 	{
 	public:
 		Gnode();

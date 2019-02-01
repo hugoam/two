@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <ui/Sheet.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Structs/RootSheet.h>

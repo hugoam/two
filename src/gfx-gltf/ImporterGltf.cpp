@@ -16,6 +16,7 @@ module mud.gfx.gltf;
 #include <json11.hpp>
 using json = json11::Json;
 
+#include <stl/algorithm.h>
 #include <infra/Vector.h>
 #include <infra/File.h>
 #include <infra/String.h>
@@ -93,7 +94,7 @@ namespace mud
 	{
 		std::string base64 = uri.substr(uri.find(",") + 1).c_str();
 		string decoded = decode_base64(base64).c_str();
-		return {};//vector_convert<uint8_t>(decoded);
+		return {};//convert<uint8_t>(decoded);
 	}
 
 	vector<uint8_t> read_uri(const string& base_path, const string& uri)
@@ -258,7 +259,7 @@ namespace mud
 				if(primitive.indices != -1)
 				{
 					vector<int> indices = unpack_accessor<int>(gltf, primitive.indices, false);
-					packer.m_indices = vector_convert<uint32_t>(indices);
+					packer.m_indices = convert<uint32_t>(indices);
 				}
 
 				vector<MeshPacker> morphs;

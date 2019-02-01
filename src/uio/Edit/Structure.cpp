@@ -8,7 +8,7 @@
 module mud.uio;
 #else
 #include <stl/string.h>
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <refl/Meta.h>
 #include <refl/Member.h>
 #include <refl/Convert.h>
@@ -25,10 +25,10 @@ namespace mud
 	{
 		TreeNode& self = ui::tree_node(parent, { object_icon(object).c_str(), object_name(object).c_str() }, false, false);
 		
-		self.set_state(SELECTED, vector_has(selection, object));
+		self.set_state(SELECTED, has(selection, object));
 		
 		if(self.m_header->activated())
-			vector_select(selection, object);
+			select(selection, object);
 		
 		//object_item(self, object);
 

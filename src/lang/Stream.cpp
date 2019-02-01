@@ -8,7 +8,7 @@
 module mud.lang;
 #else
 #include <infra/ToString.h>
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <type/Types.h>
 #include <refl/Sequence.h>
 #include <refl/Convert.h>
@@ -177,7 +177,7 @@ namespace mud
 				m_topology[branch.m_depth] = 0;
 		});
 
-		vector_remove_if(m_topology, [](size_t& val) { return val == 0 || val == SIZE_MAX; });
+		remove_if(m_topology, [](size_t& val) { return val == 0 || val == SIZE_MAX; });
 	}
 
 	void Stream::flatten(Stream& source)

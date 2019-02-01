@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <refl/Meta.h>
 #include <refl/Member.h>
 #include <refl/Sequence.h>
@@ -147,7 +147,7 @@ namespace mud
 		for(size_t i = 0; i < types.size(); ++i)
 			type_names.push_back(types[i]->m_name);
 
-		return ui::dropdown_input(parent, to_array(type_names), type);
+		return ui::dropdown_input(parent, type_names, type);
 	}
 
 	bool value_edit(Widget& parent, Ref& value)

@@ -1185,7 +1185,7 @@ namespace clgen
 				{
 					return &o;
 				}
-			Overloads& o = vector_push(overloads);
+			Overloads& o = push(overloads);
 			cramfunc(o, f);
 			return nullptr;
 		};
@@ -1212,7 +1212,7 @@ namespace clgen
 		auto js_signature_args = [](const CLCallable& f, size_t n)
 		{
 			vector<string> args = transform<string>(0, n, [&](size_t i) { return f.m_params[i].m_name; });
-			return f.m_kind == CLPrimitiveKind::Method ? vector_union({ "self" }, args)
+			return f.m_kind == CLPrimitiveKind::Method ? merge({ "self" }, args)
 													   : args;
 		};
 
@@ -1227,7 +1227,7 @@ namespace clgen
 		auto js_forward_args = [&](const CLCallable& f, size_t n)
 		{
 			vector<string> args = transform<string>(0, n, [&](size_t i) { return js_forward_arg(f.m_params[i]); });
-			return f.m_kind == CLPrimitiveKind::Method ? vector_union({ "self" }, args)
+			return f.m_kind == CLPrimitiveKind::Method ? merge({ "self" }, args)
 													   : args;
 		};
 
@@ -1255,7 +1255,7 @@ namespace clgen
 		auto c_typed_args = [&](const CLCallable& f, size_t i)
 		{
 			vector<string> args = transform<string>(0, i, [&](size_t i) { return c_typed_arg(f.m_params[i]); });
-			return f.m_kind == CLPrimitiveKind::Method ? vector_union({ f.m_parent->m_id + "* self" }, args)
+			return f.m_kind == CLPrimitiveKind::Method ? merge({ f.m_parent->m_id + "* self" }, args)
 													   : args;
 		};
 
@@ -1552,7 +1552,7 @@ namespace clgen
 					string js_call_args = comma(transform<string>(0, i, [&](size_t j) { return (is_interface(sig[j]) ? "(int)" : "") + take_addr_if_nonpointer(raw[j]->m_type) + args[j]; }));
 
 					js_impl_methods += "  " + c_return_type + " " + func_name + "(" + dec_args + ") " + maybe_const + " {";
-					js_impl_methods += basic_return + "EM_ASM_" + (!vector_has(C_FLOATS, c_return_type) ? "INT" : "DOUBLE") + "({";
+					js_impl_methods += basic_return + "EM_ASM_" + (!has(C_FLOATS, c_return_type) ? "INT" : "DOUBLE") + "({";
 					js_impl_methods += "var self = Module['getCache'](Module['" + class_name + "'])[$0];";
 					js_impl_methods += "if (!self.hasOwnProperty('" + func_name + "')) throw 'a JSImplementation must implement all functions, you forgot " + class_name + "::" + func_name + ".';";
 					js_impl_methods += "return " + return_prefix + "self['" + func_name + "'](" + comma(transform<string>(1, max_args + 1, [](size_t i) { return "$" + to_string(i); })) + ")" + return_postfix + ";";

@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.refl;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <refl/Call.h>
 #include <refl/Meta.h>
 //#include <refl/Class.h>
@@ -41,8 +41,8 @@ namespace mud
 			m_vargs[i] = m_args[i].m_ref.m_value;
 	}
 
-	bool Call::validate() { return m_callable && m_callable->validate(to_array(m_args)); }
+	bool Call::validate() { return m_callable && m_callable->validate(m_args); }
 
-	const Var& Call::operator()() { (*m_callable)(to_array(m_vargs), m_result.m_ref.m_value); return m_result; }
-	const Var& Call::operator()(Ref object) { m_args[0] = object; (*m_callable)(to_array(m_vargs), m_result.m_ref.m_value); return m_result; }
+	const Var& Call::operator()() { (*m_callable)(m_vargs, m_result.m_ref.m_value); return m_result; }
+	const Var& Call::operator()(Ref object) { m_args[0] = object; (*m_callable)(m_vargs, m_result.m_ref.m_value); return m_result; }
 }

@@ -7,20 +7,19 @@
 #ifdef MUD_MODULES
 module mud.refl;
 #else
+#include <stl/algorithm.h>
+#include <infra/ToString.h>
+#include <type/Types.h>
+#include <type/Any.h>
 #include <refl/Meta.h>
 #include <refl/MetaDecl.h>
 #include <refl/Class.h>
 #include <refl/Enum.h>
 #include <refl/Convert.h>
-#include <type/Types.h>
-#include <type/Any.h>
-#include <infra/ToString.h>
 #include <refl/Injector.h>
-//#include <ecs/Proto.h>
-//#include <ecs/Entity.h>
-#include <infra/Vector.h>
-//#include <srlz/Serial.h>
 #endif
+
+#include <cstring>
 
 namespace mud
 {
@@ -328,12 +327,12 @@ namespace mud
 
 	bool Class::is(Type& component)
 	{
-		return vector_find(m_components, [&](Member* member) { return member->m_type->is(component); }) != nullptr;
+		return find(m_components, [&](Member* member) { return member->m_type->is(component); }) != nullptr;
 	}
 
 	Ref Class::as(Ref object, Type& component)
 	{
-		Member* member = *vector_find(m_components, [&](Member* member) { return member->m_type->is(component); });
+		Member* member = *find(m_components, [&](Member* member) { return member->m_type->is(component); });
 		return cls(*member->m_type).upcast(member->get(object), component);
 	}
 

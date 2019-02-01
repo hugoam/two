@@ -131,5 +131,164 @@ namespace mud
 			swap(*first, *last);
 		}
 	}
+	
+	export_ template <class U, class T>
+	inline bool has(const T& vec, const U& value)
+	{
+		return find(vec.begin(), vec.end(), value) != vec.end();
+	}
+
+	export_ template <class T, class Pred>
+	inline bool has_pred(const T& vec, Pred predicate)
+	{
+		return find_if(vec.begin(), vec.end(), predicate) != vec.end();
+	}
+	
+	export_ template <class T, class Pred>
+	inline const typename T::value_type* find(const T& vec, Pred predicate)
+	{
+		auto it = find_if(vec.begin(), vec.end(), predicate);
+		return it != vec.end() ? &(*it) : nullptr;
+	}
+	
+	export_ template <class T, class U>
+	inline size_t index_of(const T& vec, U value)
+	{
+		return find(vec.begin(), vec.end(), value) - vec.begin();
+	}
+
+	export_ template <class T, class Pred>
+	inline auto find_if(T& vec, Pred predicate)
+	{
+		return find_if(vec.begin(), vec.end(), predicate);
+	}
+	
+	export_ template <class T, class Pred>
+	inline auto find_if(const T& vec, Pred predicate)
+	{
+		return find_if(vec.begin(), vec.end(), predicate);
+	}
+	
+	export_ template <class T>
+	inline bool contains(const T& vec, const T& other)
+	{
+		return includes(vec.begin(), vec.end(), other.begin(), other.end());
+	}
+	
+	export_ template <class T>
+	inline T reverse(const T& vec)
+	{
+		T result = vec;
+		reverse(result.begin(), result.end());
+		return result;
+	}
+	
+	export_ template <class T, class... Args>
+	inline auto& push(T& vec, Args&&... args)
+	{
+		vec.emplace_back(static_cast<Args&&>(args)...);
+		return vec.back();
+	}
+	
+	export_ template <class T, class U>
+	inline void add(T& vec, U value)
+	{
+		if(!has(vec, value))
+			vec.push_back(value);
+	}
+
+	export_ template <class T>
+	inline typename T::value_type pop(T& vec)
+	{
+		auto val = move(vec.back());
+		vec.pop_back();
+		return val;
+	}
+
+	export_ template <class T>
+	inline void swap_pop(T& vec, size_t index)
+	{
+		swap(vec[index], vec.back());
+		vec.pop_back();
+	}
+
+	export_ template <class T>
+	inline void extend(T& vec, const T& other)
+	{
+		vec.insert(vec.end(), other.begin(), other.end());
+	}
+	
+	export_ template <class T>
+	inline T merge(const T& first, const T& second)
+	{
+		T result; extend(result, first); extend(result, second); return result;
+	}
+
+	export_ template <class T, class U>
+	inline void prepend(T& vec, const U& value)
+	{
+		vec.insert(vec.begin(), value);
+	}
+
+	export_ template <class T>
+	inline void prepend(T& vec, const T& other)
+	{
+		vec.insert(vec.begin(), other.begin(), other.end());
+	}
+
+	export_ template <class T, class U>
+	inline void remove(T& vec, U value)
+	{
+		vec.erase(remove(vec.begin(), vec.end(), value), vec.end());
+	}
+	
+	export_ template <class T, class U>
+	inline void remove_ref(T& vec, U& value)
+	{
+		size_t index = &value - vec.data();
+		vec.erase(vec.begin() + index);
+	}
+	
+	export_ template <class T, class U>
+	inline void remove_object(T& vec, U& object)
+	{
+		auto pos = find_if(vec.begin(), vec.end(), [&](const U& look) { return &look == &object; });
+		vec.erase(pos);
+	}
+
+	export_ template <class T, class V>
+	inline auto remove_pt(T& vec, V& value)
+	{
+		auto pos = find_if(vec.begin(), vec.end(), [&](auto& pt) { return pt.get() == &value; });
+		vec.erase(pos);
+	}
+
+	export_ template <class T, class Pred>
+	inline auto remove_if(T& vec, Pred predicate)
+	{
+		return vec.erase(remove_if(vec.begin(), vec.end(), predicate), vec.end());
+	}
+	
+	export_ template <class T, class Pred>
+	inline void prune(T& vec, Pred predicate)
+	{
+		for(int i = int(vec.size()) - 1; i >= 0; i--)
+			if(predicate(vec[i]))
+				vec.erase(vec.begin() + i);
+	}
+
+	export_ template <class T, class U>
+	inline void select(T& vec, U value) { vec.clear(); vec.push_back(value); }
+
+	export_ template <class T, class U>
+	inline bool select_swap(T& vec, U value) { if(has(vec, value)) { remove(vec, value); return false; } else { push(vec, value); return true; } }
+	
+	export_ template <class T, class U>
+	inline auto transfer_unique(T& source, T& target, U& value)
+	{
+		auto pos = find_if(source.begin(), source.end(), [&](auto& pt) { return pt.get() == &value; });
+		target.push_back(move(*pos));
+		source.erase(pos);
+	}
 }
 #endif

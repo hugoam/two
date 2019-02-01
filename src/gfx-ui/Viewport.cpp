@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.gfx.ui;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <gfx/Item.h>
 #include <gfx-ui/Types.h>
 #include <gfx-ui/Viewport.h>
@@ -27,7 +27,7 @@ namespace mud
 		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
 			if(viewer.m_hovered)
-				vector_select(selection, viewer.m_hovered->m_node->m_object);
+				select(selection, viewer.m_hovered->m_node->m_object);
 		}
 
 		if(MouseEvent mouse_event = widget.mouse_event(DeviceType::MouseRight, EventType::Stroked))

@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.tool;
 #else
+#include <stl/algorithm.h>
 #include <infra/Vector.h>
 #include <type/Any.h>
 #include <refl/Class.h>

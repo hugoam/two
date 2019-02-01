@@ -5,7 +5,6 @@
 #pragma once
 
 #include <infra/NonCopy.h>
-#include <infra/Vector.h>
 #include <type/Unique.h>
 
 namespace mud

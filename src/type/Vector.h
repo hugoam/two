@@ -39,9 +39,9 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 	};
 #endif
 
-	export_ template <class... T_Args>
+	export_ template <class... Args>
 	inline vector<Type*> type_vector()
 	{
-		return{ &type<T_Args>()... };
+		return{ &type<Args>()... };
 	}
 }

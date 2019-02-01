@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <stl/algorithm.h>
 #include <infra/Vector.h>
 #include <infra/String.h>
 #include <infra/File.h>
@@ -118,7 +119,7 @@ namespace mud
 
 		visit_folders(sprite_path.c_str(), visit_folder);
 
-		m_images = vector_convert<object<Image>>(images, [](const Image& image) { return oconstruct<Image>(image); });
+		m_images = convert<object<Image>>(images, [](const Image& image) { return oconstruct<Image>(image); });
 	}
 
 	void UiWindow::load_resources()
@@ -143,7 +144,7 @@ namespace mud
 
 	void UiWindow::remove_image(Image& image)
 	{
-		vector_remove_if(m_images, [&](object<Image>& current) { return current.get() == &image; });
+		remove_if(m_images, [&](object<Image>& current) { return current.get() == &image; });
 		m_vg.unload_image(image);
 	}
 

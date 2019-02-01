@@ -8,7 +8,7 @@
 module mud.refl;
 #else
 #include <stl/string.h>
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <infra/File.h>
 #include <refl/System.h>
 #include <refl/Module.h>
@@ -142,7 +142,7 @@ namespace mud
 
 	bool System::has_module(Module& m)
 	{
-		return vector_has(m_modules, &m);
+		return has(m_modules, &m);
 	}
 
 	Module* System::open_module(cstring path)
@@ -152,7 +152,7 @@ namespace mud
 
 	void System::load_module(Module& m)
 	{
-		if(vector_has(m_modules, &m))
+		if(has(m_modules, &m))
 			return;
 
 		m_modules.push_back(&m);
@@ -169,13 +169,13 @@ namespace mud
 
 	void System::unload_module(Module& m)
 	{
-		vector_remove(m_modules, &m);
+		remove(m_modules, &m);
 
 		for(Type* type : m.m_types)
-			vector_remove(m_types, type);
+			remove(m_types, type);
 
 		for(Function* function : m.m_functions)
-			vector_remove(m_functions, function);
+			remove(m_functions, function);
 
 		mud::unload_module(m);
 	}

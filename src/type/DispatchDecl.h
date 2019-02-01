@@ -10,17 +10,17 @@
 
 namespace mud
 {
-	export_ template <class T, class T_Function, class T_Return, class... T_Args>
-	void dispatch_branch(Dispatch<T_Return, T_Args...>& dispatch, T_Function func)
+	export_ template <class T, class T_Function, class T_Return, class... Args>
+	void dispatch_branch(Dispatch<T_Return, Args...>& dispatch, T_Function func)
 	{
-		auto handler = +[](void* f, Ref ref, T_Args... args) -> T_Return { return ((T_Function)(f))(val<T>(ref), static_cast<T_Args&&>(args)...); };
+		auto handler = +[](void* f, Ref ref, Args... args) -> T_Return { return ((T_Function)(f))(val<T>(ref), static_cast<Args&&>(args)...); };
 		dispatch.m_branches[type<T>().m_id] = { (void*)func, handler };
 	}
 
-	export_ template <class T, class T_Function, class T_Return, class... T_Args>
-	void dispatch_ref_branch(Dispatch<T_Return, T_Args...>& dispatch, T_Function func)
+	export_ template <class T, class T_Function, class T_Return, class... Args>
+	void dispatch_ref_branch(Dispatch<T_Return, Args...>& dispatch, T_Function func)
 	{
-		auto handler = +[](void* f, Ref ref, T_Args... args) -> T_Return { return ((T_Function)(f))(ref, val<T>(ref), static_cast<T_Args&&>(args)...); };
+		auto handler = +[](void* f, Ref ref, Args... args) -> T_Return { return ((T_Function)(f))(ref, val<T>(ref), static_cast<Args&&>(args)...); };
 		dispatch.m_branches[type<T>().m_id] = { (void*)func, handler };
 	}
 

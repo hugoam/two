@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <gfx/Types.h>
 #include <gfx/Pipeline.h>
 #include <gfx/Api.h>
@@ -81,7 +81,7 @@ namespace mud
 
 	array<GfxBlock*> Pipeline::pass_blocks(PassType pass)
 	{
-		return to_array(m_pass_blocks[size_t(pass)]);
+		return m_pass_blocks[size_t(pass)];
 	}
 
 	MinimalRenderer::MinimalRenderer(GfxSystem& gfx_system, Pipeline& pipeline)

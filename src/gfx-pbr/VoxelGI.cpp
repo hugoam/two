@@ -11,7 +11,7 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <math/Vec.hpp>
 #include <geom/Intersect.h>
 #include <pool/ObjectPool.hpp>
@@ -37,10 +37,10 @@ namespace mud
 {
 namespace gfx
 {
-	template <class T_Element, class... T_Args>
-	inline T_Element& create(Scene& scene, T_Args&&... args)
+	template <class T_Element, class... Args>
+	inline T_Element& create(Scene& scene, Args&&... args)
 	{
-		return scene.m_pool->pool<T_Element>().construct(static_cast<T_Args&&>(args)...);
+		return scene.m_pool->pool<T_Element>().construct(static_cast<Args&&>(args)...);
 	}
 
 	GIProbe& gi_probe(Gnode& parent, uint16_t subdiv, const vec3& extents)
@@ -163,7 +163,7 @@ namespace gfx
 #ifndef VOXELGI_COMPUTE_LIGHTS
 		GIProbe& gi_probe = *m_block_gi_bake.m_bake_probe; UNUSED(gi_probe);
 		mat4 view = bxidentity();//gi_probe.m_transform * bxscale(1.f / gi_probe.m_extents);
-		m_block_light.update_lights(render, view, to_array(render.m_shot->m_lights), to_array(m_block_light.m_block_shadow.m_shadows));
+		m_block_light.update_lights(render, view, render.m_shot->m_lights, m_block_light.m_block_shadow.m_shadows);
 #endif
 	}
 
@@ -287,7 +287,7 @@ namespace gfx
 
 		u_voxelgi.setUniforms(encoder, gi_probe);
 
-		m_block_light.update_lights(render, bxidentity(), to_array(render.m_shot->m_lights), to_array(m_block_light.m_block_shadow.m_shadows));
+		m_block_light.update_lights(render, bxidentity(), render.m_shot->m_lights, m_block_light.m_block_shadow.m_shadows);
 		m_block_light.upload_lights(render_pass);
 
 		ShaderVersion shader_version = { m_direct_light };

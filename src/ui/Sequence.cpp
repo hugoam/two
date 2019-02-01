@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <ui/Sequence.h>
 #include <ui/Structs/Widget.h>
 #include <ui/Structs/RootSheet.h>
@@ -36,21 +36,21 @@ namespace ui
 		bool changed = false;
 		if(MouseEvent mouse_event = element.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::Shift))
 		{
-			vector_swap(selection, object);
+			select_swap(selection, object);
 			changed = true;
 		}
 		if(MouseEvent mouse_event = element.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
-			vector_select(selection, object);
+			select(selection, object);
 			changed = true;
 		}
 		if(MouseEvent mouse_event = element.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 		{
-			vector_select(selection, object);
+			select(selection, object);
 			changed = true;
 		}
 
-		element.set_state(SELECTED, vector_has(selection, object));
+		element.set_state(SELECTED, has(selection, object));
 		return changed;
 	}
 

@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
+#include <stl/algorithm.h>
 #include <infra/Vector.h>
 #include <math/Vec.hpp>
 #include <type/Any.h>
@@ -52,12 +53,12 @@ namespace mud
 
 	void ScriptEditor::open(Script& script)
 	{
-		vector_add(m_scripts, &script);
+		add(m_scripts, &script);
 	}
 
 	void ScriptEditor::close(Script& script)
 	{
-		vector_remove(m_scripts, &script);
+		remove(m_scripts, &script);
 	}
 
 	TextScript& ScriptEditor::create_script(cstring name, Language language, Signature signature)
@@ -85,8 +86,8 @@ namespace mud
 
 	vector<string> meta_words()
 	{
-		vector<string> symbols = vector_convert<string>(System::instance().meta_symbols());
-		vector_extend(symbols, lua_words());
+		vector<string> symbols = convert<string>(System::instance().meta_symbols());
+		extend(symbols, lua_words());
 		return symbols;
 	}
 

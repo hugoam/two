@@ -9,7 +9,7 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <infra/ToString.h>
 #include <math/Vec.hpp>
 #include <geom/Shapes.h>
@@ -79,7 +79,7 @@ namespace mud
 
 	void BlockLight::begin_draw_pass(Render& render)
 	{
-		this->update_lights(render, render.m_camera.m_transform, to_array(render.m_shot->m_lights), to_array(m_block_shadow.m_shadows));
+		this->update_lights(render, render.m_camera.m_transform, render.m_shot->m_lights, m_block_shadow.m_shadows);
 
 		m_direct_light_index = 0;
 

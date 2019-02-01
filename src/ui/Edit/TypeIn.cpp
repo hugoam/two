@@ -15,7 +15,7 @@
 module mud.ui;
 #else
 #include <stl/string.h>
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <math/Math.h>
 #include <math/Vec.hpp>
 #include <ui/Edit/TypeIn.h>
@@ -284,7 +284,7 @@ namespace mud
 		, m_dirty(0, uint(m_string.size()))
 		, m_allowed_chars(allowed_chars)
 	{
-		m_palette = to_array(OkaidaPalette());
+		m_palette = OkaidaPalette();
 	}
 
 	TextEdit::~TextEdit()
@@ -357,7 +357,7 @@ namespace mud
 
 	void TextEdit::clear(size_t start, size_t end)
 	{
-		vector_remove_if(m_text.m_sections, [&](Text::ColorSection& section) { return section.m_end >= start && section.m_start <= end; });
+		remove_if(m_text.m_sections, [&](Text::ColorSection& section) { return section.m_end >= start && section.m_start <= end; });
 	}
 
 	void TextEdit::shift(size_t start, int offset)
@@ -988,8 +988,8 @@ namespace mud
 		const char* last = first + end;
 
 		// remove all sections that overlap range to colorize, and get iterator to insert the new ones
-		vector_remove_if(m_text.m_sections, [=](Text::ColorSection& section) { return section.m_start >= begin && section.m_end <= end; });
-		auto start_section = vector_find_if(m_text.m_sections, [=](const Text::ColorSection& section) { return section.m_start >= begin; });
+		remove_if(m_text.m_sections, [=](Text::ColorSection& section) { return section.m_start >= begin && section.m_end <= end; });
+		auto start_section = find_if(m_text.m_sections, [=](const Text::ColorSection& section) { return section.m_start >= begin; });
 
 		for(const char* current = start; current != last; ++current)
 		{
@@ -1178,7 +1178,7 @@ namespace ui
 				}
 
 				if(!completions.empty())
-					autocomplete_popup(edit, text, current_word, cursor, begin, to_array(completions));
+					autocomplete_popup(edit, text, current_word, cursor, begin, completions);
 			}
 		}
 

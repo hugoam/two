@@ -4,14 +4,15 @@
 
 #include <infra/Cpp20.h>
 #ifndef MUD_CPP_20
-#include <stl/unordered_map.h>
-#include <stl/map.h>
 #include <cstdio>
 #endif
 
 #ifdef MUD_MODULES
 module mud.geom;
 #else
+#include <stl/unordered_map.h>
+#include <stl/map.h>
+#include <stl/algorithm.h>
 #include <infra/Vector.h>
 #include <type/Cls.h>
 #include <math/Vec.hpp>

@@ -9,7 +9,7 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <pool/ObjectPool.hpp>
 #include <math/Math.h>
 #include <geom/Geom.hpp>
@@ -279,7 +279,7 @@ namespace mud
 		LightShadow& shadow = m_shadows[index];
 
 		shadow.m_frustum_slices.resize(light.m_shadow_num_splits);
-		split_frustum_slices(render.m_camera, to_array(shadow.m_frustum_slices), light.m_shadow_num_splits, light.m_shadow_split_distribution);
+		split_frustum_slices(render.m_camera, shadow.m_frustum_slices, light.m_shadow_num_splits, light.m_shadow_split_distribution);
 
 		mat4 light_transform = bxlookat(-light.m_node.direction(), Zero3);
 		mat4 light_proj = bxortho(1.0f, -1.0f, 1.0f, -1.0f, -light.m_shadow_range, light.m_shadow_range, 0.0f, bgfx::getCaps()->homogeneousDepth);

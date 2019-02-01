@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <infra/String.h>
 #include <ui/Structs/Dock.h>
 #include <ui/Structs/Window.h>
@@ -61,7 +61,7 @@ namespace mud
 		dockable.m_frame.m_layer->moveToTop();
 
 		this->shift(*dockable.m_dock, false);
-		vector_remove(m_docks, (Dock*)&dockable);
+		remove(m_docks, (Dock*)&dockable);
 
 		dockable.m_dock->m_dockid = {};
 	}
@@ -73,7 +73,7 @@ namespace mud
 
 		size_t level = root.size();
 		for(Dock* dock : m_docks)
-			if(vector_contains(dock->m_dockid, root)
+			if(contains(dock->m_dockid, root)
 				&& dock->m_dockid[level] > index)
 			{
 				dock->m_dockid[level] += (add ? 1 : -1);
@@ -110,7 +110,7 @@ namespace mud
 
 	Widget* Dockspace::docksection(Dock& dock)
 	{
-		vector<uint16_t> dockid = vector_reverse(dock.m_dockid);
+		vector<uint16_t> dockid = reverse(dock.m_dockid);
 		Widget* line = m_mainline;
 
 		Dim dim = DIM_Y;

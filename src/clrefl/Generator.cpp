@@ -149,14 +149,14 @@ namespace mud
 
 	void parse_static(CLClass& c, CXCursor cursor)
 	{
-		CLStatic& s = vector_push(c.m_statics, c);
+		CLStatic& s = push(c.m_statics, c);
 		s.m_member = spelling(cursor);
 		s.m_name = replace(spelling(cursor), "m_", "");
 	}
 
 	void parse_constructor(CLClass& c, CXCursor cursor)
 	{
-		CLConstructor& ctor = vector_push(c.m_constructors, c, spelling(cursor));
+		CLConstructor& ctor = push(c.m_constructors, c, spelling(cursor));
 		parse_callable(*c.m_module, c, ctor, cursor);
 		ctor.m_index = c.m_constructors.size() - 1;
 	}
@@ -169,13 +169,13 @@ namespace mud
 
 	void parse_method(CLClass& c, CXCursor cursor)
 	{
-		CLMethod& m = vector_push(c.m_methods, c, spelling(cursor));
+		CLMethod& m = push(c.m_methods, c, spelling(cursor));
 		parse_method(c, m, cursor);
 	}
 
 	void parse_member(CLClass& c, CXCursor cursor)
 	{
-		CLMember& m = vector_push(c.m_members, c);
+		CLMember& m = push(c.m_members, c);
 		CXType member_type = type(cursor);
 
 		if(cursor.kind == CXCursor_CXXMethod)
@@ -285,7 +285,7 @@ namespace mud
 			{
 				c.m_bases.push_back(base);
 				c.m_deep_bases.push_back(base);
-				vector_extend(c.m_deep_bases, base->m_bases);
+				extend(c.m_deep_bases, base->m_bases);
 			}
 		}
 
@@ -336,7 +336,7 @@ namespace mud
 
 		if(c.m_struct && c.m_constructors.empty())
 		{
-			CLConstructor& ctor = vector_push(c.m_constructors, c, c.m_name);
+			CLConstructor& ctor = push(c.m_constructors, c, c.m_name);
 			ctor.m_module = c.m_module;
 			ctor.m_index = 0;
 		}

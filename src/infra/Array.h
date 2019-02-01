@@ -23,8 +23,8 @@ namespace mud
 	export_ template <class T, size_t Size>
 	struct carray
 	{
-		template <class... T_Args>
-		carray(T_Args... args) : m_array{ T(args)... } {}
+		template <class... Args>
+		carray(Args... args) : m_array{ T(args)... } {}
 		T m_array[Size];
 		size_t size() { return Size; }
 		T* data() { return m_array; }
@@ -46,6 +46,10 @@ namespace mud
 		array(T(&a)[size]) : m_pointer(a), m_count(size) {}
 		template <class U>
 		array(U& container) : m_pointer(container.data()), m_count(container.size()) {}
+		template <class U>
+		array(U& container, size_t offset) : m_pointer(container.data() + offset), m_count(container.size() - offset) {}
+		template <class U>
+		array(U& container, size_t offset, size_t count) : m_pointer(container.data() + offset), m_count(count) {}
 
 		size_t size() const { return m_count; }
 		bool empty() const { return m_count == 0; }

@@ -9,7 +9,7 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <gfx/Scene.h>
 #include <gfx/Texture.h>
 #include <gfx/RenderTarget.h>

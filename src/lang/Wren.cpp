@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <cstdarg>
 #include <cctype>
+#include <cstring>
 #endif
 
 #ifdef MUD_MODULES
@@ -21,7 +22,7 @@ module mud.lang;
 #include <stl/unordered_map.h>
 #include <stl/set.h>
 #include <infra/NonCopy.h>
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <infra/ToString.h>
 #include <infra/Global.h>
 #include <type/Any.h>
@@ -242,17 +243,17 @@ namespace mud
 		copy_construct(ref, value);
 	}
 
-	inline void push_value(WrenVM* vm, int slot, Ref value)
+	inline void push_val(WrenVM* vm, int slot, Ref value)
 	{
 		if(!ToWren::me().check(value))
 		{
-			printf("ERROR : wren -> no dispatch to push type %s\n", value.m_type->m_name);
+			printf("ERROR : wren -> no dispatch to push_value type %s\n", value.m_type->m_name);
 			push_null(vm, slot);
 		}
 		ToWren::me().dispatch(value, vm, slot);
 	}
 
-	inline void read(WrenVM* vm, int index, Ref& value)
+	inline void read_value(WrenVM* vm, int index, Ref& value)
 	{
 		if(value == Ref())
 			value = read_ref(vm, index);
@@ -268,9 +269,9 @@ namespace mud
 			read_value(vm, index, type(value), value);
 	}
 
-	inline void push(WrenVM* vm, int slot, Ref value, bool force_ref = true)
+	inline void push_value(WrenVM* vm, int slot, Ref value, bool force_ref = true)
 	{
-		// @todo: what about automatic conversion as with visual scripts ? it might not belong here, maybe in read() ?
+		// @todo: what about automatic conversion as with visual scripts ? it might not belong here, maybe in read_value() ?
 		// @todo: might want a case for is_complex() before is_object() ?
 		Type& ty = type(value);
 		if(!value)
@@ -284,7 +285,7 @@ namespace mud
 		else if(is_enum(ty))
 			push_enum(vm, slot, value);
 		else
-			push_value(vm, slot, value);
+			push_val(vm, slot, value);
 	}
 
 	inline bool read_params(WrenVM* vm, const Callable& callable, array<Var> vars, size_t offset, size_t first_slot)
@@ -292,7 +293,7 @@ namespace mud
 		size_t num_args = wrenGetSlotCount(vm) - first_slot;
 		for(size_t i = offset; i < offset + num_args; ++i)
 		{
-			read(vm, int(first_slot - offset + i), vars[i].m_ref);
+			read_value(vm, int(first_slot - offset + i), vars[i].m_ref);
 			bool success = !vars[i].none();
 			success &= callable.m_params[i].nullable() || !vars[i].null();
 			if (!success)
@@ -315,7 +316,7 @@ namespace mud
 		{
 			call();
 			if(!call.m_result.none())
-				push(vm, 0, call.m_result);
+				push_value(vm, 0, call.m_result);
 		}
 		else
 			printf("ERROR: wren -> %s wrong arguments\n", call.m_callable->m_name);
@@ -359,9 +360,9 @@ namespace mud
 		wrenEnsureSlots(vm, int(parameters.m_count + 1));
 		wrenSetSlotHandle(vm, 0, object);
 		for(int i = 0; i < int(parameters.size()); ++i)
-			push(vm, i + 1, parameters[i]);
+			push_value(vm, i + 1, parameters[i]);
 		wrenCall(vm, method);
-		if(result) read(vm, 0, *result);
+		if(result) read_value(vm, 0, *result);
 	}
 
 	inline void call_wren_virtual(WrenVM* vm, Method& method, Ref object, array<Var> parameters)
@@ -382,7 +383,7 @@ namespace mud
 #endif
 		Ref object = read_ref(vm, 1);
 		Ref value = member.cast_get(object);
-		push(vm, 0, value);
+		push_value(vm, 0, value);
 	}
 
 	inline void set_member(WrenVM* vm)
@@ -396,12 +397,12 @@ namespace mud
 		//if (member.m_name == string("value"))
 		//	int i = 0;
 		Ref value = member.cast_get(object);
-		read(vm, 2, value);
+		read_value(vm, 2, value);
 		if(member.is_pointer())
 			member.cast_set(object, value);
 #else
 		Var value = member.m_default_value;
-		read(vm, 2, value);
+		read_value(vm, 2, value);
 		member.cast_set(object, value);
 #endif
 	}
@@ -409,7 +410,7 @@ namespace mud
 	inline void get_static(WrenVM* vm)
 	{
 		const Static& member = val<Static>(read_ref(vm, 0));
-		push(vm, 0, member.m_value);
+		push_value(vm, 0, member.m_value);
 	}
 
 	inline void set_static(WrenVM* vm)
@@ -417,7 +418,7 @@ namespace mud
 		Ref ref = read_ref(vm, 0);
 		Static& member = val<Static>(ref);
 		Var result = member.m_value;
-		read(vm, 1, result);
+		read_value(vm, 1, result);
 		assign(member.m_value, result);
 	}
 
@@ -506,7 +507,7 @@ namespace mud
 		if(count == offset)
 			return string(""); 
 		string params;
-		for(const Param& param : to_array(callable.m_params, offset, count - offset))
+		for(const Param& param : array<Param>{ callable.m_params, offset, count - offset })
 		{
 			params += param.m_name;
 			params += ",";
@@ -915,7 +916,7 @@ namespace mud
 		{
 			Var element = meta(*iter(sequence_type).m_element_type).m_empty_ref;
 			wrenGetListElement(vm, slot, i, slot + 1);
-			read(vm, slot + 1, element);
+			read_value(vm, slot + 1, element);
 			sequence(result).add(result, element);
 		}
 	}
@@ -984,7 +985,7 @@ namespace mud
 
 		int index = 1;
 		iter(value).iterate(value, [&](Ref element) {
-			push(vm, slots, element);
+			push_value(vm, slots, element);
 			wrenInsertInList(vm, slot, index, slots);
 		});
 	}
@@ -1315,7 +1316,7 @@ namespace mud
 		wrenEnsureSlots(m_context->m_vm, 1);
 		wrenGetVariable(m_context->m_vm, "main", name.c_str(), 0);
 		Var result = Ref(&type);
-		read(m_context->m_vm, 0, result);
+		read_value(m_context->m_vm, 0, result);
 		return result;
 	}
 
@@ -1329,7 +1330,7 @@ namespace mud
 		}
 		wrenBegin(m_context->m_vm);
 		wrenEnsureSlots(m_context->m_vm, 1);
-		push(m_context->m_vm, 0, value);
+		push_value(m_context->m_vm, 0, value);
 		wrenAssignVariable(m_context->m_vm, "main", name.c_str(), 0);
 	}
 

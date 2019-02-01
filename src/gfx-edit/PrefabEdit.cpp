@@ -8,7 +8,7 @@
 module mud.gfx-edit;
 #else
 #include <type/Any.h>
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 //#include <infra/ToString.h>
 #include <refl/Convert.h>
 #include <refl/System.h>

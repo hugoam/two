@@ -68,7 +68,7 @@ namespace mud
 		gather_lightmaps(scene, render.m_shot->m_lightmaps);
 		gather_reflection_probes(scene, render.m_shot->m_reflection_probes);
 
-		render.m_frustum = make_unique<Frustum>(optimized_frustum(render.m_camera, to_array(render.m_shot->m_items)));
+		render.m_frustum = make_unique<Frustum>(optimized_frustum(render.m_camera, render.m_shot->m_items));
 
 		render.m_environment = &scene.m_environment;
 		render.m_shot->m_immediate = { scene.m_immediate.get() };

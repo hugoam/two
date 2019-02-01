@@ -319,7 +319,7 @@ namespace mud
 
 		RenderPass& add_pass(unique<RenderPass> pass);
 
-		template <class T_Pass, class... T_Args>
-		T_Pass& add_pass(T_Args&&... args) { return as<T_Pass>(add_pass(make_unique<T_Pass>(static_cast<T_Args&&>(args)...))); }
+		template <class T_Pass, class... Args>
+		T_Pass& add_pass(Args&&... args) { return as<T_Pass>(add_pass(make_unique<T_Pass>(static_cast<Args&&>(args)...))); }
 	};
 }

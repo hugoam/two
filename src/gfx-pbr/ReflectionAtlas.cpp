@@ -9,7 +9,7 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <gfx/Renderer.h>
 #include <gfx/Node3.h>
 #include <gfx-pbr/ReflectionAtlas.h>

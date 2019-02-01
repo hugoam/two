@@ -7,6 +7,9 @@
 #ifndef MUD_MODULES
 #include <stl/function.h>
 #include <tree/Node.h>
+#ifdef _MSC_VER
+#include <tree/Node.hpp>
+#endif
 #include <infra/Array.h>
 #include <ctx/ControlNode.h>
 #include <ctx/InputEvent.h>
@@ -18,6 +21,10 @@
 namespace mud
 {
 	using FrameFilter = bool(*)(Frame&);
+
+#ifndef _MSC_VER
+	export_ extern template class Graph<Widget>;
+#endif
 
 	export_ class refl_ MUD_UI_EXPORT Widget : public Graph<Widget>, public ControlNode
 	{

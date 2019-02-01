@@ -9,11 +9,11 @@
 
 namespace mud
 {
-	export_ template <class T_Return, class... T_Args>
+	export_ template <class T_Return, class... Args>
 	class Dispatch
 	{
 	public:
-		using HandlerFunc = T_Return(*)(void*, Ref, T_Args...);
+		using HandlerFunc = T_Return(*)(void*, Ref, Args...);
 		struct Func { void* f = nullptr; HandlerFunc handler = nullptr; };
 
 		Dispatch() {}
@@ -29,10 +29,10 @@ namespace mud
 			m_branches[type<T>().m_id] = { nullptr, func };
 		}
 
-		T_Return dispatch(Ref ref, T_Args... args)
+		T_Return dispatch(Ref ref, Args... args)
 		{
 			const Func& func = m_branches[ref.m_type->m_id];
-			return func.handler(func.f, ref, static_cast<T_Args&&>(args)...);
+			return func.handler(func.f, ref, static_cast<Args&&>(args)...);
 		}
 
 		bool check(Type& type)

@@ -1,6 +1,9 @@
 
 #pragma once
 
+#include <stl/tuple.h>
+#include <stl/algorithm.h>
+#include <infra/Generic.h>
 #include <ecs/Forward.h>
 #include <ecs/ECS.h>
 #include <pool/SparsePool.hpp>

@@ -7,8 +7,8 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <infra/Vector.h>
-#include <tree/Node.inl.h>
+#include <stl/algorithm.h>
+#include <tree/Node.hpp>
 #include <math/Timer.h>
 #include <pool/ObjectPool.hpp>
 #include <geom/Geom.hpp>
@@ -76,7 +76,7 @@ namespace mud
 	{
 		this->update();
 		m_immediate->begin();
-		return begin_node<Gnode>(m_graph, true);
+		return m_graph.begin(true);
 	}
 
 	void Scene::debug_items(Render& render)
@@ -172,7 +172,7 @@ namespace mud
 		gather_occluders(scene, render.m_camera, render.m_shot->m_occluders);
 		gather_lights(scene, render.m_shot->m_lights);
 
-		render.m_frustum = make_unique<Frustum>(optimized_frustum(render.m_camera, to_array(render.m_shot->m_items)));
+		render.m_frustum = make_unique<Frustum>(optimized_frustum(render.m_camera, render.m_shot->m_items));
 
 		render.m_environment = &scene.m_environment;
 		render.m_shot->m_immediate = { scene.m_immediate.get() };

@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <math/Math.h>
 #include <math/Interp.h>
 #include <gfx/Types.h>
@@ -84,7 +84,7 @@ namespace mud
 		for(AnimationPlay& play : m_playing)
 			play.step(delta, m_speed_scale);
 
-		vector_remove_if(m_playing, [](AnimationPlay& play) { return play.m_transient && play.m_ended; });
+		remove_if(m_playing, [](AnimationPlay& play) { return play.m_transient && play.m_ended; });
 
 		for(Bone& bone : m_rig.m_skeleton.m_bones)
 			bone.m_pose_local = bxTRS(bone.m_scale, bone.m_rotation, bone.m_position);

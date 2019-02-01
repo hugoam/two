@@ -27,21 +27,15 @@ namespace mud
 
 	using json11::Json;
 
-	template <class T, class... T_Args>
-	inline T& vector_emplace(vector<unique<T>>& vector, T_Args&&... args)
+	template <class T, class... Args>
+	inline T& vector_emplace(vector<unique<T>>& vector, Args&&... args)
 	{
-		vector.push_back(construct<T>(static_cast<T_Args&&>(args)...));
+		vector.push_back(construct<T>(static_cast<Args&&>(args)...));
 		return static_cast<T&>(*vector.back());
 	}
 
-	template <class T_Value>
-	bool has(const vector<T_Value>& vector, const T_Value& key)
-	{
-		return vector_has(vector, key);
-	}
-
-	template <class T_Map, class T_Key>
-	bool has(const T_Map& map, const T_Key& key)
+	template <class T, class U>
+	bool has(const unordered_map<T, U>& map, const T& key)
 	{
 		return map.find(key) != map.end();
 	}
@@ -299,21 +293,21 @@ namespace mud
 			if(name.back() == '*')
 				m_pointer = true;
 
-			if(vector_has({ "void" }, name))
+			if(has({ "void" }, name))
 				m_type_kind = CLTypeKind::Void;
-			if(vector_has({ "void*" }, name))
+			if(has({ "void*" }, name))
 				m_type_kind = CLTypeKind::VoidPtr;
-			else if(vector_has({ "bool" }, name))
+			else if(has({ "bool" }, name))
 				m_type_kind = CLTypeKind::Boolean;
-			else if(vector_has({ "char", "signed char", "unsigned char" }, name))
+			else if(has({ "char", "signed char", "unsigned char" }, name))
 				m_type_kind = CLTypeKind::Char;
-			else if(vector_has({ "short", "int", "long", "long long", "unsigned short", "unsigned int", "unsigned long", "unsigned long long" }, name))
+			else if(has({ "short", "int", "long", "long long", "unsigned short", "unsigned int", "unsigned long", "unsigned long long" }, name))
 				m_type_kind = CLTypeKind::Integer;
-			else if(vector_has({ "float", "double" }, name))
+			else if(has({ "float", "double" }, name))
 				m_type_kind = CLTypeKind::Float;
-			else if(vector_has({ "char*", "const char*" }, name))
+			else if(has({ "char*", "const char*" }, name))
 				m_type_kind = CLTypeKind::CString;
-			else if(vector_has({ "string", "std::string", "mud::string" }, name))
+			else if(has({ "string", "std::string", "mud::string" }, name))
 				m_type_kind = CLTypeKind::String;
 		}
 

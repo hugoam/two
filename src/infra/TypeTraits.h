@@ -6,7 +6,6 @@
 
 #ifndef MUD_CPP_20
 #include <stl/type_traits.h>
-#include <cstring>
 #endif
 
 #if defined __GNUC__

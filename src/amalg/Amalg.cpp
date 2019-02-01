@@ -1,5 +1,6 @@
 #include <stl/string.h>
 #include <stl/set.h>
+#include <stl/algorithm.h>
 #include <infra/Vector.h>
 #include <infra/File.h>
 #include <infra/String.h>
@@ -58,7 +59,7 @@ namespace mud
 		bool filter(const string& line)
 		{
 			if (line == "#pragma once") return true;
-			return vector_has(m_filter, line);
+			return has(m_filter, line);
 		}
 
 		struct Include { Module* module = nullptr; string file; };
@@ -158,9 +159,9 @@ namespace mud
 			auto visit = [&](const string& file)
 			{
 				string ext = file_extension(file);
-				if(vector_has({ "cpp", "cxx", "cc", "c" }, ext))
+				if(has({ "cpp", "cxx", "cc", "c" }, ext))
 					process_cpp(module, file);
-				if(vector_has({ "hpp", "hh", "h" }, ext))
+				if(has({ "hpp", "hh", "h" }, ext))
 					process_h(module, file);
 			};
 

@@ -10,7 +10,7 @@
 module mud.gfx-edit;
 #else
 #include <infra/ToString.h>
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <type/Vector.h>
 #include <type/DispatchDecl.h>
 #include <pool/ObjectPool.h>

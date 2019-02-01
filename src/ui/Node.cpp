@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <stl/algorithm.h>
 #include <infra/Vector.h>
 #include <math/Vec.hpp>
 #include <ui/Extern.h>
@@ -189,13 +190,13 @@ namespace ui
 	void canvas_select(Canvas& canvas, Node& node)
 	{
 		canvas_clear_select(canvas);
-		vector_select(canvas.m_selection, &node);
+		select(canvas.m_selection, &node);
 		node.enable_state(SELECTED);
 	}
 
 	void canvas_swap_select(Canvas& canvas, Node& node)
 	{
-		bool selected = vector_swap(canvas.m_selection, &node);
+		bool selected = select_swap(canvas.m_selection, &node);
 		node.set_state(SELECTED, selected);
 	}
 
@@ -228,7 +229,7 @@ namespace ui
 
 		if(MouseEvent mouse_event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
-			if(!vector_has(parent.m_selection, &self))
+			if(!has(parent.m_selection, &self))
 				canvas_select(parent, self);
 
 			for(Node* node : parent.m_selection)

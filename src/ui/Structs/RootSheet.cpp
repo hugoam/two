@@ -7,8 +7,8 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
-#include <infra/Vector.h>
-#include <tree/Node.inl.h>
+#include <stl/algorithm.h>
+#include <tree/Node.hpp>
 #include <ctx/Context.h>
 #include <ui/Structs/RootSheet.h>
 #include <ui/Frame/Layer.h>
@@ -39,7 +39,7 @@ namespace mud
 
 	Widget& Ui::begin()
 	{
-		return begin_node<Widget>(*this);
+		return Widget::begin();
 	}
 
 	void Ui::input_frame()

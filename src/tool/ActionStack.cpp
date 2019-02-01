@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.tool;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <tool/Types.h>
 #include <tool/ActionStack.h>
 #endif

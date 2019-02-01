@@ -16,6 +16,5 @@
 #include <infra/ToValue.h>
 #include <infra/StringConvert.h>
 #include <infra/Thread.h>
-#include <infra/TypeTraits.h>
-#include <infra/Vector.h>
+//#include <infra/TypeTraits.h>
 

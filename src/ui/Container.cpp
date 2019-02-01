@@ -7,6 +7,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <stl/algorithm.h>
 #include <infra/Vector.h>
 #include <ui/Container.h>
 #include <ui/Structs/Container.h>

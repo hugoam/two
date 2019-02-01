@@ -4,9 +4,6 @@
 #include <stdint.h>
 #include <stl/memory.h>
 #include <stl/map.h>
-#include <stl/tuple.h>
-#include <infra/Vector.h>
-#include <infra/Generic.h>
 #include <pool/SparsePool.h>
 #include <type/Type.h>
 #include <type/Ref.h>

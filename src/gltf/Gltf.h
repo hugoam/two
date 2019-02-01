@@ -356,7 +356,7 @@ namespace mud
 	{
 		vector<double> attribs = decode_accessor(gltf, accessor, for_vertex);
 		vector<T> ret;
-		vector_cast(attribs, ret);
+		cast(attribs, ret);
 		return ret;
 	}
 

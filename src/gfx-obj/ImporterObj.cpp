@@ -9,7 +9,7 @@
 #ifdef MUD_MODULES
 module mud.gfx.obj;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <infra/File.h>
 #include <infra/ToString.h>
 #include <pool/Pool.hpp>

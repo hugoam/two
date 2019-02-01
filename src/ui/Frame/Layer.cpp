@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.ui;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <infra/Reverse.h>
 #include <ui/Frame/Layer.h>
 #include <ui/Sheet.h>
@@ -58,7 +58,7 @@ namespace mud
 
 	void Layer::removeLayer(Layer& layer)
 	{
-		vector_remove(d_sublayers, &layer);
+		remove(d_sublayers, &layer);
 		this->reindex();
 		this->reorder();
 	}

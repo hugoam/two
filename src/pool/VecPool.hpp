@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <stl/algorithm.h>
 #include <pool/VecPool.h>
 #include <type/TypeUtils.h>
 
@@ -64,7 +65,7 @@ namespace mud
 			return m_next->free(object);
 
 		m_available.push_back(object);
-		vector_remove(m_objects, object);
+		remove(m_objects, object);
 	}
 
 	template <class T>

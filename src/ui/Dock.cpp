@@ -9,6 +9,7 @@ module mud.ui;
 #else
 #include <stl/string.h>
 #include <stl/map.h>
+#include <stl/algorithm.h>
 #include <infra/Vector.h>
 #include <ui/Dock.h>
 #include <ui/Structs/Dock.h>

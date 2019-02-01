@@ -1,7 +1,8 @@
 #include <stl/vector.hpp>
+#include <stl/algorithm.h>
+#include <infra/AlignedAlloc.h>
 #include <infra/Pool.h>
 #include <infra/Thread.h>
-#include <infra/Vector.h>
 #include <infra/Array.h>
 #include <jobs/JobSystem.h>
 #include <jobs/JobQueue.h>

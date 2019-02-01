@@ -11,7 +11,7 @@ module mud.refl;
 #include <refl/Meta.h>
 #include <refl/Class.h>
 #include <refl/VirtualMethod.h>
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #endif
 
 namespace mud
@@ -119,20 +119,20 @@ namespace mud
 	}
 
 	Method::Method(Type& object_type, cstring name, Address address, MethodFunc trigger, const vector<Param>& params, QualType return_type)
-		: Callable(name, vector_union({ 1, { "self", object_type } }, params), return_type)
+		: Callable(name, merge({ 1, { "self", object_type } }, params), return_type)
 		, m_object_type(&object_type)
 		, m_address(address)
 		, m_call(trigger)
 	{}
 
 	Constructor::Constructor(Type& object_type, ConstructorFunc constructor, const vector<Param>& params)
-		: Callable(object_type.m_name, vector_union({ 1, { "self", object_type } }, params))
+		: Callable(object_type.m_name, merge({ 1, { "self", object_type } }, params))
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}
 
 	Constructor::Constructor(Type& object_type, cstring name, ConstructorFunc constructor, const vector<Param>& params)
-		: Callable(name, vector_union({ 1, { "self", object_type } }, params))
+		: Callable(name, merge({ 1, { "self", object_type } }, params))
 		, m_object_type(&object_type)
 		, m_call(constructor)
 	{}

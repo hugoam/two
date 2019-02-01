@@ -8,7 +8,7 @@
 module mud.gfx;
 #else
 #include <stl/map.h>
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <math/Math.h>
 #include <math/Vec.hpp>
 #include <gfx/Picker.h>
@@ -162,7 +162,7 @@ namespace mud
 					if(id == uint32_t(255 << 24) || id >= render.m_shot->m_items.size())
 						continue;
 
-					vector_add(items, render.m_shot->m_items[id]);
+					add(items, render.m_shot->m_items[id]);
 
 					uint32_t count = ++counts[id];
 					if(count > maxAmount && id < render.m_shot->m_items.size())

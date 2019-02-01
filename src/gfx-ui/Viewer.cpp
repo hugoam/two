@@ -9,7 +9,7 @@
 #ifdef MUD_MODULES
 module mud.gfx.ui;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <math/Math.h>
 #include <geom/Geom.hpp>
 #include <geom/Intersect.h>
@@ -70,7 +70,7 @@ namespace mud
 
 	Viewer::~Viewer()
 	{
-		vector_remove(m_context.m_viewports, &m_viewport);
+		remove(m_context.m_viewports, &m_viewport);
 	}
 
 	void Viewer::update()

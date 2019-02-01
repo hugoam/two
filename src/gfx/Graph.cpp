@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <infra/Copy.h>
 #include <pool/ObjectPool.hpp>
 #include <math/Math.h>
@@ -96,10 +96,10 @@ namespace mud
 			debug_tree(*node.m_nodes[i], i, depth + 1);
 	}
 
-	template <class T_Element, class... T_Args>
-	inline T_Element& create(Scene& scene, T_Args&&... args)
+	template <class T_Element, class... Args>
+	inline T_Element& create(Scene& scene, Args&&... args)
 	{
-		return scene.m_pool->pool<T_Element>().construct(static_cast<T_Args&&>(args)...);
+		return scene.m_pool->pool<T_Element>().construct(static_cast<Args&&>(args)...);
 	}
 
 namespace gfx

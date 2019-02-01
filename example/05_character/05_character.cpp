@@ -56,7 +56,7 @@ void human_control_key(Widget& widget, Human& human, vec3& speed, const KeyMove&
 	}
 	if(widget.key_event(move.key, EventType::Released))
 	{
-		vector_remove_if(human.m_states, [&](Human::State& state) { return state.m_action == move.action && state.m_action_speed == move.action_speed; });
+		remove_if(human.m_states, [&](Human::State& state) { return state.m_action == move.action && state.m_action_speed == move.action_speed; });
 		speed -= move.velocity;
 	}
 }

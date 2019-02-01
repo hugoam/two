@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <type/Any.h>
 #include <ecs/ECS.h>
 #include <refl/Class.h>
@@ -257,7 +257,7 @@ namespace mud
 	void multi_object_edit(Widget& parent, Type& type, vector<Ref> objects)
 	{
 		ScrollSheet& scroll_sheet = ui::scroll_sheet(parent);
-		Widget& table = ui::table(*scroll_sheet.m_body, to_array(cls(type).m_field_names), {});
+		Widget& table = ui::table(*scroll_sheet.m_body, cls(type).m_field_names, {});
 
 		for(Ref object : objects)
 			object_edit_inline(table, object);
@@ -288,7 +288,7 @@ namespace mud
 		Widget& board = ui::board(*self.m_body);
 
 		ScrollSheet& scroll_sheet = ui::scroll_sheet(board);
-		Widget& table = ui::table(*scroll_sheet.m_body, to_array(cls(type).m_field_names), {});
+		Widget& table = ui::table(*scroll_sheet.m_body, cls(type).m_field_names, {});
 
 		for(size_t i = 0; i < objects.size(); ++i)
 		{

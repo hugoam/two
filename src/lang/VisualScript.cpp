@@ -7,7 +7,7 @@
 #ifdef MUD_MODULES
 module mud.lang;
 #else
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <refl/Convert.h>
 #include <infra/ToString.h>
 #include <infra/Reverse.h>
@@ -153,8 +153,8 @@ namespace mud
 
 	Pipe::~Pipe()
 	{
-		vector_remove(m_output.m_pipes, this);
-		vector_remove(m_input.m_pipes, this);
+		remove(m_output.m_pipes, this);
+		remove(m_input.m_pipes, this);
 	}
 	
 	void dump_stream(Stream& stream, const string& name)

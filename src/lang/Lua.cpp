@@ -9,6 +9,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstdarg>
+#include <cstring>
 #include <new>
 #endif
 
@@ -18,7 +19,7 @@ module mud.lang;
 #else
 #include <stl/vector.h>
 #include <infra/NonCopy.h>
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <infra/Global.h>
 #include <infra/ToString.h>
 #include <type/Any.h>
@@ -255,7 +256,7 @@ namespace mud
 	{
 		if(!ToLua::me().check(value))
 		{
-			lua_printf("ERROR : lua -> no dispatch to push type %s\n", value.m_type->m_name);
+			lua_printf("ERROR : lua -> no dispatch to push_value type %s\n", value.m_type->m_name);
 			return push_null(state);
 		}
 		return ToLua::me().dispatch(value, state);
@@ -267,7 +268,7 @@ namespace mud
 		else if(!lua_isuserdata(state, index)) result = Ref();
 		else result = userdata(state, index);
 #ifdef MUD_LUA_DEBUG
-		printf("Lua -> read ref %s at %p\n", result.m_ref.m_type ? result.m_ref.m_type->m_name : "none", result.m_ref.m_value);
+		printf("Lua -> read_value ref %s at %p\n", result.m_ref.m_type ? result.m_ref.m_type->m_name : "none", result.m_ref.m_value);
 #endif
 	}
 
@@ -281,7 +282,7 @@ namespace mud
 				result = object;
 		}
 #ifdef MUD_LUA_DEBUG
-		printf("Lua -> read object %s at %p\n", type(result).m_name, result.m_ref.m_value);
+		printf("Lua -> read_value object %s at %p\n", type(result).m_name, result.m_ref.m_value);
 #endif
 	}
 
@@ -302,9 +303,9 @@ namespace mud
 		//	lua_printf("ERROR : lua -> reading wrong type %s expected %s\n", lua_typename(state, lua_type(state, index)), type.m_name);
 	}
 
-	inline Stack push(lua_State* state, const Var& var)
+	inline Stack push_value(lua_State* state, const Var& var)
 	{
-		// @todo: what about automatic conversion as with visual scripts ? it might not belong here, maybe in read() ?
+		// @todo: what about automatic conversion as with visual scripts ? it might not belong here, maybe in read_value() ?
 		// @todo: might want a case for is_complex() before is_object() ?
 		if(var.none() || var.null())
 			return push_null(state);
@@ -325,7 +326,7 @@ namespace mud
 			return push_value(state, var.m_ref);
 	}
 
-	inline void read(lua_State* state, int index, Var& value)
+	inline void read_value(lua_State* state, int index, Var& value)
 	{
 		if(value.m_mode == REF && value.m_ref == Ref())
 			read_ref(state, index, value);
@@ -348,14 +349,14 @@ namespace mud
 
 	inline void set_table(lua_State* state, Var index, const Var& value)
 	{
-		push(state, index).release();
-		push(state, value).release();
+		push_value(state, index).release();
+		push_value(state, value).release();
 		lua_settable(state, -3);
 	}
 	
 	inline void set_table(lua_State* state, cstring index, const Var& value)
 	{
-		push(state, value).release();
+		push_value(state, value).release();
 		lua_setfield(state, -2, index);
 	}
 
@@ -367,7 +368,7 @@ namespace mud
 	
 	inline void set_global(lua_State* state, cstring index, Var data)
 	{
-		push(state, data).release();
+		push_value(state, data).release();
 		lua_setglobal(state, index);
 	}
 
@@ -375,7 +376,7 @@ namespace mud
 	{
 		for(size_t i = 0; i < indices.size(); ++i)
 		{
-			stack += push(state, indices[i]);
+			stack += push_value(state, indices[i]);
 			lua_gettable(state, -2);
 		}
 	}
@@ -414,7 +415,7 @@ namespace mud
 		Var result = meta(type).m_empty_var;
 		lua_getglobal(state, name);
 		Stack stack = { state, 1 };
-		read(state, -1, result);
+		read_value(state, -1, result);
 		return result;
 	}
 	
@@ -423,7 +424,7 @@ namespace mud
 		Var result = meta(type).m_empty_var;
 		Stack stack = global_table(state);
 		lookup_table(state, stack, indices);
-		read(state, -1, result);
+		read_value(state, -1, result);
 		return result;
 	}
 
@@ -444,10 +445,10 @@ namespace mud
 	{
 		Stack arguments = { state, 0 };
 		for(Var& param : parameters)
-			arguments += push(state, param);
+			arguments += push_value(state, param);
 		Stack results = call_lua_stack(state, move(arguments), result ? 1 : 0, move(function));
 		if(result)
-			read(state, results.m_num, *result);
+			read_value(state, results.m_num, *result);
 	}
 
 	inline void exec_lua(lua_State* state, cstring code, Var* result = nullptr)
@@ -462,7 +463,7 @@ namespace mud
 		bool success = true;
 		for(size_t i = 0; i < vars.m_count; ++i)
 		{
-			read(state, -int(vars.m_count) + int(i), vars[i]);
+			read_value(state, -int(vars.m_count) + int(i), vars[i]);
 			success &= !vars[i].none();
 			success &= callable.m_params[i].nullable() || !vars[i].null();
 #if 1
@@ -476,10 +477,10 @@ namespace mud
 	inline Stack call_cpp(lua_State* state, Call& call, size_t num_arguments)
 	{
 		bool enough_arguments = num_arguments >= call.m_callable->m_num_required;
-		if(enough_arguments && read_params(state, *call.m_callable, to_array(call.m_args, 0, num_arguments)))
+		if(enough_arguments && read_params(state, *call.m_callable, { call.m_args, 0, num_arguments }))
 		{
 			call();
-			Stack result = call.m_result.none() ? Stack{ state, 0 } : push(state, call.m_result);
+			Stack result = call.m_result.none() ? Stack{ state, 0 } : push_value(state, call.m_result);
 #ifdef MUD_LUA_DEBUG
 			printf("Lua -> called %s\n", call.m_callable->m_name);
 			lua_dump_stack(state);
@@ -507,7 +508,7 @@ namespace mud
 		const Member& member = val<Member>(userdata(state, -1));
 		Ref object = userdata(state, object_index);
 		Ref value = member.cast_get(object);
-		return push(state, value).release();
+		return push_value(state, value).release();
 	}
 
 	inline int set_member(lua_State* state, int object_index, int value_index)
@@ -515,7 +516,7 @@ namespace mud
 		const Member& member = val<Member>(userdata(state, -1));
 		Ref object = userdata(state, object_index);
 		Var value = member.m_default_value;
-		read(state, value_index, value);
+		read_value(state, value_index, value);
 		member.cast_set(object, value);
 		return 0;
 	}
@@ -528,7 +529,7 @@ namespace mud
 		if(constructor)
 		{
 			Call& construct = lua_cached_call(*constructor);
-			if(read_params(state, *construct.m_callable, to_array(construct.m_args, 1, num_args)))
+			if(read_params(state, *construct.m_callable, { construct.m_args, 1, num_args }))
 				construct(alloc_object(state, *type));
 			else
 				lua_pushnil(state);
@@ -686,7 +687,7 @@ namespace mud
 		while(lua_next(state, (index > 0) ? index : (index - 1)) != 0)
 		{
 			Var element = meta(*iter(sequence_type).m_element_type).m_empty_var;
-			read(state, -1, element);
+			read_value(state, -1, element);
 			sequence(result).add(result, element);
 			lua_pop(state, 1); // pop the value but keep the key for the next iteration
 		}

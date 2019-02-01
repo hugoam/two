@@ -18,7 +18,7 @@ module mud.gltf;
 using json = json11::Json;
 
 #include <type/DispatchDecl.h>
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <infra/File.h>
 #include <infra/String.h>
 #include <infra/StringConvert.h>

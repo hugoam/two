@@ -13,7 +13,7 @@ module mud.wfc;
 #include <json11.hpp>
 using json = json11::Json;
 
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <infra/ToString.h>
 #include <srlz/Serial.h>
 #include <math/Axes.h>
@@ -26,7 +26,7 @@ namespace mud
 {
 	void add_tile(Tileset& tileset, const vector<string>& subset_tiles, const string& tile_name, char symmetry, float weight)
 	{
-		if(!subset_tiles.empty() && !vector_has(subset_tiles, tile_name))
+		if(!subset_tiles.empty() && !has(subset_tiles, tile_name))
 			return;
 
 		using Transform = int(*)(int);

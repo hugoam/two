@@ -6,13 +6,13 @@
 
 #include <refl/Forward.h>
 #include <infra/TypeTraits.h>
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 
 namespace mud
 {
 	export_ template <class T>
-	enable_if<is_comparable<T>, void> vector_remove_any(vector<T>& vector, T value) { vector_remove(vector, value); }
+	enable_if<is_comparable<T>, void> vector_remove_any(vector<T>& vector, T value) { remove(vector, value); }
 
 	export_ template <class T>
-	enable_if<!is_comparable<T>, void> vector_remove_any(vector<T>& vector, T& value) { vector_remove_object(vector, value); }
+	enable_if<!is_comparable<T>, void> vector_remove_any(vector<T>& vector, T& value) { remove_object(vector, value); }
 }

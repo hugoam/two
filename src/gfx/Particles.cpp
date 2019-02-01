@@ -12,7 +12,7 @@
 module mud.gfx;
 #else
 #include <stl/string.h>
-#include <infra/Vector.h>
+#include <stl/algorithm.h>
 #include <pool/Pool.hpp>
 #include <math/Math.h>
 #include <math/Random.h>
@@ -76,7 +76,7 @@ namespace mud
 		for(Particle& particle : m_particles)
 			particle.life += delta / particle.lifetime;
 
-		vector_remove_if(m_particles, [&](Particle& particle) { return particle.life > m_duration; });
+		remove_if(m_particles, [&](Particle& particle) { return particle.life > m_duration; });
 
 		m_ended = m_time > m_duration && !m_loop;
 		if(!m_ended && m_rate.sample(m_time) > 0)

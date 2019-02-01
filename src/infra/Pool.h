@@ -173,11 +173,11 @@ namespace mud
 
 		//void rewind(void* addr) { m_allocator.rewind(addr); }
 
-		template <class... T_Args>
-		T* make(T_Args&&... args)
+		template <class... Args>
+		T* make(Args&&... args)
 		{
 			void* const p = this->alloc();
-			return p ? new(p) T(static_cast<T_Args&&>(args)...) : nullptr;
+			return p ? new(p) T(static_cast<Args&&>(args)...) : nullptr;
 		}
 
 		void destroy(T* p)
