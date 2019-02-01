@@ -19,7 +19,7 @@ module mud.uio;
 #include <ui/Structs/Container.h>
 #include <ui/Style/Layout.h>
 #include <ui/Style/Skin.h>
-#include <ui/Input.h>
+#include <ui/Input.hpp>
 #include <ui/Sequence.h>
 #include <uio/Types.h>
 #include <uio/Edit/Reflection.h>

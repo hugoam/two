@@ -11,7 +11,7 @@ module mud.uio;
 #include <math/Vec.hpp>
 #include <type/Any.h>
 #include <refl/System.h>
-#include <pool/ObjectPool.h>
+#include <pool/ObjectPool.hpp>
 #include <lang/Script.h>
 #include <lang/VisualScript.h>
 #include <lang/Lua.h>

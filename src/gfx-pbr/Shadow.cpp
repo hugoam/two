@@ -12,6 +12,7 @@ module mud.gfx.pbr;
 #include <infra/Vector.h>
 #include <pool/ObjectPool.hpp>
 #include <math/Math.h>
+#include <geom/Geom.hpp>
 #include <geom/Intersect.h>
 #include <gfx/ManualRender.h>
 #include <gfx/Item.h>

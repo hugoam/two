@@ -9,6 +9,7 @@
 #ifdef MUD_MODULES
 module mud.gfx.pbr;
 #else
+#include <geom/Geom.hpp>
 #include <geom/Intersect.h>
 #include <gfx/Light.h>
 #include <gfx/Camera.h>

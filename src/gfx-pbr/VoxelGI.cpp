@@ -14,7 +14,7 @@ module mud.gfx.pbr;
 #include <infra/Vector.h>
 #include <math/Vec.hpp>
 #include <geom/Intersect.h>
-#include <pool/ObjectPool.h>
+#include <pool/ObjectPool.hpp>
 #include <gfx/Item.h>
 #include <gfx/ManualRender.h>
 #include <gfx/Shot.h>

@@ -147,7 +147,6 @@ namespace mud
 				 array<Member> members, array<Method> methods, array<Static> static_members)
 		: m_type(&type)
 		, m_meta(&meta(type))
-		, m_root(&type)
 		, m_bases(bases)
 		, m_bases_offsets(bases_offsets)
 		, m_constructors(constructors)
@@ -155,6 +154,7 @@ namespace mud
 		, m_members(members)
 		, m_methods(methods)
 		, m_static_members(static_members)
+		, m_root(&type)
 	{
 		g_class[type.m_id] = this;
 	}

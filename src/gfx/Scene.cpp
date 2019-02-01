@@ -11,6 +11,7 @@ module mud.gfx;
 #include <tree/Node.inl.h>
 #include <math/Timer.h>
 #include <pool/ObjectPool.hpp>
+#include <geom/Geom.hpp>
 #include <geom/Intersect.h>
 #include <geom/Shapes.h>
 #include <gfx/Types.h>

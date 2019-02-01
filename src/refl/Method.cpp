@@ -38,8 +38,8 @@ namespace mud
 	Callable::Callable(cstring name, const vector<Param>& params, QualType return_type)
 		: m_index(++s_callable_index)
 		, m_name(name)
-		, m_return_type(return_type)
 		, m_params(params)
+		, m_return_type(return_type)
 		, m_num_defaults(0)
 	{
 		this->setup();

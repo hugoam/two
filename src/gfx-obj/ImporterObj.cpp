@@ -12,7 +12,7 @@ module mud.gfx.obj;
 #include <infra/Vector.h>
 #include <infra/File.h>
 #include <infra/ToString.h>
-#include <pool/Pool.h>
+#include <pool/Pool.hpp>
 #include <math/Timer.h>
 #include <math/Vec.hpp>
 #include <geom/Mesh.h>

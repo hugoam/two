@@ -263,7 +263,7 @@ namespace ui
 
 	Widget& menu_choice(Widget& parent, cstring content)
 	{
-		return menu_choice(parent, { content });
+		return menu_choice(parent, array<cstring>{ content });
 	}
 
 	Widget& menu(Widget& parent, cstring label, bool submenu)

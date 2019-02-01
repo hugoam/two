@@ -11,6 +11,7 @@ module mud.gfx.ui;
 #else
 #include <infra/Vector.h>
 #include <math/Math.h>
+#include <geom/Geom.hpp>
 #include <geom/Intersect.h>
 #include <ctx/InputEvent.h>
 #include <ui/Render/Renderer.h>

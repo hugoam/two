@@ -12,6 +12,7 @@ module mud.tool;
 #include <refl/Class.h>
 #include <refl/Convert.h>
 #include <math/Axes.h>
+#include <geom/Geom.hpp>
 #include <geom/Intersect.h>
 #include <ctx/InputDevice.h>
 #include <ui/Sheet.h>

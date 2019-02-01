@@ -8,6 +8,7 @@
 module mud.gfx;
 #else
 #include <math/Axis.h>
+#include <geom/Geom.hpp>
 #include <geom/Intersect.h>
 #include <gfx/Frustum.h>
 #include <gfx/Camera.h>

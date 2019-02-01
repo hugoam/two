@@ -16,7 +16,7 @@ module mud.uio;
 #include <math/Vec.hpp>
 #include <math/Curve.h>
 #include <math/Range.h>
-#include <ui/Input.h>
+#include <ui/Input.hpp>
 #include <uio/Types.h>
 #include <uio/Edit/Value.h>
 #include <uio/Object.h>

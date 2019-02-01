@@ -8,7 +8,7 @@
 #include <infra/ToString.h>
 #include <infra/ToValue.h>
 #include <type/Type.h>
-#include <math/Stat.h>
+#include <math/Stat.hpp>
 #include <math/Colour.h>
 #include <math/Math.h>
 #endif

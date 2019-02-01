@@ -30,9 +30,9 @@ namespace ui
 	template bool slider_input(Widget& parent, AutoStat<float> value);
 
 	template bool number_input(Widget& parent, AutoStat<int> value);
-	template bool number_input(Widget& parent, AutoStat<float> value);
+	//template bool number_input(Widget& parent, AutoStat<float> value);
 
-	template bool input(Widget& parent, bool& value);
+	//template bool input(Widget& parent, bool& value);
 	template bool input(Widget& parent, int& value);
 	template bool input(Widget& parent, float& value);
 	template bool input(Widget& parent, string& value);

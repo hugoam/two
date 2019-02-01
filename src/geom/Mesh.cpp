@@ -17,6 +17,7 @@ module mud.geom;
 #include <math/Vec.hpp>
 #include <geom/Mesh.h>
 #include <geom/Geom.h>
+#include <geom/Primitive.hpp>
 #endif
 
 #include <mikktspace.h>
