@@ -127,6 +127,7 @@ function mud_module_decl(m)
     if not m.unity then
         files {
             path.join(m.path, "**.h"),
+            path.join(m.path, "**.hpp"),
             path.join(m.path, "**.cpp"),
         }
     else

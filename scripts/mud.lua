@@ -85,6 +85,7 @@ end
 function mud_infra()
     files {
         path.join(MUD_SRC_DIR, "stl", "**.h"),
+        path.join(MUD_SRC_DIR, "stl", "**.hpp"),
         path.join(MUD_SRC_DIR, "stl", "**.cpp"),
     }
 end
@@ -294,9 +295,9 @@ if _OPTIONS["as-libs"] then
 else
     mud.lib = mud_lib("mud", mud.mud, "StaticLib")
     
-        files {
-            path.join(MUD_SRC_DIR, "mud", "**.h"),
-        }
+        --files {
+        --    path.join(MUD_SRC_DIR, "mud", "**.h"),
+        --}
         
         configuration { "vs*", "not asmjs", "Release" }
             buildoptions {

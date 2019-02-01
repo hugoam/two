@@ -296,7 +296,7 @@ void ProceduralSky::init(GfxSystem& gfx_system, ivec2 vertex_count)
 
 	m_preventBanding = false;
 
-	ScreenPosVertex* vertices = (ScreenPosVertex*)BX_ALLOC(&gfx_system.m_allocator, vertex_count.y * vertex_count.x * sizeof(ScreenPosVertex));
+	ScreenPosVertex* vertices = (ScreenPosVertex*)BX_ALLOC(&gfx_system.allocator(), vertex_count.y * vertex_count.x * sizeof(ScreenPosVertex));
 
 	for(int i = 0; i < vertex_count.y; i++)
 	{
@@ -308,7 +308,7 @@ void ProceduralSky::init(GfxSystem& gfx_system, ivec2 vertex_count)
 		}
 	}
 
-	uint16_t* indices = (uint16_t*)BX_ALLOC(&gfx_system.m_allocator, (vertex_count.y - 1) * (vertex_count.x - 1) * 6 * sizeof(uint16_t));
+	uint16_t* indices = (uint16_t*)BX_ALLOC(&gfx_system.allocator(), (vertex_count.y - 1) * (vertex_count.x - 1) * 6 * sizeof(uint16_t));
 
 	int k = 0;
 	for(int i = 0; i < vertex_count.y - 1; i++)
@@ -328,8 +328,8 @@ void ProceduralSky::init(GfxSystem& gfx_system, ivec2 vertex_count)
 	m_vbh = bgfx::createVertexBuffer(bgfx::copy(vertices, sizeof(ScreenPosVertex) * vertex_count.y * vertex_count.x), ScreenPosVertex::ms_decl);
 	m_ibh = bgfx::createIndexBuffer(bgfx::copy(indices, sizeof(uint16_t) * k));
 
-	BX_FREE(&gfx_system.m_allocator, indices);
-	BX_FREE(&gfx_system.m_allocator, vertices);
+	BX_FREE(&gfx_system.allocator(), indices);
+	BX_FREE(&gfx_system.allocator(), vertices);
 }
 
 void ProceduralSky::shutdown()

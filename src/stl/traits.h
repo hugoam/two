@@ -115,47 +115,47 @@ namespace stl
 	template <class T>
 	constexpr bool is_default_constructible = is_constructible<T>;
 
-	template<typename T, typename U, typename = void>
+	template<class T, class U, typename = void>
 	constexpr bool is_assignable = false;
 
-	template<typename T, typename U>
+	template<class T, class U>
 	constexpr bool is_assignable<T, U, decltype(declval<T>() = declval<U>(), void())> = true;
 
-	template<typename T>
+	template<class T>
 	constexpr bool is_copy_assignable = is_assignable<T, T>;
 
 #if 1
-	template<typename _Tp, typename = void>
+	template<class _Tp, typename = void>
 	struct __success_type { typedef _Tp type; };
 
 	struct __failure_type { };
 
-	template<typename F, typename... Args>
+	template<class F, class... Args>
 	struct __result_of_impl
 	{
-		template<typename F, typename... Args>
-		static __success_type<decltype(declval<F>()(declval<Args>()...)), void()> test(int);
+		template<class U>
+		static __success_type<decltype(declval<U>()(declval<Args>()...)), void()> test(int);
 
-		template<typename...>
+		template<class...>
 		static __failure_type test(...);
 
-		typedef decltype(test<F, Args...>(0)) type;
+		typedef decltype(test<F>(0)) type;
 	};
 
-	template<typename F, typename... Args>
+	template<class F, class... Args>
 	using invoke_result = typename __result_of_impl<F, Args...>::type;
 
-	template<typename Result, typename Ret, typename = void>
+	template<class Result, class Ret, typename = void>
 	constexpr bool __is_invocable_impl = false;
 
-	template<typename Result, typename Ret>
+	template<class Result, class Ret>
 	constexpr bool __is_invocable_impl<Result, Ret, void_t<typename Result::type>>
 		= is_void<Ret> || is_same<typename Result::type, Ret>; //is_convertible<typename Result::type, Ret>>::type
 
-	template<typename F, typename... Args>
+	template<class F, class... Args>
 	constexpr bool is_invocable = __is_invocable_impl<invoke_result<F, Args...>, void>;
 
-	template<typename Ret, typename F, typename... Args>
+	template<class Ret, class F, class... Args>
 	constexpr bool is_invocable_r = __is_invocable_impl<invoke_result<F, Args...>, Ret>;
 
 #elif 0
@@ -219,16 +219,16 @@ namespace stl
 	template<class T>
 	constexpr bool is_integral = is_integral_impl<remove_cv<T>>;
 
-	template<typename T, bool = is_integral<T> || is_float<T>>
+	template<class T, bool = is_integral<T> || is_float<T>>
 	constexpr bool is_signed = T(-1) < T(0);
  
-	template<typename T>
+	template<class T>
 	constexpr bool is_signed<T, false> = false;
 
-	template<typename T, bool = is_integral<T> || is_float<T>>
+	template<class T, bool = is_integral<T> || is_float<T>>
 	constexpr bool is_unsigned = T(0) < T(-1);
 
-	template<typename T>
+	template<class T>
 	constexpr bool is_unsigned<T, false> = false;
 }
 

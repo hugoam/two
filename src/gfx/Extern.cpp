@@ -4,7 +4,7 @@
 module mud.math;
 #else
 #include <stl/vector.hpp>
-#include <stl/vectorp.hpp>
+//#include <stl/vectorp.hpp>
 #include <stl/unordered_map.hpp>
 #include <stl/unordered_set.hpp>
 #include <gfx/Extern.h>
