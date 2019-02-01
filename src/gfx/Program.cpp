@@ -29,6 +29,8 @@ module mud.gfx;
 #include <gfx/Renderer.h>
 #endif
 
+#include <cstring>
+
 namespace bgfx
 {
 	int compileShader(int _argc, const char* _argv[]);
