@@ -523,8 +523,8 @@ namespace mud
 		Type& t = type<mud::Aabb>();
 		static Meta meta = { t, &namspc({ "mud" }), "Aabb", sizeof(mud::Aabb), TypeClass::Struct };
 		// bases
-		static Type* bases[] = { &type<mud::Cube>() };
-		static size_t bases_offsets[] = { base_offset<mud::Aabb, mud::Cube>() };
+		//static Type* bases[] = { &type<mud::Cube>() };
+		//static size_t bases_offsets[] = { base_offset<mud::Aabb, mud::Cube>() };
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
@@ -541,7 +541,7 @@ namespace mud
 		};
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
 	}
 	// mud::Box
 	{

@@ -77,7 +77,7 @@ namespace mud
 		m_context = m_gfx_system.create_context("mud EditorCore", 1600, 900, false);
 		GfxContext& context = as<GfxContext>(*m_context);
 #if defined MUD_VG_VG
-		m_vg = oconstruct<VgVg>(m_resource_path.c_str(), &m_gfx_system.m_allocator);
+		m_vg = oconstruct<VgVg>(m_resource_path.c_str(), &m_gfx_system.allocator());
 #elif defined MUD_VG_NANOVG
 		m_vg = oconstruct<VgNanoBgfx>(m_resource_path.c_str());
 #endif

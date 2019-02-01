@@ -85,11 +85,11 @@
 #ifndef MUD_INFRA_EXPORT
 #define MUD_INFRA_EXPORT MUD_IMPORT
 #endif
+#include <stl/initializer_list.h>
 
 #ifndef MUD_CPP_20
-#include <initializer_list>
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 #include <cassert>
 #endif
 
@@ -97,7 +97,7 @@ namespace mud
 {
 	using cstring = const char*;
 
-	template <typename T>
+	template <class T>
 	struct array;
 
 	export_ template <class T, size_t Size>
@@ -113,7 +113,7 @@ namespace mud
 		operator array<T>() { return{ m_array, Size }; }
 	};
 
-	export_ template <typename T>
+	export_ template <class T>
 	struct refl_ struct_ array
 	{
 	public:
@@ -143,7 +143,8 @@ namespace mud
 		size_t m_count;
 	};
 
-	export_ template<typename T> class array2d : public array<T>
+	export_ template <class T>
+	class array2d : public array<T>
 	{
 	public:
 		array2d(T* pointer, size_t size_x, size_t size_y) : array<T>(pointer, size_x * size_y), m_x(size_x), m_y(size_y) {}
@@ -158,7 +159,7 @@ namespace mud
 #ifdef MUD_CPP_20
 
 #include <cassert>
-#include <cstdint>
+#include <stdint.h>
 #include <cfloat>
 #include <climits>
 //#include <cmath>
@@ -179,7 +180,7 @@ import std.io;
 
 
 #ifndef MUD_CPP_20
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 namespace mud
@@ -276,7 +277,7 @@ namespace mud
 namespace mud
 {
 	struct swallow {
-		template<typename... T> swallow(T...) {}
+		template <class... T> swallow(T...) {}
 	};
 }
 
@@ -306,7 +307,7 @@ namespace mud
 #include <stl/limits.h>
 
 #ifndef MUD_CPP_20
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 
@@ -339,7 +340,7 @@ namespace mud
 namespace mud
 {
 #ifdef MUD_NO_STL
-	template<class T>
+	template <class T>
 	class reverse_pointer
 	{
 	public:
@@ -378,26 +379,26 @@ namespace mud
 		T* m_ptr;
 	};
 
-	template<class T1, class T2>
+	template <class T1, class T2>
 	bool operator==(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return left.m_ptr == right.m_ptr; }
 
-	template<class T1, class T2>
+	template <class T1, class T2>
 	bool operator!=(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return !(left == right); }
 
-	template<class T1, class T2>
+	template <class T1, class T2>
 	bool operator<(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return right.m_ptr < left.m_ptr; }
 
-	template<class T1, class T2>
+	template <class T1, class T2>
 	bool operator>(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return right < left; }
 
-	template<class T1, class T2>
+	template <class T1, class T2>
 	bool operator<=(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return !(right < left); }
 
-	template<class T1, class T2>
+	template <class T1, class T2>
 	bool operator>=(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return !(left < right); }
 #endif
 
-	export_ template<typename T>
+	export_ template <class T>
 	class reverse_adapter
 	{
 	public:
@@ -416,7 +417,7 @@ namespace mud
 		T& m_container;
 	};
 
-	export_ template<typename T>
+	export_ template <class T>
 	reverse_adapter<T> reverse_adapt(T& container) { return reverse_adapter<T>(container); }
 }
 
@@ -554,7 +555,7 @@ namespace mud
 
 
 #include <stl/vector.h>
-#include <stl/type_traits.h>
+//#include <stl/type_traits.h>
 
 namespace mud
 {
@@ -570,16 +571,16 @@ namespace mud
 		if(val.size() > 0)
 			str.pop_back();
 	}
-	
-	export_ template <typename T>
-	struct is_vector : false_type {};
-	
-	export_ template <typename T>
-	struct is_vector<vector<T>> : true_type {};
 
 #if 0
 	export_ template <class T>
-	inline typename enable_if<is_vector<T>::value, void>::type
+	constexpr bool is_vector = false;
+	
+	export_ template <class T>
+	constexpr bool is_vector<vector<T>> = true;
+
+	export_ template <class T>
+	inline enable_if<is_vector<T>, void>
 		to_string(const T& val, string& str) { vector_to_string(val, str); }
 #endif
 
@@ -593,7 +594,7 @@ namespace mud
 		while(second != end)
 		{
 			second = str.find(",", first);
-			vec.push_back(to_value<typename T::value_type>(str.substr(first, second - first)));
+			vec.push_back(to_value<class T::value_type>(str.substr(first, second - first)));
 			
 			if(second != end)
 				first = second + 1;
@@ -601,7 +602,7 @@ namespace mud
 	}
 
 	export_ template <class T, uint32_t size>
-	inline void fixed_vector_to_string(const T& val, string& str)
+	inline void array_to_string(const T& val, string& str)
 	{
 		for(uint32_t i = 0; i < size; ++i)
 		{
@@ -612,7 +613,7 @@ namespace mud
 	}
 
 	export_ template <class Vec, class T>
-	inline void string_to_fixed_vector(const string& str, Vec& vec)
+	inline void string_to_array(const string& str, Vec& vec)
 	{
 		size_t first = 0;
 		size_t second = str.find(",");
@@ -674,8 +675,8 @@ namespace mud
 }
 
 
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 
 namespace mud
 {
@@ -704,26 +705,23 @@ namespace mud
 
 namespace mud
 {
-	export_ template <typename T>
-	struct is_function_pointer : integral_constant<bool, is_pointer<T>::value
-													  && is_function<typename remove_pointer<T>::type>::value> {};
+	export_ template <class T>
+	constexpr bool is_function_pointer = is_pointer<T> && is_function<remove_pointer<T>>;
 
-	export_ template <typename T>
-	struct is_object_pointer : integral_constant<bool, is_pointer<T>::value
-													&& !is_function_pointer<T>::value> {};
+	export_ template <class T>
+	constexpr bool is_object_pointer = is_pointer<T> && !is_function_pointer<T>;
 
-	export_ template <typename T, typename = void>
+	export_ template <class T, typename = void>
 	struct is_comparable_base : false_type {};
 
-	export_ template <typename T>
-	struct is_comparable_base<T, decltype(std::declval<T&>() == std::declval<T&>(), (void) 0)> : true_type {};
+	export_ template <class T>
+	struct is_comparable_base<T, decltype(declval<T&>() == declval<T&>(), (void) 0)> : true_type {};
 
-	export_ template <typename T>
-	struct is_comparable : is_comparable_base<T> {};
+	export_ template <class T>
+	constexpr bool is_comparable = is_comparable_base<T>::value;
 
-	export_ template <typename T>
-	struct is_copyable : integral_constant<bool, is_copy_constructible<T>::value
-											  && is_copy_assignable<T>::value> {};
+	export_ template <class T>
+	constexpr bool is_copyable = is_copy_constructible<T> && is_copy_assignable<T>;
 }
 
 
@@ -732,8 +730,8 @@ namespace mud
 
 namespace mud
 {
-	template <typename T>
-	struct is_comparable<vector<T>> : is_comparable_base<T> {};
+	template <class T>
+	constexpr bool is_comparable<vector<T>> = is_comparable<T>;
 
 	export_ template <class T>
 	array<T> to_array(vector<T>& vec) { return { &vec[0], vec.size() }; }
@@ -1007,7 +1005,7 @@ namespace mud
 	}
 
 #ifdef MUD_NO_STL
-	template <typename T>
+	template <class T>
 	class TinystlAlignedAllocator
 	{
 	public:
@@ -1015,7 +1013,7 @@ namespace mud
 		static inline void static_deallocate(T* ptr, size_t /*bytes*/) { aligned_free(ptr); }
 	};
 #else
-	template <typename T>
+	template <class T>
 	class STLAlignedAllocator
 	{
 		static_assert(!(alignof(T) & (alignof(T)-1)), "alignof(T) must be a power of two");
@@ -1031,14 +1029,14 @@ namespace mud
 		using propagate_on_container_move_assignment = true_type;
 		using is_always_equal = true_type;
 
-		template <typename U>
+		template <class U>
 		struct rebind { using other = STLAlignedAllocator<U>; };
 
 	public:
 		inline STLAlignedAllocator() noexcept = default;
 		inline ~STLAlignedAllocator() noexcept = default;
 
-		template <typename U>
+		template <class U>
 		inline explicit STLAlignedAllocator(const STLAlignedAllocator<U>&) noexcept {}
 
 		inline pointer allocate(size_type n) noexcept { return (pointer)aligned_alloc(n * sizeof(value_type), alignof(T)); }
@@ -1052,15 +1050,15 @@ namespace mud
 
 
 #include <cassert>
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 #include <climits>
 
-#include <stl/type_traits.h>
+#include <stl/traits.h>
 
 namespace mud
 {
-	template<typename T>
+	template <class T>
 	inline T popcount(T v)
 	{
 		static_assert(sizeof(T) * 8 <= 128, "popcount() only support up to 128 bits");
@@ -1071,7 +1069,7 @@ namespace mud
 		return (T)(v * (ONES / 255)) >> (sizeof(T) - 1) * CHAR_BIT;
 	}
 
-	template<typename T>
+	template <class T>
 	inline T clz(T x)
 	{
 		static_assert(sizeof(T) <= sizeof(uint64_t), "clz() only support up to 64 bits");
@@ -1086,7 +1084,7 @@ namespace mud
 		return (sizeof(T) * CHAR_BIT) - popcount(x);
 	}
 
-	template<typename T>
+	template <class T>
 	inline T ctz(T x)
 	{
 		static_assert(sizeof(T) <= sizeof(uint64_t), "ctz() only support up to 64 bits");
@@ -1108,10 +1106,13 @@ namespace mud
  * the exact storage size. This is useful for small bitset (e.g. < 64, on 64-bits machines).
  * It also allows for lexicographical compares (i.e. sorting).
  */
-
-template<typename T, size_t N = 1,
-         typename = typename enable_if<is_integral<T>::value &&
-                                       is_unsigned<T>::value>::type>
+#if 1
+template <class T, size_t N = 1,
+         typename = enable_if<is_integral<T> &&
+                              is_unsigned<T>>>
+#else
+template <class T, size_t N = 1>
+#endif
 class bitset {
 	T storage[N] = {};
 
@@ -1146,7 +1147,7 @@ public:
         storage[0] = value;
     }
 
-    template<typename F>
+    template <class F>
     void for_each(F exec) const
 	{
         for(size_t i = 0; i < N; i++)
@@ -1272,7 +1273,7 @@ namespace mud
 
 #include <stl/vector.h>
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	export_ extern template class vector<string>;
@@ -1282,7 +1283,7 @@ namespace tinystl
 #include <stl/type_traits.h>
 
 #include <cassert>
-#include <cstddef>
+#include <stl/stddef.h>
 #include <cstdlib>
 
 #include <atomic>
@@ -1296,13 +1297,13 @@ namespace mud
 {
 	namespace pointermath
 	{
-		export_ template <typename P, typename T>
+		export_ template <class P, class T>
 		inline P* add(P* a, T b)
 		{
 			return (P*)(uintptr_t(a) + uintptr_t(b));
 		}
 
-		export_ template <typename P>
+		export_ template <class P>
 		inline P* align(P* p, size_t alignment)
 		{
 			// alignment must be a power-of-two
@@ -1310,7 +1311,7 @@ namespace mud
 			return (P*)((uintptr_t(p) + alignment - 1) & ~(alignment - 1));
 		}
 
-		export_ template <typename P>
+		export_ template <class P>
 		inline P* align(P* p, size_t alignment, size_t offset)
 		{
 			P* const r = align(add(p, offset), alignment);
@@ -1428,7 +1429,7 @@ namespace mud
 			return p;
 		}
 
-		template <typename U = T, typename = typename enable_if<std::is_trivially_destructible<U>::value>::type>
+		template <class U = T, typename = enable_if<is_trivially_destructible<U>>>
 		T* alloc(size_t count, size_t alignment = alignof(T))
 		{
 			return (T*)alloc(count * sizeof(T), alignment);
@@ -1451,7 +1452,7 @@ namespace mud
 
 		//void rewind(void* addr) { m_allocator.rewind(addr); }
 
-		template <typename... T_Args>
+		template <class... T_Args>
 		T* make(T_Args&&... args)
 		{
 			void* const p = this->alloc();
@@ -1547,7 +1548,7 @@ namespace mud
 #ifndef MUD_CPP_20
 #include <stl/string.h>
 #include <stl/vector.h>
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 

@@ -8,7 +8,7 @@
 
 
 #ifndef MUD_MODULES
-#include <stl/stringfwd.h>
+#include <stl/decls.h>
 #endif
 
 
@@ -168,12 +168,12 @@ namespace mud
 }
 
 
-#include <stl/stringfwd.h>
+#include <stl/decls.h>
 
 
 
 #ifndef MUD_CPP_20
-#include <cstddef>
+#include <stl/stddef.h>
 #endif
 
 #if defined _WIN32
@@ -358,7 +358,7 @@ namespace ui
 }
 
 #ifndef MUD_CPP_20
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 namespace mud
@@ -527,8 +527,6 @@ namespace ui
 }
 
 
-#ifndef MUD_MODULES
-#endif
 
 
 
@@ -672,7 +670,145 @@ namespace ui
 
 
 #ifndef MUD_MODULES
+//#include <math/Math.h>
 #endif
+
+namespace mud
+{
+namespace ui
+{
+	export_ template <class T>
+	bool slider_input_dim(Widget& parent, AutoStat<T> value, Dim dim = DIM_X);
+
+	export_ template <class T>
+	bool slider_input(Widget& parent, AutoStat<T> value);
+
+	export_ template <class T>
+	bool number_type_in(Widget& parent, T& value);
+
+	export_ template <class T>
+	bool number_input(Widget& parent, AutoStat<T> value);
+
+	export_ MUD_UI_EXPORT func_ bool drag_float(Widget& parent, float& value, float step = 0.1f);
+
+	export_ template <class T>
+	inline bool input(Widget& parent, T& value);
+
+	export_ MUD_UI_EXPORT func_ bool vec2_edit(Widget& parent, vec2& vec);
+	export_ MUD_UI_EXPORT func_ bool vec3_edit(Widget& parent, vec3& vec);
+	export_ MUD_UI_EXPORT func_ bool quat_edit(Widget& parent, quat& quat);
+
+	export_ MUD_UI_EXPORT Widget& color_slab(Widget& parent, Style& style, const Colour& value);
+	export_ MUD_UI_EXPORT func_ bool color_edit_hsl(Widget& parent, const Colour& colour, Colour& value);
+	export_ MUD_UI_EXPORT func_ Widget& color_display(Widget& parent, const Colour& value);
+	export_ MUD_UI_EXPORT func_ bool color_edit(Widget& parent, Colour& value);
+	export_ MUD_UI_EXPORT func_ bool color_edit_simple(Widget& parent, Colour& value);
+	export_ MUD_UI_EXPORT func_ bool color_toggle_edit(Widget& parent, Colour& value);
+
+	export_ MUD_UI_EXPORT func_ bool curve_graph(Widget& parent, array<float> values, array<float> points = {});
+
+	export_ MUD_UI_EXPORT func_ bool curve_edit(Widget& parent, array<float> values, array<float> points = {});
+
+	export_ MUD_UI_EXPORT bool curve_edit(Widget& parent, array<Colour> values, array<float> points = {});
+
+	export_ MUD_UI_EXPORT bool flag_input(Widget& parent, uint32_t& value, uint8_t shift);
+
+	export_ template <class T_Input>
+	bool field(T_Input input, Widget& parent, cstring name, bool reverse)
+	{
+		Widget& self = row(parent);
+		if(!reverse) label(self, name);
+		bool changed = input(self);
+		if(reverse) label(self, name);
+		return changed;
+	}
+
+	export_ template <class T>
+	inline bool input_field(Widget& parent, cstring name, T& value, bool reverse = false) { return field([&](Widget& self) { return input<T>(self, value); }, parent, name, reverse); }
+
+	export_ template <class T>
+	inline bool number_field(Widget& parent, cstring name, AutoStat<T> value, bool reverse = false) { return field([&](Widget& self) { return number_input<T>(self, value); }, parent, name, reverse); }
+
+	export_ template <class T>
+	inline bool slider_field(Widget& parent, cstring name, AutoStat<T> value, bool reverse = false) { return field([&](Widget& self) { return slider_input<T>(self, value); }, parent, name, reverse); }
+
+	export_ func_ inline bool flag_field(Widget& parent, cstring name, uint32_t& value, uint8_t shift, bool reverse = false) { return field([&](Widget& self) { return flag_input(self, value, shift); }, parent, name, reverse); }
+	export_ func_ inline bool radio_field(Widget& parent, cstring name, array<cstring> choices, uint32_t& value, Dim dim = DIM_X, bool reverse = false) { return field([&](Widget& self) { return radio_switch(self, choices, value, dim); }, parent, name, reverse); }
+	export_ func_ inline bool dropdown_field(Widget& parent, cstring name, array<cstring> choices, uint32_t& value, bool reverse = false) { return field([&](Widget& self) { return dropdown_input(self, choices, value); }, parent, name, reverse); }
+	export_ func_ inline bool typedown_field(Widget& parent, cstring name, array<cstring> choices, uint32_t& value, bool reverse = false) { return field([&](Widget& self) { return typedown_input(self, choices, value); }, parent, name, reverse); }
+	export_ func_ inline bool color_field(Widget& parent, cstring name, Colour& value, bool reverse = false) { return field([&](Widget& self) { return color_toggle_edit(self, value); }, parent, name, reverse); }
+	export_ func_ inline void color_display_field(Widget& parent, cstring name, const Colour& value, bool reverse = false) { field([&](Widget& self) { color_display(self, value); return false; }, parent, name, reverse); }
+
+	inline void field_label(Widget& parent, cstring field, cstring value)
+	{
+		Widget& self = row(parent);
+		label(self, field);
+		label(self, value);
+	}
+}
+}
+
+
+#ifndef MUD_MODULES
+#endif
+
+namespace mud
+{
+	export_ struct refl_ MUD_UI_EXPORT NodeConnection
+	{
+		NodeConnection() : m_valid(false) {}
+		NodeConnection(size_t out_node, size_t out_plug, size_t in_node, size_t in_plug) : m_valid(true), m_out_node(out_node), m_out_plug(out_plug), m_in_node(in_node), m_in_plug(in_plug) {}
+		bool m_valid;
+		size_t m_out_node;
+		size_t m_out_plug;
+		size_t m_in_node;
+		size_t m_in_plug;
+	};
+
+namespace ui
+{
+	export_ struct NodeStyles
+	{
+		NodeStyles();
+		Style node; Style body; Style plugs; Style inputs; Style outputs; Style knob; Style knob_output; Style knob_proxy; Style plug; Style cable; Style header;
+	};
+
+	export_ MUD_UI_EXPORT NodeStyles& node_styles();
+
+	export_ struct CanvasStyles
+	{
+		CanvasStyles();
+		Style canvas;
+	};
+
+	export_ MUD_UI_EXPORT CanvasStyles& canvas_styles();
+
+	export_ MUD_UI_EXPORT NodePlug& node_plug(Node& node, cstring name, cstring icon, const Colour& colour, bool input, bool active, bool connected);
+	
+	export_ func_ inline NodePlug& node_input(Node& node, cstring name, cstring icon = "", const Colour& colour = Colour::NeonGreen, bool active = true, bool connected = false)
+	{
+		return node_plug(node, name, icon, colour, true, active, connected);
+	}
+
+	export_ func_ inline NodePlug& node_output(Node& node, cstring name, cstring icon = "", const Colour& colour = Colour::NeonGreen, bool active = true, bool connected = false)
+	{
+		return node_plug(node, name, icon, colour, false, active, connected);
+	}
+
+	export_ MUD_UI_EXPORT Node& node(Canvas& parent, array<cstring> title, int order = 0, Ref identity = {});
+	export_ MUD_UI_EXPORT Node& node(Canvas& parent, array<cstring> title, float* position, int order = 0, Ref identity = {});
+	export_ MUD_UI_EXPORT Node& node(Canvas& parent, array<cstring> title, vec2& position, int order = 0, Ref identity = {});
+	export_ MUD_UI_EXPORT func_ Node& node(Canvas& parent, cstring title, vec2& position, int order = 0, Ref identity = {});
+
+	export_ MUD_UI_EXPORT func_ Widget& node_cable(Canvas& canvas, NodePlug& plug_out, NodePlug& plug_in);
+
+	export_ MUD_UI_EXPORT func_ Canvas& canvas(Widget& parent, size_t num_nodes = 0);
+	export_ MUD_UI_EXPORT NodeConnection canvas_connect(Canvas& canvas);
+	export_ MUD_UI_EXPORT void canvas_autolayout(Canvas& canvas);
+}
+}
+
+
 
 
 
@@ -710,10 +846,43 @@ namespace ui
 }
 }
 
+namespace mud
+{
+namespace ui
+{
+	export_ struct ScrollbarStyles
+	{
+		ScrollbarStyles();
+		Style scrollbar; Style scroll_up; Style scroll_down; Style scroll_left; Style scroll_right; Style scroller; Style scroller_knob;
+	};
 
+	export_ MUD_UI_EXPORT ScrollbarStyles& scrollbar_styles();
+
+	export_ MUD_UI_EXPORT bool overflow(Frame& frame, Frame& content, Dim dim);
+	export_ MUD_UI_EXPORT Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Dim dim, Dim2<size_t> grid_index = { 0, 0 });
+}
+}
+
+
+
+namespace mud
+{
+namespace ui
+{
+	export_ MUD_UI_EXPORT void draw_grid(const Frame& frame, const vec4& rect, Vg& vg);
+
+	export_ MUD_UI_EXPORT ScrollSheet& scroll_sheet(Widget& parent, Style& style = styles().scrollsheet, Style* surface_style = nullptr);
+	export_ MUD_UI_EXPORT ScrollSheet& scroll_plan(Widget& parent, Style& style = styles().scrollsheet);
+
+	export_ MUD_UI_EXPORT func_ Widget& scrollable(Widget& parent);
+
+	export_ MUD_UI_EXPORT void autofit_scroll_plan(ScrollSheet& scroll_sheet, array<Widget*> elements);
+}
+}
+
+
+#ifndef MUD_MODULES
 #include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/memory.h>
 
 
 #ifndef MUD_MODULES
@@ -931,6 +1100,253 @@ namespace ui
 	}
 }
 }
+#endif
+
+namespace mud
+{
+	export_ struct MUD_UI_EXPORT Section : public Widget
+	{
+		Section(Widget* parent, void* identity) : Widget(parent, identity) {}
+		Widget* m_toolbar = nullptr;
+	};
+
+	export_ MUD_UI_EXPORT Section& section(Widget& parent, const string& name, bool no_toolbar = false);
+	export_ MUD_UI_EXPORT bool section_action(Section& parent, const string& name);
+}
+
+
+#ifndef MUD_MODULES
+#include <stl/vector.h>
+#endif
+
+namespace mud
+{
+namespace ui
+{
+	export_ MUD_UI_EXPORT func_ Sequence& sequence(Widget& parent);
+	export_ MUD_UI_EXPORT func_ Sequence& scroll_sequence(Widget& parent);
+
+	export_ MUD_UI_EXPORT func_ bool multiselect_logic(Widget& element, Ref object, vector<Ref>& selection);
+	export_ MUD_UI_EXPORT func_ bool select_logic(Widget& element, Ref object, Ref& selection);
+
+	export_ MUD_UI_EXPORT func_ Widget& element(Widget& parent, Ref object);
+	export_ MUD_UI_EXPORT Widget& element(Widget& parent, Ref object, vector<Ref>& selection);
+
+	export_ MUD_UI_EXPORT func_ Widget& sequence_element(Sequence& parent, Ref object);
+}
+}
+
+
+#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#endif
+
+#ifndef MUD_MODULES
+#endif
+
+#ifndef MUD_CPP_20
+#include <stl/string.h>
+#include <stl/vector.h>
+#include <stdint.h>
+#endif
+
+
+namespace mud
+{
+    // Exported types
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Align>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::AutoLayout>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Clipping>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Flow>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::FlowAxis>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::LayoutSolver>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Opacity>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Pivot>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::ui::PopupFlags>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Sizing>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::SpacePreset>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::WidgetState>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::WindowState>();
+    
+    export_ template <> MUD_UI_EXPORT Type& type<mud::CanvasConnect>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Clipboard>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<bool>>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<mud::Align>>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<mud::AutoLayout>>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<mud::Pivot>>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<mud::Sizing>>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<size_t>>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Dock>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Docksystem>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Gradient>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::GridSolver>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::ImageSkin>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::InkStyle>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Layer>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Layout>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::NodeConnection>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Paint>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Shadow>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Space>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Style>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::TableSolver>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Text>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::TextCursor>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::TextMarker>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::TextPaint>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::TextSelection>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::UiRect>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::UiWindow>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::User>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Vg>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Frame>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::FrameSolver>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::LineSolver>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Widget>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Canvas>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Dockable>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Docker>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Dockbar>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Dockspace>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Expandbox>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Node>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::NodePlug>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::RowSolver>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::ScrollSheet>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::ui::Sequence>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Tabber>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Table>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::TextEdit>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::TreeNode>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Ui>();
+    export_ template <> MUD_UI_EXPORT Type& type<mud::Window>();
+    
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::CanvasConnect*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Clipboard*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<bool>*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<mud::Align>*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<mud::AutoLayout>*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<mud::Pivot>*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<mud::Sizing>*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<size_t>*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dock*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Docksystem*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Gradient*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::GridSolver*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::ImageSkin*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::InkStyle*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Layer*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Layout*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::NodeConnection*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Paint*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Shadow*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Space*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Style*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TableSolver*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Text*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TextCursor*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TextMarker*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TextPaint*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TextSelection*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::UiRect*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::UiWindow*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::User*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Vg*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Frame*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::FrameSolver*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::LineSolver*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Widget*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Canvas*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dockable*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Docker*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dockbar*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dockspace*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Expandbox*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Node*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::NodePlug*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::RowSolver*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::ScrollSheet*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::ui::Sequence*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Tabber*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Table*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TextEdit*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TreeNode*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Ui*>>();
+    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Window*>>();
+}
+
+
+
+
+
+namespace mud
+{
+	export_ enum refl_ WindowState : unsigned int
+	{
+		WINDOW_NOSTATE = 0,
+		WINDOW_HEADER = 1 << 1,
+		WINDOW_DOCKABLE = 1 << 2,
+		WINDOW_CLOSABLE = 1 << 3,
+		WINDOW_MOVABLE = 1 << 4,
+		WINDOW_SIZABLE = 1 << 5,
+		WINDOW_DEFAULT = WINDOW_HEADER | WINDOW_MOVABLE | WINDOW_SIZABLE | WINDOW_CLOSABLE
+	};
+
+namespace ui
+{
+	export_ struct WindowStyles
+	{
+		WindowStyles();
+		Style window; Style body; Style close_button; Style header; Style header_movable; Style footer; Style sizer; Style sizer_left; Style sizer_right;
+		Style dock_window; Style wrap_window;
+	};
+
+	export_ MUD_UI_EXPORT WindowStyles& window_styles();
+
+	export_ func_ MUD_UI_EXPORT Window& window(Widget& parent, cstring title, WindowState state = WINDOW_DEFAULT);
+	export_ MUD_UI_EXPORT Window& window(Widget& parent, cstring title, WindowState state, void* identity, Dock* dock = nullptr);
+}
+}
+
+
+#include <stl/string.h>
+
+struct dirent;
+
+namespace mud
+{
+namespace ui
+{
+	export_ struct FileStyles
+	{
+		FileStyles();
+		Style dir; Style file;
+	};
+
+	export_ MUD_UI_EXPORT FileStyles& file_styles();
+
+	export_ MUD_UI_EXPORT func_ Widget& dir_item(Widget& parent, cstring name);
+	export_ MUD_UI_EXPORT func_ Widget& file_item(Widget& parent, cstring name);
+	export_ MUD_UI_EXPORT func_ Widget& file_list(Widget& parent, string& path);
+
+	export_ MUD_UI_EXPORT func_ Widget& file_browser(Widget& parent, string& path);
+
+	export_ MUD_UI_EXPORT func_ Widget& dir_node(Widget& parent, cstring path, cstring name, bool collapsed);
+	export_ MUD_UI_EXPORT func_ Widget& file_node(Widget& parent, cstring name);
+	export_ MUD_UI_EXPORT func_ Widget& file_tree(Widget& parent, cstring path);
+}
+}
+
+
+#ifndef MUD_MODULES
+#include <stl/string.h>
+#include <stl/vector.h>
+#include <stl/map.h>
+#endif
+
+
+#ifndef MUD_MODULES
+#endif
 
 
 #ifndef MUD_MODULES
@@ -961,6 +1377,264 @@ namespace mud
 		return { start, end, size_t(start - str), size_t(end - str), rect, {} };
 	}
 }
+
+namespace mud
+{
+	using cstring = const char*;
+
+	export_ class refl_ MUD_UI_EXPORT Vg
+	{
+	public:
+		Vg(cstring resource_path);
+		virtual ~Vg();
+
+		// init
+		virtual void setup_context() = 0;
+		virtual void release_context() = 0;
+
+		// setup
+		virtual void load_default_font() = 0;
+		virtual void load_font(cstring name) = 0;
+		virtual void load_image_RGBA(Image& image, const unsigned char* data) = 0;
+		virtual void load_image(Image& image) = 0;
+		virtual void unload_image(Image& image) = 0;
+		virtual uint16_t load_texture(uint16_t texture) = 0;
+
+		// rendering
+		virtual void begin_frame(const vec4& rect, float pixel_ratio = 1.f) = 0;
+		virtual void end_frame() = 0;
+
+		// drawing
+		virtual void begin_target() = 0;
+		virtual void end_target() = 0;
+
+#ifdef MUD_UI_DRAW_CACHE
+		virtual void begin_cached(Layer& layer) = 0;
+		virtual void end_cached() = 0;
+
+		virtual void draw_layer(Layer& layer, const vec2& position = Zero2, float scale = 1.f) = 0;
+#endif
+
+		virtual void begin_layer(Layer& layer, const vec2& position = Zero2, float scale = 1.f) = 0;
+		virtual void end_layer() = 0;
+
+		virtual void begin_update(const vec2& position, float scale) = 0;
+		virtual void end_update() = 0;
+
+		virtual bool clipped(const vec4& rect) = 0;
+		virtual void clip(const vec4& rect) = 0;
+		virtual void unclip() = 0;
+
+		virtual void path_line(const vec2& p1, const vec2& p2) = 0;
+		virtual void path_bezier(const vec2& p1, const vec2& c1, const vec2& c2, const vec2& p2, bool straighten = false) = 0;
+		virtual void path_rect(const vec4& rect, const vec4& corners, float border) = 0;
+		virtual void path_circle(const vec2& center, float r) = 0;
+
+		virtual void fill(const Gradient& gradient, const vec2& start, const vec2& end) = 0;
+		virtual void fill(const Paint& paint) = 0;
+		virtual void stroke(const Paint& paint) = 0;
+
+		virtual void stroke_gradient(const Gradient& paint, float width, const vec2& start, const vec2& end) = 0;
+
+		virtual void draw_shadow(const vec4& rect, const vec4& corner, const Shadow& shadows) = 0;
+		virtual void draw_texture(uint16_t texture, const vec4& rect, const vec4& image_rect) = 0;
+		virtual void draw_text(const vec2& offset, const char* start, const char* end, const TextPaint& paint) = 0;
+
+		virtual void draw_color_wheel(const vec2& center, float r0, float r1) = 0;
+		virtual void draw_color_triangle(const vec2& center, float r0, float hue, float s, float l) = 0;
+
+		virtual void debug_rect(const vec4& rect, const Colour& colour);
+
+		virtual void break_text(cstring text, size_t len, const vec2& space, const TextPaint& paint, vector<TextRow>& rows);
+
+		void fill_text(cstring text, size_t len, const vec4& rect, const TextPaint& paint, TextRow& row);
+		void break_text_width(const char* text, const char* start, const char* end, const vec4& rect, const TextPaint& paint, TextRow& textRow);
+		void break_text_returns(const char* text, const char* start, const char* end, const vec4& rect, const TextPaint& paint, TextRow& textRow);
+
+		virtual void break_next_row(const char* text, const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row) = 0;
+		virtual void break_glyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow) = 0;
+
+		virtual float line_height(const TextPaint& paint) = 0;
+		virtual float text_size(cstring text, size_t len, Dim dim, const TextPaint& paint) = 0;
+		virtual vec2 text_size(cstring text, size_t len, const TextPaint& paint) = 0;
+
+		void draw_rect(const vec4& rect, const Paint& paint, const vec4& corners = Zero4);
+
+		cstring font_path(cstring font);
+
+	protected:
+		struct Impl;
+		unique<Impl> m_impl;
+
+		bool m_null = false;
+	};
+
+	export_ class MUD_UI_EXPORT UiRenderer
+	{
+	public:
+		UiRenderer(Vg& vg);
+		virtual ~UiRenderer();
+
+		void render(Layer& layer);
+
+		// drawing implementation
+		void render_layer(Layer& layer);
+
+		void begin_layer(Frame& frame);
+		void begin_frame(Frame& frame);
+		void render_frame(Frame& frame);
+		void end_frame(Frame& frame);
+		void end_layer(Frame& frame);
+		void draw_frame(const Frame& frame);
+		void draw_frame(const Frame& frame, const vec4& rect);
+
+		vec4 select_corners(const Frame& frame);
+		float content_pos(const Frame& frame, const vec2& content, const vec4& padded_rect, Dim dim);
+		void draw_content(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
+		void draw_background(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
+		void draw_rect(const vec4& rect, const vec4& corners, const InkStyle& inkstyle);
+		void draw_image(const Image& image, const vec4& rect);
+		void draw_image_stretch(const Image& image, const vec4& rect, const vec2& stretch = { 1.f, 1.f });
+		void draw_skin_image(const Frame& frame, int section, vec4 rect);
+
+		void log_FPS();
+
+	protected:
+		Vg& m_vg;
+		size_t m_debug_batch = 0;
+
+		struct Impl;
+		unique<Impl> m_impl;
+
+		Clock m_clock;
+	};
+}
+
+namespace mud
+{
+	export_ struct refl_ MUD_UI_EXPORT Clipboard
+	{
+		Clipboard() {}
+		Clipboard(const string& text, bool line_mode) : m_text(text), m_line_mode(line_mode) {}
+		attr_ string m_text = "";
+		attr_ bool m_line_mode = false;
+		attr_ vector<string> m_pasted = {};
+	};
+
+	export_ class refl_ MUD_UI_EXPORT UiWindow : public NonCopy
+	{
+	public:
+		UiWindow(Context& context, Vg& vg, User* user = nullptr);
+		~UiWindow();
+
+		void init();
+		bool input_frame();
+		void render_frame();
+		void shutdown();
+
+		void init_styles();
+		void reset_styles();
+
+		void resize(uint16_t width, uint16_t height);
+
+		Image& create_image(cstring image, uvec2 size, uint8_t* data, bool filtering = true);
+		void remove_image(Image& image);
+		Image* find_image(cstring name);
+
+	protected:
+		void init_resources();
+		void load_resources();
+
+	public:
+		const string m_resource_path;
+
+		Context& m_context;
+		Vg& m_vg;
+
+		UiRenderer m_renderer;
+
+		vector<object<Image>> m_images;
+		ImageAtlas m_atlas;
+
+		float m_width;
+		float m_height;
+
+		Clipboard m_clipboard;
+
+		object<Ui> m_root_sheet;
+
+		bool m_shutdown = false;
+
+		User* m_user = nullptr;
+
+		static map<string, Style*> s_styles;
+	};
+}
+
+
+#ifndef MUD_MODULES
+#endif
+
+#ifndef MUD_CPP_20
+#include <stl/vector.h>
+#endif
+
+namespace mud
+{
+	export_ class refl_ MUD_UI_EXPORT User
+	{
+	public:
+		vector<Ref> m_selection;
+	};
+}
+
+
+#ifndef MUD_MODULES
+#include <stl/map.h>
+#endif
+
+namespace mud
+{
+	export_ struct MUD_UI_EXPORT KeyCombo
+	{
+		KeyCombo(Key key) : m_modifier(InputMod::Any), m_key(key) {}
+		KeyCombo(InputMod modifier, Key key) : m_modifier(modifier), m_key(key) {}
+		InputMod m_modifier;
+		Key m_key;
+		uint32_t value() const { return uint32_t(m_modifier) << 24 | uint32_t(m_key); }
+		explicit operator uint32_t() const { return value(); }
+	};
+
+	inline size_t hash(const KeyCombo& value)
+	{
+		return value.value();
+	}
+
+	inline bool operator<(const KeyCombo& lhs, const KeyCombo& rhs) { return lhs.value() < rhs.value(); }
+	inline bool operator==(const KeyCombo& lhs, const KeyCombo& rhs) { return lhs.value() == rhs.value(); }
+
+	using KeyHandler = void(*)();
+
+	export_ class MUD_UI_EXPORT EventDispatch
+	{
+	public:
+		EventDispatch();
+
+		virtual void process(Widget& widget);
+		
+		//EventMap<KeyHandler> m_handlers;
+
+		map<KeyCombo, KeyHandler> m_key_down_handlers;
+		map<KeyCombo, KeyHandler> m_key_up_handlers;
+	};
+}
+
+
+
+
+#include <stl/string.h>
+#include <stl/vector.h>
+#include <stl/memory.h>
 
 
 #ifndef MUD_MODULES
@@ -1351,681 +2025,6 @@ namespace mud
 {
 namespace ui
 {
-	export_ template <class T>
-	bool slider_input_dim(Widget& parent, AutoStat<T> value, Dim dim = DIM_X);
-
-	export_ template <class T>
-	bool slider_input(Widget& parent, AutoStat<T> value);
-
-	export_ template <class T>
-	bool number_type_in(Widget& parent, T& value);
-
-	export_ template <class T>
-	bool number_input(Widget& parent, AutoStat<T> value);
-
-	export_ MUD_UI_EXPORT func_ bool drag_float(Widget& parent, float& value, float step = 0.1f);
-
-	export_ template <class T>
-	inline bool input(Widget& parent, T& value);
-
-	export_ MUD_UI_EXPORT func_ bool vec2_edit(Widget& parent, vec2& vec);
-	export_ MUD_UI_EXPORT func_ bool vec3_edit(Widget& parent, vec3& vec);
-	export_ MUD_UI_EXPORT func_ bool quat_edit(Widget& parent, quat& quat);
-
-	export_ MUD_UI_EXPORT Widget& color_slab(Widget& parent, Style& style, const Colour& value);
-	export_ MUD_UI_EXPORT func_ bool color_edit_hsl(Widget& parent, const Colour& colour, Colour& value);
-	export_ MUD_UI_EXPORT func_ Widget& color_display(Widget& parent, const Colour& value);
-	export_ MUD_UI_EXPORT func_ bool color_edit(Widget& parent, Colour& value);
-	export_ MUD_UI_EXPORT func_ bool color_edit_simple(Widget& parent, Colour& value);
-	export_ MUD_UI_EXPORT func_ bool color_toggle_edit(Widget& parent, Colour& value);
-
-	export_ MUD_UI_EXPORT func_ bool curve_graph(Widget& parent, array<float> values, array<float> points = {});
-
-	export_ MUD_UI_EXPORT func_ bool curve_edit(Widget& parent, array<float> values, array<float> points = {});
-
-	export_ MUD_UI_EXPORT bool curve_edit(Widget& parent, array<Colour> values, array<float> points = {});
-
-	export_ MUD_UI_EXPORT bool flag_input(Widget& parent, uint32_t& value, uint8_t shift);
-
-	export_ template <class T_Input>
-	bool field(T_Input input, Widget& parent, cstring name, bool reverse)
-	{
-		Widget& self = row(parent);
-		if(!reverse) label(self, name);
-		bool changed = input(self);
-		if(reverse) label(self, name);
-		return changed;
-	}
-
-	export_ template <class T>
-	inline bool input_field(Widget& parent, cstring name, T& value, bool reverse = false) { return field([&](Widget& self) { return input<T>(self, value); }, parent, name, reverse); }
-
-	export_ template <class T>
-	inline bool number_field(Widget& parent, cstring name, AutoStat<T> value, bool reverse = false) { return field([&](Widget& self) { return number_input<T>(self, value); }, parent, name, reverse); }
-
-	export_ template <class T>
-	inline bool slider_field(Widget& parent, cstring name, AutoStat<T> value, bool reverse = false) { return field([&](Widget& self) { return slider_input<T>(self, value); }, parent, name, reverse); }
-
-	export_ func_ inline bool flag_field(Widget& parent, cstring name, uint32_t& value, uint8_t shift, bool reverse = false) { return field([&](Widget& self) { return flag_input(self, value, shift); }, parent, name, reverse); }
-	export_ func_ inline bool radio_field(Widget& parent, cstring name, array<cstring> choices, uint32_t& value, Dim dim = DIM_X, bool reverse = false) { return field([&](Widget& self) { return radio_switch(self, choices, value, dim); }, parent, name, reverse); }
-	export_ func_ inline bool dropdown_field(Widget& parent, cstring name, array<cstring> choices, uint32_t& value, bool reverse = false) { return field([&](Widget& self) { return dropdown_input(self, choices, value); }, parent, name, reverse); }
-	export_ func_ inline bool typedown_field(Widget& parent, cstring name, array<cstring> choices, uint32_t& value, bool reverse = false) { return field([&](Widget& self) { return typedown_input(self, choices, value); }, parent, name, reverse); }
-	export_ func_ inline bool color_field(Widget& parent, cstring name, Colour& value, bool reverse = false) { return field([&](Widget& self) { return color_toggle_edit(self, value); }, parent, name, reverse); }
-	export_ func_ inline void color_display_field(Widget& parent, cstring name, const Colour& value, bool reverse = false) { field([&](Widget& self) { color_display(self, value); return false; }, parent, name, reverse); }
-
-	inline void field_label(Widget& parent, cstring field, cstring value)
-	{
-		Widget& self = row(parent);
-		label(self, field);
-		label(self, value);
-	}
-}
-}
-
-
-#ifndef MUD_MODULES
-#endif
-
-namespace mud
-{
-	export_ struct refl_ MUD_UI_EXPORT NodeConnection
-	{
-		NodeConnection() : m_valid(false) {}
-		NodeConnection(size_t out_node, size_t out_plug, size_t in_node, size_t in_plug) : m_valid(true), m_out_node(out_node), m_out_plug(out_plug), m_in_node(in_node), m_in_plug(in_plug) {}
-		bool m_valid;
-		size_t m_out_node;
-		size_t m_out_plug;
-		size_t m_in_node;
-		size_t m_in_plug;
-	};
-
-namespace ui
-{
-	export_ struct NodeStyles
-	{
-		NodeStyles();
-		Style node; Style body; Style plugs; Style inputs; Style outputs; Style knob; Style knob_output; Style knob_proxy; Style plug; Style cable; Style header;
-	};
-
-	export_ MUD_UI_EXPORT NodeStyles& node_styles();
-
-	export_ struct CanvasStyles
-	{
-		CanvasStyles();
-		Style canvas;
-	};
-
-	export_ MUD_UI_EXPORT CanvasStyles& canvas_styles();
-
-	export_ MUD_UI_EXPORT NodePlug& node_plug(Node& node, cstring name, cstring icon, const Colour& colour, bool input, bool active, bool connected);
-	
-	export_ func_ inline NodePlug& node_input(Node& node, cstring name, cstring icon = "", const Colour& colour = Colour::NeonGreen, bool active = true, bool connected = false)
-	{
-		return node_plug(node, name, icon, colour, true, active, connected);
-	}
-
-	export_ func_ inline NodePlug& node_output(Node& node, cstring name, cstring icon = "", const Colour& colour = Colour::NeonGreen, bool active = true, bool connected = false)
-	{
-		return node_plug(node, name, icon, colour, false, active, connected);
-	}
-
-	export_ MUD_UI_EXPORT Node& node(Canvas& parent, array<cstring> title, int order = 0, Ref identity = {});
-	export_ MUD_UI_EXPORT Node& node(Canvas& parent, array<cstring> title, float* position, int order = 0, Ref identity = {});
-	export_ MUD_UI_EXPORT Node& node(Canvas& parent, array<cstring> title, vec2& position, int order = 0, Ref identity = {});
-	export_ MUD_UI_EXPORT func_ Node& node(Canvas& parent, cstring title, vec2& position, int order = 0, Ref identity = {});
-
-	export_ MUD_UI_EXPORT func_ Widget& node_cable(Canvas& canvas, NodePlug& plug_out, NodePlug& plug_in);
-
-	export_ MUD_UI_EXPORT func_ Canvas& canvas(Widget& parent, size_t num_nodes = 0);
-	export_ MUD_UI_EXPORT NodeConnection canvas_connect(Canvas& canvas);
-	export_ MUD_UI_EXPORT void canvas_autolayout(Canvas& canvas);
-}
-}
-
-
-
-namespace mud
-{
-namespace ui
-{
-	export_ struct ScrollbarStyles
-	{
-		ScrollbarStyles();
-		Style scrollbar; Style scroll_up; Style scroll_down; Style scroll_left; Style scroll_right; Style scroller; Style scroller_knob;
-	};
-
-	export_ MUD_UI_EXPORT ScrollbarStyles& scrollbar_styles();
-
-	export_ MUD_UI_EXPORT bool overflow(Frame& frame, Frame& content, Dim dim);
-	export_ MUD_UI_EXPORT Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Dim dim, Dim2<size_t> grid_index = { 0, 0 });
-}
-}
-
-
-
-namespace mud
-{
-namespace ui
-{
-	export_ MUD_UI_EXPORT void draw_grid(const Frame& frame, const vec4& rect, Vg& vg);
-
-	export_ MUD_UI_EXPORT ScrollSheet& scroll_sheet(Widget& parent, Style& style = styles().scrollsheet, Style* surface_style = nullptr);
-	export_ MUD_UI_EXPORT ScrollSheet& scroll_plan(Widget& parent, Style& style = styles().scrollsheet);
-
-	export_ MUD_UI_EXPORT func_ Widget& scrollable(Widget& parent);
-
-	export_ MUD_UI_EXPORT void autofit_scroll_plan(ScrollSheet& scroll_sheet, array<Widget*> elements);
-}
-}
-
-
-#ifndef MUD_MODULES
-#include <stl/string.h>
-#endif
-
-namespace mud
-{
-	export_ struct MUD_UI_EXPORT Section : public Widget
-	{
-		Section(Widget* parent, void* identity) : Widget(parent, identity) {}
-		Widget* m_toolbar = nullptr;
-	};
-
-	export_ MUD_UI_EXPORT Section& section(Widget& parent, const string& name, bool no_toolbar = false);
-	export_ MUD_UI_EXPORT bool section_action(Section& parent, const string& name);
-}
-
-
-#ifndef MUD_MODULES
-#include <stl/vector.h>
-#endif
-
-namespace mud
-{
-namespace ui
-{
-	export_ MUD_UI_EXPORT func_ Sequence& sequence(Widget& parent);
-	export_ MUD_UI_EXPORT func_ Sequence& scroll_sequence(Widget& parent);
-
-	export_ MUD_UI_EXPORT func_ bool multiselect_logic(Widget& element, Ref object, vector<Ref>& selection);
-	export_ MUD_UI_EXPORT func_ bool select_logic(Widget& element, Ref object, Ref& selection);
-
-	export_ MUD_UI_EXPORT func_ Widget& element(Widget& parent, Ref object);
-	export_ MUD_UI_EXPORT Widget& element(Widget& parent, Ref object, vector<Ref>& selection);
-
-	export_ MUD_UI_EXPORT func_ Widget& sequence_element(Sequence& parent, Ref object);
-}
-}
-
-
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
-#endif
-
-#ifndef MUD_MODULES
-#endif
-
-#ifndef MUD_CPP_20
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <cstdint>
-#endif
-
-
-namespace mud
-{
-    // Exported types
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Align>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::AutoLayout>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Clipping>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Flow>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::FlowAxis>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::LayoutSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Opacity>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Pivot>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::ui::PopupFlags>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Sizing>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::SpacePreset>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::WidgetState>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::WindowState>();
-    
-    export_ template <> MUD_UI_EXPORT Type& type<mud::CanvasConnect>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Clipboard>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<bool>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<mud::Align>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<mud::AutoLayout>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<mud::Pivot>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<mud::Sizing>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dim2<size_t>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dock>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Docksystem>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Gradient>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::GridSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::ImageSkin>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::InkStyle>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Layer>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Layout>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::NodeConnection>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Paint>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Shadow>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Space>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Style>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::TableSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Text>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::TextCursor>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::TextMarker>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::TextPaint>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::TextSelection>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::UiRect>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::UiWindow>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::User>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Vg>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Frame>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::FrameSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::LineSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Widget>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Canvas>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dockable>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Docker>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dockbar>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dockspace>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Expandbox>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Node>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::NodePlug>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::RowSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::ScrollSheet>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::ui::Sequence>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Tabber>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Table>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::TextEdit>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::TreeNode>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Ui>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Window>();
-    
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::CanvasConnect*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Clipboard*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<bool>*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<mud::Align>*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<mud::AutoLayout>*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<mud::Pivot>*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<mud::Sizing>*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dim2<size_t>*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dock*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Docksystem*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Gradient*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::GridSolver*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::ImageSkin*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::InkStyle*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Layer*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Layout*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::NodeConnection*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Paint*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Shadow*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Space*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Style*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TableSolver*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Text*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TextCursor*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TextMarker*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TextPaint*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TextSelection*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::UiRect*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::UiWindow*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::User*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Vg*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Frame*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::FrameSolver*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::LineSolver*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Widget*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Canvas*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dockable*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Docker*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dockbar*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Dockspace*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Expandbox*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Node*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::NodePlug*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::RowSolver*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::ScrollSheet*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::ui::Sequence*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Tabber*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Table*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TextEdit*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::TreeNode*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Ui*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<vector<mud::Window*>>();
-}
-
-
-
-
-
-namespace mud
-{
-	export_ enum refl_ WindowState : unsigned int
-	{
-		WINDOW_NOSTATE = 0,
-		WINDOW_HEADER = 1 << 1,
-		WINDOW_DOCKABLE = 1 << 2,
-		WINDOW_CLOSABLE = 1 << 3,
-		WINDOW_MOVABLE = 1 << 4,
-		WINDOW_SIZABLE = 1 << 5,
-		WINDOW_DEFAULT = WINDOW_HEADER | WINDOW_MOVABLE | WINDOW_SIZABLE | WINDOW_CLOSABLE
-	};
-
-namespace ui
-{
-	export_ struct WindowStyles
-	{
-		WindowStyles();
-		Style window; Style body; Style close_button; Style header; Style header_movable; Style footer; Style sizer; Style sizer_left; Style sizer_right;
-		Style dock_window; Style wrap_window;
-	};
-
-	export_ MUD_UI_EXPORT WindowStyles& window_styles();
-
-	export_ func_ MUD_UI_EXPORT Window& window(Widget& parent, cstring title, WindowState state = WINDOW_DEFAULT);
-	export_ MUD_UI_EXPORT Window& window(Widget& parent, cstring title, WindowState state, void* identity, Dock* dock = nullptr);
-}
-}
-
-
-#include <stl/string.h>
-
-struct dirent;
-
-namespace mud
-{
-namespace ui
-{
-	export_ struct FileStyles
-	{
-		FileStyles();
-		Style dir; Style file;
-	};
-
-	export_ MUD_UI_EXPORT FileStyles& file_styles();
-
-	export_ MUD_UI_EXPORT func_ Widget& dir_item(Widget& parent, cstring name);
-	export_ MUD_UI_EXPORT func_ Widget& file_item(Widget& parent, cstring name);
-	export_ MUD_UI_EXPORT func_ Widget& file_list(Widget& parent, string& path);
-
-	export_ MUD_UI_EXPORT func_ Widget& file_browser(Widget& parent, string& path);
-
-	export_ MUD_UI_EXPORT func_ Widget& dir_node(Widget& parent, cstring path, cstring name, bool collapsed);
-	export_ MUD_UI_EXPORT func_ Widget& file_node(Widget& parent, cstring name);
-	export_ MUD_UI_EXPORT func_ Widget& file_tree(Widget& parent, cstring path);
-}
-}
-
-
-#ifndef MUD_MODULES
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/map.h>
-#endif
-
-
-#ifndef MUD_MODULES
-#endif
-
-namespace mud
-{
-	using cstring = const char*;
-
-	export_ class refl_ MUD_UI_EXPORT Vg
-	{
-	public:
-		Vg(cstring resource_path);
-		virtual ~Vg();
-
-		// init
-		virtual void setup_context() = 0;
-		virtual void release_context() = 0;
-
-		// setup
-		virtual void load_default_font() = 0;
-		virtual void load_font(cstring name) = 0;
-		virtual void load_image_RGBA(Image& image, const unsigned char* data) = 0;
-		virtual void load_image(Image& image) = 0;
-		virtual void unload_image(Image& image) = 0;
-		virtual uint16_t load_texture(uint16_t texture) = 0;
-
-		// rendering
-		virtual void begin_frame(const vec4& rect, float pixel_ratio = 1.f) = 0;
-		virtual void end_frame() = 0;
-
-		// drawing
-		virtual void begin_target() = 0;
-		virtual void end_target() = 0;
-
-#ifdef MUD_UI_DRAW_CACHE
-		virtual void begin_cached(Layer& layer) = 0;
-		virtual void end_cached() = 0;
-
-		virtual void draw_layer(Layer& layer, const vec2& position = Zero2, float scale = 1.f) = 0;
-#endif
-
-		virtual void begin_layer(Layer& layer, const vec2& position = Zero2, float scale = 1.f) = 0;
-		virtual void end_layer() = 0;
-
-		virtual void begin_update(const vec2& position, float scale) = 0;
-		virtual void end_update() = 0;
-
-		virtual bool clipped(const vec4& rect) = 0;
-		virtual void clip(const vec4& rect) = 0;
-		virtual void unclip() = 0;
-
-		virtual void path_line(const vec2& p1, const vec2& p2) = 0;
-		virtual void path_bezier(const vec2& p1, const vec2& c1, const vec2& c2, const vec2& p2, bool straighten = false) = 0;
-		virtual void path_rect(const vec4& rect, const vec4& corners, float border) = 0;
-		virtual void path_circle(const vec2& center, float r) = 0;
-
-		virtual void fill(const Gradient& gradient, const vec2& start, const vec2& end) = 0;
-		virtual void fill(const Paint& paint) = 0;
-		virtual void stroke(const Paint& paint) = 0;
-
-		virtual void stroke_gradient(const Gradient& paint, float width, const vec2& start, const vec2& end) = 0;
-
-		virtual void draw_shadow(const vec4& rect, const vec4& corner, const Shadow& shadows) = 0;
-		virtual void draw_texture(uint16_t texture, const vec4& rect, const vec4& image_rect) = 0;
-		virtual void draw_text(const vec2& offset, const char* start, const char* end, const TextPaint& paint) = 0;
-
-		virtual void draw_color_wheel(const vec2& center, float r0, float r1) = 0;
-		virtual void draw_color_triangle(const vec2& center, float r0, float hue, float s, float l) = 0;
-
-		virtual void debug_rect(const vec4& rect, const Colour& colour);
-
-		virtual void break_text(cstring text, size_t len, const vec2& space, const TextPaint& paint, vector<TextRow>& rows);
-
-		void fill_text(cstring text, size_t len, const vec4& rect, const TextPaint& paint, TextRow& row);
-		void break_text_width(const char* text, const char* start, const char* end, const vec4& rect, const TextPaint& paint, TextRow& textRow);
-		void break_text_returns(const char* text, const char* start, const char* end, const vec4& rect, const TextPaint& paint, TextRow& textRow);
-
-		virtual void break_next_row(const char* text, const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row) = 0;
-		virtual void break_glyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow) = 0;
-
-		virtual float line_height(const TextPaint& paint) = 0;
-		virtual float text_size(cstring text, size_t len, Dim dim, const TextPaint& paint) = 0;
-		virtual vec2 text_size(cstring text, size_t len, const TextPaint& paint) = 0;
-
-		void draw_rect(const vec4& rect, const Paint& paint, const vec4& corners = Zero4);
-
-		cstring font_path(cstring font);
-
-	protected:
-		struct Impl;
-		unique<Impl> m_impl;
-
-		bool m_null = false;
-	};
-
-	export_ class MUD_UI_EXPORT UiRenderer
-	{
-	public:
-		UiRenderer(Vg& vg);
-		virtual ~UiRenderer();
-
-		void render(Layer& layer);
-
-		// drawing implementation
-		void render_layer(Layer& layer);
-
-		void begin_layer(Frame& frame);
-		void begin_frame(Frame& frame);
-		void render_frame(Frame& frame);
-		void end_frame(Frame& frame);
-		void end_layer(Frame& frame);
-		void draw_frame(const Frame& frame);
-		void draw_frame(const Frame& frame, const vec4& rect);
-
-		vec4 select_corners(const Frame& frame);
-		float content_pos(const Frame& frame, const vec2& content, const vec4& padded_rect, Dim dim);
-		void draw_content(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
-		void draw_background(const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
-		void draw_rect(const vec4& rect, const vec4& corners, const InkStyle& inkstyle);
-		void draw_image(const Image& image, const vec4& rect);
-		void draw_image_stretch(const Image& image, const vec4& rect, const vec2& stretch = { 1.f, 1.f });
-		void draw_skin_image(const Frame& frame, int section, vec4 rect);
-
-		void log_FPS();
-
-	protected:
-		Vg& m_vg;
-		size_t m_debug_batch = 0;
-
-		struct Impl;
-		unique<Impl> m_impl;
-
-		Clock m_clock;
-	};
-}
-
-namespace mud
-{
-	export_ struct refl_ MUD_UI_EXPORT Clipboard
-	{
-		Clipboard() {}
-		Clipboard(const string& text, bool line_mode) : m_text(text), m_line_mode(line_mode) {}
-		attr_ string m_text = "";
-		attr_ bool m_line_mode = false;
-		attr_ vector<string> m_pasted = {};
-	};
-
-	export_ class refl_ MUD_UI_EXPORT UiWindow : public NonCopy
-	{
-	public:
-		UiWindow(Context& context, Vg& vg, User* user = nullptr);
-		~UiWindow();
-
-		void init();
-		bool input_frame();
-		void render_frame();
-		void shutdown();
-
-		void init_styles();
-		void reset_styles();
-
-		void resize(uint16_t width, uint16_t height);
-
-		Image& create_image(cstring image, uvec2 size, uint8_t* data, bool filtering = true);
-		void remove_image(Image& image);
-		Image* find_image(cstring name);
-
-	protected:
-		void init_resources();
-		void load_resources();
-
-	public:
-		const string m_resource_path;
-
-		Context& m_context;
-		Vg& m_vg;
-
-		UiRenderer m_renderer;
-
-		vector<object<Image>> m_images;
-		ImageAtlas m_atlas;
-
-		float m_width;
-		float m_height;
-
-		Clipboard m_clipboard;
-
-		object<Ui> m_root_sheet;
-
-		bool m_shutdown = false;
-
-		User* m_user = nullptr;
-
-		static map<string, Style*> s_styles;
-	};
-}
-
-
-#ifndef MUD_MODULES
-#endif
-
-#ifndef MUD_CPP_20
-#include <stl/vector.h>
-#endif
-
-namespace mud
-{
-	export_ class refl_ MUD_UI_EXPORT User
-	{
-	public:
-		vector<Ref> m_selection;
-	};
-}
-
-
-#ifndef MUD_MODULES
-#include <stl/map.h>
-#endif
-
-namespace mud
-{
-	export_ struct MUD_UI_EXPORT KeyCombo
-	{
-		KeyCombo(Key key) : m_modifier(InputMod::Any), m_key(key) {}
-		KeyCombo(InputMod modifier, Key key) : m_modifier(modifier), m_key(key) {}
-		InputMod m_modifier;
-		Key m_key;
-		uint32_t value() const { return uint32_t(m_modifier) << 24 | uint32_t(m_key); }
-		explicit operator uint32_t() const { return value(); }
-	};
-
-	inline size_t hash(const KeyCombo& value)
-	{
-		return value.value();
-	}
-
-	inline bool operator<(const KeyCombo& lhs, const KeyCombo& rhs) { return lhs.value() < rhs.value(); }
-	inline bool operator==(const KeyCombo& lhs, const KeyCombo& rhs) { return lhs.value() == rhs.value(); }
-
-	using KeyHandler = void(*)();
-
-	export_ class MUD_UI_EXPORT EventDispatch
-	{
-	public:
-		EventDispatch();
-
-		virtual void process(Widget& widget);
-		
-		//EventMap<KeyHandler> m_handlers;
-
-		map<KeyCombo, KeyHandler> m_key_down_handlers;
-		map<KeyCombo, KeyHandler> m_key_up_handlers;
-	};
-}
-
-
-
-namespace mud
-{
-namespace ui
-{
 	export_ MUD_UI_EXPORT func_ Widget& command_line(Widget& parent, string& text, string& command);
 	export_ MUD_UI_EXPORT func_ Widget& console(Widget& parent, string& feed, string& line, string& command, size_t num_lines = 0);
 }
@@ -2036,7 +2035,7 @@ namespace ui
 #include <stl/vector.h>
 
 #ifndef MUD_CPP_20
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 namespace mud
@@ -2692,7 +2691,7 @@ namespace mud
 #include <stl/unordered_map.h>
 //#include <ui/Edit/Lang.h>
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	export_ extern template class vector<TextGlyph>;

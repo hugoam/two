@@ -79,6 +79,7 @@ namespace bx {
 
 #ifndef MUD_MODULES
 #include <stl/string.h>
+#include <stl/memory.h>
 #endif
 
 
@@ -143,11 +144,11 @@ namespace mud
 
 		virtual void declare_types() = 0;
 
-		virtual Var get(const string& name, Type& type) { UNUSED(name); UNUSED(type); return Var(); }
-		virtual void set(const string& name, Var value) { UNUSED(name); UNUSED(value); }
+		virtual const Var& get(const string& name, Type& type);
+		virtual void set(const string& name, const Var& value);
 
-		virtual Var getx(array<cstring> path, Type& type) { UNUSED(path); UNUSED(type); return Var(); }
-		virtual void setx(array<cstring> path, Var value) { UNUSED(path); UNUSED(value); }
+		virtual const Var& getx(array<cstring> path, Type& type);
+		virtual void setx(array<cstring> path, const Var& value);
 
 		virtual void call(const string& code, Var* result = nullptr) = 0;
 		virtual void virtual_call(Method& method, Ref object, array<Var> args) { UNUSED(method); UNUSED(object); UNUSED(args); }
@@ -157,13 +158,13 @@ namespace mud
 		string flush();
 
 		template <class T>
-		T* tget(const string& name) { Var value = get(name, type<T>()); return try_val<T>(value); }
+		T* tget(const string& name);
 
 		template <class T>
-		T* tgetx(array<cstring> path) { Var value = getx(path, type<T>()); return try_val<T>(value); }
+		T* tgetx(array<cstring> path);
 
 		template <class T>
-		T* tcall(const string& expr) { Var result = call(expr, &type<T>()); return try_val<T>(result); }
+		T* tcall(const string& expr);
 
 		const TextScript* m_script = nullptr;
 		string m_output;
@@ -193,11 +194,11 @@ namespace mud
 
 		virtual void declare_types() final;
 
-		virtual Var get(const string& name, Type& type) final;
-		virtual void set(const string& name, Var value) final;
+		virtual const Var& get(const string& name, Type& type) final;
+		virtual void set(const string& name, const Var& value) final;
 
-		virtual Var getx(array<cstring> path, Type& type) final;
-		virtual void setx(array<cstring> path, Var value) final;
+		virtual const Var& getx(array<cstring> path, Type& type) final;
+		virtual void setx(array<cstring> path, const Var& value) final;
 
 		virtual void call(const string& code, Var* result = nullptr) final;
 
@@ -239,7 +240,7 @@ namespace mud
 	{
 	public:
 		StreamBranch();
-		StreamBranch(Stream* stream, Var value, StreamIndex index);
+		StreamBranch(Stream* stream, const Var& value, StreamIndex index);
 
 		Var& value(const StreamIndex& index) { return this->branch(index).m_value; }
 
@@ -293,7 +294,7 @@ namespace mud
 	{
 	public:
 		Stream();
-		Stream(Var value, bool nullable, bool reference);
+		Stream(const Var& value, bool nullable, bool reference);
 		Stream(const Stream& stream);
 		Stream& operator=(const Stream& stream);
 
@@ -327,7 +328,7 @@ namespace mud
 #ifndef MUD_CPP_20
 #include <stl/string.h>
 #include <stl/vector.h>
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 
@@ -410,7 +411,7 @@ namespace mud
 	export_ class refl_ MUD_LANG_EXPORT Valve
 	{
 	public:
-		Valve(Process& process, cstring name, ValveKind kind, Var value = {}, bool nullable = false, bool reference = false);
+		Valve(Process& process, cstring name, ValveKind kind, const Var& value = {}, bool nullable = false, bool reference = false);
 		Valve(Process& process, const Param& param);
 		~Valve();
 
@@ -732,6 +733,7 @@ namespace mud
 
 #ifndef MUD_MODULES
 #include <stl/string.h>
+#include <stl/memory.h>
 #include <stl/map.h>
 #endif
 
@@ -753,11 +755,11 @@ namespace mud
 
 		virtual void declare_types() final;
 
-		virtual Var get(const string& name, Type& type) final;
-		virtual void set(const string& name, Var value) final;
+		virtual const Var& get(const string& name, Type& type) final;
+		virtual void set(const string& name, const Var& value) final;
 
-		virtual Var getx(array<cstring> path, Type& type) final;
-		virtual void setx(array<cstring> path, Var value) final;
+		virtual const Var& getx(array<cstring> path, Type& type) final;
+		virtual void setx(array<cstring> path, const Var& value) final;
 
 		virtual void call(const string& code, Var* result = nullptr) final;
 		virtual void virtual_call(Method& method, Ref object, array<Var> args) final;
@@ -777,7 +779,7 @@ namespace mud
 typedef struct WrenHandle WrenHandle;
 //struct WrenHandle;
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	export_ extern template class vector<Pipe*>;

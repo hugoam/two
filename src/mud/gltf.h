@@ -51,7 +51,7 @@ struct glTF;
 #ifndef MUD_MODULES
 #include <stl/vector.h>
 #include <stl/algorithm.h>
-#include <stl/type_traits.h>
+#include <stl/traits.h>
 #endif
 
 using mud::vector;
@@ -408,7 +408,7 @@ namespace mud
 	{
 		vector<double> attribs = decode_accessor(gltf, accessor, for_vertex);
 		vector<T> ret(attribs.size() / size);
-		using U = remove_pointer_t<decltype(value_ptr(ret.front()))>;
+		using U = remove_pointer<decltype(value_ptr(ret.front()))>;
 		transform(attribs.begin(), attribs.end(), value_ptr(ret.front()), [](double v) { return static_cast<U>(v); });
 		return ret;
 	}
@@ -425,7 +425,7 @@ namespace mud
 	int pack_accessor(glTF& gltf, int buffer_index, glTFAccessor& accessor, const vector<T>& values, bool for_vertex)
 	{
 		vector<double> attribs(values.size() * size);
-		using U = remove_pointer_t<decltype(value_ptr(values.front()))>;
+		using U = remove_pointer<decltype(value_ptr(values.front()))>;
 		transform(value_ptr(values.front()), value_ptr(values.back()) + size, attribs.begin(), [](U v) { return static_cast<double>(v); });
 		return encode_accessor(gltf, buffer_index, accessor, attribs, for_vertex);
 	}
@@ -451,7 +451,7 @@ namespace mud
 #ifndef MUD_CPP_20
 #include <stl/string.h>
 #include <stl/vector.h>
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 

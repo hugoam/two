@@ -15,7 +15,7 @@
 #define MUD_CTX_EXPORT MUD_IMPORT
 #endif
 
-#include <cstdint>
+#include <stdint.h>
 
 namespace mud
 {
@@ -103,7 +103,7 @@ namespace mud
 
 
 
-#include <cstdint>
+#include <stdint.h>
 
 export_ namespace mud
 {}
@@ -332,15 +332,12 @@ namespace mud
 
 		InputEvent() {}
 		InputEvent(DeviceType deviceType, EventType eventType, InputMod modifiers = InputMod::None) : m_deviceType(deviceType), m_eventType(eventType), m_modifiers(modifiers) {}
-		virtual ~InputEvent() {}
-
+		
 		meth_ inline InputEvent& consume(ControlNode& consumer) { m_consumer = &consumer; return *this; }
 		meth_ inline bool valid() { return m_deviceType != DeviceType::None && m_consumer == nullptr; }
-		operator bool() { return valid(); }
+		operator bool() { return this->valid(); }
 
-		virtual void dispatch(Mouse& mouse, Keyboard& keyboard) { UNUSED(mouse); UNUSED(keyboard); }
-
-		bool operator==(const InputEvent& other) const { UNUSED(other); return false; }
+		//bool operator==(const InputEvent& other) const { UNUSED(other); return false; }
 	};
 
 	export_ struct refl_ MUD_CTX_EXPORT MouseEvent : public InputEvent
@@ -374,7 +371,7 @@ namespace mud
 
 		MouseEvent& consume(ControlNode& consumer) { m_consumer = &consumer; return *this; }
 
-		bool operator==(const MouseEvent& other) const { UNUSED(other); return false; }
+		//bool operator==(const MouseEvent& other) const { UNUSED(other); return false; }
 	};
 
 	export_ struct refl_ MUD_CTX_EXPORT KeyEvent : public InputEvent
@@ -389,31 +386,26 @@ namespace mud
 			m_key = int(code);
 		}
 
-		bool operator==(const KeyEvent& other) const { UNUSED(other); return false; }
+		//bool operator==(const KeyEvent& other) const { UNUSED(other); return false; }
 	};
 }
 
 #ifndef MUD_CPP_20
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 namespace mud
 {
 	export_ struct ModalControl
 	{
-		ControlNode* m_parent;
-		ControlNode* m_modal;
-		uint32_t m_mask;
-
-		ModalControl() : m_parent(nullptr), m_modal(nullptr), m_mask(0) {}
-		ModalControl(ControlNode* parent, ControlNode* modal, uint32_t mask = UINT32_MAX) : m_parent(parent), m_modal(modal), m_mask(mask) {}
+		ControlNode* m_parent = nullptr;
+		ControlNode* m_modal = nullptr;
+		uint32_t m_mask = UINT32_MAX;
 	};
 
 	export_ class refl_ MUD_CTX_EXPORT ControlNode
 	{
 	public:
-		ControlNode() {}
-
 		virtual ControlNode* control_event(InputEvent& event) = 0;
 		virtual ControlNode* propagate_event(InputEvent& inputEvent) = 0;
 		virtual void receive_event(InputEvent& inputEvent) = 0;
@@ -445,8 +437,6 @@ namespace mud
 	export_ template <class T_Element>
 	struct EventMap
 	{
-		EventMap() {}
-		
 		enum_array<DeviceType, enum_array<EventType, T_Element>> m_events = {};
 		enum_array<DeviceType, enum_array<EventType, map<int, T_Element>>> m_keyed_events = {};
 
@@ -459,8 +449,6 @@ namespace mud
 	export_ struct MUD_CTX_EXPORT EventBatch : public EventMap<InputEvent*>
 	{
 		ControlNode* m_control_node = nullptr;
-		
-		EventBatch() {}
 	};
 
 	export_ class MUD_CTX_EXPORT EventDispatcher
@@ -571,7 +559,7 @@ namespace mud
 #ifndef MUD_CPP_20
 #include <stl/string.h>
 #include <stl/vector.h>
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 

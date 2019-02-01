@@ -57,7 +57,7 @@ namespace mud
 		return result;
 	}
 
-	template<typename Fun>
+	template <class Fun>
 	ColorPattern make_pattern(size_t n, const Fun& fun)
 	{
 		ColorPattern result(n * n);

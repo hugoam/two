@@ -7,6 +7,7 @@
 
 
 #include <stl/move.h>
+#include <stl/traits.h>
 
 
 
@@ -54,8 +55,8 @@ namespace mud
 }
 
 #ifndef MUD_CPP_20
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 #endif
 
 namespace mud // export_ namespace mud// @todo evaluate export at namespace level ?
@@ -137,41 +138,41 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 
 
 
-#include <stl/type_traits.h>
+#include <stl/traits.h>
 
 namespace mud
 {
 	class Type;
 
-	export_ template<typename T>
-	using unqual_type = remove_cv<typename remove_reference<T>::type>;
+	export_ template <class T>
+	using unqual_type = remove_cv<remove_reference<T>>;
 
-	export_ template<typename T>
-	using type_class = remove_pointer<typename unqual_type<T>::type>;
+	export_ template <class T>
+	using type_class = remove_pointer<unqual_type<T>>;
 	
 	inline void sink_type(Type&) {}
 
-	export_ template <typename T, typename = int>
-	struct is_typed : false_type { };
-
-	export_ template <typename T>
-	struct is_typed <T, decltype(sink_type(std::declval<T>().m_type), 0)> : true_type { };
+	export_ template <class T, typename = int>
+	constexpr bool is_typed = false;
 
 	export_ template <class T>
-	inline typename enable_if<!is_typed<T>::value,
-		Type&>::type type_of(const T& value) { UNUSED(value); return type<T>(); }
+	constexpr bool is_typed<T, decltype(sink_type(declval<T>().m_type), 0)> = true;
 
 	export_ template <class T>
-	inline typename enable_if<is_typed<T>::value,
-		Type&>::type type_of(const T& value) { return value.m_type; }
+	inline enable_if<!is_typed<T>,
+		Type&> type_of(const T& value) { UNUSED(value); return type<T>(); }
 
 	export_ template <class T>
-	inline typename enable_if<!is_typed<T>::value,
-		Type&>::type type_of(const T* value) { UNUSED(value); return type<T>(); }
+	inline enable_if<is_typed<T>,
+		Type&> type_of(const T& value) { return value.m_type; }
 
 	export_ template <class T>
-	inline typename enable_if<is_typed<T>::value,
-		Type&>::type type_of(const T* value) { if(value) return value->m_type; return type<T>(); }
+	inline enable_if<!is_typed<T>,
+		Type&> type_of(const T* value) { UNUSED(value); return type<T>(); }
+
+	export_ template <class T>
+	inline enable_if<is_typed<T>,
+		Type&> type_of(const T* value) { if(value) return value->m_type; return type<T>(); }
 }
 
 namespace mud
@@ -211,138 +212,9 @@ namespace mud
 
 	export_ inline Type& type(Ref ref) { return *ref.m_type; }
 }
-
-
-#ifndef MUD_MODULES
-#endif
-
-#if defined __GNUC__
-#   pragma GCC system_header
-#endif
-
-namespace mud
-{
-	export_ template <class T>
-	inline typename enable_if<is_comparable<T>::value, bool>::type
-		any_compare(const T& first, const T& second) { return first == second; }
-
-	export_ template <class T>
-	inline typename enable_if<!is_comparable<T>::value, bool>::type
-		any_compare(const T& first, const T& second) { return &first == &second; }
-
-	export_ template <class T>
-	inline typename enable_if<is_copy_assignable<T>::value, void>::type
-		any_assign(T& val, const T& other) { val = other; }
-
-	export_ template <class T>
-	inline typename enable_if<!is_copy_assignable<T>::value, void>::type
-		any_assign(T& val, const T& other) { UNUSED(val); UNUSED(other); }
-
-	export_ template <class T>
-	inline typename enable_if<is_copy_constructible<T>::value, T>::type
-		any_copy(const T& val) { return T(val); }
-
-	export_ template <class T>
-	inline typename enable_if<!is_copy_constructible<T>::value, T>::type
-		any_copy(const T& val) { UNUSED(val); return T(); }
-
-	export_ template <class T>
-	inline typename enable_if<is_trivially_destructible<T>::value, void>::type
-		any_destruct(T& val) { UNUSED(val); }
-	
-	export_ template <class T>
-	inline typename enable_if<!is_trivially_destructible<T>::value, void>::type
-		any_destruct(T& val) { val.~T(); }
-}
-
-
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
-
-
-#include <stl/vector.h>
-#include <stl/string.h>
 //#include <type/Types.h>
 
-namespace mud // export_ namespace mud// @todo evaluate export at namespace level ?
-{
-#if 1
-	export_ template <class T>
-	struct Typed<array<T>>
-	{
-		static inline Type& type() { static string name = "array<" + string(mud::type<typename type_class<T>::type>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
-	};
-	
-	export_ template <>
-	struct Typed<array<cstring>>
-	{
-		static inline Type& type() { static Type ty("array<cstring>"); return ty; }
-	};
-
-	export_ template <class T>
-	struct Typed<vector<T>>
-	{
-		static inline Type& type() { static string name = "vector<" + string(mud::type<typename type_class<T>::type>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
-	};
-	
-	export_ template <>
-	struct Typed<vector<cstring>>
-	{
-		static inline Type& type() { static Type ty("vector<cstring>"); return ty; }
-	};
-#endif
-
-	export_ template <class... T_Args>
-	inline vector<Type*> type_vector()
-	{
-		return{ &type<T_Args>()... };
-	}
-}
-#endif
-
-#ifndef MUD_MODULES
-#endif
-
-#ifndef MUD_CPP_20
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <cstdint>
-#endif
-
-
-namespace mud
-{
-    // Exported types
-    export_ template <> MUD_TYPE_EXPORT Type& type<bool>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<char>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<const char*>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<double>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<float>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<int>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<long>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<long long>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<short>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<string>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<unsigned char>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<unsigned int>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<unsigned long>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<unsigned long long>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<unsigned short>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<void>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<void*>();
-    
-    export_ template <> MUD_TYPE_EXPORT Type& type<mud::Index>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<mud::Indexer>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<mud::Ref>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<mud::Var>();
-    
-    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Index*>>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Indexer*>>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Ref*>>();
-    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Var*>>();
-}
-
 #include <cassert>
-#include <new>
 
 namespace mud
 {
@@ -350,20 +222,20 @@ namespace mud
 	inline void type_check(const Ref& ref) { UNUSED(ref); assert(type(ref).is<T>()); }
 	
 	export_ template <class T>
-	inline typename enable_if<!is_pointer<T>::value, T&>::type
+	inline enable_if<!is_pointer<T> || is_same<T, cstring>, T&>
 		val(Ref& ref) { type_check<T>(ref); return *(T*)(ref.m_value); }
 
 	export_ template <class T>
-	inline typename enable_if<is_pointer<T>::value, T>::type
-		val(Ref& ref) { type_check<typename std::remove_pointer<T>::type>(ref); return (T)(ref.m_value); }
+	inline enable_if<is_pointer<T> && !is_same<T, cstring>, T>
+		val(Ref& ref) { type_check<remove_pointer<T>>(ref); return (T)(ref.m_value); }
 
 	export_ template <class T>
-	inline typename enable_if<!is_pointer<T>::value, const T&>::type
+	inline enable_if<!is_pointer<T> || is_same<T, cstring>, const T&>
 		val(const Ref& ref) { type_check<T>(ref); return *(T*)(ref.m_value); }
 
 	export_ template <class T>
-	inline typename enable_if<is_pointer<T>::value, T>::type
-		val(const Ref& ref) { type_check<typename std::remove_pointer<T>::type>(ref); return (T)(ref.m_value); }
+	inline enable_if<is_pointer<T> && !is_same<T, cstring>, T>
+		val(const Ref& ref) { type_check<remove_pointer<T>>(ref); return (T)(ref.m_value); }
 
 	export_ template <class T>
 	inline void setval(Ref& ref, T& value) { ref.m_value = &value; ref.m_type = &type_of<T>(value); }
@@ -383,16 +255,51 @@ namespace mud
 	export_ template <>
 	inline void* val<void*>(const Ref& ref) { return ref.m_value; }
 
-	export_ template <>
-	inline cstring val<cstring>(Ref& ref) { return (cstring)ref.m_value; }
-
-	export_ template <>
-	inline cstring val<cstring>(const Ref& ref) { return (cstring)ref.m_value; }
-	
-	export_ inline void setval(Ref& ref, cstring value) { ref.m_value = (void*)value; ref.m_type = &type<cstring>(); }
-
 	template <class T>
 	export_ inline T* try_val(Ref object) { if (object && type(object).template is<T>()) return &val<T>(object); else return nullptr; }
+}
+
+
+#ifndef MUD_MODULES
+#endif
+
+#if defined __GNUC__
+#   pragma GCC system_header
+#endif
+
+namespace mud
+{
+	export_ template <class T>
+	inline enable_if<is_comparable<T>, bool>
+		any_compare(const T& first, const T& second) { return first == second; }
+
+	export_ template <class T>
+	inline enable_if<!is_comparable<T>, bool>
+		any_compare(const T& first, const T& second) { return &first == &second; }
+
+	export_ template <class T>
+	inline enable_if<is_copy_assignable<T>, void>
+		any_assign(T& val, const T& other) { val = other; }
+
+	export_ template <class T>
+	inline enable_if<!is_copy_assignable<T>, void>
+		any_assign(T& val, const T& other) { UNUSED(val); UNUSED(other); }
+
+	export_ template <class T>
+	inline enable_if<is_copy_constructible<T>, T>
+		any_copy(const T& val) { return T(val); }
+
+	export_ template <class T>
+	inline enable_if<!is_copy_constructible<T>, T>
+		any_copy(const T& val) { UNUSED(val); return T(); }
+
+	export_ template <class T>
+	inline enable_if<is_trivially_destructible<T>, void>
+		any_destruct(T& val) { UNUSED(val); }
+	
+	export_ template <class T>
+	inline enable_if<!is_trivially_destructible<T>, void>
+		any_destruct(T& val) { val.~T(); }
 }
 
 
@@ -403,7 +310,7 @@ namespace mud
 
 #ifndef MUD_CPP_20
 #ifdef MUD_TRACK_MEMORY
-#include <stl/type_traits.h>
+#include <stl/traits.h>
 #include <stl/function.h>
 #endif
 #endif
@@ -428,7 +335,7 @@ namespace mud
 	template <class T>
 	using object = unique<T, function<void(void*)>>;
 
-	template<class T, class... Types>
+	template <class T, class... Types>
 	inline object<T> oconstruct(Types&&... args)
 	{
 		object_ptr_tracker<T>::increment();
@@ -438,7 +345,7 @@ namespace mud
 	export_ template <class T>
 	using object = unique<T>;
 
-	export_ template <typename T, typename... Args>
+	export_ template <class T, typename... Args>
 	object<T> oconstruct(Args&&... args)
 	{
 		return construct<T>(static_cast<Args&&>(args)...);
@@ -447,7 +354,7 @@ namespace mud
 }
 
 #ifndef MUD_CPP_20
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 namespace mud
@@ -530,20 +437,106 @@ namespace mud
 	export_ inline Type& type(const Var& var) { return *var.m_ref.m_type; }
 }
 
+
+#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+
+
+#include <stl/vector.h>
+#include <stl/string.h>
+//#include <type/Types.h>
+
+namespace mud // export_ namespace mud// @todo evaluate export at namespace level ?
+{
+#if 1
+	export_ template <class T>
+	struct Typed<array<T>>
+	{
+		static inline Type& type() { static string name = "array<" + string(mud::type<type_class<T>>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
+	};
+	
+	export_ template <>
+	struct Typed<array<cstring>>
+	{
+		static inline Type& type() { static Type ty("array<cstring>"); return ty; }
+	};
+
+	export_ template <class T>
+	struct Typed<vector<T>>
+	{
+		static inline Type& type() { static string name = "vector<" + string(mud::type<type_class<T>>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
+	};
+	
+	export_ template <>
+	struct Typed<vector<cstring>>
+	{
+		static inline Type& type() { static Type ty("vector<cstring>"); return ty; }
+	};
+#endif
+
+	export_ template <class... T_Args>
+	inline vector<Type*> type_vector()
+	{
+		return{ &type<T_Args>()... };
+	}
+}
+#endif
+
+#ifndef MUD_MODULES
+#endif
+
+#ifndef MUD_CPP_20
+#include <stl/string.h>
+#include <stl/vector.h>
+#include <stdint.h>
+#endif
+
+
+namespace mud
+{
+    // Exported types
+    export_ template <> MUD_TYPE_EXPORT Type& type<bool>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<char>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<const char*>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<double>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<float>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<int>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<long>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<long long>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<short>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<string>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<unsigned char>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<unsigned int>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<unsigned long>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<unsigned long long>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<unsigned short>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<void>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<void*>();
+    
+    export_ template <> MUD_TYPE_EXPORT Type& type<mud::Index>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<mud::Indexer>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<mud::Ref>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<mud::Var>();
+    
+    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Index*>>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Indexer*>>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Ref*>>();
+    export_ template <> MUD_TYPE_EXPORT Type& type<vector<mud::Var*>>();
+}
+
 #include <new>
 
 namespace mud
 {
-	export_ template <class T, bool onlyref = is_object_pointer<T>::value || !is_copyable<T>::value>
-	struct ValueSemantic : true_type {};
+	export_ template <class T, bool onlyref = is_object_pointer<T> || !is_copyable<T>>
+	constexpr bool ValueSemantic = true;
 
 	export_ template <class T>
-	struct ValueSemantic<T, true> : false_type {};
+	constexpr bool ValueSemantic<T, true> = false;
 
 	template <class T>
-	using IsSmallObject = integral_constant<bool, sizeof(T) <= sizeof(void*)*3>;
+	constexpr bool IsSmallObject = sizeof(T) <= sizeof(void*)*3;
 
-	export_ template <class T, bool small = IsSmallObject<T>::value>
+	export_ template <class T, bool small = IsSmallObject<T>>
 	class TAnyHandlerImpl : public AnyHandler
 	{
 	public:
@@ -624,30 +617,30 @@ namespace mud
 	inline cstring val(const Var& var) { return (cstring)var.m_ref.m_value; }
 
 	export_ template <class T, class U>
-	inline typename enable_if<ValueSemantic<T>::value, void>::type
+	inline enable_if<ValueSemantic<T>, void>
 		setval(Var& var, U&& value) { if(var.m_mode == VAL) { setval<T>(var.m_any, value); /*setval(var.m_ref, val<T>(var.m_any));*/ } else setval<T>(var.m_ref, value); }
 
 	export_ template <class T, class U>
-	inline typename enable_if<!ValueSemantic<T>::value, void>::type
+	inline enable_if<!ValueSemantic<T>, void>
 		setval(Var& var, U&& value) { setval(var.m_ref, static_cast<U&&>(value)); }
 
 	export_ template <class T, class U>
 	inline Var make_any(U&& value) { return TAnyHandler<T>::create(static_cast<U&&>(value)); }
 	
 	export_ template <class T, class U>
-	inline typename enable_if<ValueSemantic<T>::value, Var>::type
+	inline enable_if<ValueSemantic<T>, Var>
 		var_value(U&& value) { return make_any<T>(static_cast<U&&>(value)); }
 
 	export_ template <class T, class U>
-	inline typename enable_if<!ValueSemantic<T>::value, Var>::type
+	inline enable_if<!ValueSemantic<T>, Var>
 		var_value(U&& value) { return Ref(&value); }
 
 	export_ template <class T, class U>
-	inline typename enable_if<!is_object_pointer<T>::value, Var>::type
-		make_var(U&& value) { return var_value<typename unqual_type<T>::type>(static_cast<T&&>(value)); }
+	inline enable_if<!is_object_pointer<T>, Var>
+		make_var(U&& value) { return var_value<unqual_type<T>>(static_cast<T&&>(value)); }
 
 	export_ template <class T, class U>
-	inline typename enable_if<is_object_pointer<T>::value, Var>::type
+	inline enable_if<is_object_pointer<T>, Var>
 		make_var(U&& value) { return Ref(value); }
 
 	export_ template <class T>
@@ -658,6 +651,7 @@ namespace mud
 
 	export_ inline Var var(cstring value) { return Ref(const_cast<char*>(value), type<cstring>()); }
 }
+//#include <type/Any.h>
 
 
 
@@ -774,7 +768,7 @@ namespace mud
 #include <stl/vector.h>
 
 #ifndef MUD_CPP20
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 namespace mud
@@ -830,10 +824,11 @@ namespace mud
 
 	export_ func_ inline Ref indexed(Type& type, uint32_t id) { return Index::me.indexer(type).m_objects[id]; }
 }
+//#include <type/TypeUtils.h>
 
 
 #ifndef MUD_CPP_20
-#include <cstddef>
+#include <stl/stddef.h>
 #endif
 
 namespace mud
@@ -886,7 +881,7 @@ namespace mud
 #include <stl/unordered_set.h>
 #include <stl/unordered_map.h>
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	export_ extern template class vector<string>;
@@ -896,6 +891,6 @@ namespace tinystl
 	export_ extern template class vector<void(*)(Ref, Ref)>;
 	export_ extern template class vector<vector<void(*)(Ref, Ref)>>;
 	export_ extern template class vector<unique<Indexer>>;
-	export_ extern template class unordered_set<string>;
+	//export_ extern template class unordered_set<string>;
 	export_ extern template class unordered_map<string, string>;
 }

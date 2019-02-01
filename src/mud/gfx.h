@@ -175,8 +175,6 @@ namespace mud
 #include <stl/vector.h>
 #endif
 
-#include <bgfx/bgfx.h>
-
 namespace mud
 {
 	export_ enum class refl_ AnimationTarget : unsigned int
@@ -302,9 +300,9 @@ namespace mud
 		Ref m_object;
 		size_t m_last_updated = 0;
 
-		vec3 position() const { return mulp(m_transform, Zero3); }
-		vec3 axis(const vec3& dir) const { return muln(m_transform, dir); }
-		vec3 direction() const { return muln(m_transform, -Z3); }
+		vec3 position() const;
+		vec3 axis(const vec3& dir) const;
+		vec3 direction() const;
 	};
 }
 
@@ -393,8 +391,6 @@ namespace mud
 	};
 }
 
-#include <bgfx/bgfx.h>
-
 namespace mud
 {
 	export_ struct refl_ MUD_GFX_EXPORT AnimatedTrack
@@ -466,141 +462,6 @@ namespace mud
 #include <stl/map.h>
 #endif
 
-
-#ifndef MUD_MODULES
-#include <stl/vector.h>
-#include <stl/string.h>
-#endif
-#ifndef MUD_BGFX_EXPORT
-#define MUD_BGFX_EXPORT MUD_GFX_EXPORT
-#endif
-
-#include <bgfx/bgfx.h>
-
-#ifndef MUD_MODULES
-namespace bx
-{
-	struct FileReaderI;
-	struct FileWriterI;
-}
-#endif
-
-namespace mud
-{
-	class Vg;
-
-	export_ class refl_ MUD_GFX_EXPORT GfxContext : public BgfxContext
-	{
-	public:
-		GfxContext(GfxSystem& gfx_system, const string& name, int width, int height, bool fullScreen, bool init);
-		~GfxContext();
-
-		virtual void reset(uint16_t width, uint16_t height) override;
-
-		GfxSystem& m_gfx_system;
-
-		object<RenderTarget> m_target;
-
-		uint16_t m_vg_handle = UINT16_MAX;
-		using ResetVg = uint16_t(*)(GfxContext&, Vg&); ResetVg m_reset_vg;
-
-		vector<Viewport*> m_viewports;
-	};
-
-	template <class T_Asset>
-	class TPool;
-
-	template <class T_Asset>
-	class AssetStore;
-
-	export_ struct LocatedFile
-	{
-		LocatedFile() {}
-		LocatedFile(string location, string name, string extension, size_t extension_index)
-			: m_located(true), m_location(location), m_name(name), m_extension(extension), m_extension_index(extension_index)
-		{}
-		bool m_located = false;
-		string m_location;
-		string m_name;
-		string m_extension;
-		size_t m_extension_index = 0;
-		string path(bool ext) { return m_location + "/" + m_name + (ext ? m_extension : ""); }
-		explicit operator bool() { return m_located; }
-	};
-
-	export_ class refl_ MUD_GFX_EXPORT GfxSystem : public BgfxSystem
-	{
-	public:
-		constr_ GfxSystem(const string& resource_path);
-		~GfxSystem();
-
-		JobSystem* m_job_system = nullptr;
-		Vg* m_vg = nullptr;
-
-		bgfx::Encoder* m_encoders[8] = {};
-		size_t m_num_encoders = 0;
-
-		virtual void begin_frame() final;
-		virtual bool next_frame() final;
-
-		virtual object<Context> create_context(const string& name, int width, int height, bool full_screen) final;
-
-		void init(GfxContext& context);
-
-		using PipelineDecl = void(*)(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred);
-		void init_pipeline(PipelineDecl pipeline);
-
-		meth_ void default_pipeline();
-
-		meth_ void add_resource_path(const string& path, bool relative = true);
-
-		void set_renderer(Shading shading, Renderer& renderer);
-		Renderer& renderer(Shading shading);
-
-		void render(Renderer& renderer, GfxContext& context, Viewport& viewport, RenderFrame& frame);
-		RenderFrame render_frame();
-
-		GfxContext& context(size_t index = 0);
-
-		bx::FileReaderI& file_reader();
-		bx::FileWriterI& file_writer();
-
-		LocatedFile locate_file(const string& file);
-		LocatedFile locate_file(const string& file, array<string> extensions);
-
-		TPool<Mesh>& meshes();
-		TPool<Rig>& rigs();
-		TPool<Animation>& animations();
-
-		attr_ AssetStore<Texture>& textures();
-		attr_ AssetStore<Program>& programs();
-		attr_ AssetStore<Material>& materials();
-		attr_ AssetStore<Model>& models();
-		attr_ AssetStore<ParticleFlow>& particles();
-		attr_ AssetStore<Prefab>& prefabs();
-
-		void add_importer(ModelFormat format, Importer& importer);
-		Importer* importer(ModelFormat format);
-
-		Texture& default_texture(TextureHint hint);
-
-		meth_ Material& debug_material();
-		meth_ Material& fetch_material(const string& name, const string& shader, bool builtin = true);
-		meth_ Material& fetch_image256_material(const Image256& image);
-
-		meth_ Model& fetch_symbol(const Symbol& symbol, const Shape& shape, DrawMode draw_mode);
-		meth_ Material& fetch_symbol_material(const Symbol& symbol, DrawMode draw_mode);
-
-		void create_debug_materials();
-
-	public:
-		struct Impl;
-		unique<Impl> m_impl;
-
-		unique<Pipeline> m_pipeline;
-	};
-}
-
 namespace mud
 {
 	using cstring = const char*;
@@ -639,7 +500,7 @@ namespace mud
 		map<string, unique<T_Asset>> m_assets;
 	};
 }
-//#include <gfx/Asset.impl.h>
+//#include <gfx/Asset.hpp>
 
 
 
@@ -696,7 +557,7 @@ namespace mud
 
 
 #ifndef MUD_MODULES
-#include <stl/stringfwd.h>
+#include <stl/decls.h>
 #endif
 
 #include <bgfx/bgfx.h>
@@ -804,12 +665,271 @@ namespace mud
 #include <stl/string.h>
 #endif
 
+namespace bgfx
+{
+	struct Encoder;
+}
+
+namespace mud
+{
+	export_ enum class refl_ BlendMode : unsigned int
+	{
+		Mix,
+		Add,
+		Sub,
+		Mul,
+		Normal,
+		Alpha
+	};
+
+	void blend_state(BlendMode blend_mode, uint64_t& bgfx_state);
+
+	export_ enum class refl_ CullMode : unsigned int
+	{
+		None,
+		Front,
+		Back
+	};
+
+	export_ enum class refl_ DepthDraw : unsigned int
+	{
+		Enabled,
+		Disabled
+	};
+
+	export_ enum class refl_ DepthTest : unsigned int
+	{
+		Enabled,
+		Disabled
+	};
+
+	export_ enum class refl_ MaterialFlag : unsigned int
+	{
+		TriplanarUV1,
+		TriplanarUV2,
+		Count
+	};
+
+	export_ struct refl_ MUD_GFX_EXPORT BaseMaterialBlock
+	{
+		attr_ BlendMode m_blend_mode = BlendMode::Mix;
+		attr_ CullMode m_cull_mode = CullMode::Back;
+		attr_ DepthDraw m_depth_draw_mode = DepthDraw::Enabled;
+		attr_ DepthTest m_depth_test = DepthTest::Enabled;
+
+		attr_ vec2 m_uv0_scale = { 1.f, 1.f };
+		attr_ vec2 m_uv0_offset = { 0.f, 0.f };
+		attr_ vec2 m_uv1_scale = { 1.f, 1.f };
+		attr_ vec2 m_uv1_offset = { 0.f, 0.f };
+
+		attr_ bool m_is_alpha = false;
+		attr_ bool m_screen_filter = false;
+
+		uint m_geometry_filter = (1 << OUTLINE) | (1 << PLAIN);
+
+#if 0
+		BillboardMode m_billboard_mode;
+#endif		
+	};
+
+	export_ enum class refl_ TextureChannel : unsigned int
+	{
+		Red,
+		Green,
+		Blue,
+		Alpha,
+		All
+	};
+
+	export_ template <class T_Param>
+	struct refl_ struct_ MaterialParam
+	{
+		MaterialParam() {}
+		MaterialParam(T_Param value, Texture* texture = nullptr, TextureChannel channel = TextureChannel::All) : m_value(value), m_texture(texture), m_channel(channel) {}
+		attr_ T_Param m_value = {};
+		attr_ Texture* m_texture = nullptr;
+		attr_ TextureChannel m_channel = TextureChannel::All;
+	};
+
+	export_ extern template struct refl_ MaterialParam<Colour>;
+	export_ extern template struct refl_ MaterialParam<float>;
+
+	export_ struct refl_ MUD_GFX_EXPORT UnshadedMaterialBlock
+	{
+		attr_ bool m_enabled = false;
+
+		attr_ MaterialParam<Colour> m_colour = { Colour::White, nullptr };
+	};
+
+	export_ struct refl_ MUD_GFX_EXPORT FresnelMaterialBlock
+	{
+		attr_ bool m_enabled = false;
+
+		attr_ MaterialParam<Colour> m_value = { Colour::White, nullptr };
+
+		attr_ float m_fresnel_scale = 1.f;
+		attr_ float m_fresnel_bias = 0.01f;
+		attr_ float m_fresnel_power = 5.f;
+	};
+
+	export_ enum class refl_ PbrDiffuseMode : unsigned int
+	{
+		Lambert,
+		LambertHalf,
+		OrenNayar,
+		Burley,
+		Toon,
+	};
+
+	export_ enum class refl_ PbrSpecularMode : unsigned int
+	{
+		SchlickGGX,
+		Blinn,
+		Phong,
+		Toon,
+		Disabled,
+	};
+
+	export_ enum PbrShaderOption : unsigned int
+	{
+		NORMAL_MAP,
+		EMISSIVE,
+		ANISOTROPY,
+		AMBIENT_OCCLUSION,
+		DEPTH_MAPPING,
+		DEEP_PARALLAX,
+		LIGHTMAP
+	};
+
+	export_ struct refl_ MUD_GFX_EXPORT PbrMaterialBlock
+	{
+		constr_ PbrMaterialBlock() {}
+		constr_ PbrMaterialBlock(const Colour& albedo, float metallic = 0.f, float roughness = 1.f) : m_enabled(true), m_albedo(albedo, nullptr), m_metallic(metallic, nullptr, TextureChannel::Red), m_roughness(roughness, nullptr, TextureChannel::Red) {}
+
+		PbrMaterialBlock& operator=(const PbrMaterialBlock&) = default; // @kludge because clang-modules bug doesn't have copy-assign with member arrays ?
+
+		attr_ bool m_enabled = false;
+
+		// basic
+		attr_ MaterialParam<Colour> m_albedo = { Colour::White, nullptr };
+		attr_ float m_specular = 0.5f;
+		attr_ MaterialParam<float> m_metallic = { 0.f, nullptr, TextureChannel::Red };
+		attr_ MaterialParam<float> m_roughness = { 1.f, nullptr, TextureChannel::Red };
+		attr_ MaterialParam<Colour> m_emissive = { Colour::None, nullptr };
+		attr_ float m_emissive_energy = 0.f;
+		attr_ MaterialParam<float> m_normal = { 1.f, nullptr };
+
+		// advanced
+		attr_ MaterialParam<float> m_rim;
+		attr_ float m_rim_tint;
+		attr_ MaterialParam<float> m_clearcoat;
+		attr_ float m_clearcoat_gloss;
+		attr_ MaterialParam<float> m_anisotropy;
+		attr_ MaterialParam<float> m_subsurface;
+		attr_ MaterialParam<Colour> m_transmission;
+		attr_ MaterialParam<float> m_refraction;
+		attr_ MaterialParam<float> m_ambient_occlusion;
+		attr_ MaterialParam<float> m_depth = { -0.02f, nullptr };
+
+		attr_ bool m_deep_parallax = false;
+
+		attr_ PbrDiffuseMode m_diffuse_mode = PbrDiffuseMode::Burley;
+		attr_ PbrSpecularMode m_specular_mode = PbrSpecularMode::SchlickGGX;
+
+		bool m_flags[size_t(MaterialFlag::Count)];
+	};
+
+	export_ GfxBlock& pbr_block(GfxSystem& gfx_system);
+
+	export_ MUD_GFX_EXPORT void load_material(Material& material, Program& program);
+
+	export_ class refl_ MUD_GFX_EXPORT Material
+	{
+	public:
+		Material() {}
+		Material(const string& name);
+
+		Material& operator=(const Material&) = default; // @kludge because clang-modules bug doesn't have copy-assign with member arrays ?
+
+		attr_ uint16_t m_index = 0;
+		attr_ string m_name;
+		attr_ bool m_builtin = false;
+		attr_ Program* m_program = nullptr;
+
+		attr_ BaseMaterialBlock m_base_block;
+		attr_ UnshadedMaterialBlock m_unshaded_block;
+		attr_ PbrMaterialBlock m_pbr_block;
+		attr_ FresnelMaterialBlock m_fresnel_block;
+
+		void state(uint64_t& bgfx_state) const;
+		ShaderVersion shader_version(const Program& program) const;
+		ShaderVersion shader_version(const Program& program, const Item& item, const ModelItem& model_item) const;
+
+		void submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin = nullptr) const;
+
+		static GfxSystem* ms_gfx_system;
+	};
+}
+
+
+#ifndef MUD_MODULES
+#include <stl/vector.h>
+#include <stl/string.h>
+#endif
+
+namespace mud
+{
+	export_ struct refl_ ModelItem
+	{
+		attr_ size_t m_index;
+		attr_ Mesh* m_mesh;
+		attr_ bool m_has_transform;
+		attr_ mat4 m_transform;
+		attr_ int m_skin;
+		attr_ Colour m_colour;
+		attr_ Material* m_material;
+	};
+
+	export_ class refl_ MUD_GFX_EXPORT Model
+	{
+	public:
+		Model(const string& name);
+		~Model();
+
+		attr_ string m_name;
+		attr_ uint16_t m_index;
+
+		Rig* m_rig = nullptr;
+
+		vector<ModelItem> m_items;
+
+		/*attr_*/ bool m_geometry[2] = { false, false };
+		attr_ Aabb m_aabb = { Zero3, Zero3 };
+		attr_ float m_radius = 0.f;
+		attr_ vec3 m_origin = Zero3;
+
+		Mesh& add_mesh(const string& name, bool readback = false);
+		Rig& add_rig(const string& name);
+		ModelItem& add_item(Mesh& mesh, mat4 transform, int skin = -1, Colour colour = Colour::White, Material* material = nullptr);
+		void prepare();
+
+		static GfxSystem* ms_gfx_system;
+	};
+
+	export_ MUD_GFX_EXPORT Model& model_variant(GfxSystem& gfx_system, Model& original, const string& name, array<string> materials, array<Material*> substitutes);
+}
+
+
+#ifndef MUD_MODULES
+#include <stl/vector.h>
+#endif
+
 
 #ifndef MUD_MODULES
 #endif
 
 
-#include <cstdint>
+#include <stdint.h>
 
 namespace mud
 {
@@ -858,7 +978,7 @@ namespace mud
 	};
 }
 
-#include <cstdint>
+#include <stdint.h>
 
 #include <bgfx/bgfx.h>
 
@@ -967,8 +1087,6 @@ namespace mud
 
 	export_ struct refl_ MUD_GFX_EXPORT RenderFrame
 	{
-		RenderFrame() {}
-		RenderFrame(uint32_t frame, float time, float delta, uint8_t render_pass) : m_frame(frame), m_time(time), m_delta_time(delta), m_render_pass(render_pass) {}
 		uint32_t m_frame;
 		float m_time;
 		float m_delta_time;
@@ -1174,403 +1292,6 @@ namespace mud
 
 namespace mud
 {
-	export_ enum class refl_ BlendMode : unsigned int
-	{
-		Mix,
-		Add,
-		Sub,
-		Mul,
-		Normal,
-		Alpha
-	};
-
-	void blend_state(BlendMode blend_mode, uint64_t& bgfx_state);
-
-	export_ enum class refl_ CullMode : unsigned int
-	{
-		None,
-		Front,
-		Back
-	};
-
-	export_ enum class refl_ DepthDraw : unsigned int
-	{
-		Enabled,
-		Disabled
-	};
-
-	export_ enum class refl_ DepthTest : unsigned int
-	{
-		Enabled,
-		Disabled
-	};
-
-	export_ enum class refl_ MaterialFlag : unsigned int
-	{
-		TriplanarUV1,
-		TriplanarUV2,
-		Count
-	};
-
-	export_ struct refl_ MUD_GFX_EXPORT BaseMaterialBlock
-	{
-		attr_ BlendMode m_blend_mode = BlendMode::Mix;
-		attr_ CullMode m_cull_mode = CullMode::Back;
-		attr_ DepthDraw m_depth_draw_mode = DepthDraw::Enabled;
-		attr_ DepthTest m_depth_test = DepthTest::Enabled;
-
-		attr_ vec2 m_uv0_scale = { 1.f, 1.f };
-		attr_ vec2 m_uv0_offset = { 0.f, 0.f };
-		attr_ vec2 m_uv1_scale = { 1.f, 1.f };
-		attr_ vec2 m_uv1_offset = { 0.f, 0.f };
-
-		attr_ bool m_is_alpha = false;
-		attr_ bool m_screen_filter = false;
-
-		uint m_geometry_filter = (1 << OUTLINE) | (1 << PLAIN);
-
-#if 0
-		BillboardMode m_billboard_mode;
-#endif		
-	};
-
-	export_ enum class refl_ TextureChannel : unsigned int
-	{
-		Red,
-		Green,
-		Blue,
-		Alpha,
-		All
-	};
-
-	export_ template <class T_Param>
-	struct refl_ struct_ MaterialParam
-	{
-		MaterialParam() {}
-		MaterialParam(T_Param value, Texture* texture = nullptr, TextureChannel channel = TextureChannel::All) : m_value(value), m_texture(texture), m_channel(channel) {}
-		attr_ T_Param m_value = {};
-		attr_ Texture* m_texture = nullptr;
-		attr_ TextureChannel m_channel = TextureChannel::All;
-	};
-
-	export_ extern template struct refl_ MaterialParam<Colour>;
-	export_ extern template struct refl_ MaterialParam<float>;
-
-	export_ struct refl_ MUD_GFX_EXPORT UnshadedMaterialBlock
-	{
-		attr_ bool m_enabled = false;
-
-		attr_ MaterialParam<Colour> m_colour = { Colour::White, nullptr };
-	};
-
-	export_ struct refl_ MUD_GFX_EXPORT FresnelMaterialBlock
-	{
-		attr_ bool m_enabled = false;
-
-		attr_ MaterialParam<Colour> m_value = { Colour::White, nullptr };
-
-		attr_ float m_fresnel_scale = 1.f;
-		attr_ float m_fresnel_bias = 0.01f;
-		attr_ float m_fresnel_power = 5.f;
-	};
-
-	export_ enum class refl_ PbrDiffuseMode : unsigned int
-	{
-		Lambert,
-		LambertHalf,
-		OrenNayar,
-		Burley,
-		Toon,
-	};
-
-	export_ enum class refl_ PbrSpecularMode : unsigned int
-	{
-		SchlickGGX,
-		Blinn,
-		Phong,
-		Toon,
-		Disabled,
-	};
-
-	export_ enum PbrShaderOption : unsigned int
-	{
-		NORMAL_MAP,
-		EMISSIVE,
-		ANISOTROPY,
-		AMBIENT_OCCLUSION,
-		DEPTH_MAPPING,
-		DEEP_PARALLAX,
-		LIGHTMAP
-	};
-
-	export_ struct refl_ MUD_GFX_EXPORT PbrMaterialBlock
-	{
-		constr_ PbrMaterialBlock() {}
-		constr_ PbrMaterialBlock(const Colour& albedo, float metallic = 0.f, float roughness = 1.f) : m_enabled(true), m_albedo(albedo, nullptr), m_metallic(metallic, nullptr, TextureChannel::Red), m_roughness(roughness, nullptr, TextureChannel::Red) {}
-
-		PbrMaterialBlock& operator=(const PbrMaterialBlock&) = default; // @kludge because clang-modules bug doesn't have copy-assign with member arrays ?
-
-		attr_ bool m_enabled = false;
-
-		// basic
-		attr_ MaterialParam<Colour> m_albedo = { Colour::White, nullptr };
-		attr_ float m_specular = 0.5f;
-		attr_ MaterialParam<float> m_metallic = { 0.f, nullptr, TextureChannel::Red };
-		attr_ MaterialParam<float> m_roughness = { 1.f, nullptr, TextureChannel::Red };
-		attr_ MaterialParam<Colour> m_emissive = { Colour::None, nullptr };
-		attr_ float m_emissive_energy = 0.f;
-		attr_ MaterialParam<float> m_normal = { 1.f, nullptr };
-
-		// advanced
-		attr_ MaterialParam<float> m_rim;
-		attr_ float m_rim_tint;
-		attr_ MaterialParam<float> m_clearcoat;
-		attr_ float m_clearcoat_gloss;
-		attr_ MaterialParam<float> m_anisotropy;
-		attr_ MaterialParam<float> m_subsurface;
-		attr_ MaterialParam<Colour> m_transmission;
-		attr_ MaterialParam<float> m_refraction;
-		attr_ MaterialParam<float> m_ambient_occlusion;
-		attr_ MaterialParam<float> m_depth = { -0.02f, nullptr };
-
-		attr_ bool m_deep_parallax = false;
-
-		attr_ PbrDiffuseMode m_diffuse_mode = PbrDiffuseMode::Burley;
-		attr_ PbrSpecularMode m_specular_mode = PbrSpecularMode::SchlickGGX;
-
-		bool m_flags[size_t(MaterialFlag::Count)];
-	};
-
-	export_ struct PbrBlock : public GfxBlock
-	{
-		PbrBlock(GfxSystem& gfx_system);
-
-		virtual void init_block() override {}
-
-		virtual void begin_render(Render& render) override { UNUSED(render); }
-		virtual void begin_pass(Render& render) override { UNUSED(render); }
-	};
-
-	export_ PbrBlock& pbr_block(GfxSystem& gfx_system);
-
-	export_ MUD_GFX_EXPORT void load_material(Material& material, Program& program);
-
-	export_ class refl_ MUD_GFX_EXPORT Material
-	{
-	public:
-		Material() {}
-		Material(const string& name);
-
-		Material& operator=(const Material&) = default; // @kludge because clang-modules bug doesn't have copy-assign with member arrays ?
-
-		attr_ uint16_t m_index = 0;
-		attr_ string m_name;
-		attr_ bool m_builtin = false;
-		attr_ Program* m_program = nullptr;
-
-		attr_ BaseMaterialBlock m_base_block;
-		attr_ UnshadedMaterialBlock m_unshaded_block;
-		attr_ PbrMaterialBlock m_pbr_block;
-		attr_ FresnelMaterialBlock m_fresnel_block;
-
-		void state(uint64_t& bgfx_state) const;
-		ShaderVersion shader_version(const Program& program) const;
-		ShaderVersion shader_version(const Program& program, const Item& item, const ModelItem& model_item) const;
-
-		void submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin = nullptr) const;
-
-		struct BaseMaterialUniform
-		{
-			BaseMaterialUniform() {}
-			BaseMaterialUniform(GfxSystem& gfx_system)
-				: u_uv0_scale_offset(bgfx::createUniform("u_material_params_0", bgfx::UniformType::Vec4))
-				, u_uv1_scale_offset(bgfx::createUniform("u_material_params_1", bgfx::UniformType::Vec4))
-				, s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Int1))
-			{
-				UNUSED(gfx_system);
-			}
-
-			void upload(bgfx::Encoder& encoder, const BaseMaterialBlock& data) const
-			{
-				encoder.setUniform(u_uv0_scale_offset, &data.m_uv0_scale.x);
-				//encoder.setUniform(u_uv1_scale_offset, &data.m_uv1_scale.x);
-			}
-
-			bgfx::UniformHandle u_uv0_scale_offset;
-			bgfx::UniformHandle u_uv1_scale_offset;
-			bgfx::UniformHandle s_skeleton;
-		};
-
-		static BaseMaterialUniform s_base_uniform;
-
-		static GfxSystem* ms_gfx_system;
-	};
-}
-
-
-#ifndef MUD_MODULES
-#include <stl/vector.h>
-#include <stl/string.h>
-#endif
-
-#include <bgfx/bgfx.h>
-
-namespace mud
-{
-	export_ struct refl_ ModelItem
-	{
-		attr_ size_t m_index;
-		attr_ Mesh* m_mesh;
-		attr_ bool m_has_transform;
-		attr_ mat4 m_transform;
-		attr_ int m_skin;
-		attr_ Colour m_colour;
-		attr_ Material* m_material;
-	};
-
-	export_ class refl_ MUD_GFX_EXPORT Model
-	{
-	public:
-		Model(const string& name);
-		~Model();
-
-		attr_ string m_name;
-		attr_ uint16_t m_index;
-
-		Rig* m_rig = nullptr;
-
-		vector<ModelItem> m_items;
-
-		/*attr_*/ bool m_geometry[2] = { false, false };
-		attr_ Aabb m_aabb = { Zero3, Zero3 };
-		attr_ float m_radius = 0.f;
-		attr_ vec3 m_origin = Zero3;
-
-		Mesh& add_mesh(const string& name, bool readback = false);
-		Rig& add_rig(const string& name);
-		ModelItem& add_item(Mesh& mesh, mat4 transform, int skin = -1, Colour colour = Colour::White, Material* material = nullptr);
-		void prepare();
-
-		static GfxSystem* ms_gfx_system;
-	};
-
-	export_ MUD_GFX_EXPORT Model& model_variant(GfxSystem& gfx_system, Model& original, const string& name, array<string> materials, array<Material*> substitutes);
-}
-
-
-#ifndef MUD_MODULES
-#include <stl/vector.h>
-#endif
-
-
-#ifndef MUD_MODULES
-#include <stl/vector.h>
-#include <stl/string.h>
-#endif
-
-#include <bgfx/bgfx.h>
-
-namespace mud
-{
-	export_ struct MUD_GFX_EXPORT GpuMesh
-	{
-		GpuMesh() {}
-		GpuMesh(uint32_t vertex_count, uint32_t index_count)
-			: m_vertex_count(vertex_count), m_index_count(index_count)
-		{}
-
-		uint32_t m_vertex_format = 0;
-		
-		uint32_t m_vertex_count = 0;
-		uint32_t m_index_count = 0;
-		bool m_index32 = false;
-
-		const bgfx::Memory* m_vertex_memory = nullptr;
-		const bgfx::Memory* m_index_memory = nullptr;
-
-		void* m_vertices = nullptr;
-		void* m_indices = nullptr;
-
-		MeshAdapter m_writer = {};
-	};
-	
-	inline GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32)
-	{
-		GpuMesh gpu_mesh = { vertex_count, index_count };
-
-		gpu_mesh.m_vertex_memory = bgfx::alloc(vertex_size(vertex_format) * vertex_count);
-		gpu_mesh.m_index_memory = index32 ? bgfx::alloc(sizeof(uint32_t) * index_count)
-										  : bgfx::alloc(sizeof(uint16_t) * index_count);
-		gpu_mesh.m_index32 = index32;
-
-		gpu_mesh.m_vertices = gpu_mesh.m_vertex_memory->data;
-		gpu_mesh.m_indices = gpu_mesh.m_index_memory->data;
-
-		gpu_mesh.m_vertex_format = vertex_format;
-		gpu_mesh.m_writer = MeshAdapter(vertex_format, gpu_mesh.m_vertices, vertex_count, gpu_mesh.m_indices, index_count, index32);
-
-		return gpu_mesh;
-	}
-
-	inline GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count)
-	{
-		return alloc_mesh(vertex_format, vertex_count, index_count, vertex_count > UINT16_MAX);
-	}
-
-	export_ class refl_ MUD_GFX_EXPORT Mesh
-	{
-	public:
-		Mesh(const string& name, bool readback = false);
-		~Mesh();
-
-		Mesh(Mesh&& other) = default;
-		Mesh& operator=(Mesh&& other) = default;
-
-		attr_ string m_name;
-		attr_ uint16_t m_index;
-		attr_ DrawMode m_draw_mode = PLAIN;
-		attr_ Aabb m_aabb = {};
-		attr_ float m_radius = 0.f;
-		attr_ vec3 m_origin = Zero3;
-		attr_ bool m_readback = false;
-
-		attr_ uint32_t m_vertex_format = 0;
-		attr_ bool m_qnormals = false;
-
-		attr_ uint32_t m_vertex_count = 0;
-		attr_ uint32_t m_index_count = 0;
-		attr_ bool m_index32 = false;
-
-		attr_ Material* m_material = nullptr;
-
-		bgfx::VertexBufferHandle m_vertex_buffer = BGFX_INVALID_HANDLE;
-		bgfx::IndexBufferHandle m_index_buffer = BGFX_INVALID_HANDLE;
-
-		struct UvBounds { vec2 min; vec2 max; };
-		UvBounds m_uv0_rect = {};
-		UvBounds m_uv1_rect = {};
-
-		vector<uint8_t> m_cached_vertices;
-		vector<uint8_t> m_cached_indices;
-
-		MeshAdapter m_cache;
-
-		void clear();
-		void read(MeshAdapter& writer, const mat4& transform) const;
-		void read(MeshPacker& packer, const mat4& transform) const;
-		void write(DrawMode draw_mode, MeshPacker& packer, bool optimize = false);
-		void upload(DrawMode draw_mode, const GpuMesh& gpu_mesh);
-		void upload_opt(DrawMode draw_mode, const GpuMesh& gpu_mesh);
-		void cache(const GpuMesh& gpu_mesh);
-		
-		uint64_t submit(bgfx::Encoder& encoder) const;
-	};
-}
-
-#include <bgfx/bgfx.h>
-
-namespace mud
-{
 	struct Particle
 	{
 		vec3 start;
@@ -1651,8 +1372,6 @@ namespace mud
 		//float m_angle;
 
 		static void init();
-
-		static bgfx::VertexDecl ms_decl;
 	};
 
 	export_ struct refl_ MUD_GFX_EXPORT Particles : public ParticleFlow
@@ -1718,7 +1437,7 @@ namespace mud
 		virtual void begin_render(Render& render) override;
 		virtual void begin_pass(Render& render) override;
 
-		SpriteAtlas m_sprites;
+		unique<SpriteAtlas> m_sprites;
 		bgfx::TextureHandle m_texture;
 
 		bgfx::UniformHandle s_color;
@@ -2153,6 +1872,93 @@ namespace mud
 
 #ifndef MUD_MODULES
 #endif
+
+
+#ifndef MUD_MODULES
+#include <stl/vector.h>
+#include <stl/string.h>
+#endif
+
+#include <bgfx/bgfx.h>
+
+namespace mud
+{
+	export_ struct MUD_GFX_EXPORT GpuMesh
+	{
+		GpuMesh() {}
+		GpuMesh(uint32_t vertex_count, uint32_t index_count)
+			: m_vertex_count(vertex_count), m_index_count(index_count)
+		{}
+
+		uint32_t m_vertex_format = 0;
+		
+		uint32_t m_vertex_count = 0;
+		uint32_t m_index_count = 0;
+		bool m_index32 = false;
+
+		const bgfx::Memory* m_vertex_memory = nullptr;
+		const bgfx::Memory* m_index_memory = nullptr;
+
+		void* m_vertices = nullptr;
+		void* m_indices = nullptr;
+
+		MeshAdapter m_writer = {};
+	};
+	
+	export_ MUD_GFX_EXPORT const bgfx::VertexDecl& vertex_decl(uint32_t vertex_format);
+
+	export_ MUD_GFX_EXPORT GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32);
+	export_ MUD_GFX_EXPORT GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count);
+
+	export_ class refl_ MUD_GFX_EXPORT Mesh
+	{
+	public:
+		Mesh(const string& name, bool readback = false);
+		~Mesh();
+
+		Mesh(Mesh&& other) = default;
+		Mesh& operator=(Mesh&& other) = default;
+
+		attr_ string m_name;
+		attr_ uint16_t m_index;
+		attr_ DrawMode m_draw_mode = PLAIN;
+		attr_ Aabb m_aabb = {};
+		attr_ float m_radius = 0.f;
+		attr_ vec3 m_origin = Zero3;
+		attr_ bool m_readback = false;
+
+		attr_ uint32_t m_vertex_format = 0;
+		attr_ bool m_qnormals = false;
+
+		attr_ uint32_t m_vertex_count = 0;
+		attr_ uint32_t m_index_count = 0;
+		attr_ bool m_index32 = false;
+
+		attr_ Material* m_material = nullptr;
+
+		bgfx::VertexBufferHandle m_vertex_buffer = BGFX_INVALID_HANDLE;
+		bgfx::IndexBufferHandle m_index_buffer = BGFX_INVALID_HANDLE;
+
+		struct UvBounds { vec2 min; vec2 max; };
+		UvBounds m_uv0_rect = {};
+		UvBounds m_uv1_rect = {};
+
+		vector<uint8_t> m_cached_vertices;
+		vector<uint8_t> m_cached_indices;
+
+		MeshAdapter m_cache;
+
+		void clear();
+		void read(MeshAdapter& writer, const mat4& transform) const;
+		void read(MeshPacker& packer, const mat4& transform) const;
+		void write(DrawMode draw_mode, MeshPacker& packer, bool optimize = false);
+		void upload(DrawMode draw_mode, const GpuMesh& gpu_mesh);
+		void upload_opt(DrawMode draw_mode, const GpuMesh& gpu_mesh);
+		void cache(const GpuMesh& gpu_mesh);
+		
+		uint64_t submit(bgfx::Encoder& encoder) const;
+	};
+}
 
 namespace mud
 {
@@ -2620,7 +2426,10 @@ namespace mud
 #if defined MUD_UNIFORM_BLOCKS
 #endif
 
-#include <bgfx/bgfx.h>
+namespace bgfx
+{
+	struct Encoder;
+}
 
 namespace mud
 {
@@ -2669,26 +2478,6 @@ namespace mud
 		using Lights = std::bitset<CONFIG_MAX_LIGHT_COUNT>;
 #endif
 		Lights lights;
-	};
-
-	export_ struct FroxelUniform
-	{
-		void createUniforms()
-		{
-			s_light_records		= bgfx::createUniform("s_light_records",	bgfx::UniformType::Int1);
-			s_light_clusters	= bgfx::createUniform("s_light_clusters",	bgfx::UniformType::Int1);
-
-			u_froxel_params = bgfx::createUniform("u_froxel_params",	bgfx::UniformType::Vec4);
-			u_froxel_f		= bgfx::createUniform("u_froxel_f",			bgfx::UniformType::Vec4);
-			u_froxel_z		= bgfx::createUniform("u_froxel_z",			bgfx::UniformType::Vec4);
-		}
-
-		bgfx::UniformHandle s_light_records;
-		bgfx::UniformHandle s_light_clusters;
-
-		bgfx::UniformHandle u_froxel_params;
-		bgfx::UniformHandle u_froxel_f;
-		bgfx::UniformHandle u_froxel_z;
 	};
 
 	class MUD_GFX_EXPORT Froxelizer
@@ -2766,8 +2555,6 @@ namespace mud
 			VIEWPORT_CHANGED = 0x01,
 			PROJECTION_CHANGED = 0x02
 		};
-
-		FroxelUniform m_uniform;
 	};
 
 }
@@ -2874,6 +2661,142 @@ namespace gfx
 	export_ MUD_GFX_EXPORT Material& pbr_material(GfxSystem& gfx, cstring name, const PbrMaterialBlock& pbr_block);
 	export_ MUD_GFX_EXPORT Material& pbr_material(GfxSystem& gfx, cstring name, const Colour& albedo, float metallic = 0.f, float roughness = 1.f);
 }
+}
+
+
+#ifndef MUD_MODULES
+#include <stl/vector.h>
+#include <stl/string.h>
+#endif
+#ifndef MUD_BGFX_EXPORT
+#define MUD_BGFX_EXPORT MUD_GFX_EXPORT
+#endif
+
+namespace bx
+{
+	struct FileReaderI;
+	struct FileWriterI;
+}
+
+namespace bgfx
+{
+	struct Encoder;
+}
+
+namespace mud
+{
+	class Vg;
+
+	export_ class refl_ MUD_GFX_EXPORT GfxContext : public BgfxContext
+	{
+	public:
+		GfxContext(GfxSystem& gfx_system, const string& name, int width, int height, bool fullScreen, bool init);
+		~GfxContext();
+
+		virtual void reset(uint16_t width, uint16_t height) override;
+
+		GfxSystem& m_gfx_system;
+
+		object<RenderTarget> m_target;
+
+		uint16_t m_vg_handle = UINT16_MAX;
+		using ResetVg = uint16_t(*)(GfxContext&, Vg&); ResetVg m_reset_vg;
+
+		vector<Viewport*> m_viewports;
+	};
+
+	template <class T_Asset>
+	class TPool;
+
+	template <class T_Asset>
+	class AssetStore;
+
+	export_ struct LocatedFile
+	{
+		LocatedFile() {}
+		LocatedFile(string location, string name, string extension, size_t extension_index)
+			: m_located(true), m_location(location), m_name(name), m_extension(extension), m_extension_index(extension_index)
+		{}
+		bool m_located = false;
+		string m_location;
+		string m_name;
+		string m_extension;
+		size_t m_extension_index = 0;
+		string path(bool ext) { return m_location + "/" + m_name + (ext ? m_extension : ""); }
+		explicit operator bool() { return m_located; }
+	};
+
+	export_ class refl_ MUD_GFX_EXPORT GfxSystem : public BgfxSystem
+	{
+	public:
+		constr_ GfxSystem(const string& resource_path);
+		~GfxSystem();
+
+		JobSystem* m_job_system = nullptr;
+		Vg* m_vg = nullptr;
+
+		bgfx::Encoder* m_encoders[8] = {};
+		size_t m_num_encoders = 0;
+
+		virtual void begin_frame() final;
+		virtual bool next_frame() final;
+
+		virtual object<Context> create_context(const string& name, int width, int height, bool full_screen) final;
+
+		void init(GfxContext& context);
+
+		using PipelineDecl = void(*)(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred);
+		void init_pipeline(PipelineDecl pipeline);
+
+		meth_ void default_pipeline();
+
+		meth_ void add_resource_path(const string& path, bool relative = true);
+
+		void set_renderer(Shading shading, Renderer& renderer);
+		Renderer& renderer(Shading shading);
+
+		void render(Renderer& renderer, GfxContext& context, Viewport& viewport, RenderFrame& frame);
+		RenderFrame render_frame();
+
+		GfxContext& context(size_t index = 0);
+
+		bx::FileReaderI& file_reader();
+		bx::FileWriterI& file_writer();
+
+		LocatedFile locate_file(const string& file);
+		LocatedFile locate_file(const string& file, array<string> extensions);
+
+		TPool<Mesh>& meshes();
+		TPool<Rig>& rigs();
+		TPool<Animation>& animations();
+
+		attr_ AssetStore<Texture>& textures();
+		attr_ AssetStore<Program>& programs();
+		attr_ AssetStore<Material>& materials();
+		attr_ AssetStore<Model>& models();
+		attr_ AssetStore<ParticleFlow>& particles();
+		attr_ AssetStore<Prefab>& prefabs();
+
+		void add_importer(ModelFormat format, Importer& importer);
+		Importer* importer(ModelFormat format);
+
+		Texture& default_texture(TextureHint hint);
+
+		meth_ Material& debug_material();
+		meth_ Material& fetch_material(const string& name, const string& shader, bool builtin = true);
+		meth_ Material& fetch_image256_material(const Image256& image);
+
+		meth_ Model& fetch_symbol(const Symbol& symbol, const Shape& shape, DrawMode draw_mode);
+		meth_ Material& fetch_symbol_material(const Symbol& symbol, DrawMode draw_mode);
+
+		void create_debug_materials();
+
+	public:
+		struct Impl;
+		unique<Impl> m_impl;
+
+		unique<Pipeline> m_pipeline;
+	};
 }
 
 
@@ -3095,11 +3018,12 @@ namespace mud
 
 #ifndef MUD_MODULES
 #include <stl/vector.h>
+#include <stl/function.h>
 #endif
 
 namespace mud
 {
-	using PassJob = void(*)(Render&, const Pass&);
+	using PassJob = function<void(Render&, const Pass&)>;
 
 	export_ MUD_GFX_EXPORT void pipeline_minimal(GfxSystem& gfx_system, Pipeline& pipeline, bool deferred);
 
@@ -3430,7 +3354,7 @@ namespace mud
 #ifndef MUD_CPP_20
 #include <stl/string.h>
 #include <stl/vector.h>
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 
@@ -3794,7 +3718,7 @@ namespace mud
 #include <stl/unordered_map.h>
 #include <stl/unordered_set.h>
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	export_ extern template class vector<Texture*>;
@@ -3872,3 +3796,4 @@ namespace tinystl
 	export_ extern template class vector<bgfx::InstanceDataBuffer>;
 	export_ extern template class unordered_map<uint, bgfx::VertexDecl>;
 }
+

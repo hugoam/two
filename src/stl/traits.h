@@ -104,13 +104,16 @@ namespace stl
 	constexpr bool is_same<T1, T1> = true;
 
 	template <class, class T, class... Args>
-	constexpr bool is_constructible = false;
+	constexpr bool is_constructible_impl = false;
 
 	template <class T, class... Args>
-	constexpr bool is_constructible<void_t<decltype(T(declval<Args>()...))>, T, Args...> = true;
+	constexpr bool is_constructible_impl<void_t<decltype(T(std::declval<Args>()...))>, T, Args...> = true;
+
+	template <class T, class... Args>
+	constexpr bool is_constructible = is_constructible_impl<void_t<>, T, Args...>;
 
 	template <class T>
-	constexpr bool is_copy_constructible = is_constructible<T, add_lvalue_reference<add_const<T>>>;
+	constexpr bool is_copy_constructible = is_constructible<T, add_lvalue_reference<const T>>;
 	
 	template <class T>
 	constexpr bool is_default_constructible = is_constructible<T>;

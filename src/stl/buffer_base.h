@@ -201,7 +201,7 @@ namespace stl {
 
 	template <class T, class Alloc>
 	static inline enable_if<!is_copy_constructible<T>, void> buffer_resize(buffer<T, Alloc>& b, size_t size, const T& value) {
-		(void)b; (void)size; (void)value;
+		(void)value; buffer_resize(b, size);
 	}
 
 	template <class T, class Alloc>
@@ -281,7 +281,12 @@ namespace stl {
 
 	template <class T, class Alloc>
 	static inline enable_if<!is_copy_constructible<T>, T*> buffer_insert(buffer<T, Alloc>& b, T* where, const T* first, const T* last) {
-		(void)b; (void)where; (void)first; (void)last; return where;
+		(void)first; (void)last;
+		const size_t count = last - first;
+		where = buffer_insert_spread(b, where, count);
+		for (; first != last; ++first, ++where)
+			new(placeholder(), where) T();
+		return where;
 	}
 
 	template <class T, class Alloc>
@@ -317,7 +322,10 @@ namespace stl {
 
 	template <class T, class Alloc>
 	static inline enable_if<!is_copy_constructible<T>, T*> buffer_insert(buffer<T, Alloc>& b, T* where, const T& value) {
-		(void)b; (void)where; (void)value; return where;
+		(void)value;
+		where = buffer_insert_spread(b, where, 1);
+		new(placeholder(), where) T();
+		return where;
 	}
 
 	template <class T, class Alloc>
@@ -372,7 +380,10 @@ namespace stl {
 
 	template <class T, class Alloc>
 	static inline enable_if<!is_copy_constructible<T>> buffer_append(buffer<T, Alloc>& b, const T* value) {
-		(void)b; (void)value;
+		(void)value;
+		buffer_grow_count(b, 1);
+		new(placeholder(), b.last) T();
+		++b.last;
 	}
 
 	template <class T, class Alloc>

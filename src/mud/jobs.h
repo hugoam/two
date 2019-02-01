@@ -18,8 +18,8 @@ namespace mud
 }
 
 #include <cassert>
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 
 // Size is chosen so that we can store at least std::function<> and a job size is a multiple of a cacheline.
 #define JOB_PADDING (6+8)
@@ -73,7 +73,7 @@ namespace mud
 
 		Job* job(Job* parent = nullptr) { return this->create(parent, nullptr); }
 
-		template <typename T>
+		template <class T>
 		Job* job(Job* parent, T functor);
 
 		struct ThreadState;
@@ -113,7 +113,7 @@ namespace mud
 #ifndef MUD_CPP_20
 #include <stl/string.h>
 #include <stl/vector.h>
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 
@@ -129,7 +129,7 @@ namespace mud
 #include <stl/vector.h>
 #include <stl/unordered_map.h>
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	//export_ extern template class vector<JobSystem::ThreadState>;
@@ -138,6 +138,7 @@ namespace tinystl
 #include <stl/move.h>
 
 #include <atomic>
+#include <new>
 
 namespace mud
 {
@@ -153,7 +154,7 @@ namespace mud
 		JobStorage storage; // on 64-bits systems, there is an extra 32-bits lost here
 	};
 
-	template <typename T>
+	template <class T>
 	Job* JobSystem::job(Job* parent, T functor)
 	{
 		static_assert(sizeof(functor) <= sizeof(JobStorage), "functor too large");
@@ -175,7 +176,7 @@ namespace mud
 {
 	namespace details
 	{
-		template <typename Splitter, typename Functor>
+		template <class Splitter, class Functor>
 		struct ParallelJob
 		{
 			using Jobs = ParallelJob;
@@ -251,7 +252,7 @@ namespace mud
 
 	}
 
-	template <typename S, typename F>
+	template <class S, class F>
 	Job* split_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor, const S& splitter)
 	{
 		using Jobs = details::ParallelJob<S, F>;
@@ -259,7 +260,7 @@ namespace mud
 		return js.job(parent, jobs);
 	}
 
-	template <typename T, typename S, typename F>
+	template <class T, class S, class F>
 	Job* split_jobs(JobSystem& js, Job* parent, T* data, uint32_t count, F functor, const S& splitter)
 	{
 		auto user = [data, f = move(functor)](JobSystem& js, Job* job, uint32_t start, uint32_t count)
@@ -272,7 +273,7 @@ namespace mud
 		return js.job(parent, jobs);
 	}
 
-	template <typename T, typename S, typename F>
+	template <class T, class S, class F>
 	Job* split_jobs(JobSystem& js, Job* parent, array<T> slice, F functor, const S& splitter)
 	{
 		return split_jobs(js, parent, slice.data(), slice.size(), functor, splitter);
@@ -285,19 +286,19 @@ namespace mud
 		bool split(uint32_t splits, uint32_t count) const { return (splits < MaxSplits && count >= Count * 2); }
 	};
 
-	template <uint32_t Count, typename F>
+	template <uint32_t Count, class F>
 	Job* split_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor)
 	{
 		return split_jobs(js, parent, start, count, functor, CountSplitter<Count>());
 	}
 
-	template <uint32_t Count, typename T, typename F>
+	template <uint32_t Count, class T, class F>
 	Job* split_jobs(JobSystem& js, Job* parent, array<T> slice, F functor)
 	{
 		return split_jobs(js, parent, slice.data(), slice.size(), functor, CountSplitter<Count>());
 	}
 
-	template <uint32_t Count, typename F>
+	template <uint32_t Count, class F>
 	Job* parallel_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor)
 	{
 		auto user = [f = move(functor)](JobSystem& js, Job* job, uint32_t start, uint32_t count)
@@ -342,12 +343,12 @@ namespace mud
 
 #include <atomic>
 
-#include <cstddef>
+#include <stl/stddef.h>
 #include <cassert>
 
 namespace mud
 {
-	template <typename T, size_t Count>
+	template <class T, size_t Count>
 	class StealQueue
 	{
 		static_assert(!(Count & (Count - 1)), "Count must be a power of two");
@@ -384,7 +385,7 @@ namespace mud
 	};
 
 
-	template <typename T, size_t Count>
+	template <class T, size_t Count>
 	void StealQueue<T, Count>::push(T item)
 	{
 		int32_t bottom = m_bottom.load(std::memory_order_relaxed);
@@ -392,7 +393,7 @@ namespace mud
 		m_bottom.store(bottom + 1, std::memory_order_release);
 	}
 
-	template <typename T, size_t Count>
+	template <class T, size_t Count>
 	T StealQueue<T, Count>::pop()
 	{
 		int32_t bottom = m_bottom.fetch_sub(1, std::memory_order_relaxed) - 1;
@@ -422,7 +423,7 @@ namespace mud
 		return item;
 	}
 
-	template <typename T, size_t Count>
+	template <class T, size_t Count>
 	T StealQueue<T, Count>::steal()
 	{
 		do {

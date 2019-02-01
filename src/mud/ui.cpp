@@ -257,7 +257,7 @@ namespace ui
 
 	Widget& menu_choice(Widget& parent, cstring content)
 	{
-		return menu_choice(parent, { content });
+		return menu_choice(parent, array<cstring>{ content });
 	}
 
 	Widget& menu(Widget& parent, cstring label, bool submenu)
@@ -734,14 +734,14 @@ namespace ui
 #ifdef MUD_MODULES
 module mud.math;
 #else
-#include <stl/tinystl/vector.impl.h>
-#include <stl/tinystl/basic_string.impl.h>
-#include <stl/tinystl/unordered_map.impl.h>
+#include <stl/vector.hpp>
+#include <stl/string.hpp>
+#include <stl/unordered_map.hpp>
 #endif
 
-using namespace mud;
-namespace tinystl
+namespace stl
 {
+	using namespace mud;
 	template class MUD_UI_EXPORT vector<TextGlyph>;
 	template class MUD_UI_EXPORT vector<TextRow>;
 	template class MUD_UI_EXPORT vector<Text::ColorSection>;
@@ -769,9 +769,9 @@ namespace tinystl
 	template class MUD_UI_EXPORT unordered_map<string, Dock>;
 	template class MUD_UI_EXPORT unordered_map<string, Style*>;
 
-	//template class MUD_UI_EXPORT vector<LanguageDefinition::StringToken>;
-	//template class MUD_UI_EXPORT vector<LanguageDefinition::RegexToken>;
-	//template class MUD_UI_EXPORT unordered_map<string, Identifier>;
+	template class MUD_UI_EXPORT vector<LanguageDefinition::StringToken>;
+	template class MUD_UI_EXPORT vector<LanguageDefinition::RegexToken>;
+	template class MUD_UI_EXPORT unordered_map<string, Identifier>;
 }
 
 
@@ -790,9 +790,9 @@ namespace ui
 	template bool slider_input(Widget& parent, AutoStat<float> value);
 
 	template bool number_input(Widget& parent, AutoStat<int> value);
-	template bool number_input(Widget& parent, AutoStat<float> value);
+	//template bool number_input(Widget& parent, AutoStat<float> value);
 
-	template bool input(Widget& parent, bool& value);
+	//template bool input(Widget& parent, bool& value);
 	template bool input(Widget& parent, int& value);
 	template bool input(Widget& parent, float& value);
 	template bool input(Widget& parent, string& value);
@@ -2116,6 +2116,8 @@ module mud.ui;
 #else
 #endif
 
+#include <cstdio>
+
 namespace mud
 {
 	map<string, Style*> UiWindow::s_styles;
@@ -2735,11 +2737,11 @@ module mud.ui;
 #else
 #endif
 
-#include <stl/tinystl/hash_base.impl.h>
+#include <stl/hash_base.hpp>
 
 namespace mud
 {
-	template<class T, size_t N>
+	template <class T, size_t N>
 	constexpr size_t size(T(&)[N]) { return N; }
 
 	vector<uint32_t>& TextEdit::OkaidaPalette()
@@ -3181,7 +3183,6 @@ namespace mud
 #include <cctype>
 #include <locale>
 #include <chrono>
-#include <stl/string.h>
 #include <regex>
 #include <cmath>
 #endif
@@ -3189,6 +3190,7 @@ namespace mud
 #ifdef MUD_MODULES
 module mud.ui;
 #else
+#include <stl/string.h>
 #endif
 
 namespace mud
@@ -6098,6 +6100,8 @@ namespace mud
 module mud.ui;
 #else
 #endif
+
+#include <cstdio>
 
 namespace mud
 {

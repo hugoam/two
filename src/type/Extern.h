@@ -16,6 +16,6 @@ namespace stl
 	export_ extern template class vector<void(*)(Ref, Ref)>;
 	export_ extern template class vector<vector<void(*)(Ref, Ref)>>;
 	export_ extern template class vector<unique<Indexer>>;
-	export_ extern template class unordered_set<string>;
+	//export_ extern template class unordered_set<string>;
 	export_ extern template class unordered_map<string, string>;
 }

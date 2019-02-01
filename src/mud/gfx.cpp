@@ -13,8 +13,6 @@
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
-#include <bx/math.h>
-
 #endif
 
 #include <cstdio>
@@ -229,8 +227,6 @@ namespace mud
 
 
 
-#include <bx/math.h>
-
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
@@ -328,7 +324,6 @@ namespace mud
 }
 
 
-#include <bx/math.h>
 #include <cassert>
 
 #ifdef MUD_MODULES
@@ -534,8 +529,6 @@ module mud.gfx;
 #else
 #endif
 
-#include <bx/math.h>
-
 #ifndef NO_OCCLUSION_CULLING
 #include <MaskedOcclusionCulling.h>
 #endif
@@ -552,7 +545,8 @@ namespace mud
 	{
 		static const mat4 identity = bxidentity();
 
-		const float proj_height = bx::tan(bx::toRad(camera.m_fov) * 0.5f);
+		auto torad = [](float d) { return d * c_pi / 180.0f; };
+		const float proj_height = tan(torad(camera.m_fov) * 0.5f);
 		const float proj_width = proj_height * camera.m_aspect;
 
 		float near = camera.m_near * 2.f;
@@ -981,6 +975,7 @@ namespace mud
 #ifndef MUD_CPP_20
 #include <array>
 #include <map>
+#include <cstring>
 #endif
 
 #ifdef MUD_MODULES
@@ -1117,11 +1112,11 @@ namespace mud
 
 		bgfx::TransientVertexBuffer vertex_buffer;
 		bgfx::allocTransientVertexBuffer(&vertex_buffer, num_vertices, ms_vertex_decl);
-		bx::memCopy(vertex_buffer.data, batch.m_vertices.data(), num_vertices * sizeof(Vertex));//ms_vertex_decl.m_stride);
+		memcpy(vertex_buffer.data, batch.m_vertices.data(), num_vertices * sizeof(Vertex));//ms_vertex_decl.m_stride);
 
 		bgfx::TransientIndexBuffer index_buffer;
 		bgfx::allocTransientIndexBuffer(&index_buffer, num_indices);
-		bx::memCopy(index_buffer.data, batch.m_indices.data(), num_indices * sizeof(uint16_t));
+		memcpy(index_buffer.data, batch.m_indices.data(), num_indices * sizeof(uint16_t));
 
 		m_material.submit(encoder, bgfx_state);
 
@@ -1330,14 +1325,15 @@ namespace mud
 #ifdef MUD_MODULES
 module mud.math;
 #else
-#include <stl/tinystl/vector.impl.h>
-#include <stl/tinystl/unordered_map.impl.h>
-#include <stl/tinystl/unordered_set.impl.h>
+#include <stl/vector.hpp>
+//#include <stl/vectorp.hpp>
+#include <stl/unordered_map.hpp>
+#include <stl/unordered_set.hpp>
 #endif
 
-using namespace mud;
-namespace tinystl
+namespace stl
 {
+	using namespace mud;
 	template class MUD_GFX_EXPORT vector<Texture*>;
 	template class MUD_GFX_EXPORT vector<Material*>;
 	template class MUD_GFX_EXPORT vector<Animation*>;
@@ -1637,7 +1633,6 @@ namespace mud
 
 
 #include <bx/allocator.h>
-#include <bx/math.h>
 
 #ifdef MUD_MODULES
 module mud.gfx;
@@ -1645,8 +1640,8 @@ module mud.gfx;
 #include <stl/swap.h>
 #endif
 
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 #include <cstring>
 #include <cstdio>
 #include <limits>
@@ -1718,12 +1713,34 @@ namespace mud
 		float radius; // radius is not used in the hot loop, so leave it at the end
 	};
 
+	struct FroxelUniform
+	{
+		void createUniforms()
+		{
+			s_light_records = bgfx::createUniform("s_light_records", bgfx::UniformType::Int1);
+			s_light_clusters = bgfx::createUniform("s_light_clusters", bgfx::UniformType::Int1);
+
+			u_froxel_params = bgfx::createUniform("u_froxel_params", bgfx::UniformType::Vec4);
+			u_froxel_f = bgfx::createUniform("u_froxel_f", bgfx::UniformType::Vec4);
+			u_froxel_z = bgfx::createUniform("u_froxel_z", bgfx::UniformType::Vec4);
+		}
+
+		bgfx::UniformHandle s_light_records;
+		bgfx::UniformHandle s_light_clusters;
+
+		bgfx::UniformHandle u_froxel_params;
+		bgfx::UniformHandle u_froxel_f;
+		bgfx::UniformHandle u_froxel_z;
+	};
+
 	struct Froxelizer::Impl
 	{
 		Impl()
 			: m_froxels({ GpuBuffer::ElementType::UINT16, 2 }, FROXEL_BUFFER_WIDTH, FROXEL_BUFFER_HEIGHT)
 			, m_records({ record_type(), 1 }, RECORD_BUFFER_WIDTH, RECORD_BUFFER_HEIGHT)
-		{}
+		{
+			m_uniform.createUniforms();
+		}
 
 		template <class T>
 		struct Buffer
@@ -1739,6 +1756,8 @@ namespace mud
 
 		Buffer<FroxelEntry> m_froxels;			//  32 KiB w/ 8192 froxels
 		Buffer<RecordBufferType> m_records;		//  64 KiB // max 32 KiB  (actual: resolution dependant)
+
+		FroxelUniform m_uniform;
 	};
 
 	void froxelize_light(ClusteredFrustum& frustum, FroxelThreadData& froxelThread, uint32_t bit, const mat4& projection, float near, const LightParams& light, float light_far);
@@ -1748,7 +1767,6 @@ namespace mud
 		, m_impl(construct<Impl>())
 	{
 		UNUSED(RECORD_BUFFER_WIDTH_MASK);
-		m_uniform.createUniforms();
 	}
 
 	Froxelizer::~Froxelizer()
@@ -1901,14 +1919,14 @@ namespace mud
 
 	void Froxelizer::submit(bgfx::Encoder& encoder) const
 	{
-		encoder.setTexture(uint8_t(TextureSampler::LightRecords), m_uniform.s_light_records, m_impl->m_records.m_buffer.m_texture);
-		encoder.setTexture(uint8_t(TextureSampler::Clusters), m_uniform.s_light_clusters, m_impl->m_froxels.m_buffer.m_texture);
+		encoder.setTexture(uint8_t(TextureSampler::LightRecords), m_impl->m_uniform.s_light_records, m_impl->m_records.m_buffer.m_texture);
+		encoder.setTexture(uint8_t(TextureSampler::Clusters), m_impl->m_uniform.s_light_clusters, m_impl->m_froxels.m_buffer.m_texture);
 
 		auto submit = [=](bgfx::Encoder& encoder, vec4 params, vec4 f, vec4 z)
 		{
-			encoder.setUniform(m_uniform.u_froxel_params, &params);
-			encoder.setUniform(m_uniform.u_froxel_f, &f);
-			encoder.setUniform(m_uniform.u_froxel_z, &z);
+			encoder.setUniform(m_impl->m_uniform.u_froxel_params, &params);
+			encoder.setUniform(m_impl->m_uniform.u_froxel_f, &f);
+			encoder.setUniform(m_impl->m_uniform.u_froxel_z, &z);
 		};
 
 		submit(encoder, vec4(m_frustum.m_inv_tile_size, rect_offset(vec4(m_viewport->m_rect))), vec4(vec3(m_params_f), 0.f), m_params_z);
@@ -1921,6 +1939,9 @@ namespace mud
 		froxelize_assign_records_compress(uint32_t(lights.size()));
 	}
 
+	template <class T>
+	inline T sq(T val) { return val * val; }
+
 	void Froxelizer::froxelize_light_group(const Camera& camera, array<Light*> lights, uint32_t offset, uint32_t stride)
 	{
 		const mat4& projection = m_projection;
@@ -1930,7 +1951,7 @@ namespace mud
 			vec3 position = mulp(camera.m_transform, lights[i]->m_node.position());
 			vec3 direction = muln(camera.m_transform, lights[i]->m_node.direction());
 
-			float cos2 = bx::square(cos(to_radians(lights[i]->m_spot_angle)));
+			float cos2 = sq(cos(to_radians(lights[i]->m_spot_angle)));
 			float invsin = 1.f / std::sqrt(1.f - cos2);
 
 			LightParams light = { position, cos2, direction, invsin, lights[i]->m_range };
@@ -2271,15 +2292,13 @@ namespace mud
 }
 
 
-#include <bx/math.h>
-
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
 #endif
 
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 
 #if defined WIN32
 #include <BaseTsd.h>
@@ -2391,7 +2410,9 @@ namespace mud
 
 	Point8 frustum_corners(float fov, float aspect, float near, float far, const mat4& view)
 	{
-		const float proj_height = bx::tan(bx::toRad(fov) * 0.5f);
+		auto torad = [](float d) { return d * c_pi / 180.0f; };
+
+		const float proj_height = tan(torad(fov) * 0.5f);
 		const float proj_width = proj_height * aspect;
 
 		// Frustum corners in view space.
@@ -2504,20 +2525,18 @@ namespace mud
 }
 
 
-#include <bx/math.h>
-
 #ifdef MUD_MODULES
 module mud.gfx;
 #else
 #include <stl/limits.h>
 #include <stl/algorithm.h>
-//#include <stl/type_traits.h>
+#include <stl/traits.h>
 #endif
 
-//#include <type_traits>
+#include <type_traits>
 //#include <limits>
-#include <cstddef>
-#include <cstdint>
+#include <stl/stddef.h>
+#include <stdint.h>
 
 namespace mud
 {
@@ -3374,7 +3393,7 @@ namespace gfx
 			self.m_particles = &create<Particles>(*self.m_scene, self.m_attach, Sphere(1.f), 1024);
 		as<ParticleFlow>(*self.m_particles) = emitter;
 		self.m_particles->m_node = self.m_attach;
-		self.m_particles->m_sprite = &parent.m_scene->m_particle_system->m_block.m_sprites.find_sprite(emitter.m_sprite_name.c_str());
+		self.m_particles->m_sprite = &parent.m_scene->m_particle_system->m_block.m_sprites->find_sprite(emitter.m_sprite_name.c_str());
 		return *self.m_particles;
 	}
 
@@ -3538,7 +3557,6 @@ namespace mud
 module mud.gfx;
 #else
 #include <bgfx/bgfx.h>
-#include <bx/math.h>
 
 #endif
 
@@ -3693,6 +3711,28 @@ namespace mud
 			bgfx_state |= BGFX_STATE_BLEND_ALPHA;
 	}
 
+	struct BaseMaterialUniform
+	{
+		BaseMaterialUniform() {}
+		BaseMaterialUniform(GfxSystem& gfx_system)
+			: u_uv0_scale_offset(bgfx::createUniform("u_material_params_0", bgfx::UniformType::Vec4))
+			, u_uv1_scale_offset(bgfx::createUniform("u_material_params_1", bgfx::UniformType::Vec4))
+			, s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Int1))
+		{
+			UNUSED(gfx_system);
+		}
+
+		void upload(bgfx::Encoder& encoder, const BaseMaterialBlock& data) const
+		{
+			encoder.setUniform(u_uv0_scale_offset, &data.m_uv0_scale.x);
+			//encoder.setUniform(u_uv1_scale_offset, &data.m_uv1_scale.x);
+		}
+
+		bgfx::UniformHandle u_uv0_scale_offset;
+		bgfx::UniformHandle u_uv1_scale_offset;
+		bgfx::UniformHandle s_skeleton;
+	};
+
 	struct UnshadedMaterialUniform
 	{
 		UnshadedMaterialUniform() {}
@@ -3825,6 +3865,16 @@ namespace mud
 		//bgfx::UniformHandle s_lightmap;
 	};
 
+	struct PbrBlock : public GfxBlock
+	{
+		PbrBlock(GfxSystem& gfx_system);
+
+		virtual void init_block() override {}
+
+		virtual void begin_render(Render& render) override { UNUSED(render); }
+		virtual void begin_pass(Render& render) override { UNUSED(render); }
+	};
+
 	PbrBlock::PbrBlock(GfxSystem& gfx_system)
 		: GfxBlock(gfx_system, *this)
 	{
@@ -3842,7 +3892,7 @@ namespace mud
 
 	template <> Type& type<mud::PbrBlock>() { static Type ty("PbrBlock"); return ty; }
 
-	PbrBlock& pbr_block(GfxSystem& gfx_system)
+	GfxBlock& pbr_block(GfxSystem& gfx_system)
 	{
 		static PbrBlock pbr = { gfx_system };
 		return pbr;
@@ -3861,7 +3911,7 @@ namespace mud
 
 	//static uint16_t s_material_index = 0;
 
-	Material::BaseMaterialUniform Material::s_base_uniform = {};
+	static BaseMaterialUniform s_base_material_uniform = {};
 	static UnshadedMaterialUniform s_unshaded_material_block = {};
 	static FresnelMaterialUniform s_fresnel_material_block = {};
 	static PbrMaterialUniform s_pbr_material_block = {};
@@ -3873,7 +3923,7 @@ namespace mud
 		static bool init_blocks = true;
 		if(init_blocks)
 		{
-			s_base_uniform = { *ms_gfx_system };
+			s_base_material_uniform = { *ms_gfx_system };
 			s_unshaded_material_block = { *ms_gfx_system };
 			s_fresnel_material_block = { *ms_gfx_system };
 			s_pbr_material_block = { *ms_gfx_system };
@@ -3884,7 +3934,7 @@ namespace mud
 
 	ShaderVersion Material::shader_version(const Program& program) const
 	{
-		PbrBlock& pbr = pbr_block(*ms_gfx_system);
+		GfxBlock& pbr = pbr_block(*ms_gfx_system);
 
 		ShaderVersion version = { &program };
 
@@ -3945,7 +3995,7 @@ namespace mud
 	{
 		this->state(bgfx_state);
 
-		s_base_uniform.upload(encoder, m_base_block);
+		s_base_material_uniform.upload(encoder, m_base_block);
 		if(m_unshaded_block.m_enabled)
 			s_unshaded_material_block.upload(encoder, m_unshaded_block);
 		if(m_fresnel_block.m_enabled)
@@ -3954,7 +4004,7 @@ namespace mud
 			s_pbr_material_block.upload(encoder, m_pbr_block);
 
 		if(skin)
-			encoder.setTexture(uint8_t(TextureSampler::Skeleton), s_base_uniform.s_skeleton, skin->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Skeleton), s_base_material_uniform.s_skeleton, skin->m_texture);
 	}
 }
 
@@ -4028,6 +4078,29 @@ namespace mud
 		if(decls.find(vertex_format) == decls.end())
 			decls[vertex_format] = create_vertex_decl(vertex_format);
 		return decls[vertex_format];
+	}
+
+	GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32)
+	{
+		GpuMesh gpu_mesh = { vertex_count, index_count };
+
+		gpu_mesh.m_vertex_memory = bgfx::alloc(vertex_size(vertex_format) * vertex_count);
+		gpu_mesh.m_index_memory = index32 ? bgfx::alloc(sizeof(uint32_t) * index_count)
+			: bgfx::alloc(sizeof(uint16_t) * index_count);
+		gpu_mesh.m_index32 = index32;
+
+		gpu_mesh.m_vertices = gpu_mesh.m_vertex_memory->data;
+		gpu_mesh.m_indices = gpu_mesh.m_index_memory->data;
+
+		gpu_mesh.m_vertex_format = vertex_format;
+		gpu_mesh.m_writer = MeshAdapter(vertex_format, gpu_mesh.m_vertices, vertex_count, gpu_mesh.m_indices, index_count, index32);
+
+		return gpu_mesh;
+	}
+
+	GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count)
+	{
+		return alloc_mesh(vertex_format, vertex_count, index_count, vertex_count > UINT16_MAX);
 	}
 
 	static uint16_t s_mesh_index = 0;
@@ -4375,10 +4448,13 @@ namespace mud
 		: m_index(s_node_index++)
 		, m_transform(transform)
 	{}
+
+	vec3 Node3::position() const { return mulp(m_transform, Zero3); }
+	vec3 Node3::axis(const vec3& dir) const { return muln(m_transform, dir); }
+	vec3 Node3::direction() const { return muln(m_transform, -Z3); }
 }
 
 
-#include <bx/math.h>
 #include <bx/allocator.h>
 #include <bimg/bimg.h>
 #include <bgfx/bgfx.h>
@@ -4393,7 +4469,7 @@ module mud.gfx;
 
 namespace mud
 {
-	void ParticleVertex::init()
+	bgfx::VertexDecl particle_vertex_decl()
 	{
 		bgfx::VertexDecl decl;
 
@@ -4403,12 +4479,10 @@ namespace mud
 			decl.add(bgfx::Attrib::TexCoord0, 4, bgfx::AttribType::Float);
 		decl.end();
 
-		ms_decl = decl;
+		return decl;
 
 		//ms_decl = vertex_decl(VertexAttribute::Position | VertexAttribute::Colour | VertexAttribute::TexCoord0);
 	}
-
-	bgfx::VertexDecl ParticleVertex::ms_decl;
 
 	ParticleFlow::ParticleFlow()
 	{}
@@ -4494,8 +4568,8 @@ namespace mud
 	{
 		m_aabb =
 		{
-			{ bx::kInfinity,  bx::kInfinity,  bx::kInfinity },
-			{ -bx::kInfinity, -bx::kInfinity, -bx::kInfinity },
+			vec3(FLT_MAX),
+			vec3(-FLT_MAX),
 		};
 
 		if(m_sprite == nullptr)
@@ -4507,7 +4581,7 @@ namespace mud
 			if(index + 1 >= max)
 				break;
 
-			vec3 gravity = { 0.0f, -9.81f * m_gravity.sample(particle.life) * bx::square(particle.life), 0.0f };
+			vec3 gravity = { 0.0f, -9.81f * m_gravity.sample(particle.life) * sq(particle.life), 0.0f };
 			UNUSED(gravity);
 
 			float advance = particle.life * particle.lifetime * m_speed.sample(particle.life, particle.speed_seed);
@@ -4515,7 +4589,7 @@ namespace mud
 
 			ParticleSort& sort = outSort[index];
 			vec3 tmp = eye - pos;
-			sort.dist = bx::sqrt(dot(tmp, tmp));
+			sort.dist = sqrt(dot(tmp, tmp));
 			sort.idx = index;
 
 			float blend = m_blend.sample(particle.life, particle.blend_seed);
@@ -4599,9 +4673,11 @@ namespace mud
 		if(0 == m_num)
 			return;
 
-		const uint32_t numVertices = min(bgfx::getAvailTransientVertexBuffer(m_num * 4, ParticleVertex::ms_decl), uint32_t(UINT16_MAX));
+		static bgfx::VertexDecl decl = particle_vertex_decl();
+
+		const uint32_t numVertices = min(bgfx::getAvailTransientVertexBuffer(m_num * 4, decl), uint32_t(UINT16_MAX));
 		const uint32_t numIndices = bgfx::getAvailTransientIndexBuffer(m_num * 6);
-		const uint32_t max = bx::uint32_min(numVertices / 4, numIndices / 6);
+		const uint32_t max = min(numVertices / 4, numIndices / 6);
 		BX_WARN(m_num == max, "Truncating transient buffer for particles to maximum available (requested %d, available %d).", m_num, max);
 
 		if(0 < max)
@@ -4609,7 +4685,7 @@ namespace mud
 			bgfx::TransientVertexBuffer vertex_buffer;
 			bgfx::TransientIndexBuffer index_buffer;
 
-			bgfx::allocTransientBuffers(&vertex_buffer, ParticleVertex::ms_decl, max * 4, &index_buffer, max * 6);
+			bgfx::allocTransientBuffers(&vertex_buffer, decl, max * 4, &index_buffer, max * 6);
 
 			vector<ParticleSort> particleSort{ max };
 
@@ -4617,7 +4693,7 @@ namespace mud
 			ParticleVertex* vertices = (ParticleVertex*)vertex_buffer.data;
 
 			for(Particles* emitter : m_emitters.m_vec_pool->m_objects)
-				pos += emitter->render(m_block.m_sprites, view, eye, pos, max, particleSort.data(), vertices);
+				pos += emitter->render(*m_block.m_sprites, view, eye, pos, max, particleSort.data(), vertices);
 
 			qsort(particleSort.data(), max, sizeof(ParticleSort), particleSortFn);
 
@@ -4644,7 +4720,7 @@ namespace mud
 
 	BlockParticles::BlockParticles(GfxSystem& gfx_system)
 		: GfxBlock(gfx_system, type<BlockParticles>())
-		, m_sprites(uvec2(SPRITE_TEXTURE_SIZE))
+		, m_sprites(construct<SpriteAtlas>(uvec2(SPRITE_TEXTURE_SIZE)))
 	{}
 
 	BlockParticles::~BlockParticles()
@@ -4680,7 +4756,7 @@ namespace mud
 	Sprite* BlockParticles::create_sprite(cstring name, cstring pathname, uvec2 frames)
 	{
 		LocatedFile location = m_gfx_system.locate_file("textures/particles/" + string(pathname));
-		bimg::ImageContainer* image = load_bgfx_image(m_gfx_system.m_allocator, m_gfx_system.file_reader(), location.path(true).c_str(), bgfx::TextureFormat::BGRA8);
+		bimg::ImageContainer* image = load_bgfx_image(m_gfx_system.allocator(), m_gfx_system.file_reader(), location.path(true).c_str(), bgfx::TextureFormat::BGRA8);
 		Sprite* sprite = this->create_sprite(name, uvec2(image->m_width, image->m_height), frames, image->m_data);
 		bimg::imageFree(image);
 		return sprite;
@@ -4688,7 +4764,7 @@ namespace mud
 
 	Sprite* BlockParticles::create_sprite(cstring name, uvec2 size, uvec2 frames, const void* data)
 	{
-		Sprite* sprite = m_sprites.add_sprite(name, size, frames);
+		Sprite* sprite = m_sprites->add_sprite(name, size, frames);
 		if(sprite)
 		{
 			bgfx::updateTexture2D(m_texture, 0, 0, uint16_t(sprite->d_coord.x), uint16_t(sprite->d_coord.y),
@@ -4726,6 +4802,7 @@ module mud.gfx;
 #include <stl/map.h>
 #endif
 
+#include <bx/bx.h>
 #include <bgfx/bgfx.h>
 
 namespace mud
@@ -5089,7 +5166,7 @@ namespace mud
 		Gnode& item = gfx::node(self, Ref(this), m_transform.m_position, m_transform.m_rotation, m_transform.m_scale);
 
 		if(m_call.m_callable)
-			m_call.m_arguments[0] = Ref(&item);
+			m_call.m_args[0] = Ref(&item);
 		if(m_call.validate())
 			m_call();
 		//else
@@ -5369,7 +5446,7 @@ namespace mud
 		, m_impl(make_unique<Impl>())
 	{
 		m_impl->m_name = name;
-		PbrBlock& pbr = pbr_block(*ms_gfx_system);
+		GfxBlock& pbr = pbr_block(*ms_gfx_system);
 
 		static cstring options[7] = { "SKELETON", "INSTANCING", "BILLBOARD", "QNORMALS", "MRT", "DEFERRED", "CLUSTERED" };
 		this->register_options(0, { options, 7 });
@@ -5883,7 +5960,6 @@ namespace mud
 }
 
 
-#include <bx/math.h>
 #include <bgfx/bgfx.h>
 
 #ifdef MUD_MODULES
@@ -6136,7 +6212,8 @@ namespace mud
 			for(Item* item : render.m_shot->m_items)
 			{
 				Colour colour = { 1.f, 0.f, 1.f, 0.15f };
-				m_immediate->shape(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
+				Cube cube = Cube(item->m_aabb);
+				m_immediate->shape(identity, { Symbol::wire(colour, true), &cube, OUTLINE });
 				//m_immediate->draw(item->m_node->m_transform, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
 			}
 	}
@@ -6236,8 +6313,6 @@ namespace mud
 module mud.gfx;
 #else
 #endif
-
-#include <bx/math.h>
 
 #define SKELETON_TEXTURE_SIZE 256
 
@@ -6580,7 +6655,7 @@ namespace mud
 
 	void save_texture(GfxSystem& gfx_system, Texture& texture, const string& path)
 	{
-		save_bgfx_texture(gfx_system.m_allocator, gfx_system.file_writer(), path.c_str(), texture.m_format, texture.m_texture, texture.m_format, texture.m_width, texture.m_height);
+		save_bgfx_texture(gfx_system.allocator(), gfx_system.file_writer(), path.c_str(), texture.m_format, texture.m_texture, texture.m_format, texture.m_width, texture.m_height);
 	}
 
 	void set_texture_info(Texture& texture, bgfx::TextureInfo& texture_info)
@@ -6594,7 +6669,7 @@ namespace mud
 	void load_texture(GfxSystem& gfx_system, Texture& texture, const string& path)
 	{
 		bgfx::TextureInfo texture_info;
-		texture.m_texture = load_bgfx_texture(gfx_system.m_allocator, gfx_system.file_reader(), path.c_str(), 0U, &texture_info, true);
+		texture.m_texture = load_bgfx_texture(gfx_system.allocator(), gfx_system.file_reader(), path.c_str(), 0U, &texture_info, true);
 		// if(!bgfx::isValid(texture.m_texture)) set placeholder "missing texture" texture instead
 		set_texture_info(texture, texture_info);
 	}
@@ -6602,7 +6677,7 @@ namespace mud
 	void load_texture_mem(GfxSystem& gfx_system, Texture& texture, array<uint8_t> data)
 	{
 		bgfx::TextureInfo texture_info;
-		texture.m_texture = load_bgfx_texture(gfx_system.m_allocator, texture.m_name.c_str(), (void*)data.m_pointer, data.m_count, 0U, &texture_info, true);
+		texture.m_texture = load_bgfx_texture(gfx_system.allocator(), texture.m_name.c_str(), (void*)data.m_pointer, data.m_count, 0U, &texture_info, true);
 		// if(!bgfx::isValid(texture.m_texture)) set placeholder "missing texture" texture instead
 		set_texture_info(texture, texture_info);
 	}
@@ -6799,7 +6874,6 @@ namespace mud
 module mud.gfx;
 #else
 #include <bgfx/bgfx.h>
-#include <bx/math.h>
 
 #endif
 

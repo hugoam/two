@@ -57,13 +57,12 @@ namespace mud
 #ifdef MUD_MODULES
 module mud.ecs;
 #else
-#include <stl/tinystl/vector.impl.h>
-#include <stl/tinystl/unordered_map.impl.h>
+#include <stl/vector.hpp>
 #endif
 
-using namespace mud;
-namespace tinystl
+namespace stl
 {
+	using namespace mud;
 	template class MUD_ECS_EXPORT vector<Buffer*>;
 	template class MUD_ECS_EXPORT vector<EntityData>;
 	template class MUD_ECS_EXPORT vector<EntityStream>;

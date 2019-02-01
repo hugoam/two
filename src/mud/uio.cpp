@@ -54,13 +54,13 @@ namespace mud
 #ifdef MUD_MODULES
 module mud.uio;
 #else
-#include <stl/tinystl/vector.impl.h>
-#include <stl/tinystl/unordered_map.impl.h>
+#include <stl/vector.hpp>
+#include <stl/unordered_map.hpp>
 #endif
 
-using namespace mud;
-namespace tinystl
+namespace stl
 {
+	using namespace mud;
 	template class MUD_UIO_EXPORT vector<EditSpec>;
 	template class MUD_UIO_EXPORT unordered_map<Module*, bool>;
 }
@@ -578,7 +578,7 @@ namespace mud
 
 		if(ui::button(self, "Create").activated())
 		{
-			if(false)//injector.m_constructor.validate(injector.m_arguments, 1))
+			if(false)//injector.m_constructor.validate(injector.m_args, 1))
 			{
 				injector.injectpool();
 				return true;
@@ -969,12 +969,12 @@ namespace mud
 		{
 			const Param& param = call.m_callable->m_params[i];
 			bool link = is_object(type(param.default_val())) || param.nullable();
-			field_edit(parent, param.m_name, call.m_arguments[i].m_ref, link);
+			field_edit(parent, param.m_name, call.m_args[i].m_ref, link);
 		}
 
-		/*uint16_t offset = call.m_arguments.size() - call.m_callable->m_params.size();
+		/*uint16_t offset = call.m_args.size() - call.m_callable->m_params.size();
 		for(Param& param : call.m_callable->m_params)
-			field_edit(parent, param.m_name, call.m_arguments[param.m_index + offset], param.nullable());*/
+			field_edit(parent, param.m_name, call.m_args[param.m_index + offset], param.nullable());*/
 		return false;
 	}
 

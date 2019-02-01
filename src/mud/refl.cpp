@@ -16,37 +16,43 @@ namespace mud
 	Call::Call()
 	{}
 
-	Call::Call(const Callable& callable, vector<Var> arguments)
+	Call::Call(const Callable& callable, vector<Var> args)
 		: m_callable(&callable)
-		, m_arguments(arguments)
+		, m_args(args)
 		, m_result(meta(*callable.m_return_type.m_type).m_empty_var)
 	{}
 
 	Call::Call(const Callable& callable)
-		: Call(callable, vector<Var>{})//, callable.m_arguments)
+		: Call(callable, vector<Var>{})//, callable.m_args)
 	{}
 
 	Call::Call(const Callable& callable, Ref object)
 		: Call(callable)
 	{
-		m_arguments[0] =  object;
+		m_args[0] =  object;
 	}
 
-	//bool Call::validate() { return m_callable && m_callable->validate(to_array(m_arguments)); }
+	void Call::prepare()
+	{
+		for (size_t i = 0; i < m_args.size(); ++i)
+			m_vargs[i] = m_args[i].m_ref.m_value;
+	}
 
-	//const Var& Call::operator()() { (*m_callable)(to_array(m_arguments), m_result); return m_result; }
-	//const Var& Call::operator()(Ref object) { m_arguments[0] = object; (*m_callable)(to_array(m_arguments), m_result); return m_result; }
+	bool Call::validate() { return m_callable && m_callable->validate(to_array(m_args)); }
+
+	const Var& Call::operator()() { (*m_callable)(to_array(m_vargs), m_result.m_ref.m_value); return m_result; }
+	const Var& Call::operator()(Ref object) { m_args[0] = object; (*m_callable)(to_array(m_vargs), m_result.m_ref.m_value); return m_result; }
 }
 
 #ifdef MUD_MODULES
 module mud.refl;
 #else
-#include <stl/tinystl/vector.impl.h>
+#include <stl/vector.hpp>
 #endif
 
-using namespace mud;
-namespace tinystl
+namespace stl
 {
+	using namespace mud;
 	template class MUD_TYPE_EXPORT vector<Namespace>;
 	template class MUD_TYPE_EXPORT vector<Param>;
 	template class MUD_TYPE_EXPORT vector<Function>;
@@ -111,13 +117,13 @@ namespace mud
 
 	void Injector::inject(Var& value)
 	{
-		//m_constructor(value, to_array(m_arguments, 1));
+		//m_constructor(value, to_array(m_args, 1));
 	}
 
 	Ref Injector::inject(Pool& pool)
 	{
 		Ref ref = pool.alloc();
-		//m_constructor.m_call(ref, to_array(m_arguments, 1));
+		//m_constructor.m_call(ref, to_array(m_args, 1));
 		return ref;
 	}
 
@@ -330,7 +336,6 @@ namespace mud
 				 array<Member> members, array<Method> methods, array<Static> static_members)
 		: m_type(&type)
 		, m_meta(&meta(type))
-		, m_root(&type)
 		, m_bases(bases)
 		, m_bases_offsets(bases_offsets)
 		, m_constructors(constructors)
@@ -338,6 +343,7 @@ namespace mud
 		, m_members(members)
 		, m_methods(methods)
 		, m_static_members(static_members)
+		, m_root(&type)
 	{
 		g_class[type.m_id] = this;
 	}
@@ -701,8 +707,8 @@ namespace mud
 	Callable::Callable(cstring name, const vector<Param>& params, QualType return_type)
 		: m_index(++s_callable_index)
 		, m_name(name)
-		, m_return_type(return_type)
 		, m_params(params)
+		, m_return_type(return_type)
 		, m_num_defaults(0)
 	{
 		this->setup();
@@ -713,7 +719,7 @@ namespace mud
 		//for(size_t i = 0; i < m_params.size(); ++i)
 		//{
 		//	m_params[i].m_index = i;
-		//	m_arguments.push_back({ m_params[i].m_value });
+		//	m_args.push_back({ m_params[i].m_value });
 		//
 		//	if(m_num_defaults == 0 && m_params[i].defaulted())
 		//		m_num_defaults = m_params.size() - i;
@@ -722,20 +728,29 @@ namespace mud
 		//m_num_required = m_params.size() - m_num_defaults;
 	}
 
-	bool Callable::validate(array<void*> args, size_t offset) const
+	bool Callable::validate(array<Var> args, size_t offset) const
 	{
-		UNUSED(args); UNUSED(offset);
-		//if(args.m_count < m_arguments.size() - m_num_defaults)
-		//	return false;
-		//
-		//bool valid = true;
-		//for(size_t i = offset; i < m_params.size(); ++i)
-		//{
-		//	valid &= type(m_params[i].m_value).is(type(args[i]));
-		//	valid &= m_params[i].nullable() || !args[i].null();
-		//}
-		//return valid;
-		return true;
+		if (args.m_count < m_params.size() - m_num_defaults)
+			return false;
+
+		bool valid = true;
+		for (size_t i = offset; i < m_params.size(); ++i)
+		{
+			valid &= m_params[i].m_type->is(type(args[i]));
+			valid &= m_params[i].nullable() || !args[i].null();
+		}
+		return valid;
+	}
+
+	void Callable::operator()(array<void*> args) const
+	{
+		void* none;
+		return (*this)(args, none);
+	}
+
+	void Callable::operator()(array<void*> args, void*& result) const
+	{
+		UNUSED(args); UNUSED(result);
 	}
 
 	Function::Function(Namespace* location, cstring name, FunctionPointer identity, FunctionFunc trigger, const vector<Param>& params, QualType return_type)

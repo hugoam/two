@@ -34,19 +34,6 @@ namespace mud
     class DispatchInput;
 }
 
-
-#ifndef MUD_MODULES
-#endif
-
-namespace mud
-{
-	export_ class MUD_UIO_EXPORT DispatchItem : public Dispatch<Widget&, Widget&>, public LazyGlobal<DispatchItem>
-	{
-	public:
-		DispatchItem();
-	};
-}
-
 namespace mud
 {
 #if 0
@@ -92,7 +79,7 @@ namespace mud
 #ifndef MUD_CPP_20
 #include <stl/string.h>
 #include <stl/vector.h>
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 
@@ -384,9 +371,22 @@ namespace mud
 #include <stl/vector.h>
 #include <stl/unordered_map.h>
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	export_ extern template class vector<EditSpec>;
 	export_ extern template class unordered_map<Module*, bool>;
+}
+
+
+#ifndef MUD_MODULES
+#endif
+
+namespace mud
+{
+	export_ class MUD_UIO_EXPORT DispatchItem : public Dispatch<Widget&, Widget&>, public LazyGlobal<DispatchItem>
+	{
+	public:
+		DispatchItem();
+	};
 }

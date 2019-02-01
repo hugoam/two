@@ -271,13 +271,13 @@ namespace mud
 #ifdef MUD_MODULES
 module mud.math;
 #else
-#include <stl/tinystl/vector.impl.h>
-#include <stl/tinystl/unordered_map.impl.h>
+#include <stl/vector.hpp>
+#include <stl/unordered_map.hpp>
 #endif
 
-using namespace mud;
-namespace tinystl
+namespace stl
 {
+	using namespace mud;
 	template class MUD_MATH_EXPORT vector<const char*>;
 	template class MUD_MATH_EXPORT vector<char>;
 	template class MUD_MATH_EXPORT vector<uchar>;
@@ -643,14 +643,21 @@ module mud.math;
 
 namespace mud
 {
-	Lerp::Lerp()
+	class Lerp : public Dispatch<void, Ref, Ref, float>, public LazyGlobal<Lerp>
 	{
-		dispatch_branch<int>(*this, +[](int& value, Ref source, Ref dest, float ratio) { value = lerp(val<int>(source), val<int>(dest), ratio); });
-		dispatch_branch<float>(*this, +[](float& value, Ref source, Ref dest, float ratio) { value = lerp(val<float>(source), val<float>(dest), ratio); });
-		dispatch_branch<double>(*this, +[](double& value, Ref source, Ref dest, float ratio) { value = lerp(val<double>(source), val<double>(dest), ratio); });
-		dispatch_branch<vec3>(*this, +[](vec3& value, Ref source, Ref dest, float ratio) { value = lerp(val<vec3>(source), val<vec3>(dest), ratio); });
-		dispatch_branch<quat>(*this, +[](quat& value, Ref source, Ref dest, float ratio) { value = slerp(val<quat>(source), val<quat>(dest), ratio); });
-	}
+	public:
+		Lerp()
+		{
+			dispatch_branch<int>(*this, +[](int& value, Ref source, Ref dest, float ratio) { value = lerp(val<int>(source), val<int>(dest), ratio); });
+			dispatch_branch<float>(*this, +[](float& value, Ref source, Ref dest, float ratio) { value = lerp(val<float>(source), val<float>(dest), ratio); });
+			dispatch_branch<double>(*this, +[](double& value, Ref source, Ref dest, float ratio) { value = lerp(val<double>(source), val<double>(dest), ratio); });
+			dispatch_branch<vec3>(*this, +[](vec3& value, Ref source, Ref dest, float ratio) { value = lerp(val<vec3>(source), val<vec3>(dest), ratio); });
+			dispatch_branch<quat>(*this, +[](quat& value, Ref source, Ref dest, float ratio) { value = slerp(val<quat>(source), val<quat>(dest), ratio); });
+		}
+	};
+
+	void interpolate(Ref result, Ref a, Ref b, float t) { Lerp::me().dispatch(result, a, b, t); }
+	//Var interpolate(Ref a, Ref b, float t) { Var result = meta(a).m_empty_var; Lerp::me().dispatch(result.m_ref, a, b, t); return result; }
 }
 
 
@@ -1134,54 +1141,6 @@ namespace mud
     template <> MUD_MATH_EXPORT Type& type<mud::TextureAtlas>() { static Type ty("TextureAtlas", type<mud::ImageAtlas>(), sizeof(mud::TextureAtlas)); return ty; }
 }
 
-
-#ifdef MUD_MODULES
-module mud.math;
-#else
-#endif
-
-#include <json11.hpp>
-
-namespace mud
-{
-	inline float jfloat(const json& j) { return float(j.number_value()); }
-
-	void from_json(const json& j, vec3& vec)
-	{
-		vec = vec3(jfloat(j[0]), jfloat(j[1]), jfloat(j[2]));
-	}
-
-	void from_json(const json& j, quat& q)
-	{
-		q = quat(jfloat(j[0]), jfloat(j[1]), jfloat(j[2]), jfloat(j[3]));
-	}
-
-	void from_json(const json& j, mat4& mat)
-	{
-		mat = mat4(
-			vec4(jfloat(j[0]),  jfloat(j[1]),  jfloat(j[2]),  jfloat(j[3])),
-			vec4(jfloat(j[4]),  jfloat(j[5]),  jfloat(j[6]),  jfloat(j[7])),
-			vec4(jfloat(j[8]),  jfloat(j[9]),  jfloat(j[10]), jfloat(j[11])),
-			vec4(jfloat(j[12]), jfloat(j[13]), jfloat(j[14]), jfloat(j[15]))
-		);
-	}
-}
-
-namespace mud
-{
-	void from_json(const json& j, Colour& col)
-	{
-		col = Colour(float(j[0].number_value()), float(j[1].number_value()), float(j[2].number_value()), float(j[3].number_value()));
-	}
-
-	void to_json(const Colour& col, json& j)
-	{
-		vector<json> values;
-		values = { col.m_r, col.m_g, col.m_b, col.m_a };
-		j = values;
-	}
-}
-
 #ifndef MUD_CPP_20
 #include <limits>
 #endif
@@ -1196,78 +1155,6 @@ module mud.math;
 
 namespace mud
 {
-	template <class T>
-	inline v2<T>::v2() { }
-	template <class T>
-	inline v2<T>::v2(T v) : x(v), y(v) {}
-	template <class T>
-	inline v2<T>::v2(T x, T y) : x(x), y(y) {}
-	template <class T>
-	template <class V>
-	inline v2<T>::v2(V v) : x(T(v.x)), y(T(v.y)) {}
-	template <class T>
-	inline T v2<T>::operator[](uint index) const { return *((T*)&x + index); }
-	template <class T>
-	inline T& v2<T>::operator[](uint index) { return *((T*)&x + index); }
-	template <class T>
-	inline bool v2<T>::operator==(const v2& other) const { return x == other.x && y == other.y; }
-	template <class T>
-	inline bool v2<T>::operator!=(const v2& other) const { return x != other.x || y != other.y; }
-	template <class T>
-	inline v2<T>::operator T() { return T(x); }
-
-	template <class T>
-	inline v3<T>::v3() { }
-	template <class T>
-	inline v3<T>::v3(T v) : x(v), y(v), z(v) {}
-	template <class T>
-	inline v3<T>::v3(T x, T y, T z) : x(x), y(y), z(z) {}
-	template <class T>
-	inline v3<T>::v3(v2<T> a, T z) : x(a.x), y(a.y), z(z) {}
-	template <class T>
-	template <class V>
-	inline v3<T>::v3(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)) {}
-	template <class T>
-	inline T v3<T>::operator[](uint index) const { return *((T*)&x + index); }
-	template <class T>
-	inline T& v3<T>::operator[](uint index) { return *((T*)&x + index); }
-	template <class T>
-	inline bool v3<T>::operator==(const v3& other) const { return x == other.x && y == other.y && z == other.z; }
-	template <class T>
-	inline bool v3<T>::operator!=(const v3& other) const { return x != other.x || y != other.y || z != other.z; }
-	template <class T>
-	inline v3<T>::operator T() { return T(x); }
-	template <class T>
-	inline v3<T>::operator v2<T>() { return v2<T>(x, y); }
-
-	template <class T>
-	inline v4<T>::v4() {}
-	template <class T>
-	inline v4<T>::v4(T v) : x(v), y(v), z(v), w(v) {}
-	template <class T>
-	inline v4<T>::v4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
-	template <class T>
-	inline v4<T>::v4(v3<T> a, T w) : x(a.x), y(a.y), z(a.z), w(w) {}
-	template <class T>
-	inline v4<T>::v4(T x, v3<T> b) : x(x), y(b.x), z(b.y), w(b.z) {}
-	template <class T>
-	inline v4<T>::v4(v2<T> a, v2<T> b) : x(a.x), y(a.y), z(b.x), w(b.y) {}
-	template <class T>
-	template <class V>
-	inline v4<T>::v4(V v) : x(T(v.x)), y(T(v.y)), z(T(v.z)), w(T(v.w)) {}
-	template <class T>
-	inline T v4<T>::operator[](uint index) const { return *((T*)&x + index); }
-	template <class T>
-	inline T& v4<T>::operator[](uint index) { return *((T*)&x + index); }
-	template <class T>
-	inline bool v4<T>::operator==(const v4& other) const { return x == other.x && y == other.y && z == other.z && w == other.w; }
-	template <class T>
-	inline bool v4<T>::operator!=(const v4& other) const { return x != other.x || y != other.y || z != other.z || w != other.w; }
-	template <class T>
-	inline v4<T>::operator v2<T>() { return v2<T>(x, y); }
-	template <class T>
-	inline v4<T>::operator v3<T>() { return v3<T>(x, y, z); }
-
 	template struct MUD_MATH_EXPORT v2<float>;
 	template struct MUD_MATH_EXPORT v3<float>;
 	template struct MUD_MATH_EXPORT v4<float>;
@@ -1881,4 +1768,53 @@ namespace mud
 	i16 Compress_DoubleToSigned16(double d, double extents);
 	double Decompress_Signed16ToDouble(i16 d, double extents);
 #endif
+}
+
+
+#ifdef MUD_MODULES
+module mud.math;
+#else
+#include <stl/vector.h>
+#endif
+
+#include <json11.hpp>
+
+namespace mud
+{
+	inline float jfloat(const json& j) { return float(j.number_value()); }
+
+	void from_json(const json& j, vec3& vec)
+	{
+		vec = vec3(jfloat(j[0]), jfloat(j[1]), jfloat(j[2]));
+	}
+
+	void from_json(const json& j, quat& q)
+	{
+		q = quat(jfloat(j[0]), jfloat(j[1]), jfloat(j[2]), jfloat(j[3]));
+	}
+
+	void from_json(const json& j, mat4& mat)
+	{
+		mat = mat4(
+			vec4(jfloat(j[0]),  jfloat(j[1]),  jfloat(j[2]),  jfloat(j[3])),
+			vec4(jfloat(j[4]),  jfloat(j[5]),  jfloat(j[6]),  jfloat(j[7])),
+			vec4(jfloat(j[8]),  jfloat(j[9]),  jfloat(j[10]), jfloat(j[11])),
+			vec4(jfloat(j[12]), jfloat(j[13]), jfloat(j[14]), jfloat(j[15]))
+		);
+	}
+}
+
+namespace mud
+{
+	void from_json(const json& j, Colour& col)
+	{
+		col = Colour(float(j[0].number_value()), float(j[1].number_value()), float(j[2].number_value()), float(j[3].number_value()));
+	}
+
+	void to_json(const Colour& col, json& j)
+	{
+		vector<json> values;
+		values = { col.m_r, col.m_g, col.m_b, col.m_a };
+		j = values;
+	}
 }

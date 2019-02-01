@@ -50,7 +50,7 @@ namespace mud
 
 #include <stl/vector.h>
 
-#include <cstdint>
+#include <stdint.h>
 
 namespace mud
 {
@@ -134,13 +134,10 @@ namespace mud
 
 		void setup();
 
-		bool validate(array<void*> args, size_t offset = 0) const;
+		bool validate(array<Var> args, size_t offset = 0) const;
 
-		void operator()(array<Ref> args) const;
-		void operator()(array<Ref> args, Ref& result) const;
-
-		//virtual void operator()(array<void*> args) const; // { Var none; return (*this)(args, none); }
-		//virtual void operator()(array<void*> args, void*& result) const = 0;
+		virtual void operator()(array<void*> args) const;
+		virtual void operator()(array<void*> args, void*& result) const;
 
 		uint32_t m_index;
 		cstring m_name;
@@ -150,7 +147,7 @@ namespace mud
 		size_t m_num_defaults;
 		size_t m_num_required;
 
-		//vector<Var> m_arguments;
+		//vector<Var> m_args;
 
 		//bool checkArgs(const vector<Var>& args) const; // { for (const Param& param : m_params) if (!type(args[param.m_index]).is(type(param.m_value))) return false; return true; }
 	};
@@ -207,7 +204,7 @@ namespace mud
 		Constructor(Type& object_type, cstring name, ConstructorFunc func, const vector<Param>& params = {});
 
 		virtual void operator()(array<void*> args, void*& result) const; // { UNUSED(result); m_call(args[0], array<void*>{ args, 1 }); }
-
+		
 		size_t m_index;
 		Type* m_object_type;
 		ConstructorFunc m_call;
@@ -237,10 +234,10 @@ namespace mud
 		DestructorFunc m_call;
 	};
 
-	export_ template<typename T_Function>
+	export_ template <class T_Function>
 	inline FunctionPointer funcptr(T_Function func) { return reinterpret_cast<FunctionPointer>(func); }
 
-	export_ template <typename T_Function>
+	export_ template <class T_Function>
 	inline Function& func(T_Function func);
 }
 
@@ -266,7 +263,7 @@ namespace mud
 		Enum = 6
 	};
 
-	export_ template<typename T_Object, typename T_Base> uintptr_t base_offset()
+	export_ template <class T_Object, class T_Base> uintptr_t base_offset()
 	{
 		void* mem = malloc(sizeof(T_Object));
 		uintptr_t offset = (char*)static_cast<T_Base*>((T_Object*)mem) - (char*)(T_Object*)mem;
@@ -445,7 +442,7 @@ namespace mud
 				return ref;
 		}
 
-		/*inline Var get_value(Ref object) const;
+		/*inline const Var& get_value(Ref object) const;
 		{
 			Var result = m_default_value;
 			result.copy(this->get(object));
@@ -467,13 +464,13 @@ namespace mud
 		inline void cast_set(Ref object, Ref value) const;
 	};
 
-	export_ template <typename T_Value, typename T>
+	export_ template <class T_Value, class T>
 	Member& member(T_Value T::*mem) { return cls<T>().member(member_address(mem)); }
 
-	export_ template <typename T_Return, typename T, typename... T_Params>
+	export_ template <class T_Return, class T, typename... T_Params>
 	Member& member(T_Return(T::*meth)(T_Params...)) { return cls<T>().member(member_address(meth)); }
 
-	export_ template <typename T_Return, typename T, typename... T_Params>
+	export_ template <class T_Return, class T, typename... T_Params>
 	Member& member(T_Return(T::*meth)(T_Params...) const) { return cls<T>().member(member_address(meth)); }
 }
 
@@ -550,7 +547,7 @@ namespace mud
 		Member* m_name_member = nullptr;
 
 		vector<cstring> m_field_names;
-		vector<Var> m_field_values;
+		vector<Ref> m_field_values;
 
 		// Deep Reflection
 		vector<Member*> m_components;
@@ -597,7 +594,7 @@ namespace mud
 	export_ template <class T>
 	T& upcast(Ref value) { Ref base = cls(value).upcast(value, type<T>()); return val<T>(base); }
 
-	export_ template<typename T_Return, typename T, typename... T_Params>
+	export_ template <class T_Return, class T, typename... T_Params>
 	inline Method& method(T_Return(T::*meth)(T_Params...)) { return cls<T>().method(member_address(meth)); }
 }
 
@@ -669,7 +666,7 @@ namespace mud
 		uint32_t index(Ref value);
 		cstring name(uint32_t value) { return m_reverse[value]; }
 		Ref var(uint32_t value);
-		//Var varn(uint32_t index) { Var value = meta(m_type).m_empty_var; copy_construct(value, m_vars[index]); return value; }
+		//Var varn(uint32_t index) { const Var& value = meta(m_type).m_empty_var; copy_construct(value, m_vars[index]); return value; }
 		Ref varn(uint32_t index) { return Ref(m_vars[index], m_type); }
 		void varn(uint32_t index, Ref value) { copy_construct(value, this->varn(index)); }
 	};
@@ -687,17 +684,19 @@ namespace mud
 	{
 	public:
 		constr_ Call();
-		constr_ Call(const Callable& callable, vector<Var> arguments);
+		constr_ Call(const Callable& callable, vector<Var> args);
 		Call(const Callable& callable);
 		Call(const Callable& callable, Ref object);
 
+		void prepare();
 		bool validate();
 
 		const Var& operator()();
 		const Var& operator()(Ref object);
 
 		const Callable* m_callable = nullptr;
-		attr_ vector<Var> m_arguments;
+		attr_ vector<Var> m_args;
+		attr_ vector<void*> m_vargs;
 		attr_ Var m_result;
 	};
 }
@@ -819,28 +818,29 @@ namespace mud
 namespace mud
 {
 	export_ template <class T>
-	typename enable_if<is_comparable<T>::value, void>::type vector_remove_any(vector<T>& vector, T value) { vector_remove(vector, value); }
+	enable_if<is_comparable<T>, void> vector_remove_any(vector<T>& vector, T value) { vector_remove(vector, value); }
 
 	export_ template <class T>
-	typename enable_if<!is_comparable<T>::value, void>::type vector_remove_any(vector<T>& vector, T& value) { vector_remove_object(vector, value); }
+	enable_if<!is_comparable<T>, void> vector_remove_any(vector<T>& vector, T& value) { vector_remove_object(vector, value); }
 }
+//#include <pool/Pool.h>
 
 namespace mud
 {
 #if 0
-	export_ template <typename T_Value, typename T_Member, typename T>
+	export_ template <class T_Value, class T_Member, class T>
 	inline auto member_getter(T_Member T::*mem) { return [mem](Ref object, Var& v) { setval<T_Value>(v, val<T>(object).*mem); }; }
 
-	export_ template <typename T_Value, typename T_Return, typename T>
+	export_ template <class T_Value, class T_Return, class T>
 	inline auto member_getter(T_Return(T::*func)()) { return [func](Ref object, Var& v) { setval<T_Value>(v, (val<T>(object).*func)()); }; }
 
-	export_ template <typename T_Value, typename T_Return, typename T>
+	export_ template <class T_Value, class T_Return, class T>
 	inline auto member_getter(T_Return(T::*func)() const) { return [func](Ref object, Var& v) { setval<T_Value>(v, (val<T>(object).*func)()); }; }
 
-	export_ template <typename T_Value, typename T_Member, typename T>
+	export_ template <class T_Value, class T_Member, class T>
 	inline auto member_setter(T_Member T::*mem) { return [mem](Ref object, const Var& v) { val<T>(object).*mem = val<T_Value>(v); }; }
 
-	export_ template <typename T_Value, typename T_Param, typename T>
+	export_ template <class T_Value, class T_Param, class T>
 	inline auto member_setter(void(T::*func)(T_Param)) { return [func](Ref object, const Var& v) { (val<T>(object).*func)(val<T_Value>(v)); }; }
 
 	export_ template <class T>
@@ -874,30 +874,30 @@ namespace mud
 	void init_pool() { cls<T>().m_make_pool = []() -> unique<Pool> { return make_unique<TPool<T>>(); }; }
 
 	export_ template <class T>
-	inline typename enable_if<is_default_constructible<T>::value, void>::type
+	inline enable_if<is_default_constructible<T>, void>
 		init_default_value() { meta<T>().m_empty_var = var(T()); meta<T>().m_empty_ref = Ref(type<T>()); }
 
 	export_ template <class T>
-	inline typename enable_if<!is_default_constructible<T>::value, void>::type
+	inline enable_if<!is_default_constructible<T>, void>
 		init_default_value() { meta<T>().m_empty_var = Ref(type<T>()); meta<T>().m_empty_ref = Ref(type<T>()); }
 	
 	export_ template <>
 	inline void	init_default_value<Ref>() { meta<Ref>().m_empty_var = Ref(); meta<Ref>().m_empty_ref = Ref(); }
 
 	export_ template <class T>
-	inline typename enable_if<is_copy_assignable<T>::value, void>::type
+	inline enable_if<is_copy_assignable<T>, void>
 		init_assign() { meta<T>().m_copy_assign = [](Ref first, Ref second) { val<T>(first) = val<T>(second); }; }
 
 	export_ template <class T>
-	inline typename enable_if<!is_copy_assignable<T>::value, void>::type
+	inline enable_if<!is_copy_assignable<T>, void>
 		init_assign() {}
 
 	export_ template <class T>
-		inline typename enable_if<is_trivially_destructible<T>::value, void>::type
+		inline enable_if<is_trivially_destructible<T>, void>
 		init_destructor() {}
 
 	export_ template <class T>
-		inline typename enable_if<!is_trivially_destructible<T>::value, void>::type
+		inline enable_if<!is_trivially_destructible<T>, void>
 		init_destructor() { cls<T>().m_destructor.push_back({ type<T>(), [](void* ref) { static_cast<T*>(ref)->~T(); } }); }
 
 	export_ template <>
@@ -953,7 +953,7 @@ namespace mud
 
 #include <stl/vector.h>
 
-#include <cstdint>
+#include <stdint.h>
 
 namespace mud
 {
@@ -1032,7 +1032,7 @@ namespace mud
 
 	export_ func_ inline System& system() { return System::instance(); }
 
-	export_ template <typename T_Function>
+	export_ template <class T_Function>
 	inline Function& func(T_Function func) { return System::instance().function(reinterpret_cast<FunctionPointer>(func)); }
 }
 
@@ -1046,7 +1046,7 @@ namespace mud
 #ifndef MUD_CPP_20
 #include <stl/string.h>
 #include <stl/vector.h>
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 
@@ -1105,7 +1105,7 @@ namespace mud
 
 #include <stl/vector.h>
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	export_ extern template class vector<Namespace>;

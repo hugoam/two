@@ -117,7 +117,7 @@ namespace mud
 
 #include <vg/vg.h>
 
-namespace tinystl
+namespace stl
 {
 	using namespace mud;
 	export_ extern template class vector<vg::GlyphPosition>;
@@ -144,7 +144,7 @@ namespace mud
 
 #ifndef MUD_CPP_20
 #include <stl/string.h>
-#include <cstdint>
+#include <stdint.h>
 #include <stl/vector.h>
 #endif
 

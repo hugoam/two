@@ -132,7 +132,7 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Call, m_arguments), type<vector<mud::Var>>(), "arguments", nullptr, Member::Value, nullptr },
+			{ t, offsetof(mud::Call, m_args), type<vector<mud::Var>>(), "arguments", nullptr, Member::Value, nullptr },
 			{ t, offsetof(mud::Call, m_result), type<mud::Var>(), "result", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods

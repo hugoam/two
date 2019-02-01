@@ -53,7 +53,6 @@ namespace mud
 	void import_material_library(GfxSystem& gfx_system, const string& path, MaterialMap& material_map)
 	{
 		auto tof = [](const string& s) { return float(atof(s.c_str())); };
-		auto toi = [](const string& s) { return atoi(s.c_str()); };
 		auto tocol = [&](const string tokens[]) { return Colour{ tof(tokens[1]), tof(tokens[2]), tof(tokens[3]), tof(tokens[4]) }; };
 
 		LocatedFile location = gfx_system.locate_file("models/" + path);

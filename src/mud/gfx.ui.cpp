@@ -109,7 +109,8 @@ namespace mud
 
 	void SpaceSheet::receive_event(InputEvent& inputEvent)
 	{
-		inputEvent.dispatch(m_mouse, m_keyboard);
+		UNUSED(inputEvent);
+		//inputEvent.dispatch(m_mouse, m_keyboard);
 	}
 }
 

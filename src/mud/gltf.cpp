@@ -36,8 +36,8 @@ namespace mud
 	FromJson gltf_unpacker()
 	{
 		FromJson unpacker;
-		dispatch_branch<mat4>(unpacker, +[](mat4& result, Ref&, const json& json) { from_json(json, result); });
-		dispatch_branch<quat>(unpacker, +[](quat& result, Ref&, const json& json) { from_json(json, result); });
+		dispatch_branch<mat4>(unpacker, +[](mat4& result, const json& json) { from_json(json, result); });
+		dispatch_branch<quat>(unpacker, +[](quat& result, const json& json) { from_json(json, result); });
 		return unpacker;
 	}
 

@@ -5,20 +5,19 @@
 #ifdef MUD_MODULES
 module mud.jobs;
 #else
-#include <stl/tinystl/vector.impl.h>
-#include <stl/tinystl/unordered_map.impl.h>
+#include <stl/vector.hpp>
 #endif
 
-using namespace mud;
-namespace tinystl
+namespace stl
 {
+	using namespace mud;
 	//template class MUD_JOBS_EXPORT vector<JobSystem::ThreadState>;
 }
 
 namespace mud
 {
 }
-#include <stl/tinystl/vector.impl.h>
+#include <stl/vector.hpp>
 
 #include <cassert>
 #include <cmath>
@@ -153,10 +152,10 @@ namespace mud
 		Arena<Job, AtomicFreeList> m_job_pool;
 
 #ifdef MUD_NO_STL
-		template <typename T>
+		template <class T>
 		using aligned_vector = vector<T, TinystlAlignedAllocator<T>>;
 #else
-		template <typename T>
+		template <class T>
 		using aligned_vector = vector<T, STLAlignedAllocator<T>>;
 #endif
 

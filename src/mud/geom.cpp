@@ -6,13 +6,13 @@
 #ifdef MUD_MODULES
 module mud.math;
 #else
-#include <stl/tinystl/vector.impl.h>
-#include <stl/tinystl/unordered_map.impl.h>
+#include <stl/vector.hpp>
+#include <stl/unordered_map.hpp>
 #endif
 
-using namespace mud;
-namespace tinystl
+namespace stl
 {
+	using namespace mud;
 	template class MUD_GEOM_EXPORT vector<Poisson*>;
 	template class MUD_GEOM_EXPORT vector<Geometry*>;
 	template class MUD_GEOM_EXPORT vector<Geometry>;
@@ -1067,6 +1067,7 @@ namespace mud
 	Cube::Cube(const vec3& extents) : Shape(type<Cube>()), m_extents(extents) {}
 	Cube::Cube(const vec3& center, const vec3& extents) : Shape(type<Cube>(), center), m_extents(extents) {}
 	Cube::Cube(float side) : Shape(type<Cube>()), m_extents(side, side, side) {}
+	Cube::Cube(const Aabb& aabb) : Cube(aabb.m_center, aabb.m_extents) {}
 	object<Shape> Cube::clone() const { return oconstruct<Cube>(*this); }
 
 	Box::Box() : Shape(type<Box>()), m_vertices() {}
@@ -1098,9 +1099,9 @@ namespace mud
 	ConvexHull::ConvexHull(const vector<vec3>& vertices) : Shape(type<ConvexHull>()), m_vertices(vertices) {}
 	object<Shape> ConvexHull::clone() const { return oconstruct<ConvexHull>(*this); }
 
-	Aabb::Aabb() : Cube(Zero3), m_empty(true) {}
-	Aabb::Aabb(const vec3& center, const vec3& extents) : Cube(center, extents), m_empty(false) {}
-	object<Shape> Aabb::clone() const { return oconstruct<Aabb>(*this); }
+	Aabb::Aabb() : m_empty(true) {}
+	Aabb::Aabb(const vec3& center, const vec3& extents) : m_center(center), m_extents(extents), m_empty(false) {}
+	//object<Shape> Aabb::clone() const { return {}; } //oconstruct<Aabb>(*this); }
 
 	bool Aabb::intersects(const Aabb& other) const
 	{
@@ -2076,7 +2077,7 @@ namespace mud
 
 		declare_shape<Box>(*this);
 		declare_shape<Cube>(*this);
-		declare_shape<Aabb>(*this);
+		//declare_shape<Aabb>(*this);
 		declare_shape<Cylinder>(*this);
 		declare_shape<Sphere>(*this);
 		declare_shape<Torus>(*this);

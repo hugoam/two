@@ -1,4 +1,5 @@
 #include <mud/snd.h>
+#include <mud/math.h>
 #include <mud/infra.h>
 #include <mud/type.h>
 
@@ -627,6 +628,22 @@ namespace mud
 {
 	SoundListener::SoundListener()
 	{}
+
+	void SoundListener::set_transform(const vec3& position, const quat& rotation)
+	{
+		m_position = position;
+		m_front = rotate(rotation, -Z3);
+		m_up = rotate(rotation, Y3);
+		m_transformUpdated = true;
+	}
+
+	void SoundListener::set_transform(const vec3& position, const vec3& front, const vec3& up)
+	{
+		m_position = position;
+		m_front = front;
+		m_up = up;
+		m_transformUpdated = true;
+	}
 
 	void SoundListener::update()
 	{

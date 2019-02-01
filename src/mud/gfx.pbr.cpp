@@ -10,12 +10,12 @@
 #ifdef MUD_MODULES
 module mud.math;
 #else
-#include <stl/tinystl/vector.impl.h>
+#include <stl/vector.hpp>
 #endif
 
-using namespace mud;
-namespace tinystl
+namespace stl
 {
+	using namespace mud;
 	//template class MUD_MATH_EXPORT vector<>;
 }
 
@@ -377,12 +377,12 @@ namespace mud
 		bgfx::frame();
 		bgfx::frame();
 
-		save_bgfx_texture(gfx_system.m_allocator, gfx_system.file_writer(), path.c_str(), target_format, blit_texture, source_format, uint16_t(lightmap.m_size), uint16_t(lightmap.m_size));
+		save_bgfx_texture(gfx_system.allocator(), gfx_system.file_writer(), path.c_str(), target_format, blit_texture, source_format, uint16_t(lightmap.m_size), uint16_t(lightmap.m_size));
 	}
 
 	void load_lightmap(GfxSystem& gfx_system, Lightmap& lightmap, const string& path)
 	{
-		lightmap.m_texture = load_bgfx_texture(gfx_system.m_allocator, gfx_system.file_reader(), path.c_str());
+		lightmap.m_texture = load_bgfx_texture(gfx_system.allocator(), gfx_system.file_reader(), path.c_str());
 
 		for(LightmapItem& item : lightmap.m_items)
 			item.m_lightmap = lightmap.m_texture;
@@ -829,7 +829,7 @@ namespace mud
 		{
 			LightmapItem& binding = *element.m_item->m_lightmaps[element.m_model->m_index];
 
-			encoder.setUniform(Material::s_base_uniform.u_uv1_scale_offset, &binding.m_uv_scale_offset);
+			//encoder.setUniform(Material::s_base_uniform.u_uv1_scale_offset, &binding.m_uv_scale_offset);
 
 			if(bgfx::isValid(binding.m_lightmap))
 #ifdef LIGHTMAP_PIXELS
@@ -841,7 +841,7 @@ namespace mud
 		else
 		{
 			vec4 uv_scale_offset = vec4(0.f);
-			encoder.setUniform(Material::s_base_uniform.u_uv1_scale_offset, &uv_scale_offset);
+			//encoder.setUniform(Material::s_base_uniform.u_uv1_scale_offset, &uv_scale_offset);
 		}
 	}
 }
@@ -1640,8 +1640,6 @@ namespace mud
 module mud.gfx.pbr;
 #else
 #endif
-
-#include <bx/math.h>
 
 namespace mud
 {
@@ -2468,6 +2466,35 @@ namespace gfx
 	}
 }
 
+	void BlockGITrace::GIProbeUniform::createUniforms()
+	{
+		u_transform   = bgfx::createUniform("u_gi_probe_transform",    bgfx::UniformType::Mat4, max_gi_probes);
+		u_bounds      = bgfx::createUniform("u_gi_probe_bounds4",      bgfx::UniformType::Vec4, max_gi_probes);
+		// multiplier, bias, normal_bias, blend_ambient
+		u_params      = bgfx::createUniform("u_gi_probe_params",       bgfx::UniformType::Vec4, max_gi_probes);
+		u_inv_extents = bgfx::createUniform("u_gi_probe_inv_extents4", bgfx::UniformType::Vec4, max_gi_probes);
+		u_cell_size   = bgfx::createUniform("u_gi_probe_cell_size4",   bgfx::UniformType::Vec4, max_gi_probes);
+
+		s_gi_probe = bgfx::createUniform("s_gi_probe", bgfx::UniformType::Int1, max_gi_probes);
+	}
+
+	void BlockGITrace::GIProbeUniform::setUniforms(bgfx::Encoder& encoder, GIProbe& gi_probe, const mat4& view) const
+	{
+		float diffuse = gi_probe.m_dynamic_range * gi_probe.m_diffuse;
+		float specular = gi_probe.m_dynamic_range * gi_probe.m_specular;
+		vec4 params = { diffuse, specular, gi_probe.m_bias, gi_probe.m_normal_bias };
+		vec4 bounds = { gi_probe.m_extents * 2.f, 0.f };
+		mat4 transform = gi_probe.m_transform * inverse(view);
+		vec4 inv_extents = { Unit3 / gi_probe.m_extents, 1.f };
+		vec4 cell_size = { gi_probe.m_extents * 2.f / float(gi_probe.m_subdiv), 1.f };
+
+		encoder.setUniform(u_transform, &transform);
+		encoder.setUniform(u_bounds, &bounds);
+		encoder.setUniform(u_params, &params);
+		encoder.setUniform(u_inv_extents, &inv_extents);
+		encoder.setUniform(u_cell_size, &cell_size);
+	}
+
 	GIProbe::GIProbe(Node3& node)
 		: m_node(node)
 	{}
@@ -2510,12 +2537,12 @@ namespace gfx
 		bgfx::frame();
 		bgfx::frame();
 
-		save_bgfx_texture(gfx_system.m_allocator, gfx_system.file_writer(), path.c_str(), target_format, texture, source_format, uint16_t(gi_probe.m_subdiv), uint16_t(gi_probe.m_subdiv), uint16_t(gi_probe.m_subdiv));
+		save_bgfx_texture(gfx_system.allocator(), gfx_system.file_writer(), path.c_str(), target_format, texture, source_format, uint16_t(gi_probe.m_subdiv), uint16_t(gi_probe.m_subdiv), uint16_t(gi_probe.m_subdiv));
 	}
 
 	void load_gi_probe(GfxSystem& gfx_system, GIProbe& gi_probe, const string& path)
 	{
-		gi_probe.m_voxels_light_rgba = load_bgfx_texture(gfx_system.m_allocator, gfx_system.file_reader(), path.c_str());
+		gi_probe.m_voxels_light_rgba = load_bgfx_texture(gfx_system.allocator(), gfx_system.file_reader(), path.c_str());
 	}
 
 	PassGIBake::PassGIBake(GfxSystem& gfx_system, BlockLight& block_light, BlockGIBake& block_gi_bake)

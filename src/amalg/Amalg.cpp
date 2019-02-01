@@ -5,8 +5,10 @@
 #include <infra/String.h>
 #include <amalg/Amalg.h>
 
+#include <stl/string.hpp>
 #include <stl/vector.hpp>
 #include <stl/unordered_set.hpp>
+#include <stl/unordered_map.hpp>
 
 #include <cstdio>
 
@@ -91,7 +93,8 @@ namespace mud
 				Include include = module_include(line);
 				if(include.module)
 				{
-					if(file_extension(include.file) == "h")
+					if(file_extension(include.file) == "h"
+					|| file_extension(include.file) == "hpp")
 						module.m_deps_cpp.insert(include.module->dest_h());
 					else
 						process_cpp(module, include.file);
@@ -190,8 +193,6 @@ using namespace mud;
 
 int main(int argc, char *argv[])
 {
-	set<string> test;
-
 	vector<string> filter = {
 		"//  Copyright (c) 2019 Hugo Amiard hugo.amiard@laposte.net",
 		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",

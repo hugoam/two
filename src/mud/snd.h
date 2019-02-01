@@ -49,7 +49,7 @@ typedef float ALfloat;
 typedef double ALdouble;
 typedef void ALvoid;
 
-#include <cstdint>
+#include <stdint.h>
 
 namespace mud
 {
@@ -326,21 +326,8 @@ namespace mud
 		vec3 m_front = { 0.f, 0.f, -1.f }; //-Z3;
 		vec3 m_up = Y3;
 
-		void setTransform(const vec3& position, const quat& rotation)
-		{
-			m_position = position;
-			m_front = rotate(rotation, -Z3);
-			m_up = rotate(rotation, Y3);
-			m_transformUpdated = true;
-		}
-
-		void setTransform(const vec3& position, const vec3& front, const vec3& up)
-		{
-			m_position = position;
-			m_front = front;
-			m_up = up;
-			m_transformUpdated = true;
-		}
+		void set_transform(const vec3& position, const quat& rotation);
+		void set_transform(const vec3& position, const vec3& front, const vec3& up);
 
 		void update();
 
@@ -563,7 +550,7 @@ namespace mud
 #ifndef MUD_CPP_20
 #include <stl/string.h>
 #include <stl/vector.h>
-#include <cstdint>
+#include <stdint.h>
 #endif
 
 
