@@ -107,7 +107,7 @@ namespace stl
 	constexpr bool is_constructible_impl = false;
 
 	template <class T, class... Args>
-	constexpr bool is_constructible_impl<void_t<decltype(T(std::declval<Args>()...))>, T, Args...> = true;
+	constexpr bool is_constructible_impl<void_t<decltype(T(declval<Args>()...))>, T, Args...> = true;
 
 	template <class T, class... Args>
 	constexpr bool is_constructible = is_constructible_impl<void_t<>, T, Args...>;
