@@ -6,6 +6,7 @@
 #ifndef MUD_CPP_20
 #include <array>
 #include <map>
+#include <cstring>
 #endif
 
 #ifdef MUD_MODULES
