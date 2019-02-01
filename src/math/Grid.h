@@ -45,7 +45,7 @@ namespace mud
 	class Grided : public T_Array, public Grided3
 	{
 	public:
-		typedef class T_Array::value_type T;
+		using T = typename T_Array::value_type;
 
 	public:
 		Grided(size_t x, size_t y, size_t z)
