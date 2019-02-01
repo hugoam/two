@@ -13,8 +13,6 @@ namespace mud
 #include <stl/buffer.h>
 #include <stl/stddef.h>
 
-#include <new>
-
 namespace stl {
 
 	template <class T, class Alloc = TINYSTL_ALLOCATOR>

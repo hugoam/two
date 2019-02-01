@@ -10,7 +10,6 @@
 #include <pool/Forward.h>
 
 #include <stdint.h>
-#include <new>
 
 namespace mud
 {

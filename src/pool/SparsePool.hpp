@@ -6,8 +6,6 @@
 
 #include <pool/SparsePool.h>
 
-#include <new>
-
 namespace mud
 {
 	template <class T>

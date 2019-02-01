@@ -4,14 +4,13 @@
 
 #pragma once
 
+#include <stl/new.h>
 #include <stl/move.h>
 #include <type/RefVal.h>
 #include <type/TypeUtils.h>
 #include <type/Var.h>
 #include <type/TypeOf.h>
 #include <type/Types.h>
-
-#include <new>
 
 namespace mud
 {
@@ -44,7 +43,7 @@ namespace mud
 	{
 	public:
 		template <class U>
-		static void create(Any& any, const AnyHandler& handler, U&& value) { new ((void*)&any.m_storage) T(static_cast<U&&>(value)); any.m_handler = &handler; }
+		static void create(Any& any, const AnyHandler& handler, U&& value) { new (stl::placeholder(), (void*)&any.m_storage) T(static_cast<U&&>(value)); any.m_handler = &handler; }
 
 		static inline T& value(Any& any) { return *static_cast<T*>((void*)&any.m_storage); }
 		static inline const T& value(const Any& any) { return *static_cast<const T*>((void*)&any.m_storage); }

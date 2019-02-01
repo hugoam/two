@@ -1,11 +1,11 @@
 #pragma once
 
 #include <stl/move.h>
+#include <stl/new.h>
 #include <jobs/Forward.h>
 #include <jobs/JobSystem.h>
 
 #include <atomic>
-#include <new>
 
 namespace mud
 {
@@ -33,7 +33,7 @@ namespace mud
 		};
 		Job* job = this->create(parent, call);
 		if(job)
-			new(job->storage) T(move(functor));
+			new(stl::placeholder(), job->storage) T(move(functor));
 		return job;
 	}
 }

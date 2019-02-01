@@ -4,11 +4,10 @@
 
 #pragma once
 
+#include <stl/new.h>
 #include <pool/Pool.h>
 #include <pool/VecPool.hpp>
 #include <type/RefVal.h>
-
-#include <new>
 
 namespace mud
 {
@@ -45,7 +44,7 @@ namespace mud
 	inline T& TPool<T>::construct(Types&&... args)
 	{
 		T* at = this->talloc();
-		new (at) T(static_cast<Types&&>(args)...);
+		new (stl::placeholder(), at) T(static_cast<Types&&>(args)...);
 		return *at;
 	}
 
