@@ -51,13 +51,14 @@ namespace mud
 	template <class T>
 	OwnedHandle<T>::operator SparseHandle<T>() const { return { *this->m_pool, this->m_handle }; }
 	
-	SparseIndices<false>::SparseIndices() {}
-	void SparseIndices<false>::add() { m_indices.emplace_back(); }
-	void SparseIndices<false>::clear() { m_indices.resize(m_indices.size(), UINT32_MAX); }
-	void SparseIndices<false>::erase(uint32_t handle) { m_indices[handle] = UINT32_MAX; }
-	void SparseIndices<false>::ensure(uint32_t capacity) { m_indices.resize(capacity, UINT32_MAX); }
-	uint32_t& SparseIndices<false>::operator[](uint32_t at) { return m_indices[at]; }
-	uint32_t SparseIndices<false>::size() const { return uint32_t(m_indices.size()); }
+
+	template <> SparseIndices<false>::SparseIndices() {}
+	template <> void SparseIndices<false>::add() { m_indices.emplace_back(); }
+	template <> void SparseIndices<false>::clear() { m_indices.resize(m_indices.size(), UINT32_MAX); }
+	template <> void SparseIndices<false>::erase(uint32_t handle) { m_indices[handle] = UINT32_MAX; }
+	template <> void SparseIndices<false>::ensure(uint32_t capacity) { m_indices.resize(capacity, UINT32_MAX); }
+	template <> uint32_t& SparseIndices<false>::operator[](uint32_t at) { return m_indices[at]; }
+	template <> uint32_t SparseIndices<false>::size() const { return uint32_t(m_indices.size()); }
 
 	SparseIndices<true>::SparseIndices() {}
 	void SparseIndices<true>::add() {}

@@ -387,13 +387,13 @@ namespace mud
 	template <class... Types, class T_Function>
 	void ECS::loop(T_Function action)
 	{
-		this->loop_impl<Types...>(action, index_tuple<sizeof...(Types)>());
+		loop_impl<Types...>(*this, action, index_tuple<sizeof...(Types)>());
 	}
 
 	template <class... Types, class T_Function>
 	void ECS::loop_ent(T_Function action)
 	{
-		this->loop_ent_impl<Types...>(action, index_tuple<sizeof...(Types)>());
+		loop_ent_impl<Types...>(*this, action, index_tuple<sizeof...(Types)>());
 	}
 
 	template <class T>
