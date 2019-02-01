@@ -5,6 +5,7 @@
 #include <jobs/JobSystem.h>
 
 #include <atomic>
+#include <new>
 
 namespace mud
 {

@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <cstring>
 #endif
 
 #ifdef MUD_MODULES
