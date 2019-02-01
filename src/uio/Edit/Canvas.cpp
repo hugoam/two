@@ -17,6 +17,7 @@ module mud.uio;
 #include <lang/VisualBlocks.h>
 #include <ui/Ui.h>
 #include <ui/Input.h>
+#include <ui/Edit/TypeIn.h>
 #include <ui/Structs/Node.h>
 #include <ui/Structs/Container.h>
 #include <uio/Types.h>

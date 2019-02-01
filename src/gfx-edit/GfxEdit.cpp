@@ -9,6 +9,7 @@
 #ifdef MUD_MODULES
 module mud.gfx-edit;
 #else
+#include <infra/ToString.h>
 #include <infra/Vector.h>
 #include <type/Vector.h>
 #include <type/DispatchDecl.h>

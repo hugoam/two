@@ -15,6 +15,8 @@ module mud.ui;
 #include <ui/Api.h>
 #endif
 
+#include <cstdio>
+
 namespace mud
 {
 	map<string, Style*> UiWindow::s_styles;

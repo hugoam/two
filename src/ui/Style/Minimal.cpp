@@ -16,6 +16,8 @@ module mud.ui;
 #include <ui/Input.h>
 #endif
 
+#include <cstdio>
+
 namespace mud
 {
 	struct StyleSelector
